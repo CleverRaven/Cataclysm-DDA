@@ -509,8 +509,8 @@
       [
       [ "oxy_torch", 4 ],
       [ "welder", 20 ],
-      [ "welder_crude", 20 ],
-      [ "toolset", 20 ]
+      [ "welder_crude", 30 ],
+      [ "toolset", 30 ]
       ]
       ],
   "components":
@@ -827,8 +827,8 @@
     [
       [ "oxy_torch", 6 ],
       [ "welder", 30 ],
-      [ "welder_crude", 30 ],
-      [ "toolset", 30 ],
+      [ "welder_crude", 45 ],
+      [ "toolset", 45 ],
       [ "small_repairkit", 150 ],
       [ "large_repairkit", 30 ]
     ]
@@ -865,8 +865,8 @@
     [
       [ "oxy_torch", 6 ],
       [ "welder", 30 ],
-      [ "welder_crude", 30 ],
-      [ "toolset", 30 ],
+      [ "welder_crude", 45 ],
+      [ "toolset", 45 ],
       [ "small_repairkit", 150 ],
       [ "large_repairkit", 30 ]
     ]
@@ -901,8 +901,8 @@
     [
       [ "oxy_torch", 6 ],
       [ "welder", 30 ],
-      [ "welder_crude", 30 ],
-      [ "toolset", 30 ],
+      [ "welder_crude", 45 ],
+      [ "toolset", 45 ],
       [ "small_repairkit", 150 ],
       [ "large_repairkit", 30 ]
     ]
@@ -1727,9 +1727,9 @@
     ],
     [
       [ "canister_empty", 1 ],
-      [ "can_drink", 1 ],
+      [ "can_drink_unsealed", 1 ],
       [ "clay_canister", 1],
-      [ "can_food", 1 ]
+      [ "can_food_unsealed", 1 ]
     ],
     [
       [ "bb", 100 ],
@@ -1847,9 +1847,9 @@
     ],
     [
       [ "canister_empty", 1 ],
-      [ "can_food", 1 ],
+      [ "can_food_unsealed", 1 ],
       [ "clay_canister", 1],
-      [ "can_drink", 1 ]
+      [ "can_drink_unsealed", 1 ]
     ],
     [
       [ "superglue", 1 ]
@@ -1881,8 +1881,8 @@
     ],
     [
       [ "canister_empty", 1 ],
-      [ "can_food", 1 ],
-      [ "can_drink", 1 ]
+      [ "can_food_unsealed", 1 ],
+      [ "can_drink_unsealed", 1 ]
     ],
     [
       [ "superglue", 1 ]
@@ -1906,11 +1906,11 @@
     {"id":"WRENCH","level":1,"amount":1}
   ], "components": [
     [
-      [ "can_food", 2 ],
+      [ "can_food_unsealed", 2 ],
       [ "steel_chunk", 2 ],
       [ "scrap", 6 ],
       [ "canister_empty", 1 ],
-      [ "can_drink", 2 ]
+      [ "can_drink_unsealed", 2 ]
     ],
     [
       [ "grenade", 1 ],
@@ -1992,8 +1992,8 @@
     ],
     [
       [ "scrap", 3 ],
-      [ "can_food", 1 ],
-      [ "can_drink", 1 ],
+      [ "can_food_unsealed", 1 ],
+      [ "can_drink_unsealed", 1 ],
       [ "clay_canister", 1],
       [ "canister_empty", 1 ]
     ],
@@ -2386,38 +2386,6 @@
   ]
 },{
   "type" : "recipe",
-  "result": "improve_sights",
-  "category": "CC_WEAPON",
-  "subcategory": "CSC_WEAPON_MODS",
-  "skill_used": "fabrication",
-  "skills_required": [[ "gun", 1 ]],
-  "difficulty": 2,
-  "time": 5000,
-  "reversible": false,
-  "autolearn": true,
-  "book_learn": [[ "mag_guns", 1 ] , [ "mag_pistol", 1] , [ "mag_shotgun", 1] , [ "mag_smg", 1] , [ "mag_rifle", 1] , [ "manual_gun", 1 ] , [ "manual_pistol", 1] , [ "manual_shotgun", 1] , [ "manual_smg", 1] , [ "manual_rifle", 1]],
-  "qualities":[
-    {"id":"HAMMER_FINE","level":1,"amount":1},
-    {"id":"SAW_M_FINE","level":1,"amount":1}
-  ],
-  "tools": [
-    [
-      [ "large_repairkit", 5 ],
-      [ "small_repairkit", 15 ],
-      [ "soldering_iron", 15 ],
-      [ "toolset", 15 ]
-    ]
-  ],
-  "components": [
-    [
-      [ "scrap", 1 ]
-    ],
-    [
-      [ "plastic_chunk", 1 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
   "result": "laser_sight",
   "category": "CC_WEAPON",
   "subcategory": "CSC_WEAPON_MODS",
@@ -2451,8 +2419,8 @@
     ],
     [
       [ "scrap", 1 ],
-      [ "can_drink", 1 ],
-      [ "can_food", 1 ],
+      [ "can_drink_unsealed", 1 ],
+      [ "can_food_unsealed", 1 ],
       [ "canister_empty", 1 ],
       [ "plastic_chunk", 1 ]
     ],
@@ -2587,8 +2555,8 @@
     ],
     [
       [ "scrap", 1 ],
-      [ "can_drink", 1 ],
-      [ "can_food", 1 ],
+      [ "can_drink_unsealed", 1 ],
+      [ "can_food_unsealed", 1 ],
       [ "canister_empty", 1 ],
       [ "plastic_chunk", 1 ]
     ],
@@ -2619,7 +2587,7 @@
       [ "oxy_torch", 3 ],
       [ "welder", 15 ],
       [ "welder_crude", 25 ],
-      [ "toolset", 15 ],
+      [ "toolset", 25 ],
       [ "small_repairkit", 15 ],
       [ "large_repairkit", 15 ]
     ]
@@ -3959,8 +3927,8 @@
       [
       [ "oxy_torch", 10 ],
       [ "welder", 50 ],
-      [ "welder_crude", 70 ],
-      [ "toolset", 70 ]
+      [ "welder_crude", 75 ],
+      [ "toolset", 75 ]
       ]
       ],
   "components":
@@ -5962,9 +5930,9 @@
     ],
     [
       [ "canister_empty", 1 ],
-      [ "can_drink", 1 ],
+      [ "can_drink_unsealed", 1 ],
       [ "clay_canister", 1 ],
-      [ "can_food", 1 ]
+      [ "can_food_unsealed", 1 ]
     ],
     [
       [ "oxy_powder", 75 ]
@@ -6128,7 +6096,7 @@
   "type" : "recipe",
   "result": "qiang",
   "category": "CC_WEAPON",
-  "subcategory": "CSC_WEAPON_CUTTING",
+  "subcategory": "CSC_WEAPON_PIERCING",
   "skill_used": "fabrication",
   "difficulty": 7,
   "time": 460000,
@@ -6410,8 +6378,8 @@
     [
       [ "oxy_torch", 6 ],
       [ "welder", 30 ],
-      [ "welder_crude", 30 ],
-      [ "toolset", 30 ]
+      [ "welder_crude", 45 ],
+      [ "toolset", 45 ]
     ],
     [
       [ "small_repairkit", 150 ],
@@ -6502,7 +6470,7 @@
 [
 [ "welder", 20 ],
 [ "welder_crude", 30 ],
-[ "toolset", 20 ],
+[ "toolset", 30 ],
 [ "soldering_iron", 30 ]
 ]
 ],
@@ -6594,7 +6562,7 @@
     {"id":"SAW_M","level":1,"amount":1}
   ], "components": [
     [
-      [ "can_drink", 1 ]
+      [ "can_drink_unsealed", 1 ]
     ],
     [
       [ "chem_black_powder", 100 ]
@@ -6650,8 +6618,8 @@
 [
 [ "oxy_torch", 6 ],
 [ "welder", 30 ],
-[ "welder_crude", 30 ],
-[ "toolset", 30 ]
+[ "welder_crude", 45 ],
+[ "toolset", 45 ]
 ]
 ],
 "components":
@@ -6836,8 +6804,8 @@
     [
       ["oxy_torch", 80],
       ["welder", 400],
-      ["welder_crude", 550],
-      ["toolset", 550]
+      ["welder_crude", 600],
+      ["toolset", 600]
     ]
   ],
   "components": [

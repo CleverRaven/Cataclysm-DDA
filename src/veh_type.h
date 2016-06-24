@@ -6,6 +6,8 @@
 #include "enums.h"
 #include "color.h"
 #include "damage.h"
+#include "requirements.h"
+#include "calendar.h"
 
 #include <vector>
 #include <bitset>
@@ -25,6 +27,10 @@ struct vehicle_item_spawn;
 struct quality;
 using quality_id = string_id<quality>;
 typedef int nc_color;
+class Character;
+
+class Skill;
+using skill_id = string_id<Skill>;
 
 // bitmask backing store of -certian- vpart_info.flags, ones that
 // won't be going away, are involved in core functionality, and are checked frequently
@@ -57,7 +63,6 @@ enum vpart_bitflags : int {
     VPFLAG_CARGO,
     VPFLAG_INTERNAL,
     VPFLAG_SOLAR_PANEL,
-    VPFLAG_VARIABLE_SIZE,
     VPFLAG_TRACK,
     VPFLAG_RECHARGE,
     VPFLAG_EXTENDS_VISION,
@@ -68,7 +73,6 @@ enum vpart_bitflags : int {
  * INTERNAL - Can be mounted inside other parts
  * ANCHOR_POINT - Allows secure seatbelt attachment
  * OVER - Can be mounted over other parts
- * VARIABLE_SIZE - Has 'bigness' for power, wheel radius, etc
  * MOUNTABLE - Usable as a point to fire a mountable weapon from.
  * Other flags are self-explanatory in their names. */
 class vpart_info
@@ -123,14 +127,38 @@ class vpart_info
         /** Volume of a foldable part when folded */
         int folded_volume = 0;
 
-        /** Maximum turret range */
-        int range = 12;
-
-        /** Fuel tank or cargo location volume */
+        /** Cargo location volume */
         int size = 0;
 
         /** Mechanics skill required to install item */
         int difficulty = 0;
+
+        /** Legacy parts don't specify installation requirements */
+        bool legacy = true;
+
+        /** Installation requirements for this component */
+        requirement_data install_reqs;
+
+        /** Required skills to install this component */
+        std::map<skill_id, int> install_skills;
+
+        /** Installation time (in moves) for component (@see install_time), default 1 hour */
+        int install_moves = MOVES( HOURS( 1 ) );
+
+        /** Installation time (in moves) for this component accounting for player skills */
+        int install_time( const Character &ch ) const;
+
+        /** Requirements for removal of this component */
+        requirement_data removal_reqs;
+
+        /** Required skills to remove this component */
+        std::map<skill_id, int> removal_skills;
+
+        /** Removal time (in moves) for component (@see removal_time), default is half @ref install_moves */
+        int removal_moves = -1;
+
+        /** Removal time (in moves) for this component accounting for player skills */
+        int removal_time( const Character &ch ) const;
 
         /** @ref item_group this part breaks into when destroyed */
         std::string breaks_into_group = "EMPTY_GROUP";
@@ -138,11 +166,8 @@ class vpart_info
         /** Tool qualities this vehicle part can provide when installed */
         std::map<quality_id, int> qualities;
 
-        union {
-            int par1;
-            int wheel_width;// wheel width in inches. car could be 9, bicycle could be 2.
-            int bonus;      // seatbelt (str), muffler (%), horn (vol)
-        };
+        /** seatbelt (str), muffler (%), horn (vol), light (intensity) */
+        int bonus = 0;
 
         /** Flat decrease of damage of a given type. */
         std::array<float, NUM_DT> damage_reduction;

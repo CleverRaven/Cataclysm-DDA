@@ -1,0 +1,277 @@
+[
+  {
+    "abstract": "tank_little",
+    "type": "vehicle_part",
+    "name": "vehicle tank (2L)",
+    "item": "metal_tank_little",
+    "location": "fuel_source",
+    "symbol": "O",
+    "broken_color": "red",
+    "size": 2000,
+    "durability": 75,
+    "difficulty": 1,
+    "damage_modifier": 80,
+    "breaks_into": [ { "item": "scrap", "count": [ 1, 2 ] } ],
+    "flags": [ "FUEL_TANK" ]
+  },
+  {
+    "abstract": "tank_small",
+    "type": "vehicle_part",
+    "name": "vehicle tank (10L)",
+    "item": "jerrycan",
+    "location": "fuel_source",
+    "symbol": "O",
+    "broken_color": "red",
+    "size": 10000,
+    "durability": 100,
+    "difficulty": 1,
+    "damage_modifier": 80,
+    "breaks_into": [ { "item": "plastic_chunk", "count": [ 10, 40 ] } ],
+    "flags": [ "FUEL_TANK" ]
+  },
+  {
+    "abstract": "tank",
+    "type": "vehicle_part",
+    "name": "vehicle tank (60L)",
+    "item": "metal_tank",
+    "location": "fuel_source",
+    "symbol": "O",
+    "broken_color": "red",
+    "size": 60000,
+    "durability": 150,
+    "difficulty": 1,
+    "damage_modifier": 80,
+    "breaks_into": [
+      { "item": "steel_lump", "count": [ 2, 2 ] },
+      { "item": "steel_chunk", "count": [ 1, 2 ] },
+      { "item": "scrap", "count": [ 1, 5 ] }
+    ],
+    "flags": [ "FUEL_TANK" ]
+  },
+  {
+    "abstract": "external_tank_small",
+    "type": "vehicle_part",
+    "name": "external tank (100L)",
+    "location": "structure",
+    "item": "30gal_drum",
+    "symbol": "O",
+    "broken_color": "red",
+    "size": 100000,
+    "durability": 160,
+    "difficulty": 1,
+    "damage_modifier": 80,
+    "flags": [ "FUEL_TANK", "PROTRUSION", "UNMOUNT_ON_DAMAGE" ]
+  },
+  {
+    "abstract": "external_tank",
+    "copy-from": "external_tank_small",
+    "type": "vehicle_part",
+    "name": "external tank (200L)",
+    "item": "55gal_drum",
+    "size": 200000
+  },
+  {
+    "id": "diesel_tank_little",
+    "copy-from": "tank_little",
+    "type": "vehicle_part",
+    "name": "diesel tank (2L)",
+    "fuel_type": "diesel",
+    "color": "green"
+  },
+  {
+    "id": "diesel_tank_small",
+    "copy-from": "tank_small",
+    "type": "vehicle_part",
+    "name": "diesel tank (10L)",
+    "fuel_type": "diesel",
+    "color": "green"
+  },
+  {
+    "id": "diesel_tank",
+    "copy-from": "tank",
+    "type": "vehicle_part",
+    "name": "diesel tank (60L)",
+    "fuel_type": "diesel",
+    "color": "green"
+  },
+  {
+    "id": "external_diesel_tank_small",
+    "copy-from": "external_tank_small",
+    "type": "vehicle_part",
+    "name": "external diesel tank (100L)",
+    "fuel_type": "diesel",
+    "color": "green"
+  },
+  {
+    "id": "external_diesel_tank",
+    "copy-from": "external_tank",
+    "type": "vehicle_part",
+    "name": "external diesel tank (200L)",
+    "fuel_type": "diesel",
+    "color": "green"
+  },
+  {
+    "id": "gas_tank_little",
+    "copy-from": "tank_little",
+    "type": "vehicle_part",
+    "name": "gasoline tank (2L)",
+    "fuel_type": "gasoline",
+    "color": "light_red"
+  },
+  {
+    "id": "gas_tank_small",
+    "copy-from": "tank_small",
+    "type": "vehicle_part",
+    "name": "gasoline tank (10L)",
+    "fuel_type": "gasoline",
+    "color": "light_red"
+  },
+  {
+    "id": "gas_tank",
+    "copy-from": "tank",
+    "type": "vehicle_part",
+    "name": "gasoline tank (60L)",
+    "fuel_type": "gasoline",
+    "color": "light_red"
+  },
+  {
+    "id": "external_gas_tank_small",
+    "copy-from": "external_tank_small",
+    "type": "vehicle_part",
+    "name": "external gasoline tank (100L)",
+    "fuel_type": "gasoline",
+    "color": "light_red"
+  },
+  {
+    "id": "external_gas_tank",
+    "copy-from": "external_tank",
+    "type": "vehicle_part",
+    "name": "external gasoline tank (200L)",
+    "fuel_type": "gasoline",
+    "color": "light_red"
+  },
+  {
+    "id": "water_dirty_tank_little",
+    "copy-from": "tank_little",
+    "type": "vehicle_part",
+    "name": "dirty water tank (2L)",
+    "fuel_type": "water",
+    "color": "light_cyan"
+  },
+  {
+    "id": "water_dirty_tank_small",
+    "copy-from": "tank_small",
+    "type": "vehicle_part",
+    "name": "dirty water tank (10L)",
+    "fuel_type": "water",
+    "color": "light_cyan"
+  },
+  {
+    "id": "water_dirty_tank",
+    "copy-from": "tank",
+    "type": "vehicle_part",
+    "name": "dirty water tank (60L)",
+    "fuel_type": "water",
+    "color": "light_cyan"
+  },
+  {
+    "id": "external_water_dirty_tank_small",
+    "copy-from": "external_tank_small",
+    "type": "vehicle_part",
+    "name": "external dirty water tank (100L)",
+    "fuel_type": "water",
+    "color": "light_cyan"
+  },
+  {
+    "id": "external_water_dirty_tank",
+    "copy-from": "external_tank",
+    "type": "vehicle_part",
+    "name": "external dirty water tank (200L)",
+    "fuel_type": "water",
+    "color": "light_cyan"
+  },
+  {
+    "id": "water_tank_little",
+    "copy-from": "tank_little",
+    "type": "vehicle_part",
+    "name": "clean water tank (2L)",
+    "fuel_type": "water_clean",
+    "color": "light_blue"
+  },
+  {
+    "id": "water_tank_small",
+    "copy-from": "tank_small",
+    "type": "vehicle_part",
+    "name": "clean water tank (10L)",
+    "fuel_type": "water_clean",
+    "color": "light_blue"
+  },
+  {
+    "id": "water_tank",
+    "copy-from": "tank",
+    "type": "vehicle_part",
+    "name": "clean water tank (60L)",
+    "fuel_type": "water_clean",
+    "color": "light_blue"
+  },
+  {
+    "id": "external_water_tank_small",
+    "copy-from": "external_tank_small",
+    "type": "vehicle_part",
+    "name": "external clean water tank (100L)",
+    "fuel_type": "water_clean",
+    "color": "light_blue"
+  },
+  {
+    "id": "external_water_tank",
+    "copy-from": "external_tank",
+    "type": "vehicle_part",
+    "name": "external clean water tank (200L)",
+    "fuel_type": "water_clean",
+    "color": "light_blue"
+  },
+  {
+    "id": "napalm_tank",
+    "copy-from": "tank",
+    "type": "vehicle_part",
+    "name": "naplm tank (60L)",
+    "fuel_type": "napalm",
+    "color": "red"
+  },
+  {
+    "id": "hydrogen_tank",
+    "copy-from": "tank",
+    "type": "vehicle_part",
+    "name": "hydrogen tank",
+    "fuel_type": "plasma",
+    "color": "light_blue"
+  },
+  {
+    "id": "water_tank_barrel",
+    "type": "vehicle_part",
+    "name": "water barrel",
+    "item": "wooden_barrel",
+    "location": "fuel_source",
+    "symbol": "O",
+    "color": "brown",
+    "broken_color": "brown",
+    "size": 400,
+    "durability": 120,
+    "difficulty": 0,
+    "damage_modifier": 80,
+    "fuel_type": "water_clean",
+    "breaks_into": [
+        { "item": "splinter", "count": [ 3, 8 ] },
+        { "item": "2x4", "count": [ 2, 8 ] },
+        { "item": "scrap", "count": [ 1, 3 ] }
+    ],
+    "flags": [ "FUEL_TANK", "NAILABLE" ]
+  },
+  {
+    "id": "dirty_water_tank_barrel",
+    "copy-from": "water_tank_barrel",
+    "type": "vehicle_part",
+    "name": "dirty water barrel",
+    "fuel_type": "water"
+  }
+]

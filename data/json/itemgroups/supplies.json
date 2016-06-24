@@ -15,7 +15,9 @@
       [ "RAM", 20 ],
       [ "radiocontrol", 10 ],
       [ "receiver", 30 ],
-      [ "transponder", 30 ]
+      [ "transponder", 30 ],
+      [ "light_bulb", 60 ],
+      [ "lightstrip_dead", 60 ]
     ]
   },
   {

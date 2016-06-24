@@ -73,17 +73,19 @@ struct dealt_damage_instance {
 };
 
 struct resistances {
-    std::vector<int> resist_vals;
+    std::array<float, NUM_DT> resist_vals;
 
     resistances();
 
     // If to_self is true, we want armor's own resistance, not one it provides to wearer
     resistances( item &armor, bool to_self = false );
     resistances( monster &monster );
-    void set_resist( damage_type dt, int amount );
-    int type_resist( damage_type dt ) const;
+    void set_resist( damage_type dt, float amount );
+    float type_resist( damage_type dt ) const;
 
     float get_effective_resist( const damage_unit &du ) const;
+
+    resistances &operator+=( const resistances &other );
 };
 
 struct projectile {
@@ -138,6 +140,8 @@ const std::string &name_by_dt( const damage_type &dt );
 
 damage_instance load_damage_instance( JsonObject &jo );
 damage_instance load_damage_instance( JsonArray &jarr );
+
+resistances load_resistances_instance( JsonObject &jo );
 
 // Returns damage or resistance data
 // Handles some shorthands

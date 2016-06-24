@@ -291,7 +291,6 @@
     "volume": 1,
     "cutting": 6,
     "to_hit": -1,
-    "use_action": { "type": "knife" },
     "qualities": [["CUT", 1]]
   },
   {
@@ -343,7 +342,6 @@
     "cutting" : 8,
     "flags" : ["STAB", "SHEATH_KNIFE"],
     "price" : 1000,
-    "use_action": { "type": "knife" },
     "qualities": [["CUT", 1], ["BUTCHER", 3]]
   },
   {
@@ -692,9 +690,9 @@
     "type": "TOOL",
     "symbol": ";",
     "color": "white",
-    "name": "lightstrip (dead)",
-    "name_plural": "lightstrips (dead)",
-    "description": "This is a burnt-out lightstrip.  You could disassemble this to recover the amplifier circuit.",
+    "name": "lightstrip (unpowered)",
+    "name_plural": "lightstrips (unpowered)",
+    "description": "This is a unpowered lightstrip.  You could connect it to batteries to get a light-emitting circuit.",
     "price": 0,
     "material": ["plastic", "aluminum"],
     "weight": 27,
@@ -710,7 +708,7 @@
     "color": "white",
     "name": "lightstrip (inactive)",
     "name_plural": "lightstrips (inactive)",
-    "description": "This is a light-emitting circuit wired directly to some batteries.  It will provide some weak light once activated and can't be turned off..  When the batteries die, you'll need to scrap it to recover the components that are reusable.",
+    "description": "This is a light-emitting circuit wired directly to some batteries.  It will provide some weak light once activated and can't be turned off.  When the batteries die, you'll need to scrap it to recover the components that are reusable.",
     "price": 500,
     "material": ["plastic", "aluminum"],
     "weight": 27,
@@ -1731,8 +1729,7 @@
     "bashing": 14,
     "cutting": 3,
     "to_hit": 3,
-    "qualities": [["DIG", 3]],
-    "use_action": "DIG"
+    "qualities": [ [ "DIG", 3 ] ]
   },
   {
     "id": "stethoscope",
@@ -2124,7 +2121,14 @@
     "material": "plastic",
     "weight": 6,
     "volume": 1,
-    "use_action": "SET_TRAP"
+    "use_action": {
+        "type": "place_trap",
+        "allow_underwater": true,
+        "done_message": "You set the bubble wrap on the ground, ready to be popped.",
+        "practice": 2,
+        "moves": 150,
+        "trap": "tr_bubblewrap"
+    }
   },
   {
     "id": "beartrap",
@@ -2140,7 +2144,21 @@
     "bashing": 9,
     "cutting": 1,
     "to_hit": -2,
-    "use_action": "SET_TRAP"
+    "use_action": {
+        "type": "place_trap",
+        "allow_underwater": true,
+        "bury_question": "Bury the beartrap?",
+        "bury": {
+            "done_message": "You bury the beartrap.",
+            "practice": 7,
+            "moves": 275,
+            "trap": "tr_beartrap_buried"
+        },
+        "done_message": "You set the beartrap.",
+        "practice": 4,
+        "moves": 200,
+        "trap": "tr_beartrap"
+    }
   },
   {
     "id": "board_trap",
@@ -2156,7 +2174,14 @@
     "bashing": 12,
     "cutting": 6,
     "to_hit": -3,
-    "use_action": "SET_TRAP"
+    "use_action": {
+        "type": "place_trap",
+        "allow_underwater": true,
+        "done_message": "You set the board trap on the %s, nails facing up.",
+        "practice": 2,
+        "moves": 150,
+        "trap": "tr_nailboard"
+    }
   },
   {
     "id": "caltrops",
@@ -2173,7 +2198,13 @@
     "bashing": 1,
     "cutting": 8,
     "to_hit": -4,
-    "use_action": "SET_TRAP"
+    "use_action": {
+        "type": "place_trap",
+        "done_message": "You scatter the caltrops on the %s.",
+        "practice": 2,
+        "moves": 150,
+        "trap": "tr_caltrops"
+    }
   },
   {
     "id": "tripwire",
@@ -2187,7 +2218,14 @@
     "weight": 40,
     "volume": 1,
     "to_hit": -1,
-    "use_action": "SET_TRAP"
+    "use_action": {
+        "type": "place_trap",
+        "needs_solid_neighbor": true,
+        "done_message": "You string up the tripwire.",
+        "practice": 3,
+        "moves": 175,
+        "trap": "tr_tripwire"
+    }
   },
   {
     "id": "crossbow_trap",
@@ -2202,7 +2240,13 @@
     "volume": 7,
     "bashing": 4,
     "to_hit": -2,
-    "use_action": "SET_TRAP"
+    "use_action": {
+        "type": "place_trap",
+        "done_message": "You set the crossbow trap.",
+        "practice": 4,
+        "moves": 200,
+        "trap": "tr_crossbow"
+    }
   },
   {
     "id": "shotgun_trap",
@@ -2217,7 +2261,13 @@
     "volume": 7,
     "bashing": 12,
     "to_hit": -2,
-    "use_action": "SET_TRAP"
+    "use_action": {
+        "type": "place_trap",
+        "done_message": "You set the shotgun trap.",
+        "practice": 5,
+        "moves": 225,
+        "trap": "tr_shotgun_2"
+    }
   },
   {
     "id": "blade_trap",
@@ -2233,7 +2283,14 @@
     "bashing": 4,
     "cutting": 14,
     "to_hit": -4,
-    "use_action": "SET_TRAP"
+    "use_action": {
+        "type": "place_trap",
+        "outer_layer_trap": "tr_blade",
+        "done_message": "You set the blade trap two squares away.",
+        "practice": 12,
+        "moves": 400,
+        "trap": "tr_engine"
+    }
   },
   {
     "id": "light_snare_kit",
@@ -2247,7 +2304,14 @@
     "weight": 886,
     "volume": 1,
     "cutting": 6,
-    "use_action": "SET_TRAP"
+    "use_action": {
+        "type": "place_trap",
+        "needs_neighbor_terrain": "t_tree_young",
+        "done_message": "You set the snare trap.",
+        "practice": 2,
+        "moves": 150,
+        "trap": "tr_light_snare"
+    }
   },
   {
     "id": "heavy_snare_kit",
@@ -2261,7 +2325,14 @@
     "weight": 1066,
     "volume": 1,
     "cutting": 10,
-    "use_action": "SET_TRAP"
+    "use_action": {
+        "type": "place_trap",
+        "needs_neighbor_terrain": "t_tree",
+        "done_message": "You set the snare trap.",
+        "practice": 4,
+        "moves": 200,
+        "trap": "tr_heavy_snare"
+    }
   },
   {
     "id": "landmine",
@@ -2276,7 +2347,20 @@
     "volume": 2,
     "bashing": 6,
     "to_hit": -1,
-    "use_action": "SET_TRAP"
+    "use_action": {
+        "type": "place_trap",
+        "bury_question": "Bury the land mine?",
+        "bury": {
+            "done_message": "You bury the land mine.",
+            "practice": 7,
+            "moves": 275,
+            "trap": "tr_landmine_buried"
+        },
+        "done_message": "You set the land mine.",
+        "practice": 4,
+        "moves": 200,
+        "trap": "tr_landmine"
+    }
   },
   {
     "id": "telepad",
@@ -2292,7 +2376,13 @@
     "bashing": 1,
     "cutting": 8,
     "to_hit": -4,
-    "use_action": "SET_TRAP"
+    "use_action": {
+        "type": "place_trap",
+        "done_message": "You place the telepad.",
+        "practice": 10,
+        "moves": 350,
+        "trap": "tr_telepad"
+    }
   },
   {
     "id": "geiger_off",
@@ -2695,6 +2785,7 @@
     "description": "This scrambler grenade is active, and will soon detonate, releasing a control wave that temporarily converts robots to your side.",
     "price": 0,
     "material": ["steel", "plastic"],
+    "flags": [ "TRADER_AVOID" ],
     "weight": 500,
     "volume": 1,
     "bashing": 5,
@@ -3454,7 +3545,7 @@
     "color": "light_green",
     "name": "advanced UPS",
     "name_plural": "advanced UPS's",
-    "description": "This is an advanced version of the unified power supply, or UPS.  This device has been significantly redesigned to provide better efficiency as well as to consume plutonium fuel cells rather than batteries.  Sadly, it's plutonium reactor can't be charged in UPS charging station.",
+    "description": "This is an advanced version of the unified power supply, or UPS.  This device has been significantly redesigned to provide better efficiency as well as to consume plutonium fuel cells rather than batteries.  Sadly, its plutonium reactor can't be charged in UPS charging station.",
     "price": 560000,
     "material": ["aluminum", "plastic"],
     "weight": 453,
@@ -3672,7 +3763,13 @@
     "weight": 586,
     "volume": 3,
     "to_hit": -4,
-    "use_action": "SET_TRAP"
+    "use_action": {
+        "type": "place_trap",
+        "done_message": "You set the booby trap up and activate the grenade.",
+        "practice": 4,
+        "moves": 200,
+        "trap": "tr_boobytrap"
+    }
   },
   {
     "id": "c4",
@@ -3795,7 +3892,14 @@
     "volume": 8,
     "bashing": 6,
     "to_hit": -1,
-    "use_action": "SET_TRAP"
+    "use_action": {
+        "type": "place_trap",
+        "allow_under_player": true,
+        "done_message": "You unfold the cot and place it on the ground.",
+        "practice": 0,
+        "moves": 100,
+        "trap": "tr_cot"
+    }
   },
   {
     "id": "rollmat",
@@ -3809,7 +3913,14 @@
     "weight": 250,
     "volume": 4,
     "to_hit": -1,
-    "use_action": "SET_TRAP"
+    "use_action": {
+        "type": "place_trap",
+        "allow_under_player": true,
+        "done_message": "You unroll the mat and lay it on the ground.",
+        "practice": 0,
+        "moves": 100,
+        "trap": "tr_rollmat"
+    }
   },
   {
     "id": "fur_rollmat",
@@ -3823,7 +3934,14 @@
     "weight": 1800,
     "volume": 12,
     "to_hit": -1,
-    "use_action": "SET_TRAP"
+    "use_action": {
+        "type": "place_trap",
+        "allow_under_player": true,
+        "done_message": "You unroll the fur mat and lay it on the ground.",
+        "practice": 0,
+        "moves": 100,
+        "trap": "tr_fur_rollmat"
+    }
   },
   {
     "id": "xacto",
@@ -3841,7 +3959,6 @@
     "volume": 1,
     "cutting": 7,
     "to_hit": -4,
-    "use_action": { "type": "knife" },
     "qualities": [["CUT", 1]]
   },
   {
@@ -3859,7 +3976,6 @@
     "volume": 1,
     "cutting": 8,
     "to_hit": -4,
-    "use_action": { "type": "knife" },
     "qualities": [["CUT", 1]]
   },
   {
@@ -3879,7 +3995,6 @@
     "flags" : ["CHOP", "DURABLE_MELEE", "SHEATH_SWORD"],
     "to_hit": 2,
     "category": "weapons",
-    "use_action": { "type": "knife" },
     "qualities": [["CUT", 1], ["BUTCHER", 15]]
   },
   {
@@ -3902,21 +4017,16 @@
     "max_charges": 50,
     "ammo": "gasoline",
     "category": "weapons",
-    "use_action": [
-        {
-            "type": "fireweapon_off",
-            "target_id": "firemachete_on",
-            "success_message": "Your No. 9 glows!",
-            "lacks_fuel_message": "Click.",
-            "failure_message": "Click.",
-            "noise": 0,
-            "moves": 10,
-            "success_chance": 2
-        },
-        {
-            "type": "knife"
-        }
-    ]
+    "use_action": {
+      "type": "fireweapon_off",
+      "target_id": "firemachete_on",
+      "success_message": "Your No. 9 glows!",
+      "lacks_fuel_message": "Click.",
+      "failure_message": "Click.",
+      "noise": 0,
+      "moves": 10,
+      "success_chance": 2
+    }
   },
   {
     "id": "firemachete_on",
@@ -3956,9 +4066,6 @@
         {
             "type": "firestarter",
             "moves": 15
-        },
-        {
-            "type": "knife"
         }
     ]
   },
@@ -3980,7 +4087,6 @@
     "flags" : ["CHOP", "DURABLE_MELEE", "SHEATH_SWORD"],
     "to_hit": 2,
     "category": "weapons",
-    "use_action": { "type": "knife" },
     "qualities": [["CUT", 1], ["BUTCHER", 9]]
   },
   {
@@ -4000,7 +4106,6 @@
     "flags" : ["STAB", "DURABLE_MELEE", "SHEATH_KNIFE"],
     "to_hit": 2,
     "category": "weapons",
-    "use_action": { "type": "knife" },
     "qualities": [["CUT", 1], ["BUTCHER", 24]]
   },
   {
@@ -4020,7 +4125,6 @@
     "flags" : ["CHOP", "NON_STUCK", "DURABLE_MELEE", "SHEATH_SWORD"],
     "to_hit": 2,
     "category": "weapons",
-    "use_action": { "type": "knife" },
     "qualities": [["CUT", 1], ["BUTCHER", 20]]
   },
   {
@@ -4039,7 +4143,6 @@
     "bashing": 4,
     "cutting": 38,
     "to_hit": 1,
-    "use_action": { "type": "knife" },
     "category" : "weapons",
     "qualities": [["CUT", 1], ["BUTCHER", 16]]
   },
@@ -4060,7 +4163,6 @@
     "flags" : ["STAB", "DURABLE_MELEE", "SHEATH_KNIFE"],
     "to_hit": 2,
     "category": "weapons",
-    "use_action": { "type": "knife" },
     "qualities": [["CUT", 1], ["BUTCHER", 18]]
   },
   {
@@ -4081,7 +4183,6 @@
     "flags" : ["STAB", "DURABLE_MELEE", "SHEATH_SWORD"],
     "to_hit": 1,
     "category": "weapons",
-    "use_action": { "type": "knife" },
     "qualities": [["CUT", 1], ["BUTCHER", 12]]
   },
   {
@@ -4101,7 +4202,6 @@
     "bashing": 3,
     "cutting": 24,
     "to_hit": 1,
-    "use_action": { "type": "knife" },
     "category" : "weapons",
     "qualities": [["CUT", 1], ["BUTCHER", 13]]
   },
@@ -4121,7 +4221,6 @@
     "bashing": 4,
     "cutting": 31,
     "to_hit": 1,
-    "use_action": { "type": "knife" },
     "category" : "weapons",
     "qualities": [["CUT", 1], ["BUTCHER", 9]]
   },
@@ -4144,19 +4243,14 @@
     "max_charges": 50,
     "ammo": "gasoline",
     "category": "weapons",
-    "use_action": [
-        {
-            "type": "fireweapon_off",
-            "target_id": "firekatana_on",
-            "success_message": "The Sun rises.",
-            "lacks_fuel_message": "Time stands still.",
-            "noise": 10,
-            "moves": 10
-        },
-        {
-            "type": "knife"
-        }
-    ]
+    "use_action": {
+    "type": "fireweapon_off",
+      "target_id": "firekatana_on",
+      "success_message": "The Sun rises.",
+      "lacks_fuel_message": "Time stands still.",
+      "noise": 10,
+      "moves": 10
+    }
   },
   {
     "id": "firekatana_on",
@@ -4192,9 +4286,6 @@
         {
             "type": "firestarter",
             "moves": 15
-        },
-        {
-            "type": "knife"
         }
     ]
   },
@@ -4215,7 +4306,6 @@
     "cutting": 16,
     "to_hit": 1,
     "category": "weapons",
-    "use_action": { "type": "knife" },
     "qualities": [["CUT", 1], ["COOK", 1]]
   },
   {
@@ -4234,7 +4324,6 @@
     "bashing": 2,
     "cutting": 29,
     "to_hit": 2,
-    "use_action": { "type": "knife" },
     "category" : "weapons",
     "qualities": [["CUT", 1], ["BUTCHER", 9]]
   },
@@ -4273,7 +4362,6 @@
     "bashing": 8,
     "cutting": 35,
     "to_hit": 2,
-    "use_action": { "type": "knife" },
     "category" : "weapons",
     "qualities": [["CUT", 1], ["BUTCHER", 9]]
   },
@@ -4293,8 +4381,7 @@
     "bashing": 17,
     "cutting": 40,
     "to_hit": 1,
-    "category" : "weapons",
-    "use_action": { "type": "knife" }
+    "category" : "weapons"
   },
   {
     "id": "zweifire_off", "//": "All of this is SUPPOSED to be in German.",
@@ -4315,19 +4402,14 @@
     "max_charges": 50,
     "ammo": "gasoline",
     "category" : "weapons",
-    "use_action": [
-        {
-            "type": "fireweapon_off",
-            "target_id": "zweifire_on",
-            "success_message": "Die Klinge deines Schwertes brennt!",
-            "lacks_fuel_message": "Dein Flammenschwert hat keinen Brennstoff mehr.",
-            "noise": 10,
-            "moves": 10
-        },
-        {
-            "type": "knife"
-        }
-    ]
+    "use_action": {
+      "type": "fireweapon_off",
+      "target_id": "zweifire_on",
+      "success_message": "Die Klinge deines Schwertes brennt!",
+      "lacks_fuel_message": "Dein Flammenschwert hat keinen Brennstoff mehr.",
+      "noise": 10,
+      "moves": 10
+    }
   },
   {
     "id": "zweifire_on", "//": "All of this is SUPPOSED to be in German.",
@@ -4339,7 +4421,7 @@
     "description": "Ein großes zweihändiges Schwert aus Deutschland, an dessen Klinge sich, unter zuführung von Benzin, eine anhaltende Flamme erzeugen lässt.  Es ist eine sehr mächtige Waffe.",
     "price": 160000,
     "material": "steel",
-    "flags": ["CHOP", "FIRE", "LIGHT_240", "CHARGEDIM", "FLAMING", "DURABLE_MELEE"],
+    "flags": [ "CHOP", "FIRE", "LIGHT_240", "CHARGEDIM", "FLAMING", "DURABLE_MELEE", "TRADER_AVOID" ],
     "techniques": ["WBLOCK_1", "WIDE", "BRUTAL"],
     "weight": 3400,
     "volume": 15,
@@ -4362,9 +4444,6 @@
         {
             "type": "firestarter",
             "moves": 15
-        },
-        {
-            "type": "knife"
         }
     ]
   },
@@ -4388,19 +4467,14 @@
     "max_charges": 50,
     "ammo": "gasoline",
     "category" : "weapons",
-    "use_action": [
-        {
-            "type": "fireweapon_off",
-            "target_id": "broadfire_on",
-            "success_message": "Charge!!",
-            "lacks_fuel_message": "No strength to fight!",
-            "noise": 10,
-            "moves": 10
-        },
-        {
-            "type": "knife"
-        }
-    ]
+    "use_action": {
+      "type": "fireweapon_off",
+      "target_id": "broadfire_on",
+      "success_message": "Charge!!",
+      "lacks_fuel_message": "No strength to fight!",
+      "noise": 10,
+      "moves": 10
+    }
   },
   {
     "id": "broadfire_on",
@@ -4436,9 +4510,6 @@
         {
             "type": "firestarter",
             "moves": 15
-        },
-        {
-            "type": "knife"
         }
     ]
   },
@@ -4458,7 +4529,6 @@
     "cutting": 14,
     "to_hit": 1,
     "category": "weapons",
-    "use_action": { "type": "knife" },
     "qualities": [["CUT", 1], ["BUTCHER", -27]]
   },
   {
@@ -4479,21 +4549,16 @@
     "max_charges": 50,
     "ammo": "gasoline",
     "category" : "weapons",
-    "use_action": [
-        {
-            "type": "fireweapon_off",
-            "target_id": "shishkebab_on",
-            "success_message": "Let's dance, Zeds!",
-            "lacks_fuel_message": "This thing needs some fuel!",
-            "failure_message": "Aw, dangit.  It fails to start!",
-            "noise": 10,
-            "moves": 10,
-            "success_chance": 5
-        },
-        {
-            "type": "knife"
-        }
-    ]
+    "use_action": {
+      "type": "fireweapon_off",
+      "target_id": "shishkebab_on",
+      "success_message": "Let's dance, Zeds!",
+      "lacks_fuel_message": "This thing needs some fuel!",
+      "failure_message": "Aw, dangit.  It fails to start!",
+      "noise": 10,
+      "moves": 10,
+      "success_chance": 5
+    }
   },
   {
     "id": "shishkebab_on",
@@ -4530,9 +4595,6 @@
         {
             "type": "firestarter",
             "moves": 15
-        },
-        {
-            "type": "knife"
         }
     ]
   },
@@ -4569,7 +4631,6 @@
     "bashing": 2,
     "cutting": 7,
     "to_hit": -3,
-    "use_action": { "type": "knife" },
     "qualities": [["CUT", 1], ["BUTCHER", 20]],
     "flags": ["STAB", "SHEATH_KNIFE"]
   },
@@ -4589,7 +4650,6 @@
     "cutting": 10,
     "to_hit": -3,
     "category": "weapons",
-    "use_action": { "type": "knife" },
     "qualities": [["CUT", 1], ["BUTCHER", 25]],
     "flags": ["CHOP", "SHEATH_KNIFE"]
   },
@@ -4611,7 +4671,6 @@
     "cutting": 18,
     "to_hit": 1,
     "category": "weapons",
-    "use_action": { "type": "knife" },
     "qualities": [["CUT", 1], ["BUTCHER", 19]]
   },
   {
@@ -4627,7 +4686,6 @@
     "volume": 5,
     "cutting": 1,
     "to_hit": -2,
-    "use_action": "LUMBER",
     "qualities":[["SAW_W", 2]]
   },
   {
@@ -4645,8 +4703,7 @@
     "cutting": 14,
     "flags" : ["CHOP"],
     "to_hit": 1,
-    "qualities": [["AXE", 3]],
-    "use_action": "LUMBER"
+    "qualities": [["AXE", 3]]
   },
   {
     "id": "fire_ax",
@@ -4664,8 +4721,7 @@
     "cutting": 20,
     "flags" : ["CHOP", "DURABLE_MELEE"],
     "to_hit": 1,
-    "qualities": [["AXE", 2]],
-    "use_action": "LUMBER"
+    "qualities": [["AXE", 2]]
   },
   {
     "id": "battleaxe",
@@ -4683,8 +4739,7 @@
     "flags" : ["CHOP", "DURABLE_MELEE"],
     "to_hit": 1,
     "category": "weapons",
-    "qualities": [["AXE", 2]],
-    "use_action": "LUMBER"
+    "qualities": [["AXE", 2]]
   },
   {
     "id": "hacksaw",
@@ -4700,8 +4755,7 @@
     "bashing": 1,
     "cutting": 1,
     "to_hit": -1,
-    "use_action": [ "HACKSAW", "SAW_BARREL" ],
-    "qualities":[["SAW_M", 1], ["SAW_M_FINE", 1]]
+    "qualities": [ [ "SAW_M", 2 ], [ "SAW_M_FINE", 1 ] ]
   },{
     "id": "tent_kit",
     "type": "TOOL",
@@ -4843,7 +4897,7 @@
     "max_charges": 100,
     "initial_charges": 100,
     "charges_per_use": 1,
-    "revert_to": "can_food",
+    "revert_to": "can_food_unsealed",
     "use_action": {
         "type": "transform",
         "target": "candle_lit",
@@ -4890,7 +4944,14 @@
     "volume": 6,
     "bashing": 7,
     "to_hit": 1,
-    "use_action": "SET_TRAP"
+    "use_action": {
+        "type": "place_trap",
+        "allow_under_player": true,
+        "done_message": "You place the brazier securely.",
+        "practice": 0,
+        "moves": 100,
+        "trap": "tr_brazier"
+    }
   },{
     "id": "metal_funnel",
     "type": "TOOL",
@@ -4904,7 +4965,14 @@
     "volume": 16,
     "bashing": 4,
     "to_hit": 1,
-    "use_action": "SET_TRAP"
+    "use_action": {
+        "type": "place_trap",
+        "allow_under_player": true,
+        "done_message": "You place the brazier securely.",
+        "practice": 0,
+        "moves": 100,
+        "trap": "tr_metal_funnel"
+    }
   },
   {
     "id": "funnel",
@@ -4919,7 +4987,14 @@
     "volume": 2,
     "bashing": 4,
     "to_hit": 1,
-    "use_action": "SET_TRAP"
+    "use_action": {
+        "type": "place_trap",
+        "allow_under_player": true,
+        "done_message": "You place the funnel, waiting to collect rain.",
+        "practice": 0,
+        "moves": 100,
+        "trap": "tr_funnel"
+    }
   },
   {
     "id": "makeshift_funnel",
@@ -4933,7 +5008,14 @@
     "weight": 4,
     "volume": 1,
     "to_hit": 1,
-    "use_action": "SET_TRAP"
+    "use_action": {
+        "type": "place_trap",
+        "allow_under_player": true,
+        "done_message": "You place the makeshift funnel, waiting to collect rain.",
+        "practice": 0,
+        "moves": 100,
+        "trap": "tr_makeshift_funnel"
+    }
   },
   {
     "id": "leather_funnel",
@@ -4947,7 +5029,14 @@
     "weight": 4,
     "volume": 1,
     "to_hit": 1,
-    "use_action": "SET_TRAP"
+    "use_action": {
+        "type": "place_trap",
+        "allow_under_player": true,
+        "done_message": "You place the leather funnel, waiting to collect rain.",
+        "practice": 0,
+        "moves": 100,
+        "trap": "tr_leather_funnel"
+    }
   },
   {
     "id": "puller",
@@ -4994,7 +5083,6 @@
     "bashing": 2,
     "cutting": 6,
     "to_hit": 1,
-    "use_action": "REMOVE_ALL_MODS",
     "qualities": [["SCREW", 1]]
   },
   {
@@ -5011,7 +5099,6 @@
     "bashing": 2,
     "cutting": 6,
     "to_hit": 1,
-    "use_action": "REMOVE_ALL_MODS",
     "qualities": [["SCREW", 1], ["SCREW_FINE", 1]]
   },
   {
@@ -5028,7 +5115,7 @@
     "volume": 2,
     "bashing": 9,
     "to_hit": 2,
-    "qualities": [["WRENCH", 1], ["WRENCH_FINE", 1]]
+    "qualities": [ ["WRENCH", 2 ], [ "WRENCH_FINE", 1 ] ]
   },
   {
     "id": "pliers",
@@ -5349,7 +5436,6 @@
     "volume": 0,
     "cutting": 7,
     "to_hit": -4,
-    "use_action": { "type": "knife" },
     "qualities": [["CUT", 1], ["BUTCHER", 12]]
   },{
     "id" : "copper_knife",
@@ -5365,7 +5451,6 @@
     "volume": 1,
     "bashing": 2,
     "cutting": 12,
-    "use_action": { "type": "knife" },
     "qualities": [["CUT", 1], ["BUTCHER", 11]],
     "flags": ["STAB", "SHEATH_KNIFE"]
   },{
@@ -5383,7 +5468,6 @@
     "bashing": 2,
     "cutting": 10,
     "to_hit": -1,
-    "use_action": { "type": "knife" },
     "qualities": [["CUT", 1], ["BUTCHER", 11]],
     "flags": ["STAB", "SHEATH_KNIFE"]
    },
@@ -5499,8 +5583,7 @@
     "bashing": 11,
     "cutting": 8,
     "flags" : ["CHOP"],
-    "qualities": [["AXE", 2]],
-    "use_action": "LUMBER"
+    "qualities": [["AXE", 2]]
   },{
     "id": "copper_ax",
     "type": "TOOL",
@@ -5515,8 +5598,7 @@
     "bashing": 18,
     "cutting": 12,
     "flags" : ["CHOP"],
-    "qualities": [["AXE", 2]],
-    "use_action": "LUMBER"
+    "qualities": [["AXE", 2]]
   },{
     "id": "primitive_shovel",
     "type": "TOOL",
@@ -5530,8 +5612,7 @@
     "volume": 16,
     "bashing": 15,
     "cutting": 1,
-    "qualities": [["DIG", 2]],
-    "use_action": "DIG"
+    "qualities": [ [ "DIG", 2 ] ]
   },{
     "id": "primitive_knife",
     "type": "TOOL",
@@ -5547,7 +5628,6 @@
     "bashing": 2,
     "cutting": 5,
     "to_hit": -1,
-    "use_action": { "type": "knife" },
     "qualities": [["CUT", 1], ["BUTCHER", 11]],
     "flags": ["STAB", "SHEATH_KNIFE"]
   },{
@@ -5563,7 +5643,6 @@
     "volume": 4,
     "bashing": 10,
     "cutting": 8,
-    "use_action": { "type": "knife" },
     "flags" : ["CHOP", "DURABLE_MELEE"],
     "to_hit": 1,
     "qualities": [["CUT", 1], ["DIG", 3], ["BUTCHER", -8]]
@@ -5658,180 +5737,6 @@
         "target_charges": 1,
         "target_ammo": "66mm_HEAT"
     }
-  },{
-    "id": "jar_meat_canned",
-    "type": "GENERIC",
-    "symbol": "%",
-    "color": "red",
-    "name": "sealed jar of canned meat",
-    "name_plural": "sealed jars of canned meat",
-    "description": "This is a sealed glass jar containing some meat.  Use to open and eat to enjoy.",
-    "price": 750,
-    "material": ["glass", "flesh"],
-    "weight": 984,
-    "volume": 2,
-    "bashing": 4,
-    "category": "food",
-    "use_action": {
-        "type": "transform",
-        "msg": "You open the jar, exposing it to the atmosphere.",
-        "target": "meat_canned",
-        "target_charges":2,
-        "container": "jar_glass"
-    }
-  },
-  {
-    "id": "jar_fish_canned",
-    "type": "GENERIC",
-    "symbol": "%",
-    "color": "light_gray",
-    "name": "sealed jar of canned fish",
-    "name_plural": "sealed jars of canned fish",
-    "description": "This is a sealed glass jar containing some fish.  Use to open and eat to enjoy.",
-    "price": 750,
-    "material": ["glass", "flesh"],
-    "weight": 874,
-    "volume": 2,
-    "bashing": 4,
-    "category": "food",
-    "use_action": {
-        "type": "transform",
-        "msg": "You open the jar, exposing it to the atmosphere.",
-        "target": "fish_canned",
-        "target_charges": 2,
-        "container": "jar_glass"
-    }
-  },
-  {
-    "id": "jar_kompot",
-    "type": "GENERIC",
-    "symbol": ")",
-    "color": "cyan",
-    "name": "sealed 3-liter jar of kompot",
-    "name_plural": "sealed 3-liter jars of kompot",
-    "description": "This is a sealed glass jar containing kompot.  Use to open and eat to enjoy.",
-    "price": 800,
-    "material": ["glass", "water"],
-    "weight": 617,
-    "volume": 12,
-    "bashing": 8,
-    "category": "food",
-    "use_action": {
-        "type": "transform",
-        "msg": "You open the jar, exposing it to the atmosphere.",
-        "target": "kompot",
-        "target_charges": 12,
-        "container": "jar_3l_glass"
-    }
-  },
-  {
-    "id": "jar_human_canned",
-    "type": "GENERIC",
-    "symbol": "%",
-    "color": "red",
-    "name": "sealed jar of soylent slices",
-    "name_plural": "sealed jars of soylent slices",
-    "description": "This is a sealed glass jar containing human meat.  Use to open and eat to enjoy - if you really want to.",
-    "price": 0,
-    "material": ["glass", "hflesh"],
-    "weight": 980,
-    "volume": 2,
-    "bashing": 4,
-    "category" : "food",
-    "use_action": {
-        "type": "transform",
-        "msg": "You open the jar, exposing it to the atmosphere.",
-        "target": "human_canned",
-        "target_charges":2,
-        "container": "jar_glass"
-    }
-  },
-  {
-    "id": "jar_veggy_canned",
-    "type": "GENERIC",
-    "symbol": "%",
-    "color": "green",
-    "name": "sealed jar of canned veggy",
-    "name_plural": "sealed jars of canned veggy",
-    "description": "This is a sealed glass jar containing mixed vegetables.  Use to open and eat to enjoy.",
-    "price": 650,
-    "material": ["glass", "veggy"],
-    "weight": 850,
-    "volume": 2,
-    "bashing": 4,
-    "category" : "food",
-    "use_action": {
-        "type": "transform",
-        "msg": "You open the jar, exposing it to the atmosphere.",
-        "target": "veggy_canned",
-        "target_charges": 2,
-        "container": "jar_glass"
-    }
-  },
-  {
-    "id": "jar_apple_canned",
-    "type": "GENERIC",
-    "symbol": "%",
-    "color": "red",
-    "name": "sealed jar of canned fruit",
-    "name_plural": "sealed jars of canned fruit",
-    "description": "This is a sealed glass jar containing sliced fruits.  Use to open and eat to enjoy.",
-    "price": 500,
-    "material": ["glass", "veggy"],
-    "weight": 1050,
-    "volume": 2,
-    "bashing": 4,
-    "category" : "food",
-    "use_action": {
-        "type": "transform",
-        "msg": "You open the jar, exposing it to the atmosphere.",
-        "target": "apple_canned",
-        "target_charges": 2,
-        "container": "jar_glass"
-    }
-  },
-  {
-    "id": "jar_tomato_canned",
-    "type": "GENERIC",
-    "symbol": "%",
-    "color": "red",
-    "name": "sealed jar of canned tomato",
-    "name_plural": "sealed jars of canned tomatoes",
-    "description": "This is a sealed glass jar containing tomatoes.  Use to open and eat to enjoy.",
-    "price": 650,
-    "material": ["glass", "veggy"],
-    "weight": 1050,
-    "volume": 2,
-    "bashing": 4,
-    "category" : "food",
-    "use_action": {
-        "type": "transform",
-        "msg": "You open the jar, exposing it to the atmosphere.",
-        "target": "can_tomato",
-        "target_charges": 2,
-        "container": "jar_glass"
-    }
-  },{
-    "id": "jar_veggy_pickled",
-    "type": "GENERIC",
-    "symbol": "%",
-    "color": "green",
-    "name": "sealed jar of pickled vegetable",
-    "name_plural": "sealed jars of pickled vegetable",
-    "description": "This is a sealed glass jar containing pickled vegetables.  Use to open and eat to enjoy.",
-    "price": 600,
-    "material": ["glass", "veggy"],
-    "weight": 916,
-    "volume": 2,
-    "bashing": 4,
-    "category" : "food",
-    "use_action": {
-        "type": "transform",
-        "msg": "You open the jar, exposing it to the atmosphere.",
-        "target": "veggy_pickled",
-        "target_charges": 2,
-        "container": "jar_glass"
-    }
   },
   {
     "id": "jar_sauerkraut_pickled",
@@ -5852,291 +5757,6 @@
         "msg": "You open the jar, exposing it to the atmosphere.",
         "target": "sauerkraut",
         "target_charges": 4,
-        "container": "jar_glass"
-    }
-  },
-  {
-    "id": "jar_meat_pickled",
-    "type": "GENERIC",
-    "symbol": "%",
-    "color": "pink",
-    "name": "sealed jar of pickled meat",
-    "name_plural": "sealed jars of pickled meat",
-    "description": "This is a sealed glass jar containing pickled meat.  Use to open and eat to enjoy.",
-    "price": 700,
-    "material": ["glass", "flesh"],
-    "weight": 1068,
-    "volume": 2,
-    "bashing": 4,
-    "category" : "food",
-    "use_action": {
-        "type": "transform",
-        "msg": "You open the jar, exposing it to the atmosphere.",
-        "target": "meat_pickled",
-        "target_charges": 2,
-        "container": "jar_glass"
-    }
-  },
-  {
-    "id": "jar_fish_pickled",
-    "type": "GENERIC",
-    "symbol": "%",
-    "color": "light_gray",
-    "name": "sealed jar of pickled fish",
-    "name_plural": "sealed jars of pickled fish",
-    "description": "This is a sealed glass jar containing pickled fish.  Use to open and eat to enjoy.",
-    "price": 700,
-    "material": ["glass", "flesh"],
-    "weight": 960,
-    "volume": 2,
-    "bashing": 4,
-    "category" : "food",
-    "use_action": {
-        "type": "transform",
-        "msg": "You open the jar, exposing it to the atmosphere.",
-        "target": "fish_pickled",
-        "target_charges": 2,
-        "container": "jar_glass"
-    }
-  },
-  {
-    "id": "jar_human_pickled",
-    "type": "GENERIC",
-    "symbol": "%",
-    "color": "pink",
-    "name": "sealed jar of pickled human flesh",
-    "name_plural": "sealed jars of pickled human flesh",
-    "description": "This is sealed glass jar containing pickled human flesh.  Use to open.  You might even enjoy it.",
-    "price": 0,
-    "material": ["glass", "hflesh"],
-    "weight": 1068,
-    "volume": 2,
-    "bashing": 4,
-    "category" : "food",
-    "use_action": {
-        "type": "transform",
-        "msg": "You open the jar, exposing it to the atmosphere.",
-        "target": "human_pickled",
-        "target_charges": 2,
-        "container": "jar_glass"
-    }
-  },{
-    "id": "jar_soup_mushroom",
-    "type": "GENERIC",
-    "symbol": "%",
-    "color": "red",
-    "name": "sealed jar of mushroom soup",
-    "name_plural": "sealed jars of mushroom soup",
-    "description": "This is a sealed glass jar containing mushroom soup.  Use to open and eat to enjoy.",
-    "price": 500,
-    "material": ["glass", "veggy"],
-    "weight": 2454,
-    "volume": 2,
-    "bashing": 4,
-    "category" : "food",
-    "use_action": {
-        "type": "transform",
-        "msg": "You open the jar, exposing it to the atmosphere.",
-        "target": "soup_mushroom",
-        "target_charges": 8,
-        "container": "jar_glass"
-    }
-  },
-  {
-    "id": "jar_soup_woods",
-    "type": "GENERIC",
-    "symbol": "%",
-    "color": "red",
-    "name": "sealed jar of woods soup",
-    "name_plural": "sealed jars of woods soup",
-    "description": "This is a sealed glass jar containing woods soup.  Use to open and eat to enjoy.",
-    "price": 500,
-    "material": ["glass", "flesh", "veggy"],
-    "weight": 1150,
-    "volume": 2,
-    "bashing": 4,
-    "category" : "food",
-    "use_action": {
-        "type": "transform",
-        "msg": "You open the jar, exposing it to the atmosphere.",
-        "target": "soup_woods",
-        "target_charges": 8,
-        "container": "jar_glass"
-    }
-  },
-  {
-    "id": "jar_soup_meat",
-    "type": "GENERIC",
-    "symbol": "%",
-    "color": "red",
-    "name": "sealed jar of meat soup",
-    "name_plural": "sealed jars of meat soup",
-    "description": "This is a sealed glass jar containing meat soup.  Use to open and eat to enjoy.",
-    "price": 600,
-    "material": ["glass", "flesh"],
-    "weight": 1150,
-    "volume": 2,
-    "bashing": 4,
-    "category" : "food",
-    "use_action": {
-        "type": "transform",
-        "msg": "You open the jar, exposing it to the atmosphere.",
-        "target": "soup_meat",
-        "target_charges": 8,
-        "container": "jar_glass"
-    }
-  },
-  {
-    "id": "jar_soup_fish",
-    "type": "GENERIC",
-    "symbol": "%",
-    "color": "light_gray",
-    "name": "sealed jar of fish soup",
-    "name_plural": "sealed jars of fish soup",
-    "description": "This is a sealed glass jar containing fish soup.  Use to open and eat to enjoy.",
-    "price": 600,
-    "material": ["glass", "flesh"],
-    "weight": 1150,
-    "volume": 2,
-    "bashing": 4,
-    "category" : "food",
-    "use_action": {
-        "type": "transform",
-        "msg": "You open the jar, exposing it to the atmosphere.",
-        "target": "soup_fish",
-        "target_charges": 8,
-        "container": "jar_glass"
-    }
-  },
-  {
-    "id": "jar_soup_veggy",
-    "type": "GENERIC",
-    "symbol": "%",
-    "color": "red",
-    "name": "sealed jar of vegetable soup",
-    "name_plural": "sealed jars of vegetable soup",
-    "description": "This is a sealed glass jar containing vegetable soup.  Use to open and eat to enjoy.",
-    "price": 600,
-    "material": ["glass", "veggy"],
-    "weight": 1150,
-    "volume": 2,
-    "bashing": 4,
-    "category" : "food",
-    "use_action": {
-        "type": "transform",
-        "msg": "You open the jar, exposing it to the atmosphere.",
-        "target": "soup_veggy",
-        "target_charges": 8,
-        "container": "jar_glass"
-    }
-  },
-  {
-    "id": "jar_soup_human",
-    "type": "GENERIC",
-    "symbol": "%",
-    "color": "red",
-    "name": "sealed jar of sap soup",
-    "name_plural": "sealed jars of sap soup",
-    "description": "This is a sealed glass jar containing sap soup.  Use to open and eat to enjoy.",
-    "price": 0,
-    "material": ["glass", "hflesh"],
-    "weight": 1150,
-    "volume": 2,
-    "bashing": 4,
-    "category" : "food",
-    "use_action": {
-        "type": "transform",
-        "msg": "You open the jar, exposing it to the atmosphere.",
-        "target": "soup_human",
-        "target_charges": 8,
-        "container": "jar_glass"
-    }
-  },
-  {
-    "id": "jar_broth",
-    "type": "GENERIC",
-    "symbol": "%",
-    "color": "yellow",
-    "name": "sealed jar of broth",
-    "name_plural": "sealed jars of broth",
-    "description": "This is a sealed glass jar containing broth.  Use to open and eat to enjoy.",
-    "price": 250,
-    "material": ["glass", "veggy"],
-    "weight": 650,
-    "volume": 2,
-    "bashing": 4,
-    "category" : "food",
-    "use_action": {
-        "type": "transform",
-        "msg": "You open the jar, exposing it to the atmosphere.",
-        "target": "broth",
-        "target_charges": 2,
-        "container": "jar_glass"
-    }
-  },
-  {
-    "id": "jar_broth_bone",
-    "type": "GENERIC",
-    "symbol": "%",
-    "color": "yellow",
-    "name": "sealed jar of bone broth",
-    "name_plural": "sealed jars of bone broth",
-    "description": "This is a sealed glass jar containing bone broth.  Use to open and eat to enjoy.",
-    "price": 200,
-    "material": ["glass", "bone"],
-    "weight": 650,
-    "volume": 2,
-    "bashing": 4,
-    "category" : "food",
-    "use_action": {
-        "type": "transform",
-        "msg": "You open the jar, exposing it to the atmosphere.",
-        "target": "broth_bone",
-        "target_charges": 2,
-        "container": "jar_glass"
-    }
-  },
-  {
-    "id": "jar_broth_human",
-    "type": "GENERIC",
-    "symbol": "%",
-    "color": "yellow",
-    "name": "sealed jar of human broth",
-    "name_plural": "sealed jars of human broth",
-    "description": "This is a sealed glass jar containing human bone broth.  Use to open and eat to enjoy - if you really want to.",
-    "price": 200,
-    "material": ["glass", "bone"],
-    "weight": 650,
-    "volume": 2,
-    "bashing": 4,
-    "category" : "food",
-    "use_action": {
-        "type": "transform",
-        "msg": "You open the jar, exposing it to the atmosphere.",
-        "target": "broth_human",
-        "target_charges": 2,
-        "container": "jar_glass"
-    }
-  },
-  {
-    "id": "jar_V8",
-    "type": "GENERIC",
-    "symbol": "%",
-    "color": "red",
-    "name": "sealed jar of V8",
-    "name_plural": "sealed jars of V8",
-    "description": "This is a sealed glass jar containing V8.  Use to open and drink to enjoy.",
-    "price": 120,
-    "material": ["glass", "veggy"],
-    "weight": 500,
-    "volume": 2,
-    "bashing": 4,
-    "category" : "food",
-    "use_action": {
-        "type": "transform",
-        "msg": "You open the jar, exposing it to the atmosphere.",
-        "target": "V8",
-        "target_charges": 2,
         "container": "jar_glass"
     }
   },
@@ -6698,7 +6318,6 @@
     "cutting": 50,
     "to_hit": 1,
     "category" : "weapons",
-    "use_action": { "type": "knife" },
     "qualities": [["CUT", 1], ["BUTCHER", 10]]
   },
   {
@@ -6794,7 +6413,7 @@
     "description": "This is a lighter featuring a flip top cover and refuelable tank.  It is lit.",
     "price": 3000,
     "material": "aluminum",
-    "flags": ["FIRE", "LIGHT_8", "FLAMING", "REFILLABLE_LIGHTER"],
+    "flags": [ "FIRE", "LIGHT_8", "FLAMING", "REFILLABLE_LIGHTER", "TRADER_AVOID" ],
     "weight": 20,
     "volume": 0,
     "max_charges": 50,
@@ -7046,7 +6665,6 @@
     "cutting": 14,
     "to_hit": -1,
     "category" : "weapons",
-    "use_action": { "type": "knife" },
     "qualities": [["CUT", 1], ["BUTCHER", 19]]
   },
   {
@@ -7082,7 +6700,6 @@
     "volume": 0,
     "cutting": 16,
     "to_hit": -2,
-    "use_action": { "type": "knife" },
     "qualities": [["CUT", 1], ["BUTCHER", 14]]
   },
   {
@@ -7102,7 +6719,6 @@
     "flags" : ["CHOP", "DURABLE_MELEE", "SHEATH_KNIFE"],
     "to_hit": 1,
     "category": "weapons",
-    "use_action": { "type": "knife" },
     "qualities": [["CUT", 1], ["BUTCHER", 18]]
   },
   {
@@ -7122,7 +6738,6 @@
     "flags" : ["CHOP", "DURABLE_MELEE", "SHEATH_KNIFE"],
     "to_hit": 1,
     "category": "weapons",
-    "use_action": { "type": "knife" },
     "qualities": [["CUT", 1], ["BUTCHER", 20]]
   },
   {
@@ -7142,7 +6757,6 @@
     "flags" : ["SHEATH_KNIFE","CHOP"],
     "to_hit": -1,
     "category": "weapons",
-    "use_action": { "type": "knife" },
     "qualities": [["CUT", 1], ["BUTCHER", 30]]
   },
   {
@@ -7163,7 +6777,6 @@
     "bashing": 4,
     "cutting": 15,
     "category" : "weapons",
-    "use_action": { "type": "knife" },
     "qualities": [["CUT", 1], ["SAW_W", 1], ["SAW_M", 1], ["BUTCHER", 7]]
   },
   {
@@ -7182,7 +6795,6 @@
     "volume": 0,
     "cutting": 6,
     "to_hit": -4,
-    "use_action": { "type": "knife" },
     "qualities": [["CUT", 1], ["SAW_W", 1], ["SAW_M", 1], ["SCREW", 1], ["BUTCHER", 8]]
   },
   {
@@ -7201,7 +6813,6 @@
     "bashing": 1,
     "cutting": 4,
     "to_hit": -4,
-    "use_action": { "type": "knife" },
     "qualities": [["CUT", 1], ["SAW_W", 1], ["SAW_M", 1], ["WRENCH", 1], ["SCREW", 1], ["SCREW_FINE", 1], ["BUTCHER", 7]]
   },
   {
@@ -7222,7 +6833,6 @@
     "flags" : ["STAB", "DURABLE_MELEE", "SHEATH_KNIFE"],
     "to_hit": 2,
     "category": "weapons",
-    "use_action": { "type": "knife" },
     "qualities": [["CUT", 1], ["BUTCHER", 19]]
   },
   {
@@ -7241,7 +6851,6 @@
     "bashing": 6,
     "cutting": 14,
     "to_hit": -6,
-    "use_action": { "type": "knife" },
     "qualities": [["CUT", 1], ["BUTCHER", -22]]
   },
   {
@@ -7261,7 +6870,6 @@
     "cutting": 26,
     "to_hit": 1,
     "category" : "weapons",
-    "use_action": { "type": "knife" },
     "qualities": [["CUT", 1], ["BUTCHER", 1]]
   },
   {
@@ -7279,7 +6887,6 @@
     "bashing": 2,
     "cutting": 16,
     "to_hit": -6,
-    "use_action": { "type": "knife" },
     "qualities": [["CUT", 1], ["BUTCHER", 7]]
   },
   {
@@ -7362,7 +6969,6 @@
     "volume": 0,
     "cutting": 12,
     "to_hit": -1,
-    "use_action": { "type": "knife" },
     "qualities": [["CUT", 1], ["PRY", 1], ["BUTCHER", 15]],
     "flags": ["CHOP", "SHEATH_KNIFE"]
   },
@@ -7524,8 +7130,8 @@
     "volume": 10,
     "bashing": 8,
     "to_hit": -2,
-    "use_action": [ "HACKSAW", "SAW_BARREL", "LUMBER", "REMOVE_ALL_MODS", "HAMMER", { "type": "knife" } ],
-    "qualities": [["CUT", 1], ["HAMMER", 3], ["SAW_M", 1], ["SAW_W", 2], ["WRENCH", 1],
+    "use_action": [ "HAMMER" ],
+    "qualities": [["CUT", 1], ["HAMMER", 3], ["SAW_M", 2], ["SAW_W", 2], ["WRENCH", 2],
         ["SCREW", 1], ["HAMMER_FINE", 1], ["SAW_M_FINE", 1], ["WRENCH_FINE", 1], ["SCREW_FINE", 1],
         ["BUTCHER", 12]]
   },
@@ -7589,7 +7195,6 @@
     "volume": 2,
     "bashing": 3,
     "cutting": 5,
-    "use_action": "DIG",
     "flags" : ["CHOP"],
     "to_hit": 1,
     "qualities": [["DIG", 1], ["BUTCHER", -4]]
@@ -7812,7 +7417,7 @@
     "type": "TOOL",
     "symbol": "*",
     "color": "yellow",
-    "flags": ["RADIO_ACTIVATION", "RADIOSIGNAL_1",  "RADIOCARITEM", "BOMB"],
+    "flags": [ "RADIO_ACTIVATION", "RADIOSIGNAL_1",  "RADIOCARITEM", "BOMB", "TRADER_AVOID" ],
     "name": "activated radio pipe bomb",
     "description": "A radio-detonated pipe bomb, armed.  Place it or attach to a RC car, then get away and use the radio-control to detonate.",
     "price": 0,
@@ -7860,7 +7465,7 @@
     "type": "TOOL",
     "symbol": "*",
     "color": "yellow",
-    "flags": ["RADIO_ACTIVATION", "RADIOSIGNAL_1",  "RADIOCARITEM", "BOMB"],
+    "flags": [ "RADIO_ACTIVATION", "RADIOSIGNAL_1",  "RADIOCARITEM", "BOMB", "TRADER_AVOID" ],
     "name": "activated radio dynamite",
     "description": "Dynamite with a radio detonator, armed.  Place it, get away and use the remote detonator.",
     "price": 0,
@@ -7930,7 +7535,7 @@
     "name": "smart lamp (on)",
     "name_plural": "smart lamps (on)",
     "description": "This is a smart lamp, this smart lamp is turned on.  It can be deactivated remotely.",
-    "flags": ["RADIO_ACTIVATION", "RADIOSIGNAL_2", "LIGHT_240", "CHARGEDIM"],
+    "flags": [ "RADIO_ACTIVATION", "RADIOSIGNAL_2", "LIGHT_240", "CHARGEDIM", "TRADER_AVOID" ],
     "price": 500,
     "material": ["plastic", "aluminum"],
     "weight": 400,
@@ -7972,7 +7577,7 @@
     "type": "TOOL",
     "symbol": "#",
     "color": "red",
-    "flags": ["LIGHT_15", "RADIO_CONTAINER"],
+    "flags": [ "LIGHT_15", "RADIO_CONTAINER", "TRADER_AVOID" ],
     "name": "RC car (on)",
     "name_plural": "RC cars (on)",
     "description": "This remote-controlled car is on, and draining its batteries just like a real electric car!  Use a remote control to drive it around.",
@@ -8045,6 +7650,7 @@
     "description": "The fuse on this fertilizer bomb is lit and hissing.  It'll explode any moment now.",
     "price": 0,
     "material": ["plastic", "powder"],
+    "flags": [ "TRADER_AVOID" ],
     "weight": 1300,
     "volume": 3,
     "bashing": 4,
@@ -8215,8 +7821,7 @@
     "cutting": 26,
     "flags" : ["CHOP"],
     "to_hit": -3,
-    "qualities": [["DIG", 2], ["AXE", 1], ["CUT", 1], ["BUTCHER", -11]],
-    "use_action": { "type": "knife" }
+    "qualities": [["DIG", 2], ["AXE", 1], ["CUT", 1], ["BUTCHER", -11]]
   },
   {
     "id": "survivor_machete",
@@ -8235,7 +7840,6 @@
     "flags" : ["SLICE", "DURABLE_MELEE", "SHEATH_SWORD"],
     "to_hit": 2,
     "category": "weapons",
-    "use_action": { "type": "knife" },
     "qualities": [["CUT", 1], ["BUTCHER", 10]]
   },
   {
@@ -8254,7 +7858,6 @@
     "bashing": 2,
     "cutting": 35,
     "to_hit": 2,
-    "use_action": { "type": "knife" },
     "category" : "weapons",
     "qualities": [["CUT", 1], ["BUTCHER", 16]]
   },
@@ -8274,7 +7877,6 @@
     "bashing": 8,
     "cutting": 44,
     "to_hit": 2,
-    "use_action": { "type": "knife" },
     "category" : "weapons",
     "qualities": [["CUT", 1], ["BUTCHER", 16]]
   },
@@ -8294,8 +7896,7 @@
     "bashing": 17,
     "cutting": 50,
     "to_hit": 1,
-    "category" : "weapons",
-    "use_action": { "type": "knife" }
+    "category" : "weapons"
   },
   {
     "id": "diamond_wakizashi",
@@ -8314,7 +7915,6 @@
     "bashing": 3,
     "cutting": 34,
     "to_hit": 1,
-    "use_action": { "type": "knife" },
     "category" : "weapons",
     "qualities": [["CUT", 1], ["BUTCHER", 23]]
   },
@@ -8336,7 +7936,6 @@
     "cutting": 56,
     "to_hit": 1,
     "category" : "weapons",
-    "use_action": { "type": "knife" },
     "qualities": [["CUT", 1], ["BUTCHER", 10]]
   },{
     "id": "remotevehcontrol",
@@ -8412,7 +8011,7 @@
     "max_charges": 20,
     "initial_charges": 20,
     "turns_per_charge": 1,
-    "flags": ["BOMB"],
+    "flags": [ "BOMB", "TRADER_AVOID" ],
     "category": "weapons",
     "use_action": {
         "type": "explosion",
@@ -8463,7 +8062,7 @@
     "max_charges": 2,
     "initial_charges": 2,
     "turns_per_charge": 1,
-    "flags": ["BOMB"],
+    "flags": [ "BOMB", "TRADER_AVOID" ],
     "category": "weapons",
     "use_action": {
         "type": "explosion",
@@ -8513,7 +8112,7 @@
     "max_charges": 5,
     "initial_charges": 5,
     "turns_per_charge": 1,
-    "flags": ["BOMB"],
+    "flags": [ "BOMB", "TRADER_AVOID" ],
     "category": "weapons",
     "use_action": {
         "type": "explosion",
@@ -8565,7 +8164,7 @@
     "max_charges": 2,
     "initial_charges": 2,
     "turns_per_charge": 1,
-    "flags": ["BOMB"],
+    "flags": [ "BOMB", "TRADER_AVOID" ],
     "category": "weapons",
     "use_action": {
         "type": "explosion",
@@ -8617,7 +8216,7 @@
     "max_charges": 30,
     "initial_charges": 30,
     "turns_per_charge": 1,
-    "flags": ["BOMB"],
+    "flags": [ "BOMB", "TRADER_AVOID" ],
     "category": "weapons",
     "use_action": {
         "type": "explosion",
@@ -8669,7 +8268,7 @@
     "max_charges": 2,
     "initial_charges": 2,
     "turns_per_charge": 1,
-    "flags": ["BOMB"],
+    "flags": [ "BOMB", "TRADER_AVOID" ],
     "category": "weapons",
     "use_action": {
         "type": "explosion",
@@ -8975,7 +8574,7 @@
     "price": 8000,
     "material": ["superalloy", "steel"],
     "techniques" : ["WBLOCK_1", "RAPID"],
-    "flags": [ "LIGHT_300", "DURABLE_MELEE"],
+    "flags": [ "LIGHT_300", "DURABLE_MELEE", "TRADER_AVOID" ],
     "weight": 1000,
     "volume": 12,
     "bashing": 18,
@@ -9030,5 +8629,22 @@
     "weight": 10,
     "volume": 1,
     "price": 2500
+  },{
+    "id": "washboard",
+    "type": "TOOL",
+    "symbol": ";",
+    "color": "white",
+    "name": "washboard",
+    "description": "This is a wooden washboard.  You can use it to wash filthy clothing if it's supplied with soap.  It requires 1 unit of soap per use.",
+    "price": 1000,
+    "material": "wood",
+    "weight": 90,
+    "volume": 1,
+    "to_hit": -1,
+    "max_charges": 10,
+    "initial_charges": 5,
+    "charges_per_use": 1,
+    "ammo": "soap",
+    "use_action": "WASHCLOTHES"
   }
 ]

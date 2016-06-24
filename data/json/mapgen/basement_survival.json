@@ -9,7 +9,7 @@
                 { "item": "m240", "damage": [2, 4] },
                 { "item": "m60", "damage": [2, 4] }
             ] },
-            { "item": "corpse", "chance": 100, "damage": 4 }
+            { "item": "corpse", "chance": 50, "damage": 4 }
         ]
     },
     {
@@ -25,7 +25,7 @@
             "basement"
         ],
         "method": "json",
-        "weight": 1000,
+        "weight": 750,
         "object": {
             "rows": [
                 " --------------------   ",

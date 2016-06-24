@@ -15,6 +15,7 @@ enum field_id : int;
 class field;
 class field_entry;
 class vehicle;
+struct resistances;
 
 enum vision_modes {
     DEBUG_NIGHTVISION,
@@ -58,11 +59,11 @@ struct encumbrance_data {
 class Character : public Creature, public visitable<Character>
 {
     public:
-        virtual ~Character() override { };
+        ~Character() override { };
 
         field_id bloodType() const override;
         field_id gibType() const override;
-        virtual bool is_warm() const override;
+        bool is_warm() const override;
         virtual const std::string &symbol() const override;
 
         // Character stats
@@ -145,7 +146,7 @@ class Character : public Creature, public visitable<Character>
         virtual void set_stomach_food(int n_stomach_food);
         virtual void set_stomach_water(int n_stomach_water);
 
-        virtual void mod_stat( const std::string &stat, int modifier ) override;
+        void mod_stat( const std::string &stat, int modifier ) override;
 
         /* Calculate aim improvement based on character stats/skills and gunsight properties
          * @param recoil amount of applicable recoil when determining which gunsight to use
@@ -156,18 +157,18 @@ class Character : public Creature, public visitable<Character>
         int aim_per_time( const item& gun, int recoil ) const;
 
         /** Combat getters */
-        virtual int get_dodge_base() const override;
-        virtual int get_hit_base() const override;
+        int get_dodge_base() const override;
+        int get_hit_base() const override;
 
         /** Handles health fluctuations over time */
         virtual void update_health(int external_modifiers = 0);
 
         /** Resets the value of all bonus fields to 0. */
-        virtual void reset_bonuses() override;
+        void reset_bonuses() override;
         /** Resets stats, and applies effects in an idempotent manner */
-        virtual void reset_stats() override;
+        void reset_stats() override;
         /** Handles stat and bonus reset. */
-        virtual void reset() override;
+        void reset() override;
 
         /** Recalculates encumbrance cache. */
         void reset_encumbrance();
@@ -190,9 +191,9 @@ class Character : public Creature, public visitable<Character>
 
         /** Processes effects which may prevent the Character from moving (bear traps, crushed, etc.).
          *  Returns false if movement is stopped. */
-        virtual bool move_effects(bool attacking) override;
+        bool move_effects(bool attacking) override;
         /** Performs any Character-specific modifications to the arguments before passing to Creature::add_effect(). */
-        virtual void add_effect( const efftype_id &eff_id, int dur, body_part bp = num_bp, bool permanent = false,
+        void add_effect( const efftype_id &eff_id, int dur, body_part bp = num_bp, bool permanent = false,
                                  int intensity = 0, bool force = false ) override;
         /**
          * Handles end-of-turn processing.
@@ -226,7 +227,7 @@ class Character : public Creature, public visitable<Character>
 
         // In mutation.cpp
         /** Returns true if the player has the entered trait */
-        virtual bool has_trait(const std::string &flag) const override;
+        bool has_trait(const std::string &flag) const override;
         /** Returns true if the player has the entered starting trait */
         bool has_base_trait(const std::string &flag) const;
         /** Returns true if player has a trait with a flag */
@@ -280,6 +281,14 @@ class Character : public Creature, public visitable<Character>
         void mutation_loss_effect(std::string mut);
 
         bool has_active_mutation(const std::string &b) const;
+
+        /**
+         * Returns resistances on a body part provided by mutations
+         */
+        // @todo Cache this, it's kinda expensive to compute
+        resistances mutation_armor( body_part bp ) const;
+        float mutation_armor( body_part bp, damage_type dt ) const;
+        float mutation_armor( body_part bp, const damage_unit &dt ) const;
 
         // --------------- Bionic Stuff ---------------
         /** Returns true if the player has the entered bionic id */
@@ -396,6 +405,11 @@ class Character : public Creature, public visitable<Character>
          */
         std::vector<item_location> find_ammo( const item& obj, bool empty = true, int radius = 1 );
 
+        /**
+         * Counts ammo and UPS charges (lower of) for a given gun on the character.
+         */
+        long ammo_count_for( const item &gun );
+
         /** Maximum thrown range with a given item, taking all active effects into account. */
         int throw_range( const item & ) const;
 
@@ -449,8 +463,8 @@ class Character : public Creature, public visitable<Character>
          *  nulls out the player's weapon
          *  Should only be called through player::normalize(), not on it's own!
          */
-        virtual void normalize() override;
-        virtual void die(Creature *nkiller) override;
+        void normalize() override;
+        void die(Creature *nkiller) override;
 
         std::string get_name() const override;
 
@@ -459,7 +473,7 @@ class Character : public Creature, public visitable<Character>
          */
         virtual bool query_yn( const char *mes, ... ) const = 0;
 
-        virtual bool is_immune_field( const field_id fid ) const override;
+        bool is_immune_field( const field_id fid ) const override;
 
         /** Returns true if the player has some form of night vision */
         bool has_nv();
@@ -500,7 +514,7 @@ class Character : public Creature, public visitable<Character>
         std::vector<bionic> my_bionics;
 
     protected:
-        virtual void on_stat_change( const std::string &, int ) override {};
+        void on_stat_change( const std::string &, int ) override {};
         virtual void on_mutation_gain( const std::string & ) {};
         virtual void on_mutation_loss( const std::string & ) {};
 

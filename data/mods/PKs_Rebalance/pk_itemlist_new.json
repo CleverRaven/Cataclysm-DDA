@@ -1,6 +1,6 @@
 [
     {
-        "type" : "item_group",
+        "type": "item_group",
         "subtype": "collection",
         "comment": "9mm drops",
         "id": "furvivor_glock",
@@ -10,7 +10,7 @@
             { "group": "furvivor_ninemm", "damage": [2, 4], "prob": 75, "count": [1, 2]}
         ]
     },{
-        "type" : "item_group",
+        "type": "item_group",
         "subtype": "collection",
         "comment": "shot drops",
         "id": "furvivor_shotgun",
@@ -21,7 +21,7 @@
             { "group": "furvivor_shot_ammo", "damage": [2, 4], "prob": 25}
         ]
     },{
-        "type" : "item_group",
+        "type": "item_group",
         "subtype": "collection",
         "comment": "deagle drops",
         "id": "furvivor_deagle",
@@ -32,7 +32,7 @@
             { "group": "furvivor_deagle_ammo", "damage": [2, 4], "prob": 15}
         ]
     },{
-        "type" : "item_group",
+        "type": "item_group",
         "subtype": "collection",
         "comment": "smg drops",
         "id": "furvivor_smg",
@@ -42,7 +42,7 @@
             { "group": "furvivor_uzi", "damage": [2, 4], "prob": 75, "count": [1, 2]}
         ]
     },{
-        "type" : "item_group",
+        "type": "item_group",
         "subtype": "collection",
         "comment": "melee drops",
         "id": "spearmelee_pk",
@@ -53,7 +53,7 @@
             { "group": "pk_melee", "damage": [2, 4], "prob": 50}
         ]
     },{
-        "type" : "item_group",
+        "type": "item_group",
         "subtype": "collection",
         "comment": "shot drops",
         "id": "marloss_man_drops",
@@ -65,10 +65,11 @@
             { "group": "marloss_man_nommies", "damage": [0, 1], "prob": 95, "count": [3, 5] }
         ]
     },
+
     {
-        "type" : "item_group",
-        "id" : "furvivor_ninemm",
-        "//" : "cheap glock and mag for glock",
+        "type": "item_group",
+        "id": "furvivor_ninemm",
+        "//": "cheap glock and mag for glock",
         "items": [
     ["glockmag", 10],
     ["glock_19", 10],
@@ -76,9 +77,9 @@
     ["reloaded_9mm", 1]
     ]
     },{
-        "type" : "item_group",
-        "id" : "furvivor_shot_gun",
-        "//" : "cheap shot guns",
+        "type": "item_group",
+        "id": "furvivor_shot_gun",
+        "//": "cheap shot guns",
         "items": [
     ["pipe_shotgun", 15],
     ["shotgun_s", 10],
@@ -86,43 +87,43 @@
     ["mossberg_500", 1]
     ]
     },{
-        "type" : "item_group",
-        "id" : "furvivor_shot_ammo",
-        "//" : "cheap shot ammo",
+        "type": "item_group",
+        "id": "furvivor_shot_ammo",
+        "//": "cheap shot ammo",
         "items": [
     ["reloaded_shot_00", 5],
     ["reloaded_shot_bird", 5]
     ]
     },{
-        "type" : "item_group",
-        "id" : "furvivor_deagle_gun",
-        "//" : "cheap .44 gun",
+        "type": "item_group",
+        "id": "furvivor_deagle_gun",
+        "//": "cheap .44 gun",
         "items": [
     ["deagle_44", 5],
     ["sw629", 2]
     ]
     },{
-        "type" : "item_group",
-        "id" : "furvivor_deagle_ammo",
-        "//" : "cheap .44 ammo",
+        "type": "item_group",
+        "id": "furvivor_deagle_ammo",
+        "//": "cheap .44 ammo",
         "items": [
     [ "deaglemag", 4],
     ["44fmj", 1],
     ["reloaded_44fmj", 5]
     ]
     },{
-        "type" : "item_group",
-        "id" : "furvivor_uzi",
-        "//" : "cheap 9mm ammo",
+        "type": "item_group",
+        "id": "furvivor_uzi",
+        "//": "cheap 9mm ammo",
         "items": [
     [ "uzimag", 4],
     ["9mm", 1],
     ["uzi", 5]
     ]
     },{
-        "type" : "item_group",
-        "id" : "pk_melee",
-        "//" : "weapons, some uncommon",
+        "type": "item_group",
+        "id": "pk_melee",
+        "//": "weapons, some uncommon",
         "items": [
     [ "stick", 10],
     ["spear_rebar", 10],
@@ -159,9 +160,9 @@
     ["longsword_inferior", 1]
     ]
     },{
-        "type" : "item_group",
-        "id" : "marloss_man_gear",
-        "//" : "Having Killed MM, who is def an endgame mob, you deserve a badly damaged gun.  Granades are blacklisted unless looney mod is in.",
+        "type": "item_group",
+        "id": "marloss_man_gear",
+        "//": "Having Killed MM, who is def an endgame mob, you deserve a badly damaged gun.  Granades are blacklisted unless looney mod is in.",
         "items": [
     ["m249", 12],
     ["l_lmg_223", 7],
@@ -176,15 +177,15 @@
     ["granade", 3]
     ]
     },{
-    "type" : "item_group",
-    "id" : "marloss_man_nommies",
-    "//" : "This is what he's eating.  We've decided that killing our brethren is not the way to attain enlightenment.",
+    "type": "item_group",
+    "id": "marloss_man_nommies",
+    "//": "This is what he's eating.  We've decided that killing our brethren is not the way to attain enlightenment.",
         "items": [
     ["marloss_berry", 4],
     ["marloss_seed", 1]
     ]
     },{
-        "type" : "item_group",
+        "type": "item_group",
         "subtype": "collection",
         "comment": "revenant rocket drops",
         "id": "revenant_death_drops",
@@ -193,29 +194,30 @@
     {"group": "revenant_rocket_cores", "prob": 5, "count": [0, 2]}
     ]
     },{
-        "type" : "item_group",
-        "id" : "revenant_rockets",
-        "//" : "revenant rocket bots.",
+        "type": "item_group",
+        "id": "revenant_rockets",
+        "//": "revenant rocket bots.",
         "items": [
     [ "bot_manhack_missile", 1]
     ]
     },{
-        "type" : "item_group",
-        "id" : "revenant_rocket_cores",
-        "//" : "rockets in bomb form.",
+        "type": "item_group",
+        "id": "revenant_rocket_cores",
+        "//": "rockets in bomb form.",
         "items": [
     [ "rocket_core", 1]
-    ]
+      
+    ] 
     },{
-        "type" : "item_group",
-        "id" : "doom_corpse",
+        "type": "item_group",
+        "id": "doom_corpse",
         "items":[
     ["corpse", 7],
     ["human_flesh", 1]
     ]
     },{
-        "type" : "item_group",
-        "id" : "doom_stimpack",
+        "type": "item_group",
+        "id": "doom_stimpack",
         "items":[
     ["stamina_vial", 9],
     ["disinfectant", 9],
@@ -236,8 +238,8 @@
     ["morphine", 1]
     ]
     },{
-        "type" : "item_group",
-        "id" : "doom_lootpack",
+        "type": "item_group",
+        "id": "doom_lootpack",
         "items":[
     ["power_armor_helmet_basic", 20],
     ["flamethrower", 20],
@@ -247,6 +249,8 @@
     ["megaarmor_boots_1", 15],
     ["rx12_injector", 15],
     ["rx11_stimpack", 15],
+    ["bomblet_undermod", 15],
+    ["bomblet_launcher_rotary", 15],
     ["megaarmor_leggings_1", 10],
     ["megaarmor_gloves_1", 10],
     ["megaarmor_armguards_1", 10],
@@ -259,6 +263,8 @@
     ["stimpack_ammo", 10],
     ["stillsuit", 10],
     ["adv_UPS_off", 10],
+    ["bomblet_explosive", 10],
+    ["bomblet_frag", 10],
     ["medikit", 5],
     ["bio_time_freeze", 5],
     ["bio_teleport", 5],
@@ -268,11 +274,12 @@
     ["rm451_flamethrower", 5],
     ["m3_carlgustav", 5],
     ["portal", 5],
-    ["teleporter", 5]
+    ["teleporter", 5],
+    ["pokeball", 5]
     ]
     },{
-        "type" : "item_group",
-        "id" : "doom_armor",
+        "type": "item_group",
+        "id": "doom_armor",
         "items":[
     ["null", 8],
     ["megaarmor_leggings_1", 8],
@@ -283,7 +290,7 @@
     ["megaarmor_head_1", 5]
     ]
     },{
-        "type" : "item_group",
+        "type": "item_group",
         "subtype": "collection",
         "comment": "Tortured dead person.",
         "id": "doom_victim_corpse",
@@ -293,10 +300,31 @@
     { "group": "knifeblock", "damage": [ 1, 3], "prob": 40, "count": [1, 2] }
     ]
     },{
+        "type": "item_group",
+        "id": "bomblet_ammo",
+        "items":[
+    ["bomblet_explosive", 5],
+    ["bomblet_frag", 1],
+    ["bomblet_fire", 3],
+    ["bomblet_acid", 3],
+    ["bomblet_stun", 5],
+    ["bomblet_launcher_rotary", 0],
+    ["bomblet_launcher_dualshot", 0],
+    ["bomblet_undermod", 0],
+    ["bomblet_launcher_double", 0],
+    ["bomblet_launcher_single", 0]
+    ]
+    },{
+        "type": "item_group",
+        "id": "spider_eggs",
+        "items":[
+    {"item": "spider_egg", "count-min": 8, "count-max": 20}
+    ]
+    },{
     "type": "item_group",
     "id": "fungal_fighter_sting",
     "items":[
-        { "item": "fighter_sting", "damage": [0, 1], "count": [ 1, 6 ]  }
+        { "item": "fighter_sting", "damage": [0, 1], "count": [ 1, 6 ] }
     ]
   }
 ]

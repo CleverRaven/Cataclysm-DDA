@@ -3,13 +3,7 @@
         "type" : "ammunition_type",
         "id" : "NULL",
         "name" : "none",
-        "default" : ""
-    },
-    {
-        "type" : "ammunition_type",
-        "id" : "pointer_fake_ammo",
-        "name" : "none",
-        "default" : "pointer_fake_ammo"
+        "default" : "null"
     },
     {
         "type" : "ammunition_type",

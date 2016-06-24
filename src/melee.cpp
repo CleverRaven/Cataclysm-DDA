@@ -2520,58 +2520,8 @@ double player::weapon_value( const item &weap, long ammo ) const
 
     // A small bonus for guns you can also use to hit stuff with (bayonets etc.)
     const double my_val = more + (less / 2.0);
-    add_msg( m_debug, "%s sum value: %.1f", weap.tname().c_str(), my_val );
+    add_msg( m_debug, "%s (%ld ammo) sum value: %.1f", weap.tname().c_str(), ammo, my_val );
     return my_val;
-}
-
-double player::gun_value( const item &weap, long ammo ) const
-{
-    // TODO: Mods
-    // TODO: Allow using a specified type of ammo rather than default
-    if( weap.type->gun.get() == nullptr ) {
-        return 0.0;
-    }
-
-    if( ammo < weap.ammo_required() ) {
-        return 0.0;
-    }
-
-    const islot_gun& gun = *weap.type->gun.get();
-    const itype *def_ammo_i = item::find_type( default_ammo( weap.ammo_type() ) );
-    if( def_ammo_i == nullptr || def_ammo_i->ammo == nullptr ) {
-        //debugmsg( "player::gun_value couldn't find ammo for %s", weap.tname().c_str() );
-        return 0.0;
-    }
-
-    const islot_ammo &def_ammo = *def_ammo_i->ammo;
-    double damage_bonus = weap.gun_damage( false ) + def_ammo.damage;
-    damage_bonus += ( weap.gun_pierce( false ) + def_ammo.pierce ) / 2.0;
-    double gun_value = 0.0;
-    gun_value += std::min<double>( gun.clip, ammo ) / 5.0;
-    gun_value -= weap.gun_dispersion( false ) / 60.0 + def_ammo.dispersion / 100.0;
-    gun_value -= weap.gun_recoil( false ) / 150.0 + def_ammo.recoil / 200.0;
-
-    ///\EFFECT_GUN increases apparent value of guns presented to NPCs
-
-    ///\EFFECT_PISTOL increases apparent value of pistols presented to NPCs
-
-    ///\EFFECT_RIFLE increases apparent value of rifles presented to NPCs
-
-    ///\EFFECT_SHOTGUN increases apparent value of shotguns presented to NPCs
-
-    ///\EFFECT_SMG increases apparent value of smgs presented to NPCs
-    const double skill_scaling =
-        (.5 + (.3 * get_skill_level( skill_id( "gun" ) ))) *
-        (.3 + (.7 * get_skill_level(gun.skill_used)));
-    gun_value *= skill_scaling;
-
-    // Don't penalize high-damage weapons for no skill
-    // Point blank shotgun blasts don't require much skill
-    gun_value += damage_bonus * std::max( 1.0, skill_scaling );
-
-    add_msg( m_debug, "%s as gun: %.1f total, %.1f for damage+pierce, %.1f skill scaling",
-             weap.tname().c_str(), gun_value, damage_bonus, skill_scaling );
-    return std::max( 0.0, gun_value );
 }
 
 double player::melee_value( const item &weap ) const

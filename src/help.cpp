@@ -8,10 +8,9 @@
 #include "output.h"
 #include "rng.h"
 #include "translations.h"
+#include "text_snippets.h"
 #include <cmath>  // max in help_main
 #include <vector>
-
-std::vector<std::string> hints;
 
 void help_draw_dir( WINDOW *win, int line_y )
 {
@@ -388,7 +387,7 @@ constantly working, whereas others need to be toggled on and off as needed." ) )
 
     text.push_back( _( "\
 Most bionics require a source of power, and you will need an internal battery \
-to store energy for them. Your current amount of energy is displayed below \
+to store energy for them. Your current amount of energy is displayed in the sidebar right below \
 your health. Replenishing energy can be done in a variety of ways, but all \
 require the installation of a special bionic just for fuel consumption." ) );
 
@@ -398,6 +397,12 @@ professional. However, you may attempt to perform a self-installation. Performin
 requires high levels of intelligence, first aid, mechanics, and electronics. Beware though, a failure may \
 cripple you! Many bionic canisters are difficult to find, but may be purchased from certain \
 wandering vagabonds for a very high price." ) );
+
+    text.push_back( _( "\
+As you may note, all of your body parts have only limited space for containing bionics, \
+so you should choose bionics for installation wisely. Of course, any bionic can be removed \
+from your body but it's not any easier than its installation; \
+this non-trivial surgical procedure requires special tools (and many, many painkillers)." ) );
 
     return text;
 }
@@ -1135,17 +1140,7 @@ void display_help()
     delwin( w_help_border );
 }
 
-void load_hint( JsonObject &jsobj )
-{
-    hints.push_back( _( jsobj.get_string( "text" ).c_str() ) );
-}
-
-void clear_hints()
-{
-    hints.clear();
-}
-
 std::string get_hint()
 {
-    return random_entry( hints, "???" );
+    return SNIPPET.get( SNIPPET.assign( "hint" ) );
 }

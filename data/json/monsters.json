@@ -2259,7 +2259,7 @@
         }
     ],
     "description":"This canines see-through thin, black veined and scab riddled skin, is tightly compressed around its skeletal frame.",
-    "flags":["SEES", "HEARS", "NO_BREATHE", "HARDTOSHOOT", "REVIVES"]
+    "flags":["SEES", "HEARS", "NO_BREATHE", "HARDTOSHOOT", "REVIVES", "POISON", "BONES"]
     },{
     "type" : "MONSTER",
     "id" : "mon_dog_zombie_cop",
@@ -2652,7 +2652,7 @@
         }
     ],
     "description":"With its skin so tight the cracked bones are visible beneath it, covered in scar tissue and coils of scabbed black liquid and with eyes so deeply sunken into its skull they are barely visible, it's a wonder this once-human creature can move at all.",
-    "flags":["SEES", "HEARS", "BLEED", "HARDTOSHOOT", "REVIVES", "NO_BREATHE"]
+    "flags":["SEES", "HEARS", "BLEED", "HARDTOSHOOT", "REVIVES", "NO_BREATHE", "POISON", "BONES"]
     },{
     "type" : "MONSTER",
     "id" : "mon_zombie_necro",
@@ -2752,80 +2752,6 @@
     "description":"Once a soldier, it is dressed head to toe in combat gear and carries itself rather steadily for a zombie.",
     "flags":["SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "POISON", "BLEED", "NO_BREATHE", "REVIVES", "BONES", "PUSH_MON"],
     "categories":["CLASSIC"]
-    },{
-    "type" : "MONSTER",
-    "id" : "mon_zombie_grenadier",
-    "name": "zombie grenadier",
-    "species":"ZOMBIE",
-    "default_faction":"zombie",
-    "symbol":"Z",
-    "color":"blue_green",
-    "size":"MEDIUM",
-    "material":"flesh",
-    "diff":20,
-    "aggression":5,
-    "morale":100,
-    "speed":90,
-    "melee_skill":5,
-    "melee_dice":2,
-    "melee_dice_sides":4,
-    "melee_cut":0,
-    "dodge":0,
-    "armor_bash":6,
-    "armor_cut":6,
-    "vision_day":35,
-    "vision_night":3,
-    "death_drops": {
-        "subtype": "collection",
-        "groups": [
-            [ "mon_zombie_soldier_death_drops", 100 ],
-            [ "mon_zombie_grenadier", 100]
-        ]
-    },
-    "starting_ammo" : {"bot_grenade_hack":10, "bot_flashbang_hack":3, "bot_gasbomb_hack":3, "bot_c4_hack":2},
-    "burn_into" : "mon_zombie_scorched",
-    "hp":100,
-    "death_function":["DETONATE"],
-    "special_attacks":[["GRENADIER", 6]],
-    "description":"Once a soldier, it is dressed head to toe in combat gear.  Its hands constantly fumble at its many pouches.",
-    "flags":["SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "POISON", "BLEED", "NO_BREATHE", "REVIVES", "BONES", "PUSH_MON"]
-    },{
-    "type" : "MONSTER",
-    "id" : "mon_zombie_grenadier_elite",
-    "name": "zombie elite grenadier",
-    "species":"ZOMBIE",
-    "default_faction":"zombie",
-    "symbol":"Z",
-    "color":"blue_magenta",
-    "size":"MEDIUM",
-    "material":"flesh",
-    "diff":40,
-    "aggression":5,
-    "morale":100,
-    "speed":100,
-    "melee_skill":5,
-    "melee_dice":2,
-    "melee_dice_sides":6,
-    "melee_cut":0,
-    "dodge":1,
-    "armor_bash":8,
-    "armor_cut":12,
-    "vision_day":35,
-    "vision_night":3,
-    "death_drops": {
-        "subtype": "collection",
-        "groups": [
-            [ "mon_zombie_soldier_death_drops", 100 ],
-            [ "mon_zombie_grenadier_elite", 100]
-        ]
-    },
-    "starting_ammo" : {"bot_grenade_hack":20, "bot_flashbang_hack":10, "bot_gasbomb_hack":10, "bot_c4_hack":10, "bot_mininuke_hack":1},
-    "burn_into" : "mon_zombie_scorched",
-    "hp":100,
-    "death_function":["DETONATE"],
-    "special_attacks":[["GRENADIER_ELITE", 3]],
-    "description":"Once a soldier, it is dressed head to toe in combat gear and wearing a MOLLE pack.  Its hands quickly open and close its many pouches.",
-    "flags":["SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "POISON", "BLEED", "NO_BREATHE", "REVIVES", "BONES", "PUSH_MON"]
     },{
     "type" : "MONSTER",
     "id" : "mon_zombie_grabber",
@@ -3244,7 +3170,7 @@
     "death_function":"MELT",
     "special_attacks":[["LUNGE", 20]],
     "description":"This rotting corpse seeps a glowing ooze from its lesions.  A strange tattered jumpsuit marks it as an oddity across the wasteland.",
-    "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "NOGIB", "BONES"]
+    "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "NOGIB", "BONES", "POISON"]
     },{
     "type" : "MONSTER",
     "id" : "mon_irradiated_wanderer_2",
@@ -3278,7 +3204,7 @@
     "death_function":"MELT",
     "special_attacks":[["LUNGE", 15]],
     "description":"This rotting corpse seeps a glowing ooze from its lesions.  A strange tattered jumpsuit marks it as an oddity across the wasteland.",
-    "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "NOGIB", "BONES"]
+    "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "NOGIB", "BONES", "POISON"]
     },{
     "type" : "MONSTER",
     "id" : "mon_irradiated_wanderer_3",
@@ -3312,7 +3238,7 @@
     "death_function":"MELT",
     "special_attacks":[["LUNGE", 10]],
     "description":"This rotting corpse seeps a glowing ooze from its lesions.  A strange tattered jumpsuit marks it as an oddity across the wasteland.",
-    "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "NOGIB", "BONES"]
+    "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "NOGIB", "BONES", "POISON"]
     },{
     "type" : "MONSTER",
     "id" : "mon_irradiated_wanderer_4",
@@ -3346,7 +3272,7 @@
     "death_function":"MELT",
     "special_attacks":[["LUNGE", 5]],
     "description":"This rotting corpse seeps a glowing ooze from its lesions.  A strange tattered jumpsuit marks it as an oddity across the wasteland.",
-    "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "NOGIB", "BONES"]
+    "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "NOGIB", "BONES", "POISON"]
     },{
     "type" : "MONSTER",
     "id" : "mon_charred_nightmare",
@@ -3379,7 +3305,7 @@
     "death_function":"MELT",
     "special_attacks":[["LONGSWIPE", 8]],
     "description":"Intense radiation has spurred a unique form of necrosis and regeneration, it is impossible to tell if this creature was ever human.",
-    "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "NOGIB", "BONES"]
+    "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "NOGIB", "BONES", "POISON"]
     },{
     "type" : "MONSTER",
     "id" : "mon_triffid",

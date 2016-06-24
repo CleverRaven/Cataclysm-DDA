@@ -31,6 +31,15 @@ void quality::load_static( JsonObject &jo )
 void quality::load( JsonObject &jo )
 {
     mandatory( jo, was_loaded, "name", name, translated_string_reader );
+
+    JsonArray arr = jo.get_array( "usages" );
+    while( arr.has_more() ) {
+        auto lvl = arr.next_array();
+        auto funcs = lvl.get_array( 1 );
+        while( funcs.has_more() ) {
+            usages.emplace_back( lvl.get_int( 0 ), funcs.next_string() );
+        }
+    }
 }
 
 template<>
@@ -598,11 +607,9 @@ const requirement_data requirement_data::disassembly_requirements() const
         for( const auto &tool : it ) {
             const itype_id &type = tool.type;
 
-            // If crafting recipe required a welder,
-            // disassembly requires a hacksaw or super toolkit.
-            if( type == "welder" ||
-                type == "welder_crude" ||
-                type == "oxy_torch" ) {
+            // If crafting required a welder or forge then disassembly requires metal sawing
+            if( type == "welder" || type == "welder_crude" || type == "oxy_torch" ||
+                type == "forge" || type == "char_forge" ) {
                 new_qualities.emplace_back( quality_id( "SAW_M_FINE" ), 1, 1 );
                 replaced = true;
                 break;

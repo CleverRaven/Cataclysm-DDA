@@ -3,6 +3,16 @@
 
 #include <string>
 
+constexpr int MOVES( int n )
+{
+    return n * 100;
+}
+
+constexpr int SECONDS( int n )
+{
+    return n / 6;
+}
+
 constexpr int MINUTES( int n )
 {
     return n * 10;
@@ -128,13 +138,10 @@ class calendar
          */
         static bool once_every( int event_frequency );
 
-        // Season and year length stuff
-    private:
-        // cached value from world options
-        static int cached_season_length;
     public:
-        // to be called from option handling when the options of the active world change.
-        static void set_season_length( int new_length );
+        // Used for durations
+        static const int INDEFINITELY_LONG;
+
         static int year_turns() {
             return DAYS( year_length() );
         }

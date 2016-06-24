@@ -251,14 +251,14 @@ it_artifact_tool::it_artifact_tool() : itype()
     price = 0;
     tool->charges_per_use = 1;
     artifact->charge_type = ARTC_NULL;
-    use_methods.push_back( &iuse::artifact );
+    use_methods.emplace( "ARTIFACT", use_function( "ARTIFACT", &iuse::artifact ) );
 }
 
 it_artifact_tool::it_artifact_tool( JsonObject &jo ) : itype()
 {
     tool.reset( new islot_tool() );
     artifact.reset( new islot_artifact() );
-    use_methods.push_back( &iuse::artifact );
+    use_methods.emplace( "ARTIFACT", use_function( "ARTIFACT", &iuse::artifact ) );
     deserialize( jo );
 }
 

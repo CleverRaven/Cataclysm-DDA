@@ -23,7 +23,7 @@ using namespace std::placeholders;
 #define SAVE_EXTENSION ".sav"
 
 // single instance of world generator
-worldfactory *world_generator;
+std::unique_ptr<worldfactory> world_generator;
 
 std::string get_next_valid_worldname()
 {
@@ -125,8 +125,8 @@ WORLDPTR worldfactory::make_new_world( bool show_prompt )
         // Silently remove all Lua mods setted by default.
         std::vector<std::string>::iterator mod_it;
         for (mod_it = retworld->active_mod_order.begin(); mod_it != retworld->active_mod_order.end();) {
-            MOD_INFORMATION *minfo = mman->mod_map[*mod_it];
-            if ( minfo->need_lua ) {
+            MOD_INFORMATION &minfo = *mman->mod_map[*mod_it];
+            if ( minfo.need_lua ) {
                 mod_it = retworld->active_mod_order.erase(mod_it);
             } else {
                 mod_it++;
@@ -243,7 +243,6 @@ void worldfactory::set_active_world(WORLDPTR world)
     world_generator->active_world = world;
     if (world) {
         ACTIVE_WORLD_OPTIONS = world->WORLD_OPTIONS;
-        calendar::set_season_length( ACTIVE_WORLD_OPTIONS["SEASON_LENGTH"] );
     } else {
         ACTIVE_WORLD_OPTIONS.clear();
     }
@@ -814,15 +813,15 @@ void worldfactory::draw_mod_list( WINDOW *w, int &start, int &cursor, const std:
                         }
                     }
 
-                    auto mod = mman->mod_map[*iter];
+                    auto &mod = *mman->mod_map[*iter];
 #ifndef LUA
-                    if( mod->need_lua ) {
-                        trim_and_print( w, iNum - start, 4, wwidth, c_dkgray, "%s", mod->name.c_str() );
+                    if( mod.need_lua ) {
+                        trim_and_print( w, iNum - start, 4, wwidth, c_dkgray, "%s", mod.name.c_str() );
                     } else {
-                        trim_and_print( w, iNum - start, 4, wwidth, c_white, "%s", mod->name.c_str() );
+                        trim_and_print( w, iNum - start, 4, wwidth, c_white, "%s", mod.name.c_str() );
                     }
 #else
-                    trim_and_print( w, iNum - start, 4, wwidth, c_white, "%s", mod->name.c_str() );
+                    trim_and_print( w, iNum - start, 4, wwidth, c_white, "%s", mod.name.c_str() );
 #endif
 
                     if( w_shift ) {
@@ -988,9 +987,9 @@ int worldfactory::show_worldgen_tab_modselection(WINDOW *win, WORLDPTR world)
             if( current_tab_mods.empty() ) {
                 // Do nothing, leave selmod == NULL
             } else if( active_header == 0 ) {
-                selmod = mman->mod_map[current_tab_mods[cursel[0]]];
+                selmod = mman->mod_map[current_tab_mods[cursel[0]]].get();
             } else if( !active_mod_order.empty() ) {
-                selmod = mman->mod_map[active_mod_order[cursel[1]]];
+                selmod = mman->mod_map[active_mod_order[cursel[1]]].get();
             }
 
             if( selmod != NULL ) {
@@ -1231,11 +1230,10 @@ to continue, or <color_yellow>%s</color> to go back and review your world."), ct
         const std::string action = ctxt.handle_input();
         if (action == "NEXT_TAB") {
 #ifndef LUA
-            MOD_INFORMATION *temp = NULL;
             for (std::string &mod : world->active_mod_order) {
-                temp = mman->mod_map[mod];
-                if ( temp->need_lua ) {
-                    popup(_("Mod '%s' requires Lua support."), temp->name.c_str());
+                auto &temp = *mman->mod_map[mod];
+                if ( temp.need_lua ) {
+                    popup(_("Mod '%s' requires Lua support."), temp.name.c_str());
                     return -2; // Move back to modselect tab.
                 }
             }
@@ -1500,6 +1498,17 @@ bool worldfactory::load_world_options(WORLDPTR &world)
     }
 
     return true;
+}
+
+void load_world_option( JsonObject &jo )
+{
+    auto arr = jo.get_array( "options" );
+    if( arr.empty() ) {
+        jo.throw_error( "no options specified", "options" );
+    }
+    while( arr.has_more() ) {
+        ACTIVE_WORLD_OPTIONS[ arr.next_string() ].setValue( "true" );
+    }
 }
 
 mod_manager *worldfactory::get_mod_manager()

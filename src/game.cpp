@@ -58,6 +58,7 @@
 #include "construction.h"
 #include "lightmap.h"
 #include "npc.h"
+#include "npc_class.h"
 #include "scenario.h"
 #include "mission.h"
 #include "compatibility.h"
@@ -163,9 +164,8 @@ void intro();
 
 //The one and only game instance
 game *g;
-extern worldfactory *world_generator;
 #ifdef TILES
-extern cata_tiles *tilecontext;
+extern std::unique_ptr<cata_tiles> tilecontext;
 #endif // TILES
 input_context get_default_mode_input_context();
 
@@ -234,12 +234,12 @@ game::game() :
     safe_mode(SAFE_MODE_ON),
     safe_mode_warning_logged(false),
     mostseen(0),
-    gamemode(NULL),
+    gamemode(),
     user_action_counter(0),
     lookHeight(13),
     tileset_zoom(16)
 {
-    world_generator = new worldfactory();
+    world_generator.reset( new worldfactory() );
     // do nothing, everything that was in here is moved to init_data() which is called immediately after g = new game; in main.cpp
     // The reason for this move is so that g is not uninitialized when it gets to installing the parts into vehicles.
 }
@@ -286,12 +286,12 @@ void game::check_all_mod_data()
         DynamicDataLoader::get_instance().finalize_loaded_data();
     }
     for (mod_manager::t_mod_map::iterator a = mm->mod_map.begin(); a != mm->mod_map.end(); ++a) {
-        MOD_INFORMATION *mod = a->second;
-        if (!dtree.is_available(mod->ident)) {
-            debugmsg("Skipping mod %s (%s)", mod->name.c_str(), dtree.get_node(mod->ident)->s_errors().c_str());
+        MOD_INFORMATION &mod = *a->second;
+        if (!dtree.is_available(mod.ident)) {
+            debugmsg("Skipping mod %s (%s)", mod.name.c_str(), dtree.get_node(mod.ident)->s_errors().c_str());
             continue;
         }
-        std::vector<std::string> deps = dtree.get_dependents_of_X_as_strings(mod->ident);
+        std::vector<std::string> deps = dtree.get_dependents_of_X_as_strings(mod.ident);
         if (!deps.empty()) {
             // mod is dependency of another mod(s)
             // When those mods get checked, they will pull in
@@ -300,18 +300,18 @@ void game::check_all_mod_data()
         }
         erase();
         refresh();
-        popup_nowait( "Checking mod <color_yellow>%s</color>", mod->name.c_str() );
+        popup_nowait( "Checking mod <color_yellow>%s</color>", mod.name.c_str() );
         // Reset & load core data, than load dependencies
         // and the actual mod and finally finalize all.
         load_core_data();
-        deps = dtree.get_dependencies_of_X_as_strings(mod->ident);
+        deps = dtree.get_dependencies_of_X_as_strings(mod.ident);
         for( auto &dep : deps ) {
             // assert(mm->has_mod(deps[i]));
             // ^^ dependency tree takes care of that case
-            MOD_INFORMATION *dmod = mm->mod_map[dep];
-            load_data_from_dir(dmod->path);
+            MOD_INFORMATION &dmod = *mm->mod_map[dep];
+            load_data_from_dir(dmod.path);
         }
-        load_data_from_dir(mod->path);
+        load_data_from_dir(mod.path);
         DynamicDataLoader::get_instance().finalize_loaded_data();
     }
 }
@@ -346,9 +346,7 @@ void game::load_data_from_dir(const std::string &path)
 
 game::~game()
 {
-    DynamicDataLoader::get_instance().unload_data();
     MAPBUFFER.reset();
-    delete gamemode;
     delwin(w_terrain);
     delwin(w_minimap);
     delwin(w_pixel_minimap);
@@ -358,8 +356,6 @@ game::~game()
     delwin(w_location);
     delwin(w_status);
     delwin(w_status2);
-
-    delete world_generator;
 }
 
 // Fixed window sizes
@@ -736,7 +732,7 @@ bool game::has_gametype() const
 
 special_game_id game::gametype() const
 {
-    return gamemode != nullptr ? gamemode->id() : SGAME_NULL;
+    return gamemode ? gamemode->id() : SGAME_NULL;
 }
 
 void game::load_map( tripoint pos_sm )
@@ -747,8 +743,8 @@ void game::load_map( tripoint pos_sm )
 // Set up all default values for a new game
 bool game::start_game(std::string worldname)
 {
-    if (gamemode == NULL) {
-        gamemode = new special_game();
+    if( !gamemode ) {
+        gamemode.reset( new special_game() );
     }
 
     new_game = true;
@@ -839,10 +835,9 @@ bool game::start_game(std::string worldname)
         u.add_effect( effect_infected, 1, random_body_part(), true);
     }
     if (scen->has_flag("BAD_DAY")){
-        u.add_effect( effect_flu, 10000);
-        ///\EFFECT_STR_MAX decreases drunkenness at start of BAD_DAY scenarios
-        u.add_effect( effect_drunk, 2700 - (12 * u.str_max));
-        u.add_morale(MORALE_FEELING_BAD,-100,50,50,50);
+        u.add_effect( effect_flu, 10000 );
+        u.add_effect( effect_drunk, 2700 );
+        u.add_morale( MORALE_FEELING_BAD, -100, -100, MINUTES( 5 ), MINUTES( 5 ) );
     }
     if(scen->has_flag("HELI_CRASH")) {
         start_loc.handle_heli_crash( u );
@@ -952,7 +947,7 @@ void game::create_starting_npcs()
 
     npc *tmp = new npc();
     tmp->normalize();
-    tmp->randomize((one_in(2) ? NC_DOCTOR : NC_NONE));
+    tmp->randomize( one_in(2) ? NC_DOCTOR : NC_NONE );
     // spawn the npc in the overmap, sets its overmap and submap coordinates
     tmp->spawn_at( get_levx(), get_levy(), get_levz() );
     tmp->setx( SEEX * int(MAPSIZE / 2) + SEEX );
@@ -1211,9 +1206,8 @@ bool game::cleanup_at_end()
             message << string_format(_("World retained. Characters remaining:%s"),tmpmessage.c_str());
             popup(message.str(), PF_NONE);
         }
-        if (gamemode) {
-            delete gamemode;
-            gamemode = new special_game; // null gamemode or something..
+        if( gamemode ) {
+            gamemode.reset( new special_game() ); // null gamemode or something..
         }
     }
 
@@ -1229,14 +1223,18 @@ bool game::cleanup_at_end()
     return true;
 }
 
-static int veh_lumi(vehicle *veh)
+static int veh_lumi( vehicle &veh )
 {
     float veh_luminance = 0.0;
     float iteration = 1.0;
-    std::vector<int> light_indices = veh->all_parts_with_feature(VPFLAG_CONE_LIGHT);
-    for( auto &light_indice : light_indices ) {
-        veh_luminance += ( veh->part_info( light_indice ).bonus / iteration );
-        iteration = iteration * 1.1;
+    auto lights = veh.lights( true );
+
+    for( const auto pt : lights ) {
+        const auto &vp = pt->info();
+        if( vp.has_flag( VPFLAG_CONE_LIGHT ) ) {
+            veh_luminance += vp.bonus / iteration;
+            iteration = iteration * 1.1;
+        }
     }
     // Calculation: see lightmap.cpp
     return LIGHT_RANGE((veh_luminance * 3));
@@ -1250,10 +1248,7 @@ void game::calc_driving_offset(vehicle *veh)
     }
     const int g_light_level = (int)light_level( u.posz() );
     const int light_sight_range = u.sight_range(g_light_level);
-    int sight = light_sight_range;
-    if (veh->lights_on) {
-        sight = std::max(veh_lumi(veh), sight);
-    }
+    int sight = std::max( veh_lumi( *veh ), light_sight_range );
 
     // velocity at or below this results in no offset at all
     static const float min_offset_vel = 10 * 100;
@@ -1503,9 +1498,15 @@ bool game::do_turn()
     u.update_body_wetness( *weather_precise );
     u.apply_wetness_morale( temperature );
     rustCheck();
-    if (calendar::once_every(MINUTES(1))) {
+
+    if( calendar::once_every( MINUTES( 1 ) ) ) {
         u.update_morale();
     }
+
+    if( calendar::once_every( SECONDS( 90 ) ) ) {
+        u.check_and_recover_morale();
+    }
+
     sfx::remove_hearing_loss();
     sfx::do_danger_music();
     sfx::do_fatigue();
@@ -2706,7 +2707,6 @@ bool game::handle_action()
                 examine( mouse_target );
             } else {
                 examine();
-                refresh_all();
             }
             break;
 
@@ -2813,7 +2813,6 @@ bool game::handle_action()
 
         case ACTION_PICK_STYLE:
             u.pick_style();
-            refresh_all();
             break;
 
         case ACTION_RELOAD:
@@ -2840,8 +2839,8 @@ bool game::handle_action()
                 if( veh ) {
                     int vpturret = veh->part_with_feature( part, "TURRET", true );
                     int vpcontrols = veh->part_with_feature( part, "CONTROLS", true );
-                    if( ( vpturret >= 0 && veh->fire_turret( vpturret, true ) ) ||
-                        ( vpcontrols >= 0 && veh->aim_turrets() ) ) {
+                    if( ( vpturret >= 0 && veh->turret_fire( veh->parts[ vpturret ] ) ) ||
+                        ( vpcontrols >= 0 && veh->turrets_aim() ) ) {
                         break;
                     }
                 }
@@ -2931,7 +2930,6 @@ bool game::handle_action()
 
         case ACTION_WAIT:
             wait();
-            refresh_all();
             break;
 
         case ACTION_CRAFT:
@@ -2939,7 +2937,6 @@ bool game::handle_action()
                 add_msg(m_info, _("You can't craft while you're in your shell."));
             } else {
                 u.craft();
-                refresh_all();
             }
             break;
 
@@ -3073,8 +3070,6 @@ bool game::handle_action()
                     u.moves = 0;
                     u.try_to_sleep();
                 }
-
-                refresh_all();
             }
             break;
 
@@ -3166,9 +3161,7 @@ bool game::handle_action()
             break;
 
         case ACTION_MAP:
-            #ifdef TILES
-            invalidate_all_framebuffers();
-            #endif // TILES
+            werase( w_terrain );
             draw_overmap();
             break;
 
@@ -3248,7 +3241,6 @@ bool game::handle_action()
 
         case ACTION_ITEMACTION:
             item_action_menu();
-            refresh_all();
             break;
         default:
             break;
@@ -3501,8 +3493,8 @@ void game::load(std::string worldname, std::string name)
     // recalculated. (This would be cleaner if u.worn were private.)
     u.recalc_sight_limits();
 
-    if (gamemode == NULL) {
-        gamemode = new special_game();
+    if( !gamemode ) {
+        gamemode.reset( new special_game() );
     }
 
     safe_mode = (OPTIONS["SAFEMODE"] ? SAFE_MODE_ON : SAFE_MODE_OFF);
@@ -3555,10 +3547,10 @@ void game::load_world_modfiles(WORLDPTR world)
         // of mods in the correct order.
         for( const auto &mod_ident : world->active_mod_order ) {
             if (mm->has_mod(mod_ident)) {
-                MOD_INFORMATION *mod = mm->mod_map[mod_ident];
-                if( !mod->obsolete ) {
+                MOD_INFORMATION &mod = *mm->mod_map[mod_ident];
+                if( !mod.obsolete ) {
                     // Silently ignore mods marked as obsolete.
-                    load_data_from_dir(mod->path);
+                    load_data_from_dir(mod.path);
                 }
             } else {
                 debugmsg("the world uses an unknown mod %s", mod_ident.c_str());
@@ -3919,7 +3911,7 @@ void game::debug()
         case 5: {
             npc *temp = new npc();
             temp->normalize();
-            temp->randomize();
+            temp->randomize( NC_NONE );
             temp->spawn_at( get_levx(), get_levy(), get_levz() );
             temp->setx( u.posx() - 4 );
             temp->sety( u.posy() - 4 );
@@ -4047,7 +4039,7 @@ void game::debug()
                 if( np != nullptr ) {
                     std::stringstream data;
                     data << np->name << " " << ( np->male ? _( "Male" ) : _( "Female" ) ) << std::endl;
-                    data << npc_class_name( np->myclass ) << "; " <<
+                    data << np->myclass.obj().get_name() << "; " <<
                          npc_attitude_name( np->attitude ) << std::endl;
                     if( np->has_destination() ) {
                         data << string_format( _( "Destination: %d:%d:%d (%s)" ),
@@ -5364,10 +5356,6 @@ void game::refresh_all()
         m.reset_vehicle_cache( z );
     }
 
-    #ifdef TILES
-    invalidate_all_framebuffers();
-    clear_window_area( w_terrain );
-    #endif // TILES
     draw();
     refresh();
 }
@@ -7088,7 +7076,6 @@ void game::open()
 {
     tripoint openp;
     if (!choose_adjacent_highlight(_("Open where?"), openp, ACTION_OPEN)) {
-        refresh_all();
         return;
     }
 
@@ -7157,7 +7144,6 @@ void game::close()
     if( choose_adjacent_highlight( _("Close where?"), closep, ACTION_CLOSE ) ) {
         close( closep );
     }
-    refresh_all();
 }
 
 void game::close( const tripoint &closep )
@@ -7277,7 +7263,6 @@ void game::smash()
 
     const bool allow_floor_bash = debug_mode; // Should later become "true"
     if( !choose_adjacent(_("Smash where?"), smashp, allow_floor_bash ) ) {
-        refresh_all();
         return;
     }
 
@@ -7386,7 +7371,7 @@ bool game::refill_vehicle_part(vehicle &veh, vehicle_part *part, bool test)
     const long fuel_per_charge = fuel_charges_to_amount_factor( ftype );
     long req = ceil( ( part->ammo_capacity() - part->ammo_remaining() ) / double( fuel_per_charge ) );
     long qty = std::min( req, avail );
-    part->ammo_set( ftype, part->ammo_remaining() + qty );
+    part->ammo_set( ftype, part->ammo_remaining() + ( qty * double( fuel_per_charge ) ) );
 
     veh.invalidate_mass();
     if (ftype == "battery") {
@@ -7439,32 +7424,25 @@ void game::handbrake()
     u.moves = 0;
 }
 
-void game::exam_vehicle(vehicle &veh, const tripoint &p, int cx, int cy)
+void game::exam_vehicle( vehicle &veh, int cx, int cy )
 {
-    (void)p; // not currently used
-    veh_interact vehint;
-    vehint.ddx = cx;
-    vehint.ddy = cy;
-    vehint.exec(&veh);
+    veh_interact vehint( veh, cx, cy );
 
     if( vehint.sel_cmd == 'q' ) {
         refresh_all();
         return;
     }
 
-    if (vehint.sel_cmd != ' ') {
+    if (vehint.sel_cmd != ' '&& vehint.sel_vpart_info != nullptr ) {
         int time = 200;
         int skill = u.get_skill_level( skill_id( "mechanics" ) );
-        int diff = 1;
-        if (vehint.sel_vpart_info != NULL) {
-            diff = vehint.sel_vpart_info->difficulty + 3;
-        }
+        int diff = vehint.sel_vpart_info->difficulty + 3;
         int setup = (calendar::turn == veh.last_repair_turn ? 0 : 1);
         ///\EFFECT_MECHANICS reduces time spent examining vehicle
         int setuptime = std::max(setup * 3000, setup * 6000 - skill * 400);
         int dmg = 1000;
         if (vehint.sel_cmd == 'r') {
-            dmg = 1000 - vehint.sel_vehicle_part->hp * 1000 / vehint.sel_vpart_info->durability;
+            dmg = 1000 - vehint.part()->hp * 1000 / vehint.sel_vpart_info->durability;
         }
         int mintime = 300 + diff * dmg;
         // sel_cmd = Install Repair reFill remOve Siphon Drainwater Changetire reName
@@ -7472,23 +7450,24 @@ void game::exam_vehicle(vehicle &veh, const tripoint &p, int cx, int cy)
         // Stored in activity.index and used in the complete_vehicle() callback to finish task.
         switch (vehint.sel_cmd) {
         case 'i':
-            time = setuptime + std::max(mintime, 5000 * diff - skill * 2500);
+            time = vehint.sel_vpart_info->install_time( u );
             break;
         case 'r':
             time = setuptime + std::max(mintime, (8 * diff - skill * 4) * dmg);
             break;
         case 'o':
-            time = setuptime + std::max(mintime, 4000 * diff - skill * 2000);
+            time = vehint.sel_vpart_info->removal_time( u );
             break;
         case 'c':
-            time = setuptime + std::max(mintime, 6000 * diff - skill * 4000);
+            time = vehint.sel_vpart_info->removal_time( u ) +
+                   vehint.sel_vpart_info->install_time( u );
             break;
         }
         u.assign_activity( ACT_VEHICLE, time, (int)vehint.sel_cmd );
 
         // if we're working on an existing part, use that part as the reference point
         // otherwise (e.g. installing a new frame), just use part 0
-        point q = veh.coord_translate(vehint.sel_vehicle_part ? vehint.sel_vehicle_part->mount : veh.parts[0].mount);
+        point q = veh.coord_translate( vehint.part() ? vehint.part()->mount : veh.parts[0].mount );
         u.activity.values.push_back(veh.global_x() + q.x);    // values[0]
         u.activity.values.push_back(veh.global_y() + q.y);    // values[1]
         u.activity.values.push_back(vehint.ddx);   // values[2]
@@ -7496,13 +7475,10 @@ void game::exam_vehicle(vehicle &veh, const tripoint &p, int cx, int cy)
         u.activity.values.push_back(-vehint.ddx);   // values[4]
         u.activity.values.push_back(-vehint.ddy);   // values[5]
         // values[6]
-        u.activity.values.push_back(veh.index_of_part(vehint.sel_vehicle_part));
-        u.activity.values.push_back(vehint.sel_type); // int. might make bitmask
-        if (vehint.sel_vpart_info != NULL) {
-            u.activity.str_values.push_back(vehint.sel_vpart_info->id.str());
-        } else {
-            u.activity.str_values.push_back(vpart_str_id::NULL_ID.str());
-        }
+        u.activity.values.push_back( veh.index_of_part( vehint.part() ) );
+
+        u.activity.str_values.push_back( vehint.sel_vpart_info->id.str() );
+
         u.moves = 0;
     }
     refresh_all();
@@ -7698,7 +7674,6 @@ void game::control_vehicle()
     } else {
         tripoint examp;
         if (!choose_adjacent(_("Control vehicle where?"), examp)) {
-            refresh_all();
             return;
         }
         veh = m.veh_at(examp, veh_part);
@@ -8002,14 +7977,28 @@ bool npc_menu( npc &who )
         const bool precise = g->u.get_skill_level( skill_firstaid ) * 4 + g->u.per_cur >= 20;
         who.body_window( precise );
     } else if( choice == use_item ) {
-        const int pos = g->inv_for_flag( "USE_ON_NPC", _("Use which item:") );
+        static const std::string heal_string( "heal" );
+        const auto will_accept = [&who]( const item &it ) {
+            const auto use_fun = it.get_use( heal_string );
+            if( use_fun == nullptr ) {
+                return false;
+            }
+
+            const auto *actor = dynamic_cast<const heal_actor *>( use_fun->get_actor_ptr() );
+
+            return actor != nullptr &&
+                   actor->limb_power >= 0 &&
+                   actor->head_power >= 0 &&
+                   actor->torso_power >= 0;
+        };
+        const int pos = g->inv_for_filter( _("Use which item:"), will_accept );
 
         if( pos == INT_MIN ) {
             add_msg( _("Never mind") );
             return false;
         }
         item &used = g->u.i_at( pos );
-        bool did_use = g->u.invoke_item( &used, who.pos() );
+        bool did_use = g->u.invoke_item( &used, heal_string, who.pos() );
         if( did_use ) {
             // Note: exiting a body part selection menu counts as use here
             g->u.mod_moves( -300 );
@@ -8044,7 +8033,6 @@ void game::examine()
 
     tripoint examp = u.pos();
     if( !choose_adjacent_highlight( _("Examine where?"), examp, ACTION_EXAMINE ) ) {
-        refresh_all();
         return;
     }
     examine( examp );
@@ -8168,11 +8156,8 @@ void game::peek( const tripoint &p )
 ////////////////////////////////////////////////////////////////////////////////////////////
 tripoint game::look_debug()
 {
-    editmap *edit = new editmap();
-    tripoint ret = edit->edit();
-    delete edit;
-    edit = 0;
-    return ret;
+    editmap edit;
+    return edit.edit();
 }
 ////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -10142,7 +10127,6 @@ void game::grab()
     } else {
         add_msg(_("Never mind."));
     }
-    refresh_all();
 }
 
 std::vector<vehicle*> nearby_vehicles_for( const itype_id &ft )
@@ -10195,7 +10179,12 @@ bool game::handle_liquid_from_ground( std::list<item>::iterator on_ground, const
 bool game::handle_liquid_from_container( std::list<item>::iterator in_container, item &container, int radius )
 {
     // TODO: not all code paths on handle_liquid consume move points, fix that.
+    const long old_charges = in_container->charges;
     handle_liquid( *in_container, &container, radius );
+    if( in_container->charges != old_charges ) {
+        container.on_contents_changed();
+    }
+
     if( in_container->charges > 0 ) {
         return false;
     }
@@ -10403,7 +10392,6 @@ void game::drop_in_direction()
 {
     tripoint dirp;
     if (!choose_adjacent(_("Drop where?"), dirp)) {
-        refresh_all();
         return;
     }
 
@@ -10761,11 +10749,10 @@ bool game::plfire( const tripoint &default_target )
         if( gun->get_gun_ups_drain() > 0 ) {
             const int ups_drain       = gun->get_gun_ups_drain();
             const int adv_ups_drain   = std::max( 1, ups_drain * 3 / 5 );
-            const int bio_power_drain = std::max( 1, ups_drain / 5 );
 
             if( !( u.has_charges( "UPS_off", ups_drain ) ||
                    u.has_charges( "adv_UPS_off", adv_ups_drain ) ||
-                   (u.has_active_bionic( "bio_ups" ) && u.power_level >= bio_power_drain ) ) ) {
+                   (u.has_active_bionic( "bio_ups" ) && u.power_level >= ups_drain ) ) ) {
                 add_msg( m_info,
                          _("You need a UPS with at least %d charges or an advanced UPS with at least %d charges to fire that!"),
                          ups_drain, adv_ups_drain );
@@ -10857,6 +10844,21 @@ void game::butcher()
     }
 
     const int factor = u.max_quality( quality_id( "BUTCHER" ) );
+    static const char *no_knife_msg = _( "You don't have a sharp item to butcher with." );
+    static const char *no_corpse_msg = _( "There are no corpses here to butcher." );
+
+    //You can't butcher on sealed terrain- you have to smash/shovel/etc it open first
+    if( m.has_flag( "SEALED", u.pos() ) ) {
+        if( m.sees_some_items( u.pos(), u ) ) {
+            add_msg( m_info, _( "You can't access the items here." ) );
+        } else if( factor > INT_MIN ) {
+            add_msg( m_info, no_corpse_msg );
+        } else {
+            add_msg( m_info, no_knife_msg );
+        }
+        return;
+    }
+
     const item *first_item_without_tools = nullptr;
     // Indices of relevant items
     std::vector<int> corpses;
@@ -10924,9 +10926,9 @@ void game::butcher()
 
     if( corpses.empty() && disassembles.empty() && salvageables.empty() ) {
         if( factor > INT_MIN ) {
-            add_msg( m_info, _("There are no corpses here to butcher.") );
+            add_msg( m_info, no_corpse_msg );
         } else {
-            add_msg( m_info, _("You don't have a sharp item to butcher with.") );
+            add_msg( m_info, no_knife_msg );
         }
 
         if( first_item_without_tools != nullptr ) {
@@ -11299,6 +11301,7 @@ bool game::unload( item &it )
             u.moves -= mv;
             return true;
         } ), it.contents.end() );
+        it.on_contents_changed();
         return true;
     }
 
@@ -11410,10 +11413,7 @@ bool game::unload( item &it )
             qty *= PLUTONIUM_CHARGES;
         }
 
-        target->charges -= qty;
-        if( target->ammo_remaining() == 0 ) {
-            target->unset_curammo();
-        }
+        target->ammo_set( target->ammo_type(), target->ammo_remaining() - qty );
     }
 
     // Turn off any active tools
@@ -13848,7 +13848,7 @@ void game::spawn_mon(int /*shiftx*/, int /*shifty*/)
     if( x_in_y( density, 100 ) ) {
         npc *tmp = new npc();
         tmp->normalize();
-        tmp->randomize();
+        tmp->randomize( NC_NONE );
         //tmp->stock_missions();
         // Create the NPC in one of the outermost submaps,
         // hopefully far away to be invisible to the player,
@@ -13883,72 +13883,55 @@ void game::spawn_mon(int /*shiftx*/, int /*shifty*/)
     }
 }
 
-// Helper function for game::wait().
-static int convert_wait_chosen_to_turns( int choice ) {
-    switch( choice ) {
-    case 1:
-        return MINUTES( 5 );
-    case 2:
-        return MINUTES( 30 );
-    case 3:
-        return HOURS( 1 );
-    case 4:
-        return HOURS( 2 );
-    case 5:
-        return HOURS( 3 );
-    case 6:
-        return HOURS( 6 );
-    case 7:
-        return calendar::turn.diurnal_time_before( calendar::turn.sunrise() );
-    case 8:
-        return calendar::turn.diurnal_time_before( HOURS( 12 ) );
-    case 9:
-        return calendar::turn.diurnal_time_before( calendar::turn.sunset() );
-    case 10:
-        return calendar::turn.diurnal_time_before( HOURS( 0 ) );
-    case 11:
-    default:
-        return 999999999;
-    }
-}
-
 void game::wait()
 {
-    const bool bHasWatch = u.has_watch();
-
+    std::map<int, int> durations;
     uimenu as_m;
-    as_m.text = _("Wait for how long?");
-    as_m.return_invalid = true;
-    as_m.entries.push_back(uimenu_entry(1, true, '1',
-                                        (bHasWatch) ? _("5 Minutes") : _("Wait 300 heartbeats")));
-    as_m.entries.push_back(uimenu_entry(2, true, '2',
-                                        (bHasWatch) ? _("30 Minutes") : _("Wait 1800 heartbeats")));
 
-    if (bHasWatch) {
-        as_m.entries.push_back(uimenu_entry(3, true, '3', _("1 hour")));
-        as_m.entries.push_back(uimenu_entry(4, true, '4', _("2 hours")));
-        as_m.entries.push_back(uimenu_entry(5, true, '5', _("3 hours")));
-        as_m.entries.push_back(uimenu_entry(6, true, '6', _("6 hours")));
+    const bool has_watch = u.has_watch();
+    const auto add_menu_item = [ &as_m, &durations, has_watch ]
+        ( int retval, int hotkey, const std::string &caption = "", int duration = calendar::INDEFINITELY_LONG ) {
+
+        std::string text( caption );
+
+        if( has_watch && duration != calendar::INDEFINITELY_LONG ) {
+            const std::string dur_str( calendar::print_duration( duration ) );
+            text += ( text.empty() ? dur_str : string_format( " (%s)", dur_str.c_str() ) );
+        }
+        as_m.addentry( retval, true, hotkey, text );
+        durations[retval] = duration;
+    };
+
+    add_menu_item( 1, '1', !has_watch ? _( "Wait 300 heartbeats" ) : "", MINUTES( 5 ) );
+    add_menu_item( 2, '2', !has_watch ? _( "Wait 1800 heartbeats" ) : "", MINUTES( 30 ) );
+
+    if( has_watch ) {
+        add_menu_item( 3, '3', "", HOURS( 1 ) );
+        add_menu_item( 4, '4', "", HOURS( 2 ) );
+        add_menu_item( 5, '5', "", HOURS( 3 ) );
+        add_menu_item( 6, '6', "", HOURS( 6 ) );
     }
 
-    as_m.entries.push_back(uimenu_entry(7, true, 'd', _("Wait till dawn")));
-    as_m.entries.push_back(uimenu_entry(8, true, 'n', _("Wait till noon")));
-    as_m.entries.push_back(uimenu_entry(9, true, 'k', _("Wait till dusk")));
-    as_m.entries.push_back(uimenu_entry(10, true, 'm', _("Wait till midnight")));
-    as_m.entries.push_back(uimenu_entry(11, true, 'w', _("Wait till weather changes")));
+    add_menu_item( 7,  'd', _( "Wait till dawn" ),     calendar::turn.diurnal_time_before( calendar::turn.sunrise() ) );
+    add_menu_item( 8,  'n', _( "Wait till noon" ),     calendar::turn.diurnal_time_before( HOURS( 12 ) ) );
+    add_menu_item( 9,  'k', _( "Wait till dusk" ),     calendar::turn.diurnal_time_before( calendar::turn.sunset() ) );
+    add_menu_item( 10, 'm', _( "Wait till midnight" ), calendar::turn.diurnal_time_before( HOURS( 0 ) ) );
+    add_menu_item( 11, 'w', _( "Wait till weather changes" ) );
+    add_menu_item( 12, 'q', _( "Exit" ) );
 
-    as_m.entries.push_back(uimenu_entry(12, true, 'q', _("Exit")));
+    as_m.text = ( has_watch ) ? string_format( _( "It's %s now. " ), calendar::turn.print_time().c_str() ) : "";
+    as_m.text += _( "Wait for how long?" );
+    as_m.return_invalid = true;
     as_m.query(); /* calculate key and window variables, generate window, and loop until we get a valid answer */
 
-    if( as_m.ret < 1 || as_m.ret > 11 ) {
+    if( as_m.ret == 12 || durations.count( as_m.ret ) == 0 ) {
         return;
     }
 
-    int chosen_turns = convert_wait_chosen_to_turns( as_m.ret );
     activity_type actType = ( as_m.ret == 11 ) ? ACT_WAIT_WEATHER : ACT_WAIT;
 
-    constexpr int turns_to_moves = 100;
-    player_activity new_act( actType, chosen_turns * turns_to_moves, 0 );
+    player_activity new_act( actType, 100 * ( durations[as_m.ret] - 1 ), 0 );
+
     u.assign_activity( new_act, false );
     u.rooted_message();
 }
@@ -14557,15 +14540,18 @@ void game::start_calendar()
 {
     calendar::start = HOURS(ACTIVE_WORLD_OPTIONS["INITIAL_TIME"]);
     if( scen->has_flag("SPR_START") || scen->has_flag("SUM_START") ||
-        scen->has_flag("AUT_START") || scen->has_flag("WIN_START") ) {
+        scen->has_flag("AUT_START") || scen->has_flag("WIN_START") ||
+        scen->has_flag("ADV_START") ) {
         if( scen->has_flag("SPR_START") ) {
             ; // Do nothing;
         } else if( scen->has_flag("SUM_START") ) {
-            calendar::start += DAYS((int)ACTIVE_WORLD_OPTIONS["SEASON_LENGTH"]);
+            calendar::start += DAYS( calendar::season_length() );
         } else if( scen->has_flag("AUT_START") ) {
-            calendar::start += DAYS((int)ACTIVE_WORLD_OPTIONS["SEASON_LENGTH"] * 2);
+            calendar::start += DAYS( calendar::season_length() * 2 );
         } else if( scen->has_flag("WIN_START") ) {
-            calendar::start += DAYS((int)ACTIVE_WORLD_OPTIONS["SEASON_LENGTH"] * 3);
+            calendar::start += DAYS( calendar::season_length() * 3 );
+        } else if( scen->has_flag("SUM_ADV_START") ) {
+            calendar::start += DAYS( calendar::season_length() * 5 );
         } else {
             debugmsg("The Unicorn");
         }
@@ -14575,13 +14561,13 @@ void game::start_calendar()
             ; // Do nothing.
         } else if( ACTIVE_WORLD_OPTIONS["INITIAL_SEASON"].getValue() == "summer") {
             calendar::initial_season = SUMMER;
-            calendar::start += DAYS((int)ACTIVE_WORLD_OPTIONS["SEASON_LENGTH"]);
+            calendar::start += DAYS( calendar::season_length() );
         } else if( ACTIVE_WORLD_OPTIONS["INITIAL_SEASON"].getValue() == "autumn" ) {
             calendar::initial_season = AUTUMN;
-            calendar::start += DAYS((int)ACTIVE_WORLD_OPTIONS["SEASON_LENGTH"] * 2);
+            calendar::start += DAYS( calendar::season_length() * 2 );
         } else {
             calendar::initial_season = WINTER;
-            calendar::start += DAYS((int)ACTIVE_WORLD_OPTIONS["SEASON_LENGTH"] * 3);
+            calendar::start += DAYS( calendar::season_length() * 3 );
         }
     }
     calendar::turn = calendar::start;
@@ -14778,15 +14764,4 @@ overmap &game::get_cur_om() const
     const tripoint sm = m.get_abs_sub() + tripoint( MAPSIZE / 2, MAPSIZE / 2, 0 );
     const tripoint pos_om = sm_to_om_copy( sm );
     return overmap_buffer.get( pos_om.x, pos_om.y );
-}
-
-void game::load_game_option( JsonObject &jo )
-{
-    auto arr = jo.get_array( "options" );
-    if( arr.empty() ) {
-        jo.throw_error( "no options specified", "options" );
-    }
-    while( arr.has_more() ) {
-        options.emplace( arr.next_string() );
-    }
 }

@@ -10014,6 +10014,7 @@
         "material" : ["veggy", "junk"],
         "volume" : 1,
         "charges" : 3,
+        "flags" : ["EATEN_HOT"],
         "fun" : 6
     },
     {

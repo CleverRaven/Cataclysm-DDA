@@ -6,70 +6,10 @@
 #include <string>
 #include <vector>
 #include <memory>
+#include <functional>
 
 class Item_factory;
 class vpart_info;
-
-//********** Functor Base, Static and Class member accessors
-class TFunctor
-{
-    public:
-        virtual void operator()( JsonObject &jo ) = 0; // virtual () operator
-        virtual void Call( JsonObject &jo ) = 0; // what will be getting called
-        virtual ~TFunctor() {};
-};
-
-class StaticFunctionAccessor : public TFunctor
-{
-    private:
-        void ( *_fptr )( JsonObject &jo );
-
-    public:
-        virtual void operator()( JsonObject &jo ) override {
-            ( *_fptr )( jo );
-        }
-        virtual void Call( JsonObject &jo ) override {
-            ( *_fptr )( jo );
-        }
-
-        StaticFunctionAccessor( void ( *fptr )( JsonObject &jo ) ) {
-            _fptr = fptr;
-        }
-
-        ~StaticFunctionAccessor() {
-            _fptr = NULL;
-        }
-};
-template <class TClass> class ClassFunctionAccessor : public TFunctor
-{
-    private:
-        void ( TClass::*_fptr )( JsonObject &jo );
-        TClass *ptr_to_obj;
-
-    public:
-        virtual void operator()( JsonObject &jo ) override {
-            ( *ptr_to_obj.*_fptr )( jo );
-        }
-        virtual void Call( JsonObject &jo ) override {
-            ( *ptr_to_obj.*_fptr )( jo );
-        }
-
-        ClassFunctionAccessor( TClass *ptr2obj, void ( TClass::*fptr )( JsonObject &jo ) ) {
-            ptr_to_obj = ptr2obj;
-            _fptr = fptr;
-        }
-        ClassFunctionAccessor( const std::unique_ptr<TClass> &ptr2obj,
-                               void ( TClass::*fptr )( JsonObject &jo ) ) {
-            ptr_to_obj = ptr2obj.get();
-            _fptr = fptr;
-        }
-
-        ~ClassFunctionAccessor() {
-            _fptr = NULL;
-            ptr_to_obj = NULL;
-        }
-};
-//********** END - Functor Base, Static and Class member accessors
 
 /**
  * This class is used to load (and unload) the dynamic
@@ -96,11 +36,8 @@ template <class TClass> class ClassFunctionAccessor : public TFunctor
  * Porting stuff to json works like this:
  * - create a function
  *       void load_my_object(JsonObject &jo);
- * - Or a class member function:
- *       TMyClass::load_my_object(JsonObject &jo);
- * - Or create a new class derived from @ref TFunctor
- * - Add a pointer to this function to @ref type_function_map
- * in the function @ref initialize (see there).
+ * - Add an entry to @ref type_function_map (inside of @ref initialize)
+ *   that calls the new function.
  * - Inside that function load the data from the json object.
  * You must also provide a reset function and add a call to
  * that function in @ref unload_data
@@ -117,7 +54,7 @@ class DynamicDataLoader
 
     public:
         typedef std::string type_string;
-        typedef std::map<type_string, TFunctor *> t_type_function_map;
+        typedef std::map<type_string, std::function<void( JsonObject & )>> t_type_function_map;
         typedef std::vector<std::string> str_vec;
 
     protected:
@@ -126,6 +63,7 @@ class DynamicDataLoader
          * functor that loads that kind of object from json.
          */
         t_type_function_map type_function_map;
+        void add( const std::string &type, std::function<void( JsonObject & )> f );
         /**
          * Load all the types from that json data.
          * @param jsin Might contain single object,
@@ -147,11 +85,6 @@ class DynamicDataLoader
          * Initializes @ref type_function_map
          */
         void initialize();
-        /**
-         * Clears and deletes the contents of
-         * @ref type_function_map
-         */
-        void reset();
         /**
          * Check the consistency of all the loaded data.
          * May print a debugmsg if something seems wrong.

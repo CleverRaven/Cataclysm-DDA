@@ -40,10 +40,6 @@ using fault_id = string_id<fault>;
 struct quality;
 using quality_id = string_id<quality>;
 
-enum bigness_property_aspect : int {
-    BIGNESS_WHEEL_DIAMETER      // wheel size in inches, including tire
-};
-
 // Returns the name of a category of ammo (e.g. "shot")
 std::string ammo_name(std::string const &t);
 // Returns the default ammo for a category of ammo (e.g. ""00_shot"")
@@ -137,6 +133,11 @@ struct islot_container {
      * Contents do not spoil.
      */
     bool preserves = false;
+    /**
+     * If this is set to anything but "null", changing this container's contents in any way
+     * will turn this item into that type.
+     */
+    itype_id unseals_into = "null";
 };
 
 struct islot_armor {
@@ -241,10 +242,6 @@ struct islot_book {
     };
     typedef std::set<recipe_with_description_t> recipe_list_t;
     recipe_list_t recipes;
-    /**
-     * Special effects that can happen after the item has been read. May be empty.
-     */
-    std::vector<use_function> use_methods;
 };
 
 /**
@@ -287,6 +284,16 @@ struct islot_engine
     private:
         /** What faults (if any) can occur */
         std::set<fault_id> faults;
+};
+
+struct islot_wheel
+{
+    public:
+        /** diameter of wheel (inches) */
+        int diameter = 0;
+
+        /** width of wheel (inches) */
+        int width = 0;
 };
 
 // TODO: this shares a lot with the ammo item type, merge into a separate slot type?
@@ -418,7 +425,10 @@ struct islot_magazine {
     int reload_time = 100;
 
     /** For ammo belts one linkage (of given type) is dropped for each unit of ammo consumed */
-     itype_id linkage = "NULL";
+    itype_id linkage = "NULL";
+
+    /** If false, ammo will cook off if this mag is affected by fire */
+    bool protects_contents = false;
 };
 
 struct islot_ammo : common_ranged_data {
@@ -444,21 +454,20 @@ struct islot_ammo : common_ranged_data {
      * appropriate value is calculated based upon the other properties of the ammo
      */
     int loudness = -1;
-};
 
-struct islot_variable_bigness {
     /**
-     * Minimal value of the bigness value of items of this type.
+     * Should this ammo explode in fire?
+     * This value is cached by item_factory based on ammo_effects and item material.
+     * @warning It is not read from the json directly.
      */
-    int min_bigness = 0;
+    bool cookoff = false;
+
     /**
-     * Maximal value of the bigness value of items of this type.
-     */
-    int max_bigness = 0;
-    /**
-     * What the bigness actually represent see @ref bigness_property_aspect
-     */
-    bigness_property_aspect bigness_aspect = BIGNESS_WHEEL_DIAMETER;
+     * Should this ammo apply a special explosion effect when in fire?
+     * This value is cached by item_factory based on ammo_effects and item material.
+     * @warning It is not read from the json directly.
+     * */
+    bool special_cookoff = false;
 };
 
 struct islot_bionic {
@@ -544,10 +553,10 @@ struct itype {
     copyable_unique_ptr<islot_armor> armor;
     copyable_unique_ptr<islot_book> book;
     copyable_unique_ptr<islot_engine> engine;
+    copyable_unique_ptr<islot_wheel> wheel;
     copyable_unique_ptr<islot_gun> gun;
     copyable_unique_ptr<islot_gunmod> gunmod;
     copyable_unique_ptr<islot_magazine> magazine;
-    copyable_unique_ptr<islot_variable_bigness> variable_bigness;
     copyable_unique_ptr<islot_bionic> bionic;
     copyable_unique_ptr<islot_spawn> spawn;
     copyable_unique_ptr<islot_ammo> ammo;
@@ -572,7 +581,9 @@ public:
     // What we're made of (material names). .size() == made of nothing.
     // MATERIALS WORK IN PROGRESS.
     std::vector<material_id> materials;
-    std::vector<use_function> use_methods; // Special effects of use
+
+    /** Actions an instance can perform (if any) indexed by action type */
+    std::map<std::string, use_function> use_methods;
 
     std::set<std::string> item_tags;
     std::set<matec_id> techniques;
@@ -637,8 +648,6 @@ public:
             return "BOOK";
         } else if( gun ) {
             return "GUN";
-        } else if( variable_bigness ) {
-            return "VEHICLE_PART";
         } else if( bionic ) {
             return "BIONIC";
         } else if( ammo ) {

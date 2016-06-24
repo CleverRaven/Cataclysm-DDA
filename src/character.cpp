@@ -104,22 +104,6 @@ void Character::mod_stat( const std::string &stat, int modifier )
         mod_healthy( modifier );
     } else if( stat == "hunger" ) {
         mod_hunger( modifier );
-    } else if( stat == "speed" ) {
-        mod_speed_bonus( modifier );
-    } else if( stat == "dodge" ) {
-        mod_dodge_bonus( modifier );
-    } else if( stat == "block" ) {
-        mod_block_bonus( modifier );
-    } else if( stat == "hit" ) {
-        mod_hit_bonus( modifier );
-    } else if( stat == "bash" ) {
-        mod_bash_bonus( modifier );
-    } else if( stat == "cut" ) {
-        mod_cut_bonus( modifier );
-    } else if( stat == "pain" ) {
-        mod_pain( modifier );
-    } else if( stat == "moves" ) {
-        mod_moves( modifier );
     } else {
         Creature::mod_stat( stat, modifier );
     }
@@ -1893,7 +1877,7 @@ int Character::throw_range( const item &it ) const
     ///\EFFECT_STR increases throwing range, vs item weight (high or low)
     int ret = (str_cur * 8) / (tmp.weight() >= 150 ? tmp.weight() / 113 : 10 - int(tmp.weight() / 15));
     ret -= int(tmp.volume() / 4);
-    static const std::vector<material_id> affected_materials = { material_id( "iron" ), material_id( "steel" ) };
+    static const std::set<material_id> affected_materials = { material_id( "iron" ), material_id( "steel" ) };
     if( has_active_bionic("bio_railgun") && tmp.made_of_any( affected_materials ) ) {
         ret *= 2;
     }
@@ -1952,6 +1936,7 @@ bool Character::pour_into( item &container, item &liquid )
         auto qty = std::min( liquid.charges, container.ammo_capacity() - container.ammo_remaining() );
         liquid.charges -= qty;
         container.ammo_set( liquid.typeId(), container.ammo_remaining() + qty );
+        container.on_contents_changed();
         if( liquid.charges > 0 ) {
             add_msg_if_player( _( "There's some left over!" ) );
         }
@@ -1964,6 +1949,8 @@ bool Character::pour_into( item &container, item &liquid )
             add_msg_if_player( m_info, err.c_str() );
             return false;
         }
+
+        container.on_contents_changed();
 
         inv.unsort();
         add_msg_if_player( _( "You pour %1$s into the %2$s." ), liquid.tname().c_str(),
@@ -2000,4 +1987,66 @@ bool Character::pour_into( vehicle &veh, item &liquid )
                  liquid.type_name().c_str() );
     }
     return true;
+}
+
+resistances Character::mutation_armor( body_part bp ) const
+{
+    resistances res;
+    for( auto &iter : my_mutations ) {
+        const mutation_branch &mb = mutation_branch::get( iter.first );
+        res += mb.damage_resistance( bp );
+    }
+
+    return res;
+}
+
+float Character::mutation_armor( body_part bp, damage_type dt ) const
+{
+    return mutation_armor( bp ).type_resist( dt );
+}
+
+float Character::mutation_armor( body_part bp, const damage_unit &du ) const
+{
+    return mutation_armor( bp ).get_effective_resist( du );
+}
+
+long Character::ammo_count_for( const item &gun )
+{
+    long ret = item::INFINITE_CHARGES;
+    if( !gun.is_gun() ) {
+        return ret;
+    }
+
+    long required = gun.ammo_required();
+
+    if( required > 0 ) {
+        long total_ammo = 0;
+        total_ammo += gun.ammo_remaining();
+
+        bool has_mag = gun.magazine_integral();
+
+        const auto found_ammo = find_ammo( gun, true, -1 );
+        long loose_ammo = 0;
+        for( const auto &ammo : found_ammo ) {
+            if( ammo->is_magazine() ) {
+                has_mag = true;
+                total_ammo += ammo->ammo_remaining();
+            } else if( ammo->is_ammo() ) {
+                loose_ammo += ammo->charges;
+            }
+        }
+
+        if( has_mag ) {
+            total_ammo += loose_ammo;
+        }
+
+        ret = std::min<long>( ret, total_ammo / required );
+    }
+
+    long ups_drain = gun.get_gun_ups_drain();
+    if( ups_drain > 0 ) {
+        ret = std::min<long>( ret, charges_of( "UPS" ) / ups_drain );
+    }
+
+    return ret;
 }

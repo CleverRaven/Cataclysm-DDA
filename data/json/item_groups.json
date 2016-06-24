@@ -134,7 +134,6 @@
       ["1cyl_combustion_small", 10],
       ["battery_motorbike", 6],
       ["battery_car", 6],
-      ["battery_truck", 6],
       ["alternator_motorbike", 6],
       ["alternator_car", 6],
       ["alternator_truck", 6],
@@ -509,10 +508,10 @@
       ["yoghurt", 8],
       ["pudding", 10],
       ["vinegar", 15],
-      ["jar_veggy_pickled", 8],
+      {"item": "veggy_pickled", "prob":  8, "charges": 2, "container-item": "jar_glass_sealed"},
       ["jar_sauerkraut_pickled", 5],
-      ["jar_meat_pickled", 4],
-      ["jar_fish_pickled", 6],
+      {"item": "meat_pickled", "prob":  4, "charges": 2, "container-item": "jar_glass_sealed"},
+      {"item": "fish_pickled", "prob":  6, "charges": 2, "container-item": "jar_glass_sealed"},
       ["lutefisk", 1],
       ["tongs", 25],
       ["char_smoker", 25],
@@ -691,13 +690,13 @@
       ["potato_raw", 10],
       ["pickle", 40],
       ["vinegar", 15],
-      ["jar_veggy_pickled", 8],
+      {"item": "veggy_pickled", "prob":  8, "charges": 2, "container-item": "jar_glass_sealed"},
       ["jar_sauerkraut_pickled", 5],
       ["bacon", 25],
       ["lunchmeat", 45],
       ["bologna", 45],
-      ["jar_meat_pickled", 2],
-      ["jar_fish_pickled", 6],
+      {"item": "meat_pickled", "prob":  2, "charges": 2, "container-item": "jar_glass_sealed"},
+      {"item": "fish_pickled", "prob":  6, "charges": 2, "container-item": "jar_glass_sealed"},
       ["lutefisk", 1],
       ["protein_shake", 10],
       ["fries", 8],
@@ -1669,17 +1668,17 @@
       ["seasoning_salt", 25],
       ["vinegar", 15],
       ["cooking_oil", 30],
-      ["jar_veggy_pickled", 8],
+      {"item": "veggy_pickled", "prob":  8, "charges": 2, "container-item": "jar_glass_sealed"},
       ["jar_sauerkraut_pickled", 5],
       ["sports_drink", 10],
       ["protein_shake", 10],
       ["dogfood", 5],
       ["catfood", 5],
-      ["jar_fish_pickled", 8],
+      {"item": "fish_pickled", "prob":  8, "charges": 2, "container-item": "jar_glass_sealed"},
       ["lutefisk", 1],
       ["dry_beans", 40],
       ["dry_rice", 40],
-      ["jar_meat_pickled", 6]
+      {"item": "meat_pickled", "prob":  6, "charges": 2, "container-item": "jar_glass_sealed"}
     ]
   },{
     "type" : "item_group",
@@ -1835,6 +1834,7 @@
       ["multitool", 6],
       ["survnote", 1],
       ["fertilizer_commercial",30],
+      ["chem_sulphuric_acid",30],
       ["peephole", 25],
       ["magnifying_glass", 5],
       ["chem_chromium_oxide", 5],
@@ -2511,8 +2511,8 @@
       ["bag_canvas", 5],
       ["bag_canvas_small", 5],
       ["bottle_glass", 10],
-      ["can_drink", 10],
-      ["can_food", 10],
+      ["can_drink_unsealed", 10],
+      ["can_food_unsealed", 10],
       ["box_small", 10],
       ["bubblewrap", 50],
       ["cig_butt", 30],
@@ -2553,7 +2553,7 @@
       ["bottle_plastic", 5],
       ["bottle_plastic_small", 15],
       ["bottle_glass", 2],
-      ["can_drink", 5],
+      ["can_drink_unsealed", 5],
       ["plastic_shopping_bag", 13],
       ["bag_plastic", 15],
       ["wrapper", 30],
@@ -4148,7 +4148,6 @@
     "type" : "item_group",
     "id" : "art",
     "items":[
-      ["fur", 0],
       ["petrified_eye", 1],
       ["spiral_stone", 20],
       ["cane", 10],
@@ -4322,8 +4321,6 @@
       ["portable_game", 8],
       ["game_watch", 2],
       ["vibrator", 5],
-      ["fur", 0],
-      ["leather", 0],
       ["string_36", 40],
       ["chain", 20],
       ["steel_chunk", 30],
@@ -4873,7 +4870,6 @@
       ["motor_large", 1],
       ["battery_motorbike", 6],
       ["battery_car", 6],
-      ["battery_truck", 6],
       ["alternator_motorbike", 6],
       ["alternator_car", 6],
       ["alternator_truck", 6],
@@ -5513,7 +5509,8 @@
       ["bio_speed", 5],
       ["bio_faraday", 10],
       ["bio_power_armor_interface_mkII", 5],
-      ["bio_remote", 10]
+      ["bio_remote", 10],
+      ["bio_cable", 10]
     ]
   },{
     "type" : "item_group",
@@ -5533,7 +5530,8 @@
       ["bio_ethanol", 10],
       ["bio_furnace", 10],
       ["bio_watch", 10],
-      ["bio_torsionratchet", 10]
+      ["bio_torsionratchet", 10],
+      ["bio_cable", 10]
     ]
   },{
     "type" : "item_group",
@@ -5912,7 +5910,8 @@
       ["bio_adrenaline", 10],
       ["bio_watch", 10],
       ["bio_power_armor_interface_mkII", 5],
-      ["bio_meteorologist", 10]
+      ["bio_meteorologist", 10],
+      ["bio_cable", 10]
     ]
   },{
       "type" : "item_group",
@@ -5976,7 +5975,8 @@
       ["bio_adrenaline", 15],
       ["bio_watch", 10],
       ["bio_power_armor_interface_mkII", 5],
-      ["bio_meteorologist", 10]
+      ["bio_meteorologist", 10],
+      ["bio_cable", 10]
     ]
   },{
     "type" : "item_group",
@@ -6369,8 +6369,8 @@
       ["bottle_plastic", 10],
       ["bottle_plastic_small", 5],
       ["bottle_glass", 10],
-      ["can_drink", 10],
-      ["can_food", 10],
+      ["can_drink_unsealed", 10],
+      ["can_food_unsealed", 10],
       ["lighter", 60],
       ["ref_lighter", 1],
       ["matches", 60],
@@ -6468,8 +6468,6 @@
       ["coke", 8],
       ["adrenaline_injector", 4],
       ["wrapper", 50],
-      ["fur", 0],
-      ["leather", 0],
       ["id_science", 2],
       ["laptop", 5],
       ["atomic_light", 10],
@@ -7235,13 +7233,13 @@
       ["salt", 10],
       ["seasoning_salt", 5],
       ["vinegar", 10],
-      ["jar_veggy_pickled", 30],
+      {"item": "veggy_pickled", "prob":  30, "charges": 2, "container-item": "jar_glass_sealed"},
       ["jar_sauerkraut_pickled", 20],
       ["con_milk", 20],
-      ["jar_fish_pickled", 26],
+      {"item": "fish_pickled", "prob":  26, "charges": 2, "container-item": "jar_glass_sealed"},
       ["lutefisk", 1],
       ["pemmican", 10],
-      ["jar_meat_pickled", 20]
+      {"item": "meat_pickled", "prob":  20, "charges": 2, "container-item": "jar_glass_sealed"}
     ]
   },{
     "type" : "item_group",
@@ -8059,8 +8057,8 @@
       ["bag_canvas_small", 1],
       ["cup_plastic", 3],
       ["bottle_glass", 1],
-      ["can_drink", 2],
-      ["can_food", 1],
+      ["can_drink_unsealed", 2],
+      ["can_food_unsealed", 1],
       ["box_small", 2],
       ["jug_plastic", 1],
       ["jar_glass", 2],

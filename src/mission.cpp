@@ -7,6 +7,7 @@
 #include "overmap.h"
 #include "line.h"
 #include "npc.h"
+#include "npc_class.h"
 
 #include <fstream>
 #include <sstream>

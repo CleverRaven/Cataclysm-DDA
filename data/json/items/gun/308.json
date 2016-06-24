@@ -160,7 +160,7 @@
     "price": 130000,
     "bashing": 12,
     "to_hit": -1,
-    "material": [ "iron", "wood" ],
+    "material": [ "steel", "wood" ],
     "symbol": "(",
     "color": "brown",
     "ammo": "308",
@@ -184,6 +184,8 @@
     "description": "A highly modified version of the M14 rifle designed to cover both CQB and designated marksman roles.  A very powerful and versatile rifle, if somewhat heavy.",
     "weight": 4820,
     "price": 195000,
+    "material": [ "steel", "plastic" ],
+    "burst": 10,
     "valid_mod_locations": [ [ "accessories", 4 ], [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "muzzle", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ]
   },
   {

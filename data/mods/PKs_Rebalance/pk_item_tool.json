@@ -1,16 +1,31 @@
 [
-{
+    {
+    "id": "pokeball",
+    "type": "TOOL",
+    "name": "pocket ball",
+    "color": "light_red",
+    "symbol": "o",
+    "description": "A fist-sized ball that holds the ... erm, 'energy' of a monster, allowing you to transport them within safely.  Seems to conserve weight, making its use impractical.",
+    "price": 2000000,
+    "weight": 300,
+    "volume": 3,
+    "bashing": 3,
+    "cutting": 0,
+    "use_action": "CAPTURE_MONSTER_ACT",
+    "properties": [["monster_size_capacity", "HUGE"]],
+    "material": ["steel", "plastic"]
+    },{
     "id": "spess_chunk",
     "type": "TOOL",
     "symbol": ",",
     "color": "light_green",
-    "name": "polyplatic chunk",
-    "description": "This is a piece of lightweight, microlayered space plastic.  It is unlikely it will ever be manufactured again, so its got to be worth something to somebody . . . right?",
+    "name": "polyplastic chunk",
+    "description": "This is a piece of lightweight, micro-layered space age plastic.  It is unlikely it will ever be manufactured again, so it's got to be worth something to somebody.",
     "price": 15000,
     "material": "spess_plastic",
     "weight": 60,
     "volume": 1,
-    "category" : "spare_parts",
+    "category": "spare_parts",
     "flags": ["NO_SALVAGE"]
     },{
     "id": "bot_manhack_missile",
@@ -26,13 +41,14 @@
     "bashing": 6,
     "cutting": 6,
     "to_hit": -3,
+    "revert_to": "null",
     "use_action": {
         "type": "place_monster",
         "monster_id": "mon_manhack_missile",
         "difficulty": 6,
         "skill1": "electronics",
         "skill2": "computer",
-        "hostile_msg": "You misprogram the missile; it's hostile!",
+        "hostile_msg": "You mis-program the missile; it's hostile!",
         "friendly_msg": "The missile takes off uncertainly!",
         "place_randomly": true,
         "moves": 75
@@ -49,7 +65,8 @@
     "volume": 2,
     "bashing": 6,
     "to_hit": -1,
-    "flags": ["RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB"],
+    "flags": ["RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "TRADER_AVOID"],
+    "revert_to": "null",
     "category": "weapons",
     "use_action": {
         "type": "transform",
@@ -73,7 +90,8 @@
     "max_charges": 3,
     "initial_charges": 3,
     "turns_per_charge": 1,
-    "flags": ["BOMB"],
+    "flags": ["BOMB", "TRADER_AVOID"],
+    "revert_to": "null",
     "category": "weapons",
     "use_action": {
         "type": "explosion",
@@ -88,32 +106,31 @@
         }
       }
     },{
-    "type" : "COMESTIBLE",
-    "id" : "medikit",
-    "name" : "medikit",
-    "weight" : 400,
-    "color" : "red",
-    "comestible_type" : "MED",
-    "symbol" : "+",
-    "description" : "A PRM brand medikit.  Can be quickly applied in battlefield situations, though it is designed to quickly attach itself to damaged tissue, not disinfect.",
-    "price" : 50000,
-    "material" : "spess_plastic",
-    "volume" : 2,
-    "charges" : 3,
-    "stack_size" : 6,
-    "flags" : ["USE_ON_NPC"],
+    "type": "COMESTIBLE",
+    "id": "medikit",
+    "name": "medikit",
+    "weight": 400,
+    "color": "red",
+    "comestible_type": "MED",
+    "symbol": "+",
+    "description": "A PRM brand medikit.  Can be quickly applied in battlefield situations, though it is designed to quickly attach itself to damaged tissue, not disinfect.",
+    "price": 50000,
+    "material": "spess_plastic",
+    "volume": 2,
+    "charges": 3,
+    "stack_size": 6,
     "revert_to": "",
-    "use_action" : {
-        "type" : "heal",
-        "limb_power" : 20,
-        "head_power" : 20,
-        "torso_power" : 20,
-        "bleed" : 0.98,
-        "bite" : 0.40,
-        "infect" : 0.20,
-        "move_cost" : 3300,
-        "long_action" : true,
-        "effects" : [
+    "use_action": {
+        "type": "heal",
+        "limb_power": 20,
+        "head_power": 20,
+        "torso_power": 20,
+        "bleed": 0.98,
+        "bite": 0.40,
+        "infect": 0.20,
+        "move_cost": 3300,
+        "long_action": true,
+        "effects": [
             {
                 "id": "pkill1",
                 "duration": 30
@@ -124,80 +141,80 @@
         ]
     }
     },{
-    "type" : "TOOL_ARMOR",
-    "id" : "berserker_drug",
-    "name" : "berserker stimpack",
-    "volume" : 2,
-    "material_thickness" : 0,
-    "description" : "An iv drip in a protective case.  PRM patented stimulants will push the body to its limits for a brief period, making intense combat easier.",
-    "weight" : 360,
-    "to_hit" : -1,
-    "symbol" : "|",
-    "color" : "ltgray",
-    "covers" : ["HAND_EITHER", "ARM_EITHER"],
-    "encumbrance" : 1,
-    "price" : 1000000,
-    "material" : ["plastic"],
-    "flags" : ["WATER_FRIENDLY", "BELTED", "FRAGILE", "ALLOWS_NATURAL_ATTACKS", "NO_RELOAD", "NO_UNLOAD"],
-    "coverage" : 10,
-    "use_action" : {
-    "type" : "transform",
-    "move_cost" : 250,
+    "type": "TOOL_ARMOR",
+    "id": "berserker_drug",
+    "name": "berserker stimpack",
+    "volume": 2,
+    "material_thickness": 0,
+    "description": "An iv drip in a protective case.  PRM patented stimulants will push the body to its limits for a brief period, making intense combat easier.",
+    "weight": 360,
+    "to_hit": -1,
+    "symbol": "|",
+    "color": "ltgray",
+    "covers": ["HAND_EITHER", "ARM_EITHER"],
+    "encumbrance": 1,
+    "price": 1000000,
+    "material": ["plastic"],
+    "flags": ["WATER_FRIENDLY", "BELTED", "FRAGILE", "ALLOWS_NATURAL_ATTACKS", "NO_RELOAD", "NO_UNLOAD"],
+    "coverage": 10,
+    "use_action": {
+    "type": "transform",
+    "move_cost": 250,
     "target": "berserker_drug_act",
     "target_charges": 7,
     "active": true
     },
     "msg": "You insert the needle into your vein and your blood boils!"
     },{
-    "type" : "TOOL_ARMOR",
-    "id" : "berserker_drug_act",
-    "name" : "berserker stimpack (active)",
-    "volume" : 2,
-    "material_thickness" : 0,
-    "description" : "An iv drip in a protective case.  Inside, PRM brand chemicals are surging through the needle, providing incredible strength and agility to its user.",
-    "weight" : 360,
-    "to_hit" : -1,
-    "symbol" : "|",
-    "color" : "i_dkgray",
-    "covers" : ["HAND_EITHER", "ARM_EITHER"],
-    "encumbrance" : 1,
-    "price" : 1000000,
-    "material" : ["plastic"],
-    "flags" : ["WATER_FRIENDLY", "BELTED", "FRAGILE", "ALLOWS_NATURAL_ATTACKS", "NO_RELOAD"],
-    "coverage" : 10,
+    "type": "TOOL_ARMOR",
+    "id": "berserker_drug_act",
+    "name": "berserker stimpack (active)",
+    "volume": 2,
+    "material_thickness": 0,
+    "description": "An iv drip in a protective case.  Inside, PRM brand chemicals are surging through the needle, providing incredible strength and agility to its user.",
+    "weight": 360,
+    "to_hit": -1,
+    "symbol": "|",
+    "color": "i_dkgray",
+    "covers": ["HAND_EITHER", "ARM_EITHER"],
+    "encumbrance": 1,
+    "price": 1000000,
+    "material": ["plastic"],
+    "flags": ["WATER_FRIENDLY", "BELTED", "FRAGILE", "ALLOWS_NATURAL_ATTACKS", "NO_RELOAD"],
+    "coverage": 10,
     "revert_to": "bag_plastic",
     "max_charges": 7,
     "initial_charges": 7,
     "turns_per_charge": 1,
-    "use_action" : {
-    "type" : "consume_drug",
-    "effects" : [
+    "use_action": {
+    "type": "consume_drug",
+    "effects": [
         {
             "id": "doom_stimpack",
             "duration": 40
         }
     ]}
     },{
-    "type" : "COMESTIBLE",
-    "id" : "stamina_vial",
-    "name" : "stamina vial",
-    "volume" : 3,
-    "description" : "Containing a slew of charged organic chemicals, this 3-layer slurry might go down hard but provides a noticeable endurance boost for hardcore athletes and demanding soldiers alike.  Like most PRM products it is designed for short-term use only, and may upset the body's balance.",
-    "weight" : 720,
-    "to_hit" : -1,
-    "comestible_type" : "MED",
-    "fun" : -5,
-    "nutrition" : 12,
-    "symbol" : ")",
-    "color" : "blue",
-    "price" : 1000000,
-    "material" : ["glass"],
-    "flags" : ["NO_RELOAD", "NO_UNLOAD"],
+    "type": "COMESTIBLE",
+    "id": "stamina_vial",
+    "name": "stamina vial",
+    "volume": 3,
+    "description": "Containing a slew of charged organic chemicals, this 3-layer slurry might go down hard but provides a noticeable endurance boost for hardcore athletes and demanding soldiers alike.  Like most PRM products it is designed for short-term use only, and may upset the body's balance.",
+    "weight": 720,
+    "to_hit": -1,
+    "comestible_type": "MED",
+    "fun": -5,
+    "nutrition": 12,
+    "symbol": ")",
+    "color": "blue",
+    "price": 1000000,
+    "material": ["glass"],
+    "flags": ["NO_RELOAD", "NO_UNLOAD"],
     "revert_to": "bottle_glass",
     "charges": 3,
-    "use_action" : {
-    "type" : "consume_drug",
-    "effects" : [
+    "use_action": {
+    "type": "consume_drug",
+    "effects": [
         {
                 "id": "doom_unhealth",
                 "duration": 10
@@ -206,5 +223,27 @@
                 "duration": 150
         }
     ]}
+    },{
+    "id": "bot_fungal_boil_egg",
+    "type": "TOOL",
+    "symbol": "o",
+    "color": "dkgray",
+    "name": "incubating boil bomb",
+    "description": "A canister with a wad of fungus growing inside.  When it finishes incubating, it will be ready to release.",
+    "price": 5000,
+    "material": ["plastic", "veggy"],
+    "weight": 820,
+    "volume": 2,
+    "bashing": 2,
+    "to_hit": -1,
+    "revert_to": "canister_empty",
+    "use_action": {
+    "type": "delayed_transform",
+    "transform_age": 21600,
+    "not_ready_msg": "The boil requires 36 hours to mature.  It is not ready yet.",
+        "target": "bot_fungal_boil",
+        "active": false,
+        "msg": "The boil inside matures!"
+        }
     }
 ]

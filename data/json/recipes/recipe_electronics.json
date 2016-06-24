@@ -256,29 +256,6 @@
   "components": [ [ [ "cable", 40 ] ] ]
 },{
   "type" : "recipe",
-  "result": "lead_plate",
-  "category": "CC_ELECTRONIC",
-  "subcategory": "CSC_ELECTRONIC_COMPONENTS",
-  "skill_used": "fabrication",
-  "difficulty": 2,
-  "time": 6500,
-  "reversible": true,
-  "decomp_learn": 1,
-  "autolearn": false,
-  "book_learn": [[ "manual_electronics", 1 ] , [ "mag_electronics", 1 ] , [ "manual_mechanics", 2] ],
-  "tools": [
-    [ ["crucible", -1], ["crucible_clay", -1] ],
-    [
-      [ "hotplate", 20 ],
-      [ "toolset", 20 ],
-      [ "fire", -1 ]
-    ]
-  ],
-  "components": [
-    [ [ "lead", 100 ] ]
-  ]
-},{
-  "type" : "recipe",
   "result": "receiver",
   "category": "CC_ELECTRONIC",
   "subcategory": "CSC_ELECTRONIC_COMPONENTS",
@@ -352,20 +329,29 @@
   ]
 },{
   "type" : "recipe",
+  "result": "lightstrip_dead",
+  "category": "CC_ELECTRONIC",
+  "subcategory": "CSC_ELECTRONIC_LIGHTING",
+  "skill_used": "electronics",
+  "difficulty": 1,
+  "time": 10000,
+  "book_learn": [[ "manual_electronics", 1 ] , [ "mag_electronics", 1 ]],
+  "components": [
+    [ [ "amplifier", 1 ] ],
+    [ [ "cable", 5 ] ],
+    [ [ "e_scrap", 1 ] ]
+  ]
+},{
+   "type" : "recipe",
   "result": "lightstrip_inactive",
   "category": "CC_ELECTRONIC",
   "subcategory": "CSC_ELECTRONIC_LIGHTING",
   "skill_used": "electronics",
   "difficulty": 0,
   "time": 10000,
-  "reversible": false,
-  "autolearn": false,
-  "book_learn": [[ "manual_electronics", 1 ] , [ "mag_electronics", 1 ]],
   "components": [
-    [ [ "amplifier", 1 ] ],
-    [ [ "cable", 5 ] ],
-    [ [ "battery", 15 ] ],
-    [ [ "e_scrap", 1 ] ]
+    [ [ "lightstrip_dead", 1 ] ],
+    [ [ "battery", 15 ] ]
   ]
 },{
   "type" : "recipe",
@@ -409,17 +395,21 @@
   "time": 10000,
   "reversible": true,
   "decomp_learn": 0,
-  "autolearn": false,
   "book_learn": [[ "manual_electronics", 0 ] , [ "mag_electronics", 1 ]],
   "components": [
     [ [ "amplifier", 1 ] ],
     [
       [ "scrap", 4 ],
-      [ "can_drink", 1 ],
-      [ "can_food", 1 ],
+      [ "can_drink_unsealed", 1 ],
+      [ "can_food_unsealed", 1 ],
       [ "bottle_glass", 1 ],
       [ "bottle_plastic", 1 ],
       [ "bottle_plastic_small", 1 ]
+    ],
+    [
+      [ "lightstrip_dead", 1 ],
+      [ "light_bulb", 1 ]
+      
     ],
     [ [ "cable", 10 ] ]
   ]
@@ -434,13 +424,40 @@
   "time": 15000,
   "reversible": true,
   "decomp_learn": 1,
-  "autolearn": false,
   "book_learn": [[ "manual_electronics", 1 ] , [ "mag_electronics", 2 ]],
   "components": [
     [ [ "amplifier", 4 ] ],
     [
       [ "steel_chunk", 2 ],
       [ "scrap", 6 ]
+    ],
+    [
+      [ "lightstrip_dead", 4 ],
+      [ "light_bulb", 4 ]
+    ],
+    [ [ "cable", 10 ] ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "car_headlight",
+  "category": "CC_ELECTRONIC",
+  "subcategory": "CSC_ELECTRONIC_LIGHTING",
+  "skill_used": "mechanics",
+  "skills_required": [ "electronics", 1 ],
+  "difficulty": 2,
+  "time": 12000,
+  "reversible": true,
+  "decomp_learn": 1,
+  "book_learn": [[ "manual_electronics", 1 ] , [ "mag_electronics", 2 ]],
+  "components": [
+    [ [ "amplifier", 2 ] ],
+    [
+      [ "plastic_chunk", 2 ],
+      [ "scrap", 3 ]
+    ],
+    [
+      [ "lightstrip_dead", 2 ],
+      [ "light_bulb", 2 ]
     ],
     [ [ "cable", 10 ] ]
   ]
@@ -499,8 +516,8 @@
       [ "scrap", 1 ]
     ],
     [
-      [ "can_drink", 1 ],
-      [ "can_food", 1 ],
+      [ "can_drink_unsealed", 1 ],
+      [ "can_food_unsealed", 1 ],
       [ "canister_empty", 1 ]
     ]
   ]
@@ -1873,111 +1890,6 @@
   ]
 },{
   "type" : "recipe",
-  "result": "battery_motorbike",
-  "category": "CC_ELECTRONIC",
-  "subcategory": "CSC_ELECTRONIC_PARTS",
-  "skill_used": "electronics",
-  "skills_required": [ "fabrication", 1 ],
-  "difficulty": 3,
-  "time": 30000,
-  "reversible": true,
-  "decomp_learn": 2,
-  "autolearn": false,
-  "book_learn": [[ "manual_electronics", 2 ] , [ "mag_electronics", 2 ] , [ "manual_mechanics", 3]],
-  "qualities" : [ {"id":"SCREW","level":1,"amount":1} ],
-  "tools": [
-    [
-      [ "soldering_iron", 10 ],
-      [ "toolset", 10 ]
-    ],
-    [ ["mold_plastic", -1] ],
-    [
-      ["hotplate", 5],
-      ["toolset", 15],
-      ["fire", -1]
-    ]
-  ],
-  "components": [
-    [ [ "plastic_chunk", 10 ] ],
-    [ [ "scrap", 2 ] ],
-    [ [ "lead_plate", 4 ] ],
-    [ [ "water_clean", 6 ] ],
-    [ [ "acid", 2 ] ],
-    [ [ "rag", 2 ] ],
-    [ [ "cable", 2 ] ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "battery_car",
-  "category": "CC_ELECTRONIC",
-  "subcategory": "CSC_ELECTRONIC_PARTS",
-  "skill_used": "electronics",
-  "skills_required": [ "fabrication", 1 ],
-  "difficulty": 3,
-  "time": 30000,
-  "reversible": true,
-  "decomp_learn": 2,
-  "autolearn": false,
-  "book_learn": [[ "manual_electronics", 2 ] , [ "mag_electronics", 2 ] , [ "manual_mechanics", 3]],
-  "qualities" : [ {"id":"SCREW","level":1,"amount":1} ],
-  "tools": [
-    [
-      [ "soldering_iron", 15 ],
-      [ "toolset", 15 ]
-    ],
-    [ ["mold_plastic", -1] ],
-    [
-      ["hotplate", 8],
-      ["toolset", 8],
-      ["fire", -1]
-    ]
-  ],
-  "components": [
-    [ [ "plastic_chunk", 15 ] ],
-    [ [ "scrap", 4 ] ],
-    [ [ "lead_plate", 6 ] ],
-    [ [ "water_clean", 12 ] ],
-    [ [ "acid", 4 ] ],
-    [ [ "rag", 3 ] ],
-    [ [ "cable", 4 ] ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "battery_truck",
-  "category": "CC_ELECTRONIC",
-  "subcategory": "CSC_ELECTRONIC_PARTS",
-  "skill_used": "electronics",
-  "skills_required": [ "fabrication", 1 ],
-  "difficulty": 3,
-  "time": 30000,
-  "reversible": true,
-  "decomp_learn": 2,
-  "autolearn": false,
-  "book_learn": [[ "manual_electronics", 2 ] , [ "mag_electronics", 2 ] , [ "manual_mechanics", 3]],
-  "qualities" : [ {"id":"SCREW","level":1,"amount":1} ],
-  "tools": [
-    [
-      [ "soldering_iron", 20 ],
-      [ "toolset", 20 ]
-    ],
-    [ ["mold_plastic", -1] ],
-    [
-      ["hotplate", 12],
-      ["toolset", 12],
-      ["fire", -1]
-    ]
-  ],
-  "components": [
-    [ [ "plastic_chunk", 20 ] ],
-    [ [ "scrap", 6 ] ],
-    [ [ "lead_plate", 8 ] ],
-    [ [ "water_clean", 16 ] ],
-    [ [ "acid", 6 ] ],
-    [ [ "rag", 5 ] ],
-    [ [ "cable", 6 ] ]
-  ]
-},{
-  "type" : "recipe",
   "result": "bot_turret",
   "category": "CC_ELECTRONIC",
   "subcategory": "CSC_ELECTRONIC_PARTS",
@@ -2557,7 +2469,7 @@
     [ [ "e_scrap", 2 ] ],
     [ [ "amplifier", 2 ] ],
     [ [ "cable", 1 ] ],
-    [ [ "battery_truck", 1 ] ]
+    [ [ "battery_car", 1 ] ]
   ]
 },{
   "type" : "recipe",

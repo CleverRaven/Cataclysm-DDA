@@ -17,8 +17,6 @@
 #include "vehicle_group.h"
 #include "crafting.h"
 #include "crafting_gui.h"
-#include "computer.h"
-#include "help.h"
 #include "mapdata.h"
 #include "color.h"
 #include "trap.h"
@@ -52,6 +50,8 @@
 #include "sounds.h"
 #include "gates.h"
 #include "overlay_ordering.h"
+#include "worldfactory.h"
+#include "npc_class.h"
 
 #include <string>
 #include <vector>
@@ -61,19 +61,14 @@
 
 DynamicDataLoader::DynamicDataLoader()
 {
+    initialize();
 }
 
-DynamicDataLoader::~DynamicDataLoader()
-{
-    reset();
-}
+DynamicDataLoader::~DynamicDataLoader() = default;
 
 DynamicDataLoader &DynamicDataLoader::get_instance()
 {
     static DynamicDataLoader theDynamicDataLoader;
-    if (theDynamicDataLoader.type_function_map.empty()) {
-        theDynamicDataLoader.initialize();
-    }
     return theDynamicDataLoader;
 }
 
@@ -84,7 +79,7 @@ void DynamicDataLoader::load_object(JsonObject &jo)
     if (it == type_function_map.end()) {
         jo.throw_error( "unrecognized JSON object", "type" );
     }
-    (*it->second)(jo);
+    it->second(jo);
 }
 
 void load_ingored_type(JsonObject &jo)
@@ -95,149 +90,107 @@ void load_ingored_type(JsonObject &jo)
     (void) jo;
 }
 
+void DynamicDataLoader::add( const std::string &type, std::function<void(JsonObject&)> f )
+{
+    const auto pair = type_function_map.insert( std::make_pair( type, std::move( f ) ) );
+    if( !pair.second ) {
+        debugmsg( "tried to insert a second handler for type %s into the DynamicDataLoader", type.c_str() );
+    }
+}
+
 void DynamicDataLoader::initialize()
 {
-    reset();
     // all of the applicable types that can be loaded, along with their loading functions
     // Add to this as needed with new StaticFunctionAccessors or new ClassFunctionAccessors for new applicable types
     // Static Function Access
-    type_function_map["fault"] = new StaticFunctionAccessor(&fault::load_fault);
-    type_function_map["vitamin"] = new StaticFunctionAccessor(&vitamin::load_vitamin);
-    type_function_map["material"] = new StaticFunctionAccessor(&material_type::load_material);
-    type_function_map["bionic"] = new StaticFunctionAccessor(&load_bionic);
-    type_function_map["profession"] = new StaticFunctionAccessor(&profession::load_profession);
-    type_function_map["skill"] = new StaticFunctionAccessor(&Skill::load_skill);
-    type_function_map["dream"] = new StaticFunctionAccessor(&load_dream);
-    type_function_map["mutation_category"] = new StaticFunctionAccessor(&load_mutation_category);
-    type_function_map["mutation"] = new StaticFunctionAccessor(&mutation_branch::load);
-    type_function_map["lab_note"] = new StaticFunctionAccessor(&computer::load_lab_note);
-    type_function_map["hint"] = new StaticFunctionAccessor(&load_hint);
-    type_function_map["furniture"] = new StaticFunctionAccessor(&load_furniture);
-    type_function_map["terrain"] = new StaticFunctionAccessor(&load_terrain);
-    type_function_map["monstergroup"] = new StaticFunctionAccessor(
-        &MonsterGroupManager::LoadMonsterGroup);
-    type_function_map["MONSTER_BLACKLIST"] = new StaticFunctionAccessor(
-        &MonsterGroupManager::LoadMonsterBlacklist);
-    type_function_map["MONSTER_WHITELIST"] = new StaticFunctionAccessor(
-        &MonsterGroupManager::LoadMonsterWhitelist);
-    type_function_map["speech"] = new StaticFunctionAccessor(&load_speech);
-    type_function_map["ammunition_type"] = new StaticFunctionAccessor(
-        &ammunition_type::load_ammunition_type);
-    type_function_map["scenario"] = new StaticFunctionAccessor(&scenario::load_scenario);
-    type_function_map["start_location"] = new StaticFunctionAccessor(&start_location::load_location);
+    add( "fault", &fault::load_fault );
+    add( "vitamin", &vitamin::load_vitamin );
+    add( "material", &material_type::load_material );
+    add( "bionic", &load_bionic );
+    add( "profession", &profession::load_profession );
+    add( "skill", &Skill::load_skill );
+    add( "dream", &load_dream );
+    add( "mutation_category", &load_mutation_category );
+    add( "mutation", &mutation_branch::load );
+    add( "furniture", &load_furniture );
+    add( "terrain", &load_terrain );
+    add( "monstergroup", &MonsterGroupManager::LoadMonsterGroup );
+    add( "MONSTER_BLACKLIST", &MonsterGroupManager::LoadMonsterBlacklist );
+    add( "MONSTER_WHITELIST", &MonsterGroupManager::LoadMonsterWhitelist );
+    add( "speech", &load_speech );
+    add( "ammunition_type", &ammunition_type::load_ammunition_type );
+    add( "scenario", &scenario::load_scenario );
+    add( "start_location", &start_location::load_location );
 
     // json/colors.json would be listed here, but it's loaded before the others (see curses_start_color())
     // Non Static Function Access
-    type_function_map["snippet"] = new ClassFunctionAccessor<snippet_library>(&SNIPPET,
-            &snippet_library::load_snippet);
-    type_function_map["item_group"] = new ClassFunctionAccessor<Item_factory>(item_controller,
-            &Item_factory::load_item_group);
-    type_function_map["item_action"] = new ClassFunctionAccessor<item_action_generator>
-    ( &item_action_generator::generator(), &item_action_generator::load_item_action );
+    add( "snippet", []( JsonObject &jo ) { SNIPPET.load_snippet( jo ); } );
+    add( "item_group", []( JsonObject &jo ) { item_controller->load_item_group( jo ); } );
+    add( "item_action", []( JsonObject &jo ) { item_action_generator::generator().load_item_action( jo ); } );
 
-    type_function_map["vehicle_part"] = new StaticFunctionAccessor( &vpart_info::load );
-    type_function_map["vehicle"] = new StaticFunctionAccessor( &vehicle_prototype::load );
-    type_function_map["vehicle_group"] = new StaticFunctionAccessor( &VehicleGroup::load );
-    type_function_map["vehicle_placement"] = new StaticFunctionAccessor( &VehiclePlacement::load );
-    type_function_map["vehicle_spawn"] = new StaticFunctionAccessor( &VehicleSpawn::load );
+    add( "vehicle_part",  &vpart_info::load );
+    add( "vehicle",  &vehicle_prototype::load );
+    add( "vehicle_group",  &VehicleGroup::load );
+    add( "vehicle_placement",  &VehiclePlacement::load );
+    add( "vehicle_spawn",  &VehicleSpawn::load );
 
-    type_function_map["trap"] = new StaticFunctionAccessor(&trap::load);
-    type_function_map["AMMO"] = new ClassFunctionAccessor<Item_factory>(item_controller,
-            &Item_factory::load_ammo);
-    type_function_map["GUN"] = new ClassFunctionAccessor<Item_factory>(item_controller,
-            &Item_factory::load_gun);
-    type_function_map["ARMOR"] = new ClassFunctionAccessor<Item_factory>(item_controller,
-            &Item_factory::load_armor);
-    type_function_map["TOOL"] = new ClassFunctionAccessor<Item_factory>(item_controller,
-            &Item_factory::load_tool);
-    type_function_map["TOOL_ARMOR"] = new ClassFunctionAccessor<Item_factory>(item_controller,
-            &Item_factory::load_tool_armor);
-    type_function_map["BOOK"] = new ClassFunctionAccessor<Item_factory>(item_controller,
-            &Item_factory::load_book);
-    type_function_map["COMESTIBLE"] = new ClassFunctionAccessor<Item_factory>(item_controller,
-            &Item_factory::load_comestible);
-    type_function_map["CONTAINER"] = new ClassFunctionAccessor<Item_factory>(item_controller,
-            &Item_factory::load_container);
-    type_function_map["ENGINE"] = new ClassFunctionAccessor<Item_factory>(item_controller,
-            &Item_factory::load_engine);
-    type_function_map["GUNMOD"] = new ClassFunctionAccessor<Item_factory>(item_controller,
-            &Item_factory::load_gunmod);
-    type_function_map["MAGAZINE"] = new ClassFunctionAccessor<Item_factory>(item_controller,
-            &Item_factory::load_magazine);
-    type_function_map["GENERIC"] = new ClassFunctionAccessor<Item_factory>(item_controller,
-            &Item_factory::load_generic);
-    type_function_map["BIONIC_ITEM"] = new ClassFunctionAccessor<Item_factory>(item_controller,
-            &Item_factory::load_bionic);
-    type_function_map["VAR_VEH_PART"] = new ClassFunctionAccessor<Item_factory>(item_controller,
-            &Item_factory::load_veh_part);
-    type_function_map["ITEM_CATEGORY"] = new ClassFunctionAccessor<Item_factory>(item_controller,
-            &Item_factory::load_item_category);
-    type_function_map["MIGRATION"] = new ClassFunctionAccessor<Item_factory>(item_controller,
-            &Item_factory::load_migration);
+    add( "trap", &trap::load );
+    add( "AMMO", []( JsonObject &jo ) { item_controller->load_ammo( jo ); } );
+    add( "GUN", []( JsonObject &jo ) { item_controller->load_gun( jo ); } );
+    add( "ARMOR", []( JsonObject &jo ) { item_controller->load_armor( jo ); } );
+    add( "TOOL", []( JsonObject &jo ) { item_controller->load_tool( jo ); } );
+    add( "TOOL_ARMOR", []( JsonObject &jo ) { item_controller->load_tool_armor( jo ); } );
+    add( "BOOK", []( JsonObject &jo ) { item_controller->load_book( jo ); } );
+    add( "COMESTIBLE", []( JsonObject &jo ) { item_controller->load_comestible( jo ); } );
+    add( "CONTAINER", []( JsonObject &jo ) { item_controller->load_container( jo ); } );
+    add( "ENGINE", []( JsonObject &jo ) { item_controller->load_engine( jo ); } );
+    add( "WHEEL", []( JsonObject &jo ) { item_controller->load_wheel( jo ); } );
+    add( "GUNMOD", []( JsonObject &jo ) { item_controller->load_gunmod( jo ); } );
+    add( "MAGAZINE", []( JsonObject &jo ) { item_controller->load_magazine( jo ); } );
+    add( "GENERIC", []( JsonObject &jo ) { item_controller->load_generic( jo ); } );
+    add( "BIONIC_ITEM", []( JsonObject &jo ) { item_controller->load_bionic( jo ); } );
+    add( "ITEM_CATEGORY", []( JsonObject &jo ) { item_controller->load_item_category( jo ); } );
+    add( "MIGRATION", []( JsonObject &jo ) { item_controller->load_migration( jo ); } );
 
-    type_function_map["MONSTER"] = new ClassFunctionAccessor<MonsterGenerator>
-    (&MonsterGenerator::generator(), &MonsterGenerator::load_monster);
-    type_function_map["SPECIES"] = new ClassFunctionAccessor<MonsterGenerator>
-    (&MonsterGenerator::generator(), &MonsterGenerator::load_species);
+    add( "MONSTER", []( JsonObject &jo ) { MonsterGenerator::generator().load_monster( jo ); } );
+    add( "SPECIES", []( JsonObject &jo ) { MonsterGenerator::generator().load_species( jo ); } );
 
-    type_function_map["recipe_category"] = new StaticFunctionAccessor(&load_recipe_category);
-    type_function_map["recipe"] = new StaticFunctionAccessor(&load_recipe);
-    type_function_map["tool_quality"] = new StaticFunctionAccessor(&quality::load_static);
-    type_function_map["technique"] = new StaticFunctionAccessor(&load_technique);
-    type_function_map["martial_art"] = new StaticFunctionAccessor(&load_martial_art);
-    type_function_map["effect_type"] = new StaticFunctionAccessor(&load_effect_type);
-    type_function_map["tutorial_messages"] =
-        new StaticFunctionAccessor(&load_tutorial_messages);
-    type_function_map["overmap_terrain"] =
-        new StaticFunctionAccessor(&load_overmap_terrain);
-    type_function_map["construction"] =
-        new StaticFunctionAccessor(&load_construction);
-    type_function_map["mapgen"] =
-        new StaticFunctionAccessor(&load_mapgen);
-    type_function_map["overmap_special"] =
-        new StaticFunctionAccessor(&load_overmap_specials);
+    add( "recipe_category", &load_recipe_category );
+    add( "recipe", &load_recipe );
+    add( "tool_quality", &quality::load_static );
+    add( "technique", &load_technique );
+    add( "martial_art", &load_martial_art );
+    add( "effect_type", &load_effect_type );
+    add( "tutorial_messages", &load_tutorial_messages );
+    add( "overmap_terrain", &load_overmap_terrain );
+    add( "construction", &load_construction );
+    add( "mapgen", &load_mapgen );
+    add( "overmap_special", &load_overmap_specials );
 
-    type_function_map["region_settings"] = new StaticFunctionAccessor(&load_region_settings);
-    type_function_map["region_overlay"] = new StaticFunctionAccessor(&load_region_overlay);
-    type_function_map["ITEM_BLACKLIST"] = new ClassFunctionAccessor<Item_factory>(item_controller,
-            &Item_factory::load_item_blacklist);
-    type_function_map["ITEM_WHITELIST"] = new ClassFunctionAccessor<Item_factory>(item_controller,
-            &Item_factory::load_item_whitelist);
+    add( "region_settings", &load_region_settings );
+    add( "region_overlay", &load_region_overlay );
+    add( "ITEM_BLACKLIST", []( JsonObject &jo ) { item_controller->load_item_blacklist( jo ); } );
+    add( "ITEM_WHITELIST", []( JsonObject &jo ) { item_controller->load_item_whitelist( jo ); } );
+    add( "WORLD_OPTION", &load_world_option );
 
-    type_function_map[ "GAME_OPTION" ] = new ClassFunctionAccessor<game>( g, &game::load_game_option );
-
-    // ...unimplemented?
-    type_function_map["INSTRUMENT"] = new StaticFunctionAccessor(&load_ingored_type);
     // loaded earlier.
-    type_function_map["colordef"] = new StaticFunctionAccessor(&load_ingored_type);
+    add( "colordef", &load_ingored_type );
     // mod information, ignored, handled by the mod manager
-    type_function_map["MOD_INFO"] = new StaticFunctionAccessor(&load_ingored_type);
+    add( "MOD_INFO", &load_ingored_type );
 
-    type_function_map["faction"] = new StaticFunctionAccessor(
-        &faction::load_faction);
-    type_function_map["npc"] = new StaticFunctionAccessor(
-        &npc::load_npc);
-    type_function_map["talk_topic"] = new StaticFunctionAccessor(
-        &load_talk_topic);
-    type_function_map["epilogue"] = new StaticFunctionAccessor(
-        &epilogue::load_epilogue);
+    add( "faction", &faction::load_faction );
+    add( "npc", &npc::load_npc );
+    add( "npc_class", &npc_class::load_npc_class );
+    add( "talk_topic", &load_talk_topic );
+    add( "epilogue", &epilogue::load_epilogue );
 
-    type_function_map["MONSTER_FACTION"] =
-        new StaticFunctionAccessor(&monfactions::load_monster_faction);
+    add( "MONSTER_FACTION", &monfactions::load_monster_faction );
 
-    type_function_map["sound_effect"] = new StaticFunctionAccessor(&sfx::load_sound_effects);
-    type_function_map["playlist"] = new StaticFunctionAccessor(&sfx::load_playlist);
+    add( "sound_effect", &sfx::load_sound_effects );
+    add( "playlist", &sfx::load_playlist );
 
-    type_function_map["gate"] = new StaticFunctionAccessor(&gates::load_gates);
-    type_function_map["overlay_order"] = new StaticFunctionAccessor( &load_overlay_ordering );
-}
-
-void DynamicDataLoader::reset()
-{
-    for( auto &elem : type_function_map ) {
-        delete elem.second;
-    }
-    type_function_map.clear();
+    add( "gate", &gates::load_gates );
+    add( "overlay_order", &load_overlay_ordering );
 }
 
 void DynamicDataLoader::load_data_from_path(const std::string &path)
@@ -282,11 +235,7 @@ void DynamicDataLoader::load_data_from_path(const std::string &path)
 
 void DynamicDataLoader::load_all_from_json(JsonIn &jsin)
 {
-    char ch;
-    jsin.eat_whitespace();
-    // examine first non-whitespace char
-    ch = jsin.peek();
-    if (ch == '{') {
+    if( jsin.test_object() ) {
         // find type and dispatch single object
         JsonObject jo = jsin.get_object();
         load_object(jo);
@@ -296,22 +245,17 @@ void DynamicDataLoader::load_all_from_json(JsonIn &jsin)
         if (jsin.good()) {
             jsin.error( string_format( "expected single-object file but found '%c'", jsin.peek() ) );
         }
-    } else if (ch == '[') {
+    } else if( jsin.test_array() ) {
         jsin.start_array();
         // find type and dispatch each object until array close
         while (!jsin.end_array()) {
-            jsin.eat_whitespace();
-            ch = jsin.peek();
-            if (ch != '{') {
-                jsin.error( string_format( "expected array of objects but found '%c', not '{'", ch ) );
-            }
             JsonObject jo = jsin.get_object();
             load_object(jo);
             jo.finish();
         }
     } else {
         // not an object or an array?
-        jsin.error( string_format( "expected object or array, but found '%c'", ch ) );
+        jsin.error( "expected object or array" );
     }
 }
 
@@ -329,9 +273,7 @@ void DynamicDataLoader::unload_data()
     material_type::reset();
     profession::reset();
     Skill::reset();
-    computer::clear_lab_notes();
     dreams.clear();
-    clear_hints();
     // clear techniques, martial arts, and ma buffs
     clear_techniques_and_martial_arts();
     // Mission types are not loaded from json, but they depend on
@@ -366,7 +308,7 @@ void DynamicDataLoader::unload_data()
     scenario::reset();
     gates::reset();
     reset_overlay_ordering();
-    g->options.clear();
+    npc_class::reset_npc_classes();
 
     // TODO:
     //    NameGenerator::generator().clear_names();
@@ -412,4 +354,5 @@ void DynamicDataLoader::check_consistency()
     ammunition_type::check_consistency();
     trap::check_consistency();
     check_bionics();
+    npc_class::check_consistency();
 }

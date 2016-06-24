@@ -41,8 +41,7 @@
         {
             "id":"line_trail",
             "fg":288
-        },  
-
+        },
         {
             "id":"animation_line",
             "bg":49
@@ -176,64 +175,64 @@
             "bg":20,
             "rotates":false
         },
-        { 
-         "id" : "mon_zombie_tough", 
-         "fg" :283, 
-         "rotates":false, 
+        {
+         "id" : "mon_zombie_tough",
+         "fg" :283,
+         "rotates":false,
           "multitile" : false
         },
-        { 
-         "id" : "mon_zombie_fat", 
-         "fg" :275, 
-         "rotates":false, 
+        {
+         "id" : "mon_zombie_fat",
+         "fg" :275,
+         "rotates":false,
          "multitile" : false
         },
-        { 
-         "id" : "mon_zombie_crawler", 
+        {
+         "id" : "mon_zombie_crawler",
          "fg" :276,
-         "rotates":false, 
+         "rotates":false,
          "multitile" : false
         },
-        { 
-         "id" : "mon_zombie_hazmat", 
+        {
+         "id" : "mon_zombie_hazmat",
          "fg" :278,
-         "rotates":false, 
+         "rotates":false,
          "multitile" : false
         },
-        { 
-         "id" : "mon_zombie_fireman", 
-         "fg" :277, 
-         "rotates":false, 
+        {
+         "id" : "mon_zombie_fireman",
+         "fg" :277,
+         "rotates":false,
          "multitile" : false
         },
-        { 
-         "id" : "mon_zombie_survivor", 
-         "fg" :284, 
-         "rotates":false, 
+        {
+         "id" : "mon_zombie_survivor",
+         "fg" :284,
+         "rotates":false,
          "multitile" : false
         },
-        { 
-         "id" : "mon_zombie_rot", 
-         "fg" :285, 
-         "rotates":false, 
+        {
+         "id" : "mon_zombie_rot",
+         "fg" :285,
+         "rotates":false,
          "multitile" : false
         },
-        { 
-         "id" : "mon_dog_skeleton", 
-         "fg" :280, 
-         "rotates":false, 
+        {
+         "id" : "mon_dog_skeleton",
+         "fg" :280,
+         "rotates":false,
          "multitile" : false
         },
-        { 
-         "id" : "mon_dog_zombie_cop", 
+        {
+         "id" : "mon_dog_zombie_cop",
          "fg" :281,
-         "rotates":false, 
+         "rotates":false,
          "multitile" : false
         },
-        { 
-         "id" : "mon_dog_zombie_rot", 
+        {
+         "id" : "mon_dog_zombie_rot",
          "fg" :279,
-         "rotates":false, 
+         "rotates":false,
          "multitile" : false
         },
         {
@@ -248,7 +247,7 @@
         },
         {
             "id":"f_ash",
-            "bg":171,           
+            "bg":171,
             "rotates":false
         },
         {
@@ -260,20 +259,20 @@
           "id": "briefcase",
           "fg": 2214
         },
-      { 
-         "id" : "cowboy_hat", 
+      {
+         "id" : "cowboy_hat",
          "fg" : 814,
-         "bg" : -1, 
-         "rotates" : false, 
+         "bg" : -1,
+         "rotates" : false,
          "multitile" : false
-      }, 
-      { 
-         "id" : "e_tool", 
-         "fg" : 438, 
-         "bg" : -1, 
-         "rotates" : false, 
+      },
+      {
+         "id" : "e_tool",
+         "fg" : 438,
+         "bg" : -1,
+         "rotates" : false,
          "multitile" : false
-      }, 
+      },
         {
             "id":"f_wreckage",
             "fg":2188,
@@ -939,7 +938,7 @@
                     "id": "t_connection",
                     "fg": 2007,
                     "bg":1
-                },              
+                },
                 {
                     "id": "edge",
                     "fg": 2009,
@@ -2405,13 +2404,13 @@
             "fg":486,
             "rotates":false
         },
-      { 
-         "id" : "signal_flare", 
-         "fg" : 447, 
-         "bg" : -1, 
-         "rotates" : false, 
+      {
+         "id" : "signal_flare",
+         "fg" : 447,
+         "bg" : -1,
+         "rotates" : false,
          "multitile" : false
-      }, 
+      },
         {
             "id":"mon_opossum",
             "fg":487,
@@ -3162,71 +3161,71 @@
             "id":"f_armchair",
             "fg":125,
             "rotates":false
-        }, 
-      { 
-         "id" : "mag_pistol", 
-         "fg" : 892, 
-         "bg" : 912, 
-         "rotates" : false, 
-         "multitile" : false
-      }, 
-      { 
-         "id" : "manual_pistol", 
-         "fg" : 892, 
-         "bg" : 914, 
-         "rotates" : false, 
-         "multitile" : false
-      },  
+        },
       {
-         "id" : "novel_western", 
-         "fg" : 928, 
-         "bg" : 915, 
-         "rotates" : false, 
+         "id" : "mag_pistol",
+         "fg" : 892,
+         "bg" : 912,
+         "rotates" : false,
          "multitile" : false
       },
       {
-         "id" : "novel_war", 
-         "fg" : 930, 
-         "bg" : 916, 
-         "rotates" : false, 
+         "id" : "manual_pistol",
+         "fg" : 892,
+         "bg" : 914,
+         "rotates" : false,
          "multitile" : false
-      }, 
-      { 
-         "id" : "mag_dude", 
-         "fg" : 902, 
-         "bg" : 912, 
-         "rotates" : false, 
+      },
+      {
+         "id" : "novel_western",
+         "fg" : 928,
+         "bg" : 915,
+         "rotates" : false,
          "multitile" : false
-      }, 
+      },
+      {
+         "id" : "novel_war",
+         "fg" : 930,
+         "bg" : 916,
+         "rotates" : false,
+         "multitile" : false
+      },
+      {
+         "id" : "mag_dude",
+         "fg" : 902,
+         "bg" : 912,
+         "rotates" : false,
+         "multitile" : false
+      },
         {
           "rotates": false,
           "id": "shorts_denim",
-         "fg" : 689, 
+         "fg" : 689,
          "bg" : -1
         },
         {
           "rotates": false,
           "id": "boxer_shorts",
-         "fg" : 689, 
+         "fg" : 689,
          "bg" : -1
         },
-      { 
-         "id" : "pistol_bayonet", 
-         "fg" : 1351, 
-         "bg" : -1, 
-         "rotates" : false, 
+      {
+         "id" : "pistol_bayonet",
+         "fg" : 1351,
+         "bg" : -1,
+         "rotates" : false,
          "multitile" : false
-      }, 
+      },
         {
           "rotates": false,
           "id": "briefs",
-         "fg" : 689, 
+         "fg" : 689,
          "bg" : -1
         },
         {
           "rotates": false,
           "id": "panties",
-         "fg" : 689, 
+         "fg" : 689,
          "bg" : -1
         },
         {
@@ -3234,74 +3233,73 @@
           "id": "camisole",
           "fg": 2216
         },
-
-      { 
-         "id" : "recipe_bows", 
-         "fg" : 880, 
-         "bg" : 912, 
-         "rotates" : false, 
+      {
+         "id" : "recipe_bows",
+         "fg" : 880,
+         "bg" : 912,
+         "rotates" : false,
          "multitile" : false
-      },  
+      },
         {
           "rotates": false,
           "id": "recipe_serum",
-         "fg" : 885, 
+         "fg" : 885,
          "bg" : 912
         },
-      { 
-         "id" : "sm_extinguisher", 
-         "fg" : 426, 
-         "bg" : -1, 
-         "rotates" : false, 
+      {
+         "id" : "sm_extinguisher",
+         "fg" : 426,
+         "bg" : -1,
+         "rotates" : false,
          "multitile" : false
-      }, 
-      { 
-         "id" : "longshirt", 
-         "fg" : 957, 
-         "bg" : -1, 
-         "rotates" : false, 
+      },
+      {
+         "id" : "longshirt",
+         "fg" : 957,
+         "bg" : -1,
+         "rotates" : false,
          "multitile" : false
-      }, 
-      { 
-         "id" : "mag_mechanics", 
-         "fg" : 895, 
-         "bg" : 912, 
-         "rotates" : false, 
+      },
+      {
+         "id" : "mag_mechanics",
+         "fg" : 895,
+         "bg" : 912,
+         "rotates" : false,
          "multitile" : false
-      }, 
-      { 
-         "id" : "manual_mechanics", 
-         "fg" : 895, 
-         "bg" : 914, 
-         "rotates" : false, 
+      },
+      {
+         "id" : "manual_mechanics",
+         "fg" : 895,
+         "bg" : 914,
+         "rotates" : false,
          "multitile" : false
-      }, 
+      },
         {
           "rotates": false,
           "id": "glass_shard",
           "fg": 77
         },
-      { 
-         "id" : "mag_smg", 
-         "fg" : 901, 
-         "bg" : 912, 
-         "rotates" : false, 
-         "multitile" : false
-      }, 
-      { 
-         "id" : "manual_smg", 
-         "fg" : 901, 
-         "bg" : 914, 
-         "rotates" : false, 
-         "multitile" : false
-      }, 
       {
-         "id" : "mag_survival", 
-         "fg" : 902, 
-         "bg" : 912, 
-         "rotates" : false, 
+         "id" : "mag_smg",
+         "fg" : 901,
+         "bg" : 912,
+         "rotates" : false,
          "multitile" : false
-      }, 
+      },
+      {
+         "id" : "manual_smg",
+         "fg" : 901,
+         "bg" : 914,
+         "rotates" : false,
+         "multitile" : false
+      },
+      {
+         "id" : "mag_survival",
+         "fg" : 902,
+         "bg" : 912,
+         "rotates" : false,
+         "multitile" : false
+      },
         {
             "id":"f_sofa",
             "fg":103,
@@ -3863,7 +3861,7 @@
                     "bg": -1
                 }
             ]
-        },      
+        },
         {
             "id":"vp_hdframe_horizontal",
             "fg":1968,
@@ -3989,7 +3987,7 @@
                     "bg": -1
                 }
             ]
-        },      
+        },
         {
             "id":"vp_hdframe_cover",
             "fg":1970,
@@ -4129,7 +4127,7 @@
                     "bg": -1
                 }
             ]
-        },      
+        },
         {
             "id":"vp_frame_wood_cover",
             "fg":2050,
@@ -4143,7 +4141,7 @@
                     "bg": -1
                 }
             ]
-        },      
+        },
         {
             "id":"vp_frame_handle",
             "fg":323,
@@ -4167,7 +4165,7 @@
                     "fg":361
                 }
             ]
-        },      
+        },
         {
             "id":"vp_board_horizontal",
             "fg":2036,
@@ -4877,12 +4875,12 @@
             "id":"vp_roof_cloth",
             "fg":320,
             "rotates":true
-        },  
+        },
         {
             "id":"vp_hdroof",
             "fg":320,
             "rotates":true
-        },  
+        },
         {
             "id":"vp_door",
             "fg":326,
@@ -5024,7 +5022,7 @@
                     "bg": -1
                 }
             ]
-        },      
+        },
         {
             "id":"vp_blade_horizontal",
             "fg":330,
@@ -5077,7 +5075,7 @@
                     "bg": -1
                 }
             ]
-        },      
+        },
         {
             "id":"vp_wheel_wide",
             "fg":338,
@@ -5148,7 +5146,7 @@
             "id":"wheel_motorbike",
             "fg":456,
             "rotates":true
-        },      
+        },
         {
             "id":"vp_wheel_small",
             "fg":339,
@@ -5348,7 +5346,7 @@
             "id":"vp_solar_panel",
             "fg":340,
             "bg":-1,
-            "rotates":true,      
+            "rotates":true,
             "multitile":true,
             "additional_tiles":
             [
@@ -5362,7 +5360,7 @@
             "id":"vp_solar_panel_v2",
             "fg":2226,
             "bg":-1,
-            "rotates":true,      
+            "rotates":true,
             "multitile":true,
             "additional_tiles":
             [
@@ -5376,7 +5374,7 @@
             "id":"vp_solar_panel_v3",
             "fg":2227,
             "bg":-1,
-            "rotates":true,      
+            "rotates":true,
             "multitile":true,
             "additional_tiles":
             [
@@ -5513,10 +5511,10 @@
             "id":"vp_veh_table",
             "fg":315,
             "rotates":true
-        },      
+        },
         {
             "id":"vp_m249",
-            "fg":375,           
+            "fg":375,
             "bg":320,
             "rotates":true,
             "multitile":true,
@@ -5531,7 +5529,7 @@
         },
         {
             "id":"vp_flamethrower",
-            "fg":376,           
+            "fg":376,
             "bg":320,
             "rotates":true,
             "multitile":true,
@@ -5546,7 +5544,7 @@
         },
         {
             "id":"vp_plasma_gun",
-            "fg":377,           
+            "fg":377,
             "bg":320,
             "rotates":true,
             "multitile":true,
@@ -5561,7 +5559,7 @@
         },
         {
             "id":"vp_fusion_gun",
-            "fg":378,           
+            "fg":378,
             "bg":320,
             "rotates":true,
             "multitile":true,
@@ -5576,7 +5574,7 @@
         },
         {
             "id":"vp_mounted_browning",
-            "fg":374,           
+            "fg":374,
             "bg":320,
             "rotates":true,
             "multitile":true,
@@ -5588,10 +5586,10 @@
                     "bg":364
                 }
             ]
-        },      
+        },
         {
            "id": "vp_laser_gun",
-            "fg":379,           
+            "fg":379,
             "bg":320,
             "rotates":true,
             "multitile":true,
@@ -5663,12 +5661,6 @@
         },
         {
             "id":"vp_battery_car",
-            "fg":347,
-            "bg":320,
-            "rotates":true
-        },
-        {
-            "id":"vp_battery_truck",
             "fg":347,
             "bg":320,
             "rotates":true
@@ -6151,7 +6143,6 @@
          "rotates" : false,
          "multitile" : false
       },
-
         {
             "id":"shot_hull",
             "fg":577,
@@ -6554,13 +6545,13 @@
          "rotates" : false,
          "multitile" : false
       },
-      { 
-         "id" : "oxy_powder", 
-         "fg" : 452, 
-         "bg" : -1, 
-         "rotates" : false, 
+      {
+         "id" : "oxy_powder",
+         "fg" : 452,
+         "bg" : -1,
+         "rotates" : false,
          "multitile" : false
-      }, 
+      },
       {
          "id" : "selfbow",
          "fg" : 646,
@@ -6736,13 +6727,13 @@
          "rotates" : false,
          "multitile" : false
       },
-      { 
-         "id" : "boots_rubber", 
-         "fg" : 451, 
-         "bg" : -1, 
-         "rotates" : false, 
+      {
+         "id" : "boots_rubber",
+         "fg" : 451,
+         "bg" : -1,
+         "rotates" : false,
          "multitile" : false
-      }, 
+      },
       {
          "id" : "boots_winter",
          "fg" : 682,
@@ -7233,7 +7224,6 @@
          "rotates" : false,
          "multitile" : false
       },
-
       {
          "id" : "coat_rain",
          "fg" : 744,
@@ -8200,20 +8190,20 @@
          "rotates" : false,
          "multitile" : false
       },
-      { 
-         "id" : "mag_cars", 
-         "fg" : 888, 
-         "bg" : 912, 
-         "rotates" : false, 
+      {
+         "id" : "mag_cars",
+         "fg" : 888,
+         "bg" : 912,
+         "rotates" : false,
          "multitile" : false
-      }, 
-      { 
-         "id" : "manual_driving", 
-         "fg" : 888, 
-         "bg" : 914, 
-         "rotates" : false, 
+      },
+      {
+         "id" : "manual_driving",
+         "fg" : 888,
+         "bg" : 914,
+         "rotates" : false,
          "multitile" : false
-      }, 
+      },
       {
          "id" : "mag_cooking",
          "fg" : 884,
@@ -8227,224 +8217,224 @@
          "bg" : -1,
          "rotates" : false,
          "multitile" : false
-      }, 
-      { 
-         "id" : "mag_guns", 
-         "fg" : 894, 
-         "bg" : 912, 
-         "rotates" : false, 
+      },
+      {
+         "id" : "mag_guns",
+         "fg" : 894,
+         "bg" : 912,
+         "rotates" : false,
          "multitile" : false
-      }, 
-      { 
-         "id" : "pocket_firearms", 
-         "fg" : 894, 
-         "bg" : 913, 
-         "rotates" : false, 
+      },
+      {
+         "id" : "pocket_firearms",
+         "fg" : 894,
+         "bg" : 913,
+         "rotates" : false,
          "multitile" : false
-      }, 
-      { 
-         "id" : "manual_gun", 
-         "fg" : 894, 
-         "bg" : 914, 
-         "rotates" : false, 
+      },
+      {
+         "id" : "manual_gun",
+         "fg" : 894,
+         "bg" : 914,
+         "rotates" : false,
          "multitile" : false
-      }, 
+      },
       {
          "id" : "mag_archery",
-         "fg" : 880, 
-         "bg" : 912, 
+         "fg" : 880,
+         "bg" : 912,
          "rotates" : false,
          "multitile" : false
       },
       {
          "id" : "mag_gaming",
-         "fg" : 930, 
-         "bg" : 913, 
+         "fg" : 930,
+         "bg" : 913,
          "rotates" : false,
          "multitile" : false
       },
       {
          "id" : "mag_comic",
-         "fg" : 928, 
-         "bg" : 912, 
+         "fg" : 928,
+         "bg" : 912,
          "rotates" : false,
          "multitile" : false
       },
       {
          "id" : "mag_firstaid",
-         "fg" : 891, 
-         "bg" : 912, 
+         "fg" : 891,
+         "bg" : 912,
          "rotates" : false,
          "multitile" : false
-      }, 
-      { 
-         "id" : "mag_dodge", 
-         "fg" : 887, 
-         "bg" : 912, 
-         "rotates" : false, 
+      },
+      {
+         "id" : "mag_dodge",
+         "fg" : 887,
+         "bg" : 912,
+         "rotates" : false,
          "multitile" : false
-      }, 
-      { 
-         "id" : "manual_dodge", 
-         "fg" : 887, 
-         "bg" : 914, 
-         "rotates" : false, 
+      },
+      {
+         "id" : "manual_dodge",
+         "fg" : 887,
+         "bg" : 914,
+         "rotates" : false,
          "multitile" : false
-      }, 
-      { 
-         "id" : "mag_throwing", 
-         "fg" : 905, 
-         "bg" : 912, 
-         "rotates" : false, 
+      },
+      {
+         "id" : "mag_throwing",
+         "fg" : 905,
+         "bg" : 912,
+         "rotates" : false,
          "multitile" : false
-      }, 
-      { 
-         "id" : "manual_throw", 
-         "fg" : 905, 
-         "bg" : 914, 
-         "rotates" : false, 
+      },
+      {
+         "id" : "manual_throw",
+         "fg" : 905,
+         "bg" : 914,
+         "rotates" : false,
          "multitile" : false
-      }, 
-      { 
-         "id" : "mag_swimming", 
-         "fg" : 903, 
-         "bg" : 912, 
-         "rotates" : false, 
+      },
+      {
+         "id" : "mag_swimming",
+         "fg" : 903,
+         "bg" : 912,
+         "rotates" : false,
          "multitile" : false
-      }, 
-      { 
-         "id" : "manual_swimming", 
-         "fg" : 903, 
-         "bg" : 914, 
-         "rotates" : false, 
+      },
+      {
+         "id" : "manual_swimming",
+         "fg" : 903,
+         "bg" : 914,
+         "rotates" : false,
          "multitile" : false
-      }, 
-      { 
-         "id" : "novel_romance", 
-         "fg" : 928, 
-         "bg" : 915, 
-         "rotates" : false, 
+      },
+      {
+         "id" : "novel_romance",
+         "fg" : 928,
+         "bg" : 915,
+         "rotates" : false,
          "multitile" : false
-      }, 
-      { 
-         "id" : "novel_spy", 
-         "fg" : 930, 
-         "bg" : 915, 
-         "rotates" : false, 
+      },
+      {
+         "id" : "novel_spy",
+         "fg" : 930,
+         "bg" : 915,
+         "rotates" : false,
          "multitile" : false
-      }, 
-      { 
-         "id" : "novel_thriller", 
-         "fg" : 929, 
-         "bg" : 914, 
-         "rotates" : false, 
+      },
+      {
+         "id" : "novel_thriller",
+         "fg" : 929,
+         "bg" : 914,
+         "rotates" : false,
          "multitile" : false
-      }, 
-      { 
-         "id" : "novel_crime", 
-         "fg" : 928, 
-         "bg" : 914, 
-         "rotates" : false, 
+      },
+      {
+         "id" : "novel_crime",
+         "fg" : 928,
+         "bg" : 914,
+         "rotates" : false,
          "multitile" : false
-      }, 
-      { 
-         "id" : "novel_scifi", 
-         "fg" : 930, 
-         "bg" : 916, 
-         "rotates" : false, 
+      },
+      {
+         "id" : "novel_scifi",
+         "fg" : 930,
+         "bg" : 916,
+         "rotates" : false,
          "multitile" : false
-      }, 
-      { 
-         "id" : "novel_drama", 
-         "fg" : 929, 
-         "bg" : 916, 
-         "rotates" : false, 
+      },
+      {
+         "id" : "novel_drama",
+         "fg" : 929,
+         "bg" : 916,
+         "rotates" : false,
          "multitile" : false
-      }, 
-      { 
-         "id" : "novel_tragedy", 
-         "fg" : 929, 
-         "bg" : 916, 
-         "rotates" : false, 
+      },
+      {
+         "id" : "novel_tragedy",
+         "fg" : 929,
+         "bg" : 916,
+         "rotates" : false,
          "multitile" : false
-      }, 
-      { 
-         "id" : "novel_coa", 
-         "fg" : 928, 
-         "bg" : 913, 
-         "rotates" : false, 
+      },
+      {
+         "id" : "novel_coa",
+         "fg" : 928,
+         "bg" : 913,
+         "rotates" : false,
          "multitile" : false
-      }, 
-      { 
-         "id" : "novel_buddy", 
-         "fg" : 931, 
-         "bg" : 914, 
-         "rotates" : false, 
+      },
+      {
+         "id" : "novel_buddy",
+         "fg" : 931,
+         "bg" : 914,
+         "rotates" : false,
          "multitile" : false
-      }, 
-      { 
-         "id" : "novel_road", 
-         "fg" : 931, 
-         "bg" : 915, 
-         "rotates" : false, 
+      },
+      {
+         "id" : "novel_road",
+         "fg" : 931,
+         "bg" : 915,
+         "rotates" : false,
          "multitile" : false
-      }, 
-      { 
-         "id" : "novel_satire", 
-         "fg" : 930, 
-         "bg" : 915, 
-         "rotates" : false, 
+      },
+      {
+         "id" : "novel_satire",
+         "fg" : 930,
+         "bg" : 915,
+         "rotates" : false,
          "multitile" : false
-      }, 
-      { 
-         "id" : "novel_adventure", 
-         "fg" : 929, 
-         "bg" : 914, 
-         "rotates" : false, 
+      },
+      {
+         "id" : "novel_adventure",
+         "fg" : 929,
+         "bg" : 914,
+         "rotates" : false,
          "multitile" : false
-      }, 
-      { 
-         "id" : "novel_swash", 
-         "fg" : 929, 
-         "bg" : 914, 
-         "rotates" : false, 
+      },
+      {
+         "id" : "novel_swash",
+         "fg" : 929,
+         "bg" : 914,
+         "rotates" : false,
          "multitile" : false
-      }, 
-      { 
-         "id" : "novel_experimental", 
-         "fg" : 930, 
-         "bg" : 917, 
-         "rotates" : false, 
+      },
+      {
+         "id" : "novel_experimental",
+         "fg" : 930,
+         "bg" : 917,
+         "rotates" : false,
          "multitile" : false
-      }, 
-      { 
-         "id" : "novel_fantasy", 
-         "fg" : 929, 
-         "bg" : 917, 
-         "rotates" : false, 
+      },
+      {
+         "id" : "novel_fantasy",
+         "fg" : 929,
+         "bg" : 917,
+         "rotates" : false,
          "multitile" : false
-      }, 
-      { 
-         "id" : "novel_mystery", 
-         "fg" : 930, 
-         "bg" : 916, 
-         "rotates" : false, 
+      },
+      {
+         "id" : "novel_mystery",
+         "fg" : 930,
+         "bg" : 916,
+         "rotates" : false,
          "multitile" : false
-      }, 
-      { 
-         "id" : "novel_horror", 
-         "fg" : 929, 
-         "bg" : 916, 
-         "rotates" : false, 
+      },
+      {
+         "id" : "novel_horror",
+         "fg" : 929,
+         "bg" : 916,
+         "rotates" : false,
          "multitile" : false
-      }, 
-      { 
-         "id" : "novel_erotic", 
-         "fg" : 928, 
-         "bg" : 913, 
-         "rotates" : false, 
+      },
+      {
+         "id" : "novel_erotic",
+         "fg" : 928,
+         "bg" : 913,
+         "rotates" : false,
          "multitile" : false
-      }, 
+      },
       {
          "id" : "ZSG",
          "fg" : 901,
@@ -8493,35 +8483,35 @@
          "bg" : -1,
          "rotates" : false,
          "multitile" : false
-      }, 
-      { 
-         "id" : "pocket_firstaid", 
-         "fg" : 891, 
-         "bg" : 913, 
-         "rotates" : false, 
+      },
+      {
+         "id" : "pocket_firstaid",
+         "fg" : 891,
+         "bg" : 913,
+         "rotates" : false,
          "multitile" : false
-      }, 
-      { 
-         "id" : "manual_first_aid", 
-         "fg" : 891, 
-         "bg" : 914, 
-         "rotates" : false, 
+      },
+      {
+         "id" : "manual_first_aid",
+         "fg" : 891,
+         "bg" : 914,
+         "rotates" : false,
          "multitile" : false
-      }, 
-      { 
-         "id" : "textbook_firstaid", 
-         "fg" : 891, 
-         "bg" : 915, 
-         "rotates" : false, 
+      },
+      {
+         "id" : "textbook_firstaid",
+         "fg" : 891,
+         "bg" : 915,
+         "rotates" : false,
          "multitile" : false
-      }, 
-      { 
-         "id" : "emergency_book", 
-         "fg" : 891, 
-         "bg" : 916, 
-         "rotates" : false, 
+      },
+      {
+         "id" : "emergency_book",
+         "fg" : 891,
+         "bg" : 916,
+         "rotates" : false,
          "multitile" : false
-      }, 
+      },
       {
          "id" : "manual_computers",
          "fg" : 909,
@@ -8550,48 +8540,48 @@
          "rotates" : false,
          "multitile" : false
       },
-      { 
-         "id" : "manual_electronics", 
-         "fg" : 889, 
-         "bg" : 913, 
-         "rotates" : false, 
-         "multitile" : false
-      }, 
-      { 
-         "id" : "advanced_electronics", 
-         "fg" : 889, 
-         "bg" : 914, 
-         "rotates" : false, 
-         "multitile" : false
-      }, 
-      { 
-         "id" : "manual_tailor", 
-         "fg" : 904, 
-         "bg" : 914, 
-         "rotates" : false, 
+      {
+         "id" : "manual_electronics",
+         "fg" : 889,
+         "bg" : 913,
+         "rotates" : false,
          "multitile" : false
       },
-      { 
-         "id" : "mag_tailor", 
-         "fg" : 904, 
-         "bg" : 913, 
-         "rotates" : false, 
+      {
+         "id" : "advanced_electronics",
+         "fg" : 889,
+         "bg" : 914,
+         "rotates" : false,
          "multitile" : false
       },
-      { 
-         "id" : "textbook_tailor", 
-         "fg" : 904, 
-         "bg" : 915, 
-         "rotates" : false, 
+      {
+         "id" : "manual_tailor",
+         "fg" : 904,
+         "bg" : 914,
+         "rotates" : false,
          "multitile" : false
-      }, 
-      { 
-         "id" : "tailor_portfolio", 
-         "fg" : 904, 
-         "bg" : 916, 
-         "rotates" : false, 
+      },
+      {
+         "id" : "mag_tailor",
+         "fg" : 904,
+         "bg" : 913,
+         "rotates" : false,
          "multitile" : false
-      }, 
+      },
+      {
+         "id" : "textbook_tailor",
+         "fg" : 904,
+         "bg" : 915,
+         "rotates" : false,
+         "multitile" : false
+      },
+      {
+         "id" : "tailor_portfolio",
+         "fg" : 904,
+         "bg" : 916,
+         "rotates" : false,
+         "multitile" : false
+      },
       {
          "id" : "manual_traps",
          "fg" : 917,
@@ -8627,13 +8617,13 @@
          "rotates" : false,
          "multitile" : false
       },
-      { 
-         "id" : "textbook_computer", 
-         "fg" : 883, 
-         "bg" : 916, 
-         "rotates" : false, 
+      {
+         "id" : "textbook_computer",
+         "fg" : 883,
+         "bg" : 916,
+         "rotates" : false,
          "multitile" : false
-      }, 
+      },
       {
          "id" : "textbook_electronics",
          "fg" : 920,
@@ -8661,20 +8651,20 @@
          "bg" : -1,
          "rotates" : false,
          "multitile" : false
-      },       { 
-         "id" : "textbook_chemistry", 
-         "fg" : 885, 
-         "bg" : 916, 
-         "rotates" : false, 
+      },       {
+         "id" : "textbook_chemistry",
+         "fg" : 885,
+         "bg" : 916,
+         "rotates" : false,
          "multitile" : false
-      }, 
-      { 
-         "id" : "adv_chemistry", 
-         "fg" : 885, 
-         "bg" : 917, 
-         "rotates" : false, 
+      },
+      {
+         "id" : "adv_chemistry",
+         "fg" : 885,
+         "bg" : 917,
+         "rotates" : false,
          "multitile" : false
-      }, 
+      },
       {
          "id" : "textbook_carpentry",
          "fg" : 924,
@@ -8682,18 +8672,18 @@
          "rotates" : false,
          "multitile" : false
       },
-      { 
-         "id" : "recipe_maiar", 
-         "fg" : 885, 
-         "bg" : 912, 
-         "rotates" : false, 
+      {
+         "id" : "recipe_maiar",
+         "fg" : 885,
+         "bg" : 912,
+         "rotates" : false,
          "multitile" : false
-      }, 
+      },
         {
           "id": "recipe_creepy",
-         "fg" : 885, 
-         "bg" : 912, 
-         "rotates" : false, 
+         "fg" : 885,
+         "bg" : 912,
+         "rotates" : false,
          "multitile" : false
         },
       {
@@ -8752,18 +8742,18 @@
          "rotates" : false,
          "multitile" : false
       },
-      { 
-         "id" : "mag_fabrication", 
-         "fg" : 890, 
-         "bg" : 912, 
-         "rotates" : false, 
+      {
+         "id" : "mag_fabrication",
+         "fg" : 890,
+         "bg" : 912,
+         "rotates" : false,
          "multitile" : false
-      }, 
-      { 
-         "id" : "manual_fabrication", 
-         "fg" : 890, 
-         "bg" : 914, 
-         "rotates" : false, 
+      },
+      {
+         "id" : "manual_fabrication",
+         "fg" : 890,
+         "bg" : 914,
+         "rotates" : false,
          "multitile" : false
       },
         {
@@ -8783,20 +8773,20 @@
          "rotates" : false,
          "multitile" : false
       },
-      { 
-         "id" : "mag_computer", 
-         "fg" : 883, 
-         "bg" : 912, 
-         "rotates" : false, 
+      {
+         "id" : "mag_computer",
+         "fg" : 883,
+         "bg" : 912,
+         "rotates" : false,
          "multitile" : false
-      }, 
-      { 
-         "id" : "howto_computer", 
-         "fg" : 883, 
-         "bg" : 913, 
-         "rotates" : false, 
+      },
+      {
+         "id" : "howto_computer",
+         "fg" : 883,
+         "bg" : 913,
+         "rotates" : false,
          "multitile" : false
-      }, 
+      },
       {
          "id" : "textbook_weapwest",
          "fg" : 936,
@@ -9751,14 +9741,14 @@
          "bg" : -1,
          "rotates" : false,
          "multitile" : false
-      }, 
-      { 
-         "id" : "seasoning_italian", 
-         "fg" : 1073, 
-         "bg" : -1, 
-         "rotates" : false, 
+      },
+      {
+         "id" : "seasoning_italian",
+         "fg" : 1073,
+         "bg" : -1,
+         "rotates" : false,
          "multitile" : false
-      }, 
+      },
       {
          "id" : "potato_raw",
          "fg" : 1074,
@@ -9968,13 +9958,13 @@
          "rotates" : false,
          "multitile" : false
       },
-      { 
-         "id" : "pur_tablets", 
-         "fg" : 1124, 
-         "bg" : -1, 
-         "rotates" : false, 
+      {
+         "id" : "pur_tablets",
+         "fg" : 1124,
+         "bg" : -1,
+         "rotates" : false,
          "multitile" : false
-      }, 
+      },
         {
             "id":"dayquil",
             "fg":291,
@@ -10263,27 +10253,27 @@
          "rotates" : false,
          "multitile" : false
       },
-      { 
-         "id" : "gum", 
-         "fg" : 1143, 
-         "bg" : -1, 
-         "rotates" : false, 
+      {
+         "id" : "gum",
+         "fg" : 1143,
+         "bg" : -1,
+         "rotates" : false,
          "multitile" : false
-      }, 
-      { 
-         "id" : "nic_gum", 
-         "fg" : 1144, 
-         "bg" : -1, 
-         "rotates" : false, 
+      },
+      {
+         "id" : "nic_gum",
+         "fg" : 1144,
+         "bg" : -1,
+         "rotates" : false,
          "multitile" : false
-      }, 
-      { 
-         "id" : "caff_gum", 
-         "fg" : 1145, 
-         "bg" : -1, 
-         "rotates" : false, 
+      },
+      {
+         "id" : "caff_gum",
+         "fg" : 1145,
+         "bg" : -1,
+         "rotates" : false,
          "multitile" : false
-      }, 
+      },
       {
          "id" : "vinegar",
          "fg" : 1145,
@@ -10346,20 +10336,20 @@
             "fg":135,
             "rotates":true
         },
-      { 
-         "id" : "canteen", 
-         "fg" : 2213, 
-         "bg" : -1, 
-         "rotates" : false, 
+      {
+         "id" : "canteen",
+         "fg" : 2213,
+         "bg" : -1,
+         "rotates" : false,
          "multitile" : false
-      }, 
-      { 
-         "id" : "2lcanteen", 
-         "fg" : 2215, 
-         "bg" : -1, 
-         "rotates" : false, 
+      },
+      {
+         "id" : "2lcanteen",
+         "fg" : 2215,
+         "bg" : -1,
+         "rotates" : false,
          "multitile" : false
-      }, 
+      },
       {
          "id" : "jerrycan",
          "fg" : 1159,
@@ -10639,13 +10629,13 @@
          "rotates" : false,
          "multitile" : false
       },
-      { 
-         "id" : "chitin_piece", 
-         "fg" : 1215, 
-         "bg" : -1, 
-         "rotates" : false, 
+      {
+         "id" : "chitin_piece",
+         "fg" : 1215,
+         "bg" : -1,
+         "rotates" : false,
          "multitile" : false
-      }, 
+      },
       {
          "id" : "biollante_bud",
          "fg" : 1216,
@@ -10729,14 +10719,14 @@
          "bg" : -1,
          "rotates" : false,
          "multitile" : false
-      }, 
-      { 
-         "id" : "wire", 
-         "fg" : 411, 
-         "bg" : -1, 
-         "rotates" : false, 
+      },
+      {
+         "id" : "wire",
+         "fg" : 411,
+         "bg" : -1,
+         "rotates" : false,
          "multitile" : false
-      }, 
+      },
       {
          "id" : "wire_barbed",
          "fg" : 1228,
@@ -12272,18 +12262,18 @@
          "bg" : -1,
          "rotates" : false,
          "multitile" : false
-      }, 
-      { 
-         "id" : "flaregun", 
-         "fg" : 463, 
-         "bg" : -1, 
-         "rotates" : false, 
+      },
+      {
+         "id" : "flaregun",
+         "fg" : 463,
+         "bg" : -1,
+         "rotates" : false,
          "multitile" : false
       },
       {
         "id" : "RPG",
         "fg" : 1764,
-         "rotates" : false, 
+         "rotates" : false,
          "multitile" : false
       },
         {
@@ -12422,13 +12412,13 @@
          "rotates" : false,
          "multitile" : false
       },
-      { 
-         "id" : "hotplate", 
-         "fg" : 2217, 
-         "bg" : -1, 
-         "rotates" : false, 
+      {
+         "id" : "hotplate",
+         "fg" : 2217,
+         "bg" : -1,
+         "rotates" : false,
          "multitile" : false
-      }, 
+      },
       {
          "id" : "soldering_iron",
          "fg" : 1493,
@@ -12660,13 +12650,13 @@
          "rotates" : false,
          "multitile" : false
       },
-      { 
-         "id" : "canister_goo", 
-         "fg" : 2222, 
-         "bg" : -1, 
-         "rotates" : false, 
+      {
+         "id" : "canister_goo",
+         "fg" : 2222,
+         "bg" : -1,
+         "rotates" : false,
          "multitile" : false
-      }, 
+      },
       {
          "id" : "pipebomb",
          "fg" : 1527,
@@ -14244,13 +14234,13 @@
          "bg" : -1,
          "rotates" : false,
          "multitile" : false
-      }, 
-      { 
-         "id" : "charcoal", 
-         "fg" : 459, 
-         "rotates" : false, 
+      },
+      {
+         "id" : "charcoal",
+         "fg" : 459,
+         "rotates" : false,
          "multitile" : false
-      }, 
+      },
       {
          "id" : "tanto",
          "fg" : 1584,
@@ -14308,13 +14298,6 @@
          "multitile" : false
       },
       {
-         "id" : "battery_truck",
-         "fg" : 1179,
-         "bg" : -1,
-         "rotates" : false,
-         "multitile" : false
-      },
-      {
          "id" : "hdframe",
          "fg" : 157,
          "bg" : -1,
@@ -14331,45 +14314,45 @@
       {
         "id" : "cranberries",
         "fg" : 1847,
-         "rotates" : false, 
+         "rotates" : false,
          "multitile" : false
-      }, 
+      },
       {
         "id" : "rm614_lmg",
         "fg" : 1765,
-         "rotates" : false, 
+         "rotates" : false,
          "multitile" : false
       },
-      { 
+      {
          "id" : "50bmg",
          "fg" : 621,
-         "rotates" : false, 
+         "rotates" : false,
          "multitile" : false
       },
-      { 
+      {
          "id" : "50ss",
          "fg" : 622,
-         "rotates" : false, 
+         "rotates" : false,
          "multitile" : false
       },
-      { 
+      {
          "id" : "50_incendiary",
          "fg" : 623,
-         "rotates" : false, 
+         "rotates" : false,
          "multitile" : false
       },
-      { 
+      {
          "id" : "40mm_shot",
          "fg" : 578,
-         "rotates" : false, 
+         "rotates" : false,
          "multitile" : false
-      }, 
-      { 
+      },
+      {
          "id" : "40mm_flechette",
          "fg" : 579,
-         "rotates" : false, 
+         "rotates" : false,
          "multitile" : false
-      }, 
+      },
         {
           "rotates": false,
           "id": "eyedrops",
@@ -14381,15 +14364,15 @@
           "fg": 2211
         },
       {
-        "id" : "e_scrap", 
+        "id" : "e_scrap",
         "fg" : 1827,
-         "rotates" : false, 
+         "rotates" : false,
          "multitile" : false
       },
       {
         "id" : "spoon",
         "fg" : 1824,
-         "rotates" : false, 
+         "rotates" : false,
          "multitile" : false
       },
         {
@@ -14425,13 +14408,13 @@
           "id": "dinosuit",
           "fg": 2220
         },
-      { 
-         "id" : "novel_pulp", 
-         "fg" : 930, 
-         "bg" : 913, 
-         "rotates" : false, 
+      {
+         "id" : "novel_pulp",
+         "fg" : 930,
+         "bg" : 913,
+         "rotates" : false,
          "multitile" : false
-      }, 
+      },
         {
           "rotates": false,
           "id": "solder_wire",
@@ -14440,65 +14423,65 @@
       {
         "id" : "battletorch",
         "fg" : 1752,
-         "rotates" : false, 
+         "rotates" : false,
          "multitile" : false
       },
       {
         "id" : "battletorch_lit",
         "fg" : 1753,
-         "rotates" : false, 
+         "rotates" : false,
          "multitile" : false
       },
       {
         "id" : "makeshift_knife",
         "fg" : 1751,
-         "rotates" : false, 
+         "rotates" : false,
          "multitile" : false
       },
       {
         "id" : "switchblade",
         "fg" : 1748,
-         "rotates" : false, 
+         "rotates" : false,
          "multitile" : false
       },
       {
         "id" : "jack",
         "fg" : 1747,
-         "rotates" : false, 
+         "rotates" : false,
          "multitile" : false
       },
       {
         "id" : "scythe",
         "fg" : 1745,
-         "rotates" : false, 
+         "rotates" : false,
          "multitile" : false
       },
       {
-        "id" : "scythe_war", 
+        "id" : "scythe_war",
         "fg" : 1746,
-         "rotates" : false, 
+         "rotates" : false,
          "multitile" : false
       },
       {
         "id" : "sickle",
         "fg" : 1744,
-         "rotates" : false, 
+         "rotates" : false,
          "multitile" : false
       },
-      { 
-         "id" : "minifridge", 
-         "fg" : 1293, 
-         "bg" : -1, 
-         "rotates" : false, 
+      {
+         "id" : "minifridge",
+         "fg" : 1293,
+         "bg" : -1,
+         "rotates" : false,
          "multitile" : false
-      }, 
-      { 
-         "id" : "char_smoker", 
-         "fg" : 435, 
-         "bg" : -1, 
-         "rotates" : false, 
+      },
+      {
+         "id" : "char_smoker",
+         "fg" : 435,
+         "bg" : -1,
+         "rotates" : false,
          "multitile" : false
-      }, 
+      },
         {
           "rotates": false,
           "id": "sharp_toothbrush",
@@ -14507,7 +14490,7 @@
         {
           "rotates": false,
           "id": "file",
-         "fg" : 912, 
+         "fg" : 912,
          "bg" : 936
         },
         {

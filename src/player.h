@@ -139,7 +139,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         player();
         player(const player &) = default;
         player(player &&) = default;
-        virtual ~player() override;
+        ~player() override;
         player &operator=(const player &) = default;
         player &operator=(player &&) = default;
 
@@ -158,12 +158,12 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Returns the name of the player's outer layer, e.g. "armor plates" */
         std::string skin_name() const override;
 
-        virtual bool is_player() const override {
+        bool is_player() const override {
             return true;
         }
 
         /** Handles human-specific effect application effects before calling Creature::add_eff_effects(). */
-        virtual void add_eff_effects(effect e, bool reduced) override;
+        void add_eff_effects(effect e, bool reduced) override;
         /** Processes human-specific effects effects before calling Creature::process_effects(). */
         void process_effects() override;
         /** Handles the still hard-coded effects. */
@@ -171,11 +171,11 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Returns the modifier value used for vomiting effects. */
         double vomit_mod();
 
-        virtual bool is_npc() const override {
+        bool is_npc() const override {
             return false;    // Overloaded for NPCs in npc.h
         }
         /** Returns what color the player should be drawn as */
-        virtual nc_color basic_symbol_color() const override;
+        nc_color basic_symbol_color() const override;
 
         /** Deserializes string data when loading files */
         virtual void load_info(std::string data);
@@ -186,11 +186,11 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
 
         // populate variables, inventory items, and misc from json object
         using JsonDeserializer::deserialize;
-        virtual void deserialize(JsonIn &jsin) override;
+        void deserialize(JsonIn &jsin) override;
 
         using JsonSerializer::serialize;
         // by default save all contained info
-        virtual void serialize(JsonOut &jsout) const override;
+        void serialize(JsonOut &jsout) const override;
 
         /** Prints out the player's memorial file */
         void memorial( std::ostream &memorial_file, std::string epitaph );
@@ -208,7 +208,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Resets movement points and applies other non-idempotent changes */
         void process_turn() override;
         /** Drop items randomly if insufficient inventory space except during pending activity */
-        virtual void drop_inventory_overflow() override;
+        void drop_inventory_overflow() override;
         /** Calculates the various speed bonuses we will get from mutations, etc. */
         void recalc_speed_bonus();
         /** Called after every action, invalidates player caches */
@@ -510,7 +510,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
          * Reduces and mutates du, prints messages about armor taking damage.
          * @return true if the armor was completely destroyed (and the item must be deleted).
          */
-        bool armor_absorb(damage_unit &du, item &armor);
+        bool armor_absorb( damage_unit &du, item &armor );
         /** Runs through all bionics and armor on a part and reduces damage through their armor_absorb */
         void absorb_hit(body_part bp, damage_instance &dam) override;
         /** Called after the player has successfully dodged an attack */
@@ -710,6 +710,15 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Used for eating a particular item that doesn't need to be in inventory.
          *  Returns true if the item is to be removed (doesn't remove). */
         bool consume_item( item &eat );
+        /**
+         * Consumes an item as medication.
+         * Can be used to heal others (using `pos` argument), if med type handles that.
+         * Will complain if the item isn't actually a med type.
+         * @param target Item consumed. Must be a medication or a container of medication.
+         * @param pos Position to invoke the medicine on.
+         * @return Whether the target was fully consumed.
+         */
+        bool consume_med( item &target, const tripoint &pos );
 
         /** This block is to be moved to character.h */
         bool is_allergic( const item &food ) const;
@@ -987,12 +996,14 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         int has_morale( morale_type type ) const;
         void rem_morale( morale_type type, const itype *item_type = nullptr );
         bool has_morale_to_read() const;
+        /** Checks permanent morale for consistency and recovers it when an inconsistency is found. */
+        void check_and_recover_morale();
 
         /** Get the formatted name of the currently wielded item (if any) */
         std::string weapname() const;
 
-        virtual float power_rating() const override;
-        virtual float speed_rating() const override;
+        float power_rating() const override;
+        float speed_rating() const override;
 
         /**
          * All items that have the given flag (@ref item::has_flag).
@@ -1273,13 +1284,13 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         void burn_move_stamina( int moves );
 
         //message related stuff
-        virtual void add_msg_if_player(const char *msg, ...) const override;
-        virtual void add_msg_if_player(game_message_type type, const char *msg, ...) const override;
-        virtual void add_msg_player_or_npc(const char *player_str, const char *npc_str, ...) const override;
-        virtual void add_msg_player_or_npc(game_message_type type, const char *player_str,
+        void add_msg_if_player(const char *msg, ...) const override;
+        void add_msg_if_player(game_message_type type, const char *msg, ...) const override;
+        void add_msg_player_or_npc(const char *player_str, const char *npc_str, ...) const override;
+        void add_msg_player_or_npc(game_message_type type, const char *player_str,
                                            const char *npc_str, ...) const override;
-        virtual void add_msg_player_or_say( const char *, const char *, ... ) const override;
-        virtual void add_msg_player_or_say( game_message_type, const char *, const char *, ... ) const override;
+        void add_msg_player_or_say( const char *, const char *, ... ) const override;
+        void add_msg_player_or_say( game_message_type, const char *, const char *, ... ) const override;
 
         typedef std::map<tripoint, std::string> trap_map;
         bool knows_trap( const tripoint &pos ) const;
@@ -1329,27 +1340,27 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /**
          * Called when a mutation is gained
          */
-        virtual void on_mutation_gain( const std::string &mid ) override;
+        void on_mutation_gain( const std::string &mid ) override;
         /**
          * Called when a mutation is lost
          */
-        virtual void on_mutation_loss( const std::string &mid ) override;
+        void on_mutation_loss( const std::string &mid ) override;
         /**
          * Called when a stat is changed
          */
-        virtual void on_stat_change( const std::string &stat, int value ) override;
+        void on_stat_change( const std::string &stat, int value ) override;
         /**
          * Called when an item is worn
          */
-        virtual void on_item_wear( const item &it ) override;
+        void on_item_wear( const item &it ) override;
         /**
          * Called when an item is taken off
          */
-        virtual void on_item_takeoff( const item &it ) override;
+        void on_item_takeoff( const item &it ) override;
         /**
          * Called when effect intensity has been changed
          */
-        virtual void on_effect_int_change( const efftype_id &eid, int intensity, body_part bp = num_bp ) override;
+        void on_effect_int_change( const efftype_id &eid, int intensity, body_part bp = num_bp ) override;
 
         // formats and prints encumbrance info to specified window
         void print_encumbrance( WINDOW * win, int line = -1, item *selected_limb = nullptr ) const;
@@ -1417,9 +1428,6 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         void use_fire(const int quantity);
 
         void react_to_felt_pain( int intensity );
-
-        bool can_study_recipe(const itype &book) const;
-        bool try_study_recipe(const itype &book);
 
         int pkill;
 

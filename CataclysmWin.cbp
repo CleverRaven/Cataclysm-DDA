@@ -429,6 +429,7 @@
 		<Unit filename="src/field.h" />
 		<Unit filename="src/filesystem.cpp" />
 		<Unit filename="src/filesystem.h" />
+		<Unit filename="src/fire.h" />
 		<Unit filename="src/game.cpp" />
 		<Unit filename="src/game.h" />
 		<Unit filename="src/game_constants.h" />
@@ -553,6 +554,8 @@
 		<Unit filename="src/newcharacter.cpp" />
 		<Unit filename="src/npc.cpp" />
 		<Unit filename="src/npc.h" />
+		<Unit filename="src/npc_class.cpp" />
+		<Unit filename="src/npc_class.h" />
 		<Unit filename="src/npc_favor.h" />
 		<Unit filename="src/npcmove.cpp" />
 		<Unit filename="src/npctalk.cpp" />
@@ -625,6 +628,7 @@
 		<Unit filename="src/trap.cpp" />
 		<Unit filename="src/trap.h" />
 		<Unit filename="src/trapfunc.cpp" />
+		<Unit filename="src/turret.cpp" />
 		<Unit filename="src/tutorial.cpp" />
 		<Unit filename="src/tutorial.h" />
 		<Unit filename="src/ui.cpp" />

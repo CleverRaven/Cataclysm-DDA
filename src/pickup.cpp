@@ -32,7 +32,8 @@ struct pickup_count {
 };
 
 // Handles interactions with a vehicle in the examine menu.
-Pickup::interact_results Pickup::interact_with_vehicle( vehicle *veh, const tripoint &pos, int veh_root_part )
+Pickup::interact_results Pickup::interact_with_vehicle( vehicle *veh, const tripoint &pos,
+        int veh_root_part )
 {
     if( veh == nullptr ) {
         return ITEMS_FROM_GROUND;
@@ -43,17 +44,17 @@ Pickup::interact_results Pickup::interact_with_vehicle( vehicle *veh, const trip
     const bool has_items_on_ground = g->m.sees_some_items( pos, g->u );
     const bool items_are_sealed = g->m.has_flag( "SEALED", pos );
 
-    const bool has_kitchen = (veh->part_with_feature(veh_root_part, "KITCHEN") >= 0);
-    const bool has_faucet = (veh->part_with_feature(veh_root_part, "FAUCET") >= 0);
-    const bool has_weldrig = (veh->part_with_feature(veh_root_part, "WELDRIG") >= 0);
-    const bool has_chemlab = (veh->part_with_feature(veh_root_part, "CHEMLAB") >= 0);
-    const bool has_purify = (veh->part_with_feature(veh_root_part, "WATER_PURIFIER") >=0);
-    const bool has_controls = ((veh->part_with_feature(veh_root_part, "CONTROLS") >= 0) ||
-                               (veh->part_with_feature(veh_root_part, "CTRL_ELECTRONIC") >=0));
-    const int cargo_part = veh->part_with_feature(veh_root_part, "CARGO", false);
-    const bool from_vehicle = veh && cargo_part >= 0 && !veh->get_items(cargo_part).empty();
+    const bool has_kitchen = ( veh->part_with_feature( veh_root_part, "KITCHEN" ) >= 0 );
+    const bool has_faucet = ( veh->part_with_feature( veh_root_part, "FAUCET" ) >= 0 );
+    const bool has_weldrig = ( veh->part_with_feature( veh_root_part, "WELDRIG" ) >= 0 );
+    const bool has_chemlab = ( veh->part_with_feature( veh_root_part, "CHEMLAB" ) >= 0 );
+    const bool has_purify = ( veh->part_with_feature( veh_root_part, "WATER_PURIFIER" ) >= 0 );
+    const bool has_controls = ( ( veh->part_with_feature( veh_root_part, "CONTROLS" ) >= 0 ) ||
+                                ( veh->part_with_feature( veh_root_part, "CTRL_ELECTRONIC" ) >= 0 ) );
+    const int cargo_part = veh->part_with_feature( veh_root_part, "CARGO", false );
+    const bool from_vehicle = veh && cargo_part >= 0 && !veh->get_items( cargo_part ).empty();
     const bool can_be_folded = veh->is_foldable();
-    const bool is_convertible = (veh->tags.count("convertible") > 0);
+    const bool is_convertible = ( veh->tags.count( "convertible" ) > 0 );
     const bool remotely_controlled = g->remoteveh() == veh;
     typedef enum {
         EXAMINE, CONTROL, GET_ITEMS, GET_ITEMS_ON_GROUND, FOLD_VEHICLE, USE_HOTPLATE,
@@ -61,46 +62,46 @@ Pickup::interact_results Pickup::interact_with_vehicle( vehicle *veh, const trip
     } options;
     uimenu selectmenu;
 
-    selectmenu.addentry( EXAMINE, true, 'e', _("Examine vehicle") );
+    selectmenu.addentry( EXAMINE, true, 'e', _( "Examine vehicle" ) );
 
     if( has_controls ) {
-        selectmenu.addentry( CONTROL, true, 'v', _("Control vehicle") );
+        selectmenu.addentry( CONTROL, true, 'v', _( "Control vehicle" ) );
     }
 
     if( from_vehicle ) {
-        selectmenu.addentry( GET_ITEMS, true, 'g', _("Get items") );
+        selectmenu.addentry( GET_ITEMS, true, 'g', _( "Get items" ) );
     }
 
     if( has_items_on_ground && !items_are_sealed ) {
-        selectmenu.addentry( GET_ITEMS_ON_GROUND, true, 'i', _("Get items on the ground") );
+        selectmenu.addentry( GET_ITEMS_ON_GROUND, true, 'i', _( "Get items on the ground" ) );
     }
 
     if( ( can_be_folded || is_convertible ) && !remotely_controlled ) {
-        selectmenu.addentry( FOLD_VEHICLE, true, 'f', _("Fold vehicle") );
+        selectmenu.addentry( FOLD_VEHICLE, true, 'f', _( "Fold vehicle" ) );
     }
 
-    if( ( has_kitchen || has_chemlab ) && veh->fuel_left("battery") > 0) {
-        selectmenu.addentry( USE_HOTPLATE, true, 'h', _("Use the hotplate") );
+    if( ( has_kitchen || has_chemlab ) && veh->fuel_left( "battery" ) > 0 ) {
+        selectmenu.addentry( USE_HOTPLATE, true, 'h', _( "Use the hotplate" ) );
     }
 
-    if( has_faucet && veh->fuel_left("water_clean") > 0) {
-        selectmenu.addentry( FILL_CONTAINER, true, 'c', _("Fill a container with water") );
+    if( has_faucet && veh->fuel_left( "water_clean" ) > 0 ) {
+        selectmenu.addentry( FILL_CONTAINER, true, 'c', _( "Fill a container with water" ) );
 
-        selectmenu.addentry( DRINK, true, 'd', _("Have a drink") );
+        selectmenu.addentry( DRINK, true, 'd', _( "Have a drink" ) );
     }
 
-    if( has_weldrig && veh->fuel_left("battery") > 0 ) {
-        selectmenu.addentry( USE_WELDER, true, 'w', _("Use the welding rig?") );
+    if( has_weldrig && veh->fuel_left( "battery" ) > 0 ) {
+        selectmenu.addentry( USE_WELDER, true, 'w', _( "Use the welding rig?" ) );
     }
 
-    if( has_purify && veh->fuel_left("battery") > 0 ) {
-        selectmenu.addentry( USE_PURIFIER, true, 'p', _("Purify water in carried container") );
+    if( has_purify && veh->fuel_left( "battery" ) > 0 ) {
+        selectmenu.addentry( USE_PURIFIER, true, 'p', _( "Purify water in carried container" ) );
     }
 
-    if( has_purify && veh->fuel_left("battery") > 0 &&
-        veh->fuel_left("water") > 0 &&
-        veh->fuel_capacity("water_clean") > veh->fuel_left("water_clean") ) {
-        selectmenu.addentry( PURIFY_TANK, true, 'P', _("Purify water in vehicle's tank") );
+    if( has_purify && veh->fuel_left( "battery" ) > 0 &&
+        veh->fuel_left( "water" ) > 0 &&
+        veh->fuel_capacity( "water_clean" ) > veh->fuel_left( "water_clean" ) ) {
+        selectmenu.addentry( PURIFY_TANK, true, 'P', _( "Purify water in vehicle's tank" ) );
     }
 
     int choice;
@@ -108,7 +109,7 @@ Pickup::interact_results Pickup::interact_with_vehicle( vehicle *veh, const trip
         choice = selectmenu.entries.front().retval;
     } else {
         selectmenu.return_invalid = true;
-        selectmenu.text = _("Select an action");
+        selectmenu.text = _( "Select an action" );
         selectmenu.selected = 0;
         selectmenu.query();
         choice = selectmenu.ret;
@@ -116,98 +117,98 @@ Pickup::interact_results Pickup::interact_with_vehicle( vehicle *veh, const trip
 
     switch( static_cast<options>( choice ) ) {
 
-    case USE_HOTPLATE: {
-        item pseudo( "hotplate" );
-        itype_id ammo = pseudo.ammo_default();
-        pseudo.ammo_set( ammo, veh->drain( ammo, pseudo.ammo_capacity() ) );
+        case USE_HOTPLATE: {
+            item pseudo( "hotplate" );
+            itype_id ammo = pseudo.ammo_default();
+            pseudo.ammo_set( ammo, veh->drain( ammo, pseudo.ammo_capacity() ) );
 
-        if ( pseudo.ammo_sufficient() ) {
-            g->u.invoke_item( &pseudo );
-            pseudo.ammo_consume( pseudo.ammo_required(), g->u.pos() );
-            veh->refill( ammo, pseudo.ammo_remaining() );
-        }
-        return DONE;
-    }
-
-    case FILL_CONTAINER:
-        g->u.siphon( *veh, "water_clean" );
-        return DONE;
-
-    case DRINK: {
-        veh->drain("water_clean", 1);
-        item water( "water_clean", 0 );
-        g->u.eat( water );
-        g->u.moves -= 250;
-        return DONE;
-        }
-
-    case USE_WELDER: {
-        item pseudo( "welder" );
-        itype_id ammo = pseudo.ammo_default();
-        pseudo.ammo_set( ammo, veh->drain( ammo, pseudo.ammo_capacity() ) );
-
-        if ( pseudo.ammo_sufficient() ) {
-            g->u.invoke_item( &pseudo );
-            pseudo.ammo_consume( pseudo.ammo_required(), g->u.pos() );
-            veh->refill( ammo, pseudo.ammo_remaining() );
-
-            // Evil hack incoming
-            auto &act = g->u.activity;
-            if( act.type == ACT_REPAIR_ITEM ) {
-                // Magic: first tell activity the item doesn't really exist
-                act.index = INT_MIN;
-                // Then tell it to search it on `pos`
-                act.coords.push_back( pos );
-                // Finally tell it it is the vehicle part with weldrig
-                act.values.resize( 2 );
-                act.values[1] = veh->part_with_feature( veh_root_part, "WELDRIG" );
+            if( pseudo.ammo_sufficient() ) {
+                g->u.invoke_item( &pseudo );
+                pseudo.ammo_consume( pseudo.ammo_required(), g->u.pos() );
+                veh->refill( ammo, pseudo.ammo_remaining() );
             }
-        }
-        return DONE;
-    }
-
-    case USE_PURIFIER: {
-        item pseudo( "water_purifier" );
-        itype_id ammo = pseudo.ammo_default();
-        pseudo.ammo_set( ammo, veh->drain( ammo, pseudo.ammo_capacity() ) );
-
-        if ( pseudo.ammo_sufficient() ) {
-            g->u.invoke_item( &pseudo );
-            pseudo.ammo_consume( pseudo.ammo_required(), g->u.pos() );
-            veh->refill( ammo, pseudo.ammo_remaining() );
-        }
-        return DONE;
-    }
-
-    case PURIFY_TANK: {
-        const int max_water = std::min( veh->fuel_left("water"),
-            veh->fuel_capacity("water_clean") - veh->fuel_left("water_clean") );
-        const int purify_amount = std::min( veh->fuel_left("battery"), max_water );
-        veh->drain( "battery", purify_amount );
-        veh->drain( "water", purify_amount );
-        veh->refill( "water_clean", purify_amount );
-        return DONE;
+            return DONE;
         }
 
-    case FOLD_VEHICLE:
-        veh->fold_up();
-        return DONE;
+        case FILL_CONTAINER:
+            g->u.siphon( *veh, "water_clean" );
+            return DONE;
 
-    case CONTROL:
-        if( veh->interact_vehicle_locked() ) {
-            veh->use_controls(pos);
+        case DRINK: {
+            veh->drain( "water_clean", 1 );
+            item water( "water_clean", 0 );
+            g->u.eat( water );
+            g->u.moves -= 250;
+            return DONE;
         }
-        return DONE;
 
-    case EXAMINE:
-        g->exam_vehicle(*veh, pos );
-        return DONE;
+        case USE_WELDER: {
+            item pseudo( "welder" );
+            itype_id ammo = pseudo.ammo_default();
+            pseudo.ammo_set( ammo, veh->drain( ammo, pseudo.ammo_capacity() ) );
 
-    case GET_ITEMS_ON_GROUND:
-        return ITEMS_FROM_GROUND;
+            if( pseudo.ammo_sufficient() ) {
+                g->u.invoke_item( &pseudo );
+                pseudo.ammo_consume( pseudo.ammo_required(), g->u.pos() );
+                veh->refill( ammo, pseudo.ammo_remaining() );
 
-    case GET_ITEMS:
-        return from_vehicle ? ITEMS_FROM_CARGO : ITEMS_FROM_GROUND;
+                // Evil hack incoming
+                auto &act = g->u.activity;
+                if( act.type == ACT_REPAIR_ITEM ) {
+                    // Magic: first tell activity the item doesn't really exist
+                    act.index = INT_MIN;
+                    // Then tell it to search it on `pos`
+                    act.coords.push_back( pos );
+                    // Finally tell it it is the vehicle part with weldrig
+                    act.values.resize( 2 );
+                    act.values[1] = veh->part_with_feature( veh_root_part, "WELDRIG" );
+                }
+            }
+            return DONE;
+        }
+
+        case USE_PURIFIER: {
+            item pseudo( "water_purifier" );
+            itype_id ammo = pseudo.ammo_default();
+            pseudo.ammo_set( ammo, veh->drain( ammo, pseudo.ammo_capacity() ) );
+
+            if( pseudo.ammo_sufficient() ) {
+                g->u.invoke_item( &pseudo );
+                pseudo.ammo_consume( pseudo.ammo_required(), g->u.pos() );
+                veh->refill( ammo, pseudo.ammo_remaining() );
+            }
+            return DONE;
+        }
+
+        case PURIFY_TANK: {
+            const int max_water = std::min( veh->fuel_left( "water" ),
+                                            veh->fuel_capacity( "water_clean" ) - veh->fuel_left( "water_clean" ) );
+            const int purify_amount = std::min( veh->fuel_left( "battery" ), max_water );
+            veh->drain( "battery", purify_amount );
+            veh->drain( "water", purify_amount );
+            veh->refill( "water_clean", purify_amount );
+            return DONE;
+        }
+
+        case FOLD_VEHICLE:
+            veh->fold_up();
+            return DONE;
+
+        case CONTROL:
+            if( veh->interact_vehicle_locked() ) {
+                veh->use_controls( pos );
+            }
+            return DONE;
+
+        case EXAMINE:
+            g->exam_vehicle( *veh );
+            return DONE;
+
+        case GET_ITEMS_ON_GROUND:
+            return ITEMS_FROM_GROUND;
+
+        case GET_ITEMS:
+            return from_vehicle ? ITEMS_FROM_CARGO : ITEMS_FROM_GROUND;
     }
 
     return DONE;
@@ -220,38 +221,38 @@ static bool select_autopickup_items( std::vector<item> &here, std::vector<pickup
     //Loop through Items lowest Volume first
     bool bPickup = false;
 
-    for(size_t iVol = 0, iNumChecked = 0; iNumChecked < here.size(); iVol++) {
-        for (size_t i = 0; i < here.size(); i++) {
+    for( size_t iVol = 0, iNumChecked = 0; iNumChecked < here.size(); iVol++ ) {
+        for( size_t i = 0; i < here.size(); i++ ) {
             bPickup = false;
-            if (here[i].volume() == (int)iVol) {
+            if( here[i].volume() == ( int )iVol ) {
                 iNumChecked++;
                 const std::string sItemName = here[i].tname( 1, false );
 
                 //Check the Pickup Rules
-                if ( get_auto_pickup().check_item(sItemName) == "true" ) {
+                if( get_auto_pickup().check_item( sItemName ) == "true" ) {
                     bPickup = true;
-                } else if ( get_auto_pickup().check_item(sItemName) != "false" ) {
+                } else if( get_auto_pickup().check_item( sItemName ) != "false" ) {
                     //No prematched pickup rule found
                     //items with damage, (fits) or a container
-                    get_auto_pickup().create_rules(sItemName);
+                    get_auto_pickup().create_rules( sItemName );
 
-                    if ( get_auto_pickup().check_item(sItemName) == "true" ) {
+                    if( get_auto_pickup().check_item( sItemName ) == "true" ) {
                         bPickup = true;
                     }
                 }
 
                 //Auto Pickup all items with 0 Volume and Weight <= AUTO_PICKUP_ZERO * 50
                 //items will either be in the autopickup list ("true") or unmatched ("")
-                if (!bPickup && OPTIONS["AUTO_PICKUP_ZERO"]) {
-                    if (here[i].volume() == 0 &&
+                if( !bPickup && OPTIONS["AUTO_PICKUP_ZERO"] ) {
+                    if( here[i].volume() == 0 &&
                         here[i].weight() <= OPTIONS["AUTO_PICKUP_ZERO"] * 50 &&
-                        get_auto_pickup().check_item(sItemName) != "false") {
+                        get_auto_pickup().check_item( sItemName ) != "false" ) {
                         bPickup = true;
                     }
                 }
             }
 
-            if (bPickup) {
+            if( bPickup ) {
                 getitem[i].pick = bPickup;
                 bFoundSomething = true;
             }
@@ -260,7 +261,7 @@ static bool select_autopickup_items( std::vector<item> &here, std::vector<pickup
     return bFoundSomething;
 }
 
-enum pickup_answer :int {
+enum pickup_answer : int {
     CANCEL = -1,
     WIELD,
     WEAR,
@@ -269,7 +270,8 @@ enum pickup_answer :int {
     NUM_ANSWERS
 };
 
-pickup_answer handle_problematic_pickup( const item &it, bool &offered_swap, const std::string &explain )
+pickup_answer handle_problematic_pickup( const item &it, bool &offered_swap,
+        const std::string &explain )
 {
     player &u = g->u;
 
@@ -289,10 +291,10 @@ pickup_answer handle_problematic_pickup( const item &it, bool &offered_swap, con
         amenu.addentry( WIELD, true, 'w', _( "Wield %s" ), it.display_name().c_str() );
     }
     if( it.is_armor() ) {
-        amenu.addentry( WEAR, u.can_wear( it ), 'W', _("Wear %s"), it.display_name().c_str() );
+        amenu.addentry( WEAR, u.can_wear( it ), 'W', _( "Wear %s" ), it.display_name().c_str() );
     }
     if( !it.is_container_empty() && u.can_pickVolume( it ) ) {
-        amenu.addentry( SPILL, true, 's', _("Spill %s, then pick up %s"),
+        amenu.addentry( SPILL, true, 's', _( "Spill %s, then pick up %s" ),
                         it.contents.front().tname().c_str(), it.display_name().c_str() );
     }
 
@@ -333,11 +335,11 @@ void Pickup::pick_one_up( const tripoint &pickup_target, item &newit, vehicle *v
         leftovers.charges = 0;
     }
 
-    if( newit.made_of(LIQUID) ) {
+    if( newit.made_of( LIQUID ) ) {
         got_water = true;
-    } else if ( !u.can_pickWeight( newit, false ) ) {
-        add_msg(m_info, _("The %s is too heavy!"), newit.display_name().c_str());
-    } else if( newit.is_ammo() && (newit.ammo_type() == "arrow" || newit.ammo_type() == "bolt")) {
+    } else if( !u.can_pickWeight( newit, false ) ) {
+        add_msg( m_info, _( "The %s is too heavy!" ), newit.display_name().c_str() );
+    } else if( newit.is_ammo() && ( newit.ammo_type() == "arrow" || newit.ammo_type() == "bolt" ) ) {
         // @todo Make quiver code generic so that ammo pouches can use it too
         //add ammo to quiver
         int quivered = handle_quiver_insertion( newit, moves_taken, picked_up );
@@ -352,9 +354,9 @@ void Pickup::pick_one_up( const tripoint &pickup_target, item &newit, vehicle *v
             if( !u.can_pickVolume( newit ) ) {
                 if( !autopickup ) {
                     // Silence some messaging if we're doing autopickup.
-                    add_msg(m_info, ngettext("There's no room in your inventory for the %s.",
-                                             "There's no room in your inventory for the %s.",
-                                             newit.charges), newit.tname(newit.charges).c_str());
+                    add_msg( m_info, ngettext( "There's no room in your inventory for the %s.",
+                                               "There's no room in your inventory for the %s.",
+                                               newit.charges ), newit.tname( newit.charges ).c_str() );
                 }
             } else {
                 // Add to inventory instead
@@ -368,16 +370,16 @@ void Pickup::pick_one_up( const tripoint &pickup_target, item &newit, vehicle *v
         }
     } else if( newit.is_bucket() && !newit.is_container_empty() ) {
         if( !autopickup ) {
-            const std::string &explain = string_format( _("Can't stash %s while it's not empty"),
-                                                        newit.display_name().c_str() );
+            const std::string &explain = string_format( _( "Can't stash %s while it's not empty" ),
+                                         newit.display_name().c_str() );
             option = handle_problematic_pickup( newit, offered_swap, explain );
         } else {
             option = CANCEL;
         }
     } else if( !u.can_pickVolume( newit ) ) {
         if( !autopickup ) {
-            const std::string &explain = string_format( _("Not enough capacity to stash %s"),
-                                                        newit.display_name().c_str() );
+            const std::string &explain = string_format( _( "Not enough capacity to stash %s" ),
+                                         newit.display_name().c_str() );
             option = handle_problematic_pickup( newit, offered_swap, explain );
         } else {
             option = CANCEL;
@@ -403,10 +405,10 @@ void Pickup::pick_one_up( const tripoint &pickup_target, item &newit, vehicle *v
             }
 
             if( u.weapon.invlet ) {
-                add_msg( m_info, _("Wielding %c - %s"), u.weapon.invlet,
+                add_msg( m_info, _( "Wielding %c - %s" ), u.weapon.invlet,
                          u.weapon.display_name().c_str() );
             } else {
-                add_msg( m_info, _("Wielding - %s"), u.weapon.display_name().c_str() );
+                add_msg( m_info, _( "Wielding - %s" ), u.weapon.display_name().c_str() );
             }
             break;
         case SPILL:
@@ -419,7 +421,7 @@ void Pickup::pick_one_up( const tripoint &pickup_target, item &newit, vehicle *v
             if( !picked_up ) {
                 break;
             }
-            // Intentional fallthrough
+        // Intentional fallthrough
         case STASH:
             auto &entry = mapPickup[newit.tname()];
             entry.second += newit.count_by_charges() ? newit.charges : 1;
@@ -448,8 +450,8 @@ void Pickup::do_pickup( const tripoint &pickup_target_arg, bool from_vehicle,
     bool got_water = false;
     int cargo_part = -1;
     vehicle *veh = nullptr;
-    bool weight_is_okay = (g->u.weight_carried() <= g->u.weight_capacity());
-    bool volume_is_okay = (g->u.volume_carried() <= g->u.volume_capacity());
+    bool weight_is_okay = ( g->u.weight_carried() <= g->u.weight_capacity() );
+    bool volume_is_okay = ( g->u.volume_carried() <= g->u.volume_capacity() );
     bool offered_swap = false;
     // Convert from player-relative to map-relative.
     tripoint pickup_target = pickup_target_arg + g->u.pos();
@@ -489,17 +491,17 @@ void Pickup::do_pickup( const tripoint &pickup_target_arg, bool from_vehicle,
     }
 
     if( !mapPickup.empty() ) {
-        show_pickup_message(mapPickup);
+        show_pickup_message( mapPickup );
     }
 
-    if (got_water) {
-        add_msg(m_info, _("You can't pick up a liquid!"));
+    if( got_water ) {
+        add_msg( m_info, _( "You can't pick up a liquid!" ) );
     }
-    if (weight_is_okay && g->u.weight_carried() > g->u.weight_capacity()) {
-        add_msg(m_bad, _("You're overburdened!"));
+    if( weight_is_okay && g->u.weight_carried() > g->u.weight_capacity() ) {
+        add_msg( m_bad, _( "You're overburdened!" ) );
     }
-    if (volume_is_okay && g->u.volume_carried() > g->u.volume_capacity()) {
-        add_msg(m_bad, _("You struggle to carry such a large volume!"));
+    if( volume_is_okay && g->u.volume_carried() > g->u.volume_capacity() ) {
+        add_msg( m_bad, _( "You struggle to carry such a large volume!" ) );
     }
 }
 
@@ -958,7 +960,7 @@ void Pickup::pick_up( const tripoint &pos, int min )
 
 //helper function for Pickup::pick_up
 //return value is amount of ammo added to quiver
-int Pickup::handle_quiver_insertion(item &here, int &moves_to_decrement, bool &picked_up)
+int Pickup::handle_quiver_insertion( item &here, int &moves_to_decrement, bool &picked_up )
 {
     //add ammo to quiver
     int quivered = g->u.add_ammo_to_worn_quiver( here );
@@ -973,7 +975,7 @@ int Pickup::handle_quiver_insertion(item &here, int &moves_to_decrement, bool &p
 
 //helper function for Pickup::pick_up (singular item)
 void Pickup::remove_from_map_or_vehicle( const tripoint &pos, vehicle *veh, int cargo_part,
-                                        int &moves_taken, int curmit )
+        int &moves_taken, int curmit )
 {
     if( veh != nullptr ) {
         veh->remove_item( cargo_part, curmit );
@@ -987,12 +989,12 @@ void Pickup::remove_from_map_or_vehicle( const tripoint &pos, vehicle *veh, int 
 void Pickup::show_pickup_message( const PickupMap &mapPickup )
 {
     for( auto &entry : mapPickup ) {
-            if( entry.second.first.invlet != 0 ) {
-                add_msg(_("You pick up: %d %s [%c]"), entry.second.second,
-                        entry.second.first.display_name(entry.second.second).c_str(), entry.second.first.invlet);
-            } else {
-                add_msg(_("You pick up: %d %s"), entry.second.second,
-                        entry.second.first.display_name(entry.second.second).c_str());
-            }
+        if( entry.second.first.invlet != 0 ) {
+            add_msg( _( "You pick up: %d %s [%c]" ), entry.second.second,
+                     entry.second.first.display_name( entry.second.second ).c_str(), entry.second.first.invlet );
+        } else {
+            add_msg( _( "You pick up: %d %s" ), entry.second.second,
+                     entry.second.first.display_name( entry.second.second ).c_str() );
+        }
     }
 }

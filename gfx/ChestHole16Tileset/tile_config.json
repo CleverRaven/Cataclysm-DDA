@@ -3071,7 +3071,7 @@
           "fg": 369,
           "bg": 632,
           "rotates": false
-        }, 
+        },
         {
           "id": "helmet_chitin",
           "fg": 3671,
@@ -4093,7 +4093,7 @@
           "id": "overlay_worn_armor_plate",
           "fg": 438,
           "rotates": false
-        }, 
+        },
         {
           "id": "overlay_male_worn_armor_scrapsuit",
           "fg": 3728,
@@ -20469,7 +20469,7 @@
           "bg": 640,
           "rotates": false
         },
-        { 
+        {
             "id": "t_tree_hickory",
             "fg": 3591,
             "bg": 632,
@@ -20685,7 +20685,7 @@
           "fg": [
             { "weight":1, "sprite":[2918, 3627, 2918, 3627]},
             { "weight":999, "sprite":[2918, 2919, 2918, 2919]}
-           ], 
+           ],
           "bg": 633,
           "rotates": true,
           "multitile": true,
@@ -21260,7 +21260,7 @@
           "fg": 1631,
           "bg": 642,
           "rotates": false
-        }, 
+        },
         {
           "id": "mon_blob_brain",
           "fg": 2811,
@@ -22212,7 +22212,7 @@
           "fg": 3605,
           "bg": 632,
           "rotates": false
-        }, 
+        },
         {
           "id": "mon_zombie_screecher",
           "fg": 3606,
@@ -22314,7 +22314,7 @@
           "fg": 3625,
           "bg": 632,
           "rotates": false
-        },  
+        },
         {
           "id": "mon_shia",
           "fg": 3626,
@@ -22353,7 +22353,6 @@
         {
           "id": "mon_zhark",
           "fg": 2809,
-
           "rotates": false
         },
         {
@@ -22558,7 +22557,7 @@
           "fg": 1951,
           "bg": 642,
           "rotates": false
-        }, 
+        },
         {
           "id": "npc_male",
           "fg":1706 ,
@@ -22577,7 +22576,6 @@
           "bg": 642,
           "rotates": false
         },
-
         {
           "id": "mon_zombie_pig",
           "fg": 1801,
@@ -27052,11 +27050,6 @@
           "rotates": false
         },
         {
-          "id": "battery_truck",
-          "fg": 1377,
-          "rotates": false
-        },
-        {
           "id": "vp_battery_car",
           "fg": 1377,
           "rotates": false,
@@ -27070,18 +27063,6 @@
         },
         {
           "id": "vp_battery_motorbike",
-          "fg": 1377,
-          "rotates": false,
-          "multitile": true,
-          "additional_tiles": [
-            {
-              "id": "broken",
-              "fg": 3256
-            }
-          ]
-        },
-        {
-          "id": "vp_battery_truck",
           "fg": 1377,
           "rotates": false,
           "multitile": true,
@@ -29545,7 +29526,7 @@
         {
           "id": "t_console",
           "fg": 3001,
-          "bg": 661, 
+          "bg": 661,
           "rotates": false
         },
         {
@@ -29565,7 +29546,6 @@
         {
           "id": "t_console_broken",
           "fg": 3003,
-          
           "rotates": false
         },
         {

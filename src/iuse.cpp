@@ -3164,13 +3164,28 @@ int iuse::makemound(player *p, item *it, bool, const tripoint& )
     }
 }
 
-int iuse::dig(player *p, item *it, bool, const tripoint & )
+int iuse::dig(player *p, item *it, bool, const tripoint &pos )
 {
-    for( const tripoint &pt : closest_tripoints_first( 1, p->pos() ) ) {
+    for( const tripoint &pt : closest_tripoints_first( 1, pos ) ) {
         if( g->m.furn_at( pt ).examine == iexamine::rubble ) {
-            p->moves -= 200;
             p->add_msg_if_player( _("You clear up that %s."), g->m.furnname( pt ).c_str() );
             g->m.furn_set( pt, f_null );
+
+            // costs per tile:
+            // DIG 2 = 300 seconds, 10 hunger and thirst
+            // DIG 3 =  75 seconds,  2 hunger and thirst
+            // DIG 4 =  33 seconds,  1 hunger and thirst
+            // DIG 5 =  18 seconds,  0 hunger and thirst
+            int bonus = std::max( it->get_quality( quality_id( "DIG" ) ) - 1, 1 );
+            bonus *= bonus;
+
+            p->moves -= 5000 / ( bonus * bonus );
+
+            if( p ) {
+                p->mod_hunger ( 10 / bonus );
+                p->mod_thirst ( 10 / bonus );
+            }
+
             return it->type->charges_to_use();
         }
     }
@@ -3464,228 +3479,6 @@ int iuse::pickaxe(player *p, item *it, bool, const tripoint& )
     p->add_msg_if_player(_("You attack the %1$s with your %2$s."),
                          g->m.tername(dirx, diry).c_str(), it->tname().c_str());
     return 0; // handled when the activity finishes
-}
-
-int iuse::set_trap(player *p, item *it, bool, const tripoint& )
-{
-    if (p->is_underwater()) {
-        p->add_msg_if_player( _("You can't do that while underwater."));
-        return 0;
-    }
-    int dirx = 0;
-    int diry = 0;
-    if( !choose_adjacent( string_format(_("Place %s where?"), it->tname().c_str()), dirx, diry) ) {
-        return 0;
-    }
-
-    int posx = dirx;
-    int posy = diry;
-    tripoint tr_loc( posx, posy, p->posz() );
-    if (g->m.move_cost(posx, posy) != 2) {
-        p->add_msg_if_player(m_info, _("You can't place a %s there."), it->tname().c_str());
-        return 0;
-    }
-
-    const trap &existing_trap = g->m.tr_at( tr_loc );
-    if( !existing_trap.is_null() ) {
-        if( existing_trap.can_see( tr_loc, *p )) {
-            p->add_msg_if_player(m_info, _("You can't place a %s there.  It contains a trap already."),
-                                 it->tname().c_str());
-        } else {
-            p->add_msg_if_player(m_bad, _("You trigger a %s!"), existing_trap.name.c_str());
-            existing_trap.trigger( tr_loc, p );
-        }
-        return 0;
-    }
-
-    trap_id type = tr_null;
-    ter_id ter;
-    bool buried = false;
-    bool set = false;
-    std::stringstream message;
-    int practice = 0;
-    static const quality_id DIG( "DIG" );
-
-    if (it->type->id == "cot") {
-        message << _("You unfold the cot and place it on the ground.");
-        type = tr_cot;
-        practice = 0;
-    } else if (it->type->id == "rollmat") {
-        message << _("You unroll the mat and lay it on the ground.");
-        type = tr_rollmat;
-        practice = 0;
-    } else if (it->type->id == "fur_rollmat") {
-        message << _("You unroll the fur mat and lay it on the ground.");
-        type = tr_fur_rollmat;
-        practice = 0;
-    } else if (it->type->id == "brazier") {
-        message << _("You place the brazier securely.");
-        type = tr_brazier;
-        practice = 0;
-    } else if (it->type->id == "boobytrap") {
-        message << _("You set the booby trap up and activate the grenade.");
-        type = tr_boobytrap;
-        practice = 4;
-    } else if (it->type->id == "bubblewrap") {
-        message << _("You set the bubble wrap on the ground, ready to be popped.");
-        type = tr_bubblewrap;
-        practice = 2;
-    } else if (it->type->id == "beartrap") {
-        buried = (p->has_quality( DIG, 3 ) &&
-                  g->m.has_flag("DIGGABLE", posx, posy) &&
-                  query_yn(_("Bury the beartrap?")));
-        type = (buried ? tr_beartrap_buried : tr_beartrap);
-        message << (buried ? _("You bury the beartrap.") : _("You set the beartrap."));
-        practice = (buried ? 7 : 4);
-    } else if (it->type->id == "board_trap") {
-        message << string_format(_("You set the board trap on the %s, nails facing up."),
-                                 g->m.tername(posx, posy).c_str());
-        type = tr_nailboard;
-        practice = 2;
-    } else if (it->type->id == "caltrops") {
-        message << string_format(_("You scatter the caltrops on the %s."),
-                                 g->m.tername(posx, posy).c_str());
-        type = tr_caltrops;
-        practice = 2;
-    } else if (it->type->id == "telepad") {
-        message << _("You place the telepad.");
-        type = tr_telepad;
-        practice = 10;
-    } else if (it->type->id == "funnel") {
-        message << _("You place the funnel, waiting to collect rain.");
-        type = tr_funnel;
-        practice = 0;
-    } else if (it->type->id == "metal_funnel") {
-        message << _("You place the metal funnel, waiting to collect rain.");
-        type = tr_metal_funnel;
-        practice = 0;
-    } else if (it->type->id == "makeshift_funnel") {
-        message << _("You place the makeshift funnel, waiting to collect rain.");
-        type = tr_makeshift_funnel;
-        practice = 0;
-    } else if (it->type->id == "leather_funnel") {
-        message << _("You place the leather funnel, waiting to collect rain.");
-        type = tr_leather_funnel;
-        practice = 0;
-    } else if (it->type->id == "tripwire") {
-        // Must have a connection between solid squares.
-        if ((g->m.move_cost(posx, posy - 1) != 2 &&
-             g->m.move_cost(posx, posy + 1) != 2) ||
-            (g->m.move_cost(posx + 1, posy) != 2 &&
-             g->m.move_cost(posx - 1, posy) != 2) ||
-            (g->m.move_cost(posx - 1, posy - 1) != 2 &&
-             g->m.move_cost(posx + 1, posy + 1) != 2) ||
-            (g->m.move_cost(posx + 1, posy - 1) != 2 &&
-             g->m.move_cost(posx - 1, posy + 1) != 2)) {
-            message << _("You string up the tripwire.");
-            type = tr_tripwire;
-            practice = 3;
-        } else {
-            p->add_msg_if_player(m_info, _("You must place the tripwire between two solid tiles."));
-            return 0;
-        }
-    } else if (it->type->id == "crossbow_trap") {
-        message << _("You set the crossbow trap.");
-        type = tr_crossbow;
-        practice = 4;
-    } else if (it->type->id == "shotgun_trap") {
-        message << _("You set the shotgun trap.");
-        type = tr_shotgun_2;
-        practice = 5;
-    } else if (it->type->id == "blade_trap") {
-        posx = (dirx - p->posx()) * 2 + p->posx(); //math correction for blade trap
-        posy = (diry - p->posy()) * 2 + p->posy();
-        tr_loc = tripoint( posx, posy, p->posz() );
-        for (int i = -1; i <= 1; i++) {
-            for (int j = -1; j <= 1; j++) {
-                if (g->m.move_cost(posx + i, posy + j) != 2) {
-                    p->add_msg_if_player(m_info,
-                                         _("That trap needs a 3x3 space to be clear, centered two tiles from you."));
-                    return 0;
-                }
-            }
-        }
-        message << _("You set the blade trap two squares away.");
-        type = tr_engine;
-        practice = 12;
-    } else if (it->type->id == "light_snare_kit") {
-        for (int i = -1; i <= 1; i++) {
-            for (int j = -1; j <= 1; j++) {
-                ter = g->m.ter(posx + j, posy + i);
-                if (ter == t_tree_young && !set) {
-                    message << _("You set the snare trap.");
-                    type = tr_light_snare;
-                    practice = 2;
-                    set = true;
-                }
-            }
-        }
-        if (!set) {
-            p->add_msg_if_player(m_info, _("Invalid Placement."));
-            return 0;
-        }
-    } else if (it->type->id == "heavy_snare_kit") {
-        for (int i = -1; i <= 1; i++) {
-            for (int j = -1; j <= 1; j++) {
-                ter = g->m.ter(posx + j, posy + i);
-                if (ter == t_tree && !set) {
-                    message << _("You set the snare trap.");
-                    type = tr_heavy_snare;
-                    practice = 4;
-                    set = true;
-                }
-            }
-        }
-        if (!set) {
-            p->add_msg_if_player(m_info, _("Invalid Placement."));
-            return 0;
-        }
-    } else if (it->type->id == "landmine") {
-        buried = (p->has_quality( DIG, 3 ) &&
-                  g->m.has_flag("DIGGABLE", posx, posy) &&
-                  query_yn(_("Bury the land mine?")));
-        type = (buried ? tr_landmine_buried : tr_landmine);
-        message << (buried ? _("You bury the land mine.") : _("You set the land mine."));
-        practice = (buried ? 7 : 4);
-    } else {
-        p->add_msg_if_player(_("Tried to set a trap.  But got confused! %s"), it->tname().c_str());
-    }
-
-    const trap *tr = &type.obj();
-    if (dirx == p->posx() && diry == p->posy() && !tr->is_benign()) {
-        p->add_msg_if_player(m_info, _("Yeah.  Place the %s at your feet."), it->tname().c_str());
-        p->add_msg_if_player(m_info, _("Real damn smart move."));
-        return 0;
-    }
-
-    if( buried ) {
-        if( !p->has_quality( DIG ) ) {
-            p->add_msg_if_player( m_info, _( "You need a digging tool." ));
-            return 0;
-        } else if( !g->m.has_flag( "DIGGABLE", posx, posy ) ) {
-            p->add_msg_if_player( m_info, _( "You can't dig in that %s." ),
-                                  g->m.tername( posx, posy ).c_str() );
-            return 0;
-        }
-    }
-
-    p->add_msg_if_player(message.str().c_str());
-    p->practice( skill_id( "traps" ), practice);
-    g->m.add_trap( tr_loc, type );
-    if( !tr->can_see( tr_loc, *p ) ) {
-        p->add_known_trap( tr_loc, *tr );
-    }
-    p->moves -= 100 + practice * 25;
-    if (type == tr_engine) {
-        for (int i = -1; i <= 1; i++) {
-            for (int j = -1; j <= 1; j++) {
-                if (i != 0 || j != 0) {
-                    g->m.add_trap({posx + i, posy + j, tr_loc.z}, tr_blade);
-                }
-            }
-        }
-    }
-    return 1;
 }
 
 int iuse::geiger(player *p, item *it, bool t, const tripoint &pos)
@@ -4537,11 +4330,7 @@ void iuse::play_music( player * const p, const tripoint &source, int const volum
         const std::string &music = get_music_description();
         if( !music.empty() ) {
             sound = music;
-            // music source is on player's square
-            if( p->pos() == source && volume != 0 ) {
-                // generic stereo players without earphones
-                sound = string_format( _("You listen to %s"), music.c_str() );
-            } else if( p->pos() == source && volume == 0 && p->can_hear( source, volume ) ) {
+            if( p->pos() == source && volume == 0 && p->can_hear( source, volume ) ) {
                 // in-ear music, such as mp3 player
                 p->add_msg_if_player( _( "You listen to %s"), music.c_str() );
             }
@@ -8292,4 +8081,42 @@ int iuse::saw_barrel( player *p, item *, bool, const tripoint& )
     obj.contents.emplace_back( "barrel_small", calendar::turn );
 
     return 0;
+}
+
+int iuse::washclothes( player *p, item *it, bool, const tripoint& )
+{
+    if( it->charges < it->type->charges_to_use() ) {
+        p->add_msg_if_player( _( "You need a soap to use this." ) );
+        return 0;
+    }
+    
+    const inventory &crafting_inv = p->crafting_inventory();
+    if( !crafting_inv.has_charges( "water", 40 ) && !crafting_inv.has_charges( "water_clean", 40 ) ) {
+        p->add_msg_if_player( _( "You need a large amount of fresh water to use this." ) );
+        return 0;
+    }
+    
+    const int pos = g->inv_for_flag( "FILTHY", _( "Wash what?" ) );
+    item &mod = p->i_at( pos );
+    if( pos == INT_MIN ) {
+        p->add_msg_if_player( m_info, _( "Never mind." ) );
+        return 0;
+    }
+
+    std::vector<item_comp> comps;
+    comps.push_back( item_comp( "water", 40 ) );
+    comps.push_back( item_comp( "water_clean", 40 ) );
+    p->consume_items( comps );
+    
+    p->add_msg_if_player( _( "You washed your clothing." ) );
+    p->mod_moves( -3000 );
+
+    if( p->is_worn( mod ) ) {
+        mod.on_takeoff( g->u );
+        mod.item_tags.erase( "FILTHY" );
+        mod.on_wear( g->u );
+    }
+    mod.item_tags.erase( "FILTHY" );
+
+    return it->type->charges_to_use();
 }

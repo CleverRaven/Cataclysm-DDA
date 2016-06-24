@@ -9,7 +9,6 @@
     {
       "file": "tiles.png",
       "tiles": [
-        
         {
           "id": "overlay_wielded_10mm",
           "fg": 1,
@@ -3054,7 +3053,7 @@
           "fg": 369,
           "bg": 632,
           "rotates": false
-        }, 
+        },
         {
           "id": "overlay_wielded_helmet_chitin",
           "fg": 3671,
@@ -13448,7 +13447,7 @@
           "fg": 3741,
           "bg": 632,
           "rotates": false
-        }, 
+        },
         {
           "id": "overlay_wielded_mon_zombie_sproglodyte",
           "fg": 3742,
@@ -18123,7 +18122,7 @@
           "id": "overlay_worn_armor_plate",
           "fg": 438,
           "rotates": false
-        }, 
+        },
         {
           "id": ["overlay_male_worn_armor_scrapsuit", "overlay_male_worn_armor_lorica"],
           "fg": 3728,
@@ -18163,7 +18162,7 @@
           "id": "overlay_male_mutation_SLEEK_SCALES",
           "fg": 3763,
           "rotates": false
-        },        
+        },
         {
           "id": ["overlay_female_mutation_CHITIN", "overlay_female_mutation_CHITIN_FUR", "overlay_female_mutation_CHITIN_FUR2", "overlay_female_mutation_CHITIN_FUR3"],
           "fg": 3764,
@@ -21592,7 +21591,7 @@
           "fg": 369,
           "bg": 632,
           "rotates": false
-        }, 
+        },
         {
           "id": "helmet_chitin",
           "fg": 3671,
@@ -22846,7 +22845,7 @@
           "id": "overlay_worn_armor_plate",
           "fg": 438,
           "rotates": false
-        }, 
+        },
         {
           "id": "overlay_male_worn_armor_scrapsuit",
           "fg": 3728,
@@ -22956,7 +22955,7 @@
           "id": "overlay_male_mutation_SLEEK_SCALES",
           "fg": 3763,
           "rotates": false
-        },        
+        },
         {
           "id": ["overlay_female_mutation_CHITIN", "overlay_female_mutation_CHITIN_FUR", "overlay_female_mutation_CHITIN_FUR2", "overlay_female_mutation_CHITIN_FUR3"],
           "fg": 3764,
@@ -25015,7 +25014,7 @@
           "rotates": false
         },
         {
-          "id": ["overlay_worn_lsurvivor_suit", "overlay_worn_lsurvivor_armor"], 
+          "id": ["overlay_worn_lsurvivor_suit", "overlay_worn_lsurvivor_armor"],
           "fg": 504,
           "rotates": false
         },
@@ -25333,7 +25332,7 @@
           "rotates": false
         },
         {
-          "id": ["overlay_worn_pants_cargo", "overlay_worn_lsurvivor_pants"], 
+          "id": ["overlay_worn_pants_cargo", "overlay_worn_lsurvivor_pants"],
           "fg": 523,
           "rotates": false
         },
@@ -36163,7 +36162,7 @@
           "fg": 3741,
           "bg": 632,
           "rotates": false
-        }, 
+        },
         {
           "id": "mon_zombie_sproglodyte",
           "fg": 3742,
@@ -40085,7 +40084,7 @@
           "bg": 640,
           "rotates": false
         },
-        { 
+        {
             "id": "t_tree_hickory",
             "fg": 3591,
             "bg": 640,
@@ -40302,7 +40301,7 @@
             { "weight":1, "sprite":[2918, 2913, 2918, 2919]},
             { "weight":1, "sprite":[2918, 3627, 2918, 3627]},
             { "weight":9999, "sprite":[2918, 2919, 2918, 2919]}
-           ], 
+           ],
           "bg": 633,
           "rotates": true,
           "multitile": true,
@@ -40883,7 +40882,7 @@
           "fg": 1631,
           "bg": 642,
           "rotates": false
-        }, 
+        },
         {
           "id": "mon_blob_brain",
           "fg": 2811,
@@ -41835,7 +41834,7 @@
           "fg": 3605,
           "bg": 632,
           "rotates": false
-        }, 
+        },
         {
           "id": "mon_zombie_screecher",
           "fg": 3606,
@@ -41943,7 +41942,7 @@
           "fg": 3625,
           "bg": 632,
           "rotates": false
-        },  
+        },
         {
           "id": "mon_shia",
           "fg": 3626,
@@ -42096,7 +42095,6 @@
         {
           "id": "mon_zhark",
           "fg": 2809,
-
           "rotates": false
         },
         {
@@ -42301,7 +42299,7 @@
           "fg": 1951,
           "bg": 642,
           "rotates": false
-        }, 
+        },
         {
           "id": "npc_male",
           "fg":1706 ,
@@ -42313,7 +42311,7 @@
           "fg": 1951,
           "bg": 642,
           "rotates": false
-        }, 
+        },
         {
           "id": "player_male",
           "fg": 1706,
@@ -46782,11 +46780,6 @@
           "rotates": false
         },
         {
-          "id": "battery_truck",
-          "fg": 1377,
-          "rotates": false
-        },
-        {
           "id": "vp_battery_car",
           "fg": 1377,
           "rotates": false,
@@ -46800,18 +46793,6 @@
         },
         {
           "id": "vp_battery_motorbike",
-          "fg": 1377,
-          "rotates": false,
-          "multitile": true,
-          "additional_tiles": [
-            {
-              "id": "broken",
-              "fg": 3256
-            }
-          ]
-        },
-        {
-          "id": "vp_battery_truck",
           "fg": 1377,
           "rotates": false,
           "multitile": true,
@@ -48843,7 +48824,7 @@
         {
           "id": "t_console",
           "fg": 3001,
-          "bg": 661, 
+          "bg": 661,
           "rotates": false
         },
         {
@@ -48863,7 +48844,6 @@
         {
           "id": "t_console_broken",
           "fg": 3003,
-          
           "rotates": false
         },
         {
@@ -49738,7 +49718,7 @@
           "rotates": false
         },
         {
-          "id": ["elec_combatsaw_off", "elec_chainsaw_off"], 
+          "id": ["elec_combatsaw_off", "elec_chainsaw_off"],
           "fg": 2461
         },
         {
@@ -53297,13 +53277,13 @@
       ]
     },
     {
-    "file": "tiles32.png", 
+    "file": "tiles32.png",
     "sprite_width":32,
     "sprite_height":32,
     "sprite_offset_x":-4,
     "sprite_offset_y":-4,
     "tiles":
-    [ 
+    [
         {
           "id": "overlay_male_mutation_WINGS_BIRD",
           "fg": 4000,

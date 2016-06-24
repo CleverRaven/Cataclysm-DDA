@@ -10,10 +10,13 @@
 #include "vehicle_group.h"
 #include "init.h"
 #include "generic_factory.h"
+#include "character.h"
 
 #include <unordered_map>
 #include <unordered_set>
 #include <sstream>
+
+const skill_id skill_mechanics( "mechanics" );
 
 std::unordered_map<vproto_id, vehicle_prototype> vtypes;
 
@@ -66,7 +69,6 @@ static const std::unordered_map<std::string, vpart_bitflags> vpart_bitflag_map =
     { "CARGO", VPFLAG_CARGO },
     { "INTERNAL", VPFLAG_INTERNAL },
     { "SOLAR_PANEL", VPFLAG_SOLAR_PANEL },
-    { "VARIABLE_SIZE", VPFLAG_VARIABLE_SIZE },
     { "VPFLAG_TRACK", VPFLAG_TRACK },
     { "RECHARGE", VPFLAG_RECHARGE },
     { "VISION", VPFLAG_EXTENDS_VISION }
@@ -150,7 +152,6 @@ void vpart_info::load( JsonObject &jo )
         } else {
             deferred.emplace_back( jo.str() );
         }
-        def.id = vpart_str_id( jo.get_string( "id" ) );
     }
 
     if( jo.has_string( "abstract" ) ) {
@@ -168,10 +169,46 @@ void vpart_info::load( JsonObject &jo )
     assign( jo, "epower", def.epower );
     assign( jo, "fuel_type", def.fuel_type );
     assign( jo, "folded_volume", def.folded_volume );
-    assign( jo, "range", def.range );
     assign( jo, "size", def.size );
     assign( jo, "difficulty", def.difficulty );
+    assign( jo, "bonus", def.bonus );
     assign( jo, "flags", def.flags );
+
+    auto reqs = jo.get_object( "requirements" );
+    if( reqs.has_object( "install" ) ) {
+        auto ins = reqs.get_object( "install" );
+
+        auto sk = ins.get_array( "skills" );
+        if( !sk.empty() ) {
+            def.install_skills.clear();
+        }
+        while( sk.has_more() ) {
+            auto cur = sk.next_array();
+            def.install_skills.emplace( skill_id( cur.get_string( 0 ) ) , cur.size() >= 2 ? cur.get_int( 1 ) : 1 );
+        }
+
+        assign( ins, "time", def.install_moves );
+
+        def.install_reqs.load( ins );
+        def.legacy = false;
+    }
+    if( reqs.has_object( "removal" ) ) {
+        auto rem = reqs.get_object( "removal" );
+
+        auto sk = rem.get_array( "skills" );
+        if( !sk.empty() ) {
+            def.removal_skills.clear();
+        }
+        while( sk.has_more() ) {
+            auto cur = sk.next_array();
+            def.removal_skills.emplace( skill_id( cur.get_string( 0 ) ) , cur.size() >= 2 ? cur.get_int( 1 ) : 1 );
+        }
+
+        assign( rem, "time", def.removal_moves );
+
+        def.removal_reqs.load( rem );
+        def.legacy = false;
+    }
 
     if( jo.has_member( "symbol" ) ) {
         def.sym = jo.get_string( "symbol" )[ 0 ];
@@ -199,31 +236,6 @@ void vpart_info::load( JsonObject &jo )
             auto pair = qual.next_array();
             def.qualities[ quality_id( pair.get_string( 0 ) ) ] = pair.get_int( 1 );
         }
-    }
-
-    //Handle the par1 union as best we can by accepting any ONE of its elements
-    int element_count = (jo.has_member("par1") ? 1 : 0)
-                        + (jo.has_member("wheel_width") ? 1 : 0)
-                        + (jo.has_member("bonus") ? 1 : 0);
-
-    if(element_count == 0) {
-        //If not specified, assume 0
-        def.par1 = 0;
-    } else if(element_count == 1) {
-        if(jo.has_member("par1")) {
-            def.par1 = jo.get_int("par1");
-        } else if(jo.has_member("wheel_width")) {
-            def.par1 = jo.get_int("wheel_width");
-        } else { //bonus
-            def.par1 = jo.get_int("bonus");
-        }
-    } else {
-        //Too many
-        debugmsg("Error parsing vehicle part '%s': \
-               Use AT MOST one of: par1, wheel_width, bonus",
-                 def.name().c_str());
-        //Keep going to produce more messages if other parts are wrong
-        def.par1 = 0;
     }
 
     if( jo.has_member( "damage_reduction" ) ) {
@@ -353,8 +365,68 @@ void vpart_info::finalize()
 
 void vpart_info::check()
 {
-    for( auto &part_ptr : vehicle_part_int_types ) {
-        auto &part = *part_ptr;
+    for( auto &vp : vehicle_part_types ) {
+        auto &part = vp.second;
+
+        // handle legacy parts without requirement data
+        if( part.legacy ) {
+            part.install_reqs.components = { { { { part.item, 1 } } } };
+
+            part.install_skills.emplace( skill_mechanics, part.difficulty );
+            part.removal_skills.emplace( skill_mechanics, std::max( part.difficulty - 2, 2 ) );
+
+            if( part.has_flag( "TOOL_WRENCH" ) || part.has_flag( "WHEEL" ) ) {
+                part.install_reqs.qualities = { { { quality_id( "WRENCH" ), 1, 1 } } };
+                part.removal_reqs.qualities = { { { quality_id( "WRENCH" ), 1, 1 } } };
+            } else if( part.has_flag( "TOOL_SCREWDRIVER" ) ) {
+                part.install_reqs.qualities = { { { { quality_id( "SCREW" ), 1, 1 } } } };
+                part.removal_reqs.qualities = { { { { quality_id( "SCREW" ), 1, 1 } } } };
+            } else if( part.has_flag( "NAILABLE" ) ) {
+                part.install_reqs.qualities = { { { { quality_id( "HAMMER" ), 1, 1 } } } };
+                part.removal_reqs.qualities = { { { { quality_id( "HAMMER" ), 1, 1 } } } };
+                part.install_reqs.components.push_back( { { { "nail", 20 } } } );
+            } else if( part.has_flag( "TOOL_NONE" ) ) {
+                // intentional no-op as we require nothing
+            } else {
+                part.install_reqs.qualities = { { { { quality_id( "WRENCH" ), 1, 2 } },
+                                                  { { quality_id( "GLARE" ), 1, 2 } } } };
+                part.install_reqs.tools.push_back( { { { "welder", 50 }, { "welder_crude", 75 }, { "oxy_torch", 10 }, { "toolset", 75 } } } );
+                part.removal_reqs.qualities = { { { { quality_id( "WRENCH" ), 1, 2 } },
+                                                  { { quality_id( "SAW_M" ), 1, 2 } } } };
+            }
+        }
+
+        if( part.install_reqs.get_components().empty() ) {
+            debugmsg( "vehicle part %s has no installation components", part.id.c_str() );
+        }
+
+        if( part.removal_moves < 0 ) {
+            part.removal_moves = part.install_moves / 2;
+        }
+
+        for( auto &e : part.install_skills ) {
+            if( !e.first.is_valid() ) {
+                debugmsg( "vehicle part %s has unknown install skill %s", part.id.c_str(), e.first.c_str() );
+            }
+        }
+
+        for( auto &e : part.removal_skills ) {
+            if( !e.first.is_valid() ) {
+                debugmsg( "vehicle part %s has unknown removal skill %s", part.id.c_str(), e.first.c_str() );
+            }
+        }
+
+        part.install_reqs.check_consistency( part.id.str() );
+
+        part.removal_reqs.check_consistency( part.id.str() );
+
+        if( part.install_moves < 0 ) {
+            debugmsg( "vehicle part %s has negative installation time", part.id.c_str() );
+        }
+
+        if( part.removal_moves < 0 ) {
+            debugmsg( "vehicle part %s has negative removal time", part.id.c_str() );
+        }
 
         if( !item_group::group_is_defined( part.breaks_into_group ) ) {
             debugmsg( "Vehicle part %s breaks into non-existent item group %s.",
@@ -380,9 +452,6 @@ void vpart_info::check()
         }
         if( part.size < 0 ) {
             debugmsg( "vehicle part %s has negative size", part.id.c_str() );
-        }
-        if( part.range < 0 ) {
-            debugmsg( "vehicle part %s has negative range", part.id.c_str() );
         }
         if( part.has_flag( VPFLAG_FUEL_TANK ) && !item::type_is_defined( part.fuel_type ) ) {
             debugmsg( "vehicle part %s is a fuel tank, but has invalid fuel type %s (not a valid item id)", part.id.c_str(), part.fuel_type.c_str() );
@@ -419,6 +488,18 @@ std::string vpart_info::name() const
         name_ = item::nname( item ); // cache on first request
     }
     return name_;
+}
+
+int vpart_info::install_time( const Character &ch ) const {
+    ///\EFFECT_MECHANICS reduces time consumed installing vehicle parts
+    int lvl = std::min( ch.get_skill_level( skill_mechanics ).level(), MAX_SKILL );
+    return install_moves * ( 1.0 - ( lvl / 2.0 ) / MAX_SKILL );
+}
+
+int vpart_info::removal_time( const Character &ch ) const {
+    ///\EFFECT_MECHANICS reduces time consumed removing vehicle parts
+    int lvl = std::min( ch.get_skill_level( skill_mechanics ).level(), MAX_SKILL );
+    return removal_moves * ( 1.0 - ( lvl / 2.0 ) / MAX_SKILL );
 }
 
 template<>

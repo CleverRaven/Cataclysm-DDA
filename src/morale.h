@@ -43,6 +43,9 @@ class player_morale
         void decay( int ticks = 1 );
         /** Displays morale screen */
         void display( double focus_gain );
+        /** Returns false whether morale is inconsistent with the argument.
+         *  Only permanent morale is checked */
+        bool consistent_with( const player_morale &morale ) const;
 
         void on_mutation_gain( const std::string &mid );
         void on_mutation_loss( const std::string &mid );
@@ -85,6 +88,7 @@ class player_morale
                 bool is_expired() const;
                 bool is_permanent() const;
                 bool matches( morale_type _type, const itype *_item_type = nullptr ) const;
+                bool matches( const morale_point &mp ) const;
 
                 void add( int new_bonus, int new_max_bonus, int new_duration,
                           int new_decay_start, bool new_cap );
@@ -123,6 +127,7 @@ class player_morale
         void invalidate();
 
         void update_stylish_bonus();
+        void update_squeamish_penalty();
         void update_masochist_bonus();
         void update_bodytemp_penalty( int ticks );
         void update_constrained_penalty();
@@ -133,12 +138,14 @@ class player_morale
         struct body_part_data {
             unsigned int covered;
             unsigned int fancy;
+            unsigned int filthy;
             int hot;
             int cold;
 
             body_part_data() :
                 covered( 0 ),
                 fancy( 0 ),
+                filthy( 0 ),
                 hot( 0 ),
                 cold( 0 ) {};
         };

@@ -189,7 +189,6 @@
     "bashing": 5,
     "cutting": 3,
     "to_hit": -1,
-    "use_action": { "type": "knife" },
     "qualities": [["CUT", 1], ["BUTCHER", 6], ["SAW_W", 1], ["AXE", 1], ["HAMMER", 1]],
     "flags": ["CHOP"]
   },{
@@ -549,8 +548,7 @@
     "bashing": 11,
     "cutting": 8,
     "flags" : ["CHOP"],
-    "qualities": [["AXE", 2]],
-    "use_action": "LUMBER"
+    "qualities": [["AXE", 2]]
   },{
     "id": "makeshift_shovel",
     "type": "TOOL",
@@ -564,8 +562,7 @@
     "volume": 16,
     "bashing": 15,
     "cutting": 1,
-    "qualities": [["DIG", 2]],
-    "use_action": "DIG"
+    "qualities": [ [ "DIG", 2 ] ]
   },{
     "id": "whistle_multitool",
     "type": "TOOL",

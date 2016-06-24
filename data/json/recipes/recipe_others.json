@@ -467,8 +467,8 @@
     [
       [ "clay_teapot", 1 ],
       [ "jug_clay", 1 ],
-      [ "can_food", 1 ],
-      [ "can_drink", 1 ],
+      [ "can_food_unsealed", 1 ],
+      [ "can_drink_unsealed", 1 ],
       [ "canister_empty", 1 ]
     ]
   ]
@@ -499,8 +499,8 @@
     [
       [ "clay_teapot", 1 ],
       [ "jug_clay", 1 ],
-      [ "can_food", 1 ],
-      [ "can_drink", 1 ],
+      [ "can_food_unsealed", 1 ],
+      [ "can_drink_unsealed", 1 ],
       [ "canister_empty", 1 ]
     ]
   ]
@@ -559,7 +559,7 @@
   ],
   "components": [
     [
-      [ "flashlight", 1 ]
+      [ "car_headlight", 1 ]
     ],
     [
       [ "wire", 2 ]
@@ -2202,37 +2202,6 @@
   ]
 },{
   "type" : "recipe",
-  "result": "steel_lump",
-  "category": "CC_OTHER",
-  "subcategory": "CSC_OTHER_MATERIALS",
-  "skill_used": "fabrication",
-  "difficulty": 0,
-  "time": 5000,
-  "reversible": true,
-  "autolearn": true,
-  "qualities" : [ { "id" : "GLARE", "level" : 2 } ],
-  "tools": [
-    [
-      [ "crucible", -1 ],
-      [ "crucible_clay", -1 ]
-    ],
-    [
-      [ "welder", 20 ],
-      [ "welder_crude", 30 ],
-      [ "toolset", 30 ],
-      [ "forge", 10],
-      [ "oxy_torch", 2]
-    ]
-  ],
-  "components": [
-    [
-      [ "steel_chunk", 4 ],
-      [ "scrap", 12 ],
-      [ "rebar", 2 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
   "result": "2x4",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_MATERIALS",
@@ -2572,30 +2541,6 @@
   ]
 },{
   "type" : "recipe",
-  "result": "sheet_metal",
-  "category": "CC_OTHER",
-  "subcategory": "CSC_OTHER_MATERIALS",
-  "skill_used": "fabrication",
-  "difficulty": 2,
-  "time": 4000,
-  "reversible": true,
-  "autolearn": true,
-  "qualities" : [ { "id" : "GLARE", "level" : 2 } ],
-  "tools": [
-    [
-      [ "welder", 20 ],
-      [ "welder_crude", 30 ],
-      [ "toolset", 30 ],
-      [ "oxy_torch", 2]
-    ]
-  ],
-  "components": [
-    [
-      [ "scrap", 4 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
   "result": "wood_plate",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_PARTS",
@@ -2887,7 +2832,7 @@
     ],
     [
       [ "clay_canister", 1 ],
-      [ "can_food", 1 ]
+      [ "can_food_unsealed", 1 ]
     ]
   ]
 },{
@@ -2913,7 +2858,7 @@
       [ "string_6", 1 ]
     ],
     [
-      [ "can_drink", 1 ]
+      [ "can_drink_unsealed", 1 ]
     ]
   ]
 },{
@@ -2940,7 +2885,7 @@
       [ "steel_chunk", 1 ],
       [ "canister_empty", 1 ],
       [ "clay_canister", 1 ],
-      [ "can_food", 1 ]
+      [ "can_food_unsealed", 1 ]
     ],
     [
       [ "bb", 200 ],
@@ -3395,36 +3340,6 @@
   ]
 },{
   "type" : "recipe",
-  "result": "steel_chunk",
-  "category": "CC_OTHER",
-  "subcategory": "CSC_OTHER_MATERIALS",
-  "skill_used": "mechanics",
-  "difficulty": 0,
-  "time": 5000,
-  "reversible": true,
-  "autolearn": true,
-  "qualities" : [ { "id" : "GLARE", "level" : 2 } ],
-  "tools": [
-    [
-      [ "crucible", -1 ],
-      [ "crucible_clay", -1 ]
-    ],
-    [
-      [ "welder", 20 ],
-      [ "welder_crude", 30 ],
-      [ "toolset", 30 ],
-      [ "forge", 5],
-      [ "oxy_torch", 1]
-    ]
-  ],
-  "components": [
-    [
-      [ "scrap", 3 ],
-      [ "rebar", 1 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
   "result": "scrap_copper",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_MATERIALS",
@@ -3806,7 +3721,7 @@
   "book_learn": [["fun_survival", 1], ["manual_fabrication", 1]],
   "qualities" : [
     {"id":"CUT","level":1,"amount":1}
-  ], "components": [ [ [ "can_drink", 2 ] ],
+  ], "components": [ [ [ "can_drink_unsealed", 2 ] ],
     [ [ "bottle_plastic", 1 ] ] ]
 },{
   "type" : "recipe",
@@ -7340,7 +7255,7 @@
 [
 [
 [ "material_aluminium_ingot", 1],
-[ "can_drink", 6],
+[ "can_drink_unsealed", 6],
 [ "aluminum_foil", 40]
 ],
 [
@@ -7691,5 +7606,16 @@
       [ "tailors_kit", 1 ]
     ]
   ]
+},{
+   "type" : "recipe",
+  "result": "washboard",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_TOOLS",
+  "skill_used": "fabrication",
+  "difficulty": 1,
+  "time": 1000,
+  "autolearn": true,
+  "qualities" : [ {"id":"CUT","level":1} ],
+  "components": [ [ [ "2x4", 1 ] ] ] 
 }
 ]

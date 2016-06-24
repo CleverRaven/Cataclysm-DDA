@@ -40,14 +40,25 @@
         "color": "light_cyan",
         "name": "plastic cup",
         "category": "other",
-        "description": "A small, vacuum formed cup, essentially trash.",
+        "description": "A small, vacuum formed cup.",
         "price": 0,
         "weight": 6,
         "volume": 1,
         "to_hit": 1,
         "material": "plastic",
         "contains": 1,
-        "watertight": true
+        "watertight": true,
+        "unseals_into": "cup_plastic_unsealed"
+    },
+    {
+        "id": "cup_plastic_unsealed",
+        "copy-from": "cup_plastic",
+        "type": "CONTAINER",
+        "symbol": ")",
+        "color": "light_cyan",
+        "name": "opened plastic cup",
+        "description": "A small, vacuum formed cup, essentially trash.",
+        "unseals_into": "null"
     },
     {
         "id": "bottle_glass",
@@ -85,7 +96,19 @@
         "contains": 1,
         "watertight": true,
         "preserves": true,
+        "unseals_into": "can_drink_unsealed",
         "qualities": [["CONTAIN", 1], ["BOIL", 2]]
+    },
+    {
+        "id": "can_drink_unsealed",
+        "copy-from": "can_drink",
+        "type": "CONTAINER",
+        "symbol": ")",
+        "color": "light_blue",
+        "name": "opened aluminum can",
+        "description": "An aluminum can, like what soda comes in.  This one is opened and can't be easily sealed.",
+        "preserves": false,
+        "unseals_into": "null"
     },
     {
         "id":"bowl_pewter",
@@ -118,7 +141,19 @@
         "contains": 1,
         "watertight": true,
         "preserves": true,
+        "unseals_into": "can_food_unsealed",
         "qualities": [["CONTAIN", 1], ["BOIL", 2]]
+    },
+    {
+        "id": "can_food_unsealed",
+        "copy-from": "can_food",
+        "type": "CONTAINER",
+        "symbol": ")",
+        "color": "blue",
+        "name": "opened tin can",
+        "description": "A tin can, like what beans come in.  This one is opened and can't be easily sealed.",
+        "preserves": false,
+        "unseals_into": "null"
     },
     {
         "id": "box_small",
@@ -504,7 +539,20 @@
         "contains": 2,
         "watertight": true,
         "seals": true,
+        "unseals_into": "null",
         "qualities": [["CONTAIN", 1], ["BOIL", 1]]
+    },
+    {
+        "id": "jar_glass_sealed",
+        "copy-from": "jar_glass",
+        "type": "CONTAINER",
+        "symbol": ")",
+        "color": "light_cyan",
+        "name": "sealed glass jar",
+        "description": "A half-liter glass jar with a metal screw top lid, used for canning.  Sealed tightly and will preserve the contents from rot (assuming it was sterile before sealing).",
+        "preserves": true,
+        "seals": false,
+        "unseals_into": "jar_glass"
     },
     {
         "id": "jar_3l_glass",
@@ -524,6 +572,19 @@
         "watertight": true,
         "seals": true,
         "qualities": [["CONTAIN", 1], ["BOIL", 1]]
+    },
+    {
+        "id": "jar_3l_glass_sealed",
+        "copy-from": "jar_3l_glass",
+        "type": "CONTAINER",
+        "symbol": ")",
+        "color": "light_cyan",
+        "name": "sealed 3L glass jar",
+        "category": "other",
+        "description": "A three-liter glass jar with a metal screw top lid, used for canning.  Sealed tightly to preserve contents from rot.",
+        "seals": false,
+        "preserves": true,
+        "unseals_into": "jar_3l_glass"
     },
     {
         "id": "flask_hip",
@@ -590,16 +651,16 @@
         "type": "CONTAINER",
         "symbol": "0",
         "color": "dark_gray",
-        "name": "55 gallon drum",
+        "name": "steel drum (200L)",
         "category": "other",
         "description": "A massive steel barrel with a resealable lid.",
         "price": 10000,
         "weight": 20000,
-        "volume": 825,
+        "volume": 800,
         "bashing": 8,
         "to_hit": -5,
         "material": "steel",
-        "contains": 825,
+        "contains": 800,
         "watertight": true,
         "seals": true
     },
@@ -608,16 +669,16 @@
         "type": "CONTAINER",
         "symbol": "0",
         "color": "dark_gray",
-        "name": "30 gallon drum",
+        "name": "steel drum (100L)",
         "category": "other",
         "description": "A huge steel barrel with a resealable lid.",
         "price": 8000,
         "weight": 12000,
-        "volume": 450,
+        "volume": 400,
         "bashing": 8,
         "to_hit": -5,
         "material": "steel",
-        "contains": 450,
+        "contains": 400,
         "watertight": true,
         "seals": true
     },

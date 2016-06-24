@@ -1,5 +1,7 @@
 #include <cmath>
 #include <sstream>
+#include <limits>
+
 #include "calendar.h"
 #include "output.h"
 #include "options.h"
@@ -7,7 +9,8 @@
 #include "game.h"
 #include "debug.h"
 
-int calendar::cached_season_length = 14;
+// Divided by 100 to prevent overflowing when converted to moves
+const int calendar::INDEFINITELY_LONG( std::numeric_limits<int>::max() / 100 );
 
 calendar calendar::start;
 calendar calendar::turn;
@@ -27,6 +30,25 @@ bool calendar::eternal_season = false;
 // How long, in seconds, does sunrise/sunset last?
 #define TWILIGHT_SECONDS (60 * 60)
 
+constexpr int FULL_SECONDS_IN( int n )
+{
+    return n * 6;
+}
+
+constexpr int FULL_MINUTES_IN( int n )
+{
+    return n / MINUTES( 1 );
+}
+
+constexpr int FULL_HOURS_IN( int n )
+{
+    return n / HOURS( 1 );
+}
+
+constexpr int FULL_DAYS_IN( int n )
+{
+    return n / DAYS( 1 );
+}
 
 calendar::calendar()
 {
@@ -264,31 +286,31 @@ std::string calendar::print_duration( int turns )
 {
     std::string res;
 
-    if( turns < MINUTES( 1 ) ) {
-        int sec = std::max( 1, turns * 6 );
+    if( turns <= MINUTES( 1 ) ) {
+        const int sec = FULL_SECONDS_IN( turns );
         res += string_format( ngettext( "%d second", "%d seconds", sec ), sec );
 
-    } else if( turns < HOURS( 1 ) ) {
-        int min = turns / MINUTES( 1 );
-        int sec = turns % MINUTES( 1 );
+    } else if( turns <= HOURS( 1 ) ) {
+        const int min = FULL_MINUTES_IN( turns );
+        const int sec = FULL_SECONDS_IN( turns % MINUTES( 1 ) );
         res += string_format( ngettext( "%d minute", "%d minutes", min ), min );
-        if( sec ) {
+        if( sec != 0 ) {
             res += string_format( ngettext( " and %d second", " and %d seconds", sec ), sec );
         }
 
-    } else if( turns < DAYS( 1 ) ) {
-        int hour = turns / HOURS( 1 );
-        int min = turns % HOURS( 1 );
+    } else if( turns <= DAYS( 1 ) ) {
+        const int hour = FULL_HOURS_IN( turns );
+        const int min = FULL_MINUTES_IN( turns % HOURS( 1 ) );
         res += string_format( ngettext( "%d hour", "%d hours", hour ), hour );
-        if( min ) {
+        if( min != 0 ) {
             res += string_format( ngettext( " and %d minute", " and %d minutes", min ), min );
         }
 
     } else {
-        int day = turns / DAYS( 1 );
-        int hour = turns % DAYS( 1 );
+        const int day = FULL_DAYS_IN( turns );
+        const int hour = FULL_HOURS_IN( turns % DAYS( 1 ) );
         res += string_format( ngettext( "%d day", "%d days", day ), day );
-        if( hour ) {
+        if( hour != 0 ) {
             res += string_format( ngettext( " and %d hour", " and %d hours", hour ), hour );
         }
     }
@@ -428,7 +450,16 @@ std::string calendar::day_of_week() const
 
 int calendar::season_length()
 {
-    return cached_season_length;
+    const auto iter = ACTIVE_WORLD_OPTIONS.find( "SEASON_LENGTH" );
+    if( iter != ACTIVE_WORLD_OPTIONS.end() ) {
+        const int length = iter->second;
+        if( length > 0 ) {
+            return length;
+        }
+    }
+    // 14 is the default and it's used whenever the input is invalid so
+    // everyone using this can rely on it being larger than 0.
+    return 14;
 }
 
 int calendar::turn_of_year() const
@@ -443,8 +474,8 @@ int calendar::day_of_year() const
 
 int calendar::diurnal_time_before( int turn ) const
 {
-    const int remainder = turn - get_turn() % DAYS( 1 );
-    return ( remainder >= 0 ) ? remainder : DAYS( 1 ) + remainder;
+    const int remainder = turn % DAYS( 1 ) - get_turn() % DAYS( 1 );
+    return ( remainder > 0 ) ? remainder : DAYS( 1 ) + remainder;
 }
 
 void calendar::sync()
@@ -468,9 +499,3 @@ bool calendar::once_every(int event_frequency) {
     return (calendar::turn % event_frequency) == 0;
 }
 
-void calendar::set_season_length( const int length )
-{
-    // 14 is the default and it's used whenever the input is invalid so
-    // everyone using the cached value can rely on it being larger than 0.
-    cached_season_length = length <= 0 ? 14 : length;
-}

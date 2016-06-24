@@ -54,7 +54,6 @@
 
 #define HIGH_STAT 14 // The point after which stats cost double
 #define MAX_STAT 20 // The point after which stats can not be increased further
-#define MAX_SKILL 20 // The maximum selectable skill level
 
 #define NEWCHAR_TAB_MAX 6 // The ID of the rightmost tab
 
@@ -2011,6 +2010,9 @@ tab_direction set_scenario(WINDOW *w, player *u, points_left &points)
             wprintz(w_flags, c_ltgray, ("\n"));
         } else if ( sorted_scens[cur_id]->has_flag("WIN_START")) {
             wprintz(w_flags, c_ltgray, _("Winter start"));
+            wprintz(w_flags, c_ltgray, ("\n"));
+        } else if ( sorted_scens[cur_id]->has_flag("SUM_ADV_START")) {
+            wprintz(w_flags, c_ltgray, _("Next summer start"));
             wprintz(w_flags, c_ltgray, ("\n"));
         }
 

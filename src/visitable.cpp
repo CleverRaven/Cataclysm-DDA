@@ -297,8 +297,9 @@ static VisitResponse visit_internal( const std::function<VisitResponse( item *, 
             return VisitResponse::ABORT;
 
         case VisitResponse::NEXT:
-            if( node->is_gun() || node->is_magazine() ) {
-                // content of guns and magazines are accessible only via their specific accessors
+            if( node->is_gun() || node->is_magazine() || node->is_non_resealable_container() ) {
+                // Content of guns and magazines are accessible only via their specific accessors
+                // Accessing content of nonsealable container requires altering it (unsealing).
                 return VisitResponse::NEXT;
             }
 
@@ -732,7 +733,7 @@ long visitable<Character>::charges_of( const std::string &what, int limit ) cons
         qty += charges_of( "UPS_off" );
         qty += charges_of( "adv_UPS_off" ) / 0.6;
         if ( p && p->has_active_bionic( "bio_ups" ) ) {
-            qty += p->power_level * 10;
+            qty += p->power_level;
         }
         return std::min( qty, long( limit ) );
     }

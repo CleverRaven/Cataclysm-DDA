@@ -1,5 +1,6 @@
 #include "player.h"
 #include "npc.h"
+#include "npc_class.h"
 #include "profession.h"
 #include "bionics.h"
 #include "mission.h"
@@ -120,7 +121,7 @@ std::vector<item> item::magazine_convert() {
 
     // normalize the base item and mark it as converted
     charges = 0;
-    unset_curammo();
+    curammo = nullptr;
     set_var( "magazine_converted", true );
 
     return res;
@@ -986,14 +987,16 @@ void npc::load(JsonObject &data)
     // this should call load on the parent class of npc (probably Character).
     player::load( data );
 
-    int misstmp, classtmp, flagstmp, atttmp, comp_miss_t, stock;
-    std::string facID, comp_miss;
+    int misstmp, classtmp, atttmp, comp_miss_t, stock;
+    std::string facID, comp_miss, classid;
 
     data.read("name", name);
     data.read("marked_for_death", marked_for_death);
     data.read("dead", dead);
-    if ( data.read( "myclass", classtmp) ) {
-        myclass = npc_class( classtmp );
+    if( data.read( "myclass", classtmp ) ) {
+        myclass = npc_class::from_legacy_int( classtmp );
+    } else if( data.read( "myclass", classid ) ) {
+        myclass = npc_class_id( classid );
     }
 
     data.read("personality", personality);
@@ -1038,10 +1041,6 @@ void npc::load(JsonObject &data)
 
     if ( data.read("mission", misstmp) ) {
         mission = npc_mission( misstmp );
-    }
-
-    if ( data.read( "flags", flagstmp) ) {
-        flags = flagstmp;
     }
 
     if ( data.read( "my_fac", facID) ) {
@@ -1099,7 +1098,7 @@ void npc::store(JsonOut &json) const
     json.member( "marked_for_death", marked_for_death );
     json.member( "dead", dead );
     json.member( "patience", patience );
-    json.member( "myclass", (int)myclass );
+    json.member( "myclass", myclass.str() );
 
     json.member( "personality", personality );
     json.member( "wandf", wander_time );
@@ -1127,7 +1126,6 @@ void npc::store(JsonOut &json) const
     json.member( "pulp_locationz", pulp_location.z );
 
     json.member( "mission", mission ); // todo: stringid
-    json.member( "flags", flags );
     if ( fac_id != "" ) { // set in constructor
         json.member( "my_fac", my_fac->id.c_str() );
     }
@@ -1397,7 +1395,7 @@ void item::io( Archive& archive )
     };
 
     const auto load_curammo = [this]( const std::string& id ) {
-        set_curammo( id );
+        curammo = item::find_type( id );
     };
     const auto load_corpse = [this]( const std::string& id ) {
         if( id == "null" ) {
@@ -1416,7 +1414,6 @@ void item::io( Archive& archive )
 
     archive.io( "burnt", burnt, 0 );
     archive.io( "poison", poison, 0 );
-    archive.io( "bigness", bigness, 0 );
     archive.io( "frequency", frequency, 0 );
     archive.io( "note", note, 0 );
     archive.io( "irridation", irridation, 0 );
@@ -1452,9 +1449,6 @@ void item::io( Archive& archive )
 
     // Old saves used to only contain one of those values (stored under "poison"), it would be
     // loaded into a union of those members. Now they are separate members and must be set separately.
-    if( poison != 0 && bigness == 0 && is_var_veh_part() ) {
-        std::swap( bigness, poison );
-    }
     if( poison != 0 && note == 0 && !type->snippet_category.empty() ) {
         std::swap( note, poison );
     }
@@ -1466,9 +1460,9 @@ void item::io( Archive& archive )
     }
 
     // Compatiblity for item type changes: for example soap changed from being a generic item
-    // (item::charges == -1) to comestible (and thereby counted by charges), old saves still have
-    // charges == -1, this fixes the charges value to the default charges.
-    if( count_by_charges() && charges < 0 ) {
+    // (item::charges -1 or 0 or anything else) to comestible (and thereby counted by charges),
+    // old saves still have invalid charges, this fixes the charges value to the default charges.
+    if( count_by_charges() && charges <= 0 ) {
         charges = item( type->id, 0 ).charges;
     }
     if( !active && !rotten() && goes_bad() ) {
@@ -1496,6 +1490,11 @@ void item::io( Archive& archive )
     contents.erase( std::remove_if( contents.begin(), contents.end(), []( const item &cont ) {
         return cont.is_null();
     } ), contents.end() );
+
+    // Sealed item migration: items with "unseals_into" set should always have contents
+    if( contents.empty() && is_non_resealable_container() ) {
+        convert( type->container->unseals_into );
+    }
 }
 
 void item::deserialize(JsonObject &data)
@@ -1528,6 +1527,10 @@ void vehicle_part::deserialize(JsonIn &jsin)
         pid = vpart_str_id( "laser_rifle" );
     }
 
+    if( pid.str() == "battery_truck" ) {
+        pid = vpart_str_id( "battery_car" );
+    }
+
     // if we don't know what type of part it is, it'll cause problems later.
     if( !pid.is_valid() ) {
         if( pid.str() == "wheel_underbody" ) {
@@ -1548,11 +1551,9 @@ void vehicle_part::deserialize(JsonIn &jsin)
     data.read("mount_dx", mount.x);
     data.read("mount_dy", mount.y);
     data.read("hp", hp );
-    data.read("amount", amount );
     data.read("open", open );
     data.read("direction", direction );
     data.read("blood", blood );
-    data.read("bigness", bigness );
     data.read("enabled", enabled );
     data.read("flags", flags );
     data.read("passenger_id", passenger_id );
@@ -1564,13 +1565,18 @@ void vehicle_part::deserialize(JsonIn &jsin)
     data.read("target_second_y", target.second.y);
     data.read("target_second_z", target.second.z);
 
-    // migrate legacy base items which may not be tagged VEHICLE
-    if( !base.has_flag( "VEHICLE") ) {
-        base.item_tags.insert( "VEHICLE" );
-        if( base.is_magazine() ) {
-            base.ammo_set( id.obj().fuel_type, amount );
-            amount = 0;
+    // with VEHICLE tag migrate fuel tanks only if amount field exists
+    if( base.has_flag( "VEHICLE") ) {
+        if( data.has_int( "amount" ) && ammo_capacity() > 0 && id.obj().fuel_type != "battery" ) {
+            ammo_set( id.obj().fuel_type, data.get_int( "amount" ) );
         }
+
+    // without VEHICLE flag always migrate both batteries and fuel tanks
+    } else {
+        if( ammo_capacity() > 0 ) {
+            ammo_set( id.obj().fuel_type, data.get_int( "amount" ) );
+        }
+        base.item_tags.insert( "VEHICLE" );
     }
 }
 
@@ -1583,11 +1589,9 @@ void vehicle_part::serialize(JsonOut &json) const
     json.member("mount_dx", mount.x);
     json.member("mount_dy", mount.y);
     json.member("hp", hp);
-    json.member("amount", amount);
     json.member("open", open );
     json.member("direction", direction );
     json.member("blood", blood);
-    json.member("bigness", bigness);
     json.member("enabled", enabled);
     json.member("flags", flags);
     json.member("passenger_id", passenger_id);
@@ -1644,10 +1648,8 @@ void vehicle::deserialize(JsonIn &jsin)
     data.read("cruise_on", cruise_on);
     data.read("engine_on", engine_on);
     data.read("tracking_on", tracking_on);
-    data.read("lights_on", lights_on);
     data.read("stereo_on", stereo_on);
     data.read("chimes_on", chimes_on);
-    data.read("overhead_lights_on", overhead_lights_on);
     data.read("fridge_on", fridge_on);
     data.read("recharger_on", recharger_on);
     data.read("skidding", skidding);
@@ -1655,9 +1657,6 @@ void vehicle::deserialize(JsonIn &jsin)
     data.read("is_locked", is_locked);
     data.read("is_alarm_on", is_alarm_on);
     data.read("camera_on", camera_on);
-    data.read("dome_lights_on", dome_lights_on);
-    data.read("aisle_lights_on", aisle_lights_on);
-    data.read("has_atomic_lights", has_atomic_lights);
     data.read("scoop_on",scoop_on);
     data.read("plow_on",plow_on);
     data.read("reaper_on",reaper_on);
@@ -1740,10 +1739,8 @@ void vehicle::serialize(JsonOut &json) const
     json.member( "cruise_on", cruise_on );
     json.member( "engine_on", engine_on );
     json.member( "tracking_on", tracking_on );
-    json.member( "lights_on", lights_on );
     json.member( "stereo_on", stereo_on);
     json.member( "chimes_on", chimes_on);
-    json.member( "overhead_lights_on", overhead_lights_on );
     json.member( "fridge_on", fridge_on );
     json.member( "recharger_on", recharger_on );
     json.member( "skidding", skidding );
@@ -1755,9 +1752,6 @@ void vehicle::serialize(JsonOut &json) const
     json.member( "is_locked", is_locked );
     json.member( "is_alarm_on", is_alarm_on );
     json.member( "camera_on", camera_on );
-    json.member( "dome_lights_on", dome_lights_on );
-    json.member( "aisle_lights_on", aisle_lights_on );
-    json.member( "has_atomic_lights", has_atomic_lights );
     json.member( "last_update_turn", last_update_turn.get_turn() );
     json.member("scoop_on",scoop_on);
     json.member("plow_on",plow_on);
@@ -1797,7 +1791,13 @@ void mission::deserialize(JsonIn &jsin)
     if( !omid.empty() ) {
         target_id = oter_id( omid );
     }
-    recruit_class = static_cast<npc_class>( jo.get_int( "recruit_class", recruit_class ) );
+
+    if( jo.has_int( "recruit_class" ) ) {
+        recruit_class = npc_class::from_legacy_int( jo.get_int( "recruit_class" ) );
+    } else {
+        recruit_class = npc_class_id( jo.get_string( "recruit_class", "NC_NONE" ) );
+    }
+
     jo.read( "target_npc_id", target_npc_id );
     jo.read( "monster_type", monster_type );
     jo.read( "monster_kill_goal", monster_kill_goal );

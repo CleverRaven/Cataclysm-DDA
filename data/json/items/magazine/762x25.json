@@ -19,7 +19,7 @@
   {
     "id": "ppshdrum",
     "type": "MAGAZINE",
-    "name": "PPSh 71-round drum",
+    "name": "PPSh 71-round drum magazine",
     "description": "A high-capacity drum magazine for the PPSh-41.",
     "weight": 1387, "//": "Provisional.",
     "volume": 3,
@@ -32,5 +32,23 @@
     "reliability": 7,
     "reload_time": 190,
     "flags": [ "MAG_BULKY" ]
+  },
+  
+  {
+    "id": "tokarevmag",
+    "type": "MAGAZINE",
+    "name": "Tokarev TT-30 magazine",
+    "description": "Standard 8-round magazine for Tokarev TT-30.",
+    "weight": 56,
+    "volume": 1,
+    "price": 1300,
+    "material": "steel",
+    "symbol": "#",
+    "color": "ltgray",
+    "ammo_type": "762x25",
+    "capacity": 8,
+    "reliability": 8,
+    "reload_time": 100,
+    "flags": [ "MAG_COMPACT" ]
   }
 ]

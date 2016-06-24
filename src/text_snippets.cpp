@@ -4,6 +4,7 @@
 #include "translations.h"
 
 #include <string>
+#include <random>
 
 static const std::string null_string( "" );
 
@@ -76,12 +77,19 @@ int snippet_library::get_snippet_by_id( const std::string &id ) const
 
 int snippet_library::assign( const std::string &category ) const
 {
-    std::multimap<std::string, int>::const_iterator category_start = categories.lower_bound( category );
-    if( category_start == categories.end() ) {
+    return assign( category, rand() );
+}
+
+int snippet_library::assign( const std::string &category, const int seed ) const
+{
+    const int count = categories.count( category );
+    if( count == 0 ) {
         return 0;
     }
-    const int selected_text = rng( 0, categories.count( category ) - 1 );
-    std::multimap<std::string, int>::const_iterator it = category_start;
+    std::mt19937 generator( seed );
+    std::uniform_int_distribution<int> dis( 0, count - 1 );
+    const int selected_text = dis( generator );
+    std::multimap<std::string, int>::const_iterator it = categories.lower_bound( category );
     for( int index = 0; index < selected_text; ++index ) {
         ++it;
     }

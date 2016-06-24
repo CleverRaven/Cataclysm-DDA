@@ -2194,6 +2194,7 @@
                 "lighter",
                 "mil_mess_kit",
                 "m2010",
+                "m2010mag",
                 "300_winmag",
                 "300_winmag",
                 "suppressor"
@@ -3381,6 +3382,47 @@
     },
     {
         "type": "profession",
+        "ident": "boxer",
+        "name": "Boxer",
+        "description": "You were training for the fight of your life before the Cataclysm struck.  Now you fight just to keep yourself alive.",
+        "points": 3,
+        "traits": [
+            "PROF_BOXER"
+        ],
+        "skills": [
+            {
+                "level": 2,
+                "name": "melee"
+            },
+            {
+                "level": 2,
+                "name": "unarmed"
+            },
+            {
+                "level": 2,
+                "name": "dodge"
+            }
+        ],
+        "items": {
+            "both": [
+                "under_armor_shorts",
+                "under_armor",
+                "shorts",
+                "gloves_wraps",
+                "boxing_gloves",
+                "headgear",
+                "mouthpiece",
+                "socks",
+                "boots",
+                "towel"
+            ],
+            "female": [
+                "sports_bra"
+            ]
+        }
+    },
+    {
+        "type": "profession",
         "ident": "pizzaboy",
         "name": {
             "male": "Pizza Delivery Boy",
@@ -3794,6 +3836,81 @@
             "female": [
                 "sports_bra",
                 "panties"
+            ]
+        },
+        "flags" : ["SCEN_ONLY"]
+    },
+    {
+        "type": "profession",
+        "ident": "road_warrior",
+        "name" : "Road Warrior",
+        "description" : "You lived by your wheels during the first few months of the apocalypse, but now your car is lost to this maelstrom of decay, your ammo is low, and your situation is dire.  You've been reduced to a scavenger, living off the corpse of the old world.",
+        "points" : 6,
+        "skills": [
+            {
+                "level": 5,
+                "name": "driving"
+            },
+            {
+                "level": 3,
+                "name": "mechanics"
+            },
+            {
+                "level": 2,
+                "name": "survival"
+            },
+            {
+                "level": 2,
+                "name": "gun"
+            },
+            {
+                "level" : 1,
+                "name" : "shotgun"
+            },
+            {
+                "level": 1,
+                "name": "melee"
+            },
+            {
+                "level": 1,
+                "name": "unarmed"
+            },
+            {
+                "level": 1,
+                "name": "firstaid"
+            }
+        ],
+        "items": {
+            "both": [
+                "tank_top",
+                "pants_leather",
+                "jacket_leather_mod",
+                "boots_steel",
+                "gloves_fingerless_mod",
+                "hat_cotton",
+                "survivor_goggles",
+                "long_patchwork_scarf",
+                "bandolier_shotgun",
+                "survivor_belt",
+                "legrig",
+                "back_holster",
+                "canteen",
+                "whistle",
+                "binoculars",
+                "wearable_light",
+                "shotgun_d",
+                "reloaded_shot_00",
+                "knife_combat",
+                "duct_tape",
+                "ref_lighter",
+                "gasoline_cooker"
+            ],
+            "male": [
+                "boxer_shorts"
+            ],
+            "female": [
+                "sports_bra",
+                "boy_shorts"
             ]
         },
         "flags" : ["SCEN_ONLY"]
