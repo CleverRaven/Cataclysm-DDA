@@ -4964,11 +4964,8 @@ long item::get_remaining_capacity_for_liquid( const item &liquid, bool allow_buc
 long item::get_remaining_capacity_for_liquid( const item &liquid, std::string &err, bool allow_bucket,
                                               int volume_limit ) const
 {
-    const auto error = [ &err ]( const char *message, ... ) {
-        va_list ap;
-        va_start( ap, message );
-        err = vstring_format( message, ap );
-        va_end( ap );
+    const auto error = [ &err ]( const std::string &message ) {
+        err = message;
         return 0;
     };
 
@@ -4978,20 +4975,20 @@ long item::get_remaining_capacity_for_liquid( const item &liquid, std::string &e
     const bool mixed_liquids = !contents.empty() && contents.front().typeId() != liquid.typeId();
 
     if( wrong_ammo || !is_container() ) {
-        return error( _( "That %1$s won't hold %2$s." ), tname().c_str(), liquid.tname().c_str());
+        return error( string_format( _( "That %1$s won't hold %2$s." ), tname().c_str(), liquid.tname().c_str() ) );
     }
 
     if( mixed_ammo || mixed_liquids ) {
-        return error( _( "You can't mix loads in your %s." ), tname().c_str() );
+        return error( string_format( _( "You can't mix loads in your %s." ), tname().c_str() ) );
     }
 
     if( !type->container->watertight ) {
-        return error( _( "That %s isn't water-tight." ), tname().c_str() );
+        return error( string_format( _( "That %s isn't water-tight." ), tname().c_str() ) );
     }
 
     if( !type->container->seals && ( !allow_bucket || !is_bucket() ) ) {
-        return error( is_bucket() ? _( "That %s must be on the ground or held to hold contents!" )
-                                  : _( "You can't seal that %s!" ), tname().c_str() );
+        return error( string_format( is_bucket() ? _( "That %s must be on the ground or held to hold contents!" )
+                                                 : _( "You can't seal that %s!" ), tname().c_str() ) );
     }
     long remaining_capacity;
     if( uses_ammo ) { // for filling up chainsaws, jackhammers and flamethrowers
@@ -5004,14 +5001,15 @@ long item::get_remaining_capacity_for_liquid( const item &liquid, std::string &e
         if( remaining_capacity > 0 && !type->rigid ) {
             const long expansion = liquid.liquid_charges_per_volume( volume_limit );
             if( expansion <= 0 ) {
-                return error( _( "That %s doesn't have a room to expand." ), tname().c_str() );
+                return error( string_format( _( "That %s doesn't have a room to expand." ), tname().c_str() ) );
             }
             remaining_capacity = std::min( remaining_capacity, expansion );
         }
     }
 
     if( remaining_capacity <= 0 ) {
-        return error( _( "Your %1$s can't hold any more %2$s." ), tname().c_str(), liquid.tname().c_str() );
+        return error( string_format( _( "Your %1$s can't hold any more %2$s." ), tname().c_str(),
+                                     liquid.tname().c_str() ) );
     }
 
     return remaining_capacity;
