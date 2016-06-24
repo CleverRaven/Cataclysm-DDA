@@ -164,8 +164,27 @@ struct vehicle_part : public JsonSerializer, public JsonDeserializer
     /** Get wheel width (inches) or return 0 if part is not wheel */
     int wheel_width() const;
 
+    /**
+     * @name Part capabilities
+     *
+     * A part can provide zero or more capabilities. Some capabilities are mutually
+     * exclusive, for example a part cannot be both a fuel tank and battery
+     */
+    /*@{*/
+
     /** Is this any type of vehicle light? */
     bool is_light() const;
+
+    /** Can this part contain liquid fuels? */
+    bool is_tank() const;
+
+    /** Can this part store electrical charge? */
+    bool is_battery() const;
+
+    /** Can this part function as a turret? */
+    bool is_turret() const;
+
+    /*@}*/
 
 public:
     /** mount point: x is on the forward/backward axis, y is on the left/right axis */

@@ -6290,6 +6290,26 @@ bool vehicle_part::is_light() const
            vp.has_flag( VPFLAG_ATOMIC_LIGHT );
 }
 
+bool vehicle_part::is_tank() const
+{
+    if( !info().has_flag( VPFLAG_FUEL_TANK ) ) {
+        return false;
+    }
+
+    auto *fuel = item::find_type( default_ammo( info().fuel_type ) );
+    return fuel->phase == LIQUID;
+}
+
+bool vehicle_part::is_battery() const
+{
+    return base.is_magazine() && base.ammo_type() == "battery";
+}
+
+bool vehicle_part::is_turret() const
+{
+    return base.is_gun();
+}
+
 const vpart_info &vehicle_part::info() const
 {
     return id.obj();
