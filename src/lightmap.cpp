@@ -886,6 +886,10 @@ void castLight( float (&output_cache)[MAPSIZE*SEEX][MAPSIZE*SEEY],
                     // Note this is the same slope as the recursive call we just made.
                     start = trailingEdge;
                 }
+                // Trailing edge ahead of leading edge means this span is fully processed.
+                if( start < end ) {
+                    return;
+                }
                 current_transparency = new_transparency;
             }
             newStart = leadingEdge;
