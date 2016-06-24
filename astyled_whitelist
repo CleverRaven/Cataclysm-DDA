@@ -51,6 +51,7 @@ src/name.cpp
 src/npc_class.cpp
 src/overlay_ordering.cpp
 src/pathfinding.cpp
+src/projectile.cpp
 src/pickup.cpp
 src/player_activity.cpp
 src/posix_time.cpp
@@ -162,6 +163,7 @@ src/overlay_ordering.h
 src/overmap_types.h
 src/path_info.h
 src/pathfinding.h
+src/projectile.h
 src/pickup.h
 src/platform_win.h
 src/player_activity.h

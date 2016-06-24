@@ -4758,7 +4758,7 @@ dealt_damage_instance player::deal_damage(Creature* source, body_part bp, const 
     }
 
     on_hurt( source );
-    return dealt_damage_instance(dealt_dams);
+    return dealt_dams;
 }
 
 void player::mod_pain(int npain) {
@@ -6429,7 +6429,7 @@ void player::hardcoded_effects(effect &it)
     bool sleeping = has_effect( effect_sleep );
     bool msg_trig = one_in(400);
     if( id == effect_onfire ) {
-        const auto dealt = deal_damage( nullptr, bp, damage_instance( DT_HEAT, rng( intense, intense * 2 ) ) );
+        deal_damage( nullptr, bp, damage_instance( DT_HEAT, rng( intense, intense * 2 ) ) );
     } else if( id == effect_spores ) {
         // Equivalent to X in 150000 + health * 100
         if ((!has_trait("M_IMMUNE")) && (one_in(100) && x_in_y(intense, 150 + get_healthy() / 10)) ) {
@@ -9221,9 +9221,9 @@ std::list<item> player::use_charges( const itype_id& what, long qty )
 
     } else if( what == "UPS" ) {
         if( power_level > 0 && has_active_bionic( "bio_ups" ) ) {
-            auto bio = std::min( long( power_level ) , qty / 10 + ( qty % 10 != 0 ) );
+            auto bio = std::min( long( power_level ), qty );
             charge_power( -bio );
-            qty -= std::min( qty, bio * 10 );
+            qty -= std::min( qty, bio );
         }
 
         auto adv = charges_of( "adv_UPS_off", ceil( qty * 0.6 ) );
