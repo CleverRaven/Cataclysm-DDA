@@ -8977,7 +8977,8 @@ item player::reduce_charges( int position, long quantity )
         debugmsg( "invalid item position %d for reduce_charges", position );
         return ret_null;
     }
-    if( it.reduce_charges( quantity ) ) {
+    it.mod_charges( -quantity );
+    if( it.charges <= 0 ) {
         return i_rem( position );
     }
     item tmp( it );
@@ -8991,7 +8992,8 @@ item player::reduce_charges( item *it, long quantity )
         debugmsg( "invalid item (name %s) for reduce_charges", it->tname().c_str() );
         return ret_null;
     }
-    if( const_cast<item *>( it )->reduce_charges( quantity ) ) {
+    it->mod_charges( -quantity );
+    if( it->charges <= 0 ) {
         return i_rem( it );
     }
     item result( *it );
@@ -10820,7 +10822,7 @@ bool player::invoke_item( item* used, const tripoint &pt )
 
         return consumed;
     }
-    
+
 
     if( used->type->use_methods.size() < 2 ) {
         const long charges_used = used->type->invoke( this, used, pt );

@@ -5750,20 +5750,22 @@ bool item::process( player *carrier, const tripoint &pos, bool activate )
     return false;
 }
 
-bool item::reduce_charges( long quantity )
+void item::mod_charges( long mod )
 {
+    if( has_infinite_charges() ) {
+        return;
+    }
+
     if( !count_by_charges() ) {
-        debugmsg( "Tried to remove %s by charges, but item is not counted by charges", tname().c_str() );
-        return false;
+        debugmsg( "Tried to remove %s by charges, but item is not counted by charges.", tname().c_str() );
+    } else if( mod < 0 && charges + mod < 0 ) {
+        debugmsg( "Tried to remove charges that do not exist, removing maximum available charges instead." );
+        charges = 0;
+    } else if( mod > 0 && charges >= INFINITE_CHARGES - mod ) {
+        charges = INFINITE_CHARGES - 1; // Highly unlikely, but finite charges should not become infinite.
+    } else {
+        charges += mod;
     }
-    if( quantity > charges ) {
-        debugmsg( "Charges: Tried to remove charges that do not exist, removing maximum available charges instead" );
-    }
-    if( charges <= quantity ) {
-        return true;
-    }
-    charges -= quantity;
-    return false;
 }
 
 bool item::has_effect_when_wielded( art_effect_passive effect ) const

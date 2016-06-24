@@ -1049,7 +1049,7 @@ classes = {
             { name = "put_in", rval = nil, args = { "item" } },
             { name = "quiver_store_arrow", rval = "int", args = { "item" } },
             { name = "ready_to_revive", rval = "bool", args = { "tripoint" } },
-            { name = "reduce_charges", rval = "bool", args = { "int" } },
+            { name = "mod_charges", rval = nil, args = { "int" } },
             { name = "reset_cable", rval = nil, args = { "player" } },
             { name = "rotten", rval = "bool", args = { } },
             { name = "serialize", rval = "string", args = { } },
