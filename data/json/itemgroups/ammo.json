@@ -245,9 +245,10 @@
     "items": [
       [ "40mm_flare", 40 ],
       [ "40mm_flechette", 10 ],
-      [ "40mm_frag", 100 ],
-      [ "40mm_incendiary", 20 ],
-      [ "40mm_smoke", 50 ]
+      [ "40mm_frag", 120 ],
+      [ "40mm_incendiary", 25 ],
+      [ "40mm_shot", 15 ],
+      [ "40mm_smoke", 60 ]
     ]
   },
   {
