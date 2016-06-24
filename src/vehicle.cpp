@@ -1475,7 +1475,7 @@ void vehicle::start_engines( const bool take_control )
 
     int start_time = 0;
     for( size_t e = 0; e < engines.size(); ++e ) {
-        has_engine += is_engine_on( e );
+        has_engine = has_engine || is_engine_on( e );
         start_time = std::max( start_time, engine_start_time( e ) );
     }
 
