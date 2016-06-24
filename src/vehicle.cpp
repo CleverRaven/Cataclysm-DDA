@@ -5724,14 +5724,9 @@ int vehicle::damage_direct( int p, int dmg, damage_type type )
 
 void vehicle::leak_fuel( vehicle_part &pt )
 {
-    if( pt.ammo_remaining() <= 0 ) {
+    // only liquid fuels from non-empty tanks can leak out onto map tiles
+    if( !pt.is_tank() || pt.ammo_remaining() <= 0 ) {
         return;
-    }
-
-    // only liquid fuels can leak out onto map tiles
-    auto *fuel = item::find_type( pt.ammo_current() );
-    if( fuel->phase != LIQUID ) {
-        pt.ammo_unset();
     }
 
     // leak in random directions but prefer closest tiles and avoid walls or other obstacles
@@ -5742,6 +5737,7 @@ void vehicle::leak_fuel( vehicle_part &pt )
     } ), tiles.end() );
 
     // leak up to 1/3 ofremaining fuel per iteration and continue until the part is empty
+    auto *fuel = item::find_type( pt.ammo_current() );
     while( !tiles.empty() && pt.ammo_remaining() ) {
         int qty = pt.ammo_consume( rng( 0, std::max( pt.ammo_remaining() / 3, 1L ) ), global_part_pos3( pt ) );
         if( qty > 0 ) {
