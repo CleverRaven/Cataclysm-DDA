@@ -453,8 +453,8 @@ void vpart_info::check()
         if( part.size < 0 ) {
             debugmsg( "vehicle part %s has negative size", part.id.c_str() );
         }
-        if( part.has_flag( VPFLAG_FUEL_TANK ) && !item::find_type( part.fuel_type )->ammo ) {
-            debugmsg( "vehicle part %s is a fuel tank, but has invalid fuel type %s (not ammo)", part.id.c_str(), part.fuel_type.c_str() );
+        if( part.has_flag( VPFLAG_FUEL_TANK ) && !item::type_is_defined( part.fuel_type ) ) {
+            debugmsg( "vehicle part %s is a fuel tank, but has invalid fuel type %s (not a valid item id)", part.id.c_str(), part.fuel_type.c_str() );
         }
         if( !item::type_is_defined( part.item ) ) {
             debugmsg( "vehicle part %s uses undefined item %s", part.id.c_str(), part.item.c_str() );
