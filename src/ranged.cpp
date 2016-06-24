@@ -1357,6 +1357,12 @@ static projectile make_gun_projectile( const item &gun ) {
             proj.set_drop( drop );
         }
 
+        if( fx.count( "FLARE" ) ) {
+            item drop( "handflare_lit" );
+            drop.active = true;
+            proj.set_drop( drop );
+        }
+
         if( fx.count( "CUSTOM_EXPLOSION" ) > 0  ) {
             proj.set_custom_explosion( gun.ammo_data()->explosion );
         }
