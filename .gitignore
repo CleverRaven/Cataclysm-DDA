@@ -122,3 +122,6 @@ Cataclysm.i64
 Cataclysm.id*
 Cataclysm.til
 Cataclysm.nam
+
+# Distribution script results
+msvc-full-features/distribution
