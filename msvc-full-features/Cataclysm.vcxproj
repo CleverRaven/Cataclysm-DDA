@@ -254,6 +254,7 @@
     <ClInclude Include="..\src\fault.h" />
     <ClInclude Include="..\src\field.h" />
     <ClInclude Include="..\src\filesystem.h" />
+    <ClInclude Include="..\src\fire.h" />
     <ClInclude Include="..\src\game.h" />
     <ClInclude Include="..\src\gamemode.h" />
     <ClInclude Include="..\src\game_constants.h" />
@@ -315,6 +316,7 @@
     <ClInclude Include="..\src\mutation.h" />
     <ClInclude Include="..\src\name.h" />
     <ClInclude Include="..\src\npc.h" />
+    <ClInclude Include="..\src\npc_class.h" />
     <ClInclude Include="..\src\npc_favor.h" />
     <ClInclude Include="..\src\omdata.h" />
     <ClInclude Include="..\src\options.h" />
@@ -488,6 +490,7 @@
     <ClCompile Include="..\src\npc.cpp" />
     <ClCompile Include="..\src\npcmove.cpp" />
     <ClCompile Include="..\src\npctalk.cpp" />
+    <ClCompile Include="..\src\npc_class.cpp" />
     <ClCompile Include="..\src\options.cpp" />
     <ClCompile Include="..\src\output.cpp" />
     <ClCompile Include="..\src\overlay_ordering.cpp" />
@@ -521,6 +524,7 @@
     <ClCompile Include="..\src\translations.cpp" />
     <ClCompile Include="..\src\trap.cpp" />
     <ClCompile Include="..\src\trapfunc.cpp" />
+    <ClCompile Include="..\src\turret.cpp" />
     <ClCompile Include="..\src\tutorial.cpp" />
     <ClCompile Include="..\src\ui.cpp" />
     <ClCompile Include="..\src\vehicle.cpp" />
