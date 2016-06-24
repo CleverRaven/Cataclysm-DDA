@@ -271,7 +271,7 @@
   },
   {
     "type": "item_group",
-    "id": "guns_launchers_grenade",
+    "id": "guns_launcher_grenade",
     "//": "Factory manufactured grenade launchers (excludes improvised weapons)",
     "items": [
       [ "m320", 75 ],
@@ -283,23 +283,23 @@
   },
   {
     "type": "item_group",
-    "id": "guns_launchers_rocket",
+    "id": "guns_launcher_rocket",
     "//": "Factory manufactured rocket launchers (excludes improvised weapons)",
     "items": [
     ]
   },
   {
     "type": "item_group",
-    "id": "guns_launchers_milspec",
+    "id": "guns_launcher_milspec",
     "//": "Factory manufactured grenade and rocket launchers (excludes improvised weapons)",
     "items": [
-      { "group": "guns_launchers_grenade", "prob": 70 },
-      { "group": "guns_launchers_rocket", "prob": 30 }
+      { "group": "guns_launcher_grenade", "prob": 70 },
+      { "group": "guns_launcher_rocket", "prob": 30 }
     ]
   },
   {
     "type": "item_group",
-    "id": "guns_launchers_improvised",
+    "id": "guns_launcher_improvised",
     "//": "Makeshift or otherwise poor quality grenade and rocket launchers",
     "items": [
       [ "launcher_simple", 100 ],
@@ -337,7 +337,7 @@
       { "group": "guns_smg_milspec", "prob": 25 },
       { "group": "guns_rifle_milspec", "prob": 100 },
       { "group": "guns_shotgun_milspec", "prob": 25 },
-      { "group": "guns_launchers_milspec", "prob": 10 }
+      { "group": "guns_launcher_milspec", "prob": 10 }
     ]
   },
   {
@@ -360,7 +360,7 @@
       { "group": "guns_smg_improvised", "prob": 10 },
       { "group": "guns_rifle_improvised", "prob": 100 },
       { "group": "guns_shotgun_improvised", "prob": 100 },
-      { "group": "guns_launchers_improvised", "prob": 30 }
+      { "group": "guns_launcher_improvised", "prob": 30 }
     ]
   },
   {
