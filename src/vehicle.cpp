@@ -1460,14 +1460,12 @@ bool vehicle::start_engine( const int e )
 
 void vehicle::start_engines( const bool take_control )
 {
-    int start_time = 0;
-
-    int has_engine = std::count_if( engines.begin(), engines.end(), [&]( int idx ) {
+    bool has_engine = std::any_of( engines.begin(), engines.end(), [&]( int idx ) {
         return parts[ idx ].hp > 0 && parts[ idx ].enabled;
     } );
 
     // if no engines enabled then enable all before trying to start the vehicle
-    if( has_engine == 0 ) {
+    if( !has_engine ) {
         for( auto idx : engines ) {
             if( parts[ idx ].hp > 0 ) {
                 parts[ idx ].enabled = true;
@@ -1475,8 +1473,9 @@ void vehicle::start_engines( const bool take_control )
         }
     }
 
+    int start_time = 0;
     for( size_t e = 0; e < engines.size(); ++e ) {
-        has_engine = has_engine || is_engine_on( e );
+        has_engine += is_engine_on( e );
         start_time = std::max( start_time, engine_start_time( e ) );
     }
 
