@@ -317,10 +317,9 @@ task_reason veh_interact::cant_do (char mode)
         break;
 
     case 'f': {
-        // first find all possible ammo
-        auto opts = g->u.items_with( []( const item &e ) { return e.is_ammo(); } );
+        auto opts = g->u.items_with( []( const item &e ) { return e.count_by_charges(); } );
 
-        // for each part on selected tile try to reload using above ammo
+        // for each part on selected tile try to reload using found items
         return std::any_of( parts_here.begin(), parts_here.end(), [&]( int idx ) {
             return std::any_of( opts.begin(), opts.end(), [&]( const item *e ) {
                 return veh->parts[ idx ].can_reload( e->typeId() );

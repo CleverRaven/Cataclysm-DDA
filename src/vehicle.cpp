@@ -6155,11 +6155,7 @@ ammotype vehicle_part::ammo_type() const
     // @todo generic fuel tanks are not yet supported
     if( is_tank() ) {
         const itype *fuel = item::find_type( info().fuel_type );
-        if( !fuel->ammo ) {
-            debugmsg( "vehicle fuel tank specifies non-ammo fuel type %s", info().fuel_type.c_str() );
-            return "NULL";
-        }
-        return fuel->ammo->type;
+        return fuel->ammo ? fuel->ammo->type : "NULL";
     }
 
     if( is_battery() ) {
