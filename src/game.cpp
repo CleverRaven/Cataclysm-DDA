@@ -11320,7 +11320,7 @@ bool game::unload( item &it )
     item *target = opts.size() > 1 ? opts[ ( uimenu( false, _("Unload what?"), msgs ) ) - 1 ] : &it;
 
     // Next check for any reasons why the item cannot be unloaded
-    if( target->ammo_type() == "NULL" || target->ammo_capacity() <= 0 ) {
+    if( !target->ammo_type() || target->ammo_capacity() <= 0 ) {
         add_msg( m_info, _("You can't unload a %s!"), target->tname().c_str() );
         return false;
     }

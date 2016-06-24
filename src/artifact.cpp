@@ -1146,7 +1146,7 @@ void it_artifact_tool::deserialize(JsonObject &jo)
 
     tool->charges_per_use = jo.get_int("charges_per_use");
     tool->turns_per_charge = jo.get_int("turns_per_charge");
-    tool->ammo_id = jo.get_string("ammo");
+    tool->ammo_id = ammotype( jo.get_string("ammo") );
     tool->revert_to = jo.get_string("revert_to");
 
     artifact->charge_type = (art_charge)jo.get_int("charge_type");

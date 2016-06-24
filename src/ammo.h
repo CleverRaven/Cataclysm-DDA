@@ -2,10 +2,12 @@
 #define AMMO_H
 
 #include <string>
+#include "string_id.h"
 
 class JsonObject;
 
-using ammotype = std::string;
+class ammunition_type;
+using ammotype = string_id<ammunition_type>;
 
 class ammunition_type
 {

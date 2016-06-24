@@ -12,7 +12,8 @@
 #include <vector>
 #include <string>
 
-using ammotype = std::string;
+class ammunition_type;
+using ammotype = string_id<ammunition_type>;
 
 class item;
 

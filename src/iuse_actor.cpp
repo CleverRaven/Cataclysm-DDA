@@ -1935,7 +1935,10 @@ iuse_actor *bandolier_actor::clone() const
 void bandolier_actor::load( JsonObject &obj )
 {
     capacity = obj.get_int( "capacity", capacity );
-    ammo = obj.get_tags( "ammo" );
+    ammo.clear();
+    for( auto &e : obj.get_tags( "ammo" ) ) {
+        ammo.insert( ammotype( e ) );
+    }
 }
 
 void bandolier_actor::info( const item&, std::vector<iteminfo>& dump ) const

@@ -19,7 +19,7 @@ ammo_map_t &all_ammunition_types()
 void ammunition_type::load_ammunition_type( JsonObject &jsobj )
 {
     auto const result = all_ammunition_types().insert( std::make_pair(
-                            jsobj.get_string( "id" ), ammunition_type {} ) );
+                            ammotype( jsobj.get_string( "id" ) ), ammunition_type {} ) );
 
     if( !result.second ) {
         debugmsg( "duplicate ammo id: %s", result.first->first.c_str() );
@@ -28,6 +28,21 @@ void ammunition_type::load_ammunition_type( JsonObject &jsobj )
     auto &ammo = result.first->second;
     ammo.name_             = jsobj.get_string( "name" );
     ammo.default_ammotype_ = jsobj.get_string( "default" );
+}
+
+template<>
+const string_id<ammunition_type> string_id<ammunition_type>::NULL_ID( "NULL" );
+
+template<>
+bool string_id<ammunition_type>::is_valid() const
+{
+    return all_ammunition_types().count( *this ) > 0;
+}
+
+template<>
+ammunition_type const &string_id<ammunition_type>::obj() const
+{
+    return ammunition_type::find_ammunition_type( *this );
 }
 
 ammunition_type const &ammunition_type::find_ammunition_type( const ammotype &ident )

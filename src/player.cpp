@@ -10548,7 +10548,7 @@ hint_rating player::rate_action_unload( const item &it ) const
         return HINT_GOOD;
     }
 
-    if( it.ammo_type() == "NULL" || it.has_flag("NO_UNLOAD") ) {
+    if( it.ammo_type().is_null() || it.has_flag("NO_UNLOAD") ) {
         return HINT_CANT;
     }
 

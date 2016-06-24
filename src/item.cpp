@@ -144,7 +144,7 @@ item::item( const itype *type, int turn, long qty ) : type( type )
         active = goes_bad() && !rotten();
 
     } else if( type->tool ) {
-        if( ammo_remaining() && ammo_type() != "NULL" ) {
+        if( ammo_remaining() && ammo_type() ) {
             ammo_set( default_ammo( ammo_type() ), ammo_remaining() );
         }
     }
@@ -239,7 +239,7 @@ item& item::ammo_set( const itype_id& ammo, long qty )
     }
 
     // handle reloadable tools and guns with no specific ammo type as special case
-    if( ammo == "null" && ammo_type() == "NULL" ) {
+    if( ammo == "null" && !ammo_type() ) {
         if( ( is_tool() || is_gun() ) && magazine_integral() ) {
             curammo = nullptr;
             charges = std::min( qty, ammo_capacity() );
@@ -1038,7 +1038,7 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
         if( mod->recoil != 0 )
             info.push_back( iteminfo( "GUNMOD", _( "Recoil: " ), "", mod->recoil, true,
                                       ( ( mod->recoil > 0 ) ? "+" : "" ), true, true ) );
-        if( mod->ammo_modifier != "NULL" ) {
+        if( mod->ammo_modifier ) {
             info.push_back( iteminfo( "GUNMOD",
                                       string_format( _( "Ammo: <stat>%s</stat>" ), ammo_name( mod->ammo_modifier ).c_str() ) ) );
         }
@@ -1295,7 +1295,7 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
 
         } else if( ammo_capacity() != 0 ) {
             std::string tmp;
-            if( ammo_type() != "NULL" ) {
+            if( ammo_type() ) {
                 //~ "%s" is ammunition type. This types can't be plural.
                 tmp = ngettext( "Maximum <num> charge of %s.", "Maximum <num> charges of %s.", ammo_capacity() );
                 tmp = string_format( tmp, ammo_name( ammo_type() ).c_str() );
@@ -2422,7 +2422,7 @@ int item::price( bool practical ) const
             // items with integral magazines may contain ammunition which can affect the price
             child += item( e->ammo_data(), calendar::turn, e->charges ).price( practical );
 
-        } else if( e->is_tool() && e->ammo_type() == "NULL" && e->ammo_capacity() ) {
+        } else if( e->is_tool() && !e->ammo_type() && e->ammo_capacity() ) {
             // if tool has no ammo (eg. spray can) reduce price proportional to remaining charges
             child *= e->ammo_remaining() / double( std::max( e->type->charges_default(), 1 ) );
         }
@@ -3018,7 +3018,7 @@ bool item::craft_has_charges()
 {
     if (count_by_charges()) {
         return true;
-    } else if (ammo_type() == "NULL") {
+    } else if( !ammo_type() ) {
         return true;
     }
 
@@ -3990,7 +3990,7 @@ long item::ammo_required() const
     }
 
     if( is_gun() ) {
-        if( ammo_type() == "NULL" ) {
+        if( !ammo_type() ) {
             return 0;
         } else if( has_flag( "FIRE_100" ) ) {
             return 100;
@@ -4092,7 +4092,7 @@ ammotype item::ammo_type( bool conversion ) const
             return ammotype( "plutonium" );
         }
         for( const auto mod : gunmods() ) {
-            if( mod->type->gunmod->ammo_modifier != "NULL" ) {
+            if( mod->type->gunmod->ammo_modifier ) {
                 return mod->type->gunmod->ammo_modifier;
             }
         }
@@ -4107,7 +4107,7 @@ ammotype item::ammo_type( bool conversion ) const
     } else if( is_ammo() ) {
         return type->ammo->type;
     }
-    return "NULL";
+    return NULL_ID;
 }
 
 itype_id item::ammo_default( bool conversion ) const
@@ -4245,7 +4245,7 @@ bool item::gunmod_compatible( const item& mod, bool alert, bool effects ) const
     } else if( get_free_mod_locations( mod.type->gunmod->location ) <= 0 ) {
         msg = string_format( _( "Your %1$s doesn't have enough room for another %2$s mod." ), tname().c_str(), _( mod.type->gunmod->location.c_str() ) );
 
-    } else if( effects && ( mod.type->gunmod->ammo_modifier != "NULL" || !mod.type->gunmod->magazine_adaptor.empty() )
+    } else if( effects && ( mod.type->gunmod->ammo_modifier || !mod.type->gunmod->magazine_adaptor.empty() )
                        && ( ammo_remaining() > 0 || magazine_current() ) ) {
         msg = string_format( _( "You must unload your %s before installing this mod." ), tname().c_str() );
 
@@ -5097,7 +5097,7 @@ void item::set_countdown( int num_turns )
         debugmsg( "Tried to set a negative countdown value %d.", num_turns );
         return;
     }
-    if( ammo_type() != "NULL" ) {
+    if( ammo_type() ) {
         debugmsg( "Tried to set countdown on an item with ammo=%s.", ammo_type().c_str() );
         return;
     }
@@ -5894,7 +5894,7 @@ bool item::is_reloadable() const
     } else if( has_flag( "NO_RELOAD") ) {
         return false;
 
-    } else if( ammo_type() == "NULL" ) {
+    } else if( !ammo_type() ) {
         return false;
     }
 
