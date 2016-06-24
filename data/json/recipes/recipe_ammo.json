@@ -27,62 +27,6 @@
   ]
 },{
   "type" : "recipe",
-  "result": "40mm_toxicgas",
-  "category": "CC_AMMO",
-  "subcategory": "CSC_AMMO_BULLETS",
-  "skill_used": "fabrication",
-  "skills_required": [ "gun", 1 ],
-  "difficulty": 3,
-  "time": 12500,
-  "reversible": false,
-  "autolearn": false,
-  "book_learn": [[ "textbook_gaswarfare", 4, "" ] , [ "manual_launcher", 4 ]],
-  "qualities" : [
-    {"id":"SCREW","level":1,"amount":1}
-  ], "components": [
-    [
-      [ "gasbomb_makeshift", 1 ]
-    ],
-    [
-     [ "shotgun_primer", 1 ]
-    ],
-    [
-     [ "gunpowder", 40 ]
-    ],
-    [
-      [ "40mm_casing", 1 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "40mm_acidbomb",
-  "category": "CC_AMMO",
-  "subcategory": "CSC_AMMO_BULLETS",
-  "skill_used": "fabrication",
-  "skills_required": [ "gun", 1 ],
-  "difficulty": 3,
-  "time": 100,
-  "reversible": false,
-  "autolearn": false,
-  "book_learn": [[ "textbook_gaswarfare", 4, "" ] , [ "manual_launcher", 4 ]],
-  "qualities" : [
-    {"id":"SCREW","level":1,"amount":1}
-  ], "components": [
-    [
-      [ "acidbomb", 1 ]
-    ],
-    [
-     [ "shotgun_primer", 1 ]
-    ],
-    [
-     [ "gunpowder", 40 ]
-    ],
-    [
-      [ "40mm_casing", 1 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
   "result": "mininuke_mod",
   "category": "CC_AMMO",
   "subcategory": "CSC_AMMO_OTHER",

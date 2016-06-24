@@ -20,14 +20,6 @@
     "effects": [ "COOKOFF", "NEVER_MISFIRES" ]
   },
   {
-    "id": "40mm_acidbomb",
-    "copy-from": "40mm_grenade",
-    "type": "AMMO",
-    "name": "40mm acid bomb",
-    "description": "A 40mm grenade with an acid bomb load.",
-    "extend": { "effects": [ "ACIDBOMB" ] }
-  },
-  {
     "id": "40mm_beanbag",
     "copy-from": "40mm_grenade",
     "type": "AMMO",
@@ -117,13 +109,5 @@
     "name_plural": "40mm teargas",
     "description": "A 40mm grenade with a teargas load.  It will burst in a cloud of highly incapacitating gas.",
     "extend": { "effects": [ "TEARGAS" ] }
-  },
-  {
-    "id": "40mm_toxicgas",
-    "copy-from": "40mm_grenade",
-    "type": "AMMO",
-    "name": "40mm chemical round",
-    "description": "A 40mm grenade with a toxic gas load.  It will burst in a cloud of hazardous gas.",
-    "extend": { "effects": [ "TOXICGAS" ] }
   }
 ]
