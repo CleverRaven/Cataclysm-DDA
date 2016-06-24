@@ -69,26 +69,16 @@ const std::array<fuel_type, 7> &get_fuel_types()
 {
 
     static const std::array<fuel_type, 7> fuel_types = {{
-        fuel_type {fuel_type_gasoline,  c_ltred,   100, 1},
-        fuel_type {fuel_type_diesel,    c_brown,   100, 1},
-        fuel_type {fuel_type_battery,   c_yellow,  1,   1},
-        fuel_type {fuel_type_plutonium, c_ltgreen, 1,   1000},
-        fuel_type {fuel_type_plasma,    c_ltblue,  100, 100},
-        fuel_type {fuel_type_water,     c_ltcyan,  1,   1},
-        fuel_type {fuel_type_muscle,    c_white,   0,   1}
+        fuel_type { fuel_type_gasoline,  c_ltred,   100 },
+        fuel_type { fuel_type_diesel,    c_brown,   100 },
+        fuel_type { fuel_type_battery,   c_yellow,  1,  },
+        fuel_type { fuel_type_plutonium, c_ltgreen, 1,  },
+        fuel_type { fuel_type_plasma,    c_ltblue,  100 },
+        fuel_type { fuel_type_water,     c_ltcyan,  1,  },
+        fuel_type { fuel_type_muscle,    c_white,   0,  }
     }};
 
     return fuel_types;
-}
-
-int fuel_charges_to_amount_factor( const itype_id &ftype )
-{
-    for( auto & ft : get_fuel_types() ) {
-        if( ft.id == ftype ) {
-            return ft.charges_to_amount_factor;
-        }
-    }
-    return 1;
 }
 
 enum vehicle_controls {

@@ -7369,10 +7369,8 @@ bool game::refill_vehicle_part(vehicle &veh, vehicle_part *part, bool test)
         return true;
     }
 
-    const long fuel_per_charge = fuel_charges_to_amount_factor( ftype );
-    long req = ceil( ( part->ammo_capacity() - part->ammo_remaining() ) / double( fuel_per_charge ) );
-    long qty = std::min( req, avail );
-    part->ammo_set( ftype, part->ammo_remaining() + ( qty * double( fuel_per_charge ) ) );
+    long qty = std::min( avail, part->ammo_capacity() - part->ammo_remaining() );
+    part->ammo_set( ftype, part->ammo_remaining() + qty );
 
     veh.invalidate_mass();
     if (ftype == "battery") {
