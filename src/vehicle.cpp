@@ -1463,9 +1463,15 @@ void vehicle::start_engines( const bool take_control )
     int has_engine = false;
     int start_time = 0;
 
-    // if we only have one engine automatically enable it when trying to start engines
-    if( engines.size() == 1 && parts[ engines.front() ].hp > 0 ) {
-        parts[ engines.front() ].enabled = true;
+    // if no engines enabled then enable all before trying to start the vehicle
+    if( std::none_of( engines.begin(), engines.end(), [&]( int idx ) {
+        return parts[ idx ].hp > 0 && parts[ idx ].enabled;
+    } ) ) {
+        for( auto idx : engines ) {
+            if( parts[ idx ].hp > 0 ) {
+                parts[ idx ].enabled = true;
+            }
+        }
     }
 
     for( size_t e = 0; e < engines.size(); ++e ) {
