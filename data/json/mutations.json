@@ -4876,6 +4876,6 @@
         "points" : 1,
         "starting_trait" : true,
         "description" : "You just don't care much about being dirty.  You consider filthy items as normal.",
-		"cancels" : ["SQUEAMISH"]
+        "cancels" : ["SQUEAMISH"]
     }
 ]
