@@ -6154,7 +6154,12 @@ ammotype vehicle_part::ammo_type() const
 {
     // @todo generic fuel tanks are not yet supported
     if( is_tank() ) {
-        return info().fuel_type;
+        const itype *fuel = item::find_type( info().fuel_type );
+        if( !fuel->ammo ) {
+            debugmsg( "vehicle fuel tank specifies non-ammo fuel type %s", info().fuel_type.c_str() );
+            return "NULL";
+        }
+        return fuel->ammo->type;
     }
 
     if( is_battery() ) {
@@ -6347,7 +6352,7 @@ bool vehicle_part::is_tank() const
         return false;
     }
 
-    auto *fuel = item::find_type( default_ammo( info().fuel_type ) );
+    auto *fuel = item::find_type( info().fuel_type );
     return fuel->phase == LIQUID;
 }
 
