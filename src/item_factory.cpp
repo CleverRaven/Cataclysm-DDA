@@ -685,11 +685,7 @@ void Item_factory::check_definitions() const
             }
         }
         if( type->ammo ) {
-            if( type->ammo->type.empty() ) {
-                msg << "ammo does not specify a type" << "\n";
-            } else {
-                check_ammo_type( msg, type->ammo->type );
-            }
+            check_ammo_type( msg, type->ammo->type );
             if( type->ammo->casing != "null" && !has_template( type->ammo->casing ) ) {
                 msg << string_format( "invalid casing property %s", type->ammo->casing.c_str() ) << "\n";
             }
