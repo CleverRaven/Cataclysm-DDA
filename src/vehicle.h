@@ -152,6 +152,9 @@ struct vehicle_part : public JsonSerializer, public JsonDeserializer
      */
     long ammo_consume( long qty, const tripoint& pos );
 
+    /* Can part in current state be reloaded optionally with specific @ref ammo */
+    bool can_reload( const itype_id &ammo = "" );
+
     /** Current faults affecting this part (if any) */
     const std::set<fault_id>& faults() const;
 
