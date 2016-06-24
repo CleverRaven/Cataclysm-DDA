@@ -452,7 +452,7 @@ class item : public JsonSerializer, public JsonDeserializer, public visitable<it
      * @param allow_bucket Allow filling non-sealable containers
      * @return Returns false in case of error. Nothing has been added in that case.
      */
-    bool fill_with( item &liquid, std::string &err, bool allow_bucket );
+    bool fill_with( item &liquid, std::string &err, bool allow_bucket, int volume_limit = INT_MAX );
     /**
      * How much more of this liquid (in charges) can be put in this container.
      * If this is not a container (or not suitable for the liquid), it returns 0.
@@ -460,9 +460,10 @@ class item : public JsonSerializer, public JsonDeserializer, public visitable<it
      * Also note that this works for guns and tools that accept liquid ammo.
      * @param allow_bucket Allow filling non-sealable containers
      */
-    long get_remaining_capacity_for_liquid( const item &liquid, bool allow_bucket = false ) const;
+    long get_remaining_capacity_for_liquid( const item &liquid, bool allow_bucket = false,
+                                            int volume_limit = INT_MAX ) const;
     long get_remaining_capacity_for_liquid( const item &liquid, std::string &err,
-                                            bool allow_bucket = false ) const;
+                                            bool allow_bucket = false, int volume_limit = INT_MAX ) const;
     /**
      * It returns the total capacity (volume) of the container. This is a volume,
      * use @ref liquid_charges (of a liquid item) to translate that volume to the
@@ -894,6 +895,7 @@ public:
          */
         /*@{*/
         long liquid_charges( long units ) const;
+        long liquid_charges_per_volume( int volume ) const;
         long liquid_units( long charges ) const;
         /*@}*/
 

@@ -402,6 +402,11 @@ long item::liquid_charges( long units ) const
     }
 }
 
+long item::liquid_charges_per_volume( int volume ) const
+{
+    return ( type->volume != 0 ) ? liquid_charges( volume / type->volume ) : INFINITE_CHARGES;
+}
+
 long item::liquid_units( long charges ) const
 {
     if( is_ammo() || is_food() ) {
@@ -4950,13 +4955,14 @@ long item::get_container_capacity() const
     return type->container->contains;
 }
 
-long item::get_remaining_capacity_for_liquid( const item &liquid, bool allow_bucket ) const
+long item::get_remaining_capacity_for_liquid( const item &liquid, bool allow_bucket, int volume_limit ) const
 {
     std::string dummy_err;
-    return get_remaining_capacity_for_liquid( liquid, dummy_err, allow_bucket );
+    return get_remaining_capacity_for_liquid( liquid, dummy_err, allow_bucket, volume_limit );
 }
 
-long item::get_remaining_capacity_for_liquid( const item &liquid, std::string &err, bool allow_bucket ) const
+long item::get_remaining_capacity_for_liquid( const item &liquid, std::string &err, bool allow_bucket,
+                                              int volume_limit ) const
 {
     const auto error = [ &err ]( const char *message, ... ) {
         va_list ap;
@@ -4987,7 +4993,6 @@ long item::get_remaining_capacity_for_liquid( const item &liquid, std::string &e
         return error( is_bucket() ? _( "That %s must be on the ground or held to hold contents!" )
                                   : _( "You can't seal that %s!" ), tname().c_str() );
     }
-
     long remaining_capacity;
     if( uses_ammo ) { // for filling up chainsaws, jackhammers and flamethrowers
         remaining_capacity = ammo_capacity() - ammo_remaining();
@@ -4995,6 +5000,13 @@ long item::get_remaining_capacity_for_liquid( const item &liquid, std::string &e
         remaining_capacity = liquid.liquid_charges( get_container_capacity() );
         if( !contents.empty() ) {
             remaining_capacity -= contents.front().charges;
+        }
+        if( remaining_capacity > 0 && !type->rigid ) {
+            const long expansion = liquid.liquid_charges_per_volume( volume_limit );
+            if( expansion <= 0 ) {
+                return error( _( "That %s doesn't have a room to expand." ), tname().c_str() );
+            }
+            remaining_capacity = std::min( remaining_capacity, expansion );
         }
     }
 
@@ -5035,11 +5047,12 @@ bool item::allow_crafting_component() const
     return contents.empty();
 }
 
-bool item::fill_with( item &liquid, std::string &err, bool allow_bucket )
+bool item::fill_with( item &liquid, std::string &err, bool allow_bucket, int volume_limit )
 {
-    const long remaining_capacity = get_remaining_capacity_for_liquid( liquid, err, allow_bucket );
+    const long remaining_capacity = get_remaining_capacity_for_liquid( liquid, err, allow_bucket,
+                                                                       volume_limit );
 
-    if( remaining_capacity == 0 || !err.empty() ) {
+    if( remaining_capacity <= 0 || !err.empty() ) {
         return false;
     }
 

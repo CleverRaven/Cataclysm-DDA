@@ -1943,18 +1943,23 @@ bool Character::pour_into( item &container, item &liquid )
 
     } else {
         // Filling up normal containers
-        bool allow_bucket = &container == &weapon || !has_item( container );
+        const bool allow_bucket = &container == &weapon || !has_item( container );
+        const int available_volume = allow_bucket ? INT_MAX : volume_capacity() - volume_carried();
+
         std::string err;
-        if( !container.fill_with( liquid, err, allow_bucket ) ) {
-            add_msg_if_player( m_info, err.c_str() );
+        if( !container.fill_with( liquid, err, allow_bucket, available_volume ) ) {
+            add_msg_if_player( m_bad, err.c_str() );
             return false;
         }
-
-        container.on_contents_changed();
 
         inv.unsort();
         add_msg_if_player( _( "You pour %1$s into the %2$s." ), liquid.tname().c_str(),
                            container.tname().c_str() );
+
+        if( !container.is_container_full( allow_bucket ) ) {
+            add_msg_if_player( "The %s isn't full.", container.tname().c_str() );
+        }
+
         if( liquid.charges > 0 ) {
             // TODO: maybe not show this if the source is infinite. Best would be to move it to the caller.
             add_msg_if_player( _( "There's some left over!" ) );
