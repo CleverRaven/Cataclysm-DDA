@@ -575,6 +575,8 @@
 		<Unit filename="src/path_info.h" />
 		<Unit filename="src/pathfinding.cpp" />
 		<Unit filename="src/pathfinding.h" />
+		<Unit filename="src/projectile.cpp" />
+		<Unit filename="src/projectile.h" />
 		<Unit filename="src/pickup.cpp" />
 		<Unit filename="src/pickup.h" />
 		<Unit filename="src/platform_win.h" />

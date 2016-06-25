@@ -28,6 +28,7 @@
 
 #include <math.h>
 #include <sstream>
+#include <algorithm>
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 
@@ -1241,9 +1242,7 @@ void activity_handlers::vehicle_finish( player_activity *act, player *pl )
             g->refresh_all();
             // TODO: Z (and also where the activity is queued)
             // Or not, because the vehicle coords are dropped anyway
-            g->exam_vehicle(*veh,
-                            tripoint( act->values[0], act->values[1], pl->posz() ),
-                            act->values[2], act->values[3]);
+            g->exam_vehicle( *veh, act->values[ 2 ], act->values[ 3 ] );
             return;
         } else {
             dbg(D_ERROR) << "game:process_activity: ACT_VEHICLE: vehicle not found";

@@ -13,6 +13,7 @@
 #include "sounds.h"
 #include "monattack.h"
 #include "mondefense.h"
+#include "projectile.h"
 #include "iuse_actor.h"
 #include "weighted_list.h"
 #include "mongroup.h"

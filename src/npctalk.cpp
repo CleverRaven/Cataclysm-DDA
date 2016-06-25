@@ -4407,8 +4407,7 @@ consumption_result try_consume( npc &p, item &it, std::string &reason )
         return REFUSED;
     }
 
-    if( ( !it.type->use_methods.empty() || comest->quench < 0 || it.poison > 0 ) &&
-        !p.is_minion() && !g->u.has_trait( "DEBUG_MIND_CONTROL" ) ) {
+    if( !p.will_accept_from_player( it ) ) {
         reason = _("I don't <swear> trust you enough to eat from your hand...");
         return REFUSED;
     }

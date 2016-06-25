@@ -201,7 +201,7 @@ Pickup::interact_results Pickup::interact_with_vehicle( vehicle *veh, const trip
             return DONE;
 
         case EXAMINE:
-            g->exam_vehicle( *veh, pos );
+            g->exam_vehicle( *veh );
             return DONE;
 
         case GET_ITEMS_ON_GROUND:
@@ -273,6 +273,10 @@ enum pickup_answer : int {
 pickup_answer handle_problematic_pickup( const item &it, bool &offered_swap,
         const std::string &explain )
 {
+    if( offered_swap ) {
+        return CANCEL;
+    }
+
     player &u = g->u;
 
     uimenu amenu;
@@ -293,8 +297,8 @@ pickup_answer handle_problematic_pickup( const item &it, bool &offered_swap,
     if( it.is_armor() ) {
         amenu.addentry( WEAR, u.can_wear( it ), 'W', _( "Wear %s" ), it.display_name().c_str() );
     }
-    if( !it.is_container_empty() && u.can_pickVolume( it ) ) {
-        amenu.addentry( SPILL, true, 's', _( "Spill %s, then pick up %s" ),
+    if( !it.is_container_empty() ) {
+        amenu.addentry( SPILL, u.can_pickVolume( it ), 's', _( "Spill %s, then pick up %s" ),
                         it.contents.front().tname().c_str(), it.display_name().c_str() );
     }
 
@@ -668,6 +672,7 @@ void Pickup::pick_up( const tripoint &pos, int min )
 
         int start = 0, cur_it;
         player pl_copy = g->u;
+        pl_copy.set_fake( true );
         bool update = true;
         mvwprintw( w_pickup, 0, 0, _( "PICK UP" ) );
         int selected = 0;
@@ -838,6 +843,7 @@ void Pickup::pick_up( const tripoint &pos, int min )
                         getitem[i].pick = false;
                     }
                     pl_copy = g->u;
+                    pl_copy.set_fake( true );
                 }
                 update = true;
             }

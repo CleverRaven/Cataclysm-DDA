@@ -462,6 +462,12 @@ class item : public JsonSerializer, public JsonDeserializer, public visitable<it
      */
     long get_remaining_capacity_for_liquid( const item &liquid, bool allow_bucket = false ) const;
     /**
+     * It returns the total capacity (volume) of the container. This is a volume,
+     * use @ref liquid_charges (of a liquid item) to translate that volume to the
+     * number charges of a liquid that can be store in it.
+     */
+    long get_container_capacity() const;
+    /**
      * Puts the given item into this one, no checks are performed.
      */
     void put_in( item payload );
@@ -736,6 +742,8 @@ public:
  bool is_food() const;                // Ignoring the ability to eat batteries, etc.
  bool is_food_container() const;      // Ignoring the ability to eat batteries, etc.
  bool is_ammo_container() const; // does this item contain ammo? (excludes magazines)
+ bool is_medication() const;            // Is it a medication that only pretends to be food?
+ bool is_medication_container() const;  // Does it contain medication that isn't actually food?
  bool is_bionic() const;
  bool is_magazine() const;
  bool is_ammo_belt() const;

@@ -884,7 +884,7 @@ class jmapgen_loot : public jmapgen_piece {
                         e.contents.emplace_back( e.magazine_default(), e.bday );
                     }
                     if( spawn_ammo ) {
-                        e.ammo_set( default_ammo( e.ammo_type() ), e.ammo_capacity() );
+                        e.ammo_set( default_ammo( e.ammo_type() ) );
                     }
                 }
                 m.spawn_items( tripoint( rng( x.val, x.valmax ), rng( y.val, y.valmax ), m.get_abs_sub().z ), spawn );
@@ -1312,11 +1312,6 @@ bool mapgen_function_json::setup() {
     std::istringstream iss( jdata );
     try {
         JsonIn jsin(iss);
-        jsin.eat_whitespace();
-        char ch = jsin.peek();
-        if ( ch != '{' ) {
-            jsin.error( "Bad json" );
-        }
         JsonObject jo = jsin.get_object();
         bool qualifies = false;
         ter_str_id tmpval;
@@ -4125,6 +4120,7 @@ ff.......|....|WWWWWWWW|\n\
             add_spawn(mon_secubot, 1, SEEX * 2 - 7,            6);
             add_spawn(mon_secubot, 1,            6, SEEY * 2 - 7);
             add_spawn(mon_secubot, 1, SEEX * 2 - 7, SEEY * 2 - 7);
+            spawn_item( SEEX - 3, SEEY - 2, "id_science" );
             madd_trap( this, SEEX - 2, SEEY - 2, tr_dissector);
             madd_trap( this, SEEX + 1, SEEY - 2, tr_dissector);
             madd_trap( this, SEEX - 2, SEEY + 1, tr_dissector);
@@ -4196,6 +4192,8 @@ ff.......|....|WWWWWWWW|\n\
                     }
                 }
             }
+
+            spawn_item( SEEX - 1, 8, "id_science" );
             tmpcomp = add_computer( tripoint( SEEX,  8, abs_sub.z ), _("Sub-prime contact console"), 7);
             if(monsters_end) { //only add these options when there are monsters.
                 tmpcomp->add_option(_("Terminate Specimens"), COMPACT_TERMINATE, 2);
@@ -4230,6 +4228,7 @@ ff.......|....|WWWWWWWW|\n\
             line(this, t_reinforced_glass, SEEX - 2, SEEY + 1, SEEX + 1, SEEY + 1);
             line(this, t_reinforced_glass, SEEX - 2, SEEY - 1, SEEX - 2, SEEY);
             line(this, t_reinforced_glass, SEEX + 1, SEEY - 1, SEEX + 1, SEEY);
+            spawn_item( SEEX - 4, SEEY - 3, "id_science" );
             ter_set(SEEX - 3, SEEY - 3, t_console);
             tmpcomp = add_computer( tripoint( SEEX - 3,  SEEY - 3, abs_sub.z ), _("Bionic access"), 3);
             tmpcomp->add_option(_("Manifest"), COMPACT_LIST_BIONICS, 0);
@@ -4249,6 +4248,7 @@ ff.......|....|WWWWWWWW|\n\
             line(this, t_cvdbody, SEEX    , SEEY - 1, SEEX    , SEEY + 1);
             line(this, t_cvdbody, SEEX + 1, SEEY - 2, SEEX + 1, SEEY + 1);
             ter_set(SEEX   , SEEY - 2, t_cvdmachine);
+            spawn_item( SEEX, SEEY - 3, "id_science" );
             break;
         }
 

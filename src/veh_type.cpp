@@ -390,7 +390,7 @@ void vpart_info::check()
             } else {
                 part.install_reqs.qualities = { { { { quality_id( "WRENCH" ), 1, 2 } },
                                                   { { quality_id( "GLARE" ), 1, 2 } } } };
-                part.install_reqs.tools.push_back( { { { "welder", 50 }, { "welder_crude", 75 }, { "oxy_torch", 10 } } } );
+                part.install_reqs.tools.push_back( { { { "welder", 50 }, { "welder_crude", 75 }, { "oxy_torch", 10 }, { "toolset", 75 } } } );
                 part.removal_reqs.qualities = { { { { quality_id( "WRENCH" ), 1, 2 } },
                                                   { { quality_id( "SAW_M" ), 1, 2 } } } };
             }

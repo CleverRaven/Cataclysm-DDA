@@ -33,6 +33,8 @@
 #define ISNAN std::isnan
 #endif
 
+static const int DUCT_TAPE_USED = 100;
+
 static inline const char * status_color( bool status )
 {
     static const char *good = "green";
@@ -57,25 +59,9 @@ void act_vehicle_siphon(vehicle* veh);
 /**
  * Creates a blank veh_interact window.
  */
-veh_interact::veh_interact ()
-    : main_context("VEH_INTERACT")
+veh_interact::veh_interact( vehicle &veh, int x, int y )
+    : ddx( x ), ddy( y ), veh( &veh ), main_context( "VEH_INTERACT" )
 {
-    cpart = -1;
-    ddx = 0;
-    ddy = 0;
-    sel_cmd = ' ';
-    sel_type = 0;
-    sel_vpart_info = NULL;
-    sel_vehicle_part = NULL;
-
-    // Starting index of where to start printing fuels from
-    fuel_index = 0;
-
-    totalDurabilityColor = c_green;
-    worstDurabilityColor = c_green;
-    durabilityPercent = 100;
-    mostDamagedPart = -1;
-
     // Only build the shapes map and the wheel list once
     for( auto vp : vpart_info::get_all() ) {
         vpart_shapes[ vp->name() + vp->item ].push_back( vp );
@@ -99,15 +85,7 @@ veh_interact::veh_interact ()
     main_context.register_action("NEXT_TAB");
     main_context.register_action("CONFIRM");
     main_context.register_action("HELP_KEYBINDINGS");
-}
 
-/**
- * Creates a veh_interact window based on the given parameters.
- * @param v The vehicle the player is interacting with.
- */
-void veh_interact::exec(vehicle *v)
-{
-    veh = v;
     countDurability();
     cache_tool_availability();
     allocate_windows();
@@ -259,16 +237,8 @@ void veh_interact::cache_tool_availability()
     int charges = charges_per_use( "welder" );
     int charges_oxy = charges_per_use( "oxy_torch" );
     int charges_crude = charges_per_use( "welder_crude" );
-    has_screwdriver = crafting_inv.has_quality( SCREW );
     has_wrench = crafting_inv.has_quality( WRENCH );
-    has_hammer = crafting_inv.has_quality( HAMMER );
-    has_nailgun = crafting_inv.has_tools("nailgun", 1);
     has_goggles = (g->u.has_bionic("bio_sunglasses") || crafting_inv.has_quality( GLARE, 2 ));
-    has_hacksaw = crafting_inv.has_quality( SAW_M_FINE ) ||
-                  (crafting_inv.has_tools("circsaw_off", 1) &&
-                   crafting_inv.has_charges("circsaw_off", CIRC_SAW_USED)) ||
-                  (crafting_inv.has_tools("oxy_torch", 1) &&
-                   crafting_inv.has_charges("oxy_torch", OXY_CUTTING) && has_goggles);
     has_welder = (crafting_inv.has_tools("welder", 1) &&
                   crafting_inv.has_charges("welder", charges)) ||
                  (crafting_inv.has_tools("oxy_torch", 1) &&
@@ -277,11 +247,7 @@ void veh_interact::cache_tool_availability()
                   crafting_inv.has_charges("welder_crude", charges_crude)) ||
                  (crafting_inv.has_tools("toolset", 1) &&
                   crafting_inv.has_charges("toolset", charges_crude));
-    has_duct_tape = (crafting_inv.has_charges("duct_tape", DUCT_TAPE_USED) ||
-                     (crafting_inv.has_tools("toolbox", 1) &&
-                      crafting_inv.has_charges("toolbox", DUCT_TAPE_USED)));
-    has_nails = crafting_inv.has_charges("nail", NAILS_USED);
-    has_siphon = crafting_inv.has_tools("hose", 1);
+    has_duct_tape = crafting_inv.has_charges( "duct_tape", DUCT_TAPE_USED );
 
     has_wheel = crafting_inv.has_components( "wheel", 1 ) ||
                 crafting_inv.has_components( "wheel_wide", 1 ) ||
@@ -390,7 +356,7 @@ task_reason veh_interact::cant_do (char mode)
                 break;
             }
         }
-        has_tools = has_siphon;
+        has_tools = crafting_inv.has_tools( "hose", 1 );
         break;
     case 'c': // change tire
         valid_target = wheel != NULL;
@@ -2069,7 +2035,7 @@ void act_vehicle_siphon(vehicle* veh) {
  */
 void complete_vehicle ()
 {
-    if (g->u.activity.values.size() < 8) {
+    if (g->u.activity.values.size() < 7) {
         debugmsg ("Invalid activity ACT_VEHICLE values:%d", g->u.activity.values.size());
         return;
     }
@@ -2105,7 +2071,7 @@ void complete_vehicle ()
 
         const auto& reqs = vpinfo.install_reqs;
         if( !reqs.can_make_with_inventory( inv ) ) {
-           add_msg( m_info, _( "You lack the requirements to install the %s." ), vpinfo.name().c_str() );
+           add_msg( m_info, _( "You don't meet the requirements to install the %s." ), vpinfo.name().c_str() );
            break;
         }
 
@@ -2118,6 +2084,10 @@ void complete_vehicle ()
                 }
             }
         }
+        if( base.is_null() ) {
+           add_msg( m_info, _( "Could not find base part in requirements for %s." ), vpinfo.name().c_str() );
+           break;
+        }
 
         for( const auto& e : reqs.get_tools() ) {
             g->u.consume_tools( e );
@@ -2128,6 +2098,7 @@ void complete_vehicle ()
         int partnum = !base.is_null() ? veh->install_part( dx, dy, part_id, std::move( base ) ) : -1;
         if(partnum < 0) {
             debugmsg ("complete_vehicle install part fails dx=%d dy=%d id=%d", dx, dy, part_id.c_str());
+            break;
         }
 
         if ( vpinfo.has_flag("CONE_LIGHT") ) {
@@ -2197,7 +2168,6 @@ void complete_vehicle ()
             tools.emplace_back( "toolset", welder_crude_charges * dmg );
         }
         tools.emplace_back( "duct_tape", DUCT_TAPE_USED * dmg );
-        tools.emplace_back( "toolbox", DUCT_TAPE_USED * dmg );
 
         g->u.consume_tools( tools, 1, repair_hotkeys );
         add_msg( m_good, _( "You repair the %1$s's %2$s." ), veh->name.c_str(), name.c_str() );
@@ -2215,7 +2185,7 @@ void complete_vehicle ()
 
         const auto& reqs = vpinfo.removal_reqs;
         if( !reqs.can_make_with_inventory( inv ) ) {
-           add_msg( m_info, _( "You lack the requirements to remove the %s." ), vpinfo.name().c_str() );
+           add_msg( m_info, _( "You don't meet the requirements to remove the %s." ), vpinfo.name().c_str() );
            break;
         }
 

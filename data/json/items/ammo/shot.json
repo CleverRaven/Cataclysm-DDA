@@ -106,8 +106,7 @@
         "loudness": 0.6
     },
     "extend": {
-        "effects": [ "BEANBAG" ],
-        "flags": [ "NOGIB" ]
+        "effects": [ "BEANBAG", "NOGIB" ]
     }
   },
   {
@@ -123,7 +122,7 @@
         "recoil": 0.6,
         "loudness": 0.8
     },
-    "extend": { "flags": [ "NOGIB" ] }
+    "extend": { "effects": [ "NOGIB" ] }
   },
   {
     "id" : "shot_flechette",

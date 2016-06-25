@@ -82,6 +82,7 @@
 #include "recipe_dictionary.h"
 #include "cata_utility.h"
 #include "pathfinding.h"
+#include "projectile.h"
 #include "gates.h"
 #include "item_factory.h"
 #include "scent_map.h"
@@ -1498,9 +1499,15 @@ bool game::do_turn()
     u.update_body_wetness( *weather_precise );
     u.apply_wetness_morale( temperature );
     rustCheck();
-    if (calendar::once_every(MINUTES(1))) {
+
+    if( calendar::once_every( MINUTES( 1 ) ) ) {
         u.update_morale();
     }
+
+    if( calendar::once_every( SECONDS( 90 ) ) ) {
+        u.check_and_recover_morale();
+    }
+
     sfx::remove_hearing_loss();
     sfx::do_danger_music();
     sfx::do_fatigue();
@@ -7418,13 +7425,9 @@ void game::handbrake()
     u.moves = 0;
 }
 
-void game::exam_vehicle(vehicle &veh, const tripoint &p, int cx, int cy)
+void game::exam_vehicle( vehicle &veh, int cx, int cy )
 {
-    (void)p; // not currently used
-    veh_interact vehint;
-    vehint.ddx = cx;
-    vehint.ddy = cy;
-    vehint.exec(&veh);
+    veh_interact vehint( veh, cx, cy );
 
     if( vehint.sel_cmd == 'q' ) {
         refresh_all();
@@ -7440,7 +7443,7 @@ void game::exam_vehicle(vehicle &veh, const tripoint &p, int cx, int cy)
         int setuptime = std::max(setup * 3000, setup * 6000 - skill * 400);
         int dmg = 1000;
         if (vehint.sel_cmd == 'r') {
-            dmg = 1000 - vehint.sel_vehicle_part->hp * 1000 / vehint.sel_vpart_info->durability;
+            dmg = 1000 - vehint.part()->hp * 1000 / vehint.sel_vpart_info->durability;
         }
         int mintime = 300 + diff * dmg;
         // sel_cmd = Install Repair reFill remOve Siphon Drainwater Changetire reName
@@ -7465,7 +7468,7 @@ void game::exam_vehicle(vehicle &veh, const tripoint &p, int cx, int cy)
 
         // if we're working on an existing part, use that part as the reference point
         // otherwise (e.g. installing a new frame), just use part 0
-        point q = veh.coord_translate(vehint.sel_vehicle_part ? vehint.sel_vehicle_part->mount : veh.parts[0].mount);
+        point q = veh.coord_translate( vehint.part() ? vehint.part()->mount : veh.parts[0].mount );
         u.activity.values.push_back(veh.global_x() + q.x);    // values[0]
         u.activity.values.push_back(veh.global_y() + q.y);    // values[1]
         u.activity.values.push_back(vehint.ddx);   // values[2]
@@ -7473,13 +7476,10 @@ void game::exam_vehicle(vehicle &veh, const tripoint &p, int cx, int cy)
         u.activity.values.push_back(-vehint.ddx);   // values[4]
         u.activity.values.push_back(-vehint.ddy);   // values[5]
         // values[6]
-        u.activity.values.push_back(veh.index_of_part(vehint.sel_vehicle_part));
-        u.activity.values.push_back(vehint.sel_type); // int. might make bitmask
-        if (vehint.sel_vpart_info != NULL) {
-            u.activity.str_values.push_back(vehint.sel_vpart_info->id.str());
-        } else {
-            u.activity.str_values.push_back(vpart_str_id::NULL_ID.str());
-        }
+        u.activity.values.push_back( veh.index_of_part( vehint.part() ) );
+
+        u.activity.str_values.push_back( vehint.sel_vpart_info->id.str() );
+
         u.moves = 0;
     }
     refresh_all();
@@ -7978,14 +7978,28 @@ bool npc_menu( npc &who )
         const bool precise = g->u.get_skill_level( skill_firstaid ) * 4 + g->u.per_cur >= 20;
         who.body_window( precise );
     } else if( choice == use_item ) {
-        const int pos = g->inv_for_flag( "USE_ON_NPC", _("Use which item:") );
+        static const std::string heal_string( "heal" );
+        const auto will_accept = [&who]( const item &it ) {
+            const auto use_fun = it.get_use( heal_string );
+            if( use_fun == nullptr ) {
+                return false;
+            }
+
+            const auto *actor = dynamic_cast<const heal_actor *>( use_fun->get_actor_ptr() );
+
+            return actor != nullptr &&
+                   actor->limb_power >= 0 &&
+                   actor->head_power >= 0 &&
+                   actor->torso_power >= 0;
+        };
+        const int pos = g->inv_for_filter( _("Use which item:"), will_accept );
 
         if( pos == INT_MIN ) {
             add_msg( _("Never mind") );
             return false;
         }
         item &used = g->u.i_at( pos );
-        bool did_use = g->u.invoke_item( &used, who.pos() );
+        bool did_use = g->u.invoke_item( &used, heal_string, who.pos() );
         if( did_use ) {
             // Note: exiting a body part selection menu counts as use here
             g->u.mod_moves( -300 );
@@ -10736,11 +10750,10 @@ bool game::plfire( const tripoint &default_target )
         if( gun->get_gun_ups_drain() > 0 ) {
             const int ups_drain       = gun->get_gun_ups_drain();
             const int adv_ups_drain   = std::max( 1, ups_drain * 3 / 5 );
-            const int bio_power_drain = std::max( 1, ups_drain / 5 );
 
             if( !( u.has_charges( "UPS_off", ups_drain ) ||
                    u.has_charges( "adv_UPS_off", adv_ups_drain ) ||
-                   (u.has_active_bionic( "bio_ups" ) && u.power_level >= bio_power_drain ) ) ) {
+                   (u.has_active_bionic( "bio_ups" ) && u.power_level >= ups_drain ) ) ) {
                 add_msg( m_info,
                          _("You need a UPS with at least %d charges or an advanced UPS with at least %d charges to fire that!"),
                          ups_drain, adv_ups_drain );

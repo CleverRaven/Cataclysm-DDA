@@ -37,6 +37,7 @@
 #include <queue>
 #include <math.h>
 #include <array>
+#include <numeric>
 
 /*
  * Speed up all those if ( blarg == "structure" ) statements that are used everywhere;
@@ -1460,14 +1461,20 @@ bool vehicle::start_engine( const int e )
 
 void vehicle::start_engines( const bool take_control )
 {
-    int has_engine = false;
-    int start_time = 0;
+    bool has_engine = std::any_of( engines.begin(), engines.end(), [&]( int idx ) {
+        return parts[ idx ].hp > 0 && parts[ idx ].enabled;
+    } );
 
-    // if we only have one engine automatically enable it when trying to start engines
-    if( engines.size() == 1 && parts[ engines.front() ].hp > 0 ) {
-        parts[ engines.front() ].enabled = true;
+    // if no engines enabled then enable all before trying to start the vehicle
+    if( !has_engine ) {
+        for( auto idx : engines ) {
+            if( parts[ idx ].hp > 0 ) {
+                parts[ idx ].enabled = true;
+            }
+        }
     }
 
+    int start_time = 0;
     for( size_t e = 0; e < engines.size(); ++e ) {
         has_engine = has_engine || is_engine_on( e );
         start_time = std::max( start_time, engine_start_time( e ) );
@@ -5068,7 +5075,7 @@ void vehicle::place_spawn_items()
                             e.contents.emplace_back( e.magazine_default(), e.bday );
                         }
                         if( spawn_ammo ) {
-                            e.ammo_set( default_ammo( e.ammo_type() ), e.ammo_capacity() );
+                            e.ammo_set( default_ammo( e.ammo_type() ) );
                         }
                     }
                     add_item( part, e);
@@ -6169,7 +6176,7 @@ long vehicle_part::ammo_capacity() const
     }
 
     if( base.is_watertight_container() ) {
-        return base.type->container->contains * std::max( item::find_type( ammo_current() )->stack_size, 1 );
+        return base.get_container_capacity() * std::max( item::find_type( ammo_current() )->stack_size, 1 );
     }
 
     return 0;
@@ -6349,8 +6356,8 @@ void vehicle::calc_mass_center( bool use_precalc ) const
     mass_cache = m_total / 1000;
     mass_dirty = false;
 
-    xf /= m_total;
-    yf /= m_total;
+    xf /= mass_cache;
+    yf /= mass_cache;
     if( use_precalc ) {
         mass_center_precalc.x = round( xf );
         mass_center_precalc.y = round( yf );
