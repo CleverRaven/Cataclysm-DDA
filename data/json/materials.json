@@ -559,7 +559,6 @@
         "ident" : "wood",
         "name" : "Wood",
         "salvaged_into" : "skewer",
-        "salvage_multiplier": 1,
         "bash_resist" : 3,
         "cut_resist" : 2,
         "bash_dmg_verb" : "splintered",
