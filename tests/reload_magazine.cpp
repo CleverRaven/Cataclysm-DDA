@@ -266,7 +266,8 @@ TEST_CASE( "reload_magazine", "[magazine] [visitable] [item] [item_location]" ) 
                                     found.push_back( e );
                                 }
                                 // ignore ammo contained within guns or magazines
-                                return ( e->is_gun() || e->is_magazine() ) ? VisitResponse::SKIP : VisitResponse::NEXT;
+                                return ( e->is_gun() || e->is_magazine() ) ?
+                                    VisitResponse::SKIP : VisitResponse::NEXT;
                             } );
                             REQUIRE( found.size() == 1 );
                             REQUIRE( found[0]->charges == 8 );

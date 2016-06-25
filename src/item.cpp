@@ -109,7 +109,7 @@ item::item()
 item::item( const itype *type, int turn, long qty ) : type( type )
 {
     bday = turn >= 0 ? turn : int( calendar::turn );
-    corpse = type->id == "corpse" ? &mtype_id::NULL_ID.obj() : nullptr;
+    corpse = typeId() == "corpse" ? &mtype_id::NULL_ID.obj() : nullptr;
     name = type_name();
 
     if( qty >= 0 ) {
@@ -306,7 +306,7 @@ bool item::is_null() const
 {
     static const std::string s_null("null"); // used alot, no need to repeat
     // Actually, type should never by null at all.
-    return (type == nullptr || type == nullitem() || type->id == s_null);
+    return (type == nullptr || type == nullitem() || typeId() == s_null);
 }
 
 bool item::covers( const body_part bp ) const
@@ -1171,7 +1171,7 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
         if( book->req == 0 ) {
             info.push_back( iteminfo( "BOOK", _( "It can be <info>understood by beginners</info>." ) ) );
         }
-        if( g->u.has_identified( type->id ) ) {
+        if( g->u.has_identified( typeId() ) ) {
             if( book->skill ) {
                 if( g->u.get_skill_level( book->skill ).can_train() ) {
                     info.push_back( iteminfo( "BOOK", "",
@@ -1311,7 +1311,7 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
         info.push_back( iteminfo( "DESCRIPTION", string_format( _( "Made from: %s" ),
                                   components_to_string().c_str() ) ) );
     } else {
-        const recipe *dis_recipe = get_disassemble_recipe( type->id );
+        const recipe *dis_recipe = get_disassemble_recipe( typeId() );
         if( dis_recipe != nullptr ) {
             std::ostringstream buffer;
             bool first_component = true;
@@ -1412,7 +1412,7 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
             std::vector<matype_id> valid_styles;
             std::ostringstream style_buffer;
             for( auto style : g->u.ma_styles ) {
-                if( style.obj().has_weapon( type->id ) ) {
+                if( style.obj().has_weapon( typeId() ) ) {
                     if( !style_buffer.str().empty() ) {
                         style_buffer << _( ", " );
                     }
@@ -1591,7 +1591,7 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
                 info.push_back( iteminfo( "DESCRIPTION",
                                           _( "* This piece of clothing is <info>very fancy</info>." ) ) );
             }
-            if( type->id == "rad_badge" ) {
+            if( typeId() == "rad_badge" ) {
                 info.push_back( iteminfo( "DESCRIPTION",
                                           string_format( _( "* The film strip on the badge is %s." ),
                                                   rad_badge_color( irridation ).c_str() ) ) );
@@ -1648,7 +1648,7 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
         }
 
         if( is_bionic() ) {
-            info.push_back( iteminfo( "DESCRIPTION", list_occupied_bps( type->id,
+            info.push_back( iteminfo( "DESCRIPTION", list_occupied_bps( typeId(),
                 _( "This bionic is installed in the following body part(s):" ) ) ) );
         }
 
@@ -1836,7 +1836,7 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
         // list recipes you could use it in
         itype_id tid;
         if( contents.empty() ) { // use this item
-            tid = type->id;
+            tid = typeId();
         } else { // use the contained item
             tid = contents.front().typeId();
         }
@@ -2036,7 +2036,7 @@ nc_color item::color_in_inventory() const
             ret = c_ltred;
         }
     } else if (is_book()) {
-        if(u->has_identified( type->id )) {
+        if(u->has_identified( typeId() )) {
             auto &tmp = *type->book;
             if( tmp.skill && // Book can improve skill: blue
                 u->get_skill_level( tmp.skill ).can_train() &&
@@ -2054,8 +2054,8 @@ nc_color item::color_in_inventory() const
             ret = c_red; // Book hasn't been identified yet: red
         }
     } else if (is_bionic()) {
-        if (!u->has_bionic(type->id)) {
-            ret = u->bionic_installation_issues( type->id ).empty() ? c_green : c_red;
+        if (!u->has_bionic(typeId())) {
+            ret = u->bionic_installation_issues( typeId() ).empty() ? c_green : c_red;
         }
     }
     return ret;
@@ -2181,7 +2181,7 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
                 damtext = rm_prefix(_("<dam_adj>reinforced "));
             }
         } else {
-            if (type->id == "corpse") {
+            if (typeId() == "corpse") {
                 if (damage == 1) damtext = rm_prefix(_("<dam_adj>bruised "));
                 if (damage == 2) damtext = rm_prefix(_("<dam_adj>damaged "));
                 if (damage == 3) damtext = rm_prefix(_("<dam_adj>mangled "));
@@ -2338,7 +2338,7 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
         ret << _( " (used)" );
     }
 
-    if( active && !is_food() && !is_corpse() && ( type->id.length() < 3 || type->id.compare( type->id.length() - 3, 3, "_on" ) != 0 ) ) {
+    if( active && !is_food() && !is_corpse() && ( typeId().length() < 3 || typeId().compare( typeId().length() - 3, 3, "_on" ) != 0 ) ) {
         // Usually the items whose ids end in "_on" have the "active" or "on" string already contained
         // in their name, also food is active while it rots.
         ret << _( " (active)" );
@@ -2824,7 +2824,7 @@ void item::calc_rot(const tripoint &location)
             // rot (outside of fridge) from bday/last_rot_check until fridge/now
             int old = rot;
             rot += get_rot_since( since, until, location );
-            add_msg( m_debug, "r: %s %d,%d %d->%d", type->id.c_str(), since, until, old, rot );
+            add_msg( m_debug, "r: %s %d,%d %d->%d", typeId().c_str(), since, until, old, rot );
         }
         last_rot_check = now;
 
@@ -3583,7 +3583,7 @@ bool item::is_reloadable_with( const itype_id& ammo ) const
     } else if( magazine_integral() ) {
         if( !ammo.empty() ) {
             if( ammo_data() ) {
-                if( ammo_data()->id != ammo ) {
+                if( ammo_current() != ammo ) {
                     return false;
                 }
             } else {
@@ -3768,7 +3768,7 @@ bool item::operator<(const item& other) const
         const item *me = is_container() && !contents.empty() ? &contents.front() : this;
         const item *rhs = other.is_container() && !other.contents.empty() ? &other.contents.front() : &other;
 
-        if (me->type->id == rhs->type->id) {
+        if (me->typeId() == rhs->typeId()) {
             return me->charges < rhs->charges;
         } else {
             std::string n1 = me->type->nname(1);
@@ -4118,7 +4118,7 @@ const itype * item::ammo_data() const
 itype_id item::ammo_current() const
 {
     const auto ammo = ammo_data();
-    return ammo ? ammo->id : "null";
+    return ammo ? ammo->get_id() : "null";
 }
 
 ammotype item::ammo_type( bool conversion ) const
@@ -4938,7 +4938,7 @@ std::ostream & operator<<(std::ostream & out, const item & it)
 
 itype_id item::typeId() const
 {
-    return type ? type->id : "null";
+    return type ? type->get_id() : "null";
 }
 
 bool item::getlight(float & luminance, int & width, int & direction ) const
@@ -5052,7 +5052,7 @@ bool item::use_amount(const itype_id &it, long &quantity, std::list<item> &used)
         }
     }
     // Now check the item itself
-    if( type->id == it && quantity > 0 && allow_crafting_component() ) {
+    if( typeId() == it && quantity > 0 && allow_crafting_component() ) {
         used.push_back(*this);
         quantity--;
         return true;
@@ -5170,7 +5170,7 @@ void item::set_snippet( const std::string &snippet_id )
         return;
     }
     if( type->snippet_category.empty() ) {
-        debugmsg("can not set description for item %s without snippet category", type->id.c_str() );
+        debugmsg("can not set description for item %s without snippet category", typeId().c_str() );
         return;
     }
     const int hash = SNIPPET.get_snippet_by_id( snippet_id );
@@ -5599,9 +5599,9 @@ bool item::process_litcig( player *carrier, const tripoint &pos )
         if( carrier != nullptr ) {
             carrier->add_msg_if_player( m_neutral, _( "You finish your %s." ), tname().c_str() );
         }
-        if( type->id == "cig_lit" ) {
+        if( typeId() == "cig_lit" ) {
             convert( "cig_butt" );
-        } else if( type->id == "cigar_lit" ) {
+        } else if( typeId() == "cigar_lit" ) {
             convert( "cigar_butt" );
         } else { // joint
             convert( "joint_roach" );

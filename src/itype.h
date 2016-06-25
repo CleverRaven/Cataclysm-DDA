@@ -540,12 +540,6 @@ class copyable_unique_ptr : public std::unique_ptr<T> {
 
 struct itype {
     friend class Item_factory;
-    friend class item;
-
-    // @todo refactor artifacts
-    friend std::string new_artifact();
-    friend std::string new_natural_artifact(artifact_natural_property prop);
-    friend std::string architects_cube();
 
     /**
      * Slots for various item type properties. Each slot may contain a valid pointer or null, check
@@ -669,6 +663,11 @@ public:
     // Returns the name of the item type in the correct language and with respect to its grammatical number,
     // based on quantity (example: item type “anvil”, nname(4) would return “anvils” (as in “4 anvils”).
     std::string nname(unsigned int quantity) const;
+
+    // Allow direct access to the type id for the few cases that need it.
+    itype_id get_id() const {
+        return id;
+    }
 
     bool count_by_charges() const
     {
