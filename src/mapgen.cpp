@@ -247,20 +247,22 @@ void calculate_mapgen_weights() { // todo; rename as it runs jsonfunction setup 
         oter_mapgen_weights[ oit->first ] = std::map<int, int>();
         for( std::vector<mapgen_function*>::const_iterator fit = oit->second.begin(); fit != oit->second.end(); ++fit ) {
             //
-			++funcnum;
             int weight = (*fit)->weight;
             if ( weight < 1 ) {
                 dbg(D_INFO) << "wcalc " << oit->first << "(" << funcnum << "): (rej(1), " << weight << ") = " << wtotal;
+				++funcnum;
                 continue; // rejected!
             }
             if ( ! (*fit)->setup() ) {
                 dbg(D_INFO) << "wcalc " << oit->first << "(" << funcnum << "): (rej(2), " << weight << ") = " << wtotal;
-                continue; // disqualify! doesn't get to play in the pool
+				++funcnum;
+				continue; // disqualify! doesn't get to play in the pool
             }
             //
             wtotal += weight;
             oter_mapgen_weights[ oit->first ][ wtotal ] = funcnum;
             dbg(D_INFO) << "wcalc " << oit->first << "(" << funcnum << "): +" << weight << " = " << wtotal;
+			++funcnum;
         }
     }
 }
