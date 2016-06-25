@@ -11955,19 +11955,7 @@ bool game::plmove(int dx, int dy, int dz)
     // Invalid move
     const bool waste_moves = u.is_blind() || u.has_effect( effect_stunned );
     if( waste_moves || dest_loc.z != u.posz() ) {
-        std::string obstacle_name;
-        int part;
-        vehicle *veh = m.veh_at( dest_loc, part );
-        if( veh != nullptr ) {
-            // redefine variable as id of obstacle part
-            part = veh->obstacle_at_part( part );
-            if( part > 0 ) {
-                obstacle_name = veh->parts[ part ].name();
-            }
-        } else {
-            obstacle_name = m.name( dest_loc );
-        }
-        add_msg( _( "You bump into a %s!" ), obstacle_name.c_str() );
+        add_msg( _( "You bump into the %s!" ), m.obstacle_name( dest_loc ).c_str() );
         // Only lose movement if we're blind
         if( waste_moves ) {
             u.moves -= 100;

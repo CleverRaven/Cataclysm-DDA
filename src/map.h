@@ -546,6 +546,11 @@ public:
 
     std::string name( const tripoint &p );
     std::string disp_name( const tripoint &p );
+    /**
+    * Returns the name of the obstacle at p that might be blocking movement/projectiles/etc.
+    * Note that this only accounts for vehicles, terrain, and furniture.
+    */
+    std::string obstacle_name( const tripoint &p );
     bool has_furn( const tripoint &p ) const;
 
     furn_id furn( const tripoint &p ) const;

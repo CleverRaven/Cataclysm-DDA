@@ -1586,6 +1586,19 @@ std::string map::disp_name( const tripoint &p )
     return string_format( _("the %s"), name( p ).c_str() );
 }
 
+std::string map::obstacle_name( const tripoint &p )
+{
+    int part;
+    const vehicle *veh = veh_at( p, part );
+    if( veh ) {
+        part = veh->obstacle_at_part( part );
+        if( part > 0 ) {
+            return veh->parts[part].info().name();
+        }
+    }
+    return name( p );
+}
+
 bool map::has_furn( const tripoint &p ) const
 {
   return furn( p ) != f_null;
