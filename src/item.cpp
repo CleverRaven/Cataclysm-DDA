@@ -3661,6 +3661,10 @@ bool item::can_contain( const itype &tp ) const
 
 bool item::spill_contents( Character &c )
 {
+    if( is_container_empty() || !is_container() ) {
+        return true;
+    }
+
     if( c.is_npc() ) {
         return spill_contents( c.pos() );
     }
@@ -3682,6 +3686,10 @@ bool item::spill_contents( Character &c )
 
 bool item::spill_contents( const tripoint &pos )
 {
+    if( is_container_empty() || !is_container() ) {
+        return true;
+    }
+
     for( item &it : contents ) {
         g->m.add_item_or_charges( pos, it );
     }
