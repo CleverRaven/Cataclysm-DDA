@@ -3661,7 +3661,7 @@ bool item::can_contain( const itype &tp ) const
 
 bool item::spill_contents( Character &c )
 {
-    if( is_container_empty() || !is_container() ) {
+    if( !is_container() || is_container_empty() ) {
         return true;
     }
 
@@ -3686,7 +3686,7 @@ bool item::spill_contents( Character &c )
 
 bool item::spill_contents( const tripoint &pos )
 {
-    if( is_container_empty() || !is_container() ) {
+    if( !is_container() || is_container_empty() ) {
         return true;
     }
 
