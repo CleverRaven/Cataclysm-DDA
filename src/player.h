@@ -835,7 +835,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
          * @param qty if specified limits maximum obtained charges
          * @return cost in moves ranging from 0 to MAX_HANDLING_COST
          */
-        int item_handling_cost( const item& it, bool effects = true, int factor = VOLUME_MOVE_COST, int qty = -1 ) const;
+        int item_handling_cost( const item& it, bool effects = true, int factor = VOLUME_MOVE_COST ) const;
 
         /**
          * Calculate (but do not deduct) the number of moves required when storing an item in a container

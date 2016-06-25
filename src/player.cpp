@@ -10206,19 +10206,11 @@ void player::mend_item( item_location&& obj, bool interactive )
     }
 }
 
-int player::item_handling_cost( const item& it, bool effects, int factor, int qty ) const {
-
-    // If necessary create duplicate with appropriate number of charges
-    item obj = it;
-    obj = obj.split( qty );
-    if( obj.is_null() ) {
-        obj = it;
-    }
-
-    int mv = std::max( 1, obj.volume() * factor );
+int player::item_handling_cost( const item& it, bool effects, int factor ) const {
+    int mv = std::max( 1, it.volume() * factor );
 
     // For single handed items use the least encumbered hand
-    if( obj.is_two_handed( *this ) ) {
+    if( it.is_two_handed( *this ) ) {
         mv += encumb( bp_hand_l ) + encumb( bp_hand_r );
     } else {
         mv += std::min( encumb( bp_hand_l ), encumb( bp_hand_r ) );
@@ -10262,7 +10254,13 @@ int player::item_reload_cost( const item& it, const item& ammo, long qty ) const
         return 0;
     }
 
-    int mv = item_handling_cost( ammo, qty );
+    // If necessary create duplicate with appropriate number of charges
+    item obj = ammo;
+    obj = obj.split( qty );
+    if( obj.is_null() ) {
+        obj = ammo;
+    }
+    int mv = item_handling_cost( obj, qty );
 
     if( ammo.has_flag( "MAG_BULKY" ) ) {
         mv *= 1.5; // bulky magazines take longer to insert

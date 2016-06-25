@@ -657,7 +657,6 @@ classes = {
             { name = "item_handling_cost", rval = "int", args = { "item" } },
             { name = "item_handling_cost", rval = "int", args = { "item", "bool" } },
             { name = "item_handling_cost", rval = "int", args = { "item", "bool", "int" } },
-            { name = "item_handling_cost", rval = "int", args = { "item", "bool", "int", "int" } },
             { name = "item_reload_cost", rval = "int", args = { "item", "item", "int" } },
             { name = "knock_back_from", rval = nil, args = { "tripoint" } },
             { name = "knows_trap", rval = "bool", args = { "tripoint" } },
