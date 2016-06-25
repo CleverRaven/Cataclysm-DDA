@@ -341,6 +341,7 @@
         "fire_resist" : 0,
         "chip_resist" : 6,
         "density" : 3,
+        "soft" : true,
         "burn_data": [
             { "fuel": 1, "smoke": 1, "burn": 1, "chance": 5 },
             { "fuel": 1, "smoke": 1, "burn": 1 },
@@ -367,6 +368,7 @@
         "fire_resist" : 0,
         "chip_resist" : 6,
         "density" : 9,
+        "soft" : true,
         "burn_data": [
             { "fuel": 1, "smoke": 1, "burn": 1, "chance": 5 },
             { "fuel": 1, "smoke": 1, "burn": 2 },
@@ -393,6 +395,7 @@
         "fire_resist" : 2,
         "chip_resist" : 10,
         "density" : 6,
+        "soft" : true,
         "burn_data": [
             { "fuel": 0, "smoke": 0, "burn": 0 },
             { "fuel": 1, "smoke": 3, "burn": 2, "chance": 2 },
@@ -791,6 +794,7 @@
         "fire_resist" : 20,
         "chip_resist" : 8,
         "density" : 4,
+        "soft" : true,
         "burn_data": [
             { "immune": true },
             { "immune": true },

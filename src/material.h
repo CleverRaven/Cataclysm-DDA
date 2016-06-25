@@ -34,6 +34,7 @@ class material_type
         int _chip_resist;       // Resistance to physical damage of the item itself
         int _density;   // relative to "powder", which is 1
         bool _edible;
+        bool _soft;
 
         std::map<vitamin_id, double> _vitamins;
 
@@ -64,6 +65,7 @@ class material_type
         int chip_resist() const;
         int density() const;
         bool edible() const;
+        bool soft() const;
 
         double vitamin( const vitamin_id &id ) const {
             auto iter = _vitamins.find( id );

@@ -51,6 +51,7 @@ material_type::material_type()
     _fire_resist = 0;
     _chip_resist = 0;
     _density = 1;
+    _soft = false;
 }
 
 mat_burn_data load_mat_burn_data( JsonObject &jsobj )
@@ -83,6 +84,7 @@ void material_type::load_material( JsonObject &jsobj )
     mat._chip_resist = jsobj.get_int( "chip_resist" );
     mat._density = jsobj.get_int( "density" );
     mat._edible = jsobj.get_bool( "edible", false );
+    mat._soft = jsobj.get_bool( "soft", false );
 
     auto arr = jsobj.get_array( "vitamins" );
     while( arr.has_more() ) {
@@ -230,6 +232,11 @@ int material_type::density() const
 bool material_type::edible() const
 {
     return _edible;
+}
+
+bool material_type::soft() const
+{
+    return _soft;
 }
 
 const mat_burn_data &material_type::burn_data( size_t intensity ) const
