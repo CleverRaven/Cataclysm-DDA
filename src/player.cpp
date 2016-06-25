@@ -10027,8 +10027,8 @@ bool player::dispose_item( item& obj, const std::string& prompt )
         bucket ? _( "Spill contents and store in inventory" ) : _( "Store in inventory" ),
         volume_carried() + obj.volume() <= volume_capacity(), '1',
         item_handling_cost( obj ) * INVENTORY_HANDLING_FACTOR,
-        [this,&obj] {
-            if( !obj.spill_contents( *this ) ) {
+        [this, bucket, &obj] {
+            if( bucket && !obj.spill_contents( *this ) ) {
                 return false;
             }
 
@@ -10049,8 +10049,8 @@ bool player::dispose_item( item& obj, const std::string& prompt )
     opts.emplace_back( dispose_option {
         bucket ? _( "Spill contents and wear item" ) : _( "Wear item" ),
         can_wear( obj, false ), '3', item_wear_cost( obj ),
-        [this, &obj] {
-            if( !obj.spill_contents( *this ) ) {
+        [this, bucket, &obj] {
+            if( bucket && !obj.spill_contents( *this ) ) {
                 return false;
             }
 
