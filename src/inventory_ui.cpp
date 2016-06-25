@@ -35,12 +35,22 @@ struct inventory_entry {
     size_t chosen_count = 0;
 
     inventory_entry( const indexed_invslice::value_type &slice, const item_category *cat = nullptr )
-        : it( &( slice.first->front() ) ), slice( slice.first ),
-          category( ( cat != nullptr ) ? cat : &it->get_category() ), item_pos( slice.second ) {}
+        : it( &( slice.first->front() ) ),
+          slice( slice.first ),
+          category( ( cat != nullptr ) ? cat : &it->get_category() ),
+          item_pos( slice.second ) {}
+
     inventory_entry( const item *it, int pos, const item_category *cat = nullptr )
-        : it( it ), slice( nullptr ), category( ( cat != nullptr ) ? cat : &it->get_category() ), item_pos( pos ) {}
+        : it( it ),
+          slice( nullptr ),
+          category( ( cat != nullptr ) ? cat : &it->get_category() ),
+          item_pos( pos ) {}
+
     inventory_entry( const item_category *cat = nullptr )
-        : it( nullptr ), slice( nullptr ), category( cat ), item_pos( INT_MIN ) {}
+        : it( nullptr ),
+          slice( nullptr ),
+          category( cat ),
+          item_pos( INT_MIN ) {}
     // used for searching the category header, only the item pointer and the category are important there
     bool operator == ( const inventory_entry &other) const {
         return category == other.category && it == other.it;
