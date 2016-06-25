@@ -36,7 +36,7 @@ material_type::material_type()
 {
     _ident = material_id( "null" );
     _name = "null";
-    _salvage_id = "null";
+    _salvaged_into = itype_id( "null" );
     _salvage_multiplier = 1.0;
     _bash_resist = 0;
     _cut_resist = 0;
@@ -71,7 +71,7 @@ void material_type::load_material( JsonObject &jsobj )
 
     mat._ident = material_id( jsobj.get_string( "ident" ) );
     mat._name = _( jsobj.get_string( "name" ).c_str() );
-    mat._salvage_id = jsobj.get_string( "salvage_id", "null" );
+    mat._salvaged_into = jsobj.get_string( "salvaged_into", "null" );
     mat._salvage_multiplier = jsobj.get_float( "salvage_multiplier", 1.0 );
     mat._bash_resist = jsobj.get_int( "bash_resist" );
     mat._cut_resist = jsobj.get_int( "cut_resist" );
@@ -161,9 +161,9 @@ std::string material_type::name() const
     return _name;
 }
 
-std::string material_type::salvage_id() const
+itype_id material_type::salvaged_into() const
 {
-    return _salvage_id;
+    return _salvaged_into;
 }
 
 float material_type::salvage_multiplier() const

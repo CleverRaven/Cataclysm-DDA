@@ -1160,9 +1160,7 @@ int salvage_actor::cut_up(player *p, item *it, item *cut) const
     // soon after I write this, I'll go with the one that is cleaner.
     for (auto material : cut_material_components) {
         const material_type &mt = material.obj();
-        std::string salvaged_id = mt.salvage_id();
-        float salvage_multiplier = mt.salvage_multiplier();
-        materials_salvaged[salvaged_id] = count * salvage_multiplier / cut_material_components.size();
+        materials_salvaged[mt.salvaged_into()] = count * mt.salvage_multiplier() / cut_material_components.size();
     }
 
     add_msg(m_info, _("You try to salvage materials from the %s."), cut->tname().c_str());

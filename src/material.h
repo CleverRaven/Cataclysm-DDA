@@ -14,13 +14,14 @@
 
 class material_type;
 using material_id = string_id<material_type>;
+using itype_id = std::string;
 
 class material_type
 {
     private:
         material_id _ident;
         std::string _name;
-        std::string _salvage_id; // this material turns into this item when salvaged
+        itype_id _salvaged_into;   // this material turns into this item when salvaged
         float _salvage_multiplier; // multiplier when salvaging.
         int _bash_resist;       // negative integers means susceptibility
         int _cut_resist;
@@ -50,7 +51,7 @@ class material_type
         bool is_null() const;
         material_id ident() const;
         std::string name() const;
-        std::string salvage_id() const;
+        itype_id salvaged_into() const;
         float salvage_multiplier() const;
         int bash_resist() const;
         int cut_resist() const;
