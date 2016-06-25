@@ -17,6 +17,10 @@
 #include <bitset>
 #include <memory>
 
+#ifndef gettext_noop
+#define gettext_noop(x) x
+#endif
+
 // see item.h
 class item_category;
 class Item_factory;
@@ -322,7 +326,7 @@ struct islot_gun : common_ranged_data {
     /**
      * Noise displayed when reloading the weapon.
      */
-    std::string reload_noise = "click.";
+    std::string reload_noise = gettext_noop( "click." );
     /**
      * Volume of the noise made when reloading this weapon.
      */
