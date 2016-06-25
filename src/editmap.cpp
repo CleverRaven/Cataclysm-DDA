@@ -554,7 +554,7 @@ void editmap::update_view( bool update_info )
                 nc_color t_col = g->m.ter_at( p ).color();
 
 
-                if( g->m.has_furn( p ) > 0 ) {
+                if( g->m.has_furn( p ) ) {
                     const furn_t &furniture_type = g->m.furn_at( p );
                     t_sym = furniture_type.symbol();
                     t_col = furniture_type.color();
