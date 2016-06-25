@@ -5890,13 +5890,10 @@ bool item::is_tainted() const
 
 bool item::is_soft() const
 {
-    // @todo Make this a material property
-    // @todo Add a SOFT flag (for chainmail and the like)
-    static const std::set<material_id> soft_mats = {{
-        material_id( "cotton" ), material_id( "leather" ), material_id( "wool" ), material_id( "nomex" )
-    }};
-
-    return made_of_any( soft_mats );
+    const auto mats = made_of();
+    return std::any_of( mats.begin(), mats.end(), []( const material_id &mid ) {
+        return mid.obj().soft();
+    } );
 }
 
 bool item::is_reloadable() const
