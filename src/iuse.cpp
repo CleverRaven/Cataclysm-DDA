@@ -282,7 +282,7 @@ static bool inscribe_item(player *p, std::string verb, std::string gerund, bool 
     //but might need to be reworked for some European languages that have more verb forms
     int pos = g->inv_for_all(string_format(_("%s on what?"), verb.c_str()));
     item *cut = &(p->i_at(pos));
-    if (cut->type->id == "null") {
+    if( cut->is_null() ) {
         add_msg(m_info, _("You do not have that item!"));
         return false;
     }
@@ -432,24 +432,24 @@ int iuse::smoking(player *p, item *it, bool, const tripoint& )
     }
 
     item cig;
-    if (it->type->id == "cig") {
+    if (it->typeId() == "cig") {
         cig = item("cig_lit", int(calendar::turn));
         cig.item_counter = 40;
         p->mod_hunger(-3);
         p->mod_thirst(2);
-    } else if (it->type->id == "handrolled_cig") {
+    } else if (it->typeId() == "handrolled_cig") {
         // This transforms the hand-rolled into a normal cig, which isn't exactly
         // what I want, but leaving it for now.
         cig = item("cig_lit", int(calendar::turn));
         cig.item_counter = 40;
         p->mod_thirst(2);
         p->mod_hunger(-3);
-    } else if (it->type->id == "cigar") {
+    } else if (it->typeId() == "cigar") {
         cig = item("cigar_lit", int(calendar::turn));
         cig.item_counter = 120;
         p->mod_thirst(3);
         p->mod_hunger(-4);
-    } else if (it->type->id == "joint") {
+    } else if (it->typeId() == "joint") {
         cig = item("joint_lit", int(calendar::turn));
         cig.item_counter = 40;
         p->mod_hunger(4);
@@ -470,7 +470,7 @@ int iuse::smoking(player *p, item *it, bool, const tripoint& )
     p->add_msg_if_player(m_neutral, _("You light a %s."), cig.tname().c_str());
 
     // Parting messages
-    if (it->type->id == "joint") {
+    if (it->typeId() == "joint") {
         // Would group with the joint, but awkward to mutter before lighting up.
         if (one_in(5)) {
             weed_msg(p);
@@ -486,9 +486,9 @@ int iuse::smoking(player *p, item *it, bool, const tripoint& )
 
 int iuse::ecig(player *p, item *it, bool, const tripoint& )
 {
-    if (it->type->id == "ecig") {
+    if (it->typeId() == "ecig") {
         p->add_msg_if_player(m_neutral, _("You take a puff from your electronic cigarette."));
-    } else if (it->type->id == "advanced_ecig") {
+    } else if (it->typeId() == "advanced_ecig") {
         if (p->has_charges( "nicotine_liquid", 1 ) ) {
             p->add_msg_if_player(m_neutral, _("You inhale some vapor from your advanced electronic cigarette."));
             p->use_charges( "nicotine_liquid", 1 );
@@ -2582,7 +2582,7 @@ int iuse::rm13armor_off(player *p, item *it, bool, const tripoint& )
                              it->tname().c_str());
         return 0;
     } else {
-        std::string oname = it->type->id + "_on";
+        std::string oname = it->typeId() + "_on";
         p->add_msg_if_player(_("You activate your RM13 combat armor."));
         p->add_msg_if_player(_("Rivtech Model 13 RivOS v2.19:   ONLINE."));
         p->add_msg_if_player(_("CBRN defense system:            ONLINE."));
@@ -2600,7 +2600,7 @@ int iuse::rm13armor_on(player *p, item *it, bool t, const tripoint& )
 {
     if (t) { // Normal use
     } else { // Turning it off
-        std::string oname = it->type->id;
+        std::string oname = it->typeId();
         if (oname.length() > 3 && oname.compare(oname.length() - 3, 3, "_on") == 0) {
             oname.erase(oname.length() - 3, 3);
         } else {
@@ -2621,7 +2621,7 @@ int iuse::unpack_item(player *p, item *it, bool, const tripoint& )
         p->add_msg_if_player(m_info, _("You can't do that while underwater."));
         return 0;
     }
-    std::string oname = it->type->id + "_on";
+    std::string oname = it->typeId() + "_on";
     p->moves -= 300;
     p->add_msg_if_player(_("You unpack your %s for use."), it->tname().c_str());
     it->convert( oname ).active = false;
@@ -2641,7 +2641,7 @@ int iuse::pack_item(player *p, item *it, bool t, const tripoint& )
                              it->tname().c_str());
         return 0;
     } else { // Turning it off
-        std::string oname = it->type->id;
+        std::string oname = it->typeId();
         if (oname.length() > 3 && oname.compare(oname.length() - 3, 3, "_on") == 0) {
             oname.erase(oname.length() - 3, 3);
         } else {
@@ -2944,7 +2944,7 @@ int iuse::ma_manual(player *p, item *it, bool, const tripoint& )
 
     // strip "manual_" from the start of the item id, add the rest to "style_"
     // TODO: replace this terrible hack to rely on the item name matching the style name, it's terrible.
-    const matype_id style_to_learn( "style_" + it->type->id.substr(7) );
+    const matype_id style_to_learn( "style_" + it->typeId().substr(7) );
 
     if (p->has_martialart(style_to_learn)) {
         p->add_msg_if_player(m_info, _("You already know all this book has to teach."));
@@ -3224,7 +3224,7 @@ int toolweapon_off( player *p, item *it, bool fast_startup,
             sfx::play_ambient_variant_sound("weapon_theme", "chainsaw", sfx::get_heard_volume(p->pos()), 19, 3000);
         }
         sounds::sound(p->pos(), volume, msg_success);
-        it->convert( it->type->id.substr( 0, it->type->id.size() - 4 ) + "_on" ); // 4 is the length of "_off".
+        it->convert( it->typeId().substr( 0, it->typeId().size() - 4 ) + "_on" ); // 4 is the length of "_off".
         it->active = true;
     } else {
         if( it->typeId() == "chainsaw_off" ) {
@@ -3295,7 +3295,7 @@ int toolweapon_on( player *p, item *it, bool t,
                    const char *sound, bool double_charge_cost = false )
 {
     std::string off_type =
-        it->type->id.substr(0, it->type->id.size() - 3) +
+        it->typeId().substr(0, it->typeId().size() - 3) +
           // 3 is the length of "_on".
         "_off";
     if (t) { // Effects while simply on
@@ -3374,7 +3374,7 @@ int iuse::circsaw_on(player *p, item *it, bool t, const tripoint& )
 
 int iuse::jackhammer(player *p, item *it, bool, const tripoint &pos )
 {
-    bool normal_language = it->type->id != "jacqueshammer";
+    bool normal_language = it->typeId() != "jacqueshammer";
     // Jacqueshammers function the same as ordinary
     // jackhammers, except they print messages in French for
     // comic effect.
@@ -4599,7 +4599,7 @@ int iuse::lumber(player *p, item *it, bool, const tripoint& )
 {
     // Check if player is standing on any lumber
     for (auto &i : g->m.i_at(p->pos())) {
-        if (i.type->id == "log")
+        if (i.typeId() == "log")
         {
             g->m.i_rem(p->pos(), &i);
             cut_log_into_planks( p );
@@ -4612,7 +4612,7 @@ int iuse::lumber(player *p, item *it, bool, const tripoint& )
 
     item* cut = &( p->i_at( pos ) );
 
-    if (cut->type->id == "null") {
+    if( cut->is_null() ) {
         add_msg(m_info, _("You do not have that item!"));
         return 0;
     }
@@ -4750,21 +4750,21 @@ int iuse::hacksaw(player *p, item *it, bool, const tripoint &pos )
 
 int iuse::portable_structure(player *p, item *it, bool, const tripoint& )
 {
-    int radius = it->type->id == "large_tent_kit" ? 2 : 1;
+    int radius = it->typeId() == "large_tent_kit" ? 2 : 1;
     furn_id floor =
-        it->type->id == "tent_kit"       ? f_groundsheet
-      : it->type->id == "large_tent_kit" ? f_large_groundsheet
+        it->typeId() == "tent_kit"       ? f_groundsheet
+      : it->typeId() == "large_tent_kit" ? f_large_groundsheet
       :                                    f_skin_groundsheet;
     furn_id wall =
-        it->type->id == "tent_kit"       ? f_canvas_wall
-      : it->type->id == "large_tent_kit" ? f_large_canvas_wall
+        it->typeId() == "tent_kit"       ? f_canvas_wall
+      : it->typeId() == "large_tent_kit" ? f_large_canvas_wall
       :                                    f_skin_wall;
     furn_id door =
-        it->type->id == "tent_kit"       ? f_canvas_door
-      : it->type->id == "large_tent_kit" ? f_large_canvas_door
+        it->typeId() == "tent_kit"       ? f_canvas_door
+      : it->typeId() == "large_tent_kit" ? f_large_canvas_door
       :                                    f_skin_door;
     furn_id center_floor =
-        it->type->id == "large_tent_kit" ? f_center_groundsheet
+        it->typeId() == "large_tent_kit" ? f_center_groundsheet
                                          : floor;
 
     int diam = 2*radius + 1;
@@ -5317,7 +5317,7 @@ int iuse::artifact(player *p, item *it, bool, const tripoint& )
 
 int iuse::spray_can(player *p, item *it, bool, const tripoint& )
 {
-    bool ismarker = (it->type->id == "permanent_marker" || it->type->id == "survival_marker");
+    bool ismarker = (it->typeId() == "permanent_marker" || it->typeId() == "survival_marker");
     if (ismarker) {
         int ret = menu(true, _("Write on what?"), _("The ground"), _("An item"), _("Cancel"), NULL);
 
@@ -5401,7 +5401,7 @@ int iuse::heatpack(player *p, item *it, bool, const tripoint& )
 
 int iuse::hotplate(player *p, item *it, bool, const tripoint& )
 {
-    if ( it->type->id != "atomic_coffeepot" && ( !it->ammo_sufficient() ) ) {
+    if ( it->typeId() != "atomic_coffeepot" && ( !it->ammo_sufficient() ) ) {
         p->add_msg_if_player(m_info, _("The %s's batteries are dead."), it->tname().c_str());
         return 0;
     }
@@ -5470,7 +5470,7 @@ int iuse::quiver(player *p, item *it, bool, const tripoint& )
 
         // not empty so adding more arrows
         if (!(it->contents.empty()) && it->contents.front().charges > 0) {
-            if (it->contents.front().type->id != put->type->id) {
+            if (it->contents.front().typeId() != put->typeId()) {
                 p->add_msg_if_player(m_info, _("Those aren't the same arrows!"));
                 return 0;
             }
@@ -5536,7 +5536,7 @@ int iuse::towel(player *p, item *it, bool t, const tripoint& )
                              it->tname().c_str());
 
         towelUsed = true;
-        if( it->type->id == "towel" ) {
+        if( it->typeId() == "towel" ) {
             it->convert( "towel_soiled" );
         }
 
@@ -5564,7 +5564,7 @@ int iuse::towel(player *p, item *it, bool t, const tripoint& )
         }
         p->moves -= 50 * mult;
         // change "towel" to a "towel_wet" (different flavor text/color)
-        if( it->type->id == "towel" ) {
+        if( it->typeId() == "towel" ) {
             it->convert( "towel_wet" );
         }
 
@@ -5740,7 +5740,7 @@ int iuse::talking_doll(player *p, item *it, bool, const tripoint& )
 
     std::string label;
 
-    if (it->type->id == "talking_doll") {
+    if (it->typeId() == "talking_doll") {
         label = "doll";
     } else {
         label = "creepy_doll";
@@ -5869,7 +5869,7 @@ int iuse::misc_repair(player *p, item *it, bool, const tripoint& )
 
 int iuse::bell(player *p, item *it, bool, const tripoint& )
 {
-    if (it->type->id == "cow_bell") {
+    if (it->typeId() == "cow_bell") {
         sounds::sound(p->pos(), 12, _("Clank! Clank!"));
         if (!p->is_deaf()) {
             const int cow_factor = 1 + (p->mutation_category_level.find("MUTCAT_CATTLE") ==
@@ -6037,7 +6037,7 @@ void init_memory_card_with_random_stuff(player *, item *it)
         bool encrypted = false;
 
         if (it->has_flag("MC_MAY_BE_ENCRYPTED") && one_in(8)) {
-            it->convert( it->type->id + "_encrypted" );
+            it->convert( it->typeId() + "_encrypted" );
         }
 
         //some special cards can contain "MC_ENCRYPTED" flag
@@ -6896,7 +6896,7 @@ int iuse::ehandcuffs(player *p, item *it, bool t, const tripoint &pos)
             it->item_tags.erase("NO_UNWIELD");
             it->active = false;
 
-            if( p->has_item( *it ) && p->weapon.type->id == "e_handcuffs" ) {
+            if( p->has_item( *it ) && p->weapon.typeId() == "e_handcuffs" ) {
                 add_msg(m_good, _("%s on your hands opened!"), it->tname().c_str());
             }
 
@@ -6925,7 +6925,7 @@ int iuse::ehandcuffs(player *p, item *it, bool t, const tripoint &pos)
 
         if ((it->ammo_remaining() > it->type->maximum_charges() - 1000) && (x != pos.x || y != pos.y)) {
 
-            if( p->has_item( *it ) && p->weapon.type->id == "e_handcuffs") {
+            if( p->has_item( *it ) && p->weapon.typeId() == "e_handcuffs") {
 
                 if( p->is_elec_immune() ) {
                     if( one_in( 10 ) ) {
@@ -7143,7 +7143,7 @@ int iuse::radiocontrol(player *p, item *it, bool t, const tripoint& )
             tripoint rc_item_location = {999, 999, 999};
             // TODO: grab the closest car or similar?
             for( auto &rc_pairs_rc_pair : rc_pairs ) {
-                if( rc_pairs_rc_pair.second->type->id == "radio_car_on" &&
+                if( rc_pairs_rc_pair.second->typeId() == "radio_car_on" &&
                     rc_pairs_rc_pair.second->active ) {
                     rc_item_location = rc_pairs_rc_pair.first;
                 }
@@ -7838,12 +7838,12 @@ int iuse::weather_tool( player *p, item *it, bool, const tripoint& )
     w_point const weatherPoint = g->weather_gen->get_weather( p->global_square_location(),
                                                               calendar::turn );
 
-    if( it->type->id == "weather_reader" ) {
+    if( it->typeId() == "weather_reader" ) {
         p->add_msg_if_player( m_neutral, _( "The %s's monitor slowly outputs the data..." ),
                               it->tname().c_str() );
     }
     if( it->has_flag( "THERMOMETER" ) ) {
-        if( it->type->id == "thermometer" ) {
+        if( it->typeId() == "thermometer" ) {
             p->add_msg_if_player( m_neutral, _( "The %1$s reads %2$s." ), it->tname().c_str(),
                                   print_temperature( g->get_temperature() ).c_str() );
         } else {
@@ -7852,7 +7852,7 @@ int iuse::weather_tool( player *p, item *it, bool, const tripoint& )
         }
     }
     if( it->has_flag( "HYGROMETER" ) ) {
-        if( it->type->id == "hygrometer" ) {
+        if( it->typeId() == "hygrometer" ) {
             p->add_msg_if_player(
                 m_neutral, _( "The %1$s reads %2$s." ), it->tname().c_str(),
                 print_humidity( get_local_humidity( weatherPoint.humidity, g->weather,
@@ -7865,7 +7865,7 @@ int iuse::weather_tool( player *p, item *it, bool, const tripoint& )
         }
     }
     if( it->has_flag( "BAROMETER" ) ) {
-        if( it->type->id == "barometer" ) {
+        if( it->typeId() == "barometer" ) {
             p->add_msg_if_player(
                 m_neutral, _( "The %1$s reads %2$s." ), it->tname().c_str(),
                 print_pressure( (int)weatherPoint.pressure ).c_str() );
@@ -7875,7 +7875,7 @@ int iuse::weather_tool( player *p, item *it, bool, const tripoint& )
         }
     }
 
-    if( it->type->id == "weather_reader" ) {
+    if( it->typeId() == "weather_reader" ) {
         int vpart = -1;
         vehicle *veh = g->m.veh_at( p->pos(), vpart );
         int vehwindspeed = 0;

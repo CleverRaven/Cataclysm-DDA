@@ -2063,7 +2063,8 @@ void player_morale::morale_point::serialize( JsonOut &json ) const
     json.start_object();
     json.member( "type_enum", static_cast<int>( type ) );
     if( item_type != NULL ) {
-        json.member( "item_type", item_type->id );
+        // @todo refactor player_morale to not require this hack
+        json.member( "item_type", item( item_type ).typeId() );
     }
     json.member( "bonus", bonus );
     json.member( "duration", duration );

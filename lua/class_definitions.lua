@@ -1920,7 +1920,6 @@ classes = {
             default_container = { type = "string", writable = true },
             description = { type = "string", writable = true },
             explode_in_fire = { type = "bool", writable = true },
-            id = { type = "string" },
             integral_volume = { type = "int", writable = true },
             light_emission = { type = "int", writable = true },
             m_to_hit = { type = "int", writable = true },

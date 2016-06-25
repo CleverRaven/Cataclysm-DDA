@@ -819,7 +819,9 @@ public:
      * no components */
     std::string components_to_string() const;
 
- itype_id typeId() const;
+    /** return the unique identifier of the items underlying type */
+    itype_id typeId() const;
+
  const itype* type;
  std::list<item> contents;
 

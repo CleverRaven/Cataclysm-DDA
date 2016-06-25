@@ -60,7 +60,6 @@ TEST_CASE( "reload_magazine", "[magazine] [visitable] [item] [item_location]" ) 
                 AND_THEN( "the current ammo is updated" ) {
                     REQUIRE( mag.ammo_current() == ammo_id );
                     REQUIRE( mag.ammo_data() );
-                    REQUIRE( mag.ammo_data()->id == ammo_id );
                 }
                 AND_THEN( "the magazine is filled to capacity" ) {
                     REQUIRE( mag.ammo_remaining() == mag.ammo_capacity() );
@@ -91,7 +90,6 @@ TEST_CASE( "reload_magazine", "[magazine] [visitable] [item] [item_location]" ) 
                 AND_THEN( "the current ammo is updated" ) {
                     REQUIRE( mag.ammo_current() == ammo_id );
                     REQUIRE( mag.ammo_data() );
-                    REQUIRE( mag.ammo_data()->id == ammo_id );
                 }
                 AND_THEN( "the magazine is filled with the correct quantity" ) {
                     REQUIRE( mag.ammo_remaining() == mag_cap - 2 );
@@ -230,7 +228,6 @@ TEST_CASE( "reload_magazine", "[magazine] [visitable] [item] [item_location]" ) 
                     REQUIRE( gun.ammo_remaining() == mag_cap - 2 );
                     REQUIRE( gun.ammo_current() == ammo_id );
                     REQUIRE( gun.ammo_data() );
-                    REQUIRE( gun.ammo_data()->id == ammo_id );
                 }
 
                 AND_WHEN( "the guns magazine is further reloaded with compatible but different ammo" ) {

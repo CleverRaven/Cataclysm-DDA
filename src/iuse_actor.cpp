@@ -307,7 +307,7 @@ long unfold_vehicle_iuse::use(player *p, item *it, bool /*t*/, const tripoint &/
     // Mark the vehicle as foldable.
     veh->tags.insert("convertible");
     // Store the id of the item the vehicle is made of.
-    veh->tags.insert(std::string("convertible:") + it->type->id);
+    veh->tags.insert(std::string("convertible:") + it->typeId());
     if( !unfold_msg.empty() ) {
         p->add_msg_if_player( _( unfold_msg.c_str() ), it->tname().c_str());
     }
@@ -857,7 +857,7 @@ bool firestarter_actor::prep_firestarter_use( const player *p, const item *it, t
         // Check for a brazier.
         bool has_unactivated_brazier = false;
         for( const auto &i : g->m.i_at( pos ) ) {
-            if( i.type->id == "brazier" ) {
+            if( i.typeId() == "brazier" ) {
                 has_unactivated_brazier = true;
             }
         }

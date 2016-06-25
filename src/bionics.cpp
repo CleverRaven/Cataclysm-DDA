@@ -111,8 +111,8 @@ bool player::activate_bionic( int b, bool eff_only )
     bionic &bio = my_bionics[b];
 
     // Special compatibility code for people who updated saves with their claws out
-    if( ( weapon.type->id == "bio_claws_weapon" && bio.id == "bio_claws_weapon" ) ||
-        ( weapon.type->id == "bio_blade_weapon" && bio.id == "bio_blade_weapon" ) ) {
+    if( ( weapon.typeId() == "bio_claws_weapon" && bio.id == "bio_claws_weapon" ) ||
+        ( weapon.typeId() == "bio_blade_weapon" && bio.id == "bio_blade_weapon" ) ) {
         return deactivate_bionic( b );
     }
 

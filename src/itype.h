@@ -540,11 +540,13 @@ class copyable_unique_ptr : public std::unique_ptr<T> {
 
 struct itype {
     friend class Item_factory;
+    friend class item;
 
-    // unique string identifier for this item,
-    // can be used as lookup key in master itype map
-    // Used for save files; aligns to itype_id above.
-    std::string id;
+    // @todo refactor artifacts
+    friend std::string new_artifact();
+    friend std::string new_natural_artifact(artifact_natural_property prop);
+    friend std::string architects_cube();
+
     /**
      * Slots for various item type properties. Each slot may contain a valid pointer or null, check
      * this before using it.
@@ -567,12 +569,16 @@ struct itype {
     copyable_unique_ptr<islot_seed> seed;
     copyable_unique_ptr<islot_artifact> artifact;
     /*@}*/
+
 protected:
+    std::string id; /** unique string identifier for this type */
+
     // private because is should only be accessed through itype::nname!
     // name and name_plural are not translated automatically
     // nname() is used for display purposes
     std::string name;        // Proper name, singular form, in American English.
     std::string name_plural; // name, plural form, in American English.
+
 public:
     std::string snippet_category;
     std::string description; // Flavor text

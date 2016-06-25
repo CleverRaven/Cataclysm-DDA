@@ -735,7 +735,7 @@ advanced_inv_listitem::advanced_inv_listitem( item *an_item, int index, int coun
         aim_location _area, bool from_veh )
     : idx( index )
     , area( _area )
-    , id(an_item->type->id)
+    , id(an_item->typeId())
     , name( an_item->tname( count ) )
     , name_without_prefix( an_item->tname( 1, false ) )
     , autopickup( get_auto_pickup().has_rule( an_item->tname( 1, false ) ) )
@@ -753,7 +753,7 @@ advanced_inv_listitem::advanced_inv_listitem(const std::list<item*> &list, int i
             aim_location loc, bool veh) :
     idx(index),
     area(loc),
-    id(list.front()->type->id),
+    id(list.front()->typeId()),
     items(list),
     name(list.front()->tname(list.size())),
     name_without_prefix(list.front()->tname(1, false)),
@@ -841,7 +841,7 @@ static itemstack i_stacked(T items)
     std::unordered_map<itype_id, std::set<int>> cache;
     // iterate through and create stacks
     for(auto &elem : items) {
-        const auto &id = elem.type->id;
+        const auto id = elem.typeId();
         auto iter = cache.find(id);
         bool got_stacked = false;
         // cache entry exists

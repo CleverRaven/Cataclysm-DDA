@@ -1224,7 +1224,7 @@ int game::inv_for_flag( const std::string &flag, const std::string &title )
 int game::inv_for_id( const itype_id &id, const std::string &title )
 {
     return inv_for_filter( title, [ &id ]( const item &it ) {
-        return it.type->id == id;
+        return it.typeId() == id;
     }, string_format( _( "You don't have a %s." ), item::nname( id ).c_str() ) );
 }
 

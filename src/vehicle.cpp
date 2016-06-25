@@ -3960,14 +3960,14 @@ void vehicle::operate_reaper(){
         const int seed_produced = rng(1, 3);
         const int max_pickup_size = parts[reaper_id].info().size / 20;
         if( g->m.furn(reaper_pos) == f_plant_harvest ){
-            const itype &type = *g->m.i_at(reaper_pos).front().type;
-            if( type.id == "fungal_seeds" || type.id == "marloss_seed" ) {
+            const item& seed = g->m.i_at(reaper_pos).front();
+            if( seed.typeId() == "fungal_seeds" || seed.typeId() == "marloss_seed" ) {
                 // Otherworldly plants, the earth-made reaper can not handle those.
                 continue;
             }
             g->m.furn_set( reaper_pos, f_null );
             g->m.i_clear( reaper_pos );
-            for( auto &i : iexamine::get_harvest_items( type, plant_produced, seed_produced, false ) ) {
+            for( auto &i : iexamine::get_harvest_items( *seed.type, plant_produced, seed_produced, false ) ) {
                 g->m.add_item_or_charges( reaper_pos, i );
             }
             sounds::sound( reaper_pos, rng( 10, 25 ), _("Swish") );

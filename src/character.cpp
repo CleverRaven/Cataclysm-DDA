@@ -508,11 +508,7 @@ map_selector Character::nearby( int radius, bool accessible )
 
 item& Character::i_add(item it)
 {
-    itype_id item_type_id = "null";
-    if( it.type ) {
-        item_type_id = it.type->id;
-    }
-
+    itype_id item_type_id = it.typeId();
     last_item = item_type_id;
 
     if( it.is_food() || it.is_ammo() || it.is_gun()  || it.is_armor() ||
@@ -868,7 +864,7 @@ bool Character::has_artifact_with(const art_effect_passive effect) const
 bool Character::is_wearing(const itype_id & it) const
 {
     for (auto &i : worn) {
-        if (i.type->id == it) {
+        if (i.typeId() == it) {
             return true;
         }
     }
@@ -878,7 +874,7 @@ bool Character::is_wearing(const itype_id & it) const
 bool Character::is_wearing_on_bp(const itype_id & it, body_part bp) const
 {
     for (auto &i : worn) {
-        if (i.type->id == it && i.covers(bp)) {
+        if (i.typeId() == it && i.covers(bp)) {
             return true;
         }
     }
@@ -1936,7 +1932,7 @@ bool Character::pour_into( item &container, item &liquid )
 
 bool Character::pour_into( vehicle &veh, item &liquid )
 {
-    const itype_id &ftype = liquid.type->id;
+    const itype_id &ftype = liquid.typeId();
     const int fuel_per_charge = fuel_charges_to_amount_factor( ftype );
     const int fuel_cap = veh.fuel_capacity( ftype );
     const int fuel_amnt = veh.fuel_left( ftype );

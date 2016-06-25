@@ -2302,7 +2302,7 @@ void game::rcdrive(int dx, int dy)
     auto rc_pairs = m.get_rc_items( cx, cy, cz );
     auto rc_pair = rc_pairs.begin();
     for( ; rc_pair != rc_pairs.end(); ++rc_pair ) {
-        if( rc_pair->second->type->id == "radio_car_on" && rc_pair->second->active ) {
+        if( rc_pair->second->typeId() == "radio_car_on" && rc_pair->second->active ) {
             break;
         }
     }
@@ -6779,7 +6779,7 @@ void game::emp_blast( const tripoint &p )
         }
         // TODO: More effects?
         //e-handcuffs effects
-        if (u.weapon.type->id == "e_handcuffs" && u.weapon.charges > 0){
+        if (u.weapon.typeId() == "e_handcuffs" && u.weapon.charges > 0){
             u.weapon.item_tags.erase("NO_UNWIELD");
             u.weapon.charges = 0;
             u.weapon.active = false;
@@ -7249,7 +7249,7 @@ void game::close( const tripoint &closep )
 
 void game::smash()
 {
-    const int move_cost = int(u.weapon.is_null() ? 80 : u.weapon.attack_time() * 0.8);
+    const int move_cost = u.is_armed() ? 80 : u.weapon.attack_time() * 0.8;
     bool didit = false;
     ///\EFFECT_STR increases smashing capability
     int smashskill = int(u.str_cur + u.weapon.type->melee_dam);
@@ -10431,11 +10431,11 @@ void game::drop(std::vector<item> &dropped, std::vector<item> &dropped_worn,
 
     bool can_move_there = m.passable(dir);
 
-    itype_id first = itype_id(dropped[0].type->id);
+    itype_id first = dropped[0].typeId();
     bool same = true;
     for (std::vector<item>::iterator it = dropped.begin() + 1;
          it != dropped.end() && same; ++it) {
-        if (it->type->id != first) {
+        if (it->typeId() != first) {
             same = false;
         }
     }
@@ -10896,7 +10896,7 @@ void game::butcher()
             continue;
         }
 
-        const recipe *cur_recipe = get_disassemble_recipe(items[i].type->id);
+        const recipe *cur_recipe = get_disassemble_recipe(items[i].typeId());
         if( cur_recipe == nullptr && !items[i].is_book() ) {
             continue;
         }
@@ -10927,7 +10927,7 @@ void game::butcher()
 
         if( first_item_without_tools != nullptr ) {
             add_msg( m_info, _("You don't have the necessary tools to disassemble any items here.") );
-            const recipe *cur_recipe = get_disassemble_recipe( first_item_without_tools->type->id );
+            const recipe *cur_recipe = get_disassemble_recipe( first_item_without_tools->typeId() );
             // Just for the "You need x to disassemble y" messages
             u.can_disassemble( *first_item_without_tools, cur_recipe, crafting_inv, true );
         }
@@ -11088,7 +11088,7 @@ void game::eat(int pos)
 
     // Can consume items from inventory or within one tile (including in vehicles)
     auto item_loc = inv_map_splice( [&]( const item &it ) {
-        if( it.type->id == "1st_aid" ) {
+        if( it.typeId() == "1st_aid" ) {
             return false; // temporary fix for #12991
         }
         return it.made_of( SOLID ) && (it.is_food( &u ) || it.is_food_container( &u ) );

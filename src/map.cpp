@@ -5135,14 +5135,14 @@ void use_charges_from_furn( const furn_t &f, const itype_id &type, long &quantit
         return;
     }
 
-
     const itype *itt = f.crafting_pseudo_item_type();
     if( itt != nullptr && itt->tool && itt->tool->ammo_id ) {
         const itype_id ammo = default_ammo( itt->tool->ammo_id );
         auto stack = m->i_at( p );
-        auto iter = std::find_if( stack.begin(), stack.end(), [ammo]( const item &i ) { return i.typeId() == ammo; } );
+        auto iter = std::find_if( stack.begin(), stack.end(),
+                                  [ammo]( const item &i ) { return i.typeId() == ammo; } );
         if( iter != stack.end() ) {
-            item furn_item( itt->id, -1, iter->charges );
+            item furn_item( itt, -1, iter->charges );
             // The item constructor limits the charges to the (type specific) maximum.
             // Setting it separately circumvents that - syncron with the code that creates
             // the pseudo item (and fills its charges) in inventory.cpp
@@ -5357,9 +5357,7 @@ static bool trigger_radio_item( item_stack &items, std::list<item>::iterator &n,
                n->contents.front().has_flag( signal ) ) {
         // A bomb is the only thing meaningfully placed in a container,
         // If that changes, this needs logic to handle the alternative.
-        itype_id bomb_type = n->contents.front().type->id;
-
-        n->convert( bomb_type );
+        n->convert( n->contents.front().typeId() );
         if( n->has_flag("RADIO_INVOKE_PROC") ) {
             n->process( nullptr, pos, true );
         }

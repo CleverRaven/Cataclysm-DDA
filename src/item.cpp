@@ -4936,13 +4936,9 @@ std::ostream & operator<<(std::ostream & out, const item & it)
     return out;
 }
 
-
 itype_id item::typeId() const
 {
-    if (!type) {
-        return "null";
-    }
-    return type->id;
+    return type ? type->id : "null";
 }
 
 bool item::getlight(float & luminance, int & width, int & direction ) const

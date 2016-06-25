@@ -3902,7 +3902,7 @@ std::list<item *> player::get_radio_items()
         }
     }
 
-    if( !weapon.is_null() ) {
+    if( !is_armed() ) {
         if( weapon.has_flag( "RADIO_ACTIVATION" ) ) {
             rc_items.push_back( &weapon );
         }
@@ -8202,7 +8202,7 @@ void player::suffer()
 
         // Apply rads to any radiation badges.
         for (item *const it : inv_dump()) {
-            if (it->type->id != "rad_badge") {
+            if (it->typeId() != "rad_badge") {
                 continue;
             }
 
@@ -8359,7 +8359,7 @@ void player::suffer()
         mod_pain(1);
         moves -= 150;
 
-        if (weapon.type->id == "e_handcuffs" && weapon.charges > 0) {
+        if (weapon.typeId() == "e_handcuffs" && weapon.charges > 0) {
             weapon.charges -= rng(1, 3) * 50;
             if (weapon.charges < 1) {
                 weapon.charges = 1;
@@ -9034,7 +9034,7 @@ const martialart &player::get_combat_style() const
 std::vector<item *> player::inv_dump()
 {
     std::vector<item *> ret;
-    if( !weapon.is_null() && can_unwield( weapon, false ) ) {
+    if( !is_armed() && can_unwield( weapon, false ) ) {
         ret.push_back(&weapon);
     }
     for (auto &i : worn) {
@@ -9371,13 +9371,14 @@ bool player::consume_med( item &target, const tripoint &pos )
         return false;
     }
 
-    auto req_tool = item::find_type( the_med->type->comestible->tool );
+    const itype_id tool_type = the_med->type->comestible->tool;
+    const auto req_tool = item::find_type( tool_type );
     if( req_tool->tool ) {
-        if( !( has_amount( req_tool->id, 1 ) && has_charges( req_tool->id, req_tool->tool->charges_per_use ) ) ) {
+        if( !( has_amount( tool_type, 1 ) && has_charges( tool_type, req_tool->tool->charges_per_use ) ) ) {
             add_msg_if_player( m_info, _( "You need a %s to consume that!" ), req_tool->nname( 1 ).c_str() );
             return false;
         }
-        use_charges( req_tool->id, req_tool->tool->charges_per_use );
+        use_charges( tool_type, req_tool->tool->charges_per_use );
     }
 
     long amount_used = 1;
@@ -9445,12 +9446,16 @@ bool player::consume_item( item &target )
             charge_power(to_eat->charges / factor);
             to_eat->charges -= max_change * factor; //negative charges seem to be okay
             to_eat->charges++; //there's a flat subtraction later
-        } else if (to_eat->is_ammo() &&  ( has_active_bionic("bio_reactor") || has_active_bionic("bio_advreactor") ) && ( to_eat->ammo_type() == ammotype( "reactor_slurry" ) || to_eat->ammo_type() == ammotype( "plutonium" ) )) {
-            if (to_eat->type->id == "plut_cell" && query_yn(_("Thats a LOT of plutonium.  Are you sure you want that much?"))) {
+        } else if( to_eat->is_ammo() &&  ( has_active_bionic("bio_reactor") ||
+                                           has_active_bionic("bio_advreactor") ) &&
+                   ( to_eat->ammo_type() == ammotype( "reactor_slurry" ) ||
+                     to_eat->ammo_type() == ammotype( "plutonium" ) ) ) {
+            if( to_eat->typeId() == "plut_cell" &&
+                query_yn( _( "Thats a LOT of plutonium.  Are you sure you want that much?" ) ) ) {
                 tank_plut += PLUTONIUM_CHARGES * 10;
-            } else if (to_eat->type->id == "plut_slurry_dense") {
+            } else if (to_eat->typeId() == "plut_slurry_dense") {
                 tank_plut += PLUTONIUM_CHARGES;
-            } else if (to_eat->type->id == "plut_slurry") {
+            } else if (to_eat->typeId() == "plut_slurry") {
                 tank_plut += PLUTONIUM_CHARGES / 2;
             }
             add_msg_player_or_npc( _("You add your %s to your reactor's tank."), _("<npcname> pours %s into their reactor's tank."),
@@ -9773,7 +9778,7 @@ bool player::wield( item& target )
         weapon = target;
     }
 
-    last_item = itype_id( weapon.type->id );
+    last_item = weapon.typeId();
 
     weapon.on_wield( *this, mv );
 
@@ -10345,7 +10350,7 @@ bool player::wear_item( const item &to_wear, bool interactive )
     }
 
     const bool was_deaf = is_deaf();
-    last_item = itype_id(to_wear.type->id);
+    last_item = to_wear.typeId();
     worn.push_back(to_wear);
 
     if( interactive ) {
@@ -10696,7 +10701,7 @@ void player::use(int inventory_position)
         return;
     }
 
-    last_item = itype_id(used->type->id);
+    last_item = used->typeId();
 
     if (used->is_tool()) {
         if( !used->type->has_use() ) {
@@ -11118,7 +11123,7 @@ bool player::read(int inventory_position)
     // Now we've established that the player CAN read.
 
     // If the player hasn't read this book before, skim it to get an idea of what's in it.
-    if( !has_identified( it->type->id ) ) {
+    if( !has_identified( it->typeId() ) ) {
         // Base read_speed() is 1000 move points (1 minute per tmp->time)
         time = tmp->time * read_speed() * (fine_detail_vision_mod());
         if (tmp->intel > int_cur) {
@@ -11222,9 +11227,9 @@ void player::do_read( item *book )
     }
     const skill_id &skill = reading->skill;
 
-    if( !has_identified( book->type->id ) ) {
+    if( !has_identified( book->typeId() ) ) {
         // Note that we've read the book.
-        items_identified.insert( book->type->id );
+        items_identified.insert( book->typeId() );
 
         add_msg(_("You skim %s to find out what's in it."), book->type_name().c_str());
         if( skill && get_skill_level( skill ).can_train() ) {
@@ -12475,7 +12480,7 @@ int player::has_recipe( const recipe *r, const inventory &crafting_inv ) const
     for( auto stack = slice.cbegin(); stack != slice.cend(); ++stack ) {
         // We are only checking qualities, so we only care about the first item in the stack.
         const item &candidate = (*stack)->front();
-        if( candidate.is_book() && items_identified.count(candidate.type->id) ) {
+        if( candidate.is_book() && items_identified.count(candidate.typeId()) ) {
             for( auto const & elem : candidate.type->book->recipes ) {
                 // Does it have the recipe, and do we meet it's requirements?
                 if( elem.recipe != r ) {
@@ -12620,7 +12625,7 @@ std::string player::weapname() const
     } else if( weapon.is_container() && weapon.contents.size() == 1 ) {
         return string_format( "%s (%d)", weapon.tname().c_str(), weapon.contents.front().charges );
 
-    } else if( weapon.is_null() ) {
+    } else if( is_armed() ) {
         return _( "fists" );
 
     } else {
@@ -12668,7 +12673,7 @@ bool player::wield_contents( item *container, int pos, int factor, bool effects 
     container->on_contents_changed();
 
     inv.assign_empty_invlet( weapon, true );
-    last_item = itype_id( weapon.type->id );
+    last_item = weapon.typeId();
 
     ///\EFFECT_PISTOL decreases time taken to draw pistols from holsters
     ///\EFFECT_SMG decreases time taken to draw smgs from holsters
@@ -13358,7 +13363,7 @@ std::vector<std::string> player::get_overlay_ids() const
 
     // last weapon
     // TODO: might there be clothing that covers the weapon?
-    if( !weapon.is_null() ) {
+    if( is_armed() ) {
         rval.push_back( "wielded_" + weapon.typeId() );
     }
     return rval;

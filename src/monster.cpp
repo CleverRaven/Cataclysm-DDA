@@ -812,8 +812,8 @@ int monster::trigger_sum( const std::set<monster_trigger>& triggers ) const
             if( check_meat && g->m.sees_some_items( p, *this ) ) {
                 auto items = g->m.i_at( p );
                 for( auto &item : items ) {
-                    if( item.is_corpse() || item.type->id == "meat" ||
-                        item.type->id == "meat_cooked" || item.type->id == "human_flesh" ) {
+                    if( item.is_corpse() || item.typeId() == "meat" ||
+                        item.typeId() == "meat_cooked" || item.typeId() == "human_flesh" ) {
                         ret += 3;
                         check_meat = false;
                     }
