@@ -190,7 +190,7 @@ int snake_game::start_game()
                  vSnakeBody[vSnakeBody.size() - 2].second, c_ltgray, '#');
 
         //On full length add a fruit
-        if (iFruitPosY == 0 && iFruitPosY == 0) {
+        if (iFruitPosX == 0 && iFruitPosY == 0) {
             do {
                 iFruitPosY = rng(1, FULL_SCREEN_HEIGHT - 2);
                 iFruitPosX = rng(1, FULL_SCREEN_WIDTH - 2);
