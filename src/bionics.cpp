@@ -11,6 +11,7 @@
 #include "bodypart.h"
 #include "messages.h"
 #include "overmapbuffer.h"
+#include "projectile.h"
 #include "sounds.h"
 #include "translations.h"
 #include "monster.h"
