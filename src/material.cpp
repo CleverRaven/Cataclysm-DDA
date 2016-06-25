@@ -37,6 +37,7 @@ material_type::material_type()
     _ident = material_id( "null" );
     _name = "null";
     _salvaged_into = itype_id( "null" );
+    _repaired_with = itype_id( "" );
     _bash_resist = 0;
     _cut_resist = 0;
     _bash_dmg_verb = _( "damages" );
@@ -71,6 +72,7 @@ void material_type::load_material( JsonObject &jsobj )
     mat._ident = material_id( jsobj.get_string( "ident" ) );
     mat._name = _( jsobj.get_string( "name" ).c_str() );
     mat._salvaged_into = jsobj.get_string( "salvaged_into", "null" );
+    mat._repaired_with = jsobj.get_string( "repaired_with", "" );
     mat._bash_resist = jsobj.get_int( "bash_resist" );
     mat._cut_resist = jsobj.get_int( "cut_resist" );
     mat._bash_dmg_verb = _( jsobj.get_string( "bash_dmg_verb" ).c_str() );
@@ -162,6 +164,11 @@ std::string material_type::name() const
 itype_id material_type::salvaged_into() const
 {
     return _salvaged_into;
+}
+
+itype_id material_type::repaired_with() const
+{
+    return _repaired_with;
 }
 
 int material_type::bash_resist() const

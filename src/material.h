@@ -22,6 +22,7 @@ class material_type
         material_id _ident;
         std::string _name;
         itype_id _salvaged_into;   // this material turns into this item when salvaged
+        itype_id _repaired_with;   // this material can be repaired with this item
         int _bash_resist;       // negative integers means susceptibility
         int _cut_resist;
         std::string _bash_dmg_verb;
@@ -51,6 +52,7 @@ class material_type
         material_id ident() const;
         std::string name() const;
         itype_id salvaged_into() const;
+        itype_id repaired_with() const;
         int bash_resist() const;
         int cut_resist() const;
         std::string bash_dmg_verb() const;

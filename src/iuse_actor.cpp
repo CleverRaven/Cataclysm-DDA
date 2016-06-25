@@ -2145,36 +2145,6 @@ void repair_item_actor::load( JsonObject &obj )
     trains_skill_to = obj.get_int( "trains_skill_to", 5 ) - 1;
 }
 
-// TODO: This should be a property of material json, not a hardcoded hack
-const itype_id &material_component( const material_id &id )
-{
-    static const std::map< material_id, itype_id > material_id_map {
-        // Metals (welded)
-        { material_id( "kevlar" ), "kevlar_plate" },
-        { material_id( "plastic" ), "plastic_chunk" },
-        { material_id( "iron" ), "scrap" },
-        { material_id( "steel" ), "scrap" },
-        { material_id( "hardsteel" ), "scrap" },
-        { material_id( "aluminum" ), "material_aluminium_ingot" },
-        { material_id( "copper" ), "scrap_copper" },
-        // Fabrics (sewn)
-        { material_id( "cotton" ), "rag" },
-        { material_id( "leather" ), "leather" },
-        { material_id( "fur" ), "fur" },
-        { material_id( "nomex" ), "nomex" },
-        { material_id( "wool" ), "felt_patch" },
-        { material_id( "neoprene" ), "neoprene" }
-    };
-
-    static const itype_id null_material = "";
-    const auto iter = material_id_map.find( id );
-    if( iter != material_id_map.end() ) {
-        return iter->second;
-    }
-
-    return null_material;
-}
-
 bool could_repair( const player &p, const item &it, bool print_msg )
 {
     if( p.is_underwater() ) {
@@ -2243,9 +2213,8 @@ bool repair_item_actor::handle_components( player &pl, const item &fix,
                                   fix.tname().c_str());
             for( const auto &mat_name : materials ) {
                 const auto &mat = mat_name.obj();
-                const auto mat_comp = material_component( mat_name );
-                pl.add_msg_if_player( m_info, _("%s (repaired using %s)"),
-                                      mat.name().c_str(), item::nname( mat_comp, 2 ).c_str() );
+                pl.add_msg_if_player( m_info, _("%s (repaired using %s)"), mat.name().c_str(),
+                                      item::nname( mat.repaired_with(), 2 ).c_str() );
             }
         }
 
@@ -2263,7 +2232,7 @@ bool repair_item_actor::handle_components( player &pl, const item &fix,
 
     // Go through all discovered repair items and see if we have any of them available
     for( const auto &entry : valid_entries ) {
-        const auto component_id = material_component( entry );
+        const auto component_id = entry.obj().repaired_with();
         if( crafting_inv.has_amount( component_id, items_needed ) ) {
             // We've found enough of a material, add it to list
             comps.push_back( item_comp( component_id, items_needed ) );
@@ -2273,7 +2242,7 @@ bool repair_item_actor::handle_components( player &pl, const item &fix,
     if( comps.empty() ) {
         if( print_msg ) {
             for( const auto &entry : valid_entries ) {
-                const auto &mat_comp = material_component( entry );
+                const auto &mat_comp = entry.obj().repaired_with();
                 pl.add_msg_if_player( m_info,
                     _("You don't have enough %s to do that. Have: %d, need: %d"),
                     item::nname( mat_comp, 2 ).c_str(),
@@ -2355,7 +2324,7 @@ bool repair_item_actor::can_repair( player &pl, const item &tool, const item &fi
     }
 
     if( &fix == &tool || any_of( materials.begin(), materials.end(), [&fix]( const material_id &mat ) {
-            return material_component( mat ) == fix.typeId();
+            return mat.obj().repaired_with() == fix.typeId();
         } ) ) {
         if( print_msg ) {
             pl.add_msg_if_player( m_info, _("This can be used to repair other items, not itself.") );
