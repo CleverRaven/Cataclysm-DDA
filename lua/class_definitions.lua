@@ -596,7 +596,7 @@ classes = {
             { name = "has_container_for", rval = "bool", args = { "item" } },
             { name = "has_destination", rval = "bool", args = { } },
             { name = "has_grab_break_tec", rval = "bool", args = { } },
-            { name = "has_gun_for_ammo", rval = "bool", args = { "string" } },
+            { name = "has_gun_for_ammo", rval = "bool", args = { "ammotype" } },
             { name = "has_higher_trait", rval = "bool", args = { "string" } },
             { name = "has_identified", rval = "bool", args = { "string" } },
             { name = "has_item", rval = "bool", args = { "item" } },
@@ -888,8 +888,8 @@ classes = {
             { name = "ammo_data", rval = "itype&", args = { } },
             { name = "ammo_remaining", rval = "int", args = { } },
             { name = "ammo_required", rval = "int", args = { } },
-            { name = "ammo_type", rval = "string", args = { "bool" } },
-            { name = "ammo_type", rval = "string", args = { } },
+            { name = "ammo_type", rval = "ammotype", args = { "bool" } },
+            { name = "ammo_type", rval = "ammotype", args = { } },
             { name = "amount_of", rval = "int", args = { "string", "bool" } },
             { name = "attack_time", rval = "int", args = { } },
             { name = "bash_resist", rval = "int", args = { } },
@@ -1802,6 +1802,13 @@ classes = {
     },
     species_type = {
         string_id = "species_id",
+        attributes = {
+        },
+        functions = {
+        }
+    },
+    ammunition_type = {
+        string_id = "ammotype",
         attributes = {
         },
         functions = {

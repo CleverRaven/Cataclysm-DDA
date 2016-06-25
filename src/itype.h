@@ -34,19 +34,20 @@ enum art_effect_passive : int;
 class material_type;
 using material_id = string_id<material_type>;
 typedef std::string itype_id;
-typedef std::string ammotype;
+class ammunition_type;
+using ammotype = string_id<ammunition_type>;
 class fault;
 using fault_id = string_id<fault>;
 struct quality;
 using quality_id = string_id<quality>;
 
 // Returns the name of a category of ammo (e.g. "shot")
-std::string ammo_name(std::string const &t);
+std::string ammo_name( const ammotype &ammo );
 // Returns the default ammo for a category of ammo (e.g. ""00_shot"")
-std::string const& default_ammo(std::string const &guntype);
+const itype_id &default_ammo( const ammotype &ammo );
 
 struct islot_tool {
-    std::string ammo_id = "NULL";
+    ammotype ammo_id = NULL_ID;
 
     itype_id revert_to = "null";
     std::string revert_msg;
@@ -305,7 +306,7 @@ struct islot_gun : common_ranged_data {
     /**
      * What type of ammo this gun uses.
      */
-    ammotype ammo = "NULL";
+    ammotype ammo = NULL_ID;
     /**
      * Gun durability, affects gun being damaged during shooting.
      */
@@ -381,7 +382,7 @@ struct islot_gunmod : common_ranged_data {
     std::set<ammotype> acceptable_ammo;
 
     /** If changed from the default of "NULL" modifies parent guns ammo to this type */
-    ammotype ammo_modifier = "NULL";
+    ammotype ammo_modifier = NULL_ID;
 
     /** @todo add documentation */
     int sight_dispersion = -1;
@@ -407,7 +408,7 @@ struct islot_gunmod : common_ranged_data {
 
 struct islot_magazine {
     /** What type of ammo this magazine can be loaded with */
-    std::string type = "NULL";
+    ammotype type = NULL_ID;
 
     /** Capacity of magazine (in equivalent units to ammo charges) */
     int capacity = 0;
@@ -434,9 +435,8 @@ struct islot_magazine {
 struct islot_ammo : common_ranged_data {
     /**
      * Ammo type, basically the "form" of the ammo that fits into the gun/tool.
-     * This is an id, it can be looked up in the @ref ammunition_type class.
      */
-    std::string type;
+    ammotype type;
     /**
      * Type id of casings, can be "null" for no casings at all.
      */
