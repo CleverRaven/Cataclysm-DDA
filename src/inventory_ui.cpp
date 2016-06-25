@@ -158,7 +158,7 @@ class inventory_selector
         player &u;
 
         void print_inv_weight_vol(int weight_carried, int vol_carried, int vol_capacity) const;
-        void print_right_column(size_t right_column_width, size_t right_column_offset) const;
+        void print_right_column(size_t drop_column_width, size_t drop_column_offset) const;
 
         /** Returns an entry from @ref items by its invlet */
         const itemstack_or_category *invlet_to_itemstack( long invlet ) const;
@@ -178,8 +178,8 @@ class inventory_selector
         void set_drop_count(int it_pos, int count, const std::list<item> &stack);
         void set_to_drop(int it_pos, int count);
         void print_column(const itemstack_vector &items, size_t y, size_t w, size_t selected,
-                          size_t current_page_offset, selector_mode mode) const;
-        void prepare_paging(itemstack_vector &items);
+                          size_t current_page_offset, selector_mode mode, bool multicolumn) const;
+        void prepare_paging(itemstack_vector &items, bool multicolumn);
 };
 
 void inventory_selector::add_items(const indexed_invslice &slice, add_to where, const item_category *def_cat)
@@ -240,28 +240,48 @@ void inventory_selector::prepare_paging()
         in_inventory = false;
     }
 
-    prepare_paging(items);
-    prepare_paging(worn);
+    prepare_paging(items, true);
+    prepare_paging(worn, false);
 }
 
-void inventory_selector::prepare_paging(itemstack_vector &items)
+void inventory_selector::prepare_paging(itemstack_vector &items, bool multicolumn)
 {
-    const item_category *prev_category = NULL;
     for (size_t a = 0; a < items.size(); a++) {
         const itemstack_or_category &cur_entry = items[a];
-        if (cur_entry.category != NULL) {
-            prev_category = cur_entry.category;
-        }
-        if (cur_entry.it == NULL && a % items_per_page == items_per_page - 1) {
-            // last entry on a page is a category, insert empty entry
-            // to move category header to next page
-            items.insert(items.begin() + a, itemstack_or_category());
-            continue;
-        }
-        if (cur_entry.it != NULL && a > 0 && a % items_per_page == 0) {
-            // first entry on a page and is not a category, insert previous category
-            items.insert(items.begin() + a, itemstack_or_category(prev_category));
-            continue;
+        if (cur_entry.it == NULL) {
+            if(multicolumn) {
+                // Need to see if whole category will fit.
+                size_t item_count = 1; // Include category header as item
+                for(size_t b = a; b < items.size(); b++) {
+                    const itemstack_or_category &lookahead_entry = items[b];
+                    if(lookahead_entry.category == NULL) { // Null category, count it anyway (still produces blank line).
+                        continue;
+                    }
+                    if(lookahead_entry.category == cur_entry.category) { // Same category as this one, count it
+                        item_count++;
+                        continue;
+                    }
+                    // Different category, so we're done.
+                    break;
+                } 
+                if((a % items_per_page) + item_count > items_per_page) {
+                    if(a % items_per_page == 0) { // Category too large to fit in one page, add another header down the line.
+                        items.insert(items.begin() + a + items_per_page, itemstack_or_category(cur_entry.category));
+                    } else { // We will overflow, push to new column.
+                        size_t spacer_count = items_per_page - (a % items_per_page);
+                        for(size_t i = 0; i < spacer_count; i++) {
+                            items.insert(items.begin() + a, itemstack_or_category());
+                        }
+                    }
+                }
+                // Else we won't overflow, okay to begin here.
+                continue;
+            } /*else if(a % items_per_page == items_per_page - 1) {
+                // last entry on a page is a category, insert empty entry
+                // to move category header to next page
+                items.insert(items.begin() + a, itemstack_or_category());
+                continue;
+            }*/
         }
     }
 }
@@ -270,24 +290,47 @@ void inventory_selector::print_inv_weight_vol(int weight_carried, int vol_carrie
         int vol_capacity) const
 {
     // Print weight
-    mvwprintw(w_inv, 0, 32, _("Weight (%s): "), weight_units());
-    nc_color weight_color;
+    mvwprintw(w_inv, 0, TERMX - 39, _("Weight: "), weight_units());
+    nc_color weight_color = c_ltgray;
     if (weight_carried > u.weight_capacity()) {
         weight_color = c_red;
-    } else {
-        weight_color = c_ltgray;
     }
     wprintz(w_inv, weight_color, "%6.1f", convert_weight(weight_carried) + 0.05 ); // +0.05 to round up;
-    wprintz(w_inv, c_ltgray, "/%-6.1f", convert_weight(u.weight_capacity()));
+    wprintz(w_inv, c_ltgray, "/%-6.1f %s", convert_weight(u.weight_capacity()), weight_units());
+    
+    double pctUsed = (u.weight_capacity() == 0) ? 1 : ((weight_carried * 1.0) / u.weight_capacity());
+    std::string bar = get_labeled_bar(pctUsed, 12, "", '*');
+    nc_color color = c_green;
+    if(pctUsed > 0.2) { color = c_ltgreen; }
+    if(pctUsed > 0.4) { color = c_yellow; }
+    if(pctUsed > 0.6) { color = c_ltred; }
+    if(pctUsed > 0.8) { color = c_red; }
+    
+    mvwprintz(w_inv, 0, TERMX - 13, color, bar.c_str()); // Print bar colorized
+    mvwputch(w_inv, 0, TERMX - 13, c_ltgray, '['); // De-color end caps
+    mvwputch(w_inv, 0, TERMX - 2, c_ltgray, ']');
 
     // Print volume
-    mvwprintw(w_inv, 0, 61, _("Volume: "));
+    mvwprintw(w_inv, 1, TERMX - 39, _("Volume: "));
+    wmove(w_inv, 1, TERMX - 28);
     if (vol_carried > vol_capacity) {
         wprintz(w_inv, c_red, "%3d", vol_carried);
     } else {
         wprintz(w_inv, c_ltgray, "%3d", vol_carried);
     }
     wprintw(w_inv, "/%-3d", vol_capacity);
+    
+    pctUsed = (vol_capacity == 0) ? 1 : ((vol_carried * 1.0) / vol_capacity);
+    bar = get_labeled_bar(pctUsed, 12, "", '*');
+    color = c_green;
+    if(pctUsed > 0.2) { color = c_ltgreen; }
+    if(pctUsed > 0.4) { color = c_yellow; }
+    if(pctUsed > 0.6) { color = c_ltred; }
+    if(pctUsed > 0.8) { color = c_red; }
+    
+    mvwprintz(w_inv, 1, TERMX - 13, color, bar.c_str()); // Print bar colorized
+    mvwputch(w_inv, 1, TERMX - 13, c_ltgray, '['); // De-color end caps
+    mvwputch(w_inv, 1, TERMX - 2, c_ltgray, ']');
 }
 
 char invlet_or_space(const item &it)
@@ -296,7 +339,8 @@ char invlet_or_space(const item &it)
 }
 
 void inventory_selector::print_column(const itemstack_vector &items, size_t y, size_t w,
-                                      size_t selected, size_t current_page_offset, selector_mode mode) const
+                                      size_t selected, size_t current_page_offset, selector_mode mode,
+                                      bool multicolumn) const
 {
     const auto get_drop_icon = [ this, mode ]( const drop_map::const_iterator &dit ) -> std::string {
         if( mode == SM_PICK ) {
@@ -309,19 +353,34 @@ void inventory_selector::print_column(const itemstack_vector &items, size_t y, s
             return "# ";
         }
     };
+    
+    size_t offset = y; 
+    size_t remaining_width = w;
 
     nc_color selected_line_color = inCategoryMode ? c_white_red : h_white;
     if ((&items == &this->items) != in_inventory) {
         selected_line_color = inCategoryMode ? c_ltgray_red : h_ltgray;
     }
-    int cur_line = 2;
-    for (size_t a = 0; a + current_page_offset < items.size() && a < items_per_page; a++, cur_line++) {
+    size_t cur_line = 2;
+    size_t col_width = 3;
+    for (size_t a = 0; a + current_page_offset < items.size() && (multicolumn || a < items_per_page); a++, cur_line++) {
+        if(remaining_width <= 4 || offset + 4 > y + w) { // Not enough width left to print anything meaningful, break now.
+            break;
+        }
         const itemstack_or_category &cur_entry = items[a + current_page_offset];
+        if(multicolumn && cur_line > items_per_page) {
+            // We're about to overflow, start a new column.
+            offset += col_width;
+            remaining_width -= col_width;
+            col_width = 3;
+            cur_line = 2;
+        }
         if (cur_entry.category == NULL) {
+            if(cur_line == 2) cur_line--; // A blank line at top?  Pull up contents below.
             continue;
         }
         if (cur_entry.it == NULL) {
-            trim_and_print( w_inv, cur_line, y, w, c_magenta,
+            trim_and_print( w_inv, cur_line, offset, remaining_width, c_magenta,
                             "%s", cur_entry.category->name.c_str() );
             continue;
         }
@@ -344,21 +403,24 @@ void inventory_selector::print_column(const itemstack_vector &items, size_t y, s
         }
         item_name = get_drop_icon(dropping.find(cur_entry.item_pos)) + item_name;
         if (it.invlet != 0) {
-            mvwputch(w_inv, cur_line, y, invlet_color, it.invlet);
+            mvwputch(w_inv, cur_line, offset, invlet_color, it.invlet);
         }
         if (OPTIONS["ITEM_SYMBOLS"]) {
             item_name = string_format("%s %s", it.symbol().c_str(), item_name.c_str());
         }
-        trim_and_print(w_inv, cur_line, y + 2, w - 2, name_color, "%s", item_name.c_str());
+        if(multicolumn && item_name.length() + 3 > col_width) { // Invlet, space, item name, space = item_name.length + 3
+            col_width = item_name.length() + 3;
+        }
+        trim_and_print(w_inv, cur_line, offset + 2, remaining_width - 2, name_color, "%s", item_name.c_str());
     }
 }
 
-void inventory_selector::print_right_column( size_t right_column_width, size_t right_column_offset ) const
+void inventory_selector::print_right_column( size_t drop_column_width, size_t drop_column_offset ) const
 {
-    if (right_column_width == 0) {
+    if (drop_column_width == 0) {
         return;
     }
-    int drp_line = 1;
+    int drp_line = 2;
     drop_map::const_iterator dit = dropping.find(-1);
     if (dit != dropping.end()) {
         std::string item_name = u.weapname();
@@ -368,7 +430,7 @@ void inventory_selector::print_right_column( size_t right_column_width, size_t r
             item_name = string_format("# %s {%d}", item_name.c_str(), dit->second);
         }
         const char invlet = invlet_or_space(u.weapon);
-        trim_and_print(w_inv, drp_line, right_column_offset, right_column_width - 4, c_ltblue, "%c %s", invlet, item_name.c_str());
+        trim_and_print(w_inv, drp_line, drop_column_offset, drop_column_width - 4, c_ltblue, "%c %s", invlet, item_name.c_str());
         drp_line++;
     }
     auto iter = u.worn.begin();
@@ -378,7 +440,7 @@ void inventory_selector::print_right_column( size_t right_column_width, size_t r
             continue;
         }
         const char invlet = invlet_or_space(*iter);
-        trim_and_print(w_inv, drp_line, right_column_offset, right_column_width - 4, c_cyan, "%c + %s", invlet, iter->display_name().c_str());
+        trim_and_print(w_inv, drp_line, drop_column_offset, drop_column_width - 4, c_cyan, "%c + %s", invlet, iter->display_name().c_str());
         drp_line++;
     }
     for( const auto &elem : dropping ) {
@@ -401,29 +463,45 @@ void inventory_selector::print_right_column( size_t right_column_width, size_t r
         } else {
             item_name = string_format("# %s {%d}", item_name.c_str(), count);
         }
-        trim_and_print(w_inv, drp_line, right_column_offset, right_column_width - 2, col, "%c %s", invlet, item_name.c_str());
+        trim_and_print(w_inv, drp_line, drop_column_offset, drop_column_width - 2, col, "%c %s", invlet, item_name.c_str());
         drp_line++;
     }
 }
 
 void inventory_selector::display( const std::string &title, selector_mode mode ) const
 {
-    const size_t left_column_width = ( mode == SM_PICK ) ? TERMX / 2 : 40; // Do we really need this difference?
-    const size_t left_column_offset = 1;
-    const size_t middle_column_width = std::min<int>( TERMX - left_column_width - 1, 40 );
-    const size_t middle_column_offset = left_column_width + left_column_offset + 1;
-    const size_t current_page_offset = in_inventory ? current_page_offset_i : current_page_offset_w;
-
     werase(w_inv);
     mvwprintw(w_inv, 0, 0, title.c_str());
+    
+    // Worn Wield gets 40 chars wide, no more no less
+    size_t worn_wield_column_width = 40;
+    // Worn Wield pushed against right border, with one character of buffer
+    size_t worn_wield_column_offset = TERMX - 41;
+    size_t drop_column_width = 0;
+    size_t drop_column_offset = 0;
+    if(mode != SM_PICK) {  // Compare & Multidrop
+        // If terminal not wide enough to support "drop" column, don't show.
+        // If terminal not wide enough to give all three columns 40 char-wide columns, drop column gets skinny.
+        // Otherwise, drop column is 40 char wide.
+        drop_column_width = TERMX <= 82 ? 0 : (TERMX > 123 ? 40 : TERMX - 82);
+        // Column is placed on far right 
+        drop_column_offset = TERMX - drop_column_width - 1;
+        
+        if(drop_column_width > 0) { // If we don't have space for drop column, don't bother rendering
+            // Worn/Wield column is displaced left
+            worn_wield_column_offset = TERMX - drop_column_width - 42;
+            
+            print_right_column( drop_column_width, drop_column_offset );
+        }
+    } 
+    
+    size_t main_inv_width = TERMX - worn_wield_column_width - drop_column_width - 4;
+    
+    size_t current_page_offset = in_inventory ? current_page_offset_i : current_page_offset_w;
 
-    if( mode != SM_PICK ) {
-        const size_t right_column_width = std::max<int>( 0, TERMX - left_column_width - middle_column_width - 2 );
-        const size_t right_column_offset = middle_column_width + middle_column_offset + 1;
-
-        print_right_column( right_column_width, right_column_offset );
-    } else {
-        mvwprintw(w_inv, 1, 61, _("Hotkeys:  %d/%d "), u.allocated_invlets().size(), inv_chars.size());
+    if(mode == SM_PICK) {
+        mvwprintw(w_inv, 0, TERMX - 48, _("Hotkeys"));
+        mvwprintw(w_inv, 1, TERMX - 48, _(" %2d/%2d "), u.allocated_invlets().size(), inv_chars.size());
     }
 
     std::string msg_str;
@@ -435,13 +513,13 @@ void inventory_selector::display( const std::string &title, selector_mode mode )
         msg_str = _("Item selection; [TAB] switches mode, arrows select.");
         msg_color = h_white;
     }
-    mvwprintz(w_inv, items_per_page + 4, FULL_SCREEN_WIDTH - utf8_width(msg_str),
+    mvwprintz(w_inv, TERMY - 1, TERMX - utf8_width(msg_str),
               msg_color, msg_str.c_str());
-    print_column(items, left_column_offset, left_column_width, selected_i, current_page_offset_i, mode);
-    print_column(worn, middle_column_offset, middle_column_width, selected_w, current_page_offset_w, mode);
+    print_column(items, 1, main_inv_width, selected_i, current_page_offset_i, mode, true);
+    print_column(worn, worn_wield_column_offset, worn_wield_column_width, selected_w, current_page_offset_w, mode, false);
     const size_t max_size = in_inventory ? items.size() : worn.size();
     const size_t max_pages = (max_size + items_per_page - 1) / items_per_page;
-    mvwprintw(w_inv, items_per_page + 4, 1, _("Page %d/%d"), current_page_offset / items_per_page + 1,
+    mvwprintw(w_inv, TERMY - 1, 1, _("Page %d/%d"), current_page_offset / items_per_page + 1,
               max_pages);
     if (mode == SM_MULTIDROP) {
         // Make copy, remove to be dropped items from that
@@ -460,7 +538,11 @@ void inventory_selector::display( const std::string &title, selector_mode mode )
         }
         remove_dropping_items(tmp);
         print_inv_weight_vol(tmp.weight_carried(), tmp.volume_carried(), tmp.volume_capacity());
-        mvwprintw(w_inv, 1, 0, _("To drop x items, type a number and then the item hotkey."));
+        if(TERMX < 97) { // Cannot fit hint in one line, split (overwrites window title to facilitate split)
+            fold_and_print(w_inv, 0, 0, TERMX - 42, c_ltgray, _("Multidrop: To drop x items, type a number and then the item hotkey."));
+        } else { // Can fit hint in one line
+            mvwprintw(w_inv, 1, 0, _("To drop x items, type a number and then the item hotkey."));
+        }
     } else {
         print_inv_weight_vol(u.weight_carried(), u.volume_carried(), u.volume_capacity());
     }
@@ -493,9 +575,9 @@ inventory_selector::inventory_selector( player &u, item_filter filter )
 
     ctxt.register_action("DOWN", _("Next item"));
     ctxt.register_action("UP", _("Previous item"));
-    ctxt.register_action("RIGHT", _("Confirm"));
-    ctxt.register_action("LEFT", _("Switch inventory/worn"));
-    ctxt.register_action("CONFIRM", _("Mark selected item"));
+    ctxt.register_action("RIGHT", _("Next column"));
+    ctxt.register_action("LEFT", _("Previous column"));
+    ctxt.register_action("CONFIRM", _("Mark/Confirm"));
     ctxt.register_action("QUIT", _("Cancel"));
     ctxt.register_action("CATEGORY_SELECTION");
     ctxt.register_action("NEXT_TAB", _("Page down"));
@@ -544,9 +626,40 @@ bool inventory_selector::handle_movement(const std::string &action)
     if (action == "CATEGORY_SELECTION") {
         inCategoryMode = !inCategoryMode;
     } else if (action == "LEFT") {
-        if (this->items.size() > 0) {
-            in_inventory = !in_inventory;
+        if(in_inventory) {
+            int new_sel = selected;
+            new_sel -= items_per_page; // Make sure signed
+            if(new_sel < 1) {
+                in_inventory = false; // Went left off far left column, go to wield/worn
+            } else {
+                selected = static_cast<size_t>(new_sel); // Move selector
+                while (selected > items.size() || items[selected].it == NULL) { // Bring selector up to last item
+                    selected--;                                                 // if no item is there
+                }
+            }
+            current_page_offset = selected - (selected % items_per_page);
+        } else {
+            in_inventory = true; // Went left off wield/worn, go to far right column
+            selected_i = (this->items).size() - 1;  // Force select last item in inventory to scroll there
+            current_page_offset_i = selected_i - (selected_i % items_per_page);
         }
+    } else if (action == "RIGHT") {
+        if(in_inventory) {
+            if(selected == items.size() - 1) {
+                in_inventory = false; // Went right off far right column, go to wield/worn
+            } else {
+                selected += items_per_page;
+                while (selected >= items.size() || items[selected].it == NULL) { // Bring selector up to last item
+                    selected--;                                                 // if no item is there
+                }
+            }
+            current_page_offset = selected - (selected % items_per_page);
+        } else {
+            in_inventory = true; // Went right off wield/worn, go to far left column
+            selected_i = 1;  // Force select first item in inventory to scroll there
+            current_page_offset_i = selected_i - (selected_i % items_per_page);
+        }
+        
     } else if (action == "DOWN") {
         selected++;
         if (inCategoryMode) {
@@ -580,6 +693,7 @@ bool inventory_selector::handle_movement(const std::string &action)
             selected = items.size() - 1; // the last is always an item entry
         }
         current_page_offset = selected - (selected % items_per_page);
+        
     } else if (action == "NEXT_TAB") {
         selected += items_per_page;
         // skip non-item entries, those can not be selected!
@@ -814,7 +928,7 @@ item_location inventory_selector::execute_pick_map( const std::string &title, st
         } else if( action == "QUIT" ) {
             return item_location();
 
-        } else if( action == "RIGHT" || action == "CONFIRM" ) {
+        } else if( action == "CONFIRM" ) {
             set_selected_to_drop( 0 );
 
             // Item in inventory
