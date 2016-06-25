@@ -30,6 +30,7 @@
   },
   {
     "id": "mosin91_30",
+    "copy-from": "rifle_manual",
     "type": "GUN",
     "name": "Mosin-Nagant 1891/30",
     "name_plural": "Mosin-Nagant 1891/30",
@@ -40,9 +41,7 @@
     "bashing": 12,
     "to_hit": -1,
     "material": [ "steel", "wood" ],
-    "symbol": "(",
     "color": "brown",
-    "skill": "rifle",
     "ammo": "762R",
     "range": 3,
     "sight_dispersion": 60,
