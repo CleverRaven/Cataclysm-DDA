@@ -624,6 +624,9 @@ def extract(item, infilename):
     if "text" in item:
         writestr(outfile, item["text"], **kwargs)
         wrote = True
+    if "reload_noise" in item:
+        writestr(outfile, item["reload_noise"], **kwargs)
+        wrote = True
     if "messages" in item:
         for message in item["messages"]:
             writestr(outfile, message, **kwargs)
