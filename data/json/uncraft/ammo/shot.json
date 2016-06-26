@@ -69,6 +69,23 @@
   },
   {
     "type": "recipe",
+    "result": "shot_he",
+    "category": "CC_NONCRAFT",
+    "subcategory": "CSC_NONCRAFT",
+    "skill_used": "gun",
+    "difficulty": 5,
+    "time": 5000, "//": "A little more carefully...",
+    "tools": [ [ [ "puller", -1 ] ] ],
+    "components": [
+        [ [ "shot_hull", 1 ] ],
+        [ [ "shotgun_primer", 1 ] ],
+        [ [ "gunpowder", 3 ] ],
+        [ [ "chem_rdx", 10 ] ]
+    ],
+    "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
+  },
+  {
+    "type": "recipe",
     "result": "shot_slug",
     "category": "CC_NONCRAFT",
     "subcategory": "CSC_NONCRAFT",
