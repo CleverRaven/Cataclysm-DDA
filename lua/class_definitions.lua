@@ -82,6 +82,13 @@ no connection at all to the monster.
 --]]
 
 classes = {
+    field_t = {
+        string_id = "field_id",
+        attributes = {
+        },
+        functions = {
+        }
+    },
     effect_type = {
         string_id = "efftype_id",
         attributes = {
@@ -2123,56 +2130,7 @@ enums = {
         "ADD_MARLOSS_R",
         "ADD_MARLOSS_B",
         "ADD_MARLOSS_Y",
-    },
-    field_id = {
-        "fd_null",
-        "fd_blood",
-        "fd_bile",
-        "fd_gibs_flesh",
-        "fd_gibs_veggy",
-        "fd_web",
-        "fd_slime",
-        "fd_acid",
-        "fd_sap",
-        "fd_sludge",
-        "fd_fire",
-        "fd_rubble",
-        "fd_smoke",
-        "fd_toxic_gas",
-        "fd_tear_gas",
-        "fd_nuke_gas",
-        "fd_gas_vent",
-        "fd_fire_vent",
-        "fd_flame_burst",
-        "fd_electricity",
-        "fd_fatigue",
-        "fd_push_items",
-        "fd_shock_vent",
-        "fd_acid_vent",
-        "fd_plasma",
-        "fd_laser",
-        "fd_spotlight",
-        "fd_dazzling",
-        "fd_blood_veggy",
-        "fd_blood_insect",
-        "fd_blood_invertebrate",
-        "fd_gibs_insect",
-        "fd_gibs_invertebrate",
-        "fd_cigsmoke",
-        "fd_weedsmoke",
-        "fd_cracksmoke",
-        "fd_methsmoke",
-        "fd_bees",
-        "fd_incendiary",
-        "fd_relax_gas",
-        "fd_fungal_haze",
-        "fd_hot_air1",
-        "fd_hot_air2",
-        "fd_hot_air3",
-        "fd_hot_air4",
-        "fd_fungicidal_gas",
-        "num_fields",
-    },
+    }
 }
 
 global_functions = {
