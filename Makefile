@@ -40,6 +40,8 @@
 #  make MAPSIZE=<size>
 # Adjust names of build artifacts (for example to allow easily toggling between build types).
 #  make BUILD_PREFIX="release-"
+# Generate a build artifact prefix from the other build flags.
+#  make AUTO_BUILD_PREFIX=1
 # Install to system directories.
 #  make install
 # Enable lua support. Required only for full-fledged mods.
@@ -125,6 +127,11 @@ ODIR = $(BUILD_PREFIX)obj
 ODIRTILES = $(BUILD_PREFIX)obj/tiles
 W32ODIR = $(BUILD_PREFIX)objwin
 W32ODIRTILES = $(W32ODIR)/tiles
+
+ifdef AUTO_BUILD_PREFIX
+  BUILD_PREFIX = $(if $(RELEASE),release-)$(if $(TILES),tiles-)$(if $(SOUND),sound-)$(if $(LOCALIZE),local-)$(if $(BACKTRACE),back-)$(if $(MAPSIZE),map-$(MAPSIZE)-)$(if $(LUA),lua-)$(if $(USE_XDG_DIR),xdg-)$(if $(USE_HOME_DIR),home-)$(if $(DYNAMIC_LINKING),dynamic-)$(if $(MSYS2),msys2-)
+  export BUILD_PREFIX
+endif
 
 OS  = $(shell uname -s)
 
