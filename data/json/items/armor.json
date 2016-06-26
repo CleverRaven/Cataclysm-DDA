@@ -4419,7 +4419,7 @@
         "volume" : 3,
         "warmth" : 0,
         "encumbrance" : 0,
-        "flags" : ["VARSIZE", "WATER_FRIENDLY", "BELTED"],
+        "flags" : ["WATER_FRIENDLY", "BELTED"],
         "coverage" : 30,
         "material_thickness" : 5
     },

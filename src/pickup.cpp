@@ -273,6 +273,10 @@ enum pickup_answer : int {
 pickup_answer handle_problematic_pickup( const item &it, bool &offered_swap,
         const std::string &explain )
 {
+    if( offered_swap ) {
+        return CANCEL;
+    }
+
     player &u = g->u;
 
     uimenu amenu;
@@ -293,8 +297,8 @@ pickup_answer handle_problematic_pickup( const item &it, bool &offered_swap,
     if( it.is_armor() ) {
         amenu.addentry( WEAR, u.can_wear( it ), 'W', _( "Wear %s" ), it.display_name().c_str() );
     }
-    if( !it.is_container_empty() && u.can_pickVolume( it ) ) {
-        amenu.addentry( SPILL, true, 's', _( "Spill %s, then pick up %s" ),
+    if( it.is_bucket_nonempty() ) {
+        amenu.addentry( SPILL, u.can_pickVolume( it ), 's', _( "Spill %s, then pick up %s" ),
                         it.contents.front().tname().c_str(), it.display_name().c_str() );
     }
 
@@ -339,7 +343,8 @@ void Pickup::pick_one_up( const tripoint &pickup_target, item &newit, vehicle *v
         got_water = true;
     } else if( !u.can_pickWeight( newit, false ) ) {
         add_msg( m_info, _( "The %s is too heavy!" ), newit.display_name().c_str() );
-    } else if( newit.is_ammo() && ( newit.ammo_type() == "arrow" || newit.ammo_type() == "bolt" ) ) {
+    } else if( newit.is_ammo() && ( newit.ammo_type() == ammotype( "arrow" ) ||
+                                    newit.ammo_type() == ammotype( "bolt" ) ) ) {
         // @todo Make quiver code generic so that ammo pouches can use it too
         //add ammo to quiver
         int quivered = handle_quiver_insertion( newit, moves_taken, picked_up );
@@ -668,6 +673,7 @@ void Pickup::pick_up( const tripoint &pos, int min )
 
         int start = 0, cur_it;
         player pl_copy = g->u;
+        pl_copy.set_fake( true );
         bool update = true;
         mvwprintw( w_pickup, 0, 0, _( "PICK UP" ) );
         int selected = 0;
@@ -838,6 +844,7 @@ void Pickup::pick_up( const tripoint &pos, int min )
                         getitem[i].pick = false;
                     }
                     pl_copy = g->u;
+                    pl_copy.set_fake( true );
                 }
                 update = true;
             }

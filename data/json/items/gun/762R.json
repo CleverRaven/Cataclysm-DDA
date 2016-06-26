@@ -24,11 +24,14 @@
     "name": "Mosin-Nagant M44-EBR",
     "name_plural": "Mosin-Nagant M44-EBR",
     "description": "This carbine packs the classic Mosin-Nagant model 44 action in a modern-day stock capable of accepting modifications.",
+    "material": [ "steel", "plastic" ],
+    "color": "light_gray",
     "relative" : { "price": 10000 },
     "valid_mod_locations": [ [ "accessories", 4 ], [ "barrel", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "muzzle", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ]
   },
   {
     "id": "mosin91_30",
+    "copy-from": "rifle_manual",
     "type": "GUN",
     "name": "Mosin-Nagant 1891/30",
     "name_plural": "Mosin-Nagant 1891/30",
@@ -39,13 +42,10 @@
     "bashing": 12,
     "to_hit": -1,
     "material": [ "steel", "wood" ],
-    "symbol": "(",
     "color": "brown",
-    "skill": "rifle",
     "ammo": "762R",
     "range": 3,
     "sight_dispersion": 60,
-    "aim_speed": 6,
     "recoil": 75,
     "durability": 10,
     "clip_size": 5,
@@ -60,6 +60,8 @@
     "name": "Mosin-Nagant 1891/30-EBR",
     "name_plural": "Mosin-Nagant 1891/30-EBR",
     "description": "This Mosin-Nagant has exchanged the classic wooden stock for a modern synthetic model, carefully balanced to the same weight and handling yet offering support for modern accessories.",
+    "material": [ "steel", "plastic" ],
+    "color": "light_gray",
     "relative" : { "price": 10000 },
     "valid_mod_locations": [ [ "accessories", 4 ], [ "barrel", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "muzzle", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ]
   }

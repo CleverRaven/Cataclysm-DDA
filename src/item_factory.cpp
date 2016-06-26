@@ -574,12 +574,12 @@ void Item_factory::add_category(const std::string &id, int sort_rank, const std:
 
 bool Item_factory::check_ammo_type( std::ostream &msg, const ammotype& ammo ) const
 {
-    if ( ammo == "NULL" || ammo == "pointer_fake_ammo" ) {
-        return false; // skip fake types
+    if ( ammo.is_null() ) {
+        return false;
     }
 
-    if (ammo_name(ammo) == "none") {
-        msg << string_format("ammo type %s not listed in ammo_name() function", ammo.c_str()) << "\n";
+    if( !ammo.is_valid() ) {
+        msg << string_format("ammo type %s is not known", ammo.c_str()) << "\n";
         return false;
     }
 
@@ -685,11 +685,7 @@ void Item_factory::check_definitions() const
             }
         }
         if( type->ammo ) {
-            if( type->ammo->type.empty() ) {
-                msg << "ammo does not specify a type" << "\n";
-            } else {
-                check_ammo_type( msg, type->ammo->type );
-            }
+            check_ammo_type( msg, type->ammo->type );
             if( type->ammo->casing != "null" && !has_template( type->ammo->casing ) ) {
                 msg << string_format( "invalid casing property %s", type->ammo->casing.c_str() ) << "\n";
             }
@@ -697,7 +693,7 @@ void Item_factory::check_definitions() const
         if( type->gun ) {
             check_ammo_type( msg, type->gun->ammo );
 
-            if( type->gun->ammo == "NULL" ) {
+            if( !type->gun->ammo ) {
                 // if gun doesn't use ammo forbid both integral or detachable magazines
                 if( bool( type->gun->clip ) || !type->magazines.empty() ) {
                     msg << "cannot specify clip_size or magazine without ammo type" << "\n";
@@ -752,7 +748,7 @@ void Item_factory::check_definitions() const
         if( type->magazine ) {
             magazines_defined.insert( type->id );
             check_ammo_type( msg, type->magazine->type );
-            if( type->magazine->type == "NULL" ) {
+            if( !type->magazine->type ) {
                 msg << "magazine did not specify ammo type" << "\n";
             }
             if( type->magazine->capacity < 0 ) {
@@ -1300,7 +1296,10 @@ void Item_factory::load( islot_gunmod &slot, JsonObject &jo )
     }
 
     if( jo.has_member( "acceptable_ammo" ) ) {
-        slot.acceptable_ammo = jo.get_tags( "acceptable_ammo" );
+        slot.acceptable_ammo.clear();
+        for( auto &e : jo.get_tags( "acceptable_ammo" ) ) {
+            slot.acceptable_ammo.insert( ammotype( e ) );
+        }
     }
 
     JsonArray mags = jo.get_array( "magazine_adaptor" );
@@ -1310,7 +1309,7 @@ void Item_factory::load( islot_gunmod &slot, JsonObject &jo )
     while( mags.has_more() ) {
         JsonArray arr = mags.next_array();
 
-        ammotype ammo = arr.get_string( 0 ); // an ammo type (eg. 9mm)
+        ammotype ammo( arr.get_string( 0 ) ); // an ammo type (eg. 9mm)
         JsonArray compat = arr.get_array( 1 ); // compatible magazines for this ammo type
 
         while( compat.has_more() ) {
@@ -1503,7 +1502,7 @@ void Item_factory::load_basic_info(JsonObject &jo, itype *new_item_template)
     while( mags.has_more() ) {
         JsonArray arr = mags.next_array();
 
-        ammotype ammo = arr.get_string( 0 ); // an ammo type (eg. 9mm)
+        ammotype ammo( arr.get_string( 0 ) ); // an ammo type (eg. 9mm)
         JsonArray compat = arr.get_array( 1 ); // compatible magazines for this ammo type
 
         // the first magazine for this ammo type is the default;

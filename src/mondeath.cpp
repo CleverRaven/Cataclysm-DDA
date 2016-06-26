@@ -19,6 +19,8 @@
 
 #include <math.h>  // rounding
 #include <sstream>
+#include <algorithm>
+#include <vector>
 
 const mtype_id mon_blob( "mon_blob" );
 const mtype_id mon_blob_brain( "mon_blob_brain" );
@@ -66,7 +68,7 @@ void mdeath::normal(monster *z)
     const int max_hp = std::max( z->get_hp_max(), 1 );
     const float overflow_damage = std::max( -z->get_hp(), 0 );
     const float corpse_damage = 2.5 * overflow_damage / max_hp;
-    const bool pulverized = corpse_damage > 5 && overflow_damage > 150;
+    const bool pulverized = corpse_damage > 5 && overflow_damage > z->get_hp_max();
 
     z->bleed(); // leave some blood if we have to
 
@@ -75,10 +77,17 @@ void mdeath::normal(monster *z)
     }
 
     // Limit chunking to flesh, veggy and insect creatures until other kinds are supported.
-    const bool gibbable = z->made_of( material_id( "flesh" ) )  ||
-                          z->made_of( material_id( "hflesh" ) ) ||
-                          z->made_of( material_id( "veggy" ) )  ||
-                          z->made_of( material_id( "iflesh" ) );
+    const std::vector<material_id> gib_mats = {{
+        material_id( "flesh" ), material_id( "hflesh" ),
+        material_id( "veggy" ), material_id( "iflesh" ),
+    }};
+    const bool gibbable = !z->type->has_flag( MF_NOGIB ) &&
+        std::any_of( gib_mats.begin(), gib_mats.end(), [&z]( const material_id &gm ) {
+            return z->made_of( gm );
+        } );
+
+    const field_id type_blood = z->bloodType();
+    const field_id type_gib = z->gibType();
 
     if( gibbable ) {
         const auto area = g->m.points_in_radius( z->pos(), 1 );
@@ -90,8 +99,45 @@ void mdeath::normal(monster *z)
         }
 
         for( int i = 0; i < number_of_gibs; ++i ) {
-            g->m.add_splatter( z->gibType(), random_entry( area ), rng( 1, i + 1 ) );
-            g->m.add_splatter( z->bloodType(), random_entry( area ) );
+            g->m.add_splatter( type_gib, random_entry( area ), rng( 1, i + 1 ) );
+            g->m.add_splatter( type_blood, random_entry( area ) );
+        }
+    }
+
+    const int num_chunks = z->type->get_meat_chunks_count();
+    const itype_id meat = z->type->get_meat_itype();
+
+    if( pulverized && gibbable ) {
+        for( int i = 0; i < num_chunks; i++ ) {
+            tripoint tarp( z->pos() + point( rng( -3, 3 ), rng( -3, 3 ) ) );
+            const auto traj = line_to( z->pos(), tarp );
+
+            for( size_t j = 0; j < traj.size(); j++ ) {
+                tarp = traj[j];
+                if( one_in( 2 ) && type_blood != fd_null ) {
+                    g->m.add_splatter( type_blood, tarp );
+                } else {
+                    g->m.add_splatter( type_gib, tarp, rng( 1, j + 1 ) );
+                }
+                if( g->m.impassable( tarp ) ) {
+                    g->m.bash( tarp, 3 );
+                    if( g->m.impassable( tarp ) ) {
+                        // Target is obstacle, not destroyed by bashing,
+                        // stop trajectory in front of it, if this is the first
+                        // point (e.g. wall adjacent to monster) , make it invalid.
+                        if( j > 0 ) {
+                            tarp = traj[j - 1];
+                        } else {
+                            tarp = tripoint_min;
+                        }
+                        break;
+                    }
+                }
+            }
+
+            if( tarp != tripoint_min ) {
+                g->m.spawn_item( tarp, meat );
+            }
         }
     }
 }
@@ -477,7 +523,7 @@ void mdeath::focused_beam(monster *z)
 {
 
     for (int k = g->m.i_at(z->pos()).size() - 1; k >= 0; k--) {
-        if (g->m.i_at(z->pos())[k].type->id == "processor") {
+        if (g->m.i_at(z->pos())[k].typeId() == "processor") {
             g->m.i_rem(z->pos(), k);
         }
     }

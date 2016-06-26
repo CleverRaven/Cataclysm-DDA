@@ -328,7 +328,7 @@ classes = {
             { name = "get_temperature", rval = "int", args = { } },
             { name = "handle_liquid", rval = "bool", args = { "item" } },
             { name = "increase_kill_count", rval = nil, args = { "mtype_id" } },
-            { name = "inv", rval = "int", args = { "int" } },
+            { name = "interactive_inv", rval = nil, args = { } },
             { name = "inv_for_all", rval = "int", args = { "string" } },
             { name = "inv_for_activatables", rval = "int", args = { "player", "string" } },
             { name = "inv_for_flag", rval = "int", args = { "string", "string" } },
@@ -596,7 +596,7 @@ classes = {
             { name = "has_container_for", rval = "bool", args = { "item" } },
             { name = "has_destination", rval = "bool", args = { } },
             { name = "has_grab_break_tec", rval = "bool", args = { } },
-            { name = "has_gun_for_ammo", rval = "bool", args = { "string" } },
+            { name = "has_gun_for_ammo", rval = "bool", args = { "ammotype" } },
             { name = "has_higher_trait", rval = "bool", args = { "string" } },
             { name = "has_identified", rval = "bool", args = { "string" } },
             { name = "has_item", rval = "bool", args = { "item" } },
@@ -657,7 +657,6 @@ classes = {
             { name = "item_handling_cost", rval = "int", args = { "item" } },
             { name = "item_handling_cost", rval = "int", args = { "item", "bool" } },
             { name = "item_handling_cost", rval = "int", args = { "item", "bool", "int" } },
-            { name = "item_handling_cost", rval = "int", args = { "item", "bool", "int", "int" } },
             { name = "item_reload_cost", rval = "int", args = { "item", "item", "int" } },
             { name = "knock_back_from", rval = nil, args = { "tripoint" } },
             { name = "knows_trap", rval = "bool", args = { "tripoint" } },
@@ -888,8 +887,8 @@ classes = {
             { name = "ammo_data", rval = "itype&", args = { } },
             { name = "ammo_remaining", rval = "int", args = { } },
             { name = "ammo_required", rval = "int", args = { } },
-            { name = "ammo_type", rval = "string", args = { "bool" } },
-            { name = "ammo_type", rval = "string", args = { } },
+            { name = "ammo_type", rval = "ammotype", args = { "bool" } },
+            { name = "ammo_type", rval = "ammotype", args = { } },
             { name = "amount_of", rval = "int", args = { "string", "bool" } },
             { name = "attack_time", rval = "int", args = { } },
             { name = "bash_resist", rval = "int", args = { } },
@@ -920,7 +919,7 @@ classes = {
             { name = "display_name", rval = "string", args = { "int" } },
             { name = "display_name", rval = "string", args = { } },
             { name = "erase_var", rval = nil, args = { "string" } },
-            { name = "fill_with", rval = "bool", args = { "item", "string", "bool" } },
+            { name = "fill_with", rval = nil, args = { "item" } },
             { name = "fire_resist", rval = "int", args = { } },
             { name = "fire_resist", rval = "int", args = { "bool" } },
             { name = "flammable", rval = "bool", args = { } },
@@ -1049,7 +1048,7 @@ classes = {
             { name = "put_in", rval = nil, args = { "item" } },
             { name = "quiver_store_arrow", rval = "int", args = { "item" } },
             { name = "ready_to_revive", rval = "bool", args = { "tripoint" } },
-            { name = "reduce_charges", rval = "bool", args = { "int" } },
+            { name = "mod_charges", rval = nil, args = { "int" } },
             { name = "reset_cable", rval = nil, args = { "player" } },
             { name = "rotten", rval = "bool", args = { } },
             { name = "serialize", rval = "string", args = { } },
@@ -1807,6 +1806,13 @@ classes = {
         functions = {
         }
     },
+    ammunition_type = {
+        string_id = "ammotype",
+        attributes = {
+        },
+        functions = {
+        }
+    },
     MonsterGroup = {
         string_id = "mongroup_id",
         attributes = {
@@ -1914,7 +1920,6 @@ classes = {
             default_container = { type = "string", writable = true },
             description = { type = "string", writable = true },
             explode_in_fire = { type = "bool", writable = true },
-            id = { type = "string" },
             integral_volume = { type = "int", writable = true },
             light_emission = { type = "int", writable = true },
             m_to_hit = { type = "int", writable = true },

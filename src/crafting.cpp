@@ -406,7 +406,7 @@ bool recipe::check_eligible_containers_for_crafting( int batch ) const
         if( charges_to_store > 0 ) {
             vehicle *veh = g->m.veh_at( g->u.pos() );
             if( veh != NULL ) {
-                const itype_id &ftype = prod.type->id;
+                const itype_id &ftype = prod.typeId();
                 int fuel_cap = veh->fuel_capacity( ftype );
                 int fuel_amnt = veh->fuel_left( ftype );
 
@@ -1277,7 +1277,7 @@ bool player::can_disassemble( const item &dis_item, const inventory &crafting_in
     }
 
     for( auto cur_recipe : recipe_dict ) {
-        if( dis_item.type->id == cur_recipe->result && cur_recipe->reversible ) {
+        if( dis_item.typeId() == cur_recipe->result && cur_recipe->reversible ) {
             return can_disassemble( dis_item, cur_recipe, crafting_inv, print_msg );
         }
     }
@@ -1382,7 +1382,7 @@ bool player::disassemble( int dis_pos )
 bool player::disassemble( item &dis_item, int dis_pos,
                           bool ground, bool msg_and_query )
 {
-    const recipe *cur_recipe = get_disassemble_recipe( dis_item.type->id );
+    const recipe *cur_recipe = get_disassemble_recipe( dis_item.typeId() );
 
     // No disassembly without proper light
     // But book-ripping is OK
@@ -1622,7 +1622,7 @@ void player::complete_disassemble( int item_pos, const tripoint &loc,
         return;
     }
 
-    if( org_item.type->id != dis.result ) {
+    if( org_item.typeId() != dis.result ) {
         add_msg( _( "The item might be gone, at least it is not at the expected position anymore." ) );
         activity.type = ACT_NULL;
         return;
@@ -1819,10 +1819,10 @@ void remove_ammo( item *dis_item, player &p )
         drop_or_handle( ammodrop, p );
         dis_item->charges = 0;
     }
-    if( dis_item->is_tool() && dis_item->charges > 0 && dis_item->ammo_type() != "NULL" ) {
+    if( dis_item->is_tool() && dis_item->charges > 0 && dis_item->ammo_type() ) {
         item ammodrop( default_ammo( dis_item->ammo_type() ), calendar::turn );
         ammodrop.charges = dis_item->charges;
-        if( dis_item->ammo_type() == "plutonium" ) {
+        if( dis_item->ammo_type() == ammotype( "plutonium" ) ) {
             ammodrop.charges /= PLUTONIUM_CHARGES;
         }
         drop_or_handle( ammodrop, p );

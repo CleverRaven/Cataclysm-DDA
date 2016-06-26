@@ -19,8 +19,6 @@ class ammunition_type
         std::string const &default_ammotype() const {
             return default_ammotype_;
         }
-
-        static ammunition_type const &find_ammunition_type( std::string const &ident );
     private:
         std::string name_;
         std::string default_ammotype_;

@@ -17,6 +17,8 @@
     "durability": 8,
     "burst": 4,
     "clip_size": 3000,
+    "reload_noise_volume": 4,
+    "reload_noise": "slosh.",
     "valid_mod_locations": [ [ "accessories", 1 ], [ "grip", 1 ] ]
   },
   {

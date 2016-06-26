@@ -82,6 +82,7 @@
 #include "recipe_dictionary.h"
 #include "cata_utility.h"
 #include "pathfinding.h"
+#include "projectile.h"
 #include "gates.h"
 #include "item_factory.h"
 #include "scent_map.h"
@@ -2301,7 +2302,7 @@ void game::rcdrive(int dx, int dy)
     auto rc_pairs = m.get_rc_items( cx, cy, cz );
     auto rc_pair = rc_pairs.begin();
     for( ; rc_pair != rc_pairs.end(); ++rc_pair ) {
-        if( rc_pair->second->type->id == "radio_car_on" && rc_pair->second->active ) {
+        if( rc_pair->second->typeId() == "radio_car_on" && rc_pair->second->active ) {
             break;
         }
     }
@@ -2759,17 +2760,10 @@ bool game::handle_action()
             zones_manager();
             break;
 
-        case ACTION_INVENTORY: {
-            int cMenu = ' ';
-            int position = INT_MIN;
-            do {
-                position = inv( position );
-                cMenu = inventory_item_menu(position);
-            } while (cMenu == ' ' || cMenu == '.' || cMenu == 'q' || cMenu == '\n' ||
-                     cMenu == KEY_ESCAPE || cMenu == KEY_LEFT || cMenu == '=');
+        case ACTION_INVENTORY:
+            interactive_inv();
             refresh_all();
-        }
-        break;
+            break;
 
         case ACTION_COMPARE:
             compare();
@@ -6785,7 +6779,7 @@ void game::emp_blast( const tripoint &p )
         }
         // TODO: More effects?
         //e-handcuffs effects
-        if (u.weapon.type->id == "e_handcuffs" && u.weapon.charges > 0){
+        if (u.weapon.typeId() == "e_handcuffs" && u.weapon.charges > 0){
             u.weapon.item_tags.erase("NO_UNWIELD");
             u.weapon.charges = 0;
             u.weapon.active = false;
@@ -6794,7 +6788,7 @@ void game::emp_blast( const tripoint &p )
     }
     // Drain any items of their battery charge
     for( auto it = m.i_at( x, y ).begin(); it != m.i_at( x, y ).end(); ++it ) {
-        if( it->is_tool() && it->ammo_type() == "battery" ) {
+        if( it->is_tool() && it->ammo_type() == ammotype( "battery" ) ) {
             it->charges = 0;
         }
     }
@@ -7255,7 +7249,7 @@ void game::close( const tripoint &closep )
 
 void game::smash()
 {
-    const int move_cost = int(u.weapon.is_null() ? 80 : u.weapon.attack_time() * 0.8);
+    const int move_cost = u.is_armed() ? 80 : u.weapon.attack_time() * 0.8;
     bool didit = false;
     ///\EFFECT_STR increases smashing capability
     int smashskill = int(u.str_cur + u.weapon.type->melee_dam);
@@ -10437,11 +10431,11 @@ void game::drop(std::vector<item> &dropped, std::vector<item> &dropped_worn,
 
     bool can_move_there = m.passable(dir);
 
-    itype_id first = itype_id(dropped[0].type->id);
+    itype_id first = dropped[0].typeId();
     bool same = true;
     for (std::vector<item>::iterator it = dropped.begin() + 1;
          it != dropped.end() && same; ++it) {
-        if (it->type->id != first) {
+        if (it->typeId() != first) {
             same = false;
         }
     }
@@ -10749,11 +10743,10 @@ bool game::plfire( const tripoint &default_target )
         if( gun->get_gun_ups_drain() > 0 ) {
             const int ups_drain       = gun->get_gun_ups_drain();
             const int adv_ups_drain   = std::max( 1, ups_drain * 3 / 5 );
-            const int bio_power_drain = std::max( 1, ups_drain / 5 );
 
             if( !( u.has_charges( "UPS_off", ups_drain ) ||
                    u.has_charges( "adv_UPS_off", adv_ups_drain ) ||
-                   (u.has_active_bionic( "bio_ups" ) && u.power_level >= bio_power_drain ) ) ) {
+                   (u.has_active_bionic( "bio_ups" ) && u.power_level >= ups_drain ) ) ) {
                 add_msg( m_info,
                          _("You need a UPS with at least %d charges or an advanced UPS with at least %d charges to fire that!"),
                          ups_drain, adv_ups_drain );
@@ -10903,7 +10896,7 @@ void game::butcher()
             continue;
         }
 
-        const recipe *cur_recipe = get_disassemble_recipe(items[i].type->id);
+        const recipe *cur_recipe = get_disassemble_recipe(items[i].typeId());
         if( cur_recipe == nullptr && !items[i].is_book() ) {
             continue;
         }
@@ -10934,7 +10927,7 @@ void game::butcher()
 
         if( first_item_without_tools != nullptr ) {
             add_msg( m_info, _("You don't have the necessary tools to disassemble any items here.") );
-            const recipe *cur_recipe = get_disassemble_recipe( first_item_without_tools->type->id );
+            const recipe *cur_recipe = get_disassemble_recipe( first_item_without_tools->typeId() );
             // Just for the "You need x to disassemble y" messages
             u.can_disassemble( *first_item_without_tools, cur_recipe, crafting_inv, true );
         }
@@ -11095,7 +11088,7 @@ void game::eat(int pos)
 
     // Can consume items from inventory or within one tile (including in vehicles)
     auto item_loc = inv_map_splice( [&]( const item &it ) {
-        if( it.type->id == "1st_aid" ) {
+        if( it.typeId() == "1st_aid" ) {
             return false; // temporary fix for #12991
         }
         return it.made_of( SOLID ) && (it.is_food( &u ) || it.is_food_container( &u ) );
@@ -11321,7 +11314,7 @@ bool game::unload( item &it )
     item *target = opts.size() > 1 ? opts[ ( uimenu( false, _("Unload what?"), msgs ) ) - 1 ] : &it;
 
     // Next check for any reasons why the item cannot be unloaded
-    if( target->ammo_type() == "NULL" || target->ammo_capacity() <= 0 ) {
+    if( !target->ammo_type() || target->ammo_capacity() <= 0 ) {
         add_msg( m_info, _("You can't unload a %s!"), target->tname().c_str() );
         return false;
     }
@@ -11382,7 +11375,7 @@ bool game::unload( item &it )
     } else {
         long qty = target->ammo_remaining();
 
-        if( target->ammo_type() == "plutonium" ) {
+        if( target->ammo_type() == ammotype( "plutonium" ) ) {
             qty = target->ammo_remaining() / PLUTONIUM_CHARGES;
             if( qty > 0 ) {
                 add_msg( _( "You recover %i unused plutonium." ), qty );
@@ -11410,11 +11403,11 @@ bool game::unload( item &it )
         // If successful remove appropriate qty of ammo consuming half as much time as required to load it
         u.moves -= u.item_reload_cost( *target, ammo, qty ) / 2;
 
-        if( target->ammo_type() == "plutonium" ) {
+        if( target->ammo_type() == ammotype( "plutonium" ) ) {
             qty *= PLUTONIUM_CHARGES;
         }
 
-        target->ammo_set( target->ammo_type(), target->ammo_remaining() - qty );
+        target->ammo_set( target->ammo_current(), target->ammo_remaining() - qty );
     }
 
     // Turn off any active tools
@@ -11955,19 +11948,7 @@ bool game::plmove(int dx, int dy, int dz)
     // Invalid move
     const bool waste_moves = u.is_blind() || u.has_effect( effect_stunned );
     if( waste_moves || dest_loc.z != u.posz() ) {
-        std::string obstacle_name;
-        int part;
-        vehicle *veh = m.veh_at( dest_loc, part );
-        if( veh != nullptr ) {
-            // redefine variable as id of obstacle part
-            part = veh->obstacle_at_part( part );
-            if( part > 0 ) {
-                obstacle_name = veh->parts[ part ].name();
-            }
-        } else {
-            obstacle_name = m.name( dest_loc );
-        }
-        add_msg( _( "You bump into a %s!" ), obstacle_name.c_str() );
+        add_msg( _( "You bump into the %s!" ), m.obstacle_name( dest_loc ).c_str() );
         // Only lose movement if we're blind
         if( waste_moves ) {
             u.moves -= 100;
@@ -13935,14 +13916,6 @@ void game::wait()
 
     u.assign_activity( new_act, false );
     u.rooted_message();
-}
-
-void game::gameover()
-{
-    erase();
-    gamemode->game_over();
-    mvprintw(0, 35, _("GAME OVER"));
-    inv();
 }
 
 bool game::game_quit()

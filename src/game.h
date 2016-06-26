@@ -84,7 +84,8 @@ struct special_game;
 struct mtype;
 using mtype_id = string_id<mtype>;
 using itype_id = std::string;
-using ammotype = std::string;
+class ammunition_type;
+using ammotype = string_id<ammunition_type>;
 class mission;
 class map;
 class Creature;
@@ -438,7 +439,8 @@ class game
 
         item *inv_map_for_liquid(const item &liquid, const std::string &title, int radius = 0);
 
-        int inv( int position = INT_MIN );
+        void interactive_inv();
+
         int inv_for_filter( const std::string &title, item_filter filter, const std::string &none_message = "" );
         int inv_for_all( const std::string &title, const std::string &none_message = "" );
         int inv_for_activatables( const player &p, const std::string &title );
@@ -871,7 +873,6 @@ private:
 
         bool is_game_over();     // Returns true if the player quit or died
         void death_screen();     // Display our stats, "GAME OVER BOO HOO"
-        void gameover();         // Ends the game
         void msg_buffer();       // Opens a window with old messages in it
         void draw_minimap();     // Draw the 5x5 minimap
         void draw_HP();          // Draws the player's HP and Power level

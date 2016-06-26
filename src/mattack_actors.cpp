@@ -304,7 +304,7 @@ bool gun_actor::call( monster &z ) const
     if( z.friendly ) {
         int max_range = 0;
         for( const auto &e : ranges ) {
-            max_range = std::max( { max_range, e.first.first, e.first.second } );
+            max_range = std::max( std::max( max_range, e.first.first ), e.first.second );
         }
 
         int hostiles; // hostiles which cannot be engaged without risking friendly fire
@@ -375,8 +375,8 @@ void gun_actor::shoot( monster &z, Creature &target, const std::string &mode ) c
     item gun( gun_type );
     gun.gun_set_mode( mode );
 
-    itype_id ammo = ( ammo_type != "NULL" ) ? ammo_type : gun.ammo_default();
-    if( ammo != "NULL" ) {
+    itype_id ammo = ( ammo_type != "null" ) ? ammo_type : gun.ammo_default();
+    if( ammo != "null" ) {
         gun.ammo_set( ammo, z.ammo[ ammo ] );
     }
 

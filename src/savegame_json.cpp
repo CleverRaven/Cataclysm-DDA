@@ -1406,7 +1406,7 @@ void item::io( Archive& archive )
         }
     };
 
-    archive.template io<const itype>( "typeid", type, load_type, []( const itype& i ) { return i.id; }, io::required_tag() );
+    archive.template io<const itype>( "typeid", type, load_type, []( const itype& i ) { return i.get_id(); }, io::required_tag() );
 
     // normalize legacy saves to always have charges >= 0
     archive.io( "charges", charges, 0L );
@@ -1434,8 +1434,10 @@ void item::io( Archive& archive )
     archive.io( "item_tags", item_tags, io::empty_default_tag() );
     archive.io( "contents", contents, io::empty_default_tag() );
     archive.io( "components", components, io::empty_default_tag() );
-    archive.template io<const itype>( "curammo", curammo, load_curammo, []( const itype& i ) { return i.id; } );
-    archive.template io<const mtype>( "corpse", corpse, load_corpse, []( const mtype& i ) { return i.id.str(); } );
+    archive.template io<const itype>( "curammo", curammo, load_curammo,
+                                      []( const itype& i ) { return i.get_id(); } );
+    archive.template io<const mtype>( "corpse", corpse, load_corpse,
+                                      []( const mtype& i ) { return i.id.str(); } );
     archive.io( "light", light.luminance, nolight.luminance );
     archive.io( "light_width", light.width, nolight.width );
     archive.io( "light_dir", light.direction, nolight.direction );
@@ -1460,10 +1462,10 @@ void item::io( Archive& archive )
     }
 
     // Compatiblity for item type changes: for example soap changed from being a generic item
-    // (item::charges == -1) to comestible (and thereby counted by charges), old saves still have
-    // charges == -1, this fixes the charges value to the default charges.
-    if( count_by_charges() && charges < 0 ) {
-        charges = item( type->id, 0 ).charges;
+    // (item::charges -1 or 0 or anything else) to comestible (and thereby counted by charges),
+    // old saves still have invalid charges, this fixes the charges value to the default charges.
+    if( count_by_charges() && charges <= 0 ) {
+        charges = item( type, 0 ).charges;
     }
     if( !active && !rotten() && goes_bad() ) {
         // Rotting found *must* be active to trigger the rotting process,
@@ -2063,7 +2065,8 @@ void player_morale::morale_point::serialize( JsonOut &json ) const
     json.start_object();
     json.member( "type_enum", static_cast<int>( type ) );
     if( item_type != NULL ) {
-        json.member( "item_type", item_type->id );
+        // @todo refactor player_morale to not require this hack
+        json.member( "item_type", item_type->get_id() );
     }
     json.member( "bonus", bonus );
     json.member( "duration", duration );

@@ -1,5 +1,6 @@
 #include "game.h"
 
+#include <algorithm>
 #include <iostream>
 #include <iterator>
 
@@ -26,7 +27,7 @@ void game::dump_stats( const std::string& what, dump_mode mode )
         auto dump = [&rows]( const item& obj ) {
             std::vector<std::string> r;
             r.push_back( obj.tname( false ) );
-            r.push_back( obj.type->ammo->type );
+            r.push_back( obj.type->ammo->type.str() );
             r.push_back( to_string( obj.volume() ) );
             r.push_back( to_string( obj.weight() ) );
             r.push_back( to_string( obj.type->stack_size ) );
@@ -98,7 +99,7 @@ void game::dump_stats( const std::string& what, dump_mode mode )
         auto dump = [&rows,&locations]( const item& obj ) {
             std::vector<std::string> r;
             r.push_back( obj.tname( false ) );
-            r.push_back( obj.ammo_type() != "NULL" ? obj.ammo_type() : "" );
+            r.push_back( obj.ammo_type() ? obj.ammo_type().str() : "" );
             r.push_back( to_string( obj.volume() ) );
             r.push_back( to_string( obj.weight() ) );
             r.push_back( to_string( obj.ammo_capacity() ) );

@@ -37,6 +37,7 @@
 #include <queue>
 #include <math.h>
 #include <array>
+#include <numeric>
 
 /*
  * Speed up all those if ( blarg == "structure" ) statements that are used everywhere;
@@ -1460,14 +1461,20 @@ bool vehicle::start_engine( const int e )
 
 void vehicle::start_engines( const bool take_control )
 {
-    int has_engine = false;
-    int start_time = 0;
+    bool has_engine = std::any_of( engines.begin(), engines.end(), [&]( int idx ) {
+        return parts[ idx ].hp > 0 && parts[ idx ].enabled;
+    } );
 
-    // if we only have one engine automatically enable it when trying to start engines
-    if( engines.size() == 1 && parts[ engines.front() ].hp > 0 ) {
-        parts[ engines.front() ].enabled = true;
+    // if no engines enabled then enable all before trying to start the vehicle
+    if( !has_engine ) {
+        for( auto idx : engines ) {
+            if( parts[ idx ].hp > 0 ) {
+                parts[ idx ].enabled = true;
+            }
+        }
     }
 
+    int start_time = 0;
     for( size_t e = 0; e < engines.size(); ++e ) {
         has_engine = has_engine || is_engine_on( e );
         start_time = std::max( start_time, engine_start_time( e ) );
@@ -3953,14 +3960,14 @@ void vehicle::operate_reaper(){
         const int seed_produced = rng(1, 3);
         const int max_pickup_size = parts[reaper_id].info().size / 20;
         if( g->m.furn(reaper_pos) == f_plant_harvest ){
-            const itype &type = *g->m.i_at(reaper_pos).front().type;
-            if( type.id == "fungal_seeds" || type.id == "marloss_seed" ) {
+            const item& seed = g->m.i_at(reaper_pos).front();
+            if( seed.typeId() == "fungal_seeds" || seed.typeId() == "marloss_seed" ) {
                 // Otherworldly plants, the earth-made reaper can not handle those.
                 continue;
             }
             g->m.furn_set( reaper_pos, f_null );
             g->m.i_clear( reaper_pos );
-            for( auto &i : iexamine::get_harvest_items( type, plant_produced, seed_produced, false ) ) {
+            for( auto &i : iexamine::get_harvest_items( *seed.type, plant_produced, seed_produced, false ) ) {
                 g->m.add_item_or_charges( reaper_pos, i );
             }
             sounds::sound( reaper_pos, rng( 10, 25 ), _("Swish") );

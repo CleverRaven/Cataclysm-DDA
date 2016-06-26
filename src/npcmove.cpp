@@ -4,6 +4,7 @@
 #include "game.h"
 #include "map.h"
 #include "map_iterator.h"
+#include "projectile.h"
 #include "line.h"
 #include "debug.h"
 #include "overmapbuffer.h"
@@ -16,6 +17,8 @@
 #include "mtype.h"
 #include "field.h"
 #include "sounds.h"
+
+#include <algorithm>
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_NPC) << __FILE__ << ":" << __LINE__ << ": "
 #define TARGET_NONE INT_MIN
@@ -1151,7 +1154,7 @@ int npc::choose_escape_item()
         item &it = slice[i]->front();
         for (int j = 0; j < NUM_ESCAPE_ITEMS; j++) {
             const auto food = it.type->comestible.get();
-            if (it.type->id == ESCAPE_ITEMS[j] &&
+            if (it.typeId() == ESCAPE_ITEMS[j] &&
                 (food == NULL || stim < food->stim ||            // Avoid guzzling down
                  (food->stim >= 10 && stim < food->stim * 2)) && //  Adderall etc.
                 (j > best || (j == best && it.charges < slice[ret]->front().charges))) {
@@ -1543,7 +1546,7 @@ void npc::move_to( const tripoint &pt, bool no_bashing )
         }
     } else if( !no_bashing && smash_ability() > 0 && g->m.is_bashable( p ) &&
                g->m.bash_rating( smash_ability(), p ) > 0 ) {
-        moves -= int(weapon.is_null() ? 80 : weapon.attack_time() * 0.8);
+        moves -= is_armed() ? 80 : weapon.attack_time() * 0.8;
         g->m.bash( p, smash_ability() );
     } else {
         if( attitude == NPCATT_MUG ||
@@ -2235,13 +2238,13 @@ void npc::alt_attack()
 
     int weapon_index = INT_MIN;
     item *used = nullptr;
-    if (weapon.type->id == which) {
+    if (weapon.typeId() == which) {
         used = &weapon;
         weapon_index = -1;
     } else {
         invslice slice = inv.slice();
         for (size_t i = 0; i < inv.size(); i++) {
-            if (slice[i]->front().type->id == which) {
+            if (slice[i]->front().typeId() == which) {
                 used = &(slice[i]->front());
                 weapon_index = i;
             }
@@ -2375,7 +2378,7 @@ void npc::activate_item(int item_index)
 
 bool thrown_item( item &used )
 {
-    const itype_id &type = used.type->id;
+    const itype_id type = used.typeId();
     // TODO: Remove the horrid hardcode
     return (used.active || type == "knife_combat" || type == "spear_wood");
 }

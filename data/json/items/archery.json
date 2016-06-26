@@ -142,8 +142,7 @@
       "dispersion" : 435,
       "recoil" : 0,
       "count" : 10,
-      "flags" : ["NOGIB"],
-      "effects" : ["RECOVER_5"]
+      "effects" : [ "RECOVER_5", "NOGIB" ]
    },
    {
       "type" : "AMMO",
@@ -207,8 +206,7 @@
       "recoil" : 0,
       "loudness": 0,
       "count" : 10,
-      "flags" : ["NOGIB"],
-      "effects" : ["RECOVER_5"]
+      "effects" : [ "RECOVER_5", "NOGIB" ]
    },
    {
       "type" : "AMMO",

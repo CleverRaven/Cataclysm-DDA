@@ -1292,7 +1292,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                     case fd_push_items: {
                         auto items = i_at( p );
                         for( auto pushee = items.begin(); pushee != items.end(); ) {
-                            if( pushee->type->id != "rock" ||
+                            if( pushee->typeId() != "rock" ||
                                 pushee->bday >= int(calendar::turn) - 1 ) {
                                 pushee++;
                             } else {
