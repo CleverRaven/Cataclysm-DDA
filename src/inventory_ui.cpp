@@ -32,28 +32,22 @@ struct inventory_entry {
     public:
     /** The category of an item. */
     const item_category *category;
-    /** The item position in the players inventory. It should be unique as it
-     * is used by the drop map in inventory_selector. */
-    int item_pos;
     size_t chosen_count = 0;
 
     inventory_entry( const indexed_invslice::value_type &slice, const item_category *cat = nullptr )
         : it( &( slice.first->front() ) ),
           slice( slice.first ),
-          category( ( cat != nullptr ) ? cat : &it->get_category() ),
-          item_pos( slice.second ) {}
+          category( ( cat != nullptr ) ? cat : &it->get_category() ) {}
 
-    inventory_entry( const item *it, int pos, const item_category *cat = nullptr )
+    inventory_entry( const item *it, const item_category *cat = nullptr )
         : it( it ),
           slice( nullptr ),
-          category( ( cat != nullptr ) ? cat : &it->get_category() ),
-          item_pos( pos ) {}
+          category( ( cat != nullptr ) ? cat : &it->get_category() ) {}
 
     inventory_entry( const item_category *cat = nullptr )
         : it( nullptr ),
           slice( nullptr ),
-          category( cat ),
-          item_pos( INT_MIN ) {}
+          category( cat ) {}
     // used for searching the category header, only the item pointer and the category are important there
     bool operator == ( const inventory_entry &other) const {
         return category == other.category && it == other.it;
@@ -83,6 +77,10 @@ struct inventory_entry {
             return nullitem;
         }
         return *it;
+    }
+
+    int get_pos() const {
+        return g->u.get_item_position( it );
     }
 
     bool is_item() const {
@@ -629,9 +627,9 @@ nc_color selection_column::get_entry_color( const inventory_entry &entry ) const
 {
     if( !entry.is_item() || is_selected( entry ) ) {
         return inventory_column::get_entry_color( entry );
-    } else if( entry.item_pos == -1 ) {
+    } else if( entry.get_pos() == -1 ) {
         return c_ltblue;
-    } else if( entry.item_pos <= -2 ) {
+    } else if( entry.get_pos() <= -2 ) {
         return c_cyan;
     }
 
@@ -826,15 +824,13 @@ inventory_selector::inventory_selector( player &u, item_filter filter )
     }
 
     if( u.is_armed() && filter( u.weapon ) ) {
-        second_column->add_entry( inventory_entry( &u.weapon, -1, &weapon_cat ) );
+        second_column->add_entry( inventory_entry( &u.weapon, &weapon_cat ) );
     }
 
-    size_t i = 0;
-    for( const auto &it : u.worn ) {
+    for( auto &it : u.worn ) {
         if( filter( it ) ) {
-            second_column->add_entry( inventory_entry( &it, player::worn_position_to_index( i ), &worn_cat ) );
+            second_column->add_entry( inventory_entry( &it, &worn_cat ) );
         }
-        ++i;
     }
 
     if( !second_column->empty() ) {
@@ -875,7 +871,7 @@ void inventory_selector::on_change( const inventory_entry &entry )
 
 void inventory_selector::set_drop_count( inventory_entry &entry, size_t count )
 {
-    const auto iter = dropping.find( entry.item_pos );
+    const auto iter = dropping.find( entry.get_pos() );
 
     if( count == 0 && iter != dropping.end() ) {
         entry.chosen_count = 0;
@@ -884,7 +880,7 @@ void inventory_selector::set_drop_count( inventory_entry &entry, size_t count )
         entry.chosen_count = ( count == 0 )
             ? entry.get_available_count()
             : std::min( count, entry.get_available_count() );
-        dropping[entry.item_pos] = entry.chosen_count;
+        dropping[entry.get_pos()] = entry.chosen_count;
     }
 
     on_change( entry );
@@ -1006,9 +1002,9 @@ int inventory_selector::execute_pick( const std::string &title )
         const auto entry = find_entry_by_invlet( ch );
 
         if( entry != nullptr ) {
-            return entry->item_pos;
+            return entry->get_pos();
         } else if ( action == "CONFIRM" || action == "RIGHT" ) {
-            return get_active_column().get_selected().item_pos;
+            return get_active_column().get_selected().get_pos();
         } else if ( action == "QUIT" ) {
             return INT_MIN;
         } else {
@@ -1040,7 +1036,7 @@ item_location inventory_selector::execute_pick_map( const std::string &title, st
             const auto it = const_cast<item *>( &selected.get_item() );
 
             // Item in inventory
-            if( selected.item_pos != INT_MIN ) {
+            if( selected.get_pos() != INT_MIN ) {
                 return item_location( u, it );
             }
             // Item on ground or in vehicle
