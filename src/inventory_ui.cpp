@@ -22,11 +22,14 @@
 #include <algorithm>
 
 struct inventory_entry {
+    private:
+        /** Pointer into an inventory slice, can be NULL, if not NULL, it should not
+        * point to an empty list. The first entry should be the same as @ref it. */
+        const std::list<item> *slice;
+
+    public:
     /** The item that should be displayed here. Can be NULL. */
     const item *it;
-    /** Pointer into an inventory slice, can be NULL, if not NULL, it should not
-     * point to an empty list. The first entry should be the same as @ref it. */
-    const std::list<item> *slice;
     /** The category of an item. */
     const item_category *category;
     /** The item position in the players inventory. It should be unique as it
@@ -60,8 +63,17 @@ struct inventory_entry {
         return !( *this == other );
     }
 
+    size_t get_stack_size() const {
+        return ( slice != nullptr ) ? slice->size() : ( it != nullptr ) ? 1 : 0;
+    }
+
     size_t get_available_count() const {
-        return ( item_pos != INT_MIN ) ? inventory::num_items_at_position( item_pos ) : 0;
+        const size_t stack_size = get_stack_size();
+        if( stack_size == 1 && it != nullptr ) {
+            return it->count_by_charges() ? it->charges : 1;
+        } else {
+            return stack_size;
+        }
     }
 
     bool is_item() const {
@@ -493,7 +505,7 @@ std::string inventory_column::get_entry_text( const inventory_entry &entry ) con
             res << " </color>";
         }
 
-        const size_t count = ( entry.slice != nullptr ) ? entry.slice->size() : 1;
+        const size_t count = entry.get_stack_size();
         if( count > 1 ) {
             res << count << ' ';
         }
@@ -583,17 +595,13 @@ std::string selection_column::get_entry_text( const inventory_entry &entry ) con
             res << entry.it->symbol() << ' ';
         }
 
-        size_t count;
-        if( entry.chosen_count > 0 && entry.chosen_count < entry.get_available_count() ) {
-            count = entry.get_available_count();
-            res << string_format( _( "%d of %d"), entry.chosen_count, count ) << ' ';
-        } else {
-            count = ( entry.slice != nullptr ) ? entry.slice->size() : 1;
-            if( count > 1 ) {
-                res << count << ' ';
-            }
+        const size_t available_count = entry.get_available_count();
+        if( entry.chosen_count > 0 && entry.chosen_count < available_count ) {
+            res << string_format( _( "%d of %d"), entry.chosen_count, available_count ) << ' ';
+        } else if( available_count != 1 ) {
+            res << available_count << ' ';
         }
-        res << entry.it->display_name( count );
+        res << entry.it->display_name( available_count );
     } else {
         res << inventory_column::get_entry_text( entry ) << ' ';
 
@@ -1389,24 +1397,6 @@ item *game::inv_map_for_liquid(const item &liquid, const std::string &title, int
     return inv_map_splice( inv_filter, bucket_filter, sealable_filter, title, radius,
                            string_format( _( "You don't have a suitable container for carrying %s." ),
                            liquid.type_name( 1 ).c_str() ) ).get_item();
-}
-
-int inventory::num_items_at_position( int const position )
-{
-    if( position < -1 ) {
-        const item& armor = g->u.i_at( position );
-        return armor.count_by_charges() ? armor.charges : 1;
-    } else if( position == -1 ) {
-        return g->u.weapon.count_by_charges() ? g->u.weapon.charges : 1;
-    } else {
-        const std::list<item> &stack = g->u.inv.const_stack(position);
-        if( stack.size() == 1 ) {
-            return stack.front().count_by_charges() ?
-                stack.front().charges : 1;
-        } else {
-            return stack.size();
-        }
-    }
 }
 
 std::list<std::pair<int, int>> game::multidrop()
