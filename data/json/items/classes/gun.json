@@ -80,6 +80,7 @@
     "type": "GUN",
     "name": "base shotgun",
     "skill": "shotgun",
+    "ammo": "shot",
     "aim_speed": 6
   },
   {

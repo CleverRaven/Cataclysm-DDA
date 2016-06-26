@@ -237,6 +237,7 @@
     "id" : "guns_shotgun_rare",
     "//" : "Less common shotguns including those only used by police/paramilitary forces.",
     "items": [
+      [ "ksg", 50 ],
       [ "m1014", 80 ],
       [ "rm120c", 30 ],
       [ "rm228", 30 ],
