@@ -59,7 +59,8 @@ TEST_CASE( "visitable_remove", "[visitable]" ) {
     tripoint veh = random_entry( tiles );
     REQUIRE( g->m.add_vehicle( vproto_id( "shopping_cart" ), veh, 0 ) );
 
-    item obj = item( liquid_id ).in_its_container();
+    item temp_liquid( liquid_id );
+    item obj = temp_liquid.in_container( temp_liquid.type->default_container );
     REQUIRE( obj.contents.size() == 1 );
     REQUIRE( obj.contents.front().typeId() == liquid_id );
 
