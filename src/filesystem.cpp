@@ -45,7 +45,11 @@ namespace {
 bool do_mkdir(std::string const& path, int const mode)
 {
     (void)mode; //not used on windows
+#ifdef _MSC_VER
+    return _mkdir(path.c_str()) == 0;
+#else
     return mkdir(path.c_str()) == 0;
+#endif
 }
 #else
 bool do_mkdir(std::string const& path, int const mode)

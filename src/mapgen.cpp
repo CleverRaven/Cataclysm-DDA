@@ -237,7 +237,7 @@ std::map<std::string, std::vector<mapgen_function*> > oter_mapgen;
 std::map<std::string, std::map<int, int> > oter_mapgen_weights;
 
 /*
- * setup oter_mapgen_weights which which mapgen uses to diceroll. Also setup mapgen_function_json
+ * setup oter_mapgen_weights which mapgen uses to diceroll. Also setup mapgen_function_json
  */
 void calculate_mapgen_weights() { // todo; rename as it runs jsonfunction setup too
     oter_mapgen_weights.clear();
@@ -250,19 +250,18 @@ void calculate_mapgen_weights() { // todo; rename as it runs jsonfunction setup 
             int weight = (*fit)->weight;
             if ( weight < 1 ) {
                 dbg(D_INFO) << "wcalc " << oit->first << "(" << funcnum << "): (rej(1), " << weight << ") = " << wtotal;
-                funcnum++;
+                ++funcnum;
                 continue; // rejected!
             }
-            if ( ! (*fit)->setup() ) {
+            if( !(*fit)->setup() ) {
                 dbg(D_INFO) << "wcalc " << oit->first << "(" << funcnum << "): (rej(2), " << weight << ") = " << wtotal;
-                funcnum++;
-                continue; // disqualify! doesn't get to play in the pool
+                ++funcnum;
+				continue; // disqualify! doesn't get to play in the pool
             }
-            //
             wtotal += weight;
             oter_mapgen_weights[ oit->first ][ wtotal ] = funcnum;
             dbg(D_INFO) << "wcalc " << oit->first << "(" << funcnum << "): +" << weight << " = " << wtotal;
-            funcnum++;
+            ++funcnum;
         }
     }
 }

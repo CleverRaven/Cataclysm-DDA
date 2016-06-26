@@ -89,5 +89,4 @@
 #   if defined(SDL_SOUND)
 #       include <SDL2/SDL_mixer.h>
 #   endif
-
 #endif
