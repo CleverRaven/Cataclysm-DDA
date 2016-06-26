@@ -8977,10 +8977,10 @@ item player::reduce_charges( int position, long quantity )
         debugmsg( "invalid item position %d for reduce_charges", position );
         return ret_null;
     }
-    it.mod_charges( -quantity );
-    if( it.charges <= 0 ) {
+    if( it.charges <= quantity ) {
         return i_rem( position );
     }
+    it.mod_charges( -quantity );
     item tmp( it );
     tmp.charges = quantity;
     return tmp;
@@ -8992,10 +8992,10 @@ item player::reduce_charges( item *it, long quantity )
         debugmsg( "invalid item (name %s) for reduce_charges", it->tname().c_str() );
         return ret_null;
     }
-    it->mod_charges( -quantity );
-    if( it->charges <= 0 ) {
+    if( it->charges <= quantity ) {
         return i_rem( it );
     }
+    it->mod_charges( -quantity );
     item result( *it );
     result.charges = quantity;
     return result;

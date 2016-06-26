@@ -1564,9 +1564,12 @@ void advanced_inventory::display()
                 // only remove item or charges if the add succeeded
                 if(items_left == 0) {
                     if(by_charges) {
-                        // `amount_to_move' will be `true' if the item needs to be removed
-                        sitem->items.front()->mod_charges( -amount_to_move );
-                        amount_to_move = sitem->items.front()->charges <= 0;
+                        item *it = sitem->items.front();
+                        if( it->charges <= amount_to_move ) {
+                            amount_to_move = 1; // `amount_to_move' will be `true' if the item needs to be removed
+                        } else {
+                            it->mod_charges( -amount_to_move );
+                        }
                     }
                     remove_item(*sitem, amount_to_move);
                 // note to the player (and possibly debug) that the item transfer failed somehow
