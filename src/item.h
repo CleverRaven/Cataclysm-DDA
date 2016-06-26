@@ -449,11 +449,8 @@ class item : public JsonSerializer, public JsonDeserializer, public visitable<it
      * Fill item with liquid up to its capacity. This works for guns and tools that accept
      * liquid ammo.
      * @param liquid Liquid to fill the container with.
-     * @param err Contains error message if function returns false.
-     * @param allow_bucket Allow filling non-sealable containers
-     * @return Returns false in case of error. Nothing has been added in that case.
      */
-    bool fill_with( item &liquid, std::string &err, bool allow_bucket );
+    void fill_with( item &liquid, long amount = INFINITE_CHARGES );
     /**
      * How much more of this liquid (in charges) can be put in this container.
      * If this is not a container (or not suitable for the liquid), it returns 0.
@@ -461,7 +458,10 @@ class item : public JsonSerializer, public JsonDeserializer, public visitable<it
      * Also note that this works for guns and tools that accept liquid ammo.
      * @param allow_bucket Allow filling non-sealable containers
      */
-    long get_remaining_capacity_for_liquid( const item &liquid, bool allow_bucket = false ) const;
+    long get_remaining_capacity_for_liquid( const item &liquid, bool allow_bucket = false,
+                                            int volume_limit = INT_MAX ) const;
+    long get_remaining_capacity_for_liquid( const item &liquid, std::string &err,
+                                            bool allow_bucket = false, int volume_limit = INT_MAX ) const;
     /**
      * It returns the total capacity (volume) of the container. This is a volume,
      * use @ref liquid_charges (of a liquid item) to translate that volume to the
@@ -504,16 +504,12 @@ class item : public JsonSerializer, public JsonDeserializer, public visitable<it
     bool craft_has_charges();
 
     /**
-     * Reduce the charges of this item, only use for items counted by charges!
+     * Modify the charges of this item, only use for items counted by charges!
      * The item must have enough charges for this (>= quantity) and be counted
      * by charges.
      * @param quantity How many charges should be removed.
-     * @return true if all charges would have been removed and the item must be destroyed.
-     * The charges member is not changed in that case (for usage in `player::i_rem`
-     * which returns the removed item).
-     * False if there are charges remaining, the charges have been reduced in that case.
      */
-    bool reduce_charges( long quantity );
+    void mod_charges( long mod );
 
     /**
      * Accumulate rot of the item since last rot calculation.
@@ -786,6 +782,8 @@ public:
          * @see player::can_reload()
          */
         bool is_reloadable() const;
+        /** Returns true if this item can be reloaded with @param it. */
+        bool is_reloadable_with( const itype_id& ammo ) const;
 
         bool is_dangerous() const; // Is it an active grenade or something similar that will hurt us?
 
@@ -893,6 +891,7 @@ public:
          */
         /*@{*/
         long liquid_charges( long units ) const;
+        long liquid_charges_per_volume( int volume ) const;
         long liquid_units( long charges ) const;
         /*@}*/
 
@@ -1415,9 +1414,6 @@ public:
         bool has_infinite_charges() const;
 
     private:
-        /** Helper for liquid and container related stuff. */
-        enum LIQUID_FILL_ERROR : int;
-        LIQUID_FILL_ERROR has_valid_capacity_for_liquid( const item &liquid, bool allow_bucket ) const;
         std::string name;
         const itype* curammo = nullptr;
         std::map<std::string, std::string> item_vars;

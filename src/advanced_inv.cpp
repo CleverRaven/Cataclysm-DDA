@@ -1565,7 +1565,8 @@ void advanced_inventory::display()
                 if(items_left == 0) {
                     if(by_charges) {
                         // `amount_to_move' will be `true' if the item needs to be removed
-                        amount_to_move = sitem->items.front()->reduce_charges(amount_to_move);
+                        sitem->items.front()->mod_charges( -amount_to_move );
+                        amount_to_move = sitem->items.front()->charges <= 0;
                     }
                     remove_item(*sitem, amount_to_move);
                 // note to the player (and possibly debug) that the item transfer failed somehow
@@ -1986,12 +1987,12 @@ bool advanced_inventory::move_content( item &src_container, item &dest_container
 
     std::string err;
     // @todo Allow buckets here, but require them to be on the ground or wielded
-    if( !dest_container.fill_with( src, err, false ) ) {
+    const long amount = dest_container.get_remaining_capacity_for_liquid( src, err, false );
+    if( !err.empty() ) {
         popup( err.c_str() );
         return false;
     }
-
-    src_container.on_contents_changed();
+    dest_container.fill_with( src, amount );
 
     uistate.adv_inv_container_content_type = dest_container.contents.front().typeId();
     if( src.charges <= 0 ) {

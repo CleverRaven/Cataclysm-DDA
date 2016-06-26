@@ -67,11 +67,6 @@ const efftype_id effect_shakes( "shakes" );
 const efftype_id effect_sleep( "sleep" );
 const efftype_id effect_weed_high( "weed_high" );
 
-enum item::LIQUID_FILL_ERROR : int {
-    L_ERR_NONE, L_ERR_NO_MIX, L_ERR_NOT_CONTAINER, L_ERR_NOT_WATERTIGHT,
-    L_ERR_NOT_SEALED, L_ERR_FULL
-};
-
 std::string const& rad_badge_color(int const rad)
 {
     using pair_t = std::pair<int const, std::string const>;
@@ -406,6 +401,11 @@ long item::liquid_charges( long units ) const
     } else {
         return units;
     }
+}
+
+long item::liquid_charges_per_volume( int volume ) const
+{
+    return ( type->volume != 0 ) ? liquid_charges( volume / type->volume ) : INFINITE_CHARGES;
 }
 
 long item::liquid_units( long charges ) const
@@ -3576,6 +3576,29 @@ bool item::is_container_full( bool allow_bucket ) const
     return get_remaining_capacity_for_liquid( contents.front(), allow_bucket ) == 0;
 }
 
+bool item::is_reloadable_with( const itype_id& ammo ) const
+{
+    if( !is_reloadable() ) {
+        return false;
+    } else if( magazine_integral() ) {
+        if( !ammo.empty() ) {
+            if( ammo_data() ) {
+                if( ammo_data()->id != ammo ) {
+                    return false;
+                }
+            } else {
+                auto at = item::find_type( ammo );
+                if( !at->ammo || ammo_type() != at->ammo->type ) {
+                    return false;
+                }
+            }
+        }
+        return ammo_remaining() < ammo_capacity();
+    } else {
+        return ammo.empty() ? true : magazine_compatible().count( ammo );
+    }
+}
+
 bool item::is_salvageable() const
 {
     if( is_null() ) {
@@ -4968,66 +4991,58 @@ long item::get_container_capacity() const
     return type->container->contains;
 }
 
-long item::get_remaining_capacity_for_liquid( const item &liquid, bool allow_bucket ) const
+long item::get_remaining_capacity_for_liquid( const item &liquid, bool allow_bucket, int volume_limit ) const
 {
-    if ( has_valid_capacity_for_liquid( liquid, allow_bucket ) != L_ERR_NONE) {
-        return 0;
-    }
-
-    if (liquid.is_ammo() && (is_tool() || is_gun())) {
-        // for filling up chainsaws, jackhammers and flamethrowers
-        return ammo_capacity() - ammo_remaining();
-    }
-
-    const auto total_capacity = liquid.liquid_charges( get_container_capacity() );
-
-    long remaining_capacity = total_capacity;
-    if (!contents.empty()) {
-        remaining_capacity -= contents.front().charges;
-    }
-    return remaining_capacity;
+    std::string dummy_err;
+    return get_remaining_capacity_for_liquid( liquid, dummy_err, allow_bucket, volume_limit );
 }
 
-item::LIQUID_FILL_ERROR item::has_valid_capacity_for_liquid( const item &liquid, bool allow_bucket ) const
+long item::get_remaining_capacity_for_liquid( const item &liquid, std::string &err, bool allow_bucket,
+                                              int volume_limit ) const
 {
-    if (liquid.is_ammo() && (is_tool() || is_gun())) {
-        // for filling up chainsaws, jackhammers and flamethrowers
-        if( ammo_type() != liquid.ammo_type() ) {
-            return L_ERR_NOT_CONTAINER;
+    const auto error = [ &err ]( const std::string &message ) {
+        err = message;
+        return 0;
+    };
+
+    long remaining_capacity = 0;
+
+    if( is_reloadable_with( liquid.typeId() ) ) {
+        if( ammo_remaining() != 0 && ammo_current() != liquid.typeId() ) {
+            return error( string_format( _( "You can't mix loads in your %s." ), tname().c_str() ) );
+        }
+        remaining_capacity = ammo_capacity() - ammo_remaining();
+    } else if( is_container() ) {
+        if( !type->container->watertight ) {
+            return error( string_format( _( "That %s isn't water-tight." ), tname().c_str() ) );
+        } else if( !type->container->seals && ( !allow_bucket || !is_bucket() ) ) {
+            return error( string_format( is_bucket() ? _( "That %s must be on the ground or held to hold contents!" )
+                                                     : _( "You can't seal that %s!" ), tname().c_str() ) );
+        } else if( !contents.empty() && contents.front().typeId() != liquid.typeId() ) {
+            return error( string_format( _( "You can't mix loads in your %s." ), tname().c_str() ) );
         }
 
-        if( ammo_remaining() >= ammo_capacity() ) {
-            return L_ERR_FULL;
+        remaining_capacity = liquid.liquid_charges( get_container_capacity() );
+        if( !contents.empty() ) {
+            remaining_capacity -= contents.front().charges;
         }
-
-        if( ammo_remaining() && ammo_current() != liquid.typeId() ) {
-            return L_ERR_NO_MIX;
+        if( remaining_capacity > 0 && !type->rigid ) {
+            const long expansion = liquid.liquid_charges_per_volume( volume_limit );
+            if( expansion <= 0 ) {
+                return error( string_format( _( "That %s doesn't have room to expand." ), tname().c_str() ) );
+            }
+            remaining_capacity = std::min( remaining_capacity, expansion );
         }
+    } else {
+        return error( string_format( _( "That %1$s won't hold %2$s." ), tname().c_str(), liquid.tname().c_str() ) );
     }
 
-    if( !is_container() ) {
-        return L_ERR_NOT_CONTAINER;
+    if( remaining_capacity <= 0 ) {
+        return error( string_format( _( "Your %1$s can't hold any more %2$s." ), tname().c_str(),
+                                     liquid.tname().c_str() ) );
     }
 
-    if( !contents.empty() && contents.front().typeId() != liquid.typeId() ) {
-        return L_ERR_NO_MIX;
-    }
-
-    if( !type->container->watertight ) {
-        return L_ERR_NOT_WATERTIGHT;
-    }
-
-    if( !type->container->seals && ( !allow_bucket || !is_bucket() ) ) {
-        return L_ERR_NOT_SEALED;
-    }
-
-    if (!contents.empty()) {
-        const auto total_capacity = liquid.liquid_charges( get_container_capacity() );
-        if( ( total_capacity - contents.front().charges) <= 0 ) {
-            return L_ERR_FULL;
-        }
-    }
-    return L_ERR_NONE;
+    return remaining_capacity;
 }
 
 bool item::use_amount(const itype_id &it, long &quantity, std::list<item> &used)
@@ -5060,48 +5075,29 @@ bool item::allow_crafting_component() const
     return contents.empty();
 }
 
-bool item::fill_with( item &liquid, std::string &err, bool allow_bucket )
+void item::fill_with( item &liquid, long amount )
 {
-    LIQUID_FILL_ERROR lferr = has_valid_capacity_for_liquid( liquid, allow_bucket );
-    switch ( lferr ) {
-        case L_ERR_NONE :
-            break;
-        case L_ERR_NO_MIX:
-            err = string_format( _( "You can't mix loads in your %s." ), tname().c_str() );
-            return false;
-        case L_ERR_NOT_CONTAINER:
-            err = string_format( _( "That %1$s won't hold %2$s." ), tname().c_str(), liquid.tname().c_str());
-            return false;
-        case L_ERR_NOT_WATERTIGHT:
-            err = string_format( _( "That %s isn't water-tight." ), tname().c_str());
-            return false;
-        case L_ERR_NOT_SEALED:
-            err = is_bucket() ?
-                  string_format( _( "That %s must be on the ground or held to hold contents!" ), tname().c_str()) :
-                  string_format( _( "You can't seal that %s!" ), tname().c_str());
-            return false;
-        case L_ERR_FULL:
-            err = string_format( _( "Your %1$s can't hold any more %2$s." ), tname().c_str(), liquid.tname().c_str());
-            return false;
-        default:
-            err = string_format( _( "Unimplemented liquid fill error '%s'." ),lferr);
-            return false;
+    amount = std::min( get_remaining_capacity_for_liquid( liquid, true ),
+                       std::min( amount, liquid.charges ) );
+    if( amount <= 0 ) {
+        return;
     }
 
-    const long remaining_capacity = get_remaining_capacity_for_liquid( liquid, allow_bucket );
-    const long amount = std::min( remaining_capacity, liquid.charges );
-
-    if( !is_container_empty() ) {
-        contents.front().charges += amount;
+    if( is_reloadable_with( liquid.typeId() ) ) {
+        ammo_set( liquid.typeId(), ammo_remaining() + amount );
+    } else if( !is_container() ) {
+        debugmsg( "Tried to fill %s which is not a container and can't be reloaded with %s.",
+                  tname().c_str(), liquid.tname().c_str() );
+    } else if( !is_container_empty() ) {
+        contents.front().mod_charges( amount );
     } else {
-        item liquid_copy = liquid;
+        item liquid_copy( liquid );
         liquid_copy.charges = amount;
         put_in( liquid_copy );
     }
-    liquid.charges -= amount;
-    on_contents_changed();
 
-    return true;
+    liquid.mod_charges( -amount );
+    on_contents_changed();
 }
 
 void item::set_countdown( int num_turns )
@@ -5785,20 +5781,22 @@ bool item::process( player *carrier, const tripoint &pos, bool activate )
     return false;
 }
 
-bool item::reduce_charges( long quantity )
+void item::mod_charges( long mod )
 {
+    if( has_infinite_charges() ) {
+        return;
+    }
+
     if( !count_by_charges() ) {
-        debugmsg( "Tried to remove %s by charges, but item is not counted by charges", tname().c_str() );
-        return false;
+        debugmsg( "Tried to remove %s by charges, but item is not counted by charges.", tname().c_str() );
+    } else if( mod < 0 && charges + mod < 0 ) {
+        debugmsg( "Tried to remove charges that do not exist, removing maximum available charges instead." );
+        charges = 0;
+    } else if( mod > 0 && charges >= INFINITE_CHARGES - mod ) {
+        charges = INFINITE_CHARGES - 1; // Highly unlikely, but finite charges should not become infinite.
+    } else {
+        charges += mod;
     }
-    if( quantity > charges ) {
-        debugmsg( "Charges: Tried to remove charges that do not exist, removing maximum available charges instead" );
-    }
-    if( charges <= quantity ) {
-        return true;
-    }
-    charges -= quantity;
-    return false;
 }
 
 bool item::has_effect_when_wielded( art_effect_passive effect ) const

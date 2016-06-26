@@ -8977,7 +8977,8 @@ item player::reduce_charges( int position, long quantity )
         debugmsg( "invalid item position %d for reduce_charges", position );
         return ret_null;
     }
-    if( it.reduce_charges( quantity ) ) {
+    it.mod_charges( -quantity );
+    if( it.charges <= 0 ) {
         return i_rem( position );
     }
     item tmp( it );
@@ -8991,7 +8992,8 @@ item player::reduce_charges( item *it, long quantity )
         debugmsg( "invalid item (name %s) for reduce_charges", it->tname().c_str() );
         return ret_null;
     }
-    if( const_cast<item *>( it )->reduce_charges( quantity ) ) {
+    it->mod_charges( -quantity );
+    if( it->charges <= 0 ) {
         return i_rem( it );
     }
     item result( *it );
@@ -9975,7 +9977,8 @@ bool player::can_use( const item& it, bool interactive ) const {
 }
 
 bool player::can_reload( const item& it, const itype_id& ammo ) const {
-    if( !it.is_reloadable() ) {
+
+    if( !it.is_reloadable_with( ammo ) ) {
         return false;
     }
 
@@ -9986,23 +9989,7 @@ bool player::can_reload( const item& it, const itype_id& ammo ) const {
         }
     }
 
-    if( it.magazine_integral() ) {
-        if( !ammo.empty() ) {
-            if( it.ammo_data() ) {
-                if( it.ammo_data()->id != ammo ) {
-                    return false;
-                }
-            } else {
-                auto at = item::find_type( ammo );
-                if( !at->ammo || it.ammo_type() != at->ammo->type ) {
-                    return false;
-                }
-            }
-        }
-        return it.ammo_remaining() < it.ammo_capacity();
-    } else {
-        return ammo.empty() ? true : it.magazine_compatible().count( ammo );
-    }
+    return true;
 }
 
 bool player::dispose_item( item& obj, const std::string& prompt )
@@ -10832,7 +10819,7 @@ bool player::invoke_item( item* used, const tripoint &pt )
 
         return consumed;
     }
-    
+
 
     if( used->type->use_methods.size() < 2 ) {
         const long charges_used = used->type->invoke( this, used, pt );

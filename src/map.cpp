@@ -7092,8 +7092,7 @@ void map::produce_sap( const tripoint &p, int time_since_last_actualize )
                 sap.poison = one_in( 10 ) ? 1 : 0;
                 sap.charges = new_charges;
 
-                std::string err;
-                it.fill_with( sap, err, true );
+                it.fill_with( sap );
             }
             // Only fill up the first container.
             break;
