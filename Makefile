@@ -60,10 +60,9 @@
 # comment these to toggle them as one sees fit.
 # DEBUG is best turned on if you plan to debug in gdb -- please do!
 # PROFILE is for use with gprof or a similar program -- don't bother generally
-# RELEASE is flags for release builds, we want to error on everything to make sure
-# we don't check in code with new warnings, but we also have to disable some classes of warnings
-# for now as we get rid of them.  In non-release builds we want to show all the warnings,
-# even the ones we're allowing in release builds so they're visible to developers.
+# RELEASE is flags for release builds, this disables some debugging flags and
+# enforces build failure when warnings are encountered.
+# We want to error on everything to make sure we don't check in code with new warnings.
 RELEASE_FLAGS = -Werror
 WARNINGS = -Wall -Wextra
 # Uncomment below to disable warnings
@@ -108,7 +107,7 @@ BINDIST_DIR = bindist
 BUILD_DIR = $(CURDIR)
 SRC_DIR = src
 LUA_DIR = lua
-LUASRC_DIR = src/lua
+LUASRC_DIR = $(SRC_DIR)/$(LUA_DIR)
 # if you have LUAJIT installed, try make LUA_BINARY=luajit for extra speed
 LUA_BINARY = lua
 LOCALIZE = 1
