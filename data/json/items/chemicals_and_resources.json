@@ -906,7 +906,6 @@
     "price" : 0,
     "volume" : 1,
     "phase" : "liquid",
-    "charges" : 1,
     "category" : "chems",
     "fun" : -20
    }
