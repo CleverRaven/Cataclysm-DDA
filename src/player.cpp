@@ -12625,7 +12625,7 @@ std::string player::weapname() const
     } else if( weapon.is_container() && weapon.contents.size() == 1 ) {
         return string_format( "%s (%d)", weapon.tname().c_str(), weapon.contents.front().charges );
 
-    } else if( is_armed() ) {
+    } else if( !is_armed() ) {
         return _( "fists" );
 
     } else {
