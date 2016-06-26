@@ -11,11 +11,54 @@
 #include <map>
 #include <iosfwd>
 
-/*
-struct field_t
-Used to store the master field effects list metadata. Not used to store a field, just queried to find out specifics
-of an existing field.
-*/
+struct field_t;
+using field_id = string_id<field_t>;
+
+extern const field_id fd_null;
+extern const field_id fd_acid;
+extern const field_id fd_acid_vent;
+extern const field_id fd_bees;
+extern const field_id fd_bile;
+extern const field_id fd_blood;
+extern const field_id fd_blood_veggy;
+extern const field_id fd_blood_insect;
+extern const field_id fd_blood_invertebrate;
+extern const field_id fd_cigsmoke;
+extern const field_id fd_cracksmoke;
+extern const field_id fd_dazzling;
+extern const field_id fd_electricity;
+extern const field_id fd_fatigue;
+extern const field_id fd_fire;
+extern const field_id fd_fire_vent;
+extern const field_id fd_flame_burst;
+extern const field_id fd_fungal_haze;
+extern const field_id fd_fungicidal_gas;
+extern const field_id fd_gas_vent;
+extern const field_id fd_gibs_flesh;
+extern const field_id fd_gibs_invertebrate;
+extern const field_id fd_hot_air1;
+extern const field_id fd_hot_air2;
+extern const field_id fd_hot_air3;
+extern const field_id fd_hot_air4;
+extern const field_id fd_incendiary;
+extern const field_id fd_laser;
+extern const field_id fd_methsmoke;
+extern const field_id fd_nuke_gas;
+extern const field_id fd_plasma;
+extern const field_id fd_push_items;
+extern const field_id fd_relax_gas;
+extern const field_id fd_rubble;
+extern const field_id fd_shock_vent;
+extern const field_id fd_slime;
+extern const field_id fd_smoke;
+extern const field_id fd_spotlight;
+extern const field_id fd_tear_gas;
+extern const field_id fd_toxic_gas;
+extern const field_id fd_sap;
+extern const field_id fd_sludge;
+extern const field_id fd_web;
+extern const field_id fd_weedsmoke;
+
 struct field_t {
     public:
         field_t() : id_( field_id( "null" ) ) {}

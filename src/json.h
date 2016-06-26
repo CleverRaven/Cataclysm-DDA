@@ -366,7 +366,7 @@ class JsonIn
                 start_object();
                 m.clear();
                 while (!end_object()) {
-                    std::string name = get_member_name();
+                    auto name = typename T::key_type( get_member_name() );
                     typename T::mapped_type element;
                     if (read(element)) {
                         m[std::move(name)] = std::move(element);

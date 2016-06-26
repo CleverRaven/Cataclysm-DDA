@@ -13,7 +13,9 @@
 #include <stdarg.h>
 
 struct real_coords;
-enum field_id : int;
+
+struct field_t;
+using field_id = string_id<field_t>;
 
     enum shapetype {
     editmap_rect, editmap_rect_filled, editmap_line, editmap_circle,

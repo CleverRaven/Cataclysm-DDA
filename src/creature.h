@@ -22,13 +22,14 @@ struct damage_unit;
 struct dealt_projectile_attack;
 struct trap;
 enum m_flag : int;
-enum field_id : int;
 enum damage_type : int;
 class material_type;
 using material_id = string_id<material_type>;
 class field;
 class field_entry;
-enum field_id : int;
+
+struct field_t;
+using field_id = string_id<field_t>;
 
 enum m_size : int {
     MS_TINY = 0,    // Squirrel

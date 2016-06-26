@@ -12,7 +12,8 @@
 
 struct vehicle_prototype;
 using vproto_id = string_id<vehicle_prototype>;
-enum field_id : int;
+struct field_t;
+using field_id = string_id<field_t>;
 enum hp_part : int;
 struct mtype;
 using mtype_id = string_id<mtype>;
@@ -111,7 +112,7 @@ class explosion_iuse : public iuse_actor
         bool flashbang_player_immune = false;
         /** Create fields of this type around the center of the explosion */
         int fields_radius = -1;
-        field_id fields_type;
+        field_id fields_type = field_id( "null" );
         int fields_min_density = 1;
         int fields_max_density = MAX_FIELD_DENSITY;
         /** Calls game::emp_blast if >= 0 */
@@ -177,7 +178,7 @@ class consume_drug_iuse : public iuse_actor
         /** Message to display when drug is consumed. **/
         std::string activation_message;
         /** Fields to produce when you take the drug, mostly intended for various kinds of smoke. **/
-        std::map<std::string, int> fields_produced;
+        std::map<field_id, int> fields_produced;
         /** Tool charges needed to take the drug, e.g. fire. **/
         std::map<std::string, int> charges_needed;
         /** Tools needed, but not consumed, e.g. "smoking apparatus". **/

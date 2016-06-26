@@ -86,38 +86,32 @@ void map::build_transparency_cache( const int zlev )
                         const field_id type = cur.getFieldType();
                         const int density = cur.getFieldDensity();
 
-                        if( fieldlist[type].transparent[density - 1] ) {
+                        if( type->is_transparent( density ) ) {
                             continue;
                         }
 
                         // Fields are either transparent or not, however we want some to be translucent
-                        switch (type) {
-                        case fd_cigsmoke:
-                        case fd_weedsmoke:
-                        case fd_cracksmoke:
-                        case fd_methsmoke:
-                        case fd_relax_gas:
+                        if( type == fd_cigsmoke || type == fd_weedsmoke || type == fd_cracksmoke ||
+                            type == fd_methsmoke || type == fd_relax_gas ) {
                             value *= 5;
-                            break;
-                        case fd_smoke:
-                        case fd_incendiary:
-                        case fd_toxic_gas:
-                        case fd_tear_gas:
+
+                        } else if( type == fd_smoke || type == fd_incendiary ||
+                                   type == fd_toxic_gas || type == fd_tear_gas ) {
+
                             if (density == 3) {
                                 value = LIGHT_TRANSPARENCY_SOLID;
                             } else if (density == 2) {
                                 value *= 10;
                             }
-                            break;
-                        case fd_nuke_gas:
+
+                        } else if( type == fd_nuke_gas ) {
                             value *= 10;
-                            break;
-                        case fd_fire:
+
+                        } else if( type == fd_fire ) {
                             value *= 1.0 - ( density * 0.3 );
-                            break;
-                        default:
+
+                        } else {
                             value = LIGHT_TRANSPARENCY_SOLID;
-                            break;
                         }
                         // TODO: [lightmap] Have glass reduce light as well
                     }
@@ -223,8 +217,9 @@ void map::generate_lightmap( const int zlev )
                     for( auto &fld : cur_submap->fld[sx][sy] ) {
                         const field_entry *cur = &fld.second;
                         // TODO: [lightmap] Attach light brightness to fields
-                        switch(cur->getFieldType()) {
-                        case fd_fire:
+
+                        auto curtype = cur->getFieldType();
+                        if( curtype == fd_fire ) {
                             if (3 == cur->getFieldDensity()) {
                                 add_light_source( p, 160 );
                             } else if (2 == cur->getFieldDensity()) {
@@ -232,13 +227,11 @@ void map::generate_lightmap( const int zlev )
                             } else {
                                 add_light_source( p, 20 );
                             }
-                            break;
-                        case fd_fire_vent:
-                        case fd_flame_burst:
+
+                        } else if( curtype == fd_fire_vent || curtype == fd_flame_burst ) {
                             add_light_source( p, 20 );
-                            break;
-                        case fd_electricity:
-                        case fd_plasma:
+
+                        } else if( curtype == fd_electricity || curtype == fd_plasma ) {
                             if (3 == cur->getFieldDensity()) {
                                 add_light_source( p, 20 );
                             } else if (2 == cur->getFieldDensity()) {
@@ -247,8 +240,8 @@ void map::generate_lightmap( const int zlev )
                                 // Kinda a hack as the square will still get marked.
                                 apply_light_source( p, LIGHT_SOURCE_LOCAL );
                             }
-                            break;
-                        case fd_incendiary:
+
+                        } else if( curtype == fd_incendiary ) {
                             if (3 == cur->getFieldDensity()) {
                                 add_light_source( p, 160 );
                             } else if (2 == cur->getFieldDensity()) {
@@ -256,19 +249,15 @@ void map::generate_lightmap( const int zlev )
                             } else {
                                 add_light_source( p, 20 );
                             }
-                            break;
-                        case fd_laser:
+
+                        } else if( curtype == fd_laser ) {
                             apply_light_source( p, 4 );
-                            break;
-                        case fd_spotlight:
+
+                        } else if( curtype == fd_spotlight ) {
                             add_light_source( p, 80 );
-                            break;
-                        case fd_dazzling:
+
+                        } else if( curtype == fd_dazzling ) {
                             add_light_source( p, 5 );
-                            break;
-                        default:
-                            //Suppress warnings
-                            break;
                         }
                     }
                 }

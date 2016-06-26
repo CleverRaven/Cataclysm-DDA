@@ -20,7 +20,8 @@ class monster;
 class monfaction;
 struct dealt_projectile_attack;
 struct species_type;
-enum field_id : int;
+struct field_t;
+using field_id = string_id<field_t>;
 enum body_part : int;
 enum m_size : int;
 
