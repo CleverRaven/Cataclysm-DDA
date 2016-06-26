@@ -19,6 +19,7 @@
 #include <list>
 #include <vector>
 #include <cassert>
+#include <algorithm>
 
 const efftype_id effect_controlled( "controlled" );
 const efftype_id effect_pet( "pet" );
