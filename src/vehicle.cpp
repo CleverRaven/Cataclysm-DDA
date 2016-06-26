@@ -6275,27 +6275,27 @@ long vehicle_part::ammo_consume( long qty, const tripoint& pos )
     return res;
 }
 
-bool vehicle_part::can_reload( const itype_id &ammo )
+bool vehicle_part::can_reload( const itype_id &obj )
 {
     // first check part is not destroyed and can contain ammo
     if( hp < 0 || ammo_capacity() <= 0 ) {
         return false;
     }
 
-    // check if any supplied value for @ref ammo is valid
-    const itype *atype = nullptr;
-    if( !ammo.empty() ) {
-         atype = item::find_type( ammo );
-         if( !atype->ammo ) {
-            debugmsg( "vehicle_part::can_reload was supplied with non-ammo" );
-            return false;
+    // If we are checking a specific item does it have an ammotype?
+    ammotype ammo = ammotype::NULL_ID;
+    if( !obj.empty() ) {
+         auto atype = item::find_type( obj );
+         if( atype->ammo ) {
+            ammo = atype->ammo->type;
          }
     }
 
     // fuel tanks and reactors can be reloaded whereas batteries cannot
     if( is_tank() || base.typeId() == "minireactor" ) {
-        if( ammo.empty() || ammo_current() == ammo ||
-            ( ammo_current() == "null" && ammo_type() == atype->ammo->type ) ) {
+
+        if( obj.empty() || ammo_current() == obj ||
+            ( ammo_current() == "null" && ammo_type() == ammo ) ) {
             return ammo_remaining() < ammo_capacity();
         }
 
