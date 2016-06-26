@@ -1507,7 +1507,8 @@ void npc::move_to( const tripoint &pt, bool no_bashing )
 
     // Boarding moving vehicles is fine, unboarding isn't
     bool moved = false;
-    const vehicle *veh = g->m.veh_at( pos() );
+    int vpart;
+    vehicle *veh = g->m.veh_at( pos(), vpart );
     if( veh != nullptr ) {
         int other_part = -1;
         const vehicle *oveh = g->m.veh_at( p, other_part );
@@ -1561,6 +1562,19 @@ void npc::move_to( const tripoint &pt, bool no_bashing )
     if( moved ) {
         if( in_vehicle ) {
             g->m.unboard_vehicle( pos() );
+        }
+
+        // Close doors behind self (if you can)
+        if( is_friend() && rules.close_doors ) {
+            if( veh != nullptr ) {
+                vpart = veh->next_part_to_close( vpart );
+                if( vpart >= 0 ) {
+                    veh->close( vpart );
+                    mod_moves( -90 );
+                }
+            } else if( g->m.close_door( pos(), !g->m.is_outside( p ), false ) ) {
+                mod_moves( -90 );
+            }
         }
 
         setpos( p );

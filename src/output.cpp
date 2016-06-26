@@ -772,7 +772,23 @@ std::string string_input_popup( std::string title, int width, std::string input,
 std::string string_input_win( WINDOW *w, std::string input, int max_length, int startx, int starty,
                               int endx, bool loop, long &ch, int &pos, std::string identifier,
                               int w_x, int w_y, bool dorefresh, bool only_digits,
-                              std::map<long, std::function<void()>> callbacks )
+                              std::map<long, std::function<void()>> callbacks, std::set<long> ch_code_blacklist )
+{
+    input_context ctxt( "STRING_INPUT" );
+    ctxt.register_action( "ANY_INPUT" );
+    std::string action;
+
+    return string_input_win_from_context( w, ctxt, input, max_length, startx, starty, endx, loop,
+                                          action, ch, pos, identifier, w_x, w_y, dorefresh,
+                                          only_digits, false, callbacks, ch_code_blacklist );
+}
+
+std::string string_input_win_from_context( WINDOW *w, input_context &ctxt, std::string input,
+        int max_length, int startx, int starty, int endx,
+        bool loop, std::string &action, long &ch, int &pos,
+        std::string identifier, int w_x, int w_y, bool dorefresh,
+        bool only_digits, bool draw_only, std::map<long, std::function<void()>> callbacks,
+        std::set<long> ch_code_blacklist )
 {
     utf8_wrapper ret( input );
     nc_color string_color = c_magenta;
@@ -785,9 +801,6 @@ std::string string_input_win( WINDOW *w, std::string input, int max_length, int 
     // in output (console) cells, not characters of the string!
     int shift = 0;
     bool redraw = true;
-
-    input_context ctxt( "STRING_INPUT" );
-    ctxt.register_action( "ANY_INPUT" );
 
     do {
 
@@ -868,13 +881,24 @@ std::string string_input_win( WINDOW *w, std::string input, int max_length, int 
         if( dorefresh ) {
             wrefresh( w );
         }
+
+        if ( draw_only ) {
+            return input;
+        }
+
         bool return_key = false;
-        const std::string action = ctxt.handle_input();
+        action = ctxt.handle_input();
         const input_event ev = ctxt.get_raw_input();
         ch = ev.type == CATA_INPUT_KEYBOARD ? ev.get_first_input() : 0;
+
         if( callbacks[ch] ) {
             callbacks[ch]();
         }
+
+        if( ch_code_blacklist.find( ch ) != ch_code_blacklist.end() ) {
+            continue;
+        }
+
         if( ch == KEY_ESCAPE ) {
             return "";
         } else if( ch == '\n' ) {

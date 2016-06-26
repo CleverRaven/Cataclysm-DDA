@@ -84,9 +84,71 @@ void npc_class::check_consistency()
     }
 }
 
+distribution load_distribution( JsonObject &jo )
+{
+    if( jo.has_float( "constant" ) ) {
+        return distribution::constant( jo.get_float( "constant" ) );
+    }
+
+    if( jo.has_float( "one_in" ) ) {
+        return distribution::one_in( jo.get_float( "one_in" ) );
+    }
+
+    if( jo.has_array( "dice" ) ) {
+        JsonArray jarr = jo.get_array( "dice" );
+        return distribution::dice_roll( jarr.get_int( 0 ), jarr.get_int( 1 ) );
+    }
+
+    if( jo.has_array( "rng" ) ) {
+        JsonArray jarr = jo.get_array( "rng" );
+        return distribution::rng_roll( jarr.get_int( 0 ), jarr.get_int( 1 ) );
+    }
+
+    if( jo.has_array( "sum" ) ) {
+        JsonArray jarr = jo.get_array( "sum" );
+        JsonObject obj = jarr.next_object();
+        distribution ret = load_distribution( obj );
+        while( jarr.has_more() ) {
+            obj = jarr.next_object();
+            ret = ret + load_distribution( obj );
+        }
+
+        return ret;
+    }
+
+    jo.throw_error( "Invalid distribution" );
+    return distribution();
+}
+
+distribution load_distribution( JsonObject &jo, const std::string &name )
+{
+    if( !jo.has_member( name ) ) {
+        return distribution();
+    }
+
+    if( jo.has_float( name ) ) {
+        return distribution::constant( jo.get_float( name ) );
+    }
+
+    if( jo.has_object( name ) ) {
+        JsonObject obj = jo.get_object( name );
+        return load_distribution( obj );
+    }
+
+    jo.throw_error( "Invalid distribution type", name );
+    return distribution();
+}
+
 void npc_class::load( JsonObject &jo )
 {
     mandatory( jo, was_loaded, "name", name, translated_string_reader );
+    mandatory( jo, was_loaded, "job_description", job_description, translated_string_reader );
+
+    optional( jo, was_loaded, "common", common, true );
+    bonus_str = load_distribution( jo, "bonus_str" );
+    bonus_dex = load_distribution( jo, "bonus_dex" );
+    bonus_int = load_distribution( jo, "bonus_int" );
+    bonus_per = load_distribution( jo, "bonus_per" );
 }
 
 const npc_class_id &npc_class::from_legacy_int( int i )
@@ -99,12 +161,16 @@ const npc_class_id &npc_class::from_legacy_int( int i )
     return legacy_ids[ i ];
 }
 
+const std::vector<npc_class> &npc_class::get_all()
+{
+    return npc_class_factory.get_all();
+}
+
 const npc_class_id &npc_class::random_common()
 {
-    // @todo Rewrite, make `common` a class member
     std::list<const npc_class_id *> common_classes;
     for( const auto &pr : npc_class_factory.get_all() ) {
-        if( pr.id != NC_SHOPKEEP ) {
+        if( pr.common ) {
             common_classes.push_back( &pr.id );
         }
     }
@@ -119,4 +185,93 @@ const npc_class_id &npc_class::random_common()
 const std::string &npc_class::get_name() const
 {
     return name;
+}
+
+const std::string &npc_class::get_job_description() const
+{
+    return job_description;
+}
+
+int npc_class::roll_strength() const
+{
+    return dice( 4, 3 ) + bonus_str.roll();
+}
+
+int npc_class::roll_dexterity() const
+{
+    return dice( 4, 3 ) + bonus_dex.roll();
+}
+
+int npc_class::roll_intelligence() const
+{
+    return dice( 4, 3 ) + bonus_int.roll();
+}
+
+int npc_class::roll_perception() const
+{
+    return dice( 4, 3 ) + bonus_per.roll();
+}
+
+distribution::distribution()
+{
+    generator_function = []() {
+        return 0.0f;
+    };
+}
+
+distribution::distribution( std::function<float()> gen )
+{
+    generator_function = gen;
+}
+
+float distribution::roll() const
+{
+    return generator_function();
+}
+
+distribution distribution::constant( float val )
+{
+    return distribution( [val]() {
+        return val;
+    } );
+}
+
+distribution distribution::one_in( float in )
+{
+    if( in <= 1.0f ) {
+        debugmsg( "Invalid one_in: %.2f", in );
+        return distribution();
+    }
+
+    return distribution( [in]() {
+        return one_in_improved( in );
+    } );
+}
+
+distribution distribution::rng_roll( int from, int to )
+{
+    return distribution( [from, to]() -> float {
+        return rng( from, to );
+    } );
+}
+
+distribution distribution::dice_roll( int sides, int size )
+{
+    if( sides < 1 || size < 1 ) {
+        debugmsg( "Invalid dice: %d sides, %d sizes", sides, size );
+        return distribution();
+    }
+
+    return distribution( [sides, size]() -> float {
+        return dice( sides, size );
+    } );
+}
+
+distribution distribution::operator+( const distribution &other ) const
+{
+    auto my_fun = generator_function;
+    auto other_fun = other.generator_function;
+    return distribution( [my_fun, other_fun]() {
+        return my_fun() + other_fun();
+    } );
 }
