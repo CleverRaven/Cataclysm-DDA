@@ -1558,8 +1558,16 @@ void Character::update_health(int external_modifiers)
         set_healthy_mod( -200 );
     }
 
+    // Active leukocyte breeder will keep your health near 100
+    int effective_healthy_mod = get_healthy_mod();
+    if( has_active_bionic( "bio_leukocyte" ) ) {
+        // Side effect: dependency
+        mod_healthy_mod( -50, -200 );
+        effective_healthy_mod = 100;
+    }
+
     // Over the long run, health tends toward healthy_mod.
-    int break_even = get_healthy() - get_healthy_mod() + external_modifiers;
+    int break_even = get_healthy() - effective_healthy_mod + external_modifiers;
 
     // But we allow some random variation.
     const long roll = rng( -100, 100 );
