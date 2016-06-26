@@ -146,10 +146,20 @@
     "replace": "jerrycan"
   },
   {
+    "id": "reloaded_shot_he",
+    "type": "MIGRATION",
+    "replace": "shot_he"
+  },
+  {
     "id": "saiga_sawn",
     "type": "MIGRATION",
     "replace": "saiga_12",
     "contents": [ "barrel_small" ]
+  },
+  {
+    "id": "shot_scrapslug",
+    "type": "MIGRATION",
+    "replace": "reloaded_shot_slug"
   },
   {
     "id": "UPS_on",
