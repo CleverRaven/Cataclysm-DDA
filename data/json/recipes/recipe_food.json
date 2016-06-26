@@ -8776,8 +8776,7 @@
             [ "triple_sec", 1 ],
             [ "vodka", 1 ],
             [ "whiskey", 1 ],
-            [ "brandy", 1 ],
-            [ "moonshine", 1 ]
+            [ "brandy", 1 ]
         ] ]
     },{
         "type" : "recipe",
