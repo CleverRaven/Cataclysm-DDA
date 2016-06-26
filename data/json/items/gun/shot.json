@@ -18,7 +18,8 @@
     "recoil": 15,
     "durability": 7,
     "clip_size": 7,
-    "built_in_mods": [ "ksg_aux_shotgun" ]
+    "built_in_mods": [ "ksg_aux_shotgun" ],
+    "valid_mod_locations": [ [ "accessories", 4 ], [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "muzzle", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "underbarrel", 1 ] ]
   },
   {
     "id": "l_def_12",
