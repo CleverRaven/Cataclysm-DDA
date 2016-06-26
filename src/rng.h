@@ -5,6 +5,7 @@
 
 #include <functional>
 
+void init_xorshift_rng( int seed );
 int xorshift_rng_s32();
 long rng( long val1, long val2 );
 double rng_float( double val1, double val2 );

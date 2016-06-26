@@ -25,10 +25,10 @@ int xorshift_rng_s32()
 	return xorshift_rng_u64() & 0x7FFFFFFF;
 }
 
-void init_xorshift_rng( int current_time )
+void init_xorshift_rng( int seed )
 {
 	// use linear congruential algorithm to feed the 128-bit state.
-	unsigned int x = current_time, y = (current_time * 1103515245 + 12345);
+	unsigned int x = seed, y = ( seed * 1103515245 + 12345 );
 	xorshift_state[0] = ( (unsigned long long)(x) << 32 ) + y;
 	x = ( y * 1103515245 + 12345 );
 	y = ( x * 1103515245 + 12345 );

@@ -407,7 +407,7 @@ int main(int argc, char *argv[])
     // curs_set(0); // Invisible cursor
     set_escdelay(10); // Make escape actually responsive
 
-    std::srand(seed);
+	init_xorshift_rng( seed );
 
     g = new game;
     // First load and initialize everything that does not
