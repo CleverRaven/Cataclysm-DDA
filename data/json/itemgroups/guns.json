@@ -71,6 +71,7 @@
     "id" : "guns_pistol_improvised",
     "//" : "Makeshift or otherwise poor quality pistols.",
     "items": [
+      [ "ashot", 100 ],
       [ "surv_hand_cannon", 100 ],
       [ "surv_six_shooter", 100 ]
     ]
@@ -265,9 +266,10 @@
     "id" : "guns_shotgun_improvised",
     "//" : "Makeshift or otherwise poor quality shotguns.",
     "items": [
+      [ "blunderbuss", 70 ],
+      [ "bigun", 10 ],
       [ "pipe_double_shotgun", 70 ],
       [ "pipe_shotgun", 100 ],
-      [ "blunderbuss", 70 ],
       [ "revolver_shotgun", 30 ],
       [ "surv_levershotgun", 40 ]
     ]
