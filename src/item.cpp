@@ -5016,7 +5016,7 @@ long item::get_remaining_capacity_for_liquid( const item &liquid, std::string &e
         if( remaining_capacity > 0 && !type->rigid ) {
             const long expansion = liquid.liquid_charges_per_volume( volume_limit );
             if( expansion <= 0 ) {
-                return error( string_format( _( "That %s doesn't have a room to expand." ), tname().c_str() ) );
+                return error( string_format( _( "That %s doesn't have room to expand." ), tname().c_str() ) );
             }
             remaining_capacity = std::min( remaining_capacity, expansion );
         }
