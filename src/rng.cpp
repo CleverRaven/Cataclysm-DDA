@@ -59,16 +59,16 @@ int divide_roll_remainder( double dividend, double divisor )
     return roll_remainder( div );
 }
 
-// http://www.cse.yorku.ca/~oz/hash.html
-// for world seeding.
-int djb2_hash( const unsigned char *str )
+// http://www.isthe.com/chongo/tech/comp/fnv/
+// for better world seeding.
+unsigned long long fnv1a_hash( const unsigned char *str )
 {
-    unsigned long hash = 5381;
-    unsigned char c = *str++;
-    while( c != '\0' ) {
-        hash = ( ( hash << 5 ) + hash ) + c; /* hash * 33 + c */
-        c = *str++;
-    }
-    return hash;
+	const unsigned long long offset_basis = 14695981039346656037ULL, fnv_prime = 1099511628211ULL;
+	unsigned long long hash = offset_basis;
+	unsigned char c = *str++;
+	while ( c != '\0' ) {
+		hash = ( hash ^ c ) * fnv_prime;
+		c = *str++;
+	}
+	return hash;
 }
-

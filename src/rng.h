@@ -17,7 +17,7 @@ int roll_remainder( double value );
 // Returns x/y + x_in_y( (x/y)-int(x/y), 1 )
 int divide_roll_remainder( double dividend, double divisor );
 
-int djb2_hash( const unsigned char *input );
+unsigned long long fnv1a_hash( const unsigned char *input );
 
 /**
  * Returns a random entry in the container.

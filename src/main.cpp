@@ -90,7 +90,7 @@ int main(int argc, char *argv[])
                 [&seed](int num_args, const char **params) -> int {
                     if (num_args < 1) return -1;
                     const unsigned char *hash_input = (const unsigned char *) params[0];
-                    seed = djb2_hash(hash_input);
+                    seed = fnv1a_hash(hash_input) & 0x7FFFFFFF;
                     return 1;
                 }
             },
