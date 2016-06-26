@@ -77,7 +77,7 @@ int snippet_library::get_snippet_by_id( const std::string &id ) const
 
 int snippet_library::assign( const std::string &category ) const
 {
-    return assign( category, rand() );
+    return assign( category, xorshift_rng_s32() );
 }
 
 int snippet_library::assign( const std::string &category, const int seed ) const

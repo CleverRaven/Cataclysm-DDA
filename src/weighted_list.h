@@ -92,7 +92,7 @@ template <typename W, typename T> struct weighted_list {
             }
         }
         const T *pick() const {
-            return pick( rand() );
+            return pick( xorshift_rng_s32() );
         }
 
         /**
@@ -109,7 +109,7 @@ template <typename W, typename T> struct weighted_list {
             }
         }
         T *pick() {
-            return pick( rand() );
+            return pick( xorshift_rng_s32() );
         }
 
         /**
