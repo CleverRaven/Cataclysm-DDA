@@ -3,21 +3,73 @@
 
 #include "game_constants.h"
 #include "color.h"
+#include "json.h"
+#include "string_id.h"
 
 #include <vector>
 #include <string>
 #include <map>
 #include <iosfwd>
 
-/*
-struct field_t
-Used to store the master field effects list metadata. Not used to store a field, just queried to find out specifics
-of an existing field.
-*/
+struct field_t;
+using field_id = string_id<field_t>;
+
+extern const field_id fd_null;
+extern const field_id fd_acid;
+extern const field_id fd_acid_vent;
+extern const field_id fd_bees;
+extern const field_id fd_bile;
+extern const field_id fd_blood;
+extern const field_id fd_blood_veggy;
+extern const field_id fd_blood_insect;
+extern const field_id fd_blood_invertebrate;
+extern const field_id fd_cigsmoke;
+extern const field_id fd_cracksmoke;
+extern const field_id fd_dazzling;
+extern const field_id fd_electricity;
+extern const field_id fd_fatigue;
+extern const field_id fd_fire;
+extern const field_id fd_fire_vent;
+extern const field_id fd_flame_burst;
+extern const field_id fd_fungal_haze;
+extern const field_id fd_fungicidal_gas;
+extern const field_id fd_gas_vent;
+extern const field_id fd_gibs_flesh;
+extern const field_id fd_gibs_invertebrate;
+extern const field_id fd_hot_air1;
+extern const field_id fd_hot_air2;
+extern const field_id fd_hot_air3;
+extern const field_id fd_hot_air4;
+extern const field_id fd_incendiary;
+extern const field_id fd_laser;
+extern const field_id fd_methsmoke;
+extern const field_id fd_nuke_gas;
+extern const field_id fd_plasma;
+extern const field_id fd_push_items;
+extern const field_id fd_relax_gas;
+extern const field_id fd_rubble;
+extern const field_id fd_shock_vent;
+extern const field_id fd_slime;
+extern const field_id fd_smoke;
+extern const field_id fd_spotlight;
+extern const field_id fd_tear_gas;
+extern const field_id fd_toxic_gas;
+extern const field_id fd_sap;
+extern const field_id fd_sludge;
+extern const field_id fd_web;
+extern const field_id fd_weedsmoke;
+
 struct field_t {
-    // internal ident, used for tileset and for serializing,
-    // should be the same as the entry in field_id below (e.g. "fd_fire").
-    std::string id;
+    public:
+        field_t() : id_( field_id( "null" ) ) {}
+
+        const field_id &id() const {
+            return id_;
+        }
+
+        bool is_null() const {
+            return id_ == field_id( "null" );
+        }
 
      /** Display name for field at given density (eg. light smoke, smoke, heavy smoke) */
      std::string name[ MAX_FIELD_DENSITY ];
@@ -43,69 +95,22 @@ struct field_t {
 
      /** cost of moving into and out of this field at given density */
     int move_cost[ MAX_FIELD_DENSITY ];
-};
 
-//The master list of id's for a field, corresponding to the fieldlist array.
-enum field_id : int {
- fd_null = 0,
- fd_blood,
- fd_bile,
- fd_gibs_flesh,
- fd_gibs_veggy,
- fd_web,
- fd_slime,
- fd_acid,
- fd_sap,
- fd_sludge,
- fd_fire,
- fd_rubble,
- fd_smoke,
- fd_toxic_gas,
- fd_tear_gas,
- fd_nuke_gas,
- fd_gas_vent,
- fd_fire_vent,
- fd_flame_burst,
- fd_electricity,
- fd_fatigue,
- fd_push_items,
- fd_shock_vent,
- fd_acid_vent,
- fd_plasma,
- fd_laser,
- fd_spotlight,
- fd_dazzling,
- fd_blood_veggy,
- fd_blood_insect,
- fd_blood_invertebrate,
- fd_gibs_insect,
- fd_gibs_invertebrate,
- fd_cigsmoke,
- fd_weedsmoke,
- fd_cracksmoke,
- fd_methsmoke,
- fd_bees,
- fd_incendiary,
- fd_relax_gas,
- fd_fungal_haze,
- fd_hot_air1,
- fd_hot_air2,
- fd_hot_air3,
- fd_hot_air4,
- fd_fungicidal_gas,
- num_fields
-};
+        /** Load field type from JSON definition */
+        static void load_field( JsonObject &jo );
 
-/*
-Controls the master listing of all possible field effects, indexed by a field_id. Does not store active fields, just metadata.
-*/
-extern field_t fieldlist[num_fields];
-/**
- * Returns the field_id of the field whose ident (field::id) matches the given ident.
- * Returns fd_null (and prints a debug message!) if the field ident is unknown.
- * Never returns num_fields.
- */
-extern field_id field_from_ident(const std::string &field_ident);
+        /** Get all currently loaded field types */
+        static const std::map<field_id, field_t> &all();
+
+        /** Check consistency of all loaded field types */
+        static void check_consistency();
+
+        /** Clear all loaded field types (invalidating any pointers) */
+        static void reset();
+
+    private:
+        field_id id_;
+};
 
 /**
  * Returns if the field has at least one intensity for which dangerous[intensity] is true.
@@ -119,7 +124,7 @@ bool field_type_dangerous( field_id id );
 class field_entry {
 public:
     field_entry() {
-      type = fd_null;
+      type = field_id( "null" );
       density = 1;
       age = 0;
       is_alive = false;
@@ -158,14 +163,14 @@ public:
     //Returns if the current field is dangerous or not.
     bool is_dangerous() const
     {
-        return fieldlist[type].dangerous[density - 1];
+        return type->dangerous[ density - 1 ];
     }
 
     //Returns the display name of the current field given its current density.
     //IE: light smoke, smoke, heavy smoke
     std::string name() const
     {
-        return fieldlist[type].name[density - 1];
+        return type->name[ density - 1 ];
     }
 
     //Returns true if this is an active field, false if it should be removed.

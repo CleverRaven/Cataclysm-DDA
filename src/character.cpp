@@ -1770,28 +1770,16 @@ nc_color Character::symbol_color() const
     bool has_elec = false;
     bool has_fume = false;
     for( const auto &field : fields ) {
-        switch( field.first ) {
-            case fd_incendiary:
-            case fd_fire:
-                has_fire = true;
-                break;
-            case fd_electricity:
-                has_elec = true;
-                break;
-            case fd_acid:
-                has_acid = true;
-                break;
-            case fd_relax_gas:
-            case fd_fungal_haze:
-            case fd_fungicidal_gas:
-            case fd_toxic_gas:
-            case fd_tear_gas:
-            case fd_nuke_gas:
-            case fd_smoke:
-                has_fume = true;
-                break;
-            default:
-                continue;
+        if( field.first == fd_incendiary || field.first == fd_fire ) {
+            has_fire = true;
+        } else if( field.first == fd_electricity ) {
+            has_elec = true;
+        } else if( field.first == fd_acid ) {
+            has_acid = true;
+        } else if( field.first == fd_relax_gas || field.first == fd_fungal_haze ||
+                   field.first == fd_toxic_gas || field.first == fd_tear_gas ||
+                   field.first == fd_nuke_gas || field.first == fd_smoke ) {
+            has_fume = true;
         }
     }
 
@@ -1821,33 +1809,31 @@ bool Character::is_immune_field( const field_id fid ) const
         return true;
     }
 
-    // Check to see if we are immune
-    switch( fid ) {
-        case fd_smoke:
-            return get_env_resist( bp_mouth ) >= 12;
-        case fd_tear_gas:
-        case fd_toxic_gas:
-        case fd_gas_vent:
-        case fd_relax_gas:
-            return get_env_resist( bp_mouth ) >= 15;
-        case fd_fungal_haze:
-            return has_trait("M_IMMUNE") || (get_env_resist( bp_mouth ) >= 15 &&
-                   get_env_resist( bp_eyes ) >= 15);
-        case fd_electricity:
-            return is_elec_immune();
-        case fd_acid:
-            return has_trait("ACIDPROOF") ||
-                   (!is_on_ground() && get_env_resist( bp_foot_l ) >= 15 &&
-                   get_env_resist( bp_foot_r ) >= 15 &&
-                   get_env_resist( bp_leg_l ) >= 15 &&
-                   get_env_resist( bp_leg_r ) >= 15 &&
-                   get_armor_type( DT_ACID, bp_foot_l ) >= 5 &&
-                   get_armor_type( DT_ACID, bp_foot_r ) >= 5 &&
-                   get_armor_type( DT_ACID, bp_leg_l ) >= 5 &&
-                   get_armor_type( DT_ACID, bp_leg_r ) >= 5);
-        default:
-            // Suppress warning
-            break;
+    // Check to see if we [are immune
+    if( fid == fd_smoke ) {
+        return get_env_resist( bp_mouth ) >= 12;
+
+    } else if( fid == fd_tear_gas || fid == fd_toxic_gas ||
+               fid == fd_gas_vent || fid == fd_relax_gas ) {
+        return get_env_resist( bp_mouth ) >= 15;
+
+    } else if( fid == fd_fungal_haze ) {
+        return has_trait("M_IMMUNE") || (get_env_resist( bp_mouth ) >= 15 &&
+               get_env_resist( bp_eyes ) >= 15);
+
+    } else if( fid == fd_electricity ) {
+        return is_elec_immune();
+
+    } else if( fid == fd_acid ) {
+        return has_trait("ACIDPROOF") ||
+               (!is_on_ground() && get_env_resist( bp_foot_l ) >= 15 &&
+               get_env_resist( bp_foot_r ) >= 15 &&
+               get_env_resist( bp_leg_l ) >= 15 &&
+               get_env_resist( bp_leg_r ) >= 15 &&
+               get_armor_type( DT_ACID, bp_foot_l ) >= 5 &&
+               get_armor_type( DT_ACID, bp_foot_r ) >= 5 &&
+               get_armor_type( DT_ACID, bp_leg_l ) >= 5 &&
+               get_armor_type( DT_ACID, bp_leg_r ) >= 5);
     }
     // If we haven't found immunity yet fall up to the next level
     return Creature::is_immune_field(fid);

@@ -17,6 +17,71 @@
 #include "mtype.h"
 #include "scent_map.h"
 
+static std::map<field_id, field_t> field_types_all;
+
+template<>
+bool string_id<field_t>::is_valid() const
+{
+    return field_types_all.count( *this );
+}
+
+template<>
+const field_t &string_id<field_t>::obj() const
+{
+    const auto found = field_types_all.find( *this );
+    if( found == field_types_all.end() ) {
+        debugmsg( "Tried to get invalid field_t: %s", c_str() );
+        static const field_t null_field_t{};
+        return null_field_t;
+    }
+    return found->second;
+}
+
+const field_id fd_null( "null" );
+const field_id fd_acid( "acid" );
+const field_id fd_acid_vent( "acid_vent" );
+const field_id fd_bees( "bees" );
+const field_id fd_bile( "bile" );
+const field_id fd_blood( "blood" );
+const field_id fd_blood_veggy( "blood_veggy" );
+const field_id fd_blood_insect( "blood_insect" );
+const field_id fd_blood_invertebrate( "blood_invertebrate" );
+const field_id fd_cigsmoke( "cigsmoke" );
+const field_id fd_cracksmoke( "cracksmoke" );
+const field_id fd_dazzling( "dazzling" );
+const field_id fd_electricity( "electricity" );
+const field_id fd_fatigue( "fatigue" );
+const field_id fd_fire( "fire" );
+const field_id fd_fire_vent( "fire_vent" );
+const field_id fd_flame_burst( "flame_burst" );
+const field_id fd_fungal_haze( "fungal_haze" );
+const field_id fd_fungicidal_gas( "fungicidal_gas" );
+const field_id fd_gas_vent( "gas_vent" );
+const field_id fd_gibs_flesh( "gibs_flesh" );
+const field_id fd_gibs_invertebrate( "gibs_invertebrate" );
+const field_id fd_hot_air1( "hot_air1" );
+const field_id fd_hot_air2( "hot_air2" );
+const field_id fd_hot_air3( "hot_air3" );
+const field_id fd_hot_air4( "hot_air4" );
+const field_id fd_incendiary( "incendiary" );
+const field_id fd_laser( "laser" );
+const field_id fd_methsmoke( "methsmoke" );
+const field_id fd_nuke_gas( "nuke_gas" );
+const field_id fd_plasma( "plasma" );
+const field_id fd_push_items( "push_items" );
+const field_id fd_relax_gas( "relax_gas" );
+const field_id fd_rubble( "rubble" );
+const field_id fd_shock_vent( "shock_vent" );
+const field_id fd_slime( "slime" );
+const field_id fd_smoke( "smoke" );
+const field_id fd_tear_gas( "tear_gas" );
+const field_id fd_toxic_gas( "toxic_gas" );
+const field_id fd_sap( "sap" );
+const field_id fd_sludge( "sludge" );
+const field_id fd_spotlight( "spotlight" );
+const field_id fd_web( "web" );
+const field_id fd_weedsmoke( "weedsmoke" );
+
 const species_id FUNGUS( "FUNGUS" );
 
 const efftype_id effect_badpoison( "badpoison" );
@@ -35,338 +100,6 @@ const efftype_id effect_webbed( "webbed" );
 
 #define INBOUNDS(x, y) \
  (x >= 0 && x < SEEX * my_MAPSIZE && y >= 0 && y < SEEY * my_MAPSIZE)
-
-field_t fieldlist[num_fields];
-
-void game::init_fields()
-{
-    // ID, {name}, symbol, priority, {color}, {transparency}, {dangerous}, half-life, {move_cost}
-    field_t tmp_fields[num_fields] =
-    {
-        {
-            "fd_null",
-            {"", "", ""}, '%', 0,
-            {c_white, c_white, c_white}, {true, true, true}, {false, false, false}, 0,
-            {0,0,0}
-        },
-        {
-            "fd_blood",
-            {_("blood splatter"), _("blood stain"), _("puddle of blood")}, '%', 0,
-            {c_red, c_red, c_red}, {true, true, true}, {false, false, false}, HOURS(48),
-            {0,0,0}
-        },
-        {
-            "fd_bile",
-            {_("bile splatter"), _("bile stain"), _("puddle of bile")}, '%', 0,
-            {c_pink, c_pink, c_pink}, {true, true, true}, {false, false, false}, HOURS(24),
-            {0,0,0}
-        },
-
-        {
-            "fd_gibs_flesh",
-            {_("scraps of flesh"), _("bloody meat chunks"), _("heap of gore")}, '~', 0,
-            {c_brown, c_ltred, c_red}, {true, true, true}, {false, false, false}, HOURS(48),
-            {0,0,0}
-        },
-
-        {
-            "fd_gibs_veggy",
-            {_("shredded leaves and twigs"), _("shattered branches and leaves"), _("broken vegetation tangle")}, '~', 0,
-            {c_ltgreen, c_ltgreen, c_green}, {true, true, true}, {false, false, false}, HOURS(48),
-            {0,0,0}
-        },
-
-        {
-            "fd_web",
-            {_("cobwebs"),_("webs"), _("thick webs")}, '}', 2,
-            {c_white, c_white, c_white}, {true, true, false},{false, false, false}, 0,
-            {0,0,0}
-        },
-
-        {
-            "fd_slime",
-            {_("slime trail"), _("slime stain"), _("puddle of slime")}, '%', 0,
-            {c_ltgreen, c_ltgreen, c_green},{true, true, true},{false, false, false}, HOURS(24),
-            {0,0,0}
-        },
-
-        {
-            "fd_acid",
-            {_("acid splatter"), _("acid streak"), _("pool of acid")}, '5', 2,
-            {c_ltgreen, c_green, c_green}, {true, true, true}, {true, true, true}, MINUTES(2),
-            {0,0,0}
-        },
-
-        {
-            "fd_sap",
-            {_("sap splatter"), _("glob of sap"), _("pool of sap")}, '5', 2,
-            {c_yellow, c_brown, c_brown}, {true, true, true}, {true, true, true}, MINUTES(2),
-            {0,0,0}
-        },
-
-        {
-            "fd_sludge",
-            {_("thin sludge trail"), _("sludge trail"), _("thick sludge trail")}, '5', 2,
-            {c_ltgray, c_dkgray, c_black}, {true, true, true}, {false, false, false}, HOURS(6),
-            {0,0,0}
-        },
-
-        {
-            "fd_fire",
-            {_("small fire"), _("fire"), _("raging fire")}, '4', 4,
-            {c_yellow, c_ltred, c_red}, {true, true, true}, {true, true, true}, MINUTES(30),
-            {0,0,0}
-        },
-
-       {
-           "fd_rubble",
-           {_("legacy rubble"), _("legacy rubble"), _("legacy rubble")}, '#', 0,
-           {c_dkgray, c_dkgray, c_dkgray}, {true, true, true},{false, false, false},  1,
-           {0,0,0}
-       },
-
-        {
-            "fd_smoke",
-            {_("thin smoke"), _("smoke"), _("thick smoke")}, '8', 8,
-            {c_white, c_ltgray, c_dkgray}, {true, false, false},{false, true, true}, MINUTES(3),
-            {0,0,0}
-        },
-        {
-            "fd_toxic_gas",
-            {_("hazy cloud"),_("toxic gas"),_("thick toxic gas")}, '8', 8,
-            {c_white, c_ltgreen, c_green}, {true, false, false},{false, true, true}, MINUTES(90),
-            {0,0,0}
-        },
-
-        {
-            "fd_tear_gas",
-            {_("hazy cloud"),_("tear gas"),_("thick tear gas")}, '8', 8,
-            {c_white, c_yellow, c_brown}, {true, false, false},{true, true, true}, MINUTES(60),
-            {0,0,0}
-        },
-
-        {
-            "fd_nuke_gas",
-            {_("hazy cloud"),_("radioactive gas"), _("thick radioactive gas")}, '8', 8,
-            {c_white, c_ltgreen, c_green}, {true, true, false}, {true, true, true}, MINUTES(100),
-            {0,0,0}
-        },
-
-        {
-            "fd_gas_vent",
-            {_("gas vent"), _("gas vent"), _("gas vent")}, '%', 0,
-            {c_white, c_white, c_white}, {true, true, true}, {false, false, false}, 0,
-            {0,0,0}
-        },
-
-        { // Fire Vents
-            "fd_fire_vent",
-            {"", "", ""}, '&', -1,
-            {c_white, c_white, c_white}, {true, true, true}, {false, false, false}, 0,
-            {0,0,0}
-        },
-
-        {
-            "fd_flame_burst",
-            {_("fire"), _("fire"), _("fire")}, '5', 4,
-            {c_red, c_red, c_red}, {true, true, true}, {true, true, true}, 0,
-            {0,0,0}
-        },
-
-        {
-            "fd_electricity",
-            {_("sparks"), _("electric crackle"), _("electric cloud")}, '9', 4,
-            {c_white, c_cyan, c_blue}, {true, true, true}, {true, true, true}, 2,
-            {0,0,0}
-        },
-
-        {
-            "fd_fatigue",
-            {_("odd ripple"), _("swirling air"), _("tear in reality")}, '*', 8,
-            {c_ltgray, c_dkgray, c_magenta},{true, true, false},{false, false, false},  0,
-            {0,0,0}
-        },
-
-        { //Push Items
-            "fd_push_items",
-            {"", "", ""}, '&', -1,
-            {c_white, c_white, c_white}, {true, true, true}, {false, false, false}, 0,
-            {0,0,0}
-        },
-
-        { // shock vents
-            "fd_shock_vent",
-            {"", "", ""}, '&', -1,
-            {c_white, c_white, c_white}, {true, true, true}, {false, false, false}, 0,
-            {0,0,0}
-        },
-
-        { // acid vents
-            "fd_acid_vent",
-            {"", "", ""}, '&', -1,
-            {c_white, c_white, c_white}, {true, true, true}, {false, false, false}, 0,
-            {0,0,0}
-        },
-
-        { // plasma glow (for plasma weapons)
-            "fd_plasma",
-            {_("faint plasma"), _("glowing plasma"), _("glaring plasma")}, '9', 4,
-            {c_magenta, c_pink, c_white}, {true, true, true}, {false, false, false}, 2,
-            {0,0,0}
-        },
-
-        { // laser beam (for laser weapons)
-            "fd_laser",
-            {_("faint glimmer"), _("beam of light"), _("intense beam of light")}, '#', 4,
-            {c_blue, c_ltblue, c_white}, {true, true, true}, {false, false, false}, 1,
-            {0,0,0}
-        },
-        {
-            "fd_spotlight",
-            { _("spotlight"), _("spotlight"), _("spotlight") }, '&', 1,
-            {c_white, c_white, c_white}, { true, true, true }, { false, false, false }, 1,
-            {0,0,0}
-        },
-        {
-            "fd_dazzling",
-            { _("dazzling"), _("dazzling"), _("dazzling") }, '#', 4,
-            {c_ltred_yellow, c_ltred_yellow, c_ltred_yellow}, { true, true, true }, { false, false, false }, 1,
-            { 0, 0, 0 }
-        },
-        {
-            "fd_blood_veggy",
-            {_("plant sap splatter"), _("plant sap stain"), _("puddle of resin")}, '%', 0,
-            {c_ltgreen, c_ltgreen, c_ltgreen}, {true, true, true}, {false, false, false}, HOURS(48),
-            {0,0,0}
-        },
-        {
-            "fd_blood_insect",
-            {_("bug blood splatter"), _("bug blood stain"), _("puddle of bug blood")}, '%', 0,
-            {c_green, c_green, c_green}, {true, true, true}, {false, false, false}, HOURS(48),
-            {0,0,0}
-        },
-        {
-            "fd_blood_invertebrate",
-            {_("hemolymph splatter"), _("hemolymph stain"), _("puddle of hemolymph")}, '%', 0,
-            {c_ltgray, c_ltgray, c_ltgray}, {true, true, true}, {false, false, false}, HOURS(48),
-            {0,0,0}
-        },
-        {
-            "fd_gibs_insect",
-            {_("shards of chitin"), _("shattered bug leg"), _("torn insect organs")}, '~', 0,
-            {c_ltgreen, c_green, c_yellow}, {true, true, true}, {false, false, false}, HOURS(48),
-            {0,0,0}
-        },
-        {
-            "fd_gibs_invertebrate",
-            {_("gooey scraps"), _("icky mess"), _("heap of squishy gore")}, '~', 0,
-            {c_ltgray, c_ltgray, c_dkgray}, {true, true, true}, {false, false, false}, HOURS(48),
-            {0,0,0}
-        },
-        {
-            "fd_cigsmoke",
-            {_("swirl of tobacco smoke"), _("tobacco smoke"), _("thick tobacco smoke")}, '%', 8,
-            {c_white, c_ltgray, c_dkgray}, {true, true, true},{false, false, false}, MINUTES(35),
-            {0,0,0}
-        },
-        {
-            "fd_weedsmoke",
-            {_("swirl of pot smoke"), _("pot smoke"), _("thick pot smoke")}, '%', 8,
-            {c_white, c_ltgray, c_dkgray}, {true, true, true},{false, false, false},  325,
-            {0,0,0}
-        },
-
-        {
-            "fd_cracksmoke",
-            {_("swirl of crack smoke"), _("crack smoke"), _("thick crack smoke")}, '%', 8,
-            {c_white, c_ltgray, c_dkgray}, {true, true, true},{false, false, false},  225,
-            {0,0,0}
-        },
-        {
-            "fd_methsmoke",
-            {_("swirl of meth smoke"), _("meth smoke"), _("thick meth smoke")}, '%', 8,
-            {c_white, c_ltgray, c_dkgray}, {true, true, true},{false, false, false},  275,
-            {0,0,0}
-        },
-        {
-            "fd_bees",
-            {_("some bees"), _("swarm of bees"), _("angry swarm of bees")}, '8', 8,
-            {c_white, c_ltgray, c_dkgray}, {true, true, true},{true, true, true}, MINUTES(100),
-            {0,0,0}
-        },
-
-        {
-            "fd_incendiary",
-            {_("smoke"),_("airborne incendiary"), _("airborne incendiary")}, '8', 8,
-            {c_white, c_ltred, c_ltred_red}, {true, true, false}, {true, true, true}, MINUTES(50),
-            {0,0,0}
-        },
-
-        {
-            "fd_relax_gas",
-            {_("hazy cloud"),_("sedative gas"),_("relaxation gas")}, '.', 8,
-            { c_white, c_pink, c_cyan }, { true, true, true }, { false, true, true }, MINUTES(50),
-            {0,0,0}
-        },
-
-        {
-            "fd_fungal_haze",
-            {_("hazy cloud"),_("fungal haze"),_("thick fungal haze")}, '.', 8,
-            { c_white, c_cyan, c_cyan }, { true, true, false }, { true, true, true }, MINUTES(4),
-            {0,0,0}
-        },
-
-        {
-            "fd_hot_air1",
-            {"", "", ""}, '&', -1,
-            {c_white, c_yellow, c_red}, {true, true, true}, {false, false, false}, MINUTES(50),
-            {0,0,0}
-        },
-
-        {
-            "fd_hot_air2",
-            {"", "", ""}, '&', -1,
-            {c_white, c_yellow, c_red}, {true, true, true}, {false, false, false}, MINUTES(50),
-            {0,0,0}
-        },
-
-        {
-            "fd_hot_air3",
-            {"", "", ""}, '&', -1,
-            {c_white, c_yellow, c_red}, {true, true, true}, {false, false, false}, MINUTES(50),
-            {0,0,0}
-        },
-
-        {
-            "fd_hot_air4",
-            {"", "", ""}, '&', -1,
-            {c_white, c_yellow, c_red}, {true, true, true}, {false, false, false}, MINUTES(50),
-            {0,0,0}
-        },
-
-        {
-            "fd_fungicidal_gas",
-            {_("hazy cloud"),_("fungicidal gas"),_("thick fungicidal gas")}, '8', 8,
-            {c_white, c_ltgray, c_dkgray}, {true, true, false}, {false, true, true}, MINUTES(90),
-            {0,0,0}
-        }
-
-    };
-    for(int i = 0; i < num_fields; i++) {
-        fieldlist[i] = tmp_fields[i];
-    }
-}
-
-field_id field_from_ident(const std::string &field_ident)
-{
-    for( size_t i = 0; i < num_fields; i++) {
-        if( fieldlist[i].id == field_ident ) {
-            return static_cast<field_id>( i );
-        }
-    }
-    debugmsg( "unknown field ident %s", field_ident.c_str() );
-    return fd_null;
-}
 
 bool map::process_fields()
 {
@@ -642,7 +375,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                 field_entry * cur = &it->second;
                 // The field might have been killed by processing a neighbour field
                 if( !cur->isAlive() ) {
-                    if( !fieldlist[cur->getFieldType()].transparent[cur->getFieldDensity() - 1] ) {
+                    if( !cur->getFieldType()->transparent[cur->getFieldDensity() - 1] ) {
                         dirty_transparency_cache = true;
                     }
                     current_submap->field_count--;
@@ -658,33 +391,26 @@ bool map::process_fields_in_submap( submap *const current_submap,
 
                 // Don't process "newborn" fields. This gives the player time to run if they need to.
                 if( cur->getFieldAge() == 0 ) {
-                    curtype = fd_null;
+                    curtype = field_id::NULL_ID;
                 }
 
                 int part;
                 vehicle *veh;
-                switch (curtype) {
-                    case fd_null:
-                    case num_fields:
-                        break;  // Do nothing, obviously.  OBVIOUSLY.
 
-                    case fd_blood:
-                    case fd_blood_veggy:
-                    case fd_blood_insect:
-                    case fd_blood_invertebrate:
-                    case fd_bile:
-                    case fd_gibs_flesh:
-                    case fd_gibs_veggy:
-                    case fd_gibs_insect:
-                    case fd_gibs_invertebrate:
+                // <hack>
+                // This was originally an 849 line switch statement with multiple internal break statements
+                // for each of the cases. To avoid having to refactor all of the cases when migrating to
+                // using string_id<field_t> the entire construct is wrapped in a single iteration loop so that
+                // internal break statements still have a similar effect
+                // </hack>
+                for( bool run_once = true; run_once; run_once = false ) {
+                    if( curtype == fd_gibs_invertebrate ) {
                         // Dissipate faster in water
                         if( map_tile.get_ter_t().has_flag( TFLAG_SWIMMABLE ) ) {
                             cur->setFieldAge( cur->getFieldAge() + 250 );
                         }
-                        break;
 
-                    case fd_acid:
-                    {
+                    } else if( curtype == fd_acid ) {
                         const auto &ter = map_tile.get_ter_t();
                         if( ter.has_flag( TFLAG_SWIMMABLE ) ) { // Dissipate faster in water
                             cur->setFieldAge( cur->getFieldAge() + 20 );
@@ -719,31 +445,22 @@ bool map::process_fields_in_submap( submap *const current_submap,
                         }
 
                         // TODO: Allow spreading to the sides if age < 0 && density == 3
-                    }
-                        break;
 
-                        // Use the normal aging logic below this switch
-                    case fd_web:
-                        break;
-                    case fd_sap:
-                        break;
-                    case fd_sludge:
-                        break;
-                    case fd_slime:
+                    } else if( curtype == fd_slime ) {
                         if( g->scent( p ) < cur->getFieldDensity() * 10 ) {
                             g->scent( p ) = cur->getFieldDensity() * 10;
                         }
-                        break;
-                    case fd_plasma:
-                        dirty_transparency_cache = true;
-                        break;
-                    case fd_laser:
-                        dirty_transparency_cache = true;
-                        break;
 
+                    } else if( curtype == fd_plasma ) {
+                        dirty_transparency_cache = true;
+
+                    } else if( curtype == fd_laser ) {
+                        dirty_transparency_cache = true;
+
+
+                    } else if( curtype == fd_fire ) {
                         // TODO-MATERIALS: use fire resistance
-                    case fd_fire:
-                    {
+
                         // Entire objects for ter/frn for flags, but only id for trp
                         // because the only trap we're checking for is brazier
                         const auto &ter = map_tile.get_ter_t();
@@ -1075,45 +792,36 @@ bool map::process_fields_in_submap( submap *const current_submap,
                         if( rng( 0, adjacent_fires ) > 2 ) {
                             create_hot_air( p, cur->getFieldDensity() );
                         }
-                    }
-                    break;
 
-                    case fd_smoke:
+                    } else if( curtype == fd_smoke ) {
                         dirty_transparency_cache = true;
                         spread_gas( cur, p, curtype, 80, 50 );
-                        break;
 
-                    case fd_tear_gas:
+                    } else if( curtype == fd_tear_gas ) {
                         dirty_transparency_cache = true;
                         spread_gas( cur, p, curtype, 33, 30 );
-                        break;
 
-                    case fd_relax_gas:
+                    } else if( curtype == fd_relax_gas ) {
                         dirty_transparency_cache = true;
                         spread_gas( cur, p, curtype, 25, 50 );
-                        break;
 
-                    case fd_fungal_haze:
+                    } else if( curtype == fd_fungal_haze ) {
                         dirty_transparency_cache = true;
                         spread_gas( cur, p, curtype, 33,  5);
                         if( one_in( 10 - 2 * cur->getFieldDensity() ) ) {
                             g->spread_fungus( p ); //Haze'd terrain
                         }
 
-                        break;
-
-                    case fd_toxic_gas:
+                    } else if( curtype == fd_toxic_gas ) {
                         dirty_transparency_cache = true;
                         spread_gas( cur, p, curtype, 50, 30 );
-                        break;
 
-                    case fd_cigsmoke:
+                    } else if( curtype == fd_cigsmoke ) {
                         dirty_transparency_cache = true;
                         spread_gas( cur, p, curtype, 250, 65 );
                         break;
 
-                    case fd_weedsmoke:
-                    {
+                    } else if( curtype == fd_weedsmoke ) {
                         dirty_transparency_cache = true;
                         spread_gas( cur, p, curtype, 200, 60 );
 
@@ -1127,11 +835,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                             }
                         }
 
-                    }
-                        break;
-
-                    case fd_methsmoke:
-                    {
+                    } else if( curtype == fd_methsmoke ) {
                         dirty_transparency_cache = true;
                         spread_gas( cur, p, curtype, 175, 70 );
 
@@ -1144,11 +848,8 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                 }
                             }
                         }
-                    }
-                        break;
 
-                    case fd_cracksmoke:
-                    {
+                    } else if( curtype == fd_cracksmoke ) {
                         dirty_transparency_cache = true;
                         spread_gas( cur, p, curtype, 175, 80 );
 
@@ -1161,28 +862,19 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                 }
                             }
                         }
-                    }
-                        break;
 
-                    case fd_nuke_gas:
-                    {
+                    } else if( curtype == fd_nuke_gas ) {
                         dirty_transparency_cache = true;
                         int extra_radiation = rng(0, cur->getFieldDensity());
                         adjust_radiation( p, extra_radiation );
                         spread_gas( cur, p, curtype, 50, 10 );
-                        break;
-                    }
 
-                    case fd_hot_air1:
-                    case fd_hot_air2:
-                    case fd_hot_air3:
-                    case fd_hot_air4:
+                    } else if( curtype == fd_hot_air1 || curtype == fd_hot_air2 ||
+                               curtype == fd_hot_air3 || curtype == fd_hot_air4 ) {
                         // No transparency cache wrecking here!
                         spread_gas( cur, p, curtype, 100, 1000 );
-                        break;
 
-                    case fd_gas_vent:
-                    {
+                    } else if( curtype == fd_gas_vent ) {
                         dirty_transparency_cache = true;
                         for( int i = -1; i <= 1; i++ ) {
                             for( int j = -1; j <= 1; j++ ) {
@@ -1196,10 +888,8 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                 }
                             }
                         }
-                    }
-                        break;
 
-                    case fd_fire_vent:
+                    } else if( curtype == fd_fire_vent ) {
                         if (cur->getFieldDensity() > 1) {
                             if (one_in(3)) {
                                 cur->setFieldDensity(cur->getFieldDensity() - 1);
@@ -1210,9 +900,8 @@ bool map::process_fields_in_submap( submap *const current_submap,
                             add_field( p, fd_flame_burst, 3, cur->getFieldAge() );
                             cur->setFieldDensity( 0 );
                         }
-                        break;
 
-                    case fd_flame_burst:
+                    } else if( curtype == fd_flame_burst ) {
                         if (cur->getFieldDensity() > 1) {
                             cur->setFieldDensity(cur->getFieldDensity() - 1);
                             create_hot_air( p, cur->getFieldDensity());
@@ -1223,7 +912,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                         }
                         break;
 
-                    case fd_electricity:
+                    } else if( curtype == fd_electricity ) {
                         if (!one_in(5)) {   // 4 in 5 chance to spread
                             std::vector<tripoint> valid;
                             if (impassable( p ) && cur->getFieldDensity() > 1) { // We're grounded
@@ -1271,10 +960,8 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                 }
                             }
                         }
-                        break;
 
-                    case fd_fatigue:
-                    {
+                    } else if( curtype == fd_fatigue ) {
                         static const std::array<mtype_id, 9> monids = { {
                             mtype_id( "mon_flying_polyp" ), mtype_id( "mon_hunting_horror" ),
                             mtype_id( "mon_mi_go" ), mtype_id( "mon_yugg" ), mtype_id( "mon_gelatin" ),
@@ -1286,10 +973,8 @@ bool map::process_fields_in_submap( submap *const current_submap,
                         } else if (cur->getFieldDensity() == 3 && one_in(600)) { // Spawn nether creature!
                             g->summon_mon( random_entry( monids ), p);
                         }
-                    }
-                        break;
 
-                    case fd_push_items: {
+                    } else if( curtype == fd_push_items ) {
                         auto items = i_at( p );
                         for( auto pushee = items.begin(); pushee != items.end(); ) {
                             if( pushee->typeId() != "rock" ||
@@ -1345,10 +1030,8 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                 }
                             }
                         }
-                    }
-                    break;
 
-                    case fd_shock_vent:
+                    } else if( curtype == fd_shock_vent ) {
                         if (cur->getFieldDensity() > 1) {
                             if (one_in(5)) {
                                 cur->setFieldDensity(cur->getFieldDensity() - 1);
@@ -1387,7 +1070,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                         }
                         break;
 
-                    case fd_acid_vent:
+                    } else if( curtype == fd_acid_vent ) {
                         if (cur->getFieldDensity() > 1) {
                             if (cur->getFieldAge() >= 10) {
                                 cur->setFieldDensity(cur->getFieldDensity() - 1);
@@ -1410,9 +1093,8 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                 }
                             }
                         }
-                        break;
 
-                    case fd_bees:
+                    } else if( curtype == fd_bees ) {
                         dirty_transparency_cache = true;
                         // Poor bees are vulnerable to so many other fields.
                         // TODO: maybe adjust effects based on different fields.
@@ -1463,11 +1145,8 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                 spread_gas( cur, p, curtype, 5, 0 );
                             }
                         }
-                        break;
 
-                    case fd_incendiary:
-                        {
-                            //Needed for variable scope
+                    } else if( curtype == fd_incendiary ) {
                             dirty_transparency_cache = true;
                             tripoint dst( p.x + rng( -1, 1 ), p.y + rng( -1, 1 ), p.z );
                             if( has_flag( TFLAG_FLAMMABLE, dst ) ||
@@ -1483,16 +1162,11 @@ bool map::process_fields_in_submap( submap *const current_submap,
 
                             spread_gas( cur, p, curtype, 66, 40 );
                             create_hot_air( p, cur->getFieldDensity());
-                        }
-                        break;
 
-                    //Legacy Stuff
-                    case fd_rubble:
-                        make_rubble( p );
-                        break;
+                    } else if( curtype == fd_rubble ) {
+                        make_rubble( p ); // legacy
 
-                    case fd_fungicidal_gas:
-                        {
+                    } else if( curtype == fd_fungicidal_gas ) {
                             dirty_transparency_cache = true;
                             spread_gas( cur, p, curtype, 120, 10 );
                             //check the terrain and replace it accordingly to simulate the fungus dieing off
@@ -1505,17 +1179,11 @@ bool map::process_fields_in_submap( submap *const current_submap,
                             if( frn.has_flag( "FUNGUS" ) && one_in( 10 / density ) ) {
                                 furn_set( p, f_null );
                             }
-                        }
-                        break;
-
-                    default:
-                        //Suppress warnings
-                        break;
-
-                } // switch (curtype)
+                    }
+                } // end run_once loop
 
                 cur->setFieldAge(cur->getFieldAge() + 1);
-                auto &fdata = fieldlist[cur->getFieldType()];
+                auto &fdata = *cur->getFieldType();
                 if( fdata.halflife > 0 && cur->getFieldAge() > 0 &&
                     dice( 2, cur->getFieldAge() ) > fdata.halflife ) {
                     cur->setFieldAge( 0 );
@@ -1567,20 +1235,16 @@ void map::player_in_field( player &u )
             continue;
         }
 
-        //Do things based on what field effect we are currently in.
-        switch (cur->getFieldType()) {
-        case fd_null:
-        case fd_blood: // It doesn't actually do anything //necessary to add other types of blood?
-        case fd_bile:  // Ditto
-        case fd_cigsmoke:
-        case fd_weedsmoke:
-        case fd_methsmoke:
-        case fd_cracksmoke:
-            //break instead of return in the event of post-processing in the future;
-            // also we're in a loop now!
-            break;
+        // <hack>
+        // This was originally an 426 line switch statement with multiple internal break statements
+        // for each of the cases. To avoid having to refactor all of the cases when migrating to
+        // using string_id<field_t> the entire construct is wrapped in a single iteration loop so that
+        // internal break statements still have a similar effect
+        // </hack>
+        for( bool run_once = true; run_once; run_once = false ) {
+        auto curtype = cur->getFieldType();
 
-        case fd_web: {
+        if( curtype == fd_web ) {
             //If we are in a web, can't walk in webs or are in a vehicle, get webbed maybe.
             //Moving through multiple webs stacks the effect.
             if (!u.has_trait("WEB_WALKER") && !u.in_vehicle) {
@@ -1594,10 +1258,8 @@ void map::player_in_field( player &u )
                 cur->setFieldDensity( 0 );
                 continue;
             }
-        } break;
 
-        case fd_acid:
-        {
+        } else if( curtype == fd_acid ) {
             // Assume vehicles block acid damage entirely,
             // you're certainly not standing in it.
             if( u.in_vehicle ) {
@@ -1656,10 +1318,8 @@ void map::player_in_field( player &u )
             }
 
             u.check_dead_state();
-        }
-            break;
 
-        case fd_sap:
+        } else if( curtype == fd_sap ) {
             //Sap causes the player to get sap disease, slowing them down.
             if ( u.in_vehicle ) {
                 break; //sap does nothing to cars.
@@ -1667,15 +1327,13 @@ void map::player_in_field( player &u )
             u.add_msg_player_or_npc(m_bad, _("The sap sticks to you!"), _("The sap sticks to <npcname>!"));
             u.add_effect( effect_sap, cur->getFieldDensity() * 2);
             cur->setFieldDensity(cur->getFieldDensity() - 1); //Use up sap.
-            break;
 
-        case fd_sludge:
+        } else if( curtype == fd_sludge ) {
             u.add_msg_if_player(m_bad, _("The sludge is thick and sticky. You struggle to pull free."));
             u.moves -= cur->getFieldDensity() * 300;
             cur->setFieldDensity( 0 );
-            break;
 
-        case fd_fire:
+        } else if( curtype == fd_fire ) {
             if( u.has_active_bionic("bio_heatsink") || u.is_wearing("rm13_armor_on") ||
                 u.has_trait("M_SKIN2") ) {
                 //heatsink, suit, or internal restructuring prevents ALL fire damage.
@@ -1760,10 +1418,8 @@ void map::player_in_field( player &u )
                 }
                 u.check_dead_state();
             }
-            break;
 
-        case fd_smoke:
-            {
+        } else if( curtype == fd_smoke ) {
                 if (!inside) {
                     //Get smoke disease from standing in smoke.
                     int density = cur->getFieldDensity();
@@ -1781,10 +1437,8 @@ void map::player_in_field( player &u )
                     }
                     u.add_env_effect( effect_smoke, bp_mouth, coughStr, coughDur );
                 }
-            }
-            break;
 
-        case fd_tear_gas:
+        } else if( curtype == fd_sap ) {
             //Tear gas will both give you teargas disease and/or blind you.
             if ((cur->getFieldDensity() > 1 || !one_in(3)) && (!inside || (inside && one_in(3))))
             {
@@ -1794,34 +1448,29 @@ void map::player_in_field( player &u )
             {
                 u.add_env_effect( effect_blind, bp_eyes, cur->getFieldDensity() * 2, 10 );
             }
-            break;
 
-        case fd_relax_gas:
+        } else if( curtype == fd_relax_gas ) {
             if ((cur->getFieldDensity() > 1 || !one_in(3)) && (!inside || (inside && one_in(3))))
             {
                 u.add_env_effect( effect_relax_gas, bp_mouth, cur->getFieldDensity() * 2, 3 );
             }
-            break;
 
-        case fd_fungal_haze:
+        } else if( curtype == fd_fungal_haze ) {
             if (!u.has_trait("M_IMMUNE") && (!inside || (inside && one_in(4))) ) {
                 u.add_env_effect( effect_fungus, bp_mouth, 4, 100, num_bp, true );
                 u.add_env_effect( effect_fungus, bp_eyes, 4, 100, num_bp, true );
             }
-            break;
 
-        case fd_dazzling:
+        } else if( curtype == fd_dazzling ) {
             if (cur->getFieldDensity() > 1 || one_in(5)){
                 u.add_env_effect( effect_blind, bp_eyes, 10, 10 );
             } else{
                 u.add_env_effect( effect_blind, bp_eyes, 2, 2 );
             }
-            break;
 
-        case fd_toxic_gas:
+        } else if( curtype == fd_toxic_gas ) {
             // Toxic gas at low levels poisons you.
             // Toxic gas at high levels will cause very nasty poison.
-            {
                 bool inhaled = false;
                 if( cur->getFieldDensity() == 2 &&
                     (!inside || (cur->getFieldDensity() == 3 && inside)) ) {
@@ -1835,10 +1484,8 @@ void map::player_in_field( player &u )
                     // player does not know how the npc feels, so no message.
                     u.add_msg_if_player(m_bad, _("You feel sick from inhaling the %s"), cur->name().c_str());
                 }
-            }
-            break;
 
-        case fd_nuke_gas:
+        } else if( curtype == fd_nuke_gas ) {
             // Get irradiated by the nuclear fallout.
             // Changed to min of density, not 0.
             u.radiation += rng(cur->getFieldDensity(),
@@ -1847,9 +1494,9 @@ void map::player_in_field( player &u )
                 u.add_msg_if_player(m_bad, _("This radioactive gas burns!"));
                 u.hurtall(rng(1, 3), nullptr);
             }
-            break;
 
-        case fd_flame_burst:
+
+        } else if( curtype == fd_flame_burst ) {
             //A burst of flame? Only hits the legs and torso.
             if (inside) break; //fireballs can't touch you inside a car.
             if (!u.has_active_bionic("bio_heatsink") && !u.is_wearing("rm13_armor_on") &&
@@ -1859,12 +1506,11 @@ void map::player_in_field( player &u )
                 u.deal_damage( nullptr, bp_leg_r, damage_instance( DT_HEAT, rng( 2, 6 ) ) );
                 u.deal_damage( nullptr, bp_torso, damage_instance( DT_HEAT, rng( 4, 9 ) ) );
                 u.check_dead_state();
-            } else
+            } else {
                 u.add_msg_player_or_npc(_("These flames do not burn you."), _("Those flames do not burn <npcname>."));
-            break;
+            }
 
-        case fd_electricity:
-        {
+        } else if( curtype == fd_electricity ) {
             // Small universal damage based on density.
             int total_damage = 0;
             for( size_t i = 0; i < num_hp_parts; i++ ) {
@@ -1879,11 +1525,9 @@ void map::player_in_field( player &u )
                 u.add_msg_player_or_npc( _("The electric cloud doesn't affect you."),
                                      _("The electric cloud doesn't seem to affect <npcname>.") );
             }
-        }
 
-            break;
 
-        case fd_fatigue:
+        } else if( curtype == fd_fatigue ) {
             //Teleports you... somewhere.
             if (rng(0, 2) < cur->getFieldDensity() && u.is_player() ) {
                 // TODO: allow teleporting for npcs
@@ -1891,20 +1535,16 @@ void map::player_in_field( player &u )
                 u.hurtall(cur->getFieldDensity(), nullptr);
                 g->teleport();
             }
-            break;
 
-            //Why do these get removed???
-        case fd_shock_vent:
+        } else if( curtype == fd_shock_vent ) {
             //Stepping on a shock vent shuts it down.
             cur->setFieldDensity( 0 );
-            continue;
 
-        case fd_acid_vent:
+        } else if( curtype == fd_acid_vent ) {
             //Stepping on an acid vent shuts it down.
             cur->setFieldDensity( 0 );
-            continue;
 
-        case fd_bees:
+        } else if( curtype == fd_bees ) {
             // Player is immune to bees while underwater.
             if( !u.is_underwater() ) {
                 int times_stung = 0;
@@ -1950,9 +1590,8 @@ void map::player_in_field( player &u )
                     break;
                 }
             }
-            break;
 
-        case fd_incendiary:
+        } else if( curtype == fd_incendiary ) {
             // Mysterious incendiary substance melts you horribly.
             if (u.has_trait("M_SKIN2") || cur->getFieldDensity() == 1) {
                 u.add_msg_player_or_npc(m_bad, _("The incendiary burns you!"), _("The incendiary burns <npcname>!"));
@@ -1962,11 +1601,9 @@ void map::player_in_field( player &u )
                 u.add_effect( effect_onfire, 8);
                 u.hurtall(rng(2, 6), nullptr);
             }
-            break;
 
-        case fd_fungicidal_gas:
+        } else if( curtype == fd_fungicidal_gas ) {
             // Fungicidal gas is unhealthy and becomes deadly if you cross a related threshold.
-            {
                 // The gas won't harm you inside a vehicle.
                 if( inside ) {
                     break;
@@ -1987,13 +1624,7 @@ void map::player_in_field( player &u )
                 if( inhaled ) {
                     u.add_msg_if_player( m_bad, _("The %s makes you feel sick."), cur->name().c_str() );
                 }
-            }
-            break;
-
-        default:
-            //Suppress warnings
-            break;
-        }
+        } }
     }
 
 }
@@ -2026,42 +1657,35 @@ void map::monster_in_field( monster &z )
             continue;
         }
 
-        switch (cur->getFieldType()) {
-        case fd_null:
-        case fd_blood: // It doesn't actually do anything
-        case fd_bile:  // Ditto
-            break;
+        auto curtype = cur->getFieldType();
 
-        case fd_web:
+        if( curtype == fd_web ) {
             if (!z.has_flag(MF_WEBWALK)) {
                 z.add_effect( effect_webbed, 1, num_bp, true, cur->getFieldDensity());
                 cur->setFieldDensity( 0 );
             }
-            break;
 
-        case fd_acid:
+        } else if( curtype == fd_acid ) {
             if( !z.has_flag( MF_FLIES ) ) {
                 const int d = rng( cur->getFieldDensity(), cur->getFieldDensity() * 3 );
                 z.deal_damage( nullptr, bp_torso, damage_instance( DT_ACID, d ) );
                 z.check_dead_state();
             }
-            break;
 
-        case fd_sap:
+        } else if( curtype == fd_sap ) {
             z.moves -= cur->getFieldDensity() * 5;
             cur->setFieldDensity(cur->getFieldDensity() - 1);
-            break;
 
-        case fd_sludge:
+        } else if( curtype == fd_sludge ) {
             if (!z.has_flag(MF_DIGS) && !z.has_flag(MF_FLIES) &&
                 !z.has_flag(MF_SLUDGEPROOF)) {
               z.moves -= cur->getFieldDensity() * 300;
               cur->setFieldDensity( 0 );
             }
-            break;
 
+        } else if( curtype == fd_fire ) {
             // MATERIALS-TODO: Use fire resistance
-        case fd_fire:
+
             if (z.has_flag(MF_FIREPROOF)){
                 return;
             }
@@ -2105,9 +1729,8 @@ void map::monster_in_field( monster &z )
             }
             // Drop through to smoke no longer needed as smoke will exist in the same square now,
             // this would double apply otherwise.
-            break;
 
-        case fd_smoke:
+        } else if( curtype == fd_smoke ) {
             if (!z.has_flag(MF_NO_BREATHE)) {
                 if (cur->getFieldDensity() == 3) {
                     z.moves -= rng(10, 20);
@@ -2116,9 +1739,8 @@ void map::monster_in_field( monster &z )
                     z.moves -= rng(1, cur->getFieldDensity() * 12);
                 }
             }
-            break;
 
-        case fd_tear_gas:
+        } else if( curtype == fd_tear_gas ) {
             if ((z.made_of( material_id( "flesh" ) ) || z.made_of( material_id( "hflesh" ) ) || z.made_of( material_id( "veggy" ) ) || z.made_of( material_id( "iflesh" ) )) &&
                 !z.has_flag(MF_NO_BREATHE)) {
                 if (cur->getFieldDensity() == 3) {
@@ -2138,30 +1760,26 @@ void map::monster_in_field( monster &z )
                      z.add_effect( effect_blind, cur->getFieldDensity() * 8);
                 }
             }
-            break;
 
-        case fd_relax_gas:
+        } else if( curtype == fd_relax_gas ) {
             if ((z.made_of( material_id( "flesh" ) ) || z.made_of( material_id( "hflesh" ) ) || z.made_of( material_id( "veggy" ) ) || z.made_of( material_id( "iflesh" ) )) &&
                 !z.has_flag(MF_NO_BREATHE)) {
                 z.add_effect( effect_stunned, rng(cur->getFieldDensity() * 4, cur->getFieldDensity() * 8));
             }
-            break;
 
-        case fd_dazzling:
+        } else if( curtype == fd_dazzling ) {
             if (z.has_flag(MF_SEES)) {
                 z.add_effect( effect_blind, cur->getFieldDensity() * 12);
                 z.add_effect( effect_stunned, cur->getFieldDensity() * rng(5, 12));
             }
-            break;
 
-        case fd_toxic_gas:
+        } else if( curtype == fd_toxic_gas ) {
             if(!z.has_flag(MF_NO_BREATHE)) {
                 dam += cur->getFieldDensity();
                 z.moves -= cur->getFieldDensity();
             }
-            break;
 
-        case fd_nuke_gas:
+        } else if( curtype == fd_nuke_gas ) {
             if(!z.has_flag(MF_NO_BREATHE)) {
                 if (cur->getFieldDensity() == 3) {
                     z.moves -= rng(60, 120);
@@ -2178,10 +1796,10 @@ void map::monster_in_field( monster &z )
                     dam *= cur->getFieldDensity();
                 }
             }
-            break;
 
+        } else if( curtype == fd_flame_burst) {
             // MATERIALS-TODO: Use fire resistance
-        case fd_flame_burst:
+
             if (z.made_of( material_id( "flesh" ) ) || z.made_of( material_id( "hflesh" ) ) || z.made_of( material_id( "iflesh" ) )) {
                 dam += 3;
             }
@@ -2197,15 +1815,13 @@ void map::monster_in_field( monster &z )
             }
             dam += rng(0, 8);
             z.moves -= 20;
-            break;
 
-        case fd_electricity:
+        } else if( curtype == fd_electricity ) {
             // We don't want to increase dam, but deal a separate hit so that it can apply effects
             z.deal_damage( nullptr, bp_torso,
                            damage_instance( DT_ELECTRIC, rng( 1, cur->getFieldDensity() * 3 ) ) );
-            break;
 
-        case fd_fatigue:
+        } else if( curtype == fd_fatigue ) {
             if (rng(0, 2) < cur->getFieldDensity()) {
                 dam += cur->getFieldDensity();
                 int tries = 0;
@@ -2231,9 +1847,8 @@ void map::monster_in_field( monster &z )
                     }
                 }
             }
-            break;
 
-        case fd_incendiary:
+        } else if( curtype == fd_incendiary ) {
             // MATERIALS-TODO: Use fire resistance
             if ( z.made_of( material_id( "flesh" ) ) || z.made_of( material_id( "hflesh" ) ) || z.made_of( material_id( "iflesh" ) ) ) {
                 dam += 3;
@@ -2266,9 +1881,8 @@ void map::monster_in_field( monster &z )
                         z.add_effect( effect_onfire, rng(12, 16));
                 }
             }
-            break;
 
-        case fd_fungal_haze:
+        } else if( curtype == fd_fungal_haze ) {
             if( !z.type->in_species( FUNGUS ) &&
                 !z.type->has_flag("NO_BREATHE") &&
                 !z.make_fungus() ) {
@@ -2277,19 +1891,13 @@ void map::monster_in_field( monster &z )
                 z.moves -= rng( 10 * density, 30 * density );
                 dam += rng( 0, 10 * density );
             }
-            break;
 
-        case fd_fungicidal_gas:
+        } else if( curtype == fd_fungicidal_gas ) {
             if( z.type->in_species( FUNGUS ) ) {
                 const int density = cur->getFieldDensity();
                 z.moves -= rng( 10 * density, 30 * density );
                 dam += rng( 4, 7 * density );
             }
-            break;
-
-        default:
-            //Suppress warnings
-            break;
         }
     }
 
@@ -2300,7 +1908,7 @@ void map::monster_in_field( monster &z )
 }
 
 int field_entry::move_cost() const{
-  return fieldlist[type].move_cost[ getFieldDensity() - 1 ];
+  return type->move_cost[ getFieldDensity() - 1 ];
 }
 
 field_id field_entry::getFieldType() const{
@@ -2318,16 +1926,7 @@ int field_entry::getFieldAge() const{
 }
 
 field_id field_entry::setFieldType(const field_id new_field_id){
-
-    //TODO: Better bounds checking.
-    if(new_field_id >= 0 && new_field_id < num_fields){
-        type = new_field_id;
-    } else {
-        type = fd_null;
-    }
-
-    return type;
-
+    return type = new_field_id;
 }
 
 int field_entry::setFieldDensity(const int new_density)
@@ -2391,7 +1990,7 @@ Density defaults to 1, and age to 0 (permanent) if not specified.
 */
 bool field::addField(const field_id field_to_add, const int new_density, const int new_age){
     auto it = field_list.find(field_to_add);
-    if (fieldlist[field_to_add].priority >= fieldlist[draw_symbol].priority)
+    if( field_to_add->priority >= draw_symbol->priority )
         draw_symbol = field_to_add;
     if(it != field_list.end()) {
         //Already exists, but lets update it. This is tentative.
@@ -2420,7 +2019,7 @@ void field::removeField( std::map<field_id, field_entry>::iterator const it )
         } else {
             draw_symbol = fd_null;
             for( auto &fld : field_list ) {
-                if (fieldlist[fld.first].priority >= fieldlist[draw_symbol].priority) {
+                if( fld.first->priority >= draw_symbol->priority ) {
                     draw_symbol = fld.first;
                 }
             }
@@ -2476,6 +2075,10 @@ int field::move_cost() const
 
 bool field_type_dangerous( field_id id )
 {
-    const field_t &ft = fieldlist[id];
-    return ft.dangerous[0] || ft.dangerous[1] || ft.dangerous[2];
+    for( int i = 0; i != MAX_FIELD_DENSITY; ++i ) {
+        if( id->dangerous[ i ] ) {
+            return true;
+        }
+    }
+    return false;
 }

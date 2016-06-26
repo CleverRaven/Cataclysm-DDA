@@ -610,11 +610,11 @@ public:
  */
 class jmapgen_field : public jmapgen_piece {
 public:
-    field_id ftype;
+    field_id ftype = field_id( "null" );
     int density;
     int age;
     jmapgen_field( JsonObject &jsi ) : jmapgen_piece()
-    , ftype( field_from_ident( jsi.get_string( "field" ) ) )
+    , ftype( jsi.get_string( "field" ) )
     , density( jsi.get_int( "density", 1 ) )
     , age( jsi.get_int( "age", 0 ) )
     {

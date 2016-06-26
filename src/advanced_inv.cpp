@@ -654,15 +654,10 @@ void advanced_inv_area::init()
     for( auto &fld : tmpfld ) {
         const field_entry &cur = fld.second;
         field_id curType = cur.getFieldType();
-        switch( curType ) {
-            case fd_fire:
-                flags.append( _( " <color_white_red>FIRE</color>" ) );
-                break;
-            default:
-                if( cur.is_dangerous() ) {
-                    danger_field = true;
-                }
-                break;
+        if( curType == fd_fire ) {
+            flags.append( _( " <color_white_red>FIRE</color>" ) );
+        } else if( cur.is_dangerous() ) {
+            danger_field = true;
         }
     }
     if( danger_field ) {

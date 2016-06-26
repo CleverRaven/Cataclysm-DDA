@@ -13,10 +13,11 @@ class monfaction;
 class player;
 struct mtype;
 enum monster_trigger : int;
-enum field_id : int;
 
 using mfaction_id = int_id<monfaction>;
 using mtype_id = string_id<mtype>;
+struct field_t;
+using field_id = string_id<field_t>;
 
 typedef std::map< mfaction_id, std::set< int > > mfactions;
 

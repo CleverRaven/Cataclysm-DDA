@@ -199,9 +199,7 @@ void explosion_iuse::load( JsonObject &obj )
     obj.read( "do_flashbang", do_flashbang );
     obj.read( "flashbang_player_immune", flashbang_player_immune );
     obj.read( "fields_radius", fields_radius );
-    if( obj.has_member( "fields_type" ) || fields_radius > 0 ) {
-        fields_type = field_from_ident( obj.get_string( "fields_type" ) );
-    }
+    obj.read( "fields_type", fields_type );
     obj.read( "fields_min_density", fields_min_density );
     obj.read( "fields_max_density", fields_max_density );
     obj.read( "emp_blast_radius", emp_blast_radius );
@@ -452,9 +450,8 @@ long consume_drug_iuse::use(player *p, item *it, bool, const tripoint& ) const
         p->mod_stat( stat->first, stat->second );
     }
     for( auto field = fields_produced.cbegin(); field != fields_produced.cend(); ++field ) {
-        const field_id fid = field_from_ident( field->first );
         for(int i = 0; i < 3; i++) {
-            g->m.add_field({p->posx() + int(rng(-2, 2)), p->posy() + int(rng(-2, 2)), p->posz()}, fid, field->second, 0);
+            g->m.add_field({p->posx() + int(rng(-2, 2)), p->posy() + int(rng(-2, 2)), p->posz()}, field->first, field->second, 0);
         }
     }
 

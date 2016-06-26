@@ -11,7 +11,8 @@
 #include <map>
 
 using skill_id = string_id<Skill>;
-enum field_id : int;
+struct field_t;
+using field_id = string_id<field_t>;
 class field;
 class field_entry;
 class vehicle;
