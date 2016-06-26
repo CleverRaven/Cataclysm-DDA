@@ -23,13 +23,13 @@
 
 struct inventory_entry {
     private:
+        /** The item that should be displayed here. Can be NULL. */
+        const item *it;
         /** Pointer into an inventory slice, can be NULL, if not NULL, it should not
         * point to an empty list. The first entry should be the same as @ref it. */
         const std::list<item> *slice;
 
     public:
-    /** The item that should be displayed here. Can be NULL. */
-    const item *it;
     /** The category of an item. */
     const item_category *category;
     /** The item position in the players inventory. It should be unique as it
@@ -64,16 +64,25 @@ struct inventory_entry {
     }
 
     size_t get_stack_size() const {
-        return ( slice != nullptr ) ? slice->size() : ( it != nullptr ) ? 1 : 0;
+        return ( slice != nullptr ) ? slice->size() : is_item() ? 1 : 0;
     }
 
     size_t get_available_count() const {
         const size_t stack_size = get_stack_size();
-        if( stack_size == 1 && it != nullptr ) {
-            return it->count_by_charges() ? it->charges : 1;
+        if( stack_size == 1 && is_item() ) {
+            return get_item().count_by_charges() ? get_item().charges : 1;
         } else {
             return stack_size;
         }
+    }
+
+    const item &get_item() const {
+        if( it == nullptr ) {
+            static const item nullitem;
+            debugmsg( "Tried to access an empty item." );
+            return nullitem;
+        }
+        return *it;
     }
 
     bool is_item() const {
@@ -343,7 +352,7 @@ class inventory_selector
 inventory_entry *inventory_column::find_by_invlet( long invlet ) const
 {
     for( const auto &entry : entries ) {
-        if( entry.is_item() && entry.it->invlet == invlet ) {
+        if( entry.is_item() && entry.get_item().invlet == invlet ) {
             return const_cast<inventory_entry *>( &entry );
         }
     }
@@ -491,7 +500,7 @@ std::string inventory_column::get_entry_text( const inventory_entry &entry ) con
 
     if( entry.is_item() ) {
         if( OPTIONS["ITEM_SYMBOLS"] ) {
-            res << entry.it->symbol() << ' ';
+            res << entry.get_item().symbol() << ' ';
         }
 
         if( multiselect ) {
@@ -509,7 +518,7 @@ std::string inventory_column::get_entry_text( const inventory_entry &entry ) con
         if( count > 1 ) {
             res << count << ' ';
         }
-        res << entry.it->display_name( count );
+        res << entry.get_item().display_name( count );
     } else if( entry.category != nullptr ) {
         res << entry.category->name;
     }
@@ -519,7 +528,7 @@ std::string inventory_column::get_entry_text( const inventory_entry &entry ) con
 nc_color inventory_column::get_entry_color( const inventory_entry &entry ) const
 {
     if( entry.is_item() ) {
-        return ( active && is_selected( entry ) ) ? h_white : entry.it->color_in_inventory();
+        return ( active && is_selected( entry ) ) ? h_white : entry.get_item().color_in_inventory();
     } else {
         return c_magenta;
     }
@@ -536,9 +545,10 @@ void inventory_column::draw( WINDOW *win, size_t x, size_t y ) const
         trim_and_print( win, y + line, x + get_entry_indent( entry ), getmaxx( win ) - x,
                         get_entry_color( entry ), "%s", get_entry_text( entry ).c_str() );
 
-        if( entry.is_item() && entry.it->invlet != '\0' ) {
-            const nc_color invlet_color = g->u.assigned_invlet.count( entry.it->invlet ) ? c_yellow : c_white;
-            mvwputch( win, y + line, x, invlet_color, entry.it->invlet );
+        const char invlet = entry.is_item() ? entry.get_item().invlet : '\0';
+        if( invlet != '\0' ) {
+            const nc_color invlet_color = g->u.assigned_invlet.count( invlet ) ? c_yellow : c_white;
+            mvwputch( win, y + line, x, invlet_color, invlet );
         }
     }
 }
@@ -592,7 +602,7 @@ std::string selection_column::get_entry_text( const inventory_entry &entry ) con
 
     if( entry.is_item() ) {
         if( OPTIONS["ITEM_SYMBOLS"] ) {
-            res << entry.it->symbol() << ' ';
+            res << entry.get_item().symbol() << ' ';
         }
 
         const size_t available_count = entry.get_available_count();
@@ -601,7 +611,7 @@ std::string selection_column::get_entry_text( const inventory_entry &entry ) con
         } else if( available_count != 1 ) {
             res << available_count << ' ';
         }
-        res << entry.it->display_name( available_count );
+        res << entry.get_item().display_name( available_count );
     } else {
         res << inventory_column::get_entry_text( entry ) << ' ';
 
@@ -625,7 +635,7 @@ nc_color selection_column::get_entry_color( const inventory_entry &entry ) const
         return c_cyan;
     }
 
-    return entry.it->color_in_inventory();
+    return entry.get_item().color_in_inventory();
 }
 
 void inventory_selector::add_entries( const indexed_invslice &slice, const item_category *def_cat )
@@ -1019,7 +1029,7 @@ item_location inventory_selector::execute_pick_map( const std::string &title, st
         const auto entry = find_entry_by_invlet( ch );
 
         if( entry != nullptr ) {
-            item *it = const_cast<item *>( entry->it );
+            item *it = const_cast<item *>( &entry->get_item() );
             const auto iter = opts.find( it );
             return ( iter != opts.end() ) ? std::move( iter->second ) : item_location( u, it );
         } else if( action == "QUIT" ) {
@@ -1027,7 +1037,7 @@ item_location inventory_selector::execute_pick_map( const std::string &title, st
 
         } else if( action == "RIGHT" || action == "CONFIRM" ) {
             const auto selected = get_active_column().get_selected();
-            const auto it = const_cast<item *>( selected.it );
+            const auto it = const_cast<item *>( &selected.get_item() );
 
             // Item in inventory
             if( selected.item_pos != INT_MIN ) {
@@ -1094,17 +1104,17 @@ void inventory_selector::execute_compare( const std::string &title )
         }
 
         if( compared.size() == 2 ) {
-            const item *first_item = compared.back()->it;
-            const item *second_item = compared.front()->it;
+            const item &first_item = compared.back()->get_item();
+            const item &second_item = compared.front()->get_item();
 
             std::vector<iteminfo> vItemLastCh, vItemCh;
             std::string sItemLastCh, sItemCh, sItemTn;
 
-            first_item->info( true, vItemCh );
-            sItemCh = first_item->tname();
-            sItemTn = first_item->type_name();
-            second_item->info(true, vItemLastCh);
-            sItemLastCh = second_item->tname();
+            first_item.info( true, vItemCh );
+            sItemCh = first_item.tname();
+            sItemTn = first_item.type_name();
+            second_item.info(true, vItemLastCh);
+            sItemLastCh = second_item.tname();
 
             int iScrollPos = 0;
             int iScrollPosLast = 0;
