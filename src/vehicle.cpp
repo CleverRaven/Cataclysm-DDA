@@ -6162,7 +6162,7 @@ ammotype vehicle_part::ammo_type() const
     // @todo generic fuel tanks are not yet supported
     if( is_tank() ) {
         const itype *fuel = item::find_type( info().fuel_type );
-        return fuel->ammo ? fuel->ammo->type : "NULL";
+        return fuel->ammo ? fuel->ammo->type : ammotype( "NULL" );
     }
 
     if( is_battery() ) {
@@ -6177,7 +6177,7 @@ ammotype vehicle_part::ammo_type() const
         return base.ammo_type();
     }
 
-    return "NULL";
+    return ammotype( "NULL" );
 }
 
 itype_id vehicle_part::ammo_current() const
