@@ -328,7 +328,7 @@ classes = {
             { name = "get_temperature", rval = "int", args = { } },
             { name = "handle_liquid", rval = "bool", args = { "item" } },
             { name = "increase_kill_count", rval = nil, args = { "mtype_id" } },
-            { name = "inv", rval = "int", args = { "int" } },
+            { name = "interactive_inv", rval = nil, args = { } },
             { name = "inv_for_all", rval = "int", args = { "string" } },
             { name = "inv_for_activatables", rval = "int", args = { "player", "string" } },
             { name = "inv_for_flag", rval = "int", args = { "string", "string" } },
