@@ -74,14 +74,14 @@
     "skill_used": "cooking",
     "difficulty": 6,
     "result_mult": 4,
-    "time": 440000,
+    "time": 420000,
     "book_learn": [ [ "textbook_biodiesel", 5 ] ],
     "batch_time_factors":[99, 1],
     "qualities":[ { "id": "CHEM", "level": 2 } ],
     "tools": [ [
       [ "fire", -1 ],
-      [ "hotplate", 80 ],
-      [ "toolset", 80 ]
+      [ "hotplate", 100 ],
+      [ "toolset", 100 ]
     ] ],
     "components": [
         [ [ "water_clean", 4 ], [ "water", 4 ] ],
