@@ -23,8 +23,7 @@
 
 struct inventory_entry {
     private:
-        /** The item that should be displayed here. Can be NULL. */
-        const item *it;
+        std::shared_ptr<item_location> location;
         size_t stack_size;
 
     public:
@@ -32,20 +31,20 @@ struct inventory_entry {
     const item_category *category;
     size_t chosen_count = 0;
 
-    inventory_entry( const item *it, size_t stack_size, const item_category *cat = nullptr )
-        : it( it ),
+    inventory_entry( const std::shared_ptr<item_location> &location, size_t stack_size, const item_category *cat = nullptr )
+        : location( ( location != nullptr ) ? location : std::make_shared<item_location>() ), // to make sure that location != nullptr always
           stack_size( stack_size ),
-          category( ( cat != nullptr ) ? cat : &it->get_category() ) {}
+          category( ( cat != nullptr ) ? cat : ( this->location->get_item() != nullptr ) ? &location->get_item()->get_category() : nullptr ) {}
 
-    inventory_entry( const item *it, const item_category *cat = nullptr )
-        : inventory_entry( it, ( it != nullptr ) ? 1 : 0, cat ) {}
+    inventory_entry( const std::shared_ptr<item_location> &location, const item_category *cat = nullptr )
+        : inventory_entry( location, ( location->get_item() != nullptr ) ? 1 : 0, cat ) {}
 
     inventory_entry( const item_category *cat = nullptr )
-        : inventory_entry( nullptr, cat ) {}
+        : inventory_entry( std::make_shared<item_location>(), cat ) {}
 
     // used for searching the category header, only the item pointer and the category are important there
     bool operator == ( const inventory_entry &other) const {
-        return category == other.category && it == other.it;
+        return category == other.category && location == other.location;
     }
 
     bool operator != ( const inventory_entry &other ) const {
@@ -65,20 +64,24 @@ struct inventory_entry {
     }
 
     const item &get_item() const {
-        if( it == nullptr ) {
+        if( location->get_item() == nullptr ) {
             static const item nullitem;
             debugmsg( "Tried to access an empty item." );
             return nullitem;
         }
-        return *it;
+        return *location->get_item();
+    }
+
+    item_location &get_location() const {
+        return *location;
     }
 
     int get_pos() const {
-        return g->u.get_item_position( it );
+        return g->u.get_item_position( location->get_item() );
     }
 
     bool is_item() const {
-        return it != nullptr;
+        return location->get_item() != nullptr;
     }
 
     bool is_null() const {
@@ -138,7 +141,6 @@ class inventory_column {
 
         void add_entry( const inventory_entry &entry );
         void add_entries( const inventory_column &source );
-        void add_entries( const indexed_invslice &slice, const item_category *def_cat = nullptr );
 
         void set_multiselect( bool multiselect ) {
             this->multiselect = multiselect;
@@ -225,18 +227,14 @@ class selection_column : public inventory_column {
         size_t reserved_width;
 };
 
+typedef std::function<bool(const item &)> item_filter;
 const item_filter allow_all_items = []( const item & ) { return true; };
 
 class inventory_selector
 {
     public:
-        /**
-         * Extracts <B>slice</B> into @ref entries, adding category entries.
-         * For each item in the slice an entry that points to it is added to @ref entries.
-         * For a consecutive sequence of entries of the same category a single
-         * category entry is added.
-         */
-        void add_entries( const indexed_invslice &slice, const item_category *def_cat = nullptr );
+        void add_entry( const std::shared_ptr<item_location> &location, size_t stack_size = 1,
+                        const item_category *def_cat = nullptr );
         /**
          * Checks the selector for emptiness (absence of available entries).
          */
@@ -255,7 +253,7 @@ class inventory_selector
         /** Executes the selector */
         int execute_pick( const std::string &title );
         // @todo opts should not be passed here. Temporary solution for further refactoring
-        item_location execute_pick_map( const std::string &title, std::unordered_map<item *, item_location> &opts );
+        item_location execute_pick_map( const std::string &title );
         void execute_compare( const std::string &title );
         std::list<std::pair<int, int>> execute_multidrop( const std::string &title );
 
@@ -455,13 +453,6 @@ void inventory_column::add_entries( const inventory_column &source )
     }
 }
 
-void inventory_column::add_entries( const indexed_invslice &slice, const item_category *def_cat )
-{
-    for( const auto &scit : slice ) {
-        add_entry( inventory_entry( &scit.first->front(), scit.first->size(), def_cat ) );
-    }
-}
-
 void inventory_column::prepare_paging( size_t new_entries_per_page )
 {
     if( new_entries_per_page != 0 ) { // Keep default otherwise
@@ -630,12 +621,12 @@ nc_color selection_column::get_entry_color( const inventory_entry &entry ) const
     return entry.get_item().color_in_inventory();
 }
 
-void inventory_selector::add_entries( const indexed_invslice &slice, const item_category *def_cat )
+void inventory_selector::add_entry( const std::shared_ptr<item_location> &location, size_t stack_size, const item_category *def_cat )
 {
     if( custom_column == nullptr ) {
         custom_column.reset( new inventory_column() );
     }
-    custom_column->add_entries( slice, def_cat );
+    custom_column->add_entry( inventory_entry( location, stack_size, def_cat ) );
 }
 
 inventory_entry *inventory_selector::find_entry_by_invlet( long invlet ) const
@@ -811,19 +802,25 @@ inventory_selector::inventory_selector( player &u, item_filter filter )
     std::unique_ptr<inventory_column> first_column( new inventory_column() );
     std::unique_ptr<inventory_column> second_column( new inventory_column() );
 
-    first_column->add_entries( u.inv.indexed_slice_filter_by( filter ) );
+    for( size_t i = 0; i < u.inv.size(); ++i ) {
+        const auto &stack = u.inv.const_stack( i );
+        if( filter( stack.front() ) ) {
+            first_column->add_entry( inventory_entry( std::make_shared<item_location>( u, const_cast<item *>( &stack.front() ) ),
+                                                      stack.size() ) );
+        }
+    }
 
     if( !first_column->empty() ) {
         insert_column( columns.end(), first_column );
     }
 
     if( u.is_armed() && filter( u.weapon ) ) {
-        second_column->add_entry( inventory_entry( &u.weapon, &weapon_cat ) );
+        second_column->add_entry( inventory_entry( std::make_shared<item_location>( u, &u.weapon ), &weapon_cat ) );
     }
 
     for( auto &it : u.worn ) {
         if( filter( it ) ) {
-            second_column->add_entry( inventory_entry( &it, &worn_cat ) );
+            second_column->add_entry( inventory_entry( std::make_shared<item_location>( u, &it ), &worn_cat ) );
         }
     }
 
@@ -1007,7 +1004,7 @@ int inventory_selector::execute_pick( const std::string &title )
     }
 }
 
-item_location inventory_selector::execute_pick_map( const std::string &title, std::unordered_map<item *, item_location> &opts )
+item_location inventory_selector::execute_pick_map( const std::string &title )
 {
     prepare_columns( false );
 
@@ -1019,27 +1016,11 @@ item_location inventory_selector::execute_pick_map( const std::string &title, st
         const auto entry = find_entry_by_invlet( ch );
 
         if( entry != nullptr ) {
-            item *it = const_cast<item *>( &entry->get_item() );
-            const auto iter = opts.find( it );
-            return ( iter != opts.end() ) ? std::move( iter->second ) : item_location( u, it );
+            return std::move( entry->get_location() );
         } else if( action == "QUIT" ) {
             return item_location();
-
         } else if( action == "RIGHT" || action == "CONFIRM" ) {
-            const auto selected = get_active_column().get_selected();
-            const auto it = const_cast<item *>( &selected.get_item() );
-
-            // Item in inventory
-            if( selected.get_pos() != INT_MIN ) {
-                return item_location( u, it );
-            }
-            // Item on ground or in vehicle
-            auto iter = opts.find( it );
-            if( iter != opts.end() ) {
-                return std::move( iter->second );
-            }
-
-            return item_location();
+            return std::move( get_active_column().get_selected().get_location() );
         } else {
             on_action( action );
         }
@@ -1280,13 +1261,6 @@ item_location game::inv_map_splice(
     // each element of stacks represents one tile and is a vector of such lists
     std::vector<std::vector<std::list<item>>> stacks;
 
-    // an indexed_invslice is created for each map or vehicle tile
-    // each list of items created above for the tile will be added to it
-    std::vector<indexed_invslice> slices;
-
-    // of one of the above lists so use this as the key when storing the item location
-    std::unordered_map<item *, item_location> opts;
-
     // the closest 10 items also have their location added to the invlets vector
     const char min_invlet = '0';
     const char max_invlet = '9';
@@ -1299,11 +1273,13 @@ item_location game::inv_map_splice(
 
             // create a new slice and stack for the current map tile
             stacks.emplace_back();
-            slices.emplace_back();
 
             // reserve sufficient capacity to ensure reallocation is not required
             auto &current_stack = stacks.back();
             current_stack.reserve( items.size() );
+
+            std::string name = trim( std::string( _( "GROUND" ) ) + " " + direction_suffix( g->u.pos(), pos ) );
+            categories.emplace_back( name, name, rank++ );
 
             for( item &it : items ) {
                 if( ground_filter( it ) ) {
@@ -1316,16 +1292,13 @@ item_location game::inv_map_splice(
                     } else {
                         // item doesn't stack with any previous so start new list and append to current indexed_invslice
                         current_stack.emplace_back( 1, it );
-                        slices.back().emplace_back( &current_stack.back(), INT_MIN );
-                        opts.emplace( &current_stack.back().front(), item_location( pos, &it ) );
-
                         current_stack.back().front().invlet = ( cur_invlet <= max_invlet ) ? cur_invlet++ : 0;
+
+                        inv_s.add_entry( std::make_shared<item_location>( pos, &it ),
+                                         current_stack.size(), &categories.back() );
                     }
                 }
             }
-            std::string name = trim( std::string( _( "GROUND" ) ) + " " + direction_suffix( g->u.pos(), pos ) );
-            categories.emplace_back( name, name, rank++ );
-            inv_s.add_entries( slices.back(), &categories.back() );
         }
 
         // finally get all matching items in vehicle cargo spaces
@@ -1338,11 +1311,13 @@ item_location game::inv_map_splice(
 
                 // create a new slice and stack for the current vehicle part
                 stacks.emplace_back();
-                slices.emplace_back();
 
                 // reserve sufficient capacity to ensure reallocation is not required
                 auto &current_stack = stacks.back();
                 current_stack.reserve( items.size() );
+
+                std::string name = trim( std::string( _( "VEHICLE" ) )  + " " + direction_suffix( g->u.pos(), pos ) );
+                categories.emplace_back( name, name, rank-- );
 
                 for( item &it : items ) {
                     if( vehicle_filter( it ) ) {
@@ -1355,16 +1330,13 @@ item_location game::inv_map_splice(
                         } else {
                             // item doesn't stack with any previous so start new list and append to current indexed_invslice
                             current_stack.emplace_back( 1, it );
-                            slices.back().emplace_back( &current_stack.back(), INT_MIN );
-                            opts.emplace( &current_stack.back().front(), item_location( vehicle_cursor( *veh, part ), &it ) );
-
                             current_stack.back().front().invlet = ( cur_invlet <= max_invlet ) ? cur_invlet++ : 0;
+
+                            inv_s.add_entry( std::make_shared<item_location>( vehicle_cursor( *veh, part ), &it ),
+                                             current_stack.size(), &categories.back() );
                         }
                     }
                 }
-                std::string name = trim( std::string( _( "VEHICLE" ) )  + " " + direction_suffix( g->u.pos(), pos ) );
-                categories.emplace_back( name, name, rank-- );
-                inv_s.add_entries( slices.back(), &categories.back() );
             }
         }
     }
@@ -1374,7 +1346,7 @@ item_location game::inv_map_splice(
         popup( msg, PF_GET_KEY );
         return item_location();
     }
-    return inv_s.execute_pick_map( title, opts );
+    return inv_s.execute_pick_map( title );
 }
 
 item *game::inv_map_for_liquid(const item &liquid, const std::string &title, int radius)
@@ -1430,7 +1402,10 @@ void game::compare( const tripoint &offset )
     const tripoint examp = u.pos() + offset;
 
     std::vector<std::list<item>> grounditems;
-    indexed_invslice grounditems_slice;
+
+    static const item_category category_on_ground( "GROUND", _( "GROUND" ), -1000 );
+
+    inventory_selector inv_s( u );
 
     if( !m.has_flag( "SEALED", u.pos() ) ) {
         auto here = m.i_at( examp );
@@ -1446,23 +1421,17 @@ void game::compare( const tripoint &offset )
                     grounditems.back().front().invlet = '0' + grounditems.size() - 1;
                 }
 
+                inv_s.add_entry( std::make_shared<item_location>( examp, &here[i] ),
+                                 grounditems.size(), &category_on_ground );
+
                 dups.insert(here[i].tname());
             }
         }
-        for (size_t a = 0; a < grounditems.size(); a++) {
-            // avoid INT_MIN, as it can be confused with "no item at all"
-            grounditems_slice.push_back(indexed_invslice::value_type(&grounditems[a], INT_MIN + a + 1));
-        }
-    }
-
-    static const item_category category_on_ground( "GROUND", _( "GROUND" ), -1000 );
+   }
 
     u.inv.restack(&u);
     u.inv.sort();
 
-    inventory_selector inv_s( u );
-
-    inv_s.add_entries( grounditems_slice, &category_on_ground );
     if( inv_s.empty() ) {
         popup( std::string( _( "There are no items to compare." ) ), PF_GET_KEY );
         return;

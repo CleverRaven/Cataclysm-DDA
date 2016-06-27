@@ -18,7 +18,6 @@ typedef std::list< std::list<item> > invstack;
 typedef std::vector< std::list<item>* > invslice;
 typedef std::vector< const std::list<item>* > const_invslice;
 typedef std::vector< std::pair<std::list<item>*, int> > indexed_invslice;
-typedef std::function<bool(const item &)> item_filter;
 
 class salvage_actor;
 
@@ -73,8 +72,6 @@ class inventory : public visitable<inventory>
         inventory  operator+  (const inventory &rhs);
         inventory  operator+  (const item &rhs);
         inventory  operator+  (const std::list<item> &rhs);
-
-        indexed_invslice indexed_slice_filter_by( item_filter filter ) const;
 
         void unsort(); // flags the inventory as unsorted
         void sort();
