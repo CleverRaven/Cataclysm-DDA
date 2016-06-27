@@ -4732,14 +4732,12 @@ item &map::add_item_at( const tripoint &p,
 item map::water_from( const tripoint &p )
 {
     if( has_flag( "SALT_WATER", p ) ) {
-        item ret( "salt_water", 0, item::INFINITE_CHARGES );
-        return ret;
+        return item( "salt_water", 0, item::INFINITE_CHARGES );
     }
 
     const ter_id terrain_id = g->m.ter( p );
     if( terrain_id == t_sewage ) {
-        item ret( "water_sewage", 0, item::INFINITE_CHARGES );
-        return ret;
+        return item( "water_sewage", 0, item::INFINITE_CHARGES );
     }
 
     item ret( "water", 0, item::INFINITE_CHARGES );
