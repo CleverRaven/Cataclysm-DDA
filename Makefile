@@ -282,7 +282,7 @@ ifeq ($(NATIVE), osx)
   LDFLAGS += -mmacosx-version-min=$(OSX_MIN)
   ifdef BREW
     CXXFLAGS += -I/usr/local/opt/gettext/include
-	LDFLAGS += -L/usr/local/opt/gettext/lib
+    LDFLAGS += -L/usr/local/opt/gettext/lib
   endif
   ifdef FRAMEWORK
     FRAMEWORKSDIR := $(strip $(if $(shell [ -d $(HOME)/Library/Frameworks ] && echo 1), \
