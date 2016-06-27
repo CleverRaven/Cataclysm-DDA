@@ -25,29 +25,24 @@ struct inventory_entry {
     private:
         /** The item that should be displayed here. Can be NULL. */
         const item *it;
-        /** Pointer into an inventory slice, can be NULL, if not NULL, it should not
-        * point to an empty list. The first entry should be the same as @ref it. */
-        const std::list<item> *slice;
+        size_t stack_size;
 
     public:
     /** The category of an item. */
     const item_category *category;
     size_t chosen_count = 0;
 
-    inventory_entry( const indexed_invslice::value_type &slice, const item_category *cat = nullptr )
-        : it( &( slice.first->front() ) ),
-          slice( slice.first ),
+    inventory_entry( const item *it, size_t stack_size, const item_category *cat = nullptr )
+        : it( it ),
+          stack_size( stack_size ),
           category( ( cat != nullptr ) ? cat : &it->get_category() ) {}
 
     inventory_entry( const item *it, const item_category *cat = nullptr )
-        : it( it ),
-          slice( nullptr ),
-          category( ( cat != nullptr ) ? cat : &it->get_category() ) {}
+        : inventory_entry( it, ( it != nullptr ) ? 1 : 0, cat ) {}
 
     inventory_entry( const item_category *cat = nullptr )
-        : it( nullptr ),
-          slice( nullptr ),
-          category( cat ) {}
+        : inventory_entry( nullptr, cat ) {}
+
     // used for searching the category header, only the item pointer and the category are important there
     bool operator == ( const inventory_entry &other) const {
         return category == other.category && it == other.it;
@@ -58,15 +53,14 @@ struct inventory_entry {
     }
 
     size_t get_stack_size() const {
-        return ( slice != nullptr ) ? slice->size() : is_item() ? 1 : 0;
+        return stack_size;
     }
 
     size_t get_available_count() const {
-        const size_t stack_size = get_stack_size();
-        if( stack_size == 1 && is_item() ) {
+        if( is_item() && get_stack_size() == 1 ) {
             return get_item().count_by_charges() ? get_item().charges : 1;
         } else {
-            return stack_size;
+            return get_stack_size();
         }
     }
 
@@ -464,7 +458,7 @@ void inventory_column::add_entries( const inventory_column &source )
 void inventory_column::add_entries( const indexed_invslice &slice, const item_category *def_cat )
 {
     for( const auto &scit : slice ) {
-        add_entry( inventory_entry( scit, def_cat ) );
+        add_entry( inventory_entry( &scit.first->front(), scit.first->size(), def_cat ) );
     }
 }
 
