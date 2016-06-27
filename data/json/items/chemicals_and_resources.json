@@ -903,7 +903,6 @@
     "quench" : 5,
     "healthy" : -2,
     "description" : "Turbid liquid from the sewers with awful stench.",
-    "price" : 0,
     "volume" : 1,
     "phase" : "liquid",
     "category" : "chems",
