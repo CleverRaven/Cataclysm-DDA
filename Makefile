@@ -56,6 +56,12 @@
 #  make astyle-check
 # Astyle all source files using the current rules (don't PR this, it's too many changes at once).
 #  make astyle-all
+# Compile using clang
+# make NATIVE=osx CLANG=1
+# Compile using Macports
+# make NATIVE=osx MACPORTS=1
+# Compile using homebrew libs
+# make NATIVE=osx BREW=1
 
 # comment these to toggle them as one sees fit.
 # DEBUG is best turned on if you plan to debug in gdb -- please do!
@@ -274,6 +280,10 @@ ifeq ($(NATIVE), osx)
   DEFINES += -DMACOSX
   CXXFLAGS += -mmacosx-version-min=$(OSX_MIN)
   LDFLAGS += -mmacosx-version-min=$(OSX_MIN)
+  ifdef BREW
+    CXXFLAGS += -I/usr/local/opt/gettext/include
+	LDFLAGS += -L/usr/local/opt/gettext/lib
+  endif
   ifdef FRAMEWORK
     FRAMEWORKSDIR := $(strip $(if $(shell [ -d $(HOME)/Library/Frameworks ] && echo 1), \
                              $(if $(shell find $(HOME)/Library/Frameworks -name 'SDL2.*'), \
