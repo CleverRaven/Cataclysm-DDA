@@ -830,6 +830,8 @@ void npc_follower_rules::serialize(JsonOut &json) const
     json.member( "allow_sleep", allow_sleep );
     json.member( "allow_complain", allow_complain );
     json.member( "allow_pulp", allow_pulp );
+
+    json.member( "close_doors", close_doors );
     json.end_object();
 }
 
@@ -850,6 +852,8 @@ void npc_follower_rules::deserialize(JsonIn &jsin)
     data.read( "allow_sleep", allow_sleep );
     data.read( "allow_complain", allow_complain );
     data.read( "allow_pulp", allow_pulp );
+
+    data.read( "close_doors", close_doors );
 }
 
 extern std::string convert_talk_topic( talk_topic_enum );

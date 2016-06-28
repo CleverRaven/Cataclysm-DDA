@@ -2564,5 +2564,17 @@
         "weight": 10,
         "volume": 1,
         "price": 500
+    },
+    {
+        "id": "shrapnel",
+        "type": "GENERIC",
+        "name": "shrapnel",
+        "description": "A twisted shard of jagged metal.",
+        "weight": 5,
+        "volume": 1,
+        "price": 0,
+        "material": "iron",
+        "symbol": ".",
+        "color": "white"
     }
 ]

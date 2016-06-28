@@ -237,7 +237,7 @@ std::map<std::string, std::vector<mapgen_function*> > oter_mapgen;
 std::map<std::string, std::map<int, int> > oter_mapgen_weights;
 
 /*
- * setup oter_mapgen_weights which which mapgen uses to diceroll. Also setup mapgen_function_json
+ * setup oter_mapgen_weights which mapgen uses to diceroll. Also setup mapgen_function_json
  */
 void calculate_mapgen_weights() { // todo; rename as it runs jsonfunction setup too
     oter_mapgen_weights.clear();
@@ -250,19 +250,18 @@ void calculate_mapgen_weights() { // todo; rename as it runs jsonfunction setup 
             int weight = (*fit)->weight;
             if ( weight < 1 ) {
                 dbg(D_INFO) << "wcalc " << oit->first << "(" << funcnum << "): (rej(1), " << weight << ") = " << wtotal;
-                funcnum++;
+                ++funcnum;
                 continue; // rejected!
             }
-            if ( ! (*fit)->setup() ) {
+            if( !(*fit)->setup() ) {
                 dbg(D_INFO) << "wcalc " << oit->first << "(" << funcnum << "): (rej(2), " << weight << ") = " << wtotal;
-                funcnum++;
-                continue; // disqualify! doesn't get to play in the pool
+                ++funcnum;
+				continue; // disqualify! doesn't get to play in the pool
             }
-            //
             wtotal += weight;
             oter_mapgen_weights[ oit->first ][ wtotal ] = funcnum;
             dbg(D_INFO) << "wcalc " << oit->first << "(" << funcnum << "): +" << weight << " = " << wtotal;
-            funcnum++;
+            ++funcnum;
         }
     }
 }
@@ -4346,7 +4345,7 @@ ff.......|....|WWWWWWWW|\n\
                             goods = "bots";
                             break;
                         case 2:
-                            goods = "launchers";
+                            goods = "guns_launcher_milspec";
                             break;
                         case 3:
                         case 4:
@@ -4449,7 +4448,7 @@ ff.......|....|WWWWWWWW|\n\
                     place_items( "guns_rifle_milspec", 40, bx1 + 1, by1 + 1, bx2 - 1, by1 + 1, false, 0, 100 );
                     place_items( "mags_milspec", 40, bx1 + 1, by1 + 1, bx2 - 1, by1 + 1, false, 0 );
                     place_items( "ammo_milspec", 40, bx1 + 1, by1 + 1, bx2 - 1, by1 + 1, false, 0 );
-                    place_items("launchers",  40, bx1 + 1, by2 - 1, bx2 - 1, by2 - 1, false, 0);
+                    place_items( "guns_launcher_milspec", 40, bx1 + 1, by2 - 1, bx2 - 1, by2 - 1, false, 0 );
                     place_items("grenades",   40, bx1 + 1, by1 + 2, bx1 + 1, by2 - 2, false, 0);
                     place_items("mil_armor",  40, bx2 - 1, by1 + 2, bx2 - 1, by2 - 2, false, 0);
                     break;

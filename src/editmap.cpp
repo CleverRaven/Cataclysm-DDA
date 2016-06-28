@@ -554,7 +554,7 @@ void editmap::update_view( bool update_info )
                 nc_color t_col = g->m.ter_at( p ).color();
 
 
-                if( g->m.has_furn( p ) > 0 ) {
+                if( g->m.has_furn( p ) ) {
                     const furn_t &furniture_type = g->m.furn_at( p );
                     t_sym = furniture_type.symbol();
                     t_col = furniture_type.color();
@@ -1802,11 +1802,11 @@ int editmap::mapgen_preview( real_coords &tc, uimenu &gmenu )
                             }
                             destsm->field_count = srcsm->field_count; // and count
 
-                            std::memcpy( *destsm->ter, srcsm->ter, sizeof( srcsm->ter ) ); // terrain
-                            std::memcpy( *destsm->frn, srcsm->frn, sizeof( srcsm->frn ) ); // furniture
-                            std::memcpy( *destsm->trp, srcsm->trp, sizeof( srcsm->trp ) ); // traps
-                            std::memcpy( *destsm->rad, srcsm->rad, sizeof( srcsm->rad ) ); // radiation
-                            std::memcpy( *destsm->lum, srcsm->lum, sizeof( srcsm->lum ) ); // emissive items
+                            std::memcpy( destsm->ter, srcsm->ter, sizeof( srcsm->ter ) ); // terrain
+                            std::memcpy( destsm->frn, srcsm->frn, sizeof( srcsm->frn ) ); // furniture
+                            std::memcpy( destsm->trp, srcsm->trp, sizeof( srcsm->trp ) ); // traps
+                            std::memcpy( destsm->rad, srcsm->rad, sizeof( srcsm->rad ) ); // radiation
+                            std::memcpy( destsm->lum, srcsm->lum, sizeof( srcsm->lum ) ); // emissive items
                             for( int x = 0; x < SEEX; ++x ) {
                                 for( int y = 0; y < SEEY; ++y ) {
                                     destsm->itm[x][y].swap( srcsm->itm[x][y] );

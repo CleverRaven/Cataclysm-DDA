@@ -175,6 +175,7 @@ namespace talk_function {
     void toggle_allow_sleep   (npc *);
     void toggle_allow_complain(npc *);
     void toggle_allow_pulp    (npc *);
+    void toggle_close_doors   (npc *);
 
 /*mission_companion.cpp proves a set of functions that compress all the typical mission operations into a set of hard-coded
  *unique missions that don't fit well into the framework of the existing system.  These missions typically focus on

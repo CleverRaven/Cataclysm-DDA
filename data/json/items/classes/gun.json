@@ -24,7 +24,9 @@
     "type": "GUN",
     "name": "base launcher",
     "skill": "launcher",
-    "valid_mod_locations": [ [ "accessories", 4 ], [ "barrel", 1 ], [ "sights", 1 ], [ "mechanism", 4 ] ]
+    "modes": [ [ "DEFAULT", "single", 1, "NPC_AVOID" ] ],
+    "valid_mod_locations": [ [ "accessories", 2 ], [ "barrel", 1 ], [ "sights", 1 ] ],
+    "flags": [ "RELOAD_ONE", "RELOAD_EJECT", "NEVER_JAMS" ]
   },
   {
     "abstract": "pistol_base",
