@@ -339,6 +339,27 @@ class inventory_selector
         void insert_selection_column( const std::string &id, const std::string &name );
 };
 
+std::vector<std::list<item *>> restack_items( const std::list<item>::const_iterator &from,
+                                              const std::list<item>::const_iterator &to )
+{
+    std::vector<std::list<item *>> res;
+
+    for( auto it = from; it != to; ++it ) {
+        auto match = std::find_if( res.begin(), res.end(),
+            [ &it ]( const std::list<item *> &e ) {
+                return it->stacks_with( *const_cast<item *>( e.back() ) );
+            } );
+
+        if( match != res.end() ) {
+            match->push_back( const_cast<item *>( &*it ) );
+        } else {
+            res.emplace_back( 1, const_cast<item *>( &*it ) );
+        }
+    }
+
+    return res;
+}
+
 inventory_entry *inventory_column::find_by_invlet( long invlet ) const
 {
     for( const auto &entry : entries ) {
@@ -1256,47 +1277,19 @@ item_location game::inv_map_splice(
     std::list<item_category> categories;
     int rank = -1000;
 
-    // items are stacked per tile considering vehicle and map tiles separately
-    // in the below loops identical items on the same tile are grouped into lists
-    // each element of stacks represents one tile and is a vector of such lists
-    std::vector<std::vector<std::list<item>>> stacks;
-
-    // the closest 10 items also have their location added to the invlets vector
-    const char min_invlet = '0';
-    const char max_invlet = '9';
-    char cur_invlet = min_invlet;
-
     for( const auto &pos : closest_tripoints_first( radius, g->u.pos() ) ) {
         // second get all matching items on the map within radius
         if( m.accessible_items( g->u.pos(), pos, radius ) ) {
-            auto items = m.i_at( pos );
-
-            // create a new slice and stack for the current map tile
-            stacks.emplace_back();
-
-            // reserve sufficient capacity to ensure reallocation is not required
-            auto &current_stack = stacks.back();
-            current_stack.reserve( items.size() );
+            const auto items = m.i_at( pos );
+            const auto stacks = restack_items( items.begin(), items.end() );
 
             std::string name = trim( std::string( _( "GROUND" ) ) + " " + direction_suffix( g->u.pos(), pos ) );
             categories.emplace_back( name, name, rank++ );
 
-            for( item &it : items ) {
-                if( ground_filter( it ) ) {
-                    auto match = std::find_if( current_stack.begin(),
-                    current_stack.end(), [&]( const std::list<item> &e ) {
-                        return it.stacks_with( e.back() );
-                    } );
-                    if( match != current_stack.end() ) {
-                        match->push_back( it );
-                    } else {
-                        // item doesn't stack with any previous so start new list and append to current indexed_invslice
-                        current_stack.emplace_back( 1, it );
-                        current_stack.back().front().invlet = ( cur_invlet <= max_invlet ) ? cur_invlet++ : 0;
-
-                        inv_s.add_entry( std::make_shared<item_location>( pos, &it ),
-                                         current_stack.size(), &categories.back() );
-                    }
+            for( const auto &stack : stacks ) {
+                const auto location = std::make_shared<item_location>( pos, stack.front() );
+                if( ground_filter( *location->get_item() ) ) {
+                    inv_s.add_entry( location, stack.size(), &categories.back() );
                 }
             }
         }
@@ -1304,38 +1297,21 @@ item_location game::inv_map_splice(
         // finally get all matching items in vehicle cargo spaces
         int part = -1;
         vehicle *veh = m.veh_at( pos, part );
-        if( veh && part >= 0 ) {
+        if( veh != nullptr ) {
             part = veh->part_with_feature( part, "CARGO" );
-            if( part != -1 ) {
-                auto items = veh->get_items( part );
+        }
 
-                // create a new slice and stack for the current vehicle part
-                stacks.emplace_back();
+        if( veh && part >= 0 ) {
+            const auto items = veh->get_items( part );
+            const auto stacks = restack_items( items.begin(), items.end() );
 
-                // reserve sufficient capacity to ensure reallocation is not required
-                auto &current_stack = stacks.back();
-                current_stack.reserve( items.size() );
+            std::string name = trim( std::string( _( "VEHICLE" ) )  + " " + direction_suffix( g->u.pos(), pos ) );
+            categories.emplace_back( name, name, rank++ );
 
-                std::string name = trim( std::string( _( "VEHICLE" ) )  + " " + direction_suffix( g->u.pos(), pos ) );
-                categories.emplace_back( name, name, rank-- );
-
-                for( item &it : items ) {
-                    if( vehicle_filter( it ) ) {
-                        auto match = std::find_if( current_stack.begin(),
-                        current_stack.end(), [&]( const std::list<item> &e ) {
-                            return it.stacks_with( e.back() );
-                        } );
-                        if( match != current_stack.end() ) {
-                            match->push_back( it );
-                        } else {
-                            // item doesn't stack with any previous so start new list and append to current indexed_invslice
-                            current_stack.emplace_back( 1, it );
-                            current_stack.back().front().invlet = ( cur_invlet <= max_invlet ) ? cur_invlet++ : 0;
-
-                            inv_s.add_entry( std::make_shared<item_location>( vehicle_cursor( *veh, part ), &it ),
-                                             current_stack.size(), &categories.back() );
-                        }
-                    }
+            for( const auto &stack : stacks ) {
+                const auto location = std::make_shared<item_location>( vehicle_cursor( *veh, part ), stack.front() );
+                if( vehicle_filter( *location->get_item() ) ) {
+                    inv_s.add_entry( location, stack.size(), &categories.back() );
                 }
             }
         }
@@ -1401,36 +1377,22 @@ void game::compare( const tripoint &offset )
 {
     const tripoint examp = u.pos() + offset;
 
-    std::vector<std::list<item>> grounditems;
-
     static const item_category category_on_ground( "GROUND", _( "GROUND" ), -1000 );
+
+    u.inv.restack(&u);
+    u.inv.sort();
 
     inventory_selector inv_s( u );
 
     if( !m.has_flag( "SEALED", u.pos() ) ) {
-        auto here = m.i_at( examp );
-        //Filter out items with the same name (keep only one of them)
-        std::set<std::string> dups;
-        for (size_t i = 0; i < here.size(); i++) {
-            if (dups.count(here[i].tname()) == 0) {
-                grounditems.push_back(std::list<item>(1, here[i]));
+        const auto items = m.i_at( examp );
+        const auto stacks = restack_items( items.begin(), items.end() );
 
-                //Only the first 10 items get a invlet
-                if ( grounditems.size() <= 10 ) {
-                    // invlet: '0' ... '9'
-                    grounditems.back().front().invlet = '0' + grounditems.size() - 1;
-                }
-
-                inv_s.add_entry( std::make_shared<item_location>( examp, &here[i] ),
-                                 grounditems.size(), &category_on_ground );
-
-                dups.insert(here[i].tname());
-            }
+        for( const auto &stack : stacks ) {
+            const auto location = std::make_shared<item_location>( examp, stack.front() );
+            inv_s.add_entry( location, stack.size(), &category_on_ground );
         }
-   }
-
-    u.inv.restack(&u);
-    u.inv.sort();
+    }
 
     if( inv_s.empty() ) {
         popup( std::string( _( "There are no items to compare." ) ), PF_GET_KEY );
