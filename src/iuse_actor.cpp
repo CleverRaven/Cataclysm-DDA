@@ -2236,7 +2236,7 @@ bool repair_item_actor::handle_components( player &pl, const item &fix,
     // Go through all discovered repair items and see if we have any of them available
     for( const auto &entry : valid_entries ) {
         const auto component_id = entry.obj().repaired_with();
-        if( item::find_type( component_id )->count_by_charges() ) {
+        if( item::count_by_charges( component_id ) ) {
             if( crafting_inv.has_charges( component_id, items_needed ) ) {
                 comps.emplace_back( component_id, items_needed );
             }
