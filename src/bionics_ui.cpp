@@ -597,6 +597,9 @@ void player::power_bionics()
                     // update message log and the menu
                     g->refresh_all();
                     redraw = true;
+                    if( moves < 0 ) {
+                        return;
+                    }
                     continue;
                 } else {
                     popup( _( "You can not activate %s!\n"

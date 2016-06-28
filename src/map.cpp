@@ -319,15 +319,15 @@ void map::update_vehicle_list( submap *const to, const int zlev )
     }
 }
 
-void map::destroy_vehicle (vehicle *veh)
+std::unique_ptr<vehicle> map::detach_vehicle( vehicle *veh )
 {
     if( veh == nullptr ) {
-        debugmsg("map::destroy_vehicle was passed NULL");
-        return;
+        debugmsg("map::detach_vehicle was passed nullptr");
+        return std::unique_ptr<vehicle>();
     }
 
     if( veh->smz < -OVERMAP_DEPTH && veh->smz > OVERMAP_HEIGHT ) {
-        debugmsg( "destroy_vehicle got a vehicle outside allowed z-level range! name=%s, submap:%d,%d,%d",
+        debugmsg( "detach_vehicle got a vehicle outside allowed z-level range! name=%s, submap:%d,%d,%d",
                   veh->name.c_str(), veh->smx, veh->smy, veh->smz );
         // Try to fix by moving the vehicle here
         veh->smz = abs_sub.z;
@@ -345,11 +345,16 @@ void map::destroy_vehicle (vehicle *veh)
                 overmap_buffer.remove_vehicle( veh );
             }
             dirty_vehicle_list.erase(veh);
-            delete veh;
-            return;
+            return std::unique_ptr<vehicle>( veh );
         }
     }
-    debugmsg( "destroy_vehicle can't find it! name=%s, submap:%d,%d,%d", veh->name.c_str(), veh->smx, veh->smy, veh->smz );
+    debugmsg( "detach_vehicle can't find it! name=%s, submap:%d,%d,%d", veh->name.c_str(), veh->smx, veh->smy, veh->smz );
+    return std::unique_ptr<vehicle>();
+}
+
+void map::destroy_vehicle( vehicle *veh )
+{
+    detach_vehicle( veh );
 }
 
 void map::on_vehicle_moved( const int smz ) {
