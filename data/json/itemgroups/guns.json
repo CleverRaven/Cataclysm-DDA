@@ -63,6 +63,8 @@
       [ "pistol_pepperbox", 150 ],
       [ "raging_bull", 100 ],
       [ "rm99_pistol", 150 ],
+      [ "tokarev", 100 ],
+      [ "type54", 150 ],
       [ "walther_ppk", 100 ]
     ]
   },
