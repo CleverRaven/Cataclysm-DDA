@@ -2068,7 +2068,7 @@ bool advanced_inventory::query_charges( aim_location destarea, const advanced_in
     if( destarea == AIM_INVENTORY  || destarea == AIM_WORN ) {
         const long unitweight = it.weight() * 1000 / ( by_charges ? it.charges : 1 );
         const long max_weight = ( g->u.weight_capacity() * 4 - g->u.weight_carried() ) * 1000;
-        if( unitweight > 0 && unitweight * amount > max_weight ) {
+        if( unitweight > 0 && ( unitweight * amount > max_weight ) ) {
             const long weightmax = max_weight / unitweight;
             if( weightmax <= 0 ) {
                 popup( _( "This is too heavy!." ) );
