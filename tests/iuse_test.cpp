@@ -11,9 +11,8 @@ player &get_sanitized_player(  ) {
     player &dummy = g->u;
 
     // Remove first worn item until there are none left.
-    while( dummy.takeoff( dummy.i_at( -2 ), []( const item & ) {
-        return true;
-    } ) );
+    std::list<item> temp;
+    while( dummy.takeoff( dummy.i_at( -2 ), &temp ) );
     dummy.inv.clear();
     dummy.remove_weapon();
 

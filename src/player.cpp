@@ -10472,7 +10472,7 @@ std::list<const item *> player::get_dependent_worn_items( const item &it ) const
     return dependent;
 }
 
-bool player::takeoff( const item &it, std::function<bool(const item &)> interact )
+bool player::takeoff( const item &it, std::list<item> *res )
 {
     auto iter = std::find_if( worn.begin(), worn.end(), [ &it ]( const item &wit ) {
         return &it == &wit;
@@ -10485,14 +10485,31 @@ bool player::takeoff( const item &it, std::function<bool(const item &)> interact
         return false;
     }
 
-    for( const auto dep_it : get_dependent_worn_items( it ) ) {
-        if( !takeoff( *dep_it, interact ) ) {
+    const auto dependent = get_dependent_worn_items( it );
+    if( res == nullptr && !dependent.empty() ) {
+        add_msg_player_or_npc( m_info,
+                               _( "You can't take off power armor while wearing other power armor components." ),
+                               _( "<npcname> can't take off power armor while wearing other power armor components." ) );
+        return false;
+    }
+
+    for( const auto dep_it : dependent ) {
+        if( !takeoff( *dep_it, res ) ) {
             return false; // Failed to takeoff a dependent item
         }
     }
 
-    if( !interact( it ) ) {
-        return false;
+    if( res == nullptr ) {
+        if( volume_carried() + it.volume() > volume_capacity_reduced_by( it.get_storage() ) ) {
+            if( is_npc() || query_yn( _( "No room in inventory for your %s.  Drop it?" ), it.tname().c_str() ) ) {
+                drop( get_item_position( &it ) );
+            } else {
+                return false;
+            }
+        }
+        inv.add_item_keep_invlet( it );
+    } else {
+        res->push_back( it );
     }
 
     add_msg_player_or_npc( _( "You take off your %s." ),
@@ -10507,27 +10524,6 @@ bool player::takeoff( const item &it, std::function<bool(const item &)> interact
     reset_encumbrance();
 
     return true;
-}
-
-bool player::takeoff( const item &it )
-{
-    if( !get_dependent_worn_items( it ).empty() ) {
-        add_msg_player_or_npc( m_info,
-                               _( "You can't take off power armor while wearing other power armor components." ),
-                               _( "<npcname> can't take off power armor while wearing other power armor components." ) );
-        return false;
-    }
-
-    return takeoff( it, [ this ]( const item &it ) {
-        if( volume_carried() + it.volume() > volume_capacity_reduced_by( it.get_storage() ) ) {
-            if( is_npc() || query_yn( _( "No room in inventory for your %s.  Drop it?" ), it.tname().c_str() ) ) {
-                drop( get_item_position( &it ) );
-            }
-            return false; // Will takeoff during dropping
-        }
-        inv.add_item_keep_invlet( it );
-        return true;
-    } );
 }
 
 bool player::takeoff( int pos )

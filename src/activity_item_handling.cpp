@@ -38,7 +38,7 @@ struct act_item {
 // @todo Deliberately unified with multidrop. Unify further.
 typedef std::list<std::pair<int, int>> drop_indexes;
 
-bool same_type( const std::vector<item> &items )
+bool same_type( const std::list<item> &items )
 {
     if( items.size() <= 1 ) {
         return true;
@@ -51,7 +51,7 @@ bool same_type( const std::vector<item> &items )
     return true;
 }
 
-void put_into_vehicle( player &p, const std::vector<item> &items, vehicle &veh, int part )
+void put_into_vehicle( player &p, const std::list<item> &items, vehicle &veh, int part )
 {
     if( items.empty() ) {
         return;
@@ -93,7 +93,7 @@ void put_into_vehicle( player &p, const std::vector<item> &items, vehicle &veh, 
     }
 }
 
-void stash_on_pet( const std::vector<item> &items, monster &pet )
+void stash_on_pet( const std::list<item> &items, monster &pet )
 {
     int remaining_volume = pet.inv.empty() ? 0 : pet.inv.front().get_storage();
     int remaining_weight = pet.weight_capacity();
@@ -121,7 +121,7 @@ void stash_on_pet( const std::vector<item> &items, monster &pet )
     }
 }
 
-void drop_on_map( const std::vector<item> &items, const tripoint &where )
+void drop_on_map( const std::list<item> &items, const tripoint &where )
 {
     if( items.empty() ) {
         return;
@@ -153,7 +153,7 @@ void drop_on_map( const std::vector<item> &items, const tripoint &where )
     }
 }
 
-void put_into_vehicle_or_drop( player &p, const std::vector<item> &items, const tripoint &where )
+void put_into_vehicle_or_drop( player &p, const std::list<item> &items, const tripoint &where )
 {
     int veh_part = 0;
     vehicle *veh = g->m.veh_at( where, veh_part );
@@ -307,9 +307,9 @@ void debug_drop_list( const std::list<act_item> &list )
     popup( res, PF_GET_KEY );
 }
 
-std::vector<item> obtain_activity_items( player_activity &act, player &p )
+std::list<item> obtain_activity_items( player_activity &act, player &p )
 {
-    std::vector<item> res;
+    std::list<item> res;
 
     auto items = reorder_for_dropping( p, convert_to_indexes( act ) );
 
@@ -321,10 +321,7 @@ std::vector<item> obtain_activity_items( player_activity &act, player &p )
         p.mod_moves( -ait.consumed_moves );
 
         if( p.is_worn( *ait.it ) ) {
-            p.takeoff( *ait.it, [ &res ]( const item & tit ) {
-                res.push_back( tit );
-                return true;
-            } );
+            p.takeoff( *ait.it, &res );
         } else if( ait.it->count_by_charges() ) {
             res.push_back( p.reduce_charges( const_cast<item *>( ait.it ), ait.count ) );
         } else {

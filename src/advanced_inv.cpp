@@ -1527,10 +1527,7 @@ void advanced_inventory::display()
                     if(srcarea == AIM_INVENTORY) {
                         moving_items = g->u.inv.reduce_stack(idx, amount_to_move);
                     } else if(srcarea == AIM_WORN) {
-                        g->u.takeoff( *sitem->items.front(), [ &moving_items ]( const item &it ) {
-                            moving_items.push_back( it );
-                            return true;
-                        } );
+                        g->u.takeoff( *sitem->items.front(), &moving_items );
                     }
                     int items_left = 0, moved = 0;
                     for(auto &elem : moving_items) {
