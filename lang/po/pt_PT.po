@@ -59145,15 +59145,15 @@ msgid "You have the sudden urge to SCREAM!"
 msgstr ""
 
 #: src/player.cpp
-msgid "You shout loudly!"
+msgid "yourself shout loudly!"
 msgstr ""
 
 #: src/player.cpp
-msgid "You scream loudly!"
+msgid "yourself scream loudly!"
 msgstr ""
 
 #: src/player.cpp
-msgid "You let out a piercing howl!"
+msgid "yourself let out a piercing howl!"
 msgstr ""
 
 #: src/player.cpp

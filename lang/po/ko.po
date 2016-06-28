@@ -122420,7 +122420,7 @@ msgid "You learned a new style."
 msgstr "새로운 전투 방식을 익혔다."
 
 #: src/player.cpp
-msgid "You let out a piercing howl!"
+msgid "yourself let out a piercing howl!"
 msgstr "고막이 찢어질 것 같이 울부짖었다!"
 
 #: src/player.cpp
@@ -122478,7 +122478,7 @@ msgid "You roll on the ground, trying to smother the fire!"
 msgstr "바닥에 굴러 불을 끄려고 했다!"
 
 #: src/player.cpp
-msgid "You scream loudly!"
+msgid "yourself scream loudly!"
 msgstr "시끄럽게 비명을 질렀다!"
 
 #: src/player.cpp
@@ -122486,7 +122486,7 @@ msgid "You shake with the excess stimulation."
 msgstr "과도한 각성제 사용으로 몸이 떨린다."
 
 #: src/player.cpp
-msgid "You shout loudly!"
+msgid "yourself shout loudly!"
 msgstr "아주 크게 고함을 질렀다!"
 
 #: src/player.cpp
