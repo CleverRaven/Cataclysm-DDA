@@ -463,6 +463,44 @@ bool map::pl_line_of_sight( const tripoint &t, const int max_range ) const
 
 #include "messages.h"
 
+ShadowcastingSlope::ShadowcastingSlope( int x, int y )
+{
+    // Changing x1/y1 < x2/y2 to x1*y2 < x2*y1 assumes that y1 and y2 have the same sign.
+    // To do this, we can remove the sign from y and apply it to x.
+    ydiff = abs( y );
+    if( y < 0 ) {
+        xdiff = -x;
+    } else {
+        xdiff = x;
+    }
+}
+
+inline bool operator< ( const ShadowcastingSlope &lhs, const ShadowcastingSlope &rhs )
+{
+    // x1/y1 < x2/y2 === x1*y2 < x2*y1 if y1 and y2 have the same sign.
+    return lhs.xdiff * rhs.ydiff < rhs.xdiff * lhs.ydiff;
+}
+inline bool operator> ( const ShadowcastingSlope &lhs, const ShadowcastingSlope &rhs )
+{
+    return rhs < lhs;
+}
+inline bool operator<=( const ShadowcastingSlope &lhs, const ShadowcastingSlope &rhs )
+{
+    return !( lhs > rhs );
+}
+inline bool operator>=( const ShadowcastingSlope &lhs, const ShadowcastingSlope &rhs )
+{
+    return !( lhs < rhs );
+}
+inline bool operator==( const ShadowcastingSlope &lhs, const ShadowcastingSlope &rhs )
+{
+    return lhs.xdiff * rhs.ydiff == rhs.xdiff * lhs.ydiff;
+}
+inline bool operator!=( const ShadowcastingSlope &lhs, const ShadowcastingSlope &rhs )
+{
+    return !( lhs == rhs );
+}
+
 template<int xx, int xy, int xz, int yx, int yy, int yz, int zz,
          float(*calc)(const float &, const float &, const int &),
          bool(*check)(const float &, const float &)>
@@ -829,11 +867,12 @@ template<int xx, int xy, int yx, int yy, float(*calc)(const float &, const float
          bool(*check)(const float &, const float &)>
 void castLight( float (&output_cache)[MAPSIZE*SEEX][MAPSIZE*SEEY],
                 const float (&input_array)[MAPSIZE*SEEX][MAPSIZE*SEEY],
-                const int offsetX, const int offsetY, const int offsetDistance, const float numerator,
-                const int row, float start, const float end, double cumulative_transparency )
+                const int offsetX, const int offsetY, const int offsetDistance,
+                const float numerator, const int row, ShadowcastingSlope start,
+                const ShadowcastingSlope end, double cumulative_transparency )
 {
-    float newStart = 0.0f;
-    float radius = 60.0f - offsetDistance;
+    ShadowcastingSlope newStart = 0;
+    int radius = 60 - offsetDistance;
     if( start < end ) {
         return;
     }
@@ -849,9 +888,12 @@ void castLight( float (&output_cache)[MAPSIZE*SEEX][MAPSIZE*SEEY],
         for( delta.x = -distance; delta.x <= 0; delta.x++ ) {
             int currentX = offsetX + delta.x * xx + delta.y * xy;
             int currentY = offsetY + delta.x * yx + delta.y * yy;
-            float trailingEdge = (delta.x - 0.5f) / (delta.y + 0.5f);
-            float leadingEdge = (delta.x + 0.5f) / (delta.y - 0.5f);
+            ShadowcastingSlope trailingEdge( delta.x * 2 - 1, delta.y * 2 + 1 );
+            ShadowcastingSlope leadingEdge( delta.x * 2 + 1, delta.y * 2 - 1 );
 
+            // Currently, there is a minor bug where start < trailingEdge and the next blocks
+            // obscures the remaining block (e.i. next trailingEdge > start). Causes some minor
+            // artifacts.
             if( !(currentX >= 0 && currentY >= 0 && currentX < SEEX * MAPSIZE &&
                   currentY < SEEY * MAPSIZE) || start < leadingEdge ) {
                 continue;
@@ -886,8 +928,13 @@ void castLight( float (&output_cache)[MAPSIZE*SEEX][MAPSIZE*SEEY],
                     // Note this is the same slope as the recursive call we just made.
                     start = trailingEdge;
                 }
+                // Ensure the new start slope is still valid.
+                if( start < end ) {
+                    return;
+                }
                 current_transparency = new_transparency;
             }
+
             newStart = leadingEdge;
         }
         if( !check(current_transparency, last_intensity) ) {
