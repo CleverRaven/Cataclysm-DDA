@@ -273,6 +273,43 @@
   },
   {
     "type": "item_group",
+    "id": "guns_launcher_grenade",
+    "//": "Factory manufactured grenade launchers (excludes improvised weapons)",
+    "items": [
+      [ "m320", 75 ],
+      [ "m79", 100 ],
+      [ "mark19", 10 ],
+      [ "mgl", 25 ],
+      [ "rm802", 15 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "guns_launcher_rocket",
+    "//": "Factory manufactured rocket launchers (excludes improvised weapons)",
+    "items": [
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "guns_launcher_milspec",
+    "//": "Factory manufactured grenade and rocket launchers (excludes improvised weapons)",
+    "items": [
+      { "group": "guns_launcher_grenade", "prob": 70 },
+      { "group": "guns_launcher_rocket", "prob": 30 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "guns_launcher_improvised",
+    "//": "Makeshift or otherwise poor quality grenade and rocket launchers",
+    "items": [
+      [ "launcher_simple", 100 ],
+      [ "triple_launcher_simple", 15 ]
+    ]
+  },
+  {
+    "type": "item_group",
     "id": "guns_common",
     "//": "Guns of all types commonly owned by citizens and found in many locations.",
     "items": [
@@ -301,7 +338,8 @@
       { "group": "guns_pistol_milspec", "prob": 50 },
       { "group": "guns_smg_milspec", "prob": 25 },
       { "group": "guns_rifle_milspec", "prob": 100 },
-      { "group": "guns_shotgun_milspec", "prob": 25 }
+      { "group": "guns_shotgun_milspec", "prob": 25 },
+      { "group": "guns_launcher_milspec", "prob": 10 }
     ]
   },
   {
@@ -323,7 +361,8 @@
       { "group": "guns_pistol_improvised", "prob": 80 },
       { "group": "guns_smg_improvised", "prob": 10 },
       { "group": "guns_rifle_improvised", "prob": 100 },
-      { "group": "guns_shotgun_improvised", "prob": 100 }
+      { "group": "guns_shotgun_improvised", "prob": 100 },
+      { "group": "guns_launcher_improvised", "prob": 30 }
     ]
   },
   {

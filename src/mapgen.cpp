@@ -4345,7 +4345,7 @@ ff.......|....|WWWWWWWW|\n\
                             goods = "bots";
                             break;
                         case 2:
-                            goods = "launchers";
+                            goods = "guns_launcher_milspec";
                             break;
                         case 3:
                         case 4:
@@ -4448,7 +4448,7 @@ ff.......|....|WWWWWWWW|\n\
                     place_items( "guns_rifle_milspec", 40, bx1 + 1, by1 + 1, bx2 - 1, by1 + 1, false, 0, 100 );
                     place_items( "mags_milspec", 40, bx1 + 1, by1 + 1, bx2 - 1, by1 + 1, false, 0 );
                     place_items( "ammo_milspec", 40, bx1 + 1, by1 + 1, bx2 - 1, by1 + 1, false, 0 );
-                    place_items("launchers",  40, bx1 + 1, by2 - 1, bx2 - 1, by2 - 1, false, 0);
+                    place_items( "guns_launcher_milspec", 40, bx1 + 1, by2 - 1, bx2 - 1, by2 - 1, false, 0 );
                     place_items("grenades",   40, bx1 + 1, by1 + 2, bx1 + 1, by2 - 2, false, 0);
                     place_items("mil_armor",  40, bx2 - 1, by1 + 2, bx2 - 1, by2 - 2, false, 0);
                     break;

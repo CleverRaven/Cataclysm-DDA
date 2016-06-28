@@ -984,7 +984,7 @@ void add_corpse( const tripoint &p );
          * Add field entry at point, or set density if present
          * @return false if the field could not be created (out of bounds), otherwise true.
          */
-        bool add_field( const tripoint &p, const field_id t, const int density, const int age);
+        bool add_field( const tripoint &p, const field_id t, const int density, const int age = 0 );
         /**
          * Remove field entry at xy, ignored if the field entry is not present.
          */
