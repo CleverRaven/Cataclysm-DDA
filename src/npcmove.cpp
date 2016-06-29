@@ -1238,7 +1238,6 @@ bool npc::wont_hit_friend( const tripoint &tar, const item &it, bool throwing ) 
         int ally_angle = g->m.coord_to_angle( posx(), posy(), ally.posx(), ally.posy() );
         int angle_diff = abs( ally_angle - target_angle );
         angle_diff = std::min( 360 - angle_diff, angle_diff );
-        add_msg( "%d - %d = %d", target_angle, ally_angle, angle_diff );
         if( angle_diff < safe_angle_ally ) {
             // @todo Disable NPC whining is it's other NPC who prevents aiming
             return false;
