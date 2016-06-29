@@ -774,7 +774,7 @@ std::string new_artifact()
             art->artifact->charge_type = ARTC_NULL;    // 1 in 8 chance that it can't recharge!
         }
         item_controller->add_item_type( art );
-        return art->id;
+        return art->get_id();
     } else { // Generate an armor artifact
 
         it_artifact_armor *art = new it_artifact_armor();
@@ -878,7 +878,7 @@ std::string new_artifact()
             art->artifact->effects_worn.push_back(passive_tmp);
         }
         item_controller->add_item_type( art );
-        return art->id;
+        return art->get_id();
     }
 }
 
@@ -984,7 +984,7 @@ std::string new_natural_artifact(artifact_natural_property prop)
         art->artifact->charge_type = art_charge( rng(ARTC_NULL + 1, NUM_ARTCS - 1) );
     }
     item_controller->add_item_type( art );
-    return art->id;
+    return art->get_id();
 }
 
 // Make a special debugging artifact.
@@ -1012,7 +1012,7 @@ std::string architects_cube()
     art->description = _("The architect's cube.");
     art->artifact->effects_carried.push_back(AEP_SUPER_CLAIRVOYANCE);
     item_controller->add_item_type( art );
-    return art->id;
+    return art->get_id();
 }
 
 std::vector<art_effect_passive> fill_good_passive()
@@ -1146,7 +1146,7 @@ void it_artifact_tool::deserialize(JsonObject &jo)
 
     tool->charges_per_use = jo.get_int("charges_per_use");
     tool->turns_per_charge = jo.get_int("turns_per_charge");
-    tool->ammo_id = jo.get_string("ammo");
+    tool->ammo_id = ammotype( jo.get_string("ammo") );
     tool->revert_to = jo.get_string("revert_to");
 
     artifact->charge_type = (art_charge)jo.get_int("charge_type");

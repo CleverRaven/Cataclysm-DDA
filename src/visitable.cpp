@@ -733,7 +733,7 @@ long visitable<Character>::charges_of( const std::string &what, int limit ) cons
         qty += charges_of( "UPS_off" );
         qty += charges_of( "adv_UPS_off" ) / 0.6;
         if ( p && p->has_active_bionic( "bio_ups" ) ) {
-            qty += p->power_level * 10;
+            qty += p->power_level;
         }
         return std::min( qty, long( limit ) );
     }

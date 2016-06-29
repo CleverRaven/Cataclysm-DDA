@@ -392,11 +392,8 @@ void inventory::form_from_map( const tripoint &origin, int range, bool assign_in
             const furn_t &f = g->m.furn_at( p );
             const itype *type = f.crafting_pseudo_item_type();
             if (type != NULL) {
-                item furn_item(type->id, 0);
                 const itype *ammo = f.crafting_ammo_item_type();
-                if (ammo != NULL) {
-                    furn_item.charges = count_charges_in_list( ammo, g->m.i_at( p ) );
-                }
+                item furn_item( type, calendar::turn, ammo ? count_charges_in_list( ammo, g->m.i_at( p ) ) : 0 );
                 furn_item.item_tags.insert("PSEUDO");
                 add_item(furn_item);
             }
@@ -721,7 +718,7 @@ int inventory::position_by_item( const item *it ) const
 item &inventory::item_by_type(itype_id type)
 {
     for( auto &elem : items ) {
-        if( elem.front().type->id == type ) {
+        if( elem.front().typeId() == type ) {
             return elem.front();
         }
     }
@@ -732,7 +729,7 @@ int inventory::position_by_type(itype_id type)
 {
     int i = 0;
     for( auto &elem : items ) {
-        if( elem.front().type->id == type ) {
+        if( elem.front().typeId() == type ) {
             return i;
         }
         ++i;
@@ -743,7 +740,7 @@ item &inventory::item_or_container(itype_id type)
 {
     for( auto &elem : items ) {
         for( auto &elem_stack_iter : elem ) {
-            if( elem_stack_iter.type->id == type ) {
+            if( elem_stack_iter.typeId() == type ) {
                 return elem_stack_iter;
             } else if( elem_stack_iter.is_container() && !elem_stack_iter.contents.empty() ) {
                 if( elem_stack_iter.contents.front().typeId() == type ) {
@@ -762,7 +759,7 @@ std::vector<std::pair<item *, int> > inventory::all_items_by_type(itype_id type)
     int i = 0;
     for( auto &elem : items ) {
         for( auto &elem_stack_iter : elem ) {
-            if( elem_stack_iter.type->id == type ) {
+            if( elem_stack_iter.typeId() == type ) {
                 ret.push_back( std::make_pair( &elem_stack_iter, i ) );
             }
         }
@@ -845,9 +842,9 @@ bool inventory::has_enough_painkiller(int pain) const
 {
     for( const auto &elem : items ) {
         const item &it = elem.front();
-        if ( (pain <= 35 && it.type->id == "aspirin") ||
-             (pain >= 50 && it.type->id == "oxycodone") ||
-             it.type->id == "tramadol" || it.type->id == "codeine") {
+        if ( (pain <= 35 && it.typeId() == "aspirin") ||
+             (pain >= 50 && it.typeId() == "oxycodone") ||
+             it.typeId() == "tramadol" || it.typeId() == "codeine") {
             return true;
         }
     }
@@ -860,7 +857,7 @@ item *inventory::most_appropriate_painkiller(int pain)
     item *ret = &nullitem;
     for( auto &elem : items ) {
         int diff = 9999;
-        itype_id type = elem.front().type->id;
+        itype_id type = elem.front().typeId();
         if (type == "aspirin") {
             diff = abs(pain - 15);
         } else if (type == "codeine") {

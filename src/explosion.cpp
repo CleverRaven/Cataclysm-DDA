@@ -1,6 +1,7 @@
 #include "cata_utility.h"
 #include "game.h"
 #include "map.h"
+#include "projectile.h"
 #include "explosion.h"
 #include "json.h"
 #include "creature.h"
@@ -14,6 +15,7 @@
 #include "vehicle.h"
 #include "field.h"
 #include <queue>
+#include <algorithm>
 
 static const itype_id null_itype( "null" );
 

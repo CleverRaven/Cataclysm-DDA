@@ -121,6 +121,9 @@ struct vehicle_part : public JsonSerializer, public JsonDeserializer
     /** Translated name of a part inclusive of any current status effects */
     std::string name() const;
 
+    /** Ammo type (@ref ammunition_type) that can be contained by a part */
+    ammotype ammo_type() const;
+
     /** Specific type of fuel, charges or ammunition currently contained by a part */
     itype_id ammo_current() const;
 
@@ -149,6 +152,9 @@ struct vehicle_part : public JsonSerializer, public JsonDeserializer
      */
     long ammo_consume( long qty, const tripoint& pos );
 
+    /* Can part in current state be reloaded optionally with specific @ref obj */
+    bool can_reload( const itype_id &obj = "" );
+
     /** Current faults affecting this part (if any) */
     const std::set<fault_id>& faults() const;
 
@@ -164,8 +170,27 @@ struct vehicle_part : public JsonSerializer, public JsonDeserializer
     /** Get wheel width (inches) or return 0 if part is not wheel */
     int wheel_width() const;
 
+    /**
+     * @name Part capabilities
+     *
+     * A part can provide zero or more capabilities. Some capabilities are mutually
+     * exclusive, for example a part cannot be both a fuel tank and battery
+     */
+    /*@{*/
+
     /** Is this any type of vehicle light? */
     bool is_light() const;
+
+    /** Can this part contain liquid fuels? */
+    bool is_tank() const;
+
+    /** Can this part store electrical charge? */
+    bool is_battery() const;
+
+    /** Can this part function as a turret? */
+    bool is_turret() const;
+
+    /*@}*/
 
 public:
     /** mount point: x is on the forward/backward axis, y is on the left/right axis */

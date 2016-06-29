@@ -237,7 +237,7 @@ std::map<std::string, std::vector<mapgen_function*> > oter_mapgen;
 std::map<std::string, std::map<int, int> > oter_mapgen_weights;
 
 /*
- * setup oter_mapgen_weights which which mapgen uses to diceroll. Also setup mapgen_function_json
+ * setup oter_mapgen_weights which mapgen uses to diceroll. Also setup mapgen_function_json
  */
 void calculate_mapgen_weights() { // todo; rename as it runs jsonfunction setup too
     oter_mapgen_weights.clear();
@@ -250,19 +250,18 @@ void calculate_mapgen_weights() { // todo; rename as it runs jsonfunction setup 
             int weight = (*fit)->weight;
             if ( weight < 1 ) {
                 dbg(D_INFO) << "wcalc " << oit->first << "(" << funcnum << "): (rej(1), " << weight << ") = " << wtotal;
-                funcnum++;
+                ++funcnum;
                 continue; // rejected!
             }
-            if ( ! (*fit)->setup() ) {
+            if( !(*fit)->setup() ) {
                 dbg(D_INFO) << "wcalc " << oit->first << "(" << funcnum << "): (rej(2), " << weight << ") = " << wtotal;
-                funcnum++;
-                continue; // disqualify! doesn't get to play in the pool
+                ++funcnum;
+				continue; // disqualify! doesn't get to play in the pool
             }
-            //
             wtotal += weight;
             oter_mapgen_weights[ oit->first ][ wtotal ] = funcnum;
             dbg(D_INFO) << "wcalc " << oit->first << "(" << funcnum << "): +" << weight << " = " << wtotal;
-            funcnum++;
+            ++funcnum;
         }
     }
 }
@@ -4120,6 +4119,7 @@ ff.......|....|WWWWWWWW|\n\
             add_spawn(mon_secubot, 1, SEEX * 2 - 7,            6);
             add_spawn(mon_secubot, 1,            6, SEEY * 2 - 7);
             add_spawn(mon_secubot, 1, SEEX * 2 - 7, SEEY * 2 - 7);
+            spawn_item( SEEX - 3, SEEY - 2, "id_science" );
             madd_trap( this, SEEX - 2, SEEY - 2, tr_dissector);
             madd_trap( this, SEEX + 1, SEEY - 2, tr_dissector);
             madd_trap( this, SEEX - 2, SEEY + 1, tr_dissector);
@@ -4191,6 +4191,8 @@ ff.......|....|WWWWWWWW|\n\
                     }
                 }
             }
+
+            spawn_item( SEEX - 1, 8, "id_science" );
             tmpcomp = add_computer( tripoint( SEEX,  8, abs_sub.z ), _("Sub-prime contact console"), 7);
             if(monsters_end) { //only add these options when there are monsters.
                 tmpcomp->add_option(_("Terminate Specimens"), COMPACT_TERMINATE, 2);
@@ -4225,6 +4227,7 @@ ff.......|....|WWWWWWWW|\n\
             line(this, t_reinforced_glass, SEEX - 2, SEEY + 1, SEEX + 1, SEEY + 1);
             line(this, t_reinforced_glass, SEEX - 2, SEEY - 1, SEEX - 2, SEEY);
             line(this, t_reinforced_glass, SEEX + 1, SEEY - 1, SEEX + 1, SEEY);
+            spawn_item( SEEX - 4, SEEY - 3, "id_science" );
             ter_set(SEEX - 3, SEEY - 3, t_console);
             tmpcomp = add_computer( tripoint( SEEX - 3,  SEEY - 3, abs_sub.z ), _("Bionic access"), 3);
             tmpcomp->add_option(_("Manifest"), COMPACT_LIST_BIONICS, 0);
@@ -4244,6 +4247,7 @@ ff.......|....|WWWWWWWW|\n\
             line(this, t_cvdbody, SEEX    , SEEY - 1, SEEX    , SEEY + 1);
             line(this, t_cvdbody, SEEX + 1, SEEY - 2, SEEX + 1, SEEY + 1);
             ter_set(SEEX   , SEEY - 2, t_cvdmachine);
+            spawn_item( SEEX, SEEY - 3, "id_science" );
             break;
         }
 
@@ -4341,7 +4345,7 @@ ff.......|....|WWWWWWWW|\n\
                             goods = "bots";
                             break;
                         case 2:
-                            goods = "launchers";
+                            goods = "guns_launcher_milspec";
                             break;
                         case 3:
                         case 4:
@@ -4444,7 +4448,7 @@ ff.......|....|WWWWWWWW|\n\
                     place_items( "guns_rifle_milspec", 40, bx1 + 1, by1 + 1, bx2 - 1, by1 + 1, false, 0, 100 );
                     place_items( "mags_milspec", 40, bx1 + 1, by1 + 1, bx2 - 1, by1 + 1, false, 0 );
                     place_items( "ammo_milspec", 40, bx1 + 1, by1 + 1, bx2 - 1, by1 + 1, false, 0 );
-                    place_items("launchers",  40, bx1 + 1, by2 - 1, bx2 - 1, by2 - 1, false, 0);
+                    place_items( "guns_launcher_milspec", 40, bx1 + 1, by2 - 1, bx2 - 1, by2 - 1, false, 0 );
                     place_items("grenades",   40, bx1 + 1, by1 + 2, bx1 + 1, by2 - 2, false, 0);
                     place_items("mil_armor",  40, bx2 - 1, by1 + 2, bx2 - 1, by2 - 2, false, 0);
                     break;
@@ -8936,7 +8940,7 @@ FFFFFFFFFFFFFFFFFFFFFFFF\n\
                     if (one_in(2)) {
                         place_items("sports",  72, x, y, x, y + SEEY - 4, false, 0);
                     } else if (one_in(10)) {
-                        place_items("rifles",  20, x, y, x, y + SEEY - 4, false, 0);
+                        place_items("guns_rifles_common",  20, x, y, x, y + SEEY - 4, false, 0);
                     } else {
                         place_items("camping", 68, x, y, x, y + SEEY - 4, false, 0);
                     }

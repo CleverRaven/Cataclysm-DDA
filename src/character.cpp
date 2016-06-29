@@ -508,11 +508,7 @@ map_selector Character::nearby( int radius, bool accessible )
 
 item& Character::i_add(item it)
 {
-    itype_id item_type_id = "null";
-    if( it.type ) {
-        item_type_id = it.type->id;
-    }
-
+    itype_id item_type_id = it.typeId();
     last_item = item_type_id;
 
     if( it.is_food() || it.is_ammo() || it.is_gun()  || it.is_armor() ||
@@ -868,7 +864,7 @@ bool Character::has_artifact_with(const art_effect_passive effect) const
 bool Character::is_wearing(const itype_id & it) const
 {
     for (auto &i : worn) {
-        if (i.type->id == it) {
+        if (i.typeId() == it) {
             return true;
         }
     }
@@ -878,7 +874,7 @@ bool Character::is_wearing(const itype_id & it) const
 bool Character::is_wearing_on_bp(const itype_id & it, body_part bp) const
 {
     for (auto &i : worn) {
-        if (i.type->id == it && i.covers(bp)) {
+        if (i.typeId() == it && i.covers(bp)) {
             return true;
         }
     }
@@ -1910,55 +1906,25 @@ bool Character::is_blind() const
 
 bool Character::pour_into( item &container, item &liquid )
 {
-    if( liquid.is_ammo() && ( container.is_tool() || container.is_gun() ) ) {
-        // TODO: merge this part with game::reload
-        // for filling up chainsaws, jackhammers and flamethrowers
+    std::string err;
 
-        if( container.ammo_type() != liquid.ammo_type() ) {
-            add_msg_if_player( m_info, _( "Your %1$s won't hold %2$s." ), container.tname().c_str(),
-                               liquid.tname().c_str() );
-            return false;
-        }
+    const bool allow_bucket = &container == &weapon || !has_item( container );
+    const int available_volume = allow_bucket ? INT_MAX : volume_capacity() - volume_carried();
+    const long amount = container.get_remaining_capacity_for_liquid( liquid, err, allow_bucket,
+                                                                     available_volume );
+    if( !err.empty() ) {
+        add_msg_if_player( m_bad, err.c_str() );
+        return false;
+    }
 
-        if( container.ammo_remaining() >= container.ammo_capacity() ) {
-            add_msg_if_player( m_info, _( "Your %1$s can't hold any more %2$s." ), container.tname().c_str(),
-                               liquid.tname().c_str() );
-            return false;
-        }
+    add_msg_if_player( _( "You pour %1$s into the %2$s." ), liquid.tname().c_str(),
+                       container.tname().c_str() );
 
-        if( container.ammo_remaining() && container.ammo_current() != liquid.typeId() ) {
-            add_msg_if_player( m_info, _( "You can't mix loads in your %s." ), container.tname().c_str() );
-            return false;
-        }
+    container.fill_with( liquid, amount );
+    inv.unsort();
 
-        add_msg_if_player( _( "You pour %1$s into the %2$s." ), liquid.tname().c_str(),
-                           container.tname().c_str() );
-        auto qty = std::min( liquid.charges, container.ammo_capacity() - container.ammo_remaining() );
-        liquid.charges -= qty;
-        container.ammo_set( liquid.typeId(), container.ammo_remaining() + qty );
-        container.on_contents_changed();
-        if( liquid.charges > 0 ) {
-            add_msg_if_player( _( "There's some left over!" ) );
-        }
-
-    } else {
-        // Filling up normal containers
-        bool allow_bucket = &container == &weapon || !has_item( container );
-        std::string err;
-        if( !container.fill_with( liquid, err, allow_bucket ) ) {
-            add_msg_if_player( m_info, err.c_str() );
-            return false;
-        }
-
-        container.on_contents_changed();
-
-        inv.unsort();
-        add_msg_if_player( _( "You pour %1$s into the %2$s." ), liquid.tname().c_str(),
-                           container.tname().c_str() );
-        if( liquid.charges > 0 ) {
-            // TODO: maybe not show this if the source is infinite. Best would be to move it to the caller.
-            add_msg_if_player( _( "There's some left over!" ) );
-        }
+    if( liquid.charges > 0 ) {
+        add_msg_if_player( _( "There's some left over!" ) );
     }
 
     return true;
@@ -1966,7 +1932,7 @@ bool Character::pour_into( item &container, item &liquid )
 
 bool Character::pour_into( vehicle &veh, item &liquid )
 {
-    const itype_id &ftype = liquid.type->id;
+    const itype_id &ftype = liquid.typeId();
     const int fuel_per_charge = fuel_charges_to_amount_factor( ftype );
     const int fuel_cap = veh.fuel_capacity( ftype );
     const int fuel_amnt = veh.fuel_left( ftype );

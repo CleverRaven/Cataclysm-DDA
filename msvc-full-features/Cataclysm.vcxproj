@@ -1,0 +1,554 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{18A6550D-1A53-478B-B615-20A2AF25A2CB}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>Cataclysm</RootNamespace>
+    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <WholeProgramOptimization>false</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <WholeProgramOptimization>false</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+    <OutDir>$(SolutionDir)\..\</OutDir>
+    <TargetName>Cataclysm</TargetName>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <LinkIncremental>true</LinkIncremental>
+    <OutDir>$(SolutionDir)\..\</OutDir>
+    <TargetName>Cataclysm</TargetName>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+    <OutDir>$(SolutionDir)\..\</OutDir>
+    <TargetName>Cataclysm</TargetName>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <LinkIncremental>false</LinkIncremental>
+    <OutDir>$(SolutionDir)\..\</OutDir>
+    <TargetName>Cataclysm</TargetName>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <WarningLevel>Level1</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;WIN32_LEAN_AND_MEAN;SDL_SOUND;TILES;LUA;LOCALIZE;WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <SDLCheck>true</SDLCheck>
+      <CompileAsManaged>false</CompileAsManaged>
+      <MultiProcessorCompilation>false</MultiProcessorCompilation>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <DisableSpecificWarnings>4819</DisableSpecificWarnings>
+      <ForcedIncludeFiles>stdafx.h</ForcedIncludeFiles>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_mixer.lib;SDL2_ttf.lib;libiconv.lib;libintl.lib;Lua.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <LinkTimeCodeGeneration>Default</LinkTimeCodeGeneration>
+      <AdditionalOptions>/LTCG:OFF %(AdditionalOptions)</AdditionalOptions>
+    </Link>
+    <PreBuildEvent>
+      <Command>prebuild.cmd</Command>
+    </PreBuildEvent>
+    <PreBuildEvent>
+      <Message>Get version string and generate lua bindings</Message>
+    </PreBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <WarningLevel>Level1</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;WIN32_LEAN_AND_MEAN;SDL_SOUND;TILES;LUA;LOCALIZE;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <SDLCheck>true</SDLCheck>
+      <CompileAsManaged>false</CompileAsManaged>
+      <MultiProcessorCompilation>false</MultiProcessorCompilation>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <DisableSpecificWarnings>4819</DisableSpecificWarnings>
+      <ForcedIncludeFiles>stdafx.h</ForcedIncludeFiles>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_mixer.lib;SDL2_ttf.lib;libiconv.lib;libintl.lib;Lua.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <LinkTimeCodeGeneration>Default</LinkTimeCodeGeneration>
+      <AdditionalOptions>/LTCG:OFF %(AdditionalOptions)</AdditionalOptions>
+    </Link>
+    <PreBuildEvent>
+      <Command>prebuild.cmd</Command>
+    </PreBuildEvent>
+    <PreBuildEvent>
+      <Message>Get version string and generate lua bindings</Message>
+    </PreBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level1</WarningLevel>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;WIN32_LEAN_AND_MEAN;SDL_SOUND;TILES;LUA;LOCALIZE;WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <SDLCheck>true</SDLCheck>
+      <CompileAsManaged>false</CompileAsManaged>
+      <MultiProcessorCompilation>false</MultiProcessorCompilation>
+      <MinimalRebuild>true</MinimalRebuild>
+      <DisableSpecificWarnings>4819</DisableSpecificWarnings>
+      <ForcedIncludeFiles>stdafx.h</ForcedIncludeFiles>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_mixer.lib;SDL2_ttf.lib;libiconv.lib;libintl.lib;Lua.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <LinkTimeCodeGeneration>Default</LinkTimeCodeGeneration>
+      <AdditionalOptions>/LTCG:OFF %(AdditionalOptions)</AdditionalOptions>
+    </Link>
+    <PreBuildEvent>
+      <Command>prebuild.cmd</Command>
+    </PreBuildEvent>
+    <PreBuildEvent>
+      <Message>Get version string and generate lua bindings</Message>
+    </PreBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level1</WarningLevel>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;WIN32_LEAN_AND_MEAN;SDL_SOUND;TILES;LUA;LOCALIZE;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <SDLCheck>true</SDLCheck>
+      <CompileAsManaged>false</CompileAsManaged>
+      <MultiProcessorCompilation>false</MultiProcessorCompilation>
+      <MinimalRebuild>true</MinimalRebuild>
+      <DisableSpecificWarnings>4819</DisableSpecificWarnings>
+      <ForcedIncludeFiles>stdafx.h</ForcedIncludeFiles>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_mixer.lib;SDL2_ttf.lib;libiconv.lib;libintl.lib;Lua.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <LinkTimeCodeGeneration>Default</LinkTimeCodeGeneration>
+      <AdditionalOptions>/LTCG:OFF %(AdditionalOptions)</AdditionalOptions>
+    </Link>
+    <PreBuildEvent>
+      <Command>prebuild.cmd</Command>
+    </PreBuildEvent>
+    <PreBuildEvent>
+      <Message>Get version string and generate lua bindings</Message>
+    </PreBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="..\src\action.h" />
+    <ClInclude Include="..\src\active_item_cache.h" />
+    <ClInclude Include="..\src\activity_handlers.h" />
+    <ClInclude Include="..\src\addiction.h" />
+    <ClInclude Include="..\src\advanced_inv.h" />
+    <ClInclude Include="..\src\ammo.h" />
+    <ClInclude Include="..\src\animation.h" />
+    <ClInclude Include="..\src\artifact.h" />
+    <ClInclude Include="..\src\auto_pickup.h" />
+    <ClInclude Include="..\src\basecamp.h" />
+    <ClInclude Include="..\src\bionics.h" />
+    <ClInclude Include="..\src\bodypart.h" />
+    <ClInclude Include="..\src\bonuses.h" />
+    <ClInclude Include="..\src\calendar.h" />
+    <ClInclude Include="..\src\catacharset.h" />
+    <ClInclude Include="..\src\catacurse.h" />
+    <ClInclude Include="..\src\catalua.h" />
+    <ClInclude Include="..\src\cata_tiles.h" />
+    <ClInclude Include="..\src\cata_utility.h" />
+    <ClInclude Include="..\src\character.h" />
+    <ClInclude Include="..\src\char_validity_check.h" />
+    <ClInclude Include="..\src\clzones.h" />
+    <ClInclude Include="..\src\color.h" />
+    <ClInclude Include="..\src\compatibility.h" />
+    <ClInclude Include="..\src\computer.h" />
+    <ClInclude Include="..\src\construction.h" />
+    <ClInclude Include="..\src\coordinates.h" />
+    <ClInclude Include="..\src\coordinate_conversions.h" />
+    <ClInclude Include="..\src\crafting.h" />
+    <ClInclude Include="..\src\crafting_gui.h" />
+    <ClInclude Include="..\src\craft_command.h" />
+    <ClInclude Include="..\src\creature.h" />
+    <ClInclude Include="..\src\creature_tracker.h" />
+    <ClInclude Include="..\src\cursesdef.h" />
+    <ClInclude Include="..\src\damage.h" />
+    <ClInclude Include="..\src\debug.h" />
+    <ClInclude Include="..\src\dependency_tree.h" />
+    <ClInclude Include="..\src\dialogue.h" />
+    <ClInclude Include="..\src\drawing_primitives.h" />
+    <ClInclude Include="..\src\editmap.h" />
+    <ClInclude Include="..\src\effect.h" />
+    <ClInclude Include="..\src\enums.h" />
+    <ClInclude Include="..\src\event.h" />
+    <ClInclude Include="..\src\explosion.h" />
+    <ClInclude Include="..\src\faction.h" />
+    <ClInclude Include="..\src\fault.h" />
+    <ClInclude Include="..\src\field.h" />
+    <ClInclude Include="..\src\filesystem.h" />
+    <ClInclude Include="..\src\fire.h" />
+    <ClInclude Include="..\src\game.h" />
+    <ClInclude Include="..\src\gamemode.h" />
+    <ClInclude Include="..\src\game_constants.h" />
+    <ClInclude Include="..\src\gates.h" />
+    <ClInclude Include="..\src\generic_factory.h" />
+    <ClInclude Include="..\src\get_version.h" />
+    <ClInclude Include="..\src\help.h" />
+    <ClInclude Include="..\src\iexamine.h" />
+    <ClInclude Include="..\src\init.h" />
+    <ClInclude Include="..\src\input.h" />
+    <ClInclude Include="..\src\int_id.h" />
+    <ClInclude Include="..\src\inventory.h" />
+    <ClInclude Include="..\src\io.h" />
+    <ClInclude Include="..\src\item.h" />
+    <ClInclude Include="..\src\item_action.h" />
+    <ClInclude Include="..\src\item_factory.h" />
+    <ClInclude Include="..\src\item_group.h" />
+    <ClInclude Include="..\src\item_location.h" />
+    <ClInclude Include="..\src\item_stack.h" />
+    <ClInclude Include="..\src\itype.h" />
+    <ClInclude Include="..\src\iuse.h" />
+    <ClInclude Include="..\src\iuse_actor.h" />
+    <ClInclude Include="..\src\iuse_software.h" />
+    <ClInclude Include="..\src\iuse_software_kitten.h" />
+    <ClInclude Include="..\src\iuse_software_minesweeper.h" />
+    <ClInclude Include="..\src\iuse_software_snake.h" />
+    <ClInclude Include="..\src\iuse_software_sokoban.h" />
+    <ClInclude Include="..\src\json.h" />
+    <ClInclude Include="..\src\lightmap.h" />
+    <ClInclude Include="..\src\line.h" />
+    <ClInclude Include="..\src\live_view.h" />
+    <ClInclude Include="..\src\lua_console.h" />
+    <ClInclude Include="..\src\map.h" />
+    <ClInclude Include="..\src\mapbuffer.h" />
+    <ClInclude Include="..\src\mapdata.h" />
+    <ClInclude Include="..\src\mapgen.h" />
+    <ClInclude Include="..\src\mapgenformat.h" />
+    <ClInclude Include="..\src\mapgen_functions.h" />
+    <ClInclude Include="..\src\mapsharing.h" />
+    <ClInclude Include="..\src\map_iterator.h" />
+    <ClInclude Include="..\src\map_selector.h" />
+    <ClInclude Include="..\src\martialarts.h" />
+    <ClInclude Include="..\src\material.h" />
+    <ClInclude Include="..\src\mattack_actors.h" />
+    <ClInclude Include="..\src\messages.h" />
+    <ClInclude Include="..\src\mingw.thread.h" />
+    <ClInclude Include="..\src\mission.h" />
+    <ClInclude Include="..\src\mod_manager.h" />
+    <ClInclude Include="..\src\monattack.h" />
+    <ClInclude Include="..\src\mondeath.h" />
+    <ClInclude Include="..\src\mondefense.h" />
+    <ClInclude Include="..\src\monfaction.h" />
+    <ClInclude Include="..\src\mongroup.h" />
+    <ClInclude Include="..\src\monster.h" />
+    <ClInclude Include="..\src\monstergenerator.h" />
+    <ClInclude Include="..\src\morale.h" />
+    <ClInclude Include="..\src\morale_types.h" />
+    <ClInclude Include="..\src\mtype.h" />
+    <ClInclude Include="..\src\mutation.h" />
+    <ClInclude Include="..\src\name.h" />
+    <ClInclude Include="..\src\npc.h" />
+    <ClInclude Include="..\src\npc_class.h" />
+    <ClInclude Include="..\src\npc_favor.h" />
+    <ClInclude Include="..\src\omdata.h" />
+    <ClInclude Include="..\src\options.h" />
+    <ClInclude Include="..\src\output.h" />
+    <ClInclude Include="..\src\overlay_ordering.h" />
+    <ClInclude Include="..\src\overmap.h" />
+    <ClInclude Include="..\src\overmapbuffer.h" />
+    <ClInclude Include="..\src\overmap_types.h" />
+    <ClInclude Include="..\src\pathfinding.h" />
+    <ClInclude Include="..\src\path_info.h" />
+    <ClInclude Include="..\src\pickup.h" />
+    <ClInclude Include="..\src\platform_win.h" />
+    <ClInclude Include="..\src\player.h" />
+    <ClInclude Include="..\src\player_activity.h" />
+    <ClInclude Include="..\src\pldata.h" />
+    <ClInclude Include="..\src\posix_time.h" />
+    <ClInclude Include="..\src\profession.h" />
+    <ClInclude Include="..\src\recipe_dictionary.h" />
+    <ClInclude Include="..\src\requirements.h" />
+    <ClInclude Include="..\src\rng.h" />
+    <ClInclude Include="..\src\scenario.h" />
+    <ClInclude Include="..\src\scent_map.h" />
+    <ClInclude Include="..\src\shadowcasting.h" />
+    <ClInclude Include="..\src\simplexnoise.h" />
+    <ClInclude Include="..\src\skill.h" />
+    <ClInclude Include="..\src\sounds.h" />
+    <ClInclude Include="..\src\speech.h" />
+    <ClInclude Include="..\src\start_location.h" />
+    <ClInclude Include="..\src\string_id.h" />
+    <ClInclude Include="..\src\submap.h" />
+    <ClInclude Include="..\src\text_snippets.h" />
+    <ClInclude Include="..\src\tileray.h" />
+    <ClInclude Include="..\src\tile_id_data.h" />
+    <ClInclude Include="..\src\translations.h" />
+    <ClInclude Include="..\src\trap.h" />
+    <ClInclude Include="..\src\tutorial.h" />
+    <ClInclude Include="..\src\ui.h" />
+    <ClInclude Include="..\src\uistate.h" />
+    <ClInclude Include="..\src\vehicle.h" />
+    <ClInclude Include="..\src\vehicle_group.h" />
+    <ClInclude Include="..\src\vehicle_selector.h" />
+    <ClInclude Include="..\src\veh_interact.h" />
+    <ClInclude Include="..\src\veh_type.h" />
+    <ClInclude Include="..\src\version.h" />
+    <ClInclude Include="..\src\visitable.h" />
+    <ClInclude Include="..\src\vitamin.h" />
+    <ClInclude Include="..\src\wcwidth.h" />
+    <ClInclude Include="..\src\wdirent.h" />
+    <ClInclude Include="..\src\weather.h" />
+    <ClInclude Include="..\src\weather_gen.h" />
+    <ClInclude Include="..\src\weighted_list.h" />
+    <ClInclude Include="..\src\worldfactory.h" />
+    <ClInclude Include="stdafx.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\src\action.cpp" />
+    <ClCompile Include="..\src\active_item_cache.cpp" />
+    <ClCompile Include="..\src\activity_handlers.cpp" />
+    <ClCompile Include="..\src\activity_item_handling.cpp" />
+    <ClCompile Include="..\src\addiction.cpp" />
+    <ClCompile Include="..\src\advanced_inv.cpp" />
+    <ClCompile Include="..\src\ammo.cpp" />
+    <ClCompile Include="..\src\animation.cpp" />
+    <ClCompile Include="..\src\armor_layers.cpp" />
+    <ClCompile Include="..\src\artifact.cpp" />
+    <ClCompile Include="..\src\auto_pickup.cpp" />
+    <ClCompile Include="..\src\basecamp.cpp" />
+    <ClCompile Include="..\src\bionics.cpp" />
+    <ClCompile Include="..\src\bionics_ui.cpp" />
+    <ClCompile Include="..\src\bodypart.cpp" />
+    <ClCompile Include="..\src\bonuses.cpp" />
+    <ClCompile Include="..\src\calendar.cpp" />
+    <ClCompile Include="..\src\catacharset.cpp" />
+    <ClCompile Include="..\src\catalua.cpp" />
+    <ClCompile Include="..\src\cata_tiles.cpp" />
+    <ClCompile Include="..\src\cata_utility.cpp" />
+    <ClCompile Include="..\src\character.cpp" />
+    <ClCompile Include="..\src\char_validity_check.cpp" />
+    <ClCompile Include="..\src\clzones.cpp" />
+    <ClCompile Include="..\src\color.cpp" />
+    <ClCompile Include="..\src\computer.cpp" />
+    <ClCompile Include="..\src\construction.cpp" />
+    <ClCompile Include="..\src\consumption.cpp" />
+    <ClCompile Include="..\src\coordinate_conversions.cpp" />
+    <ClCompile Include="..\src\crafting.cpp" />
+    <ClCompile Include="..\src\crafting_gui.cpp" />
+    <ClCompile Include="..\src\craft_command.cpp" />
+    <ClCompile Include="..\src\creature.cpp" />
+    <ClCompile Include="..\src\creature_tracker.cpp" />
+    <ClCompile Include="..\src\cursesport.cpp" />
+    <ClCompile Include="..\src\damage.cpp" />
+    <ClCompile Include="..\src\debug.cpp" />
+    <ClCompile Include="..\src\defense.cpp" />
+    <ClCompile Include="..\src\dependency_tree.cpp" />
+    <ClCompile Include="..\src\drawing_primitives.cpp" />
+    <ClCompile Include="..\src\dump.cpp" />
+    <ClCompile Include="..\src\editmap.cpp" />
+    <ClCompile Include="..\src\effect.cpp" />
+    <ClCompile Include="..\src\event.cpp" />
+    <ClCompile Include="..\src\explosion.cpp" />
+    <ClCompile Include="..\src\faction.cpp" />
+    <ClCompile Include="..\src\fault.cpp" />
+    <ClCompile Include="..\src\field.cpp" />
+    <ClCompile Include="..\src\filesystem.cpp" />
+    <ClCompile Include="..\src\game.cpp" />
+    <ClCompile Include="..\src\gamemode.cpp" />
+    <ClCompile Include="..\src\gates.cpp" />
+    <ClCompile Include="..\src\help.cpp" />
+    <ClCompile Include="..\src\iexamine.cpp" />
+    <ClCompile Include="..\src\init.cpp" />
+    <ClCompile Include="..\src\input.cpp" />
+    <ClCompile Include="..\src\inventory.cpp" />
+    <ClCompile Include="..\src\inventory_ui.cpp" />
+    <ClCompile Include="..\src\item.cpp" />
+    <ClCompile Include="..\src\item_action.cpp" />
+    <ClCompile Include="..\src\item_factory.cpp" />
+    <ClCompile Include="..\src\item_group.cpp" />
+    <ClCompile Include="..\src\item_location.cpp" />
+    <ClCompile Include="..\src\itype.cpp" />
+    <ClCompile Include="..\src\iuse.cpp" />
+    <ClCompile Include="..\src\iuse_actor.cpp" />
+    <ClCompile Include="..\src\iuse_software.cpp" />
+    <ClCompile Include="..\src\iuse_software_kitten.cpp" />
+    <ClCompile Include="..\src\iuse_software_minesweeper.cpp" />
+    <ClCompile Include="..\src\iuse_software_snake.cpp" />
+    <ClCompile Include="..\src\iuse_software_sokoban.cpp" />
+    <ClCompile Include="..\src\json.cpp" />
+    <ClCompile Include="..\src\lightmap.cpp" />
+    <ClCompile Include="..\src\line.cpp" />
+    <ClCompile Include="..\src\live_view.cpp" />
+    <ClCompile Include="..\src\lua_console.cpp" />
+    <ClCompile Include="..\src\main.cpp" />
+    <ClCompile Include="..\src\main_menu.cpp" />
+    <ClCompile Include="..\src\map.cpp" />
+    <ClCompile Include="..\src\mapbuffer.cpp" />
+    <ClCompile Include="..\src\mapdata.cpp" />
+    <ClCompile Include="..\src\mapgen.cpp" />
+    <ClCompile Include="..\src\mapgenformat.cpp" />
+    <ClCompile Include="..\src\mapgen_functions.cpp" />
+    <ClCompile Include="..\src\mapsharing.cpp" />
+    <ClCompile Include="..\src\map_selector.cpp" />
+    <ClCompile Include="..\src\martialarts.cpp" />
+    <ClCompile Include="..\src\material.cpp" />
+    <ClCompile Include="..\src\mattack_actors.cpp" />
+    <ClCompile Include="..\src\melee.cpp" />
+    <ClCompile Include="..\src\messages.cpp" />
+    <ClCompile Include="..\src\mission.cpp" />
+    <ClCompile Include="..\src\missiondef.cpp" />
+    <ClCompile Include="..\src\mission_companion.cpp" />
+    <ClCompile Include="..\src\mission_end.cpp" />
+    <ClCompile Include="..\src\mission_fail.cpp" />
+    <ClCompile Include="..\src\mission_place.cpp" />
+    <ClCompile Include="..\src\mission_start.cpp" />
+    <ClCompile Include="..\src\mod_manager.cpp" />
+    <ClCompile Include="..\src\mod_manager_ui.cpp" />
+    <ClCompile Include="..\src\monattack.cpp" />
+    <ClCompile Include="..\src\mondeath.cpp" />
+    <ClCompile Include="..\src\mondefense.cpp" />
+    <ClCompile Include="..\src\monfaction.cpp" />
+    <ClCompile Include="..\src\mongroup.cpp" />
+    <ClCompile Include="..\src\monmove.cpp" />
+    <ClCompile Include="..\src\monster.cpp" />
+    <ClCompile Include="..\src\monstergenerator.cpp" />
+    <ClCompile Include="..\src\morale.cpp" />
+    <ClCompile Include="..\src\mtype.cpp" />
+    <ClCompile Include="..\src\mutation.cpp" />
+    <ClCompile Include="..\src\mutation_data.cpp" />
+    <ClCompile Include="..\src\mutation_ui.cpp" />
+    <ClCompile Include="..\src\name.cpp" />
+    <ClCompile Include="..\src\newcharacter.cpp" />
+    <ClCompile Include="..\src\npc.cpp" />
+    <ClCompile Include="..\src\npcmove.cpp" />
+    <ClCompile Include="..\src\npctalk.cpp" />
+    <ClCompile Include="..\src\npc_class.cpp" />
+    <ClCompile Include="..\src\options.cpp" />
+    <ClCompile Include="..\src\output.cpp" />
+    <ClCompile Include="..\src\overlay_ordering.cpp" />
+    <ClCompile Include="..\src\overmap.cpp" />
+    <ClCompile Include="..\src\overmapbuffer.cpp" />
+    <ClCompile Include="..\src\pathfinding.cpp" />
+    <ClCompile Include="..\src\path_info.cpp" />
+    <ClCompile Include="..\src\pickup.cpp" />
+    <ClCompile Include="..\src\player.cpp" />
+    <ClCompile Include="..\src\player_activity.cpp" />
+    <ClCompile Include="..\src\posix_time.cpp" />
+    <ClCompile Include="..\src\profession.cpp" />
+    <ClCompile Include="..\src\ranged.cpp" />
+    <ClCompile Include="..\src\recipe_dictionary.cpp" />
+    <ClCompile Include="..\src\requirements.cpp" />
+    <ClCompile Include="..\src\rng.cpp" />
+    <ClCompile Include="..\src\savegame.cpp" />
+    <ClCompile Include="..\src\savegame_json.cpp" />
+    <ClCompile Include="..\src\savegame_legacy.cpp" />
+    <ClCompile Include="..\src\scenario.cpp" />
+    <ClCompile Include="..\src\scent_map.cpp" />
+    <ClCompile Include="..\src\sdltiles.cpp" />
+    <ClCompile Include="..\src\simplexnoise.cpp" />
+    <ClCompile Include="..\src\skill.cpp" />
+    <ClCompile Include="..\src\sounds.cpp" />
+    <ClCompile Include="..\src\speech.cpp" />
+    <ClCompile Include="..\src\start_location.cpp" />
+    <ClCompile Include="..\src\submap.cpp" />
+    <ClCompile Include="..\src\text_snippets.cpp" />
+    <ClCompile Include="..\src\tileray.cpp" />
+    <ClCompile Include="..\src\translations.cpp" />
+    <ClCompile Include="..\src\trap.cpp" />
+    <ClCompile Include="..\src\trapfunc.cpp" />
+    <ClCompile Include="..\src\turret.cpp" />
+    <ClCompile Include="..\src\tutorial.cpp" />
+    <ClCompile Include="..\src\ui.cpp" />
+    <ClCompile Include="..\src\vehicle.cpp" />
+    <ClCompile Include="..\src\vehicle_group.cpp" />
+    <ClCompile Include="..\src\vehicle_selector.cpp" />
+    <ClCompile Include="..\src\veh_interact.cpp" />
+    <ClCompile Include="..\src\veh_type.cpp" />
+    <ClCompile Include="..\src\version.cpp" />
+    <ClCompile Include="..\src\visitable.cpp" />
+    <ClCompile Include="..\src\vitamin.cpp" />
+    <ClCompile Include="..\src\weather.cpp" />
+    <ClCompile Include="..\src\weather_data.cpp" />
+    <ClCompile Include="..\src\weather_gen.cpp" />
+    <ClCompile Include="..\src\wincurse.cpp" />
+    <ClCompile Include="..\src\wish.cpp" />
+    <ClCompile Include="..\src\worldfactory.cpp" />
+    <ClCompile Include="stdafx.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
+    </ClCompile>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

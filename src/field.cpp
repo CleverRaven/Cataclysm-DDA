@@ -128,7 +128,7 @@ void game::init_fields()
         {
             "fd_smoke",
             {_("thin smoke"), _("smoke"), _("thick smoke")}, '8', 8,
-            {c_white, c_ltgray, c_dkgray}, {true, false, false},{false, true, true}, MINUTES(3),
+            {c_white, c_ltgray, c_dkgray}, {true, false, false},{false, true, true}, MINUTES(10),
             {0,0,0}
         },
         {
@@ -1080,7 +1080,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
 
                     case fd_smoke:
                         dirty_transparency_cache = true;
-                        spread_gas( cur, p, curtype, 80, 50 );
+                        spread_gas( cur, p, curtype, 30, 0 );
                         break;
 
                     case fd_tear_gas:
@@ -1292,7 +1292,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                     case fd_push_items: {
                         auto items = i_at( p );
                         for( auto pushee = items.begin(); pushee != items.end(); ) {
-                            if( pushee->type->id != "rock" ||
+                            if( pushee->typeId() != "rock" ||
                                 pushee->bday >= int(calendar::turn) - 1 ) {
                                 pushee++;
                             } else {

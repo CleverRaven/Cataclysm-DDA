@@ -2339,40 +2339,46 @@
         "type" : "mutation",
         "id" : "TAIL_FIN",
         "name" : "Tail Fin",
-        "points" : 1,
+        "points" : -1,
         "visibility" : 4,
         "ugliness" : 2,
-        "description" : "You have a fin-like tail.  It allows you to swim more quickly.  Slightly increases wet benefits.",
+        "description" : "You have a fin-like tail.  It allows you to swim more quickly, but prevents wearing non-fabric pants.  Slightly increases wet benefits.",
         "prereqs" : ["TAIL_STUB"],
         "cancels" : ["TAIL_LONG", "TAIL_FLUFFY", "TAIL_THICK", "TAIL_STING", "TAIL_CLUB", "TAIL_RAT", "TAIL_CATTLE", "TAIL_RAPTOR"],
         "category" : ["MUTCAT_FISH"],
         "wet_protection":[
-         { "part" : "LEG_L", "good" : 3 },
-         { "part" : "LEG_R", "good" : 3 }
-      ]
+            { "part" : "LEG_L", "good" : 3 },
+            { "part" : "LEG_R", "good" : 3 }
+        ],
+        "restricts_gear" : [ "LEG_L", "LEG_R" ],
+        "allow_soft_gear" : true
     },{
         "type" : "mutation",
         "id" : "TAIL_LONG",
         "name" : "Long Tail",
-        "points" : 2,
+        "points" : 0,
         "visibility" : 6,
         "ugliness" : 2,
-        "description" : "You have a long, graceful tail, like that of a big cat.  It improves your balance, making your ability to dodge higher.",
+        "description" : "You have a long, graceful tail, like that of a big cat.  It improves your balance, making your ability to dodge higher, but prevents wearing non-fabric pants.",
         "prereqs" : ["TAIL_STUB"],
         "cancels" : ["TAIL_FIN", "TAIL_THICK", "TAIL_RAPTOR"],
         "changes_to" : ["TAIL_FLUFFY", "TAIL_STING", "TAIL_CLUB", "TAIL_CATTLE", "TAIL_RAT"],
-        "category" : ["MUTCAT_FELINE"]
+        "category" : ["MUTCAT_FELINE"],
+        "restricts_gear" : [ "LEG_L", "LEG_R" ],
+        "allow_soft_gear" : true
     },{
         "type" : "mutation",
         "id" : "TAIL_CATTLE",
         "name" : "Cattle Tail",
-        "points" : 2,
+        "points" : -1,
         "visibility" : 6,
         "ugliness" : 2,
-        "description" : "You have a long tail with a tuft on the end.  You find yourself instinctively swatting away flies with it, though it's not as effective at balancing you as you'd like.",
+        "description" : "You have a long tail with a tuft on the end.  You find yourself instinctively swatting away flies with it, though it's not as effective at balancing you as you'd like.  Prevents wearing non-fabric pants.",
         "prereqs" : ["TAIL_LONG"],
         "cancels" : ["TAIL_FIN", "TAIL_FLUFFY", "TAIL_STING", "TAIL_CLUB", "TAIL_THICK", "TAIL_RAPTOR"],
-        "category" : ["MUTCAT_CATTLE"]
+        "category" : ["MUTCAT_CATTLE"],
+        "restricts_gear" : [ "LEG_L", "LEG_R" ],
+        "allow_soft_gear" : true
     },{
         "type" : "mutation",
         "id" : "TAIL_RAT",
@@ -2380,18 +2386,20 @@
         "points" : 1,
         "visibility" : 6,
         "ugliness" : 4,
-        "description" : "You have a long but hairless tail.  It's a pretty effective balancing aid, but does look, uh, ratty.",
+        "description" : "You have a long but hairless tail.  It's a pretty effective balancing aid, but does look, uh, ratty.  Prevents wearing non-fabric pants.",
         "prereqs" : ["TAIL_LONG", "TAIL_STUB"],
         "cancels" : ["TAIL_FIN", "TAIL_FLUFFY", "TAIL_STING", "TAIL_CLUB", "TAIL_THICK", "TAIL_RAPTOR", "TAIL_CATTLE"],
-        "category" : ["MUTCAT_RAT"]
+        "category" : ["MUTCAT_RAT"],
+        "restricts_gear" : [ "LEG_L", "LEG_R" ],
+        "allow_soft_gear" : true
     },{
         "type" : "mutation",
         "id" : "TAIL_THICK",
         "name" : "Thick Tail",
-        "points" : 3,
+        "points" : 1,
         "visibility" : 8,
         "ugliness" : 2,
-        "description" : "You have a long, thick, lizardlike tail.  It helps you balance a bit but also makes a serviceable whip.",
+        "description" : "You have a long, thick, lizardlike tail.  It helps you balance a bit but also makes a serviceable whip.  Prevents wearing non-fabric pants.",
         "prereqs" : ["TAIL_STUB"],
         "cancels" : ["TAIL_FIN", "TAIL_FLUFFY", "TAIL_STING", "TAIL_CLUB", "TAIL_RAPTOR", "TAIL_CATTLE", "TAIL_RAT"],
         "changes_to" : ["TAIL_CLUB"],
@@ -2399,58 +2407,68 @@
         "active"     :    true,
         "cost"       :    20,
         "time"       :    10,
-        "fatigue"    :    true
+        "fatigue"    :    true,
+        "restricts_gear" : [ "LEG_L", "LEG_R" ],
+        "allow_soft_gear" : true
     },{
         "type" : "mutation",
         "id" : "TAIL_RAPTOR",
         "name" : "Raptor Tail",
-        "points" : 3,
+        "points" : 1,
         "visibility" : 8,
         "ugliness" : 2,
-        "description" : "You have a long and semi-stiff lizardlike tail.  You can't effectively lash it in combat, but it significantly improves your balance.",
+        "description" : "You have a long and semi-stiff lizardlike tail.  You can't effectively lash it in combat, but it significantly improves your balance.  Prevents wearing non-fabric pants.",
         "prereqs" : ["TAIL_STUB"],
         "cancels" : ["TAIL_FIN", "TAIL_FLUFFY", "TAIL_STING", "TAIL_CLUB", "TAIL_RAT", "TAIL_CATTLE", "TAIL_LONG"],
-        "category" : ["MUTCAT_RAPTOR"]
+        "category" : ["MUTCAT_RAPTOR"],
+        "restricts_gear" : [ "LEG_L", "LEG_R" ],
+        "allow_soft_gear" : true
     },{
         "type" : "mutation",
         "id" : "TAIL_FLUFFY",
         "name" : "Fluffy Tail",
-        "points" : 2,
+        "points" : 1,
         "visibility" : 7,
-        "description" : "You have a long, fluffy-furred tail.  It greatly improves your balance, making your ability to dodge much higher.  However, you find yourself wagging when happy...",
+        "description" : "You have a long, fluffy-furred tail.  It greatly improves your balance, making your ability to dodge much higher.  Prevents wearing non-fabric pants.",
         "prereqs" : ["TAIL_LONG"],
         "cancels" : ["TAIL_STING", "TAIL_CLUB", "TAIL_FIN", "TAIL_THICK", "TAIL_RAT", "TAIL_CATTLE", "TAIL_RAPTOR"],
-        "category" : ["MUTCAT_BEAST", "MUTCAT_LUPINE"]
+        "category" : ["MUTCAT_BEAST", "MUTCAT_LUPINE"],
+        "restricts_gear" : [ "LEG_L", "LEG_R" ],
+        "allow_soft_gear" : true
     },{
         "type" : "mutation",
         "id" : "TAIL_STING",
         "name" : "Spiked Tail",
-        "points" : 2,
+        "points" : 0,
         "visibility" : 6,
         "ugliness" : 3,
-        "description" : "You have a long tail that ends in a vicious stinger, like that of a scorpion.  It does not improve your balance at all, but allows for a powerful piercing attack.",
+        "description" : "You have a long tail that ends in a vicious stinger, like that of a scorpion.  It does not improve your balance at all, but allows for a powerful piercing attack.  Prevents wearing non-fabric pants.",
         "prereqs" : ["TAIL_LONG"],
         "cancels" : ["TAIL_FLUFFY", "TAIL_CLUB", "TAIL_FIN", "TAIL_THICK", "TAIL_RAT", "TAIL_CATTLE", "TAIL_RAPTOR"],
         "category" : ["MUTCAT_INSECT"],
         "active"     :    true,
         "cost"       :    20,
         "time"       :    10,
-        "fatigue"    :    true
+        "fatigue"    :    true,
+        "restricts_gear" : [ "LEG_L", "LEG_R" ],
+        "allow_soft_gear" : true
     },{
         "type" : "mutation",
         "id" : "TAIL_CLUB",
         "name" : "Club Tail",
-        "points" : 2,
+        "points" : 0,
         "visibility" : 7,
         "ugliness" : 2,
-        "description" : "You have a long tail that ends in a heavy, bony club.  It does not improve your balance at all, but allows for a powerful bashing attack.",
+        "description" : "You have a long tail that ends in a heavy, bony club.  It does not improve your balance at all, but allows for a powerful bashing attack.  Prevents wearing non-fabric pants.",
         "prereqs" : ["TAIL_THICK"],
         "cancels" : ["TAIL_FLUFFY", "TAIL_STING", "TAIL_FIN", "TAIL_RAT", "TAIL_CATTLE", "TAIL_RAPTOR"],
         "category" : ["MUTCAT_CHIMERA"],
         "active"     :    true,
         "cost"       :    20,
         "time"       :    10,
-        "fatigue"    :    true
+        "fatigue"    :    true,
+        "restricts_gear" : [ "LEG_L", "LEG_R" ],
+        "allow_soft_gear" : true
     },{
         "type" : "mutation",
         "id" : "HIBERNATE",

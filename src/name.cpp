@@ -57,10 +57,8 @@ void NameGenerator::load_name( JsonObject &jo )
         }
     }
 
-    Name aName( name, type );
-
     // Add the name to the appropriate bucket
-    names[type].push_back( aName );
+    names[type].push_back( Name( name, type ) );
 }
 
 // Find all name types satisfying the search flags.

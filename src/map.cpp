@@ -9,6 +9,7 @@
 #include "line.h"
 #include "options.h"
 #include "item_factory.h"
+#include "projectile.h"
 #include "mapbuffer.h"
 #include "translations.h"
 #include "sounds.h"
@@ -1583,6 +1584,19 @@ std::string map::name( const tripoint &p )
 std::string map::disp_name( const tripoint &p )
 {
     return string_format( _("the %s"), name( p ).c_str() );
+}
+
+std::string map::obstacle_name( const tripoint &p )
+{
+    int part;
+    const vehicle *veh = veh_at( p, part );
+    if( veh ) {
+        part = veh->obstacle_at_part( part );
+        if( part > 0 ) {
+            return veh->parts[part].info().name();
+        }
+    }
+    return name( p );
 }
 
 bool map::has_furn( const tripoint &p ) const
@@ -5121,14 +5135,14 @@ void use_charges_from_furn( const furn_t &f, const itype_id &type, long &quantit
         return;
     }
 
-
     const itype *itt = f.crafting_pseudo_item_type();
-    if( itt != nullptr && itt->tool && itt->tool->ammo_id != "NULL" ) {
+    if( itt != nullptr && itt->tool && itt->tool->ammo_id ) {
         const itype_id ammo = default_ammo( itt->tool->ammo_id );
         auto stack = m->i_at( p );
-        auto iter = std::find_if( stack.begin(), stack.end(), [ammo]( const item &i ) { return i.typeId() == ammo; } );
+        auto iter = std::find_if( stack.begin(), stack.end(),
+                                  [ammo]( const item &i ) { return i.typeId() == ammo; } );
         if( iter != stack.end() ) {
-            item furn_item( itt->id, -1, iter->charges );
+            item furn_item( itt, -1, iter->charges );
             // The item constructor limits the charges to the (type specific) maximum.
             // Setting it separately circumvents that - syncron with the code that creates
             // the pseudo item (and fills its charges) in inventory.cpp
@@ -5186,7 +5200,7 @@ std::list<item> map::use_charges(const tripoint &origin, const int range,
         const int cargo = veh->part_with_feature(vpart, "CARGO");
 
         if (kpart >= 0) { // we have a faucet, now to see what to drain
-            ammotype ftype = "NULL";
+            itype_id ftype = "null";
 
             if (type == "water_clean") {
                 ftype = "water_clean";
@@ -5208,7 +5222,7 @@ std::list<item> map::use_charges(const tripoint &origin, const int range,
         }
 
         if (weldpart >= 0) { // we have a weldrig, now to see what to drain
-            ammotype ftype = "NULL";
+            itype_id ftype = "null";
 
             if (type == "welder") {
                 ftype = "battery";
@@ -5227,7 +5241,7 @@ std::list<item> map::use_charges(const tripoint &origin, const int range,
         }
 
         if (craftpart >= 0) { // we have a craftrig, now to see what to drain
-            ammotype ftype = "NULL";
+            itype_id ftype = "null";
 
             if (type == "press") {
                 ftype = "battery";
@@ -5248,7 +5262,7 @@ std::list<item> map::use_charges(const tripoint &origin, const int range,
         }
 
         if (forgepart >= 0) { // we have a veh_forge, now to see what to drain
-            ammotype ftype = "NULL";
+            itype_id ftype = "null";
 
             if (type == "forge") {
                 ftype = "battery";
@@ -5265,7 +5279,7 @@ std::list<item> map::use_charges(const tripoint &origin, const int range,
         }
 
         if (chempart >= 0) { // we have a chem_lab, now to see what to drain
-            ammotype ftype = "NULL";
+            itype_id ftype = "null";
 
             if (type == "chemistry_set") {
                 ftype = "battery";
@@ -5343,9 +5357,7 @@ static bool trigger_radio_item( item_stack &items, std::list<item>::iterator &n,
                n->contents.front().has_flag( signal ) ) {
         // A bomb is the only thing meaningfully placed in a container,
         // If that changes, this needs logic to handle the alternative.
-        itype_id bomb_type = n->contents.front().type->id;
-
-        n->convert( bomb_type );
+        n->convert( n->contents.front().typeId() );
         if( n->has_flag("RADIO_INVOKE_PROC") ) {
             n->process( nullptr, pos, true );
         }
@@ -7078,8 +7090,7 @@ void map::produce_sap( const tripoint &p, int time_since_last_actualize )
                 sap.poison = one_in( 10 ) ? 1 : 0;
                 sap.charges = new_charges;
 
-                std::string err;
-                it.fill_with( sap, err, true );
+                it.fill_with( sap );
             }
             // Only fill up the first container.
             break;

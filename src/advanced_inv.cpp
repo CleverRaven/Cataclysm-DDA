@@ -735,7 +735,7 @@ advanced_inv_listitem::advanced_inv_listitem( item *an_item, int index, int coun
         aim_location _area, bool from_veh )
     : idx( index )
     , area( _area )
-    , id(an_item->type->id)
+    , id(an_item->typeId())
     , name( an_item->tname( count ) )
     , name_without_prefix( an_item->tname( 1, false ) )
     , autopickup( get_auto_pickup().has_rule( an_item->tname( 1, false ) ) )
@@ -753,7 +753,7 @@ advanced_inv_listitem::advanced_inv_listitem(const std::list<item*> &list, int i
             aim_location loc, bool veh) :
     idx(index),
     area(loc),
-    id(list.front()->type->id),
+    id(list.front()->typeId()),
     items(list),
     name(list.front()->tname(list.size())),
     name_without_prefix(list.front()->tname(1, false)),
@@ -841,7 +841,7 @@ static itemstack i_stacked(T items)
     std::unordered_map<itype_id, std::set<int>> cache;
     // iterate through and create stacks
     for(auto &elem : items) {
-        const auto &id = elem.type->id;
+        const auto id = elem.typeId();
         auto iter = cache.find(id);
         bool got_stacked = false;
         // cache entry exists
@@ -1564,8 +1564,12 @@ void advanced_inventory::display()
                 // only remove item or charges if the add succeeded
                 if(items_left == 0) {
                     if(by_charges) {
-                        // `amount_to_move' will be `true' if the item needs to be removed
-                        amount_to_move = sitem->items.front()->reduce_charges(amount_to_move);
+                        item *it = sitem->items.front();
+                        if( it->charges <= amount_to_move ) {
+                            amount_to_move = 1; // `amount_to_move' will be `true' if the item needs to be removed
+                        } else {
+                            it->mod_charges( -amount_to_move );
+                        }
                     }
                     remove_item(*sitem, amount_to_move);
                 // note to the player (and possibly debug) that the item transfer failed somehow
@@ -1986,12 +1990,12 @@ bool advanced_inventory::move_content( item &src_container, item &dest_container
 
     std::string err;
     // @todo Allow buckets here, but require them to be on the ground or wielded
-    if( !dest_container.fill_with( src, err, false ) ) {
+    const long amount = dest_container.get_remaining_capacity_for_liquid( src, err, false );
+    if( !err.empty() ) {
         popup( err.c_str() );
         return false;
     }
-
-    src_container.on_contents_changed();
+    dest_container.fill_with( src, amount );
 
     uistate.adv_inv_container_content_type = dest_container.contents.front().typeId();
     if( src.charges <= 0 ) {

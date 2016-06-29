@@ -6,9 +6,13 @@
 #include "itype.h"
 #include "veh_type.h"
 #include "npc.h"
+#include "projectile.h"
 #include "messages.h"
 #include "translations.h"
 #include "ui.h"
+
+#include <algorithm>
+#include <numeric>
 
 static const itype_id fuel_type_battery( "battery" );
 const efftype_id effect_on_roof( "on_roof" );
@@ -239,7 +243,7 @@ bool vehicle::turrets_aim()
 void vehicle::turret_reload( vehicle_part &pt )
 {
     item &gun = pt.base;
-    if( !gun.is_gun() || gun.ammo_type() == "NULL" ) {
+    if( !gun.is_gun() || !gun.ammo_type() ) {
         return;
     }
 
@@ -285,7 +289,7 @@ void vehicle::turret_reload( vehicle_part &pt )
 void vehicle::turret_unload( vehicle_part &pt )
 {
     item &gun = pt.base;
-    if( !gun.is_gun() || gun.ammo_type() == "NULL" ||
+    if( !gun.is_gun() || !gun.ammo_type() ||
         gun.ammo_current() == "null" || gun.ammo_remaining() == 0 ) {
         return;
     }

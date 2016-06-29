@@ -21,14 +21,7 @@
           { "item": "bayonet", "prob": 50 },
           { "item": "suppressor", "prob": 100 },
           { "item": "laser_sight", "prob": 50 },
-          { "distribution": [
-            { "item": "m320" },
-            { "distribution": [
-              { "item": "40mm_frag", "prob": 70 },
-              { "item": "40mm_smoke", "prob": 20 },
-              { "item": "40mm_flare", "prob": 10 }
-            ] }
-          ], "prob": 100 }
+          { "collection": [ { "item": "m320" }, { "group": "ammo_launcher_grenade" } ], "prob": 100 }
         ], "prob": 30 }
       ], "prob": 20 },
       { "distribution": [

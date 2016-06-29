@@ -546,6 +546,11 @@ public:
 
     std::string name( const tripoint &p );
     std::string disp_name( const tripoint &p );
+    /**
+    * Returns the name of the obstacle at p that might be blocking movement/projectiles/etc.
+    * Note that this only accounts for vehicles, terrain, and furniture.
+    */
+    std::string obstacle_name( const tripoint &p );
     bool has_furn( const tripoint &p ) const;
 
     furn_id furn( const tripoint &p ) const;
@@ -979,7 +984,7 @@ void add_corpse( const tripoint &p );
          * Add field entry at point, or set density if present
          * @return false if the field could not be created (out of bounds), otherwise true.
          */
-        bool add_field( const tripoint &p, const field_id t, const int density, const int age);
+        bool add_field( const tripoint &p, const field_id t, const int density, const int age = 0 );
         /**
          * Remove field entry at xy, ignored if the field entry is not present.
          */

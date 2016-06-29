@@ -3902,7 +3902,7 @@ std::list<item *> player::get_radio_items()
         }
     }
 
-    if( !weapon.is_null() ) {
+    if( !is_armed() ) {
         if( weapon.has_flag( "RADIO_ACTIVATION" ) ) {
             rc_items.push_back( &weapon );
         }
@@ -4758,7 +4758,7 @@ dealt_damage_instance player::deal_damage(Creature* source, body_part bp, const 
     }
 
     on_hurt( source );
-    return dealt_damage_instance(dealt_dams);
+    return dealt_dams;
 }
 
 void player::mod_pain(int npain) {
@@ -6429,7 +6429,7 @@ void player::hardcoded_effects(effect &it)
     bool sleeping = has_effect( effect_sleep );
     bool msg_trig = one_in(400);
     if( id == effect_onfire ) {
-        const auto dealt = deal_damage( nullptr, bp, damage_instance( DT_HEAT, rng( intense, intense * 2 ) ) );
+        deal_damage( nullptr, bp, damage_instance( DT_HEAT, rng( intense, intense * 2 ) ) );
     } else if( id == effect_spores ) {
         // Equivalent to X in 150000 + health * 100
         if ((!has_trait("M_IMMUNE")) && (one_in(100) && x_in_y(intense, 150 + get_healthy() / 10)) ) {
@@ -8202,7 +8202,7 @@ void player::suffer()
 
         // Apply rads to any radiation badges.
         for (item *const it : inv_dump()) {
-            if (it->type->id != "rad_badge") {
+            if (it->typeId() != "rad_badge") {
                 continue;
             }
 
@@ -8359,7 +8359,7 @@ void player::suffer()
         mod_pain(1);
         moves -= 150;
 
-        if (weapon.type->id == "e_handcuffs" && weapon.charges > 0) {
+        if (weapon.typeId() == "e_handcuffs" && weapon.charges > 0) {
             weapon.charges -= rng(1, 3) * 50;
             if (weapon.charges < 1) {
                 weapon.charges = 1;
@@ -8977,9 +8977,10 @@ item player::reduce_charges( int position, long quantity )
         debugmsg( "invalid item position %d for reduce_charges", position );
         return ret_null;
     }
-    if( it.reduce_charges( quantity ) ) {
+    if( it.charges <= quantity ) {
         return i_rem( position );
     }
+    it.mod_charges( -quantity );
     item tmp( it );
     tmp.charges = quantity;
     return tmp;
@@ -8991,9 +8992,10 @@ item player::reduce_charges( item *it, long quantity )
         debugmsg( "invalid item (name %s) for reduce_charges", it->tname().c_str() );
         return ret_null;
     }
-    if( const_cast<item *>( it )->reduce_charges( quantity ) ) {
+    if( it->charges <= quantity ) {
         return i_rem( it );
     }
+    it->mod_charges( -quantity );
     item result( *it );
     result.charges = quantity;
     return result;
@@ -9032,7 +9034,7 @@ const martialart &player::get_combat_style() const
 std::vector<item *> player::inv_dump()
 {
     std::vector<item *> ret;
-    if( !weapon.is_null() && can_unwield( weapon, false ) ) {
+    if( !is_armed() && can_unwield( weapon, false ) ) {
         ret.push_back(&weapon);
     }
     for (auto &i : worn) {
@@ -9221,9 +9223,9 @@ std::list<item> player::use_charges( const itype_id& what, long qty )
 
     } else if( what == "UPS" ) {
         if( power_level > 0 && has_active_bionic( "bio_ups" ) ) {
-            auto bio = std::min( long( power_level ) , qty / 10 + ( qty % 10 != 0 ) );
+            auto bio = std::min( long( power_level ), qty );
             charge_power( -bio );
-            qty -= std::min( qty, bio * 10 );
+            qty -= std::min( qty, bio );
         }
 
         auto adv = charges_of( "adv_UPS_off", ceil( qty * 0.6 ) );
@@ -9369,13 +9371,14 @@ bool player::consume_med( item &target, const tripoint &pos )
         return false;
     }
 
-    auto req_tool = item::find_type( the_med->type->comestible->tool );
+    const itype_id tool_type = the_med->type->comestible->tool;
+    const auto req_tool = item::find_type( tool_type );
     if( req_tool->tool ) {
-        if( !( has_amount( req_tool->id, 1 ) && has_charges( req_tool->id, req_tool->tool->charges_per_use ) ) ) {
+        if( !( has_amount( tool_type, 1 ) && has_charges( tool_type, req_tool->tool->charges_per_use ) ) ) {
             add_msg_if_player( m_info, _( "You need a %s to consume that!" ), req_tool->nname( 1 ).c_str() );
             return false;
         }
-        use_charges( req_tool->id, req_tool->tool->charges_per_use );
+        use_charges( tool_type, req_tool->tool->charges_per_use );
     }
 
     long amount_used = 1;
@@ -9434,7 +9437,7 @@ bool player::consume_item( item &target )
  // Consume other type of items.
         // For when bionics let you eat fuel
         if (to_eat->is_ammo() && has_active_bionic("bio_batteries") &&
-            to_eat->ammo_type() == "battery") {
+            to_eat->ammo_type() == ammotype( "battery" ) ) {
             const int factor = 1;
             int max_change = max_power_level - power_level;
             if (max_change == 0) {
@@ -9443,12 +9446,16 @@ bool player::consume_item( item &target )
             charge_power(to_eat->charges / factor);
             to_eat->charges -= max_change * factor; //negative charges seem to be okay
             to_eat->charges++; //there's a flat subtraction later
-        } else if (to_eat->is_ammo() &&  ( has_active_bionic("bio_reactor") || has_active_bionic("bio_advreactor") ) && ( to_eat->ammo_type() == "reactor_slurry" || to_eat->ammo_type() == "plutonium")) {
-            if (to_eat->type->id == "plut_cell" && query_yn(_("Thats a LOT of plutonium.  Are you sure you want that much?"))) {
+        } else if( to_eat->is_ammo() &&  ( has_active_bionic("bio_reactor") ||
+                                           has_active_bionic("bio_advreactor") ) &&
+                   ( to_eat->ammo_type() == ammotype( "reactor_slurry" ) ||
+                     to_eat->ammo_type() == ammotype( "plutonium" ) ) ) {
+            if( to_eat->typeId() == "plut_cell" &&
+                query_yn( _( "Thats a LOT of plutonium.  Are you sure you want that much?" ) ) ) {
                 tank_plut += PLUTONIUM_CHARGES * 10;
-            } else if (to_eat->type->id == "plut_slurry_dense") {
+            } else if (to_eat->typeId() == "plut_slurry_dense") {
                 tank_plut += PLUTONIUM_CHARGES;
-            } else if (to_eat->type->id == "plut_slurry") {
+            } else if (to_eat->typeId() == "plut_slurry") {
                 tank_plut += PLUTONIUM_CHARGES / 2;
             }
             add_msg_player_or_npc( _("You add your %s to your reactor's tank."), _("<npcname> pours %s into their reactor's tank."),
@@ -9732,10 +9739,6 @@ bool player::wield( item& target )
         return false;
     }
 
-    if( weapon.is_bucket_nonempty() && !weapon.spill_contents( *this ) ) {
-        return false;
-    }
-
     if( target.is_null() ) {
         return dispose_item( weapon, string_format( _( "Stop wielding %s?" ), weapon.tname().c_str() ) );
     }
@@ -9775,7 +9778,7 @@ bool player::wield( item& target )
         weapon = target;
     }
 
-    last_item = itype_id( weapon.type->id );
+    last_item = weapon.typeId();
 
     weapon.on_wield( *this, mv );
 
@@ -9979,7 +9982,8 @@ bool player::can_use( const item& it, bool interactive ) const {
 }
 
 bool player::can_reload( const item& it, const itype_id& ammo ) const {
-    if( !it.is_reloadable() ) {
+
+    if( !it.is_reloadable_with( ammo ) ) {
         return false;
     }
 
@@ -9990,23 +9994,7 @@ bool player::can_reload( const item& it, const itype_id& ammo ) const {
         }
     }
 
-    if( it.magazine_integral() ) {
-        if( !ammo.empty() ) {
-            if( it.ammo_data() ) {
-                if( it.ammo_data()->id != ammo ) {
-                    return false;
-                }
-            } else {
-                auto at = item::find_type( ammo );
-                if( !at->ammo || it.ammo_type() != at->ammo->type ) {
-                    return false;
-                }
-            }
-        }
-        return it.ammo_remaining() < it.ammo_capacity();
-    } else {
-        return ammo.empty() ? true : it.magazine_compatible().count( ammo );
-    }
+    return true;
 }
 
 bool player::dispose_item( item& obj, const std::string& prompt )
@@ -10020,29 +10008,46 @@ bool player::dispose_item( item& obj, const std::string& prompt )
         bool enabled;
         char invlet;
         int moves;
-        std::function<void()> action;
+        std::function<bool()> action;
     };
 
     std::vector<dispose_option> opts;
 
+    const bool bucket = obj.is_bucket_nonempty();
+
     opts.emplace_back( dispose_option {
-        _( "Store in inventory" ), volume_carried() + obj.volume() <= volume_capacity(), '1',
+        bucket ? _( "Spill contents and store in inventory" ) : _( "Store in inventory" ),
+        volume_carried() + obj.volume() <= volume_capacity(), '1',
         item_handling_cost( obj ) * INVENTORY_HANDLING_FACTOR,
-        [this,&obj]{
+        [this, bucket, &obj] {
+            if( bucket && !obj.spill_contents( *this ) ) {
+                return false;
+            }
+
             moves -= item_handling_cost( obj ) * INVENTORY_HANDLING_FACTOR;
             inv.add_item_keep_invlet( i_rem( &obj ) );
             inv.unsort();
+            return true;
         }
     } );
 
     opts.emplace_back( dispose_option {
-        _( "Drop item" ), true, '2', 0,
-        [this,&obj]{ g->m.add_item_or_charges( pos(), i_rem( &obj ) ); }
+        _( "Drop item" ), true, '2', 0, [this, &obj] {
+            g->m.add_item_or_charges( pos(), i_rem( &obj ) );
+            return true;
+        }
     } );
 
     opts.emplace_back( dispose_option {
-        _( "Wear item" ), can_wear( obj, false ), '3', item_wear_cost( obj ),
-        [this,&obj]{ wear_item( i_rem( &obj ) ); }
+        bucket ? _( "Spill contents and wear item" ) : _( "Wear item" ),
+        can_wear( obj, false ), '3', item_wear_cost( obj ),
+        [this, bucket, &obj] {
+            if( bucket && !obj.spill_contents( *this ) ) {
+                return false;
+            }
+
+            return wear_item( i_rem( &obj ) );
+        }
     } );
 
     for( auto& e : worn ) {
@@ -10051,7 +10056,9 @@ bool player::dispose_item( item& obj, const std::string& prompt )
             opts.emplace_back( dispose_option {
                 string_format( _( "Store in %s" ), e.tname().c_str() ), true, e.invlet,
                 item_store_cost( obj, e, false, ptr->draw_cost ),
-                [this,ptr,&e,&obj]{ ptr->store( *this, e, obj ); }
+                [this, ptr, &e, &obj]{
+                    return ptr->store( *this, e, obj );
+                }
             } );
         }
     }
@@ -10074,8 +10081,7 @@ bool player::dispose_item( item& obj, const std::string& prompt )
 
     menu.query();
     if( menu.ret >= 0 ) {
-        opts[ menu.ret ].action();
-        return true;
+        return opts[ menu.ret ].action();
     }
     return false;
 }
@@ -10140,7 +10146,9 @@ void player::mend_item( item_location&& obj, bool interactive )
             descr << _( "<color_white>Skills:</color>\n" );
             for( const auto& e : f.first->skills() ) {
                 bool hasSkill = get_skill_level( e.first ) >= e.second;
-                f.second -= !hasSkill;
+                if ( !hasSkill && f.second ) {
+                    f.second = false;
+                }
                 descr << string_format( "> <color_%1$s>%2$s %3$i</color>\n", hasSkill ? "c_green" : "c_red",
                                         _( e.first.obj().name().c_str() ), e.second );
             }
@@ -10192,19 +10200,11 @@ void player::mend_item( item_location&& obj, bool interactive )
     }
 }
 
-int player::item_handling_cost( const item& it, bool effects, int factor, int qty ) const {
-
-    // If necessary create duplicate with appropriate number of charges
-    item obj = it;
-    obj = obj.split( qty );
-    if( obj.is_null() ) {
-        obj = it;
-    }
-
-    int mv = std::max( 1, obj.volume() * factor );
+int player::item_handling_cost( const item& it, bool effects, int factor ) const {
+    int mv = std::max( 1, it.volume() * factor );
 
     // For single handed items use the least encumbered hand
-    if( obj.is_two_handed( *this ) ) {
+    if( it.is_two_handed( *this ) ) {
         mv += encumb( bp_hand_l ) + encumb( bp_hand_r );
     } else {
         mv += std::min( encumb( bp_hand_l ), encumb( bp_hand_r ) );
@@ -10248,7 +10248,13 @@ int player::item_reload_cost( const item& it, const item& ammo, long qty ) const
         return 0;
     }
 
-    int mv = item_handling_cost( ammo, qty );
+    // If necessary create duplicate with appropriate number of charges
+    item obj = ammo;
+    obj = obj.split( qty );
+    if( obj.is_null() ) {
+        obj = ammo;
+    }
+    int mv = item_handling_cost( obj, qty );
 
     if( ammo.has_flag( "MAG_BULKY" ) ) {
         mv *= 1.5; // bulky magazines take longer to insert
@@ -10346,7 +10352,7 @@ bool player::wear_item( const item &to_wear, bool interactive )
     }
 
     const bool was_deaf = is_deaf();
-    last_item = itype_id(to_wear.type->id);
+    last_item = to_wear.typeId();
     worn.push_back(to_wear);
 
     if( interactive ) {
@@ -10548,7 +10554,7 @@ hint_rating player::rate_action_unload( const item &it ) const
         return HINT_GOOD;
     }
 
-    if( it.ammo_type() == "NULL" || it.has_flag("NO_UNLOAD") ) {
+    if( it.ammo_type().is_null() || it.has_flag("NO_UNLOAD") ) {
         return HINT_CANT;
     }
 
@@ -10697,7 +10703,7 @@ void player::use(int inventory_position)
         return;
     }
 
-    last_item = itype_id(used->type->id);
+    last_item = used->typeId();
 
     if (used->is_tool()) {
         if( !used->type->has_use() ) {
@@ -10820,7 +10826,7 @@ bool player::invoke_item( item* used, const tripoint &pt )
 
         return consumed;
     }
-    
+
 
     if( used->type->use_methods.size() < 2 ) {
         const long charges_used = used->type->invoke( this, used, pt );
@@ -11119,7 +11125,7 @@ bool player::read(int inventory_position)
     // Now we've established that the player CAN read.
 
     // If the player hasn't read this book before, skim it to get an idea of what's in it.
-    if( !has_identified( it->type->id ) ) {
+    if( !has_identified( it->typeId() ) ) {
         // Base read_speed() is 1000 move points (1 minute per tmp->time)
         time = tmp->time * read_speed() * (fine_detail_vision_mod());
         if (tmp->intel > int_cur) {
@@ -11223,9 +11229,9 @@ void player::do_read( item *book )
     }
     const skill_id &skill = reading->skill;
 
-    if( !has_identified( book->type->id ) ) {
+    if( !has_identified( book->typeId() ) ) {
         // Note that we've read the book.
-        items_identified.insert( book->type->id );
+        items_identified.insert( book->typeId() );
 
         add_msg(_("You skim %s to find out what's in it."), book->type_name().c_str());
         if( skill && get_skill_level( skill ).can_train() ) {
@@ -12476,7 +12482,7 @@ int player::has_recipe( const recipe *r, const inventory &crafting_inv ) const
     for( auto stack = slice.cbegin(); stack != slice.cend(); ++stack ) {
         // We are only checking qualities, so we only care about the first item in the stack.
         const item &candidate = (*stack)->front();
-        if( candidate.is_book() && items_identified.count(candidate.type->id) ) {
+        if( candidate.is_book() && items_identified.count(candidate.typeId()) ) {
             for( auto const & elem : candidate.type->book->recipes ) {
                 // Does it have the recipe, and do we meet it's requirements?
                 if( elem.recipe != r ) {
@@ -12621,7 +12627,7 @@ std::string player::weapname() const
     } else if( weapon.is_container() && weapon.contents.size() == 1 ) {
         return string_format( "%s (%d)", weapon.tname().c_str(), weapon.contents.front().charges );
 
-    } else if( weapon.is_null() ) {
+    } else if( !is_armed() ) {
         return _( "fists" );
 
     } else {
@@ -12669,7 +12675,7 @@ bool player::wield_contents( item *container, int pos, int factor, bool effects 
     container->on_contents_changed();
 
     inv.assign_empty_invlet( weapon, true );
-    last_item = itype_id( weapon.type->id );
+    last_item = weapon.typeId();
 
     ///\EFFECT_PISTOL decreases time taken to draw pistols from holsters
     ///\EFFECT_SMG decreases time taken to draw smgs from holsters
@@ -13359,7 +13365,7 @@ std::vector<std::string> player::get_overlay_ids() const
 
     // last weapon
     // TODO: might there be clothing that covers the weapon?
-    if( !weapon.is_null() ) {
+    if( is_armed() ) {
         rval.push_back( "wielded_" + weapon.typeId() );
     }
     return rval;
