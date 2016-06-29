@@ -14,90 +14,90 @@ class npc;
 class player;
 
 namespace talk_function {
-    void nothing              (npc *);
-    void assign_mission       (npc *);
-    void mission_success      (npc *);
-    void mission_failure      (npc *);
-    void clear_mission        (npc *);
-    void mission_reward       (npc *);
-    void mission_favor        (npc *);
-    void give_equipment       (npc *);
-    void give_aid             (npc *);
-    void give_all_aid         (npc *);
+    void nothing              ( npc & );
+    void assign_mission       ( npc & );
+    void mission_success      ( npc & );
+    void mission_failure      ( npc & );
+    void clear_mission        ( npc & );
+    void mission_reward       ( npc & );
+    void mission_favor        ( npc & );
+    void give_equipment       ( npc & );
+    void give_aid             ( npc & );
+    void give_all_aid         ( npc & );
 
-    void bionic_install       (npc *);
-    void bionic_remove        (npc *);
+    void bionic_install       ( npc & );
+    void bionic_remove        ( npc & );
 
-    void construction_tips    (npc *);
-    void buy_beer             (npc *);
-    void buy_brandy           (npc *);
-    void buy_rum              (npc *);
-    void buy_whiskey          (npc *);
-    void buy_haircut          (npc *);
-    void buy_shave            (npc *);
-    void buy_10_logs          (npc *);
-    void buy_100_logs         (npc *);
-    void give_equipment       (npc *);
-    void start_trade          (npc *);
+    void construction_tips    ( npc & );
+    void buy_beer             ( npc & );
+    void buy_brandy           ( npc & );
+    void buy_rum              ( npc & );
+    void buy_whiskey          ( npc & );
+    void buy_haircut          ( npc & );
+    void buy_shave            ( npc & );
+    void buy_10_logs          ( npc & );
+    void buy_100_logs         ( npc & );
+    void give_equipment       ( npc & );
+    void start_trade          ( npc & );
     std::string bulk_trade_inquire   (npc *, itype_id);
     void bulk_trade_accept    (npc *, itype_id);
-    void assign_base          (npc *);
-    void assign_guard         (npc *);
-    void stop_guard           (npc *);
-    void end_conversation     (npc *);
-    void insult_combat        (npc *);
-    void reveal_stats         (npc *);
-    void follow               (npc *); // p follows u
-    void deny_follow          (npc *); // p gets "asked_to_follow"
-    void deny_lead            (npc *); // p gets "asked_to_lead"
-    void deny_equipment       (npc *); // p gets "asked_for_item"
-    void deny_train           (npc *); // p gets "asked_to_train"
-    void deny_personal_info   (npc *); // p gets "asked_personal_info"
-    void hostile              (npc *); // p turns hostile to u
-    void flee                 (npc *);
-    void leave                (npc *); // p becomes indifferent
-    void stranger_neutral     (npc *); // p is now neutral towards you
+    void assign_base          ( npc & );
+    void assign_guard         ( npc & );
+    void stop_guard           ( npc & );
+    void end_conversation     ( npc & );
+    void insult_combat        ( npc & );
+    void reveal_stats         ( npc & );
+    void follow               ( npc & ); // p follows u
+    void deny_follow          ( npc & ); // p gets "asked_to_follow"
+    void deny_lead            ( npc & ); // p gets "asked_to_lead"
+    void deny_equipment       ( npc & ); // p gets "asked_for_item"
+    void deny_train           ( npc & ); // p gets "asked_to_train"
+    void deny_personal_info   ( npc & ); // p gets "asked_personal_info"
+    void hostile              ( npc & ); // p turns hostile to u
+    void flee                 ( npc & );
+    void leave                ( npc & ); // p becomes indifferent
+    void stranger_neutral     ( npc & ); // p is now neutral towards you
 
-    void start_mugging        (npc *);
-    void player_leaving       (npc *);
+    void start_mugging        ( npc & );
+    void player_leaving       ( npc & );
 
-    void drop_weapon          (npc *);
-    void player_weapon_away   (npc *);
-    void player_weapon_drop   (npc *);
+    void drop_weapon          ( npc & );
+    void player_weapon_away   ( npc & );
+    void player_weapon_drop   ( npc & );
 
-    void lead_to_safety       (npc *);
-    void start_training       (npc *);
+    void lead_to_safety       ( npc & );
+    void start_training       ( npc & );
 
-    void toggle_use_guns      (npc *);
-    void toggle_use_silent    (npc *);
-    void toggle_use_grenades  (npc *);
-    void set_engagement_none  (npc *);
-    void set_engagement_close (npc *);
-    void set_engagement_weak  (npc *);
-    void set_engagement_hit   (npc *);
-    void set_engagement_no_move( npc * );
-    void set_engagement_all   (npc *);
+    void toggle_use_guns      ( npc & );
+    void toggle_use_silent    ( npc & );
+    void toggle_use_grenades  ( npc & );
+    void set_engagement_none  ( npc & );
+    void set_engagement_close ( npc & );
+    void set_engagement_weak  ( npc & );
+    void set_engagement_hit   ( npc & );
+    void set_engagement_no_move( npc & );
+    void set_engagement_all   ( npc & );
 
-    void set_aim_convenient         ( npc * );
-    void set_aim_spray              ( npc * );
-    void set_aim_precise            ( npc * );
-    void set_aim_strictly_precise   ( npc * );
+    void set_aim_convenient         ( npc & );
+    void set_aim_spray              ( npc & );
+    void set_aim_precise            ( npc & );
+    void set_aim_strictly_precise   ( npc & );
 
-    void wake_up              (npc *);
+    void wake_up              ( npc & );
 
-    void toggle_pickup        (npc *);
-    void toggle_bashing       (npc *);
-    void toggle_allow_sleep   (npc *);
-    void toggle_allow_complain(npc *);
-    void toggle_allow_pulp    (npc *);
-    void toggle_close_doors   (npc *);
+    void toggle_pickup        ( npc & );
+    void toggle_bashing       ( npc & );
+    void toggle_allow_sleep   ( npc & );
+    void toggle_allow_complain( npc & );
+    void toggle_allow_pulp    ( npc & );
+    void toggle_close_doors   ( npc & );
 
 /*mission_companion.cpp proves a set of functions that compress all the typical mission operations into a set of hard-coded
  *unique missions that don't fit well into the framework of the existing system.  These missions typically focus on
  *sending companions out on simulated adventures or tasks.  This is not meant to be a replacement for the existing system.
  */
     //Identifies which mission set the NPC draws from
-    void companion_mission          (npc *);
+    void companion_mission          ( npc & );
     //Primary Loop
     bool outpost_missions           (npc *p, std::string id, std::string title);
     //Send a companion on an individual mission or attaches them to a group to depart later
