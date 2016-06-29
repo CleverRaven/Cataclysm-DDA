@@ -19,7 +19,7 @@
     "dispersion": 405,
     "sight_dispersion": 90,
     "aim_speed": 4,
-    "recoil": 45,
+    "recoil": -55,
     "durability": 7,
     "valid_mod_locations": [ [ "accessories", 2 ], [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "muzzle", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
     "magazine_well": 1,
@@ -46,7 +46,6 @@
     "ranged_damage": -1, "//": "Could only find barrel figures for the Baby LeMat; this is a best-guess estimate.",
     "dispersion": 180,
     "sight_dispersion": 90,
-    "recoil": 100,
     "durability": 8,
     "clip_size": 9,
     "built_in_mods": [ "lemat_revolver_shotgun" ],
@@ -70,7 +69,7 @@
     "ammo": "44",
     "dispersion": 195,
     "sight_dispersion": 90,
-    "recoil": 90,
+    "recoil": -10,
     "durability": 8,
     "clip_size": 6,
     "valid_mod_locations": [ [ "accessories", 2 ], [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ]
@@ -93,7 +92,6 @@
     "ranged_damage": -1,
     "dispersion": 180,
     "sight_dispersion": 90,
-    "recoil": 100,
     "durability": 8,
     "clip_size": 6,
     "valid_mod_locations": [ [ "accessories", 2 ], [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ]
