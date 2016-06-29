@@ -78,8 +78,8 @@
     "book_learn": [ [ "textbook_biodiesel", 5 ] ],
     "batch_time_factors":[99, 1],
     "qualities":[ { "id": "CHEM", "level": 2 } ],
+    "//": "this recipe could be done using fire, but at the moment fire requirement doesn't work properly for long time crafting",
     "tools": [ [
-      [ "fire", -1 ],
       [ "hotplate", 100 ],
       [ "toolset", 100 ]
     ] ],
