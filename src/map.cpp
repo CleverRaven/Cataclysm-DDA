@@ -4732,11 +4732,16 @@ item &map::add_item_at( const tripoint &p,
 item map::water_from( const tripoint &p )
 {
     if( has_flag( "SALT_WATER", p ) ) {
-        item ret( "salt_water", 0, item::INFINITE_CHARGES );
-        return ret;
+        return item( "salt_water", 0, item::INFINITE_CHARGES );
     }
 
     const ter_id terrain_id = g->m.ter( p );
+    if( terrain_id == t_sewage ) {
+        item ret( "water_sewage", 0, item::INFINITE_CHARGES );
+        ret.poison = rng( 1, 7 );
+        return ret;
+    }
+
     item ret( "water", 0, item::INFINITE_CHARGES );
     if( terrain_id == t_water_sh ) {
         if( one_in( 3 ) ) {
@@ -4748,10 +4753,6 @@ item map::water_from( const tripoint &p )
         if( one_in( 4 ) ) {
             ret.poison = rng( 1, 4 );
         }
-        return ret;
-    }
-    if( terrain_id == t_sewage ) {
-        ret.poison = rng( 1, 7 );
         return ret;
     }
     // iexamine::water_source requires a valid liquid from this function.

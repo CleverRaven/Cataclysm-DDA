@@ -890,5 +890,22 @@
     "weight": 212,
     "volume": 1,
     "to_hit": -2
-    }
+    },{
+    "type" : "COMESTIBLE",
+    "id" : "water_sewage",
+    "name" : "sewage water",
+    "name_plural" : "sewage water",
+    "weight" : 280,
+    "color" : "green",
+    "container" : "bottle_plastic",
+    "comestible_type" : "DRINK",
+    "symbol" : "~",
+    "quench" : 5,
+    "healthy" : -2,
+    "description" : "Turbid liquid from the sewers with awful stench.",
+    "volume" : 1,
+    "phase" : "liquid",
+    "category" : "chems",
+    "fun" : -20
+   }
 ]
