@@ -210,11 +210,7 @@ void requirement_data::load_requirement( JsonObject &jsobj, const std::string &i
         jsobj.throw_error( "id was not specified for requirement" );
     }
 
-    if( requirements_all.find( req.id_  ) != requirements_all.end() ) {
-        jsobj.throw_error( "parsed requirement overwrites existing definition", "id" );
-    } else {
-        save_requirement( req );
-    }
+    save_requirement( req );
 }
 
 void requirement_data::save_requirement( const requirement_data &req, const std::string &id )
@@ -224,7 +220,12 @@ void requirement_data::save_requirement( const requirement_data &req, const std:
         dup.id_ = requirement_id( id );
     }
 
-    DebugLog( D_INFO, DC_ALL ) << "Added requirement: " << dup.id_.c_str();
+    if( requirements_all.find( req.id_  ) != requirements_all.end() ) {
+        DebugLog( D_INFO, DC_ALL ) << "Updated requirement: " << dup.id_.c_str();
+    } else {
+        DebugLog( D_INFO, DC_ALL ) << "Added requirement: " << dup.id_.c_str();
+    }
+
     requirements_all[ dup.id_ ] = dup;
 }
 
