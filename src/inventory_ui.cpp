@@ -700,7 +700,7 @@ void inventory_selector::display( const std::string &title, selector_mode mode )
     const int free_space = getmaxx( w_inv ) - get_columns_width();
     const bool center_align = std::abs( float( free_space ) / getmaxx( w_inv ) ) <= min_ratio_to_center;
 
-    const int max_gap = ( columns.size() > 1 ) ? free_space / ( columns.size() - 1 ) : 0;
+    const int max_gap = ( columns.size() > 1 ) ? free_space / ( int( columns.size() ) - 1 ) : 0;
     const int gap = center_align ? max_gap : std::min<int>( max_gap, 4 );
     const int gap_rounding_error = ( center_align && columns.size() > 1 ) ? free_space % ( columns.size() - 1 ) : 0;
 
