@@ -117,6 +117,9 @@ void game::dump_stats( const std::string& what, dump_mode mode )
             if( e.second->gun ) {
                 item gun( e.first );
                 if( gun.is_reloadable() ) {
+                    if( !gun.magazine_integral() ) {
+                        gun.emplace_back( gun.magazine_default() );
+                    }
                     gun.ammo_set( default_ammo( gun.ammo_type() ), gun.ammo_capacity() );
                 }
                 dump( gun );
