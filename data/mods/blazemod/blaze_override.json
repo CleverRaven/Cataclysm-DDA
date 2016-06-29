@@ -1,274 +1,27 @@
 [
-	{
-        "type" : "vehicle_part",
-        "id" : "m249",
-        "name" : "mounted M249",
-        "symbol" : "t",
-        "color" : "cyan",
-        "broken_symbol" : "#",
-        "broken_color" : "cyan",
-        "damage_modifier" : 80,
-        "durability" : 400,
-        "item" : "m249",
-        "size" : 40,
-        "difficulty" : 4,
-        "location" : "on_roof",
-        "flags" : ["TURRET", "CARGO", "TOOL_NONE", "MANUAL", "UNMOUNT_ON_DAMAGE", "FOLDABLE"],
-        "folded_volume": 14,
-        "breaks_into" : [
-            {"item": "m249", "prob": 50}
-        ]
-    },{
-        "type" : "vehicle_part",
-        "id" : "mounted_m1918",
-        "name" : "mounted Browning Automatic Rifle",
-        "symbol" : "t",
-        "color" : "brown",
-        "broken_symbol" : "#",
-        "broken_color" : "cyan",
-        "damage_modifier" : 80,
-        "durability" : 400,
-        "range" : 12,
-        "item" : "m1918",
-        "size" : 40,
-        "difficulty" : 4,
-        "location" : "on_roof",
-        "flags" : ["TURRET", "CARGO", "TOOL_NONE", "MANUAL", "UNMOUNT_ON_DAMAGE", "FOLDABLE"],
-        "folded_volume": 12,
-        "breaks_into" : [
-            {"item": "m1918", "prob": 50}
-        ]
-    },{
-        "type" : "vehicle_part",
-        "id" : "flamethrower",
-        "name" : "flamethrower",
-        "symbol" : "t",
-        "color" : "red",
-        "broken_symbol" : "#",
-        "broken_color" : "red",
-        "damage_modifier" : 80,
-        "durability" : 200,
-        "item" : "flamethrower",
-        "difficulty" : 2,
-        "location" : "on_roof",
-        "flags" : ["UNMOUNT_ON_DAMAGE", "TOOL_NONE", "TURRET", "FOLDABLE", "MANUAL"],
-        "folded_volume": 16,
-        "breaks_into" : [
-            {"item": "flamethrower"}
-        ]
-    },{
-        "type" : "vehicle_part",
-        "id" : "plasma_gun",
-        "name" : "mounted plasma gun",
-        "symbol" : "t",
-        "color" : "light_blue",
-        "broken_symbol" : "#",
-        "broken_color" : "light_blue",
-        "damage_modifier" : 80,
-        "durability" : 200,
-        "item" : "plasma_rifle",
-        "difficulty" : 8,
-        "location" : "on_roof",
-        "flags" : ["TURRET", "TOOL_NONE", "MANUAL", "UNMOUNT_ON_DAMAGE", "FOLDABLE", "NEEDS_BATTERY_MOUNT"],
-        "folded_volume": 15,
-        "breaks_into" : [
-            {"item": "plasma_rifle", "prob": 50}
-        ]
-    },{
-        "type" : "vehicle_part",
-        "id" : "fusion_gun",
-        "name" : "mounted fusion gun",
-        "symbol" : "t",
-        "color" : "magenta",
-        "broken_symbol" : "#",
-        "broken_color" : "magenta",
-        "damage_modifier" : 80,
-        "durability" : 200,
-        "item" : "ftk93",
-        "difficulty" : 8,
-        "size" : 10,
-        "location" : "on_roof",
-        "flags" : ["TURRET", "CARGO", "TOOL_NONE", "MANUAL", "UNMOUNT_ON_DAMAGE", "FOLDABLE", "NEEDS_BATTERY_MOUNT"],
-        "folded_volume": 14,
-        "breaks_into" : [
-            {"item": "ftk93", "prob": 50}
-        ]
-    },{
-        "type" : "vehicle_part",
-        "id" : "laser_gun",
-        "name" : "mounted NX17",
-        "symbol" : "t",
-        "color" : "magenta",
-        "broken_symbol" : "#",
-        "broken_color" : "magenta",
-        "damage_modifier" : 80,
-        "durability" : 200,
-        "item" : "nx17",
-        "difficulty" : 13,
-        "location" : "on_roof",
-        "flags" : ["TURRET", "TOOL_NONE", "MANUAL", "UNMOUNT_ON_DAMAGE", "FOLDABLE", "NEEDS_BATTERY_MOUNT"],
-        "folded_volume": 16,
-        "breaks_into" : [
-            {"item": "nx17", "prob": 50}
-        ]
-    },{
-        "type" : "vehicle_part",
-        "id" : "mounted_browning",
-        "name" : "mounted M2 Browning",
-        "symbol" : "t",
-        "color" : "green",
-        "broken_symbol" : "#",
-        "broken_color" : "green",
-        "damage_modifier" : 80,
-        "durability" : 400,
-        "item" : "m2browning",
-        "difficulty" : 5,
-        "size" : 40,
-        "location" : "on_roof",
-        "flags" : ["TURRET", "CARGO", "TOOL_NONE", "MANUAL", "UNMOUNT_ON_DAMAGE", "FOLDABLE"],
-        "folded_volume": 20,
-        "breaks_into" : [
-            {"item": "m2browning", "prob": 50}
-        ]
-    },{
-        "type" : "vehicle_part",
-        "id" : "mounted_m240",
-        "name" : "mounted M240",
-        "symbol" : "t",
-        "color" : "cyan",
-        "broken_symbol" : "#",
-        "broken_color" : "cyan",
-        "damage_modifier" : 80,
-        "durability" : 400,
-        "range" : 12,
-        "item" : "m240",
-        "difficulty" : 4,
-        "size" : 40,
-        "location" : "on_roof",
-        "flags" : ["TURRET", "CARGO", "TOOL_NONE", "MANUAL", "UNMOUNT_ON_DAMAGE", "FOLDABLE"],
-        "folded_volume": 16,
-        "breaks_into" : [
-            {"item": "m240", "prob": 50}
-        ]
-    },{
-        "type" : "vehicle_part",
-        "id" : "mounted_m60",
-        "name" : "mounted M60",
-        "symbol" : "t",
-        "color" : "cyan",
-        "broken_symbol" : "#",
-        "broken_color" : "cyan",
-        "damage_modifier" : 80,
-        "durability" : 400,
-        "range" : 12,
-        "item" : "m60",
-        "difficulty" : 4,
-        "size" : 40,
-        "location" : "on_roof",
-        "flags" : ["TURRET", "CARGO", "TOOL_NONE", "MANUAL", "UNMOUNT_ON_DAMAGE", "FOLDABLE"],
-        "folded_volume": 16,
-        "breaks_into" : [
-            {"item": "m60", "prob": 50}
-        ]
-    },{
-        "type" : "vehicle_part",
-        "id" : "mounted_abzats",
-        "name" : "mounted automatic shotgun",
-        "symbol" : "t",
-        "color" : "green",
-        "broken_symbol" : "#",
-        "broken_color" : "green",
-        "damage_modifier" : 80,
-        "durability" : 400,
-        "range" : 12,
-        "item" : "abzats",
-        "difficulty" : 5,
-        "size" : 40,
-        "location" : "on_roof",
-        "flags" : ["TURRET", "CARGO", "TOOL_NONE", "MANUAL", "UNMOUNT_ON_DAMAGE", "FOLDABLE"],
-        "folded_volume": 18,
-        "breaks_into" : [
-            {"item": "abzats", "prob": 50}
-        ]
-    },{
-        "type" : "vehicle_part",
-        "id" : "mounted_m134",
-        "name" : "mounted M134D-H Minigun",
-        "symbol" : "t",
-        "color" : "green",
-        "broken_symbol" : "#",
-        "broken_color" : "green",
-        "damage_modifier" : 80,
-        "durability" : 400,
-        "range" : 12,
-        "item" : "m134",
-        "difficulty" : 7,
-        "size" : 40,
-        "location" : "on_roof",
-        "flags" : ["TURRET", "CARGO", "TOOL_NONE", "MANUAL", "UNMOUNT_ON_DAMAGE", "FOLDABLE"],
-        "folded_volume": 32,
-        "breaks_into" : [
-            {"item": "m134", "prob": 50}
-        ]
-    },{
-        "type" : "vehicle_part",
-        "id" : "mounted_mk19",
-        "name" : "mounted Mark 19 GL",
-        "symbol" : "t",
-        "color" : "green",
-        "broken_symbol" : "#",
-        "broken_color" : "green",
-        "damage_modifier" : 80,
-        "durability" : 250,
-        "item" : "mark19",
-        "difficulty" : 5,
-        "size" : 40,
-        "location" : "on_roof",
-        "flags" : ["TURRET", "CARGO", "TOOL_NONE", "MANUAL", "UNMOUNT_ON_DAMAGE", "FOLDABLE"],
-        "folded_volume": 16,
-        "breaks_into" : [
-            {"item": "mark19", "prob": 50}
-        ]
-    },{
-        "type" : "vehicle_part",
-        "id" : "mounted_rm614",
-        "name" : "mounted RM614 LMG",
-        "symbol" : "t",
-        "color" : "white",
-        "broken_symbol" : "#",
-        "broken_color" : "light_gray",
-        "damage_modifier" : 80,
-        "durability" : 450,
-        "range" : 12,
-        "item" : "rm614_lmg",
-        "difficulty" : 6,
-        "size" : 40,
-        "location" : "on_roof",
-        "flags" : ["TURRET", "CARGO", "TOOL_NONE", "MANUAL", "UNMOUNT_ON_DAMAGE", "FOLDABLE"],
-        "folded_volume": 10,
-        "breaks_into" : [
-            {"item": "rm614_lmg", "prob": 50}
-        ]
-    },{
-        "type" : "vehicle_part",
-        "id" : "mounted_rm298",
-        "name" : "mounted RM298 HMG",
-        "symbol" : "t",
-        "color" : "white",
-        "broken_symbol" : "#",
-        "broken_color" : "light_gray",
-        "damage_modifier" : 80,
-        "durability" : 500,
-        "range" : 12,
-        "item" : "rm298",
-        "difficulty" : 6,
-        "size" : 40,
-        "location" : "on_roof",
-        "flags" : ["TURRET", "CARGO", "TOOL_NONE", "MANUAL", "UNMOUNT_ON_DAMAGE", "FOLDABLE"],
-        "folded_volume": 26,
-        "breaks_into" : [
-            {"item": "rm298", "prob": 50}
-        ]
+     {
+        "type" : "construction",
+        "description" : "Start Vehicle Construction", "//": "Rest of vehicle construction done in the vehicle construction menu", 
+        "category" : "OTHER",
+        "difficulty" : 0,
+        "time" : 10,
+        "components" : [
+            [
+                [ "frame", 1 ],
+                [ "hdframe", 1 ],
+                [ "frame_wood", 1 ],
+                [ "xlframe", 1 ],
+                [ "frame_wood_light", 1 ],
+                [ "foldwoodframe", 1 ],
+                [ "foldframe", 1 ],
+                [ "gloople", 1],
+                [ "oozle", 1],
+                [ "gray", 1],
+                [ "diamondframe", 1]
+            ]
+        ],
+        "pre_special" : "check_empty",
+        "post_special" : "done_vehicle"
     },{
         "type" : "vehicle_part",
         "id" : "engine_electric_small",
@@ -416,28 +169,578 @@
             {"item": "steel_chunk", "count": [1, 2]},
             {"item": "scrap", "count": [0, 3]}
         ]
-    },{
-        "type" : "AMMO",
-        "id" : "mininuke_mod",
-        "price" : 180000,
-        "name" : "modified mininuke",
-        "symbol" : "*",
-        "color" : "green",
-        "description" : "A heavy modified handheld nuclear device.  Intended to be fired from a specialized launcher, its case has been cut down and it has been rigged to explode on impact.  While it is now somewhat lighter than before, it can no longer be triggered manually.",
-        "material" : "plastic",
-        "flags": [""],
+    },
+    {   "type" : "AMMO",
+        "id" : "pebble",
+        "price" : 100,
+        "name" : "pebble",
+        "symbol" : "=",
+        "color" : "light_gray",
+        "description" : "A handful of pebbles, useful as ammunition for slings or slingshots.",
+        "material" : "stone",
         "volume" : 1,
-        "weight" : 3816,
-        "bashing" : 8,
-        "ammo_type" : "h_projectile",
-        "damage" : 14,
-        "range" : 0,
-        "dispersion" : 0,
+        "weight" : 5,
+        "bashing" : 1,
+        "cutting" : 0,
+        "to_hit" : 0,
+        "ammo_type" : "pebble",
+        "damage" : 2,
+        "pierce" : 0,
+        "range" : 10,
+        "dispersion" : 14,
         "recoil" : 0,
-        "count" : 1,
-        "stack_size" : 2,
-        "effects" : ["MININUKE_MOD", "NEVER_MISFIRES"]
+        "count" : 25,
+        "effects" : ["NEVER_MISFIRES"]
     },{
+        "type" : "vehicle_part",
+        "id" : "mounted_m1918",
+        "name" : "manual BAR",
+        "symbol" : "t",
+        "color" : "brown",
+        "broken_symbol" : "#",
+        "broken_color" : "cyan",
+        "damage_modifier" : 80,
+        "durability" : 400,
+        "range" : 12,
+        "item" : "m1918",
+        "size" : 40,
+        "difficulty" : 4,
+        "location" : "on_roof",
+        "flags" : ["TURRET", "MANUAL", "CARGO"],
+        "breaks_into" : [
+            {"item": "m1918", "prob": 50}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "m249",
+        "name" : "manual M249",
+        "symbol" : "t",
+        "color" : "cyan",
+        "broken_symbol" : "#",
+        "broken_color" : "cyan",
+        "damage_modifier" : 80,
+        "durability" : 400,
+        "range" : 12,
+        "item" : "m249",
+        "size" : 40,
+        "difficulty" : 4,
+        "location" : "on_roof",
+        "flags" : ["TURRET", "MANUAL", "CARGO"],
+        "breaks_into" : [
+            {"item": "m249", "prob": 50}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "flamethrower",
+        "name" : "manual flamethrower",
+        "symbol" : "t",
+        "color" : "dark_gray",
+        "broken_symbol" : "#",
+        "broken_color" : "dark_gray",
+        "damage_modifier" : 80,
+        "durability" : 400,
+        "range" : 5,
+        "item" : "flamethrower",
+        "difficulty" : 5,
+        "location" : "on_roof",
+        "flags" : ["TURRET", "MANUAL"],
+        "breaks_into" : [
+            {"item": "flamethrower", "prob": 50}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "plasma_gun",
+        "name" : "manual plasma gun",
+        "symbol" : "t",
+        "color" : "light_blue",
+        "broken_symbol" : "#",
+        "broken_color" : "light_blue",
+        "damage_modifier" : 80,
+        "durability" : 400,
+        "range" : 12,
+        "item" : "plasma_rifle",
+        "difficulty" : 8,
+        "location" : "on_roof",
+        "flags" : ["TURRET", "MANUAL"],
+        "breaks_into" : [
+            {"item": "plasma_rifle", "prob": 50}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "fusion_gun",
+        "name" : "manual fusion gun",
+        "symbol" : "t",
+        "color" : "magenta",
+        "broken_symbol" : "#",
+        "broken_color" : "magenta",
+        "damage_modifier" : 80,
+        "durability" : 400,
+        "range" : 12,
+        "item" : "ftk93",
+        "difficulty" : 8,
+        "size" : 10,
+        "location" : "on_roof",
+        "flags" : ["TURRET", "MANUAL", "CARGO"],
+        "breaks_into" : [
+            {"item": "ftk93", "prob": 50}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "laser_gun",
+        "name" : "manual NX17",
+        "symbol" : "t",
+        "color" : "magenta",
+        "broken_symbol" : "#",
+        "broken_color" : "magenta",
+        "damage_modifier" : 80,
+        "durability" : 400,
+        "range" : 12,
+        "item" : "nx17",
+        "difficulty" : 8,
+        "location" : "on_roof",
+        "flags" : ["TURRET"],
+        "breaks_into" : [
+            {"item": "nx17", "prob": 50}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "laser_rifle",
+        "name" : "manual A7 laser rifle",
+        "symbol" : "t",
+        "color" : "magenta",
+        "broken_symbol" : "#",
+        "broken_color" : "magenta",
+        "damage_modifier" : 80,
+        "durability" : 400,
+        "range" : 12,
+        "item" : "laser_rifle",
+        "difficulty" : 8,
+        "location" : "on_roof",
+        "flags" : ["TURRET"],
+        "breaks_into" : [
+            {"item": "laser_rifle", "prob": 50}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "mounted_browning",
+        "name" : "manual M2 Browning",
+        "symbol" : "t",
+        "color" : "green",
+        "broken_symbol" : "#",
+        "broken_color" : "green",
+        "damage_modifier" : 80,
+        "durability" : 400,
+        "range" : 12,
+        "item" : "m2browning",
+        "difficulty" : 5,
+        "size" : 40,
+        "location" : "on_roof",
+        "flags" : ["TURRET", "MANUAL", "CARGO"],
+        "breaks_into" : [
+            {"item": "m2browning", "prob": 50}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "mounted_m240",
+        "name" : "manual M240",
+        "symbol" : "t",
+        "color" : "cyan",
+        "broken_symbol" : "#",
+        "broken_color" : "cyan",
+        "damage_modifier" : 80,
+        "durability" : 400,
+        "range" : 12,
+        "item" : "m240",
+        "difficulty" : 4,
+        "size" : 40,
+        "location" : "on_roof",
+        "flags" : ["TURRET", "MANUAL", "CARGO"],
+        "breaks_into" : [
+            {"item": "m240", "prob": 50}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "mounted_m60",
+        "name" : "manual M60",
+        "symbol" : "t",
+        "color" : "cyan",
+        "broken_symbol" : "#",
+        "broken_color" : "cyan",
+        "damage_modifier" : 80,
+        "durability" : 400,
+        "range" : 12,
+        "item" : "m60",
+        "difficulty" : 4,
+        "size" : 40,
+        "location" : "on_roof",
+        "flags" : ["TURRET", "MANUAL", "CARGO"],
+        "breaks_into" : [
+            {"item": "m60", "prob": 50}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "mounted_abzats",
+        "name" : "manual auto-shotgun",
+        "symbol" : "t",
+        "color" : "green",
+        "broken_symbol" : "#",
+        "broken_color" : "green",
+        "damage_modifier" : 80,
+        "durability" : 400,
+        "range" : 12,
+        "item" : "abzats",
+        "difficulty" : 5,
+        "size" : 40,
+        "location" : "on_roof",
+        "flags" : ["TURRET", "MANUAL", "CARGO"],
+        "breaks_into" : [
+            {"item": "abzats", "prob": 50}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "mounted_m134",
+        "name" : "manual M134D-H Minigun",
+        "symbol" : "t",
+        "color" : "green",
+        "broken_symbol" : "#",
+        "broken_color" : "green",
+        "damage_modifier" : 80,
+        "durability" : 400,
+        "range" : 12,
+        "item" : "m134",
+        "difficulty" : 7,
+        "size" : 40,
+        "location" : "on_roof",
+        "flags" : ["TURRET", "MANUAL", "CARGO"],
+        "breaks_into" : [
+            {"item": "m134", "prob": 50}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "mounted_mk19",
+        "name" : "manual Mark 19",
+        "symbol" : "t",
+        "color" : "green",
+        "broken_symbol" : "#",
+        "broken_color" : "green",
+        "damage_modifier" : 80,
+        "durability" : 400,
+        "range" : 12,
+        "item" : "mark19",
+        "difficulty" : 5,
+        "size" : 40,
+        "location" : "on_roof",
+        "flags" : ["TURRET", "MANUAL", "CARGO"],
+        "breaks_into" : [
+            {"item": "mark19", "prob": 50}
+        ]
+    },
+    {
+        "type" : "vehicle_part",
+        "id" : "mounted_rm614",
+        "name" : "manual RM614 LMG",
+        "symbol" : "t",
+        "color" : "white",
+        "broken_symbol" : "#",
+        "broken_color" : "light_gray",
+        "damage_modifier" : 80,
+        "durability" : 450,
+        "range" : 12,
+        "item" : "rm614_lmg",
+        "difficulty" : 6,
+        "size" : 40,
+        "location" : "on_roof",
+        "flags" : ["TURRET", "MANUAL", "CARGO"],
+        "breaks_into" : [
+            {"item": "rm614_lmg", "prob": 50}
+        ]
+    },
+    {
+        "type" : "vehicle_part",
+        "id" : "mounted_rm298",
+        "name" : "manual RM298 HMG",
+        "symbol" : "t",
+        "color" : "white",
+        "broken_symbol" : "#",
+        "broken_color" : "light_gray",
+        "damage_modifier" : 80,
+        "durability" : 500,
+        "range" : 12,
+        "item" : "rm298",
+        "difficulty" : 6,
+        "size" : 40,
+        "location" : "on_roof",
+        "flags" : ["TURRET", "MANUAL", "CARGO"],
+        "breaks_into" : [
+            {"item": "rm298", "prob": 50}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "watercannon",
+        "name" : "water cannon",
+        "symbol" : "t",
+        "color" : "blue",
+        "broken_symbol" : "#",
+        "broken_color" : "blue",
+        "damage_modifier" : 80,
+        "durability" : 400,
+        "range" : 7,
+        "item" : "watercannon",
+        "difficulty" : 5,
+        "location" : "on_roof",
+        "flags" : ["TURRET"],
+        "breaks_into" : [
+            {"item": "watercannon", "prob": 50}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "auto_m1918",
+        "name" : "BAR turret",
+        "symbol" : "t",
+        "color" : "brown",
+        "broken_symbol" : "#",
+        "broken_color" : "cyan",
+        "damage_modifier" : 80,
+        "durability" : 400,
+        "range" : 12,
+        "item" : "m1918",
+        "size" : 40,
+        "difficulty" : 4,
+        "location" : "on_roof",
+        "flags" : ["TURRET", "CARGO", "NEEDS_BATTERY_MOUNT"],
+        "breaks_into" : [
+            {"item": "m1918", "prob": 50}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "am249",
+        "name" : "M249 turret",
+        "symbol" : "t",
+        "color" : "cyan",
+        "broken_symbol" : "#",
+        "broken_color" : "cyan",
+        "damage_modifier" : 80,
+        "durability" : 400,
+        "range" : 12,
+        "item" : "m249",
+        "size" : 40,
+        "difficulty" : 4,
+        "location" : "on_roof",
+        "flags" : ["TURRET", "CARGO", "NEEDS_BATTERY_MOUNT"],
+        "breaks_into" : [
+            {"item": "m249", "prob": 50}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "aplasma_gun",
+        "name" : "plasma turret",
+        "symbol" : "t",
+        "color" : "light_blue",
+        "broken_symbol" : "#",
+        "broken_color" : "light_blue",
+        "damage_modifier" : 80,
+        "durability" : 400,
+        "range" : 12,
+        "item" : "plasma_rifle",
+        "difficulty" : 8,
+        "location" : "on_roof",
+        "flags" : ["TURRET", "NEEDS_BATTERY_MOUNT"],
+        "breaks_into" : [
+            {"item": "plasma_rifle", "prob": 50}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "afusion_gun",
+        "name" : "fusion turret",
+        "symbol" : "t",
+        "color" : "magenta",
+        "broken_symbol" : "#",
+        "broken_color" : "magenta",
+        "damage_modifier" : 80,
+        "durability" : 400,
+        "range" : 12,
+        "item" : "ftk93",
+        "difficulty" : 8,
+        "size" : 10,
+        "location" : "on_roof",
+        "flags" : ["TURRET", "CARGO", "NEEDS_BATTERY_MOUNT"],
+        "breaks_into" : [
+            {"item": "ftk93", "prob": 50}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "am2browning",
+        "name" : "M2 Browning turret",
+        "symbol" : "t",
+        "color" : "green",
+        "broken_symbol" : "#",
+        "broken_color" : "green",
+        "damage_modifier" : 80,
+        "durability" : 400,
+        "range" : 12,
+        "item" : "m2browning",
+        "difficulty" : 5,
+        "size" : 40,
+        "location" : "on_roof",
+        "flags" : ["TURRET", "CARGO", "NEEDS_BATTERY_MOUNT"],
+        "breaks_into" : [
+            {"item": "m2browning", "prob": 50}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "auto_m240",
+        "name" : "M240 turret",
+        "symbol" : "t",
+        "color" : "cyan",
+        "broken_symbol" : "#",
+        "broken_color" : "cyan",
+        "damage_modifier" : 80,
+        "durability" : 400,
+        "range" : 12,
+        "item" : "m240",
+        "difficulty" : 4,
+        "size" : 40,
+        "location" : "on_roof",
+        "flags" : ["TURRET", "CARGO", "NEEDS_BATTERY_MOUNT"],
+        "breaks_into" : [
+            {"item": "m240", "prob": 50}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "auto_m60",
+        "name" : "M60 turret",
+        "symbol" : "t",
+        "color" : "cyan",
+        "broken_symbol" : "#",
+        "broken_color" : "cyan",
+        "damage_modifier" : 80,
+        "durability" : 400,
+        "range" : 12,
+        "item" : "m60",
+        "difficulty" : 4,
+        "size" : 40,
+        "location" : "on_roof",
+        "flags" : ["TURRET", "CARGO", "NEEDS_BATTERY_MOUNT"],
+        "breaks_into" : [
+            {"item": "m60", "prob": 50}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "auto_abzats",
+        "name" : "auto-shotgun turret",
+        "symbol" : "t",
+        "color" : "green",
+        "broken_symbol" : "#",
+        "broken_color" : "green",
+        "damage_modifier" : 80,
+        "durability" : 400,
+        "range" : 12,
+        "item" : "abzats",
+        "difficulty" : 5,
+        "size" : 40,
+        "location" : "on_roof",
+        "flags" : ["TURRET", "CARGO", "NEEDS_BATTERY_MOUNT"],
+        "breaks_into" : [
+            {"item": "abzats", "prob": 50}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "auto_m134",
+        "name" : "M134D-H Minigun turret",
+        "symbol" : "t",
+        "color" : "green",
+        "broken_symbol" : "#",
+        "broken_color" : "green",
+        "damage_modifier" : 80,
+        "durability" : 400,
+        "range" : 12,
+        "item" : "m134",
+        "difficulty" : 7,
+        "size" : 40,
+        "location" : "on_roof",
+        "flags" : ["TURRET", "CARGO", "NEEDS_BATTERY_MOUNT"],
+        "breaks_into" : [
+            {"item": "m134", "prob": 50}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "auto_mk19",
+        "name" : "Mark 19 turret",
+        "symbol" : "t",
+        "color" : "green",
+        "broken_symbol" : "#",
+        "broken_color" : "green",
+        "damage_modifier" : 80,
+        "durability" : 400,
+        "range" : 12,
+        "item" : "mark19",
+        "difficulty" : 5,
+        "size" : 40,
+        "location" : "on_roof",
+        "flags" : ["TURRET", "CARGO", "NEEDS_BATTERY_MOUNT"],
+        "breaks_into" : [
+            {"item": "mark19", "prob": 50}
+        ]
+    },
+    {
+        "type" : "vehicle_part",
+        "id" : "auto_rm614",
+        "name" : "RM614 turret",
+        "symbol" : "t",
+        "color" : "white",
+        "broken_symbol" : "#",
+        "broken_color" : "light_gray",
+        "damage_modifier" : 80,
+        "durability" : 450,
+        "range" : 12,
+        "item" : "rm614_lmg",
+        "difficulty" : 6,
+        "size" : 40,
+        "location" : "on_roof",
+        "flags" : ["TURRET", "CARGO", "NEEDS_BATTERY_MOUNT"],
+        "breaks_into" : [
+            {"item": "rm614_lmg", "prob": 50}
+        ]
+    },
+    {
+        "type" : "vehicle_part",
+        "id" : "auto_rm298",
+        "name" : "RM298 turret",
+        "symbol" : "t",
+        "color" : "white",
+        "broken_symbol" : "#",
+        "broken_color" : "light_gray",
+        "damage_modifier" : 80,
+        "durability" : 500,
+        "range" : 12,
+        "item" : "rm298",
+        "difficulty" : 6,
+        "size" : 40,
+        "location" : "on_roof",
+        "flags" : ["TURRET", "CARGO", "NEEDS_BATTERY_MOUNT"],
+        "breaks_into" : [
+            {"item": "rm298", "prob": 50}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "awatercannon",
+        "name" : "water cannon turret",
+        "symbol" : "t",
+        "color" : "blue",
+        "broken_symbol" : "#",
+        "broken_color" : "blue",
+        "damage_modifier" : 80,
+        "durability" : 400,
+        "range" : 7,
+        "item" : "watercannon",
+        "difficulty" : 5,
+        "location" : "on_roof",
+        "flags" : ["TURRET", "NEEDS_BATTERY_MOUNT"],
+        "breaks_into" : [
+            {"item": "watercannon", "prob": 50}
+        ]
+    },
+  {
     "id": "mininuke_launcher",
     "type": "GUN",
     "symbol": "(",
@@ -452,6 +755,7 @@
     "weight": 11260,
     "volume": 11,
     "bashing": 12,
+    "cutting": 0,
     "to_hit": -1,
     "range": 24,
     "dispersion": 600,
@@ -460,7 +764,6 @@
     "recoil": 300,
     "durability": 7,
     "clip_size": 1,
-    "loudness" : 5,
     "reload": 800
   }
 ]
