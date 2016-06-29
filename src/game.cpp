@@ -7269,7 +7269,7 @@ void game::close( const tripoint &closep )
 
 void game::smash()
 {
-    const int move_cost = u.is_armed() ? 80 : u.weapon.attack_time() * 0.8;
+    const int move_cost = !u.is_armed() ? 80 : u.weapon.attack_time() * 0.8;
     bool didit = false;
     ///\EFFECT_STR increases smashing capability
     int smashskill = int(u.str_cur + u.weapon.type->melee_dam);
