@@ -997,6 +997,9 @@ void add_corpse( const tripoint &p );
         void add_splatter_trail( const field_id type, const tripoint &from, const tripoint &to );
         void add_splash( const field_id type, const tripoint &center, int radius, int density );
 
+        void propagate_field( const tripoint &center, field_id fid,
+                              int amount, int max_density = MAX_FIELD_DENSITY );
+
 // End of 3D field function block
 
 // Scent propagation helpers
