@@ -233,7 +233,7 @@
         "pierce" : 29,
         "range" : 90,
         "dispersion" : 15,
-        "recoil" : 765,
+        "recoil" : 975,
         "count" : 30,
         "effects" : ["COOKOFF", "RECYCLED"]
     },
@@ -256,7 +256,7 @@
         "pierce" : 39,
         "range" : 90,
         "dispersion" : 15,
-        "recoil" : 765,
+        "recoil" : 975,
         "count" : 10,
         "effects" : ["COOKOFF", "RECYCLED"]
     },
