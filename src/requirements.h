@@ -162,6 +162,9 @@ struct requirement_data {
         /** Scales tool and component requirements leaving qualities unaffected */
         requirement_data operator*( unsigned scalar ) const;
 
+        /** Combines two sets of requirements */
+        requirement_data operator+( const requirement_data &rhs ) const;
+
         /**
          * Load @ref tools, @ref qualities and @ref components from
          * the json object. Assumes them to be in sub-objects.

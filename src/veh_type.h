@@ -180,8 +180,8 @@ class vpart_info
         std::bitset<NUM_VPFLAGS> bitflags; // flags checked so often that things slow down due to string cmp
 
         /** Second field is the multiplier */
-        std::pair<requirement_id, int> install_reqs;
-        std::pair<requirement_id, int> removal_reqs;
+        std::vector<std::pair<requirement_id, int>> install_reqs;
+        std::vector<std::pair<requirement_id, int>> removal_reqs;
 
     public:
 

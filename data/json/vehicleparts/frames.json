@@ -43,7 +43,7 @@
     "difficulty": 1,
     "requirements": {
       "install": {
-        "using": [ "welding_standard", 10 ],
+        "using": [ [ "welding_standard", 10 ] ],
         "skills": [ [ "mechanics", 1 ] ],
         "time": 120000
       },
@@ -98,7 +98,7 @@
     "difficulty": 3,
     "requirements": {
       "install": {
-        "using": [ "welding_standard", 20 ],
+        "using": [ [ "welding_standard", 20 ] ],
         "skills": [ [ "mechanics", 3 ] ],
         "time": 240000
       },

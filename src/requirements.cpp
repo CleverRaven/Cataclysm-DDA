@@ -190,6 +190,22 @@ requirement_data requirement_data::operator*( unsigned scalar ) const
     return res;
 }
 
+requirement_data requirement_data::operator+( const requirement_data &rhs ) const
+{
+    requirement_data res = *this;
+
+    res.components.insert( res.components.end(), rhs.components.begin(), rhs.components.end() );
+    res.tools.insert( res.tools.end(), rhs.tools.begin(), rhs.tools.end() );
+    res.qualities.insert( res.qualities.end(), rhs.qualities.begin(), rhs.qualities.end() );
+
+    // combined result is temporary which caller could store via @ref save_requirement
+    res.id_ = requirement_id::NULL_ID;
+
+    // @todo deduplicate qualites and combine other requirements
+
+    return res;
+}
+
 void requirement_data::load_requirement( JsonObject &jsobj, const std::string &id )
 {
     requirement_data req;
