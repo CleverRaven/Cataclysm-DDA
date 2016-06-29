@@ -1,6 +1,7 @@
 #include "mondeath.h"
 #include "monster.h"
 #include "game.h"
+#include "cata_utility.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "rng.h"
@@ -21,6 +22,7 @@
 #include <sstream>
 #include <algorithm>
 #include <vector>
+#include <queue>
 
 const mtype_id mon_blob( "mon_blob" );
 const mtype_id mon_blob_brain( "mon_blob_brain" );
@@ -597,32 +599,82 @@ void mdeath::darkman(monster *z)
     }
 }
 
+void propagate_field( const tripoint &center, field_id fid, int amount,
+                      int max_density = MAX_FIELD_DENSITY )
+{
+    using gas_blast = std::pair<int, tripoint>;
+    std::priority_queue<gas_blast, std::vector<gas_blast>, pair_greater_cmp> open;
+    std::set<tripoint> closed;
+    open.push( { 0.0f, center } );
+
+    while( amount > 0 && !open.empty() ) {
+        if( closed.count( open.top().second ) ) {
+            open.pop();
+            continue;
+        }
+
+        // All points with equal gas density should propagate at the same time
+        std::list<gas_blast> gas_front;
+        gas_front.push_back( open.top() );
+        open.pop();
+        int cur_intensity = g->m.get_field_strength( open.top().second, fid );
+        while( !open.empty() && g->m.get_field_strength( open.top().second, fid ) == cur_intensity ) {
+            if( closed.count( open.top().second ) == 0 ) {
+                gas_front.push_back( open.top() );
+            }
+
+            open.pop();
+        }
+
+        int increment = std::max<int>( 1, amount / gas_front.size() );
+
+        while( amount > 0 && !gas_front.empty() ) {
+            auto gp = random_entry_removed( gas_front );
+            closed.insert( gp.second );
+            int cur_strength = g->m.get_field_strength( gp.second, fid );
+            if( cur_strength < max_density ) {
+                int bonus = std::min( max_density - cur_strength, increment );
+                g->m.adjust_field_strength( gp.second, fid, bonus );
+                amount -= bonus;
+            } else {
+                amount--;
+            }
+
+            if( amount <= 0 ) {
+                return;
+            }
+
+            static const std::array<int, 8> x_offset = {{ -1, 1,  0, 0,  1, -1, -1, 1  }};
+            static const std::array<int, 8> y_offset = {{  0, 0, -1, 1, -1,  1, -1, 1  }};
+            for( size_t i = 0; i < 8; i++ ) {
+                tripoint pt = gp.second + point( x_offset[ i ], y_offset[ i ] );
+                if( closed.count( pt ) > 0 ) {
+                    continue;
+                }
+
+                if( g->m.impassable( pt ) && !g->m.has_flag( "PERMEABLE", pt ) ) {
+                    closed.insert( pt );
+                    continue;
+                }
+
+                open.push( { (float)rl_dist( center, pt ), pt } );
+            }
+        }
+    }
+}
+
 void mdeath::gas(monster *z)
 {
     std::string explode = string_format(_("a %s explode!"), z->name().c_str());
     sounds::sound(z->pos(), 24, explode);
-    for( auto &&dest : g->m.points_in_radius( z->pos(), 2 ) ) {
-        g->m.add_field(dest, fd_toxic_gas, 3, 0);
-        int mondex = g->mon_at(dest);
-        if (mondex != -1) {
-            g->zombie(mondex).stumble();
-            g->zombie(mondex).moves -= 250;
-        }
-    }
+    propagate_field( z->pos(), fd_toxic_gas, 75 );
 }
 
 void mdeath::smokeburst(monster *z)
 {
     std::string explode = string_format(_("a %s explode!"), z->name().c_str());
     sounds::sound(z->pos(), 24, explode);
-    for( auto &&dest : g->m.points_in_radius( z->pos(), 1 ) ) {
-        g->m.add_field( dest, fd_smoke, 3, 0 );
-        int mondex = g->mon_at( dest );
-        if (mondex != -1) {
-            g->zombie(mondex).stumble();
-            g->zombie(mondex).moves -= 250;
-        }
-    }
+    propagate_field( z->pos(), fd_toxic_gas, 27 );
 }
 
 void mdeath::jabberwock(monster *z)
