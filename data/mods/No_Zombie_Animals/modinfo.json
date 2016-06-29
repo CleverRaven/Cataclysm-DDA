@@ -1,0 +1,21 @@
+[
+{
+    "type": "MOD_INFO",
+    "mod-type": "SUPPLEMENTAL",
+    "ident": "No_Zombie_Animals",
+    "name": "No Zombie Animals",
+    "author": "Anonymous",
+    "description": "Removes zombie animals from the game.",
+    "path": "modinfo.json"
+},{
+    "type": "MONSTER_BLACKLIST",
+    "monsters": [
+	"mon_bear_smoky",
+	"mon_zombear",
+	"mon_zolf",
+	"mon_zoose",
+	"mon_zombie_pig",
+	"mon_zougar"
+    ]
+}
+]
