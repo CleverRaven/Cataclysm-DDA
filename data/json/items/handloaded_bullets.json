@@ -15,7 +15,7 @@
         "pierce" : 8,
         "range" : 6,
         "dispersion" : 60,
-        "recoil" : 840,
+        "recoil" : 1130,
         "count" : 1,
         "effects" : ["COOKOFF", "RECYCLED"]
     },{   "type" : "AMMO",
@@ -33,7 +33,7 @@
         "damage" : 60,
         "range" : 3,
         "dispersion" : 0,
-        "recoil" : 780,
+        "recoil" : 1130,
         "count" : 1,
         "effects" : ["COOKOFF", "SHOT", "RECYCLED"]
     },{   "type" : "AMMO",
@@ -52,7 +52,7 @@
         "pierce" : 12,
         "range" : 5,
         "dispersion" : 0,
-        "recoil" : 840,
+        "recoil" : 1130,
         "count" : 1,
         "effects" : ["COOKOFF", "SHOT", "RECYCLED"]
     },
