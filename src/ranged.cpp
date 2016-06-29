@@ -9,6 +9,7 @@
 #include "line.h"
 #include "skill.h"
 #include "rng.h"
+#include "projectile.h"
 #include "item.h"
 #include "options.h"
 #include "action.h"
@@ -265,11 +266,17 @@ dealt_projectile_attack Creature::projectile_attack( const projectile &proj_arg,
         }
 
         Creature *critter = g->critter_at( tp );
+        if( critter == this ) {
+            // No hitting self with "weird" attacks
+            critter = nullptr;
+        }
+
         monster *mon = dynamic_cast<monster *>(critter);
         // ignore non-point-blank digging targets (since they are underground)
         if( mon != nullptr && mon->digging() &&
             rl_dist( pos(), tp ) > 1) {
-            critter = mon = nullptr;
+            critter = nullptr;
+            mon = nullptr;
         }
 
         // Reset hit critter from the last iteration
@@ -367,62 +374,65 @@ dealt_projectile_attack Creature::projectile_attack( const projectile &proj_arg,
     return attack;
 }
 
-bool player::handle_gun_damage( const itype &firingt, const std::set<std::string> &curammo_effects )
+bool player::handle_gun_damage( item &it )
 {
-    const islot_gun *firing = firingt.gun.get();
+    if( !it.is_gun() ) {
+        debugmsg( "Tried to handle_gun_damage of a non-gun %s", it.tname().c_str() );
+        return false;
+    }
+
+    const auto &curammo_effects = it.ammo_effects();
+    const islot_gun *firing = it.type->gun.get();
     // Here we check if we're underwater and whether we should misfire.
     // As a result this causes no damage to the firearm, note that some guns are waterproof
     // and so are immune to this effect, note also that WATERPROOF_GUN status does not
     // mean the gun will actually be accurate underwater.
-    if (firing->skill_used != skill_archery &&
-        firing->skill_used != skill_throw ) {
-        if (is_underwater() && !weapon.has_flag("WATERPROOF_GUN") && one_in(firing->durability)) {
-            add_msg_player_or_npc(_("Your %s misfires with a wet click!"),
-                                  _("<npcname>'s %s misfires with a wet click!"),
-                                  weapon.tname().c_str());
-            return false;
-            // Here we check for a chance for the weapon to suffer a mechanical malfunction.
-            // Note that some weapons never jam up 'NEVER_JAMS' and thus are immune to this
-            // effect as current guns have a durability between 5 and 9 this results in
-            // a chance of mechanical failure between 1/64 and 1/1024 on any given shot.
-            // the malfunction may cause damage, but never enough to push the weapon beyond 'shattered'
-        } else if ((one_in(2 << firing->durability)) && !weapon.has_flag("NEVER_JAMS")) {
-            add_msg_player_or_npc(_("Your %s malfunctions!"),
-                                  _("<npcname>'s %s malfunctions!"),
-                                  weapon.tname().c_str());
-            if( weapon.damage < MAX_ITEM_DAMAGE && one_in( 4 * firing->durability ) ) {
-                add_msg_player_or_npc(m_bad, _("Your %s is damaged by the mechanical malfunction!"),
-                                      _("<npcname>'s %s is damaged by the mechanical malfunction!"),
-                                      weapon.tname().c_str());
-                // Don't increment until after the message
-                weapon.damage++;
-            }
-            return false;
-            // Here we check for a chance for the weapon to suffer a misfire due to
-            // using OEM bullets. Note that these misfires cause no damage to the weapon and
-            // some types of ammunition are immune to this effect via the NEVER_MISFIRES effect.
-        } else if (!curammo_effects.count("NEVER_MISFIRES") && one_in(1728)) {
-            add_msg_player_or_npc(_("Your %s misfires with a dry click!"),
-                                  _("<npcname>'s %s misfires with a dry click!"),
-                                  weapon.tname().c_str());
-            return false;
-            // Here we check for a chance for the weapon to suffer a misfire due to
-            // using player-made 'RECYCLED' bullets. Note that not all forms of
-            // player-made ammunition have this effect the misfire may cause damage, but never
-            // enough to push the weapon beyond 'shattered'.
-        } else if (curammo_effects.count("RECYCLED") && one_in(256)) {
-            add_msg_player_or_npc(_("Your %s misfires with a muffled click!"),
-                                  _("<npcname>'s %s misfires with a muffled click!"),
-                                  weapon.tname().c_str());
-            if( weapon.damage < MAX_ITEM_DAMAGE && one_in( firing->durability ) ) {
-                add_msg_player_or_npc(m_bad, _("Your %s is damaged by the misfired round!"),
-                                      _("<npcname>'s %s is damaged by the misfired round!"),
-                                      weapon.tname().c_str());
-                // Don't increment until after the message
-                weapon.damage++;
-            }
-            return false;
+    if (is_underwater() && !it.has_flag("WATERPROOF_GUN") && one_in(firing->durability)) {
+        add_msg_player_or_npc(_("Your %s misfires with a wet click!"),
+                              _("<npcname>'s %s misfires with a wet click!"),
+                              it.tname().c_str());
+        return false;
+        // Here we check for a chance for the weapon to suffer a mechanical malfunction.
+        // Note that some weapons never jam up 'NEVER_JAMS' and thus are immune to this
+        // effect as current guns have a durability between 5 and 9 this results in
+        // a chance of mechanical failure between 1/64 and 1/1024 on any given shot.
+        // the malfunction may cause damage, but never enough to push the weapon beyond 'shattered'
+    } else if ((one_in(2 << firing->durability)) && !it.has_flag("NEVER_JAMS")) {
+        add_msg_player_or_npc(_("Your %s malfunctions!"),
+                              _("<npcname>'s %s malfunctions!"),
+                              it.tname().c_str());
+        if( it.damage < MAX_ITEM_DAMAGE && one_in( 4 * firing->durability ) ) {
+            add_msg_player_or_npc(m_bad, _("Your %s is damaged by the mechanical malfunction!"),
+                                  _("<npcname>'s %s is damaged by the mechanical malfunction!"),
+                                  it.tname().c_str());
+            // Don't increment until after the message
+            it.damage++;
         }
+        return false;
+        // Here we check for a chance for the weapon to suffer a misfire due to
+        // using OEM bullets. Note that these misfires cause no damage to the weapon and
+        // some types of ammunition are immune to this effect via the NEVER_MISFIRES effect.
+    } else if (!curammo_effects.count("NEVER_MISFIRES") && one_in(1728)) {
+        add_msg_player_or_npc(_("Your %s misfires with a dry click!"),
+                              _("<npcname>'s %s misfires with a dry click!"),
+                              it.tname().c_str());
+        return false;
+        // Here we check for a chance for the weapon to suffer a misfire due to
+        // using player-made 'RECYCLED' bullets. Note that not all forms of
+        // player-made ammunition have this effect the misfire may cause damage, but never
+        // enough to push the weapon beyond 'shattered'.
+    } else if (curammo_effects.count("RECYCLED") && one_in(256)) {
+        add_msg_player_or_npc(_("Your %s misfires with a muffled click!"),
+                              _("<npcname>'s %s misfires with a muffled click!"),
+                              it.tname().c_str());
+        if( it.damage < MAX_ITEM_DAMAGE && one_in( firing->durability ) ) {
+            add_msg_player_or_npc(m_bad, _("Your %s is damaged by the misfired round!"),
+                                  _("<npcname>'s %s is damaged by the misfired round!"),
+                                  it.tname().c_str());
+            // Don't increment until after the message
+            it.damage++;
+        }
+        return false;
     }
     return true;
 }
@@ -470,7 +480,7 @@ int player::fire_gun( const tripoint &target, int shots, item& gun )
     int curshot = 0;
     int burst = 0; // count of shots against current target
     while( curshot != shots ) {
-        if( !handle_gun_damage( *gun.type, gun.ammo_effects() ) ) {
+        if( !handle_gun_damage( gun ) ) {
             break;
         }
 
@@ -1357,6 +1367,12 @@ static projectile make_gun_projectile( const item &gun ) {
             proj.set_drop( drop );
         }
 
+        if( fx.count( "FLARE" ) ) {
+            item drop( "handflare_lit" );
+            drop.active = true;
+            proj.set_drop( drop );
+        }
+
         if( fx.count( "CUSTOM_EXPLOSION" ) > 0  ) {
             proj.set_custom_explosion( gun.ammo_data()->explosion );
         }
@@ -1451,14 +1467,14 @@ item::sound_data item::gun_noise( bool const burst ) const
 
     noise = std::max( noise, 0 );
 
-    if( ammo_type() == "40mm") {
+    if( ammo_type() == ammotype( "40mm" ) ) {
         return { 8, _( "Thunk!" ) };
 
     } else if( typeId() == "hk_g80") {
         return { 24, _( "tz-CRACKck!" ) };
 
-    } else if( ammo_type() == "gasoline" || ammo_type() == "66mm" ||
-               ammo_type() == "84x246mm" || ammo_type() == "m235" ) {
+    } else if( ammo_type() == ammotype( "gasoline" ) || ammo_type() == ammotype( "66mm" ) ||
+               ammo_type() == ammotype( "84x246mm" ) || ammo_type() == ammotype( "m235" ) ) {
         return { 4, _( "Fwoosh!" ) };
     }
 
@@ -1781,4 +1797,3 @@ double player::gun_value( const item &weap, long ammo ) const
              capacity_factor );
     return std::max( 0.0, gun_value );
 }
-

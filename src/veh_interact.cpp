@@ -293,7 +293,6 @@ task_reason veh_interact::cant_do (char mode)
     bool has_tools = false;
     bool part_free = true;
     bool has_skill = true;
-    bool pass_checks = false; // Used in refill only
 
     switch (mode) {
     case 'i': // install mode
@@ -316,30 +315,18 @@ task_reason veh_interact::cant_do (char mode)
         } );
         has_tools = true; // checked later
         break;
-    case 'f': // refill mode
-        if (!ptanks.empty()) {
-            std::vector<vehicle_part *>::iterator iter;
-            for (iter = ptanks.begin(); iter != ptanks.end(); ) {
-                if ((*iter)->hp > 0 &&
-                    g->refill_vehicle_part(*veh, *iter, true)) {
-                    pass_checks = true;
-                    iter++;
-                } else {
-                    iter = ptanks.erase(iter);
-                }
-            }
-            if(pass_checks) {
-                return CAN_DO;
-            }
-        }
 
-        // if refillable parts exist but can't be refilled for some reason.
-        if (has_ptank) {
-            return CANT_REFILL;
-        }
+    case 'f': {
+        auto opts = g->u.items_with( []( const item &e ) { return e.count_by_charges(); } );
 
-        // No refillable parts here (valid_target = false)
-        break;
+        // for each part on selected tile try to reload using found items
+        return std::any_of( parts_here.begin(), parts_here.end(), [&]( int idx ) {
+            return std::any_of( opts.begin(), opts.end(), [&]( const item *e ) {
+                return veh->parts[ idx ].can_reload( e->typeId() );
+            } );
+        } ) ? CAN_DO : CANT_REFILL;
+    }
+
     case 'o': // remove mode
         enough_morale = g->u.has_morale_to_craft();
         valid_target = cpart >= 0 && 0 == veh->tags.count("convertible");
@@ -957,6 +944,16 @@ void veh_interact::do_refill()
         break; // no reason, all is well
     }
 
+    std::vector<vehicle_part *> ptanks;
+    auto opts = g->u.items_with( []( const item &e ) { return e.is_ammo(); } );
+    for( auto idx : parts_here ) {
+        if( std::any_of( opts.begin(), opts.end(), [&]( const item *e ) {
+            return veh->parts[ idx ].can_reload( e->typeId() );
+        } ) ) {
+            ptanks.push_back( &veh->parts[ idx ] );
+        }
+    };
+
     if (ptanks.empty()) {
         debugmsg("veh_interact::do_refill: Refillable parts list is empty.\n"
                  "veh_interact::cant_do() should control this before.");
@@ -985,6 +982,8 @@ void veh_interact::do_refill()
     } else {
         sel_vehicle_part = ptanks.front();
     }
+
+    sel_vpart_info = &sel_vehicle_part->info();
     sel_cmd = 'f';
 }
 
@@ -1346,8 +1345,6 @@ void veh_interact::move_cursor (int dx, int dy)
 
     need_repair.clear();
     parts_here.clear();
-    ptanks.clear();
-    has_ptank = false;
     wheel = NULL;
     if (cpart >= 0) {
         parts_here = veh->parts_at_relative(veh->parts[cpart].mount.x, veh->parts[cpart].mount.y);
@@ -1356,10 +1353,6 @@ void veh_interact::move_cursor (int dx, int dy)
             const vpart_info &vpinfo = veh->part_info( p );
             if (veh->parts[p].hp < vpinfo.durability) {
                 need_repair.push_back (i);
-            }
-            if (veh->part_flag(p, "FUEL_TANK") && veh->parts[p].ammo_remaining() < veh->parts[p].ammo_capacity()) {
-                ptanks.push_back(&veh->parts[p]);
-                has_ptank = true;
             }
             if (veh->part_flag(p, "WHEEL")) {
                 wheel = &veh->parts[p];

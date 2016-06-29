@@ -36,8 +36,8 @@ material_type::material_type()
 {
     _ident = material_id( "null" );
     _name = "null";
-    _salvage_id = "null";
-    _salvage_multiplier = 1.0;
+    _salvaged_into = itype_id( "null" );
+    _repaired_with = itype_id( "" );
     _bash_resist = 0;
     _cut_resist = 0;
     _bash_dmg_verb = _( "damages" );
@@ -51,6 +51,7 @@ material_type::material_type()
     _fire_resist = 0;
     _chip_resist = 0;
     _density = 1;
+    _soft = false;
 }
 
 mat_burn_data load_mat_burn_data( JsonObject &jsobj )
@@ -71,8 +72,8 @@ void material_type::load_material( JsonObject &jsobj )
 
     mat._ident = material_id( jsobj.get_string( "ident" ) );
     mat._name = _( jsobj.get_string( "name" ).c_str() );
-    mat._salvage_id = jsobj.get_string( "salvage_id", "null" );
-    mat._salvage_multiplier = jsobj.get_float( "salvage_multiplier", 1.0 );
+    mat._salvaged_into = jsobj.get_string( "salvaged_into", "null" );
+    mat._repaired_with = jsobj.get_string( "repaired_with", "" );
     mat._bash_resist = jsobj.get_int( "bash_resist" );
     mat._cut_resist = jsobj.get_int( "cut_resist" );
     mat._bash_dmg_verb = _( jsobj.get_string( "bash_dmg_verb" ).c_str() );
@@ -83,6 +84,7 @@ void material_type::load_material( JsonObject &jsobj )
     mat._chip_resist = jsobj.get_int( "chip_resist" );
     mat._density = jsobj.get_int( "density" );
     mat._edible = jsobj.get_bool( "edible", false );
+    mat._soft = jsobj.get_bool( "soft", false );
 
     auto arr = jsobj.get_array( "vitamins" );
     while( arr.has_more() ) {
@@ -161,14 +163,14 @@ std::string material_type::name() const
     return _name;
 }
 
-std::string material_type::salvage_id() const
+itype_id material_type::salvaged_into() const
 {
-    return _salvage_id;
+    return _salvaged_into;
 }
 
-float material_type::salvage_multiplier() const
+itype_id material_type::repaired_with() const
 {
-    return _salvage_multiplier;
+    return _repaired_with;
 }
 
 int material_type::bash_resist() const
@@ -230,6 +232,11 @@ int material_type::density() const
 bool material_type::edible() const
 {
     return _edible;
+}
+
+bool material_type::soft() const
+{
+    return _soft;
 }
 
 const mat_burn_data &material_type::burn_data( size_t intensity ) const

@@ -37,6 +37,7 @@
 #include <queue>
 #include <math.h>
 #include <array>
+#include <numeric>
 
 /*
  * Speed up all those if ( blarg == "structure" ) statements that are used everywhere;
@@ -1460,14 +1461,20 @@ bool vehicle::start_engine( const int e )
 
 void vehicle::start_engines( const bool take_control )
 {
-    int has_engine = false;
-    int start_time = 0;
+    bool has_engine = std::any_of( engines.begin(), engines.end(), [&]( int idx ) {
+        return parts[ idx ].hp > 0 && parts[ idx ].enabled;
+    } );
 
-    // if we only have one engine automatically enable it when trying to start engines
-    if( engines.size() == 1 && parts[ engines.front() ].hp > 0 ) {
-        parts[ engines.front() ].enabled = true;
+    // if no engines enabled then enable all before trying to start the vehicle
+    if( !has_engine ) {
+        for( auto idx : engines ) {
+            if( parts[ idx ].hp > 0 ) {
+                parts[ idx ].enabled = true;
+            }
+        }
     }
 
+    int start_time = 0;
     for( size_t e = 0; e < engines.size(); ++e ) {
         has_engine = has_engine || is_engine_on( e );
         start_time = std::max( start_time, engine_start_time( e ) );
@@ -3953,14 +3960,14 @@ void vehicle::operate_reaper(){
         const int seed_produced = rng(1, 3);
         const int max_pickup_size = parts[reaper_id].info().size / 20;
         if( g->m.furn(reaper_pos) == f_plant_harvest ){
-            const itype &type = *g->m.i_at(reaper_pos).front().type;
-            if( type.id == "fungal_seeds" || type.id == "marloss_seed" ) {
+            const item& seed = g->m.i_at(reaper_pos).front();
+            if( seed.typeId() == "fungal_seeds" || seed.typeId() == "marloss_seed" ) {
                 // Otherworldly plants, the earth-made reaper can not handle those.
                 continue;
             }
             g->m.furn_set( reaper_pos, f_null );
             g->m.i_clear( reaper_pos );
-            for( auto &i : iexamine::get_harvest_items( type, plant_produced, seed_produced, false ) ) {
+            for( auto &i : iexamine::get_harvest_items( *seed.type, plant_produced, seed_produced, false ) ) {
                 g->m.add_item_or_charges( reaper_pos, i );
             }
             sounds::sound( reaper_pos, rng( 10, 25 ), _("Swish") );
@@ -5724,14 +5731,9 @@ int vehicle::damage_direct( int p, int dmg, damage_type type )
 
 void vehicle::leak_fuel( vehicle_part &pt )
 {
-    if( pt.ammo_remaining() <= 0 ) {
+    // only liquid fuels from non-empty tanks can leak out onto map tiles
+    if( !pt.is_tank() || pt.ammo_remaining() <= 0 ) {
         return;
-    }
-
-    // only liquid fuels can leak out onto map tiles
-    auto *fuel = item::find_type( pt.ammo_current() );
-    if( fuel->phase != LIQUID ) {
-        pt.ammo_unset();
     }
 
     // leak in random directions but prefer closest tiles and avoid walls or other obstacles
@@ -5742,6 +5744,7 @@ void vehicle::leak_fuel( vehicle_part &pt )
     } ), tiles.end() );
 
     // leak up to 1/3 ofremaining fuel per iteration and continue until the part is empty
+    auto *fuel = item::find_type( pt.ammo_current() );
     while( !tiles.empty() && pt.ammo_remaining() ) {
         int qty = pt.ammo_consume( rng( 0, std::max( pt.ammo_remaining() / 3, 1L ) ), global_part_pos3( pt ) );
         if( qty > 0 ) {
@@ -6154,6 +6157,29 @@ std::string vehicle_part::name() const {
     return res;
 }
 
+ammotype vehicle_part::ammo_type() const
+{
+    // @todo generic fuel tanks are not yet supported
+    if( is_tank() ) {
+        const itype *fuel = item::find_type( info().fuel_type );
+        return fuel->ammo ? fuel->ammo->type : ammotype( "NULL" );
+    }
+
+    if( is_battery() ) {
+        return base.ammo_type();
+    }
+
+    if( is_turret() ) {
+        return base.ammo_type();
+    }
+
+    if( base.typeId() == "minireactor" ) {
+        return base.ammo_type();
+    }
+
+    return ammotype( "NULL" );
+}
+
 itype_id vehicle_part::ammo_current() const
 {
     // @todo currently only support fuel tanks and batteries
@@ -6249,6 +6275,39 @@ long vehicle_part::ammo_consume( long qty, const tripoint& pos )
     return res;
 }
 
+bool vehicle_part::can_reload( const itype_id &obj )
+{
+    // first check part is not destroyed and can contain ammo
+    if( hp < 0 || ammo_capacity() <= 0 ) {
+        return false;
+    }
+
+    // If we are checking a specific item does it have an ammotype?
+    ammotype ammo = ammotype::NULL_ID;
+    if( !obj.empty() ) {
+         auto atype = item::find_type( obj );
+         if( atype->ammo ) {
+            ammo = atype->ammo->type;
+         }
+    }
+
+    // fuel tanks and reactors can be reloaded whereas batteries cannot
+    if( is_tank() || base.typeId() == "minireactor" ) {
+
+        if( obj.empty() || ammo_current() == obj ||
+            ( ammo_current() == "null" && ammo_type() == ammo ) ) {
+            return ammo_remaining() < ammo_capacity();
+        }
+
+    } else if( is_turret() ) {
+        // @todo not yet implemented
+        return false;
+    }
+
+    return false;
+}
+
+
 const std::set<fault_id>& vehicle_part::faults() const
 {
     return base.faults;
@@ -6288,6 +6347,26 @@ bool vehicle_part::is_light() const
            vp.has_flag( VPFLAG_AISLE_LIGHT ) ||
            vp.has_flag( VPFLAG_DOME_LIGHT ) ||
            vp.has_flag( VPFLAG_ATOMIC_LIGHT );
+}
+
+bool vehicle_part::is_tank() const
+{
+    if( !info().has_flag( VPFLAG_FUEL_TANK ) ) {
+        return false;
+    }
+
+    auto *fuel = item::find_type( info().fuel_type );
+    return fuel->phase == LIQUID;
+}
+
+bool vehicle_part::is_battery() const
+{
+    return base.is_magazine() && base.ammo_type() == "battery";
+}
+
+bool vehicle_part::is_turret() const
+{
+    return base.is_gun();
 }
 
 const vpart_info &vehicle_part::info() const

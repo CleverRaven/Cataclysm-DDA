@@ -13,6 +13,7 @@
 #include "sounds.h"
 #include "monattack.h"
 #include "mondefense.h"
+#include "projectile.h"
 #include "iuse_actor.h"
 #include "weighted_list.h"
 #include "mongroup.h"
@@ -202,7 +203,7 @@ bool mattack::antqueen(monster *z)
 
         if( g->is_empty( dest ) && g->m.has_items( dest ) ) {
             for( auto &i : g->m.i_at( dest ) ) {
-                if( i.type->id == "ant_egg" ) {
+                if( i.typeId() == "ant_egg" ) {
                     egg_points.push_back( dest );
                     // Done looking at this tile
                     break;
@@ -235,7 +236,7 @@ bool mattack::antqueen(monster *z)
         for( auto &i : egg_points ) {
             auto eggs = g->m.i_at( i );
             for( size_t j = 0; j < eggs.size(); j++ ) {
-                if( eggs[j].type->id != "ant_egg" ) {
+                if( eggs[j].typeId() != "ant_egg" ) {
                     continue;
                 }
                 g->m.i_rem( i, j );
@@ -3174,7 +3175,7 @@ bool mattack::copbot(monster *z)
     // TODO: Make it recognize zeds as human, but ignore animals
     player *foe = dynamic_cast<player*>( target );
     bool sees_u = foe != nullptr && z->sees( *foe );
-    bool cuffed = foe != nullptr && foe->weapon.type->id == "e_handcuffs";
+    bool cuffed = foe != nullptr && foe->weapon.typeId() == "e_handcuffs";
     // Taze first, then ask questions (simplifies later checks for non-humans)
     if( !cuffed && is_adjacent( z, target, true ) ) {
         taze( z, target );
@@ -3536,7 +3537,7 @@ bool mattack::stretch_bite(monster *z)
             z->add_effect( effect_stunned, 6);
             target->add_msg_player_or_npc( _("The %1$s stretches its head at you, but bounces off the %2$s"),
                                            _("The %1$s stretches its head at <npcname>, but bounces off the %2$s"),
-                                           z->name().c_str(), g->m.disp_name( pnt ).c_str() );
+                                           z->name().c_str(), g->m.obstacle_name( pnt ).c_str() );
             return true;
         }
     }
@@ -3758,7 +3759,7 @@ bool mattack::longswipe(monster *z)
             }
             target->add_msg_player_or_npc( _( "The %1$s thrusts a claw at you, but it bounces off the %2$s!" ),
                                            _( "The %1$s thrusts a claw at <npcname>, but it bounces off the %2$s!" ),
-                                           z->name().c_str(), g->m.disp_name( pnt ).c_str() );
+                                           z->name().c_str(), g->m.obstacle_name( pnt ).c_str() );
             z->mod_moves( -150 );
             return true;
         }
@@ -4032,7 +4033,7 @@ bool mattack::riotbot(monster *z)
     //already arrested?
     //and yes, if the player has no hands, we are not going to arrest him.
     if( foe != nullptr &&
-        ( foe->weapon.type->id == "e_handcuffs" || !foe->has_two_arms() ) ) {
+        ( foe->weapon.typeId() == "e_handcuffs" || !foe->has_two_arms() ) ) {
         z->anger = 0;
 
         if( calendar::once_every(25) ) {
@@ -4343,8 +4344,7 @@ bool mattack::kamikaze(monster *z)
         if (z->get_effect( effect_countdown).get_duration() == 1) {
             z->die(nullptr);
             // Timer is out, detonate
-            item i_explodes(act_bomb_type->id, 0);
-            i_explodes.charges = 0;
+            item i_explodes( act_bomb_type, calendar::turn, 0 );
             i_explodes.active = true;
             i_explodes.process(nullptr, z->pos(), false);
             return false;
@@ -4614,7 +4614,7 @@ bool mattack::stretch_attack(monster *z)
     for( auto &pnt : g->m.find_clear_path( z->pos(), target->pos() ) ) {
             if( g->m.impassable( pnt ) ) {
                 add_msg( _( "The %1$s thrusts its arm at you but bounces off the %2$s" ), z->name().c_str(),
-                         g->m.disp_name( pnt ).c_str() );
+                         g->m.obstacle_name( pnt ).c_str() );
                 return true;
             }
     }

@@ -9,6 +9,7 @@
 #include "line.h"
 #include "options.h"
 #include "item_factory.h"
+#include "projectile.h"
 #include "mapbuffer.h"
 #include "translations.h"
 #include "sounds.h"
@@ -318,15 +319,15 @@ void map::update_vehicle_list( submap *const to, const int zlev )
     }
 }
 
-void map::destroy_vehicle (vehicle *veh)
+std::unique_ptr<vehicle> map::detach_vehicle( vehicle *veh )
 {
     if( veh == nullptr ) {
-        debugmsg("map::destroy_vehicle was passed NULL");
-        return;
+        debugmsg("map::detach_vehicle was passed nullptr");
+        return std::unique_ptr<vehicle>();
     }
 
     if( veh->smz < -OVERMAP_DEPTH && veh->smz > OVERMAP_HEIGHT ) {
-        debugmsg( "destroy_vehicle got a vehicle outside allowed z-level range! name=%s, submap:%d,%d,%d",
+        debugmsg( "detach_vehicle got a vehicle outside allowed z-level range! name=%s, submap:%d,%d,%d",
                   veh->name.c_str(), veh->smx, veh->smy, veh->smz );
         // Try to fix by moving the vehicle here
         veh->smz = abs_sub.z;
@@ -344,11 +345,16 @@ void map::destroy_vehicle (vehicle *veh)
                 overmap_buffer.remove_vehicle( veh );
             }
             dirty_vehicle_list.erase(veh);
-            delete veh;
-            return;
+            return std::unique_ptr<vehicle>( veh );
         }
     }
-    debugmsg( "destroy_vehicle can't find it! name=%s, submap:%d,%d,%d", veh->name.c_str(), veh->smx, veh->smy, veh->smz );
+    debugmsg( "detach_vehicle can't find it! name=%s, submap:%d,%d,%d", veh->name.c_str(), veh->smx, veh->smy, veh->smz );
+    return std::unique_ptr<vehicle>();
+}
+
+void map::destroy_vehicle( vehicle *veh )
+{
+    detach_vehicle( veh );
 }
 
 void map::on_vehicle_moved( const int smz ) {
@@ -1583,6 +1589,19 @@ std::string map::name( const tripoint &p )
 std::string map::disp_name( const tripoint &p )
 {
     return string_format( _("the %s"), name( p ).c_str() );
+}
+
+std::string map::obstacle_name( const tripoint &p )
+{
+    int part;
+    const vehicle *veh = veh_at( p, part );
+    if( veh ) {
+        part = veh->obstacle_at_part( part );
+        if( part > 0 ) {
+            return veh->parts[part].info().name();
+        }
+    }
+    return name( p );
 }
 
 bool map::has_furn( const tripoint &p ) const
@@ -4718,11 +4737,16 @@ item &map::add_item_at( const tripoint &p,
 item map::water_from( const tripoint &p )
 {
     if( has_flag( "SALT_WATER", p ) ) {
-        item ret( "salt_water", 0, item::INFINITE_CHARGES );
-        return ret;
+        return item( "salt_water", 0, item::INFINITE_CHARGES );
     }
 
     const ter_id terrain_id = g->m.ter( p );
+    if( terrain_id == t_sewage ) {
+        item ret( "water_sewage", 0, item::INFINITE_CHARGES );
+        ret.poison = rng( 1, 7 );
+        return ret;
+    }
+
     item ret( "water", 0, item::INFINITE_CHARGES );
     if( terrain_id == t_water_sh ) {
         if( one_in( 3 ) ) {
@@ -4734,10 +4758,6 @@ item map::water_from( const tripoint &p )
         if( one_in( 4 ) ) {
             ret.poison = rng( 1, 4 );
         }
-        return ret;
-    }
-    if( terrain_id == t_sewage ) {
-        ret.poison = rng( 1, 7 );
         return ret;
     }
     // iexamine::water_source requires a valid liquid from this function.
@@ -5121,14 +5141,14 @@ void use_charges_from_furn( const furn_t &f, const itype_id &type, long &quantit
         return;
     }
 
-
     const itype *itt = f.crafting_pseudo_item_type();
-    if( itt != nullptr && itt->tool && itt->tool->ammo_id != "NULL" ) {
+    if( itt != nullptr && itt->tool && itt->tool->ammo_id ) {
         const itype_id ammo = default_ammo( itt->tool->ammo_id );
         auto stack = m->i_at( p );
-        auto iter = std::find_if( stack.begin(), stack.end(), [ammo]( const item &i ) { return i.typeId() == ammo; } );
+        auto iter = std::find_if( stack.begin(), stack.end(),
+                                  [ammo]( const item &i ) { return i.typeId() == ammo; } );
         if( iter != stack.end() ) {
-            item furn_item( itt->id, -1, iter->charges );
+            item furn_item( itt, -1, iter->charges );
             // The item constructor limits the charges to the (type specific) maximum.
             // Setting it separately circumvents that - syncron with the code that creates
             // the pseudo item (and fills its charges) in inventory.cpp
@@ -5186,7 +5206,7 @@ std::list<item> map::use_charges(const tripoint &origin, const int range,
         const int cargo = veh->part_with_feature(vpart, "CARGO");
 
         if (kpart >= 0) { // we have a faucet, now to see what to drain
-            ammotype ftype = "NULL";
+            itype_id ftype = "null";
 
             if (type == "water_clean") {
                 ftype = "water_clean";
@@ -5208,7 +5228,7 @@ std::list<item> map::use_charges(const tripoint &origin, const int range,
         }
 
         if (weldpart >= 0) { // we have a weldrig, now to see what to drain
-            ammotype ftype = "NULL";
+            itype_id ftype = "null";
 
             if (type == "welder") {
                 ftype = "battery";
@@ -5227,7 +5247,7 @@ std::list<item> map::use_charges(const tripoint &origin, const int range,
         }
 
         if (craftpart >= 0) { // we have a craftrig, now to see what to drain
-            ammotype ftype = "NULL";
+            itype_id ftype = "null";
 
             if (type == "press") {
                 ftype = "battery";
@@ -5248,7 +5268,7 @@ std::list<item> map::use_charges(const tripoint &origin, const int range,
         }
 
         if (forgepart >= 0) { // we have a veh_forge, now to see what to drain
-            ammotype ftype = "NULL";
+            itype_id ftype = "null";
 
             if (type == "forge") {
                 ftype = "battery";
@@ -5265,7 +5285,7 @@ std::list<item> map::use_charges(const tripoint &origin, const int range,
         }
 
         if (chempart >= 0) { // we have a chem_lab, now to see what to drain
-            ammotype ftype = "NULL";
+            itype_id ftype = "null";
 
             if (type == "chemistry_set") {
                 ftype = "battery";
@@ -5343,9 +5363,7 @@ static bool trigger_radio_item( item_stack &items, std::list<item>::iterator &n,
                n->contents.front().has_flag( signal ) ) {
         // A bomb is the only thing meaningfully placed in a container,
         // If that changes, this needs logic to handle the alternative.
-        itype_id bomb_type = n->contents.front().type->id;
-
-        n->convert( bomb_type );
+        n->convert( n->contents.front().typeId() );
         if( n->has_flag("RADIO_INVOKE_PROC") ) {
             n->process( nullptr, pos, true );
         }
@@ -7078,8 +7096,7 @@ void map::produce_sap( const tripoint &p, int time_since_last_actualize )
                 sap.poison = one_in( 10 ) ? 1 : 0;
                 sap.charges = new_charges;
 
-                std::string err;
-                it.fill_with( sap, err, true );
+                it.fill_with( sap );
             }
             // Only fill up the first container.
             break;

@@ -17,6 +17,10 @@
 #include <bitset>
 #include <memory>
 
+#ifndef gettext_noop
+#define gettext_noop(x) x
+#endif
+
 // see item.h
 class item_category;
 class Item_factory;
@@ -34,19 +38,20 @@ enum art_effect_passive : int;
 class material_type;
 using material_id = string_id<material_type>;
 typedef std::string itype_id;
-typedef std::string ammotype;
+class ammunition_type;
+using ammotype = string_id<ammunition_type>;
 class fault;
 using fault_id = string_id<fault>;
 struct quality;
 using quality_id = string_id<quality>;
 
 // Returns the name of a category of ammo (e.g. "shot")
-std::string ammo_name(std::string const &t);
+std::string ammo_name( const ammotype &ammo );
 // Returns the default ammo for a category of ammo (e.g. ""00_shot"")
-std::string const& default_ammo(std::string const &guntype);
+const itype_id &default_ammo( const ammotype &ammo );
 
 struct islot_tool {
-    std::string ammo_id = "NULL";
+    ammotype ammo_id = NULL_ID;
 
     itype_id revert_to = "null";
     std::string revert_msg;
@@ -305,7 +310,7 @@ struct islot_gun : common_ranged_data {
     /**
      * What type of ammo this gun uses.
      */
-    ammotype ammo = "NULL";
+    ammotype ammo = NULL_ID;
     /**
      * Gun durability, affects gun being damaged during shooting.
      */
@@ -321,7 +326,7 @@ struct islot_gun : common_ranged_data {
     /**
      * Noise displayed when reloading the weapon.
      */
-    std::string reload_noise = "click.";
+    std::string reload_noise = gettext_noop( "click." );
     /**
      * Volume of the noise made when reloading this weapon.
      */
@@ -381,7 +386,7 @@ struct islot_gunmod : common_ranged_data {
     std::set<ammotype> acceptable_ammo;
 
     /** If changed from the default of "NULL" modifies parent guns ammo to this type */
-    ammotype ammo_modifier = "NULL";
+    ammotype ammo_modifier = NULL_ID;
 
     /** @todo add documentation */
     int sight_dispersion = -1;
@@ -407,7 +412,7 @@ struct islot_gunmod : common_ranged_data {
 
 struct islot_magazine {
     /** What type of ammo this magazine can be loaded with */
-    std::string type = "NULL";
+    ammotype type = NULL_ID;
 
     /** Capacity of magazine (in equivalent units to ammo charges) */
     int capacity = 0;
@@ -434,9 +439,8 @@ struct islot_magazine {
 struct islot_ammo : common_ranged_data {
     /**
      * Ammo type, basically the "form" of the ammo that fits into the gun/tool.
-     * This is an id, it can be looked up in the @ref ammunition_type class.
      */
-    std::string type;
+    ammotype type;
     /**
      * Type id of casings, can be "null" for no casings at all.
      */
@@ -537,10 +541,6 @@ class copyable_unique_ptr : public std::unique_ptr<T> {
 struct itype {
     friend class Item_factory;
 
-    // unique string identifier for this item,
-    // can be used as lookup key in master itype map
-    // Used for save files; aligns to itype_id above.
-    std::string id;
     /**
      * Slots for various item type properties. Each slot may contain a valid pointer or null, check
      * this before using it.
@@ -563,12 +563,16 @@ struct itype {
     copyable_unique_ptr<islot_seed> seed;
     copyable_unique_ptr<islot_artifact> artifact;
     /*@}*/
+
 protected:
+    std::string id; /** unique string identifier for this type */
+
     // private because is should only be accessed through itype::nname!
     // name and name_plural are not translated automatically
     // nname() is used for display purposes
     std::string name;        // Proper name, singular form, in American English.
     std::string name_plural; // name, plural form, in American English.
+
 public:
     std::string snippet_category;
     std::string description; // Flavor text
@@ -659,6 +663,11 @@ public:
     // Returns the name of the item type in the correct language and with respect to its grammatical number,
     // based on quantity (example: item type “anvil”, nname(4) would return “anvils” (as in “4 anvils”).
     std::string nname(unsigned int quantity) const;
+
+    // Allow direct access to the type id for the few cases that need it.
+    itype_id get_id() const {
+        return id;
+    }
 
     bool count_by_charges() const
     {

@@ -145,7 +145,8 @@
       [ "mosin91_30", 25 ],
       [ "ruger_1022", 70 ],
       [ "ruger_mini", 60 ],
-      [ "sks", 40 ]
+      [ "sks", 40 ],
+      [ "win70", 15 ]
     ]
   },
   {
@@ -167,7 +168,8 @@
       [ "mosin44_ebr", 10 ],
       [ "mosin91_30_ebr", 20 ],
       [ "remington_700", 20 ],
-      [ "savage_111f", 15 ]
+      [ "savage_111f", 15 ],
+      [ "weatherby_5", 15 ]
     ]
   },
   {
@@ -271,6 +273,43 @@
   },
   {
     "type": "item_group",
+    "id": "guns_launcher_grenade",
+    "//": "Factory manufactured grenade launchers (excludes improvised weapons)",
+    "items": [
+      [ "m320", 75 ],
+      [ "m79", 100 ],
+      [ "mark19", 10 ],
+      [ "mgl", 25 ],
+      [ "rm802", 15 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "guns_launcher_rocket",
+    "//": "Factory manufactured rocket launchers (excludes improvised weapons)",
+    "items": [
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "guns_launcher_milspec",
+    "//": "Factory manufactured grenade and rocket launchers (excludes improvised weapons)",
+    "items": [
+      { "group": "guns_launcher_grenade", "prob": 70 },
+      { "group": "guns_launcher_rocket", "prob": 30 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "guns_launcher_improvised",
+    "//": "Makeshift or otherwise poor quality grenade and rocket launchers",
+    "items": [
+      [ "launcher_simple", 100 ],
+      [ "triple_launcher_simple", 15 ]
+    ]
+  },
+  {
+    "type": "item_group",
     "id": "guns_common",
     "//": "Guns of all types commonly owned by citizens and found in many locations.",
     "items": [
@@ -299,7 +338,8 @@
       { "group": "guns_pistol_milspec", "prob": 50 },
       { "group": "guns_smg_milspec", "prob": 25 },
       { "group": "guns_rifle_milspec", "prob": 100 },
-      { "group": "guns_shotgun_milspec", "prob": 25 }
+      { "group": "guns_shotgun_milspec", "prob": 25 },
+      { "group": "guns_launcher_milspec", "prob": 10 }
     ]
   },
   {
@@ -321,7 +361,8 @@
       { "group": "guns_pistol_improvised", "prob": 80 },
       { "group": "guns_smg_improvised", "prob": 10 },
       { "group": "guns_rifle_improvised", "prob": 100 },
-      { "group": "guns_shotgun_improvised", "prob": 100 }
+      { "group": "guns_shotgun_improvised", "prob": 100 },
+      { "group": "guns_launcher_improvised", "prob": 30 }
     ]
   },
   {

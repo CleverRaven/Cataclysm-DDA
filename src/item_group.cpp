@@ -191,8 +191,8 @@ void Item_modifier::modify(item &new_item) const
         } else if( new_item.is_tool() ) {
             const auto qty = std::min( ch, new_item.ammo_capacity() );
             new_item.charges = qty;
-            if( new_item.ammo_type() != "NULL" && qty > 0 ) {
-                new_item.ammo_set( new_item.ammo_type(), qty );
+            if( new_item.ammo_type() && qty > 0 ) {
+                new_item.ammo_set( default_ammo( new_item.ammo_type() ), qty );
             }
         } else if( !new_item.is_gun() ) {
             //not gun, food, ammo or tool.
@@ -203,8 +203,8 @@ void Item_modifier::modify(item &new_item) const
     if( new_item.is_gun() && ( ammo.get() != nullptr || ch > 0 ) ) {
         if( ammo.get() == nullptr ) {
             // In case there is no explicit ammo item defined, use the default ammo
-            if( new_item.ammo_type() != "NULL" ) {
-                new_item.ammo_set( new_item.ammo_type(), ch );
+            if( new_item.ammo_type() ) {
+                new_item.ammo_set( default_ammo( new_item.ammo_type() ), ch );
             }
         } else {
             // Prefer explicit charges of the gun, else take the charges of the ammo item,

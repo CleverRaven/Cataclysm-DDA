@@ -69,16 +69,18 @@ void iexamine::gaspump(player &p, const tripoint &examp)
             ///\EFFECT_DEX decreases chance of spilling gas from a pump
             if( one_in(10 + p.get_dex()) ) {
                 add_msg(m_bad, _("You accidentally spill the %s."), item_it->type_name().c_str());
-                item spill( item_it->typeId(), calendar::turn );
-                const int spill_min = item_it->liquid_charges( 1 );
                 ///\EFFECT_DEX decreases amount of gas spilled from a pump
-                const int spill_max = item_it->liquid_charges( 1 ) * 8.0 / std::max( 1, p.get_dex() );
-                spill.charges = rng( spill_min, spill_max );
-                g->m.add_item_or_charges( p.pos(), spill, 1 );
-                item_it->charges -= spill.charges;
-                if( item_it->charges < 1 ) {
+                const int qty = rng( item_it->liquid_charges( 1 ),
+                                     item_it->liquid_charges( 1 ) * 8.0 / std::max( 1, p.get_dex() ) );
+
+                item spill = item_it->split( qty );
+                if( spill.is_null() ) {
+                    g->m.add_item_or_charges( p.pos(), *item_it, 1 );
                     items.erase( item_it );
+                } else {
+                    g->m.add_item_or_charges( p.pos(), spill, 1 );
                 }
+
             } else {
                 g->handle_liquid_from_ground( item_it, examp );
             }
@@ -335,7 +337,7 @@ private:
         }
 
         for (auto &i : u.inv_dump()) {
-            if( i == dst || i->charges <= 0 || i->type->id != "cash_card" ) {
+            if( i == dst || i->charges <= 0 || i->typeId() != "cash_card" ) {
                 continue;
             }
             if( u.moves < 0 ) {
@@ -1129,7 +1131,7 @@ void iexamine::pedestal_temple(player &p, const tripoint &examp)
 {
 
     if (g->m.i_at(examp).size() == 1 &&
-        g->m.i_at(examp)[0].type->id == "petrified_eye") {
+        g->m.i_at(examp)[0].typeId() == "petrified_eye") {
         add_msg(_("The pedestal sinks into the ground..."));
         g->m.ter_set(examp, t_dirt);
         g->m.i_clear(examp);
@@ -1562,7 +1564,9 @@ std::list<item> iexamine::get_harvest_items( const itype &type, const int plant_
         return result;
     }
     const islot_seed &seed_data = *type.seed;
-    const itype_id &seed_type = type.id;
+    // This is a temporary measure, itype should instead provide appropriate accessors
+    // to expose data about the seed item to allow harvesting to function.
+    const itype_id &seed_type = type.get_id();
 
     const auto add = [&]( const itype_id &id, const int count ) {
         item new_item( id, calendar::turn );
@@ -2349,7 +2353,7 @@ void iexamine::tree_maple_tapped(player &p, const tripoint &examp)
         if( it.is_bucket() || it.is_watertight_container() ) {
             has_container = true;
 
-            if( !it.is_container_empty() && it.contents.front().type->id == "maple_sap" ) {
+            if( !it.is_container_empty() && it.contents.front().typeId() == "maple_sap" ) {
                 has_sap = true;
                 charges = it.contents.front().charges;
             }
@@ -2416,7 +2420,7 @@ void iexamine::tree_maple_tapped(player &p, const tripoint &examp)
             for( auto &it : items ) {
                 if( ( it.is_bucket() || it.is_watertight_container() ) && !it.is_container_empty() ) {
                     auto &liquid = it.contents.front();
-                    if( liquid.type->id == "maple_sap" ) {
+                    if( liquid.typeId() == "maple_sap" ) {
                         g->handle_liquid_from_container( it, PICKUP_RANGE );
                     }
                 }
@@ -2691,7 +2695,7 @@ const itype * furn_t::crafting_pseudo_item_type() const
 const itype *furn_t::crafting_ammo_item_type() const
 {
     const itype *pseudo = crafting_pseudo_item_type();
-    if( pseudo->tool && pseudo->tool->ammo_id != "NULL" ) {
+    if( pseudo->tool && !pseudo->tool->ammo_id.is_null() ) {
         return item::find_type( default_ammo( pseudo->tool->ammo_id ) );
     }
     return nullptr;
@@ -2726,7 +2730,7 @@ void iexamine::reload_furniture(player &p, const tripoint &examp)
     if( max_reload_amount <= 0 ) {
         return;
     }
-    const int amount_in_inv = p.charges_of( ammo->id );
+    const int amount_in_inv = p.charges_of( ammo->get_id() );
     if( amount_in_inv == 0 ) {
         //~ Reloading or restocking a piece of furniture, for example a forge.
         add_msg(m_info, _("You need some %1$s to reload this %2$s."), ammo->nname(2).c_str(), f.name.c_str());
@@ -2742,7 +2746,7 @@ void iexamine::reload_furniture(player &p, const tripoint &examp)
     if (amount <= 0 || amount > max_amount) {
         return;
     }
-    p.use_charges( ammo->id, amount );
+    p.use_charges( ammo->get_id(), amount );
     auto items = g->m.i_at(examp);
     for( auto & itm : items ) {
         if( itm.type == ammo ) {
@@ -2752,8 +2756,7 @@ void iexamine::reload_furniture(player &p, const tripoint &examp)
         }
     }
     if (amount != 0) {
-        item it(ammo->id, 0);
-        it.charges = amount;
+        item it( ammo, calendar::turn, amount );
         g->m.add_item( examp, it );
     }
     add_msg(_("You reload the %s."), g->m.furnname(examp).c_str());
@@ -3005,8 +3008,7 @@ static bool toPumpFuel(const tripoint &src, const tripoint &dst, long units)
 
             item_it->charges -= amount;
 
-            item liq_d(item_it->type->id, calendar::turn);
-            liq_d.charges = amount;
+            item liq_d( item_it->type, calendar::turn, amount );
 
             ter_t backup_pump = g->m.ter_at(dst);
             g->m.ter_set( dst, NULL_ID );
@@ -3034,8 +3036,7 @@ static long fromPumpFuel(const tripoint &dst, const tripoint &src)
     for( auto item_it = items.begin(); item_it != items.end(); ++item_it ) {
         if( item_it->made_of(LIQUID)) {
             // how much do we have in the pump?
-            item liq_d(item_it->type->id, calendar::turn);
-            liq_d.charges = item_it->charges;
+            item liq_d( item_it->type, calendar::turn, item_it->charges );
 
             // add the charges to the destination
             ter_t backup_tank = g->m.ter_at(dst);

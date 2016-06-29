@@ -82,6 +82,7 @@
 #include "recipe_dictionary.h"
 #include "cata_utility.h"
 #include "pathfinding.h"
+#include "projectile.h"
 #include "gates.h"
 #include "item_factory.h"
 #include "scent_map.h"
@@ -2301,7 +2302,7 @@ void game::rcdrive(int dx, int dy)
     auto rc_pairs = m.get_rc_items( cx, cy, cz );
     auto rc_pair = rc_pairs.begin();
     for( ; rc_pair != rc_pairs.end(); ++rc_pair ) {
-        if( rc_pair->second->type->id == "radio_car_on" && rc_pair->second->active ) {
+        if( rc_pair->second->typeId() == "radio_car_on" && rc_pair->second->active ) {
             break;
         }
     }
@@ -2759,17 +2760,10 @@ bool game::handle_action()
             zones_manager();
             break;
 
-        case ACTION_INVENTORY: {
-            int cMenu = ' ';
-            int position = INT_MIN;
-            do {
-                position = inv( position );
-                cMenu = inventory_item_menu(position);
-            } while (cMenu == ' ' || cMenu == '.' || cMenu == 'q' || cMenu == '\n' ||
-                     cMenu == KEY_ESCAPE || cMenu == KEY_LEFT || cMenu == '=');
+        case ACTION_INVENTORY:
+            interactive_inv();
             refresh_all();
-        }
-        break;
+            break;
 
         case ACTION_COMPARE:
             compare();
@@ -3911,7 +3905,7 @@ void game::debug()
         case 5: {
             npc *temp = new npc();
             temp->normalize();
-            temp->randomize( NC_NONE );
+            temp->randomize();
             temp->spawn_at( get_levx(), get_levy(), get_levz() );
             temp->setx( u.posx() - 4 );
             temp->sety( u.posy() - 4 );
@@ -4071,7 +4065,7 @@ void game::debug()
 
                 enum { D_SKILLS, D_STATS, D_ITEMS, D_DELETE_ITEMS, D_ITEM_WORN,
                        D_HP, D_PAIN, D_NEEDS, D_HEALTHY, D_STATUS, D_MISSION, D_TELE,
-                       D_MUTATE
+                       D_MUTATE, D_CLASS
                      };
                 nmenu.addentry( D_SKILLS, true, 's', "%s", _( "Edit [s]kills" ) );
                 nmenu.addentry( D_STATS, true, 't', "%s", _( "Edit s[t]ats" ) );
@@ -4088,6 +4082,7 @@ void game::debug()
                 nmenu.addentry( D_TELE, true, 'e', "%s", _( "t[e]leport" ) );
                 if( p.is_npc() ) {
                     nmenu.addentry( D_MISSION, true, 'm', "%s", _( "Add [m]ission" ) );
+                    nmenu.addentry( D_CLASS, true, 'c', "%s", _( "Randomize with [c]lass" ) );
                 }
                 nmenu.addentry( 999, true, 'q', "%s", _( "[q]uit" ) );
                 nmenu.selected = 0;
@@ -4299,6 +4294,25 @@ void game::debug()
                             if( p.is_player() ) {
                                 update_map( &u );
                             }
+                        }
+                    }
+                    break;
+                    case D_CLASS: {
+                        uimenu classes;
+                        classes.return_invalid = true;
+                        classes.text = _( "Choose new class" );
+                        std::vector<npc_class_id> ids;
+                        size_t i = 0;
+                        for( auto &cl : npc_class::get_all() ) {
+                            ids.push_back( cl.id );
+                            classes.addentry( i, true, -1, cl.get_name() );
+                            i++;
+                        }
+
+                        classes.addentry( INT_MAX, true, -1, _( "Cancel" ) );
+                        classes.query();
+                        if( classes.ret < (int)ids.size() && classes.ret >= 0 ) {
+                            np->randomize( ids[ classes.ret ] );
                         }
                     }
                 }
@@ -6785,7 +6799,7 @@ void game::emp_blast( const tripoint &p )
         }
         // TODO: More effects?
         //e-handcuffs effects
-        if (u.weapon.type->id == "e_handcuffs" && u.weapon.charges > 0){
+        if (u.weapon.typeId() == "e_handcuffs" && u.weapon.charges > 0){
             u.weapon.item_tags.erase("NO_UNWIELD");
             u.weapon.charges = 0;
             u.weapon.active = false;
@@ -6794,7 +6808,7 @@ void game::emp_blast( const tripoint &p )
     }
     // Drain any items of their battery charge
     for( auto it = m.i_at( x, y ).begin(); it != m.i_at( x, y ).end(); ++it ) {
-        if( it->is_tool() && it->ammo_type() == "battery" ) {
+        if( it->is_tool() && it->ammo_type() == ammotype( "battery" ) ) {
             it->charges = 0;
         }
     }
@@ -7255,7 +7269,7 @@ void game::close( const tripoint &closep )
 
 void game::smash()
 {
-    const int move_cost = int(u.weapon.is_null() ? 80 : u.weapon.attack_time() * 0.8);
+    const int move_cost = u.is_armed() ? 80 : u.weapon.attack_time() * 0.8;
     bool didit = false;
     ///\EFFECT_STR increases smashing capability
     int smashskill = int(u.str_cur + u.weapon.type->melee_dam);
@@ -10437,11 +10451,11 @@ void game::drop(std::vector<item> &dropped, std::vector<item> &dropped_worn,
 
     bool can_move_there = m.passable(dir);
 
-    itype_id first = itype_id(dropped[0].type->id);
+    itype_id first = dropped[0].typeId();
     bool same = true;
     for (std::vector<item>::iterator it = dropped.begin() + 1;
          it != dropped.end() && same; ++it) {
-        if (it->type->id != first) {
+        if (it->typeId() != first) {
             same = false;
         }
     }
@@ -10749,11 +10763,10 @@ bool game::plfire( const tripoint &default_target )
         if( gun->get_gun_ups_drain() > 0 ) {
             const int ups_drain       = gun->get_gun_ups_drain();
             const int adv_ups_drain   = std::max( 1, ups_drain * 3 / 5 );
-            const int bio_power_drain = std::max( 1, ups_drain / 5 );
 
             if( !( u.has_charges( "UPS_off", ups_drain ) ||
                    u.has_charges( "adv_UPS_off", adv_ups_drain ) ||
-                   (u.has_active_bionic( "bio_ups" ) && u.power_level >= bio_power_drain ) ) ) {
+                   (u.has_active_bionic( "bio_ups" ) && u.power_level >= ups_drain ) ) ) {
                 add_msg( m_info,
                          _("You need a UPS with at least %d charges or an advanced UPS with at least %d charges to fire that!"),
                          ups_drain, adv_ups_drain );
@@ -10903,7 +10916,7 @@ void game::butcher()
             continue;
         }
 
-        const recipe *cur_recipe = get_disassemble_recipe(items[i].type->id);
+        const recipe *cur_recipe = get_disassemble_recipe(items[i].typeId());
         if( cur_recipe == nullptr && !items[i].is_book() ) {
             continue;
         }
@@ -10934,7 +10947,7 @@ void game::butcher()
 
         if( first_item_without_tools != nullptr ) {
             add_msg( m_info, _("You don't have the necessary tools to disassemble any items here.") );
-            const recipe *cur_recipe = get_disassemble_recipe( first_item_without_tools->type->id );
+            const recipe *cur_recipe = get_disassemble_recipe( first_item_without_tools->typeId() );
             // Just for the "You need x to disassemble y" messages
             u.can_disassemble( *first_item_without_tools, cur_recipe, crafting_inv, true );
         }
@@ -11095,7 +11108,7 @@ void game::eat(int pos)
 
     // Can consume items from inventory or within one tile (including in vehicles)
     auto item_loc = inv_map_splice( [&]( const item &it ) {
-        if( it.type->id == "1st_aid" ) {
+        if( it.typeId() == "1st_aid" ) {
             return false; // temporary fix for #12991
         }
         return it.made_of( SOLID ) && (it.is_food( &u ) || it.is_food_container( &u ) );
@@ -11321,7 +11334,7 @@ bool game::unload( item &it )
     item *target = opts.size() > 1 ? opts[ ( uimenu( false, _("Unload what?"), msgs ) ) - 1 ] : &it;
 
     // Next check for any reasons why the item cannot be unloaded
-    if( target->ammo_type() == "NULL" || target->ammo_capacity() <= 0 ) {
+    if( !target->ammo_type() || target->ammo_capacity() <= 0 ) {
         add_msg( m_info, _("You can't unload a %s!"), target->tname().c_str() );
         return false;
     }
@@ -11382,7 +11395,7 @@ bool game::unload( item &it )
     } else {
         long qty = target->ammo_remaining();
 
-        if( target->ammo_type() == "plutonium" ) {
+        if( target->ammo_type() == ammotype( "plutonium" ) ) {
             qty = target->ammo_remaining() / PLUTONIUM_CHARGES;
             if( qty > 0 ) {
                 add_msg( _( "You recover %i unused plutonium." ), qty );
@@ -11410,11 +11423,11 @@ bool game::unload( item &it )
         // If successful remove appropriate qty of ammo consuming half as much time as required to load it
         u.moves -= u.item_reload_cost( *target, ammo, qty ) / 2;
 
-        if( target->ammo_type() == "plutonium" ) {
+        if( target->ammo_type() == ammotype( "plutonium" ) ) {
             qty *= PLUTONIUM_CHARGES;
         }
 
-        target->ammo_set( target->ammo_type(), target->ammo_remaining() - qty );
+        target->ammo_set( target->ammo_current(), target->ammo_remaining() - qty );
     }
 
     // Turn off any active tools
@@ -11955,19 +11968,7 @@ bool game::plmove(int dx, int dy, int dz)
     // Invalid move
     const bool waste_moves = u.is_blind() || u.has_effect( effect_stunned );
     if( waste_moves || dest_loc.z != u.posz() ) {
-        std::string obstacle_name;
-        int part;
-        vehicle *veh = m.veh_at( dest_loc, part );
-        if( veh != nullptr ) {
-            // redefine variable as id of obstacle part
-            part = veh->obstacle_at_part( part );
-            if( part > 0 ) {
-                obstacle_name = veh->parts[ part ].name();
-            }
-        } else {
-            obstacle_name = m.name( dest_loc );
-        }
-        add_msg( _( "You bump into a %s!" ), obstacle_name.c_str() );
+        add_msg( _( "You bump into the %s!" ), m.obstacle_name( dest_loc ).c_str() );
         // Only lose movement if we're blind
         if( waste_moves ) {
             u.moves -= 100;
@@ -13849,7 +13850,7 @@ void game::spawn_mon(int /*shiftx*/, int /*shifty*/)
     if( x_in_y( density, 100 ) ) {
         npc *tmp = new npc();
         tmp->normalize();
-        tmp->randomize( NC_NONE );
+        tmp->randomize();
         //tmp->stock_missions();
         // Create the NPC in one of the outermost submaps,
         // hopefully far away to be invisible to the player,
@@ -13937,14 +13938,6 @@ void game::wait()
     u.rooted_message();
 }
 
-void game::gameover()
-{
-    erase();
-    gamemode->game_over();
-    mvprintw(0, 35, _("GAME OVER"));
-    inv();
-}
-
 bool game::game_quit()
 {
     return (uquit == QUIT_MENU);
@@ -13960,40 +13953,41 @@ void game::teleport(player *p, bool add_teleglow)
     if (p == NULL) {
         p = &u;
     }
-    int newx, newy, tries = 0;
+    int tries = 0;
+    tripoint new_pos = p->pos();
     bool is_u = (p == &u);
 
     if (add_teleglow) {
         p->add_effect( effect_teleglow, 300);
     }
     do {
-        newx = p->posx() + rng(0, SEEX * 2) - SEEX;
-        newy = p->posy() + rng(0, SEEY * 2) - SEEY;
+        new_pos.x = p->posx() + rng(0, SEEX * 2) - SEEX;
+        new_pos.y = p->posy() + rng(0, SEEY * 2) - SEEY;
         tries++;
-    } while (tries < 15 && m.impassable(newx, newy));
-    bool can_see = (is_u || u.sees(newx, newy));
+    } while ( tries < 15 && m.impassable( new_pos ) );
+    bool can_see = ( is_u || u.sees( new_pos ) );
     if (p->in_vehicle) {
         m.unboard_vehicle(p->pos());
     }
-    p->setx( newx );
-    p->sety( newy );
-    if (m.impassable(newx, newy)) { //Teleported into a wall
+    p->setx( new_pos.x );
+    p->sety( new_pos.y );
+    if( m.impassable( new_pos ) ) { //Teleported into a wall
         if (can_see) {
             if (is_u) {
                 add_msg(_("You teleport into the middle of a %s!"),
-                        m.name(newx, newy).c_str());
+                        m.obstacle_name( new_pos ).c_str() );
                 p->add_memorial_log(pgettext("memorial_male", "Teleported into a %s."),
                                     pgettext("memorial_female", "Teleported into a %s."),
-                                    m.name(newx, newy).c_str());
+                                    m.obstacle_name( new_pos ).c_str() );
             } else {
                 add_msg(_("%1$s teleports into the middle of a %2$s!"),
-                        p->name.c_str(), m.name(newx, newy).c_str());
+                        p->name.c_str(), m.obstacle_name( new_pos ).c_str() );
             }
         }
         p->apply_damage( nullptr, bp_torso, 500 );
         p->check_dead_state();
     } else if (can_see) {
-        const int i = mon_at({newx, newy, u.posz()});
+        const int i = mon_at( new_pos );
         if (i != -1) {
             monster &critter = zombie(i);
             if (is_u) {
@@ -14542,7 +14536,7 @@ void game::start_calendar()
     calendar::start = HOURS(ACTIVE_WORLD_OPTIONS["INITIAL_TIME"]);
     if( scen->has_flag("SPR_START") || scen->has_flag("SUM_START") ||
         scen->has_flag("AUT_START") || scen->has_flag("WIN_START") ||
-        scen->has_flag("ADV_START") ) {
+        scen->has_flag("SUM_ADV_START") ) {
         if( scen->has_flag("SPR_START") ) {
             ; // Do nothing;
         } else if( scen->has_flag("SUM_START") ) {

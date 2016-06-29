@@ -817,7 +817,7 @@ of pureed bone & LSD."));
                         print_error(_("ERROR: Please place sample in centrifuge."));
                     } else if (g->m.i_at(x, y).size() > 1) {
                         print_error(_("ERROR: Please remove all but one sample from centrifuge."));
-                    } else if (g->m.i_at(x, y)[0].type->id != "vacutainer") {
+                    } else if (g->m.i_at(x, y)[0].typeId() != "vacutainer") {
                         print_error(_("ERROR: Please use vacutainer-contained samples."));
                     } else if (g->m.i_at(x, y)[0].contents.empty()) {
                         print_error(_("ERROR: Vacutainer empty."));
@@ -866,13 +866,13 @@ of pureed bone & LSD."));
                         print_error(_("ERROR: Please place memory bank in scan area."));
                     } else if (g->m.i_at(x, y).size() > 1) {
                         print_error(_("ERROR: Please only scan one item at a time."));
-                    } else if (g->m.i_at(x, y)[0].type->id != "usb_drive" &&
-                               g->m.i_at(x, y)[0].type->id != "black_box") {
+                    } else if (g->m.i_at(x, y)[0].typeId() != "usb_drive" &&
+                               g->m.i_at(x, y)[0].typeId() != "black_box") {
                         print_error(_("ERROR: Memory bank destroyed or not present."));
-                    } else if (g->m.i_at(x, y)[0].type->id == "usb_drive" && g->m.i_at(x, y)[0].contents.empty()) {
+                    } else if (g->m.i_at(x, y)[0].typeId() == "usb_drive" && g->m.i_at(x, y)[0].contents.empty()) {
                         print_error(_("ERROR: Memory bank is empty."));
                     } else { // Success!
-                        if (g->m.i_at(x, y)[0].type->id == "black_box") {
+                        if (g->m.i_at(x, y)[0].typeId() == "black_box") {
                             print_line(_("Memory Bank:  Military Hexron Encryption\nPrinting Transcript\n"));
                             item transcript("black_box_transcript", calendar::turn);
                             g->m.add_item_or_charges(g->u.posx(), g->u.posy(), transcript);
@@ -1342,7 +1342,7 @@ void computer::activate_failure(computer_failure fail)
                         print_error(_("ERROR: Please place sample in centrifuge."));
                     } else if (g->m.i_at(x, y).size() > 1) {
                         print_error(_("ERROR: Please remove all but one sample from centrifuge."));
-                    } else if (g->m.i_at(x, y)[0].type->id != "vacutainer") {
+                    } else if (g->m.i_at(x, y)[0].typeId() != "vacutainer") {
                         print_error(_("ERROR: Please use vacutainer-contained samples."));
                     } else if (g->m.i_at(x, y)[0].contents.empty()) {
                         print_error(_("ERROR: Vacutainer empty."));
@@ -1367,7 +1367,7 @@ void computer::activate_failure(computer_failure fail)
                         print_error(_("ERROR: Please place memory bank in scan area."));
                     } else if (g->m.i_at(x, y).size() > 1) {
                         print_error(_("ERROR: Please only scan one item at a time."));
-                    } else if (g->m.i_at(x, y)[0].type->id != "usb_drive") {
+                    } else if (g->m.i_at(x, y)[0].typeId() != "usb_drive") {
                         print_error(_("ERROR: Memory bank destroyed or not present."));
                     } else if (g->m.i_at(x, y)[0].contents.empty()) {
                         print_error(_("ERROR: Memory bank is empty."));

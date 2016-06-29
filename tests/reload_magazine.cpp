@@ -6,13 +6,13 @@
 #include "itype.h"
 
 TEST_CASE( "reload_magazine", "[magazine] [visitable] [item] [item_location]" ) {
-    const std::string gun_id   = "m4a1";
-    const std::string gun_ammo = "223";
-    const std::string ammo_id  = "556";      // any type of compatible ammo
-    const std::string alt_ammo = "223";      // any alternative type of compatible ammo
-    const std::string bad_ammo = "9mm";      // any type of incompatible ammo
-    const std::string mag_id   = "stanag30"; // must be set to default magazine
-    const std::string bad_mag  = "glockmag"; // any incompatible magazine
+    const itype_id gun_id   = "m4a1";
+    const ammotype gun_ammo( "223" );
+    const itype_id ammo_id  = "556";      // any type of compatible ammo
+    const itype_id alt_ammo = "223";      // any alternative type of compatible ammo
+    const itype_id bad_ammo = "9mm";      // any type of incompatible ammo
+    const itype_id mag_id   = "stanag30"; // must be set to default magazine
+    const itype_id bad_mag  = "glockmag"; // any incompatible magazine
     const int mag_cap          = 30;
 
     CHECK( ammo_id != alt_ammo );
@@ -60,7 +60,6 @@ TEST_CASE( "reload_magazine", "[magazine] [visitable] [item] [item_location]" ) 
                 AND_THEN( "the current ammo is updated" ) {
                     REQUIRE( mag.ammo_current() == ammo_id );
                     REQUIRE( mag.ammo_data() );
-                    REQUIRE( mag.ammo_data()->id == ammo_id );
                 }
                 AND_THEN( "the magazine is filled to capacity" ) {
                     REQUIRE( mag.ammo_remaining() == mag.ammo_capacity() );
@@ -91,7 +90,6 @@ TEST_CASE( "reload_magazine", "[magazine] [visitable] [item] [item_location]" ) 
                 AND_THEN( "the current ammo is updated" ) {
                     REQUIRE( mag.ammo_current() == ammo_id );
                     REQUIRE( mag.ammo_data() );
-                    REQUIRE( mag.ammo_data()->id == ammo_id );
                 }
                 AND_THEN( "the magazine is filled with the correct quantity" ) {
                     REQUIRE( mag.ammo_remaining() == mag_cap - 2 );
@@ -230,7 +228,6 @@ TEST_CASE( "reload_magazine", "[magazine] [visitable] [item] [item_location]" ) 
                     REQUIRE( gun.ammo_remaining() == mag_cap - 2 );
                     REQUIRE( gun.ammo_current() == ammo_id );
                     REQUIRE( gun.ammo_data() );
-                    REQUIRE( gun.ammo_data()->id == ammo_id );
                 }
 
                 AND_WHEN( "the guns magazine is further reloaded with compatible but different ammo" ) {
@@ -269,7 +266,8 @@ TEST_CASE( "reload_magazine", "[magazine] [visitable] [item] [item_location]" ) 
                                     found.push_back( e );
                                 }
                                 // ignore ammo contained within guns or magazines
-                                return ( e->is_gun() || e->is_magazine() ) ? VisitResponse::SKIP : VisitResponse::NEXT;
+                                return ( e->is_gun() || e->is_magazine() ) ?
+                                    VisitResponse::SKIP : VisitResponse::NEXT;
                             } );
                             REQUIRE( found.size() == 1 );
                             REQUIRE( found[0]->charges == 8 );

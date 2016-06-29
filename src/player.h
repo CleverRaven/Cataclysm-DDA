@@ -348,7 +348,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         bool sight_impaired() const;
         /** Returns true if the player has two functioning arms */
         bool has_two_arms() const;
-        /** Returns true if the player is wielding something, including bionic weapons */
+        /** Returns true if the player is wielding something */
         bool is_armed() const;
         /** Calculates melee weapon wear-and-tear through use, returns true if item is destroyed. */
         bool handle_melee_wear( float wear_multiplier = 1.0f );
@@ -489,7 +489,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Returns a weapon's modified dispersion value */
         double get_weapon_dispersion( const item *weapon, bool random ) const;
         /** Returns true if a gun misfires, jams, or has other problems, else returns false */
-        bool handle_gun_damage( const itype &firing, const std::set<std::string> &curammo_effects );
+        bool handle_gun_damage( item &firing );
 
         /**
          *  Fires a gun or axuiliary gunmod (ignoring any current mode)
@@ -835,7 +835,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
          * @param qty if specified limits maximum obtained charges
          * @return cost in moves ranging from 0 to MAX_HANDLING_COST
          */
-        int item_handling_cost( const item& it, bool effects = true, int factor = VOLUME_MOVE_COST, int qty = -1 ) const;
+        int item_handling_cost( const item& it, bool effects = true, int factor = VOLUME_MOVE_COST ) const;
 
         /**
          * Calculate (but do not deduct) the number of moves required when storing an item in a container
