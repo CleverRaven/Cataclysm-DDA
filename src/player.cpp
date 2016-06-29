@@ -5180,7 +5180,7 @@ void player::knock_back_from( const tripoint &p )
         apply_damage( nullptr, bp_torso, 3 ); // TODO: who knocked us back? Maybe that creature should be the source of the damage?
         add_effect( effect_stunned, 2 );
         add_msg_player_or_npc( _("You bounce off a %s!"), _("<npcname> bounces off a %s!"),
-                               g->m.tername( to ).c_str() );
+                               g->m.obstacle_name( to ).c_str() );
 
     } else { // It's no wall
         setpos( to );
