@@ -4595,8 +4595,12 @@ void iuse::cut_log_into_planks(player *p)
     p->i_add_or_drop(scrap, scraps);
 }
 
-int iuse::lumber(player *p, item *it, bool, const tripoint& )
+int iuse::lumber(player *p, item *it, bool t, const tripoint& )
 {
+    if( t ) {
+        return 0;
+    }
+
     // Check if player is standing on any lumber
     for (auto &i : g->m.i_at(p->pos())) {
         if (i.typeId() == "log")
