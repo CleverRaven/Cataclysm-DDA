@@ -301,7 +301,7 @@
         "pierce" : 5,
         "range" : 90,
         "dispersion" : 20,
-        "recoil" : 600,
+        "recoil" : 645,
         "count" : 10,
         "effects" : ["COOKOFF", "RECYCLED"]
     },
