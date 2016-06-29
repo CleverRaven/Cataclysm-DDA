@@ -3537,7 +3537,7 @@ bool mattack::stretch_bite(monster *z)
             z->add_effect( effect_stunned, 6);
             target->add_msg_player_or_npc( _("The %1$s stretches its head at you, but bounces off the %2$s"),
                                            _("The %1$s stretches its head at <npcname>, but bounces off the %2$s"),
-                                           z->name().c_str(), g->m.disp_name( pnt ).c_str() );
+                                           z->name().c_str(), g->m.obstacle_name( pnt ).c_str() );
             return true;
         }
     }
@@ -3759,7 +3759,7 @@ bool mattack::longswipe(monster *z)
             }
             target->add_msg_player_or_npc( _( "The %1$s thrusts a claw at you, but it bounces off the %2$s!" ),
                                            _( "The %1$s thrusts a claw at <npcname>, but it bounces off the %2$s!" ),
-                                           z->name().c_str(), g->m.disp_name( pnt ).c_str() );
+                                           z->name().c_str(), g->m.obstacle_name( pnt ).c_str() );
             z->mod_moves( -150 );
             return true;
         }
@@ -4614,7 +4614,7 @@ bool mattack::stretch_attack(monster *z)
     for( auto &pnt : g->m.find_clear_path( z->pos(), target->pos() ) ) {
             if( g->m.impassable( pnt ) ) {
                 add_msg( _( "The %1$s thrusts its arm at you but bounces off the %2$s" ), z->name().c_str(),
-                         g->m.disp_name( pnt ).c_str() );
+                         g->m.obstacle_name( pnt ).c_str() );
                 return true;
             }
     }

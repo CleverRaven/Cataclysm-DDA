@@ -13953,40 +13953,41 @@ void game::teleport(player *p, bool add_teleglow)
     if (p == NULL) {
         p = &u;
     }
-    int newx, newy, tries = 0;
+    int tries = 0;
+    tripoint new_pos = p->pos();
     bool is_u = (p == &u);
 
     if (add_teleglow) {
         p->add_effect( effect_teleglow, 300);
     }
     do {
-        newx = p->posx() + rng(0, SEEX * 2) - SEEX;
-        newy = p->posy() + rng(0, SEEY * 2) - SEEY;
+        new_pos.x = p->posx() + rng(0, SEEX * 2) - SEEX;
+        new_pos.y = p->posy() + rng(0, SEEY * 2) - SEEY;
         tries++;
-    } while (tries < 15 && m.impassable(newx, newy));
-    bool can_see = (is_u || u.sees(newx, newy));
+    } while ( tries < 15 && m.impassable( new_pos ) );
+    bool can_see = ( is_u || u.sees( new_pos ) );
     if (p->in_vehicle) {
         m.unboard_vehicle(p->pos());
     }
-    p->setx( newx );
-    p->sety( newy );
-    if (m.impassable(newx, newy)) { //Teleported into a wall
+    p->setx( new_pos.x );
+    p->sety( new_pos.y );
+    if( m.impassable( new_pos ) ) { //Teleported into a wall
         if (can_see) {
             if (is_u) {
                 add_msg(_("You teleport into the middle of a %s!"),
-                        m.name(newx, newy).c_str());
+                        m.obstacle_name( new_pos ).c_str() );
                 p->add_memorial_log(pgettext("memorial_male", "Teleported into a %s."),
                                     pgettext("memorial_female", "Teleported into a %s."),
-                                    m.name(newx, newy).c_str());
+                                    m.obstacle_name( new_pos ).c_str() );
             } else {
                 add_msg(_("%1$s teleports into the middle of a %2$s!"),
-                        p->name.c_str(), m.name(newx, newy).c_str());
+                        p->name.c_str(), m.obstacle_name( new_pos ).c_str() );
             }
         }
         p->apply_damage( nullptr, bp_torso, 500 );
         p->check_dead_state();
     } else if (can_see) {
-        const int i = mon_at({newx, newy, u.posz()});
+        const int i = mon_at( new_pos );
         if (i != -1) {
             monster &critter = zombie(i);
             if (is_u) {
