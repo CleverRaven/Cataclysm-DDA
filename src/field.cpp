@@ -1,5 +1,6 @@
 #include "rng.h"
 #include "map.h"
+#include "cata_utility.h"
 #include "debug.h"
 #include "field.h"
 #include "fire.h"
@@ -16,6 +17,8 @@
 #include "mapdata.h"
 #include "mtype.h"
 #include "scent_map.h"
+
+#include <queue>
 
 const species_id FUNGUS( "FUNGUS" );
 
@@ -2478,4 +2481,68 @@ bool field_type_dangerous( field_id id )
 {
     const field_t &ft = fieldlist[id];
     return ft.dangerous[0] || ft.dangerous[1] || ft.dangerous[2];
+}
+
+void map::propagate_field( const tripoint &center, field_id fid, int amount,
+                      int max_density )
+{
+    using gas_blast = std::pair<int, tripoint>;
+    std::priority_queue<gas_blast, std::vector<gas_blast>, pair_greater_cmp> open;
+    std::set<tripoint> closed;
+    open.push( { 0.0f, center } );
+
+    while( amount > 0 && !open.empty() ) {
+        if( closed.count( open.top().second ) ) {
+            open.pop();
+            continue;
+        }
+
+        // All points with equal gas density should propagate at the same time
+        std::list<gas_blast> gas_front;
+        gas_front.push_back( open.top() );
+        open.pop();
+        int cur_intensity = get_field_strength( open.top().second, fid );
+        while( !open.empty() && get_field_strength( open.top().second, fid ) == cur_intensity ) {
+            if( closed.count( open.top().second ) == 0 ) {
+                gas_front.push_back( open.top() );
+            }
+
+            open.pop();
+        }
+
+        int increment = std::max<int>( 1, amount / gas_front.size() );
+
+        while( amount > 0 && !gas_front.empty() ) {
+            auto gp = random_entry_removed( gas_front );
+            closed.insert( gp.second );
+            int cur_strength = get_field_strength( gp.second, fid );
+            if( cur_strength < max_density ) {
+                int bonus = std::min( max_density - cur_strength, increment );
+                adjust_field_strength( gp.second, fid, bonus );
+                amount -= bonus;
+            } else {
+                amount--;
+            }
+
+            if( amount <= 0 ) {
+                return;
+            }
+
+            static const std::array<int, 8> x_offset = {{ -1, 1,  0, 0,  1, -1, -1, 1  }};
+            static const std::array<int, 8> y_offset = {{  0, 0, -1, 1, -1,  1, -1, 1  }};
+            for( size_t i = 0; i < 8; i++ ) {
+                tripoint pt = gp.second + point( x_offset[ i ], y_offset[ i ] );
+                if( closed.count( pt ) > 0 ) {
+                    continue;
+                }
+
+                if( impassable( pt ) && !has_flag( TFLAG_PERMEABLE, pt ) ) {
+                    closed.insert( pt );
+                    continue;
+                }
+
+                open.push( { (float)rl_dist( center, pt ), pt } );
+            }
+        }
+    }
 }
