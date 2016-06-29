@@ -102,7 +102,7 @@ color_id color_manager::color_to_id( const nc_color color ) const
     // Optimally this shouldn't happen, but allow for now
     for( size_t i = 0; i < color_array.size(); i++ ) {
         if( color_array[i].color == color ) {
-debugmsg( "Couldn't find color %d, but got id: %s", color, get_name( color ).c_str() );
+            debugmsg( "Couldn't find color %d", color );
             return color_array[i].col_id;
         }
     }
