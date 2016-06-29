@@ -622,14 +622,7 @@ void npc::execute_action( npc_action action )
         break;
 
     case npc_mug_player:
-        update_path( g->u.pos() );
-        if (path.size() == 1) { // We're adjacent to u, and thus can mug u
-            mug_player(g->u);
-        } else if (!path.empty()) {
-            move_to_next();
-        } else {
-            move_pause();
-        }
+        mug_player(g->u);
         break;
 
     case npc_goto_destination:
@@ -2598,6 +2591,10 @@ bool npc::consume_food()
 
 void npc::mug_player(player &mark)
 {
+    if( mark.is_armed() ) {
+        make_angry();
+    }
+
     if( rl_dist( pos(), mark.pos() ) > 1 ) { // We have to travel
         update_path( mark.pos() );
         move_to_next();
