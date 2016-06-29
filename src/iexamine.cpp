@@ -2297,8 +2297,8 @@ void iexamine::tree_hickory(player &p, const tripoint &examp)
 
 item_location maple_tree_sap_container() {
     const item maple_sap = item( "maple_sap", 0 );
-    return g->inv_map_splice( [&]( const item &it ) {
-        return it.get_remaining_capacity_for_liquid( maple_sap, true ) > 0;
+    return g->inv_map_splice( [&]( const item_location &location ) {
+        return location.get_item()->get_remaining_capacity_for_liquid( maple_sap, true ) > 0;
     }, _( "Which container:" ), PICKUP_RANGE );
 }
 

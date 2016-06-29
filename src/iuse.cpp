@@ -1974,7 +1974,8 @@ int iuse::sew_advanced(player *p, item *it, bool, const tripoint& )
         return 0;
     }
 
-    int pos = g->inv_for_filter( _("Enhance what?"), []( const item & itm ) {
+    int pos = g->inv_for_filter( _("Enhance what?"), []( const item_location &location ) {
+            const item &itm = *location.get_item();
             return itm.made_of( material_id( "cotton" ) ) ||
             itm.made_of( material_id( "leather" ) ) ||
             itm.made_of( material_id( "fur" ) ) ||
@@ -2291,8 +2292,8 @@ int iuse::radio_mod( player *p, item *, bool, const tripoint& )
         return 0;
     }
 
-    int inventory_index = g->inv_for_filter( _("Modify what?"), []( const item & itm ) {
-        return itm.is_tool() && itm.has_flag( "RADIO_MODABLE" );
+    int inventory_index = g->inv_for_filter( _("Modify what?"), []( const item_location &location ) {
+        return location.get_item()->is_tool() && location.get_item()->has_flag( "RADIO_MODABLE" );
     } );
     item &modded = p->i_at( inventory_index );
 
@@ -2345,8 +2346,8 @@ int iuse::remove_all_mods(player *p, item *, bool, const tripoint& )
         "DOUBLE_AMMO", "USE_UPS", "ATOMIC_AMMO"
     }};
 
-    int inventory_index = g->inv_for_filter( _( "Detach power mods from what?" ), []( const item & itm ) {
-        return itm.is_tool() && itm.has_any_flag( removable_mods );
+    int inventory_index = g->inv_for_filter( _( "Detach power mods from what?" ), []( const item_location &location ) {
+        return location.get_item()->is_tool() && location.get_item()->has_any_flag( removable_mods );
     } );
     item &modded = p->i_at( inventory_index );
     if( modded.is_null() ) {
@@ -2677,7 +2678,8 @@ static int cauterize_elec(player *p, item *it)
 
 int iuse::water_purifier(player *p, item *it, bool, const tripoint& )
 {
-    auto loc = g->inv_map_splice( []( const item & itm ) {
+    auto loc = g->inv_map_splice( []( const item_location &location ) {
+        const item &itm = *location.get_item();
         return !itm.contents.empty() &&
                ( itm.contents.front().typeId() == "water" ||
                  itm.contents.front().typeId() == "salt_water" );
@@ -5376,7 +5378,8 @@ int iuse::handle_ground_graffiti(player *p, item *it, const std::string prefix)
  */
 static bool heat_item(player *p)
 {
-   auto loc = g->inv_map_splice( []( const item & itm ) {
+   auto loc = g->inv_map_splice( []( const item_location &location ) {
+        const item &itm = *location.get_item();
         return (itm.is_food() && itm.has_flag("EATEN_HOT")) ||
             (itm.is_food_container() && itm.contents.front().has_flag("EATEN_HOT"));
     }, _( "Heat up what?" ), 1, _( "You don't have appropriate food to heat up." ) );
@@ -5455,7 +5458,8 @@ int iuse::quiver(player *p, item *it, bool, const tripoint& )
 
     // if quiver is empty or storing more arrows, pull up menu asking what to store
     if (it->contents.empty() || choice == 1) {
-        int inventory_index = g->inv_for_filter( _("Store which arrows?"), []( const item & itm ) {
+        int inventory_index = g->inv_for_filter( _("Store which arrows?"), []( const item_location &location ) {
+            const item &itm = *location.get_item();
             return itm.is_ammo() && (itm.ammo_type() == ammotype( "arrow" ) || itm.ammo_type() == ammotype( "bolt" ) );
         } );
         item *put = &( p->i_at(inventory_index ) );
@@ -5825,7 +5829,8 @@ int iuse::misc_repair(player *p, item *it, bool, const tripoint& )
         p->add_msg_if_player(m_info, _("You need a fabrication skill of 1 to use this repair kit."));
         return 0;
     }
-    int inventory_index = g->inv_for_filter( _("Select the item to repair."), []( const item & itm ) {
+    int inventory_index = g->inv_for_filter( _("Select the item to repair."), []( const item_location &location ) {
+        const item &itm = *location.get_item();
         return ( !itm.is_firearm() ) && (itm.made_of( material_id( "wood" ) ) || itm.made_of( material_id( "paper" ) ) ||
                                  itm.made_of( material_id( "bone" ) ) || itm.made_of( material_id( "chitin" ) ) ) ;
     } );
@@ -8053,7 +8058,8 @@ int iuse::saw_barrel( player *p, item *, bool, const tripoint& )
         return 0;
     }
 
-    auto filter = []( const item& e ) {
+    auto filter = []( const item_location &location ) {
+        const item &e = *location.get_item();
         if( !e.is_gun() || e.type->gun->barrel_length <= 0 ) {
             return false;
         }
@@ -8085,13 +8091,13 @@ int iuse::washclothes( player *p, item *it, bool, const tripoint& )
         p->add_msg_if_player( _( "You need a soap to use this." ) );
         return 0;
     }
-    
+
     const inventory &crafting_inv = p->crafting_inventory();
     if( !crafting_inv.has_charges( "water", 40 ) && !crafting_inv.has_charges( "water_clean", 40 ) ) {
         p->add_msg_if_player( _( "You need a large amount of fresh water to use this." ) );
         return 0;
     }
-    
+
     const int pos = g->inv_for_flag( "FILTHY", _( "Wash what?" ) );
     item &mod = p->i_at( pos );
     if( pos == INT_MIN ) {
@@ -8103,7 +8109,7 @@ int iuse::washclothes( player *p, item *it, bool, const tripoint& )
     comps.push_back( item_comp( "water", 40 ) );
     comps.push_back( item_comp( "water_clean", 40 ) );
     p->consume_items( comps );
-    
+
     p->add_msg_if_player( _( "You washed your clothing." ) );
     p->mod_moves( -3000 );
 

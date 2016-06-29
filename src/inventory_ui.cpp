@@ -227,8 +227,8 @@ class selection_column : public inventory_column {
         size_t reserved_width;
 };
 
-typedef std::function<bool(const item &)> item_filter;
-const item_filter allow_all_items = []( const item & ) { return true; };
+typedef std::function<bool( const item_location & )> item_filter;
+const item_filter allow_all_items = []( const item_location & ) { return true; };
 
 class inventory_selector
 {
@@ -825,9 +825,10 @@ inventory_selector::inventory_selector( player &u, item_filter filter )
 
     for( size_t i = 0; i < u.inv.size(); ++i ) {
         const auto &stack = u.inv.const_stack( i );
-        if( filter( stack.front() ) ) {
-            first_column->add_entry( inventory_entry( std::make_shared<item_location>( u, const_cast<item *>( &stack.front() ) ),
-                                                      stack.size() ) );
+        const auto location = std::make_shared<item_location>( u, const_cast<item *>( &stack.front() ) );
+
+        if( filter( *location ) ) {
+            first_column->add_entry( inventory_entry( location, stack.size() ) );
         }
     }
 
@@ -835,13 +836,17 @@ inventory_selector::inventory_selector( player &u, item_filter filter )
         insert_column( columns.end(), first_column );
     }
 
-    if( u.is_armed() && filter( u.weapon ) ) {
-        second_column->add_entry( inventory_entry( std::make_shared<item_location>( u, &u.weapon ), &weapon_cat ) );
+    if( u.is_armed() ) {
+        const auto location = std::make_shared<item_location>( u, &u.weapon );
+        if( filter( *location ) ) {
+            second_column->add_entry( inventory_entry( location, &weapon_cat ) );
+        }
     }
 
     for( auto &it : u.worn ) {
-        if( filter( it ) ) {
-            second_column->add_entry( inventory_entry( std::make_shared<item_location>( u, &it ), &worn_cat ) );
+        const auto location = std::make_shared<item_location>( u, &it );
+        if( filter( *location ) ) {
+            second_column->add_entry( inventory_entry( location, &worn_cat ) );
         }
     }
 
@@ -1219,60 +1224,53 @@ int game::inv_for_all( const std::string &title, const std::string &none_message
 
 int game::inv_for_activatables( const player &p, const std::string &title )
 {
-    return inv_for_filter( title, [ &p ]( const item &it ) {
-        return p.rate_action_use( it ) != HINT_CANT;
+    return inv_for_filter( title, [ &p ]( const item_location &location ) {
+        return p.rate_action_use( *location.get_item() ) != HINT_CANT;
     }, _( "You don't have any items you can use." ) );
 }
 
 int game::inv_for_flag( const std::string &flag, const std::string &title )
 {
-    return inv_for_filter( title, [ &flag ]( const item &it ) {
-        return it.has_flag( flag );
+    return inv_for_filter( title, [ &flag ]( const item_location &location ) {
+        return location.get_item()->has_flag( flag );
     } );
 }
 
 int game::inv_for_id( const itype_id &id, const std::string &title )
 {
-    return inv_for_filter( title, [ &id ]( const item &it ) {
-        return it.typeId() == id;
+    return inv_for_filter( title, [ &id ]( const item_location &location ) {
+        return location.get_item()->typeId() == id;
     }, string_format( _( "You don't have a %s." ), item::nname( id ).c_str() ) );
 }
 
 int game::inv_for_tools_powered_by( const ammotype &battery_id, const std::string &title )
 {
-    return inv_for_filter( title, [ &battery_id ]( const item & it ) {
-        return it.is_tool() && it.ammo_type() == battery_id;
+    return inv_for_filter( title, [ &battery_id ]( const item_location &location ) {
+        return location.get_item()->is_tool() &&
+               location.get_item()->ammo_type() == battery_id;
     }, string_format( _( "You don't have %s-powered tools." ), ammo_name( battery_id ).c_str() ) );
 }
 
 int game::inv_for_equipped( const std::string &title )
 {
-    return inv_for_filter( title, [ this ]( const item &it ) {
-        return u.is_worn( it );
+    return inv_for_filter( title, [ this ]( const item_location &location ) {
+        return u.is_worn( *location.get_item() );
     }, _( "You don't wear anything." ) );
 }
 
 int game::inv_for_unequipped( const std::string &title )
 {
-    return inv_for_filter( title, [ this ]( const item &it ) {
-        return it.is_armor() && !u.is_worn( it );
+    return inv_for_filter( title, [ this ]( const item_location &location ) {
+        return location.get_item()->is_armor() && !u.is_worn( *location.get_item() );
     }, _( "You don't have any items to wear." ) );
 }
 
-item_location game::inv_map_splice( item_filter filter, const std::string &title, int radius,
-                                    const std::string &none_message )
-{
-    return inv_map_splice( filter, filter, filter, title, radius, none_message );
-}
-
-item_location game::inv_map_splice(
-    item_filter inv_filter, item_filter ground_filter, item_filter vehicle_filter,
-    const std::string &title, int radius, const std::string &none_message )
+item_location game::inv_map_splice( item_filter filter, const std::string &title, int radius, const std::string &none_message )
 {
     u.inv.restack( &u );
     u.inv.sort();
 
-    inventory_selector inv_s( u, inv_filter );
+    inventory_selector inv_s( u, filter );
 
     std::list<item_category> categories;
     int rank = -1000;
@@ -1288,7 +1286,7 @@ item_location game::inv_map_splice(
 
             for( const auto &stack : stacks ) {
                 const auto location = std::make_shared<item_location>( pos, stack.front() );
-                if( ground_filter( *location->get_item() ) ) {
+                if( filter( *location ) ) {
                     inv_s.add_entry( location, stack.size(), &categories.back() );
                 }
             }
@@ -1310,7 +1308,7 @@ item_location game::inv_map_splice(
 
             for( const auto &stack : stacks ) {
                 const auto location = std::make_shared<item_location>( vehicle_cursor( *veh, part ), stack.front() );
-                if( vehicle_filter( *location->get_item() ) ) {
+                if( filter( *location ) ) {
                     inv_s.add_entry( location, stack.size(), &categories.back() );
                 }
             }
@@ -1327,22 +1325,15 @@ item_location game::inv_map_splice(
 
 item *game::inv_map_for_liquid(const item &liquid, const std::string &title, int radius)
 {
-    // Vehicle filter shouldn't allow buckets
-    auto sealable_filter = [&]( const item &candidate ) {
-        return candidate.get_remaining_capacity_for_liquid( liquid, false ) > 0;
+    const auto filter = [ this, &liquid ]( const item_location &location ) {
+        const bool allow_buckets = ( location.where() == item_location::type::character )
+            ? location.get_item() == &u.weapon // allow only held buckets
+            : location.where() == item_location::type::map;
+
+        return location.get_item()->get_remaining_capacity_for_liquid( liquid, allow_buckets ) > 0;
     };
 
-    // Map filter should allow buckets
-    auto bucket_filter = [&]( const item &candidate ) {
-        return candidate.get_remaining_capacity_for_liquid( liquid, true ) > 0;
-    };
-
-    // Inventory filter should allow only held buckets
-    auto inv_filter = [&]( const item &candidate ) {
-        return candidate.get_remaining_capacity_for_liquid( liquid, &candidate == &g->u.weapon ) > 0;
-    };
-
-    return inv_map_splice( inv_filter, bucket_filter, sealable_filter, title, radius,
+    return inv_map_splice( filter, title, radius,
                            string_format( _( "You don't have a suitable container for carrying %s." ),
                            liquid.type_name( 1 ).c_str() ) ).get_item();
 }
@@ -1352,8 +1343,8 @@ std::list<std::pair<int, int>> game::multidrop()
     u.inv.restack( &u );
     u.inv.sort();
 
-    inventory_selector inv_s( u, [ this ]( const item &it ) -> bool {
-        return u.can_unwield( it, false );
+    inventory_selector inv_s( u, [ this ]( const item_location &location ) -> bool {
+        return u.can_unwield( *location.get_item(), false );
     } );
     if( inv_s.empty() ) {
         popup( std::string( _( "You have nothing to drop." ) ), PF_GET_KEY );
