@@ -1782,13 +1782,8 @@ bool mattack::fungus_fortify(monster *z)
         // Oops, can't reach. ):
         // How's about we spawn more tendrils? :)
         // Aimed at the player, too?  Sure!
-        int i = rng(-1, 1);
-        int j = rng(-1, 1);
-        if ((i == 0) && (j == 0)) { // Direct hit! :D
-            if (g->u.uncanny_dodge()) {
-                return true;
-            }
-
+        const tripoint hit_pos = target->pos() + point( rng( -1, 1 ), rng( -1, 1 ) );
+        if( hit_pos == target->pos() && !target->uncanny_dodge() ) {
             const body_part hit = body_part_hit_by_plant();
             //~ %s is bodypart name in accusative.
             add_msg(m_bad, _("A fungal tendril bursts forth from the earth and pierces your %s!"),
@@ -1796,9 +1791,8 @@ bool mattack::fungus_fortify(monster *z)
             g->u.deal_damage( z, hit, damage_instance( DT_CUT, rng( 5, 11 ) ) );
             g->u.check_dead_state();
             // Probably doesn't have spores available *just* yet.  Let's be nice.
-        } else {
+        } else if( g->is_empty( hit_pos ) ) {
             add_msg( m_bad, _("A fungal tendril bursts forth from the earth!") );
-            const tripoint hit_pos = tripoint( g->u.posx() + i, g->u.posy() + j, z->posz() );
             if( g->summon_mon(mon_fungal_tendril, hit_pos) ) {
                 monster *tendril = g->monster_at( hit_pos );
                 tendril->make_ally(z);

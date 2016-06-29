@@ -306,10 +306,11 @@ void npc::talk_to_u()
 
     moves -= 100;
 
-    if(g->u.is_deaf()) {
-        if(d.topic_stack.back() == "TALK_MUG") {
+    if( g->u.is_deaf() ) {
+        if( d.topic_stack.back() == "TALK_MUG" ||
+            d.topic_stack.back() == "TALK_STRANGER_AGGRESSIVE" ) {
             make_angry();
-            d.topic_stack.push_back("TALK_DEAF_MUG");
+            d.topic_stack.push_back("TALK_DEAF_ANGRY");
         } else {
             d.topic_stack.push_back("TALK_DEAF");
         }
@@ -359,7 +360,7 @@ std::string dialogue::dynamic_line( const std::string &topic ) const
     if ( topic == "TALK_DEAF" ) {
         return _("&You are deaf and can't talk.");
 
-    } else if ( topic == "TALK_DEAF_MUG" ) {
+    } else if ( topic == "TALK_DEAF_ANGRY" ) {
         return string_format(_("&You are deaf and can't talk. When you don't respond, %s becomes angry!"),
                 beta->name.c_str());
     }

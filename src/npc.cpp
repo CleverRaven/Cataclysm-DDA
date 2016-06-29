@@ -1423,14 +1423,15 @@ int npc::hostile_anger_level() const
 
 void npc::make_angry()
 {
-    add_msg( m_debug, "%s gets angry", name.c_str() );
-    // Make associated faction, if any, angry at the player too.
-    if( my_fac != NULL ) {
-        my_fac->likes_u -= 50;
-        my_fac->respects_u -= 50;
-    }
     if( is_enemy() ) {
         return; // We're already angry!
+    }
+
+    add_msg( m_debug, "%s gets angry", name.c_str() );
+    // Make associated faction, if any, angry at the player too.
+    if( my_fac != nullptr ) {
+        my_fac->likes_u = std::max( -50, my_fac->likes_u - 50 );
+        my_fac->respects_u = std::max( -50, my_fac->respects_u - 50 );
     }
     if( op_of_u.fear > 10 + personality.aggression + personality.bravery ) {
         attitude = NPCATT_FLEE; // We don't want to take u on!
@@ -1878,10 +1879,7 @@ bool npc::is_leader() const
 
 bool npc::is_enemy() const
 {
- if (attitude == NPCATT_KILL || attitude == NPCATT_MUG ||
-     attitude == NPCATT_FLEE)
-  return true;
- return  false;
+    return attitude == NPCATT_KILL || attitude == NPCATT_FLEE;
 }
 
 bool npc::is_defending() const
