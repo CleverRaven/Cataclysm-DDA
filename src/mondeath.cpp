@@ -108,6 +108,7 @@ void mdeath::normal(monster *z)
     const itype_id meat = z->type->get_meat_itype();
 
     if( pulverized && gibbable ) {
+        const item chunk( meat );
         for( int i = 0; i < num_chunks; i++ ) {
             tripoint tarp( z->pos() + point( rng( -3, 3 ), rng( -3, 3 ) ) );
             const auto traj = line_to( z->pos(), tarp );
@@ -136,7 +137,7 @@ void mdeath::normal(monster *z)
             }
 
             if( tarp != tripoint_min ) {
-                g->m.spawn_item( tarp, meat );
+                g->m.add_item_or_charges( tarp, chunk );
             }
         }
     }
@@ -161,16 +162,18 @@ void mdeath::boomer(monster *z)
     sounds::sound(z->pos(), 24, explode);
     for( auto &&dest : g->m.points_in_radius( z->pos(), 1 ) ) {
         g->m.bash( dest, 10 );
-        g->m.add_field( dest, fd_bile, 1, 0 );
         int mondex = g->mon_at( dest );
         if (mondex != -1) {
             g->zombie(mondex).stumble();
             g->zombie(mondex).moves -= 250;
         }
     }
-    if (rl_dist( z->pos(), g->u.pos() ) == 1) {
+
+    if( rl_dist( z->pos(), g->u.pos() ) == 1 ) {
         g->u.add_env_effect( effect_boomered, bp_eyes, 2, 24 );
     }
+
+    g->m.propagate_field( z->pos(), fd_bile, 15, 1 );
 }
 
 void mdeath::boomer_glow(monster *z)
@@ -180,7 +183,6 @@ void mdeath::boomer_glow(monster *z)
 
     for( auto &&dest : g->m.points_in_radius( z->pos(), 1 ) ) {
         g->m.bash(dest , 10 );
-        g->m.add_field(dest , fd_bile, 1, 0);
         int mondex = g->mon_at(dest);
         Creature *critter = g->critter_at(dest);
         if (mondex != -1) {
@@ -198,6 +200,8 @@ void mdeath::boomer_glow(monster *z)
             }
         }
     }
+
+    g->m.propagate_field( z->pos(), fd_bile, 30, 2 );
 }
 
 void mdeath::kill_vines(monster *z)
