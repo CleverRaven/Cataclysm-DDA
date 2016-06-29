@@ -2236,9 +2236,12 @@ bool repair_item_actor::handle_components( player &pl, const item &fix,
     // Go through all discovered repair items and see if we have any of them available
     for( const auto &entry : valid_entries ) {
         const auto component_id = entry.obj().repaired_with();
-        if( crafting_inv.has_amount( component_id, items_needed ) ) {
-            // We've found enough of a material, add it to list
-            comps.push_back( item_comp( component_id, items_needed ) );
+        if( item::count_by_charges( component_id ) ) {
+            if( crafting_inv.has_charges( component_id, items_needed ) ) {
+                comps.emplace_back( component_id, items_needed );
+            }
+        } else if( crafting_inv.has_amount( component_id, items_needed ) ) {
+            comps.emplace_back( component_id, items_needed );
         }
     }
 
@@ -2249,7 +2252,10 @@ bool repair_item_actor::handle_components( player &pl, const item &fix,
                 pl.add_msg_if_player( m_info,
                     _("You don't have enough %s to do that. Have: %d, need: %d"),
                     item::nname( mat_comp, 2 ).c_str(),
-                    crafting_inv.amount_of( mat_comp, false ), items_needed );
+                    item::find_type( mat_comp )->count_by_charges() ?
+                        crafting_inv.amount_of( mat_comp, false ) :
+                        crafting_inv.charges_of( mat_comp, items_needed ),
+                    items_needed );
             }
         }
 
