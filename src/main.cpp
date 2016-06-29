@@ -421,6 +421,7 @@ int main(int argc, char *argv[])
             exit_handler(0);
         }
         if( !dump.empty() ) {
+            init_colors();
             g->dump_stats( dump, dmode );
             exit_handler( 0 );
         }
