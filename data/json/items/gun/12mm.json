@@ -17,7 +17,6 @@
     "dispersion": 45,
     "sight_dispersion": 60,
     "aim_speed" : 6,
-    "recoil": 150,
     "durability": 8,
     "valid_mod_locations": [ [ "accessories", 4 ], [ "grip", 1 ],[ "mechanism", 4 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
     "ups_charges": 5,

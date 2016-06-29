@@ -434,7 +434,7 @@
         "pierce" : 40,
         "range" : 70,
         "dispersion" : 45,
-        "recoil" : 105,
+        "recoil" : 255,
         "count" : 20,
         "stack_size" : 40,
         "effects" : ["COOKOFF"]
