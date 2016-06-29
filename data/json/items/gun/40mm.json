@@ -15,7 +15,7 @@
     "dispersion": 300,
     "sight_dispersion": 150,
     "aim_speed" : 0,
-    "recoil": 60,
+    "recoil": -210,
     "durability": 6,
     "clip_size": 1,
     "reload": 350
@@ -37,7 +37,7 @@
     "dispersion": 270,
     "sight_dispersion": 120,
     "aim_speed" : 2,
-    "recoil": 75,
+    "recoil": -195,
     "durability": 9,
     "clip_size": 1,
     "reload": 150
@@ -59,7 +59,7 @@
     "dispersion": 150,
     "sight_dispersion": 120,
     "aim_speed" : 2,
-    "recoil": -75,
+    "recoil": -345,
     "durability": 8,
     "clip_size": 1,
     "reload": 250
@@ -82,7 +82,6 @@
     "dispersion": 180,
     "sight_dispersion": 120,
     "aim_speed" : 6,
-    "recoil": 270,
     "durability": 8,
     "reload": 400,
     "modes": [
@@ -109,7 +108,7 @@
     "dispersion": 270,
     "sight_dispersion": 120,
     "aim_speed" : 2,
-    "recoil": -15,
+    "recoil": -275,
     "durability": 8,
     "clip_size": 6,
     "reload": 300
@@ -130,7 +129,7 @@
     "dispersion": 150,
     "sight_dispersion": 120,
     "aim_speed" : 3,
-    "recoil": 30,
+    "recoil": -240,
     "durability": 9,
     "clip_size": 4,
     "valid_mod_locations": [ [ "accessories", 4 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
