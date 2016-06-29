@@ -47,6 +47,186 @@ const efftype_id effect_infection( "infection" );
 const efftype_id effect_lying_down( "lying_down" );
 const efftype_id effect_sleep( "sleep" );
 
+struct dialogue;
+
+enum talk_trial_type {
+    TALK_TRIAL_NONE, // No challenge here!
+    TALK_TRIAL_LIE, // Straight up lying
+    TALK_TRIAL_PERSUADE, // Convince them
+    TALK_TRIAL_INTIMIDATE, // Physical intimidation
+    NUM_TALK_TRIALS
+};
+
+/**
+ * If not TALK_TRIAL_NONE, it defines how to decide whether the responses succeeds (e.g. the
+ * NPC believes the lie). The difficulty is a 0...100 percent chance of success (!), 100 means
+ * always success, 0 means never. It is however affected by mutations/traits/bionics/etc. of
+ * the player character.
+ */
+struct talk_trial {
+    talk_trial_type type = TALK_TRIAL_NONE;
+    int difficulty = 0;
+
+    int calc_chance( const dialogue &d ) const;
+    /**
+     * Returns a user-friendly representation of @ref type
+     */
+    const std::string &name() const;
+    operator bool() const
+    {
+        return type != TALK_TRIAL_NONE;
+    }
+    /**
+     * Roll for success or failure of this trial.
+     */
+    bool roll( dialogue &d ) const;
+
+    talk_trial() = default;
+    talk_trial( JsonObject );
+};
+
+/**
+ * This defines possible responses from the player character.
+ */
+struct talk_response {
+    /**
+     * What the player character says (literally). Should already be translated and will be
+     * displayed. The first character controls the color of it ('*'/'&'/'!').
+     */
+    std::string text;
+    talk_trial trial;
+    /**
+     * The following values are forwarded to the chatbin of the NPC (see @ref npc_chatbin).
+     * Except @ref miss, it is apparently not used but should be a mission type that can create
+     * new mission.
+     */
+    mission *mission_selected = nullptr;
+    skill_id skill = skill_id::NULL_ID;
+    matype_id style;
+    /**
+     * Defines what happens when the trial succeeds or fails. If trial is
+     * TALK_TRIAL_NONE it always succeeds.
+     */
+    struct effect_t {
+        /**
+         * How (if at all) the NPCs opinion of the player character (@ref npc::op_of_u) will change.
+         */
+        npc_opinion opinion;
+        /**
+         * Function that is called when the response is chosen.
+         */
+        std::function<void(npc*)> effect = &talk_function::nothing;
+        /**
+         * Topic to switch to. TALK_DONE ends the talking, TALK_NONE keeps the current topic.
+         */
+        std::string topic = "TALK_NONE";
+
+        std::string apply( dialogue &d ) const;
+        void load_effect( JsonObject &jo );
+
+        effect_t() = default;
+        effect_t( JsonObject );
+    };
+    effect_t success;
+    effect_t failure;
+
+    /**
+     * Text (already folded) and color that is used to display this response.
+     * This is set up in @ref do_formatting.
+     */
+    std::vector<std::string> formated_text;
+    nc_color color = c_white;
+
+    void do_formatting( const dialogue &d, char letter );
+
+    talk_response() = default;
+    talk_response( JsonObject );
+};
+
+struct dialogue {
+    /**
+     * The player character that speaks (always g->u).
+     * TODO: make it a reference, not a pointer.
+     */
+    player *alpha = nullptr;
+    /**
+     * The NPC we talk to. Never null.
+     * TODO: make it a reference, not a pointer.
+     */
+    npc *beta = nullptr;
+    WINDOW *win = nullptr;
+    /**
+     * If true, we are done talking and the dialog ends.
+     */
+    bool done = false;
+    /**
+     * This contains the exchanged words, it is basically like the global message log.
+     * Each responses of the player character and the NPC are added as are information about
+     * what each of them does (e.g. the npc drops their weapon).
+     * This will be displayed in the dialog window and should already be translated.
+     */
+    std::vector<std::string> history;
+    std::vector<std::string> topic_stack;
+
+    /** Missions that have been assigned by this npc to the player they currently speak to. */
+    std::vector<mission*> missions_assigned;
+
+    std::string opt( const std::string &topic );
+
+    dialogue() = default;
+
+    std::string dynamic_line( const std::string &topic ) const;
+
+    /**
+     * Possible responses from the player character, filled in @ref gen_responses.
+     */
+    std::vector<talk_response> responses;
+    void gen_responses( const std::string &topic );
+
+private:
+    void clear_window_texts();
+    void print_history( size_t hilight_lines );
+    bool print_responses( int yoffset );
+    int choose_response( int hilight_lines );
+    /**
+     * Folds and adds the folded text to @ref history. Returns the number of added lines.
+     */
+    size_t add_to_history( const std::string &text );
+    /**
+     * Add a simple response that switches the topic to the new one.
+     */
+    talk_response &add_response( const std::string &text, const std::string &r );
+    /**
+     * Add a response with the result TALK_DONE.
+     */
+    talk_response &add_response_done( const std::string &text );
+    /**
+     * Add a response with the result TALK_NONE.
+     */
+    talk_response &add_response_none( const std::string &text );
+    /**
+     * Add a simple response that switches the topic to the new one and executes the given
+     * action. The response always succeeds.
+     */
+    talk_response &add_response( const std::string &text, const std::string &r,
+                                 std::function<void(npc*)> effect_success );
+    /**
+     * Add a simple response that switches the topic to the new one and sets the currently
+     * talked about mission to the given one. The mission pointer must be valid.
+     */
+    talk_response &add_response( const std::string &text, const std::string &r, mission *miss );
+    /**
+     * Add a simple response that switches the topic to the new one and sets the currently
+     * talked about skill to the given one.
+     */
+    talk_response &add_response( const std::string &text, const std::string &r, const skill_id &skill );
+    /**
+     * Add a simple response that switches the topic to the new one and sets the currently
+     * talked about martial art style to the given one.
+     */
+    talk_response &add_response( const std::string &text, const std::string &r, const martialart &style );
+};
+
 /**
  * A dynamically generated line, spoken by the NPC.
  * This struct only adds the constructors which will load the data from json
