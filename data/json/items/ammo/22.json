@@ -46,7 +46,7 @@
     "damage" : 12,
     "range" : 13,
     "dispersion" : 60,
-    "recoil" : 90,
+    "recoil" : 165,
     "effects" : ["COOKOFF"]
   },
   {
