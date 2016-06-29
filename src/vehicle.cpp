@@ -5731,14 +5731,9 @@ int vehicle::damage_direct( int p, int dmg, damage_type type )
 
 void vehicle::leak_fuel( vehicle_part &pt )
 {
-    if( pt.ammo_remaining() <= 0 ) {
+    // only liquid fuels from non-empty tanks can leak out onto map tiles
+    if( !pt.is_tank() || pt.ammo_remaining() <= 0 ) {
         return;
-    }
-
-    // only liquid fuels can leak out onto map tiles
-    auto *fuel = item::find_type( pt.ammo_current() );
-    if( fuel->phase != LIQUID ) {
-        pt.ammo_unset();
     }
 
     // leak in random directions but prefer closest tiles and avoid walls or other obstacles
@@ -5749,6 +5744,7 @@ void vehicle::leak_fuel( vehicle_part &pt )
     } ), tiles.end() );
 
     // leak up to 1/3 ofremaining fuel per iteration and continue until the part is empty
+    auto *fuel = item::find_type( pt.ammo_current() );
     while( !tiles.empty() && pt.ammo_remaining() ) {
         int qty = pt.ammo_consume( rng( 0, std::max( pt.ammo_remaining() / 3, 1L ) ), global_part_pos3( pt ) );
         if( qty > 0 ) {
@@ -6161,6 +6157,29 @@ std::string vehicle_part::name() const {
     return res;
 }
 
+ammotype vehicle_part::ammo_type() const
+{
+    // @todo generic fuel tanks are not yet supported
+    if( is_tank() ) {
+        const itype *fuel = item::find_type( info().fuel_type );
+        return fuel->ammo ? fuel->ammo->type : ammotype( "NULL" );
+    }
+
+    if( is_battery() ) {
+        return base.ammo_type();
+    }
+
+    if( is_turret() ) {
+        return base.ammo_type();
+    }
+
+    if( base.typeId() == "minireactor" ) {
+        return base.ammo_type();
+    }
+
+    return ammotype( "NULL" );
+}
+
 itype_id vehicle_part::ammo_current() const
 {
     // @todo currently only support fuel tanks and batteries
@@ -6256,6 +6275,39 @@ long vehicle_part::ammo_consume( long qty, const tripoint& pos )
     return res;
 }
 
+bool vehicle_part::can_reload( const itype_id &obj )
+{
+    // first check part is not destroyed and can contain ammo
+    if( hp < 0 || ammo_capacity() <= 0 ) {
+        return false;
+    }
+
+    // If we are checking a specific item does it have an ammotype?
+    ammotype ammo = ammotype::NULL_ID;
+    if( !obj.empty() ) {
+         auto atype = item::find_type( obj );
+         if( atype->ammo ) {
+            ammo = atype->ammo->type;
+         }
+    }
+
+    // fuel tanks and reactors can be reloaded whereas batteries cannot
+    if( is_tank() || base.typeId() == "minireactor" ) {
+
+        if( obj.empty() || ammo_current() == obj ||
+            ( ammo_current() == "null" && ammo_type() == ammo ) ) {
+            return ammo_remaining() < ammo_capacity();
+        }
+
+    } else if( is_turret() ) {
+        // @todo not yet implemented
+        return false;
+    }
+
+    return false;
+}
+
+
 const std::set<fault_id>& vehicle_part::faults() const
 {
     return base.faults;
@@ -6295,6 +6347,26 @@ bool vehicle_part::is_light() const
            vp.has_flag( VPFLAG_AISLE_LIGHT ) ||
            vp.has_flag( VPFLAG_DOME_LIGHT ) ||
            vp.has_flag( VPFLAG_ATOMIC_LIGHT );
+}
+
+bool vehicle_part::is_tank() const
+{
+    if( !info().has_flag( VPFLAG_FUEL_TANK ) ) {
+        return false;
+    }
+
+    auto *fuel = item::find_type( info().fuel_type );
+    return fuel->phase == LIQUID;
+}
+
+bool vehicle_part::is_battery() const
+{
+    return base.is_magazine() && base.ammo_type() == "battery";
+}
+
+bool vehicle_part::is_turret() const
+{
+    return base.is_gun();
 }
 
 const vpart_info &vehicle_part::info() const
