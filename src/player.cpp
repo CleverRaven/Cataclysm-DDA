@@ -3902,7 +3902,7 @@ std::list<item *> player::get_radio_items()
         }
     }
 
-    if( !is_armed() ) {
+    if( is_armed() ) {
         if( weapon.has_flag( "RADIO_ACTIVATION" ) ) {
             rc_items.push_back( &weapon );
         }
@@ -9034,7 +9034,7 @@ const martialart &player::get_combat_style() const
 std::vector<item *> player::inv_dump()
 {
     std::vector<item *> ret;
-    if( !is_armed() && can_unwield( weapon, false ) ) {
+    if( is_armed() && can_unwield( weapon, false ) ) {
         ret.push_back(&weapon);
     }
     for (auto &i : worn) {
