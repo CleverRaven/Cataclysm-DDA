@@ -711,6 +711,7 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```DISINFECTANT``` Prevents infections.
 - ```CAFF``` Reduces fatigue.
 - ```ATOMIC_CAFF``` Greatly reduces fatigue and increases radiation dosage.
+- ```ALCOHOL_STRONG``` Greatly increases drunkenness. Adds disease `drunk`.
 - ```ALCOHOL``` Increases drunkenness. Adds disease `drunk`.
 - ```ALCOHOL_WEAK``` Slightly increases drunkenness. Adds disease `drunk`
 - ```PKILL``` Reduces pain. Adds disease `pkill[n]` where `[n]` is the level of flag `PKILL_[n]` used on this comestible.
