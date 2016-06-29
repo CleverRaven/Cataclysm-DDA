@@ -2572,72 +2572,61 @@ void dialogue::gen_responses( const std::string &topic )
     } else if( topic == "TALK_COMBAT_COMMANDS" ) {
             add_response( _("Change your engagement rules..."), "TALK_COMBAT_ENGAGEMENT" );
             add_response( _("Change your aiming rules..."), "TALK_AIM_RULES" );
-            if (p->rules.use_guns) {
-                add_response( _("Don't use guns anymore."), "TALK_COMBAT_COMMANDS",
-                              &talk_function::toggle_use_guns );
-            } else {
-                add_response( _("You can use guns."), "TALK_COMBAT_COMMANDS",
-                              &talk_function::toggle_use_guns );
-            }
-            if (p->rules.use_silent) {
-                add_response( _("Don't worry about noise."), "TALK_COMBAT_COMMANDS",
-                              &talk_function::toggle_use_silent );
-            } else {
-                add_response( _("Use only silent weapons."), "TALK_COMBAT_COMMANDS",
-                              &talk_function::toggle_use_silent );
-            }
-            if (p->rules.use_grenades) {
-                add_response( _("Don't use grenades anymore."), "TALK_COMBAT_COMMANDS",
-                              &talk_function::toggle_use_grenades );
-            } else {
-                add_response( _("You can use grenades."), "TALK_COMBAT_COMMANDS",
-                              &talk_function::toggle_use_grenades );
-            }
+            add_response( p->rules.use_guns ? _("Don't use guns anymore.") : _("You can use guns."),
+                          "TALK_COMBAT_COMMANDS",  []( npc &np ) { np.rules.use_guns = !np.rules.use_guns; } );
+            add_response( p->rules.use_silent ? _("Don't worry about noise.") : _("Use only silent weapons."),
+                          "TALK_COMBAT_COMMANDS", []( npc &np ) { np.rules.use_silent = !np.rules.use_silent; } );
+            add_response( p->rules.use_grenades ? _("Don't use grenades anymore.") : _("You can use grenades."),
+                          "TALK_COMBAT_COMMANDS", []( npc &np ) { np.rules.use_grenades = !np.rules.use_grenades; } );
             add_response_none( _("Never mind.") );
 
     } else if( topic == "TALK_COMBAT_ENGAGEMENT" ) {
-            if( p->rules.engagement != ENGAGE_NONE ) {
-                add_response( _("Don't fight unless your life depends on it."), "TALK_NONE",
-                              &talk_function::set_engagement_none );
+        struct engagement_setting {
+            combat_engagement rule;
+            std::string description;
+        };
+        static const std::vector<engagement_setting> engagement_settings = {{
+            { ENGAGE_NONE, _("Don't fight unless your life depends on it.") },
+            { ENGAGE_CLOSE, _("Attack enemies that get too close.") },
+            { ENGAGE_WEAK, _("Attack enemies that you can kill easily.") },
+            { ENGAGE_HIT, _("Attack only enemies that I attack first.") },
+            { ENGAGE_ALL, _("Attack only enemies you can reach without moving.") },
+            { ENGAGE_NO_MOVE, _("Attack anything you want.") },
+        }};
+
+        for( const auto &setting : engagement_settings ) {
+            if( p->rules.engagement == setting.rule ) {
+                continue;
             }
-            if( p->rules.engagement != ENGAGE_CLOSE ) {
-                add_response( _("Attack enemies that get too close."), "TALK_NONE",
-                              &talk_function::set_engagement_close);
-            }
-            if( p->rules.engagement != ENGAGE_WEAK ) {
-                add_response( _("Attack enemies that you can kill easily."), "TALK_NONE",
-                              &talk_function::set_engagement_weak );
-            }
-            if( p->rules.engagement != ENGAGE_HIT ) {
-                add_response( _("Attack only enemies that I attack first."), "TALK_NONE",
-                              &talk_function::set_engagement_hit );
-            }
-            if( p->rules.engagement != ENGAGE_NO_MOVE ) {
-                add_response( _("Attack only enemies you can reach without moving."), "TALK_NONE",
-                              &talk_function::set_engagement_no_move );
-            }
-            if( p->rules.engagement != ENGAGE_ALL ) {
-                add_response( _("Attack anything you want."), "TALK_NONE",
-                              &talk_function::set_engagement_all );
-            }
-            add_response_none( _("Never mind.") );
+
+            combat_engagement eng = setting.rule;
+            add_response( setting.description, "TALK_NONE", [eng]( npc &np ) {
+                np.rules.engagement = eng;
+            } );
+        }
+        add_response_none( _("Never mind.") );
 
     } else if( topic == "TALK_AIM_RULES" ) {
-        if( p->rules.aim != AIM_WHEN_CONVENIENT ) {
-            add_response( _("Aim when it's convenient."), "TALK_NONE",
-                          &talk_function::set_aim_convenient );
-        }
-        if( p->rules.aim != AIM_SPRAY ) {
-            add_response( _("Go wild, you don't need to aim much."), "TALK_NONE",
-                          &talk_function::set_aim_spray );
-        }
-        if( p->rules.aim != AIM_PRECISE ) {
-            add_response( _("Take your time, aim carefully."), "TALK_NONE",
-                          &talk_function::set_aim_precise );
-        }
-        if( p->rules.aim != AIM_STRICTLY_PRECISE ) {
-            add_response( _("Don't shoot if you can't aim really well."), "TALK_NONE",
-                          &talk_function::set_aim_strictly_precise );
+        struct aim_setting {
+            aim_rule rule;
+            std::string description;
+        };
+        static const std::vector<aim_setting> aim_settings = {{
+            { AIM_WHEN_CONVENIENT, _("Aim when it's convenient.") },
+            { AIM_SPRAY, _("Go wild, you don't need to aim much.") },
+            { AIM_PRECISE, _("Take your time, aim carefully.") },
+            { AIM_STRICTLY_PRECISE, _("Don't shoot if you can't aim really well.") },
+        }};
+
+        for( const auto &setting : aim_settings ) {
+            if( p->rules.aim == setting.rule ) {
+                continue;
+            }
+
+            aim_rule ar = setting.rule;
+            add_response( setting.description, "TALK_NONE", [ar]( npc &np ) {
+                np.rules.aim = ar;
+            } );
         }
         add_response_none( _("Never mind.") );
 
@@ -2757,43 +2746,18 @@ void dialogue::gen_responses( const std::string &topic )
             add_response_done( _("Go back to sleep.") );
 
     } else if( topic == "TALK_MISC_RULES" ) {
-            if( p->rules.allow_pick_up ) {
-                add_response( _("Don't pick up items."), "TALK_MISC_RULES",
-                              &talk_function::toggle_pickup );
-            } else {
-                add_response( _("You can pick up items now."), "TALK_MISC_RULES",
-                              &talk_function::toggle_pickup );
-            }
-
-            if( p->rules.allow_bash ) {
-                add_response( _("Don't bash obstacles."), "TALK_MISC_RULES",
-                              &talk_function::toggle_bashing );
-            } else {
-                add_response( _("You can bash obstacles."), "TALK_MISC_RULES",
-                              &talk_function::toggle_bashing );
-            }
-
-            if( p->rules.allow_sleep ) {
-                add_response( _("Stay awake."), "TALK_MISC_RULES",
-                              &talk_function::toggle_allow_sleep );
-            } else {
-                add_response( _("Sleep when you feel tired."), "TALK_MISC_RULES",
-                              &talk_function::toggle_allow_sleep );
-            }
-
-            if( p->rules.allow_complain ) {
-                add_response( _("Stay quiet."), "TALK_MISC_RULES",
-                              &talk_function::toggle_allow_complain );
-            } else {
-                add_response( _("Tell me when you need something."), "TALK_MISC_RULES",
-                              &talk_function::toggle_allow_complain );
-            }
-
+            add_response( p->rules.allow_pick_up ? _("Don't pick up items.") : _("You can pick up items now."),
+                          "TALK_MISC_RULES", []( npc &np ) { np.rules.allow_pick_up = !np.rules.allow_pick_up; } );
+            add_response( p->rules.allow_bash ? _("Don't bash obstacles.") : _("You can bash obstacles."),
+                          "TALK_MISC_RULES", []( npc &np ) { np.rules.allow_bash = !np.rules.allow_bash; } );
+            add_response( p->rules.allow_sleep ? _("Stay awake.") : _("Sleep when you feel tired."),
+                          "TALK_MISC_RULES", []( npc &np ) { np.rules.allow_sleep = !np.rules.allow_sleep; } );
+            add_response( p->rules.allow_complain ? _("Stay quiet.") : _("Tell me when you need something."),
+                          "TALK_MISC_RULES", []( npc &np ) { np.rules.allow_complain = !np.rules.allow_complain; } );
             add_response( p->rules.allow_pulp ? _("Leave corpses alone.") : _("Smash zombie corpses."),
-                          "TALK_MISC_RULES", &talk_function::toggle_allow_pulp );
-
+                          "TALK_MISC_RULES", []( npc &np ) { np.rules.allow_pulp = !np.rules.allow_pulp; } );
             add_response( p->rules.close_doors ? _("Leave doors open.") : _("Close the doors."),
-                          "TALK_MISC_RULES", &talk_function::toggle_close_doors );
+                          "TALK_MISC_RULES", []( npc &np ) { np.rules.close_doors = !np.rules.close_doors; } );
 
             add_response_none( _("Never mind.") );
 
@@ -3178,36 +3142,6 @@ void talk_function::wake_up( npc &p )
     // TODO: Get mad at player for waking us up unless we're in danger
 }
 
-void talk_function::toggle_pickup( npc &p  )
-{
-    p.rules.allow_pick_up = !p.rules.allow_pick_up;
-}
-
-void talk_function::toggle_bashing( npc &p  )
-{
-    p.rules.allow_bash = !p.rules.allow_bash;
-}
-
-void talk_function::toggle_allow_sleep( npc &p  )
-{
-    p.rules.allow_sleep = !p.rules.allow_sleep;
-}
-
-void talk_function::toggle_allow_complain( npc &p  )
-{
-    p.rules.allow_complain = !p.rules.allow_complain;
-}
-
-void talk_function::toggle_allow_pulp( npc &p  )
-{
-    p.rules.allow_pulp = !p.rules.allow_pulp;
-}
-
-void talk_function::toggle_close_doors( npc &p  )
-{
-    p.rules.close_doors = !p.rules.close_doors;
-}
-
 void talk_function::reveal_stats ( npc &p )
 {
     p.disp_info();
@@ -3515,71 +3449,6 @@ void talk_function::lead_to_safety( npc &p )
     mission->assign( g->u );
     p.goal = mission->get_target();
     p.attitude = NPCATT_LEAD;
-}
-
-void talk_function::toggle_use_guns( npc &p )
-{
-    p.rules.use_guns = !p.rules.use_guns;
-}
-
-void talk_function::toggle_use_silent( npc &p )
-{
-    p.rules.use_silent = !p.rules.use_silent;
-}
-
-void talk_function::toggle_use_grenades( npc &p )
-{
-    p.rules.use_grenades = !p.rules.use_grenades;
-}
-
-void talk_function::set_engagement_none( npc &p )
-{
-    p.rules.engagement = ENGAGE_NONE;
-}
-
-void talk_function::set_engagement_close( npc &p )
-{
-    p.rules.engagement = ENGAGE_CLOSE;
-}
-
-void talk_function::set_engagement_weak( npc &p )
-{
-    p.rules.engagement = ENGAGE_WEAK;
-}
-
-void talk_function::set_engagement_hit( npc &p )
-{
-    p.rules.engagement = ENGAGE_HIT;
-}
-
-void talk_function::set_engagement_no_move( npc &p  )
-{
-    p.rules.engagement = ENGAGE_NO_MOVE;
-}
-
-void talk_function::set_engagement_all( npc &p )
-{
-    p.rules.engagement = ENGAGE_ALL;
-}
-
-void talk_function::set_aim_convenient( npc &p  )
-{
-    p.rules.aim = AIM_WHEN_CONVENIENT;
-}
-
-void talk_function::set_aim_spray( npc &p  )
-{
-    p.rules.aim = AIM_SPRAY;
-}
-
-void talk_function::set_aim_precise( npc &p  )
-{
-    p.rules.aim = AIM_PRECISE;
-}
-
-void talk_function::set_aim_strictly_precise( npc &p  )
-{
-    p.rules.aim = AIM_STRICTLY_PRECISE;
 }
 
 bool pay_npc( npc &np, int cost )

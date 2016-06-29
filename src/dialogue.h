@@ -68,29 +68,7 @@ namespace talk_function {
     void lead_to_safety       ( npc & );
     void start_training       ( npc & );
 
-    void toggle_use_guns      ( npc & );
-    void toggle_use_silent    ( npc & );
-    void toggle_use_grenades  ( npc & );
-    void set_engagement_none  ( npc & );
-    void set_engagement_close ( npc & );
-    void set_engagement_weak  ( npc & );
-    void set_engagement_hit   ( npc & );
-    void set_engagement_no_move( npc & );
-    void set_engagement_all   ( npc & );
-
-    void set_aim_convenient         ( npc & );
-    void set_aim_spray              ( npc & );
-    void set_aim_precise            ( npc & );
-    void set_aim_strictly_precise   ( npc & );
-
     void wake_up              ( npc & );
-
-    void toggle_pickup        ( npc & );
-    void toggle_bashing       ( npc & );
-    void toggle_allow_sleep   ( npc & );
-    void toggle_allow_complain( npc & );
-    void toggle_allow_pulp    ( npc & );
-    void toggle_close_doors   ( npc & );
 
 /*mission_companion.cpp proves a set of functions that compress all the typical mission operations into a set of hard-coded
  *unique missions that don't fit well into the framework of the existing system.  These missions typically focus on
