@@ -423,7 +423,7 @@ int main(int argc, char *argv[])
         if( !dump.empty() ) {
             init_colors();
             g->dump_stats( dump, dmode );
-            exit_handler( 0 );
+            exit( 0 );
         }
         if (check_all_mods) {
             // Here we load all the mods and check their
