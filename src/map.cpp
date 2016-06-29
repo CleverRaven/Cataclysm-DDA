@@ -4737,7 +4737,9 @@ item map::water_from( const tripoint &p )
 
     const ter_id terrain_id = g->m.ter( p );
     if( terrain_id == t_sewage ) {
-        return item( "water_sewage", 0, item::INFINITE_CHARGES );
+        item ret( "water_sewage", 0, item::INFINITE_CHARGES );
+        ret.poison = rng( 1, 7 );
+        return ret;
     }
 
     item ret( "water", 0, item::INFINITE_CHARGES );
