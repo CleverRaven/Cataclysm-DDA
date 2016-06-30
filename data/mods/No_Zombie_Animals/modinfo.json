@@ -6,6 +6,7 @@
     "name": "No Zombie Animals",
     "author": "Anonymous",
     "description": "Removes zombie animals from the game.",
+    "category": "item_exclude",
     "path": "modinfo.json"
 },{
     "type": "MONSTER_BLACKLIST",
