@@ -63,7 +63,7 @@ sub encode(@) {
 }
 
 @priority = config(catfile(dirname(__FILE__), 'priority.conf'));
-@wrapping = config(catfile(dirname(__FILE__), 'wrap.conf'));
+@wrapping = config(catfile(dirname(__FILE__), 'nowrap.conf'));
 
 $json = JSON->new->allow_nonref;
 
