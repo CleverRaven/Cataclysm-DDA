@@ -768,12 +768,9 @@ class game
         void examine( const tripoint &p );// Examine nearby terrain  'e'
         void examine();
 
-        // Establish a grab on something.
-        void grab();
-        // Pick where to put liquid; false if it's left where it was
+        void grab(); // Establish a grab on something.
+        void compare( const tripoint &offset = tripoint_min ); // Compare items 'I'
 
-        void compare(); // Compare two Items 'I'
-        void compare( const tripoint &offset ); // Offset is added to player's position
         void drop(int pos = INT_MIN); // Drop an item  'd'
         void drop_in_direction(); // Drop w/ direction  'D'
 
