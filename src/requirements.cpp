@@ -768,8 +768,8 @@ template <typename T>
 void requirement_data::inline_nested( std::vector< std::vector<T> > &vec )
 {
     // @todo Inlining whole alternatives
-    const auto find_nested = []( const std::vector<T> &v ) {
-        return std::find_if( v.begin(), v.end(), []( const T &comp ) {
+    const auto find_nested = []( std::vector<T> &v ) {
+        return std::find_if( v.begin(), v.end(), []( T &comp ) {
             return comp.is_nested_requirement;
         } );
     };
@@ -786,6 +786,7 @@ void requirement_data::inline_nested( std::vector< std::vector<T> > &vec )
             }
 
             const requirement_data inlined = (*inlined_id) * iter->count;
+            alt.erase( iter );
             inlined.inline_into( alt );
 
             iter = find_nested( alt );
