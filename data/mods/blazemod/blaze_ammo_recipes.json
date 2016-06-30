@@ -11,7 +11,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities" : [
-    {"id":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1}
   ],
   "components": [
     [
@@ -33,8 +33,8 @@
   "reversible": false,
   "autolearn": true,
   "qualities" : [
-    {"id":"CUT","level":1,"amount":1},
-    {"id":"HAMMER","level":1,"amount":1}
+    {"id":"CUT","level":1},
+    {"id":"HAMMER","level":1}
   ],
   "components": [
     [
@@ -55,7 +55,7 @@
   "time": 15000,
   "reversible": false,
   "autolearn": true,
-  "qualities" : [ {"id":"CUT","level":1,"amount":1} ],
+  "qualities" : [ {"id":"CUT","level":1} ],
   "tools" : [
     [
       [ "soldering_iron", 10 ],
@@ -87,7 +87,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities" : [
-    {"id":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1}
   ], "tools" : [
     [
       [ "soldering_iron", 10 ],
@@ -135,7 +135,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities" : [
-    {"id":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1}
   ], "tools" : [
     [
       [ "soldering_iron", 10 ],
@@ -178,7 +178,7 @@
   "time": 5000,
   "reversible": false,
   "autolearn": true,
-  "qualities" : [ {"id":"CUT","level":1,"amount":1} ],
+  "qualities" : [ {"id":"CUT","level":1} ],
   "tools" : [
     [
       [ "soldering_iron", 10 ],
@@ -221,7 +221,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities" : [
-    {"id":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1}
   ], "tools" : [
     [
       [ "soldering_iron", 5 ],
@@ -272,8 +272,8 @@
   "reversible": false,
   "autolearn": true,
   "qualities" : [
-    {"id":"CUT","level":1,"amount":1},
-    {"id":"BOIL","level":1,"amount":1}
+    {"id":"CUT","level":1},
+    {"id":"BOIL","level":1}
   ], "tools" : [
     [
       [ "soldering_iron", 5 ],
@@ -348,7 +348,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities" : [
-    {"id":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1}
   ],
   "components": [
     [
@@ -378,7 +378,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities" : [
-    {"id":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1}
   ],
   "components": [
     [
@@ -407,7 +407,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities" : [
-    {"id":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1}
   ],
   "components": [
     [
@@ -437,7 +437,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities" : [
-    {"id":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1}
   ],
   "components": [
     [
@@ -467,7 +467,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities" : [
-    {"id":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1}
   ],
   "components": [
     [
@@ -499,7 +499,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities" : [
-    {"id":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1}
   ],
   "components": [
     [
@@ -527,7 +527,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"id":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1}
    ],
   "components": [
     [
@@ -547,8 +547,8 @@
   "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":1},
-    {"id":"CUT","level":1,"amount":1}
+    {"id":"HAMMER","level":1},
+    {"id":"CUT","level":1}
   ], "tools": [
       [
       ["tongs", -1]
