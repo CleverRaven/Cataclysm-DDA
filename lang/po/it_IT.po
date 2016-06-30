@@ -13,9 +13,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Cataclysm-DDA\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-06-20 09:57+0300\n"
-"PO-Revision-Date: 2016-06-22 10:15+0000\n"
-"Last-Translator: Giuseppe D'Orsi <g.dorsi@gmail.com>\n"
+"POT-Creation-Date: 2016-06-27 09:30+0300\n"
+"PO-Revision-Date: 2016-06-29 17:14+0000\n"
+"Last-Translator: Angela Angy <angel932008@live.it>\n"
 "Language-Team: Italian (Italy) (http://www.transifex.com/cataclysm-dda-"
 "translators/cataclysm-dda/language/it_IT/)\n"
 "Language: it_IT\n"
@@ -1832,6 +1832,11 @@ msgstr ""
 "usare nel lanciafiamme chimico. Meglio se usata con qualche tipo di maschera "
 "o protezione per la bocca."
 
+#. ~ Description for lump of steel
+#: lang/json/AMMO_from_json.py
+msgid "A heavy formed piece of steel.  Useful for some crafting recipes."
+msgstr ""
+
 #. ~ Description for lead ball
 #: lang/json/AMMO_from_json.py
 msgid ""
@@ -2053,6 +2058,13 @@ msgid ""
 "A metal disc surrounded by serrated edges.  It's as menacing as it sounds."
 msgstr ""
 
+#. ~ Description for chunk of steel
+#: lang/json/AMMO_from_json.py
+msgid ""
+"A misshapen chunk of steel.  Makes a decent weapon in a pinch, and is also "
+"useful for some crafting recipes."
+msgstr ""
+
 #. ~ Description for plutonium cell
 #: lang/json/AMMO_from_json.py
 msgid ""
@@ -2095,11 +2107,6 @@ msgid ""
 "A paper cartridge containing black powder and metallic shot.  Historically "
 "used to reload muzzleloaders in a more reasonable time."
 msgstr ""
-
-#. ~ Description for point
-#: lang/json/AMMO_from_json.py
-msgid "A point on turret control screen display."
-msgstr "Un punto sul display di controllo della torretta."
 
 #. ~ Description for blunderbuss slug
 #: lang/json/AMMO_from_json.py
@@ -2686,6 +2693,13 @@ msgstr ""
 "Una variante incendiaria e perforante del potente proiettile .50 BMG. I "
 "proiettili incendiari sono ideati per bruciare ad alte temperature "
 "all'impatto, perforare armature e dare fuoco alle sostanze infiammabili."
+
+#. ~ Description for scrap metal
+#: lang/json/AMMO_from_json.py
+msgid ""
+"An bulky assortment of small bits of scrap steel useful in all kinds of "
+"crafting"
+msgstr ""
 
 #. ~ Description for bomblet case
 #: lang/json/AMMO_from_json.py
@@ -4311,6 +4325,12 @@ msgstr[0] "monossido di cromo"
 msgstr[1] "monossido di cromo"
 
 #: lang/json/AMMO_from_json.py
+msgid "chunk of steel"
+msgid_plural "chunk of steels"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/AMMO_from_json.py
 msgid "clay pellet"
 msgid_plural "clay pellets"
 msgstr[0] "pallina di argilla"
@@ -4829,6 +4849,12 @@ msgstr[0] "stringa lunga"
 msgstr[1] "stringhe lunghe"
 
 #: lang/json/AMMO_from_json.py
+msgid "lump of steel"
+msgid_plural "lump of steels"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/AMMO_from_json.py
 msgid "lye powder"
 msgid_plural "lye powder"
 msgstr[0] "soda caustica in polvere"
@@ -5079,12 +5105,6 @@ msgid "plutonium slurry"
 msgid_plural "plutonium slurry"
 msgstr[0] "poltiglia al plutonio"
 msgstr[1] "poltiglie al plutonio"
-
-#: lang/json/AMMO_from_json.py
-msgid "point"
-msgid_plural "points"
-msgstr[0] "punto"
-msgstr[1] "punti"
 
 #: lang/json/AMMO_from_json.py lang/json/GENERIC_from_json.py
 msgid "pool ball"
@@ -5613,6 +5633,12 @@ msgid "sand"
 msgid_plural "sand"
 msgstr[0] "sabbia"
 msgstr[1] "sabbia"
+
+#: lang/json/AMMO_from_json.py
+msgid "scrap metal"
+msgid_plural "scrap metals"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/AMMO_from_json.py
 msgid "searing bolt"
@@ -14105,8 +14131,8 @@ msgstr ""
 #: lang/json/BIONIC_ITEM_from_json.py
 msgid "Cranial Flashlight CBM"
 msgid_plural "Cranial Flashlight CBMs"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "CBM Torcia Elettrica Cranica"
+msgstr[1] "CBM Torcia Elettrica Cranica"
 
 #. ~ Description for Close Quarters Battle CBM
 #: lang/json/BIONIC_ITEM_from_json.py
@@ -15652,6 +15678,9 @@ msgid ""
 "stories contained herein belong to a different time, before the dead walked "
 "and the world moved on."
 msgstr ""
+"Un libricino per piccoli lettori. I personaggi colorati dei cartoni e le "
+"dolci storie qui contenute appartengono a un tempo diverso, prima che i "
+"morti camminassero e il mondo progredisse."
 
 #. ~ Description for Popular Mechanics
 #: lang/json/BOOK_from_json.py
@@ -15919,6 +15948,9 @@ msgid ""
 "Second World War, filled with riveting subplots about rat farming and "
 "dysentery."
 msgstr ""
+"Un racconto elettrizzante di sopravvivenza in un campo di prigionia durante "
+"la seconda guerra mondiale, pieno di intrecci affascinanti su allevamento di "
+"ratti e dissenteria."
 
 #. ~ Description for AAA Guide 2040
 #: lang/json/BOOK_from_json.py
@@ -17136,6 +17168,9 @@ msgid ""
 "and is hired to help the townsfolk defend themselves from a band of "
 "marauding outlaws."
 msgstr ""
+"La classica storia di un pistolero straniero che arriva in piccolo paese e "
+"viene assunto per aiutare gli abitanti a difendersi da una banda di "
+"fuorilegge predoni."
 
 #. ~ Description for samurai novel
 #: lang/json/BOOK_from_json.py
@@ -17173,6 +17208,8 @@ msgid ""
 "The stirring tale of a race against time, in search of a lost city located "
 "in the dark heart of the African continent."
 msgstr ""
+"Il racconto entusiasmante di una corsa contro il tempo, alla ricerca di una "
+"città perduta situata nel cuore oscuro del continente Africano."
 
 #. ~ Description for tragedy novel
 #: lang/json/BOOK_from_json.py
@@ -17659,8 +17696,8 @@ msgstr[1] ""
 #: lang/json/BOOK_from_json.py
 msgid "adventure novel"
 msgid_plural "adventure novels"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "romanzo d'avventura"
+msgstr[1] "romanzi d'avventura"
 
 #: lang/json/BOOK_from_json.py
 msgid "army improvised field repairs"
@@ -17743,8 +17780,8 @@ msgstr[1] ""
 #: lang/json/BOOK_from_json.py
 msgid "children's book"
 msgid_plural "children's books"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "libro per bambini"
+msgstr[1] "libri per bambini"
 
 #: lang/json/BOOK_from_json.py
 msgid "clothing designer's portfolio"
@@ -17983,14 +18020,14 @@ msgstr[1] ""
 #: lang/json/BOOK_from_json.py
 msgid "war novel"
 msgid_plural "war novels"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "romanzo di guerra"
+msgstr[1] "romanzi di guerra"
 
 #: lang/json/BOOK_from_json.py
 msgid "western novel"
 msgid_plural "western novels"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "romanzo western"
+msgstr[1] "romanzi western"
 
 #. ~ Description for cephalopod serum
 #: lang/json/COMESTIBLE_from_json.py
@@ -18010,7 +18047,7 @@ msgstr ""
 #. ~ Description for BLT
 #: lang/json/COMESTIBLE_from_json.py
 msgid "A bacon, lettuce, and tomato sandwich on toasted bread."
-msgstr ""
+msgstr "Un sandwich al bacon, lattuga e pomodori fatto con pane tostato."
 
 #. ~ Description for potato chips
 #: lang/json/COMESTIBLE_from_json.py
@@ -18036,6 +18073,8 @@ msgstr ""
 #: lang/json/COMESTIBLE_from_json.py
 msgid "A big bag of soft chocolate-covered peppermint patties...  yum!"
 msgstr ""
+"Un grande sacco di menta piperita ricoperto di morbido cioccolato ... gnam "
+"gnam!"
 
 #. ~ Description for Long Island iced tea
 #: lang/json/COMESTIBLE_from_json.py
@@ -18050,11 +18089,14 @@ msgid ""
 "A blend of spices meant to be used in some South Asian dishes.  Could be "
 "eaten raw, but why would you do that?"
 msgstr ""
+"Una miscela di spezie pensata per essere utilizzata in alcuni piatti "
+"asiatici del sud. Potrebbero essere mangiati al naturale, ma perché lo "
+"faresti?"
 
 #. ~ Description for cheese
 #: lang/json/COMESTIBLE_from_json.py
 msgid "A block of yellow processed cheese."
-msgstr ""
+msgstr "Un blocco di formaggio giallo confezionato."
 
 #. ~ Description for boiled large human stomach
 #: lang/json/COMESTIBLE_from_json.py
@@ -18091,18 +18133,21 @@ msgstr ""
 #. ~ Description for onion ring
 #: lang/json/COMESTIBLE_from_json.py
 msgid "A box of fast-food fried onions.  Crunchy and delicious."
-msgstr ""
+msgstr "Una porzione di cipolle fritte da fast-food. Croccanti e deliziose."
 
 #. ~ Description for cheese fries
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
 "A box of fast-food fried potatoes with delicious cheese smothered on top."
 msgstr ""
+"Una porzione di patate fritte da fast-food ricoperte da delizioso formaggio ."
 
 #. ~ Description for fast-food French fries
 #: lang/json/COMESTIBLE_from_json.py
 msgid "A box of fast-food fried potatoes.  Somehow, they're still edible."
 msgstr ""
+"Una porzione di patate fritte da fast-food. In qualche modo, sono ancora "
+"commestibili."
 
 #. ~ Description for sugary cereal
 #: lang/json/COMESTIBLE_from_json.py
@@ -18159,6 +18204,8 @@ msgid ""
 "A carefully folded poisonous raw skin harvested from an unnatural creature.  "
 "You can cure it for storage and tanning."
 msgstr ""
+"Pelle grezza velenosa ripiegata con cura ricavata da una creatura "
+"innaturale. Puoi usarla per lo stoccaggio e la conciatura."
 
 #. ~ Description for raw pelt
 #: lang/json/COMESTIBLE_from_json.py
@@ -18182,6 +18229,8 @@ msgid ""
 "A carefully folded raw skin harvested from a human.  You can cure it for "
 "storage and tanning, or eat it if you're desperate enough."
 msgstr ""
+"Pelle grezza ripiegata con cura ricavata da un uomo. Puoi usarla per lo "
+"stoccaggio e la conciatura, o mangiarla se sei abbastanza disperato."
 
 #. ~ Description for raw hide
 #: lang/json/COMESTIBLE_from_json.py
@@ -18211,7 +18260,7 @@ msgstr ""
 #. ~ Description for grapefruit
 #: lang/json/COMESTIBLE_from_json.py
 msgid "A citrus fruit, whose taste ranges from sour to semi-sweet."
-msgstr ""
+msgstr "Un agrume, il cui gusto varia dall'acido al semi-dolce."
 
 #. ~ Description for razorclaw roe
 #: lang/json/COMESTIBLE_from_json.py
@@ -18221,7 +18270,7 @@ msgstr ""
 #. ~ Description for grape
 #: lang/json/COMESTIBLE_from_json.py
 msgid "A cluster of seedless grapes."
-msgstr ""
+msgstr "Un grappolo di uva senza semi."
 
 #. ~ Description for hops flower
 #: lang/json/COMESTIBLE_from_json.py
@@ -18267,7 +18316,7 @@ msgstr "Una testa di lattuga iceberg croccante."
 #. ~ Description for blackberry
 #: lang/json/COMESTIBLE_from_json.py
 msgid "A darker cousin of raspberry."
-msgstr ""
+msgstr "Un cugino più scuro del lampone."
 
 #. ~ Description for chloroform soaked rag
 #: lang/json/COMESTIBLE_from_json.py
@@ -18359,7 +18408,7 @@ msgstr ""
 #. ~ Description for fried morel mushroom
 #: lang/json/COMESTIBLE_from_json.py
 msgid "A delicious serving of fried morsels of morel mushroom."
-msgstr ""
+msgstr "Una deliziosa porzione di bocconcini fritti di spugnole."
 
 #. ~ Description for coconut milk
 #: lang/json/COMESTIBLE_from_json.py
@@ -18400,6 +18449,8 @@ msgid ""
 "A filling and nutritious New England classic that has been improved with the "
 "addition of extra wholesome ingredients."
 msgstr ""
+"Un classico del New England saziante e nutriente che è stato migliorato con "
+"l'aggiunta di ingredienti super sani."
 
 #. ~ Description for cooked oatmeal
 #: lang/json/COMESTIBLE_from_json.py
@@ -18407,6 +18458,8 @@ msgid ""
 "A filling and nutritious New England classic that has sustained pioneers and "
 "captains of industry alike."
 msgstr ""
+"Un classico del New England saziante e nutriente che ha dato sostentamento a "
+"pionieri e capitani d'industria allo stesso modo."
 
 #. ~ Description for spider egg
 #: lang/json/COMESTIBLE_from_json.py
@@ -18423,7 +18476,7 @@ msgstr ""
 #. ~ Description for mango
 #: lang/json/COMESTIBLE_from_json.py
 msgid "A fleshy fruit with large pit."
-msgstr ""
+msgstr "Un frutto polposo con un grande nocciolo."
 
 #. ~ Description for fluid sac
 #: lang/json/COMESTIBLE_from_json.py
@@ -18438,11 +18491,13 @@ msgid ""
 "A fragrant and healthy beverage made from pine needles steeped in boiling "
 "water."
 msgstr ""
+"Una bevanda profumata e salutare a base di aghi di pino macerati in acqua "
+"bollente."
 
 #. ~ Description for Italian seasoning
 #: lang/json/COMESTIBLE_from_json.py
 msgid "A fragrant mix of dried oregano, basil, thyme and other spices."
-msgstr ""
+msgstr "Una fragrante mix di origano secco, basilico, timo e altre spezie."
 
 #. ~ Description for cooked plant marrow
 #: lang/json/COMESTIBLE_from_json.py
@@ -18464,12 +18519,12 @@ msgstr ""
 #. ~ Description for coconut
 #: lang/json/COMESTIBLE_from_json.py
 msgid "A fruit with a hard and hairy shell."
-msgstr ""
+msgstr "Un frutto con un guscio duro e peloso."
 
 #. ~ Description for watermelon
 #: lang/json/COMESTIBLE_from_json.py
 msgid "A fruit, bigger than your head.  It is very juicy!"
-msgstr ""
+msgstr "Un frutto, più grande della tua testa. Davvero succoso!"
 
 #. ~ Description for first aid kit
 #: lang/json/COMESTIBLE_from_json.py
@@ -18484,6 +18539,8 @@ msgid ""
 "A group of irradiated plums will remain edible nearly forever.  Sterilized "
 "using radiation, so it's safe to eat."
 msgstr ""
+"Una manciata di prugne irradiate rimarrà commestibile quasi per sempre. "
+"Sterilizzate con irraggiamento, quindi sono sicure da mangiare."
 
 #. ~ Description for Ambien
 #: lang/json/COMESTIBLE_from_json.py
@@ -18498,6 +18555,8 @@ msgid ""
 "A hallucinogenic mushroom which has been dehydrated for storage.  Will still "
 "cause hallucinations if eaten."
 msgstr ""
+"Un fungo allucinogeno che è stato essiccato per la sua conservazione. Potrà "
+"ancora causare allucinazioni se mangiato."
 
 #. ~ Description for handful of acorns
 #: lang/json/COMESTIBLE_from_json.py
@@ -18505,6 +18564,8 @@ msgid ""
 "A handful of acorns, still in their shells.  Squirrels like them, but "
 "they're not very good for you to eat in this state."
 msgstr ""
+"Una manciata di ghiande, ancora nel loro guscio. Agli scoiattoli piacciono, "
+"ma non sono molto buone per voi se mangiate in questo stato."
 
 #. ~ Description for Necco wafer
 #: lang/json/COMESTIBLE_from_json.py
@@ -18512,6 +18573,8 @@ msgid ""
 "A handful of candy wafers, in assorted flavors: orange, lemon, lime, clove, "
 "chocolate, wintergreen, cinnamon, and licorice.  Yum!"
 msgstr ""
+"Una manciata di caramelle, gusti assortiti: arancio, limone, lime, chiodi di "
+"garofano, cioccolato, sempreverde, cannella e liquirizia. Gnam Gnam!"
 
 #. ~ Description for deep fried chicken
 #: lang/json/COMESTIBLE_from_json.py
@@ -18521,7 +18584,7 @@ msgstr ""
 #. ~ Description for plum
 #: lang/json/COMESTIBLE_from_json.py
 msgid "A handful of large, purple plums.  Healthy and good for your digestion."
-msgstr ""
+msgstr "Una manciata di prugne viola, grandi. Sane e buone per la digestione."
 
 #. ~ Description for handful of shelled hickory nuts
 #: lang/json/COMESTIBLE_from_json.py
@@ -18543,7 +18606,7 @@ msgstr ""
 #. ~ Description for boiled egg
 #: lang/json/COMESTIBLE_from_json.py
 msgid "A hard boiled egg, still in its shell.  Portable and nutritious!"
-msgstr ""
+msgstr "Un uovo sodo, ancora nel suo guscio. Portatile e nutriente!"
 
 #. ~ Description for baked dahlia root
 #: lang/json/COMESTIBLE_from_json.py
@@ -18565,7 +18628,7 @@ msgstr ""
 #. ~ Description for herbal tea
 #: lang/json/COMESTIBLE_from_json.py
 msgid "A healthy beverage made from herbs steeped in boiling water."
-msgstr ""
+msgstr "Una bevanda salutare a base di erbe macerate in acqua bollente."
 
 #. ~ Description for carrot
 #: lang/json/COMESTIBLE_from_json.py
@@ -18580,7 +18643,7 @@ msgstr "Un'abbondante testa di cavolo bianco croccante."
 #. ~ Description for cooked beans
 #: lang/json/COMESTIBLE_from_json.py
 msgid "A hearty serving of cooked great northern beans."
-msgstr ""
+msgstr "Una porzione abbondante di fagioli grandi del nord cotti."
 
 #. ~ Description for cooked rice
 #: lang/json/COMESTIBLE_from_json.py
@@ -18640,12 +18703,12 @@ msgstr ""
 #. ~ Description for pear
 #: lang/json/COMESTIBLE_from_json.py
 msgid "A juicy, bell-shaped pear.  Yum!"
-msgstr ""
+msgstr "Una succosa pera a forma di campana. Gnam gnam!"
 
 #. ~ Description for melon
 #: lang/json/COMESTIBLE_from_json.py
 msgid "A large and very sweet fruit."
-msgstr ""
+msgstr "Un frutto grande e molto dolce."
 
 #. ~ Description for wax
 #: lang/json/COMESTIBLE_from_json.py
@@ -18665,6 +18728,8 @@ msgid ""
 "A large vegetable, about the size of your head.  Not very tasty raw, but is "
 "great for cooking."
 msgstr ""
+"Un grande vegetale, delle dimensioni della tua testa. Non molto gustoso da "
+"crudo, ma è ottimo per la cottura."
 
 #. ~ Description for ant egg
 #: lang/json/COMESTIBLE_from_json.py
@@ -18678,11 +18743,13 @@ msgstr ""
 msgid ""
 "A large, brown and fuzzy-skinned berry.  Its delicious insides are green."
 msgstr ""
+"Una bacca pelosa di grandi dimensioni, marrone . Al suo delizioso interno è "
+"verde."
 
 #. ~ Description for pineapple
 #: lang/json/COMESTIBLE_from_json.py
 msgid "A large, spiky pineapple.  A bit sour, though."
-msgstr ""
+msgstr "Un grande ananas, appuntito. Un po' acido, però."
 
 #. ~ Description for dandelion wine
 #: lang/json/COMESTIBLE_from_json.py
@@ -18910,6 +18977,8 @@ msgstr ""
 #: lang/json/COMESTIBLE_from_json.py
 msgid "A powder-like mix of cultured yeast, good for baking and brewing alike."
 msgstr ""
+"Un mix polverulento di lievito in coltura, buono sia per la cottura al forno "
+"che per la birra."
 
 #. ~ Description for hemostatic powder
 #: lang/json/COMESTIBLE_from_json.py
@@ -18974,7 +19043,7 @@ msgstr ""
 #. ~ Description for cherry
 #: lang/json/COMESTIBLE_from_json.py
 msgid "A red, sweet fruit that grows in trees."
-msgstr ""
+msgstr "Un frutto rosso, dolce, che cresce sugli alberi."
 
 #. ~ Description for cucumber sandwich
 #: lang/json/COMESTIBLE_from_json.py
@@ -18987,6 +19056,8 @@ msgid ""
 "A rich and tasty fish chowder from Scotland, made with preserved fish and "
 "creamy milk."
 msgstr ""
+"Una ricca e gustosa zuppa di pesce della Scozia, a base di conserve di pesce "
+"e latte cremoso."
 
 #. ~ Description for hand-rolled cigarette
 #: lang/json/COMESTIBLE_from_json.py
@@ -19075,13 +19146,15 @@ msgid ""
 "A serving of acorns that have been hulled, chopped, and boiled in water "
 "before being thoroughly toasted until dry.  Filling and nutritious."
 msgstr ""
+"Una porzione di ghiande mondate, tagliate e cotte in acqua prima di essere "
+"accuratamente tostate fino a completa essiccazione. Sazianti e nutrienti."
 
 #. ~ Description for beans and rice
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
 "A serving of beans and rice that has been cooked together.  Delicious and "
 "healthy!"
-msgstr ""
+msgstr "Una porzione di riso e fagioli cotti insieme. Deliziosa e salutare!"
 
 #. ~ Description for cooked buckwheat
 #: lang/json/COMESTIBLE_from_json.py
@@ -19167,7 +19240,7 @@ msgstr ""
 #. ~ Description for apricot
 #: lang/json/COMESTIBLE_from_json.py
 msgid "A smooth-skinned fruit, related to the peach."
-msgstr ""
+msgstr "Un frutto dalla pelle liscia, imparentato con la pesca."
 
 #. ~ Description for bee balm
 #: lang/json/COMESTIBLE_from_json.py
@@ -19383,7 +19456,7 @@ msgstr ""
 #. ~ Description for raspberry
 #: lang/json/COMESTIBLE_from_json.py
 msgid "A sweet red berry."
-msgstr ""
+msgstr "Un lampone rosso dolce."
 
 #. ~ Description for syringe of adrenaline
 #: lang/json/COMESTIBLE_from_json.py
@@ -19423,16 +19496,18 @@ msgid ""
 "A tasty collection of wild herbs including violet, sassafras, mint, clover, "
 "purslane, and burdock."
 msgstr ""
+"Una gustosa raccolta di erbe selvatiche tra cui viola, sassofrasso, menta, "
+"trifoglio, portulaca, e bardana."
 
 #. ~ Description for cooked morel mushroom
 #: lang/json/COMESTIBLE_from_json.py
 msgid "A tasty cooked morel mushroom."
-msgstr ""
+msgstr "Un gustoso fungo spugnola cotto."
 
 #. ~ Description for cooked mushroom
 #: lang/json/COMESTIBLE_from_json.py
 msgid "A tasty cooked wild mushroom."
-msgstr ""
+msgstr "Un gustoso fungo selvatico cotto."
 
 #. ~ Description for stout
 #: lang/json/COMESTIBLE_from_json.py
@@ -19493,6 +19568,9 @@ msgid ""
 "A thick slab of salty cured bacon.  Shelf stable, precooked and ready-to-"
 "eat, it tastes better when reheated."
 msgstr ""
+"Uno spesso pezzo di pancetta salato stagionato. Si conserva a temperatura "
+"ambiente, precotto e pronto per il consumo, ha un sapore migliore se "
+"riscaldato."
 
 #. ~ Description for coffee syrup
 #: lang/json/COMESTIBLE_from_json.py
@@ -19636,7 +19714,7 @@ msgstr ""
 #. ~ Description for papaya
 #: lang/json/COMESTIBLE_from_json.py
 msgid "A very sweet and soft tropical fruit."
-msgstr ""
+msgstr "Un frutto tropicale molto dolce e morbido."
 
 #. ~ Description for maple sap
 #: lang/json/COMESTIBLE_from_json.py
@@ -19732,6 +19810,7 @@ msgstr ""
 #: lang/json/COMESTIBLE_from_json.py
 msgid "An egg belonging to one of reptile species found in New England."
 msgstr ""
+"Un uovo appartenente ad una delle specie di rettili trovate in Inghilterrra."
 
 #. ~ Description for alpha mutagen
 #. ~ Description for chimera mutagen
@@ -19753,6 +19832,8 @@ msgstr ""
 #: lang/json/COMESTIBLE_from_json.py
 msgid "An extremely sugary tar-like syrup, with a slightly bitter aftertaste."
 msgstr ""
+"Uno sciroppo, simile al catrame, estremamente zuccherino con un retrogusto "
+"leggermente amaro."
 
 #. ~ Description for irradiated apricot
 #: lang/json/COMESTIBLE_from_json.py
@@ -19760,6 +19841,8 @@ msgid ""
 "An irradiated apricot will remain edible nearly forever.  Sterilized using "
 "radiation, so it's safe to eat."
 msgstr ""
+"Un'albicocca irradiata rimarrà commestibile quasi per sempre. Sterilizzata "
+"con irraggiamento, quindi è sicura da mangiare."
 
 #. ~ Description for irradiated banana
 #: lang/json/COMESTIBLE_from_json.py
@@ -19776,6 +19859,8 @@ msgid ""
 "An irradiated blackberry will remain edible nearly forever.  Sterilized "
 "using radiation, so it's safe to eat."
 msgstr ""
+"Una mora irradiata rimarrà commestibile quasi per sempre. Sterilizzata con "
+"irraggiamento, quindi è sicura da mangiare."
 
 #. ~ Description for irradiated blueberry
 #: lang/json/COMESTIBLE_from_json.py
@@ -19783,6 +19868,8 @@ msgid ""
 "An irradiated blueberry will remain edible nearly forever.  Sterilized using "
 "radiation, so it's safe to eat."
 msgstr ""
+"Un mirtillo irradiato rimarrà commestibile quasi per sempre. Sterilizzato "
+"con irraggiamento, quindi è sicuro da mangiare."
 
 #. ~ Description for irradiated carrot
 #: lang/json/COMESTIBLE_from_json.py
@@ -19799,6 +19886,8 @@ msgid ""
 "An irradiated cherry will remain edible nearly forever.  Sterilized using "
 "radiation, so it's safe to eat."
 msgstr ""
+"Una ciliegia irradiata rimarrà commestibile quasi per sempre. Sterilizzata "
+"con irraggiamento, quindi è sicura da mangiare."
 
 #. ~ Description for irradiated broccoli
 #: lang/json/COMESTIBLE_from_json.py
@@ -19815,6 +19904,8 @@ msgid ""
 "An irradiated cluster of celery will remain edible nearly forever.  "
 "Sterilized using radiation, so it's safe to eat."
 msgstr ""
+"Un mazzo di sedani irradiati resta commestibile quasi per sempre. "
+"Sterilizzato con irraggiamento, quindi è sicuro da mangiare."
 
 #. ~ Description for irradiated cranberry
 #: lang/json/COMESTIBLE_from_json.py
@@ -19822,6 +19913,8 @@ msgid ""
 "An irradiated cranberry will remain edible nearly forever.  Sterilized using "
 "radiation, so it's safe to eat."
 msgstr ""
+"Un mirtillo irradiato rimarrà commestibile quasi per sempre. Sterilizzato "
+"con irraggiamento, quindi è sicuro da mangiare."
 
 #. ~ Description for irradiated cucumber
 #: lang/json/COMESTIBLE_from_json.py
@@ -19829,6 +19922,8 @@ msgid ""
 "An irradiated cucumber will remain edible nearly forever.  Sterilized using "
 "radiation, so it's safe to eat."
 msgstr ""
+"Un cetriolo irradiato rimarrà commestibile quasi per sempre. Sterilizzato "
+"con irraggiamento, quindi è sicuro da mangiare."
 
 #. ~ Description for irradiated corn
 #: lang/json/COMESTIBLE_from_json.py
@@ -19845,6 +19940,8 @@ msgid ""
 "An irradiated grape will remain edible nearly forever.  Sterilized using "
 "radiation, so it's safe to eat."
 msgstr ""
+"Dell'uva irradiata rimarrà commestibile quasi per sempre. Sterilizzata con "
+"irraggiamento, quindi è sicura da mangiare."
 
 #. ~ Description for irradiated grapefruit
 #: lang/json/COMESTIBLE_from_json.py
@@ -19852,6 +19949,8 @@ msgid ""
 "An irradiated grapefruit will remain edible nearly forever.  Sterilized "
 "using radiation, so it's safe to eat."
 msgstr ""
+"Un pompelmo irradiato rimarrà commestibile quasi per sempre. Sterilizzato "
+"con irraggiamento, quindi è sicuro da mangiare."
 
 #. ~ Description for irradiated cabbage
 #: lang/json/COMESTIBLE_from_json.py
@@ -19877,6 +19976,8 @@ msgid ""
 "An irradiated kiwi will remain edible nearly forever.  Sterilized using "
 "radiation, so it's safe to eat."
 msgstr ""
+"Una kiwi irradiato rimarrà commestibile quasi per sempre. Sterilizzato con "
+"irraggiamento, quindi è sicuro da mangiare."
 
 #. ~ Description for irradiated lemon
 #: lang/json/COMESTIBLE_from_json.py
@@ -19893,6 +19994,8 @@ msgid ""
 "An irradiated mango will remain edible nearly forever.  Sterilized using "
 "radiation, so it's safe to eat."
 msgstr ""
+"Un mango irradiato rimarrà commestibile quasi per sempre. Sterilizzato con "
+"irraggiamento, quindi è sicuro da mangiare."
 
 #. ~ Description for irradiated melon
 #: lang/json/COMESTIBLE_from_json.py
@@ -19900,6 +20003,8 @@ msgid ""
 "An irradiated melon will remain edible nearly forever.  Sterilized using "
 "radiation, so it's safe to eat."
 msgstr ""
+"Un melone irradiato rimarrà commestibile quasi per sempre. È sterilizzato "
+"con irraggiamento, quindi è sicuro da mangiare."
 
 #. ~ Description for irradiated onion
 #: lang/json/COMESTIBLE_from_json.py
@@ -19925,6 +20030,8 @@ msgid ""
 "An irradiated papaya will remain edible nearly forever.  Sterilized using "
 "radiation, so it's safe to eat."
 msgstr ""
+"Una papaia irradiata rimarrà commestibile quasi per sempre. Sterilizzata con "
+"irraggiamento, quindi è sicura da mangiare."
 
 #. ~ Description for irradiated peach
 #: lang/json/COMESTIBLE_from_json.py
@@ -19932,6 +20039,8 @@ msgid ""
 "An irradiated peach will remain edible nearly forever.  Sterilized using "
 "radiation, so it's safe to eat."
 msgstr ""
+"Una pesca irradiata rimarrà commestibile quasi per sempre. Sterilizzata con "
+"irraggiamento, quindi è sicura da mangiare."
 
 #. ~ Description for irradiated pear
 #: lang/json/COMESTIBLE_from_json.py
@@ -19939,6 +20048,8 @@ msgid ""
 "An irradiated pear will remain edible nearly forever.  Sterilized using "
 "radiation, so it's safe to eat."
 msgstr ""
+"Una pera irradiata rimarrà commestibile quasi per sempre. Sterilizzata con "
+"irraggiamento, quindi è sicura da mangiare."
 
 #. ~ Description for irradiated pineapple
 #: lang/json/COMESTIBLE_from_json.py
@@ -19946,6 +20057,8 @@ msgid ""
 "An irradiated pineapple will remain edible nearly forever.  Sterilized using "
 "radiation, so it's safe to eat."
 msgstr ""
+"Un ananas irradiato rimarrà commestibile quasi per sempre. Sterilizzato con "
+"irraggiamento, quindi è sicuro da mangiare."
 
 #. ~ Description for irradiated pomegranate
 #: lang/json/COMESTIBLE_from_json.py
@@ -19953,6 +20066,8 @@ msgid ""
 "An irradiated pomegranate will remain edible nearly forever.  Sterilized "
 "using radiation, so it's safe to eat."
 msgstr ""
+"Un melograno irradiato rimarrà commestibile quasi per sempre. Sterilizzato "
+"con irraggiamento, quindi è sicuro da mangiare."
 
 #. ~ Description for irradiated potato
 #: lang/json/COMESTIBLE_from_json.py
@@ -19960,6 +20075,8 @@ msgid ""
 "An irradiated potato will remain edible nearly forever.  Sterilized using "
 "radiation, so it's safe to eat."
 msgstr ""
+"Una patata irradiata rimarrà commestibile quasi per sempre. Sterilizzata con "
+"irraggiamento, quindi è sicura da mangiare."
 
 #. ~ Description for irradiated pumpkin
 #: lang/json/COMESTIBLE_from_json.py
@@ -19967,6 +20084,8 @@ msgid ""
 "An irradiated pumpkin will remain edible nearly forever.  Sterilized using "
 "radiation, so it's safe to eat."
 msgstr ""
+"Una zucca irradiata rimarrà commestibile quasi per sempre. Sterilizzata con "
+"irraggiamento, quindi è sicura da mangiare."
 
 #. ~ Description for irradiated raspberry
 #: lang/json/COMESTIBLE_from_json.py
@@ -19974,6 +20093,8 @@ msgid ""
 "An irradiated raspberry will remain edible nearly forever.  Sterilized using "
 "radiation, so it's safe to eat."
 msgstr ""
+"Un lampone irradiato rimarrà commestibile quasi per sempre. Sterilizzato con "
+"irraggiamento, quindi è sicuro da mangiare."
 
 #. ~ Description for irradiated rhubarb
 #: lang/json/COMESTIBLE_from_json.py
@@ -19981,6 +20102,8 @@ msgid ""
 "An irradiated rhubarb will remain edible nearly forever.  Sterilized using "
 "radiation, so it's safe to eat."
 msgstr ""
+"Un rabarbaro irradiato rimarrà commestibile quasi per sempre. Sterilizzato "
+"con irraggiamento, quindi è sicuro da mangiare."
 
 #. ~ Description for irradiated strawberry
 #: lang/json/COMESTIBLE_from_json.py
@@ -19988,6 +20111,8 @@ msgid ""
 "An irradiated strawberry will remain edible nearly forever.  Sterilized "
 "using radiation, so it's safe to eat."
 msgstr ""
+"Una fragola irradiata rimarrà commestibile quasi per sempre. Sterilizzata "
+"con irraggiamento, quindi è sicura da mangiare."
 
 #. ~ Description for irradiated tomato
 #: lang/json/COMESTIBLE_from_json.py
@@ -20004,6 +20129,8 @@ msgid ""
 "An irradiated watermelon will remain edible nearly forever.  Sterilized "
 "using radiation, so it's safe to eat."
 msgstr ""
+"Un'anguria irradiata rimarrà commestibile quasi per sempre. È sterilizzata "
+"con irraggiamento, quindi è sicura da mangiare."
 
 #. ~ Description for irradiated zucchini
 #: lang/json/COMESTIBLE_from_json.py
@@ -20144,6 +20271,8 @@ msgid ""
 "Candy sticks.  Slightly more healthy than tobacco cigarettes, but with no "
 "possibility of addiction."
 msgstr ""
+"Bastoncini di caramella. Un po 'più sani rispetto alle sigarette di tabacco, "
+"ma senza possibilità di assuefazione."
 
 #. ~ Description for beans
 #: lang/json/COMESTIBLE_from_json.py
@@ -20300,7 +20429,7 @@ msgstr ""
 #. ~ Description for malted milk ball
 #: lang/json/COMESTIBLE_from_json.py
 msgid "Crunchy sugar in chocolate capsules.  Legal and stimmy."
-msgstr ""
+msgstr "Zucchero croccante in capsule di cioccolato. Legale e stimolante."
 
 #. ~ Description for cocaine
 #: lang/json/COMESTIBLE_from_json.py
@@ -20322,6 +20451,7 @@ msgstr ""
 #: lang/json/COMESTIBLE_from_json.py
 msgid "Deep fried potatoes with a touch of salt.  Crunchy and delicious."
 msgstr ""
+"Patate fritte in friggitrice con un tocco di sale. Croccanti e deliziose."
 
 #. ~ Description for dehydrated fish
 #: lang/json/COMESTIBLE_from_json.py
@@ -20337,6 +20467,9 @@ msgid ""
 "edible for an incredibly long time.  They are useful for several cooking "
 "recipes."
 msgstr ""
+"Fiocchi di frutta disidratata. Con una corretta conservazione, questo cibo "
+"secco rimarrà commestibile per un tempo incredibilmente lungo. Utili per "
+"molte ricette."
 
 #. ~ Description for dried beans
 #: lang/json/COMESTIBLE_from_json.py
@@ -20344,6 +20477,8 @@ msgid ""
 "Dehydrated great northern beans.  Tasty and nutritious when cooked, "
 "virtually inedible when dry."
 msgstr ""
+"Fagioli grandi del nord disidratati. Gustosi e nutrienti se cotti, "
+"praticamente immangiabili se  secchi."
 
 #. ~ Description for dehydrated human flesh
 #: lang/json/COMESTIBLE_from_json.py
@@ -20351,6 +20486,8 @@ msgid ""
 "Dehydrated human flesh flakes.  With proper storage, this dried food will "
 "remain edible for an incredibly long time."
 msgstr ""
+"Fiocchi di carne umana disidratata. Con una corretta conservazione, questo "
+"cibo secco rimarrà commestibile per un tempo incredibilmente lungo."
 
 #. ~ Description for dried rice
 #: lang/json/COMESTIBLE_from_json.py
@@ -20358,6 +20495,8 @@ msgid ""
 "Dehydrated long-grain rice.  Tasty and nutritious when cooked, virtually "
 "inedible when dry."
 msgstr ""
+"Riso a grani lunghi disidratato. Gustoso e nutriente se cotto, praticamente "
+"immangiabile se secco."
 
 #. ~ Description for dehydrated meat
 #: lang/json/COMESTIBLE_from_json.py
@@ -20365,6 +20504,8 @@ msgid ""
 "Dehydrated meat flakes.  With proper storage, this dried food will remain "
 "edible for an incredibly long time."
 msgstr ""
+"Fiocchi di carne disidratata. Con una corretta conservazione, questo cibo "
+"secco rimarrà commestibile per un tempo incredibilmente lungo."
 
 #. ~ Description for powdered milk
 #: lang/json/COMESTIBLE_from_json.py
@@ -20378,6 +20519,8 @@ msgid ""
 "Dehydrated vegetable flakes.  With proper storage, this dried food will "
 "remain edible for an incredibly long time."
 msgstr ""
+"Fiocchi di verdura disidratata. Con una corretta conservazione, questo cibo "
+"secco rimarrà commestibile per un tempo incredibilmente lungo."
 
 #. ~ Description for biscuit
 #: lang/json/COMESTIBLE_from_json.py
@@ -20419,7 +20562,7 @@ msgstr "Delizioso riso fritto con carne. Saporito e sfamante."
 #. ~ Description for fried rice
 #: lang/json/COMESTIBLE_from_json.py
 msgid "Delicious fried rice with vegetables.  Tasty and very filling."
-msgstr ""
+msgstr "Delizioso riso fritto con verdure. Gustoso e molto saziante."
 
 #. ~ Description for corn
 #: lang/json/COMESTIBLE_from_json.py
@@ -20447,6 +20590,7 @@ msgstr "Deliziosi pezzetti di carne cruda avvolti con gustose verdure e sushi."
 #: lang/json/COMESTIBLE_from_json.py
 msgid "Delicious slivers of thinly sliced raw fish and tasty vegetables."
 msgstr ""
+"Deliziosi pezzetti di pesce crudo tagliato a fette sottili e gustosi ortaggi."
 
 #. ~ Description for fish makizushi
 #: lang/json/COMESTIBLE_from_json.py
@@ -20508,13 +20652,15 @@ msgstr ""
 #. ~ Description for dried mushroom
 #: lang/json/COMESTIBLE_from_json.py
 msgid "Dried mushrooms are a tasty and healthy addition to many meals."
-msgstr ""
+msgstr "I funghi secchi sono una gustosa e salutare aggiunta a molti piatti."
 
 #. ~ Description for dried salad
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
 "Dried salad packed in a box with mayonnaise and ketchup.  Add water to enjoy."
 msgstr ""
+"Insalata disidrata, inscatolata con maionese e ketchup. Basta aggiungere "
+"dell'acqua per godersela."
 
 #. ~ Description for insta-salad
 #: lang/json/COMESTIBLE_from_json.py
@@ -20561,6 +20707,8 @@ msgid ""
 "Dry flakes of flattened grain.  Tasty and nutritious when cooked, it also "
 "doubles as food for horses while dry."
 msgstr ""
+"Fiocchi asciutti di grano appiattito. Gustoso e nutriente se cotto, "
+"raddoppia anche come cibo per i cavalli finchè secco."
 
 #. ~ Description for toast-em
 #: lang/json/COMESTIBLE_from_json.py
@@ -20635,7 +20783,7 @@ msgstr ""
 #. ~ Description for brioche
 #: lang/json/COMESTIBLE_from_json.py
 msgid "Filling bread buns, taste good with tea on a Sunday morning breakfast."
-msgstr ""
+msgstr "Panini riempiti, buoni con il tè per la colazione della Domenica."
 
 #. ~ Description for salted fish slices
 #: lang/json/COMESTIBLE_from_json.py
@@ -20681,11 +20829,13 @@ msgid ""
 "Fluffy and delicious scrambled eggs made more delicious with the addition of "
 "other tasty ingredients."
 msgstr ""
+"Soffici e deliziose uova strapazzate rese più deliziose dall'aggiunta di "
+"altri ingredienti gustosi."
 
 #. ~ Description for scrambled eggs
 #: lang/json/COMESTIBLE_from_json.py
 msgid "Fluffy and delicious scrambled eggs."
-msgstr ""
+msgstr "Soffici e deliziose uova strapazzate."
 
 #. ~ Description for cotton balls
 #: lang/json/COMESTIBLE_from_json.py
@@ -20699,8 +20849,8 @@ msgstr ""
 #: lang/json/COMESTIBLE_from_json.py
 msgid "French fries"
 msgid_plural "French fries"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Patatine fritte"
+msgstr[1] "Patatine fritte"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "French toast"
@@ -20716,7 +20866,7 @@ msgstr ""
 #. ~ Description for fruit jam
 #: lang/json/COMESTIBLE_from_json.py
 msgid "Fresh fruit, cooked with sugar to make them last longer."
-msgstr ""
+msgstr "Frutta fresca, cotta con lo zucchero per farla durare di più."
 
 #. ~ Description for strawberry jam
 #: lang/json/COMESTIBLE_from_json.py
@@ -20782,7 +20932,7 @@ msgstr "Carne appena cotta. Molto nutriente."
 #. ~ Description for fruit juice
 #: lang/json/COMESTIBLE_from_json.py
 msgid "Freshly-squeezed from real fruit!  Tasty and nutritious."
-msgstr ""
+msgstr "Appena spremuto da vera frutta! Gustoso e nutriente."
 
 #. ~ Description for orange juice
 #: lang/json/COMESTIBLE_from_json.py
@@ -20828,12 +20978,13 @@ msgstr ""
 #. ~ Description for black pepper
 #: lang/json/COMESTIBLE_from_json.py
 msgid "Ground black spice berries with a pungent aroma."
-msgstr ""
+msgstr "Bacche nere speziate macinate dall'aroma pungente."
 
 #. ~ Description for cinnamon
 #: lang/json/COMESTIBLE_from_json.py
 msgid "Ground cinnamon bark with a sweet but slightly spicy aroma."
 msgstr ""
+"Corteccia di cannella in polvere con un aroma dolce ma leggermente piccante."
 
 #. ~ Description for coffee powder
 #: lang/json/COMESTIBLE_from_json.py
@@ -20848,6 +20999,8 @@ msgid ""
 "Hard, dry cheese made to last, unlike modern processed cheese.  Will make "
 "you thirsty though."
 msgstr ""
+"Formaggio a pasta dura, stagionato, fatto per durare a differenza del "
+"formaggio confezionato moderno. Anche se vi farà venir sete."
 
 #. ~ Description for fried SPAM
 #: lang/json/COMESTIBLE_from_json.py
@@ -20899,6 +21052,9 @@ msgid ""
 "better than the Marloss.  If they didn't reject it for its alien origins.  "
 "But we know better."
 msgstr ""
+"Gli esseri umani potrebbero chiamarla mela Gray Delicious: grande, grigia, e "
+"profuma anche meglio del Marloss. Se non la rifiutassero per le sue origini "
+"aliene. Ma abbiamo imparato la lezione."
 
 #. ~ Description for berry-shaped anomaly
 #: lang/json/COMESTIBLE_from_json.py
@@ -20984,7 +21140,7 @@ msgstr ""
 #. ~ Description for cooked fruit
 #: lang/json/COMESTIBLE_from_json.py
 msgid "It's like fruit jam, only without sugar."
-msgstr ""
+msgstr "E' come la marmellata, ma senza zucchero."
 
 #. ~ Description for cooked strawberry
 #: lang/json/COMESTIBLE_from_json.py
@@ -21012,6 +21168,8 @@ msgid ""
 "Left-over from juicing the fruit.  Not very tasty, but contains a lot of "
 "healthy fiber."
 msgstr ""
+"Residuo della spremitura del frutto. Non molto gustosa, ma contiene un sacco "
+"di fibra sana."
 
 #. ~ Description for lemonade
 #: lang/json/COMESTIBLE_from_json.py
@@ -21149,6 +21307,7 @@ msgstr ""
 #: lang/json/COMESTIBLE_from_json.py
 msgid "Mildly toxic and not very tasty raw.  When cooked, it is delicious."
 msgstr ""
+"Leggermente tossico e non molto gustoso da crudo. Se cotto, è delizioso."
 
 #. ~ Description for curdled milk
 #: lang/json/COMESTIBLE_from_json.py
@@ -21156,6 +21315,8 @@ msgid ""
 "Milk that has been curdled with vinegar and rennet.  It still needs to be "
 "salted and drained of whey."
 msgstr ""
+"Latte che è stato cagliato con aceto e caglio. Deve ancora essere salato e "
+"scolato dal siero di latte."
 
 #. ~ Description for curdling milk
 #: lang/json/COMESTIBLE_from_json.py
@@ -21205,12 +21366,14 @@ msgid ""
 "Mushrooms are tasty, but be careful.  Some can poison you, while others are "
 "hallucinogenic."
 msgstr ""
+"I funghi sono gustosi, ma sta attento. Alcuni possono avvelenarti, mentre "
+"altri sono allucinogeni."
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "Necco wafer"
 msgid_plural "Necco wafers"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "wafer Necco"
+msgstr[1] "wafers Necco"
 
 #. ~ Description for celery
 #: lang/json/COMESTIBLE_from_json.py
@@ -21291,7 +21454,7 @@ msgstr ""
 #. ~ Description for bird egg
 #: lang/json/COMESTIBLE_from_json.py
 msgid "Nutritious egg laid by a bird."
-msgstr ""
+msgstr "Uovo nutriente deposto da un uccello."
 
 #. ~ Description for bark tea
 #: lang/json/COMESTIBLE_from_json.py
@@ -21313,7 +21476,7 @@ msgstr "Olio d'oliva, basilico, aglio, pinoli. Semplice e delizioso."
 #. ~ Description for single malt whiskey
 #: lang/json/COMESTIBLE_from_json.py
 msgid "Only the finest whiskey straight from the bung."
-msgstr ""
+msgstr "Solo il miglior whisky direttamente dal bung."
 
 #. ~ Description for moonshine
 #: lang/json/COMESTIBLE_from_json.py
@@ -21362,6 +21525,8 @@ msgid ""
 "Pieces of poisonous meat that have been dried to prevent them from rotting "
 "away.  It will still poison you if you eat this."
 msgstr ""
+"Pezzi di carne velenosa che sono stati essiccati per non farli marcire. "
+"Potrebbero ancora avvelenarti se li mangi."
 
 #. ~ Description for dehydrated tainted veggy
 #: lang/json/COMESTIBLE_from_json.py
@@ -21369,6 +21534,8 @@ msgid ""
 "Pieces of poisonous veggy that have been dried to prevent them from rotting "
 "away.  It will still poison you if you eat this."
 msgstr ""
+"Pezzi di verdure velenose che son state essiccate per non farle marcire. "
+"Potrebbero ancora avvelenarti se li mangi."
 
 #. ~ Description for popcorn
 #: lang/json/COMESTIBLE_from_json.py
@@ -21435,6 +21602,8 @@ msgid ""
 "Prized by chefs and woodsmen alike, morel mushrooms are delicious but must "
 "be cooked before they are safe to eat."
 msgstr ""
+"Apprezzate da chef e boscaioli allo stesso modo, le Spugnole sono deliziose, "
+"ma vanno cotte per essere sicure da mangiare."
 
 #. ~ Description for pinot noir
 #: lang/json/COMESTIBLE_from_json.py
@@ -21448,7 +21617,7 @@ msgstr ""
 #. ~ Description for cheese spread
 #: lang/json/COMESTIBLE_from_json.py
 msgid "Processed cheese spread."
-msgstr ""
+msgstr "Formaggio spalmabile confezionato."
 
 #: lang/json/COMESTIBLE_from_json.py src/bionics.cpp
 msgid "Prozac"
@@ -21465,12 +21634,12 @@ msgstr[1] "compresse blu di Prussia"
 #. ~ Description for oats
 #: lang/json/COMESTIBLE_from_json.py
 msgid "Raw oats."
-msgstr ""
+msgstr "Avena cruda."
 
 #. ~ Description for wheat
 #: lang/json/COMESTIBLE_from_json.py
 msgid "Raw wheat, not very tasty."
-msgstr ""
+msgstr "Grano grezzo, non molto gustoso."
 
 #. ~ Description for soylent green powder
 #: lang/json/COMESTIBLE_from_json.py
@@ -21492,6 +21661,8 @@ msgid ""
 "Raw, uncooked beans.  They are mildly toxic in this form, but you could cook "
 "them to make them tasty.  Alternatively, you could plant them."
 msgstr ""
+"Fagioli crudi. Sono leggermente tossici in questo stato, ma potresti "
+"cucinarli per renderli gustosi. In alternativa,potresti piantarli."
 
 #. ~ Description for cheap wine
 #: lang/json/COMESTIBLE_from_json.py
@@ -21511,6 +21682,8 @@ msgid ""
 "Reconstituted fruit flakes, which are much more enjoyable to eat now that "
 "they have been rehydrated."
 msgstr ""
+"Fiocchi di frutta ricostituiti,  sono molto più piacevoli da mangiare ora "
+"che sono stati reidratati."
 
 #. ~ Description for rehydrated human flesh
 #: lang/json/COMESTIBLE_from_json.py
@@ -21518,6 +21691,8 @@ msgid ""
 "Reconstituted human flesh flakes, which are much more enjoyable to eat now "
 "that they have been rehydrated."
 msgstr ""
+"Fiocchi di carne umana ricostituiti, sono molto più piacevoli da mangiare "
+"ora che sono stati reidratati."
 
 #. ~ Description for rehydrated meat
 #: lang/json/COMESTIBLE_from_json.py
@@ -21525,6 +21700,8 @@ msgid ""
 "Reconstituted meat flakes, which are much more enjoyable to eat now that "
 "they have been rehydrated."
 msgstr ""
+"Fiocchi di carne ricostituiti,  sono molto più piacevoli da mangiare ora che "
+"sono stati reidratati."
 
 #. ~ Description for rehydrated vegetable
 #: lang/json/COMESTIBLE_from_json.py
@@ -21532,6 +21709,8 @@ msgid ""
 "Reconstituted vegetable flakes, which are much more enjoyable to eat now "
 "that they have been rehydrated."
 msgstr ""
+"Fiocchi di verdura ricostituiti, sono molto più piacevoli da mangiare ora "
+"che sono stati reidratati."
 
 #. ~ Description for chocolate-covered coffee bean
 #: lang/json/COMESTIBLE_from_json.py
@@ -21539,6 +21718,8 @@ msgid ""
 "Roasted coffee beans coated with dark chocolate, natural source of "
 "concentrated caffeine."
 msgstr ""
+"Chicchi di caffè tostati e ricoperti di cioccolato fondente, fonte naturale "
+"di caffeina concentrata."
 
 #. ~ Description for cigar
 #: lang/json/COMESTIBLE_from_json.py
@@ -21566,7 +21747,7 @@ msgstr "Insalata con diversi tipi di verdure."
 #. ~ Description for seasoned salt
 #: lang/json/COMESTIBLE_from_json.py
 msgid "Salt mixed with a fragrant blend of secret herbs and spices."
-msgstr ""
+msgstr "Sale mescolato con una miscela profumata di erbe e spezie segrete."
 
 #. ~ Description for nachos with meat and cheese
 #: lang/json/COMESTIBLE_from_json.py
@@ -21698,7 +21879,7 @@ msgstr "Fagioli cotti con carne. Saporiti e sfamante."
 #. ~ Description for vegetarian baked beans
 #: lang/json/COMESTIBLE_from_json.py
 msgid "Slow-cooked beans with vegetables.  Tasty and very filling."
-msgstr ""
+msgstr "Fagioli cotti a fuoco lento con verdure. Gustosi e molto sazianti."
 
 #. ~ Description for injectable iron
 #: lang/json/COMESTIBLE_from_json.py
@@ -21745,7 +21926,7 @@ msgstr ""
 #. ~ Description for fast noodles
 #: lang/json/COMESTIBLE_from_json.py
 msgid "So-called ramen noodles.  Can be eaten raw."
-msgstr ""
+msgstr "Il cosiddetto Ramen. Può essere consumato crudo."
 
 #. ~ Description for barley seed
 #: lang/json/COMESTIBLE_from_json.py
@@ -21786,7 +21967,7 @@ msgstr ""
 #. ~ Description for caramel
 #: lang/json/COMESTIBLE_from_json.py
 msgid "Some caramel.  Still bad for your health."
-msgstr ""
+msgstr "Del caramello. Fa male alla tua salute."
 
 #. ~ Description for carrot seed
 #: lang/json/COMESTIBLE_from_json.py
@@ -21796,12 +21977,12 @@ msgstr "Alcuni semi di carota."
 #. ~ Description for celery seed
 #: lang/json/COMESTIBLE_from_json.py
 msgid "Some celery seeds."
-msgstr ""
+msgstr "Alcuni semi di sedano."
 
 #. ~ Description for coffee beans
 #: lang/json/COMESTIBLE_from_json.py
 msgid "Some coffee beans, can be roasted."
-msgstr ""
+msgstr "Alcuni chicchi di caffè, possono essere tostati."
 
 #. ~ Description for corn seed
 #: lang/json/COMESTIBLE_from_json.py
@@ -21823,7 +22004,7 @@ msgstr ""
 #. ~ Description for cucumber seed
 #: lang/json/COMESTIBLE_from_json.py
 msgid "Some cucumber seeds."
-msgstr ""
+msgstr "Alcuni semi di cetriolo."
 
 #. ~ Description for PB&H sandwich
 #: lang/json/COMESTIBLE_from_json.py
@@ -21907,7 +22088,7 @@ msgstr ""
 #. ~ Description for oat seed
 #: lang/json/COMESTIBLE_from_json.py
 msgid "Some oat seeds."
-msgstr ""
+msgstr "Alcuni semi d'avena."
 
 #. ~ Description for onion seed
 #: lang/json/COMESTIBLE_from_json.py
@@ -21944,7 +22125,7 @@ msgstr ""
 #. ~ Description for roasted coffee beans
 #: lang/json/COMESTIBLE_from_json.py
 msgid "Some roasted coffee beans, can be ground into powder."
-msgstr ""
+msgstr "Alcuni chicchi di caffè tostato, possono essere macinati."
 
 #. ~ Description for seed potato
 #: lang/json/COMESTIBLE_from_json.py
@@ -21999,12 +22180,12 @@ msgstr "Alcuni semi di zucchina."
 #. ~ Description for cranberry
 #: lang/json/COMESTIBLE_from_json.py
 msgid "Sour red berries.  Good for your health."
-msgstr ""
+msgstr "Mirtilli rossi aspri. Buoni per la tua salute."
 
 #. ~ Description for rhubarb
 #: lang/json/COMESTIBLE_from_json.py
 msgid "Sour stems of the rhubarb plant, often used in baking pies."
-msgstr ""
+msgstr "Steli aspri della pianta di rabarbaro, spesso usati nelle torte."
 
 #. ~ Description for scoundrel spaghetti
 #: lang/json/COMESTIBLE_from_json.py
@@ -22103,6 +22284,8 @@ msgid ""
 "Sweet, sweet sugar.  Bad for your teeth and surprisingly not very tasty on "
 "its own."
 msgstr ""
+"Zucchero molto dolce. Dannoso per i tuoi denti e sorprendentemente non molto "
+"gustoso da solo."
 
 #. ~ Description for Irish coffee
 #: lang/json/COMESTIBLE_from_json.py
@@ -22124,6 +22307,8 @@ msgid ""
 "Tangy yellow powder that smells strongly of lemons.  Can be mixed with water "
 "to make lemonade."
 msgstr ""
+"Polvere gialla frizzante che odora fortemente di limoni. Può essere "
+"miscelata con dell'acqua per fare della limonata."
 
 #. ~ Description for pine nuts
 #: lang/json/COMESTIBLE_from_json.py
@@ -22144,6 +22329,7 @@ msgstr "Carne saporita che è stata affumicata per preservarla a lungo."
 #: lang/json/COMESTIBLE_from_json.py
 msgid "Tasty, juicy berry.  Often found growing wild in fields."
 msgstr ""
+"Gustose, bacche succose. Spesso si trovano allo stato selvatico nei campi."
 
 #. ~ Description for tea
 #: lang/json/COMESTIBLE_from_json.py
@@ -22235,7 +22421,7 @@ msgstr ""
 #. ~ Description for blueberry
 #: lang/json/COMESTIBLE_from_json.py
 msgid "They're blue, but that doesn't mean they're sad."
-msgstr ""
+msgstr "Sono blu, ma ciò non significa che siano tristi."
 
 #. ~ Description for powder candy sticks
 #: lang/json/COMESTIBLE_from_json.py
@@ -22246,7 +22432,7 @@ msgstr ""
 #. ~ Description for cooking oil
 #: lang/json/COMESTIBLE_from_json.py
 msgid "Thin yellow vegetable oil used for cooking."
-msgstr ""
+msgstr "Olio vegetale giallo, leggero, usato per cucinare."
 
 #. ~ Description for dark cola
 #: lang/json/COMESTIBLE_from_json.py
@@ -22266,12 +22452,12 @@ msgstr ""
 #. ~ Description for bone meal
 #: lang/json/COMESTIBLE_from_json.py
 msgid "This bone meal is useful for fertilizing plants."
-msgstr ""
+msgstr "Questa farina d'ossa è utile per concimare le piante."
 
 #. ~ Description for chitin powder
 #: lang/json/COMESTIBLE_from_json.py
 msgid "This chitin powder is useful for fertilizing plants."
-msgstr ""
+msgstr "Quetsa polvere di chitina  è utile per concimare le piante."
 
 #. ~ Description for bee's knees
 #: lang/json/COMESTIBLE_from_json.py
@@ -22295,7 +22481,7 @@ msgstr ""
 #. ~ Description for flour
 #: lang/json/COMESTIBLE_from_json.py
 msgid "This enriched white flour is useful for baking."
-msgstr ""
+msgstr "Questa farina bianca arricchita è utile per la cottura al forno."
 
 #. ~ Description for boozeberry
 #: lang/json/COMESTIBLE_from_json.py
@@ -22317,6 +22503,7 @@ msgstr ""
 #: lang/json/COMESTIBLE_from_json.py
 msgid "This fruit's large pit is surrounded by its tasty flesh."
 msgstr ""
+"Il grande nocciolo di questo frutto è circondato dalla sua polpa saporita."
 
 #. ~ Description for maple syrup candy
 #: lang/json/COMESTIBLE_from_json.py
@@ -22350,7 +22537,7 @@ msgstr ""
 #. ~ Description for tainted bone meal
 #: lang/json/COMESTIBLE_from_json.py
 msgid "This is a grayish bone meal made from rotten bones."
-msgstr ""
+msgstr "Questa è una farina d'ossa grigiastra a base di ossa marce."
 
 #. ~ Description for pickled fish
 #: lang/json/COMESTIBLE_from_json.py
@@ -22364,12 +22551,16 @@ msgid ""
 "This is a serving of crisply brined and canned human flesh.  Tasty and "
 "nutritious if you're into that sort of thing."
 msgstr ""
+"Si tratta di una porzione di salamoia e carne umana in scatola preparata "
+"frettolosamente. Gustosa e nutriente se siete per questo genere di cose."
 
 #. ~ Description for pickled meat
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
 "This is a serving of crisply brined and canned meat.  Tasty and nutritious."
 msgstr ""
+"Si tratta di una porzione di salamoia e carne in scatola preparata "
+"frettolosamente. Gustosa e nutriente."
 
 #. ~ Description for pickled veggy
 #: lang/json/COMESTIBLE_from_json.py
@@ -22377,6 +22568,8 @@ msgid ""
 "This is a serving of crisply brined and canned vegetable matter.  Tasty and "
 "nutritious."
 msgstr ""
+"Si tratta di una porzione di salamoia e sostanze vegetali in scatola "
+"preparata frettolosamente. Gustosa e nutriente."
 
 #. ~ Description for mashed pumpkin
 #: lang/json/COMESTIBLE_from_json.py
@@ -22419,6 +22612,8 @@ msgid ""
 "has a strong but delicious aroma, but is clearly either mutated or of alien "
 "origin."
 msgstr ""
+"Appare come un mirtillo delle dimensioni di un pugno, ma di colore rosato. "
+"Ha un aroma forte ma delizioso, ma è chiaramente mutato o di origine aliena."
 
 #. ~ Description for marloss gelatin
 #: lang/json/COMESTIBLE_from_json.py
@@ -22427,6 +22622,9 @@ msgid ""
 "much like pre-cataclysm jello.  It has a strong but delicious aroma, but is "
 "clearly either mutated or of alien origin."
 msgstr ""
+"Appare come una manciata di liquido color limone rappreso, proprio come una "
+"gelatina pre-cataclisma. Ha un aroma forte ma delizioso, ma è chiaramente "
+"mutato o di origine aliena."
 
 #. ~ Description for marloss seed
 #: lang/json/COMESTIBLE_from_json.py
@@ -22434,6 +22632,8 @@ msgid ""
 "This looks like a sunflower seed the size of your palm.  It has a strong but "
 "delicious aroma, but is clearly either mutated or of alien origin."
 msgstr ""
+"Appare come un seme di girasole delle dimensioni del palmo della mano. Ha un "
+"aroma forte ma delizioso, ma è chiaramente mutato o di origine aliena."
 
 #. ~ Description for canned veggy
 #: lang/json/COMESTIBLE_from_json.py
@@ -22465,6 +22665,11 @@ msgid ""
 "Surprisingly tasty if you enjoy that kind of thing and quite filling, it is "
 "best served with boiled root vegetables and strong whisky."
 msgstr ""
+"Questo tradizionale budino scozzese saporito è fatto di carne umana e "
+"frattaglie mescolate con la farina d'avena, cucito nello stomaco di un uomo "
+"e bollito. Sorprendentemente gustoso, se ti piace questo genere, e "
+"abbastanza saziante, è meglio se servito con tuberi bolliti e del whisky "
+"forte."
 
 #. ~ Description for haggis
 #: lang/json/COMESTIBLE_from_json.py
@@ -22474,6 +22679,10 @@ msgid ""
 "Surprisingly tasty and quite filling, it is best served with boiled root "
 "vegetables and strong whisky."
 msgstr ""
+"Questo tradizionale budino scozzese saporito è fatto di carne e frattaglie "
+"mescolate con la farina d'avena, cucito nello stomaco di un animale e "
+"bollito. Sorprendentemente gustoso e abbastanza saziante, è meglio se "
+"servito con tuberi bolliti e del whisky forte."
 
 #. ~ Description for cloutie dumpling
 #: lang/json/COMESTIBLE_from_json.py
@@ -22481,11 +22690,13 @@ msgid ""
 "This traditional Scottish treat is a sweet and filling little boiled cake "
 "studded with dried fruit."
 msgstr ""
+"Questa tradizionale sorpresa scozzese è una piccola torta dolce e saziante "
+"ripiena di frutta secca bollita."
 
 #. ~ Description for cornmeal
 #: lang/json/COMESTIBLE_from_json.py
 msgid "This yellow cornmeal is useful for baking."
-msgstr ""
+msgstr "Questa farina gialla è utile per la cottura al forno."
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "Thorazine"
@@ -22516,6 +22727,8 @@ msgstr ""
 #: lang/json/COMESTIBLE_from_json.py
 msgid "Under this pomegranate's spongy skin lies hundreds of fleshy seeds."
 msgstr ""
+"Sotto la buccia spugnosa di questo melograno si trovano centinaia di semi "
+"carnosi."
 
 #. ~ Description for dandelion wine must
 #: lang/json/COMESTIBLE_from_json.py
@@ -22695,6 +22908,7 @@ msgstr ""
 #: lang/json/COMESTIBLE_from_json.py
 msgid "Whole fresh eggs, dehydrated into an easy to store powder."
 msgstr ""
+"Uova intere fresche, disidratate in polvere per una facile conservazione."
 
 #. ~ Description for fried dandelions
 #: lang/json/COMESTIBLE_from_json.py
@@ -22719,7 +22933,7 @@ msgstr[1] ""
 #. ~ Description for peaches in syrup
 #: lang/json/COMESTIBLE_from_json.py
 msgid "Yellow cling peach slices packed in light syrup."
-msgstr ""
+msgstr "Fette di pesca gialla appiccicate, immerse in uno sciroppo leggero."
 
 #. ~ Use action activation_message for red potion.
 #: lang/json/COMESTIBLE_from_json.py
@@ -22832,6 +23046,8 @@ msgid ""
 "Yuck!  You surely wouldn't want to eat this.  It's good for preserving meat "
 "and cooking, though."
 msgstr ""
+"Bleah! Sicuramente non vorrai mangiare questo. Sebbene sia buono per la "
+"conservazione della carne e per cucinare."
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "abstract mutagen flavor"
@@ -22914,8 +23130,8 @@ msgstr[1] "sidro di mele"
 #: lang/json/COMESTIBLE_from_json.py
 msgid "apricot"
 msgid_plural "apricots"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "albicocca"
+msgstr[1] "albicocche"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "aspic"
@@ -22944,8 +23160,8 @@ msgstr[1] "bevande energizzanti atomiche"
 #: lang/json/COMESTIBLE_from_json.py
 msgid "bacon"
 msgid_plural "pieces of bacon"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "bacon"
+msgstr[1] "pezzi di bacon"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "baked beans"
@@ -23094,8 +23310,8 @@ msgstr[1] ""
 #: lang/json/COMESTIBLE_from_json.py
 msgid "black pepper"
 msgid_plural "black pepper"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "pepe nero"
+msgstr[1] "pepe nero"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "black potion"
@@ -23106,8 +23322,8 @@ msgstr[1] ""
 #: lang/json/COMESTIBLE_from_json.py
 msgid "blackberry"
 msgid_plural "blackberries"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "mora"
+msgstr[1] "more"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "blackberry seed"
@@ -23250,8 +23466,8 @@ msgstr[1] ""
 #: lang/json/COMESTIBLE_from_json.py
 msgid "brioche"
 msgid_plural "brioches"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "brioche"
+msgstr[1] "brioches"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "broccoli"
@@ -23274,8 +23490,8 @@ msgstr[1] "brodi"
 #: lang/json/COMESTIBLE_from_json.py
 msgid "buckwheat"
 msgid_plural "buckwheat"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "grano saraceno"
+msgstr[1] "grano saraceno"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "buckwheat seeds"
@@ -23482,8 +23698,8 @@ msgstr[1] "sedani"
 #: lang/json/COMESTIBLE_from_json.py
 msgid "celery seed"
 msgid_plural "celery seeds"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "seme di sedano"
+msgstr[1] "semi di sedano"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "cephalopod mutagen"
@@ -23536,14 +23752,14 @@ msgstr[1] ""
 #: lang/json/COMESTIBLE_from_json.py
 msgid "cheese"
 msgid_plural "cheese"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "formaggio"
+msgstr[1] "formaggio"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "cheese fries"
 msgid_plural "cheese fries"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "patatine fritte al formaggio"
+msgstr[1] "patatine fritte al formaggio"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "cheese pizza"
@@ -23560,8 +23776,8 @@ msgstr[1] "sandwich al formaggio"
 #: lang/json/COMESTIBLE_from_json.py
 msgid "cheese spread"
 msgid_plural "cheese spreads"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "formaggio spalmabile"
+msgstr[1] "formaggi spalmabili"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "cheeseburger"
@@ -23572,8 +23788,8 @@ msgstr[1] ""
 #: lang/json/COMESTIBLE_from_json.py
 msgid "cherry"
 msgid_plural "cherries"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "ciliegia"
+msgstr[1] "ciliegie"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "chewing gum"
@@ -23644,8 +23860,8 @@ msgstr[1] ""
 #: lang/json/COMESTIBLE_from_json.py
 msgid "chitin powder"
 msgid_plural "chitin powder"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "polvere di chitina"
+msgstr[1] "polvere di chitina"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "chloroform soaked rag"
@@ -23734,8 +23950,8 @@ msgstr[1] ""
 #: lang/json/COMESTIBLE_from_json.py
 msgid "cinnamon"
 msgid_plural "cinnamon"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "cannella"
+msgstr[1] "cannella"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "clam chowder"
@@ -23752,8 +23968,8 @@ msgstr[1] "acqua fresca"
 #: lang/json/COMESTIBLE_from_json.py
 msgid "cloutie dumpling"
 msgid_plural "cloutie dumplings"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Cloutie Dumpling"
+msgstr[1] "Cloutie Dumplings"
 
 #: lang/json/COMESTIBLE_from_json.py src/addiction.cpp
 msgid "cocaine"
@@ -23764,8 +23980,8 @@ msgstr[1] ""
 #: lang/json/COMESTIBLE_from_json.py
 msgid "coconut"
 msgid_plural "coconuts"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "noce di cocco"
+msgstr[1] "noci di cocco"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "coconut milk"
@@ -23926,8 +24142,8 @@ msgstr[1] "funghi cotti"
 #: lang/json/COMESTIBLE_from_json.py
 msgid "cooked oatmeal"
 msgid_plural "cooked oatmeals"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "farina d'avena cotta"
+msgstr[1] "farine d'avena cotte"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "cooked offal"
@@ -23944,8 +24160,8 @@ msgstr[1] ""
 #: lang/json/COMESTIBLE_from_json.py
 msgid "cooked rice"
 msgid_plural "cooked rice"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "riso cotto"
+msgstr[1] "riso cotto"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "cooked strawberry"
@@ -23968,8 +24184,8 @@ msgstr[1] "biscotti"
 #: lang/json/COMESTIBLE_from_json.py
 msgid "cooking oil"
 msgid_plural "cooking oil"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "olio da cucina"
+msgstr[1] "olio da cucina"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "corn"
@@ -24056,8 +24272,8 @@ msgstr[1] ""
 #: lang/json/COMESTIBLE_from_json.py
 msgid "cranberry"
 msgid_plural "cranberries"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "mirtillo"
+msgstr[1] "mirtilli"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "cranberry juice"
@@ -24098,14 +24314,14 @@ msgstr[1] "sandwich al cetriolo"
 #: lang/json/COMESTIBLE_from_json.py
 msgid "cucumber seed"
 msgid_plural "cucumber seeds"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "seme di cetriolo"
+msgstr[1] "semi di cetriolo"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "cullen skink"
 msgid_plural "cullen skinks"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Cullen Skink"
+msgstr[1] "Cullen Skinks"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "curdled milk"
@@ -24128,8 +24344,8 @@ msgstr[1] ""
 #: lang/json/COMESTIBLE_from_json.py
 msgid "curry powder"
 msgid_plural "curry powder"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "polvere di curry"
+msgstr[1] "polvere di curry"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "curry with meat"
@@ -24214,8 +24430,8 @@ msgstr[1] "frutta disidratata"
 #: lang/json/COMESTIBLE_from_json.py
 msgid "dehydrated human flesh"
 msgid_plural "dehydrated human flesh"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "carne umana disidratata"
+msgstr[1] "carne umana disidratata"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "dehydrated meat"
@@ -24238,8 +24454,8 @@ msgstr[1] "verdure contaminate essiccate"
 #: lang/json/COMESTIBLE_from_json.py
 msgid "dehydrated vegetable"
 msgid_plural "dehydrated vegetables"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "verdura disidratata"
+msgstr[1] "verdure disidratate"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "deluxe beans and rice"
@@ -24250,8 +24466,8 @@ msgstr[1] "fagioli e riso deluxe"
 #: lang/json/COMESTIBLE_from_json.py
 msgid "deluxe cooked oatmeal"
 msgid_plural "deluxe cooked oatmeals"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "farina d'avena deluxe cotta"
+msgstr[1] "farine d'avena deluxe cotte"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "deluxe sandwich"
@@ -24322,8 +24538,8 @@ msgstr[1] "funghi secchi"
 #: lang/json/COMESTIBLE_from_json.py
 msgid "dried rice"
 msgid_plural "dried rice"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "riso essiccato"
+msgstr[1] "riso essiccato"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "dried salad"
@@ -24382,14 +24598,14 @@ msgstr[1] ""
 #: lang/json/COMESTIBLE_from_json.py
 msgid "fast noodles"
 msgid_plural "fast noodles"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "noodles veloci"
+msgstr[1] "noodles veloci"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "fast-food French fries"
 msgid_plural "fast-food French fries"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "patatine fritte da fast-food "
+msgstr[1] "patatine fritte da fast-food "
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "feline mutagen"
@@ -24454,8 +24670,8 @@ msgstr[1] ""
 #: lang/json/COMESTIBLE_from_json.py
 msgid "flour"
 msgid_plural "flour"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "farina"
+msgstr[1] "farina"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "flu shot"
@@ -24508,8 +24724,8 @@ msgstr[1] "funghi spugnola fritti"
 #: lang/json/COMESTIBLE_from_json.py
 msgid "fried rice"
 msgid_plural "fried rice"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "riso fritto"
+msgstr[1] "riso fritto"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "fried seeds"
@@ -24638,8 +24854,8 @@ msgstr[1] ""
 #: lang/json/COMESTIBLE_from_json.py
 msgid "grape"
 msgid_plural "grapes"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "uva"
+msgstr[1] "uva"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "grape drink"
@@ -24668,8 +24884,8 @@ msgstr[1] ""
 #: lang/json/COMESTIBLE_from_json.py
 msgid "haggis"
 msgid_plural "haggii"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Haggis"
+msgstr[1] "Haggis"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "hamburger"
@@ -24716,8 +24932,8 @@ msgstr[1] ""
 #: lang/json/COMESTIBLE_from_json.py
 msgid "hard cheese"
 msgid_plural "hard cheese"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "formaggio a pasta dura"
+msgstr[1] "formaggio a pasta dura"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "hardtack"
@@ -24734,8 +24950,8 @@ msgstr[1] ""
 #: lang/json/COMESTIBLE_from_json.py
 msgid "herbal tea"
 msgid_plural "herbal tea"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "tè alle erbe"
+msgstr[1] "tè alle erbe"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "heroin"
@@ -24828,8 +25044,8 @@ msgstr[1] ""
 #: lang/json/COMESTIBLE_from_json.py
 msgid "human haggis"
 msgid_plural "human haggii"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Haggis umano"
+msgstr[1] "Haggis umani"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "human stomach"
@@ -24876,8 +25092,8 @@ msgstr[1] ""
 #: lang/json/COMESTIBLE_from_json.py
 msgid "insta-salad"
 msgid_plural "insta-salads"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "insalata instantanea"
+msgstr[1] "insalate instantanee"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "irradiated apple"
@@ -24888,8 +25104,8 @@ msgstr[1] "mele irradiate"
 #: lang/json/COMESTIBLE_from_json.py
 msgid "irradiated apricot"
 msgid_plural "irradiated apricots"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "albicocca irradiata"
+msgstr[1] "albicocche irradiate"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "irradiated banana"
@@ -24906,8 +25122,8 @@ msgstr[1] ""
 #: lang/json/COMESTIBLE_from_json.py
 msgid "irradiated blackberry"
 msgid_plural "irradiated blackberries"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "mora irradiata"
+msgstr[1] "more irradiate"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "irradiated blueberry"
@@ -24942,8 +25158,8 @@ msgstr[1] "sedani irradiati"
 #: lang/json/COMESTIBLE_from_json.py
 msgid "irradiated cherry"
 msgid_plural "irradiated cherries"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Ciliegia irradiata"
+msgstr[1] "Ciliegie irradiate"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "irradiated chicken course"
@@ -24960,8 +25176,8 @@ msgstr[1] "mais irradiato"
 #: lang/json/COMESTIBLE_from_json.py
 msgid "irradiated cranberry"
 msgid_plural "irradiated cranberries"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "mirtillo irradiato"
+msgstr[1] "mirtilli irradiati"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "irradiated cucumber"
@@ -24972,8 +25188,8 @@ msgstr[1] "cetrioli irradiati"
 #: lang/json/COMESTIBLE_from_json.py
 msgid "irradiated grape"
 msgid_plural "irradiated grapes"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "uva irradiata"
+msgstr[1] "uva irradiata"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "irradiated grapefruit"
@@ -24990,8 +25206,8 @@ msgstr[1] ""
 #: lang/json/COMESTIBLE_from_json.py
 msgid "irradiated kiwi"
 msgid_plural "irradiated kiwis"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "kiwi irradiato"
+msgstr[1] "kiwi irradiati"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "irradiated lemon"
@@ -25008,14 +25224,14 @@ msgstr[1] "lattughe irradiate"
 #: lang/json/COMESTIBLE_from_json.py
 msgid "irradiated mango"
 msgid_plural "irradiated mangos"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "mango irradiato"
+msgstr[1] "manghi irradiati"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "irradiated melon"
 msgid_plural "irradiated melons"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "melone irradiato"
+msgstr[1] "meloni irradiati"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "irradiated onion"
@@ -25032,20 +25248,20 @@ msgstr[1] "arance irradiate"
 #: lang/json/COMESTIBLE_from_json.py
 msgid "irradiated papaya"
 msgid_plural "irradiated papayas"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "papaia irradiata"
+msgstr[1] "papaie irradiate"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "irradiated peach"
 msgid_plural "irradiated peaches"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "pesca irradiata"
+msgstr[1] "pesche irradiate"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "irradiated pear"
 msgid_plural "irradiated pears"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "pera irradiata"
+msgstr[1] "pere irradiate"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "irradiated pineapple"
@@ -25056,14 +25272,14 @@ msgstr[1] "ananas irradiate"
 #: lang/json/COMESTIBLE_from_json.py
 msgid "irradiated plum"
 msgid_plural "irradiated plums"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "prugna irradiata"
+msgstr[1] "prugne irradiate"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "irradiated pomegranate"
 msgid_plural "irradiated pomegranates"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "melograno irradiato"
+msgstr[1] "melograni irradiati"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "irradiated potato"
@@ -25074,14 +25290,14 @@ msgstr[1] "patate irradiate"
 #: lang/json/COMESTIBLE_from_json.py
 msgid "irradiated pumpkin"
 msgid_plural "irradiated pumpkins"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "zucca irradiata"
+msgstr[1] "zucche irradiate"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "irradiated raspberry"
 msgid_plural "irradiated raspberries"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "lampone irradiato"
+msgstr[1] "lamponi irradiati"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "irradiated ravioli course"
@@ -25092,8 +25308,8 @@ msgstr[1] ""
 #: lang/json/COMESTIBLE_from_json.py
 msgid "irradiated rhubarb"
 msgid_plural "irradiated rhubarbs"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "rabarbaro irradiato"
+msgstr[1] "rabarbari irradiati"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "irradiated strawberry"
@@ -25116,8 +25332,8 @@ msgstr[1] ""
 #: lang/json/COMESTIBLE_from_json.py
 msgid "irradiated watermelon"
 msgid_plural "irradiated watermelons"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "anguria irradiata"
+msgstr[1] "angurie irradiate"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "irradiated zucchini"
@@ -25152,8 +25368,8 @@ msgstr[1] ""
 #: lang/json/COMESTIBLE_from_json.py
 msgid "juice pulp"
 msgid_plural "juice pulps"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "polpa di succo di frutta"
+msgstr[1] "polpe di succo di frutta"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "kalimotxo"
@@ -25170,8 +25386,8 @@ msgstr[1] ""
 #: lang/json/COMESTIBLE_from_json.py
 msgid "kiwi"
 msgid_plural "kiwis"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "kiwi"
+msgstr[1] "kiwi"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "kompot"
@@ -25230,8 +25446,8 @@ msgstr[1] "limonata"
 #: lang/json/COMESTIBLE_from_json.py
 msgid "lemonade drink mix"
 msgid_plural "servings of lemonade drink mix"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "miscela per limonata"
+msgstr[1] "porzioni di miscela per limonata"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "lettuce"
@@ -25308,8 +25524,8 @@ msgstr[1] "palle di latte al malto"
 #: lang/json/COMESTIBLE_from_json.py
 msgid "mango"
 msgid_plural "mangos"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "mango"
+msgstr[1] "manghi"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "manwich"
@@ -25350,20 +25566,20 @@ msgstr[1] ""
 #: lang/json/COMESTIBLE_from_json.py
 msgid "marloss berry"
 msgid_plural "marloss berries"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "bacca Marloss"
+msgstr[1] "bacche Marloss"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "marloss gelatin"
 msgid_plural "marloss gelatin"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "gelatina Marloss"
+msgstr[1] "gelatina Marloss"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "marloss seed"
 msgid_plural "marloss seeds"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "seme Marloss"
+msgstr[1] "semi Marloss"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "marshmallows"
@@ -25458,8 +25674,8 @@ msgstr[1] ""
 #: lang/json/COMESTIBLE_from_json.py
 msgid "melon"
 msgid_plural "melons"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "melone"
+msgstr[1] "meloni"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "methacola"
@@ -25494,8 +25710,8 @@ msgstr[1] ""
 #: lang/json/COMESTIBLE_from_json.py
 msgid "molasses"
 msgid_plural "molasses"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "melassa"
+msgstr[1] "melassa"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "moonshine"
@@ -25608,8 +25824,8 @@ msgstr[1] ""
 #: lang/json/COMESTIBLE_from_json.py
 msgid "mycus fruit"
 msgid_plural "mycus fruits"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "frutto di muco"
+msgstr[1] "frutta di muco"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "nachos"
@@ -25662,20 +25878,20 @@ msgstr[1] "sciroppo per la tosse non-sonnolente"
 #: lang/json/COMESTIBLE_from_json.py
 msgid "oat seed"
 msgid_plural "oat seeds"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "seme d'avena"
+msgstr[1] "semi d'avena"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "oatmeal"
 msgid_plural "oatmeals"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "farina d'avena"
+msgstr[1] "farine d'avena"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "oats"
 msgid_plural "oats"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "avena"
+msgstr[1] "avena"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "onigiri"
@@ -25692,8 +25908,8 @@ msgstr[1] "cipolle"
 #: lang/json/COMESTIBLE_from_json.py
 msgid "onion ring"
 msgid_plural "onion rings"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "anello di cipolla"
+msgstr[1] "anelli di cipolla"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "onion seed"
@@ -25740,8 +25956,8 @@ msgstr[1] ""
 #: lang/json/COMESTIBLE_from_json.py
 msgid "papaya"
 msgid_plural "papayas"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "papaia"
+msgstr[1] "papaia"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "paper"
@@ -25752,8 +25968,8 @@ msgstr[1] "carta"
 #: lang/json/COMESTIBLE_from_json.py
 msgid "peach"
 msgid_plural "peaches"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "pesca"
+msgstr[1] "pesche"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "peaches in syrup"
@@ -25782,8 +25998,8 @@ msgstr[1] "sandwich al burro di arachidi"
 #: lang/json/COMESTIBLE_from_json.py
 msgid "pear"
 msgid_plural "pears"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "pera"
+msgstr[1] "pere"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "pelmeni"
@@ -25800,8 +26016,8 @@ msgstr[1] "pemmican"
 #: lang/json/COMESTIBLE_from_json.py
 msgid "peppermint patty"
 msgid_plural "peppermint patties"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "tortino alla menta piperita"
+msgstr[1] "tortini alla menta piperita"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "pesto"
@@ -25848,8 +26064,8 @@ msgstr[1] "verdure in salamoia"
 #: lang/json/COMESTIBLE_from_json.py
 msgid "pine needle tea"
 msgid_plural "pine needle tea"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "tè agli aghi di pino"
+msgstr[1] "tè agli aghi di pino"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "pine nuts"
@@ -25908,14 +26124,14 @@ msgstr[1] ""
 #: lang/json/COMESTIBLE_from_json.py
 msgid "plum"
 msgid_plural "plums"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "prugna"
+msgstr[1] "prugne"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "pomegranate"
 msgid_plural "pomegranates"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "melograno"
+msgstr[1] "melograni"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "popcorn"
@@ -26038,8 +26254,8 @@ msgstr[1] "budini"
 #: lang/json/COMESTIBLE_from_json.py
 msgid "pumpkin"
 msgid_plural "pumpkins"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "zucca"
+msgstr[1] "zucche"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "pumpkin seed"
@@ -26080,8 +26296,8 @@ msgstr[1] ""
 #: lang/json/COMESTIBLE_from_json.py
 msgid "raspberry"
 msgid_plural "raspberries"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "lampone"
+msgstr[1] "lamponi"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "raspberry seed"
@@ -26122,8 +26338,8 @@ msgstr[1] "pellicce grezze"
 #: lang/json/COMESTIBLE_from_json.py
 msgid "raw human skin"
 msgid_plural "raw human skins"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "pelle umana grezza"
+msgstr[1] "pelli umane grezze"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "raw lasagne"
@@ -26194,8 +26410,8 @@ msgstr[1] "frutta reidratata"
 #: lang/json/COMESTIBLE_from_json.py
 msgid "rehydrated human flesh"
 msgid_plural "rehydrated human flesh"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "carne umana reidratata"
+msgstr[1] "carne umana reidratata"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "rehydrated meat"
@@ -26206,8 +26422,8 @@ msgstr[1] "carni reidratate"
 #: lang/json/COMESTIBLE_from_json.py
 msgid "rehydrated vegetable"
 msgid_plural "rehydrated vegetables"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "verdura reidratata"
+msgstr[1] "verdure reidratate"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "reptile egg"
@@ -26230,8 +26446,8 @@ msgstr[1] ""
 #: lang/json/COMESTIBLE_from_json.py
 msgid "rhubarb"
 msgid_plural "rhubarbs"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "rabarbaro"
+msgstr[1] "rabarbari"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "rhubarb stems"
@@ -26464,8 +26680,8 @@ msgstr[1] ""
 #: lang/json/COMESTIBLE_from_json.py
 msgid "single malt whiskey"
 msgid_plural "single malt whiskey"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "whiskey di singolo malto"
+msgstr[1] "whiskey di singolo malto"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "slime mutagen"
@@ -26668,8 +26884,8 @@ msgstr[1] "cocktails forti"
 #: lang/json/COMESTIBLE_from_json.py
 msgid "sugar"
 msgid_plural "sugar"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "zucchero"
+msgstr[1] "zucchero"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "sugar beet"
@@ -26756,8 +26972,8 @@ msgstr[1] ""
 #: lang/json/COMESTIBLE_from_json.py
 msgid "tainted hide"
 msgid_plural "tainted hides"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "pelliccia contaminata"
+msgstr[1] "pellicce contaminate"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "tainted pelt"
@@ -27032,8 +27248,8 @@ msgstr[1] "compresse per purificazione acqua"
 #: lang/json/COMESTIBLE_from_json.py
 msgid "watermelon"
 msgid_plural "watermelons"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "anguria"
+msgstr[1] "angurie"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "wax"
@@ -27056,8 +27272,8 @@ msgstr[1] "cocktails deboli"
 #: lang/json/COMESTIBLE_from_json.py
 msgid "wheat"
 msgid_plural "wheat"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "grano"
+msgstr[1] "grano"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "wheat cereal"
@@ -27120,8 +27336,8 @@ msgstr[1] ""
 #: lang/json/COMESTIBLE_from_json.py
 msgid "wild herbs"
 msgid_plural "wild herbs"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "erbe selvatiche"
+msgstr[1] "erbe selvatiche"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "wild vegetable"
@@ -27268,6 +27484,14 @@ msgstr ""
 "Un vaso di vetro da mezzo litro con un tappo in metallo, usato per "
 "conservare."
 
+#. ~ Description for sealed glass jar
+#: lang/json/CONTAINER_from_json.py
+msgid ""
+"A half-liter glass jar with a metal screw top lid, used for canning.  Sealed "
+"tightly and will preserve the contents from rot (assuming it was sterile "
+"before sealing)."
+msgstr ""
+
 #. ~ Description for 30 gallon barrel
 #: lang/json/CONTAINER_from_json.py
 msgid "A huge plastic barrel with a resealable lid."
@@ -27411,9 +27635,14 @@ msgstr ""
 msgid "A small, open plastic bag.  Essentially trash."
 msgstr "Un sacchetto di plastica piccolo e aperto. Essenzialmente spazzatura."
 
-#. ~ Description for plastic cup
+#. ~ Description for opened plastic cup
 #: lang/json/CONTAINER_from_json.py
 msgid "A small, vacuum formed cup, essentially trash."
+msgstr ""
+
+#. ~ Description for plastic cup
+#: lang/json/CONTAINER_from_json.py
+msgid "A small, vacuum formed cup."
 msgstr ""
 
 #. ~ Description for steel bottle
@@ -27439,10 +27668,24 @@ msgstr ""
 msgid "A three-liter glass jar with a metal screw top lid, used for canning."
 msgstr "Un vaso di vetro da 3L con un tappo in metallo, usato per conservare"
 
+#. ~ Description for sealed 3L glass jar
+#: lang/json/CONTAINER_from_json.py
+msgid ""
+"A three-liter glass jar with a metal screw top lid, used for canning.  "
+"Sealed tightly to preserve contents from rot."
+msgstr ""
+
 #. ~ Description for tin can
 #: lang/json/CONTAINER_from_json.py
 msgid "A tin can, like what beans come in."
 msgstr "Un barattolo di latta, come quello dei fagioli."
+
+#. ~ Description for opened tin can
+#: lang/json/CONTAINER_from_json.py
+msgid ""
+"A tin can, like what beans come in.  This one is opened and can't be easily "
+"sealed."
+msgstr ""
 
 #. ~ Description for vortex generator
 #: lang/json/CONTAINER_from_json.py
@@ -27487,6 +27730,13 @@ msgstr ""
 #: lang/json/CONTAINER_from_json.py
 msgid "An aluminum can, like what soda comes in."
 msgstr "Una lattina di alluminio, come quelle della soda."
+
+#. ~ Description for opened aluminum can
+#: lang/json/CONTAINER_from_json.py
+msgid ""
+"An aluminum can, like what soda comes in.  This one is opened and can't be "
+"easily sealed."
+msgstr ""
 
 #. ~ Description for paper wrapper
 #: lang/json/CONTAINER_from_json.py
@@ -27671,6 +27921,24 @@ msgstr[0] "serbatoio di metallo (60L)"
 msgstr[1] "serbatoi di metallo (60L)"
 
 #: lang/json/CONTAINER_from_json.py
+msgid "opened aluminum can"
+msgid_plural "opened aluminum cans"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/CONTAINER_from_json.py
+msgid "opened plastic cup"
+msgid_plural "opened plastic cups"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/CONTAINER_from_json.py
+msgid "opened tin can"
+msgid_plural "opened tin cans"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/CONTAINER_from_json.py
 msgid "pack"
 msgid_plural "packs"
 msgstr[0] ""
@@ -27723,6 +27991,18 @@ msgid "plastic jerrycan"
 msgid_plural "plastic jerrycans"
 msgstr[0] "tanica di plastica"
 msgstr[1] "taniche di plastica"
+
+#: lang/json/CONTAINER_from_json.py
+msgid "sealed 3L glass jar"
+msgid_plural "sealed 3L glass jars"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/CONTAINER_from_json.py
+msgid "sealed glass jar"
+msgid_plural "sealed glass jars"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/CONTAINER_from_json.py
 msgid "sealed stomach"
@@ -29170,18 +29450,6 @@ msgstr ""
 msgid "A miscellaneous piece of hobby software.  Probably useless."
 msgstr ""
 
-#. ~ Description for chunk of steel
-#: lang/json/GENERIC_from_json.py
-msgid ""
-"A misshapen chunk of steel.  Makes a decent weapon in a pinch, and is also "
-"useful for some crafting recipes."
-msgstr ""
-
-#. ~ Description for lump of steel
-#: lang/json/GENERIC_from_json.py
-msgid "A misshapen heavy piece of steel.  Useful for some crafting recipes."
-msgstr ""
-
 #. ~ Description for neoprene sheet
 #: lang/json/GENERIC_from_json.py
 msgid ""
@@ -30333,13 +30601,6 @@ msgid ""
 "damaging itself when used on untilled land."
 msgstr ""
 
-#. ~ Description for scrap metal
-#: lang/json/GENERIC_from_json.py
-msgid ""
-"An assortment of small bits of metal and scrap useful in all kinds of "
-"crafting"
-msgstr ""
-
 #. ~ Description for 7.5kW generator
 #: lang/json/GENERIC_from_json.py
 msgid ""
@@ -30546,6 +30807,11 @@ msgstr[1] ""
 #. ~ Description for spoon
 #: lang/json/GENERIC_from_json.py
 msgid "Do not try to bend the spoon.  That is impossible."
+msgstr ""
+
+#. ~ Description for fake item
+#: lang/json/GENERIC_from_json.py
+msgid "Dummy item.  If you see this, then something went wrong."
 msgstr ""
 
 #. ~ Description for upgraded solar panel
@@ -31341,147 +31607,10 @@ msgid ""
 "reverse, but the usage of it now seems terribly unwise."
 msgstr ""
 
-#. ~ Description for sealed jar of V8
-#: lang/json/GENERIC_from_json.py
-msgid ""
-"This is a sealed glass jar containing V8.  Use to open and drink to enjoy."
-msgstr ""
-
-#. ~ Description for sealed jar of bone broth
-#: lang/json/GENERIC_from_json.py
-msgid ""
-"This is a sealed glass jar containing bone broth.  Use to open and eat to "
-"enjoy."
-msgstr ""
-
-#. ~ Description for sealed jar of broth
-#: lang/json/GENERIC_from_json.py
-msgid ""
-"This is a sealed glass jar containing broth.  Use to open and eat to enjoy."
-msgstr ""
-
-#. ~ Description for sealed jar of fish soup
-#: lang/json/GENERIC_from_json.py
-msgid ""
-"This is a sealed glass jar containing fish soup.  Use to open and eat to "
-"enjoy."
-msgstr ""
-
-#. ~ Description for sealed jar of human broth
-#: lang/json/GENERIC_from_json.py
-msgid ""
-"This is a sealed glass jar containing human bone broth.  Use to open and eat "
-"to enjoy - if you really want to."
-msgstr ""
-
-#. ~ Description for sealed jar of soylent slices
-#: lang/json/GENERIC_from_json.py
-msgid ""
-"This is a sealed glass jar containing human meat.  Use to open and eat to "
-"enjoy - if you really want to."
-msgstr ""
-
-#. ~ Description for sealed 3-liter jar of kompot
-#: lang/json/GENERIC_from_json.py
-msgid ""
-"This is a sealed glass jar containing kompot.  Use to open and eat to enjoy."
-msgstr ""
-
-#. ~ Description for sealed jar of meat soup
-#: lang/json/GENERIC_from_json.py
-msgid ""
-"This is a sealed glass jar containing meat soup.  Use to open and eat to "
-"enjoy."
-msgstr ""
-
-#. ~ Description for sealed jar of canned veggy
-#: lang/json/GENERIC_from_json.py
-msgid ""
-"This is a sealed glass jar containing mixed vegetables.  Use to open and eat "
-"to enjoy."
-msgstr ""
-
-#. ~ Description for sealed jar of mushroom soup
-#: lang/json/GENERIC_from_json.py
-msgid ""
-"This is a sealed glass jar containing mushroom soup.  Use to open and eat to "
-"enjoy."
-msgstr ""
-
-#. ~ Description for sealed jar of pickled fish
-#: lang/json/GENERIC_from_json.py
-msgid ""
-"This is a sealed glass jar containing pickled fish.  Use to open and eat to "
-"enjoy."
-msgstr ""
-
-#. ~ Description for sealed jar of pickled meat
-#: lang/json/GENERIC_from_json.py
-msgid ""
-"This is a sealed glass jar containing pickled meat.  Use to open and eat to "
-"enjoy."
-msgstr ""
-
-#. ~ Description for sealed jar of pickled vegetable
-#: lang/json/GENERIC_from_json.py
-msgid ""
-"This is a sealed glass jar containing pickled vegetables.  Use to open and "
-"eat to enjoy."
-msgstr ""
-
-#. ~ Description for sealed jar of sap soup
-#: lang/json/GENERIC_from_json.py
-msgid ""
-"This is a sealed glass jar containing sap soup.  Use to open and eat to "
-"enjoy."
-msgstr ""
-
 #. ~ Description for sealed jar of sauerkraut
 #: lang/json/GENERIC_from_json.py
 msgid ""
 "This is a sealed glass jar containing sauerkraut.  Use to open and eat to "
-"enjoy."
-msgstr ""
-
-#. ~ Description for sealed jar of canned fruit
-#: lang/json/GENERIC_from_json.py
-msgid ""
-"This is a sealed glass jar containing sliced fruits.  Use to open and eat to "
-"enjoy."
-msgstr ""
-
-#. ~ Description for sealed jar of canned fish
-#: lang/json/GENERIC_from_json.py
-msgid ""
-"This is a sealed glass jar containing some fish.  Use to open and eat to "
-"enjoy."
-msgstr ""
-
-#. ~ Description for sealed jar of canned meat
-#: lang/json/GENERIC_from_json.py
-msgid ""
-"This is a sealed glass jar containing some meat.  Use to open and eat to "
-"enjoy."
-msgstr ""
-
-#. ~ Description for sealed jar of canned tomato
-#: lang/json/GENERIC_from_json.py
-msgid ""
-"This is a sealed glass jar containing tomatoes.  Use to open and eat to "
-"enjoy."
-msgstr ""
-
-#. ~ Description for sealed jar of vegetable soup
-#: lang/json/GENERIC_from_json.py
-msgid ""
-"This is a sealed glass jar containing vegetable soup.  Use to open and eat "
-"to enjoy."
-msgstr ""
-
-#. ~ Description for sealed jar of woods soup
-#: lang/json/GENERIC_from_json.py
-msgid ""
-"This is a sealed glass jar containing woods soup.  Use to open and eat to "
 "enjoy."
 msgstr ""
 
@@ -31532,13 +31661,6 @@ msgid ""
 "local area.  Printed by the Chamber of Commerce, it lists the addresses of "
 "all the best diners and bars.  Using it will add points of interest to your "
 "map."
-msgstr ""
-
-#. ~ Description for sealed jar of pickled human flesh
-#: lang/json/GENERIC_from_json.py
-msgid ""
-"This is sealed glass jar containing pickled human flesh.  Use to open.  You "
-"might even enjoy it."
 msgstr ""
 
 #. ~ Description for fermenting sauerkraut jar
@@ -31727,28 +31849,7 @@ msgstr ""
 msgid "You open the flask and harvest the culture."
 msgstr ""
 
-#. ~ Use action msg for sealed jar of canned meat.
-#. ~ Use action msg for sealed jar of canned fish.
-#. ~ Use action msg for sealed 3-liter jar of kompot.
-#. ~ Use action msg for sealed jar of soylent slices.
-#. ~ Use action msg for sealed jar of canned veggy.
-#. ~ Use action msg for sealed jar of canned fruit.
-#. ~ Use action msg for sealed jar of canned tomato.
-#. ~ Use action msg for sealed jar of pickled vegetable.
 #. ~ Use action msg for sealed jar of sauerkraut.
-#. ~ Use action msg for sealed jar of pickled meat.
-#. ~ Use action msg for sealed jar of pickled fish.
-#. ~ Use action msg for sealed jar of pickled human flesh.
-#. ~ Use action msg for sealed jar of mushroom soup.
-#. ~ Use action msg for sealed jar of woods soup.
-#. ~ Use action msg for sealed jar of meat soup.
-#. ~ Use action msg for sealed jar of fish soup.
-#. ~ Use action msg for sealed jar of vegetable soup.
-#. ~ Use action msg for sealed jar of sap soup.
-#. ~ Use action msg for sealed jar of broth.
-#. ~ Use action msg for sealed jar of bone broth.
-#. ~ Use action msg for sealed jar of human broth.
-#. ~ Use action msg for sealed jar of V8.
 #: lang/json/GENERIC_from_json.py
 msgid "You open the jar, exposing it to the atmosphere."
 msgstr "Hai aperto il vaso, esponendolo all'atmosfera."
@@ -31875,14 +31976,14 @@ msgstr[1] ""
 #: lang/json/GENERIC_from_json.py lang/json/vehicle_part_from_json.py
 msgid "atomic nightlight"
 msgid_plural "atomic nightlights"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "luce da notte atomica"
+msgstr[1] "luci da notte atomiche"
 
 #: lang/json/GENERIC_from_json.py
 msgid "atomic nightlight (covered)"
 msgid_plural "atomic nightlights (covered)"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "luce da notte atomica (coperta)"
+msgstr[1] "luci da notte atomiche (coperte)"
 
 #: lang/json/GENERIC_from_json.py
 msgid "automotive filter"
@@ -31995,8 +32096,8 @@ msgstr[1] ""
 #: lang/json/GENERIC_from_json.py lang/json/vehicle_part_from_json.py
 msgid "blob plating"
 msgid_plural "blob platings"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "rivestimento di blob"
+msgstr[1] "rivestimenti di blob"
 
 #: lang/json/GENERIC_from_json.py lang/json/vehicle_part_from_json.py
 msgid "blob seat"
@@ -32337,8 +32438,8 @@ msgstr[1] ""
 #: lang/json/GENERIC_from_json.py
 msgid "car headlight"
 msgid_plural "car headlights"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "fanale d'automobile"
+msgstr[1] "fanali d'automobile"
 
 #: lang/json/GENERIC_from_json.py
 msgid "carding paddles"
@@ -32423,12 +32524,6 @@ msgid "chunk of chitin"
 msgid_plural "chunks of chitin"
 msgstr[0] ""
 msgstr[1] ""
-
-#: lang/json/GENERIC_from_json.py
-msgid "chunk of steel"
-msgid_plural "chunks of steel"
-msgstr[0] "pezzo d'acciaio"
-msgstr[1] "pezzi d'acciaio"
 
 #: lang/json/GENERIC_from_json.py
 msgid "chunk of sulfur"
@@ -32693,6 +32788,12 @@ msgstr[0] "telaio extra leggero"
 msgstr[1] "telai extra leggeri"
 
 #: lang/json/GENERIC_from_json.py
+msgid "fake item"
+msgid_plural "fake items"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/GENERIC_from_json.py
 msgid "fancy table"
 msgid_plural "fancy tables"
 msgstr[0] ""
@@ -32761,8 +32862,8 @@ msgstr[1] ""
 #: lang/json/GENERIC_from_json.py lang/json/vehicle_part_from_json.py
 msgid "floodlight"
 msgid_plural "floodlights"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "riflettore"
+msgstr[1] "riflettori"
 
 #: lang/json/GENERIC_from_json.py
 msgid "flyer"
@@ -32929,8 +33030,8 @@ msgstr[1] ""
 #: lang/json/GENERIC_from_json.py lang/json/vehicle_part_from_json.py
 msgid "hard plating"
 msgid_plural "hard platings"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "rivestimento duro"
+msgstr[1] "rivestimenti duri"
 
 #: lang/json/GENERIC_from_json.py
 msgid "hatchet"
@@ -33103,8 +33204,8 @@ msgstr[1] "toppe di pelle"
 #: lang/json/GENERIC_from_json.py
 msgid "light bulb"
 msgid_plural "light bulbs"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "lampadina"
+msgstr[1] "lampadine"
 
 #: lang/json/GENERIC_from_json.py lang/json/vehicle_part_from_json.py
 msgid "light wooden frame"
@@ -33147,12 +33248,6 @@ msgid "lump of clay"
 msgid_plural "lumps of clay"
 msgstr[0] "blocco di argilla"
 msgstr[1] "blocchi di argilla"
-
-#: lang/json/GENERIC_from_json.py
-msgid "lump of steel"
-msgid_plural "lumps of steel"
-msgstr[0] "blocco d'acciaio"
-msgstr[1] "blocchi d'acciaio"
 
 #: lang/json/GENERIC_from_json.py
 msgid "mace"
@@ -33235,8 +33330,8 @@ msgstr[1] ""
 #: lang/json/GENERIC_from_json.py
 msgid "military composite plating"
 msgid_plural "military composite platings"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "rivestimento militare"
+msgstr[1] "rivestimenti militari"
 
 #: lang/json/GENERIC_from_json.py
 msgid "military operations map"
@@ -33597,8 +33692,8 @@ msgstr[1] ""
 #: lang/json/GENERIC_from_json.py lang/json/vehicle_part_from_json.py
 msgid "reinforced head light"
 msgid_plural "reinforced head lights"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "faro rinforzato"
+msgstr[1] "fari rinforzati"
 
 #: lang/json/GENERIC_from_json.py lang/json/vehicle_part_from_json.py
 msgid "reinforced solar panel"
@@ -33661,142 +33756,10 @@ msgstr[0] "rottame di rame"
 msgstr[1] "rottami di rame"
 
 #: lang/json/GENERIC_from_json.py
-msgid "scrap metal"
-msgid_plural "scrap metal"
-msgstr[0] "rottame di metallo"
-msgstr[1] "rottami di metallo"
-
-#: lang/json/GENERIC_from_json.py
-msgid "sealed 3-liter jar of kompot"
-msgid_plural "sealed 3-liter jars of kompot"
-msgstr[0] "vaso sigillato da 3L di Kompot"
-msgstr[1] "vasi sigillati da 3L di Kompot"
-
-#: lang/json/GENERIC_from_json.py
-msgid "sealed jar of V8"
-msgid_plural "sealed jars of V8"
-msgstr[0] "vaso sigillato di succo vegetale V8"
-msgstr[1] "vasi sigillati di succo vegetale V8"
-
-#: lang/json/GENERIC_from_json.py
-msgid "sealed jar of bone broth"
-msgid_plural "sealed jars of bone broth"
-msgstr[0] "vaso sigillato di brodo d'ossa"
-msgstr[1] "vasi sigillati di brodo d'ossa"
-
-#: lang/json/GENERIC_from_json.py
-msgid "sealed jar of broth"
-msgid_plural "sealed jars of broth"
-msgstr[0] "vaso sigillato di brodo"
-msgstr[1] "vasi sigillati di brodo"
-
-#: lang/json/GENERIC_from_json.py
-msgid "sealed jar of canned fish"
-msgid_plural "sealed jars of canned fish"
-msgstr[0] "vaso sigillato di pesce in scatola"
-msgstr[1] "vasi sigillati di pesce in scatola"
-
-#: lang/json/GENERIC_from_json.py
-msgid "sealed jar of canned fruit"
-msgid_plural "sealed jars of canned fruit"
-msgstr[0] "vaso sigillato di frutta in scatola"
-msgstr[1] "vasi sigillati di frutta in scatola"
-
-#: lang/json/GENERIC_from_json.py
-msgid "sealed jar of canned meat"
-msgid_plural "sealed jars of canned meat"
-msgstr[0] "vaso sigillato di carne in scatola"
-msgstr[1] "vasi sigillati di carne in scatola"
-
-#: lang/json/GENERIC_from_json.py
-msgid "sealed jar of canned tomato"
-msgid_plural "sealed jars of canned tomatoes"
-msgstr[0] "vaso sigillato di pomodori in scatola"
-msgstr[1] "vasi sigillati di pomodori in scatola"
-
-#: lang/json/GENERIC_from_json.py
-msgid "sealed jar of canned veggy"
-msgid_plural "sealed jars of canned veggy"
-msgstr[0] "vaso sigillato di verdure in scatola"
-msgstr[1] "vasi sigillati di verdure in scatola"
-
-#: lang/json/GENERIC_from_json.py
-msgid "sealed jar of fish soup"
-msgid_plural "sealed jars of fish soup"
-msgstr[0] "vaso sigillato di zuppa di pesce"
-msgstr[1] "vasi sigillati di zuppa di pesce"
-
-#: lang/json/GENERIC_from_json.py
-msgid "sealed jar of human broth"
-msgid_plural "sealed jars of human broth"
-msgstr[0] "vaso sigillato di brodo umano"
-msgstr[1] "vasi sigillati di brodo umano"
-
-#: lang/json/GENERIC_from_json.py
-msgid "sealed jar of meat soup"
-msgid_plural "sealed jars of meat soup"
-msgstr[0] "vaso sigillato di zuppa di carne"
-msgstr[1] "vasi sigillati di zuppa di carne"
-
-#: lang/json/GENERIC_from_json.py
-msgid "sealed jar of mushroom soup"
-msgid_plural "sealed jars of mushroom soup"
-msgstr[0] "vaso sigillato di zuppa di funghi"
-msgstr[1] "vasi sigillati di zuppa di funghi"
-
-#: lang/json/GENERIC_from_json.py
-msgid "sealed jar of pickled fish"
-msgid_plural "sealed jars of pickled fish"
-msgstr[0] "vaso sigillato di pesce in salamoia"
-msgstr[1] "vasi sigillati di pesce in salamoia"
-
-#: lang/json/GENERIC_from_json.py
-msgid "sealed jar of pickled human flesh"
-msgid_plural "sealed jars of pickled human flesh"
-msgstr[0] "vaso sigillato di carne umana in salamoia"
-msgstr[1] "vasi sigillati di carne umana in salamoia"
-
-#: lang/json/GENERIC_from_json.py
-msgid "sealed jar of pickled meat"
-msgid_plural "sealed jars of pickled meat"
-msgstr[0] "vaso sigillato di carne in salamoia"
-msgstr[1] "vasi sigillati di carne in salamoia"
-
-#: lang/json/GENERIC_from_json.py
-msgid "sealed jar of pickled vegetable"
-msgid_plural "sealed jars of pickled vegetable"
-msgstr[0] "vaso sigillato di verdure in salamoia"
-msgstr[1] "vasi sigillati di verdure in salamoia"
-
-#: lang/json/GENERIC_from_json.py
-msgid "sealed jar of sap soup"
-msgid_plural "sealed jars of sap soup"
-msgstr[0] "vaso sigillato di zuppa di \"linfa\""
-msgstr[1] "vasi sigillati di zuppa di \"linfa\""
-
-#: lang/json/GENERIC_from_json.py
 msgid "sealed jar of sauerkraut"
 msgid_plural "sealed jars of sauerkraut"
 msgstr[0] "vaso sigillato di crauti"
 msgstr[1] "vasi sigillati di crauti"
-
-#: lang/json/GENERIC_from_json.py
-msgid "sealed jar of soylent slices"
-msgid_plural "sealed jars of soylent slices"
-msgstr[0] "vaso sigillato di fette di sopravvissuti"
-msgstr[1] "vasi sigillati di fette di sopravvissuti"
-
-#: lang/json/GENERIC_from_json.py
-msgid "sealed jar of vegetable soup"
-msgid_plural "sealed jars of vegetable soup"
-msgstr[0] "vaso sigillato di zuppa di verdure"
-msgstr[1] "vasi sigillati di zuppa di verdure"
-
-#: lang/json/GENERIC_from_json.py
-msgid "sealed jar of woods soup"
-msgid_plural "sealed jars of woods soup"
-msgstr[0] "vaso sigillato di zuppa di boschi"
-msgstr[1] "vasi sigillati di zuppa di boschi"
 
 #: lang/json/GENERIC_from_json.py
 msgid "sealed yeast culture"
@@ -33974,8 +33937,8 @@ msgstr[1] ""
 #: lang/json/GENERIC_from_json.py lang/json/vehicle_part_from_json.py
 msgid "spiked plating"
 msgid_plural "spiked platings"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "rivestimento chiodato"
+msgstr[1] "rivestimenti chiodati"
 
 #: lang/json/GENERIC_from_json.py
 msgid "spiral stone"
@@ -34034,8 +33997,8 @@ msgstr[1] "telai in acciaio"
 #: lang/json/GENERIC_from_json.py lang/json/vehicle_part_from_json.py
 msgid "steel plating"
 msgid_plural "steel platings"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "rivestimento d'acciaio"
+msgstr[1] "rivestimenti d'acciaio"
 
 #: lang/json/GENERIC_from_json.py
 msgid "steel spear"
@@ -34082,8 +34045,8 @@ msgstr[1] ""
 #: lang/json/GENERIC_from_json.py lang/json/vehicle_part_from_json.py
 msgid "superalloy plating"
 msgid_plural "superalloy platings"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "rivestimento di superlega"
+msgstr[1] "rivestimenti di superlega"
 
 #: lang/json/GENERIC_from_json.py
 msgid "superalloy sheet"
@@ -37075,8 +37038,8 @@ msgstr ""
 #: lang/json/GUN_from_json.py lang/json/bionic_from_json.py
 msgid "Chain Lightning"
 msgid_plural "Chain Lightnings"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Fulmine a Catena"
+msgstr[1] "Fulmine a Catena"
 
 #. ~ Description for Modified CW-24
 #. ~ Description for Modified CW-24M
@@ -37469,8 +37432,7 @@ msgstr ""
 #: lang/json/GUN_from_json.py
 msgid ""
 "Its relative simplicity and reliability made the Benelli M4 the most "
-"successful semi-automatic shotgun ever created.  Unlike pump action "
-"shotguns, it can be fired in short bursts."
+"successful semi-automatic shotgun ever created."
 msgstr ""
 
 #: lang/json/GUN_from_json.py
@@ -40150,6 +40112,10 @@ msgid "slingshot cannon turret"
 msgid_plural "slingshot cannon turrets"
 msgstr[0] ""
 msgstr[1] ""
+
+#: lang/json/GUN_from_json.py
+msgid "slosh."
+msgstr ""
 
 #: lang/json/GUN_from_json.py
 msgid "smoke generator mount"
@@ -49038,11 +49004,6 @@ msgstr ""
 msgid "Dull essence shall make the hammer shine."
 msgstr ""
 
-#. ~ Description for fake item
-#: lang/json/TOOL_from_json.py
-msgid "Dummy item.  If you see this, then something went wrong."
-msgstr ""
-
 #: lang/json/TOOL_from_json.py
 msgid "Dusk"
 msgid_plural "Dusks"
@@ -49454,7 +49415,7 @@ msgstr ""
 #. ~ Use action charges_extinguish_message for Rising Sun (on).
 #: lang/json/TOOL_from_json.py
 msgid "The Light Fades."
-msgstr ""
+msgstr "La luce svanisce."
 
 #. ~ Use action msg for PDA - Flashlight.
 #: lang/json/TOOL_from_json.py
@@ -51968,7 +51929,7 @@ msgstr ""
 msgid ""
 "This is an advanced version of the unified power supply, or UPS.  This "
 "device has been significantly redesigned to provide better efficiency as "
-"well as to consume plutonium fuel cells rather than batteries.  Sadly, it's "
+"well as to consume plutonium fuel cells rather than batteries.  Sadly, its "
 "plutonium reactor can't be charged in UPS charging station."
 msgstr ""
 
@@ -52736,7 +52697,7 @@ msgstr "Hai acceso la Louisville Slaughterer."
 #. ~ Use action msg for Molotov cocktail.
 #: lang/json/TOOL_from_json.py
 msgid "You light the Molotov cocktail."
-msgstr ""
+msgstr "Accendi la bomba Molotov."
 
 #. ~ Use action msg for candle.
 #: lang/json/TOOL_from_json.py
@@ -52752,7 +52713,7 @@ msgstr "Hai acceso la dinamite."
 #: lang/json/TOOL_from_json.py
 #, no-python-format
 msgid "You light the fuse on the %s."
-msgstr ""
+msgstr "Hai acceso la miccia su %s."
 
 #. ~ Use action msg for ANFO charge.
 #: lang/json/TOOL_from_json.py
@@ -52868,7 +52829,7 @@ msgstr "Hai bisogno di un accendino o di un fuoco per accendere questo."
 #: lang/json/TOOL_from_json.py
 #, no-python-format
 msgid "You need a source of fire to light the %s"
-msgstr ""
+msgstr "Hai bisogno di una fonte di fuoco per accendere %s"
 
 #. ~ Use action need_fire_msg for filled charcoal kiln.
 #: lang/json/TOOL_from_json.py
@@ -54145,12 +54106,6 @@ msgstr[1] ""
 #: lang/json/TOOL_from_json.py
 msgid "extra battery mod"
 msgid_plural "extra battery mods"
-msgstr[0] ""
-msgstr[1] ""
-
-#: lang/json/TOOL_from_json.py
-msgid "fake item"
-msgid_plural "fake items"
 msgstr[0] ""
 msgstr[1] ""
 
@@ -61464,6 +61419,10 @@ msgid "Examine Nearby Terrain"
 msgstr "Esamina il terreno vicino"
 
 #: lang/json/keybinding_from_json.py
+msgid "Exit all commands help screen"
+msgstr ""
+
+#: lang/json/keybinding_from_json.py
 msgid "Exit new character screen"
 msgstr ""
 
@@ -65297,6 +65256,10 @@ msgid "Psychopath"
 msgstr "Psicopatico"
 
 #: lang/json/mutation_from_json.py
+msgid "Pugilist"
+msgstr ""
+
+#: lang/json/mutation_from_json.py
 msgid "Quick"
 msgstr "Rapido"
 
@@ -66328,6 +66291,13 @@ msgid ""
 "speed for every 2 (1.1) degrees below 65 F (18.3 C)."
 msgstr ""
 
+#. ~ Description for Pugilist
+#: lang/json/mutation_from_json.py
+msgid ""
+"You are experienced in the Sweet Science of boxing.  You could've had a shot "
+"at a local boxing tournament, if the Cataclysm hadn't screwed that up."
+msgstr ""
+
 #. ~ Description for Glorious
 #: lang/json/mutation_from_json.py
 msgid ""
@@ -66672,8 +66642,8 @@ msgstr ""
 #. ~ Description for Tail Fin
 #: lang/json/mutation_from_json.py
 msgid ""
-"You have a fin-like tail.  It allows you to swim more quickly.  Slightly "
-"increases wet benefits."
+"You have a fin-like tail.  It allows you to swim more quickly, but prevents "
+"wearing non-fabric pants.  Slightly increases wet benefits."
 msgstr ""
 
 #. ~ Description for Slit Nostrils
@@ -66738,21 +66708,23 @@ msgstr ""
 #: lang/json/mutation_from_json.py
 msgid ""
 "You have a long and semi-stiff lizardlike tail.  You can't effectively lash "
-"it in combat, but it significantly improves your balance."
+"it in combat, but it significantly improves your balance.  Prevents wearing "
+"non-fabric pants."
 msgstr ""
 
 #. ~ Description for Rat Tail
 #: lang/json/mutation_from_json.py
 msgid ""
 "You have a long but hairless tail.  It's a pretty effective balancing aid, "
-"but does look, uh, ratty."
+"but does look, uh, ratty.  Prevents wearing non-fabric pants."
 msgstr ""
 
 #. ~ Description for Club Tail
 #: lang/json/mutation_from_json.py
 msgid ""
 "You have a long tail that ends in a heavy, bony club.  It does not improve "
-"your balance at all, but allows for a powerful bashing attack."
+"your balance at all, but allows for a powerful bashing attack.  Prevents "
+"wearing non-fabric pants."
 msgstr ""
 
 #. ~ Description for Spiked Tail
@@ -66760,7 +66732,7 @@ msgstr ""
 msgid ""
 "You have a long tail that ends in a vicious stinger, like that of a "
 "scorpion.  It does not improve your balance at all, but allows for a "
-"powerful piercing attack."
+"powerful piercing attack.  Prevents wearing non-fabric pants."
 msgstr ""
 
 #. ~ Description for Cattle Tail
@@ -66768,29 +66740,29 @@ msgstr ""
 msgid ""
 "You have a long tail with a tuft on the end.  You find yourself "
 "instinctively swatting away flies with it, though it's not as effective at "
-"balancing you as you'd like."
+"balancing you as you'd like.  Prevents wearing non-fabric pants."
 msgstr ""
 
 #. ~ Description for Fluffy Tail
 #: lang/json/mutation_from_json.py
 msgid ""
 "You have a long, fluffy-furred tail.  It greatly improves your balance, "
-"making your ability to dodge much higher.  However, you find yourself "
-"wagging when happy..."
+"making your ability to dodge much higher.  Prevents wearing non-fabric pants."
 msgstr ""
 
 #. ~ Description for Long Tail
 #: lang/json/mutation_from_json.py
 msgid ""
 "You have a long, graceful tail, like that of a big cat.  It improves your "
-"balance, making your ability to dodge higher."
+"balance, making your ability to dodge higher, but prevents wearing non-"
+"fabric pants."
 msgstr ""
 
 #. ~ Description for Thick Tail
 #: lang/json/mutation_from_json.py
 msgid ""
 "You have a long, thick, lizardlike tail.  It helps you balance a bit but "
-"also makes a serviceable whip."
+"also makes a serviceable whip.  Prevents wearing non-fabric pants."
 msgstr ""
 
 #. ~ Description for Vomitous
@@ -68497,6 +68469,10 @@ msgid "Cowboy"
 msgstr ""
 
 #: lang/json/npc_class_from_json.py
+msgid "Debug Dude"
+msgstr ""
+
+#: lang/json/npc_class_from_json.py
 msgid "Doctor"
 msgstr ""
 
@@ -70097,6 +70073,16 @@ msgstr "Arciere"
 msgctxt "profession_male"
 msgid "Bow Hunter"
 msgstr "Arciere"
+
+#: lang/json/professions_from_json.py
+msgctxt "profession_female"
+msgid "Boxer"
+msgstr ""
+
+#: lang/json/professions_from_json.py
+msgctxt "profession_male"
+msgid "Boxer"
+msgstr ""
 
 #: lang/json/professions_from_json.py
 msgctxt "profession_female"
@@ -73547,6 +73533,22 @@ msgstr ""
 "squadra che dai fan. Ora ammirano il tuo cervello. Sarà arrivata la fine del "
 "mondo, ma tu sei vivo ed hai ancora la tua attrezzatura per giocare in "
 "questi tempi supplementari."
+
+#. ~ Profession (female Boxer) description
+#: lang/json/professions_from_json.py
+msgctxt "prof_desc_female"
+msgid ""
+"You were training for the fight of your life before the Cataclysm struck.  "
+"Now you fight just to keep yourself alive."
+msgstr ""
+
+#. ~ Profession (male Boxer) description
+#: lang/json/professions_from_json.py
+msgctxt "prof_desc_male"
+msgid ""
+"You were training for the fight of your life before the Cataclysm struck.  "
+"Now you fight just to keep yourself alive."
+msgstr ""
 
 #. ~ Profession (Maid) description
 #: lang/json/professions_from_json.py
@@ -84499,7 +84501,7 @@ msgstr "tavola"
 
 #: lang/json/vehicle_part_from_json.py
 msgid "bone plating"
-msgstr "corazza in ossa"
+msgstr "rivestimento d'ossa"
 
 #: lang/json/vehicle_part_from_json.py
 msgid "boom crane"
@@ -84535,7 +84537,7 @@ msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
 msgid "chitin plating"
-msgstr "corazza in chitina"
+msgstr "rivestimento di chitina"
 
 #: lang/json/vehicle_part_from_json.py
 msgid "clean water tank (10L)"
@@ -84683,7 +84685,7 @@ msgstr "sedie piegabile"
 
 #: lang/json/vehicle_part_from_json.py
 msgid "folding extra light quarterpanel"
-msgstr ""
+msgstr "pannello trimestre extra leggero pieghevole"
 
 #: lang/json/vehicle_part_from_json.py
 msgid "folding shopping cart basket"
@@ -84751,7 +84753,7 @@ msgstr "portello corazzato"
 
 #: lang/json/vehicle_part_from_json.py
 msgid "heavy duty quarterpanel"
-msgstr ""
+msgstr "pannello trimestre corazzato"
 
 #: lang/json/vehicle_part_from_json.py
 msgid "heavy duty roof"
@@ -85027,7 +85029,7 @@ msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
 msgid "opaque heavy duty hatch"
-msgstr ""
+msgstr "portello corazzato opaco"
 
 #: lang/json/vehicle_part_from_json.py
 msgid "opaque wooden door"
@@ -85747,6 +85749,10 @@ msgstr "Sei troppo stanco per continuare."
 #: src/activity_handlers.cpp
 #, c-format
 msgid "Your %s ran out of charges"
+msgstr ""
+
+#: src/activity_handlers.cpp
+msgid "Your clumsy butchering destroys the bones!"
 msgstr ""
 
 #: src/activity_handlers.cpp
@@ -87400,6 +87406,10 @@ msgid "Artificial night generator active!"
 msgstr "Generatore notturno artificiale in funzione!"
 
 #: src/bionics.cpp
+msgid "Blood Test Results"
+msgstr ""
+
+#: src/bionics.cpp
 msgid "Clostridium Tetani Infection"
 msgstr ""
 
@@ -87741,10 +87751,6 @@ msgid "You don't have this bionic installed."
 msgstr ""
 
 #: src/bionics.cpp
-msgid "You extend your blade!"
-msgstr ""
-
-#: src/bionics.cpp
 msgid "You flub the installation."
 msgstr "Hai fatto un pasticcio con l'installazione."
 
@@ -87796,10 +87802,6 @@ msgid "You prep yourself to begin surgery."
 msgstr ""
 
 #: src/bionics.cpp
-msgid "You retract your blade."
-msgstr "Ritrai la tua lama."
-
-#: src/bionics.cpp
 msgid "You screw up the installation."
 msgstr "Hai fallito gravemente l'installazione."
 
@@ -87812,8 +87814,14 @@ msgid "You unleash a powerful shockwave!"
 msgstr "Rilasci un'onda d'urto potente"
 
 #: src/bionics.cpp
-msgid "You withdraw your claws."
-msgstr "Ritrai i tuoi artigli."
+#, c-format
+msgid "You withdraw your %s."
+msgstr ""
+
+#: src/bionics.cpp
+#, c-format
+msgid "You're forced to drop your %s."
+msgstr ""
 
 #: src/bionics.cpp
 #, c-format
@@ -87836,26 +87844,12 @@ msgid "Your %s powers down."
 msgstr "Il tuo %s perde potenza."
 
 #: src/bionics.cpp
-#, c-format
-msgid "Your blade extends, forcing you to drop your %s."
-msgstr ""
-
-#: src/bionics.cpp
 msgid "Your body is damaged!"
 msgstr "Il tuo corpo è stato danneggiato!"
 
 #: src/bionics.cpp
 msgid "Your body is severely damaged!"
 msgstr ""
-
-#: src/bionics.cpp
-msgid "Your claws extend!"
-msgstr "I tuoi artigli si allungano"
-
-#: src/bionics.cpp
-#, c-format
-msgid "Your claws extend, forcing you to drop your %s."
-msgstr "I tuoi artigli si allungano, costringendoti a gettare %s."
 
 #: src/bionics.cpp
 msgid "Your muscles hiss as hydraulic strength fills them!"
@@ -88387,11 +88381,6 @@ msgstr "Ne avanza un po'!"
 msgid "You break out of the grab!"
 msgstr ""
 
-#: src/character.cpp src/item.cpp
-#, c-format
-msgid "You can't mix loads in your %s."
-msgstr "Non puoi mischiarre carichi nel tuo %s"
-
 #: src/character.cpp
 msgid "You escape the pit!"
 msgstr "Riesci ad uscire dalla fossa!"
@@ -88469,16 +88458,6 @@ msgstr ""
 
 #: src/character.cpp
 msgid "You try to free yourself from the webs, but can't get loose!"
-msgstr ""
-
-#: src/character.cpp src/item.cpp
-#, c-format
-msgid "Your %1$s can't hold any more %2$s."
-msgstr ""
-
-#: src/character.cpp
-#, c-format
-msgid "Your %1$s won't hold %2$s."
 msgstr ""
 
 #: src/clzones.cpp
@@ -93856,6 +93835,10 @@ msgid "Choose mission type"
 msgstr ""
 
 #: src/game.cpp
+msgid "Choose new class"
+msgstr ""
+
+#: src/game.cpp
 msgid "Choose vehicle to spawn"
 msgstr "Scegli il veicolo da generare"
 
@@ -94162,10 +94145,6 @@ msgid "Food Supply:       %s"
 msgstr ""
 
 #: src/game.cpp
-msgid "GAME OVER"
-msgstr "GAME OVER"
-
-#: src/game.cpp
 msgid "Grab where?"
 msgstr "In quale direzione vuoi afferrare?"
 
@@ -94333,7 +94312,7 @@ msgstr "Luce ambiente:"
 
 #: src/game.cpp
 msgid "Lighting: "
-msgstr ""
+msgstr "Luce ambiente:"
 
 #: src/game.cpp
 #, c-format
@@ -94654,6 +94633,10 @@ msgstr "GMBDX"
 #: src/game.cpp
 msgid "REALLY commit suicide?"
 msgstr "Vuoi veramente suicidarti?"
+
+#: src/game.cpp
+msgid "Randomize with [c]lass"
+msgstr ""
 
 #: src/game.cpp
 #, c-format
@@ -95621,8 +95604,8 @@ msgstr ""
 
 #: src/game.cpp
 #, c-format
-msgid "You bump into a %s!"
-msgstr "Ti sei imbattuto contro %s!"
+msgid "You bump into the %s!"
+msgstr ""
 
 #: src/game.cpp
 #, c-format
@@ -95646,12 +95629,12 @@ msgid "You can see through walls!"
 msgstr "Puoi vedere attraverso i muri!"
 
 #: src/game.cpp
-msgid "You can't butcher while driving!"
-msgstr "Non puoi macellare mentre guidi!"
+msgid "You can't access the items here."
+msgstr ""
 
 #: src/game.cpp
-msgid "You can't butcher while standing here!"
-msgstr ""
+msgid "You can't butcher while driving!"
+msgstr "Non puoi macellare mentre guidi!"
 
 #: src/game.cpp
 msgid "You can't butcher while you're in your shell."
@@ -98661,7 +98644,7 @@ msgstr "Recuperare dal %s?"
 msgid "Have a drink"
 msgstr "Fatti un drink"
 
-#: src/iexamine.cpp
+#: src/iexamine.cpp src/inventory_ui.cpp
 msgid "Home"
 msgstr "Casa"
 
@@ -99753,6 +99736,15 @@ msgid "unknown key %ld"
 msgstr ""
 
 #: src/inventory_ui.cpp
+#, c-format
+msgid "%d of %d"
+msgstr ""
+
+#: src/inventory_ui.cpp
+msgid "(NONE)"
+msgstr ""
+
+#: src/inventory_ui.cpp
 msgid "Category selection; [TAB] switches mode, arrows select."
 msgstr ""
 
@@ -99769,12 +99761,12 @@ msgid "Confirm"
 msgstr ""
 
 #: src/inventory_ui.cpp
-msgid "GROUND"
+msgid "End"
 msgstr ""
 
 #: src/inventory_ui.cpp
-msgid "GROUND:"
-msgstr "TERRENO:"
+msgid "GROUND"
+msgstr ""
 
 #: src/inventory_ui.cpp
 #, c-format
@@ -99782,8 +99774,16 @@ msgid "Hotkeys:  %d/%d "
 msgstr ""
 
 #: src/inventory_ui.cpp
-msgid "ITEMS WORN:"
-msgstr "OGGETTI INDOSSATI:"
+msgid "ITEMS TO COMPARE"
+msgstr ""
+
+#: src/inventory_ui.cpp
+msgid "ITEMS TO DROP"
+msgstr ""
+
+#: src/inventory_ui.cpp
+msgid "ITEMS WORN"
+msgstr ""
 
 #: src/inventory_ui.cpp src/player.cpp
 msgid "Inventory:"
@@ -99819,8 +99819,8 @@ msgid "Volume: "
 msgstr "Volume: "
 
 #: src/inventory_ui.cpp
-msgid "WEAPON:"
-msgstr "ARMA:"
+msgid "WEAPON HELD"
+msgstr ""
 
 #: src/inventory_ui.cpp
 #, c-format
@@ -100892,6 +100892,11 @@ msgstr ""
 
 #: src/item.cpp
 #, c-format
+msgid "That %s doesn't have room to expand."
+msgstr ""
+
+#: src/item.cpp
+#, c-format
 msgid "That %s is a gunmod, it can not be modded."
 msgstr ""
 
@@ -101061,11 +101066,6 @@ msgid "Type: "
 msgstr "Tipo: "
 
 #: src/item.cpp
-#, c-format
-msgid "Unimplemented liquid fill error '%s'."
-msgstr ""
-
-#: src/item.cpp
 msgid "Used on: "
 msgstr "Usato su: "
 
@@ -101093,6 +101093,11 @@ msgid ""
 "When attached to a gun, <good>allows</good> making <info>reach melee "
 "attacks</info> with it."
 msgstr ""
+
+#: src/item.cpp
+#, c-format
+msgid "You can't mix loads in your %s."
+msgstr "Non puoi mischiarre carichi nel tuo %s"
 
 #: src/item.cpp
 #, c-format
@@ -101181,6 +101186,11 @@ msgstr ""
 #: src/item.cpp
 #, c-format
 msgid "Your %1$s already has a %2$s."
+msgstr ""
+
+#: src/item.cpp
+#, c-format
+msgid "Your %1$s can't hold any more %2$s."
 msgstr ""
 
 #: src/item.cpp
@@ -101377,6 +101387,10 @@ msgstr ""
 
 #: src/item_location.cpp
 msgid "worn"
+msgstr ""
+
+#: src/itype.h
+msgid "click."
 msgstr ""
 
 #: src/iuse.cpp
@@ -103831,7 +103845,7 @@ msgstr "Hai acceso un petardo."
 
 #: src/iuse.cpp
 msgid "You light the arrow!"
-msgstr ""
+msgstr "Accendi la freccia!"
 
 #: src/iuse.cpp
 msgid "You light the firecracker."
@@ -111742,6 +111756,16 @@ msgstr ""
 
 #: src/monattack.cpp
 #, c-format
+msgid "The %1$s thrusts a claw at <npcname>, but it bounces off the %2$s!"
+msgstr ""
+
+#: src/monattack.cpp
+#, c-format
+msgid "The %1$s thrusts a claw at you, but it bounces off the %2$s!"
+msgstr ""
+
+#: src/monattack.cpp
+#, c-format
 msgid "The %1$s thrusts a claw at your %2$s, but glances off your armor!"
 msgstr ""
 
@@ -113011,7 +113035,7 @@ msgstr ""
 
 #: src/monster.cpp
 msgid "armor plating"
-msgstr ""
+msgstr "rivestimento corazzato"
 
 #: src/monster.cpp
 msgid "carapace"
@@ -114794,7 +114818,17 @@ msgstr ""
 
 #: src/npctalk.cpp
 #, c-format
+msgid " %s will close doors behind themselves."
+msgstr ""
+
+#: src/npctalk.cpp
+#, c-format
 msgid " %s will complain about wounds and needs."
+msgstr ""
+
+#: src/npctalk.cpp
+#, c-format
+msgid " %s will leave doors open."
 msgstr ""
 
 #: src/npctalk.cpp
@@ -115351,6 +115385,10 @@ msgid "Citizen..."
 msgstr ""
 
 #: src/npctalk.cpp
+msgid "Close the doors."
+msgstr ""
+
+#: src/npctalk.cpp
 msgid "Combat commands..."
 msgstr ""
 
@@ -115607,10 +115645,6 @@ msgstr ""
 #: src/npctalk.cpp
 msgid "Heard of anything better than the odd gun cache?"
 msgstr ""
-
-#: src/npctalk.cpp
-msgid "Hello!  Would you care to see my goods?"
-msgstr "Ciao! Ti andrebbe di vedere i miei beni?"
 
 #: src/npctalk.cpp
 msgid "Here I am."
@@ -116053,20 +116087,6 @@ msgid "I'll try and find your commander then..."
 msgstr ""
 
 #: src/npctalk.cpp
-msgid "I'm a killer for hire."
-msgstr "Sono un assassino a pagamento."
-
-#: src/npctalk.cpp
-msgid "I'm a local shopkeeper."
-msgstr ""
-
-#: src/npctalk.cpp
-msgid ""
-"I'm a wandering master of martial arts but I'm currently not implemented in "
-"the code."
-msgstr ""
-
-#: src/npctalk.cpp
 msgid ""
 "I'm actually accepting a number of different foodstuffs: homebrew beer, "
 "sugar, flour, smoked meat, smoked fish, cooking oil; and as mentioned "
@@ -116075,10 +116095,6 @@ msgstr ""
 
 #: src/npctalk.cpp
 msgid "I'm actually new..."
-msgstr ""
-
-#: src/npctalk.cpp
-msgid "I'm collecting gear and selling it."
 msgstr ""
 
 #: src/npctalk.cpp
@@ -116119,22 +116135,6 @@ msgid ""
 msgstr ""
 
 #: src/npctalk.cpp
-msgid "I'm just here for the paycheck."
-msgstr ""
-
-#: src/npctalk.cpp
-msgid "I'm just trying to survive."
-msgstr "Stò solo cercando di sopravvivere."
-
-#: src/npctalk.cpp
-msgid "I'm just wandering."
-msgstr ""
-
-#: src/npctalk.cpp
-msgid "I'm just watching the world burn."
-msgstr ""
-
-#: src/npctalk.cpp
 msgid ""
 "I'm leading what remains of my company on a mission to re-secure this "
 "facility.  We entered the complex with two dozen men and immediately went "
@@ -116147,24 +116147,8 @@ msgid ""
 msgstr ""
 
 #: src/npctalk.cpp
-msgid "I'm looking for clues concerning these monsters' origins..."
-msgstr ""
-
-#: src/npctalk.cpp
 msgid "I'm looking for information..."
 msgstr ""
-
-#: src/npctalk.cpp
-msgid "I'm looking for new drink recipes."
-msgstr ""
-
-#: src/npctalk.cpp
-msgid "I'm looking for some choice systems to hack."
-msgstr ""
-
-#: src/npctalk.cpp
-msgid "I'm looking for wounded to help."
-msgstr "Stò cercando dei feriti da curare."
 
 #: src/npctalk.cpp
 msgid "I'm not in charge here marshal."
@@ -116258,10 +116242,6 @@ msgid ""
 "federal government was not entirely destroyed.  After the outbreak I was "
 "chosen to coordinate civilian and militia efforts in support of military "
 "operations."
-msgstr ""
-
-#: src/npctalk.cpp
-msgid "I'm tracking game."
 msgstr ""
 
 #: src/npctalk.cpp
@@ -116386,10 +116366,6 @@ msgid "Just let me sleep, <name_b>!"
 msgstr ""
 
 #: src/npctalk.cpp
-msgid "Just looking for some wrongs to right."
-msgstr ""
-
-#: src/npctalk.cpp
 msgid "Just on watch, move along."
 msgstr ""
 
@@ -116419,6 +116395,10 @@ msgstr ""
 
 #: src/npctalk.cpp
 msgid "Leave corpses alone."
+msgstr ""
+
+#: src/npctalk.cpp
+msgid "Leave doors open."
 msgstr ""
 
 #: src/npctalk.cpp
@@ -119340,7 +119320,7 @@ msgstr ""
 msgid "<color_white>Skills:</color>\n"
 msgstr ""
 
-#: src/player.cpp
+#: src/player.cpp src/veh_interact.cpp
 msgid "<color_white>Time required:</color>\n"
 msgstr ""
 
@@ -120350,6 +120330,14 @@ msgstr ""
 #: src/player.cpp
 msgid "Speed"
 msgstr "Velocità"
+
+#: src/player.cpp
+msgid "Spill contents and store in inventory"
+msgstr ""
+
+#: src/player.cpp
+msgid "Spill contents and wear item"
+msgstr ""
 
 #: src/player.cpp
 msgctxt "memorial_female"
@@ -122648,7 +122636,7 @@ msgstr[1] ""
 msgid "Components required:"
 msgstr "Componenti richiesti:"
 
-#: src/requirements.cpp
+#: src/requirements.cpp src/veh_interact.cpp
 msgid "NONE"
 msgstr "NESSUNO"
 
@@ -123412,72 +123400,8 @@ msgstr ""
 
 #: src/veh_interact.cpp
 #, c-format
-msgid ""
-"  You also need either <color_%1$s>lifting equipment</color> or <color_%2$s>"
-"%3$d</color> strength."
-msgstr ""
-"Hai anche bisogno di un <color_%1$s>mezzo di sollevamento</color> oppure di "
-"<color_%2$s>%3$d</color> forza."
-
-#: src/veh_interact.cpp
-#, c-format
-msgid ""
-"  You also need level <color_%1$s>%2$d</color> skill in mechanics to install "
-"additional engines."
-msgstr ""
-"  Hai anche bisogno di avere meccanica al livello <color_%1$s>%2$d</color> "
-"per installare un motore aggiuntivo."
-
-#: src/veh_interact.cpp
-#, c-format
-msgid ""
-"  You also need level <color_%1$s>%2$d</color> skill in mechanics to install "
-"additional steering axles."
-msgstr ""
-"Hai anche bisogno di avere meccanica al livello <color_%1$s>%2$d</color> per "
-"installare degli addizionali assi sterzanti."
-
-#: src/veh_interact.cpp
-#, c-format
-msgid " and level <color_%1$s>%2$d</color> skill in mechanics."
-msgstr ""
-
-#: src/veh_interact.cpp
-#, c-format
 msgid "* <color_red>Faulty %1$s</color>"
 msgstr ""
-
-#: src/veh_interact.cpp
-#, c-format
-msgid ", a <color_%1$s>screwdriver</color> or <color_%2$s>duct tape</color>"
-msgstr ""
-", un <color_%1$s>cacciavite</color> oppure del <color_%2$s>nastro adesivo</"
-"color>"
-
-#: src/veh_interact.cpp
-#, c-format
-msgid ", a <color_%1$s>wrench</color> or <color_%2$s>duct tape</color>"
-msgstr ""
-", una <color_%1$s>chiave inglese</color> o <color_%2$s>nastro adesivo</color>"
-
-#: src/veh_interact.cpp
-#, c-format
-msgid ""
-", a <color_%1$s>wrench</color>, either a <color_%2$s>powered welder</color> "
-"(and <color_%3$s>welding goggles</color>) or <color_%4$s>duct tape</color>"
-msgstr ""
-", una <color_%1$s>chiave inglese</color>, di una <color_%2$s>saldatrice "
-"elettrica</color> (e <color_%3$s>occhiali da saldatura</color>) oppure del "
-"<color_%4$s>nastro adesivo</color>"
-
-#: src/veh_interact.cpp
-#, c-format
-msgid ""
-", either <color_%1$s>nails</color> and <color_%2$s>something to drive them</"
-"color> or <color_%3$s>duct tape</color>"
-msgstr ""
-", di <color_%1$s>chiodi</color> e <color_%2$s>qualcosa per conficcarli</"
-"color> oppure di <color_%3$s>nastro adesivo</color>"
 
 #: src/veh_interact.cpp
 msgid "<ESC>-back"
@@ -123486,6 +123410,14 @@ msgstr "<ESC>-indietro"
 #: src/veh_interact.cpp
 msgid "<c>hange tire"
 msgstr "<c>ambia"
+
+#: src/veh_interact.cpp
+msgid "<color_white>Additional requirements:</color>\n"
+msgstr ""
+
+#: src/veh_interact.cpp
+msgid "<color_white>Skills required:</color>\n"
+msgstr ""
 
 #: src/veh_interact.cpp
 msgid "<i>nstall"
@@ -123502,6 +123434,28 @@ msgstr "<r>ipara"
 #: src/veh_interact.cpp
 msgid "<s>iphon"
 msgstr "<s>ifona"
+
+#: src/veh_interact.cpp
+#, c-format
+msgid "> <color_%1$s>%2$s %3$i</color> for extra engines."
+msgstr ""
+
+#: src/veh_interact.cpp
+#, c-format
+msgid "> <color_%1$s>%2$s %3$i</color> for extra steering axles."
+msgstr ""
+
+#: src/veh_interact.cpp
+#, c-format
+msgid "> <color_%1$s>%2$s</color>"
+msgstr ""
+
+#: src/veh_interact.cpp
+#, c-format
+msgid ""
+"> <color_%1$s>1 tool with %2$s %3$i</color> <color_white>OR</color> <color_"
+"%4$s>strength %5$i</color>"
+msgstr ""
 
 #: src/veh_interact.cpp
 msgctxt "Vehicle Parts|"
@@ -123604,6 +123558,11 @@ msgid "Choose wheel to use as replacement:"
 msgstr "Scegliere una ruota da usare come sostituzione:"
 
 #: src/veh_interact.cpp
+#, c-format
+msgid "Could not find base part in requirements for %s."
+msgstr ""
+
+#: src/veh_interact.cpp
 msgid "Damage"
 msgstr "Danno"
 
@@ -123692,11 +123651,6 @@ msgstr "Più danneggiato:"
 #: src/veh_interact.cpp
 msgid "Name: "
 msgstr "Nome: "
-
-#: src/veh_interact.cpp
-#, c-format
-msgid "Needs <color_%1$s>%2$s</color>"
-msgstr ""
 
 #: src/veh_interact.cpp
 msgid "New label:"
@@ -123897,17 +123851,18 @@ msgstr "Hai completamente smantellato %s."
 
 #: src/veh_interact.cpp
 #, c-format
-msgid "You install a %1$s into the %2$s."
-msgstr "Hai installato %1$s nel veicolo %2$s."
-
-#: src/veh_interact.cpp
-msgid "You need "
-msgstr "Hai bisogno"
+msgid "You don't meet the requirements to install the %s."
+msgstr ""
 
 #: src/veh_interact.cpp
 #, c-format
-msgid "You need a <color_%1$s>hammer</color> and"
-msgstr "Hai bisogno di un <color_%1$s>martello</color> e"
+msgid "You don't meet the requirements to remove the %s."
+msgstr ""
+
+#: src/veh_interact.cpp
+#, c-format
+msgid "You install a %1$s into the %2$s."
+msgstr "Hai installato %1$s nel veicolo %2$s."
 
 #: src/veh_interact.cpp
 #, c-format
@@ -123918,35 +123873,6 @@ msgstr ""
 "Hai bisogno di una <color_%1$s>saldatrice elettrica</color> (e <color_"
 "%2$s>occhiali da saldatura</color>) oppure di <color_%3$s>nastro adesivo</"
 "color> per riparare."
-
-#: src/veh_interact.cpp
-#, c-format
-msgid "You need a <color_%1$s>screwdriver</color> and"
-msgstr "Hai bisogno di un <color_%1$s>cacciavite</color> e"
-
-#: src/veh_interact.cpp
-#, c-format
-msgid "You need a <color_%1$s>wrench</color> and"
-msgstr "Hai bisogno di una <color_%1$s>chiave inglese</color> e"
-
-#: src/veh_interact.cpp
-#, c-format
-msgid ""
-"You need a <color_%1$s>wrench</color> and a <color_%2$s>hacksaw, cutting "
-"torch and welding goggles, or circular saw (off)</color> and"
-msgstr ""
-"Hai bisogno di una <color_%1$s>chiave inglese</color> e di un <color_"
-"%2$s>seghetto, cannello da taglio e occhiali da saldatura, o di una sega "
-"circolare (spenta)</color> e"
-
-#: src/veh_interact.cpp
-#, c-format
-msgid ""
-"You need a <color_%1$s>wrench</color>, either <color_%2$s>lifting equipment</"
-"color> or <color_%3$s>%4$d</color> strength and"
-msgstr ""
-"Hai bisogno di una <color_%1$s>chiave inglese</color>, e di un <color_"
-"%2$s>mezzo di sollevamento</color> oppure di <color_%3$s>%4$d</color> forza e"
 
 #: src/veh_interact.cpp
 msgid "You need a <color_red>hose</color> to siphon liquid fuel."
@@ -124132,7 +124058,7 @@ msgstr "Controlla i motori individualmente"
 
 #: src/vehicle.cpp
 msgid "Control vehicle lights"
-msgstr ""
+msgstr "Controlla luci veicolo"
 
 #: src/vehicle.cpp
 msgid "Cruise control turned off"
