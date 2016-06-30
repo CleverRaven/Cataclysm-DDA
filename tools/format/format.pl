@@ -4,35 +4,17 @@ use warnings;
 use strict;
 
 use JSON;
+use File::Basename;
+use File::Spec::Functions qw(catfile);
 
 my $json = JSON->new->allow_nonref;
 
-my @avoid_wrap = (
-    ':flags',
-    ':material',
-    'GUN:valid_mod_locations',
-    '(GUN|gun_data):ammo_effects',
-    '(GUN|gun_data):magazines:@',
-    '(GUN|gun_data):modes:@',
-    'recipe:(tools|qualities|components):@',
-    'recipe:(skills_required|book_learn)'
-);
+sub config($) {
+    return map { chomp; $_ } grep { !/^(#.*|\s+)$/ } do { local @ARGV = $_[0]; <> };
+}
 
-my @priority = (
-    ':id',
-    ':abstract',
-    ':copy-from',
-    ':type',
-    ':name',
-    ':name_plural',
-    ':description',
-    ':weight',
-    ':volume',
-    ':price',
-    ':material',
-    ':symbol',
-    ':color'
-);
+my @priority = config(catfile(dirname(__FILE__), 'priority.conf'));
+my @wrapping = config(catfile(dirname(__FILE__), 'wrap.conf'));
 
 sub get_priority($) {
     my $context = shift;
@@ -48,7 +30,7 @@ sub assemble($@)
     return "" unless scalar @_;
     my $str = join(', ', @_);
 
-    if (!grep { $context =~ $_ } map { qr{$_} } @avoid_wrap) {
+    if (!grep { $context =~ $_ } map { qr{$_} } @wrapping) {
         $str = join(",\n", @_ );
     }
 
