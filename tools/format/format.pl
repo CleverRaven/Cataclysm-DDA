@@ -7,21 +7,18 @@ use JSON;
 use File::Basename;
 use File::Spec::Functions qw(catfile);
 
-my $json = JSON->new->allow_nonref;
+my $json;
+my @priority;
+my @wrapping;
 
 sub config($) {
     return map { chomp; $_ } grep { !/^(#.*|\s+)$/ } do { local @ARGV = $_[0]; <> };
 }
 
-my @priority = config(catfile(dirname(__FILE__), 'priority.conf'));
-my @wrapping = config(catfile(dirname(__FILE__), 'wrap.conf'));
-
 sub get_priority($) {
     my $context = shift;
     return $#priority - ( (grep { $priority[$_] =~ $context } (0..$#priority))[0] // $#priority + 1 );
 }
-
-sub encode(@);
 
 sub assemble($@)
 {
@@ -42,6 +39,8 @@ sub assemble($@)
     }
 }
 
+sub encode(@); # Recursive function needs forward definition
+
 sub encode(@) {
     my ($data, $context) = @_;
 
@@ -58,6 +57,11 @@ sub encode(@) {
 
     return $json->encode($data);
 }
+
+@priority = config(catfile(dirname(__FILE__), 'priority.conf'));
+@wrapping = config(catfile(dirname(__FILE__), 'wrap.conf'));
+
+$json = JSON->new->allow_nonref;
 
 my $dirty;
 for( my $obj; <>; ) {
