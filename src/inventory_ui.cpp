@@ -655,7 +655,7 @@ void inventory_selector::add_custom_items( const std::list<item>::const_iterator
     for( const auto &stack : stacks ) {
         const auto &location = locator( stack.front() );
         if( filter( *location ) ) {
-            const std::string name = trim( string_format( _( "%s %s" ), title.c_str(),
+            const std::string name = trim( string_format( _( "%s %s" ), to_upper_case( title ).c_str(),
                                                           direction_suffix( u.pos(), location->position() ).c_str() ) );
             if( categories.empty() || categories.back().id != name ) {
                 categories.emplace_back( name, name, INT_MIN + int( categories.size() ) );
@@ -676,7 +676,7 @@ void inventory_selector::add_map_items( const tripoint &target )
 {
     if( g->m.accessible_items( u.pos(), target, rl_dist( u.pos(), target ) ) ) {
         const auto items = g->m.i_at( target );
-        add_custom_items( items.begin(), items.end(), _( "GROUND" ), [ &target ]( item *it ) {
+        add_custom_items( items.begin(), items.end(), g->m.name( target ), [ &target ]( item *it ) {
             return std::make_shared<item_location>( target, it );
         } );
     }
@@ -689,7 +689,7 @@ void inventory_selector::add_vehicle_items( const tripoint &target )
 
     if( veh != nullptr && ( part = veh->part_with_feature( part, "CARGO" ) ) >= 0 ) {
         const auto items = veh->get_items( part );
-        add_custom_items( items.begin(), items.end(), _( "VEHICLE" ), [ veh, part ]( item *it ) {
+        add_custom_items( items.begin(), items.end(), veh->parts[part].name(), [ veh, part ]( item *it ) {
             return std::make_shared<item_location>( vehicle_cursor( *veh, part ), it );
         } );
     }

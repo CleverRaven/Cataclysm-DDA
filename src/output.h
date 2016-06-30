@@ -383,6 +383,7 @@ char rand_char();
 long special_symbol( long sym );
 
 std::string trim( const std::string &s ); // Remove spaces from the start and the end of a string
+std::string to_upper_case( const std::string &s ); // Converts the string to upper case
 
 /**
  * @name printf-like string formatting.
