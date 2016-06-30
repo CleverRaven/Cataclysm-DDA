@@ -34,10 +34,10 @@ sub assemble($@)
     my $str = join(', ', @_);
 
     if (!get_wrapping($context)) {
-        $str = join(",\n", @_ );
+        $str = join(",\n", @_);
     }
 
-    if( $str =~ tr/\n// ) {
+    if ($str =~ tr/\n//) {
         $str =~ s/^/  /mg;
         return "\n$str\n";
     } else {
@@ -56,8 +56,8 @@ sub encode(@) {
     }
 
     if (ref($data) eq 'HASH') {
-        foreach( keys %{$data} ) {
-            die "ERROR: Unknown field '$_'\n" if( get_priority("$context:$_") == 0 );
+        foreach( map { "$context:$_" } keys %{$data} ) {
+            die "ERROR: Unknown field '$_'\n" if( get_priority($_) == 0 );
         }
 
         my @sorted = (sort { get_priority("$context:$b") <=> get_priority("$context:$a") } keys %{$data});
