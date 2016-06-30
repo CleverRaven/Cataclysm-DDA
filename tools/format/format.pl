@@ -13,12 +13,17 @@ my @priority;
 my @wrapping;
 
 sub config($) {
-    return map { chomp; qr/$_/ } grep { !/^(#.*|\s+)$/ } do { local @ARGV = $_[0]; <> };
+    return map { chomp; qr/$_$/ } grep { !/^(#.*|\s+)$/ } do { local @ARGV = $_[0]; <> };
 }
 
 sub get_priority($) {
-    my $context = shift;
+    my $context = shift =~ s/(relative|proportional)://r;
     return scalar @priority - ( (grep { $context =~ $priority[$_] } (0..$#priority))[0] // scalar @priority );
+}
+
+sub get_wrapping($) {
+    my $context = shift =~ s/(relative|proportional)://r;
+    return grep { $context =~ $_ } map { $_ } @wrapping;
 }
 
 sub assemble($@)
@@ -28,7 +33,7 @@ sub assemble($@)
     return "" unless scalar @_;
     my $str = join(', ', @_);
 
-    if (!grep { $context =~ $_ } map { $_ } @wrapping) {
+    if (!get_wrapping($context)) {
         $str = join(",\n", @_ );
     }
 
