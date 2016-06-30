@@ -116670,7 +116670,7 @@ msgid "You learned a new style."
 msgstr ""
 
 #: src/player.cpp
-msgid "yourself let out a piercing howl!"
+msgid "You let out a piercing howl!"
 msgstr ""
 
 #: src/player.cpp
@@ -116724,7 +116724,7 @@ msgid "You retched, but your stomach is empty."
 msgstr ""
 
 #: src/player.cpp
-msgid "yourself scream loudly!"
+msgid "You scream loudly!"
 msgstr ""
 
 #: src/player.cpp
@@ -116732,7 +116732,7 @@ msgid "You shake with the excess stimulation."
 msgstr ""
 
 #: src/player.cpp
-msgid "yourself shout loudly!"
+msgid "You shout loudly!"
 msgstr ""
 
 #: src/player.cpp

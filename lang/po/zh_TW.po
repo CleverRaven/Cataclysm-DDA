@@ -120034,7 +120034,7 @@ msgid "You learned a new style."
 msgstr "你學到了新招式。"
 
 #: src/player.cpp
-msgid "yourself let out a piercing howl!"
+msgid "You let out a piercing howl!"
 msgstr "你撕心裂肺的號啕大哭！"
 
 #: src/player.cpp
@@ -120092,7 +120092,7 @@ msgid "You roll on the ground, trying to smother the fire!"
 msgstr ""
 
 #: src/player.cpp
-msgid "yourself scream loudly!"
+msgid "You scream loudly!"
 msgstr "你放聲的尖叫！"
 
 #: src/player.cpp
@@ -120100,7 +120100,7 @@ msgid "You shake with the excess stimulation."
 msgstr "過量的興奮劑使你不自主的發抖。 "
 
 #: src/player.cpp
-msgid "yourself shout loudly!"
+msgid "You shout loudly!"
 msgstr "你放聲的大叫！"
 
 #: src/player.cpp

@@ -116990,15 +116990,15 @@ msgid "<npcname> attempts to put out the fire on them!"
 msgstr ""
 
 #: src/player.cpp
-msgid "yourself scream loudly!"
+msgid "You scream loudly!"
 msgstr ""
 
 #: src/player.cpp
-msgid "yourself let out a piercing howl!"
+msgid "You let out a piercing howl!"
 msgstr ""
 
 #: src/player.cpp
-msgid "yourself shout loudly!"
+msgid "You shout loudly!"
 msgstr ""
 
 #: src/player.cpp
