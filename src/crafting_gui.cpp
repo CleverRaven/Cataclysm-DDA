@@ -320,7 +320,7 @@ const recipe *select_crafting_recipe( int &batch_size )
             nc_color col = ( available[line] ? c_white : c_ltgray );
             ypos = 0;
 
-            component_print_buffer = current[line]->requirements.get_folded_components_list(
+            component_print_buffer = current[line]->requirements->get_folded_components_list(
                                          FULL_SCREEN_WIDTH - 30 - 1, col, crafting_inv, ( batch ) ? line + 1 : 1 );
             if( !g->u.knows_recipe( current[line] ) ) {
                 component_print_buffer.push_back( _( "Recipe not memorized yet" ) );
@@ -370,7 +370,7 @@ const recipe *select_crafting_recipe( int &batch_size )
                 ypos += current[line]->print_items( w_data, ypos, 30, col, ( batch ) ? line + 1 : 1 );
             }
             if( display_mode == 0 || display_mode == 1 ) {
-                ypos += current[line]->requirements.print_tools(
+                ypos += current[line]->requirements->print_tools(
                             w_data, ypos, 30, FULL_SCREEN_WIDTH - 30 - 1, col,
                             crafting_inv, ( batch ) ? line + 1 : 1 );
             }
@@ -742,8 +742,8 @@ void pick_recipes( const inventory &crafting_inv,
             }
             if( filter != "" ) {
                 if( ( search_name && !lcmatch( item::nname( rec->result ), filter ) )
-                    || ( search_tool && !lcmatch_any( rec->requirements.get_tools(), filter ) )
-                    || ( search_component && !lcmatch_any( rec->requirements.get_components(), filter ) ) ) {
+                    || ( search_tool && !lcmatch_any( rec->requirements->get_tools(), filter ) )
+                    || ( search_component && !lcmatch_any( rec->requirements->get_components(), filter ) ) ) {
                     continue;
                 }
                 bool match_found = false;
@@ -760,7 +760,7 @@ void pick_recipes( const inventory &crafting_inv,
                     }
                 }
                 if( search_qualities ) {
-                    for( auto quality_reqs : rec->requirements.get_qualities() ) {
+                    for( auto quality_reqs : rec->requirements->get_qualities() ) {
                         for( auto quality : quality_reqs ) {
                             if( lcmatch( quality.to_string(), filter ) ) {
                                 match_found = true;

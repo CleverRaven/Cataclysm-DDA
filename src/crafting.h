@@ -46,7 +46,7 @@ struct recipe {
         itype_id result;
         int time; // in movement points (100 per turn)
         int difficulty;
-        requirement_data requirements;
+        requirement_id requirements;
         std::vector<byproduct> byproducts;
         std::string cat;
         // Does the item spawn contained in container?

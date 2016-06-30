@@ -39,8 +39,15 @@ void fault::load_fault( JsonObject &jo )
         f.skills_.emplace( skill_id( cur.get_string( 0 ) ) , cur.size() >= 2 ? cur.get_int( 1 ) : 1 );
     }
 
-    auto req = jo.get_object( "requirements" );
-    f.requirements_.load( req );
+    if( jo.has_string( "requirements" ) ) {
+        f.requirements_ = requirement_id( jo.get_string( "requirements" ) );
+
+    } else {
+        auto req = jo.get_object( "requirements" );
+        auto req_id = std::string( "inline_fault_" ) += f.id_.str();
+        requirement_data::load_requirement( req, req_id );
+        f.requirements_ = requirement_id( req_id );
+    }
 
     if( faults_all.find( f.id_ ) != faults_all.end() ) {
         jo.throw_error( "parsed fault overwrites existing definition", "id" );
@@ -71,6 +78,9 @@ void fault::check_consistency()
                 debugmsg( "fault %s has unknown skill %s", f.second.id_.c_str(), e.first.c_str() );
             }
         }
-        f.second.requirements_.check_consistency( f.second.id_.c_str() );
+        if( !f.second.requirements_.is_valid() ) {
+            debugmsg( "fault %s has missing requirement data %s",
+                      f.second.id_.c_str(), f.second.requirements_.c_str() );
+        }
     }
 }

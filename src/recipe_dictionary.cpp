@@ -7,10 +7,16 @@ using itype_id = std::string; // From itype.h
 
 recipe_dictionary recipe_dict;
 
+void recipe_dictionary::finalize()
+{
+    for( auto r : recipes ) {
+        add_to_component_lookup( r );
+    }
+}
+
 void recipe_dictionary::add( recipe *rec )
 {
     recipes.push_back( rec );
-    add_to_component_lookup( rec );
     by_name[rec->ident()] = rec;
     by_category[rec->cat].push_back( rec );
 }
@@ -41,7 +47,7 @@ void recipe_dictionary::delete_if( const std::function<bool( recipe & )> &pred )
 void recipe_dictionary::add_to_component_lookup( recipe *r )
 {
     std::unordered_set<itype_id> counted;
-    for( const auto &comp_choices : r->requirements.get_components() ) {
+    for( const auto &comp_choices : r->requirements->get_components() ) {
         for( const item_comp &comp : comp_choices ) {
             if( counted.count( comp.type ) ) {
                 continue;

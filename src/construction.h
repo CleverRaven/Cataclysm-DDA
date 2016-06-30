@@ -24,7 +24,7 @@ struct construction {
 
         std::set<std::string> pre_flags; // flags beginning terrain must have
 
-        requirement_data requirements;
+        requirement_id requirements;
 
         int id; // arbitrary internal identifier
         int time;

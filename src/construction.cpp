@@ -145,7 +145,7 @@ nc_color construction_color( std::string &con_name, bool highlight )
         std::vector<construction *> cons = constructions_by_desc( con_name );
         const inventory &total_inv = g->u.crafting_inventory();
         for( auto &con : cons ) {
-            if( con->requirements.can_make_with_inventory( total_inv ) ) {
+            if( con->requirements->can_make_with_inventory( total_inv ) ) {
                 con_first = con;
                 break;
             }
@@ -357,7 +357,7 @@ void construction_menu()
                             continue;
                         }
                         // Update the cached availability of components and tools in the requirement object
-                        current_con->requirements.can_make_with_inventory( total_inv );
+                        current_con->requirements->can_make_with_inventory( total_inv );
 
                         std::vector<std::string> current_buffer;
                         std::ostringstream current_line;
@@ -419,11 +419,11 @@ void construction_menu()
                                 available_window_width );
                         current_buffer.insert( current_buffer.end(), folded_time.begin(), folded_time.end() );
 
-                        std::vector<std::string> folded_tools = current_con->requirements.get_folded_tools_list(
+                        std::vector<std::string> folded_tools = current_con->requirements->get_folded_tools_list(
                                 available_window_width, color_stage, total_inv );
                         current_buffer.insert( current_buffer.end(), folded_tools.begin(), folded_tools.end() );
 
-                        std::vector<std::string> folded_components = current_con->requirements.get_folded_components_list(
+                        std::vector<std::string> folded_components = current_con->requirements->get_folded_components_list(
                                     available_window_width, color_stage, total_inv );
                         current_buffer.insert( current_buffer.end(), folded_components.begin(), folded_components.end() );
 
@@ -597,7 +597,7 @@ bool player_can_build( player &p, const inventory &pinv, construction const *con
     if( p.get_skill_level( con->skill ) < con->difficulty ) {
         return false;
     }
-    return con->requirements.can_make_with_inventory( pinv );
+    return con->requirements->can_make_with_inventory( pinv );
 }
 
 bool can_construct( const std::string &desc )
@@ -726,12 +726,12 @@ void complete_construction()
         }
     }
 
-    for( const auto &it : built.requirements.get_components() ) {
+    for( const auto &it : built.requirements->get_components() ) {
         // Tried issuing rope for WEB_ROPE here.  Didn't arrive in time for the
         // gear check.  Ultimately just coded a bypass in crafting.cpp.
         u.consume_items( it );
     }
-    for( const auto &it : built.requirements.get_tools() ) {
+    for( const auto &it : built.requirements->get_tools() ) {
         u.consume_tools( it );
     }
 
@@ -1312,15 +1312,23 @@ void construct::done_window_curtains(point)
 void load_construction(JsonObject &jo)
 {
     construction con;
+    con.id = constructions.size();
 
     con.description = _(jo.get_string("description").c_str());
     con.skill = skill_id( jo.get_string( "skill", skill_carpentry.str() ) );
     con.difficulty = jo.get_int("difficulty");
     con.category = jo.get_string("category", "OTHER");
-    con.requirements.load(jo);
     // constructions use different time units in json, this makes it compatible
     // with recipes/requirements, TODO: should be changed in json
     con.time = jo.get_int("time") * 1000;
+
+    if( jo.has_string( "using" ) ) {
+        con.requirements = requirement_id( jo.get_string( "using" ) );
+    } else {
+        std::string req_id = string_format( "inline_construction_%i", con.id );
+        requirement_data::load_requirement( jo, req_id );
+        con.requirements = requirement_id( req_id );
+    }
 
     con.pre_terrain = jo.get_string("pre_terrain", "");
     if (con.pre_terrain.size() > 1
@@ -1386,7 +1394,6 @@ void load_construction(JsonObject &jo)
         con.post_special = &construct::done_nothing;
     }
 
-    con.id = constructions.size();
     constructions.push_back(con);
 }
 
@@ -1405,7 +1412,11 @@ void check_constructions()
         if( !c->skill.is_valid() ) {
             debugmsg("Unknown skill %s in %s", c->skill.c_str(), display_name.c_str());
         }
-        c->requirements.check_consistency(display_name);
+
+        if( !c->requirements.is_valid() ) {
+            debugmsg( "construction %s has missing requirement data %s",
+                      display_name.c_str(), c->requirements.c_str() );
+        }
 
         if( !c->pre_terrain.empty() ) {
             if( c->pre_is_furniture ) {
@@ -1513,7 +1524,7 @@ void finalize_constructions()
 
     for( construction &con : constructions ) {
         if( con.post_special == &construct::done_vehicle ) {
-            con.requirements.get_components().push_back( frame_items );
+            const_cast<requirement_data &>( con.requirements.obj() ).get_components().push_back( frame_items );
         }
     }
 }
