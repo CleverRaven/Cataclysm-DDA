@@ -17,7 +17,7 @@ sub config($) {
 
 sub get_priority($) {
     my $context = shift;
-    return $#priority - ( (grep { $priority[$_] =~ $context } (0..$#priority))[0] // $#priority + 1 );
+    return scalar @priority - ( (grep { $priority[$_] =~ $context } (0..$#priority))[0] // scalar @priority );
 }
 
 sub assemble($@)
@@ -50,6 +50,10 @@ sub encode(@) {
     }
 
     if (ref($data) eq 'HASH') {
+        foreach( keys %{$data} ) {
+            die "ERROR: Unknown field '$_'\n" if( get_priority($_) == 0 );
+        }
+
         my @sorted = (sort { get_priority($b) <=> get_priority($a) } keys %{$data});
         my @fields = map { qq("$_": ) . encode($data->{$_}, "$context:$_") } @sorted;
         return '{' . assemble($context, @fields) . '}';
