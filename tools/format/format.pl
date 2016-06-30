@@ -6,6 +6,7 @@ use strict;
 use JSON;
 use File::Basename;
 use File::Spec::Functions qw(catfile);
+use Getopt::Std;
 
 my $json;
 my @priority;
@@ -62,14 +63,21 @@ sub encode(@) {
     return $json->encode($data);
 }
 
+# -c check input is in canonical format
+# -q quiet with no output to stdout
+my %opts;
+getopts('cq', \%opts);
+
 @priority = config(catfile(dirname(__FILE__), 'priority.conf'));
 @wrapping = config(catfile(dirname(__FILE__), 'nowrap.conf'));
 
 $json = JSON->new->allow_nonref;
 
-my $dirty;
+my ($original, $result, $dirty);
+
 for( my $obj; <>; ) {
     # Loop continuously until read valid JSON fragment or EOF
+    $original .= $_;
     eval { $obj = $json->incr_parse($_) };
     die "ERROR: Syntax error on line $.\n" if $@;
 
@@ -81,9 +89,12 @@ for( my $obj; <>; ) {
         my @output = map { encode($_, $_->{'type'} // '' ) } @{$obj};
 
         # Indent everything formatted output wrap in an array
-        print "[\n" . join( ",\n", @output ) =~ s/^/  /mgr . "\n]\n";
+        $result = "[\n" . join( ",\n", @output ) =~ s/^/  /mgr . "\n]\n";
     }
 }
 if ($dirty) {
     die "ERROR: Syntax error at EOF\n";
 }
+
+print $result unless $opts{'q'};
+exit($opts{'c'} ? ($original eq $result ? 0 : 1) : 0)
