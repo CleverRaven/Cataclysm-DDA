@@ -42,19 +42,21 @@ struct quality {
 };
 
 struct component {
-    itype_id type = "null";
-    int count = 0;
+    itype_id type;
+    int count;
     // -1 means the player doesn't have the item, 1 means they do,
     // 0 means they have item but not enough for both tool and component
-    mutable available_status available = a_false;
-    bool recoverable = true;
-    // Not a real component, but a fake one used for nesting
-    bool is_nested_requirement = false;
+    mutable available_status available;
+    bool recoverable;
 
-    component() { }
-    component( const itype_id &TYPE, int COUNT ) : type( TYPE ), count( COUNT ) { }
-    component( const itype_id &TYPE, int COUNT, bool RECOVERABLE ) :
-        type( TYPE ), count( COUNT ), recoverable( RECOVERABLE ) { }
+    component() : type( "null" ) , count( 0 ) , available( a_false ), recoverable( true ) {
+    }
+    component( const itype_id &TYPE, int COUNT ) : type( TYPE ), count( COUNT ), available( a_false ),
+        recoverable( true ) {
+    }
+    component( const itype_id &TYPE, int COUNT, bool RECOVERABLE ) : type( TYPE ), count( COUNT ),
+        available( a_false ), recoverable( RECOVERABLE ) {
+    }
     void check_consistency( const std::string &display_name ) const;
 };
 
@@ -179,9 +181,6 @@ struct requirement_data {
         /** Get all currently loaded requirements */
         static const std::map<requirement_id, requirement_data> &all();
 
-        /** Finalize all loaded requirements */
-        static void finalize();
-
         /** Check consistency of all loaded requirements */
         static void check_consistency();
 
@@ -222,8 +221,6 @@ struct requirement_data {
     private:
         requirement_id id_ = requirement_id( "null" );
 
-        void finalize_this();
-
         bool check_enough_materials( const inventory &crafting_inv, int batch = 1 ) const;
         bool check_enough_materials( const item_comp &comp, const inventory &crafting_inv,
                                      int batch = 1 ) const;
@@ -251,10 +248,6 @@ struct requirement_data {
         static void load_obj_list( JsonArray &jsarr, std::vector< std::vector<T> > &objs );
         template<typename T, typename ID>
         static const T *find_by_type( const std::vector< std::vector<T> > &vec, const ID &type );
-        template<typename T>
-        void inline_nested( std::vector< std::vector<T> > &vec );
-        template<typename T>
-        void inline_into( std::vector<T> &vec ) const;
 };
 
 #endif
