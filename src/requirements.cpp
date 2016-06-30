@@ -141,9 +141,14 @@ void item_comp::load( JsonArray &ja )
     JsonArray comp = ja.next_array();
     type = comp.get_string( 0 );
     count = comp.get_int( 1 );
-    // Recoverable is true by default.
-    if( comp.size() > 2 ) {
-        recoverable = comp.get_string( 2 ) == "NO_RECOVER" ? false : true;
+    if( comp.size() == 3 ) {
+        const std::string param_string = comp.get_string( 2 );
+        if( param_string == "NO_RECOVER" ) {
+            // Recoverable is true by default.
+            recoverable = false;
+        } else if( param_string == "LIST" ) {
+            is_nested_requirement = true;
+        }
     }
     if( count <= 0 ) {
         ja.throw_error( "item count must be a positive number" );
@@ -757,4 +762,61 @@ const requirement_data requirement_data::disassembly_requirements() const
                                      } ), ret.tools.end() );
 
     return ret;
+}
+
+template <typename T>
+void requirement_data::inline_nested( std::vector< std::vector<T> > &vec )
+{
+    // @todo Inlining whole alternatives
+    const auto find_nested = []( const std::vector<T> &v ) {
+        return std::find_if( v.begin(), v.end(), []( const T &comp ) {
+            return comp.is_nested_requirement;
+        } );
+    };
+    for( auto &alt : vec ) {
+        auto iter = find_nested( alt );
+
+        while( iter != alt.end() ) {
+            // This is an ugly id conversion thing
+            // It should be done better, if it is possible
+            requirement_id inlined_id( iter->type );
+            if( !inlined_id.is_valid() ) {
+                debugmsg( "Tried to inline invalid requirement %s", inlined_id.c_str() );
+                continue;
+            }
+
+            const requirement_data inlined = (*inlined_id) * iter->count;
+            inlined.inline_into( alt );
+
+            iter = find_nested( alt );
+        }
+    }
+}
+
+template<>
+void requirement_data::inline_into( std::vector<tool_comp> &vec ) const
+{
+    const auto &tool = tools.front();
+    vec.insert( vec.end(), tool.begin(), tool.end() );
+}
+
+template<>
+void requirement_data::inline_into( std::vector<item_comp> &vec ) const
+{
+    const auto &comp = components.front();
+    vec.insert( vec.end(), comp.begin(), comp.end() );
+}
+
+template<>
+void requirement_data::inline_into( std::vector<quality_requirement> &vec ) const
+{
+    const auto &quality = qualities.front();
+    vec.insert( vec.end(), quality.begin(), quality.end() );
+}
+
+void requirement_data::finalize_this()
+{
+    inline_nested( components );
+    inline_nested( tools );
+    inline_nested( qualities );
 }
