@@ -234,6 +234,7 @@
     <ClInclude Include="..\src\construction.h" />
     <ClInclude Include="..\src\coordinates.h" />
     <ClInclude Include="..\src\coordinate_conversions.h" />
+    <ClInclude Include="..\src\copyable_unique_ptr.h" />
     <ClInclude Include="..\src\crafting.h" />
     <ClInclude Include="..\src\crafting_gui.h" />
     <ClInclude Include="..\src\craft_command.h" />

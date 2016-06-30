@@ -333,7 +333,6 @@ void DynamicDataLoader::finalize_loaded_data()
     MonsterGenerator::generator().finalize_mtypes();
     MonsterGroupManager::FinalizeMonsterGroups();
     monfactions::finalize();
-    requirement_data::finalize();
     finalize_recipes();
     finialize_martial_arts();
     finalize_constructions();

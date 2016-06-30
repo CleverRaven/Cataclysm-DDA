@@ -389,6 +389,7 @@
 		<Unit filename="src/coordinate_conversions.cpp" />
 		<Unit filename="src/coordinate_conversions.h" />
 		<Unit filename="src/coordinates.h" />
+		<Unit filename="src/copyable_unique_ptr.h" />
 		<Unit filename="src/craft_command.cpp" />
 		<Unit filename="src/craft_command.h" />
 		<Unit filename="src/crafting.cpp" />
