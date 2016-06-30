@@ -536,8 +536,11 @@
         "occupied_bodyparts": [
             [ "TORSO", 10 ]
         ],
-        "act_cost": 50,
-        "description": "You are equipped with bionic stimulators which augment your haematopoiesis system, allowing you to accelerate white blood cell production using bionic power."
+        "toggled": true,
+        "act_cost": 10,
+        "react_cost": 1,
+        "time": 600,
+        "description": "You are equipped with bionic stimulators which augment your haematopoiesis system, allowing you to accelerate white blood cell production using bionic power.  It is supposed to run continuously and may cause unpleasant side effects when turned off."
     },{
         "type": "bionic",
         "id": "bio_scent_mask",
