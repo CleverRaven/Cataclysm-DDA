@@ -12,7 +12,6 @@
         "techniques" : ["DEF_DISARM"],
         "volume" : 80,
         "bashing" : 15,
-        "cutting" : 0,
         "category" : "veh_parts",
         "price" : 8000
     },
@@ -28,7 +27,6 @@
         "material" : ["steel"],
         "volume" : 12,
         "bashing" : 6,
-        "cutting" : 0,
         "category" : "veh_parts",
         "price" : 750
     },
@@ -44,7 +42,6 @@
         "material" : ["steel"],
         "volume" : 12,
         "bashing" : 6,
-        "cutting" : 0,
         "category" : "veh_parts",
         "price" : 1300
     },
@@ -60,7 +57,6 @@
         "material" : ["steel"],
         "volume" : 30,
         "bashing" : 6,
-        "cutting" : 0,
         "category" : "veh_parts",
         "price" : 10500
     },
@@ -76,7 +72,6 @@
         "material" : ["plastic", "steel"],
         "volume" : 200,
         "bashing" : 30,
-        "cutting" : 0,
         "price" : 25500,
         "diameter": 30,
         "width": 15,
@@ -94,7 +89,6 @@
         "material" : ["steel"],
         "volume" : 300,
         "bashing" : 30,
-        "cutting" : 0,
         "price" : 45500,
         "diameter": 50,
         "width": 25,
@@ -112,7 +106,6 @@
         "material" : ["hardsteel", "steel"],
         "volume" : 350,
         "bashing" : 30,
-        "cutting" : 0,
         "price" : 75500,
         "diameter": 60,
         "width": 30,
@@ -154,7 +147,6 @@
         "material" : ["glass"],
         "volume" : 250,
         "bashing" : 1,
-        "cutting" : 0,
         "category" : "veh_parts",
         "price" : 120000
     },
@@ -170,7 +162,6 @@
         "material" : ["glass"],
         "volume" : 250,
         "bashing" : 1,
-        "cutting" : 0,
         "category" : "veh_parts",
         "price" : 150000
     }

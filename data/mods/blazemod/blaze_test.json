@@ -75,15 +75,15 @@
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
     "skill_used": "fabrication",
-    "byproducts": { "id" : "vpower", "amount" : 1 },
+    "byproducts": { "id" : "vpower" },
     "skills_required": [ ["mechanics", 6] ],
     "difficulty": 6,
     "time": 108000,
     "reversible": false,
     "autolearn": true,
     "qualities":[
-        {"id":"HAMMER","level":2,"amount":1},
-        {"id":"SAW_M","level":1,"amount":1}
+        {"id":"HAMMER","level":2},
+        {"id":"SAW_M","level":1}
     ],
     "tools": [
     [
@@ -140,15 +140,15 @@
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_MATERIALS",
   "skill_used": "fabrication",
-  "byproducts": { "id" : "vpower", "amount" : 1 },
+  "byproducts": { "id" : "vpower" },
   "skills_required": [ ["mechanics", 5], ["electronics", 3] ],
   "difficulty": 5,
   "time": 108000,
   "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"id":"HAMMER","level":2,"amount":1},
-    {"id":"SAW_M","level":1,"amount":1}
+    {"id":"HAMMER","level":2},
+    {"id":"SAW_M","level":1}
   ],
   "tools": [
     [
@@ -217,8 +217,8 @@
   "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"id":"HAMMER","level":2,"amount":1},
-    {"id":"SAW_M","level":1,"amount":1}
+    {"id":"HAMMER","level":2},
+    {"id":"SAW_M","level":1}
   ],
   "tools": [
     [
@@ -258,7 +258,6 @@
         "material" : ["steel", "plastic"],
         "volume" : 200,
         "bashing" : 2,
-        "cutting" : 0,
         "category" : "veh_parts",
         "price" : 1500000
     },
@@ -268,13 +267,11 @@
         "name" : "vortex engine",
         "description" : "A tornado in a box, so to speak. Inside this innocuous tank contains either the culmination of human innovation in clean energy, or a weapon of mass destruction capable of wiping civilization - or what's left of it - off the map. An external mechanism allows it to be attached to a vehicle to render it mobile. To activate, install it on a vehicle, insert the vortex core, and activate. The core must be removed from the machinery before installation, due to its sensitivity.",
         "weight" : 62071,
-        "to_hit" : 0,
         "color" : "magenta",
         "symbol" : ",",
         "material" : ["steel"],
         "volume" : 225,
         "bashing" : 4,
-        "cutting" : 0,
         "category" : "veh_parts",
         "price" : 1500000,
         "rigid": true,
@@ -288,13 +285,11 @@
         "name" : "vortex generator",
         "description" : "A tornado in a box, so to speak. Inside this innocuous tank contains either the culmination of human innovation in clean energy, or a weapon of mass destruction capable of wiping civilization - or what's left of it - off the map. An external mechanism allow it to be hooked up to a battery to store the power generated. To activate, install it on a vehicle, insert the vortex core, and activate. The core must be removed from the machinery before installation, due to its sensitivity.",
         "weight" : 48066,
-        "to_hit" : 0,
         "color" : "magenta",
         "symbol" : ",",
         "material" : ["steel"],
         "volume" : 200,
         "bashing" : 4,
-        "cutting" : 0,
         "category" : "veh_parts",
         "price" : 1500000,
         "rigid": true,
@@ -312,7 +307,6 @@
         "type" : "AMMO",
         "id" : "vpower",
         "category" : "chems",
-        "price" : 0,
         "name" : "vortex core",
         "name_plural" : "vortex core",
         "symbol" : "=",
@@ -323,14 +317,7 @@
         "weight" : 0,
         "phase" : "solid",
         "bashing" : 1,
-        "cutting" : 0,
-        "to_hit" : 0,
         "ammo_type" : "vpower",
-        "damage" : 0,
-        "pierce" : 0,
-        "range" : 0,
-        "dispersion" : 0,
-        "recoil" : 0,
         "count" : 1
     },{
   "type" : "recipe",
@@ -343,7 +330,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"id":"HAMMER","level":3,"amount":1}
+    {"id":"HAMMER","level":3}
   ], "tools": [
       [
       ["chisel", -1]
@@ -382,13 +369,7 @@
     "material": "diamond",
     "weight": 250,
     "volume": 1,
-    "bashing": 0,
-    "cutting": 0,
     "to_hit": -5,
-    "max_charges": 0,
-    "initial_charges": 0,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
     "use_action": {
@@ -414,14 +395,10 @@
     "weight": 21831,
     "volume": 20,
     "bashing": 12,
-    "cutting": 0,
     "to_hit": -1,
     "ranged_damage": 120,
     "range": 50,
-    "dispersion": 0,
     "sight_dispersion": 150,
-    "aim_speed" : 0,
-    "recoil": 0,
     "durability": 8,
     "burst": 1,
     "clip_size": 1,
@@ -444,15 +421,12 @@
     "weight": 10700,
     "volume": 10,
     "bashing": 12,
-    "cutting": 0,
     "to_hit": -1,
     "ranged_damage": 15,
     "pierce": 5,
     "range": 10,
     "dispersion": 300,
     "sight_dispersion": 150,
-    "aim_speed" : 0,
-    "recoil": 0,
     "durability": 8,
     "burst": 10,
     "clip_size": 1,
@@ -475,15 +449,12 @@
     "weight": 8310,
     "volume": 10,
     "bashing": 12,
-    "cutting": 0,
     "to_hit": -1,
     "ranged_damage": 30,
     "pierce": 15,
     "range": 15,
     "dispersion": 300,
     "sight_dispersion": 150,
-    "aim_speed" : 0,
-    "recoil": 0,
     "durability": 8,
     "burst": 3,
     "clip_size": 1,
@@ -506,15 +477,12 @@
     "weight": 11759,
     "volume": 10,
     "bashing": 12,
-    "cutting": 0,
     "to_hit": -1,
     "ranged_damage": 30,
     "pierce": 10,
     "range": 15,
     "dispersion": 300,
     "sight_dispersion": 150,
-    "aim_speed" : 0,
-    "recoil": 0,
     "durability": 8,
     "burst": 5,
     "clip_size": 1,
@@ -537,15 +505,11 @@
     "weight": 16050,
     "volume": 22,
     "bashing": 12,
-    "cutting": 0,
     "to_hit": -1,
     "ranged_damage": 100,
     "pierce": 100,
     "range": 30,
-    "dispersion": 0,
     "sight_dispersion": 150,
-    "aim_speed" : 0,
-    "recoil": 0,
     "durability": 8,
     "burst": 1,
     "clip_size": 1,
@@ -569,15 +533,11 @@
     "weight": 25815,
     "volume": 22,
     "bashing": 12,
-    "cutting": 0,
     "to_hit": -1,
     "ranged_damage": 150,
     "pierce": 20,
     "range": 30,
-    "dispersion": 0,
     "sight_dispersion": 150,
-    "aim_speed" : 0,
-    "recoil": 0,
     "durability": 8,
     "burst": 1,
     "clip_size": 1,
@@ -595,13 +555,7 @@
     "material": "diamond",
     "weight": 350,
     "volume": 1,
-    "bashing": 0,
-    "cutting": 0,
     "to_hit": -5,
-    "max_charges": 0,
-    "initial_charges": 0,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
     "use_action": {
@@ -624,14 +578,10 @@
       "volume" : 1,
       "weight" : 350,
       "bashing" : 1,
-      "cutting" : 0,
-      "to_hit" : 0,
       "ammo_type" : "BB",
       "damage" : 1,
       "pierce" : 1,
-      "range" : 0,
       "dispersion" : 12,
-      "recoil" : 0,
       "count" : 100
    },
     {
@@ -649,15 +599,8 @@
         "weight" : 220,
         "phase" : "solid",
         "bashing" : 1,
-        "cutting" : 0,
-        "to_hit" : 0,
         "ammo_type" : "charcoal",
         "casing" : "dcluster",
-        "damage" : 0,
-        "pierce" : 0,
-        "range" : 0,
-        "dispersion" : 0,
-        "recoil" : 0,
         "count" : 10
     },
     {
@@ -674,7 +617,6 @@
         "techniques" : ["DEF_DISARM"],
         "volume" : 40,
         "bashing" : 15,
-        "cutting" : 0,
         "category" : "veh_parts",
         "price" : 10000000
     },
@@ -691,7 +633,6 @@
         "techniques" : ["DEF_DISARM"],
         "volume" : 12,
         "bashing" : 15,
-        "cutting" : 0,
         "category" : "veh_parts",
         "price" : 12000000
     },{
@@ -1272,8 +1213,8 @@
   "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":1},
-    {"id":"SAW_M","level":1,"amount":1}
+    {"id":"HAMMER","level":1},
+    {"id":"SAW_M","level":1}
   ], "tools": [
     [
       [ "welder", 100 ],
@@ -1315,8 +1256,8 @@
   "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":1},
-    {"id":"SAW_M","level":1,"amount":1}
+    {"id":"HAMMER","level":1},
+    {"id":"SAW_M","level":1}
   ], "tools": [
     [
       [ "soldering_iron", 50],
@@ -1353,8 +1294,8 @@
   "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":1},
-    {"id":"SAW_M","level":1,"amount":1}
+    {"id":"HAMMER","level":1},
+    {"id":"SAW_M","level":1}
   ], "tools": [
     [
       [ "soldering_iron", 30],
@@ -1394,8 +1335,8 @@
   "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":1},
-    {"id":"SAW_M","level":1,"amount":1}
+    {"id":"HAMMER","level":1},
+    {"id":"SAW_M","level":1}
   ], "tools": [
     [
       [ "soldering_iron", 30],
@@ -1435,8 +1376,8 @@
   "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":1},
-    {"id":"SAW_M","level":1,"amount":1}
+    {"id":"HAMMER","level":1},
+    {"id":"SAW_M","level":1}
   ], "tools": [
     [
       [ "welder", 100 ],
@@ -1487,8 +1428,8 @@
   "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":1},
-    {"id":"SAW_M","level":1,"amount":1}
+    {"id":"HAMMER","level":1},
+    {"id":"SAW_M","level":1}
   ], "tools": [
     [
       [ "welder", 100 ],
@@ -1533,7 +1474,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"id":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1}
   ],
   "components": [
     [
@@ -1561,7 +1502,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"id":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1}
   ],
   "components": [
     [

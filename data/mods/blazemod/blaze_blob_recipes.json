@@ -11,7 +11,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"id":"CHEM","level":2,"amount":1}
+    {"id":"CHEM","level":2}
   ],
   "components": [
     [
@@ -38,7 +38,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities" : [
-    {"id":"CHEM","level":2,"amount":1}
+    {"id":"CHEM","level":2}
   ],
   "components": [
     [
@@ -79,8 +79,8 @@
   "reversible": false,
   "autolearn": true,
   "qualities" : [
-    {"id":"CUT","level":1,"amount":1},
-    {"id":"HAMMER","level":1,"amount":1}
+    {"id":"CUT","level":1},
+    {"id":"HAMMER","level":1}
   ],
   "components": [
     [
@@ -343,8 +343,8 @@
   "reversible": false,
   "autolearn": true,
   "qualities" : [
-    {"id":"CHEM","level":2,"amount":1},
-    {"id":"HAMMER","level":1,"amount":1}
+    {"id":"CHEM","level":2},
+    {"id":"HAMMER","level":1}
   ],
   "components": [
     [
@@ -377,7 +377,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"id":"CHEM","level":2,"amount":1}
+    {"id":"CHEM","level":2}
   ],
   "components": [
     [
@@ -414,7 +414,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"id":"CHEM","level":2,"amount":1}
+    {"id":"CHEM","level":2}
   ],
   "components": [
     [
@@ -452,7 +452,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"id":"CHEM","level":2,"amount":1}
+    {"id":"CHEM","level":2}
   ],
   "components": [
     [
@@ -489,7 +489,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"id":"CHEM","level":2,"amount":1}
+    {"id":"CHEM","level":2}
   ],
   "components": [
     [
@@ -525,7 +525,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"id":"CHEM","level":2,"amount":1}
+    {"id":"CHEM","level":2}
   ],
   "components": [
     [
@@ -555,7 +555,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"id":"CHEM","level":2,"amount":1}
+    {"id":"CHEM","level":2}
   ],
   "tools": [
       [
@@ -593,7 +593,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"id":"CHEM","level":2,"amount":1}
+    {"id":"CHEM","level":2}
   ],
   "components": [
     [
@@ -622,7 +622,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"id":"CHEM","level":2,"amount":1}
+    {"id":"CHEM","level":2}
   ],
   "components": [
     [
@@ -649,7 +649,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"id":"CHEM","level":2,"amount":1}
+    {"id":"CHEM","level":2}
   ],
   "components": [
     [
@@ -680,7 +680,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"id":"CHEM","level":2,"amount":1}
+    {"id":"CHEM","level":2}
   ],
   "components": [
     [
@@ -710,7 +710,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"id":"CHEM","level":2,"amount":1}
+    {"id":"CHEM","level":2}
   ],
   "components": [
     [
@@ -742,7 +742,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"id":"CHEM","level":2,"amount":1}
+    {"id":"CHEM","level":2}
   ],
   "components": [
     [
@@ -771,7 +771,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"id":"CHEM","level":2,"amount":1}
+    {"id":"CHEM","level":2}
   ],
   "components": [
     [
@@ -802,7 +802,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"id":"CHEM","level":2,"amount":1}
+    {"id":"CHEM","level":2}
   ],
   "components": [
     [
@@ -834,7 +834,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"id":"CHEM","level":2,"amount":1}
+    {"id":"CHEM","level":2}
   ],
   "components": [
     [
