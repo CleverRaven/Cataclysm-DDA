@@ -797,6 +797,10 @@ void requirement_data::inline_nested( std::vector< std::vector<T> > &vec )
 template<>
 void requirement_data::inline_into( std::vector<tool_comp> &vec ) const
 {
+    if( tools.size() != 1 || !qualities.empty() || !components.empty() ) {
+        debugmsg( "Inlined requirement %s must contain exactly one array", id_.c_str() );
+    }
+
     const auto &tool = tools.front();
     vec.insert( vec.end(), tool.begin(), tool.end() );
 }
@@ -804,6 +808,10 @@ void requirement_data::inline_into( std::vector<tool_comp> &vec ) const
 template<>
 void requirement_data::inline_into( std::vector<item_comp> &vec ) const
 {
+    if( components.size() != 1 || !qualities.empty() || !tools.empty() ) {
+        debugmsg( "Inlined requirement %s must contain exactly one array", id_.c_str() );
+    }
+
     const auto &comp = components.front();
     vec.insert( vec.end(), comp.begin(), comp.end() );
 }
