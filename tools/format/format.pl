@@ -13,7 +13,7 @@ my @priority;
 my @wrapping;
 
 sub config($) {
-    return map { chomp; $_ } grep { !/^(#.*|\s+)$/ } do { local @ARGV = $_[0]; <> };
+    return map { chomp; qr/$_/ } grep { !/^(#.*|\s+)$/ } do { local @ARGV = $_[0]; <> };
 }
 
 sub get_priority($) {
@@ -28,7 +28,7 @@ sub assemble($@)
     return "" unless scalar @_;
     my $str = join(', ', @_);
 
-    if (!grep { $context =~ $_ } map { qr{$_} } @wrapping) {
+    if (!grep { $context =~ $_ } map { $_ } @wrapping) {
         $str = join(",\n", @_ );
     }
 
