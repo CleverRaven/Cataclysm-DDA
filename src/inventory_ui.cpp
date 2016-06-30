@@ -21,77 +21,78 @@
 #include <sstream>
 #include <algorithm>
 
-struct inventory_entry {
+class inventory_entry {
     private:
         std::shared_ptr<item_location> location;
         size_t stack_size;
         const item_category *custom_category;
 
     public:
-    size_t chosen_count = 0;
+        size_t chosen_count = 0;
 
-    inventory_entry( const std::shared_ptr<item_location> &location, size_t stack_size, const item_category *custom_category = nullptr )
-        : location( ( location != nullptr ) ? location : std::make_shared<item_location>() ), // to make sure that location != nullptr always
-          stack_size( stack_size ),
-          custom_category( custom_category ) {}
+        inventory_entry( const std::shared_ptr<item_location> &location, size_t stack_size, const item_category *custom_category = nullptr )
+            : location( ( location != nullptr ) ? location : std::make_shared<item_location>() ), // to make sure that location != nullptr always
+              stack_size( stack_size ),
+              custom_category( custom_category ) {}
 
-    inventory_entry( const inventory_entry &entry, const item_category *custom_category )
-        : location( entry.location ),
-          stack_size( entry.stack_size ),
-          custom_category( custom_category ) {}
+        inventory_entry( const inventory_entry &entry, const item_category *custom_category )
+            : location( entry.location ),
+              stack_size( entry.stack_size ),
+              custom_category( custom_category ),
+              chosen_count( entry.chosen_count ) {}
 
-    inventory_entry( const std::shared_ptr<item_location> &location, const item_category *custom_category = nullptr )
-        : inventory_entry( location, ( location->get_item() != nullptr ) ? 1 : 0, custom_category ) {}
+        inventory_entry( const std::shared_ptr<item_location> &location, const item_category *custom_category = nullptr )
+            : inventory_entry( location, ( location->get_item() != nullptr ) ? 1 : 0, custom_category ) {}
 
-    inventory_entry( const item_category *custom_category = nullptr )
-        : inventory_entry( std::make_shared<item_location>(), custom_category ) {}
+        inventory_entry( const item_category *custom_category = nullptr )
+            : inventory_entry( std::make_shared<item_location>(), custom_category ) {}
 
-    // used for searching the category header, only the item pointer and the category are important there
-    bool operator == ( const inventory_entry &other) const {
-        return get_category_ptr() == other.get_category_ptr() && location == other.location;
-    }
-
-    bool operator != ( const inventory_entry &other ) const {
-        return !( *this == other );
-    }
-
-    size_t get_stack_size() const {
-        return stack_size;
-    }
-
-    size_t get_available_count() const {
-        if( is_item() && get_stack_size() == 1 ) {
-            return get_item().count_by_charges() ? get_item().charges : 1;
-        } else {
-            return get_stack_size();
+        // used for searching the category header, only the item pointer and the category are important there
+        bool operator == ( const inventory_entry &other) const {
+            return get_category_ptr() == other.get_category_ptr() && location == other.location;
         }
-    }
 
-    const item &get_item() const {
-        if( location->get_item() == nullptr ) {
-            static const item nullitem;
-            debugmsg( "Tried to access an empty item." );
-            return nullitem;
+        bool operator != ( const inventory_entry &other ) const {
+            return !( *this == other );
         }
-        return *location->get_item();
-    }
 
-    item_location &get_location() const {
-        return *location;
-    }
+        size_t get_stack_size() const {
+            return stack_size;
+        }
 
-    const item_category *get_category_ptr() const {
-        return ( custom_category != nullptr ) ? custom_category
-                                              : is_item() ? &get_item().get_category() : nullptr;
-    }
+        size_t get_available_count() const {
+            if( is_item() && get_stack_size() == 1 ) {
+                return get_item().count_by_charges() ? get_item().charges : 1;
+            } else {
+                return get_stack_size();
+            }
+        }
 
-    bool is_item() const {
-        return location->get_item() != nullptr;
-    }
+        const item &get_item() const {
+            if( location->get_item() == nullptr ) {
+                static const item nullitem;
+                debugmsg( "Tried to access an empty item." );
+                return nullitem;
+            }
+            return *location->get_item();
+        }
 
-    bool is_null() const {
-        return get_category_ptr() == nullptr;
-    }
+        item_location &get_location() const {
+            return *location;
+        }
+
+        const item_category *get_category_ptr() const {
+            return ( custom_category != nullptr ) ? custom_category
+                                                  : is_item() ? &get_item().get_category() : nullptr;
+        }
+
+        bool is_item() const {
+            return location->get_item() != nullptr;
+        }
+
+        bool is_null() const {
+            return get_category_ptr() == nullptr;
+        }
 };
 
 enum class navigation_mode : int {
@@ -238,36 +239,24 @@ const item_filter allow_all_items = []( const item_location & ) { return true; }
 class inventory_selector
 {
     public:
+        inventory_selector( player &u, const item_filter &filter = allow_all_items );
+        ~inventory_selector();
+        /** These functions add items from map / vehicles */
         void add_map_items( const tripoint &target );
         void add_vehicle_items( const tripoint &target );
         void add_nearby_items( int radius = 1 );
-
-        /**
-         * Checks the selector for emptiness (absence of available entries).
-         */
-        bool empty() const {
-            for( const auto &column : columns ) {
-                if( !column->empty() ) {
-                    return false;
-                }
-            }
-            return custom_column == nullptr || custom_column->empty();
-        }
-        /** Creates the inventory screen */
-        inventory_selector( player &u, const item_filter &filter = allow_all_items );
-        ~inventory_selector();
-
         /** Executes the selector */
         item_location &execute_pick( const std::string &title );
         void execute_compare( const std::string &title );
         std::list<std::pair<int, int>> execute_multidrop( const std::string &title );
+        /** Checks the selector for emptiness (absence of available entries). */
+        bool empty() const;
 
     protected:
         void add_custom_items( const std::list<item>::const_iterator &from,
                                const std::list<item>::const_iterator &to,
                                const std::string &title,
                                const std::function<std::shared_ptr<item_location>( item * )> &locator );
-
     private:
         enum selector_mode{
             SM_PICK,
@@ -903,6 +892,16 @@ inventory_selector::~inventory_selector()
         delwin(w_inv);
     }
     g->refresh_all();
+}
+
+bool inventory_selector::empty() const
+{
+    for( const auto &column : columns ) {
+        if( !column->empty() ) {
+            return false;
+        }
+    }
+    return custom_column == nullptr || custom_column->empty();
 }
 
 void inventory_selector::on_action( const std::string &action )
