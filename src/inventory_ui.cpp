@@ -26,21 +26,23 @@ class inventory_entry {
         std::shared_ptr<item_location> location;
         size_t stack_size;
         const item_category *custom_category;
+        long custom_invlet;
 
     public:
         size_t chosen_count = 0;
         nc_color custom_color = c_unset;
-        long custom_invlet = '\0';
 
         inventory_entry( const std::shared_ptr<item_location> &location, size_t stack_size, const item_category *custom_category = nullptr,
-                         nc_color custom_color = c_unset )
+                         nc_color custom_color = c_unset, long custom_invlet = LONG_MIN )
             : location( ( location != nullptr ) ? location : std::make_shared<item_location>() ), // to make sure that location != nullptr always
               stack_size( stack_size ),
               custom_category( custom_category ),
+              custom_invlet( custom_invlet ),
               custom_color( custom_color ) {}
 
-        inventory_entry( const std::shared_ptr<item_location> &location, const item_category *custom_category = nullptr, nc_color custom_color = c_unset )
-            : inventory_entry( location, ( location->get_item() != nullptr ) ? 1 : 0, custom_category, custom_color ) {}
+        inventory_entry( const std::shared_ptr<item_location> &location, const item_category *custom_category = nullptr, nc_color custom_color = c_unset,
+                         long custom_invlet = LONG_MIN )
+            : inventory_entry( location, ( location->get_item() != nullptr ) ? 1 : 0, custom_category, custom_color, custom_invlet ) {}
 
         inventory_entry( const item_category *custom_category = nullptr )
             : inventory_entry( std::make_shared<item_location>(), custom_category ) {}
@@ -83,7 +85,8 @@ class inventory_entry {
         }
 
         long get_invlet() const {
-            return ( is_item() && get_item().invlet != '\0' ) ? get_item().invlet : custom_invlet;
+            return ( custom_invlet != LONG_MIN ) ? custom_invlet
+                                                 : is_item() ? get_item().invlet : '\0';
         }
 
         const item_category *get_category_ptr() const {
@@ -663,11 +666,8 @@ void inventory_selector::add_custom_items( const std::list<item>::const_iterator
             if( custom_column == nullptr ) {
                 custom_column.reset( new inventory_column() );
             }
-            inventory_entry entry( location, stack.size(), &categories.back() );
-            if( location->get_item()->invlet == '\0' && cur_custom_invlet <= max_custom_invlet ) {
-                entry.custom_invlet = cur_custom_invlet++;
-            }
-            custom_column->add_entry( entry );
+            const long invlet = ( cur_custom_invlet <= max_custom_invlet ) ? cur_custom_invlet++ : '\0';
+            custom_column->add_entry( inventory_entry( location, stack.size(), &categories.back(), c_unset, invlet ) );
         }
     }
 }
