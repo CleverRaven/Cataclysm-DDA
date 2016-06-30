@@ -29,23 +29,24 @@ class inventory_entry {
 
     public:
         size_t chosen_count = 0;
+        nc_color custom_color = c_unset;
+        long custom_invlet = '\0';
 
-        inventory_entry( const std::shared_ptr<item_location> &location, size_t stack_size, const item_category *custom_category = nullptr )
+        inventory_entry( const std::shared_ptr<item_location> &location, size_t stack_size, const item_category *custom_category = nullptr,
+                         nc_color custom_color = c_unset )
             : location( ( location != nullptr ) ? location : std::make_shared<item_location>() ), // to make sure that location != nullptr always
               stack_size( stack_size ),
-              custom_category( custom_category ) {}
-
-        inventory_entry( const inventory_entry &entry, const item_category *custom_category )
-            : location( entry.location ),
-              stack_size( entry.stack_size ),
               custom_category( custom_category ),
-              chosen_count( entry.chosen_count ) {}
+              custom_color( custom_color ) {}
 
-        inventory_entry( const std::shared_ptr<item_location> &location, const item_category *custom_category = nullptr )
-            : inventory_entry( location, ( location->get_item() != nullptr ) ? 1 : 0, custom_category ) {}
+        inventory_entry( const std::shared_ptr<item_location> &location, const item_category *custom_category = nullptr, nc_color custom_color = c_unset )
+            : inventory_entry( location, ( location->get_item() != nullptr ) ? 1 : 0, custom_category, custom_color ) {}
 
         inventory_entry( const item_category *custom_category = nullptr )
             : inventory_entry( std::make_shared<item_location>(), custom_category ) {}
+
+        inventory_entry( const inventory_entry &entry, const item_category *custom_category )
+            : inventory_entry( entry ) { this->custom_category = custom_category; }
 
         // used for searching the category header, only the item pointer and the category are important there
         bool operator == ( const inventory_entry &other) const {
@@ -81,6 +82,10 @@ class inventory_entry {
             return *location;
         }
 
+        long get_invlet() const {
+            return ( is_item() && get_item().invlet != '\0' ) ? get_item().invlet : custom_invlet;
+        }
+
         const item_category *get_category_ptr() const {
             return ( custom_category != nullptr ) ? custom_category
                                                   : is_item() ? &get_item().get_category() : nullptr;
@@ -105,6 +110,8 @@ class inventory_column {
         inventory_column() :
             entries(),
             active( false ),
+            multiselect( false ),
+            custom_colors( false ),
             mode( navigation_mode::ITEM ),
             selected_index( 1 ),
             page_offset( 0 ),
@@ -152,6 +159,10 @@ class inventory_column {
             this->multiselect = multiselect;
         }
 
+        void set_custom_colors( bool custom_colors ) {
+            this->custom_colors = custom_colors;
+        }
+
         void set_mode( navigation_mode mode ) {
             this->mode = mode;
         }
@@ -194,6 +205,7 @@ class inventory_column {
         std::vector<inventory_entry> entries;
         bool active;
         bool multiselect;
+        bool custom_colors;
         navigation_mode mode;
         size_t selected_index;
         size_t page_offset;
@@ -226,7 +238,6 @@ class selection_column : public inventory_column {
 
     protected:
         virtual std::string get_entry_text( const inventory_entry &entry ) const override;
-        virtual nc_color get_entry_color( const inventory_entry &entry ) const override;
 
     private:
         const item_category selected_cat;
@@ -263,6 +274,11 @@ class inventory_selector
             SM_COMPARE,
             SM_MULTIDROP
         };
+
+        static const long min_custom_invlet = '0';
+        static const long max_custom_invlet = '9';
+
+        long cur_custom_invlet = min_custom_invlet;
 
         std::vector<std::unique_ptr<inventory_column>> columns;
         std::unique_ptr<inventory_column> custom_column;
@@ -337,7 +353,7 @@ class inventory_selector
 inventory_entry *inventory_column::find_by_invlet( long invlet ) const
 {
     for( const auto &entry : entries ) {
-        if( entry.is_item() && entry.get_item().invlet == invlet ) {
+        if( entry.is_item() && ( entry.get_invlet() == invlet ) ) {
             return const_cast<inventory_entry *>( &entry );
         }
     }
@@ -507,7 +523,11 @@ std::string inventory_column::get_entry_text( const inventory_entry &entry ) con
 nc_color inventory_column::get_entry_color( const inventory_entry &entry ) const
 {
     if( entry.is_item() ) {
-        return ( active && is_selected( entry ) ) ? h_white : entry.get_item().color_in_inventory();
+        return ( active && is_selected( entry ) )
+            ? h_white
+            : ( custom_colors && entry.custom_color != c_unset )
+                ? entry.custom_color
+                : entry.get_item().color_in_inventory();
     } else {
         return c_magenta;
     }
@@ -524,7 +544,7 @@ void inventory_column::draw( WINDOW *win, size_t x, size_t y ) const
         trim_and_print( win, y + line, x + get_entry_indent( entry ), getmaxx( win ) - x,
                         get_entry_color( entry ), "%s", get_entry_text( entry ).c_str() );
 
-        const char invlet = entry.is_item() ? entry.get_item().invlet : '\0';
+        const auto invlet = entry.get_invlet();
         if( invlet != '\0' ) {
             const nc_color invlet_color = g->u.assigned_invlet.count( invlet ) ? c_yellow : c_white;
             mvwputch( win, y + line, x, invlet_color, invlet );
@@ -603,15 +623,6 @@ std::string selection_column::get_entry_text( const inventory_entry &entry ) con
     return res.str();
 }
 
-nc_color selection_column::get_entry_color( const inventory_entry &entry ) const
-{
-    if( !entry.is_item() || is_selected( entry ) ) {
-        return inventory_column::get_entry_color( entry );
-    } // @todo Support custom colors
-
-    return entry.get_item().color_in_inventory();
-}
-
 // @todo Move it into some 'item_stack' class.
 std::vector<std::list<item *>> restack_items( const std::list<item>::const_iterator &from,
                                               const std::list<item>::const_iterator &to )
@@ -652,7 +663,11 @@ void inventory_selector::add_custom_items( const std::list<item>::const_iterator
             if( custom_column == nullptr ) {
                 custom_column.reset( new inventory_column() );
             }
-            custom_column->add_entry( inventory_entry( location, stack.size(), &categories.back() ) );
+            inventory_entry entry( location, stack.size(), &categories.back() );
+            if( location->get_item()->invlet == '\0' && cur_custom_invlet <= max_custom_invlet ) {
+                entry.custom_invlet = cur_custom_invlet++;
+            }
+            custom_column->add_entry( entry );
         }
     }
 }
@@ -869,14 +884,14 @@ inventory_selector::inventory_selector( player &u, const item_filter &filter )
     if( u.is_armed() ) {
         const auto location = std::make_shared<item_location>( u, &u.weapon );
         if( filter( *location ) ) {
-            second_column->add_entry( inventory_entry( location, &weapon_cat ) );
+            second_column->add_entry( inventory_entry( location, &weapon_cat, c_ltblue ) );
         }
     }
 
     for( auto &it : u.worn ) {
         const auto location = std::make_shared<item_location>( u, &it );
         if( filter( *location ) ) {
-            second_column->add_entry( inventory_entry( location, &worn_cat ) );
+            second_column->add_entry( inventory_entry( location, &worn_cat, c_cyan ) );
         }
     }
 
@@ -1034,6 +1049,7 @@ void inventory_selector::insert_selection_column( const std::string &id, const s
     }
 
     if( column_can_fit( *new_column ) ) { // Insert only if it will be visible. Ignore otherwise.
+        new_column->set_custom_colors( true );
         insert_column( columns.end(), new_column );
     }
 }
