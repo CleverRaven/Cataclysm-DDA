@@ -33,6 +33,7 @@
 #include "ammo.h"
 #include "debug.h"
 #include "path_info.h"
+#include "requirements.h"
 #include "start_location.h"
 #include "scenario.h"
 #include "omdata.h"
@@ -332,6 +333,7 @@ void DynamicDataLoader::finalize_loaded_data()
     MonsterGenerator::generator().finalize_mtypes();
     MonsterGroupManager::FinalizeMonsterGroups();
     monfactions::finalize();
+    requirement_data::finalize();
     finalize_recipes();
     finialize_martial_arts();
     finalize_constructions();

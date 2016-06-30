@@ -2,7 +2,7 @@
 #define PLAYER_H
 
 #include "character.h"
-#include "craft_command.h"
+#include "copyable_unique_ptr.h"
 #include "item.h"
 #include "player_activity.h"
 #include "weighted_list.h"
@@ -28,8 +28,11 @@ enum game_message_type : int;
 class ma_technique;
 class martialart;
 struct recipe;
+struct component;
 struct item_comp;
 struct tool_comp;
+template<typename CompType> struct comp_selection;
+class craft_command;
 class vehicle;
 class vitamin;
 using vitamin_id = string_id<vitamin>;
@@ -137,11 +140,11 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
 {
     public:
         player();
-        player(const player &) = default;
-        player(player &&) = default;
+        player(const player &);
+        player(player &&);
         ~player() override;
-        player &operator=(const player &) = default;
-        player &operator=(player &&) = default;
+        player &operator=(const player &);
+        player &operator=(player &&);
 
         // newcharacter.cpp
         bool create(character_type type, std::string tempname = "");
@@ -1234,7 +1237,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         std::vector <addiction> addictions;
 
         void make_craft_with_command( const std::string &id_to_make, int batch_size, bool is_long = false );
-        craft_command last_craft;
+        copyable_unique_ptr<craft_command> last_craft;
 
         std::string lastrecipe;
         int last_batch;

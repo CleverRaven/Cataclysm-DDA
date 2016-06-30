@@ -20,6 +20,8 @@
 #include "catacharset.h"
 #include "get_version.h"
 #include "crafting.h"
+#include "craft_command.h"
+#include "requirements.h"
 #include "monstergenerator.h"
 #include "help.h" // get_hint
 #include "martialarts.h"
@@ -284,11 +286,17 @@ player::player() : Character()
     reset_encumbrance();
 
     morale.reset( new player_morale() );
+    last_craft.reset( new craft_command() );
 }
 
 player::~player()
 {
 }
+
+player::player(const player &) = default;
+player::player(player &&) = default;
+player &player::operator=(const player &) = default;
+player &player::operator=(player &&) = default;
 
 void player::normalize()
 {

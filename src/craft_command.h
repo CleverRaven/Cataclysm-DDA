@@ -1,7 +1,7 @@
 #ifndef CRAFT_COMMAND_H
 #define CRAFT_COMMAND_H
 
-#include "requirements.h"
+#include "string_id.h"
 
 #include <list>
 #include <string>
@@ -11,6 +11,12 @@ class inventory;
 class item;
 class player;
 struct recipe;
+struct component;
+struct tool_comp;
+struct item_comp;
+
+struct requirement_data;
+using requirement_id = string_id<requirement_data>;
 
 /**
 *   enum used by comp_selection to indicate where a component should be consumed from.

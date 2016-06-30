@@ -2,6 +2,7 @@
 
 #include "debug.h"
 #include "translations.h"
+#include "requirements.h"
 
 static std::map<fault_id, fault> faults_all;
 

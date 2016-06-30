@@ -807,16 +807,15 @@ void requirement_data::inline_into( std::vector<item_comp> &vec ) const
     vec.insert( vec.end(), comp.begin(), comp.end() );
 }
 
-template<>
-void requirement_data::inline_into( std::vector<quality_requirement> &vec ) const
-{
-    const auto &quality = qualities.front();
-    vec.insert( vec.end(), quality.begin(), quality.end() );
-}
-
 void requirement_data::finalize_this()
 {
     inline_nested( components );
     inline_nested( tools );
-    inline_nested( qualities );
+}
+
+void requirement_data::finalize()
+{
+    for( auto &pr : requirements_all ) {
+        pr.second.finalize_this();
+    }
 }

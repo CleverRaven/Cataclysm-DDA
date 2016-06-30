@@ -9,6 +9,7 @@
 #include "output.h"
 #include "catacharset.h"
 #include "crafting.h"
+#include "requirements.h"
 #include "options.h"
 #include "debug.h"
 #include "messages.h"

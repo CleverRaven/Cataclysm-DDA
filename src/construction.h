@@ -1,7 +1,6 @@
 #ifndef CONSTRUCTION_H
 #define CONSTRUCTION_H
 
-#include "requirements.h"
 #include "cursesdef.h" // WINDOW
 #include "enums.h" // point
 #include "string_id.h"
@@ -13,7 +12,10 @@
 class JsonObject;
 typedef int nc_color;
 class Skill;
+struct requirement_data;
+
 using skill_id = string_id<Skill>;
+using requirement_id = string_id<requirement_data>;
 
 struct construction {
         std::string category; //Construction type category

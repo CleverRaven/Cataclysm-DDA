@@ -14,6 +14,7 @@
 #include "options.h"
 #include "output.h"
 #include "recipe_dictionary.h"
+#include "requirements.h"
 #include "rng.h"
 #include "translations.h"
 #include "ui.h"
@@ -345,7 +346,7 @@ void player::recraft()
     if( lastrecipe.empty() ) {
         popup( _( "Craft something first" ) );
     } else if( making_would_work( lastrecipe, last_batch ) ) {
-        last_craft.execute();
+        last_craft->execute();
     }
 }
 
@@ -634,8 +635,8 @@ void player::make_craft_with_command( const std::string &id_to_make, int batch_s
         return;
     }
 
-    last_craft = craft_command( recipe_to_make, batch_size, is_long, this );
-    last_craft.execute();
+    *last_craft = craft_command( recipe_to_make, batch_size, is_long, this );
+    last_craft->execute();
 }
 
 item recipe::create_result() const
@@ -825,8 +826,8 @@ void player::complete_craft()
     if( making->difficulty != 0 && diff_roll > skill_roll * ( 1 + 0.1 * rng( 1, 5 ) ) ) {
         add_msg( m_bad, _( "You fail to make the %s, and waste some materials." ),
                  item::nname( making->result ).c_str() );
-        if( last_craft.has_cached_selections() ) {
-            last_craft.consume_components();
+        if( last_craft->has_cached_selections() ) {
+            last_craft->consume_components();
         } else {
             // @todo Guarantee that selections are cached
             for( const auto &it : making->requirements->get_components() ) {
@@ -851,7 +852,7 @@ void player::complete_craft()
     // If we're here, the craft was a success!
     // Use up the components and tools
     std::list<item> used;
-    if( !last_craft.has_cached_selections() ) {
+    if( !last_craft->has_cached_selections() ) {
         // This should fail and return, but currently crafting_command isn't saved
         // Meaning there are still cases where has_cached_selections will be false
         // @todo Allow saving last_craft and debugmsg+fail craft if selection isn't cached
@@ -865,7 +866,7 @@ void player::complete_craft()
             }
         }
     } else if( !has_trait( "DEBUG_HS" ) ) {
-        used = last_craft.consume_components();
+        used = last_craft->consume_components();
         if( used.empty() ) {
             return;
         }

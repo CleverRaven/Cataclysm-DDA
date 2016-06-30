@@ -21,6 +21,7 @@
 #include "field.h"
 #include "weather.h"
 #include "pldata.h"
+#include "requirements.h"
 #include "recipe_dictionary.h"
 #include "player.h"
 #include "generic_factory.h"
