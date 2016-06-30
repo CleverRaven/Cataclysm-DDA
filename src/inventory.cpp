@@ -372,6 +372,16 @@ void inventory::restack(player *p)
     for( auto &elem : to_restack ) {
         add_item( elem );
     }
+
+    //Ensure that all items in the same stack have the same invlet.
+    for( auto outer = items.begin(); outer != items.end(); outer++ ) {
+        char letter = outer->front().invlet;
+        for( auto inner = outer->begin(); inner != outer->end(); inner++ ) {
+            if( inner->invlet != letter ) {
+                inner->invlet = letter;
+            }
+        }
+    }
 }
 
 static long count_charges_in_list(const itype *type, const map_stack &items)
