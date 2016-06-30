@@ -2421,7 +2421,7 @@
   "category": "CC_AMMO",
   "subcategory": "CSC_AMMO_BULLETS",
   "skill_used": "fabrication",
-  "requires_skills": [ "gun", 1 ],
+  "skills_required": [ "gun", 1 ],
   "difficulty": 3,
   "time": 12000,
   "reversible": false,
