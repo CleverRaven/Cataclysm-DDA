@@ -25,26 +25,30 @@ struct inventory_entry {
     private:
         std::shared_ptr<item_location> location;
         size_t stack_size;
+        const item_category *custom_category;
 
     public:
-    /** The category of an item. */
-    const item_category *category;
     size_t chosen_count = 0;
 
-    inventory_entry( const std::shared_ptr<item_location> &location, size_t stack_size, const item_category *cat = nullptr )
+    inventory_entry( const std::shared_ptr<item_location> &location, size_t stack_size, const item_category *custom_category = nullptr )
         : location( ( location != nullptr ) ? location : std::make_shared<item_location>() ), // to make sure that location != nullptr always
           stack_size( stack_size ),
-          category( ( cat != nullptr ) ? cat : ( this->location->get_item() != nullptr ) ? &location->get_item()->get_category() : nullptr ) {}
+          custom_category( custom_category ) {}
 
-    inventory_entry( const std::shared_ptr<item_location> &location, const item_category *cat = nullptr )
-        : inventory_entry( location, ( location->get_item() != nullptr ) ? 1 : 0, cat ) {}
+    inventory_entry( const inventory_entry &entry, const item_category *custom_category )
+        : location( entry.location ),
+          stack_size( entry.stack_size ),
+          custom_category( custom_category ) {}
 
-    inventory_entry( const item_category *cat = nullptr )
-        : inventory_entry( std::make_shared<item_location>(), cat ) {}
+    inventory_entry( const std::shared_ptr<item_location> &location, const item_category *custom_category = nullptr )
+        : inventory_entry( location, ( location->get_item() != nullptr ) ? 1 : 0, custom_category ) {}
+
+    inventory_entry( const item_category *custom_category = nullptr )
+        : inventory_entry( std::make_shared<item_location>(), custom_category ) {}
 
     // used for searching the category header, only the item pointer and the category are important there
     bool operator == ( const inventory_entry &other) const {
-        return category == other.category && location == other.location;
+        return get_category_ptr() == other.get_category_ptr() && location == other.location;
     }
 
     bool operator != ( const inventory_entry &other ) const {
@@ -76,12 +80,17 @@ struct inventory_entry {
         return *location;
     }
 
+    const item_category *get_category_ptr() const {
+        return ( custom_category != nullptr ) ? custom_category
+                                              : is_item() ? &get_item().get_category() : nullptr;
+    }
+
     bool is_item() const {
         return location->get_item() != nullptr;
     }
 
     bool is_null() const {
-        return category == nullptr;
+        return get_category_ptr() == nullptr;
     }
 };
 
@@ -385,7 +394,7 @@ bool inventory_column::is_selected( const inventory_entry &entry ) const
 bool inventory_column::is_selected_by_category( const inventory_entry &entry ) const
 {
     return entry.is_item() && mode == navigation_mode::CATEGORY
-                           && entry.category == get_selected().category
+                           && entry.get_category_ptr() == get_selected().get_category_ptr()
                            && page_of( entry ) == page_index();
 }
 
@@ -451,7 +460,8 @@ void inventory_column::add_entry( const inventory_entry &entry )
     if( entry.is_item() ) {
         const auto iter = std::find_if( entries.rbegin(), entries.rend(),
             [ &entry ]( const inventory_entry &cur ) {
-                return cur.category == entry.category || cur.category->sort_rank <= entry.category->sort_rank;
+                return cur.get_category_ptr() == entry.get_category_ptr()
+                    || cur.get_category_ptr()->sort_rank <= entry.get_category_ptr()->sort_rank;
             } );
         entries.insert( iter.base(), entry );
     }
@@ -476,11 +486,11 @@ void inventory_column::prepare_paging( size_t new_entries_per_page )
 
     const item_category *current_category = nullptr;
     for( size_t i = 0; i < entries.size(); ++i ) {
-        if( entries[i].category == current_category && i % entries_per_page != 0 ) {
+        if( entries[i].get_category_ptr() == current_category && i % entries_per_page != 0 ) {
             continue;
         }
 
-        current_category = entries[i].category;
+        current_category = entries[i].get_category_ptr();
         const inventory_entry insertion = ( i % entries_per_page == entries_per_page - 1 )
             ? inventory_entry() // the last item on the page must not be a category
             : inventory_entry( current_category ); // the first item on the page must be a category
@@ -513,8 +523,8 @@ std::string inventory_column::get_entry_text( const inventory_entry &entry ) con
             res << count << ' ';
         }
         res << entry.get_item().display_name( count );
-    } else if( entry.category != nullptr ) {
-        res << entry.category->name;
+    } else if( entry.get_category_ptr() != nullptr ) {
+        res << entry.get_category_ptr()->name;
     }
     return res.str();
 }
@@ -566,8 +576,7 @@ void selection_column::prepare_paging( size_t new_entries_per_page )
 
 void selection_column::on_change( const inventory_entry &entry )
 {
-    inventory_entry my_entry( entry );
-    my_entry.category = &selected_cat;
+    inventory_entry my_entry( entry, &selected_cat );
 
     const auto iter = std::find( entries.begin(), entries.end(), my_entry );
     if( my_entry.chosen_count != 0 ) {
