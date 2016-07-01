@@ -34,23 +34,14 @@ const material_type &string_id<material_type>::obj() const
 
 material_type::material_type() :
     id( NULL_ID ),
-    _name(),
-    _salvaged_into( itype_id( "null" ) ),
-    _repaired_with( itype_id( "null" ) ),
-    _bash_resist( 0 ),
-    _cut_resist( 0 ),
-    _acid_resist( 0 ),
-    _elec_resist( 0 ),
-    _fire_resist( 0 ),
-    _chip_resist( 0 ),
-    _density( 1 ),
-    _soft( false ),
     _bash_dmg_verb( _( "damages" ) ),
-    _cut_dmg_verb( _( "damages" ) ),
-    _dmg_adj(
+    _cut_dmg_verb( _( "damages" ) )
 {
-    _( "lightly damaged" ), _( "damaged" ), _( "very damaged" ), _( "thoroughly damaged" )
-} ) {}
+    _dmg_adj[0] = _( "lightly damaged" );
+    _dmg_adj[1] = _( "damaged" );
+    _dmg_adj[2] = _( "very damaged" );
+    _dmg_adj[3] = _( "thoroughly damaged" );
+}
 
 mat_burn_data load_mat_burn_data( JsonObject &jsobj )
 {

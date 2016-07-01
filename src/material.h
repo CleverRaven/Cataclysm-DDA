@@ -24,17 +24,17 @@ class material_type
 
     private:
         std::string _name;
-        itype_id _salvaged_into;   // this material turns into this item when salvaged
-        itype_id _repaired_with;   // this material can be repaired with this item
-        int _bash_resist;       // negative integers means susceptibility
-        int _cut_resist;
-        int _acid_resist;
-        int _elec_resist;
-        int _fire_resist;
-        int _chip_resist;       // Resistance to physical damage of the item itself
-        int _density;   // relative to "powder", which is 1
-        bool _edible;
-        bool _soft;
+        itype_id _salvaged_into = itype_id( "null" ); // this material turns into this item when salvaged
+        itype_id _repaired_with = itype_id( "null" ); // this material can be repaired with this item
+        int _bash_resist = 0;                         // negative integers means susceptibility
+        int _cut_resist = 0;
+        int _acid_resist = 0;
+        int _elec_resist = 0;
+        int _fire_resist = 0;
+        int _chip_resist = 0;                         // Resistance to physical damage of the item itself
+        int _density = 1;                             // relative to "powder", which is 1
+        bool _edible = false;
+        bool _soft = false;
 
         std::string _bash_dmg_verb;
         std::string _cut_dmg_verb;
