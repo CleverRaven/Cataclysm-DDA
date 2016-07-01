@@ -85,8 +85,8 @@
     "type": "GENERIC",
     "name": "armed smoke bomb",
     "description": "This smoke bomb has had its pin removed and is expelling thick smoke.",
-    "emit": [ [ "fd_smoke", 10 ] ],
-    "countdown_interval": 25,
+    "emit": [ [ "fd_smoke", 12 ] ],
+    "countdown_interval": 50,
     "countdown_action": {
         "type": "transform",
         "target": "canister_empty"
