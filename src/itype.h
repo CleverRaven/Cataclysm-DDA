@@ -608,6 +608,9 @@ public:
     /** Action to take when countdown expires */
     use_function countdown_action;
 
+    /** Is item destroyed after the countdown action is run? */
+    bool countdown_destroy = false;
+
     /** Fields to emit when item is in active state (id, qty, density) */
     std::vector<std::tuple<field_id, int, int>> emit;
 

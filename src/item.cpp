@@ -5774,6 +5774,9 @@ bool item::process( player *carrier, const tripoint &pos, bool activate )
 
     if( item_counter == 0 && type->countdown_action ) {
         type->countdown_action.call( carrier ? carrier : &g->u, this, false, pos );
+        if( type->countdown_destroy ) {
+            return true;
+        }
     }
 
     for( const auto &e : type->emit ) {
