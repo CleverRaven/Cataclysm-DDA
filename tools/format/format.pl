@@ -70,7 +70,7 @@ sub encode(@) {
         } keys %{$data};
 
         # Sort the member fields then recursively encode their data
-        my @sorted = (sort { $fields{$b}->[1] <=> $fields{$a}->[1] } keys %fields);
+        my @sorted = (sort { $fields{$a}->[1] <=> $fields{$b}->[1] } keys %fields);
         my @elems = map { qq("$_": ) . encode($data->{$_}, $fields{$_}->[0]) } @sorted;
         return '{' . assemble($context, @elems) . '}';
     }
