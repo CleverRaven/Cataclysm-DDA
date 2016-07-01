@@ -247,6 +247,11 @@ void npc::randomize( const npc_class_id &type )
     int_max = the_class.roll_intelligence();
     per_max = the_class.roll_perception();
 
+    if( myclass->get_shopkeeper_items() != "EMPTY_GROUP" ) {
+        restock = DAYS( 3 );
+        cash += 100000;
+    }
+
     if( type.is_null() ) { // Untyped; no particular specialization
         for( auto &skill : Skill::skills ) {
             int level = 0;
@@ -272,8 +277,6 @@ void npc::randomize( const npc_class_id &type )
   boost_skill_level( skill_speech, rng(1, 3));
   boost_skill_level( skill_barter, rng(3, 5));
   personality.collector += rng(1, 5);
-  cash = 100000 * rng(1, 10)+ rng(1, 100000);
-  this->restock = 14400*3;  //Every three days
 
  } else if( type == NC_BARTENDER ) {
      for( auto &skill : Skill::skills ) {
@@ -287,8 +290,6 @@ void npc::randomize( const npc_class_id &type )
   boost_skill_level( skill_speech, rng(1, 5));
   boost_skill_level( skill_barter, rng(2, 4));
   personality.collector += rng(1, 5);
-  cash = 10000 * rng(1, 10)+ rng(1, 10000);
-  this->restock = 14400*3;  //Every three days
 
  } else if( type == NC_JUNK_SHOPKEEP ) {
      for( auto &skill : Skill::skills ) {
@@ -302,8 +303,6 @@ void npc::randomize( const npc_class_id &type )
   boost_skill_level( skill_speech, rng(1, 5));
   boost_skill_level( skill_barter, rng(2, 4));
   personality.collector += rng(1, 5);
-  cash = 25000 * rng(1, 10)+ rng(1, 100000);
-  this->restock = 14400*3;  //Every three days
 
  } else if( type == NC_ARSONIST ) {
      for( auto &skill : Skill::skills ) {
@@ -320,8 +319,6 @@ void npc::randomize( const npc_class_id &type )
   boost_skill_level( skill_barter, rng(2, 4));
   personality.aggression += rng(0, 1);
   personality.collector += rng(0, 2);
-  cash = 25000 * rng(1, 10)+ rng(1, 1000);
-  this->restock = 14400*3;  //Every three days
 
  } else if( type == NC_HUNTER ) {
      for( auto &skill : Skill::skills ) {
@@ -339,8 +336,6 @@ void npc::randomize( const npc_class_id &type )
   } else {
     boost_skill_level( skill_archery, rng(2, 4));
   }
-  cash = 15000 * rng(1, 10)+ rng(1, 1000);
-  this->restock = 14400*3;  //Every three days
 
  } else if( type == NC_SOLDIER ) {
      for( auto &skill : Skill::skills ) {
@@ -510,16 +505,12 @@ void npc::randomize( const npc_class_id &type )
  //players will vastly outclass npcs in trade without a little help.
  boost_skill_level( skill_barter, rng(2, 4));
 
- for (int i = 0; i < num_hp_parts; i++) {
-  ///\EFFECT_HP_MAX increases max hp for NPCs
-  hp_max[i] = 60 + str_max * 3;
-  hp_cur[i] = hp_max[i];
- }
- starting_weapon(type);
- worn = starting_clothes(type, male);
- inv.clear();
- inv.add_stack(starting_inv(this, type));
- update_worst_item_value();
+    recalc_hp();
+    starting_weapon(type);
+    worn = starting_clothes(type, male);
+    inv.clear();
+    inv.add_stack(starting_inv(this, type));
+    has_new_items = true;
 }
 
 void npc::randomize_from_faction(faction *fac)
