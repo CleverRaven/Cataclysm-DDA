@@ -22,8 +22,10 @@ sub match($$) {
 }
 
 sub get_priority($) {
-    my $context = shift;
-    return scalar @priority - ( (grep { match($context,$priority[$_]) } (0..$#priority))[0] // scalar @priority );
+    for my $i (0 .. $#priority) {
+        return $i if match($_[0],$priority[$i]);
+    }
+    die "ERROR: Unknown field '". $_[0] =~ s/<.*?>//gr ."'\n";
 }
 
 sub get_wrapping($) {
@@ -61,13 +63,11 @@ sub encode(@) {
     }
 
     if (ref($data) eq 'HASH') {
-        my %fields;
-        foreach (keys %{$data}) {
+        # Built the context for each member field and determine its sort rank
+        my %fields = map {
             my $rule = $context . '<'.($data->{'type'} // '').'>' . ":$_";
-            my $rank = get_priority($rule);
-            $fields{$_} = [ $rule, $rank ];
-            die "ERROR: Unknown field '$rule'\n" if $rank == 0;
-        }
+            $_ => [ $rule, get_priority($rule) ];
+        } keys %{$data};
 
         # Sort the member fields then recursively encode their data
         my @sorted = (sort { $fields{$b}->[1] <=> $fields{$a}->[1] } keys %fields);
