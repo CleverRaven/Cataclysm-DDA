@@ -16,14 +16,19 @@ sub config($) {
     return map { chomp; qr/$_$/ } grep { !/^(#.*|\s+)$/ } do { local @ARGV = $_[0]; <> };
 }
 
+sub match($$) {
+    $_[0] =~ s/(relative|proportional|extend|delete)://g;
+    return $_[0] =~ $_[1] || ($_[0] =~ s/<.*?>//gr ) =~ $_[1];
+}
+
 sub get_priority($) {
-    my $context = shift =~ s/(relative|proportional|extend|delete)://r;
-    return scalar @priority - ( (grep { $context =~ $priority[$_] } (0..$#priority))[0] // scalar @priority );
+    my $context = shift;
+    return scalar @priority - ( (grep { match($context,$priority[$_]) } (0..$#priority))[0] // scalar @priority );
 }
 
 sub get_wrapping($) {
-    my $context = shift =~ s/(relative|proportional|extend|delete)://r;
-    return grep { $context =~ $_ } map { $_ } @wrapping;
+    my $context = shift;
+    return grep { match($context,$_) } @wrapping;
 }
 
 sub assemble($@)
