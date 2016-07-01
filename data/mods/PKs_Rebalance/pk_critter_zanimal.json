@@ -749,7 +749,7 @@
     },{
     "type": "MONSTER",
     "id": "mon_zanimal_scorched",
-    "name": "putrified pile",
+    "name": "putrid pile",
     "species":"ZOMBIE",
     "default_faction":"zombie",
     "symbol":"o",
