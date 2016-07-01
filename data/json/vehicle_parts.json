@@ -208,20 +208,6 @@
         "breaks_into": "ig_vp_seat"
     },{
         "type" : "vehicle_part",
-        "id" : "xlframe_horizontal",
-        "name" : "extra light frame",
-        "symbol" : "h",
-        "color" : "light_gray",
-        "broken_symbol" : "#",
-        "broken_color" : "light_gray",
-        "durability" : 150,
-        "item" : "xlframe",
-        "difficulty" : 1,
-        "location" : "structure",
-        "flags" : ["MOUNTABLE"],
-        "breaks_into": "ig_vp_xlframe"
-    },{
-        "type" : "vehicle_part",
         "id" : "frame_handle",
         "name" : "handle",
         "symbol" : "^",
