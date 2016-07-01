@@ -70,13 +70,12 @@
     "use_action": {
         "type": "countdown",
         "name": "Arm grenade",
-        "duration": 5,
+        "interval": 5,
         "message": "You pull the pin on the %s."
     },
     "countdown_action": {
         "type": "transform",
-        "target": "smokebomb_act",
-        "countdown": 25
+        "target": "smokebomb_act"
     },
     "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB" ]
   },
@@ -87,6 +86,7 @@
     "name": "armed smoke bomb",
     "description": "This smoke bomb has had its pin removed and is expelling thick smoke.",
     "emit": [ [ "fd_smoke", 10 ] ],
+    "countdown_interval": 25,
     "countdown_action": {
         "type": "transform",
         "target": "canister_empty"

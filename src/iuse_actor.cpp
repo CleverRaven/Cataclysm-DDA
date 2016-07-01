@@ -130,12 +130,7 @@ long iuse_transform::use(player *p, item *it, bool t, const tripoint &pos ) cons
     item *obj;
     if( container.empty() ) {
         obj = &it->convert( target );
-        if( countdown > 0 ) {
-            obj->active = true;
-            obj->item_counter = countdown;
-            return 0;
-
-        } else if( ammo_qty >= 0 ) {
+        if( ammo_qty >= 0 ) {
             if( !ammo_type.empty() ) {
                 obj->ammo_set( ammo_type, ammo_qty );
             } else if( obj->ammo_current() != "null" ) {
@@ -149,8 +144,8 @@ long iuse_transform::use(player *p, item *it, bool t, const tripoint &pos ) cons
         obj = &it->emplace_back( target, calendar::turn, std::max( ammo_qty, 1l ) );
     }
 
-    obj->active = active;
-    obj->item_counter = 0;
+    obj->item_counter = countdown > 0 ? countdown : obj->type->countdown_interval;
+    obj->active = active || obj->item_counter;
 
     return 0;
 }
