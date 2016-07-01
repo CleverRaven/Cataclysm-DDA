@@ -1537,6 +1537,10 @@ void finalize_constructions()
         }
     }
 
+    remove_construction_if( [&]( construction &c ) {
+        return c.requirements->is_empty() && !c.requirements->is_null();
+    } );
+
     for( size_t i = 0; i < constructions.size(); i++ ) {
         constructions[ i ].id = i;
     }
