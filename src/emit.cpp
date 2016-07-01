@@ -37,6 +37,7 @@ void emit::load_emit( JsonObject &jo )
     emit et;
 
     et.id_ = emit_id( jo.get_string( "id" ) );
+    et.field_name = jo.get_string( "field" );
 
     jo.read( "density", et.density_ );
     jo.read( "qty", et.qty_ );

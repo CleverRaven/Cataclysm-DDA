@@ -2532,7 +2532,7 @@ bool field_type_dangerous( field_id id )
 
 void map::emit_field( const tripoint &pos, const emit_id &src )
 {
-    if( src.is_valid() && one_in_improved( src->chance() ) ) {
+    if( src.is_valid() &&  x_in_y( src->chance(), 100 ) ) {
         propagate_field( pos, src->field(), src->qty(), src->density() );
     }
 }
