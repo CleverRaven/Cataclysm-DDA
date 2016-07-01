@@ -854,7 +854,7 @@
     "symbol": "&",
     "color": "blue",
     "name": "biting blob",
-    "description": "A living blob turned into an autonomous weapon; meant to be stretched across a frame as a form of barrier.  It has evolved the ability to constantly generate calcified protrusions which are then controlled by sinous tensile strands.  These \"\teeth\"\ can then be used to latch and wound anything unfortunate enough to be nearby.  The outer membrane has also become significantly thicker in order to support its more strenuous movement; though it seems pliable enough to pull apart...",
+    "description": "A living blob turned into an autonomous weapon; meant to be stretched across a frame as a form of barrier.  It has evolved the ability to constantly generate calcified protrusions which are then controlled by sinous tensile strands.  These \"teeth\" can then be used to latch and wound anything unfortunate enough to be nearby.  The outer membrane has also become significantly thicker in order to support its more strenuous movement; though it seems pliable enough to pull apart...",
     "material": ["flesh"],
     "flags": ["NEVER_JAMS", "MOUNTED_GUN", "NO_BOOM"],
     "ammo_effects": [ "WIDE" ],
