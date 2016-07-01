@@ -97,7 +97,7 @@ class countdown_actor : public iuse_actor
         std::string name;
 
         /** number of turns before the countdown action occurs */
-        int duration = 0;
+        int interval = 0;
 
         /** message if player sees activation with %s replaced by item name */
         std::string message;

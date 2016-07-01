@@ -191,7 +191,7 @@ iuse_actor *countdown_actor::clone() const
 void countdown_actor::load( JsonObject &obj )
 {
     obj.read( "name", name );
-    obj.read( "duration", duration );
+    obj.read( "interval", interval );
     obj.read( "message", message );
 }
 
@@ -211,7 +211,7 @@ long countdown_actor::use( player *p, item *it, bool t, const tripoint &pos ) co
         }
     }
 
-    it->item_counter = duration;
+    it->item_counter = interval;
     it->active = true;
     return 0;
 }
