@@ -5755,6 +5755,10 @@ bool item::process( player *carrier, const tripoint &pos, bool activate )
         item_counter--;
     }
 
+    for( const auto &e : type->emit ) {
+        g->m.propagate_field( pos, std::get<0>( e ), std::get<1>( e ), std::get<2>( e ) );
+    }
+
     if( is_food() &&  process_food( carrier, pos ) ) {
         return true;
     }

@@ -23,6 +23,7 @@
 #include "text_snippets.h"
 #include "ui.h"
 #include "veh_type.h"
+#include "field.h"
 
 #include <algorithm>
 #include <sstream>
@@ -1542,6 +1543,17 @@ void Item_factory::load_basic_info(JsonObject &jo, itype *new_item_template)
     if( jo.has_member("explosion" ) ) {
         JsonObject je = jo.get_object( "explosion" );
         new_item_template->explosion = load_explosion_data( je );
+    }
+
+    if( jo.has_array( "emit" ) ) {
+        new_item_template->emit.clear();
+        auto arr = jo.get_array( "emit" );
+        while( arr.has_more() ) {
+            auto cur = arr.next_array();
+            new_item_template->emit.emplace_back( field_from_ident( cur.get_string( 0 ) ),
+                                                  cur.get_int( 1 ),
+                                                  cur.size() >= 3 ? cur.get_int( 2 ) : MAX_FIELD_DENSITY );
+        }
     }
 
     if( jo.has_array( "snippet_category" ) ) {

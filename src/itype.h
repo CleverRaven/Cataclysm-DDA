@@ -45,6 +45,8 @@ using fault_id = string_id<fault>;
 struct quality;
 using quality_id = string_id<quality>;
 
+enum field_id : int;
+
 // Returns the name of a category of ammo (e.g. "shot")
 std::string ammo_name( const ammotype &ammo );
 // Returns the default ammo for a category of ammo (e.g. ""00_shot"")
@@ -588,6 +590,9 @@ public:
 
     /** Actions an instance can perform (if any) indexed by action type */
     std::map<std::string, use_function> use_methods;
+
+    /** Fields to emit when item is in active state (id, qty, density) */
+    std::vector<std::tuple<field_id, int, int>> emit;
 
     std::set<std::string> item_tags;
     std::set<matec_id> techniques;
