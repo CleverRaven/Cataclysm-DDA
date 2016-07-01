@@ -450,6 +450,17 @@ struct islot_ammo : common_ranged_data {
     /**
      * Default charges.
      */
+
+    /**
+     * Control chance for and state of any items dropped at ranged target
+     *@{*/
+    itype_id drop = "null";
+
+    float drop_chance = 1.0;
+
+    bool drop_active = true;
+    /*@}*/
+
     long def_charges = 1;
     /**
      * TODO: document me.

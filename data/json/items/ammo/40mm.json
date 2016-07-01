@@ -42,7 +42,8 @@
     "type": "AMMO",
     "name": "40mm flare",
     "description": "A 40mm signal flare.  It will burn brightly for up to a minute, and will also leave a streak of smoke cover in its wake.",
-    "extend": { "effects": [ "TRAIL", "FLARE" ] }
+    "extend": { "effects": [ "TRAIL" ] },
+    "drop": "handflare_lit",
   },
   {
     "id": "40mm_flashbang",
@@ -99,7 +100,8 @@
     "name": "40mm smoke cover",
     "name_plural": "40mm smoke cover",
     "description": "A 40mm grenade designed to provide smoke cover.",
-    "extend": { "effects": [ "SMOKE_BIG" ] }
+    "extend": { "effects": [ "TRAIL" ] },
+    "drop": "smokebomb_act"
   },
   {
     "id": "40mm_teargas",

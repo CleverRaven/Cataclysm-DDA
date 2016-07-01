@@ -711,6 +711,10 @@ void Item_factory::check_definitions() const
             if( type->ammo->casing != "null" && !has_template( type->ammo->casing ) ) {
                 msg << string_format( "invalid casing property %s", type->ammo->casing.c_str() ) << "\n";
             }
+
+            if( type->ammo->drop_chance < 0.0f || type->ammo->drop_chance > 1.0f ) {
+                msg << "drop chance outside of supported range" << "\n";
+            }
         }
         if( type->gun ) {
             check_ammo_type( msg, type->gun->ammo );
@@ -982,6 +986,9 @@ void Item_factory::load( islot_ammo &slot, JsonObject &jo )
 {
     assign( jo, "ammo_type", slot.type );
     assign( jo, "casing", slot.casing );
+    assign( jo, "drop", slot.drop );
+    assign( jo, "drop_chance", slot.drop_chance );
+    assign( jo, "drop_active", slot.drop_active );
     assign( jo, "damage", slot.damage );
     assign( jo, "pierce", slot.pierce );
     assign( jo, "range", slot.range );
