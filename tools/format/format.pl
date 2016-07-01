@@ -8,29 +8,36 @@ use File::Basename;
 use File::Spec::Functions qw(catfile);
 use Getopt::Std;
 
-my $json;
-my @priority;
-my @wrapping;
+# -c check input is in canonical format
+# -q quiet with no output to stdout
+my %opts;
+getopts('cq', \%opts);
 
-sub config($) {
-    return map { chomp; qr/$_$/ } grep { !/^(#.*|\s+)$/ } do { local @ARGV = $_[0]; <> };
+my @config;
+for( open my $fh, '<', catfile(dirname(__FILE__), 'format.conf'); <$fh>; ) {
+    chomp;
+    s/#.*|^\s+|\s+$//g;
+    next unless length;
+    my ($rule, $flags) = ( split '=' );
+    push @config, [ qr/$rule$/, split(',', ($flags // '')) ];
 }
 
+my $json = JSON->new->allow_nonref;
+
 sub match($$) {
-    $_[0] =~ s/(relative|proportional|extend|delete)://g;
+    $_[0] =~ s/(relative|proportional|extend|delete)(<.*?>)?://g;
     return $_[0] =~ $_[1] || ($_[0] =~ s/<.*?>//gr ) =~ $_[1];
 }
 
-sub get_priority($) {
-    for my $i (0 .. $#priority) {
-        return $i if match($_[0],$priority[$i]);
+sub find_rule($) {
+    for my $i (0 .. $#config) {
+        return $i if match($_[0],$config[$i][0]);
     }
-    die "ERROR: Unknown field '". $_[0] =~ s/<.*?>//gr ."'\n";
+    die "ERROR: Unmatched rule '". $_[0] ."'\n";
 }
 
-sub get_wrapping($) {
-    my $context = shift;
-    return grep { match($context,$_) } @wrapping;
+sub has_flag($$) {
+    return grep $_[1], $config[find_rule($_[0])][1] // ();
 }
 
 sub assemble($@)
@@ -40,7 +47,7 @@ sub assemble($@)
     return "" unless scalar @_;
     my $str = join(', ', @_);
 
-    if (!get_wrapping($context)) {
+    if (!has_flag($context, 'NOWRAP')) {
         $str = join(",\n", @_);
     }
 
@@ -66,7 +73,7 @@ sub encode(@) {
         # Built the context for each member field and determine its sort rank
         my %fields = map {
             my $rule = $context . '<'.($data->{'type'} // '').'>' . ":$_";
-            $_ => [ $rule, get_priority($rule) ];
+            $_ => [ $rule, find_rule($rule) ];
         } keys %{$data};
 
         # Sort the member fields then recursively encode their data
@@ -77,16 +84,6 @@ sub encode(@) {
 
     return $json->encode($data);
 }
-
-# -c check input is in canonical format
-# -q quiet with no output to stdout
-my %opts;
-getopts('cq', \%opts);
-
-@priority = config(catfile(dirname(__FILE__), 'priority.conf'));
-@wrapping = config(catfile(dirname(__FILE__), 'nowrap.conf'));
-
-$json = JSON->new->allow_nonref;
 
 my ($original, $result, $dirty);
 
