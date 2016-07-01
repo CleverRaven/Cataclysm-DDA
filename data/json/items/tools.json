@@ -2910,57 +2910,6 @@
         "fields_max_density": 3
     }
   },
-  {
-    "id": "smokebomb",
-    "type": "TOOL",
-    "symbol": "*",
-    "color": "dark_gray",
-    "name": "smoke bomb",
-    "description": "This is a canister grenade filled with a variety of pyrotechnic chemicals.  Use this item to pull the pin and light the fuse, turning it into an active smoke bomb.  Five turns after you do that, it will begin to expel a thick black smoke.  This smoke will slow those who enter it, as well as obscuring vision and scent.",
-    "price": 1800,
-    "material": "steel",
-    "weight": 1058,
-    "volume": 1,
-    "bashing": 5,
-    "to_hit": -1,
-    "flags": ["RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB"],
-    "category": "weapons",
-    "use_action": {
-        "type": "transform",
-        "target": "smokebomb_act",
-        "target_charges": 20,
-        "active": true,
-        "msg": "You pull the pin on the smoke bomb."
-    }
-  },
-  {
-    "id": "smokebomb_act",
-    "type": "TOOL",
-    "symbol": "*",
-    "color": "dark_gray",
-    "name": "active smoke bomb",
-    "description": "This smoke bomb has had its pin removed, indicating that it is (or will shortly be) expelling thick smoke.",
-    "price": 0,
-    "material": "steel",
-    "flags": "TRADER_AVOID",
-    "weight": 1058,
-    "volume": 1,
-    "bashing": 5,
-    "to_hit": -1,
-    "turns_per_charge": 1,
-    "revert_to": "canister_empty",
-    "category": "weapons",
-    "use_action": {
-        "type": "explosion",
-        "sound_volume": 0,
-        "sound_msg": "Tick.",
-        "no_deactivate_msg": "You've already pulled the %s's pin, try throwing it instead.",
-        "fields_radius": 2,
-        "fields_type": "fd_smoke",
-        "fields_min_density": 1,
-        "fields_max_density": 3
-    }
-  },
   {   "id" : "flamable_arrow",
       "type" : "TOOL",
       "symbol" : "=",

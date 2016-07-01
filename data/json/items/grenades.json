@@ -54,5 +54,43 @@
         }
     },
     "flags": [ "BOMB" ]
+  },
+  {
+    "id": "smokebomb",
+    "type": "GENERIC",
+    "category": "weapons",
+    "name": "smoke bomb",
+    "description": "This is a canister grenade filled with a variety of pyrotechnic chemicals.  Use this item to pull the pin and light the fuse, turning it into an active smoke bomb.  Five turns after you do that, it will begin to expel a thick black smoke.  This smoke will slow those who enter it, as well as obscuring vision and scent.",
+    "weight": 1058,
+    "volume": 1,
+    "price": 1800,
+    "material": "steel",
+    "symbol": "*",
+    "color": "dark_gray",
+    "use_action": {
+        "type": "countdown",
+        "name": "Arm grenade",
+        "duration": 5,
+        "message": "You pull the pin on the %s."
+    },
+    "countdown_action": {
+        "type": "transform",
+        "target": "smokebomb_act",
+        "countdown": 25
+    },
+    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB" ]
+  },
+  {
+    "id": "smokebomb_act",
+    "copy-from": "smokebomb",
+    "type": "GENERIC",
+    "name": "armed smoke bomb",
+    "description": "This smoke bomb has had its pin removed and is expelling thick smoke.",
+    "emit": [ [ "fd_smoke", 10 ] ],
+    "countdown_action": {
+        "type": "transform",
+        "target": "canister_empty"
+    },
+    "flags": [ "TRADER_AVOID" ]
   }
 ]
