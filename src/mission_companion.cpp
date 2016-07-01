@@ -42,7 +42,7 @@ const skill_id skill_cooking( "cooking" );
 const skill_id skill_traps( "traps" );
 const skill_id skill_archery( "archery" );
 
-void talk_function::bionic_install(npc *p)
+void talk_function::bionic_install(npc &p)
 {
     std::vector<item *> bionic_inv = g->u.items_with( []( const item &itm ) {
         return itm.is_bionic();
@@ -90,12 +90,12 @@ void talk_function::bionic_install(npc *p)
     //Makes the doctor awesome at installing but not perfect
     if (g->u.install_bionics(it, 20)){
         g->u.cash -= price;
-        p->cash += price;
+        p.cash += price;
         g->u.amount_of( bionic_types[bionic_index] );
     }
 }
 
-void talk_function::bionic_remove(npc *p)
+void talk_function::bionic_remove(npc &p)
 {
     std::vector <bionic> all_bio = g->u.my_bionics;
     if (all_bio.size() == 0){
@@ -147,34 +147,35 @@ void talk_function::bionic_remove(npc *p)
     //Makes the doctor awesome at installing but not perfect
     if (g->u.uninstall_bionic(bionic_types[bionic_index], 20)){
         g->u.cash -= price;
-        p->cash += price;
+        p.cash += price;
         g->u.amount_of( bionic_types[bionic_index] );
     }
 
 }
 
-void talk_function::companion_mission(npc *p)
+void talk_function::companion_mission(npc &p)
 {
  std::string id = "NONE";
  std::string title = _("Outpost Missions");
  unsigned int a = -1;
- if (p->name.find("Scavenger Boss") != a){
+ // Name checks determining role? Horrible!
+ if (p.name.find("Scavenger Boss") != a){
     id = "SCAVENGER";
     title = _("Junkshop Missions");
  }
- if (p->name.find("Crop Overseer") != a){
+ if (p.name.find("Crop Overseer") != a){
     id = "COMMUNE CROPS";
     title = _("Agricultural Missions");
  }
- if (p->name.find("Foreman") != a){
+ if (p.name.find("Foreman") != a){
     id = "FOREMAN";
     title = _("Construction Missions");
  }
- if (p->name.find(", Merchant") != a){
+ if (p.name.find(", Merchant") != a){
     id = "REFUGEE MERCHANT";
     title = _("Free Merchant Missions");
  }
- talk_function::outpost_missions(p, id, title);
+ talk_function::outpost_missions(&p, id, title);
 }
 
 bool talk_function::outpost_missions(npc *p, std::string id, std::string title)
