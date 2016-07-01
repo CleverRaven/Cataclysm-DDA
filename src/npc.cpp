@@ -1659,42 +1659,32 @@ std::vector<npc::item_pricing> npc::init_buying(inventory& you)
     return result;
 }
 
-void npc::shop_restock(){
-    items_location from = "NULL";
+void npc::shop_restock()
+{
+    restock = calendar::turn + DAYS( 3 );
+    if( is_friend() ) {
+        return;
+    }
+
+    const Group_tag &from = myclass->get_shopkeeper_items();
+    if( from == "EMPTY_GROUP" ) {
+        return;
+    }
+
     int total_space = volume_capacity();
     std::list<item> ret;
-    //list all merchant types here along with the item group they pull from and how much extra space they should have
-    //guards and other fixed npcs may need a small supply of food daily...
-    if( myclass == NC_EVAC_SHOPKEEP ) {
-        from = "NC_EVAC_SHOPKEEP_misc";
-        total_space += rng(30,40);
-        this-> cash = 100000 * rng(1, 10)+ rng(1, 100000);
-    } else if( myclass == NC_ARSONIST ) {
-        from = "NC_ARSONIST_misc";
-        this-> cash = 25000 * rng(1, 10)+ rng(1, 1000);
-        ret.push_back(item("molotov", 0));
-    } else if( myclass == NC_HUNTER ) {
-        from = "NC_HUNTER_misc";
-        this-> cash = 15000 * rng(1, 10)+ rng(1, 1000);
-    } else if( myclass == NC_BARTENDER ) {
-        from = "NC_BARTENDER_misc";
-        this-> cash = 25000 * rng(1, 10)+ rng(1, 1000);;
-    } else if( myclass == NC_JUNK_SHOPKEEP ) {
-        from = "NC_JUNK_SHOPKEEP_misc";
-        this-> cash = 25000 * rng(1, 10)+ rng(1, 1000);
-    }
-    if (from == "NULL")
-        return;
-    while (total_space > 0 && !one_in(50)) {
+
+    while( total_space > 0 && !one_in( 50 ) ) {
         item tmpit = item_group::item_from( from, 0 );
-        if( !tmpit.is_null() && total_space >= tmpit.volume()) {
-            ret.push_back(tmpit);
+        if( !tmpit.is_null() && total_space >= tmpit.volume() ) {
+            ret.push_back( tmpit );
             total_space -= tmpit.volume();
         }
     }
-    this->inv.clear();
-    this->inv.add_stack(ret);
-    this->update_worst_item_value();
+
+    has_new_items = true;
+    inv.clear();
+    inv.add_stack( ret );
 }
 
 

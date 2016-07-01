@@ -2,6 +2,7 @@
 #include "debug.h"
 #include "rng.h"
 #include "generic_factory.h"
+#include "item_group.h"
 
 #include <list>
 
@@ -82,6 +83,12 @@ void npc_class::check_consistency()
             debugmsg( "Missing legacy npc class %s", legacy.c_str() );
         }
     }
+
+    for( auto &cl : npc_class_factory.get_all() ) {
+        if( !item_group::group_is_defined( cl.shopkeeper_item_group ) ) {
+            debugmsg( "Missing shopkeeper item group %s", cl.shopkeeper_item_group.c_str() );
+        }
+    }
 }
 
 distribution load_distribution( JsonObject &jo )
@@ -149,6 +156,8 @@ void npc_class::load( JsonObject &jo )
     bonus_dex = load_distribution( jo, "bonus_dex" );
     bonus_int = load_distribution( jo, "bonus_int" );
     bonus_per = load_distribution( jo, "bonus_per" );
+
+    optional( jo, was_loaded, "shopkeeper_item_group", shopkeeper_item_group );
 }
 
 const npc_class_id &npc_class::from_legacy_int( int i )
@@ -190,6 +199,11 @@ const std::string &npc_class::get_name() const
 const std::string &npc_class::get_job_description() const
 {
     return job_description;
+}
+
+const Group_tag &npc_class::get_shopkeeper_items() const
+{
+    return shopkeeper_item_group;
 }
 
 int npc_class::roll_strength() const

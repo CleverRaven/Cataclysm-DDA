@@ -13,7 +13,8 @@ class npc_class;
 using npc_class_id = string_id<npc_class>;
 class JsonObject;
 
-/** Wrapper class for  */
+typedef std::string Group_tag;
+
 // @todo Move to better suited file (rng.h/.cpp?)
 class distribution
 {
@@ -40,12 +41,14 @@ class npc_class
         std::string name;
         std::string job_description;
 
-        bool common;
+        bool common = true;
 
         distribution bonus_str;
         distribution bonus_dex;
         distribution bonus_int;
         distribution bonus_per;
+
+        Group_tag shopkeeper_item_group = "EMPTY_GROUP";
 
     public:
         npc_class_id id;
@@ -60,6 +63,8 @@ class npc_class
         int roll_dexterity() const;
         int roll_intelligence() const;
         int roll_perception() const;
+
+        const Group_tag &get_shopkeeper_items() const;
 
         void load( JsonObject &jo );
 
