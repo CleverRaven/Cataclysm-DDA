@@ -10798,8 +10798,11 @@ bool game::plfire( const tripoint &default_target )
 
     if (trajectory.empty()) {
         if( gun->has_flag( "RELOAD_AND_SHOOT" ) && u.activity.type != ACT_AIM ) {
+            const auto previous_moves = u.moves;
             unload( *gun );
-            u.moves -= reload_time / 2; // allow for unloading time
+            // Give back time for unloading as essentially nothing has been done at all.
+            // Note that reload_time has not been applied either.
+            u.moves = previous_moves;
         }
         reenter_fullscreen();
         return false;
