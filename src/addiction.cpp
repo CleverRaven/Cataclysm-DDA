@@ -59,6 +59,8 @@ void addict_effect( player &u, addiction &add )
             const std::string &msg_1 = add.type == ADD_ALCOHOL ? alc_1 : dia_1;
             const std::string &msg_2 = add.type == ADD_ALCOHOL ? alc_2 : dia_2;
 
+            const auto morale_type = add.type == ADD_ALCOHOL ? MORALE_CRAVING_ALCOHOL : MORALE_CRAVING_DIAZEPAM;
+
             u.mod_per_bonus( -1 );
             u.mod_int_bonus( -1 );
             if( x_in_y( in, HOURS( 2 ) ) ) {
@@ -66,10 +68,10 @@ void addict_effect( player &u, addiction &add )
             }
             if( one_in( 20 ) && rng( 0, 20 ) < in ) {
                 u.add_msg_if_player( m_warning, msg_1.c_str() );
-                u.add_morale( MORALE_CRAVING_ALCOHOL, -35, -10 * in );
+                u.add_morale( morale_type, -35, -10 * in );
             } else if( rng( 8, 300 ) < in ) {
                 u.add_msg_if_player( m_bad, msg_2.c_str() );
-                u.add_morale( MORALE_CRAVING_ALCOHOL, -35, -10 * in );
+                u.add_morale( morale_type, -35, -10 * in );
                 u.add_effect( effect_shakes, 50 );
             } else if( !u.has_effect( effect_hallu ) && rng( 10, 1600 ) < in ) {
                 u.add_effect( effect_hallu, 3600 );
