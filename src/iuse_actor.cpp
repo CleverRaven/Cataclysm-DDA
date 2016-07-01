@@ -224,6 +224,12 @@ std::string countdown_actor::get_name() const
     return iuse_actor::get_name();
 }
 
+void countdown_actor::info( const item &it, std::vector<iteminfo> &dump ) const
+{
+    dump.emplace_back( "TOOL", _( "<bold>Countdown</bold>: " ), "",
+                       interval > 0 ? interval : it.type->countdown_interval );
+}
+
 explosion_iuse::~explosion_iuse()
 {
 }

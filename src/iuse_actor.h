@@ -108,6 +108,7 @@ class countdown_actor : public iuse_actor
         iuse_actor *clone() const override;
         bool can_use( const player *, const item *it, bool, const tripoint & ) const;
         std::string get_name() const override;
+        void info( const item &, std::vector<iteminfo> & ) const override;
 };
 
 /**
