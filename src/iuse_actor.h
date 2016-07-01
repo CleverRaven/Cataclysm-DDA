@@ -96,7 +96,7 @@ class countdown_actor : public iuse_actor
         /** if specified overrides default action name */
         std::string name;
 
-        /** number of turns before the countdown action occurs */
+        /** turns before countdown action (defaults to @ref itype::countdown_interval) */
         int interval = 0;
 
         /** message if player sees activation with %s replaced by item name */

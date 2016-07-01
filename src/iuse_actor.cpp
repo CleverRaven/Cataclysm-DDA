@@ -206,7 +206,7 @@ long countdown_actor::use( player *p, item *it, bool t, const tripoint &pos ) co
         }
     }
 
-    it->item_counter = interval;
+    it->item_counter = interval > 0 ? interval : it->type->countdown_interval;
     it->active = true;
     return 0;
 }

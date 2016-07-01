@@ -70,9 +70,9 @@
     "use_action": {
         "type": "countdown",
         "name": "Arm grenade",
-        "interval": 5,
         "message": "You pull the pin on the %s."
     },
+    "countdown_interval": 5,
     "countdown_action": {
         "type": "transform",
         "target": "smokebomb_act"
