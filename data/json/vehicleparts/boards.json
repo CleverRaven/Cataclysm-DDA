@@ -24,6 +24,14 @@
     "flags": [ "OPAQUE", "OBSTACLE", "FOLDABLE", "NAILABLE" ]
   },
   {
+    "abstract": "halfboard",
+    "copy-from": "board",
+    "type": "vehicle_part",
+    "name": "quarterpanel",
+    "relative": { "durability": 0.8 },
+    "delete": { "flags": [ "OPAQUE" ] }
+  },
+  {
     "abstract": "hdboard",
     "type": "vehicle_part",
     "name": "heavy duty board",
@@ -61,6 +69,12 @@
     "symbol": "h"
   },
   {
+    "id": "halfboard_horizontal",
+    "copy-from": "halfboard",
+    "type": "vehicle_part",
+    "symbol": "h"
+  },
+  {
     "id": "hdboard_horizontal",
     "copy-from": "hdboard",
     "type": "vehicle_part",
@@ -81,6 +95,12 @@
   {
     "id": "clothboard_ne",
     "copy-from": "clothboard",
+    "type": "vehicle_part",
+    "symbol": "u"
+  },
+  {
+    "id": "halfboard_ne",
+    "copy-from": "halfboard",
     "type": "vehicle_part",
     "symbol": "u"
   },
@@ -109,6 +129,12 @@
     "symbol": "y"
   },
   {
+    "id": "halfboard_nw",
+    "copy-from": "halfboard",
+    "type": "vehicle_part",
+    "symbol": "y"
+  },
+  {
     "id": "hdboard_nw",
     "copy-from": "hdboard",
     "type": "vehicle_part",
@@ -129,6 +155,12 @@
   {
     "id": "clothboard_se",
     "copy-from": "clothboard",
+    "type": "vehicle_part",
+    "symbol": "n"
+  },
+  {
+    "id": "halfboard_se",
+    "copy-from": "halfboard",
     "type": "vehicle_part",
     "symbol": "n"
   },
@@ -157,6 +189,12 @@
     "symbol": "b"
   },
   {
+    "id": "halfboard_sw",
+    "copy-from": "halfboard",
+    "type": "vehicle_part",
+    "symbol": "b"
+  },
+  {
     "id": "hdboard_sw",
     "copy-from": "hdboard",
     "type": "vehicle_part",
@@ -177,6 +215,12 @@
   {
     "id": "clothboard_vertical",
     "copy-from": "clothboard",
+    "type": "vehicle_part",
+    "symbol": "j"
+  },
+  {
+    "id": "halfboard_vertical",
+    "copy-from": "halfboard",
     "type": "vehicle_part",
     "symbol": "j"
   },
