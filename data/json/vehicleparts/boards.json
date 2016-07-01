@@ -24,6 +24,14 @@
     "flags": [ "OPAQUE", "OBSTACLE", "FOLDABLE", "NAILABLE" ]
   },
   {
+    "abstract": "cloth_halfboard",
+    "copy-from": "clothboard",
+    "type": "vehicle_part",
+    "name": "cloth quarterpanel",
+    "relative": { "durability": 0.8 },
+    "delete": { "flags": [ "OPAQUE" ] }
+  },
+  {
     "abstract": "halfboard",
     "copy-from": "board",
     "type": "vehicle_part",
@@ -77,6 +85,12 @@
     "symbol": "h"
   },
   {
+    "id": "cloth_halfboard_horizontal",
+    "copy-from": "cloth_halfboard",
+    "type": "vehicle_part",
+    "symbol": "h"
+  },
+  {
     "id": "halfboard_horizontal",
     "copy-from": "halfboard",
     "type": "vehicle_part",
@@ -109,6 +123,12 @@
   {
     "id": "clothboard_ne",
     "copy-from": "clothboard",
+    "type": "vehicle_part",
+    "symbol": "u"
+  },
+  {
+    "id": "cloth_halfboard_ne",
+    "copy-from": "cloth_halfboard",
     "type": "vehicle_part",
     "symbol": "u"
   },
@@ -149,6 +169,12 @@
     "symbol": "y"
   },
   {
+    "id": "cloth_halfboard_nw",
+    "copy-from": "cloth_halfboard",
+    "type": "vehicle_part",
+    "symbol": "y"
+  },
+  {
     "id": "halfboard_nw",
     "copy-from": "halfboard",
     "type": "vehicle_part",
@@ -181,6 +207,12 @@
   {
     "id": "clothboard_se",
     "copy-from": "clothboard",
+    "type": "vehicle_part",
+    "symbol": "n"
+  },
+  {
+    "id": "cloth_halfboard_se",
+    "copy-from": "cloth_halfboard",
     "type": "vehicle_part",
     "symbol": "n"
   },
@@ -221,6 +253,12 @@
     "symbol": "b"
   },
   {
+    "id": "cloth_halfboard_sw",
+    "copy-from": "cloth_halfboard",
+    "type": "vehicle_part",
+    "symbol": "b"
+  },
+  {
     "id": "halfboard_sw",
     "copy-from": "halfboard",
     "type": "vehicle_part",
@@ -253,6 +291,12 @@
   {
     "id": "clothboard_vertical",
     "copy-from": "clothboard",
+    "type": "vehicle_part",
+    "symbol": "j"
+  },
+  {
+    "id": "cloth_halfboard_vertical",
+    "copy-from": "cloth_halfboard",
     "type": "vehicle_part",
     "symbol": "j"
   },
