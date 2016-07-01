@@ -51,18 +51,23 @@ sub encode(@) {
     my ($data, $context) = @_;
 
     if (ref($data) eq 'ARRAY') {
-        my @fields = map { encode($_, "$context:@") } @{$data};
-        return '[' . assemble($context, @fields) . ']';
+        my @elems = map { encode($_, "$context:@") } @{$data};
+        return '[' . assemble($context, @elems) . ']';
     }
 
     if (ref($data) eq 'HASH') {
-        foreach( map { "$context:$_" } keys %{$data} ) {
-            die "ERROR: Unknown field '$_'\n" if( get_priority($_) == 0 );
+        my %fields;
+        foreach (keys %{$data}) {
+            my $rule = $context . '<'.($data->{'type'} // '').'>' . ":$_";
+            my $rank = get_priority($rule);
+            $fields{$_} = [ $rule, $rank ];
+            die "ERROR: Unknown field '$rule'\n" if $rank == 0;
         }
 
-        my @sorted = (sort { get_priority("$context:$b") <=> get_priority("$context:$a") } keys %{$data});
-        my @fields = map { qq("$_": ) . encode($data->{$_}, "$context:$_") } @sorted;
-        return '{' . assemble($context, @fields) . '}';
+        # Sort the member fields then recursively encode their data
+        my @sorted = (sort { $fields{$b}->[1] <=> $fields{$a}->[1] } keys %fields);
+        my @elems = map { qq("$_": ) . encode($data->{$_}, $fields{$_}->[0]) } @sorted;
+        return '{' . assemble($context, @elems) . '}';
     }
 
     return $json->encode($data);
