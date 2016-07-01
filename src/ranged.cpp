@@ -1351,15 +1351,14 @@ static projectile make_gun_projectile( const item &gun ) {
     proj.range = gun.gun_range();
     proj.proj_effects = gun.ammo_effects();
 
-    const auto atype = gun.ammo_data();
     auto &fx = proj.proj_effects;
 
-    if( ( atype && atype->phase == LIQUID ) ||
-        fx.count( "SHOT" ) || fx.count("BOUNCE" ) ) {
+    if( ( gun.ammo_data() && gun.ammo_data()->phase == LIQUID ) ||
+        fx.count( "SHOT" ) || fx.count( "BOUNCE" ) ) {
         fx.insert( "WIDE" );
     }
 
-    if( atype ) {
+    if( gun.ammo_data() ) {
         // Some projectiles have a chance of being recoverable
         bool recover = std::any_of(fx.begin(), fx.end(), []( const std::string& e ) {
             int n;
@@ -1372,17 +1371,17 @@ static projectile make_gun_projectile( const item &gun ) {
             proj.set_drop( drop );
         }
 
-        if( atype->ammo->drop != "null" && x_in_y( atype->ammo->drop_chance, 1.0 ) ) {
-
-            item drop( atype->ammo->drop );
-            if( atype->ammo->drop_active ) {
+        const auto ammo = gun.ammo_data()->ammo.get();
+        if( ammo->drop != "null" && x_in_y( ammo->drop_chance, 1.0 ) ) {
+            item drop( ammo->drop );
+            if( ammo->drop_active ) {
                 drop.activate();
             }
             proj.set_drop( drop );
         }
 
         if( fx.count( "CUSTOM_EXPLOSION" ) > 0  ) {
-            proj.set_custom_explosion( atype->explosion );
+            proj.set_custom_explosion( gun.ammo_data()->explosion );
         }
     }
 
