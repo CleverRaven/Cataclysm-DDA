@@ -52,6 +52,9 @@ class iuse_transform : public iuse_actor
         /** if zero or positive set remaining ammo of @ref target to this (after transformation) */
         long ammo_qty = -1;
 
+        /** if positive set transformed item active and start countdown */
+        int countdown = 0;
+
         /** if both this and ammo_qty are specified then set @ref target to this specific ammo */
         std::string ammo_type;
 
