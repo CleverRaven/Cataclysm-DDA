@@ -374,12 +374,9 @@ void inventory::restack(player *p)
     }
 
     //Ensure that all items in the same stack have the same invlet.
-    for( auto outer = items.begin(); outer != items.end(); outer++ ) {
-        char letter = outer->front().invlet;
-        for( auto inner = outer->begin(); inner != outer->end(); inner++ ) {
-            if( inner->invlet != letter ) {
-                inner->invlet = letter;
-            }
+    for( std::list< item > &outer : items ) {
+        for( item &inner : outer ) {
+            inner.invlet = outer.front().invlet;
         }
     }
 }
