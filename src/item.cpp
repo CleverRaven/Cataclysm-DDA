@@ -5755,6 +5755,10 @@ bool item::process( player *carrier, const tripoint &pos, bool activate )
         item_counter--;
     }
 
+    if( item_counter == 0 && type->countdown_action ) {
+        type->countdown_action.call( carrier ? carrier : &g->u, this, false, pos );
+    }
+
     for( const auto &e : type->emit ) {
         g->m.propagate_field( pos, std::get<0>( e ), std::get<1>( e ), std::get<2>( e ) );
     }

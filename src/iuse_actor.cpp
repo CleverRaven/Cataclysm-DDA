@@ -65,6 +65,8 @@ void iuse_transform::load( JsonObject &obj )
     obj.read( "target_charges", ammo_qty );
     obj.read( "target_ammo", ammo_type );
 
+    obj.read( "countdown", countdown );
+
     if( !ammo_type.empty() && !container.empty() ) {
         obj.throw_error( "Transform actor specified both ammo type and container type", "target_ammo" );
     }
@@ -171,6 +173,54 @@ void iuse_transform::finalize( const itype_id & )
             debugmsg( "Transform target with container must be an item with charges, got non-charged: %s", target.c_str() );
         }
     }
+}
+
+countdown_actor::~countdown_actor() = default;
+
+iuse_actor *countdown_actor::clone() const
+{
+    return new countdown_actor( *this );
+}
+
+void countdown_actor::load( JsonObject &obj )
+{
+    obj.read( "name", name );
+    obj.read( "duration", duration );
+    obj.read( "message", message );
+}
+
+long countdown_actor::use( player *p, item *it, bool t, const tripoint &pos ) const
+{
+    if( t ) {
+        return 0;
+    }
+
+    if( it->active ) {
+        return 0;
+    }
+
+    if( p ) {
+        if( p->sees( pos ) && !message.empty() ) {
+            p->add_msg_if_player( m_neutral, _( message.c_str() ), it->tname().c_str() );
+        }
+    }
+
+    it->item_counter = duration;
+    it->active = true;
+    return 0;
+}
+
+bool countdown_actor::can_use( const player *, const item *it, bool, const tripoint & ) const
+{
+    return !it->active;
+}
+
+std::string countdown_actor::get_name() const
+{
+    if( !name.empty() ) {
+        return name;
+    }
+    return iuse_actor::get_name();
 }
 
 explosion_iuse::~explosion_iuse()

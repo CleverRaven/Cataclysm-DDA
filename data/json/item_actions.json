@@ -133,6 +133,10 @@
         "name" : "Turn on"
     },{
         "type" : "item_action",
+        "id" : "countdown",
+        "name" : "Start countdown"
+    },{
+        "type" : "item_action",
         "id" : "holster",
         "name" : "Use holster"
     },{

@@ -85,6 +85,28 @@ class iuse_transform : public iuse_actor
         void finalize( const itype_id &my_item_type ) override;
 };
 
+class countdown_actor : public iuse_actor
+{
+    public:
+        countdown_actor( const std::string &type = "countdown" ) : iuse_actor( type ) {}
+
+        /** if specified overrides default action name */
+        std::string name;
+
+        /** number of turns before the countdown action occurs */
+        int duration = 0;
+
+        /** message if player sees activation with %s replaced by item name */
+        std::string message;
+
+        ~countdown_actor() override;
+        void load( JsonObject &jo ) override;
+        long use(player *, item *, bool, const tripoint & ) const override;
+        iuse_actor *clone() const override;
+        bool can_use( const player *, const item *it, bool, const tripoint & ) const;
+        std::string get_name() const override;
+};
+
 /**
  * This is a @ref iuse_actor for active items that explode when
  * their charges reaches 0.

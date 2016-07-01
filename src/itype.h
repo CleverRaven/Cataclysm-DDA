@@ -591,6 +591,8 @@ public:
     /** Actions an instance can perform (if any) indexed by action type */
     std::map<std::string, use_function> use_methods;
 
+    use_function countdown_action;
+
     /** Fields to emit when item is in active state (id, qty, density) */
     std::vector<std::tuple<field_id, int, int>> emit;
 
