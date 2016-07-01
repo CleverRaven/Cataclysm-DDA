@@ -110,6 +110,8 @@ src/debug.h
 src/dependency_tree.h
 src/drawing_primitives.h
 src/editmap.h
+src/emit.cpp
+src/emit.h
 src/event.h
 src/explosion.h
 src/faction.h
