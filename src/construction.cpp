@@ -1527,4 +1527,8 @@ void finalize_constructions()
             const_cast<requirement_data &>( con.requirements.obj() ).get_components().push_back( frame_items );
         }
     }
+
+    remove_construction_if( [&]( construction &c ) {
+        return c.requirements->is_empty() && !c.requirements->is_null();
+    } );
 }
