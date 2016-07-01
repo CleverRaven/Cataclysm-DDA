@@ -289,10 +289,7 @@ player::player() : Character()
     last_craft.reset( new craft_command() );
 }
 
-player::~player()
-{
-}
-
+player::~player() = default;
 player::player(const player &) = default;
 player::player(player &&) = default;
 player &player::operator=(const player &) = default;
