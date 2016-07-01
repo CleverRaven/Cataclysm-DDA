@@ -79,7 +79,7 @@
   "difficulty": 2,
   "time": 8000,
   "reversible": true,
-  "note": "sawing it down doesn't teach anything useful",
+  "//": "sawing it down doesn't teach anything useful",
   "autolearn": true,
   "qualities":[
     {"id":"SAW_M","level":1}

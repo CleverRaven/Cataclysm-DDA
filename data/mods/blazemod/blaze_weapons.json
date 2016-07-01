@@ -1,6 +1,6 @@
 [
    {
-    "comment": "Turrets use volume as a measure of dispersion and recoil doesn't affect vehicles; so for the moment, I left those as zero.  This will change as soon as these issues are addressed.",
+    "//": "Turrets use volume as a measure of dispersion and recoil doesn't affect vehicles; so for the moment, I left those as zero.  This will change as soon as these issues are addressed.",
     "id": "nx17p",
     "type": "GUN",
     "symbol": "(",

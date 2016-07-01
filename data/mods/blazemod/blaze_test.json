@@ -54,7 +54,7 @@
                         ]
     },{
         "type" : "vehicle_part",
-        "note" : "Keep away from Svarog detectors!",
+        "//" : "Keep away from Svarog detectors!",
         "id" : "space_anomaly",
         "name" : "cargo dimension",
         "symbol" : "O",
@@ -520,7 +520,7 @@
     "price": 60000,
     "material": ["steel", "plastic"],
     "ammo_effects": ["SHOT", "FRAG", "FLASHBANG"],
-    "note": "Behold, the bringer of light.",
+    "//": "Behold, the bringer of light.",
     "flags": ["NEVER_JAMS", "MOUNTED_GUN"],
     "skill": "launcher",
     "ammo": "charcoal",
@@ -601,7 +601,7 @@
         "id" : "diamondframe",
         "name" : "diamond frame",
         "description" : "A brilliantly sparkling diamond vehicle frame.  Incredibly strong for its weight.",
-        "note": "Sempai can't resist me now!",
+        "//": "Sempai can't resist me now!",
         "weight" : 9498,
         "to_hit" : -3,
         "color" : "light_gray",
