@@ -2461,7 +2461,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
     for( auto &elem : addictions ) {
         if( elem.sated < 0 && elem.intensity >= MIN_ADDICTION_LEVEL ) {
             effect_name.push_back( addiction_name( elem ) );
-            effect_text.push_back( addiction_text( *this, elem ) );
+            effect_text.push_back( addiction_text( elem ) );
         }
     }
 
@@ -5784,86 +5784,85 @@ void player::sleep_hp_regen( int rate_multiplier )
 
 void player::add_addiction(add_type type, int strength)
 {
-    if (type == ADD_NULL) {
+    if( type == ADD_NULL ) {
         return;
     }
-    int timer = 1200;
-    if (has_trait("ADDICTIVE")) {
-        strength = int(strength * 1.5);
-        timer = 800;
-    }
-    if (has_trait("NONADDICTIVE")) {
-        strength = int(strength * .50);
-        timer = 1800;
+    int timer = HOURS( 2 );
+    if( has_trait( "ADDICTIVE" ) ) {
+        strength *= 2;
+        timer = HOURS( 1 );
+    } else if( has_trait( "NONADDICTIVE" ) ) {
+        strength /= 2;
+        timer = HOURS( 6 );
     }
     //Update existing addiction
-    for (auto &i : addictions) {
-        if (i.type == type) {
-            if (i.sated < 0) {
-                i.sated = timer;
-            } else if (i.sated < 600) {
-                i.sated += timer; // TODO: Make this variable?
-            } else {
-                i.sated += (3000 - i.sated) / 2;
-            }
-            if ((rng(0, strength) > rng(0, i.intensity * 5) || rng(0, 500) < strength) &&
-                  i.intensity < 20) {
-                i.intensity++;
-            }
-            return;
+    for( auto &i : addictions ) {
+        if( i.type != type ) {
+            continue;
         }
+
+        if( i.sated < 0 ) {
+            i.sated = timer;
+        } else if( i.sated < MINUTES(10) ) {
+            i.sated += timer; // TODO: Make this variable?
+        } else {
+            i.sated += timer / 2;
+        }
+        if( i.intensity < MAX_ADDICTION_LEVEL && strength > i.intensity * rng( 2, 5 ) ) {
+            i.intensity++;
+        }
+
+        add_msg( m_debug, "Updating addiction: %d intensity, %d sated",
+                 i.intensity, i.sated );
+
+        return;
     }
-    //Add a new addiction
-    if (rng(0, 100) < strength) {
+    
+    // Add a new addiction
+    const int roll = rng( 0, 100 );
+    add_msg( m_debug, "Addiction: roll %d vs strength %d", roll, strength );
+    if( roll < strength ) {
         //~ %s is addiction name
-        add_memorial_log(pgettext("memorial_male", "Became addicted to %s."),
-                            pgettext("memorial_female", "Became addicted to %s."),
-                            addiction_type_name(type).c_str());
-        addiction tmp(type, 1);
-        addictions.push_back(tmp);
+        const std::string &type_name = addiction_type_name( type );
+        add_memorial_log( pgettext("memorial_male", "Became addicted to %s."),
+                          pgettext("memorial_female", "Became addicted to %s."),
+                          type_name.c_str() );
+        add_msg( m_debug, "%s got addicted to %s", disp_name().c_str(), type_name.c_str() );
+        addictions.emplace_back( type, 1 );
     }
 }
 
 bool player::has_addiction(add_type type) const
 {
-    for (auto &i : addictions) {
-        if (i.type == type && i.intensity >= MIN_ADDICTION_LEVEL) {
-            return true;
-        }
-    }
-    return false;
+    return std::any_of( addictions.begin(), addictions.end(),
+        [type]( const addiction &ad ) {
+        return ad.type == type && ad.intensity >= MIN_ADDICTION_LEVEL;
+    } );
 }
 
-void player::rem_addiction(add_type type)
+void player::rem_addiction( add_type type )
 {
-    for (size_t i = 0; i < addictions.size(); i++) {
-        if (addictions[i].type == type) {
-            //~ %s is addiction name
-            if (has_trait("THRESH_MYCUS") && ((type == ADD_MARLOSS_R) || (type == ADD_MARLOSS_B) ||
-              (type == ADD_MARLOSS_Y))) {
-                  add_memorial_log(pgettext("memorial_male", "Transcended addiction to %s."),
-                            pgettext("memorial_female", "Transcended addiction to %s."),
-                            addiction_type_name(type).c_str());
-            }
-            else {
-                add_memorial_log(pgettext("memorial_male", "Overcame addiction to %s."),
-                            pgettext("memorial_female", "Overcame addiction to %s."),
-                            addiction_type_name(type).c_str());
-            }
-            addictions.erase(addictions.begin() + i);
-            return;
-        }
+    auto iter = std::find_if( addictions.begin(), addictions.end(),
+        [type]( const addiction &ad ) {
+        return ad.type == type;
+    } );
+
+    if( iter != addictions.end() ) {
+        //~ %s is addiction name
+        add_memorial_log(pgettext("memorial_male", "Overcame addiction to %s."),
+                    pgettext("memorial_female", "Overcame addiction to %s."),
+                    addiction_type_name(type).c_str());
+        addictions.erase( iter );
     }
 }
 
 int player::addiction_level( add_type type ) const
 {
-    for (auto &i : addictions) {
-        if (i.type == type) {
-            return i.intensity;
-        }
-    }
-    return 0;
+    auto iter = std::find_if( addictions.begin(), addictions.end(),
+        [type]( const addiction &ad ) {
+        return ad.type == type;
+    } );
+    return iter != addictions.end() ? iter->intensity : 0;
 }
 
 void player::siphon( vehicle &veh, const itype_id &desired_liquid )
@@ -7776,36 +7775,27 @@ void player::suffer()
                 add_effect( effect_downed, 2, num_bp, false, 0, true );
             }
         }
-        int timer = -3600;
-        if (has_trait("ADDICTIVE")) {
-            timer = -4000;
+        int timer = -HOURS( 6 );
+        if( has_trait( "ADDICTIVE" ) ) {
+            timer = -HOURS( 10 );
+        } else if( has_trait( "NONADDICTIVE" ) ) {
+            timer = -HOURS( 3 );
         }
-        if (has_trait("NONADDICTIVE")) {
-            timer = -3200;
-        }
-        for (size_t i = 0; i < addictions.size(); i++) {
-            if (addictions[i].sated <= 0 &&
-                addictions[i].intensity >= MIN_ADDICTION_LEVEL) {
-                addict_effect(*this, addictions[i], [&](char const *const msg) {
-                    if (msg) {
-                        g->cancel_activity_query(msg);
-                    } else {
-                        g->cancel_activity();
-                    }
-                });
+        for( size_t i = 0; i < addictions.size(); i++ ) {
+            auto &cur_addiction = addictions[i];
+            if( cur_addiction.sated <= 0 &&
+                cur_addiction.intensity >= MIN_ADDICTION_LEVEL ) {
+                addict_effect( *this, cur_addiction );
             }
-            addictions[i].sated--;
-            if (!one_in(addictions[i].intensity - 2) && addictions[i].sated > 0) {
-                addictions[i].sated -= 1;
-            }
-            if (addictions[i].sated < timer - (100 * addictions[i].intensity)) {
-                if (addictions[i].intensity <= 2) {
-                    addictions.erase(addictions.begin() + i);
-                    i--;
+            cur_addiction.sated--;
+            // Higher intensity addictions heal faster
+            if( cur_addiction.sated - 100 * cur_addiction.intensity < timer ) {
+                if( cur_addiction.intensity <= 2 ) {
+                    rem_addiction( cur_addiction.type );
+                    break;
                 } else {
-                    addictions[i].intensity = int(addictions[i].intensity / 2);
-                    addictions[i].intensity--;
-                    addictions[i].sated = 0;
+                    cur_addiction.intensity--;
+                    cur_addiction.sated = 0;
                 }
             }
         }

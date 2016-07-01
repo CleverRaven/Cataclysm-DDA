@@ -1,6 +1,7 @@
 src/action.cpp
 src/active_item_cache.cpp
 src/activity_item_handling.cpp
+src/addiction.cpp
 src/ammo.cpp
 src/armor_layers.cpp
 src/basecamp.cpp

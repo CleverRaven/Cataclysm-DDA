@@ -1201,6 +1201,8 @@ void Item_factory::load( islot_comestible &slot, JsonObject &jo )
         slot.add = addiction_type( jo.get_string( "addiction_type" ) );
     }
 
+    assign( jo, "addiction_potential", slot.addict );
+
     bool got_calories = false;
 
     if( jo.has_int( "calories" ) ) {

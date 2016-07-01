@@ -226,7 +226,7 @@ class effect : public JsonSerializer, public JsonDeserializer
                         bool reduced = false, double mod = 1 ) const;
 
         /** Returns the modifier caused by addictions. Currently only handles painkiller addictions. */
-        double get_addict_mod( std::string arg, int addict_level ) const;
+        double get_addict_mod( const std::string &arg, int addict_level ) const;
         /** Returns true if the coughs caused by an effect can harm the player directly. */
         bool get_harmful_cough() const;
         /** Returns the percentage value by further applications of existing effects' duration is multiplied by. */
