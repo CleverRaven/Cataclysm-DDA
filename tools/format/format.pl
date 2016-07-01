@@ -17,12 +17,12 @@ sub config($) {
 }
 
 sub get_priority($) {
-    my $context = shift =~ s/(relative|proportional)://r;
+    my $context = shift =~ s/(relative|proportional|extend|delete)://r;
     return scalar @priority - ( (grep { $context =~ $priority[$_] } (0..$#priority))[0] // scalar @priority );
 }
 
 sub get_wrapping($) {
-    my $context = shift =~ s/(relative|proportional)://r;
+    my $context = shift =~ s/(relative|proportional|extend|delete)://r;
     return grep { $context =~ $_ } map { $_ } @wrapping;
 }
 
