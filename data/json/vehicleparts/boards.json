@@ -44,6 +44,14 @@
     "flags": [ "OPAQUE", "OBSTACLE" ]
   },
   {
+    "abstract": "hdhalfboard",
+    "copy-from": "hdboard",
+    "type": "vehicle_part",
+    "name": "heavy duty quarterpanel",
+    "relative": { "durability": 0.8 },
+    "delete": { "flags": [ "OPAQUE" ] }
+  },
+  {
     "abstract": "woodboard",
     "type": "vehicle_part",
     "name": "wooden board",
@@ -81,6 +89,12 @@
     "symbol": "h"
   },
   {
+    "id": "hdhalfboard_horizontal",
+    "copy-from": "hdhalfboard",
+    "type": "vehicle_part",
+    "symbol": "h"
+  },
+  {
     "id": "woodboard_horizontal",
     "copy-from": "woodboard",
     "type": "vehicle_part",
@@ -107,6 +121,12 @@
   {
     "id": "hdboard_ne",
     "copy-from": "hdboard",
+    "type": "vehicle_part",
+    "symbol": "u"
+  },
+  {
+    "id": "hdhalfboard_ne",
+    "copy-from": "hdhalfboard",
     "type": "vehicle_part",
     "symbol": "u"
   },
@@ -141,6 +161,12 @@
     "symbol": "y"
   },
   {
+    "id": "hdhalfboard_nw",
+    "copy-from": "hdhalfboard",
+    "type": "vehicle_part",
+    "symbol": "y"
+  },
+  {
     "id": "woodboard_nw",
     "copy-from": "woodboard",
     "type": "vehicle_part",
@@ -167,6 +193,12 @@
   {
     "id": "hdboard_se",
     "copy-from": "hdboard",
+    "type": "vehicle_part",
+    "symbol": "n"
+  },
+  {
+    "id": "hdhalfboard_se",
+    "copy-from": "hdhalfboard",
     "type": "vehicle_part",
     "symbol": "n"
   },
@@ -201,6 +233,12 @@
     "symbol": "b"
   },
   {
+    "id": "hdhalfboard_sw",
+    "copy-from": "hdhalfboard",
+    "type": "vehicle_part",
+    "symbol": "b"
+  },
+  {
     "id": "woodboard_sw",
     "copy-from": "woodboard",
     "type": "vehicle_part",
@@ -227,6 +265,12 @@
   {
     "id": "hdboard_vertical",
     "copy-from": "hdboard",
+    "type": "vehicle_part",
+    "symbol": "j"
+  },
+  {
+    "id": "hdhalfboard_vertical",
+    "copy-from": "hdhalfboard",
     "type": "vehicle_part",
     "symbol": "j"
   },
