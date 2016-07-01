@@ -1,0 +1,3030 @@
+[
+  {
+        "type" : "vehicle_part",
+        "id" : "gloople_horizontal",
+        "name" : "gel framework",
+        "symbol" : "h",
+        "color" : "light_green",
+        "broken_symbol" : "#",
+        "broken_color" : "light_green",
+        "durability" : 250,
+        "damage_modifier" : 10,
+        "item" : "gloople",
+        "difficulty" : 1,
+        "folded_volume": 1,
+        "location" : "structure",
+        "flags" : ["TOOL_NONE", "FOLDABLE", "MOUNTABLE"],
+        "breaks_into": [
+            {"item": "glooplegrow"}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "gloople_vertical",
+        "name" : "gel framework",
+        "symbol" : "j",
+        "color" : "light_green",
+        "broken_symbol" : "#",
+        "broken_color" : "light_green",
+        "durability" : 250,
+        "damage_modifier" : 10,
+        "item" : "gloople",
+        "difficulty" : 1,
+        "folded_volume": 1,
+        "location" : "structure",
+        "flags" : ["TOOL_NONE", "FOLDABLE", "MOUNTABLE"],
+        "breaks_into": [
+            {"item": "glooplegrow"}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "gloople_cross",
+        "name" : "gel framework",
+        "symbol" : "c",
+        "color" : "light_green",
+        "broken_symbol" : "#",
+        "broken_color" : "light_green",
+        "durability" : 250,
+        "damage_modifier" : 10,
+        "item" : "gloople",
+        "difficulty" : 1,
+        "folded_volume": 1,
+        "location" : "structure",
+        "flags" : ["TOOL_NONE", "FOLDABLE", "MOUNTABLE"],
+        "breaks_into": [
+            {"item": "glooplegrow"}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "gloople_nw",
+        "name" : "gel framework",
+        "symbol" : "y",
+        "color" : "light_green",
+        "broken_symbol" : "#",
+        "broken_color" : "light_green",
+        "durability" : 250,
+        "damage_modifier" : 10,
+        "item" : "gloople",
+        "difficulty" : 1,
+        "folded_volume": 1,
+        "location" : "structure",
+        "flags" : ["TOOL_NONE", "FOLDABLE", "MOUNTABLE"],
+        "breaks_into": [
+            {"item": "glooplegrow"}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "gloople_ne",
+        "name" : "gel framework",
+        "symbol" : "u",
+        "color" : "light_green",
+        "broken_symbol" : "#",
+        "broken_color" : "light_green",
+        "durability" : 250,
+        "damage_modifier" : 10,
+        "item" : "gloople",
+        "difficulty" : 1,
+        "folded_volume": 1,
+        "location" : "structure",
+        "flags" : ["TOOL_NONE", "FOLDABLE", "MOUNTABLE"],
+        "breaks_into": [
+            {"item": "glooplegrow"}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "gloople_se",
+        "name" : "gel framework",
+        "symbol" : "n",
+        "color" : "light_green",
+        "broken_symbol" : "#",
+        "broken_color" : "light_green",
+        "durability" : 250,
+        "damage_modifier" : 10,
+        "item" : "gloople",
+        "difficulty" : 1,
+        "folded_volume": 1,
+        "location" : "structure",
+        "flags" : ["TOOL_NONE", "FOLDABLE", "MOUNTABLE"],
+        "breaks_into": [
+            {"item": "glooplegrow"}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "gloople_sw",
+        "name" : "gel framework",
+        "symbol" : "b",
+        "color" : "light_green",
+        "broken_symbol" : "#",
+        "broken_color" : "light_green",
+        "durability" : 250,
+        "damage_modifier" : 10,
+        "item" : "gloople",
+        "difficulty" : 1,
+        "folded_volume": 1,
+        "location" : "structure",
+        "flags" : ["TOOL_NONE", "FOLDABLE", "MOUNTABLE"],
+        "breaks_into": [
+            {"item": "glooplegrow"}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "gloople_horizontal_2",
+        "name" : "gel framework",
+        "symbol" : "=",
+        "color" : "light_green",
+        "broken_symbol" : "#",
+        "broken_color" : "light_green",
+        "durability" : 250,
+        "damage_modifier" : 10,
+        "item" : "gloople",
+        "difficulty" : 1,
+        "folded_volume": 1,
+        "location" : "structure",
+        "flags" : ["TOOL_NONE", "FOLDABLE", "MOUNTABLE"],
+        "breaks_into": [
+            {"item": "glooplegrow"}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "gloople_vertical_2",
+        "name" : "gel framework",
+        "symbol" : "H",
+        "color" : "light_green",
+        "broken_symbol" : "#",
+        "broken_color" : "light_green",
+        "durability" : 250,
+        "damage_modifier" : 10,
+        "item" : "gloople",
+        "difficulty" : 1,
+        "folded_volume": 1,
+        "location" : "structure",
+        "flags" : ["TOOL_NONE", "FOLDABLE", "MOUNTABLE", "INITIAL_PART"],
+        "breaks_into": [
+            {"item": "glooplegrow"}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "gloopleboard_horizontal",
+        "name" : "gel panel",
+        "symbol" : "h",
+        "color" : "light_green",
+        "broken_symbol" : "#",
+        "broken_color" : "light_green",
+        "durability" : 250,
+        "damage_modifier" : 10,
+        "item" : "gloople",
+        "difficulty" : 1,
+        "folded_volume": 1,
+        "location" : "center",
+        "flags" : ["OPAQUE", "OBSTACLE", "TOOL_NONE", "FOLDABLE"],
+        "breaks_into": [
+            {"item": "glooplegrow"}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "gloopleboard_vertical",
+        "name" : "gel panel",
+        "symbol" : "j",
+        "color" : "light_green",
+        "broken_symbol" : "#",
+        "broken_color" : "light_green",
+        "durability" : 250,
+        "damage_modifier" : 10,
+        "item" : "gloople",
+        "difficulty" : 1,
+        "folded_volume": 1,
+        "location" : "center",
+        "flags" : ["OPAQUE", "OBSTACLE", "TOOL_NONE", "FOLDABLE"],
+        "breaks_into": [
+            {"item": "glooplegrow"}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "gloopleboard_nw",
+        "name" : "gel panel",
+        "symbol" : "y",
+        "color" : "light_green",
+        "broken_symbol" : "#",
+        "broken_color" : "light_green",
+        "durability" : 250,
+        "damage_modifier" : 10,
+        "item" : "gloople",
+        "difficulty" : 1,
+        "folded_volume": 1,
+        "location" : "center",
+        "flags" : ["OPAQUE", "OBSTACLE", "TOOL_NONE", "FOLDABLE"],
+        "breaks_into": [
+            {"item": "glooplegrow"}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "gloopleboard_ne",
+        "name" : "gel panel",
+        "symbol" : "u",
+        "color" : "light_green",
+        "broken_symbol" : "#",
+        "broken_color" : "light_green",
+        "durability" : 250,
+        "damage_modifier" : 10,
+        "item" : "gloople",
+        "difficulty" : 1,
+        "folded_volume": 1,
+        "location" : "center",
+        "flags" : ["OPAQUE", "OBSTACLE", "TOOL_NONE", "FOLDABLE"],
+        "breaks_into": [
+            {"item": "glooplegrow"}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "gloopleboard_se",
+        "name" : "gel panel",
+        "symbol" : "n",
+        "color" : "light_green",
+        "broken_symbol" : "#",
+        "broken_color" : "light_green",
+        "durability" : 250,
+        "damage_modifier" : 10,
+        "item" : "gloople",
+        "difficulty" : 1,
+        "folded_volume": 1,
+        "location" : "center",
+        "flags" : ["OPAQUE", "OBSTACLE", "TOOL_NONE", "FOLDABLE"],
+        "breaks_into": [
+            {"item": "glooplegrow"}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "gloopleboard_sw",
+        "name" : "gel panel",
+        "symbol" : "b",
+        "color" : "light_green",
+        "broken_symbol" : "#",
+        "broken_color" : "light_green",
+        "durability" : 250,
+        "damage_modifier" : 10,
+        "item" : "gloople",
+        "difficulty" : 1,
+        "folded_volume": 1,
+        "location" : "center",
+        "flags" : ["OPAQUE", "OBSTACLE", "TOOL_NONE", "FOLDABLE"],
+        "breaks_into": [
+            {"item": "glooplegrow"}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "halfgloopleboard_horizontal",
+        "name" : "gel quarterpanel",
+        "symbol" : "h",
+        "color" : "light_green",
+        "broken_symbol" : "#",
+        "broken_color" : "light_green",
+        "durability" : 250,
+        "damage_modifier" : 10,
+        "item" : "gloople",
+        "difficulty" : 1,
+        "folded_volume": 1,
+        "location" : "center",
+        "flags" : ["OBSTACLE", "TOOL_NONE", "FOLDABLE"],
+        "breaks_into": [
+            {"item": "glooplegrow"}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "halfgloopleboard_vertical",
+        "name" : "gel quarterpanel",
+        "symbol" : "j",
+        "color" : "light_green",
+        "broken_symbol" : "#",
+        "broken_color" : "light_green",
+        "durability" : 250,
+        "damage_modifier" : 10,
+        "item" : "gloople",
+        "difficulty" : 1,
+        "folded_volume": 1,
+        "location" : "center",
+        "flags" : ["OBSTACLE", "TOOL_NONE", "FOLDABLE"],
+        "breaks_into": [
+            {"item": "glooplegrow"}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "halfgloopleboard_nw",
+        "name" : "gel quarterpanel",
+        "symbol" : "y",
+        "color" : "light_green",
+        "broken_symbol" : "#",
+        "broken_color" : "light_green",
+        "durability" : 250,
+        "damage_modifier" : 10,
+        "item" : "gloople",
+        "difficulty" : 1,
+        "folded_volume": 1,
+        "location" : "center",
+        "flags" : ["OBSTACLE", "TOOL_NONE", "FOLDABLE"],
+        "breaks_into": [
+            {"item": "glooplegrow"}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "halfgloopleboard_ne",
+        "name" : "gel quarterpanel",
+        "symbol" : "u",
+        "color" : "light_green",
+        "broken_symbol" : "#",
+        "broken_color" : "light_green",
+        "durability" : 250,
+        "damage_modifier" : 10,
+        "item" : "gloople",
+        "difficulty" : 1,
+        "folded_volume": 1,
+        "location" : "center",
+        "flags" : ["OBSTACLE", "TOOL_NONE", "FOLDABLE"],
+        "breaks_into": [
+            {"item": "glooplegrow"}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "halfgloopleboard_se",
+        "name" : "gel quarterpanel",
+        "symbol" : "n",
+        "color" : "light_green",
+        "broken_symbol" : "#",
+        "broken_color" : "light_green",
+        "durability" : 250,
+        "damage_modifier" : 10,
+        "item" : "gloople",
+        "difficulty" : 1,
+        "folded_volume": 1,
+        "location" : "center",
+        "flags" : ["OBSTACLE", "TOOL_NONE", "FOLDABLE"],
+        "breaks_into": [
+            {"item": "glooplegrow"}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "halfgloopleboard_sw",
+        "name" : "gel quarterpanel",
+        "symbol" : "b",
+        "color" : "light_green",
+        "broken_symbol" : "#",
+        "broken_color" : "light_green",
+        "durability" : 250,
+        "damage_modifier" : 10,
+        "item" : "gloople",
+        "difficulty" : 1,
+        "folded_volume": 1,
+        "location" : "center",
+        "flags" : ["OBSTACLE", "TOOL_NONE", "FOLDABLE"],
+        "breaks_into": [
+            {"item": "glooplegrow"}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "halfgloopleboard_horizontal_2",
+        "name" : "gel quarterpanel",
+        "symbol" : "=",
+        "color" : "light_green",
+        "broken_symbol" : "#",
+        "broken_color" : "light_green",
+        "durability" : 250,
+        "damage_modifier" : 10,
+        "item" : "gloople",
+        "difficulty" : 1,
+        "folded_volume": 1,
+        "location" : "center",
+        "flags" : ["OBSTACLE", "TOOL_NONE", "FOLDABLE"],
+        "breaks_into": [
+            {"item": "glooplegrow"}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "halfgloopleboard_vertical_2",
+        "name" : "gel quarterpanel",
+        "symbol" : "H",
+        "color" : "light_green",
+        "broken_symbol" : "#",
+        "broken_color" : "light_green",
+        "durability" : 250,
+        "damage_modifier" : 10,
+        "item" : "gloople",
+        "difficulty" : 1,
+        "folded_volume": 1,
+        "location" : "center",
+        "flags" : ["OBSTACLE", "TOOL_NONE", "FOLDABLE"],
+        "breaks_into": [
+            {"item": "glooplegrow"}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "oozle_horizontal",
+        "name" : "ooze chassis",
+        "symbol" : "h",
+        "color" : "green",
+        "broken_symbol" : "#",
+        "broken_color" : "green",
+        "durability" : 500,
+        "damage_modifier" : 10,
+        "item" : "oozle",
+        "difficulty" : 1,
+        "folded_volume": 1,
+        "location" : "structure",
+        "flags" : ["TOOL_NONE", "FOLDABLE", "MOUNTABLE"],
+        "breaks_into": [
+            {"item": "oozlegrow"}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "oozle_vertical",
+        "name" : "ooze chassis",
+        "symbol" : "j",
+        "color" : "green",
+        "broken_symbol" : "#",
+        "broken_color" : "green",
+        "durability" : 500,
+        "damage_modifier" : 10,
+        "item" : "oozle",
+        "difficulty" : 1,
+        "folded_volume": 1,
+        "location" : "structure",
+        "flags" : ["TOOL_NONE", "FOLDABLE", "MOUNTABLE"],
+        "breaks_into": [
+            {"item": "oozlegrow"}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "oozle_cross",
+        "name" : "ooze chassis",
+        "symbol" : "c",
+        "color" : "green",
+        "broken_symbol" : "#",
+        "broken_color" : "green",
+        "durability" : 500,
+        "damage_modifier" : 10,
+        "item" : "oozle",
+        "difficulty" : 1,
+        "folded_volume": 1,
+        "location" : "structure",
+        "flags" : ["TOOL_NONE", "FOLDABLE", "MOUNTABLE"],
+        "breaks_into": [
+            {"item": "oozlegrow"}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "oozle_nw",
+        "name" : "ooze chassis",
+        "symbol" : "y",
+        "color" : "green",
+        "broken_symbol" : "#",
+        "broken_color" : "green",
+        "durability" : 500,
+        "damage_modifier" : 10,
+        "item" : "oozle",
+        "difficulty" : 1,
+        "folded_volume": 1,
+        "location" : "structure",
+        "flags" : ["TOOL_NONE", "FOLDABLE", "MOUNTABLE"],
+        "breaks_into": [
+            {"item": "oozlegrow"}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "oozle_ne",
+        "name" : "ooze chassis",
+        "symbol" : "u",
+        "color" : "green",
+        "broken_symbol" : "#",
+        "broken_color" : "green",
+        "durability" : 500,
+        "damage_modifier" : 10,
+        "item" : "oozle",
+        "difficulty" : 1,
+        "folded_volume": 1,
+        "location" : "structure",
+        "flags" : ["TOOL_NONE", "FOLDABLE", "MOUNTABLE"],
+        "breaks_into": [
+            {"item": "oozlegrow"}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "oozle_se",
+        "name" : "ooze chassis",
+        "symbol" : "n",
+        "color" : "green",
+        "broken_symbol" : "#",
+        "broken_color" : "green",
+        "durability" : 500,
+        "damage_modifier" : 10,
+        "item" : "oozle",
+        "difficulty" : 1,
+        "folded_volume": 1,
+        "location" : "structure",
+        "flags" : ["TOOL_NONE", "FOLDABLE", "MOUNTABLE"],
+        "breaks_into": [
+            {"item": "oozlegrow"}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "oozle_sw",
+        "name" : "ooze chassis",
+        "symbol" : "b",
+        "color" : "green",
+        "broken_symbol" : "#",
+        "broken_color" : "green",
+        "durability" : 500,
+        "damage_modifier" : 10,
+        "item" : "oozle",
+        "difficulty" : 1,
+        "folded_volume": 1,
+        "location" : "structure",
+        "flags" : ["TOOL_NONE", "FOLDABLE", "MOUNTABLE"],
+        "breaks_into": [
+            {"item": "oozlegrow"}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "oozle_horizontal_2",
+        "name" : "ooze chassis",
+        "symbol" : "=",
+        "color" : "green",
+        "broken_symbol" : "#",
+        "broken_color" : "green",
+        "durability" : 500,
+        "damage_modifier" : 10,
+        "item" : "oozle",
+        "difficulty" : 1,
+        "folded_volume": 1,
+        "location" : "structure",
+        "flags" : ["TOOL_NONE", "FOLDABLE", "MOUNTABLE"],
+        "breaks_into": [
+            {"item": "oozlegrow"}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "oozle_vertical_2",
+        "name" : "ooze chassis",
+        "symbol" : "H",
+        "color" : "green",
+        "broken_symbol" : "#",
+        "broken_color" : "green",
+        "durability" : 500,
+        "damage_modifier" : 10,
+        "item" : "oozle",
+        "difficulty" : 1,
+        "folded_volume": 1,
+        "location" : "structure",
+        "flags" : ["TOOL_NONE", "FOLDABLE", "MOUNTABLE", "INITIAL_PART"],
+        "breaks_into": [
+            {"item": "oozlegrow"}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "oozleboard_horizontal",
+        "name" : "ooze barrier",
+        "symbol" : "h",
+        "color" : "green",
+        "broken_symbol" : "#",
+        "broken_color" : "green",
+        "durability" : 500,
+        "damage_modifier" : 10,
+        "item" : "oozle",
+        "difficulty" : 1,
+        "folded_volume": 1,
+        "location" : "center",
+        "flags" : ["OPAQUE", "OBSTACLE", "TOOL_NONE", "FOLDABLE"],
+        "breaks_into": [
+            {"item": "oozlegrow"}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "oozleboard_vertical",
+        "name" : "ooze barrier",
+        "symbol" : "j",
+        "color" : "green",
+        "broken_symbol" : "#",
+        "broken_color" : "green",
+        "durability" : 500,
+        "damage_modifier" : 10,
+        "item" : "oozle",
+        "difficulty" : 1,
+        "folded_volume": 1,
+        "location" : "center",
+        "flags" : ["OPAQUE", "OBSTACLE", "TOOL_NONE", "FOLDABLE"],
+        "breaks_into": [
+            {"item": "oozlegrow"}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "oozleboard_nw",
+        "name" : "ooze barrier",
+        "symbol" : "y",
+        "color" : "green",
+        "broken_symbol" : "#",
+        "broken_color" : "green",
+        "durability" : 500,
+        "damage_modifier" : 10,
+        "item" : "oozle",
+        "difficulty" : 1,
+        "folded_volume": 1,
+        "location" : "center",
+        "flags" : ["OPAQUE", "OBSTACLE", "TOOL_NONE", "FOLDABLE"],
+        "breaks_into": [
+            {"item": "oozlegrow"}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "oozleboard_ne",
+        "name" : "ooze barrier",
+        "symbol" : "u",
+        "color" : "green",
+        "broken_symbol" : "#",
+        "broken_color" : "green",
+        "durability" : 500,
+        "damage_modifier" : 10,
+        "item" : "oozle",
+        "difficulty" : 1,
+        "folded_volume": 1,
+        "location" : "center",
+        "flags" : ["OPAQUE", "OBSTACLE", "TOOL_NONE", "FOLDABLE"],
+        "breaks_into": [
+            {"item": "oozlegrow"}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "oozleboard_se",
+        "name" : "ooze barrier",
+        "symbol" : "n",
+        "color" : "green",
+        "broken_symbol" : "#",
+        "broken_color" : "green",
+        "durability" : 500,
+        "damage_modifier" : 10,
+        "item" : "oozle",
+        "difficulty" : 1,
+        "folded_volume": 1,
+        "location" : "center",
+        "flags" : ["OPAQUE", "OBSTACLE", "TOOL_NONE", "FOLDABLE"],
+        "breaks_into": [
+            {"item": "oozlegrow"}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "oozleboard_sw",
+        "name" : "ooze barrier",
+        "symbol" : "b",
+        "color" : "green",
+        "broken_symbol" : "#",
+        "broken_color" : "green",
+        "durability" : 500,
+        "damage_modifier" : 10,
+        "item" : "oozle",
+        "difficulty" : 1,
+        "folded_volume": 1,
+        "location" : "center",
+        "flags" : ["OPAQUE", "OBSTACLE", "TOOL_NONE", "FOLDABLE"],
+        "breaks_into": [
+            {"item": "oozlegrow"}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "halfoozleboard_horizontal",
+        "name" : "ooze screen",
+        "symbol" : "h",
+        "color" : "green",
+        "broken_symbol" : "#",
+        "broken_color" : "green",
+        "durability" : 500,
+        "damage_modifier" : 10,
+        "item" : "oozle",
+        "difficulty" : 1,
+        "folded_volume": 1,
+        "location" : "center",
+        "flags" : ["OBSTACLE", "TOOL_NONE", "FOLDABLE"],
+        "breaks_into": [
+            {"item": "oozlegrow"}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "halfoozleboard_vertical",
+        "name" : "ooze screen",
+        "symbol" : "j",
+        "color" : "green",
+        "broken_symbol" : "#",
+        "broken_color" : "green",
+        "durability" : 500,
+        "damage_modifier" : 10,
+        "item" : "oozle",
+        "difficulty" : 1,
+        "folded_volume": 1,
+        "location" : "center",
+        "flags" : ["OBSTACLE", "TOOL_NONE", "FOLDABLE"],
+        "breaks_into": [
+            {"item": "oozlegrow"}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "halfoozleboard_nw",
+        "name" : "ooze screen",
+        "symbol" : "y",
+        "color" : "green",
+        "broken_symbol" : "#",
+        "broken_color" : "green",
+        "durability" : 500,
+        "damage_modifier" : 10,
+        "item" : "oozle",
+        "difficulty" : 1,
+        "folded_volume": 1,
+        "location" : "center",
+        "flags" : ["OBSTACLE", "TOOL_NONE", "FOLDABLE"],
+        "breaks_into": [
+            {"item": "oozlegrow"}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "halfoozleboard_ne",
+        "name" : "ooze screen",
+        "symbol" : "u",
+        "color" : "green",
+        "broken_symbol" : "#",
+        "broken_color" : "green",
+        "durability" : 500,
+        "damage_modifier" : 10,
+        "item" : "oozle",
+        "difficulty" : 1,
+        "folded_volume": 1,
+        "location" : "center",
+        "flags" : ["OBSTACLE", "TOOL_NONE", "FOLDABLE"],
+        "breaks_into": [
+            {"item": "oozlegrow"}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "halfoozleboard_se",
+        "name" : "ooze screen",
+        "symbol" : "n",
+        "color" : "green",
+        "broken_symbol" : "#",
+        "broken_color" : "green",
+        "durability" : 500,
+        "damage_modifier" : 10,
+        "item" : "oozle",
+        "difficulty" : 1,
+        "folded_volume": 1,
+        "location" : "center",
+        "flags" : ["OBSTACLE", "TOOL_NONE", "FOLDABLE"],
+        "breaks_into": [
+            {"item": "oozlegrow"}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "halfoozleboard_sw",
+        "name" : "ooze screen",
+        "symbol" : "b",
+        "color" : "green",
+        "broken_symbol" : "#",
+        "broken_color" : "green",
+        "durability" : 500,
+        "damage_modifier" : 10,
+        "item" : "oozle",
+        "difficulty" : 1,
+        "folded_volume": 1,
+        "location" : "center",
+        "flags" : ["OBSTACLE", "TOOL_NONE", "FOLDABLE"],
+        "breaks_into": [
+            {"item": "oozlegrow"}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "halfoozleboard_horizontal_2",
+        "name" : "ooze screen",
+        "symbol" : "=",
+        "color" : "green",
+        "broken_symbol" : "#",
+        "broken_color" : "green",
+        "durability" : 500,
+        "damage_modifier" : 10,
+        "item" : "oozle",
+        "difficulty" : 1,
+        "folded_volume": 1,
+        "location" : "center",
+        "flags" : ["OBSTACLE", "TOOL_NONE", "FOLDABLE"],
+        "breaks_into": [
+            {"item": "oozlegrow"}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "halfoozleboard_vertical_2",
+        "name" : "ooze screen",
+        "symbol" : "H",
+        "color" : "green",
+        "broken_symbol" : "#",
+        "broken_color" : "green",
+        "durability" : 500,
+        "damage_modifier" : 10,
+        "item" : "oozle",
+        "difficulty" : 1,
+        "folded_volume": 1,
+        "location" : "center",
+        "flags" : ["OBSTACLE", "TOOL_NONE", "FOLDABLE"],
+        "breaks_into": [
+            {"item": "oozlegrow"}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "gray_horizontal",
+        "name" : "gray frame",
+        "symbol" : "h",
+        "color" : "lt_gray",
+        "broken_symbol" : "#",
+        "broken_color" : "lt_gray",
+        "durability" : 1000,
+        "damage_modifier" : 10,
+        "item" : "gray",
+        "difficulty" : 1,
+        "folded_volume": 1,
+        "location" : "structure",
+        "flags" : ["TOOL_NONE", "FOLDABLE", "MOUNTABLE"],
+        "breaks_into": [
+            {"item": "graygrow"}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "gray_vertical",
+        "name" : "gray frame",
+        "symbol" : "j",
+        "color" : "lt_gray",
+        "broken_symbol" : "#",
+        "broken_color" : "lt_gray",
+        "durability" : 1000,
+        "damage_modifier" : 10,
+        "item" : "gray",
+        "difficulty" : 1,
+        "folded_volume": 1,
+        "location" : "structure",
+        "flags" : ["TOOL_NONE", "FOLDABLE", "MOUNTABLE"],
+        "breaks_into": [
+            {"item": "graygrow"}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "gray_cross",
+        "name" : "gray frame",
+        "symbol" : "c",
+        "color" : "lt_gray",
+        "broken_symbol" : "#",
+        "broken_color" : "lt_gray",
+        "durability" : 1000,
+        "damage_modifier" : 10,
+        "item" : "gray",
+        "difficulty" : 1,
+        "folded_volume": 1,
+        "location" : "structure",
+        "flags" : ["TOOL_NONE", "FOLDABLE", "MOUNTABLE"],
+        "breaks_into": [
+            {"item": "graygrow"}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "gray_nw",
+        "name" : "gray frame",
+        "symbol" : "y",
+        "color" : "lt_gray",
+        "broken_symbol" : "#",
+        "broken_color" : "lt_gray",
+        "durability" : 1000,
+        "damage_modifier" : 10,
+        "item" : "gray",
+        "difficulty" : 1,
+        "folded_volume": 1,
+        "location" : "structure",
+        "flags" : ["TOOL_NONE", "FOLDABLE", "MOUNTABLE"],
+        "breaks_into": [
+            {"item": "graygrow"}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "gray_ne",
+        "name" : "gray frame",
+        "symbol" : "u",
+        "color" : "lt_gray",
+        "broken_symbol" : "#",
+        "broken_color" : "lt_gray",
+        "durability" : 1000,
+        "damage_modifier" : 10,
+        "item" : "gray",
+        "difficulty" : 1,
+        "folded_volume": 1,
+        "location" : "structure",
+        "flags" : ["TOOL_NONE", "FOLDABLE", "MOUNTABLE"],
+        "breaks_into": [
+            {"item": "graygrow"}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "gray_se",
+        "name" : "gray frame",
+        "symbol" : "n",
+        "color" : "lt_gray",
+        "broken_symbol" : "#",
+        "broken_color" : "lt_gray",
+        "durability" : 1000,
+        "damage_modifier" : 10,
+        "item" : "gray",
+        "difficulty" : 1,
+        "folded_volume": 1,
+        "location" : "structure",
+        "flags" : ["TOOL_NONE", "FOLDABLE", "MOUNTABLE"],
+        "breaks_into": [
+            {"item": "graygrow"}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "gray_sw",
+        "name" : "gray frame",
+        "symbol" : "b",
+        "color" : "lt_gray",
+        "broken_symbol" : "#",
+        "broken_color" : "lt_gray",
+        "durability" : 1000,
+        "damage_modifier" : 10,
+        "item" : "gray",
+        "difficulty" : 1,
+        "folded_volume": 1,
+        "location" : "structure",
+        "flags" : ["TOOL_NONE", "FOLDABLE", "MOUNTABLE"],
+        "breaks_into": [
+            {"item": "graygrow"}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "gray_horizontal_2",
+        "name" : "gray frame",
+        "symbol" : "=",
+        "color" : "lt_gray",
+        "broken_symbol" : "#",
+        "broken_color" : "lt_gray",
+        "durability" : 1000,
+        "damage_modifier" : 10,
+        "item" : "gray",
+        "difficulty" : 1,
+        "folded_volume": 1,
+        "location" : "structure",
+        "flags" : ["TOOL_NONE", "FOLDABLE", "MOUNTABLE"],
+        "breaks_into": [
+            {"item": "graygrow"}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "gray_vertical_2",
+        "name" : "gray frame",
+        "symbol" : "H",
+        "color" : "lt_gray",
+        "broken_symbol" : "#",
+        "broken_color" : "lt_gray",
+        "durability" : 1000,
+        "damage_modifier" : 10,
+        "item" : "gray",
+        "difficulty" : 1,
+        "folded_volume": 1,
+        "location" : "structure",
+        "flags" : ["TOOL_NONE", "FOLDABLE", "MOUNTABLE", "INITIAL_PART"],
+        "breaks_into": [
+            {"item": "graygrow"}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "grayboard_horizontal",
+        "name" : "gray wall",
+        "symbol" : "h",
+        "color" : "lt_gray",
+        "broken_symbol" : "#",
+        "broken_color" : "lt_gray",
+        "durability" : 1000,
+        "damage_modifier" : 10,
+        "item" : "gray",
+        "difficulty" : 1,
+        "folded_volume": 1,
+        "location" : "center",
+        "flags" : ["OPAQUE", "OBSTACLE", "TOOL_NONE", "FOLDABLE"],
+        "breaks_into": [
+            {"item": "graygrow"}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "grayboard_vertical",
+        "name" : "gray wall",
+        "symbol" : "j",
+        "color" : "lt_gray",
+        "broken_symbol" : "#",
+        "broken_color" : "lt_gray",
+        "durability" : 1000,
+        "damage_modifier" : 10,
+        "item" : "gray",
+        "difficulty" : 1,
+        "folded_volume": 1,
+        "location" : "center",
+        "flags" : ["OPAQUE", "OBSTACLE", "TOOL_NONE", "FOLDABLE"],
+        "breaks_into": [
+            {"item": "graygrow"}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "grayboard_nw",
+        "name" : "gray wall",
+        "symbol" : "y",
+        "color" : "lt_gray",
+        "broken_symbol" : "#",
+        "broken_color" : "lt_gray",
+        "durability" : 1000,
+        "damage_modifier" : 10,
+        "item" : "gray",
+        "difficulty" : 1,
+        "folded_volume": 1,
+        "location" : "center",
+        "flags" : ["OPAQUE", "OBSTACLE", "TOOL_NONE", "FOLDABLE"],
+        "breaks_into": [
+            {"item": "graygrow"}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "grayboard_ne",
+        "name" : "gray wall",
+        "symbol" : "u",
+        "color" : "lt_gray",
+        "broken_symbol" : "#",
+        "broken_color" : "lt_gray",
+        "durability" : 1000,
+        "damage_modifier" : 10,
+        "item" : "gray",
+        "difficulty" : 1,
+        "folded_volume": 1,
+        "location" : "center",
+        "flags" : ["OPAQUE", "OBSTACLE", "TOOL_NONE", "FOLDABLE"],
+        "breaks_into": [
+            {"item": "graygrow"}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "grayboard_se",
+        "name" : "gray wall",
+        "symbol" : "n",
+        "color" : "lt_gray",
+        "broken_symbol" : "#",
+        "broken_color" : "lt_gray",
+        "durability" : 1000,
+        "damage_modifier" : 10,
+        "item" : "gray",
+        "difficulty" : 1,
+        "folded_volume": 1,
+        "location" : "center",
+        "flags" : ["OPAQUE", "OBSTACLE", "TOOL_NONE", "FOLDABLE"],
+        "breaks_into": [
+            {"item": "graygrow"}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "grayboard_sw",
+        "name" : "gray wall",
+        "symbol" : "b",
+        "color" : "lt_gray",
+        "broken_symbol" : "#",
+        "broken_color" : "lt_gray",
+        "durability" : 1000,
+        "damage_modifier" : 10,
+        "item" : "gray",
+        "difficulty" : 1,
+        "folded_volume": 1,
+        "location" : "center",
+        "flags" : ["OPAQUE", "OBSTACLE", "TOOL_NONE", "FOLDABLE"],
+        "breaks_into": [
+            {"item": "graygrow"}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "halfgrayboard_horizontal",
+        "name" : "gray barricade",
+        "symbol" : "h",
+        "color" : "lt_gray",
+        "broken_symbol" : "#",
+        "broken_color" : "lt_gray",
+        "durability" : 1000,
+        "damage_modifier" : 10,
+        "item" : "gray",
+        "difficulty" : 1,
+        "folded_volume": 1,
+        "location" : "center",
+        "flags" : ["OBSTACLE", "TOOL_NONE", "FOLDABLE"],
+        "breaks_into": [
+            {"item": "graygrow"}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "halfgrayboard_vertical",
+        "name" : "gray barricade",
+        "symbol" : "j",
+        "color" : "lt_gray",
+        "broken_symbol" : "#",
+        "broken_color" : "lt_gray",
+        "durability" : 1000,
+        "damage_modifier" : 10,
+        "item" : "gray",
+        "difficulty" : 1,
+        "folded_volume": 1,
+        "location" : "center",
+        "flags" : ["OBSTACLE", "TOOL_NONE", "FOLDABLE"],
+        "breaks_into": [
+            {"item": "graygrow"}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "halfgrayboard_nw",
+        "name" : "gray barricade",
+        "symbol" : "y",
+        "color" : "lt_gray",
+        "broken_symbol" : "#",
+        "broken_color" : "lt_gray",
+        "durability" : 1000,
+        "damage_modifier" : 10,
+        "item" : "gray",
+        "difficulty" : 1,
+        "folded_volume": 1,
+        "location" : "center",
+        "flags" : ["OBSTACLE", "TOOL_NONE", "FOLDABLE"],
+        "breaks_into": [
+            {"item": "graygrow"}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "halfgrayboard_ne",
+        "name" : "gray barricade",
+        "symbol" : "u",
+        "color" : "lt_gray",
+        "broken_symbol" : "#",
+        "broken_color" : "lt_gray",
+        "durability" : 1000,
+        "damage_modifier" : 10,
+        "item" : "gray",
+        "difficulty" : 1,
+        "folded_volume": 1,
+        "location" : "center",
+        "flags" : ["OBSTACLE", "TOOL_NONE", "FOLDABLE"],
+        "breaks_into": [
+            {"item": "graygrow"}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "halfgrayboard_se",
+        "name" : "gray barricade",
+        "symbol" : "n",
+        "color" : "lt_gray",
+        "broken_symbol" : "#",
+        "broken_color" : "lt_gray",
+        "durability" : 1000,
+        "damage_modifier" : 10,
+        "item" : "gray",
+        "difficulty" : 1,
+        "folded_volume": 1,
+        "location" : "center",
+        "flags" : ["OBSTACLE", "TOOL_NONE", "FOLDABLE"],
+        "breaks_into": [
+            {"item": "graygrow"}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "halfgrayboard_sw",
+        "name" : "gray barricade",
+        "symbol" : "b",
+        "color" : "lt_gray",
+        "broken_symbol" : "#",
+        "broken_color" : "lt_gray",
+        "durability" : 1000,
+        "damage_modifier" : 10,
+        "item" : "gray",
+        "difficulty" : 1,
+        "folded_volume": 1,
+        "location" : "center",
+        "flags" : ["OBSTACLE", "TOOL_NONE", "FOLDABLE"],
+        "breaks_into": [
+            {"item": "graygrow"}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "halfgrayboard_horizontal_2",
+        "name" : "gray barricade",
+        "symbol" : "=",
+        "color" : "lt_gray",
+        "broken_symbol" : "#",
+        "broken_color" : "lt_gray",
+        "durability" : 1000,
+        "damage_modifier" : 10,
+        "item" : "gray",
+        "difficulty" : 1,
+        "folded_volume": 1,
+        "location" : "center",
+        "flags" : ["OBSTACLE", "TOOL_NONE", "FOLDABLE"],
+        "breaks_into": [
+            {"item": "graygrow"}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "halfgrayboard_vertical_2",
+        "name" : "gray barricade",
+        "symbol" : "H",
+        "color" : "lt_gray",
+        "broken_symbol" : "#",
+        "broken_color" : "lt_gray",
+        "durability" : 1000,
+        "damage_modifier" : 10,
+        "item" : "gray",
+        "difficulty" : 1,
+        "folded_volume": 1,
+        "location" : "center",
+        "flags" : ["OBSTACLE", "TOOL_NONE", "FOLDABLE"],
+        "breaks_into": [
+            {"item": "graygrow"}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "gloople_roof",
+        "name" : "gel roof",
+        "symbol" : "#",
+        "color" : "light_green",
+        "broken_symbol" : "#",
+        "broken_color" : "light_green",
+        "durability" : 250,
+        "damage_modifier" : 10,
+        "item" : "gloople",
+        "difficulty" : 1,
+        "folded_volume": 1,
+        "location" : "roof",
+        "flags" : ["ROOF", "TOOL_NONE", "FOLDABLE"],
+        "breaks_into": [
+            {"item": "glooplegrow"}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "oozle_roof",
+        "name" : "ooze roof",
+        "symbol" : "#",
+        "color" : "green",
+        "broken_symbol" : "#",
+        "broken_color" : "light_green",
+        "durability" : 500,
+        "damage_modifier" : 10,
+        "item" : "oozle",
+        "difficulty" : 1,
+        "folded_volume": 1,
+        "location" : "roof",
+        "flags" : ["ROOF", "TOOL_NONE", "FOLDABLE"],
+        "breaks_into": [
+            {"item": "oozlegrow"}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "gray_roof",
+        "name" : "gray roof",
+        "symbol" : "#",
+        "color" : "lt_gray",
+        "broken_symbol" : "#",
+        "broken_color" : "lt_gray",
+        "durability" : 1000,
+        "damage_modifier" : 10,
+        "item" : "gray",
+        "difficulty" : 1,
+        "folded_volume": 1,
+        "location" : "roof",
+        "flags" : ["ROOF", "TOOL_NONE", "FOLDABLE"],
+        "breaks_into": [
+            {"item": "graygrow"}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "gloopledoor",
+        "name" : "gel hatch",
+        "symbol" : "+",
+        "color" : "light_green",
+        "broken_symbol" : "&",
+        "broken_color" : "light_green",
+        "damage_modifier" : 10,
+        "durability" : 250,
+        "item" : "gloople",
+        "difficulty" : 2,
+        "folded_volume": 1,
+        "location" : "center",
+        "flags" : ["OBSTACLE", "OPENABLE", "BOARDABLE", "WINDOW", "TOOL_NONE", "FOLDABLE"],
+        "breaks_into": [
+            {"item": "glooplegrow"}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "gloopledoor_opaque",
+        "name" : "opaque gel hatch",
+        "symbol" : "+",
+        "color" : "light_green",
+        "broken_symbol" : "&",
+        "broken_color" : "light_green",
+        "damage_modifier" : 10,
+        "durability" : 250,
+        "item" : "gloople",
+        "difficulty" : 2,
+        "folded_volume": 1,
+        "location" : "center",
+        "flags" : ["OBSTACLE", "OPAQUE", "OPENABLE", "BOARDABLE", "TOOL_NONE", "FOLDABLE"],
+        "breaks_into": [
+            {"item": "glooplegrow"}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "oozledoor",
+        "name" : "ooze hatch",
+        "symbol" : "+",
+        "color" : "green",
+        "broken_symbol" : "&",
+        "broken_color" : "green",
+        "damage_modifier" : 10,
+        "durability" : 500,
+        "item" : "oozle",
+        "difficulty" : 2,
+        "folded_volume": 1,
+        "location" : "center",
+        "flags" : ["OBSTACLE", "OPENABLE", "BOARDABLE", "WINDOW", "TOOL_NONE", "FOLDABLE"],
+        "breaks_into": [
+            {"item": "oozlegrow"}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "oozledoor_opaque",
+        "name" : "opaque ooze hatch",
+        "symbol" : "+",
+        "color" : "green",
+        "broken_symbol" : "&",
+        "broken_color" : "green",
+        "damage_modifier" : 10,
+        "durability" : 500,
+        "item" : "oozle",
+        "difficulty" : 2,
+        "folded_volume": 1,
+        "location" : "center",
+        "flags" : ["OBSTACLE", "OPAQUE", "OPENABLE", "BOARDABLE", "TOOL_NONE", "FOLDABLE"],
+        "breaks_into": [
+            {"item": "oozlegrow"}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "graydoor",
+        "name" : "gray hatch",
+        "symbol" : "+",
+        "color" : "lt_gray",
+        "broken_symbol" : "&",
+        "broken_color" : "lt_gray",
+        "damage_modifier" : 10,
+        "durability" : 1000,
+        "item" : "gray",
+        "difficulty" : 2,
+        "folded_volume": 1,
+        "location" : "center",
+        "flags" : ["OBSTACLE", "OPENABLE", "BOARDABLE", "WINDOW", "TOOL_NONE", "FOLDABLE"],
+        "breaks_into": [
+            {"item": "graygrow"}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "graydoor_opaque",
+        "name" : "opaque gray hatch",
+        "symbol" : "+",
+        "color" : "lt_gray",
+        "broken_symbol" : "&",
+        "broken_color" : "lt_gray",
+        "damage_modifier" : 10,
+        "durability" : 1000,
+        "item" : "gray",
+        "difficulty" : 2,
+        "folded_volume": 1,
+        "location" : "center",
+        "flags" : ["OBSTACLE", "OPAQUE", "OPENABLE", "BOARDABLE", "TOOL_NONE", "FOLDABLE"],
+        "breaks_into": [
+            {"item": "graygrow"}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "gloople_seat",
+        "name" : "gel seat",
+        "symbol" : "#",
+        "color" : "light_green",
+        "broken_symbol" : "*",
+        "broken_color" : "light_green",
+        "damage_modifier" : 10,
+        "durability" : 250,
+        "item" : "gloople",
+        "difficulty" : 1,
+        "folded_volume": 1,
+        "location" : "center",
+        "flags" : [
+            "SEAT", "BED", "BOARDABLE", "BELTABLE", "TOOL_NONE"
+        ],
+        "breaks_into" : [
+            {"item": "glooplegrow"}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "gloople_belt",
+        "name" : "gel harness",
+        "symbol" : ",",
+        "color" : "light_green",
+        "broken_symbol" : ",",
+        "broken_color" : "light_green",
+        "damage_modifier" : 10,
+        "durability" : 250,
+        "bonus" : 25,
+        "item" : "gloople",
+        "difficulty" : 1,
+        "folded_volume": 1,
+        "location" : "on_seat",
+        "flags" : ["SEATBELT", "TOOL_NONE", "FOLDABLE"],
+        "breaks_into" : [
+            {"item": "glooplegrow"}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "oozle_seat",
+        "name" : "ooze seat",
+        "symbol" : "#",
+        "color" : "green",
+        "broken_symbol" : "*",
+        "broken_color" : "green",
+        "damage_modifier" : 10,
+        "durability" : 500,
+        "item" : "oozle",
+        "difficulty" : 1,
+        "folded_volume": 1,
+        "location" : "center",
+        "flags" : [
+            "SEAT", "BED", "BOARDABLE", "BELTABLE", "TOOL_NONE"
+        ],
+        "breaks_into" : [
+            {"item": "oozlegrow"}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "oozle_belt",
+        "name" : "ooze harness",
+        "symbol" : ",",
+        "color" : "green",
+        "broken_symbol" : ",",
+        "broken_color" : "green",
+        "damage_modifier" : 10,
+        "durability" : 500,
+        "bonus" : 35,
+        "item" : "oozle",
+        "difficulty" : 1,
+        "folded_volume": 1,
+        "location" : "on_seat",
+        "flags" : ["SEATBELT", "TOOL_NONE", "FOLDABLE"],
+        "breaks_into" : [
+            {"item": "oozlegrow"}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "gray_seat",
+        "name" : "gray seat",
+        "symbol" : "#",
+        "color" : "gray",
+        "broken_symbol" : "*",
+        "broken_color" : "gray",
+        "damage_modifier" : 10,
+        "durability" : 1000,
+        "item" : "gray",
+        "difficulty" : 1,
+        "folded_volume": 1,
+        "location" : "center",
+        "flags" : [
+            "SEAT", "BED", "BOARDABLE", "BELTABLE", "TOOL_NONE"
+        ],
+        "breaks_into" : [
+            {"item": "graygrow"}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "gray_belt",
+        "name" : "gray harness",
+        "symbol" : ",",
+        "color" : "gray",
+        "broken_symbol" : ",",
+        "broken_color" : "gray",
+        "durability" : 1000,
+        "damage_modifier" :10,
+        "bonus" : 50,
+        "item" : "gray",
+        "difficulty" : 1,
+        "folded_volume": 1,
+        "location" : "on_seat",
+        "flags" : ["SEATBELT", "TOOL_NONE", "FOLDABLE"],
+        "breaks_into" : [
+            {"item": "graygrow"}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "gloopleaisle_horizontal",
+        "name" : "gel walkway",
+        "symbol" : "=",
+        "color" : "light_green",
+        "broken_symbol" : "#",
+        "broken_color" : "light_green",
+        "durability" : 250,
+        "item" : "gloople",
+        "damage_modifier" :10,
+        "difficulty" : 1,
+        "folded_volume": 1,
+        "location" : "center",
+        "flags" : ["AISLE", "BOARDABLE", "TOOL_NONE", "FOLDABLE"],
+        "breaks_into": [
+            {"item": "glooplegrow"}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "gloopleaisle_vertical",
+        "name" : "gel walkway",
+        "symbol" : "H",
+        "color" : "light_green",
+        "broken_symbol" : "#",
+        "broken_color" : "light_green",
+        "durability" : 250,
+        "damage_modifier" :10,
+        "item" : "gloople",
+        "difficulty" : 1,
+        "folded_volume": 1,
+        "location" : "center",
+        "flags" : ["AISLE", "BOARDABLE", "TOOL_NONE", "FOLDABLE"],
+        "breaks_into": [
+            {"item": "glooplegrow"}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "oozleaisle_horizontal",
+        "name" : "ooze walkway",
+        "symbol" : "=",
+        "color" : "green",
+        "broken_symbol" : "#",
+        "broken_color" : "green",
+        "durability" : 500,
+        "damage_modifier" :10,
+        "item" : "oozle",
+        "difficulty" : 1,
+        "folded_volume": 1,
+        "location" : "center",
+        "flags" : ["AISLE", "BOARDABLE", "TOOL_NONE", "FOLDABLE"],
+        "breaks_into": [
+            {"item": "oozlegrow"}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "oozleaisle_vertical",
+        "name" : "ooze walkway",
+        "symbol" : "H",
+        "color" : "green",
+        "broken_symbol" : "#",
+        "broken_color" : "green",
+        "durability" : 500,
+        "damage_modifier" :10,
+        "item" : "oozle",
+        "difficulty" : 1,
+        "folded_volume": 1,
+        "location" : "center",
+        "flags" : ["AISLE", "BOARDABLE", "TOOL_NONE", "FOLDABLE"],
+        "breaks_into": [
+            {"item": "oozlegrow"}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "grayaisle_horizontal",
+        "name" : "gray walkway",
+        "symbol" : "=",
+        "color" : "lt_gray",
+        "broken_symbol" : "#",
+        "broken_color" : "lt_gray",
+        "durability" : 1000,
+        "damage_modifier" :10,
+        "item" : "gray",
+        "difficulty" : 1,
+        "folded_volume": 1,
+        "location" : "center",
+        "flags" : ["AISLE", "BOARDABLE", "TOOL_NONE", "FOLDABLE"],
+        "breaks_into": [
+            {"item": "graygrow"}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "grayaisle_vertical",
+        "name" : "gray walkway",
+        "symbol" : "H",
+        "color" : "lt_gray",
+        "broken_symbol" : "#",
+        "broken_color" : "lt_gray",
+        "durability" : 1000,
+        "damage_modifier" :10,
+        "item" : "gray",
+        "difficulty" : 1,
+        "folded_volume": 1,
+        "location" : "center",
+        "flags" : ["AISLE", "BOARDABLE", "TOOL_NONE", "FOLDABLE"],
+        "breaks_into": [
+            {"item": "graygrow"}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "gloople_gas_tank",
+        "name" : "gasoline capsule",
+        "symbol" : "O",
+        "color" : "light_green",
+        "broken_symbol" : "#",
+        "broken_color" : "light_green",
+        "damage_modifier" :10,
+        "durability" : 250,
+        "size" : 10000,
+        "fuel_type" : "gasoline",
+        "item" : "gloople_tank",
+        "difficulty" : 1,
+        "folded_volume": 1,
+        "location" : "fuel_source",
+        "flags" : ["FUEL_TANK", "TOOL_NONE", "FOLDABLE"],
+        "breaks_into" : [
+            {"item": "glooplegrow"}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "gloople_diesel_tank",
+        "name" : "diesel capsule",
+        "symbol" : "O",
+        "color" : "light_green",
+        "broken_symbol" : "#",
+        "broken_color" : "light_green",
+        "damage_modifier" :10,
+        "durability" : 250,
+        "size" : 10000,
+        "fuel_type" : "diesel",
+        "item" : "gloople_tank",
+        "difficulty" : 1,
+        "folded_volume": 1,
+        "location" : "fuel_source",
+        "flags" : ["FUEL_TANK", "TOOL_NONE", "FOLDABLE"],
+        "breaks_into" : [
+            {"item": "glooplegrow"}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "gloople_water_tank",
+        "name" : "clean water capsule",
+        "symbol" : "O",
+        "color" : "light_green",
+        "broken_symbol" : "#",
+        "broken_color" : "light_green",
+        "damage_modifier" :10,
+        "durability" : 250,
+        "size" : 100,
+        "fuel_type" : "water_clean",
+        "item" : "gloople_tank",
+        "difficulty" : 1,
+        "folded_volume": 1,
+        "location" : "fuel_source",
+        "flags" : ["FUEL_TANK", "TOOL_NONE", "FOLDABLE"],
+        "breaks_into" : [
+            {"item": "glooplegrow"}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "gloople_water_dirty_tank",
+        "name" : "dirty water capsule",
+        "symbol" : "O",
+        "color" : "light_green",
+        "broken_symbol" : "#",
+        "broken_color" : "light_green",
+        "damage_modifier" :10,
+        "durability" : 250,
+        "size" : 100,
+        "fuel_type" : "water",
+        "item" : "gloople_tank",
+        "difficulty" : 1,
+        "folded_volume": 1,
+        "location" : "fuel_source",
+        "flags" : ["FUEL_TANK", "TOOL_NONE", "FOLDABLE"],
+        "breaks_into" : [
+            {"item": "glooplegrow"}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "gloople_feed_tank",
+        "name" : "feed capsule",
+        "symbol" : "O",
+        "color" : "light_green",
+        "broken_symbol" : "#",
+        "broken_color" : "light_green",
+        "damage_modifier" :10,
+        "durability" : 250,
+        "size" : 500,
+        "fuel_type" : "bfeed",
+        "item" : "gloople_tank",
+        "difficulty" : 1,
+        "folded_volume": 1,
+        "location" : "fuel_source",
+        "flags" : ["FUEL_TANK", "TOOL_NONE", "FOLDABLE"],
+        "breaks_into" : [
+            {"item": "glooplegrow"}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "gloople_gas_tank_u",
+        "name" : "gasoline capsule (under)",
+        "symbol" : "O",
+        "color" : "light_green",
+        "broken_symbol" : "#",
+        "broken_color" : "light_green",
+        "damage_modifier" :10,
+        "durability" : 250,
+        "size" : 10000,
+        "fuel_type" : "gasoline",
+        "item" : "gloople_tank",
+        "difficulty" : 1,
+        "folded_volume": 1,
+        "location" : "under",
+        "flags" : ["FUEL_TANK", "TOOL_NONE", "FOLDABLE"],
+        "breaks_into" : [
+            {"item": "glooplegrow"}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "gloople_diesel_tank_u",
+        "name" : "diesel capsule (under)",
+        "symbol" : "O",
+        "color" : "light_green",
+        "broken_symbol" : "#",
+        "broken_color" : "light_green",
+        "damage_modifier" :10,
+        "durability" : 250,
+        "size" : 10000,
+        "fuel_type" : "diesel",
+        "item" : "gloople_tank",
+        "difficulty" : 1,
+        "folded_volume": 1,
+        "location" : "under",
+        "flags" : ["FUEL_TANK", "TOOL_NONE", "FOLDABLE"],
+        "breaks_into" : [
+            {"item": "glooplegrow"}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "gloople_water_tank_u",
+        "name" : "clean water capsule (under)",
+        "symbol" : "O",
+        "color" : "light_green",
+        "broken_symbol" : "#",
+        "broken_color" : "light_green",
+        "damage_modifier" :10,
+        "durability" : 250,
+        "size" : 100,
+        "fuel_type" : "water_clean",
+        "item" : "gloople_tank",
+        "difficulty" : 1,
+        "folded_volume": 1,
+        "location" : "under",
+        "flags" : ["FUEL_TANK", "TOOL_NONE", "FOLDABLE"],
+        "breaks_into" : [
+            {"item": "glooplegrow"}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "gloople_water_dirty_tank_u",
+        "name" : "dirty water capsule (under)",
+        "symbol" : "O",
+        "color" : "light_green",
+        "broken_symbol" : "#",
+        "broken_color" : "light_green",
+        "damage_modifier" :10,
+        "durability" : 250,
+        "size" : 100,
+        "fuel_type" : "water",
+        "item" : "gloople_tank",
+        "difficulty" : 1,
+        "folded_volume": 1,
+        "location" : "under",
+        "flags" : ["FUEL_TANK", "TOOL_NONE", "FOLDABLE"],
+        "breaks_into" : [
+            {"item": "glooplegrow"}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "gloople_feed_tank_u",
+        "name" : "feed capsule (under)",
+        "symbol" : "O",
+        "color" : "light_green",
+        "broken_symbol" : "#",
+        "broken_color" : "light_green",
+        "damage_modifier" :10,
+        "durability" : 250,
+        "size" : 500,
+        "fuel_type" : "bfeed",
+        "item" : "gloople_tank",
+        "difficulty" : 1,
+        "folded_volume": 1,
+        "location" : "under",
+        "flags" : ["FUEL_TANK", "TOOL_NONE", "FOLDABLE"],
+        "breaks_into" : [
+            {"item": "glooplegrow"}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "oozle_gas_tank",
+        "name" : "gasoline pod",
+        "symbol" : "O",
+        "color" : "green",
+        "broken_symbol" : "#",
+        "broken_color" : "green",
+        "damage_modifier" :10,
+        "durability" : 500,
+        "size" : 20000,
+        "fuel_type" : "gasoline",
+        "item" : "oozle_tank",
+        "difficulty" : 1,
+        "folded_volume": 1,
+        "location" : "fuel_source",
+        "flags" : ["FUEL_TANK", "TOOL_NONE", "FOLDABLE"],
+        "breaks_into" : [
+            {"item": "oozlegrow"}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "oozle_diesel_tank",
+        "name" : "diesel pod",
+        "symbol" : "O",
+        "color" : "green",
+        "broken_symbol" : "#",
+        "broken_color" : "green",
+        "damage_modifier" :10,
+        "durability" : 500,
+        "size" : 20000,
+        "fuel_type" : "diesel",
+        "item" : "oozle_tank",
+        "difficulty" : 1,
+        "folded_volume": 1,
+        "location" : "fuel_source",
+        "flags" : ["FUEL_TANK", "TOOL_NONE", "FOLDABLE"],
+        "breaks_into" : [
+            {"item": "oozlegrow"}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "oozle_water_tank",
+        "name" : "clean water pod",
+        "symbol" : "O",
+        "color" : "green",
+        "broken_symbol" : "#",
+        "broken_color" : "green",
+        "damage_modifier" :10,
+        "durability" : 500,
+        "size" : 200,
+        "fuel_type" : "water_clean",
+        "item" : "oozle_tank",
+        "difficulty" : 1,
+        "folded_volume": 1,
+        "location" : "fuel_source",
+        "flags" : ["FUEL_TANK", "TOOL_NONE", "FOLDABLE"],
+        "breaks_into" : [
+            {"item": "oozlegrow"}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "oozle_water_dirty_tank",
+        "name" : "dirty water pod",
+        "symbol" : "O",
+        "color" : "green",
+        "broken_symbol" : "#",
+        "broken_color" : "green",
+        "damage_modifier" :10,
+        "durability" : 500,
+        "size" : 200,
+        "fuel_type" : "water",
+        "item" : "oozle_tank",
+        "difficulty" : 1,
+        "folded_volume": 1,
+        "location" : "fuel_source",
+        "flags" : ["FUEL_TANK", "TOOL_NONE", "FOLDABLE"],
+        "breaks_into" : [
+            {"item": "oozlegrow"}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "oozle_feed_tank",
+        "name" : "feed pod",
+        "symbol" : "O",
+        "color" : "green",
+        "broken_symbol" : "#",
+        "broken_color" : "green",
+        "damage_modifier" :10,
+        "durability" : 500,
+        "size" : 1000,
+        "fuel_type" : "bfeed",
+        "item" : "oozle_tank",
+        "difficulty" : 1,
+        "folded_volume": 1,
+        "location" : "fuel_source",
+        "flags" : ["FUEL_TANK", "TOOL_NONE", "FOLDABLE"],
+        "breaks_into" : [
+            {"item": "oozlegrow"}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "oozle_gas_tank_u",
+        "name" : "gasoline pod (under)",
+        "symbol" : "O",
+        "color" : "green",
+        "broken_symbol" : "#",
+        "broken_color" : "green",
+        "damage_modifier" :10,
+        "durability" : 500,
+        "size" : 20000,
+        "fuel_type" : "gasoline",
+        "item" : "oozle_tank",
+        "difficulty" : 1,
+        "folded_volume": 1,
+        "location" : "under",
+        "flags" : ["FUEL_TANK", "TOOL_NONE", "FOLDABLE"],
+        "breaks_into" : [
+            {"item": "oozlegrow"}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "oozle_diesel_tank_u",
+        "name" : "diesel pod (under)",
+        "symbol" : "O",
+        "color" : "green",
+        "broken_symbol" : "#",
+        "broken_color" : "green",
+        "damage_modifier" :10,
+        "durability" : 500,
+        "size" : 20000,
+        "fuel_type" : "diesel",
+        "item" : "oozle_tank",
+        "difficulty" : 1,
+        "folded_volume": 1,
+        "location" : "under",
+        "flags" : ["FUEL_TANK", "TOOL_NONE", "FOLDABLE"],
+        "breaks_into" : [
+            {"item": "oozlegrow"}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "oozle_water_tank_u",
+        "name" : "clean water pod (under)",
+        "symbol" : "O",
+        "color" : "green",
+        "broken_symbol" : "#",
+        "broken_color" : "green",
+        "damage_modifier" :10,
+        "durability" : 500,
+        "size" : 200,
+        "fuel_type" : "water_clean",
+        "item" : "oozle_tank",
+        "difficulty" : 1,
+        "folded_volume": 1,
+        "location" : "under",
+        "flags" : ["FUEL_TANK", "TOOL_NONE", "FOLDABLE"],
+        "breaks_into" : [
+            {"item": "oozlegrow"}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "oozle_water_dirty_tank_u",
+        "name" : "dirty water pod (under)",
+        "symbol" : "O",
+        "color" : "green",
+        "broken_symbol" : "#",
+        "broken_color" : "green",
+        "damage_modifier" :10,
+        "durability" : 500,
+        "size" : 200,
+        "fuel_type" : "water",
+        "item" : "oozle_tank",
+        "difficulty" : 1,
+        "folded_volume": 1,
+        "location" : "under",
+        "flags" : ["FUEL_TANK", "TOOL_NONE", "FOLDABLE"],
+        "breaks_into" : [
+            {"item": "oozlegrow"}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "oozle_feed_tank_u",
+        "name" : "feed pod (under)",
+        "symbol" : "O",
+        "color" : "green",
+        "broken_symbol" : "#",
+        "broken_color" : "green",
+        "damage_modifier" :10,
+        "durability" : 500,
+        "size" : 1000,
+        "fuel_type" : "bfeed",
+        "item" : "oozle_tank",
+        "difficulty" : 1,
+        "folded_volume": 1,
+        "location" : "under",
+        "flags" : ["FUEL_TANK", "TOOL_NONE", "FOLDABLE"],
+        "breaks_into" : [
+            {"item": "oozlegrow"}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "gray_gas_tank",
+        "name" : "gasoline cocoon",
+        "symbol" : "O",
+        "color" : "lt_gray",
+        "broken_symbol" : "#",
+        "broken_color" : "lt_gray",
+        "damage_modifier" :10,
+        "durability" : 1000,
+        "size" : 25000,
+        "fuel_type" : "gasoline",
+        "item" : "gray_tank",
+        "difficulty" : 1,
+        "folded_volume": 1,
+        "location" : "fuel_source",
+        "flags" : ["FUEL_TANK", "TOOL_NONE", "FOLDABLE"],
+        "breaks_into" : [
+            {"item": "graygrow"}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "gray_diesel_tank",
+        "name" : "diesel cocoon",
+        "symbol" : "O",
+        "color" : "lt_gray",
+        "broken_symbol" : "#",
+        "broken_color" : "lt_gray",
+        "damage_modifier" :10,
+        "durability" : 1000,
+        "size" : 25000,
+        "fuel_type" : "diesel",
+        "item" : "gray_tank",
+        "difficulty" : 1,
+        "folded_volume": 1,
+        "location" : "fuel_source",
+        "flags" : ["FUEL_TANK", "TOOL_NONE", "FOLDABLE"],
+        "breaks_into" : [
+            {"item": "graygrow"}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "gray_water_tank",
+        "name" : "clean water cocoon",
+        "symbol" : "O",
+        "color" : "lt_gray",
+        "broken_symbol" : "#",
+        "broken_color" : "lt_gray",
+        "damage_modifier" :10,
+        "durability" : 1000,
+        "size" : 250,
+        "fuel_type" : "water_clean",
+        "item" : "gray_tank",
+        "difficulty" : 1,
+        "folded_volume": 1,
+        "location" : "fuel_source",
+        "flags" : ["FUEL_TANK", "TOOL_NONE", "FOLDABLE"],
+        "breaks_into" : [
+            {"item": "graygrow"}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "gray_water_dirty_tank",
+        "name" : "dirty water cocoon",
+        "symbol" : "O",
+        "color" : "lt_gray",
+        "broken_symbol" : "#",
+        "broken_color" : "lt_gray",
+        "damage_modifier" :10,
+        "durability" : 1000,
+        "size" : 250,
+        "fuel_type" : "water",
+        "item" : "gray_tank",
+        "difficulty" : 1,
+        "folded_volume": 1,
+        "location" : "fuel_source",
+        "flags" : ["FUEL_TANK", "TOOL_NONE", "FOLDABLE"],
+        "breaks_into" : [
+            {"item": "graygrow"}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "gray_feed_tank",
+        "name" : "feed cocoon",
+        "symbol" : "O",
+        "color" : "lt_gray",
+        "broken_symbol" : "#",
+        "broken_color" : "lt_gray",
+        "damage_modifier" :10,
+        "durability" : 1000,
+        "size" : 2000,
+        "fuel_type" : "bfeed",
+        "item" : "gray_tank",
+        "difficulty" : 1,
+        "folded_volume": 1,
+        "location" : "fuel_source",
+        "flags" : ["FUEL_TANK", "TOOL_NONE", "FOLDABLE"],
+        "breaks_into" : [
+            {"item": "graygrow"}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "gray_gas_tank_u",
+        "name" : "gasoline cocoon (under)",
+        "symbol" : "O",
+        "color" : "lt_gray",
+        "broken_symbol" : "#",
+        "broken_color" : "lt_gray",
+        "damage_modifier" :10,
+        "durability" : 1000,
+        "size" : 25000,
+        "fuel_type" : "gasoline",
+        "item" : "gray_tank",
+        "difficulty" : 1,
+        "folded_volume": 1,
+        "location" : "under",
+        "flags" : ["FUEL_TANK", "TOOL_NONE", "FOLDABLE"],
+        "breaks_into" : [
+            {"item": "graygrow"}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "gray_diesel_tank_u",
+        "name" : "diesel cocoon (under)",
+        "symbol" : "O",
+        "color" : "lt_gray",
+        "broken_symbol" : "#",
+        "broken_color" : "lt_gray",
+        "damage_modifier" :10,
+        "durability" : 1000,
+        "size" : 25000,
+        "fuel_type" : "diesel",
+        "item" : "gray_tank",
+        "difficulty" : 1,
+        "folded_volume": 1,
+        "location" : "under",
+        "flags" : ["FUEL_TANK", "TOOL_NONE", "FOLDABLE"],
+        "breaks_into" : [
+            {"item": "graygrow"}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "gray_water_tank_u",
+        "name" : "clean water cocoon (under)",
+        "symbol" : "O",
+        "color" : "lt_gray",
+        "broken_symbol" : "#",
+        "broken_color" : "lt_gray",
+        "damage_modifier" :10,
+        "durability" : 1000,
+        "size" : 250,
+        "fuel_type" : "water_clean",
+        "item" : "gray_tank",
+        "difficulty" : 1,
+        "folded_volume": 1,
+        "location" : "under",
+        "flags" : ["FUEL_TANK", "TOOL_NONE", "FOLDABLE"],
+        "breaks_into" : [
+            {"item": "graygrow"}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "gray_water_dirty_tank_u",
+        "name" : "dirty water cocoon (under)",
+        "symbol" : "O",
+        "color" : "lt_gray",
+        "broken_symbol" : "#",
+        "broken_color" : "lt_gray",
+        "damage_modifier" :10,
+        "durability" : 1000,
+        "size" : 250,
+        "fuel_type" : "water",
+        "item" : "gray_tank",
+        "difficulty" : 1,
+        "folded_volume": 1,
+        "location" : "under",
+        "flags" : ["FUEL_TANK", "TOOL_NONE", "FOLDABLE"],
+        "breaks_into" : [
+            {"item": "graygrow"}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "gray_feed_tank_u",
+        "name" : "feed cocoon (under)",
+        "symbol" : "O",
+        "color" : "lt_gray",
+        "broken_symbol" : "#",
+        "broken_color" : "lt_gray",
+        "damage_modifier" :10,
+        "durability" : 1000,
+        "size" : 2000,
+        "fuel_type" : "bfeed",
+        "item" : "gray_tank",
+        "difficulty" : 1,
+        "folded_volume": 1,
+        "location" : "under",
+        "flags" : ["FUEL_TANK", "TOOL_NONE", "FOLDABLE"],
+        "breaks_into" : [
+            {"item": "graygrow"}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "gloople_trunk",
+        "name" : "gel receptacle",
+        "symbol" : "H",
+        "color" : "light_green",
+        "broken_symbol" : "#",
+        "broken_color" : "light_green",
+        "damage_modifier" : 10,
+        "durability" : 250,
+        "size" : 400,
+        "item" : "gloople",
+        "difficulty" : 1,
+        "folded_volume": 1,
+        "location" : "center",
+        "flags" : ["CARGO", "COVERED", "TOOL_NONE", "FOLDABLE"],
+        "breaks_into": [
+            {"item": "glooplegrow"}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "oozle_trunk",
+        "name" : "ooze receptacle",
+        "symbol" : "H",
+        "color" : "green",
+        "broken_symbol" : "#",
+        "broken_color" : "green",
+        "damage_modifier" : 10,
+        "durability" : 500,
+        "size" : 800,
+        "item" : "oozle",
+        "difficulty" : 1,
+        "folded_volume": 1,
+        "location" : "center",
+        "flags" : ["CARGO", "COVERED", "TOOL_NONE", "FOLDABLE"],
+        "breaks_into": [
+            {"item": "oozlegrow"}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "gray_trunk",
+        "name" : "gray receptacle",
+        "symbol" : "H",
+        "color" : "lt_gray",
+        "broken_symbol" : "#",
+        "broken_color" : "lt_gray",
+        "damage_modifier" : 10,
+        "durability" : 1000,
+        "size" : 1000,
+        "item" : "gray",
+        "difficulty" : 1,
+        "folded_volume": 1,
+        "location" : "center",
+        "flags" : ["CARGO", "COVERED", "TOOL_NONE", "FOLDABLE"],
+        "breaks_into": [
+            {"item": "graygrow"}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "gloople_trunk_u",
+        "name" : "gel pouch (under)",
+        "symbol" : "H",
+        "color" : "light_green",
+        "broken_symbol" : "#",
+        "broken_color" : "light_green",
+        "damage_modifier" : 10,
+        "durability" : 250,
+        "size" : 200,
+        "item" : "gloople",
+        "difficulty" : 1,
+        "folded_volume": 1,
+        "location" : "under",
+        "flags" : ["CARGO", "COVERED", "TOOL_NONE", "FOLDABLE"],
+        "breaks_into": [
+            {"item": "glooplegrow"}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "oozle_trunk_u",
+        "name" : "ooze pouch (under)",
+        "symbol" : "H",
+        "color" : "green",
+        "broken_symbol" : "#",
+        "broken_color" : "green",
+        "damage_modifier" : 10,
+        "durability" : 500,
+        "size" : 400,
+        "item" : "oozle",
+        "difficulty" : 1,
+        "folded_volume": 1,
+        "location" : "under",
+        "flags" : ["CARGO", "COVERED", "TOOL_NONE", "FOLDABLE"],
+        "breaks_into": [
+            {"item": "oozlegrow"}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "gray_trunk_u",
+        "name" : "gray pouch (under)",
+        "symbol" : "H",
+        "color" : "lt_gray",
+        "broken_symbol" : "#",
+        "broken_color" : "lt_gray",
+        "damage_modifier" : 10,
+        "durability" : 1000,
+        "size" : 500,
+        "item" : "gray",
+        "difficulty" : 1,
+        "folded_volume": 1,
+        "location" : "under",
+        "flags" : ["CARGO", "COVERED", "TOOL_NONE", "FOLDABLE"],
+        "breaks_into": [
+            {"item": "graygrow"}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "gel_lamp_d",
+        "name" : "directed gel lamp",
+        "symbol" : "#",
+        "color" : "cyan",
+        "broken_symbol" : "x",
+        "broken_color" : "cyan",
+        "damage_modifier" : 10,
+        "durability" : 200,
+        "epower" : 0,
+        "bonus" : 200,
+        "fuel_type" : "battery",
+        "item" : "glowie",
+        "difficulty" : 1,
+        "folded_volume": 1,
+        "flags" : ["CONE_LIGHT", "TOOL_NONE", "FOLDABLE"],
+        "breaks_into" : [
+            {"item": "glowiegrow"}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "gel_lamp",
+        "name" : "gel lamp",
+        "symbol" : "#",
+        "color" : "cyan",
+        "broken_symbol" : "x",
+        "broken_color" : "cyan",
+        "damage_modifier" : 10,
+        "durability" : 200,
+        "epower" : 0,
+        "bonus" : 200,
+        "fuel_type" : "battery",
+        "item" : "glowie",
+        "difficulty" : 1,
+        "folded_volume": 1,
+        "flags" : ["CONE_LIGHT", "TOOL_NONE", "FOLDABLE"],
+        "breaks_into" : [
+            {"item": "glowiegrow"}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "glowie_power",
+        "name" : "gel generator",
+        "symbol" : "#",
+        "color" : "cyan",
+        "broken_symbol" : "x",
+        "broken_color" : "cyan",
+        "damage_modifier" : 10,
+        "durability" : 200,
+        "power" : 25, "//" : "Here it is a multiplier on power efficiency - 1 unit is 100 units of battery",
+        "epower" : 32,
+        "bonus" : 25,
+        "fuel_type" : "bfeed",
+        "item" : "glowie",
+        "difficulty" : 1,
+        "folded_volume": 1,
+        "location" : "center",
+        "flags" : ["REACTOR", "TOOL_NONE", "FOLDABLE", "ATOMIC_LIGHT"],
+        "breaks_into" : [
+            {"item": "glowiegrow"}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "glowie_battery",
+        "name" : "gel battery",
+        "symbol" : "#",
+        "color" : "cyan",
+        "broken_symbol" : "x",
+        "broken_color" : "cyan",
+        "damage_modifier" : 10,
+        "durability" : 200,
+        "fuel_type" : "battery",
+        "item" : "glowie",
+        "difficulty" : 1,
+        "folded_volume": 1,
+        "location" : "fuel_source",
+        "flags" : ["FUEL_TANK", "TOOL_NONE", "FOLDABLE"],
+        "breaks_into" : [
+            {"item": "glowiegrow"}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "glowie_battery_u",
+        "name" : "gel battery (under)",
+        "symbol" : "#",
+        "color" : "cyan",
+        "broken_symbol" : "x",
+        "broken_color" : "cyan",
+        "damage_modifier" : 10,
+        "durability" : 200,
+        "fuel_type" : "battery",
+        "item" : "glowie",
+        "difficulty" : 1,
+        "folded_volume": 1,
+        "location" : "under",
+        "flags" : ["FUEL_TANK", "TOOL_NONE", "FOLDABLE"],
+        "breaks_into" : [
+            {"item": "glowiegrow"}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "gloople_wheel",
+        "name" : "gelatinous wheel",
+        "symbol" : "|",
+        "color" : "light_green",
+        "broken_symbol" : "x",
+        "broken_color" : "light_green",
+        "damage_modifier" : 10,
+        "durability" : 250,
+        "wheel_width" : 6,
+        "item" : "gloople_wheel",
+        "difficulty" : 1,
+        "folded_volume": 1,
+        "location" : "under",
+        "flags" : ["WHEEL", "TOOL_NONE", "FOLDABLE", "TRACKED", "NO_JACK"],
+        "breaks_into" : [
+            {"item": "glooplegrow"},
+            {"item": "water", "count": [50, 100]}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "oozle_wheel",
+        "name" : "oozing wheel",
+        "symbol" : "|",
+        "color" : "green",
+        "broken_symbol" : "x",
+        "broken_color" : "green",
+        "damage_modifier" : 10,
+        "durability" : 500,
+        "wheel_width" : 12,
+        "item" : "oozle_wheel",
+        "difficulty" : 1,
+        "folded_volume": 1,
+        "location" : "under",
+        "flags" : ["WHEEL", "TOOL_NONE", "FOLDABLE", "TRACKED", "NO_JACK"],
+        "breaks_into" : [
+            {"item": "oozlegrow"},
+            {"item": "water", "count": [100, 200]}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "gray_wheel",
+        "name" : "gray wheel",
+        "symbol" : "|",
+        "color" : "lt_gray",
+        "broken_symbol" : "x",
+        "broken_color" : "lt_gray",
+        "damage_modifier" : 10,
+        "durability" : 1000,
+        "wheel_width" : 15,
+        "item" : "gray_wheel",
+        "difficulty" : 1,
+        "folded_volume": 1,
+        "location" : "under",
+        "flags" : ["WHEEL", "TOOL_NONE", "FOLDABLE", "TRACKED", "NO_JACK"],
+        "breaks_into" : [
+            {"item": "graygrow"},
+            {"item": "water", "count": [100, 200]}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "frostie_wheel",
+        "name" : "snow slider",
+        "symbol" : "|",
+        "color" : "light_blue",
+        "broken_symbol" : "x",
+        "broken_color" : "light_blue",
+        "damage_modifier" : 200,
+        "durability" : 500,
+        "wheel_width" : 20,
+        "item" : "frostie",
+        "power" : 10,
+        "difficulty" : 1,
+        "folded_volume": 1,
+        "location" : "under",
+        "flags" : ["WHEEL", "TOOL_NONE", "FOLDABLE", "EXTRA_DRAG", "SHARP", "TRACKED", "NO_JACK"],
+        "breaks_into" : [
+            {"item": "frostiegrow"}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "frostie_wheel_sea",
+        "name" : "icy sea skimmer",
+        "symbol" : "|",
+        "color" : "light_blue",
+        "broken_symbol" : "x",
+        "broken_color" : "light_blue",
+        "damage_modifier" : 200,
+        "durability" : 500,
+        "wheel_width" : 20,
+        "item" : "frostie",
+        "power" : 10,
+        "difficulty" : 1,
+        "folded_volume": 1,
+        "location" : "under",
+        "flags" : ["FLOATS", "TOOL_NONE", "FOLDABLE", "EXTRA_DRAG", "SHARP", "TRACKED", "NO_JACK"],
+        "breaks_into" : [
+            {"item": "frostiegrow"}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "frostie_wall",
+        "name" : "icy windshield",
+        "symbol" : "\"",
+        "color" : "light_blue",
+        "broken_symbol" : "0",
+        "broken_color" : "light_blue",
+        "damage_modifier" : 80,
+        "durability" : 500,
+        "item" : "frostie",
+        "difficulty" : 1,
+        "folded_volume": 1,
+        "location" : "center",
+        "flags" : ["OBSTACLE", "WINDOW", "TOOL_NONE", "FOLDABLE"],
+        "breaks_into" : [
+            {"item": "frostiegrow"}
+        ]
+    },
+    {
+        "type" : "vehicle_part",
+        "id" : "gloople_amalgam",
+        "name" : "gel retriever",
+        "symbol" : "R",
+        "color" : "light_green",
+        "broken_symbol" : ";",
+        "broken_color" : "light_green",
+        "durability" : 250,
+        "epower" : 0,
+        "size":300,
+        "damage_modifier":10,
+        "item" : "gloople",
+        "difficulty" : 1,
+        "folded_volume": 1,
+        "flags": ["SCOOP","CARGO", "TOOL_NONE", "FOLDABLE"],
+        "location":"under",
+        "breaks_into" : [
+            {"item": "glooplegrow"}
+        ]
+    },
+    {
+        "type" : "vehicle_part",
+        "id" : "oozle_amalgam",
+        "name" : "ooze retriever",
+        "symbol" : "R",
+        "color" : "green",
+        "broken_symbol" : ";",
+        "broken_color" : "green",
+        "durability" : 600,
+        "epower" : 0,
+        "size":400,
+        "damage_modifier":10,
+        "item" : "oozle",
+        "difficulty" : 1,
+        "folded_volume": 1,
+        "flags": ["SCOOP","CARGO", "TOOL_NONE", "FOLDABLE"],
+        "location":"under",
+        "breaks_into" : [
+            {"item": "oozlegrow"}
+        ]
+    },
+    {
+        "type" : "vehicle_part",
+        "id" : "gray_amalgam",
+        "name" : "gray retriever",
+        "symbol" : "R",
+        "color" : "lt_gray",
+        "broken_symbol" : ";",
+        "broken_color" : "lt_gray",
+        "durability" : 1000,
+        "epower" : 0,
+        "size":800,
+        "damage_modifier":10,
+        "item" : "gray",
+        "difficulty" : 1,
+        "folded_volume": 1,
+        "flags": ["SCOOP","CARGO", "TOOL_NONE", "FOLDABLE"],
+        "location":"under",
+        "breaks_into" : [
+            {"item": "graygrow"}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "frostie_trunk",
+        "name" : "ice pack",
+        "symbol" : "H",
+        "color" : "light_blue",
+        "broken_symbol" : "#",
+        "broken_color" : "light_blue",
+        "damage_modifier" : 80,
+        "durability" : 100,
+        "epower" : 0,
+        "size" : 400,
+        "item" : "frostie",
+        "difficulty" : 3,
+        "folded_volume": 1,
+        "location" : "center",
+        "flags" : ["CARGO", "OBSTACLE", "FRIDGE", "COVERED", "TOOL_NONE", "FOLDABLE"],
+        "breaks_into" : [
+            {"item": "frostiegrow"}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "frostie_ram",
+        "name" : "ice ram",
+        "symbol" : "X",
+        "color" : "light_blue",
+        "broken_symbol" : "0",
+        "broken_color" : "light_blue",
+        "damage_modifier" : 200,
+        "durability" : 1000,
+        "item" : "frostie",
+        "difficulty" : 1,
+        "folded_volume": 1,
+        "location" : "structure",
+        "flags" : ["OBSTACLE", "PROTRUSION", "SHARP", "TOOL_NONE", "FOLDABLE"],
+        "breaks_into" : [
+            {"item": "frostiegrow"}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "grinder",
+        "name" : "earthen roller",
+        "symbol" : "O",
+        "color" : "brown",
+        "broken_symbol" : "#",
+        "broken_color" : "brown",
+        "damage_modifier" : 250,
+        "durability" : 2500,
+        "wheel_width" : 40,
+        "item" : "grinder",
+        "difficulty" : 1,
+        "folded_volume": 1,
+        "location" : "structure",
+        "flags" : ["WHEEL", "TOOL_NONE", "FOLDABLE", "PROTRUSION", "STABLE", "TRACKED", "NO_JACK"],
+        "breaks_into" : [
+            {"item": "gray"}
+        ]
+    },
+    {
+        "type" : "vehicle_part",
+        "id" : "queen",
+        "name" : "amorphous core",
+        "symbol" : "O",
+        "color" : "red",
+        "broken_symbol" : "#",
+        "broken_color" : "red",
+        "damage_modifier" : 10,
+        "durability" : 1000,
+        "power" : 600,
+        "fuel_type" : "water",
+        "item" : "queen",
+        "difficulty" : 1,
+        "folded_volume": 1,
+        "location" : "center",
+        "flags" : ["FUEL_TANK", "TURRET", "MANUAL", "BOARDABLE", "BELTABLE", "TOOL_NONE", "FOLDABLE", "ENGINE", "CONTROLS", "SEAT", "BED"],
+        "breaks_into" : [
+            {"item": "queengrow"}
+        ]
+    },
+    {
+        "type" : "vehicle_part",
+        "id" : "gloople_plate",
+        "name" : "gel reinforcement",
+        "symbol" : "X",
+        "color" : "light_green",
+        "broken_symbol" : "*",
+        "broken_color" : "light_green",
+        "damage_modifier" : 10,
+        "durability" : 250,
+        "item" : "gloople",
+        "difficulty" : 1,
+        "folded_volume": 1,
+        "location" : "armor",
+        "flags" : ["ARMOR", "TOOL_NONE", "FOLDABLE"],
+        "breaks_into" : [
+            {"item": "glooplegrow"}
+        ]
+    },
+    {
+        "type" : "vehicle_part",
+        "id" : "oozle_plate",
+        "name" : "ooze reinforcement",
+        "symbol" : "X",
+        "color" : "green",
+        "broken_symbol" : "*",
+        "broken_color" : "green",
+        "damage_modifier" : 10,
+        "durability" : 500,
+        "item" : "oozle",
+        "difficulty" : 1,
+        "folded_volume": 1,
+        "location" : "armor",
+        "flags" : ["ARMOR", "TOOL_NONE", "FOLDABLE"],
+        "breaks_into" : [
+            {"item": "oozlegrow"}
+        ]
+    },
+    {
+        "type" : "vehicle_part",
+        "id" : "gray_plate",
+        "name" : "gray reinforcement",
+        "symbol" : "X",
+        "color" : "lt_gray",
+        "broken_symbol" : "*",
+        "broken_color" : "lt_gray",
+        "damage_modifier" : 10,
+        "durability" : 1000,
+        "item" : "gray",
+        "difficulty" : 1,
+        "folded_volume": 1,
+        "location" : "armor",
+        "flags" : ["ARMOR", "TOOL_NONE", "FOLDABLE"],
+        "breaks_into" : [
+            {"item": "graygrow"}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "clutter",
+        "name" : "gel shooter",
+        "symbol" : "t",
+        "color" : "purple",
+        "broken_symbol" : "#",
+        "broken_color" : "purple",
+        "damage_modifier" : 10,
+        "durability" : 200,
+        "range" : 8,
+        "item" : "clutter",
+        "difficulty" : 1,
+        "folded_volume": 1,
+        "location" : "on_roof",
+        "flags" : ["TURRET", "TOOL_NONE", "FOLDABLE"],
+        "breaks_into" : [
+            {"item": "cluttergrow"}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "stickie",
+        "name" : "gel puffer",
+        "symbol" : "t",
+        "color" : "yellow",
+        "broken_symbol" : "#",
+        "broken_color" : "yellow",
+        "damage_modifier" : 10,
+        "durability" : 200,
+        "range" : 8,
+        "item" : "stickie",
+        "difficulty" : 1,
+        "folded_volume": 1,
+        "location" : "on_roof",
+        "flags" : ["TURRET", "TOOL_NONE", "FOLDABLE"],
+        "breaks_into" : [
+            {"item": "stickiegrow"}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "meltie",
+        "name" : "acid puffer",
+        "symbol" : "t",
+        "color" : "light_red",
+        "broken_symbol" : "#",
+        "broken_color" : "light_red",
+        "damage_modifier" : 10,
+        "durability" : 200,
+        "range" : 8,
+        "item" : "meltie",
+        "difficulty" : 1,
+        "folded_volume": 1,
+        "location" : "on_roof",
+        "flags" : ["TURRET", "TOOL_NONE", "FOLDABLE"],
+        "breaks_into" : [
+            {"item": "meltiegrow"}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "inkie",
+        "name" : "fuel puffer",
+        "symbol" : "t",
+        "color" : "brown",
+        "broken_symbol" : "#",
+        "broken_color" : "brown",
+        "damage_modifier" : 10,
+        "durability" : 200,
+        "range" : 8,
+        "item" : "inkie",
+        "difficulty" : 1,
+        "folded_volume": 1,
+        "location" : "on_roof",
+        "flags" : ["TURRET", "TOOL_NONE", "FOLDABLE"],
+        "breaks_into" : [
+            {"item": "inkiegrow"}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "torchie",
+        "name" : "fire puffer",
+        "symbol" : "t",
+        "color" : "light_red",
+        "broken_symbol" : "#",
+        "broken_color" : "light_red",
+        "damage_modifier" : 10,
+        "durability" : 200,
+        "range" : 10,
+        "item" : "torchie",
+        "difficulty" : 1,
+        "folded_volume": 1,
+        "location" : "on_roof",
+        "flags" : ["TURRET", "TOOL_NONE", "FOLDABLE"],
+        "breaks_into" : [
+            {"item": "torchiegrow"}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "sparkie",
+        "name" : "shock bulb",
+        "symbol" : "t",
+        "color" : "cyan",
+        "broken_symbol" : "#",
+        "broken_color" : "cyan",
+        "damage_modifier" : 10,
+        "durability" : 200,
+        "range" : 8,
+        "item" : "sparkie",
+        "difficulty" : 1,
+        "folded_volume": 1,
+        "location" : "on_roof",
+        "flags" : ["TURRET", "TOOL_NONE", "FOLDABLE"],
+        "breaks_into" : [
+            {"item": "sparkiegrow"}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "voideater",
+        "name" : "spark blight",
+        "symbol" : "t",
+        "color" : "cyan",
+        "broken_symbol" : "#",
+        "broken_color" : "cyan",
+        "damage_modifier" : 10,
+        "durability" : 200,
+        "range" : 12,
+        "item" : "voideater",
+        "difficulty" : 1,
+        "folded_volume": 1,
+        "location" : "on_roof",
+        "flags" : ["TURRET", "TOOL_NONE", "FOLDABLE"],
+        "breaks_into" : [
+            {"item": "voideatergrow"}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "biter",
+        "name" : "biting blob",
+        "symbol" : "t",
+        "color" : "blue",
+        "broken_symbol" : "#",
+        "broken_color" : "blue",
+        "damage_modifier" : 10,
+        "durability" : 400,
+        "range" : 1,
+        "item" : "biter",
+        "difficulty" : 1,
+        "folded_volume": 1,
+        "location" : "center",
+        "flags" : ["TURRET", "TOOL_NONE", "FOLDABLE", "OBSTACLE"],
+        "breaks_into" : [
+            {"item": "bitergrow"}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "fuzzle",
+        "name" : "snapping ooze",
+        "symbol" : "t",
+        "color" : "brown",
+        "broken_symbol" : "#",
+        "broken_color" : "brown",
+        "damage_modifier" : 10,
+        "durability" : 600,
+        "range" : 1,
+        "item" : "fuzzle",
+        "difficulty" : 1,
+        "folded_volume": 1,
+        "location" : "center",
+        "flags" : ["TURRET", "TOOL_NONE", "FOLDABLE", "OBSTACLE"],
+        "breaks_into" : [
+            {"item": "fuzzlegrow"}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "horror",
+        "name" : "blobsaw",
+        "symbol" : "t",
+        "color" : "blue",
+        "broken_symbol" : "#",
+        "broken_color" : "blue",
+        "damage_modifier" : 10,
+        "durability" : 1000,
+        "range" : 1,
+        "item" : "horror",
+        "difficulty" : 1,
+        "folded_volume": 1,
+        "location" : "center",
+        "flags" : ["TURRET", "TOOL_NONE", "FOLDABLE", "OBSTACLE"],
+        "breaks_into" : [
+            {"item": "horrorgrow"}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "sharp",
+        "name" : "gel lancer",
+        "symbol" : "t",
+        "color" : "light_blue",
+        "broken_symbol" : "#",
+        "broken_color" : "light_blue",
+        "damage_modifier" : 10,
+        "durability" : 200,
+        "range" : 16,
+        "item" : "sharp",
+        "difficulty" : 1,
+        "folded_volume": 1,
+        "location" : "on_roof",
+        "flags" : ["TURRET", "TOOL_NONE", "FOLDABLE"],
+        "breaks_into" : [
+            {"item": "sharpgrow"}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "sickle",
+        "name" : "gel razor",
+        "symbol" : "t",
+        "color" : "blue",
+        "broken_symbol" : "#",
+        "broken_color" : "blue",
+        "damage_modifier" : 10,
+        "durability" : 200,
+        "range" : 12,
+        "item" : "sickle",
+        "difficulty" : 1,
+        "folded_volume": 1,
+        "location" : "on_roof",
+        "flags" : ["TURRET", "TOOL_NONE", "FOLDABLE"],
+        "breaks_into" : [
+            {"item": "sicklegrow"}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "razorqueen",
+        "name" : "gel spiker",
+        "symbol" : "t",
+        "color" : "cyan",
+        "broken_symbol" : "#",
+        "broken_color" : "cyan",
+        "damage_modifier" : 10,
+        "durability" : 200,
+        "range" : 18,
+        "item" : "razorqueen",
+        "difficulty" : 1,
+        "folded_volume": 1,
+        "location" : "on_roof",
+        "flags" : ["TURRET", "TOOL_NONE", "FOLDABLE"],
+        "breaks_into" : [
+            {"item": "razorqueengrow"}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "freezie",
+        "name" : "frost lancer",
+        "symbol" : "t",
+        "color" : "light_blue",
+        "broken_symbol" : "#",
+        "broken_color" : "light_blue",
+        "damage_modifier" : 10,
+        "durability" : 200,
+        "range" : 18,
+        "item" : "freezie",
+        "difficulty" : 1,
+        "folded_volume": 1,
+        "location" : "on_roof",
+        "flags" : ["TURRET", "TOOL_NONE", "FOLDABLE"],
+        "breaks_into" : [
+            {"item": "freeziegrow"}
+        ]
+    }
+]
+
+
