@@ -339,6 +339,7 @@ void DynamicDataLoader::finalize_loaded_data()
     finalize_recipes();
     finialize_martial_arts();
     finalize_constructions();
+    npc_class::finalize_all();
     check_consistency();
 }
 

@@ -254,10 +254,7 @@ void npc::randomize( const npc_class_id &type )
 
     if( type.is_null() ) { // Untyped; no particular specialization
         for( auto &skill : Skill::skills ) {
-            int level = 0;
-            if( one_in(3) ) {
-                level = dice(4, 2) - rng(1, 4);
-            }
+            int level = myclass->roll_skill( skill.ident() );
 
             set_skill_level( skill.ident(), level );
         }
@@ -506,6 +503,10 @@ void npc::randomize( const npc_class_id &type )
  boost_skill_level( skill_barter, rng(2, 4));
 
     recalc_hp();
+    for( int i = 0; i < num_hp_parts; i++ ) {
+        hp_cur[i] = hp_max[i];
+    }
+
     starting_weapon(type);
     worn = starting_clothes(type, male);
     inv.clear();
