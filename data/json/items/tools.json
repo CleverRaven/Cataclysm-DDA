@@ -5130,7 +5130,7 @@
     "weight": 807,
     "volume": 1,
     "bashing": 3,
-    "qualities": [["WRENCH", 1]]
+    "qualities": [["WRENCH", 1],["GRIP", 2]]
   },
   {
     "id": "snare_trigger",
@@ -6267,7 +6267,7 @@
     "volume": 2,
     "bashing": 3,
     "to_hit": 1,
-    "qualities": [["COOK", 1]]
+    "qualities": [["COOK", 1],["GRIP", 3]]
   },{
     "id": "chisel",
     "type": "TOOL",

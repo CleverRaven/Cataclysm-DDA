@@ -6,6 +6,10 @@
         "usages": [ [ 1, [ "salvage", "inscribe", "cauterize", "enzlave" ] ] ]
     },{
         "type" : "tool_quality",
+        "id" : "GRIP",
+        "name" : "firm gripping"
+    },{
+        "type" : "tool_quality",
         "id" : "GLARE",
         "name" : "glare protection"
     },{
