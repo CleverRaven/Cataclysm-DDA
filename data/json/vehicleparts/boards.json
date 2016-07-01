@@ -73,6 +73,14 @@
     "flags": [ "OPAQUE", "OBSTACLE", "NAILABLE" ]
   },
   {
+    "abstract": "woodhalfboard",
+    "copy-from": "woodboard",
+    "type": "vehicle_part",
+    "name": "wooden quarterpanel",
+    "relative": { "durability": 0.8 },
+    "delete": { "flags": [ "OPAQUE" ] }
+  },
+  {
     "id": "board_horizontal",
     "copy-from": "board",
     "type": "vehicle_part",
@@ -111,6 +119,12 @@
   {
     "id": "woodboard_horizontal",
     "copy-from": "woodboard",
+    "type": "vehicle_part",
+    "symbol": "h"
+  },
+  {
+    "id": "woodhalfboard_horizontal",
+    "copy-from": "woodhalfboard",
     "type": "vehicle_part",
     "symbol": "h"
   },
@@ -157,6 +171,12 @@
     "symbol": "u"
   },
   {
+    "id": "woodhalfboard_ne",
+    "copy-from": "woodhalfboard",
+    "type": "vehicle_part",
+    "symbol": "u"
+  },
+  {
     "id": "board_nw",
     "copy-from": "board",
     "type": "vehicle_part",
@@ -195,6 +215,12 @@
   {
     "id": "woodboard_nw",
     "copy-from": "woodboard",
+    "type": "vehicle_part",
+    "symbol": "y"
+  },
+  {
+    "id": "woodhalfboard_nw",
+    "copy-from": "woodhalfboard",
     "type": "vehicle_part",
     "symbol": "y"
   },
@@ -241,6 +267,12 @@
     "symbol": "n"
   },
   {
+    "id": "woodhalfboard_se",
+    "copy-from": "woodhalfboard",
+    "type": "vehicle_part",
+    "symbol": "n"
+  },
+  {
     "id": "board_sw",
     "copy-from": "board",
     "type": "vehicle_part",
@@ -283,6 +315,12 @@
     "symbol": "b"
   },
   {
+    "id": "woodhalfboard_sw",
+    "copy-from": "woodhalfboard",
+    "type": "vehicle_part",
+    "symbol": "b"
+  },
+  {
     "id": "board_vertical",
     "copy-from": "board",
     "type": "vehicle_part",
@@ -321,6 +359,12 @@
   {
     "id": "woodboard_vertical",
     "copy-from": "woodboard",
+    "type": "vehicle_part",
+    "symbol": "j"
+  },
+  {
+    "id": "woodhalfboard_vertical",
+    "copy-from": "woodhalfboard",
     "type": "vehicle_part",
     "symbol": "j"
   }
