@@ -18,16 +18,16 @@ using itype_id = std::string;
 
 class material_type
 {
+    public:
+        material_id id;
+        bool was_loaded = false;
+
     private:
-        material_id _ident;
         std::string _name;
         itype_id _salvaged_into;   // this material turns into this item when salvaged
         itype_id _repaired_with;   // this material can be repaired with this item
         int _bash_resist;       // negative integers means susceptibility
         int _cut_resist;
-        std::string _bash_dmg_verb;
-        std::string _cut_dmg_verb;
-        std::string _dmg_adj[MAX_ITEM_DAMAGE];
         int _acid_resist;
         int _elec_resist;
         int _fire_resist;
@@ -36,20 +36,22 @@ class material_type
         bool _edible;
         bool _soft;
 
+        std::string _bash_dmg_verb;
+        std::string _cut_dmg_verb;
+        std::string _dmg_adj[MAX_ITEM_DAMAGE];
+
         std::map<vitamin_id, double> _vitamins;
 
         std::array<mat_burn_data, MAX_FIELD_DENSITY> _burn_data;
 
     public:
         material_type();
-        static void load_material( JsonObject &jsobj );
 
-        // clear material map, every material pointer becames invalid!
-        static void reset();
+        void load( JsonObject &jo );
+        void check() const;
 
         int dam_resist( damage_type damtype ) const;
 
-        bool is_null() const;
         material_id ident() const;
         std::string name() const;
         itype_id salvaged_into() const;
@@ -74,5 +76,14 @@ class material_type
 
         const mat_burn_data &burn_data( size_t intensity ) const;
 };
+
+namespace materials
+{
+
+void load( JsonObject &jo );
+void check();
+void reset();
+
+}
 
 #endif

@@ -105,7 +105,7 @@ void DynamicDataLoader::initialize()
     // Static Function Access
     add( "fault", &fault::load_fault );
     add( "vitamin", &vitamin::load_vitamin );
-    add( "material", &material_type::load_material );
+    add( "material", &materials::load );
     add( "bionic", &load_bionic );
     add( "profession", &profession::load_profession );
     add( "skill", &Skill::load_skill );
@@ -272,7 +272,7 @@ void DynamicDataLoader::unload_data()
     requirement_data::reset();
     vitamin::reset();
     fault::reset();
-    material_type::reset();
+    materials::reset();
     profession::reset();
     Skill::reset();
     dreams.clear();
@@ -343,6 +343,7 @@ void DynamicDataLoader::check_consistency()
     requirement_data::check_consistency();
     vitamin::check_consistency();
     item_controller->check_definitions();
+    materials::check();
     fault::check_consistency();
     vpart_info::check();
     MonsterGenerator::generator().check_monster_definitions();
