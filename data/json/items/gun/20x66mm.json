@@ -46,6 +46,10 @@
     "aim_speed" : 4,
     "durability": 9,
     "burst": 4,
+    "modes": [
+      [ "DEFAULT", "single", 1 ],
+      [ "BURST", "auto", 2 ]
+    ],
     "valid_mod_locations": [[ "accessories", 4 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]],
     "magazine_well" : 2,
     "magazines": [
@@ -75,7 +79,7 @@
     "durability": 9,
     "modes": [
       [ "DEFAULT", "single", 1 ],
-      [ "DOUBLE", "double", 2 ]
+      [ "DOUBLE", "double", 2, "SIMULTANEOUS" ]
     ],
     "clip_size": 2,
     "valid_mod_locations": [ [ "accessories", 3 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ] ],
