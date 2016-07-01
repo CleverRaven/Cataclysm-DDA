@@ -832,7 +832,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                             int max_consume = cur->getFieldDensity() * 2;
 
                             for( auto fuel = items_here.begin(); fuel != items_here.end() && consumed < max_consume; ) {
-                                
+
                                 bool destroyed = fuel->burn( frd );
 
                                 if( destroyed ) {
@@ -2549,8 +2549,8 @@ void map::propagate_field( const tripoint &center, field_id fid, int amount,
         // All points with equal gas density should propagate at the same time
         std::list<gas_blast> gas_front;
         gas_front.push_back( open.top() );
-        open.pop();
         int cur_intensity = get_field_strength( open.top().second, fid );
+        open.pop();
         while( !open.empty() && get_field_strength( open.top().second, fid ) == cur_intensity ) {
             if( closed.count( open.top().second ) == 0 ) {
                 gas_front.push_back( open.top() );
