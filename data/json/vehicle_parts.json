@@ -275,20 +275,6 @@
         ]
     },{
         "type" : "vehicle_part",
-        "id" : "halfboard_cover",
-        "name" : "quarterpanel",
-        "symbol" : "^",
-        "color" : "light_gray",
-        "broken_symbol" : "#",
-        "broken_color" : "light_gray",
-        "durability" : 225,
-        "item" : "sheet_metal",
-        "difficulty" : 1,
-        "location" : "center",
-        "flags" : ["OBSTACLE"],
-        "breaks_into": "ig_vp_sheet_metal"
-    },{
-        "type" : "vehicle_part",
         "id" : "aisle_horizontal",
         "name" : "aisle",
         "symbol" : "=",

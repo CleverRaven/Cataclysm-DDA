@@ -92,6 +92,12 @@
     "flags": [ "OBSTACLE" ]
   },
   {
+    "id": "halfboard_cover",
+    "copy-from": "halfboard",
+    "type": "vehicle_part",
+    "symbol": "^"
+  },
+  {
     "id": "board_horizontal",
     "copy-from": "board",
     "type": "vehicle_part",
@@ -144,6 +150,30 @@
     "copy-from": "xlhalfboard",
     "type": "vehicle_part",
     "symbol": "h"
+  },
+  {
+    "id": "cloth_halfboard_horizontal_2",
+    "copy-from": "cloth_halfboard",
+    "type": "vehicle_part",
+    "symbol": "="
+  },
+  {
+    "id": "halfboard_horizontal_2",
+    "copy-from": "halfboard",
+    "type": "vehicle_part",
+    "symbol": "="
+  },
+  {
+    "id": "hdhalfboard_horizontal_2",
+    "copy-from": "hdhalfboard",
+    "type": "vehicle_part",
+    "symbol": "="
+  },
+  {
+    "id": "woodhalfboard_horizontal_2",
+    "copy-from": "woodhalfboard",
+    "type": "vehicle_part",
+    "symbol": "="
   },
   {
     "id": "xlhalfboard_horizontal_2",
@@ -420,6 +450,24 @@
     "copy-from": "xlhalfboard",
     "type": "vehicle_part",
     "symbol": "j"
+  },
+  {
+    "id": "cloth_halfboard_vertical_2",
+    "copy-from": "cloth_halfboard",
+    "type": "vehicle_part",
+    "symbol": "H"
+  },
+  {
+    "id": "halfboard_vertical_2",
+    "copy-from": "halfboard",
+    "type": "vehicle_part",
+    "symbol": "H"
+  },
+  {
+    "id": "hdhalfboard_vertical_2",
+    "copy-from": "hdhalfboard",
+    "type": "vehicle_part",
+    "symbol": "H"
   },
   {
     "id": "xlhalfboard_vertical_2",
