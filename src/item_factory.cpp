@@ -712,6 +712,10 @@ void Item_factory::check_definitions() const
                 msg << string_format( "invalid casing property %s", type->ammo->casing.c_str() ) << "\n";
             }
 
+            if( type->ammo->drop != "null" && !has_template( type->ammo->drop ) ) {
+                msg << string_format( "invalid drop item %s", type->ammo->drop.c_str() ) << "\n";
+            }
+
             if( type->ammo->drop_chance < 0.0f || type->ammo->drop_chance > 1.0f ) {
                 msg << "drop chance outside of supported range" << "\n";
             }
