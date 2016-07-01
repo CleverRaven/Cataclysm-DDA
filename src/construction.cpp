@@ -77,14 +77,6 @@ void standardize_construction_times( int const time )
     }
 }
 
-void remove_construction_if( std::function<bool( construction & )> pred )
-{
-    constructions.erase( std::remove_if( begin( constructions ), end( constructions ),
-    [&]( construction & c ) {
-        return pred( c );
-    } ), std::end( constructions ) );
-}
-
 std::vector<construction *> constructions_by_desc( const std::string &description )
 {
     std::vector<construction *> result;
@@ -1537,9 +1529,10 @@ void finalize_constructions()
         }
     }
 
-    remove_construction_if( [&]( construction &c ) {
-        return c.requirements->is_empty() && !c.requirements->is_null();
-    } );
+    constructions.erase( std::remove_if( constructions.begin(), constructions.end(),
+        [&]( const construction &c ) {
+            return c.requirements->is_empty() && !c.requirements->is_null();
+    } ), constructions.end() );
 
     for( size_t i = 0; i < constructions.size(); i++ ) {
         constructions[ i ].id = i;

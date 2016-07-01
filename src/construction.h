@@ -47,9 +47,6 @@ struct construction {
 //! Set all constructions to take the specified time.
 void standardize_construction_times( int time );
 
-//! Remove all constructions matching the predicate.
-void remove_construction_if( std::function<bool ( construction & )> pred );
-
 void load_construction( JsonObject &jsobj );
 void reset_constructions();
 void construction_menu();
