@@ -5472,12 +5472,10 @@ bool item::process_food( player * /*carrier*/, const tripoint &pos )
 {
     calc_rot( g->m.getabs( pos ) );
     if( item_tags.count( "HOT" ) > 0 ) {
-        item_counter--;
         if( item_counter == 0 ) {
             item_tags.erase( "HOT" );
         }
     } else if( item_tags.count( "COLD" ) > 0 ) {
-        item_counter--;
         if( item_counter == 0 ) {
             item_tags.erase( "COLD" );
         }
@@ -5593,7 +5591,6 @@ bool item::process_litcig( player *carrier, const tripoint &pos )
         }
     }
 
-    item_counter--;
     // cig dies out
     if( item_counter == 0 ) {
         if( carrier != nullptr ) {
@@ -5678,7 +5675,6 @@ void item::reset_cable( player* p )
 
 bool item::process_wet( player * /*carrier*/, const tripoint & /*pos*/ )
 {
-    item_counter--;
     if( item_counter == 0 ) {
         if( is_tool() && type->tool->revert_to != "null" ) {
             convert( type->tool->revert_to );
@@ -5754,6 +5750,11 @@ bool item::process( player *carrier, const tripoint &pos, bool activate )
     if( !active ) {
         return false;
     }
+
+    if( item_counter > 0 ) {
+        item_counter--;
+    }
+
     if( is_food() &&  process_food( carrier, pos ) ) {
         return true;
     }
