@@ -9,6 +9,7 @@
 #include "string_id.h"
 #include "explosion.h"
 #include "vitamin.h"
+#include "emit.h"
 
 #include <string>
 #include <vector>
@@ -611,8 +612,8 @@ public:
     /** Is item destroyed after the countdown action is run? */
     bool countdown_destroy = false;
 
-    /** Fields to emit when item is in active state (id, qty, density) */
-    std::vector<std::tuple<field_id, int, int>> emit;
+    /** Fields to emit when item is in active state */
+    std::set<emit_id> emits;
 
     std::set<std::string> item_tags;
     std::set<matec_id> techniques;

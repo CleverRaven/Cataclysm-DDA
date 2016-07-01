@@ -1,0 +1,10 @@
+[
+  {
+    "id": "emit_smoke_stream",
+    "//": "A steady stream of thick smoke",
+    "field": "fd_smoke",
+    "density": 3,
+    "qty": 12,
+    "chance": 100
+  }
+]

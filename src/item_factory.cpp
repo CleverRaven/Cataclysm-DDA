@@ -664,6 +664,12 @@ void Item_factory::check_definitions() const
             msg << string_format( "invalid container property %s", type->default_container.c_str() ) << "\n";
         }
 
+        for( const auto& e : type->emits ) {
+            if( !e.is_valid() ) {
+                msg << string_format( "item %s has emit source %s", type->id.c_str(), e.c_str() ) << "\n";
+            }
+        }
+
         if( type->engine ) {
             for( const auto& f : type->engine->faults ) {
                 if( !f.is_valid() ) {
@@ -1494,6 +1500,7 @@ void Item_factory::load_basic_info(JsonObject &jo, itype *new_item_template)
     assign( jo, "min_dexterity", new_item_template->min_dex );
     assign( jo, "min_intelligence", new_item_template->min_int );
     assign( jo, "min_perception", new_item_template->min_per );
+    assign( jo, "emits", new_item_template->emits );
     assign( jo, "magazine_well", new_item_template->magazine_well );
     assign( jo, "explode_in_fire", new_item_template->explode_in_fire );
 
@@ -1555,17 +1562,6 @@ void Item_factory::load_basic_info(JsonObject &jo, itype *new_item_template)
     if( jo.has_member("explosion" ) ) {
         JsonObject je = jo.get_object( "explosion" );
         new_item_template->explosion = load_explosion_data( je );
-    }
-
-    if( jo.has_array( "emit" ) ) {
-        new_item_template->emit.clear();
-        auto arr = jo.get_array( "emit" );
-        while( arr.has_more() ) {
-            auto cur = arr.next_array();
-            new_item_template->emit.emplace_back( field_from_ident( cur.get_string( 0 ) ),
-                                                  cur.get_int( 1 ),
-                                                  cur.size() >= 3 ? cur.get_int( 2 ) : MAX_FIELD_DENSITY );
-        }
     }
 
     if( jo.has_array( "snippet_category" ) ) {

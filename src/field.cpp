@@ -2530,6 +2530,13 @@ bool field_type_dangerous( field_id id )
     return ft.dangerous[0] || ft.dangerous[1] || ft.dangerous[2];
 }
 
+void map::emit_field( const tripoint &pos, const emit_id &src )
+{
+    if( src.is_valid() && one_in_improved( src->chance() ) ) {
+        propagate_field( pos, src->field(), src->qty(), src->density() );
+    }
+}
+
 void map::propagate_field( const tripoint &center, field_id fid, int amount,
                       int max_density )
 {
