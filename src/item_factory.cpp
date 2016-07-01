@@ -1590,6 +1590,8 @@ void Item_factory::load_basic_info(JsonObject &jo, itype *new_item_template)
 
     set_use_methods_from_json( jo, "use_action", new_item_template->use_methods );
 
+    assign( jo, "countdown_interval", new_item_template->countdown_interval );
+
     if( jo.has_string( "countdown_action" ) ) {
         new_item_template->countdown_action = usage_from_string( jo.get_string( "countdown_action" ) );
 

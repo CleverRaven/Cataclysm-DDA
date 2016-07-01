@@ -111,6 +111,7 @@ item::item( const itype *type, int turn, long qty ) : type( type )
     bday = turn >= 0 ? turn : int( calendar::turn );
     corpse = typeId() == "corpse" ? &mtype_id::NULL_ID.obj() : nullptr;
     name = type_name();
+    item_counter = type->countdown_interval;
 
     if( qty >= 0 ) {
         charges = qty;
@@ -217,6 +218,22 @@ item& item::deactivate( const Character *ch, bool alert )
     }
     return *this;
 }
+
+item& item::activate()
+{
+    if( active ) {
+        return *this; // no-op
+    }
+
+    if( type->countdown_interval > 0 ) {
+        item_counter = type->countdown_interval;
+    }
+
+    active = true;
+
+    return *this;
+}
+
 
 item& item::ammo_set( const itype_id& ammo, long qty )
 {

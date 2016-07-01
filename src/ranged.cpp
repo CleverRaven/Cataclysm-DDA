@@ -1374,7 +1374,9 @@ static projectile make_gun_projectile( const item &gun ) {
 
         if( atype->ammo->drop != "null" && rng( 1, atype->ammo->drop_chance * 100 ) ) {
             item drop( atype->ammo->drop );
-            drop.active = atype->ammo->drop_active;
+            if( atype->ammo->drop_active ) {
+                drop.activate();
+            }
             proj.set_drop( drop );
         }
 

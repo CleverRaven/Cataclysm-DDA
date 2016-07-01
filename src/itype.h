@@ -602,6 +602,10 @@ public:
     /** Actions an instance can perform (if any) indexed by action type */
     std::map<std::string, use_function> use_methods;
 
+    /** Default countdown interval (if any) for item */
+    int countdown_interval = 0;
+
+    /** Action to take when countdown expires */
     use_function countdown_action;
 
     /** Fields to emit when item is in active state (id, qty, density) */
