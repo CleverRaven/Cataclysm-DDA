@@ -1520,8 +1520,12 @@ void finalize_constructions()
         }
     }
 
+    // previously dead code became live in #17451 and caused #17443 and #17449
+    // is temporarily disabled pending refactor as construction_id = string_id<construction>
+    /*
     constructions.erase( std::remove_if( constructions.begin(), constructions.end(),
         [&]( const construction &c ) {
             return c.requirements->is_empty() && !c.requirements->is_null();
     } ), constructions.end() );
+    */
 }
