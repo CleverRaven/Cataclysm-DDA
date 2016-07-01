@@ -98,7 +98,7 @@ void Item_factory::finalize() {
         for( const auto &q : obj.qualities ) {
             for( const auto &u : q.first.obj().usages ) {
                 if( q.second >= u.first ) {
-                    obj.use_methods.emplace( u.second, use_from_string( u.second ) );
+                    obj.use_methods.emplace( u.second, usage_from_string( u.second ) );
                 }
             }
         }
@@ -1921,10 +1921,10 @@ void Item_factory::set_use_methods_from_json( JsonObject &jo, std::string member
         while( jarr.has_more() ) {
             if( jarr.test_string() ) {
                 std::string type = jarr.next_string();
-                use_methods.emplace( type, use_from_string( type ) );
+                use_methods.emplace( type, usage_from_string( type ) );
             } else if( jarr.test_object() ) {
                 auto obj = jarr.next_object();
-                set_uses_from_object( obj, use_methods );
+                use_methods.insert( usage_from_object( obj ) );
             } else {
                 jarr.throw_error( "array element is neither string nor object." );
             }
@@ -1933,10 +1933,10 @@ void Item_factory::set_use_methods_from_json( JsonObject &jo, std::string member
     } else {
         if( jo.has_string( member ) ) {
             std::string type = jo.get_string( member );
-            use_methods.emplace( type, use_from_string( type ) );
+            use_methods.emplace( type, usage_from_string( type ) );
         } else if( jo.has_object( member ) ) {
             auto obj = jo.get_object( member );
-            set_uses_from_object( obj, use_methods );
+            use_methods.insert( usage_from_object( obj ) );
         } else {
             jo.throw_error( "member 'use_action' is neither string nor object." );
         }
@@ -1944,7 +1944,7 @@ void Item_factory::set_use_methods_from_json( JsonObject &jo, std::string member
     }
 }
 
-void Item_factory::set_uses_from_object(JsonObject &obj, std::map<std::string, use_function> &methods )
+std::pair<std::string, use_function> Item_factory::usage_from_object( JsonObject &obj ) const
 {
     auto type = obj.get_string( "type" );
 
@@ -1953,7 +1953,7 @@ void Item_factory::set_uses_from_object(JsonObject &obj, std::map<std::string, u
         type = obj.get_string( "item_action_type" );
         method = use_function( new repair_item_actor( type ) );
     } else {
-        method = use_from_string( type );
+        method = usage_from_string( type );
     }
 
     if( !method.get_actor_ptr() ) {
@@ -1961,10 +1961,10 @@ void Item_factory::set_uses_from_object(JsonObject &obj, std::map<std::string, u
     }
 
     method.get_actor_ptr()->load( obj );
-    methods.emplace( type, method );
+    return std::make_pair( type, method );
 }
 
-use_function Item_factory::use_from_string( const std::string &type )
+use_function Item_factory::usage_from_string( const std::string &type ) const
 {
     auto func = iuse_function_list.find( type );
     if( func != iuse_function_list.end() ) {
