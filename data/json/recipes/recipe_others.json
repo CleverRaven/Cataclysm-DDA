@@ -4652,7 +4652,7 @@
   "difficulty": 5,
   "time": 25000,
   "reversible": true,
-  "decop_learn": 5,
+  "decomp_learn": 5,
   "autolearn": false,
   "book_learn": [["textbook_mechanics", 5] , ["textbook_carpentry", 5] , ["book_icef", 6]],
   "qualities":[
