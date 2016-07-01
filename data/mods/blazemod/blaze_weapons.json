@@ -10,7 +10,7 @@
     "price": 1500000,
     "material": ["steel", "plastic"],
     "ammo_effects": ["INCENDIARY", "WIDE"],
-    "flags": ["NEVER_JAMS", "MODE_BURST", "NO_UNLOAD", "MOUNTED_GUN"],
+    "flags": ["NEVER_JAMS", "NO_UNLOAD", "MOUNTED_GUN"],
     "skill": "rifle",
     "ups_charges": 19,
     "weight": 5194,
@@ -46,7 +46,6 @@
     "pierce": 10,
     "range": 20,
     "durability": 8,
-    "burst": 1,
     "valid_mod_locations": []
   },
   {
@@ -71,7 +70,6 @@
     "range": 30,
     "sight_dispersion": 150,
     "durability": 8,
-    "burst": 1,
     "valid_mod_locations": []
   },
   {
@@ -96,7 +94,6 @@
     "range": 30,
     "sight_dispersion": 150,
     "durability": 8,
-    "burst": 1,
     "valid_mod_locations": []
   },
   {
@@ -133,7 +130,7 @@
     "description": "This improved nailgun features a special firing mechanism that is set to fire a spread of up to 5 nails at once; sure to drop the hammer on its unfortunate targets.  However, these features render it incredibly unwieldy, and it must be mounted on a supporting frame in order to be fired.",
     "price": 110000,
     "material": ["steel", "plastic"],
-    "flags": ["MODE_BURST", "MOUNTED_GUN", "NEVER_JAMS"],
+    "flags": ["MOUNTED_GUN", "NEVER_JAMS"],
     "skill": "rifle",
     "ammo": "nail",
     "weight": 7827,
@@ -146,7 +143,7 @@
     "sight_dispersion": 150,
     "durability": 8,
     "burst": 5,
-    "clip_size": 1,
+    "clip_size": 5,
     "reload": 2750,
     "valid_mod_locations": []
   },
@@ -171,7 +168,6 @@
     "range": 50,
     "sight_dispersion": 150,
     "durability": 8,
-    "burst": 1,
     "clip_size": 1,
     "reload": 750,
     "valid_mod_locations": []
@@ -185,7 +181,7 @@
     "price": 110000,
     "material": ["steel", "plastic"],
     "ammo_effects": ["WIDE"],
-    "flags": ["MODE_BURST", "NEVER_JAMS", "MOUNTED_GUN"],
+    "flags": ["NEVER_JAMS", "MOUNTED_GUN"],
     "skill": "rifle",
     "ammo": "harpoon",
     "weight": 18500,
@@ -198,7 +194,7 @@
     "sight_dispersion": 150,
     "durability": 8,
     "burst": 3,
-    "clip_size": 1,
+    "clip_size": 3,
     "reload": 750,
     "valid_mod_locations": []
   },
@@ -223,7 +219,6 @@
     "range": 50,
     "sight_dispersion": 150,
     "durability": 8,
-    "burst": 1,
     "clip_size": 1,
     "reload": 1000,
     "valid_mod_locations": []
@@ -238,7 +233,7 @@
     "price": 155000,
     "material": "steel",
     "skill": "rifle",
-    "flags": ["MODE_BURST", "NEVER_JAMS", "MOUNTED_GUN"],
+    "flags": ["NEVER_JAMS", "MOUNTED_GUN"],
     "ammo": "pebble",
     "weight": 7311,
     "volume": 15,
@@ -249,7 +244,7 @@
     "sight_dispersion": 150,
     "durability": 9,
     "burst": 5,
-    "clip_size": 1,
+    "clip_size": 5,
     "reload": 2000
   },{
     "id": "rslauncher",
@@ -273,7 +268,7 @@
     "sight_dispersion": 150,
     "durability": 8,
     "burst": 3,
-    "clip_size": 1,
+    "clip_size": 3,
     "reload": 2500,
     "valid_mod_locations": []
   },  {
@@ -285,7 +280,7 @@
     "description": "This fearsome weapon sports 3 barrels in a cyclic configuration.  A specialized mechanism loads the otherwise troublesome rounds; allowing it to be fired in quick succession.  However, this renders it incredibly unwieldy, and it must be mounted on a support structure in order to be fired.",
     "price": 80000,
     "material": ["steel", "plastic"],
-    "flags": ["MODE_BURST", "NEVER_JAMS", "MOUNTED_GUN"],
+    "flags": ["NEVER_JAMS", "MOUNTED_GUN"],
     "skill": "launcher",
     "ammo": "flintlock",
     "weight": 11713,
@@ -297,7 +292,7 @@
     "sight_dispersion": 150,
     "durability": 8,
     "burst": 3,
-    "clip_size": 1,
+    "clip_size": 3,
     "reload": 750,
     "valid_mod_locations": []
   },
@@ -311,7 +306,7 @@
     "price": 350000,
     "material": "steel",
     "skill": "rifle",
-    "flags": ["MODE_BURST", "NEVER_JAMS", "MOUNTED_GUN"],
+    "flags": ["NEVER_JAMS", "MOUNTED_GUN"],
     "ammo": "bolt",
     "weight": 7110,
     "volume": 15,
@@ -323,7 +318,7 @@
     "sight_dispersion": 150,
     "durability": 9,
     "burst": 3,
-    "clip_size": 1,
+    "clip_size": 3,
     "reload": 150
   },
   {
@@ -335,7 +330,7 @@
     "description": "A heavily modified coilgun that fires tiny fragments of metal at high speeds extremely quickly.  The resulting barrage is highly inaccurate, but can turn unarmored targets into pulp.  It must be mounted on a specialized chassis in order to be fired.",
     "price": 50000,
     "material": ["steel", "plastic"],
-    "flags": ["MODE_BURST", "BURST_ONLY", "MOUNTED_GUN", "NEVER_JAMS"],
+    "flags": ["BURST_ONLY", "MOUNTED_GUN", "NEVER_JAMS"],
     "skill": "rifle",
     "ammo": "BB",
     "ups_charges": 1,
@@ -349,7 +344,7 @@
     "sight_dispersion": 150,
     "durability": 5,
     "burst": 25,
-    "clip_size": 1,
+    "clip_size": 25,
     "reload": 750,
     "valid_mod_locations": []
   },
@@ -375,7 +370,6 @@
     "range": 35,
     "sight_dispersion": 150,
     "durability": 5,
-    "burst": 1,
     "clip_size": 1,
     "reload": 750,
     "valid_mod_locations": []
@@ -429,7 +423,7 @@
     "sight_dispersion": 150,
     "durability": 8,
     "burst": 5,
-    "clip_size": 1,
+    "clip_size": 5,
     "reload": 750,
     "valid_mod_locations": []
   },
@@ -453,7 +447,6 @@
     "range": 20,
     "aim_speed" : 6,
     "recoil": 30,
-    "burst" : 1,
     "durability": 6,
     "clip_size": 1,
     "reload": 250,

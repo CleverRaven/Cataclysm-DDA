@@ -8,7 +8,6 @@
   "skills_required": [ "fabrication", 2 ],
   "difficulty": 2,
   "time": 60000,
-  "reversible": false,
   "autolearn": true,
   "qualities":[
     {"id":"CHEM","level":2}
@@ -35,7 +34,6 @@
   "difficulty": 2,
   "skills_required": [ "cooking", 6 ],
   "time": 60000,
-  "reversible": false,
   "autolearn": true,
   "qualities" : [
     {"id":"CHEM","level":2}
@@ -76,7 +74,6 @@
   "skill_used": "cooking",
   "difficulty": 6,
   "time": 2000,
-  "reversible": false,
   "autolearn": true,
   "qualities" : [
     {"id":"CUT","level":1},
@@ -108,9 +105,7 @@
   "skill_used": "cooking",
   "difficulty": 6,
   "time": 1000,
-  "reversible": false,
   "autolearn": true,
-  "qualities" : [],
   "tools": [
       [
       ["gloople", -1],
@@ -248,7 +243,6 @@
     "difficulty": 0,
     "time": 5000,
     "reversible": true,
-    "autolearn": false,
     "components": [
       [ [ "glooplegrow", 2 ] ]
     ]
@@ -261,7 +255,6 @@
     "difficulty": 0,
     "time": 10000,
     "reversible": true,
-    "autolearn": false,
     "components": [
       [ [ "oozlegrow", 2 ] ]
     ]
@@ -274,7 +267,6 @@
     "difficulty": 0,
     "time": 20000,
     "reversible": true,
-    "autolearn": false,
     "components": [
       [ [ "graygrow", 2 ] ]
     ]
@@ -287,7 +279,6 @@
     "difficulty": 0,
     "time": 5000,
     "reversible": true,
-    "autolearn": false,
     "components": [
       [ [ "frostiegrow", 2 ] ]
     ]
@@ -300,7 +291,6 @@
     "difficulty": 0,
     "time": 5000,
     "reversible": true,
-    "autolearn": false,
     "components": [
       [ [ "glowiegrow", 2 ] ]
     ]
@@ -313,7 +303,6 @@
     "difficulty": 0,
     "time": 10000,
     "reversible": true,
-    "autolearn": false,
     "components": [
       [ [ "cluttergrow", 2 ] ]
     ]
@@ -326,7 +315,6 @@
     "difficulty": 0,
     "time": 10000,
     "reversible": true,
-    "autolearn": false,
     "components": [
       [ [ "bitergrow", 2 ] ]
     ]
@@ -340,7 +328,6 @@
   "difficulty": 7,
   "skills_required": [ "fabrication", 5 ],
   "time": 30000,
-  "reversible": false,
   "autolearn": true,
   "qualities" : [
     {"id":"CHEM","level":2},
@@ -374,7 +361,6 @@
   "skills_required": [ "fabrication", 5 ],
   "difficulty": 7,
   "time": 30000,
-  "reversible": false,
   "autolearn": true,
   "qualities":[
     {"id":"CHEM","level":2}
@@ -411,7 +397,6 @@
   "skills_required": [ "fabrication", 5 ],
   "difficulty": 7,
   "time": 30000,
-  "reversible": false,
   "autolearn": true,
   "qualities":[
     {"id":"CHEM","level":2}
@@ -449,7 +434,6 @@
   "skills_required": [ "fabrication", 5 ],
   "difficulty": 7,
   "time": 30000,
-  "reversible": false,
   "autolearn": true,
   "qualities":[
     {"id":"CHEM","level":2}
@@ -486,7 +470,6 @@
   "skills_required": [ "fabrication", 5 ],
   "difficulty": 7,
   "time": 30000,
-  "reversible": false,
   "autolearn": true,
   "qualities":[
     {"id":"CHEM","level":2}
@@ -522,7 +505,6 @@
   "skills_required": [ "fabrication", 5 ],
   "difficulty": 8,
   "time": 30000,
-  "reversible": false,
   "autolearn": true,
   "qualities":[
     {"id":"CHEM","level":2}
@@ -552,7 +534,6 @@
   "skills_required": [ "fabrication", 5 ],
   "difficulty": 8,
   "time": 30000,
-  "reversible": false,
   "autolearn": true,
   "qualities":[
     {"id":"CHEM","level":2}
@@ -590,7 +571,6 @@
   "skills_required": [ "fabrication", 5 ],
   "difficulty": 7,
   "time": 30000,
-  "reversible": false,
   "autolearn": true,
   "qualities":[
     {"id":"CHEM","level":2}
@@ -619,7 +599,6 @@
   "skills_required": [ "fabrication", 5 ],
   "difficulty": 7,
   "time": 30000,
-  "reversible": false,
   "autolearn": true,
   "qualities":[
     {"id":"CHEM","level":2}
@@ -646,7 +625,6 @@
   "skills_required": [ "fabrication", 5 ],
   "difficulty": 7,
   "time": 30000,
-  "reversible": false,
   "autolearn": true,
   "qualities":[
     {"id":"CHEM","level":2}
@@ -677,7 +655,6 @@
   "skills_required": [ "fabrication", 5 ],
   "difficulty": 7,
   "time": 30000,
-  "reversible": false,
   "autolearn": true,
   "qualities":[
     {"id":"CHEM","level":2}
@@ -707,7 +684,6 @@
   "skills_required": [ "fabrication", 5 ],
   "difficulty": 7,
   "time": 30000,
-  "reversible": false,
   "autolearn": true,
   "qualities":[
     {"id":"CHEM","level":2}
@@ -739,7 +715,6 @@
   "skills_required": [ "fabrication", 5 ],
   "difficulty": 7,
   "time": 30000,
-  "reversible": false,
   "autolearn": true,
   "qualities":[
     {"id":"CHEM","level":2}
@@ -768,7 +743,6 @@
   "skills_required": [ "fabrication", 5 ],
   "difficulty": 7,
   "time": 30000,
-  "reversible": false,
   "autolearn": true,
   "qualities":[
     {"id":"CHEM","level":2}
@@ -799,7 +773,6 @@
   "skills_required": [ "fabrication", 5 ],
   "difficulty": 7,
   "time": 30000,
-  "reversible": false,
   "autolearn": true,
   "qualities":[
     {"id":"CHEM","level":2}
@@ -831,7 +804,6 @@
   "skills_required": [ "fabrication", 5 ],
   "difficulty": 7,
   "time": 30000,
-  "reversible": false,
   "autolearn": true,
   "qualities":[
     {"id":"CHEM","level":2}
@@ -860,7 +832,6 @@
   "skill_used": "cooking",
   "difficulty": 6,
   "time": 30000,
-  "reversible": false,
   "autolearn": true,
   "components": [
     [
@@ -882,7 +853,6 @@
   "skill_used": "cooking",
   "difficulty": 6,
   "time": 30000,
-  "reversible": false,
   "autolearn": true,
   "components": [
     [
@@ -904,7 +874,6 @@
   "skill_used": "cooking",
   "difficulty": 6,
   "time": 30000,
-  "reversible": false,
   "autolearn": true,
   "components": [
     [

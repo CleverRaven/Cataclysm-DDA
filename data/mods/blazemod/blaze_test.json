@@ -144,7 +144,6 @@
   "skills_required": [ ["mechanics", 5], ["electronics", 3] ],
   "difficulty": 5,
   "time": 108000,
-  "reversible": false,
   "autolearn": true,
   "qualities":[
     {"id":"HAMMER","level":2},
@@ -214,7 +213,6 @@
   "skills_required": [ ["mechanics", 3], ["electronics", 3] ],
   "difficulty": 8,
   "time": 144000,
-  "reversible": false,
   "autolearn": true,
   "qualities":[
     {"id":"HAMMER","level":2},
@@ -327,7 +325,6 @@
   "skill_used": "fabrication",
   "difficulty": 10,
   "time": 30000,
-  "reversible": false,
   "autolearn": true,
   "qualities":[
     {"id":"HAMMER","level":3}
@@ -400,7 +397,6 @@
     "range": 50,
     "sight_dispersion": 150,
     "durability": 8,
-    "burst": 1,
     "clip_size": 1,
     "reload": 1000,
     "valid_mod_locations": []
@@ -427,8 +423,7 @@
     "range": 10,
     "dispersion": 300,
     "sight_dispersion": 150,
-    "durability": 8,
-    "burst": 10,
+    "durability": 80,
     "clip_size": 1,
     "reload": 1000,
     "valid_mod_locations": []
@@ -511,7 +506,6 @@
     "range": 30,
     "sight_dispersion": 150,
     "durability": 8,
-    "burst": 1,
     "clip_size": 1,
     "reload": 1000,
     "valid_mod_locations": []
@@ -539,7 +533,6 @@
     "range": 30,
     "sight_dispersion": 150,
     "durability": 8,
-    "burst": 1,
     "clip_size": 1,
     "reload": 1000,
     "valid_mod_locations": []
@@ -1210,7 +1203,6 @@
   "skills_required": [ "mechanics", 8 ],
   "difficulty": 8,
   "time": 90000,
-  "reversible": false,
   "autolearn": true,
   "qualities":[
     {"id":"HAMMER","level":1},
@@ -1253,7 +1245,6 @@
   "skills_required": [ "mechanics", 7 ],
   "difficulty": 7,
   "time": 60000,
-  "reversible": false,
   "autolearn": true,
   "qualities":[
     {"id":"HAMMER","level":1},
@@ -1291,7 +1282,6 @@
   "skills_required": [ "mechanics", 7 ],
   "difficulty": 7,
   "time": 30000,
-  "reversible": false,
   "autolearn": true,
   "qualities":[
     {"id":"HAMMER","level":1},
@@ -1332,7 +1322,6 @@
   "skills_required": [ "mechanics", 7 ],
   "difficulty": 7,
   "time": 30000,
-  "reversible": false,
   "autolearn": true,
   "qualities":[
     {"id":"HAMMER","level":1},
@@ -1373,7 +1362,6 @@
   "skills_required": [ "mechanics", 8 ],
   "difficulty": 10,
   "time": 90000,
-  "reversible": false,
   "autolearn": true,
   "qualities":[
     {"id":"HAMMER","level":1},
@@ -1425,7 +1413,6 @@
   "skills_required": [ "mechanics", 8 ],
   "difficulty": 10,
   "time": 120000,
-  "reversible": false,
   "autolearn": true,
   "qualities":[
     {"id":"HAMMER","level":1},
@@ -1471,7 +1458,6 @@
   "skills_required": [],
   "difficulty": 10,
   "time": 30000,
-  "reversible": false,
   "autolearn": true,
   "qualities":[
     {"id":"CUT","level":1}
@@ -1499,7 +1485,6 @@
   "skills_required": [],
   "difficulty": 10,
   "time": 30000,
-  "reversible": false,
   "autolearn": true,
   "qualities":[
     {"id":"CUT","level":1}

@@ -96,7 +96,7 @@
     "description": "Having been fed, this blob is now rapidly multiplying into other copies of itself; extremely noisy copies!  And even worse, it's stuck to your hands until whatever it's doing is done!  Catch those blobs before they bring in every zombie for miles!",
     "price": 100,
     "material": ["flesh"],
-    "flags": ["NO_UNWIELD", "UNBREAKABLE_MELEE", "NO_PICKUP"],
+    "flags": ["NO_UNWIELD", "UNBREAKABLE_MELEE"],
     "weight": 8662,
     "volume": 20,
     "to_hit": -2,
@@ -193,7 +193,7 @@
     "description": "Having been fed, this blob is now rapidly multiplying into other copies of itself; extremely noisy copies!  And even worse, it's stuck to your hands until whatever it's doing is done!  Catch those blobs before they bring in every zombie for miles!",
     "price": 100,
     "material": ["flesh"],
-    "flags": ["NO_UNWIELD", "UNBREAKABLE_MELEE", "NO_PICKUP"],
+    "flags": ["NO_UNWIELD", "UNBREAKABLE_MELEE"],
     "weight": 16662,
     "volume": 20,
     "to_hit": -2,
@@ -289,7 +289,7 @@
     "description": "Having been fed, this blob is now rapidly multiplying into other copies of itself; extremely noisy copies!  And even worse, it's stuck to your hands until whatever it's doing is done!  Catch those blobs before they bring in every zombie for miles!",
     "price": 100,
     "material": ["flesh"],
-    "flags": ["NO_UNWIELD", "UNBREAKABLE_MELEE", "NO_PICKUP"],
+    "flags": ["NO_UNWIELD", "UNBREAKABLE_MELEE"],
     "weight": 19662,
     "volume": 20,
     "to_hit": -2,
@@ -352,7 +352,6 @@
     "range": 60,
     "sight_dispersion": 150,
     "durability": 10,
-    "burst": 1,
     "clip_size": 100,
     "qualities": [ ["JACK", 12 ] ]
    },
@@ -546,7 +545,7 @@
     "name": "gel shooter",
     "description": "A living blob turned into an autonomous weapon.  It trawls the ground for material, which it then strips of nutrition.  The remainder is then expelled out at significant velocity towards any nearby threats.  The amorphous mass can be shaped and attached at your touch, but the weapon itself is inert without something to control it.  It seems pliable enough to pull apart...",
     "material": ["flesh", "bone"],
-    "flags": ["NEVER_JAMS", "MOUNTED_GUN", "NO_AMMO"],
+    "flags": ["NEVER_JAMS", "MOUNTED_GUN"],
     "skill": "pistol",
     "weight": 7252,
     "volume": 12,
@@ -601,7 +600,6 @@
     "dispersion": 900,
     "sight_dispersion": 150,
     "durability": 10,
-    "burst": 1,
     "clip_size": 20
   },
   {
@@ -647,7 +645,6 @@
     "dispersion": 900,
     "sight_dispersion": 150,
     "durability": 10,
-    "burst": 1,
     "clip_size": 20
   },
   {
@@ -694,7 +691,6 @@
     "dispersion": 450,
     "sight_dispersion": 150,
     "durability": 10,
-    "burst": 1,
     "clip_size": 20
   },
   {
@@ -728,7 +724,7 @@
     "comment": "Need a light?",
     "description": "A living blob turned into an autonomous weapon.  A rather picky eater, it feeds on chemicals found within gasoline.  The digested material is still highly flammable, and when launched, also activates an ignition gland located on the outer membrane.  The amorphous mass can be shaped and attached at your touch, but the weapon itself is inert without something to control it.",
     "material": ["flesh"],
-    "flags": ["NEVER_JAMS", "MOUNTED_GUN", "NO_BOOM", "MODE_BURST", "FIRE_20"],
+    "flags": ["NEVER_JAMS", "MOUNTED_GUN", "NO_BOOM", "FIRE_20"],
     "ammo_effects": ["INCENDIARY", "FLARE", "WIDE", "NO_BOOM", "STREAM" ],
     "skill": "launcher",
     "ammo": "gasoline",
@@ -785,8 +781,7 @@
     "ranged_damage": 30,
     "range": 8,
     "sight_dispersion": 150,
-    "durability": 10,
-    "burst": 1
+    "durability": 10
   },
   {
     "id": "voideatergrow",
@@ -829,8 +824,7 @@
     "ranged_damage": 80,
     "range": 12,
     "sight_dispersion": 150,
-    "durability": 10,
-    "burst": 1
+    "durability": 10
   },
   {
     "id": "bitergrow",
@@ -876,7 +870,7 @@
     "sight_dispersion": 150,
     "durability": 10,
     "burst": 5,
-    "clip_size": 1
+    "clip_size": 5
   },
   {
     "id": "fuzzlegrow",
@@ -922,7 +916,7 @@
     "sight_dispersion": 150,
     "durability": 10,
     "burst": 5,
-    "clip_size": 1
+    "clip_size": 5
   },
   {
     "id": "horrorgrow",
@@ -968,7 +962,7 @@
     "sight_dispersion": 150,
     "durability": 10,
     "burst": 20,
-    "clip_size": 1
+    "clip_size": 20
   },
   {
     "id": "sharpgrow",
@@ -1000,7 +994,7 @@
     "name": "gel lancer",
     "description": "A living blob turned into an autonomous weapon.  Evolving incredible abilities of perception, it is capable of locating and discerning possible threats within a large radius.  When a potential threat is located, it fires a small, calcified projectile with incredible speed and accuracy.  The amorphous mass can be shaped and attached at your touch, but the weapon itself is inert without something to control it.",
     "material": ["flesh"],
-    "flags": ["NEVER_JAMS", "MOUNTED_GUN", "MODE_BURST"],
+    "flags": ["NEVER_JAMS", "MOUNTED_GUN"],
     "skill": "pistol",
     "ammo": "bfeed",
     "weight": 15103,
@@ -1013,7 +1007,7 @@
     "sight_dispersion": 150,
     "durability": 10,
     "burst": 3,
-    "clip_size": 1
+    "clip_size": 3
   },
   {
     "id": "sicklegrow",
@@ -1058,7 +1052,6 @@
     "range": 12,
     "sight_dispersion": 150,
     "durability": 10,
-    "burst": 1,
     "clip_size": 20
   },
   {
@@ -1105,7 +1098,6 @@
     "dispersion": 900,
     "sight_dispersion": 150,
     "durability": 10,
-    "burst": 1,
     "clip_size": 50
   },
   {
@@ -1152,43 +1144,8 @@
     "dispersion": 450,
     "sight_dispersion": 150,
     "durability": 10,
-    "burst": 1,
     "clip_size": 20
   },
-{
-        "id": "blobbomb",
-        "type": "TOOL",
-        "symbol": "*",
-        "color": "red",
-        "name": "incoming blob artillery",
-        "description": "Heads up!",
-        "material": ["diamond"],
-        "weight": 50000000,
-        "volume": 0,
-        "bashing": 5,
-        "to_hit": 1,
-        "max_charges": 10,
-        "initial_charges": 10,
-        "turns_per_charge": 1,
-        "flags": ["BOMB"],
-        "category": "weapons",
-        "use_action": {
-            "type": "explosion",
-            "sound_volume": 0,
-            "sound_msg": "Tick.",
-            "no_deactivate_msg": "Gravity doesn't work that way.",
-            "explosion": {
-                "power" : 50,                 
-                "distance_factor" : 0.5,
-                "shrapnel" : {
-                    "count" : 100,
-                    "mass" : 3,
-                    "recovery" : 100,
-                    "drop" : "bfeed"
-    }
-}
-        }
-},
   {
     "id": "gasoline",
     "type": "AMMO",
@@ -1253,7 +1210,7 @@
     "type": "GUN",
     "name": "RM451 flamethrower",
     "delete": { "flags": [ "FIRE_100" ] },
-    "extend": { "flags": [ "FIRE_20", "MODE_BURST" ], "ammo_effects": [ "STREAM" ] }
+    "extend": { "flags": [ "FIRE_20" ], "ammo_effects": [ "STREAM" ] }
   },
   {
     "id": "water",

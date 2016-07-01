@@ -8,7 +8,6 @@
   "skills_required": [ "gun", 3 ],
   "difficulty": 3,
   "time": 30000,
-  "reversible": false,
   "autolearn": true,
   "qualities":[
     {"id":"HAMMER","level":2},
@@ -40,7 +39,6 @@
   "skills_required": [ "mechanics", 3 ],
   "difficulty": 4,
   "time": 30000,
-  "reversible": false,
   "autolearn": true,
   "qualities":[
     {"id":"HAMMER","level":2},
@@ -91,7 +89,6 @@
   "skills_required": [ "mechanics", 3 ],
   "difficulty": 5,
   "time": 50000,
-  "reversible": false,
   "autolearn": true,
   "qualities":[
     {"id":"HAMMER","level":2},
@@ -141,7 +138,6 @@
   "skills_required": [ "mechanics", 3 ],
   "difficulty": 6,
   "time": 60000,
-  "reversible": false,
   "autolearn": true,
   "qualities":[
     {"id":"HAMMER","level":2},
@@ -195,7 +191,6 @@
   "skills_required": [ "archery", 5 ],
   "difficulty": 5,
   "time": 60000,
-  "reversible": false,
   "autolearn": true,
   "qualities":[
     {"id":"HAMMER","level":2},
@@ -237,7 +232,6 @@
   "skills_required": [ "mechanics", 3 ],
   "difficulty": 5,
   "time": 30000,
-  "reversible": false,
   "autolearn": true,
   "qualities":[
     {"id":"HAMMER","level":2},
@@ -288,7 +282,6 @@
   "skill_sec": ["fabrication",3],
   "difficulty": 4,
   "time": 24000,
-  "reversible": false,
   "autolearn": true,
   "qualities":[
     {"id":"SAW_W","level":1},
@@ -329,7 +322,6 @@
   "skill_sec": ["gun",3],
   "difficulty": 6,
   "time": 24000,
-  "reversible": false,
   "autolearn": true,
   "qualities":[
     {"id":"HAMMER","level":2},
@@ -361,7 +353,6 @@
   "skills_required": [ "fabrication", 5 ],
   "difficulty": 5,
   "time": 30000,
-  "reversible": false,
   "autolearn": true,
   "qualities":[
     {"id":"HAMMER","level":2},
@@ -393,7 +384,6 @@
   "skill_sec": ["gun",3],
   "difficulty": 8,
   "time": 180000,
-  "reversible": false,
   "autolearn": true,
   "qualities":[
     {"id":"SAW_M_FINE","level":1},
@@ -440,7 +430,6 @@
   "skills_required": [ "mechanics", 4 ],
   "difficulty": 4,
   "time": 60000,
-  "reversible": false,
   "autolearn": true,
   "qualities":[
     {"id":"HAMMER","level":1},
@@ -484,7 +473,6 @@
   "skills_required": [ "fabrication", 4 ],
   "difficulty": 4,
   "time": 40000,
-  "reversible": false,
   "autolearn": true,
   "qualities":[
     {"id":"HAMMER","level":2},
@@ -530,7 +518,6 @@
   "skills_required": [ "mechanics", 3 ],
   "difficulty": 6,
   "time": 240000,
-  "reversible": false,
   "autolearn": true,
   "qualities":[
     {"id":"HAMMER","level":2},
@@ -580,7 +567,6 @@
   "skills_required": [ "mechanics", 3 ],
   "difficulty": 4,
   "time": 120000,
-  "reversible": false,
   "autolearn": true,
   "qualities":[
     {"id":"HAMMER","level":2},
@@ -625,7 +611,6 @@
   "skills_required": [ "mechanics", 3 ],
   "difficulty": 5,
   "time": 120000,
-  "reversible": false,
   "autolearn": true,
   "qualities":[
     {"id":"HAMMER","level":2},
@@ -670,7 +655,6 @@
   "skills_required": [ "mechanics", 4 ],
   "difficulty": 8,
   "time": 240000,
-  "reversible": false,
   "autolearn": true,
   "qualities":[
     {"id":"HAMMER","level":2},
@@ -718,7 +702,6 @@
   "skills_required": [ "fabrication", 5 ],
   "difficulty": 6,
   "time": 120000,
-  "reversible": false,
   "autolearn": true,
   "qualities":[
     {"id":"HAMMER","level":3}
@@ -759,7 +742,6 @@
   "skills_required": [ "fabrication", 5 ],
   "difficulty": 4,
   "time": 60000,
-  "reversible": false,
   "autolearn": true,
   "qualities":[
     {"id":"HAMMER","level":3}

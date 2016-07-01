@@ -8,10 +8,9 @@
   "skills_required": [ "archery", 2 ],
   "difficulty": 2,
   "time": 15000,
-  "reversible": false,
   "autolearn": true,
   "qualities" : [
-    {"id":"CUT","level":1}
+    {"id":"CUT","level":1,"amount":1}
   ],
   "components": [
     [
@@ -30,11 +29,10 @@
   "skill_used": "fabrication",
   "difficulty": 0,
   "time": 5000,
-  "reversible": false,
   "autolearn": true,
   "qualities" : [
-    {"id":"CUT","level":1},
-    {"id":"HAMMER","level":1}
+    {"id":"CUT","level":1,"amount":1},
+    {"id":"HAMMER","level":1,"amount":1}
   ],
   "components": [
     [
@@ -53,9 +51,8 @@
   "skills_required": [ "archery", 2 ],
   "difficulty": 2,
   "time": 15000,
-  "reversible": false,
   "autolearn": true,
-  "qualities" : [ {"id":"CUT","level":1} ],
+  "qualities" : [ {"id":"CUT","level":1,"amount":1} ],
   "tools" : [
     [
       [ "soldering_iron", 10 ],
@@ -84,10 +81,9 @@
   "skill_used": "fabrication",
   "difficulty": 3,
   "time": 5000,
-  "reversible": false,
   "autolearn": true,
   "qualities" : [
-    {"id":"CUT","level":1}
+    {"id":"CUT","level":1,"amount":1}
   ], "tools" : [
     [
       [ "soldering_iron", 10 ],
@@ -132,10 +128,9 @@
   "skill_used": "fabrication",
   "difficulty": 3,
   "time": 5000,
-  "reversible": false,
   "autolearn": true,
   "qualities" : [
-    {"id":"CUT","level":1}
+    {"id":"CUT","level":1,"amount":1}
   ], "tools" : [
     [
       [ "soldering_iron", 10 ],
@@ -176,9 +171,8 @@
   "skill_used": "fabrication",
   "difficulty": 3,
   "time": 5000,
-  "reversible": false,
   "autolearn": true,
-  "qualities" : [ {"id":"CUT","level":1} ],
+  "qualities" : [ {"id":"CUT","level":1,"amount":1} ],
   "tools" : [
     [
       [ "soldering_iron", 10 ],
@@ -218,10 +212,9 @@
   "skills_required": [ "mechanics", 1 ],
   "difficulty": 3,
   "time": 5000,
-  "reversible": false,
   "autolearn": true,
   "qualities" : [
-    {"id":"CUT","level":1}
+    {"id":"CUT","level":1,"amount":1}
   ], "tools" : [
     [
       [ "soldering_iron", 5 ],
@@ -269,11 +262,10 @@
   "skills_required": [ "cooking", 2 ],
   "difficulty": 3,
   "time": 5000,
-  "reversible": false,
   "autolearn": true,
   "qualities" : [
-    {"id":"CUT","level":1},
-    {"id":"BOIL","level":1}
+    {"id":"CUT","level":1,"amount":1},
+    {"id":"BOIL","level":1,"amount":1}
   ], "tools" : [
     [
       [ "soldering_iron", 5 ],
@@ -345,10 +337,9 @@
   "skill_used": "fabrication",
   "difficulty": 0,
   "time": 2000,
-  "reversible": false,
   "autolearn": true,
   "qualities" : [
-    {"id":"CUT","level":1}
+    {"id":"CUT","level":1,"amount":1}
   ],
   "components": [
     [
@@ -375,10 +366,9 @@
   "skill_used": "fabrication",
   "difficulty": 0,
   "time": 2000,
-  "reversible": false,
   "autolearn": true,
   "qualities" : [
-    {"id":"CUT","level":1}
+    {"id":"CUT","level":1,"amount":1}
   ],
   "components": [
     [
@@ -404,10 +394,9 @@
   "skill_used": "fabrication",
   "difficulty": 0,
   "time": 2000,
-  "reversible": false,
   "autolearn": true,
   "qualities" : [
-    {"id":"CUT","level":1}
+    {"id":"CUT","level":1,"amount":1}
   ],
   "components": [
     [
@@ -434,10 +423,9 @@
   "skill_used": "fabrication",
   "difficulty": 0,
   "time": 2000,
-  "reversible": false,
   "autolearn": true,
   "qualities" : [
-    {"id":"CUT","level":1}
+    {"id":"CUT","level":1,"amount":1}
   ],
   "components": [
     [
@@ -464,10 +452,9 @@
   "skill_used": "fabrication",
   "difficulty": 0,
   "time": 2000,
-  "reversible": false,
   "autolearn": true,
   "qualities" : [
-    {"id":"CUT","level":1}
+    {"id":"CUT","level":1,"amount":1}
   ],
   "components": [
     [
@@ -496,10 +483,9 @@
   "skill_used": "fabrication",
   "difficulty": 0,
   "time": 2000,
-  "reversible": false,
   "autolearn": true,
   "qualities" : [
-    {"id":"CUT","level":1}
+    {"id":"CUT","level":1,"amount":1}
   ],
   "components": [
     [
@@ -524,10 +510,9 @@
   "skill_used": "fabrication",
   "difficulty": 3,
   "time": 20000,
-  "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"id":"CUT","level":1}
+    {"id":"CUT","level":1,"amount":1}
    ],
   "components": [
     [
@@ -544,11 +529,10 @@
   "skill_used": "fabrication",
   "difficulty": 3,
   "time": 20000,
-  "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"id":"HAMMER","level":1},
-    {"id":"CUT","level":1}
+    {"id":"HAMMER","level":1,"amount":1},
+    {"id":"CUT","level":1,"amount":1}
   ], "tools": [
       [
       ["tongs", -1]
