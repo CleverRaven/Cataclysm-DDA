@@ -1442,8 +1442,9 @@ bool game::do_turn()
     }
 
     // No-scent debug mutation has to be processed here or else it takes time to start working
-    if( !u.has_active_bionic( "bio_scent_mask" ) && !u.has_trait( "DEBUG_NOSCENT" ) ) {
-        scent( u.pos() ) = u.scent;
+    if( !u.has_active_bionic( "bio_scent_mask" ) &&
+        !u.has_trait( "DEBUG_NOSCENT" ) ) {
+        scent.set( u.pos(), u.scent );
         overmap_buffer.set_scent( u.global_omt_location(),  u.scent );
     }
     scent.update( u.pos(), m );
@@ -5295,18 +5296,19 @@ void game::draw_ter( const tripoint &center, const bool looking, const bool draw
         tripoint tmp = center;
         int &realx = tmp.x;
         int &realy = tmp.y;
-        for (realx = posx - POSX; realx <= posx + POSX; realx++) {
-            for (realy = posy - POSY; realy <= posy + POSY; realy++) {
-                if (scent(tmp) != 0) {
+        for( realx = posx - POSX; realx <= posx + POSX; realx++ ) {
+            for( realy = posy - POSY; realy <= posy + POSY; realy++ ) {
+                if( scent.get( tmp ) != 0 ) {
                     int tempx = posx - realx;
                     int tempy = posy - realy;
-                    if (!(isBetween(tempx, -2, 2) && isBetween(tempy, -2, 2))) {
-                        if (mon_at(tmp) != -1) {
-                            mvwputch(w_terrain, realy + POSY - posy,
-                                     realx + POSX - posx, c_white, '?');
+                    if ( !( isBetween( tempx, -2, 2 ) &&
+                            isBetween( tempy, -2, 2 ) ) ) {
+                        if( mon_at( tmp ) != -1 ) {
+                            mvwputch( w_terrain, realy + POSY - posy,
+                                      realx + POSX - posx, c_white, '?' );
                         } else {
-                            mvwputch(w_terrain, realy + POSY - posy,
-                                     realx + POSX - posx, c_magenta, '#');
+                            mvwputch( w_terrain, realy + POSY - posy,
+                                      realx + POSX - posx, c_magenta, '#' );
                         }
                     }
                 }
