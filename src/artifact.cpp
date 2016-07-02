@@ -183,7 +183,8 @@ enum artifact_tool_form {
 
 struct artifact_weapon_datum {
     std::string adjective;
-    int volume, weight; // Only applicable if this is an *extra* weapon
+    units::volume volume;
+    int weight; // Only applicable if this is an *extra* weapon
     int bash_min, bash_max;
     int cut_min, cut_max;
     int to_hit_min, to_hit_max;
@@ -480,13 +481,13 @@ void init_artifacts()
     }
 
     artifact_weapon_datum tmp_artifact_weapon_data[NUM_ARTWEAPS] = {
-        {"", 0, 0, 0, 0, 0, 0, 0, 0, ""},
+        {"", 0_ml, 0, 0, 0, 0, 0, 0, 0, ""},
         // Adjective     Vol,wgt   Bash       Cut     To-Hit   tags
-        {_("Heavy"),     0, 1400,  10, 20,    0,  0,   -2,  0,  ""},
-        {_("Knobbed"),   1, 250,   14, 30,    0,  0,   -1,  1,  ""},
-        {_("Spiked"),    1, 100,    0,  0,   20, 40,   -1,  1,  "SPEAR"},
-        {_("Edged"),     2, 450,    0,  0,   20, 50,   -1,  2,  "CHOP"},
-        {_("Bladed"),    1, 2250,   0,  0,   12, 30,   -1,  1,  "STAB"}
+        {_("Heavy"),     0_ml, 1400,  10, 20,    0,  0,   -2,  0,  ""},
+        {_("Knobbed"),   250_ml, 250,   14, 30,    0,  0,   -1,  1,  ""},
+        {_("Spiked"),    250_ml, 100,    0,  0,   20, 40,   -1,  1,  "SPEAR"},
+        {_("Edged"),     500_ml, 450,    0,  0,   20, 50,   -1,  2,  "CHOP"},
+        {_("Bladed"),    250_ml, 2250,   0,  0,   12, 30,   -1,  1,  "STAB"}
     };
     for(int i = 0; i < NUM_ARTWEAPS; i++) {
         artifact_weapon_data[i] = tmp_artifact_weapon_data[i];
@@ -684,7 +685,7 @@ std::string new_artifact()
             int select = rng(0, 2);
             if (info->extra_weapons[select] != ARTWEAP_NULL) {
                 weapon = &(artifact_weapon_data[ info->extra_weapons[select] ]);
-                art->volume += weapon->volume * units::legacy_volume_factor;
+                art->volume += weapon->volume;
                 art->weight += weapon->weight;
                 art->melee_dam += rng(weapon->bash_min, weapon->bash_max);
                 art->melee_cut += rng(weapon->cut_min, weapon->cut_max);
