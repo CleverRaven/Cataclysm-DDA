@@ -1608,7 +1608,6 @@
     },
     {   
         "type": "effect_type",
-        "id": "cough_suppress",
-        "base_mods": { "cough_chance": [0] } 
+        "id": "cough_suppress"
     }
 ]
