@@ -1694,10 +1694,6 @@ void player::complete_disassemble( int item_pos, const tripoint &loc,
         const item_comp comp = find_component( altercomps, dis_item );
         int compcount = comp.count;
         item newit( comp.type, calendar::turn );
-        // TODO: Move this check to requirement_data::disassembly_requirements()
-        if( !comp.recoverable || newit.has_flag( "UNRECOVERABLE" ) ) {
-            continue;
-        }
         // Counted-by-charge items that can be disassembled individually
         // have their component count multiplied by the number of charges.
         if( dis_item.count_by_charges() && dis.has_flag( "UNCRAFT_SINGLE_CHARGE" ) ) {

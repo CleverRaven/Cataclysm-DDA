@@ -755,6 +755,15 @@ const requirement_data requirement_data::disassembly_requirements() const
                                      []( const std::vector<tool_comp> &tcv ) {
                                          return tcv.empty();
                                      } ), ret.tools.end() );
+    // Remove unrecoverable components
+    ret.components.erase( std::remove_if( ret.components.begin(), ret.components.end(),
+        []( std::vector<item_comp> &cov ) {
+            cov.erase( std::remove_if( cov.begin(), cov.end(),
+                []( const item_comp &comp ) {
+                    return !comp.recoverable || item( comp.type ).has_flag( "UNRECOVERABLE" );
+                } ), cov.end() );
+            return cov.empty();
+        } ), ret.components.end() );
 
     return ret;
 }
