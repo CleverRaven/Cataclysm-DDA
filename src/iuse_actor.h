@@ -106,7 +106,7 @@ class countdown_actor : public iuse_actor
         void load( JsonObject &jo ) override;
         long use(player *, item *, bool, const tripoint & ) const override;
         iuse_actor *clone() const override;
-        bool can_use( const player *, const item *it, bool, const tripoint & ) const;
+        bool can_use( const player *, const item *it, bool, const tripoint & ) const override;
         std::string get_name() const override;
         void info( const item &, std::vector<iteminfo> & ) const override;
 };
