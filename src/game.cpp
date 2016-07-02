@@ -12043,8 +12043,9 @@ bool game::ramp_move( const tripoint &dest_loc )
 
 bool game::walk_move( const tripoint &dest_loc )
 {
-    int vpart1;
-    vehicle *veh1 = m.veh_at( dest_loc, vpart1 );
+    int vpart_here, vpart_there;
+    const vehicle *const veh_here = m.veh_at( u.pos(), vpart_here );
+    const vehicle *const veh_there = m.veh_at( dest_loc, vpart_there );
 
     bool pushing = false;  // moving -into- grabbed tile; skip check for move_cost > 0
     bool pulling = false;  // moving -away- from grabbed tile; check for move_cost > 0
@@ -12150,15 +12151,30 @@ bool game::walk_move( const tripoint &dest_loc )
     u.recoil -= int(u.str_cur / 2) + u.get_skill_level( skill_id( "gun" ) );
     u.recoil = std::max( MIN_RECOIL * 2, u.recoil );
     u.recoil = int(u.recoil / 2);
-    const int mcost_total = m.move_cost( dest_loc );
-    const int mcost_no_veh = m.move_cost_ter_furn( dest_loc );
-    if( (!u.has_trait("PARKOUR") && mcost_total > 2) || mcost_total > 4 ) {
-        if( veh1 != nullptr && mcost_no_veh == 2 ) {
-            add_msg( m_warning, _( "Moving past this %s is slow!" ), veh1->part_info( vpart1 ).name().c_str() );
+
+    // Print a message if movement is slow
+    const int mcost_to = m.move_cost( dest_loc );
+    const int mcost_from = m.move_cost( u.pos() );
+    const bool slowed = ( !u.has_trait( "PARKOUR" ) && ( mcost_to > 2 || mcost_from > 2 ) ) ||
+                  mcost_to > 4 || mcost_from > 4;
+    if( slowed ) {
+        // Unless u.pos() has a higher movecost than dest_loc, state that dest_loc is the cause
+        if( mcost_to >= mcost_from ) {
+            if( veh_there ) {
+                add_msg( m_warning, _( "Moving onto this %s is slow!" ),
+                         veh_there->part_info( vpart_there ).name().c_str() );
+            } else {
+                add_msg( m_warning, _( "Moving onto this %s is slow!"), m.name( dest_loc ).c_str() );
+            }
         } else {
-            add_msg(m_warning, _("Moving past this %s is slow!"), m.name(dest_loc).c_str());
-            sfx::play_variant_sound( "plmove", "clear_obstacle", sfx::get_heard_volume(u.pos()) );
+            if( veh_here ) {
+                add_msg( m_warning, _( "Moving off of this %s is slow!" ),
+                         veh_here->part_info( vpart_here ).name().c_str() );
+            } else {
+                add_msg( m_warning, _( "Moving off of this %s is slow!" ), m.name( u.pos() ).c_str() );
+            }
         }
+        sfx::play_variant_sound( "plmove", "clear_obstacle", sfx::get_heard_volume(u.pos()) );
     }
 
     place_player( dest_loc );
