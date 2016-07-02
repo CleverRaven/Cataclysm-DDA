@@ -253,7 +253,7 @@ void advanced_inventory::print_items( advanced_inventory_pane &pane, bool active
             int maxvolume = 0;
             auto &s = squares[pane.get_area()];
             if( pane.get_area() == AIM_CONTAINER && s.get_container(pane.in_vehicle()) != nullptr ) {
-                maxvolume = s.get_container(pane.in_vehicle())->get_container_capacity();
+                maxvolume = s.get_container(pane.in_vehicle())->get_container_capacity() / units::legacy_volume_factor;
             } else if( pane.in_vehicle() ) {
                 maxvolume = s.veh->max_volume( s.vstor ) / units::legacy_volume_factor;
             } else {

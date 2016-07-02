@@ -443,7 +443,7 @@ item item::in_container( const itype_id &cont ) const
         if( made_of( LIQUID ) && ret.is_container() ) {
             // Note: we can't use any of the normal normal container functions as they check the
             // container being suitable (seals, watertight etc.)
-            ret.contents.back().charges = liquid_charges( ret.get_container_capacity() );
+            ret.contents.back().charges = liquid_charges( ret.get_container_capacity() / units::legacy_volume_factor );
         }
 
         ret.invlet = invlet;
@@ -3761,7 +3761,7 @@ bool item::is_funnel_container(int &bigger_than) const
         return false;
     }
     // todo; consider linking funnel to item or -making- it an active item
-    if ( get_container_capacity() <= bigger_than ) {
+    if ( get_container_capacity() / units::legacy_volume_factor <= bigger_than ) {
         return false; // skip contents check, performance
     }
     if (
@@ -3769,7 +3769,7 @@ bool item::is_funnel_container(int &bigger_than) const
         contents.front().typeId() == "water" ||
         contents.front().typeId() == "water_acid" ||
         contents.front().typeId() == "water_acid_weak") {
-        bigger_than = get_container_capacity();
+        bigger_than = get_container_capacity() / units::legacy_volume_factor;
         return true;
     }
     return false;
@@ -4924,12 +4924,12 @@ int item::getlight_emit() const
     return lumint;
 }
 
-long item::get_container_capacity() const
+units::volume item::get_container_capacity() const
 {
     if( !is_container() ) {
         return 0;
     }
-    return type->container->contains / units::legacy_volume_factor;
+    return type->container->contains;
 }
 
 long item::get_remaining_capacity_for_liquid( const item &liquid, bool allow_bucket, std::string *err ) const
@@ -4957,7 +4957,7 @@ long item::get_remaining_capacity_for_liquid( const item &liquid, bool allow_buc
         } else if( !contents.empty() && contents.front().typeId() != liquid.typeId() ) {
             return error( string_format( _( "You can't mix loads in your %s." ), tname().c_str() ) );
         }
-        remaining_capacity = liquid.liquid_charges( get_container_capacity() );
+        remaining_capacity = liquid.liquid_charges( get_container_capacity() / units::legacy_volume_factor );
         if( !contents.empty() ) {
             remaining_capacity -= contents.front().charges;
         }

@@ -471,11 +471,9 @@ class item : public JsonSerializer, public JsonDeserializer, public visitable<it
     long get_remaining_capacity_for_liquid( const item &liquid, const Character &p,
                                             std::string *err = nullptr ) const;
     /**
-     * It returns the total capacity (volume) of the container. This is a volume,
-     * use @ref liquid_charges (of a liquid item) to translate that volume to the
-     * number charges of a liquid that can be store in it.
+     * It returns the total capacity (volume) of the container.
      */
-    long get_container_capacity() const;
+    units::volume get_container_capacity() const;
     /**
      * Puts the given item into this one, no checks are performed.
      */
