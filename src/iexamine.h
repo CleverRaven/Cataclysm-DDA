@@ -10,6 +10,7 @@
 
 #include <string>
 #include <list>
+#include "units.h"
 
 #include "string_id.h"
 
@@ -116,7 +117,7 @@ bool pour_into_keg( const tripoint &pos, item &liquid );
  * Get the capacity of the keg (if any) at given location. If there is no keg it
  * returns 0.
  */
-int get_keg_capacity( const tripoint &pos );
+units::volume get_keg_capacity( const tripoint &pos );
 /**
  * Check whether there is a keg on the map that can be filled via @ref pour_into_keg.
  */

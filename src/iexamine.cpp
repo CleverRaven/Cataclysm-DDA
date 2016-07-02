@@ -2007,10 +2007,10 @@ void iexamine::fvat_full( player &p, const tripoint &examp )
 }
 
 //probably should move this functionality into the furniture JSON entries if we want to have more than a few "kegs"
-int iexamine::get_keg_capacity( const tripoint &pos ) {
+units::volume iexamine::get_keg_capacity( const tripoint &pos ) {
     const furn_t &furn = g->m.furn( pos ).obj();
-    if( furn.id == "f_standing_tank" )  { return 1200; }
-    else if( furn.id == "f_wood_keg" )  { return 600; }
+    if( furn.id == "f_standing_tank" )  { return units::legacy_volume_factor * 1200; }
+    else if( furn.id == "f_wood_keg" )  { return units::legacy_volume_factor * 600; }
     //add additional cases above
     else                                { return 0; }
 }
@@ -2022,7 +2022,7 @@ bool iexamine::has_keg( const tripoint &pos )
 
 void iexamine::keg(player &p, const tripoint &examp)
 {
-    int keg_cap = get_keg_capacity( examp );
+    units::volume keg_cap = get_keg_capacity( examp );
     bool liquid_present = false;
     for (int i = 0; i < (int)g->m.i_at(examp).size(); i++) {
         if (!g->m.i_at(examp)[i].made_of( LIQUID ) || liquid_present) {
@@ -2076,7 +2076,7 @@ void iexamine::keg(player &p, const tripoint &examp)
         for (int i = 0; i < charges_held && !keg_full; i++) {
             g->u.use_charges(drink.typeId(), 1);
             drink.charges++;
-            keg_full = drink.volume() / units::legacy_volume_factor >= keg_cap;
+            keg_full = drink.volume() >= keg_cap;
         }
         if( keg_full ) {
             add_msg(_("You completely fill the %1$s with %2$s."),
@@ -2138,7 +2138,7 @@ void iexamine::keg(player &p, const tripoint &examp)
 
         case REFILL: {
             int charges_held = p.charges_of(drink->typeId());
-            if( drink->volume() / units::legacy_volume_factor >= keg_cap ) {
+            if( drink->volume() >= keg_cap ) {
                 add_msg(_("The %s is completely full."), g->m.name(examp).c_str());
                 return;
             }
@@ -2159,7 +2159,7 @@ void iexamine::keg(player &p, const tripoint &examp)
         case EXAMINE: {
             add_msg(m_info, _("That is a %s."), g->m.name(examp).c_str());
             add_msg(m_info, _("It contains %s (%d), %0.f%% full."),
-                    drink->tname().c_str(), drink->charges, double( drink->volume() / units::legacy_volume_factor ) / keg_cap * 100 );
+                    drink->tname().c_str(), drink->charges, drink->volume() * 100.0 / keg_cap );
             return;
         }
 
@@ -2171,7 +2171,7 @@ void iexamine::keg(player &p, const tripoint &examp)
 
 bool iexamine::pour_into_keg( const tripoint &pos, item &liquid )
 {
-    const int keg_cap = get_keg_capacity( pos );
+    const units::volume keg_cap = get_keg_capacity( pos );
     if( keg_cap <= 0 ) {
         return false;
     }
@@ -2190,13 +2190,13 @@ bool iexamine::pour_into_keg( const tripoint &pos, item &liquid )
     }
 
     item &drink = stack.front();
-    if( drink.volume() / units::legacy_volume_factor >= keg_cap ) {
+    if( drink.volume() >= keg_cap ) {
         add_msg( _( "The %s is full." ), keg_name.c_str() );
         return false;
     }
 
     add_msg( _( "You pour %1$s into the %2$s." ), liquid.tname().c_str(), keg_name.c_str() );
-    while( liquid.charges > 0 && drink.volume() / units::legacy_volume_factor < keg_cap ) {
+    while( liquid.charges > 0 && drink.volume() < keg_cap ) {
         drink.charges++;
         liquid.charges--;
     }
