@@ -69,7 +69,7 @@
     "charges_per_use": 1,
     "use_action": {
             "type": "firestarter",
-            "moves_cost": 15
+            "moves": 15
     }
   },
   {
@@ -106,7 +106,7 @@
     "charges_per_use": 1,
     "use_action": {
             "type": "firestarter",
-            "moves_cost": 15
+            "moves": 15
     }
   },
   {
@@ -6373,7 +6373,7 @@
     "use_action": [
         {
             "type": "firestarter",
-            "moves_cost": 15
+            "moves": 15
         },
         {
             "type": "transform",
