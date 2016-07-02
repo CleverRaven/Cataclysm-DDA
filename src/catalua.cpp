@@ -512,8 +512,7 @@ public:
         T* operator &() { return ref; }
     };
     /** Same as calling @ref get, but returns a @ref proxy containing the reference. */
-    static proxy get( lua_State* const L, int const stack_position )
-    {
+    static proxy get( lua_State* const L, int const stack_position ) {
         return proxy{ &LuaValue<T*>::get( L, stack_position ) };
     }
     using LuaValue<T*>::has;

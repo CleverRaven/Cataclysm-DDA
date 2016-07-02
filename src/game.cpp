@@ -4775,11 +4775,12 @@ void game::disp_faction_ends()
 struct npc_dist_to_player {
     const tripoint ppos;
     npc_dist_to_player() : ppos( g->u.global_omt_location() ) { }
-    bool operator()(const npc *a, const npc *b) const
-    {
+    // Operator overload required to leverage sort API.
+    bool operator()( const npc *a, const npc *b ) const {
         const tripoint apos = a->global_omt_location();
         const tripoint bpos = b->global_omt_location();
-        return square_dist(ppos.x, ppos.y, apos.x, apos.y) < square_dist(ppos.x, ppos.y, bpos.x, bpos.y);
+        return square_dist( ppos.x, ppos.y, apos.x, apos.y ) <
+            square_dist( ppos.x, ppos.y, bpos.x, bpos.y );
     }
 };
 

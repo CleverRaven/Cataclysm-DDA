@@ -76,6 +76,7 @@ struct sound_effect {
     int volume;
 
     struct deleter {
+        // Operator overloaded to leverage deletion API.
         void operator()( Mix_Chunk* const c ) const {
             Mix_FreeChunk( c );
         };
@@ -149,6 +150,7 @@ protected:
         std::string   codepoints;
         unsigned char color;
 
+        // Operator overload required to use in std::map.
         bool operator<(key_t const &rhs) const noexcept {
             return (color == rhs.color) ? codepoints < rhs.codepoints : color < rhs.color;
         }

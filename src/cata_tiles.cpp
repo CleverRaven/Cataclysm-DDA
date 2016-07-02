@@ -65,6 +65,7 @@ static const std::string TILE_CATEGORY_IDS[] = {
     "weather", // C_WEATHER,
 };
 
+// Operator overload required to leverage unique_ptr API.
 void SDL_Texture_deleter::operator()( SDL_Texture *const ptr )
 {
     if( ptr ) {
@@ -72,6 +73,7 @@ void SDL_Texture_deleter::operator()( SDL_Texture *const ptr )
     }
 }
 
+// Operator overload required to leverage unique_ptr API.
 void SDL_Surface_deleter::operator()( SDL_Surface *const ptr )
 {
     if( ptr ) {
