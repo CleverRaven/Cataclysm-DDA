@@ -259,5 +259,53 @@
      "magazines": [
        [ "223", [ "stanag10" ] ]
      ]
+    },
+    {
+     "id": "emp_gun",
+     "copy-from": "emp_gun",
+     "type": "GUN",
+     "name": "EMP Projector",
+     "description": "A powerful electrolaser developed by paramilitary R&D not long before the cataclysm. Especially effective against electronic targets. It charges off of UPS power stations."
+    },
+    {
+     "id": "laser_cannon",
+     "copy-from": "laser_cannon",
+     "type": "GUN",
+     "name": "hand-held laser cannon",
+     "description": "This is a laser cannon stripped from the barrel of a laser turret; it has been modified to use UPS power for firing."
+    },
+    {
+     "id": "laser_rifle",
+     "copy-from": "laser_rifle",
+     "type": "GUN",
+     "name": "laser rifle",
+     "description": "A state of the art laser rifle which runs on UPS power. It was developed by paramilitary R&D shortly before the cataclysm. Initial performance rivaled the most advanced ballistic weapons of the day. Though the cataclysm put that on the ash heap of history, this weapon can still do the same to your foes."
+    },
+    {
+     "id": "v29",
+     "copy-from": "v29",
+     "type": "GUN",
+     "name": "laser pistol",
+     "description": "This pistol is larger than most traditional handguns, but displays no recoil whatsoever. It runs efficiently on UPS power."
+    },
+    {
+     "id": "v29_cheap",
+     "copy-from": "v29_cheap",
+     "type": "GUN",
+     "name": "scrap laser pistol",
+     "description": "Based on its military and commercial cousin, this laser pistol is little more than duct tape and electronics, however it runs on standard UPS power."
+    },
+    {
+     "id": "ftk93",
+     "copy-from": "ftk93",
+     "type": "GUN",
+     "name": "fusion rifle"
+    },
+    {
+     "id": "plasma_rifle",
+     "copy-from": "plasma_rifle",
+     "type": "GUN",
+     "name": "plasma rifle",
+     "description": "Developed by a cutting edge weapons research team together with DARPA, this UPS-powerd energy weapon heats hydrogen to create plasma and envelopes it with polymers to reduce blooming. While powerful, it suffers from short range. It accepts hydrogen canisters as ammunition."
     }
 ]
