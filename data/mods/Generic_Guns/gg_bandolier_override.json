@@ -1,0 +1,91 @@
+[
+  {
+    "id": "bandolier_pistol",
+    "type": "ARMOR",
+    "name": "pistol bandolier",
+    "description" : "An embroidered leather bandolier for keeping revolver and pistol cartridges close to hand.  If this doesn't make you feel like a cowboy, nothing will.",
+    "weight": 140,
+    "volume": 1,
+    "price": 1900,
+    "material": "leather",
+    "symbol": "[",
+    "color": "dark_gray",
+    "covers": [ "TORSO" ],
+    "coverage": 10,
+    "encumbrance": 6,
+    "material_thickness": 1,
+    "use_action": {
+        "type": "bandolier",
+        "capacity": 18,
+        "ammo": [ "gg_44", "gg_9mm" ]
+    },
+    "flags": [ "WATER_FRIENDLY", "VARSIZE", "WAIST", "OVERSIZE", "FANCY" ]
+  },
+  {
+    "id": "bandolier_rifle",
+    "type": "ARMOR",
+    "name": "rifle bandolier",
+    "description" : "A leather bandolier for keeping rifle cartridges close to hand.",
+    "weight": 140,
+    "volume": 1,
+    "price": 1900,
+    "material": "leather",
+    "symbol": "[",
+    "color": "dark_gray",
+    "covers": [ "TORSO" ],
+    "coverage": 10,
+    "encumbrance": 6,
+    "material_thickness": 1,
+    "use_action": {
+        "type": "bandolier",
+        "capacity": 16,
+        "ammo": [ "gg_556", "gg_762", "gg_50"  ]
+    },
+    "flags": [ "WATER_FRIENDLY", "VARSIZE", "WAIST", "OVERSIZE" ]
+  },
+  {
+    "id": "bandolier_shotgun",
+    "type": "ARMOR",
+    "name": "shotgun bandolier",
+    "description" : "A leather bandolier for keeping shotgun shells close to hand.",
+    "weight": 140,
+    "volume": 1,
+    "price": 1900,
+    "material": "leather",
+    "symbol": "[",
+    "color": "dark_gray",
+    "covers": [ "TORSO" ],
+    "coverage": 10,
+    "encumbrance": 6,
+    "material_thickness": 1,
+    "use_action": {
+        "type": "bandolier",
+        "capacity": 12,
+        "ammo": [ "shot" ]
+    },
+    "flags": [ "WATER_FRIENDLY", "VARSIZE", "WAIST", "OVERSIZE" ]
+  },
+  {
+    "id": "bandolier_wrist",
+    "type": "ARMOR",
+    "name": "wrist bandolier",
+    "description" : "A small fabric bandolier for rifle cartridges designed to be worn around the wrist.",
+    "weight": 30,
+    "volume": 1,
+    "price": 2900,
+    "material": "cotton",
+    "symbol": "[",
+    "color": "dark_gray",
+    "covers": [ "HAND_EITHER" ],
+    "coverage": 5,
+    "encumbrance": 4,
+    "material_thickness": 1,
+    "use_action": {
+        "type": "bandolier",
+        "capacity": 4,
+        "ammo": [ "gg_556", "gg_762", "gg_50" ]
+    },
+    "flags": [ "WATER_FRIENDLY", "BELTED", "ALLOWS_NATURAL_ATTACKS" ]
+  }
+]
+
