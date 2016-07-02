@@ -171,6 +171,12 @@ void Item_factory::finalize() {
             obj.volume = obj.volume / obj.stack_size;
             obj.integral_volume = obj.integral_volume / obj.stack_size;
         }
+        // Items always should have some volume.
+        // TODO: handle possible exception software?
+        // TODO: make items with 0 volume an error during loading?
+        if( obj.volume <= 0 ) {
+            obj.volume = units::from_milliliter( 1 );
+        }
         for( const auto &tag : obj.item_tags ) {
             if( tag.size() > 6 && tag.substr( 0, 6 ) == "LIGHT_" ) {
                 obj.light_emission = std::max( atoi( tag.substr( 6 ).c_str() ), 0 );
