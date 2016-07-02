@@ -5357,6 +5357,7 @@ static bool trigger_radio_item( item_stack &items, std::list<item>::iterator &n,
         if( n->has_flag("BOMB") ) {
             // Set charges to 0 to ensure it detonates now
             n->charges = 0;
+            n->item_counter = 0;
         }
         trigger_item = true;
     } else if( n->has_flag("RADIO_CONTAINER") && !n->contents.empty() &&
