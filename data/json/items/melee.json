@@ -1952,7 +1952,6 @@
     "category" : "weapons",
     "qualities": [["CUT", 1], ["BUTCHER", 8]]
   },{
-  },{
     "id": "arming_sword_fake",
     "type": "GENERIC",
     "symbol": "/",
