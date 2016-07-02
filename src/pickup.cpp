@@ -26,9 +26,6 @@ struct pickup_count {
     int count = 0;
     //position in the copy of the player's inventory (in the function @ref pick_up).
     int position = -1;
-    explicit operator bool() const {
-        return pick;
-    }
 };
 
 // Handles interactions with a vehicle in the examine menu.
@@ -743,8 +740,8 @@ void Pickup::pick_up( const tripoint &pos, int min )
                     start += maxitems;
                 }
             } else if( selected >= 0 && (
-                           ( action == "RIGHT" && !getitem[selected] ) ||
-                           ( action == "LEFT" && getitem[selected] )
+                           ( action == "RIGHT" && !getitem[selected].pick ) ||
+                           ( action == "LEFT" && getitem[selected].pick )
                        ) ) {
                 idx = selected;
             } else if( action == "ANY_INPUT" && raw_input_char == '`' ) {
@@ -763,7 +760,7 @@ void Pickup::pick_up( const tripoint &pos, int min )
             }
 
             if( idx >= 0 && idx < ( int )here.size() ) {
-                if( getitem[idx] ) {
+                if( getitem[idx].pick ) {
                     if( here[idx].count_by_charges() ) {
                         if( getitem[idx].count == 0 ) {
                             pl_copy.inv.find_item( getitem[idx].position ).charges -= here[idx].charges;
@@ -776,7 +773,7 @@ void Pickup::pick_up( const tripoint &pos, int min )
                         //if the stack_was emptied, removing the item invalidated later positions- fix them
                         if( stack_size == 1 ) {
                             for( unsigned i = 0; i < here.size(); i++ ) {
-                                if( getitem[i] && getitem[i].position > getitem[idx].position ) {
+                                if( getitem[i].pick && getitem[i].position > getitem[idx].position ) {
                                     getitem[i].position--;
                                 }
                             }
@@ -795,13 +792,15 @@ void Pickup::pick_up( const tripoint &pos, int min )
                 }
 
                 // Note: this might not change the value of getitem[idx] at all!
-                getitem[idx].pick = ( action == "RIGHT" ? true : ( action == "LEFT" ? false : !getitem[idx] ) );
+                getitem[idx].pick = ( action == "RIGHT" ? true :
+                                      ( action == "LEFT" ? false :
+                                        !getitem[idx].pick ) );
                 if( action != "RIGHT" && action != "LEFT" ) {
                     selected = idx;
                     start = ( int )( idx / maxitems ) * maxitems;
                 }
 
-                if( getitem[idx] ) {
+                if( getitem[idx].pick ) {
                     item temp = here[idx];
                     if( getitem[idx].count != 0 &&
                         getitem[idx].count < here[idx].charges ) {
@@ -831,7 +830,7 @@ void Pickup::pick_up( const tripoint &pos, int min )
             if( action == "SELECT_ALL" ) {
                 int count = 0;
                 for( size_t i = 0; i < here.size(); i++ ) {
-                    if( getitem[i] ) {
+                    if( getitem[i].pick ) {
                         count++;
                     } else {
                         item *added = &( pl_copy.i_add( here[i] ) );
@@ -871,7 +870,7 @@ void Pickup::pick_up( const tripoint &pos, int min )
                     } else {
                         mvwputch( w_pickup, 1 + ( cur_it % maxitems ), 0, icolor, ' ' );
                     }
-                    if( getitem[cur_it] ) {
+                    if( getitem[cur_it].pick ) {
                         if( getitem[cur_it].count == 0 ) {
                             wprintz( w_pickup, c_ltblue, " + " );
                         } else {
@@ -932,7 +931,7 @@ void Pickup::pick_up( const tripoint &pos, int min )
         bool item_selected = false;
         // Check if we have selected an item.
         for( auto selection : getitem ) {
-            if( selection ) {
+            if( selection.pick ) {
                 item_selected = true;
             }
         }
@@ -956,7 +955,7 @@ void Pickup::pick_up( const tripoint &pos, int min )
     }
     std::reverse( getitem.begin(), getitem.end() );
     for( size_t i = 0; i < here.size(); i++ ) {
-        if( getitem[i] ) {
+        if( getitem[i].pick ) {
             g->u.activity.values.push_back( i );
             g->u.activity.values.push_back( getitem[i].count );
         }
