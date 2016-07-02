@@ -372,7 +372,7 @@
             "activation_message" : "You take some codeine.",
             "effects" : [ 
                 { "id" : "pkill2", "duration" : 180 },
-                { "id" : "cough_suppress", "duration" : 7200 }
+                { "id" : "cough_suppress", "duration" : 1000 }
             ]
         }
     },
@@ -675,7 +675,7 @@
             "effects" : [ 
                 { "id" : "pkill3", "duration" : 80 },
                 { "id" : "pkill2", "duration" : 200 },
-                { "id" : "cough_suppress", "duration" : 7200 }
+                { "id" : "cough_suppress", "duration" : 1000 }
             ]
         }
     },
