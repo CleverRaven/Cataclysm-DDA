@@ -1,6 +1,7 @@
 #ifndef ITYPE_H
 #define ITYPE_H
 
+#include "copyable_unique_ptr.h"
 #include "color.h" // nc_color
 #include "enums.h" // point
 #include "iuse.h" // use_function
@@ -526,16 +527,6 @@ struct islot_artifact {
     std::vector<art_effect_active>  effects_activated;
     std::vector<art_effect_passive> effects_carried;
     std::vector<art_effect_passive> effects_worn;
-};
-
-template <typename T>
-class copyable_unique_ptr : public std::unique_ptr<T> {
-    public:
-        copyable_unique_ptr() = default;
-        copyable_unique_ptr( copyable_unique_ptr&& rhs ) = default;
-
-        copyable_unique_ptr( const copyable_unique_ptr<T>& rhs )
-            : std::unique_ptr<T>( rhs ? new T( *rhs ) : nullptr ) {}
 };
 
 struct itype {

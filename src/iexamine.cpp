@@ -6,6 +6,7 @@
 #include "mapdata.h"
 #include "output.h"
 #include "rng.h"
+#include "requirements.h"
 #include "line.h"
 #include "player.h"
 #include "translations.h"

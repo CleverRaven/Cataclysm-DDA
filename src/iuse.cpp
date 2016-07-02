@@ -7,6 +7,7 @@
 #include "output.h"
 #include "debug.h"
 #include "options.h"
+#include "requirements.h"
 #include "rng.h"
 #include "line.h"
 #include "mutation.h"

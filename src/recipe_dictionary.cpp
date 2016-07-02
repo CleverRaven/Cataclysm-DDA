@@ -1,5 +1,6 @@
 #include "recipe_dictionary.h"
 #include "crafting.h"
+#include "requirements.h"
 
 #include <algorithm> //std::remove
 

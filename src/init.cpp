@@ -33,6 +33,7 @@
 #include "ammo.h"
 #include "debug.h"
 #include "path_info.h"
+#include "requirements.h"
 #include "start_location.h"
 #include "scenario.h"
 #include "omdata.h"

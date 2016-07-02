@@ -24,6 +24,7 @@
 #include "translations.h"
 #include "crafting.h"
 #include "recipe_dictionary.h"
+#include "requirements.h"
 #include "martialarts.h"
 #include "npc.h"
 #include "ui.h"

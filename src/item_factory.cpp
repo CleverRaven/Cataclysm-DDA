@@ -18,6 +18,7 @@
 #include "material.h"
 #include "options.h"
 #include "recipe_dictionary.h"
+#include "requirements.h"
 #include "skill.h"
 #include "translations.h"
 #include "text_snippets.h"

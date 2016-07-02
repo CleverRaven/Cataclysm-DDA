@@ -2,6 +2,7 @@
 
 #include "crafting.h"
 #include "recipe_dictionary.h"
+#include "requirements.h"
 #include "player.h"
 #include "itype.h"
 #include "input.h"

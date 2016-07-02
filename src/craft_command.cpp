@@ -7,6 +7,7 @@
 #include "inventory.h"
 #include "output.h"
 #include "player.h"
+#include "requirements.h"
 #include "translations.h"
 #include "crafting.h"
 

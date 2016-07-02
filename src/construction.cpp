@@ -14,6 +14,7 @@
 #include "translations.h"
 #include "messages.h"
 #include "rng.h"
+#include "requirements.h"
 #include "trap.h"
 #include "overmapbuffer.h"
 #include "options.h"
