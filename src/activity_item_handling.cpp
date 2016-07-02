@@ -41,15 +41,9 @@ typedef std::list<std::pair<int, int>> drop_indexes;
 
 bool same_type( const std::list<item> &items )
 {
-    if( items.size() <= 1 ) {
-        return true;
-    }
-    for( auto it = items.begin()++; it != items.end(); ++it ) {
-        if( it->type != items.begin()->type ) {
-            return false;
-        }
-    }
-    return true;
+    return std::all_of( items.begin(), items.end(), [ &items ]( const item & it ) {
+        return it.type == items.begin()->type;
+    } );
 }
 
 void put_into_vehicle( player &p, const std::list<item> &items, vehicle &veh, int part )
