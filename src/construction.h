@@ -26,7 +26,7 @@ struct construction {
 
         requirement_id requirements;
 
-        size_t id; // arbitrary internal identifier
+        size_t id; // Index in construction vector
         int time;
         int difficulty;
 
