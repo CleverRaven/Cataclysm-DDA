@@ -4143,8 +4143,8 @@ void game::debug()
                         p.weapon = p.ret_null;
                         break;
                     case D_ITEM_WORN: {
-                        int item_pos = inv_for_filter( "Make target equip:", []( const item_location &location ) {
-                            return location.get_item()->is_armor();
+                        int item_pos = inv_for_filter( "Make target equip:", []( const item &it ) {
+                            return it.is_armor();
                         } );
                         item &to_wear = u.i_at( item_pos );
                         if( to_wear.is_armor() ) {
@@ -7816,8 +7816,8 @@ bool pet_menu(monster *z)
     }
 
     if (attach_bag == choice) {
-        int pos = g->inv_for_filter( _("Bag item:"), []( const item_location &location ) {
-            return location.get_item()->is_armor() && location.get_item()->get_storage() > 0;
+        int pos = g->inv_for_filter( _("Bag item:"), []( const item &it ) {
+            return it.is_armor() && it.get_storage() > 0;
         } );
 
         if (pos == INT_MIN) {
@@ -7991,8 +7991,8 @@ bool npc_menu( npc &who )
         who.body_window( precise );
     } else if( choice == use_item ) {
         static const std::string heal_string( "heal" );
-        const auto will_accept = [&who]( const item_location &location ) {
-            const auto use_fun = location.get_item()->get_use( heal_string );
+        const auto will_accept = [&who]( const item &it ) {
+            const auto use_fun = it.get_use( heal_string );
             if( use_fun == nullptr ) {
                 return false;
             }
@@ -11106,8 +11106,7 @@ void game::eat(int pos)
     }
 
     // Can consume items from inventory or within one tile (including in vehicles)
-    auto item_loc = inv_map_splice( [&]( const item_location &location ) {
-        const item &it = *location.get_item();
+    auto item_loc = inv_map_splice( [&]( const item &it ) {
         if( it.typeId() == "1st_aid" ) {
             return false; // temporary fix for #12991
         }
@@ -11158,8 +11157,8 @@ void game::takeoff(int pos)
 void game::change_side(int pos)
 {
     if (pos == INT_MIN) {
-        pos = inv_for_filter( _( "Change side for item:" ), [&]( const item_location &location ) {
-            return u.is_worn( *location.get_item() ) && location.get_item()->is_sided();
+        pos = inv_for_filter( _( "Change side for item:" ), [&]( const item &it ) {
+            return u.is_worn(it) && it.is_sided();
         }, _( "You don't have sided items worn." ) );
     }
     if (pos == INT_MIN) {
@@ -11243,8 +11242,8 @@ void game::unload(int pos)
     item *it = nullptr;
 
     if( pos == INT_MIN ) {
-        it = inv_map_splice( [&]( const item_location &location ) {
-            return u.rate_action_unload( *location.get_item() ) == HINT_GOOD;
+        it = inv_map_splice( [&]( const item &it ) {
+            return u.rate_action_unload( it ) == HINT_GOOD;
         }, _( "Unload item:" ), 1, _( "You have nothing to unload." ) ).get_item();
 
         if( it == nullptr ) {
@@ -11470,9 +11469,8 @@ void game::wield( int pos )
 void game::read()
 {
     // Can read items from inventory or within one tile (including in vehicles)
-    auto loc = inv_map_splice( []( const item_location &location ) {
-        return location.get_item()->is_book();
-    }, _( "Read:" ), 1, _( "You have nothing to read." ) );
+    auto loc = inv_map_splice( []( const item &it ) { return it.is_book(); }, _( "Read:" ), 1,
+                                _( "You have nothing to read." ) );
 
     item *book = loc.get_item();
     if( !book ) {

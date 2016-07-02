@@ -1019,8 +1019,8 @@ long salvage_actor::use( player *p, item *it, bool t, const tripoint& ) const
         return 0;
     }
 
-    int inventory_index = g->inv_for_filter( _("Cut up what?"), [ this ]( const item_location &location ) {
-        return valid_to_cut_up( location.get_item() );
+    int inventory_index = g->inv_for_filter( _("Cut up what?"), [ this ]( const item &it ) {
+        return valid_to_cut_up( &it );
     } );
 
     item *cut = &( p->i_at( inventory_index ) );
@@ -1914,10 +1914,7 @@ long holster_actor::use( player *p, item *it, bool, const tripoint & ) const
         p->wield_contents( it, pos, draw_cost, false );
 
     } else {
-        item &obj = p->i_at( g->inv_for_filter( prompt, [&]( const item_location &location ) {
-            return can_holster( *location.get_item() );
-        } ) );
-
+        item &obj = p->i_at( g->inv_for_filter( prompt, [&](const item& e) { return can_holster(e); } ) );
         if( obj.is_null() ) {
             p->add_msg_if_player( _( "Never mind." ) );
             return 0;
@@ -2051,8 +2048,8 @@ long bandolier_actor::use( player *p, item *it, bool, const tripoint & ) const
                    'r', string_format( _( "Store ammo in %s" ), it->type_name().c_str() ) );
 
     actions.emplace_back( [&] {
-        item &obj = p->i_at( g->inv_for_filter( _( "Store ammo" ), [&]( const item_location &location ) {
-            return can_store( *it, *location.get_item() );
+        item &obj = p->i_at( g->inv_for_filter( _( "Store ammo" ), [&]( const item &e ) {
+            return can_store( *it, e );
         } ) );
 
         if( !obj.is_null() ) {
@@ -2179,8 +2176,7 @@ long repair_item_actor::use( player *p, item *it, bool, const tripoint & ) const
     if( !could_repair( *p, *it, true ) ) {
         return 0;
     }
-    const int pos = g->inv_for_filter( _( "Repair what?" ), [this, it]( const item_location &location ) {
-        const item &itm = *location.get_item();
+    const int pos = g->inv_for_filter( _( "Repair what?" ), [this, it]( const item &itm ) {
         return itm.made_of_any( materials ) && !itm.is_ammo() && !itm.is_firearm() && &itm != it;
     }, string_format( _( "You have no items that could be repaired with a %s." ), it->type_name( 1 ).c_str() ) );
 
