@@ -4547,7 +4547,7 @@
     ]
   },
   {
-    "comment": "Name changed to glaive, but changing the id would break e.g.  tilesets.",
+    "//": "Name changed to glaive, but changing the id would break e.g.  tilesets.",
     "id": "makeshift_halberd",
     "type": "GENERIC",
     "symbol": "/",
@@ -6689,7 +6689,7 @@
     "qualities": [["CUT", 1], ["BUTCHER", 20]]
   },
   {
-    "comment": "Highest non-powertool butchering quality.  It's made for skinning and butchering game, which is what you're generally doing.",
+    "//": "Highest non-powertool butchering quality.  It's made for skinning and butchering game, which is what you're generally doing.",
     "id": "knife_hunting",
     "type": "TOOL",
     "symbol": "/",
@@ -6708,7 +6708,7 @@
     "qualities": [["CUT", 1], ["BUTCHER", 30]]
   },
   {
-    "comment": "This isn't really supposed to be a very good knife, or a very good saw.  It's more for looking scary.",
+    "//": "This isn't really supposed to be a very good knife, or a very good saw.  It's more for looking scary.",
     "id": "knife_rambo",
     "type": "TOOL",
     "symbol": ";",
@@ -6728,7 +6728,7 @@
     "qualities": [["CUT", 1], ["SAW_W", 1], ["SAW_M", 1], ["BUTCHER", 7]]
   },
   {
-    "comment": "The swiss army knife is a bit more of a knife than a toolkit.",
+    "//": "The swiss army knife is a bit more of a knife than a toolkit.",
     "id": "knife_swissarmy",
     "type": "TOOL",
     "symbol": ";",
@@ -6746,7 +6746,7 @@
     "qualities": [["CUT", 1], ["SAW_W", 1], ["SAW_M", 1], ["SCREW", 1], ["BUTCHER", 8]]
   },
   {
-    "comment": "The multi-tool is a bit more of a toolkit than a knife.",
+    "//": "The multi-tool is a bit more of a toolkit than a knife.",
     "id": "multitool",
     "type": "TOOL",
     "symbol": ";",
@@ -6902,7 +6902,7 @@
     "use_action" : "TAZER"
   },
   {
-    "comment": "Too small to be effectively used for butchering, still not bad at it due to serrated edge.",
+    "//": "Too small to be effectively used for butchering, still not bad at it due to serrated edge.",
     "id": "diveknife",
     "type": "TOOL",
     "category" : "weapons",
