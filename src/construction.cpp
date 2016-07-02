@@ -77,14 +77,6 @@ void standardize_construction_times( int const time )
     }
 }
 
-void remove_construction_if( std::function<bool( construction & )> pred )
-{
-    constructions.erase( std::remove_if( begin( constructions ), end( constructions ),
-    [&]( construction & c ) {
-        return pred( c );
-    } ), std::end( constructions ) );
-}
-
 std::vector<construction *> constructions_by_desc( const std::string &description )
 {
     std::vector<construction *> result;
@@ -1527,4 +1519,13 @@ void finalize_constructions()
             const_cast<requirement_data &>( con.requirements.obj() ).get_components().push_back( frame_items );
         }
     }
+
+    // previously dead code became live in #17451 and caused #17443 and #17449
+    // is temporarily disabled pending refactor as construction_id = string_id<construction>
+    /*
+    constructions.erase( std::remove_if( constructions.begin(), constructions.end(),
+        [&]( const construction &c ) {
+            return c.requirements->is_empty() && !c.requirements->is_null();
+    } ), constructions.end() );
+    */
 }

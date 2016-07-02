@@ -278,10 +278,6 @@ void Item_factory::finalize_item_blacklist()
     }
 
     // if a requirement is empty but not null then it only contained (now removed) blacklisted items
-    remove_construction_if( [&]( construction &c ) {
-        return c.requirements->is_empty() && !c.requirements->is_null();
-    } );
-
     recipe_dict.delete_if( [&]( recipe &r ) {
         return r.requirements->is_empty() && !r.requirements->is_null();
     } );
