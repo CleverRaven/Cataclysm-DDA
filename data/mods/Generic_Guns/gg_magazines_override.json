@@ -189,5 +189,15 @@
     "reliability": 9,
     "reload_time": 100,
     "flags": [ "MAG_COMPACT" ]
+  },
+  {
+    "id": "deaglemag",
+    "copy-from": "deaglemag",
+    "type": "MAGAZINE",
+    "name": "Magnum pistol magazine",
+    "description": "A 7-round magazine which holds revolver ammo for use with a magnum pistol",
+    "ammo_type": "44",
+    "capacity": 7,
+    "flags": [ "MAG_COMPACT" ]
   }
 ]

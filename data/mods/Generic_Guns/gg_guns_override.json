@@ -307,5 +307,13 @@
      "type": "GUN",
      "name": "plasma rifle",
      "description": "Developed by a cutting edge weapons research team together with DARPA, this UPS-powerd energy weapon heats hydrogen to create plasma and envelopes it with polymers to reduce blooming. While powerful, it suffers from short range. It accepts hydrogen canisters as ammunition."
+    },
+    {
+     "id": "deagle_44",
+     "copy-from": "deagle_44",
+     "type": "GUN",
+     "name": "magnum pistol",
+     "name_plural": "magnum pistols",
+     "description": "A powerful semi-automatic pistol which fires revolver rounds. Loads a detachable, 7-round magazine."
     }
 ]

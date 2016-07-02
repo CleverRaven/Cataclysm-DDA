@@ -68,7 +68,7 @@
         "type" : "AMMO",
         "name" : "revolver ammo",
         "name_plural" : "revolver ammo",
-        "description" : "Powerful ammunition for large revolvers, as well as a few carbines."
+        "description" : "Powerful ammunition for large revolvers and magnum pistols, as well as a few carbines."
     },{
         "id" : "223", "//" : "weapons with ammo spawn default type even blacklisted.",
         "copy-from" : "223",

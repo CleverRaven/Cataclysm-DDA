@@ -29,7 +29,7 @@
         "type" : "AMMO",
         "name" : "reloaded revolver ammo",
         "name_plural" : "reloaded revolver ammo",
-        "description" : "Hand-loaded ammunition for large revolvers, as well as a few carbines."
+        "description" : "Hand-loaded ammunition for large revolvers and magnum pistols, as well as a few carbines."
     },
     {
         "id" : "reloaded_556",
