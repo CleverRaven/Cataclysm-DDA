@@ -82,7 +82,18 @@
     "type": "GUN",
     "name": "base shotgun",
     "skill": "shotgun",
-    "aim_speed": 6
+    "ammo": "shot",
+    "aim_speed": 6,
+    "valid_mod_locations": [ [ "accessories", 4 ], [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "muzzle", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ]
+  },
+  {
+    "abstract": "shotgun_pump",
+    "copy-from": "shotgun_base",
+    "type": "GUN",
+    "name": "pump action shotgun",
+    "reload_noise_volume": 10,
+    "reload_noise": "chuk chuk.",
+    "flags": [ "RELOAD_ONE" ]
   },
   {
     "abstract": "smg_base",
