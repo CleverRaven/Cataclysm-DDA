@@ -19,6 +19,43 @@
     ]
   },
   {
+    "result": "1st_aid_survivor",
+    "type" : "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MEDICAL",
+    "skill_used": "firstaid",
+    "difficulty": 0,
+    "time": 50000,
+    "autolearn": true,
+    "qualities": [
+      { "id":"CUT","level":1 },
+      { "id":"BOIL","level":1 }
+    ],
+    "tools" : [ [ [ "hotplate", 20 ], [ "toolset", 20 ], [ "fire", -1 ] ] ],
+    "components": [
+      [ [ "rag", 3 ] ],
+      [
+        [ "thread", 300 ],
+        [ "sinew", 300 ],
+        [ "plant_fibre", 300 ],
+        [ "string_36", 1 ],
+        [ "string_6", 6 ],
+        [ "superglue", 1 ]
+      ],
+      [
+        [ "moonshine", 14 ],
+        [ "vodka", 14 ],
+        [ "whiskey", 14 ],
+        [ "single_malt_whiskey", 14 ],
+        [ "brandy", 14 ],
+        [ "rum", 14 ],
+        [ "gin", 14 ],
+        [ "tequila", 14 ],
+        [ "mixed_alcohol_strong", 14 ]
+      ]
+    ]
+  },
+  {
     "result": "bandages",
     "type" : "recipe",
     "category": "CC_OTHER",
