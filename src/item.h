@@ -501,7 +501,7 @@ class item : public JsonSerializer, public JsonDeserializer, public visitable<it
     /**
      * Funnel related functions. See weather.cpp for their usage.
      */
-    bool is_funnel_container(int &bigger_than) const;
+    bool is_funnel_container(units::volume &bigger_than) const;
     void add_rain_to_container(bool acid, int charges = 1);
     /*@}*/
 

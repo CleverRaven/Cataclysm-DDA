@@ -3758,13 +3758,13 @@ bool item::is_disassemblable() const
     return get_disassemble_recipe(typeId()) != NULL;
 }
 
-bool item::is_funnel_container(int &bigger_than) const
+bool item::is_funnel_container(units::volume &bigger_than) const
 {
     if ( ! is_watertight_container() ) {
         return false;
     }
     // todo; consider linking funnel to item or -making- it an active item
-    if ( get_container_capacity() / units::legacy_volume_factor <= bigger_than ) {
+    if ( get_container_capacity() <= bigger_than ) {
         return false; // skip contents check, performance
     }
     if (
@@ -3772,7 +3772,7 @@ bool item::is_funnel_container(int &bigger_than) const
         contents.front().typeId() == "water" ||
         contents.front().typeId() == "water_acid" ||
         contents.front().typeId() == "water_acid_weak") {
-        bigger_than = get_container_capacity() / units::legacy_volume_factor;
+        bigger_than = get_container_capacity();
         return true;
     }
     return false;
