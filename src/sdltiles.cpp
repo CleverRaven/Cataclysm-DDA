@@ -161,8 +161,7 @@ protected:
         int          width;
     };
 
-    typedef std::map<key_t, cached_t> t_glyph_map;
-    t_glyph_map glyph_cache_map;
+    std::map<key_t, cached_t> glyph_cache_map;
 };
 
 /**
@@ -2051,9 +2050,9 @@ void CachedTTFFont::clear()
         TTF_CloseFont(font);
         font = NULL;
     }
-    for (t_glyph_map::iterator a = glyph_cache_map.begin(); a != glyph_cache_map.end(); ++a) {
-        if (a->second.texture) {
-            SDL_DestroyTexture(a->second.texture);
+    for( auto &a : glyph_cache_map ) {
+        if( a.second.texture ) {
+            SDL_DestroyTexture( a.second.texture );
         }
     }
     glyph_cache_map.clear();
