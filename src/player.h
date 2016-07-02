@@ -1120,8 +1120,10 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         bool has_weapon() const override;
 
         // Checks crafting inventory for books providing the requested recipe.
+        // Then checks nearby NPCs who could provide it too.
         // Returns -1 to indicate recipe not found, otherwise difficulty to learn.
-        int has_recipe( const recipe *r, const inventory &crafting_inv ) const;
+        int has_recipe( const recipe *r, const inventory &crafting_inv,
+                        const std::vector<npc *> &helpers ) const;
         bool knows_recipe( const recipe *rec ) const;
         void learn_recipe( const recipe *rec, bool force = false );
         int exceeds_recipe_requirements( const recipe &rec ) const;
@@ -1142,6 +1144,8 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         void make_craft( const std::string & id, int batch_size );
         void make_all_craft( const std::string & id, int batch_size );
         void complete_craft();
+        /** Returns nearby NPCs ready and willing to help with crafting. */
+        std::vector<npc *> get_crafting_helpers() const;
 
         // also crafting.cpp
         /**

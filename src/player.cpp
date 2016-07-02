@@ -12561,35 +12561,42 @@ bool player::knows_recipe(const recipe *rec) const
     return false;
 }
 
-int player::has_recipe( const recipe *r, const inventory &crafting_inv ) const
+int player::has_recipe( const recipe *r, const inventory &crafting_inv,
+                        const std::vector<npc *> &helpers ) const
 {
+    if( !r->skill_used ) {
+        return 0;
+    }
+
+    if( knows_recipe( r ) ) {
+        return r->difficulty;
+    }
+
+    int difficulty = INT_MAX;
+
     // Iterate over the nearby items and see if there's a book that has the recipe.
     const_invslice slice = crafting_inv.const_slice();
-    int difficulty = -1;
     for( auto stack = slice.cbegin(); stack != slice.cend(); ++stack ) {
         // We are only checking qualities, so we only care about the first item in the stack.
         const item &candidate = (*stack)->front();
-        if( candidate.is_book() && items_identified.count(candidate.typeId()) ) {
-            for( auto const & elem : candidate.type->book->recipes ) {
-                // Does it have the recipe, and do we meet it's requirements?
-                if( elem.recipe != r ) {
-                    continue;
-                }
-                if( ( !r->skill_used ||
-                      get_skill_level(r->skill_used) >= r->difficulty ) &&
-                    ( difficulty == -1 || r->difficulty < difficulty ) ) {
-                    difficulty = r->difficulty;
-                }
-            }
-        } else {
-            if (candidate.has_flag("HAS_RECIPE")){
-                if (candidate.get_var("RECIPE") == r->ident()){
-                    if (difficulty == -1) difficulty = r->difficulty;
+        if( candidate.is_book() && items_identified.count( candidate.typeId() ) ) {
+            for( auto const &elem : candidate.type->book->recipes ) {
+                if( elem.recipe == r && get_skill_level( r->skill_used ) >= elem.skill_level ) {
+                    difficulty = std::min( difficulty, elem.skill_level );
                 }
             }
         }
     }
-    return difficulty;
+
+    if( get_skill_level( r->skill_used ) >= (int)( r->difficulty * 0.8f ) ) {
+        for( const npc *np : helpers ) {
+            if( np->knows_recipe( r ) ) {
+                difficulty = std::min( difficulty, r->difficulty );
+            }
+        }
+    }
+
+    return difficulty < INT_MAX ? difficulty : -1;
 }
 
 void player::learn_recipe( const recipe * const rec, bool force )
