@@ -2728,7 +2728,7 @@ void iexamine::reload_furniture(player &p, const tripoint &examp)
         //~ %1$s - furniture, %2$d - number, %3$s items.
         add_msg(_("The %1$s contains %2$d %3$s."), f.name.c_str(), amount_in_furn, ammo->nname(amount_in_furn).c_str());
     }
-    const int max_amount_in_furn = f.max_volume * ammo->stack_size / ( ammo->volume / units::legacy_volume_factor );
+    const int max_amount_in_furn = f.max_volume * ammo->stack_size / ammo->volume;
     const int max_reload_amount = max_amount_in_furn - amount_in_furn;
     if( max_reload_amount <= 0 ) {
         return;

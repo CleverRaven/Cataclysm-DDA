@@ -1032,4 +1032,19 @@ inline bool assign( JsonObject &jo, const std::string &name, units::volume &val,
     return true;
 }
 
+/**
+ * Reads a volume value from legacy format: JSON contains a integer which represents multiples
+ * of `units::legacy_volume_factor` (250 ml).
+ */
+inline bool legacy_volume_reader( JsonObject &jo, const std::string &member_name,
+                                  units::volume &value, bool )
+{
+    int legacy_value;
+    if( !jo.read( member_name, legacy_value ) ) {
+        return false;
+    }
+    value = legacy_value * units::legacy_volume_factor;
+    return true;
+}
+
 #endif

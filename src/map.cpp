@@ -4454,9 +4454,9 @@ void map::spawn_item(const tripoint &p, const std::string &type_id,
 int map::max_volume(const tripoint &p)
 {
     if (has_furn(p)) {
-        return furn( p ).obj().max_volume;
+        return furn( p ).obj().max_volume / units::legacy_volume_factor;
     }
-    return ter(p).obj().max_volume;
+    return ter(p).obj().max_volume / units::legacy_volume_factor;
 }
 
 // total volume of all the things
