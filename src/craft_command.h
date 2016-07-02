@@ -2,6 +2,7 @@
 #define CRAFT_COMMAND_H
 
 #include "string_id.h"
+#include "requirements.h"
 
 #include <list>
 #include <string>
