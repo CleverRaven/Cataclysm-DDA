@@ -795,6 +795,7 @@ class game
         void reload(); // Reload a wielded gun/tool  'r'
         void reload( int pos, bool prompt = false );
         void mend( int pos = INT_MIN );
+        void autoattack();
 public:
         bool unload( item &it ); // Unload a gun/tool  'U'
         void unload(int pos = INT_MIN);

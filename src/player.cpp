@@ -13287,10 +13287,11 @@ std::vector<Creature *> player::get_targetable_creatures( const int range ) cons
     } );
 }
 
-std::vector<Creature *> player::get_hostile_creatures() const
+std::vector<Creature *> player::get_hostile_creatures( int range ) const
 {
-    return get_creatures_if( [this] ( const Creature &critter ) -> bool {
+    return get_creatures_if( [this, range] ( const Creature &critter ) -> bool {
         return this != &critter && pos() != critter.pos() && // @todo get rid of fake npcs (pos() check)
+            rl_dist( pos(), critter.pos() ) <= range &&
             critter.attitude_to( *this ) == A_HOSTILE && sees( critter );
     } );
 }

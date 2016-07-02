@@ -2062,6 +2062,7 @@ input_context get_default_mode_input_context()
     ctxt.register_action("control_vehicle");
     ctxt.register_action("safemode");
     ctxt.register_action("autosafe");
+    ctxt.register_action("autoattack");
     ctxt.register_action("ignore_enemy");
     ctxt.register_action("save");
     ctxt.register_action("quicksave");
@@ -3236,6 +3237,11 @@ bool game::handle_action()
         case ACTION_ITEMACTION:
             item_action_menu();
             break;
+
+        case ACTION_AUTOATTACK:
+            autoattack();
+            break;
+
         default:
             break;
         }
@@ -12855,6 +12861,40 @@ void game::plswim( const tripoint &p )
         drenchFlags |= mfb(bp_head) | mfb(bp_eyes) | mfb(bp_mouth) | mfb(bp_hand_l) | mfb(bp_hand_r);
     }
     u.drench( 100, drenchFlags, true );
+}
+
+float rate_critter( const Creature &c )
+{
+    const npc *np = dynamic_cast<const npc *>( &c );
+    if( np != nullptr ) {
+        return np->weapon_value( np->weapon );
+    }
+
+    const monster *m = dynamic_cast<const monster *>( &c );
+    return m->type->difficulty;
+}
+
+void game::autoattack()
+{
+    int reach = u.weapon.reach_range( u );
+    auto critters = u.get_hostile_creatures( reach );
+    if( critters.empty() ) {
+        add_msg( m_info, _( "No hostile creature in reach." ) );
+        return;
+    }
+
+    Creature &best = **std::max_element( critters.begin(), critters.end(),
+        []( const Creature *l, const Creature *r ) {
+        return rate_critter( *l ) > rate_critter( *r );
+    } );
+
+    const tripoint diff = best.pos() - u.pos();
+    if( abs( diff.x ) <= 1 && abs( diff.y ) <= 1 && diff.z == 0 ) {
+        plmove( diff.x, diff.y );
+        return;
+    }
+
+    u.reach_attack( best.pos() );
 }
 
 void game::fling_creature(Creature *c, const int &dir, float flvel, bool controlled)

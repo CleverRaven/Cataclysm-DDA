@@ -75,6 +75,7 @@ enum action_id : int {
     ACTION_BIONICS,
     ACTION_MUTATIONS,
     ACTION_SORT_ARMOR,
+    ACTION_AUTOATTACK,
     // Long-term / special actions
     ACTION_WAIT,
     ACTION_CRAFT,
