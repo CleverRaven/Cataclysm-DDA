@@ -82,7 +82,6 @@
      "name": "combat shotgun",
      "name_plural": "combat shotguns",
      "description": "A military issue shotgun that can be fired in short bursts.  It holds eight shells in an internal magazine.",
-     "clip_size": 8,
      "reload": 100
     },
     {
@@ -104,7 +103,7 @@
      "name_plural": "assault rifles",
      "description": "A lightweight assault rifle used by US military, it also has hundreds of commercial knockoffs for the civilian market.  It uses detachable magazines of various capacities.",
      "magazines": [
-       [ "223", [  "stanag30", "stanag10" ] ]
+       [ "223", [  "stanag10", "stanag30", "stanag50" ] ]
      ]
     },
     {
@@ -160,7 +159,6 @@
      "name": "bolt action rifle",
      "name_plural": "bolt action rifles",
      "description": "A solid bolt action rifle made for hunting large game, but also used by police and military snipers.  It holds five rounds of rifle ammo in an internal magazine.",
-     "flags": ["RELOAD_ONE", "NEVER_JAMS"],
      "clip_size": 5,
      "reload": 100
     },
@@ -183,10 +181,7 @@
      "name": "battle rifle",
      "name_plural": "battle rifles",
      "description": "A highly modular, selective fire battle rifle used by the US military.  It uses either compact 20-round or bulkier 30-round detachable magazines.",
-     "ammo": "308",
-     "burst": 8,
      "reload": 550,
-     "magazine_well": 1,
      "magazines": [
        [ "308", [ "scarhmag", "scarhbigmag" ] ]
      ]
@@ -206,24 +201,17 @@
      "id": "m107a1",
      "copy-from": "m107a1",
      "type": "GUN",
-     "name": "antimaterial rifle",
-     "name_plural": "antimaterial rifles",
-     "description": "A powerful bolt-action sniper rifle meant to destroy vehicles, equipment, and enemy combatants.  It holds ten rounds of heavy rifle ammo in a detachable magazine.",
-     "magazines": [
-      [ "50", [ "m107a1mag" ] ]
-     ]
+     "name": "antimateriel rifle",
+     "name_plural": "antimateriel rifles",
+     "description": "A powerful bolt-action sniper rifle meant to destroy vehicles, equipment, and enemy combatants.  It holds ten rounds of heavy rifle ammo in a detachable magazine."
     },
     {
      "id": "m2browning",
      "copy-from": "m2browning",
      "type": "GUN",
      "name": "heavy machine gun",
-     "name_plural": "heavy machine gun",
-     "description": "A heavy automatic weapon that must be mounted to a vehicle to fire.  It holds two hundred rounds of military ammo in a large belt drum.",
-     "flags": ["MOUNTED_GUN"],
-     "magazines": [
-      [ "50", [ "belt50" ] ]
-     ]
+     "name_plural": "heavy machine guns",
+     "description": "A heavy automatic weapon that must be mounted to a vehicle to fire.  It holds two hundred rounds of military ammo in a large belt drum."
     },
     {
      "id": "rifle_9mm",
@@ -265,6 +253,7 @@
      "copy-from": "emp_gun",
      "type": "GUN",
      "name": "EMP Projector",
+     "name_plural": "EMP Projectors",
      "description": "A powerful electrolaser developed by paramilitary R&D not long before the cataclysm. Especially effective against electronic targets. It charges off of UPS power stations."
     },
     {
@@ -272,6 +261,7 @@
      "copy-from": "laser_cannon",
      "type": "GUN",
      "name": "hand-held laser cannon",
+     "name_plural": "hand-held laser cannons",
      "description": "This is a laser cannon stripped from the barrel of a laser turret; it has been modified to use UPS power for firing."
     },
     {
@@ -279,6 +269,7 @@
      "copy-from": "laser_rifle",
      "type": "GUN",
      "name": "laser rifle",
+     "name_plural": "laser rifles",
      "description": "A state of the art laser rifle which runs on UPS power. It was developed by paramilitary R&D shortly before the cataclysm. Initial performance rivaled the most advanced ballistic weapons of the day. Though the cataclysm put that on the ash heap of history, this weapon can still do the same to your foes."
     },
     {
@@ -286,6 +277,7 @@
      "copy-from": "v29",
      "type": "GUN",
      "name": "laser pistol",
+     "name_plural": "laser pistols",
      "description": "This pistol is larger than most traditional handguns, but displays no recoil whatsoever. It runs efficiently on UPS power."
     },
     {
@@ -293,19 +285,22 @@
      "copy-from": "v29_cheap",
      "type": "GUN",
      "name": "scrap laser pistol",
+     "name_plural": "scrap laser pistols",
      "description": "Based on its military and commercial cousin, this laser pistol is little more than duct tape and electronics, however it runs on standard UPS power."
     },
     {
      "id": "ftk93",
      "copy-from": "ftk93",
      "type": "GUN",
-     "name": "fusion rifle"
+     "name": "fusion rifle",
+     "name_plural": "fusion rifles"
     },
     {
      "id": "plasma_rifle",
      "copy-from": "plasma_rifle",
      "type": "GUN",
      "name": "plasma rifle",
+     "name_plural": "plasma rifles",
      "description": "Developed by a cutting edge weapons research team together with DARPA, this UPS-powerd energy weapon heats hydrogen to create plasma and envelopes it with polymers to reduce blooming. While powerful, it suffers from short range. It accepts hydrogen canisters as ammunition."
     },
     {
