@@ -469,15 +469,6 @@ long item::liquid_charges_per_volume( int volume ) const
     return ( type->volume != 0 ) ? liquid_charges( volume / ( type->volume / units::legacy_volume_factor ) ) : INFINITE_CHARGES;
 }
 
-long item::liquid_units( long charges ) const
-{
-    if( is_ammo() || is_food() ) {
-        return charges / std::max( type->stack_size, 1 );
-    } else {
-        return charges;
-    }
-}
-
 bool item::stacks_with( const item &rhs ) const
 {
     if( type != rhs.type ) {

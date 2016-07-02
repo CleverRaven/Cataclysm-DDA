@@ -950,7 +950,6 @@ public:
         /*@{*/
         long liquid_charges( long units ) const;
         long liquid_charges_per_volume( int volume ) const;
-        long liquid_units( long charges ) const;
         /*@}*/
 
         /**
