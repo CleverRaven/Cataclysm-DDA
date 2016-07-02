@@ -11,7 +11,7 @@ using emit_id = string_id<emit>;
 class emit
 {
     public:
-        emit() : id_( emit_id( "null" ) ) {}
+        emit() : id_( NULL_ID ) {}
 
         const emit_id &id() const {
             return id_;
@@ -19,7 +19,7 @@ class emit
 
         /** When null @ref field is always fd_null */
         bool is_null() const {
-            return id_ == emit_id( "null" );
+            return id_ == NULL_ID;
         }
 
         /** When valid @ref field is never fd_null */
