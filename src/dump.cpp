@@ -197,7 +197,7 @@ bool game::dump_stats( const std::string& what, dump_mode mode, const std::vecto
             r.push_back( obj->name() );
             r.push_back( obj->location );
             r.push_back( to_string( int( ceil( item( obj->item ).weight() / 1000.0 ) ) ) );
-            r.push_back( to_string( obj->size ) );
+            r.push_back( to_string( obj->size / units::legacy_volume_factor ) );
             rows.push_back( r );
         };
         for( const auto e : vpart_info::get_all() ) {

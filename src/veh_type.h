@@ -131,7 +131,7 @@ class vpart_info
         units::volume folded_volume = 0;
 
         /** Cargo location volume */
-        int size = 0;
+        units::volume size = 0;
 
         /** Mechanics skill required to install item */
         int difficulty = 0;
