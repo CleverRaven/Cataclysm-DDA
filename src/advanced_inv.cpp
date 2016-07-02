@@ -250,16 +250,16 @@ void advanced_inventory::print_items( advanced_inventory_pane &pane, bool active
                                   convert_weight( squares[pane.get_area()].weight ),
                                   squares[pane.get_area()].volume / units::legacy_volume_factor );
         } else {
-            int maxvolume = 0;
+            units::volume maxvolume = 0;
             auto &s = squares[pane.get_area()];
             if( pane.get_area() == AIM_CONTAINER && s.get_container(pane.in_vehicle()) != nullptr ) {
-                maxvolume = s.get_container(pane.in_vehicle())->get_container_capacity() / units::legacy_volume_factor;
+                maxvolume = s.get_container(pane.in_vehicle())->get_container_capacity();
             } else if( pane.in_vehicle() ) {
-                maxvolume = s.veh->max_volume( s.vstor ) / units::legacy_volume_factor;
+                maxvolume = s.veh->max_volume( s.vstor );
             } else {
-                maxvolume = g->m.max_volume( s.pos ) / units::legacy_volume_factor;
+                maxvolume = g->m.max_volume( s.pos );
             }
-            head = string_format( "%3.1f %3d/%3d", convert_weight( s.weight ), s.volume / units::legacy_volume_factor, maxvolume );
+            head = string_format( "%3.1f %3d/%3d", convert_weight( s.weight ), s.volume / units::legacy_volume_factor, maxvolume / units::legacy_volume_factor );
         }
         mvwprintz( window, 4, columns - 1 - head.length(), norm, "%s", head.c_str() );
     }
