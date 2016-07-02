@@ -121,6 +121,13 @@ WORLDPTR worldfactory::make_new_world( bool show_prompt )
             return NULL;
         }
     } else { // 'Play NOW'
+
+        // Drop all broken mods set by default
+        auto &mods = retworld->active_mod_order;
+        mods.erase( std::remove_if( mods.begin(), mods.end(), [&]( const std::string &e ) {
+            return mman->mod_map[ e ]->broken;
+        } ), mods.end() );
+
 #ifndef LUA
         // Silently remove all Lua mods setted by default.
         std::vector<std::string>::iterator mod_it;

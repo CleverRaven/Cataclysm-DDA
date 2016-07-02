@@ -277,6 +277,7 @@ void mod_manager::load_modfile(JsonObject &jo, const std::string &main_path)
     modfile->authors = m_authors;
     modfile->name = m_name;
     modfile->description = m_desc;
+    modfile->broken = jo.get_bool( "broken", false );
     modfile->dependencies = m_dependencies;
     modfile->category = p_cat;
     modfile->path = m_path;

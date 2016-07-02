@@ -299,6 +299,10 @@ void game::check_all_mod_data()
             // this mod, so there is no need to check this mod now.
             continue;
         }
+        if( mod.broken ) {
+            debugmsg("Skipping broken mod %s", mod.name.c_str() );
+            continue;
+        }
         erase();
         refresh();
         popup_nowait( "Checking mod <color_yellow>%s</color>", mod.name.c_str() );

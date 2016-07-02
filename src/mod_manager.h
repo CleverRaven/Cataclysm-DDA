@@ -34,6 +34,7 @@ struct MOD_INFORMATION {
     std::string ident;
     std::vector<std::string> authors;
     std::string description;
+    bool broken;
     mod_type _type;
     std::vector<std::string> dependencies;
     bool obsolete;
