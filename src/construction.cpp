@@ -697,7 +697,7 @@ void place_construction( const std::string &desc )
 
     construction *con = valid[choice];
     g->u.assign_activity( ACT_BUILD, con->adjusted_time(), con->id );
-    g->u.activity.placement =  choice;
+    g->u.activity.placement = choice;
 }
 
 void complete_construction()
@@ -1325,6 +1325,7 @@ void load_construction(JsonObject &jo)
     if( jo.has_string( "using" ) ) {
         con.requirements = requirement_id( jo.get_string( "using" ) );
     } else {
+        // Warning: the IDs may change!
         std::string req_id = string_format( "inline_construction_%i", con.id );
         requirement_data::load_requirement( jo, req_id );
         con.requirements = requirement_id( req_id );
@@ -1404,8 +1405,8 @@ void reset_constructions()
 
 void check_constructions()
 {
-    for( auto const &a : constructions) {
-        const construction *c = &a;
+    for( size_t i = 0; i < constructions.size(); i++ ) {
+        const construction *c = &constructions[ i ];
         const std::string display_name = std::string("construction ") + c->description;
         // Note: print the description as the id is just a generated number,
         // the description can be searched for in the json files.
@@ -1435,6 +1436,10 @@ void check_constructions()
             } else if( !ter_str_id( c->post_terrain ).is_valid() ) {
                 debugmsg("Unknown post_terrain (terrain) %s in %s", c->post_terrain.c_str(), display_name.c_str());
             }
+        }
+        if( c->id != i ) {
+            debugmsg( "Construction \"%s\" has id %d, but should have %d",
+                      c->description.c_str(), c->id, i );
         }
     }
 }
@@ -1522,9 +1527,17 @@ void finalize_constructions()
         frame_items.push_back( item_comp( vp->item, 1 ) );
     }
 
+    if( frame_items.empty() ) {
+        debugmsg( "No valid frames detected for vehicle construction" );
+    }
+
     for( construction &con : constructions ) {
         if( con.post_special == &construct::done_vehicle ) {
             const_cast<requirement_data &>( con.requirements.obj() ).get_components().push_back( frame_items );
         }
+    }
+
+    for( size_t i = 0; i < constructions.size(); i++ ) {
+        constructions[ i ].id = i;
     }
 }

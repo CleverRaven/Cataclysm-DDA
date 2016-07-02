@@ -26,7 +26,7 @@ struct construction {
 
         requirement_id requirements;
 
-        int id; // arbitrary internal identifier
+        size_t id; // arbitrary internal identifier
         int time;
         int difficulty;
 
