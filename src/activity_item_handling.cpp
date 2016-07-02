@@ -24,10 +24,11 @@
 const efftype_id effect_controlled( "controlled" );
 const efftype_id effect_pet( "pet" );
 
+/** Activity-associated item */
 struct act_item {
-    const item *it;
-    int count;
-    int consumed_moves;
+    const item *it;         /// Pointer to the inventory item
+    int count;              /// How many items need to be processed
+    int consumed_moves;     /// Amount of moves that processing will consume
 
     act_item( const item *it, int count, int consumed_moves )
         : it( it ),
