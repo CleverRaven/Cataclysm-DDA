@@ -12117,9 +12117,12 @@ bool game::walk_move( const tripoint &dest_loc )
 
         if( !u.is_blind() ) {
             const trap &tr = m.tr_at(dest_loc);
+            int vpart;
+            const vehicle *const veh = m.veh_at( dest_loc, vpart );
+            const bool boardable = veh && veh->part_with_feature( vpart, "BOARDABLE" ) >= 0;
             // Hack for now, later ledge should stop being a trap
             if( tr.can_see(dest_loc, u) && !tr.is_benign() &&
-                m.has_floor( dest_loc ) &&
+                m.has_floor( dest_loc ) && !boardable &&
                 !query_yn( _("Really step onto that %s?"), tr.name.c_str() ) ) {
                 return true;
             }
