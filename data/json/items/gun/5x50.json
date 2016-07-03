@@ -16,6 +16,7 @@
     "ammo": "5x50",
     "dispersion": 50,
     "sight_dispersion": 75,
+    "recoil": -50,
     "aim_speed" : 4,
     "ranged_damage": 10,
     "range" : 10,
@@ -51,7 +52,6 @@
     "dispersion": 125,
     "sight_dispersion": 95,
     "aim_speed" : 5,
-    "recoil": 50,
     "durability": 9,
     "modes": [
       [ "DEFAULT", "semi-auto", 1 ],

@@ -706,9 +706,17 @@ void Item_factory::check_definitions() const
             if( type->ammo->casing != "null" && !has_template( type->ammo->casing ) ) {
                 msg << string_format( "invalid casing property %s", type->ammo->casing.c_str() ) << "\n";
             }
+
+            if( type->ammo->recoil < 0 ) {
+                msg << "ammo specified negative recoil" << "\n";
+            }
         }
         if( type->gun ) {
             check_ammo_type( msg, type->gun->ammo );
+
+            if( type->gun->recoil > 0 ) {
+                msg << "gun specified positive recoil" << "\n";
+            }
 
             if( !type->gun->ammo ) {
                 // if gun doesn't use ammo forbid both integral or detachable magazines

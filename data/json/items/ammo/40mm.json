@@ -16,7 +16,7 @@
     "damage": 5,
     "range": 40,
     "dispersion": 30,
-    "recoil": 225,
+    "recoil": 495,
     "effects": [ "COOKOFF", "NEVER_MISFIRES" ]
   },
   {
@@ -89,7 +89,7 @@
     "description": "A 40mm grenade with a buckshot load.",
     "damage": 70,
     "range": 12,
-    "recoil": 525,
+    "recoil": 795,
     "extend": { "effects": [ "SHOT" ] }
   },
   {

@@ -19,7 +19,7 @@
     "range" : 14,
     "pierce" : 18,
     "dispersion" : 90,
-    "recoil" : 90,
+    "recoil" : 180,
     "effects" : ["COOKOFF"]
   },
   {

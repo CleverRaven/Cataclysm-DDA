@@ -15,7 +15,7 @@
         "pierce" : 8,
         "range" : 6,
         "dispersion" : 60,
-        "recoil" : 840,
+        "recoil" : 1130,
         "count" : 1,
         "effects" : ["COOKOFF", "RECYCLED"]
     },{   "type" : "AMMO",
@@ -33,7 +33,7 @@
         "damage" : 60,
         "range" : 3,
         "dispersion" : 0,
-        "recoil" : 780,
+        "recoil" : 1130,
         "count" : 1,
         "effects" : ["COOKOFF", "SHOT", "RECYCLED"]
     },{   "type" : "AMMO",
@@ -52,7 +52,7 @@
         "pierce" : 12,
         "range" : 5,
         "dispersion" : 0,
-        "recoil" : 840,
+        "recoil" : 1130,
         "count" : 1,
         "effects" : ["COOKOFF", "SHOT", "RECYCLED"]
     },
@@ -193,29 +193,6 @@
     },
     {
         "type" : "AMMO",
-        "id" : "reloaded_5x50dart",
-        "price" : 125,
-        "name" : "reloaded 5x50mm flechette",
-        "symbol" : "=",
-        "color" : "green",
-        "description" : "Designed to defeat modern body armor, the Rivtech 5x50mm flechette round features a biodegradable sabot and a single, fin-stabilized penetrator.  This one has been hand-reloaded.",
-        "material" : ["plastic", "powder"],
-        "volume" : 1,
-        "weight" : 2,
-        "bashing" : 1,
-        "ammo_type" : "5x50",
-        "casing" : "5x50_hull",
-        "damage" : 18,
-        "pierce" : 25,
-        "range" : 45,
-        "dispersion" : 135,
-        "recoil" : 75,
-        "count" : 100,
-        "stack_size" : 200,
-        "effects" : ["COOKOFF", "RECYCLED"]
-    },
-    {
-        "type" : "AMMO",
         "id" : "reloaded_50bmg",
         "price" : 165,
         "name" : "reloaded .50 BMG Ball",
@@ -233,7 +210,7 @@
         "pierce" : 29,
         "range" : 90,
         "dispersion" : 15,
-        "recoil" : 765,
+        "recoil" : 975,
         "count" : 30,
         "effects" : ["COOKOFF", "RECYCLED"]
     },
@@ -256,7 +233,7 @@
         "pierce" : 39,
         "range" : 90,
         "dispersion" : 15,
-        "recoil" : 765,
+        "recoil" : 975,
         "count" : 10,
         "effects" : ["COOKOFF", "RECYCLED"]
     },
@@ -301,7 +278,7 @@
         "pierce" : 5,
         "range" : 90,
         "dispersion" : 20,
-        "recoil" : 600,
+        "recoil" : 645,
         "count" : 10,
         "effects" : ["COOKOFF", "RECYCLED"]
     },
