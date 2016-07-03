@@ -3973,26 +3973,12 @@ void vehicle::operate_reaper(){
             sounds::sound( reaper_pos, rng( 10, 25 ), _("Swish") );
         }
         if( part_flag(reaper_id, "CARGO") && g->m.ter( reaper_pos ) == t_dirtmound ) {
-            if( !g->m.has_items( reaper_pos ) ) {
-                continue;
-            }
-            const map_stack q1 = g->m.i_at( reaper_pos );
-            for( auto it1 : q1 ) {
-                item *that_item_there = nullptr;
-                size_t itemdex = 0;
-                const map_stack q = g->m.i_at( reaper_pos );
-                for( auto it : q ) {
-                    if( it.volume() < max_pickup_size ) {
-                        that_item_there = g->m.item_from( reaper_pos, itemdex );
-                        break;
-                    }
-                    itemdex++;
-                }
-                if( !that_item_there ) {
-                    break;
-                }
-                if(add_item( reaper_id, *that_item_there ) ) {
-                    g->m.i_rem( reaper_pos, itemdex );
+            map_stack stack( g->m.i_at( reaper_pos ) );
+            for( auto iter = stack.begin(); iter != stack.end(); ) {
+                if( ( iter->volume() <= max_pickup_size ) && add_item( reaper_id, *iter ) ) {
+                    iter = stack.erase( iter );
+                } else {
+                    ++iter;
                 }
             }
         }
