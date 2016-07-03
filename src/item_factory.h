@@ -326,13 +326,6 @@ class Item_factory
         void set_qualities_from_json( JsonObject &jo, std::string member, itype *new_item );
         void set_properties_from_json( JsonObject &jo, std::string member, itype *new_item );
 
-        // Currently only used for body part stuff, if used for anything else in the future bitset size may need to be increased.
-        std::bitset<num_bp> flags_from_json( JsonObject &jo, const std::string &member,
-                                             std::string flag_type = "" );
-
-        //Currently only used to body_part stuff, bitset size might need to be increased in the future
-        void set_flag_by_string( std::bitset<num_bp> &cur_flags, const std::string &new_flag,
-                                 const std::string &flag_type );
         void clear();
         void init();
 
