@@ -9,7 +9,11 @@
       [ "mag_pistol", 50 ],
       [ "mag_rifle", 50 ],
       [ "mag_shotgun", 30 ],
-      [ "mag_smg", 10 ]
+      [ "mag_smg", 10 ],
+      [ "mag_muzzle_spring", 7 ],
+      [ "mag_muzzle_summer", 4 ],
+      [ "mag_muzzle_fall", 5 ],
+      [ "mag_muzzle_winter", 6 ]
     ]
   },
   {
@@ -23,7 +27,11 @@
       [ "manual_shotgun", 30 ],
       [ "manual_smg", 10 ],
       [ "pocket_firearms", 100 ],
-      [ "recipe_bullets", 80 ]
+      [ "recipe_bullets", 80 ],
+      [ "mag_muzzle_spring", 7 ],
+      [ "mag_muzzle_summer", 7 ],
+      [ "mag_muzzle_fall", 7 ],
+      [ "mag_muzzle_winter", 7 ]
     ]
   },
   {
