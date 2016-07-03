@@ -69,7 +69,7 @@
     "charges_per_use": 1,
     "use_action": {
             "type": "firestarter",
-            "moves_cost": 15
+            "moves": 15
     }
   },
   {
@@ -106,7 +106,7 @@
     "charges_per_use": 1,
     "use_action": {
             "type": "firestarter",
-            "moves_cost": 15
+            "moves": 15
     }
   },
   {
@@ -2552,7 +2552,6 @@
     "description": "This is an active grenade, and will explode any second now.  Better throw it!",
     "price": 0,
     "material": ["steel", "plastic"],
-    "flag": "TRADER_AVOID",
     "weight": 180,
     "volume": 1,
     "bashing": 6,
@@ -2560,7 +2559,7 @@
     "max_charges": 5,
     "initial_charges": 5,
     "turns_per_charge": 1,
-    "flags": ["BOMB"],
+    "flags": [ "BOMB", "TRADER_AVOID" ],
     "category": "weapons",
     "use_action": {
         "type": "explosion",
@@ -2642,7 +2641,7 @@
     "description": "Attached to this grenade is a name tag with the name Kevin written on it.  Does not seem to work like a grenade, handle with care.  Better throw it!",
     "price": 0,
     "material": ["steel", "plastic"],
-    "flag": "TRADER_AVOID",
+    "flags": "TRADER_AVOID",
     "weight": 180,
     "volume": 1,
     "bashing": 6,
@@ -4548,7 +4547,7 @@
     ]
   },
   {
-    "comment": "Name changed to glaive, but changing the id would break e.g.  tilesets.",
+    "//": "Name changed to glaive, but changing the id would break e.g.  tilesets.",
     "id": "makeshift_halberd",
     "type": "GENERIC",
     "symbol": "/",
@@ -6374,7 +6373,7 @@
     "use_action": [
         {
             "type": "firestarter",
-            "moves_cost": 15
+            "moves": 15
         },
         {
             "type": "transform",
@@ -6690,7 +6689,7 @@
     "qualities": [["CUT", 1], ["BUTCHER", 20]]
   },
   {
-    "comment": "Highest non-powertool butchering quality.  It's made for skinning and butchering game, which is what you're generally doing.",
+    "//": "Highest non-powertool butchering quality.  It's made for skinning and butchering game, which is what you're generally doing.",
     "id": "knife_hunting",
     "type": "TOOL",
     "symbol": "/",
@@ -6709,7 +6708,7 @@
     "qualities": [["CUT", 1], ["BUTCHER", 30]]
   },
   {
-    "comment": "This isn't really supposed to be a very good knife, or a very good saw.  It's more for looking scary.",
+    "//": "This isn't really supposed to be a very good knife, or a very good saw.  It's more for looking scary.",
     "id": "knife_rambo",
     "type": "TOOL",
     "symbol": ";",
@@ -6729,7 +6728,7 @@
     "qualities": [["CUT", 1], ["SAW_W", 1], ["SAW_M", 1], ["BUTCHER", 7]]
   },
   {
-    "comment": "The swiss army knife is a bit more of a knife than a toolkit.",
+    "//": "The swiss army knife is a bit more of a knife than a toolkit.",
     "id": "knife_swissarmy",
     "type": "TOOL",
     "symbol": ";",
@@ -6747,7 +6746,7 @@
     "qualities": [["CUT", 1], ["SAW_W", 1], ["SAW_M", 1], ["SCREW", 1], ["BUTCHER", 8]]
   },
   {
-    "comment": "The multi-tool is a bit more of a toolkit than a knife.",
+    "//": "The multi-tool is a bit more of a toolkit than a knife.",
     "id": "multitool",
     "type": "TOOL",
     "symbol": ";",
@@ -6903,7 +6902,7 @@
     "use_action" : "TAZER"
   },
   {
-    "comment": "Too small to be effectively used for butchering, still not bad at it due to serrated edge.",
+    "//": "Too small to be effectively used for butchering, still not bad at it due to serrated edge.",
     "id": "diveknife",
     "type": "TOOL",
     "category" : "weapons",
@@ -7573,7 +7572,6 @@
     "volume": 3,
     "bashing": 4,
     "to_hit": -3,
-    "effects": ["COOKOFF", "EXPLOSIVE"],
     "category": "weapons",
     "explode_in_fire" : true,
     "explosion" : {

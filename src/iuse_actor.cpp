@@ -878,7 +878,7 @@ long reveal_map_actor::use( player *p, item *it, bool, const tripoint& ) const
 
 void firestarter_actor::load( JsonObject &obj )
 {
-    moves_cost = obj.get_int( "moves_cost", 0 );
+    moves_cost = obj.get_int( "moves", 0 );
 }
 
 iuse_actor *firestarter_actor::clone() const
@@ -965,8 +965,8 @@ bool firestarter_actor::can_use( const player* p, const item*, bool, const tripo
 
 void extended_firestarter_actor::load( JsonObject &obj )
 {
+    firestarter_actor::load( obj );
     need_sunlight = obj.get_bool( "need_sunlight", false );
-    moves_cost = obj.get_int( "moves_cost", 0 );
 }
 
 iuse_actor *extended_firestarter_actor::clone() const
