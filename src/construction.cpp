@@ -720,8 +720,6 @@ void complete_construction()
     }
 
     for( const auto &it : built.requirements->get_components() ) {
-        // Tried issuing rope for WEB_ROPE here.  Didn't arrive in time for the
-        // gear check.  Ultimately just coded a bypass in crafting.cpp.
         u.consume_items( it );
     }
     for( const auto &it : built.requirements->get_tools() ) {
@@ -953,12 +951,10 @@ int digging_perception( int const offset )
 void unroll_digging( int const numer_of_2x4s )
 {
     // refund components!
-    if( !g->u.has_trait( "WEB_ROPE" ) ) {
-        item rope( "rope_30", 0 );
-        g->m.add_item_or_charges( g->u.posx(), g->u.posy(), rope );
-    }
+    item rope( "rope_30" );
+    g->m.add_item_or_charges( g->u.pos(), rope );
     // presuming 2x4 to conserve lumber.
-    g->m.spawn_item( g->u.posx(), g->u.posy(), "2x4", numer_of_2x4s );
+    g->m.spawn_item( g->u.pos(), "2x4", numer_of_2x4s );
 }
 
 void construct::done_digormine_stair( point p, bool dig )
@@ -1093,32 +1089,6 @@ void construct::done_digormine_stair( point p, bool dig )
                         g->m.spawn_item( g->u.posx() + rng( -1, 1 ), g->u.posy() + rng( -1, 1 ), "grapnel" );
                     }
                     g->vertical_move( -1, true );
-                }
-            } else if( g->u.has_trait( "WEB_ROPE" ) ) {
-                // There are downsides to using one's own product...
-                int webroll = rng( g->u.get_skill_level( skill_carpentry ),
-                                   g->u.get_skill_level( skill_carpentry ) + g->u.per_cur + g->u.int_cur );
-                if( webroll >= 11 ) {
-                    add_msg( _( "Luckily, you'd attached a web..." ) );
-                    // Bigger you are, the larger the strain
-                    int stickroll = rng( g->u.get_skill_level( skill_carpentry ),
-                                         g->u.get_skill_level( skill_carpentry ) + g->u.dex_cur - g->u.str_cur );
-                    if( stickroll >= 8 ) {
-                        add_msg( _( "Your web holds firm!" ) );
-                        if( rng( g->u.get_skill_level( skill_unarmed ),
-                                 g->u.get_skill_level( skill_unarmed ) + g->u.str_cur ) > 7 ) {
-                            if( !catch_with_rope( p ) ) {
-                                g->vertical_move( -1, true );
-                            }
-                        } else {
-                            add_msg( m_bad, _( "You're not strong enough to pull yourself out..." ) );
-                            g->u.moves -= 100;
-                            g->vertical_move( -1, true );
-                        }
-                    } else {
-                        add_msg( m_bad, _( "The sudden strain pulls your web free, and you fall into the lava!" ) );
-                        g->vertical_move( -1, true );
-                    }
                 }
             } else {
                 // You have a rope because you needed one to construct
