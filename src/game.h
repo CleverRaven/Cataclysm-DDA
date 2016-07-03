@@ -488,7 +488,6 @@ class game
         void reset_zoom();
         int get_user_action_counter() const;
 
-        std::unique_ptr<weather_generator> weather_gen;
         signed char temperature;              // The air temperature
         int get_temperature();    // Returns outdoor or indoor temperature of current location
         weather_type weather;   // Weather pattern--SEE weather.h
@@ -511,6 +510,7 @@ class game
          * The overmap which contains the center submap of the reality bubble.
          */
         overmap &get_cur_om() const;
+        const weather_generator &get_cur_weather_gen() const;
         const scenario *scen;
         std::vector<monster> coming_to_stairs;
         int monstairz;
@@ -791,6 +791,8 @@ class game
 public:
         bool unload( item &it ); // Unload a gun/tool  'U'
         void unload(int pos = INT_MIN);
+
+        unsigned int get_seed() const;
 private:
         void wield(int pos = INT_MIN); // Wield a weapon  'w'
         void read(); // Read a book  'R' (or 'a')
@@ -928,6 +930,11 @@ private:
 
         /** How far the tileset should be zoomed out, 16 is default. 32 is zoomed in by x2, 8 is zoomed out by x0.5 */
         int tileset_zoom;
+
+        /** Seed for all the random numbers that should have consistent randomness (weather). */
+        unsigned int seed;
+
+        weather_type weather_override;
 
         // Preview for auto move route
         std::vector<tripoint> destination_preview;

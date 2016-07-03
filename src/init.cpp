@@ -53,6 +53,7 @@
 #include "gates.h"
 #include "overlay_ordering.h"
 #include "worldfactory.h"
+#include "weather_gen.h"
 #include "npc_class.h"
 
 #include <string>
@@ -208,6 +209,7 @@ void DynamicDataLoader::initialize()
     add( "gate", &gates::load_gates );
     add( "overlay_order", &load_overlay_ordering );
     add( "mission_definition", []( JsonObject &jo ) { mission_type::load_mission_type( jo ); } );
+    add( "weather_settings", &weather_generator::load );
 }
 
 void DynamicDataLoader::load_data_from_path( const std::string &path, const std::string &src )

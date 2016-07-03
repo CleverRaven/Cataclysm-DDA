@@ -219,7 +219,6 @@ game::game() :
     u( *u_ptr ),
     scent( *scent_ptr ),
     critter_tracker( new Creature_tracker() ),
-    weather_gen( new weather_generator() ),
     weather( WEATHER_CLEAR ),
     lightning_active( false ),
     weather_precise( new w_point() ),
@@ -771,10 +770,10 @@ bool game::start_game(std::string worldname)
         gamemode.reset( new special_game() );
     }
 
+    seed = rand();
     new_game = true;
     start_calendar();
     nextweather = calendar::turn;
-    weather_gen->set_seed( rand() );
     safe_mode = (get_option<bool>( "SAFEMODE" ) ? SAFE_MODE_ON : SAFE_MODE_OFF);
     mostseen = 0; // ...and mostseen is 0, we haven't seen any monsters yet.
 
@@ -1692,13 +1691,28 @@ bool game::cancel_activity_query(const char *message, ...)
     return false;
 }
 
+const weather_generator &game::get_cur_weather_gen() const
+{
+    const auto &om = get_cur_om();
+    const auto &settings = om.get_settings();
+    return settings.weather;
+}
+
+unsigned int game::get_seed() const
+{
+    return seed;
+}
+
 void game::update_weather()
 {
-    if (calendar::turn >= nextweather) {
+    if( weather == WEATHER_NULL || calendar::turn >= nextweather ) {
+        const weather_generator &weather_gen = get_cur_weather_gen();
         w_point &w = *weather_precise;
-        w = weather_gen->get_weather( u.global_square_location(), calendar::turn );
+        w = weather_gen.get_weather( u.global_square_location(), calendar::turn, seed );
         weather_type old_weather = weather;
-        weather = weather_gen->get_weather_conditions(w);
+        weather = weather_override == WEATHER_NULL ?
+            weather_gen.get_weather_conditions( w )
+            : weather_override;
         if( weather == WEATHER_SUNNY && calendar::turn.is_night() ) {
             weather = WEATHER_CLEAR;
         }
@@ -1706,7 +1720,7 @@ void game::update_weather()
 
         temperature = w.temperature;
         lightning_active = false;
-        nextweather += 50; // Check weather each 50 turns.
+        nextweather = calendar::turn + 50; // Check weather each 50 turns.
         if (weather != old_weather && weather_data(weather).dangerous &&
             get_levz() >= 0 && m.is_outside(u.pos())
             && !u.has_activity(ACT_WAIT_WEATHER)) {
@@ -4412,7 +4426,7 @@ void game::debug()
             uimenu weather_menu;
             weather_menu.text = _( "Select new weather pattern:" );
             weather_menu.return_invalid = true;
-            weather_menu.addentry( 0, true, MENU_AUTOASSIGN, weather_gen->debug_weather == WEATHER_NULL ?
+            weather_menu.addentry( 0, true, MENU_AUTOASSIGN, weather_override == WEATHER_NULL ?
                                    _( "Keep normal weather patterns" ) : _( "Disable weather forcing" ) );
             for( int weather_id = 1; weather_id < NUM_WEATHER_TYPES; weather_id++ ) {
                 weather_menu.addentry( weather_id, true, MENU_AUTOASSIGN,
@@ -4425,7 +4439,7 @@ void game::debug()
 
             if( weather_menu.ret >= 0 && weather_menu.ret <= NUM_WEATHER_TYPES ) {
                 weather_type selected_weather = ( weather_type )weather_menu.selected;
-                weather_gen->debug_weather = selected_weather;
+                weather_override = selected_weather;
                 nextweather = calendar::turn;
                 update_weather();
             }
