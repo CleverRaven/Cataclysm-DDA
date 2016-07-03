@@ -4,6 +4,7 @@
     "ident": "generic_guns",
     "name": "Generic Guns",
     "description": "Replaces guns and ammo with generic types.",
+    "author": "nikheizen",
     "category": "items",
     "path": ""
 }
