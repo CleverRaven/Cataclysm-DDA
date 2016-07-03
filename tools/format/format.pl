@@ -25,8 +25,9 @@ for( open my $fh, '<', catfile(dirname(__FILE__), 'format.conf'); <$fh>; ) {
 my $json = JSON->new->allow_nonref;
 
 sub match($$) {
-    $_[0] =~ s/(relative|proportional|extend|delete)(<.*?>)?://g;
-    return $_[0] =~ $_[1] || ($_[0] =~ s/<.*?>//gr ) =~ $_[1];
+    my ($context, $query) = @_;
+    $context =~ s/(relative|proportional|extend|delete)(<.*?>)?://g;
+    return $context =~ $query || ($context =~ s/<.*?>//gr ) =~ $query;
 }
 
 sub find_rule($) {
