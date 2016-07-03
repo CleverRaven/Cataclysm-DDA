@@ -2530,14 +2530,14 @@ int item::precise_unit_volume() const
     return volume() / units::legacy_volume_factor * 1000;
 }
 
-static int corpse_volume( m_size corpse_size )
+static units::volume corpse_volume( m_size corpse_size )
 {
     switch( corpse_size ) {
-        case MS_TINY:    return    3;
-        case MS_SMALL:   return  120;
-        case MS_MEDIUM:  return  250;
-        case MS_LARGE:   return  370;
-        case MS_HUGE:    return 3500;
+        case MS_TINY:    return    750_ml;
+        case MS_SMALL:   return  30000_ml;
+        case MS_MEDIUM:  return  62500_ml;
+        case MS_LARGE:   return  92500_ml;
+        case MS_HUGE:    return 875000_ml;
     }
     debugmsg( "unknown monster size for corpse" );
     return 0;
@@ -2550,7 +2550,7 @@ int item::base_volume() const
     }
 
     if( is_corpse() ) {
-        return corpse_volume( corpse->size );
+        return corpse_volume( corpse->size ) / units::legacy_volume_factor;
     }
 
     return type->volume / units::legacy_volume_factor;
@@ -2563,7 +2563,7 @@ units::volume item::volume( bool integral ) const
     }
 
     if( is_corpse() ) {
-        return corpse_volume( corpse->size ) * units::legacy_volume_factor;
+        return corpse_volume( corpse->size );
     }
 
     const int local_volume = get_var( "volume", -1 );
