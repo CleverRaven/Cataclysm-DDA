@@ -5887,14 +5887,15 @@ void player::siphon( vehicle &veh, const itype_id &desired_liquid )
 
 void player::cough(bool harmful, int loudness)
 {
-    if( has_effect( effect_cough_suppress ) ) {
-        if( harmful ) {
-            const int stam = stamina;
-            mod_stat( "stamina", -100 );
-            if( stam < 100 && x_in_y( 100 - stam, 100 ) ) {
-                apply_damage( nullptr, bp_torso, 1 );
+    if( harmful ) {
+        const int stam = stamina;
+        mod_stat( "stamina", -100 );
+        if( stam < 100 && x_in_y( 100 - stam, 100 ) ) {
+            apply_damage( nullptr, bp_torso, 1 );
             }
         }
+
+    if( has_effect( effect_cough_suppress ) ) {
         return;
     }
 
