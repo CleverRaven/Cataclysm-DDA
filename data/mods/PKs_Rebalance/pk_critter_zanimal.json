@@ -5,7 +5,7 @@
     "edit-mode": "modify",
     "upgrades":{
         "into": "mon_zombie_dog_pk",
-        "half_life": 13
+        "half_life": 11
     },
     "burn_into": "mon_zanimal_scorched"
     },{
@@ -14,7 +14,7 @@
     "edit-mode": "modify",
     "upgrades":{
         "into": "mon_dog_zombie_cop_pk",
-        "half_life": 21
+        "half_life": 18
     },
     "burn_into": "mon_zanimal_scorched"
     },{
@@ -314,7 +314,7 @@
     "speed":95,
     "melee_skill":2,
     "melee_dice":2,
-    "melee_dice_sides":2,
+    "melee_dice_sides":3,
     "melee_cut":2,
     "melee_damage": [ {"damage_type": "heat", "amount": 1} ],
     "dodge":0,
