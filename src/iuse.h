@@ -280,6 +280,10 @@ public:
         return actor.get();
     }
 
+    explicit operator bool() const {
+        return actor.get() != nullptr;
+    }
+
     /** @return See @ref iuse_actor::type */
     std::string get_type() const;
     /** @return See @ref iuse_actor::get_name */

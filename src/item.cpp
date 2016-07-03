@@ -112,6 +112,7 @@ item::item( const itype *type, int turn, long qty ) : type( type )
     bday = turn >= 0 ? turn : int( calendar::turn );
     corpse = typeId() == "corpse" ? &mtype_id::NULL_ID.obj() : nullptr;
     name = type_name();
+    item_counter = type->countdown_interval;
 
     if( qty >= 0 ) {
         charges = qty;
@@ -218,6 +219,22 @@ item& item::deactivate( const Character *ch, bool alert )
     }
     return *this;
 }
+
+item& item::activate()
+{
+    if( active ) {
+        return *this; // no-op
+    }
+
+    if( type->countdown_interval > 0 ) {
+        item_counter = type->countdown_interval;
+    }
+
+    active = true;
+
+    return *this;
+}
+
 
 item& item::ammo_set( const itype_id& ammo, long qty )
 {
@@ -1620,33 +1637,28 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
                 info.push_back( iteminfo( "DESCRIPTION",
                     _( "* This tool has a <info>rechargeable power cell</info> and can be recharged in any <neutral>UPS-compatible recharging station</neutral>. You could charge it with <info>standard batteries</info>, but unloading it is impossible." ) ) );
             }
-            if( has_flag( "RADIO_ACTIVATION" ) ) {
-                if( has_flag( "RADIO_MOD" ) ) {
-                    info.push_back( iteminfo( "DESCRIPTION",
-                                              _( "* This item has been modified to listen to <info>radio signals</info>.  It can still be activated manually." ) ) );
-                } else {
-                    info.push_back( iteminfo( "DESCRIPTION",
-                                              _( "* This item can only be activated by a <info>radio signal</info>." ) ) );
-                }
+        }
 
-                if( has_flag( "RADIOSIGNAL_1" ) ) {
-                    info.push_back( iteminfo( "DESCRIPTION",
-                                              _( "* It will be activated by <color_c_red>\"Red\"</color> radio signal." ) ) );
-                } else if( has_flag( "RADIOSIGNAL_2" ) ) {
-                    info.push_back( iteminfo( "DESCRIPTION",
-                                              _( "* It will be activated by <color_c_blue>\"Blue\"</color> radio signal." ) ) );
-                } else if( has_flag( "RADIOSIGNAL_3" ) ) {
-                    info.push_back( iteminfo( "DESCRIPTION",
-                                              _( "* It will be activated by <color_c_green>\"Green\"</color> radio signal." ) ) );
-                } else {
-                    info.push_back( iteminfo( "DESCRIPTION",
-                                              _( "* It is <bad>bugged</bad> and does not actually listen to <info>radio signals</info>." ) ) );
-                }
+        if( has_flag( "RADIO_ACTIVATION" ) ) {
+            if( has_flag( "RADIO_MOD" ) ) {
+                info.emplace_back( "DESCRIPTION", _( "* This item has been modified to listen to <info>radio signals</info>.  It can still be activated manually." ) );
+            } else {
+                info.emplace_back( "DESCRIPTION", _( "* This item can only be activated by a <info>radio signal</info>." ) );
+            }
 
-                if( has_flag( "RADIO_INVOKE_PROC" ) ) {
-                    info.push_back( iteminfo( "DESCRIPTION",
-                                              _( "* Activating this item with a <info>radio signal</info> will <neutral>detonate</neutral> it immediately." ) ) );
-                }
+            std::string signame;
+            if( has_flag( "RADIOSIGNAL_1" ) ) {
+                signame = "<color_c_red>red</color> radio signal.";
+            } else if( has_flag( "RADIOSIGNAL_2" ) ) {
+                signame = "<color_c_blue>blue</color> radio signal.";
+            } else if( has_flag( "RADIOSIGNAL_3" ) ) {
+                signame = "<color_c_green>green</color> radio signal.";
+            }
+
+            info.emplace_back( "DESCRIPTION", string_format( _( "* It will be activated by the %s radio signal." ), signame.c_str() ) );
+
+            if( has_flag( "RADIO_INVOKE_PROC" ) ) {
+                info.emplace_back( "DESCRIPTION",_( "* Activating this item with a <info>radio signal</info> will <neutral>detonate</neutral> it immediately." ) );
             }
         }
 
@@ -2310,7 +2322,7 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
     if (is_tool() && has_flag("USE_UPS")){
         ret << _(" (UPS)");
     }
-    if (is_tool() && has_flag("RADIO_MOD")){
+    if( has_flag( "RADIO_MOD" ) ) {
         ret << _(" (radio:");
         if( has_flag( "RADIOSIGNAL_1" ) ) {
             ret << _("R)");
@@ -5475,12 +5487,10 @@ bool item::process_food( player * /*carrier*/, const tripoint &pos )
 {
     calc_rot( g->m.getabs( pos ) );
     if( item_tags.count( "HOT" ) > 0 ) {
-        item_counter--;
         if( item_counter == 0 ) {
             item_tags.erase( "HOT" );
         }
     } else if( item_tags.count( "COLD" ) > 0 ) {
-        item_counter--;
         if( item_counter == 0 ) {
             item_tags.erase( "COLD" );
         }
@@ -5596,7 +5606,6 @@ bool item::process_litcig( player *carrier, const tripoint &pos )
         }
     }
 
-    item_counter--;
     // cig dies out
     if( item_counter == 0 ) {
         if( carrier != nullptr ) {
@@ -5681,7 +5690,6 @@ void item::reset_cable( player* p )
 
 bool item::process_wet( player * /*carrier*/, const tripoint & /*pos*/ )
 {
-    item_counter--;
     if( item_counter == 0 ) {
         if( is_tool() && type->tool->revert_to != "null" ) {
             convert( type->tool->revert_to );
@@ -5757,6 +5765,22 @@ bool item::process( player *carrier, const tripoint &pos, bool activate )
     if( !active ) {
         return false;
     }
+
+    if( item_counter > 0 ) {
+        item_counter--;
+    }
+
+    if( item_counter == 0 && type->countdown_action ) {
+        type->countdown_action.call( carrier ? carrier : &g->u, this, false, pos );
+        if( type->countdown_destroy ) {
+            return true;
+        }
+    }
+
+    for( const auto &e : type->emits ) {
+        g->m.emit_field( pos, e );
+    }
+
     if( is_food() &&  process_food( carrier, pos ) ) {
         return true;
     }

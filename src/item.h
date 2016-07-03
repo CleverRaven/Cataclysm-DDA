@@ -150,6 +150,9 @@ class item : public JsonSerializer, public JsonDeserializer, public visitable<it
          */
         item& deactivate( const Character *ch = nullptr, bool alert = true );
 
+        /** Filter converting instance to active state */
+        item& activate();
+
         /**
          * Filter setting the ammo for this instance
          * Any existing ammo is removed. If necessary a default magazine is also added.

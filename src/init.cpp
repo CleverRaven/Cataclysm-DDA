@@ -5,6 +5,7 @@
 
 // can load from json
 #include "effect.h"
+#include "emit.h"
 #include "vitamin.h"
 #include "fault.h"
 #include "material.h"
@@ -105,6 +106,7 @@ void DynamicDataLoader::initialize()
     // Add to this as needed with new StaticFunctionAccessors or new ClassFunctionAccessors for new applicable types
     // Static Function Access
     add( "fault", &fault::load_fault );
+    add( "emit", &emit::load_emit );
     add( "vitamin", &vitamin::load_vitamin );
     add( "material", &material_type::load_material );
     add( "bionic", &load_bionic );
@@ -272,6 +274,7 @@ void DynamicDataLoader::unload_data()
 {
     requirement_data::reset();
     vitamin::reset();
+    emit::reset();
     fault::reset();
     material_type::reset();
     profession::reset();
@@ -343,6 +346,7 @@ void DynamicDataLoader::check_consistency()
 {
     requirement_data::check_consistency();
     vitamin::check_consistency();
+    emit::check_consistency();
     item_controller->check_definitions();
     fault::check_consistency();
     vpart_info::check();

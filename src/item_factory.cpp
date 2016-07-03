@@ -24,6 +24,7 @@
 #include "text_snippets.h"
 #include "ui.h"
 #include "veh_type.h"
+#include "field.h"
 
 #include <algorithm>
 #include <sstream>
@@ -99,7 +100,7 @@ void Item_factory::finalize() {
         for( const auto &q : obj.qualities ) {
             for( const auto &u : q.first.obj().usages ) {
                 if( q.second >= u.first ) {
-                    obj.use_methods.emplace( u.second, use_from_string( u.second ) );
+                    obj.use_methods.emplace( u.second, usage_from_string( u.second ) );
                 }
             }
         }
@@ -536,6 +537,7 @@ void Item_factory::init()
     add_actor( new holster_actor() );
     add_actor( new inscribe_actor() );
     add_actor( new iuse_transform() );
+    add_actor( new countdown_actor() );
     add_actor( new manualnoise_actor() );
     add_actor( new musical_instrument_actor() );
     add_actor( new pick_lock_actor() );
@@ -659,6 +661,12 @@ void Item_factory::check_definitions() const
             msg << string_format( "invalid container property %s", type->default_container.c_str() ) << "\n";
         }
 
+        for( const auto& e : type->emits ) {
+            if( !e.is_valid() ) {
+                msg << string_format( "item %s has emit source %s", type->id.c_str(), e.c_str() ) << "\n";
+            }
+        }
+
         if( type->engine ) {
             for( const auto& f : type->engine->faults ) {
                 if( !f.is_valid() ) {
@@ -705,6 +713,14 @@ void Item_factory::check_definitions() const
             check_ammo_type( msg, type->ammo->type );
             if( type->ammo->casing != "null" && !has_template( type->ammo->casing ) ) {
                 msg << string_format( "invalid casing property %s", type->ammo->casing.c_str() ) << "\n";
+            }
+
+            if( type->ammo->drop != "null" && !has_template( type->ammo->drop ) ) {
+                msg << string_format( "invalid drop item %s", type->ammo->drop.c_str() ) << "\n";
+            }
+
+            if( type->ammo->drop_chance < 0.0f || type->ammo->drop_chance > 1.0f ) {
+                msg << "drop chance outside of supported range" << "\n";
             }
         }
         if( type->gun ) {
@@ -977,6 +993,9 @@ void Item_factory::load( islot_ammo &slot, JsonObject &jo )
 {
     assign( jo, "ammo_type", slot.type );
     assign( jo, "casing", slot.casing );
+    assign( jo, "drop", slot.drop );
+    assign( jo, "drop_chance", slot.drop_chance );
+    assign( jo, "drop_active", slot.drop_active );
     assign( jo, "damage", slot.damage );
     assign( jo, "pierce", slot.pierce );
     assign( jo, "range", slot.range );
@@ -1480,6 +1499,7 @@ void Item_factory::load_basic_info(JsonObject &jo, itype *new_item_template)
     assign( jo, "min_dexterity", new_item_template->min_dex );
     assign( jo, "min_intelligence", new_item_template->min_int );
     assign( jo, "min_perception", new_item_template->min_per );
+    assign( jo, "emits", new_item_template->emits );
     assign( jo, "magazine_well", new_item_template->magazine_well );
     assign( jo, "explode_in_fire", new_item_template->explode_in_fire );
 
@@ -1568,6 +1588,17 @@ void Item_factory::load_basic_info(JsonObject &jo, itype *new_item_template)
     }
 
     set_use_methods_from_json( jo, "use_action", new_item_template->use_methods );
+
+    assign( jo, "countdown_interval", new_item_template->countdown_interval );
+    assign( jo, "countdown_destroy", new_item_template->countdown_destroy );
+
+    if( jo.has_string( "countdown_action" ) ) {
+        new_item_template->countdown_action = usage_from_string( jo.get_string( "countdown_action" ) );
+
+    } else if( jo.has_object( "countdown_action" ) ) {
+        auto tmp = jo.get_object( "countdown_action" );
+        new_item_template->countdown_action = usage_from_object( tmp ).second;
+    }
 
     if( jo.has_member( "category" ) ) {
         new_item_template->category = get_category( jo.get_string( "category" ) );
@@ -1920,10 +1951,10 @@ void Item_factory::set_use_methods_from_json( JsonObject &jo, std::string member
         while( jarr.has_more() ) {
             if( jarr.test_string() ) {
                 std::string type = jarr.next_string();
-                use_methods.emplace( type, use_from_string( type ) );
+                use_methods.emplace( type, usage_from_string( type ) );
             } else if( jarr.test_object() ) {
                 auto obj = jarr.next_object();
-                set_uses_from_object( obj, use_methods );
+                use_methods.insert( usage_from_object( obj ) );
             } else {
                 jarr.throw_error( "array element is neither string nor object." );
             }
@@ -1932,10 +1963,10 @@ void Item_factory::set_use_methods_from_json( JsonObject &jo, std::string member
     } else {
         if( jo.has_string( member ) ) {
             std::string type = jo.get_string( member );
-            use_methods.emplace( type, use_from_string( type ) );
+            use_methods.emplace( type, usage_from_string( type ) );
         } else if( jo.has_object( member ) ) {
             auto obj = jo.get_object( member );
-            set_uses_from_object( obj, use_methods );
+            use_methods.insert( usage_from_object( obj ) );
         } else {
             jo.throw_error( "member 'use_action' is neither string nor object." );
         }
@@ -1943,7 +1974,7 @@ void Item_factory::set_use_methods_from_json( JsonObject &jo, std::string member
     }
 }
 
-void Item_factory::set_uses_from_object(JsonObject &obj, std::map<std::string, use_function> &methods )
+std::pair<std::string, use_function> Item_factory::usage_from_object( JsonObject &obj ) const
 {
     auto type = obj.get_string( "type" );
 
@@ -1952,7 +1983,7 @@ void Item_factory::set_uses_from_object(JsonObject &obj, std::map<std::string, u
         type = obj.get_string( "item_action_type" );
         method = use_function( new repair_item_actor( type ) );
     } else {
-        method = use_from_string( type );
+        method = usage_from_string( type );
     }
 
     if( !method.get_actor_ptr() ) {
@@ -1960,10 +1991,10 @@ void Item_factory::set_uses_from_object(JsonObject &obj, std::map<std::string, u
     }
 
     method.get_actor_ptr()->load( obj );
-    methods.emplace( type, method );
+    return std::make_pair( type, method );
 }
 
-use_function Item_factory::use_from_string( const std::string &type )
+use_function Item_factory::usage_from_string( const std::string &type ) const
 {
     auto func = iuse_function_list.find( type );
     if( func != iuse_function_list.end() ) {

@@ -845,7 +845,7 @@ class string_id_reader : public generic_typed_reader<string_id_reader<T>>
 
 
 template <typename T>
-typename std::enable_if<std::is_integral<T>::value, bool>::type assign(
+typename std::enable_if<std::is_arithmetic<T>::value, bool>::type assign(
     JsonObject &jo, const std::string &name, T &val )
 {
 

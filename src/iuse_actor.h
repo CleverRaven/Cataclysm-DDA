@@ -52,6 +52,9 @@ class iuse_transform : public iuse_actor
         /** if zero or positive set remaining ammo of @ref target to this (after transformation) */
         long ammo_qty = -1;
 
+        /** if positive set transformed item active and start countdown */
+        int countdown = 0;
+
         /** if both this and ammo_qty are specified then set @ref target to this specific ammo */
         std::string ammo_type;
 
@@ -83,6 +86,29 @@ class iuse_transform : public iuse_actor
         iuse_actor *clone() const override;
         std::string get_name() const override;
         void finalize( const itype_id &my_item_type ) override;
+};
+
+class countdown_actor : public iuse_actor
+{
+    public:
+        countdown_actor( const std::string &type = "countdown" ) : iuse_actor( type ) {}
+
+        /** if specified overrides default action name */
+        std::string name;
+
+        /** turns before countdown action (defaults to @ref itype::countdown_interval) */
+        int interval = 0;
+
+        /** message if player sees activation with %s replaced by item name */
+        std::string message;
+
+        ~countdown_actor() override;
+        void load( JsonObject &jo ) override;
+        long use(player *, item *, bool, const tripoint & ) const override;
+        iuse_actor *clone() const override;
+        bool can_use( const player *, const item *it, bool, const tripoint & ) const override;
+        std::string get_name() const override;
+        void info( const item &, std::vector<iteminfo> & ) const override;
 };
 
 /**

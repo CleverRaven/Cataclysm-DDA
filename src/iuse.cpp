@@ -2293,7 +2293,7 @@ int iuse::radio_mod( player *p, item *, bool, const tripoint& )
     }
 
     int inventory_index = g->inv_for_filter( _("Modify what?"), []( const item & itm ) {
-        return itm.is_tool() && itm.has_flag( "RADIO_MODABLE" );
+        return itm.has_flag( "RADIO_MODABLE" );
     } );
     item &modded = p->i_at( inventory_index );
 

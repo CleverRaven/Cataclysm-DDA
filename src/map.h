@@ -18,6 +18,7 @@
 #include "rng.h"
 #include "enums.h"
 #include "pathfinding.h"
+#include "emit.h"
 
 //TODO: include comments about how these variables work. Where are they used. Are they constant etc.
 #define CAMPSIZE 1
@@ -999,6 +1000,9 @@ void add_corpse( const tripoint &p );
 
         void propagate_field( const tripoint &center, field_id fid,
                               int amount, int max_density = MAX_FIELD_DENSITY );
+
+        /** Runs one cycle of emission @ref src which **may** result in propagation of fields */
+        void emit_field( const tripoint &pos, const emit_id &src );
 
 // End of 3D field function block
 
