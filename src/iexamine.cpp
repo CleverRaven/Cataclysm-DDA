@@ -83,7 +83,7 @@ void iexamine::gaspump(player &p, const tripoint &examp)
                 }
 
             } else {
-                g->handle_liquid_from_ground( item_it, examp );
+                g->handle_liquid_from_ground( item_it, examp, 1 );
             }
             return;
         }
