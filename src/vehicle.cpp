@@ -3955,10 +3955,10 @@ void vehicle::operate_plow(){
 void vehicle::operate_reaper(){
     const tripoint &veh_start = global_pos3();
     for( const int reaper_id : all_parts_with_feature( "REAPER" ) ){
-        const tripoint reaper_pos = veh_start + parts[reaper_id].precalc[0];
-        const int plant_produced =  rng( 1, parts[reaper_id].info().bonus );
-        const int seed_produced = rng(1, 3);
-        const int max_pickup_size = parts[reaper_id].info().size / 20;
+        const tripoint reaper_pos = veh_start + parts[ reaper_id ].precalc[ 0 ];
+        const int plant_produced =  rng( 1, parts[ reaper_id ].info().bonus );
+        const int seed_produced = rng( 1, 3 );
+        const int max_pickup_size = parts[ reaper_id ].info().size / 20;
         if( g->m.furn( reaper_pos ) == f_plant_harvest &&
             g->m.has_items( reaper_pos ) ){
             const item& seed = g->m.i_at( reaper_pos ).front();
@@ -3969,15 +3969,18 @@ void vehicle::operate_reaper(){
             }
             g->m.furn_set( reaper_pos, f_null );
             g->m.i_clear( reaper_pos );
-            for( auto &i : iexamine::get_harvest_items( *seed.type, plant_produced, seed_produced, false ) ) {
+            for( auto &i : iexamine::get_harvest_items(
+                     *seed.type, plant_produced, seed_produced, false ) ) {
                 g->m.add_item_or_charges( reaper_pos, i );
             }
             sounds::sound( reaper_pos, rng( 10, 25 ), _("Swish") );
         }
-        if( part_flag(reaper_id, "CARGO") && g->m.ter( reaper_pos ) == t_dirtmound ) {
+        if( part_flag(reaper_id, "CARGO") &&
+            g->m.ter( reaper_pos ) == t_dirtmound ) {
             map_stack stack( g->m.i_at( reaper_pos ) );
             for( auto iter = stack.begin(); iter != stack.end(); ) {
-                if( ( iter->volume() <= max_pickup_size ) && add_item( reaper_id, *iter ) ) {
+                if( ( iter->volume() <= max_pickup_size ) &&
+                    add_item( reaper_id, *iter ) ) {
                     iter = stack.erase( iter );
                 } else {
                     ++iter;
