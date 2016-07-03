@@ -70,26 +70,17 @@
   },
   {
     "id": "sholster",
+    "copy-from": "holster",
     "type": "ARMOR",
     "name": "fast draw holster",
     "description": "A comfortable quick draw holster for small guns.  Activate to holster/draw a gun.",
-    "weight": 220,
-    "volume": 2,
-    "price": 9000,
-    "material": "leather",
-    "symbol": "[",
-    "color": "ltgray",
-    "covers": ["LEG_EITHER"],
-    "coverage": 5,
     "encumbrance" : 2,
-    "material_thickness": 1,
     "use_action": {
       "type": "holster",
       "max_volume": 4,
       "draw_cost": 3,
       "skills": ["pistol", "shotgun"]
-    },
-    "flags": ["WAIST", "OVERSIZE"]
+    }
   },
   {
     "id": "survivor_vest",

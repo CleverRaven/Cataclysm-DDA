@@ -10498,6 +10498,7 @@ bool player::takeoff(int inventory_position, bool autodrop, std::vector<item> *i
     }
 
     if( items != nullptr ) {
+        w.on_takeoff( *this );
         items->push_back( w );
         taken_off = true;
     } else if (autodrop || volume_capacity() - w.get_storage() >= volume_carried() + w.volume()) {
