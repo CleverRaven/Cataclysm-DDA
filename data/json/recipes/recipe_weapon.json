@@ -1283,7 +1283,7 @@
   "time": 12000,
   "reversible": false,
   "autolearn": true,
-  "book_learn" : [[ "mag_muzzle_fall", 1 ]],
+  "book_learn" : [[ "mag_muzzle", 1 ]],
   "qualities":[
     {"id":"SAW_M_FINE","level":1,"amount":1},
     {"id":"SCREW_FINE","level":1,"amount":1}
@@ -5687,7 +5687,7 @@
     "time": 240000,
     "reversible": false,
     "autolearn": true,
-    "book_learn": [[ "manual_rifle", 5 ] , [ "mag_rifle", 6 ] , [ "mag_muzzle_summer", 5 ]],
+    "book_learn": [[ "manual_rifle", 5 ] , [ "mag_rifle", 6 ] , [ "mag_muzzle", 5 ]],
     "qualities":[
       {"id":"CUT","level":1,"amount":1},
       {"id":"HAMMER","level":3,"amount":1},
@@ -5779,7 +5779,7 @@
     "time": 80000,
     "reversible": false,
     "autolearn": true,
-    "book_learn": [[ "manual_pistol", 5 ] , [ "mag_pistol", 6 ] , [ "mag_muzzle_spring", 5 ]],
+    "book_learn": [[ "manual_pistol", 5 ] , [ "mag_pistol", 6 ] , [ "mag_muzzle", 5 ]],
     "qualities":[
       { "id": "CUT", "level": 1 },
       { "id": "HAMMER", "level": 3 },
