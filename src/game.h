@@ -125,7 +125,9 @@ typedef std::list< std::list<item> > invstack;
 typedef std::vector< std::list<item>* > invslice;
 typedef std::vector< const std::list<item>* > const_invslice;
 typedef std::vector< std::pair<std::list<item>*, int> > indexed_invslice;
-typedef std::function<bool(const item &)> item_filter;
+
+typedef std::function<bool( const item & )> item_filter;
+typedef std::function<bool( const item_location & )> item_location_filter;
 
 class game
 {
@@ -442,6 +444,8 @@ class game
         void interactive_inv();
 
         int inv_for_filter( const std::string &title, item_filter filter, const std::string &none_message = "" );
+        int inv_for_filter( const std::string &title, item_location_filter filter, const std::string &none_message = "" );
+
         int inv_for_all( const std::string &title, const std::string &none_message = "" );
         int inv_for_activatables( const player &p, const std::string &title );
         int inv_for_flag( const std::string &flag, const std::string &title );
@@ -458,14 +462,9 @@ class game
         };
         int inventory_item_menu(int pos, int startx = 0, int width = 50, inventory_item_menu_positon position = RIGHT_OF_INFO);
 
-        // Combines filtered player inventory with filtered ground and vehicle items within radius to create a pseudo-inventory.
-        item_location inv_map_splice( item_filter inv_filter,
-                                      item_filter ground_filter,
-                                      item_filter vehicle_filter,
-                                      const std::string &title,
-                                      int radius = 0,
-                                      const std::string &none_message = "" );
         item_location inv_map_splice( item_filter filter, const std::string &title, int radius = 0,
+                                      const std::string &none_message = "" );
+        item_location inv_map_splice( item_location_filter filter, const std::string &title, int radius = 0,
                                       const std::string &none_message = "" );
 
         // Select items to drop.  Returns a list of pairs of position, quantity.
@@ -775,12 +774,9 @@ class game
         void examine( const tripoint &p );// Examine nearby terrain  'e'
         void examine();
 
-        // Establish a grab on something.
-        void grab();
-        // Pick where to put liquid; false if it's left where it was
+        void grab(); // Establish a grab on something.
+        void compare( const tripoint &offset = tripoint_min ); // Compare items 'I'
 
-        void compare(); // Compare two Items 'I'
-        void compare( const tripoint &offset ); // Offset is added to player's position
         void drop(int pos = INT_MIN); // Drop an item  'd'
         void drop_in_direction(); // Drop w/ direction  'D'
 

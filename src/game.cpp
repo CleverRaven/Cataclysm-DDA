@@ -4143,10 +4143,9 @@ void game::debug()
                         p.weapon = p.ret_null;
                         break;
                     case D_ITEM_WORN: {
-                        auto filter = [this]( const item & it ) {
+                        int item_pos = inv_for_filter( "Make target equip:", []( const item &it ) {
                             return it.is_armor();
-                        };
-                        int item_pos = inv_for_filter( "Make target equip:", filter );
+                        } );
                         item &to_wear = u.i_at( item_pos );
                         if( to_wear.is_armor() ) {
                             p.on_item_wear( to_wear );
@@ -7817,10 +7816,10 @@ bool pet_menu(monster *z)
     }
 
     if (attach_bag == choice) {
-        auto filter = []( const item &it ) {
+        int pos = g->inv_for_filter( _("Bag item:"), []( const item &it ) {
             return it.is_armor() && it.get_storage() > 0;
-        };
-        int pos = g->inv_for_filter( _("Bag item:"), filter );
+        } );
+
         if (pos == INT_MIN) {
             add_msg(_("Never mind."));
             return true;

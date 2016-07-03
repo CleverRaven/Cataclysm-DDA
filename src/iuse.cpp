@@ -8086,13 +8086,13 @@ int iuse::washclothes( player *p, item *it, bool, const tripoint& )
         p->add_msg_if_player( _( "You need a soap to use this." ) );
         return 0;
     }
-    
+
     const inventory &crafting_inv = p->crafting_inventory();
     if( !crafting_inv.has_charges( "water", 40 ) && !crafting_inv.has_charges( "water_clean", 40 ) ) {
         p->add_msg_if_player( _( "You need a large amount of fresh water to use this." ) );
         return 0;
     }
-    
+
     const int pos = g->inv_for_flag( "FILTHY", _( "Wash what?" ) );
     item &mod = p->i_at( pos );
     if( pos == INT_MIN ) {
@@ -8104,7 +8104,7 @@ int iuse::washclothes( player *p, item *it, bool, const tripoint& )
     comps.push_back( item_comp( "water", 40 ) );
     comps.push_back( item_comp( "water_clean", 40 ) );
     p->consume_items( comps );
-    
+
     p->add_msg_if_player( _( "You washed your clothing." ) );
     p->mod_moves( -3000 );
 
