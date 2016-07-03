@@ -63,6 +63,46 @@ bool item_is_blacklisted(const std::string &id)
     return item_whitelist_is_exclusive && !item_whitelist.empty();
 }
 
+
+static bool assign_coverage_from_json( JsonObject &jo, const std::string &key,
+                                       std::bitset<num_bp> &parts, bool &sided )
+{
+    auto parse = [&parts,&sided]( const std::string &val ) {
+        if( val == "ARMS" || val == "ARM_EITHER" ) {
+            parts.set( bp_arm_l );
+            parts.set( bp_arm_r );
+        } else if( val == "HANDS" || val == "HAND_EITHER" ) {
+            parts.set( bp_hand_l );
+            parts.set( bp_hand_r );
+        } else if( val == "LEGS" || val == "LEG_EITHER" ) {
+            parts.set( bp_leg_l );
+            parts.set( bp_leg_r );
+        } else if( val == "FEET" || val == "FOOT_EITHER" ) {
+            parts.set( bp_foot_l );
+            parts.set( bp_foot_r );
+        } else {
+            parts.set( get_body_part_token( val ) );
+        }
+        sided += ( val == "ARM_EITHER" || val == "HAND_EITHER" ||
+                   val == "LEG_EITHER" || val == "FOOT_EITHER" );
+    };
+
+    if( jo.has_array( key ) ) {
+        JsonArray arr = jo.get_array( key );
+        while( arr.has_more() ) {
+            parse( arr.next_string() );
+        }
+        return true;
+
+    } else if( jo.has_string( key ) ) {
+        parse( jo.get_string( key ) );
+        return true;
+
+    } else {
+        return false;
+    }
+}
+
 void Item_factory::finalize() {
 
     auto& dyn = DynamicDataLoader::get_instance();
@@ -1107,29 +1147,24 @@ void Item_factory::load_gun(JsonObject &jo)
 
 void Item_factory::load_armor(JsonObject &jo)
 {
-    itype* new_item_template = new itype();
-    load_slot( new_item_template->armor, jo );
-    load_basic_info( jo, new_item_template );
+    auto def = load_definition( jo );
+    if( def) {
+        load_slot( def->armor, jo );
+        load_basic_info( jo, def );
+    }
 }
 
 void Item_factory::load( islot_armor &slot, JsonObject &jo )
 {
-    slot.encumber = jo.get_int( "encumbrance", 0 );
-    slot.coverage = jo.get_int( "coverage", 0 );
-    slot.thickness = jo.get_int( "material_thickness", 0 );
-    slot.env_resist = jo.get_int( "environmental_protection", 0 );
-    slot.warmth = jo.get_int( "warmth", 0 );
-    slot.storage = jo.get_int( "storage", 0 );
-    slot.power_armor = jo.get_bool( "power_armor", false );
-    slot.covers = jo.has_member( "covers" ) ? flags_from_json( jo, "covers", "bodyparts" ) : 0;
+    assign( jo, "encumbrance", slot.encumber );
+    assign( jo, "coverage", slot.coverage );
+    assign( jo, "material_thickness", slot.thickness );
+    assign( jo, "environmental_protection", slot.env_resist );
+    assign( jo, "warmth", slot.warmth );
+    assign( jo, "storage", slot.storage );
+    assign( jo, "power_armor", slot.power_armor );
 
-    auto ja = jo.get_array("covers");
-    while (ja.has_more()) {
-        if (ja.next_string().find("_EITHER") != std::string::npos) {
-            slot.sided = true;
-            break;
-        }
-    }
+    assign_coverage_from_json( jo, "covers", slot.covers, slot.sided );
 }
 
 void Item_factory::load( islot_tool &slot, JsonObject &jo )
@@ -1156,10 +1191,13 @@ void Item_factory::load_tool(JsonObject &jo)
 
 void Item_factory::load_tool_armor(JsonObject &jo)
 {
-    auto def = new itype();
-    load_slot( def->tool, jo );
-    load_slot( def->armor, jo );
-    load_basic_info( jo, def );
+    auto def = load_definition( jo );
+    if( def ) {
+        load_slot( def->tool, jo );
+        load_slot( def->armor, jo );
+        load_basic_info( jo, def );
+        load_slot( def->spawn, jo ); // @todo deprecate
+    }
 }
 
 void Item_factory::load( islot_book &slot, JsonObject &jo )
@@ -1679,25 +1717,6 @@ void Item_factory::set_properties_from_json(JsonObject &jo, std::string member,
     }
 }
 
-std::bitset<num_bp> Item_factory::flags_from_json(JsonObject &jo, const std::string &member,
-        std::string flag_type)
-{
-    //If none is found, just use the standard none action
-    std::bitset<num_bp> flag = 0;
-    //Otherwise, grab the right label to look for
-    if (jo.has_array(member)) {
-        JsonArray jarr = jo.get_array(member);
-        while (jarr.has_more()) {
-            set_flag_by_string(flag, jarr.next_string(), flag_type);
-        }
-    } else if (jo.has_string(member)) {
-        //we should have gotten a string, if not an array
-        set_flag_by_string(flag, jo.get_string(member), flag_type);
-    }
-
-    return flag;
-}
-
 void Item_factory::reset()
 {
     clear();
@@ -1974,29 +1993,6 @@ use_function Item_factory::use_from_string( const std::string &type )
     // Otherwise, return a hardcoded function we know exists (hopefully)
     debugmsg( "Received unrecognized iuse function %s, using iuse::none instead", type.c_str() );
     return use_function();
-}
-
-void Item_factory::set_flag_by_string(std::bitset<num_bp> &cur_flags, const std::string &new_flag,
-                                      const std::string &flag_type)
-{
-    if (flag_type == "bodyparts") {
-        // global defined in bodypart.h
-        if (new_flag == "ARMS" || new_flag == "ARM_EITHER") {
-            cur_flags.set( bp_arm_l );
-            cur_flags.set( bp_arm_r );
-        } else if (new_flag == "HANDS" || new_flag == "HAND_EITHER") {
-            cur_flags.set( bp_hand_l );
-            cur_flags.set( bp_hand_r );
-        } else if (new_flag == "LEGS" || new_flag == "LEG_EITHER") {
-            cur_flags.set( bp_leg_l );
-            cur_flags.set( bp_leg_r );
-        } else if (new_flag == "FEET" || new_flag == "FOOT_EITHER") {
-            cur_flags.set( bp_foot_l );
-            cur_flags.set( bp_foot_r );
-        } else {
-            cur_flags.set( get_body_part_token( new_flag ) );
-        }
-    }
 }
 
 namespace io {
