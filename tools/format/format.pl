@@ -114,7 +114,7 @@ for( my $obj; <>; ) {
         my @output = map { encode($_, $_->{'type'} // '' ) } @{$obj};
 
         # Indent everything formatted output wrap in an array
-        $result = "[\n" . join( ",\n", @output ) =~ s/^/  /mgr . "\n]\n";
+        $result .= "[\n" . join( ",\n", @output ) =~ s/^/  /mgr . "\n]\n";
     }
 }
 if ($dirty) {
