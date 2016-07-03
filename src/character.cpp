@@ -19,6 +19,8 @@
 
 #include <algorithm>
 
+using namespace units::literals;
+
 const efftype_id effect_beartrap( "beartrap" );
 const efftype_id effect_bite( "bite" );
 const efftype_id effect_bleed( "bleed" );
@@ -866,26 +868,26 @@ units::volume Character::volume_capacity() const
 
 units::volume Character::volume_capacity_reduced_by( units::volume mod ) const
 {
-    int ret = -mod / units::legacy_volume_factor;
+    units::volume ret = -mod;
     for (auto &i : worn) {
-        ret += i.get_storage() / units::legacy_volume_factor;
+        ret += i.get_storage();
     }
     if (has_bionic("bio_storage")) {
-        ret += 8;
+        ret += 2000_ml;
     }
     if (has_trait("SHELL")) {
-        ret += 16;
+        ret += 4000_ml;
     }
     if (has_trait("SHELL2") && !has_active_mutation("SHELL2")) {
-        ret += 24;
+        ret += 6000_ml;
     }
     if (has_trait("PACKMULE")) {
-        ret = int(ret * 1.4);
+        ret = ret * 1.4;
     }
     if (has_trait("DISORGANIZED")) {
-        ret = int(ret * 0.6);
+        ret = ret * 0.6;
     }
-    return std::max( ret, 0 ) * units::legacy_volume_factor;
+    return std::max( ret, 0_ml );
 }
 
 bool Character::can_pickVolume( const item &it, bool ) const
