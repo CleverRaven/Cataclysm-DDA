@@ -1371,7 +1371,8 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
             temp1 << _( "<good>preserves spoiling</good>, " );
         }
 
-        temp1 << string_format( _( "can store <info>%.2f liters</info>." ), c.contains / 4.0 );
+        using namespace units::literals;
+        temp1 << string_format( _( "can store <info>%.2f liters</info>." ), c.contains / 1000.0_ml );
 
         info.push_back( iteminfo( "CONTAINER", temp1.str() ) );
     }
@@ -4928,7 +4929,7 @@ long item::get_container_capacity() const
     if( !is_container() ) {
         return 0;
     }
-    return type->container->contains;
+    return type->container->contains / units::legacy_volume_factor;
 }
 
 long item::get_remaining_capacity_for_liquid( const item &liquid, bool allow_bucket, std::string *err ) const

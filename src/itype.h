@@ -128,9 +128,9 @@ struct islot_brewable {
 
 struct islot_container {
     /**
-     * Volume, scaled by the default-stack size of the item that is contained in this container.
+     * Inner volume of the container.
      */
-    int contains = 0;
+    units::volume contains = 0;
     /**
      * Can be resealed.
      */
