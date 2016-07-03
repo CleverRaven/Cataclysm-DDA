@@ -1104,7 +1104,7 @@ bool npc::wear_if_wanted( const item &it )
 
 bool npc::wield( item& it )
 {
-    if( !is_armed() ) {
+    if( is_armed() ) {
         if ( volume_carried() + weapon.volume() <= volume_capacity() ) {
             add_msg_if_npc( m_info, _( "<npcname> puts away the %s." ), weapon.tname().c_str() );
             i_add( remove_weapon() );
@@ -1342,7 +1342,7 @@ int npc::player_danger( const player &ur ) const
    ret += 8;
  } else if( u->weapon_value( u->weapon ) > 20 )
   ret++;
- else if( u->is_armed() ) // Unarmed
+ else if( !u->is_armed() ) // Unarmed
   ret -= 3;
 
  if (u->str_cur > 20) // Superhuman strength!
@@ -1423,14 +1423,15 @@ int npc::hostile_anger_level() const
 
 void npc::make_angry()
 {
-    add_msg( m_debug, "%s gets angry", name.c_str() );
-    // Make associated faction, if any, angry at the player too.
-    if( my_fac != NULL ) {
-        my_fac->likes_u -= 50;
-        my_fac->respects_u -= 50;
-    }
     if( is_enemy() ) {
         return; // We're already angry!
+    }
+
+    add_msg( m_debug, "%s gets angry", name.c_str() );
+    // Make associated faction, if any, angry at the player too.
+    if( my_fac != nullptr ) {
+        my_fac->likes_u = std::max( -50, my_fac->likes_u - 50 );
+        my_fac->respects_u = std::max( -50, my_fac->respects_u - 50 );
     }
     if( op_of_u.fear > 10 + personality.aggression + personality.bravery ) {
         attitude = NPCATT_FLEE; // We don't want to take u on!
@@ -1878,10 +1879,7 @@ bool npc::is_leader() const
 
 bool npc::is_enemy() const
 {
- if (attitude == NPCATT_KILL || attitude == NPCATT_MUG ||
-     attitude == NPCATT_FLEE)
-  return true;
- return  false;
+    return attitude == NPCATT_KILL || attitude == NPCATT_FLEE;
 }
 
 bool npc::is_defending() const
@@ -2050,7 +2048,7 @@ int npc::print_info(WINDOW* w, int line, int vLines, int column) const
     // because it's a border as well; so we have lines 6 through 11.
     // w is also 48 characters wide - 2 characters for border = 46 characters for us
     mvwprintz(w, line++, column, c_white, _("NPC: %s"), name.c_str());
-    if( !is_armed() ) {
+    if( is_armed() ) {
         trim_and_print(w, line++, column, iWidth, c_red, _("Wielding a %s"), weapon.tname().c_str());
     }
     std::string wearing;
@@ -2085,7 +2083,7 @@ int npc::print_info(WINDOW* w, int line, int vLines, int column) const
 std::string npc::short_description() const
 {
     std::stringstream ret;
-    if( !is_armed() ) {
+    if( is_armed() ) {
         ret << _("Wielding: ") << weapon.tname() << ";   ";
     }
     ret << _("Wearing: ");

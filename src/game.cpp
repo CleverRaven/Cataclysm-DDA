@@ -4143,10 +4143,9 @@ void game::debug()
                         p.weapon = p.ret_null;
                         break;
                     case D_ITEM_WORN: {
-                        auto filter = [this]( const item & it ) {
+                        int item_pos = inv_for_filter( "Make target equip:", []( const item &it ) {
                             return it.is_armor();
-                        };
-                        int item_pos = inv_for_filter( "Make target equip:", filter );
+                        } );
                         item &to_wear = u.i_at( item_pos );
                         if( to_wear.is_armor() ) {
                             p.on_item_wear( to_wear );
@@ -7269,7 +7268,7 @@ void game::close( const tripoint &closep )
 
 void game::smash()
 {
-    const int move_cost = u.is_armed() ? 80 : u.weapon.attack_time() * 0.8;
+    const int move_cost = !u.is_armed() ? 80 : u.weapon.attack_time() * 0.8;
     bool didit = false;
     ///\EFFECT_STR increases smashing capability
     int smashskill = int(u.str_cur + u.weapon.type->melee_dam);
@@ -7817,10 +7816,10 @@ bool pet_menu(monster *z)
     }
 
     if (attach_bag == choice) {
-        auto filter = []( const item &it ) {
+        int pos = g->inv_for_filter( _("Bag item:"), []( const item &it ) {
             return it.is_armor() && it.get_storage() > 0;
-        };
-        int pos = g->inv_for_filter( _("Bag item:"), filter );
+        } );
+
         if (pos == INT_MIN) {
             add_msg(_("Never mind."));
             return true;
@@ -10798,8 +10797,11 @@ bool game::plfire( const tripoint &default_target )
 
     if (trajectory.empty()) {
         if( gun->has_flag( "RELOAD_AND_SHOOT" ) && u.activity.type != ACT_AIM ) {
+            const auto previous_moves = u.moves;
             unload( *gun );
-            u.moves -= reload_time / 2; // allow for unloading time
+            // Give back time for unloading as essentially nothing has been done at all.
+            // Note that reload_time has not been applied either.
+            u.moves = previous_moves;
         }
         reenter_fullscreen();
         return false;
@@ -12040,8 +12042,9 @@ bool game::ramp_move( const tripoint &dest_loc )
 
 bool game::walk_move( const tripoint &dest_loc )
 {
-    int vpart1;
-    vehicle *veh1 = m.veh_at( dest_loc, vpart1 );
+    int vpart_here, vpart_there;
+    const vehicle *const veh_here = m.veh_at( u.pos(), vpart_here );
+    const vehicle *const veh_there = m.veh_at( dest_loc, vpart_there );
 
     bool pushing = false;  // moving -into- grabbed tile; skip check for move_cost > 0
     bool pulling = false;  // moving -away- from grabbed tile; check for move_cost > 0
@@ -12113,9 +12116,12 @@ bool game::walk_move( const tripoint &dest_loc )
 
         if( !u.is_blind() ) {
             const trap &tr = m.tr_at(dest_loc);
+            int vpart;
+            const vehicle *const veh = m.veh_at( dest_loc, vpart );
+            const bool boardable = veh && veh->part_with_feature( vpart, "BOARDABLE" ) >= 0;
             // Hack for now, later ledge should stop being a trap
             if( tr.can_see(dest_loc, u) && !tr.is_benign() &&
-                m.has_floor( dest_loc ) &&
+                m.has_floor( dest_loc ) && !boardable &&
                 !query_yn( _("Really step onto that %s?"), tr.name.c_str() ) ) {
                 return true;
             }
@@ -12147,15 +12153,30 @@ bool game::walk_move( const tripoint &dest_loc )
     u.recoil -= int(u.str_cur / 2) + u.get_skill_level( skill_id( "gun" ) );
     u.recoil = std::max( MIN_RECOIL * 2, u.recoil );
     u.recoil = int(u.recoil / 2);
-    const int mcost_total = m.move_cost( dest_loc );
-    const int mcost_no_veh = m.move_cost_ter_furn( dest_loc );
-    if( (!u.has_trait("PARKOUR") && mcost_total > 2) || mcost_total > 4 ) {
-        if( veh1 != nullptr && mcost_no_veh == 2 ) {
-            add_msg( m_warning, _( "Moving past this %s is slow!" ), veh1->part_info( vpart1 ).name().c_str() );
+
+    // Print a message if movement is slow
+    const int mcost_to = m.move_cost( dest_loc );
+    const int mcost_from = m.move_cost( u.pos() );
+    const bool slowed = ( !u.has_trait( "PARKOUR" ) && ( mcost_to > 2 || mcost_from > 2 ) ) ||
+                  mcost_to > 4 || mcost_from > 4;
+    if( slowed ) {
+        // Unless u.pos() has a higher movecost than dest_loc, state that dest_loc is the cause
+        if( mcost_to >= mcost_from ) {
+            if( veh_there ) {
+                add_msg( m_warning, _( "Moving onto this %s is slow!" ),
+                         veh_there->part_info( vpart_there ).name().c_str() );
+            } else {
+                add_msg( m_warning, _( "Moving onto this %s is slow!"), m.name( dest_loc ).c_str() );
+            }
         } else {
-            add_msg(m_warning, _("Moving past this %s is slow!"), m.name(dest_loc).c_str());
-            sfx::play_variant_sound( "plmove", "clear_obstacle", sfx::get_heard_volume(u.pos()) );
+            if( veh_here ) {
+                add_msg( m_warning, _( "Moving off of this %s is slow!" ),
+                         veh_here->part_info( vpart_here ).name().c_str() );
+            } else {
+                add_msg( m_warning, _( "Moving off of this %s is slow!" ), m.name( u.pos() ).c_str() );
+            }
         }
+        sfx::play_variant_sound( "plmove", "clear_obstacle", sfx::get_heard_volume(u.pos()) );
     }
 
     place_player( dest_loc );
@@ -13953,40 +13974,41 @@ void game::teleport(player *p, bool add_teleglow)
     if (p == NULL) {
         p = &u;
     }
-    int newx, newy, tries = 0;
+    int tries = 0;
+    tripoint new_pos = p->pos();
     bool is_u = (p == &u);
 
     if (add_teleglow) {
         p->add_effect( effect_teleglow, 300);
     }
     do {
-        newx = p->posx() + rng(0, SEEX * 2) - SEEX;
-        newy = p->posy() + rng(0, SEEY * 2) - SEEY;
+        new_pos.x = p->posx() + rng(0, SEEX * 2) - SEEX;
+        new_pos.y = p->posy() + rng(0, SEEY * 2) - SEEY;
         tries++;
-    } while (tries < 15 && m.impassable(newx, newy));
-    bool can_see = (is_u || u.sees(newx, newy));
+    } while ( tries < 15 && m.impassable( new_pos ) );
+    bool can_see = ( is_u || u.sees( new_pos ) );
     if (p->in_vehicle) {
         m.unboard_vehicle(p->pos());
     }
-    p->setx( newx );
-    p->sety( newy );
-    if (m.impassable(newx, newy)) { //Teleported into a wall
+    p->setx( new_pos.x );
+    p->sety( new_pos.y );
+    if( m.impassable( new_pos ) ) { //Teleported into a wall
         if (can_see) {
             if (is_u) {
                 add_msg(_("You teleport into the middle of a %s!"),
-                        m.name(newx, newy).c_str());
+                        m.obstacle_name( new_pos ).c_str() );
                 p->add_memorial_log(pgettext("memorial_male", "Teleported into a %s."),
                                     pgettext("memorial_female", "Teleported into a %s."),
-                                    m.name(newx, newy).c_str());
+                                    m.obstacle_name( new_pos ).c_str() );
             } else {
                 add_msg(_("%1$s teleports into the middle of a %2$s!"),
-                        p->name.c_str(), m.name(newx, newy).c_str());
+                        p->name.c_str(), m.obstacle_name( new_pos ).c_str() );
             }
         }
         p->apply_damage( nullptr, bp_torso, 500 );
         p->check_dead_state();
     } else if (can_see) {
-        const int i = mon_at({newx, newy, u.posz()});
+        const int i = mon_at( new_pos );
         if (i != -1) {
             monster &critter = zombie(i);
             if (is_u) {
@@ -14535,7 +14557,7 @@ void game::start_calendar()
     calendar::start = HOURS(ACTIVE_WORLD_OPTIONS["INITIAL_TIME"]);
     if( scen->has_flag("SPR_START") || scen->has_flag("SUM_START") ||
         scen->has_flag("AUT_START") || scen->has_flag("WIN_START") ||
-        scen->has_flag("ADV_START") ) {
+        scen->has_flag("SUM_ADV_START") ) {
         if( scen->has_flag("SPR_START") ) {
             ; // Do nothing;
         } else if( scen->has_flag("SUM_START") ) {

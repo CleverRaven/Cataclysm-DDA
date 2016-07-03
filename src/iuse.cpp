@@ -7,6 +7,7 @@
 #include "output.h"
 #include "debug.h"
 #include "options.h"
+#include "requirements.h"
 #include "rng.h"
 #include "line.h"
 #include "mutation.h"
@@ -4595,8 +4596,12 @@ void iuse::cut_log_into_planks(player *p)
     p->i_add_or_drop(scrap, scraps);
 }
 
-int iuse::lumber(player *p, item *it, bool, const tripoint& )
+int iuse::lumber(player *p, item *it, bool t, const tripoint& )
 {
+    if( t ) {
+        return 0;
+    }
+
     // Check if player is standing on any lumber
     for (auto &i : g->m.i_at(p->pos())) {
         if (i.typeId() == "log")
@@ -5731,24 +5736,16 @@ int iuse::contacts(player *p, item *it, bool, const tripoint& )
     }
 }
 
-int iuse::talking_doll(player *p, item *it, bool, const tripoint& )
+int iuse::talking_doll( player *p, item *it, bool, const tripoint& )
 {
     if( !it->ammo_sufficient() ) {
-        p->add_msg_if_player(m_info, _("The %s's batteries are dead."), it->tname().c_str());
+        p->add_msg_if_player( m_info, _( "The %s's batteries are dead." ), it->tname().c_str() );
         return 0;
     }
 
-    std::string label;
+    const SpeechBubble speech = get_speech( it->typeId() );
 
-    if (it->typeId() == "talking_doll") {
-        label = "doll";
-    } else {
-        label = "creepy_doll";
-    }
-
-    const SpeechBubble speech = get_speech(label);
-
-    sounds::ambient_sound(p->pos(), speech.volume, speech.text);
+    sounds::ambient_sound( p->pos(), speech.volume, speech.text );
 
     return it->type->charges_to_use();
 }
@@ -7619,7 +7616,7 @@ int iuse::multicooker(player *p, item *it, bool t, const tripoint &pos)
                     return 0;
                 }
 
-                for( auto it : meal->requirements.get_components() ) {
+                for( auto it : meal->requirements->get_components() ) {
                     p->consume_items(it);
                 }
 
@@ -8089,13 +8086,13 @@ int iuse::washclothes( player *p, item *it, bool, const tripoint& )
         p->add_msg_if_player( _( "You need a soap to use this." ) );
         return 0;
     }
-    
+
     const inventory &crafting_inv = p->crafting_inventory();
     if( !crafting_inv.has_charges( "water", 40 ) && !crafting_inv.has_charges( "water_clean", 40 ) ) {
         p->add_msg_if_player( _( "You need a large amount of fresh water to use this." ) );
         return 0;
     }
-    
+
     const int pos = g->inv_for_flag( "FILTHY", _( "Wash what?" ) );
     item &mod = p->i_at( pos );
     if( pos == INT_MIN ) {
@@ -8107,7 +8104,7 @@ int iuse::washclothes( player *p, item *it, bool, const tripoint& )
     comps.push_back( item_comp( "water", 40 ) );
     comps.push_back( item_comp( "water_clean", 40 ) );
     p->consume_items( comps );
-    
+
     p->add_msg_if_player( _( "You washed your clothing." ) );
     p->mod_moves( -3000 );
 

@@ -457,7 +457,9 @@ public:
     void clear_vehicle_list( int zlev );
     void update_vehicle_list( submap * const to, const int zlev );
 
-    void destroy_vehicle (vehicle *veh);
+    // Removes vehicle from map and returns it in unique_ptr
+    std::unique_ptr<vehicle> detach_vehicle( vehicle *veh );
+    void destroy_vehicle( vehicle *veh );
     // Vehicle movement
     void vehmove();
     // Selects a vehicle to move, returns false if no moving vehicles
@@ -994,6 +996,9 @@ void add_corpse( const tripoint &p );
         void add_splatter( const field_id type, const tripoint &where, int density = 1 );
         void add_splatter_trail( const field_id type, const tripoint &from, const tripoint &to );
         void add_splash( const field_id type, const tripoint &center, int radius, int density );
+
+        void propagate_field( const tripoint &center, field_id fid,
+                              int amount, int max_density = MAX_FIELD_DENSITY );
 
 // End of 3D field function block
 

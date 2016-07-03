@@ -1566,12 +1566,13 @@ void advanced_inventory::display()
                     if(by_charges) {
                         item *it = sitem->items.front();
                         if( it->charges <= amount_to_move ) {
-                            amount_to_move = 1; // `amount_to_move' will be `true' if the item needs to be removed
+                            remove_item( *sitem, 1 );
                         } else {
                             it->mod_charges( -amount_to_move );
                         }
+                    } else {
+                        remove_item(*sitem, amount_to_move);
                     }
-                    remove_item(*sitem, amount_to_move);
                 // note to the player (and possibly debug) that the item transfer failed somehow
                 } else {
                     const char *msg = nullptr;
@@ -2067,7 +2068,7 @@ bool advanced_inventory::query_charges( aim_location destarea, const advanced_in
     if( destarea == AIM_INVENTORY  || destarea == AIM_WORN ) {
         const long unitweight = it.weight() * 1000 / ( by_charges ? it.charges : 1 );
         const long max_weight = ( g->u.weight_capacity() * 4 - g->u.weight_carried() ) * 1000;
-        if( unitweight > 0 && unitweight * amount > max_weight ) {
+        if( unitweight > 0 && ( unitweight * amount > max_weight ) ) {
             const long weightmax = max_weight / unitweight;
             if( weightmax <= 0 ) {
                 popup( _( "This is too heavy!." ) );

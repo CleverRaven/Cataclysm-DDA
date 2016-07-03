@@ -1486,7 +1486,7 @@ void monster::knock_back_from( const tripoint &p )
         add_effect( effect_stunned, 2 );
         if( u_see ) {
             add_msg( _( "The %1$s bounces off a %2$s." ), name().c_str(),
-                     g->m.tername( to ).c_str() );
+                     g->m.obstacle_name( to ).c_str() );
         }
 
     } else { // It's no wall

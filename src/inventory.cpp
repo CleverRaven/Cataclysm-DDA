@@ -127,19 +127,6 @@ inventory inventory::operator+ (const item &rhs)
     return inventory(*this) += rhs;
 }
 
-indexed_invslice inventory::indexed_slice_filter_by( item_filter filter ) const
-{
-    int i = 0;
-    indexed_invslice stacks;
-    for( auto &elem : items ) {
-        if( filter( elem.front() ) ) {
-            stacks.emplace_back( const_cast<std::list<item>*>( &elem ), i );
-        }
-        ++i;
-    }
-    return stacks;
-}
-
 void inventory::unsort()
 {
     sorted = false;
@@ -371,6 +358,13 @@ void inventory::restack(player *p)
     //re-add non-matching items
     for( auto &elem : to_restack ) {
         add_item( elem );
+    }
+
+    //Ensure that all items in the same stack have the same invlet.
+    for( std::list< item > &outer : items ) {
+        for( item &inner : outer ) {
+            inner.invlet = outer.front().invlet;
+        }
     }
 }
 

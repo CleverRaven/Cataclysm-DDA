@@ -3,7 +3,9 @@
 #include "game.h"
 #include "map.h"
 #include "construction.h"
+#include "craft_command.h"
 #include "player.h"
+#include "requirements.h"
 #include "translations.h"
 #include "activity_handlers.h"
 #include "messages.h"
@@ -368,7 +370,7 @@ void player_activity::finish( player *p )
             type = ACT_NULL;
             // Workaround for a bug where longcraft can be unset in complete_craft().
             if( p->making_would_work( p->lastrecipe, batch_size ) ) {
-                p->last_craft.execute();
+                p->last_craft->execute();
             }
         }
         break;

@@ -1080,7 +1080,7 @@ bool effect::activated(int turn, std::string arg, int val, bool reduced, double 
     return false;
 }
 
-double effect::get_addict_mod(std::string arg, int addict_level) const
+double effect::get_addict_mod( const std::string &arg, int addict_level ) const
 {
     // TODO: convert this to JSON id's and values once we have JSON'ed addictions
     if (arg == "PKILL") {

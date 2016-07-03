@@ -319,15 +319,15 @@ void map::update_vehicle_list( submap *const to, const int zlev )
     }
 }
 
-void map::destroy_vehicle (vehicle *veh)
+std::unique_ptr<vehicle> map::detach_vehicle( vehicle *veh )
 {
     if( veh == nullptr ) {
-        debugmsg("map::destroy_vehicle was passed NULL");
-        return;
+        debugmsg("map::detach_vehicle was passed nullptr");
+        return std::unique_ptr<vehicle>();
     }
 
     if( veh->smz < -OVERMAP_DEPTH && veh->smz > OVERMAP_HEIGHT ) {
-        debugmsg( "destroy_vehicle got a vehicle outside allowed z-level range! name=%s, submap:%d,%d,%d",
+        debugmsg( "detach_vehicle got a vehicle outside allowed z-level range! name=%s, submap:%d,%d,%d",
                   veh->name.c_str(), veh->smx, veh->smy, veh->smz );
         // Try to fix by moving the vehicle here
         veh->smz = abs_sub.z;
@@ -345,11 +345,16 @@ void map::destroy_vehicle (vehicle *veh)
                 overmap_buffer.remove_vehicle( veh );
             }
             dirty_vehicle_list.erase(veh);
-            delete veh;
-            return;
+            return std::unique_ptr<vehicle>( veh );
         }
     }
-    debugmsg( "destroy_vehicle can't find it! name=%s, submap:%d,%d,%d", veh->name.c_str(), veh->smx, veh->smy, veh->smz );
+    debugmsg( "detach_vehicle can't find it! name=%s, submap:%d,%d,%d", veh->name.c_str(), veh->smx, veh->smy, veh->smz );
+    return std::unique_ptr<vehicle>();
+}
+
+void map::destroy_vehicle( vehicle *veh )
+{
+    detach_vehicle( veh );
 }
 
 void map::on_vehicle_moved( const int smz ) {
@@ -4732,11 +4737,16 @@ item &map::add_item_at( const tripoint &p,
 item map::water_from( const tripoint &p )
 {
     if( has_flag( "SALT_WATER", p ) ) {
-        item ret( "salt_water", 0, item::INFINITE_CHARGES );
-        return ret;
+        return item( "salt_water", 0, item::INFINITE_CHARGES );
     }
 
     const ter_id terrain_id = g->m.ter( p );
+    if( terrain_id == t_sewage ) {
+        item ret( "water_sewage", 0, item::INFINITE_CHARGES );
+        ret.poison = rng( 1, 7 );
+        return ret;
+    }
+
     item ret( "water", 0, item::INFINITE_CHARGES );
     if( terrain_id == t_water_sh ) {
         if( one_in( 3 ) ) {
@@ -4748,10 +4758,6 @@ item map::water_from( const tripoint &p )
         if( one_in( 4 ) ) {
             ret.poison = rng( 1, 4 );
         }
-        return ret;
-    }
-    if( terrain_id == t_sewage ) {
-        ret.poison = rng( 1, 7 );
         return ret;
     }
     // iexamine::water_source requires a valid liquid from this function.

@@ -7,9 +7,11 @@
 SOURCES = $(wildcard *.cpp)
 OBJS = $(SOURCES:%.cpp=$(ODIR)/%.o)
 
-CATA_LIB=../cataclysm.a
+CATA_LIB=../$(BUILD_PREFIX)cataclysm.a
 
-ODIR := obj
+# If you invoke this makefile directly and the parent directory was
+# built with BUILD_PREFIX set, you must set it for this invocation as well.
+ODIR ?= obj
 
 LDFLAGS += -L.
 
@@ -20,21 +22,23 @@ LDFLAGS += -L.
 # Clang and mingw are warning about Catch macros around perfectly normal boolean operations.
 CXXFLAGS += -I../src -Wno-unused-variable -Wno-sign-compare -Wno-unknown-pragmas -Wno-parentheses
 
-tests: cata_test
+TEST_TARGET = $(BUILD_PREFIX)cata_test
 
-cata_test: $(ODIR) $(OBJS)
+tests: $(TEST_TARGET)
+
+$(BUILD_PREFIX)cata_test: $(ODIR) $(OBJS)
 	+$(CXX) $(W32FLAGS) -o $@ $(DEFINES) $(OBJS) $(CATA_LIB) $(CXXFLAGS) $(LDFLAGS)
 
 # Iterate over all the individual tests.
-check: cata_test
-	cd .. && tests/cata_test -d yes
+check: $(TEST_TARGET)
+	cd .. && tests/$(TEST_TARGET) -d yes
 
 clean:
-	rm -rf $(ODIR)
-	rm -f cata_test
+	rm -rf *obj
+	rm -f *cata_test
 
 $(ODIR):
-	mkdir $(ODIR)
+	mkdir -p $(ODIR)
 
 $(ODIR)/%.o: %.cpp
 	$(CXX) $(DEFINES) $(CXXFLAGS) -c $< -o $@

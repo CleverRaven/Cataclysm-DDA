@@ -8769,15 +8769,14 @@
         "autolearn": true,
         "flags": ["BLIND_EASY"],
         "components": [ [
-            [ "gin", 7 ],
-            [ "mead", 7 ],
-            [ "pine_wine", 7 ],
-            [ "rum", 7 ],
-            [ "single_malt_whiskey", 7 ],
-            [ "tequila", 7 ],
-            [ "triple_sec", 7 ],
-            [ "vodka", 7 ],
-            [ "whiskey", 7 ]
+            [ "gin", 1 ],
+            [ "rum", 1 ],
+            [ "single_malt_whiskey", 1 ],
+            [ "tequila", 1 ],
+            [ "triple_sec", 1 ],
+            [ "vodka", 1 ],
+            [ "whiskey", 1 ],
+            [ "brandy", 1 ]
         ] ]
     },{
         "type" : "recipe",
@@ -12174,7 +12173,7 @@
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_DRINKS",
   "skill_used": "cooking",
-  "requires_skills": [ "survival", 4 ],
+  "skills_required": [ "survival", 4 ],
   "difficulty": 5,
   "time": 15000,
   "reversible": false,
@@ -12211,7 +12210,7 @@
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_DRINKS",
   "skill_used": "cooking",
-  "requires_skills": [ "survival", 1 ],
+  "skills_required": [ "survival", 1 ],
   "difficulty": 5,
   "time": 7000,
   "reversible": false,

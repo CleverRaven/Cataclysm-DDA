@@ -9472,7 +9472,7 @@
     "category" : "CC_ARMOR",
     "subcategory" : "CSC_ARMOR_STORAGE",
     "skill_used" : "fabrication",
-    "requires_skills" : ["fabrication", 1],
+    "skills_required" : ["fabrication", 1],
     "difficulty" : 2,
     "time" : 1500,
     "reversible" : false,

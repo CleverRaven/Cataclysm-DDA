@@ -10,6 +10,7 @@
 #include "sounds.h"
 #include "iuse_actor.h"
 #include "rng.h"
+#include "requirements.h"
 #include "mongroup.h"
 #include "morale_types.h"
 #include "messages.h"

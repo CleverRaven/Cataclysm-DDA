@@ -20,6 +20,8 @@
 #include "catacharset.h"
 #include "get_version.h"
 #include "crafting.h"
+#include "craft_command.h"
+#include "requirements.h"
 #include "monstergenerator.h"
 #include "help.h" // get_hint
 #include "martialarts.h"
@@ -284,11 +286,14 @@ player::player() : Character()
     reset_encumbrance();
 
     morale.reset( new player_morale() );
+    last_craft.reset( new craft_command() );
 }
 
-player::~player()
-{
-}
+player::~player() = default;
+player::player(const player &) = default;
+player::player(player &&) = default;
+player &player::operator=(const player &) = default;
+player &player::operator=(player &&) = default;
 
 void player::normalize()
 {
@@ -2461,7 +2466,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
     for( auto &elem : addictions ) {
         if( elem.sated < 0 && elem.intensity >= MIN_ADDICTION_LEVEL ) {
             effect_name.push_back( addiction_name( elem ) );
-            effect_text.push_back( addiction_text( *this, elem ) );
+            effect_text.push_back( addiction_text( elem ) );
         }
     }
 
@@ -3902,7 +3907,7 @@ std::list<item *> player::get_radio_items()
         }
     }
 
-    if( !is_armed() ) {
+    if( is_armed() ) {
         if( weapon.has_flag( "RADIO_ACTIVATION" ) ) {
             rc_items.push_back( &weapon );
         }
@@ -4236,7 +4241,7 @@ void player::shout( std::string msg )
         base = 15;
         shout_multiplier = 3;
         if ( msg.empty() ) {
-            msg = _("You scream loudly!");
+            msg = _("yourself scream loudly!");
         }
     }
 
@@ -4244,12 +4249,12 @@ void player::shout( std::string msg )
         shout_multiplier = 4;
         base = 20;
         if ( msg.empty() ) {
-            msg = _("You let out a piercing howl!");
+            msg = _("yourself let out a piercing howl!");
         }
     }
 
     if ( msg.empty() ) {
-        msg = _("You shout loudly!");
+        msg = _("yourself shout loudly!");
     }
     // Masks and such dampen the sound
     // Balanced around  whisper for wearing bondage mask
@@ -5180,7 +5185,7 @@ void player::knock_back_from( const tripoint &p )
         apply_damage( nullptr, bp_torso, 3 ); // TODO: who knocked us back? Maybe that creature should be the source of the damage?
         add_effect( effect_stunned, 2 );
         add_msg_player_or_npc( _("You bounce off a %s!"), _("<npcname> bounces off a %s!"),
-                               g->m.tername( to ).c_str() );
+                               g->m.obstacle_name( to ).c_str() );
 
     } else { // It's no wall
         setpos( to );
@@ -5784,86 +5789,85 @@ void player::sleep_hp_regen( int rate_multiplier )
 
 void player::add_addiction(add_type type, int strength)
 {
-    if (type == ADD_NULL) {
+    if( type == ADD_NULL ) {
         return;
     }
-    int timer = 1200;
-    if (has_trait("ADDICTIVE")) {
-        strength = int(strength * 1.5);
-        timer = 800;
-    }
-    if (has_trait("NONADDICTIVE")) {
-        strength = int(strength * .50);
-        timer = 1800;
+    int timer = HOURS( 2 );
+    if( has_trait( "ADDICTIVE" ) ) {
+        strength *= 2;
+        timer = HOURS( 1 );
+    } else if( has_trait( "NONADDICTIVE" ) ) {
+        strength /= 2;
+        timer = HOURS( 6 );
     }
     //Update existing addiction
-    for (auto &i : addictions) {
-        if (i.type == type) {
-            if (i.sated < 0) {
-                i.sated = timer;
-            } else if (i.sated < 600) {
-                i.sated += timer; // TODO: Make this variable?
-            } else {
-                i.sated += (3000 - i.sated) / 2;
-            }
-            if ((rng(0, strength) > rng(0, i.intensity * 5) || rng(0, 500) < strength) &&
-                  i.intensity < 20) {
-                i.intensity++;
-            }
-            return;
+    for( auto &i : addictions ) {
+        if( i.type != type ) {
+            continue;
         }
+
+        if( i.sated < 0 ) {
+            i.sated = timer;
+        } else if( i.sated < MINUTES(10) ) {
+            i.sated += timer; // TODO: Make this variable?
+        } else {
+            i.sated += timer / 2;
+        }
+        if( i.intensity < MAX_ADDICTION_LEVEL && strength > i.intensity * rng( 2, 5 ) ) {
+            i.intensity++;
+        }
+
+        add_msg( m_debug, "Updating addiction: %d intensity, %d sated",
+                 i.intensity, i.sated );
+
+        return;
     }
-    //Add a new addiction
-    if (rng(0, 100) < strength) {
+    
+    // Add a new addiction
+    const int roll = rng( 0, 100 );
+    add_msg( m_debug, "Addiction: roll %d vs strength %d", roll, strength );
+    if( roll < strength ) {
         //~ %s is addiction name
-        add_memorial_log(pgettext("memorial_male", "Became addicted to %s."),
-                            pgettext("memorial_female", "Became addicted to %s."),
-                            addiction_type_name(type).c_str());
-        addiction tmp(type, 1);
-        addictions.push_back(tmp);
+        const std::string &type_name = addiction_type_name( type );
+        add_memorial_log( pgettext("memorial_male", "Became addicted to %s."),
+                          pgettext("memorial_female", "Became addicted to %s."),
+                          type_name.c_str() );
+        add_msg( m_debug, "%s got addicted to %s", disp_name().c_str(), type_name.c_str() );
+        addictions.emplace_back( type, 1 );
     }
 }
 
 bool player::has_addiction(add_type type) const
 {
-    for (auto &i : addictions) {
-        if (i.type == type && i.intensity >= MIN_ADDICTION_LEVEL) {
-            return true;
-        }
-    }
-    return false;
+    return std::any_of( addictions.begin(), addictions.end(),
+        [type]( const addiction &ad ) {
+        return ad.type == type && ad.intensity >= MIN_ADDICTION_LEVEL;
+    } );
 }
 
-void player::rem_addiction(add_type type)
+void player::rem_addiction( add_type type )
 {
-    for (size_t i = 0; i < addictions.size(); i++) {
-        if (addictions[i].type == type) {
-            //~ %s is addiction name
-            if (has_trait("THRESH_MYCUS") && ((type == ADD_MARLOSS_R) || (type == ADD_MARLOSS_B) ||
-              (type == ADD_MARLOSS_Y))) {
-                  add_memorial_log(pgettext("memorial_male", "Transcended addiction to %s."),
-                            pgettext("memorial_female", "Transcended addiction to %s."),
-                            addiction_type_name(type).c_str());
-            }
-            else {
-                add_memorial_log(pgettext("memorial_male", "Overcame addiction to %s."),
-                            pgettext("memorial_female", "Overcame addiction to %s."),
-                            addiction_type_name(type).c_str());
-            }
-            addictions.erase(addictions.begin() + i);
-            return;
-        }
+    auto iter = std::find_if( addictions.begin(), addictions.end(),
+        [type]( const addiction &ad ) {
+        return ad.type == type;
+    } );
+
+    if( iter != addictions.end() ) {
+        //~ %s is addiction name
+        add_memorial_log(pgettext("memorial_male", "Overcame addiction to %s."),
+                    pgettext("memorial_female", "Overcame addiction to %s."),
+                    addiction_type_name(type).c_str());
+        addictions.erase( iter );
     }
 }
 
 int player::addiction_level( add_type type ) const
 {
-    for (auto &i : addictions) {
-        if (i.type == type) {
-            return i.intensity;
-        }
-    }
-    return 0;
+    auto iter = std::find_if( addictions.begin(), addictions.end(),
+        [type]( const addiction &ad ) {
+        return ad.type == type;
+    } );
+    return iter != addictions.end() ? iter->intensity : 0;
 }
 
 void player::siphon( vehicle &veh, const itype_id &desired_liquid )
@@ -5879,7 +5883,7 @@ void player::siphon( vehicle &veh, const itype_id &desired_liquid )
     // refill fraction parts (if fuel_per_charge > 1), so we don't have to consider them later
     veh.refill( desired_liquid, used_item_amount % fuel_per_charge );
 
-    g->handle_liquid( used_item, nullptr, 0, nullptr, &veh );
+    g->handle_liquid( used_item, nullptr, 1, nullptr, &veh );
     // TODO: maybe add the message about the siphoned amount again.
     veh.refill( desired_liquid, used_item.charges * fuel_per_charge );
 }
@@ -7776,36 +7780,27 @@ void player::suffer()
                 add_effect( effect_downed, 2, num_bp, false, 0, true );
             }
         }
-        int timer = -3600;
-        if (has_trait("ADDICTIVE")) {
-            timer = -4000;
+        int timer = -HOURS( 6 );
+        if( has_trait( "ADDICTIVE" ) ) {
+            timer = -HOURS( 10 );
+        } else if( has_trait( "NONADDICTIVE" ) ) {
+            timer = -HOURS( 3 );
         }
-        if (has_trait("NONADDICTIVE")) {
-            timer = -3200;
-        }
-        for (size_t i = 0; i < addictions.size(); i++) {
-            if (addictions[i].sated <= 0 &&
-                addictions[i].intensity >= MIN_ADDICTION_LEVEL) {
-                addict_effect(*this, addictions[i], [&](char const *const msg) {
-                    if (msg) {
-                        g->cancel_activity_query(msg);
-                    } else {
-                        g->cancel_activity();
-                    }
-                });
+        for( size_t i = 0; i < addictions.size(); i++ ) {
+            auto &cur_addiction = addictions[i];
+            if( cur_addiction.sated <= 0 &&
+                cur_addiction.intensity >= MIN_ADDICTION_LEVEL ) {
+                addict_effect( *this, cur_addiction );
             }
-            addictions[i].sated--;
-            if (!one_in(addictions[i].intensity - 2) && addictions[i].sated > 0) {
-                addictions[i].sated -= 1;
-            }
-            if (addictions[i].sated < timer - (100 * addictions[i].intensity)) {
-                if (addictions[i].intensity <= 2) {
-                    addictions.erase(addictions.begin() + i);
-                    i--;
+            cur_addiction.sated--;
+            // Higher intensity addictions heal faster
+            if( cur_addiction.sated - 100 * cur_addiction.intensity < timer ) {
+                if( cur_addiction.intensity <= 2 ) {
+                    rem_addiction( cur_addiction.type );
+                    break;
                 } else {
-                    addictions[i].intensity = int(addictions[i].intensity / 2);
-                    addictions[i].intensity--;
-                    addictions[i].sated = 0;
+                    cur_addiction.intensity--;
+                    cur_addiction.sated = 0;
                 }
             }
         }
@@ -9034,7 +9029,7 @@ const martialart &player::get_combat_style() const
 std::vector<item *> player::inv_dump()
 {
     std::vector<item *> ret;
-    if( !is_armed() && can_unwield( weapon, false ) ) {
+    if( is_armed() && can_unwield( weapon, false ) ) {
         ret.push_back(&weapon);
     }
     for (auto &i : worn) {
@@ -9499,6 +9494,13 @@ bool player::consume(int target_position)
         } else {
             i_rem( &target );
         }
+
+        //Restack and sort so that we don't lie about target's invlet
+        if( target_position >= 0 ) {
+            inv.restack( this );
+            inv.sort();
+        }
+
         if( was_in_container && target_position == -1 ) {
             add_msg_if_player(_("You are now wielding an empty %s."), weapon.tname().c_str());
         } else if( was_in_container && target_position < -1 ) {
@@ -9516,13 +9518,12 @@ bool player::consume(int target_position)
                 add_msg(_("You drop the empty %s."), target.tname().c_str());
                 g->m.add_item_or_charges( pos(), inv.remove_item(&target) );
             } else {
-                add_msg(m_info, _("%c - an empty %s"), (target.invlet ? target.invlet : ' '), target.tname().c_str());
+                int quantity = inv.const_stack( inv.position_by_item( &target ) ).size();
+                char letter = target.invlet ? target.invlet : ' ';
+                add_msg( m_info, _( "%c - %d empty %s" ), letter, quantity, target.tname( quantity ).c_str() );
             }
         }
-    }
-
-    if( target_position >= 0 ) {
-        // Always restack and resort the inventory when items in it have been changed.
+    } else if( target_position >= 0 ) {
         inv.restack( this );
         inv.unsort();
     }

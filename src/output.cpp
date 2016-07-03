@@ -1417,6 +1417,16 @@ std::string trim( const std::string &s )
     } ).base() );
 }
 
+typedef std::string::value_type char_t;
+std::string to_upper_case( const std::string &s )
+{
+    std::string res;
+    std::transform( s.begin(), s.end(), std::back_inserter( res ), []( char_t ch ) {
+        return std::use_facet<std::ctype<char_t>>( std::locale() ).toupper( ch );
+    } );
+    return res;
+}
+
 // find the position of each non-printing tag in a string
 std::vector<size_t> get_tag_positions( const std::string &s )
 {

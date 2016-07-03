@@ -127,6 +127,15 @@ class string_id
          * Returns the actual object this id refers to. May show a debug message if the id is invalid.
          */
         const T &obj() const;
+
+        const T &operator*() const {
+            return obj();
+
+        }
+        const T *operator->() const {
+            return &obj();
+        }
+
         /**
          * Returns whether this id is valid, that means whether it refers to an existing object.
          */

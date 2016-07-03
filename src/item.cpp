@@ -24,6 +24,7 @@
 #include "translations.h"
 #include "crafting.h"
 #include "recipe_dictionary.h"
+#include "requirements.h"
 #include "martialarts.h"
 #include "npc.h"
 #include "ui.h"
@@ -1312,10 +1313,12 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
                                   components_to_string().c_str() ) ) );
     } else {
         const recipe *dis_recipe = get_disassemble_recipe( typeId() );
-        if( dis_recipe != nullptr ) {
+        if( dis_recipe != nullptr && dis_recipe->requirements ) {
             std::ostringstream buffer;
             bool first_component = true;
-            for( const auto &it : dis_recipe->requirements.get_components() ) {
+            const auto &dis_req = dis_recipe->requirements->disassembly_requirements();
+
+            for( const auto &it : dis_req.get_components() ) {
                 if( first_component ) {
                     first_component = false;
                 } else {

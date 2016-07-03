@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Cataclysm-DDA\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-06-20 09:57+0300\n"
-"PO-Revision-Date: 2016-06-21 09:20+0000\n"
+"POT-Creation-Date: 2016-06-27 09:30+0300\n"
+"PO-Revision-Date: 2016-06-27 10:12+0000\n"
 "Last-Translator: Vlasov Vitaly <vnigtha@gmail.com>\n"
 "Language-Team: German (http://www.transifex.com/cataclysm-dda-translators/"
 "cataclysm-dda/language/de/)\n"
@@ -1829,6 +1829,11 @@ msgid ""
 "chemical thrower.  Best be used with some kind of mask or mouth protection."
 msgstr ""
 
+#. ~ Description for lump of steel
+#: lang/json/AMMO_from_json.py
+msgid "A heavy formed piece of steel.  Useful for some crafting recipes."
+msgstr ""
+
 #. ~ Description for lead ball
 #: lang/json/AMMO_from_json.py
 msgid ""
@@ -2068,6 +2073,15 @@ msgstr ""
 "Eine große Metallscheibe, die von gezackten Klingen umrundet ist. Sie ist "
 "genau so bedrohlich, wie sie klingt."
 
+#. ~ Description for chunk of steel
+#: lang/json/AMMO_from_json.py
+msgid ""
+"A misshapen chunk of steel.  Makes a decent weapon in a pinch, and is also "
+"useful for some crafting recipes."
+msgstr ""
+"Ein verformter Stahlbrocken. Ist auf die Schnelle eine akzeptable Waffe und "
+"auch für ein paar Fertigungsrezepte brauchbar."
+
 #. ~ Description for plutonium cell
 #: lang/json/AMMO_from_json.py
 msgid ""
@@ -2110,11 +2124,6 @@ msgid ""
 "A paper cartridge containing black powder and metallic shot.  Historically "
 "used to reload muzzleloaders in a more reasonable time."
 msgstr ""
-
-#. ~ Description for point
-#: lang/json/AMMO_from_json.py
-msgid "A point on turret control screen display."
-msgstr "Ein Punkt auf der Steuerungsanzeige eines Geschützturms."
 
 #. ~ Description for blunderbuss slug
 #: lang/json/AMMO_from_json.py
@@ -2732,6 +2741,13 @@ msgstr ""
 "BMG. Brandmunition ist dazu ausgelegt, heiß beim Einschlag zu brennen, "
 "Panzerungen zu durchdringen und brennbare Substanzen anzuzünden. Diese "
 "Patrone wurde wiedergeladen."
+
+#. ~ Description for scrap metal
+#: lang/json/AMMO_from_json.py
+msgid ""
+"An bulky assortment of small bits of scrap steel useful in all kinds of "
+"crafting"
+msgstr ""
 
 #. ~ Description for bomblet case
 #: lang/json/AMMO_from_json.py
@@ -4371,6 +4387,12 @@ msgstr[0] "Chromoxid"
 msgstr[1] "Chromoxid"
 
 #: lang/json/AMMO_from_json.py
+msgid "chunk of steel"
+msgid_plural "chunk of steels"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/AMMO_from_json.py
 msgid "clay pellet"
 msgid_plural "clay pellets"
 msgstr[0] "Tonkügelchen"
@@ -4891,6 +4913,12 @@ msgstr[0] "lange Schnur"
 msgstr[1] "lange Schnüre"
 
 #: lang/json/AMMO_from_json.py
+msgid "lump of steel"
+msgid_plural "lump of steels"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/AMMO_from_json.py
 msgid "lye powder"
 msgid_plural "lye powder"
 msgstr[0] "Laugenpulver"
@@ -5141,12 +5169,6 @@ msgid "plutonium slurry"
 msgid_plural "plutonium slurry"
 msgstr[0] "Plutoniumschlamm"
 msgstr[1] "Plutoniumschlamm"
-
-#: lang/json/AMMO_from_json.py
-msgid "point"
-msgid_plural "points"
-msgstr[0] "Punkt"
-msgstr[1] "Punkte"
 
 #: lang/json/AMMO_from_json.py lang/json/GENERIC_from_json.py
 msgid "pool ball"
@@ -5675,6 +5697,12 @@ msgid "sand"
 msgid_plural "sand"
 msgstr[0] "Sand"
 msgstr[1] "Sand"
+
+#: lang/json/AMMO_from_json.py
+msgid "scrap metal"
+msgid_plural "scrap metals"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/AMMO_from_json.py
 msgid "searing bolt"
@@ -29113,6 +29141,14 @@ msgstr ""
 "Ein 0,5-Liter-Glasgefäß mit einer Metallschraubverschlusskappe.\n"
 "Sie wird für die Konservierung verwendet."
 
+#. ~ Description for sealed glass jar
+#: lang/json/CONTAINER_from_json.py
+msgid ""
+"A half-liter glass jar with a metal screw top lid, used for canning.  Sealed "
+"tightly and will preserve the contents from rot (assuming it was sterile "
+"before sealing)."
+msgstr ""
+
 #. ~ Description for 30 gallon barrel
 #: lang/json/CONTAINER_from_json.py
 msgid "A huge plastic barrel with a resealable lid."
@@ -29262,9 +29298,14 @@ msgstr ""
 msgid "A small, open plastic bag.  Essentially trash."
 msgstr "Eine kleine offene Plastiktüte. Praktisch Müll."
 
-#. ~ Description for plastic cup
+#. ~ Description for opened plastic cup
 #: lang/json/CONTAINER_from_json.py
 msgid "A small, vacuum formed cup, essentially trash."
+msgstr ""
+
+#. ~ Description for plastic cup
+#: lang/json/CONTAINER_from_json.py
+msgid "A small, vacuum formed cup."
 msgstr ""
 
 #. ~ Description for steel bottle
@@ -29293,10 +29334,24 @@ msgstr ""
 "Ein Drei-Liter-Glasgefäß mit einer Metallschraubverschlusskappe.\n"
 "Sie wird für die Konservierung verwendet."
 
+#. ~ Description for sealed 3L glass jar
+#: lang/json/CONTAINER_from_json.py
+msgid ""
+"A three-liter glass jar with a metal screw top lid, used for canning.  "
+"Sealed tightly to preserve contents from rot."
+msgstr ""
+
 #. ~ Description for tin can
 #: lang/json/CONTAINER_from_json.py
 msgid "A tin can, like what beans come in."
 msgstr "Eine Blechdose, worin Sachen wie Bohnen reingetan werden."
+
+#. ~ Description for opened tin can
+#: lang/json/CONTAINER_from_json.py
+msgid ""
+"A tin can, like what beans come in.  This one is opened and can't be easily "
+"sealed."
+msgstr ""
 
 #. ~ Description for vortex generator
 #: lang/json/CONTAINER_from_json.py
@@ -29341,6 +29396,13 @@ msgstr ""
 #: lang/json/CONTAINER_from_json.py
 msgid "An aluminum can, like what soda comes in."
 msgstr "Eine Aluminiumdose, wo Sachen wie Limo reinkommen."
+
+#. ~ Description for opened aluminum can
+#: lang/json/CONTAINER_from_json.py
+msgid ""
+"An aluminum can, like what soda comes in.  This one is opened and can't be "
+"easily sealed."
+msgstr ""
 
 #. ~ Description for paper wrapper
 #: lang/json/CONTAINER_from_json.py
@@ -29530,6 +29592,24 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: lang/json/CONTAINER_from_json.py
+msgid "opened aluminum can"
+msgid_plural "opened aluminum cans"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/CONTAINER_from_json.py
+msgid "opened plastic cup"
+msgid_plural "opened plastic cups"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/CONTAINER_from_json.py
+msgid "opened tin can"
+msgid_plural "opened tin cans"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/CONTAINER_from_json.py
 msgid "pack"
 msgid_plural "packs"
 msgstr[0] ""
@@ -29582,6 +29662,18 @@ msgid "plastic jerrycan"
 msgid_plural "plastic jerrycans"
 msgstr[0] "Plastikkanister"
 msgstr[1] "Plastikkanister"
+
+#: lang/json/CONTAINER_from_json.py
+msgid "sealed 3L glass jar"
+msgid_plural "sealed 3L glass jars"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/CONTAINER_from_json.py
+msgid "sealed glass jar"
+msgid_plural "sealed glass jars"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/CONTAINER_from_json.py
 msgid "sealed stomach"
@@ -31262,21 +31354,6 @@ msgstr ""
 msgid "A miscellaneous piece of hobby software.  Probably useless."
 msgstr "Irgeindeine Hobbysoftware. Wahrscheinlich nutzlos."
 
-#. ~ Description for chunk of steel
-#: lang/json/GENERIC_from_json.py
-msgid ""
-"A misshapen chunk of steel.  Makes a decent weapon in a pinch, and is also "
-"useful for some crafting recipes."
-msgstr ""
-"Ein verformter Stahlbrocken. Ist auf die Schnelle eine akzeptable Waffe und "
-"auch für ein paar Fertigungsrezepte brauchbar."
-
-#. ~ Description for lump of steel
-#: lang/json/GENERIC_from_json.py
-msgid "A misshapen heavy piece of steel.  Useful for some crafting recipes."
-msgstr ""
-"Ein verformtes schweres Stahlstück. Nützlich in einigen Fertigungsrezepten."
-
 #. ~ Description for neoprene sheet
 #: lang/json/GENERIC_from_json.py
 msgid ""
@@ -32618,15 +32695,6 @@ msgid ""
 "damaging itself when used on untilled land."
 msgstr ""
 
-#. ~ Description for scrap metal
-#: lang/json/GENERIC_from_json.py
-msgid ""
-"An assortment of small bits of metal and scrap useful in all kinds of "
-"crafting"
-msgstr ""
-"Eine Auswahl kleinerer Stücke Metall und Schrott, welche nützlich für alle "
-"möglichen Anfertigungen ist."
-
 #. ~ Description for 7.5kW generator
 #: lang/json/GENERIC_from_json.py
 msgid ""
@@ -32871,6 +32939,11 @@ msgstr[1] "Krav Maga komplett"
 #: lang/json/GENERIC_from_json.py
 msgid "Do not try to bend the spoon.  That is impossible."
 msgstr "Versuch nicht, den Löffel zu verbiegen. Das ist unmöglich."
+
+#. ~ Description for fake item
+#: lang/json/GENERIC_from_json.py
+msgid "Dummy item.  If you see this, then something went wrong."
+msgstr "Dummy-Gegenstand. Wenn du dies siehst, ist irgendetwas schiefgelaufen."
 
 #. ~ Description for upgraded solar panel
 #: lang/json/GENERIC_from_json.py
@@ -33764,185 +33837,12 @@ msgid ""
 "reverse, but the usage of it now seems terribly unwise."
 msgstr ""
 
-#. ~ Description for sealed jar of V8
-#: lang/json/GENERIC_from_json.py
-msgid ""
-"This is a sealed glass jar containing V8.  Use to open and drink to enjoy."
-msgstr ""
-"Dies ist ein versiegeltes Einmachglas mit V8. Benutze es, um es zu öffnen "
-"und iss es zum Genießen."
-
-#. ~ Description for sealed jar of bone broth
-#: lang/json/GENERIC_from_json.py
-msgid ""
-"This is a sealed glass jar containing bone broth.  Use to open and eat to "
-"enjoy."
-msgstr ""
-"Dies ist ein versiegeltes Einmachglas mit Knochenbrühe. Benutze es, um es zu "
-"öffnen und iss es zum Genießen."
-
-#. ~ Description for sealed jar of broth
-#: lang/json/GENERIC_from_json.py
-msgid ""
-"This is a sealed glass jar containing broth.  Use to open and eat to enjoy."
-msgstr ""
-"Dies ist ein versiegeltes Einmachglas mit Brühe. Benutze es, um es zu öffnen "
-"und iss es zum Genießen."
-
-#. ~ Description for sealed jar of fish soup
-#: lang/json/GENERIC_from_json.py
-msgid ""
-"This is a sealed glass jar containing fish soup.  Use to open and eat to "
-"enjoy."
-msgstr ""
-"Dies ist ein versiegeltes Einmachglas mit Fischsuppe. Benutze es, um es zu "
-"öffnen und iss es zum Genießen."
-
-#. ~ Description for sealed jar of human broth
-#: lang/json/GENERIC_from_json.py
-msgid ""
-"This is a sealed glass jar containing human bone broth.  Use to open and eat "
-"to enjoy - if you really want to."
-msgstr ""
-
-#. ~ Description for sealed jar of soylent slices
-#: lang/json/GENERIC_from_json.py
-msgid ""
-"This is a sealed glass jar containing human meat.  Use to open and eat to "
-"enjoy - if you really want to."
-msgstr ""
-"Dies ist ein versiegeltes Einmachglas mit Menschenfleisch. Benutze es, um es "
-"zu öffnen und iss es, wenn du es wirklich willst, zum Genießen."
-
-#. ~ Description for sealed 3-liter jar of kompot
-#: lang/json/GENERIC_from_json.py
-msgid ""
-"This is a sealed glass jar containing kompot.  Use to open and eat to enjoy."
-msgstr ""
-"Dies ist ein versiegeltes Einmachglas mit Kompot. Benutze es, um es zu "
-"öffnen und iss es zum Genießen."
-
-#. ~ Description for sealed jar of meat soup
-#: lang/json/GENERIC_from_json.py
-msgid ""
-"This is a sealed glass jar containing meat soup.  Use to open and eat to "
-"enjoy."
-msgstr ""
-"Dies ist ein versiegeltes Einmachglas mit Fleischsuppe. Benutze es, um es zu "
-"öffnen und iss es zum Genießen."
-
-#. ~ Description for sealed jar of canned veggy
-#: lang/json/GENERIC_from_json.py
-msgid ""
-"This is a sealed glass jar containing mixed vegetables.  Use to open and eat "
-"to enjoy."
-msgstr ""
-"Dies ist ein versiegeltes Einmachglas mit Mischgemüse. Benutze es, um es zu "
-"öffnen und iss es zum Genießen."
-
-#. ~ Description for sealed jar of mushroom soup
-#: lang/json/GENERIC_from_json.py
-msgid ""
-"This is a sealed glass jar containing mushroom soup.  Use to open and eat to "
-"enjoy."
-msgstr ""
-
-#. ~ Description for sealed jar of pickled fish
-#: lang/json/GENERIC_from_json.py
-msgid ""
-"This is a sealed glass jar containing pickled fish.  Use to open and eat to "
-"enjoy."
-msgstr ""
-"Dies ist ein versiegeltes Einmachglas, das ein paar eingelegte Fische "
-"enthält. Benutze es, um es zu öffnen und zu genießen."
-
-#. ~ Description for sealed jar of pickled meat
-#: lang/json/GENERIC_from_json.py
-msgid ""
-"This is a sealed glass jar containing pickled meat.  Use to open and eat to "
-"enjoy."
-msgstr ""
-"Dies ist ein versiegeltes Einmachglas mit gepökeltem Fleisch. Benutze es, um "
-"es zu öffnen und iss es zum Genießen."
-
-#. ~ Description for sealed jar of pickled vegetable
-#: lang/json/GENERIC_from_json.py
-msgid ""
-"This is a sealed glass jar containing pickled vegetables.  Use to open and "
-"eat to enjoy."
-msgstr ""
-"Dies ist ein versiegeltes Einmachglas mit Einleggemüse. Benutze es, um es zu "
-"öffnen und iss es zum Genießen."
-
-#. ~ Description for sealed jar of sap soup
-#: lang/json/GENERIC_from_json.py
-msgid ""
-"This is a sealed glass jar containing sap soup.  Use to open and eat to "
-"enjoy."
-msgstr ""
-"Dies ist ein versiegeltes Einmachglas mit Saftsuppe. Benutze es, um es zu "
-"öffnen und iss es zum Genießen."
-
 #. ~ Description for sealed jar of sauerkraut
 #: lang/json/GENERIC_from_json.py
 msgid ""
 "This is a sealed glass jar containing sauerkraut.  Use to open and eat to "
 "enjoy."
 msgstr ""
-
-#. ~ Description for sealed jar of canned fruit
-#: lang/json/GENERIC_from_json.py
-msgid ""
-"This is a sealed glass jar containing sliced fruits.  Use to open and eat to "
-"enjoy."
-msgstr ""
-"Dies ist ein versiegeltes Einmachglas mit geschnittenen Früchten. Benutze "
-"es, um es zu öffnen und iss es zum Genießen."
-
-#. ~ Description for sealed jar of canned fish
-#: lang/json/GENERIC_from_json.py
-msgid ""
-"This is a sealed glass jar containing some fish.  Use to open and eat to "
-"enjoy."
-msgstr ""
-"Dies ist ein versiegeltes Einmachglas, das ein paar Fische enthält. Benutze "
-"es, um es zu öffnen und iss es, um es zu genießen."
-
-#. ~ Description for sealed jar of canned meat
-#: lang/json/GENERIC_from_json.py
-msgid ""
-"This is a sealed glass jar containing some meat.  Use to open and eat to "
-"enjoy."
-msgstr ""
-"Dies ist ein versiegeltes Einmachglas mit etwas Fleisch. Benutze es zum "
-"Öffnen und iss es zum Genießen."
-
-#. ~ Description for sealed jar of canned tomato
-#: lang/json/GENERIC_from_json.py
-msgid ""
-"This is a sealed glass jar containing tomatoes.  Use to open and eat to "
-"enjoy."
-msgstr ""
-"Dies ist ein Einmachglas mit Tomaten. Benutze es zum öffnen und iss es zum "
-"genießen."
-
-#. ~ Description for sealed jar of vegetable soup
-#: lang/json/GENERIC_from_json.py
-msgid ""
-"This is a sealed glass jar containing vegetable soup.  Use to open and eat "
-"to enjoy."
-msgstr ""
-"Dies ist ein versiegeltes Einmachglas mit Gemüsesuppe. Benutze es, um es zu "
-"öffnen und iss es zum Genießen."
-
-#. ~ Description for sealed jar of woods soup
-#: lang/json/GENERIC_from_json.py
-msgid ""
-"This is a sealed glass jar containing woods soup.  Use to open and eat to "
-"enjoy."
-msgstr ""
-"Dies ist ein versiegeltes Einmachglas mit Wäldersuppe. Benutze es, um es zu "
-"öffnen und iss es zum Genießen."
 
 #. ~ Description for clay quern
 #: lang/json/GENERIC_from_json.py
@@ -34002,15 +33902,6 @@ msgstr ""
 "Umgebung ausführlich beschreibt. Sie wurde von der Handelskammer gedruckt "
 "und listet die Adressen der besten Restaurants und Kneipen auf. Benutze sie, "
 "um deiner Karte interessante Orte hinzuzufügen."
-
-#. ~ Description for sealed jar of pickled human flesh
-#: lang/json/GENERIC_from_json.py
-msgid ""
-"This is sealed glass jar containing pickled human flesh.  Use to open.  You "
-"might even enjoy it."
-msgstr ""
-"Dies ist ein versiegeltes Einmachglas mit gepökeltem Menschenfleisch. "
-"Benutze es, um es zu öffnen. Du könntest es sogar genießen."
 
 #. ~ Description for fermenting sauerkraut jar
 #: lang/json/GENERIC_from_json.py
@@ -34219,28 +34110,7 @@ msgstr "Du schiebst deinen Schlagstock ein."
 msgid "You open the flask and harvest the culture."
 msgstr "Du öffnest das Fläschchen und erntest die Kultur."
 
-#. ~ Use action msg for sealed jar of canned meat.
-#. ~ Use action msg for sealed jar of canned fish.
-#. ~ Use action msg for sealed 3-liter jar of kompot.
-#. ~ Use action msg for sealed jar of soylent slices.
-#. ~ Use action msg for sealed jar of canned veggy.
-#. ~ Use action msg for sealed jar of canned fruit.
-#. ~ Use action msg for sealed jar of canned tomato.
-#. ~ Use action msg for sealed jar of pickled vegetable.
 #. ~ Use action msg for sealed jar of sauerkraut.
-#. ~ Use action msg for sealed jar of pickled meat.
-#. ~ Use action msg for sealed jar of pickled fish.
-#. ~ Use action msg for sealed jar of pickled human flesh.
-#. ~ Use action msg for sealed jar of mushroom soup.
-#. ~ Use action msg for sealed jar of woods soup.
-#. ~ Use action msg for sealed jar of meat soup.
-#. ~ Use action msg for sealed jar of fish soup.
-#. ~ Use action msg for sealed jar of vegetable soup.
-#. ~ Use action msg for sealed jar of sap soup.
-#. ~ Use action msg for sealed jar of broth.
-#. ~ Use action msg for sealed jar of bone broth.
-#. ~ Use action msg for sealed jar of human broth.
-#. ~ Use action msg for sealed jar of V8.
 #: lang/json/GENERIC_from_json.py
 msgid "You open the jar, exposing it to the atmosphere."
 msgstr "Du öffnest das Einmachglas und setzt es somit der Atmosphäre aus."
@@ -34915,12 +34785,6 @@ msgstr[0] "Chitinklumpen"
 msgstr[1] "Chitinklumpen"
 
 #: lang/json/GENERIC_from_json.py
-msgid "chunk of steel"
-msgid_plural "chunks of steel"
-msgstr[0] "Stahlbrocken"
-msgstr[1] "Stahlbrocken"
-
-#: lang/json/GENERIC_from_json.py
 msgid "chunk of sulfur"
 msgid_plural "chunks of sulfur"
 msgstr[0] ""
@@ -35181,6 +35045,12 @@ msgid "extra-light frame"
 msgid_plural "extra-light frames"
 msgstr[0] "superleichter Rahmen"
 msgstr[1] "superleichte Rahmen"
+
+#: lang/json/GENERIC_from_json.py
+msgid "fake item"
+msgid_plural "fake items"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/GENERIC_from_json.py
 msgid "fancy table"
@@ -35637,12 +35507,6 @@ msgid "lump of clay"
 msgid_plural "lumps of clay"
 msgstr[0] "Tonklumpen"
 msgstr[1] "Tonklumpen"
-
-#: lang/json/GENERIC_from_json.py
-msgid "lump of steel"
-msgid_plural "lumps of steel"
-msgstr[0] "Stahlklumpen"
-msgstr[1] "Stahlklumpen"
 
 #: lang/json/GENERIC_from_json.py
 msgid "mace"
@@ -36151,142 +36015,10 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: lang/json/GENERIC_from_json.py
-msgid "scrap metal"
-msgid_plural "scrap metal"
-msgstr[0] ""
-msgstr[1] ""
-
-#: lang/json/GENERIC_from_json.py
-msgid "sealed 3-liter jar of kompot"
-msgid_plural "sealed 3-liter jars of kompot"
-msgstr[0] "versiegeltes 3-Liter-Glasgefäß mit Kompot"
-msgstr[1] "versiegelte 3-Liter-Glasgefäße mit Kompot"
-
-#: lang/json/GENERIC_from_json.py
-msgid "sealed jar of V8"
-msgid_plural "sealed jars of V8"
-msgstr[0] "Einmachglas mit V8"
-msgstr[1] "Einmachgläser mit V8"
-
-#: lang/json/GENERIC_from_json.py
-msgid "sealed jar of bone broth"
-msgid_plural "sealed jars of bone broth"
-msgstr[0] "Einmachglas mit Knochenbrühe"
-msgstr[1] "Einmachgläser mit Knochenbrühe"
-
-#: lang/json/GENERIC_from_json.py
-msgid "sealed jar of broth"
-msgid_plural "sealed jars of broth"
-msgstr[0] "Einmachglas mit Brühe"
-msgstr[1] "Einmachgläser mit Brühe"
-
-#: lang/json/GENERIC_from_json.py
-msgid "sealed jar of canned fish"
-msgid_plural "sealed jars of canned fish"
-msgstr[0] "Einmachglas mit Konservenfischen"
-msgstr[1] "Einmachgläser mit Konservenfischen"
-
-#: lang/json/GENERIC_from_json.py
-msgid "sealed jar of canned fruit"
-msgid_plural "sealed jars of canned fruit"
-msgstr[0] "Einmachglas mit Konservenfrüchten"
-msgstr[1] "Einmachgläser mit Konservenfrüchten"
-
-#: lang/json/GENERIC_from_json.py
-msgid "sealed jar of canned meat"
-msgid_plural "sealed jars of canned meat"
-msgstr[0] "Einmachglas mit Fleisch"
-msgstr[1] "Einmachgläser mit Fleisch"
-
-#: lang/json/GENERIC_from_json.py
-msgid "sealed jar of canned tomato"
-msgid_plural "sealed jars of canned tomatoes"
-msgstr[0] "Einmachglas mit Konserventomate"
-msgstr[1] "Einmachgläser mit Konserventomaten"
-
-#: lang/json/GENERIC_from_json.py
-msgid "sealed jar of canned veggy"
-msgid_plural "sealed jars of canned veggy"
-msgstr[0] "Einmachglas mit Gemüse"
-msgstr[1] "Einmachgläser mit Gemüse"
-
-#: lang/json/GENERIC_from_json.py
-msgid "sealed jar of fish soup"
-msgid_plural "sealed jars of fish soup"
-msgstr[0] "Einmachglas mit Fischsuppe"
-msgstr[1] "Einmachgläser mit Fischsuppe"
-
-#: lang/json/GENERIC_from_json.py
-msgid "sealed jar of human broth"
-msgid_plural "sealed jars of human broth"
-msgstr[0] ""
-msgstr[1] ""
-
-#: lang/json/GENERIC_from_json.py
-msgid "sealed jar of meat soup"
-msgid_plural "sealed jars of meat soup"
-msgstr[0] "Einmachglas mit Fleischsuppe"
-msgstr[1] "Einmachgläser mit Fleischsuppe"
-
-#: lang/json/GENERIC_from_json.py
-msgid "sealed jar of mushroom soup"
-msgid_plural "sealed jars of mushroom soup"
-msgstr[0] ""
-msgstr[1] ""
-
-#: lang/json/GENERIC_from_json.py
-msgid "sealed jar of pickled fish"
-msgid_plural "sealed jars of pickled fish"
-msgstr[0] "Einmachglas mit eingelegten Fischen"
-msgstr[1] "Einmachgläser mit eingelegten Fischen"
-
-#: lang/json/GENERIC_from_json.py
-msgid "sealed jar of pickled human flesh"
-msgid_plural "sealed jars of pickled human flesh"
-msgstr[0] "Einmachglas mit Menschenpökelfleisch"
-msgstr[1] "Einmachgläser mit Menschenpökelfleisch"
-
-#: lang/json/GENERIC_from_json.py
-msgid "sealed jar of pickled meat"
-msgid_plural "sealed jars of pickled meat"
-msgstr[0] "Einmachglas mit Pökelfleisch"
-msgstr[1] "Einmachgläser mit Pökelfleisch"
-
-#: lang/json/GENERIC_from_json.py
-msgid "sealed jar of pickled vegetable"
-msgid_plural "sealed jars of pickled vegetable"
-msgstr[0] "Einmachglas mit Einleggemüse"
-msgstr[1] "Einmachgläser mit Einleggemüse"
-
-#: lang/json/GENERIC_from_json.py
-msgid "sealed jar of sap soup"
-msgid_plural "sealed jars of sap soup"
-msgstr[0] "Einmachglas mit Saftsuppe"
-msgstr[1] "Einmachgläser mit Saftsuppe"
-
-#: lang/json/GENERIC_from_json.py
 msgid "sealed jar of sauerkraut"
 msgid_plural "sealed jars of sauerkraut"
 msgstr[0] ""
 msgstr[1] ""
-
-#: lang/json/GENERIC_from_json.py
-msgid "sealed jar of soylent slices"
-msgid_plural "sealed jars of soylent slices"
-msgstr[0] "Einmachglas mit Soylent-Scheiben"
-msgstr[1] "Einmachgläser mit Soylent-Scheiben"
-
-#: lang/json/GENERIC_from_json.py
-msgid "sealed jar of vegetable soup"
-msgid_plural "sealed jars of vegetable soup"
-msgstr[0] "Einmachglas mit Gemüsesuppe"
-msgstr[1] "Einmachgläser mit Gemüsesuppe"
-
-#: lang/json/GENERIC_from_json.py
-msgid "sealed jar of woods soup"
-msgid_plural "sealed jars of woods soup"
-msgstr[0] "Einmachglas mit Wäldersuppe"
-msgstr[1] "Einmachgläser mit Wäldersuppe"
 
 #: lang/json/GENERIC_from_json.py
 msgid "sealed yeast culture"
@@ -40360,8 +40092,7 @@ msgstr ""
 #: lang/json/GUN_from_json.py
 msgid ""
 "Its relative simplicity and reliability made the Benelli M4 the most "
-"successful semi-automatic shotgun ever created.  Unlike pump action "
-"shotguns, it can be fired in short bursts."
+"successful semi-automatic shotgun ever created."
 msgstr ""
 
 #: lang/json/GUN_from_json.py
@@ -43280,6 +43011,10 @@ msgid "slingshot cannon turret"
 msgid_plural "slingshot cannon turrets"
 msgstr[0] ""
 msgstr[1] ""
+
+#: lang/json/GUN_from_json.py
+msgid "slosh."
+msgstr ""
 
 #: lang/json/GUN_from_json.py
 msgid "smoke generator mount"
@@ -53060,11 +52795,6 @@ msgstr ""
 msgid "Dull essence shall make the hammer shine."
 msgstr ""
 
-#. ~ Description for fake item
-#: lang/json/TOOL_from_json.py
-msgid "Dummy item.  If you see this, then something went wrong."
-msgstr "Dummy-Gegenstand. Wenn du dies siehst, ist irgendetwas schiefgelaufen."
-
 #: lang/json/TOOL_from_json.py
 msgid "Dusk"
 msgid_plural "Dusks"
@@ -56536,7 +56266,7 @@ msgstr ""
 msgid ""
 "This is an advanced version of the unified power supply, or UPS.  This "
 "device has been significantly redesigned to provide better efficiency as "
-"well as to consume plutonium fuel cells rather than batteries.  Sadly, it's "
+"well as to consume plutonium fuel cells rather than batteries.  Sadly, its "
 "plutonium reactor can't be charged in UPS charging station."
 msgstr ""
 
@@ -58867,12 +58597,6 @@ msgid "extra battery mod"
 msgid_plural "extra battery mods"
 msgstr[0] "Zusatzbatterie-Modifikation"
 msgstr[1] "Zusatzbatterie-Modifikationen"
-
-#: lang/json/TOOL_from_json.py
-msgid "fake item"
-msgid_plural "fake items"
-msgstr[0] ""
-msgstr[1] ""
 
 #: lang/json/TOOL_from_json.py
 msgid "fertilizer bomb"
@@ -66445,6 +66169,10 @@ msgid "Examine Nearby Terrain"
 msgstr "Benachbartes Gelände untersuchen"
 
 #: lang/json/keybinding_from_json.py
+msgid "Exit all commands help screen"
+msgstr ""
+
+#: lang/json/keybinding_from_json.py
 msgid "Exit new character screen"
 msgstr ""
 
@@ -70470,6 +70198,10 @@ msgid "Psychopath"
 msgstr "Psychopath"
 
 #: lang/json/mutation_from_json.py
+msgid "Pugilist"
+msgstr ""
+
+#: lang/json/mutation_from_json.py
 msgid "Quick"
 msgstr "Schnell"
 
@@ -71602,6 +71334,13 @@ msgstr ""
 "Du bist kaltblütig und benötigst Wärme, um dich zu bewegen. Du verlierst 1% "
 "deiner Geschwindigkeit für alle 2 °F (1,1 °C) unter 65 °F (18,3 °C)."
 
+#. ~ Description for Pugilist
+#: lang/json/mutation_from_json.py
+msgid ""
+"You are experienced in the Sweet Science of boxing.  You could've had a shot "
+"at a local boxing tournament, if the Cataclysm hadn't screwed that up."
+msgstr ""
+
 #. ~ Description for Glorious
 #: lang/json/mutation_from_json.py
 msgid ""
@@ -72023,11 +71762,9 @@ msgstr ""
 #. ~ Description for Tail Fin
 #: lang/json/mutation_from_json.py
 msgid ""
-"You have a fin-like tail.  It allows you to swim more quickly.  Slightly "
-"increases wet benefits."
+"You have a fin-like tail.  It allows you to swim more quickly, but prevents "
+"wearing non-fabric pants.  Slightly increases wet benefits."
 msgstr ""
-"Du hast einen flossenähnlichen Schwanz. Er ermöglicht dir, schneller zu "
-"schwimmen. Erhöht ein wenig die Begünstigungen von Nässe."
 
 #. ~ Description for Slit Nostrils
 #: lang/json/mutation_from_json.py
@@ -72106,82 +71843,62 @@ msgstr ""
 #: lang/json/mutation_from_json.py
 msgid ""
 "You have a long and semi-stiff lizardlike tail.  You can't effectively lash "
-"it in combat, but it significantly improves your balance."
+"it in combat, but it significantly improves your balance.  Prevents wearing "
+"non-fabric pants."
 msgstr ""
-"Du hast einen langen und halbsteifen echsenartigen Schwanz. Du kannst mit "
-"ihm im Kampf nicht effektiv schlagen, aber er erhöht dein Gleichgewicht "
-"signifikant."
 
 #. ~ Description for Rat Tail
 #: lang/json/mutation_from_json.py
 msgid ""
 "You have a long but hairless tail.  It's a pretty effective balancing aid, "
-"but does look, uh, ratty."
+"but does look, uh, ratty.  Prevents wearing non-fabric pants."
 msgstr ""
-"Du hast einen langen aber haarlosen Schwanz. Er ist eine ziemlich effektive "
-"Balancierhilfe, sieht aber schäbig und rattenähnlich aus."
 
 #. ~ Description for Club Tail
 #: lang/json/mutation_from_json.py
 msgid ""
 "You have a long tail that ends in a heavy, bony club.  It does not improve "
-"your balance at all, but allows for a powerful bashing attack."
+"your balance at all, but allows for a powerful bashing attack.  Prevents "
+"wearing non-fabric pants."
 msgstr ""
-"Du hast einen langen Schwanz, der mit einem schweren, knochigem Knüppel "
-"endet. Er verbessert deine Balance überhaupt nicht, aber ermöglicht einen "
-"starken Schlagangriff."
 
 #. ~ Description for Spiked Tail
 #: lang/json/mutation_from_json.py
 msgid ""
 "You have a long tail that ends in a vicious stinger, like that of a "
 "scorpion.  It does not improve your balance at all, but allows for a "
-"powerful piercing attack."
+"powerful piercing attack.  Prevents wearing non-fabric pants."
 msgstr ""
-"Du hast einen langen Schwanz, der mit einem gefährlichem Stachel, wie dem "
-"eines Skorpions, endet. Er verbessert deine Balance überhaupt nicht, aber "
-"ermöglicht eine starke Stichattacke."
 
 #. ~ Description for Cattle Tail
 #: lang/json/mutation_from_json.py
 msgid ""
 "You have a long tail with a tuft on the end.  You find yourself "
 "instinctively swatting away flies with it, though it's not as effective at "
-"balancing you as you'd like."
+"balancing you as you'd like.  Prevents wearing non-fabric pants."
 msgstr ""
-"Du hast einen langen Schwanz mit einem Büschel am Ende. Du ertappst dich "
-"selbst dabei, wie du mit ihm Fliegen klatschst. Der Schwanz ist allerdings "
-"nicht so effektiv zum Balancieren, wie du es gerne hättest."
 
 #. ~ Description for Fluffy Tail
 #: lang/json/mutation_from_json.py
 msgid ""
 "You have a long, fluffy-furred tail.  It greatly improves your balance, "
-"making your ability to dodge much higher.  However, you find yourself "
-"wagging when happy..."
+"making your ability to dodge much higher.  Prevents wearing non-fabric pants."
 msgstr ""
-"Du hast einen langen fluffig-gefellten Schwanz. Er verbessert dein "
-"Gleichgewicht außerordentlich, was deine Ausweichfähigkeit deutlich erhöht. "
-"Allerdings ertappst du dich selbst beim Wedeln des Schwanzes, wenn du "
-"glücklich bist."
 
 #. ~ Description for Long Tail
 #: lang/json/mutation_from_json.py
 msgid ""
 "You have a long, graceful tail, like that of a big cat.  It improves your "
-"balance, making your ability to dodge higher."
+"balance, making your ability to dodge higher, but prevents wearing non-"
+"fabric pants."
 msgstr ""
-"Du hast einen langen, eleganten Schwanz, wie den einer Großkatze. Er "
-"verbessert deine Balance, was deine Ausweichfähigkeit erhöht."
 
 #. ~ Description for Thick Tail
 #: lang/json/mutation_from_json.py
 msgid ""
 "You have a long, thick, lizardlike tail.  It helps you balance a bit but "
-"also makes a serviceable whip."
+"also makes a serviceable whip.  Prevents wearing non-fabric pants."
 msgstr ""
-"Du hast einen langen, dicken, echsenartigen Schwanz. Er hilft dir ein wenig "
-"mit der Balance, ist aber außerdem auch eine brauchbare Peitsche."
 
 #. ~ Description for Vomitous
 #: lang/json/mutation_from_json.py
@@ -74310,6 +74027,10 @@ msgid "Cowboy"
 msgstr "Cowboy"
 
 #: lang/json/npc_class_from_json.py
+msgid "Debug Dude"
+msgstr ""
+
+#: lang/json/npc_class_from_json.py
 msgid "Doctor"
 msgstr "Arzt"
 
@@ -75950,6 +75671,16 @@ msgstr "Bogen-Jägerin"
 msgctxt "profession_male"
 msgid "Bow Hunter"
 msgstr "Bogen-Jäger"
+
+#: lang/json/professions_from_json.py
+msgctxt "profession_female"
+msgid "Boxer"
+msgstr ""
+
+#: lang/json/professions_from_json.py
+msgctxt "profession_male"
+msgid "Boxer"
+msgstr ""
 
 #: lang/json/professions_from_json.py
 msgctxt "profession_female"
@@ -79567,6 +79298,22 @@ msgstr ""
 "Du warst der Starspieler in deinem lokalen American-Football-Team, verehrt "
 "von den Teammitgliedern und Fans gleichermaßen. Nun verehren Sie nur noch "
 "dein Gehirn. Du hast immer noch dein sperriges Football-Zeug an."
+
+#. ~ Profession (female Boxer) description
+#: lang/json/professions_from_json.py
+msgctxt "prof_desc_female"
+msgid ""
+"You were training for the fight of your life before the Cataclysm struck.  "
+"Now you fight just to keep yourself alive."
+msgstr ""
+
+#. ~ Profession (male Boxer) description
+#: lang/json/professions_from_json.py
+msgctxt "prof_desc_male"
+msgid ""
+"You were training for the fight of your life before the Cataclysm struck.  "
+"Now you fight just to keep yourself alive."
+msgstr ""
 
 #. ~ Profession (Maid) description
 #: lang/json/professions_from_json.py
@@ -93328,6 +93075,10 @@ msgid "Your %s ran out of charges"
 msgstr ""
 
 #: src/activity_handlers.cpp
+msgid "Your clumsy butchering destroys the bones!"
+msgstr ""
+
+#: src/activity_handlers.cpp
 msgid "Your clumsy butchering destroys the flesh!"
 msgstr ""
 
@@ -95004,6 +94755,10 @@ msgid "Artificial night generator active!"
 msgstr "Kunstlichtgenerator aktiv!"
 
 #: src/bionics.cpp
+msgid "Blood Test Results"
+msgstr ""
+
+#: src/bionics.cpp
 msgid "Clostridium Tetani Infection"
 msgstr "»Clostridium tetani«-Infektion"
 
@@ -95351,10 +95106,6 @@ msgid "You don't have this bionic installed."
 msgstr "Du hast dieses Bionik nicht installiert."
 
 #: src/bionics.cpp
-msgid "You extend your blade!"
-msgstr "Du fährst deine Klinge aus!"
-
-#: src/bionics.cpp
 msgid "You flub the installation."
 msgstr "Du vermasselst die Installation."
 
@@ -95406,10 +95157,6 @@ msgid "You prep yourself to begin surgery."
 msgstr "Du bereitest dich auf die Operation vor."
 
 #: src/bionics.cpp
-msgid "You retract your blade."
-msgstr "Du ziehst deine Klinge ein."
-
-#: src/bionics.cpp
 msgid "You screw up the installation."
 msgstr "Du verpfuschst die Installation."
 
@@ -95422,8 +95169,14 @@ msgid "You unleash a powerful shockwave!"
 msgstr "Du entfesselst eine starke Druckwelle!"
 
 #: src/bionics.cpp
-msgid "You withdraw your claws."
-msgstr "Du ziehst deine Krallen ein."
+#, c-format
+msgid "You withdraw your %s."
+msgstr ""
+
+#: src/bionics.cpp
+#, c-format
+msgid "You're forced to drop your %s."
+msgstr ""
 
 #: src/bionics.cpp
 #, c-format
@@ -95446,26 +95199,12 @@ msgid "Your %s powers down."
 msgstr "Dein %s schaltet sich ab."
 
 #: src/bionics.cpp
-#, c-format
-msgid "Your blade extends, forcing you to drop your %s."
-msgstr "Du fährst deine Klinge aus und du musst %s fallen lassen."
-
-#: src/bionics.cpp
 msgid "Your body is damaged!"
 msgstr "Dein Körper nimmt Schaden!"
 
 #: src/bionics.cpp
 msgid "Your body is severely damaged!"
 msgstr "Dein Körper ist schwer beschädigt!"
-
-#: src/bionics.cpp
-msgid "Your claws extend!"
-msgstr "Deine Krallen fahren aus!"
-
-#: src/bionics.cpp
-#, c-format
-msgid "Your claws extend, forcing you to drop your %s."
-msgstr "Deine Krallen fahren aus, dich zwingend, %s fallen zu lassen."
 
 #: src/bionics.cpp
 msgid "Your muscles hiss as hydraulic strength fills them!"
@@ -96003,11 +95742,6 @@ msgstr "Da ist noch etwas übrig!"
 msgid "You break out of the grab!"
 msgstr ""
 
-#: src/character.cpp src/item.cpp
-#, c-format
-msgid "You can't mix loads in your %s."
-msgstr "Du kannst die Ladungen nicht vermischen in deinem %s."
-
 #: src/character.cpp
 msgid "You escape the pit!"
 msgstr "Du entkommst der Grube!"
@@ -96094,16 +95828,6 @@ msgid "You try to free yourself from the webs, but can't get loose!"
 msgstr ""
 "Du versuchst, dich aus den Spinnennetzen zu befreien, doch du kommst nicht "
 "los!"
-
-#: src/character.cpp src/item.cpp
-#, c-format
-msgid "Your %1$s can't hold any more %2$s."
-msgstr ""
-
-#: src/character.cpp
-#, c-format
-msgid "Your %1$s won't hold %2$s."
-msgstr ""
 
 #: src/clzones.cpp
 msgid "<no name>"
@@ -101635,6 +101359,10 @@ msgid "Choose mission type"
 msgstr "Missionstyp wählen"
 
 #: src/game.cpp
+msgid "Choose new class"
+msgstr ""
+
+#: src/game.cpp
 msgid "Choose vehicle to spawn"
 msgstr "Von welchem Typ soll das Fahrzeug sein?"
 
@@ -101943,10 +101671,6 @@ msgstr "Mir folgen."
 #, c-format
 msgid "Food Supply:       %s"
 msgstr ""
-
-#: src/game.cpp
-msgid "GAME OVER"
-msgstr "SPIEL VORBEI"
 
 #: src/game.cpp
 msgid "Grab where?"
@@ -102438,6 +102162,10 @@ msgstr "R BEIN"
 #: src/game.cpp
 msgid "REALLY commit suicide?"
 msgstr "WIRKLICH Selbstmord begehen?"
+
+#: src/game.cpp
+msgid "Randomize with [c]lass"
+msgstr ""
 
 #: src/game.cpp
 #, c-format
@@ -103423,8 +103151,8 @@ msgstr "Du schiebst ein paar Spinnenweben zur Seite."
 
 #: src/game.cpp
 #, c-format
-msgid "You bump into a %s!"
-msgstr "Du kollidierst mit: %s."
+msgid "You bump into the %s!"
+msgstr ""
 
 #: src/game.cpp
 #, c-format
@@ -103448,12 +103176,12 @@ msgid "You can see through walls!"
 msgstr "Du kannst durch Wände sehen!"
 
 #: src/game.cpp
-msgid "You can't butcher while driving!"
-msgstr "Du kannst beim Fahren nicht schlachten!"
+msgid "You can't access the items here."
+msgstr ""
 
 #: src/game.cpp
-msgid "You can't butcher while standing here!"
-msgstr ""
+msgid "You can't butcher while driving!"
+msgstr "Du kannst beim Fahren nicht schlachten!"
 
 #: src/game.cpp
 msgid "You can't butcher while you're in your shell."
@@ -106584,7 +106312,7 @@ msgstr "%s abernten?"
 msgid "Have a drink"
 msgstr "Etwas trinken"
 
-#: src/iexamine.cpp
+#: src/iexamine.cpp src/inventory_ui.cpp
 msgid "Home"
 msgstr "Zuhause"
 
@@ -107703,6 +107431,15 @@ msgid "unknown key %ld"
 msgstr "unbekannte Taste %ld"
 
 #: src/inventory_ui.cpp
+#, c-format
+msgid "%d of %d"
+msgstr ""
+
+#: src/inventory_ui.cpp
+msgid "(NONE)"
+msgstr ""
+
+#: src/inventory_ui.cpp
 msgid "Category selection; [TAB] switches mode, arrows select."
 msgstr "Kategorienauswahl; [Tab] wechselt Modus, Pfeile wählen aus."
 
@@ -107719,12 +107456,12 @@ msgid "Confirm"
 msgstr "Bestätigen"
 
 #: src/inventory_ui.cpp
-msgid "GROUND"
-msgstr "BODEN"
+msgid "End"
+msgstr ""
 
 #: src/inventory_ui.cpp
-msgid "GROUND:"
-msgstr "BODEN:"
+msgid "GROUND"
+msgstr "BODEN"
 
 #: src/inventory_ui.cpp
 #, c-format
@@ -107732,8 +107469,16 @@ msgid "Hotkeys:  %d/%d "
 msgstr "Schnelltasten: %d/%d "
 
 #: src/inventory_ui.cpp
-msgid "ITEMS WORN:"
-msgstr "GETRAGENES:"
+msgid "ITEMS TO COMPARE"
+msgstr ""
+
+#: src/inventory_ui.cpp
+msgid "ITEMS TO DROP"
+msgstr ""
+
+#: src/inventory_ui.cpp
+msgid "ITEMS WORN"
+msgstr ""
 
 #: src/inventory_ui.cpp src/player.cpp
 msgid "Inventory:"
@@ -107769,8 +107514,8 @@ msgid "Volume: "
 msgstr "Volumen: "
 
 #: src/inventory_ui.cpp
-msgid "WEAPON:"
-msgstr "WAFFE:"
+msgid "WEAPON HELD"
+msgstr ""
 
 #: src/inventory_ui.cpp
 #, c-format
@@ -108872,6 +108617,11 @@ msgstr ""
 
 #: src/item.cpp
 #, c-format
+msgid "That %s doesn't have room to expand."
+msgstr ""
+
+#: src/item.cpp
+#, c-format
 msgid "That %s is a gunmod, it can not be modded."
 msgstr "Das %s ist eine Waffenmodifikation, es kann nicht modifiziert werden."
 
@@ -109051,11 +108801,6 @@ msgid "Type: "
 msgstr "Typ: "
 
 #: src/item.cpp
-#, c-format
-msgid "Unimplemented liquid fill error '%s'."
-msgstr "Fehler über unimplementiertes Flüssigkeitsfüllen: »%s«."
-
-#: src/item.cpp
 msgid "Used on: "
 msgstr "Benutzt mit: "
 
@@ -109083,6 +108828,11 @@ msgid ""
 "When attached to a gun, <good>allows</good> making <info>reach melee "
 "attacks</info> with it."
 msgstr ""
+
+#: src/item.cpp
+#, c-format
+msgid "You can't mix loads in your %s."
+msgstr "Du kannst die Ladungen nicht vermischen in deinem %s."
 
 #: src/item.cpp
 #, c-format
@@ -109171,6 +108921,11 @@ msgstr ""
 #: src/item.cpp
 #, c-format
 msgid "Your %1$s already has a %2$s."
+msgstr ""
+
+#: src/item.cpp
+#, c-format
+msgid "Your %1$s can't hold any more %2$s."
 msgstr ""
 
 #: src/item.cpp
@@ -109368,6 +109123,10 @@ msgstr ""
 
 #: src/item_location.cpp
 msgid "worn"
+msgstr ""
+
+#: src/itype.h
+msgid "click."
 msgstr ""
 
 #: src/iuse.cpp
@@ -120290,6 +120049,16 @@ msgstr ""
 
 #: src/monattack.cpp
 #, c-format
+msgid "The %1$s thrusts a claw at <npcname>, but it bounces off the %2$s!"
+msgstr ""
+
+#: src/monattack.cpp
+#, c-format
+msgid "The %1$s thrusts a claw at you, but it bounces off the %2$s!"
+msgstr ""
+
+#: src/monattack.cpp
+#, c-format
 msgid "The %1$s thrusts a claw at your %2$s, but glances off your armor!"
 msgstr ""
 
@@ -123418,7 +123187,17 @@ msgstr ""
 
 #: src/npctalk.cpp
 #, c-format
+msgid " %s will close doors behind themselves."
+msgstr ""
+
+#: src/npctalk.cpp
+#, c-format
 msgid " %s will complain about wounds and needs."
+msgstr ""
+
+#: src/npctalk.cpp
+#, c-format
+msgid " %s will leave doors open."
 msgstr ""
 
 #: src/npctalk.cpp
@@ -123997,6 +123776,10 @@ msgid "Citizen..."
 msgstr "Bürger …"
 
 #: src/npctalk.cpp
+msgid "Close the doors."
+msgstr ""
+
+#: src/npctalk.cpp
 msgid "Combat commands..."
 msgstr "Kampfbefehle …"
 
@@ -124265,10 +124048,6 @@ msgstr ""
 #: src/npctalk.cpp
 msgid "Heard of anything better than the odd gun cache?"
 msgstr "Von irgendwas besserem als diesen seltsamen Waffenschatz gehört?"
-
-#: src/npctalk.cpp
-msgid "Hello!  Would you care to see my goods?"
-msgstr "Hallo! Willst du meine Waren sehen?"
 
 #: src/npctalk.cpp
 msgid "Here I am."
@@ -124738,22 +124517,6 @@ msgid "I'll try and find your commander then..."
 msgstr ""
 
 #: src/npctalk.cpp
-msgid "I'm a killer for hire."
-msgstr "Ich bin ein Auftragsmörder."
-
-#: src/npctalk.cpp
-msgid "I'm a local shopkeeper."
-msgstr "Ich bin ein Besitzer eines lokalen Ladens."
-
-#: src/npctalk.cpp
-msgid ""
-"I'm a wandering master of martial arts but I'm currently not implemented in "
-"the code."
-msgstr ""
-"Ich bin ein wandernder Kampfkunstmeister, aber ich bin momentan nicht im "
-"Kodex eingeweiht."
-
-#: src/npctalk.cpp
 msgid ""
 "I'm actually accepting a number of different foodstuffs: homebrew beer, "
 "sugar, flour, smoked meat, smoked fish, cooking oil; and as mentioned "
@@ -124766,10 +124529,6 @@ msgstr ""
 #: src/npctalk.cpp
 msgid "I'm actually new..."
 msgstr "Eigentlich bin ich neu hier …"
-
-#: src/npctalk.cpp
-msgid "I'm collecting gear and selling it."
-msgstr "Ich sammle Zeugs und verkaufe es."
 
 #: src/npctalk.cpp
 msgid ""
@@ -124814,22 +124573,6 @@ msgid ""
 msgstr ""
 
 #: src/npctalk.cpp
-msgid "I'm just here for the paycheck."
-msgstr "Ich bin nur wegen dem Geld hier."
-
-#: src/npctalk.cpp
-msgid "I'm just trying to survive."
-msgstr "Ich versuche lediglich, zu überleben."
-
-#: src/npctalk.cpp
-msgid "I'm just wandering."
-msgstr "Ich wandere nur umher."
-
-#: src/npctalk.cpp
-msgid "I'm just watching the world burn."
-msgstr ""
-
-#: src/npctalk.cpp
 msgid ""
 "I'm leading what remains of my company on a mission to re-secure this "
 "facility.  We entered the complex with two dozen men and immediately went "
@@ -124842,24 +124585,8 @@ msgid ""
 msgstr ""
 
 #: src/npctalk.cpp
-msgid "I'm looking for clues concerning these monsters' origins..."
-msgstr "Ich suche nach Hinweisen über die Ursprünge dieser Monster."
-
-#: src/npctalk.cpp
 msgid "I'm looking for information..."
 msgstr ""
-
-#: src/npctalk.cpp
-msgid "I'm looking for new drink recipes."
-msgstr ""
-
-#: src/npctalk.cpp
-msgid "I'm looking for some choice systems to hack."
-msgstr "Ich such nach ein paar bestimmten Systemen zum Hacken."
-
-#: src/npctalk.cpp
-msgid "I'm looking for wounded to help."
-msgstr "Ich sehe mich nach Verwundeten, denen ich helfen kann, um."
 
 #: src/npctalk.cpp
 msgid "I'm not in charge here marshal."
@@ -124970,10 +124697,6 @@ msgstr ""
 "dem Krankheitsausbruch wurde ich ausgewählt, zivle und "
 "Bürgerwehrbestrebungen als Unterstützung von Militäroperationen zu "
 "koordinieren."
-
-#: src/npctalk.cpp
-msgid "I'm tracking game."
-msgstr ""
 
 #: src/npctalk.cpp
 #, c-format
@@ -125105,10 +124828,6 @@ msgid "Just let me sleep, <name_b>!"
 msgstr ""
 
 #: src/npctalk.cpp
-msgid "Just looking for some wrongs to right."
-msgstr "Ich will nur ein bisschen für Gerechtigkeit sorgen."
-
-#: src/npctalk.cpp
 msgid "Just on watch, move along."
 msgstr "Ich bin nur auf Wache, weitergehen."
 
@@ -125138,6 +124857,10 @@ msgstr "LÜGEN"
 
 #: src/npctalk.cpp
 msgid "Leave corpses alone."
+msgstr ""
+
+#: src/npctalk.cpp
+msgid "Leave doors open."
 msgstr ""
 
 #: src/npctalk.cpp
@@ -128141,7 +127864,7 @@ msgstr "Gähn! Du solltest wirklich etwas Schlaf abkriegen."
 msgid "<color_white>Skills:</color>\n"
 msgstr ""
 
-#: src/player.cpp
+#: src/player.cpp src/veh_interact.cpp
 msgid "<color_white>Time required:</color>\n"
 msgstr ""
 
@@ -129151,6 +128874,14 @@ msgstr "Ges %d"
 #: src/player.cpp
 msgid "Speed"
 msgstr "Geschwindigkeit"
+
+#: src/player.cpp
+msgid "Spill contents and store in inventory"
+msgstr ""
+
+#: src/player.cpp
+msgid "Spill contents and wear item"
+msgstr ""
 
 #: src/player.cpp
 msgctxt "memorial_female"
@@ -131483,7 +131214,7 @@ msgstr[1] "%s (%d Ladungen)"
 msgid "Components required:"
 msgstr "Benötigte Komponenten:"
 
-#: src/requirements.cpp
+#: src/requirements.cpp src/veh_interact.cpp
 msgid "NONE"
 msgstr "KEINE"
 
@@ -132246,59 +131977,7 @@ msgstr ""
 
 #: src/veh_interact.cpp
 #, c-format
-msgid ""
-"  You also need either <color_%1$s>lifting equipment</color> or <color_%2$s>"
-"%3$d</color> strength."
-msgstr ""
-
-#: src/veh_interact.cpp
-#, c-format
-msgid ""
-"  You also need level <color_%1$s>%2$d</color> skill in mechanics to install "
-"additional engines."
-msgstr ""
-"  Du brauchst außerdem Stufe <color_%1$s>%2$d</color> in Mechanik, um "
-"zusätzliche Motoren zu installieren."
-
-#: src/veh_interact.cpp
-#, c-format
-msgid ""
-"  You also need level <color_%1$s>%2$d</color> skill in mechanics to install "
-"additional steering axles."
-msgstr ""
-
-#: src/veh_interact.cpp
-#, c-format
-msgid " and level <color_%1$s>%2$d</color> skill in mechanics."
-msgstr ""
-
-#: src/veh_interact.cpp
-#, c-format
 msgid "* <color_red>Faulty %1$s</color>"
-msgstr ""
-
-#: src/veh_interact.cpp
-#, c-format
-msgid ", a <color_%1$s>screwdriver</color> or <color_%2$s>duct tape</color>"
-msgstr ""
-
-#: src/veh_interact.cpp
-#, c-format
-msgid ", a <color_%1$s>wrench</color> or <color_%2$s>duct tape</color>"
-msgstr ""
-
-#: src/veh_interact.cpp
-#, c-format
-msgid ""
-", a <color_%1$s>wrench</color>, either a <color_%2$s>powered welder</color> "
-"(and <color_%3$s>welding goggles</color>) or <color_%4$s>duct tape</color>"
-msgstr ""
-
-#: src/veh_interact.cpp
-#, c-format
-msgid ""
-", either <color_%1$s>nails</color> and <color_%2$s>something to drive them</"
-"color> or <color_%3$s>duct tape</color>"
 msgstr ""
 
 #: src/veh_interact.cpp
@@ -132308,6 +131987,14 @@ msgstr "<Esc>:zurück"
 #: src/veh_interact.cpp
 msgid "<c>hange tire"
 msgstr "<c>:Reifen"
+
+#: src/veh_interact.cpp
+msgid "<color_white>Additional requirements:</color>\n"
+msgstr ""
+
+#: src/veh_interact.cpp
+msgid "<color_white>Skills required:</color>\n"
+msgstr ""
 
 #: src/veh_interact.cpp
 msgid "<i>nstall"
@@ -132324,6 +132011,28 @@ msgstr "<r>eparieren"
 #: src/veh_interact.cpp
 msgid "<s>iphon"
 msgstr "ab<s>augen"
+
+#: src/veh_interact.cpp
+#, c-format
+msgid "> <color_%1$s>%2$s %3$i</color> for extra engines."
+msgstr ""
+
+#: src/veh_interact.cpp
+#, c-format
+msgid "> <color_%1$s>%2$s %3$i</color> for extra steering axles."
+msgstr ""
+
+#: src/veh_interact.cpp
+#, c-format
+msgid "> <color_%1$s>%2$s</color>"
+msgstr ""
+
+#: src/veh_interact.cpp
+#, c-format
+msgid ""
+"> <color_%1$s>1 tool with %2$s %3$i</color> <color_white>OR</color> <color_"
+"%4$s>strength %5$i</color>"
+msgstr ""
 
 #: src/veh_interact.cpp
 msgctxt "Vehicle Parts|"
@@ -132426,6 +132135,11 @@ msgid "Choose wheel to use as replacement:"
 msgstr "Wähle Ersatzrad aus:"
 
 #: src/veh_interact.cpp
+#, c-format
+msgid "Could not find base part in requirements for %s."
+msgstr ""
+
+#: src/veh_interact.cpp
 msgid "Damage"
 msgstr "Schaden"
 
@@ -132514,11 +132228,6 @@ msgstr "Am meisten beschädigt:"
 #: src/veh_interact.cpp
 msgid "Name: "
 msgstr "Name: "
-
-#: src/veh_interact.cpp
-#, c-format
-msgid "Needs <color_%1$s>%2$s</color>"
-msgstr ""
 
 #: src/veh_interact.cpp
 msgid "New label:"
@@ -132714,47 +132423,24 @@ msgstr "Du nimmst das %s völlig auseinander."
 
 #: src/veh_interact.cpp
 #, c-format
-msgid "You install a %1$s into the %2$s."
-msgstr "Du monstierst 1 %1$s in das %2$s."
-
-#: src/veh_interact.cpp
-msgid "You need "
+msgid "You don't meet the requirements to install the %s."
 msgstr ""
 
 #: src/veh_interact.cpp
 #, c-format
-msgid "You need a <color_%1$s>hammer</color> and"
+msgid "You don't meet the requirements to remove the %s."
 msgstr ""
+
+#: src/veh_interact.cpp
+#, c-format
+msgid "You install a %1$s into the %2$s."
+msgstr "Du monstierst 1 %1$s in das %2$s."
 
 #: src/veh_interact.cpp
 #, c-format
 msgid ""
 "You need a <color_%1$s>powered welder</color> (and <color_%2$s>welding "
 "goggles</color>) or <color_%3$s>duct tape</color> to repair."
-msgstr ""
-
-#: src/veh_interact.cpp
-#, c-format
-msgid "You need a <color_%1$s>screwdriver</color> and"
-msgstr ""
-
-#: src/veh_interact.cpp
-#, c-format
-msgid "You need a <color_%1$s>wrench</color> and"
-msgstr ""
-
-#: src/veh_interact.cpp
-#, c-format
-msgid ""
-"You need a <color_%1$s>wrench</color> and a <color_%2$s>hacksaw, cutting "
-"torch and welding goggles, or circular saw (off)</color> and"
-msgstr ""
-
-#: src/veh_interact.cpp
-#, c-format
-msgid ""
-"You need a <color_%1$s>wrench</color>, either <color_%2$s>lifting equipment</"
-"color> or <color_%3$s>%4$d</color> strength and"
 msgstr ""
 
 #: src/veh_interact.cpp

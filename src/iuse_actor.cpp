@@ -21,6 +21,7 @@
 #include "field.h"
 #include "weather.h"
 #include "pldata.h"
+#include "requirements.h"
 #include "recipe_dictionary.h"
 #include "player.h"
 #include "generic_factory.h"
@@ -2048,8 +2049,7 @@ long bandolier_actor::use( player *p, item *it, bool, const tripoint & ) const
                    'r', string_format( _( "Store ammo in %s" ), it->type_name().c_str() ) );
 
     actions.emplace_back( [&] {
-        item &obj = p->i_at( g->inv_for_filter( _( "Store ammo" ),
-                                                [&]( const item & e ) {
+        item &obj = p->i_at( g->inv_for_filter( _( "Store ammo" ), [&]( const item &e ) {
             return can_store( *it, e );
         } ) );
 

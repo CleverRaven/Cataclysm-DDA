@@ -1,6 +1,7 @@
 src/action.cpp
 src/active_item_cache.cpp
 src/activity_item_handling.cpp
+src/addiction.cpp
 src/ammo.cpp
 src/armor_layers.cpp
 src/basecamp.cpp
@@ -101,6 +102,7 @@ src/computer.h
 src/construction.h
 src/coordinate_conversions.h
 src/coordinates.h
+src/copyable_unique_ptr.h
 src/craft_command.h
 src/crafting_gui.h
 src/creature_tracker.h

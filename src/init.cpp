@@ -33,6 +33,7 @@
 #include "ammo.h"
 #include "debug.h"
 #include "path_info.h"
+#include "requirements.h"
 #include "start_location.h"
 #include "scenario.h"
 #include "omdata.h"
@@ -134,6 +135,7 @@ void DynamicDataLoader::initialize()
     add( "vehicle_placement",  &VehiclePlacement::load );
     add( "vehicle_spawn",  &VehicleSpawn::load );
 
+    add( "requirement", []( JsonObject &jo ) { requirement_data::load_requirement( jo ); } );
     add( "trap", &trap::load );
     add( "AMMO", []( JsonObject &jo ) { item_controller->load_ammo( jo ); } );
     add( "GUN", []( JsonObject &jo ) { item_controller->load_gun( jo ); } );
@@ -268,6 +270,7 @@ void init_names()
 
 void DynamicDataLoader::unload_data()
 {
+    requirement_data::reset();
     vitamin::reset();
     fault::reset();
     material_type::reset();
@@ -338,6 +341,7 @@ void DynamicDataLoader::finalize_loaded_data()
 
 void DynamicDataLoader::check_consistency()
 {
+    requirement_data::check_consistency();
     vitamin::check_consistency();
     item_controller->check_definitions();
     fault::check_consistency();

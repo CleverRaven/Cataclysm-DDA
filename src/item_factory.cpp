@@ -18,6 +18,7 @@
 #include "material.h"
 #include "options.h"
 #include "recipe_dictionary.h"
+#include "requirements.h"
 #include "skill.h"
 #include "translations.h"
 #include "text_snippets.h"
@@ -267,14 +268,22 @@ void Item_factory::finalize_item_blacklist()
         for( auto &g : m_template_groups ) {
             g.second->remove_item( e.first );
         }
-        recipe_dict.delete_if( [&]( recipe &r ) {
-            return r.result == e.first || r.requirements.remove_item( e.first );
-        } );
 
-        remove_construction_if([&](construction &c) {
-            return c.requirements.remove_item( e.first );
-        });
+        // remove any blacklisted items from requirements
+        for( auto &r : requirement_data::all() ) {
+            const_cast<requirement_data &>( r.second ).remove_item( e.first );
+        }
+
+        // remove any recipes used to craft the blacklisted item
+        recipe_dict.delete_if( [&]( recipe &r ) {
+            return r.result == e.first;
+        } );
     }
+
+    // if a requirement is empty but not null then it only contained (now removed) blacklisted items
+    recipe_dict.delete_if( [&]( recipe &r ) {
+        return r.requirements->is_empty() && !r.requirements->is_null();
+    } );
 
     for( auto &vid : vehicle_prototype::get_all() ) {
         vehicle_prototype &prototype = const_cast<vehicle_prototype&>( vid.obj() );
@@ -1190,6 +1199,8 @@ void Item_factory::load( islot_comestible &slot, JsonObject &jo )
     if( jo.has_string( "addiction_type" ) ) {
         slot.add = addiction_type( jo.get_string( "addiction_type" ) );
     }
+
+    assign( jo, "addiction_potential", slot.addict );
 
     bool got_calories = false;
 
