@@ -49,7 +49,6 @@ sub has_flag($$) {
 sub assemble($@)
 {
     my $context = shift;
-    die "ERROR: Unmatched rule '$context'\n" if find_rule($context) < 0;
 
     return "" unless scalar @_;
     my $str = join(', ', @_);
@@ -71,6 +70,8 @@ sub encode(@); # Recursive function needs forward definition
 sub encode(@) {
     my ($data, $context) = @_;
 
+    die "ERROR: Unmatched context '$context'\n" if ref($data) and find_rule($context) < 0;
+
     if (ref($data) eq 'ARRAY') {
         my @elems = map { encode($_, "$context:@") } @{$data};
         return '[' . assemble($context, @elems) . ']';
@@ -82,7 +83,9 @@ sub encode(@) {
         # Built the context for each member field and determine its sort rank
         my %fields = map {
             my $rule = $context . '<'.($data->{'type'} // '').'>' . ":$_";
-            $_ => [ $rule, find_rule($rule) ];
+            my $rank = find_rule($rule);
+            die "ERROR: Unmatched contex '$rule'\n" if $rank < 0;
+            $_ => [ $rule, $rank ];
         } keys %{$data};
 
         # Sort the member fields then recursively encode their data
