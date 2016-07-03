@@ -7218,6 +7218,7 @@ void game::close()
 
 void game::close( const tripoint &closep )
 {
+    using namespace units::literals;
     bool didit = false;
     const bool inside = !m.is_outside( u.pos() );
 
@@ -7280,24 +7281,24 @@ void game::close( const tripoint &closep )
     } else {
         // Scoot up to 10 volume of items out of the way, only counting items that are vol >= 1.
         if (m.furn(closep) != f_safe_o && !items_in_way.empty()) {
-            int total_item_volume = 0;
+            units::volume total_item_volume = 0;
             if (items_in_way.size() > 10) {
                 add_msg(m_info, _("Too many items to push out of the way!"));
                 return;
             }
             for( auto &elem : items_in_way ) {
                 // Don't even count tiny items.
-                if( elem.volume() / units::legacy_volume_factor < 1 ) {
+                if( elem.volume() < 250_ml ) {
                     continue;
                 }
-                if( elem.volume() / units::legacy_volume_factor > 10 ) {
+                if( elem.volume() > 2500_ml ) {
                     add_msg( m_info, _( "There's a %s in the way that is too big to just nudge out "
                                         "of the way." ),
                              elem.tname().c_str() );
                     return;
                 }
-                total_item_volume += elem.volume() / units::legacy_volume_factor;
-                if (total_item_volume > 10) {
+                total_item_volume += elem.volume();
+                if (total_item_volume > 2500_ml ) {
                     add_msg(m_info, _("There is too much stuff in the way."));
                     return;
                 }
