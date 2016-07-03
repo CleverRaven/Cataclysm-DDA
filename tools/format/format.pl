@@ -76,6 +76,8 @@ sub encode(@) {
         return '[' . assemble($context, @elems) . ']';
     }
 
+    return encode([$data],$context) if has_flag($context,'ARRAY');
+
     if (ref($data) eq 'HASH') {
         # Built the context for each member field and determine its sort rank
         my %fields = map {
