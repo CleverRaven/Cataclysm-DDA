@@ -5,7 +5,7 @@
     "edit-mode": "modify",
     "upgrades":{
       "into_group": "GROUP_ZOMBIE_UPGRADE",
-      "half_life": 10
+      "half_life": 9
     }
     },{
     "type" : "MONSTER",
@@ -34,7 +34,7 @@
     "death_drops": "default_zombie_death_drops",
     "upgrades":{
       "into_group": "GROUP_ZOMBIE_UPGRADE",
-      "half_life": 10
+      "half_life": 9
     },
     "burn_into" : "mon_zombie_scorched",
     "hp":70,
@@ -73,7 +73,7 @@
     "death_drops": "default_zombie_death_drops",
     "upgrades":{
       "into_group": "GROUP_ZOMBIE_UPGRADE",
-      "half_life": 10
+      "half_life": 9
     },
     "burn_into" : "mon_zombie_scorched",
     "hp":90,
@@ -131,7 +131,7 @@
     "edit-mode": "modify",
     "upgrades":{
         "into_group": "GROUP_CHILD_ZOMBIE_UPGRADE",
-        "half_life": 11
+        "half_life": 10
     }
     },{
         "type" : "MONSTER",
@@ -168,7 +168,7 @@
         "burn_into" : "mon_zombie_child_scorched",
         "upgrades":{
             "into_group": "GROUP_CHILD_ZOMBIE_UPGRADE",
-            "half_life": 14
+            "half_life": 10
         },
         "hp":35,
         "death_function":["NORMAL"],
@@ -210,7 +210,7 @@
         "burn_into" : "mon_zombie_child_scorched",
         "upgrades":{
             "into_group": "GROUP_CHILD_ZOMBIE_UPGRADE",
-            "half_life": 14
+            "half_life": 10
         },
         "hp":50,
         "death_function":["NORMAL"],
@@ -466,8 +466,13 @@
     "vision_day":40,
     "vision_night":3,
     "death_drops": "default_zombie_death_drops",
-    "burn_into" : "mon_zombie_scorched",
     "hp":90,
+    "upgrades":{
+        "into": "mon_zombie_hollow",
+        "half_life": 21
+    },
+    "burn_into": "mon_zombie_smoker"
+    }
     "death_function":["NORMAL"],
     "special_attacks":[
         {
@@ -504,8 +509,13 @@
     "vision_day":40,
     "vision_night":3,
     "death_drops": "default_zombie_death_drops",
-    "burn_into" : "mon_zombie_scorched",
     "hp":125,
+    "upgrades":{
+        "into": "mon_zombie_hollow",
+        "half_life": 21
+    },
+    "burn_into": "mon_zombie_smoker"
+    }
     "death_function":["NORMAL"],
     "special_attacks":[
         {
