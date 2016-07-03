@@ -471,8 +471,7 @@
         "into": "mon_zombie_hollow",
         "half_life": 21
     },
-    "burn_into": "mon_zombie_smoker"
-    }
+    "burn_into": "mon_zombie_smoker",
     "death_function":["NORMAL"],
     "special_attacks":[
         {
@@ -514,8 +513,7 @@
         "into": "mon_zombie_hollow",
         "half_life": 21
     },
-    "burn_into": "mon_zombie_smoker"
-    }
+    "burn_into": "mon_zombie_smoker",
     "death_function":["NORMAL"],
     "special_attacks":[
         {
