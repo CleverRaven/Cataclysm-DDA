@@ -33,7 +33,6 @@
      "symbol": "(",
      "color": "brown",
      "name": "lever action carbine",
-     "name_plural": "lever action carbines",
      "description": "A rugged lever-action carbine reminiscent of the Wild West.  It holds twelve revolver rounds in a tubular internal magazine.",
      "price": 85000,
      "material": ["steel", "wood"],

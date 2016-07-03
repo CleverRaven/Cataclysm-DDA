@@ -4,7 +4,6 @@
      "copy-from": "glock_19",
      "type": "GUN",
      "name": "semiautomatic pistol",
-     "name_plural": "semiautomatic pistol",
      "description": "A typical sidearm for the police, military, and licensed civilians.  It holds 15 rounds of pistol ammo in a detachable magazine.",
      "ammo": "gg_9mm",
      "magazine_well": 1,
@@ -17,7 +16,6 @@
      "copy-from": "m9",
      "type": "GUN",
      "name": "holdout pistol",
-     "name_plural": "holdout pistols",
      "description": "A very small pistol meant to be concealed and fired at close range.  It holds five rounds of pistol ammo.",
      "ammo": "gg_9mm",
      "clip_size": 5,
@@ -29,7 +27,6 @@
      "copy-from": "hk_mp5",
      "type": "GUN",
      "name": "submachine gun",
-     "name_plural": "submachine guns",
      "description":  "A selective fire carbine favored by vehicle crews, special police, and criminals.  It holds thirty rounds of pistol ammo in a detachable magazine.",
      "ammo": "gg_9mm",
      "magazines" : [
@@ -41,7 +38,6 @@
      "copy-from": "calico",
      "type": "GUN",
      "name": "advanced submachine gun",
-     "name_plural": "advanced submachine guns",
      "description":  "An exotic submachinegun with a larger ammo capacity and higher rate of fire.  It holds fifty rounds of pistol ammo in a detachable magazine.",
      "ammo": "gg_9mm",
      "magazine_well": 1,
@@ -54,7 +50,6 @@
      "copy-from": "cx4",
      "type": "GUN",
      "name": "plinking carbine",
-     "name_plural": "plinking carbines",
      "description": "A cheap carbine made for target practice or varmint hunting.  It uses detachable pistol magazines.",
      "ammo": "gg_9mm",
      "magazine_well": 1,
@@ -67,7 +62,6 @@
      "copy-from": "ruger_redhawk",
      "type": "GUN",
      "name": "revolver",
-     "name_plural": "revolvers",
      "description":  "A refined and modernized version of the classic cowboy sidearm.  Its cylinder holds six powerful revolver rounds.",
      "ammo": "gg_44"
     },
@@ -76,7 +70,6 @@
      "copy-from": "mossberg_500",
      "type": "GUN",
      "name": "pump action shotgun",
-     "name_plural": "pump action shotguns",
      "description": "A pump-action single-barreled shotgun.  It holds six shells in an internal tubular magazine",
      "clip_size": 6,
      "reload": 100
@@ -86,7 +79,6 @@
      "copy-from": "m1014",
      "type": "GUN",
      "name": "combat shotgun",
-     "name_plural": "combat shotguns",
      "description": "A military issue shotgun that can be fired in short bursts.  It holds eight shells in an internal magazine.",
      "reload": 100
     },
@@ -95,7 +87,6 @@
      "copy-from": "ruger_mini",
      "type": "GUN",
      "name": "semiautomatic carbine",
-     "name_plural": "semiautomatic carbine",
      "description": "A compact and lightweight carbine favored by hunters and the police.  It holds ten rounds of light rifle ammo in a detachable magazine.",
      "ammo": "gg_556",
      "magazines": [
@@ -107,7 +98,6 @@
      "copy-from": "m4a1",
      "type": "GUN",
      "name": "assault rifle",
-     "name_plural": "assault rifles",
      "description": "A lightweight assault rifle used by US military, it also has hundreds of commercial knockoffs for the civilian market.  It uses detachable magazines of various capacities.",
      "ammo": "gg_556",
      "magazines": [
@@ -119,7 +109,6 @@
      "copy-from": "ak47",
      "type": "GUN",
      "name": "foreign assault rifle",
-     "name_plural": "foreign assault rifle",
      "description": "A cheap but reliable assault rifle imported from overseas.  It uses imported magazines which are incompatible with standard rifle magazines.",
      "ammo": "gg_762",
      "magazines": [
@@ -131,7 +120,6 @@
      "copy-from": "m249",
      "type": "GUN",
      "name": "light machine gun",
-     "name_plural": "light machine gun",
      "description": "A portable lightweight machine gun built for laying down suppressive fire rather than placing accurate shots.  It can be reloaded using both drum magazines and ammo belts.",
      "ammo": "gg_556",
      "magazines" : [
@@ -143,7 +131,6 @@
      "copy-from": "m60",
      "type": "GUN",
      "name": "general purpose machine gun",
-     "name_plural": "general purpose machine gun",
      "description": "A hefty machine gun meant to be fired from bipods or mounted to vehicles.  Unlike the lighter version this can only be reloaded using ammo belts",
      "ammo": "gg_556",
      "magazines" : [
@@ -155,7 +142,6 @@
      "copy-from": "m134",
      "type": "GUN",
      "name": "minigun",
-     "name_plural": "miniguns",
      "description": "Despite the name, this is a huge automatic weapon meant to be mounted on vehicles; it's only miniature compared to a cannon.  It has six barrels that rotate to keep from overheating.  It holds up to five hundred rounds of belted rifle ammo, and requires a UPS to power its electric motor.",
      "ammo": "gg_762",
      "clip_size": 500,
@@ -167,7 +153,6 @@
      "copy-from": "savage_111f",
      "type": "GUN",
      "name": "bolt action rifle",
-     "name_plural": "bolt action rifles",
      "description": "A solid bolt action rifle made for hunting large game, but also used by police and military snipers.  It holds five rounds of rifle ammo in an internal magazine.",
      "ammo": "gg_762",
      "clip_size": 5,
@@ -178,7 +163,6 @@
      "copy-from": "m1a",
      "type": "GUN",
      "name": "service rifle", "//" : "fake gun between a garand and m14.",
-     "name_plural": "service rifles",
      "description":  "An old semiautomatic rifle still used in military drills and parades.  It holds ten rounds of rifle ammo in an internal magazine.",
      "ammo": "gg_762",
      "flags": "RELOAD_ONE",
@@ -191,7 +175,6 @@
      "copy-from": "scar_h",
      "type": "GUN",
      "name": "battle rifle",
-     "name_plural": "battle rifles",
      "description": "A highly modular, selective fire battle rifle used by the US military.  It uses either compact 20-round or bulkier 30-round detachable magazines.",
      "ammo": "gg_762",
      "reload": 550,
@@ -204,7 +187,6 @@
      "copy-from": "m240",
      "type": "GUN",
      "name": "medium machine gun",
-     "name_plural": "medium machine guns",
      "description": "A medium machine gun used by the US military, meant to be fired from bipods or mounted to vehicles.  It uses ammo belts of up to 200-rounds.",
      "ammo": "gg_762",
      "magazines": [
@@ -216,7 +198,6 @@
      "copy-from": "m107a1",
      "type": "GUN",
      "name": "antimateriel rifle",
-     "name_plural": "antimateriel rifles",
      "description": "A powerful bolt-action sniper rifle meant to destroy vehicles, equipment, and enemy combatants.  It holds ten rounds of heavy rifle ammo in a detachable magazine.",
      "ammo": "gg_50",
      "magazines": [
@@ -228,7 +209,6 @@
      "copy-from": "m2browning",
      "type": "GUN",
      "name": "heavy machine gun",
-     "name_plural": "heavy machine guns",
      "description": "A heavy automatic weapon that must be mounted to a vehicle to fire.  It holds two hundred rounds of military ammo in a large belt drum.",
      "ammo": "gg_50",
      "magazines": [
@@ -249,7 +229,6 @@
      "copy-from": "surv_six_shooter",
      "type": "GUN",
      "name": "survivor's six shooter",
-     "name_plural": "survivor's six shooters",
      "description": "A homemade 6 shot revolver.  While it's not as good as the pre-Cataclysm manufactured weapons, it's a decent piece of work all things considered.",
      "ammo": "gg_44"
     },
@@ -258,7 +237,7 @@
      "copy-from": "rifle_308",
      "type": "GUN",
      "name": "pipe gun: rifle ammo",
-     "name_plural": "pipe gun: rifle ammo",
+     "name_plural": "pipe guns: rifle ammo",
      "description": "A homemade gun.  While still a primitive pipe and 2x4 design, some minor improvements have been made, such as a tube system for feeding and chambering more powerful rifle rounds.",
      "ammo": "gg_762"
     },
@@ -267,7 +246,6 @@
      "copy-from": "surv_carbine_223",
      "type": "GUN",
      "name": "survivor's carbine",
-     "name_plural": "survivor's carbines",
      "description": "A well designed homemade carbine using light rifle ammo.  Fits a 10-round detachable magazine and with a shortened barrel, this is one of the better homemade weapons.",
      "ammo": "gg_556",
      "magazines": [
@@ -279,7 +257,6 @@
      "copy-from": "emp_gun",
      "type": "GUN",
      "name": "EMP Projector",
-     "name_plural": "EMP Projectors",
      "description": "A powerful electrolaser developed by paramilitary R&D not long before the cataclysm. Especially effective against electronic targets. It charges off of UPS power stations."
     },
     {
@@ -287,7 +264,6 @@
      "copy-from": "laser_cannon",
      "type": "GUN",
      "name": "hand-held laser cannon",
-     "name_plural": "hand-held laser cannons",
      "description": "This is a laser cannon stripped from the barrel of a laser turret; it has been modified to use UPS power for firing."
     },
     {
@@ -295,7 +271,6 @@
      "copy-from": "laser_rifle",
      "type": "GUN",
      "name": "laser rifle",
-     "name_plural": "laser rifles",
      "description": "A state of the art laser rifle which runs on UPS power. It was developed by paramilitary R&D shortly before the cataclysm. Initial performance rivaled the most advanced ballistic weapons of the day. Though the cataclysm put that on the ash heap of history, this weapon can still do the same to your foes."
     },
     {
@@ -303,7 +278,6 @@
      "copy-from": "v29",
      "type": "GUN",
      "name": "laser pistol",
-     "name_plural": "laser pistols",
      "description": "This pistol is larger than most traditional handguns, but displays no recoil whatsoever. It runs efficiently on UPS power."
     },
     {
@@ -311,22 +285,19 @@
      "copy-from": "v29_cheap",
      "type": "GUN",
      "name": "scrap laser pistol",
-     "name_plural": "scrap laser pistols",
      "description": "Based on its military and commercial cousin, this laser pistol is little more than duct tape and electronics, however it runs on standard UPS power."
     },
     {
      "id": "ftk93",
      "copy-from": "ftk93",
      "type": "GUN",
-     "name": "fusion rifle",
-     "name_plural": "fusion rifles"
+     "name": "fusion rifle"
     },
     {
      "id": "plasma_rifle",
      "copy-from": "plasma_rifle",
      "type": "GUN",
      "name": "plasma rifle",
-     "name_plural": "plasma rifles",
      "description": "Developed by a cutting edge weapons research team together with DARPA, this UPS-powerd energy weapon heats hydrogen to create plasma and envelopes it with polymers to reduce blooming. While powerful, it suffers from short range. It accepts hydrogen canisters as ammunition."
     },
     {
@@ -334,7 +305,6 @@
      "copy-from": "deagle_44",
      "type": "GUN",
      "name": "magnum pistol",
-     "name_plural": "magnum pistols",
      "description": "A powerful semi-automatic pistol which fires revolver rounds. Loads a detachable, 7-round magazine.",
      "ammo": "gg_44",
      "magazines": [
