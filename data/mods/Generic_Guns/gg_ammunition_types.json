@@ -1,31 +1,31 @@
 [
     {
         "type": "ammunition_type",
-        "id": "gg_44",
+        "id": "44",
         "name": "revolver ammo",
         "default": "44magnum"
     },
     {
         "type": "ammunition_type",
-        "id": "gg_9mm",
+        "id": "9mm",
         "name": "pistol ammo",
         "default": "9mm"
     },
     {
         "type": "ammunition_type",
-        "id": "gg_556",
+        "id": "556",
         "name": "light rifle ammo",
         "default": "556"
     },
     {
         "type": "ammunition_type",
-        "id": "gg_762",
+        "id": "762",
         "name": "rifle ammo",
         "default": "762_51"
     },
     {
         "type": "ammunition_type",
-        "id": "gg_50",
+        "id": "50",
         "name": "heavy rifle ammo",
         "default": "50bmg"
     }

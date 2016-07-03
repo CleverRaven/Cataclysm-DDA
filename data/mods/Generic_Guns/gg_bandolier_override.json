@@ -17,7 +17,7 @@
     "use_action": {
         "type": "bandolier",
         "capacity": 18,
-        "ammo": [ "gg_44", "gg_9mm" ]
+        "ammo": [ "44", "9mm" ]
     },
     "flags": [ "WATER_FRIENDLY", "VARSIZE", "WAIST", "OVERSIZE", "FANCY" ]
   },
@@ -39,7 +39,7 @@
     "use_action": {
         "type": "bandolier",
         "capacity": 16,
-        "ammo": [ "gg_556", "gg_762", "gg_50"  ]
+        "ammo": [ "556", "762", "50"  ]
     },
     "flags": [ "WATER_FRIENDLY", "VARSIZE", "WAIST", "OVERSIZE" ]
   },
@@ -83,7 +83,7 @@
     "use_action": {
         "type": "bandolier",
         "capacity": 4,
-        "ammo": [ "gg_556", "gg_762", "gg_50" ]
+        "ammo": [ "556", "762", "50" ]
     },
     "flags": [ "WATER_FRIENDLY", "BELTED", "ALLOWS_NATURAL_ATTACKS" ]
   }

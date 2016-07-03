@@ -5,10 +5,10 @@
      "type": "GUN",
      "name": "semiautomatic pistol",
      "description": "A typical sidearm for the police, military, and licensed civilians.  It holds 15 rounds of pistol ammo in a detachable magazine.",
-     "ammo": "gg_9mm",
+     "ammo": "9mm",
      "magazine_well": 1,
      "magazines": [
-       [ "gg_9mm", [ "glockmag", "glockbigmag" ] ]
+       [ "9mm", [ "glockmag", "glockbigmag" ] ]
      ]
     },
     {
@@ -17,7 +17,7 @@
      "type": "GUN",
      "name": "holdout pistol",
      "description": "A very small pistol meant to be concealed and fired at close range.  It holds five rounds of pistol ammo.",
-     "ammo": "gg_9mm",
+     "ammo": "9mm",
      "clip_size": 5,
      "reload": 100,
      "magazines": []
@@ -28,9 +28,9 @@
      "type": "GUN",
      "name": "submachine gun",
      "description":  "A selective fire carbine favored by vehicle crews, special police, and criminals.  It holds thirty rounds of pistol ammo in a detachable magazine.",
-     "ammo": "gg_9mm",
+     "ammo": "9mm",
      "magazines" : [
-       [ "gg_9mm", [ "mp5mag", "mp5bigmag" ] ]
+       [ "9mm", [ "mp5mag", "mp5bigmag" ] ]
      ]
     },
     {
@@ -39,10 +39,10 @@
      "type": "GUN",
      "name": "advanced submachine gun",
      "description":  "An exotic submachinegun with a larger ammo capacity and higher rate of fire.  It holds fifty rounds of pistol ammo in a detachable magazine.",
-     "ammo": "gg_9mm",
+     "ammo": "9mm",
      "magazine_well": 1,
      "magazines": [
-       [ "gg_9mm", [ "calicomag" ] ]
+       [ "9mm", [ "calicomag" ] ]
      ]
     },
     {
@@ -51,10 +51,10 @@
      "type": "GUN",
      "name": "plinking carbine",
      "description": "A cheap carbine made for target practice or varmint hunting.  It uses detachable pistol magazines.",
-     "ammo": "gg_9mm",
+     "ammo": "9mm",
      "magazine_well": 1,
      "magazines": [
-       [ "gg_9mm", [ "glockmag", "glockbigmag" ] ]
+       [ "9mm", [ "glockmag", "glockbigmag" ] ]
      ]
     },
     {
@@ -63,7 +63,7 @@
      "type": "GUN",
      "name": "revolver",
      "description":  "A refined and modernized version of the classic cowboy sidearm.  Its cylinder holds six powerful revolver rounds.",
-     "ammo": "gg_44"
+     "ammo": "44"
     },
     {
      "id": "mossberg_500",
@@ -88,9 +88,9 @@
      "type": "GUN",
      "name": "semiautomatic carbine",
      "description": "A compact and lightweight carbine favored by hunters and the police.  It holds ten rounds of light rifle ammo in a detachable magazine.",
-     "ammo": "gg_556",
+     "ammo": "556",
      "magazines": [
-       [ "gg_556", [  "stanag10" ] ]
+       [ "556", [  "stanag10" ] ]
      ]
     },
     {
@@ -99,9 +99,9 @@
      "type": "GUN",
      "name": "assault rifle",
      "description": "A lightweight assault rifle used by US military, it also has hundreds of commercial knockoffs for the civilian market.  It uses detachable magazines of various capacities.",
-     "ammo": "gg_556",
+     "ammo": "556",
      "magazines": [
-       [ "gg_556", [  "stanag10", "stanag30", "stanag50" ] ]
+       [ "556", [  "stanag10", "stanag30", "stanag50" ] ]
      ]
     },
     {
@@ -110,9 +110,9 @@
      "type": "GUN",
      "name": "foreign assault rifle",
      "description": "A cheap but reliable assault rifle imported from overseas.  It uses imported magazines which are incompatible with standard rifle magazines.",
-     "ammo": "gg_762",
+     "ammo": "762",
      "magazines": [
-       [ "gg_762", [ "akmmag", "akmbigmag" ] ]
+       [ "762", [ "akmmag", "akmbigmag" ] ]
      ]
     },
     {
@@ -121,9 +121,9 @@
      "type": "GUN",
      "name": "light machine gun",
      "description": "A portable lightweight machine gun built for laying down suppressive fire rather than placing accurate shots.  It can be reloaded using both drum magazines and ammo belts.",
-     "ammo": "gg_556",
+     "ammo": "556",
      "magazines" : [
-      [ "gg_556", [ "stanag50", "belt223" ] ]
+      [ "556", [ "stanag50", "belt223" ] ]
      ]
     },
     {
@@ -132,9 +132,9 @@
      "type": "GUN",
      "name": "general purpose machine gun",
      "description": "A hefty machine gun meant to be fired from bipods or mounted to vehicles.  Unlike the lighter version this can only be reloaded using ammo belts",
-     "ammo": "gg_556",
+     "ammo": "556",
      "magazines" : [
-      [ "gg_556", [ "belt223" ] ]
+      [ "556", [ "belt223" ] ]
      ]
     },
     {
@@ -143,7 +143,7 @@
      "type": "GUN",
      "name": "minigun",
      "description": "Despite the name, this is a huge automatic weapon meant to be mounted on vehicles; it's only miniature compared to a cannon.  It has six barrels that rotate to keep from overheating.  It holds up to five hundred rounds of belted rifle ammo, and requires a UPS to power its electric motor.",
-     "ammo": "gg_762",
+     "ammo": "762",
      "clip_size": 500,
      "reload": 10000,
      "magazines": []
@@ -154,7 +154,7 @@
      "type": "GUN",
      "name": "bolt action rifle",
      "description": "A solid bolt action rifle made for hunting large game, but also used by police and military snipers.  It holds five rounds of rifle ammo in an internal magazine.",
-     "ammo": "gg_762",
+     "ammo": "762",
      "clip_size": 5,
      "reload": 100
     },
@@ -164,7 +164,7 @@
      "type": "GUN",
      "name": "service rifle", "//" : "fake gun between a garand and m14.",
      "description":  "An old semiautomatic rifle still used in military drills and parades.  It holds ten rounds of rifle ammo in an internal magazine.",
-     "ammo": "gg_762",
+     "ammo": "762",
      "flags": "RELOAD_ONE",
      "clip_size": 10,
      "reload": 100,
@@ -176,10 +176,10 @@
      "type": "GUN",
      "name": "battle rifle",
      "description": "A highly modular, selective fire battle rifle used by the US military.  It uses either compact 20-round or bulkier 30-round detachable magazines.",
-     "ammo": "gg_762",
+     "ammo": "762",
      "reload": 550,
      "magazines": [
-       [ "gg_762", [ "scarhmag", "scarhbigmag" ] ]
+       [ "762", [ "scarhmag", "scarhbigmag" ] ]
      ]
     },
     {
@@ -188,9 +188,9 @@
      "type": "GUN",
      "name": "medium machine gun",
      "description": "A medium machine gun used by the US military, meant to be fired from bipods or mounted to vehicles.  It uses ammo belts of up to 200-rounds.",
-     "ammo": "gg_762",
+     "ammo": "762",
      "magazines": [
-      [ "gg_762", [ "belt308" ] ]
+      [ "762", [ "belt308" ] ]
      ]
     },
     {
@@ -199,9 +199,9 @@
      "type": "GUN",
      "name": "antimateriel rifle",
      "description": "A powerful bolt-action sniper rifle meant to destroy vehicles, equipment, and enemy combatants.  It holds ten rounds of heavy rifle ammo in a detachable magazine.",
-     "ammo": "gg_50",
+     "ammo": "50",
      "magazines": [
-         [ "gg_50", [ "m107a1mag" ] ]
+         [ "50", [ "m107a1mag" ] ]
      ]
     },
     {
@@ -210,9 +210,9 @@
      "type": "GUN",
      "name": "heavy machine gun",
      "description": "A heavy automatic weapon that must be mounted to a vehicle to fire.  It holds two hundred rounds of military ammo in a large belt drum.",
-     "ammo": "gg_50",
+     "ammo": "50",
      "magazines": [
-         [ "gg_50", [ "belt50" ] ]
+         [ "50", [ "belt50" ] ]
      ]
     },
     {
@@ -222,7 +222,7 @@
      "name": "pipe gun: pistol ammo",
      "name_plural": "pipe rifles: pistol ammo",
      "description": "A home-made gun.  It is simply a pipe attached to a stock, with a hammer to strike the single round it holds.",
-     "ammo": "gg_9mm"
+     "ammo": "9mm"
     },
     {
      "id": "surv_six_shooter",
@@ -230,7 +230,7 @@
      "type": "GUN",
      "name": "survivor's six shooter",
      "description": "A homemade 6 shot revolver.  While it's not as good as the pre-Cataclysm manufactured weapons, it's a decent piece of work all things considered.",
-     "ammo": "gg_44"
+     "ammo": "44"
     },
     {
      "id": "rifle_308",
@@ -239,7 +239,7 @@
      "name": "pipe gun: rifle ammo",
      "name_plural": "pipe guns: rifle ammo",
      "description": "A homemade gun.  While still a primitive pipe and 2x4 design, some minor improvements have been made, such as a tube system for feeding and chambering more powerful rifle rounds.",
-     "ammo": "gg_762"
+     "ammo": "762"
     },
     {
      "id": "surv_carbine_223",
@@ -247,9 +247,9 @@
      "type": "GUN",
      "name": "survivor's carbine",
      "description": "A well designed homemade carbine using light rifle ammo.  Fits a 10-round detachable magazine and with a shortened barrel, this is one of the better homemade weapons.",
-     "ammo": "gg_556",
+     "ammo": "556",
      "magazines": [
-       [ "gg_556", [ "stanag10" ] ]
+       [ "556", [ "stanag10" ] ]
      ]
     },
     {
@@ -306,9 +306,9 @@
      "type": "GUN",
      "name": "magnum pistol",
      "description": "A powerful semi-automatic pistol which fires revolver rounds. Loads a detachable, 7-round magazine.",
-     "ammo": "gg_44",
+     "ammo": "44",
      "magazines": [
-         [ "gg_44", [ "deaglemag" ] ]
+         [ "44", [ "deaglemag" ] ]
      ]
     }
 ]
