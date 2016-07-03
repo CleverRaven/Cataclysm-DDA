@@ -110,6 +110,7 @@ for( my $obj; <>; ) {
         $dirty = length($json->incr_text =~ s/\s+$//r);
 
         # Process each object with the type field providing root context
+        $obj = [ $obj ] unless (ref($obj) eq 'ARRAY');
         my @output = map { encode($_, $_->{'type'} // '' ) } @{$obj};
 
         # Indent everything formatted output wrap in an array
