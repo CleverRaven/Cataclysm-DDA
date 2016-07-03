@@ -2,6 +2,7 @@
 
 use warnings;
 use strict;
+use 5.010;
 
 use JSON;
 use File::Basename;
@@ -31,10 +32,12 @@ sub match($$) {
 }
 
 sub find_rule($) {
+    state %cache;
+    return $cache{$_[0]} if exists $cache{$_[0]};
     for my $i (0 .. $#config) {
-        return $i if match($_[0],$config[$i][0]);
+        return $cache{$_[0]} = $i if match($_[0],$config[$i][0]);
     }
-    return -1; # no rule matching this context
+    return $cache{$_[0]} = -1; # no rule matching this context
 }
 
 sub has_flag($$) {
