@@ -614,7 +614,7 @@
         "volume" : 5,
         "bashing" : 5,
         "cutting" : 13,
-        "flags" : ["SPEAR", "REACH_ATTACK"],
+        "flags" : ["SPEAR", "REACH_ATTACK", "NPC_THROWN"],
         "price" : 4000,
         "qualities": [["COOK", 1]]
     },
