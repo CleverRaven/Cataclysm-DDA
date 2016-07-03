@@ -19,7 +19,7 @@ for( open my $fh, '<', catfile(dirname(__FILE__), 'format.conf'); <$fh>; ) {
     do {} while( s/#.*|^\s+|\s+$//g );
     next unless length;
     my ($rule, $flags) = ( split '=' );
-    push @config, [ qr/$rule$/, split(',', ($flags // '')) ];
+    push @config, [ qr/$rule$/, [ split(',', ($flags // '')) ] ];
 }
 
 my $json = JSON->new->allow_nonref;
@@ -38,7 +38,8 @@ sub find_rule($) {
 }
 
 sub has_flag($$) {
-    return grep $_[1], $config[find_rule($_[0])][1] // ();
+    my ($rule, $flag) = (find_rule($_[0]), $_[1]);
+    return grep { $_ eq $flag } @{$config[$rule][1] // []};
 }
 
 sub assemble($@)
