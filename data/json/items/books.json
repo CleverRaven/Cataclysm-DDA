@@ -914,7 +914,7 @@
         "fun" : 1,
         "skill" : "gun",
         "price" : 960,
-        "required_level" : 1
+        "required_level" : 0
     },
     {
         "type" : "BOOK",

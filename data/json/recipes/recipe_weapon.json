@@ -5733,7 +5733,7 @@
     "time": 240000,
     "reversible": false,
     "autolearn": true,
-    "book_learn": [[ "manual_rifle", 5 ] , [ "mag_rifle", 6 ]],
+    "book_learn": [[ "manual_rifle", 5 ] , [ "mag_rifle", 6 ] , [ "mag_muzzle", 5 ]],
     "qualities":[
       {"id":"CUT","level":1,"amount":1},
       {"id":"HAMMER","level":3,"amount":1},
