@@ -100,11 +100,11 @@ void stash_on_pet( const std::list<item> &items, monster &pet )
 
     for( auto &it : items ) {
         pet.add_effect( effect_controlled, 5 );
-        if( it.volume() > remaining_weight ) {
+        if( it.volume() > remaining_volume ) {
             add_msg( m_bad, _( "%1$s did not fit and fell to the %2$s." ),
                      it.display_name().c_str(), g->m.name( pet.pos() ).c_str() );
             g->m.add_item_or_charges( pet.pos(), it, 1 );
-        } else if( it.weight() > remaining_volume ) {
+        } else if( it.weight() > remaining_weight ) {
             add_msg( m_bad, _( "%1$s is too heavy and fell to the %2$s." ),
                      it.display_name().c_str(), g->m.name( pet.pos() ).c_str() );
             g->m.add_item_or_charges( pet.pos(), it, 1 );
