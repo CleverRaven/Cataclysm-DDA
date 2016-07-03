@@ -130,39 +130,6 @@
     ]
   },{
     "type" : "item_group",
-    "id" : "antique_guns",
-    "items" : [
-      ["pistol_flintlock", 60],
-      ["carbine_flintlock", 40],
-      ["lemat_revolver", 30],
-      ["rifle_flintlock", 75],
-      ["colt_army", 30],
-      ["colt_navy", 30]
-    ]
-  },{
-    "type" : "item_group",
-    "id" : "antique_guns_with_ammo",
-    "ammo": 100,
-    "magazine": 100,
-    "items" : [
-      ["pistol_flintlock", 60],
-      ["carbine_flintlock", 40],
-      ["lemat_revolver", 30],
-      ["rifle_flintlock", 75],
-      ["colt_army", 30],
-      ["colt_navy", 30]
-    ]
-  },{
-    "type" : "item_group",
-    "id" : "antique_ammo",
-    "items" : [
-      ["flintlock_ammo", 60],
-      ["flintlock_shot", 40],
-      ["36navy", 50],
-      ["44army", 50]
-    ]
-  },{
-    "type" : "item_group",
     "id" : "ammo_casings",
     "items":[
       ["700nx_casing", 0],
