@@ -1605,5 +1605,9 @@
         "apply_message": "Your metabolism becomes unstable.",
         "remove_message": "Your metabolism becomes more stable.",
         "rating": "bad"
+    },
+    {   
+        "type": "effect_type",
+        "id": "cough_suppress"
     }
 ]
