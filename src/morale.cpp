@@ -290,6 +290,7 @@ player_morale::player_morale() :
     level_is_valid( false ),
     took_prozac( false ),
     stylish( false ),
+    nonsqueamish( false ),
     perceived_pain( 0 )
 {
     using namespace std::placeholders;
@@ -299,6 +300,7 @@ player_morale::player_morale() :
     const auto set_badtemper      = std::bind( &player_morale::set_permanent, _1, MORALE_PERM_BADTEMPER,
                                     _2, nullptr );
     const auto set_stylish        = std::bind( &player_morale::set_stylish, _1, _2 );
+    const auto set_nonsqueamish   = std::bind( &player_morale::set_nonsqueamish, _1, _2 );
     const auto update_constrained = std::bind( &player_morale::update_constrained_penalty, _1 );
     const auto update_masochist   = std::bind( &player_morale::update_masochist_bonus, _1 );
 
@@ -311,6 +313,9 @@ player_morale::player_morale() :
     mutations["STYLISH"]       = mutation_data(
                                      std::bind( set_stylish, _1, true ),
                                      std::bind( set_stylish, _1, false ) );
+    mutations["NONSQUEAMISH"]  = mutation_data(
+                                     std::bind( set_nonsqueamish, _1, true ),
+                                     std::bind( set_nonsqueamish, _1, false ) );
     mutations["FLOWERS"]       = mutation_data( update_constrained );
     mutations["ROOTS"]         = mutation_data( update_constrained );
     mutations["ROOTS2"]        = mutation_data( update_constrained );
@@ -550,6 +555,9 @@ bool player_morale::consistent_with( const player_morale &morale ) const
     } else if( perceived_pain != morale.perceived_pain ) {
         debugmsg( "player_morale::perceived_pain is inconsistent." );
         return false;
+    } else if( nonsqueamish != morale.nonsqueamish ) {
+        debugmsg( "player_morale::nonsqueamish is inconsistent." );
+        return false;
     }
 
     return test_points( *this, morale ) && test_points( morale, *this );
@@ -781,22 +789,33 @@ void player_morale::update_constrained_penalty()
 void player_morale::update_squeamish_penalty()
 {
     int penalty = 0;
-    const auto bp_pen = [ this ]( body_part bp, int penalty ) -> int {
-        return (
-            body_parts[bp].filthy > 0 ||
-            body_parts[opposite_body_part( bp )].filthy > 0 ) ? penalty : 0;
-    };
-    penalty = ( bp_pen( bp_torso,  6 ) +
-                bp_pen( bp_head,   7 ) +
-                bp_pen( bp_eyes,   8 ) +
-                bp_pen( bp_mouth,  9 ) +
-                bp_pen( bp_leg_l,  5 ) +
-                bp_pen( bp_leg_r,  5 ) +
-                bp_pen( bp_arm_l,  5 ) +
-                bp_pen( bp_arm_r,  5 ) +
-                bp_pen( bp_foot_l, 3 ) +
-                bp_pen( bp_foot_r, 3 ) +
-                bp_pen( bp_hand_l, 3 ) +
-                bp_pen( bp_hand_r, 3 ) );
+
+    if( !nonsqueamish ) {
+        const auto bp_pen = [ this ]( body_part bp, int penalty ) -> int {
+            return (
+                body_parts[bp].filthy > 0 ||
+                body_parts[opposite_body_part( bp )].filthy > 0 ) ? penalty : 0;
+        };
+        penalty = ( bp_pen( bp_torso,  6 ) +
+                    bp_pen( bp_head,   7 ) +
+                    bp_pen( bp_eyes,   8 ) +
+                    bp_pen( bp_mouth,  9 ) +
+                    bp_pen( bp_leg_l,  5 ) +
+                    bp_pen( bp_leg_r,  5 ) +
+                    bp_pen( bp_arm_l,  5 ) +
+                    bp_pen( bp_arm_r,  5 ) +
+                    bp_pen( bp_foot_l, 3 ) +
+                    bp_pen( bp_foot_r, 3 ) +
+                    bp_pen( bp_hand_l, 3 ) +
+                    bp_pen( bp_hand_r, 3 ) );
+    }
     set_permanent( MORALE_PERM_FILTHY, -penalty );
+}
+
+void player_morale::set_nonsqueamish( bool new_nonsqueamish )
+{
+    if( nonsqueamish != new_nonsqueamish ) {
+        nonsqueamish = new_nonsqueamish;
+        update_squeamish_penalty();
+    }
 }

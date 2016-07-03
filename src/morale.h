@@ -118,6 +118,7 @@ class player_morale
 
         void set_prozac( bool new_took_prozac );
         void set_stylish( bool new_stylish );
+        void set_nonsqueamish( bool new_nonsqueamish );
         void set_worn( const item &it, bool worn );
         void set_mutation( const std::string &mid, bool active );
         bool has_mutation( const std::string &mid );
@@ -181,6 +182,7 @@ class player_morale
 
         bool took_prozac;
         bool stylish;
+        bool nonsqueamish;
         int perceived_pain;
 };
 

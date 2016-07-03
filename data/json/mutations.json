@@ -4885,6 +4885,15 @@
         "name" : "Squeamish",
         "points" : -1,
         "starting_trait" : true,
-        "description" : "You can't even think about putting filthy clothes on yourself, especially from zombies' corpses."
+        "description" : "You can't even think about putting filthy clothes on yourself, especially from zombies' corpses.",
+        "cancels" : ["NONSQUEAMISH"]
+    },{
+        "type" : "mutation",
+        "id" : "NONSQUEAMISH",
+        "name" : "Non-squeamish",
+        "points" : 1,
+        "starting_trait" : true,
+        "description" : "You just don't care much about being dirty.  You consider filthy items as normal.",
+        "cancels" : ["SQUEAMISH"]
     }
 ]
