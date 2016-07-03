@@ -245,13 +245,13 @@ class generic_factory
             const auto iter = map.find( obj.id );
             if( iter != map.end() ) {
                 T &result = list[iter->second];
-                result = std::move( obj );
+                result = obj;
                 result.id.set_cid( iter->second );
                 return result;
             }
 
             const int_id<T> cid( list.size() );
-            list.push_back( std::move( obj ) );
+            list.push_back( obj );
 
             T &result = list.back();
             result.id.set_cid( cid );
