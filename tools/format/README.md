@@ -17,7 +17,7 @@ Parse a file and output JSON in canonical format
 
 `format.pl examples/vehicle.json > output.json`
 
-Check a file is valid JSON
+Check a file is valid JSON and has no unknown fields
 
 `format.pl -q examples/vehicle.json`
 
@@ -124,6 +124,8 @@ ambiguous sorting order.
 
 ## Output flags
 
+### Wrapping
+
 By default each node results in a new line in the output:
 ```
 {
@@ -144,6 +146,7 @@ formatted. A flag is specified by the `=FLAG` syntax:
 :name
 :materials=NOWRAP
 :materials=@
+:flags=ARRAY,NOWRAP
 ```
 
 The `NOWRAP` flag results in the following output:
@@ -154,8 +157,20 @@ The `NOWRAP` flag results in the following output:
 }
 ```
 
-At present no further flags are implemented but if they were the syntax for
-multiple flags would be `:materials=NOWRAP,FOO`.
+### Canonical arrays
+
+Some **nodes** can have a single value or an array of elements:
+```
+"flags": "RELOAD_ONE"
+"flags": [ "RELOAD_ONE" ]
+"flags": [ "RELOAD_ONE", "RELOAD_EJECT" ]
+```
+
+The `ARRAY` flag encloses single values in an array ensuring canonical output:
+```
+"flags": [ "RELOAD_ONE" ]
+"flags": [ "RELOAD_ONE", "RELOAD_EJECT" ]
+```
 
 ## Specifiers
 
@@ -258,5 +273,23 @@ Note that `use_action` could either have a direct child or an array:
       "flame": false
     }
   }
+}
+```
+
+## Variable object keys
+
+```
+:use_action:charges_needed
+:use_action:charges_needed:.*    # naive
+:use_action:charges_needed<>:\w+ # more specfic
+```
+
+For objects with variable keys both work but the more specific is preferred:
+
+```
+"use_action": {
+  "type": "consume_drug",
+  "charges_needed": { "fire": 1 },
+  "tools_needed": { "apparatus": -1 }
 }
 ```
