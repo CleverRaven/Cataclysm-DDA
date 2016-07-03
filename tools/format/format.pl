@@ -16,7 +16,7 @@ getopts('cq', \%opts);
 my @config;
 for( open my $fh, '<', catfile(dirname(__FILE__), 'format.conf'); <$fh>; ) {
     chomp;
-    s/#.*|^\s+|\s+$//g;
+    do {} while( s/#.*|^\s+|\s+$//g );
     next unless length;
     my ($rule, $flags) = ( split '=' );
     push @config, [ qr/$rule$/, split(',', ($flags // '')) ];
