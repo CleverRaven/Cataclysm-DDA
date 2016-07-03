@@ -34,17 +34,19 @@ sub find_rule($) {
     for my $i (0 .. $#config) {
         return $i if match($_[0],$config[$i][0]);
     }
-    die "ERROR: Unmatched rule '". $_[0] ."'\n";
+    return -1; # no rule matching this context
 }
 
 sub has_flag($$) {
     my ($rule, $flag) = (find_rule($_[0]), $_[1]);
+    return 0 if $rule < 0;
     return grep { $_ eq $flag } @{$config[$rule][1] // []};
 }
 
 sub assemble($@)
 {
     my $context = shift;
+    die "ERROR: Unmatched rule '$context'\n" if find_rule($context) < 0;
 
     return "" unless scalar @_;
     my $str = join(', ', @_);
