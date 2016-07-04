@@ -199,7 +199,7 @@
   },{
     "type" : "item_group",
     "id" : "contraband",
-    "note": "concealable items only plz",
+    "//": "concealable items only plz",
     "items":[
       ["m9", 10]
     ]
@@ -253,7 +253,7 @@
   },{
     "type":"item_group",
     "id":"survivor_weapons",
-    "comment": "Please add only weapons and ammo that are easy to scavenge or create ",
+    "//": "Please add only weapons and ammo that are easy to scavenge or create ",
     "items":[
       ["556", 10],
       ["762_51", 10],
