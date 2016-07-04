@@ -28,6 +28,7 @@
     "price": 5000,
     "count": 100,
     "stack_size": 100,
+    "container": "bag_plastic",
     "material": [ "magnesium" ],
     "symbol": "=",
     "color": "dark_gray",

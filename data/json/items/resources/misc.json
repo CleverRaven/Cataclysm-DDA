@@ -9,6 +9,7 @@
     "weight": 5,
     "volume": 1,
     "price": 10000,
+    "container": "bag_plastic",
     "material": [ "magnesium" ],
     "symbol": "=",
     "color": "dark_gray",
