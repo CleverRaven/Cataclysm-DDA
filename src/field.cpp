@@ -1720,9 +1720,12 @@ void map::player_in_field( player &u )
             break;
 
         case fd_sludge:
-            u.add_msg_if_player(m_bad, _("The sludge is thick and sticky. You struggle to pull free."));
-            u.moves -= cur->getFieldDensity() * 300;
-            cur->setFieldDensity( 0 );
+            //sludge is on the ground, but you are above the ground when boarded on a vehicle
+            if( !u.in_vehicle ) {
+                u.add_msg_if_player( m_bad, _( "The sludge is thick and sticky. You struggle to pull free." ) );
+                u.moves -= cur->getFieldDensity() * 300;
+                cur->setFieldDensity( 0 );
+            }
             break;
 
         case fd_fire:
