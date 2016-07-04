@@ -72,6 +72,9 @@
             ],
             "place_monsters": [
                 { "monster": "GROUP_ZOMBIE", "x": 7, "y": 4 }
+            ],
+            "set": [
+                { "point": "furniture", "id": "f_shackle", "x": [14,20], "y": [3,6], "chance": 4 }
             ]
         }
     },
