@@ -192,11 +192,6 @@ dealt_projectile_attack Creature::projectile_attack( const projectile &proj_arg,
         trajectory = g->m.find_clear_path( source, target );
     }
 
-    static emit_id muzzle_smoke( "emit_smoke_plume" );
-    if( proj_effects.count( "MUZZLE_SMOKE" ) ) {
-        g->m.emit_field( trajectory.empty() ? source : trajectory[ 0 ], muzzle_smoke );
-    }
-
     add_msg( m_debug, "%s proj_atk: shot_dispersion: %.2f",
              disp_name().c_str(), shot_dispersion );
     add_msg( m_debug, "missed_by: %.2f target (orig/hit): %d,%d,%d/%d,%d,%d", missed_by,
@@ -208,6 +203,12 @@ dealt_projectile_attack Creature::projectile_attack( const projectile &proj_arg,
     tripoint prev_point = source;
 
     trajectory.insert( trajectory.begin(), source ); // Add the first point to the trajectory
+
+    static emit_id muzzle_smoke( "emit_smoke_plume" );
+    if( proj_effects.count( "MUZZLE_SMOKE" ) ) {
+        g->m.emit_field( trajectory.front(), muzzle_smoke );
+    }
+
     if( !no_overshoot && range < extend_to_range ) {
         // Continue line is very "stiff" when the original range is short
         // @todo Make it use a more distant point for more realistic extended lines
