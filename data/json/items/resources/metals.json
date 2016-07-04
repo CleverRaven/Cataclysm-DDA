@@ -17,6 +17,23 @@
     "ammo_type": "components"
   },
   {
+    "id": "magnesium",
+    "type": "AMMO",
+    "category": "spare_parts",
+    "name": "magnesium powder",
+    "name_plural": "magnesium powder",
+    "description": "A gray powder composed of the highly flammable alkaline earth metal magnesium.  Useful for construting flares and similar items.",
+    "weight": 4, "//": "Density 1.74g/cm³ ~ 0.44kg/250ml @ stack 100 = 4g/unit",
+    "volume": 1,
+    "price": 5000,
+    "count": 100,
+    "stack_size": 100,
+    "material": [ "magnesium" ],
+    "symbol": "=",
+    "color": "dark_gray",
+    "ammo_type": "components"
+  },
+  {
     "id": "scrap",
     "type": "AMMO",
     "category": "spare_parts",
