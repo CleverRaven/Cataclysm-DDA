@@ -3725,7 +3725,8 @@ std::vector<std::string> game::list_active_characters()
  */
 void game::write_memorial_file(std::string sLastWords)
 {
-    const std::string &memorial_dir = FILENAMES["memorialdir"];
+    const std::string &memorial_dir = FILENAMES["memorialdir"] +  world_generator->active_world->world_name + "/";
+
     if (!assure_dir_exist(memorial_dir)) {
         dbg(D_ERROR) << "game:write_memorial_file: Unable to make memorial directory.";
         debugmsg("Could not make '%s' directory", memorial_dir.c_str());
