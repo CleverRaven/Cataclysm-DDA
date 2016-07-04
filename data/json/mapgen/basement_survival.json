@@ -140,6 +140,9 @@
                 { "item": "blanket", "chance": 30, "x": 20, "y": 8 },
                 { "item": "pillow", "chance": 30, "x": 16, "y": 8 },
                 { "item": "pillow", "chance": 30, "x": 20, "y": 8 }
+            ],
+            "set": [
+                { "point": "furniture", "id": "f_shackle", "x": 10, "y": 1, "chance": 10 }
             ]
         }
     }
