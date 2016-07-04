@@ -375,7 +375,7 @@
         "description": "A pair of optics with a neck strap attached.  Useful for seeing long distances.  Simply carrying or wearing this item in your inventory will double the distance that is mapped around you during your travels.  You could also use them to focus the sunlight.",
         "price": 30000,
         "material": ["plastic", "glass"],
-        "flags" : [ "LENS", "ZOOM", "OVERSIZE", "BELTED", "ALLOWS_NATURAL_ATTACKS"],
+        "flags" : [ "ZOOM", "OVERSIZE", "BELTED", "ALLOWS_NATURAL_ATTACKS"],
         "weight" : 708,
         "volume": 2,
         "bashing": 4,

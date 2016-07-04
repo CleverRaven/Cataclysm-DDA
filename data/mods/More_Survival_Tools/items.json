@@ -592,11 +592,11 @@
       {
         "type": "firestarter",
         "moves": 1000,
-        "moves_slow": 5000,
+        "moves_slow": 25000,
         "need_sunlight": true
       }
     ],
-    "flags": ["THERMOMETER", "LENS"]
+    "flags": "THERMOMETER"
   },{
     "id": "mortar_pestle",
     "type": "TOOL",

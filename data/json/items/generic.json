@@ -1117,7 +1117,6 @@
         "description": "A high-quality lens, useful for focusing or diffusing light.  Might be useful for starting a fire.",
         "price": 120000,
         "material": "glass",
-        "flags": [ "LENS" ],
         "weight": 340,
         "volume": 0,
         "to_hit": -3,

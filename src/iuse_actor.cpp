@@ -970,19 +970,23 @@ float firestarter_actor::light_mod( const tripoint &pos ) const
 
 int firestarter_actor::moves_cost_by_fuel( const tripoint &pos ) const
 {
-    if( g->m.flammable_items_at( pos, 10 ) ) {
+    if( g->m.flammable_items_at( pos, 100 ) ) {
         return moves_cost_fast;
     }
 
-    if( g->m.flammable_items_at( pos, 3 ) ) {
+    if( g->m.flammable_items_at( pos, 10 ) ) {
         return ( moves_cost_slow + moves_cost_fast ) / 2;
     }
 
     return moves_cost_slow;
 }
 
-long firestarter_actor::use( player *p, item *it, bool, const tripoint &spos ) const
+long firestarter_actor::use( player *p, item *it, bool t, const tripoint &spos ) const
 {
+    if( t ) {
+        return 0;
+    }
+
     tripoint pos = spos;
     float light = light_mod( pos );
     if( light <= 0.0f ) {
@@ -994,11 +998,12 @@ long firestarter_actor::use( player *p, item *it, bool, const tripoint &spos ) c
         return 0;
     }
 
-    float skill_level = p->get_skill_level( skill_survival );
+    double skill_level = p->get_skill_level( skill_survival );
     ///\EFFECT_SURVIVAL speeds up fire starting
-    float moves_modifier = std::max( 1.0f, light * ( 5 - skill_level ) / 5 );
-    const float moves_base = moves_cost_by_fuel( pos );
-    const int moves = std::max<int>( moves_cost_fast, moves_base * moves_modifier );
+    float moves_modifier = std::pow( 0.8, std::min( 5.0, skill_level ) );
+    const int moves_base = moves_cost_by_fuel( pos );
+    const int min_moves = std::min<int>( moves_base, sqrt( 1 + moves_base / MOVES( 1 ) ) * MOVES( 1 ) );
+    const int moves = std::max<int>( min_moves, moves_base * moves_modifier ) / light;
     if( moves > MOVES( MINUTES( 1 ) ) ) {
         // If more than 1 minute, inform the player
         static const std::string sun_msg =
@@ -1010,12 +1015,13 @@ long firestarter_actor::use( player *p, item *it, bool, const tripoint &spos ) c
     } else if( moves < MOVES( 2 ) ) {
         // If less than 2 turns, don't start a long action
         resolve_firestarter_use( p, it, pos );
+        p->mod_moves( -moves );
         return it->type->charges_to_use();
     }
     p->assign_activity( ACT_START_FIRE, moves, -1, p->get_item_position( it ), it->tname() );
     p->activity.values.push_back( g->natural_light_level( pos.z ) );
     p->activity.placement = pos;
-    p->practice( skill_survival, moves_modifier + 2, 5 );
+    p->practice( skill_survival, moves_modifier + moves_cost_fast / 100 + 2, 5 );
     return it->type->charges_to_use();
 }
 

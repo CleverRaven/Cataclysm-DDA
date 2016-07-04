@@ -5109,7 +5109,7 @@
         "warmth" : 0,
         "environmental_protection" : 1,
         "encumbrance" : 0,
-        "flags" : ["WATER_FRIENDLY", "LENS"],
+        "flags" : "WATER_FRIENDLY",
         "coverage" : 75,
         "material_thickness" : 1,
         "use_action": {
@@ -5136,7 +5136,7 @@
         "warmth" : 0,
         "environmental_protection" : 1,
         "encumbrance" : 0,
-        "flags" : ["WATER_FRIENDLY", "LENS"],
+        "flags" : "WATER_FRIENDLY",
         "coverage" : 75,
         "material_thickness" : 1,
         "use_action": {
@@ -5273,7 +5273,7 @@
         "encumbrance" : 0,
         "coverage" : 20,
         "material_thickness" : 1,
-        "flags" : ["SUPER_FANCY","LENS"],
+        "flags" : "SUPER_FANCY",
         "use_action": {
             "type": "firestarter",
             "moves": 1000,
