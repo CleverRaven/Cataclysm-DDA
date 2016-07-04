@@ -381,7 +381,7 @@
     "description": "A folding grappling hook attached to a stout 30-foot long piece of lightweight cord.  Useful for keeping yourself safe from falls.",
     "category": "tools",
     "techniques" : ["RAPID", "SPIN"],
-    "flags" : ["WRAP", "DURABLE_MELEE"],
+    "flags" : "DURABLE_MELEE",
     "price": 25000,
     "material": ["cotton", "steel"],
     "weight": 760,
@@ -1755,7 +1755,6 @@
         "material" : ["plastic"],
         "volume" : 2,
         "bashing" : 4,
-        "flags" : ["WRAP"],
         "price" : 200,
         "use_action": "SIPHON"
     },

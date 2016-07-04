@@ -1056,11 +1056,13 @@ comp_selection<item_comp> player::select_item_component( const std::vector<item_
         }
 
         // Unlike with tools, it's a bad thing if there aren't any components available
-        // @todo Make WEB_ROPE not prevent the debugmsg - it shouldn't make this section trigger
         if( cmenu.entries.empty() ) {
-            if( !has_trait( "WEB_ROPE" ) && !has_trait( "DEBUG_HS" ) ) {
-                debugmsg( "Attempted a recipe with no available components!" );
+            if( has_trait( "DEBUG_HS" ) ) {
+                selected.use_from = use_from_player;
+                return selected;
             }
+
+            debugmsg( "Attempted a recipe with no available components!" );
             selected.use_from = cancel;
             return selected;
         }

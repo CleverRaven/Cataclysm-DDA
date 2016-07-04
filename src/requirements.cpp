@@ -459,6 +459,10 @@ std::vector<std::string> requirement_data::get_folded_tools_list( int width, nc_
 
 bool requirement_data::can_make_with_inventory( const inventory &crafting_inv, int batch ) const
 {
+    if( g->u.has_trait( "DEBUG_HS" ) ) {
+        return true;
+    }
+
     bool retval = true;
     // All functions must be called to update the available settings in the components.
     if( !has_comps( crafting_inv, qualities ) ) {
@@ -501,6 +505,10 @@ bool requirement_data::has_comps( const inventory &crafting_inv,
 
 bool quality_requirement::has( const inventory &crafting_inv, int ) const
 {
+    if( g->u.has_trait( "DEBUG_HS" ) ) {
+        return true;
+    }
+
     return crafting_inv.has_quality( type, level, count );
 }
 
@@ -511,6 +519,10 @@ std::string quality_requirement::get_color( bool, const inventory &, int ) const
 
 bool tool_comp::has( const inventory &crafting_inv, int batch ) const
 {
+    if( g->u.has_trait( "DEBUG_HS" ) ) {
+        return true;
+    }
+
     if( !by_charges() ) {
         return crafting_inv.has_tools( type, std::abs( count ) );
     } else {
@@ -532,16 +544,10 @@ std::string tool_comp::get_color( bool has_one, const inventory &crafting_inv, i
 
 bool item_comp::has( const inventory &crafting_inv, int batch ) const
 {
-    // If you've Rope Webs, you can spin up the webbing to replace any amount of
-    // rope your projects may require.  But you need to be somewhat nourished:
-    // Famished or worse stops it.
-    if( type == "rope_30" || type == "rope_6" ) {
-        // NPC don't craft?
-        // TODO: what about the amount of ropes vs the hunger?
-        if( g->u.has_trait( "WEB_ROPE" ) && g->u.get_hunger() <= 300 ) {
-            return true;
-        }
+    if( g->u.has_trait( "DEBUG_HS" ) ) {
+        return true;
     }
+
     const int cnt = std::abs( count ) * batch;
     if( item::count_by_charges( type ) ) {
         return crafting_inv.has_charges( type, cnt );
@@ -552,11 +558,6 @@ bool item_comp::has( const inventory &crafting_inv, int batch ) const
 
 std::string item_comp::get_color( bool has_one, const inventory &crafting_inv, int batch ) const
 {
-    if( type == "rope_30" || type == "rope_6" ) {
-        if( g->u.has_trait( "WEB_ROPE" ) && g->u.get_hunger() <= 300 ) {
-            return "ltgreen"; // Show that WEB_ROPE is on the job!
-        }
-    }
     const int cnt = std::abs( count ) * batch;
     if( available == a_insufficent ) {
         return "brown";

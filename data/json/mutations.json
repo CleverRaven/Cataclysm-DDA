@@ -2842,10 +2842,14 @@
         "id" : "WEB_ROPE",
         "name" : "Rope Webs",
         "points" : 3,
-        "description" : "With spinnerets like THESE, who needs rope?!  Your natural abilities can handle that part of most construction projects.",
+        "description" : "With spinnerets like THESE, who needs rope?!  Activate to produce rope.",
         "prereqs" : ["WEB_WEAVER"],
         "threshreq" : ["THRESH_SPIDER"],
-        "category" : ["MUTCAT_SPIDER"]
+        "category" : ["MUTCAT_SPIDER"],
+        "active"     :    true,
+        "cost"       :    30,
+        "hunger"     :    true,
+        "thirst"     :    true
     },{
         "type" : "mutation",
         "id" : "WHISKERS",
