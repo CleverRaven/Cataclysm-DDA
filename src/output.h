@@ -4,7 +4,10 @@
 #include "color.h"
 #include "cursesdef.h"
 #include "catacharset.h"
+#include "translations.h"
+
 #include <cstdarg>
+#include <sstream>
 #include <string>
 #include <vector>
 #include <set>
@@ -480,6 +483,39 @@ inline std::string get_labeled_bar( const double val, const int width, const std
     result += ']';
 
     return result;
+}
+
+/**
+ * @return String containing enumerated elements in format: "a, b, c, ..., and z". Uses the Oxford comma.
+ * @param first Iterator pointing to the first element.
+ * @param last Iterator pointing to the last element.
+ * @param pred Predicate that accepts an element and returns a representing string.
+ * May return an empty string to omit the element.
+ * @param use_and If true, add "and" before the last element (comma otherwise).
+ */
+template<typename _FIter, typename _Predicate>
+std::string enumerate_all( _FIter first, _FIter last, _Predicate pred, bool use_and = true )
+{
+    std::vector<std::string> values;
+    values.reserve( size_t( std::distance( first, last ) ) );
+    for( _FIter iter = first; iter != last; ++iter ) {
+        const std::string str( pred( *iter ) );
+        if( !str.empty() ) {
+            values.push_back( str );
+        }
+    }
+    std::ostringstream res;
+    for( auto iter = values.begin(); iter != values.end(); ++iter ) {
+        if( iter != values.begin() ) {
+            if( use_and && ( std::next( iter ) == values.end() ) ) {
+                res << ( values.size() > 2 ? _( ", and " ) : _( " and " ) );
+            } else {
+                res << _( ", " );
+            }
+        }
+        res << *iter;
+    }
+    return res.str();
 }
 
 /**
