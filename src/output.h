@@ -518,6 +518,12 @@ std::string enumerate_all( _FIter first, _FIter last, _Predicate pred, bool use_
     return res.str();
 }
 
+template<typename _FIter>
+std::string enumerate_all( _FIter first, _FIter last, bool use_and = true )
+{
+    return enumerate_all( first, last, []( const std::string &str ) { return str; }, use_and );
+}
+
 /**
  * @return String containing the bar. Example: "Label [********    ]".
  * @param val Value to display. Can be unclipped.

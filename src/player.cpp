@@ -11295,14 +11295,10 @@ void player::do_read( item *book )
             recipe_list.push_back( elem.name );
         }
         if( !recipe_list.empty() ) {
-            const std::string recipes = enumerate_all( recipe_list.begin(), recipe_list.end(),
-            []( const std::string &recipe ) {
-                return recipe;
-            } );
             std::string recipe_line = string_format(
                 ngettext("This book contains %1$d crafting recipe: %2$s",
                          "This book contains %1$d crafting recipes: %2$s", recipe_list.size()),
-                recipe_list.size(), recipes.c_str());
+                recipe_list.size(), enumerate_all( recipe_list.begin(), recipe_list.end() ).c_str());
             add_msg(m_info, "%s", recipe_line.c_str());
         }
         if( recipe_list.size() != reading->recipes.size() ) {

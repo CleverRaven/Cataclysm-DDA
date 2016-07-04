@@ -719,11 +719,8 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
             req.push_back( string_format( "%s %d", sk.first.obj().name().c_str(), sk.second ) );
         }
         if( !req.empty() ) {
-            const std::string req_str = enumerate_all( req.begin(), req.end(), []( const std::string &req ) {
-                return req;
-            }, false );
             info.emplace_back( "BASE", _("<bold>Minimum requirements:</bold>") );
-            info.emplace_back( "BASE", req_str );
+            info.emplace_back( "BASE", enumerate_all( req.begin(), req.end() ) );
             insert_separation_line();
         }
 
@@ -975,10 +972,7 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
         }
         if( !fm.empty() ) {
             insert_separation_line();
-            info.emplace_back( "GUN", _( "<bold>Fire modes:</bold> " ), enumerate_all( fm.begin(), fm.end(),
-            []( const std::string &mode ) {
-                return mode;
-            } ) );
+            info.emplace_back( "GUN", _( "<bold>Fire modes:</bold> " ), enumerate_all( fm.begin(), fm.end() ) );
         }
 
         if( !magazine_integral() ) {
@@ -986,7 +980,7 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
             const auto compat = magazine_compatible();
             info.emplace_back( "DESCRIPTION", _( "<bold>Compatible magazines:</bold> " ),
                 enumerate_all( compat.begin(), compat.end(), []( const itype_id &id ) {
-                return item_controller->find_template( id )->nname( 1 );
+                    return item_controller->find_template( id )->nname( 1 );
             } ) );
         }
 
@@ -1241,14 +1235,10 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
                 }
             }
             if( !recipe_list.empty() ) {
-                const std::string recipes = enumerate_all( recipe_list.begin(), recipe_list.end(),
-                []( const std::string &recipe ) {
-                    return recipe;
-                } );
                 std::string recipe_line = string_format(
                                               ngettext( "This book contains %1$d crafting recipe: %2$s",
                                                         "This book contains %1$d crafting recipes: %2$s", recipe_list.size() ),
-                                              recipe_list.size(), recipes.c_str() );
+                                              recipe_list.size(), enumerate_all( recipe_list.begin(), recipe_list.end() ).c_str() );
 
                 insert_separation_line();
                 info.push_back( iteminfo( "DESCRIPTION", recipe_line ) );
