@@ -144,7 +144,7 @@ void game::init_fields()
         {
             "fd_smoke",
             {_("thin smoke"), _("smoke"), _("thick smoke")}, '8', 8,
-            {c_white, c_ltgray, c_dkgray}, {true, false, false},{false, true, true}, MINUTES(10),
+            {c_white, c_ltgray, c_dkgray}, {true, false, false},{false, true, true}, MINUTES(2),
             {0,0,0},
             GAS
         },
@@ -1130,7 +1130,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
 
                     case fd_smoke:
                         dirty_transparency_cache = true;
-                        spread_gas( cur, p, curtype, 30, 0 );
+                        spread_gas( cur, p, curtype, 50, 0 );
                         break;
 
                     case fd_tear_gas:
