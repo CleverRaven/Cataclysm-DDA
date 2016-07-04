@@ -878,7 +878,9 @@ long reveal_map_actor::use( player *p, item *it, bool, const tripoint& ) const
 
 void firestarter_actor::load( JsonObject &obj )
 {
-    moves_cost = obj.get_int( "moves", 0 );
+    moves_cost_fast = obj.get_int( "moves", moves_cost_fast );
+    moves_cost_slow = obj.get_int( "moves_slow", moves_cost_fast * 10 );
+    need_sunlight = obj.get_bool( "need_sunlight", false );
 }
 
 iuse_actor *firestarter_actor::clone() const
@@ -888,14 +890,15 @@ iuse_actor *firestarter_actor::clone() const
 
 bool firestarter_actor::prep_firestarter_use( const player *p, const item *it, tripoint &pos )
 {
-    if( (it->charges == 0) && (!it->has_flag("LENS"))){ // lenses do not need charges
+    if( it->ammo_remaining() < it->ammo_required() ) {
+        p->add_msg_if_player( m_info, _("This tool doesn't have enough charges.") );
         return false;
     }
     if( p->is_underwater() ) {
         p->add_msg_if_player(m_info, _("You can't do that while underwater."));
         return false;
     }
-    if( !choose_adjacent(_("Light where?"), pos ) ) {
+    if( pos == p->pos() && !choose_adjacent( _("Light where?"), pos ) ) {
         g->refresh_all();
         return false;
     }
@@ -937,122 +940,83 @@ void firestarter_actor::resolve_firestarter_use( const player *p, const item *, 
     }
 }
 
-// TODO: Move prep_firestarter_use here
-long firestarter_actor::use( player *p, item *it, bool t, const tripoint &pos ) const
-{
-    if( t ) {
-        return 0;
-    }
-
-    tripoint tmp = pos;
-    if( prep_firestarter_use(p, it, tmp) ) {
-        p->moves -= moves_cost;
-        resolve_firestarter_use( p, it, tmp );
-        return it->type->charges_to_use();
-    }
-
-    return 0;
-}
-
 bool firestarter_actor::can_use( const player* p, const item*, bool, const tripoint& ) const
 {
     if( p->is_underwater() ) {
         return false;
     }
 
-    return true;
-}
-
-void extended_firestarter_actor::load( JsonObject &obj )
-{
-    firestarter_actor::load( obj );
-    need_sunlight = obj.get_bool( "need_sunlight", false );
-}
-
-iuse_actor *extended_firestarter_actor::clone() const
-{
-    return new extended_firestarter_actor( *this );
-}
-
-int extended_firestarter_actor::calculate_time_for_lens_fire( const player *p, float light_level ) const
-{
-    // base moves based on sunlight levels... 1 minute when sunny (80 lighting),
-    // ~10 minutes when clear (60 lighting)
-    float moves_base = std::pow( 80 / light_level, 8 ) * 1000 ;
-    // survival 0 takes 3 * moves_base, survival 1 takes 1,5 * moves_base,
-    // max moves capped at moves_base
-    ///\EFFECT_SURVIVAL speeds up fire starting with lens
-    float moves_modifier = 1 / ( p->get_skill_level( skill_survival ) * 0.33 + 0.33 );
-    if( moves_modifier < 1 ) {
-        moves_modifier = 1;
-    }
-    return int(moves_base * moves_modifier);
-}
-
-long extended_firestarter_actor::use( player *p, item *it, bool, const tripoint &spos ) const
-{
-    tripoint pos = spos;
-    if( need_sunlight ) {
-        // Needs the correct weather, light and to be outside.
-        if( (g->weather == WEATHER_CLEAR || g->weather == WEATHER_SUNNY) &&
-            g->natural_light_level( pos.z ) >= 60 && !g->m.has_flag( TFLAG_INDOORS, pos ) ) {
-            if( prep_firestarter_use(p, it, pos ) ) {
-                // turns needed for activity.
-                const int turns = calculate_time_for_lens_fire( p, g->natural_light_level( pos.z ) );
-                if( turns/1000 > 1 ) {
-                    // If it takes less than a minute, no need to inform the player about time.
-                    p->add_msg_if_player(m_info, _("If the current weather holds, it will take around %d minutes to light a fire."), turns / 1000);
-                }
-                p->assign_activity( ACT_START_FIRE, turns, -1, p->get_item_position(it), it->tname() );
-                // Keep natural_light_level for comparing throughout the activity.
-                p->activity.values.push_back( g->natural_light_level( pos.z ) );
-                p->activity.placement = pos;
-                p->practice( skill_survival, 5 );
-            }
-        } else {
-            p->add_msg_if_player(_("You need direct sunlight to light a fire with this."));
-        }
-    } else {
-        if( prep_firestarter_use(p, it, pos) ) {
-            float skillLevel = float(p->get_skill_level( skill_survival ));
-            // success chance is 100% but time spent is min 5 minutes at skill == 5 and
-            // it increases for lower skill levels.
-            // max time is 1 hour for 0 survival
-            const float moves_base = 5 * 1000;
-            if( skillLevel < 1 ) {
-                // avoid dividing by zero. scaled so that skill level 0 means 60 minutes work
-                skillLevel = 0.536;
-            }
-            // At survival=5 modifier=1, at survival=1 modifier=~6.
-            ///\EFFECT_SURVIVAL speeds up fire starting
-            float moves_modifier = std::pow( 5 / skillLevel, 1.113 );
-            if (moves_modifier < 1) {
-                moves_modifier = 1; // activity time improvement is capped at skillevel 5
-            }
-            const int turns = int( moves_base * moves_modifier );
-            p->add_msg_if_player(m_info, _("At your skill level, it will take around %d minutes to light a fire."), turns / 1000);
-            p->assign_activity(ACT_START_FIRE, turns, -1, p->get_item_position(it), it->tname());
-            p->activity.placement = pos;
-            p->practice( skill_survival, 10 );
-            it->charges -= it->type->charges_to_use() * round(moves_modifier);
-            return 0;
-        }
-    }
-    return 0;
-}
-
-bool extended_firestarter_actor::can_use( const player* p, const item* it, bool t, const tripoint& pos ) const
-{
-    if( !firestarter_actor::can_use( p, it, t, pos ) ) {
+    if( light_mod( p->pos() ) <= 0.0f ) {
         return false;
     }
 
-    if( need_sunlight ) {
-        return ( g->weather == WEATHER_CLEAR || g->weather == WEATHER_SUNNY ) &&
-                 g->natural_light_level( pos.z ) >= 60 && !g->m.has_flag( TFLAG_INDOORS, pos );
+    return true;
+}
+
+float firestarter_actor::light_mod( const tripoint &pos ) const
+{
+    if( !need_sunlight ) {
+        return 1.0f;
     }
 
-    return true;
+    const float light_level = g->natural_light_level( pos.z );
+    if( (g->weather == WEATHER_CLEAR || g->weather == WEATHER_SUNNY) &&
+        light_level >= 60.0f && !g->m.has_flag( TFLAG_INDOORS, pos ) ) {
+        return std::pow( light_level / 80.0f, 8 );
+    }
+
+    return 0.0f;
+}
+
+int firestarter_actor::moves_cost_by_fuel( const tripoint &pos ) const
+{
+    if( g->m.flammable_items_at( pos, 10 ) ) {
+        return moves_cost_fast;
+    }
+
+    if( g->m.flammable_items_at( pos, 3 ) ) {
+        return ( moves_cost_slow + moves_cost_fast ) / 2;
+    }
+
+    return moves_cost_slow;
+}
+
+long firestarter_actor::use( player *p, item *it, bool, const tripoint &spos ) const
+{
+    tripoint pos = spos;
+    float light = light_mod( pos );
+    if( light <= 0.0f ) {
+        p->add_msg_if_player( _("You need direct sunlight to light a fire with this.") );
+        return 0;
+    }
+
+    if( !prep_firestarter_use( p, it, pos ) ) {
+        return 0;
+    }
+
+    float skill_level = p->get_skill_level( skill_survival );
+    ///\EFFECT_SURVIVAL speeds up fire starting
+    float moves_modifier = std::max( 1.0f, light * ( 5 - skill_level ) / 5 );
+    const float moves_base = moves_cost_by_fuel( pos );
+    const int moves = std::max<int>( moves_cost_fast, moves_base * moves_modifier );
+    if( moves > MOVES( MINUTES( 1 ) ) ) {
+        // If more than 1 minute, inform the player
+        static const std::string sun_msg =
+            _("If the current weather holds, it will take around %d minutes to light a fire.");
+        static const std::string normal_msg =
+            _("At your skill level, it will take around %d minutes to light a fire.");
+        p->add_msg_if_player( m_info, ( need_sunlight ? sun_msg : normal_msg ).c_str(),
+            moves / MOVES( MINUTES( 1 ) ) );
+    } else if( moves < MOVES( 2 ) ) {
+        // If less than 2 turns, don't start a long action
+        resolve_firestarter_use( p, it, pos );
+        return it->type->charges_to_use();
+    }
+    p->assign_activity( ACT_START_FIRE, moves, -1, p->get_item_position( it ), it->tname() );
+    p->activity.values.push_back( g->natural_light_level( pos.z ) );
+    p->activity.placement = pos;
+    p->practice( skill_survival, moves_modifier + 2, 5 );
+    return it->type->charges_to_use();
 }
 
 void salvage_actor::load( JsonObject &obj )

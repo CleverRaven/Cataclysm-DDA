@@ -25,7 +25,7 @@ void stash_do_turn( player_activity *act, player *p );
 void pulp_do_turn( player_activity *act, player *p );
 void reload_finish( player_activity *act, player *p );
 void start_fire_finish( player_activity *act, player *p );
-void start_fire_lens_do_turn( player_activity *act, player *p );
+void start_fire_do_turn( player_activity *act, player *p );
 void train_finish( player_activity *act, player *p );
 void vehicle_finish( player_activity *act, player *p );
 void vibe_do_turn( player_activity *act, player *p );

@@ -4916,7 +4916,7 @@ bool item::burn( fire_data &frd )
     return burnt >= vol * 3;
 }
 
-bool item::flammable() const
+bool item::flammable( int threshold ) const
 {
     const auto &mats = made_of_types();
     if( mats.empty() ) {
@@ -4925,6 +4925,7 @@ bool item::flammable() const
     }
 
     int flammability = 0;
+    int chance = 0;
     for( const auto &m : mats ) {
         const auto &bd = m->burn_data( 1 );
         if( bd.immune ) {
@@ -4933,9 +4934,23 @@ bool item::flammable() const
         }
 
         flammability += bd.fuel;
+        chance += bd.chance_in_volume;
     }
 
-    return flammability > 0;
+    if( threshold == 0 || flammability <= 0 ) {
+        return flammability > 0;
+    }
+
+    chance /= mats.size();
+    int vol = base_volume();
+    if( chance > 0 && chance < vol ) {
+        flammability = flammability * chance / vol;
+    } else {
+        // If it burns well, it provides a bonus here
+        flammability *= vol;
+    }
+
+    return flammability > threshold;
 }
 
 std::ostream & operator<<(std::ostream & out, const item * it)

@@ -68,8 +68,8 @@
     "rand_charges": [1,10,12,15,16,22,44,50,67,75,82,100],
     "charges_per_use": 1,
     "use_action": {
-            "type": "firestarter",
-            "moves": 15
+        "type": "firestarter",
+        "moves": 50
     }
   },
   {
@@ -87,7 +87,7 @@
    "charges_per_use": 5,
    "ammo": "battery",
    "use_action": {
-            "type": "extended_firestarter"
+        "type": "firestarter"
     }
   },
   {
@@ -105,8 +105,9 @@
     "initial_charges": 20,
     "charges_per_use": 1,
     "use_action": {
-            "type": "firestarter",
-            "moves": 15
+        "type": "firestarter",
+        "moves": 40,
+        "moves_slow": 1000
     }
   },
   {
@@ -125,7 +126,9 @@
     "charges_per_use": 1,
     "flags": [ "FIRE_DRILL" ],
     "use_action": {
-            "type": "extended_firestarter"
+        "type": "firestarter",
+        "moves": 500,
+        "moves_slow": 25000
     }
   },
   {
@@ -139,12 +142,11 @@
     "material": ["wood", "stone"],
     "weight": 1280,
     "volume": 5,
-    "max_charges": 1000,
-    "initial_charges": 1000,
-    "charges_per_use": 1,
     "flags": [ "FIRE_DRILL" ],
     "use_action": {
-            "type": "extended_firestarter"
+        "type": "firestarter",
+        "moves": 200,
+        "moves_slow": 10000
     }
   },
   {
@@ -179,8 +181,10 @@
     "volume": 1,
     "to_hit": -1,
     "use_action": {
-            "type": "extended_firestarter",
-            "need_sunlight": true
+        "type": "firestarter",
+        "moves": 1000,
+        "moves_slow": 25000,
+        "need_sunlight": true
     }
   },
   {
@@ -198,8 +202,10 @@
     "volume": 1,
     "to_hit": -1,
     "use_action": {
-            "type": "extended_firestarter",
-            "need_sunlight": true
+        "type": "firestarter",
+        "moves": 1000,
+        "moves_slow": 25000,
+        "need_sunlight": true
     }
   },
   {
@@ -4013,7 +4019,7 @@
         },
         {
             "type": "firestarter",
-            "moves": 15
+            "moves": 30
         }
     ]
   },
@@ -4233,7 +4239,7 @@
         },
         {
             "type": "firestarter",
-            "moves": 15
+            "moves": 30
         }
     ]
   },
@@ -4391,7 +4397,7 @@
         },
         {
             "type": "firestarter",
-            "moves": 15
+            "moves": 30
         }
     ]
   },
@@ -4457,7 +4463,7 @@
         },
         {
             "type": "firestarter",
-            "moves": 15
+            "moves": 30
         }
     ]
   },
@@ -4542,7 +4548,7 @@
         },
         {
             "type": "firestarter",
-            "moves": 15
+            "moves": 30
         }
     ]
   },
@@ -6347,7 +6353,7 @@
         },
         {
             "type": "firestarter",
-            "moves": 25
+            "moves": 50
         }
     ]
   },
@@ -6373,7 +6379,8 @@
     "use_action": [
         {
             "type": "firestarter",
-            "moves": 15
+            "moves": 40,
+            "moves_slow": 500
         },
         {
             "type": "transform",

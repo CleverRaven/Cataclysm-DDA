@@ -66,7 +66,9 @@
     "initial_charges": 2000,
     "charges_per_use": 1,
     "use_action": {
-      "type": "extended_firestarter"
+        "type": "firestarter",
+        "moves": 1000,
+        "moves_slow": 5000
     }
   },{
     "id": "tinderbox",
@@ -108,7 +110,8 @@
     "use_action": [
       {
         "type": "firestarter",
-        "moves_cost": 100
+        "moves": 200,
+        "moves_slow": 2000
       },
       {
         "type": "transform",
@@ -587,7 +590,9 @@
       },
       "WEATHER_TOOL",
       {
-        "type": "extended_firestarter",
+        "type": "firestarter",
+        "moves": 1000,
+        "moves_slow": 5000,
         "need_sunlight": true
       }
     ],
