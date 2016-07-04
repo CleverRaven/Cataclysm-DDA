@@ -238,7 +238,7 @@
       "ammo": "shot",
       "clip_size": 1,
       "dispersion": 300,
-      "damage": 2,
+      "ranged_damage": 2,
       "range": -2,
       "aim_speed": -1,
       "sight_dispersion": -1,
