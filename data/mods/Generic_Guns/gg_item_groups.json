@@ -2,7 +2,6 @@
   {
     "type":"item_group",
     "id":"homeguns",
-    "guns_with_ammo" : true,
     "items":[
       ["levergun_44", 20],
       ["rm228", 4],
@@ -40,7 +39,6 @@
   },{
     "type" : "item_group",
     "id" : "behindcounter",
-    "guns_with_ammo" : true,
     "items":[
       ["shotgun_s", 15],
       ["shotgun_d", 20],
@@ -208,7 +206,6 @@
   },{
     "type" : "item_group",
     "id" : "lmoe_guns",
-    "guns_with_ammo" : true,
     "items":[
       ["556", 50],
       ["762_51", 40],
@@ -257,7 +254,6 @@
     "type":"item_group",
     "id":"survivor_weapons",
     "comment": "Please add only weapons and ammo that are easy to scavenge or create ",
-    "guns_with_ammo" : true,
     "items":[
       ["556", 10],
       ["762_51", 10],
