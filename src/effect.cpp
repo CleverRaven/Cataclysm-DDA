@@ -576,16 +576,16 @@ std::string effect::disp_desc(bool reduced) const
         }
     }
     if (constant.size() > 0) {
-        ret << _("Const: ") << enumerate_all( constant.begin(), constant.end() ) << " ";
+        ret << _("Const: ") << enumerate_as_string( constant.begin(), constant.end() ) << " ";
     }
     if (frequent.size() > 0) {
-        ret << _("Freq: ") << enumerate_all( frequent.begin(), frequent.end() ) << " ";
+        ret << _("Freq: ") << enumerate_as_string( frequent.begin(), frequent.end() ) << " ";
     }
     if (uncommon.size() > 0) {
-        ret << _("Unfreq: ") << enumerate_all( uncommon.begin(), uncommon.end() ) << " ";
+        ret << _("Unfreq: ") << enumerate_as_string( uncommon.begin(), uncommon.end() ) << " ";
     }
     if (rare.size() > 0) {
-        ret << _("Rare: ") << enumerate_all( rare.begin(), rare.end() ); // No space needed at the end
+        ret << _("Rare: ") << enumerate_as_string( rare.begin(), rare.end() ); // No space needed at the end
     }
 
     // Newline if necessary

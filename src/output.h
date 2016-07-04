@@ -494,7 +494,7 @@ inline std::string get_labeled_bar( const double val, const int width, const std
  * @param use_and If true, add "and" before the last element (comma otherwise).
  */
 template<typename _FIter, typename _Predicate>
-std::string enumerate_all( _FIter first, _FIter last, _Predicate pred, bool use_and = true )
+std::string enumerate_as_string( _FIter first, _FIter last, _Predicate pred, bool use_and = true )
 {
     std::vector<std::string> values;
     values.reserve( size_t( std::distance( first, last ) ) );
@@ -519,9 +519,9 @@ std::string enumerate_all( _FIter first, _FIter last, _Predicate pred, bool use_
 }
 
 template<typename _FIter>
-std::string enumerate_all( _FIter first, _FIter last, bool use_and = true )
+std::string enumerate_as_string( _FIter first, _FIter last, bool use_and = true )
 {
-    return enumerate_all( first, last, []( const std::string &str ) { return str; }, use_and );
+    return enumerate_as_string( first, last, []( const std::string &str ) { return str; }, use_and );
 }
 
 /**

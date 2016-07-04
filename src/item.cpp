@@ -720,13 +720,13 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
         }
         if( !req.empty() ) {
             info.emplace_back( "BASE", _("<bold>Minimum requirements:</bold>") );
-            info.emplace_back( "BASE", enumerate_all( req.begin(), req.end() ) );
+            info.emplace_back( "BASE", enumerate_as_string( req.begin(), req.end() ) );
             insert_separation_line();
         }
 
         const std::vector<const material_type*> mat_types = made_of_types();
         if( !mat_types.empty() ) {
-            const std::string material_list = enumerate_all( mat_types.begin(), mat_types.end(),
+            const std::string material_list = enumerate_as_string( mat_types.begin(), mat_types.end(),
             []( const material_type *material ) {
                 return string_format( "<stat>%s</stat>", material->name().c_str() );
             }, false );
@@ -972,14 +972,14 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
         }
         if( !fm.empty() ) {
             insert_separation_line();
-            info.emplace_back( "GUN", _( "<bold>Fire modes:</bold> " ), enumerate_all( fm.begin(), fm.end() ) );
+            info.emplace_back( "GUN", _( "<bold>Fire modes:</bold> " ), enumerate_as_string( fm.begin(), fm.end() ) );
         }
 
         if( !magazine_integral() ) {
             insert_separation_line();
             const auto compat = magazine_compatible();
             info.emplace_back( "DESCRIPTION", _( "<bold>Compatible magazines:</bold> " ),
-                enumerate_all( compat.begin(), compat.end(), []( const itype_id &id ) {
+                enumerate_as_string( compat.begin(), compat.end(), []( const itype_id &id ) {
                     return item_controller->find_template( id )->nname( 1 );
             } ) );
         }
@@ -1238,7 +1238,7 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
                 std::string recipe_line = string_format(
                                               ngettext( "This book contains %1$d crafting recipe: %2$s",
                                                         "This book contains %1$d crafting recipes: %2$s", recipe_list.size() ),
-                                              recipe_list.size(), enumerate_all( recipe_list.begin(), recipe_list.end() ).c_str() );
+                                              recipe_list.size(), enumerate_as_string( recipe_list.begin(), recipe_list.end() ).c_str() );
 
                 insert_separation_line();
                 info.push_back( iteminfo( "DESCRIPTION", recipe_line ) );
@@ -1314,7 +1314,7 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
         if( dis_recipe != nullptr && dis_recipe->requirements ) {
             const auto &dis_req = dis_recipe->requirements->disassembly_requirements();
             const auto components = dis_req.get_components();
-            const std::string components_list = enumerate_all( components.begin(), components.end(),
+            const std::string components_list = enumerate_as_string( components.begin(), components.end(),
             []( const std::vector<item_comp> &comps ) {
                 return comps.front().to_string();
             } );
@@ -1369,7 +1369,7 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
         if( !all_techniques.empty() ) {
             insert_separation_line();
             info.push_back( iteminfo( "DESCRIPTION", _( "Techniques: " ),
-            enumerate_all( all_techniques.begin(), all_techniques.end(), []( const matec_id &tid ) {
+            enumerate_as_string( all_techniques.begin(), all_techniques.end(), []( const matec_id &tid ) {
                 return string_format( "<stat>%s</stat>", tid.obj().name.c_str() );
             } ) ) );
         }
@@ -1387,7 +1387,7 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
 
         //lets display which martial arts styles character can use with this weapon
         const auto &styles = g->u.ma_styles;
-        const std::string valid_styles = enumerate_all( styles.begin(), styles.end(),
+        const std::string valid_styles = enumerate_as_string( styles.begin(), styles.end(),
         [ this ]( const matype_id &mid ) {
             return ( mid.obj().has_weapon( typeId() ) ) ? mid.obj().name : "";
         } );
@@ -1825,7 +1825,7 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
                 insert_separation_line();
                 info.push_back( iteminfo( "DESCRIPTION", _( "You could use it to craft various other things." ) ) );
             } else {
-                const std::string recipes = enumerate_all( known_recipes.begin(), known_recipes.end(),
+                const std::string recipes = enumerate_as_string( known_recipes.begin(), known_recipes.end(),
                 [ &inv ]( const recipe *r ) {
                     if( r->can_make_with_inventory( inv ) ) {
                         return item::nname( r->result );
@@ -5391,8 +5391,8 @@ std::string item::components_to_string() const
         const std::string name = elem.display_name();
         counts[name]++;
     }
-    return enumerate_all( counts.begin(), counts.end(),
-    []( const std::pair<std::string, int> &entry ) {
+    return enumerate_as_string( counts.begin(), counts.end(),
+    []( const std::pair<std::string, int> &entry ) -> std::string {
         if( entry.second != 1 ) {
             return string_format( _( "%d x %s" ), entry.second, entry.first.c_str() );
         } else {

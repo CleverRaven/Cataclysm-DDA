@@ -11985,7 +11985,7 @@ bool game::walk_move( const tripoint &dest_loc )
             }
         }
         if( !badfields.empty() ) {
-            if( !query_yn( _("Really step into %s?"), enumerate_all( badfields.begin(), badfields.end() ).c_str() ) ) {
+            if( !query_yn( _("Really step into %s?"), enumerate_as_string( badfields.begin(), badfields.end() ).c_str() ) ) {
                 return true;
             }
         }

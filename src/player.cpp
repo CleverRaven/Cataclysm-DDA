@@ -9821,14 +9821,14 @@ public:
             buffer << ma.name << "\n\n \n\n";
             if( !ma.techniques.empty() ) {
                 buffer << ngettext( "Technique:", "Techniques:", ma.techniques.size() ) << " ";
-                buffer << enumerate_all( ma.techniques.begin(), ma.techniques.end(), []( const matec_id &mid ) {
+                buffer << enumerate_as_string( ma.techniques.begin(), ma.techniques.end(), []( const matec_id &mid ) {
                     return mid.obj().name;
                 } );
             }
             if( !ma.weapons.empty() ) {
                 buffer << "\n\n \n\n";
                 buffer << ngettext( "Weapon:", "Weapons:", ma.weapons.size() ) << " ";
-                buffer << enumerate_all( ma.weapons.begin(), ma.weapons.end(), []( const std::string &wid ) {
+                buffer << enumerate_as_string( ma.weapons.begin(), ma.weapons.end(), []( const std::string &wid ) {
                     return item::nname( wid );
                 } );
             }
@@ -11298,7 +11298,7 @@ void player::do_read( item *book )
             std::string recipe_line = string_format(
                 ngettext("This book contains %1$d crafting recipe: %2$s",
                          "This book contains %1$d crafting recipes: %2$s", recipe_list.size()),
-                recipe_list.size(), enumerate_all( recipe_list.begin(), recipe_list.end() ).c_str());
+                recipe_list.size(), enumerate_as_string( recipe_list.begin(), recipe_list.end() ).c_str());
             add_msg(m_info, "%s", recipe_line.c_str());
         }
         if( recipe_list.size() != reading->recipes.size() ) {

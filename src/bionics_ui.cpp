@@ -95,7 +95,7 @@ std::string build_bionic_poweronly_string( bionic const &bio )
         properties.push_back( bio.powered ? _( "ON" ) : _( "OFF" ) );
     }
 
-    return enumerate_all( properties.begin(), properties.end(), false );
+    return enumerate_as_string( properties.begin(), properties.end(), false );
 }
 
 //generates the string that show how much power a bionic uses

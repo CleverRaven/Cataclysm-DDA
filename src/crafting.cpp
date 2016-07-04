@@ -1843,7 +1843,7 @@ std::string recipe::required_skills_string() const
     if( required_skills.empty() ) {
         return _( "N/A" );
     }
-    return enumerate_all( required_skills.begin(), required_skills.end(),
+    return enumerate_as_string( required_skills.begin(), required_skills.end(),
     []( const std::pair<skill_id, int> &skill ) {
         return string_format( "%s (%d)", skill.first.obj().name().c_str(), skill.second );
     } );
