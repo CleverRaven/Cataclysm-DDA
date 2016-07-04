@@ -2066,8 +2066,8 @@
     "vision_night":3,
     "hp":75,
     "death_function":"SMOKEBURST",
+    "emit_fields": [ "emit_smoke_stream" ],
     "special_attacks":[
-        ["SMOKECLOUD", 1],
         {
             "type" : "bite",
             "cooldown" : 5
