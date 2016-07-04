@@ -4,7 +4,6 @@
     "type": "emit",
     "//": "Small plume of thick smoke (example: muzzle smoke)",
     "field": "fd_smoke",
-    "density": 3,
     "qty": 6
   },
   {
@@ -12,7 +11,13 @@
     "type": "emit",
     "//": "Steady stream of thick smoke (example: smoke bomb)",
     "field": "fd_smoke",
-    "density": 3,
     "qty": 24
+  },
+  {
+    "id": "emit_tear_gas_stream",
+    "type": "emit",
+    "//": "Steady stream of tear gas (example: tear gas canister)",
+    "field": "fd_tear_gas",
+    "qty": 18
   }
 ]
