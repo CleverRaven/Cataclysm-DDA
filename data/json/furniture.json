@@ -2675,7 +2675,7 @@
         "color": "ltgray",
         "move_cost_mod": 1,
         "required_str": -1,
-        "flags": ["TRANSPARENT", "ALLOW_FIELD_EFFECT", "MOUNTABLE", "SHORT"],
+        "flags": ["TRANSPARENT", "MOUNTABLE", "SHORT"],
         "bash": {
             "str_min": 18, "str_max": 40,
             "sound": "smash!",
