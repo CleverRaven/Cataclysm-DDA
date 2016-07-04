@@ -192,12 +192,9 @@ dealt_projectile_attack Creature::projectile_attack( const projectile &proj_arg,
         trajectory = g->m.find_clear_path( source, target );
     }
 
+    static emit_id muzzle_smoke( "emit_smoke_plume" );
     if( proj_effects.count( "MUZZLE_SMOKE" ) ) {
-        for( const auto& e : closest_tripoints_first( 1, trajectory.empty() ? source : trajectory[ 0 ] ) ) {
-            if( one_in( 2 ) ) {
-                g->m.add_field( e, fd_smoke, 1, 0 );
-            }
-        }
+        g->m.emit_field( trajectory.empty() ? source : trajectory[ 0 ], muzzle_smoke );
     }
 
     add_msg( m_debug, "%s proj_atk: shot_dispersion: %.2f",

@@ -1,11 +1,18 @@
 [
   {
-    "id": "emit_smoke_stream",
+    "id": "emit_smoke_plume",
     "type": "emit",
-    "//": "A steady stream of thick smoke",
+    "//": "Small plume of thick smoke (example: muzzle smoke)",
     "field": "fd_smoke",
     "density": 3,
-    "qty": 24,
-    "chance": 100
+    "qty": 6
+  },
+  {
+    "id": "emit_smoke_stream",
+    "type": "emit",
+    "//": "Steady stream of thick smoke (example: smoke bomb)",
+    "field": "fd_smoke",
+    "density": 3,
+    "qty": 24
   }
 ]
