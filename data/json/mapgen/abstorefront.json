@@ -46,7 +46,10 @@
             "furniture": {
                 "B": "f_rack",
                 "c": "f_counter"
-            }
+            },
+            "set": [
+                { "point": "furniture", "id": "f_shackle", "x": [2,14], "y": [2,21], "chance": 20 }
+            ]
         }
     }
 ]
