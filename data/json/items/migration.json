@@ -166,6 +166,11 @@
     "replace": "40mm_shot"
   },
   {
+    "id": "reloaded_signal_flare",
+    "type": "MIGRATION",
+    "replace": "signal_flare"
+  },
+  {
     "id": "reloaded_shot_he",
     "type": "MIGRATION",
     "replace": "shot_he"
