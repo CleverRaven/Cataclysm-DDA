@@ -1490,7 +1490,8 @@
         "recoil" : 510,
         "count" : 20,
         "stack_size" : 20,
-        "effects" : ["INCENDIARY", "FLARE", "NEVER_MISFIRES"]
+        "drop": "handflare_lit",
+        "effects" : ["NEVER_MISFIRES"]
     },
     {   "type" : "AMMO",
         "id" : "20x66_inc",
