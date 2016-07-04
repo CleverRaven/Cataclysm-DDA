@@ -87,7 +87,7 @@
     "type": "TOOL",
     "name": "flare",
     "description": "This is a slow-burning magnesium flare.  Use it to strike the striker and light it.  It will produce a bright light for about a half hour.",
-    "material": [ "plastic", "magnesium" ],
+    "material": [ "plastic", "powder" ],
     "symbol": ";",
     "color": "light_red",
     "weight": 128,

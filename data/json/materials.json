@@ -1022,25 +1022,6 @@
             { "fuel": 900, "smoke": 6, "burn": 3 }
         ]
     },{
-        "type": "material",
-        "ident": "magnesium",
-        "name": "Magnesium",
-        "dmg_adj": [ "lightly damaged", "damaged", "very damaged", "thoroughly damaged" ],
-        "bash_dmg_verb": "damaged",
-        "cut_dmg_verb": "damaged",
-        "bash_resist": 0,
-        "cut_resist": 0,
-        "acid_resist": 0,
-        "elec_resist": 0,
-        "fire_resist": 0,
-        "chip_resist": 0,
-        "density": 8,
-        "burn_data": [
-            { "fuel": 400, "smoke": 4, "burn": 1 },
-            { "fuel": 800, "smoke": 4, "burn": 2 },
-            { "fuel": 1200, "smoke": 4, "burn": 3 }
-        ]
-    },{
         "type" : "material",
         "ident" : "neoprene",
         "name" : "Neoprene",

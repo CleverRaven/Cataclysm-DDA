@@ -10,7 +10,7 @@
     "volume": 1,
     "price": 10000,
     "container": "bag_plastic",
-    "material": [ "magnesium" ],
+    "material": [ "powder" ],
     "symbol": "=",
     "color": "dark_gray",
     "count": 100,

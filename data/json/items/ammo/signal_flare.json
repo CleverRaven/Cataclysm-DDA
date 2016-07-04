@@ -7,7 +7,7 @@
     "weight": 32,
     "volume": 1,
     "price": 2500,
-    "material": [ "plastic", "magnesium" ],
+    "material": [ "plastic", "powder" ],
     "symbol": "=",
     "color": "red",
     "count": 4,

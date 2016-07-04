@@ -29,7 +29,7 @@
     "count": 100,
     "stack_size": 100,
     "container": "bag_plastic",
-    "material": [ "magnesium" ],
+    "material": [ "powder" ],
     "symbol": "=",
     "color": "dark_gray",
     "ammo_type": "components"
