@@ -1,155 +1,174 @@
 [
-    {
-        "id" : "9mm_casing",
-        "copy-from" : "9mm_casing",
-        "type" : "AMMO",
-		"ammo_type" : "9mm",
-        "category" : "spare_parts",
-        "name" : "pistol ammo casing",
-        "description" : "An empty casing from a pistol round."
-    },{
-        "id" : "44_casing",
-        "copy-from" : "44_casing",
-        "type" : "AMMO",
-		"ammo_type" : "44",
-        "category" : "spare_parts",
-        "name" : "revolver ammo casing",
-        "description" : "An empty casing from a revolver round."
-    },{
-        "id" : "223_casing",
-        "copy-from" : "223_casing",
-        "type" : "AMMO",
-		"ammo_type" : "556",
-        "category" : "spare_parts",
-        "name" : "light rifle ammo casing",
-        "description" : "An empty casing from a light rifle round."
-    },{
-        "id" : "308_casing",
-        "copy-from" : "308_casing",
-        "type" : "AMMO",
-		"ammo_type" : "762",
-        "category" : "spare_parts",
-        "name" : "rifle casing",
-        "description" : "An empty casing from a rifle round."
-    },{
-        "id" : "50_casing",
-        "copy-from" : "50_casing",
-        "type" : "AMMO",
-		"ammo_type" : "50",
-        "category" : "spare_parts",
-        "name" : "heavy rifle casing",
-        "description" : "An empty casing from a heavy rifle round."
-    },{
-        "id" : "ammolink308",
-        "copy-from" : "ammolink308",
-        "type" : "AMMO",
-		"ammo_type" : "762",
-        "category" : "spare_parts",
-        "name" : "belt ammo link",
-        "description" : "A small metal linkage from a disintegrating ammo belt."
-    },{
-        "id" : "9mm",
-        "copy-from" : "9mm",
-        "type" : "AMMO",
-		"ammo_type" : "9mm",
-        "name" : "pistol ammo",
-        "name_plural" : "pistol ammo",
-        "description" : "Ammunition for semiautomatic pistols, as well as submachineguns and the occasional robot."
-    },{
-        "id" : "9mmP2",
-        "copy-from" : "9mmP2",
-        "type" : "AMMO",
-		"ammo_type" : "9mm",
-        "name" : "pistol ammo+",
-        "name_plural" : "pistol ammo+",
-        "description" : "High power ammunition for pistols, packed with extra powder.  It trades improved damage for increased recoil."
-    },{
-        "id" : "9mmfmj",
-        "copy-from" : "9mmfmj",
-        "type" : "AMMO",
-		"ammo_type" : "9mm",
-        "name" : "pistol ammo, AP",
-        "name_plural" : "AP pistol ammo",
-        "description" : "Armor piercing ammunition for pistols.  It trades improved penetration for slightly reduced damage."
-    },{
-        "id" : "44magnum",
-        "copy-from" : "44magnum",
-        "type" : "AMMO",
-		"ammo_type" : "44",
-        "name" : "revolver ammo",
-        "name_plural" : "revolver ammo",
-        "description" : "Powerful ammunition for large revolvers and magnum pistols, as well as a few carbines."
-    },{
-        "id" : "223", "//" : "weapons with ammo spawn default type even blacklisted.",
-        "copy-from" : "223",
-        "type" : "AMMO",
-		"ammo_type" : "556",
-        "name" : "handloaded light rifle ammo",
-        "name_plural" : "handloaded light rifle ammo",
-        "description" : "Hand-loaded ammunition for lighter rifles, designed for small game and humans."
-    },{
-        "id" : "556",
-        "copy-from" : "556",
-        "type" : "AMMO",
-		"ammo_type" : "556",
-        "name" : "light rifle ammo",
-        "name_plural" : "light rifle ammo",
-        "description" : "Low recoil ammunition for rifles, designed for small game and humans."
-    },{
-        "id" : "556_incendiary",
-        "copy-from" : "556_incendiary",
-        "type" : "AMMO",
-		"ammo_type" : "556",
-        "name" : "light rifle ammo, incendiary",
-        "name_plural" : "light rifle ammo, incendiary",
-        "description" : "Military ammunition for rifles, designed to burn hotly upon impact, piercing armor and igniting flammable substances."
-   },{
-        "id" : "308",
-        "copy-from" : "308",
-        "type" : "AMMO",
-		"ammo_type" : "762",
-        "name" : "handloaded rifle ammo",
-        "name_plural" : "hand loaded rifle ammo",
-        "description" : "Hand-loaded ammunition for rifles, meant for taking down large game or humans."
-   },{
-        "id" : "762_51",
-        "copy-from" : "762_51",
-        "type" : "AMMO",
-		"ammo_type" : "762",
-        "name" : "rifle ammo",
-        "name_plural" : "rifle ammo",
-        "description" : "Powerful and accurate ammunition for rifles, meant for taking down large game or humans."
-    },{
-        "id" : "762_51_incendiary",
-        "copy-from" : "762_51_incendiary",
-        "type" : "AMMO",
-		"ammo_type" : "762",
-        "name" : "rifle ammo, incendiary",
-        "name_plural" : "rifle ammo, incendiary",
-        "description" : "Military ammo for rifles, designed to burn hotly upon impact, piercing armor and igniting flammable substances."
-   },{
-        "id" : "50bmg",
-        "copy-from" : "50bmg",
-        "type" : "AMMO",
-		"ammo_type" : "50",
-        "name" : "heavy rifle ammo",
-        "name_plural" : "heavy rifle ammo",
-        "description" : "Serious ammunition for heavy machineguns and special military hardware, intended for destroying vehicles or very large creatures."
-    },{
-        "id" : "50ss",
-        "copy-from" : "50ss",
-        "type" : "AMMO",
-		"ammo_type" : "50",
-        "name" : "heavy rifle ammo, AP",
-        "name_plural" : "heavy rifle ammo, AP",
-        "description" : "Armor piercing ammunition for heavy machineguns and other military hardware.  It trades improved penetration for slightly reduced damage."
-    },{
-        "id" : "50_incendiary",
-        "copy-from" : "50_incendiary",
-        "type" : "AMMO",
-		"ammo_type" : "50",
-        "name" : "heavy rifle ammo, incendiary",
-        "name_plural" : "heavy rifle ammo, incendiary",
-        "description" : "Ammunition for heavy machine guns and other military hardware, designed to burn hotly upon impact, piercing armor and igniting flammable substances."
-    }
+  {
+    "id": "9mm_casing",
+    "copy-from": "9mm_casing",
+    "type": "AMMO",
+    "category": "spare_parts",
+    "name": "pistol ammo casing",
+    "description": "An empty casing from a pistol round.",
+    "ammo_type": "9mm"
+  },
+  {
+    "id": "44_casing",
+    "copy-from": "44_casing",
+    "type": "AMMO",
+    "category": "spare_parts",
+    "name": "revolver ammo casing",
+    "description": "An empty casing from a revolver round.",
+    "ammo_type": "44"
+  },
+  {
+    "id": "223_casing",
+    "copy-from": "223_casing",
+    "type": "AMMO",
+    "category": "spare_parts",
+    "name": "light rifle ammo casing",
+    "description": "An empty casing from a light rifle round.",
+    "ammo_type": "556"
+  },
+  {
+    "id": "308_casing",
+    "copy-from": "308_casing",
+    "type": "AMMO",
+    "category": "spare_parts",
+    "name": "rifle casing",
+    "description": "An empty casing from a rifle round.",
+    "ammo_type": "762"
+  },
+  {
+    "id": "50_casing",
+    "copy-from": "50_casing",
+    "type": "AMMO",
+    "category": "spare_parts",
+    "name": "heavy rifle casing",
+    "description": "An empty casing from a heavy rifle round.",
+    "ammo_type": "50"
+  },
+  {
+    "id": "ammolink308",
+    "copy-from": "ammolink308",
+    "type": "AMMO",
+    "category": "spare_parts",
+    "name": "belt ammo link",
+    "description": "A small metal linkage from a disintegrating ammo belt.",
+    "ammo_type": "762"
+  },
+  {
+    "id": "9mm",
+    "copy-from": "9mm",
+    "type": "AMMO",
+    "name": "pistol ammo",
+    "name_plural": "pistol ammo",
+    "description": "Ammunition for semiautomatic pistols, as well as submachineguns and the occasional robot.",
+    "ammo_type": "9mm"
+  },
+  {
+    "id": "9mmP2",
+    "copy-from": "9mmP2",
+    "type": "AMMO",
+    "name": "pistol ammo+",
+    "name_plural": "pistol ammo+",
+    "description": "High power ammunition for pistols, packed with extra powder.  It trades improved damage for increased recoil.",
+    "ammo_type": "9mm"
+  },
+  {
+    "id": "9mmfmj",
+    "copy-from": "9mmfmj",
+    "type": "AMMO",
+    "name": "pistol ammo, AP",
+    "name_plural": "AP pistol ammo",
+    "description": "Armor piercing ammunition for pistols.  It trades improved penetration for slightly reduced damage.",
+    "ammo_type": "9mm"
+  },
+  {
+    "id": "44magnum",
+    "copy-from": "44magnum",
+    "type": "AMMO",
+    "name": "revolver ammo",
+    "name_plural": "revolver ammo",
+    "description": "Powerful ammunition for large revolvers and magnum pistols, as well as a few carbines.",
+    "ammo_type": "44"
+  },
+  {
+    "id": "223",
+    "copy-from": "223",
+    "type": "AMMO",
+    "name": "handloaded light rifle ammo",
+    "name_plural": "handloaded light rifle ammo",
+    "//": "weapons with ammo spawn default type even blacklisted.",
+    "description": "Hand-loaded ammunition for lighter rifles, designed for small game and humans.",
+    "ammo_type": "556"
+  },
+  {
+    "id": "556",
+    "copy-from": "556",
+    "type": "AMMO",
+    "name": "light rifle ammo",
+    "name_plural": "light rifle ammo",
+    "description": "Low recoil ammunition for rifles, designed for small game and humans.",
+    "ammo_type": "556"
+  },
+  {
+    "id": "556_incendiary",
+    "copy-from": "556_incendiary",
+    "type": "AMMO",
+    "name": "light rifle ammo, incendiary",
+    "name_plural": "light rifle ammo, incendiary",
+    "description": "Military ammunition for rifles, designed to burn hotly upon impact, piercing armor and igniting flammable substances.",
+    "ammo_type": "556"
+  },
+  {
+    "id": "308",
+    "copy-from": "308",
+    "type": "AMMO",
+    "name": "handloaded rifle ammo",
+    "name_plural": "hand loaded rifle ammo",
+    "description": "Hand-loaded ammunition for rifles, meant for taking down large game or humans.",
+    "ammo_type": "762"
+  },
+  {
+    "id": "762_51",
+    "copy-from": "762_51",
+    "type": "AMMO",
+    "name": "rifle ammo",
+    "name_plural": "rifle ammo",
+    "description": "Powerful and accurate ammunition for rifles, meant for taking down large game or humans.",
+    "ammo_type": "762"
+  },
+  {
+    "id": "762_51_incendiary",
+    "copy-from": "762_51_incendiary",
+    "type": "AMMO",
+    "name": "rifle ammo, incendiary",
+    "name_plural": "rifle ammo, incendiary",
+    "description": "Military ammo for rifles, designed to burn hotly upon impact, piercing armor and igniting flammable substances.",
+    "ammo_type": "762"
+  },
+  {
+    "id": "50bmg",
+    "copy-from": "50bmg",
+    "type": "AMMO",
+    "name": "heavy rifle ammo",
+    "name_plural": "heavy rifle ammo",
+    "description": "Serious ammunition for heavy machineguns and special military hardware, intended for destroying vehicles or very large creatures.",
+    "ammo_type": "50"
+  },
+  {
+    "id": "50ss",
+    "copy-from": "50ss",
+    "type": "AMMO",
+    "name": "heavy rifle ammo, AP",
+    "name_plural": "heavy rifle ammo, AP",
+    "description": "Armor piercing ammunition for heavy machineguns and other military hardware.  It trades improved penetration for slightly reduced damage.",
+    "ammo_type": "50"
+  },
+  {
+    "id": "50_incendiary",
+    "copy-from": "50_incendiary",
+    "type": "AMMO",
+    "name": "heavy rifle ammo, incendiary",
+    "name_plural": "heavy rifle ammo, incendiary",
+    "description": "Ammunition for heavy machine guns and other military hardware, designed to burn hotly upon impact, piercing armor and igniting flammable substances.",
+    "ammo_type": "50"
+  }
 ]

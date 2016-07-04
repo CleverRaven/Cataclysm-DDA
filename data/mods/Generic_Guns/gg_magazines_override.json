@@ -59,16 +59,16 @@
     "flags": [ "NO_RELOAD", "NO_UNLOAD", "MAG_DESTROY" ]
   },
   {
-    "id" : "calicomag",
+    "id": "calicomag",
     "copy-from": "calicomag",
-    "type" : "MAGAZINE",
-    "name" : "Advanced SMG magazine",
-    "description" : "A surprisingly compact 50-round magazine for use with the advanced SMG.",
+    "type": "MAGAZINE",
+    "name": "Advanced SMG magazine",
+    "description": "A surprisingly compact 50-round magazine for use with the advanced SMG.",
     "ammo_type": "9mm",
-    "capacity" : 50,
-    "reliability" : 7,
-    "reload_time" : 160,
-    "flags" : [ "MAG_COMPACT" ]
+    "capacity": 50,
+    "reliability": 7,
+    "reload_time": 160,
+    "flags": [ "MAG_COMPACT" ]
   },
   {
     "id": "glockbigmag",

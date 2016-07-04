@@ -1,101 +1,101 @@
 [
- {
-        "id" : "reloaded_9mm",
-        "copy-from" : "reloaded_9mm",
-        "type" : "AMMO",
-		"ammo_type" : "9mm",
-        "name" : "reloaded pistol ammo",
-        "name_plural" : "reloaded pistol ammo",
-        "description" : "Hand-loaded ammunition for semiautomatic pistols as well as submachine guns."
-    },
-    {
-        "id" : "reloaded_9mmP2",
-        "copy-from" : "reloaded_9mmP2",
-        "type" : "AMMO",
-		"ammo_type" : "9mm",
-        "name" : "reloaded pistol ammo+",
-        "name_plural" : "reloaded pistol ammo+",
-        "description" : "Hand-loaded ammunition for pistols, packed with extra powder.  It trades improved damage for increased recoil."
-    },
-    {
-        "id" : "reloaded_9mmfmj",
-        "copy-from" : "reloaded_9mmfmj",
-        "type" : "AMMO",
-		"ammo_type" : "9mm",
-        "name" : "reloaded pistol ammo, AP",
-        "name_plural" : "reloaded pistol ammo, AP",
-        "description" : "Hand-loaded armor-piercing ammunition for pistols.  It trades improved penetration for slightly reduced damage."
-    },
-    {
-        "id" : "reloaded_44magnum",
-        "copy-from" : "reloaded_44magnum",
-        "type" : "AMMO",
-		"ammo_type" : "44",
-        "name" : "reloaded revolver ammo",
-        "name_plural" : "reloaded revolver ammo",
-        "description" : "Hand-loaded ammunition for large revolvers and magnum pistols, as well as a few carbines."
-    },
-    {
-        "id" : "reloaded_556",
-        "copy-from" : "reloaded_556",
-        "type" : "AMMO",
-		"ammo_type" : "556",
-        "name" : "reloaded light rifle ammo",
-        "name_plural" : "reloaded light rifle ammo",
-        "description" :"Hand-loaded ammunition for lighter rifles, designed for small game and humans."
-    },
-    {
-        "id" : "reloaded_556_incendiary",
-        "copy-from" : "reloaded_556_incendiary",
-        "type" : "AMMO",
-		"ammo_type" : "556",
-        "name" : "reloaded light rifle ammo, incendiary",
-        "name_plural" : "reloaded light rifle ammo, incendiary",
-        "description" : "Hand-loaded incendiary ammunition for lighter rifles, designed to burn hotly upon impact, piercing armor and igniting flammable substances."
-    },
-    {
-        "id" : "reloaded_762_51",
-        "copy-from" : "reloaded_762_51",
-        "type" : "AMMO",
-		"ammo_type" : "762",
-        "name" : "reloaded rifle ammo",
-        "name_plural" : "reloaded rifle ammo",
-        "description" : "Hand-loaded ammunition for rifles, meant for taking down large game or humans."
-    },
-    {
-        "id" : "reloaded_762_51_incendiary",
-        "copy-from" : "reloaded_762_51_incendiary",
-        "type" : "AMMO",
-		"ammo_type" : "762",
-        "name" : "reloaded rifle ammo, incendiary",
-        "name_plural" : "reloaded rifle ammo, incendiary",
-        "description" : "Hand-loaded incendiary ammunition for rifles, designed to burn hotly upon impact, piercing armor and igniting flammable substances.  This one has been hand-reloaded."
-    },
-    {
-        "id" : "reloaded_50bmg",
-        "copy-from" : "reloaded_50bmg",
-        "type" : "AMMO",
-		"ammo_type" : "50",
-        "name" : "reloaded heavy rifle ammo",
-        "name_plural" : "reloaded heavy rifle ammo",
-        "description" : "Hand-loaded ammunition for heavy machineguns and special military hardware, intended for destroying vehicles or very large creatures."
-    },
-    {
-        "id" : "reloaded_50ss",
-        "copy-from" : "reloaded_50ss",
-        "type" : "AMMO",
-		"ammo_type" : "50",
-        "name" : "reloaded heavy rifle ammo, AP",
-        "name_plural" : "reloaded heavy rifle ammo, AP",
-        "description" : "Hand-loaded armor-piercing ammunition for heavy machineguns and other military hardware.  It trades improved penetration for slightly reduced damage."
-    },
-    {
-        "id" : "reloaded_50_incendiary",
-        "copy-from" : "reloaded_50_incendiary",
-        "type" : "AMMO",
-		"ammo_type" : "50",
-        "name" : "reloaded heavy rifle ammo, incendiary",
-        "name_plural" : "reloaded heavy rifle ammo, incendiary",
-        "description" : "Hand-loaded ammunition for heavy machine guns and other military hardware, designed to burn hotly upon impact, piercing armor and igniting flammable substances."
-    }
+  {
+    "id": "reloaded_9mm",
+    "copy-from": "reloaded_9mm",
+    "type": "AMMO",
+    "name": "reloaded pistol ammo",
+    "name_plural": "reloaded pistol ammo",
+    "description": "Hand-loaded ammunition for semiautomatic pistols as well as submachine guns.",
+    "ammo_type": "9mm"
+  },
+  {
+    "id": "reloaded_9mmP2",
+    "copy-from": "reloaded_9mmP2",
+    "type": "AMMO",
+    "name": "reloaded pistol ammo+",
+    "name_plural": "reloaded pistol ammo+",
+    "description": "Hand-loaded ammunition for pistols, packed with extra powder.  It trades improved damage for increased recoil.",
+    "ammo_type": "9mm"
+  },
+  {
+    "id": "reloaded_9mmfmj",
+    "copy-from": "reloaded_9mmfmj",
+    "type": "AMMO",
+    "name": "reloaded pistol ammo, AP",
+    "name_plural": "reloaded pistol ammo, AP",
+    "description": "Hand-loaded armor-piercing ammunition for pistols.  It trades improved penetration for slightly reduced damage.",
+    "ammo_type": "9mm"
+  },
+  {
+    "id": "reloaded_44magnum",
+    "copy-from": "reloaded_44magnum",
+    "type": "AMMO",
+    "name": "reloaded revolver ammo",
+    "name_plural": "reloaded revolver ammo",
+    "description": "Hand-loaded ammunition for large revolvers and magnum pistols, as well as a few carbines.",
+    "ammo_type": "44"
+  },
+  {
+    "id": "reloaded_556",
+    "copy-from": "reloaded_556",
+    "type": "AMMO",
+    "name": "reloaded light rifle ammo",
+    "name_plural": "reloaded light rifle ammo",
+    "description": "Hand-loaded ammunition for lighter rifles, designed for small game and humans.",
+    "ammo_type": "556"
+  },
+  {
+    "id": "reloaded_556_incendiary",
+    "copy-from": "reloaded_556_incendiary",
+    "type": "AMMO",
+    "name": "reloaded light rifle ammo, incendiary",
+    "name_plural": "reloaded light rifle ammo, incendiary",
+    "description": "Hand-loaded incendiary ammunition for lighter rifles, designed to burn hotly upon impact, piercing armor and igniting flammable substances.",
+    "ammo_type": "556"
+  },
+  {
+    "id": "reloaded_762_51",
+    "copy-from": "reloaded_762_51",
+    "type": "AMMO",
+    "name": "reloaded rifle ammo",
+    "name_plural": "reloaded rifle ammo",
+    "description": "Hand-loaded ammunition for rifles, meant for taking down large game or humans.",
+    "ammo_type": "762"
+  },
+  {
+    "id": "reloaded_762_51_incendiary",
+    "copy-from": "reloaded_762_51_incendiary",
+    "type": "AMMO",
+    "name": "reloaded rifle ammo, incendiary",
+    "name_plural": "reloaded rifle ammo, incendiary",
+    "description": "Hand-loaded incendiary ammunition for rifles, designed to burn hotly upon impact, piercing armor and igniting flammable substances.  This one has been hand-reloaded.",
+    "ammo_type": "762"
+  },
+  {
+    "id": "reloaded_50bmg",
+    "copy-from": "reloaded_50bmg",
+    "type": "AMMO",
+    "name": "reloaded heavy rifle ammo",
+    "name_plural": "reloaded heavy rifle ammo",
+    "description": "Hand-loaded ammunition for heavy machineguns and special military hardware, intended for destroying vehicles or very large creatures.",
+    "ammo_type": "50"
+  },
+  {
+    "id": "reloaded_50ss",
+    "copy-from": "reloaded_50ss",
+    "type": "AMMO",
+    "name": "reloaded heavy rifle ammo, AP",
+    "name_plural": "reloaded heavy rifle ammo, AP",
+    "description": "Hand-loaded armor-piercing ammunition for heavy machineguns and other military hardware.  It trades improved penetration for slightly reduced damage.",
+    "ammo_type": "50"
+  },
+  {
+    "id": "reloaded_50_incendiary",
+    "copy-from": "reloaded_50_incendiary",
+    "type": "AMMO",
+    "name": "reloaded heavy rifle ammo, incendiary",
+    "name_plural": "reloaded heavy rifle ammo, incendiary",
+    "description": "Hand-loaded ammunition for heavy machine guns and other military hardware, designed to burn hotly upon impact, piercing armor and igniting flammable substances.",
+    "ammo_type": "50"
+  }
 ]
