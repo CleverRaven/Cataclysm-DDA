@@ -54,6 +54,8 @@ class npc_class
         distribution bonus_per;
 
         std::map<skill_id, distribution> skills;
+        // Just for finalization
+        std::map<skill_id, distribution> bonus_skills;
 
         Group_tag shopkeeper_item_group = "EMPTY_GROUP";
 

@@ -77,25 +77,38 @@ void npc_class::reset_npc_classes()
     npc_class_factory.reset();
 }
 
+// Copies the value under the key "ALL" to all unassigned skills
+template <typename T>
+void apply_all_to_unassigned( T &skills )
+{
+    auto iter = std::find_if( skills.begin(), skills.end(),
+    []( decltype( *begin( skills ) ) &pr ) {
+        return pr.first == "ALL";
+    } );
+
+    if( iter != skills.end() ) {
+        distribution dis = iter->second;
+        skills.erase( iter );
+        for( const auto &sk : Skill::skills ) {
+            if( skills.count( sk.ident() ) == 0 ) {
+                skills[ sk.ident() ] = dis;
+            }
+        }
+    }
+}
+
 void npc_class::finalize_all()
 {
     for( auto &cl_const : npc_class_factory.get_all() ) {
-        // Horrible - can't be done better?
         auto &cl = const_cast<npc_class &>( cl_const );
-        auto iter = std::find_if( cl.skills.begin(), cl.skills.end(),
-        []( decltype( *begin( cl.skills ) ) &pr ) {
-            return pr.first == "ALL";
-        } );
+        apply_all_to_unassigned( cl.skills );
+        apply_all_to_unassigned( cl.bonus_skills );
 
-        if( iter != cl.skills.end() ) {
-            if( cl.skills.size() > 1 ) {
-                debugmsg( "NPC skill \"ALL\" with other skills is not supported" );
-            }
-
-            distribution dis = iter->second;
-            cl.skills.clear();
-            for( const auto &sk : Skill::skills ) {
-                cl.skills[ sk.ident() ] = dis;
+        for( const auto &pr : cl.bonus_skills ) {
+            if( cl.skills.count( pr.first ) == 0 ) {
+                cl.skills[ pr.first ] = pr.second;
+            } else {
+                cl.skills[ pr.first ] = cl.skills[ pr.first ] + pr.second;
             }
         }
     }
@@ -207,9 +220,16 @@ void npc_class::load( JsonObject &jo )
         while( jarr.has_more() ) {
             JsonObject skill_obj = jarr.next_object();
             auto skill_ids = skill_obj.get_tags( "skill" );
-            distribution dis = load_distribution( skill_obj, "level" );
-            for( const auto &sid : skill_ids ) {
-                skills[ skill_id( sid ) ] = dis;
+            if( skill_obj.has_object( "level" ) ) {
+                distribution dis = load_distribution( skill_obj, "level" );
+                for( const auto &sid : skill_ids ) {
+                    skills[ skill_id( sid ) ] = dis;
+                }
+            } else {
+                distribution dis = load_distribution( skill_obj, "bonus" );
+                for( const auto &sid : skill_ids ) {
+                    bonus_skills[ skill_id( sid ) ] = dis;
+                }
             }
         }
     }
@@ -288,7 +308,7 @@ int npc_class::roll_skill( const skill_id &sid ) const
         return 0;
     }
 
-    return iter->second.roll();
+    return std::max<int>( 0, iter->second.roll() );
 }
 
 distribution::distribution()
