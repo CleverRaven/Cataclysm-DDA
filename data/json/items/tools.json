@@ -801,47 +801,6 @@
     "to_hit": -1
   },
   {
-    "id": "handflare",
-    "type": "TOOL",
-    "symbol": ";",
-    "color": "light_red",
-    "name": "flare",
-    "description": "This is a slow-burning magnesium flare.  Use it to strike the striker and light it.  It will produce a bright light for about a half hour.",
-    "price": 400,
-    "material": ["paper", "plastic"],
-    "weight": 128,
-    "volume": 1,
-    "bashing": 2,
-    "to_hit": -1,
-    "max_charges": 150,
-    "initial_charges": 150,
-    "use_action": {
-        "type": "transform",
-        "target": "handflare_lit",
-        "active": true,
-        "msg": "You strike your flare and light it."
-    }
-  },
-  {
-    "id": "handflare_lit",
-    "type": "TOOL",
-    "symbol": ";",
-    "color": "white",
-    "name": "active flare",
-    "description": "This burning magnesium flare is producing light.  It will last for about a half hour before burning out.",
-    "material": ["paper", "plastic"],
-    "flags": [ "FIRE", "LIGHT_240", "CHARGEDIM", "FLAMING", "TRADER_AVOID" ],
-    "weight": 128,
-    "volume": 1,
-    "bashing": 2,
-    "to_hit": -1,
-    "max_charges": 150,
-    "initial_charges": 150,
-    "turns_per_charge": 2,
-    "revert_to": "handflare_dead",
-    "revert_msg": "The flare sputters out"
-  },
-  {
     "id": "hotplate",
     "type": "TOOL",
     "symbol": ";",
