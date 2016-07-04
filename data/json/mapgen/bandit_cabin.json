@@ -107,7 +107,10 @@
             ],
             "toilets": {
                 ";": { }
-            }
+            },
+            "set": [
+                { "point": "furniture", "id": "f_shackle", "x": 4, "y": 4, "chance": 2 }
+            ]
         }
     }
 ]
