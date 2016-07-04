@@ -1,6 +1,6 @@
 {
     "type": "MOD_INFO",
-    "mod_type": "SUPPLEMENTAL",
+    "mod-type": "SUPPLEMENTAL",
     "ident": "generic_guns",
     "name": "Generic Guns",
     "description": "Replaces guns and ammo with generic types.",
