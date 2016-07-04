@@ -674,18 +674,6 @@ class game
         /** open vehicle interaction screen */
         void exam_vehicle(vehicle &veh, int cx = 0, int cy = 0);
 
-        // put items from the item-vector on the map/a vehicle
-        // at (dirx, diry), items are dropped into a vehicle part
-        // with the cargo flag (if there is one), otherwise they are
-        // dropped onto the ground.
-        void drop(std::vector<item> &dropped, std::vector<item> &dropped_worn,
-                  int freed_volume_capacity, tripoint dir,
-                  bool to_vehicle = true); // emulate old behaviour normally
-        void drop(std::vector<item> &dropped, std::vector<item> &dropped_worn,
-                  int freed_volume_capacity, int dirx, int diry,
-                  bool to_vehicle = true); // emulate old behaviour normally
-        bool make_drop_activity(enum activity_type act, const tripoint &target, bool to_vehicle = true);
-
         // Forcefully close a door at p.
         // The function checks for creatures/items/vehicles at that point and
         // might kill/harm/destroy them.
@@ -776,8 +764,7 @@ class game
 
         void grab(); // Establish a grab on something.
         void compare( const tripoint &offset = tripoint_min ); // Compare items 'I'
-
-        void drop(int pos = INT_MIN); // Drop an item  'd'
+        void drop(int pos = INT_MIN, const tripoint &where = tripoint_min ); // Drop an item  'd'
         void drop_in_direction(); // Drop w/ direction  'D'
 
         void reassign_item(int pos = INT_MIN); // Reassign the letter of an item  '='

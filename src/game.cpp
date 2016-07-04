@@ -7892,11 +7892,14 @@ bool pet_menu(monster *z)
             return true;
         }
 
-        bool success = g->make_drop_activity( ACT_STASH, z->pos() );
-        if( success ) {
+        const auto items_to_stash = g->multidrop();
+        if( !items_to_stash.empty() ) {
+            g->u.drop( items_to_stash, z->pos(), true );
             z->add_effect( effect_controlled, 5);
+            return true;
         }
-        return success;
+
+        return false;
     }
 
     if (pheromone == choice && query_yn(_("Really kill the zombie slave?"))) {
@@ -10375,147 +10378,23 @@ bool game::handle_liquid( item &liquid, item * const source, const int radius,
     return true;
 }
 
-void game::drop(int pos)
+void game::drop( int pos, const tripoint &where )
 {
-    if (!m.can_put_items(u.pos())) {
-        add_msg(m_info, _("You can't place items here!"));
-        return;
-    }
-
-    if (pos == INT_MIN) {
-        make_drop_activity( ACT_DROP, u.pos() );
-    } else if( pos == -1 && !u.can_unwield( u.weapon ) ) {
-        return;
+    if( pos != INT_MIN ) {
+        u.drop( pos, where );
     } else {
-        std::vector<item> dropped;
-        std::vector<item> dropped_worn;
-        if (pos <= -2) {
-            if (!u.takeoff(pos, false, &dropped_worn)) {
-                return;
-            }
-            u.moves -= 250; // same as game::takeoff
-        } else {
-            dropped.push_back(u.i_rem(pos));
-        }
-        drop(dropped, dropped_worn, 0, u.posx(), u.posy());
+        u.drop( multidrop(), where );
     }
 }
 
 void game::drop_in_direction()
 {
     tripoint dirp;
-    if (!choose_adjacent(_("Drop where?"), dirp)) {
-        return;
+
+    if( choose_adjacent( _( "Drop where?" ), dirp ) ) {
+        refresh_all();
+        drop( INT_MIN, dirp );
     }
-
-    if (!m.can_put_items(dirp)) {
-        add_msg(m_info, _("You can't place items there!"));
-        return;
-    }
-
-    refresh_all();
-    make_drop_activity( ACT_DROP, dirp );
-}
-
-void game::drop(std::vector<item> &dropped, std::vector<item> &dropped_worn,
-                int freed_volume_capacity, int dirx, int diry, bool to_vehicle)
-{
-    drop(dropped, dropped_worn, freed_volume_capacity,
-            tripoint(dirx, diry, g->get_levz()), to_vehicle);
-}
-
-void game::drop(std::vector<item> &dropped, std::vector<item> &dropped_worn,
-                int freed_volume_capacity, tripoint dir, bool to_vehicle)
-{
-    if (dropped.empty() && dropped_worn.empty()) {
-        add_msg(_("Never mind."));
-        return;
-    }
-    const int drop_move_cost = calculate_drop_cost(dropped, dropped_worn, freed_volume_capacity);
-    add_msg( m_debug, "Dropping %d+%d items takes %d moves", dropped.size(), dropped_worn.size(),
-                 drop_move_cost);
-
-    dropped.insert(dropped.end(), dropped_worn.begin(), dropped_worn.end());
-
-    int veh_part = 0;
-    bool to_veh = false;
-    vehicle *veh = nullptr;
-    if(to_vehicle) {
-        veh = m.veh_at(dir, veh_part);
-        if (veh != nullptr) {
-            veh_part = veh->part_with_feature(veh_part, "CARGO");
-            to_veh = veh_part >= 0;
-        }
-    }
-
-    bool can_move_there = m.passable(dir);
-
-    itype_id first = dropped[0].typeId();
-    bool same = true;
-    for (std::vector<item>::iterator it = dropped.begin() + 1;
-         it != dropped.end() && same; ++it) {
-        if (it->typeId() != first) {
-            same = false;
-        }
-    }
-
-    if (dropped.size() == 1 || same) {
-        int dropcount = (dropped[0].count_by_charges()) ? dropped[0].charges : 1;
-
-        if (to_veh) {
-            add_msg(ngettext("You put your %1$s in the %2$s's %3$s.",
-                             "You put your %1$s in the %2$s's %3$s.", dropcount),
-                    dropped[0].tname(dropcount).c_str(),
-                    veh->name.c_str(),
-                    veh->part_info( veh_part ).name().c_str() );
-        } else if (can_move_there) {
-            add_msg(ngettext("You drop your %1$s on the %2$s.",
-                             "You drop your %1$s on the %2$s.", dropcount),
-                    dropped[0].tname(dropcount).c_str(),
-                    m.name(dir).c_str());
-        } else {
-            add_msg(ngettext("You put your %1$s in the %2$s.",
-                             "You put your %1$s in the %2$s.", dropcount),
-                    dropped[0].tname(dropcount).c_str(),
-                    m.name(dir).c_str());
-        }
-    } else {
-        if (to_veh) {
-            add_msg(_("You put several items in the %1$s's %2$s."),
-                    veh->name.c_str(), veh->part_info( veh_part ).name().c_str() );
-        } else if (can_move_there) {
-            add_msg(_("You drop several items on the %s."),
-                    m.name(dir).c_str());
-        } else {
-            add_msg(_("You put several items in the %s."),
-                    m.name(dir).c_str());
-        }
-    }
-
-    if( to_veh ) {
-        bool vh_overflow = false;
-        for( auto &elem : dropped ) {
-            if( elem.is_bucket_nonempty() && !elem.spill_contents( u ) ) {
-                add_msg( _("To avoid spilling its contents, you set your %1$s on the %2$s."),
-                         elem.display_name().c_str(), m.name(dir).c_str() );
-                m.add_item_or_charges( dir, elem, 2 );
-                continue;
-            }
-
-            vh_overflow = vh_overflow || !veh->add_item( veh_part, elem );
-            if (vh_overflow) {
-                m.add_item_or_charges( dir, elem, 1 );
-            }
-        }
-        if (vh_overflow) {
-            add_msg (m_warning, _("The trunk is full, so some items fall on the ground."));
-        }
-    } else {
-        for( auto &elem : dropped ) {
-            m.add_item_or_charges( dir, elem, 2 );
-        }
-    }
-    u.moves -= drop_move_cost;
 }
 
 void game::reassign_item( int pos )

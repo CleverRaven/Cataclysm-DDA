@@ -866,10 +866,16 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Swap side on which item is worn; returns false on fail. If interactive is false, don't alert player or drain moves */
         bool change_side( item *target, bool interactive = true );
         bool change_side( int pos, bool interactive = true );
-        /** Takes off an item, returning false on fail, if an item vector
-         *  is given, stores the items in that vector and not in the inventory */
-        bool takeoff( item *target, bool autodrop = false, std::vector<item> *items = nullptr );
-        bool takeoff( int pos, bool autodrop = false, std::vector<item> *items = nullptr );
+
+        /** Returns all items that must be taken off before taking off this item */
+        std::list<const item *> get_dependent_worn_items( const item &it ) const;
+        /** Takes off an item, returning false on fail. The taken off item is processed in the @param interact */
+        bool takeoff( const item &it, std::list<item> *res = nullptr );
+        bool takeoff( int pos );
+        /** Drops an item to the specified location */
+        void drop( int pos, const tripoint &where = tripoint_min );
+        void drop( const std::list<std::pair<int, int>> &what, const tripoint &where = tripoint_min, bool stash = false );
+
         /** Try to wield a contained item consuming moves proportional to weapon skill and volume.
          *  @param pos index of contained item to wield. Set to -1 to show menu if container has more than one item
          *  @param factor scales moves cost and can be set to zero if item should be wielded without any delay

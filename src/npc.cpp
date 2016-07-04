@@ -1088,7 +1088,7 @@ bool npc::wear_if_wanted( const item &it )
                 return armor.covers( bp );
             } );
             if( iter != worn.end() ) {
-                took_off = takeoff( &*iter, true );
+                took_off = takeoff( *iter );
                 break;
             }
         }

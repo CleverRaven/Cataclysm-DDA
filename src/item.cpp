@@ -389,6 +389,11 @@ bool item::set_side (side s) {
     return true;
 }
 
+bool item::is_worn_only_with( const item &it ) const
+{
+    return is_power_armor() && it.is_power_armor() && it.covers( bp_torso );
+}
+
 item item::in_its_container() const
 {
     return in_container( type->default_container );

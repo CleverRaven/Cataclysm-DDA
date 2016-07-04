@@ -14,7 +14,6 @@
 // activity_item_handling.cpp
 void activity_on_turn_drop();
 void activity_on_turn_move_items();
-void activity_on_turn_move_all_items();
 void activity_on_turn_pickup();
 void activity_on_turn_stash();
 
@@ -218,10 +217,10 @@ void player_activity::do_turn( player *p )
             p->pause();
             break;
         case ACT_DROP:
-            activity_on_turn_drop();
+            activity_handlers::drop_do_turn( this, p );
             break;
         case ACT_STASH:
-            activity_on_turn_stash();
+            activity_handlers::stash_do_turn( this, p );
             break;
         case ACT_PICKUP:
             activity_on_turn_pickup();
