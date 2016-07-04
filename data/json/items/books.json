@@ -902,7 +902,7 @@
         "name" : "Muzzle Loaders Annual",
         "name_plural" : "Muzzle Loaders Annual",
         "max_level" : 2,
-        "description" : "A hefty annual publication on traditional muzzleloading guns. It covers the design, building, and care of several flintlock weapons with tools that can be found at home. There's also a well written, albeit technical article on the basic chemistry of black powder. Plus it comes with a free Redcoat silhouette shooting target!",
+        "description" : "A hefty annual publication on traditional muzzleloading guns.  It covers the design, building, and care of several flintlock weapons with tools that can be found at home.  There's also a well written, albeit technical article on the basic chemistry of black powder.  Plus it comes with a free Redcoat silhouette shooting target!",
         "weight" : 200,
         "to_hit" : -2,
         "color" : "pink",
