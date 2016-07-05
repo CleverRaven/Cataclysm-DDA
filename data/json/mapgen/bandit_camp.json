@@ -240,7 +240,9 @@
                 { "item": "bed", "chance": 80,  "x": [2,3], "y": [7,8 ] },
                 { "item": "dresser", "chance": 75,  "x": [ 1,2 ], "y": [ 10,10 ] },
                 { "item": "home_hw", "chance": 75,  "x": [ 3,3 ], "y": [ 17,19 ] },
-                { "item": "electronics", "chance": 75,  "x": [ 1,2 ], "y": [ 19,19 ] }
+                { "item": "electronics", "chance": 75,  "x": [ 1,2 ], "y": [ 19,19 ] },
+                { "item": "survivor_melee", "chance": 80,  "x": [ 14 ], "y": [ 7 ] },
+                { "item": "tools_carpentry", "chance": 80,  "x": [ 14 ], "y": [ 9 ] }
             ],
             "place_npcs": [
                 { "class": "bandit", "x": 12, "y": 13 },
