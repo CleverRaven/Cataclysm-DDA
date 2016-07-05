@@ -1,5 +1,11 @@
 [
   {
+    "id": "forging_standard",
+    "type": "requirement",
+    "//": "Forging of steel items (per steel chunk)",
+    "tools": [ [ [ "forge", 20 ], [ "char_forge", 20 ], [ "oxy_torch", 20 ] ] ]
+  },
+  {
     "id": "welding_standard",
     "type": "requirement",
     "//": "Crafting or repair of steel items or installation of vehicle parts",
