@@ -487,6 +487,28 @@ inline std::string get_labeled_bar( const double val, const int width, const std
 
 /**
  * @return String containing enumerated elements in format: "a, b, c, ..., and z". Uses the Oxford comma.
+ * @param values A vector of strings
+ * @param use_and If true, add "and" before the last element (comma otherwise).
+ */
+template<typename _Container>
+std::string enumerate_as_string( const _Container &values, bool use_and = true )
+{
+    std::ostringstream res;
+    for( auto iter = values.begin(); iter != values.end(); ++iter ) {
+        if( iter != values.begin() ) {
+            if( use_and && ( std::next( iter ) == values.end() ) ) {
+                res << ( values.size() > 2 ? _( ", and " ) : _( " and " ) );
+            } else {
+                res << _( ", " );
+            }
+        }
+        res << *iter;
+    }
+    return res.str();
+}
+
+/**
+ * @return String containing enumerated elements in format: "a, b, c, ..., and z". Uses the Oxford comma.
  * @param first Iterator pointing to the first element.
  * @param last Iterator pointing to the last element.
  * @param pred Predicate that accepts an element and returns a representing string.
@@ -504,24 +526,7 @@ std::string enumerate_as_string( _FIter first, _FIter last, _Predicate pred, boo
             values.push_back( str );
         }
     }
-    std::ostringstream res;
-    for( auto iter = values.begin(); iter != values.end(); ++iter ) {
-        if( iter != values.begin() ) {
-            if( use_and && ( std::next( iter ) == values.end() ) ) {
-                res << ( values.size() > 2 ? _( ", and " ) : _( " and " ) );
-            } else {
-                res << _( ", " );
-            }
-        }
-        res << *iter;
-    }
-    return res.str();
-}
-
-template<typename _FIter>
-std::string enumerate_as_string( _FIter first, _FIter last, bool use_and = true )
-{
-    return enumerate_as_string( first, last, []( const std::string &str ) { return str; }, use_and );
+    return enumerate_as_string( values, use_and );
 }
 
 /**

@@ -720,7 +720,7 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
         }
         if( !req.empty() ) {
             info.emplace_back( "BASE", _("<bold>Minimum requirements:</bold>") );
-            info.emplace_back( "BASE", enumerate_as_string( req.begin(), req.end() ) );
+            info.emplace_back( "BASE", enumerate_as_string( req ) );
             insert_separation_line();
         }
 
@@ -972,7 +972,7 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
         }
         if( !fm.empty() ) {
             insert_separation_line();
-            info.emplace_back( "GUN", _( "<bold>Fire modes:</bold> " ), enumerate_as_string( fm.begin(), fm.end() ) );
+            info.emplace_back( "GUN", _( "<bold>Fire modes:</bold> " ), enumerate_as_string( fm ) );
         }
 
         if( !magazine_integral() ) {
@@ -1238,7 +1238,7 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
                 std::string recipe_line = string_format(
                                               ngettext( "This book contains %1$d crafting recipe: %2$s",
                                                         "This book contains %1$d crafting recipes: %2$s", recipe_list.size() ),
-                                              recipe_list.size(), enumerate_as_string( recipe_list.begin(), recipe_list.end() ).c_str() );
+                                              recipe_list.size(), enumerate_as_string( recipe_list ).c_str() );
 
                 insert_separation_line();
                 info.push_back( iteminfo( "DESCRIPTION", recipe_line ) );
