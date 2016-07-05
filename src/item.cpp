@@ -783,18 +783,14 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
             info.push_back( iteminfo( "FOOD", _( "Smells like: " ) + food_item->corpse->nname() ) );
         }
 
-        std::string vits;
-        for( const auto &v : g->u.vitamins_from( *food_item ) ) {
-            // only display vitamins that we actually require
-            if( g->u.vitamin_rate( v.first ) > 0 && v.second != 0 ) {
-                if( !vits.empty() ) {
-                    vits += ", ";
-                }
-                vits += string_format( "%s (%i%%)", v.first.obj().name().c_str(), int( v.second / ( DAYS( 1 ) / float( g->u.vitamin_rate( v.first ) ) ) * 100 ) );
-            }
-        }
-        if( !vits.empty() ) {
-            info.emplace_back( "FOOD", _( "Vitamins (RDA): " ), vits.c_str() );
+        const auto vits = g->u.vitamins_from( *food_item );
+        const std::string required_vits = enumerate_as_string( vits.begin(), vits.end(), []( const std::pair<vitamin_id, int> &v ) {
+            return ( g->u.vitamin_rate( v.first ) > 0 && v.second != 0 ) // only display vitamins that we actually require
+                ? string_format( "%s (%i%%)", v.first.obj().name().c_str(), int( v.second / ( DAYS( 1 ) / float( g->u.vitamin_rate( v.first ) ) ) * 100 ) )
+                : std::string();
+        } );
+        if( !required_vits.empty() ) {
+            info.emplace_back( "FOOD", _( "Vitamins (RDA): " ), required_vits.c_str() );
         }
     }
 
@@ -1055,14 +1051,10 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
         }
 
         temp1.str( "" );
-        temp1 << _( "Used on: " );
-        for( auto it = mod->usable.begin(); it != mod->usable.end(); ) {
+        temp1 << _( "Used on: " ) << enumerate_as_string( mod->usable.begin(), mod->usable.end(), []( const std::string &used_on ) {
             //~ a weapon type which a gunmod is compatible (eg. "pistol", "crossbow", "rifle")
-            temp1 << string_format( "<info>%s</info>", _( it->c_str() ) );
-            if( ++it != mod->usable.end() ) {
-                temp1 << ", ";
-            }
-        }
+            return string_format( "<info>%s</info>", _( used_on.c_str() ) );
+        } );
 
         temp2.str( "" );
         temp2 << _( "Location: " );
@@ -1283,16 +1275,11 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
 
         if( !magazine_integral() ) {
             insert_separation_line();
-            std::string tmp = _( "<bold>Compatible magazines:</bold> " );
             const auto compat = magazine_compatible();
-            for( auto iter = compat.cbegin(); iter != compat.cend(); ++iter ) {
-                if( iter != compat.cbegin() ) {
-                    tmp += ", ";
-                }
-                tmp += item_controller->find_template( *iter )->nname( 1 );
-            }
-            info.emplace_back( "TOOL", tmp );
-
+            info.emplace_back( "TOOL", _( "<bold>Compatible magazines:</bold> " ),
+                enumerate_as_string( compat.begin(), compat.end(), []( const itype_id &id ) {
+                    return item_controller->find_template( id )->nname( 1 );
+                } ) );
         } else if( ammo_capacity() != 0 ) {
             std::string tmp;
             if( ammo_type() ) {

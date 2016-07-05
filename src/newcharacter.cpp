@@ -1667,13 +1667,10 @@ tab_direction set_skills(WINDOW *w, player *u, points_left &points)
                                                ( lhs.second == rhs.second && lhs.first < rhs.first );
                        } );
 
-            std::string rec_temp = "";
-            for( auto rec = elem.second.begin(); rec != elem.second.end(); ++rec ) {
-                if( !rec_temp.empty() ) {
-                    rec_temp += ", ";
-                }
-                rec_temp += rec->first + " (" + to_string(rec->second) + ")";
-            }
+            const std::string rec_temp = enumerate_as_string( elem.second.begin(), elem.second.end(),
+            []( const std::pair<std::string, int> &rec ) {
+                return string_format( "%s (%d)", rec.first.c_str(), rec.second );
+            } );
 
             if( elem.first == currentSkill->name() ) {
                 rec_disp = "\n \n<color_c_brown>" + rec_temp + "</color>" + rec_disp;

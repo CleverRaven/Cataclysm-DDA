@@ -449,19 +449,18 @@ void consume_drug_iuse::load( JsonObject &obj )
 
 void consume_drug_iuse::info( const item&, std::vector<iteminfo>& dump ) const
 {
-    std::string vits;
-    for( const auto &v : vitamins ) {
-        // only display vitamins that we actually require
-        int rate = g->u.vitamin_rate( v.first );
-        if( rate > 0 ) {
-            if( !vits.empty() ) {
-                vits += ", ";
-            }
-            int lo = int( v.second.first  / ( DAYS( 1 ) / float( rate ) ) * 100 );
-            int hi = int( v.second.second / ( DAYS( 1 ) / float( rate ) ) * 100 );
-            vits += string_format( lo == hi ? "%s (%i%%)" : "%s (%i-%i%%)", v.first.obj().name().c_str(), lo, hi );
+    const std::string vits = enumerate_as_string( vitamins.begin(), vitamins.end(),
+    []( const decltype( vitamins )::value_type &v ) {
+        const int rate = g->u.vitamin_rate( v.first );
+        if( rate <= 0 ) {
+            return std::string();
         }
-    }
+        const int lo = int( v.second.first  / ( DAYS( 1 ) / float( rate ) ) * 100 );
+        const int hi = int( v.second.second / ( DAYS( 1 ) / float( rate ) ) * 100 );
+
+        return string_format( lo == hi ? "%s (%i%%)" : "%s (%i-%i%%)", v.first.obj().name().c_str(), lo, hi );
+    } );
+
     if( !vits.empty() ) {
         dump.emplace_back( "TOOL", _( "Vitamins (RDA): " ), vits.c_str() );
     }
