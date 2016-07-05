@@ -7616,7 +7616,8 @@ int iuse::multicooker(player *p, item *it, bool t, const tripoint &pos)
                     return 0;
                 }
 
-                for( auto it : meal->requirements->get_components() ) {
+                auto reqs = meal->requirements();
+                for( auto it : reqs.get_components() ) {
                     p->consume_items(it);
                 }
 

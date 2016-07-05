@@ -321,7 +321,7 @@ void Item_factory::finalize_item_blacklist()
 
     // if a requirement is empty but not null then it only contained (now removed) blacklisted items
     recipe_dict.delete_if( [&]( recipe &r ) {
-        return r.requirements->is_empty() && !r.requirements->is_null();
+        return r.requirements().is_empty() && !r.requirements().is_null();
     } );
 
     for( auto &vid : vehicle_prototype::get_all() ) {

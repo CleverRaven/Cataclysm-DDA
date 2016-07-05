@@ -47,7 +47,13 @@ struct recipe {
         itype_id result;
         int time; // in movement points (100 per turn)
         int difficulty;
-        requirement_id requirements;
+
+        /** Fetch combined requirement data (inline and via "using" syntax) */
+        requirement_data requirements() const;
+
+        /** Second field is the multiplier */
+        std::vector<std::pair<requirement_id, int>> reqs;
+
         std::vector<byproduct> byproducts;
         std::string cat;
         // Does the item spawn contained in container?
