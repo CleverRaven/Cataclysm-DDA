@@ -129,6 +129,7 @@ src/iexamine.h
 src/init.h
 src/input.h
 src/int_id.h
+src/inventory_ui.h
 src/item_action.h
 src/item_factory.h
 src/item_location.h

@@ -451,6 +451,7 @@
 		<Unit filename="src/inventory.cpp" />
 		<Unit filename="src/inventory.h" />
 		<Unit filename="src/inventory_ui.cpp" />
+		<Unit filename="src/inventory_ui.h" />
 		<Unit filename="src/item.cpp" />
 		<Unit filename="src/item.h" />
 		<Unit filename="src/item_action.cpp" />

@@ -225,6 +225,7 @@ SET (CATACLYSM_DDA_HEADERS
     ${CMAKE_SOURCE_DIR}/src/effect.h
     ${CMAKE_SOURCE_DIR}/src/explosion.h
     ${CMAKE_SOURCE_DIR}/src/creature.h
+    ${CMAKE_SOURCE_DIR}/src/inventory_ui.cpp
     ${CMAKE_SOURCE_DIR}/src/vehicle.h
     ${CMAKE_SOURCE_DIR}/src/vehicle_group.h
     ${CMAKE_SOURCE_DIR}/src/visitable.h
