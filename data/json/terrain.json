@@ -306,23 +306,6 @@
         }
     },{
         "type" : "terrain",
-        "id" : "t_floor_dirt",
-        "name": "dirt",
-        "symbol": ".",
-        "color": "brown",
-        "move_cost": 2,
-        "roof": "t_flat_roof",
-        "flags": ["TRANSPARENT", "DIGGABLE", "FLAT"],
-        "bash": {
-                "sound": "thump",
-                "ter_set": "t_null",
-                "str_min": 50,
-                "str_max": 100,
-                "str_min_supported": 100,
-                "bash_below": true
-        }
-    },{
-        "type" : "terrain",
         "id" : "t_sand",
         "name": "sand",
         "symbol": ".",
