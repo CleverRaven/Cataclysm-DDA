@@ -145,7 +145,6 @@ const recipe *select_crafting_recipe( int &batch_size )
     list_circularizer<std::string> subtab( craft_subcat_list[tab.cur()] );
     std::vector<const recipe *> current;
     std::vector<bool> available;
-    std::vector<std::string> component_print_buffer;
     const int componentPrintHeight = dataHeight - tailHeight - 1;
     //preserves component color printout between mode rotations
     nc_color rotated_color = c_white;
@@ -314,15 +313,25 @@ const recipe *select_crafting_recipe( int &batch_size )
                 }
             }
         }
+
         if( !current.empty() ) {
+            int pane = FULL_SCREEN_WIDTH - 30 - 1;
+            int count = batch ? line + 1 : 1; // batch size
+            nc_color col = available[ line ] ? c_white : c_ltgray;
+
+            const auto &req = current[ line ]->requirements();
+
             draw_can_craft_indicator( w_head, 0, *current[line] );
             wrefresh( w_head );
 
-            nc_color col = ( available[line] ? c_white : c_ltgray );
             ypos = 0;
 
-            component_print_buffer = current[line]->requirements().get_folded_components_list(
-                                         FULL_SCREEN_WIDTH - 30 - 1, col, crafting_inv, ( batch ) ? line + 1 : 1 );
+            std::vector<std::string> component_print_buffer;
+            auto tools = req.get_folded_tools_list( pane, col, crafting_inv, count );
+            auto comps = req.get_folded_components_list( pane, col, crafting_inv, count );
+            component_print_buffer.insert( component_print_buffer.end(), tools.begin(), tools.end() );
+            component_print_buffer.insert( component_print_buffer.end(), comps.begin(), comps.end() );
+
             if( !g->u.knows_recipe( current[line] ) ) {
                 component_print_buffer.push_back( _( "Recipe not memorized yet" ) );
             }
@@ -362,18 +371,12 @@ const recipe *select_crafting_recipe( int &batch_size )
                                // Macs don't seem to like passing this as a class, so force it to int
                                ( int )g->u.get_skill_level( current[line]->skill_used ) );
                 }
-                ypos += current[line]->print_time( w_data, ypos, 30, FULL_SCREEN_WIDTH - 30 - 1, col,
-                                                   ( batch ) ? line + 1 : 1 );
+                ypos += current[line]->print_time( w_data, ypos, 30, pane, col, count );
                 mvwprintz( w_data, ypos++, 30, col, _( "Dark craftable? %s" ),
                            current[line]->has_flag( "BLIND_EASY" ) ? _( "Easy" ) :
                            current[line]->has_flag( "BLIND_HARD" ) ? _( "Hard" ) :
                            _( "Impossible" ) );
                 ypos += current[line]->print_items( w_data, ypos, 30, col, ( batch ) ? line + 1 : 1 );
-            }
-            if( display_mode == 0 || display_mode == 1 ) {
-                ypos += current[line]->requirements().print_tools(
-                            w_data, ypos, 30, FULL_SCREEN_WIDTH - 30 - 1, col,
-                            crafting_inv, ( batch ) ? line + 1 : 1 );
             }
 
             //color needs to be preserved in case part of the previous page was cut off

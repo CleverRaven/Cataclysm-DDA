@@ -338,17 +338,6 @@ void requirement_data::reset()
     requirements_all.clear();
 }
 
-
-int requirement_data::print_components( WINDOW *w, int ypos, int xpos, int width, nc_color col,
-                                        const inventory &crafting_inv, int batch ) const
-{
-    if( components.empty() ) {
-        return 0;
-    }
-    mvwprintz( w, ypos, xpos, col, _( "Components required:" ) );
-    return print_list( w, ypos + 1, xpos, width, col, crafting_inv, components, batch ) + 1;
-}
-
 std::vector<std::string> requirement_data::get_folded_components_list( int width, nc_color col,
         const inventory &crafting_inv, int batch ) const
 {
@@ -366,28 +355,6 @@ std::vector<std::string> requirement_data::get_folded_components_list( int width
     out_buffer.insert( out_buffer.end(), folded_buffer.begin(), folded_buffer.end() );
 
     return out_buffer;
-}
-
-template<typename T>
-int requirement_data::print_list( WINDOW *w, int ypos, int xpos, int width, nc_color col,
-                                  const inventory &crafting_inv, const std::vector< std::vector<T> > &objs,
-                                  int batch )
-{
-    const int oldy = ypos;
-    for( const auto &comp_list : objs ) {
-        const bool has_one = any_marked_available( comp_list );
-        std::ostringstream buffer;
-        for( auto a = comp_list.begin(); a != comp_list.end(); ++a ) {
-            if( a != comp_list.begin() ) {
-                buffer << "<color_white> " << _( "OR" ) << "</color> ";
-            }
-            const std::string col = a->get_color( has_one, crafting_inv, batch );
-            buffer << "<color_" << col << ">" << a->to_string( batch ) << "</color>";
-        }
-        mvwprintz( w, ypos, xpos, col, "> " );
-        ypos += fold_and_print( w, ypos, xpos + 2, width - 2, col, buffer.str() );
-    }
-    return ypos - oldy;
 }
 
 template<typename T>
@@ -417,23 +384,6 @@ std::vector<std::string> requirement_data::get_folded_list( int width,
         }
     }
     return out_buffer;
-}
-
-int requirement_data::print_tools( WINDOW *w, int ypos, int xpos, int width, nc_color col,
-                                   const inventory &crafting_inv, int batch ) const
-{
-    const int oldy = ypos;
-    mvwprintz( w, ypos, xpos, col, _( "Tools required:" ) );
-    ypos++;
-    if( tools.empty() && qualities.empty() ) {
-        mvwprintz( w, ypos, xpos, col, "> " );
-        mvwprintz( w, ypos, xpos + 2, c_green, _( "NONE" ) );
-        ypos++;
-        return ypos - oldy;
-    }
-    ypos += print_list( w, ypos, xpos, width, col, crafting_inv, qualities );
-    ypos += print_list( w, ypos, xpos, width, col, crafting_inv, tools, batch );
-    return ypos - oldy;
 }
 
 std::vector<std::string> requirement_data::get_folded_tools_list( int width, nc_color col,

@@ -212,12 +212,9 @@ struct requirement_data {
 
         bool can_make_with_inventory( const inventory &crafting_inv, int batch = 1 ) const;
 
-        int print_components( WINDOW *w, int ypos, int xpos, int width, nc_color col,
-                              const inventory &crafting_inv, int batch = 1 ) const;
         std::vector<std::string> get_folded_components_list( int width, nc_color col,
                 const inventory &crafting_inv, int batch = 1 ) const;
-        int print_tools( WINDOW *w, int ypos, int xpos, int width, nc_color col,
-                         const inventory &crafting_inv, int batch = 1 ) const;
+
         std::vector<std::string> get_folded_tools_list( int width, nc_color col,
                 const inventory &crafting_inv, int batch = 1 ) const;
 
@@ -245,9 +242,7 @@ struct requirement_data {
         template<typename T>
         static bool has_comps( const inventory &crafting_inv, const std::vector< std::vector<T> > &vec,
                                int batch = 1 );
-        template<typename T>
-        static int print_list( WINDOW *w, int ypos, int xpos, int width, nc_color col,
-                               const inventory &crafting_inv, const std::vector< std::vector<T> > &objs, int batch = 1 );
+
         template<typename T>
         static std::vector<std::string> get_folded_list( int width, const inventory &crafting_inv,
                 const std::vector< std::vector<T> > &objs, int batch = 1 );
