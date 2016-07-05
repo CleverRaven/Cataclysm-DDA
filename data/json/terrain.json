@@ -306,7 +306,7 @@
         }
     },{
         "type" : "terrain",
-        "id" : "t_dirt",
+        "id" : "t_floor_dirt",
         "name": "dirt",
         "symbol": ".",
         "color": "brown",
