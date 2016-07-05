@@ -310,7 +310,7 @@ void Item_factory::finalize_item_blacklist()
 
         // remove any blacklisted items from requirements
         for( auto &r : requirement_data::all() ) {
-            const_cast<requirement_data &>( r.second ).remove_item( e.first );
+            const_cast<requirement_data &>( r.second ).blacklist_item( e.first );
         }
 
         // remove any recipes used to craft the blacklisted item

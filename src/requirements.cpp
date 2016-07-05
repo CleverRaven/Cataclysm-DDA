@@ -203,6 +203,9 @@ requirement_data requirement_data::operator+( const requirement_data &rhs ) cons
 
     // @todo deduplicate qualites and combine other requirements
 
+    // if either operand was blacklisted then their summation should also be
+    res.blacklisted = res.blacklisted || rhs.blacklisted;
+
     return res;
 }
 
@@ -649,26 +652,33 @@ bool requirement_data::check_enough_materials( const item_comp &comp,
     return comp.available == a_true;
 }
 
-template<typename T>
-void requirement_data::remove_item( const std::string &type, std::vector< std::vector<T> > &vec )
+template <typename T>
+static bool apply_blacklist( std::vector<std::vector<T>> &vec, const std::string &id )
 {
-    // remove all instances of @ref type from each of the options
+    // remove all instances of @id type from each of the options
     for( auto &opts : vec ) {
-        opts.erase( std::remove_if( opts.begin(), opts.end(), [&type]( const T &e ) {
-            return e.type == type;
+        opts.erase( std::remove_if( opts.begin(), opts.end(), [&id]( const T &e ) {
+            return e.type == id;
         } ), opts.end() );
     }
+
+    // did we remove the last instance of an option group?
+    bool blacklisted = std::any_of( vec.begin(), vec.end(), []( const std::vector<T> &e ) {
+        return e.empty();
+    } );
 
     // if an option group is left empty then it can be removed
     vec.erase( std::remove_if( vec.begin(), vec.end(), []( const std::vector<T> &e ) {
         return e.empty();
     } ), vec.end() );
+
+    return blacklisted;
 }
 
-void requirement_data::remove_item( const std::string &type )
+void requirement_data::blacklist_item( const std::string &id )
 {
-    remove_item( type, tools );
-    remove_item( type, components );
+    blacklisted += apply_blacklist( tools, id );
+    blacklisted += apply_blacklist( components, id );
 }
 
 const requirement_data::alter_tool_comp_vector &requirement_data::get_tools() const
