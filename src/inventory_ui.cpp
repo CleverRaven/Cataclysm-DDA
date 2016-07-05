@@ -463,40 +463,51 @@ void inventory_selector::prepare_columns( bool multiselect )
     refresh_active_column();
 }
 
-void inventory_selector::print_inv_weight_vol(int weight_carried, int vol_carried,
+void inventory_selector::draw_inv_weight_vol( WINDOW *w, int weight_carried, int vol_carried,
         int vol_capacity) const
 {
     // Print weight
-    mvwprintw(w_inv, 0, 32, _("Weight (%s): "), weight_units());
+    mvwprintw(w, 0, 32, _("Weight (%s): "), weight_units());
     nc_color weight_color;
     if (weight_carried > u.weight_capacity()) {
         weight_color = c_red;
     } else {
         weight_color = c_ltgray;
     }
-    wprintz(w_inv, weight_color, "%6.1f", convert_weight(weight_carried) + 0.05 ); // +0.05 to round up;
-    wprintz(w_inv, c_ltgray, "/%-6.1f", convert_weight(u.weight_capacity()));
+    wprintz(w, weight_color, "%6.1f", convert_weight(weight_carried) + 0.05 ); // +0.05 to round up;
+    wprintz(w, c_ltgray, "/%-6.1f", convert_weight(u.weight_capacity()));
 
     // Print volume
-    mvwprintw(w_inv, 0, 61, _("Volume: "));
+    mvwprintw(w, 0, 61, _("Volume: "));
     if (vol_carried > vol_capacity) {
-        wprintz(w_inv, c_red, "%3d", vol_carried);
+        wprintz(w, c_red, "%3d", vol_carried);
     } else {
-        wprintz(w_inv, c_ltgray, "%3d", vol_carried);
+        wprintz(w, c_ltgray, "%3d", vol_carried);
     }
-    wprintw(w_inv, "/%-3d", vol_capacity);
+    wprintw(w, "/%-3d", vol_capacity);
 }
 
-void inventory_selector::display( selector_mode mode ) const
+void inventory_selector::draw_inv_weight_vol( WINDOW *w ) const
 {
-    werase(w_inv);
-    mvwprintw(w_inv, 0, 0, title.c_str());
+    draw_inv_weight_vol( w, u.weight_carried(), u.volume_carried(), u.volume_capacity() );
+}
+
+void inventory_selector::refresh_window() const
+{
+    werase( w_inv );
+    draw( w_inv );
+    wrefresh( w_inv );
+}
+
+void inventory_selector::draw( WINDOW *w ) const
+{
+    mvwprintw( w, 0, 0, title.c_str() );
 
     // Position of inventory columns is adaptive. They're aligned to the left if they occupy less than 2/3 of the screen.
     // Otherwise they're aligned symmetrically to the center of the screen.
     static const float min_ratio_to_center = 1.f / 3;
-    const int free_space = getmaxx( w_inv ) - get_columns_width();
-    const bool center_align = std::abs( float( free_space ) / getmaxx( w_inv ) ) <= min_ratio_to_center;
+    const int free_space = getmaxx( w ) - get_columns_width();
+    const bool center_align = std::abs( float( free_space ) / getmaxx( w ) ) <= min_ratio_to_center;
 
     const int max_gap = ( columns.size() > 1 ) ? free_space / ( int( columns.size() ) - 1 ) : 0;
     const int gap = center_align ? max_gap : std::min<int>( max_gap, 4 );
@@ -512,38 +523,22 @@ void inventory_selector::display( selector_mode mode ) const
         }
 
         if( !is_active_column( *column ) ) {
-            column->draw( w_inv, x, y );
+            column->draw( w, x, y );
         } else {
             active_x = x;
         }
 
         if( column->pages_count() > 1 ) {
-            mvwprintw( w_inv, getmaxy( w_inv ) - 2, x, _( "Page %d/%d" ),
+            mvwprintw( w, getmaxy( w ) - 2, x, _( "Page %d/%d" ),
                        column->page_index() + 1, column->pages_count() );
         }
 
         x += column->get_width() + gap;
     }
 
-    get_active_column().draw( w_inv, active_x, y );
-
-    if( mode == SM_PICK ) {
-        mvwprintw(w_inv, 1, 61, _("Hotkeys:  %d/%d "), u.allocated_invlets().size(), inv_chars.size());
-    }
-
-    if (mode == SM_MULTIDROP) {
-        // Make copy, remove to be dropped items from that
-        // copy and let the copy recalculate the volume capacity
-        // (can be affected by various traits).
-        player tmp = u;
-        // remove_dropping_items(tmp);
-        print_inv_weight_vol(tmp.weight_carried(), tmp.volume_carried(), tmp.volume_capacity());
-        mvwprintw(w_inv, 1, 0, _("To drop x items, type a number and then the item hotkey."));
-    } else {
-        print_inv_weight_vol(u.weight_carried(), u.volume_carried(), u.volume_capacity());
-    }
+    get_active_column().draw( w, active_x, y );
     if( empty() ) {
-        center_print( w_inv, getmaxy( w_inv ) / 2, c_dkgray, _( "Your inventory is empty." ) );
+        center_print( w, getmaxy( w ) / 2, c_dkgray, _( "Your inventory is empty." ) );
     }
 
     const std::string msg_str = ( navigation == navigation_mode::CATEGORY )
@@ -552,12 +547,10 @@ void inventory_selector::display( selector_mode mode ) const
     const nc_color msg_color = ( navigation == navigation_mode::CATEGORY ) ? h_white : c_ltgray;
 
     if( center_align ) {
-        center_print( w_inv, getmaxy( w_inv ) - 1, msg_color, msg_str.c_str() );
+        center_print( w, getmaxy( w ) - 1, msg_color, msg_str.c_str() );
     } else {
-        trim_and_print( w_inv, getmaxy( w_inv ) - 1, 1, getmaxx( w_inv ), msg_color, msg_str.c_str() );
+        trim_and_print( w, getmaxy( w ) - 1, 1, getmaxx( w ), msg_color, msg_str.c_str() );
     }
-
-    wrefresh(w_inv);
 }
 
 inventory_selector::inventory_selector( player &u, const std::string &title, const item_location_filter &filter )
@@ -565,12 +558,12 @@ inventory_selector::inventory_selector( player &u, const std::string &title, con
     , active_column_index( 0 )
     , filter( filter )
     , ctxt("INVENTORY")
-    , w_inv( newwin( TERMY, TERMX, VIEW_OFFSET_Y, VIEW_OFFSET_X ) )
-    , title( title )
     , navigation( navigation_mode::ITEM )
     , weapon_cat("WEAPON", _("WEAPON HELD"), 0)
     , worn_cat("ITEMS WORN", _("ITEMS WORN"), 0)
     , u(u)
+    , w_inv( newwin( TERMY, TERMX, VIEW_OFFSET_Y, VIEW_OFFSET_X ) )
+    , title( title )
 {
     ctxt.register_action("DOWN", _("Next item"));
     ctxt.register_action("UP", _("Previous item"));
@@ -744,7 +737,7 @@ item_location &inventory_pick_selector::execute()
     prepare_columns( false );
 
     while( true ) {
-        display( SM_PICK );
+        refresh_window();
 
         const std::string action = ctxt.handle_input();
         const long ch = ctxt.get_raw_input().get_first_input();
@@ -762,6 +755,13 @@ item_location &inventory_pick_selector::execute()
     }
 }
 
+void inventory_pick_selector::draw( WINDOW *w ) const
+{
+    inventory_selector::draw( w );
+    mvwprintw( w, 1, 61, _("Hotkeys:  %d/%d "), u.allocated_invlets().size(), inv_chars.size());
+    draw_inv_weight_vol( w );
+}
+
 inventory_compare_selector::inventory_compare_selector( player &u, const std::string &title,
                                                         const item_location_filter &filter ) :
     inventory_selector( u, title, filter )
@@ -774,7 +774,7 @@ void inventory_compare_selector::execute()
     prepare_columns( true );
 
     while(true) {
-        display( SM_COMPARE );
+        refresh_window();
 
         const std::string action = ctxt.handle_input();
         const long ch = ctxt.get_raw_input().get_first_input();
@@ -836,6 +836,12 @@ void inventory_compare_selector::execute()
     }
 }
 
+void inventory_compare_selector::draw( WINDOW *w ) const
+{
+    inventory_selector::draw( w );
+    draw_inv_weight_vol( w );
+}
+
 void inventory_compare_selector::toggle_entry( inventory_entry *entry )
 {
     const auto iter = std::find( compared.begin(), compared.end(), entry );
@@ -864,7 +870,7 @@ std::list<std::pair<int, int>> inventory_drop_selector::execute()
 
     int count = 0;
     while( true ) {
-        display( SM_MULTIDROP );
+        refresh_window();
 
         const std::string action = ctxt.handle_input();
         const long ch = ctxt.get_raw_input().get_first_input();
@@ -899,6 +905,18 @@ std::list<std::pair<int, int>> inventory_drop_selector::execute()
     }
 
     return dropped_pos_and_qty;
+}
+
+void inventory_drop_selector::draw( WINDOW *w ) const
+{
+    inventory_selector::draw( w );
+    // Make copy, remove to be dropped items from that
+    // copy and let the copy recalculate the volume capacity
+    // (can be affected by various traits).
+    player tmp = u;
+    remove_dropping_items(tmp);
+    draw_inv_weight_vol( w, tmp.weight_carried(), tmp.volume_carried(), tmp.volume_capacity() );
+    mvwprintw(w, 1, 0, _("To drop x items, type a number and then the item hotkey."));
 }
 
 void inventory_drop_selector::set_drop_count( inventory_entry &entry, size_t count )

@@ -223,12 +223,6 @@ class inventory_selector
         bool empty() const;
 
     protected:
-        enum selector_mode {
-            SM_PICK,
-            SM_COMPARE,
-            SM_MULTIDROP
-        };
-
         void add_custom_items( const std::list<item>::const_iterator &from,
                                const std::list<item>::const_iterator &to,
                                const std::string &title,
@@ -255,11 +249,10 @@ class inventory_selector
         void on_action( const std::string &action );
         /** Entry has been changed */
         void on_change( const inventory_entry &entry );
-        /** Update the @ref w_inv window, including wrefresh */
-        void display( selector_mode mode ) const;
 
-        WINDOW *w_inv;
-        std::string title;
+        void refresh_window() const;
+
+        virtual void draw( WINDOW *w ) const;
 
         item_location null_location;
         navigation_mode navigation;
@@ -269,7 +262,8 @@ class inventory_selector
 
         player &u;
 
-        void print_inv_weight_vol( int weight_carried, int vol_carried, int vol_capacity ) const;
+        void draw_inv_weight_vol( WINDOW *w, int weight_carried, int vol_carried, int vol_capacity ) const;
+        void draw_inv_weight_vol( WINDOW *w ) const;
 
         /** Returns an entry from @ref entries by its invlet */
         inventory_entry *find_entry_by_invlet( long invlet ) const;
@@ -299,6 +293,10 @@ class inventory_selector
         void insert_column( decltype( columns )::iterator position,
                             std::unique_ptr<inventory_column> &new_column );
         void insert_selection_column( const std::string &id, const std::string &name );
+
+    private:
+        WINDOW *w_inv;
+        std::string title;
 };
 
 class inventory_pick_selector : public inventory_selector
@@ -309,6 +307,9 @@ class inventory_pick_selector : public inventory_selector
             inventory_selector( u, title, filter ) {}
         /** Executes the selector */
         item_location &execute();
+
+    protected:
+        virtual void draw( WINDOW *w ) const override;
 };
 
 class inventory_compare_selector : public inventory_selector
@@ -318,8 +319,11 @@ class inventory_compare_selector : public inventory_selector
                                     const item_location_filter &filter = allow_all_items );
         /** Executes the selector */
         void execute();
+
     protected:
         std::vector<inventory_entry *> compared;
+
+        virtual void draw( WINDOW *w ) const override;
         void toggle_entry( inventory_entry *entry );
 };
 
@@ -334,6 +338,8 @@ class inventory_drop_selector : public inventory_selector
     protected:
         /** What has been selected for dropping. The key is the item pointer. */
         std::map<const item *, int> dropping;
+
+        virtual void draw( WINDOW *w ) const override;
         /** Toggle item dropping */
         void set_drop_count( inventory_entry &entry, size_t count );
         void remove_dropping_items( player &u ) const;
