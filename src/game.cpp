@@ -12004,6 +12004,14 @@ bool game::walk_move( const tripoint &dest_loc )
                 !query_yn( _("Really step onto that %s?"), tr.name.c_str() ) ) {
                 return true;
             }
+
+            //prompt for dangerous furniture/terrain flags, unless our square has the same flag
+            const bool dang_flag = ( m.has_flag( "ROUGH", dest_loc ) && !m.has_flag( "ROUGH", u.pos() ) ) ||
+                                   ( m.has_flag( "SHARP", dest_loc ) && !m.has_flag( "SHARP", u.pos() ) );
+            if( dang_flag &&
+                !query_yn( _( "Really step onto that %s?" ), m.name( dest_loc ).c_str() ) ) {
+                return true;
+            }
         }
     }
 
