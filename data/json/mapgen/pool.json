@@ -4,10 +4,10 @@
         "name" : "GROUP_MAPGEN_POOL",
         "default" : "mon_null",
         "monsters" : [
-            { "monster" : "mon_zombie_swimmer", "freq" : 500, "cost_multiplier" : 0 }
+            { "monster" : "mon_zombie_swimmer", "freq" : 9, "cost_multiplier" : 0 },
+            { "monster" : "mon_zombie_mancroc", "freq" : 1, "cost_multiplier" : 0 }
         ]
-    },
-    {
+    },{
         "type": "mapgen",
         "om_terrain": [
             "pool"
@@ -50,16 +50,9 @@
                 "n": "f_dive_block"
             },
             "place_monsters": [
-                { "monster": "GROUP_MAPGEN_POOL", "chance": 1, "x": [3,3], "y": [20,20], "repeat": [1,6] }
+                { "monster": "GROUP_MAPGEN_POOL", "x": [5,18], "y": [5,18], "repeat": [1,6] }
             ]
         }
-    },{
-        "type":"monstergroup",
-        "name" : "GROUP_MAPGEN_POOL",
-        "default" : "mon_null",
-        "monsters" : [
-            { "monster" : "mon_zombie_swimmer", "freq" : 500, "cost_multiplier" : 0 }
-        ]
     },{
         "type": "mapgen",
         "om_terrain": [
@@ -107,7 +100,7 @@
                 "c": "f_chair"
             },
             "place_monsters": [
-                { "monster": "GROUP_MAPGEN_POOL", "chance": 1, "x": [3,3], "y": [20,20], "repeat": [1,6] }
+                { "monster": "GROUP_MAPGEN_POOL", "x": [5,18], "y": [5,18], "repeat": [2,7] }
             ]
         }
     }
