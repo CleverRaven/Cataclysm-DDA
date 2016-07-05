@@ -496,7 +496,7 @@ std::string enumerate_as_string( const _Container &values, bool use_and = true )
     std::ostringstream res;
     for( auto iter = values.begin(); iter != values.end(); ++iter ) {
         if( iter != values.begin() ) {
-            if( use_and && ( std::next( iter ) == values.end() ) ) {
+            if( use_and && std::next( iter ) == values.end() ) {
                 res << ( values.size() > 2 ? _( ", and " ) : _( " and " ) );
             } else {
                 res << _( ", " );

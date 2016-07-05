@@ -524,7 +524,7 @@ std::string input_context::get_conflicts( const input_event &event ) const
 {
     return enumerate_as_string( registered_actions.begin(), registered_actions.end(),
     [ this, &event ]( const std::string & action ) {
-        return ( action_uses_input( action, event ) ) ? get_action_name( action ) : "";
+        return action_uses_input( action, event ) ? get_action_name( action ) : std::string();
     } );
 }
 

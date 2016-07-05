@@ -1376,7 +1376,7 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
         const auto &styles = g->u.ma_styles;
         const std::string valid_styles = enumerate_as_string( styles.begin(), styles.end(),
         [ this ]( const matype_id &mid ) {
-            return ( mid.obj().has_weapon( typeId() ) ) ? mid.obj().name : "";
+            return mid.obj().has_weapon( typeId() ) ? mid.obj().name : std::string();
         } );
         if( !valid_styles.empty() ) {
             insert_separation_line();

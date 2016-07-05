@@ -79,10 +79,10 @@ std::string build_bionic_poweronly_string( bionic const &bio )
 
     if( bio_data.charge_time > 0 ) {
         if( bio_data.power_over_time > 0 ) {
-            properties.push_back( ( bio_data.charge_time == 1
-                                    ? string_format( _( "%d PU/turn" ), bio_data.power_over_time )
-                                    : string_format( _( "%d PU/%d turns" ), bio_data.power_over_time,
-                                            bio_data.charge_time ) ) );
+            properties.push_back( bio_data.charge_time == 1
+                                  ? string_format( _( "%d PU/turn" ), bio_data.power_over_time )
+                                  : string_format( _( "%d PU/%d turns" ), bio_data.power_over_time,
+                                                   bio_data.charge_time ) );
         }
         if( bio_data.power_activate > 0 ) {
             properties.push_back( string_format( _( "%d PU act" ), bio_data.power_activate ) );
