@@ -4,8 +4,8 @@
         "name" : "GROUP_MAPGEN_POOL",
         "default" : "mon_null",
         "monsters" : [
-            { "monster" : "mon_zombie_swimmer", "freq" : 9, "cost_multiplier" : 0 },
-            { "monster" : "mon_zombie_mancroc", "freq" : 1, "cost_multiplier" : 0 }
+            { "monster" : "mon_zombie_swimmer", "freq" : 450, "cost_multiplier" : 0 },
+            { "monster" : "mon_zombie_mancroc", "freq" : 50, "cost_multiplier" : 0 }
         ]
     },{
         "type": "mapgen",
