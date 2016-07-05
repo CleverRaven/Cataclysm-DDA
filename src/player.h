@@ -376,7 +376,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /**
          * Get all hostile creatures currently visible to this player.
          */
-         std::vector<Creature*> get_hostile_creatures() const;
+         std::vector<Creature*> get_hostile_creatures( int range ) const;
 
         /**
          * Returns all creatures that this player can see and that are in the given
