@@ -306,6 +306,23 @@
         }
     },{
         "type" : "terrain",
+        "id" : "t_dirt",
+        "name": "dirt",
+        "symbol": ".",
+        "color": "brown",
+        "move_cost": 2,
+        "roof": "t_flat_roof",
+        "flags": ["TRANSPARENT", "DIGGABLE", "FLAT"],
+        "bash": {
+                "sound": "thump",
+                "ter_set": "t_null",
+                "str_min": 50,
+                "str_max": 100,
+                "str_min_supported": 100,
+                "bash_below": true
+        }
+    },{
+        "type" : "terrain",
         "id" : "t_sand",
         "name": "sand",
         "symbol": ".",
@@ -5411,6 +5428,22 @@
         "examine_action": "climb_down"
     },{
         "type" : "terrain",
+        "id" : "t_floor_wood",
+        "name": "roughly planked floor",
+        "symbol": "|",
+        "color": "brown",
+        "move_cost": 2,
+        "roof": "t_flat_roof",
+        "flags": ["TRANSPARENT", "FLAT"],
+        "bash": {
+            "str_min": 25, "str_max": 210,
+            "sound": "crash!",
+            "sound_fail": "whump!",
+            "ter_set": "t_null",
+            "bash_below": true
+        }
+    },{
+        "type" : "terrain",
         "id" : "t_flat_roof",
         "name": "flat roof",
         "symbol": ".",
@@ -5424,7 +5457,7 @@
             "ter_set": "t_null",
             "bash_below": true
         }
-    }, {
+    },{
         "type" : "terrain",
         "id" : "t_plut_generator",
         "name": "plutonium generator",
