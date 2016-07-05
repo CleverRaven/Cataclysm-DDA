@@ -1364,7 +1364,7 @@
         "type": "profession",
         "ident": "crossbow_hunter",
         "name": "Crossbow Hunter",
-        "description": "Ever since you were a child you loved hunting, and you soon took a liking to the challenge of hunting with a crossbow.  Why, if the world ended there's nothing you'd want at your side more than your trusty shotgun.  So when it did, you made sure to bring it along.",
+        "description": "Ever since you were a child you loved hunting, and you soon took a liking to the challenge of hunting with a crossbow.  Why, if the world ended there's nothing you'd want at your side more than your trusty crossbow.  So when it did, you made sure to bring it along.",
         "points": 2,
         "skills": [
             {
@@ -1399,7 +1399,7 @@
         "type": "profession",
         "ident": "shotgun_hunter",
         "name": "Shotgun Hunter",
-        "description": "Ever since you were a child you loved hunting, and you soon took a liking to the challenge of hunting with a shotgun.  Why, if the world ended there's nothing you'd want at your side more than your trusty rifle.  So when it did, you made sure to bring it along.",
+        "description": "Ever since you were a child you loved hunting, and you soon took a liking to the challenge of hunting with a shotgun.  Why, if the world ended there's nothing you'd want at your side more than your trusty shotgun.  So when it did, you made sure to bring it along.",
         "points": 2,
         "skills": [
             {
@@ -1438,7 +1438,7 @@
         "type": "profession",
         "ident": "rifle_hunter",
         "name": "Rifle Hunter",
-        "description": "Ever since you were a child you loved hunting, and you soon took a liking to the challenge of hunting with a rifle.  Why, if the world ended there's nothing you'd want at your side more than your trusty bow.  So when it did, you made sure to bring it along.",
+        "description": "Ever since you were a child you loved hunting, and you soon took a liking to the challenge of hunting with a rifle.  Why, if the world ended there's nothing you'd want at your side more than your trusty rifle.  So when it did, you made sure to bring it along.",
         "points": 2,
         "skills": [
             {
