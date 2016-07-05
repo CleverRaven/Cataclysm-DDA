@@ -244,8 +244,8 @@ struct requirement_data {
                                int batch = 1 );
 
         template<typename T>
-        static std::vector<std::string> get_folded_list( int width, const inventory &crafting_inv,
-                const std::vector< std::vector<T> > &objs, int batch = 1 );
+        std::vector<std::string> get_folded_list( int width, const inventory &crafting_inv,
+                const std::vector< std::vector<T> > &objs, int batch = 1 ) const;
 
         template<typename T>
         static bool any_marked_available( const std::vector<T> &comps );

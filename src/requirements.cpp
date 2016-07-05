@@ -360,8 +360,11 @@ std::vector<std::string> requirement_data::get_folded_components_list( int width
 template<typename T>
 std::vector<std::string> requirement_data::get_folded_list( int width,
         const inventory &crafting_inv, const std::vector< std::vector<T> > &objs,
-        int batch )
+        int batch ) const
 {
+    // hack: ensure 'cached' availability is up to date
+    can_make_with_inventory( crafting_inv );
+
     std::vector<std::string> out_buffer;
     for( const auto &comp_list : objs ) {
         const bool has_one = any_marked_available( comp_list );
