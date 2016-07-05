@@ -53,5 +53,62 @@
                 { "monster": "GROUP_MAPGEN_POOL", "chance": 1, "x": [3,3], "y": [20,20], "repeat": [1,6] }
             ]
         }
+    },{
+        "type":"monstergroup",
+        "name" : "GROUP_MAPGEN_POOL",
+        "default" : "mon_null",
+        "monsters" : [
+            { "monster" : "mon_zombie_swimmer", "freq" : 500, "cost_multiplier" : 0 }
+        ]
+    },{
+        "type": "mapgen",
+        "om_terrain": [
+            "pool"
+        ],
+        "method": "json",
+        "object": {
+            "rows": [
+                "........................",
+                ".---oo-----------------.",
+                ".-..++..............++-.",
+                ".-++++cc++cc++cc++cc++-.",
+                ".-++++++++++++++++++++-.",
+                ".-++++++++++++++WWW+++-.",
+                ".-+++wwwwwwwwwwwwwww++-.",
+                ".-c++wwwwwwwwwwwwwww++-.",
+                ".-c++wwwwwwwwwwwwwww++-.",
+                ".-+++wwwwwwwwwwwwwww++-.",
+                ".-+++wwwwwwwwwwwwwww++-.",
+                ".-+++wwwwwwwwwwwwwww++-.",
+                ".-c++wwwwwwwwwwwwwww++-.",
+                ".-c++wwwwwwwwwwwwwww++-.",
+                ".-+++wwwwwwwwwwwwwww++-.",
+                ".-+++wwwwwwwwwwwwwww++-.",
+                ".-+++wwwwwwwwwwwwwww++-.",
+                ".-c++wwwwwwwwwwwwwww++-.",
+                ".-c++wwwwwwwwwwwwwww++-.",
+                ".-+++wwwwwwwwwwwwwww++-.",
+                ".-++++++++++++++++++++-.",
+                ".-++++++++++++++c+++++-.",
+                ".----------------------.",
+                "........................"
+            ],
+            "terrain": {
+                ".": [ "t_grass", "t_grass", "t_dirt" ],
+                "+": "t_concrete",
+                "c": "t_concrete",
+                "w": "t_water_dp",
+                "W": "t_water_sh",
+                "-": ["t_chaingate_c", "t_chaingate_o"],
+                "o": "t_chainfence_v"
+            },
+            "furniture": {
+                "n": "f_dive_block",
+                "c": "f_chair"
+            },
+            "place_monsters": [
+                { "monster": "GROUP_MAPGEN_POOL", "chance": 1, "x": [3,3], "y": [20,20], "repeat": [1,6] }
+            ]
+        }
     }
 ]
