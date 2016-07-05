@@ -218,24 +218,20 @@ class inventory_selector
         void add_map_items( const tripoint &target );
         void add_vehicle_items( const tripoint &target );
         void add_nearby_items( int radius = 1 );
-        /** Executes the selector */
-        item_location &execute_pick( const std::string &title );
-        void execute_compare( const std::string &title );
-        std::list<std::pair<int, int>> execute_multidrop( const std::string &title );
         /** Checks the selector for emptiness (absence of available entries). */
         bool empty() const;
 
     protected:
-        void add_custom_items( const std::list<item>::const_iterator &from,
-                               const std::list<item>::const_iterator &to,
-                               const std::string &title,
-                               const std::function<std::shared_ptr<item_location>( item * )> &locator );
-    private:
         enum selector_mode {
             SM_PICK,
             SM_COMPARE,
             SM_MULTIDROP
         };
+
+        void add_custom_items( const std::list<item>::const_iterator &from,
+                               const std::list<item>::const_iterator &to,
+                               const std::string &title,
+                               const std::function<std::shared_ptr<item_location>( item * )> &locator );
 
         static const long min_custom_invlet = '0';
         static const long max_custom_invlet = '9';
@@ -251,8 +247,6 @@ class inventory_selector
 
         /** Refreshes item categories */
         void prepare_columns( bool multiselect );
-        /** What has been selected for dropping/comparing. The key is the item pointer. */
-        std::map<const item *, int> dropping;
         /** The input context for navigation, already contains some actions for movement.
          * See @ref on_action */
         input_context ctxt;
@@ -263,7 +257,6 @@ class inventory_selector
         /** Update the @ref w_inv window, including wrefresh */
         void display( const std::string &title, selector_mode mode ) const;
 
-        void remove_dropping_items( player &u ) const;
         WINDOW *w_inv;
 
         item_location null_location;
@@ -278,12 +271,6 @@ class inventory_selector
 
         /** Returns an entry from @ref entries by its invlet */
         inventory_entry *find_entry_by_invlet( long invlet ) const;
-        /** Toggle item dropping for item position it_pos:
-         * If count is > 0: set dropping to count
-         * If the item is already marked for dropping: deactivate dropping.
-         */
-        void set_drop_count( int it_pos, int count, const item &it );
-        void set_drop_count( inventory_entry &entry, size_t count );
 
         inventory_column &get_column( size_t index ) const;
         inventory_column &get_active_column() const {
@@ -307,10 +294,44 @@ class inventory_selector
             }
         }
         void toggle_navigation_mode();
-
         void insert_column( decltype( columns )::iterator position,
                             std::unique_ptr<inventory_column> &new_column );
         void insert_selection_column( const std::string &id, const std::string &name );
+};
+
+class inventory_pick_selector : public inventory_selector
+{
+    public:
+        inventory_pick_selector( player &u, const item_location_filter &filter = allow_all_items ) :
+            inventory_selector( u, filter ) {}
+        /** Executes the selector */
+        item_location &execute( const std::string &title );
+};
+
+class inventory_compare_selector : public inventory_selector
+{
+    public:
+        inventory_compare_selector( player &u, const item_location_filter &filter = allow_all_items );
+        /** Executes the selector */
+        void execute( const std::string &title );
+    protected:
+        std::vector<inventory_entry *> compared;
+        void toggle_entry( inventory_entry *entry );
+};
+
+class inventory_drop_selector : public inventory_selector
+{
+    public:
+        inventory_drop_selector( player &u, const item_location_filter &filter = allow_all_items );
+        /** Executes the selector */
+        std::list<std::pair<int, int>> execute( const std::string &title );
+
+    protected:
+        /** What has been selected for dropping. The key is the item pointer. */
+        std::map<const item *, int> dropping;
+        /** Toggle item dropping */
+        void set_drop_count( inventory_entry &entry, size_t count );
+        void remove_dropping_items( player &u ) const;
 };
 
 #endif

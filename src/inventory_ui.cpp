@@ -536,7 +536,7 @@ void inventory_selector::display( const std::string &title, selector_mode mode )
         // copy and let the copy recalculate the volume capacity
         // (can be affected by various traits).
         player tmp = u;
-        remove_dropping_items(tmp);
+        // remove_dropping_items(tmp);
         print_inv_weight_vol(tmp.weight_carried(), tmp.volume_carried(), tmp.volume_capacity());
         mvwprintw(w_inv, 1, 0, _("To drop x items, type a number and then the item hotkey."));
     } else {
@@ -564,7 +564,6 @@ inventory_selector::inventory_selector( player &u, const item_location_filter &f
     : columns()
     , active_column_index( 0 )
     , filter( filter )
-    , dropping()
     , ctxt("INVENTORY")
     , w_inv( newwin( TERMY, TERMX, VIEW_OFFSET_Y, VIEW_OFFSET_X ) )
     , navigation( navigation_mode::ITEM )
@@ -662,42 +661,6 @@ void inventory_selector::on_change( const inventory_entry &entry )
     refresh_active_column(); // Columns can react to changes by losing their activation capacity
 }
 
-void inventory_selector::set_drop_count( inventory_entry &entry, size_t count )
-{
-    const auto iter = dropping.find( &entry.get_item() );
-
-    if( count == 0 && iter != dropping.end() ) {
-        entry.chosen_count = 0;
-        dropping.erase( iter );
-    } else {
-        entry.chosen_count = ( count == 0 )
-            ? entry.get_available_count()
-            : std::min( count, entry.get_available_count() );
-        dropping[&entry.get_item()] = entry.chosen_count;
-    }
-
-    on_change( entry );
-}
-
-void inventory_selector::remove_dropping_items( player &dummy ) const
-{
-    std::map<item *, int> dummy_dropping;
-
-    for( const auto &elem : dropping ) {
-        dummy_dropping[&dummy.i_at( u.get_item_position( elem.first ) )] = elem.second;
-    }
-    for( auto &elem : dummy_dropping ) {
-        if( elem.first->count_by_charges() ) {
-            elem.first->mod_charges( -elem.second );
-        } else {
-            const int pos = dummy.get_item_position( elem.first );
-            for( int i = 0; i < elem.second; ++i ) {
-                dummy.i_rem( pos );
-            }
-        }
-    }
-}
-
 inventory_column &inventory_selector::get_column( size_t index ) const
 {
     if( index >= columns.size() ) {
@@ -775,7 +738,7 @@ void inventory_selector::insert_selection_column( const std::string &id, const s
     }
 }
 
-item_location &inventory_selector::execute_pick( const std::string &title )
+item_location &inventory_pick_selector::execute( const std::string &title )
 {
     prepare_columns( false );
 
@@ -798,26 +761,15 @@ item_location &inventory_selector::execute_pick( const std::string &title )
     }
 }
 
-void inventory_selector::execute_compare( const std::string &title )
+inventory_compare_selector::inventory_compare_selector( player &u, const item_location_filter &filter ) :
+    inventory_selector( u, filter )
 {
     insert_selection_column( "ITEMS TO COMPARE", _( "ITEMS TO COMPARE" ) );
+}
+
+void inventory_compare_selector::execute( const std::string &title )
+{
     prepare_columns( true );
-
-    std::vector<inventory_entry *> compared;
-
-    const auto toggle_entry = [ this, &compared ]( inventory_entry *entry ) {
-        const auto iter = std::find( compared.begin(), compared.end(), entry );
-
-        entry->chosen_count = ( iter == compared.end() ) ? 1 : 0;
-
-        if( entry->chosen_count != 0 ) {
-            compared.push_back( entry );
-        } else {
-            compared.erase( iter );
-        }
-
-        on_change( *entry );
-    };
 
     while(true) {
         display( title, SM_COMPARE );
@@ -882,9 +834,30 @@ void inventory_selector::execute_compare( const std::string &title )
     }
 }
 
-std::list<std::pair<int, int>> inventory_selector::execute_multidrop( const std::string &title )
+void inventory_compare_selector::toggle_entry( inventory_entry *entry )
+{
+    const auto iter = std::find( compared.begin(), compared.end(), entry );
+
+    entry->chosen_count = ( iter == compared.end() ) ? 1 : 0;
+
+    if( entry->chosen_count != 0 ) {
+        compared.push_back( entry );
+    } else {
+        compared.erase( iter );
+    }
+
+    on_change( *entry );
+}
+
+inventory_drop_selector::inventory_drop_selector( player &u, const item_location_filter &filter ) :
+    inventory_selector( u, filter ),
+    dropping()
 {
     insert_selection_column( "ITEMS TO DROP", _( "ITEMS TO DROP" ) );
+}
+
+std::list<std::pair<int, int>> inventory_drop_selector::execute( const std::string &title )
+{
     prepare_columns( true );
 
     int count = 0;
@@ -926,3 +899,38 @@ std::list<std::pair<int, int>> inventory_selector::execute_multidrop( const std:
     return dropped_pos_and_qty;
 }
 
+void inventory_drop_selector::set_drop_count( inventory_entry &entry, size_t count )
+{
+    const auto iter = dropping.find( &entry.get_item() );
+
+    if( count == 0 && iter != dropping.end() ) {
+        entry.chosen_count = 0;
+        dropping.erase( iter );
+    } else {
+        entry.chosen_count = ( count == 0 )
+            ? entry.get_available_count()
+            : std::min( count, entry.get_available_count() );
+        dropping[&entry.get_item()] = entry.chosen_count;
+    }
+
+    on_change( entry );
+}
+
+void inventory_drop_selector::remove_dropping_items( player &dummy ) const
+{
+    std::map<item *, int> dummy_dropping;
+
+    for( const auto &elem : dropping ) {
+        dummy_dropping[&dummy.i_at( u.get_item_position( elem.first ) )] = elem.second;
+    }
+    for( auto &elem : dummy_dropping ) {
+        if( elem.first->count_by_charges() ) {
+            elem.first->mod_charges( -elem.second );
+        } else {
+            const int pos = dummy.get_item_position( elem.first );
+            for( int i = 0; i < elem.second; ++i ) {
+                dummy.i_rem( pos );
+            }
+        }
+    }
+}
