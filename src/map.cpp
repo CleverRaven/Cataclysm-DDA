@@ -2387,10 +2387,6 @@ bool map::has_flag_ter_or_furn(const std::string & flag, const int x, const int 
     return current_submap->get_ter( lx, ly ).obj().has_flag(flag) || current_submap->get_furn(lx, ly).obj().has_flag(flag);
 }
 
-bool map::has_flag_ter_and_furn(const std::string & flag, const int x, const int y) const
-{
-    return has_flag_ter_and_furn( flag, tripoint( x, y, abs_sub.z ) );
-}
 /////
 bool map::has_flag(const ter_bitflags flag, const int x, const int y) const
 {
@@ -2417,18 +2413,6 @@ bool map::has_flag_ter_or_furn(const ter_bitflags flag, const int x, const int y
     submap * const current_submap = get_submap_at(x, y, lx, ly);
 
     return current_submap->get_ter( lx, ly ).obj().has_flag(flag) || current_submap->get_furn(lx, ly).obj().has_flag(flag);
-}
-
-bool map::has_flag_ter_and_furn(const ter_bitflags flag, const int x, const int y) const
-{
-    if (!INBOUNDS(x, y)) {
-        return false;
-    }
-
-    int lx, ly;
-    submap * const current_submap = get_submap_at( x, y, lx, ly );
-
-    return current_submap->get_ter( lx, ly ).obj().has_flag(flag) && current_submap->get_furn(lx, ly).obj().has_flag(flag);
 }
 
 // End of 2D flags
@@ -2477,11 +2461,6 @@ bool map::has_flag_ter_or_furn( const std::string & flag, const tripoint &p ) co
            current_submap->get_furn( lx, ly ).obj().has_flag( flag );
 }
 
-bool map::has_flag_ter_and_furn( const std::string & flag, const tripoint &p ) const
-{
-    return ter( p ).obj().has_flag( flag ) && furn( p ).obj().has_flag( flag );
-}
-
 bool map::has_flag( const ter_bitflags flag, const tripoint &p ) const
 {
     return has_flag_ter_or_furn( flag, p ); // Does bound checking
@@ -2507,19 +2486,6 @@ bool map::has_flag_ter_or_furn( const ter_bitflags flag, const tripoint &p ) con
     submap *const current_submap = get_submap_at( p, lx, ly );
 
     return current_submap->get_ter( lx, ly ).obj().has_flag( flag ) ||
-           current_submap->get_furn( lx, ly ).obj().has_flag( flag );
-}
-
-bool map::has_flag_ter_and_furn( const ter_bitflags flag, const tripoint &p ) const
-{
-    if( !inbounds( p ) ) {
-        return false;
-    }
-
-    int lx, ly;
-    submap *const current_submap = get_submap_at( p, lx, ly );
-
-    return current_submap->get_ter( lx, ly ).obj().has_flag( flag ) &&
            current_submap->get_furn( lx, ly ).obj().has_flag( flag );
 }
 

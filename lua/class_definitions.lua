@@ -1284,7 +1284,6 @@ classes = {
             { name = "has_flag", rval = "bool", args = { "string", "tripoint" } },
             { name = "has_flag_furn", rval = "bool", args = { "string", "tripoint" } },
             { name = "has_flag_ter", rval = "bool", args = { "string", "tripoint" } },
-            { name = "has_flag_ter_and_furn", rval = "bool", args = { "string", "tripoint" } },
             { name = "has_flag_ter_or_furn", rval = "bool", args = { "string", "tripoint" } },
             { name = "has_floor", rval = "bool", args = { "tripoint" } },
             { name = "has_floor_or_support", rval = "bool", args = { "tripoint" } },

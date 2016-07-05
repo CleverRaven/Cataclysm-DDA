@@ -607,13 +607,11 @@ public:
     bool has_flag_ter(const std::string & flag, const int x, const int y) const;  // checks terrain
     bool has_flag_furn(const std::string & flag, const int x, const int y) const;  // checks furniture
     bool has_flag_ter_or_furn(const std::string & flag, const int x, const int y) const; // checks terrain or furniture
-    bool has_flag_ter_and_furn(const std::string & flag, const int x, const int y) const; // checks terrain and furniture
     // fast "oh hai it's update_scent/lightmap/draw/monmove/self/etc again, what about this one" flag checking
     bool has_flag(const ter_bitflags flag, const int x, const int y) const;  // checks terrain, furniture and vehicles
     bool has_flag_ter(const ter_bitflags flag, const int x, const int y) const;  // checks terrain
     bool has_flag_furn(const ter_bitflags flag, const int x, const int y) const;  // checks furniture
     bool has_flag_ter_or_furn(const ter_bitflags flag, const int x, const int y) const; // checks terrain or furniture
-    bool has_flag_ter_and_furn(const ter_bitflags flag, const int x, const int y) const; // checks terrain and furniture
 // Flags: 3D
     std::string features( const tripoint &p ); // Words relevant to terrain (sharp, etc)
     bool has_flag( const std::string &flag, const tripoint &p ) const;  // checks terrain, furniture and vehicles
@@ -622,13 +620,11 @@ public:
     bool has_flag_ter( const std::string &flag, const tripoint &p ) const;  // checks terrain
     bool has_flag_furn( const std::string &flag, const tripoint &p ) const;  // checks furniture
     bool has_flag_ter_or_furn( const std::string &flag, const tripoint &p ) const; // checks terrain or furniture
-    bool has_flag_ter_and_furn( const std::string &flag, const tripoint &p ) const; // checks terrain and furniture
     // fast "oh hai it's update_scent/lightmap/draw/monmove/self/etc again, what about this one" flag checking
     bool has_flag( const ter_bitflags flag, const tripoint &p ) const;  // checks terrain, furniture and vehicles
     bool has_flag_ter( const ter_bitflags flag, const tripoint &p ) const;  // checks terrain
     bool has_flag_furn( const ter_bitflags flag, const tripoint &p ) const;  // checks furniture
     bool has_flag_ter_or_furn( const ter_bitflags flag, const tripoint &p ) const; // checks terrain or furniture
-    bool has_flag_ter_and_furn( const ter_bitflags flag, const tripoint &p ) const; // checks terrain and furniture
 
 // Bashable: 2D
     bool is_bashable(const int x, const int y) const;
