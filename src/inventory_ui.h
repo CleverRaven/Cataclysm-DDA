@@ -212,7 +212,8 @@ class selection_column : public inventory_column
 class inventory_selector
 {
     public:
-        inventory_selector( player &u, const item_location_filter &filter = allow_all_items );
+        inventory_selector( player &u, const std::string &title,
+                            const item_location_filter &filter = allow_all_items );
         ~inventory_selector();
         /** These functions add items from map / vehicles */
         void add_map_items( const tripoint &target );
@@ -255,9 +256,10 @@ class inventory_selector
         /** Entry has been changed */
         void on_change( const inventory_entry &entry );
         /** Update the @ref w_inv window, including wrefresh */
-        void display( const std::string &title, selector_mode mode ) const;
+        void display( selector_mode mode ) const;
 
         WINDOW *w_inv;
+        std::string title;
 
         item_location null_location;
         navigation_mode navigation;
@@ -302,18 +304,20 @@ class inventory_selector
 class inventory_pick_selector : public inventory_selector
 {
     public:
-        inventory_pick_selector( player &u, const item_location_filter &filter = allow_all_items ) :
-            inventory_selector( u, filter ) {}
+        inventory_pick_selector( player &u, const std::string &title,
+                                 const item_location_filter &filter = allow_all_items ) :
+            inventory_selector( u, title, filter ) {}
         /** Executes the selector */
-        item_location &execute( const std::string &title );
+        item_location &execute();
 };
 
 class inventory_compare_selector : public inventory_selector
 {
     public:
-        inventory_compare_selector( player &u, const item_location_filter &filter = allow_all_items );
+        inventory_compare_selector( player &u, const std::string &title,
+                                    const item_location_filter &filter = allow_all_items );
         /** Executes the selector */
-        void execute( const std::string &title );
+        void execute();
     protected:
         std::vector<inventory_entry *> compared;
         void toggle_entry( inventory_entry *entry );
@@ -322,9 +326,10 @@ class inventory_compare_selector : public inventory_selector
 class inventory_drop_selector : public inventory_selector
 {
     public:
-        inventory_drop_selector( player &u, const item_location_filter &filter = allow_all_items );
+        inventory_drop_selector( player &u, const std::string &title,
+                                 const item_location_filter &filter = allow_all_items );
         /** Executes the selector */
-        std::list<std::pair<int, int>> execute( const std::string &title );
+        std::list<std::pair<int, int>> execute();
 
     protected:
         /** What has been selected for dropping. The key is the item pointer. */

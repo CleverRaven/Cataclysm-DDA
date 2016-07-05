@@ -487,7 +487,7 @@ void inventory_selector::print_inv_weight_vol(int weight_carried, int vol_carrie
     wprintw(w_inv, "/%-3d", vol_capacity);
 }
 
-void inventory_selector::display( const std::string &title, selector_mode mode ) const
+void inventory_selector::display( selector_mode mode ) const
 {
     werase(w_inv);
     mvwprintw(w_inv, 0, 0, title.c_str());
@@ -560,12 +560,13 @@ void inventory_selector::display( const std::string &title, selector_mode mode )
     wrefresh(w_inv);
 }
 
-inventory_selector::inventory_selector( player &u, const item_location_filter &filter )
+inventory_selector::inventory_selector( player &u, const std::string &title, const item_location_filter &filter )
     : columns()
     , active_column_index( 0 )
     , filter( filter )
     , ctxt("INVENTORY")
     , w_inv( newwin( TERMY, TERMX, VIEW_OFFSET_Y, VIEW_OFFSET_X ) )
+    , title( title )
     , navigation( navigation_mode::ITEM )
     , weapon_cat("WEAPON", _("WEAPON HELD"), 0)
     , worn_cat("ITEMS WORN", _("ITEMS WORN"), 0)
@@ -738,12 +739,12 @@ void inventory_selector::insert_selection_column( const std::string &id, const s
     }
 }
 
-item_location &inventory_pick_selector::execute( const std::string &title )
+item_location &inventory_pick_selector::execute()
 {
     prepare_columns( false );
 
     while( true ) {
-        display( title, SM_PICK );
+        display( SM_PICK );
 
         const std::string action = ctxt.handle_input();
         const long ch = ctxt.get_raw_input().get_first_input();
@@ -761,18 +762,19 @@ item_location &inventory_pick_selector::execute( const std::string &title )
     }
 }
 
-inventory_compare_selector::inventory_compare_selector( player &u, const item_location_filter &filter ) :
-    inventory_selector( u, filter )
+inventory_compare_selector::inventory_compare_selector( player &u, const std::string &title,
+                                                        const item_location_filter &filter ) :
+    inventory_selector( u, title, filter )
 {
     insert_selection_column( "ITEMS TO COMPARE", _( "ITEMS TO COMPARE" ) );
 }
 
-void inventory_compare_selector::execute( const std::string &title )
+void inventory_compare_selector::execute()
 {
     prepare_columns( true );
 
     while(true) {
-        display( title, SM_COMPARE );
+        display( SM_COMPARE );
 
         const std::string action = ctxt.handle_input();
         const long ch = ctxt.get_raw_input().get_first_input();
@@ -849,20 +851,20 @@ void inventory_compare_selector::toggle_entry( inventory_entry *entry )
     on_change( *entry );
 }
 
-inventory_drop_selector::inventory_drop_selector( player &u, const item_location_filter &filter ) :
-    inventory_selector( u, filter ),
+inventory_drop_selector::inventory_drop_selector( player &u, const std::string &title, const item_location_filter &filter ) :
+    inventory_selector( u, title, filter ),
     dropping()
 {
     insert_selection_column( "ITEMS TO DROP", _( "ITEMS TO DROP" ) );
 }
 
-std::list<std::pair<int, int>> inventory_drop_selector::execute( const std::string &title )
+std::list<std::pair<int, int>> inventory_drop_selector::execute()
 {
     prepare_columns( true );
 
     int count = 0;
     while( true ) {
-        display( title, SM_MULTIDROP );
+        display( SM_MULTIDROP );
 
         const std::string action = ctxt.handle_input();
         const long ch = ctxt.get_raw_input().get_first_input();

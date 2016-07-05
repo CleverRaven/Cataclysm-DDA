@@ -1959,11 +1959,11 @@ void game::interactive_inv()
     u.inv.restack( &u );
     u.inv.sort();
 
-    inventory_pick_selector inv_s( u );
+    inventory_pick_selector inv_s( u, _( "Inventory:" ) );
 
     int res;
     do {
-        const item_location &location = inv_s.execute( _( "Inventory:" ) );
+        const item_location &location = inv_s.execute();
         if( location == item_location::nowhere ) {
             break;
         }
@@ -2049,7 +2049,7 @@ item_location game::inv_map_splice( item_location_filter filter, const std::stri
     u.inv.restack( &u );
     u.inv.sort();
 
-    inventory_pick_selector inv_s( u, filter );
+    inventory_pick_selector inv_s( u, title, filter );
 
     inv_s.add_nearby_items( radius );
     if( inv_s.empty() ) {
@@ -2058,7 +2058,7 @@ item_location game::inv_map_splice( item_location_filter filter, const std::stri
         return item_location();
     }
 
-    return std::move( inv_s.execute( title ) );
+    return std::move( inv_s.execute() );
 }
 
 item *game::inv_map_for_liquid(const item &liquid, const std::string &title, int radius)
@@ -2081,14 +2081,14 @@ std::list<std::pair<int, int>> game::multidrop()
     u.inv.restack( &u );
     u.inv.sort();
 
-    inventory_drop_selector inv_s( u, [ this ]( const item_location &location ) -> bool {
+    inventory_drop_selector inv_s( u, _( "Multidrop:" ), [ this ]( const item_location &location ) -> bool {
         return u.can_unwield( *location, false );
     } );
     if( inv_s.empty() ) {
         popup( std::string( _( "You have nothing to drop." ) ), PF_GET_KEY );
         return std::list<std::pair<int, int> >();
     }
-    return inv_s.execute( _( "Multidrop:" ) );
+    return inv_s.execute();
 }
 
 void game::compare( const tripoint &offset )
@@ -2096,7 +2096,7 @@ void game::compare( const tripoint &offset )
     u.inv.restack(&u);
     u.inv.sort();
 
-    inventory_compare_selector inv_s( u );
+    inventory_compare_selector inv_s( u, _( "Compare:" ) );
 
     if( offset != tripoint_min ) {
         inv_s.add_map_items( u.pos() + offset );
@@ -2110,7 +2110,7 @@ void game::compare( const tripoint &offset )
         return;
     }
 
-    inv_s.execute( _( "Compare:" ) );
+    inv_s.execute();
 }
 
 // Checks input to see if mouse was moved and handles the mouse view box accordingly.
