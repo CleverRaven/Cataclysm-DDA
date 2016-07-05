@@ -5,7 +5,7 @@
     "s_gun"
     ],
     "method" : "json",
-    "weight" : 300,
+    "weight" : 400,
     "object" :{
         "rows" : [
         "_ssssssssssssssssssssss_",
