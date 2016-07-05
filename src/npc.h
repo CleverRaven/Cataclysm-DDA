@@ -638,7 +638,7 @@ public:
 // Re-roll the inventory of a shopkeeper
  void shop_restock();
 // Use and assessment of items
- int  minimum_item_value(); // The minimum value to want to pick up an item
+ int  minimum_item_value() const; // The minimum value to want to pick up an item
  void update_worst_item_value(); // Find the worst value in our inventory
     int value( const item &it ) const;
     int value( const item &it, int market_price ) const;
@@ -749,6 +749,10 @@ public:
  void find_item  (); // Look around and pick an item
  void pick_up_item (); // Move to, or grab, our targeted item
  void drop_items (int weight, int volume); // Drop wgt and vol
+
+    /** Picks up items and returns a list of them. */
+    std::list<item> pick_up_item_map( const tripoint &where );
+    std::list<item> pick_up_item_vehicle( vehicle &veh, int part_index );
 
     /** Returns true if it finds one. */
     bool find_corpse_to_pulp();

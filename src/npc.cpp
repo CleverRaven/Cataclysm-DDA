@@ -1698,7 +1698,7 @@ void npc::shop_restock(){
 }
 
 
-int npc::minimum_item_value()
+int npc::minimum_item_value() const
 {
     // TODO: Base on inventory
     int ret = 20;
