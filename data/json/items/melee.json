@@ -1042,7 +1042,7 @@
         "description" : "A double edged dagger made to be gripped in the palm, with the blade protruding between the fingers. The blade has been coated with diamond-like carbon and holds a wickedly sharp edge.",
         "weight" : 160,
         "to_hit" : 2,
-        "color" : "dark_gray",
+        "color" : "cyan",
         "symbol" : "{",
         "material" : ["steel", "diamond"],
         "volume" : 1,
