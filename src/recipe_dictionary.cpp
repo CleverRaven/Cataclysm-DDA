@@ -10,6 +10,10 @@ recipe_dictionary recipe_dict;
 
 void recipe_dictionary::finalize()
 {
+    delete_if( [&]( recipe & r ) {
+        return r.requirements().is_blacklisted();
+    } );
+
     for( auto r : recipes ) {
         add_to_component_lookup( r );
     }

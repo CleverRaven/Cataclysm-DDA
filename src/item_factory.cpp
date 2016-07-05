@@ -319,11 +319,6 @@ void Item_factory::finalize_item_blacklist()
         } );
     }
 
-    // if a requirement is empty but not null then it only contained (now removed) blacklisted items
-    recipe_dict.delete_if( [&]( recipe &r ) {
-        return r.requirements().is_empty() && !r.requirements().is_null();
-    } );
-
     for( auto &vid : vehicle_prototype::get_all() ) {
         vehicle_prototype &prototype = const_cast<vehicle_prototype&>( vid.obj() );
         for( vehicle_item_spawn &vis : prototype.item_spawns ) {
