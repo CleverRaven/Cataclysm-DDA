@@ -91,7 +91,7 @@
     "name_plural": "revolver ammo",
     "description": "Powerful ammunition for large revolvers and magnum pistols, as well as a few carbines.",
     "ammo_type": "44",
-    "count": 10 
+    "count": 10
   },
   {
     "id": "223",
@@ -102,7 +102,7 @@
     "//": "weapons with ammo spawn default type even blacklisted.",
     "description": "Hand-loaded ammunition for lighter rifles, designed for small game and humans.",
     "ammo_type": "556",
-    "count": 15 
+    "count": 15
   },
   {
     "id": "556",

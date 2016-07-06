@@ -57,7 +57,7 @@
     "name_plural": "reloaded light rifle ammo, incendiary",
     "description": "Hand-loaded incendiary ammunition for lighter rifles, designed to burn hotly upon impact, piercing armor and igniting flammable substances.",
     "ammo_type": "556",
-    "count": 10 
+    "count": 10
   },
   {
     "id": "reloaded_762_51",
@@ -87,7 +87,7 @@
     "name_plural": "reloaded heavy rifle ammo",
     "description": "Hand-loaded ammunition for heavy machineguns and special military hardware, intended for destroying vehicles or very large creatures.",
     "ammo_type": "50",
-    "count": 10 
+    "count": 10
   },
   {
     "id": "reloaded_50ss",
