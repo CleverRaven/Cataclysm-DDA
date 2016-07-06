@@ -14,6 +14,8 @@
     "color": "brown",
     "skill": "smg",
     "ammo": "762x25",
+    "ranged_damage": 2, "//": "10.6 inch barrel length.",
+    "range": 4, "//": "150 meter effective range.",
     "dispersion": 120,
     "sight_dispersion": 90,
     "aim_speed": 4,
@@ -22,8 +24,8 @@
     "durability": 8,
     "modes": [
       [ "DEFAULT", "semi-auto", 1 ],
-      [ "AUTO", "auto", 8 ]
-    ],
+      [ "AUTO", "auto", 12 ]
+    ], "//": "900 rounds per minute.",
     "valid_mod_locations": [[ "accessories", 3 ], [ "barrel", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "muzzle", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ]],
     "magazines": [
       [ "762x25", [ "ppshmag", "ppshdrum" ] ]
@@ -33,12 +35,12 @@
     "id": "tokarev",
     "copy-from": "pistol_base",
     "type": "GUN",
-    "name": "Tokarev TT-30",
-    "name_plural": "Tokarev TT-30",
-    "description": "The Norinco manufactured Tokarev TT-30 is the standard sidearm of the Chinese military, it does not see extensive use outside of China.",
+    "name": "Tokarev TT-33",
+    "name_plural": "Tokarev TT-33",
+    "description": "The Tokarev TT-33 is an antique Russian semiautomatic pistol, famous for its durability, accuracy, and poor grip quality.  It was chambered for the 7.62x25mm due to the popularity of the C96 pistol among Russian revolutionaries.",
     "weight": 798,
     "volume": 2,
-    "price": 140000, "//" : "And it's therefore expensive.",
+    "price": 100000, "//" : "And it's therefore expensive.",
     "bashing": 10,
     "to_hit": -2,
     "material": [ "steel", "plastic" ],
@@ -46,8 +48,21 @@
     "dispersion": 225,
     "sight_dispersion": 90,
     "recoil": 60,
-    "durability": 6,
+    "durability": 7,
     "magazine_well": 1,
-    "magazines": [ [ "762x25", [ "tokarevmag" ] ] ]
+    "valid_mod_locations": [[ "accessories", 3 ], [ "barrel", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "muzzle", 1 ], [ "sights", 1 ], [ "stock", 1 ]],
+    "magazines": [
+      [ "762x25", [ "tokarevmag" ] ]
+    ]
+  },
+  {
+    "id": "type54",
+    "copy-from": "tokarev",
+    "type": "GUN",
+    "name": "Type 54",
+    "name_plural": "Type 54",
+    "description": "The Norinco-manufactured Type 54 was the standard sidearm of the Chinese military. Due to import bans, the export model is difficult to find in the United States.",
+    "weight": 834,
+    "price": 140000, "//": "And it's therefore expensive."
   }
 ]

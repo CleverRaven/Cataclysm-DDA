@@ -4,7 +4,7 @@
     "type": "MAGAZINE",
     "name": "PPSh 35-round magazine",
     "description": "A 35-round box magazine for the PPSh-41.",
-    "weight": 470,
+    "weight": 305, "//": "Provisional.",
     "volume": 2,
     "price": 2200,
     "material": "steel",
@@ -21,7 +21,7 @@
     "type": "MAGAZINE",
     "name": "PPSh 71-round drum magazine",
     "description": "A high-capacity drum magazine for the PPSh-41.",
-    "weight": 1387, "//": "Provisional.",
+    "weight": 1054, "//": "Provisional.",
     "volume": 3,
     "price": 7000,
     "material": "steel",
@@ -33,7 +33,6 @@
     "reload_time": 190,
     "flags": [ "MAG_BULKY" ]
   },
-  
   {
     "id": "tokarevmag",
     "type": "MAGAZINE",
