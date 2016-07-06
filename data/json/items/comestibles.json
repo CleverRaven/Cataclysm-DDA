@@ -9297,7 +9297,7 @@
         "nutrition" : 33,
         "description" : "A bacon, lettuce, and tomato sandwich on toasted bread.",
         "price" : 400,
-        "material" : ["flesh", "veggie", "wheat"],
+        "material" : ["flesh", "veggy", "wheat"],
         "volume" : 1,
         "charges" : 4,
         "flags" : ["EATEN_HOT"],
