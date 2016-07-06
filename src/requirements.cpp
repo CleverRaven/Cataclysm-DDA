@@ -204,7 +204,7 @@ requirement_data requirement_data::operator+( const requirement_data &rhs ) cons
     // @todo deduplicate qualites and combine other requirements
 
     // if either operand was blacklisted then their summation should also be
-    res.blacklisted = res.blacklisted || rhs.blacklisted;
+    res.blacklisted |= rhs.blacklisted;
 
     return res;
 }
