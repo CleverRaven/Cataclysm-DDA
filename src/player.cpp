@@ -9821,31 +9821,16 @@ public:
             buffer << ma.name << "\n\n \n\n";
             if( !ma.techniques.empty() ) {
                 buffer << ngettext( "Technique:", "Techniques:", ma.techniques.size() ) << " ";
-                for( auto technique = ma.techniques.cbegin();
-                     technique != ma.techniques.cend(); ++technique ) {
-                    buffer << technique->obj().name;
-                    if( ma.techniques.size() > 1 && technique == ----ma.techniques.cend() ) {
-                        //~ Seperators that comes before last element of a list.
-                        buffer << _(" and ");
-                    } else if( technique != --ma.techniques.cend() ) {
-                        //~ Seperator for a list of items.
-                        buffer << _(", ");
-                    }
-                }
+                buffer << enumerate_as_string( ma.techniques.begin(), ma.techniques.end(), []( const matec_id &mid ) {
+                    return mid.obj().name;
+                } );
             }
             if( !ma.weapons.empty() ) {
                 buffer << "\n\n \n\n";
                 buffer << ngettext( "Weapon:", "Weapons:", ma.weapons.size() ) << " ";
-                for( auto weapon = ma.weapons.cbegin(); weapon != ma.weapons.cend(); ++weapon ) {
-                    buffer << item::nname( *weapon );
-                    if( ma.weapons.size() > 1 && weapon == ----ma.weapons.cend() ) {
-                        //~ Seperators that comes before last element of a list.
-                        buffer << _(" and ");
-                    } else if( weapon != --ma.weapons.cend() ) {
-                        //~ Seperator for a list of items.
-                        buffer << _(", ");
-                    }
-                }
+                buffer << enumerate_as_string( ma.weapons.begin(), ma.weapons.end(), []( const std::string &wid ) {
+                    return item::nname( wid );
+                } );
             }
             popup(buffer.str(), PF_NONE);
             menu->redraw();
@@ -11310,21 +11295,10 @@ void player::do_read( item *book )
             recipe_list.push_back( elem.name );
         }
         if( !recipe_list.empty() ) {
-            std::string recipes = "";
-            size_t index = 1;
-            for( auto iter = recipe_list.begin();
-                 iter != recipe_list.end(); ++iter, ++index ) {
-                recipes += *iter;
-                if(index == recipe_list.size() - 1) {
-                    recipes += _(" and "); // Who gives a fuck about an oxford comma?
-                } else if(index != recipe_list.size()) {
-                    recipes += _(", ");
-                }
-            }
             std::string recipe_line = string_format(
                 ngettext("This book contains %1$d crafting recipe: %2$s",
                          "This book contains %1$d crafting recipes: %2$s", recipe_list.size()),
-                recipe_list.size(), recipes.c_str());
+                recipe_list.size(), enumerate_as_string( recipe_list ).c_str());
             add_msg(m_info, "%s", recipe_line.c_str());
         }
         if( recipe_list.size() != reading->recipes.size() ) {
@@ -13337,10 +13311,11 @@ std::vector<Creature *> player::get_targetable_creatures( const int range ) cons
     } );
 }
 
-std::vector<Creature *> player::get_hostile_creatures() const
+std::vector<Creature *> player::get_hostile_creatures( int range ) const
 {
-    return get_creatures_if( [this] ( const Creature &critter ) -> bool {
+    return get_creatures_if( [this, range] ( const Creature &critter ) -> bool {
         return this != &critter && pos() != critter.pos() && // @todo get rid of fake npcs (pos() check)
+            rl_dist( pos(), critter.pos() ) <= range &&
             critter.attitude_to( *this ) == A_HOSTILE && sees( critter );
     } );
 }

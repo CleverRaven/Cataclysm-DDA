@@ -1862,19 +1862,13 @@ void remove_ammo( item *dis_item, player &p )
 
 std::string recipe::required_skills_string() const
 {
-    std::ostringstream skills_as_stream;
-    if( !required_skills.empty() ) {
-        for( auto iter = required_skills.begin(); iter != required_skills.end(); ) {
-            skills_as_stream << iter->first.obj().name() << "(" << iter->second << ")";
-            ++iter;
-            if( iter != required_skills.end() ) {
-                skills_as_stream << ", ";
-            }
-        }
-    } else {
-        skills_as_stream << _( "N/A" );
+    if( required_skills.empty() ) {
+        return _( "N/A" );
     }
-    return skills_as_stream.str();
+    return enumerate_as_string( required_skills.begin(), required_skills.end(),
+    []( const std::pair<skill_id, int> &skill ) {
+        return string_format( "%s (%d)", skill.first.obj().name().c_str(), skill.second );
+    } );
 }
 
 const std::string &recipe::ident() const

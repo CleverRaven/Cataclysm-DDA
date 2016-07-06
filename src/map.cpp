@@ -2940,16 +2940,16 @@ bool map::is_last_ter_wall(const bool no_furn, const int x, const int y,
     return result;
 }
 
-bool map::flammable_items_at( const tripoint &p )
+bool map::flammable_items_at( const tripoint &p, int threshold )
 {
-    if( has_flag( TFLAG_SEALED, p ) && !has_flag( TFLAG_ALLOW_FIELD_EFFECT, p ) ) {
+    if( !has_items( p ) ||
+        ( has_flag( TFLAG_SEALED, p ) && !has_flag( TFLAG_ALLOW_FIELD_EFFECT, p ) ) ) {
         // Sealed containers don't allow fire, so shouldn't allow setting the fire either
         return false;
     }
 
     for( const auto &i : i_at( p ) ) {
-        if( i.flammable() ) {
-            // Total fire resistance == 0
+        if( i.flammable( threshold ) ) {
             return true;
         }
     }

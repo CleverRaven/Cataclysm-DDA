@@ -636,8 +636,9 @@ public:
     /**
      * Whether the items is flammable. (Make sure to keep this in sync with
      * fire code in fields.cpp)
+     * @param threshold Item is flammable if it provides more fuel than threshold.
      */
-    bool flammable() const;
+    bool flammable( int threshold = 0 ) const;
     /*@}*/
 
     /**

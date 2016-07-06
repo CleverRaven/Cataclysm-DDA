@@ -564,21 +564,19 @@ std::string faction::describe() const
                               facjob_data[job1].name.c_str(),
                               facjob_data[job2].name.c_str());
     }
-    if (values != 0) {
-        ret += _(" They are known for ");
-        for (int i = 0; i < NUM_FACVALS; i++) {
-            if (has_value(faction_value(i))) {
-                ret += facval_data[i].name + _(", ");
-            }
-        }
+    if( values == 0 ) {
+        return ret;
     }
-    size_t pos = ret.rfind(_(", "));
-    if (pos != std::string::npos) {
-        ret.replace(pos, std::string(_(", ")).length(), _("."));
-        pos = ret.rfind(_(", "));
-        if (pos != std::string::npos) {
-            ret.replace(pos, std::string(_(", ")).length(), _(", and "));
-        }
+    std::vector<faction_value> vals;
+    vals.reserve( NUM_FACVALS );
+    for( int i = 0; i < NUM_FACVALS; i++ ) {
+        vals.push_back( faction_value( i ) );
+    }
+    const std::string known_vals = enumerate_as_string( vals.begin(), vals.end(), [ this ]( const faction_value val ) {
+        return has_value( val ) ? facval_data[val].name : "";
+    } );
+    if( !known_vals.empty() ) {
+        ret += _( " They are known for " ) + known_vals + ".";
     }
     return ret;
 }
