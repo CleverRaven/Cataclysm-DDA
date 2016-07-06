@@ -36,7 +36,7 @@
             ],
             "terrain": {
                 "." : "t_grass",
-                "-": "t_stone_smooth",
+                "-": "t_rock_smooth",
                 "S" : "t_sidewalk",
                 "M": "t_door_metal_locked",
                 "O": "t_window",
