@@ -94,12 +94,10 @@ template<typename T>
 static void component_list_string( std::stringstream &str,
                                    const std::vector<comp_selection<T>> &components )
 {
-    for( size_t i = 0; i < components.size(); i++ ) {
-        if( i != 0 ) {
-            str << ", ";
-        }
-        str << components[i].nname();
-    }
+    str << enumerate_as_string( components.begin(), components.end(),
+    []( const comp_selection<T> &comp ) {
+        return comp.nname();
+    } );
 }
 
 bool craft_command::query_continue( const std::vector<comp_selection<item_comp>> &missing_items,

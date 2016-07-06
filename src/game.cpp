@@ -11991,10 +11991,7 @@ bool game::walk_move( const tripoint &dest_loc )
             }
         }
         if( !badfields.empty() ) {
-            std::ostringstream tmp;
-            std::copy( badfields.begin(), badfields.end() - 1, std::ostream_iterator<std::string>( tmp, ", " ) );
-            tmp << badfields.back();
-            if( !query_yn( _("Really step into: %s?"), tmp.str().c_str() ) ) {
+            if( !query_yn( _("Really step into %s?"), enumerate_as_string( badfields ).c_str() ) ) {
                 return true;
             }
         }
