@@ -1188,8 +1188,11 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
         insert_separation_line();
         auto book = type->book.get();
         // Some things about a book you CAN tell by it's cover.
-        if( !book->skill ) {
+        if( !book->skill && !type->can_use( "MA_MANUAL" )) {
             info.push_back( iteminfo( "BOOK", _( "Just for fun." ) ) );
+        }
+        if( type->can_use( "MA_MANUAL" )) {
+            info.push_back( iteminfo( "BOOK", _( "Some sort of <info>martial arts training manual</info>." ) ) );
         }
         if( book->req == 0 ) {
             info.push_back( iteminfo( "BOOK", _( "It can be <info>understood by beginners</info>." ) ) );
