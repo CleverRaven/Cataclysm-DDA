@@ -1474,10 +1474,11 @@ void JsonIn::error(std::string message, int offset)
     size_t pos = tell();
     rewind(3, 240);
     size_t startpos = tell();
-    char buffer[242];
-    stream->read(&buffer[0], pos - startpos);
+    char *buffer = new char[pos - startpos + 1];
+    stream->read(buffer, pos - startpos);
     buffer[pos - startpos] = '\0';
     err << buffer;
+    delete buffer;
     if (!is_whitespace(peek())) {
         err << peek();
     }
