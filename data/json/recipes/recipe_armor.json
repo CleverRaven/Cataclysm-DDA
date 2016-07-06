@@ -1970,7 +1970,6 @@
 },{
   "type" : "recipe",
   "result": "gloves_fingerless",
-  "byproducts": { "id" : "leather", "amount" : 1 },
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_HANDS",
   "skill_used": "tailor",
