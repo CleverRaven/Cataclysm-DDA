@@ -6,7 +6,8 @@
     "name": "reloaded pistol ammo",
     "name_plural": "reloaded pistol ammo",
     "description": "Hand-loaded ammunition for semiautomatic pistols as well as submachine guns.",
-    "ammo_type": "9mm"
+    "ammo_type": "9mm",
+    "count": 20
   },
   {
     "id": "reloaded_9mmP2",
@@ -15,7 +16,8 @@
     "name": "reloaded pistol ammo+",
     "name_plural": "reloaded pistol ammo+",
     "description": "Hand-loaded ammunition for pistols, packed with extra powder.  It trades improved damage for increased recoil.",
-    "ammo_type": "9mm"
+    "ammo_type": "9mm",
+    "count": 12
   },
   {
     "id": "reloaded_9mmfmj",
@@ -24,7 +26,8 @@
     "name": "reloaded pistol ammo, AP",
     "name_plural": "reloaded pistol ammo, AP",
     "description": "Hand-loaded armor-piercing ammunition for pistols.  It trades improved penetration for slightly reduced damage.",
-    "ammo_type": "9mm"
+    "ammo_type": "9mm",
+    "count": 10
   },
   {
     "id": "reloaded_44magnum",
@@ -33,7 +36,8 @@
     "name": "reloaded revolver ammo",
     "name_plural": "reloaded revolver ammo",
     "description": "Hand-loaded ammunition for large revolvers and magnum pistols, as well as a few carbines.",
-    "ammo_type": "44"
+    "ammo_type": "44",
+    "count": 10
   },
   {
     "id": "reloaded_556",
@@ -42,7 +46,8 @@
     "name": "reloaded light rifle ammo",
     "name_plural": "reloaded light rifle ammo",
     "description": "Hand-loaded ammunition for lighter rifles, designed for small game and humans.",
-    "ammo_type": "556"
+    "ammo_type": "556",
+    "count": 15
   },
   {
     "id": "reloaded_556_incendiary",
@@ -51,7 +56,8 @@
     "name": "reloaded light rifle ammo, incendiary",
     "name_plural": "reloaded light rifle ammo, incendiary",
     "description": "Hand-loaded incendiary ammunition for lighter rifles, designed to burn hotly upon impact, piercing armor and igniting flammable substances.",
-    "ammo_type": "556"
+    "ammo_type": "556",
+    "count": 10 
   },
   {
     "id": "reloaded_762_51",
@@ -60,7 +66,8 @@
     "name": "reloaded rifle ammo",
     "name_plural": "reloaded rifle ammo",
     "description": "Hand-loaded ammunition for rifles, meant for taking down large game or humans.",
-    "ammo_type": "762"
+    "ammo_type": "762",
+    "count": 15
   },
   {
     "id": "reloaded_762_51_incendiary",
@@ -69,7 +76,8 @@
     "name": "reloaded rifle ammo, incendiary",
     "name_plural": "reloaded rifle ammo, incendiary",
     "description": "Hand-loaded incendiary ammunition for rifles, designed to burn hotly upon impact, piercing armor and igniting flammable substances.  This one has been hand-reloaded.",
-    "ammo_type": "762"
+    "ammo_type": "762",
+    "count": 5
   },
   {
     "id": "reloaded_50bmg",
@@ -78,7 +86,8 @@
     "name": "reloaded heavy rifle ammo",
     "name_plural": "reloaded heavy rifle ammo",
     "description": "Hand-loaded ammunition for heavy machineguns and special military hardware, intended for destroying vehicles or very large creatures.",
-    "ammo_type": "50"
+    "ammo_type": "50",
+    "count": 10 
   },
   {
     "id": "reloaded_50ss",
@@ -87,7 +96,8 @@
     "name": "reloaded heavy rifle ammo, AP",
     "name_plural": "reloaded heavy rifle ammo, AP",
     "description": "Hand-loaded armor-piercing ammunition for heavy machineguns and other military hardware.  It trades improved penetration for slightly reduced damage.",
-    "ammo_type": "50"
+    "ammo_type": "50",
+    "count": 5
   },
   {
     "id": "reloaded_50_incendiary",
@@ -96,6 +106,42 @@
     "name": "reloaded heavy rifle ammo, incendiary",
     "name_plural": "reloaded heavy rifle ammo, incendiary",
     "description": "Hand-loaded ammunition for heavy machine guns and other military hardware, designed to burn hotly upon impact, piercing armor and igniting flammable substances.",
-    "ammo_type": "50"
+    "ammo_type": "50",
+    "count": 5
+  },
+  {
+    "id": "reloaded_shot_00",
+    "copy-from": "shot_00",
+    "type": "AMMO",
+    "name": "00 shot",
+    "count": 10
+  },
+  {
+    "id": "reloaded_shot_beanbag",
+    "copy-from": "reloaded_shot_beanbag",
+    "type": "AMMO",
+    "name": "shotgun beanbag",
+    "count": 5
+  },
+  {
+    "id": "reloaded_shot_bird",
+    "copy-from": "reloaded_shot_bird",
+    "type": "AMMO",
+    "name": "birdshot",
+    "count": 10
+  },
+  {
+    "id": "reloaded_shot_flechette",
+    "copy-from": "reloaded_shot_flechette",
+    "type": "AMMO",
+    "name": "flechette shell",
+    "count": 5
+  },
+  {
+    "id": "reloaded_shot_slug",
+    "copy-from": "reloaded_shot_slug",
+    "type": "AMMO",
+    "name": "00 shot",
+    "count": 10
   }
 ]
