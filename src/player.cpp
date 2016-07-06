@@ -10526,6 +10526,19 @@ void player::drop( int pos, const tripoint &where )
     const item &it = i_at( pos );
     const int count = it.count_by_charges() ? it.charges : 1;
 
+    const auto dependent = get_dependent_worn_items( it );
+    if( !dependent.empty() && !is_npc() ) {
+        const std::string dep_str = enumerate_as_string( dependent.begin(), dependent.end(),
+        []( const item *it ) {
+            return it->tname( 1, false );
+        } );
+        //~ %1$s - list of items (one or many), %2$s - how much longer it shall take (x2, x3 e.t.c)
+        if( !query_yn( _( "Your %1$s will be dropped too (x%2$d times longer).  Continue?" ),
+                       dep_str.c_str(), dependent.size() + 1 ) ) {
+            return;
+        }
+    }
+
     drop( { std::make_pair( pos, count ) }, where );
 }
 
