@@ -1474,7 +1474,7 @@ void JsonIn::error(std::string message, int offset)
     size_t pos = tell();
     rewind(3, 240);
     size_t startpos = tell();
-    char buffer[241];
+    char buffer[242];
     stream->read(&buffer[0], pos - startpos);
     buffer[pos - startpos] = '\0';
     err << buffer;
