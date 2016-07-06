@@ -318,7 +318,7 @@ class inventory_compare_selector : public inventory_selector
         inventory_compare_selector( player &u, const std::string &title,
                                     const item_location_filter &filter = allow_all_items );
         /** Executes the selector */
-        void execute();
+        std::pair<const item *, const item *> execute();
 
     protected:
         std::vector<inventory_entry *> compared;

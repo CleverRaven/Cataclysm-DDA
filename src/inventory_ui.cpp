@@ -769,7 +769,7 @@ inventory_compare_selector::inventory_compare_selector( player &u, const std::st
     insert_selection_column( "ITEMS TO COMPARE", _( "ITEMS TO COMPARE" ) );
 }
 
-void inventory_compare_selector::execute()
+std::pair<const item *, const item *> inventory_compare_selector::execute()
 {
     prepare_columns( true );
 
@@ -794,44 +794,15 @@ void inventory_compare_selector::execute()
                 }
             }
         } else if( action == "QUIT" ) {
-            break;
+            return std::make_pair( nullptr, nullptr );
         } else {
             on_action( action );
         }
 
         if( compared.size() == 2 ) {
-            const item &first_item = compared.back()->get_item();
-            const item &second_item = compared.front()->get_item();
-
-            std::vector<iteminfo> vItemLastCh, vItemCh;
-            std::string sItemLastCh, sItemCh, sItemLastTn, sItemTn;
-
-            first_item.info( true, vItemCh );
-            sItemCh = first_item.tname();
-            sItemTn = first_item.type_name();
-            second_item.info(true, vItemLastCh);
-            sItemLastCh = second_item.tname();
-            sItemLastTn = second_item.type_name();
-
-            int iScrollPos = 0;
-            int iScrollPosLast = 0;
-            int ch = ( int ) ' ';
-            do {
-                draw_item_info( 0, ( TERMX - VIEW_OFFSET_X * 2 ) / 2, 0, TERMY - VIEW_OFFSET_Y * 2,
-                               sItemLastCh, sItemLastTn, vItemLastCh, vItemCh, iScrollPosLast, true ); //without getch()
-                ch = draw_item_info( ( TERMX - VIEW_OFFSET_X * 2) / 2, (TERMX - VIEW_OFFSET_X * 2 ) / 2,
-                                    0, TERMY - VIEW_OFFSET_Y * 2, sItemCh, sItemTn, vItemCh, vItemLastCh, iScrollPos );
-
-                if( ch == KEY_PPAGE ) {
-                    iScrollPos--;
-                    iScrollPosLast--;
-                } else if( ch == KEY_NPAGE ) {
-                    iScrollPos++;
-                    iScrollPosLast++;
-                }
-            } while ( ch == KEY_PPAGE || ch == KEY_NPAGE );
-
+            const auto res = std::make_pair( &compared.back()->get_item(), &compared.front()->get_item() );
             toggle_entry( compared.back() );
+            return res;
         }
     }
 }

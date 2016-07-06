@@ -2110,7 +2110,43 @@ void game::compare( const tripoint &offset )
         return;
     }
 
-    inv_s.execute();
+    do {
+        const auto to_compare = inv_s.execute();
+
+        if( to_compare.first == nullptr || to_compare.second == nullptr ) {
+            break;
+        }
+
+        std::vector<iteminfo> vItemLastCh, vItemCh;
+        std::string sItemLastCh, sItemCh, sItemLastTn, sItemTn;
+
+        to_compare.first->info( true, vItemCh );
+        sItemCh = to_compare.first->tname();
+        sItemTn = to_compare.first->type_name();
+
+        to_compare.second->info(true, vItemLastCh);
+        sItemLastCh = to_compare.second->tname();
+        sItemLastTn = to_compare.second->type_name();
+
+        int iScrollPos = 0;
+        int iScrollPosLast = 0;
+        int ch = ( int ) ' ';
+
+        do {
+            draw_item_info( 0, ( TERMX - VIEW_OFFSET_X * 2 ) / 2, 0, TERMY - VIEW_OFFSET_Y * 2,
+                            sItemLastCh, sItemLastTn, vItemLastCh, vItemCh, iScrollPosLast, true ); //without getch(
+            ch = draw_item_info( ( TERMX - VIEW_OFFSET_X * 2) / 2, (TERMX - VIEW_OFFSET_X * 2 ) / 2,
+                            0, TERMY - VIEW_OFFSET_Y * 2, sItemCh, sItemTn, vItemCh, vItemLastCh, iScrollPos );
+
+            if( ch == KEY_PPAGE ) {
+                iScrollPos--;
+                iScrollPosLast--;
+            } else if( ch == KEY_NPAGE ) {
+                iScrollPos++;
+                iScrollPosLast++;
+            }
+        } while ( ch == KEY_PPAGE || ch == KEY_NPAGE );
+    } while( true );
 }
 
 // Checks input to see if mouse was moved and handles the mouse view box accordingly.
