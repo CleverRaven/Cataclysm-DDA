@@ -223,28 +223,18 @@ class inventory_selector
         bool empty() const;
 
     protected:
+        player &u;
+        /** The input context for navigation, already contains some actions for movement.
+         * See @ref on_action */
+        input_context ctxt;
+
         void add_custom_items( const std::list<item>::const_iterator &from,
                                const std::list<item>::const_iterator &to,
                                const std::string &title,
                                const std::function<std::shared_ptr<item_location>( item * )> &locator );
 
-        static const long min_custom_invlet = '0';
-        static const long max_custom_invlet = '9';
-
-        long cur_custom_invlet = min_custom_invlet;
-
-        std::vector<std::unique_ptr<inventory_column>> columns;
-        std::unique_ptr<inventory_column> custom_column;
-        size_t active_column_index;
-
-        std::list<item_category> categories;
-        const item_location_filter filter;
-
         /** Refreshes item categories */
         void prepare_columns( bool multiselect );
-        /** The input context for navigation, already contains some actions for movement.
-         * See @ref on_action */
-        input_context ctxt;
         /** Given an action from the input_context, try to act according to it. */
         void on_action( const std::string &action );
         /** Entry has been changed */
@@ -253,14 +243,6 @@ class inventory_selector
         void refresh_window() const;
 
         virtual void draw( WINDOW *w ) const;
-
-        item_location null_location;
-        navigation_mode navigation;
-
-        const item_category weapon_cat;
-        const item_category worn_cat;
-
-        player &u;
 
         void draw_inv_weight_vol( WINDOW *w, int weight_carried, int vol_carried, int vol_capacity ) const;
         void draw_inv_weight_vol( WINDOW *w ) const;
@@ -290,13 +272,25 @@ class inventory_selector
             }
         }
         void toggle_navigation_mode();
-        void insert_column( decltype( columns )::iterator position,
-                            std::unique_ptr<inventory_column> &new_column );
         void insert_selection_column( const std::string &id, const std::string &name );
 
     private:
+        static const long min_custom_invlet = '0';
+        static const long max_custom_invlet = '9';
+        long cur_custom_invlet = min_custom_invlet;
+
+        const std::string title;
+        const item_location_filter filter;
         WINDOW *w_inv;
-        std::string title;
+
+        std::vector<std::unique_ptr<inventory_column>> columns;
+        std::unique_ptr<inventory_column> custom_column;
+        size_t active_column_index;
+        std::list<item_category> categories;
+        navigation_mode navigation;
+
+        void insert_column( decltype( columns )::iterator position,
+                            std::unique_ptr<inventory_column> &new_column );
 };
 
 class inventory_pick_selector : public inventory_selector
@@ -305,10 +299,12 @@ class inventory_pick_selector : public inventory_selector
         inventory_pick_selector( player &u, const std::string &title,
                                  const item_location_filter &filter = allow_all_items ) :
             inventory_selector( u, title, filter ) {}
-        /** Executes the selector */
+
         item_location &execute();
 
     protected:
+        item_location null_location;
+
         virtual void draw( WINDOW *w ) const override;
 };
 
@@ -317,7 +313,6 @@ class inventory_compare_selector : public inventory_selector
     public:
         inventory_compare_selector( player &u, const std::string &title,
                                     const item_location_filter &filter = allow_all_items );
-        /** Executes the selector */
         std::pair<const item *, const item *> execute();
 
     protected:
@@ -332,11 +327,9 @@ class inventory_drop_selector : public inventory_selector
     public:
         inventory_drop_selector( player &u, const std::string &title,
                                  const item_location_filter &filter = allow_all_items );
-        /** Executes the selector */
         std::list<std::pair<int, int>> execute();
 
     protected:
-        /** What has been selected for dropping. The key is the item pointer. */
         std::map<const item *, int> dropping;
 
         virtual void draw( WINDOW *w ) const override;

@@ -554,16 +554,14 @@ void inventory_selector::draw( WINDOW *w ) const
 }
 
 inventory_selector::inventory_selector( player &u, const std::string &title, const item_location_filter &filter )
-    : columns()
-    , active_column_index( 0 )
-    , filter( filter )
-    , ctxt("INVENTORY")
-    , navigation( navigation_mode::ITEM )
-    , weapon_cat("WEAPON", _("WEAPON HELD"), 0)
-    , worn_cat("ITEMS WORN", _("ITEMS WORN"), 0)
-    , u(u)
-    , w_inv( newwin( TERMY, TERMX, VIEW_OFFSET_Y, VIEW_OFFSET_X ) )
+    : u(u)
+    , ctxt( "INVENTORY" )
     , title( title )
+    , filter( filter )
+    , w_inv( newwin( TERMY, TERMX, VIEW_OFFSET_Y, VIEW_OFFSET_X ) )
+    , columns()
+    , active_column_index( 0 )
+    , navigation( navigation_mode::ITEM )
 {
     ctxt.register_action("DOWN", _("Next item"));
     ctxt.register_action("UP", _("Previous item"));
@@ -596,16 +594,20 @@ inventory_selector::inventory_selector( player &u, const std::string &title, con
     }
 
     if( u.is_armed() ) {
+        categories.emplace_back( "WEAPON", _( "WEAPON HELD" ), 0 );
         const auto location = std::make_shared<item_location>( u, &u.weapon );
         if( filter( *location ) ) {
-            second_column->add_entry( inventory_entry( location, &weapon_cat, c_ltblue ) );
+            second_column->add_entry( inventory_entry( location, &categories.back(), c_ltblue ) );
         }
     }
 
-    for( auto &it : u.worn ) {
-        const auto location = std::make_shared<item_location>( u, &it );
-        if( filter( *location ) ) {
-            second_column->add_entry( inventory_entry( location, &worn_cat, c_cyan ) );
+    if( !u.worn.empty() ) {
+        categories.emplace_back( "ITEMS WORN", _( "ITEMS WORN" ), 0 );
+        for( auto &it : u.worn ) {
+            const auto location = std::make_shared<item_location>( u, &it );
+            if( filter( *location ) ) {
+                second_column->add_entry( inventory_entry( location, &categories.back(), c_cyan ) );
+            }
         }
     }
 
