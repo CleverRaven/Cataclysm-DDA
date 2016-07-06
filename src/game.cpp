@@ -5651,7 +5651,7 @@ void game::hallucinate( const tripoint &center )
     for (int i = 0; i <= TERRAIN_WINDOW_WIDTH; i++) {
         for (int j = 0; j <= TERRAIN_WINDOW_HEIGHT; j++) {
             if( one_in(10) ) {
-                const ter_t &t = m.ter_at( p );
+                const ter_t &t = m.ter( p ).obj();
                 p.x = i + rx + rng(-2, 2);
                 p.y = j + ry + rng(-2, 2);
                 char ter_sym = t.symbol();
@@ -7139,7 +7139,7 @@ void game::open()
     bool didit = m.open_door( openp, !m.is_outside( u.pos() ) );
 
     if (!didit) {
-        const ter_str_id tid = m.get_ter( openp );
+        const ter_str_id tid = m.ter( openp ).id();
 
         if( tid.str().find("t_door") != std::string::npos ) {
             if( tid.str().find("_locked") != std::string::npos ) {
@@ -7201,9 +7201,9 @@ void game::close( const tripoint &closep )
         }
     } else if( closep == u.pos() ) {
         add_msg(m_info, _("There's some buffoon in the way!"));
-    } else if( m.has_furn( closep ) && !m.furn_at( closep ).close ) {
+    } else if( m.has_furn( closep ) && !m.furn( closep ).obj().close ) {
         // check for open crate
-        if (m.furn_at(closep).id == "f_crate_o") {
+        if( m.furn( closep ) == furn_str_id( "f_crate_o" ) ) {
             add_msg(m_info, _("You'll need to construct a seal to close the crate!"));
         } else {
             add_msg(m_info, _("There's a %s in the way!"), m.furnname(closep).c_str());
@@ -7213,9 +7213,9 @@ void game::close( const tripoint &closep )
         // does not actually do anything.
         std::string door_name;
         if (m.has_furn(closep)) {
-            door_name = m.furn_at(closep).name;
+            door_name = m.furn(closep).obj().name;
         } else {
-            door_name = m.ter_at(closep).name;
+            door_name = m.tername( closep );
         }
         // Print a message that we either can not close whatever is there
         // or (if we're outside) that we can only close it from the
@@ -7340,7 +7340,7 @@ void game::smash()
             u.check_dead_state();
         }
         if (smashskill < m.bash_resistance(smashp) && one_in(10)) {
-            if (m.has_furn(smashp) && m.furn_at(smashp).bash.str_min != -1) {
+            if (m.has_furn(smashp) && m.furn(smashp).obj().bash.str_min != -1) {
                 // %s is the smashed furniture
                 add_msg(m_neutral, _("You don't seem to be damaging the %s."), m.furnname(smashp).c_str());
             } else {
@@ -8098,8 +8098,8 @@ void game::examine( const tripoint &examp )
         use_computer( examp );
         return;
     }
-    const furn_t &xfurn_t = m.furn_at(examp);
-    const ter_t &xter_t = m.ter_at(examp);
+    const furn_t &xfurn_t = m.furn( examp ).obj();
+    const ter_t &xter_t = m.ter( examp ).obj();
 
     const tripoint player_pos = u.pos();
 
@@ -10132,7 +10132,7 @@ void game::grab()
             u.grab_type = OBJECT_VEHICLE;
             add_msg(_("You grab the %s."), veh->name.c_str());
         } else if( m.has_furn( grabp ) ) { // If not, grab furniture if present
-            if( m.furn_at( grabp ).move_str_req < 0 ) {
+            if( m.furn( grabp ).obj().move_str_req < 0 ) {
                 add_msg(_("You can not grab the %s"), m.furnname( grabp ).c_str());
                 return;
             }
@@ -12012,7 +12012,7 @@ bool game::walk_move( const tripoint &dest_loc )
 
     int modifier = 0;
     if( grabbed && u.grab_type == OBJECT_FURNITURE && u.pos() + u.grab_point == dest_loc ) {
-        modifier = -m.furn_at( dest_loc ).movecost;
+        modifier = -m.furn( dest_loc ).obj().movecost;
     }
 
     const int mcost = m.combined_movecost( u.pos(), dest_loc, grabbed_vehicle, modifier );
@@ -12539,14 +12539,14 @@ bool game::grabbed_furn_move( const tripoint &dp )
         ( !has_floor || m.tr_at( fdest ).is_null() )
         );
 
-    const furn_t furntype = m.furn_at(fpos);
+    const furn_t furntype = m.furn(fpos).obj();
     const int src_items = m.i_at(fpos).size();
     const int dst_items = m.i_at(fdest).size();
     bool dst_item_ok = ( !m.has_flag("NOITEM", fdest) &&
                          !m.has_flag("SWIMMABLE", fdest) &&
                          !m.has_flag("DESTROY_ITEM", fdest) );
-    bool src_item_ok = ( m.furn_at(fpos).has_flag("CONTAINER") ||
-                         m.furn_at(fpos).has_flag("SEALED") );
+    bool src_item_ok = ( m.furn(fpos).obj().has_flag("CONTAINER") ||
+                         m.furn(fpos).obj().has_flag("SEALED") );
 
     int str_req = furntype.move_str_req;
     // Factor in weight of items contained in the furniture.
@@ -12638,7 +12638,7 @@ bool game::grabbed_furn_move( const tripoint &dp )
     if( pushing_furniture && m.impassable( fpos ) ) {
         // Not sure how that chair got into a wall, but don't let player follow.
         add_msg( _("You let go of the %1$s as it slides past %2$s"),
-                 furntype.name.c_str(), m.ter_at( fdest ).name.c_str() );
+                 furntype.name.c_str(), m.tername( fdest ).c_str() );
         u.grab_point = tripoint_zero;
         u.grab_type = OBJECT_NONE;
         return true;
@@ -14044,7 +14044,7 @@ bool game::spread_fungus( const tripoint &p )
             if (m.has_flag("FLOWER", p)) {
                 m.furn_set(p, f_flower_fungal);
             } else if (m.has_flag("ORGANIC", p)) {
-                if (m.furn_at(p).movecost == -10) {
+                if (m.furn(p).obj().movecost == -10) {
                     m.furn_set(p, f_fungal_mass);
                 } else {
                     m.furn_set(p, f_fungal_clump);
@@ -14144,7 +14144,7 @@ bool game::spread_fungus( const tripoint &p )
                         if (m.has_flag("FLOWER", dest)) {
                             m.furn_set(dest, f_flower_fungal);
                         } else if (m.has_flag("ORGANIC", dest)) {
-                            if (m.furn_at(dest).movecost == -10) {
+                            if (m.furn(dest).obj().movecost == -10) {
                                 m.furn_set(dest, f_fungal_mass);
                             } else {
                                 m.furn_set(dest, f_fungal_clump);

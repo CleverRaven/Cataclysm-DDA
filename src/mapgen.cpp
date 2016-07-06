@@ -10535,10 +10535,11 @@ std::vector<item *> map::place_items( items_location loc, int chance, int x1, in
             // Might contain one item or several that belong together like guns & their ammo
             int tries = 0;
             auto is_valid_terrain = [this,ongrass](int x,int y){
-                return this->ter_at(x, y).movecost == 0           &&
-                       !this->ter_at(x, y).has_flag("PLACE_ITEM") &&
+                auto &terrain = ter( x, y ).obj();
+                return terrain.movecost == 0           &&
+                       !terrain.has_flag("PLACE_ITEM") &&
                        !ongrass                                   &&
-                       !this->ter_at(x, y).has_flag("FLAT");
+                       !terrain.has_flag("FLAT");
             };
             do {
                 px = rng(x1, x2);
@@ -10691,7 +10692,7 @@ vehicle *map::add_vehicle_to_map(vehicle *veh, const bool merge_wrecks)
         const auto p = veh->global_pos3() + veh->parts[*part].precalc[0];
 
         //Don't spawn anything in water
-        if( ter_at( p ).has_flag(TFLAG_DEEP_WATER) && !can_float ) {
+        if( has_flag_ter( TFLAG_DEEP_WATER, p ) && !can_float ) {
             delete veh;
             return nullptr;
         }

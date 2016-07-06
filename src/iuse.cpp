@@ -3168,7 +3168,7 @@ int iuse::makemound(player *p, item *it, bool, const tripoint& )
 int iuse::dig(player *p, item *it, bool, const tripoint &pos )
 {
     for( const tripoint &pt : closest_tripoints_first( 1, pos ) ) {
-        if( g->m.furn_at( pt ).examine == iexamine::rubble ) {
+        if( g->m.furn( pt ).obj().examine == iexamine::rubble ) {
             p->add_msg_if_player( _("You clear up that %s."), g->m.furnname( pt ).c_str() );
             g->m.furn_set( pt, f_null );
 
@@ -7715,8 +7715,8 @@ int iuse::cable_attach(player *p, item *it, bool, const tripoint& )
             return 0;
         }
         auto veh = g->m.veh_at( posp );
-        auto ter = g->m.ter_at( posp );
-        if( veh == nullptr && ter.id.id() != t_chainfence_h && ter.id.id() != t_chainfence_v ) {
+        auto ter = g->m.ter( posp );
+        if( veh == nullptr && ter != t_chainfence_h && ter != t_chainfence_v ) {
             p->add_msg_if_player(_("There's no vehicle there."));
             return 0;
         } else {
