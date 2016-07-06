@@ -10486,7 +10486,7 @@ bool player::takeoff( const item &it, bool interactive, std::list<item> *res )
 
     if( res == nullptr ) {
         if( volume_carried() + it.volume() > volume_capacity_reduced_by( it.get_storage() ) ) {
-            if( is_npc() || ( interactive && query_yn( _( "No room in inventory for your %s.  Drop it?" ), it.tname().c_str() ) ) ) {
+            if( is_npc() || ( interactive && query_yn( _( "No room in inventory for your %s.  Drop it?" ), it.tname( 1, false ).c_str() ) ) ) {
                 drop( get_item_position( &it ) );
                 return true;
             }
@@ -10499,7 +10499,7 @@ bool player::takeoff( const item &it, bool interactive, std::list<item> *res )
 
     add_msg_player_or_npc( _( "You take off your %s." ),
                            _( "<npcname> takes off their %s." ),
-                           it.tname().c_str() );
+                           it.tname( 1, false ).c_str() );
 
     mod_moves( -250 );    // TODO: Make this variable
     iter->on_takeoff( *this );
