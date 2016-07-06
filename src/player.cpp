@@ -10457,7 +10457,7 @@ std::list<const item *> player::get_dependent_worn_items( const item &it ) const
     return dependent;
 }
 
-bool player::takeoff( const item &it, std::list<item> *res )
+bool player::takeoff( const item &it, bool interactive, std::list<item> *res )
 {
     auto iter = std::find_if( worn.begin(), worn.end(), [ &it ]( const item &wit ) {
         return &it == &wit;
@@ -10471,7 +10471,7 @@ bool player::takeoff( const item &it, std::list<item> *res )
     }
 
     const auto dependent = get_dependent_worn_items( it );
-    if( res == nullptr && !dependent.empty() ) {
+    if( interactive && !dependent.empty() ) {
         add_msg_player_or_npc( m_info,
                                _( "You can't take off power armor while wearing other power armor components." ),
                                _( "<npcname> can't take off power armor while wearing other power armor components." ) );
@@ -10479,15 +10479,16 @@ bool player::takeoff( const item &it, std::list<item> *res )
     }
 
     for( const auto dep_it : dependent ) {
-        if( !takeoff( *dep_it, res ) ) {
+        if( !takeoff( *dep_it, interactive, res ) ) {
             return false; // Failed to takeoff a dependent item
         }
     }
 
     if( res == nullptr ) {
         if( volume_carried() + it.volume() > volume_capacity_reduced_by( it.get_storage() ) ) {
-            if( is_npc() || query_yn( _( "No room in inventory for your %s.  Drop it?" ), it.tname().c_str() ) ) {
+            if( is_npc() || ( interactive && query_yn( _( "No room in inventory for your %s.  Drop it?" ), it.tname().c_str() ) ) ) {
                 drop( get_item_position( &it ) );
+                return true;
             }
             return false;
         }
@@ -10510,9 +10511,9 @@ bool player::takeoff( const item &it, std::list<item> *res )
     return true;
 }
 
-bool player::takeoff( int pos )
+bool player::takeoff( int pos, bool interactive )
 {
-    return takeoff( i_at( pos ) );
+    return takeoff( i_at( pos ), interactive );
 }
 
 void player::drop( int pos, const tripoint &where )

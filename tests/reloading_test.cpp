@@ -9,8 +9,7 @@ TEST_CASE( "reload_gun_with_integral_magazine" ) {
     player &dummy = g->u;
 
     // Remove first worn item until there are none left.
-    std::list<item> temp;
-    while( dummy.takeoff( dummy.i_at( -2 ), &temp ) );
+    while( dummy.takeoff( dummy.i_at( -2 ), false ) );
 
     dummy.remove_weapon();
 
@@ -33,8 +32,7 @@ TEST_CASE( "reload_gun_with_swappable_magazine" ) {
     player &dummy = g->u;
 
     // Remove first worn item until there are none left.
-    std::list<item> temp;
-    while( dummy.takeoff( dummy.i_at( -2 ), &temp ) );
+    while( dummy.takeoff( dummy.i_at( -2 ), false ) );
     // Make sure the player doesn't drop anything :P
     dummy.wear_item( item( "backpack", 0 ) );
 

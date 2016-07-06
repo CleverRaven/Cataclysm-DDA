@@ -316,7 +316,7 @@ std::list<item> obtain_activity_items( player_activity &act, player &p )
         p.mod_moves( -ait.consumed_moves );
 
         if( p.is_worn( *ait.it ) ) {
-            p.takeoff( *ait.it, &res );
+            p.takeoff( *ait.it, false, &res );
         } else if( ait.it->count_by_charges() ) {
             res.push_back( p.reduce_charges( const_cast<item *>( ait.it ), ait.count ) );
         } else {
