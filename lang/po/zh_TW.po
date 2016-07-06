@@ -33,8 +33,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Cataclysm-DDA\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-06-27 09:30+0300\n"
-"PO-Revision-Date: 2016-06-27 10:12+0000\n"
+"POT-Creation-Date: 2016-07-04 16:48+0300\n"
+"PO-Revision-Date: 2016-07-05 08:33+0000\n"
 "Last-Translator: Vlasov Vitaly <vnigtha@gmail.com>\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/cataclysm-dda-"
 "translators/cataclysm-dda/language/zh_TW/)\n"
@@ -658,11 +658,6 @@ msgid_plural "4.6x30mm casings"
 msgstr[0] "4.6x30mm 彈殼"
 
 #: lang/json/AMMO_from_json.py
-msgid "40mm acid bomb"
-msgid_plural "40mm acid bombs"
-msgstr[0] "40mm 酸液榴彈"
-
-#: lang/json/AMMO_from_json.py
 msgid "40mm beanbag"
 msgid_plural "40mm beanbags"
 msgstr[0] "40mm 豆袋榴彈"
@@ -676,11 +671,6 @@ msgstr[0] "40mm 獵鹿榴彈"
 msgid "40mm canister"
 msgid_plural "40mm canisters"
 msgstr[0] "40mm 榴彈殼"
-
-#: lang/json/AMMO_from_json.py
-msgid "40mm chemical round"
-msgid_plural "40mm chemical rounds"
-msgstr[0] "40mm 毒氣榴彈"
 
 #: lang/json/AMMO_from_json.py
 msgid "40mm concussive"
@@ -707,6 +697,11 @@ msgid "40mm frag"
 msgid_plural "40mm frag"
 msgstr[0] "40mm 破片榴彈"
 
+#: lang/json/AMMO_from_json.py lang/json/ammunition_type_from_json.py
+msgid "40mm grenade"
+msgid_plural "40mm grenades"
+msgstr[0] ""
+
 #: lang/json/AMMO_from_json.py
 msgid "40mm grenade belt linkage"
 msgid_plural "40mm grenade belt linkages"
@@ -714,8 +709,8 @@ msgstr[0] "40mm 榴彈鏈帶"
 
 #: lang/json/AMMO_from_json.py
 msgid "40mm incendiary"
-msgid_plural "40mm incendiary"
-msgstr[0] "40mm 燃燒榴彈"
+msgid_plural "40mm incendiaries"
+msgstr[0] ""
 
 #: lang/json/AMMO_from_json.py
 msgid "40mm smoke cover"
@@ -1235,15 +1230,15 @@ msgstr ""
 msgid "A 40mm beanbag that deals massive, but less-lethal, force."
 msgstr "非致命的 40mm 豆袋榴彈。"
 
+#. ~ Description for 40mm smoke cover
+#: lang/json/AMMO_from_json.py
+msgid "A 40mm grenade designed to provide smoke cover."
+msgstr ""
+
 #. ~ Description for 40mm buckshot
 #: lang/json/AMMO_from_json.py
 msgid "A 40mm grenade with a buckshot load."
 msgstr "裝填了獵鹿鋼珠的 40mm 口徑榴彈。"
-
-#. ~ Description for reloaded 40mm buckshot
-#: lang/json/AMMO_from_json.py
-msgid "A 40mm grenade with a buckshot load.  This one has been hand-reloaded."
-msgstr "裝填了獵鹿鋼珠的 40mm 口徑榴彈。這顆是手工裝配的重填彈。"
 
 #. ~ Description for 40mm concussive
 #: lang/json/AMMO_from_json.py
@@ -1271,13 +1266,6 @@ msgid ""
 "A 40mm grenade with a small napalm load, designed to create a burst of flame."
 msgstr "內含固態汽油，能夠產生燃燒效果的 40mm 榴彈。"
 
-#. ~ Description for 40mm smoke cover
-#: lang/json/AMMO_from_json.py
-msgid ""
-"A 40mm grenade with a smoke load.  It will burst in a cloud of harmless gas, "
-"and will also leave a streak of smoke cover in its wake."
-msgstr "搭載煙霧效果的 40mm 榴彈，會釋放出濃厚的無害煙霧以供掩護。"
-
 #. ~ Description for 40mm teargas
 #: lang/json/AMMO_from_json.py
 msgid ""
@@ -1285,29 +1273,10 @@ msgid ""
 "incapacitating gas."
 msgstr "內含催淚瓦斯的 40mm 榴彈，爆炸時散發出的氣體會令人失去行動力。"
 
-#. ~ Description for 40mm chemical round
-#: lang/json/AMMO_from_json.py
-msgid ""
-"A 40mm grenade with a toxic gas load.  It will burst in a cloud of hazardous "
-"gas."
-msgstr "內含毒氣的 40mm 榴彈，爆炸時會散發出毒氣雲霧。"
-
-#. ~ Description for 40mm acid bomb
-#: lang/json/AMMO_from_json.py
-msgid "A 40mm grenade with an acid bomb load."
-msgstr "搭載酸液的 40mm 榴彈。"
-
 #. ~ Description for 40mm flechette
 #: lang/json/AMMO_from_json.py
 msgid "A 40mm grenade with an armor-piercing flechette load."
 msgstr "裝入了穿甲鋼鏢的 40mm 口徑榴彈。"
-
-#. ~ Description for reloaded 40mm flechette
-#: lang/json/AMMO_from_json.py
-msgid ""
-"A 40mm grenade with an armor-piercing flechette load.  This one has been "
-"hand-reloaded."
-msgstr "裝入了穿甲鋼鏢的 40mm 口徑榴彈。這顆是手工裝配的重填彈。"
 
 #. ~ Description for 40mm flare
 #: lang/json/AMMO_from_json.py
@@ -2112,16 +2081,6 @@ msgstr ""
 "一小段被鍛造過的堅硬鋼筋，末端被磨尖了。能夠利用電磁武器來將其拋射出去當做子"
 "彈。"
 
-#. ~ Description for makeshift shotgun slug
-#: lang/json/AMMO_from_json.py
-msgid ""
-"A shotgun shell filled with a slug made from whatever that was lying "
-"around.  It is fairly inaccurate, and does little damage, but it works in a "
-"pinch."
-msgstr ""
-"一個霰彈殼隨便裝了一個東西當裝填物。命中率不高，並且傷害也不大，在緊要關頭就"
-"勉強使用吧。"
-
 #. ~ Description for flechette shell
 #: lang/json/AMMO_from_json.py
 msgid ""
@@ -2233,6 +2192,7 @@ msgid ""
 msgstr ""
 
 #. ~ Description for ammo belt linkage
+#. ~ Description for belt ammo link
 #: lang/json/AMMO_from_json.py
 msgid "A small metal linkage from a disintegrating ammo belt."
 msgstr "一小塊金屬鏈，把彈鏈解體後的零件。"
@@ -2338,14 +2298,12 @@ msgstr ""
 "一個玻璃小瓶，裝有能快速癒合傷口的先進化學物質。使用時必須配合 Rivtech 注射"
 "槍。側面的標籤警告用家每小時不應服用超過兩劑。"
 
-#. ~ Description for tiny steel bolt
+#. ~ Description for flechette
 #: lang/json/AMMO_from_json.py
 msgid ""
-"A tiny pointy steel bolt.  Can be fired from a nail gun or similar weapon.  "
-"Much more effective as ammunition but useless for construction projects."
+"A tiny steel dart.  Can be fired from a nail gun or similar weapon or used "
+"when crafting ammunition"
 msgstr ""
-"一個微小尖頭的鋼製螺栓。可從釘槍或類似的武器發射。當成子彈更加有威力，但不能"
-"用來施工。"
 
 #. ~ Description for sinew
 #: lang/json/AMMO_from_json.py
@@ -2961,8 +2919,10 @@ msgstr "用於重機槍或是特種軍事裝備的手工裝填子彈，能夠摧
 
 #. ~ Description for reloaded revolver ammo
 #: lang/json/AMMO_from_json.py
-msgid "Hand-loaded ammunition for large revolvers, as well as a few carbines."
-msgstr "手填的大口徑左輪手槍彈。也可以兼用在某些卡賓槍上。"
+msgid ""
+"Hand-loaded ammunition for large revolvers and magnum pistols, as well as a "
+"few carbines."
+msgstr ""
 
 #. ~ Description for reloaded light rifle ammo
 #. ~ Description for handloaded light rifle ammo
@@ -3282,8 +3242,10 @@ msgstr "粉末狀苛性鈉。"
 
 #. ~ Description for revolver ammo
 #: lang/json/AMMO_from_json.py
-msgid "Powerful ammunition for large revolvers, as well as a few carbines."
-msgstr "高火力的大口徑左輪手槍彈。也可以兼用在某些卡賓槍上。"
+msgid ""
+"Powerful ammunition for large revolvers and magnum pistols, as well as a few "
+"carbines."
+msgstr ""
 
 #. ~ Description for rifle ammo
 #: lang/json/AMMO_from_json.py
@@ -3885,6 +3847,11 @@ msgid_plural "bearings"
 msgstr[0] "滾珠軸承"
 
 #: lang/json/AMMO_from_json.py
+msgid "belt ammo link"
+msgid_plural "belt ammo links"
+msgstr[0] ""
+
+#: lang/json/AMMO_from_json.py
 msgid "birdshot"
 msgid_plural "birdshot"
 msgstr[0] "獵鳥霰彈"
@@ -4180,6 +4147,11 @@ msgid_plural "flaming arrows"
 msgstr[0] "火焰箭"
 
 #: lang/json/AMMO_from_json.py
+msgid "flechette"
+msgid_plural "flechettes"
+msgstr[0] ""
+
+#: lang/json/AMMO_from_json.py
 msgid "flechette shell"
 msgid_plural "flechette shell"
 msgstr[0] "鋼鏢霰彈"
@@ -4308,7 +4280,7 @@ msgid "heavy fire-hardened arrow"
 msgid_plural "heavy fire-hardened arrows"
 msgstr[0] "重碳化木箭"
 
-#: lang/json/AMMO_from_json.py
+#: lang/json/AMMO_from_json.py lang/json/ammunition_type_from_json.py
 msgid "heavy rifle ammo"
 msgid_plural "heavy rifle ammo"
 msgstr[0] "重型步槍子彈"
@@ -4423,7 +4395,7 @@ msgid "lead pellet"
 msgid_plural "lead pellets"
 msgstr[0] "鉛製彈丸"
 
-#: lang/json/AMMO_from_json.py
+#: lang/json/AMMO_from_json.py lang/json/ammunition_type_from_json.py
 msgid "light rifle ammo"
 msgid_plural "light rifle ammo"
 msgstr[0] "輕型步槍子彈"
@@ -4467,11 +4439,6 @@ msgstr[0] "120mm 粗製獨頭彈"
 msgid "makeshift shotgun shot"
 msgid_plural "makeshift shotgun shot"
 msgstr[0] "粗製霰彈"
-
-#: lang/json/AMMO_from_json.py
-msgid "makeshift shotgun slug"
-msgid_plural "makeshift shotgun slug"
-msgstr[0] "粗製重擊霰彈"
 
 #: lang/json/AMMO_from_json.py
 msgid "marble"
@@ -4603,7 +4570,7 @@ msgid "pebble"
 msgid_plural "pebbles"
 msgstr[0] "小石子"
 
-#: lang/json/AMMO_from_json.py
+#: lang/json/AMMO_from_json.py lang/json/ammunition_type_from_json.py
 msgid "pistol ammo"
 msgid_plural "pistol ammo"
 msgstr[0] "手槍子彈"
@@ -4859,16 +4826,6 @@ msgid_plural "reloaded 4.6x30mm"
 msgstr[0] "4.6x30mm（重填彈）"
 
 #: lang/json/AMMO_from_json.py
-msgid "reloaded 40mm buckshot"
-msgid_plural "reloaded 40mm buckshots"
-msgstr[0] "40mm 獵鹿榴彈（重填彈）"
-
-#: lang/json/AMMO_from_json.py
-msgid "reloaded 40mm flechette"
-msgid_plural "reloaded 40mm flechettes"
-msgstr[0] "40mm 鋼鏢榴彈（重填彈）"
-
-#: lang/json/AMMO_from_json.py
 msgid "reloaded 5.45x39mm 7N10"
 msgid_plural "reloaded 5.45x39mm 7N10"
 msgstr[0] "5.45x39mm 7N10（重填彈）"
@@ -4969,11 +4926,6 @@ msgid_plural "reloaded birdshot"
 msgstr[0] "獵鳥霰彈（重填彈）"
 
 #: lang/json/AMMO_from_json.py
-msgid "reloaded explosive slug"
-msgid_plural "reloaded explosive slug"
-msgstr[0] "高爆霰彈（重填彈）"
-
-#: lang/json/AMMO_from_json.py
 msgid "reloaded flechette shell"
 msgid_plural "reloaded flechette shell"
 msgstr[0] "鋼鏢霰彈（重填彈）"
@@ -5048,7 +5000,7 @@ msgid "reloaded signal flare"
 msgid_plural "reloaded signal flares"
 msgstr[0] "信號彈（重填彈）"
 
-#: lang/json/AMMO_from_json.py
+#: lang/json/AMMO_from_json.py lang/json/ammunition_type_from_json.py
 msgid "revolver ammo"
 msgid_plural "revolver ammo"
 msgstr[0] "左輪手槍子彈"
@@ -5058,7 +5010,7 @@ msgid "revolver ammo casing"
 msgid_plural "revolver ammo casings"
 msgstr[0] "左輪手槍子彈彈殼"
 
-#: lang/json/AMMO_from_json.py
+#: lang/json/AMMO_from_json.py lang/json/ammunition_type_from_json.py
 msgid "rifle ammo"
 msgid_plural "rifle ammo"
 msgstr[0] "步槍子彈"
@@ -5297,11 +5249,6 @@ msgstr[0] "錫塊"
 msgid "tinder"
 msgid_plural "tinder"
 msgstr[0] "火種"
-
-#: lang/json/AMMO_from_json.py
-msgid "tiny steel bolt"
-msgid_plural "tiny steel bolts"
-msgstr[0] "微型鋼製螺栓"
 
 #: lang/json/AMMO_from_json.py
 msgid "unfinished charcoal"
@@ -8672,6 +8619,13 @@ msgid ""
 "would be too casual and a suit would be just overdoing it."
 msgstr ""
 "一個優雅的背心。非常適合那些只穿著一件襯衫太隨意，穿西裝外套太過的場合。"
+
+#. ~ Description for pistol bandolier
+#: lang/json/ARMOR_from_json.py
+msgid ""
+"An embroidered leather bandolier for keeping revolver and pistol cartridges "
+"close to hand.  If this doesn't make you feel like a cowboy, nothing will."
+msgstr ""
 
 #. ~ Description for pistol bandolier
 #: lang/json/ARMOR_from_json.py
@@ -13647,12 +13601,11 @@ msgstr[0] "CBM：神經反射增強"
 #. ~ Description for Leukocyte Breeder System CBM
 #: lang/json/BIONIC_ITEM_from_json.py
 msgid ""
-"You are equipped with bionic stimulators which augment your hematopoiesis "
+"You are equipped with bionic stimulators which augment your haematopoiesis "
 "system, allowing you to accelerate white blood cell production using bionic "
-"power."
+"power.  It is supposed to run continously and may cause unpleasant side "
+"effects when turned off."
 msgstr ""
-"你裝置了能夠刺激白血球生長的造血系統，讓你能消耗生化能量來加快體內白血球的製"
-"造。"
 
 #. ~ Description for Ethanol Burner
 #. ~ Description for Ethanol Burner CBM
@@ -21171,6 +21124,11 @@ msgstr ""
 msgid "Tomato sauce, yum yum."
 msgstr "番茄醬，好吃。"
 
+#. ~ Description for sewage water
+#: lang/json/COMESTIBLE_from_json.py
+msgid "Turbid liquid from the sewers with awful stench."
+msgstr ""
+
 #. ~ Description for raw offal
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
@@ -24518,6 +24476,11 @@ msgid_plural "sewage samples"
 msgstr[0] "污水樣本"
 
 #: lang/json/COMESTIBLE_from_json.py
+msgid "sewage water"
+msgid_plural "sewage water"
+msgstr[0] ""
+
+#: lang/json/COMESTIBLE_from_json.py
 msgid "sewer brew"
 msgid_plural "sewer brews"
 msgstr[0] "汙水釀"
@@ -25950,9 +25913,8 @@ msgstr ""
 
 #. ~ Description for long rope
 #: lang/json/GENERIC_from_json.py
-msgid ""
-"A 30-foot long nylon rope.  Useful for keeping yourself safe from falls."
-msgstr "一段 30 英尺長的尼龍繩，能讓你免於墜落的危險。"
+msgid "A 30-foot long rope.  Useful for keeping yourself safe from falls."
+msgstr ""
 
 #. ~ Description for music CD
 #: lang/json/GENERIC_from_json.py
@@ -28112,6 +28074,11 @@ msgstr "一個真正的紳士總是抽完他的雪茄。"
 msgid "A tube of strong glue.  Used in many crafting recipes."
 msgstr "一管強力膠。在製作物品時常用到。"
 
+#. ~ Description for shrapnel
+#: lang/json/GENERIC_from_json.py
+msgid "A twisted shard of jagged metal."
+msgstr ""
+
 #. ~ Description for 2-by-sword
 #: lang/json/GENERIC_from_json.py
 msgid ""
@@ -29240,6 +29207,19 @@ msgid ""
 "earlier ge or dagger-axe."
 msgstr ""
 
+#. ~ Description for smoke bomb
+#: lang/json/GENERIC_from_json.py
+msgid ""
+"This is a canister grenade filled with a variety of pyrotechnic chemicals.  "
+"Use this item to pull the pin and light the fuse, turning it into an active "
+"smoke bomb.  Five turns after you do that, it will begin to expel a thick "
+"black smoke.  This smoke will slow those who enter it, as well as obscuring "
+"vision and scent."
+msgstr ""
+"這個手榴彈中裝入了壓縮的濃煙氣體。使用這個物品時會拉開插銷並點燃引信。五回合"
+"後它會散發出濃厚的黑色煙霧，能夠讓身處其中的生物行動緩慢，同時也會影響視力與"
+"嗅覺。"
+
 #. ~ Description for kris
 #: lang/json/GENERIC_from_json.py
 msgid ""
@@ -29536,6 +29516,11 @@ msgid ""
 "impact."
 msgstr "這小型的土製炸彈可以裝在箭上，它會在擊中目標時爆炸。"
 
+#. ~ Description for armed smoke bomb
+#: lang/json/GENERIC_from_json.py
+msgid "This smoke bomb has had its pin removed and is expelling thick smoke."
+msgstr ""
+
 #. ~ Description for quantum solar panel
 #: lang/json/GENERIC_from_json.py
 msgid ""
@@ -29684,6 +29669,13 @@ msgstr "你打開了夜燈的燈罩。"
 msgid "You open the vacuum pack, exposing it to the atmosphere."
 msgstr "你打開了真空包，使它暴露在空氣中。"
 
+#. ~ Use action message for smoke bomb.
+#. ~ Use action message for nail bomb.
+#: lang/json/GENERIC_from_json.py lang/json/TOOL_from_json.py
+#, no-python-format
+msgid "You pull the pin on the %s."
+msgstr ""
+
 #. ~ Use action msg for PR-24 baton (retracted).
 #: lang/json/GENERIC_from_json.py
 msgid "You snap open your PR-24 baton."
@@ -29748,6 +29740,11 @@ msgstr[0] "功率放大器"
 msgid "antenna"
 msgid_plural "antennas"
 msgstr[0] "天線"
+
+#: lang/json/GENERIC_from_json.py
+msgid "armed smoke bomb"
+msgid_plural "armed smoke bombs"
+msgstr[0] ""
 
 #: lang/json/GENERIC_from_json.py lang/json/TOOL_from_json.py
 msgid "arming sword"
@@ -31336,6 +31333,11 @@ msgid "short rope"
 msgid_plural "short ropes"
 msgstr[0] "短繩索"
 
+#: lang/json/GENERIC_from_json.py
+msgid "shrapnel"
+msgid_plural "shrapnels"
+msgstr[0] ""
+
 #: lang/json/GENERIC_from_json.py lang/json/vehicle_part_from_json.py
 msgid "shredder"
 msgid_plural "shredders"
@@ -31380,6 +31382,11 @@ msgstr[0] "小型液晶螢幕"
 msgid "small electric motor"
 msgid_plural "small electric motors"
 msgstr[0] "小型電力馬達"
+
+#: lang/json/GENERIC_from_json.py
+msgid "smoke bomb"
+msgid_plural "smoke bombs"
+msgstr[0] "煙霧彈"
 
 #: lang/json/GENERIC_from_json.py
 msgid "software"
@@ -33678,7 +33685,7 @@ msgid ""
 "magazines and ammo belts."
 msgstr ""
 
-#. ~ Description for antimaterial rifle
+#. ~ Description for antimateriel rifle
 #: lang/json/GUN_from_json.py
 msgid ""
 "A powerful bolt-action sniper rifle meant to destroy vehicles, equipment, "
@@ -33687,6 +33694,14 @@ msgid ""
 msgstr ""
 "一把強力的栓式狙擊步槍，通常用來破壞載具、裝甲以及敵方裝甲兵。內含10發裝彈"
 "夾。"
+
+#. ~ Description for EMP Projector
+#: lang/json/GUN_from_json.py
+msgid ""
+"A powerful electrolaser developed by paramilitary R&D not long before the "
+"cataclysm. Especially effective against electronic targets. It charges off "
+"of UPS power stations."
+msgstr ""
 
 #. ~ Description for  XM34 EMP projector
 #: lang/json/GUN_from_json.py
@@ -33734,6 +33749,13 @@ msgstr ""
 "一把強力的 .30-06 口徑軍用步槍，設計時以取代了美軍舊有的克拉格步槍為目標。在"
 "第一次世界大戰時成為了美軍的主力武器，二戰時和 M1 加蘭德步槍並用，到了越戰時"
 "仍被當成狙擊槍使用。"
+
+#. ~ Description for magnum pistol
+#: lang/json/GUN_from_json.py
+msgid ""
+"A powerful semi-automatic pistol which fires revolver rounds. Loads a "
+"detachable, 7-round magazine."
+msgstr ""
 
 #. ~ Description for pump action shotgun
 #: lang/json/GUN_from_json.py
@@ -33793,18 +33815,6 @@ msgstr ""
 "具有高精準度的單發模式與短距離的三發點放模式。使用者總是對它的準度與嚇人的外"
 "型感到讚嘆。"
 
-#. ~ Description for L39B
-#: lang/json/GUN_from_json.py
-msgid ""
-"A selective-firing handgun introduced in 2039, Leadworks LLC's L39B provides "
-"accurate single-shot placement as well as controllable short-range firepower "
-"with its three-round burst mode.  Users praised its accuracy and fearsome "
-"appearance."
-msgstr ""
-"一把在2039年推出具有多射擊模式的9mm手槍，型號L39B，由Leadworks LLC生產，同時"
-"具有高精準度的單發模式與短距離的三發點放模式。使用者總是對它的準度與嚇人的外"
-"型感到讚嘆。"
-
 #. ~ Description for M1 Garand
 #: lang/json/GUN_from_json.py
 msgid ""
@@ -33819,16 +33829,6 @@ msgstr ""
 #: lang/json/GUN_from_json.py
 msgid ""
 "A semiautomatic 9mm handgun introduced in 2039, Leadworks LLC's L39 provides "
-"accurate single-shot placement in a very robust frame.  Several urban "
-"legends describe using it in ways that would have destroyed a lesser weapon."
-msgstr ""
-"一把在2039年推出的半自動9mm手槍，型號L39，由Leadworks LLC生產，擁有堅固的框架"
-"能提供良好的單發射擊精準度。另外有一些都市傳說記載著這把槍傑出的耐用性。"
-
-#. ~ Description for L39
-#: lang/json/GUN_from_json.py
-msgid ""
-"A semiautomatic handgun introduced in 2039, Leadworks LLC's L39 provides "
 "accurate single-shot placement in a very robust frame.  Several urban "
 "legends describe using it in ways that would have destroyed a lesser weapon."
 msgstr ""
@@ -34037,6 +34037,16 @@ msgstr ""
 "一把不銹鋼製，六發裝，雙動扳機型，有著黑色塑膠握把的左輪，由Smith & Wesson公"
 "司製造。雖然不是世界上最強大的手槍，但要把殭屍爆頭還是綽綽有餘。"
 
+#. ~ Description for laser rifle
+#: lang/json/GUN_from_json.py
+msgid ""
+"A state of the art laser rifle which runs on UPS power. It was developed by "
+"paramilitary R&D shortly before the cataclysm. Initial performance rivaled "
+"the most advanced ballistic weapons of the day. Though the cataclysm put "
+"that on the ash heap of history, this weapon can still do the same to your "
+"foes."
+msgstr ""
+
 #. ~ Description for A7 laser rifle
 #: lang/json/GUN_from_json.py
 msgid ""
@@ -34147,11 +34157,10 @@ msgstr "本來裝在消防車上的水砲。安裝在車上，可以用來阻止
 #. ~ Description for survivor's carbine
 #: lang/json/GUN_from_json.py
 msgid ""
-"A well designed homemade carbine using light rifle ammo.  With a 10 round "
-"magazine and shortened barrel, this is one of the better homemade weapons."
+"A well designed homemade carbine using light rifle ammo.  Fits a 10-round "
+"detachable magazine and with a shortened barrel, this is one of the better "
+"homemade weapons."
 msgstr ""
-"一把設計良好的土製卡賓槍，使用輕型步槍子彈。配備 10 發裝彈夾與削短式槍管，在"
-"土製武器中表現卓越。"
 
 #. ~ Description for makeshift lever shotgun
 #: lang/json/GUN_from_json.py
@@ -34290,7 +34299,6 @@ msgid_plural "American-180"
 msgstr[0] "American-180"
 
 #. ~ Description for L2031 Enforcer
-#. ~ Description for L2032 Lookout
 #: lang/json/GUN_from_json.py
 msgid ""
 "An \"autorevolver\", this Leadworks LLC six-shooter combines the ease-of-"
@@ -34441,6 +34449,13 @@ msgstr[0] "BB 槍"
 msgid "Barrett M107A1"
 msgid_plural "Barrett M107A1"
 msgstr[0] "巴雷特 M107A1"
+
+#. ~ Description for scrap laser pistol
+#: lang/json/GUN_from_json.py
+msgid ""
+"Based on its military and commercial cousin, this laser pistol is little "
+"more than duct tape and electronics, however it runs on standard UPS power."
+msgstr ""
 
 #: lang/json/GUN_from_json.py
 msgid "Beretta ARX-160"
@@ -34611,13 +34626,6 @@ msgid "Desert Eagle .44"
 msgid_plural "Desert Eagle .44"
 msgstr[0] "沙漠之鷹 .44"
 
-#. ~ Description for L2037 Backup
-#: lang/json/GUN_from_json.py
-msgid ""
-"Designed as a military sidearm, this massive autorevolver fires light rifle "
-"rounds.  It has a heavy barrel to manage the recoil and a 5-chamber cylinder."
-msgstr ""
-
 #. ~ Description for H&K MP7
 #: lang/json/GUN_from_json.py
 msgid ""
@@ -34729,6 +34737,15 @@ msgstr ""
 "彈，但相對地必須承擔龐大的後座力。它使用了加重過的槍管來使後座力不這麼顯著，"
 "同時也搭載了5發裝的轉輪。"
 
+#. ~ Description for plasma rifle
+#: lang/json/GUN_from_json.py
+msgid ""
+"Developed by a cutting edge weapons research team together with DARPA, this "
+"UPS-powerd energy weapon heats hydrogen to create plasma and envelopes it "
+"with polymers to reduce blooming. While powerful, it suffers from short "
+"range. It accepts hydrogen canisters as ammunition."
+msgstr ""
+
 #. ~ Description for SKS
 #: lang/json/GUN_from_json.py
 msgid ""
@@ -34743,6 +34760,11 @@ msgstr ""
 #: lang/json/GUN_from_json.py
 msgid "Doesn't actually fire anything, just there to aim the turrets."
 msgstr ""
+
+#: lang/json/GUN_from_json.py
+msgid "EMP Projector"
+msgid_plural "EMP Projectors"
+msgstr[0] ""
 
 #: lang/json/GUN_from_json.py
 msgid "Elephant gun"
@@ -35116,11 +35138,10 @@ msgstr ""
 #. ~ Description for L12 Defender
 #: lang/json/GUN_from_json.py
 msgid ""
-"Leadworks LLC's sole shotgun offering to date has surprisingly good reach, "
-"thanks to its moving barrel and forward-back pump mechanism."
+"Leadworks LLC's sole shotgun offering to date is surprisingly compact thanks "
+"to its moving barrel and forward-back pump mechanism.  Like most othe "
+"Leadworks products it doesn't accept third-party modifications."
 msgstr ""
-"Leadworks LLC的單管霰彈槍至今仍然提供良好的表現，這都要感謝那滑動式槍管與復返"
-"式唧筒的機構設計。"
 
 #: lang/json/GUN_from_json.py
 msgid "M1 Garand"
@@ -36308,6 +36329,13 @@ msgstr ""
 "這把雷射加農砲是從TX-5LR雷射砲塔上拆下來的，經過改裝，它現在使用不斷電系統"
 "(UPS)供電。"
 
+#. ~ Description for hand-held laser cannon
+#: lang/json/GUN_from_json.py
+msgid ""
+"This is a laser cannon stripped from the barrel of a laser turret; it has "
+"been modified to use UPS power for firing."
+msgstr ""
+
 #. ~ Description for nail rifle
 #: lang/json/GUN_from_json.py
 msgid ""
@@ -36443,6 +36471,13 @@ msgstr ""
 "這把由異常工藝製作出過度強大的電磁步槍，是設計用來發射磁力驅動物體來摧毀在其"
 "前方的一切東西，不論是建築物，車輛，或是屍潮。然而這種武器的體積與重量讓手持"
 "相當困難；更不用提到會消耗大量的UPS電力，使得它無法長時間使用。"
+
+#. ~ Description for laser pistol
+#: lang/json/GUN_from_json.py
+msgid ""
+"This pistol is larger than most traditional handguns, but displays no recoil "
+"whatsoever. It runs efficiently on UPS power."
+msgstr ""
 
 #. ~ Description for mountable avalanche rifle
 #: lang/json/GUN_from_json.py
@@ -36729,9 +36764,9 @@ msgid_plural "advanced submachine guns"
 msgstr[0] "進階衝鋒槍"
 
 #: lang/json/GUN_from_json.py
-msgid "antimaterial rifle"
-msgid_plural "antimaterial rifles"
-msgstr[0] "反器材步槍"
+msgid "antimateriel rifle"
+msgid_plural "antimateriel rifles"
+msgstr[0] ""
 
 #: lang/json/GUN_from_json.py
 msgid "arc cannon"
@@ -36872,6 +36907,10 @@ msgid_plural "chemical throwers"
 msgstr[0] "化學藥劑噴灑器"
 
 #: lang/json/GUN_from_json.py
+msgid "chuk chuk."
+msgstr ""
+
+#: lang/json/GUN_from_json.py
 msgid "coilgun"
 msgid_plural "coilguns"
 msgstr[0] "電磁加速槍"
@@ -36977,7 +37016,7 @@ msgstr[0] "燧發步槍"
 
 #: lang/json/GUN_from_json.py
 msgid "foreign assault rifle"
-msgid_plural "foreign assault rifle"
+msgid_plural "foreign assault rifles"
 msgstr[0] ""
 
 #: lang/json/GUN_from_json.py
@@ -36996,9 +37035,14 @@ msgid_plural "fusion blaster rifles"
 msgstr[0] "核融合步槍"
 
 #: lang/json/GUN_from_json.py
+msgid "fusion rifle"
+msgid_plural "fusion rifles"
+msgstr[0] ""
+
+#: lang/json/GUN_from_json.py
 msgid "general purpose machine gun"
-msgid_plural "general purpose machine gun"
-msgstr[0] "多用途機關槍"
+msgid_plural "general purpose machine guns"
+msgstr[0] ""
 
 #: lang/json/GUN_from_json.py lang/json/vehicle_part_from_json.py
 msgid "grenade turret"
@@ -37020,6 +37064,11 @@ msgid_plural "gunswords"
 msgstr[0] "槍刃"
 
 #: lang/json/GUN_from_json.py
+msgid "hand-held laser cannon"
+msgid_plural "hand-held laser cannons"
+msgstr[0] ""
+
+#: lang/json/GUN_from_json.py
 msgid "handheld laser cannon"
 msgid_plural "handheld laser cannons"
 msgstr[0] "手持雷射砲"
@@ -37036,8 +37085,8 @@ msgstr[0] "重型十字弓"
 
 #: lang/json/GUN_from_json.py
 msgid "heavy machine gun"
-msgid_plural "heavy machine gun"
-msgstr[0] "重型機關槍"
+msgid_plural "heavy machine guns"
+msgstr[0] ""
 
 #: lang/json/GUN_from_json.py
 msgid "heavy rail rifle"
@@ -37085,14 +37134,24 @@ msgid_plural "laser fingers"
 msgstr[0] "雷射指槍"
 
 #: lang/json/GUN_from_json.py
+msgid "laser pistol"
+msgid_plural "laser pistols"
+msgstr[0] ""
+
+#: lang/json/GUN_from_json.py
+msgid "laser rifle"
+msgid_plural "laser rifles"
+msgstr[0] ""
+
+#: lang/json/GUN_from_json.py
 msgid "lever action carbine"
 msgid_plural "lever action carbines"
 msgstr[0] "槓桿式卡賓槍"
 
 #: lang/json/GUN_from_json.py
 msgid "light machine gun"
-msgid_plural "light machine gun"
-msgstr[0] "輕型機關槍"
+msgid_plural "light machine guns"
+msgstr[0] ""
 
 #: lang/json/GUN_from_json.py
 msgid "longbow"
@@ -37102,6 +37161,11 @@ msgstr[0] "長弓"
 #: lang/json/GUN_from_json.py
 msgid "magazine"
 msgstr "彈匣"
+
+#: lang/json/GUN_from_json.py
+msgid "magnum pistol"
+msgid_plural "magnum pistols"
+msgstr[0] ""
 
 #: lang/json/GUN_from_json.py
 msgid "makeshift lever shotgun"
@@ -37293,8 +37357,8 @@ msgstr[0] "單管步槍: 左輪手槍子彈"
 
 #: lang/json/GUN_from_json.py
 msgid "pipe gun: rifle ammo"
-msgid_plural "pipe gun: rifle ammo"
-msgstr[0] "單管步槍: 步槍子彈"
+msgid_plural "pipe guns: rifle ammo"
+msgstr[0] ""
 
 #: lang/json/GUN_from_json.py
 msgid "pipe rifle"
@@ -37350,6 +37414,11 @@ msgstr[0] "鋼管散彈槍"
 msgid "pistol crossbow"
 msgid_plural "pistol crossbows"
 msgstr[0] "槍十字弓"
+
+#: lang/json/GUN_from_json.py
+msgid "plasma rifle"
+msgid_plural "plasma rifles"
+msgstr[0] ""
 
 #: lang/json/GUN_from_json.py
 msgid "plinking carbine"
@@ -37451,6 +37520,11 @@ msgid_plural "scorpion turrets"
 msgstr[0] "蠍子槍塔"
 
 #: lang/json/GUN_from_json.py
+msgid "scrap laser pistol"
+msgid_plural "scrap laser pistols"
+msgstr[0] ""
+
+#: lang/json/GUN_from_json.py
 msgid "self bow"
 msgid_plural "self bows"
 msgstr[0] "單弓"
@@ -37462,13 +37536,13 @@ msgstr[0] "半自動步槍。"
 
 #: lang/json/GUN_from_json.py
 msgid "semiautomatic carbine"
-msgid_plural "semiautomatic carbine"
-msgstr[0] "半自動卡賓槍"
+msgid_plural "semiautomatic carbines"
+msgstr[0] ""
 
 #: lang/json/GUN_from_json.py
 msgid "semiautomatic pistol"
-msgid_plural "semiautomatic pistol"
-msgstr[0] "半自動手槍"
+msgid_plural "semiautomatic pistols"
+msgstr[0] ""
 
 #: lang/json/GUN_from_json.py
 msgid "service rifle"
@@ -37699,6 +37773,13 @@ msgid ""
 "A 10 round stick magazine for use with Rivtech 8x40mm caseless firearms."
 msgstr "一個 10 發的條狀彈匣，適用於 Rivtech 8x40mm 無殼彈。"
 
+#. ~ Description for Antimateriel rifle magazine
+#: lang/json/MAGAZINE_from_json.py
+msgid ""
+"A 10-round magazine which holds heavy rifle ammo for use with an "
+"antimateriel rifle"
+msgstr ""
+
 #. ~ Description for RMFB100 magazine
 #: lang/json/MAGAZINE_from_json.py
 msgid "A 100 round box magazine for use with 5x50mm flechette firearms."
@@ -37769,11 +37850,6 @@ msgid ""
 "A 30-round extended magazine compatible with both the M9 handgun as well as "
 "some modern carbines."
 msgstr "一個加長型 30 發彈匣，適用於 M9 手槍和部分現代卡賓槍。"
-
-#. ~ Description for Imported rifle magazine
-#: lang/json/MAGAZINE_from_json.py
-msgid "A 30-round magazine made for imported automatic rifles."
-msgstr "一個 30 發彈匣，適用於進口的自動步槍。"
 
 #. ~ Description for TDI Vector magazine
 #: lang/json/MAGAZINE_from_json.py
@@ -37882,6 +37958,12 @@ msgid ""
 msgstr ""
 "一個 56 發的聚合物彈匣，適用於 Leadworks LLC 223 槍械。體積小便於儲存。輕巧可"
 "靠，但裝填時有點困難。"
+
+#. ~ Description for Magnum pistol magazine
+#: lang/json/MAGAZINE_from_json.py
+msgid ""
+"A 7-round magazine which holds revolver ammo for use with a magnum pistol"
+msgstr ""
 
 #. ~ Description for MAC-10 magazine
 #: lang/json/MAGAZINE_from_json.py
@@ -38239,14 +38321,21 @@ msgid ""
 "belts."
 msgstr ""
 
-#. ~ Description for Heavy ammo belt
+#. ~ Description for Ammo belt
 #: lang/json/MAGAZINE_from_json.py
 msgid ""
 "An ammo belt designed for heavier machineguns consisting of metal linkages "
 "which disintegrate upon firing."
 msgstr ""
 
-#. ~ Description for Light amno belt
+#. ~ Description for Ammo belt
+#: lang/json/MAGAZINE_from_json.py
+msgid ""
+"An ammo belt designed for mounted machineguns consisting of metal linkages "
+"which disintegrate upon firing."
+msgstr ""
+
+#. ~ Description for Light ammo belt
 #: lang/json/MAGAZINE_from_json.py
 msgid ""
 "An belt of light rifle ammunition consisting of metal linkages which "
@@ -38342,6 +38431,11 @@ msgstr ""
 "一個簡易的彈匣供鐵釘步槍使用。錫罐、彈簧與大力膠帶組成，有點難裝填，而且不是"
 "特別可靠。"
 
+#. ~ Description for Imported rifle magazine
+#: lang/json/MAGAZINE_from_json.py
+msgid "An uncommon 30-round magazine made for imported automatic rifles."
+msgstr ""
+
 #. ~ Description for Imported drum magazine
 #: lang/json/MAGAZINE_from_json.py
 msgid "An uncommon 40-round drum magazine for imported automatic rifles."
@@ -38351,6 +38445,10 @@ msgstr "一個不常見的 40 發彈鼓，適用於進口的自動步槍。"
 #: lang/json/MAGAZINE_from_json.py
 msgid "An unusually shaped drum magazine for the American-180."
 msgstr "一個特殊形狀的彈鼓，適用於 American-180 衝鋒槍。"
+
+#: lang/json/MAGAZINE_from_json.py
+msgid "Antimateriel rifle magazine"
+msgstr ""
 
 #: lang/json/MAGAZINE_from_json.py
 msgid "BAR extended magazine"
@@ -38462,10 +38560,6 @@ msgid "H&K G80 magazine"
 msgstr "H&K G80 彈匣"
 
 #: lang/json/MAGAZINE_from_json.py
-msgid "Heavy ammo belt"
-msgstr "重型彈鏈"
-
-#: lang/json/MAGAZINE_from_json.py
 msgid "Imported drum magazine"
 msgstr "進口彈鼓"
 
@@ -38490,8 +38584,8 @@ msgid "LW-56 magazine"
 msgstr "LW-56 彈匣"
 
 #: lang/json/MAGAZINE_from_json.py
-msgid "Light amno belt"
-msgstr "輕型彈鏈"
+msgid "Light ammo belt"
+msgstr ""
 
 #: lang/json/MAGAZINE_from_json.py
 msgid "M1 Garand Clip"
@@ -38540,6 +38634,10 @@ msgstr "MP5 加長彈匣"
 #: lang/json/MAGAZINE_from_json.py
 msgid "MP5 magazine"
 msgstr "MP5 彈匣"
+
+#: lang/json/MAGAZINE_from_json.py
+msgid "Magnum pistol magazine"
+msgstr ""
 
 #: lang/json/MAGAZINE_from_json.py
 msgid "Makarov PM magazine"
@@ -39084,6 +39182,10 @@ msgid "No Triffids"
 msgstr "無食人樹"
 
 #: lang/json/MOD_INFO_from_json.py
+msgid "No Zombie Animals"
+msgstr ""
+
+#: lang/json/MOD_INFO_from_json.py
 msgid "PKs Reimagining"
 msgstr ""
 
@@ -39183,10 +39285,15 @@ msgstr "移除生存者護甲。"
 msgid "Removes triffids from the game."
 msgstr "遊戲中不會出現食人樹怪物。"
 
+#. ~ Description for No Zombie Animals
+#: lang/json/MOD_INFO_from_json.py
+msgid "Removes zombie animals from the game."
+msgstr ""
+
 #. ~ Description for Generic Guns
 #: lang/json/MOD_INFO_from_json.py
-msgid "Replaces 20th century guns and ammo with generic types."
-msgstr "合拼同類的槍械，以通用類別取代二十世紀的槍支和彈藥。"
+msgid "Replaces guns and ammo with generic types."
+msgstr ""
 
 #: lang/json/MOD_INFO_from_json.py
 msgid "Simplified nutrition"
@@ -47981,19 +48088,6 @@ msgstr ""
 "這是一把寬闊的軍刀，因為水手和海盜常用而出名。這劍的作工很糟糕，但是應該還能"
 "承受得起揮舞一下。"
 
-#. ~ Description for smoke bomb
-#: lang/json/TOOL_from_json.py
-msgid ""
-"This is a canister grenade filled with a variety of pyrotechnic chemicals.  "
-"Use this item to pull the pin and light the fuse, turning it into an active "
-"smoke bomb.  Five turns after you do that, it will begin to expel a thick "
-"black smoke.  This smoke will slow those who enter it, as well as obscuring "
-"vision and scent."
-msgstr ""
-"這個手榴彈中裝入了壓縮的濃煙氣體。使用這個物品時會拉開插銷並點燃引信。五回合"
-"後它會散發出濃厚的黑色煙霧，能夠讓身處其中的生物行動緩慢，同時也會影響視力與"
-"嗅覺。"
-
 #. ~ Description for tear gas canister
 #: lang/json/TOOL_from_json.py
 msgid ""
@@ -50450,13 +50544,6 @@ msgid ""
 "activate them after receiving a radio signal."
 msgstr "這一小塊電子組件可以連接在一些物品上，之後就能以無線電訊號啟動了。"
 
-#. ~ Description for active smoke bomb
-#: lang/json/TOOL_from_json.py
-msgid ""
-"This smoke bomb has had its pin removed, indicating that it is (or will "
-"shortly be) expelling thick smoke."
-msgstr "這個催淚彈的插銷已被拔出，將會產生濃厚的煙霧。"
-
 #. ~ Description for trench knife
 #: lang/json/TOOL_from_json.py
 msgid ""
@@ -50532,7 +50619,6 @@ msgstr ""
 #. ~ Use action sound_msg for active EMP grenade.
 #. ~ Use action sound_msg for active scrambler grenade.
 #. ~ Use action sound_msg for active tear gas grenade.
-#. ~ Use action sound_msg for active smoke bomb.
 #. ~ Use action sound_msg for mininuke.
 #. ~ Use action sound_msg for C-4 explosive (armed).
 #. ~ Use action sound_msg for active ANFO charge.
@@ -50782,12 +50868,6 @@ msgstr "你點亮蠟燭。"
 msgid "You light the dynamite."
 msgstr "你點燃了炸藥。"
 
-#. ~ Use action msg for nail bomb.
-#: lang/json/TOOL_from_json.py
-#, no-python-format
-msgid "You light the fuse on the %s."
-msgstr "你點燃了 %s 的引信。"
-
 #. ~ Use action msg for ANFO charge.
 #: lang/json/TOOL_from_json.py
 msgid "You light the fuse on the ANFO charge.  Run survivor, run!"
@@ -50897,12 +50977,6 @@ msgstr "你把催涙彈無人機的程式搞亂了；找掩護！"
 #: lang/json/TOOL_from_json.py
 msgid "You need a lighter or fire to light this."
 msgstr "你需要打火機或火源來點燃它。"
-
-#. ~ Use action need_fire_msg for nail bomb.
-#: lang/json/TOOL_from_json.py
-#, no-python-format
-msgid "You need a source of fire to light the %s"
-msgstr "你需要一個火源來點燃 %s 。"
 
 #. ~ Use action need_fire_msg for filled charcoal kiln.
 #: lang/json/TOOL_from_json.py
@@ -51071,11 +51145,6 @@ msgstr "你拉開手榴彈的安全插銷。"
 #: lang/json/TOOL_from_json.py
 msgid "You pull the pin on the scrambler grenade."
 msgstr "你拉開了干擾手榴彈的插銷。"
-
-#. ~ Use action msg for smoke bomb.
-#: lang/json/TOOL_from_json.py
-msgid "You pull the pin on the smoke bomb."
-msgstr "你拉開了煙霧彈的插銷。"
 
 #. ~ Use action msg for tear gas canister.
 #: lang/json/TOOL_from_json.py
@@ -51299,7 +51368,6 @@ msgstr "你已經點燃了引信，還在等甚麼？"
 #. ~ Use action no_deactivate_msg for active EMP grenade.
 #. ~ Use action no_deactivate_msg for active scrambler grenade.
 #. ~ Use action no_deactivate_msg for active tear gas grenade.
-#. ~ Use action no_deactivate_msg for active smoke bomb.
 #: lang/json/TOOL_from_json.py src/iuse.cpp
 #, c-format, no-python-format
 msgid "You've already pulled the %s's pin, try throwing it instead."
@@ -51486,11 +51554,6 @@ msgstr[0] "已啟動的鋼管炸彈"
 msgid "active scrambler grenade"
 msgid_plural "active scrambler grenades"
 msgstr[0] "啟動中干擾手榴彈"
-
-#: lang/json/TOOL_from_json.py
-msgid "active smoke bomb"
-msgid_plural "active smoke bombs"
-msgstr[0] "啟動中煙霧彈"
 
 #: lang/json/TOOL_from_json.py
 msgid "active tear gas grenade"
@@ -53238,11 +53301,6 @@ msgid_plural "smart lamps (on)"
 msgstr[0] "智慧燈（啟動）"
 
 #: lang/json/TOOL_from_json.py
-msgid "smoke bomb"
-msgid_plural "smoke bombs"
-msgstr[0] "煙霧彈"
-
-#: lang/json/TOOL_from_json.py
 msgid "snare trigger"
 msgid_plural "snare triggers"
 msgstr[0] "觸發陷阱"
@@ -53907,10 +53965,6 @@ msgstr "30x113mm"
 #: lang/json/ammunition_type_from_json.py
 msgid "4.6mm"
 msgstr "4.6mm"
-
-#: lang/json/ammunition_type_from_json.py
-msgid "40mm grenade"
-msgstr "40mm 榴彈"
 
 #: lang/json/ammunition_type_from_json.py
 msgid "5.45x39mm"
@@ -54775,10 +54829,9 @@ msgstr "神經反射增強"
 msgid ""
 "You are equipped with bionic stimulators which augment your haematopoiesis "
 "system, allowing you to accelerate white blood cell production using bionic "
-"power."
+"power.  It is supposed to run continuously and may cause unpleasant side "
+"effects when turned off."
 msgstr ""
-"你裝置了能夠刺激白血球生長數量的造血系統，讓你能夠透過使用生化能量來加快體內"
-"白血球的製造。"
 
 #. ~ Description for Internal Unified Power System
 #: lang/json/bionic_from_json.py
@@ -58814,6 +58867,10 @@ msgstr "快速生火"
 #: lang/json/item_action_from_json.py
 msgid "Start a fire slowly"
 msgstr "慢速生火"
+
+#: lang/json/item_action_from_json.py
+msgid "Start countdown"
+msgstr ""
 
 #: lang/json/item_action_from_json.py
 msgid "Take anticonvulsant"
@@ -63916,10 +63973,8 @@ msgstr "結實的鬍鬚"
 
 #. ~ Description for Rope Webs
 #: lang/json/mutation_from_json.py
-msgid ""
-"With spinnerets like THESE, who needs rope?!  Your natural abilities can "
-"handle that part of most construction projects."
-msgstr "有這些吐絲器，誰還需要繩子?你天生的能力讓你可以應付大部分的建築計劃。"
+msgid "With spinnerets like THESE, who needs rope?!  Activate to produce rope."
+msgstr ""
 
 #. ~ Description for Far-Sighted
 #: lang/json/mutation_from_json.py
@@ -72079,6 +72134,11 @@ msgstr "食物"
 msgid "FUEL"
 msgstr "燃料"
 
+#. ~ Crafting recipes subcategory of 'AMMO' category
+#: lang/json/recipe_category_from_json.py
+msgid "GRENADES"
+msgstr ""
+
 #. ~ Crafting recipes subcategory of 'ARMOR' category
 #: lang/json/recipe_category_from_json.py
 msgid "HANDS"
@@ -72157,6 +72217,11 @@ msgstr "穿刺"
 msgid "RANGED"
 msgstr "遠程"
 
+#. ~ Crafting recipes subcategory of 'AMMO' category
+#: lang/json/recipe_category_from_json.py
+msgid "SHOT"
+msgstr ""
+
 #. ~ Crafting recipes subcategory of 'FOOD' category
 #: lang/json/recipe_category_from_json.py
 msgid "SNACK"
@@ -72194,7 +72259,7 @@ msgid "VEGGI"
 msgstr "蔬菜"
 
 #. ~ Crafting recipes subcategory of 'OTHER' category
-#: lang/json/recipe_category_from_json.py src/inventory_ui.cpp
+#: lang/json/recipe_category_from_json.py
 msgid "VEHICLE"
 msgstr "車輛"
 
@@ -84374,13 +84439,65 @@ msgstr "嘶嘶嘶嘶兹！"
 
 #: src/activity_item_handling.cpp
 #, c-format
-msgid "%s did not fit and fell to the ground!"
-msgstr "%s 無法貼合而掉到地上了！"
+msgid "%1$s did not fit and fell to the %2$s."
+msgstr ""
 
 #: src/activity_item_handling.cpp
 #, c-format
-msgid "%s is too heavy and fell to the ground!"
-msgstr "%s 太重而掉到地上了！"
+msgid "%1$s is too heavy and fell to the %2$s."
+msgstr ""
+
+#: src/activity_item_handling.cpp
+msgid "The pet has moved somewhere else."
+msgstr ""
+
+#: src/activity_item_handling.cpp
+#, c-format
+msgid "The trunk is full, so some items fell to the %s."
+msgstr ""
+
+#: src/activity_item_handling.cpp
+#, c-format
+msgid "To avoid spilling its contents, <npcname> sets their %1$s on the %2$s."
+msgstr ""
+
+#: src/activity_item_handling.cpp
+#, c-format
+msgid "To avoid spilling its contents, you set your %1$s on the %2$s."
+msgstr ""
+
+#: src/activity_item_handling.cpp
+#, c-format
+msgid "You drop several items on the %s."
+msgstr "你把數個物品放到 %s 上。"
+
+#: src/activity_item_handling.cpp
+#, c-format
+msgid "You drop your %1$s on the %2$s."
+msgid_plural "You drop your %1$s on the %2$s."
+msgstr[0] "你把你的 %1$s 放到 %2$s 上。"
+
+#: src/activity_item_handling.cpp
+#, c-format
+msgid "You put several items in the %1$s's %2$s."
+msgstr "你把一些物品放到 %1$s 的 %2$s 。"
+
+#: src/activity_item_handling.cpp
+#, c-format
+msgid "You put several items in the %s."
+msgstr "你把數個物品放入 %s 。"
+
+#: src/activity_item_handling.cpp
+#, c-format
+msgid "You put your %1$s in the %2$s's %3$s."
+msgid_plural "You put your %1$s in the %2$s's %3$s."
+msgstr[0] "你把你的 %1$s 放到 %2$s 的 %3$s。"
+
+#: src/activity_item_handling.cpp
+#, c-format
+msgid "You put your %1$s in the %2$s."
+msgid_plural "You put your %1$s in the %2$s."
+msgstr[0] "你把你的 %1$s 放到 %2$s 裡。"
 
 #: src/addiction.cpp
 msgid "Alcohol Withdrawal"
@@ -84475,24 +84592,6 @@ msgid "Sleeping Pill Dependence"
 msgstr "安眠藥依賴"
 
 #: src/addiction.cpp
-#, c-format
-msgid ""
-"Strength - %d;   Perception - 1;   Dexterity - 1;\n"
-"Depression and physical pain to some degree.  Frequent cravings.  Vomiting."
-msgstr ""
-"力量 - %d；感知 - 1；敏捷 - 1；\n"
-"憂鬱。一定程度的疼痛。頻繁的犯癮。嘔吐。"
-
-#: src/addiction.cpp
-#, c-format
-msgid ""
-"Strength - %d;   Perception - 1;   Dexterity - 1;\n"
-"Depression.  Frequent cravings.  Vomiting."
-msgstr ""
-"力量 - %d；感知 - 1；敏捷 - 1；\n"
-"憂鬱。頻繁的犯癮。嘔吐。"
-
-#: src/addiction.cpp
 msgid ""
 "Strength - 1;   Intelligence - 1;\n"
 "Movement rate reduction.  Depression.  Weak immune system.  Frequent "
@@ -84502,16 +84601,18 @@ msgstr ""
 "移動速度下降。憂鬱。免疫力低下。頻繁的犯癮。"
 
 #: src/addiction.cpp
+msgid ""
+"Strength - 1;   Perception - 1;   Dexterity - 1;\n"
+"Depression and physical pain to some degree.  Frequent cravings.  Vomiting."
+msgstr ""
+
+#: src/addiction.cpp
 msgid "Strength - 1;   Slight sluggishness;   Occasional cravings"
 msgstr "力量 - 1；輕微遲緩；偶發犯癮"
 
 #: src/addiction.cpp
-msgid "Throwing up."
-msgstr "你嘔吐了。"
-
-#: src/addiction.cpp
-msgid "You could use a drink."
-msgstr "你想喝點酒。"
+msgid "You could use a drink. "
+msgstr ""
 
 #: src/addiction.cpp
 msgid "You could use some diazepam."
@@ -88258,10 +88359,6 @@ msgid "Lashing your lumber together, you make a stable platform."
 msgstr "你將木板緊緊綁在一起，你做出了一塊穩定的平台。"
 
 #: src/construction.cpp
-msgid "Luckily, you'd attached a web..."
-msgstr "幸運的是，你接上了蛛網..."
-
-#: src/construction.cpp
 msgctxt "memorial_female"
 msgid "Mined into lava."
 msgstr "挖進了岩漿。"
@@ -88356,10 +88453,6 @@ msgstr "繩子在你逃脫的當下，鬆脫並下墜了。"
 #: src/construction.cpp
 msgid "The rope snags and holds!"
 msgstr "繩子穩固的纏上！"
-
-#: src/construction.cpp
-msgid "The sudden strain pulls your web free, and you fall into the lava!"
-msgstr "突來的拉扯讓你的網子破了，而你掉到岩漿中了！"
 
 #: src/construction.cpp
 msgid "There's nowhere to pull yourself to, and you fall!"
@@ -88486,10 +88579,6 @@ msgstr "你完全丟歪了，而且墜入熔岩！"
 #: src/construction.cpp
 msgid "Your timbers plummet into the lava!"
 msgstr "你的木材掉到岩漿中了！"
-
-#: src/construction.cpp
-msgid "Your web holds firm!"
-msgstr "你的蛛網保持穩固！"
 
 #: src/construction.cpp
 msgid "^ [P]revious stage(s)"
@@ -93105,8 +93194,13 @@ msgstr "向西移動"
 
 #: src/game.cpp
 #, c-format
-msgid "Moving past this %s is slow!"
-msgstr "慢慢通過 %s！"
+msgid "Moving off of this %s is slow!"
+msgstr ""
+
+#: src/game.cpp
+#, c-format
+msgid "Moving onto this %s is slow!"
+msgstr ""
 
 #: src/game.cpp
 #, c-format
@@ -93921,10 +94015,6 @@ msgid "The tree blooms forth into a fungal blossom!"
 msgstr "樹綻放出了真菌花！"
 
 #: src/game.cpp
-msgid "The trunk is full, so some items fall on the ground."
-msgstr "行李箱滿了所以一些物品掉到地上了。"
-
-#: src/game.cpp
 msgid "The water puts out the flames!"
 msgstr "水把火焰熄滅了！"
 
@@ -94052,11 +94142,6 @@ msgstr "投擲物品:"
 #: src/game.cpp
 msgid "Tie"
 msgstr "綁"
-
-#: src/game.cpp
-#, c-format
-msgid "To avoid spilling its contents, you set your %1$s on the %2$s."
-msgstr ""
 
 #: src/game.cpp
 msgid "To exclude items, place - in front"
@@ -94452,14 +94537,6 @@ msgid "You can't peek around corners while you're in your shell."
 msgstr "你在殼中的時候不能窺視轉角。"
 
 #: src/game.cpp
-msgid "You can't place items here!"
-msgstr "你不能把物品放到那！"
-
-#: src/game.cpp
-msgid "You can't place items there!"
-msgstr "你不能把物品放到那！"
-
-#: src/game.cpp
 msgid "You can't pour there!"
 msgstr "你不能倒在那裏！"
 
@@ -94614,17 +94691,6 @@ msgid ""
 msgstr ""
 "你似乎缺乏有效的Unicode語言環境。你可能會看到一些奇怪的字符（例如空格和問"
 "號）。你被事先警告了。"
-
-#: src/game.cpp
-#, c-format
-msgid "You drop several items on the %s."
-msgstr "你把數個物品放到 %s 上。"
-
-#: src/game.cpp
-#, c-format
-msgid "You drop your %1$s on the %2$s."
-msgid_plural "You drop your %1$s on the %2$s."
-msgstr[0] "你把你的 %1$s 放到 %2$s 上。"
 
 #: src/game.cpp
 #, c-format
@@ -94931,30 +94997,8 @@ msgstr "你推了 %s。"
 
 #: src/game.cpp
 #, c-format
-msgid "You put several items in the %1$s's %2$s."
-msgstr "你把一些物品放到 %1$s 的 %2$s 。"
-
-#: src/game.cpp
-#, c-format
-msgid "You put several items in the %s."
-msgstr "你把數個物品放入 %s 。"
-
-#: src/game.cpp
-#, c-format
 msgid "You put the %s in your inventory."
 msgstr "你把  %s 放到物品欄。"
-
-#: src/game.cpp
-#, c-format
-msgid "You put your %1$s in the %2$s's %3$s."
-msgid_plural "You put your %1$s in the %2$s's %3$s."
-msgstr[0] "你把你的 %1$s 放到 %2$s 的 %3$s。"
-
-#: src/game.cpp
-#, c-format
-msgid "You put your %1$s in the %2$s."
-msgid_plural "You put your %1$s in the %2$s."
-msgstr[0] "你把你的 %1$s 放到 %2$s 裡。"
 
 #: src/game.cpp
 #, c-format
@@ -98234,16 +98278,17 @@ msgid "%d of %d"
 msgstr ""
 
 #: src/inventory_ui.cpp
+#, c-format
+msgid "%s %s"
+msgstr ""
+
+#: src/inventory_ui.cpp
 msgid "(NONE)"
 msgstr ""
 
 #: src/inventory_ui.cpp
 msgid "Category selection; [TAB] switches mode, arrows select."
 msgstr "類別選擇；按 [TAB] 切換模式，方向鍵選擇。"
-
-#: src/inventory_ui.cpp
-msgid "Compare where?"
-msgstr "比較哪邊？"
 
 #: src/inventory_ui.cpp
 msgid "Compare:"
@@ -98256,10 +98301,6 @@ msgstr "確認"
 #: src/inventory_ui.cpp
 msgid "End"
 msgstr ""
-
-#: src/inventory_ui.cpp
-msgid "GROUND"
-msgstr "地面"
 
 #: src/inventory_ui.cpp
 #, c-format
@@ -98346,10 +98387,6 @@ msgstr "你沒有可用的東西。"
 #: src/inventory_ui.cpp
 msgid "You don't have the necessary item at hand."
 msgstr "你手上沒有所需的東西。"
-
-#: src/inventory_ui.cpp
-msgid "You don't have the necessary item."
-msgstr "你沒有所需的物品。"
 
 #: src/inventory_ui.cpp
 msgid "You don't wear anything."
@@ -98485,23 +98522,9 @@ msgid "* Fermenting this will produce <neutral>%s</neutral>."
 msgstr "* 將它發酵可產生 <neutral>%s</neutral>。"
 
 #: src/item.cpp
-msgid ""
-"* It is <bad>bugged</bad> and does not actually listen to <info>radio "
-"signals</info>."
-msgstr "* 這物品發生<bad>錯誤</bad>，無法接受<info>無線電信號</info>。"
-
-#: src/item.cpp
-msgid "* It will be activated by <color_c_blue>\"Blue\"</color> radio signal."
-msgstr "* 這物品能被<color_c_blue>\"藍色\"</color>無線電信號啟動。"
-
-#: src/item.cpp
-msgid ""
-"* It will be activated by <color_c_green>\"Green\"</color> radio signal."
-msgstr "* 這物品能被<color_c_green>\"綠色\"</color>無線電信號啟動。"
-
-#: src/item.cpp
-msgid "* It will be activated by <color_c_red>\"Red\"</color> radio signal."
-msgstr "* 這物品能被<color_c_red>\"紅色\"</color>無線電信號啟動。"
+#, c-format
+msgid "* It will be activated by the %s radio signal."
+msgstr ""
 
 #: src/item.cpp
 msgid "* On closer inspection, this appears to be <bad>poisonous</bad>."
@@ -103293,6 +103316,10 @@ msgstr "<bold>流血</bold>:"
 #: src/iuse_actor.cpp
 msgid "<bold>Chance to heal (percent):</bold> "
 msgstr "<bold>治癒機率(％):</bold>"
+
+#: src/iuse_actor.cpp
+msgid "<bold>Countdown</bold>: "
+msgstr ""
 
 #: src/iuse_actor.cpp
 msgid "<bold>Infection</bold>:"
@@ -112015,6 +112042,10 @@ msgid "You lose your %s mutation."
 msgstr "你失去了 %s 的突變。"
 
 #: src/mutation.cpp
+msgid "You spin a rope from your silk."
+msgstr ""
+
+#: src/mutation.cpp
 msgid "You start spinning web with your spinnerets!"
 msgstr "你用你的吐絲器開始織網！"
 
@@ -117931,8 +117962,8 @@ msgstr "%1$s 的攻擊性防禦系統在被擊中時，對 %2$s 發出電擊！"
 
 #: src/player.cpp
 #, c-format
-msgid "%c - an empty %s"
-msgstr "%c - 空的 %s"
+msgid "%c - %d empty %s"
+msgstr ""
 
 #: src/player.cpp
 #, c-format
@@ -117990,9 +118021,23 @@ msgid "<npcname> bounces off a %s!"
 msgstr "<npcname> 反彈了 %s！"
 
 #: src/player.cpp
+msgid "<npcname> can't place items here!"
+msgstr ""
+
+#: src/player.cpp
+msgid ""
+"<npcname> can't take off power armor while wearing other power armor "
+"components."
+msgstr ""
+
+#: src/player.cpp
 #, c-format
 msgid "<npcname> is grabbed by %s!"
 msgstr "<npcname> 被 %s 擒拿著了！"
+
+#: src/player.cpp
+msgid "<npcname> is not wearing that item."
+msgstr ""
 
 #: src/player.cpp
 #, c-format
@@ -118145,7 +118190,6 @@ msgctxt "memorial_female"
 msgid "Became addicted to %s."
 msgstr "對 %s 上癮了。"
 
-#. ~ %s is addiction name
 #: src/player.cpp
 #, c-format
 msgctxt "memorial_male"
@@ -118752,6 +118796,7 @@ msgctxt "memorial_female"
 msgid "Overcame addiction to %s."
 msgstr "戒除了 %s 。"
 
+#. ~ %s is addiction name
 #: src/player.cpp
 #, c-format
 msgctxt "memorial_male"
@@ -119307,18 +119352,6 @@ msgid "Traits:"
 msgstr "特質:"
 
 #: src/player.cpp
-#, c-format
-msgctxt "memorial_female"
-msgid "Transcended addiction to %s."
-msgstr "克服 %s 上癮。"
-
-#: src/player.cpp
-#, c-format
-msgctxt "memorial_male"
-msgid "Transcended addiction to %s."
-msgstr "克服 %s 上癮。"
-
-#: src/player.cpp
 msgid "Trap detection level:"
 msgstr "陷阱偵測等級:"
 
@@ -119539,6 +119572,10 @@ msgstr "你只能在身上穿動力裝甲時才能穿戴其他部位。"
 #, c-format
 msgid "You can't eat your %s."
 msgstr "你不能吃你的 %s。"
+
+#: src/player.cpp
+msgid "You can't place items here!"
+msgstr "你不能把物品放到那！"
 
 #: src/player.cpp
 #, c-format
@@ -119833,10 +119870,6 @@ msgid "You learned a new style."
 msgstr "你學到了新招式。"
 
 #: src/player.cpp
-msgid "You let out a piercing howl!"
-msgstr "你撕心裂肺的號啕大哭！"
-
-#: src/player.cpp
 msgid "You lose some blood."
 msgstr "你失血了。"
 
@@ -119891,16 +119924,8 @@ msgid "You roll on the ground, trying to smother the fire!"
 msgstr ""
 
 #: src/player.cpp
-msgid "You scream loudly!"
-msgstr "你放聲的尖叫！"
-
-#: src/player.cpp
 msgid "You shake with the excess stimulation."
 msgstr "過量的興奮劑使你不自主的發抖。 "
-
-#: src/player.cpp
-msgid "You shout loudly!"
-msgstr "你放聲的大叫！"
 
 #: src/player.cpp
 msgid "You shudder suddenly."
@@ -120764,6 +120789,18 @@ msgstr "荊棘皮"
 #: src/player.cpp
 msgid "your"
 msgstr "你的"
+
+#: src/player.cpp
+msgid "yourself let out a piercing howl!"
+msgstr ""
+
+#: src/player.cpp
+msgid "yourself scream loudly!"
+msgstr ""
+
+#: src/player.cpp
+msgid "yourself shout loudly!"
+msgstr ""
 
 #: src/player_activity.cpp
 #, c-format
@@ -123281,10 +123318,6 @@ msgstr "whirrr!"
 #: src/vehicle_group.cpp
 msgid "pile-up"
 msgstr "殘骸堆"
-
-#: src/vehicle_group.cpp
-msgid "policecar pile-up"
-msgstr "警車殘骸堆"
 
 #: src/weather.cpp
 #, c-format
