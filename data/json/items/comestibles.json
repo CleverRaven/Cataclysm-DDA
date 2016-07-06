@@ -1146,7 +1146,7 @@
         "nutrition" : 15,
         "description" : "Sweetened coffee and whiskey topped with milk.  Start your day the closeted alcoholic way!",
         "price" : 500,
-        "material" : ["alcohol", "water", "milk"], /*three ingredients?*/
+        "material" : ["alcohol", "water", "milk"],
         "volume" : 1,
         "phase" : "liquid",
         "charges" : 1,
@@ -3130,7 +3130,7 @@
         "nutrition" : 25,
         "description" : "Surprisingly, not made from dog.  Cooked, this hot dog now tastes much better, but will spoil.",
         "price" : 800,
-        "material" : [ "flesh", "junk", "wheat" ], /*three ingredients?*/
+        "material" : [ "flesh", "junk", "wheat" ],
         "volume" : 1,
         "charges" : 4,
         "flags" : [ "EATEN_HOT" ],
@@ -3152,7 +3152,7 @@
         "nutrition" : 50,
         "description" : "A hot dog, served with chili con carne as a topping.  Yum!",
         "price" : 900,
-        "material" : [ "flesh", "junk", "wheat" ], /*three ingredients? */
+        "material" : [ "flesh", "junk", "wheat" ],
         "volume" : 1,
         "charges" : 4,
         "flags" : [ "EATEN_HOT" ],
@@ -3174,7 +3174,7 @@
         "nutrition" : 50,
         "description" : "A hot dog, served with chili con cabron as a topping.  Delightful.",
         "price" : 8000,
-        "material" : [ "hflesh", "junk", "wheat" ],    /* three ingredients? */
+        "material" : [ "hflesh", "junk", "wheat" ],
         "volume" : 1,
         "charges" : 4,
         "flags" : [ "EATEN_HOT" ],
@@ -3879,7 +3879,7 @@
         "nutrition" : 24,
         "description" : "Salted corn chips with ground meat and smothered in cheese.  Delicious.",
         "price" : 300,
-        "material" : ["flesh", "milk"],      /* add flesh? */
+        "material" : ["flesh", "milk", "junk"],
         "volume" : 1,
         "charges" : 3,
         "flags" : ["EATEN_HOT"],
@@ -3900,7 +3900,7 @@
         "nutrition" : 24,
         "description" : "Salted corn chips with human flesh and smothered in cheese.  Delicious.",
         "price" : 300,
-        "material" : ["hflesh", "milk"],    /* add junk?  */
+        "material" : ["hflesh", "milk", "junk"],
         "volume" : 1,
         "charges" : 3,
         "flags" : ["EATEN_HOT"],
@@ -5732,7 +5732,7 @@
         "nutrition" : 15,
         "description" : "A small, microwaveable steak & cheese burrito, like those found at gas stations.  Not as appetizing or nutritious as it would be if heated up.",
         "price" : 200,
-        "material" : ["flesh", "junk"],    /* add milk? */
+        "material" : ["flesh", "junk", "milk"],
         "volume" : 1,
         "charges" : 1,
         "fun" : -3
@@ -5751,7 +5751,7 @@
         "nutrition" : 50,
         "description" : "A small, microwaveable steak & cheese burrito, like those found at gas stations.  It's tastier and more filling, but will also spoil quickly.",
         "price" : 90,
-        "material" : ["flesh", "junk"],      /* add milk? */
+        "material" : ["flesh", "junk", "milk"],
         "volume" : 1,
         "charges" : 1,
         "flags" : ["EATEN_HOT"],
@@ -7718,7 +7718,7 @@
         "nutrition" : 45,
         "description" : "Slices of bread dipped in a milk and egg mixture then fried.",
         "price" : 600,
-        "material" : [ "wheat", "milk", "egg" ],  /* three ingredients? */
+        "material" : [ "wheat", "milk", "egg" ],
         "volume" : 1,
         "charges" : 2,
         "flags" : ["EATEN_HOT"],
@@ -8949,7 +8949,7 @@
         "nutrition" : 8,
         "description" : "Strawberries left to ferment with a few other choice ingredients offer up a surprisingly palatable mixture; you barely even have to force yourself to drink it after the first few gulps.",
         "price" : 1600,
-        "material" : ["alcohol", "water", "fruit"],   /* three ingredients? */
+        "material" : ["alcohol", "water", "fruit"],
         "volume" : 1,
         "phase" : "liquid",
         "charges" : 6,
@@ -8975,7 +8975,7 @@
         "nutrition" : 30,
         "description" : "This fermented blueberry mixture is surprisingly hearty, though the soup-like consistency is slightly unsettling no matter how much you drink.",
         "price" : 1400,
-        "material" : ["alcohol", "water", "fruit"],   /* three ingredients? */
+        "material" : ["alcohol", "water", "fruit"],
         "volume" : 1,
         "phase" : "liquid",
         "charges" : 6,
@@ -9132,7 +9132,7 @@
         "nutrition" : 35,
         "description" : "A sandwich of minced meat and cheese with condiments.  The apex of pre-cataclysm culinary achievement.",
         "price" : 1000,
-        "material" : ["flesh", "wheat"],   /* milk instead? */
+        "material" : ["flesh", "wheat", "milk"],
         "volume" : 1,
         "charges" : 4,
         "flags" : ["EATEN_HOT"],
@@ -9153,7 +9153,7 @@
         "nutrition" : 35,
         "description" : "A sandwich of minced human flesh and cheese with condiments.  The apex of post-cataclysm cannibalistic culinary achievement.",
         "price" : 0,
-        "material" : ["hflesh", "wheat"], /* milk instead? */
+        "material" : ["hflesh", "wheat", "milk"],
         "volume" : 1,
         "charges" : 4,
         "flags" : ["EATEN_HOT"],
@@ -9216,7 +9216,7 @@
         "nutrition" : 31,
         "description" : "A sandwich, consisting of ground beef, onions, and tomato sauce served on a hamburger bun.",
         "price" : 900,
-        "material" : ["flesh", "veggy", "wheat"], /* three ingredients? */
+        "material" : ["flesh", "veggy", "wheat"],
         "volume" : 1,
         "charges" : 4,
         "flags" : ["EATEN_HOT"],
@@ -9297,7 +9297,7 @@
         "nutrition" : 33,
         "description" : "A bacon, lettuce, and tomato sandwich on toasted bread.",
         "price" : 400,
-        "material" : ["flesh", "veggie"],
+        "material" : ["flesh", "veggie", "wheat"],
         "volume" : 1,
         "charges" : 4,
         "flags" : ["EATEN_HOT"],
@@ -11740,7 +11740,7 @@
         "nutrition" : 38,
         "description" : "A sandwich of human flesh, vegetables, and cheese with condiments.  Feast upon the souls of your enemies and tasty garden greens!",
         "price" : 1200,
-        "material" : ["hflesh", "veggy", "wheat", "milk"], /* four ingredients? */
+        "material" : ["hflesh", "veggy", "wheat", "milk"],
         "volume" : 1,
         "charges" : 4,
         "fun" : 12
@@ -11762,7 +11762,7 @@
         "nutrition" : 38,
         "description" : "A sandwich of meat, vegetables, and cheese with condiments.  Tasty and nutritious!",
         "price" : 1200,
-        "material" : ["flesh", "veggy", "wheat", "milk"],  /*four ingredients?*/
+        "material" : ["flesh", "veggy", "wheat", "milk"],
         "volume" : 1,
         "charges" : 4,
         "fun" : 12
@@ -12464,7 +12464,7 @@
         "nutrition" : 45,
         "description" : "Smooth and rich, this spoon-coating mixture of milk, cream, eggs, and booze is a popular traditional holiday drink.  Having been fortified with alcohol, it will keep for a long time.",
         "price" : 45, "//" : "A 12-charge gallon currently goes for around US$4, and eggnog is a bit more expensive than that.",
-        "material" : ["milk", "alcohol"],   /* add egg? */
+        "material" : ["milk", "alcohol", "egg"],
         "volume" : 1,
         "phase" : "liquid",
         "charges" : 2,
