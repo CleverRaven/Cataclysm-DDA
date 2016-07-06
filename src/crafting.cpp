@@ -231,6 +231,11 @@ void finalize_recipes()
 
     std::ostringstream buffer;
     for( auto r : recipe_dict ) {
+        r->requirements_ = std::accumulate( r->reqs.begin(), r->reqs.end(), requirement_data(),
+        []( const requirement_data & lhs, const std::pair<requirement_id, int> &rhs ) {
+            return lhs + ( *rhs.first * rhs.second );
+        } );
+
         buffer.clear();
         for( auto j = r->booksets.begin(); j != r->booksets.end(); ++j ) {
             const std::string &book_id = j->book_id;
@@ -384,14 +389,6 @@ bool player::making_would_work( const std::string &id_to_make, int batch_size )
     }
 
     return making->check_eligible_containers_for_crafting( batch_size );
-}
-
-requirement_data recipe::requirements() const
-{
-    return std::accumulate( reqs.begin(), reqs.end(), requirement_data(),
-    []( const requirement_data & lhs, const std::pair<requirement_id, int> &rhs ) {
-        return lhs + ( *rhs.first * rhs.second );
-    } );
 }
 
 bool recipe::check_eligible_containers_for_crafting( int batch ) const
