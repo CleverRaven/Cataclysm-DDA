@@ -8349,7 +8349,9 @@
       ["pitchfork", 40],
       ["v_plow_item",41],
       ["v_planter_item",41],
-      ["v_reaper_item",41]
+      ["v_reaper_item",41],
+      ["v_reaper_item_advanced",8],
+      ["v_planter_item_advanced",8]
     ]
   },{
 "type" : "item_group",
