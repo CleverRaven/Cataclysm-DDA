@@ -10471,11 +10471,16 @@ bool player::takeoff( const item &it, bool interactive, std::list<item> *res )
     }
 
     const auto dependent = get_dependent_worn_items( it );
-    if( interactive && !dependent.empty() ) {
-        add_msg_player_or_npc( m_info,
-                               _( "You can't take off power armor while wearing other power armor components." ),
-                               _( "<npcname> can't take off power armor while wearing other power armor components." ) );
-        return false;
+    if( interactive && !dependent.empty() && !is_npc() ) {
+        const std::string dep_str = enumerate_as_string( dependent.begin(), dependent.end(),
+        []( const item *it ) {
+            return it->tname( 1, false );
+        } );
+        //~ %1$s - list of items (one or many), %2$s - how much longer it shall take (x2, x3 e.t.c)
+        if( !query_yn( _( "First you'll have to take off your %1$s (x%2$d times longer).  Continue?" ),
+                       dep_str.c_str(), dependent.size() + 1 ) ) {
+            return false;
+        }
     }
 
     for( const auto dep_it : dependent ) {
