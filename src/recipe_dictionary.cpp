@@ -51,7 +51,7 @@ void recipe_dictionary::delete_if( const std::function<bool( recipe & )> &pred )
 
 void recipe_dictionary::add_to_component_lookup( recipe *r )
 {
-    const auto req = r->requirements();
+    const auto &req = r->requirements();
 
     std::unordered_set<itype_id> counted;
     for( const auto &comp_choices : req.get_components() ) {

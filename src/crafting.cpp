@@ -842,7 +842,7 @@ void player::complete_craft()
             last_craft->consume_components();
         } else {
             // @todo Guarantee that selections are cached
-            const auto req = making->requirements();
+            const auto &req = making->requirements();
             for( const auto &it : req.get_components() ) {
                 consume_items( it, batch_size );
             }

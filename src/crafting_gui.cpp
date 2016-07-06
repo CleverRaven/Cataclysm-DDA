@@ -736,7 +736,7 @@ void pick_recipes( const inventory &crafting_inv,
     int max_difficulty = 0;
 
     for( auto rec : available_recipes ) {
-        const auto needs = rec->requirements();
+        const auto &needs = rec->requirements();
 
         if( subtab == "CSC_ALL" || rec->subcat == subtab ||
             ( rec->subcat == "" && craft_subcat_list[tab].back() == subtab ) ||
