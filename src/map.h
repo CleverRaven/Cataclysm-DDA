@@ -689,7 +689,11 @@ public:
   *  all terrain is floor and the last terrain is a wall */
  bool is_last_ter_wall(const bool no_furn, const int x, const int y,
                        const int xmax, const int ymax, const direction dir) const;
-    bool flammable_items_at( const tripoint &p );
+    /**
+     * Checks if there are any flammable items on the tile.
+     * @param threshold Fuel threshold (lower means worse fuels are accepted).
+     */
+    bool flammable_items_at( const tripoint &p, int threshold = 0 );
  point random_outdoor_tile();
 // mapgen
 

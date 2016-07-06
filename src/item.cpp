@@ -719,23 +719,17 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
             req.push_back( string_format( "%s %d", sk.first.obj().name().c_str(), sk.second ) );
         }
         if( !req.empty() ) {
-            std::ostringstream tmp;
-            std::copy( req.begin(), req.end() - 1, std::ostream_iterator<std::string>( tmp, ", " ) );
-            tmp << req.back();
             info.emplace_back( "BASE", _("<bold>Minimum requirements:</bold>") );
-            info.emplace_back( "BASE", tmp.str() );
+            info.emplace_back( "BASE", enumerate_as_string( req ) );
             insert_separation_line();
         }
 
         const std::vector<const material_type*> mat_types = made_of_types();
         if( !mat_types.empty() ) {
-            std::string material_list;
-            for( auto next_material : mat_types ) {
-                if( !material_list.empty() ) {
-                    material_list.append( ", " );
-                }
-                material_list.append( "<stat>" + next_material->name() + "</stat>" );
-            }
+            const std::string material_list = enumerate_as_string( mat_types.begin(), mat_types.end(),
+            []( const material_type *material ) {
+                return string_format( "<stat>%s</stat>", material->name().c_str() );
+            }, false );
             info.push_back( iteminfo( "BASE", string_format( _( "Material: %s" ), material_list.c_str() ) ) );
         }
         if( has_var( "contained_name" ) ) {
@@ -789,18 +783,14 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
             info.push_back( iteminfo( "FOOD", _( "Smells like: " ) + food_item->corpse->nname() ) );
         }
 
-        std::string vits;
-        for( const auto &v : g->u.vitamins_from( *food_item ) ) {
-            // only display vitamins that we actually require
-            if( g->u.vitamin_rate( v.first ) > 0 && v.second != 0 ) {
-                if( !vits.empty() ) {
-                    vits += ", ";
-                }
-                vits += string_format( "%s (%i%%)", v.first.obj().name().c_str(), int( v.second / ( DAYS( 1 ) / float( g->u.vitamin_rate( v.first ) ) ) * 100 ) );
-            }
-        }
-        if( !vits.empty() ) {
-            info.emplace_back( "FOOD", _( "Vitamins (RDA): " ), vits.c_str() );
+        const auto vits = g->u.vitamins_from( *food_item );
+        const std::string required_vits = enumerate_as_string( vits.begin(), vits.end(), []( const std::pair<vitamin_id, int> &v ) {
+            return ( g->u.vitamin_rate( v.first ) > 0 && v.second != 0 ) // only display vitamins that we actually require
+                ? string_format( "%s (%i%%)", v.first.obj().name().c_str(), int( v.second / ( DAYS( 1 ) / float( g->u.vitamin_rate( v.first ) ) ) * 100 ) )
+                : std::string();
+        } );
+        if( !required_vits.empty() ) {
+            info.emplace_back( "FOOD", _( "Vitamins (RDA): " ), required_vits.c_str() );
         }
     }
 
@@ -978,23 +968,16 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
         }
         if( !fm.empty() ) {
             insert_separation_line();
-            std::ostringstream tmp;
-            std::copy( fm.begin(), fm.end() - 1, std::ostream_iterator<std::string>( tmp, ", " ) );
-            tmp << fm.back();
-            info.emplace_back( "GUN", _( "<bold>Fire modes:</bold> " ), tmp.str() );
+            info.emplace_back( "GUN", _( "<bold>Fire modes:</bold> " ), enumerate_as_string( fm ) );
         }
 
         if( !magazine_integral() ) {
             insert_separation_line();
-            std::string mags = _( "<bold>Compatible magazines:</bold> " );
             const auto compat = magazine_compatible();
-            for( auto iter = compat.cbegin(); iter != compat.cend(); ++iter ) {
-                if( iter != compat.cbegin() ) {
-                    mags += ", ";
-                }
-                mags += item_controller->find_template( *iter )->nname( 1 );
-            }
-            info.emplace_back( "DESCRIPTION", mags );
+            info.emplace_back( "DESCRIPTION", _( "<bold>Compatible magazines:</bold> " ),
+                enumerate_as_string( compat.begin(), compat.end(), []( const itype_id &id ) {
+                    return item_controller->find_template( id )->nname( 1 );
+            } ) );
         }
 
         if( !gun->valid_mod_locations.empty() ) {
@@ -1068,14 +1051,10 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
         }
 
         temp1.str( "" );
-        temp1 << _( "Used on: " );
-        for( auto it = mod->usable.begin(); it != mod->usable.end(); ) {
+        temp1 << _( "Used on: " ) << enumerate_as_string( mod->usable.begin(), mod->usable.end(), []( const std::string &used_on ) {
             //~ a weapon type which a gunmod is compatible (eg. "pistol", "crossbow", "rifle")
-            temp1 << string_format( "<info>%s</info>", _( it->c_str() ) );
-            if( ++it != mod->usable.end() ) {
-                temp1 << ", ";
-            }
-        }
+            return string_format( "<info>%s</info>", _( used_on.c_str() ) );
+        } );
 
         temp2.str( "" );
         temp2 << _( "Location: " );
@@ -1188,8 +1167,11 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
         insert_separation_line();
         auto book = type->book.get();
         // Some things about a book you CAN tell by it's cover.
-        if( !book->skill ) {
+        if( !book->skill && !type->can_use( "MA_MANUAL" )) {
             info.push_back( iteminfo( "BOOK", _( "Just for fun." ) ) );
+        }
+        if( type->can_use( "MA_MANUAL" )) {
+            info.push_back( iteminfo( "BOOK", _( "Some sort of <info>martial arts training manual</info>." ) ) );
         }
         if( book->req == 0 ) {
             info.push_back( iteminfo( "BOOK", _( "It can be <info>understood by beginners</info>." ) ) );
@@ -1248,21 +1230,10 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
                 }
             }
             if( !recipe_list.empty() ) {
-                std::string recipes = "";
-                size_t index = 1;
-                for( auto iter = recipe_list.begin();
-                     iter != recipe_list.end(); ++iter, ++index ) {
-                    recipes += *iter;
-                    if( index == recipe_list.size() - 1 ) {
-                        recipes += _( " and " ); // Who gives a fuck about an oxford comma?
-                    } else if( index != recipe_list.size() ) {
-                        recipes += _( ", " );
-                    }
-                }
                 std::string recipe_line = string_format(
                                               ngettext( "This book contains %1$d crafting recipe: %2$s",
                                                         "This book contains %1$d crafting recipes: %2$s", recipe_list.size() ),
-                                              recipe_list.size(), recipes.c_str() );
+                                              recipe_list.size(), enumerate_as_string( recipe_list ).c_str() );
 
                 insert_separation_line();
                 info.push_back( iteminfo( "DESCRIPTION", recipe_line ) );
@@ -1307,16 +1278,11 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
 
         if( !magazine_integral() ) {
             insert_separation_line();
-            std::string tmp = _( "<bold>Compatible magazines:</bold> " );
             const auto compat = magazine_compatible();
-            for( auto iter = compat.cbegin(); iter != compat.cend(); ++iter ) {
-                if( iter != compat.cbegin() ) {
-                    tmp += ", ";
-                }
-                tmp += item_controller->find_template( *iter )->nname( 1 );
-            }
-            info.emplace_back( "TOOL", tmp );
-
+            info.emplace_back( "TOOL", _( "<bold>Compatible magazines:</bold> " ),
+                enumerate_as_string( compat.begin(), compat.end(), []( const itype_id &id ) {
+                    return item_controller->find_template( id )->nname( 1 );
+                } ) );
         } else if( ammo_capacity() != 0 ) {
             std::string tmp;
             if( ammo_type() ) {
@@ -1336,25 +1302,18 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
     } else {
         const recipe *dis_recipe = get_disassemble_recipe( typeId() );
         if( dis_recipe != nullptr && dis_recipe->requirements ) {
-            std::ostringstream buffer;
-            bool first_component = true;
             const auto &dis_req = dis_recipe->requirements->disassembly_requirements();
-
-            for( const auto &it : dis_req.get_components() ) {
-                if( first_component ) {
-                    first_component = false;
-                } else {
-                    buffer << _( ", " );
-                }
-                buffer << it.front().to_string();
-            }
-
+            const auto components = dis_req.get_components();
+            const std::string components_list = enumerate_as_string( components.begin(), components.end(),
+            []( const std::vector<item_comp> &comps ) {
+                return comps.front().to_string();
+            } );
             const std::string dis_time = calendar::print_duration( dis_recipe->time / 100 );
 
             insert_separation_line();
             info.push_back( iteminfo( "DESCRIPTION",
                 string_format( _( "Disassembling this item takes %s and might yield: %s." ),
-                dis_time.c_str(), buffer.str().c_str() ) ) );
+                dis_time.c_str(), components_list.c_str() ) ) );
         }
     }
 
@@ -1395,30 +1354,14 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
         } else {
             info.push_back( iteminfo( "DESCRIPTION", type->description ) );
         }
-        std::ostringstream tec_buffer;
-        for( const auto &elem : type->techniques ) {
-            const ma_technique &tec = elem.obj();
-            if( tec.name.empty() ) {
-                continue;
-            }
-            if( !tec_buffer.str().empty() ) {
-                tec_buffer << _( ", " );
-            }
-            tec_buffer << "<stat>" << tec.name << "</stat>";
-        }
-        for( const auto &elem : techniques ) {
-            const ma_technique &tec = elem.obj();
-            if( tec.name.empty() ) {
-                continue;
-            }
-            if( !tec_buffer.str().empty() ) {
-                tec_buffer << _( ", " );
-            }
-            tec_buffer << "<stat>" << tec.name << "</stat>";
-        }
-        if( !tec_buffer.str().empty() ) {
+        auto all_techniques = type->techniques;
+        all_techniques.insert( techniques.begin(), techniques.end() );
+        if( !all_techniques.empty() ) {
             insert_separation_line();
-            info.push_back( iteminfo( "DESCRIPTION", std::string( _( "Techniques: " ) ) + tec_buffer.str() ) );
+            info.push_back( iteminfo( "DESCRIPTION", _( "Techniques: " ),
+            enumerate_as_string( all_techniques.begin(), all_techniques.end(), []( const matec_id &tid ) {
+                return string_format( "<stat>%s</stat>", tid.obj().name.c_str() );
+            } ) ) );
         }
 
         if( !is_gunmod() && has_flag( "REACH_ATTACK" ) ) {
@@ -1433,23 +1376,16 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
         }
 
         //lets display which martial arts styles character can use with this weapon
-        if( g->u.ma_styles.size() > 0 ) {
-            std::vector<matype_id> valid_styles;
-            std::ostringstream style_buffer;
-            for( auto style : g->u.ma_styles ) {
-                if( style.obj().has_weapon( typeId() ) ) {
-                    if( !style_buffer.str().empty() ) {
-                        style_buffer << _( ", " );
-                    }
-                    style_buffer << style.obj().name;
-                }
-            }
-            if( !style_buffer.str().empty() ) {
-                insert_separation_line();
-                info.push_back( iteminfo( "DESCRIPTION",
-                                          std::string( _( "You know how to use this with these martial arts styles: " ) ) +
-                                          style_buffer.str() ) );
-            }
+        const auto &styles = g->u.ma_styles;
+        const std::string valid_styles = enumerate_as_string( styles.begin(), styles.end(),
+        [ this ]( const matype_id &mid ) {
+            return mid.obj().has_weapon( typeId() ) ? mid.obj().name : std::string();
+        } );
+        if( !valid_styles.empty() ) {
+            insert_separation_line();
+            info.push_back( iteminfo( "DESCRIPTION",
+                                      std::string( _( "You know how to use this with these martial arts styles: " ) ) +
+                                      valid_styles ) );
         }
 
         for( const auto &method : type->use_methods ) {
@@ -1879,26 +1815,18 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
                 insert_separation_line();
                 info.push_back( iteminfo( "DESCRIPTION", _( "You could use it to craft various other things." ) ) );
             } else {
-                bool found_recipe = false;
-                for( recipe *r : known_recipes ) {
-                    if( found_recipe ) {
-                        temp1 << _( ", " );
+                const std::string recipes = enumerate_as_string( known_recipes.begin(), known_recipes.end(),
+                [ &inv ]( const recipe *r ) {
+                    if( r->can_make_with_inventory( inv ) ) {
+                        return item::nname( r->result );
+                    } else {
+                        return string_format( "<dark>%s</dark>", item::nname( r->result ).c_str() );
                     }
-                    found_recipe = true;
-                    // darken recipes you can't currently craft
-                    bool can_make = r->can_make_with_inventory( inv );
-                    if( !can_make ) {
-                        temp1 << "<dark>";
-                    }
-                    temp1 << item::nname( r->result );
-                    if( !can_make ) {
-                        temp1 << "</dark>";
-                    }
-                }
-                if( found_recipe ) {
+                } );
+                if( !recipes.empty() ) {
                     insert_separation_line();
                     info.push_back( iteminfo( "DESCRIPTION", string_format( _( "You could use it to craft: %s" ),
-                                              temp1.str().c_str() ) ) );
+                                              recipes.c_str() ) ) );
                 }
             }
         }
@@ -4916,7 +4844,7 @@ bool item::burn( fire_data &frd )
     return burnt >= vol * 3;
 }
 
-bool item::flammable() const
+bool item::flammable( int threshold ) const
 {
     const auto &mats = made_of_types();
     if( mats.empty() ) {
@@ -4925,6 +4853,7 @@ bool item::flammable() const
     }
 
     int flammability = 0;
+    int chance = 0;
     for( const auto &m : mats ) {
         const auto &bd = m->burn_data( 1 );
         if( bd.immune ) {
@@ -4933,9 +4862,23 @@ bool item::flammable() const
         }
 
         flammability += bd.fuel;
+        chance += bd.chance_in_volume;
     }
 
-    return flammability > 0;
+    if( threshold == 0 || flammability <= 0 ) {
+        return flammability > 0;
+    }
+
+    chance /= mats.size();
+    int vol = base_volume();
+    if( chance > 0 && chance < vol ) {
+        flammability = flammability * chance / vol;
+    } else {
+        // If it burns well, it provides a bonus here
+        flammability *= vol;
+    }
+
+    return flammability > threshold;
 }
 
 std::ostream & operator<<(std::ostream & out, const item * it)
@@ -5453,18 +5396,14 @@ std::string item::components_to_string() const
         const std::string name = elem.display_name();
         counts[name]++;
     }
-    std::ostringstream buffer;
-    for(t_count_map::const_iterator a = counts.begin(); a != counts.end(); ++a) {
-        if (a != counts.begin()) {
-            buffer << _(", ");
-        }
-        if (a->second != 1) {
-            buffer << string_format(_("%d x %s"), a->second, a->first.c_str());
+    return enumerate_as_string( counts.begin(), counts.end(),
+    []( const std::pair<std::string, int> &entry ) -> std::string {
+        if( entry.second != 1 ) {
+            return string_format( _( "%d x %s" ), entry.second, entry.first.c_str() );
         } else {
-            buffer << a->first;
+            return entry.first;
         }
-    }
-    return buffer.str();
+    }, false );
 }
 
 bool item::needs_processing() const

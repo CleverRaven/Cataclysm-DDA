@@ -387,13 +387,10 @@ std::string options_manager::cOpt::getValueName()
 std::string options_manager::cOpt::getDefaultText(const bool bTranslated)
 {
     if (sType == "string_select") {
-        std::string sItems = "";
-        for( auto &elem : vItems ) {
-            if (sItems != "") {
-                sItems += _(", ");
-            }
-            sItems += ( bTranslated ) ? optionNames[elem] : elem;
-        }
+        const std::string sItems = enumerate_as_string( vItems.begin(), vItems.end(),
+        [ this, bTranslated ]( const std::string &elem ) {
+            return bTranslated ? optionNames[elem] : elem;
+        }, false );
         return string_format(_("Default: %s - Values: %s"),
                              (bTranslated) ? optionNames[sDefault].c_str() : sDefault.c_str(), sItems.c_str());
 
