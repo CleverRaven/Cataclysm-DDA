@@ -11,18 +11,19 @@
 },{
     "type": "ITEM_BLACKLIST",
     "items": [
-    "diamond_bayonet",
-    "diamond_broadsword",
-    "diamond_katana",
-    "diamond_knife",
-    "diamond_kukri",
-    "diamond_machete",
-    "diamond_nodachi",
-    "diamond_pistol_bayonet",
-    "diamond_rapier",
-    "diamond_sword_bayonet",
-    "diamond_wakizashi",
-    "diamond_zweihander"
+        "diamond_bayonet",
+        "diamond_broadsword",
+        "diamond_katana",
+        "diamond_knife",
+        "diamond_kukri",
+        "diamond_machete",
+        "diamond_nodachi",
+        "diamond_pistol_bayonet",
+        "diamond_rapier",
+        "diamond_sword_bayonet",
+        "diamond_wakizashi",
+        "diamond_zweihander",
+        "recipe_lab_cvd"
     ]
 }
 ]
