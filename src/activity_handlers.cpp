@@ -1152,32 +1152,23 @@ void activity_handlers::start_fire_finish( player_activity *act, player *p )
     act->type = ACT_NULL;
 }
 
-void activity_handlers::start_fire_lens_do_turn( player_activity *act, player *p )
+void activity_handlers::start_fire_do_turn( player_activity *act, player *p )
 {
-    float natural_light_level = g->natural_light_level( p->posz() );
-    // if the weather changes, we cannot start a fire with a lens. abort activity
-    if( !((g->weather == WEATHER_CLEAR) || (g->weather == WEATHER_SUNNY)) ||
-        !( natural_light_level >= 60 ) ) {
-        add_msg(m_bad, _("There is not enough sunlight to start a fire now. You stop trying."));
+    item &lens_item = p->i_at(act->position);
+    const auto usef = lens_item.type->get_use( "firestarter" );
+    if( usef == nullptr || usef->get_actor_ptr() == nullptr ) {
+        add_msg( m_bad, "You have lost the item you were using to start the fire." );
         p->cancel_activity();
-    } else if( natural_light_level != act->values.back() ) {
-        // when lighting changes we recalculate the time needed
-        float previous_natural_light_level = act->values.back();
-        act->values.pop_back();
-        act->values.push_back(natural_light_level);
-        item &lens_item = p->i_at(act->position);
-        const auto usef = lens_item.type->get_use( "extended_firestarter" );
-        if( usef == nullptr || usef->get_actor_ptr() == nullptr ) {
-            add_msg( m_bad, "You have lost the item you were using as a lens." );
-            p->cancel_activity();
-            return;
-        }
+        return;
+    }
 
-        const auto actor = dynamic_cast< const extended_firestarter_actor* >( usef->get_actor_ptr() );
-        float progress_left = float(act->moves_left) /
-                              float(actor->calculate_time_for_lens_fire(p, previous_natural_light_level));
-        act->moves_left = int(progress_left *
-                              (actor->calculate_time_for_lens_fire(p, natural_light_level)));
+    p->mod_moves( -p->moves );
+    const auto actor = dynamic_cast<const firestarter_actor*>( usef->get_actor_ptr() );
+    float light = actor->light_mod( p->pos() );
+    act->moves_left -= light * 100;
+    if( light < 0.1 ) {
+        add_msg( m_bad, _("There is not enough sunlight to start a fire now. You stop trying.") );
+        p->cancel_activity();
     }
 }
 

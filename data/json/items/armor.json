@@ -5109,11 +5109,13 @@
         "warmth" : 0,
         "environmental_protection" : 1,
         "encumbrance" : 0,
-        "flags" : ["WATER_FRIENDLY", "LENS"],
+        "flags" : "WATER_FRIENDLY",
         "coverage" : 75,
         "material_thickness" : 1,
         "use_action": {
-            "type": "extended_firestarter",
+            "type": "firestarter",
+            "moves": 1000,
+            "moves_slow": 25000,
             "need_sunlight": true
         }
     },
@@ -5134,11 +5136,13 @@
         "warmth" : 0,
         "environmental_protection" : 1,
         "encumbrance" : 0,
-        "flags" : ["WATER_FRIENDLY", "LENS"],
+        "flags" : "WATER_FRIENDLY",
         "coverage" : 75,
         "material_thickness" : 1,
         "use_action": {
-            "type": "extended_firestarter",
+            "type": "firestarter",
+            "moves": 1000,
+            "moves_slow": 25000,
             "need_sunlight": true
         }
     },
@@ -5269,9 +5273,11 @@
         "encumbrance" : 0,
         "coverage" : 20,
         "material_thickness" : 1,
-        "flags" : ["SUPER_FANCY","LENS"],
+        "flags" : "SUPER_FANCY",
         "use_action": {
-            "type": "extended_firestarter",
+            "type": "firestarter",
+            "moves": 1000,
+            "moves_slow": 25000,
             "need_sunlight": true
         }
     },

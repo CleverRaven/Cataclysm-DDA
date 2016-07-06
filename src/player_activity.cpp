@@ -237,11 +237,7 @@ void player_activity::do_turn( player *p )
             p->sort_armor();
             break;
         case ACT_START_FIRE:
-            moves_left -= 100; // based on time
-            if( p->i_at(
-                    position ).has_flag( "LENS" ) ) { // if using a lens, handle potential changes in weather
-                activity_handlers::start_fire_lens_do_turn( this, p );
-            }
+            activity_handlers::start_fire_do_turn( this, p );
             p->rooted();
             p->pause();
             break;
