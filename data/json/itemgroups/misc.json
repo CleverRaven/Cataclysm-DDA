@@ -24,7 +24,7 @@
     ]
   },{
         "type": "item_group",
-        "id": "corpse",
+        "id": "corpses_human",
         "items":[
     ["corpse", 25],
     ["bone_human", 10],
