@@ -1,5 +1,6 @@
 #include "npc.h"
 
+#include "auto_pickup.h"
 #include "coordinate_conversions.h"
 #include "rng.h"
 #include "map.h"
@@ -108,6 +109,11 @@ npc::npc()
     ret_null = item( "null", 0 );
     last_updated = calendar::turn;
 }
+
+npc::npc(const npc &) = default;
+npc::npc(npc &&) = default;
+npc &npc::operator=(const npc &) = default;
+npc &npc::operator=(npc &&) = default;
 
 npc_map npc::_all_npc;
 

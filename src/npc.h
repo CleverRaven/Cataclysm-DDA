@@ -5,6 +5,7 @@
 #include "faction.h"
 #include "json.h"
 #include "npc_favor.h"
+#include "copyable_unique_ptr.h"
 
 #include <vector>
 #include <string>
@@ -18,6 +19,7 @@ class overmap;
 class player;
 class field_entry;
 class npc_class;
+class auto_pickup;
 enum game_message_type : int;
 
 using npc_class_id = string_id<npc_class>;
@@ -178,6 +180,7 @@ enum aim_rule {
     AIM_STRICTLY_PRECISE
 };
 
+
 struct npc_follower_rules : public JsonSerializer, public JsonDeserializer
 {
     combat_engagement engagement;
@@ -194,22 +197,10 @@ struct npc_follower_rules : public JsonSerializer, public JsonDeserializer
 
     bool close_doors;
 
-    npc_follower_rules()
-    {
-        engagement = ENGAGE_ALL;
-        aim = AIM_WHEN_CONVENIENT;
-        use_guns = true;
-        use_grenades = true;
-        use_silent = false;
+    copyable_unique_ptr<auto_pickup> pickup_whitelist;
 
-        allow_pick_up = false;
-        allow_bash = true;
-        allow_sleep = false;
-        allow_complain = true;
-        allow_pulp = true;
-
-        close_doors = false;
-    };
+    npc_follower_rules();
+    ~npc_follower_rules();
 
     using JsonSerializer::serialize;
     void serialize(JsonOut &jsout) const override;
@@ -519,10 +510,10 @@ class npc : public player
 public:
 
  npc();
- npc(const npc &) = default;
- npc(npc &&) = default;
- npc &operator=(const npc &) = default;
- npc &operator=(npc &&) = default;
+ npc(const npc &);
+ npc(npc &&);
+ npc &operator=(const npc &);
+ npc &operator=(npc &&);
  ~npc() override;
  bool is_player() const override { return false; }
  bool is_npc() const override { return true; }
@@ -754,6 +745,9 @@ public:
     std::list<item> pick_up_item_map( const tripoint &where );
     std::list<item> pick_up_item_vehicle( vehicle &veh, int part_index );
 
+    bool has_item_whitelist() const;
+    bool item_whitelisted( const item &it );
+
     /** Returns true if it finds one. */
     bool find_corpse_to_pulp();
     /** Returns true if it handles the turn. */
@@ -924,5 +918,8 @@ struct epilogue {
 };
 
 std::ostream& operator<< (std::ostream & os, npc_need need);
+
+/** Opens a menu and allows player to select a friendly NPC. */
+npc *pick_follower();
 
 #endif

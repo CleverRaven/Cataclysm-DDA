@@ -1793,13 +1793,24 @@ void npc::find_item()
 
     const item *wanted = nullptr;
 
+    const bool whitelisting = has_item_whitelist();
+
     const auto consider_item =
-        [&wanted, &best_value, volume_allowed, weight_allowed, this]( const item &it, const tripoint &p ) {
+        [&wanted, &best_value, whitelisting, volume_allowed, weight_allowed, this]
+        ( const item &it, const tripoint &p ) {
         if( it.made_of( LIQUID ) ) {
             // Don't even consider liquids.
             return;
         }
-        int itval = value( it );
+
+        if( whitelisting && !item_whitelisted( it ) ) {
+            return;
+        }
+
+        // When using a whitelist, skip the value check
+        // @todo Whitelist hierarchy?
+        int itval = whitelisting ? 1000 : value( it );
+        
         if( itval > best_value &&
             ( it.volume() <= volume_allowed && it.weight() <= weight_allowed ) ) {
             wanted_item_pos = p;
@@ -1921,7 +1932,6 @@ void npc::pick_up_item()
             add_msg( _("%s picks up several items."), name.c_str() );
         } else {
             add_msg( _("%s looks around nervously, as if searching for something."), name.c_str() );
-            return;
         }
     }
 
@@ -1940,33 +1950,39 @@ void npc::pick_up_item()
 }
 
 template <typename T>
-std::list<item> npc_pickup_from_stack( const npc &who, T &items )
+std::list<item> npc_pickup_from_stack( npc &who, T &items )
 {
+    const bool whitelisting = who.has_item_whitelist();
     auto volume_allowed = who.volume_capacity() - who.volume_carried();
     auto weight_allowed = who.weight_capacity() - who.weight_carried();
-    auto min_value = who.minimum_item_value();
+    auto min_value = whitelisting ? 0 : who.minimum_item_value();
     std::list<item> picked_up;
 
     for( auto iter = items.begin(); iter != items.end(); ) {
-        const item &item = *iter;
-        if( item.made_of( LIQUID ) ) {
+        const item &it = *iter;
+        if( it.made_of( LIQUID ) ) {
             iter++;
             continue;
         }
 
-        auto volume = item.volume();
+        if( whitelisting && !who.item_whitelisted( it ) ) {
+            iter++;
+            continue;
+        }
+
+        auto volume = it.volume();
         if( volume > volume_allowed ) {
             iter++;
             continue;
         }
 
-        auto weight = item.weight();
+        auto weight = it.weight();
         if( weight > weight_allowed ) {
             iter++;
             continue;
         }
 
-        int itval = who.value( item );
+        int itval = whitelisting ? 1000 : who.value( it );
         if( itval < min_value ) {
             iter++;
             continue;
@@ -1974,7 +1990,7 @@ std::list<item> npc_pickup_from_stack( const npc &who, T &items )
 
         volume_allowed -= volume;
         weight_allowed -= weight;
-        picked_up.push_back( *iter );
+        picked_up.push_back( it );
         iter = items.erase( iter );
     }
 

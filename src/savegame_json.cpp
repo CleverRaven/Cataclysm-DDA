@@ -7,6 +7,7 @@
 #include "game.h"
 #include "rng.h"
 #include "addiction.h"
+#include "auto_pickup.h"
 #include "inventory.h"
 #include "artifact.h"
 #include "options.h"
@@ -832,6 +833,9 @@ void npc_follower_rules::serialize(JsonOut &json) const
     json.member( "allow_pulp", allow_pulp );
 
     json.member( "close_doors", close_doors );
+
+    json.member( "pickup_whitelist", *pickup_whitelist );
+
     json.end_object();
 }
 
@@ -854,6 +858,8 @@ void npc_follower_rules::deserialize(JsonIn &jsin)
     data.read( "allow_pulp", allow_pulp );
 
     data.read( "close_doors", close_doors );
+
+    data.read( "pickup_whitelist", *pickup_whitelist );
 }
 
 extern std::string convert_talk_topic( talk_topic_enum );
