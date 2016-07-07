@@ -121,11 +121,32 @@ item_location game::inv_map_splice( item_location_filter filter, const std::stri
 item *game::inv_map_for_liquid( const item &liquid, const std::string &title, int radius )
 {
     const auto filter = [ this, &liquid ]( const item_location & location ) {
-        const bool allow_buckets = ( location.where() == item_location::type::character )
-                                   ? location.get_item() == &u.weapon // allow only held buckets
-                                   : location.where() == item_location::type::map;
+        bool allow_buckets;
+        int volume_limit = INT_MAX;
 
-        return location->get_remaining_capacity_for_liquid( liquid, allow_buckets ) > 0;
+        switch( location.where() ) {
+            case item_location::type::character: {
+                Character *character = dynamic_cast<Character *>( critter_at( location.position() ) );
+                if( character == nullptr ) {
+                    debugmsg( "Invalid location supplied to the liquid filter: no character found." );
+                    return false;
+                }
+                allow_buckets = location.get_item() == &character->weapon;
+                if( character->inv.has_item( *location ) ) {
+                    volume_limit = character->volume_capacity() - character->volume_carried();
+                }
+            }
+            break;
+
+            case item_location::type::map:
+                allow_buckets = true;
+                break;
+
+            default:
+                allow_buckets = false;
+        }
+
+        return location->get_remaining_capacity_for_liquid( liquid, allow_buckets, volume_limit ) > 0;
     };
 
     return inv_map_splice( filter, title, radius,
