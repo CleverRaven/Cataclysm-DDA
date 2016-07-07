@@ -123,18 +123,6 @@
     "components": [ [ [ "copper", 200 ] ] ]
   },
   {
-    "result": "silver",
-    "type": "recipe",
-    "id_suffix": "uncraft",
-    "category": "CC_NONCRAFT",
-    "subcategory": "CSC_NONCRAFT",
-    "difficulty": 0,
-    "time": 500,
-    "reversible": true,
-    "qualities": [ {"id":"HAMMER","level":1} ],
-    "components": [ [ [ "silver_small", 800 ] ] ]
-  },
-  {
     "result": "small_relic",
     "type": "recipe",
     "id_suffix": "uncraft",
@@ -144,7 +132,7 @@
     "time": 500,
     "reversible": true,
     "qualities": [ {"id":"HAMMER","level":1} ],
-    "components": [ [ [ "silver_small", 100 ] ] ]
+    "components": [ [ [ "silver", 20 ] ] ]
   },
   {
     "result": "badge_deputy",
@@ -156,7 +144,7 @@
     "time": 500,
     "reversible": true,
     "qualities": [ {"id":"HAMMER","level":1} ],
-    "components": [ [ [ "silver_small", 100 ] ] ]
+    "components": [ [ [ "silver", 20 ] ] ]
   },
   {
     "result": "necklace",
@@ -168,7 +156,7 @@
     "time": 500,
     "reversible": true,
     "qualities": [ {"id":"HAMMER","level":1} ],
-    "components": [ [ [ "silver_small", 100 ] ] ]
+    "components": [ [ [ "silver", 10 ] ] ]
   },
   {
     "result": "locket",
@@ -180,7 +168,7 @@
     "time": 500,
     "reversible": true,
     "qualities":[ {"id":"HAMMER","level":1} ],
-    "components": [ [ [ "silver_small", 110 ] ] ]
+    "components": [ [ [ "silver", 10 ] ] ]
   },
   {
     "result": "gold_bracelet",
@@ -204,7 +192,7 @@
     "time": 600,
     "reversible": true,
     "qualities": [ {"id":"HAMMER","level":1} ],
-    "components": [ [ [ "silver_small", 260 ] ] ]
+    "components": [ [ [ "silver", 10 ] ] ]
   },
   {
     "result": "copper_bracelet",
@@ -294,7 +282,7 @@
     "time": 500,
     "reversible": true,
     "qualities": [ { "id": "HAMMER","level": 1 } ],
-    "components": [ [ [ "silver_small", 60 ] ] ]
+    "components": [ [ [ "silver", 3 ] ] ]
   },
   {
     "result": "copper_ear",
@@ -318,7 +306,7 @@
     "time": 500,
     "reversible": true,
     "qualities": [ { "id": "HAMMER","level": 1 } ],
-    "components": [ [ [ "silver_small", 100 ] ] ]
+    "components": [ [ [ "silver", 4 ] ] ]
   },
   {
     "result": "usb_drive",
@@ -467,7 +455,7 @@
     ],
     "components": [
       [ [ "gold_small", 100 ] ],
-      [ [ "silver_small", 100 ] ],
+      [ [ "silver", 12 ] ],
       [ [ "clockworks", 1 ] ]
     ]
   },

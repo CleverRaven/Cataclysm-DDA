@@ -164,22 +164,6 @@
    },
    {
     "type":"GENERIC",
-    "id": "silver",
-    "symbol": "/",
-    "color": "light_gray",
-    "name": "silver bar",
-    "category": "other",
-    "description": "A large bar of silver.  Before the cataclysm, this would've been worth quite a bit; now its value is greatly diminished.",
-    "price": 100000,
-    "price_postapoc": 100,
-    "material": "silver",
-    "weight": 4825,
-    "volume": 2,
-    "bashing": 10,
-    "to_hit": -2
-   },
-   {
-    "type":"GENERIC",
     "id": "material_aluminium_ingot",
     "symbol": ",",
     "color": "light_gray",

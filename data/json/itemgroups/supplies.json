@@ -43,6 +43,15 @@
     ]
   },
   {
+    "id": "supplies_metal_precious",
+    "type": "item_group",
+    "//": "Metals of significant economic value before the cataclysm",
+    "items": [
+      [ "gold", 100 ],
+      [ "silver", 100 ]
+    ]
+  },
+  {
     "id": "supplies_spares_vehicle",
     "type": "item_group",
     "//": "Spare parts for crafting or mending vehicle parts",

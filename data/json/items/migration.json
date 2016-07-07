@@ -182,6 +182,12 @@
     "contents": [ "barrel_small" ]
   },
   {
+    "id": "silver_small",
+    "type": "MIGRATION",
+    "replace": "silver",
+    "charges": 1
+  },
+  {
     "id": "shot_scrapslug",
     "type": "MIGRATION",
     "replace": "reloaded_shot_slug"
