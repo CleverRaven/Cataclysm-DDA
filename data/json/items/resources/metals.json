@@ -1,5 +1,22 @@
 [
   {
+    "id": "bismuth",
+    "type": "AMMO",
+    "category": "spare_parts",
+    "name": "bismuth",
+    "name_plural": "bismuth",
+    "description": "A dense but brittle metal often used as an alternative to lead.",
+    "weight": 2, "//": "Density 9.78g/cm³ ~ 2.4kg/250ml @ stack 1000 = 2g/unit",
+    "volume": 1,
+    "price": 6500,
+    "count": 100,
+    "stack_size": 1000,
+    "material": [ "lead" ],
+    "symbol": "=",
+    "color": "dark_gray",
+    "ammo_type": "components"
+  },
+  {
     "id": "gold",
     "type": "AMMO",
     "category": "spare_parts",
