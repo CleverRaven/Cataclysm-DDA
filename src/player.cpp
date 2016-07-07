@@ -10473,7 +10473,7 @@ bool player::takeoff_internal( const item &it, bool interactive, std::list<item>
     if( res == nullptr ) {
         if( volume_carried() + it.volume() > volume_capacity_reduced_by( it.get_storage() ) ) {
             if( is_npc() || ( interactive && query_yn( _( "No room in inventory for your %s.  Drop it?" ), it.tname( 1, false ).c_str() ) ) ) {
-                drop( get_item_position( &it ) );
+                drop( get_item_position( &it ), pos(), false );
                 return true;
             }
             return false;
@@ -10526,13 +10526,13 @@ bool player::takeoff( int pos, bool interactive )
     return takeoff( i_at( pos ), interactive );
 }
 
-void player::drop( int pos, const tripoint &where )
+void player::drop( int pos, const tripoint &where, bool interactive )
 {
     const item &it = i_at( pos );
     const int count = it.count_by_charges() ? it.charges : 1;
 
     const auto dependent = get_dependent_worn_items( it );
-    if( !dependent.empty() && !is_npc() ) {
+    if( interactive && !dependent.empty() && !is_npc() ) {
         const std::string dep_str = enumerate_as_string( dependent.begin(), dependent.end(),
         []( const item *it ) {
             return it->tname( 1, false );

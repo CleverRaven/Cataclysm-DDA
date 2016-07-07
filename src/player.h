@@ -873,7 +873,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         bool takeoff( const item &it, bool interactive = true, std::list<item> *res = nullptr );
         bool takeoff( int pos, bool interactive = true );
         /** Drops an item to the specified location */
-        void drop( int pos, const tripoint &where = tripoint_min );
+        void drop( int pos, const tripoint &where = tripoint_min, bool interactive = true );
         void drop( const std::list<std::pair<int, int>> &what, const tripoint &where = tripoint_min, bool stash = false );
 
         /** Try to wield a contained item consuming moves proportional to weapon skill and volume.
