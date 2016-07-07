@@ -793,7 +793,12 @@ int Character::weight_capacity() const
 
 int Character::volume_capacity() const
 {
-    int ret = 0;
+    return volume_capacity_reduced_by( 0 );
+}
+
+int Character::volume_capacity_reduced_by( int mod ) const
+{
+    int ret = -mod;
     for (auto &i : worn) {
         ret += i.get_storage();
     }
@@ -812,8 +817,7 @@ int Character::volume_capacity() const
     if (has_trait("DISORGANIZED")) {
         ret = int(ret * 0.6);
     }
-    ret = std::max(ret, 0);
-    return ret;
+    return std::max( ret, 0 );
 }
 
 bool Character::can_pickVolume( const item &it, bool ) const

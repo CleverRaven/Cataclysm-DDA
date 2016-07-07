@@ -1088,7 +1088,7 @@ bool npc::wear_if_wanted( const item &it )
                 return armor.covers( bp );
             } );
             if( iter != worn.end() ) {
-                took_off = takeoff( &*iter, true );
+                took_off = takeoff( *iter );
                 break;
             }
         }
@@ -1104,7 +1104,7 @@ bool npc::wear_if_wanted( const item &it )
 
 bool npc::wield( item& it )
 {
-    if( !is_armed() ) {
+    if( is_armed() ) {
         if ( volume_carried() + weapon.volume() <= volume_capacity() ) {
             add_msg_if_npc( m_info, _( "<npcname> puts away the %s." ), weapon.tname().c_str() );
             i_add( remove_weapon() );
@@ -1342,7 +1342,7 @@ int npc::player_danger( const player &ur ) const
    ret += 8;
  } else if( u->weapon_value( u->weapon ) > 20 )
   ret++;
- else if( u->is_armed() ) // Unarmed
+ else if( !u->is_armed() ) // Unarmed
   ret -= 3;
 
  if (u->str_cur > 20) // Superhuman strength!
@@ -2048,22 +2048,18 @@ int npc::print_info(WINDOW* w, int line, int vLines, int column) const
     // because it's a border as well; so we have lines 6 through 11.
     // w is also 48 characters wide - 2 characters for border = 46 characters for us
     mvwprintz(w, line++, column, c_white, _("NPC: %s"), name.c_str());
-    if( !is_armed() ) {
+    if( is_armed() ) {
         trim_and_print(w, line++, column, iWidth, c_red, _("Wielding a %s"), weapon.tname().c_str());
     }
-    std::string wearing;
-    std::stringstream wstr;
-    wstr << _("Wearing: ");
-    bool first = true;
-    for (auto &i : worn) {
-        if (!first) {
-            wstr << _(", ");
-        } else {
-            first = false;
-        }
-        wstr << i.tname();
+
+    const std::string worn_str = enumerate_as_string( worn.begin(), worn.end(), []( const item &it ) {
+        return it.tname();
+    } );
+    if( worn_str.empty() ) {
+        return line;
     }
-    wearing = remove_color_tags( wstr.str() );
+    std::string wearing = _( "Wearing: " ) + remove_color_tags( worn_str );
+    // @todo Replace with 'fold_and_print()'. Extend it with a 'height' argument to prevent leaking.
     size_t split;
     do {
         split = (wearing.length() <= iWidth) ? std::string::npos :
@@ -2083,20 +2079,17 @@ int npc::print_info(WINDOW* w, int line, int vLines, int column) const
 std::string npc::short_description() const
 {
     std::stringstream ret;
-    if( !is_armed() ) {
+
+    if( is_armed() ) {
         ret << _("Wielding: ") << weapon.tname() << ";   ";
     }
-    ret << _("Wearing: ");
-    bool first = true;
-    for (auto &i : worn) {
-        if (!first) {
-            ret << _(", ");
-        } else {
-            first = false;
-        }
-        ret << i.tname();
+    const std::string worn_str = enumerate_as_string( worn.begin(), worn.end(),
+    []( const item &it ) {
+        return it.tname();
+    } );
+    if( !worn_str.empty() ) {
+        ret << _("Wearing: ") << worn_str << ";";
     }
-
     return ret.str();
 }
 

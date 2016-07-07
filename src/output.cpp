@@ -19,7 +19,6 @@
 #include "catacharset.h"
 #include "debug.h"
 #include "uistate.h"
-#include "translations.h"
 #include "path_info.h"
 #include "ui.h"
 #include "item.h"
@@ -1415,6 +1414,16 @@ std::string trim( const std::string &s )
     std::string::const_reverse_iterator( wsfront ), []( int c ) {
         return std::isspace( c );
     } ).base() );
+}
+
+typedef std::string::value_type char_t;
+std::string to_upper_case( const std::string &s )
+{
+    std::string res;
+    std::transform( s.begin(), s.end(), std::back_inserter( res ), []( char_t ch ) {
+        return std::use_facet<std::ctype<char_t>>( std::locale() ).toupper( ch );
+    } );
+    return res;
 }
 
 // find the position of each non-printing tag in a string

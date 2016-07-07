@@ -6,6 +6,7 @@
 #include "mapdata.h"
 #include "output.h"
 #include "rng.h"
+#include "requirements.h"
 #include "line.h"
 #include "player.h"
 #include "translations.h"
@@ -82,7 +83,7 @@ void iexamine::gaspump(player &p, const tripoint &examp)
                 }
 
             } else {
-                g->handle_liquid_from_ground( item_it, examp );
+                g->handle_liquid_from_ground( item_it, examp, 1 );
             }
             return;
         }
@@ -752,7 +753,7 @@ void iexamine::bars(player &p, const tripoint &examp)
 
 void iexamine::portable_structure(player &p, const tripoint &examp)
 {
-    const auto &fr = g->m.furn_at( examp );
+    const auto &fr = g->m.furn( examp ).obj();
     std::string name;
     std::string dropped;
     if( fr.id == "f_groundsheet" ) {
@@ -1727,7 +1728,7 @@ void iexamine::kiln_empty(player &p, const tripoint &examp)
     } else if( cur_kiln_type == f_kiln_metal_empty ) {
         next_kiln_type = f_kiln_metal_full;
     } else {
-        debugmsg( "Examined furniture has action kiln_empty, but is of type %s", g->m.get_furn( examp ).c_str() );
+        debugmsg( "Examined furniture has action kiln_empty, but is of type %s", g->m.furn( examp ).id().c_str() );
         return;
     }
 
@@ -1796,7 +1797,7 @@ void iexamine::kiln_full(player &, const tripoint &examp)
     } else if( cur_kiln_type == f_kiln_metal_full ) {
         next_kiln_type = f_kiln_metal_empty;
     } else {
-        debugmsg( "Examined furniture has action kiln_full, but is of type %s", g->m.get_furn( examp ).c_str() );
+        debugmsg( "Examined furniture has action kiln_full, but is of type %s", g->m.furn( examp ).id().c_str() );
         return;
     }
 
@@ -2005,7 +2006,7 @@ void iexamine::fvat_full( player &p, const tripoint &examp )
 
 //probably should move this functionality into the furniture JSON entries if we want to have more than a few "kegs"
 int iexamine::get_keg_capacity( const tripoint &pos ) {
-    const furn_t &furn = g->m.furn_at( pos );
+    const furn_t &furn = g->m.furn( pos ).obj();
     if( furn.id == "f_standing_tank" )  { return 1200; }
     else if( furn.id == "f_wood_keg" )  { return 600; }
     //add additional cases above
@@ -2713,7 +2714,7 @@ static long count_charges_in_list(const itype *type, const map_stack &items)
 
 void iexamine::reload_furniture(player &p, const tripoint &examp)
 {
-    const furn_t &f = g->m.furn_at(examp);
+    const furn_t &f = g->m.furn(examp).obj();
     const itype *type = f.crafting_pseudo_item_type();
     const itype *ammo = f.crafting_ammo_item_type();
     if (type == NULL || ammo == NULL) {
@@ -2843,7 +2844,8 @@ static int getNearPumpCount(const tripoint &p)
     int &j = tmp.y;
     for (i = p.x - radius; i <= p.x + radius; i++) {
         for (j = p.y - radius; j <= p.y + radius; j++) {
-            if (g->m.ter_at(tmp).id == "t_gas_pump" || g->m.ter_at(tmp).id == "t_gas_pump_a") {
+            const auto t = g->m.ter( tmp );
+            if( t == ter_str_id( "t_gas_pump" ) || t == ter_str_id( "t_gas_pump_a" ) ) {
                 result++;
             }
         }
@@ -2864,7 +2866,7 @@ static tripoint getNearFilledGasTank(const tripoint &center, long &gas_units)
     int &j = tmp.y;
     for (i = center.x - radius; i <= center.x + radius; i++) {
         for (j = center.y - radius; j <= center.y + radius; j++) {
-            if (g->m.ter_at(tmp).id.str() != "t_gas_tank") {
+            if( g->m.ter( tmp ) != ter_str_id( "t_gas_tank" ) ) {
                 continue;
             }
 
@@ -2981,8 +2983,8 @@ static tripoint getGasPumpByNumber(const tripoint &p, int number)
     int &j = tmp.y;
     for (i = p.x - radius; i <= p.x + radius; i++) {
         for (j = p.y - radius; j <= p.y + radius; j++) {
-            if( (g->m.ter_at(tmp).id == "t_gas_pump" ||
-                 g->m.ter_at(tmp).id == "t_gas_pump_a") && number == k++) {
+            const auto t = g->m.ter( tmp );
+            if( ( t == ter_str_id( "t_gas_pump" ) || t == ter_str_id( "t_gas_pump_a" ) ) && number == k++ ) {
                 return tmp;
             }
         }
@@ -3010,10 +3012,10 @@ static bool toPumpFuel(const tripoint &src, const tripoint &dst, long units)
 
             item liq_d( item_it->type, calendar::turn, amount );
 
-            ter_t backup_pump = g->m.ter_at(dst);
-            g->m.ter_set( dst, NULL_ID );
+            const auto backup_pump = g->m.ter( dst );
+            g->m.ter_set( dst, ter_id( NULL_ID ) );
             g->m.add_item_or_charges(dst, liq_d);
-            g->m.ter_set(dst, backup_pump.id);
+            g->m.ter_set(dst, backup_pump);
 
             if( item_it->charges < 1 ) {
                 items.erase( item_it );
@@ -3039,10 +3041,10 @@ static long fromPumpFuel(const tripoint &dst, const tripoint &src)
             item liq_d( item_it->type, calendar::turn, item_it->charges );
 
             // add the charges to the destination
-            ter_t backup_tank = g->m.ter_at(dst);
-            g->m.ter_set(dst, NULL_ID);
+            const auto backup_tank = g->m.ter( dst );
+            g->m.ter_set(dst, ter_id( NULL_ID ) );
             g->m.add_item_or_charges(dst, liq_d);
-            g->m.ter_set(dst, backup_tank.id);
+            g->m.ter_set(dst, backup_tank );
 
             // remove the liquid from the pump
             long amount = item_it->charges;
@@ -3063,7 +3065,8 @@ static void turnOnSelectedPump(const tripoint &p, int number)
     int &j = tmp.y;
     for (i = p.x - radius; i <= p.x + radius; i++) {
         for (j = p.y - radius; j <= p.y + radius; j++) {
-            if ((g->m.ter_at(tmp).id == "t_gas_pump" || g->m.ter_at(tmp).id == "t_gas_pump_a") ) {
+            const auto t = g->m.ter( tmp );
+            if( t == ter_str_id( "t_gas_pump" ) || t == ter_str_id( "t_gas_pump_a" ) ) {
                 if (number == k++) {
                     g->m.ter_set(tmp, ter_str_id( "t_gas_pump_a" ) );
                 } else {

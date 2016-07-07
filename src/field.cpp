@@ -1720,9 +1720,12 @@ void map::player_in_field( player &u )
             break;
 
         case fd_sludge:
-            u.add_msg_if_player(m_bad, _("The sludge is thick and sticky. You struggle to pull free."));
-            u.moves -= cur->getFieldDensity() * 300;
-            cur->setFieldDensity( 0 );
+            //sludge is on the ground, but you are above the ground when boarded on a vehicle
+            if( !u.in_vehicle ) {
+                u.add_msg_if_player( m_bad, _( "The sludge is thick and sticky. You struggle to pull free." ) );
+                u.moves -= cur->getFieldDensity() * 300;
+                cur->setFieldDensity( 0 );
+            }
             break;
 
         case fd_fire:
@@ -2528,6 +2531,13 @@ bool field_type_dangerous( field_id id )
 {
     const field_t &ft = fieldlist[id];
     return ft.dangerous[0] || ft.dangerous[1] || ft.dangerous[2];
+}
+
+void map::emit_field( const tripoint &pos, const emit_id &src )
+{
+    if( src.is_valid() &&  x_in_y( src->chance(), 100 ) ) {
+        propagate_field( pos, src->field(), src->qty(), src->density() );
+    }
 }
 
 void map::propagate_field( const tripoint &center, field_id fid, int amount,

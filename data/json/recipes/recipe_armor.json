@@ -1711,6 +1711,7 @@
 },{
   "type" : "recipe",
   "result": "vest_leather",
+  "byproducts": { "id" : "leather", "amount" : 5 },
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_TORSO",
   "skill_used": "tailor",

@@ -87,7 +87,7 @@
     "allowed_locs" : ["forest","field","cabin"],
     "start_name": "Outside Town",
     "flags" : ["SUM_ADV_START"],
-    "professions" : ["naturalist","road_warrior","winter_scavenger","winter_army","unemployed"]
+    "professions" : ["naturalist","road_warrior","winter_scavenger","winter_army","waste_ranger","unemployed"]
   },{
     "type": "scenario",
     "ident": "alone",

@@ -1354,7 +1354,7 @@ static projectile make_gun_projectile( const item &gun ) {
     auto &fx = proj.proj_effects;
 
     if( ( gun.ammo_data() && gun.ammo_data()->phase == LIQUID ) ||
-        fx.count( "SHOT" ) || fx.count("BOUNCE" ) ) {
+        fx.count( "SHOT" ) || fx.count( "BOUNCE" ) ) {
         fx.insert( "WIDE" );
     }
 
@@ -1371,9 +1371,12 @@ static projectile make_gun_projectile( const item &gun ) {
             proj.set_drop( drop );
         }
 
-        if( fx.count( "FLARE" ) ) {
-            item drop( "handflare_lit" );
-            drop.active = true;
+        const auto ammo = gun.ammo_data()->ammo.get();
+        if( ammo->drop != "null" && x_in_y( ammo->drop_chance, 1.0 ) ) {
+            item drop( ammo->drop );
+            if( ammo->drop_active ) {
+                drop.activate();
+            }
             proj.set_drop( drop );
         }
 

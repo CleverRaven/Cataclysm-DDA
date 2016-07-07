@@ -3,7 +3,9 @@
 #include "game.h"
 #include "map.h"
 #include "construction.h"
+#include "craft_command.h"
 #include "player.h"
+#include "requirements.h"
 #include "translations.h"
 #include "activity_handlers.h"
 #include "messages.h"
@@ -12,7 +14,6 @@
 // activity_item_handling.cpp
 void activity_on_turn_drop();
 void activity_on_turn_move_items();
-void activity_on_turn_move_all_items();
 void activity_on_turn_pickup();
 void activity_on_turn_stash();
 
@@ -216,10 +217,10 @@ void player_activity::do_turn( player *p )
             p->pause();
             break;
         case ACT_DROP:
-            activity_on_turn_drop();
+            activity_handlers::drop_do_turn( this, p );
             break;
         case ACT_STASH:
-            activity_on_turn_stash();
+            activity_handlers::stash_do_turn( this, p );
             break;
         case ACT_PICKUP:
             activity_on_turn_pickup();
@@ -236,11 +237,7 @@ void player_activity::do_turn( player *p )
             p->sort_armor();
             break;
         case ACT_START_FIRE:
-            moves_left -= 100; // based on time
-            if( p->i_at(
-                    position ).has_flag( "LENS" ) ) { // if using a lens, handle potential changes in weather
-                activity_handlers::start_fire_lens_do_turn( this, p );
-            }
+            activity_handlers::start_fire_do_turn( this, p );
             p->rooted();
             p->pause();
             break;
@@ -368,7 +365,7 @@ void player_activity::finish( player *p )
             type = ACT_NULL;
             // Workaround for a bug where longcraft can be unset in complete_craft().
             if( p->making_would_work( p->lastrecipe, batch_size ) ) {
-                p->last_craft.execute();
+                p->last_craft->execute();
             }
         }
         break;

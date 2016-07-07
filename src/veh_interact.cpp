@@ -9,6 +9,7 @@
 #include "output.h"
 #include "catacharset.h"
 #include "crafting.h"
+#include "requirements.h"
 #include "options.h"
 #include "debug.h"
 #include "messages.h"
@@ -2078,8 +2079,12 @@ void complete_vehicle ()
             }
         }
         if( base.is_null() ) {
-           add_msg( m_info, _( "Could not find base part in requirements for %s." ), vpinfo.name().c_str() );
-           break;
+            if( !g->u.has_trait( "DEBUG_HS" ) ) {
+                add_msg( m_info, _( "Could not find base part in requirements for %s." ), vpinfo.name().c_str() );
+                break;
+            } else {
+                base = item( vpinfo.item );
+            }
         }
 
         for( const auto& e : reqs.get_tools() ) {

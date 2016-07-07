@@ -20,6 +20,8 @@
 #include "catacharset.h"
 #include "get_version.h"
 #include "crafting.h"
+#include "craft_command.h"
+#include "requirements.h"
 #include "monstergenerator.h"
 #include "help.h" // get_hint
 #include "martialarts.h"
@@ -148,6 +150,7 @@ const efftype_id effect_visuals( "visuals" );
 const efftype_id effect_weed_high( "weed_high" );
 const efftype_id effect_winded( "winded" );
 const efftype_id effect_nausea( "nausea" );
+const efftype_id effect_cough_suppress( "cough_suppress" );
 
 const matype_id style_none( "style_none" );
 
@@ -284,11 +287,14 @@ player::player() : Character()
     reset_encumbrance();
 
     morale.reset( new player_morale() );
+    last_craft.reset( new craft_command() );
 }
 
-player::~player()
-{
-}
+player::~player() = default;
+player::player(const player &) = default;
+player::player(player &&) = default;
+player &player::operator=(const player &) = default;
+player &player::operator=(player &&) = default;
 
 void player::normalize()
 {
@@ -2461,7 +2467,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
     for( auto &elem : addictions ) {
         if( elem.sated < 0 && elem.intensity >= MIN_ADDICTION_LEVEL ) {
             effect_name.push_back( addiction_name( elem ) );
-            effect_text.push_back( addiction_text( *this, elem ) );
+            effect_text.push_back( addiction_text( elem ) );
         }
     }
 
@@ -5784,86 +5790,85 @@ void player::sleep_hp_regen( int rate_multiplier )
 
 void player::add_addiction(add_type type, int strength)
 {
-    if (type == ADD_NULL) {
+    if( type == ADD_NULL ) {
         return;
     }
-    int timer = 1200;
-    if (has_trait("ADDICTIVE")) {
-        strength = int(strength * 1.5);
-        timer = 800;
-    }
-    if (has_trait("NONADDICTIVE")) {
-        strength = int(strength * .50);
-        timer = 1800;
+    int timer = HOURS( 2 );
+    if( has_trait( "ADDICTIVE" ) ) {
+        strength *= 2;
+        timer = HOURS( 1 );
+    } else if( has_trait( "NONADDICTIVE" ) ) {
+        strength /= 2;
+        timer = HOURS( 6 );
     }
     //Update existing addiction
-    for (auto &i : addictions) {
-        if (i.type == type) {
-            if (i.sated < 0) {
-                i.sated = timer;
-            } else if (i.sated < 600) {
-                i.sated += timer; // TODO: Make this variable?
-            } else {
-                i.sated += (3000 - i.sated) / 2;
-            }
-            if ((rng(0, strength) > rng(0, i.intensity * 5) || rng(0, 500) < strength) &&
-                  i.intensity < 20) {
-                i.intensity++;
-            }
-            return;
+    for( auto &i : addictions ) {
+        if( i.type != type ) {
+            continue;
         }
+
+        if( i.sated < 0 ) {
+            i.sated = timer;
+        } else if( i.sated < MINUTES(10) ) {
+            i.sated += timer; // TODO: Make this variable?
+        } else {
+            i.sated += timer / 2;
+        }
+        if( i.intensity < MAX_ADDICTION_LEVEL && strength > i.intensity * rng( 2, 5 ) ) {
+            i.intensity++;
+        }
+
+        add_msg( m_debug, "Updating addiction: %d intensity, %d sated",
+                 i.intensity, i.sated );
+
+        return;
     }
-    //Add a new addiction
-    if (rng(0, 100) < strength) {
+
+    // Add a new addiction
+    const int roll = rng( 0, 100 );
+    add_msg( m_debug, "Addiction: roll %d vs strength %d", roll, strength );
+    if( roll < strength ) {
         //~ %s is addiction name
-        add_memorial_log(pgettext("memorial_male", "Became addicted to %s."),
-                            pgettext("memorial_female", "Became addicted to %s."),
-                            addiction_type_name(type).c_str());
-        addiction tmp(type, 1);
-        addictions.push_back(tmp);
+        const std::string &type_name = addiction_type_name( type );
+        add_memorial_log( pgettext("memorial_male", "Became addicted to %s."),
+                          pgettext("memorial_female", "Became addicted to %s."),
+                          type_name.c_str() );
+        add_msg( m_debug, "%s got addicted to %s", disp_name().c_str(), type_name.c_str() );
+        addictions.emplace_back( type, 1 );
     }
 }
 
 bool player::has_addiction(add_type type) const
 {
-    for (auto &i : addictions) {
-        if (i.type == type && i.intensity >= MIN_ADDICTION_LEVEL) {
-            return true;
-        }
-    }
-    return false;
+    return std::any_of( addictions.begin(), addictions.end(),
+        [type]( const addiction &ad ) {
+        return ad.type == type && ad.intensity >= MIN_ADDICTION_LEVEL;
+    } );
 }
 
-void player::rem_addiction(add_type type)
+void player::rem_addiction( add_type type )
 {
-    for (size_t i = 0; i < addictions.size(); i++) {
-        if (addictions[i].type == type) {
-            //~ %s is addiction name
-            if (has_trait("THRESH_MYCUS") && ((type == ADD_MARLOSS_R) || (type == ADD_MARLOSS_B) ||
-              (type == ADD_MARLOSS_Y))) {
-                  add_memorial_log(pgettext("memorial_male", "Transcended addiction to %s."),
-                            pgettext("memorial_female", "Transcended addiction to %s."),
-                            addiction_type_name(type).c_str());
-            }
-            else {
-                add_memorial_log(pgettext("memorial_male", "Overcame addiction to %s."),
-                            pgettext("memorial_female", "Overcame addiction to %s."),
-                            addiction_type_name(type).c_str());
-            }
-            addictions.erase(addictions.begin() + i);
-            return;
-        }
+    auto iter = std::find_if( addictions.begin(), addictions.end(),
+        [type]( const addiction &ad ) {
+        return ad.type == type;
+    } );
+
+    if( iter != addictions.end() ) {
+        //~ %s is addiction name
+        add_memorial_log(pgettext("memorial_male", "Overcame addiction to %s."),
+                    pgettext("memorial_female", "Overcame addiction to %s."),
+                    addiction_type_name(type).c_str());
+        addictions.erase( iter );
     }
 }
 
 int player::addiction_level( add_type type ) const
 {
-    for (auto &i : addictions) {
-        if (i.type == type) {
-            return i.intensity;
-        }
-    }
-    return 0;
+    auto iter = std::find_if( addictions.begin(), addictions.end(),
+        [type]( const addiction &ad ) {
+        return ad.type == type;
+    } );
+    return iter != addictions.end() ? iter->intensity : 0;
 }
 
 void player::siphon( vehicle &veh, const itype_id &desired_liquid )
@@ -5879,13 +5884,25 @@ void player::siphon( vehicle &veh, const itype_id &desired_liquid )
     // refill fraction parts (if fuel_per_charge > 1), so we don't have to consider them later
     veh.refill( desired_liquid, used_item_amount % fuel_per_charge );
 
-    g->handle_liquid( used_item, nullptr, 0, nullptr, &veh );
+    g->handle_liquid( used_item, nullptr, 1, nullptr, &veh );
     // TODO: maybe add the message about the siphoned amount again.
     veh.refill( desired_liquid, used_item.charges * fuel_per_charge );
 }
 
 void player::cough(bool harmful, int loudness)
 {
+    if( harmful ) {
+        const int stam = stamina;
+        mod_stat( "stamina", -100 );
+        if( stam < 100 && x_in_y( 100 - stam, 100 ) ) {
+            apply_damage( nullptr, bp_torso, 1 );
+        }
+    }
+
+    if( has_effect( effect_cough_suppress ) ) {
+        return;
+    }
+
     if( !is_npc() ) {
         add_msg(m_bad, _("You cough heavily."));
         sounds::sound(pos(), loudness, "");
@@ -5894,13 +5911,7 @@ void player::cough(bool harmful, int loudness)
     }
 
     moves -= 80;
-    if( harmful ) {
-        const int stam = stamina;
-        mod_stat( "stamina", -100 );
-        if( stam < 100 && x_in_y( 100 - stam, 100 ) ) {
-            apply_damage( nullptr, bp_torso, 1 );
-        }
-    }
+
     if( has_effect( effect_sleep ) && ((harmful && one_in(3)) || one_in(10)) ) {
         wake_up();
     }
@@ -7776,36 +7787,27 @@ void player::suffer()
                 add_effect( effect_downed, 2, num_bp, false, 0, true );
             }
         }
-        int timer = -3600;
-        if (has_trait("ADDICTIVE")) {
-            timer = -4000;
+        int timer = -HOURS( 6 );
+        if( has_trait( "ADDICTIVE" ) ) {
+            timer = -HOURS( 10 );
+        } else if( has_trait( "NONADDICTIVE" ) ) {
+            timer = -HOURS( 3 );
         }
-        if (has_trait("NONADDICTIVE")) {
-            timer = -3200;
-        }
-        for (size_t i = 0; i < addictions.size(); i++) {
-            if (addictions[i].sated <= 0 &&
-                addictions[i].intensity >= MIN_ADDICTION_LEVEL) {
-                addict_effect(*this, addictions[i], [&](char const *const msg) {
-                    if (msg) {
-                        g->cancel_activity_query(msg);
-                    } else {
-                        g->cancel_activity();
-                    }
-                });
+        for( size_t i = 0; i < addictions.size(); i++ ) {
+            auto &cur_addiction = addictions[i];
+            if( cur_addiction.sated <= 0 &&
+                cur_addiction.intensity >= MIN_ADDICTION_LEVEL ) {
+                addict_effect( *this, cur_addiction );
             }
-            addictions[i].sated--;
-            if (!one_in(addictions[i].intensity - 2) && addictions[i].sated > 0) {
-                addictions[i].sated -= 1;
-            }
-            if (addictions[i].sated < timer - (100 * addictions[i].intensity)) {
-                if (addictions[i].intensity <= 2) {
-                    addictions.erase(addictions.begin() + i);
-                    i--;
+            cur_addiction.sated--;
+            // Higher intensity addictions heal faster
+            if( cur_addiction.sated - 100 * cur_addiction.intensity < timer ) {
+                if( cur_addiction.intensity <= 2 ) {
+                    rem_addiction( cur_addiction.type );
+                    break;
                 } else {
-                    addictions[i].intensity = int(addictions[i].intensity / 2);
-                    addictions[i].intensity--;
-                    addictions[i].sated = 0;
+                    cur_addiction.intensity--;
+                    cur_addiction.sated = 0;
                 }
             }
         }
@@ -9499,6 +9501,13 @@ bool player::consume(int target_position)
         } else {
             i_rem( &target );
         }
+
+        //Restack and sort so that we don't lie about target's invlet
+        if( target_position >= 0 ) {
+            inv.restack( this );
+            inv.sort();
+        }
+
         if( was_in_container && target_position == -1 ) {
             add_msg_if_player(_("You are now wielding an empty %s."), weapon.tname().c_str());
         } else if( was_in_container && target_position < -1 ) {
@@ -9516,13 +9525,12 @@ bool player::consume(int target_position)
                 add_msg(_("You drop the empty %s."), target.tname().c_str());
                 g->m.add_item_or_charges( pos(), inv.remove_item(&target) );
             } else {
-                add_msg(m_info, _("%c - an empty %s"), (target.invlet ? target.invlet : ' '), target.tname().c_str());
+                int quantity = inv.const_stack( inv.position_by_item( &target ) ).size();
+                char letter = target.invlet ? target.invlet : ' ';
+                add_msg( m_info, _( "%c - %d empty %s" ), letter, quantity, target.tname( quantity ).c_str() );
             }
         }
-    }
-
-    if( target_position >= 0 ) {
-        // Always restack and resort the inventory when items in it have been changed.
+    } else if( target_position >= 0 ) {
         inv.restack( this );
         inv.unsort();
     }
@@ -9813,31 +9821,16 @@ public:
             buffer << ma.name << "\n\n \n\n";
             if( !ma.techniques.empty() ) {
                 buffer << ngettext( "Technique:", "Techniques:", ma.techniques.size() ) << " ";
-                for( auto technique = ma.techniques.cbegin();
-                     technique != ma.techniques.cend(); ++technique ) {
-                    buffer << technique->obj().name;
-                    if( ma.techniques.size() > 1 && technique == ----ma.techniques.cend() ) {
-                        //~ Seperators that comes before last element of a list.
-                        buffer << _(" and ");
-                    } else if( technique != --ma.techniques.cend() ) {
-                        //~ Seperator for a list of items.
-                        buffer << _(", ");
-                    }
-                }
+                buffer << enumerate_as_string( ma.techniques.begin(), ma.techniques.end(), []( const matec_id &mid ) {
+                    return mid.obj().name;
+                } );
             }
             if( !ma.weapons.empty() ) {
                 buffer << "\n\n \n\n";
                 buffer << ngettext( "Weapon:", "Weapons:", ma.weapons.size() ) << " ";
-                for( auto weapon = ma.weapons.cbegin(); weapon != ma.weapons.cend(); ++weapon ) {
-                    buffer << item::nname( *weapon );
-                    if( ma.weapons.size() > 1 && weapon == ----ma.weapons.cend() ) {
-                        //~ Seperators that comes before last element of a list.
-                        buffer << _(" and ");
-                    } else if( weapon != --ma.weapons.cend() ) {
-                        //~ Seperator for a list of items.
-                        buffer << _(", ");
-                    }
-                }
+                buffer << enumerate_as_string( ma.weapons.begin(), ma.weapons.end(), []( const std::string &wid ) {
+                    return item::nname( wid );
+                } );
             }
             popup(buffer.str(), PF_NONE);
             menu->redraw();
@@ -10437,85 +10430,127 @@ hint_rating player::rate_action_takeoff( const item &it ) const
     return HINT_IFFY;
 }
 
-bool player::takeoff( item *target, bool autodrop, std::vector<item> *items)
+std::list<const item *> player::get_dependent_worn_items( const item &it ) const
 {
-    return takeoff( get_item_position( target ), autodrop, items );
-}
-
-bool player::takeoff(int inventory_position, bool autodrop, std::vector<item> *items)
-{
-    if (inventory_position == -1) {
-        return wield( ret_null );
-    }
-
-    int worn_index = worn_position_to_index( inventory_position );
-    if( static_cast<size_t>( worn_index ) >= worn.size() ) {
-        add_msg_if_player( m_info, _("You are not wearing that item.") );
-        return false;
-    }
-    bool taken_off = false;
-
-    auto first_iter = worn.begin();
-    std::advance( first_iter, worn_index );
-    item &w = *first_iter;
-
-    // Handle power armor.
-    if (w.is_power_armor() && w.covers(bp_torso)) {
-        // We're trying to take off power armor, but cannot do that if we have a power armor component on!
-        for( auto iter = worn.begin(); iter != worn.end(); ) {
-            item& other_armor = *iter;
-
-            if( &other_armor == &w || !other_armor.is_power_armor() ) {
-                ++iter;
+    std::list<const item *> dependent;
+    // Adds dependent worn items recursively
+    const std::function<void( const item &it )> add_dependent = [ & ]( const item &it ) {
+        for( const auto &wit : worn ) {
+            if( &wit == &it || !wit.is_worn_only_with( it ) ) {
                 continue;
             }
-            if( !autodrop && items == nullptr ) {
-                add_msg_if_player( m_info, _("You can't take off power armor while wearing other power armor components.") );
-                return false;
+            const auto iter = std::find_if( dependent.begin(), dependent.end(),
+                [ &wit ]( const item *dit ) {
+                    return &wit == dit;
+                } );
+            if( iter == dependent.end() ) { // Not in the list yet
+                add_dependent( wit );
+                dependent.push_back( &wit );
             }
+        }
+    };
 
-            other_armor.on_takeoff(*this);
+    if( is_worn( it ) ) {
+        add_dependent( it );
+    }
 
-            if( items != nullptr ) {
-                items->push_back( other_armor );
-            } else {
-                g->m.add_item_or_charges( pos(), other_armor );
-            }
-            add_msg_player_or_npc( _("You take off your %s."),
-                                   _("<npcname> takes off their %s."),
-                                   other_armor.tname().c_str() );
-            iter = worn.erase( iter );
-            taken_off = true;
+    return dependent;
+}
+
+bool player::takeoff( const item &it, std::list<item> *res )
+{
+    auto iter = std::find_if( worn.begin(), worn.end(), [ &it ]( const item &wit ) {
+        return &it == &wit;
+    } );
+
+    if( iter == worn.end() ) {
+        add_msg_player_or_npc( m_info,
+            _( "You are not wearing that item." ),
+            _( "<npcname> is not wearing that item." ) );
+        return false;
+    }
+
+    const auto dependent = get_dependent_worn_items( it );
+    if( res == nullptr && !dependent.empty() ) {
+        add_msg_player_or_npc( m_info,
+                               _( "You can't take off power armor while wearing other power armor components." ),
+                               _( "<npcname> can't take off power armor while wearing other power armor components." ) );
+        return false;
+    }
+
+    for( const auto dep_it : dependent ) {
+        if( !takeoff( *dep_it, res ) ) {
+            return false; // Failed to takeoff a dependent item
         }
     }
 
-    if( items != nullptr ) {
-        items->push_back( w );
-        taken_off = true;
-    } else if (autodrop || volume_capacity() - w.get_storage() >= volume_carried() + w.volume()) {
-        w.on_takeoff( *this );
-        inv.add_item_keep_invlet(w);
-        taken_off = true;
-    } else if (query_yn(_("No room in inventory for your %s.  Drop it?"), w.tname().c_str())) {
-        w.on_takeoff( *this );
-        g->m.add_item_or_charges( pos(), w );
-        taken_off = true;
+    if( res == nullptr ) {
+        if( volume_carried() + it.volume() > volume_capacity_reduced_by( it.get_storage() ) ) {
+            if( is_npc() || query_yn( _( "No room in inventory for your %s.  Drop it?" ), it.tname().c_str() ) ) {
+                drop( get_item_position( &it ) );
+            }
+            return false;
+        }
+        inv.add_item_keep_invlet( it );
     } else {
-        taken_off = false;
+        res->push_back( it );
     }
-    if( taken_off ) {
-        moves -= 250;    // TODO: Make this variable
-        add_msg_player_or_npc( _("You take off your %s."),
-                               _("<npcname> takes off their %s."),
-                               w.tname().c_str() );
-        w.on_takeoff( *this );
-        worn.erase( first_iter );
-    }
+
+    add_msg_player_or_npc( _( "You take off your %s." ),
+                           _( "<npcname> takes off their %s." ),
+                           it.tname().c_str() );
+
+    mod_moves( -250 );    // TODO: Make this variable
+    iter->on_takeoff( *this );
+    worn.erase( iter );
 
     recalc_sight_limits();
     reset_encumbrance();
 
-    return taken_off;
+    return true;
+}
+
+bool player::takeoff( int pos )
+{
+    return takeoff( i_at( pos ) );
+}
+
+void player::drop( int pos, const tripoint &where )
+{
+    const item &it = i_at( pos );
+    const int count = it.count_by_charges() ? it.charges : 1;
+
+    drop( { std::make_pair( pos, count ) }, where );
+}
+
+void player::drop( const std::list<std::pair<int, int>> &what, const tripoint &where, bool stash )
+{
+    const activity_type type = stash ? ACT_STASH : ACT_DROP;
+
+    if( what.empty() ) {
+        return;
+    }
+
+    const tripoint target = ( where != tripoint_min ) ? where : pos();
+    if( rl_dist( pos(), target ) > 1 || !( stash || g->m.can_put_items( target ) ) ) {
+        add_msg_player_or_npc( m_info, _( "You can't place items here!" ),
+                                       _( "<npcname> can't place items here!" ) );
+        return;
+    }
+
+    assign_activity( type, 0 );
+    activity.placement = target - pos();
+
+    for( auto item_pair : what ) {
+        if( can_unwield( i_at( item_pair.first ) ) ) {
+            activity.values.push_back( item_pair.first );
+            activity.values.push_back( item_pair.second );
+        }
+    }
+    // @todo Remove the hack. Its here because npcs don't process activities
+    if( is_npc() ) {
+        activity.do_turn( this );
+    }
 }
 
 void player::use_wielded() {
@@ -11260,21 +11295,10 @@ void player::do_read( item *book )
             recipe_list.push_back( elem.name );
         }
         if( !recipe_list.empty() ) {
-            std::string recipes = "";
-            size_t index = 1;
-            for( auto iter = recipe_list.begin();
-                 iter != recipe_list.end(); ++iter, ++index ) {
-                recipes += *iter;
-                if(index == recipe_list.size() - 1) {
-                    recipes += _(" and "); // Who gives a fuck about an oxford comma?
-                } else if(index != recipe_list.size()) {
-                    recipes += _(", ");
-                }
-            }
             std::string recipe_line = string_format(
                 ngettext("This book contains %1$d crafting recipe: %2$s",
                          "This book contains %1$d crafting recipes: %2$s", recipe_list.size()),
-                recipe_list.size(), recipes.c_str());
+                recipe_list.size(), enumerate_as_string( recipe_list ).c_str());
             add_msg(m_info, "%s", recipe_line.c_str());
         }
         if( recipe_list.size() != reading->recipes.size() ) {
@@ -13287,10 +13311,11 @@ std::vector<Creature *> player::get_targetable_creatures( const int range ) cons
     } );
 }
 
-std::vector<Creature *> player::get_hostile_creatures() const
+std::vector<Creature *> player::get_hostile_creatures( int range ) const
 {
-    return get_creatures_if( [this] ( const Creature &critter ) -> bool {
+    return get_creatures_if( [this, range] ( const Creature &critter ) -> bool {
         return this != &critter && pos() != critter.pos() && // @todo get rid of fake npcs (pos() check)
+            rl_dist( pos(), critter.pos() ) <= range &&
             critter.attitude_to( *this ) == A_HOSTILE && sees( critter );
     } );
 }
