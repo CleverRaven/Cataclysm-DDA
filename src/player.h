@@ -1438,6 +1438,8 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
 
         void react_to_felt_pain( int intensity );
 
+        bool takeoff_internal( const item &it, bool interactive, std::list<item> *res );
+
         int pkill;
 
         std::vector<tripoint> auto_move_route;

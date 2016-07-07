@@ -10457,7 +10457,7 @@ std::list<const item *> player::get_dependent_worn_items( const item &it ) const
     return dependent;
 }
 
-bool player::takeoff( const item &it, bool interactive, std::list<item> *res )
+bool player::takeoff_internal( const item &it, bool interactive, std::list<item> *res )
 {
     auto iter = std::find_if( worn.begin(), worn.end(), [ &it ]( const item &wit ) {
         return &it == &wit;
@@ -10468,25 +10468,6 @@ bool player::takeoff( const item &it, bool interactive, std::list<item> *res )
             _( "You are not wearing that item." ),
             _( "<npcname> is not wearing that item." ) );
         return false;
-    }
-
-    const auto dependent = get_dependent_worn_items( it );
-    if( interactive && !dependent.empty() && !is_npc() ) {
-        const std::string dep_str = enumerate_as_string( dependent.begin(), dependent.end(),
-        []( const item *it ) {
-            return it->tname( 1, false );
-        } );
-        //~ %1$s - list of items (one or many), %2$s - how much longer it shall take (x2, x3 e.t.c)
-        if( !query_yn( _( "First you'll have to take off your %1$s (x%2$d times longer).  Continue?" ),
-                       dep_str.c_str(), dependent.size() + 1 ) ) {
-            return false;
-        }
-    }
-
-    for( const auto dep_it : dependent ) {
-        if( !takeoff( *dep_it, interactive, res ) ) {
-            return false; // Failed to takeoff a dependent item
-        }
     }
 
     if( res == nullptr ) {
@@ -10514,6 +10495,30 @@ bool player::takeoff( const item &it, bool interactive, std::list<item> *res )
     reset_encumbrance();
 
     return true;
+}
+
+bool player::takeoff( const item &it, bool interactive, std::list<item> *res )
+{
+    const auto dependent = get_dependent_worn_items( it );
+    if( interactive && !dependent.empty() && !is_npc() ) {
+        const std::string dep_str = enumerate_as_string( dependent.begin(), dependent.end(),
+        []( const item *it ) {
+            return it->tname( 1, false );
+        } );
+        //~ %1$s - list of items (one or many), %2$s - how much longer it shall take (x2, x3 e.t.c)
+        if( !query_yn( _( "First you'll have to take off your %1$s (x%2$d times longer).  Continue?" ),
+                       dep_str.c_str(), dependent.size() + 1 ) ) {
+            return false;
+        }
+    }
+
+    for( const auto dep_it : dependent ) {
+        if( !takeoff_internal( *dep_it, interactive, res ) ) {
+            return false; // Failed to takeoff a dependent item
+        }
+    }
+
+    return takeoff_internal( it, interactive, res );
 }
 
 bool player::takeoff( int pos, bool interactive )
