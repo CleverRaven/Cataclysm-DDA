@@ -1921,7 +1921,7 @@ bool Character::pour_into( item &container, item &liquid )
     std::string err;
 
     const bool allow_bucket = &container == &weapon || !has_item( container );
-    const int available_volume = allow_bucket ? INT_MAX : volume_capacity() - volume_carried();
+    const int available_volume = inv.has_item( container ) ? volume_capacity() - volume_carried() : INT_MAX;
     const long amount = container.get_remaining_capacity_for_liquid( liquid, err, allow_bucket,
                                                                      available_volume );
     if( !err.empty() ) {
