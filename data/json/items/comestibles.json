@@ -7697,7 +7697,7 @@
         "nutrition" : 25,
         "description" : "Fluffy and delicious pancakes with real maple syrup, with delicious chocolate baked right in.",
         "price" : 700,
-        "material" : "wheat",
+        "material" : ["wheat", "junk"],
         "volume" : 1,
         "charges" : 4,
         "flags" : ["EATEN_HOT"],
