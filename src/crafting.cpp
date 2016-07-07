@@ -266,7 +266,8 @@ void finalize_recipes()
         }
 
         if( r->charges >= 0 && !item::count_by_charges( r->result ) ) {
-            buffer << "Recipe " << r->ident() << " specified charges but " << r->result << " is not counted by charges\n";
+            buffer << "Recipe " << r->ident() << " specified charges but " << r->result <<
+                   " is not counted by charges\n";
         }
 
         for( const auto &bp : r->byproducts ) {
