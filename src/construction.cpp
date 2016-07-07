@@ -1502,7 +1502,7 @@ void finalize_constructions()
 
     constructions.erase( std::remove_if( constructions.begin(), constructions.end(),
         [&]( const construction &c ) {
-            return c.requirements->is_empty() && !c.requirements->is_null();
+            return c.requirements->is_blacklisted();
     } ), constructions.end() );
 
     for( size_t i = 0; i < constructions.size(); i++ ) {

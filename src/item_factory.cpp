@@ -310,7 +310,7 @@ void Item_factory::finalize_item_blacklist()
 
         // remove any blacklisted items from requirements
         for( auto &r : requirement_data::all() ) {
-            const_cast<requirement_data &>( r.second ).remove_item( e.first );
+            const_cast<requirement_data &>( r.second ).blacklist_item( e.first );
         }
 
         // remove any recipes used to craft the blacklisted item
@@ -318,11 +318,6 @@ void Item_factory::finalize_item_blacklist()
             return r.result == e.first;
         } );
     }
-
-    // if a requirement is empty but not null then it only contained (now removed) blacklisted items
-    recipe_dict.delete_if( [&]( recipe &r ) {
-        return r.requirements->is_empty() && !r.requirements->is_null();
-    } );
 
     for( auto &vid : vehicle_prototype::get_all() ) {
         vehicle_prototype &prototype = const_cast<vehicle_prototype&>( vid.obj() );

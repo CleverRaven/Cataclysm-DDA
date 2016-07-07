@@ -3,7 +3,7 @@
 
 #include "item.h"         // item
 #include "cursesdef.h"    // WINDOW
-#include "string_id.h"
+#include "requirements.h"
 
 #include <string>
 #include <vector>
@@ -16,8 +16,6 @@ class Skill;
 using skill_id = string_id<Skill>;
 class inventory;
 class player;
-struct recipe;
-struct requirement_data;
 
 enum body_part : int; // From bodypart.h
 typedef int nc_color; // From color.h
@@ -47,7 +45,18 @@ struct recipe {
         itype_id result;
         int time; // in movement points (100 per turn)
         int difficulty;
-        requirement_id requirements;
+
+        /** Fetch combined requirement data (inline and via "using" syntax) */
+        const requirement_data& requirements() const {
+            return requirements_;
+        }
+
+        /** Combined requirements cached when recipe finalized */
+        requirement_data requirements_;
+
+        /** Second field is the multiplier */
+        std::vector<std::pair<requirement_id, int>> reqs;
+
         std::vector<byproduct> byproducts;
         std::string cat;
         // Does the item spawn contained in container?

@@ -1301,8 +1301,8 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
                                   components_to_string().c_str() ) ) );
     } else {
         const recipe *dis_recipe = get_disassemble_recipe( typeId() );
-        if( dis_recipe != nullptr && dis_recipe->requirements ) {
-            const auto &dis_req = dis_recipe->requirements->disassembly_requirements();
+        if( dis_recipe != nullptr && !dis_recipe->requirements().is_empty() ) {
+            const auto &dis_req = dis_recipe->requirements().disassembly_requirements();
             const auto components = dis_req.get_components();
             const std::string components_list = enumerate_as_string( components.begin(), components.end(),
             []( const std::vector<item_comp> &comps ) {
