@@ -4,7 +4,7 @@
         "mod-type": "SUPPLEMENTAL",
         "ident": "no_filthy",
         "name": "Disable filthy items",
-        "description": "Zombies will nolonger drop filthy clothing",
+        "description": "Zombies will no longer drop filthy clothing",
         "category": "rebalance",
         "path": ""
     },
