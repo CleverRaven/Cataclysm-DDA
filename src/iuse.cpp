@@ -8099,7 +8099,7 @@ int iuse::washclothes( player *p, item *it, bool, const tripoint& )
 
     const inventory &crafting_inv = p->crafting_inventory();
     if( !crafting_inv.has_charges( "water", qty ) && !crafting_inv.has_charges( "water_clean", qty ) ) {
-        p->add_msg_if_player( _( "You need %i charges of water to wash your %s." ), qty, it->tname().c_str() );
+        p->add_msg_if_player( _( "You need %1$i charges of water to wash your %2$s." ), qty, it->tname().c_str() );
         return 0;
     }
 
