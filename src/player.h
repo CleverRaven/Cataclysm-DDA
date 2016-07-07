@@ -625,6 +625,11 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Returns a value used when attempting to intimidate NPC's */
         int intimidation() const;
 
+        /**
+         * Returns true if it is impossible for @ref dam to reduce the player's HP on his/her @ref bp
+         * @warning Only HP is accounted for- not damaged clothing, pain, status effects, etc.
+         */
+        bool immune_to( body_part bp, damage_unit dam ) const;
         /** Calls Creature::deal_damage and handles damaged effects (waking up, etc.) */
         dealt_damage_instance deal_damage(Creature *source, body_part bp, const damage_instance &d) override;
         /** Actually hurt the player, hurts a body_part directly, no armor reduction */
