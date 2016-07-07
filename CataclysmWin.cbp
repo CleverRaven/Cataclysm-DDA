@@ -434,6 +434,7 @@
 		<Unit filename="src/game.cpp" />
 		<Unit filename="src/game.h" />
 		<Unit filename="src/game_constants.h" />
+		<Unit filename="src/game_inventory.cpp" />
 		<Unit filename="src/gamemode.cpp" />
 		<Unit filename="src/gamemode.h" />
 		<Unit filename="src/gates.cpp" />

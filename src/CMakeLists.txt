@@ -124,6 +124,7 @@ SET(CATACLYSM_DDA_SOURCES
     ${CMAKE_SOURCE_DIR}/src/computer.cpp
     ${CMAKE_SOURCE_DIR}/src/trap.cpp
     ${CMAKE_SOURCE_DIR}/src/game.cpp
+    ${CMAKE_SOURCE_DIR}/src/game_inventory.cpp
     ${CMAKE_SOURCE_DIR}/src/gates.cpp
     ${CMAKE_SOURCE_DIR}/src/monattack.cpp
     ${CMAKE_SOURCE_DIR}/src/effect.cpp
