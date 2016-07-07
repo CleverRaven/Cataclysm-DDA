@@ -34,7 +34,7 @@
                 "both": [
                     "flashlight",
                     "pants_cargo",
-                    "boots",,
+                    "boots",
                     "socks",
                     "hat_cotton",
                     "gloves_light",
@@ -964,7 +964,7 @@
         "items": {
             "both": [
                 "jeans",
-                "socks_bag"
+                "socks_bag",
                 "footrags",
                 "hoodie",
                 "gloves_wraps",
@@ -1641,8 +1641,7 @@
         "items": {
             "both": [
                 "soap",
-                "towel_wet",
-                "flip_flops",
+                "towel_wet"
             ]
         }
     },
@@ -1736,7 +1735,7 @@
                 "stenmag",
                 "pda",
                 "9mm",
-                "battery",
+                "battery"
             ],
             "male": [
                 "boxer_shorts"
@@ -2348,7 +2347,7 @@
                 "jeans",
                 "tshirt",
                 "ear_plugs",
-                "bandages",
+                "bandages"
             ],
             "male": [
                 "briefs"
