@@ -213,7 +213,7 @@
                 "dress_shirt",
                 "peacoat",
                 "pants",
-                "leather belt",
+                "leather_belt",
                 "socks",
                 "dress_shoes",
                 "knit_scarf",
@@ -577,7 +577,7 @@
                 "winter_jacket_army",
                 "helmet_liner",
                 "helmet_army",
-                "dust mask",
+                "mask_dust",
                 "winter_gloves_army",
                 "socks",
                 "boots_combat",
@@ -1347,7 +1347,7 @@
                 "knit_scarf",
                 "socks",
                 "dress_shoes",
-                "leather belt",
+                "leather_belt",
                 "sunglasses"
             ],
             "male": [
@@ -2530,7 +2530,7 @@
                 "ref_lighter",
                 "socks",
                 "dress_shoes",
-                "light jacket",
+                "jacket_light",
                 "knit_scarf",
                 "cane"
             ],
