@@ -8194,7 +8194,6 @@
       ["chisel", 60],
       ["gold", 20],
       ["silver", 30],
-      ["gold_small", 25],
       ["diamond", 5]
     ]
   },{
@@ -8203,7 +8202,6 @@
 "items":[
       ["gold", 80],
       ["silver", 85],
-      ["gold_small", 90],
       ["diamond", 75]
     ]
   },{

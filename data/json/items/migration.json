@@ -20,6 +20,12 @@
     "replace": "battery_car"
   },
   {
+    "id": "gold_small",
+    "type": "MIGRATION",
+    "replace": "gold",
+    "charges": 1
+  },
+  {
     "id": "jar_V8",
     "type": "MIGRATION",
     "replace": "jar_glass_sealed",

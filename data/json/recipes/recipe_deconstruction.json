@@ -180,7 +180,7 @@
     "time": 600,
     "reversible": true,
     "qualities": [ {"id":"HAMMER","level":1} ],
-    "components": [ [ [ "gold_small", 260 ] ] ]
+    "components": [ [ [ "gold", 8 ] ] ]
   },
   {
     "result": "silver_bracelet",
@@ -216,7 +216,7 @@
     "time": 500,
     "reversible": true,
     "qualities": [ {"id":"HAMMER","level":1} ],
-    "components": [ [ [ "gold_small", 50 ] ] ]
+    "components": [ [ [ "gold", 2 ] ] ]
   },
   {
     "result": "diamond_ring",
@@ -229,7 +229,7 @@
     "reversible": true,
     "qualities": [ {"id":"HAMMER","level":1} ],
     "components": [
-      [ [ "gold_small", 50 ] ],
+      [ [ "gold", 2 ] ],
       [ [ "diamond", 1 ] ]
     ]
   },
@@ -244,7 +244,7 @@
     "reversible": true,
     "qualities": [ {"id":"HAMMER","level":1} ],
     "components": [
-      [ [ "gold_small", 100 ] ],
+      [ [ "gold", 2 ] ],
       [ [ "diamond", 1 ] ]
     ]
   },
@@ -258,7 +258,7 @@
     "time": 500,
     "reversible": true,
     "qualities": [ {"id":"HAMMER","level":1} ],
-    "components": [ [ [ "gold_small", 100 ] ] ]
+    "components": [ [ [ "gold", 2 ] ] ]
   },
   {
     "result": "gold_ear",
@@ -270,7 +270,7 @@
     "time": 500,
     "reversible": true,
     "qualities": [ { "id": "HAMMER","level": 1 } ],
-    "components": [ [ [ "gold_small", 50 ] ] ]
+    "components": [ [ [ "gold", 2 ] ] ]
   },
   {
     "result": "silver_ear",
@@ -435,8 +435,7 @@
       { "id": "SCREW","level": 1 }
     ],
     "components": [
-      [ [ "scrap", 2 ] ],
-      [ [ "gold_small", 150 ] ],
+      [ [ "gold", 12 ] ],
       [ [ "clockworks", 1 ] ]
     ]
   },
@@ -454,7 +453,7 @@
       { "id": "SCREW","level": 1 }
     ],
     "components": [
-      [ [ "gold_small", 100 ] ],
+      [ [ "gold", 5 ] ],
       [ [ "silver", 12 ] ],
       [ [ "clockworks", 1 ] ]
     ]
@@ -1338,25 +1337,6 @@
             [ [ "amplifier", 2 ] ],
             [ [ "material_aluminium_ingot", 1 ] ]
         ]
-    },{
-  "type" : "recipe",
-  "result": "gold",
-  "id_suffix": "uncraft",
-  "category": "CC_NONCRAFT",
-  "subcategory": "CSC_NONCRAFT",
-  "difficulty": 0,
-  "time": 2000,
-  "reversible": true,
-  "autolearn": false,
-  "qualities":[
-    {"id":"HAMMER","level":1,"amount":1},
-    {"id":"SCREW","level":1,"amount":1}
-  ],
-  "components": [
-    [
-      ["gold_small", 800]
-    ]
-  ]
 },{
   "type" : "recipe",
     "result": "candlestick",
@@ -1372,7 +1352,7 @@
     {"id":"SCREW","level":1,"amount":1}
   ], "components": [
       [
-        ["gold_small", 100]
+        ["gold", 300 ]
       ]
     ]
 },{

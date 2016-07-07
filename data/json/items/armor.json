@@ -7866,7 +7866,7 @@
         "volume" : 1,
         "material_thickness" : 0,
         "description" : "A gold-plated steel self-winding wristwatch, suitable for a retirement present.  Tells the time and looks good.",
-        "weight" : 65,
+        "weight" : 60,
         "to_hit" : -1,
         "color" : "yellow",
         "covers" : ["HAND_EITHER"],
