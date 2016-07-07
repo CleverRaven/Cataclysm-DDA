@@ -1128,20 +1128,21 @@ void inventory_selector::execute_compare( const std::string &title )
             const item &second_item = compared.front()->get_item();
 
             std::vector<iteminfo> vItemLastCh, vItemCh;
-            std::string sItemLastCh, sItemCh, sItemTn;
+            std::string sItemLastCh, sItemCh, sItemLastTn, sItemTn;
 
             first_item.info( true, vItemCh );
             sItemCh = first_item.tname();
             sItemTn = first_item.type_name();
             second_item.info(true, vItemLastCh);
             sItemLastCh = second_item.tname();
+            sItemLastTn = second_item.type_name();
 
             int iScrollPos = 0;
             int iScrollPosLast = 0;
             int ch = ( int ) ' ';
             do {
                 draw_item_info( 0, ( TERMX - VIEW_OFFSET_X * 2 ) / 2, 0, TERMY - VIEW_OFFSET_Y * 2,
-                               sItemLastCh, sItemTn, vItemLastCh, vItemCh, iScrollPosLast, true ); //without getch()
+                               sItemLastCh, sItemLastTn, vItemLastCh, vItemCh, iScrollPosLast, true ); //without getch()
                 ch = draw_item_info( ( TERMX - VIEW_OFFSET_X * 2) / 2, (TERMX - VIEW_OFFSET_X * 2 ) / 2,
                                     0, TERMY - VIEW_OFFSET_Y * 2, sItemCh, sItemTn, vItemCh, vItemLastCh, iScrollPos );
 
