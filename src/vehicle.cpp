@@ -1603,7 +1603,7 @@ const vpart_info& vehicle::part_info (int index, bool include_removed) const
             return parts[index].info();
         }
     }
-    return vpart_str_id::NULL_ID.obj();
+    return vpart_str_id(NULL_ID).obj();
 }
 
 // engines & alternators all have power.
@@ -6274,7 +6274,7 @@ bool vehicle_part::can_reload( const itype_id &obj )
     }
 
     // If we are checking a specific item does it have an ammotype?
-    ammotype ammo = ammotype::NULL_ID;
+    ammotype ammo(NULL_ID);
     if( !obj.empty() ) {
          auto atype = item::find_type( obj );
          if( atype->ammo ) {

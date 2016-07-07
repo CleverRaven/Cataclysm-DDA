@@ -47,7 +47,11 @@ npc_class_id NC_JUNK_SHOPKEEP( "NC_JUNK_SHOPKEEP" );
 generic_factory<npc_class> npc_class_factory( "npc_class" );
 
 template<>
-const npc_class_id string_id<npc_class>::NULL_ID( "NC_NONE" );
+const npc_class_id& string_id<npc_class>::NULL_ID()
+{
+    static npc_class_id instance("NC_NONE");
+    return instance;
+}
 
 template<>
 const npc_class &string_id<npc_class>::obj() const
