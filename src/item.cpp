@@ -5990,5 +5990,5 @@ bool item_category::operator!=( const item_category &rhs ) const
 }
 
 bool item::is_filthy() const {
-    return has_flag( "FILTHY" ) && !ACTIVE_WORLD_OPTIONS[ "NO_FILTHY" ];
+    return has_flag( "FILTHY" );
 }
