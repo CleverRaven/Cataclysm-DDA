@@ -4764,7 +4764,7 @@ dealt_damage_instance player::deal_damage(Creature* source, body_part bp, const 
 
         // Melee damage causing lacerations through filthy clothing may result in infection
         if( d.type_damage( DT_CUT ) || d.type_damage( DT_STAB ) ) {
-            bool filthy = std::any_of( worn.begin(), worn.end(), [&bp]( const item& e ) {
+            bool filthy = std::any_of( worn.begin(), worn.end(), [bp]( const item& e ) {
                 return e.covers( bp ) && e.is_filthy();
             } );
             if( filthy && one_in( 2 ) ) {
