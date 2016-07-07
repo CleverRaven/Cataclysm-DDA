@@ -12,6 +12,8 @@
 #include "vehicle.h"
 #include "vehicle_selector.h"
 #include "cata_utility.h"
+#include "item.h"
+#include "item_location.h"
 #include "itype.h"
 
 #include <string>
@@ -23,6 +25,11 @@
 bool inventory_entry::operator == ( const inventory_entry &other ) const {
     return get_category_ptr() == other.get_category_ptr() && location == other.location;
 }
+
+inventory_entry::inventory_entry( const std::shared_ptr<item_location> &location,
+    const item_category *custom_category, nc_color custom_color, long custom_invlet ) :
+        inventory_entry( location, ( location->get_item() != nullptr ) ? 1 : 0, custom_category,
+        custom_color, custom_invlet ) {}
 
 bool inventory_entry::is_item() const {
     return location->get_item() != nullptr;
@@ -276,6 +283,11 @@ void inventory_column::draw( WINDOW *win, size_t x, size_t y ) const
     }
 }
 
+selection_column::selection_column( const std::string &id, const std::string &name ) :
+    inventory_column(),
+    selected_cat( new item_category( id, name, 0 ) ),
+    reserved_width( 0 ) {}
+
 void selection_column::reserve_width_for( const inventory_column &column )
 {
     for( const auto &entry : column.get_entries() ) {
@@ -289,13 +301,13 @@ void selection_column::prepare_paging( size_t new_entries_per_page )
 {
     inventory_column::prepare_paging( new_entries_per_page );
     if( entries.empty() ) { // Category must always persist
-        entries.emplace_back( &selected_cat );
+        entries.emplace_back( selected_cat.get() );
     }
 }
 
 void selection_column::on_change( const inventory_entry &entry )
 {
-    inventory_entry my_entry( entry, &selected_cat );
+    inventory_entry my_entry( entry, selected_cat.get() );
 
     const auto iter = std::find( entries.begin(), entries.end(), my_entry );
     if( my_entry.chosen_count != 0 ) {
@@ -734,6 +746,10 @@ void inventory_selector::insert_selection_column( const std::string &id, const s
     }
 }
 
+inventory_pick_selector::inventory_pick_selector( player &u, const std::string &title,
+                                                  const item_location_filter &filter ) :
+            inventory_selector( u, title, filter ), null_location( new item_location() ) {}
+
 item_location &inventory_pick_selector::execute()
 {
     prepare_columns( false );
@@ -748,7 +764,7 @@ item_location &inventory_pick_selector::execute()
         if( entry != nullptr ) {
             return entry->get_location();
         } else if( action == "QUIT" ) {
-            return null_location;
+            return *null_location;
         } else if( action == "RIGHT" || action == "CONFIRM" ) {
             return get_active_column().get_selected().get_location();
         } else {

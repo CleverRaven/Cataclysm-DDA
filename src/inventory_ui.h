@@ -1,12 +1,19 @@
 #ifndef INVENTORY_UI_H
 #define INVENTORY_UI_H
 
+#include <climits>
 #include <memory>
 
+#include "color.h"
 #include "cursesdef.h"
+#include "enums.h"
 #include "input.h"
-#include "item_location.h"
-#include "item.h"
+
+class item;
+class item_category;
+class item_location;
+
+class player;
 
 typedef std::function<bool( const item & )> item_filter;
 typedef std::function<bool( const item_location & )> item_location_filter;
@@ -45,9 +52,7 @@ class inventory_entry
 
         inventory_entry( const std::shared_ptr<item_location> &location,
                          const item_category *custom_category = nullptr, nc_color custom_color = c_unset,
-                         long custom_invlet = LONG_MIN )
-            : inventory_entry( location, ( location->get_item() != nullptr ) ? 1 : 0, custom_category,
-                               custom_color, custom_invlet ) {}
+                         long custom_invlet = LONG_MIN );
 
         inventory_entry( const item_category *custom_category = nullptr )
             : inventory_entry( std::make_shared<item_location>(), custom_category ) {}
@@ -179,10 +184,7 @@ class inventory_column
 class selection_column : public inventory_column
 {
     public:
-        selection_column( const std::string &id, const std::string &name )
-            : inventory_column(),
-              selected_cat( id, name, 0 ),
-              reserved_width( 0 ) {}
+        selection_column( const std::string &id, const std::string &name );
 
         void reserve_width_for( const inventory_column &column );
 
@@ -205,7 +207,7 @@ class selection_column : public inventory_column
         virtual std::string get_entry_text( const inventory_entry &entry ) const override;
 
     private:
-        const item_category selected_cat;
+        const std::unique_ptr<item_category> selected_cat;
         size_t reserved_width;
 };
 
@@ -297,13 +299,11 @@ class inventory_pick_selector : public inventory_selector
 {
     public:
         inventory_pick_selector( player &u, const std::string &title,
-                                 const item_location_filter &filter = allow_all_items ) :
-            inventory_selector( u, title, filter ) {}
-
+                                 const item_location_filter &filter = allow_all_items );
         item_location &execute();
 
     protected:
-        item_location null_location;
+        std::unique_ptr<item_location> null_location;
 
         virtual void draw( WINDOW *w ) const override;
 };
