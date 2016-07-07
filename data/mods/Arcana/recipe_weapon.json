@@ -22,8 +22,8 @@
     ]
   ],
   "components": [
-    [ [ "gold_small", 625 ] ],
-    [ [ "silver_small", 165 ] ],
+    [ [ "gold", 625 ] ],
+    [ [ "silver", 165 ] ],
     [
       [ "small_relic", 1 ],
       [ "holy_symbol", 5 ]
@@ -56,7 +56,7 @@
     ]
   ],
   "components": [
-    [ [ "silver_small", 165 ] ],
+    [ [ "silver", 165 ] ],
     [
       [ "2x4", 1 ],
       [ "stick", 1 ]
@@ -100,7 +100,7 @@
     [
       [ [ "broadsword", 1 ] ],
       [ [ "holy_symbol", 1 ] ],
-      [ [ "gold_small", 135 ] ],
+      [ [ "gold", 135 ] ],
       [ [ "essence_dull", 25 ] ]
     ]
 },{
@@ -133,7 +133,7 @@
       [ "small_relic", 1 ],
       [ "holy_symbol", 3 ]
     ],
-    [ [ "silver_small", 240 ] ],
+    [ [ "silver", 240 ] ],
     [
       [ "essence", 1 ],
       [ "essence_dull", 15 ]
@@ -163,7 +163,7 @@
   ],
   "components": [
     [ [ "q_staff", 1 ] ],
-    [ [ "silver_small", 475 ] ],
+    [ [ "silver", 475 ] ],
     [
       [ "bone", 7 ],
       [ "bone_human", 7 ],
@@ -213,7 +213,7 @@
   "components": [
     [ [ "crossbow", 1 ] ],
     [ [ "holy_symbol", 1 ] ],
-    [ [ "gold_small", 45 ] ],
+    [ [ "gold", 45 ] ],
     [ [ "essence_dull", 20 ] ]
   ]
 },{

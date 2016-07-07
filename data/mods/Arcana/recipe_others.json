@@ -86,7 +86,7 @@
     ]
   ],
   "components": [
-    [ [ "gold_small", 625 ] ],
+    [ [ "gold", 625 ] ],
     [ [ "holy_symbol", 1 ] ],
     [
       [ "essence", 2 ],
@@ -183,7 +183,7 @@
       [ "oxy_torch", 10]
     ]
   ],
-  "components": [ [ [ "silver_small", 95 ] ]
+  "components": [ [ [ "silver", 95 ] ]
   ]
 },{
   "type" : "recipe",
@@ -442,8 +442,8 @@
     [ [ "silver_glyph", 1 ] ],
     [
       [ "diamond", 1 ],
-      [ "gold_small", 25 ],
-      [ "silver_small", 50 ],
+      [ "gold", 25 ],
+      [ "silver", 50 ],
       [ "copper", 100 ]
     ],
     [ [ "essence", 5 ] ]

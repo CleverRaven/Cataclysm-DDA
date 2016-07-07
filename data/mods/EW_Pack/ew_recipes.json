@@ -34,8 +34,8 @@
        ],
        [
          [ "lead", 150 ],
-         [ "gold_small", 150 ],
-         [ "silver_small", 150 ],
+         [ "gold", 150 ],
+         [ "silver", 150 ],
          [ "tin", 150 ],
          [ "bismuth", 150 ],
          [ "solder_wire", 150 ]
@@ -71,8 +71,8 @@
 "components": [
   [
     [ "lead", 200],
-    [ "gold_small", 200],
-    [ "silver_small", 200],
+    [ "gold", 200],
+    [ "silver", 200],
     [ "tin", 200],
     [ "bismuth", 200],
     [ "solder_wire", 200]

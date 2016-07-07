@@ -46,8 +46,8 @@
     ],
     [
       [ "lead", 400 ],
-      [ "gold_small", 400 ],
-      [ "silver_small", 400 ],
+      [ "gold", 400 ],
+      [ "silver", 400 ],
       [ "tin", 400 ],
       [ "bismuth", 400 ],
       [ "solder_wire", 400 ],

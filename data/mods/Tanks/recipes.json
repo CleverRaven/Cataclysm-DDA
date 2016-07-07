@@ -66,8 +66,8 @@
     [ [ "gunpowder", 950 ] ],
     [
       [ "lead", 500 ],
-      [ "gold_small", 500 ],
-      [ "silver_small", 500 ],
+      [ "gold", 500 ],
+      [ "silver", 500 ],
       [ "tin", 500 ],
       [ "bismuth", 500 ],
       [ "solder_wire", 500 ]
@@ -99,8 +99,8 @@
     [ [ "gunpowder", 1900 ] ],
     [
       [ "lead", 1000 ],
-      [ "gold_small", 1000 ],
-      [ "silver_small", 1000 ],
+      [ "gold", 1000 ],
+      [ "silver", 1000 ],
       [ "tin", 1000 ],
       [ "bismuth", 1000 ],
       [ "solder_wire", 1000 ]
@@ -137,8 +137,8 @@
     [ [ "gunpowder", 1900 ] ],
     [
       [ "lead", 1000 ],
-      [ "gold_small", 1000 ],
-      [ "silver_small", 1000 ],
+      [ "gold", 1000 ],
+      [ "silver", 1000 ],
       [ "tin", 1000 ],
       [ "bismuth", 1000 ],
       [ "solder_wire", 1000 ]
@@ -170,8 +170,8 @@
     [ [ "gunpowder", 2200 ] ],
     [
       [ "lead", 1400 ],
-      [ "gold_small", 1400 ],
-      [ "silver_small", 1400 ],
+      [ "gold", 1400 ],
+      [ "silver", 1400 ],
       [ "tin", 1400 ],
       [ "bismuth", 1400 ],
       [ "solder_wire", 1400 ]
@@ -208,8 +208,8 @@
     [ [ "gunpowder", 2200 ] ],
     [
       [ "lead", 1400 ],
-      [ "gold_small", 1400 ],
-      [ "silver_small", 1400 ],
+      [ "gold", 1400 ],
+      [ "silver", 1400 ],
       [ "tin", 1400 ],
       [ "bismuth", 1400 ],
       [ "solder_wire", 1400 ]

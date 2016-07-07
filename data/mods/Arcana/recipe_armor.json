@@ -19,7 +19,7 @@
   "components": [
     [ [ "cloak_leather", 1 ] ],
     [ [ "feather", 20 ] ],
-    [ [ "gold_small", 2000 ] ],
+    [ [ "gold", 2000 ] ],
     [ [ "essence_dull", 20 ] ]
   ]
 },{
@@ -99,7 +99,7 @@
     ]
   ],
   "components": [
-    [ [ "silver_small", 600 ] ],
+    [ [ "silver", 600 ] ],
     [ [ "diamond", 1 ] ],
     [ [ "essence_blood", 6 ] ]
   ]
@@ -127,7 +127,7 @@
   ],
   "components": [
     [ [ "gloves_plate", 1 ] ],
-    [ [ "silver_small", 70 ] ],
+    [ [ "silver", 70 ] ],
     [
       [ "essence", 4 ],
       [ "essence_blood", 12 ]

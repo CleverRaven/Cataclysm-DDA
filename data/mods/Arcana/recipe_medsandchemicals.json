@@ -173,7 +173,7 @@
       [ "meal_bone_tainted", 4 ]
     ],
     [ [ "material_quicklime", 1 ] ],
-    [ [ "gold_small", 10 ] ],
+    [ [ "gold", 10 ] ],
     [
       [ "blood", 1 ],
       [ "rag_bloody", 3 ]
