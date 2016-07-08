@@ -4950,17 +4950,12 @@ long item::get_container_capacity() const
     return type->container->contains;
 }
 
-long item::get_remaining_capacity_for_liquid( const item &liquid, bool allow_bucket, int volume_limit ) const
-{
-    std::string dummy_err;
-    return get_remaining_capacity_for_liquid( liquid, dummy_err, allow_bucket, volume_limit );
-}
-
-long item::get_remaining_capacity_for_liquid( const item &liquid, std::string &err, bool allow_bucket,
-                                              int volume_limit ) const
+long item::get_remaining_capacity_for_liquid( const item &liquid, bool allow_bucket, std::string *err ) const
 {
     const auto error = [ &err ]( const std::string &message ) {
-        err = message;
+        if( err != nullptr ) {
+            *err = message;
+        }
         return 0;
     };
 
@@ -4980,17 +4975,9 @@ long item::get_remaining_capacity_for_liquid( const item &liquid, std::string &e
         } else if( !contents.empty() && contents.front().typeId() != liquid.typeId() ) {
             return error( string_format( _( "You can't mix loads in your %s." ), tname().c_str() ) );
         }
-
         remaining_capacity = liquid.liquid_charges( get_container_capacity() );
         if( !contents.empty() ) {
             remaining_capacity -= contents.front().charges;
-        }
-        if( remaining_capacity > 0 && !type->rigid ) {
-            const long expansion = liquid.liquid_charges_per_volume( volume_limit );
-            if( expansion <= 0 ) {
-                return error( string_format( _( "That %s doesn't have room to expand." ), tname().c_str() ) );
-            }
-            remaining_capacity = std::min( remaining_capacity, expansion );
         }
     } else {
         return error( string_format( _( "That %1$s won't hold %2$s." ), tname().c_str(), liquid.tname().c_str() ) );
@@ -5002,6 +4989,24 @@ long item::get_remaining_capacity_for_liquid( const item &liquid, std::string &e
     }
 
     return remaining_capacity;
+}
+
+long item::get_remaining_capacity_for_liquid( const item &liquid, const Character &p, std::string *err ) const
+{
+    const bool allow_bucket = this == &p.weapon || !p.has_item( *this );
+    long res = get_remaining_capacity_for_liquid( liquid, allow_bucket, err );
+
+    if( res > 0 && !type->rigid && p.inv.has_item( *this ) ) {
+        const int volume_to_expand = std::max( p.volume_capacity() - p.volume_carried(), 0 );
+
+        res = std::min( liquid.liquid_charges_per_volume( volume_to_expand ), res );
+
+        if( res == 0 && err != nullptr ) {
+            *err = string_format( _( "That %s doesn't have room to expand." ), tname().c_str() );
+        }
+    }
+
+    return res;
 }
 
 bool item::use_amount(const itype_id &it, long &quantity, std::list<item> &used)
