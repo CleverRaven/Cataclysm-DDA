@@ -2212,8 +2212,8 @@
         "type": "profession",
         "ident": "bio_specops",
         "name": "Bionic Spec-Op",
-        "description": "You were the latest in the military cyborg program.  A bionic special forces operator capable of handling any combat scenario, that is why you are still alive as you killed your former allies.  As far as you can tell, military command abandoned you in this hellhole when you missed the emergency evac.",
-        "points": 7,
+        "description": "You were the latest in the military cyborg program.  A bionic special forces operator equiped a laser rifle that feeds from your internal power... or you did until you lost it during the initial chaos along with your squad.  As far as you can tell, military command abandoned you in this hellhole when you missed the emergency evac.",
+        "points": 6,
         "skills": [
             {
                 "level": 3,
@@ -2260,9 +2260,7 @@
                 "sheath",
                 "dump_pouch",
                 "dump_pouch",
-                "knife_rm42",
-                "shoulder_strap",
-                "laser_rifle"
+                "knife_rm42"
             ],
             "male": [
                 "boxer_shorts"
