@@ -968,13 +968,13 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
         }
         if( !fm.empty() ) {
             insert_separation_line();
-            info.emplace_back( "GUN", _( "<bold>Fire modes:</bold> " ), enumerate_as_string( fm ) );
+            info.emplace_back( "GUN", _( "<bold>Fire modes:</bold> " ) + enumerate_as_string( fm ) );
         }
 
         if( !magazine_integral() ) {
             insert_separation_line();
             const auto compat = magazine_compatible();
-            info.emplace_back( "DESCRIPTION", _( "<bold>Compatible magazines:</bold> " ),
+            info.emplace_back( "DESCRIPTION", _( "<bold>Compatible magazines:</bold> " ) +
                 enumerate_as_string( compat.begin(), compat.end(), []( const itype_id &id ) {
                     return item_controller->find_template( id )->nname( 1 );
             } ) );
@@ -1358,7 +1358,7 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
         all_techniques.insert( techniques.begin(), techniques.end() );
         if( !all_techniques.empty() ) {
             insert_separation_line();
-            info.push_back( iteminfo( "DESCRIPTION", _( "Techniques: " ),
+            info.push_back( iteminfo( "DESCRIPTION", _( "Techniques: " ) +
             enumerate_as_string( all_techniques.begin(), all_techniques.end(), []( const matec_id &tid ) {
                 return string_format( "<stat>%s</stat>", tid.obj().name.c_str() );
             } ) ) );
