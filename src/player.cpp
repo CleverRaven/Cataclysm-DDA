@@ -12092,8 +12092,10 @@ void player::absorb_hit(body_part bp, damage_instance &dam) {
             }
 
             if( destroy ) {
-                SCT.add( posx(), posy(), NORTH, remove_color_tags( pre_damage_name ),
-                         m_neutral, _( "destroyed" ), m_info);
+                if( g->u.sees( *this ) ) {
+                    SCT.add( posx(), posy(), NORTH, remove_color_tags( pre_damage_name ),
+                             m_neutral, _( "destroyed" ), m_info);
+                }
                 destroyed_armor_msg( *this, pre_damage_name );
                 armor_destroyed = true;
                 armor.on_takeoff( *this );

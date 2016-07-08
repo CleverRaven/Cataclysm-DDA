@@ -1074,7 +1074,7 @@ bool npc::wear_if_wanted( const item &it )
 
         if( encumb_ok && can_wear( it, false ) ) {
             // @todo Hazmat/power armor makes this not work due to 1 boots/headgear limit
-            return wear_item( it, true );
+            return wear_item( it, false );
         }
         // Otherwise, maybe we should take off one or more items and replace them
         bool took_off = false;
