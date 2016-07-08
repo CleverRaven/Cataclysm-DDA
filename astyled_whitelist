@@ -121,7 +121,7 @@ src/fault.h
 src/filesystem.h
 src/fire.h
 src/game_constants.h
-src/game_inventory.h
+src/game_inventory.cpp
 src/gates.h
 src/generic_factory.h
 src/get_version.h
