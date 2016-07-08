@@ -15,6 +15,9 @@
 
 #ifdef LOCALIZE
 
+char blank_string_content[1] = { 0x00 };
+char *blank_string = blank_string_content;
+
 const char *pgettext( const char *context, const char *msgid )
 {
     // need to construct the string manually,
