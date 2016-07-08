@@ -6681,13 +6681,16 @@
     "type" : "item_group",
     "id" : "manhack",
     "items":[
-      ["knife_combat", 14]
+      ["spike", 10],
+      ["scrap", 10],
+      ["blade", 5]
     ]
   },{
     "type" : "item_group",
     "id" : "skitterbot",
     "items":[
-      ["tazer", 3]
+      ["tazer", 3],
+      ["scrap", 9]
     ]
   },{
     "type" : "item_group",
