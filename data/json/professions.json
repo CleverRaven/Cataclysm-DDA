@@ -2209,6 +2209,71 @@
         }
     },
     {
+        "type": "profession",
+        "ident": "bio_specops",
+        "name": "Bionic Spec-Op",
+        "description": "You were the latest in the military cyborg program. A bionic special forces operator capable of handling any combat scenario, that is why you are still alive as you killed your former allies. As far as you can tell, military command abandoned you in this hellhole when you missed the emergency evac.",
+        "points": 7,
+        "skills": [
+            {
+                "level": 3,
+                "name": "gun"
+            },
+            {
+                "level": 3,
+                "name": "rifle"
+            },
+            {
+                "level": 2,
+                "name": "melee"
+            },
+            {
+                "level": 2,
+                "name": "stabbing"
+            },
+            {
+                "level": 2,
+                "name": "dodge"
+            }
+        ],
+        "CBMs":[
+            "bio_night_vision",
+            "bio_metabolics",
+            "bio_ups",
+            "bio_targeting",
+            "bio_carbon",
+            "bio_purifier",
+            "bio_geiger",
+            "bio_adrenaline",
+            "bio_power_storage_mkII"
+        ],
+        "items": {
+            "both": [
+                "pants_army",
+                "army_top",
+                "jacket_army",
+                "gloves_tactical",
+                "mask_gas",
+                "helmet_army",
+                "socks",
+                "boots_combat",
+                "sheath",
+                "dump_pouch",
+                "dump_pouch",
+                "knife_rm42",
+                "shoulder_strap",
+                "laser_rifle"
+            ],
+            "male": [
+                "boxer_shorts"
+            ],
+            "female": [
+                "sports_bra",
+                "boxer_shorts"
+            ]
+        } 
+    },
+    {
         "type" : "profession",
         "ident": "bionic_spy",
         "name": "Bionic Agent",
