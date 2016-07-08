@@ -5476,9 +5476,9 @@ void player::check_needs_extremes()
     // Penalties start at Dead Tired and go from there
     if( get_fatigue() >= DEAD_TIRED && !in_sleep_state() ) {
         if( get_fatigue() >= 700 ) {
-           if( calendar::once_every(MINUTES(30)) ) {
-                add_msg_if_player(m_warning, _("You're too tired to stop yawning."));
-                add_effect( effect_lack_sleep, 50);
+            if( calendar::once_every(MINUTES(30)) ) {
+                add_msg_if_player( m_warning, _("You're too tired to stop yawning.") );
+                add_effect( effect_lack_sleep, MINUTES(30) + 1 );
             }
             ///\EFFECT_INT slightly decreases occurrence of short naps when dead tired
             if( one_in(50 + int_cur) ) {
@@ -5486,17 +5486,17 @@ void player::check_needs_extremes()
                 fall_asleep(5);
             }
         } else if( get_fatigue() >= EXHAUSTED ) {
-            if( calendar::once_every(MINUTES(30)) ) {
-                add_msg_if_player(m_warning, _("How much longer until bedtime?"));
-                add_effect( effect_lack_sleep, 50);
+            if( calendar::once_every( MINUTES( 30 ) ) ) {
+                add_msg_if_player( m_warning, _("How much longer until bedtime?") );
+                add_effect( effect_lack_sleep, MINUTES( 30 ) + 1 );
             }
             ///\EFFECT_INT slightly decreases occurrence of short naps when exhausted
             if (one_in(100 + int_cur)) {
                 fall_asleep(5);
             }
-        } else if( get_fatigue() >= DEAD_TIRED && calendar::once_every(MINUTES(30)) ) {
-            add_msg_if_player(m_warning, _("*yawn* You should really get some sleep."));
-            add_effect( effect_lack_sleep, 50);
+        } else if( get_fatigue() >= DEAD_TIRED && calendar::once_every( MINUTES( 30 ) ) ) {
+            add_msg_if_player( m_warning, _("*yawn* You should really get some sleep.") );
+            add_effect( effect_lack_sleep, MINUTES( 30 ) + 1 );
         }
     }
 }
@@ -5504,9 +5504,11 @@ void player::check_needs_extremes()
 void player::update_needs( int rate_multiplier )
 {
     // Hunger, thirst, & fatigue up every 5 minutes
+    effect &sleep = get_effect( effect_sleep );
     const bool debug_ls = has_trait("DEBUG_LS");
     const bool has_recycler = has_bionic("bio_recycler");
-    const bool asleep = in_sleep_state();
+    const bool asleep = !sleep.is_null();
+    const bool lying = asleep || has_effect( effect_lying_down );
     const bool hibernating = asleep && is_hibernating();
     float hunger_rate = metabolic_rate();
     add_msg_if_player( m_debug, "Metabolic rate: %.2f", hunger_rate );
@@ -5589,8 +5591,7 @@ void player::update_needs( int rate_multiplier )
         if( !debug_ls && fatigue_rate > 0.0f ) {
             mod_fatigue( divide_roll_remainder( fatigue_rate * rate_multiplier, 1.0 ) );
         }
-    } else if( has_effect( effect_sleep ) ) {
-        effect &sleep = get_effect( effect_sleep );
+    } else if( asleep ) {
         const int intense = sleep.is_null() ? 0 : sleep.get_intensity();
         // Accelerated recovery capped to 2x over 2 hours
         // After 16 hours of activity, equal to 7.25 hours of rest
@@ -5625,7 +5626,7 @@ void player::update_needs( int rate_multiplier )
             }
         }
     }
-    if( is_player() && wasnt_fatigued && get_fatigue() > DEAD_TIRED && !in_sleep_state() ) {
+    if( is_player() && wasnt_fatigued && get_fatigue() > DEAD_TIRED && !lying ) {
         if (activity.type == ACT_NULL) {
             add_msg_if_player(m_warning, _("You're feeling tired.  %s to lie down for sleep."),
                 press_x(ACTION_SLEEP).c_str());
@@ -5641,7 +5642,7 @@ void player::update_needs( int rate_multiplier )
     }
 
     if( get_painkiller() > 0 ) {
-        mod_painkiller( - rate_multiplier );
+        mod_painkiller( -std::min( get_painkiller(), rate_multiplier ) );
     }
 
     if( has_bionic("bio_solar") && g->is_in_sunlight( pos() ) ) {
