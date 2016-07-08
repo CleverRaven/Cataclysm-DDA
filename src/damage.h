@@ -69,7 +69,7 @@ struct resistances {
     resistances();
 
     // If to_self is true, we want armor's own resistance, not one it provides to wearer
-    resistances( item &armor, bool to_self = false );
+    resistances( const item &armor, bool to_self = false );
     resistances( monster &monster );
     void set_resist( damage_type dt, float amount );
     float type_resist( damage_type dt ) const;

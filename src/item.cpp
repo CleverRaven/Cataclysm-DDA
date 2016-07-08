@@ -2,6 +2,7 @@
 
 #include "advanced_inv.h"
 #include "player.h"
+#include "damage.h"
 #include "output.h"
 #include "skill.h"
 #include "bionics.h"
@@ -3231,6 +3232,14 @@ int item::chip_resistance( bool worst ) const
     }
 
     return res;
+}
+
+void item::mitigate_damage( damage_unit &du ) const
+{
+    const resistances res = resistances( *this );
+    const float mitigation = res.get_effective_resist( du );
+    du.amount -= mitigation;
+    du.amount = std::max( 0.0f, du.amount );
 }
 
 int item::damage_resist( damage_type dt, bool to_self ) const

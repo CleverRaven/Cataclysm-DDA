@@ -12057,12 +12057,7 @@ bool player::armor_absorb( damage_unit& du, item& armor )
     }
 
     // TODO: add some check for power armor
-
-    const auto res = resistances(armor);
-    const float effective_resist = res.get_effective_resist(du);
-    // Amount of damage mitigated
-    const float mitigation = std::min(effective_resist, du.amount);
-    du.amount -= mitigation; // mitigate the damage first
+    armor.mitigate_damage( du );
 
     // We want armor's own resistance to this type, not the resistance it grants
     const int armors_own_resist = armor.damage_resist( du.type, true );
