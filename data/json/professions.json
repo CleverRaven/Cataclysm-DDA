@@ -2212,7 +2212,7 @@
         "type": "profession",
         "ident": "bio_specops",
         "name": "Bionic Spec-Op",
-        "description": "You were the latest in the military cyborg program. A bionic special forces operator capable of handling any combat scenario, that is why you are still alive as you killed your former allies. As far as you can tell, military command abandoned you in this hellhole when you missed the emergency evac.",
+        "description": "You were the latest in the military cyborg program.  A bionic special forces operator capable of handling any combat scenario, that is why you are still alive as you killed your former allies.  As far as you can tell, military command abandoned you in this hellhole when you missed the emergency evac.",
         "points": 7,
         "skills": [
             {
