@@ -514,6 +514,10 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
          * @return true if the armor was completely destroyed (and the item must be deleted).
          */
         bool armor_absorb( damage_unit &du, item &armor );
+        /**
+         * Check for passive bionics that provide armor, and reduces damage
+         */
+         void bionic_armor_absorb( body_part bp, damage_unit &du ) const;
         /** Runs through all bionics and armor on a part and reduces damage through their armor_absorb */
         void absorb_hit(body_part bp, damage_instance &dam) override;
         /** Called after the player has successfully dodged an attack */
