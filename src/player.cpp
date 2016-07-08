@@ -8589,7 +8589,10 @@ void player::vomit()
     remove_effect( effect_pkill1 );
     remove_effect( effect_pkill2 );
     remove_effect( effect_pkill3 );
-    wake_up();
+    // Don't wake up when just retching
+    if( stomach_contents != 0 ) {
+        wake_up();
+    }
 }
 
 void player::drench( int saturation, int flags, bool ignore_waterproof )
