@@ -12290,6 +12290,7 @@ void player::absorb_hit(body_part bp, damage_instance &dam) {
                 elem.amount -= mutation_armor( bp, elem );
             }
         }
+        elem.amount -= mabuff_armor_bonus( elem.type );
 
         if( elem.type == DT_BASH ) {
             if( has_trait( "LIGHT_BONES" ) ) {
@@ -12299,8 +12300,6 @@ void player::absorb_hit(body_part bp, damage_instance &dam) {
                 elem.amount *= 1.8;
             }
         }
-
-        elem.amount -= mabuff_armor_bonus( elem.type );
 
         elem.amount = std::max( elem.amount, 0.0f );
     }
