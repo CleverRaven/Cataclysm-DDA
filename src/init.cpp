@@ -147,20 +147,22 @@ void DynamicDataLoader::initialize()
 
     add( "requirement", []( JsonObject &jo ) { requirement_data::load_requirement( jo ); } );
     add( "trap", &trap::load );
-    add( "AMMO", []( JsonObject &jo ) { item_controller->load_ammo( jo ); } );
-    add( "GUN", []( JsonObject &jo ) { item_controller->load_gun( jo ); } );
-    add( "ARMOR", []( JsonObject &jo ) { item_controller->load_armor( jo ); } );
-    add( "TOOL", []( JsonObject &jo ) { item_controller->load_tool( jo ); } );
-    add( "TOOL_ARMOR", []( JsonObject &jo ) { item_controller->load_tool_armor( jo ); } );
-    add( "BOOK", []( JsonObject &jo ) { item_controller->load_book( jo ); } );
-    add( "COMESTIBLE", []( JsonObject &jo ) { item_controller->load_comestible( jo ); } );
-    add( "CONTAINER", []( JsonObject &jo ) { item_controller->load_container( jo ); } );
-    add( "ENGINE", []( JsonObject &jo ) { item_controller->load_engine( jo ); } );
-    add( "WHEEL", []( JsonObject &jo ) { item_controller->load_wheel( jo ); } );
-    add( "GUNMOD", []( JsonObject &jo ) { item_controller->load_gunmod( jo ); } );
-    add( "MAGAZINE", []( JsonObject &jo ) { item_controller->load_magazine( jo ); } );
-    add( "GENERIC", []( JsonObject &jo ) { item_controller->load_generic( jo ); } );
-    add( "BIONIC_ITEM", []( JsonObject &jo ) { item_controller->load_bionic( jo ); } );
+
+    add( "AMMO", []( JsonObject &jo, const std::string &src ) { item_controller->load_ammo( jo, src ); } );
+    add( "GUN", []( JsonObject &jo, const std::string &src ) { item_controller->load_gun( jo, src ); } );
+    add( "ARMOR", []( JsonObject &jo, const std::string &src ) { item_controller->load_armor( jo, src ); } );
+    add( "TOOL", []( JsonObject &jo, const std::string &src ) { item_controller->load_tool( jo, src ); } );
+    add( "TOOL_ARMOR", []( JsonObject &jo, const std::string &src ) { item_controller->load_tool_armor( jo, src ); } );
+    add( "BOOK", []( JsonObject &jo, const std::string &src ) { item_controller->load_book( jo, src ); } );
+    add( "COMESTIBLE", []( JsonObject &jo, const std::string &src ) { item_controller->load_comestible( jo, src ); } );
+    add( "CONTAINER", []( JsonObject &jo, const std::string &src ) { item_controller->load_container( jo, src ); } );
+    add( "ENGINE", []( JsonObject &jo, const std::string &src ) { item_controller->load_engine( jo, src ); } );
+    add( "WHEEL", []( JsonObject &jo, const std::string &src ) { item_controller->load_wheel( jo, src ); } );
+    add( "GUNMOD", []( JsonObject &jo, const std::string &src ) { item_controller->load_gunmod( jo, src ); } );
+    add( "MAGAZINE", []( JsonObject &jo, const std::string &src ) { item_controller->load_magazine( jo, src ); } );
+    add( "GENERIC", []( JsonObject &jo, const std::string &src ) { item_controller->load_generic( jo, src ); } );
+    add( "BIONIC_ITEM", []( JsonObject &jo, const std::string &src ) { item_controller->load_bionic( jo, src ); } );
+
     add( "ITEM_CATEGORY", []( JsonObject &jo ) { item_controller->load_item_category( jo ); } );
     add( "MIGRATION", []( JsonObject &jo ) { item_controller->load_migration( jo ); } );
 
