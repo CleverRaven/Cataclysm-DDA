@@ -28,6 +28,7 @@
         "method": "json",
         "weight": 500,
         "object": {
+            "fill_ter": "t_floor",
             "rows": [
                     "~~~~~~~~~~~~~~~~~~~~~~~~",
                     "**qq~~~~qq--O-------O--*",
@@ -63,14 +64,6 @@
                 ":": "t_door_glass_c",
                 "O": "t_window",
                 "=": "t_wall_glass",
-                "#": "t_floor",
-                "h": "t_floor",
-                "T": "t_floor",
-                "d": "t_floor",
-                "y": "t_floor",
-                "s": "t_floor",
-                "t": "t_floor",
-                "]": "t_floor",
                 "q": "t_grass",
                 "%": "t_console_broken"
             },
@@ -109,6 +102,7 @@
         "method": "json",
         "weight": 500,
         "object": {
+            "fill_ter": "t_floor",
             "rows": [
                     "~~~~~~~~~~~~~~~~~~~~~~~~",
                     "**qq~~~~qq|-O-|||||O|||*",
@@ -140,18 +134,11 @@
                 "*": "t_grass",
                 "~": "t_sidewalk",
                 "|": "t_rock_smooth",
+                "-": "t_wall",
                 "+": "t_door_c",
                 ":": "t_door_glass_c",
                 "O": "t_window",
                 "=": "t_wall_glass",
-                "#": "t_floor",
-                "h": "t_floor",
-                "T": "t_floor",
-                "d": "t_floor",
-                "y": "t_floor",
-                "s": "t_floor",
-                "t": "t_floor",
-                "]": "t_floor",
                 "q": "t_grass",
                 "%": "t_console_broken"
             },
