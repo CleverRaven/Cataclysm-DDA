@@ -164,8 +164,10 @@ void npc::assess_danger()
 void npc::regen_ai_cache()
 {
     ai_cache.friends.clear();
-    assess_danger();
     ai_cache.target = npc_target::none();
+    ai_cache.danger = 0;
+    ai_cache.total_danger = 0;
+    assess_danger();
 
     if( is_friend() ) {
         ai_cache.friends.emplace_back( npc_target::player() );
