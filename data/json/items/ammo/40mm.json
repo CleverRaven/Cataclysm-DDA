@@ -110,6 +110,6 @@
     "name": "40mm teargas",
     "name_plural": "40mm teargas",
     "description": "A 40mm grenade with a teargas load.  It will burst in a cloud of highly incapacitating gas.",
-    "drop": "gasbomb_act"
+    "extend": { "effects": [ "TEARGAS" ] }
   }
 ]
