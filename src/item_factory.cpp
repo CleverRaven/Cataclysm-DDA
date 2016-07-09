@@ -663,7 +663,7 @@ void Item_factory::check_definitions() const
         if( type->price < 0 ) {
             msg << "negative price" << "\n";
         }
-        if( type->description.size() == 0 ) {
+        if( type->description.empty() ) {
             msg << "empty description" << "\n";
         }
 
