@@ -3817,7 +3817,7 @@ void game::debug()
                        _( "Spawn Clairvoyance Artifact" ), //16
                        _( "Map editor" ),             // 17
                        _( "Change weather" ),         // 18
-                       _( "Remove all monsters" ),    // 19
+                       _( "Kill all monsters" ),    // 19
                        _( "Display hordes" ),         // 20
                        _( "Test Item Group" ),        // 21
                        _( "Damage Self" ),            // 22
