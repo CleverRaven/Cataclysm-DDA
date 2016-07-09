@@ -118,6 +118,7 @@
                 ".": "t_floor",
                 "*": "t_grass",
                 "~": "t_sidewalk",
+                "-": "t_wall",
                 "|": "t_brick_wall",
                 "+": "t_door_c",
                 ":": "t_door_glass_c",
