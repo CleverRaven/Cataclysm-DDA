@@ -173,7 +173,6 @@
             ],
             "terrain": {
                 "-": "t_wall",
-                "|": "t_rock_smooth",
                 "g": "t_wall_glass",
                 "G": "t_door_glass_c",
                 "r": "t_railing_h",
@@ -278,7 +277,6 @@
                 "||||||||||||||||rfrrrrrR"
             ],
             "terrain": {
-                "-": "t_wall",
                 "|": "t_rock_smooth",
                 "g": "t_wall_glass",
                 "G": "t_door_glass_c",
