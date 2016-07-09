@@ -18,6 +18,7 @@
 #include "rng.h"
 #include "enums.h"
 #include "pathfinding.h"
+#include "emit.h"
 
 //TODO: include comments about how these variables work. Where are they used. Are they constant etc.
 #define CAMPSIZE 1
@@ -457,7 +458,9 @@ public:
     void clear_vehicle_list( int zlev );
     void update_vehicle_list( submap * const to, const int zlev );
 
-    void destroy_vehicle (vehicle *veh);
+    // Removes vehicle from map and returns it in unique_ptr
+    std::unique_ptr<vehicle> detach_vehicle( vehicle *veh );
+    void destroy_vehicle( vehicle *veh );
     // Vehicle movement
     void vehmove();
     // Selects a vehicle to move, returns false if no moving vehicles
@@ -527,22 +530,17 @@ public:
 
 // Furniture: 2D overloads
     void set(const int x, const int y, const ter_id new_terrain, const furn_id new_furniture);
-    void set(const int x, const int y, const ter_str_id &new_terrain, const furn_str_id &new_furniture);
 
     std::string name(const int x, const int y);
     bool has_furn(const int x, const int y) const;
 
     furn_id furn(const int x, const int y) const; // Furniture at coord (x, y); {x|y}=(0, SEE{X|Y}*3]
-    furn_str_id get_furn(const int x, const int y) const;
-    const furn_t & furn_at(const int x, const int y) const;
 
     void furn_set(const int x, const int y, const furn_id new_furniture);
-    void furn_set(const int x, const int y, const furn_str_id new_furniture);
 
     std::string furnname(const int x, const int y);
 // Furniture: 3D
     void set( const tripoint &p, const ter_id new_terrain, const furn_id new_furniture );
-    void set( const tripoint &p, const ter_str_id &new_terrain, const furn_str_id &new_furniture );
 
     std::string name( const tripoint &p );
     std::string disp_name( const tripoint &p );
@@ -554,36 +552,27 @@ public:
     bool has_furn( const tripoint &p ) const;
 
     furn_id furn( const tripoint &p ) const;
-    furn_str_id get_furn( const tripoint &p ) const;
-    const furn_t & furn_at( const tripoint &p ) const;
 
     void furn_set( const tripoint &p, const furn_id new_furniture );
-    void furn_set( const tripoint &p, const furn_str_id new_furniture );
 
     std::string furnname( const tripoint &p);
     bool can_move_furniture( const tripoint &pos, player * p = nullptr );
 // Terrain: 2D overloads
     ter_id ter(const int x, const int y) const; // Terrain integer id at coord (x, y); {x|y}=(0, SEE{X|Y}*3]
-    ter_str_id get_ter(const int x, const int y) const; // Terrain string id at coord (x, y); {x|y}=(0, SEE{X|Y}*3]
     std::string get_ter_harvestable(const int x, const int y) const; // harvestable of the terrain
     ter_id get_ter_transforms_into(const int x, const int y) const; // get the terrain id to transform to
     int get_ter_harvest_season(const int x, const int y) const; // get season to harvest the terrain
-    const ter_t & ter_at(const int x, const int y) const; // Terrain at coord (x, y); {x|y}=(0, SEE{X|Y}*3]
 
     void ter_set(const int x, const int y, const ter_id new_terrain);
-    void ter_set(const int x, const int y, const ter_str_id &new_terrain);
 
     std::string tername(const int x, const int y) const; // Name of terrain at (x, y)
 // Terrain: 3D
     ter_id ter( const tripoint &p ) const;
-    ter_str_id get_ter( const tripoint &p ) const;
     std::string get_ter_harvestable( const tripoint &p ) const;
     ter_id get_ter_transforms_into( const tripoint &p ) const;
     int get_ter_harvest_season( const tripoint &p ) const;
-    const ter_t & ter_at( const tripoint &p ) const;
 
     void ter_set( const tripoint &p, const ter_id new_terrain);
-    void ter_set( const tripoint &p, const ter_str_id &new_terrain);
 
     std::string tername( const tripoint &p ) const;
 
@@ -618,13 +607,11 @@ public:
     bool has_flag_ter(const std::string & flag, const int x, const int y) const;  // checks terrain
     bool has_flag_furn(const std::string & flag, const int x, const int y) const;  // checks furniture
     bool has_flag_ter_or_furn(const std::string & flag, const int x, const int y) const; // checks terrain or furniture
-    bool has_flag_ter_and_furn(const std::string & flag, const int x, const int y) const; // checks terrain and furniture
     // fast "oh hai it's update_scent/lightmap/draw/monmove/self/etc again, what about this one" flag checking
     bool has_flag(const ter_bitflags flag, const int x, const int y) const;  // checks terrain, furniture and vehicles
     bool has_flag_ter(const ter_bitflags flag, const int x, const int y) const;  // checks terrain
     bool has_flag_furn(const ter_bitflags flag, const int x, const int y) const;  // checks furniture
     bool has_flag_ter_or_furn(const ter_bitflags flag, const int x, const int y) const; // checks terrain or furniture
-    bool has_flag_ter_and_furn(const ter_bitflags flag, const int x, const int y) const; // checks terrain and furniture
 // Flags: 3D
     std::string features( const tripoint &p ); // Words relevant to terrain (sharp, etc)
     bool has_flag( const std::string &flag, const tripoint &p ) const;  // checks terrain, furniture and vehicles
@@ -633,13 +620,11 @@ public:
     bool has_flag_ter( const std::string &flag, const tripoint &p ) const;  // checks terrain
     bool has_flag_furn( const std::string &flag, const tripoint &p ) const;  // checks furniture
     bool has_flag_ter_or_furn( const std::string &flag, const tripoint &p ) const; // checks terrain or furniture
-    bool has_flag_ter_and_furn( const std::string &flag, const tripoint &p ) const; // checks terrain and furniture
     // fast "oh hai it's update_scent/lightmap/draw/monmove/self/etc again, what about this one" flag checking
     bool has_flag( const ter_bitflags flag, const tripoint &p ) const;  // checks terrain, furniture and vehicles
     bool has_flag_ter( const ter_bitflags flag, const tripoint &p ) const;  // checks terrain
     bool has_flag_furn( const ter_bitflags flag, const tripoint &p ) const;  // checks furniture
     bool has_flag_ter_or_furn( const ter_bitflags flag, const tripoint &p ) const; // checks terrain or furniture
-    bool has_flag_ter_and_furn( const ter_bitflags flag, const tripoint &p ) const; // checks terrain and furniture
 
 // Bashable: 2D
     bool is_bashable(const int x, const int y) const;
@@ -686,34 +671,29 @@ public:
   *  all terrain is floor and the last terrain is a wall */
  bool is_last_ter_wall(const bool no_furn, const int x, const int y,
                        const int xmax, const int ymax, const direction dir) const;
-    bool flammable_items_at( const tripoint &p );
+    /**
+     * Checks if there are any flammable items on the tile.
+     * @param threshold Fuel threshold (lower means worse fuels are accepted).
+     */
+    bool flammable_items_at( const tripoint &p, int threshold = 0 );
  point random_outdoor_tile();
 // mapgen
 
 void draw_line_ter(const ter_id type, int x1, int y1, int x2, int y2);
-void draw_line_ter(const ter_str_id &type, int x1, int y1, int x2, int y2);
 void draw_line_furn(furn_id type, int x1, int y1, int x2, int y2);
-void draw_line_furn(const furn_str_id type, int x1, int y1, int x2, int y2);
 void draw_fill_background(ter_id type);
-void draw_fill_background(const ter_str_id &type);
 void draw_fill_background(ter_id (*f)());
 void draw_fill_background(const id_or_id<ter_t> & f);
 
 void draw_square_ter(ter_id type, int x1, int y1, int x2, int y2);
-void draw_square_ter(const ter_str_id &type, int x1, int y1, int x2, int y2);
 void draw_square_furn(furn_id type, int x1, int y1, int x2, int y2);
-void draw_square_furn(furn_str_id type, int x1, int y1, int x2, int y2);
 void draw_square_ter(ter_id (*f)(), int x1, int y1, int x2, int y2);
 void draw_square_ter(const id_or_id<ter_t> & f, int x1, int y1, int x2, int y2);
 void draw_rough_circle_ter(ter_id type, int x, int y, int rad);
-void draw_rough_circle_ter(const ter_str_id &type, int x, int y, int rad);
 void draw_rough_circle_furn(furn_id type, int x, int y, int rad);
-void draw_rough_circle_furn(furn_str_id type, int x, int y, int rad);
 void draw_circle_ter(ter_id type, double x, double y, double rad);
 void draw_circle_ter(ter_id type, int x, int y, int rad);
-void draw_circle_ter(const ter_str_id &type, int x, int y, int rad);
 void draw_circle_furn(furn_id type, int x, int y, int rad);
-void draw_circle_furn(furn_str_id type, int x, int y, int rad);
 
 void add_corpse( const tripoint &p );
 
@@ -995,6 +975,12 @@ void add_corpse( const tripoint &p );
         void add_splatter_trail( const field_id type, const tripoint &from, const tripoint &to );
         void add_splash( const field_id type, const tripoint &center, int radius, int density );
 
+        void propagate_field( const tripoint &center, field_id fid,
+                              int amount, int max_density = MAX_FIELD_DENSITY );
+
+        /** Runs one cycle of emission @ref src which **may** result in propagation of fields */
+        void emit_field( const tripoint &pos, const emit_id &src );
+
 // End of 3D field function block
 
 // Scent propagation helpers
@@ -1120,7 +1106,7 @@ public:
     /**
      * Translates local (to this map) coordinates of a square to
      * global absolute coordinates. (x,y) is in the system that
-     * is used by the ter_at/furn_at/i_at functions.
+     * is used by the ter/furn/i_at functions.
      * Output is in the same scale, but in global system.
      */
     point getabs(const int x, const int y) const;

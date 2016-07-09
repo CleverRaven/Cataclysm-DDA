@@ -516,5 +516,38 @@
         "volume": 1,
         "bashing": 4,
         "to_hit": -2
-    }
+    },
+  {
+    "id": "nail_bomb_act",
+    "type": "TOOL",
+    "name": "active nail bomb",
+    "description": "This is an active nail_bomb, likely to explode any second now.  Better throw it!",
+    "category": "weapons",
+    "weight": 290,
+    "volume": 2,
+    "price": 0,
+    "material": ["steel", "plastic"],
+    "symbol": "*",
+    "color": "green",
+    "initial_charges": 5,
+    "max_charges": 5,
+    "turns_per_charge": 1,
+    "use_action": {
+        "type": "explosion",
+        "sound_volume": 0,
+        "sound_msg": "Hiss.",
+        "no_deactivate_msg": "You've already lit the %s's fuse, try throwing it instead.",
+        "explosion_power": 5,
+        "explosion": {
+            "power": 12,
+            "shrapnel": {
+                "count": 40,
+                "mass": 4,
+                "recovery": 10,
+                "drop": "nail"
+            }
+        }
+    },
+    "flags": [ "BOMB" ]
+  }
 ]

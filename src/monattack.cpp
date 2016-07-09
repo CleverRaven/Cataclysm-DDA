@@ -1782,13 +1782,8 @@ bool mattack::fungus_fortify(monster *z)
         // Oops, can't reach. ):
         // How's about we spawn more tendrils? :)
         // Aimed at the player, too?  Sure!
-        int i = rng(-1, 1);
-        int j = rng(-1, 1);
-        if ((i == 0) && (j == 0)) { // Direct hit! :D
-            if (g->u.uncanny_dodge()) {
-                return true;
-            }
-
+        const tripoint hit_pos = target->pos() + point( rng( -1, 1 ), rng( -1, 1 ) );
+        if( hit_pos == target->pos() && !target->uncanny_dodge() ) {
             const body_part hit = body_part_hit_by_plant();
             //~ %s is bodypart name in accusative.
             add_msg(m_bad, _("A fungal tendril bursts forth from the earth and pierces your %s!"),
@@ -1796,9 +1791,8 @@ bool mattack::fungus_fortify(monster *z)
             g->u.deal_damage( z, hit, damage_instance( DT_CUT, rng( 5, 11 ) ) );
             g->u.check_dead_state();
             // Probably doesn't have spores available *just* yet.  Let's be nice.
-        } else {
+        } else if( g->is_empty( hit_pos ) ) {
             add_msg( m_bad, _("A fungal tendril bursts forth from the earth!") );
-            const tripoint hit_pos = tripoint( g->u.posx() + i, g->u.posy() + j, z->posz() );
             if( g->summon_mon(mon_fungal_tendril, hit_pos) ) {
                 monster *tendril = g->monster_at( hit_pos );
                 tendril->make_ally(z);
@@ -2953,7 +2947,7 @@ bool mattack::searchlight(monster *z)
         for (int x = zposx - 24; x < zposx + 24; x++) {
             for (int y = zposy - 24; y < zposy + 24; y++) {
                 tripoint dest( x, y, z->posz() );
-                if (g->m.ter_at(dest).id == "t_plut_generator") {
+                if( g->m.ter( dest ) == ter_str_id( "t_plut_generator" ) ) {
                     generator_ok = true;
                 }
             }
@@ -3537,7 +3531,7 @@ bool mattack::stretch_bite(monster *z)
             z->add_effect( effect_stunned, 6);
             target->add_msg_player_or_npc( _("The %1$s stretches its head at you, but bounces off the %2$s"),
                                            _("The %1$s stretches its head at <npcname>, but bounces off the %2$s"),
-                                           z->name().c_str(), g->m.disp_name( pnt ).c_str() );
+                                           z->name().c_str(), g->m.obstacle_name( pnt ).c_str() );
             return true;
         }
     }
@@ -3759,7 +3753,7 @@ bool mattack::longswipe(monster *z)
             }
             target->add_msg_player_or_npc( _( "The %1$s thrusts a claw at you, but it bounces off the %2$s!" ),
                                            _( "The %1$s thrusts a claw at <npcname>, but it bounces off the %2$s!" ),
-                                           z->name().c_str(), g->m.disp_name( pnt ).c_str() );
+                                           z->name().c_str(), g->m.obstacle_name( pnt ).c_str() );
             z->mod_moves( -150 );
             return true;
         }
@@ -4614,7 +4608,7 @@ bool mattack::stretch_attack(monster *z)
     for( auto &pnt : g->m.find_clear_path( z->pos(), target->pos() ) ) {
             if( g->m.impassable( pnt ) ) {
                 add_msg( _( "The %1$s thrusts its arm at you but bounces off the %2$s" ), z->name().c_str(),
-                         g->m.disp_name( pnt ).c_str() );
+                         g->m.obstacle_name( pnt ).c_str() );
                 return true;
             }
     }

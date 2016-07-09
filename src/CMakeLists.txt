@@ -124,6 +124,7 @@ SET(CATACLYSM_DDA_SOURCES
     ${CMAKE_SOURCE_DIR}/src/computer.cpp
     ${CMAKE_SOURCE_DIR}/src/trap.cpp
     ${CMAKE_SOURCE_DIR}/src/game.cpp
+    ${CMAKE_SOURCE_DIR}/src/game_inventory.cpp
     ${CMAKE_SOURCE_DIR}/src/gates.cpp
     ${CMAKE_SOURCE_DIR}/src/monattack.cpp
     ${CMAKE_SOURCE_DIR}/src/effect.cpp
@@ -174,6 +175,7 @@ SET(CATACLYSM_DDA_SOURCES
     ${CMAKE_SOURCE_DIR}/src/dump.cpp
     ${CMAKE_SOURCE_DIR}/src/overlay_ordering.cpp
     ${CMAKE_SOURCE_DIR}/src/turret.cpp
+    ${CMAKE_SOURCE_DIR}/src/emit.cpp
 )
 
 SET (CATACLYSM_DDA_HEADERS
@@ -224,6 +226,7 @@ SET (CATACLYSM_DDA_HEADERS
     ${CMAKE_SOURCE_DIR}/src/effect.h
     ${CMAKE_SOURCE_DIR}/src/explosion.h
     ${CMAKE_SOURCE_DIR}/src/creature.h
+    ${CMAKE_SOURCE_DIR}/src/inventory_ui.h
     ${CMAKE_SOURCE_DIR}/src/vehicle.h
     ${CMAKE_SOURCE_DIR}/src/vehicle_group.h
     ${CMAKE_SOURCE_DIR}/src/visitable.h
@@ -332,6 +335,7 @@ SET (CATACLYSM_DDA_HEADERS
     ${CMAKE_SOURCE_DIR}/src/bonuses.h
     ${CMAKE_SOURCE_DIR}/src/vitamin.h
     ${CMAKE_SOURCE_DIR}/src/fault.h
+    ${CMAKE_SOURCE_DIR}/src/emit.h
 	${CMAKE_SOURCE_DIR}/src/overlay_ordering.h
 	${CMAKE_SOURCE_DIR}/src/int_id.h
 	${CMAKE_SOURCE_DIR}/src/io.h

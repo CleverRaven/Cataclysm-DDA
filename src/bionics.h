@@ -6,6 +6,9 @@
 
 class player;
 
+struct quality;
+using quality_id = string_id<quality>;
+
 struct bionic_data {
     bionic_data();
 

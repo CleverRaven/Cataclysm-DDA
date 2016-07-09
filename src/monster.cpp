@@ -1156,14 +1156,12 @@ int monster::heal( const int delta_hp, bool overheal )
         return 0;
     }
 
+    const int old_hp = hp;
     hp += delta_hp;
     if( hp > maxhp && !overheal ) {
-        const int old_hp = hp;
         hp = maxhp;
-        return maxhp - old_hp;
     }
-
-    return delta_hp;
+    return maxhp - old_hp;
 }
 
 void monster::set_hp( const int hp )

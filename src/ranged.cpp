@@ -172,6 +172,11 @@ dealt_projectile_attack Creature::projectile_attack( const projectile &proj_arg,
         target.x = source.x + roll_remainder( new_range * cos( rad ) );
         target.y = source.y + roll_remainder( new_range * sin( rad ) );
 
+        if( target == source ) {
+            target.x = source.x + sgn( dx );
+            target.y = source.y + sgn( dy );
+        }
+
         // Don't extend range further, miss here can mean hitting the ground near the target
         range = rl_dist( source, target );
         extend_to_range = range;
@@ -180,9 +185,8 @@ dealt_projectile_attack Creature::projectile_attack( const projectile &proj_arg,
         missed_by = 1.0;
         sfx::play_variant_sound( "bullet_hit", "hit_wall", sfx::get_heard_volume( target ), sfx::get_heard_angle( target ));
         // TODO: Z dispersion
-        int junk = 0;
         // If we missed, just draw a straight line.
-        trajectory = line_to( source, target, junk, junk );
+        trajectory = line_to( source, target );
     } else {
         // Go around obstacles a little if we're on target.
         trajectory = g->m.find_clear_path( source, target );
@@ -266,11 +270,17 @@ dealt_projectile_attack Creature::projectile_attack( const projectile &proj_arg,
         }
 
         Creature *critter = g->critter_at( tp );
+        if( critter == this ) {
+            // No hitting self with "weird" attacks
+            critter = nullptr;
+        }
+
         monster *mon = dynamic_cast<monster *>(critter);
         // ignore non-point-blank digging targets (since they are underground)
         if( mon != nullptr && mon->digging() &&
             rl_dist( pos(), tp ) > 1) {
-            critter = mon = nullptr;
+            critter = nullptr;
+            mon = nullptr;
         }
 
         // Reset hit critter from the last iteration
@@ -1344,7 +1354,7 @@ static projectile make_gun_projectile( const item &gun ) {
     auto &fx = proj.proj_effects;
 
     if( ( gun.ammo_data() && gun.ammo_data()->phase == LIQUID ) ||
-        fx.count( "SHOT" ) || fx.count("BOUNCE" ) ) {
+        fx.count( "SHOT" ) || fx.count( "BOUNCE" ) ) {
         fx.insert( "WIDE" );
     }
 
@@ -1361,9 +1371,12 @@ static projectile make_gun_projectile( const item &gun ) {
             proj.set_drop( drop );
         }
 
-        if( fx.count( "FLARE" ) ) {
-            item drop( "handflare_lit" );
-            drop.active = true;
+        const auto ammo = gun.ammo_data()->ammo.get();
+        if( ammo->drop != "null" && x_in_y( ammo->drop_chance, 1.0 ) ) {
+            item drop( ammo->drop );
+            if( ammo->drop_active ) {
+                drop.activate();
+            }
             proj.set_drop( drop );
         }
 

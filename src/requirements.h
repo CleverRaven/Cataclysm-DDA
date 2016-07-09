@@ -13,6 +13,9 @@ class JsonObject;
 class JsonArray;
 class inventory;
 
+struct requirement_data;
+using requirement_id = string_id<requirement_data>;
+
 // Denotes the id of an item type
 typedef std::string itype_id;
 struct quality;
@@ -142,30 +145,65 @@ struct requirement_data {
         alter_item_comp_vector components;
 
     public:
+        const requirement_id &id() const {
+            return id_;
+        }
+
+        /** null requirements are always empty (were never initialized) */
+        bool is_null() const {
+            return id_ == requirement_id( "null" );
+        }
+
+        /** empty requirements are not necessary null */
+        bool is_empty() const {
+            return tools.empty() && components.empty() && qualities.empty();
+        }
+
+        /** check if removal of items via @ref blacklist_item left no alternatives in group */
+        bool is_blacklisted() const {
+            return blacklisted;
+        }
+
+        /** Scales tool and component requirements leaving qualities unaffected */
+        requirement_data operator*( unsigned scalar ) const;
+
+        /** Combines two sets of requirements */
+        requirement_data operator+( const requirement_data &rhs ) const;
 
         /**
          * Load @ref tools, @ref qualities and @ref components from
          * the json object. Assumes them to be in sub-objects.
+         * @param id provide (or override) unique id for this instance
          */
-        void load( JsonObject &jsobj );
+        static void load_requirement( JsonObject &jsobj, const std::string &id = "" );
+
+        /**
+         * Store requirement data for future lookup
+         * @param id provide (or override) unique id for this instance
+         */
+        static void save_requirement( const requirement_data &req, const std::string &id = "" );
+
+        /** Get all currently loaded requirements */
+        static const std::map<requirement_id, requirement_data> &all();
+
+        /** Check consistency of all loaded requirements */
+        static void check_consistency();
+
+        /** Clear all loaded requirements (invalidating any pointers) */
+        static void reset();
+
         /**
          * Returns a list of components/tools/qualities that are not available,
          * nicely formatted for popup window or similar.
          */
         std::string list_missing() const;
+
         /**
-         * Consistency checking
-         * @param display_name the string is used when displaying a error about
-         * inconsistent data (unknown item id, ...).
+         * Remove tools or components of given type leaving qualities unchanged
+         * @note if the last available component of a grouping is removed the recipe
+         * will be marked as @ref blacklisted
          */
-        void check_consistency( const std::string &display_name ) const;
-        /**
-         * Remove components (tools/items) of the given item type. Qualities are not
-         * changed.
-         * @returns true if any the last requirement in a list of alternatives has
-         * been removed. This requirement can never be fulfilled and should be discarded.
-         */
-        bool remove_item( const std::string &type );
+        void blacklist_item( const std::string &id );
 
         const alter_tool_comp_vector &get_tools() const;
         const alter_quali_req_vector &get_qualities() const;
@@ -174,12 +212,9 @@ struct requirement_data {
 
         bool can_make_with_inventory( const inventory &crafting_inv, int batch = 1 ) const;
 
-        int print_components( WINDOW *w, int ypos, int xpos, int width, nc_color col,
-                              const inventory &crafting_inv, int batch = 1 ) const;
         std::vector<std::string> get_folded_components_list( int width, nc_color col,
                 const inventory &crafting_inv, int batch = 1 ) const;
-        int print_tools( WINDOW *w, int ypos, int xpos, int width, nc_color col,
-                         const inventory &crafting_inv, int batch = 1 ) const;
+
         std::vector<std::string> get_folded_tools_list( int width, nc_color col,
                 const inventory &crafting_inv, int batch = 1 ) const;
 
@@ -190,6 +225,10 @@ struct requirement_data {
         const requirement_data disassembly_requirements() const;
 
     private:
+        requirement_id id_ = requirement_id( "null" );
+
+        bool blacklisted = false;
+
         bool check_enough_materials( const inventory &crafting_inv, int batch = 1 ) const;
         bool check_enough_materials( const item_comp &comp, const inventory &crafting_inv,
                                      int batch = 1 ) const;
@@ -203,14 +242,11 @@ struct requirement_data {
         template<typename T>
         static bool has_comps( const inventory &crafting_inv, const std::vector< std::vector<T> > &vec,
                                int batch = 1 );
+
         template<typename T>
-        static int print_list( WINDOW *w, int ypos, int xpos, int width, nc_color col,
-                               const inventory &crafting_inv, const std::vector< std::vector<T> > &objs, int batch = 1 );
-        template<typename T>
-        static std::vector<std::string> get_folded_list( int width, const inventory &crafting_inv,
-                const std::vector< std::vector<T> > &objs, int batch = 1 );
-        template<typename T>
-        static bool remove_item( const std::string &type, std::vector< std::vector<T> > &vec );
+        std::vector<std::string> get_folded_list( int width, const inventory &crafting_inv,
+                const std::vector< std::vector<T> > &objs, int batch = 1 ) const;
+
         template<typename T>
         static bool any_marked_available( const std::vector<T> &comps );
         template<typename T>

@@ -9,6 +9,7 @@
 #include "output.h"
 #include "catacharset.h"
 #include "crafting.h"
+#include "requirements.h"
 #include "options.h"
 #include "debug.h"
 #include "messages.h"
@@ -437,7 +438,7 @@ bool veh_interact::can_install_part() {
         }
     }
 
-    auto reqs = sel_vpart_info->install_reqs;
+    const auto reqs = sel_vpart_info->install_requirements();
     bool ok = reqs.can_make_with_inventory( crafting_inv );
 
     std::ostringstream msg;
@@ -456,7 +457,7 @@ bool veh_interact::can_install_part() {
     if( sel_vpart_info->install_skills.empty() ) {
         msg << string_format( "> <color_%1$s>%2$s</color>", status_color( true ), _( "NONE" ) ) << "\n";
     }
- 
+
     auto comps = reqs.get_folded_components_list( getmaxx( w_msg ), c_white, crafting_inv );
     std::copy( comps.begin(), comps.end(), std::ostream_iterator<std::string>( msg, "\n" ) );
 
@@ -994,7 +995,7 @@ bool veh_interact::can_remove_part( int idx ) {
         return false;
     }
 
-    auto reqs = sel_vpart_info->removal_reqs;
+    const auto reqs = sel_vpart_info->removal_requirements();
     bool ok = reqs.can_make_with_inventory( crafting_inv );
 
     std::ostringstream msg;
@@ -1289,7 +1290,7 @@ int veh_interact::part_at (int dx, int dy)
  */
 bool veh_interact::can_potentially_install(const vpart_info &vpart)
 {
-    return g->u.has_trait( "DEBUG_HS" ) || vpart.install_reqs.can_make_with_inventory( crafting_inv );
+    return g->u.has_trait( "DEBUG_HS" ) || vpart.install_requirements().can_make_with_inventory( crafting_inv );
 }
 
 /**
@@ -2062,7 +2063,7 @@ void complete_vehicle ()
         case 'i': {
         auto inv = g->u.crafting_inventory();
 
-        const auto& reqs = vpinfo.install_reqs;
+        const auto reqs = vpinfo.install_requirements();
         if( !reqs.can_make_with_inventory( inv ) ) {
            add_msg( m_info, _( "You don't meet the requirements to install the %s." ), vpinfo.name().c_str() );
            break;
@@ -2078,8 +2079,12 @@ void complete_vehicle ()
             }
         }
         if( base.is_null() ) {
-           add_msg( m_info, _( "Could not find base part in requirements for %s." ), vpinfo.name().c_str() );
-           break;
+            if( !g->u.has_trait( "DEBUG_HS" ) ) {
+                add_msg( m_info, _( "Could not find base part in requirements for %s." ), vpinfo.name().c_str() );
+                break;
+            } else {
+                base = item( vpinfo.item );
+            }
         }
 
         for( const auto& e : reqs.get_tools() ) {
@@ -2176,7 +2181,7 @@ void complete_vehicle ()
     case 'o': {
         auto inv = g->u.crafting_inventory();
 
-        const auto& reqs = vpinfo.removal_reqs;
+        const auto reqs = vpinfo.removal_requirements();
         if( !reqs.can_make_with_inventory( inv ) ) {
            add_msg( m_info, _( "You don't meet the requirements to remove the %s." ), vpinfo.name().c_str() );
            break;
@@ -2192,8 +2197,10 @@ void complete_vehicle ()
         g->u.invalidate_crafting_inventory();
 
         // Dump contents of part at player's feet, if any.
-        for( auto &elem : veh->get_items(vehicle_part) ) {
-            g->m.add_item_or_charges( g->u.posx(), g->u.posy(), elem );
+        vehicle_stack contents = veh->get_items( vehicle_part );
+        for( auto iter = contents.begin(); iter != contents.end(); ) {
+            g->m.add_item_or_charges( g->u.posx(), g->u.posy(), *iter );
+            iter = contents.erase( iter );
         }
 
         // Power cables must remove parts from the target vehicle, too.

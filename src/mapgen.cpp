@@ -8940,7 +8940,7 @@ FFFFFFFFFFFFFFFFFFFFFFFF\n\
                     if (one_in(2)) {
                         place_items("sports",  72, x, y, x, y + SEEY - 4, false, 0);
                     } else if (one_in(10)) {
-                        place_items("guns_rifles_common",  20, x, y, x, y + SEEY - 4, false, 0);
+                        place_items("guns_rifle_common",  20, x, y, x, y + SEEY - 4, false, 0);
                     } else {
                         place_items("camping", 68, x, y, x, y + SEEY - 4, false, 0);
                     }
@@ -10535,10 +10535,11 @@ std::vector<item *> map::place_items( items_location loc, int chance, int x1, in
             // Might contain one item or several that belong together like guns & their ammo
             int tries = 0;
             auto is_valid_terrain = [this,ongrass](int x,int y){
-                return this->ter_at(x, y).movecost == 0           &&
-                       !this->ter_at(x, y).has_flag("PLACE_ITEM") &&
+                auto &terrain = ter( x, y ).obj();
+                return terrain.movecost == 0           &&
+                       !terrain.has_flag("PLACE_ITEM") &&
                        !ongrass                                   &&
-                       !this->ter_at(x, y).has_flag("FLAT");
+                       !terrain.has_flag("FLAT");
             };
             do {
                 px = rng(x1, x2);
@@ -10691,14 +10692,14 @@ vehicle *map::add_vehicle_to_map(vehicle *veh, const bool merge_wrecks)
         const auto p = veh->global_pos3() + veh->parts[*part].precalc[0];
 
         //Don't spawn anything in water
-        if (ter_at( p ).has_flag(TFLAG_DEEP_WATER) && !can_float) {
+        if( has_flag_ter( TFLAG_DEEP_WATER, p ) && !can_float ) {
             delete veh;
             return nullptr;
         }
 
         // Don't spawn shopping carts on top of another vehicle or other obstacle.
-        if (veh->type == vproto_id( "shopping_cart" ) ) {
-            if (veh_at( p ) != nullptr || impassable( p )) {
+        if( veh->type == vproto_id( "shopping_cart" ) ) {
+            if( veh_at( p ) != nullptr || impassable( p ) ) {
                 delete veh;
                 return nullptr;
             }
@@ -10710,6 +10711,13 @@ vehicle *map::add_vehicle_to_map(vehicle *veh, const bool merge_wrecks)
         vehicle *other_veh = veh_at( p );
         if( other_veh != nullptr && other_veh->type != vproto_id( "shopping_cart" ) ) {
             if( !merge_wrecks ) {
+                delete veh;
+                return nullptr;
+            }
+
+            // Hard wreck-merging limit: 200 tiles
+            // Merging is slow for big vehicles which lags the mapgen
+            if( frame_indices.size() + other_veh->all_parts_at_location("structure").size() > 200 ) {
                 delete veh;
                 return nullptr;
             }
@@ -10757,24 +10765,37 @@ vehicle *map::add_vehicle_to_map(vehicle *veh, const bool merge_wrecks)
             wreckage->name = _("Wreckage");
             wreckage->smash();
 
-            //Now get rid of the old vehicles
-            destroy_vehicle(other_veh);
+            // Now get rid of the old vehicles
+            std::unique_ptr<vehicle> old_veh = detach_vehicle( other_veh );
             delete veh;
 
-            //Try again with the wreckage
-            return add_vehicle_to_map(wreckage, true);
-
-        } else if (impassable(p.x, p.y)) {
-            if( !merge_wrecks ) {
-                delete veh;
-                return NULL;
+            // Try again with the wreckage
+            vehicle *new_veh = add_vehicle_to_map( wreckage, true );
+            if( new_veh != nullptr ) {
+                return new_veh;
             }
 
-            //There's a wall or other obstacle here; destroy it
-            destroy( tripoint( p.x, p.y, abs_sub.z ), true);
+            // If adding the wreck failed, we want to restore the vehicle we tried to merge with
+            add_vehicle_to_map( old_veh.release(), false );
+            return nullptr;
 
-            //Then smash up the vehicle
-            if(!veh_smashed) {
+        } else if( impassable( p ) ) {
+            if( !merge_wrecks ) {
+                delete veh;
+                return nullptr;
+            }
+
+            // There's a wall or other obstacle here; destroy it
+            destroy( p, true );
+
+            // Some weird terrain, don't place the vehicle
+            if( impassable( p ) ) {
+                delete veh;
+                return nullptr;
+            }
+
+            if( !veh_smashed ) {
+                // Then smash up the vehicle
                 veh->smash();
                 veh_smashed = true;
             }

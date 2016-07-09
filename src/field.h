@@ -9,6 +9,8 @@
 #include <map>
 #include <iosfwd>
 
+enum phase_id : int;
+
 /*
 struct field_t
 Used to store the master field effects list metadata. Not used to store a field, just queried to find out specifics
@@ -43,6 +45,9 @@ struct field_t {
 
      /** cost of moving into and out of this field at given density */
     int move_cost[ MAX_FIELD_DENSITY ];
+
+    /** Does it penetrate obstacles like gas, spread like liquid or just lie there like solid? */
+    phase_id phase;
 };
 
 //The master list of id's for a field, corresponding to the fieldlist array.

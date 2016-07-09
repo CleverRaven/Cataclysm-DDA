@@ -2,9 +2,8 @@
 #define CRAFTING_H
 
 #include "item.h"         // item
-#include "requirements.h" // requirement_data
 #include "cursesdef.h"    // WINDOW
-#include "string_id.h"
+#include "requirements.h"
 
 #include <string>
 #include <vector>
@@ -17,12 +16,12 @@ class Skill;
 using skill_id = string_id<Skill>;
 class inventory;
 class player;
-struct recipe;
 
 enum body_part : int; // From bodypart.h
 typedef int nc_color; // From color.h
 
 using itype_id     = std::string; // From itype.h
+using requirement_id = string_id<requirement_data>;
 
 struct byproduct {
     itype_id result;
@@ -46,7 +45,18 @@ struct recipe {
         itype_id result;
         int time; // in movement points (100 per turn)
         int difficulty;
-        requirement_data requirements;
+
+        /** Fetch combined requirement data (inline and via "using" syntax) */
+        const requirement_data& requirements() const {
+            return requirements_;
+        }
+
+        /** Combined requirements cached when recipe finalized */
+        requirement_data requirements_;
+
+        /** Second field is the multiplier */
+        std::vector<std::pair<requirement_id, int>> reqs;
+
         std::vector<byproduct> byproducts;
         std::string cat;
         // Does the item spawn contained in container?

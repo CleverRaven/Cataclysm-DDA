@@ -31,6 +31,7 @@ ignore_files = {
 ignorable = {
     "BULLET_PULLING",
     "colordef",
+    "emit",
     "epilogue", # FIXME right now this object can't be translated correctly
     "GAME_OPTION",
     "ITEM_BLACKLIST",
@@ -48,6 +49,7 @@ ignorable = {
     "overmap_special",
     "region_overlay",
     "region_settings",
+    "requirement",
     "SPECIES",
     "vehicle_group",
     "vehicle_placement",

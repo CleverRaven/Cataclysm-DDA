@@ -52,6 +52,9 @@ class iuse_transform : public iuse_actor
         /** if zero or positive set remaining ammo of @ref target to this (after transformation) */
         long ammo_qty = -1;
 
+        /** if positive set transformed item active and start countdown */
+        int countdown = 0;
+
         /** if both this and ammo_qty are specified then set @ref target to this specific ammo */
         std::string ammo_type;
 
@@ -83,6 +86,29 @@ class iuse_transform : public iuse_actor
         iuse_actor *clone() const override;
         std::string get_name() const override;
         void finalize( const itype_id &my_item_type ) override;
+};
+
+class countdown_actor : public iuse_actor
+{
+    public:
+        countdown_actor( const std::string &type = "countdown" ) : iuse_actor( type ) {}
+
+        /** if specified overrides default action name */
+        std::string name;
+
+        /** turns before countdown action (defaults to @ref itype::countdown_interval) */
+        int interval = 0;
+
+        /** message if player sees activation with %s replaced by item name */
+        std::string message;
+
+        ~countdown_actor() override;
+        void load( JsonObject &jo ) override;
+        long use(player *, item *, bool, const tripoint & ) const override;
+        iuse_actor *clone() const override;
+        bool can_use( const player *, const item *it, bool, const tripoint & ) const override;
+        std::string get_name() const override;
+        void info( const item &, std::vector<iteminfo> & ) const override;
 };
 
 /**
@@ -342,38 +368,30 @@ class firestarter_actor : public iuse_actor
 {
     public:
         /**
-         * Moves used at start of the action.
+         * Moves used at start of the action when starting fires with good fuel.
          */
-        int moves_cost = 0;
+        int moves_cost_fast = 100;
 
-        static bool prep_firestarter_use( const player *p, const item *it, tripoint &pos );
-        static void resolve_firestarter_use( const player *p, const item *, const tripoint &pos );
+        /**
+         * Total moves when starting fires with mediocre fuel.
+         */
+        int moves_cost_slow = 1000;
 
-        firestarter_actor( const std::string &type = "firestarter" ) : iuse_actor( type ) {}
-
-        ~firestarter_actor() override { }
-        void load( JsonObject &jo ) override;
-        long use( player*, item*, bool, const tripoint& ) const override;
-        bool can_use( const player*, const item*, bool, const tripoint& ) const override;
-        iuse_actor *clone() const override;
-};
-
-/**
- * Starts an extended action to start a fire
- */
-class extended_firestarter_actor : public firestarter_actor
-{
-    public:
         /**
          * Does it need sunlight to be used.
          */
         bool need_sunlight = false;
 
-        int calculate_time_for_lens_fire( const player *, float light_level ) const;
+        static bool prep_firestarter_use( const player *p, const item *it, tripoint &pos );
+        static void resolve_firestarter_use( const player *p, const item *, const tripoint &pos );
+        /** Modifier on speed - higher is better, 0 means it won't work. */
+        float light_mod( const tripoint &pos ) const;
+        /** Checks quality of fuel on the tile and interpolates move cost based on that. */
+        int moves_cost_by_fuel( const tripoint &pos ) const;
 
-        extended_firestarter_actor( const std::string &type = "extended_firestarter" ) : firestarter_actor( type ) {}
+        firestarter_actor( const std::string &type = "firestarter" ) : iuse_actor( type ) {}
 
-        ~extended_firestarter_actor() override { }
+        ~firestarter_actor() override { }
         void load( JsonObject &jo ) override;
         long use( player*, item*, bool, const tripoint& ) const override;
         bool can_use( const player*, const item*, bool, const tripoint& ) const override;

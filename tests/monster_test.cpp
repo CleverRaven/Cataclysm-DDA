@@ -109,8 +109,8 @@ static int can_catch_player( const std::string &monster_type, const tripoint &di
     REQUIRE( g->num_zombies() == 0 );
     player &test_player = g->u;
     // Strip off any potentially encumbering clothing.
-    std::vector<item> taken_off_items;
-    while( test_player.takeoff( -2, true, &taken_off_items) );
+    std::list<item> temp;
+    while( test_player.takeoff( test_player.i_at( -2 ), &temp ) );
 
     test_player.setpos( { 65, 65, 0 } );
     test_player.set_moves( 0 );

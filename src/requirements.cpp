@@ -14,6 +14,29 @@
 #include <algorithm>
 #include "generic_factory.h"
 
+static std::map<requirement_id, requirement_data> requirements_all;
+
+template <>
+const requirement_id string_id<requirement_data>::NULL_ID( "null" );
+
+template<>
+bool string_id<requirement_data>::is_valid() const
+{
+    return requirements_all.count( *this );
+}
+
+template<>
+const requirement_data &string_id<requirement_data>::obj() const
+{
+    const auto found = requirements_all.find( *this );
+    if( found == requirements_all.end() ) {
+        debugmsg( "Tried to get invalid requirements: %s", c_str() );
+        static const requirement_data null_requirement{};
+        return null_requirement;
+    }
+    return found->second;
+}
+
 namespace {
 generic_factory<quality> quality_factory( "tool quality" );
 } // namespace
@@ -150,15 +173,79 @@ void requirement_data::load_obj_list( JsonArray &jsarr, std::vector< std::vector
     }
 }
 
-void requirement_data::load( JsonObject &jsobj )
+requirement_data requirement_data::operator*( unsigned scalar ) const
 {
+    requirement_data res = *this;
+    for( auto &group : res.components ) {
+        for( auto &e : group ) {
+            e.count = std::max( e.count * int( scalar ), -1 );
+        }
+    }
+    for( auto &group : res.tools ) {
+        for( auto &e : group ) {
+            e.count = std::max( e.count * int( scalar ), -1 );
+        }
+    }
+
+    return res;
+}
+
+requirement_data requirement_data::operator+( const requirement_data &rhs ) const
+{
+    requirement_data res = *this;
+
+    res.components.insert( res.components.end(), rhs.components.begin(), rhs.components.end() );
+    res.tools.insert( res.tools.end(), rhs.tools.begin(), rhs.tools.end() );
+    res.qualities.insert( res.qualities.end(), rhs.qualities.begin(), rhs.qualities.end() );
+
+    // combined result is temporary which caller could store via @ref save_requirement
+    res.id_ = requirement_id::NULL_ID;
+
+    // @todo deduplicate qualites and combine other requirements
+
+    // if either operand was blacklisted then their summation should also be
+    res.blacklisted |= rhs.blacklisted;
+
+    return res;
+}
+
+void requirement_data::load_requirement( JsonObject &jsobj, const std::string &id )
+{
+    requirement_data req;
+
     JsonArray jsarr;
     jsarr = jsobj.get_array( "components" );
-    load_obj_list( jsarr, components );
+    req.load_obj_list( jsarr, req.components );
     jsarr = jsobj.get_array( "qualities" );
-    load_obj_list( jsarr, qualities );
+    req.load_obj_list( jsarr, req.qualities );
     jsarr = jsobj.get_array( "tools" );
-    load_obj_list( jsarr, tools );
+    req.load_obj_list( jsarr, req.tools );
+
+    if( !id.empty() ) {
+        req.id_ = requirement_id( id );
+    } else if( jsobj.has_string( "id" ) ) {
+        req.id_ = requirement_id( jsobj.get_string( "id" ) );
+    } else {
+        jsobj.throw_error( "id was not specified for requirement" );
+    }
+
+    save_requirement( req );
+}
+
+void requirement_data::save_requirement( const requirement_data &req, const std::string &id )
+{
+    auto dup = req;
+    if( !id.empty() ) {
+        dup.id_ = requirement_id( id );
+    }
+
+    if( requirements_all.find( req.id_  ) != requirements_all.end() ) {
+        DebugLog( D_INFO, DC_ALL ) << "Updated requirement: " << dup.id_.c_str();
+    } else {
+        DebugLog( D_INFO, DC_ALL ) << "Added requirement: " << dup.id_.c_str();
+    }
+
+    requirements_all[ dup.id_ ] = dup;
 }
 
 template<typename T>
@@ -231,21 +318,24 @@ void requirement_data::check_consistency( const std::vector< std::vector<T> > &v
     }
 }
 
-void requirement_data::check_consistency( const std::string &display_name ) const
+const std::map<requirement_id, requirement_data> &requirement_data::all()
 {
-    check_consistency( tools, display_name );
-    check_consistency( components, display_name );
-    check_consistency( qualities, display_name );
+    return requirements_all;
 }
 
-int requirement_data::print_components( WINDOW *w, int ypos, int xpos, int width, nc_color col,
-                                        const inventory &crafting_inv, int batch ) const
+
+void requirement_data::check_consistency()
 {
-    if( components.empty() ) {
-        return 0;
+    for( const auto &r : all() ) {
+        check_consistency( r.second.tools, r.first.str() );
+        check_consistency( r.second.components, r.first.str() );
+        check_consistency( r.second.qualities, r.first.str() );
     }
-    mvwprintz( w, ypos, xpos, col, _( "Components required:" ) );
-    return print_list( w, ypos + 1, xpos, width, col, crafting_inv, components, batch ) + 1;
+}
+
+void requirement_data::reset()
+{
+    requirements_all.clear();
 }
 
 std::vector<std::string> requirement_data::get_folded_components_list( int width, nc_color col,
@@ -268,32 +358,13 @@ std::vector<std::string> requirement_data::get_folded_components_list( int width
 }
 
 template<typename T>
-int requirement_data::print_list( WINDOW *w, int ypos, int xpos, int width, nc_color col,
-                                  const inventory &crafting_inv, const std::vector< std::vector<T> > &objs,
-                                  int batch )
-{
-    const int oldy = ypos;
-    for( const auto &comp_list : objs ) {
-        const bool has_one = any_marked_available( comp_list );
-        std::ostringstream buffer;
-        for( auto a = comp_list.begin(); a != comp_list.end(); ++a ) {
-            if( a != comp_list.begin() ) {
-                buffer << "<color_white> " << _( "OR" ) << "</color> ";
-            }
-            const std::string col = a->get_color( has_one, crafting_inv, batch );
-            buffer << "<color_" << col << ">" << a->to_string( batch ) << "</color>";
-        }
-        mvwprintz( w, ypos, xpos, col, "> " );
-        ypos += fold_and_print( w, ypos, xpos + 2, width - 2, col, buffer.str() );
-    }
-    return ypos - oldy;
-}
-
-template<typename T>
 std::vector<std::string> requirement_data::get_folded_list( int width,
         const inventory &crafting_inv, const std::vector< std::vector<T> > &objs,
-        int batch )
+        int batch ) const
 {
+    // hack: ensure 'cached' availability is up to date
+    can_make_with_inventory( crafting_inv );
+
     std::vector<std::string> out_buffer;
     for( const auto &comp_list : objs ) {
         const bool has_one = any_marked_available( comp_list );
@@ -316,23 +387,6 @@ std::vector<std::string> requirement_data::get_folded_list( int width,
         }
     }
     return out_buffer;
-}
-
-int requirement_data::print_tools( WINDOW *w, int ypos, int xpos, int width, nc_color col,
-                                   const inventory &crafting_inv, int batch ) const
-{
-    const int oldy = ypos;
-    mvwprintz( w, ypos, xpos, col, _( "Tools required:" ) );
-    ypos++;
-    if( tools.empty() && qualities.empty() ) {
-        mvwprintz( w, ypos, xpos, col, "> " );
-        mvwprintz( w, ypos, xpos + 2, c_green, _( "NONE" ) );
-        ypos++;
-        return ypos - oldy;
-    }
-    ypos += print_list( w, ypos, xpos, width, col, crafting_inv, qualities );
-    ypos += print_list( w, ypos, xpos, width, col, crafting_inv, tools, batch );
-    return ypos - oldy;
 }
 
 std::vector<std::string> requirement_data::get_folded_tools_list( int width, nc_color col,
@@ -361,6 +415,10 @@ std::vector<std::string> requirement_data::get_folded_tools_list( int width, nc_
 
 bool requirement_data::can_make_with_inventory( const inventory &crafting_inv, int batch ) const
 {
+    if( g->u.has_trait( "DEBUG_HS" ) ) {
+        return true;
+    }
+
     bool retval = true;
     // All functions must be called to update the available settings in the components.
     if( !has_comps( crafting_inv, qualities ) ) {
@@ -403,6 +461,10 @@ bool requirement_data::has_comps( const inventory &crafting_inv,
 
 bool quality_requirement::has( const inventory &crafting_inv, int ) const
 {
+    if( g->u.has_trait( "DEBUG_HS" ) ) {
+        return true;
+    }
+
     return crafting_inv.has_quality( type, level, count );
 }
 
@@ -413,6 +475,10 @@ std::string quality_requirement::get_color( bool, const inventory &, int ) const
 
 bool tool_comp::has( const inventory &crafting_inv, int batch ) const
 {
+    if( g->u.has_trait( "DEBUG_HS" ) ) {
+        return true;
+    }
+
     if( !by_charges() ) {
         return crafting_inv.has_tools( type, std::abs( count ) );
     } else {
@@ -434,16 +500,10 @@ std::string tool_comp::get_color( bool has_one, const inventory &crafting_inv, i
 
 bool item_comp::has( const inventory &crafting_inv, int batch ) const
 {
-    // If you've Rope Webs, you can spin up the webbing to replace any amount of
-    // rope your projects may require.  But you need to be somewhat nourished:
-    // Famished or worse stops it.
-    if( type == "rope_30" || type == "rope_6" ) {
-        // NPC don't craft?
-        // TODO: what about the amount of ropes vs the hunger?
-        if( g->u.has_trait( "WEB_ROPE" ) && g->u.get_hunger() <= 300 ) {
-            return true;
-        }
+    if( g->u.has_trait( "DEBUG_HS" ) ) {
+        return true;
     }
+
     const int cnt = std::abs( count ) * batch;
     if( item::count_by_charges( type ) ) {
         return crafting_inv.has_charges( type, cnt );
@@ -454,11 +514,6 @@ bool item_comp::has( const inventory &crafting_inv, int batch ) const
 
 std::string item_comp::get_color( bool has_one, const inventory &crafting_inv, int batch ) const
 {
-    if( type == "rope_30" || type == "rope_6" ) {
-        if( g->u.has_trait( "WEB_ROPE" ) && g->u.get_hunger() <= 300 ) {
-            return "ltgreen"; // Show that WEB_ROPE is on the job!
-        }
-    }
     const int cnt = std::abs( count ) * batch;
     if( available == a_insufficent ) {
         return "brown";
@@ -550,27 +605,33 @@ bool requirement_data::check_enough_materials( const item_comp &comp,
     return comp.available == a_true;
 }
 
-template<typename T>
-bool requirement_data::remove_item( const std::string &type, std::vector< std::vector<T> > &vec )
+template <typename T>
+static bool apply_blacklist( std::vector<std::vector<T>> &vec, const std::string &id )
 {
-    for( auto &elem : vec ) {
-        for( auto c = elem.begin(); c != elem.end(); ) {
-            if( c->type == type ) {
-                if( elem.size() == 1 ) {
-                    return true;
-                }
-                c = elem.erase( c );
-            } else {
-                ++c;
-            }
-        }
+    // remove all instances of @id type from each of the options
+    for( auto &opts : vec ) {
+        opts.erase( std::remove_if( opts.begin(), opts.end(), [&id]( const T &e ) {
+            return e.type == id;
+        } ), opts.end() );
     }
-    return false;
+
+    // did we remove the last instance of an option group?
+    bool blacklisted = std::any_of( vec.begin(), vec.end(), []( const std::vector<T> &e ) {
+        return e.empty();
+    } );
+
+    // if an option group is left empty then it can be removed
+    vec.erase( std::remove_if( vec.begin(), vec.end(), []( const std::vector<T> &e ) {
+        return e.empty();
+    } ), vec.end() );
+
+    return blacklisted;
 }
 
-bool requirement_data::remove_item( const std::string &type )
+void requirement_data::blacklist_item( const std::string &id )
 {
-    return remove_item( type, tools ) || remove_item( type, components );
+    blacklisted += apply_blacklist( tools, id );
+    blacklisted += apply_blacklist( components, id );
 }
 
 const requirement_data::alter_tool_comp_vector &requirement_data::get_tools() const
@@ -658,6 +719,15 @@ const requirement_data requirement_data::disassembly_requirements() const
                                      []( const std::vector<tool_comp> &tcv ) {
                                          return tcv.empty();
                                      } ), ret.tools.end() );
+    // Remove unrecoverable components
+    ret.components.erase( std::remove_if( ret.components.begin(), ret.components.end(),
+        []( std::vector<item_comp> &cov ) {
+            cov.erase( std::remove_if( cov.begin(), cov.end(),
+                []( const item_comp &comp ) {
+                    return !comp.recoverable || item( comp.type ).has_flag( "UNRECOVERABLE" );
+                } ), cov.end() );
+            return cov.empty();
+        } ), ret.components.end() );
 
     return ret;
 }

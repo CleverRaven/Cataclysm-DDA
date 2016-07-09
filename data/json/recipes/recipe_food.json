@@ -550,25 +550,11 @@
   "skill_used": "cooking",
   "difficulty": 3,
   "time": 60000,
-  "reversible": false,
   "autolearn": true,
   "batch_time_factors":[83, 3],
-  "qualities" : [
-     {"id":"COOK","level":1,"amount":1} ],
-  "tools": [
-    [
-      [ "char_smoker", 20 ]
-    ]
-  ],
-  "components": [
-    [
-      [ "meat", 3 ]
-    ],
-    [
-      [ "skewer_bone", 3 ],
-      [ "skewer", 3 ]
-    ]
-  ]
+  "qualities" : [ { "id":"COOK","level":1 } ],
+  "tools": [ [ [ "char_smoker", 20 ] ] ],
+  "components": [ [ [ "meat", 3 ] ] ]
 },{
   "type" : "recipe",
   "result": "fish_smoked",
@@ -577,25 +563,11 @@
   "skill_used": "cooking",
   "difficulty": 3,
   "time": 60000,
-  "reversible": false,
   "autolearn": true,
   "batch_time_factors":[83, 3],
-  "qualities" : [
-     {"id":"COOK","level":1,"amount":1} ],
-  "tools": [
-    [
-      [ "char_smoker", 20 ]
-    ]
-  ],
-  "components": [
-    [
-      [ "fish", 6 ]
-    ],
-    [
-      [ "skewer_bone", 3 ],
-      [ "skewer", 3 ]
-    ]
-  ]
+  "qualities" : [ { "id":"COOK","level":1 } ],
+  "tools": [ [ [ "char_smoker", 20 ] ] ],
+  "components": [ [ [ "fish", 6 ] ] ]
 },{
   "type" : "recipe",
   "result": "dry_hflesh",
@@ -1350,26 +1322,11 @@
   "skill_used": "cooking",
   "difficulty": 3,
   "time": 60000,
-  "reversible": false,
-  "autolearn": false,
   "book_learn": [[ "cookbook_human", 4 ]],
   "batch_time_factors":[83, 3],
-  "qualities" : [
-     {"id":"COOK","level":1,"amount":1} ],
-  "tools": [
-    [
-      [ "char_smoker", 20 ]
-    ]
-  ],
-  "components": [
-    [
-      [ "human_flesh", 3 ]
-    ],
-    [
-      [ "skewer_bone", 3 ],
-      [ "skewer", 3 ]
-    ]
-  ]
+  "qualities" : [ { "id":"COOK","level":1 } ],
+  "tools": [ [ [ "char_smoker", 20 ] ] ],
+  "components": [ [ [ "human_flesh", 3 ] ] ]
 },{
   "type" : "recipe",
   "result": "mannwurst",
@@ -8769,15 +8726,14 @@
         "autolearn": true,
         "flags": ["BLIND_EASY"],
         "components": [ [
-            [ "gin", 7 ],
-            [ "mead", 7 ],
-            [ "pine_wine", 7 ],
-            [ "rum", 7 ],
-            [ "single_malt_whiskey", 7 ],
-            [ "tequila", 7 ],
-            [ "triple_sec", 7 ],
-            [ "vodka", 7 ],
-            [ "whiskey", 7 ]
+            [ "gin", 1 ],
+            [ "rum", 1 ],
+            [ "single_malt_whiskey", 1 ],
+            [ "tequila", 1 ],
+            [ "triple_sec", 1 ],
+            [ "vodka", 1 ],
+            [ "whiskey", 1 ],
+            [ "brandy", 1 ]
         ] ]
     },{
         "type" : "recipe",
@@ -12174,7 +12130,7 @@
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_DRINKS",
   "skill_used": "cooking",
-  "requires_skills": [ "survival", 4 ],
+  "skills_required": [ "survival", 4 ],
   "difficulty": 5,
   "time": 15000,
   "reversible": false,
@@ -12211,7 +12167,7 @@
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_DRINKS",
   "skill_used": "cooking",
-  "requires_skills": [ "survival", 1 ],
+  "skills_required": [ "survival", 1 ],
   "difficulty": 5,
   "time": 7000,
   "reversible": false,

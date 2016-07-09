@@ -282,7 +282,7 @@
             [ "TORSO", 4 ],
             [ "MOUTH", 2 ]
         ],
-        "description": "Implanted in your trachea is an advanced filtration system.  If toxins find their way into your windpipe, the filter will attempt to remove them."
+        "description": "Implanted in your trachea is an advanced filtration system.  If toxins, or airborne diseases find their way into your windpipe, the filter will attempt to remove them.  Reducing the toxic effects."
     },{
         "type": "bionic",
         "id": "bio_climate",
@@ -536,8 +536,11 @@
         "occupied_bodyparts": [
             [ "TORSO", 10 ]
         ],
-        "act_cost": 50,
-        "description": "You are equipped with bionic stimulators which augment your haematopoiesis system, allowing you to accelerate white blood cell production using bionic power."
+        "toggled": true,
+        "act_cost": 10,
+        "react_cost": 1,
+        "time": 600,
+        "description": "You are equipped with bionic stimulators which augment your haematopoiesis system, allowing you to accelerate white blood cell production using bionic power.  It is supposed to run continuously and may cause unpleasant side effects when turned off."
     },{
         "type": "bionic",
         "id": "bio_scent_mask",

@@ -40,9 +40,6 @@ int list_filter_high_priority( std::vector<map_item_stack> &stack, std::string p
 int list_filter_low_priority( std::vector<map_item_stack> &stack, int start,
                               std::string priorities );
 
-int calculate_drop_cost( std::vector<item> &dropped, const std::vector<item> &dropped_worn,
-                         int freed_volume_capacity );
-
 double logarithmic( double t );
 double logarithmic_range( int min, int max, int pos );
 

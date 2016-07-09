@@ -42,20 +42,6 @@
     "delete": { "effects": [ "NEVER_MISFIRES" ] }
   },
   {
-    "id": "reloaded_shot_he",
-    "copy-from": "shot_he",
-    "type": "AMMO",
-    "name": "reloaded explosive slug",
-    "name_plural": "reloaded explosive slug",
-    "proportional": {
-        "price": 0.7,
-        "damage": 0.9,
-        "dispersion": 1.1
-    },
-    "extend": { "effects": [ "RECYCLED" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ] }
-  },
-  {
     "id": "reloaded_shot_slug",
     "copy-from": "shot_slug",
     "type": "AMMO",
@@ -160,23 +146,6 @@
     "proportional": {
         "price": 0.4,
         "damage": 0.6,
-        "dispersion": 1.2
-    },
-    "extend": { "effects": [ "RECYCLED" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ] }
-  },
-  {
-    "id" : "shot_scrapslug",
-    "copy-from": "shot_slug",
-    "type" : "AMMO",
-    "name" : "makeshift shotgun slug",
-    "name_plural": "makeshift shotgun slug",
-    "description" : "A shotgun shell filled with a slug made from whatever that was lying around.  It is fairly inaccurate, and does little damage, but it works in a pinch.",
-    "proportional": {
-        "price": 0.4,
-        "damage": 0.6,
-        "pierce": 0.6,
-        "range": 0.8,
         "dispersion": 1.2
     },
     "extend": { "effects": [ "RECYCLED" ] },

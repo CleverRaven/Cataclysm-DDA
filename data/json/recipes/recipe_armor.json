@@ -1711,6 +1711,7 @@
 },{
   "type" : "recipe",
   "result": "vest_leather",
+  "byproducts": { "id" : "leather", "amount" : 5 },
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_TORSO",
   "skill_used": "tailor",
@@ -9472,7 +9473,7 @@
     "category" : "CC_ARMOR",
     "subcategory" : "CSC_ARMOR_STORAGE",
     "skill_used" : "fabrication",
-    "requires_skills" : ["fabrication", 1],
+    "skills_required" : ["fabrication", 1],
     "difficulty" : 2,
     "time" : 1500,
     "reversible" : false,

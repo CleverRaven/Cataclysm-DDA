@@ -605,14 +605,7 @@ void npc::execute_action( npc_action action )
         break;
 
     case npc_mug_player:
-        update_path( g->u.pos() );
-        if (path.size() == 1) { // We're adjacent to u, and thus can mug u
-            mug_player(g->u);
-        } else if (!path.empty()) {
-            move_to_next();
-        } else {
-            move_pause();
-        }
+        mug_player(g->u);
         break;
 
     case npc_goto_destination:
@@ -1467,7 +1460,7 @@ void npc::move_to( const tripoint &pt, bool no_bashing )
         }
     } else if( !no_bashing && smash_ability() > 0 && g->m.is_bashable( p ) &&
                g->m.bash_rating( smash_ability(), p ) > 0 ) {
-        moves -= is_armed() ? 80 : weapon.attack_time() * 0.8;
+        moves -= !is_armed() ? 80 : weapon.attack_time() * 0.8;
         g->m.bash( p, smash_ability() );
     } else {
         if( attitude == NPCATT_MUG ||
@@ -2438,6 +2431,10 @@ bool npc::consume_food()
 
 void npc::mug_player(player &mark)
 {
+    if( mark.is_armed() ) {
+        make_angry();
+    }
+
     if( rl_dist( pos(), mark.pos() ) > 1 ) { // We have to travel
         update_path( mark.pos() );
         move_to_next();
@@ -2988,7 +2985,7 @@ bool covers_broken( const Character &who, const item &it )
 {
     const auto covered = it.get_covered_body_parts();
     for( size_t i = 0; i < num_hp_parts; i++ ) {
-        
+
         if( who.hp_cur[ i ] <= 0 && covered[ player::hp_to_bp( hp_part( i ) ) ] ) {
             return true;
         }
@@ -3016,7 +3013,7 @@ bool npc::adjust_worn()
         it.set_side( it.get_side() == LEFT ? RIGHT : LEFT );
         any_broken = covers_broken( *this, it );
         if( !any_broken ) {
-            if( takeoff( &it ) ) {
+            if( takeoff( it ) ) {
                 return true;
             }
         }

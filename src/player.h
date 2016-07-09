@@ -2,7 +2,7 @@
 #define PLAYER_H
 
 #include "character.h"
-#include "craft_command.h"
+#include "copyable_unique_ptr.h"
 #include "item.h"
 #include "player_activity.h"
 #include "weighted_list.h"
@@ -28,8 +28,11 @@ enum game_message_type : int;
 class ma_technique;
 class martialart;
 struct recipe;
+struct component;
 struct item_comp;
 struct tool_comp;
+template<typename CompType> struct comp_selection;
+class craft_command;
 class vehicle;
 class vitamin;
 using vitamin_id = string_id<vitamin>;
@@ -137,11 +140,11 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
 {
     public:
         player();
-        player(const player &) = default;
-        player(player &&) = default;
+        player(const player &);
+        player(player &&);
         ~player() override;
-        player &operator=(const player &) = default;
-        player &operator=(player &&) = default;
+        player &operator=(const player &);
+        player &operator=(player &&);
 
         // newcharacter.cpp
         bool create(character_type type, std::string tempname = "");
@@ -373,7 +376,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /**
          * Get all hostile creatures currently visible to this player.
          */
-         std::vector<Creature*> get_hostile_creatures() const;
+         std::vector<Creature*> get_hostile_creatures( int range ) const;
 
         /**
          * Returns all creatures that this player can see and that are in the given
@@ -863,10 +866,16 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Swap side on which item is worn; returns false on fail. If interactive is false, don't alert player or drain moves */
         bool change_side( item *target, bool interactive = true );
         bool change_side( int pos, bool interactive = true );
-        /** Takes off an item, returning false on fail, if an item vector
-         *  is given, stores the items in that vector and not in the inventory */
-        bool takeoff( item *target, bool autodrop = false, std::vector<item> *items = nullptr );
-        bool takeoff( int pos, bool autodrop = false, std::vector<item> *items = nullptr );
+
+        /** Returns all items that must be taken off before taking off this item */
+        std::list<const item *> get_dependent_worn_items( const item &it ) const;
+        /** Takes off an item, returning false on fail. The taken off item is processed in the @param interact */
+        bool takeoff( const item &it, std::list<item> *res = nullptr );
+        bool takeoff( int pos );
+        /** Drops an item to the specified location */
+        void drop( int pos, const tripoint &where = tripoint_min );
+        void drop( const std::list<std::pair<int, int>> &what, const tripoint &where = tripoint_min, bool stash = false );
+
         /** Try to wield a contained item consuming moves proportional to weapon skill and volume.
          *  @param pos index of contained item to wield. Set to -1 to show menu if container has more than one item
          *  @param factor scales moves cost and can be set to zero if item should be wielded without any delay
@@ -1234,7 +1243,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         std::vector <addiction> addictions;
 
         void make_craft_with_command( const std::string &id_to_make, int batch_size, bool is_long = false );
-        craft_command last_craft;
+        copyable_unique_ptr<craft_command> last_craft;
 
         std::string lastrecipe;
         int last_batch;

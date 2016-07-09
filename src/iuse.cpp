@@ -7,6 +7,7 @@
 #include "output.h"
 #include "debug.h"
 #include "options.h"
+#include "requirements.h"
 #include "rng.h"
 #include "line.h"
 #include "mutation.h"
@@ -2292,7 +2293,7 @@ int iuse::radio_mod( player *p, item *, bool, const tripoint& )
     }
 
     int inventory_index = g->inv_for_filter( _("Modify what?"), []( const item & itm ) {
-        return itm.is_tool() && itm.has_flag( "RADIO_MODABLE" );
+        return itm.has_flag( "RADIO_MODABLE" );
     } );
     item &modded = p->i_at( inventory_index );
 
@@ -3167,7 +3168,7 @@ int iuse::makemound(player *p, item *it, bool, const tripoint& )
 int iuse::dig(player *p, item *it, bool, const tripoint &pos )
 {
     for( const tripoint &pt : closest_tripoints_first( 1, pos ) ) {
-        if( g->m.furn_at( pt ).examine == iexamine::rubble ) {
+        if( g->m.furn( pt ).obj().examine == iexamine::rubble ) {
             p->add_msg_if_player( _("You clear up that %s."), g->m.furnname( pt ).c_str() );
             g->m.furn_set( pt, f_null );
 
@@ -4595,8 +4596,12 @@ void iuse::cut_log_into_planks(player *p)
     p->i_add_or_drop(scrap, scraps);
 }
 
-int iuse::lumber(player *p, item *it, bool, const tripoint& )
+int iuse::lumber(player *p, item *it, bool t, const tripoint& )
 {
+    if( t ) {
+        return 0;
+    }
+
     // Check if player is standing on any lumber
     for (auto &i : g->m.i_at(p->pos())) {
         if (i.typeId() == "log")
@@ -5731,24 +5736,16 @@ int iuse::contacts(player *p, item *it, bool, const tripoint& )
     }
 }
 
-int iuse::talking_doll(player *p, item *it, bool, const tripoint& )
+int iuse::talking_doll( player *p, item *it, bool, const tripoint& )
 {
     if( !it->ammo_sufficient() ) {
-        p->add_msg_if_player(m_info, _("The %s's batteries are dead."), it->tname().c_str());
+        p->add_msg_if_player( m_info, _( "The %s's batteries are dead." ), it->tname().c_str() );
         return 0;
     }
 
-    std::string label;
+    const SpeechBubble speech = get_speech( it->typeId() );
 
-    if (it->typeId() == "talking_doll") {
-        label = "doll";
-    } else {
-        label = "creepy_doll";
-    }
-
-    const SpeechBubble speech = get_speech(label);
-
-    sounds::ambient_sound(p->pos(), speech.volume, speech.text);
+    sounds::ambient_sound( p->pos(), speech.volume, speech.text );
 
     return it->type->charges_to_use();
 }
@@ -7619,7 +7616,8 @@ int iuse::multicooker(player *p, item *it, bool t, const tripoint &pos)
                     return 0;
                 }
 
-                for( auto it : meal->requirements.get_components() ) {
+                auto reqs = meal->requirements();
+                for( auto it : reqs.get_components() ) {
                     p->consume_items(it);
                 }
 
@@ -7718,8 +7716,8 @@ int iuse::cable_attach(player *p, item *it, bool, const tripoint& )
             return 0;
         }
         auto veh = g->m.veh_at( posp );
-        auto ter = g->m.ter_at( posp );
-        if( veh == nullptr && ter.id.id() != t_chainfence_h && ter.id.id() != t_chainfence_v ) {
+        auto ter = g->m.ter( posp );
+        if( veh == nullptr && ter != t_chainfence_h && ter != t_chainfence_v ) {
             p->add_msg_if_player(_("There's no vehicle there."));
             return 0;
         } else {
@@ -8089,13 +8087,13 @@ int iuse::washclothes( player *p, item *it, bool, const tripoint& )
         p->add_msg_if_player( _( "You need a soap to use this." ) );
         return 0;
     }
-    
+
     const inventory &crafting_inv = p->crafting_inventory();
     if( !crafting_inv.has_charges( "water", 40 ) && !crafting_inv.has_charges( "water_clean", 40 ) ) {
         p->add_msg_if_player( _( "You need a large amount of fresh water to use this." ) );
         return 0;
     }
-    
+
     const int pos = g->inv_for_flag( "FILTHY", _( "Wash what?" ) );
     item &mod = p->i_at( pos );
     if( pos == INT_MIN ) {
@@ -8107,7 +8105,7 @@ int iuse::washclothes( player *p, item *it, bool, const tripoint& )
     comps.push_back( item_comp( "water", 40 ) );
     comps.push_back( item_comp( "water_clean", 40 ) );
     p->consume_items( comps );
-    
+
     p->add_msg_if_player( _( "You washed your clothing." ) );
     p->mod_moves( -3000 );
 

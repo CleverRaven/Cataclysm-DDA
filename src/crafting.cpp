@@ -14,6 +14,7 @@
 #include "options.h"
 #include "output.h"
 #include "recipe_dictionary.h"
+#include "requirements.h"
 #include "rng.h"
 #include "translations.h"
 #include "ui.h"
@@ -27,6 +28,7 @@
 #include <queue>
 #include <string>
 #include <sstream>
+#include <numeric>
 
 const efftype_id effect_contacts( "contacts" );
 
@@ -188,7 +190,20 @@ void load_recipe( JsonObject &jsobj )
     rec->result_mult = result_mult;
     rec->flags = jsobj.get_tags( "flags" );
 
-    rec->requirements.load( jsobj );
+    if( jsobj.has_string( "using" ) ) {
+        rec->reqs = { { requirement_id( jsobj.get_string( "using" ) ), 1 } };
+
+    } else if( jsobj.has_array( "using" ) ) {
+        auto arr = jsobj.get_array( "using" );
+        while( arr.has_more() ) {
+            auto cur = arr.next_array();
+            rec->reqs.emplace_back( requirement_id( cur.get_string( 0 ) ), cur.get_int( 1 ) );
+        }
+    }
+
+    auto req_id = std::string( "inline_recipe_" ) += rec_name;
+    requirement_data::load_requirement( jsobj, req_id );
+    rec->reqs.emplace_back( requirement_id( req_id ), 1 );
 
     jsarr = jsobj.get_array( "book_learn" );
     while( jsarr.has_more() ) {
@@ -212,8 +227,15 @@ void reset_recipes()
 
 void finalize_recipes()
 {
+    recipe_dict.finalize();
+
     std::ostringstream buffer;
     for( auto r : recipe_dict ) {
+        r->requirements_ = std::accumulate( r->reqs.begin(), r->reqs.end(), requirement_data(),
+        []( const requirement_data & lhs, const std::pair<requirement_id, int> &rhs ) {
+            return lhs + ( *rhs.first * rhs.second );
+        } );
+
         buffer.clear();
         for( auto j = r->booksets.begin(); j != r->booksets.end(); ++j ) {
             const std::string &book_id = j->book_id;
@@ -336,7 +358,7 @@ void player::recraft()
     if( lastrecipe.empty() ) {
         popup( _( "Craft something first" ) );
     } else if( making_would_work( lastrecipe, last_batch ) ) {
-        last_craft.execute();
+        last_craft->execute();
     }
 }
 
@@ -361,7 +383,7 @@ bool player::making_would_work( const std::string &id_to_make, int batch_size )
     if( !can_make( making, batch_size ) ) {
         std::ostringstream buffer;
         buffer << _( "You can no longer make that craft!" ) << "\n";
-        buffer << making->requirements.list_missing();
+        buffer << making->requirements().list_missing();
         popup( buffer.str(), PF_NONE );
         return false;
     }
@@ -501,7 +523,7 @@ bool recipe::can_make_with_inventory( const inventory &crafting_inv, int batch )
     if( !g->u.knows_recipe( this ) && -1 == g->u.has_recipe( this, crafting_inv ) ) {
         return false;
     }
-    return requirements.can_make_with_inventory( crafting_inv, batch );
+    return requirements().can_make_with_inventory( crafting_inv, batch );
 }
 
 bool recipe::valid_learn() const
@@ -625,8 +647,8 @@ void player::make_craft_with_command( const std::string &id_to_make, int batch_s
         return;
     }
 
-    last_craft = craft_command( recipe_to_make, batch_size, is_long, this );
-    last_craft.execute();
+    *last_craft = craft_command( recipe_to_make, batch_size, is_long, this );
+    last_craft->execute();
 }
 
 item recipe::create_result() const
@@ -816,14 +838,15 @@ void player::complete_craft()
     if( making->difficulty != 0 && diff_roll > skill_roll * ( 1 + 0.1 * rng( 1, 5 ) ) ) {
         add_msg( m_bad, _( "You fail to make the %s, and waste some materials." ),
                  item::nname( making->result ).c_str() );
-        if( last_craft.has_cached_selections() ) {
-            last_craft.consume_components();
+        if( last_craft->has_cached_selections() ) {
+            last_craft->consume_components();
         } else {
             // @todo Guarantee that selections are cached
-            for( const auto &it : making->requirements.get_components() ) {
+            const auto &req = making->requirements();
+            for( const auto &it : req.get_components() ) {
                 consume_items( it, batch_size );
             }
-            for( const auto &it : making->requirements.get_tools() ) {
+            for( const auto &it : req.get_tools() ) {
                 consume_tools( it, batch_size );
             }
         }
@@ -842,21 +865,22 @@ void player::complete_craft()
     // If we're here, the craft was a success!
     // Use up the components and tools
     std::list<item> used;
-    if( !last_craft.has_cached_selections() ) {
+    if( !last_craft->has_cached_selections() ) {
         // This should fail and return, but currently crafting_command isn't saved
         // Meaning there are still cases where has_cached_selections will be false
         // @todo Allow saving last_craft and debugmsg+fail craft if selection isn't cached
         if( !has_trait( "DEBUG_HS" ) ) {
-            for( const auto &it : making->requirements.get_components() ) {
+            const auto &req = making->requirements();
+            for( const auto &it : req.get_components() ) {
                 std::list<item> tmp = consume_items( it, batch_size );
                 used.splice( used.end(), tmp );
             }
-            for( const auto &it : making->requirements.get_tools() ) {
+            for( const auto &it : req.get_tools() ) {
                 consume_tools( it, batch_size );
             }
         }
     } else if( !has_trait( "DEBUG_HS" ) ) {
-        used = last_craft.consume_components();
+        used = last_craft->consume_components();
         if( used.empty() ) {
             return;
         }
@@ -1046,11 +1070,13 @@ comp_selection<item_comp> player::select_item_component( const std::vector<item_
         }
 
         // Unlike with tools, it's a bad thing if there aren't any components available
-        // @todo Make WEB_ROPE not prevent the debugmsg - it shouldn't make this section trigger
         if( cmenu.entries.empty() ) {
-            if( !has_trait( "WEB_ROPE" ) && !has_trait( "DEBUG_HS" ) ) {
-                debugmsg( "Attempted a recipe with no available components!" );
+            if( has_trait( "DEBUG_HS" ) ) {
+                selected.use_from = use_from_player;
+                return selected;
             }
+
+            debugmsg( "Attempted a recipe with no available components!" );
             selected.use_from = cancel;
             return selected;
         }
@@ -1304,7 +1330,7 @@ bool player::can_disassemble( const item &dis_item, const recipe *cur_recipe,
     }
 
     bool have_all_qualities = true;
-    const auto &dis_requirements = cur_recipe->requirements.disassembly_requirements();
+    const auto &dis_requirements = cur_recipe->requirements().disassembly_requirements();
     for( const auto &itq : dis_requirements.get_qualities() ) {
         for( const auto &it : itq ) {
             if( !it.has( crafting_inv ) ) {
@@ -1614,7 +1640,7 @@ void player::complete_disassemble( int item_pos, const tripoint &loc,
                                    bool from_ground, const recipe &dis )
 {
     // Get the proper recipe - the one for disassembly, not assembly
-    const auto dis_requirements = dis.requirements.disassembly_requirements();
+    const auto dis_requirements = dis.requirements().disassembly_requirements();
     item &org_item = get_item_for_uncraft( *this, item_pos, loc, from_ground );
     if( org_item.is_null() ) {
         add_msg( _( "The item has vanished." ) );
@@ -1685,10 +1711,6 @@ void player::complete_disassemble( int item_pos, const tripoint &loc,
         const item_comp comp = find_component( altercomps, dis_item );
         int compcount = comp.count;
         item newit( comp.type, calendar::turn );
-        // TODO: Move this check to requirement_data::disassembly_requirements()
-        if( !comp.recoverable || newit.has_flag( "UNRECOVERABLE" ) ) {
-            continue;
-        }
         // Counted-by-charge items that can be disassembled individually
         // have their component count multiplied by the number of charges.
         if( dis_item.count_by_charges() && dis.has_flag( "UNCRAFT_SINGLE_CHARGE" ) ) {
@@ -1765,8 +1787,13 @@ void check_recipe_definitions()
 {
     for( auto &elem : recipe_dict ) {
         const recipe &r = *elem;
-        const std::string display_name = std::string( "recipe " ) + r.ident();
-        r.requirements.check_consistency( display_name );
+
+        for( const auto &e : r.reqs ) {
+            if( !e.first.is_valid() || e.second <= 0 ) {
+                debugmsg( "recipe %s has unknown or incorrectly specified requirements %s",
+                          r.ident().c_str(), e.first.c_str() );
+            }
+        }
         if( !item::type_is_defined( r.result ) ) {
             debugmsg( "result %s in recipe %s is not a valid item template", r.result.c_str(),
                       r.ident().c_str() );
@@ -1832,19 +1859,13 @@ void remove_ammo( item *dis_item, player &p )
 
 std::string recipe::required_skills_string() const
 {
-    std::ostringstream skills_as_stream;
-    if( !required_skills.empty() ) {
-        for( auto iter = required_skills.begin(); iter != required_skills.end(); ) {
-            skills_as_stream << iter->first.obj().name() << "(" << iter->second << ")";
-            ++iter;
-            if( iter != required_skills.end() ) {
-                skills_as_stream << ", ";
-            }
-        }
-    } else {
-        skills_as_stream << _( "N/A" );
+    if( required_skills.empty() ) {
+        return _( "N/A" );
     }
-    return skills_as_stream.str();
+    return enumerate_as_string( required_skills.begin(), required_skills.end(),
+    []( const std::pair<skill_id, int> &skill ) {
+        return string_format( "%s (%d)", skill.first.obj().name().c_str(), skill.second );
+    } );
 }
 
 const std::string &recipe::ident() const

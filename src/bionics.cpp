@@ -2,6 +2,7 @@
 #include "action.h"
 #include "game.h"
 #include "map.h"
+#include "map_iterator.h"
 #include "debug.h"
 #include "rng.h"
 #include "input.h"
@@ -10,6 +11,7 @@
 #include "bodypart.h"
 #include "messages.h"
 #include "overmapbuffer.h"
+#include "projectile.h"
 #include "sounds.h"
 #include "translations.h"
 #include "monster.h"
@@ -139,9 +141,6 @@ bool player::activate_bionic( int b, bool eff_only )
         add_msg( m_info, _( "You activate your %s." ), bionics[bio.id].name.c_str() );
     }
 
-    tripoint dirp = pos();
-    int &dirx = dirp.x;
-    int &diry = dirp.y;
     item tmp_item;
     w_point const weatherPoint = g->weather_gen->get_weather( global_square_location(),
                                  calendar::turn );
@@ -203,8 +202,10 @@ bool player::activate_bionic( int b, bool eff_only )
                 g->m.bash( bashpoint, 110 );
             }
         }
+
+        mod_moves( -100 );
     } else if( bio.id == "bio_time_freeze" ) {
-        moves += power_level;
+        mod_moves( power_level );
         power_level = 0;
         add_msg( m_good, _( "Your speed suddenly increases!" ) );
         if( one_in( 3 ) ) {
@@ -221,7 +222,7 @@ bool player::activate_bionic( int b, bool eff_only )
     } else if( bio.id == "bio_teleport" ) {
         g->teleport();
         add_effect( effect_teleglow, 300 );
-        // TODO: More stuff here (and bio_blood_filter)
+        mod_moves( -100 );
     } else if( bio.id == "bio_blood_anal" ) {
         static const std::map<efftype_id, std::string> bad_effects = {{
             { effect_fungus, _( "Fungal Parasite" ) },
@@ -324,6 +325,7 @@ bool player::activate_bionic( int b, bool eff_only )
         force_comedown( get_effect( effect_meth ) );
         set_painkiller( 0 );
         stim = 0;
+        mod_moves( -100 );
     } else if( bio.id == "bio_evap" ) {
         item water = item( "water_clean", 0 );
         int humidity = weatherPoint.humidity;
@@ -339,14 +341,14 @@ bool player::activate_bionic( int b, bool eff_only )
         }
     } else if( bio.id == "bio_lighter" ) {
         g->refresh_all();
-        if( !choose_adjacent( _( "Start a fire where?" ), dirp ) ||
-            ( !g->m.add_field( dirp, fd_fire, 1, 0 ) ) ) {
+        tripoint dirp;
+        if( choose_adjacent( _( "Start a fire where?" ), dirp ) &&
+            g->m.add_field( dirp, fd_fire, 1, 0 ) ) {
+            mod_moves( -100 );
+        } else {
             add_msg_if_player( m_info, _( "You can't light a fire there." ) );
             charge_power( bionics["bio_lighter"].power_activate );
         }
-    } else if( bio.id == "bio_leukocyte" ) {
-        set_healthy( std::min( 100, get_healthy() + 2 ) );
-        mod_healthy_mod( 20, 100 );
     } else if( bio.id == "bio_geiger" ) {
         add_msg( m_info, _( "Your radiation level: %d" ), radiation );
     } else if( bio.id == "bio_radscrubber" ) {
@@ -366,8 +368,10 @@ bool player::activate_bionic( int b, bool eff_only )
 
     } else if (bio.id == "bio_emp") {
         g->refresh_all();
-        if(choose_adjacent(_("Create an EMP where?"), dirx, diry)) {
-            g->emp_blast( tripoint( dirx, diry, posz() ) );
+        tripoint dirp;
+        if( choose_adjacent( _("Create an EMP where?"), dirp ) ) {
+            g->emp_blast( dirp );
+            mod_moves( -100 );
         } else {
             charge_power(bionics["bio_emp"].power_activate);
         }
@@ -395,54 +399,41 @@ bool player::activate_bionic( int b, bool eff_only )
             charge_power(bionics["bio_water_extractor"].power_activate);
         }
     } else if(bio.id == "bio_magnet") {
-        std::vector<tripoint> traj;
-        for (int i = posx() - 10; i <= posx() + 10; i++) {
-            for (int j = posy() - 10; j <= posy() + 10; j++) {
-                if (g->m.i_at(i, j).size() > 0) {
-                    traj = g->m.find_clear_path( {i, j, posz()}, pos() );
-                }
-                traj.insert(traj.begin(), {i, j, posz()});
-                if( g->m.has_flag( "SEALED", i, j ) ) {
-                    continue;
-                }
-                for (unsigned k = 0; k < g->m.i_at(i, j).size(); k++) {
-                    tmp_item = g->m.i_at(i, j)[k];
-                    static const std::set<material_id> affected_materials =
-                        { material_id( "iron" ), material_id( "steel" ) };
-                    if( tmp_item.made_of_any( affected_materials ) &&
-                        tmp_item.weight() < weight_capacity() ) {
-                        g->m.i_rem(i, j, k);
-                        std::vector<tripoint>::iterator it;
-                        for (it = traj.begin(); it != traj.end(); ++it) {
-                            int index = g->mon_at(*it);
-                            if (index != -1) {
-                                g->zombie(index).apply_damage( this, bp_torso, tmp_item.weight() / 225 );
-                                g->zombie(index).check_dead_state();
-                                g->m.add_item_or_charges(it->x, it->y, tmp_item);
-                                break;
-                            } else if (g->m.impassable(it->x, it->y)) {
-                                if (it != traj.begin()) {
-                                    g->m.bash( tripoint( it->x, it->y, posz() ), tmp_item.weight() / 225 );
-                                    if (g->m.impassable(it->x, it->y)) {
-                                        g->m.add_item_or_charges((it - 1)->x, (it - 1)->y, tmp_item);
-                                        break;
-                                    }
-                                } else {
-                                    g->m.bash( *it, tmp_item.weight() / 225 );
-                                    if (g->m.impassable(it->x, it->y)) {
-                                        break;
-                                    }
-                                }
-                            }
-                        }
-                        if (it == traj.end()) {
-                            g->m.add_item_or_charges(pos(), tmp_item);
-                        }
-                    }
+        static const std::set<material_id> affected_materials =
+            { material_id( "iron" ), material_id( "steel" ) };
+        // Remember all items that will be affected, then affect them
+        // Don't "snowball" by affecting some items multiple times
+        std::vector<std::pair<item, tripoint>> affected;
+        const auto weight_cap = weight_capacity();
+        for( const tripoint &p : g->m.points_in_radius( pos(), 10 ) ) {
+            if( p == pos() || !g->m.has_items( p ) || g->m.has_flag( "SEALED", p ) ) {
+                continue;
+            }
+
+            auto stack = g->m.i_at( p );
+            for( auto it = stack.begin(); it != stack.end(); it++ ) {
+                if( it->weight() < weight_cap &&
+                    it->made_of_any( affected_materials ) ) {
+                    affected.emplace_back( std::make_pair( *it, p ) );
+                    stack.erase( it );
+                    break;
                 }
             }
         }
-        moves -= 100;
+
+        g->refresh_all();
+        for( const auto &pr : affected ) {
+            projectile proj;
+            proj.speed  = 50;
+            proj.impact = damage_instance::physical( pr.first.weight() / 250, 0, 0, 0 );
+            proj.range = rl_dist( pr.second, pos() );
+            proj.proj_effects = {{ "NO_ITEM_DAMAGE", "DRAW_AS_LINE", "NO_DAMAGE_SCALING", "JET" }};
+
+            auto dealt = projectile_attack( proj, pr.second, pos(), 0 );
+            g->m.add_item_or_charges( dealt.end_point, pr.first );
+        }
+
+        mod_moves( -100 );
     } else if(bio.id == "bio_lockpick") {
         tmp_item = item( "pseuso_bio_picklock", 0 );
         g->refresh_all();
@@ -453,14 +444,15 @@ bool player::activate_bionic( int b, bool eff_only )
             }
             return true;
         }
-        if( tmp_item.damage > 0 ) {
-            // TODO: damage the player / their bionics
-        }
+
+        mod_moves( -100 );
     } else if(bio.id == "bio_flashbang") {
-        g->flashbang( pos(), true);
+        g->flashbang( pos(), true );
+        mod_moves( -100 );
     } else if(bio.id == "bio_shockwave") {
         g->shockwave( pos(), 3, 4, 2, 8, true );
         add_msg_if_player(m_neutral, _("You unleash a powerful shockwave!"));
+        mod_moves( -100 );
     } else if(bio.id == "bio_meteorologist") {
         // Calculate local wind power
         int vpart = -1;
@@ -507,11 +499,11 @@ bool player::activate_bionic( int b, bool eff_only )
             bio.powered = g->remoteveh() != nullptr || get_value( "remote_controlling" ) != "";
         }
     } else if (bio.id == "bio_plutdump") {
-        if (query_yn(_("WARNING: Purging all fuel is likely to result in radiation!  Purge anyway?"))) {
+        if( query_yn( _( "WARNING: Purging all fuel is likely to result in radiation!  Purge anyway?" ) ) ) {
             slow_rad += (tank_plut + reactor_plut);
             tank_plut = 0;
             reactor_plut = 0;
-            }
+        }
     } else if (bio.id == "bio_cable") {
         bool has_cable = has_item_with( []( const item &it ) {
             return it.active && it.has_flag( "CABLE_SPOOL" );
@@ -672,6 +664,10 @@ void player::process_bionic( int b )
             charge_power( -2 );
         }
     } else if( bio.id == "bio_cable" ) {
+        if( power_level >= max_power_level ) {
+            return;
+        }
+
         const std::vector<item*> cables = items_with( []( const item &it ) {
             return it.active && it.has_flag( "CABLE_SPOOL" );
         });

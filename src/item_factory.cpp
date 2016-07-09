@@ -18,11 +18,13 @@
 #include "material.h"
 #include "options.h"
 #include "recipe_dictionary.h"
+#include "requirements.h"
 #include "skill.h"
 #include "translations.h"
 #include "text_snippets.h"
 #include "ui.h"
 #include "veh_type.h"
+#include "field.h"
 
 #include <algorithm>
 #include <sstream>
@@ -64,6 +66,46 @@ bool item_is_blacklisted(const std::string &id)
     return item_whitelist_is_exclusive && !item_whitelist.empty();
 }
 
+
+static bool assign_coverage_from_json( JsonObject &jo, const std::string &key,
+                                       std::bitset<num_bp> &parts, bool &sided )
+{
+    auto parse = [&parts,&sided]( const std::string &val ) {
+        if( val == "ARMS" || val == "ARM_EITHER" ) {
+            parts.set( bp_arm_l );
+            parts.set( bp_arm_r );
+        } else if( val == "HANDS" || val == "HAND_EITHER" ) {
+            parts.set( bp_hand_l );
+            parts.set( bp_hand_r );
+        } else if( val == "LEGS" || val == "LEG_EITHER" ) {
+            parts.set( bp_leg_l );
+            parts.set( bp_leg_r );
+        } else if( val == "FEET" || val == "FOOT_EITHER" ) {
+            parts.set( bp_foot_l );
+            parts.set( bp_foot_r );
+        } else {
+            parts.set( get_body_part_token( val ) );
+        }
+        sided += ( val == "ARM_EITHER" || val == "HAND_EITHER" ||
+                   val == "LEG_EITHER" || val == "FOOT_EITHER" );
+    };
+
+    if( jo.has_array( key ) ) {
+        JsonArray arr = jo.get_array( key );
+        while( arr.has_more() ) {
+            parse( arr.next_string() );
+        }
+        return true;
+
+    } else if( jo.has_string( key ) ) {
+        parse( jo.get_string( key ) );
+        return true;
+
+    } else {
+        return false;
+    }
+}
+
 void Item_factory::finalize() {
 
     auto& dyn = DynamicDataLoader::get_instance();
@@ -99,7 +141,7 @@ void Item_factory::finalize() {
         for( const auto &q : obj.qualities ) {
             for( const auto &u : q.first.obj().usages ) {
                 if( q.second >= u.first ) {
-                    obj.use_methods.emplace( u.second, use_from_string( u.second ) );
+                    obj.use_methods.emplace( u.second, usage_from_string( u.second ) );
                 }
             }
         }
@@ -267,13 +309,16 @@ void Item_factory::finalize_item_blacklist()
         for( auto &g : m_template_groups ) {
             g.second->remove_item( e.first );
         }
-        recipe_dict.delete_if( [&]( recipe &r ) {
-            return r.result == e.first || r.requirements.remove_item( e.first );
-        } );
 
-        remove_construction_if([&](construction &c) {
-            return c.requirements.remove_item( e.first );
-        });
+        // remove any blacklisted items from requirements
+        for( auto &r : requirement_data::all() ) {
+            const_cast<requirement_data &>( r.second ).blacklist_item( e.first );
+        }
+
+        // remove any recipes used to craft the blacklisted item
+        recipe_dict.delete_if( [&]( recipe &r ) {
+            return r.result == e.first;
+        } );
     }
 
     for( auto &vid : vehicle_prototype::get_all() ) {
@@ -521,7 +566,6 @@ void Item_factory::init()
     add_actor( new delayed_transform_iuse() );
     add_actor( new enzlave_actor() );
     add_actor( new explosion_iuse() );
-    add_actor( new extended_firestarter_actor() );
     add_actor( new firestarter_actor() );
     add_actor( new fireweapon_off_actor() );
     add_actor( new fireweapon_on_actor() );
@@ -529,6 +573,7 @@ void Item_factory::init()
     add_actor( new holster_actor() );
     add_actor( new inscribe_actor() );
     add_actor( new iuse_transform() );
+    add_actor( new countdown_actor() );
     add_actor( new manualnoise_actor() );
     add_actor( new musical_instrument_actor() );
     add_actor( new pick_lock_actor() );
@@ -652,6 +697,12 @@ void Item_factory::check_definitions() const
             msg << string_format( "invalid container property %s", type->default_container.c_str() ) << "\n";
         }
 
+        for( const auto& e : type->emits ) {
+            if( !e.is_valid() ) {
+                msg << string_format( "item %s has emit source %s", type->id.c_str(), e.c_str() ) << "\n";
+            }
+        }
+
         if( type->engine ) {
             for( const auto& f : type->engine->faults ) {
                 if( !f.is_valid() ) {
@@ -698,6 +749,14 @@ void Item_factory::check_definitions() const
             check_ammo_type( msg, type->ammo->type );
             if( type->ammo->casing != "null" && !has_template( type->ammo->casing ) ) {
                 msg << string_format( "invalid casing property %s", type->ammo->casing.c_str() ) << "\n";
+            }
+
+            if( type->ammo->drop != "null" && !has_template( type->ammo->drop ) ) {
+                msg << string_format( "invalid drop item %s", type->ammo->drop.c_str() ) << "\n";
+            }
+
+            if( type->ammo->drop_chance < 0.0f || type->ammo->drop_chance > 1.0f ) {
+                msg << "drop chance outside of supported range" << "\n";
             }
         }
         if( type->gun ) {
@@ -970,6 +1029,9 @@ void Item_factory::load( islot_ammo &slot, JsonObject &jo )
 {
     assign( jo, "ammo_type", slot.type );
     assign( jo, "casing", slot.casing );
+    assign( jo, "drop", slot.drop );
+    assign( jo, "drop_chance", slot.drop_chance );
+    assign( jo, "drop_active", slot.drop_active );
     assign( jo, "damage", slot.damage );
     assign( jo, "pierce", slot.pierce );
     assign( jo, "range", slot.range );
@@ -1097,29 +1159,24 @@ void Item_factory::load_gun(JsonObject &jo)
 
 void Item_factory::load_armor(JsonObject &jo)
 {
-    itype* new_item_template = new itype();
-    load_slot( new_item_template->armor, jo );
-    load_basic_info( jo, new_item_template );
+    auto def = load_definition( jo );
+    if( def) {
+        load_slot( def->armor, jo );
+        load_basic_info( jo, def );
+    }
 }
 
 void Item_factory::load( islot_armor &slot, JsonObject &jo )
 {
-    slot.encumber = jo.get_int( "encumbrance", 0 );
-    slot.coverage = jo.get_int( "coverage", 0 );
-    slot.thickness = jo.get_int( "material_thickness", 0 );
-    slot.env_resist = jo.get_int( "environmental_protection", 0 );
-    slot.warmth = jo.get_int( "warmth", 0 );
-    slot.storage = jo.get_int( "storage", 0 );
-    slot.power_armor = jo.get_bool( "power_armor", false );
-    slot.covers = jo.has_member( "covers" ) ? flags_from_json( jo, "covers", "bodyparts" ) : 0;
+    assign( jo, "encumbrance", slot.encumber );
+    assign( jo, "coverage", slot.coverage );
+    assign( jo, "material_thickness", slot.thickness );
+    assign( jo, "environmental_protection", slot.env_resist );
+    assign( jo, "warmth", slot.warmth );
+    assign( jo, "storage", slot.storage );
+    assign( jo, "power_armor", slot.power_armor );
 
-    auto ja = jo.get_array("covers");
-    while (ja.has_more()) {
-        if (ja.next_string().find("_EITHER") != std::string::npos) {
-            slot.sided = true;
-            break;
-        }
-    }
+    assign_coverage_from_json( jo, "covers", slot.covers, slot.sided );
 }
 
 void Item_factory::load( islot_tool &slot, JsonObject &jo )
@@ -1146,10 +1203,13 @@ void Item_factory::load_tool(JsonObject &jo)
 
 void Item_factory::load_tool_armor(JsonObject &jo)
 {
-    auto def = new itype();
-    load_slot( def->tool, jo );
-    load_slot( def->armor, jo );
-    load_basic_info( jo, def );
+    auto def = load_definition( jo );
+    if( def ) {
+        load_slot( def->tool, jo );
+        load_slot( def->armor, jo );
+        load_basic_info( jo, def );
+        load_slot( def->spawn, jo ); // @todo deprecate
+    }
 }
 
 void Item_factory::load( islot_book &slot, JsonObject &jo )
@@ -1190,6 +1250,8 @@ void Item_factory::load( islot_comestible &slot, JsonObject &jo )
     if( jo.has_string( "addiction_type" ) ) {
         slot.add = addiction_type( jo.get_string( "addiction_type" ) );
     }
+
+    assign( jo, "addiction_potential", slot.addict );
 
     bool got_calories = false;
 
@@ -1500,6 +1562,7 @@ void Item_factory::load_basic_info(JsonObject &jo, itype *new_item_template)
     assign( jo, "min_dexterity", new_item_template->min_dex );
     assign( jo, "min_intelligence", new_item_template->min_int );
     assign( jo, "min_perception", new_item_template->min_per );
+    assign( jo, "emits", new_item_template->emits );
     assign( jo, "magazine_well", new_item_template->magazine_well );
     assign( jo, "explode_in_fire", new_item_template->explode_in_fire );
 
@@ -1588,6 +1651,17 @@ void Item_factory::load_basic_info(JsonObject &jo, itype *new_item_template)
     }
 
     set_use_methods_from_json( jo, "use_action", new_item_template->use_methods );
+
+    assign( jo, "countdown_interval", new_item_template->countdown_interval );
+    assign( jo, "countdown_destroy", new_item_template->countdown_destroy );
+
+    if( jo.has_string( "countdown_action" ) ) {
+        new_item_template->countdown_action = usage_from_string( jo.get_string( "countdown_action" ) );
+
+    } else if( jo.has_object( "countdown_action" ) ) {
+        auto tmp = jo.get_object( "countdown_action" );
+        new_item_template->countdown_action = usage_from_object( tmp ).second;
+    }
 
     if( jo.has_member( "category" ) ) {
         new_item_template->category = get_category( jo.get_string( "category" ) );
@@ -1696,25 +1770,6 @@ void Item_factory::set_properties_from_json(JsonObject &jo, std::string member,
     } else {
         jo.throw_error( "Properties list is not an array", member );
     }
-}
-
-std::bitset<num_bp> Item_factory::flags_from_json(JsonObject &jo, const std::string &member,
-        std::string flag_type)
-{
-    //If none is found, just use the standard none action
-    std::bitset<num_bp> flag = 0;
-    //Otherwise, grab the right label to look for
-    if (jo.has_array(member)) {
-        JsonArray jarr = jo.get_array(member);
-        while (jarr.has_more()) {
-            set_flag_by_string(flag, jarr.next_string(), flag_type);
-        }
-    } else if (jo.has_string(member)) {
-        //we should have gotten a string, if not an array
-        set_flag_by_string(flag, jo.get_string(member), flag_type);
-    }
-
-    return flag;
 }
 
 void Item_factory::reset()
@@ -1940,10 +1995,10 @@ void Item_factory::set_use_methods_from_json( JsonObject &jo, std::string member
         while( jarr.has_more() ) {
             if( jarr.test_string() ) {
                 std::string type = jarr.next_string();
-                use_methods.emplace( type, use_from_string( type ) );
+                use_methods.emplace( type, usage_from_string( type ) );
             } else if( jarr.test_object() ) {
                 auto obj = jarr.next_object();
-                set_uses_from_object( obj, use_methods );
+                use_methods.insert( usage_from_object( obj ) );
             } else {
                 jarr.throw_error( "array element is neither string nor object." );
             }
@@ -1952,10 +2007,10 @@ void Item_factory::set_use_methods_from_json( JsonObject &jo, std::string member
     } else {
         if( jo.has_string( member ) ) {
             std::string type = jo.get_string( member );
-            use_methods.emplace( type, use_from_string( type ) );
+            use_methods.emplace( type, usage_from_string( type ) );
         } else if( jo.has_object( member ) ) {
             auto obj = jo.get_object( member );
-            set_uses_from_object( obj, use_methods );
+            use_methods.insert( usage_from_object( obj ) );
         } else {
             jo.throw_error( "member 'use_action' is neither string nor object." );
         }
@@ -1963,7 +2018,7 @@ void Item_factory::set_use_methods_from_json( JsonObject &jo, std::string member
     }
 }
 
-void Item_factory::set_uses_from_object(JsonObject &obj, std::map<std::string, use_function> &methods )
+std::pair<std::string, use_function> Item_factory::usage_from_object( JsonObject &obj ) const
 {
     auto type = obj.get_string( "type" );
 
@@ -1972,7 +2027,7 @@ void Item_factory::set_uses_from_object(JsonObject &obj, std::map<std::string, u
         type = obj.get_string( "item_action_type" );
         method = use_function( new repair_item_actor( type ) );
     } else {
-        method = use_from_string( type );
+        method = usage_from_string( type );
     }
 
     if( !method.get_actor_ptr() ) {
@@ -1980,10 +2035,10 @@ void Item_factory::set_uses_from_object(JsonObject &obj, std::map<std::string, u
     }
 
     method.get_actor_ptr()->load( obj );
-    methods.emplace( type, method );
+    return std::make_pair( type, method );
 }
 
-use_function Item_factory::use_from_string( const std::string &type )
+use_function Item_factory::usage_from_string( const std::string &type ) const
 {
     auto func = iuse_function_list.find( type );
     if( func != iuse_function_list.end() ) {
@@ -1993,29 +2048,6 @@ use_function Item_factory::use_from_string( const std::string &type )
     // Otherwise, return a hardcoded function we know exists (hopefully)
     debugmsg( "Received unrecognized iuse function %s, using iuse::none instead", type.c_str() );
     return use_function();
-}
-
-void Item_factory::set_flag_by_string(std::bitset<num_bp> &cur_flags, const std::string &new_flag,
-                                      const std::string &flag_type)
-{
-    if (flag_type == "bodyparts") {
-        // global defined in bodypart.h
-        if (new_flag == "ARMS" || new_flag == "ARM_EITHER") {
-            cur_flags.set( bp_arm_l );
-            cur_flags.set( bp_arm_r );
-        } else if (new_flag == "HANDS" || new_flag == "HAND_EITHER") {
-            cur_flags.set( bp_hand_l );
-            cur_flags.set( bp_hand_r );
-        } else if (new_flag == "LEGS" || new_flag == "LEG_EITHER") {
-            cur_flags.set( bp_leg_l );
-            cur_flags.set( bp_leg_r );
-        } else if (new_flag == "FEET" || new_flag == "FOOT_EITHER") {
-            cur_flags.set( bp_foot_l );
-            cur_flags.set( bp_foot_r );
-        } else {
-            cur_flags.set( get_body_part_token( new_flag ) );
-        }
-    }
 }
 
 namespace io {

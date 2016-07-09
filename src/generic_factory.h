@@ -245,13 +245,13 @@ class generic_factory
             const auto iter = map.find( obj.id );
             if( iter != map.end() ) {
                 T &result = list[iter->second];
-                result = std::move( obj );
+                result = obj;
                 result.id.set_cid( iter->second );
                 return result;
             }
 
             const int_id<T> cid( list.size() );
-            list.push_back( std::move( obj ) );
+            list.push_back( obj );
 
             T &result = list.back();
             result.id.set_cid( cid );
@@ -845,7 +845,7 @@ class string_id_reader : public generic_typed_reader<string_id_reader<T>>
 
 
 template <typename T>
-typename std::enable_if<std::is_integral<T>::value, bool>::type assign(
+typename std::enable_if<std::is_arithmetic<T>::value, bool>::type assign(
     JsonObject &jo, const std::string &name, T &val )
 {
 

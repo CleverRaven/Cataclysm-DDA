@@ -42,7 +42,7 @@ struct gate_data {
 
 gate_id get_gate_id( const tripoint &pos )
 {
-    return gate_id( g->m.get_ter( pos ).str() );
+    return gate_id( g->m.ter( pos ).id().str() );
 }
 
 generic_factory<gate_data> gates_data( "gate type", "handle", "other_handles" );

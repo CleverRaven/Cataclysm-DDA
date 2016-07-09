@@ -315,8 +315,10 @@ class Item_factory
         //json data handlers
         void set_use_methods_from_json( JsonObject &jo, std::string member,
                                         std::map<std::string, use_function> &use_methods );
-        use_function use_from_string( const std::string &type );
-        void set_uses_from_object( JsonObject &obj, std::map<std::string, use_function> &methods );
+
+        use_function usage_from_string( const std::string &type ) const;
+
+        std::pair<std::string, use_function> usage_from_object( JsonObject &obj ) const;
 
         void add_entry( Item_group *sg, JsonObject &obj );
         void load_item_group_entries( Item_group &ig, JsonArray &entries );
@@ -326,13 +328,6 @@ class Item_factory
         void set_qualities_from_json( JsonObject &jo, std::string member, itype *new_item );
         void set_properties_from_json( JsonObject &jo, std::string member, itype *new_item );
 
-        // Currently only used for body part stuff, if used for anything else in the future bitset size may need to be increased.
-        std::bitset<num_bp> flags_from_json( JsonObject &jo, const std::string &member,
-                                             std::string flag_type = "" );
-
-        //Currently only used to body_part stuff, bitset size might need to be increased in the future
-        void set_flag_by_string( std::bitset<num_bp> &cur_flags, const std::string &new_flag,
-                                 const std::string &flag_type );
         void clear();
         void init();
 

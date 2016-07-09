@@ -642,7 +642,7 @@ void advanced_inv_area::init()
             }
             // get graffiti or terrain name
             desc[0] = ( g->m.has_graffiti_at( pos ) == true ) ?
-                g->m.graffiti_at( pos ) : g->m.ter_at( pos ).name;
+                g->m.graffiti_at( pos ) : g->m.name( pos );
         default:
             break;
     }
@@ -1233,36 +1233,32 @@ bool advanced_inventory::move_all_items(bool nested_call)
     }
 
     if( spane.get_area() == AIM_INVENTORY || spane.get_area() == AIM_WORN ) {
-        g->u.assign_activity( ACT_DROP, 0 );
-        g->u.activity.placement = darea.off;
-        g->u.activity.values.push_back(dpane.in_vehicle());
-    }
-    if( spane.get_area() == AIM_INVENTORY ) {
-        for( size_t index = 0; index < g->u.inv.size(); ++index ) {
-            const auto &stack = g->u.inv.const_stack( index );
-            if( spane.is_filtered( &( stack.front() ) ) ) {
-                continue;
+        std::list<std::pair<int, int>> dropped;
+
+        if( spane.get_area() == AIM_INVENTORY ) {
+            for( size_t index = 0; index < g->u.inv.size(); ++index ) {
+                const auto &stack = g->u.inv.const_stack( index );
+                const auto &it = stack.front();
+
+                if( !spane.is_filtered( &it ) ) {
+                    dropped.emplace_back( index, it.count_by_charges() ? it.charges : stack.size() );
+                }
             }
-            g->u.activity.values.push_back( index );
-            if( stack.front().count_by_charges() ) {
-                g->u.activity.values.push_back( stack.front().charges );
-            } else {
-                g->u.activity.values.push_back( stack.size() );
+        } else if( spane.get_area() == AIM_WORN ) {
+            // do this in reverse, to account for vector item removal messing with future indices
+            auto iter = g->u.worn.rbegin();
+            for( size_t idx = 0; idx < g->u.worn.size(); ++idx, ++iter ) {
+                const size_t index = ( g->u.worn.size() - idx - 1 );
+                const auto &it = *iter;
+
+                if( !spane.is_filtered( &it ) ) {
+                    dropped.emplace_back( player::worn_position_to_index( index ),
+                                          it.count_by_charges() ? it.charges : 1 );
+                }
             }
         }
-    } else if( spane.get_area() == AIM_WORN ) {
-        // do this in reverse, to account for vector item removal messing with future indices
-        auto iter = g->u.worn.rbegin();
-        for( size_t idx = 0; idx < g->u.worn.size(); ++idx, ++iter ) {
-            size_t index = ( g->u.worn.size() - idx - 1 );
-            auto &elem = *iter;
-            if( spane.is_filtered( &elem ) ) {
-                continue;
-            }
-            g->u.activity.values.push_back( player::worn_position_to_index( index ) );
-            int amount = (elem.count_by_charges() == true) ? elem.charges : 1;
-            g->u.activity.values.push_back(amount);
-        }
+
+        g->u.drop( dropped, g->u.pos() + darea.off );
     } else {
         if( dpane.get_area() == AIM_INVENTORY || dpane.get_area() == AIM_WORN ) {
             g->u.assign_activity( ACT_PICKUP, 0 );
@@ -1531,9 +1527,7 @@ void advanced_inventory::display()
                     if(srcarea == AIM_INVENTORY) {
                         moving_items = g->u.inv.reduce_stack(idx, amount_to_move);
                     } else if(srcarea == AIM_WORN) {
-                        std::vector<item> mv;
-                        g->u.takeoff(idx, false, &mv);
-                        std::copy(mv.begin(), mv.end(), std::back_inserter(moving_items));
+                        g->u.takeoff( *sitem->items.front(), &moving_items );
                     }
                     int items_left = 0, moved = 0;
                     for(auto &elem : moving_items) {
@@ -1566,12 +1560,13 @@ void advanced_inventory::display()
                     if(by_charges) {
                         item *it = sitem->items.front();
                         if( it->charges <= amount_to_move ) {
-                            amount_to_move = 1; // `amount_to_move' will be `true' if the item needs to be removed
+                            remove_item( *sitem, 1 );
                         } else {
                             it->mod_charges( -amount_to_move );
                         }
+                    } else {
+                        remove_item(*sitem, amount_to_move);
                     }
-                    remove_item(*sitem, amount_to_move);
                 // note to the player (and possibly debug) that the item transfer failed somehow
                 } else {
                     const char *msg = nullptr;
@@ -1900,7 +1895,7 @@ int advanced_inventory::remove_item( advanced_inv_listitem &sitem, int count )
             assert( &cont->contents.front() == sitem.items.front() );
             cont->contents.erase( cont->contents.begin() );
         } else if( sitem.area == AIM_WORN ) {
-            rc &= g->u.takeoff( sitem.items.front() );
+            rc &= g->u.takeoff( sitem.idx );
         } else if( sitem.from_vehicle ) {
             rc &= s.veh->remove_item( s.vstor, sitem.items.front() );
         } else {
@@ -2067,7 +2062,7 @@ bool advanced_inventory::query_charges( aim_location destarea, const advanced_in
     if( destarea == AIM_INVENTORY  || destarea == AIM_WORN ) {
         const long unitweight = it.weight() * 1000 / ( by_charges ? it.charges : 1 );
         const long max_weight = ( g->u.weight_capacity() * 4 - g->u.weight_carried() ) * 1000;
-        if( unitweight > 0 && unitweight * amount > max_weight ) {
+        if( unitweight > 0 && ( unitweight * amount > max_weight ) ) {
             const long weightmax = max_weight / unitweight;
             if( weightmax <= 0 ) {
                 popup( _( "This is too heavy!." ) );
