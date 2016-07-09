@@ -525,6 +525,7 @@ void npc::talk_to_u()
     } while (!d.done);
     delwin(d.win);
     g->refresh_all();
+    g->cancel_activity_query( _("%s talked to you."), name.c_str() );
 }
 
 std::string dialogue::dynamic_line( const std::string &topic ) const
