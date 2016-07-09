@@ -12087,7 +12087,7 @@ void player::bionic_armor_absorb( body_part bp, damage_unit &du ) const
     //all the other bionic armors reduce bash/cut/stab by 3/3/2.4
     // Map body parts to a set of bionics that protect it
     // @todo: JSONize passive bionic armor instead of hardcoding it
-    static const std::map< body_part, std::set< std::string >  > armor_bionics = {
+    static const std::map< body_part, std::string > armor_bionics = {
     { bp_head, { "bio_armor_head" } },
     { bp_arm_l, { "bio_armor_arms" } },
     { bp_arm_r, { "bio_armor_arms" } },
@@ -12098,13 +12098,11 @@ void player::bionic_armor_absorb( body_part bp, damage_unit &du ) const
     };
     auto iter = armor_bionics.find( bp );
     if( iter != armor_bionics.end() ) {
-        for( const std::string &bion : iter->second ) {
-            if( has_bionic( bion ) ) {
-                if( du.type == DT_BASH || du.type == DT_CUT ) {
-                    du.amount -= 3;
-                } else if( du.type == DT_STAB ) {
-                    du.amount -= 2.4;
-                }
+        if( has_bionic( iter->second ) ) {
+            if( du.type == DT_BASH || du.type == DT_CUT ) {
+                du.amount -= 3;
+            } else if( du.type == DT_STAB ) {
+                du.amount -= 2.4;
             }
         }
     }
