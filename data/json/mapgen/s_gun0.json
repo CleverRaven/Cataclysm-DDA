@@ -7,6 +7,7 @@
         "method": "json",
         "weight": 600,
         "object": {
+        "fill_ter": "t_floor",
             "rows": [
                 "  ____________________  ",
                 "  *___*___*______*___*  ",
@@ -35,14 +36,10 @@
             ],
             "terrain": {
                 ":": "t_window_bars_alarm",
-                "|": "t_sconc_wall",
                 "-": "t_wall",
                 "+": ["t_door_metal_pickable", "t_door_metal_pickable", "t_door_metal_pickable", "t_door_metal_locked"],
                 "_": "t_pavement",
                 "*": "t_pavement_y",
-                "#": "t_floor",
-                "{": "t_floor",
-                ".": "t_floor",
                 " ": [ "t_grass", "t_grass", "t_grass", "t_dirt" ]
             },
             "furniture": {
@@ -100,6 +97,7 @@
         "method": "json",
         "weight": 800,
         "object": {
+        "fill_ter": "t_floor",
             "rows": [
                 "  ____________________  ",
                 "  *___*___*______*___*  ",
@@ -129,13 +127,9 @@
             "terrain": {
                 ":": "t_window_bars_alarm",
                 "|": "t_sconc_wall",
-                "-": "t_wall",
                 "+": ["t_door_metal_pickable", "t_door_metal_pickable", "t_door_metal_pickable", "t_door_metal_locked"],
                 "_": "t_pavement",
                 "*": "t_pavement_y",
-                "#": "t_floor",
-                "{": "t_floor",
-                ".": "t_floor",
                 " ": [ "t_grass", "t_grass", "t_grass", "t_dirt" ]
             },
             "furniture": {
