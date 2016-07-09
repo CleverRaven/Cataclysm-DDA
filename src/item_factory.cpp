@@ -1508,6 +1508,8 @@ void hflesh_to_flesh( itype &item_template )
 
 void Item_factory::load_basic_info( JsonObject &jo, itype *new_item_template, const std::string &src )
 {
+    bool strict = src == "core";
+
     if( jo.has_string( "abstract" ) ) {
         new_item_template->id = jo.get_string( "abstract" );
         m_abstracts[ new_item_template->id ].reset( new_item_template );
@@ -1516,7 +1518,7 @@ void Item_factory::load_basic_info( JsonObject &jo, itype *new_item_template, co
         m_templates[ new_item_template->id ].reset( new_item_template );
     }
 
-    assign( jo, "weight", new_item_template->weight );
+    assign( jo, "weight", new_item_template->weight, strict );
     assign( jo, "volume", new_item_template->volume );
     assign( jo, "price", new_item_template->price );
     assign( jo, "price_postapoc", new_item_template->price_post );
