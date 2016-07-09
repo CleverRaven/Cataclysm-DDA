@@ -4601,67 +4601,20 @@ void player::on_hurt( Creature *source, bool disturb /*= true*/ )
 
 bool player::immune_to( body_part bp, damage_unit dam ) const
 {
-    // We use the worst-case scenario instead of random numbers
-    if( has_trait( "DEBUG_NODMG" ) || is_immune_damage( dam.type ) ) {
-        return true;
-    }
     if( dam.type == DT_HEAT ) {
         return false; // No one is immune to fire
     }
-
-    // Bionics reduce the damage for bashing, cutting, and stabbing
-    if( has_active_bionic( "bio_ads" ) && power_level >= 25 ) {
-        if( dam.type == DT_BASH || dam.type == DT_CUT || dam.type == DT_STAB ) {
-            dam.amount -= 1;
-        }
-    }
-    if( has_bionic( "bio_carbon" ) ) {
-        if( dam.type == DT_BASH ) {
-            dam.amount -= 2;
-        } else if( dam.type == DT_CUT ) {
-            dam.amount -= 4;
-        } else if( dam.type == DT_STAB ) {
-            dam.amount -= 3.2;
-        }
-    }
-    //all the other bionic armors reduce bash/cut/stab by 3/3/2.4
-    static const std::vector< std::pair< std::string, std::set< body_part > > > armor_bionics = {
-    { "bio_armor_head", { bp_head } },
-    { "bio_armor_arms", { bp_arm_l, bp_arm_r } },
-    { "bio_armor_torso", { bp_torso } },
-    { "bio_armor_legs", { bp_leg_l, bp_leg_r } },
-    { "bio_armor_eyes", { bp_eyes } }
-    };
-    for( auto it = armor_bionics.begin(); it != armor_bionics.end(); it++ ) {
-        if( has_bionic( it->first ) && it->second.count( bp ) > 0 ) {
-            if( dam.type == DT_BASH || dam.type == DT_CUT ) {
-                dam.amount -= 3;
-            } else if( dam.type == DT_STAB ) {
-                dam.amount -= 2.4;
-            }
-        }
+    if( has_trait( "DEBUG_NODMG" ) || is_immune_damage( dam.type ) ) {
+        return true;
     }
 
-    for( item cloth : worn ) {
-        if( cloth.get_coverage() != 100 || !cloth.covers( bp ) ) {
-            continue;
-        }
-        const auto res = resistances( cloth );
-        const float effective_resist = res.get_effective_resist( dam );
-        // Amount of damage mitigated
-        const float mitigation = std::min( effective_resist, dam.amount );
-        dam.amount -= mitigation;
-    }
+    passive_absorb_hit( bp, dam );
 
-    if( dam.type == DT_BASH ) {
-        if( has_trait( "LIGHT_BONES" ) ) {
-            dam.amount *= 1.4;
-        }
-        if( has_trait( "HOLLOW_BONES" ) ) {
-            dam.amount *= 1.8;
+    for( const item &cloth : worn ) {
+        if( cloth.get_coverage() == 100 && cloth.covers( bp ) ) {
+            cloth.mitigate_damage( dam );
         }
     }
-    dam.amount -= mabuff_armor_bonus( dam.type );
 
     return dam.amount <= 0;
 }
