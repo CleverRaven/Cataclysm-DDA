@@ -2678,10 +2678,8 @@ static int cauterize_elec(player *p, item *it)
 
 int iuse::water_purifier(player *p, item *it, bool, const tripoint& )
 {
-    auto loc = g->inv_map_splice( []( const item & itm ) {
-        return !itm.contents.empty() &&
-               ( itm.contents.front().typeId() == "water" ||
-                 itm.contents.front().typeId() == "salt_water" );
+    auto loc = g->inv_map_splice( []( const item &e ) {
+        return !e.contents.empty() && e.contents.front().typeId() == "water";
     }, _( "Purify what?" ), 1, _( "You don't have water to purify." ) );
 
     item *target = loc.get_item();
