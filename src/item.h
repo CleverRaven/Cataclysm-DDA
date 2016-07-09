@@ -1386,6 +1386,13 @@ public:
         item *get_usable_item( const std::string &use_name );
 
         /**
+         * How many invocations (if any) are possible?
+         * @param ch character responsible for invoking the item
+         * @note compatible with both reloadable tools and items counted by charges
+         */
+        long usages_remaining( const Character &ch ) const;
+
+        /**
          * Returns the translated item name for the item with given id.
          * The name is in the proper plural form as specified by the
          * quantity parameter. This is roughly equivalent to creating an item instance and calling

@@ -4393,6 +4393,27 @@ item *item::get_usable_item( const std::string &use_name )
     return nullptr;
 }
 
+long item::usages_remaining( const Character& ch ) const
+{
+    // items counted by charge always consume one charge per usage
+    if( count_by_charges() ) {
+        return charges;
+    }
+
+    // for items not consuming ammo then allow infinite usages
+    auto req = ammo_required();
+    if( req == 0 ) {
+        return LONG_MAX;
+    }
+
+    // for tools modified to use UPS instead limit by available UPS charges
+    if( has_flag( "USE_UPS" ) ) {
+        return ch.charges_of( "UPS" ) / req;
+    }
+
+    return ammo_remaining() / req;
+}
+
 item::reload_option::reload_option( const player *who, const item *target, const item *parent, item_location&& ammo ) :
     who( who ), target( target ), ammo( std::move( ammo ) ), parent( parent )
 {
