@@ -115,7 +115,7 @@
           "s_electronics"
         ],
         "method": "json",
-        "weight": 50, "comment": "<-- It's not as valuable as the gunsmithing shops are, but it's based on the same model and should be a figurative silver mine, if not a gold mine.",
+        "weight": 50,
         "object": {
             "rows": [
                 "zs______,______,______sz",
@@ -148,7 +148,6 @@
                 ",": "t_pavement_y",
                 "s": "t_sidewalk",
                 "-": "t_wall",
-                "|": "t_rock_smooth",
                 "5": "t_window_bars_alarm",
                 "8": "t_window_bars_alarm",
                 "1": "t_column",
@@ -190,8 +189,7 @@
                 "c": "f_chair",
                 "F": "f_fridge",
                 "S": "f_sink",
-                "d": "f_dumpster",
-                "z": "f_null"
+                "d": "f_dumpster"
             },
             "toilets": {
                 "T": { }
@@ -307,8 +305,7 @@
                 "c": "f_chair",
                 "F": "f_fridge",
                 "S": "f_sink",
-                "d": "f_dumpster",
-                "z": "f_null"
+                "d": "f_dumpster"
             },
             "toilets": {
                 "T": { }
