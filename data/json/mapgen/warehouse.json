@@ -7,6 +7,7 @@
         "method": "json",
         "weight": 500,
         "object": {
+        "fill_ter": "t_floor",
             "rows":
             [
                 "....S.SSSSSSSSSSSS......",
@@ -43,17 +44,7 @@
                 "w": "t_gates_mech_control",
                 "z": "t_shrub",
                 "^": "t_tree_pine",
-                " ": "t_floor",
-                "1": "t_floor",
-                "2": "t_floor",
-                "3": "t_door_locked",
-                "4": "t_floor",
-                "5": "t_floor",
-                "6": "t_floor",
-                "7": "t_floor",
-                "8": "t_floor",
-                "9": "t_floor",
-                "@": "t_floor"
+                "3": "t_door_locked"
             },
             "furniture": {
                 "1" : "f_crate_c",
