@@ -7,6 +7,7 @@
         "method": "json",
         "weight": 500,
         "object": {
+            "fill_ter": "t_floor",
             "rows": [
                     "~~~~~~~~~~~~~~~~~~~~~~~~",
                     "~~~~~~~~~~~~~~~~~~~~~~~~",
@@ -43,15 +44,6 @@
                 ":": "t_door_glass_c",
                 "O": "t_window",
                 "^": "t_tree",
-                "#": "t_floor",
-                "h": "t_floor",
-                "T": "t_floor",
-                "c": "t_floor",
-                "f": "t_floor",
-                "s": "t_floor",
-                "e": "t_floor",
-                "]": "t_floor",
-                "t": "t_floor",
                 "%": "t_console_broken"
             },
             "furniture": {
@@ -96,6 +88,7 @@
         "method": "json",
         "weight": 500,
         "object": {
+            "fill_ter": "t_floor",
             "rows": [
                     "~~~~~~~~~~~~~~~~~~~~~~~~",
                     "~~~~~~~~~~~~~~~~~~~~~~~~",
@@ -132,15 +125,6 @@
                 ":": "t_door_glass_c",
                 "O": "t_window",
                 "^": "t_tree",
-                "#": "t_floor",
-                "h": "t_floor",
-                "T": "t_floor",
-                "c": "t_floor",
-                "f": "t_floor",
-                "s": "t_floor",
-                "e": "t_floor",
-                "]": "t_floor",
-                "t": "t_floor",
                 "%": "t_console_broken"
             },
             "furniture": {
