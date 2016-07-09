@@ -14,6 +14,7 @@
             "method": "json",
             "weight": 500,
             "object": {
+            "fill_ter": "t_floor",
             "rows": [
             ".----------LL----------.",
             ".-#5                  -.",
@@ -52,26 +53,11 @@
             "M": "t_door_metal_locked",
             "w": "t_gates_mech_control",
             "x": "t_console_broken",
-            "c": "t_floor",
-            "#": "t_floor",
-            "r": "t_floor",
-            "^": "t_floor",
-            "t": "t_floor",
-            "F": "t_floor",
-            "@": "t_floor",
-            ":": "t_floor",
-            "T": "t_floor",
-            "l": "t_floor",
-            "=": "t_floor",
-            "G": "t_floor",
-            "f": "t_floor",
             "&": "t_door_metal_locked",
             "B": "t_palisade",
             "*": "t_door_locked",
             "5": "t_wall_glass",
-            "8": "t_wall_glass",
-            "D": "t_floor",
-            "C": "t_floor"
+            "8": "t_wall_glass"
             },
             "furniture": {
             "c": "f_chair",
@@ -85,11 +71,8 @@
             ":": "f_dresser",
             "T": "f_toilet",
             "l": "f_vending_c",
-            "S": "f_null",
             "G": "f_desk",
             "f": "f_glass_fridge",
-            "5": "f_null",
-            "8": "f_null",
             "D": "f_displaycase"
             },
             "place_items": [
@@ -134,6 +117,7 @@
             "method": "json",
             "weight": 500,
             "object": {
+            "fill_ter": "t_floor",
             "rows": [
             ".||||||||||LL||||||||||.",
             ".|#5                  |.",
@@ -172,26 +156,11 @@
             "M": "t_door_metal_locked",
             "w": "t_gates_mech_control",
             "x": "t_console_broken",
-            "c": "t_floor",
-            "#": "t_floor",
-            "r": "t_floor",
-            "^": "t_floor",
-            "t": "t_floor",
-            "F": "t_floor",
-            "@": "t_floor",
-            ":": "t_floor",
-            "T": "t_floor",
-            "l": "t_floor",
-            "=": "t_floor",
-            "G": "t_floor",
-            "f": "t_floor",
             "&": "t_door_metal_locked",
             "B": "t_palisade",
             "*": "t_door_locked",
             "5": "t_wall_glass",
-            "8": "t_wall_glass",
-            "D": "t_floor",
-            "C": "t_floor"
+            "8": "t_wall_glass"
             },
             "furniture": {
             "c": "f_chair",
@@ -205,11 +174,8 @@
             ":": "f_dresser",
             "T": "f_toilet",
             "l": "f_vending_c",
-            "S": "f_null",
             "G": "f_desk",
             "f": "f_glass_fridge",
-            "5": "f_null",
-            "8": "f_null",
             "D": "f_displaycase"
             },
             "place_items": [
