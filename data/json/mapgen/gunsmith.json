@@ -7,6 +7,7 @@
     "method": "json",
     "weight": 100,
     "object": {
+      "fill_ter": "t_floor",
       "rows": [
         "__________________sss___",
         "_,___,___,___,___,sss_%_",
@@ -38,7 +39,6 @@
         ",": "t_pavement_y",
         "s": "t_sidewalk",
         "-": "t_wall",
-        "|": "t_rock_smooth",
         "5": "t_window_bars_alarm",
         "8": "t_window_bars_alarm",
         ".": "t_floor",
@@ -49,17 +49,6 @@
         "W": "t_window_bars_alarm",
         "%": "t_shrub",
         "x": "t_console_broken",
-        "^": "t_floor",
-        "r": "t_floor",
-        "l": "t_floor",
-        "#": "t_floor",
-        "E": "t_floor",
-        "t": "t_floor",
-        "c": "t_floor",
-        "C": "t_floor",
-        "F": "t_floor",
-        "S": "t_floor",
-        "T": "t_floor",
         "d": "t_pavement"
       },
       "furniture": {
@@ -122,6 +111,7 @@
     "method": "json",
     "weight": 250,
     "object": {
+      "fill_ter": "t_floor",
       "rows": [
         "__________________sss___",
         "_,___,___,___,___,sss_%_",
@@ -164,17 +154,6 @@
         "W": "t_window_bars_alarm",
         "%": "t_shrub",
         "x": "t_console_broken",
-        "^": "t_floor",
-        "r": "t_floor",
-        "l": "t_floor",
-        "#": "t_floor",
-        "E": "t_floor",
-        "t": "t_floor",
-        "c": "t_floor",
-        "C": "t_floor",
-        "F": "t_floor",
-        "S": "t_floor",
-        "T": "t_floor",
         "d": "t_pavement"
       },
       "furniture": {
