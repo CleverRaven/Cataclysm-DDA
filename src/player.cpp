@@ -13090,28 +13090,6 @@ bool player::sees( const Creature &critter ) const
     return Creature::sees( critter );
 }
 
-bool player::has_container_for( const item &newit ) const
-{
-    if( !newit.made_of( LIQUID ) ) {
-        // Currently only liquids need a container
-        return true;
-    }
-    unsigned charges = newit.charges;
-    charges -= weapon.get_remaining_capacity_for_liquid( newit );
-    for( auto& w : worn ) {
-        charges -= w.get_remaining_capacity_for_liquid( newit );
-    }
-    for( size_t i = 0; i < inv.size() && charges > 0; i++ ) {
-        const std::list<item>&items = inv.const_stack( i );
-        // Assume that each item in the stack has the same remaining capacity
-        charges -= items.front().get_remaining_capacity_for_liquid( newit ) * items.size();
-    }
-    return charges <= 0;
-}
-
-
-
-
 nc_color player::bodytemp_color(int bp) const
 {
   nc_color color =  c_ltgray; // default

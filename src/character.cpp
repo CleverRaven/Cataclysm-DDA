@@ -1919,11 +1919,8 @@ bool Character::is_blind() const
 bool Character::pour_into( item &container, item &liquid )
 {
     std::string err;
+    const long amount = container.get_remaining_capacity_for_liquid( liquid, *this, &err );
 
-    const bool allow_bucket = &container == &weapon || !has_item( container );
-    const int available_volume = allow_bucket ? INT_MAX : volume_capacity() - volume_carried();
-    const long amount = container.get_remaining_capacity_for_liquid( liquid, err, allow_bucket,
-                                                                     available_volume );
     if( !err.empty() ) {
         add_msg_if_player( m_bad, err.c_str() );
         return false;

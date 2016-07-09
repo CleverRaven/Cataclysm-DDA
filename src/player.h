@@ -1062,8 +1062,6 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
 
         int  leak_level( std::string flag ) const; // carried items may leak radiation or chemicals
 
-        // Check for free container space for the whole liquid item
-        bool has_container_for( const item &liquid ) const;
         // Has a weapon, inventory item or worn item with flag
         bool has_item_with_flag( const std::string &flag ) const;
 

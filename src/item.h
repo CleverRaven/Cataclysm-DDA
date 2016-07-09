@@ -462,9 +462,9 @@ class item : public JsonSerializer, public JsonDeserializer, public visitable<it
      * @param allow_bucket Allow filling non-sealable containers
      */
     long get_remaining_capacity_for_liquid( const item &liquid, bool allow_bucket = false,
-                                            int volume_limit = INT_MAX ) const;
-    long get_remaining_capacity_for_liquid( const item &liquid, std::string &err,
-                                            bool allow_bucket = false, int volume_limit = INT_MAX ) const;
+                                            std::string *err = nullptr ) const;
+    long get_remaining_capacity_for_liquid( const item &liquid, const Character &p,
+                                            std::string *err = nullptr ) const;
     /**
      * It returns the total capacity (volume) of the container. This is a volume,
      * use @ref liquid_charges (of a liquid item) to translate that volume to the
