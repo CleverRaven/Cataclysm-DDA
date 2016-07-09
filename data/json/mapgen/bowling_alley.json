@@ -134,7 +134,11 @@
         "type":"monstergroup",
         "name" : "GROUP_PLAIN",
         "default" : "mon_zombie",
-        "monsters" : [{ "monster" : "mon_zombie", "freq" : 40, "cost_multiplier" : 1 }]
+        "monsters" : [
+            { "monster" : "mon_zombie", "freq" : 30, "cost_multiplier" : 0 },
+            { "monster" : "mon_zombie_fat", "freq" : 10, "cost_multiplier" : 0 },
+            { "monster" : "mon_zombie_tough", "freq" : 10, "cost_multiplier" : 0 }
+        ]
     },{
         "type"       : "overmap_terrain",
         "id"         : "bowling_alley",
@@ -152,6 +156,7 @@
                 "method": "json",
                 "weight": 2500000,
                 "object": {
+                    "fill_ter": "t_floor",
                     "rows": [
                         ",,,,,__________________,",
                         ",,,,,_y____y____y____y_,",
@@ -191,22 +196,10 @@
                         "M": "t_door_metal_locked",
                         "w": "t_gates_mech_control",
                         "x": "t_console_broken",
-                        "c": "t_floor",
-                        "#": "t_floor",
-                        "r": "t_floor",
-                        "^": "t_floor",
-                        "t": "t_floor",
-                        "F": "t_floor",
-                        "@": "t_floor",
-                        ":": "t_floor",
                         "T": "t_linoleum_white",
-                        "l": "t_floor",
                         "S": "t_floor_waxed",
-                        "=": "t_floor",
-                        "G": "t_floor",
                         "L": "t_linoleum_white",
                         "U": "t_linoleum_white",
-                        "&": "t_floor",
                         "%": "t_linoleum_white"
                     },
                     "furniture": {
@@ -276,6 +269,7 @@
                 "method": "json",
                 "weight": 7500000,
                 "object": {
+                    "fill_ter": "t_floor",
                     "rows": [
                         ",,,,,__________________,",
                         ",,,,,_y____y____y____y_,",
@@ -315,22 +309,10 @@
                         "M": "t_door_metal_locked",
                         "w": "t_gates_mech_control",
                         "x": "t_console_broken",
-                        "c": "t_floor",
-                        "#": "t_floor",
-                        "r": "t_floor",
-                        "^": "t_floor",
-                        "t": "t_floor",
-                        "F": "t_floor",
-                        "@": "t_floor",
-                        ":": "t_floor",
                         "T": "t_linoleum_white",
-                        "l": "t_floor",
                         "S": "t_floor_waxed",
-                        "=": "t_floor",
-                        "G": "t_floor",
                         "L": "t_linoleum_white",
                         "U": "t_linoleum_white",
-                        "&": "t_floor",
                         "%": "t_linoleum_white"
                     },
                     "furniture": {
