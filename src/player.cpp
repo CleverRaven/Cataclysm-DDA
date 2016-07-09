@@ -4025,6 +4025,10 @@ bool player::overmap_los( const tripoint &omt, int sight_points )
         return false;
     }
 
+    if( omt.z != ompos.z && ( omt.z < 0 || ompos.z < 0 ) ) {
+        return false;
+    }
+
     const std::vector<tripoint> line = line_to( ompos, omt, 0, 0 );
     for( size_t i = 0; i < line.size() && sight_points >= 0; i++ ) {
         const tripoint &pt = line[i];
