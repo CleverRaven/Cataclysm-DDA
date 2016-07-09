@@ -16,11 +16,9 @@
 #include <libintl.h>
 #include <clocale>
 
-extern char *blank_string;
-
-inline char *_( const char *msg )
+inline const char *_( const char *msg )
 {
-    return ( msg[0] == '\0' ) ? blank_string : gettext( msg );
+    return ( msg[0] == '\0' ) ? msg : gettext( msg );
 }
 
 const char *pgettext( const char *context, const char *msgid );
