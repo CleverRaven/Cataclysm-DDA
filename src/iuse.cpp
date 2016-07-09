@@ -2688,9 +2688,8 @@ int iuse::water_purifier(player *p, item *it, bool, const tripoint& )
     }
 
     item &liquid = obj->contents.front();
-    if( liquid.charges > it->ammo_remaining() ) {
-        p->add_msg_if_player(m_info,
-                             _("You don't have enough charges in your purifier to purify all of the water."));
+    if( liquid.charges > it->usages_remaining( *p ) ) {
+        p->add_msg_if_player( m_info, _( "That volume of water is too large to purify." ) );
         return 0;
     }
 
