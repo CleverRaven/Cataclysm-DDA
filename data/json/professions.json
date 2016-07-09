@@ -2212,7 +2212,7 @@
         "type": "profession",
         "ident": "bio_specops",
         "name": "Bionic Spec-Op",
-        "description": "You were the latest in the military cyborg program.  A bionic special forces operator equiped a laser rifle that feeds from your internal power... or you did until you lost it during the initial chaos along with your squad.  With a scavanged weapon and ammo from the fallen you fight on.",
+        "description": "You were the latest in the military cyborg program.  A bionic special forces operator equipped a laser rifle that feeds from your internal power... or you did until you lost it during the initial chaos along with your squad.  With a scavanged weapon and ammo from the fallen you fight on.",
         "points": 8,
         "skills": [
             {
