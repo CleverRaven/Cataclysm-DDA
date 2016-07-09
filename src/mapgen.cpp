@@ -8940,7 +8940,7 @@ FFFFFFFFFFFFFFFFFFFFFFFF\n\
                     if (one_in(2)) {
                         place_items("sports",  72, x, y, x, y + SEEY - 4, false, 0);
                     } else if (one_in(10)) {
-                        place_items("guns_rifles_common",  20, x, y, x, y + SEEY - 4, false, 0);
+                        place_items("guns_rifle_common",  20, x, y, x, y + SEEY - 4, false, 0);
                     } else {
                         place_items("camping", 68, x, y, x, y + SEEY - 4, false, 0);
                     }
