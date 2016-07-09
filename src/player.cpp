@@ -12157,6 +12157,25 @@ void player::bionic_armor_absorb( body_part bp, damage_unit &du ) const
     }
 }
 
+void player::passive_absorb_hit( body_part bp, damage_unit &du ) const
+{
+    bionic_armor_absorb( bp, du ); //Check for passive armor bionics
+    // >0 check because some mutations provide negative armor
+        if( du.amount > 0.0f ) {
+            // Horrible hack warning!
+            // Get rid of this as soon as CUT and STAB are split
+            if( du.type == DT_STAB ) {
+                damage_unit du_copy = du;
+                du_copy.type = DT_CUT;
+                du.amount -= 0.8f * mutation_armor( bp, du_copy );
+            } else {
+                du.amount -= mutation_armor( bp, du );
+            }
+        }
+        du.amount -= mabuff_armor_bonus( du.type );
+        du.amount = std::max( 0.0f, du.amount );
+}
+
 void player::absorb_hit(body_part bp, damage_instance &dam) {
     std::list<item> worn_remains;
     bool armor_destroyed = false;
@@ -12168,7 +12187,7 @@ void player::absorb_hit(body_part bp, damage_instance &dam) {
             continue;
         }
 
-        // CBMs absorb damage first before hitting armor
+        // The bio_ads CBM absorbs damage before hitting armor
         if( has_active_bionic("bio_ads") ) {
             if( elem.amount > 0 && power_level > 24 ) {
                 if( elem.type == DT_BASH ) {
@@ -12233,97 +12252,7 @@ void player::absorb_hit(body_part bp, damage_instance &dam) {
             }
         }
 
-        // Next, apply reductions from bionics and traits.
-        if( has_bionic("bio_carbon") ) {
-            switch (elem.type) {
-            case DT_BASH:
-                elem.amount -= 2;
-                break;
-            case DT_CUT:
-                elem.amount -= 4;
-                break;
-            case DT_STAB:
-                elem.amount -= 3.2;
-                break;
-            default:
-                break;
-            }
-        }
-        if( bp == bp_head && has_bionic("bio_armor_head") ) {
-            switch (elem.type) {
-            case DT_BASH:
-            case DT_CUT:
-                elem.amount -= 3;
-                break;
-            case DT_STAB:
-                elem.amount -= 2.4;
-                break;
-            default:
-                break;
-            }
-        } else if( (bp == bp_arm_l || bp == bp_arm_r) && has_bionic("bio_armor_arms") ) {
-            switch (elem.type) {
-            case DT_BASH:
-            case DT_CUT:
-                elem.amount -= 3;
-                break;
-            case DT_STAB:
-                elem.amount -= 2.4;
-                break;
-            default:
-                break;
-            }
-        } else if( bp == bp_torso && has_bionic("bio_armor_torso") ) {
-            switch (elem.type) {
-            case DT_BASH:
-            case DT_CUT:
-                elem.amount -= 3;
-                break;
-            case DT_STAB:
-                elem.amount -= 2.4;
-                break;
-            default:
-                break;
-            }
-        } else if( (bp == bp_leg_l || bp == bp_leg_r) && has_bionic("bio_armor_legs") ) {
-            switch (elem.type) {
-            case DT_BASH:
-            case DT_CUT:
-                elem.amount -= 3;
-                break;
-            case DT_STAB:
-                elem.amount -= 2.4;
-                break;
-            default:
-                break;
-            }
-        } else if( bp == bp_eyes && has_bionic("bio_armor_eyes") ) {
-            switch (elem.type) {
-            case DT_BASH:
-            case DT_CUT:
-                elem.amount -= 3;
-                break;
-            case DT_STAB:
-                elem.amount -= 2.4;
-                break;
-            default:
-                break;
-            }
-        }
-
-        // >0 check because some mutations provide negative armor
-        if( elem.amount > 0.0f ) {
-            // Horrible hack warning!
-            // Get rid of this as soon as CUT and STAB are split
-            if( elem.type == DT_STAB ) {
-                damage_unit elem_copy = elem;
-                elem_copy.type = DT_CUT;
-                elem.amount -= 0.8f * mutation_armor( bp, elem_copy );
-            } else {
-                elem.amount -= mutation_armor( bp, elem );
-            }
-        }
-        elem.amount -= mabuff_armor_bonus( elem.type );
+        passive_absorb_hit( bp, elem );
 
         if( elem.type == DT_BASH ) {
             if( has_trait( "LIGHT_BONES" ) ) {
