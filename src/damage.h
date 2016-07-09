@@ -34,6 +34,9 @@ struct damage_unit {
     float res_mult;
     float damage_multiplier;
 
+    damage_unit( damage_type dt, float a ) : type( dt ), amount( a ), res_pen( 0 ),
+        res_mult( 1.0f ), damage_multiplier( 1.0f ) { }
+
     damage_unit( damage_type dt, float a, int rp, float rm, float mul ) :
         type( dt ), amount( a ), res_pen( rp ), res_mult( rm ), damage_multiplier( mul ) { }
 };

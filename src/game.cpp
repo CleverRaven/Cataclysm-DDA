@@ -12016,7 +12016,7 @@ bool game::walk_move( const tripoint &dest_loc )
                     bp_hand_l, bp_hand_r, bp_torso
                 };
                 if( !std::all_of( check.begin(), check.end(), [this]( body_part bp ) {
-                return u.immune_to( bp, { DT_CUT, 10, 0, 1, 1 } );
+                return u.immune_to( bp, { DT_CUT, 10 } );
                 } ) && !query_yn( _( "Really step onto that %s?" ), m.name( dest_loc ).c_str() ) ) {
                     return true;
                 }
