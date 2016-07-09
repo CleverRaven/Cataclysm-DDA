@@ -515,9 +515,10 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
          */
         bool armor_absorb( damage_unit &du, item &armor );
         /**
-         * Check for passive bionics that provide armor, and reduces damage
+         * Check for passive bionics that provide armor, and returns the armor bonus
+         * This is called from player::passive_absorb_hit
          */
-         void bionic_armor_absorb( body_part bp, damage_unit &du ) const;
+         float bionic_armor_bonus( body_part bp, damage_type dt ) const;
         /**
          * Check for relevant passive, non-clothing that can absorb damage, and reduce @ref du
          * Only flat bonuses are checked here. Multiplicative ones are checked in player::absorb_hit

@@ -12072,16 +12072,17 @@ bool player::armor_absorb( damage_unit& du, item& armor )
     return armor.damage >= 5;
 }
 
-void player::bionic_armor_absorb( body_part bp, damage_unit &du ) const
+float player::bionic_armor_bonus( body_part bp, damage_type dt ) const
 {
+    float result = 0.0f;
     // We only check the passive bionics
     if( has_bionic( "bio_carbon" ) ) {
-        if( du.type == DT_BASH ) {
-            du.amount -= 2;
-        } else if( du.type == DT_CUT ) {
-            du.amount -= 4;
-        } else if( du.type == DT_STAB ) {
-            du.amount -= 3.2;
+        if( dt == DT_BASH ) {
+            result += 2;
+        } else if( dt == DT_CUT ) {
+            result += 4;
+        } else if( dt == DT_STAB ) {
+            result += 3.2;
         }
     }
     //all the other bionic armors reduce bash/cut/stab by 3/3/2.4
@@ -12099,18 +12100,19 @@ void player::bionic_armor_absorb( body_part bp, damage_unit &du ) const
     auto iter = armor_bionics.find( bp );
     if( iter != armor_bionics.end() ) {
         if( has_bionic( iter->second ) ) {
-            if( du.type == DT_BASH || du.type == DT_CUT ) {
-                du.amount -= 3;
-            } else if( du.type == DT_STAB ) {
-                du.amount -= 2.4;
+            if( dt == DT_BASH || dt == DT_CUT ) {
+                result += 3;
+            } else if( dt == DT_STAB ) {
+                result += 2.4;
             }
         }
     }
+    return result;
 }
 
 void player::passive_absorb_hit( body_part bp, damage_unit &du ) const
 {
-    bionic_armor_absorb( bp, du ); //Check for passive armor bionics
+    du.amount -= bionic_armor_bonus( bp, du.type ); //Check for passive armor bionics
     // >0 check because some mutations provide negative armor
         if( du.amount > 0.0f ) {
             // Horrible hack warning!
