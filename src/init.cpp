@@ -74,14 +74,14 @@ DynamicDataLoader &DynamicDataLoader::get_instance()
     return theDynamicDataLoader;
 }
 
-void DynamicDataLoader::load_object(JsonObject &jo)
+void DynamicDataLoader::load_object( JsonObject &jo, const std::string &src )
 {
     std::string type = jo.get_string("type");
     t_type_function_map::iterator it = type_function_map.find(type);
     if (it == type_function_map.end()) {
         jo.throw_error( "unrecognized JSON object", "type" );
     }
-    it->second(jo);
+    it->second( jo, src );
 }
 
 void load_ingored_type(JsonObject &jo)
@@ -92,9 +92,17 @@ void load_ingored_type(JsonObject &jo)
     (void) jo;
 }
 
+void DynamicDataLoader::add( const std::string &type, std::function<void(JsonObject &, const std::string &)> f )
+{
+    const auto pair = type_function_map.emplace( type, f );
+    if( !pair.second ) {
+        debugmsg( "tried to insert a second handler for type %s into the DynamicDataLoader", type.c_str() );
+    }
+}
+
 void DynamicDataLoader::add( const std::string &type, std::function<void(JsonObject&)> f )
 {
-    const auto pair = type_function_map.insert( std::make_pair( type, std::move( f ) ) );
+    const auto pair = type_function_map.emplace( type, [f]( JsonObject &obj, const std::string & ) { f( obj ); } );
     if( !pair.second ) {
         debugmsg( "tried to insert a second handler for type %s into the DynamicDataLoader", type.c_str() );
     }
@@ -197,7 +205,7 @@ void DynamicDataLoader::initialize()
     add( "overlay_order", &load_overlay_ordering );
 }
 
-void DynamicDataLoader::load_data_from_path(const std::string &path)
+void DynamicDataLoader::load_data_from_path( const std::string &path, const std::string &src )
 {
     // We assume that each folder is consistent in itself,
     // and all the previously loaded folders.
@@ -230,19 +238,19 @@ void DynamicDataLoader::load_data_from_path(const std::string &path)
         try {
             // parse it
             JsonIn jsin(iss);
-            load_all_from_json(jsin);
+            load_all_from_json( jsin, src );
         } catch( const JsonError &err ) {
             throw std::runtime_error( file + ": " + err.what() );
         }
     }
 }
 
-void DynamicDataLoader::load_all_from_json(JsonIn &jsin)
+void DynamicDataLoader::load_all_from_json( JsonIn &jsin, const std::string &src )
 {
     if( jsin.test_object() ) {
         // find type and dispatch single object
         JsonObject jo = jsin.get_object();
-        load_object(jo);
+        load_object( jo, src );
         jo.finish();
         // if there's anything else in the file, it's an error.
         jsin.eat_whitespace();
@@ -254,7 +262,7 @@ void DynamicDataLoader::load_all_from_json(JsonIn &jsin)
         // find type and dispatch each object until array close
         while (!jsin.end_array()) {
             JsonObject jo = jsin.get_object();
-            load_object(jo);
+            load_object( jo, src );
             jo.finish();
         }
     } else {

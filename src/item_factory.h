@@ -339,8 +339,11 @@ class Item_factory
         void add_iuse( const std::string &type, const use_function_pointer f );
         void add_actor( iuse_actor *ptr );
 
-        /** JSON data dependent upon as-yet unparsed definitions */
-        std::list<std::string> deferred;
+        /**
+         * JSON data dependent upon as-yet unparsed definitions
+         * first: JSON data, second: source identifier
+         */
+        std::list<std::pair<std::string, std::string>> deferred;
 
         std::map<itype_id, migration> migrations;
 };

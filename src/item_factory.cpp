@@ -114,10 +114,10 @@ void Item_factory::finalize() {
         auto it = deferred.begin();
         for( decltype(deferred)::size_type idx = 0; idx != n; ++idx ) {
             try {
-                std::istringstream str( *it );
+                std::istringstream str( it->first );
                 JsonIn jsin( str );
                 JsonObject jo = jsin.get_object();
-                dyn.load_object( jo );
+                dyn.load_object( jo, it->second );
             } catch( const std::exception &err ) {
                 debugmsg( "Error loading data from json: %s", err.what() );
             }
@@ -1010,7 +1010,7 @@ itype * Item_factory::load_definition( JsonObject& jo ) {
         return new itype( *abstract->second );
     }
 
-    deferred.emplace_back( jo.str() );
+    deferred.emplace_back( jo.str(), std::string() );
     return nullptr;
 }
 

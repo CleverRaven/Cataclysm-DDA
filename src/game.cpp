@@ -310,9 +310,9 @@ void game::check_all_mod_data()
             // assert(mm->has_mod(deps[i]));
             // ^^ dependency tree takes care of that case
             MOD_INFORMATION &dmod = *mm->mod_map[dep];
-            load_data_from_dir(dmod.path);
+            load_data_from_dir( dmod.path, dmod.ident );
         }
-        load_data_from_dir(mod.path);
+        load_data_from_dir( mod.path, mod.ident );
         DynamicDataLoader::get_instance().finalize_loaded_data();
     }
 }
@@ -324,10 +324,10 @@ void game::load_core_data()
     DynamicDataLoader::get_instance().unload_data();
 
     init_lua();
-    load_data_from_dir(FILENAMES["jsondir"]);
+    load_data_from_dir( FILENAMES[ "jsondir" ], "core" );
 }
 
-void game::load_data_from_dir(const std::string &path)
+void game::load_data_from_dir( const std::string &path, const std::string &src )
 {
     // Process a preload file before the .json files,
     // so that custom IUSE's can be defined before
@@ -335,7 +335,7 @@ void game::load_data_from_dir(const std::string &path)
     lua_loadmod( path, "preload.lua" );
 
     try {
-        DynamicDataLoader::get_instance().load_data_from_path(path);
+        DynamicDataLoader::get_instance().load_data_from_path( path, src );
     } catch( const std::exception &err ) {
         debugmsg("Error loading data from json: %s", err.what());
     }
@@ -3550,14 +3550,14 @@ void game::load_world_modfiles(WORLDPTR world)
                 MOD_INFORMATION &mod = *mm->mod_map[mod_ident];
                 if( !mod.obsolete ) {
                     // Silently ignore mods marked as obsolete.
-                    load_data_from_dir(mod.path);
+                    load_data_from_dir( mod.path, mod.ident );
                 }
             } else {
                 debugmsg("the world uses an unknown mod %s", mod_ident.c_str());
             }
         }
         // Load additional mods from that world-specific folder
-        load_data_from_dir(world->world_path + "/mods");
+        load_data_from_dir( world->world_path + "/mods", "custom" );
     }
 
     erase();
