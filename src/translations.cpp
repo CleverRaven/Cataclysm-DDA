@@ -9,78 +9,75 @@
 #include "path_info.h"
 #include "debug.h"
 
-const char *pgettext(const char *context, const char *msgid)
+const char *pgettext( const char *context, const char *msgid )
 {
     // need to construct the string manually,
     // to correctly handle strings loaded from json.
     // could probably do this more efficiently without using std::string.
-    std::string context_id(context);
+    std::string context_id( context );
     context_id += '\004';
     context_id += msgid;
     // null domain, uses global translation domain
     const char *msg_ctxt_id = context_id.c_str();
-    const char *translation = dcgettext(NULL, msg_ctxt_id, LC_MESSAGES);
-    if (translation == msg_ctxt_id) {
+    const char *translation = dcgettext( NULL, msg_ctxt_id, LC_MESSAGES );
+    if( translation == msg_ctxt_id ) {
         return msgid;
-    }
-    else {
+    } else {
         return translation;
     }
 }
 
-void set_language(bool reload_options)
+void set_language( bool reload_options )
 {
     // Step 1. Setup locale settings.
     std::string lang_opt = OPTIONS["USE_LANG"].getValue();
-    if (lang_opt != "") { // Not 'System Language'
-                          // Overwrite all system locale settings. Use CDDA settings. User wants this.
+    if( lang_opt != "" ) { // Not 'System Language'
+        // Overwrite all system locale settings. Use CDDA settings. User wants this.
 #if (defined _WIN32 || defined WINDOWS)
         std::string lang_env = "LANGUAGE=" + lang_opt;
-        if (_putenv(lang_env.c_str()) != 0) {
-            DebugLog(D_WARNING, D_MAIN) << "Can't set 'LANGUAGE' environment variable";
+        if( _putenv( lang_env.c_str() ) != 0 ) {
+            DebugLog( D_WARNING, D_MAIN ) << "Can't set 'LANGUAGE' environment variable";
         }
 #else
-        if (setenv("LANGUAGE", lang_opt.c_str(), true) != 0) {
-            DebugLog(D_WARNING, D_MAIN) << "Can't set 'LANGUAGE' environment variable";
+        if( setenv( "LANGUAGE", lang_opt.c_str(), true ) != 0 ) {
+            DebugLog( D_WARNING, D_MAIN ) << "Can't set 'LANGUAGE' environment variable";
         }
 #endif
         else {
-            auto env = getenv("LANGUAGE");
-            if (env != NULL) {
-                DebugLog(D_INFO, D_MAIN) << "Language is set to: '" << env << '\'';
-            }
-            else {
-                DebugLog(D_WARNING, D_MAIN) << "Can't get 'LANGUAGE' environment variable";
+            auto env = getenv( "LANGUAGE" );
+            if( env != NULL ) {
+                DebugLog( D_INFO, D_MAIN ) << "Language is set to: '" << env << '\'';
+            } else {
+                DebugLog( D_WARNING, D_MAIN ) << "Can't get 'LANGUAGE' environment variable";
             }
         }
     }
 
 #if (defined _WIN32 || defined WINDOWS)
     // Use the ANSI code page 1252 to work around some language output bugs.
-    if (setlocale(LC_ALL, ".1252") == NULL) {
-        DebugLog(D_WARNING, D_MAIN) << "Error while setlocale(LC_ALL, '.1252').";
+    if( setlocale( LC_ALL, ".1252" ) == NULL ) {
+        DebugLog( D_WARNING, D_MAIN ) << "Error while setlocale(LC_ALL, '.1252').";
     }
 #endif
 
     // Step 2. Bind to gettext domain.
     const char *locale_dir;
 #if (defined __linux__ || (defined MACOSX && !defined TILES))
-    if (!FILENAMES["base_path"].empty()) {
-        locale_dir = std::string(FILENAMES["base_path"] + "share/locale").c_str();
-    }
-    else {
+    if( !FILENAMES["base_path"].empty() ) {
+        locale_dir = std::string( FILENAMES["base_path"] + "share/locale" ).c_str();
+    } else {
         locale_dir = "lang/mo";
     }
 #else
     locale_dir = "lang/mo";
 #endif // __linux__
 
-    bindtextdomain("cataclysm-dda", locale_dir);
-    bind_textdomain_codeset("cataclysm-dda", "UTF-8");
-    textdomain("cataclysm-dda");
+    bindtextdomain( "cataclysm-dda", locale_dir );
+    bind_textdomain_codeset( "cataclysm-dda", "UTF-8" );
+    textdomain( "cataclysm-dda" );
 
     // Step 3. Reload options strings with right language
-    if (reload_options) {
+    if( reload_options ) {
         get_options().init();
         get_options().load();
     }
