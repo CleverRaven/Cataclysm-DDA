@@ -33,7 +33,6 @@
                 "ssssssssssssssssssssssss"
             ],
             "terrain": {
-                "|": "t_rock_smooth",
                 "-": "t_wall",
                 "W": "t_window",
                 "+": "t_door_c",
@@ -139,7 +138,6 @@
             ],
             "terrain": {
                 "|": "t_rock_smooth",
-                "-": "t_wall",
                 "W": "t_window",
                 "+": "t_door_c",
                 "D": "t_door_locked",
