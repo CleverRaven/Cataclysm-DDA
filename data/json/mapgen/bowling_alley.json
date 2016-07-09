@@ -303,7 +303,6 @@
                         "y": "t_pavement_y",
                         " ": "t_floor",
                         "-": "t_wall",
-                        "|": "t_rock_smooth",
                         "O": "t_window",
                         "+": "t_door_c",
                         "M": "t_door_metal_locked",
