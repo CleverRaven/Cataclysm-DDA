@@ -174,7 +174,6 @@
                 " ": "t_linoleum_white",
                 "-": "t_wall",
                 "=": "t_wall_glass",
-                "|": "t_brick_wall",
                 "[": "t_door_glass_c",
                 "+": "t_door_c",
                 "L": "t_door_locked",
