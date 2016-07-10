@@ -11201,7 +11201,12 @@ bool add_or_drop_with_msg( player &u, item &it )
 bool game::unload( item &it )
 {
     // Unload a container consuming moves per item successfully removed
-    if( it.is_container() && !it.contents.empty() ) {
+    if( it.is_container() || it.type->can_use( "bandolier" ) ) {
+        if( it.contents.empty() ) {
+            add_msg( m_info, _( "The %s is already empty!" ), it.tname().c_str() );
+            return false;
+        }
+
         it.contents.erase( std::remove_if( it.contents.begin(), it.contents.end(), [this]( item& e ) {
             int mv = u.item_handling_cost( e );
             if( !add_or_drop_with_msg( u, e ) ) {
