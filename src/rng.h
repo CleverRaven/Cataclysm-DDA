@@ -5,8 +5,8 @@
 
 #include <functional>
 
-// xorshift128+ RNG
-void init_xorshift_rng( int seed );
+// xorshift1024* RNG
+void init_xorshift_rng( unsigned long long seed );
 unsigned long long rand_u64();
 long long rand_s64();
 int rand_s32();

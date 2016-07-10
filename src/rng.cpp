@@ -10,9 +10,9 @@ unsigned long long xorshift_state[16];
 unsigned long long rand_u64()
 {
     const unsigned long long s0 = xorshift_state[xorshift_pointer];
-    unsigned long long s1 = xorshift_state[xorshift_pointer = (xorshift_pointer + 1) & 15];
+    unsigned long long s1 = xorshift_state[xorshift_pointer = ( xorshift_pointer + 1 ) & 15];
     s1 ^= s1 << 31;
-    xorshift_state[xorshift_pointer] = s1 ^ s0 ^ (s1 >> 11) ^ (s0 >> 30);
+    xorshift_state[xorshift_pointer] = s1 ^ s0 ^ ( s1 >> 11 ) ^ ( s0 >> 30 );
     return xorshift_state[xorshift_pointer] * 1181783497276652981ULL;
 }
 
@@ -26,14 +26,16 @@ int rand_s32()
     return rand_u64() & 0x7FFFFFFF;
 }
 
-void init_xorshift_rng( int seed )
+void init_xorshift_rng( unsigned long long x )
 {
-    // use linear congruential algorithm to feed the 128-bit state.
-    unsigned int x = seed, y = ( seed * 1103515245 + 12345 );
-    xorshift_state[0] = ( ( unsigned long long )( x ) << 32 ) + y;
-    x = ( y * 1103515245 + 12345 );
-    y = ( x * 1103515245 + 12345 );
-    xorshift_state[1] = ( ( unsigned long long )( x ) << 32 ) + y;
+    // use splitmix64 algorithm to feed the xorshift's 1024bit state
+    for( int i = 0; i < 16; i++ ) {
+        unsigned long long z = ( x += 0x9E3779B97F4A7C15ULL );
+        z = ( z ^ ( z >> 30 ) ) * 0xBF58476D1CE4E5B9ULL;
+        z = ( z ^ ( z >> 27 ) ) * 0x94D049BB133111EBULL;
+        xorshift_state[i] = z ^ ( z >> 31 );
+    }
+    xorshift_pointer = 0;
 }
 
 long rng( long val1, long val2 )
