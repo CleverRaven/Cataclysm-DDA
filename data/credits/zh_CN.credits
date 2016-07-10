@@ -1,5 +1,4 @@
-# 行数 <= 21
-# 列数 <= 72
+# 两个自然段之间用且仅用一个空行分隔 --DLaboratory
 ########################################################################
 原作者：　　　　　　项目主管：　　　　　　网站主管：
 Whales（不再参与）　KevinGranade　　　　　GlyphGryph
@@ -16,3 +15,20 @@ HuXTUS：提供大量精彩游戏内容。
 完整贡献者列表请见：
 https://github.com/CleverRaven/Cataclysm-DDA/contributors
 《大灾变·劫后余生》是以 Creative Commons BY-SA 3.0 授权发布。
+
+<color_red>汉化说明：</color>
+可以在transifex网站上参加汉化：
+https://www.transifex.com/cataclysm-dda-translators/cataclysm-dda
+
+长期以来，CDDA大灾变的汉化始终是自愿的，兴趣的，模都精校也一样。但是奈何3DM某些人的“拿来主义”，恐怕没有一丝对汉化人员的尊重。我们汉化人员不是苦力，必须尊重自己，以后都会有这个汉化说明，笑。
+
+相关汉化人员名单（可考）：
+0.6本体： Azrael, qude, Emi。Artoria, tubro.鱼子酱, 姬伯牙, 月光伊伊, yes icant, 轩辕娜娜, 诚实好青年 
+ 
+0.7模板： Antee, Jagdparrot, Kuniox, No.82-Lich, Pepper, Yuan Bo, baozite, damondamo, emusilent, ginoside, kel, thzuard, moonwalk, s524797336, sayako, vcd5m, wenxiao, wuxiaoquan wyf, wzj, yangquanheng,zhoujian, 东郭偃, 斯巴达, 王光河, 肖思扬, 银枫月 
+ 
+模都精校：675120997@qq.com, Devil, Jagdparrot, Nightoon, Primer238, Seven Westie, baozite, cellxiecao, emusilent, hiro, nanodesu-u~, qude, tt9891, vipches, wangjie, zhoujian, 继续求财神。
+
+transifex翻译：EdwardMeng, NEBULAS, Snonel, busizhe, cainiao, cellxiecao, dlaboratory, glacias3183, jakwings, mdonline2, miigon, startobira, takhiss, xcscsf, yyp, zeroomega93824
+
+以上人员不论多寡皆对此汉化版本的文本翻译作出了贡献。
