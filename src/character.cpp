@@ -793,7 +793,12 @@ int Character::weight_capacity() const
 
 int Character::volume_capacity() const
 {
-    int ret = 0;
+    return volume_capacity_reduced_by( 0 );
+}
+
+int Character::volume_capacity_reduced_by( int mod ) const
+{
+    int ret = -mod;
     for (auto &i : worn) {
         ret += i.get_storage();
     }
@@ -812,8 +817,7 @@ int Character::volume_capacity() const
     if (has_trait("DISORGANIZED")) {
         ret = int(ret * 0.6);
     }
-    ret = std::max(ret, 0);
-    return ret;
+    return std::max( ret, 0 );
 }
 
 bool Character::can_pickVolume( const item &it, bool ) const
@@ -1915,11 +1919,8 @@ bool Character::is_blind() const
 bool Character::pour_into( item &container, item &liquid )
 {
     std::string err;
+    const long amount = container.get_remaining_capacity_for_liquid( liquid, *this, &err );
 
-    const bool allow_bucket = &container == &weapon || !has_item( container );
-    const int available_volume = allow_bucket ? INT_MAX : volume_capacity() - volume_carried();
-    const long amount = container.get_remaining_capacity_for_liquid( liquid, err, allow_bucket,
-                                                                     available_volume );
     if( !err.empty() ) {
         add_msg_if_player( m_bad, err.c_str() );
         return false;

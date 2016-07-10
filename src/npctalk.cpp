@@ -47,6 +47,186 @@ const efftype_id effect_infection( "infection" );
 const efftype_id effect_lying_down( "lying_down" );
 const efftype_id effect_sleep( "sleep" );
 
+struct dialogue;
+
+enum talk_trial_type {
+    TALK_TRIAL_NONE, // No challenge here!
+    TALK_TRIAL_LIE, // Straight up lying
+    TALK_TRIAL_PERSUADE, // Convince them
+    TALK_TRIAL_INTIMIDATE, // Physical intimidation
+    NUM_TALK_TRIALS
+};
+
+/**
+ * If not TALK_TRIAL_NONE, it defines how to decide whether the responses succeeds (e.g. the
+ * NPC believes the lie). The difficulty is a 0...100 percent chance of success (!), 100 means
+ * always success, 0 means never. It is however affected by mutations/traits/bionics/etc. of
+ * the player character.
+ */
+struct talk_trial {
+    talk_trial_type type = TALK_TRIAL_NONE;
+    int difficulty = 0;
+
+    int calc_chance( const dialogue &d ) const;
+    /**
+     * Returns a user-friendly representation of @ref type
+     */
+    const std::string &name() const;
+    operator bool() const
+    {
+        return type != TALK_TRIAL_NONE;
+    }
+    /**
+     * Roll for success or failure of this trial.
+     */
+    bool roll( dialogue &d ) const;
+
+    talk_trial() = default;
+    talk_trial( JsonObject );
+};
+
+/**
+ * This defines possible responses from the player character.
+ */
+struct talk_response {
+    /**
+     * What the player character says (literally). Should already be translated and will be
+     * displayed. The first character controls the color of it ('*'/'&'/'!').
+     */
+    std::string text;
+    talk_trial trial;
+    /**
+     * The following values are forwarded to the chatbin of the NPC (see @ref npc_chatbin).
+     * Except @ref miss, it is apparently not used but should be a mission type that can create
+     * new mission.
+     */
+    mission *mission_selected = nullptr;
+    skill_id skill = skill_id::NULL_ID;
+    matype_id style;
+    /**
+     * Defines what happens when the trial succeeds or fails. If trial is
+     * TALK_TRIAL_NONE it always succeeds.
+     */
+    struct effect_t {
+        /**
+         * How (if at all) the NPCs opinion of the player character (@ref npc::op_of_u) will change.
+         */
+        npc_opinion opinion;
+        /**
+         * Function that is called when the response is chosen.
+         */
+        std::function<void( npc & )> effect = &talk_function::nothing;
+        /**
+         * Topic to switch to. TALK_DONE ends the talking, TALK_NONE keeps the current topic.
+         */
+        std::string topic = "TALK_NONE";
+
+        std::string apply( dialogue &d ) const;
+        void load_effect( JsonObject &jo );
+
+        effect_t() = default;
+        effect_t( JsonObject );
+    };
+    effect_t success;
+    effect_t failure;
+
+    /**
+     * Text (already folded) and color that is used to display this response.
+     * This is set up in @ref do_formatting.
+     */
+    std::vector<std::string> formated_text;
+    nc_color color = c_white;
+
+    void do_formatting( const dialogue &d, char letter );
+
+    talk_response() = default;
+    talk_response( JsonObject );
+};
+
+struct dialogue {
+    /**
+     * The player character that speaks (always g->u).
+     * TODO: make it a reference, not a pointer.
+     */
+    player *alpha = nullptr;
+    /**
+     * The NPC we talk to. Never null.
+     * TODO: make it a reference, not a pointer.
+     */
+    npc *beta = nullptr;
+    WINDOW *win = nullptr;
+    /**
+     * If true, we are done talking and the dialog ends.
+     */
+    bool done = false;
+    /**
+     * This contains the exchanged words, it is basically like the global message log.
+     * Each responses of the player character and the NPC are added as are information about
+     * what each of them does (e.g. the npc drops their weapon).
+     * This will be displayed in the dialog window and should already be translated.
+     */
+    std::vector<std::string> history;
+    std::vector<std::string> topic_stack;
+
+    /** Missions that have been assigned by this npc to the player they currently speak to. */
+    std::vector<mission*> missions_assigned;
+
+    std::string opt( const std::string &topic );
+
+    dialogue() = default;
+
+    std::string dynamic_line( const std::string &topic ) const;
+
+    /**
+     * Possible responses from the player character, filled in @ref gen_responses.
+     */
+    std::vector<talk_response> responses;
+    void gen_responses( const std::string &topic );
+
+private:
+    void clear_window_texts();
+    void print_history( size_t hilight_lines );
+    bool print_responses( int yoffset );
+    int choose_response( int hilight_lines );
+    /**
+     * Folds and adds the folded text to @ref history. Returns the number of added lines.
+     */
+    size_t add_to_history( const std::string &text );
+    /**
+     * Add a simple response that switches the topic to the new one.
+     */
+    talk_response &add_response( const std::string &text, const std::string &r );
+    /**
+     * Add a response with the result TALK_DONE.
+     */
+    talk_response &add_response_done( const std::string &text );
+    /**
+     * Add a response with the result TALK_NONE.
+     */
+    talk_response &add_response_none( const std::string &text );
+    /**
+     * Add a simple response that switches the topic to the new one and executes the given
+     * action. The response always succeeds.
+     */
+    talk_response &add_response( const std::string &text, const std::string &r,
+                                 std::function<void(npc&)> effect_success );
+    /**
+     * Add a simple response that switches the topic to the new one and sets the currently
+     * talked about mission to the given one. The mission pointer must be valid.
+     */
+    talk_response &add_response( const std::string &text, const std::string &r, mission *miss );
+    /**
+     * Add a simple response that switches the topic to the new one and sets the currently
+     * talked about skill to the given one.
+     */
+    talk_response &add_response( const std::string &text, const std::string &r, const skill_id &skill );
+    /**
+     * Add a simple response that switches the topic to the new one and sets the currently
+     * talked about martial art style to the given one.
+     */
+    talk_response &add_response( const std::string &text, const std::string &r, const martialart &style );
+};
+
 /**
  * A dynamically generated line, spoken by the NPC.
  * This struct only adds the constructors which will load the data from json
@@ -345,6 +525,7 @@ void npc::talk_to_u()
     } while (!d.done);
     delwin(d.win);
     g->refresh_all();
+    g->cancel_activity_query( _("%s talked to you."), name.c_str() );
 }
 
 std::string dialogue::dynamic_line( const std::string &topic ) const
@@ -1374,7 +1555,7 @@ talk_response &dialogue::add_response_none( const std::string &text )
 }
 
 talk_response &dialogue::add_response( const std::string &text, const std::string &r,
-                                       std::function<void(npc*)> effect_success )
+                                       std::function<void( npc & )> effect_success )
 {
     talk_response &result = add_response( text, r );
     result.success.effect = effect_success;
@@ -2393,72 +2574,61 @@ void dialogue::gen_responses( const std::string &topic )
     } else if( topic == "TALK_COMBAT_COMMANDS" ) {
             add_response( _("Change your engagement rules..."), "TALK_COMBAT_ENGAGEMENT" );
             add_response( _("Change your aiming rules..."), "TALK_AIM_RULES" );
-            if (p->rules.use_guns) {
-                add_response( _("Don't use guns anymore."), "TALK_COMBAT_COMMANDS",
-                              &talk_function::toggle_use_guns );
-            } else {
-                add_response( _("You can use guns."), "TALK_COMBAT_COMMANDS",
-                              &talk_function::toggle_use_guns );
-            }
-            if (p->rules.use_silent) {
-                add_response( _("Don't worry about noise."), "TALK_COMBAT_COMMANDS",
-                              &talk_function::toggle_use_silent );
-            } else {
-                add_response( _("Use only silent weapons."), "TALK_COMBAT_COMMANDS",
-                              &talk_function::toggle_use_silent );
-            }
-            if (p->rules.use_grenades) {
-                add_response( _("Don't use grenades anymore."), "TALK_COMBAT_COMMANDS",
-                              &talk_function::toggle_use_grenades );
-            } else {
-                add_response( _("You can use grenades."), "TALK_COMBAT_COMMANDS",
-                              &talk_function::toggle_use_grenades );
-            }
+            add_response( p->rules.use_guns ? _("Don't use guns anymore.") : _("You can use guns."),
+                          "TALK_COMBAT_COMMANDS",  []( npc &np ) { np.rules.use_guns = !np.rules.use_guns; } );
+            add_response( p->rules.use_silent ? _("Don't worry about noise.") : _("Use only silent weapons."),
+                          "TALK_COMBAT_COMMANDS", []( npc &np ) { np.rules.use_silent = !np.rules.use_silent; } );
+            add_response( p->rules.use_grenades ? _("Don't use grenades anymore.") : _("You can use grenades."),
+                          "TALK_COMBAT_COMMANDS", []( npc &np ) { np.rules.use_grenades = !np.rules.use_grenades; } );
             add_response_none( _("Never mind.") );
 
     } else if( topic == "TALK_COMBAT_ENGAGEMENT" ) {
-            if( p->rules.engagement != ENGAGE_NONE ) {
-                add_response( _("Don't fight unless your life depends on it."), "TALK_NONE",
-                              &talk_function::set_engagement_none );
+        struct engagement_setting {
+            combat_engagement rule;
+            std::string description;
+        };
+        static const std::vector<engagement_setting> engagement_settings = {{
+            { ENGAGE_NONE, _("Don't fight unless your life depends on it.") },
+            { ENGAGE_CLOSE, _("Attack enemies that get too close.") },
+            { ENGAGE_WEAK, _("Attack enemies that you can kill easily.") },
+            { ENGAGE_HIT, _("Attack only enemies that I attack first.") },
+            { ENGAGE_ALL, _("Attack only enemies you can reach without moving.") },
+            { ENGAGE_NO_MOVE, _("Attack anything you want.") },
+        }};
+
+        for( const auto &setting : engagement_settings ) {
+            if( p->rules.engagement == setting.rule ) {
+                continue;
             }
-            if( p->rules.engagement != ENGAGE_CLOSE ) {
-                add_response( _("Attack enemies that get too close."), "TALK_NONE",
-                              &talk_function::set_engagement_close);
-            }
-            if( p->rules.engagement != ENGAGE_WEAK ) {
-                add_response( _("Attack enemies that you can kill easily."), "TALK_NONE",
-                              &talk_function::set_engagement_weak );
-            }
-            if( p->rules.engagement != ENGAGE_HIT ) {
-                add_response( _("Attack only enemies that I attack first."), "TALK_NONE",
-                              &talk_function::set_engagement_hit );
-            }
-            if( p->rules.engagement != ENGAGE_NO_MOVE ) {
-                add_response( _("Attack only enemies you can reach without moving."), "TALK_NONE",
-                              &talk_function::set_engagement_no_move );
-            }
-            if( p->rules.engagement != ENGAGE_ALL ) {
-                add_response( _("Attack anything you want."), "TALK_NONE",
-                              &talk_function::set_engagement_all );
-            }
-            add_response_none( _("Never mind.") );
+
+            combat_engagement eng = setting.rule;
+            add_response( setting.description, "TALK_NONE", [eng]( npc &np ) {
+                np.rules.engagement = eng;
+            } );
+        }
+        add_response_none( _("Never mind.") );
 
     } else if( topic == "TALK_AIM_RULES" ) {
-        if( p->rules.aim != AIM_WHEN_CONVENIENT ) {
-            add_response( _("Aim when it's convenient."), "TALK_NONE",
-                          &talk_function::set_aim_convenient );
-        }
-        if( p->rules.aim != AIM_SPRAY ) {
-            add_response( _("Go wild, you don't need to aim much."), "TALK_NONE",
-                          &talk_function::set_aim_spray );
-        }
-        if( p->rules.aim != AIM_PRECISE ) {
-            add_response( _("Take your time, aim carefully."), "TALK_NONE",
-                          &talk_function::set_aim_precise );
-        }
-        if( p->rules.aim != AIM_STRICTLY_PRECISE ) {
-            add_response( _("Don't shoot if you can't aim really well."), "TALK_NONE",
-                          &talk_function::set_aim_strictly_precise );
+        struct aim_setting {
+            aim_rule rule;
+            std::string description;
+        };
+        static const std::vector<aim_setting> aim_settings = {{
+            { AIM_WHEN_CONVENIENT, _("Aim when it's convenient.") },
+            { AIM_SPRAY, _("Go wild, you don't need to aim much.") },
+            { AIM_PRECISE, _("Take your time, aim carefully.") },
+            { AIM_STRICTLY_PRECISE, _("Don't shoot if you can't aim really well.") },
+        }};
+
+        for( const auto &setting : aim_settings ) {
+            if( p->rules.aim == setting.rule ) {
+                continue;
+            }
+
+            aim_rule ar = setting.rule;
+            add_response( setting.description, "TALK_NONE", [ar]( npc &np ) {
+                np.rules.aim = ar;
+            } );
         }
         add_response_none( _("Never mind.") );
 
@@ -2578,43 +2748,18 @@ void dialogue::gen_responses( const std::string &topic )
             add_response_done( _("Go back to sleep.") );
 
     } else if( topic == "TALK_MISC_RULES" ) {
-            if( p->rules.allow_pick_up ) {
-                add_response( _("Don't pick up items."), "TALK_MISC_RULES",
-                              &talk_function::toggle_pickup );
-            } else {
-                add_response( _("You can pick up items now."), "TALK_MISC_RULES",
-                              &talk_function::toggle_pickup );
-            }
-
-            if( p->rules.allow_bash ) {
-                add_response( _("Don't bash obstacles."), "TALK_MISC_RULES",
-                              &talk_function::toggle_bashing );
-            } else {
-                add_response( _("You can bash obstacles."), "TALK_MISC_RULES",
-                              &talk_function::toggle_bashing );
-            }
-
-            if( p->rules.allow_sleep ) {
-                add_response( _("Stay awake."), "TALK_MISC_RULES",
-                              &talk_function::toggle_allow_sleep );
-            } else {
-                add_response( _("Sleep when you feel tired."), "TALK_MISC_RULES",
-                              &talk_function::toggle_allow_sleep );
-            }
-
-            if( p->rules.allow_complain ) {
-                add_response( _("Stay quiet."), "TALK_MISC_RULES",
-                              &talk_function::toggle_allow_complain );
-            } else {
-                add_response( _("Tell me when you need something."), "TALK_MISC_RULES",
-                              &talk_function::toggle_allow_complain );
-            }
-
+            add_response( p->rules.allow_pick_up ? _("Don't pick up items.") : _("You can pick up items now."),
+                          "TALK_MISC_RULES", []( npc &np ) { np.rules.allow_pick_up = !np.rules.allow_pick_up; } );
+            add_response( p->rules.allow_bash ? _("Don't bash obstacles.") : _("You can bash obstacles."),
+                          "TALK_MISC_RULES", []( npc &np ) { np.rules.allow_bash = !np.rules.allow_bash; } );
+            add_response( p->rules.allow_sleep ? _("Stay awake.") : _("Sleep when you feel tired."),
+                          "TALK_MISC_RULES", []( npc &np ) { np.rules.allow_sleep = !np.rules.allow_sleep; } );
+            add_response( p->rules.allow_complain ? _("Stay quiet.") : _("Tell me when you need something."),
+                          "TALK_MISC_RULES", []( npc &np ) { np.rules.allow_complain = !np.rules.allow_complain; } );
             add_response( p->rules.allow_pulp ? _("Leave corpses alone.") : _("Smash zombie corpses."),
-                          "TALK_MISC_RULES", &talk_function::toggle_allow_pulp );
-
+                          "TALK_MISC_RULES", []( npc &np ) { np.rules.allow_pulp = !np.rules.allow_pulp; } );
             add_response( p->rules.close_doors ? _("Leave doors open.") : _("Close the doors."),
-                          "TALK_MISC_RULES", &talk_function::toggle_close_doors );
+                          "TALK_MISC_RULES", []( npc &np ) { np.rules.close_doors = !np.rules.close_doors; } );
 
             add_response_none( _("Never mind.") );
 
@@ -2836,96 +2981,96 @@ int topic_category( const std::string &topic )
     return -1; // Not grouped with other topics
 }
 
-void talk_function::nothing( npc * )
+void talk_function::nothing( npc & )
 {
 }
 
-void talk_function::assign_mission(npc *p)
+void talk_function::assign_mission( npc &p )
 {
-    mission *miss = p->chatbin.mission_selected;
+    mission *miss = p.chatbin.mission_selected;
     if( miss == nullptr ) {
         debugmsg( "assign_mission: mission_selected == nullptr" );
         return;
     }
     miss->assign( g->u );
-    p->chatbin.missions_assigned.push_back( miss );
-    const auto it = std::find( p->chatbin.missions.begin(), p->chatbin.missions.end(), miss );
-    p->chatbin.missions.erase( it );
+    p.chatbin.missions_assigned.push_back( miss );
+    const auto it = std::find( p.chatbin.missions.begin(), p.chatbin.missions.end(), miss );
+    p.chatbin.missions.erase( it );
 }
 
-void talk_function::mission_success(npc *p)
+void talk_function::mission_success( npc &p )
 {
-    mission *miss = p->chatbin.mission_selected;
+    mission *miss = p.chatbin.mission_selected;
     if( miss == nullptr ) {
         debugmsg( "mission_success: mission_selected == nullptr" );
         return;
     }
 
-    int miss_val = cash_to_favor( *p, miss->get_value() );
+    int miss_val = cash_to_favor( p, miss->get_value() );
     npc_opinion tmp( 0, 0, 1 + miss_val / 5, -1, 0 );
-    p->op_of_u += tmp;
-    if( p->my_fac != nullptr ) {
+    p.op_of_u += tmp;
+    if( p.my_fac != nullptr ) {
         int fac_val = std::min( 1 + miss_val / 10, 10 );
-        p->my_fac->likes_u += fac_val;
-        p->my_fac->respects_u += fac_val;
-        p->my_fac->power += fac_val;
+        p.my_fac->likes_u += fac_val;
+        p.my_fac->respects_u += fac_val;
+        p.my_fac->power += fac_val;
     }
     miss->wrap_up();
 }
 
-void talk_function::mission_failure(npc *p)
+void talk_function::mission_failure( npc &p )
 {
-    mission *miss = p->chatbin.mission_selected;
+    mission *miss = p.chatbin.mission_selected;
     if( miss == nullptr ) {
         debugmsg( "mission_failure: mission_selected == nullptr" );
         return;
     }
     npc_opinion tmp( -1, 0, -1, 1, 0);
-    p->op_of_u += tmp;
+    p.op_of_u += tmp;
     miss->fail();
 }
 
-void talk_function::clear_mission(npc *p)
+void talk_function::clear_mission( npc &p )
 {
-    mission *miss = p->chatbin.mission_selected;
+    mission *miss = p.chatbin.mission_selected;
     if( miss == nullptr ) {
         debugmsg( "clear_mission: mission_selected == nullptr" );
         return;
     }
-    const auto it = std::find( p->chatbin.missions_assigned.begin(), p->chatbin.missions_assigned.end(), miss );
+    const auto it = std::find( p.chatbin.missions_assigned.begin(), p.chatbin.missions_assigned.end(), miss );
     // This function might get called twice or more if the player chooses the talk responses
     // "train skill" -> "Never mind" -> "train skill", each "train skill" response calls this function,
     // it also called when the dialogue is left through the other reward options.
-    if( it == p->chatbin.missions_assigned.end() ) {
+    if( it == p.chatbin.missions_assigned.end() ) {
         return;
     }
-    p->chatbin.missions_assigned.erase( it );
-    if( p->chatbin.missions_assigned.empty() ) {
-        p->chatbin.mission_selected = nullptr;
+    p.chatbin.missions_assigned.erase( it );
+    if( p.chatbin.missions_assigned.empty() ) {
+        p.chatbin.mission_selected = nullptr;
     } else {
-        p->chatbin.mission_selected = p->chatbin.missions_assigned.front();
+        p.chatbin.mission_selected = p.chatbin.missions_assigned.front();
     }
     if( miss->has_follow_up() ) {
-        p->add_new_mission( mission::reserve_new( miss->get_follow_up(), p->getID() ) );
+        p.add_new_mission( mission::reserve_new( miss->get_follow_up(), p.getID() ) );
     }
 }
 
-void talk_function::mission_reward(npc *p)
+void talk_function::mission_reward( npc &p )
 {
-    const mission *miss = p->chatbin.mission_selected;
+    const mission *miss = p.chatbin.mission_selected;
     if( miss == nullptr ) {
         debugmsg( "Called mission_reward with null mission" );
         return;
     }
 
     int mission_value = miss->get_value();
-    p->op_of_u.owed += mission_value;
-    trade( *p, 0, _("Reward") );
+    p.op_of_u.owed += mission_value;
+    trade( p, 0, _("Reward") );
 }
 
-void talk_function::start_trade(npc *p)
+void talk_function::start_trade( npc &p )
 {
-    trade( *p, 0, _("Trade") );
+    trade( p, 0, _("Trade") );
 }
 
 std::string talk_function::bulk_trade_inquire(npc *p, itype_id it)
@@ -2957,7 +3102,7 @@ void talk_function::bulk_trade_accept(npc *p, itype_id it)
  p->add_msg_if_player(m_good, _("Pleasure doing business!"));
 }
 
-void talk_function::assign_base(npc *p)
+void talk_function::assign_base( npc &p )
 {
     // TODO: decide what to do upon assign? maybe pathing required
     basecamp* camp = g->m.camp_at( g->u.pos() );
@@ -2966,123 +3111,93 @@ void talk_function::assign_base(npc *p)
         return;
     }
 
-    add_msg(_("%1$s waits at %2$s"), p->name.c_str(), camp->camp_name().c_str());
-    p->mission = NPC_MISSION_BASE;
-    p->attitude = NPCATT_NULL;
+    add_msg(_("%1$s waits at %2$s"), p.name.c_str(), camp->camp_name().c_str());
+    p.mission = NPC_MISSION_BASE;
+    p.attitude = NPCATT_NULL;
 }
 
-void talk_function::assign_guard(npc *p)
+void talk_function::assign_guard( npc &p )
 {
-    add_msg(_("%s is posted as a guard."), p->name.c_str());
-    p->attitude = NPCATT_NULL;
-    p->mission = NPC_MISSION_GUARD;
-    p->chatbin.first_topic = "TALK_FRIEND_GUARD";
-    p->set_destination();
+    add_msg(_("%s is posted as a guard."), p.name.c_str());
+    p.attitude = NPCATT_NULL;
+    p.mission = NPC_MISSION_GUARD;
+    p.chatbin.first_topic = "TALK_FRIEND_GUARD";
+    p.set_destination();
 }
 
-void talk_function::stop_guard(npc *p)
+void talk_function::stop_guard( npc &p )
 {
-    p->attitude = NPCATT_FOLLOW;
-    add_msg(_("%s begins to follow you."), p->name.c_str());
-    p->mission = NPC_MISSION_NULL;
-    p->chatbin.first_topic = "TALK_FRIEND";
-    p->goal = npc::no_goal_point;
-    p->guard_pos = npc::no_goal_point;
+    p.attitude = NPCATT_FOLLOW;
+    add_msg(_("%s begins to follow you."), p.name.c_str());
+    p.mission = NPC_MISSION_NULL;
+    p.chatbin.first_topic = "TALK_FRIEND";
+    p.goal = npc::no_goal_point;
+    p.guard_pos = npc::no_goal_point;
 }
 
-void talk_function::wake_up(npc *p)
+void talk_function::wake_up( npc &p )
 {
-    p->rules.allow_sleep = false;
-    p->remove_effect( effect_allow_sleep );
-    p->remove_effect( effect_lying_down );
-    p->remove_effect( effect_sleep );
+    p.rules.allow_sleep = false;
+    p.remove_effect( effect_allow_sleep );
+    p.remove_effect( effect_lying_down );
+    p.remove_effect( effect_sleep );
     // TODO: Get mad at player for waking us up unless we're in danger
 }
 
-void talk_function::toggle_pickup( npc *p )
+void talk_function::reveal_stats ( npc &p )
 {
-    p->rules.allow_pick_up = !p->rules.allow_pick_up;
+    p.disp_info();
 }
 
-void talk_function::toggle_bashing( npc *p )
+void talk_function::end_conversation( npc &p )
 {
-    p->rules.allow_bash = !p->rules.allow_bash;
+    add_msg(_("%s starts ignoring you."), p.name.c_str());
+    p.chatbin.first_topic = "TALK_DONE";
 }
 
-void talk_function::toggle_allow_sleep( npc *p )
+void talk_function::insult_combat( npc &p )
 {
-    p->rules.allow_sleep = !p->rules.allow_sleep;
+    add_msg(_("You start a fight with %s!"), p.name.c_str());
+    p.chatbin.first_topic = "TALK_DONE";
+    p.attitude =  NPCATT_KILL;
 }
 
-void talk_function::toggle_allow_complain( npc *p )
+void talk_function::give_equipment( npc &p )
 {
-    p->rules.allow_complain = !p->rules.allow_complain;
-}
-
-void talk_function::toggle_allow_pulp( npc *p )
-{
-    p->rules.allow_pulp = !p->rules.allow_pulp;
-}
-
-void talk_function::toggle_close_doors( npc *p )
-{
-    p->rules.close_doors = !p->rules.close_doors;
-}
-
-void talk_function::reveal_stats (npc *p)
-{
-    p->disp_info();
-}
-
-void talk_function::end_conversation(npc *p)
-{
-    add_msg(_("%s starts ignoring you."), p->name.c_str());
-    p->chatbin.first_topic = "TALK_DONE";
-}
-
-void talk_function::insult_combat(npc *p)
-{
-    add_msg(_("You start a fight with %s!"), p->name.c_str());
-    p->chatbin.first_topic = "TALK_DONE";
-    p->attitude =  NPCATT_KILL;
-}
-
-void talk_function::give_equipment(npc *p)
-{
-    std::vector<npc::item_pricing> giving = p->init_selling();
+    std::vector<npc::item_pricing> giving = p.init_selling();
     int chosen = -1;
     if (giving.empty()) {
-        invslice slice = p->inv.slice();
+        invslice slice = p.inv.slice();
         for (auto &i : slice) {
-            giving.push_back( npc::item_pricing { &i->front(), p->value( i->front() ), false } );
+            giving.push_back( npc::item_pricing { &i->front(), p.value( i->front() ), false } );
         }
     }
     while (chosen == -1 && giving.size() > 1) {
         int index = rng(0, giving.size() - 1);
-        if (giving[index].price < p->op_of_u.owed) {
+        if (giving[index].price < p.op_of_u.owed) {
             chosen = index;
         }
         giving.erase(giving.begin() + index);
     }
     if (giving.empty()) {
-        popup(_("%s has nothing to give!"), p->name.c_str());
+        popup(_("%s has nothing to give!"), p.name.c_str());
         return;
     }
     if (chosen == -1) {
         chosen = 0;
     }
-    item it = p->i_rem(giving[chosen].itm);
-    popup(_("%1$s gives you a %2$s"), p->name.c_str(), it.tname().c_str());
+    item it = p.i_rem(giving[chosen].itm);
+    popup(_("%1$s gives you a %2$s"), p.name.c_str(), it.tname().c_str());
 
     g->u.i_add( it );
-    p->op_of_u.owed -= giving[chosen].price;
-    p->add_effect( effect_asked_for_item, 1800 );
+    p.op_of_u.owed -= giving[chosen].price;
+    p.add_effect( effect_asked_for_item, 1800 );
 }
 
-void talk_function::give_aid(npc *p)
+void talk_function::give_aid( npc &p )
 {
     g->u.cash -= 20000;
-    p->add_effect( effect_currently_busy, 300 );
+    p.add_effect( effect_currently_busy, 300 );
     body_part bp_healed;
     for (int i = 0; i < num_hp_parts; i++) {
         bp_healed = player::hp_to_bp( hp_part(i) );
@@ -3098,13 +3213,13 @@ void talk_function::give_aid(npc *p)
         }
     }
     g->u.assign_activity(ACT_WAIT_NPC, 10000);
-    g->u.activity.str_values.push_back(p->name);
+    g->u.activity.str_values.push_back(p.name);
 }
 
-void talk_function::give_all_aid(npc *p)
+void talk_function::give_all_aid( npc &p )
 {
     g->u.cash -= 30000;
-    p->add_effect( effect_currently_busy, 300);
+    p.add_effect( effect_currently_busy, 300);
     give_aid(p);
     body_part bp_healed;
     for( auto &elem : g->active_npc ) {
@@ -3126,70 +3241,70 @@ void talk_function::give_all_aid(npc *p)
     }
 }
 
-void talk_function::construction_tips(npc *p)
+void talk_function::construction_tips( npc &p )
 {
     g->u.cash -= 2000;
     g->u.practice( skill_id( "carpentry" ), 30 );
     g->u.assign_activity(ACT_WAIT_NPC, 600);
-    g->u.activity.str_values.push_back(p->name);
-    p->add_effect( effect_currently_busy, 600);
+    g->u.activity.str_values.push_back(p.name);
+    p.add_effect( effect_currently_busy, 600);
 }
 
-void talk_function::buy_beer(npc *p)
+void talk_function::buy_beer( npc &p )
 {
     item cont( "bottle_glass" );
     cont.emplace_back( "hb_beer", calendar::turn, 2 );
     g->u.i_add( cont );
     g->u.cash -= 1000;
-    add_msg(m_good, _("%s gave you a beer..."), p->name.c_str());
+    add_msg(m_good, _("%s gave you a beer..."), p.name.c_str());
 }
 
-void talk_function::buy_brandy(npc *p)
+void talk_function::buy_brandy( npc &p )
 {
     item cont( "bottle_glass" );
     cont.emplace_back( "brandy", calendar::turn, 1 );
     g->u.i_add( cont );
     g->u.cash -= 1000;
-    add_msg(m_good, _("%s gave you a shot of brandy..."), p->name.c_str());
+    add_msg(m_good, _("%s gave you a shot of brandy..."), p.name.c_str());
 }
 
-void talk_function::buy_rum(npc *p)
+void talk_function::buy_rum( npc &p )
 {
     item cont( "bottle_glass" );
     cont.emplace_back( "rum", calendar::turn, 1 );
     g->u.i_add( cont );
     g->u.cash -= 1000;
-    add_msg(m_good, _("%s gave you a shot of rum..."), p->name.c_str());
+    add_msg(m_good, _("%s gave you a shot of rum..."), p.name.c_str());
 }
 
-void talk_function::buy_whiskey(npc *p)
+void talk_function::buy_whiskey( npc &p )
 {
     item cont( "bottle_glass" );
     cont.emplace_back( "whiskey", calendar::turn, 1 );
     g->u.i_add( cont );
     g->u.cash -= 1200;
-    add_msg(m_good, _("%s gave you a shot of whiskey..."), p->name.c_str());
+    add_msg(m_good, _("%s gave you a shot of whiskey..."), p.name.c_str());
 }
 
-void talk_function::buy_haircut(npc *p)
+void talk_function::buy_haircut( npc &p )
 {
     g->u.add_morale(MORALE_HAIRCUT, 5, 5, 7200, 30);
     g->u.cash -= 1000;
     g->u.assign_activity(ACT_WAIT_NPC, 300);
-    g->u.activity.str_values.push_back(p->name);
-    add_msg(m_good, _("%s gives you a decent haircut..."), p->name.c_str());
+    g->u.activity.str_values.push_back(p.name);
+    add_msg(m_good, _("%s gives you a decent haircut..."), p.name.c_str());
 }
 
-void talk_function::buy_shave(npc *p)
+void talk_function::buy_shave( npc &p )
 {
     g->u.add_morale(MORALE_SHAVE, 10, 10, 3600, 30);
     g->u.cash -= 500;
     g->u.assign_activity(ACT_WAIT_NPC, 100);
-    g->u.activity.str_values.push_back(p->name);
-    add_msg(m_good, _("%s gives you a decent shave..."), p->name.c_str());
+    g->u.activity.str_values.push_back(p.name);
+    add_msg(m_good, _("%s gives you a decent shave..."), p.name.c_str());
 }
 
-void talk_function::buy_10_logs(npc *p)
+void talk_function::buy_10_logs( npc &p )
 {
     std::vector<tripoint> places = overmap_buffer.find_all(
         g->u.global_omt_location(), "ranch_camp_67", 1, false);
@@ -3210,12 +3325,12 @@ void talk_function::buy_10_logs(npc *p)
     bay.spawn_item( 7, 15, "log", 10);
     bay.save();
 
-    p->add_effect( effect_currently_busy, 14400);
+    p.add_effect( effect_currently_busy, 14400);
     g->u.cash -= 200000;
-    add_msg(m_good, _("%s drops the logs off in the garage..."), p->name.c_str());
+    add_msg(m_good, _("%s drops the logs off in the garage..."), p.name.c_str());
 }
 
-void talk_function::buy_100_logs(npc *p)
+void talk_function::buy_100_logs( npc &p )
 {
     std::vector<tripoint> places = overmap_buffer.find_all(
         g->u.global_omt_location(), "ranch_camp_67", 1, false);
@@ -3236,171 +3351,106 @@ void talk_function::buy_100_logs(npc *p)
     bay.spawn_item( 7, 15, "log", 100);
     bay.save();
 
-    p->add_effect( effect_currently_busy, 100800);
+    p.add_effect( effect_currently_busy, 100800);
     g->u.cash -= 1200000;
-    add_msg(m_good, _("%s drops the logs off in the garage..."), p->name.c_str());
+    add_msg(m_good, _("%s drops the logs off in the garage..."), p.name.c_str());
 }
 
 
-void talk_function::follow(npc *p)
+void talk_function::follow( npc &p )
 {
-    p->attitude = NPCATT_FOLLOW;
+    p.attitude = NPCATT_FOLLOW;
 }
 
-void talk_function::deny_follow(npc *p)
+void talk_function::deny_follow( npc &p )
 {
-    p->add_effect( effect_asked_to_follow, 3600);
+    p.add_effect( effect_asked_to_follow, 3600);
 }
 
-void talk_function::deny_lead(npc *p)
+void talk_function::deny_lead( npc &p )
 {
- p->add_effect( effect_asked_to_lead, 3600);
+ p.add_effect( effect_asked_to_lead, 3600);
 }
 
-void talk_function::deny_equipment(npc *p)
+void talk_function::deny_equipment( npc &p )
 {
- p->add_effect( effect_asked_for_item, 600);
+ p.add_effect( effect_asked_for_item, 600);
 }
 
-void talk_function::deny_train(npc *p)
+void talk_function::deny_train( npc &p )
 {
- p->add_effect( effect_asked_to_train, 3600);
+ p.add_effect( effect_asked_to_train, 3600);
 }
 
-void talk_function::deny_personal_info(npc *p)
+void talk_function::deny_personal_info( npc &p )
 {
- p->add_effect( effect_asked_personal_info, 1800);
+ p.add_effect( effect_asked_personal_info, 1800);
 }
 
-void talk_function::hostile(npc *p)
+void talk_function::hostile( npc &p )
 {
- add_msg(_("%s turns hostile!"), p->name.c_str());
+ add_msg(_("%s turns hostile!"), p.name.c_str());
     g->u.add_memorial_log(pgettext("memorial_male","%s became hostile."),
         pgettext("memorial_female", "%s became hostile."),
-        p->name.c_str());
- p->attitude = NPCATT_KILL;
+        p.name.c_str());
+ p.attitude = NPCATT_KILL;
 }
 
-void talk_function::flee(npc *p)
+void talk_function::flee( npc &p )
 {
- add_msg(_("%s turns to flee!"), p->name.c_str());
- p->attitude = NPCATT_FLEE;
+ add_msg(_("%s turns to flee!"), p.name.c_str());
+ p.attitude = NPCATT_FLEE;
 }
 
-void talk_function::leave(npc *p)
+void talk_function::leave( npc &p )
 {
-    add_msg(_("%s leaves."), p->name.c_str());
-    p->attitude = NPCATT_NULL;
+    add_msg(_("%s leaves."), p.name.c_str());
+    p.attitude = NPCATT_NULL;
 }
 
-void talk_function::stranger_neutral(npc *p)
+void talk_function::stranger_neutral( npc &p )
 {
- add_msg(_("%s feels less threatened by you."), p->name.c_str());
- p->attitude = NPCATT_NULL;
- p->chatbin.first_topic = "TALK_STRANGER_NEUTRAL";
+ add_msg(_("%s feels less threatened by you."), p.name.c_str());
+ p.attitude = NPCATT_NULL;
+ p.chatbin.first_topic = "TALK_STRANGER_NEUTRAL";
 }
 
-void talk_function::start_mugging(npc *p)
+void talk_function::start_mugging( npc &p )
 {
- p->attitude = NPCATT_MUG;
+ p.attitude = NPCATT_MUG;
  add_msg(_("Pause to stay still.  Any movement may cause %s to attack."),
-            p->name.c_str());
+            p.name.c_str());
 }
 
-void talk_function::player_leaving(npc *p)
+void talk_function::player_leaving( npc &p )
 {
- p->attitude = NPCATT_WAIT_FOR_LEAVE;
- p->patience = 15 - p->personality.aggression;
+ p.attitude = NPCATT_WAIT_FOR_LEAVE;
+ p.patience = 15 - p.personality.aggression;
 }
 
-void talk_function::drop_weapon(npc *p)
+void talk_function::drop_weapon( npc &p )
 {
- g->m.add_item_or_charges(p->pos(), p->remove_weapon());
+ g->m.add_item_or_charges(p.pos(), p.remove_weapon());
 }
 
-void talk_function::player_weapon_away(npc *p)
+void talk_function::player_weapon_away( npc &p )
 {
     (void)p; //unused
     g->u.i_add(g->u.remove_weapon());
 }
 
-void talk_function::player_weapon_drop(npc *p)
+void talk_function::player_weapon_drop( npc &p )
 {
     (void)p; // unused
     g->m.add_item_or_charges(g->u.pos(), g->u.remove_weapon());
 }
 
-void talk_function::lead_to_safety(npc *p)
+void talk_function::lead_to_safety( npc &p )
 {
     const auto mission = mission::reserve_new( MISSION_REACH_SAFETY, -1 );
     mission->assign( g->u );
-    p->goal = mission->get_target();
-    p->attitude = NPCATT_LEAD;
-}
-
-void talk_function::toggle_use_guns(npc *p)
-{
-    p->rules.use_guns = !p->rules.use_guns;
-}
-
-void talk_function::toggle_use_silent(npc *p)
-{
-    p->rules.use_silent = !p->rules.use_silent;
-}
-
-void talk_function::toggle_use_grenades(npc *p)
-{
-    p->rules.use_grenades = !p->rules.use_grenades;
-}
-
-void talk_function::set_engagement_none(npc *p)
-{
-    p->rules.engagement = ENGAGE_NONE;
-}
-
-void talk_function::set_engagement_close(npc *p)
-{
-    p->rules.engagement = ENGAGE_CLOSE;
-}
-
-void talk_function::set_engagement_weak(npc *p)
-{
-    p->rules.engagement = ENGAGE_WEAK;
-}
-
-void talk_function::set_engagement_hit(npc *p)
-{
-    p->rules.engagement = ENGAGE_HIT;
-}
-
-void talk_function::set_engagement_no_move( npc *p )
-{
-    p->rules.engagement = ENGAGE_NO_MOVE;
-}
-
-void talk_function::set_engagement_all(npc *p)
-{
-    p->rules.engagement = ENGAGE_ALL;
-}
-
-void talk_function::set_aim_convenient( npc *p )
-{
-    p->rules.aim = AIM_WHEN_CONVENIENT;
-}
-
-void talk_function::set_aim_spray( npc *p )
-{
-    p->rules.aim = AIM_SPRAY;
-}
-
-void talk_function::set_aim_precise( npc *p )
-{
-    p->rules.aim = AIM_PRECISE;
-}
-
-void talk_function::set_aim_strictly_precise( npc *p )
-{
-    p->rules.aim = AIM_STRICTLY_PRECISE;
+    p.goal = mission->get_target();
+    p.attitude = NPCATT_LEAD;
 }
 
 bool pay_npc( npc &np, int cost )
@@ -3419,34 +3469,34 @@ bool pay_npc( npc &np, int cost )
     return trade( np, -cost, _( "Pay:" ) );
 }
 
-void talk_function::start_training( npc *p )
+void talk_function::start_training( npc &p  )
 {
     int cost;
     int time;
     std::string name;
-    if( p->chatbin.skill ) {
-        auto &skill = p->chatbin.skill;
+    if( p.chatbin.skill ) {
+        auto &skill = p.chatbin.skill;
         cost = calc_skill_training_cost( skill );
         time = calc_skill_training_time( skill );
         name = skill.str();
-    } else if( p->chatbin.style.is_valid() ) {
-        auto &ma_style_id = p->chatbin.style;
+    } else if( p.chatbin.style.is_valid() ) {
+        auto &ma_style_id = p.chatbin.style;
         cost = calc_ma_style_training_cost( ma_style_id );
         time = calc_ma_style_training_time( ma_style_id );
-        name = p->chatbin.style.str();
+        name = p.chatbin.style.str();
     } else {
         debugmsg( "start_training with no skill or style set" );
         return;
     }
 
-    mission *miss = p->chatbin.mission_selected;
+    mission *miss = p.chatbin.mission_selected;
     if( miss != nullptr ) {
         clear_mission( p );
-    } else if( !pay_npc( *p, cost ) ) {
+    } else if( !pay_npc( p, cost ) ) {
         return;
     }
     g->u.assign_activity( ACT_TRAIN, time * 100, 0, 0, name );
-    p->add_effect( effect_asked_to_train, 3600 );
+    p.add_effect( effect_asked_to_train, 3600 );
 }
 
 void parse_tags( std::string &phrase, const player &u, const npc &me )
@@ -3654,7 +3704,7 @@ void talk_response::do_formatting( const dialogue &d, char const letter )
 
 std::string talk_response::effect_t::apply( dialogue &d ) const
 {
-    effect( d.beta );
+    effect( *d.beta );
     d.beta->op_of_u += opinion;
     if( d.beta->turned_hostile() ) {
         d.beta->make_angry();
@@ -4133,7 +4183,7 @@ void talk_response::effect_t::load_effect( JsonObject &jo )
         return;
     } else if( jo.has_string( member_name ) ) {
         const std::string type = jo.get_string( member_name );
-        static const std::unordered_map<std::string, void(*)(npc*)> static_functions_map = { {
+        static const std::unordered_map<std::string, void(*)( npc & )> static_functions_map = { {
 #define WRAP( function ) { #function, &talk_function::function }
             WRAP( start_trade ),
             WRAP( hostile ),

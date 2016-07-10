@@ -42,7 +42,7 @@ const skill_id skill_cooking( "cooking" );
 const skill_id skill_traps( "traps" );
 const skill_id skill_archery( "archery" );
 
-void talk_function::bionic_install(npc *p)
+void talk_function::bionic_install(npc &p)
 {
     std::vector<item *> bionic_inv = g->u.items_with( []( const item &itm ) {
         return itm.is_bionic();
@@ -90,12 +90,12 @@ void talk_function::bionic_install(npc *p)
     //Makes the doctor awesome at installing but not perfect
     if (g->u.install_bionics(it, 20)){
         g->u.cash -= price;
-        p->cash += price;
+        p.cash += price;
         g->u.amount_of( bionic_types[bionic_index] );
     }
 }
 
-void talk_function::bionic_remove(npc *p)
+void talk_function::bionic_remove(npc &p)
 {
     std::vector <bionic> all_bio = g->u.my_bionics;
     if (all_bio.size() == 0){
@@ -147,34 +147,35 @@ void talk_function::bionic_remove(npc *p)
     //Makes the doctor awesome at installing but not perfect
     if (g->u.uninstall_bionic(bionic_types[bionic_index], 20)){
         g->u.cash -= price;
-        p->cash += price;
+        p.cash += price;
         g->u.amount_of( bionic_types[bionic_index] );
     }
 
 }
 
-void talk_function::companion_mission(npc *p)
+void talk_function::companion_mission(npc &p)
 {
  std::string id = "NONE";
  std::string title = _("Outpost Missions");
  unsigned int a = -1;
- if (p->name.find("Scavenger Boss") != a){
+ // Name checks determining role? Horrible!
+ if (p.name.find("Scavenger Boss") != a){
     id = "SCAVENGER";
     title = _("Junkshop Missions");
  }
- if (p->name.find("Crop Overseer") != a){
+ if (p.name.find("Crop Overseer") != a){
     id = "COMMUNE CROPS";
     title = _("Agricultural Missions");
  }
- if (p->name.find("Foreman") != a){
+ if (p.name.find("Foreman") != a){
     id = "FOREMAN";
     title = _("Construction Missions");
  }
- if (p->name.find(", Merchant") != a){
+ if (p.name.find(", Merchant") != a){
     id = "REFUGEE MERCHANT";
     title = _("Free Merchant Missions");
  }
- talk_function::outpost_missions(p, id, title);
+ talk_function::outpost_missions(&p, id, title);
 }
 
 bool talk_function::outpost_missions(npc *p, std::string id, std::string title)
@@ -767,7 +768,7 @@ void talk_function::field_plant(npc *p, std::string place)
     bay.load(site.x * 2, site.y * 2, site.z, false);
     for (int x = 0; x < 23; x++){
         for (int y = 0; y < 23; y++){
-            if (bay.get_ter(x,y) == "t_dirtmound"){
+            if( bay.ter( x, y ) == t_dirtmound ) {
                 empty_plots++;
             }
         }
@@ -794,7 +795,7 @@ void talk_function::field_plant(npc *p, std::string place)
     //Plant the actual seeds
     for (int x = 0; x < 23; x++){
         for (int y = 0; y < 23; y++){
-            if (bay.get_ter(x,y) == "t_dirtmound" && limiting_number > 0){
+            if( bay.ter( x, y ) == t_dirtmound && limiting_number > 0){
                 std::list<item> used_seed;
                 if( item::count_by_charges( seed_id ) ) {
                     used_seed = g->u.use_charges( seed_id, 1 );
@@ -826,7 +827,7 @@ void talk_function::field_harvest(npc *p, std::string place)
     bay.load(site.x * 2, site.y * 2, site.z, false);
     for (int x = 0; x < 23; x++){
         for (int y = 0; y < 23; y++){
-            if (bay.get_furn(x,y) == "f_plant_harvest" && !bay.i_at(x,y).empty()){
+            if (bay.furn(x,y) == furn_str_id( "f_plant_harvest" ) && !bay.i_at(x,y).empty()){
                 const item &seed = bay.i_at( x,y )[0];
                 if( seed.is_seed() ) {
                     const islot_seed &seed_data = *seed.type->seed;
@@ -872,7 +873,7 @@ void talk_function::field_harvest(npc *p, std::string place)
 
     for (int x = 0; x < 23; x++){
         for (int y = 0; y < 23; y++){
-            if (bay.get_furn(x,y) == "f_plant_harvest" && !bay.i_at(x,y).empty()){
+            if (bay.furn(x,y) == furn_str_id( "f_plant_harvest" ) && !bay.i_at(x,y).empty()){
                 const item &seed = bay.i_at( x,y )[0];
                 if( seed.is_seed() ) {
                     const islot_seed &seed_data = *seed.type->seed;
@@ -1533,45 +1534,46 @@ std::vector<item*> talk_function::loot_building(const tripoint site)
             p.x = x;
             p.y = y;
             p.z = site.z;
+            ter_id t = bay.ter( x, y );
             //Open all the doors, doesn't need to be exhaustive
-            if (bay.get_ter(x,y) == "t_door_c" || bay.get_ter(x,y) == "t_door_c_peep" || bay.get_ter(x,y) == "t_door_b"
-                || bay.get_ter(x,y) == "t_door_boarded" || bay.get_ter(x,y) == "t_door_boarded_damaged"
-                || bay.get_ter(x,y) == "t_rdoor_boarded" || bay.get_ter(x,y) == "t_rdoor_boarded_damaged"
-                || bay.get_ter(x,y) == "t_door_boarded_peep" || bay.get_ter(x,y) == "t_door_boarded_damaged_peep"){
-                    bay.ter_set( x, y, ter_str_id( "t_door_o" ) );
-            } else if (bay.get_ter(x,y) == "t_door_locked" || bay.get_ter(x,y) == "t_door_locked_peep"
-                || bay.get_ter(x,y) == "t_door_locked_alarm"){
-                    const map_bash_info &bash = bay.ter_at(x,y).bash;
+            if (t == t_door_c || t == t_door_c_peep || t == t_door_b
+                || t == t_door_boarded || t == t_door_boarded_damaged
+                || t == t_rdoor_boarded || t == t_rdoor_boarded_damaged
+                || t == t_door_boarded_peep || t == t_door_boarded_damaged_peep){
+                    bay.ter_set( x, y, t_door_o );
+            } else if (t == t_door_locked || t == t_door_locked_peep
+                || t == t_door_locked_alarm){
+                    const map_bash_info &bash = bay.ter(x,y).obj().bash;
                     bay.ter_set( x, y, bash.ter_set);
                     bay.spawn_items( p, item_group::items_from( bash.drop_group, calendar::turn ) );
-            } else if (bay.get_ter(x,y) == "t_door_metal_c" || bay.get_ter(x,y) == "t_door_metal_locked"
-                || bay.get_ter(x,y) == "t_door_metal_pickable"){
-                    bay.ter_set( x, y, ter_str_id( "t_door_metal_o" ) );
-            } else if (bay.get_ter(x,y) == "t_door_glass_c"){
-                    bay.ter_set( x, y, ter_str_id( "t_door_glass_o" ) );
-            } else if (bay.get_ter(x,y) == "t_wall" && one_in(25)){
-                    const map_bash_info &bash = bay.ter_at(x,y).bash;
+            } else if (t == t_door_metal_c || t == t_door_metal_locked
+                || t == t_door_metal_pickable){
+                    bay.ter_set( x, y, t_door_metal_o );
+            } else if (t == t_door_glass_c){
+                    bay.ter_set( x, y, t_door_glass_o );
+            } else if (t == t_wall && one_in(25)){
+                    const map_bash_info &bash = bay.ter(x,y).obj().bash;
                     bay.ter_set( x, y, bash.ter_set);
                     bay.spawn_items( p, item_group::items_from( bash.drop_group, calendar::turn ) );
                     bay.collapse_at( p, false );
             }
             //Smash easily breakable stuff
-            else if ((bay.get_ter(x,y) == "t_window" || bay.get_ter(x,y) == "t_window_taped" ||
-                    bay.get_ter(x,y) == "t_window_domestic" || bay.get_ter(x,y) == "t_window_domestic_taped" ||
-                    bay.get_ter(x,y) == "t_window_boarded_noglass" || bay.get_ter(x,y) == "t_window_domestic_taped" ||
-                    bay.get_ter(x,y) == "t_window_alarm_taped" || bay.get_ter(x,y) == "t_window_boarded" ||
-                    bay.get_ter(x,y) == "t_curtains" || bay.get_ter(x,y) == "t_window_alarm" ||
-                    bay.get_ter(x,y) == "t_window_no_curtains" || bay.get_ter(x,y) == "t_window_no_curtains_taped" )
+            else if ((t == t_window || t == t_window_taped ||
+                    t == t_window_domestic || t == t_window_domestic_taped ||
+                    t == t_window_boarded_noglass || t == t_window_domestic_taped ||
+                    t == t_window_alarm_taped || t == t_window_boarded ||
+                    t == t_curtains || t == t_window_alarm ||
+                    t == t_window_no_curtains || t == t_window_no_curtains_taped )
                     && one_in(4) ){
-                const map_bash_info &bash = bay.ter_at(x,y).bash;
+                const map_bash_info &bash = bay.ter(x,y).obj().bash;
                 bay.ter_set( x, y, bash.ter_set);
                 bay.spawn_items( p, item_group::items_from( bash.drop_group, calendar::turn ) );
-            } else if ((bay.get_ter(x,y) == "t_wall_glass" || bay.get_ter(x,y) == "t_wall_glass_alarm") && one_in(3) ){
-                const map_bash_info &bash = bay.ter_at(x,y).bash;
+            } else if ((t == t_wall_glass || t == t_wall_glass_alarm) && one_in(3) ){
+                const map_bash_info &bash = bay.ter(x,y).obj().bash;
                 bay.ter_set( x, y, bash.ter_set);
                 bay.spawn_items( p, item_group::items_from( bash.drop_group, calendar::turn ) );
-            } else if ( bay.has_furn(x,y) && bay.furn_at(x,y).bash.str_max != -1 && one_in(10)) {
-                const map_bash_info &bash = bay.furn_at(x,y).bash;
+            } else if ( bay.has_furn(x,y) && bay.furn(x,y).obj().bash.str_max != -1 && one_in(10)) {
+                const map_bash_info &bash = bay.furn(x,y).obj().bash;
                 bay.furn_set(x,y, bash.furn_set);
                 bay.delete_signage( p );
                 bay.spawn_items( p, item_group::items_from( bash.drop_group, calendar::turn ) );

@@ -2304,7 +2304,7 @@ Before we get into a major fight just make sure we have the gear we need, boss."
             return _("We need help...");
         } else if( state == "TALK_MISSION_OFFER" ) {
             return _("Night is the ideal time for my team to go on raids but they are going to need better light "
-                     "sources to speed up their missions.  Could you craft a set of five wearable flashlights for "
+                     "sources to speed up their missions.  Could you craft a set of five head torches for "
                      "them?  Keeping both hands free greatly helps during combat.");
         } else if( state == "TALK_MISSION_ACCEPTED" ) {
             return _("I'm counting on you.");

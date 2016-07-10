@@ -232,10 +232,8 @@
       [ "reloaded_shot_00", 200 ],
       [ "reloaded_shot_bird", 30 ],
       [ "reloaded_shot_flechette", 5 ],
-      [ "reloaded_shot_he", 5 ],
       [ "reloaded_shot_slug", 30 ],
-      [ "shot_scrap", 80 ],
-      [ "shot_scrapslug", 80 ]
+      [ "shot_scrap", 80 ]
     ]
   },
   {

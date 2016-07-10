@@ -832,7 +832,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                             int max_consume = cur->getFieldDensity() * 2;
 
                             for( auto fuel = items_here.begin(); fuel != items_here.end() && consumed < max_consume; ) {
-                                
+
                                 bool destroyed = fuel->burn( frd );
 
                                 if( destroyed ) {
@@ -1720,9 +1720,12 @@ void map::player_in_field( player &u )
             break;
 
         case fd_sludge:
-            u.add_msg_if_player(m_bad, _("The sludge is thick and sticky. You struggle to pull free."));
-            u.moves -= cur->getFieldDensity() * 300;
-            cur->setFieldDensity( 0 );
+            //sludge is on the ground, but you are above the ground when boarded on a vehicle
+            if( !u.in_vehicle ) {
+                u.add_msg_if_player( m_bad, _( "The sludge is thick and sticky. You struggle to pull free." ) );
+                u.moves -= cur->getFieldDensity() * 300;
+                cur->setFieldDensity( 0 );
+            }
             break;
 
         case fd_fire:
@@ -2530,6 +2533,13 @@ bool field_type_dangerous( field_id id )
     return ft.dangerous[0] || ft.dangerous[1] || ft.dangerous[2];
 }
 
+void map::emit_field( const tripoint &pos, const emit_id &src )
+{
+    if( src.is_valid() &&  x_in_y( src->chance(), 100 ) ) {
+        propagate_field( pos, src->field(), src->qty(), src->density() );
+    }
+}
+
 void map::propagate_field( const tripoint &center, field_id fid, int amount,
                       int max_density )
 {
@@ -2549,8 +2559,8 @@ void map::propagate_field( const tripoint &center, field_id fid, int amount,
         // All points with equal gas density should propagate at the same time
         std::list<gas_blast> gas_front;
         gas_front.push_back( open.top() );
-        open.pop();
         int cur_intensity = get_field_strength( open.top().second, fid );
+        open.pop();
         while( !open.empty() && get_field_strength( open.top().second, fid ) == cur_intensity ) {
             if( closed.count( open.top().second ) == 0 ) {
                 gas_front.push_back( open.top() );

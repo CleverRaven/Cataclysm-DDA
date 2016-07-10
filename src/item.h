@@ -150,6 +150,9 @@ class item : public JsonSerializer, public JsonDeserializer, public visitable<it
          */
         item& deactivate( const Character *ch = nullptr, bool alert = true );
 
+        /** Filter converting instance to active state */
+        item& activate();
+
         /**
          * Filter setting the ammo for this instance
          * Any existing ammo is removed. If necessary a default magazine is also added.
@@ -459,9 +462,9 @@ class item : public JsonSerializer, public JsonDeserializer, public visitable<it
      * @param allow_bucket Allow filling non-sealable containers
      */
     long get_remaining_capacity_for_liquid( const item &liquid, bool allow_bucket = false,
-                                            int volume_limit = INT_MAX ) const;
-    long get_remaining_capacity_for_liquid( const item &liquid, std::string &err,
-                                            bool allow_bucket = false, int volume_limit = INT_MAX ) const;
+                                            std::string *err = nullptr ) const;
+    long get_remaining_capacity_for_liquid( const item &liquid, const Character &p,
+                                            std::string *err = nullptr ) const;
     /**
      * It returns the total capacity (volume) of the container. This is a volume,
      * use @ref liquid_charges (of a liquid item) to translate that volume to the
@@ -633,8 +636,9 @@ public:
     /**
      * Whether the items is flammable. (Make sure to keep this in sync with
      * fire code in fields.cpp)
+     * @param threshold Item is flammable if it provides more fuel than threshold.
      */
-    bool flammable() const;
+    bool flammable( int threshold = 0 ) const;
     /*@}*/
 
     /**
@@ -1097,6 +1101,11 @@ public:
          * use the various functions above (like @ref get_storage) to access armor data directly.
          */
         const islot_armor *find_armor_data() const;
+        /**
+         * Returns true whether this item can be worn only when @param it is worn.
+         */
+        bool is_worn_only_with( const item &it ) const;
+
         /*@}*/
 
         /**

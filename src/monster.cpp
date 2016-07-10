@@ -1156,14 +1156,12 @@ int monster::heal( const int delta_hp, bool overheal )
         return 0;
     }
 
+    const int old_hp = hp;
     hp += delta_hp;
     if( hp > maxhp && !overheal ) {
-        const int old_hp = hp;
         hp = maxhp;
-        return maxhp - old_hp;
     }
-
-    return delta_hp;
+    return maxhp - old_hp;
 }
 
 void monster::set_hp( const int hp )
@@ -1854,9 +1852,11 @@ void monster::add_msg_if_npc(const char *msg, ...) const
 {
     va_list ap;
     va_start(ap, msg);
-    std::string processed_npc_string = vstring_format(msg, ap);
-    processed_npc_string = replace_with_npc_name(processed_npc_string, disp_name());
-    add_msg(processed_npc_string.c_str());
+    if (g->u.sees(*this)) {
+        std::string processed_npc_string = vstring_format(msg, ap);
+        processed_npc_string = replace_with_npc_name(processed_npc_string, disp_name());
+        add_msg(processed_npc_string.c_str());
+    }
     va_end(ap);
 }
 
@@ -1876,9 +1876,11 @@ void monster::add_msg_if_npc(game_message_type type, const char *msg, ...) const
 {
     va_list ap;
     va_start(ap, msg);
-    std::string processed_npc_string = vstring_format(msg, ap);
-    processed_npc_string = replace_with_npc_name(processed_npc_string, disp_name());
-    add_msg(type, processed_npc_string.c_str());
+    if (g->u.sees(*this)) {
+        std::string processed_npc_string = vstring_format(msg, ap);
+        processed_npc_string = replace_with_npc_name(processed_npc_string, disp_name());
+        add_msg(type, processed_npc_string.c_str());
+    }
     va_end(ap);
 }
 

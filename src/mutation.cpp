@@ -342,6 +342,11 @@ void player::activate_mutation( const std::string &mut )
     if( mut == "WEB_WEAVER" ) {
         g->m.add_field(pos(), fd_web, 1, 0);
         add_msg_if_player(_("You start spinning web with your spinnerets!"));
+    } else if( mut == "WEB_ROPE" ) {
+        add_msg_if_player(_("You spin a rope from your silk."));
+        item rope( "rope_30" );
+        i_add_or_drop( rope );
+        tdata.powered = false;
     } else if (mut == "BURROW"){
         if( is_underwater() ) {
             add_msg_if_player(m_info, _("You can't do that while underwater."));

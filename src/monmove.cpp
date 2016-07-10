@@ -1464,7 +1464,7 @@ void monster::knock_back_from( const tripoint &p )
     }
 
     // If we're still in the function at this point, we're actually moving a tile!
-    if( g->m.ter_at( to ).has_flag( TFLAG_DEEP_WATER ) ) {
+    if( g->m.has_flag_ter( TFLAG_DEEP_WATER, to ) ) {
         if( g->m.has_flag( "LIQUID", to ) && can_drown() ) {
             die( nullptr );
             if( u_see ) {

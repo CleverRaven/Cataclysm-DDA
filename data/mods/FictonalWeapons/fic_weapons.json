@@ -140,12 +140,21 @@
     "aim_speed" : 5,
     "recoil": -45,
     "durability": 7,
-    "burst": 8,
-    "clip_size": 30,
-    "reload": 400,
+    "modes": [
+      [ "DEFAULT", "semi-auto", 1 ],
+      [ "BURST", "3 rd.", 3 ],
+      [ "AUTO", "auto", 8 ]
+    ],
     "loudness" : 150,
     "built_in_mods": ["m203"],
-    "valid_mod_locations": [[ "accessories", 3 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ]]
+    "valid_mod_locations": [[ "accessories", 3 ],[ "barrel", 1 ],[ "bore", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ]],
+    "magazines" : [
+      [ "9mm", [ "mp5mag", "mp5bigmag" ] ],
+      [ "22", [ "ruger1022bigmag", "ruger1022mag" ] ],
+      [ "45", [ "ump45mag" ] ],
+      [ "46", [ "hk46mag", "hk46bigmag" ] ],
+      [ "57", [ "fn57mag" ] ]
+    ]
   },
   {
     "id": "ltcarb",
@@ -160,7 +169,7 @@
     "flags": ["NEVER_JAMS","NO_AMMO"],
     "ammo_effects": ["LIGHTNING"],
     "mode_modifier": [ [ "DEFAULT", "auto", 5 ] ],
-    "ups_charges": 4,
+    "ups_charges": 6,
     "skill": "smg",
     "weight": 2100,
     "volume": 6,
@@ -189,12 +198,12 @@
     "material": ["steel", "plastic"],
     "flags": ["NEVER_JAMS","NO_AMMO"],
     "ammo_effects": ["LIGHTNING","BOUNCE"],
-    "ups_charges": 25,
+    "ups_charges": 120,
     "skill": "rifle",
     "weight": 2700,
     "volume": 8,
     "bashing": 7,
-    "ranged_damage": 15,
+    "ranged_damage": 8,
     "range": 15,
     "dispersion": 250,
     "sight_dispersion": 150,
@@ -203,7 +212,34 @@
     "durability": 7,
     "clip_size": 0,
     "reload": 0,
-    "loudness" : 25,
+    "loudness" : 45,
     "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ]]
+  },
+  {
+    "id": "m1911ds",
+    "copy-from": "pistol_base",
+    "type": "GUN",
+    "name": "M1911 DS",
+    "description": "The m1911 Darkstalker is a very modified m1911, it has a fully integrated crossbow and added rails.  Professional looking with a ebony black finish, laced with lime green details.  Now they will know why they fear the night.  Bat hood sold separately.",
+    "weight": 1135,
+    "volume": 3,
+    "price": 150000,
+    "bashing": 7,
+    "to_hit": -2,
+    "material": ["steel", "plastic"],
+    "symbol": "[",
+    "color": "light_gray",
+    "ammo": "45",
+    "dispersion": 255,
+    "sight_dispersion": 90,
+    "recoil": 110,
+    "durability": 6,
+    "valid_mod_locations": [ [ "accessories", 2 ], [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "muzzle", 1 ], [ "sights", 1 ], [ "underbarrel", 1 ] ],
+    "built_in_mods": ["gun_crossbow"],
+    "magazine_well": 1,
+    "magazines" : [
+      [ "45", [ "m1911mag", "m1911bigmag" ] ],
+      [ "9mm", [ "m9mag", "m9bigmag" ] ]
+    ]
   }
 ]

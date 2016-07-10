@@ -5,6 +5,7 @@
 
 // can load from json
 #include "effect.h"
+#include "emit.h"
 #include "vitamin.h"
 #include "fault.h"
 #include "material.h"
@@ -33,6 +34,7 @@
 #include "ammo.h"
 #include "debug.h"
 #include "path_info.h"
+#include "requirements.h"
 #include "start_location.h"
 #include "scenario.h"
 #include "omdata.h"
@@ -104,8 +106,9 @@ void DynamicDataLoader::initialize()
     // Add to this as needed with new StaticFunctionAccessors or new ClassFunctionAccessors for new applicable types
     // Static Function Access
     add( "fault", &fault::load_fault );
+    add( "emit", &emit::load_emit );
     add( "vitamin", &vitamin::load_vitamin );
-    add( "material", &material_type::load_material );
+    add( "material", &materials::load );
     add( "bionic", &load_bionic );
     add( "profession", &profession::load_profession );
     add( "skill", &Skill::load_skill );
@@ -271,8 +274,9 @@ void DynamicDataLoader::unload_data()
 {
     requirement_data::reset();
     vitamin::reset();
+    emit::reset();
     fault::reset();
-    material_type::reset();
+    materials::reset();
     profession::reset();
     Skill::reset();
     dreams.clear();
@@ -342,7 +346,9 @@ void DynamicDataLoader::check_consistency()
 {
     requirement_data::check_consistency();
     vitamin::check_consistency();
+    emit::check_consistency();
     item_controller->check_definitions();
+    materials::check();
     fault::check_consistency();
     vpart_info::check();
     MonsterGenerator::generator().check_monster_definitions();

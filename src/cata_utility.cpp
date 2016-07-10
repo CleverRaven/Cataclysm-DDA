@@ -130,38 +130,6 @@ int list_filter_low_priority( std::vector<map_item_stack> &stack, int start,
     return id;
 }
 
-/* used by calculate_drop_cost */
-bool compare_items_by_lesser_volume( const item &a, const item &b )
-{
-    return a.volume() < b.volume();
-}
-
-// calculate the time (in player::moves) it takes to drop the
-// items in dropped and dropped_worn.
-// Items in dropped come from the main inventory (or the wielded weapon)
-// Items in dropped_worn are cloth that had been worn.
-// All items in dropped that fit into the removed storage space
-// (freed_volume_capacity) do not take time to drop.
-// Example: dropping five 2x4 (volume 5*6) and a worn backpack
-// (storage 40) will take only the time for dropping the backpack
-// dropping two more 2x4 takes the time for dropping the backpack and
-// dropping the remaining 2x4 that does not fit into the backpack.
-int calculate_drop_cost( std::vector<item> &dropped, const std::vector<item> &dropped_worn,
-                         int freed_volume_capacity )
-{
-    // Prefer to put small items into the backpack
-    std::sort( dropped.begin(), dropped.end(), compare_items_by_lesser_volume );
-    int drop_item_cnt = dropped_worn.size();
-    int total_volume_dropped = 0;
-    for( auto &elem : dropped ) {
-        total_volume_dropped += elem.volume();
-        if( freed_volume_capacity == 0 || total_volume_dropped > freed_volume_capacity ) {
-            drop_item_cnt++;
-        }
-    }
-    return drop_item_cnt * 100;
-}
-
 bool compare_by_dist_attitude::operator()( Creature *a, Creature *b ) const
 {
     const auto aa = u.attitude_to( *a );

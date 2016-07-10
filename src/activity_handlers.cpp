@@ -10,6 +10,7 @@
 #include "sounds.h"
 #include "iuse_actor.h"
 #include "rng.h"
+#include "requirements.h"
 #include "mongroup.h"
 #include "morale_types.h"
 #include "messages.h"
@@ -634,10 +635,10 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act_, player *p )
             on_ground->charges -= removed_charges;
             if( on_ground->charges <= 0 ) {
                 source_stack.erase( on_ground );
-                if( g->m.ter_at( source_pos ).examine == &iexamine::gaspump ) {
+                if( g->m.ter( source_pos ).obj().examine == &iexamine::gaspump ) {
                     add_msg( _( "With a clang and a shudder, the %s pump goes silent."),
                              liquid.type_name( 1 ).c_str() );
-                } else if( g->m.furn_at( source_pos ).examine == &iexamine::fvat_full ) {
+                } else if( g->m.furn( source_pos ).obj().examine == &iexamine::fvat_full ) {
                     g->m.furn_set( source_pos, f_fvat_empty );
                     add_msg( _( "You squeeze the last drops of %s from the vat." ),
                              liquid.type_name( 1 ).c_str() );
@@ -650,8 +651,8 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act_, player *p )
             break;
         }
 
-        if( removed_charges < original_charges ) {
-            // Transferred less than the available charges -> target must be full
+        if( removed_charges <= original_charges ) {
+            // Transferred less or equal to the available charges -> target must be full
             act.type = ACT_NULL;
         }
 
@@ -1151,32 +1152,23 @@ void activity_handlers::start_fire_finish( player_activity *act, player *p )
     act->type = ACT_NULL;
 }
 
-void activity_handlers::start_fire_lens_do_turn( player_activity *act, player *p )
+void activity_handlers::start_fire_do_turn( player_activity *act, player *p )
 {
-    float natural_light_level = g->natural_light_level( p->posz() );
-    // if the weather changes, we cannot start a fire with a lens. abort activity
-    if( !((g->weather == WEATHER_CLEAR) || (g->weather == WEATHER_SUNNY)) ||
-        !( natural_light_level >= 60 ) ) {
-        add_msg(m_bad, _("There is not enough sunlight to start a fire now. You stop trying."));
+    item &lens_item = p->i_at(act->position);
+    const auto usef = lens_item.type->get_use( "firestarter" );
+    if( usef == nullptr || usef->get_actor_ptr() == nullptr ) {
+        add_msg( m_bad, "You have lost the item you were using to start the fire." );
         p->cancel_activity();
-    } else if( natural_light_level != act->values.back() ) {
-        // when lighting changes we recalculate the time needed
-        float previous_natural_light_level = act->values.back();
-        act->values.pop_back();
-        act->values.push_back(natural_light_level);
-        item &lens_item = p->i_at(act->position);
-        const auto usef = lens_item.type->get_use( "extended_firestarter" );
-        if( usef == nullptr || usef->get_actor_ptr() == nullptr ) {
-            add_msg( m_bad, "You have lost the item you were using as a lens." );
-            p->cancel_activity();
-            return;
-        }
+        return;
+    }
 
-        const auto actor = dynamic_cast< const extended_firestarter_actor* >( usef->get_actor_ptr() );
-        float progress_left = float(act->moves_left) /
-                              float(actor->calculate_time_for_lens_fire(p, previous_natural_light_level));
-        act->moves_left = int(progress_left *
-                              (actor->calculate_time_for_lens_fire(p, natural_light_level)));
+    p->mod_moves( -p->moves );
+    const auto actor = dynamic_cast<const firestarter_actor*>( usef->get_actor_ptr() );
+    float light = actor->light_mod( p->pos() );
+    act->moves_left -= light * 100;
+    if( light < 0.1 ) {
+        add_msg( m_bad, _("There is not enough sunlight to start a fire now. You stop trying.") );
+        p->cancel_activity();
     }
 }
 
