@@ -329,7 +329,7 @@ std::list<item> obtain_activity_items( player_activity &act, player &p )
     // Avoid tumbling to the ground. Unload cleanly.
     const int excessive_volume = p.volume_carried() - p.volume_capacity();
     if( excessive_volume > 0 ) {
-        const auto excess = p.inv.remove_randomly_by_volume( excessive_volume );
+        const auto excess = p.inv.remove_randomly_by_volume( excessive_volume * units::legacy_volume_factor );
         res.insert( res.begin(), excess.begin(), excess.end() );
     }
     // Load anything that remains (if any) into the activity

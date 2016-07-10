@@ -911,7 +911,7 @@ bool Character::can_pickWeight( const item &it, bool safe ) const
 void Character::drop_inventory_overflow() {
     if( volume_carried() > volume_capacity() ) {
         for( auto &item_to_drop :
-               inv.remove_randomly_by_volume( volume_carried() - volume_capacity() ) ) {
+               inv.remove_randomly_by_volume( ( volume_carried() - volume_capacity() ) * units::legacy_volume_factor ) ) {
             g->m.add_item_or_charges( pos(), item_to_drop );
         }
         add_msg_if_player( m_bad, _("Some items tumble to the ground.") );
