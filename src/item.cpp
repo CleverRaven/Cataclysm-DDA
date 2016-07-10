@@ -5841,13 +5841,12 @@ std::string item::get_plant_name() const
 
 bool item::is_dangerous() const
 {
-    // Note: doesn't handle the pipebomb or radio bombs
-    // Consider flagging dangerous items with an explicit flag instead
-    static const std::string explosion_string( "explosion" );
-    if( type->can_use( explosion_string ) ) {
+    if( has_flag( "DANGEROUS" ) ) {
         return true;
     }
 
+    // Note: Item should be dangerous regardless of what type of a container is it
+    // Visitable interface would skip some options
     return std::any_of( contents.begin(), contents.end(), []( const item &it ) {
         return it.is_dangerous();
     } );
