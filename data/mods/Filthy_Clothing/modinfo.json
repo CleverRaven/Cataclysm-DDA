@@ -1,0 +1,15 @@
+[
+    {
+        "type": "MOD_INFO",
+        "mod-type": "SUPPLEMENTAL",
+        "ident": "filthy_clothing",
+        "name": "Filthy Clothing",
+        "description": "Makes wearing filthy clothing dropped by zombies cause morale penalties.",
+        "category": "rebalance",
+        "path": ""
+    },
+    {
+        "type": "WORLD_OPTION",
+        "options": [ "FILTHY_CLOTHING" ]
+    }
+]

@@ -5994,6 +5994,8 @@ bool item_category::operator!=( const item_category &rhs ) const
     return !( *this == rhs );
 }
 
-bool item::is_filthy() const {
-    return has_flag( "FILTHY" );
+bool item::is_filthy() const
+{
+    return has_flag( "FILTHY" ) &&
+        ( ACTIVE_WORLD_OPTIONS[ "FILTHY_CLOTHING" ] || g->u.has_trait( "SQUEAMISH" ) );
 }

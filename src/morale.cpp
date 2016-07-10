@@ -11,6 +11,7 @@
 #include "catacharset.h"
 #include "game.h"
 #include "weather.h"
+#include "options.h"
 
 #include <algorithm>
 #include <set>
@@ -780,6 +781,11 @@ void player_morale::update_constrained_penalty()
 
 void player_morale::update_squeamish_penalty()
 {
+    if( !ACTIVE_WORLD_OPTIONS[ "FILTHY_CLOTHING" ] ) {
+        set_permanent( MORALE_PERM_FILTHY, 0 );
+        return;
+    }
+
     int penalty = 0;
     const auto bp_pen = [ this ]( body_part bp, int penalty ) -> int {
         return (

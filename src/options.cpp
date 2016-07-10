@@ -1370,6 +1370,13 @@ void options_manager::init()
                                 false, COPT_ALWAYS_HIDE
                              );
 
+    mOptionsSort["world_default"]++;
+
+    OPTIONS["FILTHY_CLOTHING"] = cOpt("world_default", _("Causes clothing dropped by zombies to cause morale penalties."),
+                              _("If true, wearing clothing made by zombies will cause a morale penalty."),
+                                false, COPT_ALWAYS_HIDE
+                             );
+
 
 
     for (unsigned i = 0; i < vPages.size(); ++i) {
