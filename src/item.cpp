@@ -5683,10 +5683,13 @@ bool item::is_soft() const
 
 bool item::is_reloadable() const
 {
-    if( !is_gun() && !is_tool() && !is_magazine() ) {
+    if( has_flag( "NO_RELOAD") ) {
         return false;
 
-    } else if( has_flag( "NO_RELOAD") ) {
+    } else if( type->can_use( "bandolier" ) ) {
+        return true;
+
+    } else if( !is_gun() && !is_tool() && !is_magazine() ) {
         return false;
 
     } else if( !ammo_type() ) {

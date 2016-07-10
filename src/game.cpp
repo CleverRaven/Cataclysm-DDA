@@ -11097,6 +11097,13 @@ void game::reload( int pos, bool prompt )
             break;
     }
 
+    // for bandoliers we currently defer to iuse_actor methods
+    if( it->type->can_use( "bandolier" ) ) {
+        auto ptr = dynamic_cast<const bandolier_actor *>( it->type->get_use( "bandolier" )->get_actor_ptr() );
+        ptr->reload( u, *it );
+        return;
+    }
+
     item::reload_option opt = u.select_ammo( *it, prompt );
     if( opt ) {
         std::stringstream ss;
