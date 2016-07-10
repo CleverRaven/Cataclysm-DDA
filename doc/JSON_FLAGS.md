@@ -1037,7 +1037,7 @@ Those flags are added by the game code to specific items (that specific welder, 
 - ```LEAK_DAM``` ... Leaks when damaged (may be combined with "RADIOACTIVE").
 - ```NO_PICKUP``` ... Character can not pickup anything while wielding this item (e.g. bionic claws).
 - ```NO_SALVAGE``` Item cannot be broken down through a salvage process. Best used when something should not be able to be broken down (i.e. base components like leather patches).
-- ```PSEUDO``` ... Used internally to mark items that are referred to in the crafting inventory but are not actually items. They can be used as tools, but not as components.
+- ```PSEUDO``` ... Used internally to mark items that are referred to in the crafting inventory but are not actually items. They can be used as tools, but not as components. Implies "TRADER_AVOID".
 - ```RADIOACTIVE``` ... Is radioactive (can be used with LEAK_*).
 - ```RAIN_PROTECT``` ... Protects from sunlight and from rain, when wielded.
 - ```REDUCED_BASHING``` ... Gunmod flag; reduces the item's bashing damage by 50%.
@@ -1046,6 +1046,11 @@ Those flags are added by the game code to specific items (that specific welder, 
 - ```TRADER_AVOID``` ... NPCs will not start with this item. Use this for active items (e.g. flashlight (on)), dangerous items (e.g. active bomb), fake item or unusual items (e.g. unique quest item).
 - ```UNBREAKABLE_MELEE``` ... Does never get damaged when used as melee weapon.
 - ```UNRECOVERABLE``` Cannot be recovered from a disassembly.
+- ```DANGEROUS``` ... NPCs will not accept this item. Explosion iuse actor implies this flag. Implies "NPC_THROW_NOW".
+- ```NPC_THROW_NOW``` ... NPCs will try to throw this item away, preferably at enemies. Implies "TRADER_AVOID" and "NPC_THROWN".
+- ```NPC_ACTIVATE``` ... NPCs can activate this item as an alternative attack. Currently by throwing it right after activation. Implied by "BOMB".
+- ```NPC_THROWN``` ... NPCs will throw this item (without activating it first) as an alternative attack.
+- ```NPC_ALT_ATTACK``` ... Shouldn't be set directly. Implied by "NPC_ACTIVATE" and "NPC_THROWN".
 
 ## Skills
 
