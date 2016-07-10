@@ -1010,6 +1010,14 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
             temp1 << ".";
             info.push_back( iteminfo( "DESCRIPTION", temp1.str() ) );
         }
+
+        if( mod->spent_casings() ) {
+            insert_separation_line();
+            std::string tmp = ngettext( "Contains <stat>%i</stat> casing",
+                                        "Contains <stat>%i</stat> casings", mod->spent_casings() );
+            info.emplace_back( "DESCRIPTION", string_format( tmp, mod->spent_casings() ) );
+        }
+
     }
     if( is_gunmod() ) {
         const auto mod = type->gunmod.get();
