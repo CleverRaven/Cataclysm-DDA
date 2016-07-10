@@ -10597,7 +10597,7 @@ hint_rating player::rate_action_unload( const item &it ) const
         return HINT_CANT;
     }
 
-    if( it.ammo_remaining() > 0 ) {
+    if( it.ammo_remaining() > 0 || it.spent_casings() > 0 ) {
         return HINT_GOOD;
     }
 

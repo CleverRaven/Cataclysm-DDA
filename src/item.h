@@ -301,9 +301,6 @@ class item : public JsonSerializer, public JsonDeserializer, public visitable<it
      */
     bool reload( player &u, item_location loc, long qty );
 
-    /** Eject any spent casings dropping them at @ref pos */
-    void eject_casings( const tripoint &pos );
-
     template<typename Archive>
     void io( Archive& );
     using archive_type_tag = io::object_archive_tag;
@@ -1208,8 +1205,17 @@ public:
         /** Get ammo effects for item optionally inclusive of any resulting from the loaded ammo */
         std::set<std::string> ammo_effects( bool with_ammo = true ) const;
 
-        /** Returns casing type ejected by item (if any) which is always "null" if item is not a gun */
+        /**
+         * Returns casing type ejected by item or "null" if item is not a gun
+         * @note this is dependent upon the currently loaded ammo (if any)
+         */
         itype_id ammo_casing() const;
+
+        /** How many spent casings are contained within this item? */
+        int spent_casings() const;
+
+        /** Eject any spent casings dropping them at @ref pos */
+        void eject_casings( const tripoint &pos );
 
         /** Does item have an integral magazine (as opposed to allowing detachable magazines) */
         bool magazine_integral() const;

@@ -11236,7 +11236,7 @@ bool game::unload( item &it )
         return false;
     }
 
-    if( !target->magazine_current() && target->ammo_remaining() <= 0 ) {
+    if( !target->magazine_current() && target->ammo_remaining() <= 0 && target->spent_casings() <= 0 ) {
         if( target->is_tool() ) {
             add_msg( m_info, _( "Your %s isn't charged." ), target->tname().c_str() );
         } else {
@@ -11244,6 +11244,8 @@ bool game::unload( item &it )
         }
         return false;
     }
+
+    target->eject_casings( g->u.pos() );
 
     if( target->is_magazine() ) {
         // Remove all contained ammo consuming half as much time as required to load the magazine
@@ -11280,7 +11282,7 @@ bool game::unload( item &it )
             return target->magazine_current() == &e;
         } ) );
 
-    } else {
+    } else if( target->ammo_remaining() ) {
         long qty = target->ammo_remaining();
 
         if( target->ammo_type() == ammotype( "plutonium" ) ) {

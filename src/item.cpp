@@ -4641,6 +4641,18 @@ item::reload_option item::pick_reload_ammo( player &u, bool prompt ) const
     return std::move( ammo_list[ menu.ret ] );
 }
 
+
+int item::spent_casings() const
+{
+    if( !is_gun() ) {
+        return 0;
+    }
+
+    return std::count_if( contents.begin(), contents.end(), [&]( const item &e ) {
+        return e.is_ammo() && e.ammo_type() != ammo_type();
+    } );
+}
+
 void item::eject_casings( const tripoint &pos )
 {
     if( !is_gun() ) {
