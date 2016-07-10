@@ -4671,20 +4671,6 @@ bool item::reload( player &u, item_location loc, long qty )
         ammo = &ammo->contents.front();
     }
 
-    // Chance to fail pulling an arrow at lower levels
-    if( container && container->type->can_use( "QUIVER" ) ) {
-        int archery = u.get_skill_level( skill_id( "archery" ) );
-        ///\EFFECT_ARCHERY increases reliability of pulling arrows from a quiver
-        if( archery <= 2 && one_in( 10 ) ) {
-            u.moves -= 30;
-            u.add_msg_if_player( _( "You try to pull a %1$s from your %2$s, but fail!" ),
-                                ammo->tname().c_str(), container->type_name().c_str() );
-            return false;
-        }
-        u.add_msg_if_player( _( "You pull a %1$s from your %2$s and nock it." ),
-                             ammo->tname().c_str(), container->type_name().c_str() );
-    }
-
     item *obj = this; // what are we trying to reload?
 
     // for holsters and ammo pouches try to reload any contained item
