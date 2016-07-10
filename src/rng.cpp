@@ -2,17 +2,18 @@
 #include "rng.h"
 #include <stdlib.h>
 
-unsigned long long xorshift_state[2];
+int xorshift_pointer;
+unsigned long long xorshift_state[16];
 
+// xorshift1024* random number generator
+// (http://vigna.di.unimi.it/ftp/papers/xorshift.pdf)
 unsigned long long rand_u64()
 {
-    unsigned long long s1 = xorshift_state[0];
-    const unsigned long long s0 = xorshift_state[1];
-    const unsigned long long result = s0 + s1;
-    xorshift_state[0] = s0;
-    s1 ^= s1 << 23;
-    xorshift_state[1] = s1 ^ s0 ^ ( s1 >> 18 ) ^ ( s0 >> 5 );
-    return result;
+    const unsigned long long s0 = xorshift_state[xorshift_pointer];
+    unsigned long long s1 = xorshift_state[xorshift_pointer = (xorshift_pointer + 1) & 15];
+    s1 ^= s1 << 31;
+    xorshift_state[xorshift_pointer] = s1 ^ s0 ^ (s1 >> 11) ^ (s0 >> 30);
+    return xorshift_state[xorshift_pointer] * 1181783497276652981ULL;
 }
 
 long long rand_s64()
