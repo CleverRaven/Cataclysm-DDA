@@ -2136,7 +2136,7 @@ long ammobelt_actor::use( player *p, item *, bool, const tripoint& ) const
         return 0;
     }
 
-    item::reload_option opt = mag.pick_reload_ammo( *p, true );
+    item::reload_option opt = p->pick_reload_ammo( mag, true );
     if( opt ) {
         std::stringstream ss;
         ss << p->get_item_position( &p->i_add( mag ) );

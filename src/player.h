@@ -772,6 +772,12 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         void rooted_message() const;
         void rooted();
 
+        /**
+         * Select suitable ammo with which to reload the item
+         * @param prompt force display of the menu even if only one choice
+         */
+        item::reload_option pick_reload_ammo( const item& base, bool prompt = false );
+
         /** Check player strong enough to lift an object unaided by equipment (jacks, levers etc) */
         template <typename T>
         bool can_lift( const T& obj ) const {

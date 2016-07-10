@@ -10616,7 +10616,7 @@ bool game::plfire( const tripoint &default_target )
         }
 
         if( gun->has_flag( "RELOAD_AND_SHOOT" ) && !gun->ammo_remaining() ) {
-            item::reload_option opt = gun->pick_reload_ammo( u );
+            item::reload_option opt = u.pick_reload_ammo( *gun );
             if( !opt ) {
                 return false; // menu cancelled
             }
@@ -11097,7 +11097,7 @@ void game::reload( int pos, bool prompt )
             break;
     }
 
-    item::reload_option opt = it->pick_reload_ammo( u, prompt );
+    item::reload_option opt = u.pick_reload_ammo( *it, prompt );
     if( opt ) {
         std::stringstream ss;
         ss << pos;

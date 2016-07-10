@@ -289,13 +289,6 @@ class item : public JsonSerializer, public JsonDeserializer, public visitable<it
     };
 
     /**
-     * Select suitable ammo with which to reload the item
-     * @param u player inventory to search for suitable ammo.
-     * @param prompt force display of the menu even if only one choice
-     */
-    reload_option pick_reload_ammo( player &u, bool prompt = false ) const;
-
-    /**
      * Reload item using ammo from location returning true if sucessful
      * @param qty caps reloading to this (or fewer) units
      */

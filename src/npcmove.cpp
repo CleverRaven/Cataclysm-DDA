@@ -934,7 +934,7 @@ item &npc::find_reloadable()
         if( !wants_to_reload( *this, *node ) ) {
             return VisitResponse::NEXT;
         }
-        const auto it_loc = node->pick_reload_ammo( *this ).ammo;
+        const auto it_loc = pick_reload_ammo( *node ).ammo;
         if( it_loc && wants_to_reload_with( *node, *it_loc ) ) {
             reloadable = node;
             return VisitResponse::ABORT;
@@ -970,7 +970,7 @@ item_location npc::find_usable_ammo( const item &weap )
         return item_location();
     }
 
-    auto loc = weap.pick_reload_ammo( *this ).ammo;
+    auto loc = pick_reload_ammo( weap ).ammo;
     if( !loc || !wants_to_reload_with( weap, *loc ) ) {
         return item_location();
     }
