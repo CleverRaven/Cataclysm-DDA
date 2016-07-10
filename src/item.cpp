@@ -4671,25 +4671,17 @@ bool item::reload( player &u, item_location loc, long qty )
         ammo = &ammo->contents.front();
     }
 
-    item *obj = this; // what are we trying to reload?
-
-    // for holsters and ammo pouches try to reload any contained item
-    if( type->can_use( "holster" ) && !contents.empty() ) {
-        // @todo add moves penalty
-        obj = &contents.front();
-    }
-
-    if( !obj->is_reloadable() ) {
+    if( !is_reloadable() ) {
         return false;
     }
 
     // Firstly try reloading active gunmod, then item itself, any other auxiliary gunmods and finally any currently loaded magazine
-    std::vector<item *> opts = { &*obj->gun_current_mode(), obj };
-    auto mods = obj->gunmods();
+    std::vector<item *> opts = { &*gun_current_mode(), this };
+    auto mods = gunmods();
     std::copy_if( mods.begin(), mods.end(), std::back_inserter( opts ), []( item *e ) {
         return e->is_gun();
     });
-    opts.push_back( obj->magazine_current() );
+    opts.push_back( magazine_current() );
 
     auto target = std::find_if( opts.begin(), opts.end(), [&u,&ammo]( item *e ) {
         return e && u.can_reload( *e, ammo->typeId() );
@@ -4698,7 +4690,7 @@ bool item::reload( player &u, item_location loc, long qty )
         return false;
     }
 
-    obj = *target;
+    item *obj = *target; // what are we trying to reload?
     qty = std::min( qty, obj->ammo_capacity() - obj->ammo_remaining() );
 
     eject_casings( u, *obj );
