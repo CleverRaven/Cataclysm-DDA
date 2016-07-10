@@ -10621,7 +10621,8 @@ bool game::plfire( const tripoint &default_target )
                 return false; // menu cancelled
             }
 
-            reload_time += opt.moves();
+            // @todo Formula that makes sense
+            reload_time += 30;
             if( !gun->reload( u, std::move( opt.ammo ), 1 ) ) {
                 return false; // unable to reload
             }
