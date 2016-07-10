@@ -1517,4 +1517,3 @@ enum hint_rating {
 };
 
 #endif
-
