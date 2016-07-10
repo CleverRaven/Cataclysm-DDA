@@ -251,21 +251,21 @@ robot_finds_kitten::robot_finds_kitten(WINDOW *w)
     }
     /* Now we initialize the various game OBJECTs.
        * Assign a position to the player. */
-    robot.x = xorshift_rng_s32() % rfkCOLS;
-    robot.y = xorshift_rng_s32() % (rfkLINES - 3) + 3;
+    robot.x = rand_s32() % rfkCOLS;
+    robot.y = rand_s32() % (rfkLINES - 3) + 3;
     robot.character = '#';
     robot.color = c_white;
     rfkscreen[robot.x][robot.y] = ROBOT;
 
     /* Assign the kitten a unique position. */
     do {
-        kitten.x = xorshift_rng_s32() % rfkCOLS;
-        kitten.y = xorshift_rng_s32() % (rfkLINES - 3) + 3;
+        kitten.x = rand_s32() % rfkCOLS;
+        kitten.y = rand_s32() % (rfkLINES - 3) + 3;
     } while (rfkscreen[kitten.x][kitten.y] != EMPTY);
 
     /* Assign the kitten a character and a color. */
     do {
-        kitten.character = ktile[xorshift_rng_s32() % 82];
+        kitten.character = ktile[rand_s32() % 82];
     } while (kitten.character == '#' || kitten.character == ' ');
 
     do {
@@ -278,14 +278,14 @@ robot_finds_kitten::robot_finds_kitten(WINDOW *w)
     for (int c = 0; c < numbogus; c++) {
         /* Assign a unique position. */
         do {
-            bogus[c].x = xorshift_rng_s32() % rfkCOLS;
-            bogus[c].y = (xorshift_rng_s32() % (rfkLINES - 3)) + 3;
+            bogus[c].x = rand_s32() % rfkCOLS;
+            bogus[c].y = (rand_s32() % (rfkLINES - 3)) + 3;
         } while (rfkscreen[bogus[c].x][bogus[c].y] != EMPTY);
         rfkscreen[bogus[c].x][bogus[c].y] = c + 2;
 
         /* Assign a character. */
         do {
-            bogus[c].character = ktile[xorshift_rng_s32() % 82];
+            bogus[c].character = ktile[rand_s32() % 82];
         } while (bogus[c].character == '#' || bogus[c].character == ' ');
 
         do {
@@ -295,7 +295,7 @@ robot_finds_kitten::robot_finds_kitten(WINDOW *w)
         /* Assign a unique message. */
         int index = 0;
         do {
-            index = xorshift_rng_s32() % nummessages;
+            index = rand_s32() % nummessages;
         } while (used_messages[index] != 0);
         bogus_messages[c] = index;
         used_messages[index] = 1;

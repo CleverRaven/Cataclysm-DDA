@@ -7,9 +7,9 @@
 
 // xorshift128+ RNG
 void init_xorshift_rng( int seed );
-unsigned long long xorshift_rng_u64();
-long long xorshift_rng_s64();
-int xorshift_rng_s32();
+unsigned long long rand_u64();
+long long rand_s64();
+int rand_s32();
 
 long rng( long val1, long val2 );
 double rng_float( double val1, double val2 );

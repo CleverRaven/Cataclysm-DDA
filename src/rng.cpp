@@ -4,7 +4,7 @@
 
 unsigned long long xorshift_state[2];
 
-unsigned long long xorshift_rng_u64()
+unsigned long long rand_u64()
 {
     unsigned long long s1 = xorshift_state[0];
     const unsigned long long s0 = xorshift_state[1];
@@ -15,14 +15,14 @@ unsigned long long xorshift_rng_u64()
     return result;
 }
 
-long long xorshift_rng_s64()
+long long rand_s64()
 {
-    return xorshift_rng_u64() & 0x7FFFFFFFFFFFFFFFLL;
+    return rand_u64() & 0x7FFFFFFFFFFFFFFFLL;
 }
 
-int xorshift_rng_s32()
+int rand_s32()
 {
-    return xorshift_rng_u64() & 0x7FFFFFFF;
+    return rand_u64() & 0x7FFFFFFF;
 }
 
 void init_xorshift_rng( int seed )
@@ -40,7 +40,7 @@ long rng( long val1, long val2 )
     if( val1 > val2 ) {
         std::swap( val1, val2 );
     }
-    return val1 + long( ( val2 - val1 + 1 ) * double( xorshift_rng_u64() / double(
+    return val1 + long( ( val2 - val1 + 1 ) * double( rand_u64() / double(
                             UINT64_MAX + 1.0 ) ) );
 }
 
@@ -49,7 +49,7 @@ double rng_float( double val1, double val2 )
     if( val1 > val2 ) {
         std::swap( val1, val2 );
     }
-    return val1 + ( val2 - val1 ) * double( xorshift_rng_u64() ) / double( UINT64_MAX + 1.0 );
+    return val1 + ( val2 - val1 ) * double( rand_u64() ) / double( UINT64_MAX + 1.0 );
 }
 
 bool one_in( int chance )
@@ -65,7 +65,7 @@ bool one_in_improved( double chance )
 
 bool x_in_y( double x, double y )
 {
-    return ( ( double )xorshift_rng_u64() / UINT64_MAX ) <= ( ( double )x / y );
+    return ( ( double )rand_u64() / UINT64_MAX ) <= ( ( double )x / y );
 }
 
 int dice( int number, int sides )

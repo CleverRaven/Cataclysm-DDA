@@ -176,7 +176,7 @@ struct radio_tower {
  int frequency;
 radio_tower(int X = -1, int Y = -1, int S = -1, std::string M = "",
             radio_type T = MESSAGE_BROADCAST) :
-    x (X), y (Y), strength (S), type (T), message (M) {frequency = xorshift_rng_s32();}
+    x (X), y (Y), strength (S), type (T), message (M) {frequency = rand_s32();}
 };
 
 struct map_layer {

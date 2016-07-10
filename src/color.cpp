@@ -147,7 +147,7 @@ nc_color color_manager::get_invert( const nc_color col ) const
 nc_color color_manager::get_random() const
 {
     auto item = color_array.begin();
-    std::advance( item, xorshift_rng_s32() % num_colors );
+    std::advance( item, rand_s32() % num_colors );
 
     return item->color;
 }
