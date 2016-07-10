@@ -17,10 +17,18 @@ const std::set<std::string> classic_extras = { "mx_helicopter", "mx_military",
 };
 
 template<>
-const string_id<ter_t> string_id<ter_t>::NULL_ID( "t_null", 0 );
+const string_id<ter_t> &string_id<ter_t>::NULL_ID()
+{
+    static string_id<ter_t> instance( "t_null", 0 );
+    return instance;
+}
 
 template<>
-const string_id<furn_t> string_id<furn_t>::NULL_ID( "f_null", 0 );
+const string_id<furn_t> &string_id<furn_t>::NULL_ID()
+{
+    static string_id<furn_t> instance( "f_null", 0 );
+    return instance;
+}
 
 namespace
 {

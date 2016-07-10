@@ -110,7 +110,7 @@ item::item()
 item::item( const itype *type, int turn, long qty ) : type( type )
 {
     bday = turn >= 0 ? turn : int( calendar::turn );
-    corpse = typeId() == "corpse" ? &mtype_id::NULL_ID.obj() : nullptr;
+    corpse = typeId() == "corpse" ? &mtype_id::NULL_ID().obj() : nullptr;
     name = type_name();
     item_counter = type->countdown_interval;
 

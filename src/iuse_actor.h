@@ -278,8 +278,8 @@ class place_monster_iuse : public iuse_actor
         /** Shown when programming the monster failed and it's hostile. Can be empty. */
         std::string hostile_msg;
         /** Skills used to make the monster not hostile when activated. **/
-        skill_id skill1 = skill_id( "none" );
-        skill_id skill2 = skill_id( "none" );
+        skill_id skill1 = skill_id::NULL_ID();
+        skill_id skill2 = skill_id::NULL_ID();
 
         place_monster_iuse() : iuse_actor( "place_monster" ) { }
         ~place_monster_iuse() override;
@@ -824,7 +824,7 @@ class place_trap_actor : public iuse_actor
         using trap_str_id = string_id<trap>;
         using ter_str_id = string_id<ter_t>;
         struct data {
-            trap_str_id trap = trap_str_id( "tr_null" ); // TODO: should be NULL_ID
+            trap_str_id trap = trap_str_id::NULL_ID();
             /** The message shown when the trap has been set. */
             std::string done_message;
             /** Amount of practice of the "trap" skill. */
@@ -855,7 +855,7 @@ class place_trap_actor : public iuse_actor
         /**
          * The trap that makes up the outer layer of a 3x3 trap. This is not supported for buried traps!
          */
-        trap_str_id outer_layer_trap = trap_str_id( "tr_null" ); // TODO: should be NULL_ID
+        trap_str_id outer_layer_trap = trap_str_id::NULL_ID();
         bool is_allowed( player &p, const tripoint &pos, const std::string &name ) const;
 
         place_trap_actor( const std::string &type = "place_trap" ) : iuse_actor( type ) {}

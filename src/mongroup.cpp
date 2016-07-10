@@ -30,7 +30,11 @@ MonsterGroupManager::t_string_set MonsterGroupManager::monster_categories_whitel
 bool monster_whitelist_is_exclusive = false;
 
 template<>
-const mongroup_id string_id<MonsterGroup>::NULL_ID( "GROUP_NULL" );
+const mongroup_id &string_id<MonsterGroup>::NULL_ID()
+{
+    static mongroup_id instance( "GROUP_NULL" );
+    return instance;
+}
 
 template<>
 bool string_id<MonsterGroup>::is_valid() const
@@ -370,7 +374,7 @@ void MonsterGroupManager::LoadMonsterGroup(JsonObject &jo)
         }
     }
     g.replace_monster_group = jo.get_bool("replace_monster_group", false);
-    g.new_monster_group = mongroup_id( jo.get_string("new_monster_group_id", mongroup_id::NULL_ID.str() ) );
+    g.new_monster_group = mongroup_id( jo.get_string("new_monster_group_id", mongroup_id::NULL_ID().str() ) );
     g.monster_group_time = jo.get_int("replacement_time", 0);
     g.is_safe = jo.get_bool( "is_safe", false );
 

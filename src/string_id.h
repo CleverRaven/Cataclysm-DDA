@@ -59,16 +59,16 @@ class string_id
          * Note that this id class does not enforce empty id strings (or any specific string at all)
          * to be special. Every string (including the empty one) may be a valid id.
          */
-        string_id() : _id(), _cid( -1 ) {}
+        string_id() = default;
         /**
-         * Create a copy of the @ref NULL_ID. See @ref null_id_type.
+         * Create a copy of the @ref NULL_ID(). See @ref null_id_type.
          */
-        string_id( const null_id_type & ) : _id( NULL_ID._id ), _cid( NULL_ID._cid ) {}
+        string_id( const null_id_type & ) : _id( NULL_ID()._id ), _cid( NULL_ID()._cid ) {}
         /* This is here to appease clang, which thinks there is some ambiguity in
-        `string_id<T> X = NULL_ID;`, gcc accepts it, but clang can not decide between implicit
+        `string_id<T> X = NULL_ID();`, gcc accepts it, but clang can not decide between implicit
         move assignment operator and implicit copy assignment operator. */
         This &operator=( const null_id_type & ) {
-            return *this = NULL_ID;
+            return *this = NULL_ID();
         }
         /**
          * Comparison, only useful when the id is used in std::map or std::set as key. Compares
@@ -149,13 +149,13 @@ class string_id
             return _id.empty();
         }
         /**
-         * The null-id itself. `NULL_ID.is_null()` must always return true. See @ref is_null.
+         * The null-id itself. `NULL_ID().is_null()` must always return true. See @ref is_null.
          */
-        static const string_id<T> NULL_ID;
+        static const string_id<T> &NULL_ID();
         /**
          * Returns whether this represents the id of the null-object (in which case it's the null-id).
          * Note that not all types @ref T may have a null-object. As such, there won't be a
-         * definition of @ref NULL_ID and if you use any of the related functions, you'll get
+         * definition of @ref NULL_ID() and if you use any of the related functions, you'll get
          * errors during the linking.
          *
          * Example: "mon_null" is the id of the null-object of monster type.
@@ -164,11 +164,11 @@ class string_id
          * that require a (valid) id, but it can still represent a "don't use it" value.
          */
         bool is_null() const {
-            return operator==( NULL_ID );
+            return operator==( NULL_ID() );
         }
         /**
          * Same as `!is_null`, basically one can use it to check for the id referring to an actual
-         * object. This avoids explicitly comparing it with NULL_ID. The id may still be invalid,
+         * object. This avoids explicitly comparing it with NULL_ID(). The id may still be invalid,
          * but that should have been checked when the world data was loaded.
          * \code
          * string_id<X> id = ...;
@@ -200,7 +200,7 @@ class string_id
 
     private:
         std::string _id;
-        mutable int _cid;
+        mutable int _cid = -1;
 };
 
 // Support hashing of string based ids by forwarding the hash of the string.
@@ -237,7 +237,7 @@ struct hash< string_id<T> > {
 struct null_id_type {
     template<typename T>
     operator const string_id<T> &() const {
-        return string_id<T>::NULL_ID;
+        return string_id<T>::NULL_ID();
     }
 };
 

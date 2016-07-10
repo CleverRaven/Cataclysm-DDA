@@ -11,7 +11,11 @@
 #include <map>
 
 template<>
-const string_id<material_type> string_id<material_type>::NULL_ID( "null", 0 );
+const string_id<material_type> &string_id<material_type>::NULL_ID()
+{
+    static string_id<material_type> instance( "null", 0 );
+    return instance;
+}
 
 namespace
 {

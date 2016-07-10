@@ -17,7 +17,11 @@
 static std::map<requirement_id, requirement_data> requirements_all;
 
 template <>
-const requirement_id string_id<requirement_data>::NULL_ID( "null" );
+const requirement_id &string_id<requirement_data>::NULL_ID()
+{
+    static requirement_id instance( "null" );
+    return instance;
+}
 
 template<>
 bool string_id<requirement_data>::is_valid() const
@@ -199,7 +203,7 @@ requirement_data requirement_data::operator+( const requirement_data &rhs ) cons
     res.qualities.insert( res.qualities.end(), rhs.qualities.begin(), rhs.qualities.end() );
 
     // combined result is temporary which caller could store via @ref save_requirement
-    res.id_ = requirement_id::NULL_ID;
+    res.id_ = requirement_id::NULL_ID();
 
     // @todo deduplicate qualites and combine other requirements
 

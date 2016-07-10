@@ -11,7 +11,11 @@
 std::vector<Skill> Skill::skills;
 
 template<>
-const skill_id string_id<Skill>::NULL_ID( "none" );
+const skill_id &string_id<Skill>::NULL_ID()
+{
+    static skill_id instance( "none" );
+    return instance;
+}
 
 template<>
 const Skill &string_id<Skill>::obj() const
@@ -91,7 +95,7 @@ void Skill::load_skill(JsonObject &jsobj)
 skill_id Skill::from_legacy_int( const int legacy_id )
 {
     static const std::array<skill_id, 28> legacy_skills = { {
-        skill_id::NULL_ID, skill_id("dodge"), skill_id("melee"), skill_id("unarmed"),
+        skill_id::NULL_ID(), skill_id("dodge"), skill_id("melee"), skill_id("unarmed"),
         skill_id("bashing"), skill_id("cutting"), skill_id("stabbing"), skill_id("throw"),
         skill_id("gun"), skill_id("pistol"), skill_id("shotgun"), skill_id("smg"),
         skill_id("rifle"), skill_id("archery"), skill_id("launcher"), skill_id("mechanics"),

@@ -24,7 +24,11 @@ void ammunition_type::load_ammunition_type( JsonObject &jsobj )
 }
 
 template<>
-const string_id<ammunition_type> string_id<ammunition_type>::NULL_ID( "NULL" );
+const string_id<ammunition_type> &string_id<ammunition_type>::NULL_ID()
+{
+    static string_id<ammunition_type> instance( "NULL" );
+    return instance;
+}
 
 template<>
 bool string_id<ammunition_type>::is_valid() const
