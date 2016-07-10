@@ -11098,7 +11098,7 @@ void game::reload( int pos, bool prompt )
     }
 
     // for bandoliers we currently defer to iuse_actor methods
-    if( it->type->can_use( "bandolier" ) ) {
+    if( it->is_bandolier() ) {
         auto ptr = dynamic_cast<const bandolier_actor *>( it->type->get_use( "bandolier" )->get_actor_ptr() );
         ptr->reload( u, *it );
         return;
@@ -11201,7 +11201,7 @@ bool add_or_drop_with_msg( player &u, item &it )
 bool game::unload( item &it )
 {
     // Unload a container consuming moves per item successfully removed
-    if( it.is_container() || it.type->can_use( "bandolier" ) ) {
+    if( it.is_container() || it.is_bandolier() ) {
         if( it.contents.empty() ) {
             add_msg( m_info, _( "The %s is already empty!" ), it.tname().c_str() );
             return false;

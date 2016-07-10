@@ -10802,7 +10802,7 @@ hint_rating player::rate_action_reload( const item &it ) const
 
 hint_rating player::rate_action_unload( const item &it ) const
 {
-    if( ( it.is_container() || it.is_gun() || it.type->can_use( "bandolier" ) ) && !it.contents.empty() ) {
+    if( ( it.is_container() || it.is_gun() || it.is_bandolier() ) && !it.contents.empty() ) {
         // gunmods can also be unloaded
         return HINT_GOOD;
     }

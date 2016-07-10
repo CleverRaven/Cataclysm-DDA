@@ -1998,7 +1998,7 @@ bool bandolier_actor::can_store( const item &bandolier, const item &obj ) const
 
 bool bandolier_actor::reload( const player &p, item &obj ) const
 {
-    if( !obj.type->can_use( "bandolier" ) ) {
+    if( !obj.is_bandolier() ) {
         debugmsg( "Invalid item passed to bandolier_actor" );
         return false;
     }

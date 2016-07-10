@@ -744,6 +744,7 @@ public:
  bool is_bionic() const;
  bool is_magazine() const;
  bool is_ammo_belt() const;
+ bool is_bandolier() const;
  bool is_ammo() const;
  bool is_armor() const;
  bool is_book() const;

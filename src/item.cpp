@@ -3320,6 +3320,11 @@ bool item::is_ammo_belt() const
     return is_magazine() && has_flag( "MAG_BELT" );
 }
 
+bool item::is_bandolier() const
+{
+    return type->can_use( "bandolier" );
+}
+
 bool item::is_ammo() const
 {
     return type->ammo.get() != nullptr;
@@ -3932,7 +3937,7 @@ long item::ammo_remaining() const
         return charges;
     }
 
-    if( is_magazine() || type->can_use( "bandolier" ) ) {
+    if( is_magazine() || is_bandolier() ) {
         long res = 0;
         for( const auto& e : contents ) {
             res += e.charges;
@@ -3971,7 +3976,7 @@ long item::ammo_capacity() const
         res = type->magazine->capacity;
     }
 
-    if( type->can_use( "bandolier" ) ) {
+    if( is_bandolier() ) {
         return dynamic_cast<const bandolier_actor *>( type->get_use( "bandolier" )->get_actor_ptr() )->capacity;
     }
 
@@ -5686,7 +5691,7 @@ bool item::is_reloadable() const
     if( has_flag( "NO_RELOAD") ) {
         return false;
 
-    } else if( type->can_use( "bandolier" ) ) {
+    } else if( is_bandolier() ) {
         return true;
 
     } else if( !is_gun() && !is_tool() && !is_magazine() ) {
