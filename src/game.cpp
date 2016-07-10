@@ -11236,7 +11236,7 @@ bool game::unload( item &it )
         return false;
     }
 
-    if( !target->magazine_current() && target->ammo_remaining() <= 0 && target->spent_casings() <= 0 ) {
+    if( !target->magazine_current() && target->ammo_remaining() <= 0 && target->casings_count() <= 0 ) {
         if( target->is_tool() ) {
             add_msg( m_info, _( "Your %s isn't charged." ), target->tname().c_str() );
         } else {
@@ -11245,7 +11245,9 @@ bool game::unload( item &it )
         return false;
     }
 
-    target->eject_casings( g->u.pos() );
+    target->casings_handle( [&]( item &e ) {
+        return u.i_add_or_drop( e );
+    } );
 
     if( target->is_magazine() ) {
         // Remove all contained ammo consuming half as much time as required to load the magazine

@@ -1011,11 +1011,11 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
             info.push_back( iteminfo( "DESCRIPTION", temp1.str() ) );
         }
 
-        if( mod->spent_casings() ) {
+        if( mod->casings_count() ) {
             insert_separation_line();
             std::string tmp = ngettext( "Contains <stat>%i</stat> casing",
-                                        "Contains <stat>%i</stat> casings", mod->spent_casings() );
-            info.emplace_back( "DESCRIPTION", string_format( tmp, mod->spent_casings() ) );
+                                        "Contains <stat>%i</stat> casings", mod->casings_count() );
+            info.emplace_back( "DESCRIPTION", string_format( tmp, mod->casings_count() ) );
         }
 
     }
@@ -4121,14 +4121,6 @@ std::set<std::string> item::ammo_effects( bool with_ammo ) const
     return res;
 }
 
-itype_id item::ammo_casing() const
-{
-    if( !is_gun() || !ammo_data() ) {
-        return "null";
-    }
-    return ammo_data()->ammo->casing;
-}
-
 bool item::magazine_integral() const
 {
     // finds first ammo type which specifies at least one magazine
@@ -4650,18 +4642,19 @@ item::reload_option item::pick_reload_ammo( player &u, bool prompt ) const
 }
 
 
-int item::spent_casings() const
+int item::casings_count() const
 {
-    if( !is_gun() ) {
-        return 0;
-    }
+    int res = 0;
 
-    return std::count_if( contents.begin(), contents.end(), [&]( const item &e ) {
-        return e.is_ammo() && e.ammo_type() != ammo_type();
+    const_cast<item *>( this )->casings_handle( [&res]( item & ) {
+        ++res;
+        return false;
     } );
+
+    return res;
 }
 
-void item::eject_casings( const tripoint &pos )
+void item::casings_handle( const std::function<bool(item &)> &func )
 {
     if( !is_gun() ) {
         return;
@@ -4669,11 +4662,12 @@ void item::eject_casings( const tripoint &pos )
 
     for( auto it = contents.begin(); it != contents.end(); ) {
         if( it->is_ammo() && it->ammo_type() != ammo_type() ) {
-            g->m.add_item_or_charges( pos, std::move( *it ) );
-            it = contents.erase( it );
-        } else {
-            ++it;
+            if( func( *it ) ) {
+                it = contents.erase( it );
+                continue;
+            }
         }
+        ++it;
     }
 }
 
@@ -4717,7 +4711,9 @@ bool item::reload( player &u, item_location loc, long qty )
     item *obj = *target; // what are we trying to reload?
     qty = std::min( qty, obj->ammo_capacity() - obj->ammo_remaining() );
 
-    obj->eject_casings( u.pos() );
+    obj->casings_handle( [&u]( item &e ) {
+        return u.i_add_or_drop( e );
+    } );
 
     if( obj->is_magazine() ) {
         qty = std::min( qty, ammo->charges );

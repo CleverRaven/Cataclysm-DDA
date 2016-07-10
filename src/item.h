@@ -1205,17 +1205,11 @@ public:
         /** Get ammo effects for item optionally inclusive of any resulting from the loaded ammo */
         std::set<std::string> ammo_effects( bool with_ammo = true ) const;
 
-        /**
-         * Returns casing type ejected by item or "null" if item is not a gun
-         * @note this is dependent upon the currently loaded ammo (if any)
-         */
-        itype_id ammo_casing() const;
-
         /** How many spent casings are contained within this item? */
-        int spent_casings() const;
+        int casings_count() const;
 
-        /** Eject any spent casings dropping them at @ref pos */
-        void eject_casings( const tripoint &pos );
+        /** Apply predicate to each contained spent casing removing it if predicate returns true */
+        void casings_handle( const std::function<bool(item &)> &func );
 
         /** Does item have an integral magazine (as opposed to allowing detachable magazines) */
         bool magazine_integral() const;

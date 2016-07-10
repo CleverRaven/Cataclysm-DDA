@@ -1425,12 +1425,12 @@ static void cycle_action( item& weap, const tripoint &pos ) {
     } ), tiles.end() );
     tripoint eject = tiles.empty() ? pos : random_entry( tiles );
 
-    if( weap.ammo_casing() != "null" ) {
+    if( weap.ammo_data() && weap.ammo_data()->ammo->casing != "null" ) {
         if( weap.has_flag( "RELOAD_EJECT" ) || weap.gunmod_find( "brass_catcher" ) ) {
-            weap.emplace_back( weap.ammo_casing(), calendar::turn, 1 );
+            weap.emplace_back( weap.ammo_data()->ammo->casing, calendar::turn, 1 );
 
         } else {
-            g->m.add_item_or_charges( eject, item( weap.ammo_casing(), calendar::turn, 1 ) );
+            g->m.add_item_or_charges( eject, item( weap.ammo_data()->ammo->casing, calendar::turn, 1 ) );
             sfx::play_variant_sound( "fire_gun", "brass_eject", sfx::get_heard_volume( eject ),
                                      sfx::get_heard_angle( eject ) );
         }
