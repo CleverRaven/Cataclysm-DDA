@@ -27,9 +27,8 @@ bool inventory_entry::operator == ( const inventory_entry &other ) const {
 }
 
 inventory_entry::inventory_entry( const std::shared_ptr<item_location> &location,
-    const item_category *custom_category, nc_color custom_color, long custom_invlet ) :
-        inventory_entry( location, ( location->get_item() != nullptr ) ? 1 : 0, custom_category,
-        custom_color, custom_invlet ) {}
+                                  const item_category *custom_category ) :
+    inventory_entry( location, ( location->get_item() != nullptr ) ? 1 : 0, custom_category ) {}
 
 bool inventory_entry::is_item() const {
     return location->get_item() != nullptr;
@@ -399,8 +398,9 @@ void inventory_selector::add_custom_items( const std::list<item>::const_iterator
             if( custom_column == nullptr ) {
                 custom_column.reset( new inventory_column() );
             }
-            const long invlet = ( cur_custom_invlet <= max_custom_invlet ) ? cur_custom_invlet++ : '\0';
-            custom_column->add_entry( inventory_entry( location, stack.size(), &categories.back(), c_unset, invlet ) );
+            inventory_entry entry( location, stack.size(), &categories.back() );
+            entry.custom_invlet = ( cur_custom_invlet <= max_custom_invlet ) ? cur_custom_invlet++ : '\0';
+            custom_column->add_entry( entry );
         }
     }
 }
@@ -609,7 +609,9 @@ inventory_selector::inventory_selector( player &u, const std::string &title, con
         categories.emplace_back( "WEAPON", _( "WEAPON HELD" ), 0 );
         const auto location = std::make_shared<item_location>( u, &u.weapon );
         if( filter( *location ) ) {
-            second_column->add_entry( inventory_entry( location, &categories.back(), c_ltblue ) );
+            inventory_entry entry( location, &categories.back() );
+            entry.custom_color = c_ltblue;
+            second_column->add_entry( entry );
         }
     }
 
@@ -618,7 +620,10 @@ inventory_selector::inventory_selector( player &u, const std::string &title, con
         for( auto &it : u.worn ) {
             const auto location = std::make_shared<item_location>( u, &it );
             if( filter( *location ) ) {
-                second_column->add_entry( inventory_entry( location, &categories.back(), c_cyan ) );
+                inventory_entry entry( location, &categories.back() );
+
+                entry.custom_color = c_cyan;
+                second_column->add_entry( entry );
             }
         }
     }

@@ -35,31 +35,26 @@ class inventory_entry
         std::shared_ptr<item_location> location;
         size_t stack_size;
         const item_category *custom_category;
-        long custom_invlet;
 
     public:
         size_t chosen_count = 0;
         nc_color custom_color = c_unset;
+        long custom_invlet = LONG_MIN;
 
         inventory_entry( const std::shared_ptr<item_location> &location, size_t stack_size,
-                         const item_category *custom_category = nullptr,
-                         nc_color custom_color = c_unset, long custom_invlet = LONG_MIN )
-            : location( ( location != nullptr ) ? location :
-                        std::make_shared<item_location>() ), // to make sure that location != nullptr always
-              stack_size( stack_size ),
-              custom_category( custom_category ),
-              custom_invlet( custom_invlet ),
-              custom_color( custom_color ) {}
+                         const item_category *custom_category = nullptr ) :
+            location( ( location != nullptr ) ? location : std::make_shared<item_location>() ),
+            stack_size( stack_size ),
+            custom_category( custom_category ) {}
 
         inventory_entry( const std::shared_ptr<item_location> &location,
-                         const item_category *custom_category = nullptr, nc_color custom_color = c_unset,
-                         long custom_invlet = LONG_MIN );
+                         const item_category *custom_category = nullptr );
 
-        inventory_entry( const item_category *custom_category = nullptr )
-            : inventory_entry( std::make_shared<item_location>(), custom_category ) {}
+        inventory_entry( const item_category *custom_category = nullptr ) :
+            inventory_entry( std::make_shared<item_location>(), custom_category ) {}
 
-        inventory_entry( const inventory_entry &entry, const item_category *custom_category )
-            : inventory_entry( entry ) {
+        inventory_entry( const inventory_entry &entry, const item_category *custom_category ) :
+            inventory_entry( entry ) {
             this->custom_category = custom_category;
         }
 
