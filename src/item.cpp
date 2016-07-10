@@ -4644,13 +4644,14 @@ item::reload_option item::pick_reload_ammo( player &u, bool prompt ) const
 // Helper to handle ejecting casings from guns that require them to be manually extracted.
 static void eject_casings( player &p, item& target )
 {
-    int qty = target.get_var( "CASINGS", 0 );
-    if( !target.has_flag( "RELOAD_EJECT" ) || target.ammo_casing() == "null" || qty <= 0 ) {
-        return;
+    for( auto it = target.contents.begin(); it != target.contents.end(); ) {
+        if( it->is_ammo() && it->ammo_type() != target.ammo_type() ) {
+            g->m.add_item_or_charges( p.pos(), std::move( *it ) );
+            it = target.contents.erase( it );
+        } else {
+            ++it;
+        }
     }
-
-    g->m.add_item_or_charges( p.pos(), item( target.ammo_casing(), calendar::turn, qty ) );
-    target.erase_var( "CASINGS" );
 }
 
 bool item::reload( player &u, item_location loc, long qty )

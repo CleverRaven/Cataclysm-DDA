@@ -1436,8 +1436,7 @@ static inline void eject_casing( player& p, item& weap ) {
     }
 
     if( weap.has_flag( "RELOAD_EJECT" ) ) {
-        const int num_casings = weap.get_var( "CASINGS", 0 );
-        weap.set_var( "CASINGS", num_casings + 1 );
+        weap.emplace_back( weap.ammo_casing(), calendar::turn, 1 );
         return;
     }
 
