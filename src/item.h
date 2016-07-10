@@ -493,6 +493,72 @@ class item : public JsonSerializer, public JsonDeserializer, public visitable<it
             return contents.back();
         }
 
+        /**
+         * Returns this item into its default container. If it does not have a default container,
+         * returns this. It's intended to be used like \code newitem = newitem.in_its_container();\endcode
+         */
+        item in_its_container() const;
+        item in_container( const itype_id &container_type ) const;
+        /*@}*/
+
+        /*@{*/
+        /**
+         * Funnel related functions. See weather.cpp for their usage.
+         */
+        bool is_funnel_container( int &bigger_than ) const;
+        void add_rain_to_container( bool acid, int charges = 1 );
+        /*@}*/
+
+        int get_quality( const quality_id &id ) const;
+        bool count_by_charges() const;
+        bool craft_has_charges();
+
+        /**
+         * Modify the charges of this item, only use for items counted by charges!
+         * The item must have enough charges for this (>= quantity) and be counted
+         * by charges.
+         * @param quantity How many charges should be removed.
+         */
+        void mod_charges( long mod );
+
+        /**
+         * Accumulate rot of the item since last rot calculation.
+         * This function works for non-rotting stuff, too - it increases the value
+         * of rot.
+         * @param p The absolute, global location (in map square coordinates) of the item to
+         * check for temperature.
+         */
+        void calc_rot( const tripoint &p );
+
+        /** whether an item is perishable (can rot) */
+        bool goes_bad() const;
+
+        /** Get @ref rot value relative to shelf life (or 0 if item does not spoil) */
+        double get_relative_rot() const;
+
+        /** Set current item @ref rot relative to shelf life (no-op if item does not spoil) */
+        void set_relative_rot( double val );
+
+        /** an item is fresh if it is capable of rotting but still has a long shelf life remaining */
+        bool is_fresh() const {
+            return goes_bad() && get_relative_rot() < 0.1;
+        }
+
+        /** an item is about to become rotten when shelf life has nearly elapsed */
+        bool is_going_bad() const {
+            return get_relative_rot() > 0.9;
+        }
+
+        /** returns true if item is now rotten after all shelf life has elapsed */
+        bool rotten() const {
+            return get_relative_rot() > 1.0;
+        }
+
+        /** at twice regular shelf life perishable items rot away completely */
+        bool has_rotten_away() const {
+            return get_relative_rot() > 2.0;
+        }
+
     private:
         int rot = 0; /** Accumulated rot is compared to shelf life to decide if item is rotten. */
         /** Turn when the rot calculation was last performed */
@@ -686,8 +752,8 @@ class item : public JsonSerializer, public JsonDeserializer, public visitable<it
         bool destroyed_at_zero_charges() const;
         // Most of the is_whatever() functions call the same function in our itype
         bool is_null() const; // True if type is NULL, or points to the null item (id == 0)
-        bool is_food( player const *u ) const;  // Some non-food items are food to certain players
-        bool is_food_container( player const *u ) const;  // Ditto
+        bool is_food( player const *u ) const; // Some non-food items are food to certain players
+        bool is_food_container( player const *u ) const; // Ditto
         bool is_food() const;                // Ignoring the ability to eat batteries, etc.
         bool is_food_container() const;      // Ignoring the ability to eat batteries, etc.
         bool is_ammo_container() const; // does this item contain ammo? (excludes magazines)
