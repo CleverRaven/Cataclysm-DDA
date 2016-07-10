@@ -2008,6 +2008,11 @@ bool bandolier_actor::reload( const player &p, item &obj ) const
         return parent != &obj && can_store( obj, *e );
     } );
 
+    if( found.empty() ) {
+        p.add_msg_if_player( m_bad, _( "No matching ammo for the %1$s" ), obj.type_name().c_str() );
+        return false;
+    }
+
     // convert these into reload options and display the selection prompt
     std::vector<item::reload_option> opts;
     std::transform( std::make_move_iterator( found.begin() ), std::make_move_iterator( found.end() ),
@@ -2016,6 +2021,9 @@ bool bandolier_actor::reload( const player &p, item &obj ) const
     } );
 
     item::reload_option sel = p.select_ammo( obj, opts );
+    if( !sel ) {
+        return false; // cancelled menu
+    }
 
     // add or stack the ammo dependent upon existing contents
     if( obj.contents.empty() ) {
@@ -2028,7 +2036,11 @@ bool bandolier_actor::reload( const player &p, item &obj ) const
         }
     } else {
         obj.contents.front().charges += sel.qty();
-        sel.ammo.remove_item();
+        if( sel.ammo->charges > sel.qty() ) {
+            sel.ammo->charges -= sel.qty();
+        } else {
+            sel.ammo.remove_item();
+        }
     }
 
     p.add_msg_if_player( _( "You store the %1$s in your %2$s" ),
