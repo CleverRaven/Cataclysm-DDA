@@ -380,28 +380,63 @@ std::vector<std::list<item *>> restack_items( const std::list<item>::const_itera
     return res;
 }
 
-void inventory_selector::add_custom_items( const std::list<item>::const_iterator &from,
-                                           const std::list<item>::const_iterator &to,
-                                           const std::string &title,
-                                           const std::function<std::shared_ptr<item_location>( item * )> &locator )
+void inventory_selector::add_item( const std::shared_ptr<item_location> &location,
+                                   size_t stack_size,
+                                   const std::string &custom_cat_title, nc_color custom_color )
+{
+    if( !filter( *location ) ) {
+        return;
+    }
+
+    const bool is_custom = !custom_cat_title.empty();
+    const item_category *cat_ptr = ( *location )->type->category;
+
+    if( is_custom ) {
+        const std::string name =
+            trim( string_format( _( "%s %s" ),
+                  to_upper_case( custom_cat_title ).c_str(),
+                  direction_suffix( u.pos(), location->position() ).c_str() ) );
+
+        auto cat_iter = std::find_if( categories.begin(), categories.end(),
+        [ &name ]( const item_category &category ) {
+            return category.name == name;
+        } );
+        if( cat_iter == categories.end() ) {
+            cat_iter = categories.insert( cat_iter, item_category( name, name,
+                                                                   INT_MIN + int( categories.size() ) ) );
+        }
+        cat_ptr = &*cat_iter;
+    }
+
+    inventory_entry entry( location, stack_size, cat_ptr );
+
+    if( !u.has_item( *( *location ) ) ) {
+        entry.custom_invlet = ( cur_custom_invlet <= max_custom_invlet ) ? cur_custom_invlet++ : '\0';
+    }
+    entry.custom_color = custom_color;
+
+    if( is_custom ) {
+        if( custom_column == nullptr ) {
+            custom_column.reset( new inventory_column() );
+        }
+        custom_column->add_entry( entry );
+    } else {
+        if( columns.empty() ) {
+            std::unique_ptr<inventory_column> new_column( new inventory_column() );
+            insert_column( columns.end(), new_column );
+        }
+        columns.front()->add_entry( entry );
+    }
+}
+
+void inventory_selector::add_items( const std::list<item>::const_iterator &from,
+                                    const std::list<item>::const_iterator &to,
+                                    const std::string &title,
+                                    const std::function<std::shared_ptr<item_location>( item * )> &locator )
 {
     const auto &stacks = restack_items( from, to );
-
     for( const auto &stack : stacks ) {
-        const auto &location = locator( stack.front() );
-        if( filter( *location ) ) {
-            const std::string name = trim( string_format( _( "%s %s" ), to_upper_case( title ).c_str(),
-                                                          direction_suffix( u.pos(), location->position() ).c_str() ) );
-            if( categories.empty() || categories.back().id != name ) {
-                categories.emplace_back( name, name, INT_MIN + int( categories.size() ) );
-            }
-            if( custom_column == nullptr ) {
-                custom_column.reset( new inventory_column() );
-            }
-            inventory_entry entry( location, stack.size(), &categories.back() );
-            entry.custom_invlet = ( cur_custom_invlet <= max_custom_invlet ) ? cur_custom_invlet++ : '\0';
-            custom_column->add_entry( entry );
-        }
+        add_item( locator( stack.front() ), stack.size(), title );
     }
 }
 
@@ -409,7 +444,7 @@ void inventory_selector::add_map_items( const tripoint &target )
 {
     if( g->m.accessible_items( u.pos(), target, rl_dist( u.pos(), target ) ) ) {
         const auto items = g->m.i_at( target );
-        add_custom_items( items.begin(), items.end(), g->m.name( target ), [ &target ]( item *it ) {
+        add_items( items.begin(), items.end(), g->m.name( target ), [ &target ]( item *it ) {
             return std::make_shared<item_location>( target, it );
         } );
     }
@@ -422,7 +457,7 @@ void inventory_selector::add_vehicle_items( const tripoint &target )
 
     if( veh != nullptr && ( part = veh->part_with_feature( part, "CARGO" ) ) >= 0 ) {
         const auto items = veh->get_items( part );
-        add_custom_items( items.begin(), items.end(), veh->parts[part].name(), [ veh, part ]( item *it ) {
+        add_items( items.begin(), items.end(), veh->parts[part].name(), [ veh, part ]( item *it ) {
             return std::make_shared<item_location>( vehicle_cursor( *veh, part ), it );
         } );
     }
@@ -589,47 +624,22 @@ inventory_selector::inventory_selector( player &u, const std::string &title, con
     ctxt.register_action("HELP_KEYBINDINGS");
     ctxt.register_action("ANY_INPUT"); // For invlets
 
-    std::unique_ptr<inventory_column> first_column( new inventory_column() );
-    std::unique_ptr<inventory_column> second_column( new inventory_column() );
-
     for( size_t i = 0; i < u.inv.size(); ++i ) {
         const auto &stack = u.inv.const_stack( i );
-        const auto location = std::make_shared<item_location>( u, const_cast<item *>( &stack.front() ) );
-
-        if( filter( *location ) ) {
-            first_column->add_entry( inventory_entry( location, stack.size() ) );
-        }
-    }
-
-    if( !first_column->empty() ) {
-        insert_column( columns.end(), first_column );
+        add_item( std::make_shared<item_location>( u, const_cast<item *>( &stack.front() ) ),
+                  stack.size() );
     }
 
     if( u.is_armed() ) {
-        categories.emplace_back( "WEAPON", _( "WEAPON HELD" ), 0 );
-        const auto location = std::make_shared<item_location>( u, &u.weapon );
-        if( filter( *location ) ) {
-            inventory_entry entry( location, &categories.back() );
-            entry.custom_color = c_ltblue;
-            second_column->add_entry( entry );
-        }
+        const std::string cat_title = _( "WEAPON HELD" );
+        add_item( std::make_shared<item_location>( u, &u.weapon ), 1, cat_title, c_ltblue );
     }
 
     if( !u.worn.empty() ) {
-        categories.emplace_back( "ITEMS WORN", _( "ITEMS WORN" ), 0 );
+        const std::string cat_title = _( "ITEMS WORN" );
         for( auto &it : u.worn ) {
-            const auto location = std::make_shared<item_location>( u, &it );
-            if( filter( *location ) ) {
-                inventory_entry entry( location, &categories.back() );
-
-                entry.custom_color = c_cyan;
-                second_column->add_entry( entry );
-            }
+            add_item( std::make_shared<item_location>( u, &it ), 1, cat_title, c_cyan );
         }
-    }
-
-    if( !second_column->empty() ) {
-        insert_column( columns.end(), second_column );
     }
 }
 

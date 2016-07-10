@@ -226,10 +226,15 @@ class inventory_selector
          * See @ref on_action */
         input_context ctxt;
 
-        void add_custom_items( const std::list<item>::const_iterator &from,
-                               const std::list<item>::const_iterator &to,
-                               const std::string &title,
-                               const std::function<std::shared_ptr<item_location>( item * )> &locator );
+        void add_item( const std::shared_ptr<item_location> &location,
+                       size_t stack_size = 1,
+                       const std::string &custom_cat_title = "",
+                       nc_color custom_color = c_unset );
+
+        void add_items( const std::list<item>::const_iterator &from,
+                        const std::list<item>::const_iterator &to,
+                        const std::string &title,
+                        const std::function<std::shared_ptr<item_location>( item * )> &locator );
 
         /** Refreshes item categories */
         void prepare_columns( bool multiselect );
