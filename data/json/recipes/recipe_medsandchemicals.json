@@ -109,7 +109,7 @@
       [ "chemistry_set", 5 ]
     ]
   ],
-  "components": [[ [ "salt_water", 1 ] ]]
+  "components": [ [ [ "salt_water", 1 ] ] ]
 },{
   "type" : "recipe",
   "result": "tallow_tainted",
