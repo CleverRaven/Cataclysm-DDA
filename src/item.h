@@ -301,6 +301,9 @@ class item : public JsonSerializer, public JsonDeserializer, public visitable<it
      */
     bool reload( player &u, item_location loc, long qty );
 
+    /** Eject any spent casings dropping them at @ref pos */
+    void eject_casings( const tripoint &pos );
+
     template<typename Archive>
     void io( Archive& );
     using archive_type_tag = io::object_archive_tag;

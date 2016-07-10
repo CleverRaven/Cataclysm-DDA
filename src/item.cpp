@@ -4641,13 +4641,16 @@ item::reload_option item::pick_reload_ammo( player &u, bool prompt ) const
     return std::move( ammo_list[ menu.ret ] );
 }
 
-// Helper to handle ejecting casings from guns that require them to be manually extracted.
-static void eject_casings( player &p, item& target )
+void item::eject_casings( const tripoint &pos )
 {
-    for( auto it = target.contents.begin(); it != target.contents.end(); ) {
-        if( it->is_ammo() && it->ammo_type() != target.ammo_type() ) {
-            g->m.add_item_or_charges( p.pos(), std::move( *it ) );
-            it = target.contents.erase( it );
+    if( !is_gun() ) {
+        return;
+    }
+
+    for( auto it = contents.begin(); it != contents.end(); ) {
+        if( it->is_ammo() && it->ammo_type() != ammo_type() ) {
+            g->m.add_item_or_charges( pos, std::move( *it ) );
+            it = contents.erase( it );
         } else {
             ++it;
         }
@@ -4694,7 +4697,7 @@ bool item::reload( player &u, item_location loc, long qty )
     item *obj = *target; // what are we trying to reload?
     qty = std::min( qty, obj->ammo_capacity() - obj->ammo_remaining() );
 
-    eject_casings( u, *obj );
+    obj->eject_casings( u.pos() );
 
     if( obj->is_magazine() ) {
         qty = std::min( qty, ammo->charges );
