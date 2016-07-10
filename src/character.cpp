@@ -501,9 +501,36 @@ bool Character::has_active_bionic(const std::string & b) const
     return false;
 }
 
-map_selector Character::nearby( int radius, bool accessible )
+std::vector<item_location> Character::nearby( const std::function<bool(const item *)>& func, int radius ) const
 {
-    return map_selector( pos(), radius, accessible );
+    std::vector<item_location> res;
+
+    visit_items( [&]( const item *e ) {
+        if( func( e ) ) {
+            res.emplace_back( const_cast<Character &>( *this ), const_cast<item *>( e ) );
+        }
+        return VisitResponse::NEXT;
+    } );
+
+    for( const auto &cur : map_selector( pos(), radius ) ) {
+        cur.visit_items( [&]( const item *e ) {
+            if( func( e ) ) {
+                res.emplace_back( cur, const_cast<item *>( e ) );
+            }
+            return VisitResponse::NEXT;
+        } );
+    }
+
+    for( const auto &cur : vehicle_selector( pos(), radius ) ) {
+        cur.visit_items( [&]( const item *e ) {
+            if( func( e ) ) {
+                res.emplace_back( cur, const_cast<item *>( e ) );
+            }
+            return VisitResponse::NEXT;
+        } );
+    }
+
+    return res;
 }
 
 item& Character::i_add(item it)
