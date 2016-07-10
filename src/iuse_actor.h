@@ -660,14 +660,18 @@ class bandolier_actor : public iuse_actor
     public:
         /** Total number of rounds that can be stored **/
         int capacity = 1;
+
         /** What types of ammo can be stored? */
         std::set<ammotype> ammo;
+
+        /** Base move cost per unit volume when storing/retrieving contained items */
+        int draw_cost = VOLUME_MOVE_COST;
 
         /** Check if obj could be stored in the bandolier */
         bool can_store( const item& bandolier, const item& obj ) const;
 
         /** Store ammo in the bandolier */
-        bool reload( const player &p, item& obj ) const;
+        bool reload( player &p, item& obj ) const;
 
         bandolier_actor( const std::string &type = "bandolier" ) : iuse_actor( type ) {}
 

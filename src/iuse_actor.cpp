@@ -1965,6 +1965,8 @@ void bandolier_actor::load( JsonObject &obj )
     for( auto &e : obj.get_tags( "ammo" ) ) {
         ammo.insert( ammotype( e ) );
     }
+
+    draw_cost = obj.get_int( "draw_cost", draw_cost );
 }
 
 void bandolier_actor::info( const item&, std::vector<iteminfo>& dump ) const
@@ -1996,7 +1998,7 @@ bool bandolier_actor::can_store( const item &bandolier, const item &obj ) const
     return std::count( ammo.begin(), ammo.end(), obj.type->ammo->type );
 }
 
-bool bandolier_actor::reload( const player &p, item &obj ) const
+bool bandolier_actor::reload( player &p, item &obj ) const
 {
     if( !obj.is_bandolier() ) {
         debugmsg( "Invalid item passed to bandolier_actor" );
@@ -2024,6 +2026,8 @@ bool bandolier_actor::reload( const player &p, item &obj ) const
     if( !sel ) {
         return false; // cancelled menu
     }
+
+    p.mod_moves( sel.moves() );
 
     // add or stack the ammo dependent upon existing contents
     if( obj.contents.empty() ) {
