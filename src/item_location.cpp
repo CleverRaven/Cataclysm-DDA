@@ -413,3 +413,10 @@ const item *item_location::get_item() const
 {
     return ptr ? ptr->what : nullptr;
 }
+
+item_location item_location::clone() const
+{
+    item_location res;
+    res.ptr = ptr;
+    return res;
+}

@@ -4392,6 +4392,22 @@ item *item::get_usable_item( const std::string &use_name )
     return nullptr;
 }
 
+item::reload_option::reload_option( const reload_option &rhs ) :
+    who( rhs.who ), target( rhs.target ), ammo( rhs.ammo.clone() ),
+    qty_( rhs.qty_ ), max_qty( rhs.max_qty ), parent( rhs.parent ) {}
+
+item::reload_option &item::reload_option::operator=( const reload_option &rhs )
+{
+    who = rhs.who;
+    target = rhs.target;
+    ammo = rhs.ammo.clone();
+    qty_ = rhs.qty_;
+    max_qty = rhs.max_qty;
+    parent = rhs.parent;
+
+    return *this;
+}
+
 item::reload_option::reload_option( const player *who, const item *target, const item *parent, item_location&& ammo ) :
     who( who ), target( target ), ammo( std::move( ammo ) ), parent( parent )
 {
