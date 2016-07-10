@@ -42,7 +42,7 @@ const efftype_id effect_bounced( "bounced" );
 
 static projectile make_gun_projectile( const item &gun );
 int time_to_fire( const Character &p, const itype &firing );
-static inline void eject_casing( player& p, item& weap );
+static void cycle_action( item& weap, const tripoint &pos );
 int recoil_add( player& p, const item& gun, int shot );
 void make_gun_sound_effect(player &p, bool burst, item *weapon);
 extern bool is_valid_in_w_terrain(int, int);
@@ -508,7 +508,7 @@ int player::fire_gun( const tripoint &target, int shots, item& gun )
         make_gun_sound_effect( *this, shots > 1, &gun );
         sfx::generate_gun_sound( *this, gun );
 
-        eject_casing( *this, gun );
+        cycle_action( gun, pos() );
 
         if( gun.ammo_consume( gun.ammo_required(), pos() ) != gun.ammo_required() ) {
             debugmsg( "Unexpected shortage of ammo whilst firing %s", gun.tname().c_str() );
@@ -1416,37 +1416,31 @@ int time_to_fire( const Character &p, const itype &firingt )
     return std::max(info.min_time, info.base - info.reduction * p.get_skill_level( skill_used ));
 }
 
-static inline void eject_casing( player& p, item& weap ) {
+static void cycle_action( item& weap, const tripoint &pos ) {
     // eject casings and linkages in random direction avoiding walls using player position as fallback
-    auto tiles = closest_tripoints_first( 1, p.pos() );
+    auto tiles = closest_tripoints_first( 1, pos );
     tiles.erase( tiles.begin() );
-    tiles.erase( std::remove_if( tiles.begin(), tiles.end(), [&p]( const tripoint& e ) {
+    tiles.erase( std::remove_if( tiles.begin(), tiles.end(), [&]( const tripoint& e ) {
         return !g->m.passable( e );
     } ), tiles.end() );
-    tripoint eject = tiles.empty() ? p.pos() : random_entry( tiles );
+    tripoint eject = tiles.empty() ? pos : random_entry( tiles );
+
+    if( weap.ammo_casing() != "null" ) {
+        if( weap.has_flag( "RELOAD_EJECT" ) || weap.gunmod_find( "brass_catcher" ) ) {
+            weap.emplace_back( weap.ammo_casing(), calendar::turn, 1 );
+
+        } else {
+            g->m.add_item_or_charges( eject, item( weap.ammo_casing(), calendar::turn, 1 ) );
+            sfx::play_variant_sound( "fire_gun", "brass_eject", sfx::get_heard_volume( eject ),
+                                     sfx::get_heard_angle( eject ) );
+        }
+    }
 
     // some magazines also eject disintegrating linkages
     const auto mag = weap.magazine_current();
     if( mag && mag->type->magazine->linkage != "NULL" ) {
         g->m.add_item_or_charges( eject, item( mag->type->magazine->linkage, calendar::turn, 1 ) );
     }
-
-    if( weap.ammo_casing() == "null" ) {
-        return;
-    }
-
-    if( weap.has_flag( "RELOAD_EJECT" ) ) {
-        weap.emplace_back( weap.ammo_casing(), calendar::turn, 1 );
-        return;
-    }
-
-    if( weap.gunmod_find( "brass_catcher" ) ) {
-        p.i_add( item( weap.ammo_casing(), calendar::turn, 1 ) );
-        return;
-    }
-
-    g->m.add_item_or_charges( eject, item( weap.ammo_casing(), calendar::turn, 1 ) );
-    sfx::play_variant_sound( "fire_gun", "brass_eject", sfx::get_heard_volume( eject ), sfx::get_heard_angle( eject ) );
 }
 
 void make_gun_sound_effect(player &p, bool burst, item *weapon)
