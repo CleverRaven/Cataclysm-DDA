@@ -161,8 +161,39 @@ void game::mmenu_refresh_motd()
 
 void game::mmenu_refresh_credits()
 {
-    mmenu_credits = load_file( PATH_INFO::find_translated_file( "creditsdir", ".credits", "credits" ),
-                               _( "No message today." ) );
+    mmenu_credits.clear();
+    std::ifstream stream( PATH_INFO::find_translated_file( "creditsdir", ".credits",
+                          "credits" ).c_str() );
+    std::vector<std::string> buffer;
+    std::string line;
+    std::ostringstream ss;
+    const int lines_per_page = 1 + ( int )( ( TERMY > FULL_SCREEN_HEIGHT ) ?
+                                            ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0 );
+    while( std::getline( stream, line ) ) {
+        if( line[0] == '#' ) {
+            continue;
+        } else {
+            buffer.push_back( line );
+        }
+        if( buffer.size() > 14 || line.empty() ) {
+            ss.str( "" );
+            for( std::vector<std::string>::iterator it = buffer.begin(); it != buffer.end(); ++it ) {
+                ss << *it << std::endl;
+            }
+            mmenu_credits.push_back( ss.str() );
+            buffer.clear();
+        }
+    }
+    if( !buffer.empty() ) {
+        ss.str( "" );
+        for( std::vector<std::string>::iterator it = buffer.begin(); it != buffer.end(); ++it ) {
+            ss << *it << std::endl;
+        }
+        mmenu_credits.push_back( ss.str() );
+    }
+    if( mmenu_credits.empty() ) {
+        mmenu_credits.push_back( _( "No credits information found." ) );
+    }
 }
 
 std::vector<std::string> get_hotkeys( const std::string &s )
@@ -182,6 +213,24 @@ std::vector<std::string> get_hotkeys( const std::string &s )
         hotkeys.push_back( s.substr( lastsep + 1, end - lastsep - 1 ) );
     }
     return hotkeys;
+}
+
+void display_credits()
+{
+    // astyle got this redundant indent
+    WINDOW *w_credits_border = newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
+                                       ( TERMY > FULL_SCREEN_HEIGHT ) ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0,
+                                       ( TERMX > FULL_SCREEN_WIDTH ) ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0 );
+    WINDOW *w_credits = newwin( FULL_SCREEN_HEIGHT - 2, FULL_SCREEN_WIDTH - 2,
+                                1 + ( int )( ( TERMY > FULL_SCREEN_HEIGHT ) ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0 ),
+                                1 + ( int )( ( TERMX > FULL_SCREEN_WIDTH ) ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0 ) );
+    draw_border( w_credits_border, BORDER_COLOR, _( " CREDITS " ) );
+    wrefresh( w_credits_border );
+    refresh();
+    multipage( w_credits, mmenu_credits );
+    delwin( w_credits );
+    delwin( w_credits_border );
+    refresh();
 }
 
 bool game::opening_screen()
@@ -305,7 +354,7 @@ bool game::opening_screen()
     u = player();
 
     while( !start ) {
-        print_menu( w_open, sel1, iMenuOffsetX, iMenuOffsetY, ( sel1 == 0 || sel1 == 7 ) ? false : true );
+        print_menu( w_open, sel1, iMenuOffsetX, iMenuOffsetY, ( sel1 != 0 ) );
 
         if( layer == 1 ) {
             if( sel1 == 0 ) { // Print the MOTD.
@@ -313,15 +362,6 @@ bool game::opening_screen()
                 const int motdx = 8 + extra_w / 2;
                 for( size_t i = 0; i < mmenu_motd.size(); i++ ) {
                     mvwprintz( w_open, motdy + i, motdx, c_ltred, mmenu_motd[i].c_str() );
-                }
-
-                wrefresh( w_open );
-                refresh();
-            } else if( sel1 == 7 ) { // Print the Credits.
-                const int credy = ( iMenuOffsetY - mmenu_credits.size() ) * 2 / 3;
-                const int credx = 8 + extra_w / 2;
-                for( size_t i = 0; i < mmenu_credits.size(); i++ ) {
-                    mvwprintz( w_open, credy + i, credx, c_ltred, mmenu_credits[i].c_str() );
                 }
 
                 wrefresh( w_open );
@@ -359,18 +399,20 @@ bool game::opening_screen()
                 }
                 sfx::play_variant_sound( "menu_move", "default", 100 );
             }
-            if( ( action == "UP" || action == "CONFIRM" ) && sel1 > 0 && sel1 != 7 ) {
+            if( ( action == "UP" || action == "CONFIRM" ) && sel1 > 0 ) {
                 if( sel1 == 5 ) {
                     get_options().show();
-                } else if( sel1 == 6 ) {
+                } else if (sel1 == 6) {
                     display_help();
+                } else if (sel1 == 7) {
+                    display_credits();
                 } else if( sel1 == 8 ) {
                     uquit = QUIT_MENU;
                     return false;
                 } else {
                     sel2 = 0;
                     layer = 2;
-                    print_menu( w_open, sel1, iMenuOffsetX, iMenuOffsetY, ( sel1 == 0 || sel1 == 7 ) ? false : true );
+                    print_menu( w_open, sel1, iMenuOffsetX, iMenuOffsetY, ( sel1 != 0 ) );
                 }
             }
         } else if( layer == 2 ) {
