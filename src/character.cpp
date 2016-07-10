@@ -729,11 +729,11 @@ void find_ammo_helper( T& src, const item& obj, bool empty, Output out, bool nes
     }
 }
 
-std::vector<item_location> Character::find_ammo( const item& obj, bool empty, int radius )
+std::vector<item_location> Character::find_ammo( const item& obj, bool empty, int radius ) const
 {
     std::vector<item_location> res;
 
-    find_ammo_helper( *this, obj, empty, std::back_inserter( res ), true );
+    find_ammo_helper( const_cast<Character &>( *this ), obj, empty, std::back_inserter( res ), true );
 
     if( radius >= 0 ) {
         for( auto& cursor : map_selector( pos(), radius ) ) {

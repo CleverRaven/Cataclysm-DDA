@@ -9712,7 +9712,7 @@ static int select_ammo( const item &base, const std::vector<item::reload_option>
     return menu.ret;
 }
 
-item::reload_option player::pick_reload_ammo( const item& base, bool prompt )
+item::reload_option player::pick_reload_ammo( const item& base, bool prompt ) const
 {
     using reload_option = item::reload_option;
     std::vector<reload_option> ammo_list;

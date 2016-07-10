@@ -403,7 +403,7 @@ class Character : public Creature, public visitable<Character>
          * @param empty whether empty magazines should be considered as possible ammo
          * @param radius adjacent map/vehicle tiles to search. 0 for only player tile, -1 for only inventory
          */
-        std::vector<item_location> find_ammo( const item& obj, bool empty = true, int radius = 1 );
+        std::vector<item_location> find_ammo( const item& obj, bool empty = true, int radius = 1 ) const;
 
         /**
          * Counts ammo and UPS charges (lower of) for a given gun on the character.
