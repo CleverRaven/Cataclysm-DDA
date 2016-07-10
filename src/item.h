@@ -281,7 +281,7 @@ class item : public JsonSerializer, public JsonDeserializer, public visitable<it
 
             int moves() const;
 
-            operator bool() const {
+            explicit operator bool() const {
                 return who && target && ammo && qty_ > 0;
             }
 

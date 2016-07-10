@@ -776,7 +776,10 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
          * Select suitable ammo with which to reload the item
          * @param prompt force display of the menu even if only one choice
          */
-        item::reload_option pick_reload_ammo( const item& base, bool prompt = false ) const;
+        item::reload_option select_ammo( const item& base, bool prompt = false ) const;
+
+        /** Select ammo from the provided options */
+        item::reload_option select_ammo( const item &base, const std::vector<item::reload_option>& opts ) const;
 
         /** Check player strong enough to lift an object unaided by equipment (jacks, levers etc) */
         template <typename T>

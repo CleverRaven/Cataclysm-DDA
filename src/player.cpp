@@ -9571,7 +9571,15 @@ void player::rooted()
     }
 }
 
-static int select_ammo( const item &base, const std::vector<item::reload_option>& opts ) {
+item::reload_option player::select_ammo( const item &base, const std::vector<item::reload_option>& opts ) const
+{
+    using reload_option = item::reload_option;
+
+    if( opts.empty() ) {
+        add_msg_if_player( m_info, _( "Never mind." ) );
+        return reload_option();
+    }
+
     uimenu menu;
     menu.text = string_format( _("Reload %s" ), base.tname().c_str() );
     menu.return_invalid = true;
@@ -9580,7 +9588,7 @@ static int select_ammo( const item &base, const std::vector<item::reload_option>
 
     // Construct item names
     std::vector<std::string> names;
-    std::transform( opts.begin(), opts.end(), std::back_inserter( names ), []( const item::reload_option& e ) {
+    std::transform( opts.begin(), opts.end(), std::back_inserter( names ), []( const reload_option& e ) {
         if( e.ammo->is_magazine() && e.ammo->ammo_data() ) {
             //~ magazine with ammo (count)
             return string_format( _( "%s with %s (%d)" ), e.ammo->type_name().c_str(),
@@ -9597,7 +9605,7 @@ static int select_ammo( const item &base, const std::vector<item::reload_option>
 
     // Get location descriptions
     std::vector<std::string> where;
-    std::transform( opts.begin(), opts.end(), std::back_inserter( where ), []( const item::reload_option& e ) {
+    std::transform( opts.begin(), opts.end(), std::back_inserter( where ), []( const reload_option& e ) {
         if( e.ammo->is_ammo_container() && g->u.is_worn( *e.ammo ) ) {
             return e.ammo->type_name();
         }
@@ -9654,7 +9662,7 @@ static int select_ammo( const item &base, const std::vector<item::reload_option>
         std::function<std::string( int )> draw_row;
 
         bool key( int ch, int idx, uimenu * menu ) override {
-            auto &sel = static_cast<std::vector<item::reload_option> *>( myptr )->operator[]( idx );
+            auto &sel = static_cast<std::vector<reload_option> *>( myptr )->operator[]( idx );
             switch( ch ) {
                 case KEY_LEFT:
                     sel.qty( sel.qty() - 1 );
@@ -9669,7 +9677,7 @@ static int select_ammo( const item &base, const std::vector<item::reload_option>
             return false;
         }
     } cb;
-    cb.setptr( const_cast<std::vector<item::reload_option> *>( &opts ) );
+    cb.setptr( const_cast<std::vector<reload_option> *>( &opts ) );
     cb.draw_row = draw_row;
     menu.callback = &cb;
 
@@ -9704,15 +9712,16 @@ static int select_ammo( const item &base, const std::vector<item::reload_option>
 
     menu.query();
     if( menu.ret < 0 || menu.ret >= ( int ) opts.size() ) {
-        return -1;
+        add_msg_if_player( m_info, _( "Never mind." ) );
+        return reload_option();
     }
 
     const item_location& sel = opts[ menu.ret ].ammo;
     uistate.lastreload[ base.ammo_type() ] = sel->is_ammo_container() ? sel->contents.front().typeId() : sel->typeId();
-    return menu.ret;
+    return std::move( opts[ menu.ret ] );
 }
 
-item::reload_option player::pick_reload_ammo( const item& base, bool prompt ) const
+item::reload_option player::select_ammo( const item& base, bool prompt ) const
 {
     using reload_option = item::reload_option;
     std::vector<reload_option> ammo_list;
@@ -9772,12 +9781,7 @@ item::reload_option player::pick_reload_ammo( const item& base, bool prompt ) co
         }
     }
 
-    int sel = select_ammo( base, ammo_list );
-    if( sel < 0 ) {
-        add_msg_if_player( m_info, _( "Never mind." ) );
-        return reload_option();
-    }
-    return std::move( ammo_list[ sel ] );
+    return std::move( select_ammo( base, ammo_list ) );
 }
 
 bool player::can_wear( const item& it, bool alert ) const
