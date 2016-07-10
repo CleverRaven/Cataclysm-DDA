@@ -3932,7 +3932,7 @@ long item::ammo_remaining() const
         return charges;
     }
 
-    if( is_magazine() ) {
+    if( is_magazine() || type->can_use( "bandolier" ) ) {
         long res = 0;
         for( const auto& e : contents ) {
             res += e.charges;
@@ -3969,6 +3969,10 @@ long item::ammo_capacity() const
 
     if( is_magazine() ) {
         res = type->magazine->capacity;
+    }
+
+    if( type->can_use( "bandolier" ) ) {
+        return dynamic_cast<const bandolier_actor *>( type->get_use( "bandolier" )->get_actor_ptr() )->capacity;
     }
 
     return res;

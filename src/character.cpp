@@ -501,20 +501,20 @@ bool Character::has_active_bionic(const std::string & b) const
     return false;
 }
 
-std::vector<item_location> Character::nearby( const std::function<bool(const item *)>& func, int radius ) const
+std::vector<item_location> Character::nearby( const std::function<bool(const item *, const item *)>& func, int radius ) const
 {
     std::vector<item_location> res;
 
-    visit_items( [&]( const item *e ) {
-        if( func( e ) ) {
+    visit_items( [&]( const item *e, const item *parent ) {
+        if( func( e, parent ) ) {
             res.emplace_back( const_cast<Character &>( *this ), const_cast<item *>( e ) );
         }
         return VisitResponse::NEXT;
     } );
 
     for( const auto &cur : map_selector( pos(), radius ) ) {
-        cur.visit_items( [&]( const item *e ) {
-            if( func( e ) ) {
+        cur.visit_items( [&]( const item *e, const item *parent  ) {
+            if( func( e, parent ) ) {
                 res.emplace_back( cur, const_cast<item *>( e ) );
             }
             return VisitResponse::NEXT;
@@ -522,8 +522,8 @@ std::vector<item_location> Character::nearby( const std::function<bool(const ite
     }
 
     for( const auto &cur : vehicle_selector( pos(), radius ) ) {
-        cur.visit_items( [&]( const item *e ) {
-            if( func( e ) ) {
+        cur.visit_items( [&]( const item *e, const item *parent  ) {
+            if( func( e, parent ) ) {
                 res.emplace_back( cur, const_cast<item *>( e ) );
             }
             return VisitResponse::NEXT;

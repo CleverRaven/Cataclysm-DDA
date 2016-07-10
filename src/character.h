@@ -322,8 +322,8 @@ class Character : public Creature, public visitable<Character>
             return false;
         }
 
-        /** Returns nearby items which match the provided unary predicate */
-        std::vector<item_location> nearby( const std::function<bool(const item *)>& func, int radius = 1 ) const;
+        /** Returns nearby items which match the provided predicate */
+        std::vector<item_location> nearby( const std::function<bool(const item *, const item *)>& func, int radius = 1 ) const;
 
         /**
          * Similar to @ref remove_items_with, but considers only worn items and not their

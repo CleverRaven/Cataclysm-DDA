@@ -667,7 +667,7 @@ class bandolier_actor : public iuse_actor
         bool can_store( const item& bandolier, const item& obj ) const;
 
         /** Store ammo in the bandolier */
-        bool store( player &p, item& bandolier, item& obj ) const;
+        bool reload( const player &p, item& obj ) const;
 
         bandolier_actor( const std::string &type = "bandolier" ) : iuse_actor( type ) {}
 
