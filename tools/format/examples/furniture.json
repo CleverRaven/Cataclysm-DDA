@@ -1,0 +1,38 @@
+[
+  {
+    "id": "f_canvas_wall",
+    "type": "furniture",
+    "name": "canvas wall",
+    "symbol": "#",
+    "color": [ "blue" ],
+    "move_cost_mod": -1,
+    "required_str": -1,
+    "bash": {
+      "str_min": 1,
+      "str_max": 8,
+      "tent_centers": [ "f_groundsheet", "f_fema_groundsheet", "f_skin_groundsheet" ],
+      "sound": "rrrrip!",
+      "sound_fail": "slap!",
+      "sound_vol": 8
+    },
+    "flags": [ "FLAMMABLE_HARD", "NOITEM" ]
+  },
+  {
+    "id": "f_egg_sackbw",
+    "type": "furniture",
+    "name": "spider egg sack",
+    "symbol": "O",
+    "color": [ "white" ],
+    "move_cost_mod": 3,
+    "required_str": 6,
+    "examine_action": "egg_sackbw",
+    "bash": {
+      "str_min": 8,
+      "str_max": 16,
+      "furn_set": "f_egg_sacke",
+      "sound": "splat!",
+      "sound_fail": "whump."
+    },
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "MOUNTABLE", "TINY" ]
+  }
+]

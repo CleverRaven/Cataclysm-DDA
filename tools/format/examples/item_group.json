@@ -1,0 +1,101 @@
+[
+  {
+    "id": "misc_smoking",
+    "type": "item_group",
+    "//": "Smokable item and something to light it with",
+    "subtype": "collection",
+    "items": [
+      {
+        "distribution": [
+          { "item": "cig", "prob": 70, "charges": [ 1, 10 ] },
+          {
+            "collection": [
+              { "item": "tobacco" },
+              {
+                "distribution": [
+                  { "item": "rolling_paper", "prob": 70 },
+                  { "item": "pipe_tobacco", "prob": 30 }
+                ]
+              }
+            ], "prob": 20
+          },
+          { "item": "cigar", "prob": 5, "charges": [ 1, 1 ] },
+          { "item": "joint", "prob": 5 }
+        ]
+      },
+      {
+        "distribution": [
+          { "item": "lighter" },
+          { "item": "matches" }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "mon_zombie_soldier_death_drops",
+    "type": "item_group",
+    "subtype": "collection",
+    "magazine": 100,
+    "ammo": 60,
+    "entries": [
+      {
+        "distribution": [
+          { "group": "clothing_soldier_set", "prob": 65, "damage-min": 1, "damage-max": 4 },
+          { "group": "clothing_soldier_winter_set", "prob": 35, "damage-min": 1, "damage-max": 4 }
+        ]
+      },
+      { "group": "gear_soldier_sidearm", "prob": 30, "damage-min": 1, "damage-max": 4 },
+      {
+        "collection": [
+          {
+            "distribution": [
+              { "group": "guns_rifle_milspec", "prob": 75, "damage-min": 1, "damage-max": 4 },
+              { "group": "guns_shotgun_milspec", "prob": 25, "damage-min": 1, "damage-max": 4 }
+            ]
+          },
+          {
+            "distribution": [
+              { "item": "red_dot_sight", "prob": 100 },
+              { "item": "bayonet", "prob": 50 },
+              { "item": "suppressor", "prob": 100 },
+              { "item": "laser_sight", "prob": 50 },
+              {
+                "collection": [
+                  { "item": "m320" },
+                  { "group": "ammo_launcher_grenade" }
+                ], "prob": 100
+              }
+            ], "prob": 30
+          }
+        ], "prob": 20
+      },
+      {
+        "distribution": [
+          { "item": "LAW_Packed", "prob": 20 },
+          { "item": "e_tool", "prob": 100 },
+          { "item": "mask_gas", "prob": 100, "damage-min": 1, "damage-max": 4 },
+          { "item": "two_way_radio", "prob": 50 },
+          { "item": "c4", "prob": 10 }
+        ], "prob": 20
+      },
+      { "item": "grenade", "prob": 5 },
+      { "group": "drugs_soldier", "prob": 20 },
+      { "group": "mil_food", "prob": 15 },
+      { "item": "id_military", "prob": 5 },
+      { "item": "cash_card" },
+      { "group": "misc_smoking", "prob": 30 }
+    ]
+  },
+  {
+    "id": "tools_carpentry",
+    "type": "item_group",
+    "//": "Portable tools used for carpentry",
+    "items": [
+      { "group": "tools_common", "prob": 100 },
+      [ "circsaw_off", 100 ],
+      [ "cordless_drill", 100 ],
+      [ "hand_drill", 20 ],
+      [ "nailgun", 100 ]
+    ]
+  }
+]
