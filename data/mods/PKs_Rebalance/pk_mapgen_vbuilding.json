@@ -759,7 +759,7 @@
             ]
         }
     },
-	{
+    {
         "type": "mapgen",
         "om_terrain": [
             "s_bookstore"
@@ -842,7 +842,7 @@
             ]
         }
     },
-	{
+    {
         "type"       : "overmap_terrain",
         "id"         : "bowling_alley",
         "name"       : "bowling alley",
