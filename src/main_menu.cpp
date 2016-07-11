@@ -167,8 +167,6 @@ void game::mmenu_refresh_credits()
     std::vector<std::string> buffer;
     std::string line;
     std::ostringstream ss;
-    const int lines_per_page = 1 + ( int )( ( TERMY > FULL_SCREEN_HEIGHT ) ?
-                                            ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0 );
     while( std::getline( stream, line ) ) {
         if( line[0] == '#' ) {
             continue;
