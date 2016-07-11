@@ -170,30 +170,8 @@
         }
     },
     {
-        "id": "basement_survival_last_stand",
-        "type": "item_group",
-        "subtype": "collection",
-        "items": [
-            { "group": "clothing_outdoor_set", "chance": 100, "damage": [1, 4] },
-            { "distribution": [
-                { "item": "m240", "damage": [2, 4] },
-                { "item": "m60", "damage": [2, 4] }
-            ] },
-            { "item": "corpse", "chance": 50, "damage": 4 }
-        ]
-    },
-    {
-        "id": "basement_survival_last_stand_casing",
-        "type": "item_group",
-        "items": [
-            { "item": "308_casing", "charges": [1, 1] }
-        ]
-    },
-    {
         "type": "mapgen",
-        "om_terrain": [
-            "basement"
-        ],
+        "om_terrain": [ "basement" ],
         "method": "json",
         "comment": "survivor basement with sandbags; adds in shackles.",
         "weight": 750,
@@ -298,7 +276,7 @@
                 { "item": "pillow", "chance": 30, "x": 20, "y": 8 }
             ],
             "set": [
-                { "point": "furniture", "id": "f_shackle", "x": 10, "y": 1, "chance": 10 }
+                { "point": "furniture", "id": "f_shackle", "x": 10, "y": 1, "chance": 5 }
             ]
         }
     },
