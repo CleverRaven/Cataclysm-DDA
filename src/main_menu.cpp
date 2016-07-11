@@ -402,9 +402,9 @@ bool game::opening_screen()
             if( ( action == "UP" || action == "CONFIRM" ) && sel1 > 0 ) {
                 if( sel1 == 5 ) {
                     get_options().show();
-                } else if (sel1 == 6) {
+                } else if( sel1 == 6 ) {
                     display_help();
-                } else if (sel1 == 7) {
+                } else if( sel1 == 7 ) {
                     display_credits();
                 } else if( sel1 == 8 ) {
                     uquit = QUIT_MENU;
