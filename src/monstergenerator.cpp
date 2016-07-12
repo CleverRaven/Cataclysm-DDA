@@ -204,7 +204,6 @@ void MonsterGenerator::init_attack()
     attack_map["ACID_ACCURATE"] = &mattack::acid_accurate;
     attack_map["SHOCKSTORM"] = &mattack::shockstorm;
     attack_map["PULL_METAL_WEAPON"] = &mattack::pull_metal_weapon;
-    attack_map["SMOKECLOUD"] = &mattack::smokecloud;
     attack_map["BOOMER"] = &mattack::boomer;
     attack_map["BOOMER_GLOW"] = &mattack::boomer_glow;
     attack_map["RESURRECT"] = &mattack::resurrect;

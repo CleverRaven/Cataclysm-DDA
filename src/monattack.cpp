@@ -612,34 +612,6 @@ bool mattack::pull_metal_weapon(monster *z)
     return true;
 }
 
-bool mattack::smokecloud(monster *z)
-{
-    const auto place_smoke = [&]( const int x, const int y ) {
-        tripoint dest( x, y, z->posz() );
-        if( g->m.passable( dest ) &&
-            g->m.clear_path( z->pos(), dest, 3, 1, 100 ) ) {
-            g->m.add_field( dest, fd_smoke, 2, 0 );
-        }
-    };
-
-    const int monx = z->posx();
-    const int mony = z->posy();
-    for (int i = -3; i <= 3; i++) {
-        for (int j = -3; j <= 3; j++) {
-            place_smoke( monx + i, mony + j );
-        }
-    }
-    //Round it out a bit
-    for( int i = -2; i <= 2; i++ ) {
-        place_smoke( monx + i, mony + 4 );
-        place_smoke( monx + i, mony - 4 );
-        place_smoke( monx + 4, mony + i );
-        place_smoke( monx - 4, mony + i );
-    }
-
-    return true;
-}
-
 bool mattack::boomer(monster *z)
 {
     if( !z->can_act() ) {
