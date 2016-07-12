@@ -452,7 +452,7 @@ int calendar::season_length()
 {
     const auto iter = ACTIVE_WORLD_OPTIONS.find( "SEASON_LENGTH" );
     if( iter != ACTIVE_WORLD_OPTIONS.end() ) {
-        const int length = iter->second;
+        const int length = iter->second.value_as<int>();
         if( length > 0 ) {
             return length;
         }

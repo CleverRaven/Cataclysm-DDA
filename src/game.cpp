@@ -685,7 +685,7 @@ void game::setup()
 {
     load_world_modfiles(world_generator->active_world);
 
-    m =  map( static_cast<bool>( ACTIVE_WORLD_OPTIONS["ZLEVELS"] ) ) ;
+    m =  map( get_world_option<bool>( "ZLEVELS" ) );
 
     next_npc_id = 1;
     next_faction_id = 1;
@@ -809,7 +809,7 @@ bool game::start_game(std::string worldname)
     load_npcs();
     // Spawn the monsters
     const bool spawn_near =
-        ACTIVE_WORLD_OPTIONS["BLACK_ROAD"] || g->scen->has_flag("SUR_START");
+        get_world_option<bool>( "BLACK_ROAD" ) || g->scen->has_flag("SUR_START");
     m.spawn_monsters( !spawn_near ); // Static monsters
 
     // Make sure that no monsters are near the player
@@ -935,7 +935,7 @@ void game::load_mission_npcs()
 
 void game::create_starting_npcs()
 {
-    if (!ACTIVE_WORLD_OPTIONS["STATIC_NPC"]) {
+    if( !get_world_option<bool>( "STATIC_NPC" ) ) {
         return; //Do not generate a starting npc.
     }
 
@@ -1192,12 +1192,12 @@ bool game::cleanup_at_end()
             characters.erase(curchar);
         }
         if (characters.empty()) {
-            if (ACTIVE_WORLD_OPTIONS["DELETE_WORLD"] == "yes" ||
-                (ACTIVE_WORLD_OPTIONS["DELETE_WORLD"] == "query" &&
+            if (get_world_option<std::string>( "DELETE_WORLD" ) == "yes" ||
+                (get_world_option<std::string>( "DELETE_WORLD" ) == "query" &&
                  query_yn(_("Delete saved world?")))) {
                 delete_world(world_generator->active_world->world_name, true);
             }
-        } else if (ACTIVE_WORLD_OPTIONS["DELETE_WORLD"] != "no") {
+        } else if (get_world_option<std::string>( "DELETE_WORLD" ) != "no") {
             std::stringstream message;
             std::string tmpmessage;
             for( auto &character : characters ) {
@@ -3942,7 +3942,7 @@ void game::debug()
                 u.posx(), u.posy(), get_levx(), get_levy(),
                 otermap[overmap_buffer.ter( u.global_omt_location() )].name.c_str(),
                 int( calendar::turn ), int( nextspawn ),
-                ( ACTIVE_WORLD_OPTIONS["RANDOM_NPC"] == "true" ? _( "NPCs are going to spawn." ) :
+                ( get_world_option<bool>( "RANDOM_NPC" ) ? _( "NPCs are going to spawn." ) :
                   _( "NPCs are NOT going to spawn." ) ),
                 num_zombies(), active_npc.size(), events.size() );
             if( !active_npc.empty() ) {
@@ -13812,11 +13812,11 @@ void game::shift_monsters( const int shiftx, const int shifty, const int shiftz 
 void game::spawn_mon(int /*shiftx*/, int /*shifty*/)
 {
     // Create a new NPC?
-    if( !ACTIVE_WORLD_OPTIONS["RANDOM_NPC"] ) {
+    if( !get_world_option<bool>( "RANDOM_NPC" ) ) {
         return;
     }
 
-    float density = ACTIVE_WORLD_OPTIONS["NPC_DENSITY"];
+    float density = get_world_option<float>( "NPC_DENSITY" );
     const int npc_num = get_cur_om().npcs.size();
     if( npc_num > 0 ) {
         // 100%, 80%, 64%, 52%, 41%, 33%...
@@ -14509,7 +14509,7 @@ void game::process_artifact(item *it, player *p)
 }
 void game::start_calendar()
 {
-    calendar::start = HOURS(ACTIVE_WORLD_OPTIONS["INITIAL_TIME"]);
+    calendar::start = HOURS(get_world_option<int>( "INITIAL_TIME" ) );
     if( scen->has_flag("SPR_START") || scen->has_flag("SUM_START") ||
         scen->has_flag("AUT_START") || scen->has_flag("WIN_START") ||
         scen->has_flag("SUM_ADV_START") ) {
@@ -14527,13 +14527,13 @@ void game::start_calendar()
             debugmsg("The Unicorn");
         }
     } else {
-        if( ACTIVE_WORLD_OPTIONS["INITIAL_SEASON"].getValue() == "spring" ) {
+        if( get_world_option<std::string>( "INITIAL_SEASON" ) == "spring" ) {
             calendar::initial_season = SPRING;
             ; // Do nothing.
-        } else if( ACTIVE_WORLD_OPTIONS["INITIAL_SEASON"].getValue() == "summer") {
+        } else if( get_world_option<std::string>( "INITIAL_SEASON" ) == "summer") {
             calendar::initial_season = SUMMER;
             calendar::start += DAYS( calendar::season_length() );
-        } else if( ACTIVE_WORLD_OPTIONS["INITIAL_SEASON"].getValue() == "autumn" ) {
+        } else if( get_world_option<std::string>( "INITIAL_SEASON" ) == "autumn" ) {
             calendar::initial_season = AUTUMN;
             calendar::start += DAYS( calendar::season_length() * 2 );
         } else {
@@ -14543,7 +14543,7 @@ void game::start_calendar()
     }
     calendar::turn = calendar::start;
 
-    if ( ACTIVE_WORLD_OPTIONS["ETERNAL_SEASON"] ) {
+    if ( get_world_option<bool>( "ETERNAL_SEASON" ) ) {
       calendar::eternal_season = true;
     }
 }

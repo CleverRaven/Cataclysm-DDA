@@ -622,7 +622,7 @@ void load_region_settings( JsonObject &jo )
                     std::set<std::string> keys = exjo.get_member_names();
                     for( const auto &key : keys ) {
                         if(key != "//" ) {
-                            if (ACTIVE_WORLD_OPTIONS["CLASSIC_ZOMBIES"]
+                            if (get_world_option<bool>( "CLASSIC_ZOMBIES" )
                                 && classic_extras.count(key) == 0) {
                                 continue;
                             }
@@ -810,7 +810,7 @@ void apply_region_overlay(JsonObject &jo, regional_settings &region)
             std::set<std::string> extrakeys = extrasjo.get_member_names();
             for( const auto &key : extrakeys ) {
                 if( key != "//" ) {
-                    if (ACTIVE_WORLD_OPTIONS["CLASSIC_ZOMBIES"]
+                    if (get_world_option<bool>( "CLASSIC_ZOMBIES" )
                         && classic_extras.count(key) == 0) {
                         continue;
                     }
@@ -851,7 +851,7 @@ void apply_region_overlay(JsonObject &jo, regional_settings &region)
 
 overmap::overmap(int const x, int const y): loc(x, y), nullret(""), nullbool(false)
 {
-    const std::string rsettings_id = ACTIVE_WORLD_OPTIONS["DEFAULT_REGION"].getValue();
+    const std::string rsettings_id = get_world_option<std::string>( "DEFAULT_REGION" );
     t_regional_settings_map_citr rsit = region_settings_map.find( rsettings_id );
 
     if ( rsit == region_settings_map.end() ) {
@@ -2611,7 +2611,7 @@ void overmap::move_hordes()
     zg.insert( tmpzg.begin(), tmpzg.end() );
 
 
-    if(ACTIVE_WORLD_OPTIONS["WANDER_SPAWNS"]) {
+    if(get_world_option<bool>( "WANDER_SPAWNS" ) ) {
         static const mongroup_id GROUP_ZOMBIE("GROUP_ZOMBIE");
 
         // Re-absorb zombies into hordes.
@@ -2885,11 +2885,11 @@ spawns happen at... <cue Clue music>
 20:56 <kevingranade>: game:pawn_mon() in game.cpp:7380*/
 void overmap::place_cities()
 {
-    int op_city_size = int(ACTIVE_WORLD_OPTIONS["CITY_SIZE"]);
+    int op_city_size = get_world_option<int>( "CITY_SIZE" );
     if( op_city_size <= 0 ) {
         return;
     }
-    int op_city_spacing = int(ACTIVE_WORLD_OPTIONS["CITY_SPACING"]);
+    int op_city_spacing = get_world_option<int>( "CITY_SPACING" );
 
     // spacing dictates how much of the map is covered in cities
     //   city  |  cities  |   size N cities per overmap
@@ -3986,7 +3986,7 @@ bool overmap::allow_special(const overmap_special& special, const tripoint& p, i
 
 void overmap::place_specials()
 {
-    const bool CLASSIC_ZOMBIES = ACTIVE_WORLD_OPTIONS["CLASSIC_ZOMBIES"];
+    const bool CLASSIC_ZOMBIES = get_world_option<bool>( "CLASSIC_ZOMBIES" );
     /*
     This function uses pointers in to the @ref overmap_specials container.
     The pointers are assumed to be stable (overmap_specials should not be change during this
@@ -4193,7 +4193,7 @@ void overmap::place_mongroups()
 {
     // Cities are full of zombies
     for( auto &elem : cities ) {
-        if( ACTIVE_WORLD_OPTIONS["WANDER_SPAWNS"] ) {
+        if( get_world_option<bool>( "WANDER_SPAWNS" ) ) {
             if( !one_in( 16 ) || elem.s > 5 ) {
                 mongroup m( mongroup_id( "GROUP_ZOMBIE" ), ( elem.x * 2 ), ( elem.y * 2 ), 0, int( elem.s * 2.5 ),
                             elem.s * 80 );
@@ -4203,13 +4203,13 @@ void overmap::place_mongroups()
                 add_mon_group( m );
             }
         }
-        if( !ACTIVE_WORLD_OPTIONS["STATIC_SPAWN"] ) {
+        if( !get_world_option<bool>( "STATIC_SPAWN" ) ) {
             add_mon_group( mongroup( mongroup_id( "GROUP_ZOMBIE" ), ( elem.x * 2 ), ( elem.y * 2 ), 0,
                                      int( elem.s * 2.5 ), elem.s * 80 ) );
         }
     }
 
-    if (!ACTIVE_WORLD_OPTIONS["CLASSIC_ZOMBIES"]) {
+    if (!get_world_option<bool>( "CLASSIC_ZOMBIES" ) ) {
         // Figure out where swamps are, and place swamp monsters
         for (int x = 3; x < OMAPX - 3; x += 7) {
             for (int y = 3; y < OMAPY - 3; y += 7) {
@@ -4228,7 +4228,7 @@ void overmap::place_mongroups()
         }
     }
 
-    if (!ACTIVE_WORLD_OPTIONS["CLASSIC_ZOMBIES"]) {
+    if (!get_world_option<bool>( "CLASSIC_ZOMBIES" ) ) {
         // Figure out where rivers are, and place swamp monsters
         for (int x = 3; x < OMAPX - 3; x += 7) {
             for (int y = 3; y < OMAPY - 3; y += 7) {
@@ -4247,7 +4247,7 @@ void overmap::place_mongroups()
         }
     }
 
-    if (!ACTIVE_WORLD_OPTIONS["CLASSIC_ZOMBIES"]) {
+    if (!get_world_option<bool>( "CLASSIC_ZOMBIES" ) ) {
         // Place the "put me anywhere" groups
         int numgroups = rng(0, 3);
         for (int i = 0; i < numgroups; i++) {

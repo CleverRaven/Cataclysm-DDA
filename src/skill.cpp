@@ -141,7 +141,7 @@ SkillLevel::SkillLevel(int level, int exercise, bool isTraining, int lastPractic
   : _level(level), _exercise(exercise), _lastPracticed(lastPracticed), _isTraining(isTraining)
 {
     if (lastPracticed <= 0) {
-        _lastPracticed = HOURS(ACTIVE_WORLD_OPTIONS["INITIAL_TIME"]);
+        _lastPracticed = HOURS(get_world_option<int>( "INITIAL_TIME" ) );
     }
 }
 

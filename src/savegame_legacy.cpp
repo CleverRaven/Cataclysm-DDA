@@ -410,7 +410,7 @@ void overmap::unserialize_legacy(std::istream & fin) {
                                 // temporary; user changed option, this overmap should remain whatever it was set to.
                                 settings = rit->second; // todo optimize
                             } else { // ruh-roh! user changed option and deleted the .json with this overmap's region. We'll have to become current default. And whine about it.
-                                std::string tmpopt = ACTIVE_WORLD_OPTIONS["DEFAULT_REGION"].getValue();
+                                std::string tmpopt = get_world_option<std::string>( "DEFAULT_REGION" );
                                 rit = region_settings_map.find( tmpopt );
                                 if ( rit == region_settings_map.end() ) { // ...oy. Hopefully 'default' exists. If not, it's crashtime anyway.
                                     debugmsg("               WARNING: overmap uses missing region settings '%s'                 \n\

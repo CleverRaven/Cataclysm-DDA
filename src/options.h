@@ -198,4 +198,10 @@ inline T get_option( const std::string &name )
     return OPTIONS[name].value_as<T>();
 }
 
+template<typename T>
+inline T get_world_option( const std::string &name )
+{
+    return ACTIVE_WORLD_OPTIONS[name].value_as<T>();
+}
+
 #endif
