@@ -890,6 +890,19 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
 
         insert_separation_line();
 
+        // effective range is a 50% chance of a good hit spanning from nil to maximum aim
+        int e_min = round( g->u.gun_effective_range( *mod,  0, MIN_RECOIL ) );
+        int e_max = round( g->u.gun_effective_range( *mod, -1, MIN_RECOIL ) );
+
+        if( e_min != e_max ) {
+            info.emplace_back( "GUN", _( "<bold>Effective range:</bold> " ), "<num>", e_min, true, "", false );
+            info.emplace_back( "GUN", "e_max", "<num>", e_max, true, "-", true, false, false );
+
+        } else if( e_min > 0 ) {
+            // nothing displayed if both values zero
+            info.emplace_back( "GUN", _( "<bold>Effective range: </bold>" ), "<num>", e_min );
+        }
+
         info.push_back( iteminfo( "GUN", _( "Damage: " ), "", mod->gun_damage( false ), true, "", false, false ) );
 
         if( has_ammo ) {
@@ -914,19 +927,7 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
                                       mod->gun_pierce( true ), true, "", true, false, false ) );
         }
 
-        info.push_back( iteminfo( "GUN", _( "Range: " ), "", mod->gun_range( false ), true, "", false,
-                                  false ) );
-        if( has_ammo ) {
-            temp1.str( "" );
-            temp1 << ( ammo_range >= 0 ? "+" : "" );
-            // ammo_range and sum_of_range don't need to translate.
-            info.push_back( iteminfo( "GUN", "ammo_range", "",
-                                      ammo_range, true, temp1.str(), false, false, false ) );
-            info.push_back( iteminfo( "GUN", "sum_of_range", _( " = <num>" ),
-                                      mod->gun_range( true ), true, "", false, false, false ) );
-        }
-
-        info.push_back( iteminfo( "GUN", space + _( "Dispersion: " ), "",
+        info.push_back( iteminfo( "GUN", _( "Dispersion: " ), "",
                                   mod->gun_dispersion( false ), true, "", !has_ammo, true ) );
         if( has_ammo ) {
             temp1.str( "" );
