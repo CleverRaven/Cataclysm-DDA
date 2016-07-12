@@ -1,6 +1,6 @@
 {
     "type": "MOD_INFO",
-    "mod_type": "SUPPLEMENTAL",
+    "mod-type": "SUPPLEMENTAL",
     "ident": "blazemod",
     "name": "Vehicle Additions Pack",
     "description": "Please see the included PAQ.txt in the mod folder if you encounter any issues.",
