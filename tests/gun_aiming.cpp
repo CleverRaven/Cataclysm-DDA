@@ -15,8 +15,8 @@ static void test_internal( const npc& who, const item &gun )
 
     WHEN( "a higher accuracy is requested" ) {
         THEN( "the effective range is worse" ) {
-            REQUIRE( who.gun_effective_range( gun, 0, 50, accuracy_grazing ) >
-                     who.gun_effective_range( gun, 0, 50, accuracy_critical  ) );
+            REQUIRE( who.gun_effective_range( gun, 0, 50, -1, accuracy_grazing ) >
+                     who.gun_effective_range( gun, 0, 50, -1, accuracy_critical  ) );
         }
     }
 

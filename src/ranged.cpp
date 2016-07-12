@@ -382,35 +382,38 @@ dealt_projectile_attack Creature::projectile_attack( const projectile &proj_arg,
     return attack;
 }
 
-double player::gun_effective_range( const item& gun, int aim, unsigned chance, double accuracy ) const
+double player::gun_effective_range( const item& gun, int aim, int penalty, unsigned chance, double accuracy ) const
 {
     if( !gun.is_gun() || !gun.ammo_sufficient() ) {
         return 0;
     }
 
-    // get current effective player recoil
-    int max_recoil = std::max( recoil, 0 );
-    if( recoil < 0 ) {
-        debugmsg( "negative player recoil when calculating effective range" );
+    int driving = 0;
+    if( penalty < 0 ) {
+        // get current effective player recoil
+        penalty = std::max( recoil, 0 );
+        if( recoil < 0 ) {
+            debugmsg( "negative player recoil when calculating effective range" );
+        }
+
+        // get maximum penalty from driving
+        driving = std::max( driving_recoil, 0 );
+        if( driving_recoil < 0 ) {
+            debugmsg( "negative driving recoil when calculating effective range" );
+        }
     }
 
     // aim_per_time() returns improvement (in MOA) per 10 moves
     for( int i = aim * 10; i != 0; --i ) {
-        int adj = aim_per_time( gun, max_recoil );
+        int adj = aim_per_time( gun, penalty );
         if( adj <= 0 ) {
             break; // no further improvement is possible
         }
-        max_recoil -= adj;
-    }
-
-    // apply maximum penalty from driving
-    max_recoil += std::max( driving_recoil, 0 );
-    if( driving_recoil < 0 ) {
-        debugmsg( "negative driving recoil when calculating effective range" );
+        penalty -= adj;
     }
 
     // calculate maximum potential dispersion
-    double dispersion = get_weapon_dispersion( &gun, false ) + max_recoil;
+    double dispersion = get_weapon_dispersion( &gun, false ) + penalty + driving;
 
     // cap at min 1MOA as at zero dispersion would result in an infinite effective range
     dispersion = std::max( dispersion, 1.0 );

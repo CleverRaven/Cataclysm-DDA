@@ -498,12 +498,13 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
          * Calculate range at which given chance of hit considering player stats, clothing and recoil
          * @param gun ranged weapon which must have sufficient ammo for at least one shot
          * @param aim maximum turns to spend aiming (or unlimited if negative)
+         * @param penalty if set (non-negative) use this value instead of current total player recoil
          * @param chance probability of hit, range [0-100)
          * @param accuracy minimum accuracy required
          * @return range in tiles (with default arguments this is the maximum effective range)
          */
-        double gun_effective_range( const item& gun, int aim = -1, unsigned chance = 50,
-                                    double accuracy = accuracy_goodhit ) const;
+        double gun_effective_range( const item& gun, int aim = -1, int penalty = -1,
+                                    unsigned chance = 50, double accuracy = accuracy_goodhit ) const;
 
         /**
          *  Fires a gun or axuiliary gunmod (ignoring any current mode)
