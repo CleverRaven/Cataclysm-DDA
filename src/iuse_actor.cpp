@@ -816,7 +816,7 @@ long pick_lock_actor::use( player *p, item *it, bool, const tripoint& ) const
         p->add_msg_if_player( m_bad, _( "The lock stumps your efforts to pick it." ) );
     }
     if( type == t_door_locked_alarm && ( door_roll + dice( 1, 30 ) ) > pick_roll ) {
-        sounds::sound( p->pos(), 40, _( "An alarm sounds!" ) );
+        sounds::sound( p->pos(), 40, _( "an alarm sound!" ) );
         if( !g->event_queued( EVENT_WANTED ) ) {
             g->add_event( EVENT_WANTED, int( calendar::turn ) + 300, 0, p->global_sm_location() );
         }
