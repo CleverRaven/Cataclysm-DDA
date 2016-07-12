@@ -5109,11 +5109,13 @@
         "warmth" : 0,
         "environmental_protection" : 1,
         "encumbrance" : 0,
-        "flags" : ["WATER_FRIENDLY", "LENS"],
+        "flags" : "WATER_FRIENDLY",
         "coverage" : 75,
         "material_thickness" : 1,
         "use_action": {
-            "type": "extended_firestarter",
+            "type": "firestarter",
+            "moves": 1000,
+            "moves_slow": 25000,
             "need_sunlight": true
         }
     },
@@ -5134,11 +5136,13 @@
         "warmth" : 0,
         "environmental_protection" : 1,
         "encumbrance" : 0,
-        "flags" : ["WATER_FRIENDLY", "LENS"],
+        "flags" : "WATER_FRIENDLY",
         "coverage" : 75,
         "material_thickness" : 1,
         "use_action": {
-            "type": "extended_firestarter",
+            "type": "firestarter",
+            "moves": 1000,
+            "moves_slow": 25000,
             "need_sunlight": true
         }
     },
@@ -5269,9 +5273,11 @@
         "encumbrance" : 0,
         "coverage" : 20,
         "material_thickness" : 1,
-        "flags" : ["SUPER_FANCY","LENS"],
+        "flags" : "SUPER_FANCY",
         "use_action": {
-            "type": "extended_firestarter",
+            "type": "firestarter",
+            "moves": 1000,
+            "moves_slow": 25000,
             "need_sunlight": true
         }
     },
@@ -6585,8 +6591,13 @@
         "encumbrance" : 5,
         "coverage" : 5,
         "material_thickness" : 1,
-        "flags" : ["QUIVER_20", "WAIST", "VARSIZE", "OVERSIZE"],
-        "use_action" : "QUIVER"
+        "flags" : [ "WAIST", "VARSIZE", "OVERSIZE" ],
+        "use_action" : {
+            "type": "bandolier",
+            "capacity": 20,
+            "ammo": [ "arrow" ],
+            "draw_cost": 3
+        }
     },
     {
         "type" : "ARMOR",
@@ -6606,8 +6617,13 @@
         "encumbrance" : 10,
         "coverage" : 5,
         "material_thickness" : 1,
-        "flags" : ["QUIVER_20", "WAIST", "VARSIZE", "OVERSIZE"],
-        "use_action" : "QUIVER"
+        "flags" : [ "WAIST", "VARSIZE", "OVERSIZE" ],
+        "use_action" : {
+            "type": "bandolier",
+            "capacity": 20,
+            "ammo": [ "arrow" ],
+            "draw_cost": 3
+        }
     },
     {
         "type" : "ARMOR",
@@ -6627,8 +6643,13 @@
         "encumbrance" : 7,
         "coverage" : 15,
         "material_thickness" : 1,
-        "flags" : ["QUIVER_60", "BELTED", "VARSIZE", "OVERSIZE"],
-        "use_action" : "QUIVER"
+        "flags" : [ "BELTED", "VARSIZE", "OVERSIZE" ],
+        "use_action" : {
+            "type": "bandolier",
+            "capacity": 60,
+            "ammo": [ "arrow" ],
+            "draw_cost": 3
+        }
     },
     {
         "type" : "ARMOR",
@@ -6648,8 +6669,13 @@
         "encumbrance" : 14,
         "coverage" : 15,
         "material_thickness" : 1,
-        "flags" : ["QUIVER_60", "BELTED", "VARSIZE", "OVERSIZE"],
-        "use_action" : "QUIVER"
+        "flags" : [ "BELTED", "VARSIZE", "OVERSIZE" ],
+        "use_action" : {
+            "type": "bandolier",
+            "capacity": 60,
+            "ammo": [ "arrow" ],
+            "draw_cost": 3
+        }
     },
     {
         "type" : "ARMOR",

@@ -4,7 +4,7 @@
         "id" : "FLEET",
         "name" : "Fleet-Footed",
         "points" : 2,
-        "description" : "You can run more quickly than most, resulting in a 15% speed bonus on sure footing.",
+        "description" : "You can move more quickly than most, resulting in a 15% speed bonus on sure footing.",
         "starting_trait" : true,
         "changes_to" : ["FLEET2"],
         "category" : ["MUTCAT_SPIDER"],
@@ -827,9 +827,9 @@
     },{
         "type" : "mutation",
         "id" : "SLOWRUNNER",
-        "name" : "Slow Runner",
+        "name" : "Slow Footed",
         "points" : -3,
-        "description" : "You can't run as fast as most, resulting in a 15% speed penalty on flat ground.",
+        "description" : "You can't move as fast as most, resulting in a 15% speed penalty on flat ground.",
         "starting_trait" : true,
         "cancels" : ["FLEET"]
     },{
@@ -1319,7 +1319,7 @@
         "id" : "LIGHT_BONES",
         "name" : "Light Bones",
         "points" : 2,
-        "description" : "Your bones are very light.  This enables you to run and attack 10% faster, but also reduces your carrying weight by 20% and makes bashing attacks hurt a little more.",
+        "description" : "Your bones are very light.  This enables you to move and attack 10% faster, but also reduces your carrying weight by 20% and makes bashing attacks hurt a little more.",
         "changes_to" : ["HOLLOW_BONES"]
     },{
         "type" : "mutation",
@@ -2046,7 +2046,7 @@
         "name" : "Padded Feet",
         "points" : 1,
         "visibility" : 1,
-        "description" : "The bottoms of your feet are strongly padded.  You receive no movement penalty for not wearing shoes, and even receive a 10% bonus when running barefoot.",
+        "description" : "The bottoms of your feet are strongly padded.  You receive no movement penalty for not wearing shoes, and even receive a 10% bonus when moving barefoot.",
         "cancels" : ["HOOVES", "LEG_TENTACLES", "RAP_TALONS", "ROOTS1", "ROOTS2", "ROOTS3"],
         "category" : ["MUTCAT_BEAST", "MUTCAT_URSINE", "MUTCAT_FELINE", "MUTCAT_LUPINE"]
     },{
@@ -2057,7 +2057,7 @@
         "visibility" : 4,
         "ugliness" : 2,
         "mixed_effect" : true,
-        "description" : "You have grown large, curved, and wickedly sharp talons in place of your big toes.  Fortunately, they don't get in the way of your walking.  Unfortunately, they do prevent you from wearing footgear.",
+        "description" : "You have grown large, curved, and wickedly sharp talons in place of your big toes.  Fortunately, they don't get in the way of your movement.  Unfortunately, they do prevent you from wearing footgear.",
         "valid" : false,
         "cancels" : ["PADDED_FEET", "LEG_TENTACLES", "HOOVES", "ROOTS1", "ROOTS2", "ROOTS3"],
         "category" : ["MUTCAT_RAPTOR"],
@@ -2321,7 +2321,7 @@
         "id" : "FLEET2",
         "name" : "Road-Runner",
         "points" : 3,
-        "description" : "Your legs are extremely limber and fast-moving.  You run 30% faster on flat surfaces.",
+        "description" : "Your legs are extremely limber and fast-moving.  You move 30% faster on flat surfaces.",
         "prereqs" : ["FLEET"],
         "cancels" : ["PONDEROUS1", "PONDEROUS2", "PONDEROUS3"],
         "category" : ["MUTCAT_BIRD"]
@@ -2842,10 +2842,14 @@
         "id" : "WEB_ROPE",
         "name" : "Rope Webs",
         "points" : 3,
-        "description" : "With spinnerets like THESE, who needs rope?!  Your natural abilities can handle that part of most construction projects.",
+        "description" : "With spinnerets like THESE, who needs rope?!  Activate to produce rope.",
         "prereqs" : ["WEB_WEAVER"],
         "threshreq" : ["THRESH_SPIDER"],
-        "category" : ["MUTCAT_SPIDER"]
+        "category" : ["MUTCAT_SPIDER"],
+        "active"     :    true,
+        "cost"       :    30,
+        "hunger"     :    true,
+        "thirst"     :    true
     },{
         "type" : "mutation",
         "id" : "WHISKERS",
@@ -3530,7 +3534,7 @@
         "name" : "Hollow Bones",
         "points" : 1,
         "mixed_effect" : true,
-        "description" : "You have Avian Bone Syndrome--your bones are nearly hollow.  Your body is very light as a result, enabling you to run and attack 20% faster, but also frail; you can carry 40% less, and bashing attacks injure you more.",
+        "description" : "You have Avian Bone Syndrome--your bones are nearly hollow.  Your body is very light as a result, enabling you to move and attack 20% faster, but also frail; you can carry 40% less, and bashing attacks injure you more.",
         "prereqs" : ["LIGHT_BONES"],
         "category" : ["MUTCAT_BIRD", "MUTCAT_SLIME", "MUTCAT_ELFA"]
     },{
@@ -3976,7 +3980,7 @@
         "id" : "PONDEROUS1",
         "name" : "Ponderous",
         "points" : -3,
-        "description" : "Your muscles are generally slow to move.  You run 10% slower.",
+        "description" : "Your muscles are generally slow to move.  You move 10% slower.",
         "cancels" : ["FLEET", "FLEET2"],
         "changes_to" : ["PONDEROUS2"],
         "category" : ["MUTCAT_URSINE"]
@@ -3985,7 +3989,7 @@
         "id" : "PONDEROUS2",
         "name" : "Very Ponderous",
         "points" : -5,
-        "description" : "Your muscles are quite slow to move.  You run 20% slower.",
+        "description" : "Your muscles are quite slow to move.  You move 20% slower.",
         "cancels" : ["FLEET", "FLEET2"],
         "prereqs" : ["PONDEROUS1"],
         "changes_to" : ["PONDEROUS3"],
@@ -3995,7 +3999,7 @@
         "id" : "PONDEROUS3",
         "name" : "Extremely Ponderous",
         "points" : -6,
-        "description" : "Your muscles are very slow to move.  You run 30% slower.",
+        "description" : "Your muscles are very slow to move.  You move 30% slower.",
         "cancels" : ["FLEET", "FLEET2"],
         "prereqs" : ["PONDEROUS2"],
         "category" : ["MUTCAT_PLANT"]

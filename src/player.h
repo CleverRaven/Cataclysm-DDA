@@ -2,7 +2,7 @@
 #define PLAYER_H
 
 #include "character.h"
-#include "craft_command.h"
+#include "copyable_unique_ptr.h"
 #include "item.h"
 #include "player_activity.h"
 #include "weighted_list.h"
@@ -28,8 +28,11 @@ enum game_message_type : int;
 class ma_technique;
 class martialart;
 struct recipe;
+struct component;
 struct item_comp;
 struct tool_comp;
+template<typename CompType> struct comp_selection;
+class craft_command;
 class vehicle;
 class vitamin;
 using vitamin_id = string_id<vitamin>;
@@ -137,11 +140,11 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
 {
     public:
         player();
-        player(const player &) = default;
-        player(player &&) = default;
+        player(const player &);
+        player(player &&);
         ~player() override;
-        player &operator=(const player &) = default;
-        player &operator=(player &&) = default;
+        player &operator=(const player &);
+        player &operator=(player &&);
 
         // newcharacter.cpp
         bool create(character_type type, std::string tempname = "");
@@ -373,7 +376,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /**
          * Get all hostile creatures currently visible to this player.
          */
-         std::vector<Creature*> get_hostile_creatures() const;
+         std::vector<Creature*> get_hostile_creatures( int range ) const;
 
         /**
          * Returns all creatures that this player can see and that are in the given
@@ -511,6 +514,18 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
          * @return true if the armor was completely destroyed (and the item must be deleted).
          */
         bool armor_absorb( damage_unit &du, item &armor );
+        /**
+         * Check for passive bionics that provide armor, and returns the armor bonus
+         * This is called from player::passive_absorb_hit
+         */
+         float bionic_armor_bonus( body_part bp, damage_type dt ) const;
+        /**
+         * Check for relevant passive, non-clothing that can absorb damage, and reduce @ref du
+         * Only flat bonuses are checked here. Multiplicative ones are checked in player::absorb_hit
+         * @ref du.amount will never be reduced below 0
+         * This is called from @ref player::absorb_hit
+         */
+         void passive_absorb_hit( body_part bp, damage_unit &du ) const;
         /** Runs through all bionics and armor on a part and reduces damage through their armor_absorb */
         void absorb_hit(body_part bp, damage_instance &dam) override;
         /** Called after the player has successfully dodged an attack */
@@ -622,6 +637,11 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Returns a value used when attempting to intimidate NPC's */
         int intimidation() const;
 
+        /**
+         * Returns true if it is impossible for @ref dam to reduce the player's HP on his/her @ref bp
+         * @warning Only HP is accounted for- not damaged clothing, pain, status effects, etc.
+         */
+        bool immune_to( body_part bp, damage_unit dam ) const;
         /** Calls Creature::deal_damage and handles damaged effects (waking up, etc.) */
         dealt_damage_instance deal_damage(Creature *source, body_part bp, const damage_instance &d) override;
         /** Actually hurt the player, hurts a body_part directly, no armor reduction */
@@ -769,6 +789,15 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         void rooted_message() const;
         void rooted();
 
+        /**
+         * Select suitable ammo with which to reload the item
+         * @param prompt force display of the menu even if only one choice
+         */
+        item::reload_option select_ammo( const item& base, bool prompt = false ) const;
+
+        /** Select ammo from the provided options */
+        item::reload_option select_ammo( const item &base, const std::vector<item::reload_option>& opts ) const;
+
         /** Check player strong enough to lift an object unaided by equipment (jacks, levers etc) */
         template <typename T>
         bool can_lift( const T& obj ) const {
@@ -863,10 +892,16 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Swap side on which item is worn; returns false on fail. If interactive is false, don't alert player or drain moves */
         bool change_side( item *target, bool interactive = true );
         bool change_side( int pos, bool interactive = true );
-        /** Takes off an item, returning false on fail, if an item vector
-         *  is given, stores the items in that vector and not in the inventory */
-        bool takeoff( item *target, bool autodrop = false, std::vector<item> *items = nullptr );
-        bool takeoff( int pos, bool autodrop = false, std::vector<item> *items = nullptr );
+
+        /** Returns all items that must be taken off before taking off this item */
+        std::list<const item *> get_dependent_worn_items( const item &it ) const;
+        /** Takes off an item, returning false on fail. The taken off item is processed in the @param interact */
+        bool takeoff( const item &it, std::list<item> *res = nullptr );
+        bool takeoff( int pos );
+        /** Drops an item to the specified location */
+        void drop( int pos, const tripoint &where = tripoint_min );
+        void drop( const std::list<std::pair<int, int>> &what, const tripoint &where = tripoint_min, bool stash = false );
+
         /** Try to wield a contained item consuming moves proportional to weapon skill and volume.
          *  @param pos index of contained item to wield. Set to -1 to show menu if container has more than one item
          *  @param factor scales moves cost and can be set to zero if item should be wielded without any delay
@@ -1053,8 +1088,6 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
 
         int  leak_level( std::string flag ) const; // carried items may leak radiation or chemicals
 
-        // Check for free container space for the whole liquid item
-        bool has_container_for( const item &liquid ) const;
         // Has a weapon, inventory item or worn item with flag
         bool has_item_with_flag( const std::string &flag ) const;
 
@@ -1234,7 +1267,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         std::vector <addiction> addictions;
 
         void make_craft_with_command( const std::string &id_to_make, int batch_size, bool is_long = false );
-        craft_command last_craft;
+        copyable_unique_ptr<craft_command> last_craft;
 
         std::string lastrecipe;
         int last_batch;

@@ -83,6 +83,38 @@
     "flags": [ "LIGHT_300", "CHARGEDIM", "TRADER_AVOID" ]
   },
   {
+    "id": "handflare",
+    "type": "TOOL",
+    "name": "flare",
+    "description": "This is a slow-burning magnesium flare.  Use it to strike the striker and light it.  It will produce a bright light for about a half hour.",
+    "material": [ "plastic", "powder" ],
+    "symbol": ";",
+    "color": "light_red",
+    "weight": 128,
+    "volume": 1,
+    "price": 400,
+    "max_charges": 300,
+    "initial_charges": 300,
+    "use_action": {
+        "type": "transform",
+        "target": "handflare_lit",
+        "active": true,
+        "msg": "You strike your flare and light it."
+    }
+  },
+  {
+    "id": "handflare_lit",
+    "copy-from": "handflare",
+    "type": "TOOL",
+    "name": "active flare",
+    "description": "This burning magnesium flare is producing light.  It will last for about a half hour before burning out.",
+    "color": "white",
+    "turns_per_charge": 1,
+    "revert_to": "handflare_dead",
+    "revert_msg": "The flare sputters out",
+    "flags": [ "FIRE", "LIGHT_240", "CHARGEDIM", "FLAMING", "TRADER_AVOID" ]
+  },
+  {
     "id": "heavy_flashlight",
     "type": "TOOL",
     "name": "heavy duty flashlight (off)",

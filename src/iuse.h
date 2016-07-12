@@ -153,7 +153,6 @@ public:
     int spray_can           ( player*, item*, bool, const tripoint& );
     int heatpack            ( player*, item*, bool, const tripoint& );
     int hotplate            ( player*, item*, bool, const tripoint& );
-    int quiver              ( player*, item*, bool, const tripoint& );
     int towel               ( player*, item*, bool, const tripoint& );
     int unfold_generic      ( player*, item*, bool, const tripoint& );
     int adrenaline_injector ( player*, item*, bool, const tripoint& );
@@ -278,6 +277,10 @@ public:
     iuse_actor *get_actor_ptr() const
     {
         return actor.get();
+    }
+
+    explicit operator bool() const {
+        return actor.get() != nullptr;
     }
 
     /** @return See @ref iuse_actor::type */

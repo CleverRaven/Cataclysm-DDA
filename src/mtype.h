@@ -41,6 +41,9 @@ using material_id = string_id<material_type>;
 
 typedef std::string itype_id;
 
+class emit;
+using emit_id = string_id<emit>;
+
 // These are triggers which may affect the monster's anger or morale.
 // They are handled in monster::check_triggers(), in monster.cpp
 enum monster_trigger : int {
@@ -320,6 +323,9 @@ struct mtype {
          * of this type (if it's friendly).
          */
         itype_id revert_to_itype;
+
+        /** Emission sources that cycle each turn the monster remains alive */
+        std::set<emit_id> emit_fields;
 
         // Used to fetch the properly pluralized monster type name
         std::string nname(unsigned int quantity = 1) const;

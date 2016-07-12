@@ -16,6 +16,7 @@
 #include "string_id.h"
 #include "line.h"
 #include "item_location.h"
+#include "damage.h"
 #include "debug.h"
 
 class game;
@@ -150,6 +151,9 @@ class item : public JsonSerializer, public JsonDeserializer, public visitable<it
          */
         item& deactivate( const Character *ch = nullptr, bool alert = true );
 
+        /** Filter converting instance to active state */
+        item& activate();
+
         /**
          * Filter setting the ammo for this instance
          * Any existing ammo is removed. If necessary a default magazine is also added.
@@ -264,6 +268,9 @@ class item : public JsonSerializer, public JsonDeserializer, public visitable<it
         public:
             reload_option() = default;
 
+            reload_option( const reload_option & );
+            reload_option &operator=( const reload_option & );
+
             reload_option( const player *who, const item *target, const item *parent, item_location&& ammo );
 
             const player *who = nullptr;
@@ -275,7 +282,7 @@ class item : public JsonSerializer, public JsonDeserializer, public visitable<it
 
             int moves() const;
 
-            operator bool() const {
+            explicit operator bool() const {
                 return who && target && ammo && qty_ > 0;
             }
 
@@ -284,13 +291,6 @@ class item : public JsonSerializer, public JsonDeserializer, public visitable<it
             long max_qty = LONG_MAX;
             const item *parent = nullptr;
     };
-
-    /**
-     * Select suitable ammo with which to reload the item
-     * @param u player inventory to search for suitable ammo.
-     * @param prompt force display of the menu even if only one choice
-     */
-    reload_option pick_reload_ammo( player &u, bool prompt = false ) const;
 
     /**
      * Reload item using ammo from location returning true if sucessful
@@ -459,9 +459,9 @@ class item : public JsonSerializer, public JsonDeserializer, public visitable<it
      * @param allow_bucket Allow filling non-sealable containers
      */
     long get_remaining_capacity_for_liquid( const item &liquid, bool allow_bucket = false,
-                                            int volume_limit = INT_MAX ) const;
-    long get_remaining_capacity_for_liquid( const item &liquid, std::string &err,
-                                            bool allow_bucket = false, int volume_limit = INT_MAX ) const;
+                                            std::string *err = nullptr ) const;
+    long get_remaining_capacity_for_liquid( const item &liquid, const Character &p,
+                                            std::string *err = nullptr ) const;
     /**
      * It returns the total capacity (volume) of the container. This is a volume,
      * use @ref liquid_charges (of a liquid item) to translate that volume to the
@@ -633,8 +633,9 @@ public:
     /**
      * Whether the items is flammable. (Make sure to keep this in sync with
      * fire code in fields.cpp)
+     * @param threshold Item is flammable if it provides more fuel than threshold.
      */
-    bool flammable() const;
+    bool flammable( int threshold = 0 ) const;
     /*@}*/
 
     /**
@@ -652,6 +653,11 @@ public:
     int fire_resist( bool to_self = false ) const;
     /*@}*/
 
+    /**
+     * Assuming that @du hit the armor, reduce @du based on the item's resistance to the damage type.
+     * This will never reduce @du.amount below 0.
+     */
+     void mitigate_damage( damage_unit &du ) const;
     /**
      * Resistance provided by this item against damage type given by an enum.
      */
@@ -744,6 +750,7 @@ public:
  bool is_bionic() const;
  bool is_magazine() const;
  bool is_ammo_belt() const;
+ bool is_bandolier() const;
  bool is_ammo() const;
  bool is_armor() const;
  bool is_book() const;
@@ -1097,6 +1104,11 @@ public:
          * use the various functions above (like @ref get_storage) to access armor data directly.
          */
         const islot_armor *find_armor_data() const;
+        /**
+         * Returns true whether this item can be worn only when @param it is worn.
+         */
+        bool is_worn_only_with( const item &it ) const;
+
         /*@}*/
 
         /**
@@ -1196,8 +1208,11 @@ public:
         /** Get ammo effects for item optionally inclusive of any resulting from the loaded ammo */
         std::set<std::string> ammo_effects( bool with_ammo = true ) const;
 
-        /** Returns casing type ejected by item (if any) which is always "null" if item is not a gun */
-        itype_id ammo_casing() const;
+        /** How many spent casings are contained within this item? */
+        int casings_count() const;
+
+        /** Apply predicate to each contained spent casing removing it if predicate returns true */
+        void casings_handle( const std::function<bool(item &)> &func );
 
         /** Does item have an integral magazine (as opposed to allowing detachable magazines) */
         bool magazine_integral() const;

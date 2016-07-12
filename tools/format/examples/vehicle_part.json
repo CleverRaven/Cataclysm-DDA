@@ -1,0 +1,78 @@
+[
+  {
+    "id": "alternator_car",
+    "copy-from": "vehicle_alternator",
+    "type": "vehicle_part",
+    "name": "car alternator",
+    "//": "65A @12VDC ~ 2HP drain @ 52% effficiency",
+    "item": "alternator_car",
+    "difficulty": 2,
+    "durability": 275,
+    "power": -4,
+    "epower": 780,
+    "damage_modifier": 80,
+    "breaks_into": [
+      { "item": "steel_lump", "count": [ 3, 6 ] },
+      { "item": "steel_chunk", "count": [ 3, 6 ] },
+      { "item": "scrap", "count": [ 3, 6 ] }
+    ],
+    "extend": { "flags": [ "TOOL_WRENCH" ] }
+  },
+  {
+    "id": "battery_car",
+    "type": "vehicle_part",
+    "name": "car battery",
+    "item": "battery_car",
+    "fuel_type": "battery",
+    "symbol": "o",
+    "color": "yellow",
+    "broken_color": "red",
+    "difficulty": 2,
+    "durability": 120,
+    "folded_volume": 25,
+    "breaks_into": [
+      { "item": "steel_lump", "count": [ 6, 9 ] },
+      { "item": "steel_chunk", "count": [ 6, 9 ] },
+      { "item": "scrap", "count": [ 6, 9 ] }
+    ],
+    "flags": [ "FUEL_TANK", "TOOL_NONE", "FOLDABLE" ]
+  },
+  {
+    "id": "crane_medium",
+    "type": "vehicle_part",
+    "name": "boom crane",
+    "item": "cantilever_medium",
+    "location": "structure",
+    "symbol": "=",
+    "broken_symbol": "*",
+    "color": "light_gray",
+    "broken_color": "light_blue",
+    "difficulty": 5,
+    "durability": 200,
+    "breaks_into": [
+      { "item": "pipe", "count": [ 8, 32 ] },
+      { "item": "scrap", "count": [ 8, 24 ] }
+    ],
+    "qualities": [ [ "LIFT", 4 ], [ "JACK", 12 ] ],
+    "flags": [ "TOOL_WRENCH", "PROTRUSION", "OBSTACLE", "UNMOUNT_ON_DAMAGE" ]
+  },
+  {
+    "id": "roller_drum",
+    "type": "vehicle_part",
+    "name": "Roller drum",
+    "item": "hd_steel_drum",
+    "location": "center",
+    "symbol": "B",
+    "broken_symbol": "E",
+    "color": "light_red",
+    "difficulty": 5,
+    "durability": 7500,
+    "damage_modifier": 500,
+    "breaks_into": [
+      { "item": "steel_lump", "count": [ 25, 75 ] },
+      { "item": "steel_chunk", "count": [ 30, 90 ] },
+      { "item": "scrap", "count": [ 50, 150 ] }
+    ],
+    "flags": [ "OBSTACLE", "WHEEL", "STEERABLE" ]
+  }
+]

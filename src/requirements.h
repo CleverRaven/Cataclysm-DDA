@@ -154,9 +154,14 @@ struct requirement_data {
             return id_ == requirement_id( "null" );
         }
 
-        /** empty requirements are not necessary null (@see remove_item) */
+        /** empty requirements are not necessary null */
         bool is_empty() const {
             return tools.empty() && components.empty() && qualities.empty();
+        }
+
+        /** check if removal of items via @ref blacklist_item left no alternatives in group */
+        bool is_blacklisted() const {
+            return blacklisted;
         }
 
         /** Scales tool and component requirements leaving qualities unaffected */
@@ -193,8 +198,12 @@ struct requirement_data {
          */
         std::string list_missing() const;
 
-        /** Remove tools or components of given type leaving qualities unchanged */
-        void remove_item( const std::string &type );
+        /**
+         * Remove tools or components of given type leaving qualities unchanged
+         * @note if the last available component of a grouping is removed the recipe
+         * will be marked as @ref blacklisted
+         */
+        void blacklist_item( const std::string &id );
 
         const alter_tool_comp_vector &get_tools() const;
         const alter_quali_req_vector &get_qualities() const;
@@ -203,12 +212,9 @@ struct requirement_data {
 
         bool can_make_with_inventory( const inventory &crafting_inv, int batch = 1 ) const;
 
-        int print_components( WINDOW *w, int ypos, int xpos, int width, nc_color col,
-                              const inventory &crafting_inv, int batch = 1 ) const;
         std::vector<std::string> get_folded_components_list( int width, nc_color col,
                 const inventory &crafting_inv, int batch = 1 ) const;
-        int print_tools( WINDOW *w, int ypos, int xpos, int width, nc_color col,
-                         const inventory &crafting_inv, int batch = 1 ) const;
+
         std::vector<std::string> get_folded_tools_list( int width, nc_color col,
                 const inventory &crafting_inv, int batch = 1 ) const;
 
@@ -220,6 +226,8 @@ struct requirement_data {
 
     private:
         requirement_id id_ = requirement_id( "null" );
+
+        bool blacklisted = false;
 
         bool check_enough_materials( const inventory &crafting_inv, int batch = 1 ) const;
         bool check_enough_materials( const item_comp &comp, const inventory &crafting_inv,
@@ -234,14 +242,11 @@ struct requirement_data {
         template<typename T>
         static bool has_comps( const inventory &crafting_inv, const std::vector< std::vector<T> > &vec,
                                int batch = 1 );
+
         template<typename T>
-        static int print_list( WINDOW *w, int ypos, int xpos, int width, nc_color col,
-                               const inventory &crafting_inv, const std::vector< std::vector<T> > &objs, int batch = 1 );
-        template<typename T>
-        static std::vector<std::string> get_folded_list( int width, const inventory &crafting_inv,
-                const std::vector< std::vector<T> > &objs, int batch = 1 );
-        template<typename T>
-        static void remove_item( const std::string &type, std::vector< std::vector<T> > &vec );
+        std::vector<std::string> get_folded_list( int width, const inventory &crafting_inv,
+                const std::vector< std::vector<T> > &objs, int batch = 1 ) const;
+
         template<typename T>
         static bool any_marked_available( const std::vector<T> &comps );
         template<typename T>

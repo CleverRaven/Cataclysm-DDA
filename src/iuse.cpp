@@ -7,6 +7,7 @@
 #include "output.h"
 #include "debug.h"
 #include "options.h"
+#include "requirements.h"
 #include "rng.h"
 #include "line.h"
 #include "mutation.h"
@@ -2292,7 +2293,7 @@ int iuse::radio_mod( player *p, item *, bool, const tripoint& )
     }
 
     int inventory_index = g->inv_for_filter( _("Modify what?"), []( const item & itm ) {
-        return itm.is_tool() && itm.has_flag( "RADIO_MODABLE" );
+        return itm.has_flag( "RADIO_MODABLE" );
     } );
     item &modded = p->i_at( inventory_index );
 
@@ -3167,7 +3168,7 @@ int iuse::makemound(player *p, item *it, bool, const tripoint& )
 int iuse::dig(player *p, item *it, bool, const tripoint &pos )
 {
     for( const tripoint &pt : closest_tripoints_first( 1, pos ) ) {
-        if( g->m.furn_at( pt ).examine == iexamine::rubble ) {
+        if( g->m.furn( pt ).obj().examine == iexamine::rubble ) {
             p->add_msg_if_player( _("You clear up that %s."), g->m.furnname( pt ).c_str() );
             g->m.furn_set( pt, f_null );
 
@@ -5427,91 +5428,6 @@ int iuse::hotplate(player *p, item *it, bool, const tripoint& )
     return 0;
 }
 
-int iuse::quiver(player *p, item *it, bool, const tripoint& )
-{
-    if( p->is_npc() ) {
-        // Could cause player vs. NPC inventory conflict
-        return 0;
-    }
-
-    int choice = -1;
-    if (!(it->contents.empty()) && it->contents.front().charges > 0) {
-        choice = menu(true, _("Do what with quiver?"), _("Store more arrows"),
-                      _("Empty quiver"), _("Cancel"), NULL);
-
-        // empty quiver
-        if (choice == 2) {
-            item &arrows = it->contents.front();
-            int arrowsRemoved = arrows.charges;
-            p->add_msg_if_player(ngettext("You remove the %1$s from the %2$s.", "You remove the %1$s from the %2$s.",
-                                          arrowsRemoved),
-                                 arrows.type_name( arrowsRemoved ).c_str(), it->tname().c_str());
-            p->inv.assign_empty_invlet(arrows, false);
-            p->i_add(arrows);
-            it->contents.erase(it->contents.begin());
-            return it->type->charges_to_use();
-        }
-    }
-
-    // if quiver is empty or storing more arrows, pull up menu asking what to store
-    if (it->contents.empty() || choice == 1) {
-        int inventory_index = g->inv_for_filter( _("Store which arrows?"), []( const item & itm ) {
-            return itm.is_ammo() && (itm.ammo_type() == ammotype( "arrow" ) || itm.ammo_type() == ammotype( "bolt" ) );
-        } );
-        item *put = &( p->i_at(inventory_index ) );
-        if (put == NULL || put->is_null()) {
-            p->add_msg_if_player(_("Never mind."));
-            return 0;
-        }
-
-        int maxArrows = it->max_charges_from_flag("QUIVER");
-        if (maxArrows == 0) {
-            debugmsg("Tried storing arrows in quiver without a QUIVER_n tag (iuse::quiver)");
-            return 0;
-        }
-
-        int arrowsStored = 0;
-
-        // not empty so adding more arrows
-        if (!(it->contents.empty()) && it->contents.front().charges > 0) {
-            if (it->contents.front().typeId() != put->typeId()) {
-                p->add_msg_if_player(m_info, _("Those aren't the same arrows!"));
-                return 0;
-            }
-            if (it->contents.front().charges >= maxArrows) {
-                p->add_msg_if_player(m_info, _("That %s is already full!"), it->tname().c_str());
-                return 0;
-            }
-            arrowsStored = it->contents.front().charges;
-            it->contents.front().charges += put->charges;
-            p->i_rem(put);
-
-            // empty, putting in new arrows
-        } else {
-            it->put_in(p->i_rem(put));
-        }
-
-        // handle overflow
-        if (it->contents.front().charges > maxArrows) {
-            int toomany = it->contents.front().charges - maxArrows;
-            it->contents.front().charges -= toomany;
-            item clone = it->contents.front();
-            clone.charges = toomany;
-            p->i_add(clone);
-        }
-
-        arrowsStored = it->contents.front().charges - arrowsStored;
-        p->add_msg_if_player(ngettext("You store %1$d %2$s in your %3$s.", "You store %1$d %2$s in your %3$s.",
-                                      arrowsStored),
-                             arrowsStored, it->contents.front().type_name( arrowsStored ).c_str(), it->tname().c_str());
-        p->moves -= 10 * arrowsStored;
-    } else {
-        p->add_msg_if_player(_("Never mind."));
-        return 0;
-    }
-    return it->type->charges_to_use();
-}
-
 int iuse::towel(player *p, item *it, bool t, const tripoint& )
 {
     if( t ) {
@@ -7615,7 +7531,8 @@ int iuse::multicooker(player *p, item *it, bool t, const tripoint &pos)
                     return 0;
                 }
 
-                for( auto it : meal->requirements->get_components() ) {
+                auto reqs = meal->requirements();
+                for( auto it : reqs.get_components() ) {
                     p->consume_items(it);
                 }
 
@@ -7714,8 +7631,8 @@ int iuse::cable_attach(player *p, item *it, bool, const tripoint& )
             return 0;
         }
         auto veh = g->m.veh_at( posp );
-        auto ter = g->m.ter_at( posp );
-        if( veh == nullptr && ter.id.id() != t_chainfence_h && ter.id.id() != t_chainfence_v ) {
+        auto ter = g->m.ter( posp );
+        if( veh == nullptr && ter != t_chainfence_h && ter != t_chainfence_v ) {
             p->add_msg_if_player(_("There's no vehicle there."));
             return 0;
         } else {
@@ -8085,13 +8002,13 @@ int iuse::washclothes( player *p, item *it, bool, const tripoint& )
         p->add_msg_if_player( _( "You need a soap to use this." ) );
         return 0;
     }
-    
+
     const inventory &crafting_inv = p->crafting_inventory();
     if( !crafting_inv.has_charges( "water", 40 ) && !crafting_inv.has_charges( "water_clean", 40 ) ) {
         p->add_msg_if_player( _( "You need a large amount of fresh water to use this." ) );
         return 0;
     }
-    
+
     const int pos = g->inv_for_flag( "FILTHY", _( "Wash what?" ) );
     item &mod = p->i_at( pos );
     if( pos == INT_MIN ) {
@@ -8103,7 +8020,7 @@ int iuse::washclothes( player *p, item *it, bool, const tripoint& )
     comps.push_back( item_comp( "water", 40 ) );
     comps.push_back( item_comp( "water_clean", 40 ) );
     p->consume_items( comps );
-    
+
     p->add_msg_if_player( _( "You washed your clothing." ) );
     p->mod_moves( -3000 );
 

@@ -297,6 +297,8 @@ std::string action_ident( action_id act )
             return "SELECT";
         case ACTION_SEC_SELECT:
             return "SEC_SELECT";
+        case ACTION_AUTOATTACK:
+            return "autoattack";
         case ACTION_NULL:
             return "null";
         default:
@@ -491,8 +493,8 @@ bool can_examine_at( const tripoint &p )
     if( g->m.has_flag( "CONSOLE", p ) ) {
         return true;
     }
-    const furn_t &xfurn_t = g->m.furn_at( p );
-    const ter_t &xter_t = g->m.ter_at( p );
+    const furn_t &xfurn_t = g->m.furn( p ).obj();
+    const ter_t &xter_t = g->m.ter( p ).obj();
 
     if( g->m.has_furn( p ) && xfurn_t.examine != &iexamine::none ) {
         return true;
@@ -552,7 +554,7 @@ action_id handle_action_menu()
     std::map<action_id, int> action_weightings;
 
     // Check if we're in a potential combat situation, if so, sort a few actions to the top.
-    if( !g->u.get_hostile_creatures().empty() ) {
+    if( !g->u.get_hostile_creatures( 60 ).empty() ) {
         // Only prioritize movement options if we're not driving.
         if( !g->u.controlling_vehicle ) {
             action_weightings[ACTION_TOGGLE_MOVE] = 400;

@@ -501,9 +501,36 @@ bool Character::has_active_bionic(const std::string & b) const
     return false;
 }
 
-map_selector Character::nearby( int radius, bool accessible )
+std::vector<item_location> Character::nearby( const std::function<bool(const item *, const item *)>& func, int radius ) const
 {
-    return map_selector( pos(), radius, accessible );
+    std::vector<item_location> res;
+
+    visit_items( [&]( const item *e, const item *parent ) {
+        if( func( e, parent ) ) {
+            res.emplace_back( const_cast<Character &>( *this ), const_cast<item *>( e ) );
+        }
+        return VisitResponse::NEXT;
+    } );
+
+    for( const auto &cur : map_selector( pos(), radius ) ) {
+        cur.visit_items( [&]( const item *e, const item *parent  ) {
+            if( func( e, parent ) ) {
+                res.emplace_back( cur, const_cast<item *>( e ) );
+            }
+            return VisitResponse::NEXT;
+        } );
+    }
+
+    for( const auto &cur : vehicle_selector( pos(), radius ) ) {
+        cur.visit_items( [&]( const item *e, const item *parent  ) {
+            if( func( e, parent ) ) {
+                res.emplace_back( cur, const_cast<item *>( e ) );
+            }
+            return VisitResponse::NEXT;
+        } );
+    }
+
+    return res;
 }
 
 item& Character::i_add(item it)
@@ -729,11 +756,11 @@ void find_ammo_helper( T& src, const item& obj, bool empty, Output out, bool nes
     }
 }
 
-std::vector<item_location> Character::find_ammo( const item& obj, bool empty, int radius )
+std::vector<item_location> Character::find_ammo( const item& obj, bool empty, int radius ) const
 {
     std::vector<item_location> res;
 
-    find_ammo_helper( *this, obj, empty, std::back_inserter( res ), true );
+    find_ammo_helper( const_cast<Character &>( *this ), obj, empty, std::back_inserter( res ), true );
 
     if( radius >= 0 ) {
         for( auto& cursor : map_selector( pos(), radius ) ) {
@@ -793,7 +820,12 @@ int Character::weight_capacity() const
 
 int Character::volume_capacity() const
 {
-    int ret = 0;
+    return volume_capacity_reduced_by( 0 );
+}
+
+int Character::volume_capacity_reduced_by( int mod ) const
+{
+    int ret = -mod;
     for (auto &i : worn) {
         ret += i.get_storage();
     }
@@ -812,8 +844,7 @@ int Character::volume_capacity() const
     if (has_trait("DISORGANIZED")) {
         ret = int(ret * 0.6);
     }
-    ret = std::max(ret, 0);
-    return ret;
+    return std::max( ret, 0 );
 }
 
 bool Character::can_pickVolume( const item &it, bool ) const
@@ -1915,11 +1946,8 @@ bool Character::is_blind() const
 bool Character::pour_into( item &container, item &liquid )
 {
     std::string err;
+    const long amount = container.get_remaining_capacity_for_liquid( liquid, *this, &err );
 
-    const bool allow_bucket = &container == &weapon || !has_item( container );
-    const int available_volume = allow_bucket ? INT_MAX : volume_capacity() - volume_carried();
-    const long amount = container.get_remaining_capacity_for_liquid( liquid, err, allow_bucket,
-                                                                     available_volume );
     if( !err.empty() ) {
         add_msg_if_player( m_bad, err.c_str() );
         return false;

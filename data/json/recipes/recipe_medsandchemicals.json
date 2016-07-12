@@ -109,12 +109,7 @@
       [ "chemistry_set", 5 ]
     ]
   ],
-  "components": [
-    [
-      [ "water", 1 ],
-      [ "water_clean", 1 ]
-    ]
-  ]
+  "components": [ [ [ "salt_water", 1 ] ] ]
 },{
   "type" : "recipe",
   "result": "tallow_tainted",
@@ -604,7 +599,6 @@
       [ "tallow_tainted", 2 ],
       [ "meat_tainted", 3 ],
       [ "dry_meat_tainted", 3 ],
-      [ "veggy_tainted", 5 ],
       [ "slime_scrap", 5 ],
       [ "fetus", 1 ],
       [ "arm", 2 ],

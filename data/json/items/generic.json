@@ -8,7 +8,6 @@
         "description": "A dead body.",
         "//": "most of the properties depend on the monster type and are created at runtime!",
         "price": 0,
-        "weight": 0,
         "volume": 0,
         "flags": ["NO_UNLOAD", "TRADER_AVOID"]
     },
@@ -22,7 +21,6 @@
         "name_plural": "none",
         "description": "seeing this is a bug",
         "price": 0,
-        "weight": 0,
         "volume": 0,
         "flags": ["PSEUDO", "TRADER_AVOID"]
     },
@@ -36,7 +34,6 @@
         "name_plural" : "none",
         "description" : "seeing this is a bug",
         "price" : 0,
-        "weight" : 0,
         "volume" : 0,
         "flags": ["PSEUDO"]
     },
@@ -50,7 +47,6 @@
         "name_plural": "none",
         "description": "seeing this is a bug",
         "price": 0,
-        "weight": 0,
         "volume": 0,
         "flags": ["PSEUDO", "TRADER_AVOID"]
     },
@@ -63,7 +59,6 @@
         "name_plural": "none",
         "description": "seeing this is a bug",
         "price": 0,
-        "weight": 0,
         "volume": 0,
         "flags": ["PSEUDO", "TRADER_AVOID"]
     },
@@ -76,7 +71,6 @@
         "name_plural": "none",
         "description": "seeing this is a bug",
         "price": 0,
-        "weight": 0,
         "volume": 0,
         "flags": ["PSEUDO", "UNARMED_WEAPON", "TRADER_AVOID"], "//" : "Fist is internally represented as 'wielding a none as a weapon'"
     },
@@ -220,7 +214,7 @@
         "description": "A sturdy 30-foot long vine.  Could easily be used as a rope, but can't be disassembled.",
         "price": 5000,
         "material": "veggy",
-        "flags" : ["WRAP", "BELTED"],
+        "flags" : "BELTED",
         "weight": 1080,
         "volume": 10,
         "bashing": 1,
@@ -239,10 +233,10 @@
         "symbol": ",",
         "color": "light_gray",
         "name": "long rope",
-        "description": "A 30-foot long nylon rope.  Useful for keeping yourself safe from falls.",
+        "description": "A 30-foot long rope.  Useful for keeping yourself safe from falls.",
         "price": 10000,
         "material": "cotton",
-        "flags": ["NO_SALVAGE", "WRAP", "BELTED"],
+        "flags": ["NO_SALVAGE", "BELTED"],
         "weight": 1080,
         "volume": 10,
         "bashing": 1,
@@ -267,7 +261,7 @@
         "material" : ["cotton"],
         "volume" : 2,
         "bashing" : 1,
-        "flags" : ["WRAP", "NO_SALVAGE"],
+        "flags" : ["NO_SALVAGE"],
         "price" : 4500
     },
     {
@@ -283,7 +277,6 @@
         "techniques" : ["WRAP"],
         "volume" : 4,
         "bashing" : 12,
-        "flags" : ["WRAP"],
         "price" : 8000
     },
     {
@@ -1117,12 +1110,13 @@
         "description": "A high-quality lens, useful for focusing or diffusing light.  Might be useful for starting a fire.",
         "price": 120000,
         "material": "glass",
-        "flags": [ "LENS" ],
         "weight": 340,
         "volume": 0,
         "to_hit": -3,
         "use_action": {
-            "type": "extended_firestarter",
+            "type": "firestarter",
+            "moves": 1000,
+            "moves_slow": 30000,
             "need_sunlight": true
         }
     },
@@ -2545,7 +2539,6 @@
         "id" : "note",
         "name" : "note",
         "description" : "A hand-written paper note.",
-        "weight" : 0,
         "to_hit" : -2,
         "color" : "white",
         "symbol" : "?",

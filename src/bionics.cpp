@@ -664,6 +664,10 @@ void player::process_bionic( int b )
             charge_power( -2 );
         }
     } else if( bio.id == "bio_cable" ) {
+        if( power_level >= max_power_level ) {
+            return;
+        }
+
         const std::vector<item*> cables = items_with( []( const item &it ) {
             return it.active && it.has_flag( "CABLE_SPOOL" );
         });

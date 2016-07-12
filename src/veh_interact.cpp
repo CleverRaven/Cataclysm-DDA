@@ -9,6 +9,7 @@
 #include "output.h"
 #include "catacharset.h"
 #include "crafting.h"
+#include "requirements.h"
 #include "options.h"
 #include "debug.h"
 #include "messages.h"
@@ -456,7 +457,7 @@ bool veh_interact::can_install_part() {
     if( sel_vpart_info->install_skills.empty() ) {
         msg << string_format( "> <color_%1$s>%2$s</color>", status_color( true ), _( "NONE" ) ) << "\n";
     }
- 
+
     auto comps = reqs.get_folded_components_list( getmaxx( w_msg ), c_white, crafting_inv );
     std::copy( comps.begin(), comps.end(), std::ostream_iterator<std::string>( msg, "\n" ) );
 
@@ -2078,8 +2079,12 @@ void complete_vehicle ()
             }
         }
         if( base.is_null() ) {
-           add_msg( m_info, _( "Could not find base part in requirements for %s." ), vpinfo.name().c_str() );
-           break;
+            if( !g->u.has_trait( "DEBUG_HS" ) ) {
+                add_msg( m_info, _( "Could not find base part in requirements for %s." ), vpinfo.name().c_str() );
+                break;
+            } else {
+                base = item( vpinfo.item );
+            }
         }
 
         for( const auto& e : reqs.get_tools() ) {
@@ -2192,8 +2197,10 @@ void complete_vehicle ()
         g->u.invalidate_crafting_inventory();
 
         // Dump contents of part at player's feet, if any.
-        for( auto &elem : veh->get_items(vehicle_part) ) {
-            g->m.add_item_or_charges( g->u.posx(), g->u.posy(), elem );
+        vehicle_stack contents = veh->get_items( vehicle_part );
+        for( auto iter = contents.begin(); iter != contents.end(); ) {
+            g->m.add_item_or_charges( g->u.posx(), g->u.posy(), *iter );
+            iter = contents.erase( iter );
         }
 
         // Power cables must remove parts from the target vehicle, too.

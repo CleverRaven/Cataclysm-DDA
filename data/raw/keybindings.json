@@ -1728,6 +1728,7 @@
     { "type":"keybinding", "name": "Burst-Fire Wielded Item", "category":"DEFAULTMODE", "id":"fire_burst" },
     { "type":"keybinding", "name": "Craft as long as possible", "category":"DEFAULTMODE", "id":"long_craft" },
     { "type":"keybinding", "name": "Toggle Auto-Safemode", "category":"DEFAULTMODE", "id":"autosafe" },
+    { "type":"keybinding", "name": "Autoattack", "category":"DEFAULTMODE", "id":"autoattack", "bindings":[ { "input_method":"keyboard", "key":"TAB" } ] },
     {
       "type":"keybinding",
       "name": "Toggle move mode (run/walk)",

@@ -3,6 +3,7 @@
 #include <set>
 #include <algorithm>
 #include "debug.h"
+#include "output.h"
 
 std::string error_keyvals[] = {"Missing Dependency(ies): ", "", ""};
 
@@ -50,13 +51,7 @@ std::string dependency_node::s_errors()
     std::stringstream ret;
     for( auto &elem : all_errors ) {
         ret << error_keyvals[( unsigned )( elem.first )];
-        for( std::vector<std::string>::iterator str = elem.second.begin(); str != elem.second.end();
-             ++str ) {
-            ret << *str;
-            if( str != elem.second.end() - 1 ) {
-                ret << ", ";
-            }
-        }
+        ret << enumerate_as_string( elem.second, false );
     }
     return ret.str();
 }

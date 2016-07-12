@@ -6,7 +6,6 @@
 #include "enums.h"
 #include "color.h"
 #include "damage.h"
-#include "requirements.h"
 #include "calendar.h"
 
 #include <vector>
@@ -28,6 +27,9 @@ struct quality;
 using quality_id = string_id<quality>;
 typedef int nc_color;
 class Character;
+
+struct requirement_data;
+using requirement_id = string_id<requirement_data>;
 
 class Skill;
 using skill_id = string_id<Skill>;
@@ -196,7 +198,7 @@ class vpart_info
         }
         void set_flag( const std::string &flag );
 
-        static void load( JsonObject &jo );
+        static void load( JsonObject &jo, const std::string &src );
         static void finalize();
         static void check();
         static void reset();
