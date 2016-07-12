@@ -217,13 +217,41 @@ struct npc_follower_rules : public JsonSerializer, public JsonDeserializer
     void deserialize(JsonIn &jsin) override;
 };
 
+struct npc_target {
+    private:
+        enum target_type : int {
+            TARGET_PLAYER,
+            TARGET_MONSTER,
+            TARGET_NPC,
+            TARGET_NONE
+        };
+
+        target_type type;
+        size_t index;
+
+        npc_target( target_type, size_t );
+
+    public:
+        npc_target();
+
+        Creature *get();
+        const Creature *get() const;
+
+        static npc_target monster( size_t index );
+        static npc_target npc( size_t index );
+        static npc_target player();
+        static npc_target none();
+};
+
 // Data relevant only for this action
 struct npc_short_term_cache
 {
     int danger;
     int total_danger;
     int danger_assessment;
-    int target;
+    npc_target target;
+
+    std::vector<npc_target> friends;
 };
 
 // DO NOT USE! This is old, use strings as talk topic instead, e.g. "TALK_AGREE_FOLLOW" instead of
@@ -662,7 +690,8 @@ public:
 
     // AI helpers
     void regen_ai_cache();
-    Creature *current_target() const;
+    const Creature *current_target() const;
+    Creature *current_target();
 
 // Interaction and assessment of the world around us
     int  danger_assessment();
@@ -705,16 +734,14 @@ public:
     bool scan_new_items();
     // Returns true if did wield it
     bool wield_better_weapon();
- bool alt_attack_available(); // Do we have grenades, molotov, etc?
- int choose_escape_item(); // Returns item position of our best escape aid
 
 // Helper functions for ranged combat
     // Multiplier for acceptable angle of inaccuracy
     double confidence_mult() const;
-    int confident_range( int weapon_index = -1 ) const;
-    int confident_gun_range( const item::gun_mode &gun, int at_recoil = -1 ) const;
+    int confident_shoot_range( const item &it ) const;
+    int confident_gun_mode_range( const item::gun_mode &gun, int at_recoil = -1 ) const;
     int confident_throw_range( const item & ) const;
-    bool wont_hit_friend( const tripoint &p , int position = -1 ) const;
+    bool wont_hit_friend( const tripoint &p, const item &it, bool throwing ) const;
     bool enough_time_to_reload( const item &gun ) const;
     /** Can reload currently wielded gun? */
     bool can_reload_current();
@@ -756,10 +783,8 @@ public:
     bool do_pulp();
 
 // Combat functions and player interaction functions
-    Creature *get_target( int target ) const;
  void wield_best_melee ();
- void alt_attack();
- void use_escape_item (int position);
+ bool alt_attack(); // Returns true if did something
  void heal_player (player &patient);
  void heal_self  ();
  void take_painkiller ();

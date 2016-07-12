@@ -81,8 +81,9 @@ sub encode(@) {
 
     if (ref($data) eq 'HASH') {
         # Built the context for each member field and determine its sort rank
+        $context .= '<' . ($data->{'type'} // '') . '>';
         my %fields = map {
-            my $rule = $context . '<'.($data->{'type'} // '').'>' . ":$_";
+            my $rule = "$context:$_";
             my $rank = find_rule($rule);
             die "ERROR: Unmatched contex '$rule'\n" if $rank < 0;
             $_ => [ $rule, $rank ];

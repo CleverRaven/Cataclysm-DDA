@@ -6681,13 +6681,16 @@
     "type" : "item_group",
     "id" : "manhack",
     "items":[
-      ["knife_combat", 14]
+      ["spike", 10],
+      ["scrap", 10],
+      ["blade", 5]
     ]
   },{
     "type" : "item_group",
     "id" : "skitterbot",
     "items":[
-      ["tazer", 3]
+      ["tazer", 3],
+      ["scrap", 9]
     ]
   },{
     "type" : "item_group",
@@ -8349,9 +8352,11 @@
       ["tree_spile", 40],
       ["material_quicklime", 30],
       ["pitchfork", 40],
-      ["v_plow_item",41],
-      ["v_planter_item",41],
-      ["v_reaper_item",41]
+      ["v_plow_item", 41],
+      ["v_planter_item", 41],
+      ["v_reaper_item", 41],
+      ["v_reaper_item_advanced", 8],
+      ["v_planter_item_advanced", 8]
     ]
   },{
 "type" : "item_group",

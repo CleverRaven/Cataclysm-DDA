@@ -88,7 +88,7 @@ void game::init_fields()
         {
             "fd_web",
             {_("cobwebs"),_("webs"), _("thick webs")}, '}', 2,
-            {c_white, c_white, c_white}, {true, true, false},{false, false, false}, 0,
+            {c_white, c_white, c_white}, {true, true, false},{true, true, true}, 0,
             {0,0,0},
             SOLID
         },
@@ -120,7 +120,7 @@ void game::init_fields()
         {
             "fd_sludge",
             {_("thin sludge trail"), _("sludge trail"), _("thick sludge trail")}, '5', 2,
-            {c_ltgray, c_dkgray, c_black}, {true, true, true}, {false, false, false}, HOURS(6),
+            {c_ltgray, c_dkgray, c_black}, {true, true, true}, {true, true, true}, HOURS(6),
             {0,0,0},
             LIQUID
         },
@@ -144,14 +144,14 @@ void game::init_fields()
         {
             "fd_smoke",
             {_("thin smoke"), _("smoke"), _("thick smoke")}, '8', 8,
-            {c_white, c_ltgray, c_dkgray}, {true, false, false},{false, true, true}, MINUTES(10),
+            {c_white, c_ltgray, c_dkgray}, {true, false, false},{false, true, true}, MINUTES(2),
             {0,0,0},
             GAS
         },
         {
             "fd_toxic_gas",
             {_("hazy cloud"),_("toxic gas"),_("thick toxic gas")}, '8', 8,
-            {c_white, c_ltgreen, c_green}, {true, false, false},{false, true, true}, MINUTES(90),
+            {c_white, c_ltgreen, c_green}, {true, false, false},{true, true, true}, MINUTES(90),
             {0,0,0},
             GAS
         },
@@ -159,7 +159,7 @@ void game::init_fields()
         {
             "fd_tear_gas",
             {_("hazy cloud"),_("tear gas"),_("thick tear gas")}, '8', 8,
-            {c_white, c_yellow, c_brown}, {true, false, false},{true, true, true}, MINUTES(60),
+            {c_white, c_yellow, c_brown}, {true, false, false},{true, true, true}, MINUTES(5),
             {0,0,0},
             GAS
         },
@@ -207,7 +207,7 @@ void game::init_fields()
         {
             "fd_fatigue",
             {_("odd ripple"), _("swirling air"), _("tear in reality")}, '*', 8,
-            {c_ltgray, c_dkgray, c_magenta},{true, true, false},{false, false, false},  0,
+            {c_ltgray, c_dkgray, c_magenta},{true, true, false},{true, true, true},  0,
             {0,0,0},
             PNULL
         },
@@ -348,7 +348,7 @@ void game::init_fields()
         {
             "fd_relax_gas",
             {_("hazy cloud"),_("sedative gas"),_("relaxation gas")}, '.', 8,
-            { c_white, c_pink, c_cyan }, { true, true, true }, { false, true, true }, MINUTES(50),
+            { c_white, c_pink, c_cyan }, { true, true, true }, { true, true, true }, MINUTES(50),
             {0,0,0},
             GAS
         },
@@ -396,7 +396,7 @@ void game::init_fields()
         {
             "fd_fungicidal_gas",
             {_("hazy cloud"),_("fungicidal gas"),_("thick fungicidal gas")}, '8', 8,
-            {c_white, c_ltgray, c_dkgray}, {true, true, false}, {false, true, true}, MINUTES(90),
+            {c_white, c_ltgray, c_dkgray}, {true, true, false}, {true, true, true}, MINUTES(90),
             {0,0,0},
             GAS
         }
@@ -1130,12 +1130,12 @@ bool map::process_fields_in_submap( submap *const current_submap,
 
                     case fd_smoke:
                         dirty_transparency_cache = true;
-                        spread_gas( cur, p, curtype, 30, 0 );
+                        spread_gas( cur, p, curtype, 50, 0 );
                         break;
 
                     case fd_tear_gas:
                         dirty_transparency_cache = true;
-                        spread_gas( cur, p, curtype, 33, 30 );
+                        spread_gas( cur, p, curtype, 30, 0 );
                         break;
 
                     case fd_relax_gas:

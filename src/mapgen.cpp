@@ -8940,7 +8940,7 @@ FFFFFFFFFFFFFFFFFFFFFFFF\n\
                     if (one_in(2)) {
                         place_items("sports",  72, x, y, x, y + SEEY - 4, false, 0);
                     } else if (one_in(10)) {
-                        place_items("guns_rifles_common",  20, x, y, x, y + SEEY - 4, false, 0);
+                        place_items("guns_rifle_common",  20, x, y, x, y + SEEY - 4, false, 0);
                     } else {
                         place_items("camping", 68, x, y, x, y + SEEY - 4, false, 0);
                     }
@@ -10639,7 +10639,7 @@ vehicle *map::add_vehicle(const vproto_id &type, const tripoint &p, const int di
     const int smx = p.x / SEEX;
     const int smy = p.y / SEEY;
     // debugmsg("n=%d x=%d y=%d MAPSIZE=%d ^2=%d", nonant, x, y, MAPSIZE, MAPSIZE*MAPSIZE);
-    vehicle *veh = new vehicle(type, veh_fuel, veh_status);
+    auto veh = std::unique_ptr<vehicle>( new vehicle( type, veh_fuel, veh_status ) );
     veh->posx = p.x % SEEX;
     veh->posy = p.y % SEEY;
     veh->smx = smx;
@@ -10652,7 +10652,7 @@ vehicle *map::add_vehicle(const vproto_id &type, const tripoint &p, const int di
     // that the mount at (0,0) is located at the spawn position.
     veh->precalc_mounts( 0, dir, point() );
 //debugmsg("adding veh: %d, sm: %d,%d,%d, pos: %d, %d", veh, veh->smx, veh->smy, veh->smz, veh->posx, veh->posy);
-    vehicle *placed_vehicle = add_vehicle_to_map(veh, merge_wrecks);
+    vehicle *placed_vehicle = add_vehicle_to_map( std::move( veh ), merge_wrecks );
 
     if( placed_vehicle != nullptr ) {
         submap *place_on_submap = get_submap_at_grid( placed_vehicle->smx, placed_vehicle->smy, placed_vehicle->smz );
@@ -10676,7 +10676,7 @@ vehicle *map::add_vehicle(const vproto_id &type, const tripoint &p, const int di
  * @param veh The vehicle to place on the map.
  * @return The vehicle that was finally placed.
  */
-vehicle *map::add_vehicle_to_map(vehicle *veh, const bool merge_wrecks)
+vehicle *map::add_vehicle_to_map( std::unique_ptr<vehicle> veh, const bool merge_wrecks )
 {
     //We only want to check once per square, so loop over all structural parts
     std::vector<int> frame_indices = veh->all_parts_at_location("structure");
@@ -10687,38 +10687,35 @@ vehicle *map::add_vehicle_to_map(vehicle *veh, const bool merge_wrecks)
         can_float = true;
     }
 
+    //When hitting a wall, only smash the vehicle once (but walls many times)
+    bool needs_smashing = false;
+
     for (std::vector<int>::const_iterator part = frame_indices.begin();
          part != frame_indices.end(); part++) {
         const auto p = veh->global_pos3() + veh->parts[*part].precalc[0];
 
         //Don't spawn anything in water
         if( has_flag_ter( TFLAG_DEEP_WATER, p ) && !can_float ) {
-            delete veh;
             return nullptr;
         }
 
         // Don't spawn shopping carts on top of another vehicle or other obstacle.
         if( veh->type == vproto_id( "shopping_cart" ) ) {
             if( veh_at( p ) != nullptr || impassable( p ) ) {
-                delete veh;
                 return nullptr;
             }
         }
 
-        //When hitting a wall, only smash the vehicle once (but walls many times)
-        bool veh_smashed = false;
         //For other vehicles, simulate collisions with (non-shopping cart) stuff
         vehicle *other_veh = veh_at( p );
         if( other_veh != nullptr && other_veh->type != vproto_id( "shopping_cart" ) ) {
             if( !merge_wrecks ) {
-                delete veh;
                 return nullptr;
             }
 
             // Hard wreck-merging limit: 200 tiles
             // Merging is slow for big vehicles which lags the mapgen
             if( frame_indices.size() + other_veh->all_parts_at_location("structure").size() > 200 ) {
-                delete veh;
                 return nullptr;
             }
 
@@ -10730,7 +10727,7 @@ vehicle *map::add_vehicle_to_map(vehicle *veh, const bool merge_wrecks)
              * vehicles into global coordinates, find the distance between them and
              * p and then install them that way.
              * Create a vehicle with type "null" so it starts out empty. */
-            vehicle *wreckage = new vehicle();
+            auto wreckage = std::unique_ptr<vehicle>( new vehicle() );
             wreckage->posx = other_veh->posx;
             wreckage->posy = other_veh->posy;
             wreckage->smx = other_veh->smx;
@@ -10738,50 +10735,37 @@ vehicle *map::add_vehicle_to_map(vehicle *veh, const bool merge_wrecks)
             wreckage->smz = other_veh->smz;
 
             //Where are we on the global scale?
-            const int global_x = wreckage->smx * SEEX + wreckage->posx;
-            const int global_y = wreckage->smy * SEEY + wreckage->posy;
+            const tripoint global_pos = wreckage->global_pos3();
 
-            for (auto &part_index : veh->parts) {
-
-                const int local_x = (veh->smx * SEEX + veh->posx) +
-                                     part_index.precalc[0].x - global_x;
-                const int local_y = (veh->smy * SEEY + veh->posy) +
-                                     part_index.precalc[0].y - global_y;
-
-                wreckage->install_part(local_x, local_y, part_index);
-
+            for( auto &part : veh->parts ) {
+                const tripoint part_pos = veh->global_part_pos3( part ) - global_pos;
+                wreckage->install_part( part_pos.x, part_pos.y, part );
             }
-            for (auto &part_index : other_veh->parts) {
 
-                const int local_x = (other_veh->smx * SEEX + other_veh->posx) +
-                                     part_index.precalc[0].x - global_x;
-                const int local_y = (other_veh->smy * SEEY + other_veh->posy) +
-                                     part_index.precalc[0].y - global_y;
-
-                wreckage->install_part(local_x, local_y, part_index);
+            for( auto &part : other_veh->parts ) {
+                const tripoint part_pos = other_veh->global_part_pos3( part ) - global_pos;
+                wreckage->install_part( part_pos.x, part_pos.y, part );
 
             }
 
             wreckage->name = _("Wreckage");
-            wreckage->smash();
 
             // Now get rid of the old vehicles
             std::unique_ptr<vehicle> old_veh = detach_vehicle( other_veh );
-            delete veh;
 
             // Try again with the wreckage
-            vehicle *new_veh = add_vehicle_to_map( wreckage, true );
+            vehicle *new_veh = add_vehicle_to_map( std::move( wreckage ), true );
             if( new_veh != nullptr ) {
+                new_veh->smash();
                 return new_veh;
             }
 
             // If adding the wreck failed, we want to restore the vehicle we tried to merge with
-            add_vehicle_to_map( old_veh.release(), false );
+            add_vehicle_to_map( std::move( old_veh ), false );
             return nullptr;
 
         } else if( impassable( p ) ) {
             if( !merge_wrecks ) {
-                delete veh;
                 return nullptr;
             }
 
@@ -10790,20 +10774,18 @@ vehicle *map::add_vehicle_to_map(vehicle *veh, const bool merge_wrecks)
 
             // Some weird terrain, don't place the vehicle
             if( impassable( p ) ) {
-                delete veh;
                 return nullptr;
             }
 
-            if( !veh_smashed ) {
-                // Then smash up the vehicle
-                veh->smash();
-                veh_smashed = true;
-            }
-
+            needs_smashing = true;
         }
     }
 
-    return veh;
+    if( needs_smashing ) {
+        veh->smash();
+    }
+
+    return veh.release();
 }
 
 computer *map::add_computer( const tripoint &p, std::string name, int security )

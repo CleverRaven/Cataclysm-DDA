@@ -310,9 +310,9 @@ void game::check_all_mod_data()
             // assert(mm->has_mod(deps[i]));
             // ^^ dependency tree takes care of that case
             MOD_INFORMATION &dmod = *mm->mod_map[dep];
-            load_data_from_dir(dmod.path);
+            load_data_from_dir( dmod.path, dmod.ident );
         }
-        load_data_from_dir(mod.path);
+        load_data_from_dir( mod.path, mod.ident );
         DynamicDataLoader::get_instance().finalize_loaded_data();
     }
 }
@@ -324,10 +324,10 @@ void game::load_core_data()
     DynamicDataLoader::get_instance().unload_data();
 
     init_lua();
-    load_data_from_dir(FILENAMES["jsondir"]);
+    load_data_from_dir( FILENAMES[ "jsondir" ], "core" );
 }
 
-void game::load_data_from_dir(const std::string &path)
+void game::load_data_from_dir( const std::string &path, const std::string &src )
 {
     // Process a preload file before the .json files,
     // so that custom IUSE's can be defined before
@@ -335,7 +335,7 @@ void game::load_data_from_dir(const std::string &path)
     lua_loadmod( path, "preload.lua" );
 
     try {
-        DynamicDataLoader::get_instance().load_data_from_path(path);
+        DynamicDataLoader::get_instance().load_data_from_path( path, src );
     } catch( const std::exception &err ) {
         debugmsg("Error loading data from json: %s", err.what());
     }
@@ -3550,14 +3550,14 @@ void game::load_world_modfiles(WORLDPTR world)
                 MOD_INFORMATION &mod = *mm->mod_map[mod_ident];
                 if( !mod.obsolete ) {
                     // Silently ignore mods marked as obsolete.
-                    load_data_from_dir(mod.path);
+                    load_data_from_dir( mod.path, mod.ident );
                 }
             } else {
                 debugmsg("the world uses an unknown mod %s", mod_ident.c_str());
             }
         }
         // Load additional mods from that world-specific folder
-        load_data_from_dir(world->world_path + "/mods");
+        load_data_from_dir( world->world_path + "/mods", "custom" );
     }
 
     erase();
@@ -3731,7 +3731,8 @@ std::vector<std::string> game::list_active_characters()
  */
 void game::write_memorial_file(std::string sLastWords)
 {
-    const std::string &memorial_dir = FILENAMES["memorialdir"];
+    const std::string &memorial_dir = FILENAMES["memorialdir"] +  world_generator->active_world->world_name + "/";
+
     if (!assure_dir_exist(memorial_dir)) {
         dbg(D_ERROR) << "game:write_memorial_file: Unable to make memorial directory.";
         debugmsg("Could not make '%s' directory", memorial_dir.c_str());
@@ -3816,7 +3817,7 @@ void game::debug()
                        _( "Spawn Clairvoyance Artifact" ), //16
                        _( "Map editor" ),             // 17
                        _( "Change weather" ),         // 18
-                       _( "Remove all monsters" ),    // 19
+                       _( "Kill all monsters" ),    // 19
                        _( "Display hordes" ),         // 20
                        _( "Test Item Group" ),        // 21
                        _( "Damage Self" ),            // 22
@@ -10615,7 +10616,7 @@ bool game::plfire( const tripoint &default_target )
         }
 
         if( gun->has_flag( "RELOAD_AND_SHOOT" ) && !gun->ammo_remaining() ) {
-            item::reload_option opt = gun->pick_reload_ammo( u );
+            item::reload_option opt = u.select_ammo( *gun );
             if( !opt ) {
                 return false; // menu cancelled
             }
@@ -11096,7 +11097,14 @@ void game::reload( int pos, bool prompt )
             break;
     }
 
-    item::reload_option opt = it->pick_reload_ammo( u, prompt );
+    // for bandoliers we currently defer to iuse_actor methods
+    if( it->is_bandolier() ) {
+        auto ptr = dynamic_cast<const bandolier_actor *>( it->type->get_use( "bandolier" )->get_actor_ptr() );
+        ptr->reload( u, *it );
+        return;
+    }
+
+    item::reload_option opt = u.select_ammo( *it, prompt );
     if( opt ) {
         std::stringstream ss;
         ss << pos;
@@ -11193,7 +11201,12 @@ bool add_or_drop_with_msg( player &u, item &it )
 bool game::unload( item &it )
 {
     // Unload a container consuming moves per item successfully removed
-    if( it.is_container() && !it.contents.empty() ) {
+    if( it.is_container() || it.is_bandolier() ) {
+        if( it.contents.empty() ) {
+            add_msg( m_info, _( "The %s is already empty!" ), it.tname().c_str() );
+            return false;
+        }
+
         it.contents.erase( std::remove_if( it.contents.begin(), it.contents.end(), [this]( item& e ) {
             int mv = u.item_handling_cost( e );
             if( !add_or_drop_with_msg( u, e ) ) {
@@ -11235,7 +11248,7 @@ bool game::unload( item &it )
         return false;
     }
 
-    if( !target->magazine_current() && target->ammo_remaining() <= 0 ) {
+    if( !target->magazine_current() && target->ammo_remaining() <= 0 && target->casings_count() <= 0 ) {
         if( target->is_tool() ) {
             add_msg( m_info, _( "Your %s isn't charged." ), target->tname().c_str() );
         } else {
@@ -11243,6 +11256,10 @@ bool game::unload( item &it )
         }
         return false;
     }
+
+    target->casings_handle( [&]( item &e ) {
+        return u.i_add_or_drop( e );
+    } );
 
     if( target->is_magazine() ) {
         // Remove all contained ammo consuming half as much time as required to load the magazine
@@ -11279,7 +11296,7 @@ bool game::unload( item &it )
             return target->magazine_current() == &e;
         } ) );
 
-    } else {
+    } else if( target->ammo_remaining() ) {
         long qty = target->ammo_remaining();
 
         if( target->ammo_type() == ammotype( "plutonium" ) ) {
@@ -12007,6 +12024,24 @@ bool game::walk_move( const tripoint &dest_loc )
                 !query_yn( _("Really step onto that %s?"), tr.name.c_str() ) ) {
                 return true;
             }
+
+            if( m.has_flag( "ROUGH", dest_loc ) && !m.has_flag( "ROUGH", u.pos() ) && !boardable &&
+                ( u.get_armor_bash( bp_foot_l ) < 5 || u.get_armor_bash( bp_foot_r ) < 5 ) &&
+                !query_yn( _( "Really step onto that %s?" ), m.name( dest_loc ).c_str() ) ) {
+                return true;
+            } else if( m.has_flag( "SHARP", dest_loc ) && !m.has_flag( "SHARP", u.pos() ) && !boardable &&
+                       u.dex_cur < 78 ) {
+                static const std::set< body_part > check = {
+                    bp_eyes, bp_mouth, bp_head, bp_leg_l, bp_leg_r, bp_foot_l, bp_foot_r, bp_arm_l, bp_arm_r,
+                    bp_hand_l, bp_hand_r, bp_torso
+                };
+                if( !std::all_of( check.begin(), check.end(), [this]( body_part bp ) {
+                return u.immune_to( bp, { DT_CUT, 10 } );
+                } ) && !query_yn( _( "Really step onto that %s?" ), m.name( dest_loc ).c_str() ) ) {
+                    return true;
+                }
+            }
+
         }
     }
 

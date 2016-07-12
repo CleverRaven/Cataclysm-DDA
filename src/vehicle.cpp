@@ -592,16 +592,15 @@ void vehicle::init_state(int init_veh_fuel, int init_veh_status)
  * was the collision point.
  */
 void vehicle::smash() {
-    for (size_t part_index = 0; part_index < parts.size(); part_index++) {
+    for( auto &part : parts ) {
         //Skip any parts already mashed up or removed.
-        if(parts[part_index].hp == 0 || parts[part_index].removed) {
+        if( part.hp <= 0 || part.removed ) {
             continue;
         }
 
-        vehicle_part next_part = parts[part_index];
-        std::vector<int> parts_in_square = parts_at_relative(next_part.mount.x, next_part.mount.y);
+        std::vector<int> parts_in_square = parts_at_relative( part.mount.x, part.mount.y );
         int structures_found = 0;
-        for (auto &square_part_index : parts_in_square) {
+        for( auto &square_part_index : parts_in_square ) {
             if (part_info(square_part_index).location == part_location_structure) {
                 structures_found++;
             }
@@ -611,16 +610,17 @@ void vehicle::smash() {
             //Destroy everything in the square
             for (auto &square_part_index : parts_in_square) {
                 parts[square_part_index].hp = 0;
+                parts[square_part_index].ammo_unset();
             }
             continue;
         }
 
         //Everywhere else, drop by 10-120% of max HP (anything over 100 = broken)
-        int damage = (int) (dice(1, 12) * 0.1 * part_info(part_index).durability);
-        parts[part_index].hp -= damage;
-        if (parts[part_index].hp <= 0) {
-            parts[part_index].hp = 0;
-            leak_fuel( parts[ part_index ] );
+        int damage = rng_float( 0.1f, 1.2f ) * part.info().durability;
+        part.hp -= damage;
+        if( part.hp <= 0 ) {
+            part.hp = 0;
+            part.ammo_unset();
         }
     }
 }
@@ -5729,7 +5729,6 @@ void vehicle::leak_fuel( vehicle_part &pt )
 
     // leak in random directions but prefer closest tiles and avoid walls or other obstacles
     auto tiles = closest_tripoints_first( 1, global_part_pos3( pt ) );
-    tiles.erase( tiles.begin() );
     tiles.erase( std::remove_if( tiles.begin(), tiles.end(), []( const tripoint& e ) {
         return !g->m.passable( e );
     } ), tiles.end() );

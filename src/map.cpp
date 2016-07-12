@@ -4710,14 +4710,21 @@ static void process_vehicle_items( vehicle *cur_veh, int part )
     }
     if( cur_veh->recharger_on && cur_veh->part_with_feature(part, VPFLAG_RECHARGE) >= 0 ) {
         for( auto &n : cur_veh->get_items( part ) ) {
-            if( !n.has_flag("RECHARGE") && !n.has_flag("USE_UPS") ) {
+            if( !n.is_tool() || ( !n.has_flag("RECHARGE") && !n.has_flag("USE_UPS") ) ) {
                 continue;
             }
-            if( n.is_tool() && n.ammo_capacity() > n.ammo_remaining() ) {
-                if( cur_veh->discharge_battery( 10, false ) ) {
-                    break; // Check car's power before charging
+            if( n.ammo_capacity() > n.ammo_remaining() ) {
+                constexpr int per_charge = 10;
+                const int missing = cur_veh->discharge_battery( per_charge, false );
+                if( missing < per_charge &&
+                    ( missing == 0 || x_in_y( per_charge - missing, per_charge ) ) ) {
+                    n.ammo_set( "battery", n.ammo_remaining() + 1 );
                 }
-                n.ammo_set( "battery", n.ammo_remaining() + 1 );
+
+                if( missing > 0 ) {
+                    // Not enough charge - stop charging
+                    break;
+                }
             }
         }
     }
@@ -7073,13 +7080,10 @@ void map::actualize( const int gridx, const int gridy, const int gridz )
         }
     }
 
-    //Merchants will restock their inventories every three days
-    const int merchantRestock = 14400 * 3; //14400 is the length of one day
     //Check for Merchants to restock
     for( auto & i : g->active_npc ) {
-        if( i->restock != -1 && calendar::turn > ( i->restock + merchantRestock ) ) {
+        if( i->restock > 0 && calendar::turn > i->restock ) {
             i->shop_restock();
-            i->restock = int( calendar::turn );
         }
     }
 

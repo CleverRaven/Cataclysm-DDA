@@ -121,6 +121,7 @@ src/fault.h
 src/filesystem.h
 src/fire.h
 src/game_constants.h
+src/game_inventory.cpp
 src/gates.h
 src/generic_factory.h
 src/get_version.h
@@ -129,6 +130,7 @@ src/iexamine.h
 src/init.h
 src/input.h
 src/int_id.h
+src/inventory_ui.h
 src/item_action.h
 src/item_factory.h
 src/item_location.h

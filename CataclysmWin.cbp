@@ -434,6 +434,7 @@
 		<Unit filename="src/game.cpp" />
 		<Unit filename="src/game.h" />
 		<Unit filename="src/game_constants.h" />
+		<Unit filename="src/game_inventory.cpp" />
 		<Unit filename="src/gamemode.cpp" />
 		<Unit filename="src/gamemode.h" />
 		<Unit filename="src/gates.cpp" />
@@ -451,6 +452,7 @@
 		<Unit filename="src/inventory.cpp" />
 		<Unit filename="src/inventory.h" />
 		<Unit filename="src/inventory_ui.cpp" />
+		<Unit filename="src/inventory_ui.h" />
 		<Unit filename="src/item.cpp" />
 		<Unit filename="src/item.h" />
 		<Unit filename="src/item_action.cpp" />

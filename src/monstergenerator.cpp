@@ -490,6 +490,8 @@ void mtype::load( JsonObject &jo )
         dies.push_back( mdeath::normal );
     }
 
+    assign( jo, "emit_fields", emit_fields );
+
     if( jo.has_member( "special_when_hit" ) ) {
         JsonArray jsarr = jo.get_array( "special_when_hit" );
         const auto iter = gen.defense_map.find( jsarr.get_string( 0 ) );
