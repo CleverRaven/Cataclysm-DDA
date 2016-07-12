@@ -382,19 +382,35 @@ dealt_projectile_attack Creature::projectile_attack( const projectile &proj_arg,
     return attack;
 }
 
-double player::gun_effective_range( const item& gun, unsigned aim, unsigned chance, double accuracy ) const
+double player::gun_effective_range( const item& gun, int aim, unsigned chance, double accuracy ) const
 {
     if( !gun.is_gun() ) {
         return 0;
     }
 
-    int res = recoil;
-    for( unsigned i = 0; i != aim; ++i ) {
-        res -= aim_per_time( gun, res );
+    // get current effective player recoil
+    int max_recoil = std::max( recoil, 0 );
+    if( recoil < 0 ) {
+        debugmsg( "negative player recoil when calculating effective range" );
+    }
+
+    // aim_per_time() returns improvement (in MOA) per 10 moves
+    for( int i = aim * 10; i != 0; --i ) {
+        int adj = aim_per_time( gun, max_recoil );
+        if( adj <= 0 ) {
+            break; // no further improvement is possible
+        }
+        max_recoil -= adj;
+    }
+
+    // apply maximum penalty from driving
+    max_recoil += std::max( driving_recoil, 0 );
+    if( driving_recoil < 0 ) {
+        debugmsg( "negative driving recoil when calculating effective range" );
     }
 
     // calculate maximum potential dispersion
-    double dispersion = get_weapon_dispersion( &gun, false ) + std::max( res, 0 ) + driving_recoil;
+    double dispersion = get_weapon_dispersion( &gun, false ) + max_recoil;
 
     // cap at min 1MOA as at zero dispersion would result in an infinite effective range
     dispersion = std::max( dispersion, 1.0 );

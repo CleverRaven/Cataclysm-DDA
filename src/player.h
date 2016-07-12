@@ -496,12 +496,12 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
 
         /**
          * Calculate range at which given chance of hit considering player stats, clothing and recoil
-         * @param aim how many cycles of aiming to perform
+         * @param aim maximum turns to spend aiming (or unlimited if negative)
          * @param chance probability of hit, range [0-100)
          * @param accuracy minimum accuracy required
-         * @return range in tiles
+         * @return range in tiles (with default arguments this is the maximum effective range)
          */
-        double gun_effective_range( const item& gun, unsigned aim = 0, unsigned chance = 50,
+        double gun_effective_range( const item& gun, int aim = -1, unsigned chance = 50,
                                     double accuracy = accuracy_goodhit ) const;
 
         /**
