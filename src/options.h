@@ -114,6 +114,9 @@ class options_manager : public JsonSerializer, public JsonDeserializer
                 void setValue( std::string sSetIn );
                 void setValue( float fSetIn );
 
+                template<typename T>
+                T value_as() const;
+
                 //Set default class behaviour to float
                 operator float() const;
                 // return integer via int
@@ -188,5 +191,11 @@ extern std::map<int, std::vector<std::string> > mPageItems;
 extern int iWorldOptPage;
 
 options_manager &get_options();
+
+template<typename T>
+inline T get_option( const std::string &name )
+{
+    return OPTIONS[name].value_as<T>();
+}
 
 #endif

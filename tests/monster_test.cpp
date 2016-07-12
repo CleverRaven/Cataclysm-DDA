@@ -214,7 +214,7 @@ static void check_shamble_speed( const std::string monster_type, const tripoint 
 {
     // Scale the scaling factor based on the ratio of diagonal to cardinal steps.
     const float slope = get_normalized_angle( {0, 0}, {destination.x, destination.y} );
-    const float diagonal_multiplier = 1.0 + (OPTIONS["CIRCLEDIST"] ? (slope * 0.41) : 0.0);
+    const float diagonal_multiplier = 1.0 + (get_option<bool>( "CIRCLEDIST" ) ? (slope * 0.41) : 0.0);
     INFO( monster_type << " " << destination );
     // Wandering makes things nondeterministic, so look at the distribution rather than a target number.
     statistics move_stats;
@@ -258,7 +258,7 @@ static void test_moves_to_squares( std::string monster_type, bool write_data = f
                 }
                 // Scale the scaling factor based on the ratio of diagonal to cardinal steps.
                 const float slope = get_normalized_angle( {50, 50}, {x, y} );
-                const float diagonal_multiplier = 1.0 + (OPTIONS["CIRCLEDIST"] ? (slope * 0.41) : 0.0);
+                const float diagonal_multiplier = 1.0 + (get_option<bool>( "CIRCLEDIST" ) ? (slope * 0.41) : 0.0);
                 turns_at_angle[angle * 100].new_type();
                 turns_at_slope[slope].new_type();
                 for( int i = 0; i < 5; ++i ) {
@@ -305,7 +305,7 @@ static void test_moves_to_squares( std::string monster_type, bool write_data = f
 }
 
 static void monster_check() {
-    const float diagonal_multiplier = (OPTIONS["CIRCLEDIST"] ? 1.41 : 1.0);
+    const float diagonal_multiplier = (get_option<bool>( "CIRCLEDIST" ) ? 1.41 : 1.0);
     // Have a monster walk some distance in a direction and measure how long it takes.
     float vert_move = moves_to_destination( "mon_pig", {0,0,0}, {100,0,0} );
     CHECK( (vert_move / 10000.0) == Approx(1.0) );
@@ -335,7 +335,7 @@ static void monster_check() {
     test_moves_to_squares("mon_pig");
 
     // Verify that a walking player can escape from a zombie, but is caught by a zombie dog.
-    INFO( "Trigdist is " << ( OPTIONS["CIRCLEDIST"] ? "on" : "off" ) );
+    INFO( "Trigdist is " << ( get_option<bool>( "CIRCLEDIST" ) ? "on" : "off" ) );
     CHECK( can_catch_player( "mon_zombie", {1,0,0} ) < 0  );
     CHECK( can_catch_player( "mon_zombie", {1,1,0} ) < 0  );
     CHECK( can_catch_player( "mon_zombie_dog", {1,0,0} ) > 0  );

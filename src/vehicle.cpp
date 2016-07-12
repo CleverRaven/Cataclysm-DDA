@@ -2587,7 +2587,7 @@ nc_color vehicle::part_color( const int p, const bool exact ) const
     int parm = -1;
 
     //If armoring is present and the option is set, it colors the visible part
-    if( OPTIONS["VEHICLE_ARMOR_COLOR"] ) {
+    if( get_option<bool>( "VEHICLE_ARMOR_COLOR" ) ) {
         parm = part_with_feature(p, VPFLAG_ARMOR, false);
     }
 

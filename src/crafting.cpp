@@ -987,7 +987,7 @@ void set_item_inventory( item &newit )
             add_msg( _( "There's no room in your inventory for the %s, so you drop it." ),
                      newit.tname().c_str() );
             g->m.add_item_or_charges( g->u.pos(), newit );
-        } else if( !g->u.can_pickWeight( newit, !OPTIONS["DANGEROUS_PICKUPS"] ) ) {
+        } else if( !g->u.can_pickWeight( newit, !get_option<bool>( "DANGEROUS_PICKUPS" ) ) ) {
             add_msg( _( "The %s is too heavy to carry, so you drop it." ),
                      newit.tname().c_str() );
             g->m.add_item_or_charges( g->u.pos(), newit );
@@ -1386,7 +1386,7 @@ bool player::can_disassemble( const item &dis_item, const recipe *cur_recipe,
 
 bool query_disassemble( const item &dis_item )
 {
-    if( OPTIONS["QUERY_DISASSEMBLE"] ) {
+    if( get_option<bool>( "QUERY_DISASSEMBLE" ) ) {
         return query_yn( _( "Really disassemble the %s?" ), dis_item.tname().c_str() );
     }
     return true;
@@ -1448,7 +1448,7 @@ bool player::disassemble( item &dis_item, int dis_pos,
     }
     // If we're trying to disassemble a book or magazine
     if( dis_item.is_book() ) {
-        if( msg_and_query && OPTIONS["QUERY_DISASSEMBLE"] &&
+        if( msg_and_query && get_option<bool>( "QUERY_DISASSEMBLE" ) &&
             !query_yn( _( "Do you want to tear %s into pages?" ),
                        dis_item.tname().c_str() ) ) {
             return false;

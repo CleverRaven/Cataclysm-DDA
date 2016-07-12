@@ -240,9 +240,9 @@ static bool select_autopickup_items( std::vector<item> &here, std::vector<pickup
 
                 //Auto Pickup all items with 0 Volume and Weight <= AUTO_PICKUP_ZERO * 50
                 //items will either be in the autopickup list ("true") or unmatched ("")
-                if( !bPickup && OPTIONS["AUTO_PICKUP_ZERO"] ) {
+                if( !bPickup && get_option<int>( "AUTO_PICKUP_ZERO" ) ) {
                     if( here[i].volume() == 0 &&
-                        here[i].weight() <= OPTIONS["AUTO_PICKUP_ZERO"] * 50 &&
+                        here[i].weight() <= get_option<int>( "AUTO_PICKUP_ZERO" ) * 50 &&
                         get_auto_pickup().check_item( sItemName ) != "false" ) {
                         bPickup = true;
                     }
@@ -549,7 +549,7 @@ void Pickup::pick_up( const tripoint &pos, int min )
             }
         }
 
-        if( isEmpty && ( min != -1 || !OPTIONS["AUTO_PICKUP_ADJACENT"] ) ) {
+        if( isEmpty && ( min != -1 || !get_option<bool>( "AUTO_PICKUP_ADJACENT" ) ) ) {
             return;
         }
     }
@@ -572,7 +572,7 @@ void Pickup::pick_up( const tripoint &pos, int min )
         }
 
         // Recursively pick up adjacent items if that option is on.
-        if( OPTIONS["AUTO_PICKUP_ADJACENT"] && g->u.pos() == pos ) {
+        if( get_option<bool>( "AUTO_PICKUP_ADJACENT" ) && g->u.pos() == pos ) {
             //Autopickup adjacent
             direction adjacentDir[8] = {NORTH, NORTHEAST, EAST, SOUTHEAST, SOUTH, SOUTHWEST, WEST, NORTHWEST};
             for( auto &elem : adjacentDir ) {
@@ -880,7 +880,7 @@ void Pickup::pick_up( const tripoint &pos, int min )
                         wprintw( w_pickup, " - " );
                     }
                     std::string item_name = here[cur_it].display_name();
-                    if( OPTIONS["ITEM_SYMBOLS"] ) {
+                    if( get_option<bool>( "ITEM_SYMBOLS" ) ) {
                         item_name = string_format( "%s %s", here[cur_it].symbol().c_str(),
                                                    item_name.c_str() );
                     }

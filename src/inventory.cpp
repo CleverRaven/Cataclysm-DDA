@@ -967,7 +967,7 @@ std::vector<item *> inventory::active_items()
 
 void inventory::assign_empty_invlet(item &it, bool force)
 {
-    if( !OPTIONS["AUTO_INV_ASSIGN"] ) {
+    if( !get_option<bool>( "AUTO_INV_ASSIGN" ) ) {
         return;
     }
 

@@ -201,7 +201,7 @@ void SkillLevel::deserialize(JsonIn &jsin)
     data.read( "istraining", _isTraining );
     data.read( "lastpracticed", lastpractice );
     if(lastpractice == 0) {
-        _lastPracticed = HOURS(OPTIONS["INITIAL_TIME"]);
+        _lastPracticed = HOURS( get_option<int>( "INITIAL_TIME" ) );
     } else {
         _lastPracticed = lastpractice;
     }

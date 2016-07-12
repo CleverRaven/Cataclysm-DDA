@@ -317,7 +317,7 @@ void advanced_inventory::print_items( advanced_inventory_pane &pane, bool active
         }
 
         std::string item_name = it.display_name();
-        if( OPTIONS["ITEM_SYMBOLS"] ) {
+        if( get_option<bool>( "ITEM_SYMBOLS" ) ) {
             item_name = string_format( "%s %s", it.symbol().c_str(), item_name.c_str() );
         }
 
@@ -1218,7 +1218,7 @@ bool advanced_inventory::move_all_items(bool nested_call)
         return false;
     }
 
-    if( nested_call || !OPTIONS["CLOSE_ADV_INV"] ) {
+    if( nested_call || !get_option<bool>( "CLOSE_ADV_INV" ) ) {
         // Why is this here? It's because the activity backlog can act
         // like a stack instead of a single deferred activity in order to
         // accomplish some UI shenanigans. The inventory menu activity is

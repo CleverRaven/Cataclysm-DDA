@@ -318,19 +318,19 @@ bool WinCreate()
     WindowWidth = TERMINAL_WIDTH * fontwidth;
     WindowHeight = TERMINAL_HEIGHT * fontheight;
 
-    if( OPTIONS["SCALING_MODE"] != "none" ) {
+    if( get_option<std::string>( "SCALING_MODE" ) != "none" ) {
         window_flags |= SDL_WINDOW_RESIZABLE;
-        SDL_SetHint( SDL_HINT_RENDER_SCALE_QUALITY, OPTIONS["SCALING_MODE"].getValue().c_str() );
+        SDL_SetHint( SDL_HINT_RENDER_SCALE_QUALITY, get_option<std::string>( "SCALING_MODE" ).c_str() );
     }
 
-    if (OPTIONS["FULLSCREEN"] == "fullscreen") {
+    if (get_option<std::string>( "FULLSCREEN" ) == "fullscreen") {
         window_flags |= SDL_WINDOW_FULLSCREEN;
-    } else if (OPTIONS["FULLSCREEN"] == "windowedbl") {
+    } else if (get_option<std::string>( "FULLSCREEN" ) == "windowedbl") {
         window_flags |= SDL_WINDOW_FULLSCREEN_DESKTOP;
         SDL_SetHint(SDL_HINT_VIDEO_MINIMIZE_ON_FOCUS_LOSS, "0");
     }
 
-    int display = OPTIONS["DISPLAY"];
+    int display = get_option<int>( "DISPLAY" );
     if ( display < 0 || display >= SDL_GetNumVideoDisplays() ) {
         display = 0;
     }
@@ -372,7 +372,7 @@ bool WinCreate()
         return false;
     }
 
-    bool software_renderer = OPTIONS["SOFTWARE_RENDERING"];
+    bool software_renderer = get_option<bool>( "SOFTWARE_RENDERING" );
     if( !software_renderer ) {
         dbg( D_INFO ) << "Attempting to initialize accelerated SDL renderer.";
 
@@ -409,7 +409,7 @@ bool WinCreate()
 
     // Errors here are ignored, worst case: the option does not work as expected,
     // but that won't crash
-    if(OPTIONS["HIDE_CURSOR"] != "show" && SDL_ShowCursor(-1)) {
+    if(get_option<std::string>( "HIDE_CURSOR" ) != "show" && SDL_ShowCursor(-1)) {
         SDL_ShowCursor(SDL_DISABLE);
     } else {
         SDL_ShowCursor(SDL_ENABLE);
@@ -418,7 +418,7 @@ bool WinCreate()
     // Initialize joysticks.
     int numjoy = SDL_NumJoysticks();
 
-    if( OPTIONS["ENABLE_JOYSTICK"] && numjoy >= 1 ) {
+    if( get_option<bool>( "ENABLE_JOYSTICK" ) && numjoy >= 1 ) {
         if( numjoy > 1 ) {
             dbg( D_WARNING ) << "You have more than one gamepads/joysticks plugged in, only the first will be used.";
         }
@@ -683,7 +683,7 @@ void find_videodisplays() {
         displays.insert( { i, SDL_GetDisplayName( i ) } );
     }
 
-    int current_display = OPTIONS["DISPLAY"];
+    int current_display = get_option<int>( "DISPLAY" );
 
     OPTIONS["DISPLAY"] = options_manager::cOpt("graphics", _("Display"),
                               _("Sets which video display will be used to show the game. Requires restart."),
@@ -1224,7 +1224,7 @@ void CheckMessages()
             case SDL_KEYDOWN:
             {
                 //hide mouse cursor on keyboard input
-                if(OPTIONS["HIDE_CURSOR"] != "show" && SDL_ShowCursor(-1)) {
+                if(get_option<std::string>( "HIDE_CURSOR" ) != "show" && SDL_ShowCursor(-1)) {
                     SDL_ShowCursor(SDL_DISABLE);
                 }
                 const Uint8 *keystate = SDL_GetKeyboardState(NULL);
@@ -1272,7 +1272,7 @@ void CheckMessages()
                 // TODO: somehow get the "digipad" values from the axes
             break;
             case SDL_MOUSEMOTION:
-                if (OPTIONS["HIDE_CURSOR"] == "show" || OPTIONS["HIDE_CURSOR"] == "hidekb") {
+                if (get_option<std::string>( "HIDE_CURSOR" ) == "show" || get_option<std::string>( "HIDE_CURSOR" ) == "hidekb") {
                     if (!SDL_ShowCursor(-1)) {
                         SDL_ShowCursor(SDL_ENABLE);
                     }
@@ -1532,13 +1532,13 @@ static int test_face_size(std::string f, int size, int faceIndex)
 // Calculates the new width of the window, given the number of columns.
 int projected_window_width(int)
 {
-    return OPTIONS["TERMINAL_X"] * fontwidth;
+    return get_option<int>( "TERMINAL_X" ) * fontwidth;
 }
 
 // Calculates the new height of the window, given the number of rows.
 int projected_window_height(int)
 {
-    return OPTIONS["TERMINAL_Y"] * fontheight;
+    return get_option<int>( "TERMINAL_Y" ) * fontheight;
 }
 
 //Basic Init, create the font, backbuffer, etc
@@ -1632,8 +1632,8 @@ WINDOW *curses_init(void)
 
     find_videodisplays();
 
-    TERMINAL_WIDTH = OPTIONS["TERMINAL_X"];
-    TERMINAL_HEIGHT = OPTIONS["TERMINAL_Y"];
+    TERMINAL_WIDTH = get_option<int>( "TERMINAL_X" );
+    TERMINAL_HEIGHT = get_option<int>( "TERMINAL_Y" );
 
     if(!WinCreate()) {
         return NULL;
@@ -2153,7 +2153,7 @@ void play_music_file(std::string filename, int volume) {
         dbg( D_ERROR ) << "Failed to load audio file " << path << ": " << Mix_GetError();
         return;
     }
-    Mix_VolumeMusic(volume * OPTIONS["MUSIC_VOLUME"] / 100);
+    Mix_VolumeMusic(volume * get_option<int>( "MUSIC_VOLUME" ) / 100);
     if( Mix_PlayMusic( current_music, 0 ) != 0 ) {
         dbg( D_ERROR ) << "Starting playlist " << path << " failed: " << Mix_GetError();
         return;
@@ -2364,7 +2364,7 @@ void sfx::play_variant_sound( std::string id, std::string variant, int volume ) 
 
     Mix_Chunk *effect_to_play = selected_sound_effect.chunk.get();
     Mix_VolumeChunk( effect_to_play,
-                     selected_sound_effect.volume * OPTIONS["SOUND_EFFECT_VOLUME"] * volume / ( 100 * 100 ) );
+                     selected_sound_effect.volume * get_option<int>( "SOUND_EFFECT_VOLUME" ) * volume / ( 100 * 100 ) );
     Mix_PlayChannel( -1, effect_to_play, 0 );
 }
 
@@ -2385,7 +2385,7 @@ void sfx::play_variant_sound( std::string id, std::string variant, int volume, i
     float pitch_random = rng_float( pitch_min, pitch_max );
     Mix_Chunk *shifted_effect = do_pitch_shift( effect_to_play, pitch_random );
     Mix_VolumeChunk( shifted_effect,
-                     selected_sound_effect.volume * OPTIONS["SOUND_EFFECT_VOLUME"] * volume / ( 100 * 100 ) );
+                     selected_sound_effect.volume * get_option<int>( "SOUND_EFFECT_VOLUME" ) * volume / ( 100 * 100 ) );
     int channel = Mix_PlayChannel( -1, shifted_effect, 0 );
     Mix_SetPosition( channel, angle, 1 );
 }
@@ -2404,7 +2404,7 @@ void sfx::play_ambient_variant_sound( std::string id, std::string variant, int v
 
     Mix_Chunk *effect_to_play = selected_sound_effect.chunk.get();
     Mix_VolumeChunk( effect_to_play,
-                     selected_sound_effect.volume * OPTIONS["SOUND_EFFECT_VOLUME"] * volume / ( 100 * 100 ) );
+                     selected_sound_effect.volume * get_option<int>( "SOUND_EFFECT_VOLUME" ) * volume / ( 100 * 100 ) );
     if( Mix_FadeInChannel( channel, effect_to_play, -1, duration ) == -1 ) {
         dbg( D_ERROR ) << "Failed to play sound effect: " << Mix_GetError();
     }
@@ -2415,7 +2415,7 @@ void load_soundset() {
 #ifdef SDL_SOUND
     const std::string default_path = FILENAMES["defaultsounddir"];
     const std::string default_soundpack = "basic";
-    std::string current_soundpack = OPTIONS["SOUNDPACKS"].getValue();
+    std::string current_soundpack = get_option<std::string>( "SOUNDPACKS" );
     std::string soundpack_path;
 
     // Get curent soundpack and it's directory path.

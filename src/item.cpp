@@ -2123,11 +2123,11 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
 
 // MATERIALS-TODO: put this in json
     std::string damtext = "";
-    if ((damage != 0 || ( OPTIONS["ITEM_HEALTH_BAR"] && is_armor() )) && !is_null() && with_prefix) {
+    if ((damage != 0 || ( get_option<bool>( "ITEM_HEALTH_BAR" ) && is_armor() )) && !is_null() && with_prefix) {
         if( damage < 0 )  {
             if( damage < MIN_ITEM_DAMAGE ) {
                 damtext = rm_prefix(_("<dam_adj>bugged "));
-            } else if ( OPTIONS["ITEM_HEALTH_BAR"] ) {
+            } else if ( get_option<bool>( "ITEM_HEALTH_BAR" ) ) {
                 auto const &nc_text = get_item_hp_bar(damage);
                 damtext = "<color_" + string_from_color(nc_text.second) + ">" + nc_text.first + " </color>";
             } else if (is_gun())  {
@@ -2142,7 +2142,7 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
                 if (damage == 3) damtext = rm_prefix(_("<dam_adj>mangled "));
                 if (damage == 4) damtext = rm_prefix(_("<dam_adj>pulped "));
 
-            } else if ( OPTIONS["ITEM_HEALTH_BAR"] ) {
+            } else if ( get_option<bool>( "ITEM_HEALTH_BAR" ) ) {
                 auto const &nc_text = get_item_hp_bar(damage);
                 damtext = "<color_" + string_from_color(nc_text.second) + ">" + nc_text.first + " </color>";
 

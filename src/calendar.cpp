@@ -322,10 +322,10 @@ std::string calendar::print_time(bool just_hour) const
     std::ostringstream time_string;
     int hour_param;
 
-    if (OPTIONS["24_HOUR"] == "military") {
+    if (get_option<std::string>( "24_HOUR" ) == "military") {
         hour_param = hour % 24;
         time_string << string_format("%02d%02d.%02d", hour_param, minute, second);
-    } else if (OPTIONS["24_HOUR"] == "24h") {
+    } else if (get_option<std::string>( "24_HOUR" ) == "24h") {
         hour_param = hour % 24;
         if (just_hour) {
             time_string << hour_param;

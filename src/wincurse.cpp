@@ -257,7 +257,7 @@ LRESULT CALLBACK ProcessMessages(HWND__ *hWnd,unsigned int Msg,
 
     case WM_SETCURSOR:
         MouseOver = LOWORD(lParam);
-        if (OPTIONS["HIDE_CURSOR"] == "hide")
+        if (get_option<std::string>( "HIDE_CURSOR" ) == "hide")
         {
             if (MouseOver==HTCLIENT && CursorVisible)
             {
@@ -434,13 +434,13 @@ void CheckMessages()
 // Calculates the new width of the window, given the number of columns.
 int projected_window_width(int)
 {
-    return OPTIONS["TERMINAL_X"] * fontwidth;
+    return get_option<int>( "TERMINAL_X" ) * fontwidth;
 }
 
 // Calculates the new height of the window, given the number of rows.
 int projected_window_height(int)
 {
-    return OPTIONS["TERMINAL_Y"] * fontheight;
+    return get_option<int>( "TERMINAL_Y" ) * fontheight;
 }
 
 //***********************************
@@ -530,8 +530,8 @@ WINDOW *curses_init(void)
 
     halfwidth=fontwidth / 2;
     halfheight=fontheight / 2;
-    WindowWidth= OPTIONS["TERMINAL_X"] * fontwidth;
-    WindowHeight = OPTIONS["TERMINAL_Y"] * fontheight;
+    WindowWidth= get_option<int>( "TERMINAL_X" ) * fontwidth;
+    WindowHeight = get_option<int>( "TERMINAL_Y" ) * fontheight;
 
     WinCreate();    //Create the actual window, register it, etc
     timeBeginPeriod(1); // Set Sleep resolution to 1ms
@@ -580,7 +580,7 @@ WINDOW *curses_init(void)
 
     init_colors();
 
-    mainwin = newwin(OPTIONS["TERMINAL_Y"],OPTIONS["TERMINAL_X"],0,0);
+    mainwin = newwin(get_option<int>( "TERMINAL_Y" ), get_option<int>( "TERMINAL_X" ),0,0);
     return mainwin;   //create the 'stdscr' window and return its ref
 }
 
@@ -622,7 +622,7 @@ int curses_getch(WINDOW* win)
         CheckMessages();
     }
 
-    if (lastchar!=ERR && OPTIONS["HIDE_CURSOR"] == "hidekb" && CursorVisible) {
+    if (lastchar!=ERR && get_option<std::string>( "HIDE_CURSOR" ) == "hidekb" && CursorVisible) {
         CursorVisible = false;
         ShowCursor(false);
     }

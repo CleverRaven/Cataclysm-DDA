@@ -369,6 +369,42 @@ std::string options_manager::cOpt::getValue()
     return "";
 }
 
+template<>
+std::string options_manager::cOpt::value_as<std::string>() const
+{
+    if( sType != "string_select" && sType != "string_input" ) {
+        debugmsg( "tried to get string value from option of type %s", sType.c_str() );
+    }
+    return sSet;
+}
+
+template<>
+bool options_manager::cOpt::value_as<bool>() const
+{
+    if( sType != "bool" ) {
+        debugmsg( "tried to get boolean value from option of type %s", sType.c_str() );
+    }
+    return bSet;
+}
+
+template<>
+float options_manager::cOpt::value_as<float>() const
+{
+    if( sType != "float" ) {
+        debugmsg( "tried to get float value from option of type %s", sType.c_str() );
+    }
+    return fSet;
+}
+
+template<>
+int options_manager::cOpt::value_as<int>() const
+{
+    if( sType != "int" && sType != "int_map" ) {
+        debugmsg( "tried to get integer value from option of type %s", sType.c_str() );
+    }
+    return iSet;
+}
+
 std::string options_manager::cOpt::getValueName()
 {
     if (sType == "string_select") {
@@ -1827,11 +1863,12 @@ bool options_manager::save()
 {
     const auto savefile = FILENAMES["options"];
 
-    trigdist = OPTIONS["CIRCLEDIST"]; // update trigdist as well
-    use_tiles = OPTIONS["USE_TILES"]; // and use_tiles
-    log_from_top = OPTIONS["SIDEBAR_LOG_FLOW"] == "new_top"; // cache to global due to heavy usage.
-    message_ttl = OPTIONS["MESSAGE_TTL"]; // cache to global due to heavy usage.
-    fov_3d = OPTIONS["FOV_3D"];
+    // cache to global due to heavy usage.
+    trigdist = get_option<bool>( "CIRCLEDIST" );
+    use_tiles = get_option<bool>( "USE_TILES" );
+    log_from_top = get_option<std::string>( "SIDEBAR_LOG_FLOW" ) == "new_top";
+    message_ttl = get_option<int>( "MESSAGE_TTL" );
+    fov_3d = get_option<bool>( "FOV_3D" );
 
     return write_to_file( savefile, [&]( std::ostream &fout ) {
         JsonOut jout( fout, true );
@@ -1864,11 +1901,12 @@ void options_manager::load()
 
     fin.close();
 
-    trigdist = OPTIONS["CIRCLEDIST"]; // cache to global due to heavy usage.
-    use_tiles = OPTIONS["USE_TILES"]; // cache to global due to heavy usage.
-    log_from_top = OPTIONS["SIDEBAR_LOG_FLOW"] == "new_top"; // cache to global due to heavy usage.
-    message_ttl = OPTIONS["MESSAGE_TTL"]; // cache to global due to heavy usage.
-    fov_3d = OPTIONS["FOV_3D"];
+    // cache to global due to heavy usage.
+    trigdist = get_option<bool>( "CIRCLEDIST" );
+    use_tiles = get_option<bool>( "USE_TILES" );
+    log_from_top = get_option<std::string>( "SIDEBAR_LOG_FLOW" ) == "new_top";
+    message_ttl = get_option<int>( "MESSAGE_TTL" );
+    fov_3d = get_option<bool>( "FOV_3D" );
 }
 
 bool options_manager::load_legacy()

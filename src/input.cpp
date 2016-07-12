@@ -982,7 +982,7 @@ void input_context::display_help()
             inp_mngr.get_action_attributes( action_id, category, &is_local );
             const std::string name = get_action_name( action_id );
 
-            if( status == s_remove && ( !OPTIONS["QUERY_KEYBIND_REMOVAL"] ||
+            if( status == s_remove && ( !get_option<bool>( "QUERY_KEYBIND_REMOVAL" ) ||
                                         query_yn( _( "Clear keys for %s?" ), name.c_str() ) ) ) {
 
                 // If it's global, reset the global actions.
