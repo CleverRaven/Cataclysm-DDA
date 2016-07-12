@@ -19,5 +19,48 @@
     "//": "Steady stream of tear gas (example: tear gas canister)",
     "field": "fd_tear_gas",
     "qty": 18
+  },{
+    "id": "emit_gas_plume",
+    "type": "emit",
+    "//": "occassional wafts of toxic gas (example: gasbag)",
+    "field": "fd_toxic_gas",
+    "qty": 3,
+    "chance": 20
+  },{
+    "id": "emit_fire_small",
+    "type": "emit",
+    "//": "starts fires in its path and/or trail (example: creature made of fire)",
+    "field": "fd_fire",
+    "qty": 1,
+    "chance": 33
+  },{
+    "id": "emit_sludge",
+    "type": "emit",
+    "//": "sludge trail (example: sludge crawler)",
+    "field": "fd_sludge",
+    "qty": 3,
+    "density": 2
+  },{
+    "id": "emit_acid_small",
+    "type": "emit",
+    "//": "leaks a trail of thin acid (example: leaking corrosive zombie)",
+    "field": "fd_acid",
+    "qty": 2,
+    "density": 1,
+    "chance": 25
+  },{
+    "id": "emit_web_small",
+    "type": "emit",
+    "//": "occassionally lays down webs (example: cellar spider)",
+    "field": "fd_web",
+    "qty": 3,
+    "density": 1,
+    "chance": 5
+  },{
+    "id": "emit_web_small",
+    "type": "emit",
+    "//": "adds fatigue to (n)pcs nearby (example: amigara horror)",
+    "field": "fd_fatigue",
+    "qty": 6
   }
 ]
