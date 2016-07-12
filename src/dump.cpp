@@ -10,6 +10,7 @@
 #include "player.h"
 #include "vehicle.h"
 #include "veh_type.h"
+#include "npc.h"
 
 void game::dump_stats( const std::string& what, dump_mode mode )
 {
@@ -81,8 +82,10 @@ void game::dump_stats( const std::string& what, dump_mode mode )
     } else if( what == "GUN" ) {
         header = {
             "Name", "Ammo", "Volume", "Weight", "Capacity",
-            "Range", "Dispersion", "Recoil", "Damage", "Pierce"
+            "Range", "Dispersion", "Recoil", "Damage", "Pierce",
+            "Snapshot", "Aimed"
         };
+
         std::set<std::string> locations;
         for( const auto& e : item_controller->get_all_itypes() ) {
             if( e.second->gun ) {
@@ -108,6 +111,17 @@ void game::dump_stats( const std::string& what, dump_mode mode )
             r.push_back( to_string( obj.gun_recoil() ) );
             r.push_back( to_string( obj.gun_damage() ) );
             r.push_back( to_string( obj.gun_pierce() ) );
+
+            npc fake = npc::standard();
+            fake.wear_item( item( "gloves_lsurvivor" ) );
+            fake.wear_item( item( "mask_lsurvivor" ) );
+            fake.set_skill_level( skill_id( "gun" ), 4 );
+            fake.set_skill_level( obj.gun_skill(), 4 );
+            fake.recoil = MIN_RECOIL;
+
+            r.push_back( string_format( "%.1f", fake.gun_effective_range( obj, 0, 50, accuracy_goodhit ) ) );
+            r.push_back( string_format( "%.1f", fake.gun_effective_range( obj, 2, 50, accuracy_goodhit ) ) );
+
             for( const auto &e : locations ) {
                 r.push_back( to_string( obj.type->gun->valid_mod_locations[ e ] ) );
             }
