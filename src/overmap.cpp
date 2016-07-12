@@ -39,6 +39,7 @@
 #include <cstring>
 #include <ostream>
 #include <queue>
+#include <algorithm>
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_MAP_GEN) << __FILE__ << ":" << __LINE__ << ": "
 

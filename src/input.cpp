@@ -16,6 +16,7 @@
 #include <stdexcept>
 #include <errno.h>
 #include <ctype.h>
+#include <algorithm>
 
 extern bool tile_iso;
 extern bool lcmatch( const std::string &str, const std::string &findstr ); // ui.cpp

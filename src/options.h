@@ -5,7 +5,6 @@
 #include <map>
 #include <unordered_map>
 #include <vector>
-#include <algorithm> //atoi
 #include "json.h"
 
 class options_manager : public JsonSerializer, public JsonDeserializer

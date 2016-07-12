@@ -24,6 +24,7 @@
 #include "vehicle.h"
 #include "field.h"
 #include "mtype.h"
+#include <algorithm>
 
 const skill_id skill_pistol( "pistol" );
 const skill_id skill_rifle( "rifle" );

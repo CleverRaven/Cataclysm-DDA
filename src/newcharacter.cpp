@@ -30,6 +30,7 @@
 #include <fstream>
 #include <sstream>
 #include <vector>
+#include <algorithm>
 #include <cassert>
 
 // Colors used in this file: (Most else defaults to c_ltgray)

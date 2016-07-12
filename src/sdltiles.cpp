@@ -16,6 +16,7 @@
 #include <sys/stat.h>
 #include <memory>
 #include <stdexcept>
+#include <limits>
 #include "cata_tiles.h"
 #include "get_version.h"
 #include "init.h"

@@ -26,6 +26,7 @@
 #include <functional>
 #include <sstream>
 #include <iterator>
+#include <algorithm>
 
 #ifdef _MSC_VER
 #include <math.h>

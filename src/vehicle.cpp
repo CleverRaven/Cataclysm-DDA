@@ -38,6 +38,7 @@
 #include <math.h>
 #include <array>
 #include <numeric>
+#include <algorithm>
 
 /*
  * Speed up all those if ( blarg == "structure" ) statements that are used everywhere;
