@@ -890,17 +890,21 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
 
         insert_separation_line();
 
-        // effective range is a 50% chance of a good hit spanning from nil to maximum aim
-        int e_min = round( g->u.gun_effective_range( *mod,  0, MIN_RECOIL ) );
-        int e_max = round( g->u.gun_effective_range( *mod, -1, MIN_RECOIL ) );
+        int eff_min = round( g->u.gun_effective_range( *mod, player::engagement::effective_min, MIN_RECOIL ) );
+        int eff_max = round( g->u.gun_effective_range( *mod, player::engagement::effective_max, MIN_RECOIL ) );
+        int abs_max = round( g->u.gun_effective_range( *mod, player::engagement::absolute_max,  MIN_RECOIL ) );
 
-        if( e_min != e_max ) {
-            info.emplace_back( "GUN", _( "<bold>Effective range:</bold> " ), "<num>", e_min, true, "", false );
-            info.emplace_back( "GUN", "e_max", "<num>", e_max, true, "-", true, false, false );
+        if( eff_min != eff_max ) {
+            info.emplace_back( "GUN", _( "<bold>Effective range:</bold> " ), "<num>", eff_min, true, "", false );
+            info.emplace_back( "GUN", "eff_max", "<num>", eff_max, true, "-", abs_max <= 0, false, false );
 
-        } else if( e_min > 0 ) {
+        } else if( eff_min > 0 ) {
             // nothing displayed if both values zero
-            info.emplace_back( "GUN", _( "<bold>Effective range: </bold>" ), "<num>", e_min );
+            info.emplace_back( "GUN", _( "<bold>Effective range: </bold>" ), "<num>", eff_min, true, "", abs_max <= 0 );
+        }
+
+        if( abs_max > 0 ) {
+            info.emplace_back( "GUN", space + _( "Maximum range: " ), "<num>", abs_max );
         }
 
         info.push_back( iteminfo( "GUN", _( "Damage: " ), "", mod->gun_damage( false ), true, "", false, false ) );

@@ -423,6 +423,20 @@ double player::gun_effective_range( const item& gun, int aim, int penalty, unsig
     return std::min( res, double( gun.gun_range( this ) ) );
 }
 
+double player::gun_effective_range( const item& gun, engagement opts, int penalty ) const
+{
+    switch( opts ) {
+        case engagement::effective_min:
+            return gun_effective_range( gun, 0, penalty, 50, accuracy_goodhit );
+
+        case engagement::effective_max:
+            return gun_effective_range( gun, -1, penalty, 50, accuracy_goodhit );
+
+        case engagement::absolute_max:
+            return gun_effective_range( gun, -1, penalty, 10, accuracy_grazing );
+    }
+}
+
 bool player::handle_gun_damage( item &it )
 {
     if( !it.is_gun() ) {

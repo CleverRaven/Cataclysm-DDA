@@ -506,6 +506,15 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         double gun_effective_range( const item& gun, int aim = -1, int penalty = -1,
                                     unsigned chance = 50, double accuracy = accuracy_goodhit ) const;
 
+        enum class engagement {
+            effective_min,   // 50% chance of good hit with no aiming
+            effective_max,   // 50% chance of good hit at maximum aim
+            absolute_max,    // 10% chance of any hit at maximum aim
+        };
+
+        /** Calculate range at which engagement rules apply */
+        double gun_effective_range( const item& gun, engagement opts, int penalty = -1 ) const;
+
         /**
          *  Fires a gun or axuiliary gunmod (ignoring any current mode)
          *  @param target where the first shot is aimed at (may vary for later shots)
