@@ -680,6 +680,13 @@ void MonsterGenerator::check_monster_definitions() const
                 debugmsg( "attack effect %s of monster %s is unknown", e.id.c_str(), mon.id.c_str() );
             }
         }
+
+        for( const auto& e : mon.emit_fields ) {
+            if( !e.is_valid() ) {
+                debugmsg( "monster %s has invalid emit source %s", mon.id.c_str(), e.c_str() );
+            }
+        }
+
         if( mon.upgrades ) {
             if( mon.half_life <= 0 ) {
                 debugmsg( "half_life %d (<= 0) of monster %s is invalid", mon.half_life, mon.id.c_str() );
