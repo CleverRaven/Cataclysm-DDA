@@ -374,7 +374,7 @@ dealt_projectile_attack Creature::projectile_attack( const projectile &proj_arg,
     return attack;
 }
 
-double player::gun_effective_range( const item& gun, int aim, int penalty, unsigned chance, double accuracy ) const
+double player::gun_engagement_range( const item& gun, int aim, int penalty, unsigned chance, double accuracy ) const
 {
     if( !gun.is_gun() || !gun.ammo_sufficient() ) {
         return 0;
@@ -423,17 +423,17 @@ double player::gun_effective_range( const item& gun, int aim, int penalty, unsig
     return std::min( res, double( gun.gun_range( this ) ) );
 }
 
-double player::gun_effective_range( const item& gun, engagement opts, int penalty ) const
+double player::gun_engagement_range( const item& gun, engagement opts, int penalty ) const
 {
     switch( opts ) {
         case engagement::effective_min:
-            return gun_effective_range( gun, 0, penalty, 50, accuracy_goodhit );
+            return gun_engagement_range( gun, 0, penalty, 50, accuracy_goodhit );
 
         case engagement::effective_max:
-            return gun_effective_range( gun, -1, penalty, 50, accuracy_goodhit );
+            return gun_engagement_range( gun, -1, penalty, 50, accuracy_goodhit );
 
         case engagement::absolute_max:
-            return gun_effective_range( gun, -1, penalty, 10, accuracy_grazing );
+            return gun_engagement_range( gun, -1, penalty, 10, accuracy_grazing );
     }
 }
 

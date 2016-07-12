@@ -119,9 +119,9 @@ void game::dump_stats( const std::string& what, dump_mode mode )
             fake.set_skill_level( obj.gun_skill(), 4 );
             fake.recoil = MIN_RECOIL;
 
-            r.push_back( string_format( "%.1f", fake.gun_effective_range( obj, player::engagement::effective_min ) ) );
-            r.push_back( string_format( "%.1f", fake.gun_effective_range( obj, player::engagement::effective_max ) ) );
-            r.push_back( string_format( "%.1f", fake.gun_effective_range( obj, player::engagement::absolute_max ) ) );
+            r.push_back( string_format( "%.1f", fake.gun_engagement_range( obj, player::engagement::effective_min ) ) );
+            r.push_back( string_format( "%.1f", fake.gun_engagement_range( obj, player::engagement::effective_max ) ) );
+            r.push_back( string_format( "%.1f", fake.gun_engagement_range( obj, player::engagement::absolute_max ) ) );
 
             for( const auto &e : locations ) {
                 r.push_back( to_string( obj.type->gun->valid_mod_locations[ e ] ) );

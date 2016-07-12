@@ -503,7 +503,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
          * @param accuracy minimum accuracy required
          * @return range in tiles (with default arguments this is the maximum effective range)
          */
-        double gun_effective_range( const item& gun, int aim = -1, int penalty = -1,
+        double gun_engagement_range( const item& gun, int aim = -1, int penalty = -1,
                                     unsigned chance = 50, double accuracy = accuracy_goodhit ) const;
 
         enum class engagement {
@@ -513,7 +513,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         };
 
         /** Calculate range at which engagement rules apply */
-        double gun_effective_range( const item& gun, engagement opts, int penalty = -1 ) const;
+        double gun_engagement_range( const item& gun, engagement opts, int penalty = -1 ) const;
 
         /**
          *  Fires a gun or axuiliary gunmod (ignoring any current mode)
