@@ -1,0 +1,32 @@
+[
+  {
+    "id": "44",
+    "name": "revolver ammo",
+    "default": "44magnum",
+    "type": "ammunition_type"
+  },
+  {
+    "id": "9mm",
+    "name": "pistol ammo",
+    "default": "9mm",
+    "type": "ammunition_type"
+  },
+  {
+    "id": "556",
+    "name": "light rifle ammo",
+    "default": "556",
+    "type": "ammunition_type"
+  },
+  {
+    "id": "762",
+    "name": "rifle ammo",
+    "default": "762_51",
+    "type": "ammunition_type"
+  },
+  {
+    "id": "50",
+    "name": "heavy rifle ammo",
+    "default": "50bmg",
+    "type": "ammunition_type"
+  }
+]

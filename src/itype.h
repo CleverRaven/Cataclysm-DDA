@@ -1,6 +1,7 @@
 #ifndef ITYPE_H
 #define ITYPE_H
 
+#include "copyable_unique_ptr.h"
 #include "color.h" // nc_color
 #include "enums.h" // point
 #include "iuse.h" // use_function
@@ -9,6 +10,7 @@
 #include "string_id.h"
 #include "explosion.h"
 #include "vitamin.h"
+#include "emit.h"
 
 #include <string>
 #include <vector>
@@ -44,6 +46,8 @@ class fault;
 using fault_id = string_id<fault>;
 struct quality;
 using quality_id = string_id<quality>;
+
+enum field_id : int;
 
 // Returns the name of a category of ammo (e.g. "shot")
 std::string ammo_name( const ammotype &ammo );
@@ -448,6 +452,17 @@ struct islot_ammo : common_ranged_data {
     /**
      * Default charges.
      */
+
+    /**
+     * Control chance for and state of any items dropped at ranged target
+     *@{*/
+    itype_id drop = "null";
+
+    float drop_chance = 1.0;
+
+    bool drop_active = true;
+    /*@}*/
+
     long def_charges = 1;
     /**
      * TODO: document me.
@@ -528,16 +543,6 @@ struct islot_artifact {
     std::vector<art_effect_passive> effects_worn;
 };
 
-template <typename T>
-class copyable_unique_ptr : public std::unique_ptr<T> {
-    public:
-        copyable_unique_ptr() = default;
-        copyable_unique_ptr( copyable_unique_ptr&& rhs ) = default;
-
-        copyable_unique_ptr( const copyable_unique_ptr<T>& rhs )
-            : std::unique_ptr<T>( rhs ? new T( *rhs ) : nullptr ) {}
-};
-
 struct itype {
     friend class Item_factory;
 
@@ -588,6 +593,18 @@ public:
 
     /** Actions an instance can perform (if any) indexed by action type */
     std::map<std::string, use_function> use_methods;
+
+    /** Default countdown interval (if any) for item */
+    int countdown_interval = 0;
+
+    /** Action to take when countdown expires */
+    use_function countdown_action;
+
+    /** Is item destroyed after the countdown action is run? */
+    bool countdown_destroy = false;
+
+    /** Fields to emit when item is in active state */
+    std::set<emit_id> emits;
 
     std::set<std::string> item_tags;
     std::set<matec_id> techniques;

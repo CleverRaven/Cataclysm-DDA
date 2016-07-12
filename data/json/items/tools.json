@@ -68,8 +68,8 @@
     "rand_charges": [1,10,12,15,16,22,44,50,67,75,82,100],
     "charges_per_use": 1,
     "use_action": {
-            "type": "firestarter",
-            "moves_cost": 15
+        "type": "firestarter",
+        "moves": 50
     }
   },
   {
@@ -87,7 +87,7 @@
    "charges_per_use": 5,
    "ammo": "battery",
    "use_action": {
-            "type": "extended_firestarter"
+        "type": "firestarter"
     }
   },
   {
@@ -105,8 +105,9 @@
     "initial_charges": 20,
     "charges_per_use": 1,
     "use_action": {
-            "type": "firestarter",
-            "moves_cost": 15
+        "type": "firestarter",
+        "moves": 40,
+        "moves_slow": 1000
     }
   },
   {
@@ -125,7 +126,9 @@
     "charges_per_use": 1,
     "flags": [ "FIRE_DRILL" ],
     "use_action": {
-            "type": "extended_firestarter"
+        "type": "firestarter",
+        "moves": 500,
+        "moves_slow": 25000
     }
   },
   {
@@ -139,12 +142,11 @@
     "material": ["wood", "stone"],
     "weight": 1280,
     "volume": 5,
-    "max_charges": 1000,
-    "initial_charges": 1000,
-    "charges_per_use": 1,
     "flags": [ "FIRE_DRILL" ],
     "use_action": {
-            "type": "extended_firestarter"
+        "type": "firestarter",
+        "moves": 200,
+        "moves_slow": 10000
     }
   },
   {
@@ -174,13 +176,14 @@
     "description": "This is a magnifying glass.  May be useful for starting fires during sunny skies.",
     "price": 600,
     "material": ["glass", "plastic"],
-    "flags": [ "LENS" ],
     "weight": 400,
     "volume": 1,
     "to_hit": -1,
     "use_action": {
-            "type": "extended_firestarter",
-            "need_sunlight": true
+        "type": "firestarter",
+        "moves": 1000,
+        "moves_slow": 25000,
+        "need_sunlight": true
     }
   },
   {
@@ -193,13 +196,15 @@
     "description": "A homemade collapsible telescope.  Too large and inaccurate to use as a weapon scope, but carrying this item in your inventory will double the distance that is mapped around you during your travels.",
     "price": 600,
     "material": ["glass", "plastic"],
-    "flags": [ "LENS", "ZOOM" ],
+    "flags": "ZOOM",
     "weight": 500,
     "volume": 1,
     "to_hit": -1,
     "use_action": {
-            "type": "extended_firestarter",
-            "need_sunlight": true
+        "type": "firestarter",
+        "moves": 1000,
+        "moves_slow": 25000,
+        "need_sunlight": true
     }
   },
   {
@@ -381,7 +386,7 @@
     "description": "A folding grappling hook attached to a stout 30-foot long piece of lightweight cord.  Useful for keeping yourself safe from falls.",
     "category": "tools",
     "techniques" : ["RAPID", "SPIN"],
-    "flags" : ["WRAP", "DURABLE_MELEE"],
+    "flags" : "DURABLE_MELEE",
     "price": 25000,
     "material": ["cotton", "steel"],
     "weight": 760,
@@ -799,47 +804,6 @@
     "volume": 1,
     "bashing": 2,
     "to_hit": -1
-  },
-  {
-    "id": "handflare",
-    "type": "TOOL",
-    "symbol": ";",
-    "color": "light_red",
-    "name": "flare",
-    "description": "This is a slow-burning magnesium flare.  Use it to strike the striker and light it.  It will produce a bright light for about a half hour.",
-    "price": 400,
-    "material": ["paper", "plastic"],
-    "weight": 128,
-    "volume": 1,
-    "bashing": 2,
-    "to_hit": -1,
-    "max_charges": 150,
-    "initial_charges": 150,
-    "use_action": {
-        "type": "transform",
-        "target": "handflare_lit",
-        "active": true,
-        "msg": "You strike your flare and light it."
-    }
-  },
-  {
-    "id": "handflare_lit",
-    "type": "TOOL",
-    "symbol": ";",
-    "color": "white",
-    "name": "active flare",
-    "description": "This burning magnesium flare is producing light.  It will last for about a half hour before burning out.",
-    "material": ["paper", "plastic"],
-    "flags": [ "FIRE", "LIGHT_240", "CHARGEDIM", "FLAMING", "TRADER_AVOID" ],
-    "weight": 128,
-    "volume": 1,
-    "bashing": 2,
-    "to_hit": -1,
-    "max_charges": 150,
-    "initial_charges": 150,
-    "turns_per_charge": 2,
-    "revert_to": "handflare_dead",
-    "revert_msg": "The flare sputters out"
   },
   {
     "id": "hotplate",
@@ -1755,7 +1719,6 @@
         "material" : ["plastic"],
         "volume" : 2,
         "bashing" : 4,
-        "flags" : ["WRAP"],
         "price" : 200,
         "use_action": "SIPHON"
     },
@@ -2552,7 +2515,6 @@
     "description": "This is an active grenade, and will explode any second now.  Better throw it!",
     "price": 0,
     "material": ["steel", "plastic"],
-    "flag": "TRADER_AVOID",
     "weight": 180,
     "volume": 1,
     "bashing": 6,
@@ -2560,7 +2522,7 @@
     "max_charges": 5,
     "initial_charges": 5,
     "turns_per_charge": 1,
-    "flags": ["BOMB"],
+    "flags": [ "BOMB", "TRADER_AVOID" ],
     "category": "weapons",
     "use_action": {
         "type": "explosion",
@@ -2642,7 +2604,7 @@
     "description": "Attached to this grenade is a name tag with the name Kevin written on it.  Does not seem to work like a grenade, handle with care.  Better throw it!",
     "price": 0,
     "material": ["steel", "plastic"],
-    "flag": "TRADER_AVOID",
+    "flags": "TRADER_AVOID",
     "weight": 180,
     "volume": 1,
     "bashing": 6,
@@ -2906,57 +2868,6 @@
         "no_deactivate_msg": "You've already armed the %s, try throwing it instead.",
         "fields_radius": 2,
         "fields_type": "fd_toxic_gas",
-        "fields_min_density": 1,
-        "fields_max_density": 3
-    }
-  },
-  {
-    "id": "smokebomb",
-    "type": "TOOL",
-    "symbol": "*",
-    "color": "dark_gray",
-    "name": "smoke bomb",
-    "description": "This is a canister grenade filled with a variety of pyrotechnic chemicals.  Use this item to pull the pin and light the fuse, turning it into an active smoke bomb.  Five turns after you do that, it will begin to expel a thick black smoke.  This smoke will slow those who enter it, as well as obscuring vision and scent.",
-    "price": 1800,
-    "material": "steel",
-    "weight": 1058,
-    "volume": 1,
-    "bashing": 5,
-    "to_hit": -1,
-    "flags": ["RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB"],
-    "category": "weapons",
-    "use_action": {
-        "type": "transform",
-        "target": "smokebomb_act",
-        "target_charges": 20,
-        "active": true,
-        "msg": "You pull the pin on the smoke bomb."
-    }
-  },
-  {
-    "id": "smokebomb_act",
-    "type": "TOOL",
-    "symbol": "*",
-    "color": "dark_gray",
-    "name": "active smoke bomb",
-    "description": "This smoke bomb has had its pin removed, indicating that it is (or will shortly be) expelling thick smoke.",
-    "price": 0,
-    "material": "steel",
-    "flags": "TRADER_AVOID",
-    "weight": 1058,
-    "volume": 1,
-    "bashing": 5,
-    "to_hit": -1,
-    "turns_per_charge": 1,
-    "revert_to": "canister_empty",
-    "category": "weapons",
-    "use_action": {
-        "type": "explosion",
-        "sound_volume": 0,
-        "sound_msg": "Tick.",
-        "no_deactivate_msg": "You've already pulled the %s's pin, try throwing it instead.",
-        "fields_radius": 2,
-        "fields_type": "fd_smoke",
         "fields_min_density": 1,
         "fields_max_density": 3
     }
@@ -4065,7 +3976,7 @@
         },
         {
             "type": "firestarter",
-            "moves": 15
+            "moves": 30
         }
     ]
   },
@@ -4285,7 +4196,7 @@
         },
         {
             "type": "firestarter",
-            "moves": 15
+            "moves": 30
         }
     ]
   },
@@ -4443,7 +4354,7 @@
         },
         {
             "type": "firestarter",
-            "moves": 15
+            "moves": 30
         }
     ]
   },
@@ -4509,7 +4420,7 @@
         },
         {
             "type": "firestarter",
-            "moves": 15
+            "moves": 30
         }
     ]
   },
@@ -4594,12 +4505,12 @@
         },
         {
             "type": "firestarter",
-            "moves": 15
+            "moves": 30
         }
     ]
   },
   {
-    "comment": "Name changed to glaive, but changing the id would break e.g.  tilesets.",
+    "//": "Name changed to glaive, but changing the id would break e.g.  tilesets.",
     "id": "makeshift_halberd",
     "type": "GENERIC",
     "symbol": "/",
@@ -6399,7 +6310,7 @@
         },
         {
             "type": "firestarter",
-            "moves": 25
+            "moves": 50
         }
     ]
   },
@@ -6425,7 +6336,8 @@
     "use_action": [
         {
             "type": "firestarter",
-            "moves_cost": 15
+            "moves": 40,
+            "moves_slow": 500
         },
         {
             "type": "transform",
@@ -6741,7 +6653,7 @@
     "qualities": [["CUT", 1], ["BUTCHER", 20]]
   },
   {
-    "comment": "Highest non-powertool butchering quality.  It's made for skinning and butchering game, which is what you're generally doing.",
+    "//": "Highest non-powertool butchering quality.  It's made for skinning and butchering game, which is what you're generally doing.",
     "id": "knife_hunting",
     "type": "TOOL",
     "symbol": "/",
@@ -6760,7 +6672,7 @@
     "qualities": [["CUT", 1], ["BUTCHER", 30]]
   },
   {
-    "comment": "This isn't really supposed to be a very good knife, or a very good saw.  It's more for looking scary.",
+    "//": "This isn't really supposed to be a very good knife, or a very good saw.  It's more for looking scary.",
     "id": "knife_rambo",
     "type": "TOOL",
     "symbol": ";",
@@ -6780,7 +6692,7 @@
     "qualities": [["CUT", 1], ["SAW_W", 1], ["SAW_M", 1], ["BUTCHER", 7]]
   },
   {
-    "comment": "The swiss army knife is a bit more of a knife than a toolkit.",
+    "//": "The swiss army knife is a bit more of a knife than a toolkit.",
     "id": "knife_swissarmy",
     "type": "TOOL",
     "symbol": ";",
@@ -6798,7 +6710,7 @@
     "qualities": [["CUT", 1], ["SAW_W", 1], ["SAW_M", 1], ["SCREW", 1], ["BUTCHER", 8]]
   },
   {
-    "comment": "The multi-tool is a bit more of a toolkit than a knife.",
+    "//": "The multi-tool is a bit more of a toolkit than a knife.",
     "id": "multitool",
     "type": "TOOL",
     "symbol": ";",
@@ -6954,7 +6866,7 @@
     "use_action" : "TAZER"
   },
   {
-    "comment": "Too small to be effectively used for butchering, still not bad at it due to serrated edge.",
+    "//": "Too small to be effectively used for butchering, still not bad at it due to serrated edge.",
     "id": "diveknife",
     "type": "TOOL",
     "category" : "weapons",
@@ -7624,7 +7536,6 @@
     "volume": 3,
     "bashing": 4,
     "to_hit": -3,
-    "effects": ["COOKOFF", "EXPLOSIVE"],
     "category": "weapons",
     "explode_in_fire" : true,
     "explosion" : {

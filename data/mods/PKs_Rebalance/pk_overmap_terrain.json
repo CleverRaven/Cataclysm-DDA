@@ -1,5 +1,104 @@
 [
     {
+        "type": "overmap_terrain",
+        "id": "hell_city_entranceNW",
+        "name": "hell spire citadel",
+        "sym": 73,
+        "color": "i_red",
+        "see_cost": 5,
+        "extras": "field",
+        "mondensity": 5
+    },{
+        "type": "overmap_terrain",
+        "id": "hell_city_entranceSW",
+        "name": "hell spire citadel",
+        "sym": 73,
+        "color": "i_red",
+        "see_cost": 5,
+        "extras": "field",
+        "mondensity": 5
+    },{
+        "type": "overmap_terrain",
+        "id": "hell_city_entranceNE",
+        "name": "hell spire citadel",
+        "sym": 73,
+        "color": "i_red",
+        "see_cost": 5,
+        "extras": "field",
+        "mondensity": 5
+    },{
+        "type": "overmap_terrain",
+        "id": "hell_city_entranceSE",
+        "name": "hell spire citadel",
+        "sym": 73,
+        "color": "i_red",
+        "see_cost": 5,
+        "extras": "field",
+        "mondensity": 5
+    },{
+        "type": "overmap_terrain",
+        "id": "hell_city_tunnel_B1W",
+        "name": "hell spire",
+        "sym": 73,
+        "color": "red",
+        "see_cost": 5,
+        "extras": "field",
+        "mondensity": 5
+    },{
+        "type": "overmap_terrain",
+        "id": "hell_city_tunnel_B1E",
+        "name": "hell spire",
+        "sym": 73,
+        "color": "red",
+        "see_cost": 5,
+        "extras": "field",
+        "mondensity": 5
+    },{
+        "type": "overmap_terrain",
+        "id": "hell_city_tunnel_prison_N",
+        "name": "hell spire holding cells",
+        "sym": 73,
+        "color": "i_magenta",
+        "see_cost": 5,
+        "extras": "field",
+        "mondensity": 5
+    },{
+        "type": "overmap_terrain",
+        "id": "hell_city_tunnel_prison_S",
+        "name": "hell spire holding cells",
+        "sym": 73,
+        "color": "i_magenta",
+        "see_cost": 5,
+        "extras": "field",
+        "mondensity": 5
+    },{
+        "type": "overmap_terrain",
+        "id": "hell_city_tunnel_B2E",
+        "name": "hell spire",
+        "sym": 73,
+        "color": "red",
+        "see_cost": 5,
+        "extras": "field",
+        "mondensity": 5
+    },{
+        "type": "overmap_terrain",
+        "id": "hell_city_B3N",
+        "name": "hell spire arena",
+        "sym": 73,
+        "color": "red",
+        "see_cost": 5,
+        "extras": "field",
+        "mondensity": 5
+    },{
+        "type": "overmap_terrain",
+        "id": "hell_city_B3S",
+        "name": "hell spire arena",
+        "sym": 73,
+        "color": "red",
+        "see_cost": 5,
+        "extras": "field",
+        "mondensity": 5
+    },{
         "type" : "overmap_terrain",
         "id" : "hell_castle_NW",
         "name" : "hell castle",

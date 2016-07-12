@@ -1,0 +1,205 @@
+[
+    {
+    "type": "item_group",
+    "id": "prison_armor",
+    "items":[
+      ["megaarmor_leggings_1", 5],
+      ["megaarmor_gloves_1", 5],
+      ["megaarmor_armguards_1", 5],
+      ["megaarmor_boots_1", 3],
+      ["megaarmor_torso_1", 3],
+      ["megaarmor_head_1", 3]
+    ]
+    },{
+    "type": "item_group",
+    "id": "bots",
+    "items":[
+      ["bot_manhack_missile", 1]
+    ]
+    },{
+    "type": "item_group",
+    "id": "mil_armor",
+    "items":[
+      ["megaarmor_leggings_1", 5],
+      ["megaarmor_gloves_1", 5],
+      ["megaarmor_armguards_1", 5],
+      ["megaarmor_boots_1", 1]
+    ]
+    },{
+    "type": "item_group",
+    "id": "survival_armor",
+    "items":[
+      ["megaarmor_leggings_1", 2],
+      ["megaarmor_gloves_1", 2],
+      ["megaarmor_armguards_1", 2],
+      ["megaarmor_boots_1", 1],
+      ["megaarmor_torso_1", 1],
+      ["megaarmor_head_1", 1]
+    ]
+    },{
+    "type": "item_group",
+    "id": "spider",
+    "items":[
+      ["megaarmor_leggings_1", 3],
+      ["megaarmor_gloves_1", 3],
+      ["megaarmor_armguards_1", 3],
+      ["megaarmor_boots_1", 2],
+      ["megaarmor_torso_1", 1],
+      ["megaarmor_head_1", 1],
+      ["bone", 10],
+      ["bone_human", 10],
+      ["bone_tainted", 2]
+    ]
+    },{
+    "type": "item_group",
+    "id": "helicopter",
+    "items":[
+      ["megaarmor_leggings_1", 2],
+      ["megaarmor_gloves_1", 2],
+      ["megaarmor_armguards_1", 2],
+      ["megaarmor_boots_1", 1],
+      ["megaarmor_torso_1", 1],
+      ["megaarmor_head_1", 1]
+    ]
+    },{
+    "type": "item_group",
+    "id": "military",
+    "items":[
+      ["megaarmor_leggings_1", 5],
+      ["megaarmor_gloves_1", 5],
+      ["megaarmor_armguards_1", 5],
+      ["megaarmor_boots_1", 2],
+      ["megaarmor_torso_1", 1],
+      ["megaarmor_head_1", 1]
+    ]
+    },{
+    "type": "item_group",
+    "id": "fireman_gear",
+    "items":[
+      ["stamina_vial", 10]
+    ]
+    },{
+    "type": "item_group",
+    "id": "survivorzed_tops",
+    "items":[
+      ["megaarmor_torso_1", 1]
+    ]
+    },{
+    "type": "item_group",
+    "id": "survivorzed_head",
+    "items":[
+      ["megaarmor_head_1", 1]
+    ]
+    },{
+    "type": "item_group",
+    "id": "survivorzed_extra",
+    "items":[
+      ["stamina_vial", 10],
+      ["berserker_drug", 3],
+      ["medikit", 5],
+      ["bot_manhack", 5]
+    ]
+    },{
+    "type": "item_group",
+    "id": "bio_op_torso",
+    "items":[
+      ["megaarmor_torso_1", 10]
+    ]
+    },{
+    "type": "item_group",
+    "id": "bio_op_face",
+    "items":[
+      ["megaarmor_head_1", 10]
+    ]
+    },{
+    "type": "item_group",
+    "id": "bio_op_boots",
+    "items":[
+      ["boots_combat", 10],
+      ["megaarmor_boots_1", 2]
+    ]
+    },{
+    "type": "item_group",
+    "id": "bio_op_gloves",
+    "items":[
+      ["megaarmor_gloves_1", 20]
+    ]
+   },{
+    "type": "item_group",
+    "id": "army_personal_locker",
+    "items": [
+      ["megaarmor_leggings_1", 5],
+      ["megaarmor_gloves_1", 5],
+      ["megaarmor_armguards_1", 5],
+      ["megaarmor_boots_1", 2]
+    ]
+    },{
+    "type": "item_group",
+    "id": "college_lake",
+    "items":[
+      ["machete", 10]
+    ]
+    },{
+    "type": "item_group",
+    "id": "rare",
+    "//": "Items that should have very low frequencies and or few locations.",
+    "items":[
+      ["megaarmor_torso_1", 20],
+      ["megaarmor_head_1", 20]
+    ]
+    },{
+    "id": "drugs_soldier",
+    "type": "item_group",
+    "//": "Healing items appropriate for soldiers and other paramilitary forces",
+    "entries": [
+      { "item": "berserker_drug", "prob": 10 },
+      { "item": "stamina_vial", "prob": 20 },
+      { "item": "medikit", "prob": 20 }
+    ]
+    },{
+    "type": "item_group",
+    "id": "swat_gear",
+    "subtype": "distribution",
+    "items":[
+      ["megaarmor_leggings_1", 5],
+      ["megaarmor_gloves_1", 5],
+      ["megaarmor_armguards_1", 5],
+      ["megaarmor_boots_1", 3]
+        ]
+    },{
+        "type": "item_group",
+        "subtype": "collection",
+        "id": "mon_zombie_scientist_death_drops",
+        "entries":
+        [
+            { "item": "bot_manhack", "prob": 10 }
+        ]
+    },{
+        "type": "item_group",
+        "id": "vet_softdrug",
+        "items": [
+            ["machete", 5]
+        ]
+    },{
+        "type": "item_group",
+        "id": "vet_utility",
+        "items": [
+            ["machete", 1]
+        ]
+    },{
+        "type": "item_group",
+        "id": "vet_hardrug",
+        "items": [
+            ["machete", 3]
+        ]
+    },{
+        "type": "item_group",
+        "id": "corpses_human",
+        "items":[
+    ["corpse", 25],
+    ["bone_human", 10],
+    ["bone_tainted", 10],
+    ["human_flesh", 5]
+    ]
+  }
+]

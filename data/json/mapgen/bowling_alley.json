@@ -18,11 +18,9 @@
             ["triple_sec",          5],
             ["fruit_wine",           5],
             ["brandy",               5],
-            ["drink_boozeberry",     4],
             ["drink_rumcola",       40],
             ["drink_screwdriver",   35],
             ["drink_wild_apple",    10],
-            ["drink_strawberry_surprise", 15],
             ["long_island",         17]
         ]
     },

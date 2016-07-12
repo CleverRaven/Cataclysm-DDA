@@ -6,7 +6,8 @@
           ["ficrico", 3],
           ["gunsword", 3],
           ["gunknife", 4],
-          ["50pistol", 2]
+          ["50pistol", 2],
+          ["m1911ds", 2]
         ]
     },
     {
@@ -16,7 +17,8 @@
         ["ficrico", 2],
         ["gunsword", 2],
         ["gunknife", 2],
-        ["50pistol", 2]
+        ["50pistol", 2],
+        ["m1911ds", 2]
     ]
     },
     {
@@ -61,7 +63,8 @@
       "type" : "item_group",
       "id" : "military",
       "items":[
-        ["emas", 5]
+        ["emas", 5],
+        ["m1911ds", 3]
       ]
     },
     {

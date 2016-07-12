@@ -522,16 +522,10 @@ bool input_context::action_uses_input( const std::string &action_id,
 
 std::string input_context::get_conflicts( const input_event &event ) const
 {
-    std::ostringstream buffer;
-    for( const auto &elem : registered_actions ) {
-        if( action_uses_input( elem, event ) ) {
-            if( !buffer.str().empty() ) {
-                buffer << _( ", " );
-            }
-            buffer << get_action_name( elem );
-        }
-    }
-    return buffer.str();
+    return enumerate_as_string( registered_actions.begin(), registered_actions.end(),
+    [ this, &event ]( const std::string & action ) {
+        return action_uses_input( action, event ) ? get_action_name( action ) : std::string();
+    } );
 }
 
 void input_context::clear_conflicting_keybindings( const input_event &event )
