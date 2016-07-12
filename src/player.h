@@ -495,6 +495,16 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         bool handle_gun_damage( item &firing );
 
         /**
+         * Calculate range at which given chance of hit considering player stats, clothing and recoil
+         * @param aim how many cycles of aiming to perform
+         * @param chance probability of hit, range [0-100)
+         * @param accuracy minimum accuracy required
+         * @return range in tiles
+         */
+        double gun_effective_range( const item& gun, unsigned aim = 0, unsigned chance = 50,
+                                    double accuracy = accuracy_goodhit ) const;
+
+        /**
          *  Fires a gun or axuiliary gunmod (ignoring any current mode)
          *  @param target where the first shot is aimed at (may vary for later shots)
          *  @param shots maximum number of shots to fire (less may be fired in some circumstances)

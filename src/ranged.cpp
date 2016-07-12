@@ -382,6 +382,30 @@ dealt_projectile_attack Creature::projectile_attack( const projectile &proj_arg,
     return attack;
 }
 
+double player::gun_effective_range( const item& gun, unsigned aim, unsigned chance, double accuracy ) const
+{
+    if( !gun.is_gun() ) {
+        return 0;
+    }
+
+    int res = recoil;
+    for( unsigned i = 0; i != aim; ++i ) {
+        res -= aim_per_time( gun, res );
+    }
+
+    // calculate maximum potential dispersion
+    double dispersion = get_weapon_dispersion( &gun, false ) + std::max( res, 0 ) + driving_recoil;
+
+    // cap at min 1MOA as at zero dispersion would result in an infinite effective range
+    dispersion = std::max( dispersion, 1.0 );
+
+    // dispersion is uniformly distributed at random so scale linearly with chance
+    // cap at max 99% chance as gauranteed hit is only possible with zero dispersion
+    dispersion *= std::min( chance, 99U ) / 100.0;
+
+    return accuracy / sin( ARCMIN( dispersion / 2 ) ) / 2;
+}
+
 bool player::handle_gun_damage( item &it )
 {
     if( !it.is_gun() ) {
