@@ -384,7 +384,9 @@ void inventory_selector::add_item( const std::shared_ptr<item_location> &locatio
                                    size_t stack_size,
                                    const std::string &custom_cat_title, nc_color custom_color )
 {
-    if( !filter( *location ) ) {
+    const item_filter_response &response( filter( *location ) );
+
+    if( response.type == item_filter_response::unsuitable ) {
         return;
     }
 
@@ -623,7 +625,7 @@ void inventory_selector::draw( WINDOW *w ) const
     }
 }
 
-inventory_selector::inventory_selector( player &u, const std::string &title, const item_location_filter &filter )
+inventory_selector::inventory_selector( player &u, const std::string &title, const item_filter_advanced &filter )
     : u(u)
     , ctxt( "INVENTORY" )
     , title( title )
@@ -769,7 +771,7 @@ void inventory_selector::insert_selection_column( const std::string &id, const s
 }
 
 inventory_pick_selector::inventory_pick_selector( player &u, const std::string &title,
-                                                  const item_location_filter &filter ) :
+                                                  const item_filter_advanced &filter ) :
             inventory_selector( u, title, filter ), null_location( new item_location() ) {}
 
 item_location &inventory_pick_selector::execute()
@@ -803,7 +805,7 @@ void inventory_pick_selector::draw( WINDOW *w ) const
 }
 
 inventory_compare_selector::inventory_compare_selector( player &u, const std::string &title,
-                                                        const item_location_filter &filter ) :
+                                                        const item_filter_advanced &filter ) :
     inventory_selector( u, title, filter )
 {
     insert_selection_column( "ITEMS TO COMPARE", _( "ITEMS TO COMPARE" ) );
@@ -868,7 +870,7 @@ void inventory_compare_selector::toggle_entry( inventory_entry *entry )
     on_change( *entry );
 }
 
-inventory_drop_selector::inventory_drop_selector( player &u, const std::string &title, const item_location_filter &filter ) :
+inventory_drop_selector::inventory_drop_selector( player &u, const std::string &title, const item_filter_advanced &filter ) :
     inventory_selector( u, title, filter ),
     dropping()
 {

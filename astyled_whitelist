@@ -28,6 +28,8 @@ src/gates.cpp
 src/help.cpp
 src/input.cpp
 src/item_action.cpp
+src/item_filter.cpp
+src/item_filter.h
 src/item_location.cpp
 src/itype.cpp
 src/iuse_software.cpp

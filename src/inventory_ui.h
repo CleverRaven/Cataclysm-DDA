@@ -9,6 +9,7 @@
 #include "enums.h"
 #include "input.h"
 #include "units.h"
+#include "item_filter.h"
 
 class Character;
 
@@ -18,17 +19,14 @@ class item_location;
 
 class player;
 
-typedef std::function<bool( const item & )> item_filter;
-typedef std::function<bool( const item_location & )> item_location_filter;
-
 enum class navigation_mode : int {
     ITEM = 0,
     CATEGORY
 };
 
-const item_location_filter allow_all_items = []( const item_location & )
+const item_filter_advanced allow_all_items = []( const item_location & )
 {
-    return true;
+    return item_filter_response::make_fine();
 };
 
 class inventory_entry
@@ -213,7 +211,7 @@ class inventory_selector
 {
     public:
         inventory_selector( player &u, const std::string &title,
-                            const item_location_filter &filter = allow_all_items );
+                            const item_filter_advanced &filter = allow_all_items );
         ~inventory_selector();
         /** These functions add items from map / vehicles */
         void add_character_items( Character &character );
@@ -287,7 +285,7 @@ class inventory_selector
         long cur_custom_invlet = min_custom_invlet;
 
         const std::string title;
-        const item_location_filter filter;
+        const item_filter_advanced filter;
         WINDOW *w_inv;
 
         std::vector<std::unique_ptr<inventory_column>> columns;
@@ -304,7 +302,7 @@ class inventory_pick_selector : public inventory_selector
 {
     public:
         inventory_pick_selector( player &u, const std::string &title,
-                                 const item_location_filter &filter = allow_all_items );
+                                 const item_filter_advanced &filter = allow_all_items );
         item_location &execute();
 
     protected:
@@ -317,7 +315,7 @@ class inventory_compare_selector : public inventory_selector
 {
     public:
         inventory_compare_selector( player &u, const std::string &title,
-                                    const item_location_filter &filter = allow_all_items );
+                                    const item_filter_advanced &filter = allow_all_items );
         std::pair<const item *, const item *> execute();
 
     protected:
@@ -331,7 +329,7 @@ class inventory_drop_selector : public inventory_selector
 {
     public:
         inventory_drop_selector( player &u, const std::string &title,
-                                 const item_location_filter &filter = allow_all_items );
+                                 const item_filter_advanced &filter = allow_all_items );
         std::list<std::pair<int, int>> execute();
 
     protected:

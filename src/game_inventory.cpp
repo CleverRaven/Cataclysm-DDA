@@ -25,20 +25,14 @@ void game::interactive_inv()
     } while( allowed_selections.count( res ) != 0 );
 }
 
-item_location_filter convert_filter( const item_filter &filter )
-{
-    return [ &filter ]( const item_location & loc ) {
-        return filter( *loc );
-    };
-}
-
-int game::inv_for_filter( const std::string &title, item_filter filter,
+int game::inv_for_filter( const std::string &title,
+                          const item_filter_simple &filter,
                           const std::string &none_message )
 {
     return inv_for_filter( title, convert_filter( filter ), none_message );
 }
 
-int game::inv_for_filter( const std::string &title, item_location_filter filter,
+int game::inv_for_filter( const std::string &title, const item_filter_advanced &filter,
                           const std::string &none_message )
 {
     return u.get_item_position( inv_map_splice( filter, title, -1, none_message ).get_item() );
@@ -92,15 +86,14 @@ int game::inv_for_unequipped( const std::string &title )
     }, _( "You don't have any items to wear." ) );
 }
 
-item_location game::inv_map_splice( item_filter filter, const std::string &title, int radius,
-                                    const std::string &none_message )
+item_location game::inv_map_splice( const item_filter_simple &filter, const std::string &title,
+                                    int radius, const std::string &none_message )
 {
     return inv_map_splice( convert_filter( filter ), title, radius, none_message );
 }
 
-item_location game::inv_map_splice( item_location_filter filter, const std::string &title,
-                                    int radius,
-                                    const std::string &none_message )
+item_location game::inv_map_splice( const item_filter_advanced &filter, const std::string &title,
+                                    int radius, const std::string &none_message )
 {
     u.inv.restack( &u );
     u.inv.sort();
@@ -121,17 +114,30 @@ item_location game::inv_map_splice( item_location_filter filter, const std::stri
 item *game::inv_map_for_liquid( const item &liquid, const std::string &title, int radius )
 {
     const auto filter = [ this, &liquid ]( const item_location & location ) {
+        if( !location->is_reloadable_with( liquid.typeId() ) && !location->is_container() ) {
+            return item_filter_response::make_unsuitable();
+        }
+
+        std::string err;
+        int capacity;
+
         if( location.where() == item_location::type::character ) {
             Character *character = dynamic_cast<Character *>( critter_at( location.position() ) );
             if( character == nullptr ) {
                 debugmsg( "Invalid location supplied to the liquid filter: no character found." );
-                return false;
+                return item_filter_response::make_unsuitable();
             }
-            return location->get_remaining_capacity_for_liquid( liquid, *character ) > 0;
+            capacity = location->get_remaining_capacity_for_liquid( liquid, *character, &err );
+        } else {
+            const bool allow_buckets = location.where() == item_location::type::map;
+            capacity = location->get_remaining_capacity_for_liquid( liquid, allow_buckets, &err );
         }
 
-        const bool allow_buckets = location.where() == item_location::type::map;
-        return location->get_remaining_capacity_for_liquid( liquid, allow_buckets ) > 0;
+        if( err.empty() && capacity > 0 ) {
+            return item_filter_response::make_fine();
+        } else {
+            return item_filter_response::make_unready( err );
+        }
     };
 
     return inv_map_splice( filter, title, radius,
@@ -145,8 +151,8 @@ std::list<std::pair<int, int>> game::multidrop()
     u.inv.sort();
 
     inventory_drop_selector inv_s( u,
-    _( "Multidrop:" ), [ this ]( const item_location & location ) -> bool {
-        return u.can_unwield( *location, false );
+    _( "Multidrop:" ), [ this ]( const item_location & location ) {
+        return item_filter_response::make( u.can_unwield( *location, false ) );
     } );
     if( inv_s.empty() ) {
         popup( std::string( _( "You have nothing to drop." ) ), PF_GET_KEY );

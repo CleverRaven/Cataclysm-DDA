@@ -6,6 +6,7 @@
 #include "calendar.h"
 #include "posix_time.h"
 #include "int_id.h"
+#include "item_filter.h"
 #include "item_location.h"
 #include "cursesdef.h"
 
@@ -129,9 +130,6 @@ typedef std::list< std::list<item> > invstack;
 typedef std::vector< std::list<item>* > invslice;
 typedef std::vector< const std::list<item>* > const_invslice;
 typedef std::vector< std::pair<std::list<item>*, int> > indexed_invslice;
-
-typedef std::function<bool( const item & )> item_filter;
-typedef std::function<bool( const item_location & )> item_location_filter;
 
 class game
 {
@@ -449,8 +447,10 @@ class game
 
         void interactive_inv();
 
-        int inv_for_filter( const std::string &title, item_filter filter, const std::string &none_message = "" );
-        int inv_for_filter( const std::string &title, item_location_filter filter, const std::string &none_message = "" );
+        int inv_for_filter( const std::string &title, const item_filter_simple &filter,
+                            const std::string &none_message = "" );
+        int inv_for_filter( const std::string &title, const item_filter_advanced &filter,
+                            const std::string &none_message = "" );
 
         int inv_for_all( const std::string &title, const std::string &none_message = "" );
         int inv_for_activatables( const player &p, const std::string &title );
@@ -468,9 +468,9 @@ class game
         };
         int inventory_item_menu(int pos, int startx = 0, int width = 50, inventory_item_menu_positon position = RIGHT_OF_INFO);
 
-        item_location inv_map_splice( item_filter filter, const std::string &title, int radius = 0,
+        item_location inv_map_splice( const item_filter_simple &filter, const std::string &title, int radius = 0,
                                       const std::string &none_message = "" );
-        item_location inv_map_splice( item_location_filter filter, const std::string &title, int radius = 0,
+        item_location inv_map_splice( const item_filter_advanced &filter, const std::string &title, int radius = 0,
                                       const std::string &none_message = "" );
 
         // Select items to drop.  Returns a list of pairs of position, quantity.
