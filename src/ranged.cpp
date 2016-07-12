@@ -1564,8 +1564,7 @@ double player::get_weapon_dispersion( const item *weapon, bool random ) const
 
     dispersion += rand_or_max( random, weapon->gun_dispersion(false) );
     if( random ) {
-        int adj_recoil = recoil + driving_recoil;
-        dispersion += rng( int(adj_recoil / 4), adj_recoil );
+        dispersion += rng( 0, recoil + driving_recoil );
     }
 
     if (has_bionic("bio_targeting")) {
