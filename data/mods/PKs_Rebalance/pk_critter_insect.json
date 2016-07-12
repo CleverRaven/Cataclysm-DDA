@@ -1,6 +1,33 @@
 [
     {
     "type": "MONSTER",
+    "id": "mon_spider_cellar_giant",
+    "edit-mode": "modify",
+    "speed":145,
+    "melee_skill":6,
+    "melee_dice":1,
+    "melee_dice_sides":6,
+    "melee_cut":5,
+    "melee_damage": [ {"damage_type": "stab", "amount": 2} ],
+    "dodge":6,
+    "armor_bash":2,
+    "armor_cut":4,
+    "armor_acid":4,
+    "vision_day":5,
+    "vision_night":9,
+    "hp":45
+    },{
+    "type": "MONSTER",
+    "id": "mon_spider_widow_giant",
+    "edit-mode": "modify",
+    "emit_fields": [ "emit_web" ],
+    "melee_skill":6,
+    "melee_dice":1,
+    "melee_dice_sides":8,
+    "melee_cut":3,
+    "dodge":3,
+    },{
+    "type": "MONSTER",
     "id": "mon_spider_trapdoor_giant",
     "edit-mode": "modify",
     "diff":15,
@@ -70,6 +97,7 @@
         "half_life": 19
     },
     "hp":40,
+    "emit_fields": [ "emit_web_small" ],
     "death_function":"NORMAL",
     "description":"A giant mutated grass spider, it waits for prey to become ensnared in the vast webs that it weaves between the trees.",
     "flags":["SEES", "SMELLS", "HEARS", "VENOM", "WEBWALK", "CHITIN", "CLIMBS", "PUSH_MON"]
@@ -351,6 +379,7 @@
     "vision_day":15,
     "vision_night":10,
     "hp":60,
+    "emit_fields": [ "emit_web_small" ],
     "death_function":"NORMAL",
     "description":"A larger, more aggressive ambush predator, this web spider uses force to catch its prey.",
     "flags":["SEES", "SMELLS", "HEARS", "VENOM", "WEBWALK", "CHITIN", "CLIMBS", "PUSH_MON"]
@@ -389,6 +418,7 @@
     "vision_day":15,
     "vision_night":10,
     "hp":50,
+    "emit_fields": [ "emit_web_small" ],
     "death_function":"NORMAL",
     "description":"This web spider uses long-lasting toxins to incapacitate stronger foes.",
     "flags":["SEES", "SMELLS", "HEARS", "VENOM", "WEBWALK", "CHITIN", "CLIMBS", "PUSH_MON", "PRIORITIZE_TARGETS"]
@@ -427,6 +457,7 @@
     "vision_day":20,
     "vision_night":10,
     "hp":50,
+    "emit_fields": [ "emit_web_small" ],
     "death_function":"NORMAL",
     "description":"This web spider seems to have specialized to take down creatures infected with fungal spores; a surely underutilized food source.",
     "flags":["SEES", "SMELLS", "HEARS", "VENOM", "WEBWALK", "CHITIN", "CLIMBS", "PARALYZEVENOM", "HIT_AND_RUN", "PUSH_MON"]
