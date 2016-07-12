@@ -12024,6 +12024,24 @@ bool game::walk_move( const tripoint &dest_loc )
                 !query_yn( _("Really step onto that %s?"), tr.name.c_str() ) ) {
                 return true;
             }
+
+            if( m.has_flag( "ROUGH", dest_loc ) && !m.has_flag( "ROUGH", u.pos() ) && !boardable &&
+                ( u.get_armor_bash( bp_foot_l ) < 5 || u.get_armor_bash( bp_foot_r ) < 5 ) &&
+                !query_yn( _( "Really step onto that %s?" ), m.name( dest_loc ).c_str() ) ) {
+                return true;
+            } else if( m.has_flag( "SHARP", dest_loc ) && !m.has_flag( "SHARP", u.pos() ) && !boardable &&
+                       u.dex_cur < 78 ) {
+                static const std::set< body_part > check = {
+                    bp_eyes, bp_mouth, bp_head, bp_leg_l, bp_leg_r, bp_foot_l, bp_foot_r, bp_arm_l, bp_arm_r,
+                    bp_hand_l, bp_hand_r, bp_torso
+                };
+                if( !std::all_of( check.begin(), check.end(), [this]( body_part bp ) {
+                return u.immune_to( bp, { DT_CUT, 10 } );
+                } ) && !query_yn( _( "Really step onto that %s?" ), m.name( dest_loc ).c_str() ) ) {
+                    return true;
+                }
+            }
+
         }
     }
 

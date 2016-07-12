@@ -4600,6 +4600,26 @@ void player::on_hurt( Creature *source, bool disturb /*= true*/ )
     }
 }
 
+bool player::immune_to( body_part bp, damage_unit dam ) const
+{
+    if( dam.type == DT_HEAT ) {
+        return false; // No one is immune to fire
+    }
+    if( has_trait( "DEBUG_NODMG" ) || is_immune_damage( dam.type ) ) {
+        return true;
+    }
+
+    passive_absorb_hit( bp, dam );
+
+    for( const item &cloth : worn ) {
+        if( cloth.get_coverage() == 100 && cloth.covers( bp ) ) {
+            cloth.mitigate_damage( dam );
+        }
+    }
+
+    return dam.amount <= 0;
+}
+
 dealt_damage_instance player::deal_damage(Creature* source, body_part bp, const damage_instance& d)
 {
     if( has_trait( "DEBUG_NODMG" ) ) {
@@ -12182,12 +12202,7 @@ bool player::armor_absorb( damage_unit& du, item& armor )
     }
 
     // TODO: add some check for power armor
-
-    const auto res = resistances(armor);
-    const float effective_resist = res.get_effective_resist(du);
-    // Amount of damage mitigated
-    const float mitigation = std::min(effective_resist, du.amount);
-    du.amount -= mitigation; // mitigate the damage first
+    armor.mitigate_damage( du );
 
     // We want armor's own resistance to this type, not the resistance it grants
     const int armors_own_resist = armor.damage_resist( du.type, true );
@@ -12249,6 +12264,63 @@ bool player::armor_absorb( damage_unit& du, item& armor )
     return armor.damage >= 5;
 }
 
+float player::bionic_armor_bonus( body_part bp, damage_type dt ) const
+{
+    float result = 0.0f;
+    // We only check the passive bionics
+    if( has_bionic( "bio_carbon" ) ) {
+        if( dt == DT_BASH ) {
+            result += 2;
+        } else if( dt == DT_CUT ) {
+            result += 4;
+        } else if( dt == DT_STAB ) {
+            result += 3.2;
+        }
+    }
+    //all the other bionic armors reduce bash/cut/stab by 3/3/2.4
+    // Map body parts to a set of bionics that protect it
+    // @todo: JSONize passive bionic armor instead of hardcoding it
+    static const std::map< body_part, std::string > armor_bionics = {
+    { bp_head, { "bio_armor_head" } },
+    { bp_arm_l, { "bio_armor_arms" } },
+    { bp_arm_r, { "bio_armor_arms" } },
+    { bp_torso, { "bio_armor_torso" } },
+    { bp_leg_l, { "bio_armor_legs" } },
+    { bp_leg_r, { "bio_armor_legs" } },
+    { bp_eyes, { "bio_armor_eyes" } }
+    };
+    auto iter = armor_bionics.find( bp );
+    if( iter != armor_bionics.end() ) {
+        if( has_bionic( iter->second ) ) {
+            if( dt == DT_BASH || dt == DT_CUT ) {
+                result += 3;
+            } else if( dt == DT_STAB ) {
+                result += 2.4;
+            }
+        }
+    }
+    return result;
+}
+
+void player::passive_absorb_hit( body_part bp, damage_unit &du ) const
+{
+    du.amount -= bionic_armor_bonus( bp, du.type ); //Check for passive armor bionics
+    // >0 check because some mutations provide negative armor
+        if( du.amount > 0.0f ) {
+            // Horrible hack warning!
+            // Get rid of this as soon as CUT and STAB are split
+            if( du.type == DT_STAB ) {
+                damage_unit du_copy = du;
+                du_copy.type = DT_CUT;
+                du.amount -= 0.8f * mutation_armor( bp, du_copy );
+            } else {
+                du.amount -= mutation_armor( bp, du );
+            }
+        }
+        du.amount -= mabuff_armor_bonus( du.type );
+        du.amount = std::max( 0.0f, du.amount );
+}
+
 void player::absorb_hit(body_part bp, damage_instance &dam) {
     std::list<item> worn_remains;
     bool armor_destroyed = false;
@@ -12260,7 +12332,7 @@ void player::absorb_hit(body_part bp, damage_instance &dam) {
             continue;
         }
 
-        // CBMs absorb damage first before hitting armor
+        // The bio_ads CBM absorbs damage before hitting armor
         if( has_active_bionic("bio_ads") ) {
             if( elem.amount > 0 && power_level > 24 ) {
                 if( elem.type == DT_BASH ) {
@@ -12327,96 +12399,7 @@ void player::absorb_hit(body_part bp, damage_instance &dam) {
             }
         }
 
-        // Next, apply reductions from bionics and traits.
-        if( has_bionic("bio_carbon") ) {
-            switch (elem.type) {
-            case DT_BASH:
-                elem.amount -= 2;
-                break;
-            case DT_CUT:
-                elem.amount -= 4;
-                break;
-            case DT_STAB:
-                elem.amount -= 3.2;
-                break;
-            default:
-                break;
-            }
-        }
-        if( bp == bp_head && has_bionic("bio_armor_head") ) {
-            switch (elem.type) {
-            case DT_BASH:
-            case DT_CUT:
-                elem.amount -= 3;
-                break;
-            case DT_STAB:
-                elem.amount -= 2.4;
-                break;
-            default:
-                break;
-            }
-        } else if( (bp == bp_arm_l || bp == bp_arm_r) && has_bionic("bio_armor_arms") ) {
-            switch (elem.type) {
-            case DT_BASH:
-            case DT_CUT:
-                elem.amount -= 3;
-                break;
-            case DT_STAB:
-                elem.amount -= 2.4;
-                break;
-            default:
-                break;
-            }
-        } else if( bp == bp_torso && has_bionic("bio_armor_torso") ) {
-            switch (elem.type) {
-            case DT_BASH:
-            case DT_CUT:
-                elem.amount -= 3;
-                break;
-            case DT_STAB:
-                elem.amount -= 2.4;
-                break;
-            default:
-                break;
-            }
-        } else if( (bp == bp_leg_l || bp == bp_leg_r) && has_bionic("bio_armor_legs") ) {
-            switch (elem.type) {
-            case DT_BASH:
-            case DT_CUT:
-                elem.amount -= 3;
-                break;
-            case DT_STAB:
-                elem.amount -= 2.4;
-                break;
-            default:
-                break;
-            }
-        } else if( bp == bp_eyes && has_bionic("bio_armor_eyes") ) {
-            switch (elem.type) {
-            case DT_BASH:
-            case DT_CUT:
-                elem.amount -= 3;
-                break;
-            case DT_STAB:
-                elem.amount -= 2.4;
-                break;
-            default:
-                break;
-            }
-        }
-
-        // >0 check because some mutations provide negative armor
-        if( elem.amount > 0.0f ) {
-            // Horrible hack warning!
-            // Get rid of this as soon as CUT and STAB are split
-            if( elem.type == DT_STAB ) {
-                damage_unit elem_copy = elem;
-                elem_copy.type = DT_CUT;
-                elem.amount -= 0.8f * mutation_armor( bp, elem_copy );
-            } else {
-                elem.amount -= mutation_armor( bp, elem );
-            }
-        }
+        passive_absorb_hit( bp, elem );
 
         if( elem.type == DT_BASH ) {
             if( has_trait( "LIGHT_BONES" ) ) {
@@ -12426,8 +12409,6 @@ void player::absorb_hit(body_part bp, damage_instance &dam) {
                 elem.amount *= 1.8;
             }
         }
-
-        elem.amount -= mabuff_armor_bonus( elem.type );
 
         elem.amount = std::max( elem.amount, 0.0f );
     }

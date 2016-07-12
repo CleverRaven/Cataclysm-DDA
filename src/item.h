@@ -16,6 +16,7 @@
 #include "string_id.h"
 #include "line.h"
 #include "item_location.h"
+#include "damage.h"
 #include "debug.h"
 
 class game;
@@ -652,6 +653,11 @@ public:
     int fire_resist( bool to_self = false ) const;
     /*@}*/
 
+    /**
+     * Assuming that @du hit the armor, reduce @du based on the item's resistance to the damage type.
+     * This will never reduce @du.amount below 0.
+     */
+     void mitigate_damage( damage_unit &du ) const;
     /**
      * Resistance provided by this item against damage type given by an enum.
      */
