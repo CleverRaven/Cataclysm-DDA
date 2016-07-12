@@ -3817,7 +3817,7 @@ void game::debug()
                        _( "Spawn Clairvoyance Artifact" ), //16
                        _( "Map editor" ),             // 17
                        _( "Change weather" ),         // 18
-                       _( "Remove all monsters" ),    // 19
+                       _( "Kill all monsters" ),    // 19
                        _( "Display hordes" ),         // 20
                        _( "Test Item Group" ),        // 21
                        _( "Damage Self" ),            // 22
@@ -10616,7 +10616,7 @@ bool game::plfire( const tripoint &default_target )
         }
 
         if( gun->has_flag( "RELOAD_AND_SHOOT" ) && !gun->ammo_remaining() ) {
-            item::reload_option opt = gun->pick_reload_ammo( u );
+            item::reload_option opt = u.select_ammo( *gun );
             if( !opt ) {
                 return false; // menu cancelled
             }
@@ -11097,7 +11097,14 @@ void game::reload( int pos, bool prompt )
             break;
     }
 
-    item::reload_option opt = it->pick_reload_ammo( u, prompt );
+    // for bandoliers we currently defer to iuse_actor methods
+    if( it->is_bandolier() ) {
+        auto ptr = dynamic_cast<const bandolier_actor *>( it->type->get_use( "bandolier" )->get_actor_ptr() );
+        ptr->reload( u, *it );
+        return;
+    }
+
+    item::reload_option opt = u.select_ammo( *it, prompt );
     if( opt ) {
         std::stringstream ss;
         ss << pos;
@@ -11194,7 +11201,12 @@ bool add_or_drop_with_msg( player &u, item &it )
 bool game::unload( item &it )
 {
     // Unload a container consuming moves per item successfully removed
-    if( it.is_container() && !it.contents.empty() ) {
+    if( it.is_container() || it.is_bandolier() ) {
+        if( it.contents.empty() ) {
+            add_msg( m_info, _( "The %s is already empty!" ), it.tname().c_str() );
+            return false;
+        }
+
         it.contents.erase( std::remove_if( it.contents.begin(), it.contents.end(), [this]( item& e ) {
             int mv = u.item_handling_cost( e );
             if( !add_or_drop_with_msg( u, e ) ) {
@@ -11236,7 +11248,7 @@ bool game::unload( item &it )
         return false;
     }
 
-    if( !target->magazine_current() && target->ammo_remaining() <= 0 ) {
+    if( !target->magazine_current() && target->ammo_remaining() <= 0 && target->casings_count() <= 0 ) {
         if( target->is_tool() ) {
             add_msg( m_info, _( "Your %s isn't charged." ), target->tname().c_str() );
         } else {
@@ -11244,6 +11256,10 @@ bool game::unload( item &it )
         }
         return false;
     }
+
+    target->casings_handle( [&]( item &e ) {
+        return u.i_add_or_drop( e );
+    } );
 
     if( target->is_magazine() ) {
         // Remove all contained ammo consuming half as much time as required to load the magazine
@@ -11280,7 +11296,7 @@ bool game::unload( item &it )
             return target->magazine_current() == &e;
         } ) );
 
-    } else {
+    } else if( target->ammo_remaining() ) {
         long qty = target->ammo_remaining();
 
         if( target->ammo_type() == ammotype( "plutonium" ) ) {

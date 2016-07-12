@@ -501,9 +501,36 @@ bool Character::has_active_bionic(const std::string & b) const
     return false;
 }
 
-map_selector Character::nearby( int radius, bool accessible )
+std::vector<item_location> Character::nearby( const std::function<bool(const item *, const item *)>& func, int radius ) const
 {
-    return map_selector( pos(), radius, accessible );
+    std::vector<item_location> res;
+
+    visit_items( [&]( const item *e, const item *parent ) {
+        if( func( e, parent ) ) {
+            res.emplace_back( const_cast<Character &>( *this ), const_cast<item *>( e ) );
+        }
+        return VisitResponse::NEXT;
+    } );
+
+    for( const auto &cur : map_selector( pos(), radius ) ) {
+        cur.visit_items( [&]( const item *e, const item *parent  ) {
+            if( func( e, parent ) ) {
+                res.emplace_back( cur, const_cast<item *>( e ) );
+            }
+            return VisitResponse::NEXT;
+        } );
+    }
+
+    for( const auto &cur : vehicle_selector( pos(), radius ) ) {
+        cur.visit_items( [&]( const item *e, const item *parent  ) {
+            if( func( e, parent ) ) {
+                res.emplace_back( cur, const_cast<item *>( e ) );
+            }
+            return VisitResponse::NEXT;
+        } );
+    }
+
+    return res;
 }
 
 item& Character::i_add(item it)
@@ -729,11 +756,11 @@ void find_ammo_helper( T& src, const item& obj, bool empty, Output out, bool nes
     }
 }
 
-std::vector<item_location> Character::find_ammo( const item& obj, bool empty, int radius )
+std::vector<item_location> Character::find_ammo( const item& obj, bool empty, int radius ) const
 {
     std::vector<item_location> res;
 
-    find_ammo_helper( *this, obj, empty, std::back_inserter( res ), true );
+    find_ammo_helper( const_cast<Character &>( *this ), obj, empty, std::back_inserter( res ), true );
 
     if( radius >= 0 ) {
         for( auto& cursor : map_selector( pos(), radius ) ) {

@@ -1965,6 +1965,8 @@ void bandolier_actor::load( JsonObject &obj )
     for( auto &e : obj.get_tags( "ammo" ) ) {
         ammo.insert( ammotype( e ) );
     }
+
+    draw_cost = obj.get_int( "draw_cost", draw_cost );
 }
 
 void bandolier_actor::info( const item&, std::vector<iteminfo>& dump ) const
@@ -1996,62 +1998,58 @@ bool bandolier_actor::can_store( const item &bandolier, const item &obj ) const
     return std::count( ammo.begin(), ammo.end(), obj.type->ammo->type );
 }
 
-bool bandolier_actor::store( player &p, item &bandolier, item &obj ) const
+bool bandolier_actor::reload( player &p, item &obj ) const
 {
-    if( obj.is_null() || bandolier.is_null() ) {
-        debugmsg( "Null item was passed to bandolier_actor" );
+    if( !obj.is_bandolier() ) {
+        debugmsg( "Invalid item passed to bandolier_actor" );
         return false;
     }
 
-    if( !p.has_item( obj ) ) {
-        debugmsg( "Tried to store item not in player possession in bandolier" );
+    // find all nearby compatible ammo (matching type currently contained if appropriate)
+    auto found = p.nearby( [&]( const item *e, const item *parent ) {
+        return parent != &obj && can_store( obj, *e );
+    } );
+
+    if( found.empty() ) {
+        p.add_msg_if_player( m_bad, _( "No matching ammo for the %1$s" ), obj.type_name().c_str() );
         return false;
     }
 
-    // if selected item is unsuitable inform the player why not
-    if( !obj.is_ammo() ) {
-        p.add_msg_if_player( m_info, _( "That %1$s isn't ammo!" ), obj.tname().c_str() );
-        return false;
+    // convert these into reload options and display the selection prompt
+    std::vector<item::reload_option> opts;
+    std::transform( std::make_move_iterator( found.begin() ), std::make_move_iterator( found.end() ),
+                    std::back_inserter( opts ), [&]( item_location &&e ) {
+        return item::reload_option( &p, &obj, &obj, std::move( e ) );
+    } );
+
+    item::reload_option sel = p.select_ammo( obj, opts );
+    if( !sel ) {
+        return false; // cancelled menu
     }
 
-    if( !std::count( ammo.begin(), ammo.end(), obj.type->ammo->type ) ) {
-        p.add_msg_if_player( m_info, _( "Your %1$s can't store that type of ammo" ),
-                             bandolier.type_name().c_str() );
-        return false;
-    }
+    p.mod_moves( sel.moves() );
 
-    long qty;
-
-    if( bandolier.contents.empty() ) {
-        qty = std::min( obj.charges, long( capacity ) );
-
-        item put = obj.split( qty );
+    // add or stack the ammo dependent upon existing contents
+    if( obj.contents.empty() ) {
+        item put = sel.ammo->split( sel.qty() );
         if( !put.is_null() ) {
-            bandolier.put_in( put );
+            obj.put_in( put );
         } else {
-            bandolier.put_in( p.i_rem( &obj ) );
+            obj.put_in( *sel.ammo );
+            sel.ammo.remove_item();
         }
     } else {
-        qty = std::min( obj.charges, capacity - bandolier.contents.front().charges );
-
-        if( bandolier.contents.front().typeId() != obj.typeId() ) {
-            p.add_msg_if_player( m_info, _( "Your %1$s already contains a different type of ammo" ),
-                                 bandolier.type_name().c_str() );
-            return false;
-        }
-        if( qty <= 0 ) {
-            p.add_msg_if_player( m_info, _( "Your %1$s is already full" ), bandolier.type_name().c_str() );
-            return false;
-        }
-
-        obj.charges -= qty;
-        bandolier.contents.front().charges += qty;
-        if( obj.charges <= 0 ) {
-            p.i_rem( &obj );
+        obj.contents.front().charges += sel.qty();
+        if( sel.ammo->charges > sel.qty() ) {
+            sel.ammo->charges -= sel.qty();
+        } else {
+            sel.ammo.remove_item();
         }
     }
-    p.add_msg_if_player( _( "You store the %1$s in your %2$s" ), obj.tname( qty ).c_str(),
-                         bandolier.type_name().c_str() );
+
+    p.add_msg_if_player( _( "You store the %1$s in your %2$s" ),
+                         obj.contents.front().tname( sel.qty() ).c_str(),
+                         obj.type_name().c_str() );
 
     return true;
 }
@@ -2074,17 +2072,7 @@ long bandolier_actor::use( player *p, item *it, bool, const tripoint & ) const
     menu.addentry( -1, it->contents.empty() || it->contents.front().charges < capacity,
                    'r', string_format( _( "Store ammo in %s" ), it->type_name().c_str() ) );
 
-    actions.emplace_back( [&] {
-        item &obj = p->i_at( g->inv_for_filter( _( "Store ammo" ), [&]( const item &e ) {
-            return can_store( *it, e );
-        } ) );
-
-        if( !obj.is_null() ) {
-            store( *p, *it, obj );
-        } else {
-            p->add_msg_if_player( _( "Never mind." ) );
-        }
-    } );
+    actions.emplace_back( [&] { reload( *p, *it ); } );
 
     menu.addentry( -1, !it->contents.empty(), 'u', string_format( _( "Unload %s" ),
                    it->type_name().c_str() ) );
@@ -2136,7 +2124,7 @@ long ammobelt_actor::use( player *p, item *, bool, const tripoint& ) const
         return 0;
     }
 
-    item::reload_option opt = mag.pick_reload_ammo( *p, true );
+    item::reload_option opt = p->select_ammo( mag, true );
     if( opt ) {
         std::stringstream ss;
         ss << p->get_item_position( &p->i_add( mag ) );
