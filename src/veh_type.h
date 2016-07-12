@@ -198,7 +198,7 @@ class vpart_info
         }
         void set_flag( const std::string &flag );
 
-        static void load( JsonObject &jo );
+        static void load( JsonObject &jo, const std::string &src );
         static void finalize();
         static void check();
         static void reset();

@@ -54,7 +54,8 @@ class DynamicDataLoader
 
     public:
         typedef std::string type_string;
-        typedef std::map<type_string, std::function<void( JsonObject & )>> t_type_function_map;
+        typedef std::map<type_string, std::function<void( JsonObject &, const std::string & )>>
+                t_type_function_map;
         typedef std::vector<std::string> str_vec;
 
     protected:
@@ -64,6 +65,7 @@ class DynamicDataLoader
          */
         t_type_function_map type_function_map;
         void add( const std::string &type, std::function<void( JsonObject & )> f );
+        void add( const std::string &type, std::function<void( JsonObject &, const std::string & )> f );
         /**
          * Load all the types from that json data.
          * @param jsin Might contain single object,
@@ -71,13 +73,13 @@ class DynamicDataLoader
          * "type", that is part of the @ref type_function_map
          * @throws std::exception on all kind of errors.
          */
-        void load_all_from_json( JsonIn &jsin );
+        void load_all_from_json( JsonIn &jsin, const std::string &src );
         /**
          * Load a single object from a json object.
          * @param jo The json object to load the C++-object from.
          * @throws std::exception on all kind of errors.
          */
-        void load_object( JsonObject &jo );
+        void load_object( JsonObject &jo, const std::string &src );
 
         DynamicDataLoader();
         ~DynamicDataLoader();
@@ -104,7 +106,7 @@ class DynamicDataLoader
          * that file, don't check extension).
          * @throws std::exception on all kind of errors.
          */
-        void load_data_from_path( const std::string &path );
+        void load_data_from_path( const std::string &path, const std::string &src );
         /**
          * Deletes and unloads all the data previously loaded with
          * @ref load_data_from_path

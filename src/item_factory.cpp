@@ -115,10 +115,10 @@ void Item_factory::finalize() {
         auto it = deferred.begin();
         for( decltype(deferred)::size_type idx = 0; idx != n; ++idx ) {
             try {
-                std::istringstream str( *it );
+                std::istringstream str( it->first );
                 JsonIn jsin( str );
                 JsonObject jo = jsin.get_object();
-                dyn.load_object( jo );
+                dyn.load_object( jo, it->second );
             } catch( const std::exception &err ) {
                 debugmsg( "Error loading data from json: %s", err.what() );
             }
@@ -961,22 +961,23 @@ Item_spawn_data *Item_factory::get_group(const Item_tag &group_tag)
 ///////////////////////
 
 template<typename SlotType>
-void Item_factory::load_slot( std::unique_ptr<SlotType> &slotptr, JsonObject &jo )
+void Item_factory::load_slot( std::unique_ptr<SlotType> &slotptr, JsonObject &jo, const std::string &src )
 {
     if( !slotptr ) {
         slotptr.reset( new SlotType() );
     }
-    load( *slotptr, jo );
+    load( *slotptr, jo, src );
 }
 
 template<typename SlotType>
-void Item_factory::load_slot_optional( std::unique_ptr<SlotType> &slotptr, JsonObject &jo, const std::string &member )
+void Item_factory::load_slot_optional( std::unique_ptr<SlotType> &slotptr, JsonObject &jo,
+                                       const std::string &member, const std::string &src )
 {
     if( !jo.has_member( member ) ) {
         return;
     }
     JsonObject slotjo = jo.get_object( member );
-    load_slot( slotptr, slotjo );
+    load_slot( slotptr, slotjo, src );
 }
 
 template<typename E>
@@ -996,7 +997,7 @@ void load_optional_enum_array( std::vector<E> &vec, JsonObject &jo, const std::s
     }
 }
 
-itype * Item_factory::load_definition( JsonObject& jo ) {
+itype * Item_factory::load_definition( JsonObject& jo, const std::string &src ) {
     if( !jo.has_string( "copy-from" ) ) {
         return new itype();
     }
@@ -1011,11 +1012,11 @@ itype * Item_factory::load_definition( JsonObject& jo ) {
         return new itype( *abstract->second );
     }
 
-    deferred.emplace_back( jo.str() );
+    deferred.emplace_back( jo.str(), src );
     return nullptr;
 }
 
-void Item_factory::load( islot_artifact &slot, JsonObject &jo )
+void Item_factory::load( islot_artifact &slot, JsonObject &jo, const std::string & )
 {
     slot.charge_type = jo.get_enum_value( "charge_type", ARTC_NULL );
     load_optional_enum_array( slot.effects_wielded, jo, "effects_wielded" );
@@ -1024,7 +1025,7 @@ void Item_factory::load( islot_artifact &slot, JsonObject &jo )
     load_optional_enum_array( slot.effects_worn, jo, "effects_worn" );
 }
 
-void Item_factory::load( islot_ammo &slot, JsonObject &jo )
+void Item_factory::load( islot_ammo &slot, JsonObject &jo, const std::string & )
 {
     assign( jo, "ammo_type", slot.type );
     assign( jo, "casing", slot.casing );
@@ -1041,46 +1042,46 @@ void Item_factory::load( islot_ammo &slot, JsonObject &jo )
     assign( jo, "effects", slot.ammo_effects );
 }
 
-void Item_factory::load_ammo(JsonObject &jo)
+void Item_factory::load_ammo( JsonObject &jo, const std::string &src )
 {
-    auto def = load_definition( jo );
+    auto def = load_definition( jo, src );
     if( def) {
-        load_slot( def->ammo, jo );
-        load_basic_info( jo, def );
+        load_slot( def->ammo, jo, src );
+        load_basic_info( jo, def, src );
     }
 }
 
-void Item_factory::load( islot_engine &slot, JsonObject &jo )
+void Item_factory::load( islot_engine &slot, JsonObject &jo, const std::string & )
 {
     assign( jo, "displacement", slot.displacement );
     assign( jo, "faults", slot.faults );
 }
 
-void Item_factory::load_engine( JsonObject &jo )
+void Item_factory::load_engine( JsonObject &jo, const std::string &src )
 {
-    auto def = load_definition( jo );
+    auto def = load_definition( jo, src );
     if( def) {
-        load_slot( def->engine, jo );
-        load_basic_info( jo, def );
+        load_slot( def->engine, jo, src );
+        load_basic_info( jo, def, src );
     }
 }
 
-void Item_factory::load( islot_wheel &slot, JsonObject &jo )
+void Item_factory::load( islot_wheel &slot, JsonObject &jo, const std::string & )
 {
     assign( jo, "diameter", slot.diameter );
     assign( jo, "width", slot.width );
 }
 
-void Item_factory::load_wheel( JsonObject &jo )
+void Item_factory::load_wheel( JsonObject &jo, const std::string &src )
 {
-    auto def = load_definition( jo );
+    auto def = load_definition( jo, src );
     if( def) {
-        load_slot( def->wheel, jo );
-        load_basic_info( jo, def );
+        load_slot( def->wheel, jo, src );
+        load_basic_info( jo, def, src );
     }
 }
 
-void Item_factory::load( islot_gun &slot, JsonObject &jo )
+void Item_factory::load( islot_gun &slot, JsonObject &jo, const std::string & )
 {
     if( jo.has_member( "burst" ) && jo.has_member( "modes" ) ) {
         jo.throw_error( "cannot specify both burst and modes", "burst" );
@@ -1133,7 +1134,7 @@ void Item_factory::load( islot_gun &slot, JsonObject &jo )
     }
 }
 
-void Item_factory::load( islot_spawn &slot, JsonObject &jo )
+void Item_factory::load( islot_spawn &slot, JsonObject &jo, const std::string & )
 {
     if( jo.has_array( "rand_charges" ) ) {
         JsonArray jarr = jo.get_array( "rand_charges" );
@@ -1147,25 +1148,25 @@ void Item_factory::load( islot_spawn &slot, JsonObject &jo )
     }
 }
 
-void Item_factory::load_gun(JsonObject &jo)
+void Item_factory::load_gun( JsonObject &jo, const std::string &src )
 {
-    auto def = load_definition( jo );
+    auto def = load_definition( jo, src );
     if( def) {
-        load_slot( def->gun, jo );
-        load_basic_info( jo, def );
+        load_slot( def->gun, jo, src );
+        load_basic_info( jo, def, src );
     }
 }
 
-void Item_factory::load_armor(JsonObject &jo)
+void Item_factory::load_armor( JsonObject &jo, const std::string &src )
 {
-    auto def = load_definition( jo );
+    auto def = load_definition( jo,src );
     if( def) {
-        load_slot( def->armor, jo );
-        load_basic_info( jo, def );
+        load_slot( def->armor, jo, src );
+        load_basic_info( jo, def, src );
     }
 }
 
-void Item_factory::load( islot_armor &slot, JsonObject &jo )
+void Item_factory::load( islot_armor &slot, JsonObject &jo, const std::string & )
 {
     assign( jo, "encumbrance", slot.encumber );
     assign( jo, "coverage", slot.coverage );
@@ -1178,7 +1179,7 @@ void Item_factory::load( islot_armor &slot, JsonObject &jo )
     assign_coverage_from_json( jo, "covers", slot.covers, slot.sided );
 }
 
-void Item_factory::load( islot_tool &slot, JsonObject &jo )
+void Item_factory::load( islot_tool &slot, JsonObject &jo, const std::string & )
 {
     assign( jo, "ammo", slot.ammo_id );
     assign( jo, "max_charges", slot.max_charges );
@@ -1190,28 +1191,28 @@ void Item_factory::load( islot_tool &slot, JsonObject &jo )
     assign( jo, "sub", slot.subtype );
 }
 
-void Item_factory::load_tool(JsonObject &jo)
+void Item_factory::load_tool( JsonObject &jo, const std::string &src )
 {
-    auto def = load_definition( jo );
+    auto def = load_definition( jo, src );
     if( def ) {
-        load_slot( def->tool, jo );
-        load_basic_info( jo, def );
-        load_slot( def->spawn, jo ); // @todo deprecate
+        load_slot( def->tool, jo, src );
+        load_basic_info( jo, def, src );
+        load_slot( def->spawn, jo, src ); // @todo deprecate
     }
 }
 
-void Item_factory::load_tool_armor(JsonObject &jo)
+void Item_factory::load_tool_armor( JsonObject &jo, const std::string &src )
 {
-    auto def = load_definition( jo );
+    auto def = load_definition( jo, src );
     if( def ) {
-        load_slot( def->tool, jo );
-        load_slot( def->armor, jo );
-        load_basic_info( jo, def );
-        load_slot( def->spawn, jo ); // @todo deprecate
+        load_slot( def->tool, jo, src );
+        load_slot( def->armor, jo, src );
+        load_basic_info( jo, def, src );
+        load_slot( def->spawn, jo, src ); // @todo deprecate
     }
 }
 
-void Item_factory::load( islot_book &slot, JsonObject &jo )
+void Item_factory::load( islot_book &slot, JsonObject &jo, const std::string & )
 {
     assign( jo, "max_level", slot.level );
     assign( jo, "required_level", slot.req );
@@ -1222,16 +1223,16 @@ void Item_factory::load( islot_book &slot, JsonObject &jo )
     assign( jo, "chapters", slot.chapters );
 }
 
-void Item_factory::load_book( JsonObject &jo )
+void Item_factory::load_book( JsonObject &jo, const std::string &src )
 {
-    auto def = load_definition( jo );
-    if( def) {
-        load_slot( def->book, jo );
-        load_basic_info( jo, def );
+    auto def = load_definition( jo, src );
+    if( def ) {
+        load_slot( def->book, jo, src );
+        load_basic_info( jo, def, src );
     }
 }
 
-void Item_factory::load( islot_comestible &slot, JsonObject &jo )
+void Item_factory::load( islot_comestible &slot, JsonObject &jo, const std::string & )
 {
     assign( jo, "comestible_type", slot.comesttype );
     assign( jo, "tool", slot.tool );
@@ -1305,31 +1306,31 @@ void Item_factory::load( islot_comestible &slot, JsonObject &jo )
     }
 }
 
-void Item_factory::load( islot_brewable &slot, JsonObject &jo )
+void Item_factory::load( islot_brewable &slot, JsonObject &jo, const std::string & )
 {
     slot.time = jo.get_int( "time" );
     slot.results = jo.get_string_array( "results" );
 }
 
-void Item_factory::load_comestible(JsonObject &jo)
+void Item_factory::load_comestible( JsonObject &jo, const std::string &src )
 {
-    auto def = load_definition( jo );
-    if( def) {
-        load_slot( def->comestible, jo );
-        load_basic_info( jo, def );
-    }
-}
-
-void Item_factory::load_container(JsonObject &jo)
-{
-    auto def = load_definition( jo );
+    auto def = load_definition( jo, src );
     if( def ) {
-        load_slot( def->container, jo );
-        load_basic_info( jo, def );
+        load_slot( def->comestible, jo, src );
+        load_basic_info( jo, def, src );
     }
 }
 
-void Item_factory::load( islot_seed &slot, JsonObject &jo )
+void Item_factory::load_container( JsonObject &jo, const std::string &src )
+{
+    auto def = load_definition( jo, src );
+    if( def ) {
+        load_slot( def->container, jo, src );
+        load_basic_info( jo, def, src );
+    }
+}
+
+void Item_factory::load( islot_seed &slot, JsonObject &jo, const std::string & )
 {
     slot.grow = jo.get_int( "grow" );
     slot.fruit_div = jo.get_int( "fruit_div", 1 );
@@ -1339,7 +1340,7 @@ void Item_factory::load( islot_seed &slot, JsonObject &jo )
     slot.byproducts = jo.get_string_array( "byproducts" );
 }
 
-void Item_factory::load( islot_container &slot, JsonObject &jo )
+void Item_factory::load( islot_container &slot, JsonObject &jo, const std::string & )
 {
     assign( jo, "contains", slot.contains );
     assign( jo, "seals", slot.seals );
@@ -1348,7 +1349,7 @@ void Item_factory::load( islot_container &slot, JsonObject &jo )
     assign( jo, "unseals_into", slot.unseals_into );
 }
 
-void Item_factory::load( islot_gunmod &slot, JsonObject &jo )
+void Item_factory::load( islot_gunmod &slot, JsonObject &jo, const std::string & )
 {
     assign( jo, "damage_modifier", slot.damage );
     assign( jo, "loudness_modifier", slot.loudness );
@@ -1404,16 +1405,16 @@ void Item_factory::load( islot_gunmod &slot, JsonObject &jo )
     }
 }
 
-void Item_factory::load_gunmod(JsonObject &jo)
+void Item_factory::load_gunmod( JsonObject &jo, const std::string &src )
 {
-    auto def = load_definition( jo );
+    auto def = load_definition( jo, src );
     if( def ) {
-        load_slot( def->gunmod, jo );
-        load_basic_info( jo, def );
+        load_slot( def->gunmod, jo, src );
+        load_basic_info( jo, def, src );
     }
 }
 
-void Item_factory::load( islot_magazine &slot, JsonObject &jo )
+void Item_factory::load( islot_magazine &slot, JsonObject &jo, const std::string & )
 {
     assign( jo, "ammo_type", slot.type );
     assign( jo, "capacity", slot.capacity );
@@ -1423,34 +1424,34 @@ void Item_factory::load( islot_magazine &slot, JsonObject &jo )
     assign( jo, "linkage", slot.linkage );
 }
 
-void Item_factory::load_magazine(JsonObject &jo)
+void Item_factory::load_magazine( JsonObject &jo, const std::string &src )
 {
-    auto def = load_definition( jo );
+    auto def = load_definition( jo, src );
     if( def) {
-        load_slot( def->magazine, jo );
-        load_basic_info( jo, def );
+        load_slot( def->magazine, jo, src );
+        load_basic_info( jo, def, src );
     }
 }
 
-void Item_factory::load( islot_bionic &slot, JsonObject &jo )
+void Item_factory::load( islot_bionic &slot, JsonObject &jo, const std::string & )
 {
     slot.difficulty = jo.get_int( "difficulty" );
     // TODO: must be the same as the item type id, for compatibility
     slot.bionic_id = jo.get_string( "id" );
 }
 
-void Item_factory::load_bionic( JsonObject &jo )
+void Item_factory::load_bionic( JsonObject &jo, const std::string &src )
 {
     itype *new_item_template = new itype();
-    load_slot( new_item_template->bionic, jo );
-    load_basic_info( jo, new_item_template );
+    load_slot( new_item_template->bionic, jo, src );
+    load_basic_info( jo, new_item_template, src );
 }
 
-void Item_factory::load_generic(JsonObject &jo)
+void Item_factory::load_generic( JsonObject &jo, const std::string &src )
 {
-    auto def = load_definition( jo );
+    auto def = load_definition( jo, src );
     if( def ) {
-        load_basic_info( jo, def );
+        load_basic_info( jo, def, src );
     }
 }
 
@@ -1535,8 +1536,10 @@ void npc_implied_flags( itype &item_template )
     }
 }
 
-void Item_factory::load_basic_info(JsonObject &jo, itype *new_item_template)
+void Item_factory::load_basic_info( JsonObject &jo, itype *new_item_template, const std::string &src )
 {
+    bool strict = src == "core";
+
     if( jo.has_string( "abstract" ) ) {
         new_item_template->id = jo.get_string( "abstract" );
         m_abstracts[ new_item_template->id ].reset( new_item_template );
@@ -1545,7 +1548,7 @@ void Item_factory::load_basic_info(JsonObject &jo, itype *new_item_template)
         m_templates[ new_item_template->id ].reset( new_item_template );
     }
 
-    assign( jo, "weight", new_item_template->weight );
+    assign( jo, "weight", new_item_template->weight, strict );
     assign( jo, "volume", new_item_template->volume );
     assign( jo, "price", new_item_template->price );
     assign( jo, "price_postapoc", new_item_template->price_post );
@@ -1666,17 +1669,17 @@ void Item_factory::load_basic_info(JsonObject &jo, itype *new_item_template)
         new_item_template->category = get_category( jo.get_string( "category" ) );
     }
 
-    load_slot_optional( new_item_template->container, jo, "container_data" );
-    load_slot_optional( new_item_template->armor, jo, "armor_data" );
-    load_slot_optional( new_item_template->book, jo, "book_data" );
-    load_slot_optional( new_item_template->gun, jo, "gun_data" );
-    load_slot_optional( new_item_template->gunmod, jo, "gunmod_data" );
-    load_slot_optional( new_item_template->bionic, jo, "bionic_data" );
-    load_slot_optional( new_item_template->spawn, jo, "spawn_data" );
-    load_slot_optional( new_item_template->ammo, jo, "ammo_data" );
-    load_slot_optional( new_item_template->seed, jo, "seed_data" );
-    load_slot_optional( new_item_template->artifact, jo, "artifact_data" );
-    load_slot_optional( new_item_template->brewable, jo, "brewable" );
+    load_slot_optional( new_item_template->container, jo, "container_data", src );
+    load_slot_optional( new_item_template->armor, jo, "armor_data", src );
+    load_slot_optional( new_item_template->book, jo, "book_data", src );
+    load_slot_optional( new_item_template->gun, jo, "gun_data", src );
+    load_slot_optional( new_item_template->gunmod, jo, "gunmod_data", src );
+    load_slot_optional( new_item_template->bionic, jo, "bionic_data", src );
+    load_slot_optional( new_item_template->spawn, jo, "spawn_data", src );
+    load_slot_optional( new_item_template->ammo, jo, "ammo_data", src );
+    load_slot_optional( new_item_template->seed, jo, "seed_data", src );
+    load_slot_optional( new_item_template->artifact, jo, "artifact_data", src );
+    load_slot_optional( new_item_template->brewable, jo, "brewable", src );
 }
 
 void Item_factory::load_item_category(JsonObject &jo)

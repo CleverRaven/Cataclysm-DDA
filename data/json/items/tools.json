@@ -42,7 +42,6 @@
     "name": "seeing this is a bug",
     "description": "seeing this is a bug",
     "price": 0,
-    "weight": 0,
     "volume": 0,
     "use_action": "UNFOLD_GENERIC"
   },
@@ -5078,7 +5077,6 @@
     "name": "bio lockpick",
     "description": "this a pseudo item",
     "price": 0,
-    "weight": 0,
     "volume": 0,
     "max_charges": 1,
     "initial_charges": 1,

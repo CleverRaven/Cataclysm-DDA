@@ -846,34 +846,43 @@ class string_id_reader : public generic_typed_reader<string_id_reader<T>>
 
 template <typename T>
 typename std::enable_if<std::is_arithmetic<T>::value, bool>::type assign(
-    JsonObject &jo, const std::string &name, T &val )
+    JsonObject &jo, const std::string &name, T &val, bool strict = false )
 {
-
-    T tmp;
-    if( jo.get_object( "relative" ).read( name, tmp ) ) {
-        val += tmp;
-        return true;
-    }
-
+    T out;
     double scalar;
-    if( jo.get_object( "proportional" ).read( name, scalar ) && scalar > 0.0 ) {
-        val *= scalar;
-        return true;
+
+    if( jo.get_object( "relative" ).read( name, out ) ) {
+        out += val;
+
+    } else if( jo.get_object( "proportional" ).read( name, scalar ) ) {
+        if( scalar <= 0 ) {
+            jo.throw_error( "invalid proportional scalar", name );
+        }
+        out = val * scalar;
+
+    } else if( !jo.read( name, out ) ) {
+
+        return false;
     }
 
-    return jo.read( name, val );
+    if( strict && out == val ) {
+        jo.throw_error( "assignment does not update value", name );
+    }
+
+    val = out;
+    return true;
 }
 
 template <typename T>
 typename std::enable_if<std::is_constructible<T, std::string>::value, bool>::type assign(
-    JsonObject &jo, const std::string &name, T &val )
+    JsonObject &jo, const std::string &name, T &val, bool = false )
 {
 
     return jo.read( name, val );
 }
 
 template <typename T>
-bool assign( JsonObject &jo, const std::string &name, nc_color &val )
+bool assign( JsonObject &jo, const std::string &name, nc_color &val, bool = false )
 {
     if( jo.has_string( name ) ) {
         val = color_from_string( jo.get_string( name ) );
@@ -884,7 +893,7 @@ bool assign( JsonObject &jo, const std::string &name, nc_color &val )
 
 template <typename T>
 typename std::enable_if<std::is_constructible<T, std::string>::value, bool>::type assign(
-    JsonObject &jo, const std::string &name, std::set<T> &val )
+    JsonObject &jo, const std::string &name, std::set<T> &val, bool = false )
 {
 
     if( jo.has_string( name ) || jo.has_array( name ) ) {
