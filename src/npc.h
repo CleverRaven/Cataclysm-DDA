@@ -553,9 +553,6 @@ public:
  npc &operator=(npc &&) = default;
  ~npc() override;
 
-    /** Construct an NPC with standard stats */
-    static npc make_standard();
-
  bool is_player() const override { return false; }
  bool is_npc() const override { return true; }
 
@@ -930,6 +927,17 @@ private:
 
     bool sees_dangerous_field( const tripoint &p ) const;
     bool could_move_onto( const tripoint &p ) const;
+};
+
+/** An NPC with standard stats */
+class standard_npc : public npc {
+    public:
+        standard_npc() : npc() {
+          str_cur = 8;
+          dex_cur = 8;
+          per_cur = 8;
+          int_cur = 8;
+        }
 };
 
 struct epilogue {

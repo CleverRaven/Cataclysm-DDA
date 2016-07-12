@@ -112,7 +112,7 @@ void game::dump_stats( const std::string& what, dump_mode mode )
             r.push_back( to_string( obj.gun_damage() ) );
             r.push_back( to_string( obj.gun_pierce() ) );
 
-            npc fake = npc::make_standard();
+            standard_npc fake;
             fake.wear_item( item( "gloves_lsurvivor" ) );
             fake.wear_item( item( "mask_lsurvivor" ) );
             fake.set_skill_level( skill_id( "gun" ), 4 );

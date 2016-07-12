@@ -48,7 +48,7 @@ TEST_CASE( "gun_aiming", "[gun] [aim]" ) {
     // Note that GIVEN statements cannot appear within loops
     GIVEN( "A typical survivor with a loded gun" ) {
 
-        auto who = npc::make_standard();
+        standard_npc who;
         who.wear_item( item( "gloves_lsurvivor" ) );
         who.wear_item( item( "mask_lsurvivor" ) );
         who.set_skill_level( skill_id( "gun" ), gun_skill );
