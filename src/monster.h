@@ -309,6 +309,8 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         /** Sets the enabled flag for the given special to false */
         void disable_special( const std::string &special_name );
 
+        void process_turn() override;
+
         void die( Creature *killer ) override; //this is the die from Creature, it calls kill_mon
         void drop_items_on_death();
 

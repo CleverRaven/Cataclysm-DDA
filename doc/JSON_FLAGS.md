@@ -328,7 +328,6 @@ Some special attacks are also valid use actions for tools and weapons.
 - ```SHOCKSTORM``` Shoots bolts of lightning.
 - ```SHRIEK``` "a terrible shriek!"
 - ```SMG``` SMG turret fires.
-- ```SMOKECLOUD``` Produces a cloud of smoke.
 - ```SPIT_SAP``` Spit sap.
 - ```STARE``` Stare at the player and inflict teleglow.
 - ```TAZER``` Shock the player.

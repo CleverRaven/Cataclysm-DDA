@@ -1524,6 +1524,15 @@ void monster::explode()
     hp = INT_MIN;
 }
 
+void monster::process_turn()
+{
+    for( const auto &e: type->emit_fields ) {
+        g->m.emit_field( pos(), e );
+    }
+
+    Creature::process_turn();
+}
+
 void monster::die(Creature* nkiller)
 {
     if( dead ) {
