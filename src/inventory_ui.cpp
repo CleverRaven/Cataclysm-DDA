@@ -440,6 +440,29 @@ void inventory_selector::add_items( const std::list<item>::const_iterator &from,
     }
 }
 
+void inventory_selector::add_character_items( Character &character )
+{
+    for( size_t i = 0; i < character.inv.size(); ++i ) {
+        const auto &stack = character.inv.const_stack( i );
+        add_item( std::make_shared<item_location>( character, const_cast<item *>( &stack.front() ) ),
+                  stack.size() );
+    }
+
+    if( !character.weapon.is_null() ) {
+        const std::string cat_title = _( "WEAPON HELD" );
+        add_item( std::make_shared<item_location>( character, &character.weapon ), 1,
+                  cat_title, c_ltblue );
+    }
+
+    if( !character.worn.empty() ) {
+        const std::string cat_title = _( "ITEMS WORN" );
+        for( auto &it : character.worn ) {
+            add_item( std::make_shared<item_location>( character, &it ), 1,
+                      cat_title, c_cyan );
+        }
+    }
+}
+
 void inventory_selector::add_map_items( const tripoint &target )
 {
     if( g->m.accessible_items( u.pos(), target, rl_dist( u.pos(), target ) ) ) {
@@ -624,23 +647,7 @@ inventory_selector::inventory_selector( player &u, const std::string &title, con
     ctxt.register_action("HELP_KEYBINDINGS");
     ctxt.register_action("ANY_INPUT"); // For invlets
 
-    for( size_t i = 0; i < u.inv.size(); ++i ) {
-        const auto &stack = u.inv.const_stack( i );
-        add_item( std::make_shared<item_location>( u, const_cast<item *>( &stack.front() ) ),
-                  stack.size() );
-    }
-
-    if( u.is_armed() ) {
-        const std::string cat_title = _( "WEAPON HELD" );
-        add_item( std::make_shared<item_location>( u, &u.weapon ), 1, cat_title, c_ltblue );
-    }
-
-    if( !u.worn.empty() ) {
-        const std::string cat_title = _( "ITEMS WORN" );
-        for( auto &it : u.worn ) {
-            add_item( std::make_shared<item_location>( u, &it ), 1, cat_title, c_cyan );
-        }
-    }
+    add_character_items( u );
 }
 
 inventory_selector::~inventory_selector()

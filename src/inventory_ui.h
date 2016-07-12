@@ -10,6 +10,8 @@
 #include "input.h"
 #include "units.h"
 
+class Character;
+
 class item;
 class item_category;
 class item_location;
@@ -214,6 +216,7 @@ class inventory_selector
                             const item_location_filter &filter = allow_all_items );
         ~inventory_selector();
         /** These functions add items from map / vehicles */
+        void add_character_items( Character &character );
         void add_map_items( const tripoint &target );
         void add_vehicle_items( const tripoint &target );
         void add_nearby_items( int radius = 1 );
