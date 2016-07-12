@@ -17,7 +17,7 @@
     "ammo_type": "components"
   },
   {
-    "id": "gold",
+    "id": "gold_small",
     "type": "AMMO",
     "category": "spare_parts",
     "name": "gold",
@@ -86,7 +86,7 @@
     "ammo_type": "components"
   },
   {
-    "id": "silver",
+    "id": "silver_small",
     "type": "AMMO",
     "category": "spare_parts",
     "name": "silver",

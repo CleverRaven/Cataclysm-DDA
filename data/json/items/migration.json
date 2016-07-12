@@ -20,10 +20,10 @@
     "replace": "battery_car"
   },
   {
-    "id": "gold_small",
+    "id": "gold",
     "type": "MIGRATION",
-    "replace": "gold",
-    "charges": 1
+    "replace": "gold_small",
+    "charges": 1930
   },
   {
     "id": "jar_V8",
@@ -188,10 +188,10 @@
     "contents": [ "barrel_small" ]
   },
   {
-    "id": "silver_small",
+    "id": "silver",
     "type": "MIGRATION",
-    "replace": "silver",
-    "charges": 1
+    "replace": "silver_small",
+    "charges": 1608
   },
   {
     "id": "shot_scrapslug",

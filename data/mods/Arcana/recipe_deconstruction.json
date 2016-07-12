@@ -21,7 +21,7 @@
   "reversible": true,
   "flags": ["BLIND_EASY"],
   "qualities":[ {"id":"HAMMER","level":1} ],
-  "components": [ [ [ "silver", 95 ] ] ]
+  "components": [ [ [ "silver_small", 95 ] ] ]
 },{
   "type" : "recipe",
   "result": "essence",
@@ -61,7 +61,7 @@
   "reversible": true,
   "tools": [ [ [ "hexenhammer", -1 ] ] ],
   "components": [
-    [ [ "gold", 625 ] ],
+    [ [ "gold_small", 625 ] ],
     [ [ "essence_dull", 30 ] ]
   ]
 },{
@@ -108,8 +108,8 @@
   "reversible": true,
   "tools": [ [ [ "hexenhammer", -1 ] ] ],
   "components": [
-    [ [ "gold", 625 ] ],
-    [ [ "silver", 165 ] ],
+    [ [ "gold_small", 625 ] ],
+    [ [ "silver_small", 165 ] ],
     [ [ "essence_dull", 75 ] ]
   ]
 },{
@@ -124,7 +124,7 @@
   "reversible": true,
   "tools": [ [ [ "hexenhammer", -1 ] ] ],
   "components": [
-    [ [ "silver", 165 ] ],
+    [ [ "silver_small", 165 ] ],
     [ [ "essence_dull", 15 ] ]
   ]
 },{
@@ -155,7 +155,7 @@
   "reversible": true,
   "tools": [ [ [ "hexenhammer", -1 ] ] ],
   "components": [
-    [ [ "silver", 600 ] ],
+    [ [ "silver_small", 600 ] ],
     [ [ "diamond", 1 ] ],
     [ [ "essence_dull", 30 ] ]
   ]
@@ -171,7 +171,7 @@
   "reversible": true,
   "tools": [ [ [ "hexenhammer", -1 ] ] ],
   "components": [
-    [ [ "silver", 95 ] ],
+    [ [ "silver_small", 95 ] ],
     [ [ "essence_dull", 15 ] ]
   ]
 },{
@@ -186,7 +186,7 @@
   "reversible": true,
   "tools": [ [ [ "hexenhammer", -1 ] ] ],
   "components": [
-    [ [ "silver", 95 ] ],
+    [ [ "silver_small", 95 ] ],
     [ [ "essence_dull", 15 ] ]
   ]
 },{
@@ -201,7 +201,7 @@
   "reversible": true,
   "tools": [ [ [ "hexenhammer", -1 ] ] ],
   "components": [
-    [ [ "silver", 95 ] ],
+    [ [ "silver_small", 95 ] ],
     [ [ "essence_dull", 30 ] ]
   ]
 },{
@@ -216,7 +216,7 @@
   "reversible": true,
   "tools": [ [ [ "hexenhammer", -1 ] ] ],
   "components": [
-    [ [ "silver", 95 ] ],
+    [ [ "silver_small", 95 ] ],
     [ [ "essence_dull", 30 ] ]
   ]
 },{
@@ -231,7 +231,7 @@
   "reversible": true,
   "tools": [ [ [ "hexenhammer", -1 ] ] ],
   "components": [
-    [ [ "silver", 95 ] ],
+    [ [ "silver_small", 95 ] ],
     [ [ "essence_dull", 45 ] ]
   ]
 },{
@@ -246,7 +246,7 @@
   "reversible": true,
   "tools": [ [ [ "hexenhammer", -1 ] ] ],
   "components": [
-    [ [ "silver", 95 ] ],
+    [ [ "silver_small", 95 ] ],
     [ [ "essence_dull", 45 ] ]
   ]
 },{
@@ -261,7 +261,7 @@
   "reversible": true,
   "tools": [ [ [ "hexenhammer", -1 ] ] ],
   "components": [
-    [ [ "silver", 95 ] ],
+    [ [ "silver_small", 95 ] ],
     [ [ "essence_dull", 60 ] ]
   ]
 },{
@@ -276,7 +276,7 @@
   "reversible": true,
   "tools": [ [ [ "hexenhammer", -1 ] ] ],
   "components": [
-    [ [ "silver", 95 ] ],
+    [ [ "silver_small", 95 ] ],
     [ [ "essence_dull", 60 ] ]
   ]
 },{
@@ -291,7 +291,7 @@
   "reversible": true,
   "tools": [ [ [ "hexenhammer", -1 ] ] ],
   "components": [
-    [ [ "silver", 95 ] ],
+    [ [ "silver_small", 95 ] ],
     [ [ "essence_dull", 75 ] ]
   ]
 },{
@@ -306,7 +306,7 @@
   "reversible": true,
   "tools": [ [ [ "hexenhammer", -1 ] ] ],
   "components": [
-    [ [ "silver", 95 ] ],
+    [ [ "silver_small", 95 ] ],
     [ [ "essence_dull", 75 ] ]
   ]
 },{

@@ -692,7 +692,7 @@
       [ "tin", 50 ],
       [ "bismuth", 50 ],
       [ "solder_wire", 50 ],
-      [ "silver", 50 ],
+      [ "silver_small", 50 ],
       [ "scrap", 1 ]
       ]
     ]
@@ -721,7 +721,7 @@
     "components": [
       [
       [ "lead", 60 ],
-      [ "gold", 60 ]
+      [ "gold_small", 60 ]
       ]
     ]
 },{

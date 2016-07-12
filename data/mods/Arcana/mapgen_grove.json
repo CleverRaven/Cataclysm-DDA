@@ -4,7 +4,7 @@
     "id" : "summoner_drops",
     "items":[
       ["silver_glyph", 10],
-      ["silver", 10],
+      ["silver_small", 10],
       ["book_summoning", 5],
       ["essence", 10],
       ["summon_kreck", 3],

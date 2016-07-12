@@ -132,7 +132,7 @@
     "time": 500,
     "reversible": true,
     "qualities": [ {"id":"HAMMER","level":1} ],
-    "components": [ [ [ "silver", 20 ] ] ]
+    "components": [ [ [ "silver_small", 20 ] ] ]
   },
   {
     "result": "badge_deputy",
@@ -144,7 +144,7 @@
     "time": 500,
     "reversible": true,
     "qualities": [ {"id":"HAMMER","level":1} ],
-    "components": [ [ [ "silver", 20 ] ] ]
+    "components": [ [ [ "silver_small", 20 ] ] ]
   },
   {
     "result": "necklace",
@@ -156,7 +156,7 @@
     "time": 500,
     "reversible": true,
     "qualities": [ {"id":"HAMMER","level":1} ],
-    "components": [ [ [ "silver", 10 ] ] ]
+    "components": [ [ [ "silver_small", 10 ] ] ]
   },
   {
     "result": "locket",
@@ -168,7 +168,7 @@
     "time": 500,
     "reversible": true,
     "qualities":[ {"id":"HAMMER","level":1} ],
-    "components": [ [ [ "silver", 10 ] ] ]
+    "components": [ [ [ "silver_small", 10 ] ] ]
   },
   {
     "result": "gold_bracelet",
@@ -180,7 +180,7 @@
     "time": 600,
     "reversible": true,
     "qualities": [ {"id":"HAMMER","level":1} ],
-    "components": [ [ [ "gold", 8 ] ] ]
+    "components": [ [ [ "gold_small", 8 ] ] ]
   },
   {
     "result": "silver_bracelet",
@@ -192,7 +192,7 @@
     "time": 600,
     "reversible": true,
     "qualities": [ {"id":"HAMMER","level":1} ],
-    "components": [ [ [ "silver", 10 ] ] ]
+    "components": [ [ [ "silver_small", 10 ] ] ]
   },
   {
     "result": "copper_bracelet",
@@ -216,7 +216,7 @@
     "time": 500,
     "reversible": true,
     "qualities": [ {"id":"HAMMER","level":1} ],
-    "components": [ [ [ "gold", 2 ] ] ]
+    "components": [ [ [ "gold_small", 2 ] ] ]
   },
   {
     "result": "diamond_ring",
@@ -229,7 +229,7 @@
     "reversible": true,
     "qualities": [ {"id":"HAMMER","level":1} ],
     "components": [
-      [ [ "gold", 2 ] ],
+      [ [ "gold_small", 2 ] ],
       [ [ "diamond", 1 ] ]
     ]
   },
@@ -244,7 +244,7 @@
     "reversible": true,
     "qualities": [ {"id":"HAMMER","level":1} ],
     "components": [
-      [ [ "gold", 2 ] ],
+      [ [ "gold_small", 2 ] ],
       [ [ "diamond", 1 ] ]
     ]
   },
@@ -258,7 +258,7 @@
     "time": 500,
     "reversible": true,
     "qualities": [ {"id":"HAMMER","level":1} ],
-    "components": [ [ [ "gold", 2 ] ] ]
+    "components": [ [ [ "gold_small", 2 ] ] ]
   },
   {
     "result": "gold_ear",
@@ -270,7 +270,7 @@
     "time": 500,
     "reversible": true,
     "qualities": [ { "id": "HAMMER","level": 1 } ],
-    "components": [ [ [ "gold", 2 ] ] ]
+    "components": [ [ [ "gold_small", 2 ] ] ]
   },
   {
     "result": "silver_ear",
@@ -282,7 +282,7 @@
     "time": 500,
     "reversible": true,
     "qualities": [ { "id": "HAMMER","level": 1 } ],
-    "components": [ [ [ "silver", 3 ] ] ]
+    "components": [ [ [ "silver_small", 3 ] ] ]
   },
   {
     "result": "copper_ear",
@@ -306,7 +306,7 @@
     "time": 500,
     "reversible": true,
     "qualities": [ { "id": "HAMMER","level": 1 } ],
-    "components": [ [ [ "silver", 4 ] ] ]
+    "components": [ [ [ "silver_small", 4 ] ] ]
   },
   {
     "result": "usb_drive",
@@ -435,7 +435,7 @@
       { "id": "SCREW","level": 1 }
     ],
     "components": [
-      [ [ "gold", 12 ] ],
+      [ [ "gold_small", 12 ] ],
       [ [ "clockworks", 1 ] ]
     ]
   },
@@ -453,8 +453,8 @@
       { "id": "SCREW","level": 1 }
     ],
     "components": [
-      [ [ "gold", 5 ] ],
-      [ [ "silver", 12 ] ],
+      [ [ "gold_small", 5 ] ],
+      [ [ "silver_small", 12 ] ],
       [ [ "clockworks", 1 ] ]
     ]
   },
@@ -1352,7 +1352,7 @@
     {"id":"SCREW","level":1,"amount":1}
   ], "components": [
       [
-        ["gold", 300 ]
+        ["gold_small", 300 ]
       ]
     ]
 },{

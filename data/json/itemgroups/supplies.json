@@ -47,8 +47,8 @@
     "type": "item_group",
     "//": "Metals of significant economic value before the cataclysm",
     "items": [
-      [ "gold", 100 ],
-      [ "silver", 100 ]
+      [ "gold_small", 100 ],
+      [ "silver_small", 100 ]
     ]
   },
   {

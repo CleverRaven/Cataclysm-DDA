@@ -163,8 +163,8 @@
     "components": [
       [
       [ "lead", 50 ],
-      [ "gold", 50 ],
-      [ "silver", 50 ],
+      [ "gold_small", 50 ],
+      [ "silver_small", 50 ],
       [ "tin", 50 ],
       [ "bismuth", 50 ],
       [ "solder_wire", 50 ]
@@ -900,8 +900,8 @@
     ],
     [
       [ "lead", 200 ],
-      [ "gold", 200 ],
-      [ "silver", 200 ],
+      [ "gold_small", 200 ],
+      [ "silver_small", 200 ],
       [ "tin", 200 ],
       [ "bismuth", 200 ],
       [ "solder_wire", 200 ]
@@ -941,8 +941,8 @@
     ],
     [
       [ "lead", 100 ],
-      [ "gold", 100 ],
-      [ "silver", 100 ],
+      [ "gold_small", 100 ],
+      [ "silver_small", 100 ],
       [ "tin", 100 ],
       [ "bismuth", 100 ],
       [ "solder_wire", 100 ]
@@ -982,8 +982,8 @@
     ],
     [
       [ "lead", 250 ],
-      [ "gold", 250 ],
-      [ "silver", 250 ],
+      [ "gold_small", 250 ],
+      [ "silver_small", 250 ],
       [ "tin", 250 ],
       [ "bismuth", 250 ],
       [ "solder_wire", 250 ]
@@ -1023,8 +1023,8 @@
     ],
     [
       [ "lead", 125 ],
-      [ "gold", 125 ],
-      [ "silver", 125 ],
+      [ "gold_small", 125 ],
+      [ "silver_small", 125 ],
       [ "tin", 125 ],
       [ "bismuth", 125 ],
       [ "solder_wire", 125 ]
@@ -1064,8 +1064,8 @@
     ],
     [
       [ "lead", 300 ],
-      [ "gold", 300 ],
-      [ "silver", 300 ],
+      [ "gold_small", 300 ],
+      [ "silver_small", 300 ],
       [ "tin", 300 ],
       [ "bismuth", 300 ],
       [ "solder_wire", 300 ]
@@ -1105,8 +1105,8 @@
     ],
     [
       [ "lead", 400 ],
-      [ "gold", 400 ],
-      [ "silver", 400 ],
+      [ "gold_small", 400 ],
+      [ "silver_small", 400 ],
       [ "tin", 400 ],
       [ "bismuth", 400 ],
       [ "solder_wire", 400 ]
@@ -1146,8 +1146,8 @@
     ],
     [
       [ "lead", 200 ],
-      [ "gold", 200 ],
-      [ "silver", 200 ],
+      [ "gold_small", 200 ],
+      [ "silver_small", 200 ],
       [ "tin", 200 ],
       [ "bismuth", 200 ],
       [ "solder_wire", 200 ]
@@ -1187,8 +1187,8 @@
     ],
     [
       [ "lead", 240 ],
-      [ "gold", 240 ],
-      [ "silver", 240 ],
+      [ "gold_small", 240 ],
+      [ "silver_small", 240 ],
       [ "tin", 240 ],
       [ "bismuth", 240 ],
       [ "solder_wire", 240 ]
@@ -1228,8 +1228,8 @@
     ],
     [
       [ "lead", 100 ],
-      [ "gold", 100 ],
-      [ "silver", 100 ],
+      [ "gold_small", 100 ],
+      [ "silver_small", 100 ],
       [ "tin", 100 ],
       [ "bismuth", 100 ],
       [ "solder_wire", 100 ]
@@ -1269,8 +1269,8 @@
     ],
     [
       [ "lead", 400 ],
-      [ "gold", 400],
-      [ "silver", 400 ],
+      [ "gold_small", 400],
+      [ "silver_small", 400 ],
       [ "tin", 400 ],
       [ "bismuth", 400 ],
       [ "solder_wire", 400 ]
@@ -1313,8 +1313,8 @@
     ],
     [
       [ "lead", 400 ],
-      [ "gold", 400 ],
-      [ "silver", 400 ],
+      [ "gold_small", 400 ],
+      [ "silver_small", 400 ],
       [ "tin", 400 ],
       [ "bismuth", 400 ],
       [ "solder_wire", 400 ]
@@ -1357,8 +1357,8 @@
     ],
     [
       [ "lead", 675 ],
-      [ "gold", 675 ],
-      [ "silver", 675 ],
+      [ "gold_small", 675 ],
+      [ "silver_small", 675 ],
       [ "tin", 675 ],
       [ "bismuth", 675 ],
       [ "solder_wire", 675 ]
@@ -1401,8 +1401,8 @@
     ],
     [
       [ "lead", 80 ],
-      [ "gold", 80 ],
-      [ "silver", 80 ],
+      [ "gold_small", 80 ],
+      [ "silver_small", 80 ],
       [ "tin", 80 ],
       [ "bismuth", 80 ],
       [ "solder_wire", 80 ]
@@ -1442,8 +1442,8 @@
     ],
     [
       [ "lead", 80 ],
-      [ "gold", 80 ],
-      [ "silver", 80 ],
+      [ "gold_small", 80 ],
+      [ "silver_small", 80 ],
       [ "tin", 80 ],
       [ "bismuth", 80 ],
       [ "solder_wire", 80 ]
@@ -1483,8 +1483,8 @@
     ],
     [
       [ "lead", 400 ],
-      [ "gold", 400 ] ,
-      [ "silver", 400 ],
+      [ "gold_small", 400 ] ,
+      [ "silver_small", 400 ],
       [ "tin", 400 ],
       [ "bismuth", 400 ],
       [ "solder_wire", 400 ]
@@ -1527,8 +1527,8 @@
     ],
     [
       [ "lead", 400 ],
-      [ "gold", 400 ],
-      [ "silver", 400 ],
+      [ "gold_small", 400 ],
+      [ "silver_small", 400 ],
       [ "tin", 400 ],
       [ "bismuth", 400 ],
       [ "solder_wire", 400 ]
@@ -1572,8 +1572,8 @@
     ],
     [
       [ "lead", 60 ],
-      [ "gold", 60 ],
-      [ "silver", 60 ],
+      [ "gold_small", 60 ],
+      [ "silver_small", 60 ],
       [ "tin", 60 ],
       [ "bismuth", 60 ],
       [ "solder_wire", 60]
@@ -1617,8 +1617,8 @@
     ],
     [
       [ "lead", 90 ],
-      [ "gold", 90 ],
-      [ "silver", 90 ],
+      [ "gold_small", 90 ],
+      [ "silver_small", 90 ],
       [ "tin", 90 ],
       [ "bismuth", 90 ],
       [ "solder_wire", 90]
@@ -1719,8 +1719,8 @@
     ],
     [
       [ "lead", 60 ],
-      [ "gold", 60 ] ,
-      [ "silver", 60 ],
+      [ "gold_small", 60 ] ,
+      [ "silver_small", 60 ],
       [ "tin", 60 ],
       [ "bismuth", 60 ],
       [ "solder_wire", 60 ]
@@ -1764,8 +1764,8 @@
     ],
     [
       [ "lead", 60 ],
-      [ "gold", 60 ] ,
-      [ "silver", 60 ],
+      [ "gold_small", 60 ] ,
+      [ "silver_small", 60 ],
       [ "tin", 60 ],
       [ "bismuth", 60 ],
       [ "solder_wire", 60 ]
@@ -1845,8 +1845,8 @@
     ],
     [
       [ "lead", 100 ],
-      [ "gold", 100 ],
-      [ "silver", 100 ],
+      [ "gold_small", 100 ],
+      [ "silver_small", 100 ],
       [ "tin", 100 ],
       [ "bismuth", 100 ],
       [ "solder_wire", 100 ]
@@ -1916,8 +1916,8 @@
     ],
     [
       [ "lead", 80 ],
-      [ "gold", 80 ] ,
-      [ "silver", 80 ],
+      [ "gold_small", 80 ] ,
+      [ "silver_small", 80 ],
       [ "tin", 80 ],
       [ "bismuth", 80 ],
       [ "solder_wire", 80 ]
@@ -1960,8 +1960,8 @@
     ],
     [
       [ "lead", 80 ],
-      [ "gold", 80 ] ,
-      [ "silver", 80 ],
+      [ "gold_small", 80 ] ,
+      [ "silver_small", 80 ],
       [ "tin", 80 ],
       [ "bismuth", 80 ],
       [ "solder_wire", 80 ]
@@ -2007,8 +2007,8 @@
     ],
     [
       [ "lead", 200 ],
-      [ "gold", 200 ],
-      [ "silver", 200 ],
+      [ "gold_small", 200 ],
+      [ "silver_small", 200 ],
       [ "tin", 200 ],
       [ "bismuth", 200 ],
       [ "solder_wire", 200 ]
@@ -2090,8 +2090,8 @@
     ],
     [
       [ "lead", 380 ],
-      [ "gold", 380 ],
-      [ "silver", 380 ],
+      [ "gold_small", 380 ],
+      [ "silver_small", 380 ],
       [ "tin", 380 ],
       [ "bismuth", 380 ],
       [ "solder_wire", 380 ]
@@ -2173,8 +2173,8 @@
     ],
     [
       [ "lead", 120 ],
-      [ "gold", 120 ],
-      [ "silver", 120 ],
+      [ "gold_small", 120 ],
+      [ "silver_small", 120 ],
       [ "tin", 120 ],
       [ "bismuth", 120 ],
       [ "solder_wire", 120 ]
@@ -2217,8 +2217,8 @@
     ],
     [
       [ "lead", 120 ],
-      [ "gold", 120 ],
-      [ "silver", 120 ],
+      [ "gold_small", 120 ],
+      [ "silver_small", 120 ],
       [ "tin", 120 ],
       [ "bismuth", 120 ],
       [ "solder_wire", 120 ]
@@ -2681,8 +2681,8 @@
       ],
       [
         [ "lead", 150 ],
-        [ "gold", 150 ],
-        [ "silver", 150 ],
+        [ "gold_small", 150 ],
+        [ "silver_small", 150 ],
         [ "tin", 150 ],
         [ "bismuth", 150 ],
         [ "solder_wire", 150 ]
@@ -2725,8 +2725,8 @@
       ],
       [
         [ "lead", 200 ],
-        [ "gold", 200 ],
-        [ "silver", 200 ],
+        [ "gold_small", 200 ],
+        [ "silver_small", 200 ],
         [ "tin", 200 ],
         [ "bismuth", 200 ],
         [ "solder_wire", 200 ]
@@ -2769,8 +2769,8 @@
       ],
       [
         [ "lead", 250 ],
-        [ "gold", 250 ],
-        [ "silver", 250 ],
+        [ "gold_small", 250 ],
+        [ "silver_small", 250 ],
         [ "tin", 250 ],
         [ "bismuth", 250 ],
         [ "solder_wire", 250 ]
@@ -2816,8 +2816,8 @@
     ],
     [
       [ "lead", 200 ],
-      [ "gold", 200 ],
-      [ "silver", 200 ],
+      [ "gold_small", 200 ],
+      [ "silver_small", 200 ],
       [ "tin", 200 ],
       [ "bismuth", 200 ],
       [ "solder_wire", 200 ],
@@ -2858,8 +2858,8 @@
       ],
       [
         [ "lead", 400 ],
-        [ "gold", 400 ],
-        [ "silver", 400 ],
+        [ "gold_small", 400 ],
+        [ "silver_small", 400 ],
         [ "tin", 400 ],
         [ "bismuth", 400 ],
         [ "solder_wire", 400 ]
@@ -2902,8 +2902,8 @@
       ],
       [
         [ "lead", 80 ],
-        [ "gold", 80 ],
-        [ "silver", 80 ],
+        [ "gold_small", 80 ],
+        [ "silver_small", 80 ],
         [ "tin", 80 ],
         [ "bismuth", 80 ],
         [ "solder_wire", 80 ]
@@ -2946,8 +2946,8 @@
       ],
       [
         [ "lead", 60 ],
-        [ "gold", 60 ],
-        [ "silver", 60 ],
+        [ "gold_small", 60 ],
+        [ "silver_small", 60 ],
         [ "tin", 60 ],
         [ "bismuth", 60 ],
         [ "solder_wire", 60 ]
@@ -2972,8 +2972,8 @@
       ],
       [
         [ "lead", 300 ],
-        [ "gold", 300 ],
-        [ "silver", 300 ],
+        [ "gold_small", 300 ],
+        [ "silver_small", 300 ],
         [ "tin", 300 ],
         [ "bismuth", 300 ],
         [ "solder_wire", 300 ]
@@ -3001,8 +3001,8 @@
       ],
       [
         [ "lead", 300 ],
-        [ "gold", 300 ],
-        [ "silver", 300 ],
+        [ "gold_small", 300 ],
+        [ "silver_small", 300 ],
         [ "tin", 300 ],
         [ "bismuth", 300 ],
         [ "solder_wire", 300 ]
@@ -3034,8 +3034,8 @@
       ],
       [
         [ "lead", 30 ],
-        [ "gold", 30 ],
-        [ "silver", 30 ],
+        [ "gold_small", 30 ],
+        [ "silver_small", 30 ],
         [ "tin", 30 ],
         [ "bismuth", 30 ],
         [ "solder_wire", 30 ]
@@ -3068,8 +3068,8 @@
       ],
       [
         [ "lead", 45 ],
-        [ "gold", 45 ],
-        [ "silver", 45],
+        [ "gold_small", 45 ],
+        [ "silver_small", 45],
         [ "tin", 45 ],
         [ "bismuth", 45 ],
         [ "solder_wire", 45 ]
@@ -3114,8 +3114,8 @@
       ],
       [
         [ "lead", 60 ],
-        [ "gold", 60 ],
-        [ "silver", 60 ],
+        [ "gold_small", 60 ],
+        [ "silver_small", 60 ],
         [ "tin", 60 ],
         [ "bismuth", 60 ],
         [ "solder_wire", 60 ]
@@ -3246,8 +3246,8 @@
     ],
     [
       [ "lead", 420 ],
-      [ "gold", 420 ],
-      [ "silver", 420 ],
+      [ "gold_small", 420 ],
+      [ "silver_small", 420 ],
       [ "tin", 420 ],
       [ "bismuth", 420 ],
       [ "solder_wire", 420 ]
@@ -3449,8 +3449,8 @@
     ],
     [
       [ "lead", 200 ],
-      [ "gold", 200 ],
-      [ "silver", 200 ],
+      [ "gold_small", 200 ],
+      [ "silver_small", 200 ],
       [ "tin", 200 ],
       [ "bismuth", 200 ],
       [ "solder_wire", 200 ]
@@ -3487,8 +3487,8 @@
     ],
     [
       [ "lead", 200 ],
-      [ "gold", 200 ],
-      [ "silver", 200 ],
+      [ "gold_small", 200 ],
+      [ "silver_small", 200 ],
       [ "tin", 200 ],
       [ "bismuth", 200 ],
       [ "solder_wire", 200 ]

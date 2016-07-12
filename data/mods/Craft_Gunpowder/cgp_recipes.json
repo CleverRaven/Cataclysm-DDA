@@ -53,8 +53,8 @@
     [ [ "incendiary", 100 ] ],
     [
       [ "lead", 75 ],
-      [ "gold", 75 ],
-      [ "silver", 75 ],
+      [ "gold_small", 75 ],
+      [ "silver_small", 75 ],
       [ "tin", 75 ],
       [ "bismuth", 75 ],
       [ "solder_wire", 75 ]
@@ -89,8 +89,8 @@
     [ [ "incendiary", 100 ] ],
     [
       [ "lead", 75 ],
-      [ "gold", 75 ],
-      [ "silver", 75 ],
+      [ "gold_small", 75 ],
+      [ "silver_small", 75 ],
       [ "tin", 75 ],
       [ "bismuth", 75 ],
       [ "solder_wire", 75 ]
@@ -126,8 +126,8 @@
     [ [ "incendiary", 120 ] ],
     [
       [ "lead", 160 ],
-      [ "gold", 160 ],
-      [ "silver", 160 ],
+      [ "gold_small", 160 ],
+      [ "silver_small", 160 ],
       [ "tin", 160 ],
       [ "bismuth", 160 ],
       [ "solder_wire", 160 ]
@@ -192,8 +192,8 @@
     [ [ "incendiary", 160 ] ],
     [
       [ "lead", 240 ],
-      [ "gold", 240 ],
-      [ "silver", 240 ],
+      [ "gold_small", 240 ],
+      [ "silver_small", 240 ],
       [ "tin", 240 ],
       [ "bismuth", 240 ],
       [ "solder_wire", 240 ]
