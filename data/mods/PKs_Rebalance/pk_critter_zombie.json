@@ -654,7 +654,7 @@
         "into": "mon_zombie_gasbag_pk",
         "half_life": 21
     },
-    "emit_fields": [ "emit_gas_plume"],
+    "emit_fields": [ "emit_gas_plume"]
     },{
     "type": "MONSTER",
     "id": "mon_zombie_smoker",
