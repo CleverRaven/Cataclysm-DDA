@@ -128,7 +128,7 @@ int Character::aim_per_time( const item& gun, int recoil ) const
     penalty = std::max( 1, 32 - penalty );
 
     // improvement capped by max aim level of the gun sight being used.
-    return std::min( penalty, recoil - gun.sight_dispersion( recoil ) );
+    return std::max( std::min( penalty, recoil - gun.sight_dispersion( recoil ) ), 0 );
 }
 
 bool Character::move_effects(bool attacking)
