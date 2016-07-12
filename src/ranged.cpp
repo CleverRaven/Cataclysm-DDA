@@ -112,17 +112,15 @@ size_t blood_trail_len( int damage )
 }
 
 dealt_projectile_attack Creature::projectile_attack( const projectile &proj_arg, const tripoint &source,
-                                                     const tripoint &target_arg, double shot_dispersion )
+                                                     const tripoint &target_arg, double dispersion )
 {
     const bool do_animation = OPTIONS["ANIMATIONS"];
 
-    // shot_dispersion is in MOA - 1/60 of a degree
-    constexpr double moa = M_PI / 180 / 60;
-    // We're approximating the tangent. Multiplying angle*range by ~0.745 does that (kinda).
-    constexpr double to_tangent = 0.745;
-
+    // for the isosceles triangle formed by the intended and actual targets
+    // we can use the cosine formula (a² = b² + c² - 2bc⋅cosθ) to calculate the tangent
     double range = rl_dist( source, target_arg );
-    double missed_by = shot_dispersion * moa * to_tangent * range;
+    double missed_by = sqrt( 2 * pow( range, 2 ) - ( 2 * pow( range, 2 ) * cos( ARCMIN( dispersion ) ) ) );
+
     // TODO: move to-hit roll back in here
 
     dealt_projectile_attack attack {
@@ -159,7 +157,7 @@ dealt_projectile_attack Creature::projectile_attack( const projectile &proj_arg,
         double dy = target_arg.y - source.y;
         double rad = atan2( dy, dx );
         // Cap spread at 30 degrees or it gets wild quickly
-        double spread = std::min( shot_dispersion / moa, M_PI / 180 * 30 );
+        double spread = std::min( dispersion / ARCMIN( 1 ), DEGREES( 30 ) );
         rad += rng_float( -spread, spread );
 
         // @todo This should also represent the miss on z axis
@@ -192,8 +190,16 @@ dealt_projectile_attack Creature::projectile_attack( const projectile &proj_arg,
         trajectory = g->m.find_clear_path( source, target );
     }
 
-    add_msg( m_debug, "%s proj_atk: shot_dispersion: %.2f",
-             disp_name().c_str(), shot_dispersion );
+    if( proj_effects.count( "MUZZLE_SMOKE" ) ) {
+        for( const auto& e : closest_tripoints_first( 1, trajectory.empty() ? source : trajectory[ 0 ] ) ) {
+            if( one_in( 2 ) ) {
+                g->m.add_field( e, fd_smoke, 1, 0 );
+            }
+        }
+    }
+
+    add_msg( m_debug, "%s proj_atk: shot_dispersion: %.2f", disp_name().c_str(), dispersion );
+
     add_msg( m_debug, "missed_by: %.2f target (orig/hit): %d,%d,%d/%d,%d,%d", missed_by,
              target_arg.x, target_arg.y, target_arg.z,
              target.x, target.y, target.z );
@@ -365,7 +371,7 @@ dealt_projectile_attack Creature::projectile_attack( const projectile &proj_arg,
                 if( !z.has_effect( effect_bounced ) ) {
                     add_msg(_("The attack bounced to %s!"), z.name().c_str());
                     z.add_effect( effect_bounced, 1 );
-                    projectile_attack( proj, tp, z.pos(), shot_dispersion );
+                    projectile_attack( proj, tp, z.pos(), dispersion );
                     sfx::play_variant_sound( "fire_gun", "bio_lightning_tail", sfx::get_heard_volume(z.pos()), sfx::get_heard_angle(z.pos()));
                     break;
                 }
