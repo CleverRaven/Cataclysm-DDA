@@ -85,6 +85,18 @@ struct talk_trial {
     talk_trial( JsonObject );
 };
 
+struct talk_topic {
+    // Implicit constructor for compatibility
+    talk_topic( const std::string &i ) : id( i )
+    { }
+
+    std::string id;
+    /**
+     * If we're talking about an item, this should be its type.
+     */
+    itype_id item_type = "null";
+};
+
 /**
  * This defines possible responses from the player character.
  */
@@ -119,9 +131,9 @@ struct talk_response {
         /**
          * Topic to switch to. TALK_DONE ends the talking, TALK_NONE keeps the current topic.
          */
-        std::string topic = "TALK_NONE";
+        talk_topic next_topic = talk_topic( "TALK_NONE" );
 
-        std::string apply( dialogue &d ) const;
+        talk_topic apply( dialogue &d ) const;
         void load_effect( JsonObject &jo );
 
         effect_t() = default;
@@ -166,22 +178,25 @@ struct dialogue {
      * This will be displayed in the dialog window and should already be translated.
      */
     std::vector<std::string> history;
-    std::vector<std::string> topic_stack;
+    std::vector<talk_topic> topic_stack;
 
     /** Missions that have been assigned by this npc to the player they currently speak to. */
     std::vector<mission*> missions_assigned;
 
-    std::string opt( const std::string &topic );
+    talk_topic opt( const talk_topic &topic );
 
     dialogue() = default;
 
-    std::string dynamic_line( const std::string &topic ) const;
+    std::string dynamic_line( const talk_topic &topic ) const;
 
     /**
      * Possible responses from the player character, filled in @ref gen_responses.
      */
     std::vector<talk_response> responses;
-    void gen_responses( const std::string &topic );
+    void gen_responses( const talk_topic &topic );
+
+    void add_topic( const std::string &topic );
+    void add_topic( const talk_topic &topic );
 
 private:
     void clear_window_texts();
@@ -225,6 +240,11 @@ private:
      * talked about martial art style to the given one.
      */
     talk_response &add_response( const std::string &text, const std::string &r, const martialart &style );
+    /**
+     * Add a simple response that switches the topic to the new one and sets the currently
+     * talked about item type to the given one.
+     */
+    talk_response &add_response( const std::string &text, const std::string &r, const itype_id &item_type );
 };
 
 /**
@@ -318,8 +338,8 @@ static std::map<std::string, json_talk_topic> json_talk_topics;
 #define TRIAL(tr, diff) ret.back().trial.type = tr;\
                         ret.back().trial.difficulty = diff
 
-#define SUCCESS(topic_)  ret.back().success.topic = topic_
-#define FAILURE(topic_)  ret.back().failure.topic = topic_
+#define SUCCESS(topic_)  ret.back().success.next_topic = talk_topic( topic_ )
+#define FAILURE(topic_)  ret.back().failure.next_topic = talk_topic( topic_ )
 
 // trust (T), fear (F), value (V), anger(A), owed (O) { };
 #define SUCCESS_OPINION(T, F, V, A, O)   ret.back().success.opinion =\
@@ -332,13 +352,16 @@ static std::map<std::string, json_talk_topic> json_talk_topics;
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 
-int topic_category( const std::string &topic );
+int topic_category( const talk_topic &topic );
 
-std::string special_talk(char ch);
+talk_topic special_talk(char ch);
 
 bool trade( npc &p, int cost, const std::string &deal );
 
 std::string give_item_to( npc &p, bool allow_use, bool allow_carry );
+
+std::string bulk_trade_inquire( const npc &, const itype_id &it );
+void bulk_trade_accept( npc &, const itype_id &it );
 
 const std::string &talk_trial::name() const
 {
@@ -427,19 +450,19 @@ void npc::talk_to_u()
         }
     }
 
-    d.topic_stack.push_back(chatbin.first_topic);
+    d.add_topic( chatbin.first_topic );
 
     if (is_leader()) {
-        d.topic_stack.push_back("TALK_LEADER");
+        d.add_topic("TALK_LEADER");
     } else if (is_friend()) {
-        d.topic_stack.push_back("TALK_FRIEND");
+        d.add_topic("TALK_FRIEND");
     }
 
     int most_difficult_mission = 0;
     for( auto &mission : chatbin.missions ) {
         const auto &type = mission->get_type();
         if (type.urgent && type.difficulty > most_difficult_mission) {
-            d.topic_stack.push_back("TALK_MISSION_DESCRIBE");
+            d.add_topic("TALK_MISSION_DESCRIBE");
             chatbin.mission_selected = mission;
             most_difficult_mission = type.difficulty;
         }
@@ -455,7 +478,7 @@ void npc::talk_to_u()
         if ((type.urgent && !chosen_urgent) || (type.difficulty > most_difficult_mission &&
               (type.urgent || !chosen_urgent))) {
             chosen_urgent = type.urgent;
-            d.topic_stack.push_back("TALK_MISSION_INQUIRE");
+            d.add_topic("TALK_MISSION_INQUIRE");
             chatbin.mission_selected = mission;
             most_difficult_mission = type.difficulty;
         }
@@ -477,22 +500,22 @@ void npc::talk_to_u()
 
     // Needs
     if( has_effect( effect_sleep ) || has_effect( effect_lying_down ) ) {
-        d.topic_stack.push_back( "TALK_WAKE_UP" );
+        d.add_topic( "TALK_WAKE_UP" );
     }
 
-    if( d.topic_stack.back() == "TALK_NONE" ) {
+    if( d.topic_stack.back().id == "TALK_NONE" ) {
         d.topic_stack.back() = pick_talk_topic( g->u );
     }
 
     moves -= 100;
 
     if( g->u.is_deaf() ) {
-        if( d.topic_stack.back() == "TALK_MUG" ||
-            d.topic_stack.back() == "TALK_STRANGER_AGGRESSIVE" ) {
+        if( d.topic_stack.back().id == "TALK_MUG" ||
+            d.topic_stack.back().id == "TALK_STRANGER_AGGRESSIVE" ) {
             make_angry();
-            d.topic_stack.push_back("TALK_DEAF_ANGRY");
+            d.add_topic("TALK_DEAF_ANGRY");
         } else {
-            d.topic_stack.push_back("TALK_DEAF");
+            d.add_topic("TALK_DEAF");
         }
     }
 
@@ -510,17 +533,17 @@ void npc::talk_to_u()
         mvwputch(d.win, FULL_SCREEN_HEIGHT - 1, (FULL_SCREEN_WIDTH / 2) + 1, BORDER_COLOR, LINE_XXOX);
         mvwprintz(d.win, 1,  1, c_white, _("Dialogue with %s"), name.c_str());
         mvwprintz(d.win, 1, (FULL_SCREEN_WIDTH / 2) + 3, c_white, _("Your response:"));
-        const std::string next = d.opt(d.topic_stack.back());
-        if (next == "TALK_NONE") {
-            int cat = topic_category(d.topic_stack.back());
+        const talk_topic next = d.opt( d.topic_stack.back() );
+        if( next.id == "TALK_NONE" ) {
+            int cat = topic_category( d.topic_stack.back() );
             do {
                 d.topic_stack.pop_back();
-            } while( cat != -1 && topic_category(d.topic_stack.back()) == cat );
+            } while( cat != -1 && topic_category( d.topic_stack.back() ) == cat );
         }
-        if (next == "TALK_DONE" || d.topic_stack.empty()) {
+        if( next.id == "TALK_DONE" || d.topic_stack.empty() ) {
             d.done = true;
-        } else if( next != "TALK_NONE" ) {
-            d.topic_stack.push_back(next);
+        } else if( next.id != "TALK_NONE" ) {
+            d.add_topic( next );
         }
     } while (!d.done);
     delwin(d.win);
@@ -528,8 +551,10 @@ void npc::talk_to_u()
     g->cancel_activity_query( _("%s talked to you."), name.c_str() );
 }
 
-std::string dialogue::dynamic_line( const std::string &topic ) const
+std::string dialogue::dynamic_line( const talk_topic &the_topic ) const
 {
+    // For compatibility
+    const auto &topic = the_topic.id;
     auto const iter = json_talk_topics.find( topic );
     if( iter != json_talk_topics.end() ) {
         const std::string line = iter->second.get_dynamic_line( *this );
@@ -924,39 +949,15 @@ std::string dialogue::dynamic_line( const std::string &topic ) const
                   "handled by the merchant in the front.");
 
     } else if( topic == "TALK_FREE_MERCHANT_STOCKS_ALL" ) {
-         return _("I'm actually accepting a number of different foodstuffs: homebrew beer, sugar, flour, "
+         return _("I'm actually accepting a number of different foodstuffs: beer, sugar, flour, "
                   "smoked meat, smoked fish, cooking oil; and as mentioned before, jerky, cornmeal, "
                   "and fruit wine.");
 
-    } else if( topic == "TALK_FREE_MERCHANT_STOCKS_JERKY" ) {
-        return talk_function::bulk_trade_inquire(p, "jerky");
+    } else if( topic == "TALK_DELIVER_ASK" ) {
+        return bulk_trade_inquire( *p, the_topic.item_type );
 
-    } else if( topic == "TALK_FREE_MERCHANT_STOCKS_CORNMEAL" ) {
-        return talk_function::bulk_trade_inquire(p, "cornmeal");
-
-    } else if( topic == "TALK_FREE_MERCHANT_STOCKS_WINE" ) {
-        return talk_function::bulk_trade_inquire(p, "fruit_wine");
-
-    } else if( topic == "TALK_FREE_MERCHANT_STOCKS_FLOUR" ) {
-        return talk_function::bulk_trade_inquire(p, "flour");
-
-    } else if( topic == "TALK_FREE_MERCHANT_STOCKS_SUGAR" ) {
-        return talk_function::bulk_trade_inquire(p, "sugar");
-
-    } else if( topic == "TALK_FREE_MERCHANT_STOCKS_BEER" ) {
-        return talk_function::bulk_trade_inquire(p, "hb_beer");
-
-    } else if( topic == "TALK_FREE_MERCHANT_STOCKS_SMMEAT" ) {
-        return talk_function::bulk_trade_inquire(p, "meat_smoked");
-
-    } else if( topic == "TALK_FREE_MERCHANT_STOCKS_SMFISH" ) {
-        return talk_function::bulk_trade_inquire(p, "fish_smoked");
-
-    } else if( topic == "TALK_FREE_MERCHANT_STOCKS_OIL" ) {
-        return talk_function::bulk_trade_inquire(p, "cooking_oil");
-
-    } else if( topic == "TALK_FREE_MERCHANT_STOCKS_DELIVERED" ) {
-         return _("Thank you for your business!");
+    } else if( topic == "TALK_DELIVER_CONFIRM" ) {
+        return _("Pleasure doing business!");
 
     } else if( topic == "TALK_RANCH_FOREMAN" ) {
             if (g->u.has_trait("PROF_FED")) {
@@ -1109,9 +1110,6 @@ std::string dialogue::dynamic_line( const std::string &topic ) const
 
     } else if( topic == "TALK_RANCH_NURSE_AID_DONE" ) {
              return _("That's the best I can do on short notice...");
-
-    } else if( topic == "TALK_RANCH_STOCKS_BANDAGES" ) {
-             return talk_function::bulk_trade_inquire(p, "bandages");
 
     } else if( topic == "TALK_RANCH_DOCTOR" ) {
              return _("I'm sorry, I don't have time to see you at the moment.");
@@ -1540,7 +1538,7 @@ talk_response &dialogue::add_response( const std::string &text, const std::strin
     responses.push_back( talk_response() );
     talk_response &result = responses.back();
     result.text = text;
-    result.success.topic = r;
+    result.success.next_topic = talk_topic( r );
     return result;
 }
 
@@ -1586,8 +1584,20 @@ talk_response &dialogue::add_response( const std::string &text, const std::strin
     return result;
 }
 
-void dialogue::gen_responses( const std::string &topic )
+talk_response &dialogue::add_response( const std::string &text, const std::string &r, const itype_id &item_type )
 {
+    if( item_type == "null" ) {
+        debugmsg( "explicitly specified null item" );
+    }
+
+    talk_response &result = add_response( text, r );
+    result.success.next_topic.item_type = item_type;
+    return result;
+}
+
+void dialogue::gen_responses( const talk_topic &the_topic )
+{
+    const auto &topic = the_topic.id; // for compatibility, later replace it in the code below
     const auto p = beta; // for compatibility, later replace it in the code below
     auto &ret = responses; // for compatibility, later replace it in the code below
     ret.clear();
@@ -1977,8 +1987,9 @@ void dialogue::gen_responses( const std::string &topic )
             if (g->u.cash >= 800000){
                 add_response( _("[$8000] You have a deal."), "TALK_SCAVENGER_MERC_HIRE_SUCCESS" );
                 g->u.cash -= 800000;
+            } else {
+                add_response( _("I might be back."), "TALK_SCAVENGER_MERC" );
             }
-            add_response( _("I might be back."), "TALK_SCAVENGER_MERC" );
 
     } else if( topic == "TALK_SCAVENGER_MERC_HIRE_SUCCESS" ) {
             RESPONSE(_("Glad to have you aboard."));
@@ -1988,71 +1999,29 @@ void dialogue::gen_responses( const std::string &topic )
 
     } else if( topic == "TALK_FREE_MERCHANT_STOCKS" ) {
             add_response( _("Who are you?"), "TALK_FREE_MERCHANT_STOCKS_NEW" );
-            if (g->u.charges_of("jerky") > 0){
-                add_response( _("Delivering jerky."), "TALK_FREE_MERCHANT_STOCKS_JERKY" );
-            }
-            if (g->u.charges_of("meat_smoked") > 0){
-                add_response( _("Delivering smoked meat."), "TALK_FREE_MERCHANT_STOCKS_SMMEAT" );
-            }
-            if (g->u.charges_of("fish_smoked") > 0){
-                add_response( _("Delivering smoked fish."), "TALK_FREE_MERCHANT_STOCKS_SMFISH" );
-            }
-            if (g->u.charges_of("cooking_oil") > 0){
-                add_response( _("Delivering cooking oil."), "TALK_FREE_MERCHANT_STOCKS_OIL" );
-            }
-            if (g->u.charges_of("cornmeal") > 0){
-                add_response( _("Delivering cornmeal."), "TALK_FREE_MERCHANT_STOCKS_CORNMEAL" );
-            }
-            if (g->u.charges_of("flour") > 0){
-                add_response( _("Delivering flour."), "TALK_FREE_MERCHANT_STOCKS_FLOUR" );
-            }
-            if (g->u.charges_of("fruit_wine") > 0){
-                add_response( _("Delivering fruit wine."), "TALK_FREE_MERCHANT_STOCKS_WINE" );
-            }
-            if (g->u.charges_of("hb_beer") > 0){
-                add_response( _("Delivering homebrew beer."), "TALK_FREE_MERCHANT_STOCKS_BEER" );
-            }
-            if (g->u.charges_of("sugar") > 0){
-                add_response( _("Delivering sugar."), "TALK_FREE_MERCHANT_STOCKS_SUGAR" );
+            static const std::vector<itype_id> wanted = {{
+                "jerky", "meat_smoked", "fish_smoked", 
+                "cooking_oil", "cornmeal", "flour", 
+                "fruit_wine", "beer", "sugar",
+            }};
+
+            for( const auto &id : wanted ) {
+                if( g->u.charges_of( id ) > 0 ) {
+                    const std::string msg = string_format( _("Delivering %s."), item::nname( id ).c_str() );
+                    add_response( msg, "TALK_DELIVER_ASK", id );
+                }
             }
             add_response_done( _("Well, bye.") );
 
-    } else if( topic == "TALK_FREE_MERCHANT_STOCKS_JERKY" ) {
-            RESPONSE(_("Works for me."));
-                talk_function::bulk_trade_accept(p, "jerky");
-                SUCCESS("TALK_FREE_MERCHANT_STOCKS_DELIVERED");
-    } else if( topic == "TALK_FREE_MERCHANT_STOCKS_SMMEAT" ) {
-            RESPONSE(_("Works for me."));
-                talk_function::bulk_trade_accept(p, "meat_smoked");
-                SUCCESS("TALK_FREE_MERCHANT_STOCKS_DELIVERED");
-    } else if( topic == "TALK_FREE_MERCHANT_STOCKS_SMFISH" ) {
-            RESPONSE(_("Works for me."));
-                talk_function::bulk_trade_accept(p, "fish_smoked");
-                SUCCESS("TALK_FREE_MERCHANT_STOCKS_DELIVERED");
-    } else if( topic == "TALK_FREE_MERCHANT_STOCKS_OIL" ) {
-            RESPONSE(_("Works for me."));
-                talk_function::bulk_trade_accept(p, "cooking_oil");
-            SUCCESS("TALK_FREE_MERCHANT_STOCKS_DELIVERED");
-    } else if( topic == "TALK_FREE_MERCHANT_STOCKS_CORNMEAL" ) {
-            RESPONSE(_("Works for me."));
-                talk_function::bulk_trade_accept(p, "cornmeal");
-                SUCCESS("TALK_FREE_MERCHANT_STOCKS_DELIVERED");
-    } else if( topic == "TALK_FREE_MERCHANT_STOCKS_FLOUR" ) {
-            RESPONSE(_("Works for me."));
-                talk_function::bulk_trade_accept(p, "flour");
-                SUCCESS("TALK_FREE_MERCHANT_STOCKS_DELIVERED");
-    } else if( topic == "TALK_FREE_MERCHANT_STOCKS_SUGAR" ) {
-            RESPONSE(_("Works for me."));
-                talk_function::bulk_trade_accept(p, "sugar");
-                SUCCESS("TALK_FREE_MERCHANT_STOCKS_DELIVERED");
-    } else if( topic == "TALK_FREE_MERCHANT_STOCKS_WINE" ) {
-            RESPONSE(_("Works for me."));
-                talk_function::bulk_trade_accept(p, "fruit_wine");
-                SUCCESS("TALK_FREE_MERCHANT_STOCKS_DELIVERED");
-    } else if( topic == "TALK_FREE_MERCHANT_STOCKS_BEER" ) {
-            RESPONSE(_("Works for me."));
-                talk_function::bulk_trade_accept(p, "hb_beer");
-                SUCCESS("TALK_FREE_MERCHANT_STOCKS_DELIVERED");
+    } else if( topic == "TALK_DELIVER_ASK" ) {
+        if( the_topic.item_type == "null" ) debugmsg("delivering nulls");
+        add_response( _("Works for me."), "TALK_DELIVER_CONFIRM", the_topic.item_type );
+        add_response( _("Maybe later."), "TALK_DONE" );
+
+    } else if( topic == "TALK_DELIVER_CONFIRM" ) {
+        bulk_trade_accept( *p, the_topic.item_type );
+        add_response_done( _("You might be seeing more of me...") );
+
     } else if( topic == "TALK_FREE_MERCHANT_STOCKS_NEW" ) {
             add_response( _("Why cornmeal, jerky, and fruit wine?"), "TALK_FREE_MERCHANT_STOCKS_WHY" );
     } else if( topic == "TALK_FREE_MERCHANT_STOCKS_WHY" ) {
@@ -2060,8 +2029,6 @@ void dialogue::gen_responses( const std::string &topic )
             add_response( _("Very well..."), "TALK_FREE_MERCHANT_STOCKS" );
     } else if( topic == "TALK_FREE_MERCHANT_STOCKS_ALL" ) {
             add_response( _("Interesting..."), "TALK_FREE_MERCHANT_STOCKS" );
-    } else if( topic == "TALK_FREE_MERCHANT_STOCKS_DELIVERED" ) {
-            add_response( _("You might be seeing more of me..."), "TALK_FREE_MERCHANT_STOCKS" );
     } else if( topic == "TALK_RANCH_FOREMAN" ) {
             for( auto miss_it : g->u.get_active_missions() ) {
                 if( miss_it->name() == "Retrieve Prospectus" && !p->has_effect( effect_gave_quest_item ) ) {
@@ -2181,13 +2148,10 @@ void dialogue::gen_responses( const std::string &topic )
             add_response( _("..."), "TALK_RANCH_NURSE" );
     } else if( topic == "TALK_RANCH_NURSE_HIRE" ) {
             add_response( _("What kind of jobs do you have for me?"), "TALK_MISSION_LIST" );
-            if (g->u.charges_of("bandages") > 0){
-                add_response( _("Delivering bandages."), "TALK_RANCH_STOCKS_BANDAGES" );
+            if( g->u.charges_of("bandages") > 0 ){
+                add_response( _("Delivering bandages."), "TALK_DELIVER_ASK", itype_id( "bandages" ) );
             }
             add_response( _("..."), "TALK_RANCH_NURSE" );
-    } else if( topic == "TALK_RANCH_STOCKS_BANDAGES" ) {
-            talk_function::bulk_trade_accept(p, "bandages");
-            add_response( _("Works for me."), "TALK_RANCH_NURSE" );
     } else if( topic == "TALK_RANCH_NURSE_AID" ) {
             if (g->u.cash >= 20000 && !p->has_effect( effect_currently_busy ) ) {
                 add_response( _("[$200, 30m] I need you to patch me up..."), "TALK_RANCH_NURSE_AID_DONE" );
@@ -2911,8 +2875,9 @@ bool talk_trial::roll( dialogue &d ) const
     return success;
 }
 
-int topic_category( const std::string &topic )
+int topic_category( const talk_topic &the_topic )
 {
+    const auto &topic = the_topic.id;
     // TODO: ideally, this would be a property of the topic itself.
     // How this works: each category has a set of topics that belong to it, each set is checked
     // for the given topic and if a set contains, the category number is returned.
@@ -3073,33 +3038,27 @@ void talk_function::start_trade( npc &p )
     trade( p, 0, _("Trade") );
 }
 
-std::string talk_function::bulk_trade_inquire(npc *p, itype_id it)
+std::string bulk_trade_inquire( const npc &, const itype_id &it )
 {
- int you_have = g->u.charges_of(it);
- item tmp(it, 0);
- int item_cost = tmp.price( true );
- tmp.charges = you_have;
- int total_cost = tmp.price( true );
- p->add_msg_if_player(m_good, _("Let's see what you've got..."));
- std::stringstream response;
- response << string_format(ngettext("I'm willing to pay $%.2f per batch. You have "
-                                    "%d serving for a total of $%.2f. No questions asked, here is your cash.",
-                                    "I'm willing to pay $%.2f per batch. You have "
-                                    "%d servings for a total of $%.2f. No questions asked, here is your cash.",
-                            you_have)
-                            ,(double)item_cost/100 ,you_have, (double)total_cost/100);
- return response.str();
+    int you_have = g->u.charges_of( it );
+debugmsg("%d of %s", you_have, it.c_str());
+    item tmp( it );
+    int item_cost = tmp.price( true );
+    tmp.charges = you_have;
+    int total_cost = tmp.price( true );
+    add_msg( m_good, _("Let's see what you've got...") );
+    return string_format( _("I'm willing to pay $%.2f per batch for a total of $%.2f"),
+                          item_cost / 100.0, total_cost / 100.0 );
 }
 
-void talk_function::bulk_trade_accept(npc *p, itype_id it)
+void bulk_trade_accept( npc &, const itype_id &it )
 {
- int you_have = g->u.charges_of(it);
- item tmp(it, 0);
- tmp.charges = you_have;
- int total = tmp.price( true );
- g->u.use_charges(it, you_have);
- g->u.cash += total;
- p->add_msg_if_player(m_good, _("Pleasure doing business!"));
+    int you_have = g->u.charges_of( it );
+    item tmp( it );
+    tmp.charges = you_have;
+    int total = tmp.price( true );
+    g->u.use_charges( it, you_have );
+    g->u.cash += total;
 }
 
 void talk_function::assign_base( npc &p )
@@ -3668,6 +3627,17 @@ int dialogue::choose_response( int const hilight_lines )
     }
 }
 
+void dialogue::add_topic( const std::string &topic_id )
+{
+    topic_stack.push_back( talk_topic( topic_id ) );
+}
+
+void dialogue::add_topic( const talk_topic &topic )
+{
+    topic_stack.push_back( topic );
+}
+
+
 void talk_response::do_formatting( const dialogue &d, char const letter )
 {
     std::string ftext;
@@ -3702,13 +3672,13 @@ void talk_response::do_formatting( const dialogue &d, char const letter )
     }
 }
 
-std::string talk_response::effect_t::apply( dialogue &d ) const
+talk_topic talk_response::effect_t::apply( dialogue &d ) const
 {
     effect( *d.beta );
     d.beta->op_of_u += opinion;
     if( d.beta->turned_hostile() ) {
         d.beta->make_angry();
-        return "TALK_DONE";
+        return talk_topic( "TALK_DONE" );
     }
 
     // TODO: this is a hack, it should be in clear_mission or so, but those functions have
@@ -3722,13 +3692,14 @@ std::string talk_response::effect_t::apply( dialogue &d ) const
         }
     }
 
-    return topic;
+    return next_topic;
 }
 
-std::string dialogue::opt( const std::string &topic )
+talk_topic dialogue::opt( const talk_topic &the_topic )
 {
+    const auto &topic = the_topic.id;
     std::string challenge = dynamic_line( topic );
-    gen_responses( topic );
+    gen_responses( the_topic );
     // Put quotes around challenge (unless it's an action)
     if( challenge[0] != '*' && challenge[0] != '&' ) {
         std::stringstream tmp;
@@ -3751,7 +3722,7 @@ std::string dialogue::opt( const std::string &topic )
                                 challenge.c_str() );
     }
 
-    history.push_back(""); // Empty line between lines of dialogue
+    history.push_back( "" ); // Empty line between lines of dialogue
 
     // Number of lines to highlight
     size_t const hilight_lines = add_to_history( challenge );
@@ -3765,7 +3736,7 @@ std::string dialogue::opt( const std::string &topic )
         do {
             ch = choose_response( hilight_lines );
             auto st = special_talk(ch);
-            if( st != "TALK_NONE" ) {
+            if( st.id != "TALK_NONE" ) {
                 return st;
             }
             ch -= 'a';
@@ -3779,7 +3750,7 @@ std::string dialogue::opt( const std::string &topic )
             okay = true;
         }
     } while( !okay );
-    history.push_back("");
+    history.push_back( "" );
 
     std::string response_printed = rmp_format(_("<you say something>You: %s"), responses[ch].text.c_str());
     add_to_history( response_printed );
@@ -3802,22 +3773,24 @@ std::string dialogue::opt( const std::string &topic )
     return effects.apply( *this );
 }
 
-std::string special_talk(char ch)
+talk_topic special_talk(char ch)
 {
+    std::string topic = "TALK_NONE";
     switch (ch) {
         case 'L':
-            return "TALK_LOOK_AT";
+            topic = "TALK_LOOK_AT";
         case 'S':
-            return "TALK_SIZE_UP";
+            topic = "TALK_SIZE_UP";
         case 'O':
-            return "TALK_OPINION";
+            topic = "TALK_OPINION";
         case 'Y':
-            return "TALK_SHOUT";
+            topic = "TALK_SHOUT";
         default:
-            return "TALK_NONE";
+            topic = "TALK_NONE";
     }
 
-    return "TALK_NONE";
+    // @todo Rewrite this to have constant topic, but different parameter
+    return talk_topic( topic );
 }
 
 // Creates a new inventory that contains `added` items, but not `without` ones
@@ -4154,20 +4127,20 @@ talk_trial::talk_trial( JsonObject jo )
     }
 }
 
-std::string load_inline_topic( JsonObject jo )
+talk_topic load_inline_topic( JsonObject jo )
 {
     const std::string id = jo.get_string( "id" );
     json_talk_topics[id].load( jo );
-    return id;
+    return talk_topic( id );
 }
 
 talk_response::effect_t::effect_t( JsonObject jo )
 {
     load_effect( jo );
     if( jo.has_object( "topic" ) ) {
-        topic = load_inline_topic( jo.get_object( "topic" ) );
+        next_topic = load_inline_topic( jo.get_object( "topic" ) );
     } else {
-        topic = jo.get_string( "topic" );
+        next_topic = talk_topic( jo.get_string( "topic" ) );
     }
     if( jo.has_member( "opinion" ) ) {
         JsonIn *ji = jo.get_raw( "opinion" );
@@ -4222,10 +4195,10 @@ talk_response::talk_response( JsonObject jo )
         success = effect_t( jo.get_object( "success" ) );
     } else if( jo.has_string( "topic" ) ) {
         // This is for simple topic switching without a possible failure
-        success.topic = jo.get_string( "topic" );
+        success.next_topic = talk_topic( jo.get_string( "topic" ) );
         success.load_effect( jo );
     } else if ( jo.has_object( "topic" ) ) {
-        success.topic = load_inline_topic( jo.get_object( "topic" ) );
+        success.next_topic = load_inline_topic( jo.get_object( "topic" ) );
     }
     if( trial && !jo.has_member( "failure" ) ) {
         jo.throw_error( "the failure effect is mandatory if a talk_trial has been defined" );

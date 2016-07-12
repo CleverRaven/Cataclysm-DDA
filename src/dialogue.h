@@ -39,8 +39,6 @@ namespace talk_function {
     void buy_100_logs         ( npc & );
     void give_equipment       ( npc & );
     void start_trade          ( npc & );
-    std::string bulk_trade_inquire   (npc *, itype_id);
-    void bulk_trade_accept    (npc *, itype_id);
     void assign_base          ( npc & );
     void assign_guard         ( npc & );
     void stop_guard           ( npc & );
