@@ -190,14 +190,6 @@ dealt_projectile_attack Creature::projectile_attack( const projectile &proj_arg,
         trajectory = g->m.find_clear_path( source, target );
     }
 
-    if( proj_effects.count( "MUZZLE_SMOKE" ) ) {
-        for( const auto& e : closest_tripoints_first( 1, trajectory.empty() ? source : trajectory[ 0 ] ) ) {
-            if( one_in( 2 ) ) {
-                g->m.add_field( e, fd_smoke, 1, 0 );
-            }
-        }
-    }
-
     add_msg( m_debug, "%s proj_atk: shot_dispersion: %.2f", disp_name().c_str(), dispersion );
 
     add_msg( m_debug, "missed_by: %.2f target (orig/hit): %d,%d,%d/%d,%d,%d", missed_by,
