@@ -1538,7 +1538,7 @@
         "locations" : [ "field" ],
         "city_distance" : [-1, -1],
         "occurrences" : [0, 99],
-        "flags" : ["CLASSIC" ]
+        "flags" : [ "CLASSIC" ]
     },{
         "type" : "overmap_special",
         "id" : "basin",
@@ -1548,7 +1548,7 @@
         "locations" : [ "forest" ],
         "city_distance" : [-1, -1],
         "occurrences" : [0, 66],
-        "flags" : [ CLASSIC" ]
+        "flags" : [ "CLASSIC" ]
     },{
         "type" : "overmap_special",
         "id" : "bog",
