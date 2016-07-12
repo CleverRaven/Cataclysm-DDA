@@ -2613,10 +2613,11 @@
     "vision_night":3,
     "death_drops": "default_zombie_items",
     "hp":15,
+    "emit_fields": [ "emit_toxic_leak" ],
     "death_function":["GAS"],
     "special_attacks":[["SUICIDE", 20]],
     "description":"With its gray skin swollen to near rupture with putrid gas, this cyst covered zombie looks like it could violently burst under the slightest of disturbances.",
-    "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "POISON", "LEAKSGAS", "NO_BREATHE", "REVIVES", "BONES"]
+    "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "POISON", "NO_BREATHE", "REVIVES", "BONES"]
     },{
     "type" : "MONSTER",
     "id" : "mon_skeleton",

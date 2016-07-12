@@ -118,6 +118,7 @@
     "armor_acid":4,
     "vision_day":9,
     "vision_night":3,
+    "emit_fields": [ "emit_toxic_leak" ],
     "death_drops": {
         "subtype": "collection",
         "//": "do duplicate item_groups work here?",
@@ -131,7 +132,7 @@
     "luminance":11,
     "special_attacks":[["SPIT_SAP", 10], ["IMPALE",20], ["GROW_VINE", 50]],
     "description":"A puckered flower is all that adorns the stalk of this biollante.  Beneath its luminescent petals, something rigid appears to be moving, and consistent wisps of gas can be seen escaping into the surrounding air.",
-    "flags":["NOHEAD", "IMMOBILE", "PARALYZEVENOM", "SEES", "LEAKSGAS"],
+    "flags":["NOHEAD", "IMMOBILE", "PARALYZEVENOM", "SEES"],
     "//": "This thing is pretty awesome.  One of my favorite creations from this faction.  The vine growth keeps it out of melee that much longer in the absence of a creeper hub, the sap is pretty deadly and accurate, and impale is surprise bleeding."
     },{
     "type" : "MONSTER",

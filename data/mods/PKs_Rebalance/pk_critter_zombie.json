@@ -1097,9 +1097,10 @@
     "vision_day":40,
     "vision_night":4,
     "hp":110,
+    "emit_fields": [ "emit_toxic_leak" ],
     "death_function":["GAS", "BOOMER_GLOW"],
     "special_attacks":[["GRAB_DRAG", 12], ["GRAB", 8], ["STRETCH_ATTACK", 15]],
     "description":"A fetid body with a featureless face that emits a noxious gas of unknown makeup.  Its skin knots and reforms into putty-like globs as it walks and attacks, and bullets seem to pass through its morphing form.  A glimmering sludge drips from its open mouth.",
-    "flags":["LEAKSGAS", "SEES", "HEARS", "STUMBLES", "BASHES", "GROUP_BASH", "POISON", "HARDTOSHOOT", "NO_BREATHE", "REVIVES", "BONES", "PUSH_MON"]
+    "flags":["SEES", "HEARS", "STUMBLES", "BASHES", "GROUP_BASH", "POISON", "HARDTOSHOOT", "NO_BREATHE", "REVIVES", "BONES", "PUSH_MON"]
     }
 ]

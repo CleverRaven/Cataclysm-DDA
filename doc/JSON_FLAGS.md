@@ -250,7 +250,6 @@ Flags used to describe monsters and define their properties and abilities.
 - ```INTERIOR_AMMO``` Monster contains ammo inside itself, no need to load on launch. Prevents ammo from being dropped on disable.
 - ```KEENNOSE``` Keen sense of smell.
 - ```LARVA``` Creature is a larva. Currently used for gib and blood handling.
-- ```LEAKSGAS``` Leaks toxic gas.
 - ```LEATHER``` May produce leather when butchered.
 - ```NIGHT_INVISIBILITY``` Monster becomes invisible if it's more than one tile away and the lighting on its tile is LL_LOW or less. Visibility is not affected by night vision.
 - ```NOHEAD``` Headshots not allowed!

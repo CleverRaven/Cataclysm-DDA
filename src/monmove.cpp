@@ -1196,12 +1196,6 @@ bool monster::move_to( const tripoint &p, bool force, const float stagger_adjust
             }
         }
     }
-    if( has_flag( MF_LEAKSGAS ) ) {
-        if( one_in( 6 ) ) {
-            tripoint dest( posx() + rng( -1, 1 ), posy() + rng( -1, 1 ), posz() );
-            g->m.add_field( dest, fd_toxic_gas, 3, 0 );
-        }
-    }
 
     return true;
 }
