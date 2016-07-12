@@ -59,8 +59,9 @@
   },{
     "id": "emit_fatigue",
     "type": "emit",
-    "//": "adds fatigue to (n)pcs nearby (example: amigara horror)",
+    "//": "adds portals to the area (example: amigara horror)",
     "field": "fd_fatigue",
-    "qty": 6
+    "qty": 1,
+    "chance": 5
   }
 ]
