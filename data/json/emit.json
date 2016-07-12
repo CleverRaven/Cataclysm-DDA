@@ -1,5 +1,20 @@
 [
   {
+    "id": "emit_tobacco_trail",
+    "type": "emit",
+    "//": "Intermittent cigarette smoke (example: lit cigarette)",
+    "field": "fd_cigsmoke",
+    "density": 2,
+    "chance": 50
+  },
+  {
+    "id": "emit_joint_trail",
+    "type": "emit",
+    "//": "Intermittent joint smoke (example: lit cigarette)",
+    "field": "fd_weedsmoke",
+    "chance": 50
+  },
+  {
     "id": "emit_smoke_blast",
     "type": "emit",
     "//": "Large blast of smoke (example: smoker zombie explosion)",

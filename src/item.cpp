@@ -5352,7 +5352,6 @@ bool item::process_litcig( player *carrier, const tripoint &pos )
             } else {
                 carrier->add_effect( effect_weed_high, duration / 2 );
             }
-            g->m.add_field( tripoint( pos.x + rng( -1, 1 ), pos.y + rng( -1, 1 ), pos.z ), smoke_type, 2, 0 );
             carrier->moves -= 15;
         }
 

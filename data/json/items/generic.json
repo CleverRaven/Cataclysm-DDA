@@ -2349,6 +2349,7 @@
         "symbol" : "!",
         "description" : "The smoke billowing from this cigar has a sweet, musty odor.",
         "category" : "drugs",
+        "emits": [ "emit_tobacco_trail" ],
         "flags" : [ "LITCIG", "TOBACCO", "LIGHT_4", "TRADER_AVOID" ]
     },
     {
@@ -2369,6 +2370,7 @@
         "symbol" : "!",
         "description" : "Smoke swirls from the lit end of this cigarette, filling the air with the thrilling smell of burning chemicals.",
         "category": "drugs",
+        "emits": [ "emit_tobacco_trail" ],
         "flags" : [ "LITCIG", "TOBACCO", "LIGHT_4", "TRADER_AVOID" ]
     },
     {
@@ -2389,6 +2391,7 @@
         "symbol" : "!",
         "description" : "The smell of skunk permeates the air as a thin trail of smoke floats off of this joint.",
         "category" : "drugs",
+        "emits": [ "emit_joint_trail" ],
         "flags" : [ "LITCIG", "LIGHT_4", "TRADER_AVOID" ]
     },
     {
