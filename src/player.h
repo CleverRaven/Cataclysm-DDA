@@ -499,7 +499,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
          * @param gun ranged weapon which must have sufficient ammo for at least one shot
          * @param aim maximum turns to spend aiming (or unlimited if negative)
          * @param penalty if set (non-negative) use this value instead of current total player recoil
-         * @param chance probability of hit, range [0-100)
+         * @param chance probability of hit, range [0-100) with zero returning absolute maximum range
          * @param accuracy minimum accuracy required
          * @return range in tiles (with default arguments this is the maximum effective range)
          */

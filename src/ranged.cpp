@@ -380,6 +380,10 @@ double player::gun_effective_range( const item& gun, int aim, int penalty, unsig
         return 0;
     }
 
+    if( chance == 0 ) {
+        return gun.gun_range( this );
+    }
+
     int driving = 0;
     if( penalty < 0 ) {
         // get current effective player recoil
@@ -407,12 +411,11 @@ double player::gun_effective_range( const item& gun, int aim, int penalty, unsig
     // calculate maximum potential dispersion
     double dispersion = get_weapon_dispersion( &gun, false ) + penalty + driving;
 
+    // dispersion is uniformly distributed at random so scale linearly with chance
+    dispersion *= chance / 100.0;
+
     // cap at min 1MOA as at zero dispersion would result in an infinite effective range
     dispersion = std::max( dispersion, 1.0 );
-
-    // dispersion is uniformly distributed at random so scale linearly with chance
-    // cap at max 99% chance as gauranteed hit is only possible with zero dispersion
-    dispersion *= std::min( chance, 99U ) / 100.0;
 
     double res = accuracy / sin( ARCMIN( dispersion / 2 ) ) / 2;
 
