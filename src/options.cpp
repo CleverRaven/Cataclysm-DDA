@@ -61,14 +61,15 @@ options_manager::options_manager()
     //   get_options().add_value("OPTION_KEY_THAT_GETS_STRING_ENTRIES_ADDED_VIA_JSON", "thisvalue");
 }
 
+static const std::string blank_value( 1, 001 ); // because "" might be valid
+
 void options_manager::enable_json(const std::string &lvar)
 {
-    post_json_verify[ lvar ] = std::string( 1, 001 ); // because "" might be valid
+    post_json_verify[ lvar ] = blank_value;
 }
 
 void options_manager::add_retry(const std::string &lvar, const::std::string &lval)
 {
-    static const std::string blank_value( 1, 001 );
     std::map<std::string, std::string>::const_iterator it = post_json_verify.find(lvar);
     if ( it != post_json_verify.end() && it->second == blank_value ) {
         // initialized with impossible value: valid
@@ -79,8 +80,6 @@ void options_manager::add_retry(const std::string &lvar, const::std::string &lva
 void options_manager::add_value( const std::string &lvar, const std::string &lval,
                                  const std::string &lvalname )
 {
-    static const std::string blank_value( 1, 001 );
-
     std::map<std::string, std::string>::const_iterator it = post_json_verify.find(lvar);
     if ( it != post_json_verify.end() ) {
         auto ot = OPTIONS.find(lvar);
