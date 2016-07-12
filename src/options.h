@@ -79,26 +79,26 @@ class options_manager : public JsonSerializer, public JsonDeserializer
                 void setSortPos( const std::string sPageIn );
 
                 //helper functions
-                int getSortPos();
+                int getSortPos() const;
 
                 /**
                  * Option should be hidden in current build.
                  * @return true if option should be hidden, false if not.
                  */
-                bool is_hidden();
+                bool is_hidden() const;
 
-                std::string getPage();
-                std::string getMenuText();
-                std::string getTooltip();
-                std::string getType();
+                std::string getPage() const;
+                std::string getMenuText() const;
+                std::string getTooltip() const;
+                std::string getType() const;
 
-                std::string getValue();
-                std::string getValueName();
-                std::string getDefaultText( const bool bTranslated = true );
+                std::string getValue() const;
+                std::string getValueName() const;
+                std::string getDefaultText( const bool bTranslated = true ) const;
 
-                int getItemPos( const std::string sSearch );
+                int getItemPos( const std::string sSearch ) const;
 
-                int getMaxLength();
+                int getMaxLength() const;
 
                 //set to next item
                 void setNext();

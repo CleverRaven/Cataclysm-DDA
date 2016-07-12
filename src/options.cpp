@@ -260,7 +260,7 @@ options_manager::cOpt::cOpt(const std::string sPageIn, const std::string sMenuTe
 }
 
 //helper functions
-bool options_manager::cOpt::is_hidden()
+bool options_manager::cOpt::is_hidden() const
 {
     switch( hide ) {
     case COPT_NO_HIDE:
@@ -313,32 +313,32 @@ void options_manager::cOpt::setSortPos(const std::string sPageIn)
     }
 }
 
-int options_manager::cOpt::getSortPos()
+int options_manager::cOpt::getSortPos() const
 {
     return iSortPos;
 }
 
-std::string options_manager::cOpt::getPage()
+std::string options_manager::cOpt::getPage() const
 {
     return sPage;
 }
 
-std::string options_manager::cOpt::getMenuText()
+std::string options_manager::cOpt::getMenuText() const
 {
     return sMenuText;
 }
 
-std::string options_manager::cOpt::getTooltip()
+std::string options_manager::cOpt::getTooltip() const
 {
     return sTooltip;
 }
 
-std::string options_manager::cOpt::getType()
+std::string options_manager::cOpt::getType() const
 {
     return sType;
 }
 
-std::string options_manager::cOpt::getValue()
+std::string options_manager::cOpt::getValue() const
 {
     if (sType == "string_select" || sType == "string_input") {
         return sSet;
@@ -399,7 +399,7 @@ int options_manager::cOpt::value_as<int>() const
     return iSet;
 }
 
-std::string options_manager::cOpt::getValueName()
+std::string options_manager::cOpt::getValueName() const
 {
     if (sType == "string_select") {
         return optionNames[sSet];
@@ -414,7 +414,7 @@ std::string options_manager::cOpt::getValueName()
     return getValue();
 }
 
-std::string options_manager::cOpt::getDefaultText(const bool bTranslated)
+std::string options_manager::cOpt::getDefaultText(const bool bTranslated) const
 {
     if (sType == "string_select") {
         const std::string sItems = enumerate_as_string( vItems.begin(), vItems.end(),
@@ -443,7 +443,7 @@ std::string options_manager::cOpt::getDefaultText(const bool bTranslated)
     return "";
 }
 
-int options_manager::cOpt::getItemPos(const std::string sSearch)
+int options_manager::cOpt::getItemPos(const std::string sSearch) const
 {
     if (sType == "string_select") {
         for (size_t i = 0; i < vItems.size(); i++) {
@@ -456,7 +456,7 @@ int options_manager::cOpt::getItemPos(const std::string sSearch)
     return -1;
 }
 
-int options_manager::cOpt::getMaxLength()
+int options_manager::cOpt::getMaxLength() const
 {
     if (sType == "string_input") {
         return iMaxLength;
