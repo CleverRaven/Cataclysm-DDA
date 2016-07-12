@@ -57,7 +57,7 @@
     "density": 1,
     "chance": 5
   },{
-    "id": "emit_web_small",
+    "id": "emit_fatigue",
     "type": "emit",
     "//": "adds fatigue to (n)pcs nearby (example: amigara horror)",
     "field": "fd_fatigue",
