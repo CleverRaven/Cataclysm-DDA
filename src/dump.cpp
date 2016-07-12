@@ -83,7 +83,7 @@ void game::dump_stats( const std::string& what, dump_mode mode )
         header = {
             "Name", "Ammo", "Volume", "Weight", "Capacity",
             "Range", "Dispersion", "Recoil", "Damage", "Pierce",
-            "Snapshot", "Aimed"
+            "E-SNAP", "E-MIN", "E-MAX"
         };
 
         std::set<std::string> locations;
@@ -119,8 +119,9 @@ void game::dump_stats( const std::string& what, dump_mode mode )
             fake.set_skill_level( obj.gun_skill(), 4 );
             fake.recoil = MIN_RECOIL;
 
-            r.push_back( string_format( "%.1f", fake.gun_effective_range( obj, 0, 50, accuracy_goodhit ) ) );
-            r.push_back( string_format( "%.1f", fake.gun_effective_range( obj, 2, 50, accuracy_goodhit ) ) );
+            r.push_back( string_format( "%.1f", fake.gun_effective_range( obj,  0 ) ) );
+            r.push_back( string_format( "%.1f", fake.gun_effective_range( obj,  1 ) ) );
+            r.push_back( string_format( "%.1f", fake.gun_effective_range( obj, -1 ) ) );
 
             for( const auto &e : locations ) {
                 r.push_back( to_string( obj.type->gun->valid_mod_locations[ e ] ) );
