@@ -207,6 +207,11 @@ class item_location::item_on_person : public item_location::impl
                                ( parents.back()->type->get_use( "holster" )->get_actor_ptr() );
                     mv += dynamic_cast<player &>( who ).item_handling_cost( obj, false, ptr->draw_cost );
 
+                } else if( parents.back()->is_bandolier() ) {
+                    auto ptr = dynamic_cast<const bandolier_actor *>
+                               ( parents.back()->type->get_use( "bandolier" )->get_actor_ptr() );
+                    mv += dynamic_cast<player &>( who ).item_handling_cost( obj, false, ptr->draw_cost );
+
                 } else {
                     mv += dynamic_cast<player &>( who ).item_handling_cost( obj, false );
                 }
@@ -412,4 +417,11 @@ item *item_location::get_item()
 const item *item_location::get_item() const
 {
     return ptr ? ptr->what : nullptr;
+}
+
+item_location item_location::clone() const
+{
+    item_location res;
+    res.ptr = ptr;
+    return res;
 }

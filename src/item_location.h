@@ -78,9 +78,15 @@ class item_location
         item *get_item();
         const item *get_item() const;
 
+        /**
+         * Clones this instance
+         * @warning usage should be restricted to implementing custom copy-constructors
+         */
+        item_location clone() const;
+
     private:
         class impl;
-        std::unique_ptr<impl> ptr;
+        std::shared_ptr<impl> ptr;
 
         class item_on_map;
         class item_on_person;
