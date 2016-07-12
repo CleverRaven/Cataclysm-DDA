@@ -913,6 +913,7 @@ Those flags are added by the game code to specific items (that specific welder, 
 - ```CHAINSAW_ON``` Turn the chainsaw off.
 - ```COMBATSAW_OFF``` Turn the combat-saw on.
 - ```COMBATSAW_ON``` Turn the combat-saw off
+- ```COOKING``` Heat food.
 - ```CROWBAR``` Pry open doors, windows, man-hole covers and many other things that need prying.
 - ```DEJAR```
 - ```DIG``` Dig a hole in the ground.
