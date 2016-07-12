@@ -1436,9 +1436,10 @@
     "vision_day":10,
     "vision_night":30,
     "hp":300,
+    "emit_fields": [ "emit_sludge" ],
     "death_function":"MELT",
     "description":"A sluglike creature, eight feet long and the width of a refrigerator.  Its black body glistens as it oozes its way along the ground.  Eye stalks occasionally push their way out of the oily mass and look around.",
-    "flags":["NOHEAD", "SEES", "POISON", "HEARS", "REGENERATES_50", "SMELLS", "SLUDGEPROOF", "SLUDGETRAIL", "SWIMS", "FLAMMABLE", "NOGIB"]
+    "flags":["NOHEAD", "SEES", "POISON", "HEARS", "REGENERATES_50", "SMELLS", "SLUDGEPROOF", "SWIMS", "FLAMMABLE", "NOGIB"]
     },{
     "type" : "MONSTER",
     "id" : "mon_zombie",
@@ -1998,6 +1999,7 @@
     "burn_into" : "mon_zombie_scorched",
     "luminance":0,
     "hp":140,
+    "emit_fields": [ "emit_acid_small" ],
     "death_function":["ACID", "NORMAL"],
     "special_attacks":[["ACID_ACCURATE", 5], ["ACID_BARF", 5]],
     "special_when_hit":["ACIDSPLASH", 100],
@@ -2613,6 +2615,7 @@
     "vision_night":3,
     "death_drops": "default_zombie_items",
     "hp":15,
+    "emit_fields": [ "emit_gas_plume" ],
     "death_function":["GAS"],
     "special_attacks":[["SUICIDE", 20]],
     "description":"With its gray skin swollen to near rupture with putrid gas, this cyst covered zombie looks like it could violently burst under the slightest of disturbances.",
@@ -4549,6 +4552,7 @@
     "vision_day":5,
     "vision_night":5,
     "hp":45,
+    "emit_fields": [ "emit_web_small" ],
     "death_function":"NORMAL",
     "description":"A twitchy mutant brown spider, with a relatively small body and spindly long legs.  Its smaller brethren are known for being agile, and for preying upon other spiders.",
     "//": "No, they are not in fact the most venomous spider in the world.",
@@ -4630,6 +4634,7 @@
     "armor_bash":0,
     "armor_cut":0,
     "hp":250,
+    "emit_fields": [ "emit_fatigue" ],
     "death_function":["AMIGARA", "NORMAL"],
     "special_attacks":[["FEAR_PARALYZE", 0]],
     "description":"A hellish, vaguely humanoid horror, two stories tall.  Its face is grotesquely stretched out, its limbs deformed to unrecognizable outgrowths.",
