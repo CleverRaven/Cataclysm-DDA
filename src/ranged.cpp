@@ -384,7 +384,7 @@ dealt_projectile_attack Creature::projectile_attack( const projectile &proj_arg,
 
 double player::gun_effective_range( const item& gun, int aim, unsigned chance, double accuracy ) const
 {
-    if( !gun.is_gun() ) {
+    if( !gun.is_gun() || !gun.ammo_sufficient() ) {
         return 0;
     }
 
