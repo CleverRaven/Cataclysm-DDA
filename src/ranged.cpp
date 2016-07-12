@@ -422,7 +422,10 @@ double player::gun_effective_range( const item& gun, int aim, int penalty, unsig
     // cap at max 99% chance as gauranteed hit is only possible with zero dispersion
     dispersion *= std::min( chance, 99U ) / 100.0;
 
-    return accuracy / sin( ARCMIN( dispersion / 2 ) ) / 2;
+    double res = accuracy / sin( ARCMIN( dispersion / 2 ) ) / 2;
+
+    // effective range could be limited by othe factors (eg. STR_DRAW etc)
+    return std::min( res, double( gun.gun_range( this ) ) );
 }
 
 bool player::handle_gun_damage( item &it )
