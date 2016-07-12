@@ -12000,16 +12000,12 @@ bool game::walk_move( const tripoint &dest_loc )
 
     if( !shifting_furniture ) {
 
-        std::vector<std::string> badfields;
+        std::vector<std::string> harmful_stuff;
+        const auto fields_here = m.field_at( u.pos() );
         for( const auto& e : m.field_at( dest_loc ) ) {
             // warn before moving into a dangerous field except when already standing within a similar field
-            if( u.is_dangerous_field( e.second ) && !m.field_at( u.pos() ).findField( e.first ) ) {
-                badfields.push_back( e.second.name() );
-            }
-        }
-        if( !badfields.empty() ) {
-            if( !query_yn( _("Really step into %s?"), enumerate_as_string( badfields ).c_str() ) ) {
-                return true;
+            if( u.is_dangerous_field( e.second ) && fields_here.findField( e.first ) == nullptr ) {
+                harmful_stuff.push_back( e.second.name() );
             }
         }
 
@@ -12020,29 +12016,34 @@ bool game::walk_move( const tripoint &dest_loc )
             const bool boardable = veh && veh->part_with_feature( vpart, "BOARDABLE" ) >= 0;
             // Hack for now, later ledge should stop being a trap
             if( tr.can_see(dest_loc, u) && !tr.is_benign() &&
-                m.has_floor( dest_loc ) && !boardable &&
-                !query_yn( _("Really step onto that %s?"), tr.name.c_str() ) ) {
-                return true;
+                m.has_floor( dest_loc ) && !boardable ) {
+                harmful_stuff.push_back( tr.name.c_str() );
             }
 
-            if( m.has_flag( "ROUGH", dest_loc ) && !m.has_flag( "ROUGH", u.pos() ) && !boardable &&
-                ( u.get_armor_bash( bp_foot_l ) < 5 || u.get_armor_bash( bp_foot_r ) < 5 ) &&
-                !query_yn( _( "Really step onto that %s?" ), m.name( dest_loc ).c_str() ) ) {
-                return true;
-            } else if( m.has_flag( "SHARP", dest_loc ) && !m.has_flag( "SHARP", u.pos() ) && !boardable &&
-                       u.dex_cur < 78 ) {
-                static const std::set< body_part > check = {
-                    bp_eyes, bp_mouth, bp_head, bp_leg_l, bp_leg_r, bp_foot_l, bp_foot_r, bp_arm_l, bp_arm_r,
-                    bp_hand_l, bp_hand_r, bp_torso
-                };
-                if( !std::all_of( check.begin(), check.end(), [this]( body_part bp ) {
+            static const std::set< body_part > sharp_bps = {
+                bp_eyes, bp_mouth, bp_head, bp_leg_l, bp_leg_r, bp_foot_l, bp_foot_r, bp_arm_l, bp_arm_r,
+                bp_hand_l, bp_hand_r, bp_torso
+            };
+
+            static const auto sharp_bp_check = [this]( body_part bp ) {
                 return u.immune_to( bp, { DT_CUT, 10 } );
-                } ) && !query_yn( _( "Really step onto that %s?" ), m.name( dest_loc ).c_str() ) ) {
-                    return true;
-                }
+            };
+
+            if( m.has_flag( "ROUGH", dest_loc ) && !m.has_flag( "ROUGH", u.pos() ) && !boardable &&
+                ( u.get_armor_bash( bp_foot_l ) < 5 || u.get_armor_bash( bp_foot_r ) < 5 ) ) {
+                harmful_stuff.push_back( m.name( dest_loc ).c_str() );
+            } else if( m.has_flag( "SHARP", dest_loc ) && !m.has_flag( "SHARP", u.pos() ) && !boardable &&
+                       u.dex_cur < 78 && !std::all_of( sharp_bps.begin(), sharp_bps.end(), sharp_bp_check ) ) {
+                harmful_stuff.push_back( m.name( dest_loc ).c_str() );
             }
 
         }
+
+        if( !harmful_stuff.empty() &&
+            !query_yn( _("Really step into %s?"), enumerate_as_string( harmful_stuff ).c_str() ) ) {
+            return true;
+        }
+
     }
 
     int modifier = 0;
