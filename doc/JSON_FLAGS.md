@@ -328,7 +328,6 @@ Some special attacks are also valid use actions for tools and weapons.
 - ```SHOCKSTORM``` Shoots bolts of lightning.
 - ```SHRIEK``` "a terrible shriek!"
 - ```SMG``` SMG turret fires.
-- ```SMOKECLOUD``` Produces a cloud of smoke.
 - ```SPIT_SAP``` Spit sap.
 - ```STARE``` Stare at the player and inflict teleglow.
 - ```TAZER``` Shock the player.
@@ -794,7 +793,6 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```NON_STUCK``` Resistant to getting stuck in a monster; not as large of an effect as `MESSY`.
 - ```NO_RELOAD``` Item can never be reloaded (even if has a valid ammo type).
 - ```NO_UNWIELD``` Cannot unwield this item.
-- ```QUIVER_n``` Item can hold n arrows (will parse number as integer)
 - ```REACH_ATTACK``` Allows to perform reach attack.
 - ```SLICE``` Deals cutting damage, with a low chance of getting stuck.
 - ```SHEATH_KNIFE``` Item can be sheathed in a knife sheath, it applicable to small/medium knives (with volume not bigger than 2)

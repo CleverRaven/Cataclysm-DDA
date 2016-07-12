@@ -514,6 +514,18 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
          * @return true if the armor was completely destroyed (and the item must be deleted).
          */
         bool armor_absorb( damage_unit &du, item &armor );
+        /**
+         * Check for passive bionics that provide armor, and returns the armor bonus
+         * This is called from player::passive_absorb_hit
+         */
+         float bionic_armor_bonus( body_part bp, damage_type dt ) const;
+        /**
+         * Check for relevant passive, non-clothing that can absorb damage, and reduce @ref du
+         * Only flat bonuses are checked here. Multiplicative ones are checked in player::absorb_hit
+         * @ref du.amount will never be reduced below 0
+         * This is called from @ref player::absorb_hit
+         */
+         void passive_absorb_hit( body_part bp, damage_unit &du ) const;
         /** Runs through all bionics and armor on a part and reduces damage through their armor_absorb */
         void absorb_hit(body_part bp, damage_instance &dam) override;
         /** Called after the player has successfully dodged an attack */
@@ -625,6 +637,11 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Returns a value used when attempting to intimidate NPC's */
         int intimidation() const;
 
+        /**
+         * Returns true if it is impossible for @ref dam to reduce the player's HP on his/her @ref bp
+         * @warning Only HP is accounted for- not damaged clothing, pain, status effects, etc.
+         */
+        bool immune_to( body_part bp, damage_unit dam ) const;
         /** Calls Creature::deal_damage and handles damaged effects (waking up, etc.) */
         dealt_damage_instance deal_damage(Creature *source, body_part bp, const damage_instance &d) override;
         /** Actually hurt the player, hurts a body_part directly, no armor reduction */
@@ -771,6 +788,15 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Handles rooting effects */
         void rooted_message() const;
         void rooted();
+
+        /**
+         * Select suitable ammo with which to reload the item
+         * @param prompt force display of the menu even if only one choice
+         */
+        item::reload_option select_ammo( const item& base, bool prompt = false ) const;
+
+        /** Select ammo from the provided options */
+        item::reload_option select_ammo( const item &base, const std::vector<item::reload_option>& opts ) const;
 
         /** Check player strong enough to lift an object unaided by equipment (jacks, levers etc) */
         template <typename T>

@@ -247,259 +247,70 @@ void npc::randomize( const npc_class_id &type )
     int_max = the_class.roll_intelligence();
     per_max = the_class.roll_perception();
 
+    if( myclass->get_shopkeeper_items() != "EMPTY_GROUP" ) {
+        restock = DAYS( 3 );
+        cash += 100000;
+    }
+
+    for( auto &skill : Skill::skills ) {
+        int level = myclass->roll_skill( skill.ident() );
+
+        set_skill_level( skill.ident(), level );
+    }
+
     if( type.is_null() ) { // Untyped; no particular specialization
-        for( auto &skill : Skill::skills ) {
-            int level = 0;
-            if( one_in(3) ) {
-                level = dice(4, 2) - rng(1, 4);
-            }
-
-            set_skill_level( skill.ident(), level );
-        }
-
     } else if( type == NC_EVAC_SHOPKEEP ) {
-     for( auto &skill : Skill::skills ) {
-   int level = 0;
-   if (one_in(3))
-   {
-    level = dice(2, 2) - 2 + (rng(0, 1) * rng(0, 1));
-   }
-   set_skill_level( skill.ident(), level );
-  }
-
-  boost_skill_level( skill_mechanics, rng(0, 1));
-  boost_skill_level( skill_electronics, rng(1, 2));
-  boost_skill_level( skill_speech, rng(1, 3));
-  boost_skill_level( skill_barter, rng(3, 5));
   personality.collector += rng(1, 5);
-  cash = 100000 * rng(1, 10)+ rng(1, 100000);
-  this->restock = 14400*3;  //Every three days
 
  } else if( type == NC_BARTENDER ) {
-     for( auto &skill : Skill::skills ) {
-   int level = 0;
-   if (one_in(3))
-   {
-    level = dice(2, 2) - 2 + (rng(0, 1) * rng(0, 1));
-   }
-   set_skill_level( skill.ident(), level );
-  }
-  boost_skill_level( skill_speech, rng(1, 5));
-  boost_skill_level( skill_barter, rng(2, 4));
   personality.collector += rng(1, 5);
-  cash = 10000 * rng(1, 10)+ rng(1, 10000);
-  this->restock = 14400*3;  //Every three days
 
  } else if( type == NC_JUNK_SHOPKEEP ) {
-     for( auto &skill : Skill::skills ) {
-   int level = 0;
-   if (one_in(3))
-   {
-    level = dice(2, 2) - 2 + (rng(0, 1) * rng(0, 1));
-   }
-   set_skill_level( skill.ident(), level );
-  }
-  boost_skill_level( skill_speech, rng(1, 5));
-  boost_skill_level( skill_barter, rng(2, 4));
   personality.collector += rng(1, 5);
-  cash = 25000 * rng(1, 10)+ rng(1, 100000);
-  this->restock = 14400*3;  //Every three days
 
  } else if( type == NC_ARSONIST ) {
-     for( auto &skill : Skill::skills ) {
-   int level = dice(3, 2) - rng(0, 4);
-   if (level < 0)
-   {
-    level = 0;
-   }
-   set_skill_level( skill.ident(), level );
-  }
-  boost_skill_level( skill_gun, rng(1, 3));
-  boost_skill_level( skill_pistol, rng(1, 3));
-  boost_skill_level( skill_throw, rng(0, 2));
-  boost_skill_level( skill_barter, rng(2, 4));
   personality.aggression += rng(0, 1);
   personality.collector += rng(0, 2);
-  cash = 25000 * rng(1, 10)+ rng(1, 1000);
-  this->restock = 14400*3;  //Every three days
-
- } else if( type == NC_HUNTER ) {
-     for( auto &skill : Skill::skills ) {
-   int level = dice(3, 2) - rng(0, 4);
-   if (level < 0)
-   {
-    level = 0;
-   }
-   set_skill_level( skill.ident(), level );
-  }
-  boost_skill_level( skill_barter, rng(2, 5));
-  boost_skill_level( skill_gun, rng(2, 4));
-  if (one_in(3)){
-    boost_skill_level( skill_rifle, rng(2, 4));
-  } else {
-    boost_skill_level( skill_archery, rng(2, 4));
-  }
-  cash = 15000 * rng(1, 10)+ rng(1, 1000);
-  this->restock = 14400*3;  //Every three days
 
  } else if( type == NC_SOLDIER ) {
-     for( auto &skill : Skill::skills ) {
-   int level = dice(3, 2) - 3;
-   if (level > 0 && one_in(5))
-   {
-    level--;
-   }
-   set_skill_level( skill.ident(), level );
-  }
-  boost_skill_level( skill_dodge, rng(1, 2));
-  boost_skill_level( skill_melee, rng(1, 2));
-  boost_skill_level( skill_unarmed, rng(1, 2));
-  boost_skill_level( skill_rifle, rng(3, 5));
-  boost_skill_level( skill_gun, rng(2, 4));
   personality.aggression += rng(1, 3);
   personality.bravery += rng(0, 5);
 
  } else if( type == NC_HACKER ) {
-     for( auto &skill : Skill::skills ) {
-   int level = 0;
-   if (one_in(3))
-   {
-    level = dice(2, 2) - rng(1, 2);
-   }
-   set_skill_level( skill.ident(), level );
-  }
-  boost_skill_level( skill_electronics, rng(1, 4));
-  boost_skill_level( skill_computer, rng(3, 6));
   personality.bravery -= rng(1, 3);
   personality.aggression -= rng(0, 2);
 
  } else if( type == NC_DOCTOR ) {
-     for( auto &skill : Skill::skills ) {
-   int level = 0;
-   if (one_in(3))
-   {
-    level = dice(3, 2) - rng(1, 3);
-   }
-   set_skill_level( skill.ident(), level );
-  }
-  boost_skill_level( skill_firstaid, rng(2, 6));
   personality.aggression -= rng(0, 4);
   cash += 10000 * rng(0, 3) * rng(0, 3);
 
  } else if( type == NC_TRADER ) {
-     for( auto &skill : Skill::skills ) {
-   int level = 0;
-   if (one_in(3))
-   {
-    level = dice(2, 2) - 2 + (rng(0, 1) * rng(0, 1));
-   }
-   set_skill_level( skill.ident(), level );
-  }
-  boost_skill_level( skill_mechanics, rng(0, 2));
-  boost_skill_level( skill_electronics, rng(0, 2));
-  boost_skill_level( skill_speech, rng(0, 3));
-  boost_skill_level( skill_barter, rng(2, 5));
   personality.collector += rng(1, 5);
   cash += 25000 * rng(1, 10);
 
  } else if( type == NC_NINJA ) {
-     for( auto &skill : Skill::skills ) {
-   int level = 0;
-   if (one_in(3))
-   {
-    level = dice(2, 2) - rng(1, 2);
-   }
-   set_skill_level( skill.ident(), level );
-  }
-  boost_skill_level( skill_dodge, rng(2, 4));
-  boost_skill_level( skill_melee, rng(1, 4));
-  boost_skill_level( skill_unarmed, rng(4, 6));
-  boost_skill_level( skill_throw, rng(0, 2));
   personality.bravery += rng(0, 3);
   personality.collector -= rng(1, 6);
   // TODO: give ninja his styles back
 
  } else if( type == NC_COWBOY ) {
-     for( auto &skill : Skill::skills ) {
-   int level = dice(3, 2) - rng(0, 4);
-   if (level < 0)
-   {
-    level = 0;
-   }
-   set_skill_level( skill.ident(), level );
-  }
-  boost_skill_level( skill_gun, rng(1, 3));
-  boost_skill_level( skill_pistol, rng(1, 3));
-  boost_skill_level( skill_rifle, rng(0, 2));
   personality.aggression += rng(0, 2);
   personality.bravery += rng(1, 5);
 
  } else if( type == NC_SCIENTIST ) {
-     for( auto &skill : Skill::skills ) {
-   int level = dice(3, 2) - 4;
-   if (level < 0)
-   {
-    level = 0;
-   }
-   set_skill_level( skill.ident(), level );
-  }
-  boost_skill_level( skill_computer, rng(0, 3));
-  boost_skill_level( skill_electronics, rng(0, 3));
-  boost_skill_level( skill_firstaid, rng(0, 1));
-  switch (rng(1, 3)) { // pick a speciality
-   case 1: boost_skill_level( skill_computer, rng(2, 6)); break;
-   case 2: boost_skill_level( skill_electronics, rng(2, 6)); break;
-   case 3: boost_skill_level( skill_firstaid, rng(2, 6)); break;
-  }
   personality.aggression -= rng(1, 5);
   personality.bravery -= rng(2, 8);
   personality.collector += rng (0, 2);
 
  } else if( type == NC_BOUNTY_HUNTER ) {
-     for( auto &skill : Skill::skills ) {
-   int level = dice(3, 2) - 3;
-   if (level > 0 && one_in(3))
-   {
-    level--;
-   }
-   set_skill_level( skill.ident(), level );
-  }
-  boost_skill_level( skill_gun, rng(2, 4));
-  boost_skill_level(Skill::random_skill_with_tag("gun_type"), rng(3, 5));
   personality.aggression += rng(1, 6);
   personality.bravery += rng(0, 5);
 
  } else if( type == NC_THUG ) {
-     for( auto &skill : Skill::skills ) {
-   int level = dice(3, 2) - 3;
-   if (level > 0 && one_in(3))
-   {
-    level--;
-   }
-   set_skill_level( skill.ident(), level );
-  }
-  boost_skill_level( skill_dodge, rng(1, 3));
-  boost_skill_level( skill_melee, rng(2, 4));
-  boost_skill_level( skill_unarmed, rng(1, 3));
-  boost_skill_level( skill_bashing, rng(1, 5));
-  boost_skill_level( skill_stabbing, rng(1, 5));
-  boost_skill_level( skill_unarmed, rng(1, 3));
   personality.aggression += rng(1, 6);
   personality.bravery += rng(0, 5);
 
  } else if( type == NC_SCAVENGER ) {
-     for( auto &skill : Skill::skills ) {
-   int level = dice(3, 2) - 3;
-   if (level > 0 && one_in(3))
-   {
-    level--;
-   }
-   set_skill_level( skill.ident(), level );
-  }
-  boost_skill_level( skill_gun, rng(2, 4));
-  boost_skill_level( skill_pistol, rng(2, 5));
-  boost_skill_level( skill_rifle, rng(0, 3));
-  boost_skill_level( skill_archery, rng(0, 3));
   personality.aggression += rng(1, 3);
   personality.bravery += rng(1, 4);
 
@@ -510,16 +321,16 @@ void npc::randomize( const npc_class_id &type )
  //players will vastly outclass npcs in trade without a little help.
  boost_skill_level( skill_barter, rng(2, 4));
 
- for (int i = 0; i < num_hp_parts; i++) {
-  ///\EFFECT_HP_MAX increases max hp for NPCs
-  hp_max[i] = 60 + str_max * 3;
-  hp_cur[i] = hp_max[i];
- }
- starting_weapon(type);
- worn = starting_clothes(type, male);
- inv.clear();
- inv.add_stack(starting_inv(this, type));
- update_worst_item_value();
+    recalc_hp();
+    for( int i = 0; i < num_hp_parts; i++ ) {
+        hp_cur[i] = hp_max[i];
+    }
+
+    starting_weapon(type);
+    worn = starting_clothes(type, male);
+    inv.clear();
+    inv.add_stack(starting_inv(this, type));
+    has_new_items = true;
 }
 
 void npc::randomize_from_faction(faction *fac)
@@ -1659,42 +1470,32 @@ std::vector<npc::item_pricing> npc::init_buying(inventory& you)
     return result;
 }
 
-void npc::shop_restock(){
-    items_location from = "NULL";
+void npc::shop_restock()
+{
+    restock = calendar::turn + DAYS( 3 );
+    if( is_friend() ) {
+        return;
+    }
+
+    const Group_tag &from = myclass->get_shopkeeper_items();
+    if( from == "EMPTY_GROUP" ) {
+        return;
+    }
+
     int total_space = volume_capacity();
     std::list<item> ret;
-    //list all merchant types here along with the item group they pull from and how much extra space they should have
-    //guards and other fixed npcs may need a small supply of food daily...
-    if( myclass == NC_EVAC_SHOPKEEP ) {
-        from = "NC_EVAC_SHOPKEEP_misc";
-        total_space += rng(30,40);
-        this-> cash = 100000 * rng(1, 10)+ rng(1, 100000);
-    } else if( myclass == NC_ARSONIST ) {
-        from = "NC_ARSONIST_misc";
-        this-> cash = 25000 * rng(1, 10)+ rng(1, 1000);
-        ret.push_back(item("molotov", 0));
-    } else if( myclass == NC_HUNTER ) {
-        from = "NC_HUNTER_misc";
-        this-> cash = 15000 * rng(1, 10)+ rng(1, 1000);
-    } else if( myclass == NC_BARTENDER ) {
-        from = "NC_BARTENDER_misc";
-        this-> cash = 25000 * rng(1, 10)+ rng(1, 1000);;
-    } else if( myclass == NC_JUNK_SHOPKEEP ) {
-        from = "NC_JUNK_SHOPKEEP_misc";
-        this-> cash = 25000 * rng(1, 10)+ rng(1, 1000);
-    }
-    if (from == "NULL")
-        return;
-    while (total_space > 0 && !one_in(50)) {
+
+    while( total_space > 0 && !one_in( 50 ) ) {
         item tmpit = item_group::item_from( from, 0 );
-        if( !tmpit.is_null() && total_space >= tmpit.volume()) {
-            ret.push_back(tmpit);
+        if( !tmpit.is_null() && total_space >= tmpit.volume() ) {
+            ret.push_back( tmpit );
             total_space -= tmpit.volume();
         }
     }
-    this->inv.clear();
-    this->inv.add_stack(ret);
-    this->update_worst_item_value();
+
+    has_new_items = true;
+    inv.clear();
+    inv.add_stack( ret );
 }
 
 

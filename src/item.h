@@ -16,6 +16,7 @@
 #include "string_id.h"
 #include "line.h"
 #include "item_location.h"
+#include "damage.h"
 #include "debug.h"
 
 class game;
@@ -267,6 +268,9 @@ class item : public JsonSerializer, public JsonDeserializer, public visitable<it
         public:
             reload_option() = default;
 
+            reload_option( const reload_option & );
+            reload_option &operator=( const reload_option & );
+
             reload_option( const player *who, const item *target, const item *parent, item_location&& ammo );
 
             const player *who = nullptr;
@@ -278,7 +282,7 @@ class item : public JsonSerializer, public JsonDeserializer, public visitable<it
 
             int moves() const;
 
-            operator bool() const {
+            explicit operator bool() const {
                 return who && target && ammo && qty_ > 0;
             }
 
@@ -287,13 +291,6 @@ class item : public JsonSerializer, public JsonDeserializer, public visitable<it
             long max_qty = LONG_MAX;
             const item *parent = nullptr;
     };
-
-    /**
-     * Select suitable ammo with which to reload the item
-     * @param u player inventory to search for suitable ammo.
-     * @param prompt force display of the menu even if only one choice
-     */
-    reload_option pick_reload_ammo( player &u, bool prompt = false ) const;
 
     /**
      * Reload item using ammo from location returning true if sucessful
@@ -657,6 +654,11 @@ public:
     /*@}*/
 
     /**
+     * Assuming that @du hit the armor, reduce @du based on the item's resistance to the damage type.
+     * This will never reduce @du.amount below 0.
+     */
+     void mitigate_damage( damage_unit &du ) const;
+    /**
      * Resistance provided by this item against damage type given by an enum.
      */
     int damage_resist( damage_type dt, bool to_self = false ) const;
@@ -748,6 +750,7 @@ public:
  bool is_bionic() const;
  bool is_magazine() const;
  bool is_ammo_belt() const;
+ bool is_bandolier() const;
  bool is_ammo() const;
  bool is_armor() const;
  bool is_book() const;
@@ -1205,8 +1208,11 @@ public:
         /** Get ammo effects for item optionally inclusive of any resulting from the loaded ammo */
         std::set<std::string> ammo_effects( bool with_ammo = true ) const;
 
-        /** Returns casing type ejected by item (if any) which is always "null" if item is not a gun */
-        itype_id ammo_casing() const;
+        /** How many spent casings are contained within this item? */
+        int casings_count() const;
+
+        /** Apply predicate to each contained spent casing removing it if predicate returns true */
+        void casings_handle( const std::function<bool(item &)> &func );
 
         /** Does item have an integral magazine (as opposed to allowing detachable magazines) */
         bool magazine_integral() const;

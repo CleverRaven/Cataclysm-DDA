@@ -621,7 +621,7 @@
         "category": "other",
         "description":"A plastic bowl.  Can be used as a container or as a tool.  Holds 250 ml of liquid.",
         "price": 100,
-        "weight":0,
+        "weight": 80,
         "volume":1,
         "to_hit":1,
         "material":"plastic",
