@@ -109,6 +109,16 @@ npc::npc()
     last_updated = calendar::turn;
 }
 
+npc npc::standard()
+{
+    npc res;
+    res.str_cur = 8;
+    res.dex_cur = 8;
+    res.int_cur = 8;
+    res.per_cur = 8;
+    return res;
+}
+
 npc_map npc::_all_npc;
 
 void npc::load_npc(JsonObject &jsobj)

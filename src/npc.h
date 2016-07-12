@@ -552,6 +552,10 @@ public:
  npc &operator=(const npc &) = default;
  npc &operator=(npc &&) = default;
  ~npc() override;
+
+    /** Construct an NPC with standard stats */
+    static npc standard();
+
  bool is_player() const override { return false; }
  bool is_npc() const override { return true; }
 
