@@ -621,13 +621,8 @@
       { "monster": "mon_zombie_pk", "freq": 10, "cost_multiplier": 13, "pack_size": [15,20]},
       { "monster": "mon_zombie_pk", "freq": 5, "cost_multiplier": 20, "pack_size": [25,30]},
       { "monster": "mon_zombie", "freq": 5, "cost_multiplier": 7, "pack_size": [5,10]},
-<<<<<<< HEAD
       { "monster": "mon_zombie_2", "freq": 5, "cost_multiplier": 7, "pack_size": [5,10], "starts":  5 },
       { "monster": "mon_zombie_3", "freq": 5, "cost_multiplier": 7, "pack_size": [5,10], "starts":  5 },
-=======
-      { "monster": "mon_zombie_2", "freq": 5, "cost_multiplier": 7, "pack_size": [5,10], "starts":  2 },
-      { "monster": "mon_zombie_3", "freq": 5, "cost_multiplier": 7, "pack_size": [5,10], "starts":  2 },
->>>>>>> origin/master
       { "monster": "mon_zombie_fat", "freq": 15, "cost_multiplier": 8, "pack_size": [3,5]},
       { "monster": "mon_zombie_fat_2", "freq": 5, "cost_multiplier": 4, "pack_size": [1,3], "starts":  2 },
       { "monster": "mon_zombie_fat_3", "freq": 5, "cost_multiplier": 4, "pack_size": [1,3], "starts":  2 },
