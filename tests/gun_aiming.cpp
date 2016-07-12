@@ -6,6 +6,19 @@
 
 static void test_internal( const npc& who, const item &gun )
 {
+    THEN( "the effective range is less than maximum range" ) {
+        REQUIRE( who.gun_effective_range( gun, player::engagement::effective_min ) <=
+                 who.gun_effective_range( gun, player::engagement::absolute_max ) );
+
+        REQUIRE( who.gun_effective_range( gun, player::engagement::effective_max ) <=
+                 who.gun_effective_range( gun, player::engagement::absolute_max ) );
+    }
+
+    THEN( "the effective minimum is less than the effective maximum range" ) {
+        REQUIRE( who.gun_effective_range( gun, player::engagement::effective_min ) <=
+                 who.gun_effective_range( gun, player::engagement::effective_max ) );
+    }
+
     WHEN( "the gun it is aimed" ) {
         THEN( "the effective range is the same or better" ) {
             REQUIRE( who.gun_effective_range( gun, 0 ) <=

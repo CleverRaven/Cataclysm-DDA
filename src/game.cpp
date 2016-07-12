@@ -9911,7 +9911,7 @@ int game::list_monsters(const int iLastState)
 
     uistate.list_item_mon = 2; // remember we've tabbed here
 
-    const int iWeaponRange = u.weapon.gun_range(&u);
+    const int iWeaponRange = u.gun_effective_range( u.weapon, player::engagement::absolute_max, MIN_RECOIL );
 
     const tripoint stored_view_offset = u.view_offset;
     u.view_offset = tripoint_zero;
@@ -10671,7 +10671,7 @@ bool game::plfire( const tripoint &default_target )
         }
     }
 
-    int range = gun.melee() ? gun.qty : gun->gun_range( &u );
+    int range = gun.melee() ? gun.qty : u.gun_effective_range( *gun, player::engagement::absolute_max, MIN_RECOIL );
 
     temp_exit_fullscreen();
     m.draw( w_terrain, u.pos() );
