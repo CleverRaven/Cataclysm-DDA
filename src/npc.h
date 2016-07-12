@@ -554,7 +554,7 @@ public:
  ~npc() override;
 
     /** Construct an NPC with standard stats */
-    static npc standard();
+    static npc make_standard();
 
  bool is_player() const override { return false; }
  bool is_npc() const override { return true; }

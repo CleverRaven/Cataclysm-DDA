@@ -109,7 +109,7 @@ npc::npc()
     last_updated = calendar::turn;
 }
 
-npc npc::standard()
+npc npc::make_standard()
 {
     npc res;
     res.str_cur = 8;
