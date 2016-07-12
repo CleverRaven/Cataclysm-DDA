@@ -8,6 +8,11 @@
       "half_life": 9
     }
     },{
+    "type": "MONSTER",
+    "id": "mon_zombie_corrosive",
+    "edit-mode": "modify",
+    "emit_fields": [ "emit_acid_small" ]
+    },{
     "type" : "MONSTER",
     "id" : "mon_zombie_2",
     "name": "zombie",
@@ -648,7 +653,8 @@
     "upgrades":{
         "into": "mon_zombie_gasbag_pk",
         "half_life": 21
-    }
+    },
+    "emit_fields": [ "emit_gas_plume"],
     },{
     "type": "MONSTER",
     "id": "mon_zombie_smoker",
@@ -1032,12 +1038,13 @@
     "vision_day":15,
     "vision_night":35,
     "hp":90,
+    "emit_fields": [ "emit_sludge" ],
     "death_function":["NORMAL"],
     "burn_into": "mon_zombie_crawler_scorched",
     "special_when_hit":["ACIDSPLASH", 7],
     "special_attacks": [["ACID_BARF", 30], ["GRAB", 60], ["FORMBLOB", 240]],
     "description":"A revolting crawling monster that excretes a copious amount of some biological goo from a gaping chest cavity.  Every so often a blob emerges from the charred and mangled stumps that used to be legs.",
-    "flags":["ACIDPROOF", "ACID_BLOOD", "SEES", "HEARS", "POISON", "NO_BREATHE", "REVIVES", "NO_NECRO", "REVIVES_HEALTHY", "PLASTIC", "SLUDGEPROOF", "SLUDGETRAIL", "FLAMMABLE", "NIGHT_INVISIBILITY", "ABSORBS", "SWIMS"]
+    "flags":["ACIDPROOF", "ACID_BLOOD", "SEES", "HEARS", "POISON", "NO_BREATHE", "REVIVES", "NO_NECRO", "REVIVES_HEALTHY", "PLASTIC", "SLUDGEPROOF", "FLAMMABLE", "NIGHT_INVISIBILITY", "ABSORBS", "SWIMS"]
     },{
     "type": "MONSTER",
     "id": "mon_zombie_hulk_pk",
