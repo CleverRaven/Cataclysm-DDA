@@ -6648,7 +6648,7 @@
             "type": "bandolier",
             "capacity": 60,
             "ammo": [ "arrow" ],
-            "draw_cost": 5
+            "draw_cost": 3
         }
     },
     {
@@ -6674,7 +6674,7 @@
             "type": "bandolier",
             "capacity": 60,
             "ammo": [ "arrow" ],
-            "draw_cost": 5
+            "draw_cost": 3
         }
     },
     {
