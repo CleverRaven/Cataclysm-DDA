@@ -606,7 +606,6 @@ listings, as ids are constant throughout DDA's code.  Happy chambering!  :-)
 - ```SMOKE_BIG``` Generates a large cloud of smoke at the target.
 - ```STREAM``` Leaves a trail of fire fields.
 - ```STREAM_BIG``` Leaves a trail of intense fire fields.
-- ```TEARGAS``` Generates a cloud of teargas.
 - ```TRAIL``` Creates a trail of smoke.
 - ```WIDE``` Prevents `HARDTOSHOOT` monster flag from having any effect. Implied by ```SHOT``` or liquid ammo.
 
