@@ -8,7 +8,6 @@
         "description": "A dead body.",
         "//": "most of the properties depend on the monster type and are created at runtime!",
         "price": 0,
-        "weight": 0,
         "volume": 0,
         "flags": ["NO_UNLOAD", "TRADER_AVOID"]
     },
@@ -22,7 +21,6 @@
         "name_plural": "none",
         "description": "seeing this is a bug",
         "price": 0,
-        "weight": 0,
         "volume": 0,
         "flags": ["PSEUDO", "TRADER_AVOID"]
     },
@@ -36,7 +34,6 @@
         "name_plural" : "none",
         "description" : "seeing this is a bug",
         "price" : 0,
-        "weight" : 0,
         "volume" : 0,
         "flags": ["PSEUDO"]
     },
@@ -50,7 +47,6 @@
         "name_plural": "none",
         "description": "seeing this is a bug",
         "price": 0,
-        "weight": 0,
         "volume": 0,
         "flags": ["PSEUDO", "TRADER_AVOID"]
     },
@@ -63,7 +59,6 @@
         "name_plural": "none",
         "description": "seeing this is a bug",
         "price": 0,
-        "weight": 0,
         "volume": 0,
         "flags": ["PSEUDO", "TRADER_AVOID"]
     },
@@ -76,7 +71,6 @@
         "name_plural": "none",
         "description": "seeing this is a bug",
         "price": 0,
-        "weight": 0,
         "volume": 0,
         "flags": ["PSEUDO", "UNARMED_WEAPON", "TRADER_AVOID"], "//" : "Fist is internally represented as 'wielding a none as a weapon'"
     },
@@ -2545,7 +2539,6 @@
         "id" : "note",
         "name" : "note",
         "description" : "A hand-written paper note.",
-        "weight" : 0,
         "to_hit" : -2,
         "color" : "white",
         "symbol" : "?",

@@ -84,8 +84,11 @@ std::vector<const vpart_info*> vehicle_part_int_types;
 
 static std::map<vpart_str_id, vpart_info> abstract_parts;
 
-/** JSON data dependent upon as-yet unparsed definitions */
-static std::list<std::string> deferred;
+/**
+ * JSON data dependent upon as-yet unparsed definitions
+ * first: JSON data, second: source identifier
+ */
+static std::list<std::pair<std::string, std::string>> deferred;
 
 template<>
 const vpart_str_id string_id<vpart_info>::NULL_ID( "null" );
@@ -140,7 +143,7 @@ int_id<vpart_info>::int_id( const string_id<vpart_info> &id )
 /**
  * Reads in a vehicle part from a JsonObject.
  */
-void vpart_info::load( JsonObject &jo )
+void vpart_info::load( JsonObject &jo, const std::string &src )
 {
     vpart_info def;
 
@@ -152,7 +155,7 @@ void vpart_info::load( JsonObject &jo )
         } else if( ab != abstract_parts.end() ) {
             def = ab->second;
         } else {
-            deferred.emplace_back( jo.str() );
+            deferred.emplace_back( jo.str(), src );
         }
     }
 
@@ -315,10 +318,10 @@ void vpart_info::finalize()
         auto it = deferred.begin();
         for( decltype(deferred)::size_type idx = 0; idx != n; ++idx ) {
             try {
-                std::istringstream str( *it );
+                std::istringstream str( it->first );
                 JsonIn jsin( str );
                 JsonObject jo = jsin.get_object();
-                dyn.load_object( jo );
+                dyn.load_object( jo, it->second );
             } catch( const std::exception &err ) {
                 debugmsg( "Error loading data from json: %s", err.what() );
             }

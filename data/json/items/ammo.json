@@ -41,7 +41,6 @@
         "description" : "IF YOU ARE SEEING THIS IT IS A BUG.",
         "flags" : "TRADER_AVOID",
         "volume" : 0,
-        "weight" : 0,
         "ammo_type" : "money",
         "count" : 1
     },{
@@ -1196,7 +1195,6 @@
         "color" : "red",
         "description" : "",
         "volume" : 0,
-        "weight" : 0,
         "ammo_type" : "NULL",
         "count" : 1,
         "flags" : ["UNRECOVERABLE"]

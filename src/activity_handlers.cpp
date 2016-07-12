@@ -651,8 +651,8 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act_, player *p )
             break;
         }
 
-        if( removed_charges < original_charges ) {
-            // Transferred less than the available charges -> target must be full
+        if( removed_charges <= original_charges ) {
+            // Transferred less or equal to the available charges -> target must be full
             act.type = ACT_NULL;
         }
 
@@ -1116,6 +1116,10 @@ void activity_handlers::reload_finish( player_activity *act, player *p )
 
     item *reloadable = &p->i_at( std::atoi( act->name.c_str() ) );
     int qty = act->index;
+
+    if( reloadable->type->can_use( "holster" ) && !reloadable->contents.empty() ) {
+        reloadable = &reloadable->contents.front();
+    }
 
     if( !reloadable->reload( *p, item_location( *p, &p->i_at( act->position ) ), act->index ) ) {
         add_msg( m_info, _( "Can't reload the %s." ), reloadable->tname().c_str() );

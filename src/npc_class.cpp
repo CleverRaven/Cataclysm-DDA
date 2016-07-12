@@ -1,7 +1,9 @@
 #include "npc_class.h"
+#include "skill.h"
 #include "debug.h"
 #include "rng.h"
 #include "generic_factory.h"
+#include "item_group.h"
 
 #include <list>
 
@@ -75,11 +77,60 @@ void npc_class::reset_npc_classes()
     npc_class_factory.reset();
 }
 
+// Copies the value under the key "ALL" to all unassigned skills
+template <typename T>
+void apply_all_to_unassigned( T &skills )
+{
+    auto iter = std::find_if( skills.begin(), skills.end(),
+    []( decltype( *begin( skills ) ) &pr ) {
+        return pr.first == "ALL";
+    } );
+
+    if( iter != skills.end() ) {
+        distribution dis = iter->second;
+        skills.erase( iter );
+        for( const auto &sk : Skill::skills ) {
+            if( skills.count( sk.ident() ) == 0 ) {
+                skills[ sk.ident() ] = dis;
+            }
+        }
+    }
+}
+
+void npc_class::finalize_all()
+{
+    for( auto &cl_const : npc_class_factory.get_all() ) {
+        auto &cl = const_cast<npc_class &>( cl_const );
+        apply_all_to_unassigned( cl.skills );
+        apply_all_to_unassigned( cl.bonus_skills );
+
+        for( const auto &pr : cl.bonus_skills ) {
+            if( cl.skills.count( pr.first ) == 0 ) {
+                cl.skills[ pr.first ] = pr.second;
+            } else {
+                cl.skills[ pr.first ] = cl.skills[ pr.first ] + pr.second;
+            }
+        }
+    }
+}
+
 void npc_class::check_consistency()
 {
     for( const auto &legacy : legacy_ids ) {
         if( !npc_class_factory.is_valid( legacy ) ) {
             debugmsg( "Missing legacy npc class %s", legacy.c_str() );
+        }
+    }
+
+    for( auto &cl : npc_class_factory.get_all() ) {
+        if( !item_group::group_is_defined( cl.shopkeeper_item_group ) ) {
+            debugmsg( "Missing shopkeeper item group %s", cl.shopkeeper_item_group.c_str() );
+        }
+
+        for( const auto &pr : cl.skills ) {
+            if( !pr.first.is_valid() ) {
+                debugmsg( "Invalid skill %s", pr.first.c_str() );
+            }
         }
     }
 }
@@ -111,6 +162,18 @@ distribution load_distribution( JsonObject &jo )
         while( jarr.has_more() ) {
             obj = jarr.next_object();
             ret = ret + load_distribution( obj );
+        }
+
+        return ret;
+    }
+
+    if( jo.has_array( "mul" ) ) {
+        JsonArray jarr = jo.get_array( "mul" );
+        JsonObject obj = jarr.next_object();
+        distribution ret = load_distribution( obj );
+        while( jarr.has_more() ) {
+            obj = jarr.next_object();
+            ret = ret * load_distribution( obj );
         }
 
         return ret;
@@ -149,6 +212,27 @@ void npc_class::load( JsonObject &jo )
     bonus_dex = load_distribution( jo, "bonus_dex" );
     bonus_int = load_distribution( jo, "bonus_int" );
     bonus_per = load_distribution( jo, "bonus_per" );
+
+    optional( jo, was_loaded, "shopkeeper_item_group", shopkeeper_item_group );
+
+    if( jo.has_array( "skills" ) ) {
+        JsonArray jarr = jo.get_array( "skills" );
+        while( jarr.has_more() ) {
+            JsonObject skill_obj = jarr.next_object();
+            auto skill_ids = skill_obj.get_tags( "skill" );
+            if( skill_obj.has_object( "level" ) ) {
+                distribution dis = load_distribution( skill_obj, "level" );
+                for( const auto &sid : skill_ids ) {
+                    skills[ skill_id( sid ) ] = dis;
+                }
+            } else {
+                distribution dis = load_distribution( skill_obj, "bonus" );
+                for( const auto &sid : skill_ids ) {
+                    bonus_skills[ skill_id( sid ) ] = dis;
+                }
+            }
+        }
+    }
 }
 
 const npc_class_id &npc_class::from_legacy_int( int i )
@@ -192,6 +276,11 @@ const std::string &npc_class::get_job_description() const
     return job_description;
 }
 
+const Group_tag &npc_class::get_shopkeeper_items() const
+{
+    return shopkeeper_item_group;
+}
+
 int npc_class::roll_strength() const
 {
     return dice( 4, 3 ) + bonus_str.roll();
@@ -210,6 +299,16 @@ int npc_class::roll_intelligence() const
 int npc_class::roll_perception() const
 {
     return dice( 4, 3 ) + bonus_per.roll();
+}
+
+int npc_class::roll_skill( const skill_id &sid ) const
+{
+    const auto &iter = skills.find( sid );
+    if( iter == skills.end() ) {
+        return 0;
+    }
+
+    return std::max<int>( 0, iter->second.roll() );
 }
 
 distribution::distribution()
@@ -273,5 +372,14 @@ distribution distribution::operator+( const distribution &other ) const
     auto other_fun = other.generator_function;
     return distribution( [my_fun, other_fun]() {
         return my_fun() + other_fun();
+    } );
+}
+
+distribution distribution::operator*( const distribution &other ) const
+{
+    auto my_fun = generator_function;
+    auto other_fun = other.generator_function;
+    return distribution( [my_fun, other_fun]() {
+        return my_fun() * other_fun();
     } );
 }

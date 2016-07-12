@@ -201,7 +201,8 @@
     "vision_night":4,
     "hp":60,
     "death_function":"NORMAL",
-    "special_attacks":[["SMOKECLOUD", 1],
+    "emit_fields": [ "emit_smoke_stream" ],
+    "special_attacks":[
         {
             "type": "bite",
             "cooldown": 5,
@@ -284,8 +285,8 @@
     "vision_day":30,
     "vision_night":10,
     "hp":100,
-    "special_attacks":[
-        ["SMOKECLOUD", 1], {
+    "emit_fields": [ "emit_smoke_stream" ],
+    "special_attacks":[{
         "type": "bite",
         "cooldown": 15,
         "no_infection_chance": 5,

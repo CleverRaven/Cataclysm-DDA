@@ -9,11 +9,16 @@
 
 #include "string_id.h"
 
-class npc_class;
-using npc_class_id = string_id<npc_class>;
 class JsonObject;
 
-/** Wrapper class for  */
+class npc_class;
+using npc_class_id = string_id<npc_class>;
+
+class Skill;
+using skill_id = string_id<Skill>;
+
+typedef std::string Group_tag;
+
 // @todo Move to better suited file (rng.h/.cpp?)
 class distribution
 {
@@ -27,6 +32,7 @@ class distribution
         float roll() const;
 
         distribution operator+( const distribution &other ) const;
+        distribution operator*( const distribution &other ) const;
 
         static distribution constant( float val );
         static distribution rng_roll( int from, int to );
@@ -40,12 +46,18 @@ class npc_class
         std::string name;
         std::string job_description;
 
-        bool common;
+        bool common = true;
 
         distribution bonus_str;
         distribution bonus_dex;
         distribution bonus_int;
         distribution bonus_per;
+
+        std::map<skill_id, distribution> skills;
+        // Just for finalization
+        std::map<skill_id, distribution> bonus_skills;
+
+        Group_tag shopkeeper_item_group = "EMPTY_GROUP";
 
     public:
         npc_class_id id;
@@ -61,6 +73,10 @@ class npc_class
         int roll_intelligence() const;
         int roll_perception() const;
 
+        int roll_skill( const skill_id & ) const;
+
+        const Group_tag &get_shopkeeper_items() const;
+
         void load( JsonObject &jo );
 
         static const npc_class_id &from_legacy_int( int i );
@@ -72,6 +88,8 @@ class npc_class
         static const std::vector<npc_class> &get_all();
 
         static void reset_npc_classes();
+
+        static void finalize_all();
 
         static void check_consistency();
 };

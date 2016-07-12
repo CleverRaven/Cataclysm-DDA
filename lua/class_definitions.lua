@@ -593,7 +593,6 @@ classes = {
             { name = "has_charges", rval = "bool", args = { "string", "int" } },
             { name = "has_child_flag", rval = "bool", args = { "string" } },
             { name = "has_conflicting_trait", rval = "bool", args = { "string" } },
-            { name = "has_container_for", rval = "bool", args = { "item" } },
             { name = "has_destination", rval = "bool", args = { } },
             { name = "has_grab_break_tec", rval = "bool", args = { } },
             { name = "has_gun_for_ammo", rval = "bool", args = { "ammotype" } },

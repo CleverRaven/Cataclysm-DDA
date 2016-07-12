@@ -98,7 +98,7 @@ resistances::resistances()
     resist_vals.fill( 0 );
 }
 
-resistances::resistances( item &armor, bool to_self )
+resistances::resistances( const item &armor, bool to_self )
 {
     // Armors protect, but all items can resist
     if( to_self || armor.is_armor() ) {

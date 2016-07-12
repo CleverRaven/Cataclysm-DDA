@@ -4,7 +4,6 @@
     "type": "MAGAZINE",
     "name": "Ammo belt",
     "description": "An ammo belt consisting of metal linkages which disintegrate upon firing.",
-    "weight": 0,
     "volume": 0,
     "price": 0,
     "material": "steel",

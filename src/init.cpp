@@ -74,14 +74,14 @@ DynamicDataLoader &DynamicDataLoader::get_instance()
     return theDynamicDataLoader;
 }
 
-void DynamicDataLoader::load_object(JsonObject &jo)
+void DynamicDataLoader::load_object( JsonObject &jo, const std::string &src )
 {
     std::string type = jo.get_string("type");
     t_type_function_map::iterator it = type_function_map.find(type);
     if (it == type_function_map.end()) {
         jo.throw_error( "unrecognized JSON object", "type" );
     }
-    it->second(jo);
+    it->second( jo, src );
 }
 
 void load_ingored_type(JsonObject &jo)
@@ -92,9 +92,17 @@ void load_ingored_type(JsonObject &jo)
     (void) jo;
 }
 
+void DynamicDataLoader::add( const std::string &type, std::function<void(JsonObject &, const std::string &)> f )
+{
+    const auto pair = type_function_map.emplace( type, f );
+    if( !pair.second ) {
+        debugmsg( "tried to insert a second handler for type %s into the DynamicDataLoader", type.c_str() );
+    }
+}
+
 void DynamicDataLoader::add( const std::string &type, std::function<void(JsonObject&)> f )
 {
-    const auto pair = type_function_map.insert( std::make_pair( type, std::move( f ) ) );
+    const auto pair = type_function_map.emplace( type, [f]( JsonObject &obj, const std::string & ) { f( obj ); } );
     if( !pair.second ) {
         debugmsg( "tried to insert a second handler for type %s into the DynamicDataLoader", type.c_str() );
     }
@@ -108,7 +116,7 @@ void DynamicDataLoader::initialize()
     add( "fault", &fault::load_fault );
     add( "emit", &emit::load_emit );
     add( "vitamin", &vitamin::load_vitamin );
-    add( "material", &material_type::load_material );
+    add( "material", &materials::load );
     add( "bionic", &load_bionic );
     add( "profession", &profession::load_profession );
     add( "skill", &Skill::load_skill );
@@ -139,20 +147,22 @@ void DynamicDataLoader::initialize()
 
     add( "requirement", []( JsonObject &jo ) { requirement_data::load_requirement( jo ); } );
     add( "trap", &trap::load );
-    add( "AMMO", []( JsonObject &jo ) { item_controller->load_ammo( jo ); } );
-    add( "GUN", []( JsonObject &jo ) { item_controller->load_gun( jo ); } );
-    add( "ARMOR", []( JsonObject &jo ) { item_controller->load_armor( jo ); } );
-    add( "TOOL", []( JsonObject &jo ) { item_controller->load_tool( jo ); } );
-    add( "TOOL_ARMOR", []( JsonObject &jo ) { item_controller->load_tool_armor( jo ); } );
-    add( "BOOK", []( JsonObject &jo ) { item_controller->load_book( jo ); } );
-    add( "COMESTIBLE", []( JsonObject &jo ) { item_controller->load_comestible( jo ); } );
-    add( "CONTAINER", []( JsonObject &jo ) { item_controller->load_container( jo ); } );
-    add( "ENGINE", []( JsonObject &jo ) { item_controller->load_engine( jo ); } );
-    add( "WHEEL", []( JsonObject &jo ) { item_controller->load_wheel( jo ); } );
-    add( "GUNMOD", []( JsonObject &jo ) { item_controller->load_gunmod( jo ); } );
-    add( "MAGAZINE", []( JsonObject &jo ) { item_controller->load_magazine( jo ); } );
-    add( "GENERIC", []( JsonObject &jo ) { item_controller->load_generic( jo ); } );
-    add( "BIONIC_ITEM", []( JsonObject &jo ) { item_controller->load_bionic( jo ); } );
+
+    add( "AMMO", []( JsonObject &jo, const std::string &src ) { item_controller->load_ammo( jo, src ); } );
+    add( "GUN", []( JsonObject &jo, const std::string &src ) { item_controller->load_gun( jo, src ); } );
+    add( "ARMOR", []( JsonObject &jo, const std::string &src ) { item_controller->load_armor( jo, src ); } );
+    add( "TOOL", []( JsonObject &jo, const std::string &src ) { item_controller->load_tool( jo, src ); } );
+    add( "TOOL_ARMOR", []( JsonObject &jo, const std::string &src ) { item_controller->load_tool_armor( jo, src ); } );
+    add( "BOOK", []( JsonObject &jo, const std::string &src ) { item_controller->load_book( jo, src ); } );
+    add( "COMESTIBLE", []( JsonObject &jo, const std::string &src ) { item_controller->load_comestible( jo, src ); } );
+    add( "CONTAINER", []( JsonObject &jo, const std::string &src ) { item_controller->load_container( jo, src ); } );
+    add( "ENGINE", []( JsonObject &jo, const std::string &src ) { item_controller->load_engine( jo, src ); } );
+    add( "WHEEL", []( JsonObject &jo, const std::string &src ) { item_controller->load_wheel( jo, src ); } );
+    add( "GUNMOD", []( JsonObject &jo, const std::string &src ) { item_controller->load_gunmod( jo, src ); } );
+    add( "MAGAZINE", []( JsonObject &jo, const std::string &src ) { item_controller->load_magazine( jo, src ); } );
+    add( "GENERIC", []( JsonObject &jo, const std::string &src ) { item_controller->load_generic( jo, src ); } );
+    add( "BIONIC_ITEM", []( JsonObject &jo, const std::string &src ) { item_controller->load_bionic( jo, src ); } );
+
     add( "ITEM_CATEGORY", []( JsonObject &jo ) { item_controller->load_item_category( jo ); } );
     add( "MIGRATION", []( JsonObject &jo ) { item_controller->load_migration( jo ); } );
 
@@ -197,7 +207,7 @@ void DynamicDataLoader::initialize()
     add( "overlay_order", &load_overlay_ordering );
 }
 
-void DynamicDataLoader::load_data_from_path(const std::string &path)
+void DynamicDataLoader::load_data_from_path( const std::string &path, const std::string &src )
 {
     // We assume that each folder is consistent in itself,
     // and all the previously loaded folders.
@@ -230,19 +240,19 @@ void DynamicDataLoader::load_data_from_path(const std::string &path)
         try {
             // parse it
             JsonIn jsin(iss);
-            load_all_from_json(jsin);
+            load_all_from_json( jsin, src );
         } catch( const JsonError &err ) {
             throw std::runtime_error( file + ": " + err.what() );
         }
     }
 }
 
-void DynamicDataLoader::load_all_from_json(JsonIn &jsin)
+void DynamicDataLoader::load_all_from_json( JsonIn &jsin, const std::string &src )
 {
     if( jsin.test_object() ) {
         // find type and dispatch single object
         JsonObject jo = jsin.get_object();
-        load_object(jo);
+        load_object( jo, src );
         jo.finish();
         // if there's anything else in the file, it's an error.
         jsin.eat_whitespace();
@@ -254,7 +264,7 @@ void DynamicDataLoader::load_all_from_json(JsonIn &jsin)
         // find type and dispatch each object until array close
         while (!jsin.end_array()) {
             JsonObject jo = jsin.get_object();
-            load_object(jo);
+            load_object( jo, src );
             jo.finish();
         }
     } else {
@@ -276,7 +286,7 @@ void DynamicDataLoader::unload_data()
     vitamin::reset();
     emit::reset();
     fault::reset();
-    material_type::reset();
+    materials::reset();
     profession::reset();
     Skill::reset();
     dreams.clear();
@@ -339,6 +349,7 @@ void DynamicDataLoader::finalize_loaded_data()
     finalize_recipes();
     finialize_martial_arts();
     finalize_constructions();
+    npc_class::finalize_all();
     check_consistency();
 }
 
@@ -348,6 +359,7 @@ void DynamicDataLoader::check_consistency()
     vitamin::check_consistency();
     emit::check_consistency();
     item_controller->check_definitions();
+    materials::check();
     fault::check_consistency();
     vpart_info::check();
     MonsterGenerator::generator().check_monster_definitions();

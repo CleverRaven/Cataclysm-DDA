@@ -180,7 +180,6 @@
     "type": "GUNMOD",
     "name": "KSG second magazine",
     "description": "",
-    "weight": 0,
     "volume": 0,
     "price": 0,
     "material": [ "steel" ],
