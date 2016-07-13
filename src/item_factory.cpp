@@ -896,6 +896,16 @@ void Item_factory::check_definitions() const
             }
         }
     }
+    for( const auto& e : migrations ) {
+        if( !m_templates.count( e.second.replace ) ) {
+            main_stream << "Invalid migration target: " << e.second.replace << "\n";
+        }
+        for( const auto& c : e.second.contents ) {
+            if( !m_templates.count( c ) ) {
+                main_stream << "Invalid migration contents: " << c << "\n";
+            }
+        }
+    }
     const std::string &buffer = main_stream.str();
     if (!buffer.empty()) {
         if( stdscr == nullptr ) {
@@ -908,17 +918,6 @@ void Item_factory::check_definitions() const
     }
     for( const auto &elem : m_template_groups ) {
         elem.second->check_consistency();
-    }
-
-    for( const auto& e : migrations ) {
-        if( !m_templates.count( e.second.replace ) ) {
-            main_stream << "Invalid migration target: " << e.second.replace << "\n";
-        }
-        for( const auto& c : e.second.contents ) {
-            if( !m_templates.count( c ) ) {
-                main_stream << "Invalid migration contents: " << c << "\n";
-            }
-        }
     }
 }
 
