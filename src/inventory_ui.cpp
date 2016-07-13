@@ -30,11 +30,13 @@ inventory_entry::inventory_entry( const std::shared_ptr<item_location> &location
                                   const item_category *custom_category ) :
     inventory_entry( location, ( location->get_item() != nullptr ) ? 1 : 0, custom_category ) {}
 
-bool inventory_entry::is_item() const {
+bool inventory_entry::is_item() const
+{
     return location->get_item() != nullptr;
 }
 
-bool inventory_entry::is_null() const {
+bool inventory_entry::is_null() const
+{
     return get_category_ptr() == nullptr;
 }
 
@@ -64,6 +66,13 @@ const item_category *inventory_entry::get_category_ptr() const {
         ? custom_category : is_item() ? &get_item().get_category() : nullptr;
 }
 
+bool inventory_column::activatable() const
+{
+    return std::any_of( entries.begin(), entries.end(), []( const inventory_entry &entry ) {
+        return entry.is_selectable();
+    } );
+}
+
 inventory_entry *inventory_column::find_by_invlet( long invlet ) const
 {
     for( const auto &entry : entries ) {
@@ -83,12 +92,34 @@ size_t inventory_column::get_width() const
     return res;
 }
 
-void inventory_column::select( size_t new_index )
+void inventory_column::select( size_t new_index, int step )
 {
-    if( new_index != selected_index && new_index < entries.size() ) {
+    if( new_index < entries.size() ) {
         selected_index = new_index;
         page_offset = selected_index - selected_index % entries_per_page;
+
+        if( !entries[selected_index].is_selectable() ) {
+            move_selection( step );
+        }
     }
+}
+
+void inventory_column::move_selection( int step )
+{
+    if( step == 0 ) {
+        return;
+    }
+    const auto get_incremented = [ this ]( size_t index, int step ) -> size_t {
+        return ( index + step + entries.size() ) % entries.size();
+    };
+
+    size_t index = get_incremented( selected_index, step );
+    while( entries[index] != get_selected() && ( !entries[index].is_selectable()
+                                              || is_selected_by_category( entries[index] ) ) ) {
+        index = get_incremented( index, ( step > 0 ? 1 : -1 ) );
+    }
+
+    select( index );
 }
 
 size_t inventory_column::page_of( size_t index ) const {
@@ -140,19 +171,6 @@ void inventory_column::on_action( const std::string &action )
         return; // ignore
     }
 
-    const auto move_selection = [ this ]( int step ) {
-        const auto get_incremented = [ this ]( size_t index, int step ) -> size_t {
-            return ( index + step + entries.size() ) % entries.size();
-        };
-
-        size_t index = get_incremented( selected_index, step );
-        while( entries[index] != get_selected() && ( !entries[index].is_item() || is_selected_by_category( entries[index] ) ) ) {
-            index = get_incremented( index, ( step > 0 ? 1 : -1 ) );
-        }
-
-        select( index );
-    };
-
     if( action == "DOWN" ) {
         move_selection( 1 );
     } else if( action == "UP" ) {
@@ -162,9 +180,9 @@ void inventory_column::on_action( const std::string &action )
     } else if( action == "PREV_TAB" ) {
         move_selection( std::min( std::max<int>( UINT32_MAX - entries_per_page + 1, (UINT32_MAX - selected_index + 1) + 1 ), -1 ) );
     } else if( action == "HOME" ) {
-        select( 1 );
+        select( 0, 1 );
     } else if( action == "END" ) {
-        select( entries.size() - 1 );
+        select( entries.size() - 1, -1 );
     }
 }
 
@@ -209,6 +227,8 @@ void inventory_column::prepare_paging( size_t new_entries_per_page )
             : inventory_entry( current_category ); // the first item on the page must be a category
         entries.insert( entries.begin() + i, insertion );
     }
+
+    select( 0, 1 );
 }
 
 std::string inventory_column::get_entry_text( const inventory_entry &entry ) const
@@ -239,12 +259,15 @@ std::string inventory_column::get_entry_text( const inventory_entry &entry ) con
     } else if( entry.get_category_ptr() != nullptr ) {
         res << entry.get_category_ptr()->name;
     }
-    return res.str();
+    // Disabled entry should not have any color
+    return entry.enabled ? res.str() : remove_color_tags( res.str() );
 }
 
 nc_color inventory_column::get_entry_color( const inventory_entry &entry ) const
 {
-    if( entry.is_item() ) {
+    if( !entry.enabled ) {
+        return c_dkgray;
+    } else if( entry.is_item() ) {
         return ( active && is_selected( entry ) )
             ? h_white
             : ( custom_colors && entry.custom_color != c_unset )
@@ -274,10 +297,9 @@ void inventory_column::draw( WINDOW *win, size_t x, size_t y ) const
         trim_and_print( win, y + line, x + get_entry_indent( entry ), getmaxx( win ) - x,
                         get_entry_color( entry ), "%s", get_entry_text( entry ).c_str() );
 
-        const auto invlet = entry.get_invlet();
-        if( invlet != '\0' ) {
-            const nc_color invlet_color = g->u.assigned_invlet.count( invlet ) ? c_yellow : c_white;
-            mvwputch( win, y + line, x, invlet_color, invlet );
+        if( entry.is_selectable() && entry.get_invlet() != '\0' ) {
+            const nc_color invlet_color = g->u.assigned_invlet.count( entry.get_invlet() ) ? c_yellow : c_white;
+            mvwputch( win, y + line, x, invlet_color, entry.get_invlet() );
         }
     }
 }
@@ -323,9 +345,9 @@ void selection_column::on_change( const inventory_entry &entry )
     // Now let's update selection
     const auto select_iter = std::find( entries.begin(), entries.end(), my_entry );
     if( select_iter != entries.end() ) {
-        select( std::distance( entries.begin(), select_iter ) );
+        select( std::distance( entries.begin(), select_iter ), 1 );
     } else {
-        select( entries.empty() ? 0 : entries.size() - 1 ); // Just select the last one
+        select( entries.empty() ? 0 : entries.size() - 1, -1 ); // Just select the last one
     }
 }
 
@@ -412,10 +434,12 @@ void inventory_selector::add_item( const std::shared_ptr<item_location> &locatio
 
     inventory_entry entry( location, stack_size, cat_ptr );
 
-    if( !u.has_item( *( *location ) ) ) {
-        entry.custom_invlet = ( cur_custom_invlet <= max_custom_invlet ) ? cur_custom_invlet++ : '\0';
-    }
+    entry.enabled = response.type == item_filter_response::fine;
     entry.custom_color = custom_color;
+
+    if( !u.has_item( *( *location ) ) ) {
+        entry.custom_invlet = ( entry.enabled && cur_custom_invlet <= max_custom_invlet ) ? cur_custom_invlet++ : '\0';
+    }
 
     if( is_custom ) {
         if( custom_column == nullptr ) {

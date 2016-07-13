@@ -37,6 +37,7 @@ class inventory_entry
         const item_category *custom_category;
 
     public:
+        bool enabled = true;
         size_t chosen_count = 0;
         nc_color custom_color = c_unset;
         long custom_invlet = LONG_MIN;
@@ -66,6 +67,9 @@ class inventory_entry
 
         bool is_item() const;
         bool is_null() const;
+        bool is_selectable() const {
+            return enabled && is_item();
+        }
 
         size_t get_stack_size() const {
             return stack_size;
@@ -90,7 +94,7 @@ class inventory_column
             active( false ),
             multiselect( false ),
             custom_colors( false ),
-            selected_index( 1 ),
+            selected_index( 0 ),
             page_offset( 0 ),
             entries_per_page( 1 ) {}
 
@@ -100,9 +104,7 @@ class inventory_column
             return entries.empty();
         }
         // true if can be activated
-        virtual bool activatable() const {
-            return !empty();
-        }
+        virtual bool activatable() const;
         // true if allows selecting entries
         virtual bool allows_selecting() const {
             return activatable();
@@ -158,7 +160,9 @@ class inventory_column
         }
 
     protected:
-        void select( size_t new_index );
+        void select( size_t new_index, int step = 0 );
+        void move_selection( int step );
+
         size_t page_of( size_t index ) const;
         size_t page_of( const inventory_entry &entry ) const;
 
