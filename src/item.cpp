@@ -890,17 +890,11 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
 
         insert_separation_line();
 
-        int eff_min = round( g->u.gun_engagement_range( *mod, player::engagement::effective_min, MIN_RECOIL ) );
         int eff_max = round( g->u.gun_engagement_range( *mod, player::engagement::effective_max, MIN_RECOIL ) );
         int abs_max = round( g->u.gun_engagement_range( *mod, player::engagement::absolute_max,  MIN_RECOIL ) );
 
-        if( eff_min != eff_max ) {
-            info.emplace_back( "GUN", _( "<bold>Effective range:</bold> " ), "<num>", eff_min, true, "", false );
-            info.emplace_back( "GUN", "eff_max", "<num>", eff_max, true, "-", abs_max <= 0, false, false );
-
-        } else if( eff_min > 0 ) {
-            // nothing displayed if both values zero
-            info.emplace_back( "GUN", _( "<bold>Effective range: </bold>" ), "<num>", eff_min, true, "", abs_max <= 0 );
+        if( eff_max > 0 ) {
+            info.emplace_back( "GUN", _( "<bold>Effective range: </bold>" ), "<num>", eff_max, true, "", abs_max <= 0 );
         }
 
         if( abs_max > 0 ) {
