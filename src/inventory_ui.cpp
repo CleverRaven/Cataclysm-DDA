@@ -217,24 +217,36 @@ void inventory_column::prepare_paging( size_t new_entries_per_page )
     if( new_entries_per_page != 0 ) { // Keep default otherwise
         entries_per_page = new_entries_per_page;
     }
+    // First, remove all non-items
     const auto new_end = std::remove_if( entries.begin(), entries.end(), []( const inventory_entry &entry ) {
         return !entry.is_item();
     } );
     entries.erase( new_end, entries.end() );
-
+    // Then sort them with respect to categories
+    auto from = entries.begin();
+    while( from != entries.end() ) {
+        auto to = std::next( from );
+        while( to != entries.end() && from->get_category_ptr() == to->get_category_ptr() ) {
+            std::advance( to, 1 );
+        }
+        std::sort( from, to, []( const inventory_entry &lhs, const inventory_entry &rhs ) {
+            return ( lhs.enabled && !rhs.enabled ) || ( lhs.enabled == rhs.enabled && lhs.rank < rhs.rank );
+        } );
+        from = to;
+    }
+    // Recover categories according to the new number of entries per page
     const item_category *current_category = nullptr;
     for( size_t i = 0; i < entries.size(); ++i ) {
         if( entries[i].get_category_ptr() == current_category && i % entries_per_page != 0 ) {
             continue;
         }
-
         current_category = entries[i].get_category_ptr();
         const inventory_entry insertion = ( i % entries_per_page == entries_per_page - 1 )
             ? inventory_entry() // the last item on the page must not be a category
             : inventory_entry( current_category ); // the first item on the page must be a category
         entries.insert( entries.begin() + i, insertion );
     }
-
+    // Select the uppermost possible entry
     select( 0, 1 );
 }
 
@@ -457,6 +469,7 @@ void inventory_selector::add_item( const std::shared_ptr<item_location> &locatio
     inventory_entry entry( location, stack_size, cat_ptr );
 
     entry.enabled = response.type == item_filter_response::fine;
+    entry.rank = response.rank;
     entry.custom_color = custom_color;
 
     if( !u.has_item( *( *location ) ) ) {

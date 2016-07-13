@@ -39,6 +39,7 @@ class inventory_entry
 
     public:
         bool enabled = true;
+        int rank = 0;
         size_t chosen_count = 0;
         nc_color custom_color = c_unset;
         long custom_invlet = LONG_MIN;
