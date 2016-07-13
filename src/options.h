@@ -110,17 +110,6 @@ class options_manager : public JsonSerializer, public JsonDeserializer
                 template<typename T>
                 T value_as() const;
 
-                //Set default class behaviour to float
-                operator float() const;
-                // return integer via int
-                explicit operator int() const;
-                //allow (explicit) boolean conversions
-                explicit operator bool() const;
-                // if (class == "string")
-                bool operator==( const std::string sCompare ) const;
-                // if (class != "string")
-                bool operator!=( const std::string sCompare ) const;
-
                 bool operator==( const cOpt &rhs ) const;
                 bool operator!=( const cOpt &rhs ) const {
                     return !operator==( rhs );

@@ -619,58 +619,6 @@ void options_manager::cOpt::setValue(std::string sSetIn)
     }
 }
 
-//Set default class behaviour to float
-options_manager::cOpt::operator float() const
-{
-    if (sType == "string_select") {
-        return (!sSet.empty() && sSet == sDefault) ? 1.0f : 0.0f;
-    } else if (sType == "string_input") {
-        return (!sSet.empty()) ? 1.0f : 0.0f;
-    } else if (sType == "bool") {
-        return (bSet) ? 1.0f : 0.0f;
-    } else if (sType == "int" || sType == "int_map") {
-        return static_cast<float>(iSet);
-    } else if (sType == "float") {
-        return fSet;
-    }
-
-    return 0.0f;
-}
-
-options_manager::cOpt::operator int() const
-{
-    if (sType == "string_select") {
-        return (!sSet.empty() && sSet == sDefault) ? 1 : 0;
-    } else if (sType == "string_input") {
-        return (!sSet.empty()) ? 1 : 0;
-    } else if (sType == "bool") {
-        return (bSet) ? 1 : 0;
-    } else if (sType == "int" || sType == "int_map") {
-        return iSet;
-    } else if (sType == "float") {
-        return static_cast<int>(fSet);
-    }
-
-    return 0;
-}
-
-options_manager::cOpt::operator bool() const
-{
-    return static_cast<float>(*this) != 0.0f;
-}
-
-// if (class == "string")
-bool options_manager::cOpt::operator==(const std::string sCompare) const
-{
-    return ((sType == "string_select" || sType == "string_input") && sSet == sCompare);
-}
-
-// if (class != "string")
-bool options_manager::cOpt::operator!=(const std::string sCompare) const
-{
-    return !(*this == sCompare);
-}
-
 /** Fill a mapping with values.
  * Scans all directores in FILENAMES[dirname_label] directory for
  * a file named FILENAMES[filename_label].
