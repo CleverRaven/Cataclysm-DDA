@@ -335,7 +335,7 @@
             "no_ammo_sound": "Rownt:("
         }],
     "starting_ammo": { "hell_plasma_b": 66 },
-    "description":"A towering monster vaguely reminicent of a satyr.  A ranking member of the ruling species of its domains, it is given command.  Its plasma blasts are deadly.",
+    "description":"A towering monster vaguely reminiscent of a satyr.  A ranking member of the ruling species of its domains, it is given command.  Its plasma blasts are deadly.",
     "flags":["SEES", "HEARS", "SMELLS", "PATH_AVOID_DANGER_1", "PRIORITIZE_TARGETS", "WARM", "BASHES", "GROUP_BASH", "DESTROYS", "POISON", "BONES", "PUSH_MON", "BLEED"]
     },{
     "type": "MONSTER",
@@ -464,7 +464,7 @@
     "vision_day":45,
     "vision_night":5,
     "hp":140,
-    "death_function":["SMOKEBURST", "BROKEN"],
+    "death_function":["SMOKEBURST", "NORMAL"],
     "special_attacks":[
     {
             "type": "gun",
