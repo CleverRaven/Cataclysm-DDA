@@ -36,21 +36,24 @@ class inventory_entry
 {
     public:
         item_location location;
+
         size_t chosen_count = 0;
         long custom_invlet = LONG_MIN;
 
         inventory_entry( const item_location &location, size_t stack_size,
-                         const item_category *custom_category = nullptr ) :
+                         const item_category *custom_category = nullptr, bool enabled = true ) :
             location( location.clone() ),
             stack_size( stack_size ),
-            custom_category( custom_category ) {}
+            custom_category( custom_category ),
+            enabled( enabled ) {}
 
         inventory_entry( const inventory_entry &entry ) :
             location( entry.location.clone() ),
             chosen_count( entry.chosen_count ),
             custom_invlet( entry.custom_invlet ),
             stack_size( entry.stack_size ),
-            custom_category( entry.custom_category ) {}
+            custom_category( entry.custom_category ),
+            enabled( entry.enabled ) {}
 
         inventory_entry operator=( const inventory_entry &rhs ) {
             location = rhs.location.clone();
@@ -58,11 +61,13 @@ class inventory_entry
             custom_invlet = rhs.custom_invlet;
             stack_size = rhs.stack_size;
             custom_category = rhs.custom_category;
+            enabled = rhs.enabled;
             return *this;
         }
 
-        inventory_entry( const item_location &location, const item_category *custom_category = nullptr ) :
-            inventory_entry( location, location ? 1 : 0, custom_category ) {}
+        inventory_entry( const item_location &location, const item_category *custom_category = nullptr,
+                         bool enabled = true ) :
+            inventory_entry( location, location ? 1 : 0, custom_category, enabled ) {}
 
         inventory_entry( const item_category *custom_category = nullptr ) :
             inventory_entry( item_location(), custom_category ) {}
@@ -82,6 +87,10 @@ class inventory_entry
             return get_category_ptr() != nullptr;
         }
 
+        bool is_selectable() const {
+            return enabled && location;
+        }
+
         size_t get_stack_size() const {
             return stack_size;
         }
@@ -93,6 +102,8 @@ class inventory_entry
     private:
         size_t stack_size;
         const item_category *custom_category;
+        bool enabled = true;
+
 };
 
 class inventory_selector_preset
@@ -101,6 +112,10 @@ class inventory_selector_preset
         inventory_selector_preset();
 
         virtual bool is_shown( const item_location & ) const {
+            return true;
+        }
+
+        virtual bool is_enabled( const item_location & ) const {
             return true;
         }
 
@@ -137,7 +152,7 @@ class inventory_column
             multiselect( false ),
             paging_is_valid( false ),
             visibility( true ),
-            selected_index( 1 ),
+            selected_index( 0 ),
             page_offset( 0 ),
             entries_per_page( 1 ) {
 
@@ -150,14 +165,11 @@ class inventory_column
             return entries.empty();
         }
         // true if can be activated
-        virtual bool activatable() const {
-            return !empty();
-        }
+        virtual bool activatable() const;
         // true if displayed
         bool visible() const {
             return !empty() && visibility && preset.get_cells_count() > 0;
         }
-
         // true if allows selecting entries
         virtual bool allows_selecting() const {
             return activatable();
@@ -224,7 +236,9 @@ class inventory_column
         }
 
     protected:
-        void select( size_t new_index );
+        void select( size_t new_index, int step = 0 );
+        void move_selection( int step );
+
         size_t page_of( size_t index ) const;
         size_t page_of( const inventory_entry &entry ) const;
 
