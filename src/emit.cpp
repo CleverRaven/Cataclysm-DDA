@@ -6,7 +6,11 @@
 #include "generic_factory.h"
 
 template <>
-const emit_id string_id<emit>::NULL_ID( "null" );
+const emit_id& string_id<emit>::NULL_ID()
+{
+    static emit_id instance("null");
+    return instance;
+}
 
 static std::map<emit_id, emit> emits_all;
 

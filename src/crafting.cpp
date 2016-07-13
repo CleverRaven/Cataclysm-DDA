@@ -80,7 +80,7 @@ void load_recipe( JsonObject &jsobj )
 
     std::string subcategory = jsobj.get_string( "subcategory", "" );
     bool reversible = jsobj.get_bool( "reversible", false );
-    skill_id skill_used( jsobj.get_string( "skill_used", skill_id::NULL_ID.str() ) );
+    skill_id skill_used( jsobj.get_string( "skill_used", skill_id(NULL_ID).str() ) );
     std::string id_suffix = jsobj.get_string( "id_suffix", "" );
     double batch_rscale = 0.0;
     int batch_rsize = 0;

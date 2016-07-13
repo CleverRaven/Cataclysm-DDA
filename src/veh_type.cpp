@@ -91,7 +91,11 @@ static std::map<vpart_str_id, vpart_info> abstract_parts;
 static std::list<std::pair<std::string, std::string>> deferred;
 
 template<>
-const vpart_str_id string_id<vpart_info>::NULL_ID( "null" );
+const vpart_str_id& string_id<vpart_info>::NULL_ID()
+{
+    static vpart_str_id instance("null");
+    return instance;
+}
 
 template<>
 const vpart_info &int_id<vpart_info>::obj() const

@@ -31,7 +31,11 @@ bool string_id<effect_type>::is_valid() const
 }
 
 template<>
-const efftype_id string_id<effect_type>::NULL_ID( "null" );
+const efftype_id& string_id<effect_type>::NULL_ID()
+{
+    static efftype_id instance("null");
+    return instance;
+}
 
 const efftype_id effect_weed_high( "weed_high" );
 
