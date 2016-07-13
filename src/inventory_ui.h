@@ -13,10 +13,11 @@
 
 class Character;
 
+struct inventory_input;
+
 class item;
 class item_category;
 class item_location;
-
 class player;
 
 enum class navigation_mode : int {
@@ -149,7 +150,7 @@ class inventory_column
         virtual size_t get_width() const;
         virtual void prepare_paging( size_t new_entries_per_page = 0 ); // Zero means unchanged
 
-        virtual void on_action( const std::string &action );
+        virtual void on_input( const inventory_input &input );
         virtual void on_change( const inventory_entry & ) {}
 
         virtual void on_activate() {
@@ -227,9 +228,8 @@ class inventory_selector
 
     protected:
         player &u;
-        /** The input context for navigation, already contains some actions for movement.
-         * See @ref on_action */
-        input_context ctxt;
+
+        inventory_input get_input();
 
         void add_item( const std::shared_ptr<item_location> &location,
                        size_t stack_size = 1,
@@ -244,7 +244,7 @@ class inventory_selector
         /** Refreshes item categories */
         void prepare_columns( bool multiselect );
         /** Given an action from the input_context, try to act according to it. */
-        void on_action( const std::string &action );
+        void on_input( const inventory_input &input );
         /** Entry has been changed */
         void on_change( const inventory_entry &entry );
 
@@ -297,6 +297,7 @@ class inventory_selector
         size_t active_column_index;
         std::list<item_category> categories;
         navigation_mode navigation;
+        input_context ctxt;
 
         void insert_column( decltype( columns )::iterator position,
                             std::unique_ptr<inventory_column> &new_column );

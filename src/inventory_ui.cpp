@@ -22,6 +22,13 @@
 #include <sstream>
 #include <algorithm>
 
+struct inventory_input
+{
+    std::string action;
+    long ch;
+    inventory_entry *entry;
+};
+
 bool inventory_entry::operator == ( const inventory_entry &other ) const {
     return get_category_ptr() == other.get_category_ptr() && location == other.location;
 }
@@ -165,23 +172,23 @@ std::vector<inventory_entry *> inventory_column::get_all_selected() const
     return res;
 }
 
-void inventory_column::on_action( const std::string &action )
+void inventory_column::on_input( const inventory_input &input )
 {
     if( empty() || !active ) {
         return; // ignore
     }
 
-    if( action == "DOWN" ) {
+    if( input.action == "DOWN" ) {
         move_selection( 1 );
-    } else if( action == "UP" ) {
+    } else if( input.action == "UP" ) {
         move_selection( -1 );
-    } else if( action == "NEXT_TAB" ) {
+    } else if( input.action == "NEXT_TAB" ) {
         move_selection( std::max( std::min<int>( entries_per_page, entries.size() - selected_index - 1 ), 1 ) );
-    } else if( action == "PREV_TAB" ) {
+    } else if( input.action == "PREV_TAB" ) {
         move_selection( std::min( std::max<int>( UINT32_MAX - entries_per_page + 1, (UINT32_MAX - selected_index + 1) + 1 ), -1 ) );
-    } else if( action == "HOME" ) {
+    } else if( input.action == "HOME" ) {
         select( 0, 1 );
-    } else if( action == "END" ) {
+    } else if( input.action == "END" ) {
         select( entries.size() - 1, -1 );
     }
 }
@@ -378,6 +385,21 @@ std::string selection_column::get_entry_text( const inventory_entry &entry ) con
     }
 
     return res.str();
+}
+
+inventory_input inventory_selector::get_input()
+{
+    inventory_input res;
+
+    res.action = ctxt.handle_input();
+    res.ch = ctxt.get_raw_input().get_first_input();
+    res.entry = find_entry_by_invlet( res.ch );
+
+    if( res.entry != nullptr && !res.entry->is_selectable() ) {
+        res.entry = nullptr;
+    }
+
+    return res;
 }
 
 // @todo Move it into some 'item_stack' class.
@@ -651,13 +673,13 @@ void inventory_selector::draw( WINDOW *w ) const
 
 inventory_selector::inventory_selector( player &u, const std::string &title, const item_filter_advanced &filter )
     : u(u)
-    , ctxt( "INVENTORY" )
     , title( title )
     , filter( filter )
     , w_inv( newwin( TERMY, TERMX, VIEW_OFFSET_Y, VIEW_OFFSET_X ) )
     , columns()
     , active_column_index( 0 )
     , navigation( navigation_mode::ITEM )
+    , ctxt( "INVENTORY" )
 {
     ctxt.register_action("DOWN", _("Next item"));
     ctxt.register_action("UP", _("Previous item"));
@@ -695,17 +717,17 @@ bool inventory_selector::empty() const
     return custom_column == nullptr || custom_column->empty();
 }
 
-void inventory_selector::on_action( const std::string &action )
+void inventory_selector::on_input( const inventory_input &input )
 {
-    if( action == "CATEGORY_SELECTION" ) {
+    if( input.action == "CATEGORY_SELECTION" ) {
         toggle_navigation_mode();
-    } else if( action == "LEFT" ) {
+    } else if( input.action == "LEFT" ) {
         toggle_active_column();
     } else {
         for( auto &column : columns ) {
-            column->on_action( action );
+            column->on_input( input );
         }
-        refresh_active_column(); // Columns can react to actions by losing their activation capacity
+        refresh_active_column(); // Columns can react to input by losing their activation capacity
     }
 }
 
@@ -805,18 +827,16 @@ item_location &inventory_pick_selector::execute()
     while( true ) {
         refresh_window();
 
-        const std::string action = ctxt.handle_input();
-        const long ch = ctxt.get_raw_input().get_first_input();
-        const auto entry = find_entry_by_invlet( ch );
+        const inventory_input input = get_input();
 
-        if( entry != nullptr ) {
-            return entry->get_location();
-        } else if( action == "QUIT" ) {
+        if( input.entry != nullptr ) {
+            return input.entry->get_location();
+        } else if( input.action == "QUIT" ) {
             return *null_location;
-        } else if( action == "RIGHT" || action == "CONFIRM" ) {
+        } else if( input.action == "RIGHT" || input.action == "CONFIRM" ) {
             return get_active_column().get_selected().get_location();
         } else {
-            on_action( action );
+            on_input( input );
         }
     }
 }
@@ -842,13 +862,11 @@ std::pair<const item *, const item *> inventory_compare_selector::execute()
     while(true) {
         refresh_window();
 
-        const std::string action = ctxt.handle_input();
-        const long ch = ctxt.get_raw_input().get_first_input();
-        const auto entry = find_entry_by_invlet( ch );
+        const inventory_input input = get_input();
 
-        if( entry != nullptr ) {
-            toggle_entry( entry );
-        } else if(action == "RIGHT") {
+        if( input.entry != nullptr ) {
+            toggle_entry( input.entry );
+        } else if( input.action == "RIGHT" ) {
             const auto selection( get_active_column().get_all_selected() );
 
             for( auto &entry : selection ) {
@@ -859,10 +877,10 @@ std::pair<const item *, const item *> inventory_compare_selector::execute()
                     }
                 }
             }
-        } else if( action == "QUIT" ) {
+        } else if( input.action == "QUIT" ) {
             return std::make_pair( nullptr, nullptr );
         } else {
-            on_action( action );
+            on_input( input );
         }
 
         if( compared.size() == 2 ) {
@@ -909,28 +927,26 @@ std::list<std::pair<int, int>> inventory_drop_selector::execute()
     while( true ) {
         refresh_window();
 
-        const std::string action = ctxt.handle_input();
-        const long ch = ctxt.get_raw_input().get_first_input();
-        auto entry = find_entry_by_invlet( ch );
+        const inventory_input input = get_input();
 
-        if( ch >= '0' && ch <= '9' ) {
+        if( input.ch >= '0' && input.ch <= '9' ) {
             count = std::min( count, INT_MAX / 10 - 10 );
             count *= 10;
-            count += ch - '0';
-        } else if( entry != nullptr ) {
-            set_drop_count( *entry, count );
+            count += input.ch - '0';
+        } else if( input.entry != nullptr ) {
+            set_drop_count( *input.entry, count );
             count = 0;
-        } else if( action == "RIGHT" ) {
+        } else if( input.action == "RIGHT" ) {
             for( const auto &entry : get_active_column().get_all_selected() ) {
                 set_drop_count( *entry, count );
             }
             count = 0;
-        } else if( action == "CONFIRM" ) {
+        } else if( input.action == "CONFIRM" ) {
             break;
-        } else if( action == "QUIT" ) {
+        } else if( input.action == "QUIT" ) {
             return std::list<std::pair<int, int> >();
         } else {
-            on_action( action );
+            on_input( input );
             count = 0;
         }
     }
