@@ -7116,7 +7116,8 @@
         "color" : "brown",
         "see_cost" : 5,
         "extras" : "field",
-        "mondensity" : 2
+        "mondensity" : 2,
+        "rotate" : true
     },{
         "type" : "overmap_terrain",
         "id" : "pond_forest",
@@ -7125,7 +7126,8 @@
         "color" : "green",
         "see_cost" : 5,
         "extras" : "forest",
-        "mondensity" : 2
+        "mondensity" : 2,
+        "rotate" : true
     },{
         "type" : "overmap_terrain",
         "id" : "pond_swamp",
@@ -7133,7 +7135,8 @@
         "sym" : 70,
         "color" : "cyan",
         "see_cost" : 5,
-        "extras" : "swamp",
-        "mondensity" : 2
+        "extras" : "forest_water",
+        "mondensity" : 2,
+        "rotate" : true
     }
 ]
