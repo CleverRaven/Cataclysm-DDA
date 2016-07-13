@@ -62,6 +62,8 @@
 #  make astyle-all
 
 # comment these to toggle them as one sees fit.
+# BREW on mac builds cause the compiler to prefer some brew libraries over Xcode alternatives.
+# CLANG forces the use of the clang parser.
 # DEBUG is best turned on if you plan to debug in gdb -- please do!
 # PROFILE is for use with gprof or a similar program -- don't bother generally
 # RELEASE is flags for release builds, this disables some debugging flags and
@@ -285,6 +287,14 @@ ifeq ($(NATIVE), osx)
   DEFINES += -DMACOSX
   CXXFLAGS += -mmacosx-version-min=$(OSX_MIN)
   LDFLAGS += -mmacosx-version-min=$(OSX_MIN)
+  # If using `brew` to install the `gettext` library, the compiler can get confused
+  # between using incompatible mixtures of headers provided by XCode or brew.  The
+  # following flags force the compiler to use brew's gettext library, resolving
+  # compiler errors asserting a missing libintl.h header file.
+  ifdef BREW
+    LDFLAGS +=  -L/usr/local/opt/gettext/lib
+    CXXFLAGS += -I/usr/local/opt/gettext/include
+  endif
   ifdef FRAMEWORK
     FRAMEWORKSDIR := $(strip $(if $(shell [ -d $(HOME)/Library/Frameworks ] && echo 1), \
                              $(if $(shell find $(HOME)/Library/Frameworks -name 'SDL2.*'), \
