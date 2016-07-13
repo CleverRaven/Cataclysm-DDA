@@ -92,9 +92,12 @@ inventory_entry *inventory_column::find_by_invlet( long invlet ) const
 
 size_t inventory_column::get_width() const
 {
-    size_t res = 0;
-    for( const auto &entry : entries ) {
-        res = std::max( res, get_entry_width( entry ) );
+    size_t res = get_text_space();
+    if( annotations ) {
+        const size_t annotations_width = get_annotation_space();
+        if( annotations_width != 0 ) {
+            res += annotations_width + annotation_margin;
+        }
     }
     return res;
 }
@@ -282,6 +285,11 @@ std::string inventory_column::get_entry_text( const inventory_entry &entry ) con
     return entry.enabled ? res.str() : remove_color_tags( res.str() );
 }
 
+std::string inventory_column::get_entry_annotation( const inventory_entry &entry ) const
+{
+    return annotations ? entry.annotation : std::string();
+}
+
 nc_color inventory_column::get_entry_color( const inventory_entry &entry ) const
 {
     if( !entry.enabled ) {
@@ -297,16 +305,37 @@ nc_color inventory_column::get_entry_color( const inventory_entry &entry ) const
     }
 }
 
-size_t inventory_column::get_entry_indent( const inventory_entry &entry ) const {
+size_t inventory_column::get_entry_indent( const inventory_entry &entry ) const
+{
     return entry.is_item() ? 2 : 0;
 }
 
-size_t inventory_column::get_entry_width( const inventory_entry &entry ) const {
-    return get_entry_indent( entry ) + utf8_width( get_entry_text( entry ), true );
+size_t inventory_column::get_text_space() const
+{
+    size_t res = 0;
+    for( const auto &entry : entries ) {
+        res = std::max( res, get_entry_indent( entry )
+                        + size_t( utf8_width( get_entry_text( entry ), true ) ) );
+    }
+    return res;
+}
+
+size_t inventory_column::get_annotation_space() const
+{
+    size_t res = 0;
+    if( annotations ) {
+        for( const auto &entry : entries ) {
+            res = std::max( res, size_t( utf8_width( get_entry_annotation( entry ), true ) ) );
+        }
+        res += annotation_margin;
+    }
+    return res;
 }
 
 void inventory_column::draw( WINDOW *win, size_t x, size_t y ) const
 {
+    const size_t annotation_x = x + ( annotations ? get_text_space() + annotation_margin : 0 );
+
     for( size_t i = page_offset, line = 0; i < entries.size() && line < entries_per_page; ++i, ++line ) {
         const auto &entry = entries[i];
         if( entry.is_null() ) {
@@ -320,21 +349,40 @@ void inventory_column::draw( WINDOW *win, size_t x, size_t y ) const
             const nc_color invlet_color = g->u.assigned_invlet.count( entry.get_invlet() ) ? c_yellow : c_white;
             mvwputch( win, y + line, x, invlet_color, entry.get_invlet() );
         }
+
+        if( annotations ) {
+            trim_and_print( win, y + line, annotation_x, getmaxx( win ) - annotation_x,
+                            entry.enabled ? c_ltgray : c_dkgray, "%s", get_entry_annotation( entry ).c_str() );
+        }
     }
 }
 
 selection_column::selection_column( const std::string &id, const std::string &name ) :
     inventory_column(),
-    selected_cat( new item_category( id, name, 0 ) ),
-    reserved_width( 0 ) {}
+    selected_cat( new item_category( id, name, 0 ) ) {}
 
 void selection_column::reserve_width_for( const inventory_column &column )
 {
+    reserved_text_space = 0;
+    reserved_annotation_space = 0;
+
     for( const auto &entry : column.get_entries() ) {
-        if( entry.is_item() ) {
-            reserved_width = std::max( reserved_width, get_entry_width( entry ) );
-        }
+        reserved_text_space = std::max( get_entry_indent( entry ) +
+                                        size_t( utf8_width( get_entry_text( entry ), true ) ),
+                                        reserved_text_space );
+        reserved_annotation_space = std::max( size_t( utf8_width( get_entry_annotation( entry ), true ) ),
+                                              reserved_annotation_space );
     }
+}
+
+size_t selection_column::get_text_space() const
+{
+    return std::max( inventory_column::get_text_space(), reserved_text_space );
+}
+
+size_t selection_column::get_annotation_space() const
+{
+    return std::max( inventory_column::get_annotation_space(), reserved_annotation_space );
 }
 
 void selection_column::prepare_paging( size_t new_entries_per_page )
@@ -469,6 +517,7 @@ void inventory_selector::add_item( const std::shared_ptr<item_location> &locatio
     inventory_entry entry( location, stack_size, cat_ptr );
 
     entry.enabled = response.type == item_filter_response::fine;
+    entry.annotation = remove_color_tags( response.description );
     entry.rank = response.rank;
     entry.custom_color = custom_color;
 
@@ -476,18 +525,22 @@ void inventory_selector::add_item( const std::shared_ptr<item_location> &locatio
         entry.custom_invlet = ( entry.enabled && cur_custom_invlet <= max_custom_invlet ) ? cur_custom_invlet++ : '\0';
     }
 
+    inventory_column *column_ptr;
     if( is_custom ) {
         if( custom_column == nullptr ) {
             custom_column.reset( new inventory_column() );
         }
-        custom_column->add_entry( entry );
+        column_ptr = custom_column.get();
     } else {
         if( columns.empty() ) {
             std::unique_ptr<inventory_column> new_column( new inventory_column() );
             insert_column( columns.end(), new_column );
         }
-        columns.front()->add_entry( entry );
+        column_ptr = columns.back().get();
     }
+
+    column_ptr->set_annotations( true );
+    column_ptr->add_entry( entry );
 }
 
 void inventory_selector::add_items( const std::list<item>::const_iterator &from,

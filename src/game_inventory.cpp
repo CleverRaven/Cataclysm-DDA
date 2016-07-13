@@ -134,7 +134,8 @@ item *game::inv_map_for_liquid( const item &liquid, const std::string &title, in
         }
 
         if( err.empty() && capacity > 0 ) {
-            return item_filter_response::make_fine();
+            return item_filter_response::make_fine( string_format( "%.2f liters free",
+                                                    capacity / 4.0 ), -capacity );
         } else {
             return item_filter_response::make_unready( err );
         }
