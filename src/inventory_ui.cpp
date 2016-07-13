@@ -118,6 +118,11 @@ inventory_selector_preset::inventory_selector_preset()
     } );
 }
 
+bool inventory_selector_preset::sort_compare( const item_location &lhs, const item_location &rhs ) const
+{
+    return lhs->tname( 1 ).compare( rhs->tname( 1 ) ) <= 0; // Simple alphabetic order
+}
+
 nc_color inventory_selector_preset::get_color( const inventory_entry &entry ) const
 {
     return entry.location ? entry.location->color_in_inventory() : c_magenta;
@@ -346,17 +351,32 @@ void inventory_column::prepare_paging()
     if( paging_is_valid ) {
         return;
     }
+    // First, remove all non-items
     const auto new_end = std::remove_if( entries.begin(), entries.end(), []( const inventory_entry &entry ) {
         return !entry.location;
     } );
     entries.erase( new_end, entries.end() );
-
+    // Then sort them with respect to categories
+    auto from = entries.begin();
+    while( from != entries.end() ) {
+        auto to = std::next( from );
+        while( to != entries.end() && from->get_category_ptr() == to->get_category_ptr() ) {
+            std::advance( to, 1 );
+        }
+        std::sort( from, to, [ this ]( const inventory_entry &lhs, const inventory_entry &rhs ) {
+            if( lhs.is_selectable() != rhs.is_selectable() ) {
+                return lhs.is_selectable(); // Disabled items always go last
+            }
+            return preset.sort_compare( lhs.location, rhs.location );
+        } );
+        from = to;
+    }
+    // Recover categories according to the new number of entries per page
     const item_category *current_category = nullptr;
     for( size_t i = 0; i < entries.size(); ++i ) {
         if( entries[i].get_category_ptr() == current_category && i % entries_per_page != 0 ) {
             continue;
         }
-
         current_category = entries[i].get_category_ptr();
         const inventory_entry insertion = ( i % entries_per_page == entries_per_page - 1 )
             ? inventory_entry() // the last item on the page must not be a category
@@ -366,6 +386,7 @@ void inventory_column::prepare_paging()
     }
 
     paging_is_valid = true;
+    // Select the uppermost possible entry
     select( 0, 1 );
 }
 

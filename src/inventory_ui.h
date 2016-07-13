@@ -118,6 +118,8 @@ class inventory_selector_preset
         virtual bool is_enabled( const item_location & ) const {
             return true;
         }
+        /// @return Whether the first item is considered to go before the second
+        virtual bool sort_compare( const item_location &lhs, const item_location &rhs ) const;
 
         virtual nc_color get_color( const inventory_entry &entry ) const;
 
