@@ -430,7 +430,6 @@ void Item_factory::init()
     add_iuse( "COMBATSAW_OFF", &iuse::combatsaw_off );
     add_iuse( "COMBATSAW_ON", &iuse::combatsaw_on );
     add_iuse( "CONTACTS", &iuse::contacts );
-    add_iuse( "COOKING", &iuse::cooking );
     add_iuse( "CROWBAR", &iuse::crowbar );
     add_iuse( "CS_LAJATANG_OFF", &iuse::cs_lajatang_off );
     add_iuse( "CS_LAJATANG_ON", &iuse::cs_lajatang_on );
@@ -469,6 +468,7 @@ void Item_factory::init()
     add_iuse( "HAIRKIT", &iuse::hairkit );
     add_iuse( "HAMMER", &iuse::hammer );
     add_iuse( "HEATPACK", &iuse::heatpack );
+    add_iuse( "HEAT_FOOD", &iuse::heat_food );
     add_iuse( "HONEYCOMB", &iuse::honeycomb );
     add_iuse( "HOTPLATE", &iuse::hotplate );
     add_iuse( "INHALER", &iuse::inhaler );

@@ -1016,7 +1016,7 @@
     "bashing": 4,
     "to_hit": -1,
     "qualities": [["COOK", 3], ["BOIL", 2], ["CONTAIN", 1], ["CHEM", 1]],
-    "use_action": "COOKING"
+    "use_action": "HEAT_FOOD"
   },
   {
     "type":"GENERIC",
@@ -1037,7 +1037,7 @@
         "contains": 8,
         "watertight": true
     },
-    "use_action": "COOKING"
+    "use_action": "HEAT_FOOD"
   },
   {
     "type":"GENERIC",
@@ -1058,7 +1058,7 @@
         "contains": 8,
         "watertight": true
     },
-    "use_action": "COOKING"
+    "use_action": "HEAT_FOOD"
   },
   {
     "type":"GENERIC",
@@ -1079,7 +1079,7 @@
         "contains": 4,
         "watertight": true
     },
-    "use_action": "COOKING"
+    "use_action": "HEAT_FOOD"
   },
   {
     "type":"GENERIC",
@@ -1129,7 +1129,7 @@
         "contains": 8,
         "watertight": true
     },
-    "use_action": "COOKING"
+    "use_action": "HEAT_FOOD"
   },
   {
     "type": "GENERIC",
@@ -6131,7 +6131,7 @@
     "bashing": 3,
     "to_hit": 1,
     "qualities": [["COOK", 1]],
-    "use_action": "COOKING"
+    "use_action": "HEAT_FOOD"
   },{
     "id": "chisel",
     "type": "TOOL",

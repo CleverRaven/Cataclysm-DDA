@@ -913,7 +913,6 @@ Those flags are added by the game code to specific items (that specific welder, 
 - ```CHAINSAW_ON``` Turn the chainsaw off.
 - ```COMBATSAW_OFF``` Turn the combat-saw on.
 - ```COMBATSAW_ON``` Turn the combat-saw off
-- ```COOKING``` Heat food.
 - ```CROWBAR``` Pry open doors, windows, man-hole covers and many other things that need prying.
 - ```DEJAR```
 - ```DIG``` Dig a hole in the ground.
@@ -952,6 +951,7 @@ Those flags are added by the game code to specific items (that specific welder, 
 - ```HANDFLARE``` Light the flare.
 - ```HANDFLARE_LIT``` The flare dies out.
 - ```HEATPACK``` Activate the heatpack and get warm.
+- ```HEAT_FOOD``` Heat food around fires.
 - ```HORN_BICYCLE``` Honk the horn.
 - ```HOTPLATE``` Use the hotplate.
 - ```JACKHAMMER``` Bust down walls and other constructions.
