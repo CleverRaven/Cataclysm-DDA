@@ -1537,7 +1537,7 @@
         ],
         "locations" : [ "field" ],
         "city_distance" : [-1, -1],
-        "occurrences" : [0, 99],
+        "occurrences" : [0, 75],
         "flags" : [ "CLASSIC" ]
     },{
         "type" : "overmap_special",
@@ -1545,9 +1545,9 @@
         "overmaps" : [
             { "point":[0,0,0], "overmap": "pond_forest"}
         ],
-        "locations" : [ "forest" ],
-        "city_distance" : [0, -1],
-        "occurrences" : [0, 66],
+        "locations" : [ "forest", "forest_thick" ],
+        "city_distance" : [-1, -1],
+        "occurrences" : [0, 50],
         "flags" : [ "CLASSIC" ]
     },{
         "type" : "overmap_special",
@@ -1555,9 +1555,9 @@
         "overmaps" : [
             { "point":[0,0,0], "overmap": "pond_swamp"}
         ],
-        "locations" : [ "swamp" ],
+        "locations" : [ "forest_water" ],
         "city_distance" : [0, -1],
-        "occurrences" : [0, 33],
+        "occurrences" : [0, 25],
         "flags" : [ "CLASSIC" ]
     }
 ]
