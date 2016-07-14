@@ -1573,11 +1573,9 @@ void veh_interact::display_stats()
     fold_and_print(w_stats, y[9], x[9], w[9], c_ltgray,
                    _("K mass:         <color_ltblue>%3d</color>%%"),
                    int(veh->k_mass() * 100));
-    const auto total_wheel_area = veh->wheels_area();
-    fold_and_print(w_stats, y[10], x[10], w[10], c_ltgray,
-                   _("K traction:<color_ltred>%3d</color>%%/<color_ltblue>%3d</color>%%"),
-                   int(veh->k_traction( total_wheel_area * 0.5f ) * 100),
-                   int(veh->k_traction( total_wheel_area ) * 100) );
+    fold_and_print( w_stats, y[10], x[10], w[10], c_ltgray,
+                    _("Offroad:        <color_ltblue>%3d</color>%%"),
+                    int( veh->k_traction( veh->wheels_area() * 0.5f ) * 100 ) );
 
     // "Fuel usage (safe): " is renamed to "Fuel usage: ".
     mvwprintz(w_stats, y[11], x[11], c_ltgray,  _("Fuel usage:      "));
