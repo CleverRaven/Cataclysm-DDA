@@ -3313,24 +3313,20 @@ void vehicle::noise_and_smoke( double load, double time )
     sounds::ambient_sound( global_pos3(), noise, sound_msgs[lvl] );
 }
 
-float vehicle::wheels_area (int *const cnt) const
+float vehicle::wheels_area() const
 {
     int count = 0;
-    int total_area = 0;
+    float total_area = 0.0f;
     const auto &wheel_indices = wheelcache;
     for( auto &wheel_indice : wheel_indices ) {
         int p = wheel_indice;
         int width = parts[ p ].wheel_width();
-        // 9 inches, for reference, is about normal for cars.
-        total_area += ((float)width / 9) * parts[ p ].wheel_diameter();
+        total_area += width * parts[ p ].wheel_diameter();
         count++;
     }
-    if (cnt) {
-        *cnt = count;
-    }
 
-    if (all_parts_with_feature("FLOATS").size() > 0) {
-        return 13;
+    if( all_parts_with_feature("FLOATS").size() > 0 ) {
+        return 120;
     }
 
     return total_area;
@@ -3339,9 +3335,8 @@ float vehicle::wheels_area (int *const cnt) const
 float vehicle::k_friction() const
 {
     // calculate safe speed reduction due to wheel friction
-    float fr0 = 1000.0;
-    float kf = ( fr0 / (fr0 + wheels_area()) );
-    return kf;
+    constexpr float fr0 = 9000.0;
+    return fr0 / ( fr0 + wheels_area() ) ;
 }
 
 float vehicle::k_aerodynamics() const
@@ -3393,6 +3388,19 @@ float vehicle::k_mass() const
     float km = ma0 / (ma0 + (total_mass()) / (8 * (float) wa));
 
     return km;
+}
+
+float vehicle::k_traction( float wheel_traction_area ) const
+{
+    if( wheel_traction_area <= 0.01f ) {
+        return 0.0f;
+    }
+
+    const float mass_penalty = ( 1.0f - wheel_traction_area / wheels_area() ) * total_mass();
+
+    float traction = std::min( 1.0f, wheel_traction_area / mass_penalty );
+    // For now make it easy until it gets properly balanced: add a low cap of 0.1
+    return std::max( 0.1f, traction );
 }
 
 float vehicle::drag() const
@@ -3490,7 +3498,7 @@ float vehicle::steering_effectiveness() const
 float vehicle::handling_difficulty() const
 {
     const float steer = std::max( 0.0f, steering_effectiveness() );
-    const float traction = std::max( 0.0f, g->m.vehicle_traction( *this ) );
+    const float ktraction = k_traction( g->m.vehicle_wheel_traction( *this ) );
     const float kmass = k_mass();
     const float aligned = std::max( 0.0f, 1.0f - ( face_vec() - dir_vec() ).norm() );
 
@@ -3502,7 +3510,7 @@ float vehicle::handling_difficulty() const
     // TestVehicle but with bad steering (0.5 steer) and overloaded (0.5 kmass) = 10
     // TestVehicle but on fungal bed (0.5 friction), bad steering and overloaded = 15
     // TestVehicle but turned 90 degrees during this turn (0 align) = 10
-    const float diff_mod = ( ( 1.0f - steer ) + ( 1.0f - kmass ) + ( 1.0f - traction ) + ( 1.0f - aligned ) );
+    const float diff_mod = ( ( 1.0f - steer ) + ( 1.0f - kmass ) + ( 1.0f - ktraction ) + ( 1.0f - aligned ) );
     return velocity * diff_mod / tile_per_turn;
 }
 
@@ -4164,7 +4172,7 @@ void vehicle::thrust( int thd ) {
     }
 
     // @todo Pass this as an argument to avoid recalculating
-    float traction = std::max( 0.0f, g->m.vehicle_traction( *this ) );
+    float traction = k_traction( g->m.vehicle_wheel_traction( *this ) );
     int accel = acceleration() * traction;
     int max_vel = max_velocity() * traction;
     // Get braking power

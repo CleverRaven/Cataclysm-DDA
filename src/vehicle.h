@@ -701,8 +701,8 @@ public:
     // Loop through engines and generate noise and smoke for each one
     void noise_and_smoke( double load, double time = 6.0 );
 
-    // Calculate area covered by wheels and, optionally count number of wheels
-    float wheels_area (int *cnt = 0) const;
+    // Calculate area covered by wheels
+    float wheels_area() const;
 
     // Combined coefficient of aerodynamic and wheel friction resistance of vehicle, 0-1.0.
     // 1.0 means it's ideal form and have no resistance at all. 0 -- it won't move
@@ -715,6 +715,10 @@ public:
     // Coefficient of mass, 0-1.0.
     // 1.0 means mass won't slow vehicle at all, 0 - it won't move
     float k_mass () const;
+
+    // Coefficient of traction
+    // Result depends on wheel traction, wheel area and vehicle's total mass
+    float k_traction( float wheel_traction_area ) const;
 
     // Extra drag on the vehicle from components other than wheels.
     float drag() const;

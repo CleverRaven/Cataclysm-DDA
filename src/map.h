@@ -500,12 +500,9 @@ public:
     // move water under wheels. true if moved
     bool displace_water( const tripoint &dp );
 
-    // Returns the modifier on wheel area due to bad surface
-    // 1.0 on road, 0.0 in air
-    // <0.0 when the vehicle should be destroyed (sunk in water)
-    // TODO: Add the values between 0.0 and 1.0 for offroading
+    // Returns the wheel area of the vehicle multipled by traction of the surface
     // TODO: Remove the ugly sinking vehicle hack
-    float vehicle_traction( const vehicle &veh ) const;
+    float vehicle_wheel_traction( const vehicle &veh ) const;
 
     // Like traction, except for water
     // TODO: Actually implement (this is a stub)

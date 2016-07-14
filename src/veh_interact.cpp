@@ -1471,13 +1471,13 @@ void veh_interact::display_stats()
             x[i] = 1;
             y[i] = i;
             w[i] = second_column - 2;
-        } else if (i < 12) { // Second column
+        } else if (i < 13) { // Second column
             x[i] = second_column;
             y[i] = i - 6;
             w[i] = third_column - second_column - 1;
         } else { // Third column
             x[i] = third_column;
-            y[i] = i - 12;
+            y[i] = i - 13;
             w[i] = extraw - third_column - 2;
         }
     }
@@ -1573,10 +1573,15 @@ void veh_interact::display_stats()
     fold_and_print(w_stats, y[9], x[9], w[9], c_ltgray,
                    _("K mass:         <color_ltblue>%3d</color>%%"),
                    int(veh->k_mass() * 100));
+    const auto total_wheel_area = veh->wheels_area();
+    fold_and_print(w_stats, y[10], x[10], w[10], c_ltgray,
+                   _("K traction:<color_ltred>%3d</color>%%/<color_ltblue>%3d</color>%%"),
+                   int(veh->k_traction( total_wheel_area * 0.5f ) * 100),
+                   int(veh->k_traction( total_wheel_area ) * 100) );
 
     // "Fuel usage (safe): " is renamed to "Fuel usage: ".
-    mvwprintz(w_stats, y[10], x[10], c_ltgray,  _("Fuel usage:      "));
-    x[10] += utf8_width(_("Fuel usage:      "));
+    mvwprintz(w_stats, y[11], x[11], c_ltgray,  _("Fuel usage:      "));
+    x[11] += utf8_width(_("Fuel usage:      "));
 
     bool first = true;
     int fuel_name_length = 0;
@@ -1589,26 +1594,26 @@ void veh_interact::display_stats()
                 fuel_usage = 1;
             }
             if (!first) {
-                mvwprintz(w_stats, y[10], x[10]++, c_ltgray, "/");
+                mvwprintz(w_stats, y[11], x[11]++, c_ltgray, "/");
             }
-            mvwprintz(w_stats, y[10], x[10]++, ft.color, "%d", fuel_usage);
+            mvwprintz(w_stats, y[11], x[11]++, ft.color, "%d", fuel_usage);
             if (fuel_usage > 9) {
-                x[10]++;
+                x[11]++;
             }
             if (fuel_usage > 99) {
-                x[10]++;
+                x[11]++;
             }
             first = false;
         }
         if (first) {
-            mvwprintz(w_stats, y[10], x[10], c_ltgray, "-"); // no engines
+            mvwprintz(w_stats, y[11], x[11], c_ltgray, "-"); // no engines
         }
     }
 
     // Print fuel percentage & type name only if it fits in the window, 10 is width of "E...F 100%"
-    veh->print_fuel_indicators (w_stats, y[12], x[12], fuel_index, true,
-                               ( x[ 12 ] + 10 < getmaxx( w_stats ) ),
-                               ( x[ 12 ] + 10 + fuel_name_length < getmaxx( w_stats ) ) );
+    veh->print_fuel_indicators (w_stats, y[13], x[13], fuel_index, true,
+                               ( x[ 13 ] + 10 < getmaxx( w_stats ) ),
+                               ( x[ 13 ] + 10 + fuel_name_length < getmaxx( w_stats ) ) );
 
     wrefresh(w_stats);
 }

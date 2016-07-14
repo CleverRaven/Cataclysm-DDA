@@ -487,9 +487,10 @@ bool map::vehact( vehicle &veh )
         return true;
     }
 
-    const float traction = vehicle_traction( veh );
+    const float wheel_traction_area = vehicle_wheel_traction( veh );
+    const float traction = veh.k_traction( wheel_traction_area );
     // TODO: Remove this hack, have vehicle sink a z-level
-    if( traction < 0 ) {
+    if( wheel_traction_area < 0 ) {
         add_msg(m_bad, _("Your %s sank."), veh.name.c_str());
         if( pl_ctrl ) {
             veh.unboard_all();
@@ -630,7 +631,7 @@ bool map::vehicle_falling( vehicle &veh )
     return true;
 }
 
-float map::vehicle_traction( const vehicle &veh ) const
+float map::vehicle_wheel_traction( const vehicle &veh ) const
 {
     const tripoint pt = veh.global_pos3();
     // TODO: Remove this and allow amphibious vehicles
@@ -649,7 +650,6 @@ float map::vehicle_traction( const vehicle &veh ) const
 
     int submerged_wheels = 0;
     float traction_wheel_area = 0.0f;
-    float total_wheel_area = 0.0f;
     for( int w = 0; w < num_wheels; w++ ) {
         const int p = wheel_indices[w];
         const tripoint pp = pt + veh.parts[p].precalc[0];
@@ -658,7 +658,6 @@ float map::vehicle_traction( const vehicle &veh ) const
         //  this section will stay correct (ie. proportion of wheel area/total area)
         const int width = veh.parts[ p ].wheel_width();
         const float wheel_area = width * veh.parts[ p ].wheel_diameter();
-        total_wheel_area += wheel_area;
 
         const auto &tr = ter( pp ).obj();
         // Deep water and air
@@ -693,17 +692,7 @@ float map::vehicle_traction( const vehicle &veh ) const
         return -1;
     }
 
-    if( total_wheel_area <= 0.01f ) {
-        debugmsg( "%s has wheel area <0.01", veh.name.c_str() );
-        return 0.0f;
-    }
-
-    const float mass_penalty = ( 1.0f - traction_wheel_area / total_wheel_area ) * veh.total_mass();
-
-    float traction = std::min( 1.0f, traction_wheel_area / mass_penalty );
-    add_msg( m_debug, "%s has traction %.2f", veh.name.c_str(), traction );
-    // For now make it easy until it gets properly balanced: add a low cap of 0.1
-    return std::max( 0.1f, traction );
+    return traction_wheel_area;
 }
 
 float map::vehicle_buoyancy( const vehicle &veh ) const
