@@ -10109,7 +10109,7 @@ int game::list_monsters(const int iLastState)
 void game::grab()
 {
     tripoint grabp( 0, 0, 0 );
-    if( u.grab_point != tripoint_zero ) {
+    if( u.grab_type != OBJECT_NONE ) {
         vehicle *veh = m.veh_at( u.pos() + u.grab_point );
         if( veh != nullptr ) {
             add_msg(_("You release the %s."), veh->name.c_str());
@@ -11948,7 +11948,7 @@ bool game::walk_move( const tripoint &dest_loc )
     bool pulling = false;  // moving -away- from grabbed tile; check for move_cost > 0
     bool shifting_furniture = false; // moving furniture and staying still; skip check for move_cost > 0
 
-    bool grabbed = u.grab_point != tripoint_zero;
+    bool grabbed = u.grab_type != OBJECT_NONE;
     if( grabbed ) {
         const tripoint dp = dest_loc - u.pos();
         pushing = dp ==  u.grab_point;
@@ -12405,8 +12405,8 @@ bool game::grabbed_veh_move( const tripoint &dp )
 
     const vehicle *veh_under_player = m.veh_at( u.pos() );
     if( grabbed_vehicle == veh_under_player ) {
-        add_msg(m_info, _("You can't move %s while standing on it!"), grabbed_vehicle->name.c_str());
-        return true;
+        u.grab_point = -dp;
+        return false;
     }
 
     tripoint dp_veh = -u.grab_point;
@@ -12693,7 +12693,7 @@ bool game::grabbed_furn_move( const tripoint &dp )
 
 bool game::grabbed_move( const tripoint &dp )
 {
-    if( u.grab_point == tripoint_zero ) {
+    if( u.grab_type == OBJECT_NONE ) {
         return false;
     }
 
