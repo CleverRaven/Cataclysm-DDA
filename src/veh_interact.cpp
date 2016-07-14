@@ -989,11 +989,8 @@ void veh_interact::do_refill()
 }
 
 bool veh_interact::can_remove_part( int idx ) {
-    if( sel_vpart_info == nullptr ) {
-        werase( w_msg );
-        wrefresh (w_msg);
-        return false;
-    }
+    sel_vehicle_part = &veh->parts[idx];
+    sel_vpart_info = &sel_vehicle_part->info();
 
     const auto reqs = sel_vpart_info->removal_requirements();
     bool ok = reqs.can_make_with_inventory( crafting_inv );
@@ -1106,9 +1103,6 @@ void veh_interact::do_remove()
         }
     }
     while (true) {
-        //these variables seem to fetch the vehicle parts at specified position
-        sel_vehicle_part = &veh->parts[parts_here[pos]];
-        sel_vpart_info = &sel_vehicle_part->info();
         //redraw list of parts
         werase (w_parts);
         veh->print_part_desc (w_parts, 0, getmaxy( w_parts ) - 1, getmaxx( w_parts ), cpart, pos);
