@@ -394,13 +394,20 @@ void MonsterGenerator::load_monster(JsonObject &jo)
     mon_templates->load( jo );
 }
 
+mon_effect_data load_mon_effect_data( JsonObject &e )
+{
+    return mon_effect_data( efftype_id( e.get_string( "id" ) ), e.get_int( "duration", 0 ),
+                            e.get_bool( "affect_hit_bp", false ),
+                            get_body_part_token( e.get_string( "bp", "NUM_BP" ) ),
+                            e.get_bool( "permanent", false ),
+                            e.get_int( "chance", 100 ) );
+}
+
 class mon_attack_effect_reader : public generic_typed_reader<mon_attack_effect_reader> {
     public:
         mon_effect_data get_next( JsonIn &jin ) const {
             JsonObject e = jin.get_object();
-            return mon_effect_data( efftype_id( e.get_string( "id" ) ), e.get_int( "duration", 0 ),
-                                    get_body_part_token( e.get_string( "bp", "NUM_BP" ) ), e.get_bool( "permanent", false ),
-                                    e.get_int( "chance", 100 ) );
+            return load_mon_effect_data( e );
         }
         template<typename C>
         void erase_next( JsonIn &jin, C &container ) const {
@@ -596,6 +603,8 @@ void mtype::add_special_attack( JsonObject obj )
 
     if( type == "leap" ) {
         special_attacks[type] = load_actor<leap_actor>( obj, cooldown );
+    } else if( type == "melee" ) {
+        special_attacks[type] = load_actor<melee_actor>( obj, cooldown );
     } else if( type == "bite" ) {
         special_attacks[type] = load_actor<bite_actor>( obj, cooldown );
     } else if( type == "gun" ) {

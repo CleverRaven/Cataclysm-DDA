@@ -36,6 +36,7 @@ using species_id = string_id<species_type>;
 class effect_type;
 using efftype_id = string_id<effect_type>;
 class JsonArray;
+class JsonIn;
 class material_type;
 using material_id = string_id<material_type>;
 
@@ -157,12 +158,13 @@ struct mon_effect_data
 {
     efftype_id id;
     int duration;
+    bool affect_hit_bp;
     body_part bp;
     bool permanent;
     int chance;
 
-    mon_effect_data(const efftype_id &nid, int dur, body_part nbp, bool perm, int nchance) :
-                    id(nid), duration(dur), bp(nbp), permanent(perm), chance(nchance) {};
+    mon_effect_data(const efftype_id &nid, int dur, bool ahbp, body_part nbp, bool perm, int nchance) :
+                    id(nid), duration(dur), affect_hit_bp(ahbp), bp(nbp), permanent(perm), chance(nchance) {};
 };
 
 class mattack_actor {
@@ -351,5 +353,7 @@ struct mtype {
         // Historically located in monstergenerator.cpp
         void load( JsonObject &jo );
 };
+
+mon_effect_data load_mon_effect_data( JsonObject &e );
 
 #endif

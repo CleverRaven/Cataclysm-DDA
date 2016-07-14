@@ -2,6 +2,7 @@
 #define MATTACK_ACTORS_H
 
 #include "mtype.h"
+#include "damage.h"
 #include <tuple>
 #include <vector>
 #include <map>
@@ -31,20 +32,59 @@ class leap_actor : public mattack_actor
         mattack_actor *clone() const override;
 };
 
-class bite_actor : public mattack_actor
+class melee_actor : public mattack_actor
 {
     public:
-        // Maximum damage (and possible tags) from the attack
-        damage_instance damage_max_instance;
+        // Maximum damage from the attack
+        damage_instance damage_max_instance = damage_instance::physical( 9, 0, 0, 0 );
         // Minimum multiplier on damage above (rolled per attack)
-        float min_mul;
+        float min_mul = 0.5f;
         // Maximum multiplier on damage above (also per attack)
-        float max_mul;
+        float max_mul = 1.0f;
         // Cost in moves (for attacker)
-        int move_cost;
-        // If set, the attack will use a different accuracy from mon's
+        int move_cost = 100;
+        // If non-negative, the attack will use a different accuracy from mon's
         // regular melee attack.
-        int accuracy;
+        int accuracy = INT_MIN;
+
+        /**
+         * If empty, regular melee roll body part selection is used.
+         * If non-empty, a body part is selected from the map to be targeted,
+         * with a chance proportional to the value.
+         */
+        std::map<body_part, float> body_parts;
+
+        /** Extra effects applied on damaging hit. */
+        std::vector<mon_effect_data> effects;
+
+        /** Message for missed attack against the player. */
+        std::string miss_msg_u;
+        /** Message for 0 damage hit against the player. */
+        std::string no_dmg_msg_u;
+        /** Message for damaging hit against the player. */
+        std::string hit_dmg_u;
+
+        /** Message for missed attack against a non-player. */
+        std::string miss_msg_npc;
+        /** Message for 0 damage hit against a non-player. */
+        std::string no_dmg_msg_npc;
+        /** Message for damaging hit against a non-player. */
+        std::string hit_dmg_npc;
+
+        melee_actor();
+        ~melee_actor() override { }
+
+        virtual Creature *find_target( monster &z ) const;
+        virtual void on_damage( monster &z, Creature &target, dealt_damage_instance &dealt ) const;
+
+        void load( JsonObject &jo );
+        bool call( monster & ) const override;
+        mattack_actor *clone() const override;
+};
+
+class bite_actor : public melee_actor
+{
+    public:
         // one_in( this - damage dealt ) chance of getting infected
         // ie. the higher is this, the lower chance of infection
         int no_infection_chance;
@@ -52,8 +92,9 @@ class bite_actor : public mattack_actor
         bite_actor();
         ~bite_actor() override { }
 
+        void on_damage( monster &z, Creature &target, dealt_damage_instance &dealt ) const override;
+
         void load( JsonObject &jo );
-        bool call( monster & ) const override;
         mattack_actor *clone() const override;
 };
 
