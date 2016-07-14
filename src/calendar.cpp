@@ -450,16 +450,8 @@ std::string calendar::day_of_week() const
 
 int calendar::season_length()
 {
-    const auto iter = ACTIVE_WORLD_OPTIONS.find( "SEASON_LENGTH" );
-    if( iter != ACTIVE_WORLD_OPTIONS.end() ) {
-        const int length = iter->second.value_as<int>();
-        if( length > 0 ) {
-            return length;
-        }
-    }
-    // 14 is the default and it's used whenever the input is invalid so
-    // everyone using this can rely on it being larger than 0.
-    return 14;
+    // Avoid returning 0 as this value is used in division and expected to be non-zero.
+    return std::max( get_world_option<int>( "SEASON_LENGTH" ), 1 );
 }
 
 int calendar::turn_of_year() const

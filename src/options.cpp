@@ -38,7 +38,6 @@ extern std::unique_ptr<cata_tiles> tilecontext;
 
 std::map<std::string, std::string> TILESETS; // All found tilesets: <name, tileset_dir>
 std::map<std::string, std::string> SOUNDPACKS; // All found soundpacks: <name, soundpack_dir>
-std::unordered_map<std::string, options_manager::cOpt> ACTIVE_WORLD_OPTIONS;
 std::vector<std::pair<std::string, std::string> > vPages;
 std::map<int, std::vector<std::string> > mPageItems;
 std::map<std::string, int> mOptionsSort;
@@ -713,7 +712,6 @@ std::string options_manager::build_soundpacks_list()
 void options_manager::init()
 {
     global_options.clear();
-    ACTIVE_WORLD_OPTIONS.clear();
     vPages.clear();
     mPageItems.clear();
     mOptionsSort.clear();
@@ -1472,6 +1470,7 @@ void options_manager::show(bool ingame)
 {
     // temporary alias so the code below does not need to be changed
     auto &OPTIONS = global_options;
+    auto &ACTIVE_WORLD_OPTIONS = world_generator->active_world ? world_generator->active_world->WORLD_OPTIONS : OPTIONS;
 
     auto OPTIONS_OLD = OPTIONS;
     auto WOPTIONS_OLD = ACTIVE_WORLD_OPTIONS;
@@ -1920,6 +1919,20 @@ options_manager::cOpt &options_manager::get_option( const std::string &name )
         debugmsg( "requested non-existing option %s", name.c_str() );
     }
     return global_options[name];
+}
+
+options_manager::cOpt &options_manager::get_world_option( const std::string &name )
+{
+    if( !world_generator->active_world ) {
+        // Global options contains the default for new worlds, which is good enough here.
+        return get_option( name );
+    }
+    auto &wopts = world_generator->active_world->WORLD_OPTIONS;
+    if( wopts.count( name ) == 0 ) {
+        // May be a new option and an old world - import default from global options.
+        wopts[name] = get_option( name );
+    }
+    return wopts[name];
 }
 
 std::unordered_map<std::string, options_manager::cOpt> options_manager::get_world_defaults() const

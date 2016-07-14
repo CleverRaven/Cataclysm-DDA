@@ -235,11 +235,6 @@ WORLDPTR worldfactory::convert_to_world(std::string origin_path)
 void worldfactory::set_active_world(WORLDPTR world)
 {
     world_generator->active_world = world;
-    if (world) {
-        ACTIVE_WORLD_OPTIONS = world->WORLD_OPTIONS;
-    } else {
-        ACTIVE_WORLD_OPTIONS.clear();
-    }
 }
 
 bool worldfactory::save_world(WORLDPTR world, bool is_conversion)
@@ -1474,7 +1469,7 @@ bool worldfactory::load_world_options(WORLDPTR &world)
 
     // for legacy saves, try to simulate old city_size based density
     if( world->WORLD_OPTIONS.count( "CITY_SPACING" ) == 0 ) {
-        world->WORLD_OPTIONS["CITY_SPACING"].setValue( 5 - world->WORLD_OPTIONS["CITY_SIZE"] / 3 );
+        world->WORLD_OPTIONS["CITY_SPACING"].setValue( 5 - get_option<int>( "CITY_SIZE" ) / 3 );
     }
 
     return true;
@@ -1487,7 +1482,7 @@ void load_world_option( JsonObject &jo )
         jo.throw_error( "no options specified", "options" );
     }
     while( arr.has_more() ) {
-        ACTIVE_WORLD_OPTIONS[ arr.next_string() ].setValue( "true" );
+        get_options().get_world_option( arr.next_string() ).setValue( "true" );
     }
 }
 
