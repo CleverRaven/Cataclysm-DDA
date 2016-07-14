@@ -648,7 +648,6 @@ bool Item_factory::check_ammo_type( std::ostream &msg, const ammotype& ammo ) co
 
 void Item_factory::check_definitions() const
 {
-    std::ostringstream main_stream;
     std::set<itype_id> magazines_used;
     std::set<itype_id> magazines_defined;
     for( const auto &elem : m_templates ) {
@@ -874,51 +873,28 @@ void Item_factory::check_definitions() const
         if (msg.str().empty()) {
             continue;
         }
-        main_stream << "warnings for type " << type->id << ":\n" << msg.str() << "\n";
-        const std::string &buffer = main_stream.str();
-        const size_t lines = std::count(buffer.begin(), buffer.end(), '\n');
-        if( stdscr == nullptr ) {
-            std::cerr << buffer << std::endl;
-            abort();
-        }
-        if (lines > 10) {
-            fold_and_print(stdscr, 0, 0, getmaxx(stdscr), c_red, "%s\n  Press any key...", buffer.c_str());
-            getch();
-            werase(stdscr);
-            main_stream.str(std::string());
-        }
+        debugmsg( "warnings for type %s:\n%s", type->id.c_str(), msg.str().c_str() );
     }
     if( !ACTIVE_WORLD_OPTIONS[ "BLACKLIST_MAGAZINES" ] ) {
         for( auto &mag : magazines_defined ) {
             // some vehicle parts (currently batteries) are implemented as magazines
             if( magazines_used.count( mag ) == 0 && find_template( mag )->category->id != category_id_veh_parts ) {
-                main_stream << "Magazine " << mag << " defined but not used.\n";
+                debugmsg( "Magazine %s defined but not used.", mag.c_str() );
             }
         }
     }
-    const std::string &buffer = main_stream.str();
-    if (!buffer.empty()) {
-        if( stdscr == nullptr ) {
-            std::cerr << buffer << std::endl;
-            abort();
-        }
-        fold_and_print(stdscr, 0, 0, getmaxx(stdscr), c_red, "%s\n  Press any key...", buffer.c_str());
-        getch();
-        werase(stdscr);
-    }
-    for( const auto &elem : m_template_groups ) {
-        elem.second->check_consistency();
-    }
-
     for( const auto& e : migrations ) {
         if( !m_templates.count( e.second.replace ) ) {
-            main_stream << "Invalid migration target: " << e.second.replace << "\n";
+            debugmsg( "Invalid migration target: %s", e.second.replace.c_str() );
         }
         for( const auto& c : e.second.contents ) {
             if( !m_templates.count( c ) ) {
-                main_stream << "Invalid migration contents: " << c << "\n";
+                debugmsg( "Invalid migration contents: %s", c.c_str() );
             }
         }
+    }
+    for( const auto &elem : m_template_groups ) {
+        elem.second->check_consistency();
     }
 }
 
