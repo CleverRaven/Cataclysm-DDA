@@ -468,6 +468,7 @@ void Item_factory::init()
     add_iuse( "HAIRKIT", &iuse::hairkit );
     add_iuse( "HAMMER", &iuse::hammer );
     add_iuse( "HEATPACK", &iuse::heatpack );
+    add_iuse( "HEAT_FOOD", &iuse::heat_food );
     add_iuse( "HONEYCOMB", &iuse::honeycomb );
     add_iuse( "HOTPLATE", &iuse::hotplate );
     add_iuse( "INHALER", &iuse::inhaler );

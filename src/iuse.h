@@ -152,6 +152,7 @@ public:
     int mop                 ( player*, item*, bool, const tripoint& );
     int spray_can           ( player*, item*, bool, const tripoint& );
     int heatpack            ( player*, item*, bool, const tripoint& );
+    int heat_food           ( player*, item*, bool, const tripoint& );
     int hotplate            ( player*, item*, bool, const tripoint& );
     int towel               ( player*, item*, bool, const tripoint& );
     int unfold_generic      ( player*, item*, bool, const tripoint& );

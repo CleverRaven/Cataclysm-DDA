@@ -951,6 +951,7 @@ Those flags are added by the game code to specific items (that specific welder, 
 - ```HANDFLARE``` Light the flare.
 - ```HANDFLARE_LIT``` The flare dies out.
 - ```HEATPACK``` Activate the heatpack and get warm.
+- ```HEAT_FOOD``` Heat food around fires.
 - ```HORN_BICYCLE``` Honk the horn.
 - ```HOTPLATE``` Use the hotplate.
 - ```JACKHAMMER``` Bust down walls and other constructions.

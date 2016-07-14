@@ -5404,6 +5404,16 @@ int iuse::heatpack(player *p, item *it, bool, const tripoint& )
     return 0;
 }
 
+int iuse::heat_food(player *p, item *it, bool, const tripoint& )
+{
+    if ( g->m.has_nearby_fire( p->pos() ) ) {
+        heat_item( p );
+    } else {
+        p->add_msg_if_player( m_info, _("You need to be next to fire to heat something up with the %s."), it->tname().c_str() );
+    }
+    return 0;
+}
+
 int iuse::hotplate(player *p, item *it, bool, const tripoint& )
 {
     if ( it->typeId() != "atomic_coffeepot" && ( !it->ammo_sufficient() ) ) {
