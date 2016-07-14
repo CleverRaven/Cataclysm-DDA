@@ -12045,6 +12045,9 @@ bool game::walk_move( const tripoint &dest_loc )
         }
     }
 
+    // Used to decide whether to print a 'moving is slow message
+    const int mcost_from = m.move_cost( u.pos() ); //calculate this _before_ calling grabbed_move
+
     int modifier = 0;
     if( grabbed && u.grab_type == OBJECT_FURNITURE && u.pos() + u.grab_point == dest_loc ) {
         modifier = -m.furn( dest_loc ).obj().movecost;
@@ -12072,8 +12075,7 @@ bool game::walk_move( const tripoint &dest_loc )
     u.recoil = int(u.recoil / 2);
 
     // Print a message if movement is slow
-    const int mcost_to = m.move_cost( dest_loc );
-    const int mcost_from = m.move_cost( u.pos() );
+    const int mcost_to = m.move_cost( dest_loc ); //calculate this _after_ calling grabbed_move
     const bool slowed = ( !u.has_trait( "PARKOUR" ) && ( mcost_to > 2 || mcost_from > 2 ) ) ||
                   mcost_to > 4 || mcost_from > 4;
     if( slowed ) {
