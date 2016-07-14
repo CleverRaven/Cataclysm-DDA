@@ -40,7 +40,6 @@ std::map<std::string, std::string> TILESETS; // All found tilesets: <name, tiles
 std::map<std::string, std::string> SOUNDPACKS; // All found soundpacks: <name, soundpack_dir>
 std::unordered_map<std::string, options_manager::cOpt> OPTIONS;
 std::unordered_map<std::string, options_manager::cOpt> ACTIVE_WORLD_OPTIONS;
-options_data optionsdata; // store extraneous options data that doesn't need to be in OPTIONS,
 std::vector<std::pair<std::string, std::string> > vPages;
 std::map<int, std::vector<std::string> > mPageItems;
 std::map<std::string, int> mOptionsSort;
@@ -53,25 +52,21 @@ options_manager &get_options()
     return single_instance;
 }
 
-options_data::options_data()
+options_manager::options_manager()
 {
     enable_json("DEFAULT_REGION");
     // to allow class based init_data functions to add values to a 'string' type option, add:
     //   enable_json("OPTION_KEY_THAT_GETS_STRING_ENTRIES_ADDED_VIA_JSON");
-    // also, in options.h, add this before 'class options_data'
-    //   class my_class;
-    // and inside options_data above public:
-    //   friend class my_class;
     // then, in the my_class::load_json (or post-json setup) method:
-    //   optionsdata.addme("OPTION_KEY_THAT_GETS_STRING_ENTRIES_ADDED_VIA_JSON", "thisvalue");
+    //   get_options().add_value("OPTION_KEY_THAT_GETS_STRING_ENTRIES_ADDED_VIA_JSON", "thisvalue");
 }
 
-void options_data::enable_json(const std::string &lvar)
+void options_manager::enable_json(const std::string &lvar)
 {
     post_json_verify[ lvar ] = std::string( 1, 001 ); // because "" might be valid
 }
 
-void options_data::add_retry(const std::string &lvar, const::std::string &lval)
+void options_manager::add_retry(const std::string &lvar, const::std::string &lval)
 {
     static const std::string blank_value( 1, 001 );
     std::map<std::string, std::string>::const_iterator it = post_json_verify.find(lvar);
@@ -81,8 +76,8 @@ void options_data::add_retry(const std::string &lvar, const::std::string &lval)
     }
 }
 
-void options_data::add_value( const std::string &lvar, const std::string &lval,
-                              std::string lvalname )
+void options_manager::add_value( const std::string &lvar, const std::string &lval,
+                                 const std::string &lvalname )
 {
     static const std::string blank_value( 1, 001 );
 
@@ -1854,7 +1849,7 @@ void options_manager::deserialize(JsonIn &jsin)
         const std::string name = joOptions.get_string("name");
         const std::string value = joOptions.get_string("value");
 
-        optionsdata.add_retry(name, value);
+        add_retry(name, value);
         OPTIONS[ name ].setValue( value );
     }
 }
@@ -1932,7 +1927,7 @@ bool options_manager::load_legacy()
             const std::string loadedvar = sLine.substr(0, iPos);
             const std::string loadedval = sLine.substr(iPos + 1, sLine.length());
             // option with values from post init() might get clobbered
-            optionsdata.add_retry(loadedvar, loadedval); // stash it until update();
+            add_retry(loadedvar, loadedval); // stash it until update();
 
             OPTIONS[ loadedvar ].setValue( loadedval );
         }

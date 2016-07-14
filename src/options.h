@@ -8,20 +8,6 @@
 #include <algorithm> //atoi
 #include "json.h"
 
-class options_data
-{
-        friend struct regional_settings;
-    public:
-        void add_retry( const std::string &var, const std::string &val );
-        void add_value( const std::string &myoption, const std::string &myval, std::string myvaltxt = "" );
-        options_data();
-    private:
-        void enable_json( const std::string &var );
-        std::map<std::string, std::string> post_json_verify;
-};
-
-extern options_data optionsdata;
-
 class options_manager : public JsonSerializer, public JsonDeserializer
 {
     private:
@@ -29,6 +15,14 @@ class options_manager : public JsonSerializer, public JsonDeserializer
         static std::string build_soundpacks_list();
 
         bool load_legacy();
+
+        void enable_json( const std::string &var );
+        void add_retry( const std::string &var, const std::string &val );
+
+        std::map<std::string, std::string> post_json_verify;
+
+        friend options_manager &get_options();
+        options_manager();
 
     public:
         enum copt_hide_t {
@@ -48,7 +42,7 @@ class options_manager : public JsonSerializer, public JsonDeserializer
 
         class cOpt
         {
-                friend class options_data;
+                friend class options_manager;
             public:
                 //Default constructor
                 cOpt();
@@ -167,6 +161,9 @@ class options_manager : public JsonSerializer, public JsonDeserializer
         void load();
         bool save();
         void show( bool ingame = false );
+
+        void add_value( const std::string &myoption, const std::string &myval,
+                        const std::string &myvaltxt = "" );
 
         using JsonSerializer::serialize;
         void serialize( JsonOut &json ) const override;
