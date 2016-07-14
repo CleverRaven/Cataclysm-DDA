@@ -6595,7 +6595,7 @@
         "use_action" : {
             "type": "bandolier",
             "capacity": 20,
-            "ammo": [ "arrow" ],
+            "ammo": [ "arrow", "bolt" ],
             "draw_cost": 3
         }
     },
@@ -6621,7 +6621,7 @@
         "use_action" : {
             "type": "bandolier",
             "capacity": 20,
-            "ammo": [ "arrow" ],
+            "ammo": [ "arrow", "bolt" ],
             "draw_cost": 3
         }
     },
@@ -6647,7 +6647,7 @@
         "use_action" : {
             "type": "bandolier",
             "capacity": 60,
-            "ammo": [ "arrow" ],
+            "ammo": [ "arrow", "bolt" ],
             "draw_cost": 3
         }
     },
@@ -6673,7 +6673,7 @@
         "use_action" : {
             "type": "bandolier",
             "capacity": 60,
-            "ammo": [ "arrow" ],
+            "ammo": [ "arrow", "bolt" ],
             "draw_cost": 3
         }
     },
