@@ -495,6 +495,27 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         bool handle_gun_damage( item &firing );
 
         /**
+         * Calculate range at which given chance of hit considering player stats, clothing and recoil
+         * @param gun ranged weapon which must have sufficient ammo for at least one shot
+         * @param aim maximum turns to spend aiming (or unlimited if negative)
+         * @param penalty if set (non-negative) use this value instead of current total player recoil
+         * @param chance probability of hit, range [0-100) with zero returning absolute maximum range
+         * @param accuracy minimum accuracy required
+         * @return range in tiles (with default arguments this is the maximum effective range)
+         */
+        double gun_engagement_range( const item& gun, int aim = -1, int penalty = -1,
+                                    unsigned chance = 50, double accuracy = accuracy_goodhit ) const;
+
+        enum class engagement {
+            effective_min,   // 50% chance of good hit with no aiming
+            effective_max,   // 50% chance of good hit at maximum aim
+            absolute_max,    // 10% chance of any hit at maximum aim
+        };
+
+        /** Calculate range at which engagement rules apply */
+        double gun_engagement_range( const item& gun, engagement opts, int penalty = -1 ) const;
+
+        /**
          *  Fires a gun or axuiliary gunmod (ignoring any current mode)
          *  @param target where the first shot is aimed at (may vary for later shots)
          *  @param shots maximum number of shots to fire (less may be fired in some circumstances)

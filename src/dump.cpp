@@ -10,6 +10,7 @@
 #include "player.h"
 #include "vehicle.h"
 #include "veh_type.h"
+#include "npc.h"
 
 void game::dump_stats( const std::string& what, dump_mode mode )
 {
@@ -81,8 +82,10 @@ void game::dump_stats( const std::string& what, dump_mode mode )
     } else if( what == "GUN" ) {
         header = {
             "Name", "Ammo", "Volume", "Weight", "Capacity",
-            "Range", "Dispersion", "Recoil", "Damage", "Pierce"
+            "Range", "Dispersion", "Recoil", "Damage", "Pierce",
+            "eff-min", "eff-max", "abs-max"
         };
+
         std::set<std::string> locations;
         for( const auto& e : item_controller->get_all_itypes() ) {
             if( e.second->gun ) {
@@ -108,6 +111,18 @@ void game::dump_stats( const std::string& what, dump_mode mode )
             r.push_back( to_string( obj.gun_recoil() ) );
             r.push_back( to_string( obj.gun_damage() ) );
             r.push_back( to_string( obj.gun_pierce() ) );
+
+            standard_npc fake;
+            fake.wear_item( item( "gloves_lsurvivor" ) );
+            fake.wear_item( item( "mask_lsurvivor" ) );
+            fake.set_skill_level( skill_id( "gun" ), 4 );
+            fake.set_skill_level( obj.gun_skill(), 4 );
+            fake.recoil = MIN_RECOIL;
+
+            r.push_back( string_format( "%.1f", fake.gun_engagement_range( obj, player::engagement::effective_min ) ) );
+            r.push_back( string_format( "%.1f", fake.gun_engagement_range( obj, player::engagement::effective_max ) ) );
+            r.push_back( string_format( "%.1f", fake.gun_engagement_range( obj, player::engagement::absolute_max ) ) );
+
             for( const auto &e : locations ) {
                 r.push_back( to_string( obj.type->gun->valid_mod_locations[ e ] ) );
             }
@@ -116,12 +131,11 @@ void game::dump_stats( const std::string& what, dump_mode mode )
         for( const auto& e : item_controller->get_all_itypes() ) {
             if( e.second->gun ) {
                 item gun( e.first );
-                if( gun.is_reloadable() ) {
-                    if( !gun.magazine_integral() ) {
-                        gun.emplace_back( gun.magazine_default() );
-                    }
-                    gun.ammo_set( default_ammo( gun.ammo_type() ), gun.ammo_capacity() );
+                if( !gun.magazine_integral() ) {
+                    gun.emplace_back( gun.magazine_default() );
                 }
+                gun.ammo_set( default_ammo( gun.ammo_type() ), gun.ammo_capacity() );
+
                 dump( gun );
 
                 if( gun.type->gun->barrel_length > 0 ) {

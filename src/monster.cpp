@@ -1099,8 +1099,8 @@ void monster::deal_projectile_attack( Creature *source, dealt_projectile_attack 
     }
     // Not HARDTOSHOOT
     // if it's a headshot with no head, make it not a headshot
-    if( missed_by < 0.2 && has_flag( MF_NOHEAD ) ) {
-        missed_by = 0.2;
+    if( missed_by < accuracy_headshot && has_flag( MF_NOHEAD ) ) {
+        missed_by = accuracy_headshot;
     }
 
     Creature::deal_projectile_attack( source, attack );

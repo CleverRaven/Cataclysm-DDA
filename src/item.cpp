@@ -890,6 +890,17 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
 
         insert_separation_line();
 
+        int eff_max = round( g->u.gun_engagement_range( *mod, player::engagement::effective_max, MIN_RECOIL ) );
+        int abs_max = round( g->u.gun_engagement_range( *mod, player::engagement::absolute_max,  MIN_RECOIL ) );
+
+        if( eff_max > 0 ) {
+            info.emplace_back( "GUN", _( "<bold>Effective range: </bold>" ), "<num>", eff_max, true, "", abs_max <= 0 );
+        }
+
+        if( abs_max > 0 ) {
+            info.emplace_back( "GUN", space + _( "Maximum range: " ), "<num>", abs_max );
+        }
+
         info.push_back( iteminfo( "GUN", _( "Damage: " ), "", mod->gun_damage( false ), true, "", false, false ) );
 
         if( has_ammo ) {
@@ -914,19 +925,7 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
                                       mod->gun_pierce( true ), true, "", true, false, false ) );
         }
 
-        info.push_back( iteminfo( "GUN", _( "Range: " ), "", mod->gun_range( false ), true, "", false,
-                                  false ) );
-        if( has_ammo ) {
-            temp1.str( "" );
-            temp1 << ( ammo_range >= 0 ? "+" : "" );
-            // ammo_range and sum_of_range don't need to translate.
-            info.push_back( iteminfo( "GUN", "ammo_range", "",
-                                      ammo_range, true, temp1.str(), false, false, false ) );
-            info.push_back( iteminfo( "GUN", "sum_of_range", _( " = <num>" ),
-                                      mod->gun_range( true ), true, "", false, false, false ) );
-        }
-
-        info.push_back( iteminfo( "GUN", space + _( "Dispersion: " ), "",
+        info.push_back( iteminfo( "GUN", _( "Dispersion: " ), "",
                                   mod->gun_dispersion( false ), true, "", !has_ammo, true ) );
         if( has_ammo ) {
             temp1.str( "" );

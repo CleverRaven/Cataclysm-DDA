@@ -530,27 +530,29 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
     std::string message = "";
     game_message_type gmtSCTcolor = m_neutral;
 
-    if( goodhit < 0.1 ) {
+    if( goodhit < accuracy_headshot ) {
         message = _("Headshot!");
         gmtSCTcolor = m_headshot;
         damage_mult *= rng_float(2.45, 3.35);
         bp_hit = bp_head; // headshot hits the head, of course
-    } else if( goodhit < 0.2 ) {
+
+    } else if( goodhit < accuracy_critical ) {
         message = _("Critical!");
         gmtSCTcolor = m_critical;
         damage_mult *= rng_float(1.75, 2.3);
-    } else if( goodhit < 0.4 ) {
+
+    } else if( goodhit < accuracy_goodhit ) {
         message = _("Good hit!");
         gmtSCTcolor = m_good;
         damage_mult *= rng_float(1, 1.5);
-    } else if( goodhit < 0.6 ) {
+
+    } else if( goodhit < accuracy_standard ) {
         damage_mult *= rng_float(0.5, 1);
-    } else if( goodhit < 0.8 ) {
+
+    } else if( goodhit < accuracy_grazing ) {
         message = _("Grazing hit.");
         gmtSCTcolor = m_grazing;
         damage_mult *= rng_float(0, .25);
-    } else {
-        damage_mult *= 0;
     }
 
     if( source != nullptr && !message.empty() ) {

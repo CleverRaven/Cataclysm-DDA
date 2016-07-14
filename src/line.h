@@ -7,6 +7,18 @@
 #include <functional>
 #include <math.h>
 
+/** Converts degrees to radians */
+constexpr double DEGREES( double v )
+{
+    return v * M_PI / 180;
+}
+
+/** Converts arc minutes to radians */
+constexpr double ARCMIN( double v )
+{
+    return DEGREES( v ) / 60;
+}
+
 //! This compile-time useable function combines the sign of each (x, y, z) component into a single integer
 //! to allow simple runtime and compiletime mapping of (x, y, z) tuples to @ref direction enumerators.
 //! Specifically, (0, -, +) => (0, 1, 2); a base-3 number.
