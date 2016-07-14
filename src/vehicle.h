@@ -726,10 +726,10 @@ public:
     // strain of engine(s) if it works higher that safe speed (0-1.0)
     float strain () const;
 
-    // calculate if it can move using its wheels configuration
-    bool sufficient_wheel_config() const;
-    bool balanced_wheel_config() const;
-    bool valid_wheel_config() const;
+    // Calculate if it can move using its wheels or boat parts configuration
+    bool sufficient_wheel_config( bool floating ) const;
+    bool balanced_wheel_config( bool floating ) const;
+    bool valid_wheel_config( bool floating ) const;
 
     // return the relative effectiveness of the steering (1.0 is normal)
     // <0 means there is no steering installed at all.

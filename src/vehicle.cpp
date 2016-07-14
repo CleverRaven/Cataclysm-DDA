@@ -3422,11 +3422,12 @@ float vehicle::strain() const
     }
 }
 
-bool vehicle::sufficient_wheel_config() const
+bool vehicle::sufficient_wheel_config( bool boat ) const
 {
     std::vector<int> floats = all_parts_with_feature(VPFLAG_FLOATS);
-    if( !floats.empty() ) {
-        return floats.size() > 2;
+    // @todo Remove the limitations that boats can't move on land
+    if( boat || !floats.empty() ) {
+        return boat && floats.size() > 2;
     }
     std::vector<int> wheel_indices = all_parts_with_feature(VPFLAG_WHEEL);
     if(wheel_indices.empty()) {
@@ -3442,7 +3443,7 @@ bool vehicle::sufficient_wheel_config() const
     return true;
 }
 
-bool vehicle::balanced_wheel_config () const
+bool vehicle::balanced_wheel_config( bool boat ) const
 {
     int xmin = INT_MAX;
     int ymin = INT_MAX;
@@ -3465,9 +3466,9 @@ bool vehicle::balanced_wheel_config () const
     return true;
 }
 
-bool vehicle::valid_wheel_config () const
+bool vehicle::valid_wheel_config( bool boat ) const
 {
-    return sufficient_wheel_config() && balanced_wheel_config();
+    return sufficient_wheel_config( boat ) && balanced_wheel_config( boat );
 }
 
 float vehicle::steering_effectiveness() const
@@ -4153,7 +4154,7 @@ void vehicle::thrust( int thd ) {
     bool pl_ctrl = player_in_control( g->u );
 
     // No need to change velocity if there are no wheels
-    if( !valid_wheel_config() && velocity == 0 ) {
+    if( !valid_wheel_config( !floating.empty() ) && velocity == 0 ) {
         if( pl_ctrl ) {
             if( floating.empty() ) {
                 add_msg(_("The %s doesn't have enough wheels to move!"), name.c_str());
@@ -5243,7 +5244,7 @@ void vehicle::refresh_pivot() const {
     // Const method, but messes with mutable fields
     pivot_dirty = false;
 
-    if (wheelcache.empty() || !valid_wheel_config()) {
+    if( wheelcache.empty() || !valid_wheel_config( false ) ) {
         // No usable wheels, use CoM (dragging)
         pivot_cache = local_center_of_mass();
         return;

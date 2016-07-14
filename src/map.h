@@ -496,7 +496,7 @@ public:
     void unboard_vehicle( const tripoint &p );//remove player from vehicle at p
     // Change vehicle coords and move vehicle's driver along.
     // WARNING: not checking collisions!
-    void displace_vehicle( tripoint &p, const tripoint &dp );
+    vehicle *displace_vehicle( tripoint &p, const tripoint &dp );
     // move water under wheels. true if moved
     bool displace_water( const tripoint &dp );
 

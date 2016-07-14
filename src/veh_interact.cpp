@@ -1505,43 +1505,50 @@ void veh_interact::display_stats()
     x[4] += utf8_width(_("Status:")) + 1;
     fold_and_print(w_stats, y[4], x[4], w[4], totalDurabilityColor, totalDurabilityText);
 
-    bool isBoat = !veh->all_parts_with_feature(VPFLAG_FLOATS).empty();
-    bool suf, bal;
-    float steer;
-    suf = veh->sufficient_wheel_config();
-    bal = veh->balanced_wheel_config();
-    steer = veh->steering_effectiveness();
-    if( !isBoat ) {
-        if( !suf ) {
-            fold_and_print(w_stats, y[5], x[5], w[5], c_ltgray,
-                           _("Wheels: <color_ltred>lack</color>"));
-        } else if (!bal) {
-            fold_and_print(w_stats, y[5], x[5], w[5], c_ltgray,
-                           _("Wheels: <color_ltred>unbalanced</color>"));
-        } else if (steer < 0) {
-            fold_and_print(w_stats, y[5], x[5], w[5], c_ltgray,
-                           _("Wheels: <color_ltred>no steering</color>"));
-        } else if (steer < 0.033) {
-            fold_and_print(w_stats, y[5], x[5], w[5], c_ltgray,
-                           _("Wheels: <color_ltred>broken steering</color>"));
-        } else if (steer < 0.5) {
-            fold_and_print(w_stats, y[5], x[5], w[5], c_ltgray,
-                           _("Wheels: <color_ltred>poor steering</color>"));
-        } else {
-            fold_and_print(w_stats, y[5], x[5], w[5], c_ltgray,
-                           _("Wheels: <color_ltgreen>enough</color>"));
-        }
-    }   else {
-        if( !suf ) {
-            fold_and_print(w_stats, y[5], x[5], w[5], c_ltgray,
-                           _("Boat: <color_ltred>can't swim</color>"));
-        } else if (!bal) {
-            fold_and_print(w_stats, y[5], x[5], w[5], c_ltgray,
-                           _("Boat: <color_ltred>unbalanced</color>"));
-        } else {
-            fold_and_print(w_stats, y[5], x[5], w[5], c_ltgray,
-                           _("Boat: <color_blue>can swim</color>"));
-        }
+    bool is_boat = !veh->all_parts_with_feature(VPFLAG_FLOATS).empty();
+    bool is_land = !veh->all_parts_with_feature(VPFLAG_WHEEL).empty();
+
+    bool suf_land = veh->sufficient_wheel_config( false );
+    bool bal_land = veh->balanced_wheel_config( false );
+
+    bool suf_boat = veh->sufficient_wheel_config( true );
+    bool bal_boat = veh->balanced_wheel_config( true );
+    float steer = veh->steering_effectiveness();
+
+    std::string wheel_status;
+    if( !suf_land ) {
+        wheel_status = _( "<color_ltred>lack</color>" );
+    } else if( !bal_land ) {
+        wheel_status = _( "<color_ltred>unbalanced</color>" );
+    } else if( steer < 0 ) {
+        wheel_status = _( "<color_ltred>no steering</color>" );
+    } else if( steer < 0.033 ) {
+        wheel_status = _( "<color_ltred>broken steering</color>" );
+    } else if( steer < 0.5 ) {
+        wheel_status = _( "<color_ltred>poor steering</color>" );
+    } else {
+        wheel_status = _( "<color_ltgreen>enough</color>" );
+    }
+
+    std::string boat_status;
+    if( !suf_boat ) {
+        boat_status = _( "<color_ltred>leaks</color>" );
+    } else if( !bal_boat ) {
+        boat_status = _( "<color_ltred>unbalanced</color>" );
+    } else {
+        boat_status = _( "<color_blue>swims</color>" );
+    }
+
+    std::string wheel_msg;
+    if( is_boat && is_land ) {
+        fold_and_print( w_stats, y[5], x[5], w[5], c_ltgray,
+                        _( "Wheels/boat: %s/%s" ), wheel_status.c_str(), boat_status.c_str() );
+    } else if( is_boat ) {
+        fold_and_print( w_stats, y[5], x[5], w[5], c_ltgray,
+                        _( "Boat: %s" ), boat_status.c_str() );
+    } else {
+        fold_and_print( w_stats, y[5], x[5], w[5], c_ltgray,
+                        _( "Wheels: %s" ), wheel_status.c_str() );
     }
 
     // Write the most damaged part

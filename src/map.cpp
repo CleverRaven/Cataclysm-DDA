@@ -816,7 +816,7 @@ void map::move_vehicle( vehicle &veh, const tripoint &dp, const tileray &facing 
     }
 
     // If not enough wheels, mess up the ground a bit.
-    if( !vertical && !veh.valid_wheel_config() ) {
+    if( !vertical && !veh.valid_wheel_config( false ) ) {
         veh.velocity += veh.velocity < 0 ? 2000 : -2000;
         for( const auto &p : veh.get_points() ) {
             const ter_id &pter = ter( p );
@@ -1305,7 +1305,7 @@ void map::unboard_vehicle( const tripoint &p )
     veh->invalidate_mass();
 }
 
-void map::displace_vehicle( tripoint &p, const tripoint &dp )
+vehicle *map::displace_vehicle( tripoint &p, const tripoint &dp )
 {
     const tripoint p2 = p + dp;
     const tripoint src = p;
@@ -1314,7 +1314,7 @@ void map::displace_vehicle( tripoint &p, const tripoint &dp )
     if( !inbounds( src ) ) {
         add_msg( m_debug, "map::displace_vehicle: coords out of bounds %d,%d,%d->%d,%d,%d",
                         src.x, src.y, src.z, dst.x, dst.y, dst.z );
-        return;
+        return nullptr;
     }
 
     int src_offset_x, src_offset_y, dst_offset_x, dst_offset_y;
@@ -1344,7 +1344,7 @@ void map::displace_vehicle( tripoint &p, const tripoint &dp )
     }
     if( our_i < 0 ) {
         add_msg( m_debug, "displace_vehicle our_i=%d", our_i );
-        return;
+        return nullptr;
     }
     // move the vehicle
     vehicle *veh = src_submap->vehicles[our_i];
@@ -1354,7 +1354,7 @@ void map::displace_vehicle( tripoint &p, const tripoint &dp )
         // Silent debug
         dbg(D_ERROR) << "map:displace_vehicle: Stopping vehicle, displaced dp=("
                      << dp.x << ", " << dp.y << ", " << dp.z << ")";
-        return;
+        return veh;
     }
 
     // Need old coords to check for remote control
@@ -1454,6 +1454,7 @@ void map::displace_vehicle( tripoint &p, const tripoint &dp )
     }
 
     on_vehicle_moved( veh->smz );
+    return veh;
 }
 
 bool map::displace_water( const tripoint &p )
