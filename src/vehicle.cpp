@@ -4170,7 +4170,7 @@ void vehicle::thrust( int thd ) {
     // @todo Pass this as an argument to avoid recalculating
     float traction = k_traction( g->m.vehicle_wheel_traction( *this ) );
     int accel = acceleration() * traction;
-    if( accel == 0 ) {
+    if( thrusting && accel == 0 ) {
         if( pl_ctrl ) {
             add_msg( _("The %s is too heavy for its engine(s)!"), name.c_str() );
         }
