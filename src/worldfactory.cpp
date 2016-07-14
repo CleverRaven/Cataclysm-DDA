@@ -38,13 +38,7 @@ WORLD::WORLD()
     std::ostringstream path;
     path << FILENAMES["savedir"] << world_name;
     world_path = path.str();
-    WORLD_OPTIONS.clear();
-
-    for( auto &elem : OPTIONS ) {
-        if( elem.second.getPage() == "world_default" ) {
-            WORLD_OPTIONS[elem.first] = elem.second;
-        }
-    }
+    WORLD_OPTIONS = get_options().get_world_defaults();
 
     world_saves.clear();
     active_mod_order = world_generator->get_mod_manager()->get_default_mods();
@@ -344,11 +338,7 @@ std::map<std::string, WORLDPTR> worldfactory::get_all_worlds()
 
         // load options into the world
         if ( !load_world_options(retworlds[worldname]) ) {
-            for( auto &elem : OPTIONS ) {
-                if( elem.second.getPage() == "world_default" ) {
-                    retworlds[worldname]->WORLD_OPTIONS[elem.first] = elem.second;
-                }
-            }
+            retworlds[worldname]->WORLD_OPTIONS = get_options().get_world_defaults();
             retworlds[worldname]->WORLD_OPTIONS["DELETE_WORLD"].setValue("yes");
             save_world(retworlds[worldname]);
         }
@@ -1421,19 +1411,9 @@ bool worldfactory::valid_worldname(std::string name, bool automated)
     return false;
 }
 
-void worldfactory::get_default_world_options(WORLDPTR &world)
-{
-    std::unordered_map<std::string, options_manager::cOpt> retoptions;
-    for( auto &elem : OPTIONS ) {
-        if( elem.second.getPage() == "world_default" ) {
-            world->WORLD_OPTIONS[elem.first] = elem.second;
-        }
-    }
-}
-
 bool worldfactory::load_world_options(WORLDPTR &world)
 {
-    get_default_world_options(world);
+    world->WORLD_OPTIONS = get_options().get_world_defaults();
     std::ifstream fin;
 
     auto path = world->world_path + "/" + FILENAMES["worldoptions"];

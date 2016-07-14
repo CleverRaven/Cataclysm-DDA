@@ -168,6 +168,12 @@ class options_manager : public JsonSerializer, public JsonDeserializer
         using JsonSerializer::serialize;
         void serialize( JsonOut &json ) const override;
         void deserialize( JsonIn &jsin ) override;
+
+        /**
+         * Returns a copy of the options in the "world default" page. The options have their
+         * current value, which acts as the default for new worlds.
+         */
+        std::unordered_map<std::string, cOpt> get_world_defaults() const;
 };
 
 bool use_narrow_sidebar(); // short-circuits to on if terminal is too small

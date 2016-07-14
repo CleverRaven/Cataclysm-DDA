@@ -1941,3 +1941,14 @@ bool use_narrow_sidebar()
 {
     return TERMY < 25 || g->narrow_sidebar;
 }
+
+std::unordered_map<std::string, options_manager::cOpt> options_manager::get_world_defaults() const
+{
+    std::unordered_map<std::string, cOpt> result;
+    for( auto &elem : OPTIONS ) {
+        if( elem.second.getPage() == "world_default" ) {
+            result.insert( elem );
+        }
+    }
+    return result;
+}
