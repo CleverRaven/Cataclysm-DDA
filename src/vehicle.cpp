@@ -3313,20 +3313,12 @@ void vehicle::noise_and_smoke( double load, double time )
     sounds::ambient_sound( global_pos3(), noise, sound_msgs[lvl] );
 }
 
-float vehicle::wheels_area() const
+float vehicle::wheel_area( bool boat ) const
 {
-    int count = 0;
     float total_area = 0.0f;
-    const auto &wheel_indices = wheelcache;
-    for( auto &wheel_indice : wheel_indices ) {
-        int p = wheel_indice;
-        int width = parts[ p ].wheel_width();
-        total_area += width * parts[ p ].wheel_diameter();
-        count++;
-    }
-
-    if( all_parts_with_feature("FLOATS").size() > 0 ) {
-        return 120;
+    const auto &wheel_indices = boat ? floating : wheelcache;
+    for( auto &wheel_index : wheel_indices ) {
+        total_area += parts[ wheel_index ].base.wheel_area();
     }
 
     return total_area;
@@ -3336,7 +3328,7 @@ float vehicle::k_friction() const
 {
     // calculate safe speed reduction due to wheel friction
     constexpr float fr0 = 9000.0;
-    return fr0 / ( fr0 + wheels_area() ) ;
+    return fr0 / ( fr0 + wheel_area( false ) ) ;
 }
 
 float vehicle::k_aerodynamics() const
@@ -3379,9 +3371,11 @@ float vehicle::k_dynamics() const
 
 float vehicle::k_mass() const
 {
-    float wa = wheels_area();
-    if (wa <= 0)
+    // @todo Remove this sum, apply only the relevant wheel type
+    float wa = wheel_area( false ) + wheel_area( true );
+    if( wa <= 0 ) {
        return 0;
+    }
 
     float ma0 = 50.0;
     // calculate safe speed reduction due to mass
@@ -3396,9 +3390,10 @@ float vehicle::k_traction( float wheel_traction_area ) const
         return 0.0f;
     }
 
-    const float mass_penalty = ( 1.0f - wheel_traction_area / wheels_area() ) * total_mass();
+    const float mass_penalty = ( 1.0f - wheel_traction_area / wheel_area( !floating.empty() ) ) * total_mass();
 
     float traction = std::min( 1.0f, wheel_traction_area / mass_penalty );
+    add_msg( m_debug, "%s has traction %.2f", name.c_str(), traction );
     // For now make it easy until it gets properly balanced: add a low cap of 0.1
     return std::max( 0.1f, traction );
 }
@@ -4175,6 +4170,14 @@ void vehicle::thrust( int thd ) {
     // @todo Pass this as an argument to avoid recalculating
     float traction = k_traction( g->m.vehicle_wheel_traction( *this ) );
     int accel = acceleration() * traction;
+    if( accel == 0 ) {
+        if( pl_ctrl ) {
+            add_msg( _("The %s is too heavy for its engine(s)!"), name.c_str() );
+        }
+
+        return;
+    }
+
     int max_vel = max_velocity() * traction;
     // Get braking power
     int brake = 30 * k_mass();

@@ -654,10 +654,7 @@ float map::vehicle_wheel_traction( const vehicle &veh ) const
         const int p = wheel_indices[w];
         const tripoint pp = pt + veh.parts[p].precalc[0];
 
-        // Not using vehicle::wheels_area so that if it changes,
-        //  this section will stay correct (ie. proportion of wheel area/total area)
-        const int width = veh.parts[ p ].wheel_width();
-        const float wheel_area = width * veh.parts[ p ].wheel_diameter();
+        const float wheel_area = veh.parts[ p ].wheel_width() * veh.parts[ p ].wheel_diameter();
 
         const auto &tr = ter( pp ).obj();
         // Deep water and air
@@ -701,9 +698,11 @@ float map::vehicle_buoyancy( const vehicle &veh ) const
     const auto &float_indices = veh.floating;
     const int num = float_indices.size();
     int moored = 0;
+    float total_wheel_area = 0.0f;
     for( int w = 0; w < num; w++ ) {
         const int p = float_indices[w];
         const tripoint pp = pt + veh.parts[p].precalc[0];
+        total_wheel_area += veh.parts[ p ].wheel_width() * veh.parts[ p ].wheel_diameter();
 
         if( !has_flag( "SWIMMABLE", pp ) ) {
             moored++;
@@ -714,8 +713,7 @@ float map::vehicle_buoyancy( const vehicle &veh ) const
         return 0.0f;
     }
 
-    // TODO: Actually implement buoyancy
-    return 1.0f;
+    return total_wheel_area;
 }
 
 void map::move_vehicle( vehicle &veh, const tripoint &dp, const tileray &facing )
@@ -816,7 +814,7 @@ void map::move_vehicle( vehicle &veh, const tripoint &dp, const tileray &facing 
     }
 
     // If not enough wheels, mess up the ground a bit.
-    if( !vertical && !veh.valid_wheel_config( false ) ) {
+    if( !vertical && !veh.valid_wheel_config( !veh.floating.empty() ) ) {
         veh.velocity += veh.velocity < 0 ? 2000 : -2000;
         for( const auto &p : veh.get_points() ) {
             const ter_id &pter = ter( p );

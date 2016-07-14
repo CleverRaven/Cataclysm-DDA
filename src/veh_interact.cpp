@@ -1516,7 +1516,9 @@ void veh_interact::display_stats()
     float steer = veh->steering_effectiveness();
 
     std::string wheel_status;
-    if( !suf_land ) {
+    if( !suf_land && is_boat ) {
+        wheel_status = _( "<color_ltred>disabled</color>" );
+    } else if( !suf_land ) {
         wheel_status = _( "<color_ltred>lack</color>" );
     } else if( !bal_land ) {
         wheel_status = _( "<color_ltred>unbalanced</color>" );
@@ -1582,7 +1584,7 @@ void veh_interact::display_stats()
                    int(veh->k_mass() * 100));
     fold_and_print( w_stats, y[10], x[10], w[10], c_ltgray,
                     _("Offroad:        <color_ltblue>%3d</color>%%"),
-                    int( veh->k_traction( veh->wheels_area() * 0.5f ) * 100 ) );
+                    int( veh->k_traction( veh->wheel_area( is_boat ) * 0.5f ) * 100 ) );
 
     // "Fuel usage (safe): " is renamed to "Fuel usage: ".
     mvwprintz(w_stats, y[11], x[11], c_ltgray,  _("Fuel usage:      "));

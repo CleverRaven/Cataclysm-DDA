@@ -773,6 +773,9 @@ public:
     /** What faults can potentially occur with this item? */
     std::set<fault_id> faults_potential() const;
 
+    /** Returns the total area of this wheel or 0 if it isn't one. */
+    int wheel_area() const;
+
     /**
      * Can this item have given item/itype as content?
      *

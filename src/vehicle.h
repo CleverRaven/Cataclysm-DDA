@@ -702,7 +702,7 @@ public:
     void noise_and_smoke( double load, double time = 6.0 );
 
     // Calculate area covered by wheels
-    float wheels_area() const;
+    float wheel_area( bool boat ) const;
 
     // Combined coefficient of aerodynamic and wheel friction resistance of vehicle, 0-1.0.
     // 1.0 means it's ideal form and have no resistance at all. 0 -- it won't move
