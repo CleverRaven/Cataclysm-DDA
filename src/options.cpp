@@ -38,7 +38,6 @@ extern std::unique_ptr<cata_tiles> tilecontext;
 
 std::map<std::string, std::string> TILESETS; // All found tilesets: <name, tileset_dir>
 std::map<std::string, std::string> SOUNDPACKS; // All found soundpacks: <name, soundpack_dir>
-std::unordered_map<std::string, options_manager::cOpt> OPTIONS;
 std::unordered_map<std::string, options_manager::cOpt> ACTIVE_WORLD_OPTIONS;
 std::vector<std::pair<std::string, std::string> > vPages;
 std::map<int, std::vector<std::string> > mPageItems;
@@ -82,8 +81,8 @@ void options_manager::add_value( const std::string &lvar, const std::string &lva
 {
     std::map<std::string, std::string>::const_iterator it = post_json_verify.find(lvar);
     if ( it != post_json_verify.end() ) {
-        auto ot = OPTIONS.find(lvar);
-        if ( ot != OPTIONS.end() && ot->second.sType == "string_select" ) {
+        auto ot = global_options.find(lvar);
+        if ( ot != global_options.end() && ot->second.sType == "string_select" ) {
             for(std::vector<std::string>::const_iterator eit = ot->second.vItems.begin();
                 eit != ot->second.vItems.end(); ++eit) {
                 if ( *eit == lval ) { // already in
@@ -96,7 +95,7 @@ void options_manager::add_value( const std::string &lvar, const std::string &lva
             }
             // our value was saved, then set to default, so set it again.
             if ( it->second == lval ) {
-                OPTIONS[ lvar ].setValue( lval );
+                global_options[ lvar ].setValue( lval );
             }
         }
 
@@ -748,7 +747,7 @@ std::string options_manager::build_soundpacks_list()
 
 void options_manager::init()
 {
-    OPTIONS.clear();
+    global_options.clear();
     ACTIVE_WORLD_OPTIONS.clear();
     vPages.clear();
     mPageItems.clear();
@@ -773,6 +772,9 @@ void options_manager::init()
 
     std::string soundpack_names;
     soundpack_names = build_soundpacks_list(); //get the soundpack names and set the optionNames
+
+    // temporary alias so the code below does not need to be changed
+    auto &OPTIONS = global_options;
 
     ////////////////////////////GENERAL//////////////////////////
     OPTIONS["DEF_CHAR_NAME"] = cOpt("general", _("Default character name"),
@@ -1503,6 +1505,9 @@ void draw_borders_internal( WINDOW *w, std::map<int, bool> &mapLines )
 
 void options_manager::show(bool ingame)
 {
+    // temporary alias so the code below does not need to be changed
+    auto &OPTIONS = global_options;
+
     auto OPTIONS_OLD = OPTIONS;
     auto WOPTIONS_OLD = ACTIVE_WORLD_OPTIONS;
     if ( world_generator->active_world == NULL ) {
@@ -1823,13 +1828,15 @@ void options_manager::serialize(JsonOut &json) const
 
     for( size_t j = 0; j < vPages.size(); ++j ) {
         for( auto &elem : mPageItems[j] ) {
-            if( OPTIONS[elem].getDefaultText() != "" ) {
+            const auto iter = global_options.find( elem );
+            const auto &opt = iter->second;
+            if( opt.getDefaultText() != "" ) {
                 json.start_object();
 
-                json.member( "info", OPTIONS[elem].getTooltip() );
-                json.member( "default", OPTIONS[elem].getDefaultText( false ) );
+                json.member( "info", opt.getTooltip() );
+                json.member( "default", opt.getDefaultText( false ) );
                 json.member( "name", elem );
-                json.member( "value", OPTIONS[elem].getValue() );
+                json.member( "value", opt.getValue() );
 
                 json.end_object();
             }
@@ -1849,7 +1856,7 @@ void options_manager::deserialize(JsonIn &jsin)
         const std::string value = joOptions.get_string("value");
 
         add_retry(name, value);
-        OPTIONS[ name ].setValue( value );
+        global_options[ name ].setValue( value );
     }
 }
 
@@ -1858,11 +1865,11 @@ bool options_manager::save()
     const auto savefile = FILENAMES["options"];
 
     // cache to global due to heavy usage.
-    trigdist = get_option<bool>( "CIRCLEDIST" );
-    use_tiles = get_option<bool>( "USE_TILES" );
-    log_from_top = get_option<std::string>( "SIDEBAR_LOG_FLOW" ) == "new_top";
-    message_ttl = get_option<int>( "MESSAGE_TTL" );
-    fov_3d = get_option<bool>( "FOV_3D" );
+    trigdist = ::get_option<bool>( "CIRCLEDIST" );
+    use_tiles = ::get_option<bool>( "USE_TILES" );
+    log_from_top = ::get_option<std::string>( "SIDEBAR_LOG_FLOW" ) == "new_top";
+    message_ttl = ::get_option<int>( "MESSAGE_TTL" );
+    fov_3d = ::get_option<bool>( "FOV_3D" );
 
     return write_to_file( savefile, [&]( std::ostream &fout ) {
         JsonOut jout( fout, true );
@@ -1896,11 +1903,11 @@ void options_manager::load()
     fin.close();
 
     // cache to global due to heavy usage.
-    trigdist = get_option<bool>( "CIRCLEDIST" );
-    use_tiles = get_option<bool>( "USE_TILES" );
-    log_from_top = get_option<std::string>( "SIDEBAR_LOG_FLOW" ) == "new_top";
-    message_ttl = get_option<int>( "MESSAGE_TTL" );
-    fov_3d = get_option<bool>( "FOV_3D" );
+    trigdist = ::get_option<bool>( "CIRCLEDIST" );
+    use_tiles = ::get_option<bool>( "USE_TILES" );
+    log_from_top = ::get_option<std::string>( "SIDEBAR_LOG_FLOW" ) == "new_top";
+    message_ttl = ::get_option<int>( "MESSAGE_TTL" );
+    fov_3d = ::get_option<bool>( "FOV_3D" );
 }
 
 bool options_manager::load_legacy()
@@ -1928,7 +1935,7 @@ bool options_manager::load_legacy()
             // option with values from post init() might get clobbered
             add_retry(loadedvar, loadedval); // stash it until update();
 
-            OPTIONS[ loadedvar ].setValue( loadedval );
+            global_options[ loadedvar ].setValue( loadedval );
         }
     }
 
@@ -1942,10 +1949,18 @@ bool use_narrow_sidebar()
     return TERMY < 25 || g->narrow_sidebar;
 }
 
+options_manager::cOpt &options_manager::get_option( const std::string &name )
+{
+    if( global_options.count( name ) == 0 ) {
+        debugmsg( "requested non-existing option %s", name.c_str() );
+    }
+    return global_options[name];
+}
+
 std::unordered_map<std::string, options_manager::cOpt> options_manager::get_world_defaults() const
 {
     std::unordered_map<std::string, cOpt> result;
-    for( auto &elem : OPTIONS ) {
+    for( auto &elem : global_options ) {
         if( elem.second.getPage() == "world_default" ) {
             result.insert( elem );
         }

@@ -684,8 +684,9 @@ void find_videodisplays() {
     }
 
     int current_display = get_option<int>( "DISPLAY" );
+    auto &display_option = get_options().get_option( "DISPLAY" );
 
-    OPTIONS["DISPLAY"] = options_manager::cOpt("graphics", _("Display"),
+    display_option = options_manager::cOpt("graphics", _("Display"),
                               _("Sets which video display will be used to show the game. Requires restart."),
                               displays, current_display, 0, options_manager::COPT_CURSES_HIDE
                               );

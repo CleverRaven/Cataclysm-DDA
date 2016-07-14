@@ -1442,7 +1442,7 @@ bool worldfactory::load_world_options(WORLDPTR &world)
                 if (sLine != "" && sLine[0] != '#' && std::count(sLine.begin(), sLine.end(), ' ') == 1) {
                     int ipos = sLine.find(' ');
                     // make sure that the option being loaded is part of the world_default page in OPTIONS
-                    if(OPTIONS[sLine.substr(0, ipos)].getPage() == "world_default") {
+                    if(get_options().get_option(sLine.substr(0, ipos)).getPage() == "world_default") {
                         world->WORLD_OPTIONS[sLine.substr(0, ipos)].setValue(sLine.substr(ipos + 1, sLine.length()));
                     }
                 }
@@ -1467,7 +1467,7 @@ bool worldfactory::load_world_options(WORLDPTR &world)
         const std::string name = jo.get_string("name");
         const std::string value = jo.get_string("value");
 
-        if(OPTIONS[name].getPage() == "world_default") {
+        if(get_options().get_option( name ).getPage() == "world_default") {
             world->WORLD_OPTIONS[ name ].setValue( value );
         }
     }

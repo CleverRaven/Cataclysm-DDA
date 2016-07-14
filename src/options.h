@@ -174,6 +174,11 @@ class options_manager : public JsonSerializer, public JsonDeserializer
          * current value, which acts as the default for new worlds.
          */
         std::unordered_map<std::string, cOpt> get_world_defaults() const;
+
+        cOpt &get_option( const std::string &name );
+
+    private:
+        std::unordered_map<std::string, cOpt> global_options;
 };
 
 bool use_narrow_sidebar(); // short-circuits to on if terminal is too small
@@ -188,7 +193,6 @@ extern std::map<std::string, std::string> TILESETS;
  * Second string is directory that contains soundpack.
  */
 extern std::map<std::string, std::string> SOUNDPACKS;
-extern std::unordered_map<std::string, options_manager::cOpt> OPTIONS;
 extern std::unordered_map<std::string, options_manager::cOpt> ACTIVE_WORLD_OPTIONS;
 extern std::map<int, std::vector<std::string> > mPageItems;
 extern int iWorldOptPage;
@@ -198,7 +202,7 @@ options_manager &get_options();
 template<typename T>
 inline T get_option( const std::string &name )
 {
-    return OPTIONS[name].value_as<T>();
+    return get_options().get_option( name ).value_as<T>();
 }
 
 template<typename T>
