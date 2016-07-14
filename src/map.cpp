@@ -3722,7 +3722,7 @@ void map::shoot( const tripoint &p, projectile &proj, const bool hit_items )
     const auto &ammo_effects = proj.proj_effects;
 
     if( has_flag("ALARMED", p) && !g->event_queued(EVENT_WANTED) ) {
-        sounds::sound(p, 30, _("An alarm sounds!"));
+        sounds::sound(p, 30, _("an alarm sound!"));
         const tripoint abs = ms_to_sm_copy( getabs( p ) );
         g->add_event(EVENT_WANTED, int(calendar::turn) + 300, 0, abs );
     }

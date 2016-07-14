@@ -1040,7 +1040,7 @@ void iexamine::gunsafe_el(player &p, const tripoint &examp)
         case HACK_FAIL:
             p.add_memorial_log(pgettext("memorial_male", "Set off an alarm."),
                                 pgettext("memorial_female", "Set off an alarm."));
-            sounds::sound(p.pos(), 60, _("An alarm sounds!"));
+            sounds::sound(p.pos(), 60, _("an alarm sound!"));
             if (examp.z > 0 && !g->event_queued(EVENT_WANTED)) {
                 g->add_event(EVENT_WANTED, int(calendar::turn) + 300, 0, p.global_sm_location());
             }
@@ -3233,7 +3233,7 @@ void iexamine::pay_gas(player &p, const tripoint &examp)
             case HACK_FAIL:
                 p.add_memorial_log(pgettext("memorial_male", "Set off an alarm."),
                                     pgettext("memorial_female", "Set off an alarm."));
-                sounds::sound(p.pos(), 60, _("An alarm sounds!"));
+                sounds::sound(p.pos(), 60, _("an alarm sound!"));
                 if (examp.z > 0 && !g->event_queued(EVENT_WANTED)) {
                     g->add_event(EVENT_WANTED, int(calendar::turn) + 300, 0, p.global_sm_location());
                 }
