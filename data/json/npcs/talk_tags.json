@@ -313,7 +313,7 @@
         ]
     },{
         "type" : "snippet",
-        "category" : "<drop_weapon>",
+        "category" : "<drop_it>",
         "text" : [
             "Drop your <swear> weapon!",
             "Okay <name_b>, drop your weapon!",

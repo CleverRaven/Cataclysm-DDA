@@ -3523,33 +3523,33 @@ void parse_tags( std::string &phrase, const player &u, const npc &me )
         }
 
         // Special, dynamic tags go here
-        if (tag == "<yrwp>") {
+        if( tag == "<yrwp>" ) {
             phrase.replace( fa, l, remove_color_tags( u.weapon.tname() ) );
-        } else if (tag == "<mywp>") {
+        } else if( tag == "<mywp>" ) {
             if( !me.is_armed() ) {
                 phrase.replace(fa, l, _("fists"));
             } else {
                 phrase.replace( fa, l, remove_color_tags( me.weapon.tname() ) );
             }
-        } else if (tag == "<ammo>") {
+        } else if( tag == "<ammo>" ) {
             if( !me.weapon.is_gun() ) {
                 phrase.replace(fa, l, _("BADAMMO"));
             } else {
                 phrase.replace(fa, l, ammo_name( me.weapon.ammo_type() ) );
             }
-        } else if (tag == "<punc>") {
-            switch (rng(0, 2)) {
+        } else if( tag == "<punc>" ) {
+            switch( rng( 0, 2 ) ) {
                 case 0:
-                    phrase.replace(fa, l, rm_prefix(_("<punc>.")));
+                    phrase.replace( fa, l, rm_prefix( _("<punc>.") ) );
                     break;
                 case 1:
-                    phrase.replace(fa, l, rm_prefix(_("<punc>...")));
+                    phrase.replace( fa, l, rm_prefix( _("<punc>...") ) );
                     break;
                 case 2:
-                    phrase.replace(fa, l, rm_prefix(_("<punc>!")));
+                    phrase.replace( fa, l, rm_prefix( _("<punc>!") ) );
                     break;
             }
-        } else if( tag.empty() ) {
+        } else if( !tag.empty() ) {
             debugmsg("Bad tag. '%s' (%d - %d)", tag.c_str(), fa, fb);
             phrase.replace(fa, fb - fa + 1, "????");
         }

@@ -108,7 +108,7 @@ const std::string &snippet_library::get( const int index ) const
 const std::string &snippet_library::random_from_category( const std::string &cat ) const
 {
     const auto iters = categories.equal_range( cat );
-    if( iters.first == categories.end() ) {
+    if( iters.first == iters.second ) {
         return null_string;
     }
 
@@ -117,5 +117,20 @@ const std::string &snippet_library::random_from_category( const std::string &cat
     auto iter = iters.first;
     std::advance( iter, index );
     return get( iter->second );
+}
+
+const std::vector<int> snippet_library::all_ids_from_category( const std::string &cat ) const
+{
+    std::vector<int> ret;
+    const auto iters = categories.equal_range( cat );
+    if( iters.first == categories.end() ) {
+        return ret;
+    }
+
+    for( auto iter = iters.first; iter != iters.second; iter++ ) {
+        ret.push_back( iter->second );
+    }
+
+    return ret;
 }
 
