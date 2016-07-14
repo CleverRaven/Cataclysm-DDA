@@ -605,14 +605,14 @@ void mdeath::gas(monster *z)
 {
     std::string explode = string_format(_("a %s explode!"), z->name().c_str());
     sounds::sound(z->pos(), 24, explode);
-    g->m.propagate_field( z->pos(), fd_toxic_gas, 75 );
+    g->m.emit_field( z->pos(), emit_id( "emit_toxic_blast" ) );
 }
 
 void mdeath::smokeburst(monster *z)
 {
     std::string explode = string_format(_("a %s explode!"), z->name().c_str());
     sounds::sound(z->pos(), 24, explode);
-    g->m.propagate_field( z->pos(), fd_toxic_gas, 27 );
+    g->m.emit_field( z->pos(), emit_id( "emit_smoke_blast" ) );
 }
 
 void mdeath::jabberwock(monster *z)

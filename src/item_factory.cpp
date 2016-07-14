@@ -698,7 +698,7 @@ void Item_factory::check_definitions() const
 
         for( const auto& e : type->emits ) {
             if( !e.is_valid() ) {
-                msg << string_format( "item %s has emit source %s", type->id.c_str(), e.c_str() ) << "\n";
+                msg << string_format( "item %s has unknown emit source %s", type->id.c_str(), e.c_str() ) << "\n";
             }
         }
 

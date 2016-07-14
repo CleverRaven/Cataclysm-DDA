@@ -149,11 +149,6 @@ void apply_ammo_effects( const tripoint &p, const std::set<std::string> &effects
             g->m.add_field( pt, fd_toxic_gas, 3, 0 );
         }
     }
-    if( effects.count( "TEARGAS" ) > 0 ) {
-        for( auto && pt : g->m.points_in_radius( p, 2, 0 ) ) {
-            g->m.add_field( pt, fd_tear_gas, 3, 0 );
-        }
-    }
     if( effects.count( "GAS_FUNGICIDAL" ) > 0 ) {
         for( auto && pt : g->m.points_in_radius( p, 1, 0 ) ) {
             g->m.add_field( pt, fd_fungicidal_gas, 3, 0 );
