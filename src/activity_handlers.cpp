@@ -651,8 +651,8 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act_, player *p )
             break;
         }
 
-        if( removed_charges <= original_charges ) {
-            // Transferred less or equal to the available charges -> target must be full
+        if( removed_charges < original_charges ) {
+            // Transferred less than the available charges -> target must be full
             act.type = ACT_NULL;
         }
 
