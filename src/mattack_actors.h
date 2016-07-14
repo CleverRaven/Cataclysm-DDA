@@ -3,6 +3,7 @@
 
 #include "mtype.h"
 #include "damage.h"
+#include "weighted_list.h"
 #include <tuple>
 #include <vector>
 #include <map>
@@ -52,7 +53,7 @@ class melee_actor : public mattack_actor
          * If non-empty, a body part is selected from the map to be targeted,
          * with a chance proportional to the value.
          */
-        std::map<body_part, float> body_parts;
+        weighted_float_list<body_part> body_parts;
 
         /** Extra effects applied on damaging hit. */
         std::vector<mon_effect_data> effects;

@@ -185,7 +185,7 @@ void melee_actor::load( JsonObject &obj )
             JsonArray sub = jarr.next_array();
             const body_part bp = get_body_part_token( sub.get_string( 0 ) );
             const float prob = sub.get_float( 1 );
-            body_parts[ bp ] = prob;
+            body_parts.add_or_replace( bp, prob );
         }
     }
 
@@ -210,29 +210,6 @@ Creature *melee_actor::find_target( monster &z ) const
     }
 
     return target;
-}
-
-body_part roll_bp( const std::map<body_part, float> &c )
-{
-    if( c.empty() ) {
-        return num_bp;
-    }
-
-    const float sum = std::accumulate( c.begin(), c.end(), 0.0f,
-    []( float f, const decltype( *c.begin() ) &p ) {
-        return f + p.second;
-    } );
-
-    float roll = rng_float( 0.0f, sum );
-    for( const auto &p : c ) {
-        roll -= p.second;
-        if( roll <= 0.0f ) {
-            return p.first;
-        }
-    }
-
-    debugmsg( "Body part roulette went past the end of part-chance map" );
-    return c.begin()->first;
 }
 
 bool melee_actor::call( monster &z ) const
@@ -266,7 +243,7 @@ bool melee_actor::call( monster &z ) const
 
     body_part bp_hit = body_parts.empty() ?
                        target->select_body_part( &z, hitspread ) :
-                       roll_bp( body_parts );
+                       *body_parts.pick();
 
     target->on_hit( &z, bp_hit );
     dealt_damage_instance dealt_damage = target->deal_damage( &z, bp_hit, damage );
