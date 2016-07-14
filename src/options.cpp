@@ -337,6 +337,23 @@ std::string options_manager::cOpt::getType() const
     return sType;
 }
 
+bool options_manager::cOpt::operator==( const cOpt &rhs ) const
+{
+    if( sType != rhs.sType ) {
+        return false;
+    } else if( sType == "string_select" || sType == "string_input" ) {
+        return sSet == rhs.sSet;
+    } else if( sType == "bool" ) {
+        return bSet == rhs.bSet;
+    } else if( sType == "int" || sType == "int_map" ) {
+        return iSet == rhs.iSet;
+    } else if( sType == "float" ) {
+        return fSet == rhs.fSet;
+    } else {
+        return false;
+    }
+}
+
 std::string options_manager::cOpt::getValue() const
 {
     if (sType == "string_select" || sType == "string_input") {
@@ -1766,7 +1783,7 @@ void options_manager::show(bool ingame)
     bool pixel_minimap_height_changed = false;
 
     for (auto &iter : OPTIONS_OLD) {
-        if ( iter.second.getValue() != OPTIONS[iter.first].getValue() ) {
+        if ( iter.second != OPTIONS[iter.first] ) {
             options_changed = true;
 
             if ( iter.second.getPage() == "world_default" ) {
@@ -1786,7 +1803,7 @@ void options_manager::show(bool ingame)
         }
     }
     for( auto &iter : WOPTIONS_OLD ) {
-        if( iter.second.getValue() != ACTIVE_WORLD_OPTIONS[iter.first].getValue() ) {
+        if( iter.second != ACTIVE_WORLD_OPTIONS[iter.first] ) {
             options_changed = true;
             world_options_changed = true;
         }

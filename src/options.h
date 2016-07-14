@@ -121,6 +121,11 @@ class options_manager : public JsonSerializer, public JsonDeserializer
                 // if (class != "string")
                 bool operator!=( const std::string sCompare ) const;
 
+                bool operator==( const cOpt &rhs ) const;
+                bool operator!=( const cOpt &rhs ) const {
+                    return !operator==( rhs );
+                }
+
             private:
                 std::string sPage;
                 std::string sMenuText;
