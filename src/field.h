@@ -165,7 +165,7 @@ public:
 
     /** Adds a number to current age. */
     int mod_age( int mod ) {
-        setFieldAge( getFieldAge() + mod );
+        return setFieldAge( getFieldAge() + mod );
     }
 
     //Returns if the current field is dangerous or not.
