@@ -198,7 +198,7 @@
         "deconstruct": {
             "items": [
                 { "item": "2x4", "count": 12 },
-                { "item": "rag", "count": [120, 135] },
+                { "item": "rag", "count": [60, 80] },
                 { "item": "nail", "charges": [8, 10] }
             ]
         },
@@ -213,7 +213,7 @@
                 { "item": "2x4", "count": [5, 8] },
                 { "item": "nail", "charges": [6, 8] },
                 { "item": "splinter", "count": [3, 6] },
-                { "item": "rag", "count": [80, 130] }
+                { "item": "rag", "count": [40, 55] }
             ]
         }
     },{
