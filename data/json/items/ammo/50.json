@@ -3,7 +3,7 @@
     "id": "50_incendiary",
     "copy-from": "50bmg",
     "type": "AMMO",
-    "name": ".50 BMG API",
+    "name": ".50 BMG tracer",
     "name_plural": ".50 BMG tracer",
     "description": "A tracer variant of the powerful .50 BMG sniper round.  Tracer rounds to help keep the weapon they are fired from on target at the risk of igniting flammable substances.",
     "count": 10,
