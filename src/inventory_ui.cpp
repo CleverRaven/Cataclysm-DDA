@@ -29,6 +29,7 @@ struct inventory_input
     inventory_entry *entry;
 };
 
+
 bool inventory_entry::operator == ( const inventory_entry &other ) const {
     return get_category_ptr() == other.get_category_ptr() && location == other.location;
 }
@@ -73,6 +74,36 @@ const item_category *inventory_entry::get_category_ptr() const {
         ? custom_category : is_item() ? &get_item().get_category() : nullptr;
 }
 
+std::string inventory_entry_renderer::get_text( const inventory_entry &entry, size_t cell_index ) const
+{
+    if( cell_index != 0 ) {
+        return "it's a bug!";
+    }
+
+    if( entry.is_item() ) {
+        const size_t count = entry.get_stack_size();
+        if( count > 1 ) {
+            return string_format( "%d %s", count, entry.get_item().display_name( count ).c_str() );
+        } else {
+            return entry.get_item().display_name();
+        }
+    } else if( entry.get_category_ptr() != nullptr ) {
+        return entry.get_category_ptr()->name;
+    } else {
+        return "it's a bug!";
+    }
+}
+
+nc_color inventory_entry_renderer::get_color( const inventory_entry &entry, size_t ) const
+{
+    return entry.is_item() ? entry.get_item().color_in_inventory() : c_magenta;
+}
+
+size_t inventory_entry_renderer::get_width( const inventory_entry &entry, size_t cell_index ) const
+{
+    return utf8_width( get_text( entry, cell_index ), true );
+}
+
 bool inventory_column::activatable() const
 {
     return std::any_of( entries.begin(), entries.end(), []( const inventory_entry &entry ) {
@@ -90,14 +121,58 @@ inventory_entry *inventory_column::find_by_invlet( long invlet ) const
     return nullptr;
 }
 
-size_t inventory_column::get_width() const
+size_t inventory_column::get_cell_width( const inventory_entry &entry, size_t cell_index ) const
 {
-    size_t res = get_text_space();
-    if( annotations ) {
-        const size_t annotations_width = get_annotation_space();
-        if( annotations_width != 0 ) {
-            res += annotations_width + annotation_margin;
+    size_t res = renderer.get_width( entry, cell_index );
+    if( cell_index == 0  ) {
+        res += get_entry_indent( entry );
+    }
+    return res;
+}
+
+size_t inventory_column::get_max_cell_width( size_t cell_index ) const
+{
+    size_t res = 0;
+    for( const auto &entry : entries ) {
+        res = std::max( get_cell_width( entry, cell_index ), res );
+    }
+    return res;
+}
+
+size_t inventory_column::get_width( const inventory_entry *entry ) const
+{
+    return std::max( get_min_width( entry ), assigned_width );
+}
+
+size_t inventory_column::get_min_width( const inventory_entry *entry ) const
+{
+    const size_t cells_count = renderer.get_cells_count();
+    size_t res = 0;
+
+    for( size_t index = 0; index < cells_count; ++index ) {
+        if( entry == nullptr ) {
+            res += get_max_cell_width( index );
+        } else {
+            res += get_cell_width( *entry, index );
         }
+    }
+    if( cells_count > 1 ) {
+        res += min_cell_margin * ( cells_count - 1 );
+    }
+    return res;
+}
+
+size_t inventory_column::get_entry_indent( const inventory_entry &entry ) const
+{
+    if( !entry.is_item() ) {
+        return 0;
+    }
+    size_t res = 2;
+    if( get_option<bool>( "ITEM_SYMBOLS" ) ) {
+        res += 2;
+    }
+    if( allows_selecting() && multiselect ) {
+        res += 2;
     }
     return res;
 }
@@ -253,136 +328,127 @@ void inventory_column::prepare_paging( size_t new_entries_per_page )
     select( 0, 1 );
 }
 
-std::string inventory_column::get_entry_text( const inventory_entry &entry ) const
-{
-    std::ostringstream res;
-
-    if( entry.is_item() ) {
-        if( get_option<bool>( "ITEM_SYMBOLS" ) ) {
-            res << entry.get_item().symbol() << ' ';
-        }
-
-        if( multiselect ) {
-            if( entry.chosen_count == 0 ) {
-                res << "<color_c_dkgray>-";
-            } else if( entry.chosen_count >= entry.get_available_count() ) {
-                res << "<color_c_ltgreen>+";
-            } else {
-                res << "<color_c_ltgreen>#";
-            }
-            res << " </color>";
-        }
-
-        const size_t count = entry.get_stack_size();
-        if( count > 1 ) {
-            res << count << ' ';
-        }
-        res << entry.get_item().display_name( count );
-    } else if( entry.get_category_ptr() != nullptr ) {
-        res << entry.get_category_ptr()->name;
-    }
-    // Disabled entry should not have any color
-    return entry.enabled ? res.str() : remove_color_tags( res.str() );
-}
-
-std::string inventory_column::get_entry_annotation( const inventory_entry &entry ) const
-{
-    return annotations ? entry.annotation : std::string();
-}
-
-nc_color inventory_column::get_entry_color( const inventory_entry &entry ) const
-{
-    if( !entry.enabled ) {
-        return c_dkgray;
-    } else if( entry.is_item() ) {
-        return ( active && is_selected( entry ) )
-            ? h_white
-            : ( custom_colors && entry.custom_color != c_unset )
-                ? entry.custom_color
-                : entry.get_item().color_in_inventory();
-    } else {
-        return c_magenta;
-    }
-}
-
-size_t inventory_column::get_entry_indent( const inventory_entry &entry ) const
-{
-    return entry.is_item() ? 2 : 0;
-}
-
-size_t inventory_column::get_text_space() const
-{
-    size_t res = 0;
-    for( const auto &entry : entries ) {
-        res = std::max( res, get_entry_indent( entry )
-                        + size_t( utf8_width( get_entry_text( entry ), true ) ) );
-    }
-    return res;
-}
-
-size_t inventory_column::get_annotation_space() const
-{
-    size_t res = 0;
-    if( annotations ) {
-        for( const auto &entry : entries ) {
-            res = std::max( res, size_t( utf8_width( get_entry_annotation( entry ), true ) ) );
-        }
-        res += annotation_margin;
-    }
-    return res;
-}
-
 void inventory_column::draw( WINDOW *win, size_t x, size_t y ) const
 {
-    const size_t annotation_x = x + ( annotations ? get_text_space() + annotation_margin : 0 );
+    std::vector<size_t> cell_widths;
+    // Cache expensive calculations of cell widths
+    cell_widths.reserve( renderer.get_cells_count() );
+    for( size_t cell_index = 0; cell_index < renderer.get_cells_count(); ++cell_index ) {
+        cell_widths.push_back( get_max_cell_width( cell_index ) );
+    }
+    // Calculate cell margin and rounding error
+    const int num_of_margins = std::max( int( renderer.get_cells_count() ) - 1, 0 );
+    const int room_for_margins = std::max( int( assigned_width - get_min_width() ), 0 );
+    const int cell_margin = std::max( num_of_margins > 0 ? room_for_margins / num_of_margins : 0, min_cell_margin );
+    const int column_width_sum = std::accumulate( cell_widths.begin(), cell_widths.end(), 0 );
+    const int rounding_error = std::max( int( get_width() - column_width_sum - num_of_margins * cell_margin ), 0 );
+    const int first_cell_margin = cell_margin + rounding_error;
+    // Do the actual drawing
+    for( size_t index = page_offset, line = 0; index < entries.size() && line < entries_per_page; ++index, ++line ) {
+        const auto &entry = entries[index];
 
-    for( size_t i = page_offset, line = 0; i < entries.size() && line < entries_per_page; ++i, ++line ) {
-        const auto &entry = entries[i];
         if( entry.is_null() ) {
             continue;
         }
 
-        trim_and_print( win, y + line, x + get_entry_indent( entry ), getmaxx( win ) - x,
-                        get_entry_color( entry ), "%s", get_entry_text( entry ).c_str() );
+        int x1 = x + get_entry_indent( entry );
+        int x2 = x;
+        int txe = INT_MAX;
 
-        if( entry.is_selectable() && entry.get_invlet() != '\0' ) {
-            const nc_color invlet_color = g->u.assigned_invlet.count( entry.get_invlet() ) ? c_yellow : c_white;
-            mvwputch( win, y + line, x, invlet_color, entry.get_invlet() );
+        const int yy = y + line;
+
+        for( size_t cell_index = 0, count = renderer.get_cells_count(); cell_index < count; ++cell_index ) {
+            const std::string txt = renderer.get_text( entry, cell_index );
+            const int txt_len = utf8_width( txt, true );
+
+            if( line != 0 && cell_index != 0 && !entry.is_item() ) {
+                break; // Don't show duplicated titles
+            }
+
+            x2 += cell_widths.at( cell_index );
+
+            const int tx = ( cell_index == 0 ) ? x1 : x2 - txt_len; // Align to the right if not the first
+            const int mw = x2 - tx;
+
+            if( !entry.enabled ) {
+                trim_and_print( win, yy, tx, mw, c_dkgray, "%s", remove_color_tags( txt ).c_str() );
+            } else if( active && entry.is_selectable() && is_selected( entry ) ) {
+                trim_and_print( win, yy, tx, mw, h_white, "%s", txt.c_str() );
+                if( tx > txe ) { // Need to fill the gap?
+                    mvwprintz( win, yy, txe, h_white, std::string( tx - txe, ' ' ).c_str() );
+                }
+            } else {
+                trim_and_print( win, yy, tx, mw, renderer.get_color( entry, cell_index ), "%s", txt.c_str() );
+            }
+            // Compensate the rounding error right after the first cell
+            x2 += ( cell_index == 0 ) ? first_cell_margin : cell_margin;
+            x1 = x2;
+            txe = tx+ txt_len;
         }
 
-        if( annotations ) {
-            trim_and_print( win, y + line, annotation_x, getmaxx( win ) - annotation_x,
-                            entry.enabled ? c_ltgray : c_dkgray, "%s", get_entry_annotation( entry ).c_str() );
+        if( entry.is_item() ) {
+            int xx = x;
+            if( entry.is_selectable() && entry.get_invlet() != '\0' ) {
+                const nc_color invlet_color = g->u.assigned_invlet.count( entry.get_invlet() ) ? c_yellow : c_white;
+                mvwputch( win, yy, x, invlet_color, entry.get_invlet() );
+            }
+            xx += 2;
+            if( get_option<bool>( "ITEM_SYMBOLS" ) ) {
+                const nc_color color = entry.is_selectable() ? entry.get_item().color() : c_dkgray;
+                mvwputch( win, yy, xx, color, entry.get_item().symbol() );
+                xx += 2;
+            }
+            if( allows_selecting() && multiselect && entry.is_selectable() ) {
+                if( entry.chosen_count == 0 ) {
+                    mvwputch( win, yy, xx, c_dkgray, '-' );
+                } else if( entry.chosen_count >= entry.get_available_count() ) {
+                    mvwputch( win, yy, xx, c_ltgreen, '+' );
+                } else {
+                    mvwputch( win, yy, xx, c_ltgreen, '#' );
+                }
+            }
         }
     }
 }
 
+std::string selection_entry_renderer::get_text( const inventory_entry &entry, size_t cell_index ) const
+{
+    if( cell_index != 0 || !entry.is_item() ) {
+        return inventory_entry_renderer::get_text( entry, cell_index );
+    }
+    std::ostringstream res;
+    const size_t available_count = entry.get_available_count();
+    if( entry.chosen_count > 0 && entry.chosen_count < available_count ) {
+        res << string_format( _( "%d of %d"), entry.chosen_count, available_count ) << ' ';
+    } else if( available_count != 1 ) {
+        res << available_count << ' ';
+    }
+    res << entry.get_item().display_name( available_count );
+    return res.str();
+}
+
+nc_color selection_entry_renderer::get_color( const inventory_entry &entry, size_t cell_index ) const
+{
+    return ( entry.custom_color != c_unset )
+        ? entry.custom_color : inventory_entry_renderer::get_color( entry, cell_index );
+}
+
 selection_column::selection_column( const std::string &id, const std::string &name ) :
-    inventory_column(),
+    inventory_column( renderer ),
     selected_cat( new item_category( id, name, 0 ) ) {}
 
 void selection_column::reserve_width_for( const inventory_column &column )
 {
-    reserved_text_space = 0;
-    reserved_annotation_space = 0;
-
+    size_t width = 0;
     for( const auto &entry : column.get_entries() ) {
-        reserved_text_space = std::max( get_entry_indent( entry ) +
-                                        size_t( utf8_width( get_entry_text( entry ), true ) ),
-                                        reserved_text_space );
-        reserved_annotation_space = std::max( size_t( utf8_width( get_entry_annotation( entry ), true ) ),
-                                              reserved_annotation_space );
+        width = std::max( get_width( &entry ), width );
     }
+    set_width( width );
 }
 
-size_t selection_column::get_text_space() const
+void inventory_column::set_width( const size_t width )
 {
-    return std::max( inventory_column::get_text_space(), reserved_text_space );
-}
-
-size_t selection_column::get_annotation_space() const
-{
-    return std::max( inventory_column::get_annotation_space(), reserved_annotation_space );
+    assigned_width = width;
 }
 
 void selection_column::prepare_paging( size_t new_entries_per_page )
@@ -416,35 +482,6 @@ void selection_column::on_change( const inventory_entry &entry )
     } else {
         select( entries.empty() ? 0 : entries.size() - 1, -1 ); // Just select the last one
     }
-}
-
-std::string selection_column::get_entry_text( const inventory_entry &entry ) const
-{
-    std::ostringstream res;
-
-    if( entry.is_item() ) {
-        if( get_option<bool>( "ITEM_SYMBOLS" ) ) {
-            res << entry.get_item().symbol() << ' ';
-        }
-
-        const size_t available_count = entry.get_available_count();
-        if( entry.chosen_count > 0 && entry.chosen_count < available_count ) {
-            res << string_format( _( "%d of %d"), entry.chosen_count, available_count ) << ' ';
-        } else if( available_count != 1 ) {
-            res << available_count << ' ';
-        }
-        res << entry.get_item().display_name( available_count );
-    } else {
-        res << inventory_column::get_entry_text( entry ) << ' ';
-
-        if( entries.size() > 1 ) {
-            res << string_format( "(%d)", entries.size() - 1 );
-        } else {
-            res << _( "(NONE)" );
-        }
-    }
-
-    return res.str();
 }
 
 inventory_input inventory_selector::get_input()
@@ -517,7 +554,6 @@ void inventory_selector::add_item( const std::shared_ptr<item_location> &locatio
     inventory_entry entry( location, stack_size, cat_ptr );
 
     entry.enabled = response.type == item_filter_response::fine;
-    entry.annotation = remove_color_tags( response.description );
     entry.rank = response.rank;
     entry.custom_color = custom_color;
 
@@ -528,18 +564,17 @@ void inventory_selector::add_item( const std::shared_ptr<item_location> &locatio
     inventory_column *column_ptr;
     if( is_custom ) {
         if( custom_column == nullptr ) {
-            custom_column.reset( new inventory_column() );
+            custom_column.reset( new inventory_column( renderer ) );
         }
         column_ptr = custom_column.get();
     } else {
         if( columns.empty() ) {
-            std::unique_ptr<inventory_column> new_column( new inventory_column() );
+            std::unique_ptr<inventory_column> new_column( new inventory_column( renderer ) );
             insert_column( columns.end(), new_column );
         }
         column_ptr = columns.back().get();
     }
 
-    column_ptr->set_annotations( true );
     column_ptr->add_entry( entry );
 }
 
@@ -623,10 +658,12 @@ inventory_entry *inventory_selector::find_entry_by_invlet( long invlet ) const
 
 void inventory_selector::prepare_columns( bool multiselect )
 {
+    // First reset width of all columns
     for( auto &column : columns ) {
+        column->set_width( column->get_min_width() );
         column->set_multiselect( multiselect );
     }
-
+    // See what to do with the custom column
     if( custom_column != nullptr ) {
         if( columns.empty() || column_can_fit( *custom_column ) ) {
             // Make the column second if possible
@@ -642,6 +679,11 @@ void inventory_selector::prepare_columns( bool multiselect )
 
     for( auto &column : columns ) {
         column->prepare_paging( getmaxy( w_inv ) - 5 );
+    }
+    // If we have a single column and it occupies more than a half of
+    // the available with -> expand it
+    if( columns.size() == 1 && get_columns_occupancy_ratio() >= 0.5 ) {
+        columns.front()->set_width( getmaxx( w_inv ) - 2 );
     }
 
     refresh_active_column();
@@ -687,14 +729,12 @@ void inventory_selector::draw( WINDOW *w ) const
 {
     mvwprintw( w, 0, 0, title.c_str() );
 
-    // Position of inventory columns is adaptive. They're aligned to the left if they occupy less than 2/3 of the screen.
-    // Otherwise they're aligned symmetrically to the center of the screen.
-    static const float min_ratio_to_center = 1.f / 3;
-    const int free_space = getmaxx( w ) - get_columns_width();
-    const bool center_align = std::abs( float( free_space ) / getmaxx( w ) ) <= min_ratio_to_center;
+    // Position of inventory columns is adaptive
+    const bool center_align = get_columns_occupancy_ratio() >= 0.5;
 
+    const int free_space = getmaxx( w ) - get_columns_width();
     const int max_gap = ( columns.size() > 1 ) ? free_space / ( int( columns.size() ) - 1 ) : 0;
-    const int gap = center_align ? max_gap : std::min<int>( max_gap, 4 );
+    const int gap = center_align ? max_gap : std::min<int>( max_gap, 8 );
     const int gap_rounding_error = ( center_align && columns.size() > 1 ) ? free_space % ( columns.size() - 1 ) : 0;
 
     size_t x = 1;
@@ -737,10 +777,12 @@ void inventory_selector::draw( WINDOW *w ) const
     }
 }
 
-inventory_selector::inventory_selector( player &u, const std::string &title, const item_filter_advanced &filter )
+inventory_selector::inventory_selector( player &u, const std::string &title, const item_filter_advanced &filter,
+                                        const inventory_entry_renderer &renderer )
     : u(u)
     , title( title )
     , filter( filter )
+    , renderer( renderer )
     , w_inv( newwin( TERMY, TERMX, VIEW_OFFSET_Y, VIEW_OFFSET_X ) )
     , columns()
     , active_column_index( 0 )
@@ -833,6 +875,13 @@ size_t inventory_selector::get_columns_width() const
     return res;
 }
 
+double inventory_selector::get_columns_occupancy_ratio() const
+{
+    const int available_width = getmaxx( w_inv );
+    const int free_width = available_width - get_columns_width();
+    return free_width > 0 && available_width > 0 ? 1.0 - double( free_width ) / available_width : 1.0;
+}
+
 void inventory_selector::toggle_active_column()
 {
     size_t index = active_column_index;
@@ -873,11 +922,12 @@ void inventory_selector::insert_selection_column( const std::string &id, const s
     std::unique_ptr<inventory_column> new_column( new selection_column( id, name ) );
 
     for( const auto &column : columns ) {
-        static_cast<selection_column *>( new_column.get() )->reserve_width_for( *column );
+        if( column->allows_selecting() ) {
+            static_cast<selection_column *>( new_column.get() )->reserve_width_for( *column );
+        }
     }
 
     if( column_can_fit( *new_column ) ) { // Insert only if it will be visible. Ignore otherwise.
-        new_column->set_custom_colors( true );
         insert_column( columns.end(), new_column );
     }
 }

@@ -39,7 +39,6 @@ class inventory_entry
 
     public:
         bool enabled = true;
-        std::string annotation;
         int rank = 0;
         size_t chosen_count = 0;
         nc_color custom_color = c_unset;
@@ -88,10 +87,26 @@ class inventory_entry
         }
 };
 
+class inventory_entry_renderer
+{
+    public:
+        inventory_entry_renderer() = default;
+
+        virtual size_t get_cells_count() const {
+            return 1;
+        }
+        virtual std::string get_text( const inventory_entry &entry, size_t cell_index ) const;
+        virtual nc_color get_color( const inventory_entry &entry, size_t cell_index ) const;
+        virtual size_t get_width( const inventory_entry &entry, size_t cell_index ) const;
+};
+
+static inventory_entry_renderer default_renderer;
+
 class inventory_column
 {
     public:
-        inventory_column() = default;
+        inventory_column( const inventory_entry_renderer &renderer = default_renderer ) :
+            renderer( renderer ) {}
         virtual ~inventory_column() {}
 
         bool empty() const {
@@ -132,19 +147,14 @@ class inventory_column
             this->multiselect = multiselect;
         }
 
-        void set_custom_colors( bool custom_colors ) {
-            this->custom_colors = custom_colors;
-        }
-
-        void set_annotations( bool annotations ) {
-            this->annotations = annotations;
-        }
-
         void set_mode( navigation_mode mode ) {
             this->mode = mode;
         }
 
-        size_t get_width() const;
+        void set_width( const size_t width );
+        /// Returns either entry width (if @param entry is not null) or whole width of the column
+        size_t get_width( const inventory_entry *entry = nullptr ) const;
+        size_t get_min_width( const inventory_entry *entry = nullptr ) const;
 
         virtual void prepare_paging( size_t new_entries_per_page = 0 ); // Zero means unchanged
 
@@ -165,29 +175,33 @@ class inventory_column
         size_t page_of( size_t index ) const;
         size_t page_of( const inventory_entry &entry ) const;
 
-        virtual std::string get_entry_text( const inventory_entry &entry ) const;
-        virtual std::string get_entry_annotation( const inventory_entry &entry ) const;
-        virtual nc_color get_entry_color( const inventory_entry &entry ) const;
-        virtual size_t get_entry_indent( const inventory_entry &entry ) const;
+        size_t get_cell_width( const inventory_entry &entry, size_t cell_index ) const;
+        size_t get_max_cell_width( size_t cell_index ) const;
 
-        virtual size_t get_text_space() const;
-        virtual size_t get_annotation_space() const;
+        size_t get_entry_indent( const inventory_entry &entry ) const;
 
         std::vector<inventory_entry> entries;
 
     private:
-        const int annotation_margin = 1;
+        const int min_cell_margin = 1;
 
+        const inventory_entry_renderer &renderer;
         navigation_mode mode = navigation_mode::ITEM;
 
         bool active = false;
         bool multiselect = false;
-        bool custom_colors = false;
-        bool annotations = false;
 
         size_t selected_index = 0;
         size_t page_offset = 0;
         size_t entries_per_page = 1;
+        size_t assigned_width = 0;
+};
+
+class selection_entry_renderer: public inventory_entry_renderer
+{
+    public:
+        virtual std::string get_text( const inventory_entry &entry, size_t cell_index ) const override;
+        virtual nc_color get_color( const inventory_entry &entry, size_t cell_index ) const override;
 };
 
 class selection_column : public inventory_column
@@ -205,26 +219,20 @@ class selection_column : public inventory_column
             return false;
         }
 
-        virtual size_t get_text_space() const override;
-        virtual size_t get_annotation_space() const override;
-
         virtual void prepare_paging( size_t new_entries_per_page = 0 ) override; // Zero means unchanged
         virtual void on_change( const inventory_entry &entry ) override;
 
-    protected:
-        virtual std::string get_entry_text( const inventory_entry &entry ) const override;
-
     private:
         const std::unique_ptr<item_category> selected_cat;
-        size_t reserved_text_space = 0;
-        size_t reserved_annotation_space = 0;
+        selection_entry_renderer renderer;
 };
 
 class inventory_selector
 {
     public:
         inventory_selector( player &u, const std::string &title,
-                            const item_filter_advanced &filter = allow_all_items );
+                            const item_filter_advanced &filter = allow_all_items,
+                            const inventory_entry_renderer &renderer = default_renderer );
         ~inventory_selector();
         /** These functions add items from map / vehicles */
         void add_character_items( Character &character );
@@ -264,7 +272,7 @@ class inventory_selector
                                   units::volume vol_capacity ) const;
         void draw_inv_weight_vol( WINDOW *w ) const;
 
-        /** Returns an entry from @ref entries by its invlet */
+        /** @return an entry from @ref entries by its invlet */
         inventory_entry *find_entry_by_invlet( long invlet ) const;
 
         inventory_column &get_column( size_t index ) const;
@@ -274,6 +282,8 @@ class inventory_selector
 
         void set_active_column( size_t index );
         size_t get_columns_width() const;
+        /** @return percentage of the window occupied by columns */
+        double get_columns_occupancy_ratio() const;
 
         bool column_can_fit( const inventory_column &column ) {
             return column.get_width() + get_columns_width() <= size_t( getmaxx( w_inv ) );
@@ -298,6 +308,7 @@ class inventory_selector
 
         const std::string title;
         const item_filter_advanced filter;
+        const inventory_entry_renderer &renderer;
         WINDOW *w_inv;
 
         std::vector<std::unique_ptr<inventory_column>> columns;
