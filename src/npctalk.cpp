@@ -353,7 +353,7 @@ static std::map<std::string, json_talk_topic> json_talk_topics;
 
 int topic_category( const talk_topic &topic );
 
-talk_topic special_talk(char ch);
+const talk_topic &special_talk(char ch);
 
 bool trade( npc &p, int cost, const std::string &deal );
 
@@ -2202,23 +2202,34 @@ void dialogue::gen_responses( const talk_topic &the_topic )
             add_response( _("What do you have on tap?"), "TALK_RANCH_BARKEEP_TAP" );
             add_response( _("I'll be going..."), "TALK_DONE" );
     } else if( topic == "TALK_RANCH_BARKEEP_TAP" ) {
-            if (g->u.cash >= 800){
-                add_response( _("[$10] I'll take a beer"), "TALK_DONE" );
-                SUCCESS_ACTION(&talk_function::buy_beer);
+        struct buy_alcohol_entry {
+            unsigned long cost;
+            int count;
+            std::string desc;
+            itype_id alc;
+        };
+        const auto buy_alcohol = [p]( const buy_alcohol_entry &entry ) {
+            item cont( "bottle_glass" );
+            cont.emplace_back( entry.alc, calendar::turn, entry.count );
+            g->u.i_add( cont );
+            g->u.cash -= entry.cost;
+            add_msg( m_good, _( "%s hands you a %s" ), p->disp_name().c_str(),
+                     cont.tname().c_str() );
+        };
+        static const std::vector<buy_alcohol_entry> entries = {{
+            { 800, 2, _("[$10] I'll take a beer"), "beer" },
+            { 1000, 1, _("[$10] I'll take a shot of brandy"), "brandy" },
+            { 1000, 1, _("[$10] I'll take a shot of rum"), "rum" },
+            { 1200, 1, _("[$12] I'll take a shot of whiskey"), "whiskey" },
+        }};
+        for( const auto &entry : entries ) {
+            if( g->u.cash >= entry.cost ) {
+                add_response( entry.desc, "TALK_DONE" );
+                SUCCESS_ACTION( std::bind( buy_alcohol, entry ) );
             }
-            if (g->u.cash >= 1000 && p->has_trait("NPC_BRANDY")){
-                add_response( _("[$10] I'll take a shot of brandy"), "TALK_DONE" );
-                SUCCESS_ACTION(&talk_function::buy_brandy);
-            }
-            if (g->u.cash >= 1000 && p->has_trait("NPC_RUM")){
-                add_response( _("[$10] I'll take a shot of rum"), "TALK_DONE" );
-                SUCCESS_ACTION(&talk_function::buy_rum);
-            }
-            if (g->u.cash >= 1200 && p->has_trait("NPC_WHISKEY")){
-                add_response( _("[$12] I'll take a shot of whiskey"), "TALK_DONE" );
-                SUCCESS_ACTION(&talk_function::buy_whiskey);
-            }
-            add_response( _("Never mind."), "TALK_RANCH_BARKEEP" );
+        }
+
+        add_response( _("Never mind."), "TALK_RANCH_BARKEEP" );
     } else if( topic == "TALK_RANCH_BARKEEP_JOB" ) {
             add_response( _("..."), "TALK_RANCH_BARKEEP" );
     } else if( topic == "TALK_RANCH_BARKEEP_INFORMATION" ) {
@@ -3206,42 +3217,6 @@ void talk_function::construction_tips( npc &p )
     p.add_effect( effect_currently_busy, 600);
 }
 
-void talk_function::buy_beer( npc &p )
-{
-    item cont( "bottle_glass" );
-    cont.emplace_back( "hb_beer", calendar::turn, 2 );
-    g->u.i_add( cont );
-    g->u.cash -= 1000;
-    add_msg(m_good, _("%s gave you a beer..."), p.name.c_str());
-}
-
-void talk_function::buy_brandy( npc &p )
-{
-    item cont( "bottle_glass" );
-    cont.emplace_back( "brandy", calendar::turn, 1 );
-    g->u.i_add( cont );
-    g->u.cash -= 1000;
-    add_msg(m_good, _("%s gave you a shot of brandy..."), p.name.c_str());
-}
-
-void talk_function::buy_rum( npc &p )
-{
-    item cont( "bottle_glass" );
-    cont.emplace_back( "rum", calendar::turn, 1 );
-    g->u.i_add( cont );
-    g->u.cash -= 1000;
-    add_msg(m_good, _("%s gave you a shot of rum..."), p.name.c_str());
-}
-
-void talk_function::buy_whiskey( npc &p )
-{
-    item cont( "bottle_glass" );
-    cont.emplace_back( "whiskey", calendar::turn, 1 );
-    g->u.i_add( cont );
-    g->u.cash -= 1200;
-    add_msg(m_good, _("%s gave you a shot of whiskey..."), p.name.c_str());
-}
-
 void talk_function::buy_haircut( npc &p )
 {
     g->u.add_morale(MORALE_HAIRCUT, 5, 5, 7200, 30);
@@ -3769,24 +3744,22 @@ talk_topic dialogue::opt( const talk_topic &topic )
     return effects.apply( *this );
 }
 
-talk_topic special_talk(char ch)
+const talk_topic &special_talk(char ch)
 {
-    std::string topic = "TALK_NONE";
-    switch (ch) {
-        case 'L':
-            topic = "TALK_LOOK_AT";
-        case 'S':
-            topic = "TALK_SIZE_UP";
-        case 'O':
-            topic = "TALK_OPINION";
-        case 'Y':
-            topic = "TALK_SHOUT";
-        default:
-            topic = "TALK_NONE";
+    static const std::map<char, talk_topic> key_map = {{
+        { 'L', talk_topic( "TALK_LOOK_AT" ) },
+        { 'S', talk_topic( "TALK_SIZE_UP" ) },
+        { 'O', talk_topic( "TALK_OPINION" ) },
+        { 'Y', talk_topic( "TALK_SHOUT" ) },
+    }};
+
+    const auto iter = key_map.find( ch );
+    if( iter != key_map.end() ) {
+        return iter->second;
     }
 
-    // @todo Rewrite this to have constant topic, but different parameter
-    return talk_topic( topic );
+    static const talk_topic no_topic = talk_topic( "TALK_NONE" );
+    return no_topic;
 }
 
 // Creates a new inventory that contains `added` items, but not `without` ones
