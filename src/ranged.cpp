@@ -435,9 +435,9 @@ double player::gun_engagement_range( const item& gun, engagement opts, int penal
         case engagement::absolute_max:
             return gun_engagement_range( gun, -1, penalty, 10, accuracy_grazing );
     }
-    // return sane value in event engagement is not handled. 
+    // return value in the event that there is no handled engagement opts value
     debugmsg( "gun_engagement_range: engagement value not handled!!"); 
-    return gun_engagement_range( gun, -1, penalty, 10, accuracy_grazing );
+    return 0.0
 
 }
 
