@@ -437,7 +437,7 @@ double player::gun_engagement_range( const item& gun, engagement opts, int penal
     }
     // return value in the event that there is no handled engagement opts value
     debugmsg( "engagement value not handled!!"); 
-    return 0.0
+    return 0.0;
 
 }
 
