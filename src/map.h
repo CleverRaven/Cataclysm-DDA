@@ -1212,6 +1212,10 @@ protected:
          * Radiation-related plant (and fungus?) death.
          */
         void rad_scorch( const tripoint &p, int time_since_last_actualize );
+        /**
+         * Decays cosmetic fields.
+         */
+        void decay_gibs( const tripoint &p, int time_since_last_actualize );
         void player_in_field( player &u );
         void monster_in_field( monster &z );
         /**

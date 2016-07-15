@@ -7035,6 +7035,25 @@ void map::rad_scorch( const tripoint &p, int time_since_last_actualize )
     }
 }
 
+void map::decay_gibs( const tripoint &p, int time_since_last_actualize )
+{
+    for( auto &pr : field_at( p ) ) {
+        auto &fd = pr.second;
+        if( !fd.decays_on_actualize() ) {
+            continue;
+        }
+
+        const int added_age = 2 * time_since_last_actualize / rng( 2, 4 );
+        fd.setFieldAge( fd.getFieldAge() + added_age );
+        const int hl = fieldlist[ fd.getFieldType() ].halflife;
+        const int density_drop = fd.getFieldAge() / hl;
+        if( density_drop > 0 ) {
+            fd.setFieldDensity( fd.getFieldDensity() - density_drop );
+            fd.setFieldAge( fd.getFieldAge() - hl * density_drop );
+        }
+    }
+}
+
 void map::actualize( const int gridx, const int gridy, const int gridz )
 {
     submap *const tmpsub = get_submap_at_grid( gridx, gridy, gridz );
@@ -7077,6 +7096,8 @@ void map::actualize( const int gridx, const int gridy, const int gridz )
             produce_sap( pnt, time_since_last_actualize );
 
             rad_scorch( pnt, time_since_last_actualize );
+
+            decay_gibs( pnt, time_since_last_actualize );
         }
     }
 
