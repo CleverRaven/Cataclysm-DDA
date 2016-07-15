@@ -10251,6 +10251,7 @@ bool player::dispose_item( item &obj, const item *const swap_obj, const std::str
 
     //see if it can be stored in inventory
     player projected = *this;
+    projected.set_fake( true );
     if( swap_obj ) {
         int swap_pos = get_item_position( swap_obj );
         if( swap_pos != INT_MIN ) {
