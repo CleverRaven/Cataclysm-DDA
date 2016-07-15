@@ -7035,7 +7035,7 @@ void map::rad_scorch( const tripoint &p, int time_since_last_actualize )
     }
 }
 
-void map::decay_gibs( const tripoint &p, int time_since_last_actualize )
+void map::decay_cosmetic_fields( const tripoint &p, int time_since_last_actualize )
 {
     for( auto &pr : field_at( p ) ) {
         auto &fd = pr.second;
@@ -7044,12 +7044,12 @@ void map::decay_gibs( const tripoint &p, int time_since_last_actualize )
         }
 
         const int added_age = 2 * time_since_last_actualize / rng( 2, 4 );
-        fd.setFieldAge( fd.getFieldAge() + added_age );
+        fd.mod_age( added_age );
         const int hl = fieldlist[ fd.getFieldType() ].halflife;
         const int density_drop = fd.getFieldAge() / hl;
         if( density_drop > 0 ) {
             fd.setFieldDensity( fd.getFieldDensity() - density_drop );
-            fd.setFieldAge( fd.getFieldAge() - hl * density_drop );
+            fd.mod_age( -hl * density_drop );
         }
     }
 }
@@ -7097,7 +7097,7 @@ void map::actualize( const int gridx, const int gridy, const int gridz )
 
             rad_scorch( pnt, time_since_last_actualize );
 
-            decay_gibs( pnt, time_since_last_actualize );
+            decay_cosmetic_fields( pnt, time_since_last_actualize );
         }
     }
 

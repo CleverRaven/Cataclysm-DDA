@@ -163,6 +163,11 @@ public:
     //Allows you to modify the age of the current field entry.
     int setFieldAge(const int new_age);
 
+    /** Adds a number to current age. */
+    int mod_age( int mod ) {
+        setFieldAge( getFieldAge() + mod );
+    }
+
     //Returns if the current field is dangerous or not.
     bool is_dangerous() const
     {
