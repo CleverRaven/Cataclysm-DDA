@@ -755,6 +755,7 @@ bool player::uninstall_bionic( std::string const &b_id, int skill_level )
 {
     // malfunctioning bionics don't have associated items and get a difficulty of 12
     int difficulty = 12;
+    const inventory &crafting_inv = crafting_inventory();
     if( item::type_is_defined( b_id ) ) {
         auto type = item::find_type( b_id );
         if( type->bionic ) {
@@ -767,7 +768,7 @@ bool player::uninstall_bionic( std::string const &b_id, int skill_level )
         return false;
     }
     //If you are paying the doctor to do it, shouldn't use your supplies
-    if( !( has_quality( quality_id( "CUT" ) ) && has_amount( "1st_aid", 1 ) ) &&
+    if( !( crafting_inv.has_quality( quality_id( "CUT" ) ) && crafting_inv.has_amount( "1st_aid", 1 ) ) &&
         skill_level == -1 ) {
         popup( _( "Removing bionics requires a cutting tool and a first aid kit." ) );
         return false;
@@ -836,8 +837,10 @@ bool player::uninstall_bionic( std::string const &b_id, int skill_level )
     }
 
     //If you are paying the doctor to do it, shouldn't use your supplies
+    std::vector<item_comp> comps;
+    comps.push_back( item_comp( "1st_aid", 1 ) );
     if( skill_level == -1 ) {
-        use_charges( "1st_aid", 1 );
+        consume_items( comps );
     }
 
     practice( skilll_electronics, int( ( 100 - chance_of_success ) * 1.5 ) );
