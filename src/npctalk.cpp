@@ -86,8 +86,7 @@ struct talk_trial {
 };
 
 struct talk_topic {
-    // Implicit constructor for compatibility
-    talk_topic( const std::string &i ) : id( i )
+    explicit talk_topic( const std::string &i ) : id( i )
     { }
 
     std::string id;
@@ -504,7 +503,7 @@ void npc::talk_to_u()
     }
 
     if( d.topic_stack.back().id == "TALK_NONE" ) {
-        d.topic_stack.back() = pick_talk_topic( g->u );
+        d.topic_stack.back() = talk_topic( pick_talk_topic( g->u ) );
     }
 
     moves -= 100;
@@ -3041,12 +3040,10 @@ void talk_function::start_trade( npc &p )
 std::string bulk_trade_inquire( const npc &, const itype_id &it )
 {
     int you_have = g->u.charges_of( it );
-debugmsg("%d of %s", you_have, it.c_str());
     item tmp( it );
     int item_cost = tmp.price( true );
     tmp.charges = you_have;
     int total_cost = tmp.price( true );
-    add_msg( m_good, _("Let's see what you've got...") );
     return string_format( _("I'm willing to pay $%.2f per batch for a total of $%.2f"),
                           item_cost / 100.0, total_cost / 100.0 );
 }
@@ -3695,11 +3692,10 @@ talk_topic talk_response::effect_t::apply( dialogue &d ) const
     return next_topic;
 }
 
-talk_topic dialogue::opt( const talk_topic &the_topic )
+talk_topic dialogue::opt( const talk_topic &topic )
 {
-    const auto &topic = the_topic.id;
     std::string challenge = dynamic_line( topic );
-    gen_responses( the_topic );
+    gen_responses( topic );
     // Put quotes around challenge (unless it's an action)
     if( challenge[0] != '*' && challenge[0] != '&' ) {
         std::stringstream tmp;
@@ -4387,6 +4383,36 @@ void load_talk_topic( JsonObject &jo )
         const std::string id = jo.get_string( "id" );
         json_talk_topics[id].load( jo );
     }
+}
+
+std::string npc::pick_talk_topic( const player &u )
+{
+    //form_opinion(u);
+    (void)u;
+    if( personality.aggression > 0 ) {
+        if( op_of_u.fear * 2 < personality.bravery && personality.altruism < 0 ) {
+            return "TALK_MUG";
+        }
+
+        if( personality.aggression + personality.bravery - op_of_u.fear > 0 ) {
+            return "TALK_STRANGER_AGGRESSIVE";
+        }
+    }
+
+    if( op_of_u.fear * 2 > personality.altruism + personality.bravery ) {
+        return "TALK_STRANGER_SCARED";
+    }
+
+    if( op_of_u.fear * 2 > personality.bravery + op_of_u.trust ) {
+        return "TALK_STRANGER_WARY";
+    }
+
+    if( op_of_u.trust - op_of_u.fear +
+        (personality.bravery + personality.altruism) / 2 > 0 ) {
+        return "TALK_STRANGER_FRIENDLY";
+    }
+
+    return "TALK_STRANGER_NEUTRAL";
 }
 
 enum consumption_result {

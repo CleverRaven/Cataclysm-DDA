@@ -1120,27 +1120,6 @@ void npc::form_opinion( const player &u )
              name.c_str(), npc_attitude_name( attitude ).c_str() );
 }
 
-std::string npc::pick_talk_topic( const player &u )
-{
- //form_opinion(u);
- (void)u;
- if (personality.aggression > 0) {
-  if (op_of_u.fear * 2 < personality.bravery && personality.altruism < 0)
-   return "TALK_MUG";
-  if (personality.aggression + personality.bravery - op_of_u.fear > 0)
-   return "TALK_STRANGER_AGGRESSIVE";
- }
- if (op_of_u.fear * 2 > personality.altruism + personality.bravery)
-  return "TALK_STRANGER_SCARED";
- if (op_of_u.fear * 2 > personality.bravery + op_of_u.trust)
-  return "TALK_STRANGER_WARY";
- if (op_of_u.trust - op_of_u.fear +
-     (personality.bravery + personality.altruism) / 2 > 0)
-  return "TALK_STRANGER_FRIENDLY";
-
- return "TALK_STRANGER_NEUTRAL";
-}
-
 int npc::player_danger( const player &ur ) const
 {
     // TODO: Rewrite this function
