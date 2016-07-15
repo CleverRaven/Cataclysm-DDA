@@ -4404,7 +4404,7 @@ item *item::get_usable_item( const std::string &use_name )
 int item::units_remaining( const Character& ch, int limit ) const
 {
     if( count_by_charges() ) {
-        return std::min( charges, limit );
+        return std::min( int( charges ), limit );
     }
 
     auto res = ammo_remaining();
@@ -4412,7 +4412,7 @@ int item::units_remaining( const Character& ch, int limit ) const
         res += ch.charges_of( "UPS", limit - res );
     }
 
-    return std::min( res, limit );
+    return std::min( int( res ), limit );
 }
 
 bool item::units_sufficient( const Character &ch, int qty ) const
