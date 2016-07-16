@@ -1533,7 +1533,7 @@ void Item_factory::load_basic_info( JsonObject &jo, itype *new_item_template, co
     assign( jo, "integral_volume", new_item_template->integral_volume );
     assign( jo, "color", new_item_template->color );
     assign( jo, "bashing", new_item_template->melee_dam );
-    assign( jo, "cutting", new_item_template->melee_cut );
+    assign( jo, "cutting", new_item_template->melee_cut, strict );
     assign( jo, "to_hit", new_item_template->m_to_hit );
     assign( jo, "container", new_item_template->default_container );
     assign( jo, "rigid", new_item_template->rigid );
