@@ -2829,10 +2829,7 @@ void mattack::tankgun( monster *z, Creature *target )
     // Target the vehicle itself instead if there is one.
     vehicle *veh = g->m.veh_at( target->pos() );
     if( veh != nullptr ) {
-        veh->center_of_mass( aim_point.x, aim_point.y );
-        point vpos = veh->global_pos();
-        aim_point.x += vpos.x;
-        aim_point.y += vpos.y;
+        aim_point = veh->global_pos3() + veh->rotated_center_of_mass();
     }
     // kevingranade KA101: yes, but make it really inaccurate
     // Sure thing.

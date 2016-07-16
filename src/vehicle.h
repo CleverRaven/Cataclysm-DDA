@@ -665,9 +665,10 @@ public:
     // get the total mass of vehicle, including cargo and passengers
     int total_mass () const;
 
-    // get center of mass of vehicle; coordinates are precalc[0] if use_precalc is set,
-    // unrotated part coordinates otherwise
-    void center_of_mass(int &x, int &y, bool use_precalc = true) const;
+    // Gets the center of mass calculated for precalc[0] coordinates
+    const point &rotated_center_of_mass() const;
+    // Gets the center of mass calculated for mount point coordinates
+    const point &local_center_of_mass() const;
 
     // Get the pivot point of vehicle; coordinates are unrotated mount coordinates.
     // This may result in refreshing the pivot point if it is currently stale.

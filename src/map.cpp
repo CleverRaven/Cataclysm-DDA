@@ -1012,9 +1012,12 @@ float map::vehicle_vehicle_collision( vehicle &veh, vehicle &veh2,
             0.5 * m2 * velo_veh2.norm() * velo_veh2.norm();
 
         // Collision_axis
-        int x_cof1 = 0, y_cof1 = 0, x_cof2 = 0, y_cof2 = 0;
-        veh .center_of_mass(x_cof1, y_cof1);
-        veh2.center_of_mass(x_cof2, y_cof2);
+        point cof1 = veh .rotated_center_of_mass();
+        point cof2 = veh2.rotated_center_of_mass();
+        int &x_cof1 = cof1.x;
+        int &y_cof1 = cof1.y;
+        int &x_cof2 = cof2.x;
+        int &y_cof2 = cof2.y;
         rl_vec2d collision_axis_y;
 
         collision_axis_y.x = ( veh.global_x() + x_cof1 ) - ( veh2.global_x() + x_cof2 );
