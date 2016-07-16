@@ -2954,9 +2954,8 @@ int vehicle::total_folded_volume() const
 
 const point &vehicle::rotated_center_of_mass() const
 {
-    if( mass_center_precalc_dirty ) {
-        calc_mass_center( true );
-    }
+    // @todo Bring back caching of this point
+    calc_mass_center( true );
 
     return mass_center_precalc;
 }
