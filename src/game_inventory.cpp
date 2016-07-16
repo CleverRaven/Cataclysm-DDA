@@ -124,39 +124,78 @@ item_location game::inv_map_splice( const item_filter_advanced &filter, const st
     return inv_map_splice_internal( preset, title, radius, none_message );
 }
 
+int get_capacity_from_location( const item_location &location,
+                                const item &liquid, std::string *err = nullptr )
+{
+    if( location.where() == item_location::type::character ) {
+        Character *character = dynamic_cast<Character *>( g->critter_at( location.position() ) );
+        if( character == nullptr ) {
+            debugmsg( "Supplied an invalid location: no character found." );
+            return 0;
+        }
+        return location->get_remaining_capacity_for_liquid( liquid, *character, err );
+    } else {
+        const bool allow_buckets = location.where() == item_location::type::map;
+        return location->get_remaining_capacity_for_liquid( liquid, allow_buckets, err );
+    }
+}
+
+class liquid_entry_renderer: public inventory_entry_renderer
+{
+    public:
+        liquid_entry_renderer( const item &liquid ) :
+            liquid( liquid ) {}
+
+        virtual size_t get_cells_count() const override {
+            return 2;
+        }
+
+        virtual std::string get_text( const inventory_entry &entry, size_t cell_index ) const override {
+            if( cell_index == 1 ) {
+                if( entry.is_item() ) {
+                    std::string err;
+                    const int capacity = get_capacity_from_location( entry.get_location(), liquid, &err );
+
+                    if( !err.empty() ) {
+                        return err;
+                    }
+
+                    if( entry.get_available_count() > 1 ) {
+                        return string_format( "%.2f liters each", capacity / 4.0 );
+                    } else {
+                        return string_format( "%.2f liters", capacity / 4.0 );
+                    }
+                } else {
+                    return _( "FREE VOLUME" );
+                }
+            }
+            return inventory_entry_renderer::get_text( entry, cell_index );
+        }
+
+    private:
+        const item &liquid;
+};
+
 item *game::inv_map_for_liquid( const item &liquid, const std::string &title, int radius )
 {
     const auto filter = [ this, &liquid ]( const item_location & location ) {
         if( !location->is_reloadable_with( liquid.typeId() ) && !location->is_container() ) {
             return item_filter_response::make_unsuitable();
         }
+        const int capacity = get_capacity_from_location( location, liquid );
 
-        std::string err;
-        int capacity;
-
-        if( location.where() == item_location::type::character ) {
-            Character *character = dynamic_cast<Character *>( critter_at( location.position() ) );
-            if( character == nullptr ) {
-                debugmsg( "Invalid location supplied to the liquid filter: no character found." );
-                return item_filter_response::make_unsuitable();
-            }
-            capacity = location->get_remaining_capacity_for_liquid( liquid, *character, &err );
+        if( capacity > 0 ) {
+            return item_filter_response::make_fine( -capacity );
         } else {
-            const bool allow_buckets = location.where() == item_location::type::map;
-            capacity = location->get_remaining_capacity_for_liquid( liquid, allow_buckets, &err );
-        }
-
-        if( err.empty() && capacity > 0 ) {
-            return item_filter_response::make_fine( string_format( "%.2f liters free",
-                                                    capacity / 4.0 ), -capacity );
-        } else {
-            return item_filter_response::make_unready( err );
+            return item_filter_response::make_unready();
         }
     };
 
-    return inv_map_splice( filter, title, radius,
-                           string_format( _( "You don't have a suitable container for carrying %s." ),
-                                          liquid.type_name( 1 ).c_str() ) ).get_item();
+    return inv_map_splice_internal(
+               inventory_selector_preset( u, filter, liquid_entry_renderer( liquid ) )
+               , title, radius,
+               string_format( _( "You don't have a suitable container for carrying %s." ),
+                              liquid.tname().c_str() ) ).get_item();
 }
 
 std::list<std::pair<int, int>> game::multidrop()
