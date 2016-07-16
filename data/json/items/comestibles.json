@@ -825,6 +825,7 @@
         "volume" : 1,
         "phase" : "liquid",
         "charges" : 5,
+        "flags": [ "EATEN_COLD" ]
         "fun" : 15
     },
     {
@@ -949,6 +950,7 @@
         "volume" : 1,
         "phase" : "liquid",
         "charges" : 7,
+        "flags": [ "EATEN_COLD" ]
         "fun" : 15
     },
     {
@@ -973,6 +975,7 @@
         "volume" : 1,
         "phase" : "liquid",
         "charges" : 7,
+        "flags": [ "EATEN_COLD" ]
         "fun" : 18
     },
     {
@@ -997,6 +1000,7 @@
         "volume" : 1,
         "phase" : "liquid",
         "charges" : 7,
+        "flags": [ "EATEN_COLD" ]
         "fun" : 10
     },
     {
@@ -1125,6 +1129,7 @@
         "volume" : 1,
         "phase" : "liquid",
         "charges" : 7,
+        "flags": [ "EATEN_COLD" ]
         "fun" : 12
     },
     {
@@ -1150,6 +1155,7 @@
         "volume" : 1,
         "phase" : "liquid",
         "charges" : 1,
+        "flags": [ "EATEN_HOT" ]
         "fun" : 20
     },
     {
@@ -1496,6 +1502,7 @@
         "volume" : 1,
         "phase" : "liquid",
         "charges" : 1,
+        "flags": [ "EATEN_COLD" ]
         "fun" : 14
     },
     {
@@ -1545,6 +1552,7 @@
         "volume" : 1,
         "phase" : "liquid",
         "charges" : 1,
+        "flags": [ "EATEN_COLD" ]
         "fun" : 18
     },
     {
