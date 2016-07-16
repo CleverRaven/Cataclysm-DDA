@@ -6364,9 +6364,8 @@ const vpart_info &vehicle_part::info() const
     return id.obj();
 }
 
-void vehicle::invalidate_mass() const
+void vehicle::invalidate_mass()
 {
-    // This function is const, but it does modify mutable variables.
     mass_dirty = true;
     mass_center_precalc_dirty = true;
     mass_center_no_precalc_dirty = true;

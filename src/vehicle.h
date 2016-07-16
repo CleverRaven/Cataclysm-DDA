@@ -660,7 +660,7 @@ public:
     /**
      * Mark mass caches and pivot cache as dirty
      */
-    void invalidate_mass() const;
+    void invalidate_mass();
 
     // get the total mass of vehicle, including cargo and passengers
     int total_mass () const;
