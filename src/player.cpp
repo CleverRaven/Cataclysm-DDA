@@ -76,6 +76,8 @@
 #include <fstream>
 #include <limits>
 
+const int MIN_RECOIL = 150;
+
 const mtype_id mon_dermatik_larva( "mon_dermatik_larva" );
 const mtype_id mon_player_blob( "mon_player_blob" );
 const mtype_id mon_shadow_snake( "mon_shadow_snake" );
