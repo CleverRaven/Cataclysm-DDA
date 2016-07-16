@@ -213,8 +213,12 @@
     "id" : "ammo_shotgun_rare",
     "//" : "Less common shotgun ammo including that only used by police/paramilitary forces.",
     "items": [
+      [ "20x66_beanbag", 10 ],
+      [ "20x66_flare", 10 ],
+      [ "20x66_shot", 40 ],
+      [ "20x66_slug", 20 ],
       [ "shot_slug", 100 ],
-      [ "shot_beanbag", 50 ]
+      [ "shot_beanbag", 20 ]
     ]
   },
   {
@@ -222,6 +226,9 @@
     "id" : "ammo_shotgun_milspec",
     "//" : "Military specification shotgun ammo found at military sites.",
     "items": [
+      [ "20x66_exp", 10 ],
+      [ "20x66_flechette", 60 ],
+      [ "20x66_inc", 20 ],
       [ "shot_flechette", 100 ],
       [ "shot_he", 10 ]
     ]
