@@ -7,6 +7,7 @@
     "skill_used": "mechanics",
     "difficulty": 3,
     "time": 30000,
+    "reversible": true,
     "qualities": [
         { "id": "SCREW","level": 1 },
         { "id": "WRENCH","level": 1 },
@@ -29,6 +30,7 @@
     "skill_used": "mechanics",
     "difficulty": 2,
     "time": 10000,
+    "reversible": true,
     "qualities": [
       { "id": "SCREW", "level": 1 }
     ],
@@ -48,6 +50,7 @@
     "skill_used": "mechanics",
     "difficulty": 3,
     "time": 30000,
+    "reversible": true,
     "qualities": [
         { "id": "SCREW","level": 1 },
         { "id": "WRENCH","level": 1 },
@@ -70,6 +73,7 @@
     "skill_used": "mechanics",
     "difficulty": 4,
     "time": 240000,
+    "reversible": true,
     "qualities": [
         { "id": "SCREW","level": 1 },
         { "id": "WRENCH","level": 1 },
