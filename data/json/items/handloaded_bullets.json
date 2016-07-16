@@ -100,28 +100,5 @@
         "count" : 100,
         "stack_size" : 200,
         "effects" : ["COOKOFF", "RECYCLED"]
-    },
-    {
-        "type" : "AMMO",
-        "id" : "reloaded_300_winmag",
-        "price": 850,
-        "name" : "reloaded .300 Winchester Magnum",
-        "name_plural" : "reloaded .300 Winchester Magnum",
-        "symbol" : "=",
-        "color" : "yellow",
-        "description" : "The .300 Winchester Magnum is extremely versatile and has been adopted by many shooting disciplines.  The cartridge has found use by hunters, military units, and law enforcement departments.  This one has been hand-reloaded.",
-        "material" : ["steel", "powder"],
-        "volume" : 1,
-        "weight" : 15,
-        "bashing" : 1,
-        "ammo_type" : "300",
-        "casing" : "300_casing",
-        "damage" : 74,
-        "pierce" : 5,
-        "range" : 90,
-        "dispersion" : 20,
-        "recoil" : 600,
-        "count" : 10,
-        "effects" : ["COOKOFF", "RECYCLED"]
     }
 ]
