@@ -625,7 +625,7 @@ void vehicle::smash() {
     }
 }
 
-const std::string vehicle::disp_name()
+const std::string vehicle::disp_name() const
 {
     return string_format( _("the %s"), name.c_str() );
 }
@@ -1369,7 +1369,7 @@ bool vehicle::fold_up() {
     return true;
 }
 
-double vehicle::engine_cold_factor( const int e )
+double vehicle::engine_cold_factor( const int e ) const
 {
     if( !is_engine_type( e, fuel_type_diesel ) ) { return 0.0; }
 
@@ -1381,7 +1381,7 @@ double vehicle::engine_cold_factor( const int e )
     return 1.0 - (std::max( 0, std::min( 30, eff_temp ) ) / 30.0);
 }
 
-int vehicle::engine_start_time( const int e )
+int vehicle::engine_start_time( const int e ) const
 {
     if( !is_engine_on( e ) || is_engine_type( e, fuel_type_muscle ) ||
         !fuel_left( part_info( engines[e] ).fuel_type ) ) { return 0; }
@@ -1495,7 +1495,7 @@ void vehicle::start_engines( const bool take_control )
     g->u.activity.values.push_back( take_control );
 }
 
-void vehicle::backfire( const int e )
+void vehicle::backfire( const int e ) const
 {
     const int power = part_power( engines[e], true );
     const tripoint pos = global_part_pos3( engines[e] );
@@ -2331,7 +2331,7 @@ void vehicle::set_label(int x, int y, std::string text)
     }
 }
 
-int vehicle::next_part_to_close(int p, bool outside)
+int vehicle::next_part_to_close( int p, bool outside ) const
 {
     std::vector<int> parts_here = parts_at_relative(parts[p].mount.x, parts[p].mount.y);
 
@@ -2352,7 +2352,7 @@ int vehicle::next_part_to_close(int p, bool outside)
     return -1;
 }
 
-int vehicle::next_part_to_open(int p, bool outside)
+int vehicle::next_part_to_open(int p, bool outside) const
 {
     std::vector<int> parts_here = parts_at_relative(parts[p].mount.x, parts[p].mount.y);
 
@@ -3563,7 +3563,7 @@ void vehicle::consume_fuel( double load = 1.0 )
 std::vector<vehicle_part *> vehicle::lights( bool active )
 {
     std::vector<vehicle_part *> res;
-    for( auto& e : parts ) {
+    for( auto &e : parts ) {
         if( e.hp > 0 && e.is_light() && ( !active || e.enabled ) ) {
             res.push_back( &e );
         }
@@ -6265,7 +6265,7 @@ long vehicle_part::ammo_consume( long qty, const tripoint& pos )
     return res;
 }
 
-bool vehicle_part::can_reload( const itype_id &obj )
+bool vehicle_part::can_reload( const itype_id &obj ) const
 {
     // first check part is not destroyed and can contain ammo
     if( hp < 0 || ammo_capacity() <= 0 ) {
@@ -6364,8 +6364,9 @@ const vpart_info &vehicle_part::info() const
     return id.obj();
 }
 
-void vehicle::invalidate_mass()
+void vehicle::invalidate_mass() const
 {
+    // This function is const, but it does modify mutable variables.
     mass_dirty = true;
     mass_center_precalc_dirty = true;
     mass_center_no_precalc_dirty = true;
