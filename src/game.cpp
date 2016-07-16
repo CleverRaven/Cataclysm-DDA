@@ -1442,8 +1442,9 @@ bool game::do_turn()
     }
 
     // No-scent debug mutation has to be processed here or else it takes time to start working
-    if( !u.has_active_bionic( "bio_scent_mask" ) && !u.has_trait( "DEBUG_NOSCENT" ) ) {
-        scent( u.pos() ) = u.scent;
+    if( !u.has_active_bionic( "bio_scent_mask" ) &&
+        !u.has_trait( "DEBUG_NOSCENT" ) ) {
+        scent.set( u.pos(), u.scent );
         overmap_buffer.set_scent( u.global_omt_location(),  u.scent );
     }
     scent.update( u.pos(), m );
@@ -4775,11 +4776,12 @@ void game::disp_faction_ends()
 struct npc_dist_to_player {
     const tripoint ppos;
     npc_dist_to_player() : ppos( g->u.global_omt_location() ) { }
-    bool operator()(const npc *a, const npc *b) const
-    {
+    // Operator overload required to leverage sort API.
+    bool operator()( const npc *a, const npc *b ) const {
         const tripoint apos = a->global_omt_location();
         const tripoint bpos = b->global_omt_location();
-        return square_dist(ppos.x, ppos.y, apos.x, apos.y) < square_dist(ppos.x, ppos.y, bpos.x, bpos.y);
+        return square_dist( ppos.x, ppos.y, apos.x, apos.y ) <
+            square_dist( ppos.x, ppos.y, bpos.x, bpos.y );
     }
 };
 
@@ -5294,18 +5296,19 @@ void game::draw_ter( const tripoint &center, const bool looking, const bool draw
         tripoint tmp = center;
         int &realx = tmp.x;
         int &realy = tmp.y;
-        for (realx = posx - POSX; realx <= posx + POSX; realx++) {
-            for (realy = posy - POSY; realy <= posy + POSY; realy++) {
-                if (scent(tmp) != 0) {
+        for( realx = posx - POSX; realx <= posx + POSX; realx++ ) {
+            for( realy = posy - POSY; realy <= posy + POSY; realy++ ) {
+                if( scent.get( tmp ) != 0 ) {
                     int tempx = posx - realx;
                     int tempy = posy - realy;
-                    if (!(isBetween(tempx, -2, 2) && isBetween(tempy, -2, 2))) {
-                        if (mon_at(tmp) != -1) {
-                            mvwputch(w_terrain, realy + POSY - posy,
-                                     realx + POSX - posx, c_white, '?');
+                    if ( !( isBetween( tempx, -2, 2 ) &&
+                            isBetween( tempy, -2, 2 ) ) ) {
+                        if( mon_at( tmp ) != -1 ) {
+                            mvwputch( w_terrain, realy + POSY - posy,
+                                      realx + POSX - posx, c_white, '?' );
                         } else {
-                            mvwputch(w_terrain, realy + POSY - posy,
-                                     realx + POSX - posx, c_magenta, '#');
+                            mvwputch( w_terrain, realy + POSY - posy,
+                                      realx + POSX - posx, c_magenta, '#' );
                         }
                     }
                 }

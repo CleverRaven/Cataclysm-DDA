@@ -22,6 +22,7 @@ struct pair_greater_cmp {
  */
 struct compare_by_dist_attitude {
     const Creature &u;
+    // Operator overload required by sort interface.
     bool operator()( Creature *a, Creature *b ) const;
 };
 

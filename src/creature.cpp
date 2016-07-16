@@ -66,14 +66,6 @@ static std::map<int, std::map<body_part, double> > default_hit_weights = {
     }
 };
 
-struct weight_compare {
-    bool operator() (const std::pair<body_part, double> &left,
-                     const std::pair<body_part, double> &right)
-    {
-        return left.second < right.second;
-    }
-};
-
 const std::map<std::string, m_size> Creature::size_map = {
     {"TINY", MS_TINY}, {"SMALL", MS_SMALL}, {"MEDIUM", MS_MEDIUM},
     {"LARGE", MS_LARGE}, {"HUGE", MS_HUGE} };
@@ -1543,11 +1535,6 @@ body_part Creature::select_body_part(Creature *source, int hit_roll) const
     add_msg( m_debug, "selected part: %s", body_part_name(selected_part).c_str() );
 
     return selected_part;
-}
-
-bool Creature::compare_by_dist_to_point::operator()( const Creature* const a, const Creature* const b ) const
-{
-    return rl_dist( a->pos(), center ) < rl_dist( b->pos(), center );
 }
 
 void Creature::check_dead_state() {

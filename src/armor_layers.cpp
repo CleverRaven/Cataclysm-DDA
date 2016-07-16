@@ -130,6 +130,7 @@ struct layering_item_info {
     int damage;
     int encumber;
     std::string name;
+    // Operator overload required to leverage vector equality operator.
     bool operator ==( const layering_item_info &o ) const {
         return this->damage == o.damage &&
                this->encumber == o.encumber &&
@@ -137,12 +138,12 @@ struct layering_item_info {
     }
 };
 
-std::vector<layering_item_info> items_cover_bp( const Character &c, int bp )
+static std::vector<layering_item_info> items_cover_bp( const Character &c, int bp )
 {
     std::vector<layering_item_info> s;
     for( auto &elem : c.worn ) {
         if( elem.covers( static_cast<body_part>( bp ) ) ) {
-            layering_item_info t = {elem.damage, elem.get_encumber(), elem.type_name( 1 )};
+            layering_item_info t = { elem.damage, elem.get_encumber(), elem.type_name( 1 ) };
             s.push_back( t );
         }
     }

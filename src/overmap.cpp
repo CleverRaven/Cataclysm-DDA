@@ -3271,6 +3271,7 @@ struct node
     node( int xp, int yp, int dir, int pri ) {
         x = xp; y = yp; d = dir; p = pri;
     }
+    // Operator overload required by priority queue interface.
     bool operator< ( const node &n ) const {
         return this->p > n.p;
     }

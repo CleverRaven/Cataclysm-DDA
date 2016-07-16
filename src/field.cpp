@@ -547,7 +547,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
         tmp.z = p.z;
         for( tmp.x = p.x - 1; tmp.x <= p.x + 1; tmp.x++ ) {
             for( tmp.y = p.y - 1; tmp.y <= p.y + 1; tmp.y++ ) {
-                g->scent( tmp ) = 0;
+                g->scent.set( tmp, 0 );
             }
         }
 
@@ -780,8 +780,8 @@ bool map::process_fields_in_submap( submap *const current_submap,
                     case fd_sludge:
                         break;
                     case fd_slime:
-                        if( g->scent( p ) < cur->getFieldDensity() * 10 ) {
-                            g->scent( p ) = cur->getFieldDensity() * 10;
+                        if( g->scent.get( p ) < cur->getFieldDensity() * 10 ) {
+                            g->scent.set( p, cur->getFieldDensity() * 10 );
                         }
                         break;
                     case fd_plasma:
