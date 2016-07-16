@@ -10,6 +10,11 @@
     "replace": "40mm_teargas"
   },
   {
+    "id": "8mm_bootleg_jsp",
+    "type": "MIGRATION",
+    "replace": "8mm_bootleg"
+  },
+  {
     "id": "adv_UPS_on",
     "type": "MIGRATION",
     "replace": "adv_UPS_off"
