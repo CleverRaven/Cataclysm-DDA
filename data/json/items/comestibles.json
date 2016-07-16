@@ -825,8 +825,8 @@
         "volume" : 1,
         "phase" : "liquid",
         "charges" : 5,
-        "flags": [ "EATEN_COLD" ],
-        "fun" : 15
+        "fun" : 15,
+        "flags": [ "EATEN_COLD" ]
     },
     {
         "type" : "COMESTIBLE",
@@ -950,8 +950,8 @@
         "volume" : 1,
         "phase" : "liquid",
         "charges" : 7,
-        "flags": [ "EATEN_COLD" ],
-        "fun" : 15
+        "fun" : 15,
+        "flags": [ "EATEN_COLD" ]
     },
     {
         "type" : "COMESTIBLE",
@@ -975,8 +975,8 @@
         "volume" : 1,
         "phase" : "liquid",
         "charges" : 7,
-        "flags": [ "EATEN_COLD" ],
-        "fun" : 18
+        "fun" : 18,
+        "flags": [ "EATEN_COLD" ]
     },
     {
         "type" : "COMESTIBLE",
@@ -1000,8 +1000,8 @@
         "volume" : 1,
         "phase" : "liquid",
         "charges" : 7,
-        "flags": [ "EATEN_COLD" ],
-        "fun" : 10
+        "fun" : 10,
+        "flags": [ "EATEN_COLD" ]
     },
     {
         "type" : "COMESTIBLE",
@@ -1129,8 +1129,8 @@
         "volume" : 1,
         "phase" : "liquid",
         "charges" : 7,
-        "flags": [ "EATEN_COLD" ],
-        "fun" : 12
+        "fun" : 12,
+        "flags": [ "EATEN_COLD" ]
     },
     {
         "type" : "COMESTIBLE",
@@ -1155,8 +1155,8 @@
         "volume" : 1,
         "phase" : "liquid",
         "charges" : 1,
-        "flags": [ "EATEN_HOT" ],
-        "fun" : 20
+        "fun" : 20,
+        "flags": [ "EATEN_HOT" ]
     },
     {
         "type" : "COMESTIBLE",
@@ -1502,8 +1502,8 @@
         "volume" : 1,
         "phase" : "liquid",
         "charges" : 1,
-        "flags": [ "EATEN_COLD" ],
-        "fun" : 14
+        "fun" : 14,
+        "flags": [ "EATEN_COLD" ]
     },
     {
         "type" : "COMESTIBLE",
@@ -1552,8 +1552,8 @@
         "volume" : 1,
         "phase" : "liquid",
         "charges" : 1,
-        "flags": [ "EATEN_COLD" ],
-        "fun" : 18
+        "fun" : 18,
+        "flags": [ "EATEN_COLD" ]
     },
     {
         "type" : "COMESTIBLE",
