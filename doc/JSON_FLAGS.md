@@ -3,6 +3,7 @@
 ## Notes
 - Many of the flags intended for one category or item type, can be used in other categories or item types. Experiment to see where else flags can be used.
 - Offensive and defensive flags can be used on any item type that can be wielded.
+- The flags field should always be the last field to reduce changes when the JSON lint tool is applied.
 
 ## Material Phases
 
