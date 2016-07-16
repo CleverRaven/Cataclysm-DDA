@@ -198,7 +198,7 @@
         "deconstruct": {
             "items": [
                 { "item": "2x4", "count": 12 },
-                { "item": "rag", "count": [60, 80] },
+                { "item": "blanket", "count": 2 },
                 { "item": "nail", "charges": [8, 10] }
             ]
         },
