@@ -241,7 +241,7 @@
     "armor_acid":2,
     "armor_fire":2,
     "vision_day":45,
-    "vision_night":5, 
+    "vision_night":5,
     "hp":140,
     "death_function":"NORMAL",
     "special_attacks":[["STRETCH_BITE", 15], ["STRETCH_ATTACK", 10]],
@@ -657,7 +657,7 @@
         "into": "mon_zombie_gasbag_pk",
         "half_life": 28
     },
-    "burn_into": "mon_zombie_scorched_pk"  
+    "burn_into": "mon_zombie_scorched_pk"
     },{
     "type": "MONSTER",
     "id": "mon_zombie_shady",
@@ -666,7 +666,7 @@
         "into": "mon_zombie_shady_pk",
         "half_life": 28
     },
-    "burn_into": "mon_zombie_crawler_pk"  
+    "burn_into": "mon_zombie_crawler_pk"
     },{
     "type": "MONSTER",
     "id": "mon_zombie_shady_pk",
@@ -926,7 +926,7 @@
         "half_life": 14
     },
     "burn_into": "mon_skeleton_scorched",
-    "flags":["SEES", "HARDTOSHOOT", "REVIVES", "NO_BREATHE", "BONES", "NO_NECRO"]
+    "flags":["SEES", "HARDTOSHOOT", "REVIVES", "NO_BREATHE", "BONES", "NO_NECRO", "POISON"]
     },{
     "type": "MONSTER",
     "id": "mon_skeleton_pk",
@@ -968,7 +968,7 @@
         },
         ["LUNGE", 30]],
     "description":"Its skin stretched so tight as to have split in several places, this once-human corpse bears bones jutting out at unnatural angles.",
-    "flags":["SEES", "HEARS", "STUMBLES", "HARDTOSHOOT", "REVIVES", "NO_BREATHE", "BONES", "NO_NECRO"]
+    "flags":["SEES", "HEARS", "STUMBLES", "HARDTOSHOOT", "REVIVES", "NO_BREATHE", "BONES", "NO_NECRO", "POISON"]
     },{
     "type": "MONSTER",
     "id": "mon_skeleton_husk",
@@ -1005,7 +1005,7 @@
         ["LUNGE", 15], ["IMPALE",30]],
     "burn_into": "mon_skeleton_scorched",
     "description":"So desiccated that it makes sounds like rustling leaves as it shuffles aimlessly, this abomination is hardly more than a tanned hide pulled over a bone frame.  What flesh it does have seems to be devoted to the perception of prey; at which it launches itself at with abandon.",
-    "flags":["SEES", "HEARS", "STUMBLES", "HARDTOSHOOT", "REVIVES", "NO_BREATHE", "BONES", "NO_NECRO"]
+    "flags":["SEES", "HEARS", "STUMBLES", "HARDTOSHOOT", "REVIVES", "NO_BREATHE", "BONES", "NO_NECRO", "POISON"]
     },{
     "type": "MONSTER",
     "id": "mon_zombie_crawler_pk",
