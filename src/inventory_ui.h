@@ -25,11 +25,6 @@ enum class navigation_mode : int {
     CATEGORY
 };
 
-const item_filter_advanced allow_all_items = []( const item_location & )
-{
-    return item_filter_response::make_fine();
-};
-
 class inventory_entry
 {
     private:
@@ -197,53 +192,40 @@ class inventory_column
         size_t assigned_width = 0;
 };
 
-class selection_entry_renderer: public inventory_entry_renderer
-{
-    public:
-        virtual std::string get_text( const inventory_entry &entry, size_t cell_index ) const override;
-        virtual nc_color get_color( const inventory_entry &entry, size_t cell_index ) const override;
-};
+struct inventory_selector_preset {
+    const player &who;
+    const item_filter_advanced &filter;
+    const inventory_entry_renderer &renderer;
 
-class selection_column : public inventory_column
-{
-    public:
-        selection_column( const std::string &id, const std::string &name );
+    static const item_filter_advanced allow_all_items;
 
-        void reserve_width_for( const inventory_column &column );
-
-        virtual bool activatable() const override {
-            return inventory_column::activatable() && pages_count() > 1;
-        }
-
-        virtual bool allows_selecting() const override {
-            return false;
-        }
-
-        virtual void prepare_paging( size_t new_entries_per_page = 0 ) override; // Zero means unchanged
-        virtual void on_change( const inventory_entry &entry ) override;
-
-    private:
-        const std::unique_ptr<item_category> selected_cat;
-        selection_entry_renderer renderer;
+    inventory_selector_preset( const player &who,
+                               const item_filter_advanced &filter = allow_all_items,
+                               const inventory_entry_renderer &renderer = default_renderer ) :
+        who( who ),
+        filter( filter ),
+        renderer( renderer ) {}
 };
 
 class inventory_selector
 {
     public:
-        inventory_selector( player &u, const std::string &title,
-                            const item_filter_advanced &filter = allow_all_items,
-                            const inventory_entry_renderer &renderer = default_renderer );
+        inventory_selector( const inventory_selector_preset &preset );
         ~inventory_selector();
         /** These functions add items from map / vehicles */
-        void add_character_items( Character &character );
+        void add_character_items( const Character &character );
         void add_map_items( const tripoint &target );
         void add_vehicle_items( const tripoint &target );
         void add_nearby_items( int radius = 1 );
+        /** Assigns a title that will be shown on top of the menu */
+        void set_title( const std::string &title );
         /** Checks the selector for emptiness (absence of available entries). */
         bool empty() const;
 
     protected:
-        player &u;
+        const inventory_selector_preset &preset;
+        std::vector<std::shared_ptr<inventory_column>> columns;
+        std::shared_ptr<inventory_column> custom_column;
 
         inventory_input get_input();
 
@@ -257,8 +239,6 @@ class inventory_selector
                         const std::string &title,
                         const std::function<std::shared_ptr<item_location>( item * )> &locator );
 
-        /** Refreshes item categories */
-        void prepare_columns( bool multiselect );
         /** Given an action from the input_context, try to act according to it. */
         void on_input( const inventory_input &input );
         /** Entry has been changed */
@@ -266,6 +246,8 @@ class inventory_selector
 
         void refresh_window() const;
 
+        /** Refreshes item categories */
+        virtual void prepare_columns();
         virtual void draw( WINDOW *w ) const;
 
         void draw_inv_weight_vol( WINDOW *w, int weight_carried, units::volume vol_carried,
@@ -292,6 +274,8 @@ class inventory_selector
             return &column == &get_active_column();
         }
 
+        void insert_column( decltype( columns )::iterator position,
+                            std::shared_ptr<inventory_column> &new_column );
         void toggle_active_column();
         void refresh_active_column() {
             if( !get_active_column().activatable() ) {
@@ -299,47 +283,50 @@ class inventory_selector
             }
         }
         void toggle_navigation_mode();
-        void insert_selection_column( const std::string &id, const std::string &name );
 
     private:
         static const long min_custom_invlet = '0';
         static const long max_custom_invlet = '9';
         long cur_custom_invlet = min_custom_invlet;
 
-        const std::string title;
-        const item_filter_advanced filter;
-        const inventory_entry_renderer &renderer;
         WINDOW *w_inv;
 
-        std::vector<std::unique_ptr<inventory_column>> columns;
-        std::unique_ptr<inventory_column> custom_column;
+        std::string title;
         size_t active_column_index;
         std::list<item_category> categories;
         navigation_mode navigation;
         input_context ctxt;
-
-        void insert_column( decltype( columns )::iterator position,
-                            std::unique_ptr<inventory_column> &new_column );
 };
 
 class inventory_pick_selector : public inventory_selector
 {
     public:
-        inventory_pick_selector( player &u, const std::string &title,
-                                 const item_filter_advanced &filter = allow_all_items );
+        inventory_pick_selector( const inventory_selector_preset &preset );
         item_location &execute();
 
     protected:
-        std::unique_ptr<item_location> null_location;
-
         virtual void draw( WINDOW *w ) const override;
+
+    private:
+        std::shared_ptr<item_location> null_location;
 };
 
-class inventory_compare_selector : public inventory_selector
+class inventory_multiselector : public inventory_selector
 {
     public:
-        inventory_compare_selector( player &u, const std::string &title,
-                                    const item_filter_advanced &filter = allow_all_items );
+        inventory_multiselector( const inventory_selector_preset &preset,
+                                 const std::string &selection_column_title );
+    protected:
+        virtual void prepare_columns() override;
+
+    private:
+        std::shared_ptr<inventory_column> selection_col;
+};
+
+class inventory_compare_selector : public inventory_multiselector
+{
+    public:
+        inventory_compare_selector( const inventory_selector_preset &preset );
         std::pair<const item *, const item *> execute();
 
     protected:
@@ -349,11 +336,10 @@ class inventory_compare_selector : public inventory_selector
         void toggle_entry( inventory_entry *entry );
 };
 
-class inventory_drop_selector : public inventory_selector
+class inventory_drop_selector : public inventory_multiselector
 {
     public:
-        inventory_drop_selector( player &u, const std::string &title,
-                                 const item_filter_advanced &filter = allow_all_items );
+        inventory_drop_selector( const inventory_selector_preset &preset );
         std::list<std::pair<int, int>> execute();
 
     protected:

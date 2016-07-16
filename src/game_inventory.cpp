@@ -12,7 +12,10 @@ void game::interactive_inv()
     u.inv.restack( &u );
     u.inv.sort();
 
-    inventory_pick_selector inv_s( u, _( "Inventory:" ) );
+    const inventory_selector_preset preset( u );
+    inventory_pick_selector inv_s( preset );
+
+    inv_s.set_title( _( "Inventory:" ) );
 
     int res;
     do {
@@ -41,7 +44,7 @@ int game::inv_for_filter( const std::string &title, const item_filter_advanced &
 int game::inv_for_all( const std::string &title, const std::string &none_message )
 {
     const std::string msg = ( none_message.empty() ) ? _( "Your inventory is empty." ) : none_message;
-    return inv_for_filter( title, allow_all_items, msg );
+    return inv_for_filter( title, inventory_selector_preset::allow_all_items, msg );
 }
 
 int game::inv_for_activatables( const player &p, const std::string &title )
@@ -86,6 +89,25 @@ int game::inv_for_unequipped( const std::string &title )
     }, _( "You don't have any items to wear." ) );
 }
 
+item_location inv_map_splice_internal( const inventory_selector_preset &preset,
+                                       const std::string &title, int radius,
+                                       const std::string &none_message )
+{
+    inventory_pick_selector inv_s( preset );
+
+    inv_s.set_title( title );
+    inv_s.add_nearby_items( radius );
+
+    if( inv_s.empty() ) {
+        const std::string msg = ( none_message.empty() ) ? _( "You don't have the necessary item at hand." )
+                                : none_message;
+        popup( msg, PF_GET_KEY );
+        return item_location();
+    }
+
+    return std::move( inv_s.execute() );
+}
+
 item_location game::inv_map_splice( const item_filter_simple &filter, const std::string &title,
                                     int radius, const std::string &none_message )
 {
@@ -98,17 +120,8 @@ item_location game::inv_map_splice( const item_filter_advanced &filter, const st
     u.inv.restack( &u );
     u.inv.sort();
 
-    inventory_pick_selector inv_s( u, title, filter );
-
-    inv_s.add_nearby_items( radius );
-    if( inv_s.empty() ) {
-        const std::string msg = ( none_message.empty() ) ? _( "You don't have the necessary item at hand." )
-                                : none_message;
-        popup( msg, PF_GET_KEY );
-        return item_location();
-    }
-
-    return std::move( inv_s.execute() );
+    inventory_selector_preset preset( u, filter );
+    return inv_map_splice_internal( preset, title, radius, none_message );
 }
 
 item *game::inv_map_for_liquid( const item &liquid, const std::string &title, int radius )
@@ -151,10 +164,15 @@ std::list<std::pair<int, int>> game::multidrop()
     u.inv.restack( &u );
     u.inv.sort();
 
-    inventory_drop_selector inv_s( u,
-    _( "Multidrop:" ), [ this ]( const item_location & location ) {
+    const auto filter = [ this ]( const item_location & location ) {
         return item_filter_response::make( u.can_unwield( *location, false ) );
-    } );
+    };
+
+    const inventory_selector_preset preset( u, filter );
+    inventory_drop_selector inv_s( preset );
+
+    inv_s.set_title( _( "Multidrop:" ) );
+
     if( inv_s.empty() ) {
         popup( std::string( _( "You have nothing to drop." ) ), PF_GET_KEY );
         return std::list<std::pair<int, int> >();
@@ -167,7 +185,10 @@ void game::compare( const tripoint &offset )
     u.inv.restack( &u );
     u.inv.sort();
 
-    inventory_compare_selector inv_s( u, _( "Compare:" ) );
+    const inventory_selector_preset preset( u );
+    inventory_compare_selector inv_s( preset );
+
+    inv_s.set_title( _( "Compare:" ) );
 
     if( offset != tripoint_min ) {
         inv_s.add_map_items( u.pos() + offset );
