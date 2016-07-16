@@ -1035,7 +1035,7 @@ npc_action npc::address_needs( int danger )
 
 npc_action npc::address_player()
 {
-    if ((attitude == NPCATT_TALK || attitude == NPCATT_TRADE) && sees( g->u ) ) {
+    if( attitude == NPCATT_TALK && sees( g->u ) ) {
         if (g->u.in_sleep_state()) {
             // Leave sleeping characters alone.
             return npc_undecided;

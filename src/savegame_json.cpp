@@ -936,7 +936,6 @@ void npc_opinion::deserialize(JsonIn &jsin)
     data.read("value", value);
     data.read("anger", anger);
     data.read("owed", owed);
-    data.read("favors", favors);
 }
 
 void npc_opinion::serialize(JsonOut &json) const
@@ -947,7 +946,6 @@ void npc_opinion::serialize(JsonOut &json) const
     json.member( "value", value );
     json.member( "anger", anger );
     json.member( "owed", owed );
-    json.member( "favors", favors );
     json.end_object();
 }
 
@@ -1045,6 +1043,13 @@ void npc::load(JsonObject &data)
 
     if ( data.read("mission", misstmp) ) {
         mission = npc_mission( misstmp );
+        static const std::set<npc_mission> legacy_missions = {{
+            NPC_MISSION_LEGACY_1, NPC_MISSION_LEGACY_2,
+            NPC_MISSION_LEGACY_3
+        }};
+        if( legacy_missions.count( mission ) > 0 ) {
+            mission = NPC_MISSION_NULL;
+        }
     }
 
     if ( data.read( "my_fac", facID) ) {
@@ -1053,6 +1058,13 @@ void npc::load(JsonObject &data)
 
     if ( data.read( "attitude", atttmp) ) {
         attitude = npc_attitude(atttmp);
+        static const std::set<npc_attitude> legacy_attitudes = {{
+            NPCATT_LEGACY_1, NPCATT_LEGACY_2, NPCATT_LEGACY_3,
+            NPCATT_LEGACY_4, NPCATT_LEGACY_5
+        }};
+        if( legacy_attitudes.count( attitude ) > 0 ) {
+            attitude = NPCATT_NULL;
+        }
     }
 
     if ( data.read( "companion_mission", comp_miss) ) {
