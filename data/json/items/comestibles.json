@@ -36,8 +36,8 @@
         "volume" : 1,
         "phase" : "liquid",
         "charges" : 1,
-        "fun" : 3,
-        "flags" : ["EATEN_COLD"]
+        "flags" : ["EATEN_COLD"],
+        "fun" : 3
     },
     {
         "type" : "COMESTIBLE",
@@ -58,8 +58,8 @@
         "volume" : 1,
         "phase" : "liquid",
         "charges" : 1,
-        "fun" : 2,
-        "flags" : ["EATEN_COLD"]
+        "flags" : ["EATEN_COLD"],
+        "fun" : 2
     },
     {
         "type" : "COMESTIBLE",
@@ -80,8 +80,8 @@
         "volume" : 1,
         "phase" : "liquid",
         "charges" : 1,
-        "fun" : 3,
-        "flags" : ["EATEN_COLD"]
+        "flags" : ["EATEN_COLD"],
+        "fun" : 3
     },
     {
         "type" : "COMESTIBLE",
@@ -102,8 +102,8 @@
         "volume" : 1,
         "phase" : "liquid",
         "charges" : 1,
-        "fun" : 3,
-        "flags" : ["EATEN_COLD"]
+        "flags" : ["EATEN_COLD"],
+        "fun" : 3
     },
     {
         "type" : "COMESTIBLE",
@@ -121,8 +121,8 @@
         "volume" : 1,
         "phase" : "liquid",
         "charges" : 1,
-        "fun" : -1,
-        "flags" : ["EATEN_COLD"]
+        "flags" : ["EATEN_COLD"],
+        "fun" : -1
     },
     {
         "type" : "COMESTIBLE",
@@ -146,8 +146,8 @@
         "volume" : 1,
         "phase" : "liquid",
         "charges" : 1,
-        "fun" : 5,
-        "flags" : ["EATEN_COLD"]
+        "flags" : ["EATEN_COLD"],
+        "fun" : 5
     },
     {
         "type" : "COMESTIBLE",
@@ -171,8 +171,8 @@
         "volume" : 1,
         "phase" : "liquid",
         "charges" : 1,
-        "fun" : -1,
-        "flags" : ["EATEN_COLD"]
+        "flags" : ["EATEN_COLD"],
+        "fun" : -1
     },
     {
         "type" : "COMESTIBLE",
@@ -196,8 +196,8 @@
         "volume" : 1,
         "phase" : "liquid",
         "charges" : 1,
-        "fun" : 5,
-        "flags" : ["EATEN_COLD"]
+        "flags" : ["EATEN_COLD"],
+        "fun" : 5
     },
     {
         "type" : "COMESTIBLE",
@@ -221,8 +221,8 @@
         "volume" : 1,
         "phase" : "liquid",
         "charges" : 1,
-        "fun" : 5,
-        "flags" : ["EATEN_COLD"]
+        "flags" : ["EATEN_COLD"],
+        "fun" : 5
     },
     {
         "type" : "COMESTIBLE",
@@ -243,8 +243,8 @@
         "volume" : 1,
         "phase" : "liquid",
         "charges" : 1,
-        "fun" : 5,
-        "flags" : ["EATEN_COLD"]
+        "flags" : ["EATEN_COLD"],
+        "fun" : 5
     },
     {
         "type" : "COMESTIBLE",
@@ -265,8 +265,8 @@
         "volume" : 1,
         "phase" : "liquid",
         "charges" : 1,
-        "fun" : 5,
-        "flags" : ["EATEN_COLD"]
+        "flags" : ["EATEN_COLD"],
+        "fun" : 5
     },
     {
         "type" : "COMESTIBLE",
@@ -290,8 +290,8 @@
         "volume" : 1,
         "phase" : "liquid",
         "charges" : 1,
-        "fun" : 5,
-        "flags" : ["EATEN_COLD"]
+        "flags" : ["EATEN_COLD"],
+        "fun" : 5
     },
     {
         "type" : "COMESTIBLE",
@@ -312,8 +312,8 @@
         "volume" : 1,
         "phase" : "liquid",
         "charges" : 1,
-        "fun" : 3,
-        "flags" : ["EATEN_COLD"]
+        "flags" : ["EATEN_COLD"],
+        "fun" : 3
     },
     {
         "type" : "COMESTIBLE",
@@ -336,8 +336,8 @@
         "volume" : 1,
         "phase" : "liquid",
         "charges" : 1,
-        "fun" : 6,
-        "flags" : ["EATEN_COLD"]
+        "flags" : ["EATEN_COLD"],
+        "fun" : 6
     },
     {
         "type" : "COMESTIBLE",
@@ -358,8 +358,8 @@
         "volume" : 1,
         "phase" : "liquid",
         "charges" : 1,
-        "fun" : 6,
-        "flags" : ["EATEN_COLD"]
+        "flags" : ["EATEN_COLD"],
+        "fun" : 6
     },
     {
         "type" : "COMESTIBLE",
@@ -380,8 +380,8 @@
         "volume" : 1,
         "phase" : "liquid",
         "charges" : 1,
-        "fun" : 3,
-        "flags" : ["EATEN_COLD"]
+        "flags" : ["EATEN_COLD"],
+        "fun" : 3
     },
     {
         "type" : "COMESTIBLE",
@@ -403,8 +403,8 @@
         "volume" : 1,
         "phase" : "liquid",
         "charges" : 1,
-        "fun" : 1,
-        "flags" : ["EATEN_COLD"]
+        "flags" : ["EATEN_COLD"],
+        "fun" : 1
     },
     {
         "type" : "COMESTIBLE",
@@ -446,8 +446,8 @@
         "volume" : 1,
         "phase" : "liquid",
         "charges" : 1,
-        "fun" : 1,
-        "flags" : ["EATEN_COLD"]
+        "flags" : ["EATEN_COLD"],
+        "fun" : 1
     },
     {
         "type" : "COMESTIBLE",
@@ -467,8 +467,8 @@
         "volume" : 1,
         "phase" : "liquid",
         "charges" : 1,
-        "fun" : 1,
-        "flags" : ["EATEN_HOT"]
+        "flags" : ["EATEN_HOT"],
+        "fun" : 1
     },
     {
         "type" : "COMESTIBLE",
@@ -488,8 +488,8 @@
         "volume" : 1,
         "phase" : "liquid",
         "charges" : 1,
-        "fun" : 10,
-        "flags" : ["EATEN_HOT"]
+        "flags" : ["EATEN_HOT"],
+        "fun" : 10
     },
     {
         "type" : "COMESTIBLE",
@@ -509,8 +509,8 @@
         "volume" : 1,
         "phase" : "liquid",
         "charges" : 1,
-        "fun" : 10,
-        "flags" : ["EATEN_HOT"]
+        "flags" : ["EATEN_HOT"],
+        "fun" : 10
     },
     {
         "type" : "COMESTIBLE",
@@ -531,8 +531,8 @@
         "volume" : 1,
         "phase" : "liquid",
         "charges" : 4,
-        "fun" : 1,
-        "flags" : ["EATEN_HOT", "USE_EAT_VERB"]
+        "flags" : ["EATEN_HOT", "USE_EAT_VERB"],
+        "fun" : 1
     },
     {
         "type" : "COMESTIBLE",
@@ -553,8 +553,8 @@
         "volume" : 1,
         "phase" : "liquid",
         "charges" : 4,
-        "fun" : 1,
-        "flags" : ["EATEN_HOT", "USE_EAT_VERB"]
+        "flags" : ["EATEN_HOT", "USE_EAT_VERB"],
+        "fun" : 1
     },
     {
         "type" : "COMESTIBLE",
@@ -575,8 +575,8 @@
         "volume" : 1,
         "phase" : "liquid",
         "charges" : 4,
-        "fun" : 1,
-        "flags" : ["EATEN_HOT", "USE_EAT_VERB"]
+        "flags" : ["EATEN_HOT", "USE_EAT_VERB"],
+        "fun" : 1
     },
     {
         "type" : "COMESTIBLE",
@@ -598,8 +598,8 @@
         "volume" : 1,
         "phase" : "liquid",
         "charges" : 2,
-        "fun" : 5,
-        "flags" : ["EATEN_HOT", "USE_EAT_VERB"]
+        "flags" : ["EATEN_HOT", "USE_EAT_VERB"],
+        "fun" : 5
     },
     {
         "type" : "COMESTIBLE",
@@ -621,8 +621,8 @@
         "volume" : 1,
         "phase" : "liquid",
         "charges" : 2,
-        "fun" : 8,
-        "flags" : ["EATEN_HOT", "USE_EAT_VERB"]
+        "flags" : ["EATEN_HOT", "USE_EAT_VERB"],
+        "fun" : 8
     },
     {
         "type" : "COMESTIBLE",
@@ -643,8 +643,8 @@
         "volume" : 1,
         "phase" : "liquid",
         "charges" : 4,
-        "fun" : 1,
-        "flags" : ["EATEN_HOT", "USE_EAT_VERB"]
+        "flags" : ["EATEN_HOT", "USE_EAT_VERB"],
+        "fun" : 1
     },
     {
         "type" : "COMESTIBLE",
@@ -664,8 +664,8 @@
         "volume" : 1,
         "phase" : "liquid",
         "charges" : 4,
-        "fun" : 1,
-        "flags" : ["EATEN_HOT", "USE_EAT_VERB"]
+        "flags" : ["EATEN_HOT", "USE_EAT_VERB"],
+        "fun" : 1
     },
     {
         "type" : "COMESTIBLE",
@@ -686,8 +686,8 @@
         "volume" : 1,
         "phase" : "liquid",
         "charges" : 4,
-        "fun" : 2,
-        "flags" : ["EATEN_HOT", "USE_EAT_VERB"]
+        "flags" : ["EATEN_HOT", "USE_EAT_VERB"],
+        "fun" : 2
     },
     {
         "type" : "COMESTIBLE",
@@ -708,8 +708,8 @@
         "volume" : 1,
         "phase" : "liquid",
         "charges" : 4,
-        "fun" : 1,
-        "flags" : ["EATEN_HOT", "USE_EAT_VERB"]
+        "flags" : ["EATEN_HOT", "USE_EAT_VERB"],
+        "fun" : 1
     },
     {
         "type" : "COMESTIBLE",
@@ -730,8 +730,8 @@
         "volume" : 1,
         "phase" : "liquid",
         "charges" : 1,
-        "fun" : 2,
-        "flags" : ["EATEN_HOT", "USE_EAT_VERB"]
+        "flags" : ["EATEN_HOT", "USE_EAT_VERB"],
+        "fun" : 2
     },
     {
         "type" : "COMESTIBLE",
@@ -753,8 +753,8 @@
         "volume" : 1,
         "phase" : "liquid",
         "charges" : 4,
-        "fun" : 3,
-        "flags" : ["EATEN_HOT", "USE_EAT_VERB"]
+        "flags" : ["EATEN_HOT", "USE_EAT_VERB"],
+        "fun" : 3
     },
     {
         "type" : "COMESTIBLE",
@@ -777,8 +777,8 @@
         "volume" : 1,
         "phase" : "liquid",
         "charges" : 5,
-        "fun" : 15,
-        "flags" : ["EATEN_COLD"]
+        "flags" : ["EATEN_COLD"],
+        "fun" : 15
     },
     {
         "type" : "COMESTIBLE",
@@ -801,8 +801,8 @@
         "volume" : 1,
         "phase" : "liquid",
         "charges" : 5,
-        "fun" : 15,
-        "flags" : ["EATEN_COLD"]
+        "flags" : ["EATEN_COLD"],
+        "fun" : 15
     },
     {
         "type" : "COMESTIBLE",
@@ -825,8 +825,8 @@
         "volume" : 1,
         "phase" : "liquid",
         "charges" : 5,
-        "fun" : 15,
-        "flags": [ "EATEN_COLD" ]
+        "flags": [ "EATEN_COLD" ],
+        "fun" : 15
     },
     {
         "type" : "COMESTIBLE",
@@ -849,8 +849,8 @@
         "volume" : 1,
         "phase" : "liquid",
         "charges" : 5,
-        "fun" : 16,
-        "flags" : ["EATEN_COLD"]
+        "flags" : ["EATEN_COLD"],
+        "fun" : 16
     },
     {
         "type" : "COMESTIBLE",
@@ -900,8 +900,8 @@
         "volume" : 1,
         "phase" : "liquid",
         "charges" : 7,
-        "fun" : 15,
-        "flags" : ["EATEN_COLD"]
+        "flags" : ["EATEN_COLD"],
+        "fun" : 15
     },
     {
         "type" : "COMESTIBLE",
@@ -925,8 +925,8 @@
         "volume" : 1,
         "phase" : "liquid",
         "charges" : 7,
-        "fun" : 15,
-        "flags" : ["EATEN_COLD"]
+        "flags" : ["EATEN_COLD"],
+        "fun" : 15
     },
     {
         "type" : "COMESTIBLE",
@@ -950,8 +950,8 @@
         "volume" : 1,
         "phase" : "liquid",
         "charges" : 7,
-        "fun" : 15,
-        "flags": [ "EATEN_COLD" ]
+        "flags": [ "EATEN_COLD" ],
+        "fun" : 15
     },
     {
         "type" : "COMESTIBLE",
@@ -975,8 +975,8 @@
         "volume" : 1,
         "phase" : "liquid",
         "charges" : 7,
-        "fun" : 18,
-        "flags": [ "EATEN_COLD" ]
+        "flags": [ "EATEN_COLD" ],
+        "fun" : 18
     },
     {
         "type" : "COMESTIBLE",
@@ -1000,8 +1000,8 @@
         "volume" : 1,
         "phase" : "liquid",
         "charges" : 7,
-        "fun" : 10,
-        "flags": [ "EATEN_COLD" ]
+        "flags": [ "EATEN_COLD" ],
+        "fun" : 10
     },
     {
         "type" : "COMESTIBLE",
@@ -1025,8 +1025,8 @@
         "volume" : 1,
         "phase" : "liquid",
         "charges" : 7,
-        "fun" : 10,
-        "flags" : ["EATEN_COLD"]
+        "flags" : ["EATEN_COLD"],
+        "fun" : 10
     },
     {
         "type" : "COMESTIBLE",
@@ -1052,8 +1052,8 @@
         "phase" : "liquid",
         "charges" : 1,
         "stack_size" : 7,
-        "fun" : 5,
-        "flags" : ["EATEN_COLD"]
+        "flags" : ["EATEN_COLD"],
+        "fun" : 5
     },
     {
         "type" : "COMESTIBLE",
@@ -1078,8 +1078,8 @@
         "volume" : 1,
         "phase" : "liquid",
         "charges" : 1,
-        "fun" : 4,
-        "flags" : ["EATEN_COLD"]
+        "flags" : ["EATEN_COLD"],
+        "fun" : 4
     },
     {
         "type" : "COMESTIBLE",
@@ -1103,8 +1103,8 @@
         "volume" : 1,
         "phase" : "liquid",
         "charges" : 7,
-        "fun" : 2,
-        "flags" : ["EATEN_COLD"]
+        "flags" : ["EATEN_COLD"],
+        "fun" : 2
     },
     {
         "type" : "COMESTIBLE",
@@ -1129,8 +1129,8 @@
         "volume" : 1,
         "phase" : "liquid",
         "charges" : 7,
-        "fun" : 12,
-        "flags": [ "EATEN_COLD" ]
+        "flags": [ "EATEN_COLD" ],
+        "fun" : 12
     },
     {
         "type" : "COMESTIBLE",
@@ -1155,8 +1155,8 @@
         "volume" : 1,
         "phase" : "liquid",
         "charges" : 1,
-        "fun" : 20,
-        "flags": [ "EATEN_HOT" ]
+        "flags": [ "EATEN_HOT" ],
+        "fun" : 20
     },
     {
         "type" : "COMESTIBLE",
@@ -1180,8 +1180,8 @@
         "volume" : 1,
         "phase" : "liquid",
         "charges" : 1, "//" : "Includes cola, so presumed to be a 250mL cocktail like the others.",
-        "fun" : 20,
-        "flags" : ["EATEN_COLD"]
+        "flags" : ["EATEN_COLD"],
+        "fun" : 20
     },
     {
         "type" : "COMESTIBLE",
@@ -1205,8 +1205,8 @@
         "volume" : 1,
         "phase" : "liquid",
         "charges" : 1,
-        "fun" : 20,
-        "flags" : ["EATEN_COLD"]
+        "flags" : ["EATEN_COLD"],
+        "fun" : 20
     },
     {
         "type" : "COMESTIBLE",
@@ -1230,8 +1230,8 @@
         "volume" : 1,
         "phase" : "liquid",
         "charges" : 1,
-        "fun" : 20,
-        "flags" : ["EATEN_COLD"]
+        "flags" : ["EATEN_COLD"],
+        "fun" : 20
     },
     {
         "type" : "COMESTIBLE",
@@ -1256,8 +1256,8 @@
         "volume" : 1,
         "phase" : "liquid",
         "charges" : 1,
-        "fun" : 20,
-        "flags" : ["EATEN_COLD"]
+        "flags" : ["EATEN_COLD"],
+        "fun" : 20
     },
     {
         "type" : "COMESTIBLE",
@@ -1280,8 +1280,8 @@
         "volume" : 1,
         "phase" : "liquid",
         "charges" : 1,
-        "fun" : 10,
-        "flags" : ["EATEN_COLD"]
+        "flags" : ["EATEN_COLD"],
+        "fun" : 10
     },
     {
         "type" : "COMESTIBLE",
@@ -1304,8 +1304,8 @@
         "volume" : 1,
         "phase" : "liquid",
         "charges" : 7,
-        "fun" : 14,
-        "flags" : ["EATEN_COLD"]
+        "flags" : ["EATEN_COLD"],
+        "fun" : 14
     },
     {
         "type" : "COMESTIBLE",
@@ -1328,8 +1328,8 @@
         "volume" : 1,
         "phase" : "liquid",
         "charges" : 7,
-        "fun" : 16,
-        "flags" : ["EATEN_COLD"]
+        "flags" : ["EATEN_COLD"],
+        "fun" : 16
     },
     {
         "type" : "COMESTIBLE",
@@ -1353,8 +1353,8 @@
         "volume" : 1,
         "phase" : "liquid",
         "charges" : 7,
-        "fun" : 12,
-        "flags" : ["EATEN_COLD"]
+        "flags" : ["EATEN_COLD"],
+        "fun" : 12
     },
     {
         "type" : "COMESTIBLE",
@@ -1377,8 +1377,8 @@
         "volume" : 1,
         "phase" : "liquid",
         "charges" : 1,
-        "fun" : 8,
-        "flags" : ["EATEN_COLD"]
+        "flags" : ["EATEN_COLD"],
+        "fun" : 8
     },
     {
         "type" : "COMESTIBLE",
@@ -1402,8 +1402,8 @@
         "volume" : 1,
         "phase" : "liquid",
         "charges" : 7,
-        "fun" : 12,
-        "flags" : ["EATEN_COLD"]
+        "flags" : ["EATEN_COLD"],
+        "fun" : 12
     },
     {
         "type" : "COMESTIBLE",
@@ -1427,8 +1427,8 @@
         "volume" : 1,
         "phase" : "liquid",
         "charges" : 1,
-        "fun" : 10,
-        "flags" : ["EATEN_COLD"]
+        "flags" : ["EATEN_COLD"],
+        "fun" : 10
     },
     {
         "type" : "COMESTIBLE",
@@ -1452,8 +1452,8 @@
         "volume" : 1,
         "phase" : "liquid",
         "charges" : 1,
-        "fun" : 14,
-        "flags" : ["EATEN_COLD"]
+        "flags" : ["EATEN_COLD"],
+        "fun" : 14
     },
     {
         "type" : "COMESTIBLE",
@@ -1477,8 +1477,8 @@
         "volume" : 1,
         "phase" : "liquid",
         "charges" : 1,
-        "fun" : 14,
-        "flags" : ["EATEN_COLD"]
+        "flags" : ["EATEN_COLD"],
+        "fun" : 14
     },
     {
         "type" : "COMESTIBLE",
@@ -1502,8 +1502,8 @@
         "volume" : 1,
         "phase" : "liquid",
         "charges" : 1,
-        "fun" : 14,
-        "flags": [ "EATEN_COLD" ]
+        "flags": [ "EATEN_COLD" ],
+        "fun" : 14
     },
     {
         "type" : "COMESTIBLE",
@@ -1527,8 +1527,8 @@
         "volume" : 1,
         "phase" : "liquid",
         "charges" : 1,
-        "fun" : 14,
-        "flags" : ["EATEN_COLD"]
+        "flags" : ["EATEN_COLD"],
+        "fun" : 14
     },
     {
         "type" : "COMESTIBLE",
@@ -1552,8 +1552,8 @@
         "volume" : 1,
         "phase" : "liquid",
         "charges" : 1,
-        "fun" : 18,
-        "flags": [ "EATEN_COLD" ]
+        "flags": [ "EATEN_COLD" ],
+        "fun" : 18
     },
     {
         "type" : "COMESTIBLE",
@@ -1573,8 +1573,8 @@
         "volume" : 1,
         "phase" : "liquid",
         "charges" : 1,
-        "fun" : 6,
-        "flags" : ["EATEN_HOT"]
+        "flags" : ["EATEN_HOT"],
+        "fun" : 6
     },
     {
         "type" : "COMESTIBLE",
@@ -1595,8 +1595,8 @@
         "volume" : 1,
         "phase" : "liquid",
         "charges" : 1,
-        "fun" : 8,
-        "flags" : ["EATEN_COLD"]
+        "flags" : ["EATEN_COLD"],
+        "fun" : 8
     },
     {
         "type" : "COMESTIBLE",
@@ -1618,8 +1618,8 @@
         "volume" : 1,
         "phase" : "liquid",
         "charges" : 1,
-        "fun" : 6,
-        "flags" : ["EATEN_HOT"]
+        "flags" : ["EATEN_HOT"],
+        "fun" : 6
     },
     {
         "type" : "COMESTIBLE",
@@ -1643,8 +1643,8 @@
         "volume" : 1,
         "phase" : "liquid",
         "charges" : 1,
-        "fun" : 10,
-        "flags" : ["EATEN_HOT"]
+        "flags" : ["EATEN_HOT"],
+        "fun" : 10
     },
     {
         "type" : "COMESTIBLE",
@@ -1664,8 +1664,8 @@
         "volume" : 1,
         "phase" : "liquid",
         "charges" : 1,
-        "fun" : 7,
-        "flags" : ["EATEN_COLD"]
+        "flags" : ["EATEN_COLD"],
+        "fun" : 7
     },
     {
         "type" : "COMESTIBLE",
@@ -1789,8 +1789,8 @@
         "material" : "flesh",
         "volume" : 2,
         "charges" : 6, "//" : "Condenses 6 fillets.",
-        "fun" : 6,
-        "flags" : ["EATEN_HOT"]
+        "flags" : ["EATEN_HOT"],
+        "fun" : 6
     },
     {
         "type" : "COMESTIBLE",
@@ -1927,8 +1927,8 @@
         "material" : "flesh",
         "volume" : 1,
         "charges" : 6, "//" : "3 fillets.",
-        "fun" : 10,
-        "flags" : ["EATEN_HOT"]
+        "flags" : ["EATEN_HOT"],
+        "fun" : 10
     },
     {
         "type" : "COMESTIBLE",
@@ -1967,8 +1967,8 @@
         "material" : "flesh",
         "volume" : 1,
         "charges" : 4, "//" : "4 fillets.",
-        "fun" : -15,
-        "flags" : ["EATEN_HOT"]
+        "flags" : ["EATEN_HOT"],
+        "fun" : -15
     },
     {
         "type" : "COMESTIBLE",
@@ -2065,10 +2065,10 @@
         "description" : "A nutrient rich chunk of plant matter, could be eaten raw or cooked.",
         "price" : 600,
         "material" : "veggy",
+        "flags" : "TRADER_AVOID",
         "volume" : 1,
         "charges" : 1,
-        "fun" : 0,
-        "flags" : ["TRADER_AVOID"]
+        "fun" : 0
     },
     {
         "type" : "COMESTIBLE",
@@ -2206,8 +2206,8 @@
         "volume" : 1,
         "charges" : 1,
         "stack_size" : 2,
-        "fun" : 1,
-        "flags" : ["EATEN_HOT"]
+        "flags" : ["EATEN_HOT"],
+        "fun" : 1
     },
     {
         "type" : "COMESTIBLE",
@@ -2228,8 +2228,8 @@
         "volume" : 1,
         "charges" : 4,
         "stack_size" : 2,
-        "fun" : 5,
-        "flags" : ["EATEN_HOT"]
+        "flags" : ["EATEN_HOT"],
+        "fun" : 5
     },
     {
         "type" : "COMESTIBLE",
@@ -2251,8 +2251,8 @@
         "volume" : 1,
         "phase" : "liquid",
         "charges" : 1,
-        "fun" : 2,
-        "flags" : ["EATEN_HOT"]
+        "flags" : ["EATEN_HOT"],
+        "fun" : 2
     },
     {
         "type" : "COMESTIBLE",
@@ -2271,10 +2271,10 @@
         "description" : "Meat that's obviously unhealthy.  You could eat it, but it will poison you.",
         "price" : 0,
         "material" : "flesh",
+        "flags" : "TRADER_AVOID",
         "volume" : 1,
         "charges" : 1,
-        "fun" : -10,
-        "flags" : ["TRADER_AVOID"]
+        "fun" : -10
     },
     {
         "type" : "COMESTIBLE",
@@ -2392,10 +2392,10 @@
         "description" : "Vegetable that looks poisonous.  You could eat it, but it will poison you.",
         "price" : 0,
         "material" : "veggy",
+        "flags": "TRADER_AVOID",
         "volume" : 1,
         "charges" : 1,
-        "fun" : 0,
-        "flags": ["TRADER_AVOID"]
+        "fun" : 0
     },
     {
         "type" : "COMESTIBLE",
@@ -2412,8 +2412,8 @@
         "material" : "flesh",
         "volume" : 3,
         "charges" : 3, "//" : "3 chunks of meat.",
-        "fun" : 5,
-        "flags" : ["EATEN_HOT"]
+        "flags" : ["EATEN_HOT"],
+        "fun" : 5
     },
     {
         "type" : "COMESTIBLE",
@@ -2431,8 +2431,8 @@
         "material" : "flesh",
         "volume" : 1,
         "charges" : 1,
-        "fun" : -5,
-        "flags" : ["EATEN_HOT"]
+        "flags" : ["EATEN_HOT"],
+        "fun" : -5
     },
     {
         "type" : "COMESTIBLE",
@@ -2450,8 +2450,8 @@
         "material" : "hflesh",
         "volume" : 1,
         "charges" : 1,
-        "fun" : -5,
-        "flags" : ["EATEN_HOT"]
+        "flags" : ["EATEN_HOT"],
+        "fun" : -5
     },
     {
         "type" : "COMESTIBLE",
@@ -2469,8 +2469,8 @@
         "material" : "flesh",
         "volume" : 1,
         "charges" : 1,
-        "fun" : -3,
-        "flags" : ["EATEN_HOT"]
+        "flags" : ["EATEN_HOT"],
+        "fun" : -3
     },
     {
         "type" : "COMESTIBLE",
@@ -2488,8 +2488,8 @@
         "material" : "hflesh",
         "volume" : 1,
         "charges" : 1,
-        "fun" : -3,
-        "flags" : ["EATEN_HOT"]
+        "flags" : ["EATEN_HOT"],
+        "fun" : -3
     },
     {
         "type" : "COMESTIBLE",
@@ -2506,8 +2506,8 @@
         "material" : "flesh",
         "volume" : 2,
         "charges" : 6, "//" : "3 meats here.",
-        "fun" : 5,
-        "flags" : ["EATEN_HOT"]
+        "flags" : ["EATEN_HOT"],
+        "fun" : 5
     },
     {
         "type" : "COMESTIBLE",
@@ -2528,8 +2528,8 @@
         "material" : ["flesh", "junk"],
         "volume" : 1,
         "charges" : 4,
-        "fun" : -12,
-        "flags" : ["EATEN_HOT"]
+        "flags" : ["EATEN_HOT"],
+        "fun" : -12
     },
     {
         "id" : "hotdogs_campfire",
@@ -2570,8 +2570,8 @@
         "material" : [ "flesh", "junk", "wheat" ],
         "volume" : 1,
         "charges" : 4,
-        "fun" : 12,
-        "flags" : [ "EATEN_HOT" ]
+        "flags" : [ "EATEN_HOT" ],
+        "fun" : 12
     },
     {
         "type" : "COMESTIBLE",
@@ -2592,8 +2592,8 @@
         "material" : [ "flesh", "junk", "wheat" ],
         "volume" : 1,
         "charges" : 4,
-        "fun" : 15,
-        "flags" : [ "EATEN_HOT" ]
+        "flags" : [ "EATEN_HOT" ],
+        "fun" : 15
     },
     {
         "type" : "COMESTIBLE",
@@ -2614,8 +2614,8 @@
         "material" : [ "hflesh", "junk", "wheat" ],
         "volume" : 1,
         "charges" : 4,
-        "fun" : 15,
-        "flags" : [ "EATEN_HOT" ]
+        "flags" : [ "EATEN_HOT" ],
+        "fun" : 15
     },
     {
         "type" : "COMESTIBLE",
@@ -2636,8 +2636,8 @@
         "material" : ["flesh", "junk"],
         "volume" : 1,
         "charges" : 4,
-        "fun" : -18,
-        "flags" : ["EATEN_HOT"]
+        "flags" : ["EATEN_HOT"],
+        "fun" : -18
     },
     {
         "type" : "COMESTIBLE",
@@ -2657,8 +2657,8 @@
         "material" : ["flesh", "junk"],
         "volume" : 1,
         "charges" : 1,
-        "fun" : 18,
-        "flags" : ["EATEN_HOT"]
+        "flags" : ["EATEN_HOT"],
+        "fun" : 18
     },
     {
         "type" : "COMESTIBLE",
@@ -2676,8 +2676,8 @@
         "material" : "hflesh",
         "volume" : 1,
         "charges" : 3,
-        "fun" : 5,
-        "flags" : ["EATEN_HOT"]
+        "flags" : ["EATEN_HOT"],
+        "fun" : 5
     },
     {
         "type" : "COMESTIBLE",
@@ -2695,8 +2695,8 @@
         "material" : "hflesh",
         "volume" : 2,
         "charges" : 6,
-        "fun" : 5,
-        "flags" : ["EATEN_HOT"]
+        "flags" : ["EATEN_HOT"],
+        "fun" : 5
     },
     {
         "type" : "COMESTIBLE",
@@ -2715,8 +2715,8 @@
         "material" : "flesh",
         "volume" : 2,
         "charges" : 6,
-        "fun" : 10,
-        "flags" : ["EATEN_HOT"]
+        "flags" : ["EATEN_HOT"],
+        "fun" : 10
     },
     {
         "type" : "COMESTIBLE",
@@ -2735,8 +2735,8 @@
         "material" : "hflesh",
         "volume" : 2,
         "charges" : 6,
-        "fun" : 12,
-        "flags" : ["EATEN_HOT"]
+        "flags" : ["EATEN_HOT"],
+        "fun" : 12
     },
     {
         "type" : "COMESTIBLE",
@@ -2755,8 +2755,8 @@
         "material" : ["hflesh", "wheat"],
         "volume" : 3,
         "charges" : 2,
-        "fun" : 9,
-        "flags" : ["EATEN_HOT"]
+        "flags" : ["EATEN_HOT"],
+        "fun" : 9
     },
     {
         "type" : "COMESTIBLE",
@@ -2775,8 +2775,8 @@
         "material" : ["flesh", "wheat"],
         "volume" : 3,
         "charges" : 2,
-        "fun" : 9,
-        "flags" : ["EATEN_HOT"]
+        "flags" : ["EATEN_HOT"],
+        "fun" : 9
     },
     {
         "type" : "COMESTIBLE",
@@ -2795,8 +2795,8 @@
         "material" : "veggy",
         "volume" : 1,
         "charges" : 1,
-        "fun" : 0,
-        "flags" : ["EATEN_HOT", "TRADER_AVOID"]
+        "flags" : ["EATEN_HOT", "TRADER_AVOID"],
+        "fun" : 0
     },
     {
         "type" : "COMESTIBLE",
@@ -2816,8 +2816,8 @@
         "material" : "veggy",
         "volume" : 1,
         "charges" : 1,
-        "fun" : 0,
-        "flags" : ["EATEN_HOT"]
+        "flags" : ["EATEN_HOT"],
+        "fun" : 0
     },
     {
         "type" : "COMESTIBLE",
@@ -3098,8 +3098,8 @@
         "material" : ["wheat", "junk"],
         "volume" : 1,
         "charges" : 8,
-        "fun" : 25,
-        "flags" : ["EATEN_HOT"]
+        "flags" : ["EATEN_HOT"],
+        "fun" : 25
     },
     {
         "type" : "COMESTIBLE",
@@ -3117,8 +3117,8 @@
         "material" : ["wheat", "junk"],
         "volume" : 1,
         "charges" : 8,
-        "fun" : 18,
-        "flags" : ["EATEN_HOT"]
+        "flags" : ["EATEN_HOT"],
+        "fun" : 18
     },
     {
         "type" : "COMESTIBLE",
@@ -3136,8 +3136,8 @@
         "material" : ["wheat", "junk"],
         "volume" : 1,
         "charges" : 8,
-        "fun" : 10,
-        "flags" : ["EATEN_HOT"]
+        "flags" : ["EATEN_HOT"],
+        "fun" : 10
     },
     {
         "type" : "COMESTIBLE",
@@ -3157,8 +3157,8 @@
         "material" : ["wheat", "junk"],
         "volume" : 1,
         "charges" : 4,
-        "fun" : -10,
-        "flags" : ["EATEN_HOT"]
+        "flags" : ["EATEN_HOT"],
+        "fun" : -10
     },
     {
         "type" : "COMESTIBLE",
@@ -3178,8 +3178,8 @@
         "material" : ["wheat", "junk"],
         "volume" : 1,
         "charges" : 2,
-        "fun" : 30,
-        "flags" : ["EATEN_HOT"]
+        "flags" : ["EATEN_HOT"],
+        "fun" : 30
     },
     {
         "type" : "COMESTIBLE",
@@ -3256,8 +3256,8 @@
         "material" : ["junk", "milk"],
         "volume" : 1,
         "charges" : 3,
-        "fun" : 16,
-        "flags" : ["EATEN_HOT"]
+        "flags" : ["EATEN_HOT"],
+        "fun" : 16
     },
     {
         "type" : "COMESTIBLE",
@@ -3277,8 +3277,8 @@
         "material" : ["junk", "flesh"],
         "volume" : 1,
         "charges" : 3,
-        "fun" : 16,
-        "flags" : ["EATEN_HOT"]
+        "flags" : ["EATEN_HOT"],
+        "fun" : 16
     },
     {
         "type" : "COMESTIBLE",
@@ -3298,8 +3298,8 @@
         "material" : ["junk", "hflesh"],
         "volume" : 1,
         "charges" : 3,
-        "fun" : 16,
-        "flags" : ["EATEN_HOT"]
+        "flags" : ["EATEN_HOT"],
+        "fun" : 16
     },
     {
         "type" : "COMESTIBLE",
@@ -3319,8 +3319,8 @@
         "material" : ["flesh", "milk", "junk"],
         "volume" : 1,
         "charges" : 3,
-        "fun" : 20,
-        "flags" : ["EATEN_HOT"]
+        "flags" : ["EATEN_HOT"],
+        "fun" : 20
     },
     {
         "type" : "COMESTIBLE",
@@ -3340,8 +3340,8 @@
         "material" : ["hflesh", "milk", "junk"],
         "volume" : 1,
         "charges" : 3,
-        "fun" : 20,
-        "flags" : ["EATEN_HOT"]
+        "flags" : ["EATEN_HOT"],
+        "fun" : 20
     },
     {
         "type" : "COMESTIBLE",
@@ -3380,8 +3380,8 @@
         "material" : "junk",
         "volume" : 1,
         "charges" : 3,
-        "fun" : 4,
-        "flags" : ["EATEN_HOT"]
+        "flags" : ["EATEN_HOT"],
+        "fun" : 4
     },
     {
         "type" : "COMESTIBLE",
@@ -3401,8 +3401,8 @@
         "material" : "junk",
         "volume" : 1,
         "charges" : 3,
-        "fun" : 8,
-        "flags" : ["EATEN_HOT"]
+        "flags" : ["EATEN_HOT"],
+        "fun" : 8
     },
     {
         "type" : "COMESTIBLE",
@@ -3422,8 +3422,8 @@
         "material" : "junk",
         "volume" : 1,
         "charges" : 3,
-        "fun" : 10,
-        "flags" : ["EATEN_HOT"]
+        "flags" : ["EATEN_HOT"],
+        "fun" : 10
     },
     {
         "type" : "COMESTIBLE",
@@ -3535,8 +3535,8 @@
         "material" : "flesh",
         "volume" : 1,
         "charges" : 2,
-        "fun" : 0,
-        "flags" : ["EATEN_COLD"]
+        "flags" : ["EATEN_COLD"],
+        "fun" : 0
     },
     {
         "type" : "COMESTIBLE",
@@ -3553,8 +3553,8 @@
         "material" : "veggy",
         "volume" : 2,
         "charges" : 2,
-        "fun" : 0,
-        "flags" : ["EATEN_COLD"]
+        "flags" : ["EATEN_COLD"],
+        "fun" : 0
     },
     {
         "type" : "COMESTIBLE",
@@ -3571,8 +3571,8 @@
         "material" : "hflesh",
         "volume" : 2,
         "charges" : 2,
-        "fun" : 0,
-        "flags" : ["EATEN_COLD"]
+        "flags" : ["EATEN_COLD"],
+        "fun" : 0
     },
     {
         "type" : "COMESTIBLE",
@@ -3612,8 +3612,8 @@
         "material" : "flesh",
         "volume" : 1,
         "charges" : 2,
-        "fun" : 4,
-        "flags" : ["EATEN_HOT"]
+        "flags" : ["EATEN_HOT"],
+        "fun" : 4
     },
     {
         "type" : "COMESTIBLE",
@@ -3652,8 +3652,8 @@
         "material" : ["veggy", "wheat"],
         "volume" : 1,
         "charges" : 3,
-        "fun" : 1,
-        "flags" : ["EATEN_COLD"]
+        "flags" : ["EATEN_COLD"],
+        "fun" : 1
     },
     {
         "type" : "COMESTIBLE",
@@ -3952,8 +3952,8 @@
         "material" : ["flesh", "veggy"],
         "volume" : 4,
         "charges" : 4,
-        "fun" : 18,
-        "flags" : ["EATEN_HOT"]
+        "flags" : ["EATEN_HOT"],
+        "fun" : 18
     },
     {
         "type" : "COMESTIBLE",
@@ -3971,8 +3971,8 @@
         "material" : "flesh",
         "volume" : 2,
         "charges" : 4,
-        "fun" : 8,
-        "flags" : ["EATEN_HOT"]
+        "flags" : ["EATEN_HOT"],
+        "fun" : 8
     },
     {
         "type" : "COMESTIBLE",
@@ -4053,8 +4053,8 @@
         "material" : "veggy",
         "volume" : 1,
         "charges" : 1,
-        "fun" : -3,
-        "flags" : ["HIDDEN_POISON", "TRADER_AVOID"]
+        "flags" : ["HIDDEN_POISON", "TRADER_AVOID"],
+        "fun" : -3
     },
     {
         "type" : "COMESTIBLE",
@@ -4074,8 +4074,8 @@
         "material" : "veggy",
         "volume" : 1,
         "charges" : 1,
-        "fun" : -3,
-        "flags" : ["HIDDEN_HALLU"]
+        "flags" : "HIDDEN_HALLU",
+        "fun" : -3
     },{
         "type" : "COMESTIBLE",
         "id" : "mushroom_cooked",
@@ -4342,8 +4342,8 @@
         "material" : "veggy",
         "volume" : 1,
         "charges" : 1,
-        "fun" : 0,
-        "flags" : ["EATEN_HOT"]
+        "flags" : ["EATEN_HOT"],
+        "fun" : 0
     },
     {
         "type" : "COMESTIBLE",
@@ -4401,8 +4401,8 @@
         "material" : "veggy",
         "volume" : 1,
         "charges" : 1,
-        "fun" : 2,
-        "flags" : ["EATEN_HOT"]
+        "flags" : ["EATEN_HOT"],
+        "fun" : 2
     },
     {
         "type" : "COMESTIBLE",
@@ -4422,8 +4422,8 @@
         "volume" : 1,
         "phase" : "liquid",
         "charges" : 4,
-        "fun" : 5,
-        "flags" : ["EATEN_HOT"]
+        "flags" : ["EATEN_HOT"],
+        "fun" : 5
     },
     {
         "type" : "COMESTIBLE",
@@ -4712,8 +4712,8 @@
         "material" : "veggy",
         "volume" : 1,
         "charges" : 1,
-        "fun" : 0,
-        "flags" : ["EATEN_HOT"]
+        "flags" : ["EATEN_HOT"],
+        "fun" : 0
     },
     {
         "type" : "COMESTIBLE",
@@ -4755,8 +4755,8 @@
         "material" : "veggy",
         "volume" : 1,
         "charges" : 1,
-        "fun" : 0,
-        "flags" : ["EATEN_HOT"]
+        "flags" : ["EATEN_HOT"],
+        "fun" : 0
     },
     {
         "type" : "COMESTIBLE",
@@ -4930,8 +4930,8 @@
         "material" : "veggy",
         "volume" : 1,
         "charges" : 1,
-        "fun" : 0,
-        "flags" : ["EATEN_HOT"]
+        "flags" : ["EATEN_HOT"],
+        "fun" : 0
     },
     {
         "type" : "COMESTIBLE",
@@ -5031,8 +5031,8 @@
         "material" : "veggy",
         "volume" : 1,
         "charges" : 1,
-        "fun" : 0,
-        "flags" : ["EATEN_HOT"]
+        "flags" : ["EATEN_HOT"],
+        "fun" : 0
     },
     {
         "type" : "COMESTIBLE",
@@ -5051,8 +5051,8 @@
         "material" : "veggy",
         "volume" : 1,
         "charges" : 1,
-        "fun" : 0,
-        "flags" : ["EATEN_HOT"]
+        "flags" : ["EATEN_HOT"],
+        "fun" : 0
     },
     {
         "type" : "COMESTIBLE",
@@ -5111,8 +5111,8 @@
         "material" : "veggy",
         "volume" : 1,
         "charges" : 1,
-        "fun" : 0,
-        "flags" : ["EATEN_HOT"]
+        "flags" : ["EATEN_HOT"],
+        "fun" : 0
     },
     {
         "type" : "COMESTIBLE",
@@ -5151,8 +5151,8 @@
         "material" : ["flesh", "junk"],
         "volume" : 5,
         "charges" : 2,
-        "fun" : 2,
-        "flags" : ["EATEN_HOT"]
+        "flags" : ["EATEN_HOT"],
+        "fun" : 2
     },
     {
         "type" : "COMESTIBLE",
@@ -5191,8 +5191,8 @@
         "material" : ["flesh", "junk", "milk"],
         "volume" : 1,
         "charges" : 1,
-        "fun" : 5,
-        "flags" : ["EATEN_HOT"]
+        "flags" : ["EATEN_HOT"],
+        "fun" : 5
     },
     {
         "type" : "COMESTIBLE",
@@ -5249,8 +5249,8 @@
         "material" : "wheat",
         "volume" : 6,
         "charges" : 2,
-        "fun" : 0,
-        "flags" : ["EATEN_HOT", "TRADER_AVOID"]
+        "flags" : ["EATEN_HOT", "TRADER_AVOID"],
+        "fun" : 0
     },
     {
         "type" : "COMESTIBLE",
@@ -5269,8 +5269,8 @@
         "material" : "wheat",
         "volume" : 8,
         "charges" : 2,
-        "fun" : 0,
-        "flags" : ["EATEN_HOT"]
+        "flags" : ["EATEN_HOT"],
+        "fun" : 0
     },
     {
         "type" : "COMESTIBLE",
@@ -5309,8 +5309,8 @@
         "material" : ["wheat", "milk"],
         "volume" : 4,
         "charges" : 2,
-        "fun" : 5,
-        "flags" : ["EATEN_HOT", "TRADER_AVOID"]
+        "flags" : ["EATEN_HOT", "TRADER_AVOID"],
+        "fun" : 5
     },
     {
         "type" : "COMESTIBLE",
@@ -5330,8 +5330,8 @@
         "material" : ["wheat", "flesh"],
         "volume" : 4,
         "charges" : 4,
-        "fun" : 5,
-        "flags" : ["EATEN_HOT"]
+        "flags" : ["EATEN_HOT"],
+        "fun" : 5
     },
     {
         "type" : "COMESTIBLE",
@@ -5350,8 +5350,8 @@
         "material" : ["wheat", "hflesh"],
         "volume" : 4,
         "charges" : 4,
-        "fun" : 5,
-        "flags" : ["EATEN_HOT"]
+        "flags" : ["EATEN_HOT"],
+        "fun" : 5
     },
     {
         "type" : "COMESTIBLE",
@@ -5370,8 +5370,8 @@
         "material" : ["flesh", "wheat"],
         "volume" : 1,
         "charges" : 1,
-        "fun" : 0,
-        "flags" : ["EATEN_HOT"]
+        "flags" : ["EATEN_HOT"],
+        "fun" : 0
     },
     {
         "type" : "COMESTIBLE",
@@ -5432,8 +5432,8 @@
         "volume" : 1,
         "phase" : "liquid",
         "charges" : 1,
-        "fun" : 1,
-        "flags" : ["EATEN_HOT"]
+        "flags" : ["EATEN_HOT"],
+        "fun" : 1
     },
     {
         "type" : "COMESTIBLE",
@@ -5454,8 +5454,8 @@
         "material" : ["flesh", "veggy"],
         "volume" : 1,
         "charges" : 2,
-        "fun" : 5,
-        "flags" : ["EATEN_HOT"]
+        "flags" : ["EATEN_HOT"],
+        "fun" : 5
     },
     {
         "type" : "COMESTIBLE",
@@ -5476,8 +5476,8 @@
         "material" : ["hflesh", "veggy"],
         "volume" : 1,
         "charges" : 2,
-        "fun" : 5,
-        "flags" : ["EATEN_HOT"]
+        "flags" : ["EATEN_HOT"],
+        "fun" : 5
     },
     {
         "type" : "COMESTIBLE",
@@ -5518,8 +5518,8 @@
         "material" : "veggy",
         "volume" : 1,
         "charges" : 1,
-        "fun" : 0,
-        "flags" : ["EATEN_HOT"]
+        "flags" : ["EATEN_HOT"],
+        "fun" : 0
     },
     {
         "type" : "COMESTIBLE",
@@ -5539,8 +5539,8 @@
         "material" : ["flesh", "veggy"],
         "volume" : 1,
         "charges" : 1,
-        "fun" : 5,
-        "flags" : ["EATEN_HOT"]
+        "flags" : ["EATEN_HOT"],
+        "fun" : 5
     },
     {
         "type" : "COMESTIBLE",
@@ -5560,8 +5560,8 @@
         "material" : "veggy",
         "volume" : 1,
         "charges" : 1,
-        "fun" : 0,
-        "flags" : ["EATEN_HOT"]
+        "flags" : ["EATEN_HOT"],
+        "fun" : 0
     },
     {
         "type" : "COMESTIBLE",
@@ -5580,8 +5580,8 @@
         "material" : "flesh",
         "volume" : 1,
         "charges" : 1,
-        "fun" : -8,
-        "flags" : ["EATEN_HOT"]
+        "flags" : ["EATEN_HOT"],
+        "fun" : -8
     },
     {
         "type" : "COMESTIBLE",
@@ -5640,8 +5640,8 @@
         "material" : "flesh",
         "volume" : 1,
         "charges" : 1,
-        "fun" : 1,
-        "flags" : ["EATEN_HOT"]
+        "flags" : ["EATEN_HOT"],
+        "fun" : 1
     },
     {
         "type" : "COMESTIBLE",
@@ -5757,8 +5757,8 @@
         "material" : "flesh",
         "volume" : 1,
         "charges" : 2,
-        "fun" : 6,
-        "flags" : ["EATEN_HOT"]
+        "flags" : ["EATEN_HOT"],
+        "fun" : 6
     },
     {
         "type" : "COMESTIBLE",
@@ -5846,6 +5846,7 @@
         "color" : "pink",
         "spoils_in" : 48,
         "use_action" : "MUTAGEN",
+        "flags" : ["MUTAGEN_WEAK", "TRADER_AVOID"],
         "comestible_type" : "FOOD",
         "symbol" : "%",
         "quench" : 0,
@@ -5856,8 +5857,7 @@
         "material" : "hflesh",
         "volume" : 1,
         "charges" : 1,
-        "fun" : -60,
-        "flags" : ["MUTAGEN_WEAK", "TRADER_AVOID"]
+        "fun" : -60
     },
     {
         "type" : "COMESTIBLE",
@@ -5868,6 +5868,7 @@
         "color" : "brown",
         "spoils_in" : 48,
         "use_action" : "MUTAGEN",
+        "flags" : ["MUTAGEN_WEAK", "TRADER_AVOID"],
         "comestible_type" : "FOOD",
         "symbol" : "%",
         "quench" : 0,
@@ -5878,8 +5879,7 @@
         "material" : "hflesh",
         "volume" : 8,
         "charges" : 1,
-        "fun" : -20,
-        "flags" : ["MUTAGEN_WEAK", "TRADER_AVOID"]
+        "fun" : -20
     },
     {
         "type" : "COMESTIBLE",
@@ -5890,6 +5890,7 @@
         "color" : "brown",
         "spoils_in" : 48,
         "use_action" : "MUTAGEN",
+        "flags" : ["MUTAGEN_WEAK", "TRADER_AVOID"],
         "comestible_type" : "FOOD",
         "symbol" : "%",
         "quench" : 0,
@@ -5900,8 +5901,7 @@
         "material" : "hflesh",
         "volume" : 20,
         "charges" : 1,
-        "fun" : -20,
-        "flags" : ["MUTAGEN_WEAK", "TRADER_AVOID"]
+        "fun" : -20
     },
     {
         "type" : "COMESTIBLE",
@@ -6183,8 +6183,8 @@
         "material" : "veggy",
         "volume" : 1,
         "charges" : 1,
-        "fun" : 1,
-        "flags" : ["EATEN_HOT"]
+        "flags" : ["EATEN_HOT"],
+        "fun" : 1
     },
     {
         "type" : "COMESTIBLE",
@@ -6203,8 +6203,8 @@
         "material" : ["veggy", "flesh"],
         "volume" : 1,
         "charges" : 4, "//" : "One beans + one protein/veg = 2 servings",
-        "fun" : 4,
-        "flags" : ["EATEN_HOT"]
+        "flags" : ["EATEN_HOT"],
+        "fun" : 4
     },
     {
         "type" : "COMESTIBLE",
@@ -6224,8 +6224,8 @@
         "material" : "veggy",
         "volume" : 1,
         "charges" : 4, "//" : "One beans + one protein/veg = 2 servings",
-        "fun" : 4,
-        "flags" : ["EATEN_HOT"]
+        "flags" : ["EATEN_HOT"],
+        "fun" : 4
     },
     {
         "type" : "COMESTIBLE",
@@ -6264,8 +6264,8 @@
         "material" : "veggy",
         "volume" : 1,
         "charges" : 1,
-        "fun" : 2,
-        "flags" : ["EATEN_HOT"]
+        "flags" : ["EATEN_HOT"],
+        "fun" : 2
     },
     {
         "type" : "COMESTIBLE",
@@ -6284,8 +6284,8 @@
         "material" : ["veggy", "flesh"],
         "volume" : 1,
         "charges" : 4, "//" : "One rice + one protein/veg = 2 servings",
-        "fun" : 5,
-        "flags" : ["EATEN_HOT"]
+        "flags" : ["EATEN_HOT"],
+        "fun" : 5
     },
     {
         "type" : "COMESTIBLE",
@@ -6305,8 +6305,8 @@
         "material" : "veggy",
         "volume" : 1,
         "charges" : 4,
-        "fun" : 5,
-        "flags" : ["EATEN_HOT"]
+        "flags" : ["EATEN_HOT"],
+        "fun" : 5
     },
     {
         "type" : "COMESTIBLE",
@@ -6326,8 +6326,8 @@
         "material" : "veggy",
         "volume" : 1,
         "charges" : 4,
-        "fun" : 2,
-        "flags" : ["EATEN_HOT"]
+        "flags" : ["EATEN_HOT"],
+        "fun" : 2
     },
     {
         "type" : "COMESTIBLE",
@@ -6347,8 +6347,8 @@
         "material" : ["veggy", "flesh"],
         "volume" : 1,
         "charges" : 6,
-        "fun" : 4,
-        "flags" : ["EATEN_HOT"]
+        "flags" : ["EATEN_HOT"],
+        "fun" : 4
     },
     {
         "type" : "COMESTIBLE",
@@ -6368,8 +6368,8 @@
         "material" : "veggy",
         "volume" : 1,
         "charges" : 6,
-        "fun" : 4,
-        "flags" : ["EATEN_HOT"]
+        "flags" : ["EATEN_HOT"],
+        "fun" : 4
     },
     {
         "type" : "COMESTIBLE",
@@ -6388,8 +6388,8 @@
         "material" : "wheat",
         "volume" : 1,
         "charges" : 1,
-        "fun" : 2,
-        "flags" : ["EATEN_HOT"]
+        "flags" : ["EATEN_HOT"],
+        "fun" : 2
     },
     {
         "type" : "COMESTIBLE",
@@ -6408,8 +6408,8 @@
         "material" : "wheat",
         "volume" : 1,
         "charges" : 2,
-        "fun" : 3,
-        "flags" : ["EATEN_HOT"]
+        "flags" : ["EATEN_HOT"],
+        "fun" : 3
     },
     {
         "type" : "COMESTIBLE",
@@ -6573,8 +6573,8 @@
         "volume" : 1,
         "phase" : "liquid",
         "charges" : 1,
-        "fun" : 4,
-        "flags" : ["EATEN_HOT"]
+        "flags" : ["EATEN_HOT"],
+        "fun" : 4
     },
     {
         "type" : "COMESTIBLE",
@@ -6592,8 +6592,8 @@
         "volume" : 1,
         "phase" : "liquid",
         "charges" : 1,
-        "fun" : 1,
-        "flags" : ["EATEN_HOT"]
+        "flags" : ["EATEN_HOT"],
+        "fun" : 1
     },
     {
         "type" : "COMESTIBLE",
@@ -6722,8 +6722,8 @@
         "material" : "egg",
         "volume" : 1,
         "charges" : 2,
-        "fun" : 3,
-        "flags" : ["EATEN_HOT"]
+        "flags" : ["EATEN_HOT"],
+        "fun" : 3
     },
     {
         "type" : "COMESTIBLE",
@@ -6743,8 +6743,8 @@
         "material" : ["egg", "flesh"],
         "volume" : 1,
         "charges" : 3,
-        "fun" : 4,
-        "flags" : ["EATEN_HOT"]
+        "flags" : ["EATEN_HOT"],
+        "fun" : 4
     },
     {
         "type" : "COMESTIBLE",
@@ -6784,8 +6784,8 @@
         "material" : "flesh",
         "volume" : 1,
         "charges" : 8,
-        "fun" : 5,
-        "flags" : ["EATEN_HOT"]
+        "flags" : ["EATEN_HOT"],
+        "fun" : 5
     },
     {
         "type" : "COMESTIBLE",
@@ -6931,8 +6931,8 @@
         "material" : "veggy",
         "volume" : 1,
         "charges" : 1,
-        "fun" : 3,
-        "flags" : ["EATEN_HOT"]
+        "flags" : ["EATEN_HOT"],
+        "fun" : 3
     },
     {
         "type" : "COMESTIBLE",
@@ -6971,8 +6971,8 @@
         "material" : "wheat",
         "volume" : 2,
         "charges" : 6,
-        "fun" : 0,
-        "flags" : ["EATEN_HOT"]
+        "flags" : ["EATEN_HOT"],
+        "fun" : 0
     },
     {
         "type" : "COMESTIBLE",
@@ -6992,8 +6992,8 @@
         "material" : "wheat",
         "volume" : 3,
         "charges" : 8,
-        "fun" : 1,
-        "flags" : ["EATEN_HOT"]
+        "flags" : ["EATEN_HOT"],
+        "fun" : 1
     },
     {
         "type" : "COMESTIBLE",
@@ -7013,8 +7013,8 @@
         "material" : "veggy",
         "volume" : 1,
         "charges" : 4,
-        "fun" : 2,
-        "flags" : ["EATEN_HOT"]
+        "flags" : ["EATEN_HOT"],
+        "fun" : 2
     },
     {
         "type" : "COMESTIBLE",
@@ -7034,8 +7034,8 @@
         "material" : "veggy",
         "volume" : 3,
         "charges" : 6,
-        "fun" : 1,
-        "flags" : ["EATEN_HOT"]
+        "flags" : ["EATEN_HOT"],
+        "fun" : 1
     },
     {
         "type" : "COMESTIBLE",
@@ -7055,8 +7055,8 @@
         "material" : ["milk"],
         "volume" : 1,
         "charges" : 2,
-        "fun" : 6,
-        "flags" : ["EATEN_HOT"]
+        "flags" : ["EATEN_HOT"],
+        "fun" : 6
     },
     {
         "type" : "COMESTIBLE",
@@ -7075,8 +7075,8 @@
         "material" : ["wheat", "junk"],
         "volume" : 1,
         "charges" : 4,
-        "fun" : 2,
-        "flags" : ["EATEN_HOT"]
+        "flags" : ["EATEN_HOT"],
+        "fun" : 2
     },
     {
         "type" : "COMESTIBLE",
@@ -7096,8 +7096,8 @@
         "material" : "wheat",
         "volume" : 1,
         "charges" : 4,
-        "fun" : 3,
-        "flags" : ["EATEN_HOT"]
+        "flags" : ["EATEN_HOT"],
+        "fun" : 3
     },
     {
         "type" : "COMESTIBLE",
@@ -7117,8 +7117,8 @@
         "material" : ["wheat", "fruit"],
         "volume" : 1,
         "charges" : 4,
-        "fun" : 3,
-        "flags" : ["EATEN_HOT"]
+        "flags" : ["EATEN_HOT"],
+        "fun" : 3
     },
     {
         "type" : "COMESTIBLE",
@@ -7137,8 +7137,8 @@
         "material" : ["wheat", "junk"],
         "volume" : 1,
         "charges" : 4,
-        "fun" : 6,
-        "flags" : ["EATEN_HOT"]
+        "flags" : ["EATEN_HOT"],
+        "fun" : 6
     },
     {
         "type" : "COMESTIBLE",
@@ -7158,8 +7158,8 @@
         "material" : [ "wheat", "milk", "egg" ],
         "volume" : 1,
         "charges" : 2,
-        "fun" : 8,
-        "flags" : ["EATEN_HOT"]
+        "flags" : ["EATEN_HOT"],
+        "fun" : 8
     },
     {
         "type" : "COMESTIBLE",
@@ -7177,8 +7177,8 @@
         "material" : "wheat",
         "volume" : 1,
         "charges" : 4,
-        "fun" : 5,
-        "flags" : ["EATEN_HOT"]
+        "flags" : ["EATEN_HOT"],
+        "fun" : 5
     },
     {
         "type" : "COMESTIBLE",
@@ -7197,8 +7197,8 @@
         "material" : ["wheat", "fruit"],
         "volume" : 1,
         "charges" : 4,
-        "fun" : 6,
-        "flags" : ["EATEN_HOT"]
+        "flags" : ["EATEN_HOT"],
+        "fun" : 6
     },
     {
         "type" : "COMESTIBLE",
@@ -7216,8 +7216,8 @@
         "material" : ["wheat", "junk"],
         "volume" : 1,
         "charges" : 4,
-        "fun" : 12,
-        "flags" : ["EATEN_HOT"]
+        "flags" : ["EATEN_HOT"],
+        "fun" : 12
     },
     {
         "type" : "COMESTIBLE",
@@ -7291,8 +7291,8 @@
         "quench": 45,
         "nutrition" : 1,
         "fun": 1,
-        "phase": "liquid",
-        "flags" : [ "EATEN_COLD" ]
+        "flags" : [ "EATEN_COLD" ],
+        "phase": "liquid"
     },
     {
         "type" : "COMESTIBLE",
@@ -7369,8 +7369,8 @@
         "material" : "wheat",
         "volume" : 4,
         "charges" : 8,
-        "fun" : 1,
-        "flags" : ["EATEN_HOT"]
+        "flags" : ["EATEN_HOT"],
+        "fun" : 1
     },
     {
         "type" : "COMESTIBLE",
@@ -7391,8 +7391,8 @@
         "material" : ["wheat", "fruit"],
         "volume" : 5,
         "charges" : 6,
-        "fun" : 3,
-        "flags" : ["EATEN_HOT"]
+        "flags" : ["EATEN_HOT"],
+        "fun" : 3
     },
     {
         "type" : "COMESTIBLE",
@@ -7412,8 +7412,8 @@
         "material" : ["wheat", "veggy"],
         "volume" : 5,
         "charges" : 6,
-        "fun" : 3,
-        "flags" : ["EATEN_HOT"]
+        "flags" : ["EATEN_HOT"],
+        "fun" : 3
     },
     {
         "type" : "COMESTIBLE",
@@ -7433,8 +7433,8 @@
         "material" : ["wheat", "flesh"],
         "volume" : 5,
         "charges" : 6,
-        "fun" : 3,
-        "flags" : ["EATEN_HOT"]
+        "flags" : ["EATEN_HOT"],
+        "fun" : 3
     },
     {
         "type" : "COMESTIBLE",
@@ -7454,8 +7454,8 @@
         "material" : ["wheat", "hflesh"],
         "volume" : 5,
         "charges" : 6,
-        "fun" : 3,
-        "flags" : ["EATEN_HOT"]
+        "flags" : ["EATEN_HOT"],
+        "fun" : 3
     },
     {
         "type" : "COMESTIBLE",
@@ -7476,8 +7476,8 @@
         "material" : ["wheat", "milk"],
         "volume" : 5,
         "charges" : 6,
-        "fun" : 6,
-        "flags" : ["EATEN_HOT"]
+        "flags" : ["EATEN_HOT"],
+        "fun" : 6
     },
     {
         "type" : "COMESTIBLE",
@@ -7496,8 +7496,8 @@
         "material" : ["wheat", "veggy"],
         "volume" : 8,
         "charges" : 4,
-        "fun" : 10,
-        "flags" : ["EATEN_HOT"]
+        "flags" : ["EATEN_HOT"],
+        "fun" : 10
     },
     {
         "type" : "COMESTIBLE",
@@ -7517,8 +7517,8 @@
         "material" : ["wheat", "milk"],
         "volume" : 8,
         "charges" : 4,
-        "fun" : 10,
-        "flags" : ["EATEN_HOT"]
+        "flags" : ["EATEN_HOT"],
+        "fun" : 10
     },
     {
         "type" : "COMESTIBLE",
@@ -7537,8 +7537,8 @@
         "material" : ["wheat", "flesh"],
         "volume" : 8,
         "charges" : 4,
-        "fun" : 10,
-        "flags" : ["EATEN_HOT"]
+        "flags" : ["EATEN_HOT"],
+        "fun" : 10
     },
     {
         "type" : "COMESTIBLE",
@@ -7557,8 +7557,8 @@
         "material" : ["wheat", "hflesh"],
         "volume" : 8,
         "charges" : 4,
-        "fun" : 10,
-        "flags" : ["EATEN_HOT"]
+        "flags" : ["EATEN_HOT"],
+        "fun" : 10
     },
     {
         "id": "mre_beef_box",
@@ -7647,8 +7647,8 @@
         "material" : "flesh",
         "volume" : 1,
         "charges" : 4,
-        "fun" : -1,
-        "flags" : ["EATEN_HOT"]
+        "flags" : ["EATEN_HOT"],
+        "fun" : -1
     },
     {
         "type" : "COMESTIBLE",
@@ -7667,8 +7667,8 @@
         "material" : "veggy",
         "volume" : 1,
         "charges" : 4,
-        "fun" : -1,
-        "flags" : ["EATEN_HOT"]
+        "flags" : ["EATEN_HOT"],
+        "fun" : -1
     },
     {
         "type" : "COMESTIBLE",
@@ -7687,8 +7687,8 @@
         "material" : "flesh",
         "volume" : 1,
         "charges" : 4,
-        "fun" : -1,
-        "flags" : ["EATEN_HOT"]
+        "flags" : ["EATEN_HOT"],
+        "fun" : -1
     },
     {
         "type" : "COMESTIBLE",
@@ -7706,8 +7706,8 @@
         "material" : ["flesh", "junk"],
         "volume" : 1,
         "charges" : 4,
-        "fun" : -6,
-        "flags" : ["EATEN_HOT"]
+        "flags" : ["EATEN_HOT"],
+        "fun" : -6
     },
     {
         "type" : "COMESTIBLE",
@@ -7725,8 +7725,8 @@
         "material" : ["flesh", "wheat"],
         "volume" : 1,
         "charges" : 4,
-        "fun" : 1,
-        "flags" : ["EATEN_HOT"]
+        "flags" : ["EATEN_HOT"],
+        "fun" : 1
     },
     {
         "type" : "COMESTIBLE",
@@ -8043,8 +8043,8 @@
         "material" : ["wheat", "flesh"],
         "volume" : 7,
         "charges" : 8,
-        "fun" : 4,
-        "flags" : ["EATEN_HOT"]
+        "flags" : ["EATEN_HOT"],
+        "fun" : 4
     },
     {
         "type" : "COMESTIBLE",
@@ -8063,8 +8063,8 @@
         "material" : ["wheat", "hflesh"],
         "volume" : 7,
         "charges" : 8,
-        "fun" : 4,
-        "flags" : ["EATEN_HOT"]
+        "flags" : ["EATEN_HOT"],
+        "fun" : 4
     },
     {
         "type" : "COMESTIBLE",
@@ -8084,8 +8084,8 @@
         "material" : ["wheat", "veggy"],
         "volume" : 7,
         "charges" : 2,
-        "fun" : 15,
-        "flags" : ["EATEN_HOT"]
+        "flags" : ["EATEN_HOT"],
+        "fun" : 15
     },
     {
         "type" : "COMESTIBLE",
@@ -8104,8 +8104,8 @@
         "material" : ["flesh", "wheat"],
         "volume" : 12,
         "charges" : 8,
-        "fun" : 15,
-        "flags" : ["EATEN_HOT"]
+        "flags" : ["EATEN_HOT"],
+        "fun" : 15
     },
     {
         "type" : "COMESTIBLE",
@@ -8123,8 +8123,8 @@
         "material" : ["hflesh", "wheat"],
         "volume" : 12,
         "charges" : 8,
-        "fun" : 15,
-        "flags" : ["EATEN_HOT"]
+        "flags" : ["EATEN_HOT"],
+        "fun" : 15
     },
     {
         "type" : "COMESTIBLE",
@@ -8328,8 +8328,8 @@
         "material" : "veggy",
         "volume" : 1,
         "charges" : 1,
-        "fun" : 5,
-        "flags" : ["EATEN_HOT"]
+        "flags" : ["EATEN_HOT"],
+        "fun" : 5
     },
     {
         "type" : "COMESTIBLE",
@@ -8365,8 +8365,8 @@
         "material" : "flesh",
         "volume" : 1,
         "charges" : 2,
-        "fun" : 8,
-        "flags" : ["EATEN_HOT"]
+        "flags" : ["EATEN_HOT"],
+        "fun" : 8
   },
   {
         "type" : "COMESTIBLE",
@@ -8390,8 +8390,8 @@
         "volume" : 1,
         "phase" : "liquid",
         "charges" : 6,
-        "fun" : 8,
-        "flags" : ["EATEN_COLD"]
+        "flags" : ["EATEN_COLD"],
+        "fun" : 8
     },
     {
         "type" : "COMESTIBLE",
@@ -8416,8 +8416,8 @@
         "volume" : 1,
         "phase" : "liquid",
         "charges" : 6,
-        "fun" : -12,
-        "flags" : ["EATEN_COLD"]
+        "flags" : ["EATEN_COLD"],
+        "fun" : -12
     },
     {
         "type" : "COMESTIBLE",
@@ -8440,8 +8440,8 @@
         "volume" : 1,
         "phase" : "liquid",
         "charges" : 4,
-        "fun" : 30,
-        "flags" : ["EATEN_COLD"]
+        "flags" : ["EATEN_COLD"],
+        "fun" : 30
     },
     {
         "type" : "COMESTIBLE",
@@ -8451,6 +8451,7 @@
         "color" : "red",
         "addiction_type" : "alcohol",
         "use_action" : "MUTAGEN",
+        "flags" : ["MUTAGEN_WEAK"],
         "stim" : -60,
         "container" : "bottle_glass",
         "comestible_type" : "DRINK",
@@ -8465,8 +8466,7 @@
         "volume" : 1,
         "phase" : "liquid",
         "charges" : 2,
-        "fun" : -40,
-        "flags" : ["MUTAGEN_WEAK"]
+        "fun" : -40
     },
     {
         "type" : "COMESTIBLE",
@@ -8572,8 +8572,8 @@
         "material" : ["flesh", "wheat", "milk"],
         "volume" : 1,
         "charges" : 4,
-        "fun" : 5,
-        "flags" : ["EATEN_HOT"]
+        "flags" : ["EATEN_HOT"],
+        "fun" : 5
     },
     {
         "type" : "COMESTIBLE",
@@ -8593,8 +8593,8 @@
         "material" : ["hflesh", "wheat", "milk"],
         "volume" : 1,
         "charges" : 4,
-        "fun" : 5,
-        "flags" : ["EATEN_HOT"]
+        "flags" : ["EATEN_HOT"],
+        "fun" : 5
     },
     {
         "type" : "COMESTIBLE",
@@ -8614,8 +8614,8 @@
         "material" : ["flesh", "wheat"],
         "volume" : 1,
         "charges" : 4,
-        "fun" : 4,
-        "flags" : ["EATEN_HOT"]
+        "flags" : ["EATEN_HOT"],
+        "fun" : 4
     },
     {
         "type" : "COMESTIBLE",
@@ -8635,8 +8635,8 @@
         "material" : ["hflesh", "wheat"],
         "volume" : 1,
         "charges" : 4,
-        "fun" : 4,
-        "flags" : ["EATEN_HOT"]
+        "flags" : ["EATEN_HOT"],
+        "fun" : 4
     },
     {
         "type" : "COMESTIBLE",
@@ -8656,8 +8656,8 @@
         "material" : ["flesh", "veggy", "wheat"],
         "volume" : 1,
         "charges" : 4,
-        "fun" : 4,
-        "flags" : ["EATEN_HOT"]
+        "flags" : ["EATEN_HOT"],
+        "fun" : 4
     },
     {
         "type" : "COMESTIBLE",
@@ -8678,8 +8678,8 @@
         "material" : ["hflesh", "wheat"],
         "volume" : 1,
         "charges" : 4,
-        "fun" : 4,
-        "flags" : ["EATEN_HOT"]
+        "flags" : ["EATEN_HOT"],
+        "fun" : 4
     },
     {
         "type" : "COMESTIBLE",
@@ -8737,8 +8737,8 @@
         "material" : ["flesh", "veggy", "wheat"],
         "volume" : 1,
         "charges" : 4,
-        "fun" : 5,
-        "flags" : ["EATEN_HOT"]
+        "flags" : ["EATEN_HOT"],
+        "fun" : 5
     },
     {
         "type" : "COMESTIBLE",
@@ -8779,8 +8779,8 @@
         "material" : ["milk", "junk"],
         "volume" : 1,
         "charges" : 3,
-        "fun" : 6,
-        "flags" : ["EATEN_HOT"]
+        "flags" : ["EATEN_HOT"],
+        "fun" : 6
     },
     {
         "type" : "COMESTIBLE",
@@ -9409,8 +9409,8 @@
         "material" : "junk",
         "volume" : 1,
         "charges" : 3,
-        "fun" : 3,
-        "flags" : ["EATEN_HOT"]
+        "flags" : ["EATEN_HOT"],
+        "fun" : 3
     },
     {
         "type" : "COMESTIBLE",
@@ -9431,8 +9431,8 @@
         "material" : ["junk", "milk"],
         "volume" : 1,
         "charges" : 3,
-        "fun" : 6,
-        "flags" : ["EATEN_HOT"]
+        "flags" : ["EATEN_HOT"],
+        "fun" : 6
     },
     {
         "type" : "COMESTIBLE",
@@ -9452,8 +9452,8 @@
         "material" : ["veggy", "junk"],
         "volume" : 1,
         "charges" : 3,
-        "fun" : 6,
-        "flags" : ["EATEN_HOT"]
+        "flags" : ["EATEN_HOT"],
+        "fun" : 6
     },
     {
         "type" : "COMESTIBLE",
@@ -9492,8 +9492,8 @@
         "volume" : 12,
         "charges" : 8,
         "bashing" : 2,
-        "fun" : 4,
-        "flags" : ["EATEN_COLD"]
+        "flags" : ["EATEN_COLD"],
+        "fun" : 4
     },
     {
         "type" : "COMESTIBLE",
@@ -9513,8 +9513,8 @@
         "volume" : 4,
         "charges" : 8,
         "bashing" : 1,
-        "fun" : 4,
-        "flags" : ["EATEN_COLD"]
+        "flags" : ["EATEN_COLD"],
+        "fun" : 4
     },
     {
         "type" : "COMESTIBLE",
@@ -9740,8 +9740,8 @@
         "volume" : 1,
         "phase" : "liquid",
         "charges" : 2,
-        "fun" : 3,
-        "flags" : ["EATEN_COLD"]
+        "flags" : ["EATEN_COLD"],
+        "fun" : 3
     },
     {
         "type" : "COMESTIBLE",
@@ -10044,8 +10044,8 @@
         "material" : ["wheat", "flesh"],
         "volume" : 1,
         "charges" : 6,
-        "fun" : 2,
-        "flags" : ["EATEN_HOT"]
+        "flags" : ["EATEN_HOT"],
+        "fun" : 2
     },
     {
         "type" : "COMESTIBLE",
@@ -10065,8 +10065,8 @@
         "material" : ["veggy", "hflesh"],
         "volume" : 1,
         "charges" : 6,
-        "fun" : 2,
-        "flags" : ["EATEN_HOT"]
+        "flags" : ["EATEN_HOT"],
+        "fun" : 2
     },
     {
         "type" : "COMESTIBLE",
@@ -10087,8 +10087,8 @@
         "volume" : 1,
         "phase" : "liquid",
         "charges" : 4,
-        "fun" : 3,
-        "flags" : ["EATEN_HOT", "USE_EAT_VERB"]
+        "flags" : ["EATEN_HOT", "USE_EAT_VERB"],
+        "fun" : 3
     },
     {
         "type" : "COMESTIBLE",
@@ -10286,8 +10286,8 @@
         "material" : "wheat",
         "volume" : 3,
         "charges" : 6,
-        "fun" : 6,
-        "flags" : ["EATEN_HOT"]
+        "flags" : ["EATEN_HOT"],
+        "fun" : 6
     },
     {
         "type" : "COMESTIBLE",
@@ -10534,8 +10534,8 @@
         "material" : "veggy",
         "volume" : 1,
         "charges" : 1,
-        "fun" : 2,
-        "flags" : ["EATEN_HOT"]
+        "flags" : ["EATEN_HOT"],
+        "fun" : 2
     },{
         "type" : "COMESTIBLE",
         "id" : "irradiated_celery",
@@ -10811,11 +10811,11 @@
         "description" : "A carefully folded raw skin harvested from an animal.  You can cure it for storage and tanning, or eat it if you're desperate enough.",
         "price" : 50,
         "material" : "flesh",
+        "flags" : "TRADER_AVOID",
         "volume" : 5,
         "charges" : 1,
         "stack_size" : 1,
-        "fun" : -12,
-        "flags" : ["TRADER_AVOID"]
+        "fun" : -12
     },{
         "type" : "COMESTIBLE",
         "id" : "raw_tainted_leather",
@@ -10875,11 +10875,11 @@
         "description" : "A carefully folded raw skin harvested from a fur-bearing animal.  It still has the fur attached.  You can cure it for storage and tanning, or eat it if you're desperate enough.",
         "price" : 50,
         "material" : ["fur", "flesh"],
+        "flags": ["NO_SALVAGE", "TRADER_AVOID"],
         "volume" : 5,
         "charges" : 1,
         "stack_size" : 1,
-        "fun" : -24,
-        "flags": ["NO_SALVAGE", "TRADER_AVOID"]
+        "fun" : -24
     },
     {
         "type" : "COMESTIBLE",
@@ -10898,11 +10898,11 @@
         "description" : "A carefully folded raw skin harvested from a fur-bearing unnatural creature.  It still has the fur attached and is poisonous.  You can cure it for storage and tanning.",
         "price" : 0,
         "material" : ["fur", "flesh"],
+        "flags": ["NO_SALVAGE"],
         "volume" : 5,
         "charges" : 1,
         "stack_size" : 1,
-        "fun" : -24,
-        "flags": ["NO_SALVAGE"]
+        "fun" : -24
     },{
         "type" : "COMESTIBLE",
         "id" : "can_tomato",
@@ -10946,8 +10946,8 @@
         "volume" : 2,
         "phase" : "liquid",
         "charges" : 2,
-        "fun" : -15,
-        "flags" : ["EATEN_COLD", "MUTAGEN_WEAK"]
+        "flags" : ["EATEN_COLD", "MUTAGEN_WEAK"],
+        "fun" : -15
     },
     {
         "type" : "COMESTIBLE",
@@ -10971,8 +10971,8 @@
         "volume" : 2,
         "phase" : "liquid",
         "charges" : 1,
-        "fun" : 20,
-        "flags" : ["EATEN_COLD"]
+        "flags" : ["EATEN_COLD"],
+        "fun" : 20
     },
     {
         "type" : "COMESTIBLE",
@@ -10996,8 +10996,8 @@
         "volume" : 2,
         "phase" : "liquid",
         "charges" : 2,
-        "fun" : 20,
-        "flags" : ["EATEN_COLD"]
+        "flags" : ["EATEN_COLD"],
+        "fun" : 20
     },
     {
         "type" : "COMESTIBLE",
@@ -11020,8 +11020,8 @@
         "volume" : 2,
         "phase" : "liquid",
         "charges" : 1,
-        "fun" : 20,
-        "flags" : ["EATEN_COLD"]
+        "flags" : ["EATEN_COLD"],
+        "fun" : 20
     },
     {
         "type" : "COMESTIBLE",
@@ -11045,8 +11045,8 @@
         "volume" : 2,
         "phase" : "liquid",
         "charges" : 1,
-        "fun" : 20,
-        "flags" : ["EATEN_COLD"]
+        "flags" : ["EATEN_COLD"],
+        "fun" : 20
     },
     {
         "type" : "COMESTIBLE",
@@ -11116,8 +11116,8 @@
         "volume" : 1,
         "phase" : "liquid",
         "charges" : 1,
-        "fun" : 14,
-        "flags" : ["EATEN_HOT"]
+        "flags" : ["EATEN_HOT"],
+        "fun" : 14
     },
     {
         "type" : "COMESTIBLE",
@@ -11135,8 +11135,8 @@
         "volume" : 2,
         "phase" : "liquid",
         "charges" : 1,
-        "fun" : -5,
-        "flags" : ["EATEN_HOT"]
+        "flags" : ["EATEN_HOT"],
+        "fun" : -5
     },
     {
         "type" : "COMESTIBLE",
@@ -11157,8 +11157,8 @@
         "material" : ["milk", "wheat"],
         "volume" : 1,
         "charges" : 1,
-        "fun" : 10,
-        "flags" : ["EATEN_HOT"]
+        "flags" : ["EATEN_HOT"],
+        "fun" : 10
     },
     {
         "type" : "COMESTIBLE",
@@ -11223,8 +11223,8 @@
         "volume" : 1,
         "charges" : 2,
         "material" : ["wheat", "veggy"],
-        "fun" : 8,
-        "flags" : ["EATEN_COLD"]
+        "flags" : ["EATEN_COLD"],
+        "fun" : 8
     },
     {
         "type" : "COMESTIBLE",
@@ -11326,8 +11326,8 @@
         "volume" : 1,
         "charges" : 10,
         "stack_size" : 20,
-        "fun" : -1,
-        "flags" : ["EATEN_HOT"]
+        "flags" : ["EATEN_HOT"],
+        "fun" : -1
     },
     {
         "type" : "COMESTIBLE",
@@ -11349,8 +11349,8 @@
         "volume" : 2,
         "phase" : "liquid",
         "charges" : 2,
-        "fun" : 10,
-        "flags" : ["EATEN_COLD"]
+        "flags" : ["EATEN_COLD"],
+        "fun" : 10
     },
     {
         "type" : "COMESTIBLE",
@@ -11392,8 +11392,8 @@
         "material" : ["flesh", "wheat"],
         "volume" : 1,
         "charges" : 2,
-        "fun" : 6,
-        "flags" : ["EATEN_HOT"]
+        "flags" : ["EATEN_HOT"],
+        "fun" : 6
     },{
         "type": "COMESTIBLE",
         "id" : "thyme",
@@ -11627,8 +11627,8 @@
        "volume" : 1,
        "phase" : "liquid",
        "charges" : 1,
-       "fun" : 1,
-       "flags" : ["EATEN_HOT"]
+       "flags" : ["EATEN_HOT"],
+       "fun" : 1
 },{
        "type": "COMESTIBLE",
        "id" : "mugwort",
@@ -11835,12 +11835,12 @@
         "weight" : 1,
         "charges" : 2,
         "stack_size" : 100,
+        "flags" : "HIDDEN_HALLU",
         "seed_data": {
             "plant_name": "mushroom",
             "fruit": "mushroom_magic",
             "grow" : 91
-        },
-        "flags" : ["HIDDEN_HALLU"]
+        }
     },{
         "type" : "COMESTIBLE",
         "id" : "seed_mushroom_poison",
@@ -11857,12 +11857,12 @@
         "weight" : 1,
         "charges" : 2,
         "stack_size" : 100,
+        "flags" : "HIDDEN_POISON",
         "seed_data": {
             "plant_name": "mushroom",
             "fruit": "mushroom_poison",
             "grow" : 91
-        },
-        "flags" : ["HIDDEN_POISON"]
+        }
     },{
         "type" : "COMESTIBLE",
         "id" : "eggnog",
@@ -11881,8 +11881,8 @@
         "volume" : 1,
         "phase" : "liquid",
         "charges" : 2,
-        "fun" : 15,
-        "flags" : ["EATEN_COLD"]
+        "flags" : ["EATEN_COLD"],
+        "fun" : 15
     },{
         "type" : "COMESTIBLE",
         "id" : "eggnog_spiked",
@@ -11905,7 +11905,7 @@
         "volume" : 1,
         "phase" : "liquid",
         "charges" : 2,
-        "fun" : 20,
-        "flags" : ["EATEN_COLD"]
+        "flags" : ["EATEN_COLD"],
+        "fun" : 20
     }
 ]
