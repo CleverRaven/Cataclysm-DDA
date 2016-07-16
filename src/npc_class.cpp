@@ -213,7 +213,7 @@ void npc_class::load( JsonObject &jo )
     bonus_int = load_distribution( jo, "bonus_int" );
     bonus_per = load_distribution( jo, "bonus_per" );
 
-    optional( jo, was_loaded, "shopkeeper_item_group", shopkeeper_item_group );
+    optional( jo, was_loaded, "shopkeeper_item_group", shopkeeper_item_group, "EMPTY_GROUP" );
 
     if( jo.has_array( "skills" ) ) {
         JsonArray jarr = jo.get_array( "skills" );
