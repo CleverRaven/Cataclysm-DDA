@@ -33,6 +33,37 @@ player_activity::player_activity( activity_type t, int turns, int Index, int pos
 {
 }
 
+player_activity::player_activity( const player_activity &rhs )
+    : type( rhs.type ), moves_total( rhs.moves_total ), moves_left( rhs.moves_left ),
+      index( rhs.index ), position( rhs.position ), name( rhs.name ),
+      ignore_trivial( rhs.ignore_trivial ), values( rhs.values ), str_values( rhs.str_values ),
+      coords( rhs.coords ), placement( rhs.placement ),
+      warned_of_proximity( rhs.warned_of_proximity ), auto_resume( rhs.auto_resume )
+{
+    target = rhs.target.clone();
+}
+
+player_activity &player_activity::operator=( const player_activity &rhs )
+{
+    type = rhs.type;
+    moves_total = rhs.moves_total;
+    moves_left = rhs.moves_left;
+    index = rhs.index;
+    position = rhs.position;
+    name = rhs.name;
+    ignore_trivial = rhs.ignore_trivial;
+    values = rhs.values;
+    str_values = rhs.str_values;
+    coords = rhs.coords;
+    placement = rhs.placement;
+    warned_of_proximity = rhs.warned_of_proximity;
+    auto_resume = rhs.auto_resume;
+
+    target = rhs.target.clone();
+
+    return *this;
+}
+
 const std::string &player_activity::get_stop_phrase() const
 {
     static const std::array<std::string, NUM_ACTIVITIES> stop_phrase = {{
