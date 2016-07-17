@@ -18,7 +18,7 @@
 #include <climits>
 
 template <typename T>
-static unsigned do_pack( const T &sel, const item *obj )
+static int find_index( const T &sel, const item *obj )
 {
     int idx = -1;
     sel.visit_items( [&idx, &obj]( const item * e ) {
@@ -32,7 +32,7 @@ static unsigned do_pack( const T &sel, const item *obj )
 }
 
 template <typename T>
-static item *do_unpack( const T &sel, int idx )
+static item *retrieve_index( const T &sel, int idx )
 {
     item *obj = nullptr;
     sel.visit_items( [&idx, &obj]( const item * e ) {
@@ -131,12 +131,12 @@ class item_location::impl::item_on_map : public item_location::impl
             js.start_object();
             js.member( "type", "map" );
             js.member( "pos", position() );
-            js.member( "idx", do_pack( cur, target() ) );
+            js.member( "idx", find_index( cur, target() ) );
             js.end_object();
         }
 
         item *unpack( int idx ) const override {
-            return do_unpack( cur, idx );
+            return retrieve_index( cur, idx );
         }
 
         type where() const override {
@@ -209,12 +209,12 @@ class item_location::impl::item_on_person : public item_location::impl
         void serialize( JsonOut &js ) const override {
             js.start_object();
             js.member( "type", "character" );
-            js.member( "idx", do_pack( who, target() ) );
+            js.member( "idx", find_index( who, target() ) );
             js.end_object();
         }
 
         item *unpack( int idx ) const override {
-            return do_unpack( who, idx );
+            return retrieve_index( who, idx );
         }
 
         type where() const override {
@@ -340,13 +340,13 @@ class item_location::impl::item_on_vehicle : public item_location::impl
             js.member( "pos", position() );
             js.member( "part", cur.part );
             if( target() != &cur.veh.parts[ cur.part ].base ) {
-                js.member( "idx", do_pack( cur, target() ) );
+                js.member( "idx", find_index( cur, target() ) );
             }
             js.end_object();
         }
 
         item *unpack( int idx ) const override {
-            return idx >= 0 ? do_unpack( cur, idx ) : &cur.veh.parts[ cur.part ].base;
+            return idx >= 0 ? retrieve_index( cur, idx ) : &cur.veh.parts[ cur.part ].base;
         }
 
         type where() const override {
