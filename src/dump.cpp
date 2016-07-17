@@ -23,7 +23,7 @@ void game::dump_stats( const std::string& what, dump_mode mode )
     if( what == "AMMO" ) {
         header = {
             "Name", "Ammo", "Volume", "Weight", "Stack",
-            "Range", "Dispersion", "Recoil", "Damage", "Pierce"
+            "Range", "Dispersion", "Recoil", "Damage", "Pierce", "Loudness"
         };
         auto dump = [&rows]( const item& obj ) {
             std::vector<std::string> r;
@@ -37,6 +37,7 @@ void game::dump_stats( const std::string& what, dump_mode mode )
             r.push_back( to_string( obj.type->ammo->recoil ) );
             r.push_back( to_string( obj.type->ammo->damage ) );
             r.push_back( to_string( obj.type->ammo->pierce ) );
+            r.push_back( to_string( obj.type->ammo->loudness ) );
             rows.push_back( r );
         };
         for( auto& e : item_controller->get_all_itypes() ) {
