@@ -47,14 +47,12 @@ static item *do_unpack( const T &sel, int idx )
 
 class item_location::impl
 {
-        friend item_location;
-
+    public:
         class nowhere;
         class item_on_map;
         class item_on_person;
         class item_on_vehicle;
 
-    public:
         impl() = default;
         impl( item *what ) : what( what ) {}
         impl( int idx ) : idx( idx ) {}
@@ -83,7 +81,6 @@ class item_location::impl
 
         virtual void remove_item() {}
 
-    protected:
         virtual void serialize( JsonOut &js ) const = 0;
 
         virtual item *unpack( int ) const {
