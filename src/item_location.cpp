@@ -345,12 +345,14 @@ class item_location::impl::item_on_vehicle : public item_location::impl
             js.member( "type", "vehicle" );
             js.member( "pos", position() );
             js.member( "part", cur.part );
-            js.member( "idx", do_pack( cur, target() ) );
+            if( target() != &cur.veh.parts[ cur.part ].base ) {
+                js.member( "idx", do_pack( cur, target() ) );
+            }
             js.end_object();
         }
 
         item *unpack( int idx ) const override {
-            return do_unpack( cur, idx );
+            return idx >= 0 ? do_unpack( cur, idx ) : &cur.veh.parts[ cur.part ].base;
         }
 
         type where() const override {
@@ -496,9 +498,9 @@ void item_location::deserialize( JsonIn &js )
 
     } else if( type == "vehicle" ) {
         auto *veh = g->m.veh_at( pos );
-        auto cur = vehicle_cursor( *veh, obj.get_int( "part" ) );
-        if( veh ) {
-            ptr.reset( new impl::item_on_vehicle( cur, idx ) );
+        int part = obj.get_int( "part" );
+        if( veh && part <= int( veh->parts.size() ) ) {
+            ptr.reset( new impl::item_on_vehicle( vehicle_cursor( *veh, part ), idx ) );
         }
     }
 }
