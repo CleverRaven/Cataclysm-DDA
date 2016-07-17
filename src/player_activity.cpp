@@ -597,5 +597,5 @@ bool player_activity::can_resume_with( const player_activity &other, const Chara
     }
 
     return !auto_resume && type == other.type && index == other.index &&
-           position == other.position && name == other.name;
+           position == other.position && name == other.name && targets == other.targets;
 }
