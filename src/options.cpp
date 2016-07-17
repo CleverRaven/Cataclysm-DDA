@@ -348,7 +348,10 @@ bool options_manager::cOpt::operator==( const cOpt &rhs ) const
         return iSet == rhs.iSet;
     } else if( sType == "float" ) {
         return fSet == rhs.fSet;
+    } else if( sType == "VOID" ) {
+        return true;
     } else {
+        debugmsg( "unknown option type %s", sType.c_str() );
         return false;
     }
 }
