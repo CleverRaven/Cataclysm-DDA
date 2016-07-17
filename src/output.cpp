@@ -1238,7 +1238,7 @@ std::string format_item_info( const std::vector<iteminfo> &vItemDisplay,
             }
 
             if( vItemDisplay[i].sValue != "-999" ) {
-                nc_color thisColor = get_option<bool>( "INFO_HIGHLIGHT" ) ? c_yellow : c_ltgray;
+                nc_color thisColor = c_yellow;
                 for( auto &k : vItemCompare ) {
                     if( k.sValue != "-999" ) {
                         if( vItemDisplay[i].sName == k.sName && vItemDisplay[i].sType == k.sType ) {
