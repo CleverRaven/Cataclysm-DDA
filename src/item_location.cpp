@@ -486,7 +486,7 @@ void item_location::deserialize( JsonIn &js )
     } else if( type == "vehicle" ) {
         auto *veh = g->m.veh_at( pos );
         int part = obj.get_int( "part" );
-        if( veh && part <= int( veh->parts.size() ) ) {
+        if( veh && part >= 0 && part < int( veh->parts.size() ) ) {
             ptr.reset( new impl::item_on_vehicle( vehicle_cursor( *veh, part ), idx ) );
         }
     }
