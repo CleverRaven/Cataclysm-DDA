@@ -166,18 +166,16 @@ void sounds::process_sounds()
         // Since monsters don't go deaf ATM we can just use the weather modified volume
         // If they later get physical effects from loud noises we'll have to change this
         // to use the unmodified volume for those effects.
-        const int vol = this_centroid.volume - weather_vol;
+        const int vol = std::min( int( this_centroid.volume - weather_vol ), MAX_VOLUME );
         const tripoint source = tripoint( this_centroid.x, this_centroid.y, this_centroid.z );
         // --- Monster sound handling here ---
         // Alert all hordes
         if( vol > 20 && g->get_levz() == 0 ) {
-            int sig_power = ( ( vol > 140 ) ? 140 : vol );
             // With this, volume 100 reaches 20 overmap tiles away.
-            sig_power /= 5;
             const point abs_ms = g->m.getabs( source.x, source.y );
             const point abs_sm = ms_to_sm_copy( abs_ms );
             const tripoint target( abs_sm.x, abs_sm.y, source.z );
-            overmap_buffer.signal_hordes( target, sig_power );
+            overmap_buffer.signal_hordes( target, vol / 5 );
         }
         // Alert all monsters (that can hear) to the sound.
         for (int i = 0, numz = g->num_zombies(); i < numz; i++) {

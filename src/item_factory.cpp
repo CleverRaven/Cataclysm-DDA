@@ -174,8 +174,7 @@ void Item_factory::finalize() {
         // for ammo not specifying loudness (or an explicit zero) derive value from other properties
         if( obj.ammo ) {
             if( obj.ammo->loudness < 0 ) {
-                obj.ammo->loudness = std::max( std::max( { obj.ammo->damage, obj.ammo->pierce, obj.ammo->range } ) * 3,
-                                               obj.ammo->recoil / 3 );
+                obj.ammo->loudness = std::min( std::max( obj.ammo->damage, obj.ammo->pierce ) * 2, MAX_VOLUME );
             }
 
             const auto &mats = obj.materials;
