@@ -2563,13 +2563,14 @@
     },
     {
         "id": "shrapnel",
-        "type": "GENERIC",
+        "type": "AMMO",
         "name": "shrapnel",
         "description": "A twisted shard of jagged metal.",
         "weight": 5,
         "volume": 1,
         "price": 0,
-        "material": "iron",
+        "stack_size": 50,
+        "material": [ "steel" ],
         "symbol": ".",
         "color": "white"
     }
