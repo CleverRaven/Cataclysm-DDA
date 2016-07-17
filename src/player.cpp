@@ -10289,26 +10289,9 @@ void player::mend_item( item_location&& obj, bool interactive )
             return;
         }
 
-        int pos = INT_MIN;
-
-        switch( obj.where() ) {
-            case item_location::type::character:
-                pos = get_item_position( &*obj );
-                break;
-
-            case item_location::type::vehicle:
-                pos = g->m.veh_at( obj.position() )->find_part( *obj );
-                break;
-
-            default:
-                debugmsg( "unsupported item location type %i", static_cast<int>( obj.where() ) );
-                return;
-        }
-        assign_activity( ACT_MEND_ITEM, faults[ sel ].first->time(),
-                         static_cast<int>( obj.where() ), pos,
-                         faults[ sel ].first->id().str() );
-
-        activity.placement = obj.position();
+        assign_activity( ACT_MEND_ITEM, faults[ sel ].first->time() );
+        activity.name = faults[ sel ].first->id().str();
+        activity.targets.push_back( std::move( obj ) );
     }
 }
 

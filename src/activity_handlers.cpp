@@ -1588,25 +1588,12 @@ void activity_handlers::repair_item_finish( player_activity *act, player *p )
 
 void activity_handlers::mend_item_finish( player_activity *act, player *p )
 {
-    item_location target;
-    switch( static_cast<item_location::type>( act->index ) ) {
-        case item_location::type::character:
-            target = item_location( *p, &p->i_at( act->position ) );
-            break;
-
-        case item_location::type::vehicle: {
-            auto veh = g->m.veh_at( act->placement );
-            if( !veh ) {
-                return; // vehicle moved or destroyed
-            }
-            target = veh->part_base( act->position );
-            break;
-        }
-
-        default:
-            debugmsg( "unknown index in mend item handler" );
-            return;
+    if( act->targets.size() != 1 ) {
+        debugmsg( "invalid arguments to ACT_MEND_ITEM" );
+        return;
     }
+
+    item_location &target = act->targets[ 0 ];
 
     auto f = target->faults.find( fault_id( act->name ) );
     if( f == target->faults.end() ) {
