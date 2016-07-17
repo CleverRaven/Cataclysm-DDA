@@ -33,7 +33,7 @@
     "location": "muzzle",
     "mod_targets": [ "pistol", "smg", "rifle" ],
     "dispersion_modifier": 120,
-    "loudness_modifier": -50,
+    "loudness_modifier": -80,
     "recoil_modifier": -25
   },
   {
@@ -69,7 +69,7 @@
     "color": "dark_gray",
     "location": "muzzle",
     "mod_targets": [ "shotgun" ],
-    "loudness_modifier": -50,
+    "loudness_modifier": -80,
     "recoil_modifier": -25
   },
   {
@@ -88,7 +88,7 @@
     "location": "muzzle",
     "mod_targets": [ "pistol", "smg", "rifle" ],
     "install_time": 200,
-    "loudness_modifier": -50,
+    "loudness_modifier": -80,
     "recoil_modifier": -25
   },
   {
@@ -105,7 +105,7 @@
     "location": "muzzle",
     "mod_targets": [ "pistol" ],
     "install_time": 200,
-    "loudness_modifier": -30,
+    "loudness_modifier": -40,
     "recoil_modifier": -15
   }
 ]
