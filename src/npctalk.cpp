@@ -86,13 +86,10 @@ struct talk_trial {
 };
 
 struct talk_topic {
-    explicit talk_topic( const std::string &i ) : id( i )
-    { }
+    explicit talk_topic( const std::string &i ) : id( i ) { }
 
     std::string id;
-    /**
-     * If we're talking about an item, this should be its type.
-     */
+    /** If we're talking about an item, this should be its type. */
     itype_id item_type = "null";
 };
 
