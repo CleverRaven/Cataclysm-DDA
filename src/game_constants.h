@@ -88,6 +88,9 @@
 /** Maximum (effective) sound volume */
 #define MAX_VOLUME 140
 
+/** Volume above which temporary deafness occurs */
+#define DEAF_VOLUME 90
+
 /** Maximum density of a map field */
 #define MAX_FIELD_DENSITY 3
 

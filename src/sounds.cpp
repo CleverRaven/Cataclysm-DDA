@@ -212,7 +212,7 @@ void sounds::process_sound_markers( player *p )
         if( is_deaf ) {
             // Has to be here as well to work for stacking deafness (loud noises prolong deafness)
             if( !p->is_immune_effect( effect_deaf )
-                    && rng( ( max_volume - dist ) / 2, ( max_volume - dist ) ) >= 150 ) {
+                    && rng( ( max_volume - dist ) / 2, ( max_volume - dist ) ) >= DEAF_VOLUME ) {
                 // Prolong deafness, but not as much as if it was freshly applied
                 int duration = std::min( 40, ( max_volume - dist - 130 ) / 8 );
                 p->add_effect( effect_deaf, duration );
@@ -232,7 +232,7 @@ void sounds::process_sound_markers( player *p )
             p->volume = std::max( p->volume, volume );
         }
         // Check for deafness
-        if( !p->is_immune_effect( effect_deaf ) && rng((max_volume - dist) / 2, (max_volume - dist)) >= 150 ) {
+        if( !p->is_immune_effect( effect_deaf ) && rng((max_volume - dist) / 2, (max_volume - dist)) >= DEAF_VOLUME ) {
             int duration = (max_volume - dist - 130) / 4;
             p->add_effect( effect_deaf, duration );
             if( p->is_deaf() ) {
