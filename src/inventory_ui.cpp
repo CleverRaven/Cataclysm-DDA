@@ -22,33 +22,54 @@
 #include <sstream>
 #include <algorithm>
 
-struct inventory_input
-{
+struct inventory_input {
     std::string action;
     long ch;
     inventory_entry *entry;
 };
 
-const item_filter_advanced inventory_selector_preset::allow_all_items =
-[]( const item_location & )
-{
-    return item_filter_response::make_fine();
-};
-
-class selection_entry_renderer: public inventory_entry_renderer
+class selection_column_preset: public inventory_selector_preset
 {
     public:
-        selection_entry_renderer() = default;
-        virtual std::string get_text( const inventory_entry &entry, size_t cell_index ) const override;
-        virtual nc_color get_color( const inventory_entry &entry, size_t cell_index ) const override;
+        selection_column_preset() = default;
+
+        virtual std::string get_caption( const inventory_entry &entry ) const override {
+            std::ostringstream res;
+            const size_t available_count = entry.get_available_count();
+            if( entry.chosen_count > 0 && entry.chosen_count < available_count ) {
+                res << string_format( _( "%d of %d" ), entry.chosen_count, available_count ) << ' ';
+            } else if( available_count != 1 ) {
+                res << available_count << ' ';
+            }
+            res << entry.get_item().display_name( available_count );
+            return res.str();
+        }
+
+        virtual nc_color get_color( const item &it ) const override {
+            if( &it == &g->u.weapon ) {
+                return c_ltblue;
+            } else if( g->u.is_worn( it ) ) {
+                return c_cyan;
+            } else {
+                return inventory_selector_preset::get_color( it );
+            }
+        }
 };
 
 class selection_column : public inventory_column
 {
     public:
-        selection_column( const std::string &id, const std::string &name );
+        selection_column( const std::string &id, const std::string &name ) :
+            inventory_column( preset ),
+            selected_cat( new item_category( id, name, 0 ) ) {}
 
-        void reserve_width_for( const inventory_column &column );
+        void reserve_width_for( const inventory_column &column ) {
+            size_t width = 0;
+            for( const auto &entry : column.get_entries() ) {
+                width = std::max( get_width( &entry ), width );
+            }
+            set_width( width );
+        }
 
         virtual bool activatable() const override {
             return inventory_column::activatable() && pages_count() > 1;
@@ -58,15 +79,22 @@ class selection_column : public inventory_column
             return false;
         }
 
-        virtual void prepare_paging( size_t new_entries_per_page = 0 ) override; // Zero means unchanged
+        virtual void prepare_paging() override {
+            inventory_column::prepare_paging();
+            if( empty() ) { // Category must always persist
+                add_entry( selected_cat.get() );
+            }
+        }
+
         virtual void on_change( const inventory_entry &entry ) override;
 
     private:
         const std::unique_ptr<item_category> selected_cat;
-        selection_entry_renderer renderer;
+        selection_column_preset preset;
 };
 
-bool inventory_entry::operator == ( const inventory_entry &other ) const {
+bool inventory_entry::operator == ( const inventory_entry &other ) const
+{
     return get_category_ptr() == other.get_category_ptr() && location == other.location;
 }
 
@@ -84,7 +112,8 @@ bool inventory_entry::is_null() const
     return get_category_ptr() == nullptr;
 }
 
-size_t inventory_entry::get_available_count() const {
+size_t inventory_entry::get_available_count() const
+{
     if( is_item() && get_stack_size() == 1 ) {
         return get_item().count_by_charges() ? get_item().charges : 1;
     } else {
@@ -92,7 +121,8 @@ size_t inventory_entry::get_available_count() const {
     }
 }
 
-const item &inventory_entry::get_item() const {
+const item &inventory_entry::get_item() const
+{
     if( location->get_item() == nullptr ) {
         static const item nullitem;
         debugmsg( "Tried to access an empty item." );
@@ -101,57 +131,140 @@ const item &inventory_entry::get_item() const {
     return *location->get_item();
 }
 
-long inventory_entry::get_invlet() const {
+long inventory_entry::get_invlet() const
+{
     return ( custom_invlet != LONG_MIN ) ? custom_invlet : is_item() ? get_item().invlet : '\0';
 }
 
-const item_category *inventory_entry::get_category_ptr() const {
+const item_category *inventory_entry::get_category_ptr() const
+{
     return ( custom_category != nullptr )
-        ? custom_category : is_item() ? &get_item().get_category() : nullptr;
+           ? custom_category : is_item() ? &get_item().get_category() : nullptr;
 }
 
-std::string inventory_entry_renderer::get_text( const inventory_entry &entry, size_t cell_index ) const
+inventory_selector_preset::inventory_selector_preset() : bug_text( _( "it's a bug!" ) )
 {
-    if( cell_index != 0 ) {
-        return "it's a bug!";
-    }
+    append_cell( [ this ]( const inventory_entry & entry ) -> std::string {
+        return get_caption( entry );
+    } );
+}
 
-    if( entry.is_item() ) {
-        const size_t count = entry.get_stack_size();
-        if( count > 1 ) {
-            return string_format( "%d %s", count, entry.get_item().display_name( count ).c_str() );
-        } else {
-            return entry.get_item().display_name();
-        }
-    } else if( entry.get_category_ptr() != nullptr ) {
-        return entry.get_category_ptr()->name;
+bool inventory_selector_preset::is_shown( const item & ) const
+{
+    return true;
+}
+
+bool inventory_selector_preset::is_shown( const item_location &location ) const
+{
+    return is_shown( *location.get_item() );
+}
+
+bool inventory_selector_preset::is_enabled( const item & ) const
+{
+    return true;
+}
+
+bool inventory_selector_preset::is_enabled( const item_location &location ) const
+{
+    return is_enabled( *location.get_item() );
+}
+
+int inventory_selector_preset::get_rank( const item & ) const
+{
+    return 0;
+}
+
+int inventory_selector_preset::get_rank( const item_location &location ) const
+{
+    return get_rank( *location.get_item() );
+}
+
+nc_color inventory_selector_preset::get_color( const item &it ) const
+{
+    return it.color_in_inventory();
+}
+
+nc_color inventory_selector_preset::get_color( const item_location &location ) const
+{
+    return get_color( *location.get_item() );
+}
+
+std::string inventory_selector_preset::get_caption( const inventory_entry &entry ) const
+{
+    const size_t count = entry.get_stack_size();
+    const std::string disp_name = entry.get_item().display_name( count );
+
+    return ( count > 1 ) ? string_format( "%d %s", count, disp_name.c_str() ) : disp_name;
+}
+
+std::string inventory_selector_preset::get_cell_text( const inventory_entry &entry,
+        size_t cell_index ) const
+{
+    if( cell_index >= cells.size() ) {
+        debugmsg( "Invalid cell index %d.", cell_index );
+        return bug_text;
+    }
+    if( entry.is_null() ) {
+        return std::string();
+    } else if( entry.is_item() ) {
+        return cells[cell_index].second( entry );
+    } else if( cell_index != 0 ) {
+        return cells[cell_index].first;
     } else {
-        return "it's a bug!";
+        return entry.get_category_ptr()->name;
     }
 }
 
-nc_color inventory_entry_renderer::get_color( const inventory_entry &entry, size_t ) const
+nc_color inventory_selector_preset::get_cell_color( const inventory_entry &entry, size_t ) const
 {
-    return entry.is_item() ? entry.get_item().color_in_inventory() : c_magenta;
+    return entry.is_item() ? get_color( entry.get_location() ) : c_magenta;
 }
 
-size_t inventory_entry_renderer::get_width( const inventory_entry &entry, size_t cell_index ) const
+size_t inventory_selector_preset::get_cell_width( const inventory_entry &entry,
+        size_t cell_index ) const
 {
-    return utf8_width( get_text( entry, cell_index ), true );
+    return utf8_width( get_cell_text( entry, cell_index ), true );
+}
+
+void inventory_selector_preset::append_cell( const item_text_func &func, const std::string &title )
+{
+    append_cell( [ func ]( const inventory_entry & entry ) { // Don't pass by reference
+        return func( entry.get_item() );
+    }, title );
+}
+
+void inventory_selector_preset::append_cell( const item_location_text_func &func,
+        const std::string &title )
+{
+    append_cell( [ func ]( const inventory_entry & entry ) { // Don't pass by reference
+        return func( entry.get_location() );
+    }, title );
+}
+
+void inventory_selector_preset::append_cell( const entry_text_func &func, const std::string &title )
+{
+    const auto iter = std::find_if( cells.begin(), cells.end(), [ &title ]( const cell_pair & cell ) {
+        return cell.first == title;
+    } );
+    if( iter != cells.end() ) {
+        debugmsg( "Tried to append a duplicate cell \"%s\": ignored.", title.c_str() );
+        return;
+    }
+    cells.emplace_back( title, func );
 }
 
 bool inventory_column::activatable() const
 {
-    return std::any_of( entries.begin(), entries.end(), []( const inventory_entry &entry ) {
+    return std::any_of( entries.begin(), entries.end(), []( const inventory_entry & entry ) {
         return entry.is_selectable();
     } );
 }
 
-inventory_entry *inventory_column::find_by_invlet( long invlet ) const
+inventory_entry *inventory_column::find_by_invlet( long invlet )
 {
-    for( const auto &entry : entries ) {
+    for( auto &entry : entries ) {
         if( entry.is_item() && ( entry.get_invlet() == invlet ) ) {
-            return const_cast<inventory_entry *>( &entry );
+            return &entry;
         }
     }
     return nullptr;
@@ -159,8 +272,8 @@ inventory_entry *inventory_column::find_by_invlet( long invlet ) const
 
 size_t inventory_column::get_cell_width( const inventory_entry &entry, size_t cell_index ) const
 {
-    size_t res = renderer.get_width( entry, cell_index );
-    if( cell_index == 0  ) {
+    size_t res = preset.get_cell_width( entry, cell_index );
+    if( cell_index == 0 ) {
         res += get_entry_indent( entry );
     }
     return res;
@@ -182,7 +295,7 @@ size_t inventory_column::get_width( const inventory_entry *entry ) const
 
 size_t inventory_column::get_min_width( const inventory_entry *entry ) const
 {
-    const size_t cells_count = renderer.get_cells_count();
+    const size_t cells_count = preset.get_cells_count();
     size_t res = 0;
 
     for( size_t index = 0; index < cells_count; ++index ) {
@@ -236,19 +349,22 @@ void inventory_column::move_selection( int step )
 
     size_t index = get_incremented( selected_index, step );
     while( entries[index] != get_selected() && ( !entries[index].is_selectable()
-                                              || is_selected_by_category( entries[index] ) ) ) {
+            || is_selected_by_category( entries[index] ) ) ) {
         index = get_incremented( index, ( step > 0 ? 1 : -1 ) );
     }
 
     select( index );
 }
 
-size_t inventory_column::page_of( size_t index ) const {
+size_t inventory_column::page_of( size_t index ) const
+{
     return index / entries_per_page;
 }
 
-size_t inventory_column::page_of( const inventory_entry &entry ) const {
-    return page_of( std::distance( entries.begin(), std::find( entries.begin(), entries.end(), entry ) ) );
+size_t inventory_column::page_of( const inventory_entry &entry ) const
+{
+    return page_of( std::distance( entries.begin(), std::find( entries.begin(), entries.end(),
+                                   entry ) ) );
 }
 
 bool inventory_column::is_selected( const inventory_entry &entry ) const
@@ -259,11 +375,12 @@ bool inventory_column::is_selected( const inventory_entry &entry ) const
 bool inventory_column::is_selected_by_category( const inventory_entry &entry ) const
 {
     return entry.is_item() && mode == navigation_mode::CATEGORY
-                           && entry.get_category_ptr() == get_selected().get_category_ptr()
-                           && page_of( entry ) == page_index();
+           && entry.get_category_ptr() == get_selected().get_category_ptr()
+           && page_of( entry ) == page_index();
 }
 
-const inventory_entry &inventory_column::get_selected() const {
+const inventory_entry &inventory_column::get_selected() const
+{
     if( selected_index >= entries.size() ) {
         static const inventory_entry dummy;
         return dummy;
@@ -271,14 +388,14 @@ const inventory_entry &inventory_column::get_selected() const {
     return entries[selected_index];
 }
 
-std::vector<inventory_entry *> inventory_column::get_all_selected() const
+std::vector<inventory_entry *> inventory_column::get_all_selected()
 {
     std::vector<inventory_entry *> res;
 
     if( allows_selecting() ) {
-        for( const auto &entry : entries ) {
+        for( auto &entry : entries ) {
             if( is_selected( entry ) ) {
-                res.push_back( const_cast<inventory_entry *>( &entry ) );
+                res.push_back( &entry );
             }
         }
     }
@@ -309,30 +426,47 @@ void inventory_column::on_input( const inventory_input &input )
 
 void inventory_column::add_entry( const inventory_entry &entry )
 {
-    if( entry.is_item() ) {
-        const auto iter = std::find_if( entries.rbegin(), entries.rend(),
-            [ &entry ]( const inventory_entry &cur ) {
-                return cur.get_category_ptr() == entry.get_category_ptr()
-                    || cur.get_category_ptr()->sort_rank <= entry.get_category_ptr()->sort_rank;
-            } );
-        entries.insert( iter.base(), entry );
+    if( std::find( entries.begin(), entries.end(), entry ) != entries.end() ) {
+        debugmsg( "Tried to add a duplicate entry." );
+        return;
     }
+    const auto iter = std::find_if( entries.rbegin(), entries.rend(),
+    [ &entry ]( const inventory_entry & cur ) {
+        return cur.get_category_ptr() == entry.get_category_ptr()
+            || cur.get_category_ptr()->sort_rank <= entry.get_category_ptr()->sort_rank;
+    } );
+    entries.insert( iter.base(), entry );
+    paging_is_valid = false;
 }
 
 void inventory_column::add_entries( const inventory_column &source )
 {
     for( const auto &entry : source.entries ) {
-        add_entry( entry );
+        if( entry.is_item() ) {
+            add_entry( entry );
+        }
     }
 }
 
-void inventory_column::prepare_paging( size_t new_entries_per_page )
+long inventory_column::reassign_custom_invlets( const player &p, long min_invlet, long max_invlet )
 {
-    if( new_entries_per_page != 0 ) { // Keep default otherwise
-        entries_per_page = new_entries_per_page;
+    long cur_invlet = min_invlet;
+    for( auto &entry : entries ) {
+        if( entry.is_item() && !p.has_item( entry.get_item() ) ) {
+            entry.custom_invlet = entry.is_selectable() && cur_invlet <= max_invlet ? cur_invlet++ : '\0';
+        }
+    }
+    return cur_invlet;
+}
+
+void inventory_column::prepare_paging()
+{
+    if( paging_is_valid ) {
+        return;
     }
     // First, remove all non-items
-    const auto new_end = std::remove_if( entries.begin(), entries.end(), []( const inventory_entry &entry ) {
+    const auto new_end = std::remove_if( entries.begin(),
+    entries.end(), []( const inventory_entry & entry ) {
         return !entry.is_item();
     } );
     entries.erase( new_end, entries.end() );
@@ -343,7 +477,7 @@ void inventory_column::prepare_paging( size_t new_entries_per_page )
         while( to != entries.end() && from->get_category_ptr() == to->get_category_ptr() ) {
             std::advance( to, 1 );
         }
-        std::sort( from, to, []( const inventory_entry &lhs, const inventory_entry &rhs ) {
+        std::sort( from, to, []( const inventory_entry & lhs, const inventory_entry & rhs ) {
             return ( lhs.enabled && !rhs.enabled ) || ( lhs.enabled == rhs.enabled && lhs.rank < rhs.rank );
         } );
         from = to;
@@ -356,31 +490,36 @@ void inventory_column::prepare_paging( size_t new_entries_per_page )
         }
         current_category = entries[i].get_category_ptr();
         const inventory_entry insertion = ( i % entries_per_page == entries_per_page - 1 )
-            ? inventory_entry() // the last item on the page must not be a category
-            : inventory_entry( current_category ); // the first item on the page must be a category
+                                          ? inventory_entry() // the last item on the page must not be a category
+                                          : inventory_entry( current_category ); // the first item on the page must be a category
         entries.insert( entries.begin() + i, insertion );
     }
     // Select the uppermost possible entry
     select( 0, 1 );
+
+    paging_is_valid = true;
 }
 
 void inventory_column::draw( WINDOW *win, size_t x, size_t y ) const
 {
     std::vector<size_t> cell_widths;
     // Cache expensive calculations of cell widths
-    cell_widths.reserve( renderer.get_cells_count() );
-    for( size_t cell_index = 0; cell_index < renderer.get_cells_count(); ++cell_index ) {
+    cell_widths.reserve( preset.get_cells_count() );
+    for( size_t cell_index = 0; cell_index < preset.get_cells_count(); ++cell_index ) {
         cell_widths.push_back( get_max_cell_width( cell_index ) );
     }
     // Calculate cell margin and rounding error
-    const int num_of_margins = std::max( int( renderer.get_cells_count() ) - 1, 0 );
+    const int num_of_margins = std::max( int( preset.get_cells_count() ) - 1, 0 );
     const int room_for_margins = std::max( int( assigned_width - get_min_width() ), 0 );
-    const int cell_margin = std::max( num_of_margins > 0 ? room_for_margins / num_of_margins : 0, min_cell_margin );
+    const int cell_margin = std::max( num_of_margins > 0 ? room_for_margins / num_of_margins : 0,
+                                      min_cell_margin );
     const int column_width_sum = std::accumulate( cell_widths.begin(), cell_widths.end(), 0 );
-    const int rounding_error = std::max( int( get_width() - column_width_sum - num_of_margins * cell_margin ), 0 );
+    const int rounding_error = std::max( int( get_width() - column_width_sum - num_of_margins *
+                                         cell_margin ), 0 );
     const int first_cell_margin = cell_margin + rounding_error;
     // Do the actual drawing
-    for( size_t index = page_offset, line = 0; index < entries.size() && line < entries_per_page; ++index, ++line ) {
+    for( size_t index = page_offset, line = 0; index < entries.size() &&
+         line < entries_per_page; ++index, ++line ) {
         const auto &entry = entries[index];
 
         if( entry.is_null() ) {
@@ -393,8 +532,8 @@ void inventory_column::draw( WINDOW *win, size_t x, size_t y ) const
 
         const int yy = y + line;
 
-        for( size_t cell_index = 0, count = renderer.get_cells_count(); cell_index < count; ++cell_index ) {
-            const std::string txt = renderer.get_text( entry, cell_index );
+        for( size_t cell_index = 0, count = preset.get_cells_count(); cell_index < count; ++cell_index ) {
+            const std::string txt = preset.get_cell_text( entry, cell_index );
             const int txt_len = utf8_width( txt, true );
 
             if( line != 0 && cell_index != 0 && !entry.is_item() ) {
@@ -414,12 +553,12 @@ void inventory_column::draw( WINDOW *win, size_t x, size_t y ) const
                     mvwprintz( win, yy, txe, h_white, std::string( tx - txe, ' ' ).c_str() );
                 }
             } else {
-                trim_and_print( win, yy, tx, mw, renderer.get_color( entry, cell_index ), "%s", txt.c_str() );
+                trim_and_print( win, yy, tx, mw, preset.get_cell_color( entry, cell_index ), "%s", txt.c_str() );
             }
             // Compensate the rounding error right after the first cell
             x2 += ( cell_index == 0 ) ? first_cell_margin : cell_margin;
             x1 = x2;
-            txe = tx+ txt_len;
+            txe = tx + txt_len;
         }
 
         if( entry.is_item() ) {
@@ -447,51 +586,15 @@ void inventory_column::draw( WINDOW *win, size_t x, size_t y ) const
     }
 }
 
-std::string selection_entry_renderer::get_text( const inventory_entry &entry, size_t cell_index ) const
-{
-    if( cell_index != 0 || !entry.is_item() ) {
-        return inventory_entry_renderer::get_text( entry, cell_index );
-    }
-    std::ostringstream res;
-    const size_t available_count = entry.get_available_count();
-    if( entry.chosen_count > 0 && entry.chosen_count < available_count ) {
-        res << string_format( _( "%d of %d"), entry.chosen_count, available_count ) << ' ';
-    } else if( available_count != 1 ) {
-        res << available_count << ' ';
-    }
-    res << entry.get_item().display_name( available_count );
-    return res.str();
-}
-
-nc_color selection_entry_renderer::get_color( const inventory_entry &entry, size_t cell_index ) const
-{
-    return ( entry.custom_color != c_unset )
-        ? entry.custom_color : inventory_entry_renderer::get_color( entry, cell_index );
-}
-
-selection_column::selection_column( const std::string &id, const std::string &name ) :
-    inventory_column( renderer ),
-    selected_cat( new item_category( id, name, 0 ) ) {}
-
-void selection_column::reserve_width_for( const inventory_column &column )
-{
-    size_t width = 0;
-    for( const auto &entry : column.get_entries() ) {
-        width = std::max( get_width( &entry ), width );
-    }
-    set_width( width );
-}
-
 void inventory_column::set_width( const size_t width )
 {
     assigned_width = width;
 }
 
-void selection_column::prepare_paging( size_t new_entries_per_page )
-{
-    inventory_column::prepare_paging( new_entries_per_page );
-    if( entries.empty() ) { // Category must always persist
-        entries.emplace_back( selected_cat.get() );
+void inventory_column::set_height( size_t height ) {
+    if( entries_per_page != height ) {
+        entries_per_page = height;
+        paging_is_valid = false;
     }
 }
 
@@ -536,21 +639,21 @@ inventory_input inventory_selector::get_input()
 }
 
 // @todo Move it into some 'item_stack' class.
-std::vector<std::list<item *>> restack_items( const std::list<item>::const_iterator &from,
-                                              const std::list<item>::const_iterator &to )
+std::vector<std::list<item *>> restack_items( const std::list<item>::iterator &from,
+                            const std::list<item>::iterator &to )
 {
     std::vector<std::list<item *>> res;
 
     for( auto it = from; it != to; ++it ) {
         auto match = std::find_if( res.begin(), res.end(),
-            [ &it ]( const std::list<item *> &e ) {
-                return it->stacks_with( *const_cast<item *>( e.back() ) );
-            } );
+        [ &it ]( const std::list<item *> &e ) {
+            return it->stacks_with( *e.back() );
+        } );
 
         if( match != res.end() ) {
-            match->push_back( const_cast<item *>( &*it ) );
+            match->push_back( &*it );
         } else {
-            res.emplace_back( 1, const_cast<item *>( &*it ) );
+            res.emplace_back( 1, &*it );
         }
     }
 
@@ -559,11 +662,9 @@ std::vector<std::list<item *>> restack_items( const std::list<item>::const_itera
 
 void inventory_selector::add_item( const std::shared_ptr<item_location> &location,
                                    size_t stack_size,
-                                   const std::string &custom_cat_title, nc_color custom_color )
+                                   const std::string &custom_cat_title )
 {
-    const item_filter_response &response( preset.filter( *location ) );
-
-    if( response.type == item_filter_response::unsuitable ) {
+    if( !preset.is_shown( *location ) ) {
         return;
     }
 
@@ -573,39 +674,34 @@ void inventory_selector::add_item( const std::shared_ptr<item_location> &locatio
     if( is_custom ) {
         const std::string name =
             trim( string_format( _( "%s %s" ),
-                  to_upper_case( custom_cat_title ).c_str(),
-                  direction_suffix( preset.who.pos(), location->position() ).c_str() ) );
+                                 to_upper_case( custom_cat_title ).c_str(),
+                                 direction_suffix( p.pos(), location->position() ).c_str() ) );
 
         auto cat_iter = std::find_if( categories.begin(), categories.end(),
-        [ &name ]( const item_category &category ) {
+        [ &name ]( const item_category & category ) {
             return category.name == name;
         } );
         if( cat_iter == categories.end() ) {
             cat_iter = categories.insert( cat_iter, item_category( name, name,
-                                                                   INT_MIN + int( categories.size() ) ) );
+                                          INT_MIN + int( categories.size() ) ) );
         }
         cat_ptr = &*cat_iter;
     }
 
     inventory_entry entry( location, stack_size, cat_ptr );
 
-    entry.enabled = response.type == item_filter_response::fine;
-    entry.rank = response.rank;
-    entry.custom_color = custom_color;
-
-    if( !preset.who.has_item( *( *location ) ) ) {
-        entry.custom_invlet = ( entry.enabled && cur_custom_invlet <= max_custom_invlet ) ? cur_custom_invlet++ : '\0';
-    }
+    entry.enabled = preset.is_enabled( entry.get_location() );
+    entry.rank = preset.get_rank( entry.get_location() );
 
     inventory_column *column_ptr;
     if( is_custom ) {
         if( custom_column == nullptr ) {
-            custom_column.reset( new inventory_column( preset.renderer ) );
+            custom_column.reset( new inventory_column( preset ) );
         }
         column_ptr = custom_column.get();
     } else {
         if( columns.empty() ) {
-            std::shared_ptr<inventory_column> new_column( new inventory_column( preset.renderer ) );
+            std::shared_ptr<inventory_column> new_column( new inventory_column( preset ) );
             insert_column( columns.end(), new_column );
         }
         column_ptr = columns.back().get();
@@ -614,8 +710,8 @@ void inventory_selector::add_item( const std::shared_ptr<item_location> &locatio
     column_ptr->add_entry( entry );
 }
 
-void inventory_selector::add_items( const std::list<item>::const_iterator &from,
-                                    const std::list<item>::const_iterator &to,
+void inventory_selector::add_items( const std::list<item>::iterator &from,
+                                    const std::list<item>::iterator &to,
                                     const std::string &title,
                                     const std::function<std::shared_ptr<item_location>( item * )> &locator )
 {
@@ -625,39 +721,30 @@ void inventory_selector::add_items( const std::list<item>::const_iterator &from,
     }
 }
 
-void inventory_selector::add_character_items( const Character &character )
+void inventory_selector::add_character_items( Character &character )
 {
-    for( size_t i = 0; i < character.inv.size(); ++i ) {
-        const auto &stack = character.inv.const_stack( i );
-        add_item( std::shared_ptr<item_location>( // @todo Get rid of vicious casts
-            new item_location( const_cast<Character &>( character ),
-                               const_cast<item *>( &stack.front() ) ) ), stack.size() );
+    for( const auto &stack: character.inv.slice() ) {
+        add_item( std::make_shared<item_location>( character, &stack->front() ), stack->size() );
     }
 
     if( !character.weapon.is_null() ) {
         const std::string cat_title = _( "WEAPON HELD" );
-        add_item( std::shared_ptr<item_location>( // @todo Get rid of vicious casts
-            new item_location( const_cast<Character &>( character ),
-                               const_cast<item *>( &character.weapon ) ) ),
-            1, cat_title, c_ltblue );
+        add_item( std::make_shared<item_location>( character, &character.weapon ), 1, cat_title );
     }
 
     if( !character.worn.empty() ) {
         const std::string cat_title = _( "ITEMS WORN" );
         for( auto &it : character.worn ) {
-            add_item( std::shared_ptr<item_location>( // @todo Get rid of vicious casts
-                new item_location( const_cast<Character &>( character ),
-                                   const_cast<item *>( &it ) ) ),
-                1, cat_title, c_cyan );
+            add_item( std::make_shared<item_location>( character, &it ), 1, cat_title );
         }
     }
 }
 
 void inventory_selector::add_map_items( const tripoint &target )
 {
-    if( g->m.accessible_items( preset.who.pos(), target, rl_dist( preset.who.pos(), target ) ) ) {
-        const auto items = g->m.i_at( target );
-        add_items( items.begin(), items.end(), g->m.name( target ), [ &target ]( item *it ) {
+    if( g->m.accessible_items( p.pos(), target, rl_dist( p.pos(), target ) ) ) {
+        auto items = g->m.i_at( target );
+        add_items( items.begin(), items.end(), g->m.name( target ), [ &target ]( item * it ) {
             return std::make_shared<item_location>( target, it );
         } );
     }
@@ -669,8 +756,8 @@ void inventory_selector::add_vehicle_items( const tripoint &target )
     vehicle *veh = g->m.veh_at( target, part );
 
     if( veh != nullptr && ( part = veh->part_with_feature( part, "CARGO" ) ) >= 0 ) {
-        const auto items = veh->get_items( part );
-        add_items( items.begin(), items.end(), veh->parts[part].name(), [ veh, part ]( item *it ) {
+        auto items = veh->get_items( part );
+        add_items( items.begin(), items.end(), veh->parts[part].name(), [ veh, part ]( item * it ) {
             return std::make_shared<item_location>( vehicle_cursor( *veh, part ), it );
         } );
     }
@@ -679,7 +766,7 @@ void inventory_selector::add_vehicle_items( const tripoint &target )
 void inventory_selector::add_nearby_items( int radius )
 {
     if( radius >= 0 ) {
-        for( const auto &pos : closest_tripoints_first( radius, preset.who.pos() ) ) {
+        for( const auto &pos : closest_tripoints_first( radius, p.pos() ) ) {
             add_map_items( pos );
             add_vehicle_items( pos );
         }
@@ -691,7 +778,7 @@ void inventory_selector::set_title( const std::string &title )
     this->title = title;
 }
 
-inventory_entry *inventory_selector::find_entry_by_invlet( long invlet ) const
+inventory_entry *inventory_selector::find_entry_by_invlet( long invlet )
 {
     for( const auto &column : columns ) {
         const auto res = column->find_by_invlet( invlet );
@@ -720,8 +807,10 @@ void inventory_selector::prepare_columns()
         custom_column = nullptr;
     }
 
+    long custom_invlet = '0';
     for( auto &column : columns ) {
-        column->prepare_paging( getmaxy( w_inv ) - 5 );
+        column->prepare_paging();
+        custom_invlet = column->reassign_custom_invlets( p, custom_invlet, '9' );
     }
     // If we have a single column and it occupies more than a half of
     // the available with -> expand it
@@ -736,15 +825,15 @@ void inventory_selector::draw_inv_weight_vol( WINDOW *w, int weight_carried, uni
         units::volume vol_capacity) const
 {
     // Print weight
-    mvwprintw(w, 0, 32, _("Weight (%s): "), weight_units());
+    mvwprintw( w, 0, 32, _( "Weight (%s): " ), weight_units() );
     nc_color weight_color;
-    if (weight_carried > preset.who.weight_capacity()) {
+    if( weight_carried > p.weight_capacity() ) {
         weight_color = c_red;
     } else {
         weight_color = c_ltgray;
     }
-    wprintz(w, weight_color, "%6.1f", convert_weight(weight_carried) + 0.05 ); // +0.05 to round up;
-    wprintz(w, c_ltgray, "/%-6.1f", convert_weight(preset.who.weight_capacity()));
+    wprintz( w, weight_color, "%6.1f", convert_weight( weight_carried ) + 0.05 ); // +0.05 to round up;
+    wprintz( w, c_ltgray, "/%-6.1f", convert_weight( p.weight_capacity() ) );
 
     // Print volume
     mvwprintw(w, 0, 61, _("Volume (ml): "));
@@ -758,8 +847,7 @@ void inventory_selector::draw_inv_weight_vol( WINDOW *w, int weight_carried, uni
 
 void inventory_selector::draw_inv_weight_vol( WINDOW *w ) const
 {
-    draw_inv_weight_vol( w, preset.who.weight_carried(), preset.who.volume_carried(),
-                         preset.who.volume_capacity() );
+    draw_inv_weight_vol( w, p.weight_carried(), p.volume_carried(), p.volume_capacity() );
 }
 
 void inventory_selector::refresh_window() const
@@ -779,7 +867,8 @@ void inventory_selector::draw( WINDOW *w ) const
     const int free_space = getmaxx( w ) - get_columns_width();
     const int max_gap = ( columns.size() > 1 ) ? free_space / ( int( columns.size() ) - 1 ) : 0;
     const int gap = center_align ? max_gap : std::min<int>( max_gap, 8 );
-    const int gap_rounding_error = ( center_align && columns.size() > 1 ) ? free_space % ( columns.size() - 1 ) : 0;
+    const int gap_rounding_error = ( center_align &&
+                                     columns.size() > 1 ) ? free_space % ( columns.size() - 1 ) : 0;
 
     size_t x = 1;
     size_t y = 2;
@@ -810,8 +899,8 @@ void inventory_selector::draw( WINDOW *w ) const
     }
 
     const std::string msg_str = ( navigation == navigation_mode::CATEGORY )
-        ? _( "Category selection; [TAB] switches mode, arrows select." )
-        : _( "Item selection; [TAB] switches mode, arrows select." );
+                                ? _( "Category selection; [TAB] switches mode, arrows select." )
+                                : _( "Item selection; [TAB] switches mode, arrows select." );
     const nc_color msg_color = ( navigation == navigation_mode::CATEGORY ) ? h_white : c_ltgray;
 
     if( center_align ) {
@@ -821,36 +910,35 @@ void inventory_selector::draw( WINDOW *w ) const
     }
 }
 
-inventory_selector::inventory_selector( const inventory_selector_preset &preset )
-    : preset( preset )
+inventory_selector::inventory_selector( const player &p, const inventory_selector_preset &preset )
+    : p( p )
+    , preset( preset )
     , columns()
     , w_inv( newwin( TERMY, TERMX, VIEW_OFFSET_Y, VIEW_OFFSET_X ) )
     , active_column_index( 0 )
     , navigation( navigation_mode::ITEM )
     , ctxt( "INVENTORY" )
 {
-    ctxt.register_action("DOWN", _("Next item"));
-    ctxt.register_action("UP", _("Previous item"));
-    ctxt.register_action("RIGHT", _("Confirm"));
-    ctxt.register_action("LEFT", _("Switch inventory/worn"));
-    ctxt.register_action("CONFIRM", _("Mark selected item"));
-    ctxt.register_action("QUIT", _("Cancel"));
-    ctxt.register_action("CATEGORY_SELECTION");
-    ctxt.register_action("NEXT_TAB", _("Page down"));
-    ctxt.register_action("PREV_TAB", _("Page up"));
-    ctxt.register_action("HOME", _("Home"));
-    ctxt.register_action("END", _("End"));
-    ctxt.register_action("HELP_KEYBINDINGS");
-    ctxt.register_action("ANY_INPUT"); // For invlets
-
-    add_character_items( preset.who );
+    ctxt.register_action( "DOWN", _( "Next item" ) );
+    ctxt.register_action( "UP", _( "Previous item" ) );
+    ctxt.register_action( "RIGHT", _( "Confirm" ) );
+    ctxt.register_action( "LEFT", _( "Switch inventory/worn" ) );
+    ctxt.register_action( "CONFIRM", _( "Mark selected item" ) );
+    ctxt.register_action( "QUIT", _( "Cancel" ) );
+    ctxt.register_action( "CATEGORY_SELECTION" );
+    ctxt.register_action( "NEXT_TAB", _( "Page down" ) );
+    ctxt.register_action( "PREV_TAB", _( "Page up" ) );
+    ctxt.register_action( "HOME", _( "Home" ) );
+    ctxt.register_action( "END", _( "End" ) );
+    ctxt.register_action( "HELP_KEYBINDINGS" );
+    ctxt.register_action( "ANY_INPUT" ); // For invlets
 }
 
 inventory_selector::~inventory_selector()
 {
-    if (w_inv != NULL) {
-        werase(w_inv);
-        delwin(w_inv);
+    if( w_inv != NULL ) {
+        werase( w_inv );
+        delwin( w_inv );
     }
     g->refresh_all();
 }
@@ -890,7 +978,7 @@ void inventory_selector::on_change( const inventory_entry &entry )
 inventory_column &inventory_selector::get_column( size_t index ) const
 {
     if( index >= columns.size() ) {
-        static inventory_column dummy;
+        static inventory_column dummy( preset );
         return dummy;
     }
     return *columns[index];
@@ -946,19 +1034,24 @@ void inventory_selector::toggle_navigation_mode()
     }
 }
 
-void inventory_selector::insert_column( decltype( columns )::iterator position, std::shared_ptr<inventory_column> &column )
+void inventory_selector::insert_column( decltype( columns )::iterator position,
+                                        std::shared_ptr<inventory_column> &column )
 {
     assert( column != nullptr );
+
+    column->set_mode( navigation );
+    column->set_height( getmaxy( w_inv ) - 5 );
 
     if( columns.empty() ) {
         column->on_activate();
     }
-    column->set_mode( navigation );
+
     columns.insert( position, column );
 }
 
-inventory_pick_selector::inventory_pick_selector( const inventory_selector_preset &preset ) :
-            inventory_selector( preset ), null_location( new item_location() ) {}
+inventory_pick_selector::inventory_pick_selector( const player &p,
+        const inventory_selector_preset &preset ) :
+    inventory_selector( p, preset ), null_location( new item_location() ) {}
 
 item_location &inventory_pick_selector::execute()
 {
@@ -984,13 +1077,14 @@ item_location &inventory_pick_selector::execute()
 void inventory_pick_selector::draw( WINDOW *w ) const
 {
     inventory_selector::draw( w );
-    mvwprintw( w, 1, 61, _("Hotkeys:  %d/%d "), preset.who.allocated_invlets().size(), inv_chars.size());
+    mvwprintw( w, 1, 61, _( "Hotkeys:  %d/%d " ), p.allocated_invlets().size(), inv_chars.size() );
     draw_inv_weight_vol( w );
 }
 
-inventory_multiselector::inventory_multiselector( const inventory_selector_preset &preset,
-                                                  const std::string &selection_column_title ) :
-    inventory_selector( preset ),
+inventory_multiselector::inventory_multiselector( const player &p,
+        const inventory_selector_preset &preset,
+        const std::string &selection_column_title ) :
+    inventory_selector( p, preset ),
     selection_col( new selection_column( "SELECTION_COLUMN", selection_column_title ) ) {}
 
 void inventory_multiselector::prepare_columns()
@@ -1011,14 +1105,14 @@ void inventory_multiselector::prepare_columns()
     inventory_selector::prepare_columns();
 }
 
-inventory_compare_selector::inventory_compare_selector( const inventory_selector_preset &preset ) :
-    inventory_multiselector( preset, _( "ITEMS TO COMPARE" ) ) {}
+inventory_compare_selector::inventory_compare_selector( const player &p ) :
+    inventory_multiselector( p, default_preset, _( "ITEMS TO COMPARE" ) ) {}
 
 std::pair<const item *, const item *> inventory_compare_selector::execute()
 {
     prepare_columns();
 
-    while(true) {
+    while( true ) {
         refresh_window();
 
         const inventory_input input = get_input();
@@ -1071,8 +1165,9 @@ void inventory_compare_selector::toggle_entry( inventory_entry *entry )
     on_change( *entry );
 }
 
-inventory_drop_selector::inventory_drop_selector( const inventory_selector_preset &preset ) :
-    inventory_multiselector( preset, _( "ITEMS TO DROP" ) ) {}
+inventory_drop_selector::inventory_drop_selector( const player &p,
+        const inventory_selector_preset &preset ) :
+    inventory_multiselector( p, preset, _( "ITEMS TO DROP" ) ) {}
 
 std::list<std::pair<int, int>> inventory_drop_selector::execute()
 {
@@ -1109,7 +1204,8 @@ std::list<std::pair<int, int>> inventory_drop_selector::execute()
     std::list<std::pair<int, int>> dropped_pos_and_qty;
 
     for( auto drop_pair : dropping ) {
-        dropped_pos_and_qty.push_back( std::make_pair( preset.who.get_item_position( drop_pair.first ), drop_pair.second ) );
+        dropped_pos_and_qty.push_back( std::make_pair( p.get_item_position( drop_pair.first ),
+                                       drop_pair.second ) );
     }
 
     return dropped_pos_and_qty;
@@ -1121,10 +1217,10 @@ void inventory_drop_selector::draw( WINDOW *w ) const
     // Make copy, remove to be dropped items from that
     // copy and let the copy recalculate the volume capacity
     // (can be affected by various traits).
-    player tmp( preset.who );
-    remove_dropping_items(tmp);
+    player tmp( p );
+    remove_dropping_items( tmp );
     draw_inv_weight_vol( w, tmp.weight_carried(), tmp.volume_carried(), tmp.volume_capacity() );
-    mvwprintw(w, 1, 0, _("To drop x items, type a number and then the item hotkey."));
+    mvwprintw( w, 1, 0, _( "To drop x items, type a number and then the item hotkey." ) );
 }
 
 void inventory_drop_selector::set_drop_count( inventory_entry &entry, size_t count )
@@ -1136,8 +1232,8 @@ void inventory_drop_selector::set_drop_count( inventory_entry &entry, size_t cou
         dropping.erase( iter );
     } else {
         entry.chosen_count = ( count == 0 )
-            ? entry.get_available_count()
-            : std::min( count, entry.get_available_count() );
+                             ? entry.get_available_count()
+                             : std::min( count, entry.get_available_count() );
         dropping[&entry.get_item()] = entry.chosen_count;
     }
 
@@ -1149,7 +1245,7 @@ void inventory_drop_selector::remove_dropping_items( player &dummy ) const
     std::map<item *, int> dummy_dropping;
 
     for( const auto &elem : dropping ) {
-        dummy_dropping[&dummy.i_at( preset.who.get_item_position( elem.first ) )] = elem.second;
+        dummy_dropping[&dummy.i_at( p.get_item_position( elem.first ) )] = elem.second;
     }
     for( auto &elem : dummy_dropping ) {
         if( elem.first->count_by_charges() ) {

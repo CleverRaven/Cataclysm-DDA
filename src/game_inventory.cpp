@@ -5,6 +5,29 @@
 #include "item.h"
 #include "itype.h"
 
+item_location inv_internal( player &p, const inventory_selector_preset &preset,
+                            const std::string &title, int radius,
+                            const std::string &none_message )
+{
+    p.inv.restack( &p );
+    p.inv.sort();
+
+    inventory_pick_selector inv_s( p, preset );
+
+    inv_s.set_title( title );
+    inv_s.add_character_items( p );
+    inv_s.add_nearby_items( radius );
+
+    if( inv_s.empty() ) {
+        const std::string msg = ( none_message.empty() ) ? _( "You don't have the necessary item at hand." )
+                                : none_message;
+        popup( msg, PF_GET_KEY );
+        return item_location();
+    }
+
+    return std::move( inv_s.execute() );
+}
+
 void game::interactive_inv()
 {
     static const std::set<int> allowed_selections = { { ' ', '.', 'q', '=', '\n', KEY_LEFT, KEY_ESCAPE } };
@@ -12,9 +35,9 @@ void game::interactive_inv()
     u.inv.restack( &u );
     u.inv.sort();
 
-    const inventory_selector_preset preset( u );
-    inventory_pick_selector inv_s( preset );
+    inventory_pick_selector inv_s( u );
 
+    inv_s.add_character_items( u );
     inv_s.set_title( _( "Inventory:" ) );
 
     int res;
@@ -28,14 +51,13 @@ void game::interactive_inv()
     } while( allowed_selections.count( res ) != 0 );
 }
 
-int game::inv_for_filter( const std::string &title,
-                          const item_filter_simple &filter,
+int game::inv_for_filter( const std::string &title, const item_filter &filter,
                           const std::string &none_message )
 {
-    return inv_for_filter( title, convert_filter( filter ), none_message );
+    return u.get_item_position( inv_map_splice( filter, title, -1, none_message ).get_item() );
 }
 
-int game::inv_for_filter( const std::string &title, const item_filter_advanced &filter,
+int game::inv_for_filter( const std::string &title, const item_location_filter &filter,
                           const std::string &none_message )
 {
     return u.get_item_position( inv_map_splice( filter, title, -1, none_message ).get_item() );
@@ -44,7 +66,8 @@ int game::inv_for_filter( const std::string &title, const item_filter_advanced &
 int game::inv_for_all( const std::string &title, const std::string &none_message )
 {
     const std::string msg = ( none_message.empty() ) ? _( "Your inventory is empty." ) : none_message;
-    return inv_for_filter( title, inventory_selector_preset::allow_all_items, msg );
+    return u.get_item_position( inv_internal( u, inventory_selector_preset(),
+                                title, -1, none_message ).get_item() );
 }
 
 int game::inv_for_activatables( const player &p, const std::string &title )
@@ -89,87 +112,74 @@ int game::inv_for_unequipped( const std::string &title )
     }, _( "You don't have any items to wear." ) );
 }
 
-item_location inv_map_splice_internal( const inventory_selector_preset &preset,
-                                       const std::string &title, int radius,
-                                       const std::string &none_message )
+item_location game::inv_map_splice( const item_filter &filter, const std::string &title, int radius,
+                                    const std::string &none_message )
 {
-    inventory_pick_selector inv_s( preset );
-
-    inv_s.set_title( title );
-    inv_s.add_nearby_items( radius );
-
-    if( inv_s.empty() ) {
-        const std::string msg = ( none_message.empty() ) ? _( "You don't have the necessary item at hand." )
-                                : none_message;
-        popup( msg, PF_GET_KEY );
-        return item_location();
-    }
-
-    return std::move( inv_s.execute() );
+    return inv_map_splice( [ &filter ]( const item_location & location ) {
+        return filter( *location.get_item() );
+    }, title, radius, none_message );
 }
 
-item_location game::inv_map_splice( const item_filter_simple &filter, const std::string &title,
-                                    int radius, const std::string &none_message )
+item_location game::inv_map_splice( const item_location_filter &filter, const std::string &title,
+                                    int radius,
+                                    const std::string &none_message )
 {
-    return inv_map_splice( convert_filter( filter ), title, radius, none_message );
+    return inv_internal( u, inventory_filter_preset( filter ),
+                         title, radius, none_message );
 }
 
-item_location game::inv_map_splice( const item_filter_advanced &filter, const std::string &title,
-                                    int radius, const std::string &none_message )
-{
-    u.inv.restack( &u );
-    u.inv.sort();
-
-    inventory_selector_preset preset( u, filter );
-    return inv_map_splice_internal( preset, title, radius, none_message );
-}
-
-int get_capacity_from_location( const item_location &location,
-                                const item &liquid, std::string *err = nullptr )
-{
-    if( location.where() == item_location::type::character ) {
-        Character *character = dynamic_cast<Character *>( g->critter_at( location.position() ) );
-        if( character == nullptr ) {
-            debugmsg( "Supplied an invalid location: no character found." );
-            return 0;
-        }
-        return location->get_remaining_capacity_for_liquid( liquid, *character, err );
-    } else {
-        const bool allow_buckets = location.where() == item_location::type::map;
-        return location->get_remaining_capacity_for_liquid( liquid, allow_buckets, err );
-    }
-}
-
-class liquid_entry_renderer: public inventory_entry_renderer
+class liquid_inventory_preset: public inventory_selector_preset
 {
     public:
-        liquid_entry_renderer( const item &liquid ) :
-            liquid( liquid ) {}
+        liquid_inventory_preset( const item &liquid ) : liquid( liquid ) {
+            append_cell( [ this ]( const inventory_entry & entry ) {
+                if( is_same_container( entry.get_item() ) ) {
+                    return std::string( _( "is the source" ) );
+                }
 
-        virtual size_t get_cells_count() const override {
-            return 2;
+                std::string err;
+                const int rem_capacity = get_rem_capacity( entry.get_location(), &err );
+                const int total_capacity = entry.get_item().get_total_capacity_for_liquid( this->liquid );
+
+                if( !err.empty() ) {
+                    return err;
+                }
+
+                return ( entry.get_available_count() > 1 )
+                       ? string_format( "%d x %d/%d", entry.get_available_count(), rem_capacity, total_capacity )
+                       : string_format( "%d/%d", rem_capacity, total_capacity );
+            }, _( "AVAILABLE" ) );
         }
 
-        virtual std::string get_text( const inventory_entry &entry, size_t cell_index ) const override {
-            if( cell_index == 1 ) {
-                if( entry.is_item() ) {
-                    std::string err;
-                    const int capacity = get_capacity_from_location( entry.get_location(), liquid, &err );
+        bool is_shown( const item &it ) const override {
+            return it.is_reloadable_with( liquid.typeId() ) || it.is_container();
+        }
 
-                    if( !err.empty() ) {
-                        return err;
-                    }
+        bool is_enabled( const item_location &location ) const override {
+            return !is_same_container( *location.get_item() ) && get_rem_capacity( location ) > 0;
+        }
 
-                    if( entry.get_available_count() > 1 ) {
-                        return string_format( "%.2f liters each", capacity / 4.0 );
-                    } else {
-                        return string_format( "%.2f liters", capacity / 4.0 );
-                    }
-                } else {
-                    return _( "FREE VOLUME" );
+        int get_rank( const item_location &location ) const override {
+            return -get_rem_capacity( location );
+        }
+
+    protected:
+        bool is_same_container( const item &it ) const {
+            return it.is_container() && &it.contents.front() == &liquid;
+        }
+
+        int get_rem_capacity( const item_location &location, std::string *err = nullptr ) const {
+            if( location.where() == item_location::type::character ) {
+                Character *character = dynamic_cast<Character *>( g->critter_at( location.position() ) );
+                if( character == nullptr ) {
+                    debugmsg( "Supplied an invalid location: no character found." );
+                    return 0;
                 }
+                return location->get_remaining_capacity_for_liquid( liquid, *character, err );
+            } else {
+                const bool allow_buckets = location.where() == item_location::type::map;
+                return location->get_remaining_capacity_for_liquid( liquid, allow_buckets, err );
             }
-            return inventory_entry_renderer::get_text( entry, cell_index );
         }
 
     private:
@@ -178,38 +188,33 @@ class liquid_entry_renderer: public inventory_entry_renderer
 
 item *game::inv_map_for_liquid( const item &liquid, const std::string &title, int radius )
 {
-    const auto filter = [ this, &liquid ]( const item_location & location ) {
-        if( !location->is_reloadable_with( liquid.typeId() ) && !location->is_container() ) {
-            return item_filter_response::make_unsuitable();
-        }
-        const int capacity = get_capacity_from_location( location, liquid );
-
-        if( capacity > 0 ) {
-            return item_filter_response::make_fine( -capacity );
-        } else {
-            return item_filter_response::make_unready();
-        }
-    };
-
-    return inv_map_splice_internal(
-               inventory_selector_preset( u, filter, liquid_entry_renderer( liquid ) )
-               , title, radius,
-               string_format( _( "You don't have a suitable container for carrying %s." ),
-                              liquid.tname().c_str() ) ).get_item();
+    return inv_internal( u, liquid_inventory_preset( liquid ), title, radius,
+                         string_format( _( "You don't have a suitable container for carrying %s." ),
+                                        liquid.tname().c_str() ) ).get_item();
 }
+
+class drop_inventory_preset: public inventory_selector_preset
+{
+    public:
+        drop_inventory_preset( const player &p ) : p( p ) {}
+
+        bool is_enabled( const item &it ) const override {
+            return p.can_unwield( it, false );
+        }
+
+    private:
+        const player &p;
+};
 
 std::list<std::pair<int, int>> game::multidrop()
 {
     u.inv.restack( &u );
     u.inv.sort();
 
-    const auto filter = [ this ]( const item_location & location ) {
-        return item_filter_response::make( u.can_unwield( *location, false ) );
-    };
+    const drop_inventory_preset preset( u );
+    inventory_drop_selector inv_s( u, preset );
 
-    const inventory_selector_preset preset( u, filter );
-    inventory_drop_selector inv_s( preset );
-
+    inv_s.add_character_items( u );
     inv_s.set_title( _( "Multidrop:" ) );
 
     if( inv_s.empty() ) {
@@ -224,9 +229,9 @@ void game::compare( const tripoint &offset )
     u.inv.restack( &u );
     u.inv.sort();
 
-    const inventory_selector_preset preset( u );
-    inventory_compare_selector inv_s( preset );
+    inventory_compare_selector inv_s( u );
 
+    inv_s.add_character_items( u );
     inv_s.set_title( _( "Compare:" ) );
 
     if( offset != tripoint_min ) {

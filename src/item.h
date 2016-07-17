@@ -467,6 +467,8 @@ class item : public JsonSerializer, public JsonDeserializer, public visitable<it
                                             std::string *err = nullptr ) const;
     long get_remaining_capacity_for_liquid( const item &liquid, const Character &p,
                                             std::string *err = nullptr ) const;
+    /** How much liquid can (theoretically) be put in this container. */
+    long get_total_capacity_for_liquid( const item &liquid ) const;
     /**
      * It returns the total capacity (volume) of the container.
      */

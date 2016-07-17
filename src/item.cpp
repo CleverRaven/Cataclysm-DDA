@@ -4964,6 +4964,15 @@ long item::get_remaining_capacity_for_liquid( const item &liquid, const Characte
     return res;
 }
 
+long item::get_total_capacity_for_liquid( const item &liquid ) const
+{
+    if( is_reloadable_with( liquid.typeId() ) ) {
+        return ammo_capacity();
+    } else {
+        return liquid.charges_per_volume( get_container_capacity() );
+    }
+}
+
 bool item::use_amount(const itype_id &it, long &quantity, std::list<item> &used)
 {
     // First, check contents
