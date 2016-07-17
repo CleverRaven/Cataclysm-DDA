@@ -16,7 +16,7 @@
     "skill": "pistol",
     "ammo": "44",
     "ranged_damage": -1,
-    "dispersion": 405,
+    "dispersion": 255,
     "sight_dispersion": 90,
     "aim_speed": 4,
     "recoil": 45,
@@ -25,7 +25,7 @@
     "magazine_well": 1,
     "magazines": [
       [ "44", [ "deaglemag" ] ],
-      [ "45", [ "m9mag", "m9mag" ] ],
+      [ "45", [ "m1911mag", "m1911bigmag" ] ],
       [ "9mm", [ "glockmag", "glockbigmag" ] ]
     ]
   },
