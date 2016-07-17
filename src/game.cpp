@@ -11109,17 +11109,8 @@ void game::reload( int pos, bool prompt )
 
     item::reload_option opt = u.select_ammo( *it, prompt );
     if( opt ) {
-        std::stringstream ss;
-        ss << pos;
-
-        // store moves and qty locally as obtain() will invalidate the reload_option
-        int mv = opt.moves();
-        long qty = opt.qty();
-        int pos = opt.ammo.obtain( u, !opt.ammo->is_ammo_container() ? qty : 1 );
-
-        u.assign_activity( ACT_RELOAD, mv, qty, pos, ss.str() );
-
-        u.inv.restack( &u );
+        u.assign_activity( ACT_RELOAD, opt.moves(), opt.qty(), pos );
+        u.activity.target = std::move( opt.ammo );
     }
 
     refresh_all();
