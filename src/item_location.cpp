@@ -59,6 +59,10 @@ class item_location::impl
 
         virtual ~impl() = default;
 
+        virtual bool valid() const {
+            return false;
+        }
+
         virtual type where() const {
             return type::invalid;
         }
@@ -87,13 +91,10 @@ class item_location::impl
             return nullptr;
         }
 
-        virtual item *target() const {
+        item *target() const {
             if( idx >= 0 ) {
                 what = unpack( idx );
                 idx = -1;
-            }
-            if( !what ) {
-                debugmsg( "item location does not point to valid item" );
             }
             return what;
         }
@@ -111,10 +112,6 @@ class item_location::impl::nowhere : public item_location::impl
             js.member( "type", "null" );
             js.end_object();
         }
-
-        item *target() const override {
-            return nullptr;
-        }
 };
 
 class item_location::impl::item_on_map : public item_location::impl
@@ -125,6 +122,10 @@ class item_location::impl::item_on_map : public item_location::impl
     public:
         item_on_map( const map_cursor &cur, item *which ) : impl( which ), cur( cur ) {}
         item_on_map( const map_cursor &cur, int idx ) : impl( idx ), cur( cur ) {}
+
+        bool valid() const override {
+            return target() && cur.has_item( *target() );
+        }
 
         void serialize( JsonOut &js ) const override {
             js.start_object();
@@ -155,10 +156,6 @@ class item_location::impl::item_on_map : public item_location::impl
         }
 
         int obtain( Character &ch, long qty ) override {
-            if( !target() ) {
-                return INT_MIN;
-            }
-
             ch.moves -= obtain_cost( ch, qty );
 
             item obj = target()->split( qty );
@@ -192,9 +189,7 @@ class item_location::impl::item_on_map : public item_location::impl
         }
 
         void remove_item() override {
-            if( target() ) {
-                cur.remove_item( *what );
-            }
+            cur.remove_item( *what );
         }
 };
 
@@ -206,6 +201,10 @@ class item_location::impl::item_on_person : public item_location::impl
     public:
         item_on_person( Character &who, item *which ) : impl( which ), who( who ) {}
         item_on_person( Character &who, int idx ) : impl( idx ), who( who ) {}
+
+        bool valid() const override {
+            return target() && who.has_item( *target() );
+        }
 
         void serialize( JsonOut &js ) const override {
             js.start_object();
@@ -249,10 +248,6 @@ class item_location::impl::item_on_person : public item_location::impl
         }
 
         int obtain( Character &ch, long qty ) override {
-            if( !target() ) {
-                return INT_MIN;
-            }
-
             ch.moves -= obtain_cost( ch, qty );
 
             if( who.is_worn( *target() ) ) {
@@ -322,9 +317,7 @@ class item_location::impl::item_on_person : public item_location::impl
         }
 
         void remove_item() override {
-            if( target() ) {
-                who.remove_item( *what );
-            }
+            who.remove_item( *what );
         }
 };
 
@@ -336,6 +329,10 @@ class item_location::impl::item_on_vehicle : public item_location::impl
     public:
         item_on_vehicle( const vehicle_cursor &cur, item *which ) : impl( which ), cur( cur ) {}
         item_on_vehicle( const vehicle_cursor &cur, int idx ) : impl( idx ), cur( cur ) {}
+
+        bool valid() const override {
+            return target() && cur.has_item( *target() );
+        }
 
         void serialize( JsonOut &js ) const override {
             js.start_object();
@@ -369,10 +366,6 @@ class item_location::impl::item_on_vehicle : public item_location::impl
         }
 
         int obtain( Character &ch, long qty ) override {
-            if( !target() ) {
-                return INT_MIN;
-            }
-
             ch.moves -= obtain_cost( ch, qty );
 
             item obj = target()->split( qty );
@@ -406,9 +399,6 @@ class item_location::impl::item_on_vehicle : public item_location::impl
         }
 
         void remove_item() override {
-            if( !target() ) {
-                return;
-            }
             if( &cur.veh.parts[ cur.part ].base == target() ) {
                 cur.veh.remove_part( cur.part );
             } else {
@@ -448,7 +438,7 @@ bool item_location::operator!=( const item_location &rhs ) const
 
 item_location::operator bool() const
 {
-    return ptr->target();
+    return ptr->valid();
 }
 
 item &item_location::operator*()
@@ -519,6 +509,10 @@ std::string item_location::describe( const Character *ch ) const
 
 int item_location::obtain( Character &ch, long qty )
 {
+    if( !ptr->valid() ) {
+        debugmsg( "item location does not point to valid item" );
+        return INT_MIN;
+    }
     return ptr->obtain( ch, qty );
 }
 
@@ -529,6 +523,10 @@ int item_location::obtain_cost( const Character &ch, long qty ) const
 
 void item_location::remove_item()
 {
+    if( !ptr->valid() ) {
+        debugmsg( "item location does not point to valid item" );
+        return;
+    }
     ptr->remove_item();
     ptr.reset( new impl::nowhere() );
 }
