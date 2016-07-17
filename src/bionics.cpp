@@ -23,6 +23,7 @@
 #include "weather.h"
 #include "cata_utility.h"
 #include "output.h"
+#include "requirements.h"
 
 #include <algorithm> //std::min
 #include <sstream>
@@ -837,8 +838,8 @@ bool player::uninstall_bionic( std::string const &b_id, int skill_level )
     }
 
     //If you are paying the doctor to do it, shouldn't use your supplies
-    std::vector<item_comp> comps;
     if( skill_level == -1 ) {
+        std::vector<item_comp> comps;
         comps.push_back( item_comp( "1st_aid", 1 ) );
         consume_items( comps );
     }
