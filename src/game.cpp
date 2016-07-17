@@ -11109,8 +11109,9 @@ void game::reload( int pos, bool prompt )
 
     item::reload_option opt = u.select_ammo( *it, prompt );
     if( opt ) {
-        u.assign_activity( ACT_RELOAD, opt.moves(), opt.qty(), pos );
-        u.activity.target = std::move( opt.ammo );
+        u.assign_activity( ACT_RELOAD, opt.moves(), opt.qty() );
+        u.activity.targets.emplace_back( u, it );
+        u.activity.targets.push_back( std::move( opt.ammo ) );
     }
 
     refresh_all();

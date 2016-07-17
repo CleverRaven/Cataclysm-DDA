@@ -1114,14 +1114,15 @@ void activity_handlers::reload_finish( player_activity *act, player *p )
 {
     act->type = ACT_NULL;
 
-    item *reloadable = &p->i_at( act->position );
-    int qty = act->index;
-
-    if( reloadable->type->can_use( "holster" ) && !reloadable->contents.empty() ) {
-        reloadable = &reloadable->contents.front();
+    if( act->targets.size() != 2 || act->index <= 0 ) {
+        debugmsg( "invalid arguments to ACT_RELOAD" );
+        return;
     }
 
-    if( !reloadable->reload( *p, std::move( act->target ), qty ) ) {
+    item *reloadable = &*act->targets[ 0 ];
+    int qty = act->index;
+
+    if( !reloadable->reload( *p, std::move( act->targets[ 1 ] ), qty ) ) {
         add_msg( m_info, _( "Can't reload the %s." ), reloadable->tname().c_str() );
         return;
     }

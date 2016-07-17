@@ -74,7 +74,7 @@ class player_activity : public JsonSerializer, public JsonDeserializer
         int position;
         /** An activity specific value. */
         std::string name;
-        item_location target;
+        std::vector<item_location> targets;
         bool ignore_trivial;
         std::vector<int> values;
         std::vector<std::string> str_values;
