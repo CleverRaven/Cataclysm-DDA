@@ -2952,15 +2952,21 @@ int vehicle::total_folded_volume() const
     return m;
 }
 
-void vehicle::center_of_mass(int &x, int &y, bool use_precalc) const
+const point &vehicle::rotated_center_of_mass() const
 {
-    if( use_precalc ? mass_center_precalc_dirty : mass_center_no_precalc_dirty ) {
-        calc_mass_center( use_precalc );
+    // @todo Bring back caching of this point
+    calc_mass_center( true );
+
+    return mass_center_precalc;
+}
+
+const point &vehicle::local_center_of_mass() const
+{
+    if( mass_center_no_precalc_dirty ) {
+        calc_mass_center( false );
     }
 
-    const auto &pt = use_precalc ? mass_center_precalc : mass_center_no_precalc;
-    x = pt.x;
-    y = pt.y;
+    return mass_center_no_precalc;
 }
 
 point vehicle::pivot_displacement() const
@@ -3430,35 +3436,22 @@ bool vehicle::sufficient_wheel_config() const
 
 bool vehicle::balanced_wheel_config () const
 {
-    int x1 = 0, y1 = 0, x2 = 0, y2 = 0;
-    int count = 0;
-    std::vector<int> wheel_indices = all_parts_with_feature(VPFLAG_WHEEL);
+    int xmin = INT_MAX;
+    int ymin = INT_MAX;
+    int xmax = INT_MIN;
+    int ymax = INT_MIN;
     // find the bounding box of the wheels
     // TODO: find convex hull instead
-    for (auto &w : wheel_indices) {
-        if (!count) {
-            x1 = x2 = parts[w].precalc[0].x;
-            y1 = y2 = parts[w].precalc[0].y;
-        }
-        if (parts[w].precalc[0].x < x1) {
-            x1 = parts[w].precalc[0].x;
-        }
-        if (parts[w].precalc[0].x > x2) {
-            x2 = parts[w].precalc[0].x;
-        }
-        if (parts[w].precalc[0].y < y1) {
-            y1 = parts[w].precalc[0].y;
-        }
-        if (parts[w].precalc[0].y > y2) {
-            y2 = parts[w].precalc[0].y;
-        }
-        count++;
+    for( auto &w : wheelcache ) {
+        const auto &pt = parts[ w ].mount;
+        xmin = std::min( xmin, pt.x );
+        ymin = std::min( ymin, pt.y );
+        xmax = std::max( xmax, pt.x );
+        ymax = std::max( ymax, pt.y );
     }
-    // find the center of mass of the vehicle
-    int xo, yo;
-    center_of_mass(xo, yo);
-//    add_msg("cm x=%d y=%d x1=%d y1=%d x2=%d y2=%d", xo, yo, x1, y1, x2, y2);
-    if (xo < x1 || xo > x2 || yo < y1 || yo > y2) {
+
+    const point &com = local_center_of_mass();
+    if( com.x < xmin || com.x > xmax || com.y < ymin || com.y > ymax ) {
         return false; // center of mass not inside support of wheels (roughly)
     }
     return true;
@@ -5244,7 +5237,7 @@ void vehicle::refresh_pivot() const {
 
     if (wheelcache.empty() || !valid_wheel_config()) {
         // No usable wheels, use CoM (dragging)
-        center_of_mass(pivot_cache.x, pivot_cache.y, false);
+        pivot_cache = local_center_of_mass();
         return;
     }
 
@@ -5328,7 +5321,7 @@ void vehicle::refresh_pivot() const {
     if (xc_denominator < 0.1 || yc_denominator < 0.1) {
         debugmsg("vehicle::refresh_pivot had a bad weight: xc=%.3f/%.3f yc=%.3f/%.3f",
                  xc_numerator, xc_denominator, yc_numerator, yc_denominator);
-        center_of_mass(pivot_cache.x, pivot_cache.y, false);
+        pivot_cache = local_center_of_mass();
     } else {
         pivot_cache.x = round(xc_numerator / xc_denominator);
         pivot_cache.y = round(yc_numerator / yc_denominator);

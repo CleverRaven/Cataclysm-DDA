@@ -1395,14 +1395,13 @@ void veh_interact::display_veh ()
         // show CoM, pivot in debug mode
 
         const point &pivot = veh->pivot_point();
-        int com_x, com_y;
-        veh->center_of_mass(com_x, com_y, false);
+        const point &com = veh->local_center_of_mass();
 
-        mvwprintz(w_disp, 0, 0, c_green, "CoM   %d,%d", com_x, com_y);
+        mvwprintz(w_disp, 0, 0, c_green, "CoM   %d,%d", com.x, com.y);
         mvwprintz(w_disp, 1, 0, c_red,   "Pivot %d,%d", pivot.x, pivot.y);
 
-        int com_sx = com_y + ddy + hw;
-        int com_sy = -(com_x + ddx) + hh;
+        int com_sx = com.y + ddy + hw;
+        int com_sy = -(com.x + ddx) + hh;
         int pivot_sx = pivot.y + ddy + hw;
         int pivot_sy = -(pivot.x + ddx) + hh;
 
