@@ -276,7 +276,7 @@ std::unordered_map<tripoint, std::pair<int, int>> game::explosion( const tripoin
     // contains all tiles considered plus sum of damage received by each from shockwave and/or shrapnel
     std::unordered_map<tripoint, std::pair<int, int>> distrib;
 
-    const int noise = std::min( int( ex.power * ( ex.fire ? 2 : 10 ) ), MAX_VOLUME );
+    const int noise = ex.power * ( ex.fire ? 2 : 10 );
     if( noise >= 30 ) {
         sounds::sound( p, noise, _( "a huge explosion!" ) );
         sfx::play_variant_sound( "explosion", "huge", 100 );
