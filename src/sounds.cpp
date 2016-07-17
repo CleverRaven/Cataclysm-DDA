@@ -82,6 +82,8 @@ void sounds::sound( const tripoint &p, int vol, std::string description, bool am
         debugmsg( "negative sound volume %d", vol );
         return;
     }
+    vol = std::min( vol, MAX_VOLUME );
+
     recent_sounds.emplace_back( std::make_pair( p, vol ) );
     sounds_since_last_turn.emplace_back(
         std::make_pair( p, sound_event {vol, description, ambient, false, id, variant} ) );
@@ -90,7 +92,7 @@ void sounds::sound( const tripoint &p, int vol, std::string description, bool am
 void sounds::add_footstep( const tripoint &p, int volume, int, monster * )
 {
     sounds_since_last_turn.emplace_back(
-        std::make_pair( p, sound_event {volume, "", false, true, "", ""} ) );
+        std::make_pair( p, sound_event { std::min( volume, MAX_VOLUME ), "", false, true, "", ""} ) );
 }
 
 template <typename C>
@@ -166,7 +168,7 @@ void sounds::process_sounds()
         // Since monsters don't go deaf ATM we can just use the weather modified volume
         // If they later get physical effects from loud noises we'll have to change this
         // to use the unmodified volume for those effects.
-        const int vol = std::min( int( this_centroid.volume - weather_vol ), MAX_VOLUME );
+        const int vol = this_centroid.volume - weather_vol;
         const tripoint source = tripoint( this_centroid.x, this_centroid.y, this_centroid.z );
         // --- Monster sound handling here ---
         // Alert all hordes
