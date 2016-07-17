@@ -545,7 +545,6 @@ void Item_factory::init()
     add_iuse( "TOWEL", &iuse::towel );
     add_iuse( "TRIMMER_OFF", &iuse::trimmer_off );
     add_iuse( "TRIMMER_ON", &iuse::trimmer_on );
-    add_iuse( "TWO_WAY_RADIO", &iuse::two_way_radio );
     add_iuse( "UNFOLD_GENERIC", &iuse::unfold_generic );
     add_iuse( "UNPACK_ITEM", &iuse::unpack_item );
     add_iuse( "UPS_BATTERY", &iuse::ups_battery );

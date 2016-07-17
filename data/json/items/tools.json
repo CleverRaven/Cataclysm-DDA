@@ -1356,7 +1356,7 @@
     "symbol": ";",
     "color": "green",
     "name": "two-way radio",
-    "description": "This is a radio with a transmitting unit.  Using this allows you to send out a distress signal.  You could send either a general SOS, or send a direct call to a faction you are in contact with.",
+    "description": "This is a radio with a transmitting unit.  You could use it to contact someone who also has one.  Unfortunately no one seems to use those nowadays...",
     "price": 2000,
     "material": ["plastic", "aluminum"],
     "weight": 431,
@@ -1364,9 +1364,7 @@
     "bashing": 6,
     "max_charges": 100,
     "initial_charges": 100,
-    "charges_per_use": 1,
-    "ammo": "battery",
-    "use_action": "TWO_WAY_RADIO"
+    "ammo": "battery"
   },
   {
     "id": "radio",

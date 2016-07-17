@@ -942,34 +942,6 @@ bool npc::wield( item& it )
     return true;
 }
 
-void npc::perform_mission()
-{
-    switch (mission) {
-    case NPC_MISSION_RESCUE_U:
-        if (calendar::once_every(24)) {
-            if (mapx > g->get_levx()) {
-                mapx--;
-            } else if (mapx < g->get_levx()) {
-                mapx++;
-            }
-            if (mapy > g->get_levy()) {
-                mapy--;
-            } else if (mapy < g->get_levy()) {
-                mapy++;
-            }
-            attitude = NPCATT_DEFEND;
-        }
-        break;
-    case NPC_MISSION_SHOPKEEP:
-        break; // Just stay where we are
-    default: // Random Walk
-        if (calendar::once_every(24)) {
-            mapx += rng(-1, 1);
-            mapy += rng(-1, 1);
-        }
-    }
-}
-
 void npc::form_opinion( const player &u )
 {
     // FEAR
@@ -1230,13 +1202,6 @@ void npc::make_angry()
     }
 }
 
-// STUB
-bool npc::wants_to_travel_with(player *p) const
-{
-    (void)p; // TODO: implement
-    return true;
-}
-
 int npc::assigned_missions_value()
 {
     int ret = 0;
@@ -1266,18 +1231,6 @@ std::vector<matype_id> npc::styles_offered_to( const player &p ) const
         }
     }
     return ret;
-}
-
-int npc::minutes_to_u() const
-{
-    // TODO: what about different z-levels?
-    int ret = square_dist( mapx, mapy, g->get_levx(), g->get_levy() );
-    // TODO: someone should explain this calculation. Is 24 supposed to be SEEX*2?
- ret *= 24;
- ret /= 10;
- while (ret % 5 != 0) // Round up to nearest five-minute interval
-  ret++;
- return ret;
 }
 
 bool npc::fac_has_value(faction_value value) const
@@ -1379,6 +1332,7 @@ bool npc::wants_to_sell( const item &it ) const
 bool npc::wants_to_sell( const item &it, int at_price, int market_price ) const
 {
     (void)it;
+
     if( mission == NPC_MISSION_SHOPKEEP ) {
         return true;
     }
@@ -1642,9 +1596,7 @@ bool npc::is_following() const
 {
  switch (attitude) {
  case NPCATT_FOLLOW:
- case NPCATT_FOLLOW_RUN:
  case NPCATT_DEFEND:
- case NPCATT_SLAVE:
  case NPCATT_WAIT:
   return true;
  default:
@@ -1670,8 +1622,8 @@ bool npc::is_defending() const
 bool npc::is_guarding() const
 {
     return mission == NPC_MISSION_SHELTER || mission == NPC_MISSION_BASE ||
-        mission == NPC_MISSION_SHOPKEEP || mission == NPC_MISSION_GUARD ||
-        has_effect( effect_infection );
+           mission == NPC_MISSION_SHOPKEEP || mission == NPC_MISSION_GUARD ||
+           has_effect( effect_infection );
 }
 
 Creature::Attitude npc::attitude_to( const Creature &other ) const
@@ -1734,62 +1686,6 @@ bool npc::emergency(int danger) const
 bool npc::is_active() const
 {
     return std::find(g->active_npc.begin(), g->active_npc.end(), this) != g->active_npc.end();
-}
-
-void npc::told_to_help()
-{
- if (!is_following() && personality.altruism < 0) {
-  say(_("Screw you!"));
-  return;
- }
- if (is_following()) {
-  if (personality.altruism + 4 * op_of_u.value + personality.bravery >
-      danger_assessment()) {
-   say(_("I've got your back!"));
-   attitude = NPCATT_DEFEND;
-  }
-  return;
- }
- if (int((personality.altruism + personality.bravery) / 4) >
-     danger_assessment()) {
-  say(_("Alright, I got you covered!"));
-  attitude = NPCATT_DEFEND;
- }
-}
-
-void npc::told_to_wait()
-{
- if (!is_following()) {
-  debugmsg("%s told to wait, but isn't following", name.c_str());
-  return;
- }
- if (5 + op_of_u.value + op_of_u.trust + personality.bravery * 2 >
-     danger_assessment()) {
-  say(_("Alright, I'll wait here."));
-  if (one_in(3))
-   op_of_u.trust--;
-  attitude = NPCATT_WAIT;
- } else {
-  if (one_in(2))
-   op_of_u.trust--;
-  say(_("No way, man!"));
- }
-}
-
-void npc::told_to_leave()
-{
- if (!is_following()) {
-  debugmsg("%s told to leave, but isn't following", name.c_str());
-  return;
- }
- if (danger_assessment() - personality.bravery > op_of_u.value) {
-  say(_("No way, I need you!"));
-  op_of_u.trust -= 2;
- } else {
-  say(_("Alright, see you later."));
-  op_of_u.trust -= 2;
-  op_of_u.value -= 1;
- }
 }
 
 int npc::follow_distance() const
@@ -2061,44 +1957,35 @@ void npc::die(Creature* nkiller) {
 
 std::string npc_attitude_name(npc_attitude att)
 {
- switch (att) {
- case NPCATT_NULL:          // Don't care/ignoring player
-  return _("Ignoring");
- case NPCATT_TALK:          // Move to and talk to player
-  return _("Wants to talk");
- case NPCATT_TRADE:         // Move to and trade with player
-  return _("Wants to trade");
- case NPCATT_FOLLOW:        // Follow the player
-  return _("Following");
- case NPCATT_FOLLOW_RUN:    // Follow the player, don't shoot monsters
-  return _("Following & ignoring monsters");
- case NPCATT_LEAD:          // Lead the player, wait for them if they're behind
-  return _("Leading");
- case NPCATT_WAIT:          // Waiting for the player
-  return _("Waiting for you");
- case NPCATT_DEFEND:        // Kill monsters that threaten the player
-  return _("Defending you");
- case NPCATT_MUG:           // Mug the player
-  return _("Mugging you");
- case NPCATT_WAIT_FOR_LEAVE:// Attack the player if our patience runs out
-  return _("Waiting for you to leave");
- case NPCATT_KILL:          // Kill the player
-  return _("Attacking to kill");
- case NPCATT_FLEE:          // Get away from the player
-  return _("Fleeing");
- case NPCATT_SLAVE:         // Following the player under duress
-  return _("Enslaved");
- case NPCATT_HEAL:          // Get to the player and heal them
-  return _("Healing you");
+    switch( att ) {
+        case NPCATT_NULL:          // Don't care/ignoring player
+            return _("Ignoring");
+        case NPCATT_TALK:          // Move to and talk to player
+            return _("Wants to talk");
+        case NPCATT_FOLLOW:        // Follow the player
+            return _("Following");
+        case NPCATT_LEAD:          // Lead the player, wait for them if they're behind
+            return _("Leading");
+        case NPCATT_WAIT:          // Waiting for the player
+            return _("Waiting for you");
+        case NPCATT_DEFEND:        // Kill monsters that threaten the player
+            return _("Defending you");
+        case NPCATT_MUG:           // Mug the player
+            return _("Mugging you");
+        case NPCATT_WAIT_FOR_LEAVE:// Attack the player if our patience runs out
+            return _("Waiting for you to leave");
+        case NPCATT_KILL:          // Kill the player
+            return _("Attacking to kill");
+        case NPCATT_FLEE:          // Get away from the player
+            return _("Fleeing");
+        case NPCATT_HEAL:          // Get to the player and heal them
+            return _("Healing you");
+        default:
+            break;
+    }
 
- case NPCATT_MISSING:       // Special; missing NPC as part of mission
-  return _("Missing NPC");
- case NPCATT_KIDNAPPED:     // Special; kidnapped NPC as part of mission
-  return _("Kidnapped");
- default:
-  return _("Unknown");
- }
- return _("Unknown");
+    debugmsg( "Invalid attitude: %d", att );
+    return _("Unknown");
 }
 
 void npc::setID (int i)

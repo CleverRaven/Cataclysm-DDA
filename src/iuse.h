@@ -76,7 +76,6 @@ public:
     int extinguisher        ( player*, item*, bool, const tripoint& );
     int hammer              ( player*, item*, bool, const tripoint& );
     int water_purifier      ( player*, item*, bool, const tripoint& );
-    int two_way_radio       ( player*, item*, bool, const tripoint& );
     int directional_antenna ( player*, item*, bool, const tripoint& );
     int radio_off           ( player*, item*, bool, const tripoint& );
     int radio_on            ( player*, item*, bool, const tripoint& );

@@ -1361,16 +1361,10 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic ) const
 
     } else if( topic == "TALK_DESCRIBE_MISSION" ) {
         switch (p->mission) {
-            case NPC_MISSION_RESCUE_U:
-                return _("I'm here to save you!");
             case NPC_MISSION_SHELTER:
                 return _("I'm holing up here for safety.");
             case NPC_MISSION_SHOPKEEP:
                 return _("I run the shop here.");
-            case NPC_MISSION_MISSING:
-                return _("Well, I was lost, but you found me...");
-            case NPC_MISSION_KIDNAPPED:
-                return _("Well, I was kidnapped, but you saved me...");
             case NPC_MISSION_BASE:
                 return _("I'm guarding this location.");
             case NPC_MISSION_GUARD:
