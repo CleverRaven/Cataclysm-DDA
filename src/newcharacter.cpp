@@ -2296,7 +2296,7 @@ tab_direction set_description(WINDOW *w, player *u, const bool allow_reroll, poi
         const std::string action = ctxt.handle_input();
 
         if (action == "NEXT_TAB") {
-            if (get_option<std::string>( "POINT_DISTRIBUTION" ) != "freeform" && !points.is_valid() ) {
+            if (!points.is_valid() ) {
                 if( points.skill_points_left() < 0 ) {
                         popup(_("Too many points allocated, change some features and try again."));
                 } else if( points.trait_points_left() < 0 ) {
