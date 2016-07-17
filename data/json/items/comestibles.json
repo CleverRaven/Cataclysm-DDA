@@ -1129,8 +1129,7 @@
         "volume" : 1,
         "phase" : "liquid",
         "charges" : 7,
-        "fun" : 12,
-        "flags": [ "EATEN_COLD" ]
+        "fun" : 12
     },
     {
         "type" : "COMESTIBLE",
