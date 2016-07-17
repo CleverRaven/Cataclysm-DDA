@@ -1529,5 +1529,25 @@
         "occurrences" : [2, 5],
         "rotate" : false,
         "flags" : [ "CLASSIC" ]
+    },{
+        "type" : "overmap_special",
+        "id" : "Pond",
+        "overmaps" : [
+            { "point":[0,0,0], "overmap": "pond_field"}
+        ],
+        "locations" : [ "field" ],
+        "city_distance" : [-1, -1],
+        "occurrences" : [0, 50],
+        "flags" : [ "CLASSIC" ]
+    },{
+        "type" : "overmap_special",
+        "id" : "basin",
+        "overmaps" : [
+            { "point":[0,0,0], "overmap": "pond_forest"}
+        ],
+        "locations" : [ "forest", "forest_thick" ],
+        "city_distance" : [-1, -1],
+        "occurrences" : [0, 30],
+        "flags" : [ "CLASSIC" ]
     }
 ]
