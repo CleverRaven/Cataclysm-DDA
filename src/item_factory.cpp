@@ -756,6 +756,10 @@ void Item_factory::check_definitions() const
             if( type->ammo->drop_chance < 0.0f || type->ammo->drop_chance > 1.0f ) {
                 msg << "drop chance outside of supported range" << "\n";
             }
+
+            if( type->ammo->loudness > MAX_VOLUME ) {
+                msg << "loudness outside of supported range" << "\n";
+            }
         }
         if( type->gun ) {
             check_ammo_type( msg, type->gun->ammo );

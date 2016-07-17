@@ -74,7 +74,6 @@
     "damage" : 50,
     "range" : 6,
     "recoil" : 390,
-    "loudness": 160,
     "effects" : ["COOKOFF", "SHOT"]
   },
   {
@@ -88,8 +87,7 @@
     "count" : 10,
     "proportional": {
         "damage": 0.1,
-        "recoil": 0.4,
-        "loudness": 0.6
+        "recoil": 0.4
     },
     "extend": {
         "effects": [ "BEANBAG", "NOGIB" ]
@@ -105,8 +103,7 @@
     "price" : 2400,
     "proportional": {
         "damage": 0.3,
-        "recoil": 0.6,
-        "loudness": 0.8
+        "recoil": 0.6
     },
     "extend": { "effects": [ "NOGIB" ] }
   },
