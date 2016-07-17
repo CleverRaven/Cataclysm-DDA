@@ -2422,11 +2422,11 @@ void load_soundset() {
 
     // Get curent soundpack and it's directory path.
     if (current_soundpack.empty()) {
-        dbg( D_ERROR ) << "Soundpack not set in OPTIONS. Corrupted options or empty soundpack name";
+        dbg( D_ERROR ) << "Soundpack not set in options or empty.";
         soundpack_path = default_path;
         current_soundpack = default_soundpack;
     } else {
-        dbg( D_INFO ) << "Current OPTIONS soundpack is: " << current_soundpack;
+        dbg( D_INFO ) << "Current soundpack is: " << current_soundpack;
         soundpack_path = SOUNDPACKS[current_soundpack];
     }
 

@@ -141,11 +141,11 @@ void cata_tiles::init()
 
     // Get curent tileset and it's directory path.
     if (current_tileset.empty()) {
-        dbg( D_ERROR ) << "Tileset not set in OPTIONS. Corrupted options or empty tileset name";
+        dbg( D_ERROR ) << "Tileset not set in options or empty.";
         json_path = default_json;
         tileset_path = default_tileset;
     } else {
-        dbg( D_INFO ) << "Current OPTIONS tileset is: " << current_tileset;
+        dbg( D_INFO ) << "Current tileset is: " << current_tileset;
     }
 
     // Build tileset config path

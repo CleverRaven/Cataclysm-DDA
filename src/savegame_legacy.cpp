@@ -421,7 +421,7 @@ void overmap::unserialize_legacy(std::istream & fin) {
                                 } else {
                                     debugmsg("               WARNING: overmap uses missing region settings '%s', falling back to '%s'                \n",
                                               tmpstr.c_str(), tmpopt.c_str() );
-                                    // fallback means we already loaded ACTIVE_WORLD_OPTIONS["DEFAULT_REGION"]
+                                    // fallback means we already loaded the default region
                                 }
                             }
                         }
