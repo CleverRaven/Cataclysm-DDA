@@ -949,7 +949,8 @@
         "volume" : 1,
         "phase" : "liquid",
         "charges" : 7,
-        "fun" : 15
+        "fun" : 15,
+        "flags": [ "EATEN_COLD" ]
     },
     {
         "type" : "COMESTIBLE",
@@ -973,7 +974,8 @@
         "volume" : 1,
         "phase" : "liquid",
         "charges" : 7,
-        "fun" : 18
+        "fun" : 18,
+        "flags": [ "EATEN_COLD" ]
     },
     {
         "type" : "COMESTIBLE",
@@ -1150,7 +1152,8 @@
         "volume" : 1,
         "phase" : "liquid",
         "charges" : 1,
-        "fun" : 20
+        "fun" : 20,
+        "flags": [ "EATEN_HOT" ]
     },
     {
         "type" : "COMESTIBLE",
@@ -1496,7 +1499,8 @@
         "volume" : 1,
         "phase" : "liquid",
         "charges" : 1,
-        "fun" : 14
+        "fun" : 14,
+        "flags": [ "EATEN_COLD" ]
     },
     {
         "type" : "COMESTIBLE",
@@ -1545,7 +1549,8 @@
         "volume" : 1,
         "phase" : "liquid",
         "charges" : 1,
-        "fun" : 18
+        "fun" : 18,
+        "flags": [ "EATEN_COLD" ]
     },
     {
         "type" : "COMESTIBLE",
