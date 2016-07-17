@@ -41,7 +41,9 @@ void game::dump_stats( const std::string& what, dump_mode mode )
             rows.push_back( r );
         };
         for( auto& e : item_controller->get_all_itypes() ) {
-            if( e.second->ammo ) {
+            if( e.second->ammo && e.second->ammo->type &&
+                e.second->category->id != "spare_parts" &&
+                e.second->category->id != "chems" ) {
                 dump( item( e.first, calendar::turn, item::solitary_tag {} ) );
             }
         }
