@@ -49,23 +49,48 @@ class item_location::impl
 {
         friend item_location;
 
+        class nowhere;
+        class item_on_map;
+        class item_on_person;
+        class item_on_vehicle;
+
     public:
+        impl() = default;
         impl( item *what ) : what( what ) {}
         impl( int idx ) : idx( idx ) {}
 
         virtual ~impl() = default;
-        virtual type where() const = 0;
-        virtual tripoint position() const = 0;
-        virtual std::string describe( const Character * ) const = 0;
-        virtual int obtain( Character &ch, long qty ) = 0;
-        virtual int obtain_cost( const Character &ch, long qty ) const = 0;
-        virtual void remove_item() = 0;
+
+        virtual type where() const {
+            return type::invalid;
+        }
+
+        virtual tripoint position() const {
+            return tripoint_min;
+        }
+
+        virtual std::string describe( const Character * ) const {
+            return "";
+        }
+
+        virtual int obtain( Character &, long ) {
+            return INT_MIN;
+        }
+
+        virtual int obtain_cost( const Character &, long ) const {
+            return 0;
+        }
+
+        virtual void remove_item() {}
 
     protected:
         virtual void serialize( JsonOut &js ) const = 0;
-        virtual item *unpack( int idx ) const = 0;
 
-        item *target() const {
+        virtual item *unpack( int ) const {
+            return nullptr;
+        }
+
+        virtual item *target() const {
             if( idx >= 0 ) {
                 what = unpack( idx );
                 idx = -1;
@@ -81,7 +106,21 @@ class item_location::impl
         mutable int idx = -1;
 };
 
-class item_location::item_on_map : public item_location::impl
+class item_location::impl::nowhere : public item_location::impl
+{
+    public:
+        void serialize( JsonOut &js ) const override {
+            js.start_object();
+            js.member( "type", "null" );
+            js.end_object();
+        }
+
+        item *target() const override {
+            return nullptr;
+        }
+};
+
+class item_location::impl::item_on_map : public item_location::impl
 {
     private:
         map_cursor cur;
@@ -162,7 +201,7 @@ class item_location::item_on_map : public item_location::impl
         }
 };
 
-class item_location::item_on_person : public item_location::impl
+class item_location::impl::item_on_person : public item_location::impl
 {
     private:
         Character &who;
@@ -292,7 +331,7 @@ class item_location::item_on_person : public item_location::impl
         }
 };
 
-class item_location::item_on_vehicle : public item_location::impl
+class item_location::impl::item_on_vehicle : public item_location::impl
 {
     private:
         vehicle_cursor cur;
@@ -380,35 +419,37 @@ class item_location::item_on_vehicle : public item_location::impl
 };
 
 // use of std::unique_ptr<impl> forces these definitions within the implementation
-item_location::item_location() = default;
 item_location::item_location( item_location && ) = default;
 item_location &item_location::operator=( item_location && ) = default;
 item_location::~item_location() = default;
 
 const item_location item_location::nowhere;
 
+item_location::item_location()
+    : ptr( new impl::nowhere() ) {}
+
 item_location::item_location( const map_cursor &mc, item *which )
-    : ptr( new item_on_map( mc, which ) ) {}
+    : ptr( new impl::item_on_map( mc, which ) ) {}
 
 item_location::item_location( Character &ch, item *which )
-    : ptr( new item_on_person( ch, which ) ) {}
+    : ptr( new impl::item_on_person( ch, which ) ) {}
 
 item_location::item_location( const vehicle_cursor &vc, item *which )
-    : ptr( new item_on_vehicle( vc, which ) ) {}
+    : ptr( new impl::item_on_vehicle( vc, which ) ) {}
 
 bool item_location::operator==( const item_location &rhs ) const
 {
-    return ( ptr ? ptr->target() : nullptr ) == ( rhs.ptr ? rhs.ptr->target() : nullptr );
+    return ptr->target() == rhs.ptr->target();
 }
 
 bool item_location::operator!=( const item_location &rhs ) const
 {
-    return ( ptr ? ptr->target() : nullptr ) != ( rhs.ptr ? rhs.ptr->target() : nullptr );
+    return ptr->target() != rhs.ptr->target();
 }
 
 item_location::operator bool() const
 {
-    return ptr && ptr->target();
+    return ptr->target();
 }
 
 item &item_location::operator*()
@@ -433,13 +474,7 @@ const item *item_location::operator->() const
 
 void item_location::serialize( JsonOut &js ) const
 {
-    if( ptr ) {
-        ptr->serialize( js );
-    } else {
-        js.start_object();
-        js.member( "type", "null" );
-        js.end_object();
-    }
+    ptr->serialize( js );
 }
 
 void item_location::deserialize( JsonIn &js )
@@ -454,61 +489,59 @@ void item_location::deserialize( JsonIn &js )
     obj.read( "pos", pos );
 
     if( type == "character" ) {
-        ptr.reset( new item_on_person( g->u, idx ) );
+        ptr.reset( new impl::item_on_person( g->u, idx ) );
 
     } else if( type == "map" ) {
-        ptr.reset( new item_on_map( pos, idx ) );
+        ptr.reset( new impl::item_on_map( pos, idx ) );
 
     } else if( type == "vehicle" ) {
         auto *veh = g->m.veh_at( pos );
         auto cur = vehicle_cursor( *veh, obj.get_int( "part" ) );
         if( veh ) {
-            ptr.reset( new item_on_vehicle( cur, idx ) );
+            ptr.reset( new impl::item_on_vehicle( cur, idx ) );
         }
     }
 }
 
 item_location::type item_location::where() const
 {
-    return ptr ? ptr->where() : type::invalid;
+    return ptr->where();
 }
 
 tripoint item_location::position() const
 {
-    return ptr ? ptr->position() : tripoint_min;
+    return ptr->position();
 }
 
 std::string item_location::describe( const Character *ch ) const
 {
-    return ptr ? ptr->describe( ch ) : std::string();
+    return ptr->describe( ch );
 }
 
 int item_location::obtain( Character &ch, long qty )
 {
-    return ptr ? ptr->obtain( ch, qty ) : INT_MIN;
+    return ptr->obtain( ch, qty );
 }
 
 int item_location::obtain_cost( const Character &ch, long qty ) const
 {
-    return ptr ? ptr->obtain_cost( ch, qty ) : 0;
+    return ptr->obtain_cost( ch, qty );
 }
 
 void item_location::remove_item()
 {
-    if( ptr ) {
-        ptr->remove_item();
-        ptr = nullptr;
-    }
+    ptr->remove_item();
+    ptr.reset( new impl::nowhere() );
 }
 
 item *item_location::get_item()
 {
-    return ptr ? ptr->target() : nullptr;
+    return ptr->target();
 }
 
 const item *item_location::get_item() const
 {
-    return ptr ? ptr->target() : nullptr;
+    return ptr->target();
 }
 
 item_location item_location::clone() const

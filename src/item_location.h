@@ -93,10 +93,6 @@ class item_location : public JsonSerializer, public JsonDeserializer
     private:
         class impl;
         std::shared_ptr<impl> ptr;
-
-        class item_on_map;
-        class item_on_person;
-        class item_on_vehicle;
 };
 
 #endif
