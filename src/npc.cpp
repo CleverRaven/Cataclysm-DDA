@@ -2223,7 +2223,12 @@ float npc::speed_rating() const
     return ret;
 }
 
-bool npc::dispose_item( item& obj, const std::string & )
+bool npc::dispose_item( item &obj, const std::string & )
+{
+    return dispose_item( obj, nullptr );
+}
+
+bool npc::dispose_item( item &obj, const item *const swap_obj, const std::string & )
 {
     using dispose_option = struct {
         int moves;
@@ -2242,7 +2247,18 @@ bool npc::dispose_item( item& obj, const std::string & )
         }
     }
 
-    if( volume_carried() + obj.volume() <= volume_capacity() ) {
+    //see if it can be stored in inventory
+    npc projected = *this;
+    projected.set_fake( true );
+    if( swap_obj ) {
+        int swap_pos = get_item_position( swap_obj );
+        if( swap_pos != INT_MIN ) {
+            projected.i_rem( swap_pos );
+        }
+    }
+    projected.i_add( obj );
+
+    if( projected.volume_carried() <= projected.volume_capacity() ) {
         opts.emplace_back( dispose_option {
             item_handling_cost( obj ) * INVENTORY_HANDLING_FACTOR,
             [this,&obj] {

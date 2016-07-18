@@ -9878,7 +9878,7 @@ bool player::wield( item& target )
     int mv = 0;
 
     if( is_armed() ) {
-        if( !wield( ret_null ) ) {
+        if( !dispose_item( weapon, &target, string_format( _( "Stop wielding %s?" ), weapon.tname().c_str() ) ) ) {
             return false;
         }
         inv.unsort();
@@ -10109,7 +10109,12 @@ bool player::can_reload( const item& it, const itype_id& ammo ) const {
     return true;
 }
 
-bool player::dispose_item( item& obj, const std::string& prompt )
+bool player::dispose_item( item &obj, const std::string &prompt )
+{
+    return dispose_item( obj, nullptr, prompt );
+}
+
+bool player::dispose_item( item &obj, const item *const swap_obj, const std::string &prompt )
 {
     uimenu menu;
     menu.text = prompt.empty() ? string_format( _( "Dispose of %s" ), obj.tname().c_str() ) : prompt;
@@ -10125,11 +10130,20 @@ bool player::dispose_item( item& obj, const std::string& prompt )
 
     std::vector<dispose_option> opts;
 
+    //see if it can be stored in inventory
+    player projected = *this;
+    projected.set_fake( true );
+    if( swap_obj ) {
+        int swap_pos = get_item_position( swap_obj );
+        if( swap_pos != INT_MIN ) {
+            projected.i_rem( swap_pos );
+        }
+    }
+    projected.i_add( obj );
     const bool bucket = obj.is_bucket_nonempty();
-
     opts.emplace_back( dispose_option {
         bucket ? _( "Spill contents and store in inventory" ) : _( "Store in inventory" ),
-        volume_carried() + obj.volume() <= volume_capacity(), '1',
+        projected.volume_carried() <= volume_capacity(), '1',
         item_handling_cost( obj ) * INVENTORY_HANDLING_FACTOR,
         [this, bucket, &obj] {
             if( bucket && !obj.spill_contents( *this ) ) {
