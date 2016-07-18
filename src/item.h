@@ -690,7 +690,6 @@ public:
     /** Maximum amount of damage to an item (state before destroyed) */
     int max_damage() const {
         // Following locations remain dependent on MAX_ITEM_DAMAGE == 4
-        // * player::sort_armor()
         // * material_type::_dmg_adj
         // * item::tname()
         return MAX_ITEM_DAMAGE;
@@ -703,6 +702,9 @@ public:
      * @return whether item should be destroyed
      */
     bool mod_damage( int qty = 1, damage_type dmg = DT_NULL );
+
+    /** Provide color for UI display dependent upon current item damage level */
+    nc_color damage_color() const;
 
     /**
      * Check whether the item has been marked (by calling mark_as_used_by_player)

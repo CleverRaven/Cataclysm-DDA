@@ -3184,6 +3184,32 @@ bool item::mod_damage( int qty, damage_type dmg )
     return damage_ < max_damage();
 }
 
+nc_color item::damage_color() const
+{
+    // @todo unify with getDurabilityColor
+
+    // reinforced, undamaged and nearly destroyed items are special case
+    if( damage() < 0 ) {
+        return c_green;
+    }
+    if( damage() == 0 ) {
+        return c_ltgreen;
+    }
+    if( damage() == max_damage() ) {
+        return c_red;
+    }
+
+    // assign other colors proportionally
+    auto q = double( damage() ) / max_damage();
+    if( q > 0.66 ) {
+        return c_ltred;
+    }
+    if( q > 0.33 ) {
+        return c_magenta;
+    }
+    return c_yellow;
+}
+
 void item::mitigate_damage( damage_unit &du ) const
 {
     const resistances res = resistances( *this );
