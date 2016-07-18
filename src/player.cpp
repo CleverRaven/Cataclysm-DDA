@@ -12118,7 +12118,7 @@ bool player::armor_absorb( damage_unit& du, item& armor )
                 m_neutral, damage_verb, m_info);
     }
 
-    return armor.mod_damage( armor.has_flag( "FRAGILE" ) ? rng( 2, 3 ) : 1 );
+    return armor.mod_damage( armor.has_flag( "FRAGILE" ) ? rng( 2, 3 ) : 1, du.type );
 }
 
 float player::bionic_armor_bonus( body_part bp, damage_type dt ) const

@@ -3207,7 +3207,7 @@ void map::smash_items(const tripoint &p, const int power)
             while( ( damage_chance > material_factor ||
                      x_in_y( damage_chance, material_factor ) ) &&
                      i->damage() < i->max_damage() ) {
-                i->inc_damage();
+                i->inc_damage( DT_BASH );
                 add_splash( type_blood, p, 1, damage_chance );
                 damage_chance -= material_factor;
             }

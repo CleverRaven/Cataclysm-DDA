@@ -4055,7 +4055,7 @@ void vehicle::operate_scoop()
             }
             if( one_in( chance_to_damage_item ) && that_item_there->damage() < that_item_there->max_damage() ) {
                 //The scoop will not destroy the item, but it may damage it a bit.
-                that_item_there->inc_damage();
+                that_item_there->inc_damage( DT_BASH );
                 //The scoop gets a lot louder when breaking an item.
                 sounds::sound( position, rng(10, (long)that_item_there->volume() * 2 + 10),
                                _("BEEEThump") );

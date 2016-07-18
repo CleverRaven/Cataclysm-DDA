@@ -4449,7 +4449,7 @@ int iuse::vacutainer(player *p, item *it, bool, const tripoint& )
             it->put_in(acid);
             auto str = it->tname();
             if( one_in( 3 ) ) {
-                if( it->inc_damage() ) {
+                if( it->inc_damage( DT_ACID ) ) {
                     p->add_msg_if_player( m_info, _( "Your acidic blood melts the %s, destroying it!" ), str.c_str() );
                     p->inv.remove_item(it);
                     return 0;
