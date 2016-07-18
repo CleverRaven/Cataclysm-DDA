@@ -3175,11 +3175,11 @@ int item::chip_resistance( bool worst ) const
     return res;
 }
 
-bool item::mod_damage( int qty, damage_type dmg )
+bool item::mod_damage( int qty, damage_type dt )
 {
     damage_ = std::max( std::min( damage_ + qty, max_damage() ), min_damage() );
     if( qty > 0 ) {
-        on_damage( qty, dmg );
+        on_damage( qty, dt );
     }
     return damage_ < max_damage();
 }

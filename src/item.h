@@ -701,15 +701,15 @@ public:
      * @param dmg type of damage which may be passed to @ref on_damage callback
      * @return whether item should be destroyed
      */
-    bool mod_damage( int qty, damage_type dmg = DT_NULL );
+    bool mod_damage( int qty, damage_type dt = DT_NULL );
 
     /**
      * Increment item damage constrained @ref max_damage
      * @param dmg type of damage which may be passed to @ref on_damage callback
      * @return whether item should be destroyed
      */
-    bool inc_damage( damage_type dmg = DT_NULL ) {
-        return mod_damage( 1, dmg );
+    bool inc_damage( damage_type dt = DT_NULL ) {
+        return mod_damage( 1, dt );
     }
 
     /** Provide color for UI display dependent upon current item damage level */
@@ -927,7 +927,7 @@ public:
           * @param qty maximum damage that will be applied (constrained by @ref max_damage)
           * @param dmg type of damage (or DT_NULL)
           */
-        void on_damage( int qty, damage_type dmg );
+        void on_damage( int qty, damage_type dt );
 
         /**
          * Name of the item type (not the item), with proper plural.
