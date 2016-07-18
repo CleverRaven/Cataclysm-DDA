@@ -683,14 +683,10 @@ public:
     }
 
     /** Minimum amount of damage to an item (state of maximum repair) */
-    int min_damage() const {
-        return MIN_ITEM_DAMAGE;
-    }
+    int min_damage() const;
 
     /** Maximum amount of damage to an item (state before destroyed) */
-    int max_damage() const {
-        return MAX_ITEM_DAMAGE;
-    }
+    int max_damage() const;
 
     /**
      * Apply damage to item constrained by @ref min_damage and @ref max_damage
