@@ -2942,7 +2942,7 @@ const std::vector<itype_id> &item::brewing_results() const
 
 bool item::can_revive() const
 {
-    if( is_corpse() && corpse->has_flag( MF_REVIVES ) && damage() < CORPSE_PULP_THRESHOLD ) {
+    if( is_corpse() && corpse->has_flag( MF_REVIVES ) && damage() < max_damage() ) {
         return true;
     }
     return false;

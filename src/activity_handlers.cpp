@@ -958,8 +958,8 @@ void activity_handlers::make_zlave_finish( player_activity *act, player *p )
             p->practice( skill_firstaid, rng(1, 8) );
             p->practice( skill_survival, rng(1, 8) );
 
-            body->mod_damage( rng( 0, CORPSE_PULP_THRESHOLD - body->damage() ) );
-            if( body->damage() == CORPSE_PULP_THRESHOLD ) {
+            body->mod_damage( rng( 0, body->max_damage() - body->damage() ) );
+            if( body->damage() == body->max_damage() ) {
                 body->active = false;
                 p->add_msg_if_player(m_warning, _("You cut up the corpse too much, it is thoroughly pulped."));
             } else {
@@ -1055,17 +1055,17 @@ void activity_handlers::pulp_do_turn( player_activity *act, player *p )
             continue;
         }
 
-        if( corpse.damage() >= CORPSE_PULP_THRESHOLD ) {
+        if( corpse.damage() >= corpse.max_damage() ) {
             // Deactivate already-pulped corpses that weren't properly deactivated
             corpse.active = false;
             continue;
         }
 
-        while( corpse.damage() < CORPSE_PULP_THRESHOLD ) {
+        while( corpse.damage() < corpse.max_damage() ) {
             // Increase damage as we keep smashing ensuring we eventually smash the target.
             if( x_in_y( pulp_power, corpse.volume() ) ) {
                 corpse.inc_damage();
-                if( corpse.damage() == CORPSE_PULP_THRESHOLD ) {
+                if( corpse.damage() == corpse.max_damage() ) {
                     corpse.active = false;
                     num_corpses++;
                 }
