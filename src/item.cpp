@@ -3190,8 +3190,7 @@ bool item::mod_damage( double qty, damage_type dt )
     bool destroy = false;
 
     if( count_by_charges() ) {
-        // for qty (1) 25-100%, (2) 50-100%, (3) 75-100%, (>=4) 100%
-        charges -= rng( std::max( int( charges * 0.25 * qty ), 1 ), charges );
+        charges -= std::min( type->stack_size * qty, charges );
         destroy |= charges == 0;
     }
 
