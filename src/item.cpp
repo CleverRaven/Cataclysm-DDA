@@ -3187,11 +3187,19 @@ int item::max_damage() const
 
 bool item::mod_damage( double qty, damage_type dt )
 {
+    bool destroy = false;
+
+    if( count_by_charges() ) {
+        // for qty (1) 25-100%, (2) 50-100%, (3) 75-100%, (>=4) 100%
+        charges -= rng( std::max( int( charges * 0.25 * qty ), 1 ), charges );
+        destroy |= charges == 0;
+    }
+
     if( qty > 0 ) {
         on_damage( qty, dt );
     }
 
-    bool destroy = damage_ + qty > max_damage();
+    destroy |= damage_ + qty > max_damage();
 
     damage_ = std::max( std::min( damage_ + qty, double( max_damage() ) ), double( min_damage() ) );
 
