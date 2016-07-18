@@ -143,7 +143,7 @@ static std::vector<layering_item_info> items_cover_bp( const Character &c, int b
     std::vector<layering_item_info> s;
     for( auto &elem : c.worn ) {
         if( elem.covers( static_cast<body_part>( bp ) ) ) {
-            layering_item_info t = { elem.damage, elem.get_encumber(), elem.type_name( 1 ) };
+            layering_item_info t = { elem.damage(), elem.get_encumber(), elem.type_name( 1 ) };
             s.push_back( t );
         }
     }
@@ -319,7 +319,7 @@ void player::sort_armor()
 
             const int offset_x = ( itemindex == selected ) ? 3 : 2;
             trim_and_print( w_sort_left, drawindex + 1, offset_x, left_w - offset_x - 3,
-                            dam_color[int( tmp_worn[itemindex]->damage + 1 )],
+                            dam_color[int( tmp_worn[itemindex]->damage() + 1 )],
                             tmp_worn[itemindex]->type_name( 1 ).c_str() );
             mvwprintz( w_sort_left, drawindex + 1, left_w - 3, c_ltgray, "%3d",
                        tmp_worn[itemindex]->get_storage() );

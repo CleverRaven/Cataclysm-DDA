@@ -171,6 +171,12 @@ class item : public JsonSerializer, public JsonDeserializer, public visitable<it
         item& ammo_unset();
 
         /**
+         * Filter setting damage constrained by @ref min_damage and @ref max_damage
+         * @return same instance to allow method chaining
+         */
+        item& set_damage( int qty );
+
+        /**
          * Splits a count-by-charges item always leaving source item with minimum of 1 charge
          * @param qty number of required charges to split from source
          * @return new instance containing exactly qty charges or null item if splitting failed
@@ -669,6 +675,28 @@ public:
      * @param worst If this is true, the worst resistance is used. Otherwise the best one.
      */
     int chip_resistance( bool worst = false ) const;
+
+    /** How much damage has the item sustained? */
+    int damage() const {
+        return damage_;
+    }
+
+    /** Minimum amount of damage to an item (state of maximum repair) */
+    int min_damage() const {
+        return MIN_ITEM_DAMAGE;
+    }
+
+    /** Maximum amount of damage to an item (state before destroyed) */
+    int max_damage() const {
+        // Following locations remain dependent on MAX_ITEM_DAMAGE == 4
+        // * player::sort_armor()
+        // * material_type::_dmg_adj
+        // * item::tname()
+        return MAX_ITEM_DAMAGE;
+    }
+
+    /** Applies @ref qty damage to item and returns whether item should be destroyed */
+    bool mod_damage( int qty = 1 );
 
     /**
      * Check whether the item has been marked (by calling mark_as_used_by_player)
@@ -1446,6 +1474,7 @@ public:
 
     private:
         std::string name;
+        int damage_ = 0;
         const itype* curammo = nullptr;
         std::map<std::string, std::string> item_vars;
         const mtype* corpse = nullptr;
@@ -1458,13 +1487,6 @@ public:
      char invlet = 0;      // Inventory letter
      long charges;
      bool active = false; // If true, it has active effects to be processed
-
-    /**
-     * How much damage the item has sustained
-     * @see MIN_ITEM_DAMAGE
-     * @see MAX_ITEM_DAMAGE
-     */
-    int damage = 0;
 
     int burnt = 0;           // How badly we're burnt
     int bday;                // The turn on which it was created

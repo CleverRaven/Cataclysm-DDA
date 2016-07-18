@@ -1441,7 +1441,7 @@ void item::io( Archive& archive )
     archive.io( "item_vars", item_vars, io::empty_default_tag() );
     archive.io( "name", name, type_name( 1 ) ); // TODO: change default to empty string
     archive.io( "invlet", invlet, '\0' );
-    archive.io( "damage", damage, static_cast<decltype(damage)>( 0 ) );
+    archive.io( "damage", damage_, static_cast<decltype(damage_)>( 0 ) );
     archive.io( "active", active, false );
     archive.io( "item_counter", item_counter, static_cast<decltype(item_counter)>( 0 ) );
     archive.io( "fridge", fridge, 0 );

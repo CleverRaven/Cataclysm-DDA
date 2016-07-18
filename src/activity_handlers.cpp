@@ -958,8 +958,8 @@ void activity_handlers::make_zlave_finish( player_activity *act, player *p )
             p->practice( skill_firstaid, rng(1, 8) );
             p->practice( skill_survival, rng(1, 8) );
 
-            body->damage = std::min( body->damage + (int) rng( 1, CORPSE_PULP_THRESHOLD ), CORPSE_PULP_THRESHOLD );
-            if( body->damage == CORPSE_PULP_THRESHOLD ) {
+            body->mod_damage( rng( 0, CORPSE_PULP_THRESHOLD - body->damage() ) );
+            if( body->damage() == CORPSE_PULP_THRESHOLD ) {
                 body->active = false;
                 p->add_msg_if_player(m_warning, _("You cut up the corpse too much, it is thoroughly pulped."));
             } else {
@@ -1055,16 +1055,17 @@ void activity_handlers::pulp_do_turn( player_activity *act, player *p )
             continue;
         }
 
-        if( corpse.damage >= CORPSE_PULP_THRESHOLD ) {
+        if( corpse.damage() >= CORPSE_PULP_THRESHOLD ) {
             // Deactivate already-pulped corpses that weren't properly deactivated
             corpse.active = false;
             continue;
         }
 
-        while( corpse.damage < CORPSE_PULP_THRESHOLD ) {
+        while( corpse.damage() < CORPSE_PULP_THRESHOLD ) {
             // Increase damage as we keep smashing ensuring we eventually smash the target.
             if( x_in_y( pulp_power, corpse.volume() ) ) {
-                if( ++corpse.damage == CORPSE_PULP_THRESHOLD ) {
+                corpse.mod_damage();
+                if( corpse.damage() == CORPSE_PULP_THRESHOLD ) {
                     corpse.active = false;
                     num_corpses++;
                 }
@@ -1550,7 +1551,7 @@ void activity_handlers::repair_item_finish( player_activity *act, player *p )
     const bool need_input =
         repeat == REPEAT_ONCE ||
         ( repeat == REPEAT_EVENT && event_happened ) ||
-        ( repeat == REPEAT_FULL && fix.damage <= 0 );
+        ( repeat == REPEAT_FULL && fix.damage() <= 0 );
 
     if( need_input ) {
         g->draw();
@@ -1651,7 +1652,7 @@ void activity_handlers::gunmod_add_finish( player_activity *act, player *p )
         gun.contents.push_back( p->i_rem( &mod ) );
 
     } else if( rng( 0, 100 ) <= risk ) {
-        if( gun.damage++ >= MAX_ITEM_DAMAGE ) {
+        if( gun.mod_damage() ) {
             p->i_rem( &gun );
             add_msg( m_bad, _( "You failed at installing the %s and destroyed your %s!" ), mod.tname().c_str(),
                      gun.tname().c_str() );

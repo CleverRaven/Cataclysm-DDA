@@ -4053,9 +4053,9 @@ void vehicle::operate_scoop()
             if( !that_item_there ) {
                 continue;
             }
-            if( one_in( chance_to_damage_item ) && that_item_there->damage < MAX_ITEM_DAMAGE ) {
+            if( one_in( chance_to_damage_item ) && that_item_there->damage() < that_item_there->max_damage() ) {
                 //The scoop will not destroy the item, but it may damage it a bit.
-                that_item_there->damage++;
+                that_item_there->mod_damage();
                 //The scoop gets a lot louder when breaking an item.
                 sounds::sound( position, rng(10, (long)that_item_there->volume() * 2 + 10),
                                _("BEEEThump") );
@@ -5048,8 +5048,8 @@ void vehicle::place_spawn_items()
                     if( e.is_null() ) {
                         continue;
                     }
-                    if( broken ) {
-                        e.damage = rng( 1, MAX_ITEM_DAMAGE );
+                    if( broken && e.mod_damage( rng( 1, e.max_damage() ) ) ) {
+                        continue; // we destroyed the item
                     }
                     if( e.is_tool() || e.is_gun() || e.is_magazine() ) {
                         bool spawn_ammo = rng( 0, 99 ) < spawn.with_ammo && e.ammo_remaining() == 0;
@@ -6081,10 +6081,10 @@ vehicle_part::vehicle_part( const vpart_str_id& str, int const dx, int const dy,
                   vp.item.c_str(), base.typeId().c_str() );
     }
 
-    // item damage is [ 0..MAX_ITEM_DAMAGE ] whereas part hp is [ 1..durability ]
-    int health = ( MAX_ITEM_DAMAGE + 1 ) - base.damage;
+    // item damage is [ 0..max_damage() ] whereas part hp is [ 1..durability ]
+    int health = ( base.max_damage() + 1 ) - base.damage();
     health *= vp.durability; // [ 0, durability ]
-    health /= ( MAX_ITEM_DAMAGE + 1 );
+    health /= ( base.max_damage() + 1 );
     hp = std::max( 1, health );
 }
 
@@ -6115,10 +6115,9 @@ item vehicle_part::properties_to_item() const
         tmp.active = true;
     }
     // translate part damage to item damage.
-    // max damage is 4, min damage 0.
     // this is very lossy.
     float hpofdur = ( float )hp / vpinfo.durability;
-    tmp.damage = std::min( 4, std::max<int>( 0, ( 1 - hpofdur ) * 5 ) );
+    tmp.set_damage( std::min( tmp.max_damage(), std::max<int>( 0, ( 1 - hpofdur ) * ( tmp.max_damage() + 1 ) ) ) );
 
     return tmp;
 }

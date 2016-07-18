@@ -3206,14 +3206,14 @@ void map::smash_items(const tripoint &p, const int power)
             const field_id type_blood = i->is_corpse() ? i->get_mtype()->bloodType() : fd_null;
             while( ( damage_chance > material_factor ||
                      x_in_y( damage_chance, material_factor ) ) &&
-                     i->damage < MAX_ITEM_DAMAGE ) {
-                i->damage++;
+                     i->damage() < i->max_damage() ) {
+                i->mod_damage();
                 add_splash( type_blood, p, 1, damage_chance );
                 damage_chance -= material_factor;
             }
         }
         // Remove them if they were damaged too much
-        if( i->damage >= MAX_ITEM_DAMAGE || ( by_charges && i->charges == 0 ) ) {
+        if( i->damage() == i->max_damage() || ( by_charges && i->charges == 0 ) ) {
             // But save the contents
             for( auto &elem : i->contents ) {
                 contents.push_back( elem );
@@ -4409,7 +4409,7 @@ item &map::spawn_an_item(const tripoint &p, item new_item,
         return nulitem;
     }
 
-    new_item.damage = std::min( std::max( damlevel, MIN_ITEM_DAMAGE ), MAX_ITEM_DAMAGE );
+    new_item.set_damage( damlevel );
 
     return add_item_or_charges(p, new_item);
 }
