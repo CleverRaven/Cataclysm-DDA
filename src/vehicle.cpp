@@ -3446,7 +3446,8 @@ bool vehicle::balanced_wheel_config( bool boat ) const
     int ymax = INT_MIN;
     // find the bounding box of the wheels
     // TODO: find convex hull instead
-    for( auto &w : wheelcache ) {
+    const auto &indices = boat ? floating : wheelcache;
+    for( auto &w : indices ) {
         const auto &pt = parts[ w ].mount;
         xmin = std::min( xmin, pt.x );
         ymin = std::min( ymin, pt.y );
