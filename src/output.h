@@ -434,7 +434,6 @@ size_t shortcut_print( WINDOW *w, nc_color text_color, nc_color shortcut_color,
 void hit_animation( int iX, int iY, nc_color cColor, const std::string &cTile );
 
 std::pair<std::string, nc_color> const &get_hp_bar( int cur_hp, int max_hp, bool is_mon = false );
-std::pair<std::string, nc_color> const &get_item_hp_bar( int dmg );
 
 std::pair<std::string, nc_color> const &get_light_level( const float light );
 

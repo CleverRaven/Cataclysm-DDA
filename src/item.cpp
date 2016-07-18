@@ -2136,11 +2136,8 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
     std::string damtext = "";
     if( ( damage() != 0 || ( OPTIONS[ "ITEM_HEALTH_BAR" ] && is_armor() ) ) && !is_null() && with_prefix ) {
         if( damage() < 0 )  {
-            if( damage() < min_damage() ) {
-                damtext = rm_prefix(_("<dam_adj>bugged "));
-            } else if ( OPTIONS["ITEM_HEALTH_BAR"] ) {
-                auto const &nc_text = get_item_hp_bar( damage() );
-                damtext = "<color_" + string_from_color(nc_text.second) + ">" + nc_text.first + " </color>";
+            if( OPTIONS[ "ITEM_HEALTH_BAR" ] ) {
+                damtext = "<color_" + string_from_color( damage_color() ) + ">" + damage_symbol() + " </color>";
             } else if (is_gun())  {
                 damtext = rm_prefix(_("<dam_adj>accurized "));
             } else {
@@ -2151,11 +2148,10 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
                 if (damage() == 1) damtext = rm_prefix(_("<dam_adj>bruised "));
                 if (damage() == 2) damtext = rm_prefix(_("<dam_adj>damaged "));
                 if (damage() == 3) damtext = rm_prefix(_("<dam_adj>mangled "));
-                if (damage() == 4) damtext = rm_prefix(_("<dam_adj>pulped "));
+                if (damage() >= 4) damtext = rm_prefix(_("<dam_adj>pulped "));
 
             } else if ( OPTIONS["ITEM_HEALTH_BAR"] ) {
-                auto const &nc_text = get_item_hp_bar( damage() );
-                damtext = "<color_" + string_from_color(nc_text.second) + ">" + nc_text.first + " </color>";
+                damtext = "<color_" + string_from_color( damage_color() ) + ">" + damage_symbol() + " </color>";
 
             } else {
                 damtext = rmp_format( "%s ", get_base_material().dmg_adj( damage() ).c_str() );
@@ -3209,6 +3205,31 @@ nc_color item::damage_color() const
     }
     return c_yellow;
 }
+
+std::string item::damage_symbol() const
+{
+    // reinforced, undamaged and nearly destroyed items are special case
+    if( damage() < 0 ) {
+        return _( R"(++)" );
+    }
+    if( damage() == 0 ) {
+        return _( R"(||)" );
+    }
+    if( damage() == max_damage() ) {
+        return _( R"(..)" );
+    }
+
+    // assign other colors proportionally
+    auto q = double( damage() ) / max_damage();
+    if( q > 0.66 ) {
+        return _( R"(\.)" );
+    }
+    if( q > 0.33 ) {
+        return _( R"(|.)" );
+    }
+    return _( R"(|\)" );
+}
+
 
 void item::mitigate_damage( damage_unit &du ) const
 {
