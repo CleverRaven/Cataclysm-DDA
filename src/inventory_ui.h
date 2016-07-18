@@ -153,10 +153,11 @@ class inventory_column
             preset( preset ) {}
         virtual ~inventory_column() {}
 
-        bool empty() const {
-            return entries.empty();
-        }
+        bool empty() const;
 
+        virtual bool visible() const {
+            return !empty();
+        }
         // true if can be activated
         virtual bool activatable() const;
         // true if allows selecting entries
@@ -177,16 +178,15 @@ class inventory_column
 
         const inventory_entry &get_selected() const;
         std::vector<inventory_entry *> get_all_selected();
-        const std::vector<inventory_entry> &get_entries() const {
-            return entries;
-        }
 
         inventory_entry *find_by_invlet( long invlet );
 
         void draw( WINDOW *win, size_t x, size_t y ) const;
 
         void add_entry( const inventory_entry &entry );
-        void add_entries( const inventory_column &source );
+        void remove_entry( const inventory_entry &entry );
+        void move_entries_to( inventory_column &dest );
+        void clear();
 
         void set_multiselect( bool multiselect ) {
             this->multiselect = multiselect;
@@ -265,29 +265,30 @@ class inventory_selector
         const player &p;
         const inventory_selector_preset &preset;
 
-        std::vector<std::shared_ptr<inventory_column>> columns;
-        std::shared_ptr<inventory_column> custom_column;
-
         inventory_input get_input();
 
-        void add_item( const std::shared_ptr<item_location> &location,
+        inventory_column own_inv_column;     // Column for own inventory items
+        inventory_column own_gear_column;    // Column for own gear (weapon, armor) items
+        inventory_column map_column;         // Column for map and vehicle items
+
+        const item_category *naturalize_category( const item_category &category,
+                const tripoint &pos );
+
+        void add_item( inventory_column &target_column,
+                       const std::shared_ptr<item_location> &location,
                        size_t stack_size = 1,
-                       const std::string &custom_cat_title = "" );
+                       const item_category *custom_category = nullptr );
 
-        void add_items( const std::list<item>::iterator &from,
-                        const std::list<item>::iterator &to,
-                        const std::string &title,
-                        const std::function<std::shared_ptr<item_location>( item * )> &locator );
+        void add_custom_items( inventory_column &target_column,
+                               const std::list<item>::iterator &from,
+                               const std::list<item>::iterator &to,
+                               const item_category &custom_category,
+                               const std::function<std::shared_ptr<item_location>( item * )> &locator );
 
-        /** Given an action from the input_context, try to act according to it. */
-        void on_input( const inventory_input &input );
-        /** Entry has been changed */
-        void on_change( const inventory_entry &entry );
-
+        void prepare_layout();
         void refresh_window() const;
+        void update();
 
-        /** Refreshes item categories */
-        virtual void prepare_columns();
         virtual void draw( WINDOW *w ) const;
 
         void draw_inv_weight_vol( WINDOW *w, int weight_carried, units::volume vol_carried,
@@ -296,6 +297,9 @@ class inventory_selector
 
         /** @return an entry from @ref entries by its invlet */
         inventory_entry *find_entry_by_invlet( long invlet );
+
+        const std::vector<inventory_column *> &get_all_columns() const;
+        std::vector<inventory_column *> get_visible_columns() const;
 
         inventory_column &get_column( size_t index ) const;
         inventory_column &get_active_column() const {
@@ -306,16 +310,17 @@ class inventory_selector
         size_t get_columns_width() const;
         /** @return percentage of the window occupied by columns */
         double get_columns_occupancy_ratio() const;
-
-        bool column_can_fit( const inventory_column &column ) {
-            return column.get_width() + get_columns_width() <= size_t( getmaxx( w_inv ) );
+        /** @return true if visible columns are wider than available width */
+        bool is_overflown() const {
+            return get_columns_width() > size_t( getmaxx( w_inv ) );
         }
+
         bool is_active_column( const inventory_column &column ) const {
             return &column == &get_active_column();
         }
 
-        void insert_column( decltype( columns )::iterator position,
-                            std::shared_ptr<inventory_column> &new_column );
+        void append_column( inventory_column &column );
+
         void toggle_active_column();
         void refresh_active_column() {
             if( !get_active_column().activatable() ) {
@@ -325,14 +330,25 @@ class inventory_selector
         void toggle_navigation_mode();
         void reassign_custom_invlets();
 
+        /** Given an action from the input_context, try to act according to it. */
+        virtual void on_input( const inventory_input &input );
+        /** Entry has been added */
+        virtual void on_entry_add( const inventory_entry & ) {}
+        /** Entry has been changed */
+        virtual void on_change( const inventory_entry &entry );
+
     private:
+        std::vector<inventory_column *> columns;
+
         WINDOW *w_inv;
 
         std::string title;
-        size_t active_column_index;
+        size_t active_column_index = 0;
         std::list<item_category> categories;
-        navigation_mode navigation;
+        navigation_mode navigation = navigation_mode::ITEM;
         input_context ctxt;
+
+        bool layout_is_valid = false;
 };
 
 class inventory_pick_selector : public inventory_selector
@@ -355,10 +371,10 @@ class inventory_multiselector : public inventory_selector
         inventory_multiselector( const player &p, const inventory_selector_preset &preset = default_preset,
                                  const std::string &selection_column_title = "" );
     protected:
-        void prepare_columns() override;
+        virtual void on_entry_add( const inventory_entry &entry ) override;
 
     private:
-        std::shared_ptr<inventory_column> selection_col;
+        std::unique_ptr<inventory_column> selection_col;
 };
 
 class inventory_compare_selector : public inventory_multiselector
