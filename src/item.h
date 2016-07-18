@@ -175,7 +175,7 @@ class item : public JsonSerializer, public JsonDeserializer, public visitable<it
          * @note this method does not invoke the @ref on_damage callback
          * @return same instance to allow method chaining
          */
-        item& set_damage( int qty );
+        item& set_damage( double qty );
 
         /**
          * Splits a count-by-charges item always leaving source item with minimum of 1 charge
@@ -678,9 +678,7 @@ public:
     int chip_resistance( bool worst = false ) const;
 
     /** How much damage has the item sustained? */
-    int damage() const {
-        return damage_;
-    }
+    int damage() const;
 
     /** Minimum amount of damage to an item (state of maximum repair) */
     int min_damage() const;
@@ -694,7 +692,7 @@ public:
      * @param dmg type of damage which may be passed to @ref on_damage callback
      * @return whether item should be destroyed
      */
-    bool mod_damage( int qty, damage_type dt = DT_NULL );
+    bool mod_damage( double qty, damage_type dt = DT_NULL );
 
     /**
      * Increment item damage constrained @ref max_damage
@@ -928,7 +926,7 @@ public:
           * @param qty maximum damage that will be applied (constrained by @ref max_damage)
           * @param dmg type of damage (or DT_NULL)
           */
-        void on_damage( int qty, damage_type dt );
+        void on_damage( double qty, damage_type dt );
 
         /**
          * Name of the item type (not the item), with proper plural.
@@ -1500,7 +1498,7 @@ public:
 
     private:
         std::string name;
-        int damage_ = 0;
+        double damage_ = 0;
         const itype* curammo = nullptr;
         std::map<std::string, std::string> item_vars;
         const mtype* corpse = nullptr;

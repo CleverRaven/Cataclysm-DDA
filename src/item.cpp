@@ -309,9 +309,9 @@ item& item::ammo_unset()
     return *this;
 }
 
-item& item::set_damage( int qty )
+item& item::set_damage( double qty )
 {
-    damage_ = std::max( std::min( qty, max_damage() ), min_damage() );
+    damage_ = std::max( std::min( qty, double( max_damage() ) ), double( min_damage() ) );
     return *this;
 }
 
@@ -456,7 +456,7 @@ bool item::stacks_with( const item &rhs ) const
     if( !count_by_charges() && charges != rhs.charges ) {
         return false;
     }
-    if( damage() != rhs.damage() ) {
+    if( damage_ != rhs.damage_ ) {
         return false;
     }
     if( burnt != rhs.burnt ) {
@@ -2123,7 +2123,7 @@ void item::on_contents_changed()
     }
 }
 
-void item::on_damage( int, damage_type )
+void item::on_damage( double, damage_type )
 {
 
 }
@@ -3171,6 +3171,10 @@ int item::chip_resistance( bool worst ) const
     return res;
 }
 
+int item::damage() const {
+    return damage_ < 0 ? floor( damage_ ) : ceil( damage_ );
+}
+
 int item::min_damage() const
 {
     return is_ammo() ? 0 : -1;
@@ -3181,7 +3185,7 @@ int item::max_damage() const
     return is_ammo() ? 0 : 4;
 }
 
-bool item::mod_damage( int qty, damage_type dt )
+bool item::mod_damage( double qty, damage_type dt )
 {
     if( qty > 0 ) {
         on_damage( qty, dt );
@@ -3189,7 +3193,7 @@ bool item::mod_damage( int qty, damage_type dt )
 
     bool destroy = damage_ + qty > max_damage();
 
-    damage_ = std::max( std::min( damage_ + qty, max_damage() ), min_damage() );
+    damage_ = std::max( std::min( damage_ + qty, double( max_damage() ) ), double( min_damage() ) );
 
     return destroy;
 }
