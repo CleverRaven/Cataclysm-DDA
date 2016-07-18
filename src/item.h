@@ -703,11 +703,6 @@ public:
         return mod_damage( 1, dt );
     }
 
-    /** Decrement item damage constrained @ref min_damage */
-    void sub_damage() {
-        mod_damage( -1 );
-    }
-
     /** Provide color for UI display dependent upon current item damage level */
     nc_color damage_color() const;
 
