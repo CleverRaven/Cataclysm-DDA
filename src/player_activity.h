@@ -3,6 +3,7 @@
 
 #include "enums.h"
 #include "json.h"
+#include "item_location.h"
 
 #include <climits>
 #include <vector>
@@ -73,6 +74,7 @@ class player_activity : public JsonSerializer, public JsonDeserializer
         int position;
         /** An activity specific value. */
         std::string name;
+        std::vector<item_location> targets;
         bool ignore_trivial;
         std::vector<int> values;
         std::vector<std::string> str_values;
@@ -90,9 +92,9 @@ class player_activity : public JsonSerializer, public JsonDeserializer
         player_activity( activity_type t = ACT_NULL, int turns = 0, int Index = -1, int pos = INT_MIN,
                          std::string name_in = "" );
         player_activity( player_activity && ) = default;
-        player_activity( const player_activity & ) = default;
+        player_activity( const player_activity & );
         player_activity &operator=( player_activity && ) = default;
-        player_activity &operator=( const player_activity & ) = default;
+        player_activity &operator=( const player_activity & );
 
         // Question to ask when the activity is to be stoped,
         // e.g. "Stop doing something?", already translated.
