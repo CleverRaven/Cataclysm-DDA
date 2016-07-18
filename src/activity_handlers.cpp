@@ -1064,7 +1064,7 @@ void activity_handlers::pulp_do_turn( player_activity *act, player *p )
         while( corpse.damage() < CORPSE_PULP_THRESHOLD ) {
             // Increase damage as we keep smashing ensuring we eventually smash the target.
             if( x_in_y( pulp_power, corpse.volume() ) ) {
-                corpse.mod_damage();
+                corpse.inc_damage();
                 if( corpse.damage() == CORPSE_PULP_THRESHOLD ) {
                     corpse.active = false;
                     num_corpses++;
@@ -1652,7 +1652,7 @@ void activity_handlers::gunmod_add_finish( player_activity *act, player *p )
         gun.contents.push_back( p->i_rem( &mod ) );
 
     } else if( rng( 0, 100 ) <= risk ) {
-        if( gun.mod_damage() ) {
+        if( gun.inc_damage() ) {
             p->i_rem( &gun );
             add_msg( m_bad, _( "You failed at installing the %s and destroyed your %s!" ), mod.tname().c_str(),
                      gun.tname().c_str() );

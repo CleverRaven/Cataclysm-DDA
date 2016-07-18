@@ -921,7 +921,7 @@ void inventory::rust_iron_items()
                 !elem_stack_iter.has_flag( "WATERPROOF_GUN" ) &&
                 !elem_stack_iter.has_flag( "WATERPROOF" ) && elem_stack_iter.damage() < elem_stack_iter.max_damage() &&
                 one_in( 500 ) ) {
-                elem_stack_iter.mod_damage(); // rusting never completely destroys an item
+                elem_stack_iter.inc_damage(); // rusting never completely destroys an item
             }
         }
     }

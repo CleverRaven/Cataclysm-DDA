@@ -119,7 +119,7 @@ bool player::handle_melee_wear( item &shield, float wear_multiplier )
 
     auto str = shield.tname(); // save name before we apply damage
 
-    if( !shield.mod_damage() ) {
+    if( !shield.inc_damage() ) {
         add_msg_player_or_npc( m_bad, _("Your %s is damaged by the force of the blow!"),
                                 _("<npcname>'s %s is damaged by the force of the blow!"),
                                 str.c_str());

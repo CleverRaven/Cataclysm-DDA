@@ -2157,7 +2157,7 @@ int iuse::sew_advanced(player *p, item *it, bool, const tripoint& )
     if( rn <= 8 ) {
         p->add_msg_if_player(m_bad, _("You damage your %s trying to modify it!"),
                              mod->tname().c_str());
-        if( mod->mod_damage() ) {
+        if( mod->inc_damage() ) {
             p->add_msg_if_player(m_bad, _("You destroy it!"));
             p->i_rem_keep_contents( pos );
         }
@@ -3911,7 +3911,7 @@ int iuse::firecracker_pack_act(player *, item *it, bool, const tripoint &pos)
     int timer = current_turn - it->bday;
     if (timer < 2) {
         sounds::sound(pos, 0, _("ssss..."));
-        it->mod_damage();
+        it->inc_damage();
     } else if (it->charges > 0) {
         int ex = rng(3, 5);
         int i = 0;
@@ -4449,7 +4449,7 @@ int iuse::vacutainer(player *p, item *it, bool, const tripoint& )
             it->put_in(acid);
             auto str = it->tname();
             if( one_in( 3 ) ) {
-                if( it->mod_damage() ) {
+                if( it->inc_damage() ) {
                     p->add_msg_if_player( m_info, _( "Your acidic blood melts the %s, destroying it!" ), str.c_str() );
                     p->inv.remove_item(it);
                     return 0;

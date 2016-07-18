@@ -471,7 +471,7 @@ bool player::handle_gun_damage( item &it )
                                   _("<npcname>'s %s is damaged by the mechanical malfunction!"),
                                   it.tname().c_str());
             // Don't increment until after the message
-            it.mod_damage();
+            it.inc_damage();
         }
         return false;
         // Here we check for a chance for the weapon to suffer a misfire due to
@@ -495,7 +495,7 @@ bool player::handle_gun_damage( item &it )
                                   _("<npcname>'s %s is damaged by the misfired round!"),
                                   it.tname().c_str());
             // Don't increment until after the message
-            it.mod_damage();
+            it.inc_damage();
         }
         return false;
     }

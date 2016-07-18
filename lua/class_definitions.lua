@@ -973,6 +973,7 @@ classes = {
             { name = "has_technique", rval = "bool", args = { "matec_id" } },
             { name = "has_var", rval = "bool", args = { "string" } },
             { name = "in_its_container", rval = "item", args = { } },
+            { name = "inc_damage", rval = "bool", args = { } },
             { name = "info", rval = "string", args = { "bool" } },
             { name = "info", rval = "string", args = { } },
             { name = "is_ammo", rval = "bool", args = { } },
