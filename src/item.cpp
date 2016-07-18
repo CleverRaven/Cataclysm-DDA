@@ -4409,6 +4409,29 @@ item *item::get_usable_item( const std::string &use_name )
     return nullptr;
 }
 
+int item::units_remaining( const Character& ch, int limit ) const
+{
+    if( count_by_charges() ) {
+        return std::min( int( charges ), limit );
+    }
+
+    auto res = ammo_remaining();
+    if( res < limit && has_flag( "USE_UPS" ) ) {
+        res += ch.charges_of( "UPS", limit - res );
+    }
+
+    return std::min( int( res ), limit );
+}
+
+bool item::units_sufficient( const Character &ch, int qty ) const
+{
+    if( qty < 0 ) {
+        qty = count_by_charges() ? 1 : ammo_required();
+    }
+
+    return units_remaining( ch, qty ) == qty;
+}
+
 item::reload_option::reload_option( const reload_option &rhs ) :
     who( rhs.who ), target( rhs.target ), ammo( rhs.ammo.clone() ),
     qty_( rhs.qty_ ), max_qty( rhs.max_qty ), parent( rhs.parent ) {}

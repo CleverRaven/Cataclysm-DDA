@@ -1392,6 +1392,20 @@ public:
         item *get_usable_item( const std::string &use_name );
 
         /**
+         * How many units (ammo or charges) are remaining?
+         * @param ch character responsible for invoking the item
+         * @param limit stop searching after this many units found
+         * @note also checks availability of UPS charges if applicable
+         */
+        int units_remaining( const Character &ch, int limit = INT_MAX ) const;
+
+        /**
+         * Check if item has sufficient units (ammo or charges) remaining
+         * @param qty units required, if unspecified use item default
+         */
+        bool units_sufficient( const Character &ch, int qty = -1 ) const;
+
+        /**
          * Returns the translated item name for the item with given id.
          * The name is in the proper plural form as specified by the
          * quantity parameter. This is roughly equivalent to creating an item instance and calling

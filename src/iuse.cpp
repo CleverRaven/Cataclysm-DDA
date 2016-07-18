@@ -2678,32 +2678,25 @@ static int cauterize_elec(player *p, item *it)
 
 int iuse::water_purifier(player *p, item *it, bool, const tripoint& )
 {
-    auto loc = g->inv_map_splice( []( const item & itm ) {
-        return !itm.contents.empty() &&
-               ( itm.contents.front().typeId() == "water" ||
-                 itm.contents.front().typeId() == "salt_water" );
+    auto obj = g->inv_map_splice( []( const item &e ) {
+        return !e.contents.empty() && e.contents.front().typeId() == "water";
     }, _( "Purify what?" ), 1, _( "You don't have water to purify." ) );
 
-    item *target = loc.get_item();
-    if( target == nullptr ) {
+    if( !obj ) {
         p->add_msg_if_player(m_info, _("You do not have that item!"));
         return 0;
     }
-    if( target->contents.empty() ) {
-        p->add_msg_if_player(m_info, _("You can only purify water."));
-        return 0;
-    }
 
-    item *pure = &target->contents.front();
-    if( pure->charges > it->ammo_remaining() ) {
-        p->add_msg_if_player(m_info,
-                             _("You don't have enough charges in your purifier to purify all of the water."));
+    item &liquid = obj->contents.front();
+    if( !it->units_sufficient( *p, liquid.charges ) ) {
+        p->add_msg_if_player( m_info, _( "That volume of water is too large to purify." ) );
         return 0;
     }
 
     p->moves -= 150;
-    pure->convert( "water_clean" ).poison = 0;
-    return pure->charges;
+
+    liquid.convert( "water_clean" ).poison = 0;
+    return liquid.charges;
 }
 
 int iuse::radio_off(player *p, item *it, bool, const tripoint& )
