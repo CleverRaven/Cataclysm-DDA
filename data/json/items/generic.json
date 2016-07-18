@@ -2572,6 +2572,7 @@
         "stack_size": 50,
         "material": [ "steel" ],
         "symbol": ".",
-        "color": "white"
+        "color": "white",
+        "ammo_type": "components"
     }
 ]
