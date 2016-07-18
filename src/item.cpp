@@ -3173,12 +3173,12 @@ int item::chip_resistance( bool worst ) const
 
 int item::min_damage() const
 {
-    return -1;
+    return is_ammo() ? 0 : -1;
 }
 
 int item::max_damage() const
 {
-    return 4;
+    return is_ammo() ? 0 : 4;
 }
 
 bool item::mod_damage( int qty, damage_type dt )
