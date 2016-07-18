@@ -2123,18 +2123,9 @@ void item::on_contents_changed()
     }
 }
 
-double item::on_damage( double qty, damage_type )
+void item::on_damage( double, damage_type )
 {
-    if( count_by_charges() ) {
-        // for qty (1) 25-100%, (2) 50-100%, (3) 75-100%, (>=4) 100%
-        int del = rng( std::max( int( charges * 0.25 * qty ), 1 ) , charges );
-        if( del < charges ) {
-            charges -= del;
-            return 0;
-        }
-    }
 
-    return qty;
 }
 
 std::string item::tname( unsigned int quantity, bool with_prefix ) const
@@ -3186,18 +3177,18 @@ int item::damage() const {
 
 int item::min_damage() const
 {
-    return count_by_charges() ? 0 : -1;
+    return is_ammo() ? 0 : -1;
 }
 
 int item::max_damage() const
 {
-    return count_by_charges() ? 0 : 4;
+    return is_ammo() ? 0 : 4;
 }
 
 bool item::mod_damage( double qty, damage_type dt )
 {
     if( qty > 0 ) {
-        qty = on_damage( qty, dt );
+        on_damage( qty, dt );
     }
 
     bool destroy = damage_ + qty > max_damage();
