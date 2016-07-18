@@ -3181,7 +3181,7 @@ bool item::mod_damage( int qty, damage_type dt )
     if( qty > 0 ) {
         on_damage( qty, dt );
     }
-    return damage_ < max_damage();
+    return damage_ > max_damage();
 }
 
 nc_color item::damage_color() const
