@@ -5101,7 +5101,8 @@ void vehicle::gain_moves()
         if( e->enabled ) {
             turret_reload( *e );
             if( turret_query( *e ) == turret_status::ready ) {
-                int shots = automatic_fire_turret( *e );
+                const tripoint &targ = turret_acquire_target( *e );
+                int shots = turret_fire( *e, targ );
                 drain( fuel_type_battery, e->base.get_gun_ups_drain() * shots );
             }
             turret_unload( *e );

@@ -56,7 +56,7 @@ vehicle::turret_status vehicle::turret_query( const vehicle_part &pt ) const
     return turret_status::ready;
 }
 
-int vehicle::turret_fire( vehicle_part &pt )
+int vehicle::manual_turret_fire( vehicle_part &pt )
 {
     int shots = 0;
 
@@ -77,11 +77,14 @@ int vehicle::turret_fire( vehicle_part &pt )
             break;
 
         case turret_status::ready: {
-            // Clone the shooter and place them at turret on roof
-            auto shooter = g->u;
+            // Do NOT clone the shooter
+            auto &shooter = g->u;
+            const tripoint &oldpos = shooter.pos();
+            auto veh_recoil = abs( velocity ) / 100 / 4;
+
             shooter.setpos( global_part_pos3( pt ) );
             shooter.add_effect( effect_on_roof, 1 );
-            shooter.recoil = abs( velocity ) / 100 / 4;
+            shooter.recoil = veh_recoil;
 
             tripoint pos = shooter.pos();
             auto trajectory = g->pl_target_ui( pos, gun.gun_range(), &gun, TARGET_MODE_TURRET_MANUAL );
@@ -91,6 +94,10 @@ int vehicle::turret_fire( vehicle_part &pt )
                 auto mode = gun.gun_current_mode();
                 shots = shooter.fire_gun( trajectory.back(), mode.qty, *mode );
             }
+
+            shooter.setpos( oldpos );
+            shooter.recoil += std::max( 0, shooter.recoil - veh_recoil );
+            shooter.remove_effect( effect_on_roof );
             break;
         }
 
@@ -315,10 +322,9 @@ void vehicle::turret_unload( vehicle_part &pt )
     pt.items.push_back( std::move( ammo ) );
 }
 
-int vehicle::automatic_fire_turret( vehicle_part &pt )
+npc npc_from_part( const vehicle &veh, const vehicle_part &pt, const item &gun )
 {
-    item &gun = pt.base;
-    tripoint pos = global_part_pos3( pt );
+    tripoint pos = veh.global_part_pos3( pt );
 
     npc tmp;
     tmp.set_fake( true );
@@ -326,13 +332,23 @@ int vehicle::automatic_fire_turret( vehicle_part &pt )
     tmp.name = rmp_format( _( "<veh_player>The %s" ), pt.name().c_str() );
     tmp.set_skill_level( gun.gun_skill(), 8 );
     tmp.set_skill_level( skill_id( "gun" ), 4 );
-    tmp.recoil = abs( velocity ) / 100 / 4;
+    tmp.recoil = abs( veh.velocity ) / 100 / 4;
     tmp.setpos( pos );
     tmp.str_cur = 16;
     tmp.dex_cur = 8;
     tmp.per_cur = 12;
     // Assume vehicle turrets are defending the player.
     tmp.attitude = NPCATT_DEFEND;
+
+    return tmp;
+}
+
+tripoint vehicle::turret_acquire_target( vehicle_part &pt )
+{
+    const item &gun = pt.base;
+    tripoint pos = global_part_pos3( pt );
+
+    npc tmp = npc_from_part( *this, pt, gun );
 
     int area = aoe_size( gun.ammo_effects() );
     if( area > 0 ) {
@@ -356,16 +372,16 @@ int vehicle::automatic_fire_turret( vehicle_part &pt )
                                               boo_hoo ),
                          tmp.name.c_str(), boo_hoo );
             }
-            return 0;
+            return pos;
         }
 
         targ = auto_target->pos();
     } else if( target.first != target.second ) {
         // Target set manually
         // Make sure we didn't move between aiming and firing (it's a bug if we did)
-        if( targ != target.first ) {
+        if( pos != target.first ) {
             target.second = target.first;
-            return 0;
+            return pos;
         }
 
         targ = target.second;
@@ -374,14 +390,30 @@ int vehicle::automatic_fire_turret( vehicle_part &pt )
     } else {
         // Shouldn't happen
         target.first = target.second;
+        return pos;
+    }
+
+    return targ;
+}
+
+int vehicle::turret_fire( vehicle_part &pt, const tripoint &targ )
+{
+    const item &gun = pt.base;
+    tripoint pos = global_part_pos3( pt );
+    if( targ == pos ) {
         return 0;
     }
 
-    // notify player if player can see the shot
     if( g->u.sees( pos ) ) {
         add_msg( _( "The %1$s fires its %2$s!" ), name.c_str(), pt.name().c_str() );
     }
 
     auto mode = gun.gun_current_mode();
+    npc tmp = npc_from_part( *this, pt, gun );
     return tmp.fire_gun( targ, mode.qty, *mode );
+}
+
+bool vehicle::turret_set_mode( vehicle_part &pt, const std::string &mode )
+{
+    return pt.base.gun_set_mode( mode );
 }

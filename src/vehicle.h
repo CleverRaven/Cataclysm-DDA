@@ -842,7 +842,7 @@ public:
      * Manually aim and fire turret
      * @return number of shots actually fired (which may be zero)
      */
-    int turret_fire( vehicle_part &pt );
+    int manual_turret_fire( vehicle_part &pt );
 
     /** Set targeting mode for specific turrets */
     void turrets_set_targeting();
@@ -857,6 +857,23 @@ public:
     bool turrets_aim();
 
     /*@}*/
+
+    /**
+     * If target for the turret is set, it returns the set target and unsets target.
+     * Otherwise finds a target and returns it.
+     * @return A target for the turret or turret's position if no target is found.
+     */
+    tripoint turret_acquire_target( vehicle_part &pt );
+    /**
+     * Fires a loaded turret at the target.
+     * @return Number of shots fired.
+     */
+    int turret_fire( vehicle_part &pt, const tripoint &targ );
+
+    void turret_reload( vehicle_part &pt );
+    void turret_unload( vehicle_part &pt );
+
+    bool turret_set_mode( vehicle_part &pt, const std::string &mode );
 
     // Update the set of occupied points and return a reference to it
     std::set<tripoint> &get_points( bool force_refresh = false );
@@ -1051,15 +1068,6 @@ private:
 
     /** empty the contents of a tank, battery or turret spilling liquids randomly on the ground */
     void leak_fuel( vehicle_part &pt );
-
-    void turret_reload( vehicle_part &pt );
-    void turret_unload( vehicle_part &pt );
-
-    /*
-     * Fire turret at automatically acquired targets
-     * @return number of shots actually fired (which may be zero)
-     */
-    int automatic_fire_turret( vehicle_part &pt );
 
     mutable bool mass_dirty                     = true;
     mutable bool mass_center_precalc_dirty      = true;
