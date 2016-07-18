@@ -2123,7 +2123,7 @@ void item::on_contents_changed()
     }
 }
 
-void item::on_damage( damage_type, int )
+void item::on_damage( int, damage_type )
 {
 
 }
@@ -3179,7 +3179,7 @@ bool item::mod_damage( int qty, damage_type dmg )
 {
     damage_ = std::max( std::min( damage_ + qty, max_damage() ), min_damage() );
     if( qty > 0 ) {
-        on_damage( dmg, qty );
+        on_damage( qty, dmg );
     }
     return damage_ < max_damage();
 }

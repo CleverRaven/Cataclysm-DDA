@@ -924,10 +924,10 @@ public:
 
          /**
           * Callback immediately **before** an item is damaged
-          * @param dmg type of damage (or DT_NULL)
           * @param qty maximum damage that will be applied (constrained by @ref max_damage)
+          * @param dmg type of damage (or DT_NULL)
           */
-        void on_damage( damage_type dmg, int qty );
+        void on_damage( int qty, damage_type dmg );
 
         /**
          * Name of the item type (not the item), with proper plural.
