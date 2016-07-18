@@ -2123,6 +2123,11 @@ void item::on_contents_changed()
     }
 }
 
+void item::on_damage( damage_type, int )
+{
+
+}
+
 std::string item::tname( unsigned int quantity, bool with_prefix ) const
 {
     std::stringstream ret;
@@ -3170,9 +3175,12 @@ int item::chip_resistance( bool worst ) const
     return res;
 }
 
-bool item::mod_damage( int qty )
+bool item::mod_damage( int qty, damage_type dmg )
 {
     damage_ = std::max( std::min( damage_ + qty, max_damage() ), min_damage() );
+    if( qty > 0 ) {
+        on_damage( dmg, qty );
+    }
     return damage_ < max_damage();
 }
 

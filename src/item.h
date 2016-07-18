@@ -172,6 +172,7 @@ class item : public JsonSerializer, public JsonDeserializer, public visitable<it
 
         /**
          * Filter setting damage constrained by @ref min_damage and @ref max_damage
+         * @note this method does not invoke the @ref on_damage callback
          * @return same instance to allow method chaining
          */
         item& set_damage( int qty );
@@ -695,8 +696,13 @@ public:
         return MAX_ITEM_DAMAGE;
     }
 
-    /** Applies @ref qty damage to item and returns whether item should be destroyed */
-    bool mod_damage( int qty = 1 );
+    /**
+     * Apply damage to item constrained by @ref min_damage and @ref max_damage
+     * @param qty maximum amount by which to adjust damage (negative permissible)
+     * @param dmg type of damage which may be passed to @ref on_damage callback
+     * @return whether item should be destroyed
+     */
+    bool mod_damage( int qty = 1, damage_type dmg = DT_NULL );
 
     /**
      * Check whether the item has been marked (by calling mark_as_used_by_player)
@@ -904,6 +910,14 @@ public:
          * Callback when contents of the item are affected in any way other than just processing.
          */
         void on_contents_changed();
+
+         /**
+          * Callback immediately **before** an item is damaged
+          * @param dmg type of damage (or DT_NULL)
+          * @param qty maximum damage that will be applied (constrained by @ref max_damage)
+          */
+        void on_damage( damage_type dmg, int qty );
+
         /**
          * Name of the item type (not the item), with proper plural.
          * This is only special when the item itself has a special name ("name" entry in
