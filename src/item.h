@@ -917,11 +917,12 @@ public:
         void on_contents_changed();
 
          /**
-          * Callback immediately **before** an item is damaged
-          * @param qty maximum damage that will be applied (constrained by @ref max_damage)
+          * Callback immediately **before** an item is damaged which may adjust applied damage
+          * @param qty maximum damage that would be applied (constrained by @ref max_damage)
           * @param dmg type of damage (or DT_NULL)
+          * @return amount of damage to actually apply
           */
-        void on_damage( double qty, damage_type dt );
+        double on_damage( double qty, damage_type dt );
 
         /**
          * Name of the item type (not the item), with proper plural.
