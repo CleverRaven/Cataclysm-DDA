@@ -690,7 +690,6 @@ public:
     /** Maximum amount of damage to an item (state before destroyed) */
     int max_damage() const {
         // Following locations remain dependent on MAX_ITEM_DAMAGE == 4
-        // * material_type::_dmg_adj
         // * item::tname()
         return MAX_ITEM_DAMAGE;
     }
