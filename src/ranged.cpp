@@ -1177,26 +1177,29 @@ std::vector<tripoint> game::target( tripoint &p, const tripoint &low, const trip
             draw_line( p, center, ret_this_zlevel );
 
             // Print to target window
-            if( !relevant ) {
-                // currently targetting vehicle to refill with fuel
-                vehicle *veh = m.veh_at(p);
-                if( veh != nullptr && u.sees( p ) ) {
-                    mvwprintw(w_target, line_number++, 1, _("There is a %s"),
-                              veh->name.c_str());
-                }
-            } else if( relevant == &u.weapon && relevant->is_gun() ) {
-                // firing a gun
-                mvwprintw( w_target, line_number++, 1, _( "Range: %d/%d, %s" ),
-                          rl_dist( from, p ), range, enemiesmsg.c_str() );
+            mvwprintw( w_target, line_number++, 1, _( "Range: %d/%d, %s" ),
+                      rl_dist( from, p ), range, enemiesmsg.c_str() );
 
+            line_number++;
+
+            if( relevant->is_gun() ) {
                 auto m = relevant->gun_current_mode();
-                if( !m.mode.empty() ) {
-                    mvwprintw( w_target, line_number++, 1, _("Firing mode: %s"), m.mode.c_str() );
+
+                if( relevant != m.target ) {
+                    mvwprintw( w_target, line_number++, 1, _( "Firing mode: %s %s (%d)" ),
+                               m->tname().c_str(), m.mode.c_str(), m.qty );
+                } else {
+                    mvwprintw( w_target, line_number++, 1, _( "Firing mode: %s (%d)" ),
+                               m.mode.c_str(), m.qty );
                 }
-            } else {
-                // throwing something or setting turret's target
-                mvwprintw( w_target, line_number++, 1, _("Range: %d/%d, %s"),
-                          rl_dist(from, p), range, enemiesmsg.c_str() );
+
+                if( m->ammo_data() ) {
+                    mvwprintw( w_target, line_number++, 1,
+                               m->ammo_capacity() > 1 ? _( "Ammo: %s (%d/%d)" ) : _( "Ammo: %s" ),
+                               item::nname( m->ammo_current(), m->ammo_remaining() ).c_str(),
+                               m->ammo_remaining(), m->ammo_capacity() );
+                }
+                line_number++;
             }
 
             if( critter != nullptr && u.sees( *critter ) ) {
