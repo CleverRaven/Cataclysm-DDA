@@ -874,6 +874,17 @@ typename std::enable_if<std::is_arithmetic<T>::value, bool>::type assign(
 }
 
 template <typename T>
+typename std::enable_if<std::is_arithmetic<T>::value, bool>::type assign(
+    JsonObject &jo, const std::string &name, T &val, bool strict, T lo, T hi )
+{
+    bool res = assign( jo, name, val, strict );
+    if( val < lo || val > hi ) {
+        jo.throw_error( "value outside supported range", name );
+    }
+    return res;
+}
+
+template <typename T>
 typename std::enable_if<std::is_constructible<T, std::string>::value, bool>::type assign(
     JsonObject &jo, const std::string &name, T &val, bool = false )
 {

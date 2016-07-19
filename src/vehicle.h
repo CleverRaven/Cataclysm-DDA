@@ -12,6 +12,7 @@
 #include "active_item_cache.h"
 #include "string_id.h"
 #include "int_id.h"
+#include "ranged.h"
 
 #include <vector>
 #include <array>
@@ -552,6 +553,12 @@ public:
     // Translate mount coords "p" into tile coords "q" using given pivot direction and anchor
     void coord_translate (int dir, const point &pivot, const point &p, point &q) const;
 
+    /** Get all vehicle parts (if any) at @ref pos optionally including @ref broken parts */
+    static std::vector<vehicle_part *> get_parts( const tripoint &pos, bool broken = false );
+
+    /** Get first part (if any) at @ref pos which matches the predicate @ref func */
+    static vehicle_part *get_part( const tripoint &pos, const std::function<bool(const vehicle_part *)>& func );
+
     // Seek a vehicle part which obstructs tile with given coords relative to vehicle position
     int part_at( int dx, int dy ) const;
     int global_part_at( int x, int y ) const;
@@ -829,20 +836,53 @@ public:
     /** Get all vehicle turrets loaded and ready to fire at @ref target */
     std::vector<vehicle_part *> turrets( const tripoint &target );
 
-    enum class turret_status {
-        ready,
-        no_ammo,
-        no_power
+    class turret_data : public ranged {
+        friend vehicle;
+
+        public:
+            turret_data() = default;
+
+            std::string name() const override;
+
+            long ammo_remaining() const override;
+            long ammo_capacity() const override;
+            const itype *ammo_data() const override;
+            itype_id ammo_current() const override;
+
+            int range() const override;
+
+            /** Fire at @ref target returning number of shots (may be zero) */
+            int fire( player &p, const tripoint &target );
+
+            bool can_reload() const;
+            bool can_unload() const;
+
+            const item *magazine_current() const;
+
+            enum class status {
+                invalid,
+                no_ammo,
+                no_power,
+                ready
+            };
+
+            status query() const;
+
+        private:
+            turret_data( vehicle *veh, vehicle_part *part, item_location &&loc ) :
+                ranged( std::move( loc ) ), veh( veh ), part( part ) {}
+
+        protected:
+            vehicle *veh;
+            vehicle_part *part;
     };
 
-    /** Query ability of turret to fire */
-    turret_status turret_query( const vehicle_part &pt ) const;
+    /** Get firing data for a turret */
+    turret_data turret_query( vehicle_part &pt );
+    const turret_data turret_query( const vehicle_part &pt ) const;
 
-    /**
-     * Manually aim and fire turret
-     * @return number of shots actually fired (which may be zero)
-     */
-    int turret_fire( vehicle_part &pt );
+    turret_data turret_query( const tripoint &pos );
+    const turret_data turret_query( const tripoint &pos ) const;
 
     /** Set targeting mode for specific turrets */
     void turrets_set_targeting();
@@ -1051,9 +1091,6 @@ private:
 
     /** empty the contents of a tank, battery or turret spilling liquids randomly on the ground */
     void leak_fuel( vehicle_part &pt );
-
-    void turret_reload( vehicle_part &pt );
-    void turret_unload( vehicle_part &pt );
 
     /*
      * Fire turret at automatically acquired targets

@@ -331,7 +331,7 @@ class item_location::impl::item_on_vehicle : public item_location::impl
         item_on_vehicle( const vehicle_cursor &cur, int idx ) : impl( idx ), cur( cur ) {}
 
         bool valid() const override {
-            return target() && cur.has_item( *target() );
+            return target() && ( cur.has_item( *target() ) || &cur.veh.parts[ cur.part ].base == target() );
         }
 
         void serialize( JsonOut &js ) const override {

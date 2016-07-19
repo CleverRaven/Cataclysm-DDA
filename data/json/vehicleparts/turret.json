@@ -9,14 +9,6 @@
     "flags": [ "TURRET" ]
   },
   {
-    "//": "deprecate when turrets support direct reloading",
-    "abstract": "turret_with_ammo",
-    "copy-from": "turret",
-    "type": "vehicle_part",
-    "size": 40,
-    "extend": { "flags": [ "CARGO" ] }
-  },
-  {
     "id": "flamethrower",
     "copy-from": "turret",
     "type": "vehicle_part",
@@ -25,11 +17,12 @@
     "difficulty": 5,
     "color": "dark_gray",
     "broken_color": "dark_gray",
-    "breaks_into": [ { "item": "flamethrower", "prob": 50 } ]
+    "breaks_into": [ { "item": "flamethrower", "prob": 50 } ],
+    "extend": { "flags": [ "USE_TANKS" ] }
   },
   {
     "id": "fusion_gun",
-    "copy-from": "turret_with_ammo",
+    "copy-from": "turret",
     "type": "vehicle_part",
     "name": "mounted fusion gun",
     "item": "ftk93",
@@ -47,11 +40,12 @@
     "difficulty": 8,
     "color": "magenta",
     "broken_color": "magenta",
-    "breaks_into": [ { "item": "laser_rifle", "prob": 50 } ]
+    "breaks_into": [ { "item": "laser_rifle", "prob": 50 } ],
+    "extend": { "flags": [ "USE_TANKS" ] }
   },
   {
     "id": "m249",
-    "copy-from": "turret_with_ammo",
+    "copy-from": "turret",
     "type": "vehicle_part",
     "name": "mounted M249",
     "item": "m249",
@@ -62,7 +56,7 @@
   },
   {
     "id": "mounted_abzats",
-    "copy-from": "turret_with_ammo",
+    "copy-from": "turret",
     "type": "vehicle_part",
     "name": "mounted automatic shotgun",
     "item": "abzats",
@@ -73,7 +67,7 @@
   },
   {
     "id": "mounted_browning",
-    "copy-from": "turret_with_ammo",
+    "copy-from": "turret",
     "type": "vehicle_part",
     "name": "mounted M2 Browning",
     "item": "m2browning",
@@ -84,7 +78,7 @@
   },
   {
     "id": "mounted_m134",
-    "copy-from": "turret_with_ammo",
+    "copy-from": "turret",
     "type": "vehicle_part",
     "name": "mounted M134D-H Minigun",
     "item": "m134",
@@ -95,7 +89,7 @@
   },
   {
     "id": "mounted_m1918",
-    "copy-from": "turret_with_ammo",
+    "copy-from": "turret",
     "type": "vehicle_part",
     "name": "mounted Browning Automatic Rifle",
     "item": "m1918",
@@ -106,7 +100,7 @@
   },
   {
     "id": "mounted_m240",
-    "copy-from": "turret_with_ammo",
+    "copy-from": "turret",
     "type": "vehicle_part",
     "name": "mounted M240",
     "item": "m240",
@@ -117,7 +111,7 @@
   },
   {
     "id": "mounted_m60",
-    "copy-from": "turret_with_ammo",
+    "copy-from": "turret",
     "type": "vehicle_part",
     "name": "mounted M60",
     "item": "m60",
@@ -128,7 +122,7 @@
   },
   {
     "id": "mounted_mk19",
-    "copy-from": "turret_with_ammo",
+    "copy-from": "turret",
     "type": "vehicle_part",
     "name": "mounted Mark 19 grenade launcher",
     "item": "mark19",
@@ -139,7 +133,7 @@
   },
   {
     "id": "mounted_rm298",
-    "copy-from": "turret_with_ammo",
+    "copy-from": "turret",
     "type": "vehicle_part",
     "name": "mounted RM298 HMG",
     "item": "rm298",
@@ -150,7 +144,7 @@
   },
   {
     "id": "mounted_rm614",
-    "copy-from": "turret_with_ammo",
+    "copy-from": "turret",
     "type": "vehicle_part",
     "name": "mounted RM614 LMG",
     "item": "rm614_lmg",
@@ -169,5 +163,17 @@
     "color": "light_blue",
     "broken_color": "light_blue",
     "breaks_into": [ { "item": "plasma_rifle", "prob": 50 } ]
+  },
+  {
+    "id": "watercannon",
+    "copy-from": "turret",
+    "type": "vehicle_part",
+    "name": "water cannon",
+    "item": "watercannon",
+    "difficulty": 5,
+    "color": "blue",
+    "broken_color": "blue",
+    "breaks_into": [ { "item": "watercannon", "prob": 50 } ],
+    "extend": { "flags": [ "USE_TANKS" ] }
   }
 ]

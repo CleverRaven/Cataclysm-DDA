@@ -2436,6 +2436,36 @@ bool vehicle::part_flag( int part, const vpart_bitflags flag) const
     }
 }
 
+std::vector<vehicle_part *> vehicle::get_parts( const tripoint &pos, bool broken )
+{
+    std::vector<vehicle_part *> res;
+
+    vehicle *veh = g->m.veh_at( pos );
+    if( veh ) {
+        for( auto &e: veh->parts ) {
+            if( e.removed ) {
+                continue;
+            }
+            if( !broken && e.hp <= 0 ) {
+                continue;
+            }
+            if( e.precalc[ 0 ].x == pos.x - veh->global_x() &&
+                e.precalc[ 0 ].y == pos.y - veh->global_y() ) {
+                res.push_back( &e );
+            }
+        }
+    }
+
+    return res;
+}
+
+vehicle_part *vehicle::get_part( const tripoint &pos, const std::function<bool(const vehicle_part *)>& func )
+{
+    auto parts = get_parts( pos, true );
+    auto iter = std::find_if( parts.begin(), parts.end(), func );
+    return iter != parts.end() ? *iter : nullptr;
+}
+
 int vehicle::part_at(int const dx, int const dy) const
 {
     for (size_t p = 0; p < parts.size(); p++) {
@@ -3023,7 +3053,7 @@ int vehicle::fuel_left (const itype_id & ftype, bool recurse) const
 int vehicle::fuel_capacity (const itype_id &ftype) const
 {
     return std::accumulate( parts.begin(), parts.end(), 0, [&ftype]( const int &lhs, const vehicle_part &rhs ) {
-        return lhs + ( rhs.ammo_current() == ftype ? rhs.ammo_capacity() : 0 );
+        return lhs + ( !rhs.is_turret() && rhs.ammo_current() == ftype ? rhs.ammo_capacity() : 0 );
     } );
 }
 
@@ -5023,6 +5053,19 @@ void vehicle::place_spawn_items()
         return;
     }
 
+    for( const auto &pt : type->parts ) {
+        if( pt.with_ammo ) {
+            int turret = part_with_feature_at_relative( pt.pos, "TURRET" );
+            if( turret < 0 ) {
+                debugmsg( "No TURRET at (%d, %d) of %s!", pt.pos.x, pt.pos.y, name.c_str() );
+                continue;
+            }
+            if( x_in_y( pt.with_ammo, 100 ) ) {
+                parts[ turret ].ammo_set( default_ammo( parts[ turret ].ammo_type() ) );
+            }
+        }
+    }
+
     for( const auto& spawn : type.obj().item_spawns ) {
         if( rng( 1, 100 ) <= spawn.chance ) {
             int part = part_with_feature_at_relative( spawn.pos, "CARGO", false );
@@ -5099,12 +5142,7 @@ void vehicle::gain_moves()
     // turrets which are enabled will try to reload and then automatically fire
     for( auto e : turrets() ) {
         if( e->enabled ) {
-            turret_reload( *e );
-            if( turret_query( *e ) == turret_status::ready ) {
-                int shots = automatic_fire_turret( *e );
-                drain( fuel_type_battery, e->base.get_gun_ups_drain() * shots );
-            }
-            turret_unload( *e );
+            automatic_fire_turret( *e );
         }
     }
 
@@ -6165,15 +6203,16 @@ ammotype vehicle_part::ammo_type() const
 
 itype_id vehicle_part::ammo_current() const
 {
-    // @todo currently only support fuel tanks and batteries
+    if( base.is_gun() ) {
+        return base.ammo_current();
+    }
+
     return info().has_flag( VPFLAG_FUEL_TANK ) ? info().fuel_type : "null";
 }
 
 long vehicle_part::ammo_capacity() const
 {
-    // @todo currently only support fuel tanks and batteries
-
-    if( base.is_magazine() || base.typeId() == "minireactor" ) {
+    if( base.is_gun() || base.is_magazine() || base.typeId() == "minireactor" ) {
         return base.ammo_capacity();
     }
 
@@ -6186,9 +6225,7 @@ long vehicle_part::ammo_capacity() const
 
 long vehicle_part::ammo_remaining() const
 {
-    // @todo currently only support fuel tanks and batteries
-
-    if( base.is_magazine() || base.typeId() == "minireactor" ) {
+    if( base.is_gun() || base.is_magazine() || base.typeId() == "minireactor" ) {
         return base.ammo_remaining();
     }
 
@@ -6201,7 +6238,9 @@ long vehicle_part::ammo_remaining() const
 
 int vehicle_part::ammo_set( const itype_id &ammo, long qty )
 {
-    // @todo currently only support fuel tanks and batteries
+    if( base.is_gun() ) {
+        return base.ammo_set( ammo, qty ).ammo_remaining();
+    }
 
     if( info().fuel_type != ammo ) {
         return -1;
@@ -6281,10 +6320,6 @@ bool vehicle_part::can_reload( const itype_id &obj ) const
             ( ammo_current() == "null" && ammo_type() == ammo ) ) {
             return ammo_remaining() < ammo_capacity();
         }
-
-    } else if( is_turret() ) {
-        // @todo not yet implemented
-        return false;
     }
 
     return false;
