@@ -1372,7 +1372,7 @@ void veh_interact::display_contents()
         std::string hdr;
         std::string msg;
 
-        auto turret = veh->turret_data( pt );
+        auto turret = veh->turret_query( pt );
         if( turret ) {
             hdr = turret.name();
 
@@ -1390,7 +1390,7 @@ void veh_interact::display_contents()
 
             } else {
                 hdr += string_format( " (%i/%i)", turret.ammo_remaining(), turret.ammo_capacity() );
-                if( turret.ammo_current() != "null" ) {
+                if( turret.ammo_remaining() && turret.ammo_current() != "null" ) {
                     msg = item::nname( turret.ammo_current(), turret.ammo_remaining() );
                 }
             }

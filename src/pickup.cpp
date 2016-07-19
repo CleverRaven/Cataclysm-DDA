@@ -42,11 +42,10 @@ Pickup::interact_results Pickup::interact_with_vehicle( vehicle *veh, const trip
     const bool has_items_on_ground = g->m.sees_some_items( pos, g->u );
     const bool items_are_sealed = g->m.has_flag( "SEALED", pos );
 
-    ranged turret;
+    vehicle::turret_data turret;
     auto parts = vehicle::get_parts( pos );
     for( auto e : parts ) {
-        if( e->is_turret() ) {
-            turret = veh->turret_data( *e );
+        if( ( turret = veh->turret_query( *e ) ) ) {
             break;
         }
     }
@@ -87,12 +86,12 @@ Pickup::interact_results Pickup::interact_with_vehicle( vehicle *veh, const trip
         selectmenu.addentry( FOLD_VEHICLE, true, 'f', _( "Fold vehicle" ) );
     }
 
-    if( turret ) {
-        if( turret.ammo_remaining() || turret.magazine_current() ) {
-            selectmenu.addentry( UNLOAD_TURRET, true, 'u', _( "Unload %s" ), turret.name().c_str() );
-        } else {
-            selectmenu.addentry( RELOAD_TURRET, true, 'r', _( "Reload %s" ), turret.name().c_str() );
-        }
+    if( turret.can_unload() ) {
+        selectmenu.addentry( UNLOAD_TURRET, true, 'u', _( "Unload %s" ), turret.name().c_str() );
+    }
+
+    if( turret.can_reload() ) {
+        selectmenu.addentry( RELOAD_TURRET, true, 'r', _( "Reload %s" ), turret.name().c_str() );
     }
 
     if( ( has_kitchen || has_chemlab ) && veh->fuel_left( "battery" ) > 0 ) {
