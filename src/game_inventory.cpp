@@ -1,5 +1,6 @@
 #include "game.h"
 
+#include "cata_utility.h"
 #include "inventory_ui.h"
 #include "player.h"
 #include "item.h"
@@ -201,10 +202,26 @@ item *game::inv_map_for_liquid( const item &liquid, const std::string &title, in
 class drop_inventory_preset: public inventory_selector_preset
 {
     public:
-        drop_inventory_preset( const player &p ) : p( p ) {}
+        drop_inventory_preset( const player &p ) : p( p ) {
+            append_cell( [ this ]( const item & it ) {
+                return to_string( it.volume() );
+            }, _( "VOLUME" ) );
+
+            append_cell( [ this ]( const item & it ) {
+                return string_format( "%.1f", convert_weight( it.weight() ) );
+            }, string_format( _( "WEIGHT(%s)" ), to_upper_case( weight_units() ).c_str() ) );
+
+            append_cell( [ this ]( const item & it ) {
+                return to_string( it.get_storage() ); //std::to_string
+            }, _( "STORAGE" ) );
+        }
 
         bool is_enabled( const item &it ) const override {
             return p.can_unwield( it, false );
+        }
+
+        int get_rank( const item &it ) const override {
+            return -it.volume();
         }
 
     private:
