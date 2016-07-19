@@ -840,32 +840,27 @@ static std::string print_recoil( const player &p)
 
 // Draws the static portions of the targeting menu,
 // returns the number of lines used to draw instructions.
-static int draw_targeting_window( WINDOW *w_target, item *relevant, player &p, target_mode mode,
+static int draw_targeting_window( WINDOW *w_target, const std::string &name, player &p, target_mode mode,
                                   input_context &ctxt, const std::vector<aim_type> &aim_types )
 {
     draw_border(w_target);
     // Draw the "title" of the window.
     mvwprintz(w_target, 0, 2, c_white, "< ");
     std::string title;
-    if (!relevant) { // currently targetting vehicle to refill with fuel
-        title = _("Select a vehicle");
-    } else {
-        if( mode == TARGET_MODE_FIRE ) {
-            if( relevant->has_flag( "RELOAD_AND_SHOOT" ) && relevant->ammo_data() ) {
-                title = string_format( _( "Shooting %1$s from %2$s" ),
-                        relevant->ammo_data()->nname( relevant->ammo_required() ).c_str(),
-                        relevant->tname().c_str() );
-            } else {
-                title = string_format( _( "Firing %s" ), relevant->gun_current_mode()->tname().c_str() );
-            }
-            title += " ";
-            title += print_recoil( p );
-        } else if( mode == TARGET_MODE_THROW ) {
-            title = string_format( _("Throwing %s"), relevant->tname().c_str());
-        } else {
-            title = string_format( _("Setting target for %s"), relevant->tname().c_str());
-        }
+
+    switch( mode ) {
+        case TARGET_MODE_FIRE:
+        case TARGET_MODE_TURRET_MANUAL:
+            title = string_format( _( "Firing %s %s" ), name.c_str(), print_recoil( p ).c_str() );
+            break;
+
+        case TARGET_MODE_THROW:
+            title = string_format( _( "Throwing %s" ), name.c_str() );
+
+        default:
+            title = _( "Set target" );
     }
+
     trim_and_print( w_target, 0, 4, getmaxx(w_target) - 7, c_red, "%s", title.c_str() );
     wprintz(w_target, c_white, " >");
 
@@ -1125,7 +1120,7 @@ std::vector<tripoint> game::target( tripoint &p, const tripoint &low, const trip
     ctxt.register_action("TOGGLE_SNAP_TO_TARGET");
     ctxt.register_action("HELP_KEYBINDINGS");
     ctxt.register_action("QUIT");
-    int num_instruction_lines = draw_targeting_window( w_target, relevant, u, mode, ctxt, aim_types );
+    int num_instruction_lines = draw_targeting_window( w_target, relevant->tname(), u, mode, ctxt, aim_types );
     bool snap_to_target = OPTIONS["SNAP_TO_TARGET"];
 
     std::string enemiesmsg;
