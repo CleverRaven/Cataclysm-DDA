@@ -60,7 +60,7 @@ Pickup::interact_results Pickup::interact_with_vehicle( vehicle *veh, const trip
     const bool remotely_controlled = g->remoteveh() == veh;
     typedef enum {
         EXAMINE, CONTROL, GET_ITEMS, GET_ITEMS_ON_GROUND, FOLD_VEHICLE, UNLOAD_TURRET, RELOAD_TURRET,
-        FIRE_TURRET, USE_HOTPLATE, FILL_CONTAINER, DRINK, USE_WELDER, USE_PURIFIER, PURIFY_TANK
+        USE_HOTPLATE, FILL_CONTAINER, DRINK, USE_WELDER, USE_PURIFIER, PURIFY_TANK
     } options;
     uimenu selectmenu;
 
@@ -88,9 +88,6 @@ Pickup::interact_results Pickup::interact_with_vehicle( vehicle *veh, const trip
         } else {
             selectmenu.addentry( RELOAD_TURRET, true, 'r', _( "Reload %s" ), turret->name().c_str() );
         }
-
-        selectmenu.addentry( FIRE_TURRET, veh->turret_query( *turret ) == vehicle::turret_status::ready,
-                             'f', _( "Fire %s" ), turret->name().c_str() );
     }
 
     if( ( has_kitchen || has_chemlab ) && veh->fuel_left( "battery" ) > 0 ) {
@@ -218,11 +215,6 @@ Pickup::interact_results Pickup::interact_with_vehicle( vehicle *veh, const trip
             }
             return DONE;
         }
-
-        case FIRE_TURRET:
-            // @todo check player has enough free hands
-            veh->turret_fire( *turret );
-            return DONE;
 
         case FOLD_VEHICLE:
             veh->fold_up();
