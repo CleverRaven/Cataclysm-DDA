@@ -84,6 +84,39 @@ worldfactory::~worldfactory()
     }
 }
 
+WORLDPTR worldfactory::add_world( WORLDPTR retworld )
+{
+    // add world to world list
+    all_worlds[retworld->world_name] = retworld;
+    all_worldnames.push_back(retworld->world_name);
+
+    std::ostringstream path;
+    path << FILENAMES["savedir"] << retworld->world_name;
+    retworld->world_path = path.str();
+    //debugmsg("worldpath: %s", path.str().c_str());
+
+    if (!save_world(retworld)) {
+        std::string worldname = retworld->world_name;
+        std::vector<std::string>::iterator it = std::find(all_worldnames.begin(), all_worldnames.end(),
+                                                worldname);
+        all_worldnames.erase(it);
+        if (all_worlds[worldname] != retworld) {
+            delete retworld;
+        }
+        delete all_worlds[worldname];
+        all_worlds.erase(worldname);
+        return nullptr;
+    }
+    return retworld;
+}
+
+WORLDPTR worldfactory::make_new_world( const std::vector<std::string> &mods )
+{
+    WORLDPTR retworld = new WORLD();
+    retworld->active_mod_order = mods;
+    return add_world( retworld );
+}
+
 WORLDPTR worldfactory::make_new_world( bool show_prompt )
 {
     // World to return after generating
@@ -129,28 +162,7 @@ WORLDPTR worldfactory::make_new_world( bool show_prompt )
 #endif
     }
 
-    // add world to world list
-    all_worlds[retworld->world_name] = retworld;
-    all_worldnames.push_back(retworld->world_name);
-
-    std::ostringstream path;
-    path << FILENAMES["savedir"] << retworld->world_name;
-    retworld->world_path = path.str();
-    //debugmsg("worldpath: %s", path.str().c_str());
-
-    if (!save_world(retworld)) {
-        std::string worldname = retworld->world_name;
-        std::vector<std::string>::iterator it = std::find(all_worldnames.begin(), all_worldnames.end(),
-                                                worldname);
-        all_worldnames.erase(it);
-        if (all_worlds[worldname] != retworld) {
-            delete retworld;
-        }
-        delete all_worlds[worldname];
-        all_worlds.erase(worldname);
-        return NULL;
-    }
-    return retworld;
+    return add_world( retworld );
 }
 
 WORLDPTR worldfactory::make_new_world(special_game_id special_type)
