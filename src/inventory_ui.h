@@ -149,14 +149,15 @@ class inventory_filter_preset : public inventory_selector_preset
 class inventory_column
 {
     public:
-        inventory_column( const inventory_selector_preset &preset = default_preset ) :
-            preset( preset ) {}
+        inventory_column( const inventory_selector_preset &preset = default_preset );
         virtual ~inventory_column() {}
 
-        bool empty() const;
+        bool empty() const {
+            return entries.empty();
+        }
 
         virtual bool visible() const {
-            return !empty();
+            return !empty() && visibility && preset.get_cells_count() > 0;
         }
         // true if can be activated
         virtual bool activatable() const;
@@ -196,11 +197,20 @@ class inventory_column
             this->mode = mode;
         }
 
+        void set_visibility( bool visibility ) {
+            this->visibility = visibility;
+        }
+
         void set_width( size_t width );
         void set_height( size_t height );
-        /// Returns either entry width (if @param entry is not null) or whole width of the column
-        size_t get_width( const inventory_entry *entry = nullptr ) const;
-        size_t get_min_width( const inventory_entry *entry = nullptr ) const;
+        size_t get_width() const;
+        size_t get_height() const {
+            return entries_per_page;
+        }
+        /// Expands the column to fit the new entry
+        void expand_to_fit( const inventory_entry &entry );
+        /// Resets width to original (unchanged)
+        void reset_width();
         /// Returns next custom inventory letter
         long reassign_custom_invlets( const player &p, long min_invlet, long max_invlet );
 
@@ -223,15 +233,13 @@ class inventory_column
         size_t page_of( size_t index ) const;
         size_t page_of( const inventory_entry &entry ) const;
 
-        size_t get_cell_width( const inventory_entry &entry, size_t cell_index ) const;
-        size_t get_max_cell_width( size_t cell_index ) const;
-
         size_t get_entry_indent( const inventory_entry &entry ) const;
+        size_t get_entry_cell_width( const inventory_entry &entry, size_t cell_index ) const;
 
         std::vector<inventory_entry> entries;
 
     private:
-        const int min_cell_margin = 1;
+        std::vector<size_t> cell_widths;
 
         const inventory_selector_preset &preset;
         navigation_mode mode = navigation_mode::ITEM;
@@ -239,11 +247,11 @@ class inventory_column
         bool active = false;
         bool multiselect = false;
         bool paging_is_valid = false;
+        bool visibility = true;
 
         size_t selected_index = 0;
         size_t page_offset = 0;
         size_t entries_per_page = 1;
-        size_t assigned_width = 0;
 };
 
 class inventory_selector
@@ -289,6 +297,9 @@ class inventory_selector
         void refresh_window() const;
         void update();
 
+        /** Tackles screen overflow */
+        virtual void rearrange_columns();
+
         virtual void draw( WINDOW *w ) const;
 
         void draw_inv_weight_vol( WINDOW *w, int weight_carried, units::volume vol_carried,
@@ -307,12 +318,12 @@ class inventory_selector
         }
 
         void set_active_column( size_t index );
-        size_t get_columns_width() const;
+        size_t get_visible_columns_width() const;
         /** @return percentage of the window occupied by columns */
         double get_columns_occupancy_ratio() const;
         /** @return true if visible columns are wider than available width */
         bool is_overflown() const {
-            return get_columns_width() > size_t( getmaxx( w_inv ) );
+            return get_visible_columns_width() > size_t( getmaxx( w_inv ) );
         }
 
         bool is_active_column( const inventory_column &column ) const {
@@ -371,6 +382,7 @@ class inventory_multiselector : public inventory_selector
         inventory_multiselector( const player &p, const inventory_selector_preset &preset = default_preset,
                                  const std::string &selection_column_title = "" );
     protected:
+        virtual void rearrange_columns() override;
         virtual void on_entry_add( const inventory_entry &entry ) override;
 
     private:

@@ -34,7 +34,7 @@ struct inventory_input {
 class selection_column_preset: public inventory_selector_preset
 {
     public:
-        selection_column_preset() = default;
+        selection_column_preset() {}
 
         virtual std::string get_caption( const inventory_entry &entry ) const override {
             std::ostringstream res;
@@ -59,23 +59,14 @@ class selection_column_preset: public inventory_selector_preset
         }
 };
 
+static const selection_column_preset selection_preset;
+
 class selection_column : public inventory_column
 {
     public:
         selection_column( const std::string &id, const std::string &name ) :
-            inventory_column( preset ),
+            inventory_column( selection_preset ),
             selected_cat( new item_category( id, name, 0 ) ) {}
-
-        void reserve_width_for( const inventory_entry &entry ) {
-            if( entry.is_selectable() ) {
-                prepare_paging();
-                set_width( std::max( get_width( &entry ), get_width() ) );
-            }
-        }
-
-        virtual bool visible() const override {
-            return true;
-        }
 
         virtual bool activatable() const override {
             return inventory_column::activatable() && pages_count() > 1;
@@ -89,6 +80,7 @@ class selection_column : public inventory_column
             inventory_column::prepare_paging();
             if( entries.empty() ) { // Category must always persist
                 entries.emplace_back( selected_cat.get() );
+                expand_to_fit( entries.back() );
             }
         }
 
@@ -96,7 +88,6 @@ class selection_column : public inventory_column
 
     private:
         const std::unique_ptr<item_category> selected_cat;
-        selection_column_preset preset;
 };
 
 bool inventory_entry::operator == ( const inventory_entry &other ) const
@@ -259,11 +250,10 @@ void inventory_selector_preset::append_cell( const entry_text_func &func, const 
     cells.emplace_back( title, func );
 }
 
-bool inventory_column::empty() const
+inventory_column::inventory_column( const inventory_selector_preset &preset ) :
+    preset( preset )
 {
-    return !std::any_of( entries.begin(), entries.end(), []( const inventory_entry &entry ) {
-        return entry.is_item();
-    } );
+    cell_widths.resize( preset.get_cells_count(), 0 );
 }
 
 bool inventory_column::activatable() const
@@ -283,63 +273,75 @@ inventory_entry *inventory_column::find_by_invlet( long invlet )
     return nullptr;
 }
 
-size_t inventory_column::get_cell_width( const inventory_entry &entry, size_t cell_index ) const
-{
-    size_t res = preset.get_cell_width( entry, cell_index );
-    if( cell_index == 0 ) {
-        res += get_entry_indent( entry );
-    }
-    return res;
-}
-
-size_t inventory_column::get_max_cell_width( size_t cell_index ) const
-{
-    if( !paging_is_valid ) {
-        debugmsg( "The return value may be incorrect because categories are not updated." );
-    }
-    size_t res = 0;
-    for( const auto &entry : entries ) {
-        res = std::max( get_cell_width( entry, cell_index ), res );
-    }
-    return res;
-}
-
-size_t inventory_column::get_width( const inventory_entry *entry ) const
-{
-    return visible() ? std::max( get_min_width( entry ), assigned_width ) : 0;
-}
-
-size_t inventory_column::get_min_width( const inventory_entry *entry ) const
-{
-    const size_t cells_count = preset.get_cells_count();
-    size_t res = 0;
-
-    for( size_t index = 0; index < cells_count; ++index ) {
-        if( entry == nullptr ) {
-            res += get_max_cell_width( index );
-        } else {
-            res += get_cell_width( *entry, index );
-        }
-    }
-    if( cells_count > 1 ) {
-        res += min_cell_margin * ( cells_count - 1 );
-    }
-    return res;
-}
-
 size_t inventory_column::get_entry_indent( const inventory_entry &entry ) const
 {
     if( !entry.is_item() ) {
         return 0;
     }
     size_t res = 2;
-    if( get_option<bool>( "ITEM_SYMBOLS" ) ) {
+    if( get_option<bool>("ITEM_SYMBOLS" ) ) {
         res += 2;
     }
     if( allows_selecting() && multiselect ) {
         res += 2;
     }
     return res;
+}
+
+size_t inventory_column::get_entry_cell_width( const inventory_entry &entry, size_t cell_index ) const
+{
+    return preset.get_cell_width( entry, cell_index ) + ( cell_index == 0 ? get_entry_indent( entry ) : 1 );
+}
+
+void inventory_column::set_width( const size_t width )
+{
+    reset_width();
+    int width_gap = get_width() - width;
+    // Now adjust the width if we must
+    while( width_gap != 0 ) {
+        const int step = width_gap > 0 ? -1 : 1;
+        size_t &cell_width = step > 0
+            ? *std::min_element( cell_widths.begin(), cell_widths.end() )
+            : *std::max_element( cell_widths.begin(), cell_widths.end() );
+        if( cell_width == 0 ) {
+            break; // This is highly unlikely to happen, but just in case
+        }
+        cell_width += step;
+        width_gap += step;
+    }
+}
+
+void inventory_column::set_height( size_t height ) {
+    if( entries_per_page != height ) {
+        if( height == 0 ) {
+            debugmsg( "Unable to assign zero height." );
+            return;
+        }
+        entries_per_page = height;
+        paging_is_valid = false;
+    }
+}
+
+void inventory_column::expand_to_fit( const inventory_entry &entry )
+{
+    for( size_t cell_index = 0; cell_index < cell_widths.size(); ++cell_index ) {
+        size_t &cell_width = cell_widths.at( cell_index );
+        cell_width = std::max( cell_width, get_entry_cell_width( entry, cell_index ) );
+    }
+
+}
+
+void inventory_column::reset_width()
+{
+    std::fill( cell_widths.begin(), cell_widths.end(), 0 );
+    for( const auto &entry : entries ) {
+        expand_to_fit( entry );
+    }
+}
+
+size_t inventory_column::get_width() const
+{
+    return std::accumulate( cell_widths.begin(), cell_widths.end(), 0 );
 }
 
 void inventory_column::select( size_t new_index, int step )
@@ -452,6 +454,7 @@ void inventory_column::add_entry( const inventory_entry &entry )
             || cur.get_category_ptr()->sort_rank <= entry.get_category_ptr()->sort_rank;
     } );
     entries.insert( iter.base(), entry );
+    expand_to_fit( entry );
     paging_is_valid = false;
 }
 
@@ -518,7 +521,7 @@ void inventory_column::prepare_paging()
         } );
         from = to;
     }
-    // Recover categories according to the new number of entries per page
+    // Recover categories according to the number of entries per page
     const item_category *current_category = nullptr;
     for( size_t i = 0; i < entries.size(); ++i ) {
         if( entries[i].get_category_ptr() == current_category && i % entries_per_page != 0 ) {
@@ -529,6 +532,7 @@ void inventory_column::prepare_paging()
                                           ? inventory_entry() // the last item on the page must not be a category
                                           : inventory_entry( current_category ); // the first item on the page must be a category
         entries.insert( entries.begin() + i, insertion );
+        expand_to_fit( insertion );
     }
     // Select the uppermost possible entry
     select( 0, 1 );
@@ -541,24 +545,16 @@ void inventory_column::draw( WINDOW *win, size_t x, size_t y ) const
     if( !visible() ) {
         return;
     }
-    std::vector<size_t> cell_widths;
-    // Cache expensive calculations of cell widths
-    cell_widths.reserve( preset.get_cells_count() );
-    for( size_t cell_index = 0; cell_index < preset.get_cells_count(); ++cell_index ) {
-        cell_widths.push_back( get_max_cell_width( cell_index ) );
-    }
-    // Calculate cell margin and rounding error
-    const int num_of_margins = std::max( int( preset.get_cells_count() ) - 1, 0 );
-    const int room_for_margins = std::max( int( assigned_width - get_min_width() ), 0 );
-    const int cell_margin = std::max( num_of_margins > 0 ? room_for_margins / num_of_margins : 0,
-                                      min_cell_margin );
-    const int column_width_sum = std::accumulate( cell_widths.begin(), cell_widths.end(), 0 );
-    const int rounding_error = std::max( int( get_width() - column_width_sum - num_of_margins *
-                                         cell_margin ), 0 );
-    const int first_cell_margin = cell_margin + rounding_error;
+
+    const auto available_cell_width = [ this ]( const inventory_entry &entry, const size_t cell_index ) {
+        const size_t displayed_width = cell_widths.at( cell_index );
+        const size_t real_width = get_entry_cell_width( entry, cell_index );
+
+        return displayed_width > real_width ? displayed_width - real_width : 0;
+    };
+
     // Do the actual drawing
-    for( size_t index = page_offset, line = 0; index < entries.size() &&
-         line < entries_per_page; ++index, ++line ) {
+    for( size_t index = page_offset, line = 0; index < entries.size() && line < entries_per_page; ++index, ++line ) {
         const auto &entry = entries[index];
 
         if( entry.is_null() ) {
@@ -567,37 +563,50 @@ void inventory_column::draw( WINDOW *win, size_t x, size_t y ) const
 
         int x1 = x + get_entry_indent( entry );
         int x2 = x;
-        int txe = INT_MAX;
+        int yy = y + line;
 
-        const int yy = y + line;
+        const bool selected = active && entry.is_selectable() && is_selected( entry );
+
+        if( selected && cell_widths.size() > 1 ) {
+            for( int hx = x1, hx_max = x + get_width(); hx < hx_max; ++hx ) {
+                mvwputch( win, yy, hx, h_white, ' ' );
+            }
+        }
 
         for( size_t cell_index = 0, count = preset.get_cells_count(); cell_index < count; ++cell_index ) {
-            const std::string txt = preset.get_cell_text( entry, cell_index );
-            const int txt_len = utf8_width( txt, true );
-
             if( line != 0 && cell_index != 0 && !entry.is_item() ) {
                 break; // Don't show duplicated titles
             }
 
             x2 += cell_widths.at( cell_index );
 
-            const int tx = ( cell_index == 0 ) ? x1 : x2 - txt_len; // Align to the right if not the first
-            const int mw = x2 - tx;
+            size_t text_width = preset.get_cell_width( entry, cell_index );
+            size_t available_width = x2 - x1;
 
-            if( !entry.enabled ) {
-                trim_and_print( win, yy, tx, mw, c_dkgray, "%s", remove_color_tags( txt ).c_str() );
-            } else if( active && entry.is_selectable() && is_selected( entry ) ) {
-                trim_and_print( win, yy, tx, mw, h_white, "%s", txt.c_str() );
-                if( tx > txe ) { // Need to fill the gap?
-                    mvwprintz( win, yy, txe, h_white, std::string( tx - txe, ' ' ).c_str() );
+            if( text_width > available_width ) {
+                // See if we can steal some of the needed width from an adjacent cell
+                if( cell_index == 0 && count >= 2 ) {
+                    available_width += available_cell_width( entry, 1 );
+                } else if( cell_index > 0 ) {
+                    available_width += available_cell_width( entry, cell_index - 1 );
                 }
-            } else {
-                trim_and_print( win, yy, tx, mw, preset.get_cell_color( entry, cell_index ), "%s", txt.c_str() );
+                text_width = std::min( text_width, available_width );
             }
-            // Compensate the rounding error right after the first cell
-            x2 += ( cell_index == 0 ) ? first_cell_margin : cell_margin;
+
+            if( text_width > 0 ) {
+                const int text_x = cell_index == 0 ? x1 : x2 - text_width; // Align either to the left or to the right
+                const std::string text = preset.get_cell_text( entry, cell_index );
+
+                if( !entry.enabled ) {
+                    trim_and_print( win, yy, text_x, text_width, c_dkgray, "%s", remove_color_tags( text ).c_str() );
+                } else if( selected ) {
+                    trim_and_print( win, yy, text_x, text_width, h_white, "%s", remove_color_tags( text ).c_str() );
+                } else {
+                    trim_and_print( win, yy, text_x, text_width, preset.get_cell_color( entry, cell_index ), "%s", text.c_str() );
+                }
+            }
+
             x1 = x2;
-            txe = tx + txt_len;
         }
 
         if( entry.is_item() ) {
@@ -625,18 +634,6 @@ void inventory_column::draw( WINDOW *win, size_t x, size_t y ) const
     }
 }
 
-void inventory_column::set_width( const size_t width )
-{
-    assigned_width = width;
-}
-
-void inventory_column::set_height( size_t height ) {
-    if( entries_per_page != height ) {
-        entries_per_page = height;
-        paging_is_valid = false;
-    }
-}
-
 void selection_column::on_change( const inventory_entry &entry )
 {
     inventory_entry my_entry( entry, selected_cat.get() );
@@ -650,6 +647,7 @@ void selection_column::on_change( const inventory_entry &entry )
         remove_entry( my_entry );
     } else {
         iter->chosen_count = my_entry.chosen_count;
+        expand_to_fit( my_entry );
     }
 
     prepare_paging();
@@ -849,25 +847,28 @@ inventory_entry *inventory_selector::find_entry_by_invlet( long invlet )
     return nullptr;
 }
 
+void inventory_selector::rearrange_columns()
+{
+    if( !own_gear_column.empty() && is_overflown() ) {
+        own_gear_column.move_entries_to( own_inv_column );
+    }
+
+    if( !map_column.empty() && is_overflown() ) {
+        map_column.move_entries_to( own_inv_column );
+    }
+}
+
 void inventory_selector::prepare_layout()
 {
     if( layout_is_valid ) {
         return;
     }
-    // This block should before any width evaluations.
-    // Before first prepare_paging() column does not contain any categories.
+    // This block adds categories and should go before any width evaluations
     for( auto &column : columns ) {
         column->prepare_paging();
     }
-
-    if( is_overflown() ) {
-        own_gear_column.move_entries_to( own_inv_column );
-    }
-
-    if( is_overflown() ) {
-        map_column.move_entries_to( own_inv_column );
-    }
-
+    // Handle screen overflow
+    rearrange_columns();
     // If we have a single column and it occupies more than a half of
     // the available with -> expand it
     auto visible_columns = get_visible_columns();
@@ -936,7 +937,7 @@ void inventory_selector::draw( WINDOW *w ) const
     // Position of inventory columns is adaptive
     const bool center_align = get_columns_occupancy_ratio() >= 0.5;
 
-    const int free_space = getmaxx( w ) - get_columns_width();
+    const int free_space = getmaxx( w ) - get_visible_columns_width();
     const int max_gap = ( columns.size() > 1 ) ? free_space / ( int( columns.size() ) - 1 ) : 0;
     const int gap = center_align ? max_gap : std::min<int>( max_gap, 8 );
     const int gap_rounding_error = ( center_align &&
@@ -1086,10 +1087,10 @@ void inventory_selector::set_active_column( size_t index )
     }
 }
 
-size_t inventory_selector::get_columns_width() const
+size_t inventory_selector::get_visible_columns_width() const
 {
     size_t res = 2; // padding on both sides
-    for( const auto &column : columns ) {
+    for( const auto &column : get_visible_columns() ) {
         res += column->get_width();
     }
     return res;
@@ -1098,7 +1099,7 @@ size_t inventory_selector::get_columns_width() const
 double inventory_selector::get_columns_occupancy_ratio() const
 {
     const int available_width = getmaxx( w_inv );
-    const int free_width = available_width - get_columns_width();
+    const int free_width = available_width - get_visible_columns_width();
     return free_width > 0 && available_width > 0 ? 1.0 - double( free_width ) / available_width : 1.0;
 }
 
@@ -1180,9 +1181,17 @@ inventory_multiselector::inventory_multiselector( const player &p,
     append_column( *selection_col );
 }
 
+void inventory_multiselector::rearrange_columns()
+{
+    selection_col->set_visibility( !is_overflown() );
+    inventory_selector::rearrange_columns();
+}
+
 void inventory_multiselector::on_entry_add( const inventory_entry &entry )
 {
-    static_cast<selection_column *>( selection_col.get() )->reserve_width_for( entry );
+    if( entry.is_selectable() ) {
+        static_cast<selection_column *>( selection_col.get() )->expand_to_fit( entry );
+    }
 }
 
 inventory_compare_selector::inventory_compare_selector( const player &p ) :
