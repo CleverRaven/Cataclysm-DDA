@@ -42,7 +42,9 @@ Pickup::interact_results Pickup::interact_with_vehicle( vehicle *veh, const trip
     const bool has_items_on_ground = g->m.sees_some_items( pos, g->u );
     const bool items_are_sealed = g->m.has_flag( "SEALED", pos );
 
-    vehicle_part *turret = vehicle::get_part( pos, []( const vehicle_part *e ) { return e->is_turret(); } );
+    vehicle_part *turret = vehicle::get_part( pos, []( const vehicle_part * e ) {
+        return e->is_turret();
+    } );
 
     const bool has_kitchen = ( veh->part_with_feature( veh_root_part, "KITCHEN" ) >= 0 );
     const bool has_faucet = ( veh->part_with_feature( veh_root_part, "FAUCET" ) >= 0 );
@@ -207,7 +209,8 @@ Pickup::interact_results Pickup::interact_with_vehicle( vehicle *veh, const trip
             item::reload_option opt = g->u.select_ammo( turret->base, true );
             if( opt ) {
                 g->u.assign_activity( ACT_RELOAD, opt.moves(), opt.qty() );
-                g->u.activity.targets.emplace_back( vehicle_cursor( *veh, veh->index_of_part( turret ) ), &turret->base );
+                g->u.activity.targets.emplace_back( vehicle_cursor( *veh, veh->index_of_part( turret ) ),
+                                                    &turret->base );
                 g->u.activity.targets.push_back( std::move( opt.ammo ) );
             }
             return DONE;
