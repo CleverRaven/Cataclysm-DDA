@@ -844,10 +844,12 @@ public:
 
             std::string name() const override;
 
+            long ammo_remaining() const override;
             long ammo_capacity() const override;
+            const itype *ammo_data() const override;
+            itype_id ammo_current() const override;
 
             bool can_reload() const;
-
             bool can_unload() const;
 
             enum class status {
@@ -1085,9 +1087,6 @@ private:
 
     /** empty the contents of a tank, battery or turret spilling liquids randomly on the ground */
     void leak_fuel( vehicle_part &pt );
-
-    void turret_reload( vehicle_part &pt );
-    void turret_unload( vehicle_part &pt );
 
     /*
      * Fire turret at automatically acquired targets
