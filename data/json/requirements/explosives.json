@@ -1,0 +1,8 @@
+[
+    {
+        "id": "explosive_sensitive",
+        "type": "requirement",
+        "//": "Explosives that explode when set on fire.",
+        "components": [ [ [ "chem_black_powder", 100 ], [ "gunpowder", 100 ], [ "chem_hmtd", 10 ] ] ]
+    }
+]

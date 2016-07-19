@@ -14,9 +14,10 @@ struct shrapnel_data {
 };
 
 struct explosion_data {
-    float power             = -1.0f;
+    float power             = 0.0f;
     float distance_factor   = 0.8f;
     bool fire               = false;
+    bool from_components    = false;
     shrapnel_data shrapnel;
 };
 

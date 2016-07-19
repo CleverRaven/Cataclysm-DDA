@@ -27,6 +27,7 @@ explosion_data load_explosion_data( JsonObject &jo )
     // Rest isn't
     ret.distance_factor = jo.get_float( "distance_factor", 0.8f );
     ret.fire = jo.get_bool( "fire", false );
+    ret.from_components = jo.get_bool( "from_components", false );
     if( jo.has_int( "shrapnel" ) ) {
         ret.shrapnel.count = jo.get_int( "shrapnel" );
         ret.shrapnel.mass = 10;

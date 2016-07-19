@@ -102,5 +102,89 @@
         "target": "canister_empty"
     },
     "flags": [ "TRADER_AVOID" ]
+  },
+  {
+    "abstract": "bomb_generic",
+    "type": "GENERIC",
+    "category": "weapons",
+    "name": "bomb (container)",
+    "name_plural": "bombs (containers)",
+    "use_action": {
+        "type": "countdown",
+        "name": "Arm bomb",
+        "message": "You ignite the fuse on the %s."
+    },
+    "countdown_destroy": true,
+    "countdown_action": {
+        "type": "explosion",
+        "detonate_item": true
+    },
+    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB" ]
+  },
+  {
+    "id": "bomb_jar",
+    "copy-from": "bomb_generic",
+    "type": "GENERIC",
+    "category": "weapons",
+    "name": "bomb (glass jar)",
+    "name_plural": "bombs (glass jars)",
+    "weight": 300,
+    "volume": 2,
+    "material": [ "glass" ],
+    "symbol": "*",
+    "color": "dark_gray",
+    "explosion": {
+        "from_components": true,
+        "distance_factor": 0.5,
+        "shrapnel": {
+            "count": 4,
+            "mass": 1
+        }
+    },
+    "countdown_interval": 5
+  },
+  {
+    "id": "bomb_little",
+    "copy-from": "bomb_generic",
+    "type": "GENERIC",
+    "category": "weapons",
+    "name": "bomb (2L tank)",
+    "name_plural": "bombs (2L tanks)",
+    "weight": 2000,
+    "volume": 8,
+    "material": [ "steel" ],
+    "symbol": "*",
+    "color": "dark_gray",
+    "explosion": {
+        "from_components": true,
+        "distance_factor": 0.7,
+        "shrapnel": {
+            "count": 10,
+            "mass": 10
+        }
+    },
+    "countdown_interval": 5
+  },
+  {
+    "id": "bomb_jar_3l",
+    "copy-from": "bomb_generic",
+    "type": "GENERIC",
+    "category": "weapons",
+    "name": "bomb (3L jar)",
+    "name_plural": "bombs (2L jars)",
+    "weight": 6000,
+    "volume": 8,
+    "material": [ "glass" ],
+    "symbol": "*",
+    "color": "dark_gray",
+    "explosion": {
+        "from_components": true,
+        "distance_factor": 0.8,
+        "shrapnel": {
+            "count": 20,
+            "mass": 2
+        }
+    },
+    "countdown_interval": 10
   }
 ]

@@ -13,5 +13,44 @@
       [ [ "bottle_glass", 1 ], [ "flask_glass", 1 ], [ "clay_canister", 1 ] ],
       [ [ "chem_ethanol", 500 ], [ "denat_alcohol", 500 ], [ "lamp_oil", 500 ], [ "gasoline", 500 ], [ "diesel", 500 ] ]
     ]
+  },
+  {
+    "result": "bomb_jar",
+    "type" : "recipe",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_EXPLOSIVE",
+    "skill_used": "fabrication",
+    "difficulty": 0,
+    "time": 5000,
+    "autolearn": true,
+    "reversible": true,
+    "components": [ [ [ "jar_glass", 1 ] ] ],
+    "using": [ [ "explosive_sensitive", 2 ] ]
+  },
+  {
+    "result": "bomb_little",
+    "type" : "recipe",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_EXPLOSIVE",
+    "skill_used": "fabrication",
+    "difficulty": 0,
+    "time": 5000,
+    "autolearn": true,
+    "reversible": true,
+    "components": [ [ [ "metal_tank_little", 1 ] ] ],
+    "using": [ [ "explosive_sensitive", 8 ] ]
+  },
+  {
+    "result": "bomb_jar_3l",
+    "type" : "recipe",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_EXPLOSIVE",
+    "skill_used": "fabrication",
+    "difficulty": 0,
+    "time": 5000,
+    "autolearn": true,
+    "reversible": true,
+    "components": [ [ [ "jar_3l_glass", 1 ] ] ],
+    "using": [ [ "explosive_sensitive", 12 ] ]
   }
 ]
