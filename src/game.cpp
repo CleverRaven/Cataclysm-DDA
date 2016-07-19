@@ -2830,20 +2830,37 @@ bool game::handle_action()
         case ACTION_FIRE:
             // Use vehicle turret or draw a pistol from a holster if unarmed
             if( !u.is_armed() ) {
-                int part = -1;
-                vehicle *veh = m.veh_at( u.pos(), part );
-                if( veh ) {
-                    int vpturret = veh->part_with_feature( part, "TURRET", true );
-                    int vpcontrols = veh->part_with_feature( part, "CONTROLS", true );
-                    if( ( vpturret >= 0 && veh->turret_fire( veh->parts[ vpturret ] ) ) ||
-                        ( vpcontrols >= 0 && veh->turrets_aim() ) ) {
-                        break;
-                    }
-                }
 
                 std::vector<std::string> options( 1, _("Cancel") );
                 std::vector<std::function<void()>> actions( 1, []{} );
 
+                // find all turrets within one square that are ready to fire
+                std::vector<std::pair<vehicle *, vehicle_part *>> turrets;
+                for( const auto &pos : closest_tripoints_first( 1, u.pos() ) ) {
+                    auto veh = g->m.veh_at( pos );
+                    auto pt = vehicle::get_part( pos, []( const vehicle_part *e ) {
+                        return e->is_turret();
+                    } );
+                    if( veh && pt && pt->is_turret() &&
+                        veh->turret_query( *pt ) == vehicle::turret_status::ready ) {
+                        turrets.emplace_back( veh, pt );
+                    }
+                }
+
+                if( turrets.size() == 1 ) {
+                    // as convenience if only one turret available use this without prompt
+                    turrets.front().first->turret_fire( *turrets.front().second );
+
+                } else if( turrets.size() > 1 ) {
+                    for( auto &e : turrets ) {
+                        options.push_back( e.second->name() );
+                        actions.push_back( [&]{ e.first->turret_fire( *e.second ); } );
+                    }
+                    actions[ ( uimenu( false, _("Fire turret?"), options ) ) - 1 ]();
+                    break;
+                }
+
+                // otherwise try and draw a weapon from a holster
                 for( auto &w : u.worn ) {
                     if( w.type->can_use( "holster" ) && !w.has_flag( "NO_QUICKDRAW" ) &&
                         !w.contents.empty() && w.contents.front().is_gun() ) {
