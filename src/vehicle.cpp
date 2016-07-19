@@ -6225,7 +6225,9 @@ long vehicle_part::ammo_remaining() const
 
 int vehicle_part::ammo_set( const itype_id &ammo, long qty )
 {
-    // @todo currently only support fuel tanks and batteries
+    if( base.is_gun() ) {
+        return base.ammo_set( ammo, qty ).ammo_remaining();
+    }
 
     if( info().fuel_type != ammo ) {
         return -1;
