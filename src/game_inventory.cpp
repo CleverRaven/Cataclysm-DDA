@@ -199,6 +199,70 @@ item *game::inv_map_for_liquid( const item &liquid, const std::string &title, in
                                         liquid.tname().c_str() ) ).get_item();
 }
 
+class comestible_inventory_preset: public inventory_selector_preset
+{
+    public:
+        comestible_inventory_preset( const player &p ) : p( p ) {
+            append_cell( [ this ]( const item & it ) {
+                return to_string( this->p.nutrition_for( get_food_type( it ) ) );
+            }, _( "NUTRITION" ) );
+
+            append_cell( [ this ]( const item & it ) {
+                return to_string( get_comestible( it ).quench );
+            }, _( "QUENCH" ) );
+
+            append_cell( [ this ]( const item & it ) {
+                return to_string( get_comestible( it ).fun );
+            }, _( "  FUN" ) );
+        }
+
+        bool is_shown( const item &it ) const override {
+            return it.made_of( SOLID ) && get_food_type( it ) != nullptr;
+        }
+
+        int get_rank( const item &it ) const override {
+            const auto food_type = get_food_type( it );
+            const auto &comestible = get_comestible( food_type );
+            const int value = p.nutrition_for( food_type ) + comestible.quench + comestible.fun;
+
+            return -value;
+        }
+
+    protected:
+        // @todo This idiom is quite frequent. De-duplicate.
+        const itype *get_food_type( const item &it ) const {
+            if( it.is_food( &p ) ) {
+                return it.type;
+            } else if( it.is_food_container( &p ) && it.contents.front().is_food( &p ) ) {
+                return it.contents.front().type;
+            } else {
+                return nullptr;
+            }
+        }
+        // This function is for robustness. It can prevent potential crashes.
+        const islot_comestible &get_comestible( const itype *food_type ) const {
+            if( food_type == nullptr || food_type->comestible == nullptr ) {
+                static islot_comestible dummy;
+                debugmsg( "Supplied an invalid comestible." );
+                return dummy;
+            }
+            return *food_type->comestible;
+        }
+
+        const islot_comestible &get_comestible( const item &it ) const {
+            return get_comestible( get_food_type( it ) );
+        }
+
+    private:
+        const player &p;
+};
+
+item_location game::inv_for_comestibles( const std::string &title )
+{
+    return inv_internal( u, comestible_inventory_preset( u ),
+                         title, 1, _( "You have nothing to consume." ) );
+}
+
 class drop_inventory_preset: public inventory_selector_preset
 {
     public:

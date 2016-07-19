@@ -460,6 +460,8 @@ class game
         int inv_for_equipped( const std::string &title );
         int inv_for_unequipped( const std::string &title );
 
+        item_location inv_for_comestibles( const std::string &title );
+
         enum inventory_item_menu_positon {
             RIGHT_TERMINAL_EDGE,
             LEFT_OF_INFO,

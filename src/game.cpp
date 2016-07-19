@@ -11043,12 +11043,7 @@ void game::eat(int pos)
     }
 
     // Can consume items from inventory or within one tile (including in vehicles)
-    auto item_loc = inv_map_splice( [&]( const item &it ) {
-        if( it.typeId() == "1st_aid" ) {
-            return false; // temporary fix for #12991
-        }
-        return it.made_of( SOLID ) && (it.is_food( &u ) || it.is_food_container( &u ) );
-    }, _( "Consume item:" ), 1, _( "You have nothing to consume." ) );
+    auto item_loc = inv_for_comestibles( _( "CONSUME ITEM" ) );
 
     item *it = item_loc.get_item();
     if( !it ) {
