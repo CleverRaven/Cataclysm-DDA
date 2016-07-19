@@ -1186,38 +1186,39 @@ std::vector<tripoint> game::target( tripoint &p, const tripoint &low, const trip
             mvwprintw( w_target, line_number++, 1, _( "Range: %d/%d, %s" ),
                       rl_dist( from, p ), range, enemiesmsg.c_str() );
 
-            line_number++;
-
-            if( mode == TARGET_MODE_FIRE || mode == TARGET_MODE_TURRET_MANUAL ) {
-                auto m = relevant->gun_current_mode();
-
-                if( relevant != m.target ) {
-                    mvwprintw( w_target, line_number++, 1, _( "Firing mode: %s %s (%d)" ),
-                               m->tname().c_str(), m.mode.c_str(), m.qty );
-                } else {
-                    mvwprintw( w_target, line_number++, 1, _( "Firing mode: %s (%d)" ),
-                               m.mode.c_str(), m.qty );
-                }
-
-                if( m->ammo_data() ) {
-                    mvwprintw( w_target, line_number++, 1,
-                               m->ammo_capacity() > 1 ? _( "Ammo: %s (%d/%d)" ) : _( "Ammo: %s" ),
-                               item::nname( m->ammo_current(), m->ammo_remaining() ).c_str(),
-                               m->ammo_remaining(), m->ammo_capacity() );
-                }
-                line_number++;
-            }
-
-            if( critter != nullptr && u.sees( *critter ) ) {
-                // The 6 is 2 for the border and 4 for aim bars.
-                int available_lines = compact_window ? 1 :
-                                      ( height - num_instruction_lines - line_number - 6 );
-                line_number = critter->print_info( w_target, line_number, available_lines, 1);
-            } else {
-                mvwputch(w_terrain, POSY + p.y - center.y, POSX + p.x - center.x, c_red, '*');
-            }
         } else {
             mvwprintw( w_target, line_number++, 1, _("Range: %d, %s"), range, enemiesmsg.c_str() );
+        }
+
+        line_number++;
+
+        if( mode == TARGET_MODE_FIRE || mode == TARGET_MODE_TURRET_MANUAL ) {
+            auto m = relevant->gun_current_mode();
+
+            if( relevant != m.target ) {
+                mvwprintw( w_target, line_number++, 1, _( "Firing mode: %s %s (%d)" ),
+                           m->tname().c_str(), m.mode.c_str(), m.qty );
+            } else {
+                mvwprintw( w_target, line_number++, 1, _( "Firing mode: %s (%d)" ),
+                           m.mode.c_str(), m.qty );
+            }
+
+            if( m->ammo_data() ) {
+                mvwprintw( w_target, line_number++, 1,
+                           m->ammo_capacity() > 1 ? _( "Ammo: %s (%d/%d)" ) : _( "Ammo: %s" ),
+                           item::nname( m->ammo_current(), m->ammo_remaining() ).c_str(),
+                           m->ammo_remaining(), m->ammo_capacity() );
+            }
+            line_number++;
+        }
+
+        if( critter && critter != &u && u.sees( *critter ) ) {
+            // The 6 is 2 for the border and 4 for aim bars.
+            int available_lines = compact_window ? 1 :
+                                  ( height - num_instruction_lines - line_number - 6 );
+            line_number = critter->print_info( w_target, line_number, available_lines, 1);
+        } else {
+            mvwputch(w_terrain, POSY + p.y - center.y, POSX + p.x - center.x, c_red, '*');
         }
 
         if( mode == TARGET_MODE_FIRE && critter != nullptr && u.sees( *critter ) ) {
