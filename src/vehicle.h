@@ -107,6 +107,7 @@ struct vehicle_part : public JsonSerializer, public JsonDeserializer
     friend vehicle;
     friend visitable<vehicle_cursor>;
     friend item_location;
+    friend class Pickup;
 
     enum : int { passenger_flag = 1 };
 
