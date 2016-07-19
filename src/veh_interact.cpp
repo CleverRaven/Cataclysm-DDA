@@ -1373,7 +1373,7 @@ void veh_interact::display_contents()
         std::string msg;
 
         auto turret = veh->turret_query( pt );
-        if( turret && turret.can_reload() ) {
+        if( turret && turret.can_unload() ) {
             hdr = turret.name();
 
             if( turret.magazine_current() ) {
