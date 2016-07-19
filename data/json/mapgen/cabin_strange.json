@@ -167,7 +167,7 @@
                 },
                 "S": {
                     "item": { "item": "etched_skull" },
-                    "furniture": "f_table"
+                    "furniture": "f_slab"
                 },
                 "o": {
                     "items": { "item": "novels", "chance": 40 },
@@ -186,6 +186,9 @@
                 { "x": 4, "y": 12, "monster": "mon_dementia", "repeat": [3, 6] },
                 { "x": 19, "y": 2, "monster": "mon_dementia", "repeat": [1, 4] },
                 { "x": 4, "y": 21, "monster": "mon_blood_sacrifice", "repeat": 1 }
+            ],
+            "set": [
+                { "point": "furniture", "id": "f_shackle", "x": 5, "y": 21}
             ]
         }
     }
