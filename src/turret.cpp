@@ -185,7 +185,7 @@ vehicle::turret_data::status vehicle::turret_data::query() const
     return status::ready;
 }
 
-int vehicle::turret_data::fire( player &p )
+int vehicle::turret_data::fire( player &p, const tripoint &target )
 {
     if( !loc ) {
         return 0;
@@ -196,26 +196,20 @@ int vehicle::turret_data::fire( player &p )
     p.add_effect( effect_on_roof, 1 );
     p.recoil = abs( veh->velocity ) / 100 / 4;
 
-    tripoint pos = p.pos();
-    auto trajectory = g->pl_target_ui( pos, range(), &*base(), TARGET_MODE_TURRET_MANUAL, base().position() );
-    g->draw_ter();
+    auto mode = base()->gun_current_mode();
 
-    if( !trajectory.empty() ) {
-        auto mode = base()->gun_current_mode();
-
-        if( part->info().has_flag( "USE_TANKS" ) ) {
-            mode->ammo_set( ammo_current(), ammo_required() );
-        }
-
-        shots = p.fire_gun( trajectory.back(), mode.qty, *mode );
-
-        if( part->info().has_flag( "USE_TANKS" ) && mode->ammo_remaining() ) {
-            veh->drain( mode->ammo_current(), mode->ammo_required() * shots );
-            mode->ammo_unset();
-        }
-
-        veh->drain( fuel_type_battery, mode->get_gun_ups_drain() * shots );
+    if( part->info().has_flag( "USE_TANKS" ) ) {
+        mode->ammo_set( ammo_current(), ammo_required() );
     }
+
+    shots = p.fire_gun( target, mode.qty, *mode );
+
+    if( part->info().has_flag( "USE_TANKS" ) && mode->ammo_remaining() ) {
+        veh->drain( mode->ammo_current(), mode->ammo_required() * shots );
+        mode->ammo_unset();
+    }
+
+    veh->drain( fuel_type_battery, mode->get_gun_ups_drain() * shots );
 
     p.remove_effect( effect_on_roof );
 

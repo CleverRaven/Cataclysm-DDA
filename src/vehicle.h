@@ -851,11 +851,8 @@ public:
 
             int range() const override;
 
-            /**
-             * Manually aim and fire turret
-             * @return number of shots actually fired (which may be zero)
-             */
-            int fire( player &p );
+            /** Fire at @ref target returning number of shots (may be zero) */
+            int fire( player &p, const tripoint &target );
 
             bool can_reload() const;
             bool can_unload() const;

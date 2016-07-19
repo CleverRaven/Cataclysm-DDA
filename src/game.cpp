@@ -2845,9 +2845,15 @@ bool game::handle_action()
                             add_msg( m_bad,  _( "The %s is not powered." ), turret.name().c_str() );
                             break;
 
-                        case vehicle::turret_data::status::ready:
-                            turret.fire( u );
+                        case vehicle::turret_data::status::ready: {
+                            tripoint pos = u.pos();
+                            auto trajectory = pl_target_ui( pos, turret.range(), &*turret.base(),
+                                                            TARGET_MODE_TURRET_MANUAL, turret.base().position() );
+                            if( !trajectory.empty() ) {
+                                turret.fire( u, trajectory.back() );
+                            }
                             break;
+                        }
 
                         default:
                             debugmsg( "unknown turret status" );
@@ -10585,6 +10591,7 @@ std::vector<tripoint> game::pl_target_ui( tripoint &p, int range, item *relevant
             if(!active_npc[id]->is_enemy()){
                 if (!query_yn(_("Really attack %s?"), active_npc[id]->name.c_str())) {
                     std::vector<tripoint> trajectory_blank;
+                    draw_ter();
                     return trajectory_blank; // Cancel the attack
                 } else {
                     //The NPC knows we started the fight, used for morale penalty.
@@ -10601,6 +10608,7 @@ std::vector<tripoint> game::pl_target_ui( tripoint &p, int range, item *relevant
             }
         }
     }
+    draw_ter();
     return trajectory;
 }
 
