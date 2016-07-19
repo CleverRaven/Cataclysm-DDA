@@ -3053,7 +3053,7 @@ int vehicle::fuel_left (const itype_id & ftype, bool recurse) const
 int vehicle::fuel_capacity (const itype_id &ftype) const
 {
     return std::accumulate( parts.begin(), parts.end(), 0, [&ftype]( const int &lhs, const vehicle_part &rhs ) {
-        return lhs + ( rhs.ammo_current() == ftype ? rhs.ammo_capacity() : 0 );
+        return lhs + ( !rhs.is_turret() && rhs.ammo_current() == ftype ? rhs.ammo_capacity() : 0 );
     } );
 }
 
@@ -6190,15 +6190,16 @@ ammotype vehicle_part::ammo_type() const
 
 itype_id vehicle_part::ammo_current() const
 {
-    // @todo currently only support fuel tanks and batteries
+    if( base.is_gun() ) {
+        return base.ammo_current();
+    }
+
     return info().has_flag( VPFLAG_FUEL_TANK ) ? info().fuel_type : "null";
 }
 
 long vehicle_part::ammo_capacity() const
 {
-    // @todo currently only support fuel tanks and batteries
-
-    if( base.is_magazine() || base.typeId() == "minireactor" ) {
+    if( base.is_gun() || base.is_magazine() || base.typeId() == "minireactor" ) {
         return base.ammo_capacity();
     }
 
@@ -6211,9 +6212,7 @@ long vehicle_part::ammo_capacity() const
 
 long vehicle_part::ammo_remaining() const
 {
-    // @todo currently only support fuel tanks and batteries
-
-    if( base.is_magazine() || base.typeId() == "minireactor" ) {
+    if( base.is_gun() || base.is_magazine() || base.typeId() == "minireactor" ) {
         return base.ammo_remaining();
     }
 
@@ -6306,10 +6305,6 @@ bool vehicle_part::can_reload( const itype_id &obj ) const
             ( ammo_current() == "null" && ammo_type() == ammo ) ) {
             return ammo_remaining() < ammo_capacity();
         }
-
-    } else if( is_turret() ) {
-        // @todo not yet implemented
-        return false;
     }
 
     return false;
@@ -6345,6 +6340,11 @@ int vehicle_part::wheel_diameter() const
 int vehicle_part::wheel_width() const
 {
     return base.is_wheel() ? base.type->wheel->width : 0;
+}
+
+const item *vehicle_part::turret_magazine() const
+{
+    return is_turret() ? base.magazine_current() : nullptr;
 }
 
 bool vehicle_part::is_light() const

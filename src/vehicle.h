@@ -170,6 +170,9 @@ struct vehicle_part : public JsonSerializer, public JsonDeserializer
     /** Get wheel width (inches) or return 0 if part is not wheel */
     int wheel_width() const;
 
+    /** Get turret magazine (if any) */
+    const item *turret_magazine() const;
+
     /**
      * @name Part capabilities
      *
