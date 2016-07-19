@@ -83,7 +83,7 @@ Pickup::interact_results Pickup::interact_with_vehicle( vehicle *veh, const trip
     }
 
     if( turret ) {
-        if( turret->ammo_remaining() ) {
+        if( turret->ammo_remaining() || turret->turret_magazine() ) {
             selectmenu.addentry( UNLOAD_TURRET, true, 'u', _( "Unload %s" ), turret->name().c_str() );
         } else {
             selectmenu.addentry( RELOAD_TURRET, true, 'r', _( "Reload %s" ), turret->name().c_str() );
