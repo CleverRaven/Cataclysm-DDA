@@ -10386,7 +10386,7 @@ bool game::handle_liquid( item &liquid, item * const source, const int radius,
 
     menu.addentry( -1, true, 'c', _( "Pour into a container" ) );
     actions.emplace_back( [&]() {
-        const std::string text = string_format( _( "Container for %s" ), liquid_name.c_str() );
+        const std::string text = string_format( _( "CONTAINER FOR %s" ), to_upper_case( liquid_name.c_str() ).c_str() );
         item * const cont = inv_map_for_liquid( liquid, text, radius );
 
         if( cont == nullptr || cont->is_null() ) {

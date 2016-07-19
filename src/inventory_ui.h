@@ -156,9 +156,10 @@ class inventory_column
             return entries.empty();
         }
 
-        virtual bool visible() const {
+        bool visible() const {
             return !empty() && visibility && preset.get_cells_count() > 0;
         }
+
         // true if can be activated
         virtual bool activatable() const;
         // true if allows selecting entries
@@ -265,9 +266,19 @@ class inventory_selector
         void add_vehicle_items( const tripoint &target );
         void add_nearby_items( int radius = 1 );
         /** Assigns a title that will be shown on top of the menu */
-        void set_title( const std::string &title );
-        /** Checks the selector for emptiness (absence of available entries). */
+        void set_title( const std::string &title ) {
+            this->title = title;
+        }
+        void set_hint( const std::string &hint ) {
+            this->hint = hint;
+        }
+        void set_display_stats( bool display_stats ) {
+            this->display_stats = display_stats;
+        }
+        /** @return true when the selector is empty */
         bool empty() const;
+        /** @return true when there are enabled entries to select */
+        bool has_available_choices() const;
 
     protected:
         const player &p;
@@ -299,12 +310,13 @@ class inventory_selector
 
         /** Tackles screen overflow */
         virtual void rearrange_columns();
+        /** Returns player for volume/weight numbers */
+        virtual const player &get_player_for_stats() const {
+            return p;
+        }
 
-        virtual void draw( WINDOW *w ) const;
-
-        void draw_inv_weight_vol( WINDOW *w, int weight_carried, units::volume vol_carried,
-                                  units::volume vol_capacity ) const;
-        void draw_inv_weight_vol( WINDOW *w ) const;
+        void draw_header( WINDOW *w ) const;
+        void draw_columns( WINDOW *w ) const;
 
         /** @return an entry from @ref entries by its invlet */
         inventory_entry *find_entry_by_invlet( long invlet );
@@ -352,13 +364,14 @@ class inventory_selector
         std::vector<inventory_column *> columns;
 
         WINDOW *w_inv;
-
         std::string title;
+        std::string hint;
         size_t active_column_index = 0;
         std::list<item_category> categories;
         navigation_mode navigation = navigation_mode::ITEM;
         input_context ctxt;
 
+        bool display_stats = true;
         bool layout_is_valid = false;
 };
 
@@ -368,9 +381,6 @@ class inventory_pick_selector : public inventory_selector
         inventory_pick_selector( const player &p,
                                  const inventory_selector_preset &preset = default_preset );
         item_location &execute();
-
-    protected:
-        void draw( WINDOW *w ) const override;
 
     private:
         std::shared_ptr<item_location> null_location;
@@ -398,7 +408,6 @@ class inventory_compare_selector : public inventory_multiselector
     protected:
         std::vector<inventory_entry *> compared;
 
-        void draw( WINDOW *w ) const override;
         void toggle_entry( inventory_entry *entry );
 };
 
@@ -411,11 +420,11 @@ class inventory_drop_selector : public inventory_multiselector
 
     protected:
         std::map<const item *, int> dropping;
+        mutable std::unique_ptr<player> dummy;
 
-        void draw( WINDOW *w ) const override;
+        const player &get_player_for_stats() const;
         /** Toggle item dropping */
         void set_drop_count( inventory_entry &entry, size_t count );
-        void remove_dropping_items( player &u ) const;
 };
 
 #endif

@@ -15,6 +15,8 @@ item_location inv_internal( player &p, const inventory_selector_preset &preset,
     inventory_pick_selector inv_s( p, preset );
 
     inv_s.set_title( title );
+    inv_s.set_display_stats( false );
+
     inv_s.add_character_items( p );
     inv_s.add_nearby_items( radius );
 
@@ -38,10 +40,13 @@ void game::interactive_inv()
     inventory_pick_selector inv_s( u );
 
     inv_s.add_character_items( u );
-    inv_s.set_title( _( "Inventory:" ) );
+    inv_s.set_title( _( "INVENTORY" ) );
 
     int res;
     do {
+        inv_s.set_hint( string_format(
+                            _( "Item hotkeys assigned: <color_ltgray>%d</color>/<color_ltgray>%d</color>" ),
+                            u.allocated_invlets().size(), inv_chars.size() - u.allocated_invlets().size() ) );
         const item_location &location = inv_s.execute();
         if( location == item_location::nowhere ) {
             break;
@@ -215,7 +220,8 @@ std::list<std::pair<int, int>> game::multidrop()
     inventory_drop_selector inv_s( u, preset );
 
     inv_s.add_character_items( u );
-    inv_s.set_title( _( "Multidrop:" ) );
+    inv_s.set_title( _( "MULTIDROP" ) );
+    inv_s.set_hint( "To drop x items, type a number before selecting." );
 
     if( inv_s.empty() ) {
         popup( std::string( _( "You have nothing to drop." ) ), PF_GET_KEY );
@@ -232,7 +238,8 @@ void game::compare( const tripoint &offset )
     inventory_compare_selector inv_s( u );
 
     inv_s.add_character_items( u );
-    inv_s.set_title( _( "Compare:" ) );
+    inv_s.set_title( _( "COMPARE" ) );
+    inv_s.set_hint( "Select two items to compare them." );
 
     if( offset != tripoint_min ) {
         inv_s.add_map_items( u.pos() + offset );
