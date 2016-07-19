@@ -2678,133 +2678,25 @@ static int cauterize_elec(player *p, item *it)
 
 int iuse::water_purifier(player *p, item *it, bool, const tripoint& )
 {
-    auto loc = g->inv_map_splice( []( const item & itm ) {
-        return !itm.contents.empty() &&
-               ( itm.contents.front().typeId() == "water" ||
-                 itm.contents.front().typeId() == "salt_water" );
+    auto obj = g->inv_map_splice( []( const item &e ) {
+        return !e.contents.empty() && e.contents.front().typeId() == "water";
     }, _( "Purify what?" ), 1, _( "You don't have water to purify." ) );
 
-    item *target = loc.get_item();
-    if( target == nullptr ) {
+    if( !obj ) {
         p->add_msg_if_player(m_info, _("You do not have that item!"));
         return 0;
     }
-    if( target->contents.empty() ) {
-        p->add_msg_if_player(m_info, _("You can only purify water."));
-        return 0;
-    }
 
-    item *pure = &target->contents.front();
-    if( pure->charges > it->ammo_remaining() ) {
-        p->add_msg_if_player(m_info,
-                             _("You don't have enough charges in your purifier to purify all of the water."));
+    item &liquid = obj->contents.front();
+    if( !it->units_sufficient( *p, liquid.charges ) ) {
+        p->add_msg_if_player( m_info, _( "That volume of water is too large to purify." ) );
         return 0;
     }
 
     p->moves -= 150;
-    pure->convert( "water_clean" ).poison = 0;
-    return pure->charges;
-}
 
-int iuse::two_way_radio(player *p, item *it, bool, const tripoint& )
-{
-    if( p->is_npc() ) {
-        // Getting NPC to talk to the radio could be cool.
-        // But it isn't yet.
-        return 0;
-    }
-
-    WINDOW *w = newwin(6, 36, (TERMY - 6) / 2, (TERMX - 36) / 2);
-    WINDOW_PTR wptr(w);
-    draw_border(w);
-    // TODO: More options here.  Thoughts...
-    //       > Respond to the SOS of an NPC
-    //       > Report something to a faction
-    //       > Call another player
-    // TODO: Should probably be a ui menu anyway.
-    fold_and_print(w, 1, 1, 999, c_white,
-                   _(
-                       "1: Radio a faction for help...\n"
-                       "2: Call Acquaintance...\n"
-                       "3: General S.O.S.\n"
-                       "0: Cancel"));
-    wrefresh(w);
-    char ch = getch();
-    if (ch == '1') {
-        p->moves -= 300;
-        faction *fac = g->list_factions(_("Call for help..."));
-        if (fac == NULL) {
-            return 0;
-        }
-        int bonus = 0;
-        if (fac->goal == FACGOAL_CIVILIZATION) {
-            bonus += 2;
-        }
-        if (fac->has_job(FACJOB_MERCENARIES)) {
-            bonus += 4;
-        }
-        if (fac->has_job(FACJOB_DOCTORS)) {
-            bonus += 2;
-        }
-        if (fac->has_value(FACVAL_CHARITABLE)) {
-            bonus += 3;
-        }
-        if (fac->has_value(FACVAL_LONERS)) {
-            bonus -= 3;
-        }
-        if (fac->has_value(FACVAL_TREACHERY)) {
-            bonus -= rng(0, 8);
-        }
-        bonus += fac->respects_u + 3 * fac->likes_u;
-        if (bonus >= 25) {
-            popup(_("They reply, \"Help is on the way!\""));
-            //~ %s is faction name
-            p->add_memorial_log(pgettext("memorial_male", "Called for help from %s."),
-                                  pgettext("memorial_female", "Called for help from %s."),
-                                  fac->name.c_str());
-            /* Disabled until event::faction_id and associated code
-             * is updated to accept a std::string.
-            g->add_event(EVENT_HELP, int(calendar::turn) + fac->response_time(), fac->id);
-            */
-            fac->respects_u -= rng(0, 8);
-            fac->likes_u -= rng(3, 5);
-        } else if (bonus >= -5) {
-            popup(_("They reply, \"Sorry, you're on your own!\""));
-            fac->respects_u -= rng(0, 5);
-        } else {
-            popup(_("They reply, \"Hah!  We hope you die!\""));
-            fac->respects_u -= rng(1, 8);
-        }
-
-    } else if (ch == '2') { // Call Acquaintance
-        // TODO: Implement me!
-    } else if (ch == '3') { // General S.O.S.
-        p->moves -= 150;
-        std::vector<npc *> in_range;
-        std::vector<npc *> npcs = overmap_buffer.get_npcs_near_player(30);
-        for( auto &npc : npcs ) {
-            if( npc->op_of_u.value >= 4 ) {
-                in_range.push_back( npc );
-            }
-        }
-        if (!in_range.empty()) {
-            npc *coming = random_entry( in_range );
-            popup(ngettext("A reply!  %s says, \"I'm on my way; give me %d minute!\"",
-                           "A reply!  %s says, \"I'm on my way; give me %d minutes!\"", coming->minutes_to_u()),
-                  coming->name.c_str(), coming->minutes_to_u());
-            p->add_memorial_log(pgettext("memorial_male", "Called for help from %s."),
-                                  pgettext("memorial_female", "Called for help from %s."),
-                                  coming->name.c_str());
-            coming->mission = NPC_MISSION_RESCUE_U;
-        } else {
-            popup(_("No-one seems to reply..."));
-        }
-    } else {
-        return 0;
-    }
-    wptr.reset();
-    refresh();
-    return it->type->charges_to_use();
+    liquid.convert( "water_clean" ).poison = 0;
+    return liquid.charges;
 }
 
 int iuse::radio_off(player *p, item *it, bool, const tripoint& )
@@ -3126,7 +3018,7 @@ int iuse::crowbar(player *p, item *it, bool, const tripoint &pos)
         if (type == t_door_locked_alarm) {
             p->add_memorial_log(pgettext("memorial_male", "Set off an alarm."),
                                   pgettext("memorial_female", "Set off an alarm."));
-            sounds::sound(p->pos(), 40, _("An alarm sounds!"));
+            sounds::sound(p->pos(), 40, _("an alarm sound!"));
             if (!g->event_queued(EVENT_WANTED)) {
                 g->add_event(EVENT_WANTED, int(calendar::turn) + 300, 0, p->global_sm_location());
             }
@@ -3168,7 +3060,7 @@ int iuse::makemound(player *p, item *it, bool, const tripoint& )
 int iuse::dig(player *p, item *it, bool, const tripoint &pos )
 {
     for( const tripoint &pt : closest_tripoints_first( 1, pos ) ) {
-        if( g->m.furn_at( pt ).examine == iexamine::rubble ) {
+        if( g->m.furn( pt ).obj().examine == iexamine::rubble ) {
             p->add_msg_if_player( _("You clear up that %s."), g->m.furnname( pt ).c_str() );
             g->m.furn_set( pt, f_null );
 
@@ -5404,6 +5296,16 @@ int iuse::heatpack(player *p, item *it, bool, const tripoint& )
     return 0;
 }
 
+int iuse::heat_food(player *p, item *it, bool, const tripoint& )
+{
+    if ( g->m.has_nearby_fire( p->pos() ) ) {
+        heat_item( p );
+    } else {
+        p->add_msg_if_player( m_info, _("You need to be next to fire to heat something up with the %s."), it->tname().c_str() );
+    }
+    return 0;
+}
+
 int iuse::hotplate(player *p, item *it, bool, const tripoint& )
 {
     if ( it->typeId() != "atomic_coffeepot" && ( !it->ammo_sufficient() ) ) {
@@ -5426,91 +5328,6 @@ int iuse::hotplate(player *p, item *it, bool, const tripoint& )
         return cauterize_elec(p, it);
     }
     return 0;
-}
-
-int iuse::quiver(player *p, item *it, bool, const tripoint& )
-{
-    if( p->is_npc() ) {
-        // Could cause player vs. NPC inventory conflict
-        return 0;
-    }
-
-    int choice = -1;
-    if (!(it->contents.empty()) && it->contents.front().charges > 0) {
-        choice = menu(true, _("Do what with quiver?"), _("Store more arrows"),
-                      _("Empty quiver"), _("Cancel"), NULL);
-
-        // empty quiver
-        if (choice == 2) {
-            item &arrows = it->contents.front();
-            int arrowsRemoved = arrows.charges;
-            p->add_msg_if_player(ngettext("You remove the %1$s from the %2$s.", "You remove the %1$s from the %2$s.",
-                                          arrowsRemoved),
-                                 arrows.type_name( arrowsRemoved ).c_str(), it->tname().c_str());
-            p->inv.assign_empty_invlet(arrows, false);
-            p->i_add(arrows);
-            it->contents.erase(it->contents.begin());
-            return it->type->charges_to_use();
-        }
-    }
-
-    // if quiver is empty or storing more arrows, pull up menu asking what to store
-    if (it->contents.empty() || choice == 1) {
-        int inventory_index = g->inv_for_filter( _("Store which arrows?"), []( const item & itm ) {
-            return itm.is_ammo() && (itm.ammo_type() == ammotype( "arrow" ) || itm.ammo_type() == ammotype( "bolt" ) );
-        } );
-        item *put = &( p->i_at(inventory_index ) );
-        if (put == NULL || put->is_null()) {
-            p->add_msg_if_player(_("Never mind."));
-            return 0;
-        }
-
-        int maxArrows = it->max_charges_from_flag("QUIVER");
-        if (maxArrows == 0) {
-            debugmsg("Tried storing arrows in quiver without a QUIVER_n tag (iuse::quiver)");
-            return 0;
-        }
-
-        int arrowsStored = 0;
-
-        // not empty so adding more arrows
-        if (!(it->contents.empty()) && it->contents.front().charges > 0) {
-            if (it->contents.front().typeId() != put->typeId()) {
-                p->add_msg_if_player(m_info, _("Those aren't the same arrows!"));
-                return 0;
-            }
-            if (it->contents.front().charges >= maxArrows) {
-                p->add_msg_if_player(m_info, _("That %s is already full!"), it->tname().c_str());
-                return 0;
-            }
-            arrowsStored = it->contents.front().charges;
-            it->contents.front().charges += put->charges;
-            p->i_rem(put);
-
-            // empty, putting in new arrows
-        } else {
-            it->put_in(p->i_rem(put));
-        }
-
-        // handle overflow
-        if (it->contents.front().charges > maxArrows) {
-            int toomany = it->contents.front().charges - maxArrows;
-            it->contents.front().charges -= toomany;
-            item clone = it->contents.front();
-            clone.charges = toomany;
-            p->i_add(clone);
-        }
-
-        arrowsStored = it->contents.front().charges - arrowsStored;
-        p->add_msg_if_player(ngettext("You store %1$d %2$s in your %3$s.", "You store %1$d %2$s in your %3$s.",
-                                      arrowsStored),
-                             arrowsStored, it->contents.front().type_name( arrowsStored ).c_str(), it->tname().c_str());
-        p->moves -= 10 * arrowsStored;
-    } else {
-        p->add_msg_if_player(_("Never mind."));
-        return 0;
-    }
-    return it->type->charges_to_use();
 }
 
 int iuse::towel(player *p, item *it, bool t, const tripoint& )
@@ -7616,7 +7433,8 @@ int iuse::multicooker(player *p, item *it, bool t, const tripoint &pos)
                     return 0;
                 }
 
-                for( auto it : meal->requirements->get_components() ) {
+                auto reqs = meal->requirements();
+                for( auto it : reqs.get_components() ) {
                     p->consume_items(it);
                 }
 
@@ -7715,8 +7533,8 @@ int iuse::cable_attach(player *p, item *it, bool, const tripoint& )
             return 0;
         }
         auto veh = g->m.veh_at( posp );
-        auto ter = g->m.ter_at( posp );
-        if( veh == nullptr && ter.id.id() != t_chainfence_h && ter.id.id() != t_chainfence_v ) {
+        auto ter = g->m.ter( posp );
+        if( veh == nullptr && ter != t_chainfence_h && ter != t_chainfence_v ) {
             p->add_msg_if_player(_("There's no vehicle there."));
             return 0;
         } else {

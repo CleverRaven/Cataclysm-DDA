@@ -153,7 +153,7 @@ struct vehicle_part : public JsonSerializer, public JsonDeserializer
     long ammo_consume( long qty, const tripoint& pos );
 
     /* Can part in current state be reloaded optionally with specific @ref obj */
-    bool can_reload( const itype_id &obj = "" );
+    bool can_reload( const itype_id &obj = "" ) const;
 
     /** Current faults affecting this part (if any) */
     const std::set<fault_id>& faults() const;
@@ -384,10 +384,10 @@ private:
                                bool verbose = false, bool desc = false) const;
 
     // Calculate how long it takes to attempt to start an engine
-    int engine_start_time( const int e );
+    int engine_start_time( const int e ) const;
 
     // How much does the temperature effect the engine starting (0.0 - 1.0)
-    double engine_cold_factor( const int e );
+    double engine_cold_factor( const int e ) const;
 
     /**
      * Find a possibly off-map vehicle. If necessary, loads up its submap through
@@ -455,7 +455,7 @@ public:
     void start_engines( const bool take_control = false );
 
     // Engine backfire, making a loud noise
-    void backfire( const int e );
+    void backfire( const int e ) const;
 
     // Honk the vehicle's horn, if there are any
     void honk_horn();
@@ -517,7 +517,7 @@ public:
      *  @param outside If true, give parts that can be opened from outside only
      *  @return part index or -1 if no part
      */
-    int next_part_to_open (int p, bool outside = false);
+    int next_part_to_open (int p, bool outside = false) const;
 
     /**
      *  Return the index of the next part to close at `p`
@@ -528,7 +528,7 @@ public:
      *  @param outside If true, give parts that can be closed from outside only
      *  @return part index or -1 if no part
      */
-    int next_part_to_close (int p, bool outside = false);
+    int next_part_to_close( int p, bool outside = false ) const;
 
     // returns indices of all parts in the vehicle with the given flag
     std::vector<int> all_parts_with_feature(const std::string &feature, bool unbroken = true) const;
@@ -665,9 +665,10 @@ public:
     // get the total mass of vehicle, including cargo and passengers
     int total_mass () const;
 
-    // get center of mass of vehicle; coordinates are precalc[0] if use_precalc is set,
-    // unrotated part coordinates otherwise
-    void center_of_mass(int &x, int &y, bool use_precalc = true) const;
+    // Gets the center of mass calculated for precalc[0] coordinates
+    const point &rotated_center_of_mass() const;
+    // Gets the center of mass calculated for mount point coordinates
+    const point &local_center_of_mass() const;
 
     // Get the pivot point of vehicle; coordinates are unrotated mount coordinates.
     // This may result in refreshing the pivot point if it is currently stale.
@@ -928,7 +929,7 @@ public:
      */
     void set_submap_moved(int x, int y);
 
-    const std::string disp_name();
+    const std::string disp_name() const;
 
     /** Required strength to be able to successfully lift the vehicle unaided by equipment */
     int lift_strength() const;

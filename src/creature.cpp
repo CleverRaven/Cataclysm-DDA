@@ -66,14 +66,6 @@ static std::map<int, std::map<body_part, double> > default_hit_weights = {
     }
 };
 
-struct weight_compare {
-    bool operator() (const std::pair<body_part, double> &left,
-                     const std::pair<body_part, double> &right)
-    {
-        return left.second < right.second;
-    }
-};
-
 const std::map<std::string, m_size> Creature::size_map = {
     {"TINY", MS_TINY}, {"SMALL", MS_SMALL}, {"MEDIUM", MS_MEDIUM},
     {"LARGE", MS_LARGE}, {"HUGE", MS_HUGE} };
@@ -530,27 +522,29 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
     std::string message = "";
     game_message_type gmtSCTcolor = m_neutral;
 
-    if( goodhit < 0.1 ) {
+    if( goodhit < accuracy_headshot ) {
         message = _("Headshot!");
         gmtSCTcolor = m_headshot;
         damage_mult *= rng_float(2.45, 3.35);
         bp_hit = bp_head; // headshot hits the head, of course
-    } else if( goodhit < 0.2 ) {
+
+    } else if( goodhit < accuracy_critical ) {
         message = _("Critical!");
         gmtSCTcolor = m_critical;
         damage_mult *= rng_float(1.75, 2.3);
-    } else if( goodhit < 0.4 ) {
+
+    } else if( goodhit < accuracy_goodhit ) {
         message = _("Good hit!");
         gmtSCTcolor = m_good;
         damage_mult *= rng_float(1, 1.5);
-    } else if( goodhit < 0.6 ) {
+
+    } else if( goodhit < accuracy_standard ) {
         damage_mult *= rng_float(0.5, 1);
-    } else if( goodhit < 0.8 ) {
+
+    } else if( goodhit < accuracy_grazing ) {
         message = _("Grazing hit.");
         gmtSCTcolor = m_grazing;
         damage_mult *= rng_float(0, .25);
-    } else {
-        damage_mult *= 0;
     }
 
     if( source != nullptr && !message.empty() ) {
@@ -1541,11 +1535,6 @@ body_part Creature::select_body_part(Creature *source, int hit_roll) const
     add_msg( m_debug, "selected part: %s", body_part_name(selected_part).c_str() );
 
     return selected_part;
-}
-
-bool Creature::compare_by_dist_to_point::operator()( const Creature* const a, const Creature* const b ) const
-{
-    return rl_dist( a->pos(), center ) < rl_dist( b->pos(), center );
 }
 
 void Creature::check_dead_state() {

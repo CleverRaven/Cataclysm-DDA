@@ -310,9 +310,9 @@ void game::check_all_mod_data()
             // assert(mm->has_mod(deps[i]));
             // ^^ dependency tree takes care of that case
             MOD_INFORMATION &dmod = *mm->mod_map[dep];
-            load_data_from_dir(dmod.path);
+            load_data_from_dir( dmod.path, dmod.ident );
         }
-        load_data_from_dir(mod.path);
+        load_data_from_dir( mod.path, mod.ident );
         DynamicDataLoader::get_instance().finalize_loaded_data();
     }
 }
@@ -324,10 +324,10 @@ void game::load_core_data()
     DynamicDataLoader::get_instance().unload_data();
 
     init_lua();
-    load_data_from_dir(FILENAMES["jsondir"]);
+    load_data_from_dir( FILENAMES[ "jsondir" ], "core" );
 }
 
-void game::load_data_from_dir(const std::string &path)
+void game::load_data_from_dir( const std::string &path, const std::string &src )
 {
     // Process a preload file before the .json files,
     // so that custom IUSE's can be defined before
@@ -335,7 +335,7 @@ void game::load_data_from_dir(const std::string &path)
     lua_loadmod( path, "preload.lua" );
 
     try {
-        DynamicDataLoader::get_instance().load_data_from_path(path);
+        DynamicDataLoader::get_instance().load_data_from_path( path, src );
     } catch( const std::exception &err ) {
         debugmsg("Error loading data from json: %s", err.what());
     }
@@ -1442,8 +1442,9 @@ bool game::do_turn()
     }
 
     // No-scent debug mutation has to be processed here or else it takes time to start working
-    if( !u.has_active_bionic( "bio_scent_mask" ) && !u.has_trait( "DEBUG_NOSCENT" ) ) {
-        scent( u.pos() ) = u.scent;
+    if( !u.has_active_bionic( "bio_scent_mask" ) &&
+        !u.has_trait( "DEBUG_NOSCENT" ) ) {
+        scent.set( u.pos(), u.scent );
         overmap_buffer.set_scent( u.global_omt_location(),  u.scent );
     }
     scent.update( u.pos(), m );
@@ -3550,14 +3551,14 @@ void game::load_world_modfiles(WORLDPTR world)
                 MOD_INFORMATION &mod = *mm->mod_map[mod_ident];
                 if( !mod.obsolete ) {
                     // Silently ignore mods marked as obsolete.
-                    load_data_from_dir(mod.path);
+                    load_data_from_dir( mod.path, mod.ident );
                 }
             } else {
                 debugmsg("the world uses an unknown mod %s", mod_ident.c_str());
             }
         }
         // Load additional mods from that world-specific folder
-        load_data_from_dir(world->world_path + "/mods");
+        load_data_from_dir( world->world_path + "/mods", "custom" );
     }
 
     erase();
@@ -3731,7 +3732,8 @@ std::vector<std::string> game::list_active_characters()
  */
 void game::write_memorial_file(std::string sLastWords)
 {
-    const std::string &memorial_dir = FILENAMES["memorialdir"];
+    const std::string &memorial_dir = FILENAMES["memorialdir"] +  world_generator->active_world->world_name + "/";
+
     if (!assure_dir_exist(memorial_dir)) {
         dbg(D_ERROR) << "game:write_memorial_file: Unable to make memorial directory.";
         debugmsg("Could not make '%s' directory", memorial_dir.c_str());
@@ -3816,7 +3818,7 @@ void game::debug()
                        _( "Spawn Clairvoyance Artifact" ), //16
                        _( "Map editor" ),             // 17
                        _( "Change weather" ),         // 18
-                       _( "Remove all monsters" ),    // 19
+                       _( "Kill all monsters" ),    // 19
                        _( "Display hordes" ),         // 20
                        _( "Test Item Group" ),        // 21
                        _( "Damage Self" ),            // 22
@@ -4774,11 +4776,12 @@ void game::disp_faction_ends()
 struct npc_dist_to_player {
     const tripoint ppos;
     npc_dist_to_player() : ppos( g->u.global_omt_location() ) { }
-    bool operator()(const npc *a, const npc *b) const
-    {
+    // Operator overload required to leverage sort API.
+    bool operator()( const npc *a, const npc *b ) const {
         const tripoint apos = a->global_omt_location();
         const tripoint bpos = b->global_omt_location();
-        return square_dist(ppos.x, ppos.y, apos.x, apos.y) < square_dist(ppos.x, ppos.y, bpos.x, bpos.y);
+        return square_dist( ppos.x, ppos.y, apos.x, apos.y ) <
+            square_dist( ppos.x, ppos.y, bpos.x, bpos.y );
     }
 };
 
@@ -5293,18 +5296,19 @@ void game::draw_ter( const tripoint &center, const bool looking, const bool draw
         tripoint tmp = center;
         int &realx = tmp.x;
         int &realy = tmp.y;
-        for (realx = posx - POSX; realx <= posx + POSX; realx++) {
-            for (realy = posy - POSY; realy <= posy + POSY; realy++) {
-                if (scent(tmp) != 0) {
+        for( realx = posx - POSX; realx <= posx + POSX; realx++ ) {
+            for( realy = posy - POSY; realy <= posy + POSY; realy++ ) {
+                if( scent.get( tmp ) != 0 ) {
                     int tempx = posx - realx;
                     int tempy = posy - realy;
-                    if (!(isBetween(tempx, -2, 2) && isBetween(tempy, -2, 2))) {
-                        if (mon_at(tmp) != -1) {
-                            mvwputch(w_terrain, realy + POSY - posy,
-                                     realx + POSX - posx, c_white, '?');
+                    if ( !( isBetween( tempx, -2, 2 ) &&
+                            isBetween( tempy, -2, 2 ) ) ) {
+                        if( mon_at( tmp ) != -1 ) {
+                            mvwputch( w_terrain, realy + POSY - posy,
+                                      realx + POSX - posx, c_white, '?' );
                         } else {
-                            mvwputch(w_terrain, realy + POSY - posy,
-                                     realx + POSX - posx, c_magenta, '#');
+                            mvwputch( w_terrain, realy + POSY - posy,
+                                      realx + POSX - posx, c_magenta, '#' );
                         }
                     }
                 }
@@ -5651,7 +5655,7 @@ void game::hallucinate( const tripoint &center )
     for (int i = 0; i <= TERRAIN_WINDOW_WIDTH; i++) {
         for (int j = 0; j <= TERRAIN_WINDOW_HEIGHT; j++) {
             if( one_in(10) ) {
-                const ter_t &t = m.ter_at( p );
+                const ter_t &t = m.ter( p ).obj();
                 p.x = i + rx + rng(-2, 2);
                 p.y = j + ry + rng(-2, 2);
                 char ter_sym = t.symbol();
@@ -7139,7 +7143,7 @@ void game::open()
     bool didit = m.open_door( openp, !m.is_outside( u.pos() ) );
 
     if (!didit) {
-        const ter_str_id tid = m.get_ter( openp );
+        const ter_str_id tid = m.ter( openp ).id();
 
         if( tid.str().find("t_door") != std::string::npos ) {
             if( tid.str().find("_locked") != std::string::npos ) {
@@ -7201,9 +7205,9 @@ void game::close( const tripoint &closep )
         }
     } else if( closep == u.pos() ) {
         add_msg(m_info, _("There's some buffoon in the way!"));
-    } else if( m.has_furn( closep ) && !m.furn_at( closep ).close ) {
+    } else if( m.has_furn( closep ) && !m.furn( closep ).obj().close ) {
         // check for open crate
-        if (m.furn_at(closep).id == "f_crate_o") {
+        if( m.furn( closep ) == furn_str_id( "f_crate_o" ) ) {
             add_msg(m_info, _("You'll need to construct a seal to close the crate!"));
         } else {
             add_msg(m_info, _("There's a %s in the way!"), m.furnname(closep).c_str());
@@ -7213,9 +7217,9 @@ void game::close( const tripoint &closep )
         // does not actually do anything.
         std::string door_name;
         if (m.has_furn(closep)) {
-            door_name = m.furn_at(closep).name;
+            door_name = m.furn(closep).obj().name;
         } else {
-            door_name = m.ter_at(closep).name;
+            door_name = m.tername( closep );
         }
         // Print a message that we either can not close whatever is there
         // or (if we're outside) that we can only close it from the
@@ -7340,7 +7344,7 @@ void game::smash()
             u.check_dead_state();
         }
         if (smashskill < m.bash_resistance(smashp) && one_in(10)) {
-            if (m.has_furn(smashp) && m.furn_at(smashp).bash.str_min != -1) {
+            if (m.has_furn(smashp) && m.furn(smashp).obj().bash.str_min != -1) {
                 // %s is the smashed furniture
                 add_msg(m_neutral, _("You don't seem to be damaging the %s."), m.furnname(smashp).c_str());
             } else {
@@ -8098,8 +8102,8 @@ void game::examine( const tripoint &examp )
         use_computer( examp );
         return;
     }
-    const furn_t &xfurn_t = m.furn_at(examp);
-    const ter_t &xter_t = m.ter_at(examp);
+    const furn_t &xfurn_t = m.furn( examp ).obj();
+    const ter_t &xter_t = m.ter( examp ).obj();
 
     const tripoint player_pos = u.pos();
 
@@ -9910,7 +9914,7 @@ int game::list_monsters(const int iLastState)
 
     uistate.list_item_mon = 2; // remember we've tabbed here
 
-    const int iWeaponRange = u.weapon.gun_range(&u);
+    const int iWeaponRange = u.gun_engagement_range( u.weapon, player::engagement::absolute_max, MIN_RECOIL );
 
     const tripoint stored_view_offset = u.view_offset;
     u.view_offset = tripoint_zero;
@@ -10132,7 +10136,7 @@ void game::grab()
             u.grab_type = OBJECT_VEHICLE;
             add_msg(_("You grab the %s."), veh->name.c_str());
         } else if( m.has_furn( grabp ) ) { // If not, grab furniture if present
-            if( m.furn_at( grabp ).move_str_req < 0 ) {
+            if( m.furn( grabp ).obj().move_str_req < 0 ) {
                 add_msg(_("You can not grab the %s"), m.furnname( grabp ).c_str());
                 return;
             }
@@ -10615,7 +10619,7 @@ bool game::plfire( const tripoint &default_target )
         }
 
         if( gun->has_flag( "RELOAD_AND_SHOOT" ) && !gun->ammo_remaining() ) {
-            item::reload_option opt = gun->pick_reload_ammo( u );
+            item::reload_option opt = u.select_ammo( *gun );
             if( !opt ) {
                 return false; // menu cancelled
             }
@@ -10670,7 +10674,7 @@ bool game::plfire( const tripoint &default_target )
         }
     }
 
-    int range = gun.melee() ? gun.qty : gun->gun_range( &u );
+    int range = gun.melee() ? gun.qty : u.gun_engagement_range( *gun, player::engagement::absolute_max, MIN_RECOIL );
 
     temp_exit_fullscreen();
     m.draw( w_terrain, u.pos() );
@@ -11096,19 +11100,18 @@ void game::reload( int pos, bool prompt )
             break;
     }
 
-    item::reload_option opt = it->pick_reload_ammo( u, prompt );
+    // for bandoliers we currently defer to iuse_actor methods
+    if( it->is_bandolier() ) {
+        auto ptr = dynamic_cast<const bandolier_actor *>( it->type->get_use( "bandolier" )->get_actor_ptr() );
+        ptr->reload( u, *it );
+        return;
+    }
+
+    item::reload_option opt = u.select_ammo( *it, prompt );
     if( opt ) {
-        std::stringstream ss;
-        ss << pos;
-
-        // store moves and qty locally as obtain() will invalidate the reload_option
-        int mv = opt.moves();
-        long qty = opt.qty();
-        int pos = opt.ammo.obtain( u, !opt.ammo->is_ammo_container() ? qty : 1 );
-
-        u.assign_activity( ACT_RELOAD, mv, qty, pos, ss.str() );
-
-        u.inv.restack( &u );
+        u.assign_activity( ACT_RELOAD, opt.moves(), opt.qty() );
+        u.activity.targets.emplace_back( u, it );
+        u.activity.targets.push_back( std::move( opt.ammo ) );
     }
 
     refresh_all();
@@ -11193,7 +11196,12 @@ bool add_or_drop_with_msg( player &u, item &it )
 bool game::unload( item &it )
 {
     // Unload a container consuming moves per item successfully removed
-    if( it.is_container() && !it.contents.empty() ) {
+    if( it.is_container() || it.is_bandolier() ) {
+        if( it.contents.empty() ) {
+            add_msg( m_info, _( "The %s is already empty!" ), it.tname().c_str() );
+            return false;
+        }
+
         it.contents.erase( std::remove_if( it.contents.begin(), it.contents.end(), [this]( item& e ) {
             int mv = u.item_handling_cost( e );
             if( !add_or_drop_with_msg( u, e ) ) {
@@ -11235,7 +11243,7 @@ bool game::unload( item &it )
         return false;
     }
 
-    if( !target->magazine_current() && target->ammo_remaining() <= 0 ) {
+    if( !target->magazine_current() && target->ammo_remaining() <= 0 && target->casings_count() <= 0 ) {
         if( target->is_tool() ) {
             add_msg( m_info, _( "Your %s isn't charged." ), target->tname().c_str() );
         } else {
@@ -11243,6 +11251,10 @@ bool game::unload( item &it )
         }
         return false;
     }
+
+    target->casings_handle( [&]( item &e ) {
+        return u.i_add_or_drop( e );
+    } );
 
     if( target->is_magazine() ) {
         // Remove all contained ammo consuming half as much time as required to load the magazine
@@ -11279,7 +11291,7 @@ bool game::unload( item &it )
             return target->magazine_current() == &e;
         } ) );
 
-    } else {
+    } else if( target->ammo_remaining() ) {
         long qty = target->ammo_remaining();
 
         if( target->ammo_type() == ammotype( "plutonium" ) ) {
@@ -11983,19 +11995,12 @@ bool game::walk_move( const tripoint &dest_loc )
 
     if( !shifting_furniture ) {
 
-        std::vector<std::string> badfields;
+        std::vector<std::string> harmful_stuff;
+        const auto fields_here = m.field_at( u.pos() );
         for( const auto& e : m.field_at( dest_loc ) ) {
             // warn before moving into a dangerous field except when already standing within a similar field
-            if( u.is_dangerous_field( e.second ) && !m.field_at( u.pos() ).findField( e.first ) ) {
-                badfields.push_back( e.second.name() );
-            }
-        }
-        if( !badfields.empty() ) {
-            std::ostringstream tmp;
-            std::copy( badfields.begin(), badfields.end() - 1, std::ostream_iterator<std::string>( tmp, ", " ) );
-            tmp << badfields.back();
-            if( !query_yn( _("Really step into: %s?"), tmp.str().c_str() ) ) {
-                return true;
+            if( u.is_dangerous_field( e.second ) && fields_here.findField( e.first ) == nullptr ) {
+                harmful_stuff.push_back( e.second.name() );
             }
         }
 
@@ -12006,16 +12011,42 @@ bool game::walk_move( const tripoint &dest_loc )
             const bool boardable = veh && veh->part_with_feature( vpart, "BOARDABLE" ) >= 0;
             // Hack for now, later ledge should stop being a trap
             if( tr.can_see(dest_loc, u) && !tr.is_benign() &&
-                m.has_floor( dest_loc ) && !boardable &&
-                !query_yn( _("Really step onto that %s?"), tr.name.c_str() ) ) {
-                return true;
+                m.has_floor( dest_loc ) && !boardable ) {
+                harmful_stuff.push_back( tr.name.c_str() );
             }
+
+            static const std::set< body_part > sharp_bps = {
+                bp_eyes, bp_mouth, bp_head, bp_leg_l, bp_leg_r, bp_foot_l, bp_foot_r, bp_arm_l, bp_arm_r,
+                bp_hand_l, bp_hand_r, bp_torso
+            };
+
+            static const auto sharp_bp_check = [this]( body_part bp ) {
+                return u.immune_to( bp, { DT_CUT, 10 } );
+            };
+
+            if( m.has_flag( "ROUGH", dest_loc ) && !m.has_flag( "ROUGH", u.pos() ) && !boardable &&
+                ( u.get_armor_bash( bp_foot_l ) < 5 || u.get_armor_bash( bp_foot_r ) < 5 ) ) {
+                harmful_stuff.push_back( m.name( dest_loc ).c_str() );
+            } else if( m.has_flag( "SHARP", dest_loc ) && !m.has_flag( "SHARP", u.pos() ) && !boardable &&
+                       u.dex_cur < 78 && !std::all_of( sharp_bps.begin(), sharp_bps.end(), sharp_bp_check ) ) {
+                harmful_stuff.push_back( m.name( dest_loc ).c_str() );
+            }
+
         }
+
+        if( !harmful_stuff.empty() &&
+            !query_yn( _("Really step into %s?"), enumerate_as_string( harmful_stuff ).c_str() ) ) {
+            return true;
+        }
+
     }
+
+    // Used to decide whether to print a 'moving is slow message
+    const int mcost_from = m.move_cost( u.pos() ); //calculate this _before_ calling grabbed_move
 
     int modifier = 0;
     if( grabbed && u.grab_type == OBJECT_FURNITURE && u.pos() + u.grab_point == dest_loc ) {
-        modifier = -m.furn_at( dest_loc ).movecost;
+        modifier = -m.furn( dest_loc ).obj().movecost;
     }
 
     const int mcost = m.combined_movecost( u.pos(), dest_loc, grabbed_vehicle, modifier );
@@ -12040,8 +12071,7 @@ bool game::walk_move( const tripoint &dest_loc )
     u.recoil = int(u.recoil / 2);
 
     // Print a message if movement is slow
-    const int mcost_to = m.move_cost( dest_loc );
-    const int mcost_from = m.move_cost( u.pos() );
+    const int mcost_to = m.move_cost( dest_loc ); //calculate this _after_ calling grabbed_move
     const bool slowed = ( !u.has_trait( "PARKOUR" ) && ( mcost_to > 2 || mcost_from > 2 ) ) ||
                   mcost_to > 4 || mcost_from > 4;
     if( slowed ) {
@@ -12542,14 +12572,14 @@ bool game::grabbed_furn_move( const tripoint &dp )
         ( !has_floor || m.tr_at( fdest ).is_null() )
         );
 
-    const furn_t furntype = m.furn_at(fpos);
+    const furn_t furntype = m.furn(fpos).obj();
     const int src_items = m.i_at(fpos).size();
     const int dst_items = m.i_at(fdest).size();
     bool dst_item_ok = ( !m.has_flag("NOITEM", fdest) &&
                          !m.has_flag("SWIMMABLE", fdest) &&
                          !m.has_flag("DESTROY_ITEM", fdest) );
-    bool src_item_ok = ( m.furn_at(fpos).has_flag("CONTAINER") ||
-                         m.furn_at(fpos).has_flag("SEALED") );
+    bool src_item_ok = ( m.furn(fpos).obj().has_flag("CONTAINER") ||
+                         m.furn(fpos).obj().has_flag("SEALED") );
 
     int str_req = furntype.move_str_req;
     // Factor in weight of items contained in the furniture.
@@ -12641,7 +12671,7 @@ bool game::grabbed_furn_move( const tripoint &dp )
     if( pushing_furniture && m.impassable( fpos ) ) {
         // Not sure how that chair got into a wall, but don't let player follow.
         add_msg( _("You let go of the %1$s as it slides past %2$s"),
-                 furntype.name.c_str(), m.ter_at( fdest ).name.c_str() );
+                 furntype.name.c_str(), m.tername( fdest ).c_str() );
         u.grab_point = tripoint_zero;
         u.grab_type = OBJECT_NONE;
         return true;
@@ -14047,7 +14077,7 @@ bool game::spread_fungus( const tripoint &p )
             if (m.has_flag("FLOWER", p)) {
                 m.furn_set(p, f_flower_fungal);
             } else if (m.has_flag("ORGANIC", p)) {
-                if (m.furn_at(p).movecost == -10) {
+                if (m.furn(p).obj().movecost == -10) {
                     m.furn_set(p, f_fungal_mass);
                 } else {
                     m.furn_set(p, f_fungal_clump);
@@ -14147,7 +14177,7 @@ bool game::spread_fungus( const tripoint &p )
                         if (m.has_flag("FLOWER", dest)) {
                             m.furn_set(dest, f_flower_fungal);
                         } else if (m.has_flag("ORGANIC", dest)) {
-                            if (m.furn_at(dest).movecost == -10) {
+                            if (m.furn(dest).obj().movecost == -10) {
                                 m.furn_set(dest, f_fungal_mass);
                             } else {
                                 m.furn_set(dest, f_fungal_clump);

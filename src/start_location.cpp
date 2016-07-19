@@ -161,8 +161,8 @@ void board_up( map &m, const tripoint &start, const tripoint &end )
             // If the furniture is movable and the character can move it, use it to barricade
             // g->u is workable here as NPCs by definition are not starting the game.  (Let's hope.)
             ///\EFFECT_STR determines what furniture might be used as a starting area barricade
-            if( m.furn_at( p ).move_str_req > 0 && m.furn_at( p ).move_str_req < g->u.get_str() ) {
-                if( m.furn_at( p ).movecost == 0 ) {
+            if( m.furn( p ).obj().move_str_req > 0 && m.furn( p ).obj().move_str_req < g->u.get_str() ) {
+                if( m.furn( p ).obj().movecost == 0 ) {
                     // Obstacles are better, prefer them
                     furnitures1.push_back( p );
                 } else {

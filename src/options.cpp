@@ -387,13 +387,10 @@ std::string options_manager::cOpt::getValueName()
 std::string options_manager::cOpt::getDefaultText(const bool bTranslated)
 {
     if (sType == "string_select") {
-        std::string sItems = "";
-        for( auto &elem : vItems ) {
-            if (sItems != "") {
-                sItems += _(", ");
-            }
-            sItems += ( bTranslated ) ? optionNames[elem] : elem;
-        }
+        const std::string sItems = enumerate_as_string( vItems.begin(), vItems.end(),
+        [ this, bTranslated ]( const std::string &elem ) {
+            return bTranslated ? optionNames[elem] : elem;
+        }, false );
         return string_format(_("Default: %s - Values: %s"),
                              (bTranslated) ? optionNames[sDefault].c_str() : sDefault.c_str(), sItems.c_str());
 
@@ -851,7 +848,7 @@ void options_manager::init()
 
     OPTIONS["AUTO_NOTES"] = cOpt("general", _("Auto notes"),
                                  _("If true, automatically sets notes on places that have stairs that go up or down"),
-                                 false
+                                 true
                                 );
 
     optionNames["ask"]      = _("Ask");
@@ -983,7 +980,7 @@ void options_manager::init()
 
     OPTIONS["VEHICLE_DIR_INDICATOR"] = cOpt("interface", _("Draw vehicle facing indicator"),
                                             _("If true, when controlling a vehicle, a white 'X' (in curses version) or a crosshair (in tiles version) at distance 10 from the center will display its current facing."),
-                                            false
+                                            true
                                            );
 
     mOptionsSort["interface"]++;
@@ -1213,7 +1210,7 @@ void options_manager::init()
     optionNames["off"] = _("Off");
     OPTIONS["SKILL_RUST"] = cOpt("debug", _("Skill rust"),
                                  _("Set the level of skill rust. Vanilla: Vanilla Cataclysm - Capped: Capped at skill levels 2 - Int: Intelligence dependent - IntCap: Intelligence dependent, capped - Off: None at all."),
-                                 "vanilla,capped,int,intcap,off", "int"
+                                 "vanilla,capped,int,intcap,off", "off"
                                 );
 
 
@@ -1257,7 +1254,7 @@ void options_manager::init()
 
     OPTIONS["NPC_DENSITY"] = cOpt("world_default", _("NPC spawn rate scaling factor"),
                                   _("A scaling factor that determines density of dynamic NPC spawns."),
-                                  0.0, 100.0, 1.0, 0.01
+                                  0.0, 100.0, 0.1, 0.01
                                  );
     OPTIONS["MONSTER_UPGRADE_FACTOR"] = cOpt("world_default", _("Monster evolution scaling factor"),
                                              _("A scaling factor that determines the time between monster upgrades. A higher number means slower evolution. Set to 0.00 to turn off monster upgrades."),

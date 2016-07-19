@@ -1,0 +1,61 @@
+[
+  {
+    "id": "t_oil_circ_brkr_l",
+    "type": "terrain",
+    "name": "HV oil circuit breaker",
+    "symbol": "B",
+    "color": [ "ltgray" ],
+    "move_cost": 0,
+    "bash": {
+      "str_min": 20,
+      "str_max": 150,
+      "ter_set": "t_concrete",
+      "explosive": 6,
+      "sound": "pow!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "scrap", "count": [ 8, 16 ] },
+        { "item": "steel_chunk", "count": [ 2, 6 ] },
+        { "item": "ceramic_shard", "count": [ 0, 4 ] }
+      ]
+    },
+    "deconstruct": {
+      "ter_set": "t_concrete",
+      "items": [
+        { "item": "cable", "charges": [ 8, 24 ] },
+        { "item": "power_supply", "count": [ 4, 8 ] },
+        { "item": "amplifier", "count": [ 8, 16 ] },
+        { "item": "steel_chunk", "count": [ 4, 16 ] },
+        { "item": "scrap", "count": [ 12, 24 ] },
+        { "item": "sheet_metal", "count": [ 6, 12 ] },
+        { "item": "ceramic_shard", "count": [ 2, 6 ] }
+      ]
+    },
+    "flags": [ "TRANSPARENT", "FLAMMABLE", "NOITEM", "WALL", "PERMEABLE" ]
+  },
+  {
+    "id": "t_tree_hickory",
+    "type": "terrain",
+    "name": "hickory tree",
+    "//": "barren in winter, harvestable in autum",
+    "symbol": "7",
+    "color": [ "light_green", "light_green", "brown_green", "brown" ],
+    "move_cost": 0,
+    "harvest_season": "AUTUMN",
+    "harvestable": "hickory_nut",
+    "transforms_into": "t_tree_hickory_harvested",
+    "examine_action": "tree_hickory",
+    "bash": {
+      "str_min": 80,
+      "str_max": 180,
+      "ter_set": "t_dirt",
+      "sound": "crunch!",
+      "sound_fail": "whack!",
+      "items": [
+        { "item": "stick", "count": [ 3, 10 ] },
+        { "item": "splinter", "count": [ 10, 25 ] }
+      ]
+    },
+    "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT" ]
+  }
+]

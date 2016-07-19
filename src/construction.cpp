@@ -777,10 +777,10 @@ bool construct::check_support( point p )
 bool construct::check_deconstruct( point p )
 {
     if( g->m.has_furn( p.x, p.y ) ) {
-        return g->m.furn_at( p.x, p.y ).deconstruct.can_do;
+        return g->m.furn( p.x, p.y ).obj().deconstruct.can_do;
     }
     // terrain can only be deconstructed when there is no furniture in the way
-    return g->m.ter_at( p.x, p.y ).deconstruct.can_do;
+    return g->m.ter( p.x, p.y ).obj().deconstruct.can_do;
 }
 
 bool construct::check_up_OK( point )
@@ -870,7 +870,7 @@ void construct::done_deconstruct( point p )
     // TODO: Make this the argument
     tripoint p3( p, g->get_levz() );
     if( g->m.has_furn( p.x, p.y ) ) {
-        const furn_t &f = g->m.furn_at( p.x, p.y );
+        const furn_t &f = g->m.furn( p.x, p.y ).obj();
         if( !f.deconstruct.can_do ) {
             add_msg( m_info, _( "That %s can not be disassembled!" ), f.name.c_str() );
             return;
@@ -889,7 +889,7 @@ void construct::done_deconstruct( point p )
         // writing from the submap.
         g->m.delete_signage( p3 );
     } else {
-        const ter_t &t = g->m.ter_at( p.x, p.y );
+        const ter_t &t = g->m.ter( p.x, p.y ).obj();
         if( !t.deconstruct.can_do ) {
             add_msg( _( "That %s can not be disassembled!" ), t.name.c_str() );
             return;
@@ -1502,7 +1502,7 @@ void finalize_constructions()
 
     constructions.erase( std::remove_if( constructions.begin(), constructions.end(),
         [&]( const construction &c ) {
-            return c.requirements->is_empty() && !c.requirements->is_null();
+            return c.requirements->is_blacklisted();
     } ), constructions.end() );
 
     for( size_t i = 0; i < constructions.size(); i++ ) {

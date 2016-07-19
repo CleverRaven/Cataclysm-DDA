@@ -1811,7 +1811,7 @@
     {
         "type" : "vehicle_part",
         "id" : "jumper_cable_debug",
-        "name" : "Shiny Cable",
+        "name" : "shiny cable",
         "symbol" : "{",
         "color" : "yellow",
         "broken_symbol" : "*",

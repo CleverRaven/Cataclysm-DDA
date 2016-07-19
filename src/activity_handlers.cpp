@@ -635,10 +635,10 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act_, player *p )
             on_ground->charges -= removed_charges;
             if( on_ground->charges <= 0 ) {
                 source_stack.erase( on_ground );
-                if( g->m.ter_at( source_pos ).examine == &iexamine::gaspump ) {
+                if( g->m.ter( source_pos ).obj().examine == &iexamine::gaspump ) {
                     add_msg( _( "With a clang and a shudder, the %s pump goes silent."),
                              liquid.type_name( 1 ).c_str() );
-                } else if( g->m.furn_at( source_pos ).examine == &iexamine::fvat_full ) {
+                } else if( g->m.furn( source_pos ).obj().examine == &iexamine::fvat_full ) {
                     g->m.furn_set( source_pos, f_fvat_empty );
                     add_msg( _( "You squeeze the last drops of %s from the vat." ),
                              liquid.type_name( 1 ).c_str() );
@@ -1114,10 +1114,15 @@ void activity_handlers::reload_finish( player_activity *act, player *p )
 {
     act->type = ACT_NULL;
 
-    item *reloadable = &p->i_at( std::atoi( act->name.c_str() ) );
+    if( act->targets.size() != 2 || act->index <= 0 ) {
+        debugmsg( "invalid arguments to ACT_RELOAD" );
+        return;
+    }
+
+    item *reloadable = &*act->targets[ 0 ];
     int qty = act->index;
 
-    if( !reloadable->reload( *p, item_location( *p, &p->i_at( act->position ) ), act->index ) ) {
+    if( !reloadable->reload( *p, std::move( act->targets[ 1 ] ), qty ) ) {
         add_msg( m_info, _( "Can't reload the %s." ), reloadable->tname().c_str() );
         return;
     }
@@ -1152,32 +1157,23 @@ void activity_handlers::start_fire_finish( player_activity *act, player *p )
     act->type = ACT_NULL;
 }
 
-void activity_handlers::start_fire_lens_do_turn( player_activity *act, player *p )
+void activity_handlers::start_fire_do_turn( player_activity *act, player *p )
 {
-    float natural_light_level = g->natural_light_level( p->posz() );
-    // if the weather changes, we cannot start a fire with a lens. abort activity
-    if( !((g->weather == WEATHER_CLEAR) || (g->weather == WEATHER_SUNNY)) ||
-        !( natural_light_level >= 60 ) ) {
-        add_msg(m_bad, _("There is not enough sunlight to start a fire now. You stop trying."));
+    item &lens_item = p->i_at(act->position);
+    const auto usef = lens_item.type->get_use( "firestarter" );
+    if( usef == nullptr || usef->get_actor_ptr() == nullptr ) {
+        add_msg( m_bad, "You have lost the item you were using to start the fire." );
         p->cancel_activity();
-    } else if( natural_light_level != act->values.back() ) {
-        // when lighting changes we recalculate the time needed
-        float previous_natural_light_level = act->values.back();
-        act->values.pop_back();
-        act->values.push_back(natural_light_level);
-        item &lens_item = p->i_at(act->position);
-        const auto usef = lens_item.type->get_use( "extended_firestarter" );
-        if( usef == nullptr || usef->get_actor_ptr() == nullptr ) {
-            add_msg( m_bad, "You have lost the item you were using as a lens." );
-            p->cancel_activity();
-            return;
-        }
+        return;
+    }
 
-        const auto actor = dynamic_cast< const extended_firestarter_actor* >( usef->get_actor_ptr() );
-        float progress_left = float(act->moves_left) /
-                              float(actor->calculate_time_for_lens_fire(p, previous_natural_light_level));
-        act->moves_left = int(progress_left *
-                              (actor->calculate_time_for_lens_fire(p, natural_light_level)));
+    p->mod_moves( -p->moves );
+    const auto actor = dynamic_cast<const firestarter_actor*>( usef->get_actor_ptr() );
+    float light = actor->light_mod( p->pos() );
+    act->moves_left -= light * 100;
+    if( light < 0.1 ) {
+        add_msg( m_bad, _("There is not enough sunlight to start a fire now. You stop trying.") );
+        p->cancel_activity();
     }
 }
 
@@ -1592,25 +1588,12 @@ void activity_handlers::repair_item_finish( player_activity *act, player *p )
 
 void activity_handlers::mend_item_finish( player_activity *act, player *p )
 {
-    item_location target;
-    switch( static_cast<item_location::type>( act->index ) ) {
-        case item_location::type::character:
-            target = item_location( *p, &p->i_at( act->position ) );
-            break;
-
-        case item_location::type::vehicle: {
-            auto veh = g->m.veh_at( act->placement );
-            if( !veh ) {
-                return; // vehicle moved or destroyed
-            }
-            target = veh->part_base( act->position );
-            break;
-        }
-
-        default:
-            debugmsg( "unknown index in mend item handler" );
-            return;
+    if( act->targets.size() != 1 ) {
+        debugmsg( "invalid arguments to ACT_MEND_ITEM" );
+        return;
     }
+
+    item_location &target = act->targets[ 0 ];
 
     auto f = target->faults.find( fault_id( act->name ) );
     if( f == target->faults.end() ) {

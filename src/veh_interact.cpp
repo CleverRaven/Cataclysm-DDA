@@ -457,7 +457,7 @@ bool veh_interact::can_install_part() {
     if( sel_vpart_info->install_skills.empty() ) {
         msg << string_format( "> <color_%1$s>%2$s</color>", status_color( true ), _( "NONE" ) ) << "\n";
     }
- 
+
     auto comps = reqs.get_folded_components_list( getmaxx( w_msg ), c_white, crafting_inv );
     std::copy( comps.begin(), comps.end(), std::ostream_iterator<std::string>( msg, "\n" ) );
 
@@ -989,11 +989,8 @@ void veh_interact::do_refill()
 }
 
 bool veh_interact::can_remove_part( int idx ) {
-    if( sel_vpart_info == nullptr ) {
-        werase( w_msg );
-        wrefresh (w_msg);
-        return false;
-    }
+    sel_vehicle_part = &veh->parts[idx];
+    sel_vpart_info = &sel_vehicle_part->info();
 
     const auto reqs = sel_vpart_info->removal_requirements();
     bool ok = reqs.can_make_with_inventory( crafting_inv );
@@ -1106,9 +1103,6 @@ void veh_interact::do_remove()
         }
     }
     while (true) {
-        //these variables seem to fetch the vehicle parts at specified position
-        sel_vehicle_part = &veh->parts[parts_here[pos]];
-        sel_vpart_info = &sel_vehicle_part->info();
         //redraw list of parts
         werase (w_parts);
         veh->print_part_desc (w_parts, 0, getmaxy( w_parts ) - 1, getmaxx( w_parts ), cpart, pos);
@@ -1401,14 +1395,13 @@ void veh_interact::display_veh ()
         // show CoM, pivot in debug mode
 
         const point &pivot = veh->pivot_point();
-        int com_x, com_y;
-        veh->center_of_mass(com_x, com_y, false);
+        const point &com = veh->local_center_of_mass();
 
-        mvwprintz(w_disp, 0, 0, c_green, "CoM   %d,%d", com_x, com_y);
+        mvwprintz(w_disp, 0, 0, c_green, "CoM   %d,%d", com.x, com.y);
         mvwprintz(w_disp, 1, 0, c_red,   "Pivot %d,%d", pivot.x, pivot.y);
 
-        int com_sx = com_y + ddy + hw;
-        int com_sy = -(com_x + ddx) + hh;
+        int com_sx = com.y + ddy + hw;
+        int com_sy = -(com.x + ddx) + hh;
         int pivot_sx = pivot.y + ddy + hw;
         int pivot_sy = -(pivot.x + ddx) + hh;
 
@@ -2197,8 +2190,10 @@ void complete_vehicle ()
         g->u.invalidate_crafting_inventory();
 
         // Dump contents of part at player's feet, if any.
-        for( auto &elem : veh->get_items(vehicle_part) ) {
-            g->m.add_item_or_charges( g->u.posx(), g->u.posy(), elem );
+        vehicle_stack contents = veh->get_items( vehicle_part );
+        for( auto iter = contents.begin(); iter != contents.end(); ) {
+            g->m.add_item_or_charges( g->u.posx(), g->u.posy(), *iter );
+            iter = contents.erase( iter );
         }
 
         // Power cables must remove parts from the target vehicle, too.

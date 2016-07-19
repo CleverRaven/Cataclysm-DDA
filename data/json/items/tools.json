@@ -42,7 +42,6 @@
     "name": "seeing this is a bug",
     "description": "seeing this is a bug",
     "price": 0,
-    "weight": 0,
     "volume": 0,
     "use_action": "UNFOLD_GENERIC"
   },
@@ -68,8 +67,8 @@
     "rand_charges": [1,10,12,15,16,22,44,50,67,75,82,100],
     "charges_per_use": 1,
     "use_action": {
-            "type": "firestarter",
-            "moves": 15
+        "type": "firestarter",
+        "moves": 50
     }
   },
   {
@@ -87,7 +86,7 @@
    "charges_per_use": 5,
    "ammo": "battery",
    "use_action": {
-            "type": "extended_firestarter"
+        "type": "firestarter"
     }
   },
   {
@@ -105,8 +104,9 @@
     "initial_charges": 20,
     "charges_per_use": 1,
     "use_action": {
-            "type": "firestarter",
-            "moves": 15
+        "type": "firestarter",
+        "moves": 40,
+        "moves_slow": 1000
     }
   },
   {
@@ -125,7 +125,9 @@
     "charges_per_use": 1,
     "flags": [ "FIRE_DRILL" ],
     "use_action": {
-            "type": "extended_firestarter"
+        "type": "firestarter",
+        "moves": 500,
+        "moves_slow": 25000
     }
   },
   {
@@ -139,12 +141,11 @@
     "material": ["wood", "stone"],
     "weight": 1280,
     "volume": 5,
-    "max_charges": 1000,
-    "initial_charges": 1000,
-    "charges_per_use": 1,
     "flags": [ "FIRE_DRILL" ],
     "use_action": {
-            "type": "extended_firestarter"
+        "type": "firestarter",
+        "moves": 200,
+        "moves_slow": 10000
     }
   },
   {
@@ -174,13 +175,14 @@
     "description": "This is a magnifying glass.  May be useful for starting fires during sunny skies.",
     "price": 600,
     "material": ["glass", "plastic"],
-    "flags": [ "LENS" ],
     "weight": 400,
     "volume": 1,
     "to_hit": -1,
     "use_action": {
-            "type": "extended_firestarter",
-            "need_sunlight": true
+        "type": "firestarter",
+        "moves": 1000,
+        "moves_slow": 25000,
+        "need_sunlight": true
     }
   },
   {
@@ -193,13 +195,15 @@
     "description": "A homemade collapsible telescope.  Too large and inaccurate to use as a weapon scope, but carrying this item in your inventory will double the distance that is mapped around you during your travels.",
     "price": 600,
     "material": ["glass", "plastic"],
-    "flags": [ "LENS", "ZOOM" ],
+    "flags": "ZOOM",
     "weight": 500,
     "volume": 1,
     "to_hit": -1,
     "use_action": {
-            "type": "extended_firestarter",
-            "need_sunlight": true
+        "type": "firestarter",
+        "moves": 1000,
+        "moves_slow": 25000,
+        "need_sunlight": true
     }
   },
   {
@@ -801,47 +805,6 @@
     "to_hit": -1
   },
   {
-    "id": "handflare",
-    "type": "TOOL",
-    "symbol": ";",
-    "color": "light_red",
-    "name": "flare",
-    "description": "This is a slow-burning magnesium flare.  Use it to strike the striker and light it.  It will produce a bright light for about a half hour.",
-    "price": 400,
-    "material": ["paper", "plastic"],
-    "weight": 128,
-    "volume": 1,
-    "bashing": 2,
-    "to_hit": -1,
-    "max_charges": 150,
-    "initial_charges": 150,
-    "use_action": {
-        "type": "transform",
-        "target": "handflare_lit",
-        "active": true,
-        "msg": "You strike your flare and light it."
-    }
-  },
-  {
-    "id": "handflare_lit",
-    "type": "TOOL",
-    "symbol": ";",
-    "color": "white",
-    "name": "active flare",
-    "description": "This burning magnesium flare is producing light.  It will last for about a half hour before burning out.",
-    "material": ["paper", "plastic"],
-    "flags": [ "FIRE", "LIGHT_240", "CHARGEDIM", "FLAMING", "TRADER_AVOID" ],
-    "weight": 128,
-    "volume": 1,
-    "bashing": 2,
-    "to_hit": -1,
-    "max_charges": 150,
-    "initial_charges": 150,
-    "turns_per_charge": 2,
-    "revert_to": "handflare_dead",
-    "revert_msg": "The flare sputters out"
-  },
-  {
     "id": "hotplate",
     "type": "TOOL",
     "symbol": ";",
@@ -1052,7 +1015,8 @@
     "volume": 10,
     "bashing": 4,
     "to_hit": -1,
-    "qualities": [["COOK", 3], ["BOIL", 2], ["CONTAIN", 1], ["CHEM", 1]]
+    "qualities": [["COOK", 3], ["BOIL", 2], ["CONTAIN", 1], ["CHEM", 1]],
+    "use_action": "HEAT_FOOD"
   },
   {
     "type":"GENERIC",
@@ -1072,7 +1036,8 @@
     "container_data" : {
         "contains": 8,
         "watertight": true
-    }
+    },
+    "use_action": "HEAT_FOOD"
   },
   {
     "type":"GENERIC",
@@ -1092,7 +1057,8 @@
     "container_data" : {
         "contains": 8,
         "watertight": true
-    }
+    },
+    "use_action": "HEAT_FOOD"
   },
   {
     "type":"GENERIC",
@@ -1112,7 +1078,8 @@
     "container_data" : {
         "contains": 4,
         "watertight": true
-    }
+    },
+    "use_action": "HEAT_FOOD"
   },
   {
     "type":"GENERIC",
@@ -1161,7 +1128,8 @@
     "container_data" : {
         "contains": 8,
         "watertight": true
-    }
+    },
+    "use_action": "HEAT_FOOD"
   },
   {
     "type": "GENERIC",
@@ -1388,7 +1356,7 @@
     "symbol": ";",
     "color": "green",
     "name": "two-way radio",
-    "description": "This is a radio with a transmitting unit.  Using this allows you to send out a distress signal.  You could send either a general SOS, or send a direct call to a faction you are in contact with.",
+    "description": "This is a radio with a transmitting unit.  You could use it to contact someone who also has one.  Unfortunately no one seems to use those nowadays...",
     "price": 2000,
     "material": ["plastic", "aluminum"],
     "weight": 431,
@@ -1396,9 +1364,7 @@
     "bashing": 6,
     "max_charges": 100,
     "initial_charges": 100,
-    "charges_per_use": 1,
-    "ammo": "battery",
-    "use_action": "TWO_WAY_RADIO"
+    "ammo": "battery"
   },
   {
     "id": "radio",
@@ -2485,6 +2451,7 @@
     "description": "This is a section of a pipe filled with explosive materials.  Use this item to light the fuse, which gives you three turns to get away from it before it detonates.  You'll need a lighter or some matches to use it.  It is somewhat unreliable, and may fail to detonate.",
     "price": 1500,
     "material": "steel",
+    "flags" : "NPC_ACTIVATE",
     "weight": 1298,
     "volume": 2,
     "bashing": 5,
@@ -2508,7 +2475,7 @@
     "description": "This pipe bomb's fuse is lit, and it will explode any second now.  Throw it immediately!",
     "price": 0,
     "material": "steel",
-    "flags": "TRADER_AVOID",
+    "flags": "DANGEROUS",
     "weight": 1298,
     "volume": 2,
     "bashing": 5,
@@ -2803,59 +2770,6 @@
     }
   },
   {
-    "id": "gasbomb",
-    "type": "TOOL",
-    "symbol": "*",
-    "color": "dark_gray",
-    "name": "tear gas canister",
-    "description": "This is a canister grenade filled with noxious irritant.  Use this item to pull the pin and light the fuse, turning it into an active tear gas grenade.  In five turns it will begin to expel a highly toxic gas for some time.  This gas damages and slows those who enter it, as well as obscuring vision and scent.",
-    "price": 2000,
-    "material": "steel",
-    "weight": 1264,
-    "volume": 1,
-    "bashing": 6,
-    "to_hit": -1,
-    "flags": ["RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB"],
-    "category": "weapons",
-    "use_action": {
-        "type": "transform",
-        "target": "gasbomb_act",
-        "target_charges": 20,
-        "active": true,
-        "msg": "You pull the pin on the teargas canister."
-    }
-  },
-  {
-    "id": "gasbomb_act",
-    "type": "TOOL",
-    "symbol": "*",
-    "color": "dark_gray",
-    "name": "active tear gas grenade",
-    "description": "This canister of tear gas has had its pin removed, indicating that it is (or will shortly be) expelling highly toxic gas.  You should consider getting rid of it soon.",
-    "price": 0,
-    "material": "steel",
-    "flags": "TRADER_AVOID",
-    "weight": 1264,
-    "volume": 1,
-    "bashing": 6,
-    "to_hit": -1,
-    "max_charges": 5,
-    "initial_charges": 5,
-    "turns_per_charge": 1,
-    "revert_to": "canister_empty",
-    "category": "weapons",
-    "use_action": {
-        "type": "explosion",
-        "sound_volume": 0,
-        "sound_msg": "Tick.",
-        "no_deactivate_msg": "You've already pulled the %s's pin, try throwing it instead.",
-        "fields_radius": 3,
-        "fields_type": "fd_tear_gas",
-        "fields_min_density": 3,
-        "fields_max_density": 3
-    }
-  },
-  {
     "id": "gasbomb_makeshift",
     "type": "TOOL",
     "symbol": "*",
@@ -2934,6 +2848,7 @@
     "description": "A bottle of flammable liquid with a rag inserted.  Use this item to light the rag.  You will, of course, need a lighter or matches in your inventory to do this.  After lighting it, throw it to cause fires.",
     "price": 500,
     "material": ["glass", "cotton"],
+    "flags": "NPC_ACTIVATE",
     "weight": 742,
     "volume": 3,
     "bashing": 5,
@@ -2961,7 +2876,7 @@
     "description": "A bottle of flammable liquid with a flaming rag inserted.  Throwing it will cause the bottle to break, spreading fire.  The flame may go out shortly if you do not throw it.  Dropping it while lit is not safe.",
     "price": 0,
     "material": ["glass", "cotton"],
-    "flags": ["LIGHT_15", "TRADER_AVOID"],
+    "flags": ["LIGHT_15", "TRADER_AVOID", "NPC_THROW_NOW"],
     "weight": 742,
     "volume": 3,
     "bashing": 5,
@@ -2981,7 +2896,7 @@
     "description": "This is a fragile container filled with acid.  Throw it to spill out a pool of potent acid.",
     "price": 5000,
     "material": "glass",
-    "flags": "ACT_ON_RANGED_HIT",
+    "flags": ["ACT_ON_RANGED_HIT", "NPC_THROWN"],
     "weight": 650,
     "volume": 2,
     "bashing": 4,
@@ -2999,7 +2914,7 @@
     "description": "This is a glass vial, with two chemicals mixing inside.  The vial feels colder and the contents are frothing.  If this mixture is exposed to air (as could happen if you throw the vial), it will spill out as a pool of potent acid.",
     "price": 0,
     "material": "glass",
-    "flags": "TRADER_AVOID",
+    "flags": ["TRADER_AVOID", "NPC_THROWN"],
     "weight": 1268,
     "volume": 2,
     "bashing": 4,
@@ -4012,7 +3927,7 @@
         },
         {
             "type": "firestarter",
-            "moves": 15
+            "moves": 30
         }
     ]
   },
@@ -4232,7 +4147,7 @@
         },
         {
             "type": "firestarter",
-            "moves": 15
+            "moves": 30
         }
     ]
   },
@@ -4390,7 +4305,7 @@
         },
         {
             "type": "firestarter",
-            "moves": 15
+            "moves": 30
         }
     ]
   },
@@ -4456,7 +4371,7 @@
         },
         {
             "type": "firestarter",
-            "moves": 15
+            "moves": 30
         }
     ]
   },
@@ -4541,7 +4456,7 @@
         },
         {
             "type": "firestarter",
-            "moves": 15
+            "moves": 30
         }
     ]
   },
@@ -4611,7 +4526,7 @@
     "price": 10000,
     "material": ["steel", "plastic"],
     "techniques": "RAPID",
-    "flags": ["STAB", "DURABLE_MELEE", "SHEATH_KNIFE"],
+    "flags": ["STAB", "DURABLE_MELEE", "SHEATH_KNIFE", "NPC_THROWN"],
     "weight": 558,
     "volume": 2,
     "bashing": 2,
@@ -5165,7 +5080,6 @@
     "name": "bio lockpick",
     "description": "this a pseudo item",
     "price": 0,
-    "weight": 0,
     "volume": 0,
     "max_charges": 1,
     "initial_charges": 1,
@@ -6214,7 +6128,8 @@
     "volume": 2,
     "bashing": 3,
     "to_hit": 1,
-    "qualities": [["COOK", 1]]
+    "qualities": [["COOK", 1]],
+    "use_action": "HEAT_FOOD"
   },{
     "id": "chisel",
     "type": "TOOL",
@@ -6346,7 +6261,7 @@
         },
         {
             "type": "firestarter",
-            "moves": 25
+            "moves": 50
         }
     ]
   },
@@ -6372,7 +6287,8 @@
     "use_action": [
         {
             "type": "firestarter",
-            "moves": 15
+            "moves": 40,
+            "moves_slow": 500
         },
         {
             "type": "transform",

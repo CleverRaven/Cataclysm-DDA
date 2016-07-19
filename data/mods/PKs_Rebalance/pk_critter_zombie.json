@@ -8,6 +8,11 @@
       "half_life": 9
     }
     },{
+    "type": "MONSTER",
+    "id": "mon_zombie_corrosive",
+    "edit-mode": "modify",
+    "emit_fields": [ "emit_acid_small" ]
+    },{
     "type" : "MONSTER",
     "id" : "mon_zombie_2",
     "name": "zombie",
@@ -241,7 +246,7 @@
     "armor_acid":2,
     "armor_fire":2,
     "vision_day":45,
-    "vision_night":5, 
+    "vision_night":5,
     "hp":140,
     "death_function":"NORMAL",
     "special_attacks":[["STRETCH_BITE", 15], ["STRETCH_ATTACK", 10]],
@@ -648,7 +653,8 @@
     "upgrades":{
         "into": "mon_zombie_gasbag_pk",
         "half_life": 21
-    }
+    },
+    "emit_fields": [ "emit_gas_plume"]
     },{
     "type": "MONSTER",
     "id": "mon_zombie_smoker",
@@ -657,7 +663,7 @@
         "into": "mon_zombie_gasbag_pk",
         "half_life": 28
     },
-    "burn_into": "mon_zombie_scorched_pk"  
+    "burn_into": "mon_zombie_scorched_pk"
     },{
     "type": "MONSTER",
     "id": "mon_zombie_shady",
@@ -666,7 +672,7 @@
         "into": "mon_zombie_shady_pk",
         "half_life": 28
     },
-    "burn_into": "mon_zombie_crawler_pk"  
+    "burn_into": "mon_zombie_crawler_pk"
     },{
     "type": "MONSTER",
     "id": "mon_zombie_shady_pk",
@@ -926,7 +932,7 @@
         "half_life": 14
     },
     "burn_into": "mon_skeleton_scorched",
-    "flags":["SEES", "HARDTOSHOOT", "REVIVES", "NO_BREATHE", "BONES", "NO_NECRO"]
+    "flags":["SEES", "HARDTOSHOOT", "REVIVES", "NO_BREATHE", "BONES", "NO_NECRO", "POISON"]
     },{
     "type": "MONSTER",
     "id": "mon_skeleton_pk",
@@ -968,7 +974,7 @@
         },
         ["LUNGE", 30]],
     "description":"Its skin stretched so tight as to have split in several places, this once-human corpse bears bones jutting out at unnatural angles.",
-    "flags":["SEES", "HEARS", "STUMBLES", "HARDTOSHOOT", "REVIVES", "NO_BREATHE", "BONES", "NO_NECRO"]
+    "flags":["SEES", "HEARS", "STUMBLES", "HARDTOSHOOT", "REVIVES", "NO_BREATHE", "BONES", "NO_NECRO", "POISON"]
     },{
     "type": "MONSTER",
     "id": "mon_skeleton_husk",
@@ -1005,7 +1011,7 @@
         ["LUNGE", 15], ["IMPALE",30]],
     "burn_into": "mon_skeleton_scorched",
     "description":"So desiccated that it makes sounds like rustling leaves as it shuffles aimlessly, this abomination is hardly more than a tanned hide pulled over a bone frame.  What flesh it does have seems to be devoted to the perception of prey; at which it launches itself at with abandon.",
-    "flags":["SEES", "HEARS", "STUMBLES", "HARDTOSHOOT", "REVIVES", "NO_BREATHE", "BONES", "NO_NECRO"]
+    "flags":["SEES", "HEARS", "STUMBLES", "HARDTOSHOOT", "REVIVES", "NO_BREATHE", "BONES", "NO_NECRO", "POISON"]
     },{
     "type": "MONSTER",
     "id": "mon_zombie_crawler_pk",
@@ -1032,12 +1038,13 @@
     "vision_day":15,
     "vision_night":35,
     "hp":90,
+    "emit_fields": [ "emit_sludge" ],
     "death_function":["NORMAL"],
     "burn_into": "mon_zombie_crawler_scorched",
     "special_when_hit":["ACIDSPLASH", 7],
     "special_attacks": [["ACID_BARF", 30], ["GRAB", 60], ["FORMBLOB", 240]],
     "description":"A revolting crawling monster that excretes a copious amount of some biological goo from a gaping chest cavity.  Every so often a blob emerges from the charred and mangled stumps that used to be legs.",
-    "flags":["ACIDPROOF", "ACID_BLOOD", "SEES", "HEARS", "POISON", "NO_BREATHE", "REVIVES", "NO_NECRO", "REVIVES_HEALTHY", "PLASTIC", "SLUDGEPROOF", "SLUDGETRAIL", "FLAMMABLE", "NIGHT_INVISIBILITY", "ABSORBS", "SWIMS"]
+    "flags":["ACIDPROOF", "ACID_BLOOD", "SEES", "HEARS", "POISON", "NO_BREATHE", "REVIVES", "NO_NECRO", "REVIVES_HEALTHY", "PLASTIC", "SLUDGEPROOF", "FLAMMABLE", "NIGHT_INVISIBILITY", "ABSORBS", "SWIMS"]
     },{
     "type": "MONSTER",
     "id": "mon_zombie_hulk_pk",
@@ -1097,9 +1104,10 @@
     "vision_day":40,
     "vision_night":4,
     "hp":110,
+    "emit_fields": [ "emit_toxic_leak" ],
     "death_function":["GAS", "BOOMER_GLOW"],
     "special_attacks":[["GRAB_DRAG", 12], ["GRAB", 8], ["STRETCH_ATTACK", 15]],
     "description":"A fetid body with a featureless face that emits a noxious gas of unknown makeup.  Its skin knots and reforms into putty-like globs as it walks and attacks, and bullets seem to pass through its morphing form.  A glimmering sludge drips from its open mouth.",
-    "flags":["LEAKSGAS", "SEES", "HEARS", "STUMBLES", "BASHES", "GROUP_BASH", "POISON", "HARDTOSHOOT", "NO_BREATHE", "REVIVES", "BONES", "PUSH_MON"]
+    "flags":["SEES", "HEARS", "STUMBLES", "BASHES", "GROUP_BASH", "POISON", "HARDTOSHOOT", "NO_BREATHE", "REVIVES", "BONES", "PUSH_MON"]
     }
 ]

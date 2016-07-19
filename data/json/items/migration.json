@@ -131,7 +131,7 @@
     "id": "jar_tomato_canned",
     "type": "MIGRATION",
     "replace": "jar_glass_sealed",
-    "contents": [ "tomato_canned" ]
+    "contents": [ "can_tomato" ]
   },
   {
     "id": "jar_veggy_canned",
@@ -158,12 +158,17 @@
   {
     "id": "reloaded_40mm_fletchette",
     "type": "MIGRATION",
-    "replace": "40mm_fletchette"
+    "replace": "40mm_flechette"
   },
   {
     "id": "reloaded_40mm_shot",
     "type": "MIGRATION",
     "replace": "40mm_shot"
+  },
+  {
+    "id": "reloaded_signal_flare",
+    "type": "MIGRATION",
+    "replace": "signal_flare"
   },
   {
     "id": "reloaded_shot_he",

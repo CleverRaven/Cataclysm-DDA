@@ -76,6 +76,7 @@ struct sound_effect {
     int volume;
 
     struct deleter {
+        // Operator overloaded to leverage deletion API.
         void operator()( Mix_Chunk* const c ) const {
             Mix_FreeChunk( c );
         };
@@ -149,6 +150,7 @@ protected:
         std::string   codepoints;
         unsigned char color;
 
+        // Operator overload required to use in std::map.
         bool operator<(key_t const &rhs) const noexcept {
             return (color == rhs.color) ? codepoints < rhs.codepoints : color < rhs.color;
         }
@@ -159,8 +161,7 @@ protected:
         int          width;
     };
 
-    typedef std::map<key_t, cached_t> t_glyph_map;
-    t_glyph_map glyph_cache_map;
+    std::map<key_t, cached_t> glyph_cache_map;
 };
 
 /**
@@ -2049,9 +2050,9 @@ void CachedTTFFont::clear()
         TTF_CloseFont(font);
         font = NULL;
     }
-    for (t_glyph_map::iterator a = glyph_cache_map.begin(); a != glyph_cache_map.end(); ++a) {
-        if (a->second.texture) {
-            SDL_DestroyTexture(a->second.texture);
+    for( auto &a : glyph_cache_map ) {
+        if( a.second.texture ) {
+            SDL_DestroyTexture( a.second.texture );
         }
     }
     glyph_cache_map.clear();
@@ -2437,7 +2438,7 @@ void load_soundset() {
 
     current_soundpack_path = soundpack_path;
     try {
-        DynamicDataLoader::get_instance().load_data_from_path( soundpack_path );
+        DynamicDataLoader::get_instance().load_data_from_path( soundpack_path, "core" );
     } catch( const std::exception &err ) {
         dbg( D_ERROR ) << "failed to load sounds: " << err.what();
     }

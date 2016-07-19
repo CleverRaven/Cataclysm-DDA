@@ -1,5 +1,17 @@
 [
   {
+    "type": "recipe",
+    "result": "handflare",
+    "category": "CC_NONCRAFT",
+    "subcategory": "CSC_NONCRAFT",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": 2000,
+    "reversible": true,
+    "qualities": [ { "id": "CUT","level": 1 } ],
+    "components": [ [ [ "incendiary", 25 ] ] ]
+  },
+  {
     "result": "sheet_metal",
     "type": "recipe",
     "category": "CC_NONCRAFT",
@@ -7,6 +19,7 @@
     "skill_used": "fabrication",
     "difficulty": 1,
     "time": 15000,
+    "reversible": true,
     "qualities": [ { "id": "SAW_M","level": 2 } ],
     "components": [ [ [ "scrap", 20 ] ] ]
   }

@@ -33,6 +33,41 @@ player_activity::player_activity( activity_type t, int turns, int Index, int pos
 {
 }
 
+player_activity::player_activity( const player_activity &rhs )
+    : type( rhs.type ), moves_total( rhs.moves_total ), moves_left( rhs.moves_left ),
+      index( rhs.index ), position( rhs.position ), name( rhs.name ),
+      ignore_trivial( rhs.ignore_trivial ), values( rhs.values ), str_values( rhs.str_values ),
+      coords( rhs.coords ), placement( rhs.placement ),
+      warned_of_proximity( rhs.warned_of_proximity ), auto_resume( rhs.auto_resume )
+{
+    for( const auto &e : rhs.targets ) {
+        targets.push_back( e.clone() );
+    }
+}
+
+player_activity &player_activity::operator=( const player_activity &rhs )
+{
+    type = rhs.type;
+    moves_total = rhs.moves_total;
+    moves_left = rhs.moves_left;
+    index = rhs.index;
+    position = rhs.position;
+    name = rhs.name;
+    ignore_trivial = rhs.ignore_trivial;
+    values = rhs.values;
+    str_values = rhs.str_values;
+    coords = rhs.coords;
+    placement = rhs.placement;
+    warned_of_proximity = rhs.warned_of_proximity;
+    auto_resume = rhs.auto_resume;
+
+    for( const auto &e : rhs.targets ) {
+        targets.push_back( e.clone() );
+    }
+
+    return *this;
+}
+
 const std::string &player_activity::get_stop_phrase() const
 {
     static const std::array<std::string, NUM_ACTIVITIES> stop_phrase = {{
@@ -237,11 +272,7 @@ void player_activity::do_turn( player *p )
             p->sort_armor();
             break;
         case ACT_START_FIRE:
-            moves_left -= 100; // based on time
-            if( p->i_at(
-                    position ).has_flag( "LENS" ) ) { // if using a lens, handle potential changes in weather
-                activity_handlers::start_fire_lens_do_turn( this, p );
-            }
+            activity_handlers::start_fire_do_turn( this, p );
             p->rooted();
             p->pause();
             break;
@@ -566,5 +597,5 @@ bool player_activity::can_resume_with( const player_activity &other, const Chara
     }
 
     return !auto_resume && type == other.type && index == other.index &&
-           position == other.position && name == other.name;
+           position == other.position && name == other.name && targets == other.targets;
 }

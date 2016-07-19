@@ -14,6 +14,7 @@
 namespace std {
     template <>
     struct hash<talk_topic_enum> {
+        // Operator overload required by std API.
         std::size_t operator()(const talk_topic_enum& k) const {
             return k; // the most trivial hash of them all
         }

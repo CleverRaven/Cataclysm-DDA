@@ -1099,8 +1099,8 @@ void monster::deal_projectile_attack( Creature *source, dealt_projectile_attack 
     }
     // Not HARDTOSHOOT
     // if it's a headshot with no head, make it not a headshot
-    if( missed_by < 0.2 && has_flag( MF_NOHEAD ) ) {
-        missed_by = 0.2;
+    if( missed_by < accuracy_headshot && has_flag( MF_NOHEAD ) ) {
+        missed_by = accuracy_headshot;
     }
 
     Creature::deal_projectile_attack( source, attack );
@@ -1524,6 +1524,15 @@ void monster::explode()
     hp = INT_MIN;
 }
 
+void monster::process_turn()
+{
+    for( const auto &e: type->emit_fields ) {
+        g->m.emit_field( pos(), e );
+    }
+
+    Creature::process_turn();
+}
+
 void monster::die(Creature* nkiller)
 {
     if( dead ) {
@@ -1852,9 +1861,11 @@ void monster::add_msg_if_npc(const char *msg, ...) const
 {
     va_list ap;
     va_start(ap, msg);
-    std::string processed_npc_string = vstring_format(msg, ap);
-    processed_npc_string = replace_with_npc_name(processed_npc_string, disp_name());
-    add_msg(processed_npc_string.c_str());
+    if (g->u.sees(*this)) {
+        std::string processed_npc_string = vstring_format(msg, ap);
+        processed_npc_string = replace_with_npc_name(processed_npc_string, disp_name());
+        add_msg(processed_npc_string.c_str());
+    }
     va_end(ap);
 }
 
@@ -1874,9 +1885,11 @@ void monster::add_msg_if_npc(game_message_type type, const char *msg, ...) const
 {
     va_list ap;
     va_start(ap, msg);
-    std::string processed_npc_string = vstring_format(msg, ap);
-    processed_npc_string = replace_with_npc_name(processed_npc_string, disp_name());
-    add_msg(type, processed_npc_string.c_str());
+    if (g->u.sees(*this)) {
+        std::string processed_npc_string = vstring_format(msg, ap);
+        processed_npc_string = replace_with_npc_name(processed_npc_string, disp_name());
+        add_msg(type, processed_npc_string.c_str());
+    }
     va_end(ap);
 }
 

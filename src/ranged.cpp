@@ -42,7 +42,7 @@ const efftype_id effect_bounced( "bounced" );
 
 static projectile make_gun_projectile( const item &gun );
 int time_to_fire( const Character &p, const itype &firing );
-static inline void eject_casing( player& p, item& weap );
+static void cycle_action( item& weap, const tripoint &pos );
 int recoil_add( player& p, const item& gun, int shot );
 void make_gun_sound_effect(player &p, bool burst, item *weapon);
 extern bool is_valid_in_w_terrain(int, int);
@@ -112,17 +112,15 @@ size_t blood_trail_len( int damage )
 }
 
 dealt_projectile_attack Creature::projectile_attack( const projectile &proj_arg, const tripoint &source,
-                                                     const tripoint &target_arg, double shot_dispersion )
+                                                     const tripoint &target_arg, double dispersion )
 {
     const bool do_animation = OPTIONS["ANIMATIONS"];
 
-    // shot_dispersion is in MOA - 1/60 of a degree
-    constexpr double moa = M_PI / 180 / 60;
-    // We're approximating the tangent. Multiplying angle*range by ~0.745 does that (kinda).
-    constexpr double to_tangent = 0.745;
-
+    // for the isosceles triangle formed by the intended and actual targets
+    // we can use the cosine formula (a² = b² + c² - 2bc⋅cosθ) to calculate the tangent
     double range = rl_dist( source, target_arg );
-    double missed_by = shot_dispersion * moa * to_tangent * range;
+    double missed_by = sqrt( 2 * pow( range, 2 ) - ( 2 * pow( range, 2 ) * cos( ARCMIN( dispersion ) ) ) );
+
     // TODO: move to-hit roll back in here
 
     dealt_projectile_attack attack {
@@ -159,7 +157,7 @@ dealt_projectile_attack Creature::projectile_attack( const projectile &proj_arg,
         double dy = target_arg.y - source.y;
         double rad = atan2( dy, dx );
         // Cap spread at 30 degrees or it gets wild quickly
-        double spread = std::min( shot_dispersion / moa, M_PI / 180 * 30 );
+        double spread = std::min( dispersion / ARCMIN( 1 ), DEGREES( 30 ) );
         rad += rng_float( -spread, spread );
 
         // @todo This should also represent the miss on z axis
@@ -192,16 +190,8 @@ dealt_projectile_attack Creature::projectile_attack( const projectile &proj_arg,
         trajectory = g->m.find_clear_path( source, target );
     }
 
-    if( proj_effects.count( "MUZZLE_SMOKE" ) ) {
-        for( const auto& e : closest_tripoints_first( 1, trajectory.empty() ? source : trajectory[ 0 ] ) ) {
-            if( one_in( 2 ) ) {
-                g->m.add_field( e, fd_smoke, 1, 0 );
-            }
-        }
-    }
+    add_msg( m_debug, "%s proj_atk: shot_dispersion: %.2f", disp_name().c_str(), dispersion );
 
-    add_msg( m_debug, "%s proj_atk: shot_dispersion: %.2f",
-             disp_name().c_str(), shot_dispersion );
     add_msg( m_debug, "missed_by: %.2f target (orig/hit): %d,%d,%d/%d,%d,%d", missed_by,
              target_arg.x, target_arg.y, target_arg.z,
              target.x, target.y, target.z );
@@ -211,6 +201,12 @@ dealt_projectile_attack Creature::projectile_attack( const projectile &proj_arg,
     tripoint prev_point = source;
 
     trajectory.insert( trajectory.begin(), source ); // Add the first point to the trajectory
+
+    static emit_id muzzle_smoke( "emit_smoke_plume" );
+    if( proj_effects.count( "MUZZLE_SMOKE" ) ) {
+        g->m.emit_field( trajectory.front(), muzzle_smoke );
+    }
+
     if( !no_overshoot && range < extend_to_range ) {
         // Continue line is very "stiff" when the original range is short
         // @todo Make it use a more distant point for more realistic extended lines
@@ -367,7 +363,7 @@ dealt_projectile_attack Creature::projectile_attack( const projectile &proj_arg,
                 if( !z.has_effect( effect_bounced ) ) {
                     add_msg(_("The attack bounced to %s!"), z.name().c_str());
                     z.add_effect( effect_bounced, 1 );
-                    projectile_attack( proj, tp, z.pos(), shot_dispersion );
+                    projectile_attack( proj, tp, z.pos(), dispersion );
                     sfx::play_variant_sound( "fire_gun", "bio_lightning_tail", sfx::get_heard_volume(z.pos()), sfx::get_heard_angle(z.pos()));
                     break;
                 }
@@ -376,6 +372,71 @@ dealt_projectile_attack Creature::projectile_attack( const projectile &proj_arg,
     }
 
     return attack;
+}
+
+double player::gun_engagement_range( const item& gun, int aim, int penalty, unsigned chance, double accuracy ) const
+{
+    if( !gun.is_gun() || !gun.ammo_sufficient() ) {
+        return 0;
+    }
+
+    if( chance == 0 ) {
+        return gun.gun_range( this );
+    }
+
+    int driving = 0;
+    if( penalty < 0 ) {
+        // get current effective player recoil
+        penalty = std::max( recoil, 0 );
+        if( recoil < 0 ) {
+            debugmsg( "negative player recoil when calculating effective range" );
+        }
+
+        // get maximum penalty from driving
+        driving = std::max( driving_recoil, 0 );
+        if( driving_recoil < 0 ) {
+            debugmsg( "negative driving recoil when calculating effective range" );
+        }
+    }
+
+    // aim_per_time() returns improvement (in MOA) per 10 moves
+    for( int i = aim * 10; i != 0; --i ) {
+        int adj = aim_per_time( gun, penalty );
+        if( adj <= 0 ) {
+            break; // no further improvement is possible
+        }
+        penalty -= adj;
+    }
+
+    // calculate maximum potential dispersion
+    double dispersion = get_weapon_dispersion( &gun, false ) + penalty + driving;
+
+    // dispersion is uniformly distributed at random so scale linearly with chance
+    dispersion *= chance / 100.0;
+
+    // cap at min 1MOA as at zero dispersion would result in an infinite effective range
+    dispersion = std::max( dispersion, 1.0 );
+
+    double res = accuracy / sin( ARCMIN( dispersion / 2 ) ) / 2;
+
+    // effective range could be limited by othe factors (eg. STR_DRAW etc)
+    return std::min( res, double( gun.gun_range( this ) ) );
+}
+
+double player::gun_engagement_range( const item& gun, engagement opts, int penalty ) const
+{
+    switch( opts ) {
+        case engagement::effective_min:
+            return gun_engagement_range( gun, 0, penalty, 50, accuracy_goodhit );
+
+        case engagement::effective_max:
+            return gun_engagement_range( gun, -1, penalty, 50, accuracy_goodhit );
+
+        case engagement::absolute_max:
+            return gun_engagement_range( gun, -1, penalty, 10, accuracy_grazing );
+    }
+
+    abort(); // never reached
 }
 
 bool player::handle_gun_damage( item &it )
@@ -508,7 +569,7 @@ int player::fire_gun( const tripoint &target, int shots, item& gun )
         make_gun_sound_effect( *this, shots > 1, &gun );
         sfx::generate_gun_sound( *this, gun );
 
-        eject_casing( *this, gun );
+        cycle_action( gun, pos() );
 
         if( gun.ammo_consume( gun.ammo_required(), pos() ) != gun.ammo_required() ) {
             debugmsg( "Unexpected shortage of ammo whilst firing %s", gun.tname().c_str() );
@@ -1416,38 +1477,31 @@ int time_to_fire( const Character &p, const itype &firingt )
     return std::max(info.min_time, info.base - info.reduction * p.get_skill_level( skill_used ));
 }
 
-static inline void eject_casing( player& p, item& weap ) {
+static void cycle_action( item& weap, const tripoint &pos ) {
     // eject casings and linkages in random direction avoiding walls using player position as fallback
-    auto tiles = closest_tripoints_first( 1, p.pos() );
+    auto tiles = closest_tripoints_first( 1, pos );
     tiles.erase( tiles.begin() );
-    tiles.erase( std::remove_if( tiles.begin(), tiles.end(), [&p]( const tripoint& e ) {
+    tiles.erase( std::remove_if( tiles.begin(), tiles.end(), [&]( const tripoint& e ) {
         return !g->m.passable( e );
     } ), tiles.end() );
-    tripoint eject = tiles.empty() ? p.pos() : random_entry( tiles );
+    tripoint eject = tiles.empty() ? pos : random_entry( tiles );
+
+    if( weap.ammo_data() && weap.ammo_data()->ammo->casing != "null" ) {
+        if( weap.has_flag( "RELOAD_EJECT" ) || weap.gunmod_find( "brass_catcher" ) ) {
+            weap.emplace_back( weap.ammo_data()->ammo->casing, calendar::turn, 1 );
+
+        } else {
+            g->m.add_item_or_charges( eject, item( weap.ammo_data()->ammo->casing, calendar::turn, 1 ) );
+            sfx::play_variant_sound( "fire_gun", "brass_eject", sfx::get_heard_volume( eject ),
+                                     sfx::get_heard_angle( eject ) );
+        }
+    }
 
     // some magazines also eject disintegrating linkages
     const auto mag = weap.magazine_current();
     if( mag && mag->type->magazine->linkage != "NULL" ) {
         g->m.add_item_or_charges( eject, item( mag->type->magazine->linkage, calendar::turn, 1 ) );
     }
-
-    if( weap.ammo_casing() == "null" ) {
-        return;
-    }
-
-    if( weap.has_flag( "RELOAD_EJECT" ) ) {
-        const int num_casings = weap.get_var( "CASINGS", 0 );
-        weap.set_var( "CASINGS", num_casings + 1 );
-        return;
-    }
-
-    if( weap.gunmod_find( "brass_catcher" ) ) {
-        p.i_add( item( weap.ammo_casing(), calendar::turn, 1 ) );
-        return;
-    }
-
-    g->m.add_item_or_charges( eject, item( weap.ammo_casing(), calendar::turn, 1 ) );
-    sfx::play_variant_sound( "fire_gun", "brass_eject", sfx::get_heard_volume( eject ), sfx::get_heard_angle( eject ) );
 }
 
 void make_gun_sound_effect(player &p, bool burst, item *weapon)
@@ -1567,8 +1621,7 @@ double player::get_weapon_dispersion( const item *weapon, bool random ) const
 
     dispersion += rand_or_max( random, weapon->gun_dispersion(false) );
     if( random ) {
-        int adj_recoil = recoil + driving_recoil;
-        dispersion += rng( int(adj_recoil / 4), adj_recoil );
+        dispersion += rng( 0, recoil + driving_recoil );
     }
 
     if (has_bionic("bio_targeting")) {

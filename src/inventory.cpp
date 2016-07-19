@@ -383,7 +383,7 @@ void inventory::form_from_map( const tripoint &origin, int range, bool assign_in
     items.clear();
     for( const tripoint &p : g->m.points_in_radius( origin, range ) ) {
         if (g->m.has_furn( p ) && g->m.accessible_furniture( origin, p, range )) {
-            const furn_t &f = g->m.furn_at( p );
+            const furn_t &f = g->m.furn( p ).obj();
             const itype *type = f.crafting_pseudo_item_type();
             if (type != NULL) {
                 const itype *ammo = f.crafting_ammo_item_type();
@@ -421,7 +421,7 @@ void inventory::form_from_map( const tripoint &origin, int range, bool assign_in
         }
         // kludge that can probably be done better to check specifically for toilet water to use in
         // crafting
-        if (g->m.furn_at( p ).examine == &iexamine::toilet) {
+        if (g->m.furn( p ).obj().examine == &iexamine::toilet) {
             // get water charges at location
             auto toilet = g->m.i_at( p );
             auto water = toilet.end();
@@ -437,7 +437,7 @@ void inventory::form_from_map( const tripoint &origin, int range, bool assign_in
         }
 
         // keg-kludge
-        if (g->m.furn_at( p ).examine == &iexamine::keg) {
+        if (g->m.furn( p ).obj().examine == &iexamine::keg) {
             auto liq_contained = g->m.i_at( p );
             for( auto &i : liq_contained ) {
                 if( i.made_of(LIQUID) ) {

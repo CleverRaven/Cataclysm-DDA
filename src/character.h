@@ -322,10 +322,8 @@ class Character : public Creature, public visitable<Character>
             return false;
         }
 
-        /** Returns a map_selector which can be used to query items on nearby tiles
-         *  @param radius number of adjacent tiles to include searching from pos outwards
-         *  @param accessible whether found items must be accesible from pos to be considered */
-        map_selector nearby( int radius = 1, bool accessible = true );
+        /** Returns nearby items which match the provided predicate */
+        std::vector<item_location> nearby( const std::function<bool(const item *, const item *)>& func, int radius = 1 ) const;
 
         /**
          * Similar to @ref remove_items_with, but considers only worn items and not their
@@ -403,7 +401,7 @@ class Character : public Creature, public visitable<Character>
          * @param empty whether empty magazines should be considered as possible ammo
          * @param radius adjacent map/vehicle tiles to search. 0 for only player tile, -1 for only inventory
          */
-        std::vector<item_location> find_ammo( const item& obj, bool empty = true, int radius = 1 );
+        std::vector<item_location> find_ammo( const item& obj, bool empty = true, int radius = 1 ) const;
 
         /**
          * Counts ammo and UPS charges (lower of) for a given gun on the character.
@@ -422,7 +420,7 @@ class Character : public Creature, public visitable<Character>
         bool can_pickVolume( const item &it, bool safe = false ) const;
         bool can_pickWeight( const item &it, bool safe = true ) const;
 
-        virtual void drop_inventory_overflow();
+        void drop_inventory_overflow();
 
         bool has_artifact_with(const art_effect_passive effect) const;
 

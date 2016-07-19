@@ -4,7 +4,6 @@
 #include "player.h"
 #include "faction.h"
 #include "json.h"
-#include "npc_favor.h"
 #include "copyable_unique_ptr.h"
 
 #include <vector>
@@ -39,9 +38,9 @@ void parse_tags( std::string &phrase, const player &u, const npc &me );
 enum npc_attitude : int {
  NPCATT_NULL = 0, // Don't care/ignoring player The places this is assigned is on shelter NPC generation, and when you order a NPC to stay in a location, and after talking to a NPC that wanted to talk to you.
  NPCATT_TALK,  // Move to and talk to player
- NPCATT_TRADE,  // Move to and trade with player
+ NPCATT_LEGACY_1,
  NPCATT_FOLLOW,  // Follow the player
- NPCATT_FOLLOW_RUN, // Follow the player, don't shoot monsters
+ NPCATT_LEGACY_2,
  NPCATT_LEAD,  // Lead the player, wait for them if they're behind
  NPCATT_WAIT,  // Waiting for the player
  NPCATT_DEFEND,  // Kill monsters that threaten the player
@@ -49,29 +48,29 @@ enum npc_attitude : int {
  NPCATT_WAIT_FOR_LEAVE, // Attack the player if our patience runs out
  NPCATT_KILL,  // Kill the player
  NPCATT_FLEE,  // Get away from the player
- NPCATT_SLAVE,  // Following the player under duress
+ NPCATT_LEGACY_3,
  NPCATT_HEAL,  // Get to the player and heal them
 
- NPCATT_MISSING, // Special; missing NPC as part of mission
- NPCATT_KIDNAPPED, // Special; kidnapped NPC as part of mission
+ NPCATT_LEGACY_4,
+ NPCATT_LEGACY_5,
  NPCATT_MAX
 };
 
 std::string npc_attitude_name(npc_attitude);
 
 enum npc_mission : int {
- NPC_MISSION_NULL = 0, // Nothing in particular
- NPC_MISSION_RESCUE_U, // Find the player and aid them
- NPC_MISSION_SHELTER, // Stay in shelter, introduce player to game
- NPC_MISSION_SHOPKEEP, // Stay still unless combat or something and sell stuff
+    NPC_MISSION_NULL = 0, // Nothing in particular
+    NPC_MISSION_LEGACY_1,
+    NPC_MISSION_SHELTER, // Stay in shelter, introduce player to game
+    NPC_MISSION_SHOPKEEP, // Stay still unless combat or something and sell stuff
 
- NPC_MISSION_MISSING, // Special; following player to finish mission
- NPC_MISSION_KIDNAPPED, // Special; was kidnapped, to be rescued by player
+    NPC_MISSION_LEGACY_2,
+    NPC_MISSION_LEGACY_3,
 
- NPC_MISSION_BASE, // Base Mission: unassigned (Might be used for assigning a npc to stay in a location).
- NPC_MISSION_GUARD, // Similar to Base Mission, for use outside of camps
+    NPC_MISSION_BASE, // Base Mission: unassigned (Might be used for assigning a npc to stay in a location).
+    NPC_MISSION_GUARD, // Similar to Base Mission, for use outside of camps
 
- NUM_NPC_MISSIONS
+    NUM_NPC_MISSIONS
 };
 
 //std::string npc_mission_name(npc_mission);
@@ -124,7 +123,6 @@ struct npc_opinion : public JsonSerializer, public JsonDeserializer
     int value;
     int anger;
     int owed;
-    std::vector<npc_favor> favors;
 
     npc_opinion() {
         trust = 0;
@@ -208,13 +206,41 @@ struct npc_follower_rules : public JsonSerializer, public JsonDeserializer
     void deserialize(JsonIn &jsin) override;
 };
 
+struct npc_target {
+    private:
+        enum target_type : int {
+            TARGET_PLAYER,
+            TARGET_MONSTER,
+            TARGET_NPC,
+            TARGET_NONE
+        };
+
+        target_type type;
+        size_t index;
+
+        npc_target( target_type, size_t );
+
+    public:
+        npc_target();
+
+        Creature *get();
+        const Creature *get() const;
+
+        static npc_target monster( size_t index );
+        static npc_target npc( size_t index );
+        static npc_target player();
+        static npc_target none();
+};
+
 // Data relevant only for this action
 struct npc_short_term_cache
 {
     int danger;
     int total_danger;
     int danger_assessment;
-    int target;
+    npc_target target;
+
+    std::vector<npc_target> friends;
 };
 
 // DO NOT USE! This is old, use strings as talk topic instead, e.g. "TALK_AGREE_FOLLOW" instead of
@@ -515,6 +541,7 @@ public:
  npc &operator=(const npc &);
  npc &operator=(npc &&);
  ~npc() override;
+
  bool is_player() const override { return false; }
  bool is_npc() const override { return true; }
 
@@ -569,8 +596,6 @@ public:
 
 // Goal / mission functions
  void pick_long_term_goal();
- void perform_mission();
- int  minutes_to_u() const; // Time in minutes it takes to reach player
  bool fac_has_value(faction_value value) const;
  bool fac_has_job(faction_job job) const;
 
@@ -582,7 +607,6 @@ public:
  bool turned_hostile() const; // True if our anger is at least equal to...
  int hostile_anger_level() const; // ... this value!
  void make_angry(); // Called if the player attacks us
- bool wants_to_travel_with(player *p) const;
  int assigned_missions_value();
     /**
      * @return Skills of which this NPC has a higher level than the given player. In other
@@ -605,9 +629,6 @@ public:
     bool is_minion() const;
         Attitude attitude_to( const Creature &other ) const override;
 // What happens when the player makes a request
- void told_to_help();
- void told_to_wait();
- void told_to_leave();
  int  follow_distance() const; // How closely do we follow the player?
 
 
@@ -653,7 +674,8 @@ public:
 
     // AI helpers
     void regen_ai_cache();
-    Creature *current_target() const;
+    const Creature *current_target() const;
+    Creature *current_target();
 
 // Interaction and assessment of the world around us
     int  danger_assessment();
@@ -696,16 +718,14 @@ public:
     bool scan_new_items();
     // Returns true if did wield it
     bool wield_better_weapon();
- bool alt_attack_available(); // Do we have grenades, molotov, etc?
- int choose_escape_item(); // Returns item position of our best escape aid
 
 // Helper functions for ranged combat
     // Multiplier for acceptable angle of inaccuracy
     double confidence_mult() const;
-    int confident_range( int weapon_index = -1 ) const;
-    int confident_gun_range( const item::gun_mode &gun, int at_recoil = -1 ) const;
+    int confident_shoot_range( const item &it ) const;
+    int confident_gun_mode_range( const item::gun_mode &gun, int at_recoil = -1 ) const;
     int confident_throw_range( const item & ) const;
-    bool wont_hit_friend( const tripoint &p , int position = -1 ) const;
+    bool wont_hit_friend( const tripoint &p, const item &it, bool throwing ) const;
     bool enough_time_to_reload( const item &gun ) const;
     /** Can reload currently wielded gun? */
     bool can_reload_current();
@@ -754,10 +774,8 @@ public:
     bool do_pulp();
 
 // Combat functions and player interaction functions
-    Creature *get_target( int target ) const;
  void wield_best_melee ();
- void alt_attack();
- void use_escape_item (int position);
+ bool alt_attack(); // Returns true if did something
  void heal_player (player &patient);
  void heal_self  ();
  void take_painkiller ();
@@ -899,6 +917,17 @@ private:
 
     bool sees_dangerous_field( const tripoint &p ) const;
     bool could_move_onto( const tripoint &p ) const;
+};
+
+/** An NPC with standard stats */
+class standard_npc : public npc {
+    public:
+        standard_npc() : npc() {
+          str_cur = 8;
+          dex_cur = 8;
+          per_cur = 8;
+          int_cur = 8;
+        }
 };
 
 struct epilogue {

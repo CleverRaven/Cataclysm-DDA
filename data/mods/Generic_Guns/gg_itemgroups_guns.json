@@ -1,0 +1,276 @@
+[
+  {
+    "type" : "item_group",
+    "id" : "guns_pistol_common",
+    "//" : "Pistols commonly owned by citizens and found in many locations.",
+    "items": [
+      [ "glock_19", 75 ],
+      [ "m9", 20 ],
+      [ "ruger_redhawk", 5 ]
+    ]
+  },
+  {
+    "type" : "item_group",
+    "id" : "guns_pistol_rare",
+    "//" : "Less common pistols including those only used by police/paramilitary forces.",
+    "items": [
+      [ "deagle_44", 35 ],
+      [ "ruger_redhawk", 65 ]
+    ]
+  },
+  {
+    "type" : "item_group",
+    "id" : "guns_pistol_milspec",
+    "//" : "Military specification pistols only ever found at military sites.",
+    "items": [
+    ]
+  },
+  {
+    "type" : "item_group",
+    "id" : "guns_pistol_obscure",
+    "//" : "Imported or otherwise very obscure pistols.",
+    "items": [
+      [ "pistol_flintlock", 50 ],
+      [ "pistol_pepperbox", 50 ]
+    ]
+  },
+  {
+    "type" : "item_group",
+    "id" : "guns_pistol_improvised",
+    "//" : "Makeshift or otherwise poor quality pistols.",
+    "items": [
+      [ "surv_six_shooter", 100 ]
+    ]
+  },
+  {
+    "type" : "item_group",
+    "id" : "guns_smg_common",
+    "//" : "SMGs commonly owned by citizens and found in many locations.",
+    "items": [
+      [ "hk_mp5", 100 ]
+    ]
+  },
+  {
+    "type" : "item_group",
+    "id" : "guns_smg_rare",
+    "//" : "Less common SMGs including those only used by police/paramilitary forces.",
+    "items": [
+      [ "calico", 100 ]
+    ]
+  },
+  {
+    "type" : "item_group",
+    "id" : "guns_smg_milspec",
+    "//" : "Military specification SMGs only ever found at military sites.",
+    "items": [
+    ]
+  },
+  {
+    "type" : "item_group",
+    "id" : "guns_smg_obscure",
+    "//" : "Imported or otherwise very SMGs.",
+    "items": [
+    ]
+  },
+  {
+    "type" : "item_group",
+    "id" : "guns_smg_improvised",
+    "//" : "Makeshift or otherwise poor quality SMGs.",
+    "items": [
+    ]
+  },
+  {
+    "type" : "item_group",
+    "id" : "guns_rifle_common",
+    "//" : "Rifles commonly owned by citizens and found in many locations.",
+    "items": [
+      [ "savage_111f", 10 ],
+      [ "cx4", 15 ],
+      [ "m1a", 15 ],
+      [ "ruger_mini", 60 ]
+    ]
+  },
+  {
+    "type" : "item_group",
+    "id" : "guns_rifle_rare",
+    "//" : "Less common rifles including those only used by police/paramilitary forces.",
+    "items": [
+      [ "m4a1", 75 ],
+      [ "savage_111f", 25 ]
+    ]
+  },
+  {
+    "type" : "item_group",
+    "id" : "guns_rifle_milspec",
+    "//" : "Military specification rifles only ever found at military sites.",
+    "items": [
+      [ "m107a1", 10 ],
+      [ "m249", 35 ],
+      [ "m60", 15 ],
+      [ "m134", 5 ],
+      [ "scar_h", 35 ]
+    ]
+  },
+  {
+    "type" : "item_group",
+    "id" : "guns_rifle_obscure",
+    "//" : "Imported or otherwise very obscure rifles.",
+    "items": [
+      [ "ak47", 45 ],
+      [ "carbine_flintlock", 20 ],
+      [ "rifle_flintlock", 35 ]
+    ]
+  },
+  {
+    "type" : "item_group",
+    "id" : "guns_rifle_improvised",
+    "//" : "Makeshift or otherwise poor quality rifles.",
+    "items": [
+      [ "rifle_3006", 15 ],
+      [ "rifle_9mm", 30 ],
+      [ "surv_carbine_223", 55 ]
+    ]
+  },
+  {
+    "type" : "item_group",
+    "id" : "guns_shotgun_common",
+    "//" : "Shotguns commonly owned by citizens and found in many locations.",
+    "items": [
+      [ "mossberg_500", 100 ]
+    ]
+  },
+  {
+    "type" : "item_group",
+    "id" : "guns_shotgun_rare",
+    "//" : "Less common shotguns including those only used by police/paramilitary forces.",
+    "items": [
+      [ "m1014", 100 ]
+    ]
+  },
+  {
+    "type" : "item_group",
+    "id" : "guns_shotgun_milspec",
+    "//" : "Military specification shotguns only ever found at military sites.",
+    "items": [
+    ]
+  },
+  {
+    "type" : "item_group",
+    "id" : "guns_shotgun_obscure",
+    "//" : "Imported or otherwise very obscure shotguns.",
+    "items": [
+    ]
+  },
+  {
+    "type" : "item_group",
+    "id" : "guns_shotgun_improvised",
+    "//" : "Makeshift or otherwise poor quality shotguns.",
+    "items": [
+      [ "pipe_shotgun", 100 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "guns_launcher_grenade",
+    "//": "Factory manufactured grenade launchers (excludes improvised weapons)",
+    "items": [
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "guns_launcher_rocket",
+    "//": "Factory manufactured rocket launchers (excludes improvised weapons)",
+    "items": [
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "guns_launcher_milspec",
+    "//": "Factory manufactured grenade and rocket launchers (excludes improvised weapons)",
+    "items": [
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "guns_launcher_improvised",
+    "//": "Makeshift or otherwise poor quality grenade and rocket launchers",
+    "items": [
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "guns_common",
+    "//": "Guns of all types commonly owned by citizens and found in many locations.",
+    "items": [
+      { "group": "guns_pistol_common", "prob": 60 },
+      { "group": "guns_rifle_common", "prob": 20 },
+      { "group": "guns_smg_common", "prob": 5 },
+      { "group": "guns_shotgun_common", "prob": 15 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "guns_rare",
+    "//": "Less common guns of all types including those only used by police/paramilitary forces.",
+    "items": [
+      { "group": "guns_pistol_rare", "prob": 50 },
+      { "group": "guns_smg_rare", "prob": 15 },
+      { "group": "guns_rifle_rare", "prob": 20 },
+      { "group": "guns_shotgun_rare", "prob": 15 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "guns_milspec",
+    "//": "Military specification guns of all types.",
+    "items": [
+      { "group": "guns_pistol_rare", "prob": 20 },
+      { "group": "guns_smg_rare", "prob": 10 },
+      { "group": "guns_rifle_milspec", "prob": 60 },
+      { "group": "guns_shotgun_rare", "prob": 10 }
+    ]
+  },
+  {
+    "type" : "item_group",
+    "id" : "guns_improvised",
+    "//" : "Makeshift or otherwise poor quality guns of all types.",
+    "items": [
+      { "group": "guns_pistol_improvised", "prob": 30 },
+      { "group": "guns_rifle_improvised", "prob": 50 },
+      { "group": "guns_shotgun_improvised", "prob": 20 }
+    ]
+  },
+  {
+    "type" : "item_group",
+    "id" : "guns_cop",
+    "//" : "Police issue weapons of all types",
+    "items":[
+      ["cx4", 20],
+      ["glock_19", 40],
+      ["hk_mp5", 10],
+      ["m9",17],
+      ["mossberg_500", 13]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "guns_swat",
+    "//": "Guns issued to paramilitary forces in addition to standard police issue.",
+    "items": [
+      { "group": "guns_cop", "prob": 70 },
+      [ "hk_ump45", 10 ],
+      [ "m1014", 5 ],
+      [ "m4a1", 15 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "guns_survival",
+    "//": "Guns typically carried by survivors, either improvised or thematically appropriate.",
+    "items": [
+      { "group": "guns_improvised", "prob": 70 },
+      [ "mossberg_500", 10 ],
+      [ "ruger_redhawk", 20 ]
+    ]
+  }
+]

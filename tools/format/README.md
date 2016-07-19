@@ -27,6 +27,8 @@ Check all files in directory are valid JSON in canonical format
 
 # Configuration
 
+The provided unit tests should be run after making any changes to the ruleset.
+
 ## Contexts and rules
 
 As a file is parsed each JSON **node** is assigned a **context** based upon its

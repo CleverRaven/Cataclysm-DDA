@@ -210,8 +210,6 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         void reset_stats() override;
         /** Resets movement points and applies other non-idempotent changes */
         void process_turn() override;
-        /** Drop items randomly if insufficient inventory space except during pending activity */
-        void drop_inventory_overflow() override;
         /** Calculates the various speed bonuses we will get from mutations, etc. */
         void recalc_speed_bonus();
         /** Called after every action, invalidates player caches */
@@ -495,6 +493,27 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         bool handle_gun_damage( item &firing );
 
         /**
+         * Calculate range at which given chance of hit considering player stats, clothing and recoil
+         * @param gun ranged weapon which must have sufficient ammo for at least one shot
+         * @param aim maximum turns to spend aiming (or unlimited if negative)
+         * @param penalty if set (non-negative) use this value instead of current total player recoil
+         * @param chance probability of hit, range [0-100) with zero returning absolute maximum range
+         * @param accuracy minimum accuracy required
+         * @return range in tiles (with default arguments this is the maximum effective range)
+         */
+        double gun_engagement_range( const item& gun, int aim = -1, int penalty = -1,
+                                    unsigned chance = 50, double accuracy = accuracy_goodhit ) const;
+
+        enum class engagement {
+            effective_min,   // 50% chance of good hit with no aiming
+            effective_max,   // 50% chance of good hit at maximum aim
+            absolute_max,    // 10% chance of any hit at maximum aim
+        };
+
+        /** Calculate range at which engagement rules apply */
+        double gun_engagement_range( const item& gun, engagement opts, int penalty = -1 ) const;
+
+        /**
          *  Fires a gun or axuiliary gunmod (ignoring any current mode)
          *  @param target where the first shot is aimed at (may vary for later shots)
          *  @param shots maximum number of shots to fire (less may be fired in some circumstances)
@@ -514,6 +533,18 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
          * @return true if the armor was completely destroyed (and the item must be deleted).
          */
         bool armor_absorb( damage_unit &du, item &armor );
+        /**
+         * Check for passive bionics that provide armor, and returns the armor bonus
+         * This is called from player::passive_absorb_hit
+         */
+         float bionic_armor_bonus( body_part bp, damage_type dt ) const;
+        /**
+         * Check for relevant passive, non-clothing that can absorb damage, and reduce @ref du
+         * Only flat bonuses are checked here. Multiplicative ones are checked in player::absorb_hit
+         * @ref du.amount will never be reduced below 0
+         * This is called from @ref player::absorb_hit
+         */
+         void passive_absorb_hit( body_part bp, damage_unit &du ) const;
         /** Runs through all bionics and armor on a part and reduces damage through their armor_absorb */
         void absorb_hit(body_part bp, damage_instance &dam) override;
         /** Called after the player has successfully dodged an attack */
@@ -625,6 +656,11 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Returns a value used when attempting to intimidate NPC's */
         int intimidation() const;
 
+        /**
+         * Returns true if it is impossible for @ref dam to reduce the player's HP on his/her @ref bp
+         * @warning Only HP is accounted for- not damaged clothing, pain, status effects, etc.
+         */
+        bool immune_to( body_part bp, damage_unit dam ) const;
         /** Calls Creature::deal_damage and handles damaged effects (waking up, etc.) */
         dealt_damage_instance deal_damage(Creature *source, body_part bp, const damage_instance &d) override;
         /** Actually hurt the player, hurts a body_part directly, no armor reduction */
@@ -771,6 +807,15 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Handles rooting effects */
         void rooted_message() const;
         void rooted();
+
+        /**
+         * Select suitable ammo with which to reload the item
+         * @param prompt force display of the menu even if only one choice
+         */
+        item::reload_option select_ammo( const item& base, bool prompt = false ) const;
+
+        /** Select ammo from the provided options */
+        item::reload_option select_ammo( const item &base, const std::vector<item::reload_option>& opts ) const;
 
         /** Check player strong enough to lift an object unaided by equipment (jacks, levers etc) */
         template <typename T>
@@ -1062,8 +1107,6 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
 
         int  leak_level( std::string flag ) const; // carried items may leak radiation or chemicals
 
-        // Check for free container space for the whole liquid item
-        bool has_container_for( const item &liquid ) const;
         // Has a weapon, inventory item or worn item with flag
         bool has_item_with_flag( const std::string &flag ) const;
 

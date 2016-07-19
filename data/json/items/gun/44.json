@@ -4,7 +4,7 @@
     "type": "GUN",
     "name": "Desert Eagle .44",
     "name_plural": "Desert Eagle .44",
-    "description": "One of the most recognizable handguns due to its popularity in movies, the \"Deagle\" is better known for its menacing appearance than its performance.  It's highly inaccurate, but its heavy weight reduces recoil.",
+    "description": "One of the most recognizable handguns due to its popularity in movies, the Desert Eagle is better known for its menacing appearance than its performance.  It's highly inaccurate, but its heavy weight reduces recoil.",
     "weight": 1800,
     "volume": 3,
     "price": 87500,
@@ -25,7 +25,7 @@
     "magazine_well": 1,
     "magazines": [
       [ "44", [ "deaglemag" ] ],
-      [ "45", [ "m9mag", "m9mag" ] ],
+      [ "45", [ "m1911mag", "m1911bigmag" ] ],
       [ "9mm", [ "glockmag", "glockbigmag" ] ]
     ]
   },

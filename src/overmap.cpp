@@ -1679,8 +1679,12 @@ void overmap::draw(WINDOW *w, WINDOW *wbar, const tripoint &center,
     // seen status & terrain of center position
     bool csee = false;
     oter_id ccur_ter = "";
+    // Debug vision allows seeing everything
+    const bool has_debug_vision = g->u.has_trait( "DEBUG_NIGHTVISION" );
     // sight_points is hoisted for speed reasons.
-    int sight_points = g->u.overmap_sight_range( g->light_level( g->u.posz() ) );
+    const int sight_points = !has_debug_vision ?
+                             g->u.overmap_sight_range( g->light_level( g->u.posz() ) ) :
+                             100;
 
     std::string sZoneName;
     tripoint tripointZone = tripoint(-1, -1, -1);
@@ -1739,6 +1743,36 @@ void overmap::draw(WINDOW *w, WINDOW *wbar, const tripoint &center,
         }
     }
 
+    // Cache NPCs since time to draw them is linear (per seen tile) with their count
+    struct npc_coloring {
+        nc_color color;
+        size_t count;
+    };
+    std::unordered_map<tripoint, npc_coloring> npc_color;
+    if( blink ) {
+        const auto &npcs = overmap_buffer.get_npcs_near_player( sight_points );
+        for( const npc *np : npcs ) {
+            if( np->posz() != z ) {
+                continue;
+            }
+
+            const tripoint pos = np->global_omt_location();
+            if( has_debug_vision || overmap_buffer.seen( pos.x, pos.y, pos.z ) ) {
+                auto iter = npc_color.find( pos );
+                nc_color np_color = np->basic_symbol_color();
+                if( iter == npc_color.end() ) {
+                    npc_color[ pos ] = { np_color, 1 };
+                } else {
+                    iter->second.count++;
+                    // Randomly change to new NPC's color
+                    if( iter->second.color != np_color && one_in( iter->second.count ) ) {
+                        iter->second.color = np_color;
+                    }
+                }
+            }
+        }
+    }
+
     for (int i = 0; i < om_map_width; ++i) {
         for (int j = 0; j < om_map_height; ++j) {
             const int omx = i + offset_x;
@@ -1748,7 +1782,7 @@ void overmap::draw(WINDOW *w, WINDOW *wbar, const tripoint &center,
             nc_color ter_color = c_black;
             long ter_sym = ' ';
 
-            const bool see = overmap_buffer.seen(omx, omy, z);
+            const bool see = has_debug_vision || overmap_buffer.seen(omx, omy, z);
             if (see) {
                 // Only load terrain if we can actually see it
                 cur_ter = overmap_buffer.ter(omx, omy, z);
@@ -1783,9 +1817,9 @@ void overmap::draw(WINDOW *w, WINDOW *wbar, const tripoint &center,
                 ter_color = c_dkgray;
                 ter_sym   = '#';
                 // All cases below assume that see is true.
-            } else if (blink && overmap_buffer.has_npc(omx, omy, z)) {
-                // Display NPCs only when player can see the location
-                ter_color = c_pink;
+            } else if( blink && npc_color.count( cur_pos ) != 0 ) {
+                // Visible NPCs are cached already
+                ter_color = npc_color[ cur_pos ].color;
                 ter_sym   = '@';
             } else if (blink && los && overmap_buffer.has_horde(omx, omy, z)) {
                 // Display Hordes only when within player line-of-sight
@@ -1936,37 +1970,38 @@ void overmap::draw(WINDOW *w, WINDOW *wbar, const tripoint &center,
         }
     }
 
-    std::vector<std::string> corner_text;
+    std::vector<std::pair<nc_color, std::string>> corner_text;
 
     std::string const &note_text = overmap_buffer.note(cursx, cursy, z);
     if (!note_text.empty()) {
         size_t const pos = std::get<2>(get_note_display_info(note_text));
         if (pos != std::string::npos) {
-            corner_text.emplace_back(note_text.substr(pos));
+            corner_text.emplace_back( c_yellow, note_text.substr(pos) );
         }
     }
 
     for( const auto &npc : overmap_buffer.get_npcs_near_omt(cursx, cursy, z, 0) ) {
         if( !npc->marked_for_death ) {
-            corner_text.emplace_back( npc->name );
+            corner_text.emplace_back( npc->basic_symbol_color(), npc->name );
         }
     }
 
     for( auto &v : overmap_buffer.get_vehicle(cursx, cursy, z) ) {
-        corner_text.emplace_back( v.name );
+        corner_text.emplace_back( c_white, v.name );
     }
 
     if( !corner_text.empty() ) {
         int maxlen = 0;
         for (auto const &line : corner_text) {
-            maxlen = std::max( maxlen, utf8_width(line) );
+            maxlen = std::max( maxlen, utf8_width( line.second ) );
         }
 
         const std::string spacer(maxlen, ' ');
         for( size_t i = 0; i < corner_text.size(); i++ ) {
+            const auto &pr = corner_text[ i ];
             // clear line, print line, print vertical line at the right side.
             mvwprintz( w, i, 0, c_yellow, spacer.c_str() );
-            mvwprintz( w, i, 0, c_yellow, "%s", corner_text[i].c_str() );
+            mvwprintz( w, i, 0, pr.first, "%s", pr.second.c_str() );
             mvwputch( w, i, maxlen, c_white, LINE_XOXO );
         }
         for (int i = 0; i <= maxlen; i++) {
@@ -3271,6 +3306,7 @@ struct node
     node( int xp, int yp, int dir, int pri ) {
         x = xp; y = yp; d = dir; p = pri;
     }
+    // Operator overload required by priority queue interface.
     bool operator< ( const node &n ) const {
         return this->p > n.p;
     }

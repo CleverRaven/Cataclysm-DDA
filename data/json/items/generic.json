@@ -8,7 +8,6 @@
         "description": "A dead body.",
         "//": "most of the properties depend on the monster type and are created at runtime!",
         "price": 0,
-        "weight": 0,
         "volume": 0,
         "flags": ["NO_UNLOAD", "TRADER_AVOID"]
     },
@@ -22,7 +21,6 @@
         "name_plural": "none",
         "description": "seeing this is a bug",
         "price": 0,
-        "weight": 0,
         "volume": 0,
         "flags": ["PSEUDO", "TRADER_AVOID"]
     },
@@ -36,7 +34,6 @@
         "name_plural" : "none",
         "description" : "seeing this is a bug",
         "price" : 0,
-        "weight" : 0,
         "volume" : 0,
         "flags": ["PSEUDO"]
     },
@@ -50,7 +47,6 @@
         "name_plural": "none",
         "description": "seeing this is a bug",
         "price": 0,
-        "weight": 0,
         "volume": 0,
         "flags": ["PSEUDO", "TRADER_AVOID"]
     },
@@ -63,7 +59,6 @@
         "name_plural": "none",
         "description": "seeing this is a bug",
         "price": 0,
-        "weight": 0,
         "volume": 0,
         "flags": ["PSEUDO", "TRADER_AVOID"]
     },
@@ -76,7 +71,6 @@
         "name_plural": "none",
         "description": "seeing this is a bug",
         "price": 0,
-        "weight": 0,
         "volume": 0,
         "flags": ["PSEUDO", "UNARMED_WEAPON", "TRADER_AVOID"], "//" : "Fist is internally represented as 'wielding a none as a weapon'"
     },
@@ -1116,12 +1110,13 @@
         "description": "A high-quality lens, useful for focusing or diffusing light.  Might be useful for starting a fire.",
         "price": 120000,
         "material": "glass",
-        "flags": [ "LENS" ],
         "weight": 340,
         "volume": 0,
         "to_hit": -3,
         "use_action": {
-            "type": "extended_firestarter",
+            "type": "firestarter",
+            "moves": 1000,
+            "moves_slow": 30000,
             "need_sunlight": true
         }
     },
@@ -2354,6 +2349,7 @@
         "symbol" : "!",
         "description" : "The smoke billowing from this cigar has a sweet, musty odor.",
         "category" : "drugs",
+        "emits": [ "emit_tobacco_trail" ],
         "flags" : [ "LITCIG", "TOBACCO", "LIGHT_4", "TRADER_AVOID" ]
     },
     {
@@ -2374,6 +2370,7 @@
         "symbol" : "!",
         "description" : "Smoke swirls from the lit end of this cigarette, filling the air with the thrilling smell of burning chemicals.",
         "category": "drugs",
+        "emits": [ "emit_tobacco_trail" ],
         "flags" : [ "LITCIG", "TOBACCO", "LIGHT_4", "TRADER_AVOID" ]
     },
     {
@@ -2394,6 +2391,7 @@
         "symbol" : "!",
         "description" : "The smell of skunk permeates the air as a thin trail of smoke floats off of this joint.",
         "category" : "drugs",
+        "emits": [ "emit_joint_trail" ],
         "flags" : [ "LITCIG", "LIGHT_4", "TRADER_AVOID" ]
     },
     {
@@ -2544,7 +2542,6 @@
         "id" : "note",
         "name" : "note",
         "description" : "A hand-written paper note.",
-        "weight" : 0,
         "to_hit" : -2,
         "color" : "white",
         "symbol" : "?",

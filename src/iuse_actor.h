@@ -368,38 +368,30 @@ class firestarter_actor : public iuse_actor
 {
     public:
         /**
-         * Moves used at start of the action.
+         * Moves used at start of the action when starting fires with good fuel.
          */
-        int moves_cost = 0;
+        int moves_cost_fast = 100;
 
-        static bool prep_firestarter_use( const player *p, const item *it, tripoint &pos );
-        static void resolve_firestarter_use( const player *p, const item *, const tripoint &pos );
+        /**
+         * Total moves when starting fires with mediocre fuel.
+         */
+        int moves_cost_slow = 1000;
 
-        firestarter_actor( const std::string &type = "firestarter" ) : iuse_actor( type ) {}
-
-        ~firestarter_actor() override { }
-        void load( JsonObject &jo ) override;
-        long use( player*, item*, bool, const tripoint& ) const override;
-        bool can_use( const player*, const item*, bool, const tripoint& ) const override;
-        iuse_actor *clone() const override;
-};
-
-/**
- * Starts an extended action to start a fire
- */
-class extended_firestarter_actor : public firestarter_actor
-{
-    public:
         /**
          * Does it need sunlight to be used.
          */
         bool need_sunlight = false;
 
-        int calculate_time_for_lens_fire( const player *, float light_level ) const;
+        static bool prep_firestarter_use( const player *p, const item *it, tripoint &pos );
+        static void resolve_firestarter_use( const player *p, const item *, const tripoint &pos );
+        /** Modifier on speed - higher is better, 0 means it won't work. */
+        float light_mod( const tripoint &pos ) const;
+        /** Checks quality of fuel on the tile and interpolates move cost based on that. */
+        int moves_cost_by_fuel( const tripoint &pos ) const;
 
-        extended_firestarter_actor( const std::string &type = "extended_firestarter" ) : firestarter_actor( type ) {}
+        firestarter_actor( const std::string &type = "firestarter" ) : iuse_actor( type ) {}
 
-        ~extended_firestarter_actor() override { }
+        ~firestarter_actor() override { }
         void load( JsonObject &jo ) override;
         long use( player*, item*, bool, const tripoint& ) const override;
         bool can_use( const player*, const item*, bool, const tripoint& ) const override;
@@ -668,14 +660,18 @@ class bandolier_actor : public iuse_actor
     public:
         /** Total number of rounds that can be stored **/
         int capacity = 1;
+
         /** What types of ammo can be stored? */
         std::set<ammotype> ammo;
+
+        /** Base move cost per unit volume when storing/retrieving contained items */
+        int draw_cost = VOLUME_MOVE_COST;
 
         /** Check if obj could be stored in the bandolier */
         bool can_store( const item& bandolier, const item& obj ) const;
 
         /** Store ammo in the bandolier */
-        bool store( player &p, item& bandolier, item& obj ) const;
+        bool reload( player &p, item& obj ) const;
 
         bandolier_actor( const std::string &type = "bandolier" ) : iuse_actor( type ) {}
 
