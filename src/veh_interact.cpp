@@ -1373,7 +1373,7 @@ void veh_interact::display_contents()
         std::string msg;
 
         auto turret = veh->turret_query( pt );
-        if( turret ) {
+        if( turret && turret.can_reload() ) {
             hdr = turret.name();
 
             if( turret.magazine_current() ) {
@@ -1388,7 +1388,7 @@ void veh_interact::display_contents()
                                          turret.ammo_remaining(), turret.ammo_capacity() );
                 }
 
-            } else {
+            } else if( turret.ammo_capacity() > 0 ) {
                 hdr += string_format( " (%i/%i)", turret.ammo_remaining(), turret.ammo_capacity() );
                 if( turret.ammo_remaining() && turret.ammo_current() != "null" ) {
                     msg = item::nname( turret.ammo_current(), turret.ammo_remaining() );
