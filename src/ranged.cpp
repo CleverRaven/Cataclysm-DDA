@@ -1185,7 +1185,14 @@ std::vector<tripoint> game::target( tripoint &p, const tripoint &low, const trip
             if( relevant->is_gun() ) {
                 auto m = relevant->gun_current_mode();
 
-                mvwprintw( w_target, line_number++, 1, _( "Firing mode: %s (%d)" ), m.mode.c_str(), m.qty );
+                if( relevant != m.target ) {
+                    mvwprintw( w_target, line_number++, 1, _( "Firing mode: %s %s (%d)" ),
+                               m->tname().c_str(), m.mode.c_str(), m.qty );
+                } else {
+                    mvwprintw( w_target, line_number++, 1, _( "Firing mode: %s (%d)" ),
+                               m.mode.c_str(), m.qty );
+                }
+
                 if( m->ammo_data() ) {
                     mvwprintw( w_target, line_number++, 1,
                                m->ammo_capacity() > 1 ? _( "Ammo: %s (%d/%d)" ) : _( "Ammo: %s" ),
