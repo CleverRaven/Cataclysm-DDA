@@ -64,9 +64,9 @@ class ranged
             return loc ? loc->ammo_type() : ammotype( "NULL" );
         }
 
-        /** Currently loaded magazine (if any), @see item::magazine_integral */
-        const item *magazine_current() const {
-            return loc ? loc->magazine_current() : nullptr;
+        /** Maximum range considering current ammo (if any) */
+        virtual int range() const {
+            return loc ? loc->gun_range() : 0;
         }
 
     protected:

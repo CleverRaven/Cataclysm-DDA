@@ -1372,7 +1372,7 @@ void veh_interact::display_contents()
         std::string hdr;
         std::string msg;
 
-        auto turret = veh->turret_query( pt );
+        const auto turret = veh->turret_query( pt );
         if( turret && turret.can_unload() ) {
             hdr = turret.name();
 

@@ -849,8 +849,18 @@ public:
             const itype *ammo_data() const override;
             itype_id ammo_current() const override;
 
+            int range() const override;
+
+            /**
+             * Manually aim and fire turret
+             * @return number of shots actually fired (which may be zero)
+             */
+            int fire( player &p );
+
             bool can_reload() const;
             bool can_unload() const;
+
+            const item *magazine_current() const;
 
             enum class status {
                 invalid,
@@ -874,11 +884,8 @@ public:
     turret_data turret_query( vehicle_part &pt );
     const turret_data turret_query( const vehicle_part &pt ) const;
 
-    /**
-     * Manually aim and fire turret
-     * @return number of shots actually fired (which may be zero)
-     */
-    int turret_fire( vehicle_part &pt );
+    turret_data turret_query( const tripoint &pos );
+    const turret_data turret_query( const tripoint &pos ) const;
 
     /** Set targeting mode for specific turrets */
     void turrets_set_targeting();
