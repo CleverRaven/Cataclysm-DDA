@@ -4918,29 +4918,28 @@ long item::get_remaining_capacity_for_liquid( const item &liquid, bool allow_buc
 
     if( is_reloadable_with( liquid.typeId() ) ) {
         if( ammo_remaining() != 0 && ammo_current() != liquid.typeId() ) {
-            return error( string_format( _( "You can't mix loads in your %s." ), tname().c_str() ) );
+            return error( string_format( _( "can't mix liquids" ) ) );
         }
         remaining_capacity = ammo_capacity() - ammo_remaining();
     } else if( is_container() ) {
         if( !type->container->watertight ) {
-            return error( string_format( _( "That %s isn't water-tight." ), tname().c_str() ) );
+            return error( string_format( _( "isn't water-tight" ) ) );
         } else if( !type->container->seals && ( !allow_bucket || !is_bucket() ) ) {
-            return error( string_format( is_bucket() ? _( "That %s must be on the ground or held to hold contents!" )
-                                                     : _( "You can't seal that %s!" ), tname().c_str() ) );
+            return error( string_format( is_bucket() ? _( "must be on the ground or held to hold contents" )
+                                                     : _( "can't be sealed" ) ) );
         } else if( !contents.empty() && contents.front().typeId() != liquid.typeId() ) {
-            return error( string_format( _( "You can't mix loads in your %s." ), tname().c_str() ) );
+            return error( string_format( _( "can't mix liquids" ) ) );
         }
         remaining_capacity = liquid.charges_per_volume( get_container_capacity() );
         if( !contents.empty() ) {
             remaining_capacity -= contents.front().charges;
         }
     } else {
-        return error( string_format( _( "That %1$s won't hold %2$s." ), tname().c_str(), liquid.tname().c_str() ) );
+        return error( string_format( _( "won't hold %s" ), liquid.tname().c_str() ) );
     }
 
     if( remaining_capacity <= 0 ) {
-        return error( string_format( _( "Your %1$s can't hold any more %2$s." ), tname().c_str(),
-                                     liquid.tname().c_str() ) );
+        return error( string_format( _( "is full" ) ) );
     }
 
     return remaining_capacity;
