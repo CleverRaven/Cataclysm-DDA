@@ -22,5 +22,14 @@
         { "item": "matches" }
       ] }
     ]
+  },{
+        "type": "item_group",
+        "id": "corpses_human",
+        "items":[
+    ["corpse", 25],
+    ["bone_human", 10],
+    ["bone_tainted", 10],
+    ["human_flesh", 5]
+    ]
   }
 ]

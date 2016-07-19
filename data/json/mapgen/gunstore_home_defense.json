@@ -5,8 +5,9 @@
     "s_gun"
     ],
     "method" : "json",
-    "weight" : 300,
+    "weight" : 400,
     "object" :{
+        "fill_ter": "t_floor",
         "rows" : [
         "_ssssssssssssssssssssss_",
         "_s@@@@@@@_ssss_@@@@@@@s_",
@@ -43,16 +44,7 @@
         "D": "t_door_c",
         "L": "t_door_metal_locked",
         "@": "t_shrub",
-        "^": "t_floor",
-        "u": "t_floor",
-        "r": "t_floor",
-        "l": "t_floor",
-        "#": "t_floor",
-        "E": "t_floor",
-        "c": "t_floor",
         "A": "t_atm",
-        "S": "t_floor",
-        ";": "t_floor",
         "&": "t_bars",
         "*": "t_door_locked_alarm"
       },
