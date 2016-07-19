@@ -5,6 +5,7 @@
 #include "item.h"
 #include "itype.h"
 #include "veh_type.h"
+#include "vehicle_selector.h"
 #include "npc.h"
 #include "projectile.h"
 #include "messages.h"
@@ -54,6 +55,35 @@ vehicle::turret_status vehicle::turret_query( const vehicle_part &pt ) const
     }
 
     return turret_status::ready;
+}
+
+class turret : public ranged
+{
+    public:
+        turret( vehicle &veh, vehicle_part &part, item_location &&loc ) :
+            ranged( std::move( loc ) ), veh( veh ), part( part ) {}
+
+        virtual std::string name() const {
+            return part.name();
+        }
+
+    protected:
+        vehicle &veh;
+        vehicle_part &part;
+};
+
+ranged vehicle::turret_data( vehicle_part &pt )
+{
+    if( !pt.is_turret() ) {
+        return ranged();
+    }
+
+    int part = index_of_part( &pt );
+    if( part < 0 || pt.hp < 0 ) {
+        return ranged();
+    }
+
+    return turret( *this, pt, item_location( vehicle_cursor( *this, part ), &pt.base ) );
 }
 
 int vehicle::turret_fire( vehicle_part &pt )

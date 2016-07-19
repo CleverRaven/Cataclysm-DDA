@@ -12,6 +12,7 @@
 #include "active_item_cache.h"
 #include "string_id.h"
 #include "int_id.h"
+#include "ranged.h"
 
 #include <vector>
 #include <array>
@@ -107,7 +108,6 @@ struct vehicle_part : public JsonSerializer, public JsonDeserializer
     friend vehicle;
     friend visitable<vehicle_cursor>;
     friend item_location;
-    friend class Pickup;
 
     enum : int { passenger_flag = 1 };
 
@@ -170,9 +170,6 @@ struct vehicle_part : public JsonSerializer, public JsonDeserializer
 
     /** Get wheel width (inches) or return 0 if part is not wheel */
     int wheel_width() const;
-
-    /** Get turret magazine (if any) */
-    const item *turret_magazine() const;
 
     /**
      * @name Part capabilities
@@ -847,6 +844,9 @@ public:
 
     /** Query ability of turret to fire */
     turret_status turret_query( const vehicle_part &pt ) const;
+
+    /** Get firing data for a turret */
+    ranged turret_data( vehicle_part &pt );
 
     /**
      * Manually aim and fire turret

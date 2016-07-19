@@ -42,9 +42,14 @@ Pickup::interact_results Pickup::interact_with_vehicle( vehicle *veh, const trip
     const bool has_items_on_ground = g->m.sees_some_items( pos, g->u );
     const bool items_are_sealed = g->m.has_flag( "SEALED", pos );
 
-    vehicle_part *turret = vehicle::get_part( pos, []( const vehicle_part * e ) {
-        return e->is_turret();
-    } );
+    ranged turret;
+    auto parts = vehicle::get_parts( pos );
+    for( auto e : parts ) {
+        if( e->is_turret() ) {
+            turret = veh->turret_data( *e );
+            break;
+        }
+    }
 
     const bool has_kitchen = ( veh->part_with_feature( veh_root_part, "KITCHEN" ) >= 0 );
     const bool has_faucet = ( veh->part_with_feature( veh_root_part, "FAUCET" ) >= 0 );
@@ -83,10 +88,10 @@ Pickup::interact_results Pickup::interact_with_vehicle( vehicle *veh, const trip
     }
 
     if( turret ) {
-        if( turret->ammo_remaining() || turret->turret_magazine() ) {
-            selectmenu.addentry( UNLOAD_TURRET, true, 'u', _( "Unload %s" ), turret->name().c_str() );
+        if( turret.ammo_remaining() || turret.magazine_current() ) {
+            selectmenu.addentry( UNLOAD_TURRET, true, 'u', _( "Unload %s" ), turret.name().c_str() );
         } else {
-            selectmenu.addentry( RELOAD_TURRET, true, 'r', _( "Reload %s" ), turret->name().c_str() );
+            selectmenu.addentry( RELOAD_TURRET, true, 'r', _( "Reload %s" ), turret.name().c_str() );
         }
     }
 
@@ -201,16 +206,15 @@ Pickup::interact_results Pickup::interact_with_vehicle( vehicle *veh, const trip
         }
 
         case UNLOAD_TURRET: {
-            g->unload( turret->base );
+            g->unload( *turret.base() );
             return DONE;
         }
 
         case RELOAD_TURRET: {
-            item::reload_option opt = g->u.select_ammo( turret->base, true );
+            item::reload_option opt = g->u.select_ammo( *turret.base(), true );
             if( opt ) {
                 g->u.assign_activity( ACT_RELOAD, opt.moves(), opt.qty() );
-                g->u.activity.targets.emplace_back( vehicle_cursor( *veh, veh->index_of_part( turret ) ),
-                                                    &turret->base );
+                g->u.activity.targets.emplace_back( std::move( turret.base() ) );
                 g->u.activity.targets.push_back( std::move( opt.ammo ) );
             }
             return DONE;

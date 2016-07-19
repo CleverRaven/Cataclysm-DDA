@@ -6357,11 +6357,6 @@ int vehicle_part::wheel_width() const
     return base.is_wheel() ? base.type->wheel->width : 0;
 }
 
-const item *vehicle_part::turret_magazine() const
-{
-    return is_turret() ? base.magazine_current() : nullptr;
-}
-
 bool vehicle_part::is_light() const
 {
     const auto &vp = info();
