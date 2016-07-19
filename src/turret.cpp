@@ -193,14 +193,11 @@ int vehicle::turret_data::fire( player &p )
 
     int shots = 0;
 
-    // Clone the shooter and place them at turret on roof
-    auto shooter = p;
-    shooter.setpos( loc.position() );
-    shooter.add_effect( effect_on_roof, 1 );
-    shooter.recoil = abs( veh->velocity ) / 100 / 4;
+    p.add_effect( effect_on_roof, 1 );
+    p.recoil = abs( veh->velocity ) / 100 / 4;
 
-    tripoint pos = shooter.pos();
-    auto trajectory = g->pl_target_ui( pos, range(), &*base(), TARGET_MODE_TURRET_MANUAL );
+    tripoint pos = p.pos();
+    auto trajectory = g->pl_target_ui( pos, range(), &*base(), TARGET_MODE_TURRET_MANUAL, base().position() );
     g->draw_ter();
 
     if( !trajectory.empty() ) {
@@ -210,7 +207,7 @@ int vehicle::turret_data::fire( player &p )
             mode->ammo_set( ammo_current(), ammo_required() );
         }
 
-        shots = shooter.fire_gun( trajectory.back(), mode.qty, *mode );
+        shots = p.fire_gun( trajectory.back(), mode.qty, *mode );
 
         if( part->info().has_flag( "USE_TANKS" ) && mode->ammo_remaining() ) {
             veh->drain( mode->ammo_current(), mode->ammo_required() * shots );
@@ -219,6 +216,8 @@ int vehicle::turret_data::fire( player &p )
 
         veh->drain( fuel_type_battery, mode->get_gun_ups_drain() * shots );
     }
+
+    p.remove_effect( effect_on_roof );
 
     return shots;
 }
