@@ -663,6 +663,9 @@ void Item_factory::check_definitions() const
         if( type->price < 0 ) {
             msg << "negative price" << "\n";
         }
+        if( type->description.empty() ) {
+            msg << "empty description" << "\n";
+        }
 
         for( auto mat_id : type->materials ) {
             if( mat_id.str() == "null" || !mat_id.is_valid() ) {
