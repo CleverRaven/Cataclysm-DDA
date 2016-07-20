@@ -61,7 +61,7 @@ class npc_class
 
     public:
         npc_class_id id;
-        bool was_loaded;
+        bool was_loaded = false;
 
         npc_class();
 
