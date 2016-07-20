@@ -79,7 +79,7 @@ void material_type::load( JsonObject &jsobj )
 
     JsonArray jsarr = jsobj.get_array( "dmg_adj" );
     while( jsarr.has_more() ) {
-        _dmg_adj.push_back( jsarr.next_string() );
+        _dmg_adj.push_back( _( jsarr.next_string().c_str() ) );
     }
 
     JsonArray burn_data_array = jsobj.get_array( "burn_data" );
