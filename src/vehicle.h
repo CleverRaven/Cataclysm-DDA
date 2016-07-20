@@ -1003,10 +1003,10 @@ public:
     int cruise_velocity = 0; // velocity vehicle's cruise control trying to achieve
     int vertical_velocity = 0; // Only used for collisions, vehicle falls instantly
     int om_id;          // id of the om_vehicle struct corresponding to this vehicle
-    int turn_dir;       // direction, to which vehicle is turning (player control). will rotate frame on next move
+    int turn_dir = 0;       // direction, to which vehicle is turning (player control). will rotate frame on next move
 
     std::array<point, 2> pivot_anchor; // points used for rotation of mount precalc values
-    std::array<int, 2> pivot_rotation; // rotation used for mount precalc values
+    std::array<int, 2> pivot_rotation = {{ 0, 0 }}; // rotation used for mount precalc values
 
     int last_turn = 0;      // amount of last turning (for calculate skidding due to handbrake)
     float of_turn;      // goes from ~1 to ~0 while proceeding every turn

@@ -218,6 +218,8 @@ game::game() :
     scent( *scent_ptr ),
     critter_tracker( new Creature_tracker() ),
     weather_gen( new weather_generator() ),
+    weather( WEATHER_CLEAR ),
+    lightning_active( false ),
     weather_precise( new w_point() ),
     w_terrain(NULL),
     w_overmap(NULL),
