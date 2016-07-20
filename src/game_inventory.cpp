@@ -263,6 +263,36 @@ item_location game::inv_for_comestibles( const std::string &title )
                          title, 1, _( "You have nothing to consume." ) );
 }
 
+class gunmod_inventory_preset: public inventory_selector_preset
+{
+    public:
+        gunmod_inventory_preset( const item &gunmod ) : gunmod( gunmod ) {
+            append_cell( [ this ]( const item & it ) {
+                std::string err;
+                it.gunmod_compatible( this->gunmod, &err );
+                return err.empty() ? string_format( "<color_ltgreen>%s</color>", _( "yes" ) ) : err;
+            }, _( "MODIFIABLE" ) );
+            // @todo Display rolls
+        }
+
+        bool is_shown( const item &it ) const override {
+            return it.is_gun() && !it.is_gunmod();
+        }
+
+        bool is_enabled( const item &it ) const override {
+            return it.gunmod_compatible( gunmod );
+        }
+
+    private:
+        const item &gunmod;
+};
+
+item_location game::inv_for_gunmod( const item &gunmod, const std::string &title )
+{
+    return inv_internal( u, gunmod_inventory_preset( gunmod ),
+                         title, -1, _( "You don't have any guns." ) );
+}
+
 class drop_inventory_preset: public inventory_selector_preset
 {
     public:

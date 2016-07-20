@@ -10893,20 +10893,19 @@ void player::use(int inventory_position)
 
         invoke_item( used );
     } else if (used->is_gunmod()) {
+        // first check at least the minimum requirements are met
+        if( !( can_use( *used ) || has_trait( "DEBUG_HS" ) ) ) {
+            return;
+        }
 
-        int gunpos = g->inv_for_filter( _("Select gun to modify:" ), [&used]( const item& e ) {
-            return e.gunmod_compatible( *used, false, false );
-        }, _( "You don't have compatible guns." ) );
+        int gunpos = get_item_position( g->inv_for_gunmod( *used, _( "GUN TO MODIFY" ) ).get_item() );
 
         if( gunpos == INT_MIN ) {
             add_msg_if_player( m_info, _( "Never mind." ) );
             return;
         }
 
-        item& gun = i_at( gunpos );
-        if( gun.gunmod_compatible( *used ) ) {
-            gunmod_add( gun, *used );
-        }
+        gunmod_add( i_at( gunpos ), *used );
         return;
 
     } else if (used->is_bionic()) {
@@ -11086,7 +11085,7 @@ bool player::gunmod_remove( item &gun, item& mod )
 
 void player::gunmod_add( item &gun, item &mod )
 {
-    if( !gun.gunmod_compatible( mod, false ) ) {
+    if( !gun.gunmod_compatible( mod ) ) {
         debugmsg( "Tried to add incompatible gunmod" );
         return;
     }
@@ -13843,7 +13842,7 @@ void player::on_effect_int_change( const efftype_id &eid, int intensity, body_pa
         // Note that calling this does no harm if it wasn't changed.
         on_stat_change( "perceived_pain", get_perceived_pain() );
     }
-    
+
     morale->on_effect_int_change( eid, intensity, bp );
 }
 
