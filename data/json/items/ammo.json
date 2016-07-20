@@ -1238,7 +1238,7 @@
         "name_plural" : "placeholder ammunition",
         "symbol" : "=",
         "color" : "red",
-        "description" : "",
+        "description" : "IF YOU ARE SEEING THIS IT IS A BUG.",
         "volume" : 0,
         "ammo_type" : "NULL",
         "count" : 1,
