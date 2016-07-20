@@ -141,12 +141,12 @@ dealt_projectile_attack Creature::projectile_attack( const projectile &proj_arg,
     const bool no_item_damage = proj_effects.count( "NO_ITEM_DAMAGE" ) > 0;
     const bool do_draw_line = proj_effects.count( "DRAW_AS_LINE" ) > 0;
     const bool null_source = proj_effects.count( "NULL_SOURCE" ) > 0;
-    // @todo: Change this once we have a better way to determine if it's a bullet or not.
+    // Determines whether it can penetrate obstacles
     const bool is_bullet = std::any_of( proj_arg.impact.damage_units.begin(),
                                         proj_arg.impact.damage_units.end(),
                                         []( const damage_unit &dam )
     {
-        return dam.type == DT_CUT;
+        return dam.type == DT_CUT && proj_arg.speed >= 200;
     } );
 
     // If we were targetting a tile rather than a monster, don't overshoot
