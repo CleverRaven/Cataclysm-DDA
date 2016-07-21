@@ -669,7 +669,6 @@
     "material": ["steel", "clay"],
     "weight": 17100,
     "volume": 50,
-    "bashing": 0,
     "to_hit": -2,
     "category" : "tools",
     "use_action": {
@@ -694,7 +693,6 @@
     "material": ["flesh", "clay"],
     "weight": 24100,
     "volume": 50,
-    "bashing": 0,
     "to_hit": -2,
     "contains": 10,
     "ammo": "bfeed",
@@ -712,7 +710,6 @@
     "material": ["bone", "flesh"],
     "weight": 13115,
     "volume": 14,
-    "bashing": 0,
     "to_hit": -2,
     "category" : "tools",
     "use_action": {
@@ -735,7 +732,6 @@
     "material": ["bone", "flesh"],
     "weight": 14613,
     "volume": 16,
-    "bashing": 0,
     "to_hit": -2,
     "category" : "tools",
     "use_action": {
@@ -758,7 +754,6 @@
     "material": ["bone", "flesh"],
     "weight": 15662,
     "volume": 20,
-    "bashing": 0,
     "to_hit": -2,
     "category" : "tools",
     "use_action": {
@@ -781,7 +776,6 @@
     "material": ["bone", "flesh"],
     "weight": 20662,
     "volume": 28,
-    "bashing": 0,
     "to_hit": -2,
     "category" : "tools",
     "use_action": {
@@ -804,7 +798,6 @@
     "material": ["bone", "flesh"],
     "weight": 8662,
     "volume": 24,
-    "bashing": 0,
     "to_hit": -2,
     "category" : "tools",
     "use_action": {
@@ -827,7 +820,6 @@
     "material": ["bone", "flesh"],
     "weight": 6662,
     "volume": 40,
-    "bashing": 0,
     "to_hit": -2,
     "category" : "tools",
     "use_action": {
@@ -865,7 +857,6 @@
     "material": [ "cotton", "bone" ],
     "weight": 9162,
     "volume": 10,
-    "bashing": 0,
     "to_hit": -2,
     "category" : "tools",
     "use_action": {
@@ -903,7 +894,6 @@
     "material": [ "cotton", "bone" ],
     "weight": 5162,
     "volume": 20,
-    "bashing": 0,
     "to_hit": -2,
     "category" : "tools",
     "use_action": {
@@ -941,7 +931,6 @@
     "material": [ "cotton", "bone" ],
     "weight": 1762,
     "volume": 10,
-    "bashing": 0,
     "to_hit": -2,
     "category" : "tools",
     "use_action": {
@@ -979,7 +968,6 @@
     "material": [ "stone", "flesh" ],
     "weight": 63900,
     "volume": 100,
-    "bashing": 0,
     "to_hit": -2,
     "category" : "tools",
     "use_action": {
@@ -1018,7 +1006,6 @@
     "material": [ "stone", "flesh" ],
     "weight": 16410,
     "volume": 20,
-    "bashing": 0,
     "to_hit": -2,
     "category" : "tools",
     "use_action": {
