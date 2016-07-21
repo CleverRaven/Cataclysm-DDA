@@ -882,10 +882,20 @@ typename std::enable_if<std::is_arithmetic<T>::value, bool>::type assign(
 
 template <typename T>
 typename std::enable_if<std::is_constructible<T, std::string>::value, bool>::type assign(
-    JsonObject &jo, const std::string &name, T &val, bool = false )
+    JsonObject &jo, const std::string &name, T &val, bool strict = false )
 {
+    T out;
+    if( !jo.read( name, out ) ) {
+        return false;
+    }
 
-    return jo.read( name, val );
+    if( strict && out == val ) {
+        jo.throw_error( "assignment does not update value", name );
+    }
+
+    val = out;
+
+    return true;
 }
 
 template <typename T>
