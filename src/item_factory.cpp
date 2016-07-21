@@ -1530,7 +1530,6 @@ void Item_factory::load_basic_info( JsonObject &jo, itype *new_item_template, co
     assign( jo, "price_postapoc", new_item_template->price_post );
     assign( jo, "stack_size", new_item_template->stack_size );
     assign( jo, "integral_volume", new_item_template->integral_volume );
-    assign( jo, "color", new_item_template->color );
     assign( jo, "bashing", new_item_template->melee_dam, strict );
     assign( jo, "cutting", new_item_template->melee_cut, strict );
     assign( jo, "to_hit", new_item_template->m_to_hit, strict );

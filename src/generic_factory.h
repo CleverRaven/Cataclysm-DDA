@@ -899,16 +899,6 @@ typename std::enable_if<std::is_constructible<T, std::string>::value, bool>::typ
 }
 
 template <typename T>
-bool assign( JsonObject &jo, const std::string &name, nc_color &val, bool = false )
-{
-    if( jo.has_string( name ) ) {
-        val = color_from_string( jo.get_string( name ) );
-        return true;
-    }
-    return false;
-}
-
-template <typename T>
 typename std::enable_if<std::is_constructible<T, std::string>::value, bool>::type assign(
     JsonObject &jo, const std::string &name, std::set<T> &val, bool = false )
 {
