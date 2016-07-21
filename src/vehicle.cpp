@@ -3379,7 +3379,7 @@ float vehicle::k_mass() const
 
     float ma0 = 50.0;
     // calculate safe speed reduction due to mass
-    float km = ma0 / (ma0 + (total_mass()) / (8 * (float) wa));
+    float km = ma0 / ( ma0 + total_mass() / ( wa * 8.0f / 9.0f ) );
 
     return km;
 }
