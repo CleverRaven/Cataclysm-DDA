@@ -1041,26 +1041,37 @@ std::vector<tripoint> game::target( tripoint src, tripoint &dst, int range,
         w_target = newwin(height, width, top, left);
     }
 
-    std::vector<aim_type> aim_types;
-    std::vector<aim_type>::iterator aim_mode;
-    int sight_dispersion = u.weapon.sight_dispersion( -1 );
-
     input_context ctxt("TARGET");
     ctxt.set_iso(true);
     // "ANY_INPUT" should be added before any real help strings
     // Or strings will be written on window border.
-    ctxt.register_action("ANY_INPUT");
+    ctxt.register_action( "ANY_INPUT" );
     ctxt.register_directions();
-    ctxt.register_action("COORDINATE");
-    ctxt.register_action("SELECT");
-    ctxt.register_action("FIRE");
-    ctxt.register_action("NEXT_TARGET");
-    ctxt.register_action("PREV_TARGET");
+    ctxt.register_action( "COORDINATE" );
+    ctxt.register_action( "SELECT" );
+    ctxt.register_action( "FIRE" );
+    ctxt.register_action( "NEXT_TARGET" );
+    ctxt.register_action( "PREV_TARGET" );
     ctxt.register_action( "LEVEL_UP" );
     ctxt.register_action( "LEVEL_DOWN" );
+    ctxt.register_action( "CENTER" );
+    ctxt.register_action( "TOGGLE_SNAP_TO_TARGET" );
+    ctxt.register_action( "HELP_KEYBINDINGS" );
+    ctxt.register_action( "QUIT" );
+
     if( mode == TARGET_MODE_FIRE ) {
-        ctxt.register_action("AIM");
-        ctxt.register_action("SWITCH_AIM");
+        ctxt.register_action( "AIM" );
+        ctxt.register_action( "SWITCH_AIM" );
+    }
+    if( mode == TARGET_MODE_TURRET_MANUAL ) {
+        ctxt.register_action( "SWITCH_MODE" );
+    }
+
+    std::vector<aim_type> aim_types;
+    std::vector<aim_type>::iterator aim_mode;
+    int sight_dispersion = u.weapon.sight_dispersion( -1 );
+
+    if( mode == TARGET_MODE_FIRE ) {
         aim_types.push_back( aim_type { "", "", "", false, 0 } ); // dummy aim type for unaimed shots
         const int threshold_step = 30;
         // Aiming thresholds are dependent on weapon sight dispersion, attempting to place thresholds
@@ -1107,14 +1118,6 @@ std::vector<tripoint> game::target( tripoint src, tripoint &dst, int range,
         aim_mode = aim_types.begin();
     }
 
-    if( mode == TARGET_MODE_TURRET_MANUAL ) {
-        ctxt.register_action( "SWITCH_MODE" );
-    }
-
-    ctxt.register_action("CENTER");
-    ctxt.register_action("TOGGLE_SNAP_TO_TARGET");
-    ctxt.register_action("HELP_KEYBINDINGS");
-    ctxt.register_action("QUIT");
     int num_instruction_lines = draw_targeting_window( w_target, relevant->tname(), u, mode, ctxt, aim_types );
     bool snap_to_target = OPTIONS["SNAP_TO_TARGET"];
 
