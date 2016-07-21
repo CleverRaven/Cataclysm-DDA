@@ -1445,7 +1445,7 @@ void veh_interact::display_veh ()
     wrefresh (w_disp);
 }
 
-std::string wheel_state_description( const vehicle &veh )
+static std::string wheel_state_description( const vehicle &veh )
 {
     bool is_boat = !veh.all_parts_with_feature(VPFLAG_FLOATS).empty();
     bool is_land = !veh.all_parts_with_feature(VPFLAG_WHEEL).empty();

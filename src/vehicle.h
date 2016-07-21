@@ -712,33 +712,36 @@ public:
 
     /**
      * Combined coefficient of aerodynamic and wheel friction resistance of vehicle.
-     * @returns A value from 0.0 to 1.0 (exclusive) describing the dynamics coefficient.
+     * Equivalent to k_friction() * k_aerodynamics().
+     * @returns A value from (0.0, 1.0) range describing the dynamics coefficient.
      */
     float k_dynamics() const;
 
     /**
      * Wheel friction coefficient of the vehicle.
-     * @returns A value from 0.0 to 1.0 (exclusive) describing the friction coefficient.
+     * Inversely proportional to (wheel area + constant).
+     * @returns A value from (0.0, 1.0) range describing the friction coefficient.
      */
     float k_friction () const;
 
     /**
      * Air friction coefficient of the vehicle.
-     * @returns A value from 0.0 to 1.0 (exclusive) describing the aerodynamics coefficient.
+     * Affected by vehicle's width and non-passable tiles.
+     * @returns A value from (0.0, 1.0) range describing the aerodynamics coefficient.
      */
     float k_aerodynamics () const;
 
     /**
      * Mass coefficient of the vehicle.
-     * Depends on wheel area.
-     * @returns A value from 0.0 (inclusive) to 1.0 (exclusive) describing the mass coefficient.
+     * Roughly proportional to vehicle's mass divided by wheel area, times constant.
+     * @returns A value from [0.0, 1.0) range describing the mass coefficient.
      */
     float k_mass () const;
 
     /**
      * Traction coefficient of the vehicle.
-     * Depends on wheel area and surface beneath vehicle's wheels..
-     * @returns A value from 0.0 to 1.0 (inclusive) describing the traction coefficient.
+     * Depends on mass, wheel area and surface beneath vehicle's wheels.
+     * @returns A value from [0.0, 1.0) range describing the traction coefficient.
      */
     float k_traction( float wheel_traction_area ) const;
 
