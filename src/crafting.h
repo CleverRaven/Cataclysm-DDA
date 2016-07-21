@@ -70,6 +70,9 @@ struct recipe {
         std::map<skill_id, int> autolearn_requirements; // Skill levels required to autolearn
         std::map<skill_id, int> learn_by_disassembly; // Skill levels required to learn by disassembly
 
+        /** If set (zero or positive) set charges of output result for items counted by charges */
+        int charges = -1;
+
         // maximum achievable time reduction, as percentage of the original time.
         // if zero then the recipe has no batch crafting time reduction.
         double batch_rscale;

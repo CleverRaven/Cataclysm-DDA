@@ -190,6 +190,8 @@ void load_recipe( JsonObject &jsobj )
     rec->result_mult = result_mult;
     rec->flags = jsobj.get_tags( "flags" );
 
+    jsobj.read( "charges", rec->charges );
+
     if( jsobj.has_string( "using" ) ) {
         rec->reqs = { { requirement_id( jsobj.get_string( "using" ) ), 1 } };
 
@@ -261,6 +263,11 @@ void finalize_recipes()
 
         if( !item::type_is_defined( r->result ) ) {
             buffer << "Recipe " << r->ident() << " defines invalid result " << r->result << "\n";
+        }
+
+        if( r->charges >= 0 && !item::count_by_charges( r->result ) ) {
+            buffer << "Recipe " << r->ident() << " specified charges but " << r->result <<
+                   " is not counted by charges\n";
         }
 
         for( const auto &bp : r->byproducts ) {
@@ -654,6 +661,9 @@ void player::make_craft_with_command( const std::string &id_to_make, int batch_s
 item recipe::create_result() const
 {
     item newit( result, calendar::turn, item::default_charges_tag{} );
+    if( charges >= 0 ) {
+        newit.charges = charges;
+    }
     if( contained == true ) {
         newit = newit.in_container( container );
     }
