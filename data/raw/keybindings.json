@@ -1102,6 +1102,17 @@
     },
     {
         "type" : "keybinding",
+        "id":"SWITCH_MODE",
+        "name":"Switch Firing Mode",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"q"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
         "id":"SELECT",
         "name":"Select",
         "bindings":[
