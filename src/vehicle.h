@@ -712,7 +712,8 @@ public:
 
     /**
      * Combined coefficient of aerodynamic and wheel friction resistance of vehicle.
-     * Equivalent to k_friction() * k_aerodynamics().
+     * Affects velocity and acceleration.
+     * 1.0 is ideal, 0.0 would mean no movement is possible.
      * @returns A value from (0.0, 1.0) range describing the dynamics coefficient.
      */
     float k_dynamics() const;
@@ -720,27 +721,35 @@ public:
     /**
      * Wheel friction coefficient of the vehicle.
      * Inversely proportional to (wheel area + constant).
+     * Affects velocity and acceleration.
+     * 1.0 is ideal, 0.0 would mean no movement is possible.
      * @returns A value from (0.0, 1.0) range describing the friction coefficient.
      */
-    float k_friction () const;
+    float k_friction() const;
 
     /**
      * Air friction coefficient of the vehicle.
      * Affected by vehicle's width and non-passable tiles.
+     * Affects velocity and acceleration.
+     * 1.0 is ideal, 0.0 would mean no movement is possible.
      * @returns A value from (0.0, 1.0) range describing the aerodynamics coefficient.
      */
-    float k_aerodynamics () const;
+    float k_aerodynamics() const;
 
     /**
      * Mass coefficient of the vehicle.
      * Roughly proportional to vehicle's mass divided by wheel area, times constant.
+     * Affects velocity, acceleration, braking and velocity drop when the engine is disabled.
+     * 1.0 is ideal, 0.0 means no movement is possible.
      * @returns A value from [0.0, 1.0) range describing the mass coefficient.
      */
-    float k_mass () const;
+    float k_mass() const;
 
     /**
      * Traction coefficient of the vehicle.
      * Depends on mass, wheel area and surface beneath vehicle's wheels.
+     * Affects velocity, acceleration and turning.
+     * 1.0 is ideal, 0.0 means no movement is possible.
      * @returns A value from [0.0, 1.0) range describing the traction coefficient.
      */
     float k_traction( float wheel_traction_area ) const;
