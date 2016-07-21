@@ -2647,7 +2647,7 @@
         "environmental_protection" : 15,
         "encumbrance" : 25,
         "flags" : ["VARSIZE", "STURDY"],
-		"qualities": [["GLARE", 1]],
+        "qualities": [ [ "GLARE", 1 ] ],
         "coverage" : 100,
         "material_thickness" : 3
     },
@@ -2669,7 +2669,7 @@
         "environmental_protection" : 15,
         "encumbrance" : 20,
         "flags" : ["VARSIZE", "STURDY"],
-		"qualities": [["GLARE", 1]],
+        "qualities": [ [ "GLARE", 1 ] ],
         "coverage" : 100,
         "material_thickness" : 3
     },
@@ -2691,7 +2691,7 @@
         "environmental_protection" : 15,
         "encumbrance" : 30,
         "flags" : ["VARSIZE", "STURDY"],
-		"qualities": [["GLARE", 1]],
+        "qualities": [ [ "GLARE", 1 ] ],
         "coverage" : 100,
         "material_thickness" : 3
     },
@@ -2713,7 +2713,7 @@
         "environmental_protection" : 15,
         "encumbrance" : 30,
         "flags" : ["VARSIZE", "STURDY", "OVERSIZE"],
-		"qualities": [["GLARE", 1]],
+        "qualities": [ [ "GLARE", 1 ] ],
         "coverage" : 100,
         "material_thickness" : 3
     },
