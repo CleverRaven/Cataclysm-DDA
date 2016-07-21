@@ -3707,8 +3707,8 @@
     "to_hit": -3,
     "use_action": "VACUTAINER",
     "contains": 1,
-    "watertight": "true",
-    "seals": "true"
+    "watertight": true,
+    "seals": true
   },
   {
     "id": "welder",
