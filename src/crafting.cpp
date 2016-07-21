@@ -64,13 +64,13 @@ void check_recipe_ident( const std::string &rec_name, JsonObject &jsobj )
     }
 }
 
-void load_recipe( JsonObject &jsobj )
+void load_recipe( JsonObject &jsobj, const std::string & /* src */, bool uncraft )
 {
     JsonArray jsarr;
 
     // required
     std::string result = jsobj.get_string( "result" );
-    std::string category = jsobj.get_string( "category" );
+    std::string category = uncraft ? "CC_NONCRAFT" : jsobj.get_string( "category" );
     int time = jsobj.get_int( "time" );
     int difficulty = jsobj.get_int( "difficulty" );
 
@@ -78,10 +78,10 @@ void load_recipe( JsonObject &jsobj )
     std::string container = jsobj.get_string( "container", "null" );
     bool contained = jsobj.get_bool( "contained", container != "null" );
 
-    std::string subcategory = jsobj.get_string( "subcategory", "" );
-    bool reversible = jsobj.get_bool( "reversible", false );
+    std::string subcategory = uncraft ? "CSC_NONCRAFT" : jsobj.get_string( "subcategory", "" );
+    bool reversible = uncraft || jsobj.get_bool( "reversible", false );
     skill_id skill_used( jsobj.get_string( "skill_used", skill_id::NULL_ID.str() ) );
-    std::string id_suffix = jsobj.get_string( "id_suffix", "" );
+    std::string id_suffix = uncraft ? "uncraft" : jsobj.get_string( "id_suffix", "" );
     double batch_rscale = 0.0;
     int batch_rsize = 0;
     if( jsobj.has_array( "batch_time_factors" ) ) {
