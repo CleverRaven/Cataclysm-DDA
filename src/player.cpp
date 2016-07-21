@@ -11090,7 +11090,7 @@ void player::gunmod_add( item &gun, item &mod )
         roll += ( get_int() - 12 ) * 2;
 
         // each point of damage to the base gun reduces success by 10%
-        roll -= std::min( gun.damage, 0 ) * 10;
+        roll -= std::min( gun.damage(), 0 ) * 10;
 
         roll = std::min( roll, 100 );
 
@@ -12105,8 +12105,7 @@ bool player::armor_absorb( damage_unit& du, item& armor )
         material.bash_dmg_verb() : material.cut_dmg_verb();
 
     const std::string pre_damage_name = armor.tname();
-    const std::string pre_damage_adj = armor.get_base_material().
-        dmg_adj(armor.damage);
+    const std::string pre_damage_adj = armor.get_base_material().dmg_adj( armor.damage() );
 
     // add "further" if the damage adjective and verb are the same
     std::string format_string = ( pre_damage_adj == damage_verb ) ?
@@ -12119,13 +12118,7 @@ bool player::armor_absorb( damage_unit& du, item& armor )
                 m_neutral, damage_verb, m_info);
     }
 
-    if (armor.has_flag("FRAGILE")) {
-        armor.damage += rng(2,3);
-    } else {
-        armor.damage++;
-    }
-
-    return armor.damage >= 5;
+    return armor.mod_damage( armor.has_flag( "FRAGILE" ) ? rng( 2, 3 ) : 1, du.type );
 }
 
 float player::bionic_armor_bonus( body_part bp, damage_type dt ) const

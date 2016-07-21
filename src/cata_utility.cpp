@@ -57,9 +57,9 @@ bool list_items_match( const item *item, std::string sPattern )
                         return !exclude;
                     }
                 }
-            } else if( adv_pat_type == "dgt" && item->damage > atoi( adv_pat_search.c_str() ) ) {
+            } else if( adv_pat_type == "dgt" && item->damage() > atoi( adv_pat_search.c_str() ) ) {
                 return !exclude;
-            } else if( adv_pat_type == "dlt" && item->damage < atoi( adv_pat_search.c_str() ) ) {
+            } else if( adv_pat_type == "dlt" && item->damage() < atoi( adv_pat_search.c_str() ) ) {
                 return !exclude;
             }
         }

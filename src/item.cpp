@@ -309,6 +309,12 @@ item& item::ammo_unset()
     return *this;
 }
 
+item& item::set_damage( double qty )
+{
+    damage_ = std::max( std::min( qty, double( max_damage() ) ), double( min_damage() ) );
+    return *this;
+}
+
 item item::split( long qty )
 {
     if( !count_by_charges() || qty <= 0 || qty >= charges ) {
@@ -450,7 +456,7 @@ bool item::stacks_with( const item &rhs ) const
     if( !count_by_charges() && charges != rhs.charges ) {
         return false;
     }
-    if( damage != rhs.damage ) {
+    if( damage_ != rhs.damage_ ) {
         return false;
     }
     if( burnt != rhs.burnt ) {
@@ -1625,7 +1631,7 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
                                       _( "* This item can be <neutral>clipped or hooked</neutral> on to a <info>belt loop</info> of the appropriate size." ) ) );
         }
 
-        if( has_flag( "LEAK_DAM" ) && has_flag( "RADIOACTIVE" ) && damage > 0 ) {
+        if( has_flag( "LEAK_DAM" ) && has_flag( "RADIOACTIVE" ) && damage() > 0 ) {
             info.push_back( iteminfo( "DESCRIPTION",
                                       _( "* The casing of this item has <neutral>cracked</neutral>, revealing an <info>ominous green glow</info>." ) ) );
         }
@@ -1912,7 +1918,7 @@ nc_color item::color_in_inventory() const
         ret = c_red;
     } else if( is_filthy() ) {
         ret = c_brown;
-    } else if ( has_flag("LEAK_DAM") && has_flag("RADIOACTIVE") && damage > 0 ) {
+    } else if ( has_flag("LEAK_DAM") && has_flag("RADIOACTIVE") && damage() > 0 ) {
         ret = c_ltgreen;
     } else if (active && !is_food() && !is_food_container()) { // Active items show up as yellow
         ret = c_yellow;
@@ -2117,19 +2123,21 @@ void item::on_contents_changed()
     }
 }
 
+void item::on_damage( double, damage_type )
+{
+
+}
+
 std::string item::tname( unsigned int quantity, bool with_prefix ) const
 {
     std::stringstream ret;
 
 // MATERIALS-TODO: put this in json
     std::string damtext = "";
-    if ((damage != 0 || ( OPTIONS["ITEM_HEALTH_BAR"] && is_armor() )) && !is_null() && with_prefix) {
-        if( damage < 0 )  {
-            if( damage < MIN_ITEM_DAMAGE ) {
-                damtext = rm_prefix(_("<dam_adj>bugged "));
-            } else if ( OPTIONS["ITEM_HEALTH_BAR"] ) {
-                auto const &nc_text = get_item_hp_bar(damage);
-                damtext = "<color_" + string_from_color(nc_text.second) + ">" + nc_text.first + " </color>";
+    if( ( damage() != 0 || ( OPTIONS[ "ITEM_HEALTH_BAR" ] && is_armor() ) ) && !is_null() && with_prefix ) {
+        if( damage() < 0 )  {
+            if( OPTIONS[ "ITEM_HEALTH_BAR" ] ) {
+                damtext = "<color_" + string_from_color( damage_color() ) + ">" + damage_symbol() + " </color>";
             } else if (is_gun())  {
                 damtext = rm_prefix(_("<dam_adj>accurized "));
             } else {
@@ -2137,17 +2145,16 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
             }
         } else {
             if (typeId() == "corpse") {
-                if (damage == 1) damtext = rm_prefix(_("<dam_adj>bruised "));
-                if (damage == 2) damtext = rm_prefix(_("<dam_adj>damaged "));
-                if (damage == 3) damtext = rm_prefix(_("<dam_adj>mangled "));
-                if (damage == 4) damtext = rm_prefix(_("<dam_adj>pulped "));
+                if (damage() == 1) damtext = rm_prefix(_("<dam_adj>bruised "));
+                if (damage() == 2) damtext = rm_prefix(_("<dam_adj>damaged "));
+                if (damage() == 3) damtext = rm_prefix(_("<dam_adj>mangled "));
+                if (damage() >= 4) damtext = rm_prefix(_("<dam_adj>pulped "));
 
             } else if ( OPTIONS["ITEM_HEALTH_BAR"] ) {
-                auto const &nc_text = get_item_hp_bar(damage);
-                damtext = "<color_" + string_from_color(nc_text.second) + ">" + nc_text.first + " </color>";
+                damtext = "<color_" + string_from_color( damage_color() ) + ">" + damage_symbol() + " </color>";
 
             } else {
-                damtext = rmp_format("%s ", get_base_material().dmg_adj(damage).c_str());
+                damtext = rmp_format( "%s ", get_base_material().dmg_adj( damage() ).c_str() );
             }
         }
     }
@@ -2370,9 +2377,9 @@ int item::price( bool practical ) const
         }
 
         int child = practical ? e->type->price_post : e->type->price;
-        if( e->damage > 0 ) {
+        if( e->damage() > 0 ) {
             // maximal damage is 4, maximal reduction is 40% of the value.
-            child -= child * static_cast<double>( e->damage ) / 10;
+            child -= child * static_cast<double>( e->damage() ) / 10;
         }
 
         if( e->count_by_charges() || e->made_of( LIQUID ) ) {
@@ -2577,7 +2584,7 @@ int item::damage_bash() const
     if( is_null() ) {
         return 0;
     }
-    total -= total * (damage * 0.1);
+    total -= total * damage() * 0.1;
     if(has_flag("REDUCED_BASHING")) {
         total *= 0.5;
     }
@@ -2604,7 +2611,7 @@ int item::damage_cut() const
         return 0;
     }
 
-    total -= total * (damage * 0.1);
+    total -= total * damage() * 0.1;
     if (total > 0) {
         return total;
     } else {
@@ -2935,7 +2942,7 @@ const std::vector<itype_id> &item::brewing_results() const
 
 bool item::can_revive() const
 {
-    if( is_corpse() && corpse->has_flag( MF_REVIVES ) && damage < CORPSE_PULP_THRESHOLD ) {
+    if( is_corpse() && corpse->has_flag( MF_REVIVES ) && damage() < max_damage() ) {
         return true;
     }
     return false;
@@ -2948,8 +2955,8 @@ bool item::ready_to_revive( const tripoint &pos ) const
     }
     int age_in_hours = (int(calendar::turn) - bday) / HOURS( 1 );
     age_in_hours -= int((float)burnt / volume() * 24);
-    if( damage > 0 ) {
-        age_in_hours /= (damage + 1);
+    if( damage() > 0 ) {
+        age_in_hours /= ( damage() + 1 );
     }
     int rez_factor = 48 - age_in_hours;
     if( age_in_hours > 6 && (rez_factor <= 0 || one_in(rez_factor)) ) {
@@ -3014,7 +3021,7 @@ int item::bash_resist( bool to_self ) const
     if( is_armor() ) {
         // base resistance
         // Don't give reinforced items +armor, just more resistance to ripping
-        const int eff_damage = to_self ? std::min( damage, 0 ) : std::max( damage, 0 );
+        const int eff_damage = to_self ? std::min( damage(), 0 ) : std::max( damage(), 0 );
         eff_thickness = std::max( 1, get_thickness() - eff_damage );
     }
 
@@ -3060,7 +3067,7 @@ int item::cut_resist( bool to_self ) const
     if( is_armor() ) {
         // base resistance
         // Don't give reinforced items +armor, just more resistance to ripping
-        const int eff_damage = to_self ? std::min( damage, 0 ) : std::max( damage, 0 );
+        const int eff_damage = to_self ? std::min( damage(), 0 ) : std::max( damage(), 0 );
         eff_thickness = std::max( 1, get_thickness() - eff_damage );
     }
 
@@ -3147,10 +3154,6 @@ int item::fire_resist( bool to_self ) const
 
 int item::chip_resistance( bool worst ) const
 {
-    if( damage > MAX_ITEM_DAMAGE ) {
-        return 0;
-    }
-
     int res = worst ? INT_MAX : INT_MIN;
     for( const auto &mat : made_of_types() ) {
         const int val = mat->chip_resist();
@@ -3167,6 +3170,91 @@ int item::chip_resistance( bool worst ) const
 
     return res;
 }
+
+int item::damage() const {
+    return damage_ < 0 ? floor( damage_ ) : ceil( damage_ );
+}
+
+int item::min_damage() const
+{
+    return count_by_charges() ? 0 : -1;
+}
+
+int item::max_damage() const
+{
+    return count_by_charges() ? 0 : 4;
+}
+
+bool item::mod_damage( double qty, damage_type dt )
+{
+    bool destroy = false;
+
+    if( count_by_charges() ) {
+        charges -= std::min( type->stack_size * qty, double( charges ) );
+        destroy |= charges == 0;
+    }
+
+    if( qty > 0 ) {
+        on_damage( qty, dt );
+    }
+
+    destroy |= damage_ + qty > max_damage();
+
+    damage_ = std::max( std::min( damage_ + qty, double( max_damage() ) ), double( min_damage() ) );
+
+    return destroy;
+}
+
+nc_color item::damage_color() const
+{
+    // @todo unify with getDurabilityColor
+
+    // reinforced, undamaged and nearly destroyed items are special case
+    if( damage() < 0 ) {
+        return c_green;
+    }
+    if( damage() == 0 ) {
+        return c_ltgreen;
+    }
+    if( damage() == max_damage() ) {
+        return c_red;
+    }
+
+    // assign other colors proportionally
+    auto q = double( damage() ) / max_damage();
+    if( q > 0.66 ) {
+        return c_ltred;
+    }
+    if( q > 0.33 ) {
+        return c_magenta;
+    }
+    return c_yellow;
+}
+
+std::string item::damage_symbol() const
+{
+    // reinforced, undamaged and nearly destroyed items are special case
+    if( damage() < 0 ) {
+        return _( R"(++)" );
+    }
+    if( damage() == 0 ) {
+        return _( R"(||)" );
+    }
+    if( damage() == max_damage() ) {
+        return _( R"(..)" );
+    }
+
+    // assign other colors proportionally
+    auto q = double( damage() ) / max_damage();
+    if( q > 0.66 ) {
+        return _( R"(\.)" );
+    }
+    if( q > 0.33 ) {
+        return _( R"(|.)" );
+    }
+    return _( R"(|\)" );
+}
+
 
 void item::mitigate_damage( damage_unit &du ) const
 {
@@ -3792,7 +3880,7 @@ int item::gun_dispersion( bool with_ammo ) const
     for( const auto mod : gunmods() ) {
         dispersion_sum += mod->type->gunmod->dispersion;
     }
-    dispersion_sum += damage * 60;
+    dispersion_sum += damage() * 60;
     dispersion_sum = std::max(dispersion_sum, 0);
     if( with_ammo && ammo_data() ) {
         dispersion_sum += ammo_data()->ammo->dispersion;
@@ -3864,7 +3952,7 @@ int item::gun_damage( bool with_ammo ) const
     for( const auto mod : gunmods() ) {
         ret += mod->type->gunmod->damage;
     }
-    ret -= damage * 2;
+    ret -= damage() * 2;
     return ret;
 }
 
@@ -3896,7 +3984,7 @@ int item::gun_recoil( bool with_ammo ) const
     for( const auto mod : gunmods() ) {
         ret += mod->type->gunmod->recoil;
     }
-    ret += 15 * damage;
+    ret += damage() * 15;
     return ret;
 }
 

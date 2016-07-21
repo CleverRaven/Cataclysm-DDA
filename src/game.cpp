@@ -7311,7 +7311,7 @@ void game::smash()
     }
 
     for( const auto &maybe_corpse : m.i_at( smashp ) ) {
-        if ( maybe_corpse.is_corpse() && maybe_corpse.damage < CORPSE_PULP_THRESHOLD &&
+        if ( maybe_corpse.is_corpse() && maybe_corpse.damage() < maybe_corpse.max_damage() &&
              maybe_corpse.get_mtype()->has_flag( MF_REVIVES ) ) {
             // do activity forever. ACT_PULP stops itself
             u.assign_activity( ACT_PULP, INT_MAX, 0 );

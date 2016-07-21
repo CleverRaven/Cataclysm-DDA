@@ -466,12 +466,12 @@ bool player::handle_gun_damage( item &it )
         add_msg_player_or_npc(_("Your %s malfunctions!"),
                               _("<npcname>'s %s malfunctions!"),
                               it.tname().c_str());
-        if( it.damage < MAX_ITEM_DAMAGE && one_in( 4 * firing->durability ) ) {
+        if( it.damage() < it.max_damage() && one_in( 4 * firing->durability ) ) {
             add_msg_player_or_npc(m_bad, _("Your %s is damaged by the mechanical malfunction!"),
                                   _("<npcname>'s %s is damaged by the mechanical malfunction!"),
                                   it.tname().c_str());
             // Don't increment until after the message
-            it.damage++;
+            it.inc_damage();
         }
         return false;
         // Here we check for a chance for the weapon to suffer a misfire due to
@@ -490,12 +490,12 @@ bool player::handle_gun_damage( item &it )
         add_msg_player_or_npc(_("Your %s misfires with a muffled click!"),
                               _("<npcname>'s %s misfires with a muffled click!"),
                               it.tname().c_str());
-        if( it.damage < MAX_ITEM_DAMAGE && one_in( firing->durability ) ) {
+        if( it.damage() < it.max_damage() && one_in( firing->durability ) ) {
             add_msg_player_or_npc(m_bad, _("Your %s is damaged by the misfired round!"),
                                   _("<npcname>'s %s is damaged by the misfired round!"),
                                   it.tname().c_str());
             // Don't increment until after the message
-            it.damage++;
+            it.inc_damage();
         }
         return false;
     }

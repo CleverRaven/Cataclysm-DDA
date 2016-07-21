@@ -38,7 +38,7 @@ class material_type
 
         std::string _bash_dmg_verb;
         std::string _cut_dmg_verb;
-        std::string _dmg_adj[MAX_ITEM_DAMAGE];
+        std::vector<std::string> _dmg_adj;
 
         std::map<vitamin_id, double> _vitamins;
 
