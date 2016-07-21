@@ -3177,12 +3177,12 @@ int item::damage() const {
 
 int item::min_damage() const
 {
-    return is_ammo() ? 0 : -1;
+    return count_by_charges() ? 0 : -1;
 }
 
 int item::max_damage() const
 {
-    return is_ammo() ? 0 : 4;
+    return count_by_charges() ? 0 : 4;
 }
 
 bool item::mod_damage( double qty, damage_type dt )
