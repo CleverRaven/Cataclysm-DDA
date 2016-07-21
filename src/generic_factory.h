@@ -846,7 +846,9 @@ class string_id_reader : public generic_typed_reader<string_id_reader<T>>
 
 template <typename T>
 typename std::enable_if<std::is_arithmetic<T>::value, bool>::type assign(
-    JsonObject &jo, const std::string &name, T &val, bool strict = false )
+    JsonObject &jo, const std::string &name, T &val, bool strict = false,
+    T lo = std::numeric_limits<T>::min(),
+    T hi = std::numeric_limits<T>::max() )
 {
     T out;
     double scalar;
@@ -870,18 +872,12 @@ typename std::enable_if<std::is_arithmetic<T>::value, bool>::type assign(
     }
 
     val = out;
-    return true;
-}
 
-template <typename T>
-typename std::enable_if<std::is_arithmetic<T>::value, bool>::type assign(
-    JsonObject &jo, const std::string &name, T &val, bool strict, T lo, T hi )
-{
-    bool res = assign( jo, name, val, strict );
     if( val < lo || val > hi ) {
         jo.throw_error( "value outside supported range", name );
     }
-    return res;
+
+    return true;
 }
 
 template <typename T>
