@@ -902,22 +902,27 @@ template <typename T>
 typename std::enable_if<std::is_constructible<T, std::string>::value, bool>::type assign(
     JsonObject &jo, const std::string &name, std::set<T> &val, bool = false )
 {
+    auto add = jo.get_object( "extend" );
+    auto del = jo.get_object( "delete" );
 
     if( jo.has_string( name ) || jo.has_array( name ) ) {
         val = jo.get_tags<T>( name );
+
+        if( add.has_member( name ) || del.has_member( name ) ) {
+            // ill-formed to (re)define a value and then extend/delete within same definition
+            jo.throw_error( "multiple assignment of value", name );
+        }
         return true;
     }
 
     bool res = false;
 
-    auto add = jo.get_object( "extend" );
     if( add.has_string( name ) || add.has_array( name ) ) {
         auto tags = add.get_tags<T>( name );
         val.insert( tags.begin(), tags.end() );
         res = true;
     }
 
-    auto del = jo.get_object( "delete" );
     if( del.has_string( name ) || del.has_array( name ) ) {
         for( const auto &e : del.get_tags<T>( name ) ) {
             val.erase( e );
