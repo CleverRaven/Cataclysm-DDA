@@ -75,7 +75,7 @@
                 "ssssssssssssssssssssssss"
             ],
             "place_vehicles": [
-                { "vehicle": "schoolbus", "x": 18, "y": 18, "rotation": 0, "chance": 90 }
+                { "vehicle": "schoolbus", "x": 18, "y": 18, "rotation": 0, "chance": 75 }
             ],
             "terrain": {
                 "#": "t_rock_smooth",
@@ -519,7 +519,7 @@
                 "ss_______,,_______......"
             ],
             "place_vehicles": [
-                { "vehicle": "flatbed_truck", "x": 2, "y": 18, "rotation": 90, "chance": 90 }
+                { "vehicle": "flatbed_truck", "x": 2, "y": 18, "rotation": 90, "chance": 75 }
             ],
             "terrain": {
                 ".": ["t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_dirt", "t_dirt",
