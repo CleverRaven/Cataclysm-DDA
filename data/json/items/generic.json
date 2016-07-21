@@ -97,7 +97,6 @@
         "material": "paper",
         "weight": 20,
         "volume": 1,
-        "bashing": -8,
         "to_hit": -2,
         "flags": [ "TRADER_AVOID" ]
     },
@@ -113,7 +112,6 @@
         "flags": ["NO_SALVAGE"],
         "weight": 114,
         "volume": 1,
-        "bashing": -8,
         "category": "spare_parts"
     },
     {
@@ -129,7 +127,6 @@
         "flags": ["NO_SALVAGE"],
         "weight": 100,
         "volume": 1,
-        "bashing": -2,
         "category" : "spare_parts",
         "to_hit": -1
     },
@@ -146,7 +143,6 @@
         "flags": ["NO_SALVAGE"],
         "weight": 100,
         "volume": 1,
-        "bashing": -2,
         "category" : "spare_parts",
         "to_hit": -1
     },
@@ -177,7 +173,6 @@
         "material": "plastic",
         "weight": 45,
         "volume": 1,
-        "bashing": -2,
         "to_hit": -2,
         "flags" : ["UNRECOVERABLE"]
     },
@@ -305,7 +300,6 @@
         "material": "veggy",
         "weight": 60,
         "volume": 1,
-        "bashing": -8,
         "to_hit": -3
     },
     {
@@ -626,8 +620,7 @@
         "price_postapoc": 100,
         "material": "iron",
         "weight": 3220,
-        "volume": 3,
-        "bashing": -1
+        "volume": 3
     },
     {
         "type":"GENERIC",
@@ -2282,8 +2275,7 @@
         "price": 100,
         "material": ["paper"],
         "weight": 80,
-        "volume": 2,
-        "bashing": -3
+        "volume": 2
     },
     {
         "type":"GENERIC",
@@ -2296,7 +2288,6 @@
         "material": ["cotton"],
         "weight": 514,
         "volume": 4,
-        "bashing": -8,
         "category": "other"
     },
     {
@@ -2310,7 +2301,6 @@
         "material": ["cotton"],
         "weight": 514,
         "volume": 4,
-        "bashing": -8,
         "category": "other"
     },
     {
@@ -2323,8 +2313,7 @@
         "price": 200,
         "material": ["cotton"],
         "weight": 514,
-        "volume": 3,
-        "bashing": -2
+        "volume": 3
     },
     {
         "type":"GENERIC",
@@ -2337,8 +2326,6 @@
         "symbol" : ",",
         "material" : ["paper"],
         "volume" : 1,
-        "bashing" : -8,
-        "cutting": -3,
         "price" : 0
     },
     {
@@ -2492,7 +2479,6 @@
         "material": "plastic",
         "weight": 6,
         "volume": 0,
-        "bashing": -8,
         "to_hit": -3
     },
     {
@@ -2507,7 +2493,6 @@
         "material": "plastic",
         "weight": 6,
         "volume": 0,
-        "bashing": -8,
         "to_hit": -3
     },
     {

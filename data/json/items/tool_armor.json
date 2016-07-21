@@ -113,7 +113,6 @@
         "warmth" : 7,
         "environmental_protection" : 3,
         "encumbrance" : 10,
-        "bashing" : -3,
         "coverage" : 50,
         "flags" : ["FANCY", "VARSIZE", "SUN_GLASSES"],
         "material_thickness" : 1
@@ -1177,7 +1176,6 @@
         "material" : ["leather", "iron"],
         "volume" : 16,
         "encumbrance" : 0,
-        "bashing" : -3,
         "flags" : ["VARSIZE", "WATER_FRIENDLY", "STURDY", "WAIST", "OVERSIZE"],
         "coverage" : 15,
         "material_thickness" : 2,
@@ -1293,7 +1291,6 @@
         "warmth" : 5,
         "environmental_protection" : 3,
         "encumbrance" : 10,
-        "bashing" : -4,
         "coverage" : 50,
         "flags" : ["FANCY", "VARSIZE", "SUN_GLASSES"],
         "material_thickness" : 2
@@ -1820,7 +1817,6 @@
         "volume" : 1,
         "warmth" : 50,
         "encumbrance" : 10,
-        "bashing" : -5,
         "flags" : ["VARSIZE", "SKINTIGHT"],
         "coverage" : 80,
         "material_thickness" : 3
@@ -1847,7 +1843,6 @@
         "volume" : 1,
         "warmth" : 30,
         "encumbrance" : 10,
-        "bashing" : -5,
         "flags" : ["VARSIZE", "SKINTIGHT"],
         "coverage" : 60,
         "material_thickness" : 3
@@ -1906,7 +1901,6 @@
         "material" : ["steel"],
         "volume" : 1,
         "encumbrance" : 0,
-        "bashing" : -5,
         "flags" : ["BELTED"],
         "coverage" : 0,
         "material_thickness" : 1

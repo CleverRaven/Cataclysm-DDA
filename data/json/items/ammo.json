@@ -56,7 +56,6 @@
         "flags": ["NO_SALVAGE"],
         "volume" : 1,
         "weight" : 6,
-        "bashing" : -20,
         "ammo_type" : "components",
         "count" : 1,
         "stack_size" : 18
@@ -73,7 +72,6 @@
         "flags": ["NO_SALVAGE"],
         "volume" : 1,
         "weight" : 36,
-        "bashing" : -5,
         "ammo_type" : "components",
         "count" : 1,
         "stack_size" : 3

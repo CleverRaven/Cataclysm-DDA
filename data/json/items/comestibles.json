@@ -11406,7 +11406,6 @@
         "symbol" : ",",
         "material" : ["veggy"],
         "volume" : 1,
-        "bashing" : -8,
         "charges" : 1,
         "price" : 0
     },{
@@ -11518,7 +11517,6 @@
         "symbol" : ",",
         "material" : ["veggy"],
         "volume" : 1,
-        "bashing" : -8,
         "charges" : 1,
         "price" : 0
 },{
@@ -11538,7 +11536,6 @@
         "symbol" : ",",
         "material" : ["veggy"],
         "volume" : 1,
-        "bashing" : -8,
         "charges" : 1,
         "price" : 0
 },{
@@ -11578,7 +11575,6 @@
        "symbol" : ",",
        "material" : ["veggy"],
        "volume" : 1,
-       "bashing" : -8,
        "charges" : 1,
        "price" : 0
 },{
@@ -11642,7 +11638,6 @@
        "symbol" : ",",
        "material" : ["veggy"],
        "volume" : 1,
-       "bashing" : -8,
        "charges" : 1,
        "price" : 0
 },{
