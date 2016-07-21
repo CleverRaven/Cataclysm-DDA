@@ -1016,9 +1016,6 @@ std::vector<tripoint> game::target( tripoint src, tripoint &dst, int range,
 {
     std::vector<tripoint> ret;
 
-    const tripoint low  = src - tripoint( range, range, range );
-    const tripoint high = src + tripoint( range, range, range );
-
     // First, decide on a target among the monsters, if there are any in range
     if( !t.empty() ) {
         if( static_cast<size_t>( target ) >= t.size() ) {
@@ -1293,24 +1290,12 @@ std::vector<tripoint> game::target( tripoint src, tripoint &dst, int range,
             } else {
                 mvwputch( w_terrain, POSY, POSX, c_black, 'X' );
             }
-            dst.x += targ.x;
-            dst.y += targ.y;
-            dst.z += targ.z;
-            if( dst.x < low.x ) {
-                dst.x = low.x;
-            } else if ( dst.x > high.x ) {
-                dst.x = high.x;
-            }
-            if( dst.y < low.y ) {
-                dst.y = low.y;
-            } else if ( dst.y > high.y ) {
-                dst.y = high.y;
-            }
-            if( dst.z < low.z ) {
-                dst.z = low.z;
-            } else if ( dst.z > high.z ) {
-                dst.z = high.z;
-            }
+
+            // constrain by range
+            dst.x = std::min( std::max( dst.x + targ.x, src.x - range ), src.x + range );
+            dst.y = std::min( std::max( dst.y + targ.y, src.y - range ), src.y + range );
+            dst.z = std::min( std::max( dst.z + targ.z, src.z - range ), src.z + range );
+
         } else if( (action == "PREV_TARGET") && (target != -1) ) {
             int newtarget = find_target( t, dst ) - 1;
             if( newtarget < 0 ) {
