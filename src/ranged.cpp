@@ -1026,20 +1026,12 @@ std::vector<tripoint> game::target( tripoint src, tripoint &dst, int range,
         target = -1; // No monsters in range, don't use target, reset to -1
     }
 
-    bool sideStyle = use_narrow_sidebar();
-    bool compact_window = TERMY < 34;
-    int height = compact_window ? 18 : 25;
-    int width  = getmaxx(w_messages);
-    // Overlap the player info window.
-    int top    = ( compact_window ? -4 : -1 ) + (sideStyle ? getbegy(w_messages) : (getbegy(w_minimap) + getmaxy(w_minimap)) );
-    int left   = getbegx(w_messages);
+    bool compact = TERMY < 34;
+    int height = compact ? 18 : 25;
+    int top = ( compact ? -4 : -1 ) +
+              ( use_narrow_sidebar() ? getbegy( w_messages ) : getbegy( w_minimap ) + getmaxy( w_minimap ) );
 
-    // Keeping the target menu window around between invocations,
-    // it only gets reset if we actually exit the menu.
-    static WINDOW *w_target = nullptr;
-    if( w_target == nullptr ) {
-        w_target = newwin(height, width, top, left);
-    }
+    WINDOW *w_target = newwin( height, getmaxx( w_messages ), top, getbegx( w_messages ) );
 
     input_context ctxt("TARGET");
     ctxt.set_iso(true);
@@ -1207,8 +1199,7 @@ std::vector<tripoint> game::target( tripoint src, tripoint &dst, int range,
 
         if( critter && critter != &u && u.sees( *critter ) ) {
             // The 6 is 2 for the border and 4 for aim bars.
-            int available_lines = compact_window ? 1 :
-                                  ( height - num_instruction_lines - line_number - 6 );
+            int available_lines = compact ? 1 : ( height - num_instruction_lines - line_number - 6 );
             line_number = critter->print_info( w_target, line_number, available_lines, 1);
         } else {
             mvwputch(w_terrain, POSY + dst.y - center.y, POSX + dst.x - center.x, c_red, '*');
