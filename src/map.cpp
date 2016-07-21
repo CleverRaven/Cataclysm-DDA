@@ -654,7 +654,7 @@ float map::vehicle_wheel_traction( const vehicle &veh ) const
         const int p = wheel_indices[w];
         const tripoint pp = pt + veh.parts[p].precalc[0];
 
-        const float wheel_area = veh.parts[ p ].wheel_width() * veh.parts[ p ].wheel_diameter();
+        const float wheel_area = veh.parts[ p ].wheel_area();
 
         const auto &tr = ter( pp ).obj();
         // Deep water and air

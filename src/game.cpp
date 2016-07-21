@@ -12520,8 +12520,7 @@ bool game::grabbed_veh_move( const tripoint &dp )
     const tripoint player_prev = u.pos();
     u.setpos( tripoint_zero );
     if( grabbed_vehicle->collision( colls, dp_veh, true ) ) {
-        add_msg( _("The %s collides with %s."),
-            grabbed_vehicle->name.c_str(), colls[0].target_name.c_str() );
+        add_msg( _("The %s collides with %s."), grabbed_vehicle->name.c_str(), colls[0].target_name.c_str() );
         u.moves -= 10;
         u.setpos( player_prev );
         u.grab_point = prev_grab;

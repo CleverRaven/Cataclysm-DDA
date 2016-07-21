@@ -5307,7 +5307,7 @@ void vehicle::refresh_pivot() const {
         const auto &wheel = parts[p];
 
         // @todo: load on tyre?
-        float contact_area = wheel.wheel_width() * wheel.wheel_diameter();
+        float contact_area = wheel.wheel_area();
         float weight_i;  // weighting for the in-line part
         float weight_p;  // weighting for the perpendicular part
         if (wheel.hp <= 0) {
@@ -6321,6 +6321,11 @@ bool vehicle_part::fault_set( const fault_id &f )
     }
     base.faults.insert( f );
     return true;
+}
+
+int vehicle_part::wheel_area() const
+{
+    return base.is_wheel() ? base.type->wheel->diameter * base.type->wheel->width : 0;
 }
 
 /** Get wheel diameter (inches) or return 0 if part is not wheel */

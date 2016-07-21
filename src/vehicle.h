@@ -164,6 +164,9 @@ struct vehicle_part : public JsonSerializer, public JsonDeserializer
     /** Try to set fault returning false if specified fault cannot occur with this item */
     bool fault_set( const fault_id &f );
 
+    /** Get wheel diameter times wheel width (inches^2) or return 0 if part is not wheel */
+    int wheel_area() const;
+
     /** Get wheel diameter (inches) or return 0 if part is not wheel */
     int wheel_diameter() const;
 
@@ -704,20 +707,36 @@ public:
     // Calculate area covered by wheels
     float wheel_area( bool boat ) const;
 
-    // Combined coefficient of aerodynamic and wheel friction resistance of vehicle, 0-1.0.
-    // 1.0 means it's ideal form and have no resistance at all. 0 -- it won't move
-    float k_dynamics () const;
+    /**
+     * Combined coefficient of aerodynamic and wheel friction resistance of vehicle.
+     * @returns A value from 0.0 to 1.0 (exclusive) describing the dynamics coefficient.
+     */
+    float k_dynamics() const;
 
-    // Components of the dynamic coefficient
+    /**
+     * Wheel friction coefficient of the vehicle.
+     * @returns A value from 0.0 to 1.0 (exclusive) describing the friction coefficient.
+     */
     float k_friction () const;
+
+    /**
+     * Air friction coefficient of the vehicle.
+     * @returns A value from 0.0 to 1.0 (exclusive) describing the aerodynamics coefficient.
+     */
     float k_aerodynamics () const;
 
-    // Coefficient of mass, 0-1.0.
-    // 1.0 means mass won't slow vehicle at all, 0 - it won't move
+    /**
+     * Mass coefficient of the vehicle.
+     * Depends on wheel area.
+     * @returns A value from 0.0 (inclusive) to 1.0 (exclusive) describing the mass coefficient.
+     */
     float k_mass () const;
 
-    // Coefficient of traction
-    // Result depends on wheel traction, wheel area and vehicle's total mass
+    /**
+     * Traction coefficient of the vehicle.
+     * Depends on wheel area and surface beneath vehicle's wheels..
+     * @returns A value from 0.0 to 1.0 (inclusive) describing the traction coefficient.
+     */
     float k_traction( float wheel_traction_area ) const;
 
     // Extra drag on the vehicle from components other than wheels.
