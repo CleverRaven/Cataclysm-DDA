@@ -3697,7 +3697,7 @@
     "color": "light_cyan",
     "name": "vacutainer",
     "category": "tools",
-    "description": "This is a tool for drawing blood, including a vacuum-sealed test tube for holding the sample.  Use this tool to draw blood, either from yourself or from a corpse you are standing on.",
+    "description": "This is a tool for drawing blood, including a test tube for holding the sample.  Use this tool to draw blood, either from yourself or from a corpse you are standing on.",
     "price": 3000,
     "material": "plastic",
     "flags": "SPEAR",
