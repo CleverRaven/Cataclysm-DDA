@@ -711,48 +711,53 @@ public:
     float wheel_area( bool boat ) const;
 
     /**
+     * Physical coefficients used for vehicle calculations.
+     * All coefficients have values ranging from 1.0 (ideal) to 0.0 (vehicle can't move).
+     */
+    /*@{*/
+    /**
      * Combined coefficient of aerodynamic and wheel friction resistance of vehicle.
-     * Affects velocity and acceleration.
-     * 1.0 is ideal, 0.0 would mean no movement is possible.
-     * @returns A value from (0.0, 1.0) range describing the dynamics coefficient.
+     * Safe velocity and acceleration are multiplied by this value.
      */
     float k_dynamics() const;
 
     /**
      * Wheel friction coefficient of the vehicle.
      * Inversely proportional to (wheel area + constant).
-     * Affects velocity and acceleration.
-     * 1.0 is ideal, 0.0 would mean no movement is possible.
-     * @returns A value from (0.0, 1.0) range describing the friction coefficient.
+     * 
+     * Affects @ref k_dynamics, which in turn affects velocity and acceleration.
      */
     float k_friction() const;
 
     /**
      * Air friction coefficient of the vehicle.
      * Affected by vehicle's width and non-passable tiles.
-     * Affects velocity and acceleration.
-     * 1.0 is ideal, 0.0 would mean no movement is possible.
-     * @returns A value from (0.0, 1.0) range describing the aerodynamics coefficient.
+     * Calculated by projecting rays from front of the vehicle to its back.
+     * Each ray that contains only passable vehicle tiles causes a small penalty,
+     * and each ray that contains an unpassable vehicle tile causes a big penalty.
+     *
+     * Affects @ref k_dynamics, which in turn affects velocity and acceleration.
      */
     float k_aerodynamics() const;
 
     /**
      * Mass coefficient of the vehicle.
      * Roughly proportional to vehicle's mass divided by wheel area, times constant.
-     * Affects velocity, acceleration, braking and velocity drop when the engine is disabled.
-     * 1.0 is ideal, 0.0 means no movement is possible.
-     * @returns A value from [0.0, 1.0) range describing the mass coefficient.
+     * 
+     * Affects safe velocity (moderately), acceleration (heavily).
+     * Also affects braking (including handbraking) and velocity drop during coasting.
      */
     float k_mass() const;
 
     /**
      * Traction coefficient of the vehicle.
-     * Depends on mass, wheel area and surface beneath vehicle's wheels.
-     * Affects velocity, acceleration and turning.
-     * 1.0 is ideal, 0.0 means no movement is possible.
-     * @returns A value from [0.0, 1.0) range describing the traction coefficient.
+     * 1.0 on road. Outside roads, depends on mass divided by wheel area
+     * and the surface beneath wheels.
+     * 
+     * Affects safe velocity, acceleration and handling difficulty.
      */
     float k_traction( float wheel_traction_area ) const;
+    /*@}*/
 
     // Extra drag on the vehicle from components other than wheels.
     float drag() const;
