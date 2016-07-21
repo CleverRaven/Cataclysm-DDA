@@ -10552,9 +10552,7 @@ std::vector<tripoint> game::pl_target_ui( tripoint &p, int range, item *relevant
         }
     }
     // target() sets x and y, and returns an empty vector if we canceled (Esc)
-    const tripoint range_point( range, range, range );
-    std::vector<tripoint> trajectory = target( p, u.pos() - range_point, u.pos() + range_point,
-                                               mon_targets, passtarget, relevant, mode );
+    std::vector<tripoint> trajectory = target( u.pos(), p, range, mon_targets, passtarget, relevant, mode );
 
     if( passtarget != -1 ) { // We picked a real live target
         // Make it our default for next time

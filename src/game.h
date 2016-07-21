@@ -329,10 +329,9 @@ class game
          *  square.  It display information on any monster/NPC on that square, and also
          *  returns a Bresenham line to that square.  It is called by plfire(),
          *  throw() and vehicle::aim_turrets() */
-        std::vector<tripoint> target( tripoint &p, const tripoint &low, const tripoint &high,
+        std::vector<tripoint> target( tripoint src, tripoint &dst, int range,
                                       std::vector<Creature *> t, int &target,
-                                      item *relevant, target_mode mode,
-                                      const tripoint &from = tripoint_min );
+                                      item *relevant, target_mode mode );
         /**
          * Interface to target(), collects a list of targets & selects default target
          * finally calls target() and returns its result.

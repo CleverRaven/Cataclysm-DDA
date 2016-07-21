@@ -1010,23 +1010,21 @@ static int draw_turret_aim( const player &p, WINDOW *w, int line_number, const t
 }
 
 // TODO: Shunt redundant drawing code elsewhere
-std::vector<tripoint> game::target( tripoint &p, const tripoint &low, const tripoint &high,
+std::vector<tripoint> game::target( tripoint src, tripoint &dst, int range,
                                     std::vector<Creature *> t, int &target,
-                                    item *relevant, target_mode mode,
-                                    const tripoint &from_arg )
+                                    item *relevant, target_mode mode )
 {
     std::vector<tripoint> ret;
-    tripoint from = from_arg;
-    if( from == tripoint_min ) {
-        from = u.pos();
-    }
-    int range = ( high.x - from.x );
+
+    const tripoint low  = src - tripoint( range, range, range );
+    const tripoint high = src + tripoint( range, range, range );
+
     // First, decide on a target among the monsters, if there are any in range
     if( !t.empty() ) {
         if( static_cast<size_t>( target ) >= t.size() ) {
             target = 0;
         }
-        p = t[target]->pos();
+        dst = t[target]->pos();
     } else {
         target = -1; // No monsters in range, don't use target, reset to -1
     }
@@ -1133,27 +1131,27 @@ std::vector<tripoint> game::target( tripoint &p, const tripoint &low, const trip
 
     const tripoint old_offset = u.view_offset;
     do {
-        ret = g->m.find_clear_path( from, p );
+        ret = g->m.find_clear_path( src, dst );
 
         // This chunk of code handles shifting the aim point around
         // at maximum range when using circular distance.
         // The range > 1 check ensures that you can alweays at least hit adjacent squares.
-        if( trigdist && range > 1 && round(trig_dist( from, p )) > range ) {
+        if( trigdist && range > 1 && round(trig_dist( src, dst )) > range ) {
             bool cont = true;
-            tripoint cp = p;
+            tripoint cp = dst;
             for( size_t i = 0; i < ret.size() && cont; i++ ) {
-                if( round(trig_dist( from, ret[i] )) > range ) {
+                if( round(trig_dist( src, ret[i] )) > range ) {
                     ret.resize(i);
                     cont = false;
                 } else {
                     cp = ret[i];
                 }
             }
-            p = cp;
+            dst = cp;
         }
         tripoint center;
         if( snap_to_target ) {
-            center = p;
+            center = dst;
         } else {
             center = u.pos() + u.view_offset;
         }
@@ -1166,8 +1164,8 @@ std::vector<tripoint> game::target( tripoint &p, const tripoint &low, const trip
         }
         draw_ter(center, true);
         int line_number = 1;
-        Creature *critter = critter_at( p, true );
-        if( p != from ) {
+        Creature *critter = critter_at( dst, true );
+        if( dst != src ) {
             // Only draw those tiles which are on current z-level
             auto ret_this_zlevel = ret;
             ret_this_zlevel.erase( std::remove_if( ret_this_zlevel.begin(), ret_this_zlevel.end(),
@@ -1175,11 +1173,11 @@ std::vector<tripoint> game::target( tripoint &p, const tripoint &low, const trip
             // Only draw a highlighted trajectory if we can see the endpoint.
             // Provides feedback to the player, and avoids leaking information
             // about tiles they can't see.
-            draw_line( p, center, ret_this_zlevel );
+            draw_line( dst, center, ret_this_zlevel );
 
             // Print to target window
             mvwprintw( w_target, line_number++, 1, _( "Range: %d/%d, %s" ),
-                      rl_dist( from, p ), range, enemiesmsg.c_str() );
+                      rl_dist( src, dst ), range, enemiesmsg.c_str() );
 
         } else {
             mvwprintw( w_target, line_number++, 1, _("Range: %d, %s"), range, enemiesmsg.c_str() );
@@ -1213,7 +1211,7 @@ std::vector<tripoint> game::target( tripoint &p, const tripoint &low, const trip
                                   ( height - num_instruction_lines - line_number - 6 );
             line_number = critter->print_info( w_target, line_number, available_lines, 1);
         } else {
-            mvwputch(w_terrain, POSY + p.y - center.y, POSX + p.x - center.x, c_red, '*');
+            mvwputch(w_terrain, POSY + dst.y - center.y, POSX + dst.x - center.x, c_red, '*');
         }
 
         if( mode == TARGET_MODE_FIRE && critter != nullptr && u.sees( *critter ) ) {
@@ -1238,7 +1236,7 @@ std::vector<tripoint> game::target( tripoint &p, const tripoint &low, const trip
                 mvwprintw(w_target, line_number++, 1, _("%s Delay: %i"), aim_mode->name.c_str(), predicted_delay );
             }
         } else if( mode == TARGET_MODE_TURRET ) {
-            line_number = draw_turret_aim( u, w_target, line_number, p );
+            line_number = draw_turret_aim( u, w_target, line_number, dst );
         }
 
         wrefresh(w_target);
@@ -1262,11 +1260,11 @@ std::vector<tripoint> game::target( tripoint &p, const tripoint &low, const trip
         if( action == "SELECT" && ctxt.get_coordinates(g->w_terrain, targ.x, targ.y) ) {
             if( !OPTIONS["USE_TILES"] && snap_to_target ) {
                 // Snap to target doesn't currently work with tiles.
-                targ.x += p.x - from.x;
-                targ.y += p.y - from.y;
+                targ.x += dst.x - src.x;
+                targ.y += dst.y - src.y;
             }
-            targ.x -= p.x;
-            targ.y -= p.y;
+            targ.x -= dst.x;
+            targ.y -= dst.y;
         } else {
             ctxt.get_direction(targ.x, targ.y, action);
             if( targ.x == -2 ) {
@@ -1278,55 +1276,55 @@ std::vector<tripoint> game::target( tripoint &p, const tripoint &low, const trip
             action = aim_mode->action;
         }
         if( g->m.has_zlevels() && action == "LEVEL_UP" ) {
-            p.z++;
+            dst.z++;
             u.view_offset.z++;
         } else if( g->m.has_zlevels() && action == "LEVEL_DOWN" ) {
-            p.z--;
+            dst.z--;
             u.view_offset.z--;
         }
 
         /* More drawing to terrain */
         if( targ != tripoint_zero ) {
-            const Creature *critter = critter_at( p, true );
+            const Creature *critter = critter_at( dst, true );
             if( critter != nullptr ) {
                 draw_critter( *critter, center );
-            } else if( m.pl_sees( p, -1 ) ) {
-                m.drawsq( w_terrain, u, p, false, true, center );
+            } else if( m.pl_sees( dst, -1 ) ) {
+                m.drawsq( w_terrain, u, dst, false, true, center );
             } else {
                 mvwputch( w_terrain, POSY, POSX, c_black, 'X' );
             }
-            p.x += targ.x;
-            p.y += targ.y;
-            p.z += targ.z;
-            if( p.x < low.x ) {
-                p.x = low.x;
-            } else if ( p.x > high.x ) {
-                p.x = high.x;
+            dst.x += targ.x;
+            dst.y += targ.y;
+            dst.z += targ.z;
+            if( dst.x < low.x ) {
+                dst.x = low.x;
+            } else if ( dst.x > high.x ) {
+                dst.x = high.x;
             }
-            if ( p.y < low.y ) {
-                p.y = low.y;
-            } else if ( p.y > high.y ) {
-                p.y = high.y;
+            if( dst.y < low.y ) {
+                dst.y = low.y;
+            } else if ( dst.y > high.y ) {
+                dst.y = high.y;
             }
-            if ( p.z < low.z ) {
-                p.z = low.z;
-            } else if ( p.z > high.z ) {
-                p.z = high.z;
+            if( dst.z < low.z ) {
+                dst.z = low.z;
+            } else if ( dst.z > high.z ) {
+                dst.z = high.z;
             }
         } else if( (action == "PREV_TARGET") && (target != -1) ) {
-            int newtarget = find_target( t, p ) - 1;
+            int newtarget = find_target( t, dst ) - 1;
             if( newtarget < 0 ) {
                 newtarget = t.size() - 1;
             }
-            p = t[newtarget]->pos();
+            dst = t[newtarget]->pos();
         } else if( (action == "NEXT_TARGET") && (target != -1) ) {
-            int newtarget = find_target( t, p ) + 1;
+            int newtarget = find_target( t, dst ) + 1;
             if( newtarget == (int)t.size() ) {
                 newtarget = 0;
             }
-            p = t[newtarget]->pos();
+            dst = t[newtarget]->pos();
         } else if( (action == "AIM") && target != -1 ) {
-            do_aim( &u, t, target, relevant, p );
+            do_aim( &u, t, target, relevant, dst );
             if( u.moves <= 0 ) {
                 // We've run out of moves, clear target vector, but leave target selected.
                 u.assign_activity( ACT_AIM, 0, 0 );
@@ -1357,7 +1355,7 @@ std::vector<tripoint> game::target( tripoint &p, const tripoint &low, const trip
             }
             aim_threshold = it->threshold;
             do {
-                do_aim( &u, t, target, relevant, p );
+                do_aim( &u, t, target, relevant, dst );
             } while( target != -1 && u.moves > 0 && u.recoil > aim_threshold &&
                      u.recoil - sight_dispersion > 0 );
             if( target == -1 ) {
@@ -1387,13 +1385,13 @@ std::vector<tripoint> game::target( tripoint &p, const tripoint &low, const trip
                 return ret;
             }
         } else if( action == "FIRE" ) {
-            target = find_target( t, p );
-            if( from == p ) {
+            target = find_target( t, dst );
+            if( src == dst ) {
                 ret.clear();
             }
             break;
         } else if( action == "CENTER" ) {
-            p = from;
+            dst = src;
             ret.clear();
         } else if( action == "TOGGLE_SNAP_TO_TARGET" ) {
             snap_to_target = !snap_to_target;
