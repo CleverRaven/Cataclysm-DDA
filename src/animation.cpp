@@ -35,7 +35,7 @@ void draw_animation_delay(long const scale = 1)
     try_sdl_update();
 #endif // TILES
 
-    auto const delay = static_cast<long>(OPTIONS["ANIMATION_DELAY"]) * scale * 1000000l;
+    auto const delay = get_option<int>( "ANIMATION_DELAY" ) * scale * 1000000l;
 
     timespec const ts = {0, delay};
     if (ts.tv_nsec > 0) {

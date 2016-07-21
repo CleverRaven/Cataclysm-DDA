@@ -2913,7 +2913,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
                     mvwprintz( w_stats, 2, 1, h_ltgray, _( "Strength:" ) );
                     mvwprintz( w_stats, 6, 1, c_magenta, _( "Base HP:" ) );
                     mvwprintz( w_stats, 6, 22, c_magenta, "%3d", hp_max[1] );
-                    if( OPTIONS["USE_METRIC_WEIGHTS"] == "kg" ) {
+                    if( get_option<std::string>( "USE_METRIC_WEIGHTS" ) == "kg" ) {
                         mvwprintz( w_stats, 7, 1, c_magenta, _( "Carry weight(kg):" ) );
                     } else {
                         mvwprintz( w_stats, 7, 1, c_magenta, _( "Carry weight(lbs):" ) );
@@ -3614,7 +3614,7 @@ void player::disp_status( WINDOW *w, WINDOW *w2 )
         int speedox = sideStyle ? 0 : 33;
         int speedoy = sideStyle ? 5 :  3;
 
-        bool metric = OPTIONS["USE_METRIC_SPEEDS"] == "km/h";
+        bool metric = get_option<std::string>( "USE_METRIC_SPEEDS" ) == "km/h";
         // Logic below is not applicable to translated units and should be changed
         int velx    = metric ? 4 : 3; // strlen(units) + 1
         int cruisex = metric ? 9 : 8; // strlen(units) + 6
@@ -4378,14 +4378,14 @@ int player::read_speed(bool return_stat_effect) const
 
 int player::rust_rate(bool return_stat_effect) const
 {
-    if (OPTIONS["SKILL_RUST"] == "off") {
+    if (get_option<std::string>( "SKILL_RUST" ) == "off") {
         return 0;
     }
 
     // Stat window shows stat effects on based on current stat
     int intel = get_int();
     ///\EFFECT_INT reduces skill rust
-    int ret = ((OPTIONS["SKILL_RUST"] == "vanilla" || OPTIONS["SKILL_RUST"] == "capped") ? 500 : 500 - 35 * (intel - 8));
+    int ret = ((get_option<std::string>( "SKILL_RUST" ) == "vanilla" || get_option<std::string>( "SKILL_RUST" ) == "capped") ? 500 : 500 - 35 * (intel - 8));
 
     if (has_trait("FORGETFUL")) {
         ret *= 1.33;
@@ -8145,7 +8145,7 @@ void player::suffer()
         } else if (radiation > 2000) {
             radiation = 2000;
         }
-        if( OPTIONS["RAD_MUTATION"] && rng(100, 10000) < radiation ) {
+        if( get_option<bool>( "RAD_MUTATION" ) && rng(100, 10000) < radiation ) {
             mutate();
             radiation -= 50;
         } else if( radiation > 50 && rng(1, 3000) < radiation &&
@@ -9420,11 +9420,11 @@ bool player::consume(int target_position)
             add_msg_if_player(_("You are now wearing an empty %s."), target.tname().c_str());
         } else if( was_in_container && !is_npc() ) {
             bool drop_it = false;
-            if (OPTIONS["DROP_EMPTY"] == "no") {
+            if (get_option<std::string>( "DROP_EMPTY" ) == "no") {
                 drop_it = false;
-            } else if (OPTIONS["DROP_EMPTY"] == "watertight") {
+            } else if (get_option<std::string>( "DROP_EMPTY" ) == "watertight") {
                 drop_it = !target.is_watertight_container();
-            } else if (OPTIONS["DROP_EMPTY"] == "all") {
+            } else if (get_option<std::string>( "DROP_EMPTY" ) == "all") {
                 drop_it = true;
             }
             if (drop_it) {

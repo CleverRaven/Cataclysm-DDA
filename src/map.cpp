@@ -39,6 +39,7 @@
 #include <stdlib.h>
 #include <fstream>
 #include <cstring>
+#include <algorithm>
 
 const mtype_id mon_spore( "mon_spore" );
 const mtype_id mon_zombie( "mon_zombie" );

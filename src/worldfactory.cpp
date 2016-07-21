@@ -38,13 +38,7 @@ WORLD::WORLD()
     std::ostringstream path;
     path << FILENAMES["savedir"] << world_name;
     world_path = path.str();
-    WORLD_OPTIONS.clear();
-
-    for( auto &elem : OPTIONS ) {
-        if( elem.second.getPage() == "world_default" ) {
-            WORLD_OPTIONS[elem.first] = elem.second;
-        }
-    }
+    WORLD_OPTIONS = get_options().get_world_defaults();
 
     world_saves.clear();
     active_mod_order = world_generator->get_mod_manager()->get_default_mods();
@@ -241,11 +235,6 @@ WORLDPTR worldfactory::convert_to_world(std::string origin_path)
 void worldfactory::set_active_world(WORLDPTR world)
 {
     world_generator->active_world = world;
-    if (world) {
-        ACTIVE_WORLD_OPTIONS = world->WORLD_OPTIONS;
-    } else {
-        ACTIVE_WORLD_OPTIONS.clear();
-    }
 }
 
 bool worldfactory::save_world(WORLDPTR world, bool is_conversion)
@@ -344,11 +333,7 @@ std::map<std::string, WORLDPTR> worldfactory::get_all_worlds()
 
         // load options into the world
         if ( !load_world_options(retworlds[worldname]) ) {
-            for( auto &elem : OPTIONS ) {
-                if( elem.second.getPage() == "world_default" ) {
-                    retworlds[worldname]->WORLD_OPTIONS[elem.first] = elem.second;
-                }
-            }
+            retworlds[worldname]->WORLD_OPTIONS = get_options().get_world_defaults();
             retworlds[worldname]->WORLD_OPTIONS["DELETE_WORLD"].setValue("yes");
             save_world(retworlds[worldname]);
         }
@@ -1421,19 +1406,9 @@ bool worldfactory::valid_worldname(std::string name, bool automated)
     return false;
 }
 
-void worldfactory::get_default_world_options(WORLDPTR &world)
-{
-    std::unordered_map<std::string, options_manager::cOpt> retoptions;
-    for( auto &elem : OPTIONS ) {
-        if( elem.second.getPage() == "world_default" ) {
-            world->WORLD_OPTIONS[elem.first] = elem.second;
-        }
-    }
-}
-
 bool worldfactory::load_world_options(WORLDPTR &world)
 {
-    get_default_world_options(world);
+    world->WORLD_OPTIONS = get_options().get_world_defaults();
     std::ifstream fin;
 
     auto path = world->world_path + "/" + FILENAMES["worldoptions"];
@@ -1462,7 +1437,7 @@ bool worldfactory::load_world_options(WORLDPTR &world)
                 if (sLine != "" && sLine[0] != '#' && std::count(sLine.begin(), sLine.end(), ' ') == 1) {
                     int ipos = sLine.find(' ');
                     // make sure that the option being loaded is part of the world_default page in OPTIONS
-                    if(OPTIONS[sLine.substr(0, ipos)].getPage() == "world_default") {
+                    if(get_options().get_option(sLine.substr(0, ipos)).getPage() == "world_default") {
                         world->WORLD_OPTIONS[sLine.substr(0, ipos)].setValue(sLine.substr(ipos + 1, sLine.length()));
                     }
                 }
@@ -1487,14 +1462,14 @@ bool worldfactory::load_world_options(WORLDPTR &world)
         const std::string name = jo.get_string("name");
         const std::string value = jo.get_string("value");
 
-        if(OPTIONS[name].getPage() == "world_default") {
+        if(get_options().get_option( name ).getPage() == "world_default") {
             world->WORLD_OPTIONS[ name ].setValue( value );
         }
     }
 
     // for legacy saves, try to simulate old city_size based density
     if( world->WORLD_OPTIONS.count( "CITY_SPACING" ) == 0 ) {
-        world->WORLD_OPTIONS["CITY_SPACING"].setValue( 5 - world->WORLD_OPTIONS["CITY_SIZE"] / 3 );
+        world->WORLD_OPTIONS["CITY_SPACING"].setValue( 5 - get_option<int>( "CITY_SIZE" ) / 3 );
     }
 
     return true;
@@ -1507,7 +1482,7 @@ void load_world_option( JsonObject &jo )
         jo.throw_error( "no options specified", "options" );
     }
     while( arr.has_more() ) {
-        ACTIVE_WORLD_OPTIONS[ arr.next_string() ].setValue( "true" );
+        get_options().get_world_option( arr.next_string() ).setValue( "true" );
     }
 }
 

@@ -38,9 +38,6 @@ extern std::unique_ptr<cata_tiles> tilecontext;
 
 std::map<std::string, std::string> TILESETS; // All found tilesets: <name, tileset_dir>
 std::map<std::string, std::string> SOUNDPACKS; // All found soundpacks: <name, soundpack_dir>
-std::unordered_map<std::string, options_manager::cOpt> OPTIONS;
-std::unordered_map<std::string, options_manager::cOpt> ACTIVE_WORLD_OPTIONS;
-options_data optionsdata; // store extraneous options data that doesn't need to be in OPTIONS,
 std::vector<std::pair<std::string, std::string> > vPages;
 std::map<int, std::vector<std::string> > mPageItems;
 std::map<std::string, int> mOptionsSort;
@@ -53,27 +50,24 @@ options_manager &get_options()
     return single_instance;
 }
 
-options_data::options_data()
+options_manager::options_manager()
 {
     enable_json("DEFAULT_REGION");
     // to allow class based init_data functions to add values to a 'string' type option, add:
     //   enable_json("OPTION_KEY_THAT_GETS_STRING_ENTRIES_ADDED_VIA_JSON");
-    // also, in options.h, add this before 'class options_data'
-    //   class my_class;
-    // and inside options_data above public:
-    //   friend class my_class;
     // then, in the my_class::load_json (or post-json setup) method:
-    //   optionsdata.addme("OPTION_KEY_THAT_GETS_STRING_ENTRIES_ADDED_VIA_JSON", "thisvalue");
+    //   get_options().add_value("OPTION_KEY_THAT_GETS_STRING_ENTRIES_ADDED_VIA_JSON", "thisvalue");
 }
 
-void options_data::enable_json(const std::string &lvar)
+static const std::string blank_value( 1, 001 ); // because "" might be valid
+
+void options_manager::enable_json(const std::string &lvar)
 {
-    post_json_verify[ lvar ] = std::string( 1, 001 ); // because "" might be valid
+    post_json_verify[ lvar ] = blank_value;
 }
 
-void options_data::add_retry(const std::string &lvar, const::std::string &lval)
+void options_manager::add_retry(const std::string &lvar, const::std::string &lval)
 {
-    static const std::string blank_value( 1, 001 );
     std::map<std::string, std::string>::const_iterator it = post_json_verify.find(lvar);
     if ( it != post_json_verify.end() && it->second == blank_value ) {
         // initialized with impossible value: valid
@@ -81,15 +75,13 @@ void options_data::add_retry(const std::string &lvar, const::std::string &lval)
     }
 }
 
-void options_data::add_value( const std::string &lvar, const std::string &lval,
-                              std::string lvalname )
+void options_manager::add_value( const std::string &lvar, const std::string &lval,
+                                 const std::string &lvalname )
 {
-    static const std::string blank_value( 1, 001 );
-
     std::map<std::string, std::string>::const_iterator it = post_json_verify.find(lvar);
     if ( it != post_json_verify.end() ) {
-        auto ot = OPTIONS.find(lvar);
-        if ( ot != OPTIONS.end() && ot->second.sType == "string_select" ) {
+        auto ot = global_options.find(lvar);
+        if ( ot != global_options.end() && ot->second.sType == "string_select" ) {
             for(std::vector<std::string>::const_iterator eit = ot->second.vItems.begin();
                 eit != ot->second.vItems.end(); ++eit) {
                 if ( *eit == lval ) { // already in
@@ -102,7 +94,7 @@ void options_data::add_value( const std::string &lvar, const std::string &lval,
             }
             // our value was saved, then set to default, so set it again.
             if ( it->second == lval ) {
-                OPTIONS[ lvar ].setValue( lval );
+                global_options[ lvar ].setValue( lval );
             }
         }
 
@@ -266,7 +258,7 @@ options_manager::cOpt::cOpt(const std::string sPageIn, const std::string sMenuTe
 }
 
 //helper functions
-bool options_manager::cOpt::is_hidden()
+bool options_manager::cOpt::is_hidden() const
 {
     switch( hide ) {
     case COPT_NO_HIDE:
@@ -319,32 +311,52 @@ void options_manager::cOpt::setSortPos(const std::string sPageIn)
     }
 }
 
-int options_manager::cOpt::getSortPos()
+int options_manager::cOpt::getSortPos() const
 {
     return iSortPos;
 }
 
-std::string options_manager::cOpt::getPage()
+std::string options_manager::cOpt::getPage() const
 {
     return sPage;
 }
 
-std::string options_manager::cOpt::getMenuText()
+std::string options_manager::cOpt::getMenuText() const
 {
     return sMenuText;
 }
 
-std::string options_manager::cOpt::getTooltip()
+std::string options_manager::cOpt::getTooltip() const
 {
     return sTooltip;
 }
 
-std::string options_manager::cOpt::getType()
+std::string options_manager::cOpt::getType() const
 {
     return sType;
 }
 
-std::string options_manager::cOpt::getValue()
+bool options_manager::cOpt::operator==( const cOpt &rhs ) const
+{
+    if( sType != rhs.sType ) {
+        return false;
+    } else if( sType == "string_select" || sType == "string_input" ) {
+        return sSet == rhs.sSet;
+    } else if( sType == "bool" ) {
+        return bSet == rhs.bSet;
+    } else if( sType == "int" || sType == "int_map" ) {
+        return iSet == rhs.iSet;
+    } else if( sType == "float" ) {
+        return fSet == rhs.fSet;
+    } else if( sType == "VOID" ) {
+        return true;
+    } else {
+        debugmsg( "unknown option type %s", sType.c_str() );
+        return false;
+    }
+}
+
+std::string options_manager::cOpt::getValue() const
 {
     if (sType == "string_select" || sType == "string_input") {
         return sSet;
@@ -369,7 +381,43 @@ std::string options_manager::cOpt::getValue()
     return "";
 }
 
-std::string options_manager::cOpt::getValueName()
+template<>
+std::string options_manager::cOpt::value_as<std::string>() const
+{
+    if( sType != "string_select" && sType != "string_input" ) {
+        debugmsg( "tried to get string value from option of type %s", sType.c_str() );
+    }
+    return sSet;
+}
+
+template<>
+bool options_manager::cOpt::value_as<bool>() const
+{
+    if( sType != "bool" ) {
+        debugmsg( "tried to get boolean value from option of type %s", sType.c_str() );
+    }
+    return bSet;
+}
+
+template<>
+float options_manager::cOpt::value_as<float>() const
+{
+    if( sType != "float" ) {
+        debugmsg( "tried to get float value from option of type %s", sType.c_str() );
+    }
+    return fSet;
+}
+
+template<>
+int options_manager::cOpt::value_as<int>() const
+{
+    if( sType != "int" && sType != "int_map" ) {
+        debugmsg( "tried to get integer value from option of type %s", sType.c_str() );
+    }
+    return iSet;
+}
+
+std::string options_manager::cOpt::getValueName() const
 {
     if (sType == "string_select") {
         return optionNames[sSet];
@@ -384,7 +432,7 @@ std::string options_manager::cOpt::getValueName()
     return getValue();
 }
 
-std::string options_manager::cOpt::getDefaultText(const bool bTranslated)
+std::string options_manager::cOpt::getDefaultText(const bool bTranslated) const
 {
     if (sType == "string_select") {
         const std::string sItems = enumerate_as_string( vItems.begin(), vItems.end(),
@@ -413,7 +461,7 @@ std::string options_manager::cOpt::getDefaultText(const bool bTranslated)
     return "";
 }
 
-int options_manager::cOpt::getItemPos(const std::string sSearch)
+int options_manager::cOpt::getItemPos(const std::string sSearch) const
 {
     if (sType == "string_select") {
         for (size_t i = 0; i < vItems.size(); i++) {
@@ -426,7 +474,7 @@ int options_manager::cOpt::getItemPos(const std::string sSearch)
     return -1;
 }
 
-int options_manager::cOpt::getMaxLength()
+int options_manager::cOpt::getMaxLength() const
 {
     if (sType == "string_input") {
         return iMaxLength;
@@ -573,58 +621,6 @@ void options_manager::cOpt::setValue(std::string sSetIn)
     }
 }
 
-//Set default class behaviour to float
-options_manager::cOpt::operator float() const
-{
-    if (sType == "string_select") {
-        return (!sSet.empty() && sSet == sDefault) ? 1.0f : 0.0f;
-    } else if (sType == "string_input") {
-        return (!sSet.empty()) ? 1.0f : 0.0f;
-    } else if (sType == "bool") {
-        return (bSet) ? 1.0f : 0.0f;
-    } else if (sType == "int" || sType == "int_map") {
-        return static_cast<float>(iSet);
-    } else if (sType == "float") {
-        return fSet;
-    }
-
-    return 0.0f;
-}
-
-options_manager::cOpt::operator int() const
-{
-    if (sType == "string_select") {
-        return (!sSet.empty() && sSet == sDefault) ? 1 : 0;
-    } else if (sType == "string_input") {
-        return (!sSet.empty()) ? 1 : 0;
-    } else if (sType == "bool") {
-        return (bSet) ? 1 : 0;
-    } else if (sType == "int" || sType == "int_map") {
-        return iSet;
-    } else if (sType == "float") {
-        return static_cast<int>(fSet);
-    }
-
-    return 0;
-}
-
-options_manager::cOpt::operator bool() const
-{
-    return static_cast<float>(*this) != 0.0f;
-}
-
-// if (class == "string")
-bool options_manager::cOpt::operator==(const std::string sCompare) const
-{
-    return ((sType == "string_select" || sType == "string_input") && sSet == sCompare);
-}
-
-// if (class != "string")
-bool options_manager::cOpt::operator!=(const std::string sCompare) const
-{
-    return !(*this == sCompare);
-}
-
 /** Fill a mapping with values.
  * Scans all directores in FILENAMES[dirname_label] directory for
  * a file named FILENAMES[filename_label].
@@ -718,8 +714,7 @@ std::string options_manager::build_soundpacks_list()
 
 void options_manager::init()
 {
-    OPTIONS.clear();
-    ACTIVE_WORLD_OPTIONS.clear();
+    global_options.clear();
     vPages.clear();
     mPageItems.clear();
     mOptionsSort.clear();
@@ -743,6 +738,9 @@ void options_manager::init()
 
     std::string soundpack_names;
     soundpack_names = build_soundpacks_list(); //get the soundpack names and set the optionNames
+
+    // temporary alias so the code below does not need to be changed
+    auto &OPTIONS = global_options;
 
     ////////////////////////////GENERAL//////////////////////////
     OPTIONS["DEF_CHAR_NAME"] = cOpt("general", _("Default character name"),
@@ -1473,6 +1471,10 @@ void draw_borders_internal( WINDOW *w, std::map<int, bool> &mapLines )
 
 void options_manager::show(bool ingame)
 {
+    // temporary alias so the code below does not need to be changed
+    auto &OPTIONS = global_options;
+    auto &ACTIVE_WORLD_OPTIONS = world_generator->active_world ? world_generator->active_world->WORLD_OPTIONS : OPTIONS;
+
     auto OPTIONS_OLD = OPTIONS;
     auto WOPTIONS_OLD = ACTIVE_WORLD_OPTIONS;
     if ( world_generator->active_world == NULL ) {
@@ -1731,7 +1733,7 @@ void options_manager::show(bool ingame)
     bool pixel_minimap_height_changed = false;
 
     for (auto &iter : OPTIONS_OLD) {
-        if ( iter.second.getValue() != OPTIONS[iter.first].getValue() ) {
+        if ( iter.second != OPTIONS[iter.first] ) {
             options_changed = true;
 
             if ( iter.second.getPage() == "world_default" ) {
@@ -1751,7 +1753,7 @@ void options_manager::show(bool ingame)
         }
     }
     for( auto &iter : WOPTIONS_OLD ) {
-        if( iter.second.getValue() != ACTIVE_WORLD_OPTIONS[iter.first].getValue() ) {
+        if( iter.second != ACTIVE_WORLD_OPTIONS[iter.first] ) {
             options_changed = true;
             world_options_changed = true;
         }
@@ -1793,13 +1795,15 @@ void options_manager::serialize(JsonOut &json) const
 
     for( size_t j = 0; j < vPages.size(); ++j ) {
         for( auto &elem : mPageItems[j] ) {
-            if( OPTIONS[elem].getDefaultText() != "" ) {
+            const auto iter = global_options.find( elem );
+            const auto &opt = iter->second;
+            if( opt.getDefaultText() != "" ) {
                 json.start_object();
 
-                json.member( "info", OPTIONS[elem].getTooltip() );
-                json.member( "default", OPTIONS[elem].getDefaultText( false ) );
+                json.member( "info", opt.getTooltip() );
+                json.member( "default", opt.getDefaultText( false ) );
                 json.member( "name", elem );
-                json.member( "value", OPTIONS[elem].getValue() );
+                json.member( "value", opt.getValue() );
 
                 json.end_object();
             }
@@ -1818,8 +1822,8 @@ void options_manager::deserialize(JsonIn &jsin)
         const std::string name = joOptions.get_string("name");
         const std::string value = joOptions.get_string("value");
 
-        optionsdata.add_retry(name, value);
-        OPTIONS[ name ].setValue( value );
+        add_retry(name, value);
+        global_options[ name ].setValue( value );
     }
 }
 
@@ -1827,11 +1831,12 @@ bool options_manager::save()
 {
     const auto savefile = FILENAMES["options"];
 
-    trigdist = OPTIONS["CIRCLEDIST"]; // update trigdist as well
-    use_tiles = OPTIONS["USE_TILES"]; // and use_tiles
-    log_from_top = OPTIONS["SIDEBAR_LOG_FLOW"] == "new_top"; // cache to global due to heavy usage.
-    message_ttl = OPTIONS["MESSAGE_TTL"]; // cache to global due to heavy usage.
-    fov_3d = OPTIONS["FOV_3D"];
+    // cache to global due to heavy usage.
+    trigdist = ::get_option<bool>( "CIRCLEDIST" );
+    use_tiles = ::get_option<bool>( "USE_TILES" );
+    log_from_top = ::get_option<std::string>( "SIDEBAR_LOG_FLOW" ) == "new_top";
+    message_ttl = ::get_option<int>( "MESSAGE_TTL" );
+    fov_3d = ::get_option<bool>( "FOV_3D" );
 
     return write_to_file( savefile, [&]( std::ostream &fout ) {
         JsonOut jout( fout, true );
@@ -1864,11 +1869,12 @@ void options_manager::load()
 
     fin.close();
 
-    trigdist = OPTIONS["CIRCLEDIST"]; // cache to global due to heavy usage.
-    use_tiles = OPTIONS["USE_TILES"]; // cache to global due to heavy usage.
-    log_from_top = OPTIONS["SIDEBAR_LOG_FLOW"] == "new_top"; // cache to global due to heavy usage.
-    message_ttl = OPTIONS["MESSAGE_TTL"]; // cache to global due to heavy usage.
-    fov_3d = OPTIONS["FOV_3D"];
+    // cache to global due to heavy usage.
+    trigdist = ::get_option<bool>( "CIRCLEDIST" );
+    use_tiles = ::get_option<bool>( "USE_TILES" );
+    log_from_top = ::get_option<std::string>( "SIDEBAR_LOG_FLOW" ) == "new_top";
+    message_ttl = ::get_option<int>( "MESSAGE_TTL" );
+    fov_3d = ::get_option<bool>( "FOV_3D" );
 }
 
 bool options_manager::load_legacy()
@@ -1894,9 +1900,9 @@ bool options_manager::load_legacy()
             const std::string loadedvar = sLine.substr(0, iPos);
             const std::string loadedval = sLine.substr(iPos + 1, sLine.length());
             // option with values from post init() might get clobbered
-            optionsdata.add_retry(loadedvar, loadedval); // stash it until update();
+            add_retry(loadedvar, loadedval); // stash it until update();
 
-            OPTIONS[ loadedvar ].setValue( loadedval );
+            global_options[ loadedvar ].setValue( loadedval );
         }
     }
 
@@ -1908,4 +1914,37 @@ bool options_manager::load_legacy()
 bool use_narrow_sidebar()
 {
     return TERMY < 25 || g->narrow_sidebar;
+}
+
+options_manager::cOpt &options_manager::get_option( const std::string &name )
+{
+    if( global_options.count( name ) == 0 ) {
+        debugmsg( "requested non-existing option %s", name.c_str() );
+    }
+    return global_options[name];
+}
+
+options_manager::cOpt &options_manager::get_world_option( const std::string &name )
+{
+    if( !world_generator->active_world ) {
+        // Global options contains the default for new worlds, which is good enough here.
+        return get_option( name );
+    }
+    auto &wopts = world_generator->active_world->WORLD_OPTIONS;
+    if( wopts.count( name ) == 0 ) {
+        // May be a new option and an old world - import default from global options.
+        wopts[name] = get_option( name );
+    }
+    return wopts[name];
+}
+
+std::unordered_map<std::string, options_manager::cOpt> options_manager::get_world_defaults() const
+{
+    std::unordered_map<std::string, cOpt> result;
+    for( auto &elem : global_options ) {
+        if( elem.second.getPage() == "world_default" ) {
+            result.insert( elem );
+        }
+    }
+    return result;
 }

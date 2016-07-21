@@ -206,7 +206,7 @@ int bound_mod_to_vals( int val, int mod, int max, int min )
 
 const char *velocity_units( const units_type vel_units )
 {
-    if( OPTIONS["USE_METRIC_SPEEDS"].getValue() == "mph" ) {
+    if( get_option<std::string>( "USE_METRIC_SPEEDS" ) == "mph" ) {
         return _( "mph" );
     } else {
         switch( vel_units ) {
@@ -221,7 +221,7 @@ const char *velocity_units( const units_type vel_units )
 
 const char *weight_units()
 {
-    return OPTIONS["USE_METRIC_WEIGHTS"].getValue() == "lbs" ? _( "lbs" ) : _( "kg" );
+    return get_option<std::string>( "USE_METRIC_WEIGHTS" ) == "lbs" ? _( "lbs" ) : _( "kg" );
 }
 
 /**
@@ -232,7 +232,7 @@ double convert_velocity( int velocity, const units_type vel_units )
     // internal units to mph conversion
     double ret = double( velocity ) / 100;
 
-    if( OPTIONS["USE_METRIC_SPEEDS"] == "km/h" ) {
+    if( get_option<std::string>( "USE_METRIC_SPEEDS" ) == "km/h" ) {
         switch( vel_units ) {
             case VU_VEHICLE:
                 // mph to km/h conversion
@@ -254,7 +254,7 @@ double convert_weight( int weight )
 {
     double ret;
     ret = double( weight );
-    if( OPTIONS["USE_METRIC_WEIGHTS"] == "kg" ) {
+    if( get_option<std::string>( "USE_METRIC_WEIGHTS" ) == "kg" ) {
         ret /= 1000;
     } else {
         ret /= 453.6;

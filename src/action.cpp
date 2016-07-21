@@ -20,6 +20,7 @@
 #include <sstream>
 #include <fstream>
 #include <iterator>
+#include <algorithm>
 
 extern input_context get_default_mode_input_context();
 extern bool tile_iso;
