@@ -1526,13 +1526,13 @@ void Item_factory::load_basic_info( JsonObject &jo, itype *new_item_template, co
         m_templates[ new_item_template->id ].reset( new_item_template );
     }
 
-    assign( jo, "weight", new_item_template->weight, strict );
+    assign( jo, "weight", new_item_template->weight, strict, 0 );
     assign( jo, "volume", new_item_template->volume );
     assign( jo, "price", new_item_template->price );
     assign( jo, "price_postapoc", new_item_template->price_post );
     assign( jo, "integral_volume", new_item_template->integral_volume );
-    assign( jo, "bashing", new_item_template->melee_dam, strict );
-    assign( jo, "cutting", new_item_template->melee_cut, strict );
+    assign( jo, "bashing", new_item_template->melee_dam, strict, 1 );
+    assign( jo, "cutting", new_item_template->melee_cut, strict, 1 );
     assign( jo, "to_hit", new_item_template->m_to_hit, strict );
     assign( jo, "container", new_item_template->default_container );
     assign( jo, "rigid", new_item_template->rigid );
