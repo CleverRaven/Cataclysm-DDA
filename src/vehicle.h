@@ -164,6 +164,9 @@ struct vehicle_part : public JsonSerializer, public JsonDeserializer
     /** Try to set fault returning false if specified fault cannot occur with this item */
     bool fault_set( const fault_id &f );
 
+    /** Get wheel diameter times wheel width (inches^2) or return 0 if part is not wheel */
+    int wheel_area() const;
+
     /** Get wheel diameter (inches) or return 0 if part is not wheel */
     int wheel_diameter() const;
 
@@ -701,20 +704,60 @@ public:
     // Loop through engines and generate noise and smoke for each one
     void noise_and_smoke( double load, double time = 6.0 );
 
-    // Calculate area covered by wheels and, optionally count number of wheels
-    float wheels_area (int *cnt = 0) const;
+    /**
+     * Calculates the sum of the area under the wheels of the vehicle.
+     * @param boat If true, calculates the area under "wheels" that allow swimming.
+     */
+    float wheel_area( bool boat ) const;
 
-    // Combined coefficient of aerodynamic and wheel friction resistance of vehicle, 0-1.0.
-    // 1.0 means it's ideal form and have no resistance at all. 0 -- it won't move
-    float k_dynamics () const;
+    /**
+     * Physical coefficients used for vehicle calculations.
+     * All coefficients have values ranging from 1.0 (ideal) to 0.0 (vehicle can't move).
+     */
+    /*@{*/
+    /**
+     * Combined coefficient of aerodynamic and wheel friction resistance of vehicle.
+     * Safe velocity and acceleration are multiplied by this value.
+     */
+    float k_dynamics() const;
 
-    // Components of the dynamic coefficient
-    float k_friction () const;
-    float k_aerodynamics () const;
+    /**
+     * Wheel friction coefficient of the vehicle.
+     * Inversely proportional to (wheel area + constant).
+     * 
+     * Affects @ref k_dynamics, which in turn affects velocity and acceleration.
+     */
+    float k_friction() const;
 
-    // Coefficient of mass, 0-1.0.
-    // 1.0 means mass won't slow vehicle at all, 0 - it won't move
-    float k_mass () const;
+    /**
+     * Air friction coefficient of the vehicle.
+     * Affected by vehicle's width and non-passable tiles.
+     * Calculated by projecting rays from front of the vehicle to its back.
+     * Each ray that contains only passable vehicle tiles causes a small penalty,
+     * and each ray that contains an unpassable vehicle tile causes a big penalty.
+     *
+     * Affects @ref k_dynamics, which in turn affects velocity and acceleration.
+     */
+    float k_aerodynamics() const;
+
+    /**
+     * Mass coefficient of the vehicle.
+     * Roughly proportional to vehicle's mass divided by wheel area, times constant.
+     * 
+     * Affects safe velocity (moderately), acceleration (heavily).
+     * Also affects braking (including handbraking) and velocity drop during coasting.
+     */
+    float k_mass() const;
+
+    /**
+     * Traction coefficient of the vehicle.
+     * 1.0 on road. Outside roads, depends on mass divided by wheel area
+     * and the surface beneath wheels.
+     * 
+     * Affects safe velocity, acceleration and handling difficulty.
+     */
+    float k_traction( float wheel_traction_area ) const;
+    /*@}*/
 
     // Extra drag on the vehicle from components other than wheels.
     float drag() const;
@@ -722,10 +765,10 @@ public:
     // strain of engine(s) if it works higher that safe speed (0-1.0)
     float strain () const;
 
-    // calculate if it can move using its wheels configuration
-    bool sufficient_wheel_config() const;
-    bool balanced_wheel_config() const;
-    bool valid_wheel_config() const;
+    // Calculate if it can move using its wheels or boat parts configuration
+    bool sufficient_wheel_config( bool floating ) const;
+    bool balanced_wheel_config( bool floating ) const;
+    bool valid_wheel_config( bool floating ) const;
 
     // return the relative effectiveness of the steering (1.0 is normal)
     // <0 means there is no steering installed at all.

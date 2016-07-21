@@ -10111,7 +10111,7 @@ int game::list_monsters(const int iLastState)
 void game::grab()
 {
     tripoint grabp( 0, 0, 0 );
-    if( u.grab_point != tripoint_zero ) {
+    if( u.grab_type != OBJECT_NONE ) {
         vehicle *veh = m.veh_at( u.pos() + u.grab_point );
         if( veh != nullptr ) {
             add_msg(_("You release the %s."), veh->name.c_str());
@@ -11536,7 +11536,8 @@ void game::pldrive(int x, int y)
         }
     }
 
-    if( veh->skidding && veh->valid_wheel_config() ) {
+    // @todo Actually check if we're on land on water (or disable water-skidding)
+    if( veh->skidding && ( veh->valid_wheel_config( false ) || veh->valid_wheel_config( true ) ) ) {
         ///\EFFECT_DEX increases chance of regaining control of a vehicle
 
         ///\EFFECT_DRIVING increases chance of regaining control of a vehicle
@@ -11949,7 +11950,7 @@ bool game::walk_move( const tripoint &dest_loc )
     bool pulling = false;  // moving -away- from grabbed tile; check for move_cost > 0
     bool shifting_furniture = false; // moving furniture and staying still; skip check for move_cost > 0
 
-    bool grabbed = u.grab_point != tripoint_zero;
+    bool grabbed = u.grab_type != OBJECT_NONE;
     if( grabbed ) {
         const tripoint dp = dest_loc - u.pos();
         pushing = dp ==  u.grab_point;
@@ -12406,9 +12407,39 @@ bool game::grabbed_veh_move( const tripoint &dp )
 
     const vehicle *veh_under_player = m.veh_at( u.pos() );
     if( grabbed_vehicle == veh_under_player ) {
-        add_msg(m_info, _("You can't move %s while standing on it!"), grabbed_vehicle->name.c_str());
-        return true;
+        u.grab_point = -dp;
+        return false;
     }
+
+    tripoint dp_veh = -u.grab_point;
+    tripoint prev_grab = u.grab_point;
+
+    // We are not moving around the veh
+    if ((dp_veh.x + dp.x) == 0 && (dp_veh.y + dp.y) == 0) {
+        // We are pushing in the direction of veh
+        dp_veh = dp;
+    } else {
+        u.grab_point = -dp;
+    }
+
+    if( (abs(dp.x + dp_veh.x) == 0 || abs(dp.y + dp_veh.y) == 0) &&
+        u.grab_point.x != 0 && u.grab_point.y != 0 ) {
+        // We are moving diagonal while veh is diagonal too and one direction is 0
+        dp_veh.x = ((dp.x + dp_veh.x) == 0) ? 0 : dp_veh.x;
+        dp_veh.y = ((dp.y + dp_veh.y) == 0) ? 0 : dp_veh.y;
+
+        u.grab_point = -dp_veh;
+    }
+
+    if( abs(dp.x + dp_veh.x) != 2 && abs(dp.y + dp_veh.y) != 2 &&
+        ((dp_veh.x + dp.x) == 0 || (dp_veh.y + dp.y) == 0) ) {
+        // Not actually moving the vehicle, don't do the checks
+        u.grab_point = -(dp + dp_veh);
+        return false;
+    }
+
+    // Make sure the mass and pivot point are correct
+    grabbed_vehicle->invalidate_mass();
 
     //vehicle movement: strength check
     int mc = 0;
@@ -12426,9 +12457,8 @@ bool game::grabbed_veh_move( const tripoint &dp )
     }
 
     const auto &wheel_indices = grabbed_vehicle->wheelcache;
-    //if vehicle weighs too much, wheels don't provide a bonus.
-    //wheel_indices can be empty if a boat contains "floats" type parts only
-    if (grabbed_vehicle->valid_wheel_config() && str_req <= 40 && !wheel_indices.empty() ) {
+    // If vehicle weighs too much, wheels don't provide a bonus.
+    if( grabbed_vehicle->valid_wheel_config( false ) && str_req <= 40 ) {
         //determine movecost for terrain touching wheels
         const tripoint vehpos = grabbed_vehicle->global_pos3();
         for( int p : wheel_indices ) {
@@ -12475,65 +12505,45 @@ bool game::grabbed_veh_move( const tripoint &dp )
 
     tileray mdir;
 
-    tripoint dp_veh = -u.grab_point;
-    tripoint prev_grab = u.grab_point;
+    mdir.init(dp_veh.x, dp_veh.y);
+    grabbed_vehicle->turn(mdir.dir() - grabbed_vehicle->face.dir());
+    grabbed_vehicle->face = grabbed_vehicle->turn_dir;
+    grabbed_vehicle->precalc_mounts(1, mdir.dir(), grabbed_vehicle->pivot_point());
 
-    if( abs(dp.x + dp_veh.x) == 2 || abs(dp.y + dp_veh.y) == 2 ||
-        ((dp_veh.x + dp.x) == 0 && (dp_veh.y + dp.y) == 0) ) {
-        // We are not moving around the veh
-        if ((dp_veh.x + dp.x) == 0 && (dp_veh.y + dp.y) == 0) {
-            // We are pushing in the direction of veh
-            dp_veh = dp;
-        } else {
-            u.grab_point = -dp;
-        }
+    // Grabbed part has to stay at distance 1 to the player
+    // and in roughly the same direction.
+    const tripoint new_part_pos = grabbed_vehicle->global_pos3() +
+                                  grabbed_vehicle->parts[ grabbed_part ].precalc[ 1 ];
+    const tripoint expected_pos = u.pos() + dp + u.grab_point;
+    dp_veh = expected_pos - new_part_pos;
 
-        if( (abs(dp.x + dp_veh.x) == 0 || abs(dp.y + dp_veh.y) == 0) &&
-            u.grab_point.x != 0 && u.grab_point.y != 0 ) {
-            // We are moving diagonal while veh is diagonal too and one direction is 0
-            dp_veh.x = ((dp.x + dp_veh.x) == 0) ? 0 : dp_veh.x;
-            dp_veh.y = ((dp.y + dp_veh.y) == 0) ? 0 : dp_veh.y;
-
-            u.grab_point = -dp_veh;
-        }
-
-        mdir.init(dp_veh.x, dp_veh.y);
-        grabbed_vehicle->turn(mdir.dir() - grabbed_vehicle->face.dir());
-        grabbed_vehicle->face = grabbed_vehicle->turn_dir;
-        grabbed_vehicle->precalc_mounts(1, mdir.dir(), grabbed_vehicle->pivot_point());
-
-        // cancel out any movement of the vehicle due only to a change in pivot
-        dp_veh -= grabbed_vehicle->pivot_displacement();
-
-        std::vector<veh_collision> colls;
-        // Set player location to illegal value so it can't collide with vehicle.
-        const tripoint player_prev = u.pos();
-        u.setpos( tripoint_zero );
-        if( grabbed_vehicle->collision( colls, dp_veh, true ) ) {
-            add_msg( _("The %s collides with %s."),
-                grabbed_vehicle->name.c_str(), colls[0].target_name.c_str() );
-            u.moves -= 10;
-            u.setpos( player_prev );
-            u.grab_point = prev_grab;
-            return true;
-        }
-
+    std::vector<veh_collision> colls;
+    // Set player location to illegal value so it can't collide with vehicle.
+    const tripoint player_prev = u.pos();
+    u.setpos( tripoint_zero );
+    if( grabbed_vehicle->collision( colls, dp_veh, true ) ) {
+        add_msg( _("The %s collides with %s."), grabbed_vehicle->name.c_str(), colls[0].target_name.c_str() );
+        u.moves -= 10;
         u.setpos( player_prev );
+        u.grab_point = prev_grab;
+        return true;
+    }
 
-        tripoint gp = grabbed_vehicle->global_pos3();
-        const auto &wheel_indices =
-            grabbed_vehicle->wheelcache;
-        for( int p : wheel_indices ) {
-            if( one_in(2) ) {
-                tripoint wheel_p = gp + grabbed_vehicle->parts[p].precalc[0] + dp_veh;
-                grabbed_vehicle->handle_trap( wheel_p, p );
-            }
+    u.setpos( player_prev );
+
+    tripoint gp = grabbed_vehicle->global_pos3();
+    grabbed_vehicle = m.displace_vehicle( gp, dp_veh );
+
+    if( grabbed_vehicle == nullptr ) {
+        debugmsg( "Grabbed vehicle disappeared" );
+        return false;
+    }
+
+    for( int p : wheel_indices ) {
+        if( one_in(2) ) {
+            tripoint wheel_p = grabbed_vehicle->global_part_pos3( grabbed_part );
+            grabbed_vehicle->handle_trap( wheel_p, p );
         }
-
-        m.displace_vehicle( gp, dp_veh );
-    } else {
-        // We are moving around the veh
-        u.grab_point = -(dp + dp_veh);
     }
 
     return false;
@@ -12684,7 +12694,7 @@ bool game::grabbed_furn_move( const tripoint &dp )
 
 bool game::grabbed_move( const tripoint &dp )
 {
-    if( u.grab_point == tripoint_zero ) {
+    if( u.grab_type == OBJECT_NONE ) {
         return false;
     }
 

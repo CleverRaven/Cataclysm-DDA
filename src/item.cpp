@@ -3619,6 +3619,11 @@ std::set<fault_id> item::faults_potential() const
     return res;
 }
 
+int item::wheel_area() const
+{
+    return is_wheel() ? type->wheel->diameter * type->wheel->width : 0;
+}
+
 bool item::is_container_empty() const
 {
     return contents.empty();
