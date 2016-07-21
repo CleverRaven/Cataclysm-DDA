@@ -867,15 +867,15 @@ typename std::enable_if<std::is_arithmetic<T>::value, bool>::type assign(
         return false;
     }
 
+    if( out < lo || out > hi ) {
+        jo.throw_error( "value outside supported range", name );
+    }
+
     if( strict && out == val ) {
         jo.throw_error( "assignment does not update value", name );
     }
 
     val = out;
-
-    if( val < lo || val > hi ) {
-        jo.throw_error( "value outside supported range", name );
-    }
 
     return true;
 }
