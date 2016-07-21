@@ -704,7 +704,10 @@ public:
     // Loop through engines and generate noise and smoke for each one
     void noise_and_smoke( double load, double time = 6.0 );
 
-    // Calculate area covered by wheels
+    /**
+     * Calculates the sum of the area under the wheels of the vehicle.
+     * @param boat If true, calculates the area under "wheels" that allow swimming.
+     */
     float wheel_area( bool boat ) const;
 
     /**
