@@ -210,15 +210,12 @@ bool vehicle::turrets_aim()
         return std::max( lhs, res );
     } );
 
-    // fake gun item to aim
-    item pointer( "vehicle_pointer" );
-
     std::vector<tripoint> trajectory;
 
     if( opts.empty() ) {
         add_msg( m_warning, _( "Can't aim turrets: all turrets are offline" ) );
     } else {
-        trajectory = g->pl_target_ui( TARGET_MODE_TURRET, &pointer, range );
+        trajectory = g->pl_target_ui( TARGET_MODE_TURRET, nullptr, range );
         g->draw_ter();
     }
 
