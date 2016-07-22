@@ -1021,7 +1021,7 @@ std::vector<tripoint> game::pl_target_ui( target_mode mode, item *relevant, int 
     std::vector<Creature *> t;
     int target;
 
-    auto update_targets = [&]( int range, std::vector<Creature *>& targets ) -> int {
+    auto update_targets = [&]( int range, std::vector<Creature *>& targets, int &idx, tripoint &dst ) {
         targets = u.get_targetable_creatures( range );
 
         targets.erase( std::remove_if( targets.begin(), targets.end(), [&]( const Creature *e ) {
@@ -1029,7 +1029,7 @@ std::vector<tripoint> game::pl_target_ui( target_mode mode, item *relevant, int 
         } ), targets.end() );
 
         if( targets.empty() ) {
-            return -1;
+            return;
         }
 
         std::sort( targets.begin(), targets.end(), [&]( const Creature *lhs, const Creature *rhs ) {
@@ -1046,13 +1046,11 @@ std::vector<tripoint> game::pl_target_ui( target_mode mode, item *relevant, int 
         }
 
         auto found = std::find( targets.begin(), targets.end(), last );
-        return found != targets.end() ? std::distance( targets.begin(), found ) : 0;
+        idx = found != targets.end() ? std::distance( targets.begin(), found ) : 0;
+        dst = idx >= 0 ? dst = t[ target ]->pos() : u.pos();
     };
 
-    target = update_targets( range, t );
-    if( target >= 0 ) {
-        dst = t[ target ]->pos();
-    }
+    update_targets( range, t, target, dst );
 
     bool compact = TERMY < 34;
     int height = compact ? 18 : 25;
