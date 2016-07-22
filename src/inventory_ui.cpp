@@ -871,7 +871,7 @@ void inventory_selector::prepare_layout()
     // If we have a single column and it occupies more than a half of
     // the available with -> expand it
     auto visible_columns = get_visible_columns();
-    if( visible_columns.size() == 1 && get_columns_occupancy_ratio() >= 0.5 ) {
+    if( visible_columns.size() == 1 && are_columns_centered() ) {
         visible_columns.front()->set_width( getmaxx( w_inv ) - 2 );
     }
 
@@ -940,6 +940,20 @@ void inventory_selector::draw_header( WINDOW *w ) const
     print_colored_text( w, 1, getmaxx( w ) - x, base_color, base_color, stats[1][3].c_str() );
 }
 
+void inventory_selector::draw_footer( WINDOW *w ) const
+{
+    const std::string msg_str = ( navigation == navigation_mode::CATEGORY )
+                                ? _( "Category selection; [TAB] switches mode, arrows select." )
+                                : _( "Item selection; [TAB] switches mode, arrows select." );
+    const nc_color msg_color = ( navigation == navigation_mode::CATEGORY ) ? h_white : c_ltgray;
+
+    if( are_columns_centered() ) {
+        center_print( w, getmaxy( w ) - 1, msg_color, msg_str.c_str() );
+    } else {
+        trim_and_print( w, getmaxy( w ) - 1, 1, getmaxx( w ), msg_color, msg_str.c_str() );
+    }
+}
+
 void inventory_selector::refresh_window() const
 {
     werase( w_inv );
@@ -957,13 +971,10 @@ void inventory_selector::update()
 void inventory_selector::draw_columns( WINDOW *w ) const
 {
     const auto columns = get_visible_columns();
-    // Position of inventory columns is adaptive
-    const bool center_align = get_columns_occupancy_ratio() >= 0.5;
-
     const int free_space = getmaxx( w ) - get_visible_columns_width();
     const int max_gap = ( columns.size() > 1 ) ? free_space / ( int( columns.size() ) - 1 ) : 0;
-    const int gap = center_align ? max_gap : std::min<int>( max_gap, 8 );
-    const int gap_rounding_error = ( center_align &&
+    const int gap = are_columns_centered() ? max_gap : std::min<int>( max_gap, 8 );
+    const int gap_rounding_error = ( are_columns_centered() &&
                                      columns.size() > 1 ) ? free_space % ( columns.size() - 1 ) : 0;
 
     size_t x = 1;
@@ -992,17 +1003,6 @@ void inventory_selector::draw_columns( WINDOW *w ) const
     get_active_column().draw( w, active_x, y );
     if( empty() ) {
         center_print( w, getmaxy( w ) / 2, c_dkgray, _( "Your inventory is empty." ) );
-    }
-
-    const std::string msg_str = ( navigation == navigation_mode::CATEGORY )
-                                ? _( "Category selection; [TAB] switches mode, arrows select." )
-                                : _( "Item selection; [TAB] switches mode, arrows select." );
-    const nc_color msg_color = ( navigation == navigation_mode::CATEGORY ) ? h_white : c_ltgray;
-
-    if( center_align ) {
-        center_print( w, getmaxy( w ) - 1, msg_color, msg_str.c_str() );
-    } else {
-        trim_and_print( w, getmaxy( w ) - 1, 1, getmaxx( w ), msg_color, msg_str.c_str() );
     }
 }
 
