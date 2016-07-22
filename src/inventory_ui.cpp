@@ -451,8 +451,11 @@ void inventory_column::add_entry( const inventory_entry &entry )
     }
     const auto iter = std::find_if( entries.rbegin(), entries.rend(),
     [ &entry ]( const inventory_entry & cur ) {
-        return cur.get_category_ptr() == entry.get_category_ptr()
-            || cur.get_category_ptr()->sort_rank <= entry.get_category_ptr()->sort_rank;
+        const item_category *cur_cat = cur.get_category_ptr();
+        const item_category *new_cat = entry.get_category_ptr();
+
+        return cur_cat == new_cat || ( cur_cat != nullptr && new_cat != nullptr
+                                    && cur_cat->sort_rank <= new_cat->sort_rank );
     } );
     entries.insert( iter.base(), entry );
     expand_to_fit( entry );
