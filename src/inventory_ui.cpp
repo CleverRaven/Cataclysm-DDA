@@ -902,8 +902,11 @@ void inventory_selector::draw_header( WINDOW *w ) const
 
     const player &dummy = get_player_for_stats();
 
-    using stat = std::array<std::string, 4>;
-    const auto disp = []( const std::string &caption, units::volume cur_value, units::volume max_value,
+    static const int stats_count = 2;
+    static const int cells_count = 4;
+
+    using stat = std::array<std::string, cells_count>;
+    const auto disp = []( const std::string &caption, int cur_value, int max_value,
                           const std::function<std::string( int )> disp_func ) -> stat {
         const std::string color = string_from_color( cur_value > max_value ? c_red : c_ltgray );
         return {{ caption,
@@ -912,7 +915,7 @@ void inventory_selector::draw_header( WINDOW *w ) const
         }};
     };
 
-    const std::array<stat, 2> stats = {{
+    const std::array<stat, stats_count> stats = {{
         disp( string_format( _( "Weight (%s):" ), weight_units() ), dummy.weight_carried(),
               dummy.weight_capacity(), []( int w ) {
             return string_format( "%.1f", convert_weight( w ) );
@@ -922,8 +925,8 @@ void inventory_selector::draw_header( WINDOW *w ) const
         } )
     }};
 
-    std::array<int, 4> widths;
-    for( int i = 0; i < 4; ++i ) {
+    std::array<int, cells_count> widths;
+    for( int i = 0; i < cells_count; ++i ) {
         widths[i] = std::max( utf8_width( stats[0][i], true ), utf8_width( stats[1][i], true ) );
     }
     widths[1] += 1;
@@ -931,13 +934,13 @@ void inventory_selector::draw_header( WINDOW *w ) const
     int x = std::accumulate( widths.begin(), widths.end(), 0 ) + 1;
     nc_color base_color = c_dkgray;
 
-    for( int i = 0; i < 3; ++i ) {
+    for( int i = 0; i < cells_count - 1; ++i ) {
         x -= widths[i];
         right_print( w, 0, x, c_dkgray, stats[0][i].c_str() );
         right_print( w, 1, x, c_dkgray, stats[1][i].c_str() );
     }
-    print_colored_text( w, 0, getmaxx( w ) - x, base_color, base_color, stats[0][3].c_str() );
-    print_colored_text( w, 1, getmaxx( w ) - x, base_color, base_color, stats[1][3].c_str() );
+    print_colored_text( w, 0, getmaxx( w ) - x, base_color, base_color, stats[0][cells_count - 1].c_str() );
+    print_colored_text( w, 1, getmaxx( w ) - x, base_color, base_color, stats[1][cells_count - 1].c_str() );
 }
 
 void inventory_selector::draw_footer( WINDOW *w ) const
