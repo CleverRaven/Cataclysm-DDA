@@ -762,7 +762,6 @@ void npc::choose_target()
         const npc &np = *g->active_npc[ i ];
 
         auto att = attitude_to( np );
-add_msg(m_debug, "%s vs %s: %d", name.c_str(), np.name.c_str(), att );
         if( att == Creature::A_FRIENDLY ) {
             ai_cache.friends.emplace_back( npc_target::npc( i ) );
         } else if( att == Creature::A_NEUTRAL ) {
