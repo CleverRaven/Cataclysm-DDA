@@ -1,10 +1,10 @@
 [
   {
     "id": "8mm_bootleg",
-    "copy-from": "8mm_caseless",
+    "copy-from": "8mm_jhp",
     "type": "AMMO",
-    "name": "bootleg 8x40mm",
-    "name_plural": "bootleg 8x40mm",
+    "name": "bootleg 8x40mm JHP",
+    "name_plural": "bootleg 8x40mm JHP",
     "description": "Bootleg duplicates of Rivtech 8x40mm caseless rounds.  Being caseless rounds, these cannot be disassembled or reloaded.",
     "proportional": {
       "price": 0.7,
