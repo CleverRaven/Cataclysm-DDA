@@ -1121,11 +1121,12 @@ void inventory_selector::set_active_column( size_t index )
 
 size_t inventory_selector::get_visible_columns_width() const
 {
-    size_t res = 2; // padding on both sides
-    for( const auto &column : get_visible_columns() ) {
-        res += column->get_width();
-    }
-    return res;
+    static const int padding = 1 + 1; // left and right
+    const auto visible_columns = get_visible_columns();
+    return std::accumulate( visible_columns.begin(), visible_columns.end(), padding,
+                            []( const size_t &lhs, const inventory_column *column ) {
+        return lhs + column->get_width();
+    } );
 }
 
 double inventory_selector::get_columns_occupancy_ratio() const
