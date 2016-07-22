@@ -2869,13 +2869,13 @@ bool game::handle_action()
             }
 
             if( u.weapon.is_gun() ) {
-                plfire( mouse_target );
+                plfire();
 
             } else if( u.weapon.has_flag( "REACH_ATTACK" ) ) {
                 int range = u.weapon.has_flag( "REACH3" ) ? 3 : 2;
                 temp_exit_fullscreen();
                 m.draw( w_terrain, u.pos() );
-                std::vector<tripoint> trajectory = pl_target_ui( u.pos(), range, &u.weapon, TARGET_MODE_REACH, mouse_target );
+                std::vector<tripoint> trajectory = pl_target_ui( TARGET_MODE_REACH, &u.weapon,range );
                 if( !trajectory.empty() ) {
                     u.reach_attack( trajectory.back() );
                 }
@@ -2887,7 +2887,7 @@ bool game::handle_action()
         case ACTION_FIRE_BURST: {
             auto mode = u.weapon.gun_get_mode_id();
             if( u.weapon.gun_set_mode( "AUTO" ) ) {
-                plfire( mouse_target );
+                plfire();
                 u.weapon.gun_set_mode( mode );
             }
             break;
@@ -10501,7 +10501,7 @@ void game::plthrow(int pos)
     m.draw( w_terrain, u.pos() );
 
     // pl_target_ui() sets x and y, or returns empty vector if we canceled (by pressing Esc)
-    std::vector<tripoint> trajectory = pl_target_ui( u.pos(), range, &thrown, TARGET_MODE_THROW );
+    std::vector<tripoint> trajectory = pl_target_ui( TARGET_MODE_THROW, &thrown, range );
     if (trajectory.empty()) {
         return;
     }
@@ -10522,8 +10522,7 @@ void game::plthrow(int pos)
     reenter_fullscreen();
 }
 
-std::vector<tripoint> game::pl_target_ui( const tripoint &p, int range, item *relevant, target_mode mode,
-                                          const tripoint &default_target )
+std::vector<tripoint> game::pl_target_ui( target_mode mode, item *relevant, int range )
 {
     // find hostile or netural targets sorted according to distance
     auto targets = u.get_targetable_creatures( range );
@@ -10548,7 +10547,7 @@ std::vector<tripoint> game::pl_target_ui( const tripoint &p, int range, item *re
     auto found = std::find( targets.begin(), targets.end(), last );
     int idx = found != targets.end() ? std::distance( targets.begin(), found ) : -1;
 
-    std::vector<tripoint> trajectory = target( u.pos(), p, range, targets, idx, relevant, mode );
+    std::vector<tripoint> trajectory = target( u.pos(), u.pos(), range, targets, idx, relevant, mode );
 
     if( ( last_target = npc_at( trajectory.back() ) ) >= 0 ) {
         if( !active_npc[ last_target ]->is_enemy() ) {
@@ -10570,7 +10569,7 @@ std::vector<tripoint> game::pl_target_ui( const tripoint &p, int range, item *re
     return trajectory;
 }
 
-bool game::plfire( const tripoint &default_target )
+bool game::plfire()
 {
     if( u.has_effect( effect_relax_gas) ) {
         if( one_in(5) ) {
@@ -10668,7 +10667,7 @@ bool game::plfire( const tripoint &default_target )
     m.draw( w_terrain, u.pos() );
 
     target_mode tmode = gun.melee() ? TARGET_MODE_REACH : TARGET_MODE_FIRE;
-    std::vector<tripoint> trajectory = pl_target_ui( u.pos(), range, &u.weapon, tmode, default_target );
+    std::vector<tripoint> trajectory = pl_target_ui( tmode, &u.weapon, range );
 
     if (trajectory.empty()) {
         if( gun->has_flag( "RELOAD_AND_SHOOT" ) && u.activity.type != ACT_AIM ) {

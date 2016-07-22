@@ -83,7 +83,7 @@ int vehicle::turret_fire( vehicle_part &pt )
             shooter.add_effect( effect_on_roof, 1 );
             shooter.recoil = abs( velocity ) / 100 / 4;
 
-            auto trajectory = g->pl_target_ui( shooter.pos(), gun.gun_range(), &gun, TARGET_MODE_TURRET_MANUAL );
+            auto trajectory = g->pl_target_ui( TARGET_MODE_TURRET_MANUAL, &gun, gun.gun_range() );
             g->draw_ter();
 
             if( !trajectory.empty() ) {
@@ -218,7 +218,7 @@ bool vehicle::turrets_aim()
     if( opts.empty() ) {
         add_msg( m_warning, _( "Can't aim turrets: all turrets are offline" ) );
     } else {
-        trajectory = g->pl_target_ui( g->u.pos(), range, &pointer, TARGET_MODE_TURRET );
+        trajectory = g->pl_target_ui( TARGET_MODE_TURRET, &pointer, range );
         g->draw_ter();
     }
 

@@ -359,7 +359,7 @@ classes = {
             { name = "open_gate", rval = nil, args = { "tripoint" } },
             { name = "peek", rval = nil, args = { "tripoint" } },
             { name = "peek", rval = nil, args = { } },
-            { name = "plfire", rval = nil, args = { "tripoint" } },
+            { name = "plfire", rval = nil, args = { } },
             { name = "plswim", rval = nil, args = { "tripoint" } },
             { name = "refresh_all", rval = nil, args = { } },
             { name = "remove_zombie", rval = nil, args = { "int" } },

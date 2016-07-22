@@ -323,7 +323,7 @@ class game
          *  Handles interactive parts of gun firing (target selection, etc.).
          *  @return whether an attack was actually performed
          */
-        bool plfire( const tripoint &default_target = tripoint_min );
+        bool plfire();
 
         /** Target is an interactive function which allows the player to choose a nearby
          *  square.  It display information on any monster/NPC on that square, and also
@@ -332,13 +332,10 @@ class game
         std::vector<tripoint> target( tripoint src, tripoint dst, int range,
                                       std::vector<Creature *> t, int target,
                                       item *relevant, target_mode mode );
-        /**
-         * Interface to target(), collects a list of targets & selects default target
-         * finally calls target() and returns its result.
-         * Used by vehicle::manual_fire_turret()
-         */
-        std::vector<tripoint> pl_target_ui( const tripoint &p, int range, item *relevant, target_mode mode,
-                                            const tripoint &default_target = tripoint_min );
+
+        /** Prompts for target and returns trajectory to it */
+        std::vector<tripoint> pl_target_ui( target_mode mode, item *relevant, int range );
+
         /** Redirects to player::cancel_activity(). */
         void cancel_activity();
         /** Asks if the player wants to cancel their activity, and if so cancels it. */
