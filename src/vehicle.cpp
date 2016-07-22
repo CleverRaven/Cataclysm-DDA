@@ -4838,7 +4838,7 @@ void vehicle::handle_trap( const tripoint &p, int part )
     }
     if( g->u.sees(p) ) {
         if( g->u.knows_trap( p ) ) {
-            add_msg(m_bad, _("The %1$s's %s runs over %2$s."), name.c_str(),
+            add_msg(m_bad, _("The %1$s's %2$s runs over %3$s."), name.c_str(),
                     parts[ part ].name().c_str(), tr.name.c_str() );
         } else {
             add_msg(m_bad, _("The %1$s's %2$s runs over something."), name.c_str(),
