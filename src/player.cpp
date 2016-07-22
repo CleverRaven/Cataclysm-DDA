@@ -13074,7 +13074,6 @@ void player::burn_move_stamina( int moves )
 Creature::Attitude player::attitude_to( const Creature &other ) const
 {
     const auto m = dynamic_cast<const monster *>( &other );
-    const auto p = dynamic_cast<const npc *>( &other );
     if( m != nullptr ) {
         if( m->friendly != 0 ) {
             return A_FRIENDLY;
@@ -13096,8 +13095,13 @@ Creature::Attitude player::attitude_to( const Creature &other ) const
             case NUM_MONSTER_ATTITUDES:
                 break;
         }
-    } else if( p != nullptr ) {
-        if( p->attitude == NPCATT_KILL ) {
+
+        return A_NEUTRAL;
+    }
+
+    const auto p = dynamic_cast<const npc *>( &other );
+    if( p != nullptr ) {
+        if( p->is_enemy() ) {
             return A_HOSTILE;
         } else if( p->is_friend() ) {
             return A_FRIENDLY;
@@ -13105,6 +13109,7 @@ Creature::Attitude player::attitude_to( const Creature &other ) const
             return A_NEUTRAL;
         }
     }
+
     return A_NEUTRAL;
 }
 
@@ -13512,7 +13517,7 @@ float player::power_rating() const
 
 float player::speed_rating() const
 {
-    float ret = 1.0f / get_speed();
+    float ret = get_speed() / 100.0f;
     ret *= 100.0f / run_cost( 100, false );
     // Adjustment for player being able to run, but not doing so at the moment
     if( move_mode != "run" ) {
