@@ -624,6 +624,7 @@
                 "1": "t_window_boarded",
                 ",": "t_pavement_y",
                 "_": "t_pavement",
+                "=": "t_door_metal_locked",
                 "+": "t_door_c",
                 "2": "t_utility_light",
                 "s": "t_sidewalk"
