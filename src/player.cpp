@@ -10640,7 +10640,7 @@ void player::drop( const std::list<std::pair<int, int>> &what, const tripoint &w
         return;
     }
 
-    assign_activity( type, 0 );
+    assign_activity( type, calendar::INDEFINITELY_LONG );
     activity.placement = target - pos();
 
     for( auto item_pair : what ) {
