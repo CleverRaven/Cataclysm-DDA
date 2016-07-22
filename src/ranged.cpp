@@ -1010,8 +1010,8 @@ static int draw_turret_aim( const player &p, WINDOW *w, int line_number, const t
 }
 
 // TODO: Shunt redundant drawing code elsewhere
-std::vector<tripoint> game::target( tripoint src, tripoint &dst, int range,
-                                    std::vector<Creature *> t, int &target,
+std::vector<tripoint> game::target( tripoint src, tripoint dst, int range,
+                                    std::vector<Creature *> t, int target,
                                     item *relevant, target_mode mode )
 {
     std::vector<tripoint> ret;
