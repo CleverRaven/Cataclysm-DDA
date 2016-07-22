@@ -264,14 +264,12 @@ void player::sort_armor()
             }
         } else {
             // Player is sorting NPC's armor here
-            // TODO: Add all sorts of checks here, to prevent player from wasting NPC moves
             if( rl_dist( g->u.pos(), pos() ) > 1 ) {
+                add_msg( m_bad, _( "%s is too far to sort armor." ), name.c_str() );
                 return;
             }
             if( attitude_to( g->u ) != Creature::A_FRIENDLY ) {
-                return;
-            }
-            if( moves < -200 ) {
+                add_msg( m_bad, _( "%s is not friendly!" ), name.c_str() );
                 return;
             }
         }
