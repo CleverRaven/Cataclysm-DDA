@@ -1345,12 +1345,10 @@ std::vector<tripoint> game::target( tripoint src, tripoint dst, int range,
                 u.recoil - sight_dispersion == 0) {
                 // If we made it under the aim threshold, go ahead and fire.
                 // Also fire if we're at our best aim level already.
-                werase( w_target );
-                wrefresh( w_target );
                 delwin( w_target );
-                w_target = nullptr;
                 u.view_offset = old_offset;
                 return ret;
+
             } else {
                 // We've run out of moves, set the activity to aim so we'll
                 // automatically re-enter the targeting menu next turn.
@@ -1381,10 +1379,7 @@ std::vector<tripoint> game::target( tripoint src, tripoint dst, int range,
         }
     } while (true);
 
-    werase( w_target );
-    wrefresh( w_target );
     delwin( w_target );
-    w_target = nullptr;
     u.view_offset = old_offset;
     return ret;
 }
