@@ -335,9 +335,7 @@ class inventory_selector
         /** @return percentage of the window occupied by columns */
         double get_columns_occupancy_ratio() const;
         /** @return do the visible columns need to be center-aligned */
-        bool are_columns_centered() const {
-            return get_columns_occupancy_ratio() >= 0.5;
-        }
+        bool are_columns_centered() const;
         /** @return true if visible columns are wider than available width */
         bool is_overflown() const {
             return get_visible_columns_width() > size_t( getmaxx( w_inv ) );

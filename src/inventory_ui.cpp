@@ -23,6 +23,13 @@
 #include <string>
 #include <vector>
 
+/** The minimal gap between two cells */
+static const int min_cell_gap = 1;
+/** The minimal gap between two columns */
+static const int min_column_gap = 2;
+/** The minimal occupancy ratio (see @refer get_columns_occupancy_ratio()) to align columns to the center */
+static const double min_ratio_to_center = 0.65;
+
 static const item_category weapon_held_cat( "WEAPON HELD", _( "WEAPON HELD" ), -200 );
 static const item_category items_worn_cat( "ITEMS WORN", _( "ITEMS WORN" ), -100 );
 
@@ -293,7 +300,7 @@ size_t inventory_column::get_entry_indent( const inventory_entry &entry ) const
 
 size_t inventory_column::get_entry_cell_width( const inventory_entry &entry, size_t cell_index ) const
 {
-    return preset.get_cell_width( entry, cell_index ) + ( cell_index == 0 ? get_entry_indent( entry ) : 1 );
+    return preset.get_cell_width( entry, cell_index ) + ( cell_index == 0 ? get_entry_indent( entry ) : min_cell_gap );
 }
 
 void inventory_column::set_width( const size_t width )
@@ -1125,7 +1132,7 @@ size_t inventory_selector::get_visible_columns_width() const
     const auto visible_columns = get_visible_columns();
     return std::accumulate( visible_columns.begin(), visible_columns.end(), padding,
                             []( const size_t &lhs, const inventory_column *column ) {
-        return lhs + column->get_width();
+        return lhs + ( lhs != 0 ? min_column_gap : 0 ) + column->get_width();
     } );
 }
 
@@ -1134,6 +1141,10 @@ double inventory_selector::get_columns_occupancy_ratio() const
     const int available_width = getmaxx( w_inv );
     const int free_width = available_width - get_visible_columns_width();
     return free_width > 0 && available_width > 0 ? 1.0 - double( free_width ) / available_width : 1.0;
+}
+
+bool inventory_selector::are_columns_centered() const {
+    return get_columns_occupancy_ratio() >= min_ratio_to_center;
 }
 
 void inventory_selector::toggle_active_column()
