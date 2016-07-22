@@ -30,7 +30,7 @@ enum class navigation_mode : int {
 class inventory_entry
 {
     private:
-        std::shared_ptr<item_location> location;
+        const item_location *location;
         size_t stack_size;
         const item_category *custom_category;
 
@@ -40,22 +40,20 @@ class inventory_entry
         size_t chosen_count = 0;
         long custom_invlet = LONG_MIN;
 
-        inventory_entry( const std::shared_ptr<item_location> &location, size_t stack_size,
+        inventory_entry( const item_location *location, size_t stack_size,
                          const item_category *custom_category = nullptr ) :
-            location( ( location != nullptr ) ? location : std::make_shared<item_location>() ),
+            location( location ),
             stack_size( stack_size ),
             custom_category( custom_category ) {}
 
-        inventory_entry( const std::shared_ptr<item_location> &location,
-                         const item_category *custom_category = nullptr );
+        inventory_entry( const item_location *location, const item_category *custom_category = nullptr ) :
+            inventory_entry( location, location != nullptr ? 1 : 0, custom_category ) {}
 
         inventory_entry( const item_category *custom_category = nullptr ) :
-            inventory_entry( std::make_shared<item_location>(), custom_category ) {}
+            inventory_entry( nullptr, custom_category ) {}
 
         inventory_entry( const inventory_entry &entry, const item_category *custom_category ) :
-            inventory_entry( entry ) {
-            this->custom_category = custom_category;
-        }
+            inventory_entry( entry.location, entry.stack_size, custom_category ) {}
 
         // used for searching the category header, only the item pointer and the category are important there
         bool operator == ( const inventory_entry &other ) const;
@@ -76,11 +74,9 @@ class inventory_entry
         size_t get_available_count() const;
         const item &get_item() const;
         const item_category *get_category_ptr() const;
-        long get_invlet() const;
+        const item_location &get_location() const;
 
-        item_location &get_location() const {
-            return *location;
-        }
+        long get_invlet() const;
 };
 
 class inventory_selector_preset
@@ -294,7 +290,7 @@ class inventory_selector
                 const tripoint &pos );
 
         void add_item( inventory_column &target_column,
-                       const std::shared_ptr<item_location> &location,
+                       const item_location &location,
                        size_t stack_size = 1,
                        const item_category *custom_category = nullptr );
 
@@ -302,7 +298,7 @@ class inventory_selector
                                const std::list<item>::iterator &from,
                                const std::list<item>::iterator &to,
                                const item_category &custom_category,
-                               const std::function<std::shared_ptr<item_location>( item * )> &locator );
+                               const std::function<item_location( item * )> &locator );
 
         void prepare_layout();
         void refresh_window() const;
@@ -364,6 +360,7 @@ class inventory_selector
         virtual void on_change( const inventory_entry &entry );
 
     private:
+        std::list<item_location> items;
         std::vector<inventory_column *> columns;
 
         WINDOW *w_inv;
@@ -382,11 +379,10 @@ class inventory_pick_selector : public inventory_selector
 {
     public:
         inventory_pick_selector( const player &p,
-                                 const inventory_selector_preset &preset = default_preset );
-        item_location &execute();
+                                 const inventory_selector_preset &preset = default_preset ) :
+            inventory_selector( p, preset ) {}
 
-    private:
-        std::shared_ptr<item_location> null_location;
+        item_location execute();
 };
 
 class inventory_multiselector : public inventory_selector

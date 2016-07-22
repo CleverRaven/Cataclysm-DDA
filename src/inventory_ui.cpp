@@ -103,13 +103,9 @@ bool inventory_entry::operator == ( const inventory_entry &other ) const
     return get_category_ptr() == other.get_category_ptr() && location == other.location;
 }
 
-inventory_entry::inventory_entry( const std::shared_ptr<item_location> &location,
-                                  const item_category *custom_category ) :
-    inventory_entry( location, ( location->get_item() != nullptr ) ? 1 : 0, custom_category ) {}
-
 bool inventory_entry::is_item() const
 {
-    return location->get_item() != nullptr;
+    return location != nullptr && location->get_item() != nullptr;
 }
 
 bool inventory_entry::is_null() const
@@ -128,7 +124,7 @@ size_t inventory_entry::get_available_count() const
 
 const item &inventory_entry::get_item() const
 {
-    if( location->get_item() == nullptr ) {
+    if( !is_item() ) {
         static const item nullitem;
         debugmsg( "Tried to access an empty item." );
         return nullitem;
@@ -145,6 +141,15 @@ const item_category *inventory_entry::get_category_ptr() const
 {
     return ( custom_category != nullptr )
            ? custom_category : is_item() ? &get_item().get_category() : nullptr;
+}
+
+const item_location &inventory_entry::get_location() const
+{
+    if( location == nullptr ) {
+        static const item_location null_location;
+        return null_location;
+    }
+    return *location;
 }
 
 inventory_selector_preset::inventory_selector_preset() : bug_text( _( "it's a bug!" ) )
@@ -748,14 +753,15 @@ const item_category *inventory_selector::naturalize_category( const item_categor
 }
 
 void inventory_selector::add_item( inventory_column &target_column,
-                                   const std::shared_ptr<item_location> &location,
+                                   const item_location &location,
                                    size_t stack_size, const item_category *custom_category )
 {
-    if( !preset.is_shown( *location ) ) {
+    if( !preset.is_shown( location ) ) {
         return;
     }
 
-    inventory_entry entry( location, stack_size, custom_category );
+    items.push_back( location.clone() );
+    inventory_entry entry( &items.back(), stack_size, custom_category );
 
     entry.enabled = preset.is_enabled( entry.get_location() );
     entry.rank = preset.get_rank( entry.get_location() );
@@ -770,16 +776,16 @@ void inventory_selector::add_custom_items( inventory_column &target_column,
                                            const std::list<item>::iterator &from,
                                            const std::list<item>::iterator &to,
                                            const item_category &custom_category,
-                                           const std::function<std::shared_ptr<item_location>( item * )> &locator )
+                                           const std::function<item_location( item * )> &locator )
 {
     const auto &stacks = restack_items( from, to );
     const item_category *nat_category = nullptr;
 
     for( const auto &stack : stacks ) {
-        const auto location = locator( stack.front() );
+        auto location = locator( stack.front() );
 
-        if( nat_category == nullptr && preset.is_shown( *location ) ) {
-            nat_category = naturalize_category( custom_category, location->position() );
+        if( nat_category == nullptr && preset.is_shown( location ) ) {
+            nat_category = naturalize_category( custom_category, location.position() );
         }
 
         add_item( target_column, location, stack.size(), nat_category );
@@ -788,8 +794,8 @@ void inventory_selector::add_custom_items( inventory_column &target_column,
 
 void inventory_selector::add_character_items( Character &character )
 {
-    const auto make_char_loc = [ &character ]( item &it ) {
-        return std::make_shared<item_location>( character, &it );
+    auto make_char_loc = [ &character ]( item &it ) {
+        return item_location( character, &it );
     };
 
     for( const auto &stack: character.inv.slice() ) {
@@ -813,7 +819,7 @@ void inventory_selector::add_map_items( const tripoint &target )
         const item_category map_cat( name, name, 100 );
 
         add_custom_items( map_column, items.begin(), items.end(), map_cat, [ &target ]( item * it ) {
-            return std::make_shared<item_location>( target, it );
+            return item_location( target, it );
         } );
     }
 }
@@ -829,7 +835,7 @@ void inventory_selector::add_vehicle_items( const tripoint &target )
         const item_category vehicle_cat( name, name, 200 );
 
         add_custom_items( map_column, items.begin(), items.end(), vehicle_cat, [ veh, part ]( item * it ) {
-            return std::make_shared<item_location>( vehicle_cursor( *veh, part ), it );
+            return item_location( vehicle_cursor( *veh, part ), it );
         } );
     }
 }
@@ -1058,15 +1064,13 @@ inventory_selector::~inventory_selector()
 
 bool inventory_selector::empty() const
 {
-    return !std::any_of( columns.begin(), columns.end(), []( const inventory_column *column ) {
-        return !column->empty();
-    } );
+    return items.empty();
 }
 
 bool inventory_selector::has_available_choices() const
 {
-    return std::any_of( columns.begin(), columns.end(), []( const inventory_column *column ) {
-        return column->activatable();
+    return std::any_of( items.begin(), items.end(), [ this ]( const item_location &loc ) {
+        return preset.is_enabled( loc );
     } );
 }
 
@@ -1183,11 +1187,7 @@ void inventory_selector::append_column( inventory_column &column )
     columns.push_back( &column );
 }
 
-inventory_pick_selector::inventory_pick_selector( const player &p,
-        const inventory_selector_preset &preset ) :
-    inventory_selector( p, preset ), null_location( new item_location() ) {}
-
-item_location &inventory_pick_selector::execute()
+item_location inventory_pick_selector::execute()
 {
     while( true ) {
         update();
@@ -1195,11 +1195,12 @@ item_location &inventory_pick_selector::execute()
         const inventory_input input = get_input();
 
         if( input.entry != nullptr ) {
-            return input.entry->get_location();
+            return input.entry->get_location().clone();
         } else if( input.action == "QUIT" ) {
-            return *null_location;
+            static const item_location null_location;
+            return null_location.clone();
         } else if( input.action == "RIGHT" || input.action == "CONFIRM" ) {
-            return get_active_column().get_selected().get_location();
+            return get_active_column().get_selected().get_location().clone();
         } else {
             on_input( input );
         }
