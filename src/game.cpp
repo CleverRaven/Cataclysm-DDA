@@ -10525,31 +10525,30 @@ void game::plthrow(int pos)
 std::vector<tripoint> game::pl_target_ui( const tripoint &p, int range, item *relevant, target_mode mode,
                                           const tripoint &default_target )
 {
-    // Populate a list of targets with the zombies in range and visible
-    const Creature *last_target_critter = nullptr;
-    if (last_target >= 0 && !last_target_was_npc && size_t(last_target) < num_zombies()) {
-        last_target_critter = &zombie(last_target);
-    } else if (last_target >= 0 && last_target_was_npc && size_t(last_target) < active_npc.size()) {
-        last_target_critter = active_npc[last_target];
-    }
-    auto mon_targets = u.get_targetable_creatures( range );
-    std::sort(mon_targets.begin(), mon_targets.end(), compare_by_dist_attitude { u } );
-    int passtarget = -1;
-    for (size_t i = 0; i < mon_targets.size(); i++) {
-        Creature &critter = *mon_targets[i];
-        critter.draw(w_terrain, u.pos(), true);
-        // no default target, but found the last target
-        if( default_target == tripoint_min && last_target_critter == &critter ) {
-            passtarget = i;
-            break;
-        }
-        if( default_target == critter.pos() ) {
-            passtarget = i;
-            break;
+    // find hostile or netural targets sorted according to distance
+    auto targets = u.get_targetable_creatures( range );
+
+    targets.erase( std::remove_if( targets.begin(), targets.end(), [&]( const Creature *e ) {
+        return u.attitude_to( *e ) == Creature::Attitude::A_FRIENDLY;
+    } ), targets.end() );
+
+    std::sort( targets.begin(), targets.end(), [&]( const Creature *lhs, const Creature *rhs ) {
+        return rl_dist( lhs->pos(), u.pos() ) < rl_dist( rhs->pos(), u.pos() );
+    } );
+
+    const Creature *last = nullptr;
+    if( last_target >= 0 ) {
+        if( last_target_was_npc ) {
+            last = size_t( last_target ) < active_npc.size() ? active_npc[ last_target ] : nullptr;
+        } else {
+            last = size_t( last_target ) < num_zombies() ? &zombie( last_target ) : nullptr;
         }
     }
-    // target() sets x and y, and returns an empty vector if we canceled (Esc)
-    std::vector<tripoint> trajectory = target( u.pos(), p, range, mon_targets, passtarget, relevant, mode );
+
+    auto found = std::find( targets.begin(), targets.end(), last );
+    int idx = found != targets.end() ? std::distance( targets.begin(), found ) : -1;
+
+    std::vector<tripoint> trajectory = target( u.pos(), p, range, targets, idx, relevant, mode );
 
     if( ( last_target = npc_at( trajectory.back() ) ) >= 0 ) {
         if( !active_npc[ last_target ]->is_enemy() ) {
