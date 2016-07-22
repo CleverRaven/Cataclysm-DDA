@@ -91,6 +91,8 @@ struct talk_topic {
     std::string id;
     /** If we're talking about an item, this should be its type. */
     itype_id item_type = "null";
+    /** Reason for denying a request. */
+    std::string reason;
 };
 
 /**
@@ -372,27 +374,34 @@ const std::string &talk_trial::name() const
 }
 
 /** Time (in turns) and cost (in cent) for training: */
-// TODO: maybe move this function into the skill class? Or into the NPC class?
-static int calc_skill_training_time( const skill_id &skill )
+static int calc_skill_training_time( const npc &p, const skill_id &skill )
 {
-    return MINUTES( 10 ) + MINUTES( 5 ) * g->u.get_skill_level( skill );
+    return MINUTES( 10 + 5 * g->u.get_skill_level( skill ) - p.get_skill_level( skill ) );
 }
 
-static int calc_skill_training_cost( const skill_id &skill )
+static int calc_skill_training_cost( const npc &p, const skill_id &skill )
 {
+    if( p.is_friend() ) {
+        return 0;
+    }
+
     return 1000 * ( 1 + g->u.get_skill_level( skill ) ) * ( 1 + g->u.get_skill_level( skill ) );
 }
 
 // TODO: all styles cost the same and take the same time to train,
 // maybe add values to the ma_style class to makes this variable
 // TODO: maybe move this function into the ma_style class? Or into the NPC class?
-static int calc_ma_style_training_time( const matype_id & /* id */ )
+static int calc_ma_style_training_time( const npc &, const matype_id & /* id */ )
 {
     return MINUTES( 30 );
 }
 
-static int calc_ma_style_training_cost( const matype_id & /* id */ )
+static int calc_ma_style_training_cost( const npc &p, const matype_id & /* id */ )
 {
+    if( p.is_friend() ) {
+        return 0;
+    }
+
     return 800;
 }
 
@@ -1211,13 +1220,7 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic ) const
         }
 
     } else if( topic == "TALK_TRAIN_START" ) {
-        // Technically the player could be on another (unsafe) overmap terrain, but the
-        // NPC is only concerned about themselves.
-        if( overmap_buffer.is_safe( p->global_omt_location() ) ) {
-            return _("Alright, let's begin.");
-        } else {
-            return _("It's not safe here.  Let's get to safety first.");
-        }
+        return _("Alright, let's begin.");
 
     } else if( topic == "TALK_TRAIN_FORCE" ) {
         return _("Alright, let's begin.");
@@ -1278,7 +1281,7 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic ) const
         return _("Not a bloody chance, I'm going to get left behind!");
 
     } else if( topic == "TALK_DENY_TRAIN" ) {
-        return _("Give it some time, I'll show you something new later...");
+        return the_topic.reason;
 
     } else if( topic == "TALK_DENY_PERSONAL" ) {
         return _("I'd prefer to keep that to myself.");
@@ -1399,7 +1402,7 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic ) const
             return "&You can't make anything out.";
         }
 
-        if (ability > 100) {
+        if( p->is_friend() || ability > 100 ) {
             ability = 100;
         }
 
@@ -2341,18 +2344,18 @@ void dialogue::gen_responses( const talk_topic &the_topic )
                 return;
             }
             for( auto & trained : trainable ) {
-                const int cost = calc_skill_training_cost( trained );
+                const int cost = calc_skill_training_cost( *p, trained );
                 const int cur_level = g->u.get_skill_level( trained );
                 //~Skill name: current level -> next level (cost in cent)
-                std::string text = string_format(_("%s: %d -> %d (cost $%d)"), trained.obj().name().c_str(),
-                      cur_level, cur_level + 1, cost / 100 );
+                std::string text = string_format( cost > 0 ? _("%s: %d -> %d (cost $%d)") : _("%s: %d -> %d"),
+                                                  trained.obj().name().c_str(), cur_level, cur_level + 1, cost / 100 );
                 add_response( text, "TALK_TRAIN_START", trained );
             }
             for( auto & style_id : styles ) {
                 auto &style = style_id.obj();
-                const int cost = calc_ma_style_training_cost( style.id );
+                const int cost = calc_ma_style_training_cost( *p, style.id );
                 //~Martial art style (cost in cent)
-                const std::string text = string_format( _("%s (cost $%d)"), style.name.c_str(), cost / 100 );
+                const std::string text = string_format( cost > 0 ? _("%s (cost $%d)") : _("%s"), style.name.c_str(), cost / 100 );
                 add_response( text, "TALK_TRAIN_START", style );
             }
             add_response_none( _("Eh, never mind.") );
@@ -2377,12 +2380,11 @@ void dialogue::gen_responses( const talk_topic &the_topic )
             } else if( p->has_effect( effect_asked_to_follow ) ) {
                 add_response_none( _("Right, right, I'll ask later.") );
             } else {
-                int strength = 3 * p->op_of_u.fear + p->op_of_u.value + p->op_of_u.trust +
+                int strength = 4 * p->op_of_u.fear + p->op_of_u.value + p->op_of_u.trust +
                                 (10 - p->personality.bravery);
-                int weakness = 3 * p->personality.altruism + p->personality.bravery -
-                                3 * p->op_of_u.fear - 3 * p->op_of_u.anger + 2 * p->op_of_u.value;
-                int friends = 2 * p->op_of_u.trust + 2 * p->op_of_u.value -
-                                2 * p->op_of_u.anger + p->op_of_u.owed / OWED_VAL;
+                int weakness = 3 * ( p->personality.altruism - std::max( 0, p->op_of_u.fear ) ) +
+                               p->personality.bravery - 3 * p->op_of_u.anger + 2 * p->op_of_u.value;
+                int friends = 2 * p->op_of_u.trust + 2 * p->op_of_u.value - 2 * p->op_of_u.anger;
                 RESPONSE(_("I can keep you safe."));
                     TRIAL(TALK_TRIAL_PERSUADE, strength * 2);
                         SUCCESS("TALK_AGREE_FOLLOW");
@@ -2477,42 +2479,49 @@ void dialogue::gen_responses( const talk_topic &the_topic )
         if( p->is_following() ) {
             // TODO: Allow NPCs to break training properly
             // Don't allow them to walk away in the middle of training
-            RESPONSE(_("Can you teach me anything?"));
-            if( !p->has_effect( effect_asked_to_train ) ) {
-                int commitment = 2 * p->op_of_u.trust + 1 * p->op_of_u.value -
-                                  3 * p->op_of_u.anger + p->op_of_u.owed / OWED_VAL;
+            std::stringstream reasons;
+            if( p->has_effect( effect_asked_to_train ) ) {
+                reasons << _( "Give it some time, I'll show you something new later..." ) << std::endl;
+            }
+
+            if( p->get_thirst() > 80 ) {
+                reasons << _( "I'm too thirsty, give me something to drink." ) << std::endl;
+            }
+
+            if( p->get_hunger() > 160 ) {
+                reasons << _( "I'm too hungry, give me something to eat." ) << std::endl;
+            }
+
+            if( p->get_fatigue() > TIRED ) {
+                reasons << _( "I'm too tired, let me rest first." ) << std::endl;
+            }
+
+            if( !reasons.str().empty() ) {
+                RESPONSE(_("[N/A] Can you teach me anything?"));
+                    SUCCESS("TALK_DENY_TRAIN");
+                ret.back().success.next_topic.reason = reasons.str();
+            } else {
+                RESPONSE(_("Can you teach me anything?"));
+                int commitment = 3 * p->op_of_u.trust + 1 * p->op_of_u.value -
+                                 3 * p->op_of_u.anger;
                 TRIAL(TALK_TRIAL_PERSUADE, commitment * 2);
                     SUCCESS("TALK_TRAIN");
                     FAILURE("TALK_DENY_PERSONAL");
                         FAILURE_ACTION(&talk_function::deny_train);
-            } else {
-                SUCCESS("TALK_DENY_TRAIN");
             }
         }
         add_response( _("Let's trade items."), "TALK_FRIEND", &talk_function::start_trade );
         if (p->is_following() && g->m.camp_at( g->u.pos() )) {
             add_response( _("Wait at this base."), "TALK_DONE", &talk_function::assign_base );
         }
-        if (p->is_following()) {
-            int loyalty = 3 * p->op_of_u.trust + 1 * p->op_of_u.value -
-                          1 * p->op_of_u.anger + p->op_of_u.owed / OWED_VAL;
+        if( p->is_following() ) {
             RESPONSE(_("Guard this position."));
-                TRIAL(TALK_TRIAL_PERSUADE, loyalty * 2);
-                    SUCCESS("TALK_FRIEND_GUARD");
-                        SUCCESS_ACTION(&talk_function::assign_guard);
-                    FAILURE("TALK_DENY_GUARD");
-                        FAILURE_OPINION(-1, -2, -1, 1, 0);
+            SUCCESS("TALK_FRIEND_GUARD");
+                SUCCESS_ACTION(&talk_function::assign_guard);
 
             RESPONSE(_("I'd like to know a bit more about you..."));
-            if( !p->has_effect( effect_asked_personal_info ) ) {
-                TRIAL(TALK_TRIAL_PERSUADE, loyalty * 2);
-                    SUCCESS("TALK_FRIEND");
-                        SUCCESS_ACTION(&talk_function::reveal_stats);
-                    FAILURE("TALK_DENY_PERSONAL");
-                        FAILURE_ACTION(&talk_function::deny_personal_info);
-            } else {
-                SUCCESS ("TALK_FRIEND_UNCOMFORTABLE");
-            }
+            SUCCESS("TALK_FRIEND");
+                SUCCESS_ACTION(&talk_function::reveal_stats);
 
             add_response( _("I want you to use this item"), "TALK_USE_ITEM" );
             add_response( _("Hold on to this item"), "TALK_GIVE_ITEM" );
@@ -3282,6 +3291,8 @@ void talk_function::buy_100_logs( npc &p )
 void talk_function::follow( npc &p )
 {
     p.attitude = NPCATT_FOLLOW;
+    g->u.cash += p.cash;
+    p.cash = 0;
 }
 
 void talk_function::deny_follow( npc &p )
@@ -3391,20 +3402,20 @@ bool pay_npc( npc &np, int cost )
     return trade( np, -cost, _( "Pay:" ) );
 }
 
-void talk_function::start_training( npc &p  )
+void talk_function::start_training( npc &p )
 {
     int cost;
     int time;
     std::string name;
     if( p.chatbin.skill ) {
         auto &skill = p.chatbin.skill;
-        cost = calc_skill_training_cost( skill );
-        time = calc_skill_training_time( skill );
+        cost = calc_skill_training_cost( p, skill );
+        time = calc_skill_training_time( p, skill );
         name = skill.str();
     } else if( p.chatbin.style.is_valid() ) {
         auto &ma_style_id = p.chatbin.style;
-        cost = calc_ma_style_training_cost( ma_style_id );
-        time = calc_ma_style_training_time( ma_style_id );
+        cost = calc_ma_style_training_cost( p, ma_style_id );
+        time = calc_ma_style_training_time( p, ma_style_id );
         name = p.chatbin.style.str();
     } else {
         debugmsg( "start_training with no skill or style set" );
@@ -3774,26 +3785,20 @@ inventory inventory_exchange( inventory &inv,
 
 bool trade( npc &p, int cost, const std::string &deal )
 {
-    WINDOW* w_head = newwin(4, FULL_SCREEN_WIDTH,
-                            (TERMY > FULL_SCREEN_HEIGHT) ? (TERMY - FULL_SCREEN_HEIGHT) / 2 : 0,
-                            (TERMX > FULL_SCREEN_WIDTH) ? (TERMX - FULL_SCREEN_WIDTH) / 2 : 0);
-    WINDOW* w_them = newwin(FULL_SCREEN_HEIGHT - 4, FULL_SCREEN_WIDTH / 2,
-                            4 + ((TERMY > FULL_SCREEN_HEIGHT) ? (TERMY - FULL_SCREEN_HEIGHT) / 2 : 0),
-                            (TERMX > FULL_SCREEN_WIDTH) ? (TERMX - FULL_SCREEN_WIDTH) / 2 : 0);
-    WINDOW* w_you = newwin(FULL_SCREEN_HEIGHT - 4, FULL_SCREEN_WIDTH - (FULL_SCREEN_WIDTH / 2),
-                            4 + ((TERMY > FULL_SCREEN_HEIGHT) ? (TERMY - FULL_SCREEN_HEIGHT) / 2 : 0),
-                            (FULL_SCREEN_WIDTH / 2) + ((TERMX > FULL_SCREEN_WIDTH) ? (TERMX - FULL_SCREEN_WIDTH) / 2 : 0));
+    WINDOW* w_head = newwin( 4, TERMX, 0, 0 );
+    WINDOW* w_them = newwin( TERMY - 4, (TERMX - 2) / 2, 4, 0 );
+    WINDOW* w_you = newwin( TERMY - 4, (TERMX - 2) / 2, 4, (TERMX - 2) / 2 );
     WINDOW* w_tmp;
     std::string header_message = _("\
 TAB key to switch lists, letters to pick items, Enter to finalize, Esc to quit,\n\
 ? to get information on an item.");
     mvwprintz(w_head, 0, 0, c_white, header_message.c_str(), p.name.c_str());
 
-    constexpr size_t ENTRIES_PER_PAGE = 17;
+    const size_t ENTRIES_PER_PAGE = TERMY - 7;
 
     // Set up line drawings
-    for (int i = 0; i < FULL_SCREEN_WIDTH; i++) {
-        mvwputch(w_head, 3, i, c_white, LINE_OXOX);
+    for( int i = 0; i < TERMX; i++ ) {
+        mvwputch( w_head, 3, i, c_white, LINE_OXOX );
     }
     wrefresh(w_head);
     // End of line drawings
@@ -3806,27 +3811,37 @@ TAB key to switch lists, letters to pick items, Enter to finalize, Esc to quit,\
     std::vector<item_pricing> theirs = p.init_selling();
     std::vector<item_pricing> yours = p.init_buying( g->u.inv );
 
-    // Adjust the prices based on your barter skill.
-    // cap adjustment so nothing is ever sold below value
-    ///\EFFECT_INT_NPC slightly increases bartering price changes, relative to your INT
+    if( !p.is_friend() ) {
+        // Adjust the prices based on your barter skill.
+        // cap adjustment so nothing is ever sold below value
+        ///\EFFECT_INT_NPC slightly increases bartering price changes, relative to your INT
 
-    ///\EFFECT_BARTER_NPC increases bartering price changes, relative to your BARTER
-    double their_adjust = (price_adjustment(p.get_skill_level( skill_barter ) - g->u.get_skill_level( skill_barter )) +
-                              (p.int_cur - g->u.int_cur) / 20.0);
-    if( their_adjust < 1.0 )
-        their_adjust = 1.0;
-    for( item_pricing &p : theirs ) {
-        p.price *= their_adjust;
-    }
-    ///\EFFECT_INT slightly increases bartering price changes, relative to NPC INT
+        ///\EFFECT_BARTER_NPC increases bartering price changes, relative to your BARTER
+        double their_adjust = (price_adjustment(p.get_skill_level( skill_barter ) - g->u.get_skill_level( skill_barter )) +
+                                  (p.int_cur - g->u.int_cur) / 20.0);
+        if( their_adjust < 1.0 )
+            their_adjust = 1.0;
+        for( item_pricing &p : theirs ) {
+            p.price *= their_adjust;
+        }
+        ///\EFFECT_INT slightly increases bartering price changes, relative to NPC INT
 
-    ///\EFFECT_BARTER increases bartering price changes, relative to NPC BARTER
-    double your_adjust = (price_adjustment(g->u.get_skill_level( skill_barter ) - p.get_skill_level( skill_barter )) +
-                             (g->u.int_cur - p.int_cur) / 20.0);
-    if( your_adjust < 1.0 )
-        your_adjust = 1.0;
-    for( item_pricing &p : yours ) {
-        p.price *= your_adjust;
+        ///\EFFECT_BARTER increases bartering price changes, relative to NPC BARTER
+        double your_adjust = (price_adjustment(g->u.get_skill_level( skill_barter ) - p.get_skill_level( skill_barter )) +
+                                 (g->u.int_cur - p.int_cur) / 20.0);
+        if( your_adjust < 1.0 )
+            your_adjust = 1.0;
+        for( item_pricing &p : yours ) {
+            p.price *= your_adjust;
+        }
+    } else {
+        for( item_pricing &p : theirs ) {
+            p.price = 0;
+        }
+
+        for( item_pricing &p : yours ) {
+            p.price = 0;
+        }
     }
 
     // How much cash you get in the deal (negative = losing money)
@@ -3849,8 +3864,8 @@ TAB key to switch lists, letters to pick items, Enter to finalize, Esc to quit,\
             // Draw borders, one of which is highlighted
             werase(w_them);
             werase(w_you);
-            for (int i = 1; i < FULL_SCREEN_WIDTH; i++) {
-                mvwputch(w_head, 3, i, c_white, LINE_OXOX);
+            for( int i = 1; i < TERMX; i++ ) {
+                mvwputch( w_head, 3, i, c_white, LINE_OXOX );
             }
 
             std::set<item *> without;
@@ -3876,10 +3891,12 @@ TAB key to switch lists, letters to pick items, Enter to finalize, Esc to quit,\
                        _("Volume: %d, %s"), volume_left,
                        string_format( _( "Weight: %.1f %s" ),
                                       convert_weight( weight_left ), weight_units() ).c_str() );
-            mvwprintz(w_head, 3, 60,
-                    (cash < 0 && (int)g->u.cash >= cash * -1) || (cash >= 0 && (int)p.cash  >= cash) ?
-                    c_green : c_red, (cash >= 0 ? _("Profit $%.2f") : _("Cost $%.2f")),
-                    (double)std::abs(cash)/100);
+            if( !p.is_friend() ) {
+                mvwprintz(w_head, 3, 60,
+                        (cash < 0 && (int)g->u.cash >= cash * -1) || (cash >= 0 && (int)p.cash  >= cash) ?
+                        c_green : c_red, (cash >= 0 ? _("Profit $%.2f") : _("Cost $%.2f")),
+                        (double)std::abs(cash)/100);
+            }
 
             if (deal != "") {
                 mvwprintz(w_head, 3, 40, (cost < 0 ? c_ltred : c_ltgreen), deal.c_str());
@@ -3917,9 +3934,11 @@ TAB key to switch lists, letters to pick items, Enter to finalize, Esc to quit,\
                         char((i -you_off) + 'a'), (ip.selected? '+' : '-'),
                         ip.itm->tname().c_str());
 
-                mvwprintz(w_you, i - you_off + 1, 35 - to_string(ip.price / 100).length(),
-                        (ip.selected ? c_white : c_ltgray), "$%.2f",
-                        (double)ip.price/100);
+                if( !p.is_friend() ) {
+                    mvwprintz(w_you, i - you_off + 1, 35 - to_string(ip.price / 100).length(),
+                            (ip.selected ? c_white : c_ltgray), "$%.2f",
+                            (double)ip.price/100);
+                }
             }
             if (you_off > 0) {
                 mvwprintw(w_you, ENTRIES_PER_PAGE + 2, 1, _("< Back"));
@@ -3969,11 +3988,11 @@ TAB key to switch lists, letters to pick items, Enter to finalize, Esc to quit,\
             case '\n': // Check if we have enough cash...
             case 'T'://T means the trade was forced.
                 // The player must pay cash, and it should not put the player negative.
-                if(cash < 0 && (int)g->u.cash < cash * -1) {
+                if( cash < 0 && (int)g->u.cash < cash * -1 ) {
                     popup(_("Not enough cash!  You have $%.2f, price is $%.2f."), (double)g->u.cash/100, -(double)cash/100);
                     update = true;
                     ch = ' ';
-                } else if (cash > 0 && (int)p.cash < cash  && ch != 'T') {
+                } else if( !p.is_friend() && cash > 0 && (int)p.cash < cash  && ch != 'T' ) {
                     //Else the player gets cash, and it should not make the NPC negative.
                     popup(_("Not enough cash! %s has $%.2f, but the price is $%.2f. Use (T) to force the trade."),
                               p.name.c_str(), (double)p.cash/100, (double)cash/100);
@@ -4064,6 +4083,7 @@ TAB key to switch lists, letters to pick items, Enter to finalize, Esc to quit,\
     delwin(w_head);
     delwin(w_you);
     delwin(w_them);
+    g->refresh_all();
     return traded;
 }
 
