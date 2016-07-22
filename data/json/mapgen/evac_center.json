@@ -34,8 +34,9 @@
             ],
             "terrain": {
                 "#": "t_rock_smooth",
-                ".": ["t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass",
-                      "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_shrub"],
+                ".": ["t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass",
+                      "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_dirt", "t_dirt", "t_dirt", "t_dirt",
+                      "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_shrub"],
                 ",": "t_pavement_y",
                 "_": "t_pavement",
                 "s": "t_sidewalk"
@@ -79,7 +80,8 @@
             ],
             "terrain": {
                 "#": "t_rock_smooth",
-                ".": ["t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_dirt", "t_dirt",
+                ".": ["t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass",
+                      "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_dirt", "t_dirt", "t_dirt", "t_dirt",
                       "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_shrub"],
                 ",": "t_pavement_y",
                 "_": "t_pavement",
@@ -124,7 +126,8 @@
             ],
             "terrain": {
                 "#": "t_rock_smooth",
-                ".": ["t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_dirt", "t_dirt",
+                ".": ["t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass",
+                      "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_dirt", "t_dirt", "t_dirt", "t_dirt",
                       "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_shrub"],
                 ",": "t_pavement_y",
                 "_": "t_pavement",
@@ -166,7 +169,8 @@
             ],
             "terrain": {
                 "#": "t_rock_smooth",
-                ".": ["t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_dirt", "t_dirt",
+                ".": ["t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass",
+                      "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_dirt", "t_dirt", "t_dirt", "t_dirt",
                       "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_shrub"],
                 ",": "t_pavement_y",
                 "_": "t_pavement",
@@ -208,7 +212,8 @@
             ],
             "terrain": {
                 "#": "t_rock_smooth",
-                ".": ["t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_dirt", "t_dirt",
+                ".": ["t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass",
+                      "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_dirt", "t_dirt", "t_dirt", "t_dirt",
                       "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_shrub"],
                 ",": "t_pavement_y",
                 "_": "t_pavement",
@@ -253,7 +258,8 @@
             ],
             "terrain": {
                 "#": "t_rock_smooth",
-                ".": ["t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_dirt", "t_dirt",
+                ".": ["t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass",
+                      "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_dirt", "t_dirt", "t_dirt", "t_dirt",
                       "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_shrub"],
                 ",": "t_pavement_y",
                 "_": "t_pavement",
@@ -323,7 +329,8 @@
                 " ": "t_floor",
                 "{": "t_dirt",
                 "#": "t_rock_smooth",
-                ".": ["t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_dirt", "t_dirt",
+                ".": ["t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass",
+                      "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_dirt", "t_dirt", "t_dirt", "t_dirt",
                       "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_shrub"],
                 "+": "t_door_c",
                 "1": "t_window_boarded",
@@ -385,7 +392,8 @@
             "terrain": {
                 " ": "t_floor",
                 "#": "t_rock_smooth",
-                ".": ["t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_dirt", "t_dirt",
+                ".": ["t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass",
+                      "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_dirt", "t_dirt", "t_dirt", "t_dirt",
                       "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_shrub"],
                 "6": "t_console_broken",
                 "_": "t_pavement",
@@ -467,7 +475,8 @@
                 " ": "t_floor",
                 "{": "t_dirt",
                 "#": "t_rock_smooth",
-                ".": ["t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_dirt", "t_dirt",
+                ".": ["t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass",
+                      "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_dirt", "t_dirt", "t_dirt", "t_dirt",
                       "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_shrub"],
                 "+": "t_door_c",
                 "=": "t_door_metal_locked",
@@ -522,7 +531,8 @@
                 { "vehicle": "flatbed_truck", "x": 2, "y": 18, "rotation": 90, "chance": 75 }
             ],
             "terrain": {
-                ".": ["t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_dirt", "t_dirt",
+                ".": ["t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass",
+                      "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_dirt", "t_dirt", "t_dirt", "t_dirt",
                       "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_shrub"],
                 ",": "t_pavement_y",
                 "s": "t_sidewalk"
@@ -562,7 +572,8 @@
                 "......_______,,________s"
             ],
             "terrain": {
-                ".": ["t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_dirt", "t_dirt",
+                ".": ["t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass",
+                      "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_dirt", "t_dirt", "t_dirt", "t_dirt",
                       "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_shrub"],
                 ",": "t_pavement_y",
                 "_": "t_pavement",
@@ -619,7 +630,8 @@
                 " ": "t_floor",
                 "{": "t_dirt",
                 "#": "t_rock_smooth",
-                ".": ["t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_dirt", "t_dirt",
+                ".": ["t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass",
+                      "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_dirt", "t_dirt", "t_dirt", "t_dirt",
                       "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_shrub"],
                 "1": "t_window_boarded",
                 ",": "t_pavement_y",
@@ -751,7 +763,8 @@
                 "{": "t_dirt",
                 ">": "t_stairs_down",
                 "#": "t_rock_smooth",
-                ".": ["t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_dirt", "t_dirt",
+                ".": ["t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass",
+                      "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_dirt", "t_dirt", "t_dirt", "t_dirt",
                       "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_shrub"],
                 "1": "t_window_boarded",
                 "_": "t_pavement",
@@ -803,7 +816,8 @@
                 "_________,,_______......"
             ],
             "terrain": {
-                ".": ["t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_dirt", "t_dirt",
+                ".": ["t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass",
+                      "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_dirt", "t_dirt", "t_dirt", "t_dirt",
                       "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_shrub"],
                 ",": "t_pavement_y",
                 "_": "t_pavement",
@@ -848,7 +862,8 @@
                 { "vehicle": "policecar", "x": 22, "y": 7, "rotation": 90, "chance": 75 }
             ],
             "terrain": {
-                ".": ["t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_dirt", "t_dirt",
+                ".": ["t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass",
+                      "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_dirt", "t_dirt", "t_dirt", "t_dirt",
                       "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_shrub"],
                 ",": "t_pavement_y",
                 "_": "t_pavement",
@@ -903,7 +918,8 @@
                 " ": "t_floor",
                 "{": "t_dirt",
                 "#": "t_rock_smooth",
-                ".": ["t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_dirt", "t_dirt",
+                ".": ["t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass",
+                      "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_dirt", "t_dirt", "t_dirt", "t_dirt",
                       "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_shrub"],
                 "1": "t_window_boarded",
                 "+": "t_door_c",
@@ -1030,7 +1046,8 @@
                 " ": "t_floor",
                 "{": "t_dirt",
                 "#": "t_rock_smooth",
-                ".": ["t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_dirt", "t_dirt",
+                ".": ["t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass",
+                      "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_dirt", "t_dirt", "t_dirt", "t_dirt",
                       "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_shrub"],
                 "1": "t_window_boarded",
                 "+": "t_door_c",
@@ -1082,7 +1099,8 @@
                 { "vehicle": "car_mini", "x": 3, "y": 15, "rotation": 90, "chance": 75 }
             ],
             "terrain": {
-                ".": ["t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_dirt", "t_dirt",
+                ".": ["t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass",
+                      "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_dirt", "t_dirt", "t_dirt", "t_dirt",
                       "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_shrub"],
                 ",": "t_pavement_y",
                 "_": "t_pavement",
@@ -1123,7 +1141,8 @@
                 "........................"
             ],
             "terrain": {
-                ".": ["t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_dirt", "t_dirt",
+                ".": ["t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass",
+                      "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_dirt", "t_dirt", "t_dirt", "t_dirt",
                       "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_shrub"],
                 ",": "t_pavement_y",
                 "_": "t_pavement",
@@ -1167,7 +1186,8 @@
                 { "vehicle": "schoolbus", "x": 8, "y": 6, "rotation": 180, "chance": 75 }
             ],
             "terrain": {
-                ".": ["t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_dirt", "t_dirt",
+                ".": ["t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass",
+                      "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_dirt", "t_dirt", "t_dirt", "t_dirt",
                       "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_shrub"],
                 ",": "t_pavement_y",
                 "_": "t_pavement",
@@ -1208,7 +1228,8 @@
                 "...._______,,_______...."
             ],
             "terrain": {
-                ".": ["t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_dirt", "t_dirt",
+                ".": ["t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass",
+                      "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_dirt", "t_dirt", "t_dirt", "t_dirt",
                       "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_shrub"],
                 ",": "t_pavement_y",
                 "_": "t_pavement",
@@ -1249,7 +1270,8 @@
                 "........................"
             ],
             "terrain": {
-                ".": ["t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_dirt", "t_dirt",
+                ".": ["t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass",
+                      "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_dirt", "t_dirt", "t_dirt", "t_dirt",
                       "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_shrub"],
                 ",": "t_pavement_y",
                 "_": "t_pavement",
@@ -1290,7 +1312,8 @@
                 "........................"
             ],
             "terrain": {
-                ".": ["t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_dirt", "t_dirt",
+                ".": ["t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass",
+                      "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_dirt", "t_dirt", "t_dirt", "t_dirt",
                       "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_shrub"],
                 ",": "t_pavement_y",
                 "_": "t_pavement",
