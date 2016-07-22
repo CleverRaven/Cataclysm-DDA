@@ -1080,7 +1080,7 @@
     "burn_into": "mon_zombie_crawler_scorched",
     "special_when_hit":["ACIDSPLASH", 7],
     "special_attacks": [["ACID_BARF", 30], ["GRAB", 60], ["FORMBLOB", 240]],
-    "description":"A prone humanoidesque monster that springs forward with a sickening sucking sound.  As it consumes bodies and materials from the ground it becomes stronger and produces several blobs."
+    "description":"A prone humanoidesque monster that springs forward with a sickening sucking sound.  As it consumes bodies and materials from the ground it becomes stronger and produces several blobs.",
     "flags":["ACIDPROOF", "ACID_BLOOD", "SEES", "HEARS", "POISON", "NO_BREATHE", "REVIVES", "NO_NECRO", "REVIVES_HEALTHY", "PLASTIC", "SLUDGEPROOF", "FLAMMABLE", "NIGHT_INVISIBILITY", "ABSORBS", "SWIMS"]
     },{
     "type": "MONSTER",
