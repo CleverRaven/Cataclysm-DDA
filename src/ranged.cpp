@@ -39,6 +39,7 @@ const skill_id skill_dodge( "dodge" );
 
 const efftype_id effect_on_roof( "on_roof" );
 const efftype_id effect_bounced( "bounced" );
+const efftype_id effect_hit_by_player( "hit_by_player" );
 
 static projectile make_gun_projectile( const item &gun );
 int time_to_fire( const Character &p, const itype &firing );
@@ -1010,20 +1011,47 @@ static int draw_turret_aim( const player &p, WINDOW *w, int line_number, const t
 }
 
 // TODO: Shunt redundant drawing code elsewhere
-std::vector<tripoint> game::target( tripoint src, tripoint dst, int range,
-                                    std::vector<Creature *> t, int target,
-                                    item *relevant, target_mode mode )
+std::vector<tripoint> game::pl_target_ui( target_mode mode, item *relevant, int range )
 {
     std::vector<tripoint> ret;
 
-    // First, decide on a target among the monsters, if there are any in range
-    if( !t.empty() ) {
-        if( static_cast<size_t>( target ) >= t.size() ) {
-            target = 0;
+    tripoint src = u.pos();
+    tripoint dst = u.pos();
+
+    std::vector<Creature *> t;
+    int target;
+
+    auto update_targets = [&]( int range, std::vector<Creature *>& targets ) -> int {
+        targets = u.get_targetable_creatures( range );
+
+        targets.erase( std::remove_if( targets.begin(), targets.end(), [&]( const Creature *e ) {
+            return u.attitude_to( *e ) == Creature::Attitude::A_FRIENDLY;
+        } ), targets.end() );
+
+        if( targets.empty() ) {
+            return -1;
         }
-        dst = t[target]->pos();
-    } else {
-        target = -1; // No monsters in range, don't use target, reset to -1
+
+        std::sort( targets.begin(), targets.end(), [&]( const Creature *lhs, const Creature *rhs ) {
+            return rl_dist( lhs->pos(), u.pos() ) < rl_dist( rhs->pos(), u.pos() );
+        } );
+
+        const Creature *last = nullptr;
+        if( g->last_target >= 0 ) {
+            if( g->last_target_was_npc ) {
+                last = size_t( last_target ) < active_npc.size() ? active_npc[ last_target ] : nullptr;
+            } else {
+                last = size_t( last_target ) < num_zombies() ? &zombie( last_target ) : nullptr;
+            }
+        }
+
+        auto found = std::find( targets.begin(), targets.end(), last );
+        return found != targets.end() ? std::distance( targets.begin(), found ) : 0;
+    };
+
+    target = update_targets( range, t );
+    if( target >= 0 ) {
+        dst = t[ target ]->pos();
     }
 
     bool compact = TERMY < 34;
@@ -1381,6 +1409,28 @@ std::vector<tripoint> game::target( tripoint src, tripoint dst, int range,
 
     delwin( w_target );
     u.view_offset = old_offset;
+
+    if( ret.empty() ) {
+        return ret;
+    }
+
+    if( ( last_target = npc_at( ret.back() ) ) >= 0 ) {
+        if( !active_npc[ last_target ]->is_enemy() ) {
+            if( !query_yn( _( "Really attack %s?" ), active_npc[ last_target ]->name.c_str() ) ) {
+                last_target = -1;
+                return {};
+            } else {
+                active_npc[ last_target ]->hit_by_player = true; // used for morale penalty
+            }
+        }
+        last_target_was_npc = true;
+        active_npc[ last_target ]->make_angry();
+
+    } else if( ( last_target = mon_at( ret.back(), true ) ) >= 0 ) {
+        last_target_was_npc = false;
+        zombie( last_target ).add_effect( effect_hit_by_player, 100 );
+    }
+
     return ret;
 }
 

@@ -144,7 +144,6 @@ const efftype_id effect_evil( "evil" );
 const efftype_id effect_flu( "flu" );
 const efftype_id effect_glowing( "glowing" );
 const efftype_id effect_has_bag( "has_bag" );
-const efftype_id effect_hit_by_player( "hit_by_player" );
 const efftype_id effect_hot( "hot" );
 const efftype_id effect_infected( "infected" );
 const efftype_id effect_laserlocked( "laserlocked" );
@@ -10520,53 +10519,6 @@ void game::plthrow(int pos)
 
     u.throw_item( trajectory.back(), thrown );
     reenter_fullscreen();
-}
-
-std::vector<tripoint> game::pl_target_ui( target_mode mode, item *relevant, int range )
-{
-    // find hostile or netural targets sorted according to distance
-    auto targets = u.get_targetable_creatures( range );
-
-    targets.erase( std::remove_if( targets.begin(), targets.end(), [&]( const Creature *e ) {
-        return u.attitude_to( *e ) == Creature::Attitude::A_FRIENDLY;
-    } ), targets.end() );
-
-    std::sort( targets.begin(), targets.end(), [&]( const Creature *lhs, const Creature *rhs ) {
-        return rl_dist( lhs->pos(), u.pos() ) < rl_dist( rhs->pos(), u.pos() );
-    } );
-
-    const Creature *last = nullptr;
-    if( last_target >= 0 ) {
-        if( last_target_was_npc ) {
-            last = size_t( last_target ) < active_npc.size() ? active_npc[ last_target ] : nullptr;
-        } else {
-            last = size_t( last_target ) < num_zombies() ? &zombie( last_target ) : nullptr;
-        }
-    }
-
-    auto found = std::find( targets.begin(), targets.end(), last );
-    int idx = found != targets.end() ? std::distance( targets.begin(), found ) : -1;
-
-    std::vector<tripoint> trajectory = target( u.pos(), u.pos(), range, targets, idx, relevant, mode );
-
-    if( ( last_target = npc_at( trajectory.back() ) ) >= 0 ) {
-        if( !active_npc[ last_target ]->is_enemy() ) {
-            if( !query_yn( _( "Really attack %s?" ), active_npc[ last_target ]->name.c_str() ) ) {
-                last_target = -1;
-                return {};
-            } else {
-                active_npc[ last_target ]->hit_by_player = true; // used for morale penalty
-            }
-        }
-        last_target_was_npc = true;
-        active_npc[ last_target ]->make_angry();
-
-    } else if( ( last_target = mon_at( trajectory.back(), true ) ) >= 0 ) {
-        last_target_was_npc = false;
-        zombie( last_target ).add_effect( effect_hit_by_player, 100 );
-    }
-
-    return trajectory;
 }
 
 bool game::plfire()
