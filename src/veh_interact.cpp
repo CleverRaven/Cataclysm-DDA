@@ -800,14 +800,14 @@ void veh_interact::do_repair()
         wrefresh (w_parts);
         werase (w_msg);
         bool has_comps = true;
-        int dif = sel_vpart_info->difficulty + ((sel_vehicle_part->hp <= 0) ? 0 : 2);
+        int dif = sel_vpart_info->difficulty + ((sel_vehicle_part->is_broken()) ? 0 : 2);
         ///\EFFECT_MECHANICS determines which vehicle parts can be replaced
         bool has_skill = g->u.get_skill_level( skill_mechanics ) >= dif;
         fold_and_print(w_msg, 0, 1, msg_width - 2, c_ltgray,
                        _("You need level <color_%1$s>%2$d</color> skill in mechanics."),
                        has_skill ? "ltgreen" : "red",
                        dif);
-        if (sel_vehicle_part->hp <= 0) {
+        if( sel_vehicle_part->is_broken() ) {
             itype_id itm = sel_vpart_info->item;
             has_comps = crafting_inv.has_components(itm, 1);
             fold_and_print(w_msg, 1, 1, msg_width - 2, c_ltgray,
@@ -820,7 +820,7 @@ void veh_interact::do_repair()
         const std::string action = main_context.handle_input();
         if ((action == "REPAIR" || action == "CONFIRM") &&
             has_comps &&
-            (sel_vehicle_part->hp > 0 || has_wrench) && has_skill) {
+            (!sel_vehicle_part->is_broken() || has_wrench) && has_skill) {
             sel_cmd = 'r';
             return;
         } else if (action == "QUIT") {
@@ -1346,7 +1346,7 @@ void veh_interact::move_cursor (int dx, int dy)
         for (size_t i = 0; i < parts_here.size(); i++) {
             int p = parts_here[i];
             const vpart_info &vpinfo = veh->part_info( p );
-            if (veh->parts[p].hp < vpinfo.durability) {
+            if( veh->parts[p].hp() < vpinfo.durability ) {
                 need_repair.push_back (i);
             }
             if (veh->part_flag(p, "WHEEL")) {
@@ -1553,7 +1553,7 @@ void veh_interact::display_stats()
         w[6] -= iw;
         const vpart_info &info = veh->parts[mostDamagedPart].info();
         vehicle_part part = veh->parts[mostDamagedPart];
-        int damagepercent = 100 * part.hp / info.durability;
+        int damagepercent = 100 * double( part.hp() ) / info.durability;
         nc_color damagecolor = getDurabilityColor(damagepercent);
         partName = veh->parts[mostDamagedPart].name();
         const auto hoff = fold_and_print(w_stats, y[6], x[6], w[6], damagecolor, partName);
@@ -1848,11 +1848,11 @@ void veh_interact::countDurability()
         const vpart_info &info = part.info();
         const int part_dur = info.durability;
 
-        sum += part.hp;
+        sum += part.hp();
         max += part_dur;
 
-        if(part.hp < part_dur) {
-            double damageRatio = (double) part.hp / part_dur;
+        if( part.hp() < part_dur ) {
+            double damageRatio = double( part.hp() ) / part_dur;
             if (!ISNAN(damageRatio) && (damageRatio < mostDamaged)) {
                 mostDamaged = damageRatio;
                 mostDamagedPart = it;
@@ -2138,7 +2138,9 @@ void complete_vehicle ()
 
         std::string name = veh->parts[ vehicle_part ].name();
 
-        if( veh->parts[vehicle_part].hp <= 0 ) {
+        auto &pt = veh->parts[ vehicle_part ];
+
+        if( pt.is_broken() ) {
             // replacing a broken part
             veh->break_part_into_pieces( vehicle_part, g->u.posx(), g->u.posy() );
             veh->remove_part( vehicle_part );
@@ -2147,8 +2149,8 @@ void complete_vehicle ()
 
         } else {
             // repairing a damaged part
-            dmg = 1.1 - (double) (veh->parts[ vehicle_part ].hp) / veh->part_info( vehicle_part ).durability;
-            veh->parts[ vehicle_part ].hp = veh->part_info(vehicle_part).durability;
+            dmg = 1.1 - double( pt.hp() ) / pt.info().durability;
+            veh->mod_hp( pt, pt.hp() - pt.info().durability );
             g->u.practice( skill_mechanics, ( ( veh->part_info( vehicle_part ).difficulty + 2 ) * 5 + 20 ) * dmg );
         }
 
@@ -2201,7 +2203,7 @@ void complete_vehicle ()
             veh->remove_remote_part(vehicle_part);
         }
 
-        broken = veh->parts[vehicle_part].hp <= 0;
+        broken = veh->parts[ vehicle_part ].is_broken();
         if (!broken) {
             g->m.add_item_or_charges( g->u.pos(), veh->parts[vehicle_part].properties_to_item() );
             // simple tasks won't train mechanics
@@ -2238,7 +2240,7 @@ void complete_vehicle ()
                 debugmsg( "no wheel to remove when changing wheels." );
                 return;
             }
-            broken = veh->parts[replaced_wheel].hp <= 0;
+            broken = veh->parts[ replaced_wheel ].is_broken();
             removed_wheel = veh->parts[replaced_wheel].properties_to_item();
             veh->remove_part( replaced_wheel );
             veh->part_removal_cleanup();

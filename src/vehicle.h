@@ -112,7 +112,7 @@ struct vehicle_part : public JsonSerializer, public JsonDeserializer
 
     vehicle_part(); /** DefaultConstructible */
 
-    vehicle_part( const vpart_str_id& str, int dx, int dy, item&& it );
+    vehicle_part( const vpart_str_id& vp, int dx, int dy, item&& it );
 
     bool has_flag(int const flag) const noexcept { return flag & flags; }
     int  set_flag(int const flag)       noexcept { return flags |= flag; }
@@ -199,7 +199,12 @@ public:
     /** mount translated to face.dir [0] and turn_dir [1] */
     std::array<point, 2> precalc = { { point( -1, -1 ), point( -1, -1 ) } };
 
-    int hp           = 0;         // current durability, if 0, then broken
+    /** current part health with range [0,durability] */
+    int hp() const;
+
+    /** parts are considered broken at zero health */
+    bool is_broken() const;
+
     int blood        = 0;         // how much blood covers part (in turns).
     bool inside      = false;     // if tile provides cover. WARNING: do not read it directly, use vehicle::is_inside() instead
     bool removed     = false;     // true if this part is removed. The part won't disappear until the end of the turn
@@ -416,6 +421,20 @@ public:
     vehicle();
     ~vehicle () override;
 
+    /**
+     * Set stat for part constrained by range [0,durability]
+     * @note does not invoke base @ref item::on_damage callback
+     */
+    void set_hp( vehicle_part &pt, int qty );
+
+    /**
+     * Apply damage to part constrained by range [0,durability] possibly destroying it
+     * @param qty maximum amount by which to adjust damage (negative permissible)
+     * @param dmg type of damage which may be passed to base @ref item::on_damage callback
+     * @return whether part was destroyed as a result of the damage
+     */
+    bool mod_hp( vehicle_part &pt, int qty, damage_type dt = DT_NULL );
+
     // check if given player controls this vehicle
     bool player_in_control(player const &p) const;
     // check if player controls this vehicle remotely
@@ -472,8 +491,9 @@ public:
     // check if certain part can be unmounted
     bool can_unmount (int p) const;
 
-    // install a new part to vehicle (force to skip possibility check)
-    int install_part (int dx, int dy, const vpart_str_id &id, int hp = -1, bool force = false);
+    // install a new part to vehicle
+    int install_part (int dx, int dy, const vpart_str_id &id);
+
     // Install a copy of the given part, skips possibility check
     int install_part (int dx, int dy, const vehicle_part &part);
 
