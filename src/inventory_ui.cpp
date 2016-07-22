@@ -16,12 +16,12 @@
 #include "item_location.h"
 #include "itype.h"
 
-#include <string>
-#include <tuple>
-#include <vector>
-#include <map>
-#include <sstream>
 #include <algorithm>
+#include <map>
+#include <numeric>
+#include <sstream>
+#include <string>
+#include <vector>
 
 static const item_category weapon_held_cat( "WEAPON HELD", _( "WEAPON HELD" ), -200 );
 static const item_category items_worn_cat( "ITEMS WORN", _( "ITEMS WORN" ), -100 );
