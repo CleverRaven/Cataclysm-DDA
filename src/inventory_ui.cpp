@@ -725,7 +725,7 @@ const item_category *inventory_selector::naturalize_category( const item_categor
         const int sort_rank = category.sort_rank + dist;
         const item_category new_category( id, name, sort_rank );
 
-        categories.push_back( std::move( new_category ) );
+        categories.push_back( new_category );
     } else {
         const auto existing = find_cat_by_id( category.id );
         if( existing != nullptr ) {
