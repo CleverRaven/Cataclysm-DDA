@@ -236,7 +236,8 @@ size_t inventory_selector_preset::get_cell_width( const inventory_entry &entry,
     return utf8_width( get_cell_text( entry, cell_index ), true );
 }
 
-void inventory_selector_preset::append_cell( const item_text_func &func, const std::string &title )
+void inventory_selector_preset::append_cell( const std::function<std::string( const item & )> &func,
+                                             const std::string &title )
 {
     // Don't capture by reference here. The func should be able to die earlier than the object itself
     append_cell( [ func ]( const inventory_entry & entry ) {
@@ -244,8 +245,8 @@ void inventory_selector_preset::append_cell( const item_text_func &func, const s
     }, title );
 }
 
-void inventory_selector_preset::append_cell( const item_location_text_func &func,
-        const std::string &title )
+void inventory_selector_preset::append_cell( const std::function<std::string( const item_location & )> &func,
+                                             const std::string &title )
 {
     // Don't capture by reference here. The func should be able to die earlier than the object itself
     append_cell( [ func ]( const inventory_entry & entry ) {
@@ -253,7 +254,8 @@ void inventory_selector_preset::append_cell( const item_location_text_func &func
     }, title );
 }
 
-void inventory_selector_preset::append_cell( const entry_text_func &func, const std::string &title )
+void inventory_selector_preset::append_cell( const std::function<std::string( const inventory_entry & )> &func,
+                                             const std::string &title )
 {
     const auto iter = std::find_if( cells.begin(), cells.end(), [ &title ]( const cell_pair & cell ) {
         return cell.first == title;

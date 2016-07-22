@@ -84,16 +84,9 @@ class inventory_selector_preset
     public:
         inventory_selector_preset();
 
-        virtual bool is_shown( const item &it ) const;
         virtual bool is_shown( const item_location &location ) const;
-
-        virtual bool is_enabled( const item &it ) const;
         virtual bool is_enabled( const item_location &location ) const;
-
-        virtual int get_rank( const item &it ) const;
         virtual int get_rank( const item_location &location ) const;
-
-        virtual nc_color get_color( const item &it ) const;
         virtual nc_color get_color( const item_location &location ) const;
 
         std::string get_cell_text( const inventory_entry &entry, size_t cell_index ) const;
@@ -105,17 +98,21 @@ class inventory_selector_preset
         }
 
     protected:
-        using item_text_func = std::function<std::string( const item & )>;
-        using item_location_text_func = std::function<std::string( const item_location & )>;
-        using entry_text_func = std::function<std::string( const inventory_entry & )>;
-
-        using cell_pair = std::pair<std::string, entry_text_func>;
+        using cell_pair = std::pair<std::string, std::function<std::string( const inventory_entry & )>>;
 
         virtual std::string get_caption( const inventory_entry &entry ) const;
 
-        void append_cell( const item_text_func &func, const std::string &title = "" );
-        void append_cell( const item_location_text_func &func, const std::string &title = "" );
-        void append_cell( const entry_text_func &func, const std::string &title = "" );
+        virtual bool is_shown( const item &it ) const;
+        virtual bool is_enabled( const item &it ) const;
+        virtual int get_rank( const item &it ) const;
+        virtual nc_color get_color( const item &it ) const;
+
+        void append_cell( const std::function<std::string( const item & )> &func,
+                          const std::string &title = "" );
+        void append_cell( const std::function<std::string( const item_location & )> &func,
+                          const std::string &title = "" );
+        void append_cell( const std::function<std::string( const inventory_entry & )> &func,
+                          const std::string &title = "" );
 
         template <typename T>
         std::string to_string( T val ) const {
