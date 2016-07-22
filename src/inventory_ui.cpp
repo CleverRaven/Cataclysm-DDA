@@ -226,7 +226,8 @@ size_t inventory_selector_preset::get_cell_width( const inventory_entry &entry,
 
 void inventory_selector_preset::append_cell( const item_text_func &func, const std::string &title )
 {
-    append_cell( [ func ]( const inventory_entry & entry ) { // Don't pass by reference
+    // Don't capture by reference here. The func should be able to die earlier than the object itself
+    append_cell( [ func ]( const inventory_entry & entry ) {
         return func( entry.get_item() );
     }, title );
 }
@@ -234,7 +235,8 @@ void inventory_selector_preset::append_cell( const item_text_func &func, const s
 void inventory_selector_preset::append_cell( const item_location_text_func &func,
         const std::string &title )
 {
-    append_cell( [ func ]( const inventory_entry & entry ) { // Don't pass by reference
+    // Don't capture by reference here. The func should be able to die earlier than the object itself
+    append_cell( [ func ]( const inventory_entry & entry ) {
         return func( entry.get_location() );
     }, title );
 }
@@ -686,9 +688,9 @@ std::vector<std::list<item *>> restack_items( const std::list<item>::iterator &f
     std::vector<std::list<item *>> res;
 
     for( auto it = from; it != to; ++it ) {
-        auto match = std::find_if( res.begin(), res.end(),
-        [ &it ]( const std::list<item *> &e ) {
-            return it->stacks_with( *e.back() );
+        // Find an appropriate stack to stack the item with
+        auto match = std::find_if( res.begin(), res.end(), [ &it ]( const std::list<item *> &stack ) {
+            return it->stacks_with( *stack.back() );
         } );
 
         if( match != res.end() ) {
