@@ -857,6 +857,7 @@ static int draw_targeting_window( WINDOW *w_target, const std::string &name, pla
 
         case TARGET_MODE_THROW:
             title = string_format( _( "Throwing %s" ), name.c_str() );
+            break;
 
         default:
             title = _( "Set target" );
