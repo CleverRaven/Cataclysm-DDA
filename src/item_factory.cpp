@@ -776,7 +776,7 @@ void Item_factory::check_definitions() const
             } else {
                 // whereas if it does use ammo enforce specifying either (but not both)
                 if( bool( type->gun->clip ) == !type->magazines.empty() ) {
-                    msg << "missing or duplicte clip_size or magazine" << "\n";
+                    msg << "missing or duplicate clip_size or magazine" << "\n";
                 }
 
                 if( type->item_tags.count( "RELOAD_AND_SHOOT" ) && !type->magazines.empty() ) {
