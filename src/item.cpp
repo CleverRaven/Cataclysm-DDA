@@ -4335,16 +4335,16 @@ const item * item::gunmod_find( const itype_id& mod ) const
     return const_cast<item *>( this )->gunmod_find( mod );
 }
 
-bool item::gunmod_compatible( const item& mod, std::string *msg ) const
+bool item::gunmod_compatible( const item& mod, std::string *err ) const
 {
     if( !mod.is_gunmod() ) {
         debugmsg( "Tried checking compatibility of non-gunmod" );
         return false;
     }
 
-    const auto error = [ msg ]( const std::string &error_msg ) {
-        if( msg != nullptr ) {
-            *msg = error_msg;
+    const auto error = [ err ]( const std::string &error_msg ) {
+        if( err != nullptr ) {
+            *err = error_msg;
         }
         return false;
     };
