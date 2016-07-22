@@ -265,11 +265,11 @@ void player::sort_armor()
         } else {
             // Player is sorting NPC's armor here
             if( rl_dist( g->u.pos(), pos() ) > 1 ) {
-                add_msg( m_bad, _( "%s is too far to sort armor." ), name.c_str() );
+                add_msg_if_npc( m_bad, _( "%s is too far to sort armor." ), name.c_str() );
                 return;
             }
             if( attitude_to( g->u ) != Creature::A_FRIENDLY ) {
-                add_msg( m_bad, _( "%s is not friendly!" ), name.c_str() );
+                add_msg_if_npc( m_bad, _( "%s is not friendly!" ), name.c_str() );
                 return;
             }
         }
@@ -395,14 +395,6 @@ void player::sort_armor()
         if( is_npc() && action == "ASSIGN_INVLETS" ) {
             // It doesn't make sense to assign invlets to NPC items
             continue;
-        }
-
-        if( is_npc() && ( action == "EQUIP_ARMOR" || action == "REMOVE_ARMOR" ) ) {
-            const npc &np = dynamic_cast<const npc &>( *this );
-            if( !np.is_minion() && !g->u.has_trait( "DEBUG_MIND_CONTROL" ) ) {
-                popup( _( "%s says: I don't trust you enough to let you do that!" ), disp_name().c_str() );
-                continue;
-            }
         }
 
         if( action == "UP" && leftListSize > 0 ) {
