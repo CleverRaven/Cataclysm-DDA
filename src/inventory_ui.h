@@ -120,7 +120,7 @@ class inventory_selector_preset
         }
 
     private:
-        const std::string bug_text;
+        static const std::string bug_text;
         std::vector<cell_pair> cells;
 };
 

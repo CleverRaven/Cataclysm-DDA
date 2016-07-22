@@ -6,9 +6,9 @@
 #include "item.h"
 #include "itype.h"
 
-item_location inv_internal( player &p, const inventory_selector_preset &preset,
-                            const std::string &title, int radius,
-                            const std::string &none_message )
+static item_location inv_internal( player &p, const inventory_selector_preset &preset,
+                                   const std::string &title, int radius,
+                                   const std::string &none_message )
 {
     p.inv.restack( &p );
     p.inv.sort();

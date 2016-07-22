@@ -33,6 +33,8 @@ static const double min_ratio_to_center = 0.65;
 static const item_category weapon_held_cat( "WEAPON HELD", _( "WEAPON HELD" ), -200 );
 static const item_category items_worn_cat( "ITEMS WORN", _( "ITEMS WORN" ), -100 );
 
+const std::string inventory_selector_preset::bug_text = _( "it's a bug!" );
+
 struct inventory_input {
     std::string action;
     long ch;
@@ -152,7 +154,7 @@ const item_location &inventory_entry::get_location() const
     return *location;
 }
 
-inventory_selector_preset::inventory_selector_preset() : bug_text( _( "it's a bug!" ) )
+inventory_selector_preset::inventory_selector_preset()
 {
     append_cell( [ this ]( const inventory_entry & entry ) -> std::string {
         return get_caption( entry );
@@ -696,8 +698,8 @@ inventory_input inventory_selector::get_input()
 }
 
 // @todo Move it into some 'item_stack' class.
-std::vector<std::list<item *>> restack_items( const std::list<item>::iterator &from,
-                            const std::list<item>::iterator &to )
+static std::vector<std::list<item *>> restack_items( const std::list<item>::iterator &from,
+                                                     const std::list<item>::iterator &to )
 {
     std::vector<std::list<item *>> res;
 
