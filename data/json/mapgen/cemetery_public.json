@@ -343,8 +343,9 @@
             "place_items": [
                 { "item": "grave_memories", "chance": 35, "x": [ 2 , 14 ], "y": [ 13 , 23 ], "repeat": [ 1, 2 ] },
                 { "item": "hardware", "chance": 75, "x": [ 13 , 15 ], "y": 7, "repeat": [ 1, 2 ] },
+                { "item": "mine_storage", "chance": 50, "x": [ 13 , 15 ], "y": 7 },
                 { "item": "cleaning", "chance": 65, "x": 15, "y": [ 8 , 9 ], "repeat": [ 1, 2 ] },
-                { "item": "mine_storage", "chance": 35, "x": 13, "y": 9 }
+                { "item": "mine_storage", "chance": 75, "x": 13, "y": 9 }
             ]
         }
     },{
