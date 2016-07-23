@@ -535,7 +535,8 @@
                       "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_dirt", "t_dirt", "t_dirt", "t_dirt",
                       "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_shrub"],
                 ",": "t_pavement_y",
-                "s": "t_sidewalk"
+                "s": "t_sidewalk",
+                "_": "t_pavement"
             }
         }
     },{
