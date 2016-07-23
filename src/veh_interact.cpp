@@ -1553,7 +1553,7 @@ void veh_interact::display_stats()
         w[6] -= iw;
         const vpart_info &info = veh->parts[mostDamagedPart].info();
         vehicle_part part = veh->parts[mostDamagedPart];
-        int damagepercent = 100 * double( part.hp() ) / info.durability;
+        int damagepercent = 100 * part.hp() / info.durability;
         nc_color damagecolor = getDurabilityColor(damagepercent);
         partName = veh->parts[mostDamagedPart].name();
         const auto hoff = fold_and_print(w_stats, y[6], x[6], w[6], damagecolor, partName);

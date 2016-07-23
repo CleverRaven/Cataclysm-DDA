@@ -1394,7 +1394,7 @@ int vehicle::engine_start_time( const int e ) const
     if( !is_engine_on( e ) || is_engine_type( e, fuel_type_muscle ) ||
         !fuel_left( part_info( engines[e] ).fuel_type ) ) { return 0; }
 
-    const double dmg = 1.0 - ((double)parts[engines[e]].hp() / part_info( engines[e] ).durability);
+    const double dmg = 1.0 - double( parts[engines[e]].hp() ) / part_info( engines[e] ).durability;
 
     // non-linear range [100-1000]; f(0.0) = 100, f(0.6) = 250, f(0.8) = 500, f(0.9) = 1000
     // diesel engines with working glow plugs always start with f = 0.6 (or better)
@@ -1660,7 +1660,7 @@ int vehicle::part_epower(int const index) const
     if( e < 0 ) {
         return e; // Consumers always draw full power, even if broken
     }
-    return e * double( parts[ index ].hp() ) / part_info(index).durability;
+    return e * parts[ index ].hp() / part_info(index).durability;
 }
 
 int vehicle::epower_to_power(int const epower)
