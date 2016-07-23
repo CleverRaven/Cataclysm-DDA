@@ -22,6 +22,8 @@
 #include "basecamp.h"
 #include "cata_utility.h"
 #include "text_snippets.h"
+#include "map_selector.h"
+#include "vehicle_selector.h"
 
 #include <vector>
 #include <string>
@@ -324,6 +326,20 @@ public:
     bool gen_responses( dialogue &d ) const;
 };
 
+struct item_pricing {
+    item_pricing( Character &c, item *it, int v, bool s ) : loc( c, it ), price( v ), selected ( s )
+    { }
+
+    item_pricing( item_location &&l, int v, bool s ) : loc( std::move( l ) ), price( v ), selected ( s )
+    { }
+
+    item_location loc;
+    int price;
+    // Whether this is selected for trading, init_buying and init_selling initialize
+    // this to `false`.
+    bool selected;
+};
+
 static std::map<std::string, json_talk_topic> json_talk_topics;
 
 // Every OWED_VAL that the NPC owes you counts as +1 towards convincing
@@ -355,6 +371,8 @@ int topic_category( const talk_topic &topic );
 const talk_topic &special_talk(char ch);
 
 bool trade( npc &p, int cost, const std::string &deal );
+std::vector<item_pricing> init_selling( npc &p );
+std::vector<item_pricing> init_buying( npc &p, player& u );
 
 std::string give_item_to( npc &p, bool allow_use, bool allow_carry );
 
@@ -3131,14 +3149,8 @@ void talk_function::insult_combat( npc &p )
 
 void talk_function::give_equipment( npc &p )
 {
-    std::vector<npc::item_pricing> giving = p.init_selling();
+    std::vector<item_pricing> giving = init_selling( p );
     int chosen = -1;
-    if (giving.empty()) {
-        invslice slice = p.inv.slice();
-        for (auto &i : slice) {
-            giving.push_back( npc::item_pricing { &i->front(), p.value( i->front() ), false } );
-        }
-    }
     while (chosen == -1 && giving.size() > 1) {
         int index = rng(0, giving.size() - 1);
         if (giving[index].price < p.op_of_u.owed) {
@@ -3153,7 +3165,8 @@ void talk_function::give_equipment( npc &p )
     if (chosen == -1) {
         chosen = 0;
     }
-    item it = p.i_rem(giving[chosen].itm);
+    item it = *giving[chosen].loc.get_item();
+    giving[chosen].loc.remove_item();
     popup(_("%1$s gives you a %2$s"), p.name.c_str(), it.tname().c_str());
 
     g->u.i_add( it );
@@ -3783,18 +3796,88 @@ inventory inventory_exchange( inventory &inv,
     return new_inv;
 }
 
+std::vector<item_pricing> init_selling( npc &p )
+{
+    std::vector<item_pricing> result;
+    invslice slice = p.inv.slice();
+    for( auto &i : slice ) {
+        auto &it = i->front();
+
+        const int price = it.price( true );
+        int val = p.value( it );
+        if( p.wants_to_sell( it, val, price ) ) {
+            result.emplace_back( p, &i->front(), val, false );
+        }
+    }
+
+    if( p.is_friend() & !p.weapon.is_null() && !p.weapon.has_flag( "NO_UNWIELD" ) ) {
+        result.emplace_back( p, &p.weapon, p.value( p.weapon ), false );
+    }
+
+    return std::move( result );
+}
+
+template <typename T, typename Callback>
+void buy_helper( T& src, Callback cb ) {
+    src.visit_items( [&src, &cb]( item *node ) {
+        cb( std::move( item_location( src, node ) ) );
+
+        return VisitResponse::SKIP;
+    } );
+}
+
+std::vector<item_pricing> init_buying( npc &p, player& u )
+{
+    std::vector<item_pricing> result;
+
+    const auto check_item = [&p, &result]( item_location &&loc ) {
+        item *it_ptr = loc.get_item();
+        if( it_ptr == nullptr || it_ptr->is_null() ) {
+            return;
+        }
+
+        auto &it = *it_ptr;
+        int market_price = it.price( true );
+        int val = p.value( it, market_price );
+        if( p.wants_to_buy( it, val, market_price ) ) {
+            result.emplace_back( std::move( loc ), val, false );
+        }
+    };
+
+    invslice slice = u.inv.slice();
+    for( auto &i : slice ) {
+        // @todo Sane way of handling multi-item stacks
+        check_item( std::move( item_location( u, &i->front() ) ) );
+    }
+
+    if( !u.weapon.has_flag( "NO_UNWIELD" ) ) {
+        check_item( std::move( item_location( u, &u.weapon ) ) );
+    }
+
+    for( auto& cursor : map_selector( u.pos(), 1 ) ) {
+        buy_helper( cursor, check_item );
+    }
+    for( auto& cursor : vehicle_selector( u.pos(), 1 ) ) {
+        buy_helper( cursor, check_item );
+    }
+
+    return std::move( result );
+}
+
 bool trade( npc &p, int cost, const std::string &deal )
 {
     WINDOW* w_head = newwin( 4, TERMX, 0, 0 );
-    WINDOW* w_them = newwin( TERMY - 4, (TERMX - 2) / 2, 4, 0 );
-    WINDOW* w_you = newwin( TERMY - 4, (TERMX - 2) / 2, 4, (TERMX - 2) / 2 );
+    const int win_they_w = TERMX / 2;
+    WINDOW* w_them = newwin( TERMY - 4, win_they_w, 4, 0 );
+    WINDOW* w_you = newwin( TERMY - 4, TERMX - win_they_w, 4, win_they_w );
     WINDOW* w_tmp;
     std::string header_message = _("\
 TAB key to switch lists, letters to pick items, Enter to finalize, Esc to quit,\n\
 ? to get information on an item.");
     mvwprintz(w_head, 0, 0, c_white, header_message.c_str(), p.name.c_str());
 
-    const size_t ENTRIES_PER_PAGE = TERMY - 7;
+    // If entries were to get over a-z and A-Z, we wouldn't have good keys for them
+    const size_t entries_per_page = std::min( TERMY - 7, 2 + ( 'z' - 'a' ) + ( 'Z' - 'A' ) );
 
     // Set up line drawings
     for( int i = 0; i < TERMX; i++ ) {
@@ -3805,44 +3888,36 @@ TAB key to switch lists, letters to pick items, Enter to finalize, Esc to quit,\
 
     // Populate the list of what the NPC is willing to buy, and the prices they pay
     // Note that the NPC's barter skill is factored into these prices.
-    using item_pricing = npc::item_pricing;
     // TODO: Recalc item values every time a new item is selected
     // Trading is not linear - starving NPC may pay $100 for 3 jerky, but not $100000 for 300 jerky
-    std::vector<item_pricing> theirs = p.init_selling();
-    std::vector<item_pricing> yours = p.init_buying( g->u.inv );
+    std::vector<item_pricing> theirs = init_selling( p );
+    std::vector<item_pricing> yours = init_buying( p, g->u );
 
-    if( !p.is_friend() ) {
-        // Adjust the prices based on your barter skill.
-        // cap adjustment so nothing is ever sold below value
-        ///\EFFECT_INT_NPC slightly increases bartering price changes, relative to your INT
+    // Adjust the prices based on your barter skill.
+    // cap adjustment so nothing is ever sold below value
+    ///\EFFECT_INT_NPC slightly increases bartering price changes, relative to your INT
 
-        ///\EFFECT_BARTER_NPC increases bartering price changes, relative to your BARTER
-        double their_adjust = (price_adjustment(p.get_skill_level( skill_barter ) - g->u.get_skill_level( skill_barter )) +
-                                  (p.int_cur - g->u.int_cur) / 20.0);
-        if( their_adjust < 1.0 )
-            their_adjust = 1.0;
-        for( item_pricing &p : theirs ) {
-            p.price *= their_adjust;
-        }
-        ///\EFFECT_INT slightly increases bartering price changes, relative to NPC INT
-
-        ///\EFFECT_BARTER increases bartering price changes, relative to NPC BARTER
-        double your_adjust = (price_adjustment(g->u.get_skill_level( skill_barter ) - p.get_skill_level( skill_barter )) +
-                                 (g->u.int_cur - p.int_cur) / 20.0);
-        if( your_adjust < 1.0 )
-            your_adjust = 1.0;
-        for( item_pricing &p : yours ) {
-            p.price *= your_adjust;
-        }
-    } else {
-        for( item_pricing &p : theirs ) {
-            p.price = 0;
-        }
-
-        for( item_pricing &p : yours ) {
-            p.price = 0;
-        }
+    ///\EFFECT_BARTER_NPC increases bartering price changes, relative to your BARTER
+    double their_adjust = (price_adjustment(p.get_skill_level( skill_barter ) - g->u.get_skill_level( skill_barter )) +
+                              (p.int_cur - g->u.int_cur) / 20.0);
+    if( their_adjust < 1.0 )
+        their_adjust = 1.0;
+    for( item_pricing &p : theirs ) {
+        p.price *= their_adjust;
     }
+    ///\EFFECT_INT slightly increases bartering price changes, relative to NPC INT
+
+    ///\EFFECT_BARTER increases bartering price changes, relative to NPC BARTER
+    double your_adjust = (price_adjustment(g->u.get_skill_level( skill_barter ) - p.get_skill_level( skill_barter )) +
+                             (g->u.int_cur - p.int_cur) / 20.0);
+    if( your_adjust < 1.0 )
+        your_adjust = 1.0;
+    for( item_pricing &p : yours ) {
+        p.price *= your_adjust;
+    }
+
+    // Just exchanging items, no barter involved
+    const bool ex = p.is_friend();
 
     // How much cash you get in the deal (negative = losing money)
     long cash = cost + p.op_of_u.owed;
@@ -3874,13 +3949,13 @@ TAB key to switch lists, letters to pick items, Enter to finalize, Esc to quit,\
             inventory newinv;
             for( auto &pricing : yours ) {
                 if( pricing.selected ) {
-                    added.push_back( pricing.itm );
+                    added.push_back( pricing.loc.get_item() );
                 }
             }
 
             for( auto &pricing : theirs ) {
                 if( pricing.selected ) {
-                    without.insert( pricing.itm );
+                    without.insert( pricing.loc.get_item() );
                 }
             }
             temp.inv = inventory_exchange( p.inv, without, added );
@@ -3891,12 +3966,11 @@ TAB key to switch lists, letters to pick items, Enter to finalize, Esc to quit,\
                        _("Volume: %d, %s"), volume_left,
                        string_format( _( "Weight: %.1f %s" ),
                                       convert_weight( weight_left ), weight_units() ).c_str() );
-            if( !p.is_friend() ) {
-                mvwprintz(w_head, 3, 60,
-                        (cash < 0 && (int)g->u.cash >= cash * -1) || (cash >= 0 && (int)p.cash  >= cash) ?
-                        c_green : c_red, (cash >= 0 ? _("Profit $%.2f") : _("Cost $%.2f")),
-                        (double)std::abs(cash)/100);
-            }
+
+            mvwprintz(w_head, 3, 60,
+                    (cash < 0 && (int)g->u.cash >= cash * -1) || (cash >= 0 && (int)p.cash  >= cash) ?
+                    c_green : c_red, (cash >= 0 ? _("Profit $%.2f") : _("Cost $%.2f")),
+                    (double)std::abs(cash)/100);
 
             if (deal != "") {
                 mvwprintz(w_head, 3, 40, (cost < 0 ? c_ltred : c_ltgreen), deal.c_str());
@@ -3908,43 +3982,50 @@ TAB key to switch lists, letters to pick items, Enter to finalize, Esc to quit,\
                         _("%s: $%.2f"), p.name.c_str(), (double)p.cash/100);
             mvwprintz(w_you,  0, 2, (cash > 0 || (int)g->u.cash >= cash*-1 ? c_green:c_red),
                         _("You: $%.2f"), (double)g->u.cash/100);
-            // Draw their list of items, starting from them_off
-            for( size_t i = them_off; i < theirs.size() && i < (ENTRIES_PER_PAGE + them_off); i++ ) {
-                const item_pricing &ip = theirs[i];
-                trim_and_print(w_them, i - them_off + 1, 1, 30,
-                        (ip.selected ? c_white : c_ltgray), "%c %c %s",
-                        char((i -them_off) + 'a'), (ip.selected ? '+' : '-'),
-                        ip.itm->display_name().c_str());
+            // Draw lists of items, starting from offset
+            for( size_t whose = 0; whose <= 1; whose++ ) {
+                const bool they = whose == 0;
+                const auto &list = they ? theirs : yours;
+                const auto &offset = they ? them_off : you_off;
+                const auto &person = they ? p : g->u;
+                auto &w_whose = they ? w_them : w_you;
+                int win_h;
+                int win_w;
+                getmaxyx( w_whose, win_h, win_w );
+                // Borders
+                win_h -= 2;
+                win_w -= 2;
+                for( size_t i = offset; i < list.size() && i < entries_per_page + offset; i++ ) {
+                    const item_pricing &ip = list[i];
+                    const item *it = ip.loc.get_item();
+                    auto color = it == &person.weapon ? c_yellow : c_ltgray;
+                    std::string itname = it->display_name();
+                    if( ip.loc.where() != item_location::type::character ) {
+                        itname = itname + " " + ip.loc.describe( &g->u );
+                        color = c_ltblue;
+                    }
 
-                mvwprintz(w_them, i - them_off + 1, 35 - to_string(ip.price / 100).length(),
-                        (ip.selected ? c_white : c_ltgray), "$%.2f",
-                        (double)ip.price/100);
-            }
-            if (them_off > 0) {
-                mvwprintw(w_them, ENTRIES_PER_PAGE + 2, 1, "< Back");
-            }
-            if (them_off + ENTRIES_PER_PAGE < theirs.size()) {
-                mvwprintw(w_them, ENTRIES_PER_PAGE + 2, 9, "More >");
-            }
-            // Draw your list of items, starting from you_off
-            for( size_t i = you_off; i < yours.size() && (i < (ENTRIES_PER_PAGE + you_off)) ; i++ ) {
-                const item_pricing &ip = yours[i];
-                trim_and_print(w_you, i - you_off + 1, 1, 30,
-                        (ip.selected ? c_white : c_ltgray), "%c %c %s",
-                        char((i -you_off) + 'a'), (ip.selected? '+' : '-'),
-                        ip.itm->tname().c_str());
+                    if( ip.selected ) {
+                        color = c_white;
+                    }
 
-                if( !p.is_friend() ) {
-                    mvwprintz(w_you, i - you_off + 1, 35 - to_string(ip.price / 100).length(),
-                            (ip.selected ? c_white : c_ltgray), "$%.2f",
-                            (double)ip.price/100);
+                    int keychar = i - offset + 'a';
+                    if( keychar > 'z' ) {
+                        keychar = keychar - 'z' - 1 + 'A';
+                    }
+                    trim_and_print( w_whose, i - offset + 1, 1, win_w, color , "%c %c %s",
+                                    (char)keychar, ip.selected ? '+' : '-', itname.c_str() );
+
+                    std::string price_str = string_format( "%.2f", ip.price / 100.0 );
+                    mvwprintz( w_whose, i - offset + 1, win_w - price_str.length(),
+                               ( ip.selected && !ex ) ? c_white : c_ltgray, price_str.c_str() );
                 }
-            }
-            if (you_off > 0) {
-                mvwprintw(w_you, ENTRIES_PER_PAGE + 2, 1, _("< Back"));
-            }
-            if (you_off + ENTRIES_PER_PAGE < yours.size()) {
-                mvwprintw(w_you, ENTRIES_PER_PAGE + 2, 9, _("More >"));
+                if( offset > 0 ) {
+                    mvwprintw(w_whose, entries_per_page + 2, 1, "< Back");
+                }
+                if( offset + entries_per_page < list.size() ) {
+                    mvwprintw(w_whose, entries_per_page + 2, 9, "More >");
+                }
             }
             wrefresh(w_head);
             wrefresh(w_them);
@@ -3958,13 +4039,13 @@ TAB key to switch lists, letters to pick items, Enter to finalize, Esc to quit,\
                 break;
             case '<':
                 if (offset > 0) {
-                    offset -= ENTRIES_PER_PAGE;
+                    offset -= entries_per_page;
                     update = true;
                 }
                 break;
             case '>':
-                if (offset + ENTRIES_PER_PAGE < target_list.size()) {
-                    offset += ENTRIES_PER_PAGE;
+                if (offset + entries_per_page < target_list.size()) {
+                    offset += entries_per_page;
                     update = true;
                 }
                 break;
@@ -3982,20 +4063,13 @@ TAB key to switch lists, letters to pick items, Enter to finalize, Esc to quit,\
                 update = true;
                 help += offset;
                 if( help < target_list.size() ) {
-                    popup(target_list[help].itm->info(), PF_NONE);
+                    popup(target_list[help].loc.get_item()->info(), PF_NONE);
                 }
                 break;
             case '\n': // Check if we have enough cash...
-            case 'T'://T means the trade was forced.
                 // The player must pay cash, and it should not put the player negative.
                 if( cash < 0 && (int)g->u.cash < cash * -1 ) {
                     popup(_("Not enough cash!  You have $%.2f, price is $%.2f."), (double)g->u.cash/100, -(double)cash/100);
-                    update = true;
-                    ch = ' ';
-                } else if( !p.is_friend() && cash > 0 && (int)p.cash < cash  && ch != 'T' ) {
-                    //Else the player gets cash, and it should not make the NPC negative.
-                    popup(_("Not enough cash! %s has $%.2f, but the price is $%.2f. Use (T) to force the trade."),
-                              p.name.c_str(), (double)p.cash/100, (double)cash/100);
                     update = true;
                     ch = ' ';
                 } else if( volume_left < 0 || weight_left < 0 ) {
@@ -4006,50 +4080,63 @@ TAB key to switch lists, letters to pick items, Enter to finalize, Esc to quit,\
                 }
                 break;
             default: // Letters & such
-                if( ch < 'a' || ch > 'z' ) {
+                if( ch >= 'a' && ch <= 'z' ) {
+                    ch -= 'a';
+                } else if( ch >= 'A' && ch <= 'Z' ) {
+                    ch = ch - 'A' + ( 'z' - 'a' ) + 1;
+                } else {
                     continue;
                 }
 
-                ch -= 'a';
                 ch += offset;
                 if( ch < target_list.size() ) {
+                    update = true;
                     item_pricing &ip = target_list[ch];
                     ip.selected = !ip.selected;
-                    if( (ip.selected && focus_them) ||
-                        (!ip.selected && !focus_them) ) {
+                    if( !ex && ip.selected == focus_them ) {
                         cash -= ip.price;
-                    } else {
+                    } else if( !ex ) {
                         cash += ip.price;
                     }
-                    update = true;
                 }
                 ch = 0;
         }
-    } while( ch != KEY_ESCAPE && ch != '\n' && ch != 'T' );
+    } while( ch != KEY_ESCAPE && ch != '\n' );
 
-    const bool traded = ch == '\n' || ch == 'T';
+    const bool traded = ch == '\n';
     if( traded ) {
         int practice = 0;
+
+        std::list<item_location *> from_map;
+        const auto mark_for_exchange =
+        [&practice, &from_map]( item_pricing &pricing, std::set<item *> &removing,
+                     std::vector<item *> &giving ) {
+            if( !pricing.selected ) {
+                return;
+            }
+
+            giving.push_back( pricing.loc.get_item() );
+            practice++;
+
+            if( pricing.loc.where() == item_location::type::character ) {
+                removing.insert( pricing.loc.get_item() );
+            } else {
+                from_map.push_back( &pricing.loc );
+            }
+        };
         // This weird exchange is needed to prevent pointer bugs
         // Removing items from an inventory invalidates the pointers
-        std::set<item * > removing_yours;
+        std::set<item *> removing_yours;
         std::vector<item *> giving_them;
-        for( const auto &pricing : yours ) {
-            if( pricing.selected ) {
-                giving_them.push_back( pricing.itm );
-                practice++;
-                removing_yours.insert( pricing.itm );
-            }
+        
+        for( auto &pricing : yours ) {
+            mark_for_exchange( pricing, removing_yours, giving_them );
         }
 
-        std::set<item*> removing_theirs;
+        std::set<item *> removing_theirs;
         std::vector<item *> giving_you;
-        for( const auto &pricing : theirs ) {
-            if( pricing.selected ) {
-                giving_you.push_back( pricing.itm );
-                practice += 2;
-                removing_theirs.insert( pricing.itm );
-            }
+        for( auto &pricing : theirs ) {
+            mark_for_exchange( pricing, removing_theirs, giving_you );
         }
 
         const inventory &your_new_inv = inventory_exchange( g->u.inv,
@@ -4060,19 +4147,33 @@ TAB key to switch lists, letters to pick items, Enter to finalize, Esc to quit,\
         g->u.inv = your_new_inv;
         p.inv = their_new_inv;
 
-        if( cash > (int)p.cash ) {
+        if( removing_yours.count( &g->u.weapon ) ) {
+            g->u.remove_weapon();
+        }
+
+        if( removing_theirs.count( &p.weapon ) ) {
+            p.remove_weapon();
+        }
+
+        for( item_location *loc_ptr : from_map ) {
+            loc_ptr->remove_item();
+        }
+
+        if( !ex && cash > (int)p.cash ) {
             // Trade was forced, give the NPC's cash to the player.
             p.op_of_u.owed = (cash - p.cash);
             g->u.cash += p.cash;
             p.cash = 0;
-        } else {
+        } else if( !ex ) {
             g->u.cash += cash;
             p.cash -= cash;
         }
 
         // TODO: Make this depend on prices
         // TODO: Make this depend on npc price adjustment vs. your price adjustment
-        g->u.practice( skill_barter, practice / 2 );
+        if( !ex ) {
+            g->u.practice( skill_barter, practice / 2 );
+        }
     }
     werase(w_head);
     werase(w_you);
