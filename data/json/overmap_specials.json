@@ -1524,7 +1524,7 @@
             { "point":[0,2,0], "overmap": "4way_road", "connect":"road"}
         ],
         "locations" : [ "forest" ],
-        "city_distance" : [2, 10],
+        "city_distance" : [2, 12],
         "city_sizes" : [2, 16],
         "occurrences" : [2, 5],
         "rotate" : false,
