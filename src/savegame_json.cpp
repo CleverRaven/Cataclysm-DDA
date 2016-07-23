@@ -1570,6 +1570,7 @@ void vehicle_part::deserialize(JsonIn &jsin)
 
     data.read("mount_dx", mount.x);
     data.read("mount_dy", mount.y);
+    data.read("hp", legacy_hp );
     data.read("open", open );
     data.read("direction", direction );
     data.read("blood", blood );
@@ -1688,6 +1689,12 @@ void vehicle::deserialize(JsonIn &jsin)
     data.read("name", name);
 
     data.read("parts", parts);
+
+    for( auto &pt : parts ) {
+        if( pt.legacy_hp >= 0 ) {
+            set_hp( pt, pt.legacy_hp );
+        }
+    }
 
     // we persist the pivot anchor so that if the rules for finding
     // the pivot change, existing vehicles do not shift around.

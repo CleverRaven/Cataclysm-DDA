@@ -226,6 +226,9 @@ private:
     item base;
     std::list<item> items; // inventory
 
+    /** read only from legacy savegames */
+    int legacy_hp = -1;
+
 public:
     const vpart_str_id &get_id() const;
     const vpart_info &info() const;
