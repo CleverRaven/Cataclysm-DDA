@@ -3967,13 +3967,13 @@ TAB key to switch lists, letters to pick items, Enter to finalize, Esc to quit,\
                        string_format( _( "Weight: %.1f %s" ),
                                       convert_weight( weight_left ), weight_units() ).c_str() );
 
-            mvwprintz(w_head, 3, 60,
-                    (cash < 0 && (int)g->u.cash >= cash * -1) || (cash >= 0 && (int)p.cash  >= cash) ?
-                    c_green : c_red, (cash >= 0 ? _("Profit $%.2f") : _("Cost $%.2f")),
-                    (double)std::abs(cash)/100);
+            std::string cost_string = cash >= 0 ? _("Profit $%.2f") : _("Cost $%.2f");
+            mvwprintz( w_head, 3, TERMX / 2 + ( TERMX / 2 - cost_string.length() ) / 2,
+                       ( cash < 0 && (int)g->u.cash >= cash * -1) || (cash >= 0 && (int)p.cash  >= cash) ? c_green : c_red,
+                       cost_string.c_str(), (double)std::abs(cash)/100 );
 
-            if (deal != "") {
-                mvwprintz(w_head, 3, 40, (cost < 0 ? c_ltred : c_ltgreen), deal.c_str());
+            if( !deal.empty() ) {
+                mvwprintz( w_head, 3, ( TERMX - deal.length() ) / 2, cost < 0 ? c_ltred : c_ltgreen, deal.c_str() );
             }
             draw_border(w_them, (focus_them ? c_yellow : BORDER_COLOR));
             draw_border(w_you, (!focus_them ? c_yellow : BORDER_COLOR));
