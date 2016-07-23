@@ -6272,5 +6272,103 @@
                 { "item": "splinter", "count": [1, 4] }
             ]
         }
+    },{
+        "type": "terrain",
+        "id": "t_iron_fence",
+        "name": "iron wrought fence",
+        "symbol": "LINE_OXOX",
+        "color": "dkgray",
+        "move_cost": 0,
+        "flags": [ "TRANSPARENT", "NOITEM", "THIN_OBSTACLE", "SUPPORTS_ROOF", "PERMEABLE", "UNSTABLE", "CLIMBABLE", "AUTO_WALL_SYMBOL", "SHARP" ],
+        "connects_to": "CHAINFENCE",
+        "examine_action": "chainfence",
+        "bash": {
+            "str_min": 75, "str_max": 150,
+            "sound": "metal screeching!",
+            "sound_fail": "dinnng!",
+            "ter_set": "t_chainfence_posts",
+            "items": [
+                { "item": "pipe_solid", "count": [0, 2] },
+                { "item": "scrap", "count": [6, 12] }
+            ]
+        }
+    },{
+        "type": "terrain",
+        "id": "t_iron_gate_c",
+        "name": "closed iron gate",
+        "symbol": "=",
+        "color": "dkgray",
+        "move_cost": 0,
+        "flags": ["TRANSPARENT", "DOOR", "PERMEABLE"],
+        "connects_to": "CHAINFENCE",
+        "open": "t_iron_gate_o",
+        "bash": {
+            "str_min": 85, "str_max": 160, "str_min_blocked": 100, "str_max_blocked": 175,
+            "sound": "metal screeching!",
+            "sound_fail": "clang!",
+            "ter_set": "t_null",
+            "items": [
+                { "item": "pipe_solid", "count": [2, 6] },
+                { "item": "scrap", "count": [10, 21] }
+            ]
+        }
+    },{
+        "type": "terrain",
+        "id": "t_iron_gate_o",
+        "name": "open iron gate",
+        "symbol": ".",
+        "color": "dkgray",
+        "move_cost": 2,
+        "flags": ["TRANSPARENT", "FLAT", "ROAD"],
+        "connects_to": "CHAINFENCE",
+        "close": "t_iron_gate_c",
+        "bash": {
+            "str_min": 80, "str_max": 170,
+            "sound": "metal screeching!",
+            "sound_fail": "clang!",
+            "ter_set": "t_null",
+            "items": [
+                { "item": "pipe_solid", "count": [2, 6] },
+                { "item": "scrap", "count": [10, 21] }
+            ]
+        }
+    },{
+        "type": "terrain",
+        "id": "t_iron_gate_l",
+        "name": "locked iron gate",
+        "symbol": "=",
+        "color": "dkgray",
+        "move_cost": 0,
+        "flags": ["TRANSPARENT", "PERMEABLE"],
+        "connects_to": "CHAINFENCE",
+        "bash": {
+            "str_min": 90, "str_max": 180, "str_min_blocked": 105, "str_max_blocked": 195,
+            "sound": "metal screeching!",
+            "sound_fail": "clang!",
+            "ter_set": "t_null",
+            "items": [
+                { "item": "pipe_solid", "count": [2, 6] },
+                { "item": "chain", "count": [0, 1] },
+                { "item": "scrap", "count": [10, 21] }
+            ]
+        }
+    },{
+        "type": "terrain",
+        "id": "t_iron_fence_posts",
+        "name": "mangled iron fence",
+        "symbol": "#",
+        "color": "ltgrey",
+        "move_cost": 2.5,
+        "flags": ["TRANSPARENT", "PERMEABLE", "THIN_OBSTACLE", "UNSTABLE", "ROUGH", "SHORT"],
+        "bash": {
+            "str_min": 70, "str_max": 140,
+            "sound": "metal screeching!",
+            "sound_fail": "clang!",
+            "ter_set": "t_null",
+            "items": [
+                { "item": "scrap", "count": [6, 12] },
+                { "item": "pipe_solid", "count": [4, 8] }
+            ]
+        }
     }
 ]
