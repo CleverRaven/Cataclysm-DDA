@@ -798,20 +798,17 @@ void inventory_selector::add_custom_items( inventory_column &target_column,
 
 void inventory_selector::add_character_items( Character &character )
 {
-    auto make_char_loc = [ &character ]( item &it ) {
-        return item_location( character, &it );
-    };
-
+    character.visit_items( [ this, &character ]( item *it ) {
+        if( it == &character.weapon ) {
+            add_item( own_gear_column, item_location( character, it ), 1, &weapon_held_cat );
+        } else if( character.is_worn( *it ) ) {
+            add_item( own_gear_column, item_location( character, it ), 1, &items_worn_cat );
+        }
+        return VisitResponse::NEXT;
+    } );
+    // Visitable interface does not support stacks so it has to be here
     for( const auto &stack: character.inv.slice() ) {
-        add_item( own_inv_column, make_char_loc( stack->front() ), stack->size() );
-    }
-
-    for( auto &it : character.worn ) {
-        add_item( own_gear_column, make_char_loc( it ), 1, &items_worn_cat );
-    }
-
-    if( !character.weapon.is_null() ) {
-        add_item( own_gear_column, make_char_loc( character.weapon ), 1, &weapon_held_cat );
+        add_item( own_inv_column, item_location( character, &stack->front() ), stack->size() );
     }
 }
 
