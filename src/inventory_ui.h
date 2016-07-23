@@ -53,7 +53,9 @@ class inventory_entry
             inventory_entry( nullptr, custom_category ) {}
 
         inventory_entry( const inventory_entry &entry, const item_category *custom_category ) :
-            inventory_entry( entry.location, entry.stack_size, custom_category ) {}
+            inventory_entry( entry ) {
+            this->custom_category = custom_category;
+        }
 
         // used for searching the category header, only the item pointer and the category are important there
         bool operator == ( const inventory_entry &other ) const;

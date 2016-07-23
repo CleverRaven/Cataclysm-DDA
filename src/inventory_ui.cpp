@@ -102,12 +102,13 @@ class selection_column : public inventory_column
 
 bool inventory_entry::operator == ( const inventory_entry &other ) const
 {
-    return get_category_ptr() == other.get_category_ptr() && location == other.location;
+    return get_category_ptr() == other.get_category_ptr() &&
+           get_location() == other.get_location();
 }
 
 bool inventory_entry::is_item() const
 {
-    return location != nullptr && *location;
+    return get_location();
 }
 
 bool inventory_entry::is_null() const
