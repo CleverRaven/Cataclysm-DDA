@@ -6841,7 +6841,9 @@
     "qualities":[
         {"id":"HAMMER","level":1,"amount":1} ],
     "components": [
-        [[ "pipe_solid", 1 ]]
+        [[ "pipe_solid", 1 ]],
+        [[ "leather", 1 ]],
+        [[ "string_36", 1 ], [ "string_6", 6 ]],
     ]
     }
 ]
