@@ -11043,24 +11043,23 @@ void game::eat(int pos)
     }
 
     // Can consume items from inventory or within one tile (including in vehicles)
-    auto item_loc = inv_for_comestibles( _( "CONSUME ITEM" ) );
+    item_location loc = inv_for_comestibles( _( "CONSUME ITEM" ) );
 
-    item *it = item_loc.get_item();
-    if( !it ) {
+    if( !loc ) {
         add_msg( _( "Never mind." ) );
         return;
     }
 
-    pos = u.get_item_position( it );
+    item &it = *loc;
+    pos = u.get_item_position( &it );
     if( pos != INT_MIN ) {
         u.consume( pos );
-
-    } else if( u.consume_item( *it ) ) {
-        if( it->is_food_container() ) {
-            it->contents.erase( it->contents.begin() );
-            add_msg( _("You leave the empty %s."), it->tname().c_str() );
+    } else if( u.consume_item( it ) ) {
+        if( it.is_food_container() ) {
+            it.contents.erase( it.contents.begin() );
+            add_msg( _("You leave the empty %s."), it.tname().c_str() );
         } else {
-            item_loc.remove_item();
+            loc.remove_item();
         }
     }
 }

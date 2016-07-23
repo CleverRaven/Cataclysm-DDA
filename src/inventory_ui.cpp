@@ -107,7 +107,7 @@ bool inventory_entry::operator == ( const inventory_entry &other ) const
 
 bool inventory_entry::is_item() const
 {
-    return location != nullptr && location->get_item() != nullptr;
+    return location != nullptr && *location;
 }
 
 bool inventory_entry::is_null() const
@@ -131,7 +131,7 @@ const item &inventory_entry::get_item() const
         debugmsg( "Tried to access an empty item." );
         return nullitem;
     }
-    return *location->get_item();
+    return *( *location );
 }
 
 long inventory_entry::get_invlet() const
@@ -168,7 +168,7 @@ bool inventory_selector_preset::is_shown( const item & ) const
 
 bool inventory_selector_preset::is_shown( const item_location &location ) const
 {
-    return is_shown( *location.get_item() );
+    return is_shown( *location );
 }
 
 bool inventory_selector_preset::is_enabled( const item & ) const
@@ -178,7 +178,7 @@ bool inventory_selector_preset::is_enabled( const item & ) const
 
 bool inventory_selector_preset::is_enabled( const item_location &location ) const
 {
-    return is_enabled( *location.get_item() );
+    return is_enabled( *location );
 }
 
 int inventory_selector_preset::get_rank( const item & ) const
@@ -188,7 +188,7 @@ int inventory_selector_preset::get_rank( const item & ) const
 
 int inventory_selector_preset::get_rank( const item_location &location ) const
 {
-    return get_rank( *location.get_item() );
+    return get_rank( *location );
 }
 
 nc_color inventory_selector_preset::get_color( const item &it ) const
@@ -198,7 +198,7 @@ nc_color inventory_selector_preset::get_color( const item &it ) const
 
 nc_color inventory_selector_preset::get_color( const item_location &location ) const
 {
-    return get_color( *location.get_item() );
+    return get_color( *location );
 }
 
 std::string inventory_selector_preset::get_caption( const inventory_entry &entry ) const
