@@ -20,6 +20,13 @@
     "field": "fd_sludge",
     "qty": 2
   },{
+    "id": "emit_sludge_small",
+    "type": "emit",
+    "//": "sludge trail (example: sludge crawler)",
+    "field": "fd_sludge",
+    "qty": 1,
+    "chance": 33
+  },{
     "id": "emit_acid_small",
     "type": "emit",
     "//": "leaks a trail of thin acid (example: leaking corrosive zombie)",
