@@ -1203,8 +1203,10 @@ item_location inventory_pick_selector::execute()
         } else if( input.action == "QUIT" ) {
             static const item_location null_location;
             return null_location.clone();
-        } else if( input.action == "RIGHT" || input.action == "CONFIRM" ) {
+        } else if( input.action == "CONFIRM" ) {
             return get_active_column().get_selected().get_location().clone();
+        } else if( input.action == "RIGHT" ) {
+            toggle_active_column();
         } else {
             on_input( input );
         }
