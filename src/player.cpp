@@ -13104,7 +13104,10 @@ Creature::Attitude player::attitude_to( const Creature &other ) const
         } else {
             return A_NEUTRAL;
         }
+    } else if( &other == this ) {
+        return A_FRIENDLY;
     }
+
     return A_NEUTRAL;
 }
 
