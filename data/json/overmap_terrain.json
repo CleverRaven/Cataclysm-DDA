@@ -7126,5 +7126,275 @@
         "see_cost" : 5,
         "extras" : "none",
         "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "cemetery_large_00",
+        "name" : "public cemetery",
+        "sym" : 110,
+        "color" : "ltgray",
+        "see_cost" : 5,
+        "extras" : "field",
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "cemetery_large_10",
+        "name" : "public cemetery",
+        "sym" : 110,
+        "color" : "ltgray",
+        "see_cost" : 5,
+        "extras" : "field",
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "cemetery_large_20",
+        "name" : "public cemetery",
+        "sym" : 110,
+        "color" : "ltgray",
+        "see_cost" : 5,
+        "extras" : "field",
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "cemetery_large_30",
+        "name" : "public cemetery",
+        "sym" : 110,
+        "color" : "ltgray",
+        "see_cost" : 5,
+        "extras" : "field",
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "cemetery_large_40",
+        "name" : "public cemetery",
+        "sym" : 110,
+        "color" : "ltgray",
+        "see_cost" : 5,
+        "extras" : "field",
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "cemetery_large_50",
+        "name" : "public cemetery",
+        "sym" : 110,
+        "color" : "ltgray",
+        "see_cost" : 5,
+        "extras" : "field",
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "cemetery_large_01",
+        "name" : "public cemetery",
+        "sym" : 110,
+        "color" : "ltgray",
+        "see_cost" : 5,
+        "extras" : "field",
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "cemetery_large_11",
+        "name" : "public cemetery",
+        "sym" : 110,
+        "color" : "ltgray",
+        "see_cost" : 5,
+        "extras" : "field",
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "cemetery_large_21",
+        "name" : "public cemetery",
+        "sym" : 110,
+        "color" : "ltgray",
+        "see_cost" : 5,
+        "extras" : "field",
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "cemetery_large_31",
+        "name" : "public cemetery",
+        "sym" : 110,
+        "color" : "ltgray",
+        "see_cost" : 5,
+        "extras" : "field",
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "cemetery_large_41",
+        "name" : "public cemetery",
+        "sym" : 110,
+        "color" : "ltgray",
+        "see_cost" : 5,
+        "extras" : "field",
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "cemetery_large_51",
+        "name" : "public cemetery",
+        "sym" : 110,
+        "color" : "ltgray",
+        "see_cost" : 5,
+        "extras" : "field",
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "cemetery_large_02",
+        "name" : "public cemetery",
+        "sym" : 110,
+        "color" : "ltgray",
+        "see_cost" : 5,
+        "extras" : "field",
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "cemetery_large_12",
+        "name" : "public cemetery",
+        "sym" : 110,
+        "color" : "ltgray",
+        "see_cost" : 5,
+        "extras" : "field",
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "cemetery_large_22",
+        "name" : "public cemetery",
+        "sym" : 110,
+        "color" : "ltgray",
+        "see_cost" : 5,
+        "extras" : "field",
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "cemetery_large_32",
+        "name" : "public cemetery",
+        "sym" : 110,
+        "color" : "ltgray",
+        "see_cost" : 5,
+        "extras" : "field",
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "cemetery_large_42",
+        "name" : "public cemetery",
+        "sym" : 110,
+        "color" : "ltgray",
+        "see_cost" : 5,
+        "extras" : "field",
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "cemetery_large_52",
+        "name" : "public cemetery",
+        "sym" : 110,
+        "color" : "ltgray",
+        "see_cost" : 5,
+        "extras" : "field",
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "cemetery_large_03",
+        "name" : "public cemetery",
+        "sym" : 110,
+        "color" : "ltgray",
+        "see_cost" : 5,
+        "extras" : "field",
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "cemetery_large_13",
+        "name" : "public cemetery",
+        "sym" : 110,
+        "color" : "ltgray",
+        "see_cost" : 5,
+        "extras" : "field",
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "cemetery_large_23",
+        "name" : "public cemetery",
+        "sym" : 110,
+        "color" : "ltgray",
+        "see_cost" : 5,
+        "extras" : "field",
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "cemetery_large_33",
+        "name" : "public cemetery",
+        "sym" : 110,
+        "color" : "ltgray",
+        "see_cost" : 5,
+        "extras" : "field",
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "cemetery_large_43",
+        "name" : "public cemetery",
+        "sym" : 110,
+        "color" : "ltgray",
+        "see_cost" : 5,
+        "extras" : "field",
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "cemetery_large_53",
+        "name" : "public cemetery",
+        "sym" : 110,
+        "color" : "ltgray",
+        "see_cost" : 5,
+        "extras" : "field",
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "cemetery_large_04",
+        "name" : "public cemetery",
+        "sym" : 110,
+        "color" : "ltgray",
+        "see_cost" : 5,
+        "extras" : "field",
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "cemetery_large_14",
+        "name" : "public cemetery",
+        "sym" : 110,
+        "color" : "ltgray",
+        "see_cost" : 5,
+        "extras" : "field",
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "cemetery_large_24",
+        "name" : "public cemetery",
+        "sym" : 110,
+        "color" : "ltgray",
+        "see_cost" : 5,
+        "extras" : "field",
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "cemetery_large_34",
+        "name" : "public cemetery",
+        "sym" : 110,
+        "color" : "ltgray",
+        "see_cost" : 5,
+        "extras" : "field",
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "cemetery_large_44",
+        "name" : "public cemetery",
+        "sym" : 110,
+        "color" : "ltgray",
+        "see_cost" : 5,
+        "extras" : "field",
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "cemetery_large_54",
+        "name" : "public cemetery",
+        "sym" : 110,
+        "color" : "ltgray",
+        "see_cost" : 5,
+        "extras" : "field",
+        "mondensity" : 2
     }
 ]
