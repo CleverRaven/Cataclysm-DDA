@@ -1589,8 +1589,7 @@
         ],
         "locations": [ "land" ],
         "city_distance": [0, 12],
-        "city_sizes": [8, 16],
-        "occurrences": [0, 2],
-        "rotate": false
+        "city_sizes": [4, 16],
+        "occurrences": [0, 2]
     }
 ]
