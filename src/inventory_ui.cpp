@@ -777,23 +777,23 @@ void inventory_selector::add_item( inventory_column &target_column,
     layout_is_valid = false;
 }
 
-void inventory_selector::add_custom_items( inventory_column &target_column,
-                                           const std::list<item>::iterator &from,
-                                           const std::list<item>::iterator &to,
-                                           const item_category &custom_category,
-                                           const std::function<item_location( item * )> &locator )
+void inventory_selector::add_items( inventory_column &target_column,
+                                    const std::function<item_location( item * )> &locator,
+                                    const std::vector<std::list<item *>> &stacks,
+                                    const item_category *custom_category )
 {
-    const auto &stacks = restack_items( from, to );
     const item_category *nat_category = nullptr;
 
     for( const auto &stack : stacks ) {
-        auto location = locator( stack.front() );
+        auto loc = locator( stack.front() );
 
-        if( nat_category == nullptr && preset.is_shown( location ) ) {
-            nat_category = naturalize_category( custom_category, location.position() );
+        if( custom_category == nullptr ) {
+            nat_category = &loc->get_category();
+        } else if( nat_category == nullptr && preset.is_shown( loc ) ) {
+            nat_category = naturalize_category( *custom_category, loc.position() );
         }
 
-        add_item( target_column, location, stack.size(), nat_category );
+        add_item( target_column, loc, stack.size(), nat_category );
     }
 }
 
@@ -820,9 +820,9 @@ void inventory_selector::add_map_items( const tripoint &target )
         const std::string name = to_upper_case( g->m.name( target ) );
         const item_category map_cat( name, name, 100 );
 
-        add_custom_items( map_column, items.begin(), items.end(), map_cat, [ &target ]( item * it ) {
+        add_items( map_column, [ &target ]( item * it ) {
             return item_location( target, it );
-        } );
+        }, restack_items( items.begin(), items.end() ), &map_cat );
     }
 }
 
@@ -836,9 +836,9 @@ void inventory_selector::add_vehicle_items( const tripoint &target )
         const std::string name = to_upper_case( veh->parts[part].name() );
         const item_category vehicle_cat( name, name, 200 );
 
-        add_custom_items( map_column, items.begin(), items.end(), vehicle_cat, [ veh, part ]( item * it ) {
+        add_items( map_column, [ veh, part ]( item * it ) {
             return item_location( vehicle_cursor( *veh, part ), it );
-        } );
+        }, restack_items( items.begin(), items.end() ), &vehicle_cat );
     }
 }
 

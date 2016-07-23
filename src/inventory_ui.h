@@ -293,11 +293,10 @@ class inventory_selector
                        size_t stack_size = 1,
                        const item_category *custom_category = nullptr );
 
-        void add_custom_items( inventory_column &target_column,
-                               const std::list<item>::iterator &from,
-                               const std::list<item>::iterator &to,
-                               const item_category &custom_category,
-                               const std::function<item_location( item * )> &locator );
+        void add_items( inventory_column &target_column,
+                        const std::function<item_location( item * )> &locator,
+                        const std::vector<std::list<item *>> &stacks,
+                        const item_category *custom_category = nullptr );
 
         void prepare_layout();
         void refresh_window() const;
