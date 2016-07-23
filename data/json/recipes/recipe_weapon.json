@@ -6843,7 +6843,7 @@
     "components": [
         [[ "pipe_solid", 1 ]],
         [[ "leather", 1 ]],
-        [[ "string_36", 1 ], [ "string_6", 6 ]],
+        [[ "string_36", 1 ], [ "string_6", 6 ]]
     ]
     }
 ]
