@@ -39,7 +39,7 @@ struct recipe {
     private:
         std::string ident_;
 
-        friend void load_recipe( JsonObject &jsobj );
+        friend void load_recipe( JsonObject &jsobj, const std::string &src, bool uncraft );
 
     public:
         itype_id result;
@@ -132,7 +132,7 @@ void remove_ammo( item *dis_item, player &p );
 // same as above but for each item in the list
 void remove_ammo( std::list<item> &dis_items, player &p );
 
-void load_recipe( JsonObject &jsobj );
+void load_recipe( JsonObject &jsobj, const std::string &src, bool uncraft );
 void reset_recipes();
 const recipe *recipe_by_name( const std::string &name );
 const recipe *get_disassemble_recipe( const itype_id &type );
