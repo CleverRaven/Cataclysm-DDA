@@ -6977,23 +6977,6 @@
     },
     {
         "type" : "ARMOR",
-        "id" : "locket_lucy",
-        "name" : "Lucy's locket",
-        "volume" : 0,
-        "material_thickness" : 0,
-        "description" : "A small locket with a frame inside to store photographs or small objects.  Inside is a picture of a lovely looking woman and the etched words 'Lucy, my love'.",
-        "weight" : 30,
-        "color" : "light_gray",
-        "encumbrance" : 0,
-        "price" : 4000,
-        "material" : ["silver"],
-        "coverage" : 0,
-        "symbol" : "[",
-        "warmth" : 0,
-        "flags" : ["FANCY"]
-    },
-    {
-        "type" : "ARMOR",
         "id" : "gold_bracelet",
         "name" : "gold bracelet",
         "volume" : 0,
