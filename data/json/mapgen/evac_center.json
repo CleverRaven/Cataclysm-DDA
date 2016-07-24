@@ -970,7 +970,6 @@
             ],
             "place_npcs": [
                 { "class": "arsonist", "x": 5, "y": 0 },
-                { "class": "arsonist", "x": 7, "y": 2 },
                 { "class": "evac_merchant", "x": 23, "y": 0 }
             ],
             "terrain": {
