@@ -45,13 +45,35 @@
     "vision_day":5,
     "vision_night":7,
     "upgrades":{
-        "into": "mon_spider_jumping_giant_acid",
-        "half_life": 17
+        "into_group": "TRAP_SPIDER_UPGRADE",
+        "half_life": 19
     },
     "hp":70,
     "death_function":"NORMAL",
     "description":"A gigantic spider with a bulbous thorax.  It digs an underground burrow that serves as a pit to trap unwary prey.",
     "flags":["SEES", "SMELLS", "HEARS", "VENOM", "CAN_DIG", "WEBWALK", "CHITIN", "FAT", "CLIMBS", "PUSH_MON"]
+    },{
+    "type" : "MONSTER",
+    "id" : "mon_spider_jumping_giant",
+    "edit-mode": "modify",
+    "melee_skill":5,
+    "melee_dice":1,
+    "melee_dice_sides":3,
+    "melee_cut":4,
+    "melee_damage": [ {"damage_type": "stab", "amount": 6}, {"damage_type": "acid", "amount": 2} ],
+    "dodge":6,
+    "armor_bash":2,
+    "armor_cut":5,
+    "vision_day":15,
+    "vision_night":7,
+    "upgrades":{
+        "into": "mon_spider_jumping_giant_acid",
+        "half_life": 17
+    },
+    "hp":35,
+    "flags":["SEES", "SMELLS", "KEENNOSE", "HEARS", "VENOM", "CHITIN", "CLIMBS", "ACIDPROOF", "PUSH_MON"],
+    "anger_triggers":["PLAYER_CLOSE", "PLAYER_WEAK", "FRIEND_ATTACKED", "STALK"],
+    "fear_triggers": ["HURT", "FIRE"]
     },{
     "type": "MONSTER",
     "id": "mon_spider_web_s",
@@ -70,6 +92,10 @@
     "armor_cut":6,
     "vision_day":15,
     "vision_night":5,
+    "upgrades":{
+        "into": "mon_spider_web",
+        "half_life": 3
+    },
     "hp":20,
     "death_function":"NORMAL",
     "description":"A still immature giant grass spider.  Too young to be truly venomous, or to walk proficiently for that matter",
@@ -283,6 +309,10 @@
     "armor_cut":7,
     "vision_day":5,
     "vision_night":7,
+    "upgrades":{
+        "into": "mon_spider_trapdoor_giant",
+        "half_life": 3
+    },
     "hp":30,
     "death_function":"NORMAL",
     "description":"A small trapdoor spider.  Too small to hunt effectively on its own, the loose commune of mutated trapdoor spiders offers limited protection from predators, although it places the spider at increased risk of being cannibalized.",
@@ -480,9 +510,9 @@
     "melee_dice_sides":4,
     "melee_cut":2,
     "melee_damage": [ {"damage_type": "stab", "amount": 10}, {"damage_type": "acid", "amount": 3} ],
-    "dodge":3,
-    "armor_bash":2,
-    "armor_cut":6,
+    "dodge":6,
+    "armor_bash":3,
+    "armor_cut":7,
     "vision_day":20,
     "vision_night":7,
     "hp":45,
