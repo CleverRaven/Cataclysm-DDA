@@ -1062,7 +1062,7 @@ void npc::load(JsonObject &data)
         attitude = npc_attitude(atttmp);
         static const std::set<npc_attitude> legacy_attitudes = {{
             NPCATT_LEGACY_1, NPCATT_LEGACY_2, NPCATT_LEGACY_3,
-            NPCATT_LEGACY_4, NPCATT_LEGACY_5
+            NPCATT_LEGACY_4, NPCATT_LEGACY_5, NPCATT_LEGACY_6
         }};
         if( legacy_attitudes.count( attitude ) > 0 ) {
             attitude = NPCATT_NULL;

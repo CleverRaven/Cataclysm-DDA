@@ -331,8 +331,8 @@ int vehicle::automatic_fire_turret( vehicle_part &pt )
     tmp.str_cur = 16;
     tmp.dex_cur = 8;
     tmp.per_cur = 12;
-    // Assume vehicle turrets are defending the player.
-    tmp.attitude = NPCATT_DEFEND;
+    // Assume vehicle turrets are friendly to the player.
+    tmp.attitude = NPCATT_FOLLOW;
 
     int area = aoe_size( gun.ammo_effects() );
     if( area > 0 ) {

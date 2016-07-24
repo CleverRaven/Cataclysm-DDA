@@ -9,9 +9,6 @@
 #include <string>
 #include <map>
 
-#define NPC_DANGER_LEVEL   10
-#define NPC_DANGER_VERY_LOW 5
-
 class item;
 class overmap;
 class player;
@@ -41,7 +38,7 @@ enum npc_attitude : int {
  NPCATT_LEGACY_2,
  NPCATT_LEAD,  // Lead the player, wait for them if they're behind
  NPCATT_WAIT,  // Waiting for the player
- NPCATT_DEFEND,  // Kill monsters that threaten the player
+ NPCATT_LEGACY_6,
  NPCATT_MUG,  // Mug the player
  NPCATT_WAIT_FOR_LEAVE, // Attack the player if our patience runs out
  NPCATT_KILL,  // Kill the player
@@ -244,10 +241,12 @@ struct npc_target {
 // Data relevant only for this action
 struct npc_short_term_cache
 {
-    int danger;
-    int total_danger;
-    int danger_assessment;
+    float danger;
+    float total_danger;
+    float danger_assessment;
     npc_target target;
+
+    double my_weapon_value;
 
     std::vector<npc_target> friends;
 };
@@ -611,8 +610,8 @@ public:
 // Interaction with the player
  void form_opinion( const player &u );
     std::string pick_talk_topic( const player &u );
- int  player_danger(const player &u) const; // Comparable to monsters
- int vehicle_danger(int radius) const;
+    float character_danger( const Character &u ) const;
+    float vehicle_danger(int radius) const;
  bool turned_hostile() const; // True if our anger is at least equal to...
  int hostile_anger_level() const; // ... this value!
  void make_angry(); // Called if the player attacks us
@@ -631,7 +630,6 @@ public:
  bool is_following() const; // Traveling w/ player (whether as a friend or a slave)
  bool is_friend() const; // Allies with the player
  bool is_leader() const; // Leading the player
- bool is_defending() const; // Putting the player's safety ahead of ours
     /** Standing in one spot, moving back if removed from it. */
     bool is_guarding() const;
     /** Trusts you a lot. */
@@ -687,11 +685,11 @@ public:
     Creature *current_target();
 
 // Interaction and assessment of the world around us
-    int  danger_assessment();
-    int  average_damage_dealt(); // Our guess at how much damage we can deal
+    float danger_assessment();
+    float average_damage_dealt(); // Our guess at how much damage we can deal
     bool bravery_check(int diff);
     bool emergency() const;
-    bool emergency( int danger ) const;
+    bool emergency( float danger ) const;
     bool is_active() const;
     void say( const std::string line, ...) const;
     void decide_needs();
@@ -712,15 +710,15 @@ public:
     void process_turn() override;
 
     /** rates how dangerous a target is from 0 (harmless) to 1 (max danger) */
-    double evaluate_enemy( const Creature &target ) const;
+    float evaluate_enemy( const Creature &target ) const;
 
-    void choose_monster_target();
+    void choose_target();
     void assess_danger();
     // Functions which choose an action for a particular goal
     npc_action method_of_fleeing();
     npc_action method_of_attack();
     npc_action address_needs();
-    npc_action address_needs( int danger );
+    npc_action address_needs( float danger );
     npc_action address_player();
     npc_action long_term_goal_action();
     // Returns true if did something and we should end turn

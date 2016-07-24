@@ -630,12 +630,12 @@ Creature::Attitude monster::attitude_to( const Creature &other ) const
     } else if( p != nullptr ) {
         switch( attitude( const_cast<player *>( p ) ) ) {
             case MATT_FRIEND:
+            case MATT_ZLAVE:
                 return A_FRIENDLY;
             case MATT_FPASSIVE:
             case MATT_FLEE:
             case MATT_IGNORE:
             case MATT_FOLLOW:
-            case MATT_ZLAVE:
                 return A_NEUTRAL;
             case MATT_ATTACK:
                 return A_HOSTILE;
@@ -1959,7 +1959,7 @@ float monster::power_rating() const
 
 float monster::speed_rating() const
 {
-    float ret = 1.0f / get_speed();
+    float ret = get_speed() / 100.0f;
     const auto leap = type->special_attacks.find( "leap" );
     if( leap != type->special_attacks.end() ) {
         // TODO: Make this calculate sane values here

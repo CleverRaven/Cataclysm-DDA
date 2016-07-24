@@ -6032,9 +6032,6 @@ int game::mon_info(WINDOW *w)
                 case NPCATT_FOLLOW:
                     c = c_ltgreen;
                     break;
-                case NPCATT_DEFEND:
-                    c = c_green;
-                    break;
                 default:
                     c = c_pink;
                     break;
