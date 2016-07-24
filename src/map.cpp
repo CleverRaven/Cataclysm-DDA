@@ -6486,8 +6486,7 @@ void map::shift( const int sx, const int sy )
 
 // if player is in vehicle, (s)he must be shifted with vehicle too
     if( g->u.in_vehicle ) {
-        g->u.setx( g->u.posx() - sx * SEEX );
-        g->u.sety( g->u.posy() - sy * SEEY );
+        g->u.setpos( g->u.pos() - point( sx * SEEX, sy * SEEY ) );
     }
 
     shift_traps( tripoint( sx, sy, 0 ) );

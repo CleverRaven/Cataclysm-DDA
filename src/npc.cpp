@@ -695,14 +695,22 @@ std::list<item> starting_inv( npc *me, const npc_class_id &type )
 
 void npc::spawn_at(int x, int y, int z)
 {
-    mapx = x;
-    mapy = y;
-    position.x = rng(0, SEEX - 1);
-    position.y = rng(0, SEEY - 1);
-    position.z = z;
-    const point pos_om = sm_to_om_copy( mapx, mapy );
-    overmap &om = overmap_buffer.get( pos_om.x, pos_om.y );
-    om.npcs.push_back(this);
+    spawn_at_global( tripoint( x * SEEX + rng( 0, SEEX - 1 ), y * SEEY + rng( 0, SEEY - 1 ), z ) );
+}
+
+void npc::spawn_at_global( const tripoint &pos )
+{
+    const tripoint mappos = ms_to_sm_copy( pos );
+    mapx = mappos.x;
+    mapy = mappos.y;
+    const tripoint map_square_pos = sm_to_ms_copy( mappos );
+    position.x = pos.x - map_square_pos.x;
+    position.y = pos.y - map_square_pos.y;
+    position.z = pos.z;
+
+    const point pos_om_new = sm_to_om_copy( mapx, mapy );
+    overmap &om_new = overmap_buffer.get( pos_om_new.x, pos_om_new.y );
+    om_new.add_npc( this );
 }
 
 void npc::spawn_at_random_city(overmap *o)
@@ -1799,31 +1807,39 @@ void npc::shift(int sx, int sy)
 {
     const int shiftx = sx * SEEX;
     const int shifty = sy * SEEY;
-
-    position.x -= shiftx;
-    position.y -= shifty;
-    const point pos_om_old = sm_to_om_copy( mapx, mapy );
-    mapx += sx;
-    mapy += sy;
-    const point pos_om_new = sm_to_om_copy( mapx, mapy );
-    if( pos_om_old != pos_om_new ) {
-        overmap &om_old = overmap_buffer.get( pos_om_old.x, pos_om_old.y );
-        overmap &om_new = overmap_buffer.get( pos_om_new.x, pos_om_new.y );
-        auto a = std::find(om_old.npcs.begin(), om_old.npcs.end(), this);
-        if (a != om_old.npcs.end()) {
-            om_old.npcs.erase( a );
-            om_new.npcs.push_back( this );
-        } else {
-            // Don't move the npc pointer around to avoid having two overmaps
-            // with the same npc pointer
-            debugmsg( "could not find npc %s on its old overmap", name.c_str() );
-        }
-    }
+    setpos( position - point( shiftx, shifty ) );
 
     maybe_shift( wanted_item_pos, -shiftx, -shifty );
     maybe_shift( last_player_seen_pos, -shiftx, -shifty );
     maybe_shift( pulp_location, -shiftx, -shifty );
     path.clear();
+}
+
+void npc::align_position()
+{
+    const int shiftx = ( mapx - g->get_levx() ) * SEEX;
+    const int shifty = ( mapy - g->get_levy() ) * SEEY;
+    mapx = g->get_levx();
+    mapy = g->get_levy();
+
+    position.x += shiftx;
+    position.y += shifty;
+}
+
+void npc::setpos( const tripoint &pos )
+{
+    position = pos;
+
+    const point pos_om_old = sm_to_om_copy( mapx, mapy );
+    mapx = g->get_levx();
+    mapy = g->get_levy();
+    const point pos_om_new = sm_to_om_copy( mapx, mapy );
+    if( pos_om_old != pos_om_new ) {
+        overmap &om_old = overmap_buffer.get( pos_om_old.x, pos_om_old.y );
+        om_old.remove_npc( this );
+        spawn_at_global( global_square_location() );
+        align_position();
+    }
 }
 
 bool npc::is_dead() const

@@ -10498,8 +10498,7 @@ int map::place_npc(int x, int y, std::string type)
     temp->normalize();
     temp->load_npc_template(type);
     temp->spawn_at(abs_sub.x, abs_sub.y, abs_sub.z);
-    temp->setx( x );
-    temp->sety( y );
+    temp->setpos( tripoint( x, y, abs_sub.z ) );
     g->load_npcs();
     return temp->getID();
 }
@@ -10843,8 +10842,7 @@ void map::rotate(int turns)
                         new_y = old_x;
                         break;
                     }
-                i->setx( i->posx() + new_x - old_x );
-                i->sety( i->posy() + new_y - old_y );
+                i->setpos( i->pos() + point( new_x - old_x, new_y - old_y ) );
             }
     }
     ter_id rotated [SEEX * 2][SEEY * 2];

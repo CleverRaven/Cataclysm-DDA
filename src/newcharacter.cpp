@@ -829,10 +829,10 @@ tab_direction set_stats(WINDOW *w, player *u, points_left &points)
     // the map:
     // There are traits that check/change the radioactivity on the map,
     // that check if in sunlight...
-    // Setting the position to -1 ensures that the INBOUNDS check in
+    // Setting the position to (-1, 0, 0) ensures that the INBOUNDS check in
     // map.cpp is triggered. This check prevents access to invalid position
     // on the map (like -1,0) and instead returns a dummy default value.
-    u->setx( -1 );
+    u->setpos( tripoint( -1, 0, 0 ) );
     u->reset();
 
     do {

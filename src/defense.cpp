@@ -284,8 +284,7 @@ void defense_game::init_map()
     }
 
     g->load_map( tripoint( 100, 100, 0 ) );
-    g->u.setx( SEEX );
-    g->u.sety( SEEY );
+    g->u.setpos( tripoint( SEEX, SEEY, 0 ) );
 
     int x = g->u.posx();
     int y = g->u.posy();

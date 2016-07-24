@@ -935,8 +935,7 @@ bool catch_with_rope( point const &center )
     }
     add_msg( _( "You pull yourself to safety!" ) );
     const point p = random_entry( safe );
-    u.setx( p.x );
-    u.sety( p.y );
+    u.setpos( tripoint( p.x, p.y, u.posz() ) );
     g->update_map( &u );
     return true;
 }

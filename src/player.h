@@ -1215,18 +1215,6 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         {
             return position.z;
         }
-        inline void setx( int x )
-        {
-            position.x = x;
-        }
-        inline void sety( int y )
-        {
-            position.y = y;
-        }
-        inline void setz( int z )
-        {
-            position.z = z;
-        }
         inline void setpos( const tripoint &p ) override
         {
             position = p;

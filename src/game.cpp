@@ -953,8 +953,7 @@ void game::create_starting_npcs()
     tmp->randomize( one_in(2) ? NC_DOCTOR : NC_NONE );
     // spawn the npc in the overmap, sets its overmap and submap coordinates
     tmp->spawn_at( get_levx(), get_levy(), get_levz() );
-    tmp->setx( SEEX * int(MAPSIZE / 2) + SEEX );
-    tmp->sety( SEEY * int(MAPSIZE / 2) + 6 );
+    tmp->setpos( tripoint( SEEX * int(MAPSIZE / 2) + SEEX, SEEY * int(MAPSIZE / 2) + 6, get_levz() ) );
     tmp->form_opinion( u );
     tmp->attitude = NPCATT_NULL;
     //This sets the npc mission. This NPC remains in the shelter.
@@ -3575,9 +3574,7 @@ bool game::save_factions_missions_npcs()
     //Dump all of the NPCs from mission_npc into the world map to be saved
     for( auto *elem : mission_npc ) {
         elem->spawn_at(get_levx(), get_levy(), get_levz());
-        elem->setx(u.posx() + 3);
-        elem->sety(u.posy() + 3);
-        elem->setz( u.posz() );
+        elem->setpos( u.pos() + point( 3, 3 ) );
     }
 
     std::string masterfile = world_generator->active_world->world_path + "/master.gsav";
@@ -3888,7 +3885,7 @@ void game::debug()
                 // player will be centered in the middle of the map.
                 const int nlevx = tmp.x * 2 - int( MAPSIZE / 2 );
                 const int nlevy = tmp.y * 2 - int( MAPSIZE / 2 );
-                u.setz( tmp.z );
+                u.setpos( tripoint( u.posx(), u.posy(), tmp.z ) );
                 load_map( tripoint( nlevx, nlevy, tmp.z ) );
                 load_npcs();
                 m.spawn_monsters( true ); // Static monsters
@@ -3917,9 +3914,7 @@ void game::debug()
             temp->normalize();
             temp->randomize();
             temp->spawn_at( get_levx(), get_levy(), get_levz() );
-            temp->setx( u.posx() - 4 );
-            temp->sety( u.posy() - 4 );
-            temp->setz( u.posz() );
+            temp->setpos( u.pos() - point( 4, 4 ) );
             temp->form_opinion( u );
             temp->mission = NPC_MISSION_NULL;
             temp->add_new_mission( mission::reserve_random( ORIGIN_ANY_NPC, temp->global_omt_location(),
@@ -13345,7 +13340,7 @@ void game::vertical_shift( const int z_after )
 
     scent.reset();
 
-    u.setz( z_after );
+    u.setpos( tripoint( u.posx(), u.posy(), z_after ) );
     const int z_before = get_levz();
     if( !m.has_zlevels() ) {
         m.clear_vehicle_cache( z_before );
@@ -13695,8 +13690,7 @@ void game::update_stair_monsters()
                         msg = _("The %s pushed you back!");
                     }
                     add_msg(m_warning, msg.c_str(), critter.name().c_str());
-                    u.setx( u.posx() + pushx );
-                    u.sety( u.posy() + pushy );
+                    u.setpos( u.pos() + point( pushx, pushy ) );
                     return;
                 }
             }
@@ -13795,7 +13789,8 @@ void game::spawn_mon(int /*shiftx*/, int /*shifty*/)
     }
 
     float density = ACTIVE_WORLD_OPTIONS["NPC_DENSITY"];
-    const int npc_num = get_cur_om().npcs.size();
+    // Roughly 2x the radius of reality bubble
+    const int npc_num = overmap_buffer.get_npcs_near_player( MAPSIZE ).size();
     if( npc_num > 0 ) {
         // 100%, 80%, 64%, 52%, 41%, 33%...
         density *= powf( 0.8f, npc_num );
@@ -13923,8 +13918,7 @@ void game::teleport(player *p, bool add_teleglow)
     if (p->in_vehicle) {
         m.unboard_vehicle(p->pos());
     }
-    p->setx( new_pos.x );
-    p->sety( new_pos.y );
+    p->setpos( new_pos );
     if( m.impassable( new_pos ) ) { //Teleported into a wall
         if (can_see) {
             if (is_u) {

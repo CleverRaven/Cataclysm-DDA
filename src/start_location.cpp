@@ -316,9 +316,7 @@ void start_location::place_player( player &u ) const
     // Need the "real" map with it's inside/outside cache and the like.
     map &m = g->m;
     // Start us off somewhere in the center of the map
-    u.setx( SEEX * int( MAPSIZE / 2 ) + 5 );
-    u.sety( SEEY * int( MAPSIZE / 2 ) + 6 );
-    u.setz( g->get_levz() );
+    u.setpos( tripoint( SEEX * int( MAPSIZE / 2 ) + 5, SEEY * int( MAPSIZE / 2 ) + 6, g->get_levz() ) );
 
     m.build_map_cache( m.get_abs_sub().z );
     const bool must_be_inside = flags().count( "ALLOW_OUTSIDE" ) == 0;

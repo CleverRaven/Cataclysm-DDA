@@ -1442,13 +1442,7 @@ void talk_function::companion_return(npc *comp){
             elem->companion_mission = "";
             elem->companion_mission_time = 0;
             elem->spawn_at(g->get_levx(), g->get_levy(), g->get_levz());
-            elem->setx( g->u.posx() + rng( -2, 2 ));
-            if (one_in(2)){
-                elem->sety( g->u.posy() + rng( -2, 2 ) );
-            }else{
-                elem->sety( g->u.posy() - rng( -2, 2 ) );
-            }
-            elem->setz( g->u.posz() );
+            elem->setpos( g->u.pos() + point( rng( -2, 2 ), rng( -2, 2 ) ) );
         } else {
             new_mission_npc.push_back(elem);
         }
