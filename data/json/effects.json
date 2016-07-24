@@ -712,7 +712,13 @@
         "type": "effect_type",
         "id": "visuals",
         "name": ["Hallucinating"],
-        "desc": ["You can't trust everything that you see."]
+        "desc": ["You can't trust everything that you see."],
+        "rating": "bad",
+        "base_mods": {
+            "int_mod": [-2],
+            "dex_mod": [-1],
+            "per_mod": [-4]
+        }
     },
     {
         "type": "effect_type",

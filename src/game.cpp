@@ -5339,9 +5339,6 @@ void game::draw_ter( const tripoint &center, const bool looking, const bool draw
         popup(message, PF_NO_WAIT_ON_TOP);
     }
 
-    if( u.has_effect( effect_visuals ) || u.get_effect_int( effect_hot, bp_head ) > 1 ) {
-        hallucinate( center );
-    }
     // Place the cursor over the player as is expected by screen readers.
     wmove( w_terrain, POSY + g->u.pos().y - center.y, POSX + g->u.pos().x - center.x );
 
@@ -5647,28 +5644,6 @@ void game::draw_minimap()
         }
     }
     wrefresh( w_minimap );
-}
-
-void game::hallucinate( const tripoint &center )
-{
-    const int rx = center.x - POSX;
-    const int ry = center.y - POSY;
-    tripoint p = center;
-    for (int i = 0; i <= TERRAIN_WINDOW_WIDTH; i++) {
-        for (int j = 0; j <= TERRAIN_WINDOW_HEIGHT; j++) {
-            if( one_in(10) ) {
-                const ter_t &t = m.ter( p ).obj();
-                p.x = i + rx + rng(-2, 2);
-                p.y = j + ry + rng(-2, 2);
-                char ter_sym = t.symbol();
-                p.x = i + rx + rng(-2, 2);
-                p.y = j + ry + rng(-2, 2);
-                nc_color ter_col = t.color();
-                mvwputch(w_terrain, j, i, ter_col, ter_sym);
-            }
-        }
-    }
-    wrefresh(w_terrain);
 }
 
 float game::natural_light_level( const int zlev ) const
