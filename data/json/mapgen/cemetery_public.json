@@ -866,7 +866,7 @@
             ],
             "place_loot": [
                 { "item": "pointy_stick", "chance": 65, "x" : [ 14 , 15 ], "y" : [ 21 , 21 ] },
-                { "item": "locket_lucy", "chance": 65, "x" : [ 14 , 15 ], "y" : [ 21 , 21 ] },
+                { "item": "locket", "chance": 65, "x" : [ 14 , 15 ], "y" : [ 21 , 21 ] },
                 { "item": "corpse", "chance": 65, "x" : [ 14 , 15 ], "y" : [ 21 , 21 ] }
             ]
         }
