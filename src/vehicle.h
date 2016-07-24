@@ -596,6 +596,27 @@ public:
     int part_with_feature (int p, vpart_bitflags f, bool unbroken = true) const;
 
     /**
+     *  Check if vehicle has at least one unbroken part with @ref flag
+     *  @param enabled if set part must also be enabled to be considered
+     */
+    bool has_part( const std::string &flag, bool enabled = false ) const;
+
+    /**
+     *  Get all unbroken vehicle parts with @ref flag
+     *  @param enabled if set part must also be enabled to be considered
+     */
+    std::vector<vehicle_part *> get_parts( const std::string &flag, bool enabled = false );
+    std::vector<const vehicle_part *> get_parts( const std::string &flag, bool enabled = false ) const;
+
+    /**
+     *  Get all unbroken vehicle parts at @ref pos
+     *  @param flag if set only flags with this part will be considered
+     *  @param enabled if set part must also be enabled to be considered
+     */
+    std::vector<vehicle_part *> get_parts( const tripoint &pos, const std::string &flag = "", bool enabled = false );
+    std::vector<const vehicle_part *> get_parts( const tripoint &pos, const std::string &flag = "", bool enabled = false ) const;
+
+    /**
      *  Return the index of the next part to open at `p`'s location
      *
      *  The next part to open is the first unopened part in the reversed list of
@@ -638,12 +659,6 @@ public:
 
     // Translate mount coords "p" into tile coords "q" using given pivot direction and anchor
     void coord_translate (int dir, const point &pivot, const point &p, point &q) const;
-
-    /** Get all vehicle parts (if any) at @ref pos optionally including @ref broken parts */
-    static std::vector<vehicle_part *> get_parts( const tripoint &pos, bool broken = false );
-
-    /** Get first part (if any) at @ref pos which matches the predicate @ref func */
-    static vehicle_part *get_part( const tripoint &pos, const std::function<bool(const vehicle_part *)>& func );
 
     // Seek a vehicle part which obstructs tile with given coords relative to vehicle position
     int part_at( int dx, int dy ) const;

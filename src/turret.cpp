@@ -56,10 +56,8 @@ const turret_data vehicle::turret_query( const vehicle_part &pt ) const
 
 turret_data vehicle::turret_query( const tripoint &pos )
 {
-    auto res = get_part( pos, []( const vehicle_part * e ) {
-        return e->is_turret();
-    } );
-    return res ? turret_query( *res ) : turret_data();
+    auto res = get_parts( pos, "TURRET" );
+    return !res.empty() ? turret_query( *res.front() ) : turret_data();
 }
 
 const turret_data vehicle::turret_query( const tripoint &pos ) const

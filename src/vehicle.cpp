@@ -2304,6 +2304,65 @@ int vehicle::part_with_feature_at_relative (const point &pt, const std::string &
     return -1;
 }
 
+bool vehicle::has_part( const std::string &flag, bool enabled ) const
+{
+    return std::any_of( parts.begin(), parts.end(), [&flag,&enabled]( const vehicle_part &e ) {
+        return !e.removed && !e.is_broken() && ( !enabled || e.enabled ) && e.info().has_flag( flag );
+    } );
+}
+
+std::vector<vehicle_part *> vehicle::get_parts( const std::string &flag, bool enabled )
+{
+    std::vector<vehicle_part *> res;
+    for( auto &e : parts ) {
+        if( !e.removed && !e.is_broken() && ( !enabled || e.enabled ) && e.info().has_flag( flag ) ) {
+            res.push_back( &e );
+        }
+    }
+    return res;
+}
+
+std::vector<const vehicle_part *> vehicle::get_parts( const std::string &flag, bool enabled ) const
+{
+    std::vector<const vehicle_part *> res;
+    for( const auto &e : parts ) {
+        if( !e.removed && !e.is_broken() > 0 && ( !enabled || e.enabled ) && e.info().has_flag( flag ) ) {
+            res.push_back( &e );
+        }
+    }
+    return res;
+}
+
+std::vector<vehicle_part *> vehicle::get_parts( const tripoint &pos, const std::string &flag, bool enabled )
+{
+    std::vector<vehicle_part *> res;
+    for( auto &e : parts ) {
+        if( e.precalc[ 0 ].x != pos.x - global_x() ||
+            e.precalc[ 0 ].y != pos.y - global_y() ) {
+            continue;
+        }
+        if( !e.removed && !e.is_broken() && ( !enabled || e.enabled ) && ( flag.empty() || e.info().has_flag( flag ) ) ) {
+            res.push_back( &e );
+        }
+    }
+    return res;
+}
+
+std::vector<const vehicle_part *> vehicle::get_parts( const tripoint &pos, const std::string &flag, bool enabled ) const
+{
+    std::vector<const vehicle_part *> res;
+    for( const auto &e : parts ) {
+        if( e.precalc[ 0 ].x != pos.x - global_x() ||
+            e.precalc[ 0 ].y != pos.y - global_y() ) {
+            continue;
+        }
+        if( !e.removed && !e.is_broken() && ( !enabled || e.enabled ) && ( flag.empty() || e.info().has_flag( flag ) ) ) {
+            res.push_back( &e );
+        }
+    }
+    return res;
+}
+
 /**
  * Returns the label at the coordinates given (mount coordinates)
  */
@@ -2435,33 +2494,6 @@ bool vehicle::part_flag( int part, const vpart_bitflags flag) const
     } else {
         return part_info(part).has_flag(flag);
     }
-}
-
-std::vector<vehicle_part *> vehicle::get_parts( const tripoint &pos, bool broken )
-{
-    std::vector<vehicle_part *> res;
-
-    vehicle *veh = g->m.veh_at( pos );
-    if( veh ) {
-        for( auto &e: veh->parts ) {
-            if( e.removed || ( !broken && e.is_broken() ) ) {
-                continue;
-            }
-            if( e.precalc[ 0 ].x == pos.x - veh->global_x() &&
-                e.precalc[ 0 ].y == pos.y - veh->global_y() ) {
-                res.push_back( &e );
-            }
-        }
-    }
-
-    return res;
-}
-
-vehicle_part *vehicle::get_part( const tripoint &pos, const std::function<bool(const vehicle_part *)>& func )
-{
-    auto parts = get_parts( pos, true );
-    auto iter = std::find_if( parts.begin(), parts.end(), func );
-    return iter != parts.end() ? *iter : nullptr;
 }
 
 int vehicle::part_at(int const dx, int const dy) const
