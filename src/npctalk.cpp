@@ -3967,7 +3967,7 @@ TAB key to switch lists, letters to pick items, Enter to finalize, Esc to quit,\
                        string_format( _( "Weight: %.1f %s" ),
                                       convert_weight( weight_left ), weight_units() ).c_str() );
 
-            std::string cost_string = cash >= 0 ? _("Profit $%.2f") : _("Cost $%.2f");
+            std::string cost_string = ex ? _("Exchange") : ( cash >= 0 ? _("Profit $%.2f") : _("Cost $%.2f") );
             mvwprintz( w_head, 3, TERMX / 2 + ( TERMX / 2 - cost_string.length() ) / 2,
                        ( cash < 0 && (int)g->u.cash >= cash * -1) || (cash >= 0 && (int)p.cash  >= cash) ? c_green : c_red,
                        cost_string.c_str(), (double)std::abs(cash)/100 );
@@ -4017,8 +4017,9 @@ TAB key to switch lists, letters to pick items, Enter to finalize, Esc to quit,\
                                     (char)keychar, ip.selected ? '+' : '-', itname.c_str() );
 
                     std::string price_str = string_format( "%.2f", ip.price / 100.0 );
+                    nc_color price_color = ex ? c_dkgray : ( ip.selected ? c_white : c_ltgray );
                     mvwprintz( w_whose, i - offset + 1, win_w - price_str.length(),
-                               ( ip.selected && !ex ) ? c_white : c_ltgray, price_str.c_str() );
+                               price_color, price_str.c_str() );
                 }
                 if( offset > 0 ) {
                     mvwprintw(w_whose, entries_per_page + 2, 1, "< Back");
