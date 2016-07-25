@@ -8062,7 +8062,7 @@
         "volume" : 6,
         "warmth" : 5,
         "to_hit" : -1,
-        "encumbrance" : 5,
+        "encumbrance" : 25,
         "bashing" : 8,
         "symbol" : "[",
         "coverage" : 75,
