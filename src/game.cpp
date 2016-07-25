@@ -7436,7 +7436,7 @@ void game::exam_vehicle( vehicle &veh, int cx, int cy )
         int setuptime = std::max(setup * 3000, setup * 6000 - skill * 400);
         int dmg = 1000;
         if (vehint.sel_cmd == 'r') {
-            dmg = 1000 - vehint.part()->hp * 1000 / vehint.sel_vpart_info->durability;
+            dmg = 1000 - vehint.part()->hp() * 1000 / vehint.sel_vpart_info->durability;
         }
         int mintime = 300 + diff * dmg;
         // sel_cmd = Install Repair reFill remOve Siphon Drainwater Changetire reName

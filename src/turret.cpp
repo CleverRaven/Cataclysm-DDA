@@ -22,7 +22,7 @@ std::vector<vehicle_part *> vehicle::turrets()
     std::vector<vehicle_part *> res;
 
     for( auto &e : parts ) {
-        if( e.hp > 0 && e.base.is_gun() ) {
+        if( !e.is_broken() && e.base.is_gun() ) {
             res.push_back( &e );
         }
     }
