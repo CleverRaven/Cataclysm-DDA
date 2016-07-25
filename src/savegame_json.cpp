@@ -348,6 +348,8 @@ void Character::load(JsonObject &data)
         debugmsg("Skills[] no bueno");
     }
 
+    data.read( "focus_pool", focus_pool );
+
     visit_items( [&] ( item *it ) {
         for( auto& e: it->magazine_convert() ) {
             i_add( e );
@@ -406,6 +408,8 @@ void Character::store(JsonOut &json) const
     for( auto const &skill : Skill::skills ) {
         json.member( skill.ident().str(), get_skill_level( skill.ident() ) );
     }
+
+    json.member( "focus_pool", focus_pool );
     json.end_object();
 }
 
@@ -600,7 +604,6 @@ void player::serialize(JsonOut &json) const
     json.member( "grab_type", obj_type_name[ (int)grab_type ] );
 
     // misc player specific stuff
-    json.member( "focus_pool", focus_pool );
     json.member( "style_selected", style_selected );
     json.member( "keep_hands_free", keep_hands_free );
 
@@ -708,7 +711,6 @@ void player::deserialize(JsonIn &jsin)
         grab_type = (object_type)obj_type_id[grab_typestr];
     }
 
-    data.read( "focus_pool", focus_pool);
     data.read( "style_selected", style_selected );
     data.read( "keep_hands_free", keep_hands_free );
 
