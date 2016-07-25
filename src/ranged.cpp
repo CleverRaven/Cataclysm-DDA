@@ -1137,7 +1137,7 @@ std::vector<tripoint> game::pl_target_ui( target_mode mode, item *relevant, int 
         aim_mode = aim_types.begin();
     }
 
-    int num_instruction_lines = draw_targeting_window( w_target, relevant->tname(), u, mode, ctxt, aim_types );
+    int num_instruction_lines = draw_targeting_window( w_target, relevant ? relevant->tname() : "", u, mode, ctxt, aim_types );
     bool snap_to_target = OPTIONS["SNAP_TO_TARGET"];
 
     std::string enemiesmsg;
