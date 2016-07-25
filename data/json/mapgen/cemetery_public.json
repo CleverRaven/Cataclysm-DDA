@@ -1030,10 +1030,7 @@
                 { "item": "grave_memories", "chance": 10, "x": [ 0 , 18 ], "y": [ 10 , 23 ] },
                 { "item": "grave_memories", "chance": 50, "x": 7, "y": 6 },
                 { "item": "coffin_human", "chance": 85, "x": 2, "y": 6, "repeat": [ 2 , 5 ] }
-            ],
-            "items": {
-                "C": { "item": "coffin_human", "repeat": [ 2, 12 ] }
-            }
+            ]
         }
     },{
     "type": "mapgen",
