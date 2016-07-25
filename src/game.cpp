@@ -144,7 +144,6 @@ const efftype_id effect_evil( "evil" );
 const efftype_id effect_flu( "flu" );
 const efftype_id effect_glowing( "glowing" );
 const efftype_id effect_has_bag( "has_bag" );
-const efftype_id effect_hit_by_player( "hit_by_player" );
 const efftype_id effect_hot( "hot" );
 const efftype_id effect_infected( "infected" );
 const efftype_id effect_laserlocked( "laserlocked" );
@@ -2869,16 +2868,15 @@ bool game::handle_action()
             }
 
             if( u.weapon.is_gun() ) {
-                plfire( mouse_target );
+                plfire();
 
             } else if( u.weapon.has_flag( "REACH_ATTACK" ) ) {
                 int range = u.weapon.has_flag( "REACH3" ) ? 3 : 2;
                 temp_exit_fullscreen();
                 m.draw( w_terrain, u.pos() );
-                tripoint p = u.pos();
-                std::vector<tripoint> trajectory = pl_target_ui( p, range, &u.weapon, TARGET_MODE_REACH, mouse_target );
+                std::vector<tripoint> trajectory = pl_target_ui( TARGET_MODE_REACH, &u.weapon,range );
                 if( !trajectory.empty() ) {
-                    u.reach_attack( p );
+                    u.reach_attack( trajectory.back() );
                 }
                 draw_ter();
                 reenter_fullscreen();
@@ -2888,7 +2886,7 @@ bool game::handle_action()
         case ACTION_FIRE_BURST: {
             auto mode = u.weapon.gun_get_mode_id();
             if( u.weapon.gun_set_mode( "AUTO" ) ) {
-                plfire( mouse_target );
+                plfire();
                 u.weapon.gun_set_mode( mode );
             }
             break;
@@ -10472,10 +10470,8 @@ void game::plthrow(int pos)
     temp_exit_fullscreen();
     m.draw( w_terrain, u.pos() );
 
-    tripoint targ = u.pos();
-
     // pl_target_ui() sets x and y, or returns empty vector if we canceled (by pressing Esc)
-    std::vector<tripoint> trajectory = pl_target_ui( targ, range, &thrown, TARGET_MODE_THROW );
+    std::vector<tripoint> trajectory = pl_target_ui( TARGET_MODE_THROW, &thrown, range );
     if (trajectory.empty()) {
         return;
     }
@@ -10492,70 +10488,11 @@ void game::plthrow(int pos)
         u.i_rem( pos );
     }
 
-    u.throw_item( targ, thrown );
+    u.throw_item( trajectory.back(), thrown );
     reenter_fullscreen();
 }
 
-std::vector<tripoint> game::pl_target_ui( tripoint &p, int range, item *relevant, target_mode mode,
-                                          const tripoint &default_target )
-{
-    // Populate a list of targets with the zombies in range and visible
-    const Creature *last_target_critter = nullptr;
-    if (last_target >= 0 && !last_target_was_npc && size_t(last_target) < num_zombies()) {
-        last_target_critter = &zombie(last_target);
-    } else if (last_target >= 0 && last_target_was_npc && size_t(last_target) < active_npc.size()) {
-        last_target_critter = active_npc[last_target];
-    }
-    auto mon_targets = u.get_targetable_creatures( range );
-    std::sort(mon_targets.begin(), mon_targets.end(), compare_by_dist_attitude { u } );
-    int passtarget = -1;
-    for (size_t i = 0; i < mon_targets.size(); i++) {
-        Creature &critter = *mon_targets[i];
-        critter.draw(w_terrain, u.pos(), true);
-        // no default target, but found the last target
-        if( default_target == tripoint_min && last_target_critter == &critter ) {
-            passtarget = i;
-            break;
-        }
-        if( default_target == critter.pos() ) {
-            passtarget = i;
-            break;
-        }
-    }
-    // target() sets x and y, and returns an empty vector if we canceled (Esc)
-    const tripoint range_point( range, range, range );
-    std::vector<tripoint> trajectory = target( p, u.pos() - range_point, u.pos() + range_point,
-                                               mon_targets, passtarget, relevant, mode );
-
-    if( passtarget != -1 ) { // We picked a real live target
-        // Make it our default for next time
-        int id = npc_at( p );
-        if (id >= 0) {
-            last_target = id;
-            last_target_was_npc = true;
-            if(!active_npc[id]->is_enemy()){
-                if (!query_yn(_("Really attack %s?"), active_npc[id]->name.c_str())) {
-                    std::vector<tripoint> trajectory_blank;
-                    return trajectory_blank; // Cancel the attack
-                } else {
-                    //The NPC knows we started the fight, used for morale penalty.
-                    active_npc[id]->hit_by_player = true;
-                }
-            }
-            active_npc[id]->make_angry();
-        } else {
-            id = mon_at( p, true );
-            if (id >= 0) {
-                last_target = id;
-                last_target_was_npc = false;
-                zombie(last_target).add_effect( effect_hit_by_player, 100);
-            }
-        }
-    }
-    return trajectory;
-}
-
-bool game::plfire( const tripoint &default_target )
+bool game::plfire()
 {
     if( u.has_effect( effect_relax_gas) ) {
         if( one_in(5) ) {
@@ -10652,10 +10589,8 @@ bool game::plfire( const tripoint &default_target )
     temp_exit_fullscreen();
     m.draw( w_terrain, u.pos() );
 
-    tripoint p = u.pos();
-
     target_mode tmode = gun.melee() ? TARGET_MODE_REACH : TARGET_MODE_FIRE;
-    std::vector<tripoint> trajectory = pl_target_ui( p, range, &u.weapon, tmode, default_target );
+    std::vector<tripoint> trajectory = pl_target_ui( tmode, &u.weapon, range );
 
     if (trajectory.empty()) {
         if( gun->has_flag( "RELOAD_AND_SHOOT" ) && u.activity.type != ACT_AIM ) {
@@ -10673,13 +10608,13 @@ bool game::plfire( const tripoint &default_target )
     bool res = false;
 
     if( gun.melee() ) {
-        u.reach_attack( p );
+        u.reach_attack( trajectory.back() );
         res = true;
 
     } else {
         u.moves -= reload_time;
         // @todo add check for TRIGGERHAPPY
-        res = u.fire_gun( p, gun.qty, *gun );
+        res = u.fire_gun( trajectory.back(), gun.qty, *gun );
     }
 
     reenter_fullscreen();

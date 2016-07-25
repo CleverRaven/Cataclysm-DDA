@@ -131,17 +131,6 @@ int list_filter_low_priority( std::vector<map_item_stack> &stack, int start,
 }
 
 // Operator overload required by sort interface.
-bool compare_by_dist_attitude::operator()( Creature *a, Creature *b ) const
-{
-    const auto aa = u.attitude_to( *a );
-    const auto ab = u.attitude_to( *b );
-    if( aa != ab ) {
-        return aa < ab;
-    }
-    return rl_dist( a->pos(), u.pos() ) < rl_dist( b->pos(), u.pos() );
-}
-
-// Operator overload required by sort interface.
 bool pair_greater_cmp::operator()( const std::pair<int, tripoint> &a,
                                    const std::pair<int, tripoint> &b )
 {
