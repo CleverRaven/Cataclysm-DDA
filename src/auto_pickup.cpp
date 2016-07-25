@@ -113,7 +113,7 @@ void auto_pickup::show()
     ctxt.register_action("ADD_RULE");
     ctxt.register_action("REMOVE_RULE");
     ctxt.register_action("COPY_RULE");
-    ctxt.register_action("SWAP_RULE_GLOBAL_TAB_CHAR");
+    ctxt.register_action("SWAP_RULE_GLOBAL_CHAR");
     ctxt.register_action("ENABLE_RULE");
     ctxt.register_action("DISABLE_RULE");
     ctxt.register_action("MOVE_RULE_UP");
