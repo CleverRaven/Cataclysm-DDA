@@ -1,5 +1,22 @@
 [
     {
+    "type": "item_group",
+    "id": "coffin_human",
+    "items": [
+        [ "bone_human", 200 ],
+        [ "bone", 4 ],
+        [ "corpse", 1 ],
+        [ "withered", 5 ],
+        [ "jeans", 5 ],
+        [ "tshirt", 5 ],
+        [ "dress_shirt", 5 ],
+        [ "pants", 5 ],
+        [ "dress", 5 ],
+        [ "dress_shoes", 5 ],
+        [ "heels", 5 ],
+        [ "socks", 5 ]
+    ]
+    },{
     "type": "mapgen",
         "om_terrain": [
             "cemetery_large_00"
@@ -324,12 +341,15 @@
                 "h": "f_grave_head",
                 "^": ["f_grave_head", "f_grave_stone", "f_grave_stone", "f_grave_stone", "f_grave_stone", "f_grave_stone", "f_grave_stone", "f_grave_stone", "f_grave_stone", "f_statue"]
             },
+            "place_loot": [
+                { "item": "shovel", "chance": 65, "x" : 12, "y" : 9 }
+            ],
             "place_items": [
                 { "item": "grave_memories", "chance": 35, "x": [ 2 , 14 ], "y": [ 13 , 23 ], "repeat": [ 1, 2 ] },
                 { "item": "hardware", "chance": 75, "x": [ 13 , 15 ], "y": 7, "repeat": [ 1, 2 ] },
                 { "item": "mine_storage", "chance": 50, "x": [ 13 , 15 ], "y": 7 },
                 { "item": "cleaning", "chance": 65, "x": 15, "y": [ 8 , 9 ], "repeat": [ 1, 2 ] },
-                { "item": "mine_storage", "chance": 75, "x": 13, "y": 9 }
+                { "item": "mine_storage", "chance": 50, "x": 13, "y": 9 }
             ]
         }
     },{
@@ -729,7 +749,20 @@
                 "S": "f_statue",
                 "n": "f_slab",
                 "C": "f_coffin_c"
-            }
+            },
+            "place_loot": [
+                { "item": "shovel", "chance": 35, "x" : 12, "y" : 7 }
+            ],
+            "place_items": [
+                { "item": "grave_memories", "chance": 75, "x": 12, "y": 7 },
+                { "item": "coffin_human", "chance": 85, "x": 18, "y": 7, "repeat": [ 2 , 5 ] },
+                { "item": "coffin_human", "chance": 85, "x": 20, "y": 7, "repeat": [ 2 , 5 ] },
+                { "item": "coffin_human", "chance": 85, "x": 8, "y": 21, "repeat": [ 2 , 5 ] },
+                { "item": "coffin_human", "chance": 85, "x": 18, "y": 12, "repeat": [ 2 , 5 ] },
+                { "item": "coffin_human", "chance": 85, "x": 19, "y": 12, "repeat": [ 2 , 5 ] },
+                { "item": "coffin_human", "chance": 85, "x": 18, "y": 18, "repeat": [ 2 , 5 ] },
+                { "item": "coffin_human", "chance": 85, "x": 19, "y": 18, "repeat": [ 2 , 5 ] }
+            ]
         }
     },{
     "type": "mapgen",
@@ -789,11 +822,51 @@
                 "C": "f_coffin_c"
             },
             "place_items": [
+                { "item": "grave_memories", "chance": 75, "x": 4, "y": 6 },
                 { "item": "grave_memories", "chance": 35, "x": [ 4 , 5 ], "y": 20 },
+                { "item": "stash_drugs", "chance": 20, "x": [ 20 , 21 ], "y": 22, "repeat": [ 1 , 2 ] },
                 { "item": "guns_shotgun_obscure", "chance": 10, "x": [ 20 , 21 ], "y": 22 },
                 { "item": "guns_rifle_obscure", "chance": 10, "x": [ 20 , 21 ], "y": 22 },
                 { "item": "guns_smg_obscure", "chance": 10, "x": [ 20 , 21 ], "y": 22 },
-                { "item": "guns_pistol_obscure", "chance": 10, "x": [ 20 , 21 ], "y": 22 }
+                { "item": "guns_pistol_obscure", "chance": 10, "x": [ 20 , 21 ], "y": 22 },
+                { "item": "coffin_human", "chance": 85, "x": 3, "y": 11, "repeat": [ 2 , 5 ] },
+                { "item": "coffin_human", "chance": 85, "x": 3, "y": 12, "repeat": [ 2 , 5 ] },
+                { "item": "coffin_human", "chance": 85, "x": 3, "y": 13, "repeat": [ 2 , 5 ] },
+                { "item": "coffin_human", "chance": 85, "x": 3, "y": 22, "repeat": [ 2 , 5 ] },
+                { "item": "coffin_human", "chance": 85, "x": 4, "y": 11, "repeat": [ 2 , 5 ] },
+                { "item": "coffin_human", "chance": 85, "x": 4, "y": 22, "repeat": [ 2 , 5 ] },
+                { "item": "coffin_human", "chance": 85, "x": 5, "y": 11, "repeat": [ 2 , 5 ] },
+                { "item": "coffin_human", "chance": 85, "x": 5, "y": 22, "repeat": [ 2 , 5 ] },
+                { "item": "coffin_human", "chance": 85, "x": 6, "y": 11, "repeat": [ 2 , 5 ] },
+                { "item": "coffin_human", "chance": 85, "x": 6, "y": 22, "repeat": [ 2 , 5 ] },
+                { "item": "coffin_human", "chance": 85, "x": 11, "y": 11, "repeat": [ 2 , 5 ] },
+                { "item": "coffin_human", "chance": 85, "x": 11, "y": 13, "repeat": [ 2 , 5 ] },
+                { "item": "coffin_human", "chance": 85, "x": 11, "y": 20, "repeat": [ 2 , 5 ] },
+                { "item": "coffin_human", "chance": 85, "x": 11, "y": 21, "repeat": [ 2 , 5 ] },
+                { "item": "coffin_human", "chance": 85, "x": 11, "y": 22, "repeat": [ 2 , 5 ] },
+                { "item": "coffin_human", "chance": 85, "x": 12, "y": 6, "repeat": [ 2 , 5 ] },
+                { "item": "coffin_human", "chance": 85, "x": 12, "y": 22, "repeat": [ 2 , 5 ] },
+                { "item": "coffin_human", "chance": 85, "x": 13, "y": 22, "repeat": [ 2 , 5 ] },
+                { "item": "coffin_human", "chance": 85, "x": 14, "y": 11, "repeat": [ 2 , 5 ] },
+                { "item": "coffin_human", "chance": 85, "x": 14, "y": 12, "repeat": [ 2 , 5 ] },
+                { "item": "coffin_human", "chance": 85, "x": 14, "y": 13, "repeat": [ 2 , 5 ] },
+                { "item": "coffin_human", "chance": 85, "x": 14, "y": 20, "repeat": [ 2 , 5 ] },
+                { "item": "coffin_human", "chance": 85, "x": 14, "y": 21, "repeat": [ 2 , 5 ] },
+                { "item": "coffin_human", "chance": 85, "x": 14, "y": 22, "repeat": [ 2 , 5 ] },
+                { "item": "coffin_human", "chance": 85, "x": 17, "y": 5, "repeat": [ 2 , 5 ] },
+                { "item": "coffin_human", "chance": 85, "x": 17, "y": 6, "repeat": [ 2 , 5 ] },
+                { "item": "coffin_human", "chance": 85, "x": 19, "y": 11, "repeat": [ 2 , 5 ] },
+                { "item": "coffin_human", "chance": 85, "x": 19, "y": 12, "repeat": [ 2 , 5 ] },
+                { "item": "coffin_human", "chance": 85, "x": 19, "y": 19, "repeat": [ 2 , 5 ] },
+                { "item": "coffin_human", "chance": 85, "x": 19, "y": 20, "repeat": [ 2 , 5 ] },
+                { "item": "coffin_human", "chance": 85, "x": 20, "y": 20, "repeat": [ 2 , 5 ] },
+                { "item": "coffin_human", "chance": 85, "x": 20, "y": 22, "repeat": [ 2 , 5 ] },
+                { "item": "coffin_human", "chance": 85, "x": 21, "y": 20, "repeat": [ 2 , 5 ] },
+                { "item": "coffin_human", "chance": 85, "x": 21, "y": 22, "repeat": [ 2 , 5 ] },
+                { "item": "coffin_human", "chance": 85, "x": 22, "y": 11, "repeat": [ 2 , 5 ] },
+                { "item": "coffin_human", "chance": 85, "x": 22, "y": 13, "repeat": [ 2 , 5 ] },
+                { "item": "coffin_human", "chance": 85, "x": 22, "y": 19, "repeat": [ 2 , 5 ] },
+                { "item": "coffin_human", "chance": 85, "x": 22, "y": 20, "repeat": [ 2 , 5 ] }
             ]
         }
     },{
@@ -862,11 +935,34 @@
             },
             "place_items": [
                 { "item": "grave_memories", "chance": 25, "x": [ 14 , 15 ], "y": 21 },
-                { "item": "grave_memories", "chance": 50, "x": 7, "y": 6 }
+                { "item": "grave_memories", "chance": 50, "x": 7, "y": 6 },
+                { "item": "coffin_human", "chance": 85, "x": 3, "y": 20, "repeat": [ 2 , 5 ] },
+                { "item": "coffin_human", "chance": 85, "x": 3, "y": 21, "repeat": [ 2 , 5 ] },
+                { "item": "coffin_human", "chance": 85, "x": 3, "y": 22, "repeat": [ 2 , 5 ] },
+                { "item": "coffin_human", "chance": 85, "x": 4, "y": 22, "repeat": [ 2 , 5 ] },
+                { "item": "coffin_human", "chance": 85, "x": 5, "y": 10, "repeat": [ 2 , 5 ] },
+                { "item": "coffin_human", "chance": 85, "x": 5, "y": 22, "repeat": [ 2 , 5 ] },
+                { "item": "coffin_human", "chance": 85, "x": 6, "y": 10, "repeat": [ 2 , 5 ] },
+                { "item": "coffin_human", "chance": 85, "x": 6, "y": 11, "repeat": [ 2 , 5 ] },
+                { "item": "coffin_human", "chance": 85, "x": 6, "y": 12, "repeat": [ 2 , 5 ] },
+                { "item": "coffin_human", "chance": 85, "x": 6, "y": 20, "repeat": [ 2 , 5 ] },
+                { "item": "coffin_human", "chance": 85, "x": 6, "y": 21, "repeat": [ 2 , 5 ] },
+                { "item": "coffin_human", "chance": 85, "x": 6, "y": 22, "repeat": [ 2 , 5 ] },
+                { "item": "coffin_human", "chance": 85, "x": 11, "y": 12, "repeat": [ 2 , 5 ] },
+                { "item": "coffin_human", "chance": 85, "x": 11, "y": 13, "repeat": [ 2 , 5 ] },
+                { "item": "coffin_human", "chance": 85, "x": 11, "y": 19, "repeat": [ 2 , 5 ] },
+                { "item": "coffin_human", "chance": 85, "x": 12, "y": 13, "repeat": [ 2 , 5 ] },
+                { "item": "coffin_human", "chance": 85, "x": 14, "y": 10, "repeat": [ 2 , 5 ] },
+                { "item": "coffin_human", "chance": 85, "x": 14, "y": 22, "repeat": [ 2 , 5 ] },
+                { "item": "coffin_human", "chance": 85, "x": 15, "y": 10, "repeat": [ 2 , 5 ] },
+                { "item": "coffin_human", "chance": 85, "x": 15, "y": 22, "repeat": [ 2 , 5 ] },
+                { "item": "coffin_human", "chance": 85, "x": 18, "y": 12, "repeat": [ 2 , 5 ] },
+                { "item": "coffin_human", "chance": 85, "x": 18, "y": 13, "repeat": [ 2 , 5 ] },
+                { "item": "coffin_human", "chance": 85, "x": 18, "y": 19, "repeat": [ 2 , 5 ] }
             ],
             "place_loot": [
                 { "item": "pointy_stick", "chance": 65, "x" : [ 14 , 15 ], "y" : [ 21 , 21 ] },
-                { "item": "locket", "chance": 65, "x" : [ 14 , 15 ], "y" : [ 21 , 21 ] },
+                { "item": "locket_lucy", "chance": 65, "x" : [ 14 , 15 ], "y" : [ 21 , 21 ] },
                 { "item": "corpse", "chance": 65, "x" : [ 14 , 15 ], "y" : [ 21 , 21 ] }
             ]
         }
@@ -932,8 +1028,12 @@
             },
             "place_items": [
                 { "item": "grave_memories", "chance": 10, "x": [ 0 , 18 ], "y": [ 10 , 23 ] },
-                { "item": "grave_memories", "chance": 50, "x": 7, "y": 6 }
-            ]
+                { "item": "grave_memories", "chance": 50, "x": 7, "y": 6 },
+                { "item": "coffin_human", "chance": 85, "x": 2, "y": 6, "repeat": [ 2 , 5 ] }
+            ],
+            "items": {
+                "C": { "item": "coffin_human", "repeat": [ 2, 12 ] }
+            }
         }
     },{
     "type": "mapgen",
