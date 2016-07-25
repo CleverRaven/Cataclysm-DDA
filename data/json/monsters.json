@@ -5982,14 +5982,8 @@
     "melee_dice":0,
     "melee_dice_sides":0,
     "dodge":1,
-    "armor_bash":2,
-    "armor_cut":4,
-    "armor_acid":6,
-    "vision_day":35,
-    "vision_night":5,
     "hp":80,
     "death_function":"DISAPPEAR",
-    "special_attacks":[["GRAB", 30]],
     "description":"It moves in spurts when you blink, or at least you think it does.",
     "flags":["SEES", "PATH_AVOID_DANGER_1", "NO_BREATHE", "PLASTIC"]
    },{
