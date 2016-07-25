@@ -5158,7 +5158,7 @@ int player::impact( const int force, const tripoint &p )
     }
 
     if( total_dealt > 0 ) {
-        practice( skill_dodge, total_dealt );
+        practice( skill_dodge, 5 * total_dealt, 10 );
     }
 
     return total_dealt;
