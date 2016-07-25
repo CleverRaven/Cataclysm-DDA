@@ -4597,7 +4597,6 @@ void game::disp_NPC_epilogues()
     refresh_all();
 }
 
-
 void game::disp_faction_ends()
 {
     WINDOW *w = newwin(FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
