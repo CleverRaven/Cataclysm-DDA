@@ -3022,7 +3022,7 @@ int item::bash_resist( bool to_self ) const
         // base resistance
         // Don't give reinforced items +armor, just more resistance to ripping
         // Workaround for a MSVC compiler bug
-        // avoid item::damage() being improperly expanded
+        // avoid item::damage() being improperly inlined
         int eff_damage = damage();
         if( to_self ) {
             eff_damage = std::min(eff_damage, 0);
@@ -3075,7 +3075,7 @@ int item::cut_resist( bool to_self ) const
         // base resistance
         // Don't give reinforced items +armor, just more resistance to ripping
         // Workaround for a MSVC compiler bug
-        // avoid item::damage() being improperly expanded
+        // avoid item::damage() being improperly inlined
         int eff_damage = damage();
         if( to_self ) {
             eff_damage = std::min(eff_damage, 0);
