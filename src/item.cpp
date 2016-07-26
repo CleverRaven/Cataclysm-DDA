@@ -3366,13 +3366,13 @@ bool item::conductive() const
         return false;
     }
 
-    // If any material does not resist electricity we are conductive.
+    // If any material has electricity resistance equivilant to wood we are not conductive.
     for (auto mat : made_of_types()) {
-        if (mat->elec_resist() <= 0) {
-            return true;
+        if (mat->elec_resist() >= 2) {
+            return false;
         }
     }
-    return false;
+    return true;
 }
 
 bool item::destroyed_at_zero_charges() const
