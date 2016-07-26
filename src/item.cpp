@@ -3021,19 +3021,7 @@ int item::bash_resist( bool to_self ) const
     if( is_armor() ) {
         // base resistance
         // Don't give reinforced items +armor, just more resistance to ripping
-        // a dirty workaround to avoid compilation problems with MSVC (#17791)
-        // const int eff_damage = to_self ? std::min(damage(), 0) : std::max(damage(), 0);
-        // manually expanded that stuff to this:
-        int eff_damage = damage();
-        if( to_self ) {
-            if( eff_damage > 0 ) {
-                eff_damage = 0;
-            }
-        } else {
-            if( eff_damage < 0 ) {
-                eff_damage = 0;
-            }
-        }
+        const int eff_damage = to_self ? std::min( damage(), 0 ) : std::max( damage(), 0 );
         eff_thickness = std::max( 1, get_thickness() - eff_damage );
     }
 
