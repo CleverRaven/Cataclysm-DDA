@@ -2167,7 +2167,7 @@ void complete_vehicle ()
         } else {
             // repairing a damaged part
             dmg = 1.1 - double( pt.hp() ) / pt.info().durability;
-            veh->mod_hp( pt, pt.hp() - pt.info().durability );
+            veh->set_hp( pt, pt.info().durability );
             g->u.practice( skill_mechanics, ( ( veh->part_info( vehicle_part ).difficulty + 2 ) * 5 + 20 ) * dmg );
         }
 
