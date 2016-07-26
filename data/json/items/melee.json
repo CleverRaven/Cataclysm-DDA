@@ -1262,7 +1262,7 @@
         "weight": 129,
         "volume": 1,
         "cutting": 6,
-        "flags": ["SHEATH_KNIFE"],
+        "flags": ["SHEATH_KNIFE", "CONDUCTIVE"],
         "qualities": [["BUTCHER", -18]]
     },{
         "comment": "Id retained to avoid breaking anything, same reason as with the makeshift glaive.",
@@ -1297,7 +1297,7 @@
         "volume": 1,
         "bashing": 2,
         "cutting": 1,
-        "flags" : ["STAB", "SHEATH_KNIFE"]
+        "flags" : ["STAB", "SHEATH_KNIFE", "CONDUCTIVE"]
     },
     {
         "type":"GENERIC",
