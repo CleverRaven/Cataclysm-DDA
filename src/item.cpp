@@ -3365,6 +3365,10 @@ bool item::conductive() const
     if (is_null()) {
         return false;
     }
+    
+    if (has_flag( "CONDUCTIVE" ) ) {  
+        return true;
+    }
 
     // If any material has electricity resistance equivilant to wood we are not conductive.
     for (auto mat : made_of_types()) {
