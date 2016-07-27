@@ -172,8 +172,9 @@ Pickup::interact_results Pickup::interact_with_vehicle( vehicle *veh, const trip
             if( pseudo.ammo_sufficient() ) {
                 g->u.invoke_item( &pseudo );
                 pseudo.ammo_consume( pseudo.ammo_required(), g->u.pos() );
-                veh->refill( ammo, pseudo.ammo_remaining() );
             }
+
+            veh->refill( ammo, pseudo.ammo_remaining() );
             return DONE;
         }
 
