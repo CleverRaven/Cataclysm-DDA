@@ -33,7 +33,7 @@
                 "......_______,,_______ss"
             ],
             "terrain": {
-                "#": "t_rock",
+                "#": "t_brick_wall",
                 ".": ["t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass",
                       "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_dirt", "t_dirt", "t_dirt", "t_dirt",
                       "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_shrub"],
@@ -79,7 +79,7 @@
                 { "vehicle": "schoolbus", "x": 18, "y": 18, "rotation": 0, "chance": 75 }
             ],
             "terrain": {
-                "#": "t_rock",
+                "#": "t_brick_wall",
                 ".": ["t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass",
                       "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_dirt", "t_dirt", "t_dirt", "t_dirt",
                       "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_shrub"],
@@ -125,7 +125,7 @@
                 { "vehicle": "car", "x": 10, "y": 23, "rotation": 270, "chance": 75 }
             ],
             "terrain": {
-                "#": "t_rock",
+                "#": "t_brick_wall",
                 ".": ["t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass",
                       "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_dirt", "t_dirt", "t_dirt", "t_dirt",
                       "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_shrub"],
@@ -168,7 +168,7 @@
                 "ssssssssssssssssssssssss"
             ],
             "terrain": {
-                "#": "t_rock",
+                "#": "t_brick_wall",
                 ".": ["t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass",
                       "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_dirt", "t_dirt", "t_dirt", "t_dirt",
                       "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_shrub"],
@@ -211,7 +211,7 @@
                 "ss_______,,_______......"
             ],
             "terrain": {
-                "#": "t_rock",
+                "#": "t_brick_wall",
                 ".": ["t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass",
                       "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_dirt", "t_dirt", "t_dirt", "t_dirt",
                       "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_shrub"],
@@ -257,7 +257,7 @@
                 { "vehicle": "schoolbus", "x": 21, "y": 13, "rotation": 270, "chance": 75 }
             ],
             "terrain": {
-                "#": "t_rock",
+                "#": "t_brick_wall",
                 ".": ["t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass",
                       "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_dirt", "t_dirt", "t_dirt", "t_dirt",
                       "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_shrub"],
@@ -328,7 +328,7 @@
             "terrain": {
                 " ": "t_floor",
                 "{": "t_dirt",
-                "#": "t_rock",
+                "#": "t_brick_wall",
                 ".": ["t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass",
                       "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_dirt", "t_dirt", "t_dirt", "t_dirt",
                       "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_shrub"],
@@ -390,7 +390,7 @@
             ],
             "terrain": {
                 " ": "t_floor",
-                "#": "t_rock",
+                "#": "t_brick_wall",
                 ".": ["t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass",
                       "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_dirt", "t_dirt", "t_dirt", "t_dirt",
                       "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_shrub"],
@@ -473,7 +473,7 @@
             "terrain": {
                 " ": "t_floor",
                 "{": "t_dirt",
-                "#": "t_rock",
+                "#": "t_brick_wall",
                 ".": ["t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass",
                       "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_dirt", "t_dirt", "t_dirt", "t_dirt",
                       "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_shrub"],
@@ -628,7 +628,7 @@
             "terrain": {
                 " ": "t_floor",
                 "{": "t_dirt",
-                "#": "t_rock",
+                "#": "t_brick_wall",
                 ".": ["t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass",
                       "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_dirt", "t_dirt", "t_dirt", "t_dirt",
                       "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_shrub"],
@@ -699,7 +699,7 @@
             "terrain": {
                 " ": "t_floor",
                 ">": "t_stairs_down",
-                "#": "t_rock",
+                "#": "t_brick_wall",
                 "6": "t_console_broken",
                 "=": "t_door_metal_locked",
                 "+": "t_door_c",
@@ -760,7 +760,7 @@
                 " ": "t_floor",
                 "{": "t_dirt",
                 ">": "t_stairs_down",
-                "#": "t_rock",
+                "#": "t_brick_wall",
                 ".": ["t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass",
                       "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_dirt", "t_dirt", "t_dirt", "t_dirt",
                       "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_shrub"],
@@ -914,7 +914,7 @@
             "terrain": {
                 " ": "t_floor",
                 "{": "t_dirt",
-                "#": "t_rock",
+                "#": "t_brick_wall",
                 ".": ["t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass",
                       "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_dirt", "t_dirt", "t_dirt", "t_dirt",
                       "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_shrub"],
@@ -970,7 +970,7 @@
             "terrain": {
                 " ": "t_floor",
                 "{": "t_dirt",
-                "#": "t_rock",
+                "#": "t_brick_wall",
                 ".": ["t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_dirt"],
                 "1": "t_window_boarded",
                 "%": "t_shrub",
@@ -1039,7 +1039,7 @@
             "terrain": {
                 " ": "t_floor",
                 "{": "t_dirt",
-                "#": "t_rock",
+                "#": "t_brick_wall",
                 ".": ["t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass",
                       "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_dirt", "t_dirt", "t_dirt", "t_dirt",
                       "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_shrub"],
