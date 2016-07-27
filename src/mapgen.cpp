@@ -5278,9 +5278,25 @@ ff.......|....|WWWWWWWW|\n\
                 break; // Nothing!  Lucky!
 
             case 1: { // Toxic gas
-                int cx = rng(9, 14), cy = rng(9, 14);
+                int cx = rng(5, 11), cy = rng(5, 11);
                 ter_set(cx, cy, t_rock);
                 add_field({cx, cy, abs_sub.z}, fd_gas_vent, 1, 0);
+                int cx2 = rng(12, 19), cy2 = rng(12, 19);
+                ter_set(cx2, cy2, t_rock);
+                add_field({cx2, cy2, abs_sub.z}, fd_gas_vent, 1, 0);
+                int cx3 = rng(5, 19), cy3 = rng(5, 19);
+                // Put cx3 in the middle of cx2 and cx if it initially equals either value
+                if(cx3 == cx2 || cx)
+                {
+                    cx3 = ((cx2 - cx) / 2);
+                }
+                // Same as above, just with the cy values
+                if(cy3 == cy2 || cy)
+                {
+                    cy3 = ((cy2 - cy) / 2);
+                }
+                ter_set(cx3, cy3, t_rock);
+                add_field({cx3, cy3, abs_sub.z}, fd_gas_vent, 1, 0);
             }
             break;
 
