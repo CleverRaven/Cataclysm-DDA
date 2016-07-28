@@ -1,5 +1,12 @@
 [
     {
+    "type" : "MONSTER",
+    "id" : "mon_slug_giant",
+    "name": "giant slug",
+    "edit-mode": "modify",
+    "emit_fields": [ "emit_acid_trail_slow" ],
+    "flags":["SEES", "SMELLS", "BASHES", "ACIDPROOF", "FAT", "ARTHROPOD_BLOOD"]
+    },{
     "type": "MONSTER",
     "id": "mon_spider_cellar_giant",
     "edit-mode": "modify",
@@ -45,13 +52,35 @@
     "vision_day":5,
     "vision_night":7,
     "upgrades":{
-        "into": "mon_spider_jumping_giant_acid",
-        "half_life": 17
+        "into_group": "TRAP_SPIDER_UPGRADE",
+        "half_life": 19
     },
     "hp":70,
     "death_function":"NORMAL",
     "description":"A gigantic spider with a bulbous thorax.  It digs an underground burrow that serves as a pit to trap unwary prey.",
     "flags":["SEES", "SMELLS", "HEARS", "VENOM", "CAN_DIG", "WEBWALK", "CHITIN", "FAT", "CLIMBS", "PUSH_MON"]
+    },{
+    "type" : "MONSTER",
+    "id" : "mon_spider_jumping_giant",
+    "edit-mode": "modify",
+    "melee_skill":5,
+    "melee_dice":1,
+    "melee_dice_sides":3,
+    "melee_cut":4,
+    "melee_damage": [ {"damage_type": "stab", "amount": 6}, {"damage_type": "acid", "amount": 2} ],
+    "dodge":6,
+    "armor_bash":2,
+    "armor_cut":5,
+    "vision_day":15,
+    "vision_night":7,
+    "upgrades":{
+        "into": "mon_spider_jumping_giant_acid",
+        "half_life": 17
+    },
+    "hp":35,
+    "flags":["SEES", "SMELLS", "KEENNOSE", "HEARS", "VENOM", "CHITIN", "CLIMBS", "ACIDPROOF", "PUSH_MON"],
+    "anger_triggers":["PLAYER_CLOSE", "PLAYER_WEAK", "FRIEND_ATTACKED", "STALK"],
+    "fear_triggers": ["HURT", "FIRE"]
     },{
     "type": "MONSTER",
     "id": "mon_spider_web_s",
@@ -70,6 +99,10 @@
     "armor_cut":6,
     "vision_day":15,
     "vision_night":5,
+    "upgrades":{
+        "into": "mon_spider_web",
+        "half_life": 3
+    },
     "hp":20,
     "death_function":"NORMAL",
     "description":"A still immature giant grass spider.  Too young to be truly venomous, or to walk proficiently for that matter",
@@ -283,6 +316,10 @@
     "armor_cut":7,
     "vision_day":5,
     "vision_night":7,
+    "upgrades":{
+        "into": "mon_spider_trapdoor_giant",
+        "half_life": 3
+    },
     "hp":30,
     "death_function":"NORMAL",
     "description":"A small trapdoor spider.  Too small to hunt effectively on its own, the loose commune of mutated trapdoor spiders offers limited protection from predators, although it places the spider at increased risk of being cannibalized.",
@@ -480,9 +517,9 @@
     "melee_dice_sides":4,
     "melee_cut":2,
     "melee_damage": [ {"damage_type": "stab", "amount": 10}, {"damage_type": "acid", "amount": 3} ],
-    "dodge":3,
-    "armor_bash":2,
-    "armor_cut":6,
+    "dodge":6,
+    "armor_bash":3,
+    "armor_cut":7,
     "vision_day":20,
     "vision_night":7,
     "hp":45,
@@ -499,5 +536,205 @@
     "flags":["SEES", "SMELLS", "KEENNOSE", "HEARS", "BADVENOM", "CHITIN", "CLIMBS", "ACIDPROOF", "ACID_BLOOD", "PUSH_MON"],
     "anger_triggers":["PLAYER_CLOSE", "PLAYER_WEAK", "FRIEND_ATTACKED", "STALK"],
     "fear_triggers": ["HURT", "FIRE"]
+    },{
+    "type" : "MONSTER",
+    "id" : "mon_bee",
+    "edit-mode": "modify",
+    "melee_skill":4,
+    "melee_dice":2,
+    "melee_dice_sides":5,
+    "melee_cut":4,
+    "melee_damage": [ {"damage_type": "stab", "amount": 2} ],
+    "dodge":4,
+    "armor_bash":4,
+    "armor_cut":6,
+    "vision_day":11,
+    "vision_night":5,
+    "death_drops": {
+        "subtype": "collection",
+        "groups": [
+            [ "bees", 20 ]
+        ]},
+    "hp":35,
+    "special_when_hit":["ZAPBACK", 15],
+    "description":"With a stinger the size of a kitchen knife, this dog-sized insect's black and yellow markings warn you to leave it undisturbed.  Its fine coat of bristles seems to attract electric charge.",
+    "flags":["SEES", "SMELLS", "KEENNOSE", "VENOM", "FLIES", "STUMBLES", "CHITIN", "SWARMS", "GROUP_MORALE", "ELECTRIC"]
+    },{
+    "type" : "MONSTER",
+    "id" : "mon_bee_scout",
+    "name": "giant bee",
+    "species":"INSECT",
+    "default_faction":"bee",
+    "symbol":"a",
+    "color":"yellow",
+    "size":"SMALL",
+    "material":"iflesh",
+    "diff":16,
+    "aggression":-10,
+    "morale":20,
+    "speed":160,
+    "melee_skill":5,
+    "melee_dice":2,
+    "melee_dice_sides":3,
+    "melee_cut":2,
+    "melee_damage": [ {"damage_type": "stab", "amount": 4} ],
+    "dodge":5,
+    "armor_bash":4,
+    "armor_cut":6,
+    "vision_day":11,
+    "vision_night":5,
+    "death_drops": {
+        "subtype": "collection",
+        "groups": [
+            [ "bees", 20 ]
+        ]
+    },
+    "hp":28,
+    "death_function":"NORMAL",
+    "special_when_hit":["ZAPBACK", 20],
+    "description":"With a stinger the size of a kitchen knife, this dog-sized insect's black and yellow markings warn you to leave it undisturbed.  Its fine coat of bristles seems to attract electric charge.",
+    "flags":["SEES", "SMELLS", "KEENNOSE", "VENOM", "FLIES", "STUMBLES", "CHITIN", "SWARMS", "GROUP_MORALE", "ELECTRIC"],
+    "anger_triggers":["HURT", "FRIEND_DIED", "PLAYER_CLOSE"]
+    },{
+    "type" : "MONSTER",
+    "id" : "mon_bee_soldier",
+    "name": "giant bee",
+    "species":"INSECT",
+    "default_faction":"bee",
+    "symbol":"a",
+    "color":"yellow",
+    "size":"SMALL",
+    "material":"iflesh",
+    "diff":18,
+    "aggression":0,
+    "morale":40,
+    "speed":130,
+    "melee_skill":5,
+    "melee_dice":2,
+    "melee_dice_sides":5,
+    "melee_cut":6,
+    "melee_damage": [ {"damage_type": "stab", "amount": 4} ],
+    "dodge":3,
+    "armor_bash":5,
+    "armor_cut":7,
+    "vision_day":11,
+    "vision_night":5,
+    "death_drops": {
+        "subtype": "collection",
+        "groups": [
+            [ "bees", 20 ]
+        ]
+    },
+    "hp":49,
+    "death_function":"NORMAL",
+    "special_when_hit":["ZAPBACK", 10],
+    "description":"With a stinger the size of a kitchen knife, this dog-sized insect's black and yellow markings warn you to leave it undisturbed.  Its fine coat of bristles seems to attract electric charge.",
+    "flags":["SEES", "SMELLS", "KEENNOSE", "VENOM", "FLIES", "STUMBLES", "CHITIN", "SWARMS", "GROUP_MORALE", "ELECTRIC"],
+    "anger_triggers":["HURT", "FRIEND_DIED", "PLAYER_CLOSE"]
+    },{
+    "type" : "MONSTER",
+    "id" : "mon_bee_queen",
+    "name": "giant queen bee",
+    "species":"INSECT",
+    "default_faction":"bee",
+    "symbol":"Q",
+    "color":"yellow",
+    "size":"SMALL",
+    "material":"iflesh",
+    "diff":20,
+    "aggression":-5,
+    "morale":30,
+    "speed":140,
+    "melee_skill":5,
+    "melee_dice":2,
+    "melee_dice_sides":4,
+    "melee_cut":4,
+    "melee_damage": [ {"damage_type": "electric", "amount": 4}, {"damage_type": "stab", "amount": 6} ],
+    "dodge":3,
+    "armor_bash":4,
+    "armor_cut":6,
+    "vision_day":10,
+    "vision_night":5,
+    "death_drops": {
+        "subtype": "collection",
+        "groups": [
+            [ "bees", 20 ]
+        ]
+    },
+    "hp":63,
+    "special_attacks":[["SHOCKSTORM", 40]],
+    "special_when_hit":["ZAPBACK", 40],
+    "death_function":"NORMAL",
+    "description":"The queen bee, a typically unchallenged figure of dominance in bee society.  The fine coat of bristles along its abdomen seems to conduct electric energy.  Without her, the hive would melt away, seeking death or a new master.",
+    "flags":["SEES", "SMELLS", "VENOM", "FLIES", "STUMBLES", "CHITIN", "SWARMS", "GROUP_MORALE", "ELECTRIC", "QUEEN"],
+    "anger_triggers":["HURT", "FRIEND_DIED", "PLAYER_CLOSE"]
+    },{
+    "type": "MONSTER",
+    "id": "mon_bee_king",
+    "name": "giant royal bee",
+    "species":"INSECT",
+    "default_faction":"bee",
+    "symbol":"Q",
+    "color":"yellow",
+    "size":"SMALL",
+    "material":"iflesh",
+    "diff":18,
+    "aggression":-5,
+    "morale":30,
+    "speed":140,
+    "melee_skill":4,
+    "melee_dice":2,
+    "melee_dice_sides":4,
+    "melee_cut":4,
+    "melee_damage": [ {"damage_type": "electric", "amount": 2}, {"damage_type": "stab", "amount": 6} ],
+    "dodge":4,
+    "armor_bash":4,
+    "armor_cut":6,
+    "vision_day":11,
+    "vision_night":5,
+    "death_drops": {
+        "subtype": "collection",
+        "groups": [
+            [ "bees", 20 ]
+        ]
+    },
+    "hp":42,
+    "special_when_hit":["ZAPBACK", 30],
+    "special_attacks":[["SHOCKSTORM", 60]],
+    "death_function":"NORMAL",
+    "description":"A fecund bee of unknown sex.  Although the queen potentially tolerates the presence of other mating females within her hive, they are all her offspring, and if conflict arises all but one will end up leaving",
+    "flags":["SEES", "SMELLS", "KEENNOSE", "VENOM", "FLIES", "STUMBLES", "CHITIN", "SWARMS", "GROUP_MORALE", "ELECTRIC"],
+    "anger_triggers":["HURT", "FRIEND_DIED", "PLAYER_CLOSE"]
+    },{
+    "type": "MONSTER",
+    "id": "mon_bee_larvae",
+    "name": "bee larvae",
+    "species":"INSECT",
+    "default_faction":"bee",
+    "symbol":"a",
+    "color":"white",
+    "size":"SMALL",
+    "material":"iflesh",
+    "diff":5,
+    "aggression":0,
+    "morale":20,
+    "speed":45,
+    "melee_skill":2,
+    "melee_dice":1,
+    "melee_dice_sides":2,
+    "melee_cut":5,
+    "armor_bash":4,
+    "armor_cut":4,
+    "armor_acid":2,
+    "hp":15,
+    "death_function":"NORMAL",
+    "upgrades":{
+        "into_group": "GROUP_BEE",
+        "half_life": 14
+    },
+    "description":"A writhing mass of white flesh, this grub-like monster will mature based on its diet; richer diets will result in a more noble caste.",
+    "flags":["HEARS", "SMELLS", "LARVA", "CHITIN", "IMMOBILE"],
+    "anger_triggers":["HURT", "PLAYER_WEAK"],
+    "placate_triggers":["MEAT"]
     }
 ]
