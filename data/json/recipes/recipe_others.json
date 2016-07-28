@@ -4653,6 +4653,7 @@
   ],
   "components": [
     [
+      [ "1cyl_combustion", 1 ],
       [ "1cyl_combustion_small", 1 ]
     ],
     [

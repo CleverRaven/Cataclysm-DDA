@@ -1,14 +1,10 @@
 [
   {
     "result": "9mm",
-    "type": "recipe",
-    "id_suffix": "uncraft",
-    "category": "CC_NONCRAFT",
-    "subcategory": "CSC_NONCRAFT",
+    "type": "uncraft",
     "skill_used": "gun",
     "difficulty": 5,
     "time": 500,
-    "reversible": true,
     "tools": [ [ [ "puller", -1 ] ] ],
     "components": [
       [ [ "lead", 2 ] ],
@@ -20,14 +16,10 @@
   },
   {
     "result": "9mmP",
-    "type": "recipe",
-    "id_suffix": "uncraft",
-    "category": "CC_NONCRAFT",
-    "subcategory": "CSC_NONCRAFT",
+    "type": "uncraft",
     "skill_used": "gun",
     "difficulty": 5,
     "time": 500,
-    "reversible": true,
     "tools": [ [ [ "puller", -1 ] ] ],
     "components": [
       [ [ "lead", 2 ] ],
@@ -39,14 +31,10 @@
   },
   {
     "result": "9mmP2",
-    "type": "recipe",
-    "id_suffix": "uncraft",
-    "category": "CC_NONCRAFT",
-    "subcategory": "CSC_NONCRAFT",
+    "type": "uncraft",
     "skill_used": "gun",
     "difficulty": 5,
     "time": 500,
-    "reversible": true,
     "tools": [ [ [ "puller", -1 ] ] ],
     "components": [
       [ [ "lead", 2 ] ],
@@ -58,14 +46,10 @@
   },
   {
     "result": "9mmfmj",
-    "type": "recipe",
-    "id_suffix": "uncraft",
-    "category": "CC_NONCRAFT",
-    "subcategory": "CSC_NONCRAFT",
+    "type": "uncraft",
     "skill_used": "gun",
     "difficulty": 5,
     "time": 500,
-    "reversible": true,
     "tools": [ [ [ "puller", -1 ] ] ],
     "components": [
       [ [ "lead", 2 ] ],

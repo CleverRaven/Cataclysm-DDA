@@ -846,7 +846,9 @@ class string_id_reader : public generic_typed_reader<string_id_reader<T>>
 
 template <typename T>
 typename std::enable_if<std::is_arithmetic<T>::value, bool>::type assign(
-    JsonObject &jo, const std::string &name, T &val, bool strict = false )
+    JsonObject &jo, const std::string &name, T &val, bool strict = false,
+    T lo = std::numeric_limits<T>::min(),
+    T hi = std::numeric_limits<T>::max() )
 {
     T out;
     double scalar;
@@ -865,20 +867,35 @@ typename std::enable_if<std::is_arithmetic<T>::value, bool>::type assign(
         return false;
     }
 
+    if( out < lo || out > hi ) {
+        jo.throw_error( "value outside supported range", name );
+    }
+
     if( strict && out == val ) {
         jo.throw_error( "assignment does not update value", name );
     }
 
     val = out;
+
     return true;
 }
 
 template <typename T>
 typename std::enable_if<std::is_constructible<T, std::string>::value, bool>::type assign(
-    JsonObject &jo, const std::string &name, T &val, bool = false )
+    JsonObject &jo, const std::string &name, T &val, bool strict = false )
 {
+    T out;
+    if( !jo.read( name, out ) ) {
+        return false;
+    }
 
-    return jo.read( name, val );
+    if( strict && out == val ) {
+        jo.throw_error( "assignment does not update value", name );
+    }
+
+    val = out;
+
+    return true;
 }
 
 template <typename T>
@@ -895,22 +912,27 @@ template <typename T>
 typename std::enable_if<std::is_constructible<T, std::string>::value, bool>::type assign(
     JsonObject &jo, const std::string &name, std::set<T> &val, bool = false )
 {
+    auto add = jo.get_object( "extend" );
+    auto del = jo.get_object( "delete" );
 
     if( jo.has_string( name ) || jo.has_array( name ) ) {
         val = jo.get_tags<T>( name );
+
+        if( add.has_member( name ) || del.has_member( name ) ) {
+            // ill-formed to (re)define a value and then extend/delete within same definition
+            jo.throw_error( "multiple assignment of value", name );
+        }
         return true;
     }
 
     bool res = false;
 
-    auto add = jo.get_object( "extend" );
     if( add.has_string( name ) || add.has_array( name ) ) {
         auto tags = add.get_tags<T>( name );
         val.insert( tags.begin(), tags.end() );
         res = true;
     }
 
-    auto del = jo.get_object( "delete" );
     if( del.has_string( name ) || del.has_array( name ) ) {
         for( const auto &e : del.get_tags<T>( name ) ) {
             val.erase( e );

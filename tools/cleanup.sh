@@ -63,9 +63,10 @@ task=$1;
 shift;
 
 case $task in
-    none   ) cleanup "." $@;;
-    item   ) cleanup "sort_by(.id)" $@;;
-    recipe ) cleanup "sort_by(.result)" $@;;
+    none    ) cleanup "." $@;;
+    item    ) cleanup "sort_by(.id)" $@;;
+    recipe  ) cleanup "sort_by(.result)" $@;;
+    uncraft ) cleanup "sort_by(.result)" $@;;
 
     * ) usage;;
 esac

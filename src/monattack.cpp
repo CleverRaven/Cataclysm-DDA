@@ -168,7 +168,7 @@ npc make_fake_npc(monster *z, int str, int dex, int inte, int per) {
     tmp.int_cur = inte;
     tmp.per_cur = per;
     if( z->friendly != 0 ) {
-        tmp.attitude = NPCATT_DEFEND;
+        tmp.attitude = NPCATT_FOLLOW;
     } else {
         tmp.attitude = NPCATT_KILL;
     }
