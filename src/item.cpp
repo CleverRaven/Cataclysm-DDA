@@ -2403,7 +2403,7 @@ int item::price( bool practical ) const
 }
 
 // MATERIALS-TODO: add a density field to materials.json
-int item::weight() const
+int item::weight( bool include_contents ) const
 {
     if( is_null() ) {
         return 0;
@@ -2460,8 +2460,10 @@ int item::weight() const
         ret += 250;
     }
 
-    for( auto &elem : contents ) {
-        ret += elem.weight();
+    if( include_contents ) {
+        for( auto &elem : contents ) {
+            ret += elem.weight();
+        }
     }
 
     return ret;
