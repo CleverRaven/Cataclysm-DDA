@@ -14,8 +14,7 @@
     "id": "beecenter",
     "items": [
         ["honeycomb", 40],
-        ["royal_jelly", 9],
-        ["shockcannon", 1]
+        ["royal_jelly", 9]
     ]
     },{
         "type" : "mapgen",
