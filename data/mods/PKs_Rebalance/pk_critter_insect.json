@@ -1,12 +1,5 @@
 [
     {
-    "type" : "MONSTER",
-    "id" : "mon_slug_giant",
-    "name": "giant slug",
-    "edit-mode": "modify",
-    "emit_fields": [ "emit_acid_trail_slow" ],
-    "flags":["SEES", "SMELLS", "BASHES", "ACIDPROOF", "FAT", "ARTHROPOD_BLOOD"]
-    },{
     "type": "MONSTER",
     "id": "mon_spider_cellar_giant",
     "edit-mode": "modify",
