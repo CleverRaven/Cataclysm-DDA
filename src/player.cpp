@@ -11163,204 +11163,307 @@ void player::gunmod_add( item &gun, item &mod )
 
 hint_rating player::rate_action_read( const item &it ) const
 {
-    if (!it.is_book()) {
+    if( !it.is_book() ) {
         return HINT_CANT;
     }
 
-    //Check for NPCs to read for you, negates Illiterate and Far Sighted
-    //The NPC gets a slight boost to int requirement since they wouldn't need to
-    //understand what they are reading necessarily
-    int assistants = 0;
-    for( auto &elem : g->active_npc ) {
-        if (rl_dist( elem->pos(), g->u.pos() ) < PICKUP_RANGE && elem->is_friend()) {
-            ///\EFFECT_INT_NPC allows NPCs to read harder books for you
-            if ((elem->int_cur+1) >= it.type->book->intel) {
-                if ( elem->in_sleep_state() ) {
-                    //Sleeping NPCs would need to be awoken first...
-                    //Tell the player about it.
-                    add_msg(m_info, _("%s could read this to you, if they were awake..."), elem->name.c_str());
-                } else {
-                    assistants++;
-                }
-            }
-       }
-    }
-
-    if (g && g->m.ambient_light_at(pos()) < 8 && LL_LIT > g->m.light_at(pos())) {
-        return HINT_IFFY;
-    } else if( !has_morale_to_read() && it.type->book->fun <= 0 ) {
-        return HINT_IFFY; //won't read non-fun books when sad
-    } else if (it.type->book->intel > 0 && has_trait("ILLITERATE") && assistants == 0) {
-        return HINT_IFFY;
-    } else if (has_trait("HYPEROPIC") && !is_wearing("glasses_reading") &&
-               !is_wearing("glasses_bifocal") && !has_effect( effect_contacts ) && assistants == 0) {
-        return HINT_IFFY;
-    }
-
-    return HINT_GOOD;
+    std::vector<std::string> dummy;
+    return get_book_reader( it, dummy ) == nullptr ? HINT_IFFY : HINT_GOOD;
 }
 
-bool player::read(int inventory_position)
+const player *player::get_book_reader( const item &book, std::vector<std::string> &reasons ) const
 {
-    // Find the object
-    item* it = &i_at(inventory_position);
-
-    if (it == NULL || it->is_null()) {
-        add_msg(m_info, _("You do not have that item."));
-        return false;
+    const player *reader = nullptr;
+    if( !book.is_book() ) {
+        reasons.push_back( string_format( _( "Your %s is not good reading material." ),
+                                          book.tname().c_str() ) );
+        return nullptr;
     }
 
-    if (!it->is_book()) {
-        add_msg(m_info, _("Your %s is not good reading material."),
-        it->tname().c_str());
-        return false;
+    // Check for conditions that immediately disqualify the player from reading:
+    const vehicle *veh = g->m.veh_at( pos() );
+    if( veh != nullptr && veh->player_in_control( *this ) ) {
+        reasons.push_back( _( "It's a bad idea to read while driving!" ) );
+        return nullptr;
+    }
+    auto type = book.type->book.get();
+    if( !fun_to_read( book ) && !has_morale_to_read() && has_identified( book.typeId() ) ) {
+        // Low morale still permits skimming
+        reasons.push_back( _( "What's the point of studying?  (Your morale is too low!)" ) );
+        return nullptr;
+    }
+    const skill_id &skill = type->skill;
+    const auto &skill_level = get_skill_level( skill );
+    if( skill && skill_level < type->req && has_identified( book.typeId() ) ) {
+        reasons.push_back( string_format( _( "You don't know enough about %s to understand the jargon!" ),
+                                          skill.obj().name().c_str() ) );
+        return nullptr;
+    }
+
+    // Check for conditions tha disqualify us only if no NPCs can read to us
+    if( type->intel > 0 && has_trait( "ILLITERATE" ) ) {
+        reasons.push_back( _( "You're illiterate!" ) );
+    } else if( has_trait( "HYPEROPIC" ) && !is_wearing( "glasses_reading" ) &&
+               !is_wearing( "glasses_bifocal" ) && !has_effect( effect_contacts ) ) {
+        reasons.push_back( _( "Your eyes won't focus without reading glasses." ) );
+    } else if( fine_detail_vision_mod() > 4 ) {
+        // Too dark to read only applies if the player can read to himself
+        reasons.push_back( _( "It's too dark to read!" ) );
+        return nullptr;
+    } else {
+        reader = this;
     }
 
     //Check for NPCs to read for you, negates Illiterate and Far Sighted
-    int assistants = 0;
-    for( auto &elem : g->active_npc ) {
-        if (rl_dist( elem->pos(), g->u.pos() ) < PICKUP_RANGE && elem->is_friend()){
-            ///\EFFECT_INT_NPC allows NPCs to read harder books for you
-            if ((elem->int_cur+1) >= it->type->book->intel)
-                assistants++;
+    //The fastest-reading NPC is chosen
+    if( !reader ) {
+        int time_taken = INT_MAX;
+        if( is_deaf() ) {
+            reasons.push_back( _( "Maybe someone could read that to you, but you're deaf!" ) );
+            return nullptr;
         }
+        for( const npc *elem : g->active_npc ) {
+            // Check for disqualifying factors:
+            if( !elem->is_friend() || !sees( *elem ) ) {
+                ; // Don't consider non-friends
+            } else if( type->intel > 0 && elem->has_trait( "ILLITERATE" ) ) {
+                reasons.push_back( string_format( _( "%s is illiterate!" ),
+                                                  elem->disp_name().c_str() ) );
+            } else if( skill && elem->get_skill_level( skill ) < type->req &&
+                       has_identified( book.typeId() ) ) {
+                reasons.push_back( string_format( _( "%s doesn't know enough about %s to understand the jargon!" ),
+                                                  elem->disp_name().c_str(), skill.obj().name().c_str() ) );
+            } else if( elem->has_trait( "HYPEROPIC" ) && !elem->is_wearing( "glasses_reading" ) &&
+                       !elem->is_wearing( "glasses_bifocal" ) && !elem->has_effect( effect_contacts ) ) {
+                reasons.push_back( string_format( _( "%s needs reading glasses!" ),
+                                                  elem->disp_name().c_str() ) );
+            } else if( rl_dist( pos(), elem->pos() ) >= PICKUP_RANGE ) {
+                reasons.push_back( string_format( _( "%s could read that to you, but they're too far away." ),
+                                                  elem->disp_name().c_str() ) );
+            } else if( elem->in_sleep_state() ) {
+                reasons.push_back( string_format( _( "%s could read that to you, but they're sleeping." ),
+                                                  elem->disp_name().c_str() ) );
+            } else if( !elem->sees( *this ) ) {
+                reasons.push_back( string_format( _( "%s could read that to you, but they can't see you." ),
+                                                  elem->disp_name().c_str() ) );
+            } else if( !elem->fun_to_read( book ) && !elem->has_morale_to_read() &&
+                       has_identified( book.typeId() ) ) {
+                // Low morale still permits skimming
+                reasons.push_back( string_format( _( "%s morale is too low!" ), elem->disp_name( true ).c_str() ) );
+            } else if( elem->is_deaf() ) {
+                reasons.push_back( string_format( _( "%s is deaf!" ), elem->disp_name().c_str() ) );
+            } else if( std::min( fine_detail_vision_mod(), elem->fine_detail_vision_mod() ) > 4 ) {
+                reasons.push_back( string_format(
+                                       _( "%s says: \"I could read that to you, but I can't see to read.\"" ),
+                                       elem->disp_name().c_str() ) );
+            } else {
+                int proj_time = time_to_read( book, *elem );
+                if( proj_time < time_taken ) {
+                    reader = elem;
+                    time_taken = proj_time;
+                }
+            }
+        } //end for all active NPCs
+    }
+    return reader;
+}
+
+int player::time_to_read( const item &book, const player &reader, const player *learner ) const
+{
+    auto type = book.type->book.get();
+    const skill_id &skill = type->skill;
+    // The reader's reading speed has an effect only if they're trying to understand the book as they read it
+    // Reading speed is assumed to be how well you learn from books (as opposed to hands-on experience)
+    const bool try_understand = reader.fun_to_read( book ) ||
+                                reader.get_skill_level( skill ) < type->level;
+    int reading_speed = try_understand ? std::max( reader.read_speed(), read_speed() ) : read_speed();
+    if( learner ) {
+        reading_speed = std::max( reading_speed, learner->read_speed() );
     }
 
-    vehicle *veh = g->m.veh_at( pos() );
-    if( veh != nullptr && veh->player_in_control(*this) ) {
-        add_msg(m_info, _("It's a bad idea to read while driving!"));
+    int retval = type->time * reading_speed;
+    retval *= std::min( fine_detail_vision_mod(), reader.fine_detail_vision_mod() );
+
+    const int effective_int = std::min( {int_cur, reader.get_int(), learner ? learner->get_int() : INT_MAX } );
+    if( type->intel > effective_int ) {
+        retval += type->time * ( type->intel - effective_int ) * 100;
+    }
+    if( !has_identified( book.typeId() ) ) {
+        retval /= 10; //skimming
+    }
+    return retval;
+}
+
+bool player::fun_to_read( const item &book ) const
+{
+    // If you don't have a problem with eating humans, To Serve Man becomes rewarding
+    if( ( has_trait( "CANNIBAL" ) || has_trait( "PSYCHOPATH" ) || has_trait( "SAPIOVORE" ) ) &&
+        book.typeId() == "cookbook_human" ) {
+        return true;
+    } else if( has_trait( "SPIRITUAL" ) && book.has_flag( "INSPIRATIONAL" ) ) {
+        return true;
+    } else {
+        return book.type->book.get()->fun > 0;
+    }
+}
+
+/**
+ * Explanation of ACT_READ activity values:
+ *
+ * position: inventory_position of the book being read
+ * index: 1 inidicates studying until you gain a level, 0 indicates reading once
+ * values: IDs of the NPCs who will learn something
+ * str_values: Parallel to values, these contain the learning penalties (as doubles in string form) as follows:
+ *             Experience gained = Experience normally gained * penalty
+ */
+
+bool player::read( int inventory_position )
+{
+    // Find the object, make sure it's valid:
+    const item &it = i_at( inventory_position );
+    if( it.is_null() ) {
+        add_msg( m_info, _( "Never mind." ) );
         return false;
     }
-
-    // Check if reading is okay
-    // check for light level
-    if (fine_detail_vision_mod() > 4) {
-        add_msg(m_info, _("You can't see to read!"));
+    std::vector<std::string> fail_messages;
+    const player *reader = get_book_reader( it, fail_messages );
+    if( reader == nullptr ) {
+        // We can't read, and neither can our followers
+        for( const std::string &reason : fail_messages ) {
+            add_msg( m_bad, "%s", reason.c_str() );
+        }
         return false;
     }
+    const int time_taken = time_to_read( it, *reader );
 
-    // check for traits
-    if (has_trait("HYPEROPIC") && !is_wearing("glasses_reading") &&
-        !is_wearing("glasses_bifocal") && !has_effect( effect_contacts )) {
-        add_msg(m_info, _("Your eyes won't focus without reading glasses."));
-        if (assistants != 0){
-            add_msg(m_info, _("A fellow survivor reads aloud to you..."));
-        } else {
-            return false;
-        }
-    }
-
-    auto tmp = it->type->book.get();
-    int time; //Declare this here so that we can change the time depending on whats needed
-    // See below at player_activity(ACT_READ)
-    const bool continuous = (activity.get_value(0) == 1);
+    const bool continuous = activity.index == 1;
     bool study = continuous;
-    if (tmp->intel > 0 && has_trait("ILLITERATE")) {
-        add_msg(m_info, _("You're illiterate!"));
-        if (assistants != 0){
-            add_msg(m_info, _("A fellow survivor reads aloud to you..."));
-        } else {
-            return false;
-        }
-    }
-
-    // Now we've established that the player CAN read.
+    add_msg( m_debug, "player::read: time_taken = %d", time_taken );
 
     // If the player hasn't read this book before, skim it to get an idea of what's in it.
-    if( !has_identified( it->typeId() ) ) {
-        // Base read_speed() is 1000 move points (1 minute per tmp->time)
-        time = tmp->time * read_speed() * (fine_detail_vision_mod());
-        if (tmp->intel > int_cur) {
-            // Lower int characters can read, at a speed penalty
-            ///\EFFECT_INT increases reading speed of difficult books
-            time += (tmp->time * (tmp->intel - int_cur) * 100);
+    if( !has_identified( it.typeId() ) ) {
+        if( reader != this ) {
+            add_msg( m_info, "%s", fail_messages[0].c_str() );
+            add_msg( m_info, _( "%s reads aloud..." ), reader->disp_name().c_str() );
         }
-        // We're just skimming, so it's 10x faster.
-        time /= 10;
-
-        assign_activity( ACT_READ, time - moves, -1, inventory_position );
-        // Never trigger studying when skimming the book.
-        activity.values.push_back(0);
-        moves = 0;
+        assign_activity( ACT_READ, time_taken, 0, inventory_position );
         return true;
     }
 
-
-    const skill_id &skill = tmp->skill;
+    auto type = it.type->book.get();
+    const skill_id &skill = type->skill;
     const auto &skill_level = get_skill_level( skill );
+
+    // Find NPCs to join the study session:
+    std::map<npc *, double> learners; //value is their penalty
+    for( npc *elem : g->active_npc ) {
+        const int lvl = elem->get_skill_level( skill );
+        const bool skill_req = ( elem->fun_to_read( it ) && ( !skill || lvl >= type->req ) ) ||
+                               ( skill && lvl < type->level && lvl >= type->req );
+        const bool morale_req = elem->fun_to_read( it ) || elem->has_morale_to_read();
+        if( elem->is_friend() && !elem->is_deaf() && skill_req && morale_req &&
+            std::min( rl_dist( pos(), elem->pos() ), rl_dist( reader->pos(), elem->pos() ) ) < PICKUP_RANGE &&
+            !elem->in_sleep_state() ) {
+
+            const double penalty = std::min( ( double )time_taken / time_to_read( it, *reader, elem ), 1.0 );
+            learners.insert( {elem, penalty} );
+        }
+    }
+
     if( !skill ) {
         // special guidebook effect: print a misc. hint when read
-        if (it->typeId() == "guidebook") {
-            add_msg(m_info, get_hint().c_str());
+        if( it.typeId() == "guidebook" ) {
+            add_msg( m_info, get_hint().c_str() );
             moves -= 100;
             return false;
         }
         // otherwise do nothing as there's no associated skill
-    } else if( !has_morale_to_read() && tmp->fun <= 0 ) { // See morale.h
-        add_msg(m_info, _("What's the point of studying?  (Your morale is too low!)"));
+    } else if( skill_level >= type->level && learners.empty() &&
+               !query_yn( fun_to_read( it ) ?
+                          _( "It would be fun, but there's no new %s-related information in this book.  Read anyway?" ) :
+                          _( "There is no new %s-related information in this book.  Read anyway?" ),
+                          skill.obj().name().c_str() ) ) {
         return false;
-    } else if( skill_level < tmp->req ) {
-        add_msg(_("The %s-related jargon flies over your head!"),
-                   skill.obj().name().c_str());
-        return false;
-    } else if( skill_level >= tmp->level &&
-               !query_yn(tmp->fun > 0 ?
-                         _("It would be fun, but your %s skill won't be improved.  Read anyway?") :
-                         _("Your %s skill won't be improved.  Read anyway?"),
-                         skill.obj().name().c_str())) {
+    } else if( skill_level >= type->level && !learners.empty() &&
+               !query_yn( fun_to_read( it ) ?
+                          _( "It would be fun, but there's no new %s-related information in this book for you.  Read to your followers?" )
+                          :
+                          _( "There's no new %s-related information in this book for you.  Read to your followers?" ),
+                          skill.obj().name().c_str() ) ) {
         return false;
     } else if( !continuous &&
-               ( ( skill_level.can_train() && skill_level < tmp->level ) ) &&
-               !query_yn( _("Study %s until you learn something? (gain a level)"),
+               ( ( skill_level.can_train() && skill_level < type->level ) ) &&
+               !query_yn( _( "Study %s until you learn something? (gain a level)" ),
                           skill.obj().name().c_str() ) ) {
         study = false;
     } else {
         //If we just started studying, tell the player how to stop
         if( !continuous ) {
             add_msg( m_info, _( "Now studying %s, %s to stop early." ),
-                     it->tname().c_str(), press_x( ACTION_PAUSE ).c_str() );
-            if( ( has_trait( "ROOTS2" ) || has_trait( "ROOTS3" ) ) &&
-                g->m.has_flag( "DIGGABLE", pos() ) && !footwear_factor() ) {
-                add_msg( m_info, _( "You sink your roots into the soil." ) );
-            }
+                     it.tname().c_str(), press_x( ACTION_PAUSE ).c_str() );
+            rooted_message();
         }
         study = true;
     }
 
-    // Base read_speed() is 1000 move points (1 minute per tmp->time)
-    time = tmp->time * read_speed() * (fine_detail_vision_mod());
-    if (fine_detail_vision_mod() > 1.0) {
-        add_msg(m_warning, _("It's difficult to see fine details right now. Reading will take longer than usual."));
+    if( reader != this ) {
+        add_msg( m_info, "%s", fail_messages[0].c_str() );
+        add_msg( m_info, _( "%s reads aloud..." ), reader->disp_name().c_str() );
+    } else if( !learners.empty() ) {
+        add_msg( m_info, _( "You read aloud..." ) );
+    }
+    for( const auto &elem : learners ) {
+        if( skill && elem.first->get_skill_level( skill ) < type->level ) {
+            add_msg( m_info, _( "%s studies with you." ), elem.first->disp_name().c_str() );
+        } else {
+            add_msg( m_info, _( "%s reads with you for fun." ), elem.first->disp_name().c_str() );
+        }
     }
 
-    if (tmp->intel > get_int() && !continuous) {
-        add_msg(m_warning, _("This book is too complex for you to easily understand. It will take longer to read."));
-        // Lower int characters can read, at a speed penalty
-        ///\EFFECT_INT increases reading speed of difficult books
-        time += (tmp->time * (tmp->intel - get_int()) * 100);
+    if( std::min( fine_detail_vision_mod(), reader->fine_detail_vision_mod() ) > 1.0 ) {
+        add_msg( m_warning,
+                 _( "It's difficult for %s to see fine details right now. Reading will take longer than usual." ),
+                 reader->disp_name().c_str() );
     }
 
-    assign_activity( ACT_READ, time, -1, inventory_position );
-    // activity.get_value(0) == 1 means continuous studing until
-    // the player gained the next skill level, this ensured by this:
-    activity.values.push_back(study ? 1 : 0);
-    moves = 0;
+    const bool complex_penalty = type->intel > std::min( int_cur, reader->get_int() );
+    const player *complex_player = reader->get_int() < int_cur ? reader : this;
+    if( complex_penalty && !continuous ) {
+        add_msg( m_warning,
+                 _( "This book is too complex for %s to easily understand. It will take longer to read." ),
+                 complex_player->disp_name().c_str() );
+    }
+
+    assign_activity( ACT_READ, time_taken, study ? 1 : 0, inventory_position );
+    for( const auto &elem : learners ) {
+        activity.values.push_back( elem.first->getID() );
+        activity.str_values.push_back( std::to_string( elem.second ) );
+    }
 
     // Reinforce any existing morale bonus/penalty, so it doesn't decay
     // away while you read more.
-    int minutes = time / 1000;
-    // If you don't have a problem with eating humans, To Serve Man becomes rewarding
-    if ((has_trait("CANNIBAL") || has_trait("PSYCHOPATH") || has_trait("SAPIOVORE")) &&
-        it->typeId() == "cookbook_human") {
-        add_morale(MORALE_BOOK, 0, 75, minutes + 30, minutes, false, it->type);
-    } else if ( has_trait("SPIRITUAL") && it->has_flag("INSPIRATIONAL") ) {
-        add_morale(MORALE_BOOK, 15, 90, minutes + 60, minutes, false, it->type);
-    } else {
-        add_morale(MORALE_BOOK, 0, tmp->fun * 15, minutes + 30, minutes, false, it->type);
+    const int minutes = time_taken / 1000;
+    std::set<player *> apply_morale = { this };
+    for( auto &elem : learners ) {
+        apply_morale.insert( elem.first );
+    }
+    for( player *elem : apply_morale ) {
+        // If you don't have a problem with eating humans, To Serve Man becomes rewarding
+        if( ( elem->has_trait( "CANNIBAL" ) || elem->has_trait( "PSYCHOPATH" ) ||
+              elem->has_trait( "SAPIOVORE" ) ) &&
+            it.typeId() == "cookbook_human" ) {
+            elem->add_morale( MORALE_BOOK, 0, 75, minutes + 30, minutes, false, it.type );
+        } else if( elem->has_trait( "SPIRITUAL" ) && it.has_flag( "INSPIRATIONAL" ) ) {
+            elem->add_morale( MORALE_BOOK, 15, 90, minutes + 60, minutes, false, it.type );
+        } else {
+            elem->add_morale( MORALE_BOOK, 0, type->fun * 15, minutes + 30, minutes, false, it.type );
+        }
     }
 
     return true;
 }
+
+
 
 void player::do_read( item *book )
 {
@@ -11415,109 +11518,134 @@ void player::do_read( item *book )
         return;
     }
 
-    if( reading->fun != 0 ) {
-        int fun_bonus = 0;
-        const int chapters = book->get_chapters();
-        const int remain = book->get_remaining_chapters( *this );
-        if( chapters > 0 && remain == 0 ) {
-            //Book is out of chapters -> re-reading old book, less fun
-            add_msg(_("The %s isn't as much fun now that you've finished it."), book->tname().c_str());
-            if( one_in(6) ) { //Don't nag incessantly, just once in a while
-                add_msg(m_info, _("Maybe you should find something new to read..."));
-            }
-            //50% penalty
-            fun_bonus = (reading->fun * 5) / 2;
-        } else {
-            fun_bonus = reading->fun * 5;
+    std::vector<std::pair<player *, double>> learners; //learners and their penalties
+    for( size_t i = 0; i < activity.values.size(); i++ ) {
+        player *n = g->find_npc( activity.values[i] );
+        if( n ) {
+            learners.push_back( { n, std::stod( activity.get_str_value( i, "1" ) ) } );
         }
-        // If you don't have a problem with eating humans, To Serve Man becomes rewarding
-        if( (has_trait("CANNIBAL") || has_trait("PSYCHOPATH") || has_trait("SAPIOVORE")) &&
-            book->typeId() == "cookbook_human" ) {
-            fun_bonus = 25;
-            add_morale(MORALE_BOOK, fun_bonus, fun_bonus * 3, 60, 30, true, book->type);
-        } else if ( has_trait("SPIRITUAL") && book->has_flag("INSPIRATIONAL") ) {
-            fun_bonus = 15;
-            add_morale(MORALE_BOOK, fun_bonus, fun_bonus * 5, 90, 90, true, book->type);
-        } else {
-            add_morale(MORALE_BOOK, fun_bonus, reading->fun * 15, 60, 30, true, book->type);
-        }
+        // Otherwise they must have died/teleported or something
     }
+    learners.push_back( { this, 1.0 } ); //MUST be the last element, or player::read will be called before we're done handling NPCs
+    for( auto &elem : learners ) {
+        player *learner = elem.first;
 
-    book->mark_chapter_as_read( *this );
-
-    if( skill && get_skill_level( skill ) < reading->level &&
-        get_skill_level( skill ).can_train() ) {
-        auto &skill_level = get_skill_level( skill );
-        int originalSkillLevel = skill_level;
-        ///\EFFECT_INT increases reading speed
-        int min_ex = reading->time / 10 + int_cur / 4;
-        int max_ex = reading->time /  5 + int_cur / 2 - originalSkillLevel;
-        if (min_ex < 1) {
-            min_ex = 1;
-        }
-        if (max_ex < 2) {
-            max_ex = 2;
-        }
-        if (max_ex > 10) {
-            max_ex = 10;
-        }
-        if (max_ex < min_ex) {
-            max_ex = min_ex;
-        }
-
-        min_ex *= originalSkillLevel + 1;
-        max_ex *= originalSkillLevel + 1;
-
-        skill_level.readBook( min_ex, max_ex, reading->level );
-
-        add_msg(_("You learn a little about %s! (%d%%)"), skill.obj().name().c_str(),
-                skill_level.exercise());
-
-        if( skill_level == originalSkillLevel && activity.get_value(0) == 1 ) {
-            // continuously read until player gains a new skill level
-            activity.type = ACT_NULL;
-            read(activity.position);
-            // Rooters root (based on time spent reading)
-            int root_factor = (reading->time / 20);
-            double foot_factor = footwear_factor();
-            if( (has_trait("ROOTS2") || has_trait("ROOTS3")) &&
-                g->m.has_flag("DIGGABLE", pos()) &&
-                !foot_factor ) {
-                if (get_hunger() > -20) {
-                    mod_hunger(-root_factor * foot_factor);
+        if( reading->fun != 0 ) {
+            int fun_bonus = 0;
+            const int chapters = book->get_chapters();
+            const int remain = book->get_remaining_chapters( *this );
+            if( chapters > 0 && remain == 0 ) {
+                //Book is out of chapters -> re-reading old book, less fun
+                if( learner->is_player() ) {
+                    add_msg( _( "The %s isn't as much fun now that you've finished it." ), book->tname().c_str() );
+                } else {
+                    dynamic_cast<npc *>( learner )->say( string_format(
+                            _( "The %s isn't as much fun now that I've finished it." ),
+                            book->tname().c_str() ) );
                 }
-                if (get_thirst() > -20) {
-                    mod_thirst(-root_factor * foot_factor);
+                if( learner->is_player() && one_in( 6 ) ) { //Don't nag incessantly, just once in a while
+                    add_msg( m_info, _( "Maybe you should find something new to read..." ) );
                 }
-                mod_healthy_mod(root_factor * foot_factor, 50);
+                //50% penalty
+                fun_bonus = ( reading->fun * 5 ) / 2;
+            } else {
+                fun_bonus = reading->fun * 5;
             }
-            if (activity.type != ACT_NULL) {
-                return;
+            // If you don't have a problem with eating humans, To Serve Man becomes rewarding
+            if( ( learner->has_trait( "CANNIBAL" ) || learner->has_trait( "PSYCHOPATH" ) ||
+                  learner->has_trait( "SAPIOVORE" ) ) &&
+                book->typeId() == "cookbook_human" ) {
+                fun_bonus = 25;
+                learner->add_morale( MORALE_BOOK, fun_bonus, fun_bonus * 3, 60, 30, true, book->type );
+            } else if( learner->has_trait( "SPIRITUAL" ) && book->has_flag( "INSPIRATIONAL" ) ) {
+                fun_bonus = 15;
+                learner->add_morale( MORALE_BOOK, fun_bonus, fun_bonus * 5, 90, 90, true, book->type );
+            } else {
+                learner->add_morale( MORALE_BOOK, fun_bonus, reading->fun * 15, 60, 30, true, book->type );
             }
         }
 
-        int new_skill_level = skill_level;
-        if (new_skill_level > originalSkillLevel) {
-            add_msg(m_good, _("You increase %s to level %d."),
-                    skill.obj().name().c_str(),
-                    new_skill_level);
+        book->mark_chapter_as_read( *learner );
 
-            if(new_skill_level % 4 == 0) {
-                //~ %s is skill name. %d is skill level
-                add_memorial_log(pgettext("memorial_male", "Reached skill level %1$d in %2$s."),
-                                   pgettext("memorial_female", "Reached skill level %1$d in %2$s."),
-                                   new_skill_level, skill.obj().name().c_str());
+        if( skill && learner->get_skill_level( skill ) < reading->level &&
+            learner->get_skill_level( skill ).can_train() ) {
+            auto &skill_level = learner->get_skill_level( skill );
+            const int originalSkillLevel = skill_level;
+
+            // Calculate experience gained
+            ///\EFFECT_INT increases reading comprehension
+            int min_ex = std::max( 1, reading->time / 10 + learner->get_int() / 4 );
+            int max_ex = reading->time /  5 + learner->get_int() / 2 - originalSkillLevel;
+            if( max_ex < 2 ) {
+                max_ex = 2;
             }
-            lua_callback("on_skill_increased");
-        }
+            if( max_ex > 10 ) {
+                max_ex = 10;
+            }
+            if( max_ex < min_ex ) {
+                max_ex = min_ex;
+            }
 
-        if( skill_level == reading->level || !skill_level.can_train() ) {
-            add_msg(m_info, _("You can no longer learn from %s."), book->type_name().c_str());
-        }
-    } else {
-        add_msg(m_info, _("You can no longer learn from %s."), book->type_name().c_str());
-    }
+            min_ex *= ( originalSkillLevel + 1 ) * elem.second;
+            min_ex = std::max( min_ex, 1 );
+            max_ex *= ( originalSkillLevel + 1 ) * elem.second;
+            max_ex = std::max( min_ex, max_ex );
 
+            skill_level.readBook( min_ex, max_ex, reading->level );
+
+            if( learner->is_player() ) {
+                add_msg( m_info, _( "You learn a little about %s! (%d%%)" ), skill.obj().name().c_str(),
+                         skill_level.exercise() );
+            } else {
+                add_msg( m_info, _( "%s learns a little about %s!" ), learner->disp_name().c_str(),
+                         skill.obj().name().c_str() );
+            }
+
+            if( skill_level == originalSkillLevel ) {
+                if( activity.index == 1 && learner->is_player() ) {
+                    // continuously read until player gains a new skill level
+                    activity.type = ACT_NULL;
+                    read( activity.position );
+                    if( activity.type != ACT_NULL ) {
+                        return;
+                    }
+                }
+            } else {
+                if( learner->is_player() ) {
+                    add_msg( m_good, _( "You increase %s to level %d." ), skill.obj().name().c_str(),
+                             originalSkillLevel + 1 );
+                    if( skill_level % 4 == 0 ) {
+                        //~ %s is skill name. %d is skill level
+                        add_memorial_log( pgettext( "memorial_male", "Reached skill level %1$d in %2$s." ),
+                                          pgettext( "memorial_female", "Reached skill level %1$d in %2$s." ),
+                                          skill_level, skill.obj().name().c_str() );
+                    }
+                    lua_callback( "on_skill_increased" );
+                } else {
+                    add_msg( m_good, _( "%s increases their %s level." ), learner->disp_name().c_str(),
+                             skill.obj().name().c_str() );
+                }
+            }
+
+            if( skill_level == reading->level || !skill_level.can_train() ) {
+                if( learner->is_player() ) {
+                    add_msg( m_info, _( "You can no longer learn from %s." ), book->type_name().c_str() );
+                } else {
+                    add_msg( m_info, _( "%s can no longer learn from %s." ), learner->disp_name().c_str(),
+                             book->type_name().c_str() );
+                }
+            }
+        } else {
+            if( learner->is_player() ) {
+                add_msg( m_info, _( "You can no longer learn from %s." ), book->type_name().c_str() );
+            } else {
+                add_msg( m_info, _( "%s can no longer learn from %s." ), learner->disp_name().c_str(),
+                         book->type_name().c_str() );
+            }
+        }
+    } //end for all learners
+
+    // NPCs can't learn martial arts from manuals (yet).
     auto m = book->type->use_methods.find( "MA_MANUAL" );
     if( m != book->type->use_methods.end() ) {
         m->second.call( this, book, false, pos() );

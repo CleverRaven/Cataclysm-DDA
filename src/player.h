@@ -962,6 +962,23 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
 
         /** Attempts to install bionics, returns false if the player cancels prior to installation */
         bool install_bionics(const itype &type, int skill_level = -1);
+        /**
+         * Helper function for player::read.
+         *
+         * @param reasons Starting with g->u, for each player/NPC who cannot read, a message will be pushed back here.
+         * @ret nullptr, if neither the player nor his followers can read to the player, otherwise the player/NPC
+         * who can read and can read the fastest
+         */
+        const player *get_book_reader( const item &book, std::vector<std::string> &reasons ) const;
+        /**
+         * Helper function for get_book_reader
+         * @warning This function assumes that the everyone is able to read
+         *
+         * @param reader the player/NPC who's reading to the caller
+         * @param learner if not nullptr, assume that the caller and reader read at a pace that isn't too fast for him
+         */
+        int time_to_read( const item &book, const player &reader, const player *learner = nullptr ) const;
+        bool fun_to_read( const item &book ) const;
         /** Handles reading effects and returns true if activity started */
         bool read(int pos);
         /** Completes book reading action. **/
