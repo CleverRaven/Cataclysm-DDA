@@ -1203,7 +1203,6 @@
         "price": 50,
         "material": ["iron"],
         "weight" : 2,
-        "volume": 0,
         "to_hit" : -3,
         "use_action": {
             "type": "picklock",
@@ -1224,7 +1223,6 @@
         "price" : 1000,
         "material" : ["plastic"],
         "weight" : 4,
-        "volume" : 0,
         "to_hit" : -3,
         "use_action": {
             "type": "picklock",
