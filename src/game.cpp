@@ -3732,11 +3732,19 @@ std::vector<std::string> game::list_active_characters()
  */
 void game::write_memorial_file(std::string sLastWords)
 {
-    const std::string &memorial_dir = FILENAMES["memorialdir"] +  world_generator->active_world->world_name + "/";
+    const std::string &memorial_dir = FILENAMES["memorialdir"];
+    const std::string &memorial_active_world_dir = memorial_dir +  world_generator->active_world->world_name + "/";
 
+    //Check if both dirs exist. Nested assure_dir_exist fails if the first dir of the nested dir does not exist.
     if (!assure_dir_exist(memorial_dir)) {
         dbg(D_ERROR) << "game:write_memorial_file: Unable to make memorial directory.";
         debugmsg("Could not make '%s' directory", memorial_dir.c_str());
+        return;
+    }
+
+    if (!assure_dir_exist(memorial_active_world_dir)) {
+        dbg(D_ERROR) << "game:write_memorial_file: Unable to make active world directory in memorial directory.";
+        debugmsg("Could not make '%s' directory", memorial_active_world_dir.c_str());
         return;
     }
 
@@ -3750,7 +3758,7 @@ void game::write_memorial_file(std::string sLastWords)
     size_t const truncated_name_len = (name_len >= max_name_len) ? (max_name_len - 1) : name_len;
 
     std::ostringstream memorial_file_path;
-    memorial_file_path << memorial_dir;
+    memorial_file_path << memorial_active_world_dir;
 
     // Use the default locale to replace non-printable characters with _ in the player name.
     std::locale locale {"C"};
