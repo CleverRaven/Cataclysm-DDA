@@ -6825,23 +6825,6 @@
     },
     {
         "type" : "ARMOR",
-        "id" : "fc_hairpin",
-        "name" : "fancy hairpin",
-        "volume" : 0,
-        "material_thickness" : 0,
-        "description" : "A pink hairpin with cute flower textures.",
-        "weight" : 4,
-        "color" : "pink",
-        "encumbrance" : 0,
-        "price" : 1000,
-        "material" : ["plastic"],
-        "coverage" : 0,
-        "symbol" : "[",
-        "warmth" : 0,
-        "flags" : ["FANCY"]
-    },
-    {
-        "type" : "ARMOR",
         "id" : "barrette",
         "name" : "barrette",
         "volume" : 0,
