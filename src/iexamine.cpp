@@ -2559,8 +2559,8 @@ void iexamine::recycler(player &p, const tripoint &examp)
                                                             weight_units());
     as_m.text = string_format(_("Recycle %s metal into:"), weight_str.c_str());
     add_recyle_menu_entry(as_m, norm_recover_weight, 'l', "steel_lump");
-    add_recyle_menu_entry(as_m, norm_recover_weight, 'S', "sheet_metal");
-    add_recyle_menu_entry(as_m, norm_recover_weight, 'c', "steel_chunk");
+    add_recyle_menu_entry(as_m, norm_recover_weight, 'm', "sheet_metal");
+    add_recyle_menu_entry(as_m, norm_recover_weight, 'C', "steel_chunk");
     add_recyle_menu_entry(as_m, norm_recover_weight, 's', "scrap");
     as_m.entries.push_back(uimenu_entry(0, true, 'c', _("Cancel")));
     as_m.selected = 4;
