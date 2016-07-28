@@ -5709,18 +5709,21 @@ void player::regen( int rate_multiplier )
         healall( hp_rate );
     }
 
-    float hurt_rate = 0.0f;
-    if( has_trait("ROT2") ) {
-        hurt_rate += 0.2f;
-    } else if( has_trait("ROT3") ) {
-        hurt_rate += 0.5f;
-    }
+    if( !has_effect( effect_sleep ) ) {
+        float hurt_rate = 0.0f;
+        if( has_trait("ROT2") ) {
+            hurt_rate += 0.3f;
+        } else if( has_trait("ROT3") ) {
+            hurt_rate += 0.7f;
+        }
 
-    if( hurt_rate > 0.0f ) {
-        int rot_rate = divide_roll_remainder( rate_multiplier * hurt_rate, 1.0f );
-        // Has to be in loop because some effects depend on rounding
-        while( rot_rate-- > 0 ) {
-            hurtall( 1, nullptr, false );
+        if( hurt_rate > 0.0f ) {
+            // Cap rot to prevent a situation where a perfectly healthy, sleeping NPC dies to rot
+            int rot_rate = std::min( 10, divide_roll_remainder( rate_multiplier * hurt_rate, 1.0f ) );
+            // Has to be in loop because some effects depend on rounding
+            while( rot_rate-- > 0 ) {
+                hurtall( 1, nullptr, false );
+            }
         }
     }
 
@@ -7682,7 +7685,8 @@ void player::suffer()
         }
     }
 
-    if (!in_sleep_state()) {
+    const bool asleep = in_sleep_state();
+    if( !asleep ) {
         if (weight_carried() > 4 * weight_capacity()) {
             if (has_effect( effect_downed )) {
                 add_effect( effect_downed, 1, num_bp, false, 0, true );
@@ -7783,10 +7787,7 @@ void player::suffer()
                 }
             }
         }
-        if ((has_trait("SCHIZOPHRENIC") || has_artifact_with(AEP_SCHIZO)) &&
-            one_in(2400)) { // Every 4 hours or so
-            monster phantasm;
-            int i;
+        if( ( has_trait("SCHIZOPHRENIC") || has_artifact_with(AEP_SCHIZO) ) && one_in(2400)) { // Every 4 hours or so
             switch(rng(0, 11)) {
                 case 0:
                     add_effect( effect_hallu, 3600 );
@@ -7802,8 +7803,8 @@ void player::suffer()
                     add_morale(MORALE_FEELING_BAD, -50, -150);
                     break;
                 case 4:
-                    for (i = 0; i < 10; i++) {
-                        add_msg("XXXXXXXXXXXXXXXXXXXXXXXXXXX");
+                    for( int i = 0; i < 10; i++ ) {
+                        add_msg_if_player("XXXXXXXXXXXXXXXXXXXXXXXXXXX");
                     }
                     break;
                 case 5:
@@ -7815,8 +7816,10 @@ void player::suffer()
                     add_effect( effect_shakes, 10 * rng( 2, 5 ) );
                     break;
                 case 7:
-                    for (i = 0; i < 10; i++) {
-                        g->spawn_hallucination();
+                    if( is_player() ) {
+                        for( int i = 0; i < 10; i++ ) {
+                            g->spawn_hallucination();
+                        }
                     }
                     break;
                 case 8:
@@ -7828,7 +7831,7 @@ void player::suffer()
                     shout(_("AHHHHHHH!"));
                     break;
                 case 10:
-                    add_msg(std::string(name + name + name + name + name + name + name +
+                    add_msg_if_player(std::string(name + name + name + name + name + name + name +
                         name + name + name + name + name + name + name +
                         name + name + name + name + name + name).c_str());
                     break;
@@ -7872,6 +7875,25 @@ void player::suffer()
         }
         if (has_trait("M_BLOSSOMS") && one_in(1800)) {
             blossoms();
+        }
+
+        // Blind/Deaf for brief periods about once an hour,
+        // and visuals about once every 30 min.
+        if( has_trait( "PER_SLIME" ) ) {
+            if (one_in(600) && !has_effect( effect_deaf )) {
+                add_msg_if_player(m_bad, _("Suddenly, you can't hear anything!"));
+                add_effect( effect_deaf, 100 * rng ( 2, 6 ) ) ;
+            }
+            if (one_in(600) && !(has_effect( effect_blind ))) {
+                add_msg_if_player(m_bad, _("Suddenly, your eyes stop working!"));
+                add_effect( effect_blind, 10 * rng ( 2, 6 ) ) ;
+            }
+            // Yes, you can be blind and hallucinate at the same time.
+            // Your post-human biology is truly remarkable.
+            if (one_in(300) && !(has_effect( effect_visuals ))) {
+                add_msg_if_player(m_bad, _("Your visual centers must be acting up..."));
+                add_effect( effect_visuals, 120 * rng ( 3, 6 ) ) ;
+            }
         }
     } // Done with while-awake-only effects
 
@@ -7992,30 +8014,10 @@ void player::suffer()
     }
         //Web Weavers...weave web
     if (has_active_mutation("WEB_WEAVER") && !in_vehicle) {
-      g->m.add_field( pos(), fd_web, 1, 0 ); //this adds density to if its not already there.
-
-     }
-
-    // Blind/Deaf for brief periods about once an hour,
-    // and visuals about once every 30 min.
-    if (has_trait("PER_SLIME")) {
-        if (one_in(600) && !has_effect( effect_deaf )) {
-            add_msg_if_player(m_bad, _("Suddenly, you can't hear anything!"));
-            add_effect( effect_deaf, 100 * rng ( 2, 6 ) ) ;
-        }
-        if (one_in(600) && !(has_effect( effect_blind ))) {
-            add_msg_if_player(m_bad, _("Suddenly, your eyes stop working!"));
-            add_effect( effect_blind, 10 * rng ( 2, 6 ) ) ;
-        }
-        // Yes, you can be blind and hallucinate at the same time.
-        // Your post-human biology is truly remarkable.
-        if (one_in(300) && !(has_effect( effect_visuals ))) {
-            add_msg_if_player(m_bad, _("Your visual centers must be acting up..."));
-            add_effect( effect_visuals, 120 * rng ( 3, 6 ) ) ;
-        }
+        g->m.add_field( pos(), fd_web, 1, 0 );
     }
 
-    if (has_trait("WEB_SPINNER") && !in_vehicle && one_in(3)) {
+    if( !asleep && has_trait("WEB_SPINNER") && !in_vehicle && one_in( 3 ) ) {
         g->m.add_field( pos(), fd_web, 1, 0 ); //this adds density to if its not already there.
     }
 
@@ -8048,7 +8050,7 @@ void player::suffer()
 
     // Spread less radiation when sleeping (slower metabolism etc.)
     // Otherwise it can quickly get to the point where you simply can't sleep at all
-    const bool rad_mut_proc = rad_mut > 0 && x_in_y( rad_mut, in_sleep_state() ? HOURS(3) : MINUTES(30) );
+    const bool rad_mut_proc = rad_mut > 0 && x_in_y( rad_mut, asleep ? HOURS(3) : MINUTES(30) );
 
     // Used to control vomiting from radiation to make it not-annoying
     bool radiation_increasing = false;
@@ -8259,24 +8261,43 @@ void player::suffer()
     }
 
     // Negative bionics effects
-    if (has_bionic("bio_dis_shock") && one_in(1200)) {
-        add_msg_if_player(m_bad, _("You suffer a painful electrical discharge!"));
-        mod_pain(1);
-        moves -= 150;
+    if( !asleep ) {
+        if( has_bionic("bio_dis_shock") && one_in( 1200 ) ) {
+            add_msg_if_player(m_bad, _("You suffer a painful electrical discharge!"));
+            mod_pain(1);
+            moves -= 150;
 
-        if (weapon.typeId() == "e_handcuffs" && weapon.charges > 0) {
-            weapon.charges -= rng(1, 3) * 50;
-            if (weapon.charges < 1) {
-                weapon.charges = 1;
+            if (weapon.typeId() == "e_handcuffs" && weapon.charges > 0) {
+                weapon.charges -= rng(1, 3) * 50;
+                if (weapon.charges < 1) {
+                    weapon.charges = 1;
+                }
+
+                add_msg_if_player(m_good, _("The %s seems to be affected by the discharge."), weapon.tname().c_str());
             }
+        }
 
-            add_msg_if_player(m_good, _("The %s seems to be affected by the discharge."), weapon.tname().c_str());
+        if( has_bionic("bio_dis_acid") && one_in( 1200 ) ) {
+            add_msg_if_player(m_bad, _("You suffer a burning acidic discharge!"));
+            hurtall(1, nullptr);
+        }
+
+        if( has_bionic("bio_trip") && one_in(500) && !has_effect( effect_visuals ) ) {
+            add_msg_if_player(m_bad, _("Your vision pixelates!"));
+            add_effect( effect_visuals, 100 );
+        }
+
+        if( has_bionic("bio_sleepy") && one_in(500) ) {
+            mod_fatigue(1);
+        }
+
+        if( has_bionic("bio_itchy") && one_in(500) && !has_effect( effect_formication ) ) {
+            add_msg_if_player(m_bad, _("Your malfunctioning bionic itches!"));
+            body_part bp = random_body_part(true);
+            add_effect( effect_formication, 100, bp );
         }
     }
-    if (has_bionic("bio_dis_acid") && one_in(1500)) {
-        add_msg_if_player(m_bad, _("You suffer a burning acidic discharge!"));
-        hurtall(1, nullptr);
-    }
+
     if (has_bionic("bio_drain") && power_level > 24 && one_in(600)) {
         add_msg_if_player(m_bad, _("Your batteries discharge slightly."));
         charge_power(-25);
@@ -8294,11 +8315,8 @@ void player::suffer()
         power_level >= max_power_level * .75) {
         mod_str_bonus(-3);
     }
-    if (has_bionic("bio_trip") && one_in(500) && !has_effect( effect_visuals )) {
-        add_msg_if_player(m_bad, _("Your vision pixelates!"));
-        add_effect( effect_visuals, 100 );
-    }
-    if (has_bionic("bio_spasm") && one_in(3000) && !has_effect( effect_downed )) {
+
+    if( !asleep && has_bionic("bio_spasm") && one_in(3000) && !has_effect( effect_downed ) ) {
         add_msg_if_player(m_bad, _("Your malfunctioning bionic causes you to spasm and fall to the floor!"));
         mod_pain(1);
         add_effect( effect_stunned, 1);
@@ -8311,14 +8329,6 @@ void player::suffer()
     }
     if (has_bionic("bio_leaky") && one_in(500)) {
         mod_healthy_mod(-50, -200);
-    }
-    if (has_bionic("bio_sleepy") && one_in(500) && !in_sleep_state()) {
-        mod_fatigue(1);
-    }
-    if (has_bionic("bio_itchy") && one_in(500) && !has_effect( effect_formication )) {
-        add_msg_if_player(m_bad, _("Your malfunctioning bionic itches!"));
-        body_part bp = random_body_part(true);
-        add_effect( effect_formication, 100, bp );
     }
 
     // Artifact effects
