@@ -46,32 +46,6 @@ class options_manager : public JsonSerializer, public JsonDeserializer
                 //Default constructor
                 cOpt();
 
-                //string select constructor
-                cOpt( const std::string sPageIn, const std::string sMenuTextIn, const std::string sTooltipIn,
-                      const std::string sItemsIn, std::string sDefaultIn, copt_hide_t opt_hide = COPT_NO_HIDE );
-
-                //string input constructor
-                cOpt( const std::string sPageIn, const std::string sMenuTextIn, const std::string sTooltipIn,
-                      const std::string sDefaultIn, const int iMaxLengthIn, copt_hide_t opt_hide = COPT_NO_HIDE );
-
-                //bool constructor
-                cOpt( const std::string sPageIn, const std::string sMenuTextIn, const std::string sTooltipIn,
-                      const bool bDefaultIn, copt_hide_t opt_hide = COPT_NO_HIDE );
-
-                //int constructor
-                cOpt( const std::string sPageIn, const std::string sMenuTextIn, const std::string sTooltipIn,
-                      const int iMinIn, int iMaxIn, int iDefaultIn, copt_hide_t opt_hide = COPT_NO_HIDE );
-
-                //int map constructor
-                cOpt( const std::string sPageIn, const std::string sMenuTextIn, const std::string sTooltipIn,
-                      const std::map<int, std::string> mIntValuesIn, int iInitialIn, int iDefaultIn,
-                      copt_hide_t opt_hide = COPT_NO_HIDE );
-
-                //float constructor
-                cOpt( const std::string sPageIn, const std::string sMenuTextIn, const std::string sTooltipIn,
-                      const float fMinIn, float fMaxIn, float fDefaultIn, float fStepIn,
-                      copt_hide_t opt_hide = COPT_NO_HIDE );
-
                 //Default deconstructor
                 ~cOpt() {};
 
@@ -86,6 +60,7 @@ class options_manager : public JsonSerializer, public JsonDeserializer
                  */
                 bool is_hidden() const;
 
+                std::string getName() const;
                 std::string getPage() const;
                 std::string getMenuText() const;
                 std::string getTooltip() const;
@@ -116,6 +91,7 @@ class options_manager : public JsonSerializer, public JsonDeserializer
                 }
 
             private:
+                std::string sName;
                 std::string sPage;
                 std::string sMenuText;
                 std::string sTooltip;
@@ -173,6 +149,42 @@ class options_manager : public JsonSerializer, public JsonDeserializer
 
     private:
         std::unordered_map<std::string, cOpt> global_options;
+
+        //add string select option
+        void add( const std::string sNameIn, const std::string sPageIn,
+                  const std::string sMenuTextIn, const std::string sTooltipIn,
+                  const std::string sItemsIn, std::string sDefaultIn,
+                  copt_hide_t opt_hide = COPT_NO_HIDE );
+
+        //add string input option
+        void add( const std::string sNameIn, const std::string sPageIn,
+                  const std::string sMenuTextIn, const std::string sTooltipIn,
+                  const std::string sDefaultIn, const int iMaxLengthIn,
+                  copt_hide_t opt_hide = COPT_NO_HIDE );
+
+        //add bool option
+        void add( const std::string sNameIn, const std::string sPageIn,
+                  const std::string sMenuTextIn, const std::string sTooltipIn,
+                  const bool bDefaultIn, copt_hide_t opt_hide = COPT_NO_HIDE );
+
+        //add int option
+        void add( const std::string sNameIn, const std::string sPageIn,
+                  const std::string sMenuTextIn, const std::string sTooltipIn,
+                  const int iMinIn, int iMaxIn, int iDefaultIn,
+                  copt_hide_t opt_hide = COPT_NO_HIDE );
+
+        //add int map option
+        void add( const std::string sNameIn, const std::string sPageIn,
+                  const std::string sMenuTextIn, const std::string sTooltipIn,
+                  const std::map<int, std::string> mIntValuesIn, int iInitialIn,
+                  int iDefaultIn, copt_hide_t opt_hide = COPT_NO_HIDE );
+
+        //add float option
+        void add( const std::string sNameIn, const std::string sPageIn,
+                  const std::string sMenuTextIn, const std::string sTooltipIn,
+                  const float fMinIn, float fMaxIn,
+                  float fDefaultIn, float fStepIn,
+                  copt_hide_t opt_hide = COPT_NO_HIDE );
 };
 
 bool use_narrow_sidebar(); // short-circuits to on if terminal is too small
