@@ -7744,7 +7744,7 @@
       [ "can_tuna", 2 ],
       [ "sausage", 4 ],
       [ "bacon", 4 ],
-      [ "powder_eggs", 40 ],
+      [ "powder_eggs", 20 ],
       [ "egg_bird", 4 ],
       [ "egg_reptile", 4 ]
     ],
@@ -10599,7 +10599,7 @@
       [ "can_coconut", 1 ]
     ],
     [
-      [ "powder_eggs", 15 ],
+      [ "powder_eggs", 10 ],
       [ "egg_bird", 2 ],
       [ "egg_reptile", 2 ]
     ],
