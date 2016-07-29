@@ -1,0 +1,892 @@
+[
+{
+        "type" : "recipe",
+  "result": "cluttergrow",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_PARTS",
+  "skill_used": "cooking",
+  "skills_required": [ "fabrication", 2 ],
+  "difficulty": 2,
+  "time": 60000,
+  "autolearn": true,
+  "qualities":[
+    {"id":"CHEM","level":2}
+  ],
+  "components": [
+    [
+     [ "gray", 1 ]
+    ],
+    [
+     [ "bfeed", 1000 ]
+    ],
+    [
+     [ "mutagen", 3 ],
+     [ "iv_mutagen", 1]
+    ]
+  ]
+},
+{
+        "type" : "recipe",
+  "result": "bframegrow",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_MATERIALS",
+  "skill_used": "fabrication",
+  "difficulty": 2,
+  "skills_required": [ "cooking", 6 ],
+  "time": 60000,
+  "autolearn": true,
+  "qualities" : [
+    {"id":"CHEM","level":2}
+  ],
+  "components": [
+    [
+      [ "bone", 20 ],
+      [ "bone_tainted", 20 ],
+      [ "bone_human", 20 ]
+    ],
+    [
+      [ "slime_scrap", 10 ]
+    ],
+    [
+      [ "bfeed", 500 ]
+    ],
+    [
+     [ "string_6", 12 ],
+     [ "string_36", 3 ],
+     [ "superglue", 3 ],
+     [ "bone_glue", 3 ],
+     [ "duct_tape", 75 ]
+    ],
+    [
+     [ "vacutainer", 1 ]
+    ],
+    [
+     [ "mutagen", 3 ],
+     [ "iv_mutagen", 1]
+    ]
+  ]
+},
+{
+        "type" : "recipe",
+  "result": "bfeed",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_MATERIALS",
+  "skill_used": "cooking",
+  "difficulty": 6,
+  "time": 2000,
+  "autolearn": true,
+  "qualities" : [
+    {"id":"CUT","level":1},
+    {"id":"HAMMER","level":1}
+  ],
+  "components": [
+    [
+      [ "bone", 4 ],
+      [ "bone_tainted", 4 ],
+      [ "bone_human", 4 ],
+      [ "meat", 4],
+      [ "meat_tainted", 4],
+      [ "human_flesh", 4],
+      [ "chitin_piece", 1],
+      [ "slime_scrap", 1],
+      [ "stomach", 2],
+      [ "stomach_large", 1],
+      [ "hstomach", 2],
+      [ "hstomach_large", 1]
+    ]
+  ]
+},
+{
+        "type" : "recipe",
+  "result": "bfeed",
+  "id_suffix": "blob assisted",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_MATERIALS",
+  "skill_used": "cooking",
+  "difficulty": 6,
+  "time": 1000,
+  "autolearn": true,
+  "tools": [
+      [
+      ["gloople", -1],
+      ["oozle", -1],
+      ["gray", -1]
+      ]
+           ],
+  "components": [
+    [
+      [ "corpse", 1 ],
+      [ "bone_tainted", 4 ],
+      [ "bone_human", 4 ],
+      [ "meat", 4],
+      [ "meat_tainted", 4],
+      [ "human_flesh", 4],
+      [ "chitin_piece", 1],
+      [ "slime_scrap", 1],
+      [ "stomach", 2],
+      [ "stomach_large", 1],
+      [ "hstomach", 2],
+      [ "hstomach_large", 1]
+    ]
+  ]
+},
+{
+        "type" : "recipe",
+  "result": "gloople_wheel",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_MATERIALS",
+  "skill_used": "cooking",
+  "difficulty": 6,
+  "time": 15000,
+  "reversible": true,
+  "autolearn": true,
+  "components": [
+    [
+      [ "gloople", 1 ]
+    ],
+    [
+      [ "water", 100 ]
+    ]
+  ]
+},
+{
+        "type" : "recipe",
+  "result": "oozle_wheel",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_MATERIALS",
+  "skill_used": "cooking",
+  "difficulty": 6,
+  "time": 15000,
+  "reversible": true,
+  "autolearn": true,
+  "components": [
+    [
+      [ "oozle", 1 ]
+    ],
+    [
+      [ "water", 200 ]
+    ]
+  ]
+},
+{
+        "type" : "recipe",
+  "result": "gray_wheel",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_MATERIALS",
+  "skill_used": "cooking",
+  "difficulty": 6,
+  "time": 15000,
+  "reversible": true,
+  "autolearn": true,
+  "components": [
+    [
+      [ "gray", 1 ]
+    ],
+    [
+      [ "water", 200 ]
+    ]
+  ]
+},
+{
+        "type" : "recipe",
+  "result": "gloople_tank",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_MATERIALS",
+  "skill_used": "cooking",
+  "difficulty": 6,
+  "time": 15000,
+  "reversible": true,
+  "autolearn": true,
+  "components": [
+    [
+      [ "gloople", 1 ]
+    ]
+  ]
+},
+{
+        "type" : "recipe",
+  "result": "oozle_tank",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_MATERIALS",
+  "skill_used": "cooking",
+  "difficulty": 6,
+  "time": 15000,
+  "reversible": true,
+  "autolearn": true,
+  "components": [
+    [
+      [ "oozle", 1 ]
+    ]
+  ]
+},
+{
+        "type" : "recipe",
+  "result": "gray_tank",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_MATERIALS",
+  "skill_used": "cooking",
+  "difficulty": 6,
+  "time": 15000,
+  "reversible": true,
+  "autolearn": true,
+  "components": [
+    [
+      [ "gray", 1 ]
+    ]
+  ]
+},{
+    "type" : "recipe",
+    "result": "gloople",
+    "id_suffix": "uncraft",
+    "category": "CC_NONCRAFT",
+    "subcategory": "CSC_NONCRAFT",
+    "difficulty": 0,
+    "time": 5000,
+    "reversible": true,
+    "components": [
+      [ [ "glooplegrow", 2 ] ]
+    ]
+  },{
+    "type" : "recipe",
+    "result": "oozle",
+    "id_suffix": "uncraft",
+    "category": "CC_NONCRAFT",
+    "subcategory": "CSC_NONCRAFT",
+    "difficulty": 0,
+    "time": 10000,
+    "reversible": true,
+    "components": [
+      [ [ "oozlegrow", 2 ] ]
+    ]
+  },{
+    "type" : "recipe",
+    "result": "gray",
+    "id_suffix": "uncraft",
+    "category": "CC_NONCRAFT",
+    "subcategory": "CSC_NONCRAFT",
+    "difficulty": 0,
+    "time": 20000,
+    "reversible": true,
+    "components": [
+      [ [ "graygrow", 2 ] ]
+    ]
+  },{
+    "type" : "recipe",
+    "result": "frostie",
+    "id_suffix": "uncraft",
+    "category": "CC_NONCRAFT",
+    "subcategory": "CSC_NONCRAFT",
+    "difficulty": 0,
+    "time": 5000,
+    "reversible": true,
+    "components": [
+      [ [ "frostiegrow", 2 ] ]
+    ]
+  },{
+    "type" : "recipe",
+    "result": "glowie",
+    "id_suffix": "uncraft",
+    "category": "CC_NONCRAFT",
+    "subcategory": "CSC_NONCRAFT",
+    "difficulty": 0,
+    "time": 5000,
+    "reversible": true,
+    "components": [
+      [ [ "glowiegrow", 2 ] ]
+    ]
+  },{
+    "type" : "recipe",
+    "result": "clutter",
+    "id_suffix": "uncraft",
+    "category": "CC_NONCRAFT",
+    "subcategory": "CSC_NONCRAFT",
+    "difficulty": 0,
+    "time": 10000,
+    "reversible": true,
+    "components": [
+      [ [ "cluttergrow", 2 ] ]
+    ]
+  },{
+    "type" : "recipe",
+    "result": "biter",
+    "id_suffix": "uncraft",
+    "category": "CC_NONCRAFT",
+    "subcategory": "CSC_NONCRAFT",
+    "difficulty": 0,
+    "time": 10000,
+    "reversible": true,
+    "components": [
+      [ [ "bitergrow", 2 ] ]
+    ]
+  },
+{
+        "type" : "recipe",
+  "result": "grinder",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_MATERIALS",
+  "skill_used": "cooking",
+  "difficulty": 7,
+  "skills_required": [ "fabrication", 5 ],
+  "time": 30000,
+  "autolearn": true,
+  "qualities" : [
+    {"id":"CHEM","level":2},
+    {"id":"HAMMER","level":1}
+  ],
+  "components": [
+    [
+      [ "pebble", 500 ]
+    ],
+    [
+      [ "gray", 1]
+    ],
+    [
+      [ "bfeed", 500 ]
+    ],
+    [
+     [ "superglue", 10 ],
+     [ "bone_glue", 10 ]
+    ],
+    [
+     [ "mutagen", 1 ]
+    ]
+  ]
+},
+{
+        "type" : "recipe",
+  "result": "stickiegrow",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_PARTS",
+  "skill_used": "cooking",
+  "skills_required": [ "fabrication", 5 ],
+  "difficulty": 7,
+  "time": 30000,
+  "autolearn": true,
+  "qualities":[
+    {"id":"CHEM","level":2}
+  ],
+  "components": [
+    [
+      ["clutter", 1]
+    ],
+    [
+     [ "bfeed", 250 ]
+    ],
+    [
+      [ "stomach", 8 ],
+      [ "stomach_large", 4 ],
+      [ "hstomach", 8 ],
+      [ "hstomach_large", 4 ],
+      [ "plant_sac", 2]
+    ],
+    [
+     [ "superglue", 5 ],
+     [ "bone_glue", 5 ]
+    ],
+    [
+     [ "mutagen", 1 ]
+    ]
+        ]
+},
+{
+        "type" : "recipe",
+  "result": "meltiegrow",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_PARTS",
+  "skill_used": "cooking",
+  "skills_required": [ "fabrication", 5 ],
+  "difficulty": 7,
+  "time": 30000,
+  "autolearn": true,
+  "qualities":[
+    {"id":"CHEM","level":2}
+  ],
+  "components": [
+    [
+      ["clutter", 1]
+    ],
+    [
+     [ "bfeed", 250 ]
+    ],
+    [
+      [ "stomach", 8 ],
+      [ "stomach_large", 4 ],
+      [ "hstomach", 8 ],
+      [ "hstomach_large", 4 ],
+      [ "plant_sac", 2]
+    ],
+    [
+     [ "acid", 5 ],
+     [ "water_acid", 10 ],
+     [ "acidbomb", 1 ]
+    ],
+    [
+     [ "mutagen", 1 ]
+    ]
+        ]
+},
+{
+        "type" : "recipe",
+  "result": "inkiegrow",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_PARTS",
+  "skill_used": "cooking",
+  "skills_required": [ "fabrication", 5 ],
+  "difficulty": 7,
+  "time": 30000,
+  "autolearn": true,
+  "qualities":[
+    {"id":"CHEM","level":2}
+  ],
+  "components": [
+    [
+      ["clutter", 1]
+    ],
+    [
+     [ "bfeed", 250 ]
+    ],
+    [
+      [ "stomach", 8 ],
+      [ "stomach_large", 4 ],
+      [ "hstomach", 8 ],
+      [ "hstomach_large", 4 ],
+      [ "plant_sac", 2]
+    ],
+    [
+     [ "gasoline", 500 ],
+     [ "diesel", 500 ]
+    ],
+    [
+     [ "mutagen", 1 ]
+    ]
+        ]
+},
+{
+        "type" : "recipe",
+  "result": "torchiegrow",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_PARTS",
+  "skill_used": "cooking",
+  "skills_required": [ "fabrication", 5 ],
+  "difficulty": 7,
+  "time": 30000,
+  "autolearn": true,
+  "qualities":[
+    {"id":"CHEM","level":2}
+  ],
+  "components": [
+    [
+      ["clutter", 1]
+    ],
+    [
+     [ "bfeed", 250 ]
+    ],
+    [
+      [ "stomach", 8 ],
+      [ "stomach_large", 4 ],
+      [ "hstomach", 8 ],
+      [ "hstomach_large", 4 ],
+      [ "plant_sac", 2]
+    ],
+    [
+     [ "incendiary", 200 ]
+    ],
+    [
+     [ "mutagen", 1 ]
+    ]
+        ]
+},
+{
+        "type" : "recipe",
+  "result": "glowiegrow",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_PARTS",
+  "skill_used": "cooking",
+  "skills_required": [ "fabrication", 5 ],
+  "difficulty": 8,
+  "time": 30000,
+  "autolearn": true,
+  "qualities":[
+    {"id":"CHEM","level":2}
+  ],
+  "components": [
+    [
+      [ "gloople", 1 ]
+    ],
+    [
+     [ "bfeed", 250 ]
+    ],
+    [
+     [ "plut_cell", 1 ]
+    ],
+    [
+     [ "mutagen", 3 ],
+     [ "iv_mutagen", 1]
+    ]
+        ]
+},
+{
+        "type" : "recipe",
+  "result": "frostiegrow",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_PARTS",
+  "skill_used": "cooking",
+  "skills_required": [ "fabrication", 5 ],
+  "difficulty": 8,
+  "time": 30000,
+  "autolearn": true,
+  "qualities":[
+    {"id":"CHEM","level":2}
+  ],
+  "tools": [
+      [
+      ["cvd_machine", -1]
+      ]
+           ],
+  "components": [
+    [
+      [ "gloople", 1 ]
+    ],
+    [
+     [ "bfeed", 250 ]
+    ],
+    [
+     [ "water", 200 ]
+    ],
+    [
+     [ "plasma", 5 ]
+    ],
+    [
+     [ "mutagen", 3 ],
+     [ "iv_mutagen", 1]
+    ]
+        ]
+},
+{
+        "type" : "recipe",
+  "result": "sparkiegrow",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_PARTS",
+  "skill_used": "cooking",
+  "skills_required": [ "fabrication", 5 ],
+  "difficulty": 7,
+  "time": 30000,
+  "autolearn": true,
+  "qualities":[
+    {"id":"CHEM","level":2}
+  ],
+  "components": [
+    [
+      ["glowie", 1]
+    ],
+    [
+      ["clutter", 1]
+    ],
+    [
+     [ "bfeed", 250 ]
+    ],
+    [
+     [ "mutagen", 1 ]
+    ]
+        ]
+},
+{
+        "type" : "recipe",
+  "result": "voideatergrow",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_PARTS",
+  "skill_used": "cooking",
+  "skills_required": [ "fabrication", 5 ],
+  "difficulty": 7,
+  "time": 30000,
+  "autolearn": true,
+  "qualities":[
+    {"id":"CHEM","level":2}
+  ],
+  "components": [
+    [
+      ["sparkie", 1]
+    ],
+    [
+     [ "bfeed", 1000 ]
+    ],
+    [
+     [ "mutagen", 3 ],
+     [ "iv_mutagen", 1]
+    ]
+        ]
+},
+{
+        "type" : "recipe",
+  "result": "bitergrow",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_PARTS",
+  "skill_used": "cooking",
+  "skills_required": [ "fabrication", 5 ],
+  "difficulty": 7,
+  "time": 30000,
+  "autolearn": true,
+  "qualities":[
+    {"id":"CHEM","level":2}
+  ],
+  "components": [
+    [
+      ["gray", 1]
+    ],
+    [
+     [ "bfeed", 250 ]
+    ],
+    [
+      [ "meal_chitin_piece", 24 ],
+      [ "meal_bone_tainted", 24 ],
+      [ "meal_bone", 24]
+    ],
+    [
+     [ "mutagen", 1 ]
+    ]
+        ]
+},
+{
+        "type" : "recipe",
+  "result": "fuzzlegrow",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_PARTS",
+  "skill_used": "cooking",
+  "skills_required": [ "fabrication", 5 ],
+  "difficulty": 7,
+  "time": 30000,
+  "autolearn": true,
+  "qualities":[
+    {"id":"CHEM","level":2}
+  ],
+  "components": [
+    [
+      ["biter", 1]
+    ],
+    [
+     [ "bfeed", 250 ]
+    ],
+    [
+      [ "raw_fur", 3 ],
+      [ "fur", 24 ]
+    ],
+    [
+     [ "mutagen", 1 ]
+    ]
+        ]
+},
+{
+        "type" : "recipe",
+  "result": "horrorgrow",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_PARTS",
+  "skill_used": "cooking",
+  "skills_required": [ "fabrication", 5 ],
+  "difficulty": 7,
+  "time": 30000,
+  "autolearn": true,
+  "qualities":[
+    {"id":"CHEM","level":2}
+  ],
+  "components": [
+    [
+      ["biter", 1]
+    ],
+    [
+     [ "bfeed", 500 ]
+    ],
+    [
+      [ "meal_chitin_piece", 48 ],
+      [ "meal_bone_tainted", 48 ],
+      [ "meal_bone", 48]
+    ],
+    [
+     [ "mutagen", 3 ],
+     [ "iv_mutagen", 1]
+    ]
+        ]
+},
+{
+        "type" : "recipe",
+  "result": "sharpgrow",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_PARTS",
+  "skill_used": "cooking",
+  "skills_required": [ "fabrication", 5 ],
+  "difficulty": 7,
+  "time": 30000,
+  "autolearn": true,
+  "qualities":[
+    {"id":"CHEM","level":2}
+  ],
+  "components": [
+    [
+      ["clutter", 1]
+    ],
+    [
+     [ "biter", 1 ]
+    ],
+    [
+     [ "bfeed", 500 ]
+    ],
+    [
+     [ "mutagen", 1 ]
+    ]
+        ]
+},
+{
+        "type" : "recipe",
+  "result": "sicklegrow",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_PARTS",
+  "skill_used": "cooking",
+  "skills_required": [ "fabrication", 5 ],
+  "difficulty": 7,
+  "time": 30000,
+  "autolearn": true,
+  "qualities":[
+    {"id":"CHEM","level":2}
+  ],
+  "components": [
+    [
+      ["sharp", 1]
+    ],
+    [
+     [ "bfeed", 200 ]
+    ],
+    [
+      [ "meal_chitin_piece", 24 ],
+      [ "meal_bone_tainted", 24 ],
+      [ "meal_bone", 24]
+    ],
+    [
+     [ "mutagen", 1 ]
+    ]
+        ]
+},
+{
+        "type" : "recipe",
+  "result": "razorqueengrow",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_PARTS",
+  "skill_used": "cooking",
+  "skills_required": [ "fabrication", 5 ],
+  "difficulty": 7,
+  "time": 30000,
+  "autolearn": true,
+  "qualities":[
+    {"id":"CHEM","level":2}
+  ],
+  "components": [
+    [
+      ["sharp", 1]
+    ],
+    [
+     [ "bfeed", 500 ]
+    ],
+    [
+      [ "meal_chitin_piece", 48 ],
+      [ "meal_bone_tainted", 48 ],
+      [ "meal_bone", 48]
+    ],
+    [
+     [ "mutagen", 3 ],
+     [ "iv_mutagen", 1]
+    ]
+        ]
+},
+{
+        "type" : "recipe",
+  "result": "freeziegrow",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_PARTS",
+  "skill_used": "cooking",
+  "skills_required": [ "fabrication", 5 ],
+  "difficulty": 7,
+  "time": 30000,
+  "autolearn": true,
+  "qualities":[
+    {"id":"CHEM","level":2}
+  ],
+  "components": [
+    [
+      ["clutter", 1]
+    ],
+    [
+     [ "bfeed", 500 ]
+    ],
+    [
+      [ "frostie", 1 ]
+    ],
+    [
+     [ "mutagen", 3 ],
+     [ "iv_mutagen", 1]
+    ]
+        ]
+},
+{
+        "type" : "recipe",
+  "result": "oozlegrow",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_PARTS",
+  "skill_used": "cooking",
+  "difficulty": 6,
+  "time": 30000,
+  "autolearn": true,
+  "components": [
+    [
+      ["gloople", 1]
+    ],
+    [
+     [ "bfeed", 500 ]
+    ],
+    [
+     [ "mutagen", 1 ]
+    ]
+        ]
+},
+{
+        "type" : "recipe",
+  "result": "graygrow",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_PARTS",
+  "skill_used": "cooking",
+  "difficulty": 6,
+  "time": 30000,
+  "autolearn": true,
+  "components": [
+    [
+      ["oozle", 1]
+    ],
+    [
+     [ "bfeed", 1000 ]
+    ],
+    [
+     [ "mutagen", 1 ]
+    ]
+        ]
+},
+{
+        "type" : "recipe",
+  "result": "queengrow",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_PARTS",
+  "skill_used": "cooking",
+  "difficulty": 6,
+  "time": 30000,
+  "autolearn": true,
+  "components": [
+    [
+      ["gray", 1]
+    ],
+    [
+     [ "bfeed", 2000 ]
+    ],
+    [
+     [ "mutagen", 1 ]
+    ]
+        ]
+}
+]
+
+

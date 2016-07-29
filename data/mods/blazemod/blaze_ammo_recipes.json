@@ -7,8 +7,7 @@
   "skill_used": "fabrication",
   "skills_required": [ "archery", 2 ],
   "difficulty": 2,
-  "time": 10000,
-  "reversible": false,
+  "time": 15000,
   "autolearn": true,
   "qualities" : [
     {"id":"CUT","level":1,"amount":1}
@@ -30,7 +29,6 @@
   "skill_used": "fabrication",
   "difficulty": 0,
   "time": 5000,
-  "reversible": false,
   "autolearn": true,
   "qualities" : [
     {"id":"CUT","level":1,"amount":1},
@@ -53,7 +51,6 @@
   "skills_required": [ "archery", 2 ],
   "difficulty": 2,
   "time": 15000,
-  "reversible": false,
   "autolearn": true,
   "qualities" : [ {"id":"CUT","level":1,"amount":1} ],
   "tools" : [
@@ -84,7 +81,6 @@
   "skill_used": "fabrication",
   "difficulty": 3,
   "time": 5000,
-  "reversible": false,
   "autolearn": true,
   "qualities" : [
     {"id":"CUT","level":1,"amount":1}
@@ -132,7 +128,6 @@
   "skill_used": "fabrication",
   "difficulty": 3,
   "time": 5000,
-  "reversible": false,
   "autolearn": true,
   "qualities" : [
     {"id":"CUT","level":1,"amount":1}
@@ -176,7 +171,6 @@
   "skill_used": "fabrication",
   "difficulty": 3,
   "time": 5000,
-  "reversible": false,
   "autolearn": true,
   "qualities" : [ {"id":"CUT","level":1,"amount":1} ],
   "tools" : [
@@ -218,7 +212,6 @@
   "skills_required": [ "mechanics", 1 ],
   "difficulty": 3,
   "time": 5000,
-  "reversible": false,
   "autolearn": true,
   "qualities" : [
     {"id":"CUT","level":1,"amount":1}
@@ -269,7 +262,6 @@
   "skills_required": [ "cooking", 2 ],
   "difficulty": 3,
   "time": 5000,
-  "reversible": false,
   "autolearn": true,
   "qualities" : [
     {"id":"CUT","level":1,"amount":1},
@@ -345,7 +337,6 @@
   "skill_used": "fabrication",
   "difficulty": 0,
   "time": 2000,
-  "reversible": false,
   "autolearn": true,
   "qualities" : [
     {"id":"CUT","level":1,"amount":1}
@@ -366,7 +357,7 @@
       [ "bone_glue", 1 ]
     ]
   ]
-},
+}, 
 {
         "type" : "recipe",
   "result": "hbolt_boom",
@@ -375,7 +366,6 @@
   "skill_used": "fabrication",
   "difficulty": 0,
   "time": 2000,
-  "reversible": false,
   "autolearn": true,
   "qualities" : [
     {"id":"CUT","level":1,"amount":1}
@@ -395,7 +385,7 @@
       [ "bone_glue", 1 ]
     ]
   ]
-},
+}, 
 {
         "type" : "recipe",
   "result": "hbolt_boom2",
@@ -404,7 +394,6 @@
   "skill_used": "fabrication",
   "difficulty": 0,
   "time": 2000,
-  "reversible": false,
   "autolearn": true,
   "qualities" : [
     {"id":"CUT","level":1,"amount":1}
@@ -416,6 +405,7 @@
     ],
     [
       [ "canbomb2", 1 ]
+      
     ],
     [
       [ "string_36", 1 ],
@@ -433,7 +423,6 @@
   "skill_used": "fabrication",
   "difficulty": 0,
   "time": 2000,
-  "reversible": false,
   "autolearn": true,
   "qualities" : [
     {"id":"CUT","level":1,"amount":1}
@@ -463,7 +452,6 @@
   "skill_used": "fabrication",
   "difficulty": 0,
   "time": 2000,
-  "reversible": false,
   "autolearn": true,
   "qualities" : [
     {"id":"CUT","level":1,"amount":1}
@@ -495,7 +483,6 @@
   "skill_used": "fabrication",
   "difficulty": 0,
   "time": 2000,
-  "reversible": false,
   "autolearn": true,
   "qualities" : [
     {"id":"CUT","level":1,"amount":1}
@@ -517,57 +504,53 @@
   ]
 },{
         "type" : "recipe",
-  "result": "ripdisk",
-  "category": "CC_OTHER",
-  "subcategory": "CSC_OTHER_PARTS",
+  "result": "harpoon",
+  "category": "CC_AMMO",
+  "subcategory": "CSC_AMMO_OTHER",
   "skill_used": "fabrication",
   "difficulty": 3,
-  "time": 8000,
-  "reversible": false,
+  "time": 20000,
   "autolearn": true,
   "qualities":[
-    {"id":"HAMMER","level":2,"amount":1},
-    {"id":"SAW_M","level":1,"amount":1},
-    { "id" : "GLARE", "level" : 2 }
-  ], "tools": [
-    [
-      [ "welder", 25 ],
-      [ "welder_crude", 50 ],
-      [ "toolset", 50 ],
-      ["oxy_torch", 2]
-    ]
-  ],
+    {"id":"CUT","level":1,"amount":1}
+   ],
   "components": [
     [
-      [ "scrap", 9 ],
-      [ "steel_chunk", 3 ],
-      [ "steel_lump", 1 ]
-    ],
-    [
-      ["blade", 7]
+      [ "stick", 10 ],
+      [ "2x4", 5 ],
+      [ "log", 1 ]
     ]
     ]
 },{
         "type" : "recipe",
-  "result": "teardisk",
-  "category": "CC_OTHER",
-  "subcategory": "CSC_OTHER_PARTS",
+  "result": "ripdisk",
+  "category": "CC_AMMO",
+  "subcategory": "CSC_AMMO_OTHER",
   "skill_used": "fabrication",
   "difficulty": 3,
-  "time": 30000,
-  "reversible": false,
+  "time": 20000,
   "autolearn": true,
   "qualities":[
-    {"id":"HAMMER","level":2,"amount":1},
-    {"id":"SAW_M","level":1,"amount":1},
-    { "id" : "GLARE", "level" : 2 }
+    {"id":"HAMMER","level":1,"amount":1},
+    {"id":"CUT","level":1,"amount":1}
   ], "tools": [
-    [
-      [ "welder", 25 ],
-      [ "welder_crude", 50 ],
-      [ "toolset", 50 ],
-      [ "oxy_torch", 2]
-    ]
+      [
+      ["tongs", -1]
+      ],
+      [
+      ["chisel", -1]
+      ],
+      [
+      ["anvil", -1]
+      ],
+      [
+      ["swage", -1]
+      ],
+      [
+      [ "forge", 100],
+      [ "char_forge", 10],
+      [ "oxy_torch", 10]
+      ]
   ],
   "components": [
     [

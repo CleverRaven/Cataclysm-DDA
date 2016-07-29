@@ -16,5 +16,17 @@
         "id" : "h_projectile",
         "name" : "heavy projectiles",
         "default" : "mininuke_mod"
+    },
+    {
+        "type" : "ammunition_type",
+        "id" : "harpoon",
+        "name" : "harpoon",
+        "default" : "harpoon"
+    },
+    {
+        "type" : "ammunition_type",
+        "id" : "bfeed",
+        "name" : "blob feed",
+        "default" : "bfeed"
     }
 ]

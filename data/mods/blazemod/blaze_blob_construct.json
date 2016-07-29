@@ -1,0 +1,73 @@
+[
+{
+        "type" : "construction",
+        "description" : "Harvest Blob Feed from Corpse Pit: Smash to Harvest", "//": "Smash afterwards to harvest.",
+        "category" : "OTHER",
+        "difficulty" : 0,
+        "time" : 60,
+        "tools" : [
+        [
+             [ "gloople", -1 ],
+             [ "glooplegrow", -1 ],
+             [ "oozle", -1 ],
+             [ "oozlegrow", -1 ],
+             [ "gray", -1 ],
+             [ "graygrow", -1 ]
+        ]
+        ],
+        "pre_terrain" : "t_pit_corpsed",
+        "post_terrain" : "blob_pit"
+    },{
+        "type" : "construction",
+        "description" : "Harvest Blob Feed from Slime: Smash to Harvest", "//": "Smash afterwards to harvest.",
+        "category" : "OTHER",
+        "difficulty" : 0,
+        "time" : 5,
+        "tools" : [
+        [
+             [ "gloople", -1 ],
+             [ "glooplegrow", -1 ],
+             [ "oozle", -1 ],
+             [ "oozlegrow", -1 ],
+             [ "gray", -1 ],
+             [ "graygrow", -1 ]
+        ]
+        ],
+        "pre_terrain" : "t_slime",
+        "post_terrain" : "blob_pit_slime"
+    },{
+        "type" : "terrain",
+        "id" : "blob_pit",
+        "name": "mass of blob feed",
+        "symbol": "O",
+        "color": "light_green",
+        "move_cost": 0,
+        "flags": ["WALL", "TRANSPARENT"],
+        "bash": {
+            "str_min": 1, "str_max": 1,
+            "sound": "squish!",
+            "sound_fail": "squish!",
+            "ter_set": "t_pit",
+            "items": [
+                { "item": "bfeed", "count": [250, 500] }
+            ]
+        }
+    },{
+        "type" : "terrain",
+        "id" : "blob_pit_slime",
+        "name": "mound of blob feed",
+        "symbol": "O",
+        "color": "light_green",
+        "move_cost": 0,
+        "flags": ["WALL", "TRANSPARENT"],
+        "bash": {
+            "str_min": 1, "str_max": 1,
+            "sound": "squish!",
+            "sound_fail": "squish!",
+            "ter_set": "t_dirt",
+            "items": [
+                { "item": "bfeed", "count": [50, 250] }
+            ]
+        }
+    }
+]
