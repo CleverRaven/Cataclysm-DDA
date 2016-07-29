@@ -379,7 +379,7 @@
                 "8": "f_shackle",
                 "P": "f_sign"
             },
-        "place_items": [ 
+        "place_items": [
                 { "item": "church", "chance": 65, "x": [14, 18], "y": [ 5, 14] },
                 { "item": "church", "chance": 65, "x": [ 11, 12 ], "y": [ 5, 6 ] },
                 { "item": "jackets", "chance": 50, "x": [12], "y": [14] }
