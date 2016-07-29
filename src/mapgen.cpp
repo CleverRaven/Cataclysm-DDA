@@ -5286,12 +5286,12 @@ ff.......|....|WWWWWWWW|\n\
                 add_field({cx2, cy2, abs_sub.z}, fd_gas_vent, 1, 0);
                 int cx3 = rng(5, 19), cy3 = rng(5, 19);
                 // Put cx3 in the middle of cx2 and cx if it initially equals either value
-                if(cx3 == cx2 || cx)
+                if(cx3 == cx2 || cx3 == cx)
                 {
                     cx3 = ((cx2 - cx) / 2);
                 }
                 // Same as above, just with the cy values
-                if(cy3 == cy2 || cy)
+                if(cy3 == cy2 || cy3 == cy)
                 {
                     cy3 = ((cy2 - cy) / 2);
                 }
