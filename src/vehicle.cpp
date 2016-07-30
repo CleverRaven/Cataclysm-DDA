@@ -5037,6 +5037,19 @@ void vehicle::place_spawn_items()
         return;
     }
 
+    for( const auto &pt : type->parts ) {
+        if( pt.with_ammo ) {
+            int turret = part_with_feature_at_relative( pt.pos, "TURRET" );
+            if( turret < 0 ) {
+                debugmsg( "No TURRET at (%d, %d) of %s!", pt.pos.x, pt.pos.y, name.c_str() );
+                continue;
+            }
+            if( x_in_y( pt.with_ammo, 100 ) ) {
+                parts[ turret ].ammo_set( default_ammo( parts[ turret ].ammo_type() ) );
+            }
+        }
+    }
+
     for( const auto& spawn : type.obj().item_spawns ) {
         if( rng( 1, 100 ) <= spawn.chance ) {
             int part = part_with_feature_at_relative( spawn.pos, "CARGO", false );
