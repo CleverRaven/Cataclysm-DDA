@@ -325,15 +325,15 @@ bool vehicle::turrets_aim()
     }
 
     // find radius of a circle centered at u encompassing all points turrets can aim at
-    int range = std::accumulate( opts.begin(), opts.end(), 0, [&]( const int lhs,
-    const vehicle_part * e ) {
+    int range = std::accumulate( opts.begin(), opts.end(), 0, [&]( const int lhs, vehicle_part * e ) {
 
-        if( turret_query( *e ).query() != turret_data::status::ready ) {
+        const auto gun = turret_query( *e );
+        if( gun.query() != turret_data::status::ready ) {
             return lhs;
         }
 
         tripoint pos = global_part_pos3( *e );
-        const int rng = e->base.gun_range();
+        const int rng = gun.range();
 
         int res = 0;
         res = std::max( res, rl_dist( g->u.pos(), { pos.x + rng, pos.y, pos.z } ) );
@@ -343,14 +343,13 @@ bool vehicle::turrets_aim()
         return std::max( lhs, res );
     } );
 
-    std::vector<tripoint> trajectory;
-
     if( opts.empty() ) {
         add_msg( m_warning, _( "Can't aim turrets: all turrets are offline" ) );
-    } else {
-        trajectory = g->pl_target_ui( TARGET_MODE_TURRET, nullptr, range );
-        g->draw_ter();
+        return false;
     }
+
+    tripoint pos = g->u.pos();
+    std::vector<tripoint> trajectory = g->pl_target_ui( TARGET_MODE_TURRET, nullptr, range );
 
     if( !trajectory.empty() ) {
         // set target for any turrets in range
