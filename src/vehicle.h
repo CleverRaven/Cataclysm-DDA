@@ -12,6 +12,7 @@
 #include "active_item_cache.h"
 #include "string_id.h"
 #include "int_id.h"
+#include "ranged.h"
 
 #include <vector>
 #include <array>
@@ -107,7 +108,6 @@ struct vehicle_part : public JsonSerializer, public JsonDeserializer
     friend vehicle;
     friend visitable<vehicle_cursor>;
     friend item_location;
-    friend class Pickup;
 
     enum : int { passenger_flag = 1 };
 
@@ -899,14 +899,41 @@ public:
     /** Get all vehicle turrets loaded and ready to fire at @ref target */
     std::vector<vehicle_part *> turrets( const tripoint &target );
 
-    enum class turret_status {
-        ready,
-        no_ammo,
-        no_power
+    class turret_data : public ranged {
+        friend vehicle;
+
+        public:
+            turret_data() = default;
+
+            std::string name() const override;
+
+            long ammo_capacity() const override;
+
+            bool can_reload() const;
+
+            bool can_unload() const;
+
+            enum class status {
+                invalid,
+                no_ammo,
+                no_power,
+                ready
+            };
+
+            status query() const;
+
+        private:
+            turret_data( vehicle *veh, vehicle_part *part, item_location &&loc ) :
+                ranged( std::move( loc ) ), veh( veh ), part( part ) {}
+
+        protected:
+            vehicle *veh;
+            vehicle_part *part;
     };
 
-    /** Query ability of turret to fire */
-    turret_status turret_query( const vehicle_part &pt ) const;
+    /** Get firing data for a turret */
+    turret_data turret_query( vehicle_part &pt );
+    const turret_data turret_query( const vehicle_part &pt ) const;
 
     /**
      * Manually aim and fire turret

@@ -1372,24 +1372,26 @@ void veh_interact::display_contents()
         std::string hdr;
         std::string msg;
 
-        if( pt.is_turret() && pt.ammo_capacity() ) {
-            if( pt.turret_magazine() ) {
-                hdr = pt.name();
-                if( pt.ammo_current() != "null" ) {
+        auto turret = veh->turret_query( pt );
+        if( turret && turret.can_unload() ) {
+            hdr = turret.name();
+
+            if( turret.magazine_current() ) {
+                if( turret.ammo_current() != "null" ) {
                     msg = string_format( _( "%s with %s (%i/%i)" ),
-                                         pt.turret_magazine()->type_name().c_str(),
-                                         item::nname( pt.ammo_current(), pt.ammo_remaining() ).c_str(),
-                                         pt.ammo_remaining(), pt.ammo_capacity() );
+                                         turret.magazine_current()->type_name().c_str(),
+                                         item::nname( turret.ammo_current(), turret.ammo_remaining() ).c_str(),
+                                         turret.ammo_remaining(), turret.ammo_capacity() );
                 } else {
                     msg = string_format( _( "%s (%i/%i)" ),
-                                         pt.turret_magazine()->type_name().c_str(),
-                                         pt.ammo_remaining(), pt.ammo_capacity() );
+                                         turret.magazine_current()->type_name().c_str(),
+                                         turret.ammo_remaining(), turret.ammo_capacity() );
                 }
 
-            } else {
-                hdr = string_format( "%s (%i/%i)", pt.name().c_str(), pt.ammo_remaining(), pt.ammo_capacity() );
-                if( pt.ammo_current() != "null" ) {
-                    msg = item::nname( pt.ammo_current(), pt.ammo_remaining() );
+            } else if( turret.ammo_capacity() > 0 ) {
+                hdr += string_format( " (%i/%i)", turret.ammo_remaining(), turret.ammo_capacity() );
+                if( turret.ammo_remaining() && turret.ammo_current() != "null" ) {
+                    msg = item::nname( turret.ammo_current(), turret.ammo_remaining() );
                 }
             }
 

@@ -17,7 +17,8 @@
     "difficulty": 5,
     "color": "dark_gray",
     "broken_color": "dark_gray",
-    "breaks_into": [ { "item": "flamethrower", "prob": 50 } ]
+    "breaks_into": [ { "item": "flamethrower", "prob": 50 } ],
+    "extend": { "flags": [ "USE_TANKS" ] }
   },
   {
     "id": "fusion_gun",
@@ -39,7 +40,8 @@
     "difficulty": 8,
     "color": "magenta",
     "broken_color": "magenta",
-    "breaks_into": [ { "item": "laser_rifle", "prob": 50 } ]
+    "breaks_into": [ { "item": "laser_rifle", "prob": 50 } ],
+    "extend": { "flags": [ "USE_TANKS" ] }
   },
   {
     "id": "m249",
@@ -161,5 +163,17 @@
     "color": "light_blue",
     "broken_color": "light_blue",
     "breaks_into": [ { "item": "plasma_rifle", "prob": 50 } ]
+  },
+  {
+    "id": "watercannon",
+    "copy-from": "turret",
+    "type": "vehicle_part",
+    "name": "water cannon",
+    "item": "watercannon",
+    "difficulty": 5,
+    "color": "blue",
+    "broken_color": "blue",
+    "breaks_into": [ { "item": "watercannon", "prob": 50 } ],
+    "extend": { "flags": [ "USE_TANKS" ] }
   }
 ]
