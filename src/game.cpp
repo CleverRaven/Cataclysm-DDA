@@ -2838,8 +2838,8 @@ bool game::handle_action()
                 int part = -1;
                 vehicle *veh = m.veh_at( u.pos(), part );
 
-                auto turret = veh->turret_query( u.pos() );
-                if( turret ) {
+                turret_data turret;
+                if( veh && ( turret = veh->turret_query( u.pos() ) ) ) {
                     switch( turret.query() ) {
                         case turret_data::status::no_ammo:
                             add_msg( m_bad, _( "The %s is out of ammo." ), turret.name().c_str() );
