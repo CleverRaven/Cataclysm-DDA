@@ -2056,19 +2056,18 @@ bool vehicle::is_connected(vehicle_part const &to, vehicle_part const &from, veh
  * @param id The string ID of the part to install. (see vehicle_parts.json)
  * @return false if the part could not be installed, true otherwise.
  */
-int vehicle::install_part( int dx, int dy, const vpart_str_id &id )
+int vehicle::install_part( int dx, int dy, const vpart_str_id &id, bool force )
 {
-    if( !can_mount( dx, dy, id ) ) {
-        return -1;  // no money -- no ski!
+    if( !( force || can_mount( dx, dy, id ) ) ) {
+        return -1;
     }
-    vehicle_part new_part( id, dx, dy, item( id.obj().item ) );
-    return install_part(dx, dy, new_part);
+    return install_part( dx, dy, vehicle_part( id, dx, dy, item( id.obj().item ) ) );
 }
 
-int vehicle::install_part( int dx, int dy, const vpart_str_id &id, item&& obj )
+int vehicle::install_part( int dx, int dy, const vpart_str_id &id, item&& obj, bool force )
 {
-    if (!can_mount (dx, dy, id)) {
-        return -1;  // no money -- no ski!
+    if( !( force || can_mount ( dx, dy, id ) ) ) {
+        return -1;
     }
     return install_part(dx, dy, vehicle_part( id, dx, dy, std::move( obj ) ) );
 }

@@ -559,13 +559,13 @@ public:
     bool can_unmount (int p) const;
 
     // install a new part to vehicle
-    int install_part (int dx, int dy, const vpart_str_id &id);
+    int install_part (int dx, int dy, const vpart_str_id &id, bool force = false );
 
     // Install a copy of the given part, skips possibility check
     int install_part (int dx, int dy, const vehicle_part &part);
 
     /** install item @ref obj to vehicle as a vehicle part */
-    int install_part( int dx, int dy, const vpart_str_id& id, item&& obj );
+    int install_part( int dx, int dy, const vpart_str_id& id, item&& obj, bool force = false );
 
     bool remove_part (int p);
     void part_removal_cleanup ();
