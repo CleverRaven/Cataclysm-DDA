@@ -1037,6 +1037,7 @@ std::vector<tripoint> game::pl_target_ui( target_mode mode, item *relevant, int 
         } ), targets.end() );
 
         if( targets.empty() ) {
+            idx = -1;
             return;
         }
 
