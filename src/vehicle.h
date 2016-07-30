@@ -911,6 +911,7 @@ public:
             long ammo_capacity() const override;
             const itype *ammo_data() const override;
             itype_id ammo_current() const override;
+            std::set<std::string> ammo_effects() const override;
 
             int range() const override;
 

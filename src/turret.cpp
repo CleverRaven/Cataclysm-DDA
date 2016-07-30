@@ -126,6 +126,21 @@ itype_id vehicle::turret_data::ammo_current() const
     return "null";
 }
 
+std::set<std::string> vehicle::turret_data::ammo_effects() const
+{
+    if( !loc ) {
+        return std::set<std::string>();
+    }
+    if( !part->info().has_flag( "USE_TANKS" ) ) {
+        return ranged::ammo_effects();
+    }
+    auto res = loc->ammo_effects();
+    if( ammo_data() ) {
+        res.insert( ammo_data()->ammo->ammo_effects.begin(), ammo_data()->ammo->ammo_effects.end() );
+    }
+    return res;
+}
+
 int vehicle::turret_data::range() const
 {
     if( !loc ) {
@@ -351,18 +366,17 @@ bool vehicle::turrets_aim()
 
 int vehicle::automatic_fire_turret( vehicle_part &pt )
 {
-    if( turret_query( pt ).query() != turret_data::status::ready ) {
+    auto gun = turret_query( pt );
+    if( gun.query() != turret_data::status::ready ) {
         return 0;
     }
 
-    item &gun = pt.base;
     tripoint pos = global_part_pos3( pt );
 
     npc tmp;
     tmp.set_fake( true );
-    tmp.add_effect( effect_on_roof, 1 );
     tmp.name = rmp_format( _( "<veh_player>The %s" ), pt.name().c_str() );
-    tmp.set_skill_level( gun.gun_skill(), 8 );
+    tmp.set_skill_level( gun.base()->gun_skill(), 8 );
     tmp.set_skill_level( skill_id( "gun" ), 4 );
     tmp.recoil = abs( velocity ) / 100 / 4;
     tmp.setpos( pos );
@@ -385,7 +399,7 @@ int vehicle::automatic_fire_turret( vehicle_part &pt )
         int boo_hoo;
 
         // @todo calculate chance to hit and cap range based upon this
-        int range = std::min( gun.gun_range(), 12 );
+        int range = std::min( gun.range(), 12 );
         Creature *auto_target = tmp.auto_find_hostile_target( range, boo_hoo, area );
         if( auto_target == nullptr ) {
             if( u_see && boo_hoo ) {
@@ -415,15 +429,11 @@ int vehicle::automatic_fire_turret( vehicle_part &pt )
         return 0;
     }
 
-    // notify player if player can see the shot
-    if( g->u.sees( pos ) ) {
+    auto shots = gun.fire( tmp, targ );
+
+    if( g->u.sees( pos ) && shots ) {
         add_msg( _( "The %1$s fires its %2$s!" ), name.c_str(), pt.name().c_str() );
     }
-
-    auto mode = gun.gun_current_mode();
-    int shots = tmp.fire_gun( targ, mode.qty, *mode );
-
-    drain( fuel_type_battery, pt.base.get_gun_ups_drain() * shots );
 
     return shots;
 }

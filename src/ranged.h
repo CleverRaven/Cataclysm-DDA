@@ -64,6 +64,11 @@ class ranged
             return loc ? loc->ammo_type() : ammotype( "NULL" );
         }
 
+        /** Ammo effects inclusive of any resulting from loaded ammo */
+        virtual std::set<std::string> ammo_effects() const {
+            return loc ? loc->ammo_effects() : std::set<std::string>();
+        }
+
         /** Maximum range considering current ammo (if any) */
         virtual int range() const {
             return loc ? loc->gun_range() : 0;
