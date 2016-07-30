@@ -11058,6 +11058,19 @@ void game::reload( int pos, bool prompt )
 void game::reload()
 {
     if( !u.is_armed() ) {
+
+        vehicle *veh = m.veh_at( u.pos() );
+        turret_data turret;
+        if( veh && ( turret = veh->turret_query( u.pos() ) ) && turret.can_reload() ) {
+            item::reload_option opt = g->u.select_ammo( *turret.base(), true );
+            if( opt ) {
+                g->u.assign_activity( ACT_RELOAD, opt.moves(), opt.qty() );
+                g->u.activity.targets.emplace_back( std::move( turret.base() ) );
+                g->u.activity.targets.push_back( std::move( opt.ammo ) );
+            }
+            return;
+        }
+
         add_msg(m_info, _( "You're not wielding anything." ) );
     } else {
         reload( -1 );
