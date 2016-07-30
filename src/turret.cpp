@@ -22,7 +22,7 @@ std::vector<vehicle_part *> vehicle::turrets()
     std::vector<vehicle_part *> res;
 
     for( auto &e : parts ) {
-        if( e.hp > 0 && e.base.is_gun() ) {
+        if( !e.is_broken() && e.base.is_gun() ) {
             res.push_back( &e );
         }
     }
@@ -83,8 +83,7 @@ int vehicle::turret_fire( vehicle_part &pt )
             shooter.add_effect( effect_on_roof, 1 );
             shooter.recoil = abs( velocity ) / 100 / 4;
 
-            tripoint pos = shooter.pos();
-            auto trajectory = g->pl_target_ui( pos, gun.gun_range(), &gun, TARGET_MODE_TURRET_MANUAL );
+            auto trajectory = g->pl_target_ui( TARGET_MODE_TURRET_MANUAL, &gun, gun.gun_range() );
             g->draw_ter();
 
             if( !trajectory.empty() ) {
@@ -211,16 +210,12 @@ bool vehicle::turrets_aim()
         return std::max( lhs, res );
     } );
 
-    // fake gun item to aim
-    item pointer( "vehicle_pointer" );
-
-    tripoint pos = g->u.pos();
     std::vector<tripoint> trajectory;
 
     if( opts.empty() ) {
         add_msg( m_warning, _( "Can't aim turrets: all turrets are offline" ) );
     } else {
-        trajectory = g->pl_target_ui( pos, range, &pointer, TARGET_MODE_TURRET );
+        trajectory = g->pl_target_ui( TARGET_MODE_TURRET, nullptr, range );
         g->draw_ter();
     }
 
@@ -331,8 +326,8 @@ int vehicle::automatic_fire_turret( vehicle_part &pt )
     tmp.str_cur = 16;
     tmp.dex_cur = 8;
     tmp.per_cur = 12;
-    // Assume vehicle turrets are defending the player.
-    tmp.attitude = NPCATT_DEFEND;
+    // Assume vehicle turrets are friendly to the player.
+    tmp.attitude = NPCATT_FOLLOW;
 
     int area = aoe_size( gun.ammo_effects() );
     if( area > 0 ) {

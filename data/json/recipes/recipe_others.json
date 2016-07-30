@@ -4653,6 +4653,7 @@
   ],
   "components": [
     [
+      [ "1cyl_combustion", 1 ],
       [ "1cyl_combustion_small", 1 ]
     ],
     [
@@ -5595,7 +5596,7 @@
       [ "glass_sheet", 1 ]
      ],
      [
-      [ "silver_small", 50 ]
+      [ "silver_small", 10 ]
      ]
     ]
 },
@@ -7599,6 +7600,6 @@
   "time": 1000,
   "autolearn": true,
   "qualities" : [ {"id":"CUT","level":1} ],
-  "components": [ [ [ "2x4", 1 ] ] ] 
+  "components": [ [ [ "2x4", 1 ] ] ]
 }
 ]

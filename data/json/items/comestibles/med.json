@@ -370,7 +370,7 @@
         "use_action" : {
             "type" : "consume_drug",
             "activation_message" : "You take some codeine.",
-            "effects" : [ 
+            "effects" : [
                 { "id" : "pkill2", "duration" : 180 },
                 { "id" : "cough_suppress", "duration" : 1000 }
             ]
@@ -672,7 +672,7 @@
             "type" : "consume_drug",
             "activation_message" : "You shoot up.",
             "tools_needed" : { "syringe" : 1 },
-            "effects" : [ 
+            "effects" : [
                 { "id" : "pkill3", "duration" : 80 },
                 { "id" : "pkill2", "duration" : 200 },
                 { "id" : "cough_suppress", "duration" : 1000 }

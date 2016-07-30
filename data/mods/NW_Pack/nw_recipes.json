@@ -38,10 +38,10 @@
      [ "warhammer", 1 ]
      ],
      [
-      [ "gold", 1 ]
+      [ "gold_small", 1 ]
      ],
      [
-      [ "silver", 2 ]
+      [ "silver_small", 2 ]
      ],
      [
       [ "rebar", 1 ]
@@ -87,10 +87,10 @@
       [ "spear_steel", 1 ]
      ],
      [
-      [ "gold", 1 ]
+      [ "gold_small", 1 ]
      ],
      [
-      [ "silver", 2 ]
+      [ "silver_small", 2 ]
      ]
     ]
 },
@@ -133,10 +133,10 @@
       [ "reflexrecurvebow", 1 ]
      ],
      [
-      [ "gold", 1 ]
+      [ "gold_small", 1 ]
      ],
      [
-      [ "silver", 2 ]
+      [ "silver_small", 2 ]
      ]
     ]
 },
@@ -179,10 +179,10 @@
       [ "broadsword", 1 ]
      ],
      [
-      [ "gold", 1 ]
+      [ "gold_small", 1 ]
      ],
      [
-      [ "silver", 2 ]
+      [ "silver_small", 2 ]
      ]
     ]
 }

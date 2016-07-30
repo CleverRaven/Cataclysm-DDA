@@ -64,13 +64,13 @@ void check_recipe_ident( const std::string &rec_name, JsonObject &jsobj )
     }
 }
 
-void load_recipe( JsonObject &jsobj )
+void load_recipe( JsonObject &jsobj, const std::string & /* src */, bool uncraft )
 {
     JsonArray jsarr;
 
     // required
     std::string result = jsobj.get_string( "result" );
-    std::string category = jsobj.get_string( "category" );
+    std::string category = uncraft ? "CC_NONCRAFT" : jsobj.get_string( "category" );
     int time = jsobj.get_int( "time" );
     int difficulty = jsobj.get_int( "difficulty" );
 
@@ -78,10 +78,10 @@ void load_recipe( JsonObject &jsobj )
     std::string container = jsobj.get_string( "container", "null" );
     bool contained = jsobj.get_bool( "contained", container != "null" );
 
-    std::string subcategory = jsobj.get_string( "subcategory", "" );
-    bool reversible = jsobj.get_bool( "reversible", false );
+    std::string subcategory = uncraft ? "CSC_NONCRAFT" : jsobj.get_string( "subcategory", "" );
+    bool reversible = uncraft || jsobj.get_bool( "reversible", false );
     skill_id skill_used( jsobj.get_string( "skill_used", skill_id::NULL_ID.str() ) );
-    std::string id_suffix = jsobj.get_string( "id_suffix", "" );
+    std::string id_suffix = uncraft ? "uncraft" : jsobj.get_string( "id_suffix", "" );
     double batch_rscale = 0.0;
     int batch_rsize = 0;
     if( jsobj.has_array( "batch_time_factors" ) ) {
@@ -190,6 +190,8 @@ void load_recipe( JsonObject &jsobj )
     rec->result_mult = result_mult;
     rec->flags = jsobj.get_tags( "flags" );
 
+    jsobj.read( "charges", rec->charges );
+
     if( jsobj.has_string( "using" ) ) {
         rec->reqs = { { requirement_id( jsobj.get_string( "using" ) ), 1 } };
 
@@ -261,6 +263,11 @@ void finalize_recipes()
 
         if( !item::type_is_defined( r->result ) ) {
             buffer << "Recipe " << r->ident() << " defines invalid result " << r->result << "\n";
+        }
+
+        if( r->charges >= 0 && !item::count_by_charges( r->result ) ) {
+            buffer << "Recipe " << r->ident() << " specified charges but " << r->result <<
+                   " is not counted by charges\n";
         }
 
         for( const auto &bp : r->byproducts ) {
@@ -654,6 +661,9 @@ void player::make_craft_with_command( const std::string &id_to_make, int batch_s
 item recipe::create_result() const
 {
     item newit( result, calendar::turn, item::default_charges_tag{} );
+    if( charges >= 0 ) {
+        newit.charges = charges;
+    }
     if( contained == true ) {
         newit = newit.in_container( container );
     }
@@ -1657,7 +1667,7 @@ void player::complete_disassemble( int item_pos, const tripoint &loc,
     // has been removed.
     item dis_item = org_item;
 
-    float component_success_chance = ( float )( std::min( std::pow( 0.8, dis_item.damage ), 1.0 ) );
+    float component_success_chance = std::min( std::pow( 0.8, dis_item.damage() ), 1.0 );
 
     int veh_part = -1;
     vehicle *veh = g->m.veh_at( pos(), veh_part );

@@ -403,7 +403,7 @@
         "price": 10000,
         "price_postapoc": 100,
         "material": "gold",
-        "weight": 1514,
+        "weight": 1500,
         "volume": 1,
         "bashing": 9
     },
@@ -2548,14 +2548,16 @@
     },
     {
         "id": "shrapnel",
-        "type": "GENERIC",
+        "type": "AMMO",
         "name": "shrapnel",
         "description": "A twisted shard of jagged metal.",
         "weight": 5,
         "volume": 1,
         "price": 0,
-        "material": "iron",
+        "stack_size": 50,
+        "material": [ "steel" ],
         "symbol": ".",
-        "color": "white"
+        "color": "white",
+        "ammo_type": "components"
     }
 ]

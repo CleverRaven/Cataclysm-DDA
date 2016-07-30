@@ -1976,29 +1976,6 @@ get_hp_bar( const int cur_hp, const int max_hp, const bool is_mon )
            ( ratio >= 0.0 )            ? strings[10] : strings[11];
 }
 
-std::pair<std::string, nc_color> const &get_item_hp_bar( const int dmg )
-{
-    using pair_t = std::pair<std::string, nc_color>;
-    static std::array<pair_t, 7> const strings {
-        {
-            //~ item health bars
-            pair_t {_( R"(++)" ), c_green},
-                   pair_t {_( R"(||)" ), c_ltgreen},
-                   pair_t {_( R"(|\)" ), c_yellow},
-                   pair_t {_( R"(|.)" ), c_magenta},
-                   pair_t {_( R"(\.)" ), c_ltred},
-                   pair_t {_( R"(..)" ), c_red},
-                   pair_t {_( R"(??)" ), c_white},
-        }
-    };
-
-    if( dmg >= -1 && dmg <= 4 ) {
-        return strings[dmg + 1];
-    }
-
-    return strings[6];
-}
-
 std::pair<std::string, nc_color> const &get_light_level( const float light )
 {
     using pair_t = std::pair<std::string, nc_color>;

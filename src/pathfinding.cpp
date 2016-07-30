@@ -322,7 +322,7 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
                             // Car obstacle that isn't a door
                             // Or there is no car obstacle, but the car is wedged into an obstacle,
                             //  in which case part == -1
-                            newg += 2 * veh->parts[part].hp / bash + 8 + 4;
+                            newg += 2 * veh->parts[part].hp() / bash + 8 + 4;
                         } else {
                             if( !veh->part_flag( part, VPFLAG_OPENABLE ) ) {
                                 // Won't be openable, don't try from other sides

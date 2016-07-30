@@ -6237,7 +6237,7 @@
     },{
     "type" : "MONSTER",
     "id" : "mon_alpha_razorclaw",
-    "name": " alpha razorclaw",
+    "name": "alpha razorclaw",
     "species":"MUTANT",
     "default_faction":"razorclaw",
     "symbol":"Y",

@@ -10640,7 +10640,7 @@ void player::drop( const std::list<std::pair<int, int>> &what, const tripoint &w
         return;
     }
 
-    assign_activity( type, 0 );
+    assign_activity( type, calendar::INDEFINITELY_LONG );
     activity.placement = target - pos();
 
     for( auto item_pair : what ) {
@@ -11090,7 +11090,7 @@ void player::gunmod_add( item &gun, item &mod )
         roll += ( get_int() - 12 ) * 2;
 
         // each point of damage to the base gun reduces success by 10%
-        roll -= std::min( gun.damage, 0 ) * 10;
+        roll -= std::min( gun.damage(), 0 ) * 10;
 
         roll = std::min( roll, 100 );
 
@@ -12105,8 +12105,7 @@ bool player::armor_absorb( damage_unit& du, item& armor )
         material.bash_dmg_verb() : material.cut_dmg_verb();
 
     const std::string pre_damage_name = armor.tname();
-    const std::string pre_damage_adj = armor.get_base_material().
-        dmg_adj(armor.damage);
+    const std::string pre_damage_adj = armor.get_base_material().dmg_adj( armor.damage() );
 
     // add "further" if the damage adjective and verb are the same
     std::string format_string = ( pre_damage_adj == damage_verb ) ?
@@ -12119,13 +12118,7 @@ bool player::armor_absorb( damage_unit& du, item& armor )
                 m_neutral, damage_verb, m_info);
     }
 
-    if (armor.has_flag("FRAGILE")) {
-        armor.damage += rng(2,3);
-    } else {
-        armor.damage++;
-    }
-
-    return armor.damage >= 5;
+    return armor.mod_damage( armor.has_flag( "FRAGILE" ) ? rng( 2, 3 ) : 1, du.type );
 }
 
 float player::bionic_armor_bonus( body_part bp, damage_type dt ) const
@@ -13081,7 +13074,6 @@ void player::burn_move_stamina( int moves )
 Creature::Attitude player::attitude_to( const Creature &other ) const
 {
     const auto m = dynamic_cast<const monster *>( &other );
-    const auto p = dynamic_cast<const npc *>( &other );
     if( m != nullptr ) {
         if( m->friendly != 0 ) {
             return A_FRIENDLY;
@@ -13103,8 +13095,13 @@ Creature::Attitude player::attitude_to( const Creature &other ) const
             case NUM_MONSTER_ATTITUDES:
                 break;
         }
-    } else if( p != nullptr ) {
-        if( p->attitude == NPCATT_KILL ) {
+
+        return A_NEUTRAL;
+    }
+
+    const auto p = dynamic_cast<const npc *>( &other );
+    if( p != nullptr ) {
+        if( p->is_enemy() ) {
             return A_HOSTILE;
         } else if( p->is_friend() ) {
             return A_FRIENDLY;
@@ -13112,6 +13109,7 @@ Creature::Attitude player::attitude_to( const Creature &other ) const
             return A_NEUTRAL;
         }
     }
+
     return A_NEUTRAL;
 }
 
@@ -13519,7 +13517,7 @@ float player::power_rating() const
 
 float player::speed_rating() const
 {
-    float ret = 1.0f / get_speed();
+    float ret = get_speed() / 100.0f;
     ret *= 100.0f / run_cost( 100, false );
     // Adjustment for player being able to run, but not doing so at the moment
     if( move_mode != "run" ) {

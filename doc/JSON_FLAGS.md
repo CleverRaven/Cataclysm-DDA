@@ -573,7 +573,6 @@ listings, as ids are constant throughout DDA's code.  Happy chambering!  :-)
 ### Effects
 
 - ```ACIDBOMB``` Leaves a pool of acid on detonation.
-- ```ACID_DROP``` Creates a tiny field of weak acid.
 - ```BEANBAG``` Stuns the target.
 - ```BLINDS_EYES``` Blinds the target if it hits the head (ranged projectiles can't actually hit the eyes at the moment).
 - ```BOUNCE``` Inflicts target with `bounced` effect and rebounds to a nearby target without this effect.

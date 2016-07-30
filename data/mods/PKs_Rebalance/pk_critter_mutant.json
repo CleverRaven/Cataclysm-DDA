@@ -1,69 +1,72 @@
 [
     {
-    "type" : "MONSTER",
-    "id" : "mon_coyote_wolf",
-    "edit-mode" : "modify",
+    "type": "MONSTER",
+    "id": "mon_coyote_wolf",
+    "edit-mode": "modify",
     "hp": 25,
     "upgrades":{
         "into": "mon_coyote_wolf_zerg",
         "half_life": 19
     }
     },{
-    "type" : "MONSTER",
-    "id" :"mon_sewer_fish",
-    "edit-mode" : "modify",
+    "type": "MONSTER",
+    "id":"mon_sewer_fish",
+    "edit-mode": "modify",
     "default_faction":"mutant_predator"
     },{
-    "type" : "MONSTER",
-    "id" :"mon_sludge_crawler",
-    "edit-mode" : "modify",
-    "default_faction":"mutant_omnivore"
+    "type": "MONSTER",
+    "id":"mon_sludge_crawler",
+    "edit-mode": "modify",
+    "default_faction":"mutant_omnivore",
+    "emit_fields": [ "emit_sludge" ],
+    "flags":["NOHEAD", "SEES", "POISON", "HEARS", "REGENERATES_50", "SMELLS", "SLUDGEPROOF", "SWIMS", "FLAMMABLE", "NOGIB"]
     },{
-    "type" : "MONSTER",
-    "id" :"mon_chud",
-    "edit-mode" : "modify",
+    "type": "MONSTER",
+    "id":"mon_chud",
+    "edit-mode": "modify",
     "melee_skill":6,
     "melee_dice":1,
     "melee_dice_sides":8,
     "melee_cut":0
     },{
-    "type" : "MONSTER",
-    "id" :"mon_one_eye",
-    "edit-mode" : "modify",
+    "type": "MONSTER",
+    "id":"mon_one_eye",
+    "edit-mode": "modify",
     "default_faction":"mutant_omnivore",
     "melee_skill":9,
     "melee_dice":2,
     "melee_dice_sides":4,
     "melee_cut":1
     },{
-    "type" : "MONSTER",
-    "id" :"mon_crawler",
-    "edit-mode" : "modify",
+    "type": "MONSTER",
+    "id":"mon_crawler",
+    "edit-mode": "modify",
     "default_faction":"mutant_predator"
     },{
-    "type" : "MONSTER",
-    "id" : "mon_dark_wyrm",
-    "edit-mode" : "modify",
+    "type": "MONSTER",
+    "id": "mon_dark_wyrm",
+    "edit-mode": "modify",
     "default_faction":"dark_wyrm"
     },{
-    "type" : "MONSTER",
-    "id" :"mon_amigara_horror",
-    "edit-mode" : "modify",
-    "default_faction":"amigara"
+    "type": "MONSTER",
+    "id":"mon_amigara_horror",
+    "edit-mode": "modify",
+    "default_faction":"amigara",
+    "emit_fields": [ "emit_fatigue" ]
     },{
-    "type" : "MONSTER",
-    "id" :"mon_dog_thing",
-    "edit-mode" : "modify",
+    "type": "MONSTER",
+    "id":"mon_dog_thing",
+    "edit-mode": "modify",
     "default_faction":"mutant_predator"
     },{
-    "type" : "MONSTER",
-    "id" :"mon_thing",
-    "edit-mode" : "modify",
+    "type": "MONSTER",
+    "id":"mon_thing",
+    "edit-mode": "modify",
     "default_faction":"mutant_predator"
     },{
-    "type" : "MONSTER",
-    "id" :"mon_human_snail",
-    "edit-mode" : "modify",
+    "type": "MONSTER",
+    "id":"mon_human_snail",
+    "edit-mode": "modify",
     "default_faction": "mutant_omnivore",
     "aggression":0,
     "morale":30,
@@ -72,7 +75,7 @@
     "melee_dice":1,
     "melee_dice_sides":4,
     "melee_cut":0,
-    "melee_damage" : [{"damage_type" : "acid", "amount" : 2}],
+    "melee_damage": [{"damage_type": "acid", "amount": 2}],
     "dodge":0,
     "armor_bash":6,
     "armor_cut":12,
@@ -83,9 +86,9 @@
     "flags":["SEES", "SMELLS", "HEARS", "PATH_AVOID_DANGER_2", "POISON", "ACIDPROOF", "ACID_BLOOD", "ACIDTRAIL"],
     "anger_triggers":["FRIEND_ATTACKED", "HURT", "FRIEND_DIED"]
     },{
-    "type" : "MONSTER",
-    "id" :"mon_twisted_body",
-    "edit-mode" : "modify",
+    "type": "MONSTER",
+    "id":"mon_twisted_body",
+    "edit-mode": "modify",
     "default_faction":"twisted_body",
     "aggression":0,
     "morale":100,
@@ -104,17 +107,17 @@
     "flags":["SEES", "HEARS", "GOODHEARING", "POISON", "HUMAN", "LEATHER", "CLIMBS", "SWARMS", "REGENERATES_10"],
     "anger_triggers":["PLAYER_CLOSE", "PLAYER_WEAK", "FRIEND_ATTACKED"]
     },{
-    "type" : "MONSTER",
-    "id" : "mon_jabberwock",
-    "edit-mode" : "modify",
+    "type": "MONSTER",
+    "id": "mon_jabberwock",
+    "edit-mode": "modify",
         "upgrades":{
       "into": "mon_jabberwock_pk",
       "half_life": 28,
     "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "DESTROYS", "ATTACKMON", "LEATHER", "BONES", "POISON", "BONES", "FAT", "REVIVES", "NO_NECRO"]
       }
     },{
-        "type" : "MONSTER",
-        "id" : "mon_jabberwock_pk",
+        "type": "MONSTER",
+        "id": "mon_jabberwock_pk",
         "name": "jabberwock",
         "species":"ABERRATION",
         "default_faction":"jabberwock",
@@ -140,10 +143,10 @@
         "special_attacks":[["FLESH_GOLEM", 5], ["SMASH", 60],  ["FEAR_PARALYZE", 3]],
         "description":"A putrid amalgamation of body parts from humans and other creatures have fused together in this aberration of flesh.  The eyes of all the heads dart about rapidly and the mouths form a chorus of groaning screams.  Its coming for you",
         "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "DESTROYS", "ATTACKMON", "LEATHER", "BONES", "POISON", "BONES", "FAT", "REVIVES", "NO_NECRO"],
-        "//" : "zombie tank will beat this guy with about 20% health.  Most because its faster and this guy cant smash as often as him.  And oc the tank has more armor."
+        "//": "zombie tank will beat this guy with about 20% health.  Most because its faster and this guy cant smash as often as him.  And oc the tank has more armor."
     },{
-    "type" : "MONSTER",
-    "id" : "mon_bat_vampire",
+    "type": "MONSTER",
+    "id": "mon_bat_vampire",
     "name": "vampire bat",
     "species":"ABERRATION",
     "default_faction":"mutant_small",
@@ -159,7 +162,7 @@
     "melee_dice":1,
     "melee_dice_sides":2,
     "melee_cut":4,
-    "melee_damage" : [{"damage_type" : "biological", "amount" : 1}],
+    "melee_damage": [{"damage_type": "biological", "amount": 1}],
     "dodge":3,
     "armor_bash":6,
     "vision_day":10,
@@ -168,9 +171,9 @@
     "death_function":"NORMAL",
     "special_attacks":[["SHRIEK_ALERT", 30], ["SHRIEK_STUN", 1],
         {
-            "type" : "bite",
-            "cooldown" : 3,
-            "no_infection_chance" : 5
+            "type": "bite",
+            "cooldown": 3,
+            "no_infection_chance": 5
         }
     ],
     "description":"A mutated bat with a narrow, proboscis-like snout.  After its pack stuns the prey, it uses its teeth to gouge a hole into it and its slender tongue to quickly lap up the resulting blood.",
@@ -179,8 +182,8 @@
     "fear_triggers":["PLAYER_CLOSE", "SOUND", "FRIEND_DIED"],
     "categories":["WILDLIFE"]
     },{
-    "type" : "MONSTER",
-    "id" : "mon_coyote_wolf_zerg",
+    "type": "MONSTER",
+    "id": "mon_coyote_wolf_zerg",
     "name": "scythed coyote",
     "species":"MAMMAL",
     "default_faction":"dog",
@@ -205,12 +208,12 @@
     "death_function":"NORMAL",
     "special_attacks":[["LONGSWIPE", 20], ["IMPALE", 50],
         {
-            "type" : "leap",
-            "cooldown" : 20,
-            "max_range" : 3,
-            "min_consider_range" : 2,
-            "max_consider_range" : 7,
-            "allow_no_target" : false
+            "type": "leap",
+            "cooldown": 20,
+            "max_range": 3,
+            "min_consider_range": 2,
+            "max_consider_range": 7,
+            "allow_no_target": false
         }],
     "description":"It looks like a brown coyote with black streaks along its side.  Except against either haunch rests a muscular folded limb terminating in a scythe-like bony protrusion.",
     "flags":["SEES", "HEARS", "SMELLS", "PATH_AVOID_DANGER_1", "ANIMAL", "WARM", "FUR", "KEENNOSE", "BLEED", "BONES", "FAT", "SWARMS", "GROUP_MORALE"],

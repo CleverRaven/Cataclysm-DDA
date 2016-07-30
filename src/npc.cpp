@@ -28,12 +28,6 @@
 #include <sstream>
 #include <string>
 
-#define NPC_LOW_VALUE       5
-#define NPC_HI_VALUE        8
-#define NPC_VERY_HI_VALUE  15
-#define NPC_DANGER_LEVEL   10
-#define NPC_DANGER_VERY_LOW 5
-
 const skill_id skill_mechanics( "mechanics" );
 const skill_id skill_electronics( "electronics" );
 const skill_id skill_speech( "speech" );
@@ -1092,52 +1086,7 @@ void npc::form_opinion( const player &u )
              name.c_str(), npc_attitude_name( attitude ).c_str() );
 }
 
-int npc::player_danger( const player &ur ) const
-{
-    // TODO: Rewrite this function
-    const player *u = &ur;
- int ret = 0;
- if (u->weapon.is_gun()) {
-  if (weapon.is_gun())
-   ret += 4;
-  else
-   ret += 8;
- } else if( u->weapon_value( u->weapon ) > 20 )
-  ret++;
- else if( !u->is_armed() ) // Unarmed
-  ret -= 3;
-
- if (u->str_cur > 20) // Superhuman strength!
-  ret += 4;
- if (u->str_max >= 16)
-  ret += 2;
- else if (u->str_max >= 12)
-  ret += 1;
- else if (u->str_max <= 5)
-  ret -= 2;
- else if (u->str_max <= 3)
-  ret -= 4;
-
- for (int i = 0; i < num_hp_parts; i++) {
-  if (u->hp_cur[i] <= u->hp_max[i] / 2)
-   ret--;
-  if (hp_cur[i] <= hp_max[i] / 2)
-   ret++;
- }
-
- if (u->has_trait("TERRIFYING"))
-  ret += 2;
-
- if (u->stim > 20)
-  ret++;
-
- if (u->has_effect( effect_drunk))
-  ret -= 2;
-
- return ret;
-}
-
-int npc::vehicle_danger(int radius) const
+float npc::vehicle_danger(int radius) const
 {
     const tripoint from( posx() - radius, posy() - radius, posz() );
     const tripoint to( posx() + radius, posy() + radius, posz() );
@@ -1581,10 +1530,7 @@ bool npc::took_painkiller() const
 
 bool npc::is_friend() const
 {
- if (attitude == NPCATT_FOLLOW || attitude == NPCATT_DEFEND ||
-     attitude == NPCATT_LEAD)
-  return true;
- return false;
+    return attitude == NPCATT_FOLLOW || attitude == NPCATT_LEAD;
 }
 
 bool npc::is_minion() const
@@ -1596,7 +1542,6 @@ bool npc::is_following() const
 {
  switch (attitude) {
  case NPCATT_FOLLOW:
- case NPCATT_DEFEND:
  case NPCATT_WAIT:
   return true;
  default:
@@ -1614,11 +1559,6 @@ bool npc::is_enemy() const
     return attitude == NPCATT_KILL || attitude == NPCATT_FLEE;
 }
 
-bool npc::is_defending() const
-{
- return (attitude == NPCATT_DEFEND);
-}
-
 bool npc::is_guarding() const
 {
     return mission == NPC_MISSION_SHELTER || mission == NPC_MISSION_BASE ||
@@ -1630,11 +1570,15 @@ Creature::Attitude npc::attitude_to( const Creature &other ) const
 {
     if( is_friend() ) {
         // Friendly NPCs share player's alliances
-        return g->u.attitude_to( *this );
+        return g->u.attitude_to( other );
     }
 
     if( other.is_npc() ) {
-        // No npc vs npc action, so simply ignore other npcs
+        // Hostile NPCs are also hostile towards player's allied
+        if( is_enemy() && g->u.attitude_to( other ) == A_FRIENDLY ) {
+            return A_HOSTILE;
+        }
+
         return A_NEUTRAL;
     } else if( other.is_player() ) {
         // For now, make it symmetric.
@@ -1656,12 +1600,12 @@ int npc::smash_ability() const
     return 0;
 }
 
-int npc::danger_assessment()
+float npc::danger_assessment()
 {
     return ai_cache.danger_assessment;
 }
 
-int npc::average_damage_dealt()
+float npc::average_damage_dealt()
 {
     return melee_value( weapon );
 }
@@ -1676,7 +1620,7 @@ bool npc::emergency() const
     return emergency( ai_cache.danger_assessment );
 }
 
-bool npc::emergency(int danger) const
+bool npc::emergency( float danger ) const
 {
     return (danger > (personality.bravery * 3 * hp_percentage()) / 100);
 }
@@ -1968,8 +1912,6 @@ std::string npc_attitude_name(npc_attitude att)
             return _("Leading");
         case NPCATT_WAIT:          // Waiting for the player
             return _("Waiting for you");
-        case NPCATT_DEFEND:        // Kill monsters that threaten the player
-            return _("Defending you");
         case NPCATT_MUG:           // Mug the player
             return _("Mugging you");
         case NPCATT_WAIT_FOR_LEAVE:// Attack the player if our patience runs out
@@ -2217,7 +2159,7 @@ bool npc::query_yn( const char *, ... ) const
 
 float npc::speed_rating() const
 {
-    float ret = 1.0f / get_speed();
+    float ret = get_speed() / 100.0f;
     ret *= 100.0f / run_cost( 100, false );
 
     return ret;

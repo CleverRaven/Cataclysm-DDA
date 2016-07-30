@@ -323,23 +323,19 @@ class game
          *  Handles interactive parts of gun firing (target selection, etc.).
          *  @return whether an attack was actually performed
          */
-        bool plfire( const tripoint &default_target = tripoint_min );
+        bool plfire();
 
         /** Target is an interactive function which allows the player to choose a nearby
          *  square.  It display information on any monster/NPC on that square, and also
          *  returns a Bresenham line to that square.  It is called by plfire(),
          *  throw() and vehicle::aim_turrets() */
-        std::vector<tripoint> target( tripoint &p, const tripoint &low, const tripoint &high,
-                                      std::vector<Creature *> t, int &target,
-                                      item *relevant, target_mode mode,
-                                      const tripoint &from = tripoint_min );
-        /**
-         * Interface to target(), collects a list of targets & selects default target
-         * finally calls target() and returns its result.
-         * Used by vehicle::manual_fire_turret()
-         */
-        std::vector<tripoint> pl_target_ui( tripoint &p, int range, item *relevant, target_mode mode,
-                                            const tripoint &default_target = tripoint_min );
+        std::vector<tripoint> target( tripoint src, tripoint dst, int range,
+                                      std::vector<Creature *> t, int target,
+                                      item *relevant, target_mode mode );
+
+        /** Prompts for target and returns trajectory to it */
+        std::vector<tripoint> pl_target_ui( target_mode mode, item *relevant, int range );
+
         /** Redirects to player::cancel_activity(). */
         void cancel_activity();
         /** Asks if the player wants to cancel their activity, and if so cancels it. */
@@ -835,7 +831,6 @@ private:
         void process_events();   // Processes and enacts long-term events
         void process_activity(); // Processes and enacts the player's activity
         void update_weather();   // Updates the temperature and weather patten
-        void hallucinate( const tripoint &center ); // Prints hallucination junk to the screen
         int  mon_info(WINDOW *); // Prints a list of nearby monsters
         void handle_key_blocking_activity(); // Abort reading etc.
         bool handle_action();

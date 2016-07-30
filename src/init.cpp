@@ -170,7 +170,9 @@ void DynamicDataLoader::initialize()
     add( "SPECIES", []( JsonObject &jo ) { MonsterGenerator::generator().load_species( jo ); } );
 
     add( "recipe_category", &load_recipe_category );
-    add( "recipe", &load_recipe );
+    add( "recipe",  []( JsonObject &jo, const std::string &src ) { load_recipe( jo, src, false ); } );
+    add( "uncraft", []( JsonObject &jo, const std::string &src ) { load_recipe( jo, src, true  ); } );
+
     add( "tool_quality", &quality::load_static );
     add( "technique", &load_technique );
     add( "martial_art", &load_martial_art );

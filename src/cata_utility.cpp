@@ -57,9 +57,9 @@ bool list_items_match( const item *item, std::string sPattern )
                         return !exclude;
                     }
                 }
-            } else if( adv_pat_type == "dgt" && item->damage > atoi( adv_pat_search.c_str() ) ) {
+            } else if( adv_pat_type == "dgt" && item->damage() > atoi( adv_pat_search.c_str() ) ) {
                 return !exclude;
-            } else if( adv_pat_type == "dlt" && item->damage < atoi( adv_pat_search.c_str() ) ) {
+            } else if( adv_pat_type == "dlt" && item->damage() < atoi( adv_pat_search.c_str() ) ) {
                 return !exclude;
             }
         }
@@ -128,17 +128,6 @@ int list_filter_low_priority( std::vector<map_item_stack> &stack, int start,
         stack.push_back( elem );
     }
     return id;
-}
-
-// Operator overload required by sort interface.
-bool compare_by_dist_attitude::operator()( Creature *a, Creature *b ) const
-{
-    const auto aa = u.attitude_to( *a );
-    const auto ab = u.attitude_to( *b );
-    if( aa != ab ) {
-        return aa < ab;
-    }
-    return rl_dist( a->pos(), u.pos() ) < rl_dist( b->pos(), u.pos() );
 }
 
 // Operator overload required by sort interface.

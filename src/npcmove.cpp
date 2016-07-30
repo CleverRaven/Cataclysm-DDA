@@ -20,6 +20,8 @@
 
 #include <algorithm>
 
+#define NPC_DANGER_VERY_LOW 5
+
 #define dbg(x) DebugLog((DebugLevel)(x),D_NPC) << __FILE__ << ":" << __LINE__ << ": "
 
 const skill_id skill_firstaid( "firstaid" );
@@ -96,23 +98,23 @@ bool npc::could_move_onto( const tripoint &p ) const
 
 // class npc functions!
 
-double npc::evaluate_enemy( const Creature &target ) const {
+float npc::evaluate_enemy( const Creature &target ) const {
     if( target.is_monster() ) {
         // effective range [2..42]
-        return std::max( dynamic_cast<const monster&>( target ).type->difficulty - 2, 0 ) / 40.0;
+        return std::max( dynamic_cast<const monster&>( target ).type->difficulty - 2, 0 ) / 40.0f;
 
     } else if( target.is_npc() || target.is_player() ) {
         // @todo determine based upon visible equipment
-        return 1.0;
+        return 1.0f;
 
     } else {
-        return 0.0;
+        return 0.0f;
     }
 }
 
 void npc::assess_danger()
 {
-    int assessment = 0;
+    float assessment = 0;
     for (size_t i = 0; i < g->num_zombies(); i++) {
         if( sees( g->zombie( i ) ) ) {
             assessment += g->zombie(i).type->difficulty;
@@ -161,36 +163,39 @@ void npc::assess_danger()
     ai_cache.danger_assessment = assessment;
 }
 
+float npc::character_danger( const Character &uc ) const
+{
+    // @todo Remove this when possible
+    const player &u = dynamic_cast<const player &>( uc );
+    float ret = 0.0;
+    bool u_gun = u.weapon.is_gun();
+    bool my_gun = weapon.is_gun();
+    double u_weap_val = u.weapon_value( u.weapon );
+    const double &my_weap_val = ai_cache.my_weapon_value;
+    if( u_gun && !my_gun ) {
+        u_weap_val *= 1.5f;
+    }
+
+    ret += hp_percentage() * get_hp_max( hp_torso ) / 100.0 / my_weap_val;
+
+    ret += my_gun ? u.get_dodge() / 2 : u.get_dodge();
+
+    ret *= std::max( 0.5, u.get_speed() / 100.0 );
+
+    add_msg( m_debug, "%s danger: %1f", u.disp_name().c_str(), ret );
+    return ret;
+}
+
 void npc::regen_ai_cache()
 {
     ai_cache.friends.clear();
     ai_cache.target = npc_target::none();
-    ai_cache.danger = 0;
-    ai_cache.total_danger = 0;
+    ai_cache.danger = 0.0f;
+    ai_cache.total_danger = 0.0f;
+    ai_cache.my_weapon_value = weapon_value( weapon );
     assess_danger();
 
-    if( is_friend() ) {
-        ai_cache.friends.emplace_back( npc_target::player() );
-    }
-
-    for( size_t i = 0; i < g->active_npc.size(); i++ ) {
-        const auto &np = *g->active_npc[ i ];
-        if( &np != this && attitude_to( np ) == Attitude::A_FRIENDLY ) {
-            ai_cache.friends.emplace_back( npc_target::npc( i ) );
-        }
-    }
-
-    choose_monster_target();
-
-    if( is_enemy() ) {
-        int pl_danger = player_danger( g->u );
-        if( ( pl_danger > ai_cache.danger || rl_dist( pos(), g->u.pos() ) <= 1 ) ||
-              current_target() == nullptr ) {
-            ai_cache.target = npc_target::player();
-            ai_cache.danger = pl_danger;
-            add_msg( m_debug, "NPC %s: Set target to PLAYER, danger = %d", name.c_str(), ai_cache.danger );
-        }
-    }
+    choose_target();
 }
 
 void npc::move()
@@ -201,7 +206,7 @@ void npc::move()
     static const std::string no_target_str = "none";
     const Creature *target = current_target();
     const std::string &target_name = target != nullptr ? target->disp_name() : no_target_str;
-    add_msg( m_debug, "NPC %s: target = %s, danger = %d, range = %d",
+    add_msg( m_debug, "NPC %s: target = %s, danger = %.1f, range = %d",
              name.c_str(), target_name.c_str(), ai_cache.danger, confident_shoot_range( weapon ) );
 
     //faction opinion determines if it should consider you hostile
@@ -641,20 +646,41 @@ void npc::execute_action( npc_action action )
     }
 }
 
-void npc::choose_monster_target()
+void npc::choose_target()
 {
-    bool has_any = false;
-    size_t enemy = 0;
-    int danger = 0;
-    int total_danger = 0;
+    ai_cache.total_danger = 0.0f;
 
-    bool defend_u = sees( g->u ) && is_defending();
-    int highest_priority = 0;
+    float highest_priority = 1.0f;
 
     // Radius we can attack without moving
     const int cur_range = std::max( weapon.reach_range( *this ), confident_shoot_range( weapon ) );
 
-    constexpr int def_radius = 6;
+    constexpr static int def_radius = 6;
+
+    const auto ok_by_rules = [this, cur_range]( const Creature &c, int dist, int scaled_dist ) {
+        if( !is_following() ) {
+            return true;
+        }
+    
+        switch( rules.engagement ) {
+            case ENGAGE_NONE:
+                return false;
+            case ENGAGE_CLOSE:
+                // Either close to player or close enough that we can reach it and close to us
+                return rl_dist( c.pos(), g->u.pos() ) <= def_radius ||
+                       ( dist <= cur_range && scaled_dist <= def_radius / 2 );
+            case ENGAGE_WEAK:
+                return c.get_hp() <= average_damage_dealt();
+            case ENGAGE_HIT:
+                return c.has_effect( effect_hit_by_player );
+            case ENGAGE_NO_MOVE:
+                return dist <= cur_range;
+            case ENGAGE_ALL:
+                return true;
+        }
+
+        return true;
+    };
 
     for( size_t i = 0; i < g->num_zombies(); i++ ) {
         monster &mon = g->zombie( i );
@@ -663,14 +689,15 @@ void npc::choose_monster_target()
         }
 
         int dist = rl_dist( pos(), mon.pos() );
-        int scaled_distance = std::max( 1, (100 * dist) / mon.get_speed() );
-        float hp_percent = (float)(mon.get_hp_max() - mon.get_hp()) / mon.get_hp_max();
-        float priority = mon.type->difficulty * (1.0f + hp_percent) - (scaled_distance - 1);
-        int monster_danger = mon.type->difficulty * hp_percent;
+        // @todo This should include ranged attacks in calculation
+        float scaled_distance = std::max( 1.0f, dist / mon.speed_rating() );
+        float hp_percent = (float)( mon.get_hp_max() - mon.get_hp() ) / mon.get_hp_max();
+        float critter_danger = mon.type->difficulty * ( hp_percent / 2.0f + 0.5f );
 
         auto att = mon.attitude( this );
         if( att == MATT_FRIEND ) {
             ai_cache.friends.emplace_back( npc_target::monster( i ) );
+            continue;
         }
 
         if( att == MATT_FPASSIVE ) {
@@ -678,74 +705,78 @@ void npc::choose_monster_target()
         }
 
         if( att == MATT_ATTACK ) {
-            monster_danger++;
+            critter_danger++;
         }
 
-        total_danger += monster_danger / scaled_distance;
+        ai_cache.total_danger += critter_danger / scaled_distance;
 
-        bool okay_by_rules = true;
-        if( is_following() ) {
-            switch( rules.engagement ) {
-            case ENGAGE_NONE:
-                okay_by_rules = false;
-                break;
-            case ENGAGE_CLOSE:
-                // Either close to player or close enough that we can reach it and close to us
-                okay_by_rules = rl_dist( mon.pos(), g->u.pos() ) <= def_radius ||
-                    ( dist <= cur_range && scaled_distance <= def_radius / 2 );
-                break;
-            case ENGAGE_WEAK:
-                okay_by_rules = mon.get_hp() <= average_damage_dealt();
-                break;
-            case ENGAGE_HIT:
-                okay_by_rules = mon.has_effect( effect_hit_by_player );
-                break;
-            case ENGAGE_NO_MOVE:
-                okay_by_rules = dist <= cur_range;
-                break;
-            case ENGAGE_ALL:
-                okay_by_rules = true;
-                break;
-            }
-        }
-
-        if( !okay_by_rules ) {
+        if( !ok_by_rules( mon, dist, scaled_distance ) ) {
             continue;
         }
 
+        float priority = critter_danger - 2.0f * ( scaled_distance - 1.0f );
         if( priority < 1.0f && is_following() && att == MATT_ATTACK &&
             rl_dist( mon.pos(), g->u.pos() ) <= def_radius ) {
             priority = 1.0f;
         }
 
-        if( monster_danger > danger && priority > 0 ) {
-            danger = monster_danger;
+        if( priority >= highest_priority ) {
+            highest_priority = priority;
+            ai_cache.target = npc_target::monster( i );
+            ai_cache.danger = critter_danger;
+        }
+    }
+
+    const auto check_hostile_character = [this, &ok_by_rules, &highest_priority]( const Character &c ) {
+        float critter_danger = character_danger( c );
+
+        int dist = rl_dist( pos(), c.pos() );
+        int scaled_distance = std::max( 1, (100 * dist) / c.get_speed() );
+
+        ai_cache.total_danger += critter_danger / scaled_distance;
+
+        if( !ok_by_rules( c, dist, scaled_distance ) ) {
+            return false;
+        }
+
+        float priority = critter_danger - 2 * ( scaled_distance - 1 );
+
+        if( priority < 1.0f && is_following() && rl_dist( c.pos(), g->u.pos() ) <= def_radius ) {
+            priority = 1.0f;
         }
 
         if( priority > highest_priority ) {
             highest_priority = priority;
-            enemy = i;
-            has_any = true;
-        } else if( defend_u ) {
-            priority = mon.type->difficulty * (1 + hp_percent);
-            scaled_distance = (100 * rl_dist(g->u.pos(), mon.pos())) / mon.get_speed();
-            priority -= scaled_distance;
-            if( mon.get_speed() < get_speed() ) {
-                priority -= 10;
-            }
-            priority *= (personality.bravery + personality.altruism + op_of_u.value) / 15;
-            if( priority > highest_priority ) {
-                highest_priority = priority;
-                enemy = i;
-                has_any = true;
-            }
+            ai_cache.danger = critter_danger;
+            return true;
+        }
+
+        return false;
+    };
+
+    for( size_t i = 0; i < g->active_npc.size(); i++ ) {
+        if( g->active_npc[ i ] == this ) {
+            continue;
+        }
+
+        const npc &np = *g->active_npc[ i ];
+
+        auto att = attitude_to( np );
+        if( att == Creature::A_FRIENDLY ) {
+            ai_cache.friends.emplace_back( npc_target::npc( i ) );
+        } else if( att == Creature::A_NEUTRAL ) {
+            // Nothing
+        } else if( sees( np ) && check_hostile_character( np ) ) {
+            ai_cache.target = npc_target::npc( i );
         }
     }
 
-    if( has_any ) {
-        ai_cache.target = npc_target::monster( enemy );
-        ai_cache.danger = danger;
-        ai_cache.total_danger = total_danger;
+    if( is_friend() ) {
+        ai_cache.friends.emplace_back( npc_target::player() );
+    } else if( is_enemy() ) {
+        if( check_hostile_character( g->u ) ) {
+            ai_cache.target = npc_target::player();
+        }
     }
 }
 
@@ -973,7 +1004,7 @@ const item_location npc::find_usable_ammo( const item &weap ) const
     return const_cast<npc *>( this )->find_usable_ammo( weap );
 }
 
-npc_action npc::address_needs( int danger )
+npc_action npc::address_needs( float danger )
 {
     if( need_heal( *this ) && has_healing_item() ) {
         return npc_heal;
@@ -1013,7 +1044,7 @@ npc_action npc::address_needs( int danger )
     }
 
     // TODO: More risky attempts at sleep when exhausted
-    if( danger == 0 && get_fatigue() > TIRED ) {
+    if( danger <= 0.01 && get_fatigue() > TIRED ) {
         if( !is_following() ) {
             set_fatigue(0); // TODO: Make tired NPCs handle sleep offscreen
             return npc_undecided;

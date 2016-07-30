@@ -201,7 +201,6 @@
     "vision_night":4,
     "hp":60,
     "death_function":"NORMAL",
-    "emit_fields": [ "emit_smoke_stream" ],
     "special_attacks":[
         {
             "type": "bite",
@@ -210,6 +209,7 @@
             "min_mul": 0.5, "//": "stronger jaws"
         },
         ["SHRIEK_ALERT", 50],  ["SHRIEK_STUN", 1]],
+    "emit_fields": [ "emit_smoke_stream" ],
     "description":"Through its smoke you can make out a lithe, tightly wound frame.  From time to time it emits a coarse, rumbling howl that sounds like it came from the bowels of the Earth.",
     "flags":["SEES", "HEARS", "PATH_AVOID_DANGER_1", "NO_BREATHE", "HARDTOSHOOT", "REVIVES", "REVIVES_HEALTHY", "NO_NECRO", "BASHES", "WARM"]
     },{
@@ -238,13 +238,6 @@
     "vision_day":40,
     "vision_night":4,
     "hp":50,
-        "death_drops": {
-        "subtype": "collection",
-        "//": "20% chance of an item from group dog_cop",
-        "groups": [
-            [ "dog_cop", 20 ]
-        ]
-    },
     "death_function":["BOOMER_GLOW"],
     "special_attacks":[
         {
@@ -285,13 +278,13 @@
     "vision_day":30,
     "vision_night":10,
     "hp":100,
-    "emit_fields": [ "emit_smoke_stream" ],
     "special_attacks":[{
         "type": "bite",
         "cooldown": 15,
         "no_infection_chance": 5,
         "min_mul": 0.75, "//": "strong jaws"
         }],
+    "emit_fields": [ "emit_smoke_stream" ],
     "death_function":["SMOKEBURST", "NORMAL"],
     "description":"A smoking husk is all that remains of this once proud bear.  Its black eyes gaze at you with malice... and hunger.",
     "flags":["SEES", "HEARS", "PATH_AVOID_DANGER_1", "ANIMAL", "BASHES", "ATTACKMON", "BONES", "FIREPROOF", "NO_BREATHE", "POISON", "REVIVES", "REVIVES_HEALTHY", "NO_NECRO"],

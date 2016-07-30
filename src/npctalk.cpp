@@ -2557,8 +2557,8 @@ void dialogue::gen_responses( const talk_topic &the_topic )
             { ENGAGE_CLOSE, _("Attack enemies that get too close.") },
             { ENGAGE_WEAK, _("Attack enemies that you can kill easily.") },
             { ENGAGE_HIT, _("Attack only enemies that I attack first.") },
-            { ENGAGE_ALL, _("Attack only enemies you can reach without moving.") },
-            { ENGAGE_NO_MOVE, _("Attack anything you want.") },
+            { ENGAGE_NO_MOVE, _("Attack only enemies you can reach without moving.") },
+            { ENGAGE_ALL, _("Attack anything you want.") },
         }};
 
         for( const auto &setting : engagement_settings ) {
