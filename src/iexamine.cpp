@@ -996,7 +996,7 @@ void iexamine::safe(player &p, const tripoint &examp)
 void iexamine::gunsafe_ml(player &p, const tripoint &examp)
 {
     std::string furn_name = g->m.tername(examp).c_str();
-    if( !( p.has_amount("crude_picklock", 1) || p.has_amount("hairpin", 1) ||
+    if( !( p.has_amount("crude_picklock", 1) || p.has_amount("hairpin", 1) || p.has_amount("fc_hairpin", 1) ||
            p.has_amount("picklocks", 1) || p.has_bionic("bio_lockpick") ) ) {
         add_msg(m_info, _("You need a lockpick to open this gun safe."));
         return;
@@ -1007,6 +1007,8 @@ void iexamine::gunsafe_ml(player &p, const tripoint &examp)
     int pick_quality = 1;
     if( p.has_amount("picklocks", 1) || p.has_bionic("bio_lockpick") ) {
         pick_quality = 5;
+    } else if (p.has_amount("fc_hairpin",1)) {
+        pick_quality = 1;
     } else {
         pick_quality = 3;
     }
