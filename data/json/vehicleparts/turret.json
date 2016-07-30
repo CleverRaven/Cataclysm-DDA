@@ -40,8 +40,7 @@
     "difficulty": 8,
     "color": "magenta",
     "broken_color": "magenta",
-    "breaks_into": [ { "item": "laser_rifle", "prob": 50 } ],
-    "extend": { "flags": [ "USE_TANKS" ] }
+    "breaks_into": [ { "item": "laser_rifle", "prob": 50 } ]
   },
   {
     "id": "m249",
