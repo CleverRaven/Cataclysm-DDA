@@ -254,6 +254,7 @@ void explosion_iuse::load( JsonObject &obj )
     if( obj.has_member( "draw_explosion_color" ) ) {
         draw_explosion_color = color_from_string( obj.get_string( "draw_explosion_color" ) );
     }
+    obj.read( "detonate_item", detonate_item );
     obj.read( "do_flashbang", do_flashbang );
     obj.read( "flashbang_player_immune", flashbang_player_immune );
     obj.read( "fields_radius", fields_radius );
@@ -285,6 +286,15 @@ long explosion_iuse::use(player *p, item *it, bool t, const tripoint &pos) const
             p->add_msg_if_player(m_info, _( no_deactivate_msg.c_str() ), it->tname().c_str());
         }
         return 0;
+    }
+
+    if( detonate_item ) {
+        item it_copy = *it;
+        std::vector<item> drops;
+        it_copy.detonate( pos, drops );
+        for( const auto &drop : drops ) {
+            g->m.add_item_or_charges( pos, drop );
+        }
     }
 
     if( explosion.power >= 0.0f ) {
@@ -319,6 +329,25 @@ long explosion_iuse::use(player *p, item *it, bool t, const tripoint &pos) const
         }
     }
     return 1;
+}
+
+explosion_data calc_explosion_data( const item &it );
+
+void explosion_iuse::info( const item &it, std::vector<iteminfo> &dump ) const
+{
+    const auto &ex = !detonate_item ?
+                     explosion :
+                     ( it.type->explosion.from_components ?
+                       calc_explosion_data( it ) :
+                       it.type->explosion );
+    dump.emplace_back( "TOOL", _( "<bold>Power at epicenter</bold>: " ), "", ex.power );
+    dump.emplace_back( "TOOL", _( "<bold>Power % per 1 tile</bold>: " ), "",
+                       100 * ex.distance_factor );
+    const auto &sd = ex.shrapnel;
+    if( sd.count > 0 ) {
+        dump.emplace_back( "TOOL", _( "<bold>Shrapnel count</bold>: " ), "", sd.count );
+        dump.emplace_back( "TOOL", _( "<bold>Shrapnel mass</bold>: " ), "", sd.mass );
+    }
 }
 
 

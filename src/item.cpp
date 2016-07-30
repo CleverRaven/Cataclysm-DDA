@@ -1406,6 +1406,11 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
             method.second.dump_info( *this, info );
         }
 
+        if( (bool)type->countdown_action ) {
+            insert_separation_line();
+            type->countdown_action.dump_info( *this, info );
+        }
+
         insert_separation_line();
 
         if( is_armor() ) {
@@ -5170,9 +5175,37 @@ bool item::will_explode_in_fire() const
     return false;
 }
 
+explosion_data calc_explosion_data( const item &it )
+{
+    explosion_data ret = it.type->explosion;
+    if( ret.distance_factor <= 0.0f || ret.distance_factor >= 1.0f ) {
+        return ret;
+    }
+
+    for( const item &comp : it.components ) {
+        const auto &ce = comp.type->explosion;
+        if( ce.power > 0.0f ) {
+            float comp_power = ce.power * ce.distance_factor;
+            if( comp.count_by_charges() ) {
+                comp_power *= 1.0f * comp.charges / comp.type->stack_size;
+            }
+            ret.power += comp_power / ret.distance_factor;
+        }
+    }
+
+    if( ret.power >= 10.0f ) {
+        ret.power = sqrtf( ret.power / 10.0f ) * 10.0f;
+    }
+
+    return ret;
+}
+
 bool item::detonate( const tripoint &p, std::vector<item> &drops )
 {
-    if( type->explosion.power >= 0 ) {
+    if( type->explosion.from_components ) {
+        g->explosion( p, calc_explosion_data( *this ) );
+        return true;
+    } else if( type->explosion.power >= 0 ) {
         g->explosion( p, type->explosion );
         return true;
     } else if( type->ammo != nullptr && ( type->ammo->special_cookoff || type->ammo->cookoff ) ) {

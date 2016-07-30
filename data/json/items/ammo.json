@@ -738,7 +738,12 @@
         "weight" : 1,
         "ammo_type" : "components",
         "count" : 200,
-        "effects" : ["COOKOFF"]
+        "explosion": {
+            "from_components": true,
+            "distance_factor": 0.5,
+            "power": 15
+        },
+        "explode_in_fire": true
     },
     {   "type" : "AMMO",
         "id" : "oxy_powder",

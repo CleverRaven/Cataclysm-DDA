@@ -747,7 +747,13 @@
     "dispersion" : 0,
     "recoil" : 0,
     "container" : "bag_canvas",
-    "count" : 50
+    "count" : 50,
+    "explosion": {
+        "from_components": true,
+        "distance_factor": 0.5,
+        "power": 10
+    },
+    "explode_in_fire": true
    },
    {
     "type" : "AMMO",
@@ -790,7 +796,13 @@
     "dispersion" : 0,
     "recoil" : 0,
     "container" : "bag_plastic",
-    "count" : 10
+    "count" : 10,
+    "explosion": {
+        "from_components": true,
+        "distance_factor": 0.5,
+        "power": 20
+    },
+    "explode_in_fire": true
    },
    {
     "type" : "AMMO",
