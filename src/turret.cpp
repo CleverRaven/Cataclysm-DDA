@@ -41,7 +41,7 @@ std::vector<vehicle_part *> vehicle::turrets( const tripoint &target )
     return res;
 }
 
-vehicle::turret_data vehicle::turret_query( vehicle_part &pt )
+turret_data vehicle::turret_query( vehicle_part &pt )
 {
     if( !pt.is_turret() || pt.removed || pt.hp < 0 ) {
         return turret_data();
@@ -49,12 +49,12 @@ vehicle::turret_data vehicle::turret_query( vehicle_part &pt )
     return turret_data( this, &pt );
 }
 
-const vehicle::turret_data vehicle::turret_query( const vehicle_part &pt ) const
+const turret_data vehicle::turret_query( const vehicle_part &pt ) const
 {
     return const_cast<vehicle *>( this )->turret_query( const_cast<vehicle_part &>( pt ) );
 }
 
-vehicle::turret_data vehicle::turret_query( const tripoint &pos )
+turret_data vehicle::turret_query( const tripoint &pos )
 {
     auto res = get_part( pos, []( const vehicle_part * e ) {
         return e->is_turret();
@@ -62,27 +62,27 @@ vehicle::turret_data vehicle::turret_query( const tripoint &pos )
     return res ? turret_query( *res ) : turret_data();
 }
 
-const vehicle::turret_data vehicle::turret_query( const tripoint &pos ) const
+const turret_data vehicle::turret_query( const tripoint &pos ) const
 {
     return const_cast<vehicle *>( this )->turret_query( pos );
 }
 
-std::string vehicle::turret_data::name() const
+std::string turret_data::name() const
 {
     return part->name();
 }
 
-item_location vehicle::turret_data::base()
+item_location turret_data::base()
 {
     return item_location( vehicle_cursor( *veh, veh->index_of_part( part ) ), &part->base );
 }
 
-const item_location vehicle::turret_data::base() const
+const item_location turret_data::base() const
 {
     return item_location( vehicle_cursor( *veh, veh->index_of_part( part ) ), &part->base );
 }
 
-long vehicle::turret_data::ammo_remaining() const
+long turret_data::ammo_remaining() const
 {
     if( !veh || !part ) {
         return 0;
@@ -93,7 +93,7 @@ long vehicle::turret_data::ammo_remaining() const
     return part->base.ammo_remaining();
 }
 
-long vehicle::turret_data::ammo_capacity() const
+long turret_data::ammo_capacity() const
 {
     if( !veh || !part || part->info().has_flag( "USE_TANKS" ) ) {
         return 0;
@@ -101,7 +101,7 @@ long vehicle::turret_data::ammo_capacity() const
     return part->base.ammo_capacity();
 }
 
-const itype *vehicle::turret_data::ammo_data() const
+const itype *turret_data::ammo_data() const
 {
     if( !veh || !part ) {
         return 0;
@@ -113,7 +113,7 @@ const itype *vehicle::turret_data::ammo_data() const
 }
 
 
-itype_id vehicle::turret_data::ammo_current() const
+itype_id turret_data::ammo_current() const
 {
     if( !veh || !part ) {
         return "null";
@@ -131,7 +131,7 @@ itype_id vehicle::turret_data::ammo_current() const
     return "null";
 }
 
-std::set<std::string> vehicle::turret_data::ammo_effects() const
+std::set<std::string> turret_data::ammo_effects() const
 {
     if( !veh || !part ) {
         return std::set<std::string>();
@@ -143,7 +143,7 @@ std::set<std::string> vehicle::turret_data::ammo_effects() const
     return res;
 }
 
-int vehicle::turret_data::range() const
+int turret_data::range() const
 {
     if( !veh || !part ) {
         return 0;
@@ -155,7 +155,7 @@ int vehicle::turret_data::range() const
     return res;
 }
 
-bool vehicle::turret_data::can_reload() const
+bool turret_data::can_reload() const
 {
     if( !veh || !part || part->info().has_flag( "USE_TANKS" ) ) {
         return false;
@@ -166,7 +166,7 @@ bool vehicle::turret_data::can_reload() const
     return !part->base.magazine_current();
 }
 
-bool vehicle::turret_data::can_unload() const
+bool turret_data::can_unload() const
 {
     if( !veh || !part || part->info().has_flag( "USE_TANKS" ) ) {
         return false;
@@ -174,7 +174,7 @@ bool vehicle::turret_data::can_unload() const
     return part->base.ammo_remaining() || part->base.magazine_current();
 }
 
-vehicle::turret_data::status vehicle::turret_data::query() const
+turret_data::status turret_data::query() const
 {
     if( !veh || !part ) {
         return status::invalid;
@@ -197,7 +197,7 @@ vehicle::turret_data::status vehicle::turret_data::query() const
     return status::ready;
 }
 
-int vehicle::turret_data::fire( player &p, const tripoint &target )
+int turret_data::fire( player &p, const tripoint &target )
 {
     if( !veh || !part ) {
         return 0;

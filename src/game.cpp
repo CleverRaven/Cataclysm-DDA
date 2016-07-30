@@ -2838,15 +2838,15 @@ bool game::handle_action()
                 auto turret = veh->turret_query( u.pos() );
                 if( turret ) {
                     switch( turret.query() ) {
-                        case vehicle::turret_data::status::no_ammo:
+                        case turret_data::status::no_ammo:
                             add_msg( m_bad, _( "The %s is out of ammo." ), turret.name().c_str() );
                             break;
 
-                        case vehicle::turret_data::status::no_power:
+                        case turret_data::status::no_power:
                             add_msg( m_bad,  _( "The %s is not powered." ), turret.name().c_str() );
                             break;
 
-                        case vehicle::turret_data::status::ready: {
+                        case turret_data::status::ready: {
                             tripoint pos = u.pos();
                             auto trajectory = pl_target_ui( pos, turret.range(), &*turret.base(),
                                                             TARGET_MODE_TURRET_MANUAL, turret.base().position() );
