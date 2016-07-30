@@ -2831,13 +2831,41 @@ bool game::handle_action()
         case ACTION_FIRE:
             // Use vehicle turret or draw a pistol from a holster if unarmed
             if( !u.is_armed() ) {
+
                 int part = -1;
                 vehicle *veh = m.veh_at( u.pos(), part );
+
+                auto turret = veh->turret_query( u.pos() );
+                if( turret ) {
+                    switch( turret.query() ) {
+                        case vehicle::turret_data::status::no_ammo:
+                            add_msg( m_bad, _( "The %s is out of ammo." ), turret.name().c_str() );
+                            break;
+
+                        case vehicle::turret_data::status::no_power:
+                            add_msg( m_bad,  _( "The %s is not powered." ), turret.name().c_str() );
+                            break;
+
+                        case vehicle::turret_data::status::ready: {
+                            tripoint pos = u.pos();
+                            auto trajectory = pl_target_ui( pos, turret.range(), &*turret.base(),
+                                                            TARGET_MODE_TURRET_MANUAL, turret.base().position() );
+                            if( !trajectory.empty() ) {
+                                turret.fire( u, trajectory.back() );
+                            }
+                            break;
+                        }
+
+                        default:
+                            debugmsg( "unknown turret status" );
+                            break;
+                    }
+                    break;
+                }
+
                 if( veh ) {
-                    int vpturret = veh->part_with_feature( part, "TURRET", true );
                     int vpcontrols = veh->part_with_feature( part, "CONTROLS", true );
-                    if( ( vpturret >= 0 && veh->turret_fire( veh->parts[ vpturret ] ) ) ||
-                        ( vpcontrols >= 0 && veh->turrets_aim() ) ) {
+                    if( vpcontrols >= 0 && veh->turrets_aim() ) {
                         break;
                     }
                 }

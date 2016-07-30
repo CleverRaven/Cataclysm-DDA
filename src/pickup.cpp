@@ -42,13 +42,7 @@ Pickup::interact_results Pickup::interact_with_vehicle( vehicle *veh, const trip
     const bool has_items_on_ground = g->m.sees_some_items( pos, g->u );
     const bool items_are_sealed = g->m.has_flag( "SEALED", pos );
 
-    vehicle::turret_data turret;
-    auto parts = vehicle::get_parts( pos );
-    for( auto e : parts ) {
-        if( ( turret = veh->turret_query( *e ) ) ) {
-            break;
-        }
-    }
+    vehicle::turret_data turret = veh->turret_query( pos );
 
     const bool has_kitchen = ( veh->part_with_feature( veh_root_part, "KITCHEN" ) >= 0 );
     const bool has_faucet = ( veh->part_with_feature( veh_root_part, "FAUCET" ) >= 0 );
