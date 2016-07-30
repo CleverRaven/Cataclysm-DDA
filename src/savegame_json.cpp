@@ -1602,6 +1602,15 @@ void vehicle_part::deserialize(JsonIn &jsin)
         // migrate legacy savegames exploiting that al base items at that time had max_damage() of 4
         base.set_damage( 4 - ( 4 / double( id.obj().durability ) * data.get_int( "hp" ) ) );
     }
+
+    // legacy turrets loaded ammo via a pseudo CARGO space
+    if( is_turret() && !items.empty() ) {
+        int qty = std::accumulate( items.begin(), items.end(), 0, []( int lhs, const item& rhs ) {
+            return lhs + rhs.charges;
+        } );
+        ammo_set( items.front().ammo_current(), qty );
+        items.clear();
+    }
 }
 
 void vehicle_part::serialize(JsonOut &json) const

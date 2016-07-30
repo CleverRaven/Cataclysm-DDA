@@ -260,25 +260,6 @@ void vehicle::turret_reload( vehicle_part &pt )
             return;
         }
     }
-
-    // otherwise try to reload from turret cargo space
-    for( auto it = pt.items.begin(); it != pt.items.end(); ++it ) {
-        if( it->is_ammo() &&
-            ( ( gun.ammo_current() == "null" && it->ammo_type() == gun.ammo_type() ) ||
-              ( gun.ammo_current() == it->typeId() ) ) ) {
-
-            int qty = gun.ammo_remaining();
-            gun.ammo_set( it->typeId(), it->charges );
-
-            it->charges -= gun.ammo_remaining() - qty;
-
-            if( it->charges <= 0 ) {
-                pt.items.erase( it );
-            }
-
-            return;
-        }
-    }
 }
 
 void vehicle::turret_unload( vehicle_part &pt )
@@ -295,19 +276,6 @@ void vehicle::turret_unload( vehicle_part &pt )
         gun.ammo_unset();
         return;
     }
-
-    // otherwise unload to cargo space
-    item ammo( gun.ammo_current(), calendar::turn, gun.ammo_remaining() );
-    gun.ammo_unset();
-
-    // @todo check ammo is not liquid or otherwise irrecoverable
-
-    for( item &e : pt.items ) {
-        if( e.merge_charges( ammo ) ) {
-            return;
-        }
-    }
-    pt.items.push_back( std::move( ammo ) );
 }
 
 int vehicle::automatic_fire_turret( vehicle_part &pt )
