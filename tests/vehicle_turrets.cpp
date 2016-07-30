@@ -69,7 +69,7 @@ TEST_CASE( "vehicle_turret", "[vehicle] [gun] [magazine]" ) {
             }
 
             auto qry = veh->turret_query( veh->parts[ idx ] );
-			REQUIRE( qry );
+            REQUIRE( qry );
 
             REQUIRE( qry.query() == turret_data::status::ready );
             REQUIRE( qry.range() > 0 );
