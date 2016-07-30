@@ -280,6 +280,12 @@ void vehicle::turret_unload( vehicle_part &pt )
 
 int vehicle::automatic_fire_turret( vehicle_part &pt )
 {
+    turret_reload( pt );
+    if( turret_query( pt ) != turret_status::ready ) {
+        turret_unload( pt );
+        return 0;
+    }
+
     item &gun = pt.base;
     tripoint pos = global_part_pos3( pt );
 
@@ -346,5 +352,10 @@ int vehicle::automatic_fire_turret( vehicle_part &pt )
     }
 
     auto mode = gun.gun_current_mode();
-    return tmp.fire_gun( targ, mode.qty, *mode );
+    int shots = tmp.fire_gun( targ, mode.qty, *mode );
+
+    drain( fuel_type_battery, pt.base.get_gun_ups_drain() * shots );
+    turret_unload( pt );
+
+    return shots;
 }

@@ -5126,12 +5126,7 @@ void vehicle::gain_moves()
     // turrets which are enabled will try to reload and then automatically fire
     for( auto e : turrets() ) {
         if( e->enabled ) {
-            turret_reload( *e );
-            if( turret_query( *e ) == turret_status::ready ) {
-                int shots = automatic_fire_turret( *e );
-                drain( fuel_type_battery, e->base.get_gun_ups_drain() * shots );
-            }
-            turret_unload( *e );
+            automatic_fire_turret( *e );
         }
     }
 
