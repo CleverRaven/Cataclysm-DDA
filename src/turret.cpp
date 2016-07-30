@@ -181,7 +181,9 @@ turret_data::status turret_data::query() const
     }
 
     if( part->info().has_flag( "USE_TANKS" ) ) {
-        // @todo check tanks
+        if( veh->fuel_left( ammo_current() ) < part->base.ammo_required() ) {
+            return status::no_ammo;
+        }
 
     } else {
         if( !part->base.ammo_sufficient() ) {
