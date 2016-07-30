@@ -159,7 +159,7 @@
         "type" : "ammunition_type",
         "id" : "40mm",
         "name" : "40mm grenade",
-        "default" : "40mm_grenade"
+        "default" : "40mm_frag"
     },
     {
         "type" : "ammunition_type",
