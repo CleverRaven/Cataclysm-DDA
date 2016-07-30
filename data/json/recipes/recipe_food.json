@@ -2799,7 +2799,7 @@
   "type" : "recipe",
   "result": "starch",
   "id_suffix": "from_fibrous_stuff",
-  "byproducts": { "id" : "plant_fibre", "charges_mult" : 5 },
+  "byproducts": { "id" : "plant_fibre", "amount" : 5 },
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_VEGGI",
   "skill_used": "cooking",
