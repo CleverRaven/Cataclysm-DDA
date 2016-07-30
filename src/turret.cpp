@@ -43,7 +43,7 @@ std::vector<vehicle_part *> vehicle::turrets( const tripoint &target )
 
 turret_data vehicle::turret_query( vehicle_part &pt )
 {
-    if( !pt.is_turret() || pt.removed || pt.hp < 0 ) {
+    if( !pt.is_turret() || pt.removed || pt.is_broken() ) {
         return turret_data();
     }
     return turret_data( this, &pt );

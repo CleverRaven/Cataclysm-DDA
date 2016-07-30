@@ -2445,10 +2445,7 @@ std::vector<vehicle_part *> vehicle::get_parts( const tripoint &pos, bool broken
     vehicle *veh = g->m.veh_at( pos );
     if( veh ) {
         for( auto &e: veh->parts ) {
-            if( e.removed ) {
-                continue;
-            }
-            if( !broken && e.hp <= 0 ) {
+            if( e.removed || ( !broken && e.is_broken() ) ) {
                 continue;
             }
             if( e.precalc[ 0 ].x == pos.x - veh->global_x() &&

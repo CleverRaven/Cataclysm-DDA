@@ -2848,8 +2848,7 @@ bool game::handle_action()
 
                         case turret_data::status::ready: {
                             tripoint pos = u.pos();
-                            auto trajectory = pl_target_ui( pos, turret.range(), &*turret.base(),
-                                                            TARGET_MODE_TURRET_MANUAL, turret.base().position() );
+                            auto trajectory = pl_target_ui( TARGET_MODE_TURRET_MANUAL, &*turret.base(), turret.range() );
                             if( !trajectory.empty() ) {
                                 turret.fire( u, trajectory.back() );
                             }
