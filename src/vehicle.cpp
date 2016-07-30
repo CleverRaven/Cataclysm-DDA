@@ -2438,6 +2438,36 @@ bool vehicle::part_flag( int part, const vpart_bitflags flag) const
     }
 }
 
+std::vector<vehicle_part *> vehicle::get_parts( const tripoint &pos, bool broken )
+{
+    std::vector<vehicle_part *> res;
+
+    vehicle *veh = g->m.veh_at( pos );
+    if( veh ) {
+        for( auto &e: veh->parts ) {
+            if( e.removed ) {
+                continue;
+            }
+            if( !broken && e.hp <= 0 ) {
+                continue;
+            }
+            if( e.precalc[ 0 ].x == pos.x - veh->global_x() &&
+                e.precalc[ 0 ].y == pos.y - veh->global_y() ) {
+                res.push_back( &e );
+            }
+        }
+    }
+
+    return res;
+}
+
+vehicle_part *vehicle::get_part( const tripoint &pos, const std::function<bool(const vehicle_part *)>& func )
+{
+    auto parts = get_parts( pos, true );
+    auto iter = std::find_if( parts.begin(), parts.end(), func );
+    return iter != parts.end() ? *iter : nullptr;
+}
+
 int vehicle::part_at(int const dx, int const dy) const
 {
     for (size_t p = 0; p < parts.size(); p++) {

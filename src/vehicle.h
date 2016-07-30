@@ -575,6 +575,12 @@ public:
     // Translate mount coords "p" into tile coords "q" using given pivot direction and anchor
     void coord_translate (int dir, const point &pivot, const point &p, point &q) const;
 
+    /** Get all vehicle parts (if any) at @ref pos optionally including @ref broken parts */
+    static std::vector<vehicle_part *> get_parts( const tripoint &pos, bool broken = false );
+
+    /** Get first part (if any) at @ref pos which matches the predicate @ref func */
+    static vehicle_part *get_part( const tripoint &pos, const std::function<bool(const vehicle_part *)>& func );
+
     // Seek a vehicle part which obstructs tile with given coords relative to vehicle position
     int part_at( int dx, int dy ) const;
     int global_part_at( int x, int y ) const;
