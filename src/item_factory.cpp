@@ -1025,6 +1025,7 @@ void Item_factory::load_ammo( JsonObject &jo, const std::string &src )
 {
     auto def = load_definition( jo, src );
     if( def) {
+        assign( jo, "stack_size", def->stack_size, src == "core", 1 );
         load_slot( def->ammo, jo, src );
         load_basic_info( jo, def, src );
     }
@@ -1295,6 +1296,7 @@ void Item_factory::load_comestible( JsonObject &jo, const std::string &src )
 {
     auto def = load_definition( jo, src );
     if( def ) {
+        assign( jo, "stack_size", def->stack_size, src == "core", 1 );
         load_slot( def->comestible, jo, src );
         load_basic_info( jo, def, src );
     }
@@ -1527,15 +1529,13 @@ void Item_factory::load_basic_info( JsonObject &jo, itype *new_item_template, co
         m_templates[ new_item_template->id ].reset( new_item_template );
     }
 
-    assign( jo, "weight", new_item_template->weight, strict );
+    assign( jo, "weight", new_item_template->weight, strict, 0 );
     assign( jo, "volume", new_item_template->volume );
     assign( jo, "price", new_item_template->price );
     assign( jo, "price_postapoc", new_item_template->price_post );
-    assign( jo, "stack_size", new_item_template->stack_size );
     assign( jo, "integral_volume", new_item_template->integral_volume );
-    assign( jo, "color", new_item_template->color );
-    assign( jo, "bashing", new_item_template->melee_dam, strict );
-    assign( jo, "cutting", new_item_template->melee_cut, strict );
+    assign( jo, "bashing", new_item_template->melee_dam, strict, 1 );
+    assign( jo, "cutting", new_item_template->melee_cut, strict, 1 );
     assign( jo, "to_hit", new_item_template->m_to_hit, strict );
     assign( jo, "container", new_item_template->default_container );
     assign( jo, "rigid", new_item_template->rigid );

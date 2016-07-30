@@ -134,7 +134,6 @@
         "material" : ["iron", "leather"],
         "volume" : 10,
         "encumbrance" : 15,
-        "bashing" : -3,
         "flags" : ["VARSIZE", "STURDY"],
         "coverage" : 95,
         "material_thickness" : 4
@@ -156,7 +155,6 @@
         "volume" : 22,
         "warmth" : 15,
         "encumbrance" : 20,
-        "bashing" : -5,
         "coverage" : 70,
         "material_thickness" : 4
     },{
