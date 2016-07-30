@@ -117,6 +117,9 @@
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 
+/** Will be set to true when running unit tests */
+bool test_mode = false;
+
 const mtype_id mon_fungal_blossom( "mon_fungal_blossom" );
 const mtype_id mon_manhack( "mon_manhack" );
 
