@@ -214,7 +214,7 @@ int turret_data::fire( player &p, const tripoint &target )
     long qty  = mode->ammo_required();
 
     if( part->info().has_flag( "USE_TANKS" ) ) {
-        mode->ammo_set( ammo, qty );
+        mode->ammo_set( ammo, std::min( qty * mode.qty, long( veh->fuel_left( ammo ) ) ) );
     }
 
     shots = p.fire_gun( target, mode.qty, *mode );
