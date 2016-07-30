@@ -62,9 +62,9 @@
                 "Q": { "monster": "mon_bee_queen" }
             },
             "items": {
-                "#": { "item": "beecenter", "chance": 20 },
-                ".": { "item": "beecenter", "chance": 10 },
-                "*": { "item": "beecenter", "chance": 5 },
+                "#": { "item": "beecenter", "chance": 10 },
+                ".": { "item": "beecenter", "chance": 5 },
+                "*": { "item": "beecenter", "chance": 2 },
                 "B": { "item": "beecenter", "chance": 50 },
                 "b": { "item": "beecenter", "chance": 25 },
                 "Q": { "item": "beecenter", "chance": 75 }
