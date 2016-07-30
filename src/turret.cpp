@@ -201,14 +201,17 @@ int vehicle::turret_data::fire( player &p, const tripoint &target )
 
     auto mode = base()->gun_current_mode();
 
+    auto ammo = ammo_current();
+    long qty  = mode->ammo_required();
+
     if( part->info().has_flag( "USE_TANKS" ) ) {
-        mode->ammo_set( ammo_current(), ammo_required() );
+        mode->ammo_set( ammo, qty );
     }
 
     shots = p.fire_gun( target, mode.qty, *mode );
 
-    if( part->info().has_flag( "USE_TANKS" ) && mode->ammo_remaining() ) {
-        veh->drain( mode->ammo_current(), mode->ammo_required() * shots );
+    if( part->info().has_flag( "USE_TANKS" ) ) {
+        veh->drain( ammo, qty * shots );
         mode->ammo_unset();
     }
 
