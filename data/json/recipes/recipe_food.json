@@ -10528,7 +10528,7 @@
   "type" : "recipe",
   "result": "juice",
   "id_suffix": "fresh",
-  "byproducts": { "id" : "juice_pulp", "charges_mult" : 2 },
+  "byproducts": { "id" : "juice_pulp", "amount" : 2 },
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_DRINKS",
   "skill_used": "cooking",
