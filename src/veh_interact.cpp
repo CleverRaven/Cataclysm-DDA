@@ -1376,15 +1376,15 @@ void veh_interact::display_contents()
         if( turret && turret.can_unload() ) {
             hdr = turret.name();
 
-            if( turret.magazine_current() ) {
+            if( turret.base()->magazine_current() ) {
                 if( turret.ammo_current() != "null" ) {
                     msg = string_format( _( "%s with %s (%i/%i)" ),
-                                         turret.magazine_current()->type_name().c_str(),
+                                         turret.base()->magazine_current()->type_name().c_str(),
                                          item::nname( turret.ammo_current(), turret.ammo_remaining() ).c_str(),
                                          turret.ammo_remaining(), turret.ammo_capacity() );
                 } else {
                     msg = string_format( _( "%s (%i/%i)" ),
-                                         turret.magazine_current()->type_name().c_str(),
+                                         turret.base()->magazine_current()->type_name().c_str(),
                                          turret.ammo_remaining(), turret.ammo_capacity() );
                 }
 

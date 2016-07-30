@@ -57,7 +57,6 @@ src/pickup.cpp
 src/player_activity.cpp
 src/posix_time.cpp
 src/profession.cpp
-src/ranged.h
 src/recipe_dictionary.cpp
 src/rng.cpp
 src/scenario.cpp

@@ -12,7 +12,6 @@
 #include "active_item_cache.h"
 #include "string_id.h"
 #include "int_id.h"
-#include "ranged.h"
 
 #include <vector>
 #include <array>
@@ -899,29 +898,50 @@ public:
     /** Get all vehicle turrets loaded and ready to fire at @ref target */
     std::vector<vehicle_part *> turrets( const tripoint &target );
 
-    class turret_data : public ranged {
+    class turret_data {
         friend vehicle;
 
         public:
             turret_data() = default;
+            turret_data( const turret_data & ) = delete;
+            turret_data &operator=( const turret_data & ) = delete;
+            turret_data( turret_data && ) = default;
+            turret_data &operator=( turret_data && ) = default;
 
-            std::string name() const override;
+            /** Is this a valid instance? */
+            explicit operator bool() const {
+                return veh && part;
+            }
 
-            long ammo_remaining() const override;
-            long ammo_capacity() const override;
-            const itype *ammo_data() const override;
-            itype_id ammo_current() const override;
-            std::set<std::string> ammo_effects() const override;
+            std::string name() const;
 
-            int range() const override;
+            /** Get base item location */
+            item_location base();
+            const item_location base() const;
+
+            /** Quantity of ammunition available for use */
+            long ammo_remaining() const;
+
+            /** Maximum quantity of ammunition turret can itself contain */
+            long ammo_capacity() const;
+
+            /** Specific ammo data or returns nullptr if no ammo available */
+            const itype *ammo_data() const;
+
+            /** Specific ammo type or returns "null" if no ammo available */
+            itype_id ammo_current() const;
+
+            /** Effects inclusive of any from ammo loaded from tanks */
+            std::set<std::string> ammo_effects() const;
+
+            /** Maximum range considering current ammo (if any) */
+            int range() const;
 
             /** Fire at @ref target returning number of shots (may be zero) */
             int fire( player &p, const tripoint &target );
 
             bool can_reload() const;
             bool can_unload() const;
-
-            const item *magazine_current() const;
 
             enum class status {
                 invalid,
@@ -933,12 +953,12 @@ public:
             status query() const;
 
         private:
-            turret_data( vehicle *veh, vehicle_part *part, item_location &&loc ) :
-                ranged( std::move( loc ) ), veh( veh ), part( part ) {}
+            turret_data( vehicle *veh, vehicle_part *part )
+                : veh( veh ), part( part ) {}
 
         protected:
-            vehicle *veh;
-            vehicle_part *part;
+            vehicle *veh = nullptr;
+            vehicle_part *part = nullptr;
     };
 
     /** Get firing data for a turret */
