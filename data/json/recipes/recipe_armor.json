@@ -36,7 +36,7 @@
   "autolearn": true,
   "book_learn" : [[ "recipe_arrows", 2 ]],
   "qualities" : [
-    {"id":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1}
   ],
   "components": [ [ [ "birchbark", 3 ] ] ]
 },{
@@ -186,7 +186,6 @@
   "skill_used": "fabrication",
   "difficulty": 4,
   "time": 35000,
-  "reversible": false,
   "autolearn": true,
   "tools": [
     [ ["sewing_kit", 10] ],
@@ -213,7 +212,6 @@
   "skill_used": "fabrication",
   "difficulty": 4,
   "time": 50000,
-  "reversible": false,
   "autolearn": true,
   "tools": [
     [ ["sewing_kit", 20] ],
@@ -240,7 +238,6 @@
   "skill_used": "fabrication",
   "difficulty": 4,
   "time": 35000,
-  "reversible": false,
   "autolearn": true,
   "tools": [
     [ ["mold_plastic", -1] ],
@@ -267,7 +264,7 @@
   "autolearn": true,
   "book_learn" : [[ "recipe_arrows", 2 ]],
   "qualities":[
-    {"id":"HAMMER","level":2,"amount":1}
+    {"id":"HAMMER","level":2}
   ], "tools": [
     [
       [ "sewing_kit", 8 ]
@@ -297,7 +294,7 @@
   "autolearn": true,
   "book_learn" : [[ "recipe_arrows", 3 ]],
   "qualities":[
-    {"id":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1}
   ],
   "components": [ [ [ "birchbark", 10 ] ] ]
 },{
@@ -308,7 +305,6 @@
   "skill_used": "tailor",
   "difficulty": 0,
   "time": 10000,
-  "reversible": false,
   "autolearn": true,
   "tools": [
     [
@@ -328,7 +324,6 @@
   "skill_used": "tailor",
   "difficulty": 1,
   "time": 10000,
-  "reversible": false,
   "autolearn": true,
   "tools": [
     [
@@ -348,7 +343,6 @@
   "skill_used": "tailor",
   "difficulty": 1,
   "time": 50000,
-  "reversible": false,
   "autolearn": true,
   "tools": [
     [
@@ -369,7 +363,6 @@
   "skill_used": "tailor",
   "difficulty": 1,
   "time": 15000,
-  "reversible": false,
   "autolearn": true,
   "tools": [
     [
@@ -392,7 +385,6 @@
   "skill_used": "tailor",
   "difficulty": 1,
   "time": 60000,
-  "reversible": false,
   "autolearn": true,
   "tools": [
     [
@@ -413,7 +405,6 @@
   "skill_used": "tailor",
   "difficulty": 1,
   "time": 20000,
-  "reversible": false,
   "autolearn": true,
   "tools": [
     [
@@ -436,7 +427,6 @@
   "skill_used": "tailor",
   "difficulty": 1,
   "time": 30000,
-  "reversible": false,
   "autolearn": true,
   "book_learn": [["textbook_survival", 0] , ["pocket_survival", 0]],
   "tools": [
@@ -457,11 +447,10 @@
   "skill_used": "tailor",
   "difficulty": 2,
   "time": 60000,
-  "reversible": false,
   "autolearn": true,
   "book_learn": [["textbook_survival", 1] , ["pocket_survival", 1]],
   "qualities" : [
-    {"id":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1}
   ],
   "components": [ [ [ "birchbark", 3 ] ] ]
 },{
@@ -472,7 +461,6 @@
   "skill_used": "tailor",
   "difficulty": 2,
   "time": 35000,
-  "reversible": false,
   "autolearn": true,
   "tools": [
     [
@@ -494,7 +482,6 @@
   "skills_required": [ "survival", 1 ],
   "difficulty": 2,
   "time": 40000,
-  "reversible": false,
   "autolearn": true,
   "book_learn": [["textbook_survival", 1]],
   "tools": [
@@ -520,7 +507,6 @@
   "skill_used": "tailor",
   "difficulty": 4,
   "time": 40000,
-  "reversible": false,
   "autolearn": true,
   "components": [
     [
@@ -544,11 +530,10 @@
   "skill_used": "tailor",
   "difficulty": 3,
   "time": 40000,
-  "reversible": false,
   "autolearn": true,
   "book_learn": [[ "manual_tailor", 2 ] , ["textbook_tailor", 2]],
   "qualities" : [
-    {"id":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1}
   ],
   "tools": [
     [
@@ -574,10 +559,9 @@
   "skill_used": "tailor",
   "difficulty": 2,
   "time": 40000,
-  "reversible": false,
   "autolearn": true,
   "qualities" : [
-    {"id":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1}
   ],
   "tools": [
     [
@@ -600,11 +584,9 @@
   "skill_used": "tailor",
   "difficulty": 5,
   "time": 35000,
-  "reversible": false,
-  "autolearn": false,
   "book_learn": [[ "textbook_tailor", 4 ] , [ "tailor_portfolio", 5 ]],
   "qualities" : [
-    {"id":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1}
   ],
   "tools": [
     [
@@ -625,10 +607,9 @@
   "skill_used": "tailor",
   "difficulty": 4,
   "time": 30000,
-  "reversible": false,
   "autolearn": true,
   "qualities" : [
-    {"id":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1}
   ],
   "tools": [
     [
@@ -651,7 +632,6 @@
   "skill_used": "tailor",
   "difficulty": 1,
   "time": 25000,
-  "reversible": false,
   "autolearn": true,
   "tools": [
     [
@@ -671,7 +651,6 @@
   "skill_used": "tailor",
   "difficulty": 2,
   "time": 25000,
-  "reversible": false,
   "autolearn": true,
   "book_learn": [[ "mag_tailor", 1 ] , ["manual_tailor", 1]],
   "tools": [
@@ -692,7 +671,6 @@
   "skill_used": "tailor",
   "difficulty": 2,
   "time": 30000,
-  "reversible": false,
   "autolearn": true,
   "book_learn": [[ "manual_tailor", 1 ]],
   "tools": [
@@ -713,8 +691,6 @@
   "skill_used": "tailor",
   "difficulty": 2,
   "time": 45000,
-  "reversible": false,
-  "autolearn": false,
   "book_learn": [[ "textbook_tailor", 3 ] , [ "tailor_portfolio", 5 ] , ["manual_tailor", 3] , ["survival_book", 3]],
   "tools": [
     [
@@ -734,7 +710,6 @@
   "skill_used": "tailor",
   "difficulty": 2,
   "time": 35000,
-  "reversible": false,
   "autolearn": true,
   "tools": [
     [
@@ -754,7 +729,6 @@
   "skill_used": "tailor",
   "difficulty": 2,
   "time": 35000,
-  "reversible": false,
   "autolearn": true,
   "book_learn": [[ "mag_tailor", 1 ] , ["manual_tailor", 1]],
   "tools": [
@@ -775,7 +749,6 @@
   "skill_used": "tailor",
   "difficulty": 2,
   "time": 35000,
-  "reversible": false,
   "autolearn": true,
   "tools": [
     [
@@ -798,7 +771,6 @@
   "skill_used": "tailor",
   "difficulty": 2,
   "time": 35000,
-  "reversible": false,
   "autolearn": true,
   "tools": [
     [
@@ -818,7 +790,6 @@
   "skill_used": "tailor",
   "difficulty": 2,
   "time": 35000,
-  "reversible": false,
   "autolearn": true,
   "book_learn": [[ "mag_tailor", 1 ] , ["manual_tailor", 1]],
   "tools": [
@@ -839,7 +810,6 @@
   "skill_used": "tailor",
   "difficulty": 2,
   "time": 35000,
-  "reversible": false,
   "autolearn": true,
   "book_learn": [[ "mag_tailor", 1 ] , ["manual_tailor", 1]],
   "tools": [
@@ -860,7 +830,6 @@
   "skill_used": "tailor",
   "difficulty": 2,
   "time": 35000,
-  "reversible": false,
   "autolearn": true,
   "book_learn": [[ "mag_tailor", 1 ] , ["manual_tailor", 1]],
   "tools": [
@@ -881,7 +850,6 @@
   "skill_used": "tailor",
   "difficulty": 2,
   "time": 30000,
-  "reversible": false,
   "autolearn": true,
   "book_learn": [[ "mag_tailor", 1 ] , ["manual_tailor", 1]],
   "tools": [
@@ -905,7 +873,6 @@
   "reversible": true,
   "decomp_learn": 0,
   "note": "OK, I sewed the shirt and pants together, and added laces to the top, so I can put the thing on.",
-  "autolearn": false,
   "book_learn": [[ "mag_tailor", 0 ] , ["manual_tailor", 0] , ["textbook_tailor", 0]],
   "tools": [
     [
@@ -931,8 +898,6 @@
   "skill_used": "tailor",
   "difficulty": 2,
   "time": 4000,
-  "reversible": false,
-  "autolearn": false,
   "book_learn": [[ "textbook_tailor", 4 ] , [ "manual_tailor", 5 ] , ["tailor_portfolio", 4]],
   "tools": [
     [
@@ -961,8 +926,6 @@
   "skill_used": "tailor",
   "difficulty": 2,
   "time": 4000,
-  "reversible": false,
-  "autolearn": false,
   "book_learn": [[ "textbook_tailor", 4 ] , [ "manual_tailor", 5 ] , ["tailor_portfolio", 4]],
   "tools": [
     [
@@ -985,7 +948,6 @@
   "skill_used": "tailor",
   "difficulty": 1,
   "time": 5000,
-  "reversible": false,
   "autolearn": true,
   "tools": [
     [
@@ -1005,7 +967,6 @@
   "skill_used": "tailor",
   "difficulty": 1,
   "time": 5000,
-  "reversible": false,
   "autolearn": true,
   "tools": [
     [
@@ -1025,8 +986,6 @@
   "skill_used": "tailor",
   "difficulty": 1,
   "time": 5000,
-  "reversible": false,
-  "autolearn": false,
   "book_learn": [[ "textbook_tailor", 2 ] , [ "manual_tailor", 3 ]],
   "tools": [
     [
@@ -1046,8 +1005,6 @@
   "skill_used": "tailor",
   "difficulty": 2,
   "time": 5000,
-  "reversible": false,
-  "autolearn": false,
   "book_learn": [[ "textbook_tailor", 2 ] , [ "manual_tailor", 3 ]],
   "tools": [
     [
@@ -1070,7 +1027,6 @@
   "time": 48000,
   "reversible": true,
   "decomp_learn": 2,
-  "autolearn": false,
   "book_learn": [[ "textbook_tailor", 2 ] , ["manual_tailor", 2]],
   "tools": [
     [
@@ -1090,7 +1046,6 @@
   "skill_used": "tailor",
   "difficulty": 4,
   "time": 50000,
-  "reversible": false,
   "autolearn": true,
   "tools": [
     [
@@ -1111,7 +1066,6 @@
   "skill_used": "tailor",
   "difficulty": 4,
   "time": 40000,
-  "reversible": false,
   "autolearn": true,
   "tools": [
     [
@@ -1133,7 +1087,6 @@
   "skills_required": [ "survival", 1 ],
   "difficulty": 4,
   "time": 40000,
-  "reversible": false,
   "autolearn": true,
   "tools": [
     [
@@ -1157,7 +1110,6 @@
   "skill_used": "tailor",
   "difficulty": 2,
   "time": 38000,
-  "reversible": false,
   "autolearn": true,
   "tools": [
     [
@@ -1177,7 +1129,6 @@
   "skill_used": "tailor",
   "difficulty": 2,
   "time": 38000,
-  "reversible": false,
   "autolearn": true,
   "tools": [
     [
@@ -1217,7 +1168,6 @@
   "skill_used": "tailor",
   "difficulty": 2,
   "time": 42000,
-  "reversible": false,
   "autolearn": true,
   "tools": [
     [
@@ -1237,7 +1187,6 @@
   "skill_used": "tailor",
   "difficulty": 2,
   "time": 38000,
-  "reversible": false,
   "autolearn": true,
   "tools": [
     [
@@ -1257,8 +1206,6 @@
   "skill_used": "tailor",
   "difficulty": 2,
   "time": 38000,
-  "reversible": false,
-  "autolearn": false,
   "book_learn": [[ "textbook_tailor", 3 ] , ["manual_tailor", 3]],
   "tools": [
     [
@@ -1278,8 +1225,6 @@
   "skill_used": "tailor",
   "difficulty": 2,
   "time": 38000,
-  "reversible": false,
-  "autolearn": false,
   "book_learn": [[ "textbook_tailor", 3 ] , ["manual_tailor", 3]],
   "tools": [
     [
@@ -1299,7 +1244,6 @@
   "skill_used": "tailor",
   "difficulty": 3,
   "time": 40000,
-  "reversible": false,
   "autolearn": true,
   "tools": [
     [
@@ -1319,7 +1263,6 @@
   "skill_used": "tailor",
   "difficulty": 2,
   "time": 38000,
-  "reversible": false,
   "autolearn": true,
   "tools": [
     [
@@ -1339,8 +1282,6 @@
   "skill_used": "tailor",
   "difficulty": 2,
   "time": 38000,
-  "reversible": false,
-  "autolearn": false,
   "note": "zero Encumbrance, without elastic, at skill 2? seems tricky",
   "book_learn": [[ "textbook_tailor", 3 ] , ["manual_tailor", 3]],
   "tools": [
@@ -1361,7 +1302,6 @@
   "skill_used": "tailor",
   "difficulty": 0,
   "time": 3000,
-  "reversible": false,
   "autolearn": true,
   "tools": [
     [
@@ -1381,7 +1321,6 @@
   "skill_used": "tailor",
   "difficulty": 0,
   "time": 1000,
-  "reversible": false,
   "autolearn": true,
   "tools": [ ],
   "components": [
@@ -1397,7 +1336,6 @@
   "skill_used": "tailor",
   "difficulty": 0,
   "time": 3000,
-  "reversible": false,
   "autolearn": true,
   "tools": [
     [
@@ -1417,7 +1355,6 @@
   "skill_used": "tailor",
   "difficulty": 3,
   "time": 42000,
-  "reversible": false,
   "autolearn": true,
   "tools": [
     [
@@ -1438,7 +1375,6 @@
   "difficulty": 3,
   "note": "The general guideline for sleeveless trenchcoats is the components, volume, weight, time to craft, and value are 15% lower (rounded down) than the original.  Making it from an original takes 50% the time.",
   "time": 35700,
-  "reversible": false,
   "autolearn": true,
   "tools": [
     [
@@ -1461,10 +1397,9 @@
   "difficulty": 2,
   "note": "The general guideline for sleeveless trenchcoats is the components, volume, weight, time to craft, and value are 15% lower (rounded down) than the original.  Making it from an original takes 50% the time.",
   "time": 21000,
-  "reversible": false,
   "autolearn": true,
    "qualities" : [
-    {"id":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1}
     ],
   "components": [
     [
@@ -1479,7 +1414,6 @@
   "skill_used": "tailor",
   "difficulty": 1,
   "time": 30000,
-  "reversible": false,
   "autolearn": true,
   "tools": [ ],
   "components": [
@@ -1501,7 +1435,6 @@
   "skill_used": "tailor",
   "difficulty": 1,
   "time": 12000,
-  "reversible": false,
   "autolearn": true,
   "tools": [ ],
   "components": [
@@ -1523,7 +1456,6 @@
   "skill_used": "tailor",
   "difficulty": 0,
   "time": 500,
-  "reversible": false,
   "autolearn": true,
   "tools": [ ],
   "components": [
@@ -1540,7 +1472,6 @@
   "skills_required": [ "survival", 1 ],
   "difficulty": 3,
   "time": 200000,
-  "reversible": false,
   "autolearn": true,
   "tools": [
     [
@@ -1563,7 +1494,6 @@
   "difficulty": 3,
   "note": "The general guideline for sleeveless trenchcoats is the components, volume, weight, time to craft, and value are 15% lower (rounded down) than the original.  Making it from an original takes 50% the time.",
   "time": 200000,
-  "reversible": false,
   "autolearn": true,
   "tools": [
     [
@@ -1587,10 +1517,9 @@
   "difficulty": 2,
   "note": "The general guideline for sleeveless trenchcoats is the components, volume, weight, time to craft, and value are 15% lower (rounded down) than the original.  Making it from an original takes 50% the time.",
   "time": 100000,
-  "reversible": false,
   "autolearn": true,
    "qualities" : [
-    {"id":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1}
     ],
   "components": [
     [
@@ -1605,7 +1534,6 @@
   "skill_used": "tailor",
   "difficulty": 6,
   "time": 200000,
-  "reversible": false,
   "autolearn": true,
   "book_learn": [["textbook_tailor", 4] , ["tailor_portfolio", 4]],
   "tools": [
@@ -1628,7 +1556,6 @@
   "difficulty": 6,
   "note": "The general guideline for sleeveless trenchcoats is the components, volume, weight, time to craft, and value are 15% lower (rounded down) than the original.  Making it from an original takes 50% the time.",
   "time": 200000,
-  "reversible": false,
   "autolearn": true,
   "book_learn": [["textbook_tailor", 4] , ["tailor_portfolio", 4]],
   "tools": [
@@ -1653,10 +1580,9 @@
   "difficulty": 5,
   "note": "The general guideline for sleeveless trenchcoats is the components, volume, weight, time to craft, and value are 15% lower (rounded down) than the original.  Making it from an original takes 50% the time.",
   "time": 100000,
-  "reversible": false,
   "autolearn": true,
    "qualities" : [
-    {"id":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1}
     ],
   "components": [
     [
@@ -1672,7 +1598,6 @@
   "skills_required": [ "survival", 1 ],
   "difficulty": 4,
   "time": 100000,
-  "reversible": false,
   "autolearn": true,
   "book_learn": [["textbook_survival", 1] , ["trappers_companion", 3] , ["survival_book", 2]],
   "tools": [
@@ -1694,7 +1619,6 @@
   "skill_used": "tailor",
   "difficulty": 5,
   "time": 150000,
-  "reversible": false,
   "autolearn": true,
   "book_learn": [["textbook_tailor", 4] , ["manual_tailor", 3]],
   "tools": [
@@ -1717,10 +1641,9 @@
   "skill_used": "tailor",
   "difficulty": 0,
   "time": 20000,
-  "reversible": false,
   "autolearn": true,
   "qualities" : [
-    {"id":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1}
   ],
   "components": [
     [
@@ -1736,7 +1659,6 @@
   "skill_used": "tailor",
   "difficulty": 4,
   "time": 80000,
-  "reversible": false,
   "autolearn": true,
   "book_learn": [["textbook_tailor", 3] , ["manual_tailor", 3]],
   "tools": [
@@ -1758,10 +1680,9 @@
   "skill_used": "tailor",
   "difficulty": 0,
   "time": 20000,
-  "reversible": false,
   "autolearn": true,
   "qualities" : [
-    {"id":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1}
   ],
   "tools":[
     [
@@ -1782,8 +1703,6 @@
   "skill_used": "tailor",
   "difficulty": 2,
   "time": 20000,
-  "reversible": false,
-  "autolearn": false,
   "book_learn": [["textbook_tailor", 3] , ["manual_tailor", 3]],
   "tools":[
     [
@@ -1803,8 +1722,6 @@
   "skill_used": "tailor",
   "difficulty": 1,
   "time": 10000,
-  "reversible": false,
-  "autolearn": false,
   "book_learn": [[ "manual_tailor", 1 ] , [ "mag_tailor", 0 ] , ["textbook_survival", 2] , ["pocket_survival", 2]],
   "tools": [
     [
@@ -1824,7 +1741,6 @@
   "skill_used": "tailor",
   "difficulty": 1,
   "time": 10000,
-  "reversible": false,
   "autolearn": true,
   "tools": [
     [
@@ -1844,8 +1760,6 @@
   "skill_used": "tailor",
   "difficulty": 6,
   "time": 24000,
-  "reversible": false,
-  "autolearn": false,
   "book_learn": [[ "textbook_fireman", 6 ] , ["tailor_portfolio", 7]],
   "tools": [
     [
@@ -1865,8 +1779,6 @@
   "skill_used": "tailor",
   "difficulty": 6,
   "time": 24000,
-  "reversible": false,
-  "autolearn": false,
   "book_learn": [[ "textbook_fireman", 6 ] , ["textbook_tailor", 5] , ["tailor_portfolio", 5]],
   "tools": [
     [
@@ -1886,8 +1798,6 @@
   "skill_used": "tailor",
   "difficulty": 6,
   "time": 24000,
-  "reversible": false,
-  "autolearn": false,
   "book_learn": [[ "textbook_fireman", 6 ] , ["textbook_tailor", 5] , ["tailor_portfolio", 5]],
   "tools": [
     [
@@ -1907,8 +1817,6 @@
   "skill_used": "tailor",
   "difficulty": 6,
   "time": 24000,
-  "reversible": false,
-  "autolearn": false,
   "book_learn": [[ "textbook_fireman", 6 ] , ["textbook_tailor", 5] , ["tailor_portfolio", 5]],
   "tools": [
     [
@@ -1929,11 +1837,9 @@
   "skills_required" : ["tailor", 6],
   "difficulty": 6,
   "time": 160000,
-  "reversible": false,
-  "autolearn": false,
   "book_learn": [[ "textbook_fireman", 8 ] , ["tailor_portfolio", 8]],
   "qualities" : [
-    {"id":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1}
   ],
   "tools": [
      [
@@ -1975,10 +1881,9 @@
   "skill_used": "tailor",
   "difficulty": 0,
   "time": 16000,
-  "reversible": false,
   "autolearn": true,
   "qualities" : [
-    {"id":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1}
   ],
   "components": [
     [
@@ -1994,7 +1899,6 @@
   "skill_used": "tailor",
   "difficulty": 3,
   "time": 16000,
-  "reversible": false,
   "autolearn": true,
   "book_learn": [[ "manual_tailor", 2 ] , [ "textbook_tailor", 2 ] , ["recipe_melee", 2]],
   "tools": [
@@ -2016,10 +1920,9 @@
   "skills_required": [ "fabrication", 1 ],
   "difficulty": 1,
   "time": 24000,
-  "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"id":"HAMMER","level":2,"amount":1}
+    {"id":"HAMMER","level":2}
   ], "tools": [
     [
       [ "sewing_kit", 10 ]
@@ -2042,10 +1945,9 @@
   "skills_required": [ "fabrication", 3 ],
   "difficulty": 3,
   "time": 96000,
-  "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"id":"HAMMER","level":2,"amount":1}
+    {"id":"HAMMER","level":2}
   ], "tools": [
     [
       [ "sewing_kit", 30 ]
@@ -2069,10 +1971,9 @@
   "skills_required": [ "fabrication", 3 ],
   "difficulty": 3,
   "time": 72000,
-  "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"id":"HAMMER","level":2,"amount":1}
+    {"id":"HAMMER","level":2}
   ], "tools": [
     [
       [ "sewing_kit", 20 ]
@@ -2094,11 +1995,9 @@
   "skill_used": "tailor",
   "difficulty": 2,
   "time": 20000,
-  "reversible": false,
-  "autolearn": false,
   "book_learn": [[ "manual_tailor", 2 ] , [ "mag_tailor", 3 ] , ["textbook_survival", 2]],
   "qualities": [
-       {"id":"CUT","level":1,"amount":1} ],
+       {"id":"CUT","level":1} ],
   "tools": [
     [
       [ "sewing_kit", 6 ]
@@ -2122,7 +2021,6 @@
   "skill_used": "tailor",
   "difficulty": 2,
   "time": 16000,
-  "reversible": false,
   "autolearn": true,
   "book_learn": [[ "manual_tailor", 1 ] , [ "mag_tailor", 0 ] , ["textbook_survival", 1] , ["pocket_survival", 1]],
   "tools": [
@@ -2144,7 +2042,6 @@
   "skills_required": [ "survival", 1 ],
   "difficulty": 2,
   "time": 16000,
-  "reversible": false,
   "autolearn": true,
   "book_learn": [[ "manual_tailor", 1 ] , ["textbook_survival", 1] , ["pocket_survival", 1]],
   "tools": [
@@ -2165,10 +2062,9 @@
   "skill_used": "tailor",
   "difficulty": 2,
   "time": 30000,
-  "reversible": false,
   "autolearn": true,
   "qualities" : [
-    {"id":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1}
   ],
   "tools": [
     [
@@ -2191,10 +2087,9 @@
   "skill_used": "tailor",
   "difficulty": 3,
   "time": 30000,
-  "reversible": false,
   "autolearn": true,
   "qualities" : [
-    {"id":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1}
   ],
   "tools": [
     [
@@ -2217,10 +2112,9 @@
   "skill_used": "tailor",
   "difficulty": 4,
   "time": 30000,
-  "reversible": false,
   "autolearn": true,
   "qualities" : [
-    {"id":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1}
   ],
   "tools": [
     [
@@ -2248,7 +2142,6 @@
   "skill_used": "tailor",
   "difficulty": 5,
   "time": 30000,
-  "reversible": false,
   "autolearn": true,
   "components": [
     [
@@ -2267,11 +2160,10 @@
   "skill_used": "tailor",
   "difficulty": 4,
   "time": 30000,
-  "reversible": false,
   "autolearn": true,
   "book_learn": [["recipe_melee", 3]],
   "qualities":[
-    {"id":"HAMMER","level":2,"amount":1}
+    {"id":"HAMMER","level":2}
   ], "components": [
     [
       [ "string_36", 1 ],
@@ -2290,11 +2182,10 @@
   "skill_used": "tailor",
   "difficulty": 5,
   "time": 45000,
-  "reversible": false,
   "autolearn": true,
   "book_learn": [["textbook_armwest", 4] , ["recipe_melee", 4]],
   "qualities":[
-    {"id":"HAMMER","level":2,"amount":1}
+    {"id":"HAMMER","level":2}
   ],
   "components": [
     [
@@ -2320,7 +2211,6 @@
   "skill_used": "tailor",
   "difficulty": 4,
   "time": 30000,
-  "reversible": false,
   "autolearn": true,
   "components": [
     [
@@ -2339,11 +2229,10 @@
   "skill_used": "tailor",
   "difficulty": 3,
   "time": 30000,
-  "reversible": false,
   "autolearn": true,
   "book_learn": [[ "manual_tailor", 2 ] , ["textbook_tailor", 2]],
   "qualities" : [
-    {"id":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1}
   ],
   "tools": [
     [
@@ -2372,10 +2261,9 @@
   "skill_used": "tailor",
   "difficulty": 2,
   "time": 30000,
-  "reversible": false,
   "autolearn": true,
   "qualities" : [
-    {"id":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1}
   ],
   "tools": [
     [
@@ -2435,7 +2323,6 @@
   "skills_required": [ "survival", 1 ],
   "difficulty": 2,
   "time": 5000,
-  "reversible": false,
   "autolearn": true,
   "tools": [
     [
@@ -2572,7 +2459,6 @@
   "time": 5000,
   "reversible": true,
   "decomp_learn": 3,
-  "autolearn": false,
   "book_learn": [["textbook_fireman", 3] , ["atomic_survival", 3] , ["adv_chemistry", 4] , ["textbook_chemistry", 4] , ["emergency_book", 3] , ["textbook_gaswarfare", 3]],
   "components": [
     [
@@ -2597,10 +2483,9 @@
   "skill_used": "tailor",
   "difficulty": 1,
   "time": 8000,
-  "reversible": false,
   "autolearn": true,
   "qualities" : [
-    {"id":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1}
   ],
   "components": [
     [
@@ -2621,12 +2506,10 @@
   "skills_required": ["fabrication", 1],
   "difficulty": 3,
   "time": 20000,
-  "reversible": false,
   "decomp_learn": 3,
-  "autolearn": false,
   "book_learn": [["textbook_fireman", 3] , ["atomic_survival", 3] , ["adv_chemistry", 4] , ["textbook_chemistry", 4] , ["emergency_book", 3] , ["textbook_gaswarfare", 3]],
   "qualities" : [
-    {"id":"WRENCH","level":1,"amount":1}
+    {"id":"WRENCH","level":1}
   ], "components": [
     [
       [ "goggles_ski", 1 ],
@@ -2652,11 +2535,9 @@
   "skills_required": ["fabrication", 1],
   "difficulty": 4,
   "time": 20000,
-  "reversible": false,
-  "autolearn": false,
   "book_learn": [["textbook_fireman", 3] , ["atomic_survival", 3] , ["adv_chemistry", 4] , ["textbook_chemistry", 4] , ["emergency_book", 3] , ["textbook_gaswarfare", 3]],
   "qualities" : [
-    {"id":"WRENCH","level":1,"amount":1}
+    {"id":"WRENCH","level":1}
   ], "tools": [
     [
       [ "welder", 56 ],
@@ -2693,11 +2574,9 @@
   "skills_required" : ["fabrication", 1],
   "difficulty": 4,
   "time": 20000,
-  "reversible": false,
-  "autolearn": false,
   "book_learn": [["textbook_fireman", 3] , ["atomic_survival", 3] , ["adv_chemistry", 4] , ["textbook_chemistry", 4] , ["emergency_book", 3] , ["textbook_gaswarfare", 3]],
   "qualities" : [
-    {"id":"WRENCH","level":1,"amount":1}
+    {"id":"WRENCH","level":1}
   ], "tools": [
     [
       [ "welder", 56 ],
@@ -2725,10 +2604,9 @@
   "skills_required" : ["tailor", 4],
   "difficulty": 5,
   "time": 20000,
-  "reversible": false,
   "autolearn": true,
   "qualities" : [
-    {"id":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1}
   ],
   "tools": [
       [
@@ -2772,10 +2650,9 @@
   "skills_required" : ["tailor", 5],
   "difficulty": 6,
   "time": 20000,
-  "reversible": false,
   "autolearn": true,
   "qualities" : [
-    {"id":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1}
   ],
   "tools": [
       [
@@ -2815,10 +2692,9 @@
   "skills_required" : ["tailor", 6],
   "difficulty": 6,
   "time": 20000,
-  "reversible": false,
   "autolearn": true,
   "qualities" : [
-    {"id":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1}
   ],
   "tools": [
       [
@@ -2858,10 +2734,9 @@
   "skills_required" : ["tailor", 7],
   "difficulty": 7,
   "time": 20000,
-  "reversible": false,
   "autolearn": true,
   "qualities" : [
-    {"id":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1}
   ],
   "tools": [
       [
@@ -2901,10 +2776,9 @@
   "skills_required" : ["tailor", 5],
   "difficulty": 7,
   "time": 20000,
-  "reversible": false,
   "autolearn": true,
   "qualities" : [
-    {"id":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1}
   ],
   "tools": [
       [
@@ -2941,10 +2815,9 @@
   "skills_required" : ["tailor", 7],
   "difficulty": 7,
   "time": 20000,
-  "reversible": false,
   "autolearn": true,
   "qualities" : [
-    {"id":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1}
   ],
   "tools": [
     [
@@ -2988,10 +2861,9 @@
   "skills_required" : ["tailor", 7],
   "difficulty": 7,
   "time": 20000,
-  "reversible": false,
   "autolearn": true,
   "qualities" : [
-    {"id":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1}
   ],
   "tools": [
     [
@@ -3035,11 +2907,10 @@
   "skills_required" : ["tailor", 8],
   "difficulty": 7,
   "time": 20000,
-  "reversible": false,
   "autolearn": true,
   "book_learn": [["textbook_fireman", 7] , ["atomic_survival", 8] , ["textbook_gaswarfare", 9]],
   "qualities" : [
-    {"id":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1}
   ],
   "tools": [
     [
@@ -3076,11 +2947,10 @@
   "skills_required" : ["tailor", 8],
   "difficulty": 7,
   "time": 20000,
-  "reversible": false,
   "autolearn": true,
   "book_learn": [["textbook_fireman", 7] , ["atomic_survival", 8] , ["textbook_gaswarfare", 9]],
   "qualities" : [
-    {"id":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1}
   ],
   "tools": [
     [
@@ -3117,10 +2987,9 @@
   "skills_required" : ["tailor", 7],
   "difficulty": 7,
   "time": 20000,
-  "reversible": false,
   "autolearn": true,
   "qualities" : [
-    {"id":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1}
   ],
   "tools": [
     [
@@ -3160,10 +3029,9 @@
   "skills_required" : ["tailor", 7],
   "difficulty": 7,
   "time": 20000,
-  "reversible": false,
   "autolearn": true,
   "qualities" : [
-    {"id":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1}
   ],
   "tools": [
     [
@@ -3205,10 +3073,9 @@
   "time": 40000,
   "reversible": true,
   "decomp_learn": 4,
-  "autolearn": false,
   "book_learn": [["textbook_fireman", 7] , ["advanced_electronics", 4] , ["textbook_electronics", 4]],
   "qualities" : [
-    {"id":"SCREW","level":1,"amount":1}
+    {"id":"SCREW","level":1}
   ], "components": [
     [
       [ "goggles_ski", 1 ],
@@ -3236,10 +3103,9 @@
   "time": 40000,
   "reversible": true,
   "decomp_learn": 4,
-  "autolearn": false,
   "book_learn": [["textbook_fireman", 6] , ["advanced_electronics", 5] , ["textbook_electronics", 6]],
   "qualities" : [
-    {"id":"SCREW","level":1,"amount":1}
+    {"id":"SCREW","level":1}
   ], "components": [
     [
       [ "goggles_ski", 1 ],
@@ -3268,11 +3134,9 @@
   "skills_required": [ "tailor", 1 ],
   "difficulty": 9,
   "time": 80000,
-  "reversible": false,
-  "autolearn": false,
   "book_learn": [["manual_swimming", 3] , ["atomic_survival", 3] , ["adv_chemistry", 4] , ["textbook_chemistry", 4]],
   "qualities" : [
-    {"id":"SCREW","level":1,"amount":1}
+    {"id":"SCREW","level":1}
   ], "tools": [
     [
       [ "welder", 56 ],
@@ -3312,11 +3176,9 @@
   "skills_required": [ "tailor", 3 ],
   "difficulty": 9,
   "time": 85000,
-  "reversible": false,
-  "autolearn": false,
   "book_learn": [["manual_swimming", 3] , ["atomic_survival", 3] , ["adv_chemistry", 4] , ["textbook_chemistry", 4]],
   "qualities" : [
-    {"id":"SCREW","level":1,"amount":1}
+    {"id":"SCREW","level":1}
   ], "tools": [
     [
       [ "welder", 56 ],
@@ -3357,10 +3219,9 @@
   "skills_required": [ "electronics", 4 ],
   "difficulty": 3,
   "time": 20000,
-  "reversible": false,
   "autolearn": true,
   "qualities" : [
-    {"id":"SCREW","level":1,"amount":1}
+    {"id":"SCREW","level":1}
   ], "tools": [
     [
       [ "welder", 56 ],
@@ -3397,10 +3258,9 @@
   "time": 60000,
   "reversible": true,
   "decomp_learn": 4,
-  "autolearn": false,
   "book_learn": [["textbook_fireman", 4] , ["atomic_survival", 4] , ["adv_chemistry", 4] , ["textbook_chemistry", 4] , ["emergency_book", 3] , ["textbook_gaswarfare", 4]],
   "qualities" : [
-    {"id":"SCREW","level":1,"amount":1}
+    {"id":"SCREW","level":1}
   ], "tools": [
     [
       [ "soldering_iron", 10 ],
@@ -3434,7 +3294,6 @@
   "skill_used": "tailor",
   "difficulty": 0,
   "time": 6000,
-  "reversible": false,
   "autolearn": true,
   "tools": [
     [
@@ -3455,7 +3314,6 @@
   "skills_required": [ "survival", 1 ],
   "difficulty": 2,
   "time": 40000,
-  "reversible": false,
   "autolearn": true,
   "tools": [
     [
@@ -3475,7 +3333,6 @@
   "skill_used": "tailor",
   "difficulty": 2,
   "time": 40000,
-  "reversible": false,
   "autolearn": true,
   "tools": [
     [
@@ -3495,7 +3352,6 @@
   "skill_used": "tailor",
   "difficulty": 3,
   "time": 25000,
-  "reversible": false,
   "autolearn": true,
   "tools": [
     [
@@ -3538,7 +3394,6 @@
   "skill_used": "tailor",
   "difficulty": 3,
   "time": 50000,
-  "reversible": false,
   "autolearn": true,
   "tools": [
     [
@@ -3559,7 +3414,6 @@
   "skill_used": "tailor",
   "difficulty": 5,
   "time": 65000,
-  "reversible": false,
   "autolearn": true,
   "tools": [
     [
@@ -3586,7 +3440,6 @@
   "skill_used": "tailor",
   "difficulty": 3,
   "time": 90000,
-  "reversible": false,
   "autolearn": true,
   "book_learn": [["mag_tailor", 1] , ["manual_tailor", 1] , ["mag_beauty", 1]],
   "tools": [
@@ -3607,7 +3460,6 @@
   "skill_used": "tailor",
   "difficulty": 6,
   "time": 60000,
-  "reversible": false,
   "autolearn": true,
   "components": [
     [
@@ -3626,11 +3478,10 @@
   "skill_used": "tailor",
   "difficulty": 5,
   "time": 60000,
-  "reversible": false,
   "autolearn": true,
   "book_learn": [[ "textbook_tailor", 5 ] , [ "tailor_portfolio", 5 ]],
   "qualities" : [
-    {"id":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1}
   ],
   "components": [
     [
@@ -3647,7 +3498,6 @@
   "skill_used": "tailor",
   "difficulty": 7,
   "time": 100000,
-  "reversible": false,
   "autolearn": true,
   "book_learn": [[ "textbook_tailor", 5 ] , [ "tailor_portfolio", 5 ]],
   "components": [
@@ -3667,11 +3517,10 @@
   "skill_used": "tailor",
   "difficulty": 6,
   "time": 30000,
-  "reversible": false,
   "autolearn": true,
   "book_learn": [[ "textbook_tailor", 4 ] , [ "tailor_portfolio", 5 ]],
   "qualities" : [
-    {"id":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1}
   ],
   "tools": [
     [
@@ -3699,8 +3548,6 @@
   "skill_used": "tailor",
   "difficulty": 4,
   "time": 60000,
-  "reversible": false,
-  "autolearn": false,
   "book_learn": [[ "textbook_armwest", 3 ]],
   "tools": [ [ [ "sewing_kit", 30 ] ] ],
   "components": [ [ [ "rag", 20 ] ] ]
@@ -3713,10 +3560,9 @@
   "difficulty": 5,
   "note": "Whilst the trenchcoat needs 6 skill this'll need at least 4.",
   "time": 28000,
-  "reversible": false,
   "autolearn": true,
   "qualities" : [
-    {"id":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1}
   ],
   "tools": [
     [
@@ -3739,10 +3585,9 @@
   "skill_used": "tailor",
   "difficulty": 5,
   "time": 28000,
-  "reversible": false,
   "autolearn": true,
   "qualities" : [
-    {"id":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1}
   ],
   "tools": [
     [
@@ -3764,11 +3609,9 @@
   "difficulty": 3,
   "skills_required": [ "tailor", 3 ],
   "time": 60000,
-  "reversible": false,
-  "autolearn": false,
   "book_learn": [[ "textbook_tailor", 4 ] , [ "tailor_portfolio", 5 ] , ["textbook_survival", 3] , ["trappers_companion", 3] , ["survival_book", 3] , ["textbook_armwest", 6], ["textbook_armschina", 6]],
   "qualities":[
-    {"id":"COOK","level":3,"amount":1}
+    {"id":"COOK","level":3}
   ], "tools": [
     [
       [ "hotplate", 20 ],
@@ -3808,8 +3651,6 @@
   "difficulty": 2,
   "skills_required": [ "tailor", 3 ],
   "time": 28000,
-  "reversible": false,
-  "autolearn": false,
   "book_learn": [[ "textbook_tailor", 5 ] , [ "tailor_portfolio", 5 ] , ["textbook_armwest", 4], ["textbook_armschina", 4]],
   "tools": [
     [
@@ -3836,7 +3677,6 @@
   "skill_used": "tailor",
   "difficulty": 3,
   "time": 50000,
-  "reversible": false,
   "autolearn": true,
   "tools": [
     [
@@ -3856,7 +3696,6 @@
   "skill_used": "tailor",
   "difficulty": 3,
   "time": 50000,
-  "reversible": false,
   "autolearn": true,
   "tools": [
     [
@@ -3881,7 +3720,6 @@
   "skill_used": "tailor",
   "difficulty": 5,
   "time": 30000,
-  "reversible": false,
   "autolearn": true,
   "tools": [
     [
@@ -3917,7 +3755,6 @@
   "skill_used": "tailor",
   "difficulty": 4,
   "time": 20000,
-  "reversible": false,
   "autolearn": true,
   "tools": [
     [
@@ -3948,7 +3785,6 @@
   "skill_used": "tailor",
   "difficulty": 2,
   "time": 80000,
-  "reversible": false,
   "autolearn": true,
   "tools": [
     [
@@ -4101,7 +3937,6 @@
   "skill_used": "tailor",
   "difficulty": 0,
   "time": 3000,
-  "reversible": false,
   "autolearn": true,
   "tools": [
     [
@@ -4213,7 +4048,6 @@
   "skill_used": "tailor",
   "difficulty": 0,
   "time": 10000,
-  "reversible": false,
   "autolearn": true,
   "tools": [
     [
@@ -4241,7 +4075,6 @@
   "skills_required": [ "survival", 1 ],
   "difficulty": 2,
   "time": 10000,
-  "reversible": false,
   "autolearn": true,
   "tools": [
     [
@@ -4341,11 +4174,10 @@
   "skill_used": "fabrication",
   "difficulty": 3,
   "time": 10000,
-  "reversible": false,
   "autolearn": true,
   "book_learn": [["recipe_melee", 2]],
   "qualities" : [
-    {"id":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1}
   ],
   "components": [ [ ["paper", 300] ],
     [ ["duct_tape", 150] ] ]
@@ -4360,7 +4192,7 @@
   "reversible": true,
   "autolearn": true,
   "qualities":[
-    {"id":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1}
     ],
   "components": [
     [
@@ -4384,7 +4216,7 @@
   "reversible": true,
   "autolearn": true,
   "qualities":[
-    {"id":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1}
     ],
   "components": [
     [
@@ -4437,7 +4269,6 @@
   "skill_used": "tailor",
   "difficulty": 3,
   "time": 180000,
-  "reversible": false,
   "autolearn": true,
   "tools": [
     [
@@ -4459,10 +4290,9 @@
   "skills_required" : ["fabrication", 5],
   "difficulty": 6,
   "time": 70000,
-  "reversible": false,
   "autolearn": true,
   "qualities" : [
-    {"id":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1}
   ],
   "tools": [
       [
@@ -4511,10 +4341,9 @@
   "difficulty": 6,
   "note": "The general guideline for sleeveless trenchcoats is the components, volume, weight, time to craft, and value are 15% lower (rounded down) than the original.  Making it from an original takes 50% the time.  The sleeveless survivor trenchcoat is the exception with the premade wearable items.",
   "time": 59500,
-  "reversible": false,
   "autolearn": true,
   "qualities" : [
-    {"id":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1}
   ],
   "tools": [
       [
@@ -4564,10 +4393,9 @@
   "difficulty": 5,
   "note": "The general guideline for sleeveless trenchcoats is the components, volume, weight, time to craft, and value are 15% lower (rounded down) than the original.  Making it from an original takes 50% the time.",
   "time": 35000,
-  "reversible": false,
   "autolearn": true,
    "qualities" : [
-    {"id":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1}
     ],
   "components": [
     [
@@ -4583,10 +4411,9 @@
   "skills_required" : ["fabrication", 5],
   "difficulty": 6,
   "time": 70000,
-  "reversible": false,
   "autolearn": true,
   "qualities" : [
-    {"id":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1}
   ],
   "tools": [
       [
@@ -4662,10 +4489,9 @@
   "skills_required" : ["fabrication", 3],
   "difficulty": 5,
   "time": 70000,
-  "reversible": false,
   "autolearn": true,
   "qualities" : [
-    {"id":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1}
   ],
   "tools": [
       [
@@ -4708,10 +4534,9 @@
   "skills_required" : ["fabrication", 3],
   "difficulty": 4,
   "time": 70000,
-  "reversible": false,
   "autolearn": true,
   "qualities" : [
-    {"id":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1}
   ],
   "tools": [
       [
@@ -4756,10 +4581,9 @@
   "skills_required" : ["fabrication", 4],
   "difficulty": 5,
   "time": 80000,
-  "reversible": false,
   "autolearn": true,
   "qualities" : [
-    {"id":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1}
   ],
   "tools": [
       [
@@ -4804,10 +4628,9 @@
   "skills_required" : ["fabrication", 5],
   "difficulty": 6,
   "time": 90000,
-  "reversible": false,
   "autolearn": true,
   "qualities" : [
-    {"id":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1}
   ],
   "tools": [
       [
@@ -4853,10 +4676,9 @@
   "skills_required" : ["fabrication", 6],
   "difficulty": 7,
   "time": 100000,
-  "reversible": false,
   "autolearn": true,
   "qualities" : [
-    {"id":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1}
   ],
   "tools": [
       [
@@ -4900,10 +4722,9 @@
   "skills_required" : ["fabrication", 6],
   "difficulty": 5,
   "time": 180000,
-  "reversible": false,
   "autolearn": true,
   "qualities" : [
-    {"id":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1}
   ],
   "tools": [
      [
@@ -4953,10 +4774,9 @@
   "skills_required" : ["fabrication", 6],
   "difficulty": 5,
   "time": 120000,
-  "reversible": false,
   "autolearn": true,
   "qualities" : [
-    {"id":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1}
   ],
   "tools": [
      [
@@ -5006,10 +4826,9 @@
   "skills_required" : ["fabrication", 6],
   "difficulty": 5,
   "time": 60000,
-  "reversible": false,
   "autolearn": true,
   "qualities" : [
-    {"id":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1}
   ],
   "tools": [
      [
@@ -5053,10 +4872,9 @@
   "skills_required" : ["fabrication", 6],
   "difficulty": 6,
   "time": 240000,
-  "reversible": false,
   "autolearn": true,
   "qualities" : [
-    {"id":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1}
   ],
   "tools": [
      [
@@ -5110,10 +4928,9 @@
   "skills_required" : ["fabrication", 7],
   "difficulty": 7,
   "time": 360000,
-  "reversible": false,
   "autolearn": true,
   "qualities" : [
-    {"id":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1}
   ],
   "tools": [
     [
@@ -5172,10 +4989,9 @@
   "skills_required" : ["fabrication", 6],
   "difficulty": 6,
   "time": 300000,
-  "reversible": false,
   "autolearn": true,
   "qualities" : [
-    {"id":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1}
   ],
   "tools": [
     [
@@ -5233,11 +5049,10 @@
   "skills_required" : ["fabrication", 7],
   "difficulty": 8,
   "time": 320000,
-  "reversible": false,
   "autolearn": true,
   "book_learn": [[ "tailor_portfolio", 7 ] , ["textbook_fireman", 7]],
   "qualities" : [
-    {"id":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1}
   ],
   "tools": [
      [
@@ -5292,10 +5107,9 @@
   "skills_required" : ["fabrication", 6],
   "difficulty": 7,
   "time": 300000,
-  "reversible": false,
   "autolearn": true,
   "qualities" : [
-    {"id":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1}
   ],
   "tools": [
     [
@@ -5346,10 +5160,9 @@
   "skills_required" : ["fabrication", 6],
   "difficulty": 6,
   "time": 320000,
-  "reversible": false,
   "autolearn": true,
   "qualities" : [
-    {"id":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1}
   ],
   "tools": [
      [
@@ -5406,10 +5219,9 @@
   "skills_required" : ["fabrication", 4],
   "difficulty": 6,
   "time": 180000,
-  "reversible": false,
   "autolearn": true,
   "qualities" : [
-    {"id":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1}
   ],
   "tools": [
     [
@@ -5449,10 +5261,9 @@
   "skills_required" : ["fabrication", 4],
   "difficulty": 6,
   "time": 80000,
-  "reversible": false,
   "autolearn": true,
   "qualities" : [
-    {"id":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1}
   ],
   "tools": [
     [
@@ -5492,10 +5303,9 @@
   "skills_required" : ["fabrication", 4],
   "difficulty": 6,
   "time": 60000,
-  "reversible": false,
   "autolearn": true,
   "qualities" : [
-    {"id":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1}
   ],
   "tools": [
     [
@@ -5538,10 +5348,9 @@
   "skills_required" : ["fabrication", 4],
   "difficulty": 6,
   "time": 60000,
-  "reversible": false,
   "autolearn": true,
   "qualities" : [
-    {"id":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1}
   ],
   "tools": [
     [
@@ -5587,10 +5396,9 @@
   "skills_required" : ["fabrication", 4],
   "difficulty": 5,
   "time": 45000,
-  "reversible": false,
   "autolearn": true,
   "qualities" : [
-    {"id":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1}
   ],
   "tools": [
     [
@@ -5626,10 +5434,9 @@
   "skills_required" : ["fabrication", 4],
   "difficulty": 6,
   "time": 45000,
-  "reversible": false,
   "autolearn": true,
   "qualities" : [
-    {"id":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1}
   ],
   "tools": [
     [
@@ -5669,10 +5476,9 @@
   "skills_required" : ["fabrication", 4],
   "difficulty": 6,
   "time": 45000,
-  "reversible": false,
   "autolearn": true,
   "qualities" : [
-    {"id":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1}
   ],
   "tools": [
     [
@@ -5729,10 +5535,9 @@
   "skills_required" : ["fabrication", 5],
   "difficulty": 7,
   "time": 45000,
-  "reversible": false,
   "autolearn": true,
   "qualities" : [
-    {"id":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1}
   ],
   "tools": [
     [
@@ -5789,10 +5594,9 @@
   "skills_required" : ["fabrication", 5],
   "difficulty": 7,
   "time": 45000,
-  "reversible": false,
   "autolearn": true,
   "qualities" : [
-    {"id":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1}
   ],
   "tools": [
     [
@@ -5832,11 +5636,10 @@
   "skills_required" : ["fabrication", 6],
   "difficulty": 8,
   "time": 45000,
-  "reversible": false,
   "autolearn": true,
   "book_learn": [[ "textbook_fireman", 7 ]],
   "qualities" : [
-    {"id":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1}
   ],
   "tools": [
     [
@@ -5871,10 +5674,9 @@
   "skills_required" : ["fabrication", 6],
   "difficulty": 7,
   "time": 45000,
-  "reversible": false,
   "autolearn": true,
   "qualities" : [
-    {"id":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1}
   ],
   "tools": [
     [
@@ -5909,10 +5711,9 @@
   "skills_required" : ["fabrication", 3],
   "difficulty": 5,
   "time": 60000,
-  "reversible": false,
   "autolearn": true,
   "qualities" : [
-    {"id":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1}
   ],
   "tools": [
     [
@@ -5955,10 +5756,9 @@
   "skills_required" : ["fabrication", 4],
   "difficulty": 6,
   "time": 60000,
-  "reversible": false,
   "autolearn": true,
   "qualities" : [
-    {"id":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1}
   ],
   "tools": [
     [
@@ -6002,10 +5802,9 @@
   "skills_required" : ["fabrication", 5],
   "difficulty": 7,
   "time": 60000,
-  "reversible": false,
   "autolearn": true,
   "qualities" : [
-    {"id":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1}
   ],
   "tools": [
     [
@@ -6051,10 +5850,9 @@
   "skills_required" : ["fabrication", 5],
   "difficulty": 7,
   "time": 60000,
-  "reversible": false,
   "autolearn": true,
   "qualities" : [
-    {"id":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1}
   ],
   "tools": [
     [
@@ -6098,10 +5896,9 @@
   "skills_required" : ["fabrication", 6],
   "difficulty": 8,
   "time": 60000,
-  "reversible": false,
   "autolearn": true,
   "qualities" : [
-    {"id":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1}
   ],
   "tools": [
     [
@@ -6141,10 +5938,9 @@
   "skills_required" : ["fabrication", 6],
   "difficulty": 7,
   "time": 60000,
-  "reversible": false,
   "autolearn": true,
   "qualities" : [
-    {"id":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1}
   ],
   "tools": [
     [
@@ -6180,10 +5976,9 @@
   "skills_required" : ["fabrication", 3],
   "difficulty": 5,
   "time": 120000,
-  "reversible": false,
   "autolearn": true,
   "qualities" : [
-    {"id":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1}
   ],
   "tools": [
     [
@@ -6222,10 +6017,9 @@
   "skills_required" : ["fabrication", 4],
   "difficulty": 6,
   "time": 120000,
-  "reversible": false,
   "autolearn": true,
   "qualities" : [
-    {"id":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1}
   ],
   "tools": [
     [
@@ -6265,10 +6059,9 @@
   "skills_required" : ["fabrication", 5],
   "difficulty": 7,
   "time": 120000,
-  "reversible": false,
   "autolearn": true,
   "qualities" : [
-    {"id":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1}
   ],
   "tools": [
     [
@@ -6314,10 +6107,9 @@
   "skills_required" : ["fabrication", 5],
   "difficulty": 7,
   "time": 120000,
-  "reversible": false,
   "autolearn": true,
   "qualities" : [
-    {"id":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1}
   ],
   "tools": [
     [
@@ -6357,10 +6149,9 @@
   "skills_required" : ["fabrication", 6],
   "difficulty": 8,
   "time": 120000,
-  "reversible": false,
   "autolearn": true,
   "qualities" : [
-    {"id":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1}
   ],
   "tools": [
     [
@@ -6400,10 +6191,9 @@
   "skills_required" : ["fabrication", 6],
   "difficulty": 7,
   "time": 120000,
-  "reversible": false,
   "autolearn": true,
   "qualities" : [
-    {"id":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1}
   ],
   "tools": [
     [
@@ -6443,11 +6233,9 @@
   "skills_required" : ["tailor", 1],
   "difficulty": 6,
   "time": 180000,
-  "reversible": false,
-  "autolearn": false,
   "book_learn": [["tailor_portfolio", 7] , ["textbook_tailor", 8] , ["textbook_fireman", 6]],
   "qualities" : [
-    {"id":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1}
   ],
   "tools": [
     [
@@ -6478,11 +6266,9 @@
   "skills_required" : ["tailor", 2],
   "difficulty": 8,
   "time": 220000,
-  "reversible": false,
-  "autolearn": false,
   "book_learn": [["tailor_portfolio", 7] , ["textbook_fireman", 7]],
   "qualities" : [
-    {"id":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1}
   ],
   "tools": [
     [
@@ -6512,7 +6298,6 @@
   "skill_used": "tailor",
   "difficulty": 4,
   "time": 30000,
-  "reversible": false,
   "autolearn": true,
   "book_learn": [[ "textbook_fabrication", 3 ] , [ "welding_book", 3 ]],
   "tools": [ [ [ "spray_can", 1 ] ]
@@ -6536,7 +6321,6 @@
   "skill_used": "fabrication",
   "difficulty": 4,
   "time": 30000,
-  "reversible": false,
   "autolearn": true,
   "components": [
     [
@@ -6561,11 +6345,9 @@
   "skills_required" : ["tailor", 2],
   "difficulty": 4,
   "time": 30000,
-  "reversible": false,
-  "autolearn": false,
   "book_learn": [["mag_swimming", 3] , ["manual_swimming", 2]],
   "qualities" : [
-    {"id":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1}
   ],
   "tools": [
     [
@@ -6597,7 +6379,6 @@
   "skill_used": "tailor",
   "difficulty": 3,
   "time": 20000,
-  "reversible": false,
   "autolearn": true,
   "tools": [
     [
@@ -6625,7 +6406,6 @@
   "skill_used": "tailor",
   "difficulty": 3,
   "time": 20000,
-  "reversible": false,
   "autolearn": true,
   "tools": [
     [
@@ -6653,10 +6433,9 @@
   "skill_used": "tailor",
   "difficulty": 3,
   "time": 30000,
-  "reversible": false,
   "autolearn": true,
   "qualities" : [
-    {"id":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1}
   ],
   "tools": [
     [
@@ -6690,10 +6469,9 @@
   "skill_used": "tailor",
   "difficulty": 3,
   "time": 30000,
-  "reversible": false,
   "autolearn": true,
   "qualities" : [
-    {"id":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1}
   ],
   "tools": [
     [
@@ -6727,10 +6505,9 @@
   "skill_used": "tailor",
   "difficulty": 3,
   "time": 20000,
-  "reversible": false,
   "autolearn": true,
   "qualities" : [
-    {"id":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1}
   ],
   "tools": [
     [
@@ -6758,10 +6535,9 @@
   "skill_used": "tailor",
   "difficulty": 3,
   "time": 20000,
-  "reversible": false,
   "autolearn": true,
   "qualities" : [
-    {"id":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1}
   ],
   "tools": [
     [
@@ -6808,7 +6584,6 @@
   "skill_used": "tailor",
   "difficulty": 1,
   "time": 20000,
-  "reversible": false,
   "autolearn": true,
   "tools": [
     [
@@ -6828,10 +6603,9 @@
   "skill_used": "tailor",
   "difficulty": 2,
   "time": 30000,
-  "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"id":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1}
   ],
   "components": [
     [
@@ -6848,10 +6622,9 @@
   "skill_used": "fabrication",
   "difficulty": 3,
   "time": 80000,
-  "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"id":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1}
   ],
   "components": [
     [
@@ -7003,11 +6776,9 @@
   "difficulty": 4,
   "skills_required" : [ "tailor", 2 ],
   "time": 200000,
-  "reversible": false,
-  "autolearn": false,
   "book_learn": [[ "textbook_fabrication", 3], [ "tailor_portfolio", 4], [ "textbook_tailor", 3], [ "atomic_survival", 3]],
   "qualities" : [
-    {"id":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1}
   ],
   "tools": [
     [
@@ -7039,11 +6810,9 @@
   "difficulty": 4,
   "skills_required" : [ "tailor", 2 ],
   "time": 60000,
-  "reversible": false,
-  "autolearn": false,
   "book_learn": [[ "textbook_fabrication", 3], [ "tailor_portfolio", 4], [ "textbook_tailor", 3], [ "atomic_survival", 3]],
   "qualities" : [
-    {"id":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1}
   ],
   "tools": [
     [
@@ -7076,11 +6845,9 @@
   "difficulty": 4,
   "skills_required" : [ "tailor", 2 ],
   "time": 80000,
-  "reversible": false,
-  "autolearn": false,
   "book_learn": [[ "textbook_fabrication", 3], [ "tailor_portfolio", 4], [ "textbook_tailor", 3], [ "atomic_survival", 3]],
   "qualities" : [
-    {"id":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1}
   ],
   "tools": [
     [
@@ -7113,11 +6880,9 @@
   "difficulty": 4,
   "skills_required" : [ "tailor", 2 ],
   "time": 80000,
-  "reversible": false,
-  "autolearn": false,
   "book_learn": [[ "textbook_fabrication", 3], [ "tailor_portfolio", 4], [ "textbook_tailor", 3], [ "atomic_survival", 3]],
   "qualities" : [
-    {"id":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1}
   ],
   "tools": [
     [
@@ -7151,11 +6916,10 @@
     "skills_required": [ "cutting", 1 ],
     "difficulty": 5,
     "time": 40000,
-    "reversible": false,
     "autolearn": true,
     "qualities":[
-        {"id":"HAMMER","level":1,"amount":1},
-        {"id":"CUT","level":1,"amount":1}
+        {"id":"HAMMER","level":1},
+        {"id":"CUT","level":1}
     ],
     "components": [
         [ [ "leather", 10 ], [ "tanned_hide", 2 ] ],
@@ -7172,11 +6936,10 @@
     "skills_required": [ "cutting", 1 ],
     "difficulty": 5,
     "time": 40000,
-    "reversible": false,
     "autolearn": true,
     "qualities":[
-        {"id":"HAMMER","level":1,"amount":1},
-        {"id":"CUT","level":1,"amount":1}
+        {"id":"HAMMER","level":1},
+        {"id":"CUT","level":1}
     ],
     "components": [
         [ [ "leather", 12 ], [ "tanned_hide", 2 ] ],
@@ -7193,11 +6956,10 @@
     "skills_required": [ "cutting", 2 ],
     "difficulty": 5,
     "time": 40000,
-    "reversible": false,
     "autolearn": true,
     "qualities":[
-        {"id":"HAMMER","level":1,"amount":1},
-        {"id":"CUT","level":1,"amount":1}
+        {"id":"HAMMER","level":1},
+        {"id":"CUT","level":1}
     ],
     "components": [
         [ [ "leather", 15 ], [ "tanned_hide", 3 ] ],
@@ -7214,7 +6976,6 @@
     "skills_required": [ "pistol", 1 ],
     "difficulty": 3,
     "time": 15000,
-    "reversible": false,
     "autolearn": true,
     "tools": [
       [
@@ -7241,7 +7002,6 @@
     "skills_required": [ "pistol", 2 ],
     "difficulty": 3,
     "time": 15000,
-    "reversible": false,
     "autolearn": true,
     "tools": [
       [
@@ -7268,7 +7028,6 @@
     "skills_required": [ "gun", 1 ],
     "difficulty": 3,
     "time": 18000,
-    "reversible": false,
     "autolearn": true,
     "tools": [
       [
@@ -7295,9 +7054,8 @@
     "skills_required": [ "pistol", 3 ],
     "difficulty": 5,
     "time": 15000,
-    "reversible": false,
     "autolearn": true,
-    "qualities":[ {"id":"HAMMER","level":2,"amount":1} ],
+    "qualities":[ {"id":"HAMMER","level":2} ],
     "tools": [ [ [ "sewing_kit", 40 ] ] ],
     "components": [
       [
@@ -7323,7 +7081,6 @@
     "skills_required": [ "gun", 1 ],
     "difficulty": 3,
     "time": 75000,
-    "reversible": false,
     "autolearn": true,
     "tools": [
       [
@@ -7350,7 +7107,6 @@
     "skills_required": [ "gun", 1 ],
     "difficulty": 3,
     "time": 68000,
-    "reversible": false,
     "autolearn": true,
     "tools": [
       [
@@ -7378,7 +7134,6 @@
     "skills_required": [ "gun", 1 ],
     "difficulty": 3,
     "time": 76000,
-    "reversible": false,
     "autolearn": true,
     "tools": [
       [
@@ -7406,7 +7161,6 @@
     "skills_required": [ "gun", 1 ],
     "difficulty": 3,
     "time": 78000,
-    "reversible": false,
     "autolearn": true,
     "tools": [
       [
@@ -7434,7 +7188,6 @@
     "skills_required": [ "gun", 1 ],
     "difficulty": 3,
     "time": 80000,
-    "reversible": false,
     "autolearn": true,
     "tools": [
       [
@@ -7463,7 +7216,6 @@
     "skills_required": [ [ "gun", 1 ], [ "pistol", 1 ] ],
     "difficulty": 3,
     "time": 80000,
-    "reversible": false,
     "autolearn": true,
     "tools": [
       [
@@ -7488,7 +7240,6 @@
     "skills_required": [ [ "gun", 1 ], [ "rifle", 1 ] ],
     "difficulty": 3,
     "time": 80000,
-    "reversible": false,
     "autolearn": true,
     "tools": [
       [
@@ -7513,7 +7264,6 @@
     "skills_required": [ [ "gun", 1 ], [ "shotgun", 1 ] ],
     "difficulty": 3,
     "time": 80000,
-    "reversible": false,
     "autolearn": true,
     "tools": [
       [
@@ -7538,7 +7288,6 @@
     "skills_required": [ [ "gun", 1 ], [ "rifle", 1 ] ],
     "difficulty": 3,
     "time": 80000,
-    "reversible": false,
     "autolearn": true,
     "tools": [
       [
@@ -7564,7 +7313,6 @@
     "skills_required": [ [ "gun", 1 ], [ "launcher", 1 ] ],
     "difficulty": 3,
     "time": 80000,
-    "reversible": false,
     "autolearn": true,
     "tools": [
       [
@@ -7596,7 +7344,6 @@
     "skills_required": [ "stabbing", 1 ],
     "difficulty": 3,
     "time": 65000,
-    "reversible": false,
     "autolearn": true,
     "tools": [
       [
@@ -7623,7 +7370,6 @@
     "skills_required": [ "cutting", 1 ],
     "difficulty": 3,
     "time": 15000,
-    "reversible": false,
     "autolearn": true,
     "tools": [
       [
@@ -7651,11 +7397,9 @@
   "skill_used": "fabrication",
   "difficulty": 9,
   "time": 600000,
-  "reversible": false,
-  "autolearn": false,
   "book_learn": [[ "textbook_armwest", 8 ]],
   "qualities": [
-       {"id":"HAMMER","level":3,"amount":1},
+       {"id":"HAMMER","level":3},
        { "id": "CHISEL", "level": 3 }
     ],
   "tools":[
@@ -7692,11 +7436,9 @@
   "skill_used": "fabrication",
   "difficulty": 8,
   "time": 560000,
-  "reversible": false,
-  "autolearn": false,
   "book_learn": [[ "textbook_armwest", 7 ]],
   "qualities": [
-       {"id":"HAMMER","level":3,"amount":1},
+       {"id":"HAMMER","level":3},
        { "id": "CHISEL", "level": 3 }
     ],
   "tools": [
@@ -7734,11 +7476,9 @@
   "skill_used": "fabrication",
   "difficulty": 6,
   "time": 420000,
-  "reversible": false,
-  "autolearn": false,
   "book_learn": [[ "textbook_armwest", 5 ]],
   "qualities": [
-       {"id":"HAMMER","level":3,"amount":1},
+       {"id":"HAMMER","level":3},
        { "id": "CHISEL", "level": 3 }
     ],
   "tools": [
@@ -7776,11 +7516,9 @@
   "skill_used": "fabrication",
   "difficulty": 5,
   "time": 480000,
-  "reversible": false,
-  "autolearn": false,
   "book_learn": [[ "textbook_armwest", 4 ]],
   "qualities": [
-       {"id":"HAMMER","level":3,"amount":1},
+       {"id":"HAMMER","level":3},
        { "id": "CHISEL", "level": 3 }
        ],
   "tools": [
@@ -7819,11 +7557,9 @@
   "skill_used": "fabrication",
   "difficulty": 7,
   "time": 540000,
-  "reversible": false,
-  "autolearn": false,
   "book_learn": [[ "textbook_armwest", 6 ]],
     "qualities": [
-       {"id":"HAMMER","level":3,"amount":1},
+       {"id":"HAMMER","level":3},
        { "id": "CHISEL", "level": 3 }
        ],
   "tools": [
@@ -7860,11 +7596,9 @@
   "skill_used": "fabrication",
   "difficulty": 6,
   "time": 540000,
-  "reversible": false,
-  "autolearn": false,
   "book_learn": [[ "textbook_armwest", 5 ]],
   "qualities": [
-       {"id":"HAMMER","level":3,"amount":1},
+       {"id":"HAMMER","level":3},
        { "id": "CHISEL", "level": 3 }
     ],
   "tools": [
@@ -7901,11 +7635,9 @@
   "skill_used": "fabrication",
   "difficulty": 9,
   "time": 560000,
-  "reversible": false,
-  "autolearn": false,
   "book_learn": [[ "textbook_armeast", 8 ]],
   "qualities": [
-       {"id":"HAMMER","level":3,"amount":1},
+       {"id":"HAMMER","level":3},
        { "id": "CHISEL", "level": 3 }
     ],
   "tools": [
@@ -7946,11 +7678,9 @@
   "skill_used": "fabrication",
   "difficulty": 9,
   "time": 600000,
-  "reversible": false,
-  "autolearn": false,
   "book_learn": [[ "textbook_armeast", 8 ]],
   "qualities": [
-    {"id":"HAMMER","level":3,"amount":1},
+    {"id":"HAMMER","level":3},
     { "id": "CHISEL", "level": 3 }
     ],
   "tools": [
@@ -7972,7 +7702,6 @@
   "skill_used": "tailor",
   "difficulty": 3,
   "time": 360000,
-  "reversible": false,
   "autolearn": true,
   "tools": [
     [
@@ -7993,7 +7722,6 @@
   "skill_used": "tailor",
   "difficulty": 1,
   "time": 60000,
-  "reversible": false,
   "autolearn": true,
   "tools": [
     [
@@ -8014,7 +7742,6 @@
   "skill_used": "tailor",
   "difficulty": 1,
   "time": 90000,
-  "reversible": false,
   "autolearn": true,
   "tools": [
     [
@@ -8034,8 +7761,6 @@
   "skill_used": "tailor",
   "difficulty": 4,
   "time": 90000,
-  "reversible": false,
-  "autolearn": false,
   "book_learn": [["scots_cookbook", 4]],
   "tools": [
     [
@@ -8055,7 +7780,6 @@
   "skill_used": "tailor",
   "difficulty": 1,
   "time": 40000,
-  "reversible": false,
   "autolearn": true,
   "tools": [
     [
@@ -8076,7 +7800,6 @@
   "skill_used": "tailor",
   "difficulty": 2,
   "time": 60000,
-  "reversible": false,
   "autolearn": true,
   "tools": [
     [
@@ -8096,7 +7819,6 @@
   "skill_used": "tailor",
   "difficulty": 1,
   "time": 60000,
-  "reversible": false,
   "autolearn": true,
   "tools": [
     [
@@ -8117,7 +7839,6 @@
   "skill_used": "tailor",
   "difficulty": 1,
   "time": 50000,
-  "reversible": false,
   "autolearn": true,
   "tools": [
     [
@@ -8138,7 +7859,6 @@
   "skill_used": "tailor",
   "difficulty": 2,
   "time": 90000,
-  "reversible": false,
   "autolearn": true,
   "tools": [
     [
@@ -8158,7 +7878,6 @@
   "skill_used": "tailor",
   "difficulty": 3,
   "time": 80000,
-  "reversible": false,
   "autolearn": true,
   "tools": [
     [
@@ -8179,7 +7898,6 @@
   "skill_used": "tailor",
   "difficulty": 4,
   "time": 180000,
-  "reversible": false,
   "autolearn": true,
   "tools": [
     [
@@ -8199,7 +7917,6 @@
   "skill_used": "tailor",
   "difficulty": 5,
   "time": 480000,
-  "reversible": false,
   "autolearn": true,
   "tools": [
     [
@@ -8219,7 +7936,6 @@
   "skill_used": "tailor",
   "difficulty": 5,
   "time": 480000,
-  "reversible": false,
   "autolearn": true,
   "tools": [
     [
@@ -8239,7 +7955,6 @@
   "skill_used": "tailor",
   "difficulty": 5,
   "time": 180000,
-  "reversible": false,
   "autolearn": true,
   "tools": [
     [
@@ -8259,7 +7974,6 @@
   "skill_used": "tailor",
   "difficulty": 6,
   "time": 360000,
-  "reversible": false,
   "autolearn": true,
   "tools": [
     [
@@ -8278,9 +7992,8 @@
   "skill_used": "fabrication",
   "difficulty": 1,
   "time": 15000,
-  "reversible": false,
   "autolearn": true,
-  "qualities": [ {"id":"CUT","level":1,"amount":1} ],
+  "qualities": [ {"id":"CUT","level":1} ],
   "components": [
     [ [ "string_36", 2 ] ],
     [ [ "bag_plastic", 8 ] ]
@@ -8293,7 +8006,6 @@
   "skill_used": "tailor",
   "difficulty": 3,
   "time": 42000,
-  "reversible": false,
   "autolearn": true,
   "tools": [
     [
@@ -8314,7 +8026,6 @@
   "difficulty": 3,
   "note": "The general guideline for sleeveless dusters is the components, volume, weight, time to craft, and value are 15% lower (rounded down) than the original.  Making it from an original takes 50% the time.",
   "time": 35700,
-  "reversible": false,
   "autolearn": true,
   "tools": [
     [
@@ -8337,10 +8048,9 @@
   "difficulty": 2,
   "note": "The general guideline for sleeveless dusters is the components, volume, weight, time to craft, and value are 15% lower (rounded down) than the original.  Making it from an original takes 50% the time.",
   "time": 21000,
-  "reversible": false,
   "autolearn": true,
    "qualities" : [
-    {"id":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1}
     ],
   "components": [
     [
@@ -8356,7 +8066,6 @@
   "skills_required": [ "survival", 1 ],
   "difficulty": 3,
   "time": 200000,
-  "reversible": false,
   "autolearn": true,
   "tools": [
     [
@@ -8379,7 +8088,6 @@
   "difficulty": 3,
   "note": "The general guideline for sleeveless dusters is the components, volume, weight, time to craft, and value are 15% lower (rounded down) than the original.  Making it from an original takes 50% the time.",
   "time": 200000,
-  "reversible": false,
   "autolearn": true,
   "tools": [
     [
@@ -8403,10 +8111,9 @@
   "difficulty": 2,
   "note": "The general guideline for sleeveless dusters is the components, volume, weight, time to craft, and value are 15% lower (rounded down) than the original.  Making it from an original takes 50% the time.",
   "time": 100000,
-  "reversible": false,
   "autolearn": true,
    "qualities" : [
-    {"id":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1}
     ],
   "components": [
     [
@@ -8421,7 +8128,6 @@
   "skill_used": "tailor",
   "difficulty": 6,
   "time": 200000,
-  "reversible": false,
   "autolearn": true,
   "book_learn": [["textbook_tailor", 4] , ["tailor_portfolio", 4]],
   "tools": [
@@ -8444,7 +8150,6 @@
   "difficulty": 6,
   "note": "The general guideline for sleeveless dusters is the components, volume, weight, time to craft, and value are 15% lower (rounded down) than the original.  Making it from an original takes 50% the time.",
   "time": 200000,
-  "reversible": false,
   "autolearn": true,
   "book_learn": [["textbook_tailor", 4] , ["tailor_portfolio", 4]],
   "tools": [
@@ -8469,10 +8174,9 @@
   "difficulty": 5,
   "note": "The general guideline for sleeveless dusters is the components, volume, weight, time to craft, and value are 15% lower (rounded down) than the original.  Making it from an original takes 50% the time.",
   "time": 100000,
-  "reversible": false,
   "autolearn": true,
    "qualities" : [
-    {"id":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1}
     ],
   "components": [
     [
@@ -8488,10 +8192,9 @@
   "skills_required" : ["fabrication", 5],
   "difficulty": 6,
   "time": 70000,
-  "reversible": false,
   "autolearn": true,
   "qualities" : [
-    {"id":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1}
   ],
   "tools": [
       [
@@ -8541,10 +8244,9 @@
   "difficulty": 6,
   "note": "The general guideline for sleeveless dusters is the components, volume, weight, time to craft, and value are 15% lower (rounded down) than the original.  Making it from an original takes 50% the time.  The sleeveless survivor duster is the exception with the premade wearable items.",
   "time": 59500,
-  "reversible": false,
   "autolearn": true,
   "qualities" : [
-    {"id":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1}
   ],
   "tools": [
       [
@@ -8595,10 +8297,9 @@
   "difficulty": 5,
   "note": "The general guideline for sleeveless dusters is the components, volume, weight, time to craft, and value are 15% lower (rounded down) than the original.  Making it from an original takes 50% the time.",
   "time": 35000,
-  "reversible": false,
   "autolearn": true,
    "qualities" : [
-    {"id":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1}
     ],
   "components": [
     [
@@ -8613,7 +8314,6 @@
   "skill_used": "tailor",
   "difficulty": 1,
   "time": 18000,
-  "reversible": false,
   "autolearn": true,
   "components": [
     [
@@ -8629,7 +8329,6 @@
   "skill_used": "tailor",
   "difficulty": 1,
   "time": 28000,
-  "reversible": false,
   "autolearn": true,
   "components": [
     [
@@ -8645,7 +8344,6 @@
   "skill_used": "tailor",
   "difficulty": 1,
   "time": 20000,
-  "reversible": false,
   "autolearn": true,
   "components": [
     [
@@ -8661,8 +8359,6 @@
   "skill_used": "tailor",
   "difficulty": 3,
   "time": 45000,
-  "reversible": false,
-  "autolearn": false,
   "book_learn": [["mag_tailor", 1] , ["manual_tailor", 1] , ["mag_beauty", 1] , ["textbook_tailor", 0]],
   "components": [
     [
@@ -8718,10 +8414,9 @@
   "skill_used": "tailor",
   "difficulty": 0,
   "time": 8000,
-  "reversible": false,
   "autolearn": true,
   "qualities" : [
-    {"id":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1}
   ],
   "tools": [
     [
@@ -8742,7 +8437,6 @@
   "skill_used": "tailor",
   "difficulty": 3,
   "time": 16000,
-  "reversible": false,
   "autolearn": true,
   "tools": [
     [
@@ -8768,10 +8462,9 @@
   "skills_required" : ["fabrication", 3],
   "difficulty": 6,
   "time": 80000,
-  "reversible": false,
   "autolearn": true,
   "qualities" : [
-    {"id":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1}
   ],
   "tools": [
     [
@@ -8870,11 +8563,9 @@
   "difficulty": 4,
   "skills_required" : [ "tailor", 2 ],
   "time": 420000,
-  "reversible": false,
-  "autolearn": false,
   "book_learn": [[ "textbook_fabrication", 3], [ "tailor_portfolio", 4], [ "textbook_tailor", 3], [ "atomic_survival", 3]],
   "qualities" : [
-    {"id":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1}
   ],
   "tools": [
     [
@@ -8906,11 +8597,9 @@
   "difficulty": 4,
   "skills_required" : [ "tailor", 2 ],
   "time": 5000,
-  "reversible": false,
-  "autolearn": false,
   "book_learn": [[ "textbook_fabrication", 3], [ "tailor_portfolio", 4], [ "textbook_tailor", 3], [ "atomic_survival", 3]],
   "qualities" : [
-    {"id":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1}
   ],
   "tools": [
     [
@@ -8947,7 +8636,6 @@
   "skill_used": "survival",
   "difficulty": 0,
   "time": 5000,
-  "reversible": false,
   "autolearn": true,
   "flags": ["BLIND_HARD"],
   "components": [
@@ -8967,7 +8655,6 @@
   "skill_used": "survival",
   "difficulty": 0,
   "time": 5000,
-  "reversible": false,
   "autolearn": true,
   "flags": ["BLIND_HARD"],
   "components": [
@@ -8987,7 +8674,6 @@
   "skill_used": "survival",
   "difficulty": 0,
   "time": 1000,
-  "reversible": false,
   "autolearn": true,
   "flags": ["BLIND_HARD"],
   "components": [
@@ -9004,7 +8690,6 @@
   "skill_used": "survival",
   "difficulty": 0,
   "time": 1000,
-  "reversible": false,
   "autolearn": true,
   "flags": ["BLIND_HARD"],
   "components": [
@@ -9076,7 +8761,6 @@
   "skill_used": "tailor",
   "difficulty": 3,
   "time": 45000,
-  "reversible": false,
   "autolearn": true,
   "tools": [ [ [ "sewing_kit", 10 ] ] ],
   "components": [ [ [ "rag", 10 ] ] ]
@@ -9088,7 +8772,6 @@
   "skill_used": "tailor",
   "difficulty": 3,
   "time": 40000,
-  "reversible": false,
   "autolearn": true,
   "tools": [ [ [ "sewing_kit", 8 ] ] ],
   "components": [ [ [ "rag", 8 ] ] ]
@@ -9102,9 +8785,8 @@
   "skill_used": "tailor",
   "difficulty": 2,
   "time": 21000,
-  "reversible": false,
   "autolearn": true,
-  "qualities" : [{"id":"CUT","level":1,"amount":1}],
+  "qualities" : [{"id":"CUT","level":1}],
   "components": [ [ [ "tunic", 1 ] ] ]
 },
 {
@@ -9135,10 +8817,9 @@
   "skill_used": "tailor",
   "difficulty": 5,
   "time": 40000,
-  "reversible": false,
   "autolearn": true,
   "qualities" : [
-    {"id":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1}
   ],
   "tools": [
     [
@@ -9169,10 +8850,9 @@
   "skills_required" : ["fabrication", 3],
   "difficulty": 8,
   "time": 40000,
-  "reversible": false,
   "autolearn": true,
   "qualities" : [
-    {"id":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1}
   ],
   "tools": [
     [
@@ -9252,10 +8932,9 @@
   "skill_used": "tailor",
   "difficulty": 5,
   "time": 80000,
-  "reversible": false,
   "autolearn": true,
   "qualities" : [
-    {"id":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1}
   ],
   "tools": [
     [
@@ -9298,10 +8977,9 @@
   "skills_required" : ["fabrication", 3],
   "difficulty": 8,
   "time": 80000,
-  "reversible": false,
   "autolearn": true,
   "qualities" : [
-    {"id":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1}
   ],
   "tools": [
     [
@@ -9349,7 +9027,6 @@
   "skill_used": "tailor",
   "difficulty": 5,
   "time": 150000,
-  "reversible": false,
   "autolearn": true,
   "tools": [
     [
@@ -9369,7 +9046,6 @@
   "skill_used": "tailor",
   "difficulty": 4,
   "time": 120000,
-  "reversible": false,
   "autolearn": true,
   "tools": [
     [
@@ -9389,7 +9065,6 @@
   "skill_used": "tailor",
   "difficulty": 3,
   "time": 600000,
-  "reversible": false,
   "autolearn": true,
   "tools": [
     [
@@ -9410,7 +9085,6 @@
   "skill_used": "survival",
   "difficulty": 0,
   "time": 1000,
-  "reversible": false,
   "autolearn": true,
   "flags": ["BLIND_EASY"],
   "components": [
@@ -9426,7 +9100,6 @@
   "skill_used": "tailor",
   "difficulty": 6,
   "time": 150000,
-  "reversible": false,
   "autolearn": true,
   "tools": [
     [
@@ -9492,8 +9165,6 @@
   "skill_used": "tailor",
   "difficulty": 4,
   "time": 600000,
-  "reversible": false,
-  "autolearn": false,
   "book_learn": [[ "textbook_tailor", 4 ] , [ "manual_tailor", 5 ] , ["tailor_portfolio", 4]],
   "tools": [
     [
@@ -9522,8 +9193,6 @@
   "skill_used": "tailor",
   "difficulty": 3,
   "time": 450000,
-  "reversible": false,
-  "autolearn": false,
   "book_learn": [[ "textbook_tailor", 3 ] , [ "manual_tailor", 4 ] , ["tailor_portfolio", 3]],
   "tools": [
     [
@@ -9552,8 +9221,6 @@
   "skill_used": "tailor",
   "difficulty": 3,
   "time": 15000,
-  "reversible": false,
-  "autolearn": false,
   "book_learn": [[ "textbook_tailor", 3 ] , [ "manual_tailor", 4 ] , ["tailor_portfolio", 3]],
   "tools": [
     [
@@ -9582,8 +9249,6 @@
   "skill_used": "tailor",
   "difficulty": 3,
   "time": 25000,
-  "reversible": false,
-  "autolearn": false,
   "book_learn": [[ "textbook_tailor", 3 ] , [ "manual_tailor", 4 ] , ["tailor_portfolio", 3]],
   "tools": [
     [
@@ -9612,8 +9277,6 @@
   "skill_used": "tailor",
   "difficulty": 3,
   "time": 15000,
-  "reversible": false,
-  "autolearn": false,
   "book_learn": [[ "textbook_tailor", 3 ] , [ "manual_tailor", 4 ] , ["tailor_portfolio", 3]],
   "tools": [
     [
@@ -9642,8 +9305,6 @@
   "skill_used": "tailor",
   "difficulty": 4,
   "time": 120000,
-  "reversible": false,
-  "autolearn": false,
   "book_learn": [[ "textbook_tailor", 4 ] , [ "manual_tailor", 5 ] , ["tailor_portfolio", 4]],
   "tools": [
     [
@@ -9672,8 +9333,6 @@
   "skill_used": "tailor",
   "difficulty": 4,
   "time": 120000,
-  "reversible": false,
-  "autolearn": false,
   "book_learn": [[ "textbook_tailor", 4 ] , [ "manual_tailor", 5 ] , ["tailor_portfolio", 4]],
   "tools": [
     [
@@ -9702,8 +9361,6 @@
   "skill_used": "tailor",
   "difficulty": 4,
   "time": 60000,
-  "reversible": false,
-  "autolearn": false,
   "book_learn": [[ "textbook_tailor", 4 ] , [ "manual_tailor", 5 ] , ["tailor_portfolio", 4]],
   "tools": [
     [
