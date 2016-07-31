@@ -123,11 +123,6 @@ class explosion_iuse : public iuse_actor
         // Ignored if its power field is < 0
         explosion_data explosion;
 
-        /** Maximum percentage of count that should be dropped within area of effect */
-        int shrapnel_recovery = 0;
-        /** What type of shrapnel to drop */
-        itype_id shrapnel_drop = "null";
-
         // Those 2 values are forwarded to game::draw_explosion,
         // Nothing is drawn if radius < 0 (game::explosion might still draw something)
         int draw_explosion_radius = -1;
@@ -157,6 +152,7 @@ class explosion_iuse : public iuse_actor
         void load( JsonObject &jo ) override;
         long use(player *, item *, bool, const tripoint& ) const override;
         iuse_actor *clone() const override;
+        void info( const item &, std::vector<iteminfo> & ) const override;
 };
 
 /**
