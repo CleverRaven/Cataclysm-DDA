@@ -37,6 +37,7 @@
 #include "cata_utility.h"
 #include "input.h"
 #include "fault.h"
+#include "vehicle_selector.h"
 
 #include <cmath> // floor
 #include <sstream>
@@ -4678,7 +4679,24 @@ bool item::reload( player &u, item_location loc, long qty )
         // if we already have a magazine loaded prompt to eject it
         if( obj->magazine_current() ) {
             std::string prompt = string_format( _( "Eject %s from %s?" ), ammo->tname().c_str(), obj->tname().c_str() );
-            if( !u.dispose_item( *obj->magazine_current(), prompt ) ) {
+
+            // Hack to allow ejection of vehicle turret magazines as requested in #17751
+            if( obj->has_flag( "VEHICLE" ) ) {
+                auto veh = g->m.veh_at( u.pos() );
+                auto parts = veh->get_parts( u.pos(), "TURRET" );
+                if( !parts.empty() ) {
+                    vehicle_cursor cur( *veh, veh->index_of_part( parts.front() ) );
+                    if( !u.dispose_item( item_location( cur, &*obj->magazine_current() ), prompt ) ) {
+                        return false;
+                    } else {
+                        obj->contents.emplace_back( *ammo );
+                        loc.remove_item();
+                        return true;
+                    }
+                }
+            }
+
+            if( !u.dispose_item( item_location( u, obj->magazine_current() ), prompt ) ) {
                 return false;
             }
         }
