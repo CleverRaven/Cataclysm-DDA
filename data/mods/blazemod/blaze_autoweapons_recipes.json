@@ -11,8 +11,8 @@
   "reversible": true,
   "autolearn": true,
   "qualities":[
-    {"id":"HAMMER","level":2,"amount":1},
-    {"id":"SAW_M","level":1,"amount":1}
+    {"id":"HAMMER","level":2},
+    {"id":"SAW_M","level":1}
   ], "tools": [
 	[
 		[ "soldering_iron", 20 ],
@@ -63,8 +63,8 @@
   "reversible": true,
   "autolearn": true,
   "qualities":[
-    {"id":"HAMMER","level":2,"amount":1},
-    {"id":"SAW_M","level":1,"amount":1}
+    {"id":"HAMMER","level":2},
+    {"id":"SAW_M","level":1}
   ], "tools": [
 	[
 		[ "soldering_iron", 20 ],
@@ -112,8 +112,8 @@
   "reversible": true,
   "autolearn": true,
   "qualities":[
-    {"id":"HAMMER","level":2,"amount":1},
-    {"id":"SAW_M","level":1,"amount":1}
+    {"id":"HAMMER","level":2},
+    {"id":"SAW_M","level":1}
   ], "tools": [
 	[
 		[ "soldering_iron", 20 ],
@@ -163,8 +163,8 @@
   "reversible": true,
   "autolearn": true,
   "qualities":[
-    {"id":"HAMMER","level":2,"amount":1},
-    {"id":"SAW_M","level":1,"amount":1}
+    {"id":"HAMMER","level":2},
+    {"id":"SAW_M","level":1}
   ], "tools": [
 	[
 		[ "soldering_iron", 20 ],
@@ -214,8 +214,8 @@
   "reversible": true,
   "autolearn": true,
   "qualities":[
-    {"id":"HAMMER","level":2,"amount":1},
-    {"id":"SAW_M","level":1,"amount":1}
+    {"id":"HAMMER","level":2},
+    {"id":"SAW_M","level":1}
   ], "tools": [
 	[
 		[ "soldering_iron", 20 ],
@@ -251,8 +251,8 @@
   "reversible": true,
   "autolearn": true,
   "qualities":[
-    {"id":"HAMMER","level":2,"amount":1},
-    {"id":"SAW_M","level":1,"amount":1}
+    {"id":"HAMMER","level":2},
+    {"id":"SAW_M","level":1}
   ], "tools": [
 	[
 		[ "soldering_iron", 20],
@@ -301,8 +301,8 @@
   "reversible": true,
   "autolearn": true,
   "qualities":[
-    {"id":"HAMMER","level":2,"amount":1},
-    {"id":"SAW_M","level":1,"amount":1}
+    {"id":"HAMMER","level":2},
+    {"id":"SAW_M","level":1}
   ], "tools": [
 	[
 		[ "soldering_iron", 40],
@@ -341,8 +341,8 @@
   "reversible": true,
   "autolearn": true,
   "qualities":[
-    {"id":"HAMMER","level":2,"amount":1},
-    {"id":"SAW_M","level":1,"amount":1}
+    {"id":"HAMMER","level":2},
+    {"id":"SAW_M","level":1}
   ], "tools": [
 	[
 		[ "soldering_iron", 20],
@@ -375,8 +375,8 @@
   "reversible": true,
   "autolearn": true,
   "qualities":[
-    {"id":"HAMMER","level":2,"amount":1},
-    {"id":"SAW_M","level":1,"amount":1}
+    {"id":"HAMMER","level":2},
+    {"id":"SAW_M","level":1}
   ], "tools": [
 	[
 		[ "soldering_iron", 20],
@@ -410,8 +410,8 @@
   "reversible": true,
   "autolearn": true,
   "qualities":[
-    {"id":"HAMMER","level":2,"amount":1},
-    {"id":"SAW_M","level":1,"amount":1}
+    {"id":"HAMMER","level":2},
+    {"id":"SAW_M","level":1}
   ], "tools": [
 	[
 		[ "soldering_iron", 20],
@@ -442,11 +442,10 @@
   "skills_required": [ "mechanics", 3 ],
   "difficulty": 4,
   "time": 20000,
-  "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"id":"HAMMER","level":2,"amount":1},
-    {"id":"SAW_M","level":1,"amount":1}
+    {"id":"HAMMER","level":2},
+    {"id":"SAW_M","level":1}
   ], "tools": [
 	[
 		[ "soldering_iron", 40],
@@ -477,13 +476,12 @@
   "skills_required": [ "archery", 3 ],
   "difficulty": 5,
   "time": 15000,
-  "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"id":"HAMMER","level":2,"amount":1},
-    {"id":"SAW_W","level":1,"amount":1},
-    {"id":"SAW_M","level":1,"amount":1},
-    {"id":"CUT","level":1,"amount":1}
+    {"id":"HAMMER","level":2},
+    {"id":"SAW_W","level":1},
+    {"id":"SAW_M","level":1},
+    {"id":"CUT","level":1}
   ], "tools": [
 	[
 		[ "soldering_iron", 50],
@@ -517,8 +515,8 @@
   "reversible": true,
   "autolearn": true,
   "qualities":[
-    {"id":"HAMMER","level":2,"amount":1},
-    {"id":"SAW_M","level":1,"amount":1}
+    {"id":"HAMMER","level":2},
+    {"id":"SAW_M","level":1}
   ], "tools": [
 	[
 	  [ "soldering_iron", 30],
@@ -549,11 +547,10 @@
   "skill_sec": ["fabrication",3],
   "difficulty": 4,
   "time": 15000,
-  "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"id":"SAW_W","level":1,"amount":1},
-	{"id":"CUT","level":1,"amount":1}
+    {"id":"SAW_W","level":1},
+	{"id":"CUT","level":1}
   ], "tools": [
     [
 	  [ "soldering_iron", 40],
@@ -589,11 +586,10 @@
   "skill_sec": ["fabrication",3],
   "difficulty": 4,
   "time": 15000,
-  "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"id":"SAW_W","level":1,"amount":1},
-	{"id":"CUT","level":1,"amount":1}
+    {"id":"SAW_W","level":1},
+	{"id":"CUT","level":1}
   ], "tools": [
     [
 	  [ "soldering_iron", 40],
@@ -632,8 +628,8 @@
   "reversible": true,
   "autolearn": true,
   "qualities":[
-    {"id":"HAMMER","level":2,"amount":1},
-    {"id":"SAW_M","level":1,"amount":1}
+    {"id":"HAMMER","level":2},
+    {"id":"SAW_M","level":1}
   ], "tools": [
     [
 	  [ "soldering_iron", 20],
@@ -667,8 +663,8 @@
   "reversible": true,
   "autolearn": true,
   "qualities":[
-    {"id":"SAW_M","level":1,"amount":1},
-	{"id":"HAMMER","level":1,"amount":1}
+    {"id":"SAW_M","level":1},
+	{"id":"HAMMER","level":1}
   ], "tools": [
     [
 	  [ "soldering_iron", 40],
@@ -702,8 +698,8 @@
   "reversible": true,
   "autolearn": true,
   "qualities":[
-    {"id":"SAW_M","level":1,"amount":1},
-	{"id":"HAMMER","level":1,"amount":1}
+    {"id":"SAW_M","level":1},
+	{"id":"HAMMER","level":1}
   ], "tools": [
     [
 	  [ "soldering_iron", 40],
@@ -737,8 +733,8 @@
   "reversible": true,
   "autolearn": true,
   "qualities":[
-    {"id":"SAW_M","level":1,"amount":1},
-	{"id":"HAMMER","level":1,"amount":1}
+    {"id":"SAW_M","level":1},
+	{"id":"HAMMER","level":1}
   ], "tools": [
     [
 	  [ "soldering_iron", 40],
@@ -772,8 +768,8 @@
   "reversible": true,
   "autolearn": true,
   "qualities":[
-    {"id":"HAMMER","level":2,"amount":1},
-    {"id":"SAW_M","level":1,"amount":1}
+    {"id":"HAMMER","level":2},
+    {"id":"SAW_M","level":1}
   ], "tools": [
     [
 	  [ "soldering_iron", 20],
@@ -804,11 +800,10 @@
   "skills_required": [ "fabrication", 3 ],
   "difficulty": 3,
   "time": 60000,
-  "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"id":"HAMMER","level":2,"amount":1},
-    {"id":"SAW_M","level":1,"amount":1}
+    {"id":"HAMMER","level":2},
+    {"id":"SAW_M","level":1}
   ], "tools": [
     [
 	  [ "soldering_iron", 50],
@@ -839,11 +834,10 @@
   "skills_required": [ "fabrication", 3 ],
   "difficulty": 3,
   "time": 15000,
-  "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"id":"HAMMER","level":2,"amount":1},
-    {"id":"SAW_M","level":1,"amount":1}
+    {"id":"HAMMER","level":2},
+    {"id":"SAW_M","level":1}
   ], "tools": [
     [
 	  [ "soldering_iron", 50],
@@ -874,11 +868,10 @@
   "skills_required": [ "mechanics", 3 ],
   "difficulty": 4,
   "time": 20000,
-  "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"id":"HAMMER","level":2,"amount":1},
-    {"id":"SAW_M","level":1,"amount":1}
+    {"id":"HAMMER","level":2},
+    {"id":"SAW_M","level":1}
   ], "tools": [
     [
 	  [ "soldering_iron", 20],
@@ -909,11 +902,10 @@
   "skills_required": [ "mechanics", 3 ],
   "difficulty": 3,
   "time": 20000,
-  "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"id":"HAMMER","level":2,"amount":1},
-    {"id":"SAW_M","level":1,"amount":1}
+    {"id":"HAMMER","level":2},
+    {"id":"SAW_M","level":1}
   ], "tools": [
     [
 	  [ "soldering_iron", 20],
@@ -944,11 +936,10 @@
   "skills_required": [ "mechanics", 3 ],
   "difficulty": 3,
   "time": 20000,
-  "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"id":"HAMMER","level":2,"amount":1},
-    {"id":"SAW_M","level":1,"amount":1}
+    {"id":"HAMMER","level":2},
+    {"id":"SAW_M","level":1}
   ], "tools": [
     [
 	  [ "soldering_iron", 30],
@@ -979,11 +970,10 @@
   "skills_required": [ "mechanics", 4 ],
   "difficulty": 6,
   "time": 30000,
-  "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"id":"HAMMER","level":2,"amount":1},
-    {"id":"SAW_M","level":1,"amount":1}
+    {"id":"HAMMER","level":2},
+    {"id":"SAW_M","level":1}
   ], "tools": [
     [
 	  [ "soldering_iron", 30],
@@ -1017,8 +1007,8 @@
   "reversible": true,
   "autolearn": true,
   "qualities":[
-    {"id":"HAMMER","level":2,"amount":1},
-    {"id":"SAW_M","level":1,"amount":1}
+    {"id":"HAMMER","level":2},
+    {"id":"SAW_M","level":1}
   ], "tools": [
     [
 	  [ "soldering_iron", 30],
@@ -1058,8 +1048,8 @@
   "reversible": true,
   "autolearn": true,
   "qualities":[
-    {"id":"HAMMER","level":2,"amount":1},
-    {"id":"SAW_M","level":1,"amount":1}
+    {"id":"HAMMER","level":2},
+    {"id":"SAW_M","level":1}
   ], "tools": [
     [
 	  [ "soldering_iron", 30],
@@ -1099,8 +1089,8 @@
   "reversible": true,
   "autolearn": true,
   "qualities":[
-    {"id":"HAMMER","level":2,"amount":1},
-    {"id":"SAW_M","level":1,"amount":1}
+    {"id":"HAMMER","level":2},
+    {"id":"SAW_M","level":1}
   ], "tools": [
     [
 	  [ "soldering_iron", 30],
@@ -1137,11 +1127,10 @@
   "skills_required": [ "fabrication", 5 ],
   "difficulty": 5,
   "time": 30000,
-  "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"id":"HAMMER","level":2,"amount":1},
-    {"id":"SAW_M","level":1,"amount":1}
+    {"id":"HAMMER","level":2},
+    {"id":"SAW_M","level":1}
   ], "tools": [
     [
 	  [ "soldering_iron", 30],

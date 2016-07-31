@@ -371,7 +371,6 @@
     "difficulty": 0,
     "time": 0,
     "reversible": true,
-    "autolearn": false,
     "qualities" : [],
     "components": [
       [ [ "aneedler", 2 ] ],
@@ -387,7 +386,6 @@
     "difficulty": 0,
     "time": 0,
     "reversible": true,
-    "autolearn": false,
     "qualities" : [],
     "components": [
       [ [ "aneedler", 1 ] ],
@@ -403,7 +401,6 @@
     "difficulty": 0,
     "time": 0,
     "reversible": true,
-    "autolearn": false,
     "qualities" : [],
     "components": [
       [ [ "SMGturret", 1 ] ],
@@ -419,7 +416,6 @@
     "difficulty": 0,
     "time": 0,
     "reversible": true,
-    "autolearn": false,
     "qualities" : [],
     "components": [
       [ [ "SMGturret", 2 ] ],
@@ -435,7 +431,6 @@
     "difficulty": 0,
     "time": 0,
     "reversible": true,
-    "autolearn": false,
     "qualities" : [],
     "components": [
       [ [ "alasgunp", 1 ] ],
@@ -451,7 +446,6 @@
     "difficulty": 0,
     "time": 0,
     "reversible": true,
-    "autolearn": false,
     "qualities" : [],
     "components": [
       [ [ "anx17p", 1 ] ],
@@ -467,7 +461,6 @@
     "difficulty": 0,
     "time": 0,
     "reversible": true,
-    "autolearn": false,
     "qualities" : [],
     "components": [
       [ [ "am249", 1 ] ],
@@ -483,7 +476,6 @@
     "difficulty": 0,
     "time": 0,
     "reversible": true,
-    "autolearn": false,
     "qualities" : [],
     "components": [
       [ [ "shottyman", 2 ] ],
@@ -499,7 +491,6 @@
     "difficulty": 0,
     "time": 0,
     "reversible": true,
-    "autolearn": false,
     "qualities" : [],
     "components": [
       [ [ "blundergun", 1 ] ],
