@@ -19,7 +19,28 @@
 
 #include <map>
 #include <vector>
+#include <string>
 #include <cstring>
+
+typedef std::pair<item, int> ItemCount;
+typedef std::map<std::string, ItemCount> PickupMap;
+
+// Pickup helper functions
+static void pick_one_up( const tripoint &pickup_target, item &newit,
+                         vehicle *veh, int cargo_part, int index, int quantity,
+                         bool &got_water, bool &offered_swap,
+                         PickupMap &mapPickup, bool autopickup );
+
+typedef enum {
+    DONE, ITEMS_FROM_CARGO, ITEMS_FROM_GROUND,
+} interact_results;
+
+static interact_results interact_with_vehicle( vehicle *veh, const tripoint &vpos,
+        int veh_root_part );
+
+static void remove_from_map_or_vehicle( const tripoint &pos, vehicle *veh, int cargo_part,
+                                        int &moves_taken, int curmit );
+static void show_pickup_message( const PickupMap &mapPickup );
 
 struct pickup_count {
     bool pick = false;
@@ -30,8 +51,8 @@ struct pickup_count {
 };
 
 // Handles interactions with a vehicle in the examine menu.
-Pickup::interact_results Pickup::interact_with_vehicle( vehicle *veh, const tripoint &pos,
-        int veh_root_part )
+interact_results interact_with_vehicle( vehicle *veh, const tripoint &pos,
+                                        int veh_root_part )
 {
     if( veh == nullptr ) {
         return ITEMS_FROM_GROUND;
@@ -335,9 +356,9 @@ pickup_answer handle_problematic_pickup( const item &it, bool &offered_swap,
     return static_cast<pickup_answer>( choice );
 }
 
-void Pickup::pick_one_up( const tripoint &pickup_target, item &newit, vehicle *veh,
-                          int cargo_part, int index, int quantity, bool &got_water,
-                          bool &offered_swap, PickupMap &mapPickup, bool autopickup )
+void pick_one_up( const tripoint &pickup_target, item &newit, vehicle *veh,
+                  int cargo_part, int index, int quantity, bool &got_water,
+                  bool &offered_swap, PickupMap &mapPickup, bool autopickup )
 {
     player &u = g->u;
     int moves_taken = 100;
@@ -429,7 +450,7 @@ void Pickup::pick_one_up( const tripoint &pickup_target, item &newit, vehicle *v
     }
 
     if( picked_up ) {
-        Pickup::remove_from_map_or_vehicle( pickup_target, veh, cargo_part, moves_taken, index );
+        remove_from_map_or_vehicle( pickup_target, veh, cargo_part, moves_taken, index );
     }
     if( leftovers.charges > 0 ) {
         bool to_map = veh == nullptr;
@@ -961,8 +982,8 @@ void Pickup::pick_up( const tripoint &pos, int min )
 }
 
 //helper function for Pickup::pick_up (singular item)
-void Pickup::remove_from_map_or_vehicle( const tripoint &pos, vehicle *veh, int cargo_part,
-        int &moves_taken, int curmit )
+void remove_from_map_or_vehicle( const tripoint &pos, vehicle *veh, int cargo_part,
+                                 int &moves_taken, int curmit )
 {
     if( veh != nullptr ) {
         veh->remove_item( cargo_part, curmit );
@@ -973,7 +994,7 @@ void Pickup::remove_from_map_or_vehicle( const tripoint &pos, vehicle *veh, int 
 }
 
 //helper function for Pickup::pick_up
-void Pickup::show_pickup_message( const PickupMap &mapPickup )
+void show_pickup_message( const PickupMap &mapPickup )
 {
     for( auto &entry : mapPickup ) {
         if( entry.second.first.invlet != 0 ) {
