@@ -343,7 +343,7 @@
         "item" : "smokescreen",
         "size" : 50,
         "difficulty" : 1,
-        "flags" : ["TURRET", "CARGO", "FOLDABLE", "TOOL_NONE"],
+        "flags" : ["TURRET", "FOLDABLE", "TOOL_NONE"],
         "breaks_into" : [
             {"item": "scrap", "count": [1, 4]},
             {"item": "cable", "charges": [6, 10]}
@@ -365,7 +365,7 @@
         "location" : "structure",
         "size" : 50,
         "difficulty" : 1,
-        "flags" : ["TURRET", "CARGO", "FOLDABLE", "TOOL_NONE", "PROTRUSION"],
+        "flags" : ["TURRET", "FOLDABLE", "TOOL_NONE", "PROTRUSION"],
         "breaks_into" : [
             {"item": "scrap", "count": [1, 4]},
             {"item": "cable", "charges": [6, 10]}

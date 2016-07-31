@@ -743,7 +743,7 @@ public:
     item_location find_usable_ammo( const item &weap );
     const item_location find_usable_ammo( const item &weap ) const;
 
-    bool dispose_item( item& obj, const std::string& prompt = std::string() ) override;
+    bool dispose_item( item_location &&obj, const std::string& prompt = std::string() ) override;
 
     void aim();
     void do_reload( item &what );

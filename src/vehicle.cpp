@@ -2056,19 +2056,18 @@ bool vehicle::is_connected(vehicle_part const &to, vehicle_part const &from, veh
  * @param id The string ID of the part to install. (see vehicle_parts.json)
  * @return false if the part could not be installed, true otherwise.
  */
-int vehicle::install_part( int dx, int dy, const vpart_str_id &id )
+int vehicle::install_part( int dx, int dy, const vpart_str_id &id, bool force )
 {
-    if( !can_mount( dx, dy, id ) ) {
-        return -1;  // no money -- no ski!
+    if( !( force || can_mount( dx, dy, id ) ) ) {
+        return -1;
     }
-    vehicle_part new_part( id, dx, dy, item( id.obj().item ) );
-    return install_part(dx, dy, new_part);
+    return install_part( dx, dy, vehicle_part( id, dx, dy, item( id.obj().item ) ) );
 }
 
-int vehicle::install_part( int dx, int dy, const vpart_str_id &id, item&& obj )
+int vehicle::install_part( int dx, int dy, const vpart_str_id &id, item&& obj, bool force )
 {
-    if (!can_mount (dx, dy, id)) {
-        return -1;  // no money -- no ski!
+    if( !( force || can_mount ( dx, dy, id ) ) ) {
+        return -1;
     }
     return install_part(dx, dy, vehicle_part( id, dx, dy, std::move( obj ) ) );
 }
@@ -2303,6 +2302,65 @@ int vehicle::part_with_feature_at_relative (const point &pt, const std::string &
         }
     }
     return -1;
+}
+
+bool vehicle::has_part( const std::string &flag, bool enabled ) const
+{
+    return std::any_of( parts.begin(), parts.end(), [&flag,&enabled]( const vehicle_part &e ) {
+        return !e.removed && !e.is_broken() && ( !enabled || e.enabled ) && e.info().has_flag( flag );
+    } );
+}
+
+std::vector<vehicle_part *> vehicle::get_parts( const std::string &flag, bool enabled )
+{
+    std::vector<vehicle_part *> res;
+    for( auto &e : parts ) {
+        if( !e.removed && !e.is_broken() && ( !enabled || e.enabled ) && e.info().has_flag( flag ) ) {
+            res.push_back( &e );
+        }
+    }
+    return res;
+}
+
+std::vector<const vehicle_part *> vehicle::get_parts( const std::string &flag, bool enabled ) const
+{
+    std::vector<const vehicle_part *> res;
+    for( const auto &e : parts ) {
+        if( !e.removed && !e.is_broken() > 0 && ( !enabled || e.enabled ) && e.info().has_flag( flag ) ) {
+            res.push_back( &e );
+        }
+    }
+    return res;
+}
+
+std::vector<vehicle_part *> vehicle::get_parts( const tripoint &pos, const std::string &flag, bool enabled )
+{
+    std::vector<vehicle_part *> res;
+    for( auto &e : parts ) {
+        if( e.precalc[ 0 ].x != pos.x - global_x() ||
+            e.precalc[ 0 ].y != pos.y - global_y() ) {
+            continue;
+        }
+        if( !e.removed && !e.is_broken() && ( !enabled || e.enabled ) && ( flag.empty() || e.info().has_flag( flag ) ) ) {
+            res.push_back( &e );
+        }
+    }
+    return res;
+}
+
+std::vector<const vehicle_part *> vehicle::get_parts( const tripoint &pos, const std::string &flag, bool enabled ) const
+{
+    std::vector<const vehicle_part *> res;
+    for( const auto &e : parts ) {
+        if( e.precalc[ 0 ].x != pos.x - global_x() ||
+            e.precalc[ 0 ].y != pos.y - global_y() ) {
+            continue;
+        }
+        if( !e.removed && !e.is_broken() && ( !enabled || e.enabled ) && ( flag.empty() || e.info().has_flag( flag ) ) ) {
+            res.push_back( &e );
+        }
+    }
+    return res;
 }
 
 /**
@@ -5037,6 +5095,19 @@ void vehicle::place_spawn_items()
         return;
     }
 
+    for( const auto &pt : type->parts ) {
+        if( pt.with_ammo ) {
+            int turret = part_with_feature_at_relative( pt.pos, "TURRET" );
+            if( turret < 0 ) {
+                debugmsg( "No TURRET at (%d, %d) of %s!", pt.pos.x, pt.pos.y, name.c_str() );
+                continue;
+            }
+            if( x_in_y( pt.with_ammo, 100 ) ) {
+                parts[ turret ].ammo_set( default_ammo( parts[ turret ].ammo_type() ) );
+            }
+        }
+    }
+
     for( const auto& spawn : type.obj().item_spawns ) {
         if( rng( 1, 100 ) <= spawn.chance ) {
             int part = part_with_feature_at_relative( spawn.pos, "CARGO", false );
@@ -5113,12 +5184,7 @@ void vehicle::gain_moves()
     // turrets which are enabled will try to reload and then automatically fire
     for( auto e : turrets() ) {
         if( e->enabled ) {
-            turret_reload( *e );
-            if( turret_query( *e ) == turret_status::ready ) {
-                int shots = automatic_fire_turret( *e );
-                drain( fuel_type_battery, e->base.get_gun_ups_drain() * shots );
-            }
-            turret_unload( *e );
+            automatic_fire_turret( *e );
         }
     }
 
@@ -6208,7 +6274,9 @@ long vehicle_part::ammo_remaining() const
 
 int vehicle_part::ammo_set( const itype_id &ammo, long qty )
 {
-    // @todo currently only support fuel tanks and batteries
+    if( base.is_gun() ) {
+        return base.ammo_set( ammo, qty ).ammo_remaining();
+    }
 
     if( info().fuel_type != ammo ) {
         return -1;
