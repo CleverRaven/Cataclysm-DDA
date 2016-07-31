@@ -1362,8 +1362,6 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         void spores();
         void blossoms();
 
-        int add_ammo_to_worn_quiver(item &ammo);
-
         std::vector<mission*> get_active_missions() const;
         std::vector<mission*> get_completed_missions() const;
         std::vector<mission*> get_failed_missions() const;
