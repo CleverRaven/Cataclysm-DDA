@@ -415,7 +415,8 @@ class item_location::impl::item_on_vehicle : public item_location::impl
             if( &base == target() ) {
                 cur.veh.remove_part( cur.part );
             } else if( base.magazine_current() == target() ) {
-                base.contents.erase( std::remove_if( base.contents.begin(), base.contents.end(), [&]( const item &e ) {
+                base.contents.erase( std::remove_if( base.contents.begin(),
+                base.contents.end(), [&]( const item & e ) {
                     return &e == base.magazine_current();
                 } ), base.contents.end() );
             } else {
