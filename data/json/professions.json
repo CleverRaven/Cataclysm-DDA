@@ -867,6 +867,82 @@
         }
     },
     {
+            "type": "profession",
+            "ident": "bio_sur",
+            "name": "Bionic Survivalist",
+            "description": "Mainly from paranoia, you augmented yourself, got some training and gear to go inawoods incase anything went down, well it did.  Now that civilization has fallen, the woods are your new home.", 
+            "points": 10,
+            "skills": [
+            {
+                "level": 3,
+                "name": "survival"
+            },
+            {
+                "level": 2,
+                "name": "fabrication"
+            },
+            {
+                "level": 2,
+                "name": "cooking"
+            },
+            {
+                "level": 2,
+                "name": "archery"
+            },
+            {
+                "level": 2,
+                "name": "traps"
+            },
+            {
+                "level": 2,
+                "name": "firstaid"
+            },
+            {
+                "level": 2,
+                "name": "swimming"
+            },
+            {
+                "level": 1,
+                "name": "gun"
+            }
+        ],
+        "CBMs":[
+            "bio_power_storage_mkII",
+            "bio_sunglasses",
+            "bio_metabolics",
+            "bio_lighter",
+            "bio_evap",
+            "bio_flashlight",
+            "bio_tools"
+        ],
+        "items":{
+            "both": [
+                "socks",
+                "army_top",
+                "hat_boonie",
+                "gloves_light",
+                "pants_cargo",
+                "boots_steel",
+                "jacket_army",
+                "knit_scarf",
+                "backpack",
+                "quiver",
+                "canteen",
+                "compbow",
+                "arrow_cf",
+                "arrow_cf"
+            ],
+            "male": [
+                "boxer_shorts"
+            ],
+             "female": [
+                "bra",
+                "panties"
+            ]
+        },
+         "flags" : ["SCEN_ONLY"]
+    },
+    {
         "type": "profession",
         "ident": "smoker",
         "name": "Chain Smoker",
