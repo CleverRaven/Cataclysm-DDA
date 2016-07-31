@@ -16,6 +16,7 @@
 #include "translations.h"
 
 #include <climits>
+#include <algorithm>
 
 template <typename T>
 static int find_index( const T &sel, const item *obj )
