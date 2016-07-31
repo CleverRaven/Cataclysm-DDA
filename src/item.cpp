@@ -5828,8 +5828,8 @@ bool item::is_soft() const
 
 bool item::is_reloadable() const
 {
-    if( has_flag( "NO_RELOAD") ) {
-        return false;
+    if( has_flag( "NO_RELOAD") && !has_flag( "VEHICLE" ) ) {
+        return false; // turrets ignore NO_RELOAD flag
 
     } else if( is_bandolier() ) {
         return true;
