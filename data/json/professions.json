@@ -2283,7 +2283,7 @@
             },
             {
                 "level": 1,
-                "name": "pistol"
+                "name": "stabbing"
             },
             {
                 "level": 1,
@@ -2298,7 +2298,9 @@
                 "balclava",
                 "beret",
                 "socks",
-                "boots_combat",
+                "boots_combat"
+                "sheath",
+                "knife_combat",
                 "shoulder_strap",
                 "rm51_assault_rifle",
                 "8x40_50_mag",
@@ -2319,22 +2321,28 @@
         "ident": "bio_sniper",
         "name": "Bionic Sniper",
         "description": "Your bionics, equipment, and extensive field training enable you to drop targets from implausible distances, even after weeks of total isolation in enemy territory.",
-        "points": 6,
+        "points": 8,
         "CBMs":[
             "bio_solar",
             "bio_eye_enhancer",
+            "bio_targeting",
             "bio_climate",
             "bio_evap",
+            "bio_lighter",
             "bio_power_storage_mkII"
         ],
         "skills": [
             {
-                "level": 3,
+                "level": 5,
                 "name": "gun"
             },
             {
                 "level": 4,
                 "name": "rifle"
+            },
+            {
+                "level": 1,
+                "name": "stabbing"
             },
             {
                 "level": 1,
@@ -2358,14 +2366,14 @@
                 "binoculars",
                 "tent_kit",
                 "rollmat",
-                "lighter",
                 "mil_mess_kit",
                 "shoulder_strap",
                 "m2010",
                 "m2010mag",
                 "300_winmag",
                 "300_winmag",
-                "suppressor"
+                "suppressor",
+                "rifle_scope"
             ],
             "male": [
                 "boxer_shorts"
