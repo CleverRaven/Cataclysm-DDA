@@ -16,7 +16,6 @@
         "range" : 6,
         "dispersion" : 60,
         "recoil" : 840,
-        "count" : 1,
         "effects" : ["COOKOFF", "RECYCLED"]
     },{   "type" : "AMMO",
         "id" : "blun_shot",
@@ -33,7 +32,6 @@
         "damage" : 60,
         "range" : 3,
         "recoil" : 780,
-        "count" : 1,
         "effects" : ["COOKOFF", "SHOT", "RECYCLED"]
     },{   "type" : "AMMO",
         "id" : "blun_flechette",
@@ -51,7 +49,6 @@
         "pierce" : 12,
         "range" : 5,
         "recoil" : 840,
-        "count" : 1,
         "effects" : ["COOKOFF", "SHOT", "RECYCLED"]
     },
     {

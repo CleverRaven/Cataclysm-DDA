@@ -419,8 +419,7 @@
     "ammo_type" : "components",
     "charges" : 2,
     "phase" : "liquid",
-    "container" : "bottle_glass",
-    "count" : 1
+    "container" : "bottle_glass"
    },
 {
     "type" : "AMMO",
@@ -438,8 +437,7 @@
     "ammo_type" : "components",
     "charges" : 1,
     "phase" : "liquid",
-    "container" : "bottle_glass",
-    "count" : 1
+    "container" : "bottle_glass"
    },
 {
     "type" : "AMMO",
@@ -457,8 +455,7 @@
     "ammo_type" : "components",
     "charges" : 2,
     "phase" : "liquid",
-    "container" : "bottle_glass",
-    "count" : 1
+    "container" : "bottle_glass"
    },
 {
     "type" : "AMMO",
@@ -530,8 +527,7 @@
     "ammo_type" : "components",
     "charges" : 1,
     "phase" : "liquid",
-    "container" : "bottle_glass",
-    "count" : 1
+    "container" : "bottle_glass"
    },
    {
     "type" : "AMMO",
@@ -603,8 +599,7 @@
     "ammo_type" : "components",
     "charges" : 1,
     "phase" : "liquid",
-    "container" : "bottle_glass",
-    "count" : 1
+    "container" : "bottle_glass"
    },
    {
     "type" : "AMMO",

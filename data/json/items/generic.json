@@ -513,8 +513,7 @@
         "weight": 2340,
         "volume": 4,
         "bashing": 4,
-        "ammo_type" : "components",
-        "count" : 1
+        "ammo_type" : "components"
         },
     {
         "type":"GENERIC",
@@ -1928,8 +1927,7 @@
         "weight": 2340,
         "volume": 4,
         "bashing": 4,
-        "ammo_type" : "components",
-        "count" : 1
+        "ammo_type" : "components"
     },
     {
         "type":"GENERIC",

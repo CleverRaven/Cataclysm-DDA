@@ -545,7 +545,6 @@
       "range" : 8,
       "dispersion" : 135,
       "loudness": 0,
-      "count" : 1,
       "stack_size" : 10,
       "effects" : ["COOKOFF", "EXPLOSIVE_SMALL"]
    },
