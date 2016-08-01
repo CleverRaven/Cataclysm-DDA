@@ -12,7 +12,6 @@
       "weight" : 8,
       "bashing" : 1,
       "ammo_type" : "components",
-      "range" : 0,
       "dispersion" : 0,
       "recoil" : 0,
       "count" : 10,
@@ -32,7 +31,6 @@
       "weight" : 42,
       "bashing" : 1,
       "ammo_type" : "components",
-      "range" : 0,
       "dispersion" : 510,
       "recoil" : 0,
       "count" : 10
@@ -505,7 +503,6 @@
       "ammo_type" : "bolt",
       "damage" : 10,
       "pierce" : 1,
-      "range" : 0,
       "dispersion" : 150,
       "recoil" : 0,
       "loudness": 0,
@@ -971,7 +968,6 @@
       "weight":6,
       "volume":1,
       "ammo_type":"components",
-      "range":0,
       "recoil":0,
       "dispersion":600,
       "count":10
@@ -989,7 +985,6 @@
       "weight":1,
       "volume":1,
       "ammo_type":"components",
-      "range":0,
       "recoil":0,
       "dispersion":0,
       "count":10
@@ -1009,7 +1004,6 @@
         "bashing" : 1,
         "cutting" : 12,
         "ammo_type" : "thrown",
-        "range" : 0,
         "dispersion" : 0,
         "recoil" : 0,
         "count" : 5
@@ -1029,7 +1023,6 @@
         "bashing" : 6,
         "cutting" : 16,
         "ammo_type" : "thrown",
-        "range" : 0,
         "dispersion" : 0,
         "recoil" : 0,
         "count" : 3
@@ -1049,7 +1042,6 @@
         "cutting" : 16,
         "to_hit" : -1,
         "ammo_type" : "thrown",
-        "range" : 0,
         "dispersion" : 0,
         "recoil" : 0,
         "count" : 2

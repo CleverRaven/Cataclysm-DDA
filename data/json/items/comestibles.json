@@ -8927,7 +8927,6 @@
         "volume" : 1,
         "weight" : 1,
         "ammo_type" : "NULL",
-        "range" : 0,
         "dispersion" : 0,
         "recoil" : 0,
         "count" : 1,
