@@ -70,7 +70,6 @@
         "damage" : 11,
         "pierce" : 14,
         "range" : 30,
-        "recoil" : 0,
         "stack_size" : 40,
         "count" : 20,
         "effects" : ["COOKOFF", "RECYCLED"]

@@ -2014,7 +2014,6 @@
         "volume" : 5,
         "weight" : 10,
         "ammo_type" : "NULL",
-        "recoil" : 0,
         "count" : 100
     },
     {   "type" : "AMMO",
@@ -2030,7 +2029,6 @@
         "volume" : 5,
         "weight" : 10,
         "ammo_type" : "NULL",
-        "recoil" : 0,
         "count" : 100
     },
     {   "type" : "AMMO",
@@ -2046,7 +2044,6 @@
         "volume" : 5,
         "weight" : 10,
         "ammo_type" : "NULL",
-        "recoil" : 0,
         "count" : 100
     },
     {   "type" : "AMMO",
@@ -2062,7 +2059,6 @@
         "volume" : 5,
         "weight" : 10,
         "ammo_type" : "NULL",
-        "recoil" : 0,
         "count" : 100
     },
     {   "type" : "AMMO",
@@ -2078,7 +2074,6 @@
         "volume" : 5,
         "weight" : 10,
         "ammo_type" : "NULL",
-        "recoil" : 0,
         "count" : 100
     },
     {   "type" : "AMMO",
@@ -2094,7 +2089,6 @@
         "volume" : 5,
         "weight" : 10,
         "ammo_type" : "NULL",
-        "recoil" : 0,
         "count" : 100
     },
     {   "type" : "AMMO",
@@ -2109,7 +2103,6 @@
         "volume" : 7,
         "weight" : 45,
         "ammo_type" : "NULL",
-        "recoil" : 0,
         "count" : 5
     },
     {   "type" : "AMMO",
@@ -2124,7 +2117,6 @@
         "volume" : 7,
         "weight" : 45,
         "ammo_type" : "NULL",
-        "recoil" : 0,
         "count" : 5
     },
     {   "type" : "AMMO",
@@ -2139,7 +2131,6 @@
         "volume" : 7,
         "weight" : 45,
         "ammo_type" : "NULL",
-        "recoil" : 0,
         "count" : 5
     },
     {   "type" : "AMMO",
@@ -2154,7 +2145,6 @@
         "volume" : 7,
         "weight" : 45,
         "ammo_type" : "NULL",
-        "recoil" : 0,
         "count" : 5
     },
     {

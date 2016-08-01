@@ -12,7 +12,6 @@
       "weight" : 8,
       "bashing" : 1,
       "ammo_type" : "components",
-      "recoil" : 0,
       "count" : 10,
       "stack_size" : 20
    },
@@ -31,7 +30,6 @@
       "bashing" : 1,
       "ammo_type" : "components",
       "dispersion" : 510,
-      "recoil" : 0,
       "count" : 10
    },
    {
@@ -51,7 +49,6 @@
       "damage" : 2,
       "range" : 1,
       "dispersion" : 345,
-      "recoil" : 0,
       "count" : 10
    },
    {
@@ -71,7 +68,6 @@
       "damage" : 3,
       "range" : 3,
       "dispersion" : 360,
-      "recoil" : 0,
       "count" : 10
    },
    {
@@ -91,7 +87,6 @@
       "damage" : 3,
       "range" : 2,
       "dispersion" : 435,
-      "recoil" : 0,
       "count" : 10,
       "effects" : ["RECOVER_5"]
    },
@@ -113,7 +108,6 @@
       "pierce" : 1,
       "range" : 2,
       "dispersion" : 435,
-      "recoil" : 0,
       "count" : 10,
       "effects" : ["RECOVER_5"]
    },
@@ -134,7 +128,6 @@
       "damage" : 2,
       "range" : 2,
       "dispersion" : 435,
-      "recoil" : 0,
       "count" : 10,
       "effects" : [ "RECOVER_5", "NOGIB" ]
    },
@@ -154,7 +147,6 @@
       "damage" : 4,
       "range" : 6,
       "dispersion" : 190,
-      "recoil" : 0,
       "loudness": 0,
       "count" : 10,
       "effects" : ["RECOVER_5"]
@@ -176,7 +168,6 @@
       "pierce" : 2,
       "range" : 6,
       "dispersion" : 175,
-      "recoil" : 0,
       "loudness": 0,
       "count" : 10,
       "effects" : ["RECOVER_5"]
@@ -197,7 +188,6 @@
       "damage" : 3,
       "range" : 6,
       "dispersion" : 210,
-      "recoil" : 0,
       "loudness": 0,
       "count" : 10,
       "effects" : [ "RECOVER_5", "NOGIB" ]
@@ -220,7 +210,6 @@
       "pierce" : 3,
       "range" : 7,
       "dispersion" : 135,
-      "recoil" : 0,
       "loudness": 0,
       "count" : 10,
       "effects" : ["RECOVER_5"]
@@ -242,7 +231,6 @@
       "pierce" : 2,
       "range" : 7,
       "dispersion" : 135,
-      "recoil" : 0,
       "loudness": 0,
       "count" : 10,
       "effects" : ["RECOVER_10"]
@@ -265,7 +253,6 @@
       "pierce" : 2,
       "range" : 2,
       "dispersion" : 375,
-      "recoil" : 0,
       "count" : 10,
       "effects" : ["RECOVER_10"]
    },
@@ -287,7 +274,6 @@
       "pierce" : 3,
       "range" : 2,
       "dispersion" : 325,
-      "recoil" : 0,
       "count" : 10,
       "effects" : ["RECOVER_10"]
    },
@@ -308,7 +294,6 @@
       "pierce" : 3,
       "range" : 7,
       "dispersion" : 135,
-      "recoil" : 0,
       "loudness": 0,
       "count" : 10,
       "effects" : ["RECOVER_10"]
@@ -331,7 +316,6 @@
       "pierce" : 5,
       "range" : 8,
       "dispersion" : 60,
-      "recoil" : 0,
       "loudness": 0,
       "count" : 10,
       "effects" : ["RECOVER_10"]
@@ -354,7 +338,6 @@
       "pierce" : 3,
       "range" : 5,
       "dispersion" : 285,
-      "recoil" : 0,
       "count" : 10,
       "effects" : ["RECOVER_15"]
     },
@@ -375,7 +358,6 @@
       "pierce" : 3,
       "range" : 5,
       "dispersion" : 285,
-      "recoil" : 0,
       "loudness": 0,
       "count" : 10,
       "effects" : ["RECOVER_15"]
@@ -398,7 +380,6 @@
       "pierce" : 7,
       "range" : 10,
       "dispersion" : 60,
-      "recoil" : 0,
       "loudness": 0,
       "count" : 10,
       "effects" : ["RECOVER_15"]
@@ -420,7 +401,6 @@
       "pierce" : 5,
       "range" : 8,
       "dispersion" : 135,
-      "recoil" : 0,
       "loudness": 0,
       "count" : 8,
       "stack_size" : 10,
@@ -443,7 +423,6 @@
       "pierce" : 9,
       "range" : 5,
       "dispersion" : 285,
-      "recoil" : 0,
       "loudness": 0,
       "count" : 5,
       "effects" : ["EXPLOSIVE_SMALL"]
@@ -482,7 +461,6 @@
       "pierce" : 9,
       "range" : 5,
       "dispersion" : 285,
-      "recoil" : 0,
       "loudness": 0,
       "count" : 5,
       "effects" : ["IGNITE"]
@@ -503,7 +481,6 @@
       "damage" : 10,
       "pierce" : 1,
       "dispersion" : 150,
-      "recoil" : 0,
       "loudness": 0,
       "count" : 15,
       "effects" : ["RECOVER_5"]
@@ -525,7 +502,6 @@
       "pierce" : 5,
       "range" : 3,
       "dispersion" : 135,
-      "recoil" : 0,
       "loudness": 0,
       "count" : 10,
       "effects" : ["RECOVER_15"]
@@ -547,7 +523,6 @@
       "pierce" : 10,
       "range" : 6,
       "dispersion" : 120,
-      "recoil" : 0,
       "loudness": 0,
       "count" : 10,
       "effects" : ["RECOVER_25"]
@@ -569,7 +544,6 @@
       "pierce" : 2,
       "range" : 8,
       "dispersion" : 135,
-      "recoil" : 0,
       "loudness": 0,
       "count" : 1,
       "stack_size" : 10,
@@ -602,7 +576,6 @@
       "dispersion" : 250,
       "sight_dispersion": 150,
       "aim_speed" : 0,
-      "recoil" : 0,
       "durability" : 6,
       "clip_size" : 1,
       "reload" : 70
@@ -635,7 +608,6 @@
       "dispersion" : 210,
       "sight_dispersion": 150,
       "aim_speed" : 0,
-      "recoil" : 0,
       "durability" : 6,
       "clip_size" : 1,
       "reload" : 60,
@@ -670,7 +642,6 @@
       "dispersion" : 180,
       "sight_dispersion": 150,
       "aim_speed" : 0,
-      "recoil" : 0,
       "durability" : 6,
       "clip_size" : 1,
       "reload" : 100,
@@ -704,7 +675,6 @@
       "dispersion" : 150,
       "sight_dispersion": 150,
       "aim_speed" : 0,
-      "recoil" : 0,
       "durability" : 6,
       "clip_size" : 1,
       "reload" : 110,
@@ -738,7 +708,6 @@
       "dispersion" : 120,
       "sight_dispersion": 150,
       "aim_speed" : 0,
-      "recoil" : 0,
       "durability" : 6,
       "clip_size" : 1,
       "reload" : 100,
@@ -772,7 +741,6 @@
       "dispersion" : 120,
       "sight_dispersion": 150,
       "aim_speed" : 0,
-      "recoil" : 0,
       "durability" : 6,
       "clip_size" : 1,
       "reload" : 100,
@@ -806,7 +774,6 @@
       "dispersion" : 210,
       "sight_dispersion": 150,
       "aim_speed" : 0,
-      "recoil" : 0,
       "durability" : 6,
       "clip_size" : 1,
       "reload" : 80,
@@ -840,7 +807,6 @@
       "dispersion" : 120,
       "sight_dispersion": 150,
       "aim_speed" : 0,
-      "recoil" : 0,
       "durability" : 6,
       "clip_size" : 1,
       "reload" : 80,
@@ -866,7 +832,6 @@
       "dispersion" : 180,
       "sight_dispersion": 90,
       "aim_speed" : 4,
-      "recoil" : 0,
       "durability" : 6,
       "clip_size" : 1,
       "reload" : 100,
@@ -893,7 +858,6 @@
       "dispersion" : 150,
       "sight_dispersion": 90,
       "aim_speed" : 4,
-      "recoil" : 0,
       "durability" : 6,
       "clip_size" : 1,
       "reload" : 800,
@@ -967,7 +931,6 @@
       "weight":6,
       "volume":1,
       "ammo_type":"components",
-      "recoil":0,
       "dispersion":600,
       "count":10
    },
@@ -984,7 +947,6 @@
       "weight":1,
       "volume":1,
       "ammo_type":"components",
-      "recoil":0,
       "count":10
    },
     {   "type" : "AMMO",
@@ -1002,7 +964,6 @@
         "bashing" : 1,
         "cutting" : 12,
         "ammo_type" : "thrown",
-        "recoil" : 0,
         "count" : 5
     },
     {
@@ -1020,7 +981,6 @@
         "bashing" : 6,
         "cutting" : 16,
         "ammo_type" : "thrown",
-        "recoil" : 0,
         "count" : 3
     },
     {
@@ -1038,7 +998,6 @@
         "cutting" : 16,
         "to_hit" : -1,
         "ammo_type" : "thrown",
-        "recoil" : 0,
         "count" : 2
     },
     {
@@ -1058,7 +1017,6 @@
         "pierce" : 4,
         "range" : 6,
         "dispersion" : 150,
-        "recoil" : 0,
         "loudness": 0,
         "count" : 4,
         "effects" : ["RECOVER_5"]
@@ -1080,7 +1038,6 @@
         "pierce" : 8,
         "range" : 6,
         "dispersion" : 120,
-        "recoil" : 0,
         "loudness": 0,
         "count" : 4,
         "effects" : ["RECOVER_15"]
@@ -1102,7 +1059,6 @@
         "pierce" : 12,
         "range" : 10,
         "dispersion" : 90,
-        "recoil" : 0,
         "loudness": 0,
         "count" : 4,
         "effects" : ["RECOVER_3"]
@@ -1125,7 +1081,6 @@
         "pierce":1,
         "range":12,
         "dispersion":125,
-        "recoil":0,
         "loudness": 0,
         "count":10,
         "effects" : ["RECOVER_10"]
