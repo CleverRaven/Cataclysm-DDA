@@ -3814,7 +3814,7 @@ std::vector<item_pricing> init_selling( npc &p )
         result.emplace_back( p, &p.weapon, p.value( p.weapon ), false );
     }
 
-    return std::move( result );
+    return result;
 }
 
 template <typename T, typename Callback>
@@ -3847,11 +3847,11 @@ std::vector<item_pricing> init_buying( npc &p, player& u )
     invslice slice = u.inv.slice();
     for( auto &i : slice ) {
         // @todo Sane way of handling multi-item stacks
-        check_item( std::move( item_location( u, &i->front() ) ) );
+        check_item( item_location( u, &i->front() ) );
     }
 
     if( !u.weapon.has_flag( "NO_UNWIELD" ) ) {
-        check_item( std::move( item_location( u, &u.weapon ) ) );
+        check_item( item_location( u, &u.weapon ) );
     }
 
     for( auto& cursor : map_selector( u.pos(), 1 ) ) {
@@ -3861,7 +3861,7 @@ std::vector<item_pricing> init_buying( npc &p, player& u )
         buy_helper( cursor, check_item );
     }
 
-    return std::move( result );
+    return result;
 }
 
 bool trade( npc &p, int cost, const std::string &deal )
