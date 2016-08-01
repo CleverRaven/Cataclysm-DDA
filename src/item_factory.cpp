@@ -751,13 +751,8 @@ void Item_factory::check_definitions() const
             if( type->ammo->casing != "null" && !has_template( type->ammo->casing ) ) {
                 msg << string_format( "invalid casing property %s", type->ammo->casing.c_str() ) << "\n";
             }
-
             if( type->ammo->drop != "null" && !has_template( type->ammo->drop ) ) {
                 msg << string_format( "invalid drop item %s", type->ammo->drop.c_str() ) << "\n";
-            }
-
-            if( type->ammo->drop_chance < 0.0f || type->ammo->drop_chance > 1.0f ) {
-                msg << "drop chance outside of supported range" << "\n";
             }
         }
         if( type->gun ) {
@@ -1004,21 +999,23 @@ void Item_factory::load( islot_artifact &slot, JsonObject &jo, const std::string
     load_optional_enum_array( slot.effects_worn, jo, "effects_worn" );
 }
 
-void Item_factory::load( islot_ammo &slot, JsonObject &jo, const std::string & )
+void Item_factory::load( islot_ammo &slot, JsonObject &jo, const std::string &src )
 {
-    assign( jo, "ammo_type", slot.type );
-    assign( jo, "casing", slot.casing );
-    assign( jo, "drop", slot.drop );
-    assign( jo, "drop_chance", slot.drop_chance );
-    assign( jo, "drop_active", slot.drop_active );
-    assign( jo, "damage", slot.damage );
-    assign( jo, "pierce", slot.pierce );
-    assign( jo, "range", slot.range );
-    assign( jo, "dispersion", slot.dispersion );
-    assign( jo, "recoil", slot.recoil );
-    assign( jo, "count", slot.def_charges );
-    assign( jo, "loudness", slot.loudness );
-    assign( jo, "effects", slot.ammo_effects );
+    bool strict = src == "core";
+
+    assign( jo, "ammo_type", slot.type, strict );
+    assign( jo, "casing", slot.casing, strict );
+    assign( jo, "drop", slot.drop, strict );
+    assign( jo, "drop_chance", slot.drop_chance, strict, 0.0f, 1.0f );
+    assign( jo, "drop_active", slot.drop_active, strict );
+    assign( jo, "damage", slot.damage, strict, 0 );
+    assign( jo, "pierce", slot.pierce, strict, 0 );
+    assign( jo, "range", slot.range, strict, 0 );
+    assign( jo, "dispersion", slot.dispersion, strict, 0 );
+    assign( jo, "recoil", slot.recoil, strict, 0 );
+    assign( jo, "count", slot.def_charges, strict, 1L );
+    assign( jo, "loudness", slot.loudness, strict, 0 );
+    assign( jo, "effects", slot.ammo_effects, strict );
 }
 
 void Item_factory::load_ammo( JsonObject &jo, const std::string &src )
