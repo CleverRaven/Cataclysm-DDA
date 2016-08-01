@@ -227,8 +227,16 @@ vehicle::~vehicle()
 
 void vehicle::set_hp( vehicle_part &pt, int qty )
 {
-    double k = pt.base.max_damage() / double( pt.info().durability );
-    pt.base.set_damage( pt.base.max_damage() - ( qty * k ) );
+    if( qty == pt.info().durability ) {
+        pt.base.set_damage( 0 );
+
+    } else if( qty == 0 ) {
+        pt.base.set_damage( pt.base.max_damage() );
+
+    } else {
+        double k = pt.base.max_damage() / double( pt.info().durability );
+        pt.base.set_damage( pt.base.max_damage() - ( qty * k ) );
+    }
 }
 
 bool vehicle::mod_hp( vehicle_part &pt, int qty, damage_type dt )
