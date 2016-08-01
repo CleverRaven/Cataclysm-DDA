@@ -4682,25 +4682,13 @@ bool item::reload( player &u, item_location loc, long qty )
         if( obj->magazine_current() ) {
             std::string prompt = string_format( _( "Eject %s from %s?" ), ammo->tname().c_str(), obj->tname().c_str() );
 
-            // Hack to allow ejection of vehicle turret magazines as requested in #17751
-            if( obj->has_flag( "VEHICLE" ) ) {
-                auto veh = g->m.veh_at( u.pos() );
-                auto parts = veh->get_parts( u.pos(), "TURRET" );
-                if( !parts.empty() ) {
-                    vehicle_cursor cur( *veh, veh->index_of_part( parts.front() ) );
-                    if( !u.dispose_item( item_location( cur, &*obj->magazine_current() ), prompt ) ) {
-                        return false;
-                    } else {
-                        obj->contents.emplace_back( *ammo );
-                        loc.remove_item();
-                        return true;
-                    }
-                }
-            }
-
-            if( !u.dispose_item( item_location( u, obj->magazine_current() ), prompt ) ) {
+            // eject magazine to player inventory and try to dispose of it from there
+            item &mag = u.i_add( *obj->magazine_current() );
+            if( !u.dispose_item( item_location( u, &mag ), prompt ) ) {
+                u.remove_item( mag ); // user canceled so delete the clone
                 return false;
             }
+            obj->remove_item( *obj->magazine_current() );
         }
 
         obj->contents.emplace_back( *ammo );
