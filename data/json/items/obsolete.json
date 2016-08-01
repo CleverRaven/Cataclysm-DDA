@@ -336,7 +336,6 @@
       "weight" : 1,
       "bashing" : 1,
       "ammo_type" : "components",
-      "dispersion" : 0,
       "recoil" : 0,
       "count" : 10,
       "stack_size" : 100

@@ -12,7 +12,6 @@
       "weight" : 8,
       "bashing" : 1,
       "ammo_type" : "components",
-      "dispersion" : 0,
       "recoil" : 0,
       "count" : 10,
       "stack_size" : 20
@@ -986,7 +985,6 @@
       "volume":1,
       "ammo_type":"components",
       "recoil":0,
-      "dispersion":0,
       "count":10
    },
     {   "type" : "AMMO",
@@ -1004,7 +1002,6 @@
         "bashing" : 1,
         "cutting" : 12,
         "ammo_type" : "thrown",
-        "dispersion" : 0,
         "recoil" : 0,
         "count" : 5
     },
@@ -1023,7 +1020,6 @@
         "bashing" : 6,
         "cutting" : 16,
         "ammo_type" : "thrown",
-        "dispersion" : 0,
         "recoil" : 0,
         "count" : 3
     },
@@ -1042,7 +1038,6 @@
         "cutting" : 16,
         "to_hit" : -1,
         "ammo_type" : "thrown",
-        "dispersion" : 0,
         "recoil" : 0,
         "count" : 2
     },
