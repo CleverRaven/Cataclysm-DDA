@@ -404,11 +404,10 @@
   "skill_used": "cooking",
   "difficulty": 1,
   "time": 1000,
-  "reversible": false,
   "autolearn": true,
   "qualities" : [
-    {"id":"CUT","level":1,"amount":1},
-    {"id":"HAMMER","level":1,"amount":1}
+    {"id":"CUT","level":1},
+    {"id":"HAMMER","level":1}
   ],
   "components": [
     [
@@ -445,11 +444,10 @@
   "skills_required": [ "cooking", 4 ],
   "difficulty": 2,
   "time": 15000,
-  "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"id":"CUT","level":1,"amount":1},
-    {"id":"HAMMER","level":1,"amount":1}
+    {"id":"CUT","level":1},
+    {"id":"HAMMER","level":1}
   ],
   "components": [
     [
@@ -489,11 +487,10 @@
   "skills_required": [ "cooking", 5 ],
   "difficulty": 3,
   "time": 10000,
-  "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"id":"CUT","level":1,"amount":1},
-    {"id":"HAMMER","level":1,"amount":1}
+    {"id":"CUT","level":1},
+    {"id":"HAMMER","level":1}
   ],
   "components": [
     [
@@ -533,11 +530,10 @@
   "skills_required": [ "cooking", 5 ],
   "difficulty": 3,
   "time": 10000,
-  "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"id":"CUT","level":1,"amount":1},
-    {"id":"HAMMER","level":1,"amount":1}
+    {"id":"CUT","level":1},
+    {"id":"HAMMER","level":1}
   ],
   "components": [
     [
@@ -577,11 +573,10 @@
   "skills_required": [ "cooking", 5 ],
   "difficulty": 3,
   "time": 20000,
-  "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"id":"CUT","level":1,"amount":1},
-    {"id":"HAMMER","level":1,"amount":1}
+    {"id":"CUT","level":1},
+    {"id":"HAMMER","level":1}
   ],
   "components": [
     [
@@ -622,11 +617,10 @@
   "skills_required": [ "cooking", 5 ],
   "difficulty": 3,
   "time": 20000,
-  "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"id":"CUT","level":1,"amount":1},
-    {"id":"HAMMER","level":1,"amount":1}
+    {"id":"CUT","level":1},
+    {"id":"HAMMER","level":1}
   ],
   "components": [
     [
@@ -1043,11 +1037,10 @@
   "difficulty": 2,
   "skills_required": [ "cooking", 2 ],
   "time": 8000,
-  "reversible": false,
   "autolearn": true,
   "qualities" : [
-    {"id":"CUT","level":1,"amount":1},
-    {"id":"HAMMER","level":1,"amount":1}
+    {"id":"CUT","level":1},
+    {"id":"HAMMER","level":1}
   ],
   "components": [
     [
@@ -1082,11 +1075,10 @@
   "difficulty": 2,
   "skills_required": [ "cooking", 2 ],
   "time": 8000,
-  "reversible": false,
   "autolearn": true,
   "qualities" : [
-    {"id":"CUT","level":1,"amount":1},
-    {"id":"HAMMER","level":1,"amount":1}
+    {"id":"CUT","level":1},
+    {"id":"HAMMER","level":1}
   ],
   "components": [
     [
@@ -1123,11 +1115,10 @@
   "difficulty": 2,
   "skills_required": [ "cooking", 4 ],
   "time": 8000,
-  "reversible": false,
   "autolearn": true,
   "qualities" : [
-    {"id":"CUT","level":1,"amount":1},
-    {"id":"HAMMER","level":1,"amount":1}
+    {"id":"CUT","level":1},
+    {"id":"HAMMER","level":1}
   ],
   "components": [
     [
@@ -1163,11 +1154,10 @@
   "difficulty": 3,
   "skills_required": [ "cooking", 5 ],
   "time": 8000,
-  "reversible": false,
   "autolearn": true,
   "qualities" : [
-    {"id":"CUT","level":1,"amount":1},
-    {"id":"HAMMER","level":1,"amount":1}
+    {"id":"CUT","level":1},
+    {"id":"HAMMER","level":1}
   ],
   "components": [
     [

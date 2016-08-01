@@ -79,11 +79,10 @@
 		"skills_required": [ ["mechanics", 4], ["electronics", 4] ],
 		"difficulty": 5,
 		"time": 108000,
-		"reversible": false,
 		"autolearn": true,
 		"qualities":[
-			{"id":"HAMMER","level":2,"amount":1},
-			{"id":"SAW_M","level":1,"amount":1},
+			{"id":"HAMMER","level":2},
+			{"id":"SAW_M","level":1},
             { "id" : "GLARE", "level" : 2 }
 		],
 		"tools": [
@@ -125,11 +124,10 @@
   "skills_required": [ ["mechanics", 5], ["electronics", 5] ],
   "difficulty": 5,
   "time": 108000,
-  "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"id":"HAMMER","level":2,"amount":1},
-    {"id":"SAW_M","level":1,"amount":1},
+    {"id":"HAMMER","level":2},
+    {"id":"SAW_M","level":1},
     { "id" : "GLARE", "level" : 2 }
   ],
   "tools": [
@@ -175,11 +173,10 @@
   "skills_required": [ ["mechanics", 3], ["electronics", 3] ],
   "difficulty": 8,
   "time": 144000,
-  "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"id":"HAMMER","level":2,"amount":1},
-    {"id":"SAW_M","level":1,"amount":1},
+    {"id":"HAMMER","level":2},
+    {"id":"SAW_M","level":1},
     { "id" : "GLARE", "level" : 2 }
   ],
   "tools": [
