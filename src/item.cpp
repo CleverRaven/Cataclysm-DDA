@@ -4680,7 +4680,8 @@ bool item::reload( player &u, item_location loc, long qty )
     } else if ( !obj->magazine_integral() ) {
         // if we already have a magazine loaded prompt to eject it
         if( obj->magazine_current() ) {
-            std::string prompt = string_format( _( "Eject %s from %s?" ), ammo->tname().c_str(), obj->tname().c_str() );
+            std::string prompt = string_format( _( "Eject %s from %s?" ),
+                                                obj->magazine_current()->tname().c_str(), obj->tname().c_str() );
 
             // eject magazine to player inventory and try to dispose of it from there
             item &mag = u.i_add( *obj->magazine_current() );
