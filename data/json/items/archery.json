@@ -12,7 +12,6 @@
       "weight" : 8,
       "bashing" : 1,
       "ammo_type" : "components",
-      "pierce" : 0,
       "range" : 0,
       "dispersion" : 0,
       "recoil" : 0,
@@ -973,7 +972,6 @@
       "volume":1,
       "ammo_type":"components",
       "range":0,
-      "pierce":0,
       "recoil":0,
       "dispersion":600,
       "count":10
@@ -992,7 +990,6 @@
       "volume":1,
       "ammo_type":"components",
       "range":0,
-      "pierce":0,
       "recoil":0,
       "dispersion":0,
       "count":10
