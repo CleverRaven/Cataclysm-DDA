@@ -4642,22 +4642,7 @@ bool item::reload( player &u, item_location loc, long qty )
         return false;
     }
 
-    // Firstly try reloading active gunmod, then item itself, any other auxiliary gunmods and finally any currently loaded magazine
-    std::vector<item *> opts = { &*gun_current_mode(), this };
-    auto mods = gunmods();
-    std::copy_if( mods.begin(), mods.end(), std::back_inserter( opts ), []( item *e ) {
-        return e->is_gun();
-    });
-    opts.push_back( magazine_current() );
-
-    auto target = std::find_if( opts.begin(), opts.end(), [&u,&ammo]( item *e ) {
-        return e && u.can_reload( *e, ammo->typeId() );
-    } );
-    if( target == opts.end() ) {
-        return false;
-    }
-
-    item *obj = *target; // what are we trying to reload?
+    item *obj = this;
     qty = std::min( qty, obj->ammo_capacity() - obj->ammo_remaining() );
 
     obj->casings_handle( [&u]( item &e ) {
