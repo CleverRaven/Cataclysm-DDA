@@ -15,7 +15,6 @@ class item_location;
 
 class player;
 
-typedef std::function<bool( const item & )> item_filter;
 typedef std::function<bool( const item_location & )> item_location_filter;
 
 enum class navigation_mode : int {
