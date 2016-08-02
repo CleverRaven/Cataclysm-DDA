@@ -252,14 +252,14 @@ static bool select_autopickup_items( std::vector<item> &here, std::vector<pickup
                 const std::string sItemName = here[i].tname( 1, false );
 
                 //Check the Pickup Rules
-                if( get_auto_pickup().check_item( sItemName ) == "true" ) {
+                if( get_auto_pickup().check_item( sItemName ) == RULE_WHITELISTED ) {
                     bPickup = true;
-                } else if( get_auto_pickup().check_item( sItemName ) != "false" ) {
+                } else if( get_auto_pickup().check_item( sItemName ) != RULE_BLACKLISTED ) {
                     //No prematched pickup rule found
                     //items with damage, (fits) or a container
-                    get_auto_pickup().create_rules( sItemName );
+                    get_auto_pickup().create_rule( sItemName );
 
-                    if( get_auto_pickup().check_item( sItemName ) == "true" ) {
+                    if( get_auto_pickup().check_item( sItemName ) == RULE_WHITELISTED ) {
                         bPickup = true;
                     }
                 }
@@ -269,7 +269,7 @@ static bool select_autopickup_items( std::vector<item> &here, std::vector<pickup
                 if( !bPickup && OPTIONS["AUTO_PICKUP_ZERO"] ) {
                     if( here[i].volume() == 0 &&
                         here[i].weight() <= OPTIONS["AUTO_PICKUP_ZERO"] * 50 &&
-                        get_auto_pickup().check_item( sItemName ) != "false" ) {
+                        get_auto_pickup().check_item( sItemName ) != RULE_BLACKLISTED ) {
                         bPickup = true;
                     }
                 }
