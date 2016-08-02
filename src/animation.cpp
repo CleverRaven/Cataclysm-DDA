@@ -145,6 +145,10 @@ void draw_custom_explosion_curses( game &g,
 #if defined(TILES)
 void game::draw_explosion( const tripoint &p, int const r, nc_color const col )
 {
+    if( test_mode ) {
+        return; // avoid segfault
+    }
+
     if (!use_tiles) {
         draw_explosion_curses(*this, p, r, col);
         return;
@@ -169,6 +173,10 @@ void game::draw_explosion( const tripoint &p, int const r, nc_color const col )
 
 void game::draw_custom_explosion( const tripoint &, const std::map<tripoint, nc_color> &all_area )
 {
+    if( test_mode ) {
+        return; // avoid segfault
+    }
+
     constexpr explosion_neighbors all_neighbors = N_NORTH | N_SOUTH | N_WEST | N_EAST;
     // We will "shell" the explosion area
     // Each phase will strip a single layer of points

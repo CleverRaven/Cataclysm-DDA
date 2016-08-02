@@ -19,9 +19,7 @@
     "recoil": 120,
     "durability": 7,
     "reload": 400,
-    "modes": [
-      [ "DEFAULT", "auto", 25 ]
-    ],
+    "modes": [ [ "DEFAULT", "auto", 20 ] ],
     "valid_mod_locations": [ [ "accessories", 4 ], [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "muzzle", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ] ],
     "magazines": [
       [ "308", [ "belt308" ] ],

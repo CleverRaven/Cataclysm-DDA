@@ -5,7 +5,7 @@
     "type": "MAGAZINE",
     "name": ".223 ammo belt",
     "ammo_type": "223",
-    "capacity": 200,
+    "capacity": 500,
     "count": 100,
     "linkage": "ammolink223"
   },

@@ -1163,9 +1163,10 @@ int npc::assigned_missions_value()
 std::vector<skill_id> npc::skills_offered_to( const player &p ) const
 {
     std::vector<skill_id> ret;
-    for (auto const &skill : Skill::skills) {
-        if (p.get_skill_level(skill.ident()) < get_skill_level(skill.ident())) {
-            ret.push_back( skill.ident() );
+    for( auto const &skill : Skill::skills ) {
+        const auto &id = skill.ident();
+        if( p.get_skill_level( id ) < get_skill_level( id ) ) {
+            ret.push_back( id );
         }
     }
     return ret;
@@ -1286,7 +1287,7 @@ bool npc::wants_to_sell( const item &it, int at_price, int market_price ) const
         return true;
     }
 
-    if( is_minion() ) {
+    if( is_friend() ) {
         return true;
     }
 
@@ -1305,51 +1306,12 @@ bool npc::wants_to_buy( const item &it, int at_price, int market_price ) const
     (void)market_price;
     (void)it;
 
-    if( is_minion() ) {
+    if( is_friend() ) {
         return true;
     }
 
     // TODO: Base on inventory
     return at_price >= 80;
-}
-
-std::vector<npc::item_pricing> npc::init_selling()
-{
-    std::vector<npc::item_pricing> result;
-    bool found_lighter = false;
-    invslice slice = inv.slice();
-    for( auto &i : slice ) {
-        // TODO: Make a list of reserved items,
-        // sort them by types and values
-        // allow selling some of them
-        auto &it = i->front();
-        if( !found_lighter && it.typeId() == "lighter" && it.ammo_remaining() >= 10 ) {
-            found_lighter = true;
-            continue;
-        }
-
-        const int price = it.price( true );
-        int val = value( it );
-        if( wants_to_sell( it, val, price ) ) {
-            result.push_back( item_pricing{ &i->front(), val, false } );
-        }
-    }
-    return result;
-}
-
-std::vector<npc::item_pricing> npc::init_buying(inventory& you)
-{
-    std::vector<npc::item_pricing> result;
-    invslice slice = you.slice();
-    for( auto &i : slice ) {
-        auto &it = i->front();
-        int market_price = it.price( true );
-        int val = value( it, market_price );
-        if( wants_to_buy( it, val, market_price ) ) {
-            result.push_back( item_pricing{ &i->front(), val, false } );
-        }
-    }
-    return result;
 }
 
 void npc::shop_restock()
@@ -2165,7 +2127,7 @@ float npc::speed_rating() const
     return ret;
 }
 
-bool npc::dispose_item( item& obj, const std::string & )
+bool npc::dispose_item( item_location &&obj, const std::string & )
 {
     using dispose_option = struct {
         int moves;
@@ -2175,21 +2137,22 @@ bool npc::dispose_item( item& obj, const std::string & )
     std::vector<dispose_option> opts;
 
     for( auto& e : worn ) {
-        if( e.can_holster( obj ) ) {
+        if( e.can_holster( *obj ) ) {
             auto ptr = dynamic_cast<const holster_actor *>( e.type->get_use( "holster" )->get_actor_ptr() );
             opts.emplace_back( dispose_option {
-                item_store_cost( obj, e, false, ptr->draw_cost ),
-                [this,ptr,&e,&obj]{ ptr->store( *this, e, obj ); }
+                item_store_cost( *obj, e, false, ptr->draw_cost ),
+                [this,ptr,&e,&obj]{ ptr->store( *this, e, *obj ); }
             } );
         }
     }
 
-    if( volume_carried() + obj.volume() <= volume_capacity() ) {
+    if( volume_carried() + obj->volume() <= volume_capacity() ) {
         opts.emplace_back( dispose_option {
-            item_handling_cost( obj ) * INVENTORY_HANDLING_FACTOR,
+            item_handling_cost( *obj ) * INVENTORY_HANDLING_FACTOR,
             [this,&obj] {
-                moves -= item_handling_cost( obj ) * INVENTORY_HANDLING_FACTOR;
-                inv.add_item_keep_invlet( i_rem( &obj ) );
+                moves -= item_handling_cost( *obj ) * INVENTORY_HANDLING_FACTOR;
+                inv.add_item_keep_invlet( *obj );
+                obj.remove_item();
                 inv.unsort();
             }
         } );
@@ -2197,7 +2160,8 @@ bool npc::dispose_item( item& obj, const std::string & )
 
     if( opts.empty() ) {
         // Drop it
-        g->m.add_item_or_charges( pos(), i_rem( &obj ) );
+        g->m.add_item_or_charges( pos(), *obj );
+        obj.remove_item();
         return true;
     }
 

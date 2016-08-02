@@ -97,7 +97,7 @@ static int has_quality_from_vpart( const vehicle& veh, int part, const quality_i
     for( const auto &n : veh.parts_at_relative( pos.x, pos.y ) ) {
 
         // only unbroken parts can provide tool qualities
-        if( veh.parts[ n ].hp > 0 ) {
+        if( !veh.parts[ n ].is_broken() ) {
             auto tq = veh.part_info( n ).qualities;
             auto iter = tq.find( qual );
 
@@ -176,7 +176,7 @@ static int max_quality_from_vpart( const vehicle& veh, int part, const quality_i
     for( const auto &n : veh.parts_at_relative( pos.x, pos.y ) ) {
 
         // only unbroken parts can provide tool qualities
-        if( veh.parts[ n ].hp > 0 ) {
+        if( !veh.parts[ n ].is_broken() ) {
             auto tq = veh.part_info( n ).qualities;
             auto iter = tq.find( qual );
 

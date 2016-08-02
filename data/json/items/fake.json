@@ -37,13 +37,5 @@
         "type": "TOOL",
         "name": "bionic razor",
         "qualities": [ ["BUTCHER", 8] ]
-    },
-    {
-      "id": "vehicle_pointer",
-      "copy-from": "fake_item",
-      "type": "GUN",
-      "name": "turret aim point",
-      "description": "Doesn't actually fire anything, just there to aim the turrets.",
-      "skill": "computer"
     }
 ]

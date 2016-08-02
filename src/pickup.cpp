@@ -15,6 +15,7 @@
 #include "mapdata.h"
 #include "cata_utility.h"
 #include "debug.h"
+#include "vehicle_selector.h"
 
 #include <map>
 #include <vector>
@@ -41,6 +42,8 @@ Pickup::interact_results Pickup::interact_with_vehicle( vehicle *veh, const trip
     const bool has_items_on_ground = g->m.sees_some_items( pos, g->u );
     const bool items_are_sealed = g->m.has_flag( "SEALED", pos );
 
+    auto turret = veh->turret_query( pos );
+
     const bool has_kitchen = ( veh->part_with_feature( veh_root_part, "KITCHEN" ) >= 0 );
     const bool has_faucet = ( veh->part_with_feature( veh_root_part, "FAUCET" ) >= 0 );
     const bool has_weldrig = ( veh->part_with_feature( veh_root_part, "WELDRIG" ) >= 0 );
@@ -54,8 +57,8 @@ Pickup::interact_results Pickup::interact_with_vehicle( vehicle *veh, const trip
     const bool is_convertible = ( veh->tags.count( "convertible" ) > 0 );
     const bool remotely_controlled = g->remoteveh() == veh;
     typedef enum {
-        EXAMINE, CONTROL, GET_ITEMS, GET_ITEMS_ON_GROUND, FOLD_VEHICLE, USE_HOTPLATE,
-        FILL_CONTAINER, DRINK, USE_WELDER, USE_PURIFIER, PURIFY_TANK,
+        EXAMINE, CONTROL, GET_ITEMS, GET_ITEMS_ON_GROUND, FOLD_VEHICLE, UNLOAD_TURRET, RELOAD_TURRET,
+        USE_HOTPLATE, FILL_CONTAINER, DRINK, USE_WELDER, USE_PURIFIER, PURIFY_TANK
     } options;
     uimenu selectmenu;
 
@@ -75,6 +78,14 @@ Pickup::interact_results Pickup::interact_with_vehicle( vehicle *veh, const trip
 
     if( ( can_be_folded || is_convertible ) && !remotely_controlled ) {
         selectmenu.addentry( FOLD_VEHICLE, true, 'f', _( "Fold vehicle" ) );
+    }
+
+    if( turret.can_unload() ) {
+        selectmenu.addentry( UNLOAD_TURRET, true, 'u', _( "Unload %s" ), turret.name().c_str() );
+    }
+
+    if( turret.can_reload() ) {
+        selectmenu.addentry( RELOAD_TURRET, true, 'r', _( "Reload %s" ), turret.name().c_str() );
     }
 
     if( ( has_kitchen || has_chemlab ) && veh->fuel_left( "battery" ) > 0 ) {
@@ -171,9 +182,9 @@ Pickup::interact_results Pickup::interact_with_vehicle( vehicle *veh, const trip
 
             if( pseudo.ammo_sufficient() ) {
                 g->u.invoke_item( &pseudo );
-                pseudo.ammo_consume( pseudo.ammo_required(), g->u.pos() );
-                veh->refill( ammo, pseudo.ammo_remaining() );
             }
+
+            veh->refill( ammo, pseudo.ammo_remaining() );
             return DONE;
         }
 
@@ -184,6 +195,21 @@ Pickup::interact_results Pickup::interact_with_vehicle( vehicle *veh, const trip
             veh->drain( "battery", purify_amount );
             veh->drain( "water", purify_amount );
             veh->refill( "water_clean", purify_amount );
+            return DONE;
+        }
+
+        case UNLOAD_TURRET: {
+            g->unload( *turret.base() );
+            return DONE;
+        }
+
+        case RELOAD_TURRET: {
+            item::reload_option opt = g->u.select_ammo( *turret.base(), true );
+            if( opt ) {
+                g->u.assign_activity( ACT_RELOAD, opt.moves(), opt.qty() );
+                g->u.activity.targets.emplace_back( std::move( turret.base() ) );
+                g->u.activity.targets.push_back( std::move( opt.ammo ) );
+            }
             return DONE;
         }
 

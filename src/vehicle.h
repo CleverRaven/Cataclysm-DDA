@@ -107,12 +107,13 @@ struct vehicle_part : public JsonSerializer, public JsonDeserializer
     friend vehicle;
     friend visitable<vehicle_cursor>;
     friend item_location;
+    friend class turret_data;
 
     enum : int { passenger_flag = 1 };
 
     vehicle_part(); /** DefaultConstructible */
 
-    vehicle_part( const vpart_str_id& str, int dx, int dy, item&& it );
+    vehicle_part( const vpart_str_id& vp, int dx, int dy, item&& it );
 
     bool has_flag(int const flag) const noexcept { return flag & flags; }
     int  set_flag(int const flag)       noexcept { return flags |= flag; }
@@ -202,7 +203,12 @@ public:
     /** mount translated to face.dir [0] and turn_dir [1] */
     std::array<point, 2> precalc = { { point( -1, -1 ), point( -1, -1 ) } };
 
-    int hp           = 0;         // current durability, if 0, then broken
+    /** current part health with range [0,durability] */
+    int hp() const;
+
+    /** parts are considered broken at zero health */
+    bool is_broken() const;
+
     int blood        = 0;         // how much blood covers part (in turns).
     bool inside      = false;     // if tile provides cover. WARNING: do not read it directly, use vehicle::is_inside() instead
     bool removed     = false;     // true if this part is removed. The part won't disappear until the end of the turn
@@ -239,6 +245,69 @@ public:
      * the hp (item damage), fuel charges (battery or liquids), aspect, ...
      */
     item properties_to_item() const;
+};
+
+class turret_data {
+    friend vehicle;
+
+    public:
+        turret_data() = default;
+        turret_data( const turret_data & ) = delete;
+        turret_data &operator=( const turret_data & ) = delete;
+        turret_data( turret_data && ) = default;
+        turret_data &operator=( turret_data && ) = default;
+
+        /** Is this a valid instance? */
+        explicit operator bool() const {
+            return veh && part;
+        }
+
+        std::string name() const;
+
+        /** Get base item location */
+        item_location base();
+        const item_location base() const;
+
+        /** Quantity of ammunition available for use */
+        long ammo_remaining() const;
+
+        /** Maximum quantity of ammunition turret can itself contain */
+        long ammo_capacity() const;
+
+        /** Specific ammo data or returns nullptr if no ammo available */
+        const itype *ammo_data() const;
+
+        /** Specific ammo type or returns "null" if no ammo available */
+        itype_id ammo_current() const;
+
+        /** Effects inclusive of any from ammo loaded from tanks */
+        std::set<std::string> ammo_effects() const;
+
+        /** Maximum range considering current ammo (if any) */
+        int range() const;
+
+        /** Fire at @ref target returning number of shots (may be zero) */
+        int fire( player &p, const tripoint &target );
+
+        bool can_reload() const;
+        bool can_unload() const;
+
+        enum class status {
+            invalid,
+            no_ammo,
+            no_power,
+            ready
+        };
+
+        status query() const;
+
+    private:
+        turret_data( vehicle *veh, vehicle_part *part )
+            : veh( veh ), part( part ) {}
+
+    protected:
+        vehicle *veh = nullptr;
+        vehicle_part *part = nullptr;
 };
 
 /**
@@ -419,6 +488,20 @@ public:
     vehicle();
     ~vehicle () override;
 
+    /**
+     * Set stat for part constrained by range [0,durability]
+     * @note does not invoke base @ref item::on_damage callback
+     */
+    void set_hp( vehicle_part &pt, int qty );
+
+    /**
+     * Apply damage to part constrained by range [0,durability] possibly destroying it
+     * @param qty maximum amount by which to adjust damage (negative permissible)
+     * @param dmg type of damage which may be passed to base @ref item::on_damage callback
+     * @return whether part was destroyed as a result of the damage
+     */
+    bool mod_hp( vehicle_part &pt, int qty, damage_type dt = DT_NULL );
+
     // check if given player controls this vehicle
     bool player_in_control(player const &p) const;
     // check if player controls this vehicle remotely
@@ -475,13 +558,14 @@ public:
     // check if certain part can be unmounted
     bool can_unmount (int p) const;
 
-    // install a new part to vehicle (force to skip possibility check)
-    int install_part (int dx, int dy, const vpart_str_id &id, int hp = -1, bool force = false);
+    // install a new part to vehicle
+    int install_part (int dx, int dy, const vpart_str_id &id, bool force = false );
+
     // Install a copy of the given part, skips possibility check
     int install_part (int dx, int dy, const vehicle_part &part);
 
     /** install item @ref obj to vehicle as a vehicle part */
-    int install_part( int dx, int dy, const vpart_str_id& id, item&& obj );
+    int install_part( int dx, int dy, const vpart_str_id& id, item&& obj, bool force = false );
 
     bool remove_part (int p);
     void part_removal_cleanup ();
@@ -510,6 +594,27 @@ public:
     int part_with_feature (int p, const std::string &f, bool unbroken = true) const;
     int part_with_feature_at_relative (const point &pt, const std::string &f, bool unbroken = true) const;
     int part_with_feature (int p, vpart_bitflags f, bool unbroken = true) const;
+
+    /**
+     *  Check if vehicle has at least one unbroken part with @ref flag
+     *  @param enabled if set part must also be enabled to be considered
+     */
+    bool has_part( const std::string &flag, bool enabled = false ) const;
+
+    /**
+     *  Get all unbroken vehicle parts with @ref flag
+     *  @param enabled if set part must also be enabled to be considered
+     */
+    std::vector<vehicle_part *> get_parts( const std::string &flag, bool enabled = false );
+    std::vector<const vehicle_part *> get_parts( const std::string &flag, bool enabled = false ) const;
+
+    /**
+     *  Get all unbroken vehicle parts at @ref pos
+     *  @param flag if set only flags with this part will be considered
+     *  @param enabled if set part must also be enabled to be considered
+     */
+    std::vector<vehicle_part *> get_parts( const tripoint &pos, const std::string &flag = "", bool enabled = false );
+    std::vector<const vehicle_part *> get_parts( const tripoint &pos, const std::string &flag = "", bool enabled = false ) const;
 
     /**
      *  Return the index of the next part to open at `p`'s location
@@ -872,20 +977,12 @@ public:
     /** Get all vehicle turrets loaded and ready to fire at @ref target */
     std::vector<vehicle_part *> turrets( const tripoint &target );
 
-    enum class turret_status {
-        ready,
-        no_ammo,
-        no_power
-    };
+    /** Get firing data for a turret */
+    turret_data turret_query( vehicle_part &pt );
+    const turret_data turret_query( const vehicle_part &pt ) const;
 
-    /** Query ability of turret to fire */
-    turret_status turret_query( const vehicle_part &pt ) const;
-
-    /**
-     * Manually aim and fire turret
-     * @return number of shots actually fired (which may be zero)
-     */
-    int turret_fire( vehicle_part &pt );
+    turret_data turret_query( const tripoint &pos );
+    const turret_data turret_query( const tripoint &pos ) const;
 
     /** Set targeting mode for specific turrets */
     void turrets_set_targeting();
@@ -1094,9 +1191,6 @@ private:
 
     /** empty the contents of a tank, battery or turret spilling liquids randomly on the ground */
     void leak_fuel( vehicle_part &pt );
-
-    void turret_reload( vehicle_part &pt );
-    void turret_unload( vehicle_part &pt );
 
     /*
      * Fire turret at automatically acquired targets

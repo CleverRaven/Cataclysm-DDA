@@ -16,6 +16,7 @@
 #include "translations.h"
 
 #include <climits>
+#include <algorithm>
 
 template <typename T>
 static int find_index( const T &sel, const item *obj )
@@ -331,7 +332,19 @@ class item_location::impl::item_on_vehicle : public item_location::impl
         item_on_vehicle( const vehicle_cursor &cur, int idx ) : impl( idx ), cur( cur ) {}
 
         bool valid() const override {
-            return target() && cur.has_item( *target() );
+            if( !target() ) {
+                return false;
+            }
+            if( &cur.veh.parts[ cur.part ].base == target() ) {
+                return true; // vehicle_part::base
+            }
+            if( cur.veh.parts[ cur.part ].base.magazine_current() == target() ) {
+                return true; // turret magazine
+            }
+            if( cur.has_item( *target() ) ) {
+                return true; // item within CARGO
+            }
+            return false;
         }
 
         void serialize( JsonOut &js ) const override {
@@ -399,8 +412,14 @@ class item_location::impl::item_on_vehicle : public item_location::impl
         }
 
         void remove_item() override {
-            if( &cur.veh.parts[ cur.part ].base == target() ) {
+            item &base = cur.veh.parts[ cur.part ].base;
+            if( &base == target() ) {
                 cur.veh.remove_part( cur.part );
+            } else if( base.magazine_current() == target() ) {
+                base.contents.erase( std::remove_if( base.contents.begin(),
+                base.contents.end(), [&]( const item & e ) {
+                    return &e == base.magazine_current();
+                } ), base.contents.end() );
             } else {
                 cur.remove_item( *target() );
             }

@@ -381,7 +381,9 @@ long unfold_vehicle_iuse::use(player *p, item *it, bool /*t*/, const tripoint &/
     if (!data.empty() && data[0] >= '0' && data[0] <= '9') {
         // starts with a digit -> old format
         for( auto &elem : veh->parts ) {
-            veh_data >> elem.hp;
+            int tmp;
+            veh_data >> tmp;
+            veh->set_hp( elem, tmp );
         }
     } else {
         try {
@@ -395,7 +397,7 @@ long unfold_vehicle_iuse::use(player *p, item *it, bool /*t*/, const tripoint &/
                 vehicle_part &dst = veh->parts[i];
                 // and now only copy values, that are
                 // expected to be consistent.
-                dst.hp = src.hp;
+                veh->set_hp( dst, src.hp() );
                 dst.blood = src.blood;
                 // door state/amount of fuel/direction of headlight
                 dst.ammo_set( src.ammo_current(), src.ammo_remaining() );
@@ -750,7 +752,7 @@ long pick_lock_actor::use( player *p, item *it, bool, const tripoint& ) const
         return 0;
     }
     tripoint dirp;
-    if( !choose_adjacent( _( "Use your pick lock where?" ), dirp ) ) {
+    if( !choose_adjacent( _( "Use your lockpick where?" ), dirp ) ) {
         return 0;
     }
     if( dirp == p->pos() ) {

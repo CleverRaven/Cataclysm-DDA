@@ -229,15 +229,18 @@ void reset_recipes()
 
 void finalize_recipes()
 {
-    recipe_dict.finalize();
-
-    std::ostringstream buffer;
+    // Has to be done before recipe finalization!
     for( auto r : recipe_dict ) {
         r->requirements_ = std::accumulate( r->reqs.begin(), r->reqs.end(), requirement_data(),
         []( const requirement_data & lhs, const std::pair<requirement_id, int> &rhs ) {
             return lhs + ( *rhs.first * rhs.second );
         } );
+    }
 
+    recipe_dict.finalize();
+
+    std::ostringstream buffer;
+    for( auto r : recipe_dict ) {
         buffer.clear();
         for( auto j = r->booksets.begin(); j != r->booksets.end(); ++j ) {
             const std::string &book_id = j->book_id;

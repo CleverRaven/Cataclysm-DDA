@@ -1570,7 +1570,6 @@ void vehicle_part::deserialize(JsonIn &jsin)
 
     data.read("mount_dx", mount.x);
     data.read("mount_dy", mount.y);
-    data.read("hp", hp );
     data.read("open", open );
     data.read("direction", direction );
     data.read("blood", blood );
@@ -1598,6 +1597,20 @@ void vehicle_part::deserialize(JsonIn &jsin)
         }
         base.item_tags.insert( "VEHICLE" );
     }
+
+    if( data.has_int( "hp" ) ) {
+        // migrate legacy savegames exploiting that al base items at that time had max_damage() of 4
+        base.set_damage( 4 - ( 4 / double( id.obj().durability ) * data.get_int( "hp" ) ) );
+    }
+
+    // legacy turrets loaded ammo via a pseudo CARGO space
+    if( is_turret() && !items.empty() ) {
+        int qty = std::accumulate( items.begin(), items.end(), 0, []( int lhs, const item& rhs ) {
+            return lhs + rhs.charges;
+        } );
+        ammo_set( items.front().ammo_current(), qty );
+        items.clear();
+    }
 }
 
 void vehicle_part::serialize(JsonOut &json) const
@@ -1608,7 +1621,6 @@ void vehicle_part::serialize(JsonOut &json) const
     json.member("base", base);
     json.member("mount_dx", mount.x);
     json.member("mount_dy", mount.y);
-    json.member("hp", hp);
     json.member("open", open );
     json.member("direction", direction );
     json.member("blood", blood);

@@ -117,6 +117,9 @@
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 
+/** Will be set to true when running unit tests */
+bool test_mode = false;
+
 const mtype_id mon_fungal_blossom( "mon_fungal_blossom" );
 const mtype_id mon_manhack( "mon_manhack" );
 
@@ -144,7 +147,6 @@ const efftype_id effect_evil( "evil" );
 const efftype_id effect_flu( "flu" );
 const efftype_id effect_glowing( "glowing" );
 const efftype_id effect_has_bag( "has_bag" );
-const efftype_id effect_hit_by_player( "hit_by_player" );
 const efftype_id effect_hot( "hot" );
 const efftype_id effect_infected( "infected" );
 const efftype_id effect_laserlocked( "laserlocked" );
@@ -2832,13 +2834,40 @@ bool game::handle_action()
         case ACTION_FIRE:
             // Use vehicle turret or draw a pistol from a holster if unarmed
             if( !u.is_armed() ) {
+
                 int part = -1;
                 vehicle *veh = m.veh_at( u.pos(), part );
+
+                turret_data turret;
+                if( veh && ( turret = veh->turret_query( u.pos() ) ) ) {
+                    switch( turret.query() ) {
+                        case turret_data::status::no_ammo:
+                            add_msg( m_bad, _( "The %s is out of ammo." ), turret.name().c_str() );
+                            break;
+
+                        case turret_data::status::no_power:
+                            add_msg( m_bad,  _( "The %s is not powered." ), turret.name().c_str() );
+                            break;
+
+                        case turret_data::status::ready: {
+                            tripoint pos = u.pos();
+                            auto trajectory = pl_target_ui( TARGET_MODE_TURRET_MANUAL, &*turret.base(), turret.range() );
+                            if( !trajectory.empty() ) {
+                                turret.fire( u, trajectory.back() );
+                            }
+                            break;
+                        }
+
+                        default:
+                            debugmsg( "unknown turret status" );
+                            break;
+                    }
+                    break;
+                }
+
                 if( veh ) {
-                    int vpturret = veh->part_with_feature( part, "TURRET", true );
                     int vpcontrols = veh->part_with_feature( part, "CONTROLS", true );
-                    if( ( vpturret >= 0 && veh->turret_fire( veh->parts[ vpturret ] ) ) ||
-                        ( vpcontrols >= 0 && veh->turrets_aim() ) ) {
+                    if( vpcontrols >= 0 && veh->turrets_aim() ) {
                         break;
                     }
                 }
@@ -2869,16 +2898,15 @@ bool game::handle_action()
             }
 
             if( u.weapon.is_gun() ) {
-                plfire( mouse_target );
+                plfire();
 
             } else if( u.weapon.has_flag( "REACH_ATTACK" ) ) {
                 int range = u.weapon.has_flag( "REACH3" ) ? 3 : 2;
                 temp_exit_fullscreen();
                 m.draw( w_terrain, u.pos() );
-                tripoint p = u.pos();
-                std::vector<tripoint> trajectory = pl_target_ui( p, range, &u.weapon, TARGET_MODE_REACH, mouse_target );
+                std::vector<tripoint> trajectory = pl_target_ui( TARGET_MODE_REACH, &u.weapon,range );
                 if( !trajectory.empty() ) {
-                    u.reach_attack( p );
+                    u.reach_attack( trajectory.back() );
                 }
                 draw_ter();
                 reenter_fullscreen();
@@ -2888,7 +2916,7 @@ bool game::handle_action()
         case ACTION_FIRE_BURST: {
             auto mode = u.weapon.gun_get_mode_id();
             if( u.weapon.gun_set_mode( "AUTO" ) ) {
-                plfire( mouse_target );
+                plfire();
                 u.weapon.gun_set_mode( mode );
             }
             break;
@@ -3734,11 +3762,19 @@ std::vector<std::string> game::list_active_characters()
  */
 void game::write_memorial_file(std::string sLastWords)
 {
-    const std::string &memorial_dir = FILENAMES["memorialdir"] +  world_generator->active_world->world_name + "/";
+    const std::string &memorial_dir = FILENAMES["memorialdir"];
+    const std::string &memorial_active_world_dir = memorial_dir +  world_generator->active_world->world_name + "/";
 
+    //Check if both dirs exist. Nested assure_dir_exist fails if the first dir of the nested dir does not exist.
     if (!assure_dir_exist(memorial_dir)) {
         dbg(D_ERROR) << "game:write_memorial_file: Unable to make memorial directory.";
         debugmsg("Could not make '%s' directory", memorial_dir.c_str());
+        return;
+    }
+
+    if (!assure_dir_exist(memorial_active_world_dir)) {
+        dbg(D_ERROR) << "game:write_memorial_file: Unable to make active world directory in memorial directory.";
+        debugmsg("Could not make '%s' directory", memorial_active_world_dir.c_str());
         return;
     }
 
@@ -3752,7 +3788,7 @@ void game::write_memorial_file(std::string sLastWords)
     size_t const truncated_name_len = (name_len >= max_name_len) ? (max_name_len - 1) : name_len;
 
     std::ostringstream memorial_file_path;
-    memorial_file_path << memorial_dir;
+    memorial_file_path << memorial_active_world_dir;
 
     // Use the default locale to replace non-printable characters with _ in the player name.
     std::locale locale {"C"};
@@ -4596,7 +4632,6 @@ void game::disp_NPC_epilogues()
     delwin(w);
     refresh_all();
 }
-
 
 void game::disp_faction_ends()
 {
@@ -7439,7 +7474,7 @@ void game::exam_vehicle( vehicle &veh, int cx, int cy )
         int setuptime = std::max(setup * 3000, setup * 6000 - skill * 400);
         int dmg = 1000;
         if (vehint.sel_cmd == 'r') {
-            dmg = 1000 - vehint.part()->hp * 1000 / vehint.sel_vpart_info->durability;
+            dmg = 1000 - vehint.part()->hp() * 1000 / vehint.sel_vpart_info->durability;
         }
         int mintime = 300 + diff * dmg;
         // sel_cmd = Install Repair reFill remOve Siphon Drainwater Changetire reName
@@ -10473,10 +10508,8 @@ void game::plthrow(int pos)
     temp_exit_fullscreen();
     m.draw( w_terrain, u.pos() );
 
-    tripoint targ = u.pos();
-
     // pl_target_ui() sets x and y, or returns empty vector if we canceled (by pressing Esc)
-    std::vector<tripoint> trajectory = pl_target_ui( targ, range, &thrown, TARGET_MODE_THROW );
+    std::vector<tripoint> trajectory = pl_target_ui( TARGET_MODE_THROW, &thrown, range );
     if (trajectory.empty()) {
         return;
     }
@@ -10493,70 +10526,11 @@ void game::plthrow(int pos)
         u.i_rem( pos );
     }
 
-    u.throw_item( targ, thrown );
+    u.throw_item( trajectory.back(), thrown );
     reenter_fullscreen();
 }
 
-std::vector<tripoint> game::pl_target_ui( tripoint &p, int range, item *relevant, target_mode mode,
-                                          const tripoint &default_target )
-{
-    // Populate a list of targets with the zombies in range and visible
-    const Creature *last_target_critter = nullptr;
-    if (last_target >= 0 && !last_target_was_npc && size_t(last_target) < num_zombies()) {
-        last_target_critter = &zombie(last_target);
-    } else if (last_target >= 0 && last_target_was_npc && size_t(last_target) < active_npc.size()) {
-        last_target_critter = active_npc[last_target];
-    }
-    auto mon_targets = u.get_targetable_creatures( range );
-    std::sort(mon_targets.begin(), mon_targets.end(), compare_by_dist_attitude { u } );
-    int passtarget = -1;
-    for (size_t i = 0; i < mon_targets.size(); i++) {
-        Creature &critter = *mon_targets[i];
-        critter.draw(w_terrain, u.pos(), true);
-        // no default target, but found the last target
-        if( default_target == tripoint_min && last_target_critter == &critter ) {
-            passtarget = i;
-            break;
-        }
-        if( default_target == critter.pos() ) {
-            passtarget = i;
-            break;
-        }
-    }
-    // target() sets x and y, and returns an empty vector if we canceled (Esc)
-    const tripoint range_point( range, range, range );
-    std::vector<tripoint> trajectory = target( p, u.pos() - range_point, u.pos() + range_point,
-                                               mon_targets, passtarget, relevant, mode );
-
-    if( passtarget != -1 ) { // We picked a real live target
-        // Make it our default for next time
-        int id = npc_at( p );
-        if (id >= 0) {
-            last_target = id;
-            last_target_was_npc = true;
-            if(!active_npc[id]->is_enemy()){
-                if (!query_yn(_("Really attack %s?"), active_npc[id]->name.c_str())) {
-                    std::vector<tripoint> trajectory_blank;
-                    return trajectory_blank; // Cancel the attack
-                } else {
-                    //The NPC knows we started the fight, used for morale penalty.
-                    active_npc[id]->hit_by_player = true;
-                }
-            }
-            active_npc[id]->make_angry();
-        } else {
-            id = mon_at( p, true );
-            if (id >= 0) {
-                last_target = id;
-                last_target_was_npc = false;
-                zombie(last_target).add_effect( effect_hit_by_player, 100);
-            }
-        }
-    }
-    return trajectory;
-}
-
-bool game::plfire( const tripoint &default_target )
+bool game::plfire()
 {
     if( u.has_effect( effect_relax_gas) ) {
         if( one_in(5) ) {
@@ -10653,10 +10627,8 @@ bool game::plfire( const tripoint &default_target )
     temp_exit_fullscreen();
     m.draw( w_terrain, u.pos() );
 
-    tripoint p = u.pos();
-
     target_mode tmode = gun.melee() ? TARGET_MODE_REACH : TARGET_MODE_FIRE;
-    std::vector<tripoint> trajectory = pl_target_ui( p, range, &u.weapon, tmode, default_target );
+    std::vector<tripoint> trajectory = pl_target_ui( tmode, &u.weapon, range );
 
     if (trajectory.empty()) {
         if( gun->has_flag( "RELOAD_AND_SHOOT" ) && u.activity.type != ACT_AIM ) {
@@ -10674,13 +10646,13 @@ bool game::plfire( const tripoint &default_target )
     bool res = false;
 
     if( gun.melee() ) {
-        u.reach_attack( p );
+        u.reach_attack( trajectory.back() );
         res = true;
 
     } else {
         u.moves -= reload_time;
         // @todo add check for TRIGGERHAPPY
-        res = u.fire_gun( p, gun.qty, *gun );
+        res = u.fire_gun( trajectory.back(), gun.qty, *gun );
     }
 
     reenter_fullscreen();
@@ -11094,6 +11066,19 @@ void game::reload( int pos, bool prompt )
 void game::reload()
 {
     if( !u.is_armed() ) {
+
+        vehicle *veh = m.veh_at( u.pos() );
+        turret_data turret;
+        if( veh && ( turret = veh->turret_query( u.pos() ) ) && turret.can_reload() ) {
+            item::reload_option opt = g->u.select_ammo( *turret.base(), true );
+            if( opt ) {
+                g->u.assign_activity( ACT_RELOAD, opt.moves(), opt.qty() );
+                g->u.activity.targets.emplace_back( std::move( turret.base() ) );
+                g->u.activity.targets.push_back( std::move( opt.ammo ) );
+            }
+            return;
+        }
+
         add_msg(m_info, _( "You're not wielding anything." ) );
     } else {
         reload( -1 );
