@@ -87,6 +87,7 @@ const species_id ZOMBIE( "ZOMBIE" );
 const species_id FUNGUS( "FUNGUS" );
 const species_id INSECT( "INSECT" );
 const species_id MAMMAL( "MAMMAL" );
+const species_id ABERRATION( "ABERRATION" );
 
 const efftype_id effect_badpoison( "badpoison" );
 const efftype_id effect_beartrap( "beartrap" );
@@ -1654,7 +1655,7 @@ void monster::drop_items_on_death()
         return;
     }
     const auto dropped = g->m.put_items_from_loc( type->death_drops, pos(), calendar::turn );
-    if( !type->in_species( ZOMBIE ) ) {
+    if( !type->in_species( ZOMBIE ) && !type->in_species( FUNGUS ) && !type->in_species( ABERRATION ) ) {
         return;
     }
     for( const auto &it : dropped ) {
