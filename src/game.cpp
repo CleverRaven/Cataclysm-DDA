@@ -7287,16 +7287,16 @@ void game::close( const tripoint &closep )
             }
             for( auto &elem : items_in_way ) {
                 // Don't even count tiny items.
-                if( elem.volume() < 1 ) {
+                if( elem.volume() / units::legacy_volume_factor < 1 ) {
                     continue;
                 }
-                if( elem.volume() > 10 ) {
+                if( elem.volume() / units::legacy_volume_factor > 10 ) {
                     add_msg( m_info, _( "There's a %s in the way that is too big to just nudge out "
                                         "of the way." ),
                              elem.tname().c_str() );
                     return;
                 }
-                total_item_volume += elem.volume();
+                total_item_volume += elem.volume() / units::legacy_volume_factor;
                 if (total_item_volume > 10) {
                     add_msg(m_info, _("There is too much stuff in the way."));
                     return;
@@ -7375,7 +7375,7 @@ void game::smash()
         if (u.get_skill_level( skill_melee ) == 0) {
             u.practice( skill_melee, rng(0, 1) * rng(0, 1));
         }
-        const int vol = u.weapon.volume();
+        const int vol = u.weapon.volume() / units::legacy_volume_factor;
         if (u.weapon.made_of( material_id( "glass" ) ) &&
             rng(0, vol + 3) < vol) {
             add_msg(m_bad, _("Your %s shatters!"), u.weapon.tname().c_str());
@@ -7654,7 +7654,7 @@ bool game::forced_door_closing( const tripoint &p, const ter_id door_type, int b
             if( elem.made_of( LIQUID ) ) {
                 // Liquids are OK, will be destroyed later
                 continue;
-            } else if( elem.volume() <= 0 ) {
+            } else if( elem.volume() / units::legacy_volume_factor <= 0 ) {
                 // Dito for small items, will be moved away
                 continue;
             }
@@ -7934,7 +7934,7 @@ bool pet_menu(monster *z)
 
         if (z->inv.size() > 1) {
             for (auto &i : z->inv) {
-                max_cap -= i.volume();
+                max_cap -= i.volume() / units::legacy_volume_factor;
                 max_weight -= i.weight();
             }
         }
@@ -11418,7 +11418,7 @@ void game::read()
         return;
     }
 
-    if( u.volume_carried() + book->volume() > u.volume_capacity() ) {
+    if( u.volume_carried() + book->volume() / units::legacy_volume_factor > u.volume_capacity() ) {
         add_msg( _( "No space in inventory for %s" ), book->tname().c_str() );
         return;
     }

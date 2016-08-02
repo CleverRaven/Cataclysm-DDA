@@ -513,7 +513,7 @@ int stumble(player &u)
     // Fist: 0
 
     ///\EFFECT_STR reduces chance of stumbling with heavier weapons
-    return ( 2 * u.weapon.volume() ) +
+    return ( 2 * u.weapon.volume() / units::legacy_volume_factor ) +
            ( u.weapon.weight() / ( u.str_cur * 10 + 13.0f ) );
 }
 
@@ -1700,7 +1700,7 @@ std::string player::melee_special_effects(Creature &t, damage_instance &d, const
         }
     }
 
-    const int vol = weapon.volume();
+    const int vol = weapon.volume() / units::legacy_volume_factor;
     // Glass weapons shatter sometimes
     if (weapon.made_of( material_id( "glass" ) ) &&
         ///\EFFECT_STR increases chance of breaking glass weapons (NEGATIVE)

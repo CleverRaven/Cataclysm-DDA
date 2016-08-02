@@ -1218,7 +1218,7 @@ int npc::confident_throw_range( const item &thrown ) const
     ///\EFFECT_STR_NPC increases throwing confidence of heavy items
     deviation += std::min( ( thrown.weight() / 100 ) - str_cur, 0 );
 
-    deviation += thrown.volume() / 4;
+    deviation += thrown.volume() / units::legacy_volume_factor / 4;
 
     deviation += encumb( bp_hand_r ) + encumb( bp_hand_l ) + encumb( bp_eyes );
 
@@ -1691,7 +1691,7 @@ void npc::find_item()
         int itval = whitelisting ? 1000 : value( it );
         
         if( itval > best_value &&
-            ( it.volume() <= volume_allowed && it.weight() <= weight_allowed ) ) {
+            ( it.volume() / units::legacy_volume_factor <= volume_allowed && it.weight() <= weight_allowed ) ) {
             wanted_item_pos = p;
             wanted = &( it );
             best_value = itval;
@@ -1849,7 +1849,7 @@ std::list<item> npc_pickup_from_stack( npc &who, T &items )
             continue;
         }
 
-        auto volume = it.volume();
+        auto volume = it.volume() / units::legacy_volume_factor;
         if( volume > volume_allowed ) {
             iter++;
             continue;
@@ -1907,7 +1907,7 @@ void npc::drop_items(int weight, int volume)
             vol_ratio = 99999;
         } else {
             wgt_ratio = it.weight() / value(it);
-            vol_ratio = it.volume() / value(it);
+            vol_ratio = it.volume() / units::legacy_volume_factor / value(it);
         }
         bool added_wgt = false, added_vol = false;
         for (size_t j = 0; j < rWgt.size() && !added_wgt; j++) {
@@ -1963,7 +1963,7 @@ void npc::drop_items(int weight, int volume)
             }
         }
         weight_dropped += slice[index]->front().weight();
-        volume_dropped += slice[index]->front().volume();
+        volume_dropped += slice[index]->front().volume() / units::legacy_volume_factor;
         item dropped = i_rem(index);
         num_items_dropped++;
         if (num_items_dropped == 1) {

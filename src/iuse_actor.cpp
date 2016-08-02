@@ -1113,7 +1113,7 @@ bool salvage_actor::valid_to_cut_up(const item *it) const
     if( !it->contents.empty() ) {
         return false;
     }
-    if (it->volume() == 0) {
+    if (it->volume() / units::legacy_volume_factor == 0) {
         return false;
     }
 
@@ -1147,7 +1147,7 @@ bool salvage_actor::try_to_cut_up( player *p, item *it ) const
         add_msg(m_info, _("Please empty the %s before cutting it up."), it->tname().c_str());
         return false;
     }
-    if( it->volume() == 0 ) {
+    if( it->volume() / units::legacy_volume_factor == 0 ) {
         add_msg(m_info, _("The %s is too small to salvage material from."), it->tname().c_str());
         return false;
     }
@@ -1176,7 +1176,7 @@ int salvage_actor::cut_up(player *p, item *it, item *cut) const
     int pos = p->get_item_position(cut);
     // total number of raw components == total volume of item.
     // This can go awry if there is a volume / recipe mismatch.
-    int count = cut->volume();
+    int count = cut->volume() / units::legacy_volume_factor;
     // Chance of us losing a material component to entropy.
     ///\EFFECT_FABRICATION reduces chance of losing components when cutting items up
     int entropy_threshold = std::max(5, 10 - p->get_skill_level( skill_fabrication ) );
@@ -1895,7 +1895,7 @@ void holster_actor::load( JsonObject &obj )
 }
 
 bool holster_actor::can_holster( const item& obj ) const {
-    if( obj.volume() > max_volume || obj.volume() < min_volume ) {
+    if( obj.volume() / units::legacy_volume_factor > max_volume || obj.volume() / units::legacy_volume_factor < min_volume ) {
         return false;
     }
     if( max_weight > 0 && obj.weight() > max_weight ) {
@@ -1913,13 +1913,13 @@ bool holster_actor::store( player &p, item& holster, item& obj ) const
     }
 
     // if selected item is unsuitable inform the player why not
-    if( obj.volume() > max_volume ) {
+    if( obj.volume() / units::legacy_volume_factor > max_volume ) {
         p.add_msg_if_player( m_info, _( "Your %1$s is too big to fit in your %2$s" ),
                              obj.tname().c_str(), holster.tname().c_str() );
         return false;
     }
 
-    if( obj.volume() < min_volume ) {
+    if( obj.volume() / units::legacy_volume_factor < min_volume ) {
         p.add_msg_if_player( m_info, _( "Your %1$s is too small to fit in your %2$s" ),
                               obj.tname().c_str(), holster.tname().c_str() );
         return false;
@@ -2278,8 +2278,8 @@ bool repair_item_actor::handle_components( player &pl, const item &fix,
     //  otherwise number is related to size of item
     // Round up if checking, but roll if actually consuming
     const int items_needed = std::max<int>( 1, just_check ?
-        ceil( fix.volume() * cost_scaling ) :
-        divide_roll_remainder( fix.volume() * cost_scaling, 1.0f ) );
+        ceil( fix.volume() / units::legacy_volume_factor * cost_scaling ) :
+        divide_roll_remainder( fix.volume() / units::legacy_volume_factor * cost_scaling, 1.0f ) );
 
     // Go through all discovered repair items and see if we have any of them available
     for( const auto &entry : valid_entries ) {

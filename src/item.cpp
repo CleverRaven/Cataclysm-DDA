@@ -697,7 +697,7 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
                             ( double )price_postapoc / 100, false, "$", true, true ) );
         }
 
-        info.push_back( iteminfo( "BASE", _( "<bold>Volume</bold>: " ), "", volume(), true, "", false,
+        info.push_back( iteminfo( "BASE", _( "<bold>Volume</bold>: " ), "", volume() / units::legacy_volume_factor, true, "", false,
                                   true ) );
 
         info.push_back( iteminfo( "BASE", space + _( "Weight: " ),
@@ -2225,7 +2225,7 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
 
     std::string burntext = "";
     if (with_prefix && !made_of(LIQUID)) {
-        if (volume() >= 4 && burnt >= volume() * 2) {
+        if (volume() / units::legacy_volume_factor >= 4 && burnt >= volume() / units::legacy_volume_factor * 2) {
             burntext = pgettext( "burnt adjective", "badly burnt " );
         } else if (burnt > 0) {
             burntext = pgettext( "burnt adjective", "burnt " );
@@ -2526,7 +2526,7 @@ int item::precise_unit_volume() const
     if( count_by_charges() || made_of( LIQUID ) ) {
         return get_var( "volume", type->volume / units::legacy_volume_factor ) * 1000 / type->stack_size;
     }
-    return volume() * 1000;
+    return volume() / units::legacy_volume_factor * 1000;
 }
 
 static int corpse_volume( m_size corpse_size )
@@ -2555,14 +2555,14 @@ int item::base_volume() const
     return type->volume / units::legacy_volume_factor;
 }
 
-int item::volume( bool integral ) const
+units::volume item::volume( bool integral ) const
 {
     if( is_null() ) {
         return 0;
     }
 
     if( is_corpse() ) {
-        return corpse_volume( corpse->size );
+        return corpse_volume( corpse->size ) * units::legacy_volume_factor;
     }
 
     const int local_volume = get_var( "volume", -1 );
@@ -2583,18 +2583,18 @@ int item::volume( bool integral ) const
     // Non-rigid items add the volume of the content
     if( !type->rigid ) {
         for( auto &elem : contents ) {
-            ret += elem.volume() * units::legacy_volume_factor;
+            ret += elem.volume();
         }
     }
 
     // Some magazines sit (partly) flush with the item so add less extra volume
     if( magazine_current() != nullptr ) {
-        ret += std::max( magazine_current()->volume() * units::legacy_volume_factor - type->magazine_well, units::volume( 0 ) );
+        ret += std::max( magazine_current()->volume() - type->magazine_well, units::volume( 0 ) );
     }
 
     if (is_gun()) {
         for( const auto elem : gunmods() ) {
-            ret += elem->volume( true ) * units::legacy_volume_factor;
+            ret += elem->volume( true );
         }
 
         // @todo implement stock_length property for guns
@@ -2626,7 +2626,7 @@ int item::volume( bool integral ) const
         ret += type->maximum_charges() * units::legacy_volume_factor / 100;
     }
 
-    return ret / units::legacy_volume_factor;
+    return ret;
 }
 
 int item::lift_strength() const
@@ -2636,7 +2636,7 @@ int item::lift_strength() const
 
 int item::attack_time() const
 {
-    int ret = 65 + 4 * volume() + weight() / 60;
+    int ret = 65 + 4 * volume() / units::legacy_volume_factor + weight() / 60;
     return ret;
 }
 
@@ -2898,7 +2898,7 @@ int item::get_encumber() const
     const auto t = find_armor_data();
     if( t == nullptr ) {
         // handle wearable guns (eg. shoulder strap) as special case
-        return is_gun() ? volume() / 3 : 0;
+        return is_gun() ? volume() / units::legacy_volume_factor / 3 : 0;
     }
     // it_armor::encumber is signed char
     int encumber = static_cast<int>( t->encumber );
@@ -2906,7 +2906,7 @@ int item::get_encumber() const
     // Non-rigid items add additional encumbrance proportional to their volume
     if( !type->rigid ) {
         for( const auto &e : contents ) {
-            encumber += e.volume();
+            encumber += e.volume() / units::legacy_volume_factor;
         }
     }
 
@@ -3016,7 +3016,7 @@ bool item::ready_to_revive( const tripoint &pos ) const
         return false;
     }
     int age_in_hours = (int(calendar::turn) - bday) / HOURS( 1 );
-    age_in_hours -= int((float)burnt / volume() * 24);
+    age_in_hours -= int((float)burnt / ( volume() / units::legacy_volume_factor ) * 24);
     if( damage() > 0 ) {
         age_in_hours /= ( damage() + 1 );
     }
@@ -5387,7 +5387,7 @@ bool item::process_corpse( player *carrier, const tripoint &pos )
     }
 
     active = false;
-    if( rng( 0, volume() ) > burnt && g->revive_corpse( pos, *this ) ) {
+    if( rng( 0, volume() / units::legacy_volume_factor ) > burnt && g->revive_corpse( pos, *this ) ) {
         if( carrier == nullptr ) {
             if( g->u.sees( pos ) ) {
                 if( corpse->in_species( ROBOT ) ) {

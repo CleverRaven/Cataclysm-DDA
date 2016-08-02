@@ -390,7 +390,7 @@ bool player::activate_bionic( int b, bool eff_only )
         for( auto it = g->m.i_at(pos()).begin();
              it != g->m.i_at(pos()).end(); ++it) {
             if( it->is_corpse() ) {
-                const int avail = it->get_var( "remaining_water", it->volume() / 2 );
+                const int avail = it->get_var( "remaining_water", it->volume() / units::legacy_volume_factor / 2 );
                 if(avail > 0 && query_yn(_("Extract water from the %s"), it->tname().c_str())) {
                     item water( "water_clean", calendar::turn, avail );
                     if( g->consume_liquid( water ) ) {

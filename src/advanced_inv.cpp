@@ -738,7 +738,7 @@ advanced_inv_listitem::advanced_inv_listitem( item *an_item, int index, int coun
     , name_without_prefix( an_item->tname( 1, false ) )
     , autopickup( get_auto_pickup().has_rule( an_item->tname( 1, false ) ) )
     , stacks( count )
-    , volume( an_item->volume() * stacks )
+    , volume( an_item->volume() / units::legacy_volume_factor * stacks )
     , weight( an_item->weight() * stacks )
     , cat( &an_item->get_category() )
     , from_vehicle( from_veh )
@@ -757,7 +757,7 @@ advanced_inv_listitem::advanced_inv_listitem(const std::list<item*> &list, int i
     name_without_prefix(list.front()->tname(1, false)),
     autopickup(get_auto_pickup().has_rule(list.front()->tname(1, false))),
     stacks(list.size()),
-    volume(list.front()->volume() * stacks),
+    volume(list.front()->volume() / units::legacy_volume_factor * stacks),
     weight(list.front()->weight() * stacks),
     cat(&list.front()->get_category()),
     from_vehicle(veh)

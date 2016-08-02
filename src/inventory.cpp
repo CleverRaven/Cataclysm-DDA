@@ -637,14 +637,14 @@ std::list<item> inventory::remove_randomly_by_volume(int volume)
         auto chosen_item = chosen_stack->begin();
         for( auto stack = items.begin(); stack != items.end(); ++stack ) {
             for( auto stack_it = stack->begin(); stack_it != stack->end(); ++stack_it ) {
-                cumulative_volume += stack_it->volume();
-                if( x_in_y( stack_it->volume(), cumulative_volume ) ) {
+                cumulative_volume += stack_it->volume() / units::legacy_volume_factor;
+                if( x_in_y( stack_it->volume() / units::legacy_volume_factor, cumulative_volume ) ) {
                     chosen_item = stack_it;
                     chosen_stack = stack;
                 }
             }
         }
-        volume_dropped += chosen_item->volume();
+        volume_dropped += chosen_item->volume() / units::legacy_volume_factor;
         result.push_back( std::move( *chosen_item ) );
         chosen_item = chosen_stack->erase( chosen_item );
         if( chosen_item == chosen_stack->begin() && !chosen_stack->empty() ) {
@@ -810,7 +810,7 @@ int inventory::leak_level(std::string flag) const
         for( const auto &elem_stack_iter : elem ) {
             if( elem_stack_iter.has_flag( flag ) ) {
                 if( elem_stack_iter.has_flag( "LEAK_ALWAYS" ) ) {
-                    ret += elem_stack_iter.volume();
+                    ret += elem_stack_iter.volume() / units::legacy_volume_factor;
                 } else if( elem_stack_iter.has_flag( "LEAK_DAM" ) && elem_stack_iter.damage() > 0 ) {
                     ret += elem_stack_iter.damage();
                 }
@@ -944,7 +944,7 @@ int inventory::volume() const
     int ret = 0;
     for( const auto &elem : items ) {
         for( const auto &elem_stack_iter : elem ) {
-            ret += elem_stack_iter.volume();
+            ret += elem_stack_iter.volume() / units::legacy_volume_factor;
         }
     }
     return ret;

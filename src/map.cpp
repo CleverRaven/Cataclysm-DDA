@@ -3163,7 +3163,7 @@ void map::smash_items(const tripoint &p, const int power)
         }
 
         // The volume check here pretty much only influences corpses and very large items
-        const float volume_factor = std::max<float>( 40, i->volume() );
+        const float volume_factor = std::max<float>( 40, i->volume() / units::legacy_volume_factor );
         float damage_chance = 10.0f * power / volume_factor;
         // Example:
         // Power 40 (just below C4 epicenter) vs two-by-four
@@ -4466,7 +4466,7 @@ int map::stored_volume(const tripoint &p) {
     }
     int cur_volume = 0;
     for( auto &n : i_at(p) ) {
-        cur_volume += n.volume();
+        cur_volume += n.volume() / units::legacy_volume_factor;
     }
     return cur_volume;
 }
@@ -4503,7 +4503,7 @@ item &map::add_item_or_charges(const tripoint &p, item new_item, int overflow_ra
     const bool tryaddcharges = new_item.charges != -1 && new_item.count_by_charges();
     std::vector<tripoint> ps = closest_tripoints_first(overflow_radius, p);
     for( const auto &p_it : ps ) {
-        if( !inbounds(p_it) || new_item.volume() > free_volume(p_it) ||
+        if( !inbounds(p_it) || new_item.volume() / units::legacy_volume_factor > free_volume(p_it) ||
             has_flag("DESTROY_ITEM", p_it) || has_flag("NOITEM", p_it) ) {
             continue;
         }

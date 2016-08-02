@@ -1762,7 +1762,7 @@ void iexamine::kiln_empty(player &p, const tripoint &examp)
     // Burn stuff that should get charred, leave out the rest
     int total_volume = 0;
     for( auto i : items ) {
-        total_volume += i.volume();
+        total_volume += i.volume() / units::legacy_volume_factor;
     }
 
     auto char_type = item::find_type( "unfinished_charcoal" );
@@ -1828,7 +1828,7 @@ void iexamine::kiln_full(player &, const tripoint &examp)
     // Burn stuff that should get charred, leave out the rest
     for( auto item_it = items.begin(); item_it != items.end(); ) {
         if( item_it->typeId() == "unfinished_charcoal" || item_it->typeId() == "charcoal" ) {
-            total_volume += item_it->volume();
+            total_volume += item_it->volume() / units::legacy_volume_factor;
             item_it = items.erase( item_it );
         } else {
             item_it++;
@@ -1914,7 +1914,7 @@ void iexamine::fvat_empty(player &p, const tripoint &examp)
         for (int i = 0; i < charges_held && !vat_full; i++) {
             p.use_charges(brew_type, 1);
             brew.charges++;
-            if ( ( brew.count_by_charges() ? brew.volume() : brew.volume() * brew.charges ) >= 100 ) {
+            if ( ( brew.count_by_charges() ? brew.volume() / units::legacy_volume_factor : brew.volume() / units::legacy_volume_factor * brew.charges ) >= 100 ) {
                 vat_full = true; //vats hold 50 units of brew, or 350 charges for a count_by_charges brew
             }
         }
@@ -2076,7 +2076,7 @@ void iexamine::keg(player &p, const tripoint &examp)
         for (int i = 0; i < charges_held && !keg_full; i++) {
             g->u.use_charges(drink.typeId(), 1);
             drink.charges++;
-            keg_full = drink.volume() >= keg_cap;
+            keg_full = drink.volume() / units::legacy_volume_factor >= keg_cap;
         }
         if( keg_full ) {
             add_msg(_("You completely fill the %1$s with %2$s."),
@@ -2138,7 +2138,7 @@ void iexamine::keg(player &p, const tripoint &examp)
 
         case REFILL: {
             int charges_held = p.charges_of(drink->typeId());
-            if( drink->volume() >= keg_cap ) {
+            if( drink->volume() / units::legacy_volume_factor >= keg_cap ) {
                 add_msg(_("The %s is completely full."), g->m.name(examp).c_str());
                 return;
             }
@@ -2159,7 +2159,7 @@ void iexamine::keg(player &p, const tripoint &examp)
         case EXAMINE: {
             add_msg(m_info, _("That is a %s."), g->m.name(examp).c_str());
             add_msg(m_info, _("It contains %s (%d), %0.f%% full."),
-                    drink->tname().c_str(), drink->charges, double( drink->volume() ) / keg_cap * 100 );
+                    drink->tname().c_str(), drink->charges, double( drink->volume() / units::legacy_volume_factor ) / keg_cap * 100 );
             return;
         }
 
@@ -2190,13 +2190,13 @@ bool iexamine::pour_into_keg( const tripoint &pos, item &liquid )
     }
 
     item &drink = stack.front();
-    if( drink.volume() >= keg_cap ) {
+    if( drink.volume() / units::legacy_volume_factor >= keg_cap ) {
         add_msg( _( "The %s is full." ), keg_name.c_str() );
         return false;
     }
 
     add_msg( _( "You pour %1$s into the %2$s." ), liquid.tname().c_str(), keg_name.c_str() );
-    while( liquid.charges > 0 && drink.volume() < keg_cap ) {
+    while( liquid.charges > 0 && drink.volume() / units::legacy_volume_factor < keg_cap ) {
         drink.charges++;
         liquid.charges--;
     }

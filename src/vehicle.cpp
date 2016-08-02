@@ -3877,7 +3877,7 @@ void vehicle::operate_reaper(){
             g->m.ter( reaper_pos ) == t_dirtmound ) {
             map_stack stack( g->m.i_at( reaper_pos ) );
             for( auto iter = stack.begin(); iter != stack.end(); ) {
-                if( ( iter->volume() <= max_pickup_volume ) &&
+                if( ( iter->volume() / units::legacy_volume_factor <= max_pickup_volume ) &&
                     add_item( reaper_id, *iter ) ) {
                     iter = stack.erase( iter );
                 } else {
@@ -3949,7 +3949,7 @@ void vehicle::operate_scoop()
             }
             size_t itemdex = 0;
             for( auto it : q ) {
-                if( it.volume() < max_pickup_volume ) {
+                if( it.volume() / units::legacy_volume_factor < max_pickup_volume ) {
                     that_item_there = g->m.item_from( position, itemdex );
                     break;
                 }
@@ -3962,7 +3962,7 @@ void vehicle::operate_scoop()
                 //The scoop will not destroy the item, but it may damage it a bit.
                 that_item_there->inc_damage( DT_BASH );
                 //The scoop gets a lot louder when breaking an item.
-                sounds::sound( position, rng(10, (long)that_item_there->volume() * 2 + 10),
+                sounds::sound( position, rng(10, that_item_there->volume() / units::legacy_volume_factor * 2 + 10),
                                _("BEEEThump") );
             }
             const int battery_deficit = discharge_battery( that_item_there->weight() *
@@ -4779,7 +4779,7 @@ int vehicle::stored_volume(int const part) const
     }
     int cur_volume = 0;
     for( auto &i : get_items(part) ) {
-       cur_volume += i.volume();
+       cur_volume += i.volume() / units::legacy_volume_factor;
     }
     return cur_volume;
 }
@@ -4820,11 +4820,11 @@ bool vehicle::add_item( int part, const item &itm )
     }
 
     int cur_volume = 0;
-    int add_volume = itm.volume();
+    int add_volume = itm.volume() / units::legacy_volume_factor;
     bool tryaddcharges=(itm.charges  != -1 && itm.count_by_charges());
     // iterate anyway since we need a volume total
     for (auto &i : parts[part].items) {
-        cur_volume += i.volume();
+        cur_volume += i.volume() / units::legacy_volume_factor;
         if( tryaddcharges && i.merge_charges( itm ) ) {
             invalidate_mass();
             return true;

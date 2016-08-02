@@ -18,6 +18,7 @@
 #include "item_location.h"
 #include "damage.h"
 #include "debug.h"
+#include "units.h"
 
 class game;
 class Character;
@@ -345,7 +346,7 @@ class item : public JsonSerializer, public JsonDeserializer, public visitable<it
 
     /* Total volume of an item accounting for all contained/integrated items
      * @param integral if true return effective volume if item was integrated into another */
-    int volume( bool integral = false ) const;
+    units::volume volume( bool integral = false ) const;
 
     /** Simplified, faster volume check for when processing time is important and exact volume is not. */
     int base_volume() const;

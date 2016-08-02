@@ -687,7 +687,7 @@ dealt_projectile_attack player::throw_item( const tripoint &target, const item &
         deviation -= per_cur - 8;
     }
 
-    const int vol = thrown.volume();
+    const int vol = thrown.volume() / units::legacy_volume_factor;
 
     deviation += rng(0, ((encumb(bp_hand_l) + encumb(bp_hand_r)) + encumb(bp_eyes) + 1) / 10);
     if (vol > 5) {
@@ -1671,7 +1671,7 @@ double player::get_weapon_dispersion( const item &obj ) const
     if( is_driving( *this ) ) {
         // get volume of gun (or for auxiliary gunmods the parent gun)
         const item *parent = has_item( obj ) ? find_parent( obj ) : nullptr;
-        int vol = parent ? parent->volume() : obj.volume();
+        int vol = ( parent ? parent->volume() : obj.volume() ) / units::legacy_volume_factor;
 
         ///\EFFECT_DRIVING reduces the inaccuracy penalty when using guns whilst driving
         dispersion += std::max( vol - get_skill_level( skill_driving ), 1 ) * 20;
@@ -1749,7 +1749,7 @@ void drop_or_embed_projectile( const dealt_projectile_attack &attack )
     // Don't embed in small creatures
     if( embed ) {
         const m_size critter_size = mon->get_size();
-        const int vol = dropped_item.volume();
+        const int vol = dropped_item.volume() / units::legacy_volume_factor;
         embed = embed && ( critter_size > MS_TINY || vol < 1 );
         embed = embed && ( critter_size > MS_SMALL || vol < 2 );
         // And if we deal enough damage
@@ -1872,7 +1872,7 @@ double player::gun_value( const item &weap, long ammo ) const
 
     // Penalty for dodging in melee makes the gun unusable in melee
     // Until NPCs get proper kiting, at least
-    int melee_penalty = weapon.volume() - get_skill_level( skill_dodge );
+    int melee_penalty = weapon.volume() / units::legacy_volume_factor - get_skill_level( skill_dodge );
     if( melee_penalty <= 0 ) {
         // Dispersion matters less if you can just use the gun in melee
         total_dispersion = std::min<int>(

@@ -1056,7 +1056,7 @@ classes = {
             { name = "typeId", rval = "string", args = { } },
             { name = "type_name", rval = "string", args = { "int" } },
             { name = "type_name", rval = "string", args = { } },
-            { name = "volume", rval = "int", args = { } },
+            { name = "volume", rval = "volume", args = { } },
             { name = "weap_skill", rval = "skill_id", args = { } },
             { name = "weight", rval = "int", args = { } },
         }

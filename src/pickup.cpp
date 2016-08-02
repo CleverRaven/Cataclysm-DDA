@@ -268,7 +268,7 @@ static bool select_autopickup_items( std::vector<item> &here, std::vector<pickup
     for( size_t iVol = 0, iNumChecked = 0; iNumChecked < here.size(); iVol++ ) {
         for( size_t i = 0; i < here.size(); i++ ) {
             bPickup = false;
-            if( here[i].volume() == ( int )iVol ) {
+            if( here[i].volume() / units::legacy_volume_factor == ( int )iVol ) {
                 iNumChecked++;
                 const std::string sItemName = here[i].tname( 1, false );
 

@@ -636,7 +636,7 @@ sfx::sound_thread::sound_thread( const tripoint &source, const tripoint &target,
     }
     ang_targ = get_heard_angle( target );
     weapon_skill = p->weapon.weap_skill();
-    weapon_volume = p->weapon.volume();
+    weapon_volume = p->weapon.volume() / units::legacy_volume_factor;
 }
 
 // Operator overload required for thread API.

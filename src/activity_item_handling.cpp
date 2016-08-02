@@ -94,13 +94,13 @@ void stash_on_pet( const std::list<item> &items, monster &pet )
     int remaining_weight = pet.weight_capacity();
 
     for( const auto &it : pet.inv ) {
-        remaining_volume -= it.volume();
+        remaining_volume -= it.volume() / units::legacy_volume_factor;
         remaining_weight -= it.weight();
     }
 
     for( auto &it : items ) {
         pet.add_effect( effect_controlled, 5 );
-        if( it.volume() > remaining_volume ) {
+        if( it.volume() / units::legacy_volume_factor > remaining_volume ) {
             add_msg( m_bad, _( "%1$s did not fit and fell to the %2$s." ),
                      it.display_name().c_str(), g->m.name( pet.pos() ).c_str() );
             g->m.add_item_or_charges( pet.pos(), it, 1 );
@@ -110,7 +110,7 @@ void stash_on_pet( const std::list<item> &items, monster &pet )
             g->m.add_item_or_charges( pet.pos(), it, 1 );
         } else {
             pet.add_item( it );
-            remaining_volume -= it.volume();
+            remaining_volume -= it.volume() / units::legacy_volume_factor;
             remaining_weight -= it.weight();
         }
     }
@@ -264,12 +264,13 @@ std::list<act_item> reorder_for_dropping( const player &p, const drop_indexes &d
         storage_loss += worn.front().it->get_storage();
         remaining_storage -= p.volume_capacity_reduced_by( storage_loss );
 
-        if( remaining_storage < inv.front().it->volume() ) {
+        if( remaining_storage < inv.front().it->volume() / units::legacy_volume_factor ) {
             break; // Does not fit
         }
 
-        while( !inv.empty() && remaining_storage >= inv.front().it->volume() ) {
-            remaining_storage -= inv.front().it->volume();
+        while( !inv.empty() &&
+               remaining_storage >= inv.front().it->volume() / units::legacy_volume_factor ) {
+            remaining_storage -= inv.front().it->volume() / units::legacy_volume_factor;
 
             res.push_back( inv.front() );
             res.back().consumed_moves = 0; // Free of charge

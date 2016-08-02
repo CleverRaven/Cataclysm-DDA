@@ -34,7 +34,7 @@ float pit_effectiveness( const tripoint &p )
     int corpse_volume = 0;
     for( auto &pit_content : g->m.i_at( p ) ) {
         if( pit_content.is_corpse() ) {
-            corpse_volume += pit_content.volume();
+            corpse_volume += pit_content.volume() / units::legacy_volume_factor;
         }
     }
 

@@ -2640,7 +2640,7 @@ void dialogue::gen_responses( const talk_topic &the_topic )
                 add_response_done( _("Bye.") );
             } else {
                 if (!g->u.unarmed_attack()) {
-                    if (g->u.volume_carried() + g->u.weapon.volume() <= g->u.volume_capacity()){
+                    if (g->u.volume_carried() + g->u.weapon.volume() / units::legacy_volume_factor <= g->u.volume_capacity()){
                         RESPONSE(_("&Put away weapon."));
                             SUCCESS("TALK_STRANGER_NEUTRAL");
                                 SUCCESS_ACTION(&talk_function::player_weapon_away);

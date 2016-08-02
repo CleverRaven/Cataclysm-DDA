@@ -1632,7 +1632,7 @@ void player::complete_disassemble()
 
         // Twice the volume then multiplied by 10.
         // A book with volume 3 will give 60 pages.
-        const int num_pages = ( org_item.volume() * 2 ) * 10;
+        const int num_pages = ( org_item.volume() / units::legacy_volume_factor * 2 ) * 10;
         g->m.spawn_item( pos(), "paper", 0, num_pages );
         if( from_ground ) {
             g->m.i_rem( loc, item_pos );
