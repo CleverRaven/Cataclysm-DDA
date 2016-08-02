@@ -174,131 +174,131 @@
             {"item": "steel_chunk", "count": [4, 6]},
             {"item": "scrap", "count": [4, 6]}
         ]
-	},{
-		"id": "aisle_lights",
-		"copy-from": "aisle_lights",
-		"type": "vehicle_part",
+    },{
+        "id": "aisle_lights",
+        "copy-from": "aisle_lights",
+        "type": "vehicle_part",
         "name" : "aisle lights",
-		"extend": { "flags": [ "FOLDABLE" ] },
+        "extend": { "flags": [ "FOLDABLE" ] },
         "folded_volume": 2
     },{
-		"id": "gas_tank_little",
-		"copy-from": "gas_tank_little",
-		"type": "vehicle_part",
+        "id": "gas_tank_little",
+        "copy-from": "gas_tank_little",
+        "type": "vehicle_part",
         "name" : "gasoline tank (2L)",
-		"extend": { "flags": [ "FOLDABLE" ] },
+        "extend": { "flags": [ "FOLDABLE" ] },
         "folded_volume": 5
     },{
-		"id": "diesel_tank_little",
-		"copy-from": "diesel_tank_little",
-		"type": "vehicle_part",
+        "id": "diesel_tank_little",
+        "copy-from": "diesel_tank_little",
+        "type": "vehicle_part",
         "name" : "diesel tank (2L)",
-		"extend": { "flags": [ "FOLDABLE" ] },
+        "extend": { "flags": [ "FOLDABLE" ] },
         "folded_volume": 5
     },{
-		"id": "storage_battery_mount",
-		"copy-from": "storage_battery_mount",
-		"type": "vehicle_part",
+        "id": "storage_battery_mount",
+        "copy-from": "storage_battery_mount",
+        "type": "vehicle_part",
         "name" : "swappable storage battery case",
-		"extend": { "flags": [ "FOLDABLE" ] },
+        "extend": { "flags": [ "FOLDABLE" ] },
         "folded_volume": 9
     },{
-		"id": "vehicle_alarm",
-		"copy-from": "vehicle_alarm",
-		"type": "vehicle_part",
+        "id": "vehicle_alarm",
+        "copy-from": "vehicle_alarm",
+        "type": "vehicle_part",
         "name" : "security system",
-		"extend": { "flags": [ "FOLDABLE" ] },
+        "extend": { "flags": [ "FOLDABLE" ] },
         "folded_volume": 1
     },{
-		"id": "solar_panel",
-		"copy-from": "solar_panel",
-		"type": "vehicle_part",
+        "id": "solar_panel",
+        "copy-from": "solar_panel",
+        "type": "vehicle_part",
         "name" : "solar panel",
-		"extend": { "flags": [ "FOLDABLE" ] },
+        "extend": { "flags": [ "FOLDABLE" ] },
         "folded_volume": 12
     },{
-		"id": "reinforced_solar_panel",
-		"copy-from": "reinforced_solar_panel",
-		"type": "vehicle_part",
+        "id": "reinforced_solar_panel",
+        "copy-from": "reinforced_solar_panel",
+        "type": "vehicle_part",
         "name" : "reinforced solar panel",
-		"extend": { "flags": [ "FOLDABLE" ] },
+        "extend": { "flags": [ "FOLDABLE" ] },
         "folded_volume": 26
     },{
-		"id": "solar_panel_v2",
-		"copy-from": "solar_panel_v2",
-		"type": "vehicle_part",
+        "id": "solar_panel_v2",
+        "copy-from": "solar_panel_v2",
+        "type": "vehicle_part",
         "name" : "upgraded solar panel",
-		"extend": { "flags": [ "FOLDABLE" ] },
+        "extend": { "flags": [ "FOLDABLE" ] },
         "folded_volume": 18
     },{
-		"id": "reinforced_solar_panel_v2",
-		"copy-from": "reinforced_solar_panel_v2",
-		"type": "vehicle_part",
+        "id": "reinforced_solar_panel_v2",
+        "copy-from": "reinforced_solar_panel_v2",
+        "type": "vehicle_part",
         "name" : "upgraded reinforced solar panel",
-		"extend": { "flags": [ "FOLDABLE" ] },
+        "extend": { "flags": [ "FOLDABLE" ] },
         "folded_volume": 30
     },{
-		"id": "solar_panel_v3",
-		"copy-from": "solar_panel_v3",
-		"type": "vehicle_part",
+        "id": "solar_panel_v3",
+        "copy-from": "solar_panel_v3",
+        "type": "vehicle_part",
         "name" : "quantum solar panel",
-		"extend": { "flags": [ "FOLDABLE" ] },
+        "extend": { "flags": [ "FOLDABLE" ] },
         "folded_volume": 18
     },{
-		"id": "cargo_space",
-		"copy-from": "cargo_space",
-		"type": "vehicle_part",
+        "id": "cargo_space",
+        "copy-from": "cargo_space",
+        "type": "vehicle_part",
         "name" : "cargo space",
-		"extend": { "flags": [ "FOLDABLE" ] },
+        "extend": { "flags": [ "FOLDABLE" ] },
         "folded_volume": 200
     },{
-		"id": "stereo",
-		"copy-from": "stereo",
-		"type": "vehicle_part",
+        "id": "stereo",
+        "copy-from": "stereo",
+        "type": "vehicle_part",
         "name" : "stereo system",
-		"extend": { "flags": [ "FOLDABLE" ] },
+        "extend": { "flags": [ "FOLDABLE" ] },
         "folded_volume": 14
     },{
-		"id": "drive_by_wire_controls",
-		"copy-from": "drive_by_wire_controls",
-		"type": "vehicle_part",
+        "id": "drive_by_wire_controls",
+        "copy-from": "drive_by_wire_controls",
+        "type": "vehicle_part",
         "name" : "drive by wire controls",
-		"extend": { "flags": [ "FOLDABLE" ] },
+        "extend": { "flags": [ "FOLDABLE" ] },
         "folded_volume": 15
     },{
-		"id": "cam_control",
-		"copy-from": "cam_control",
-		"type": "vehicle_part",
+        "id": "cam_control",
+        "copy-from": "cam_control",
+        "type": "vehicle_part",
         "name" : "camera control system",
-		"extend": { "flags": [ "FOLDABLE" ] },
+        "extend": { "flags": [ "FOLDABLE" ] },
         "folded_volume": 16
     },{
-		"id": "omnicam",
-		"copy-from": "omnicam",
-		"type": "vehicle_part",
+        "id": "omnicam",
+        "copy-from": "omnicam",
+        "type": "vehicle_part",
         "name" : "security camera",
-		"extend": { "flags": [ "FOLDABLE" ] },
+        "extend": { "flags": [ "FOLDABLE" ] },
         "folded_volume": 8
     },{
-		"id": "atomic_lamp",
-		"copy-from": "atomic_lamp",
-		"type": "vehicle_part",
+        "id": "atomic_lamp",
+        "copy-from": "atomic_lamp",
+        "type": "vehicle_part",
         "name" : "atomic lamp",
-		"extend": { "flags": [ "FOLDABLE" ] },
+        "extend": { "flags": [ "FOLDABLE" ] },
         "folded_volume": 4
     },{
-		"id": "atomic_light",
-		"copy-from": "atomic_light",
-		"type": "vehicle_part",
+        "id": "atomic_light",
+        "copy-from": "atomic_light",
+        "type": "vehicle_part",
         "name" : "atomic nightlight",
-		"extend": { "flags": [ "FOLDABLE" ] },
+        "extend": { "flags": [ "FOLDABLE" ] },
         "folded_volume": 2
     },{
-		"id": "vehicle_clock",
-		"copy-from": "vehicle_clock",
-		"type": "vehicle_part",
+        "id": "vehicle_clock",
+        "copy-from": "vehicle_clock",
+        "type": "vehicle_part",
         "name" : "clock",
-		"extend": { "flags": [ "FOLDABLE" ] },
+        "extend": { "flags": [ "FOLDABLE" ] },
         "folded_volume": 1
     }
 ]
