@@ -2341,6 +2341,114 @@ int msgtype_to_tilecolor( const game_message_type type, const bool bOldMsg )
     return -1;
 }
 
+bool wildcard_match(const std::string &sTextIn, const std::string &sPatternIn)
+{
+    std::string sText = sTextIn;
+    std::string sPattern = sPatternIn;
+
+    //case insenitive search
+
+    /* Possible patterns
+    *
+    wooD
+    wood*
+    *wood
+    Wood*aRrOW
+    wood*arrow*
+    *wood*arrow
+    *wood*hard* *x*y*z*arrow*
+    */
+
+    if (sText == "") {
+        return false;
+    } else if (sText == "*") {
+        return true;
+    }
+
+    int iPos;
+    std::vector<std::string> vPattern;
+
+    sPattern = wildcard_trim_rule(sPattern);
+
+    wildcard_split(sPattern, '*', vPattern);
+    size_t iNum = vPattern.size();
+
+    if (iNum == 0) { //should never happen
+        return false;
+    } else if (iNum == 1) { // no * found
+        return (sText.length() == vPattern[0].length() && ci_find_substr(sText, vPattern[0]) != -1);
+    }
+
+    for (auto it = vPattern.begin(); it != vPattern.end(); ++it) {
+        if (it == vPattern.begin() && *it != "") { //beginning: ^vPat[i]
+            if (sText.length() < it->length() ||
+                ci_find_substr(sText.substr(0, it->length()), *it) == -1) {
+                return false;
+            }
+
+            sText = sText.substr(it->length(), sText.length() - it->length());
+        } else if (it == vPattern.end() - 1 && *it != "") { //linenend: vPat[i]$
+            if (sText.length() < it->length() ||
+                ci_find_substr(sText.substr(sText.length() - it->length(),
+                                            it->length()), *it) == -1) {
+                return false;
+            }
+        } else { //inbetween: vPat[i]
+            if (*it != "") {
+                if ((iPos = (int)ci_find_substr(sText, *it)) == -1) {
+                    return false;
+                }
+
+                sText = sText.substr(iPos + (int)it->length(), (int)sText.length() - iPos);
+            }
+        }
+    }
+
+    return true;
+}
+
+std::string wildcard_trim_rule(const std::string &sPatternIn)
+{
+    std::string sPattern = sPatternIn;
+    size_t iPos = 0;
+
+    //Remove all double ** in pattern
+    while((iPos = sPattern.find("**")) != std::string::npos) {
+        sPattern = sPattern.substr(0, iPos) + sPattern.substr(iPos + 1, sPattern.length() - iPos - 1);
+    }
+
+    return sPattern;
+}
+
+std::vector<std::string> &wildcard_split(const std::string &s, char delim, std::vector<std::string> &elems)
+{
+    std::stringstream ss(s);
+    std::string item;
+    elems.clear();
+    while (std::getline(ss, item, delim)) {
+        elems.push_back(item);
+    }
+
+    if ( s.substr(s.length() - 1, 1) == "*") {
+        elems.push_back("");
+    }
+
+    return elems;
+}
+
+// find substring (case insensitive)
+template<typename charT>
+int ci_find_substr( const charT &str1, const charT &str2, const std::locale &loc )
+{
+    typename charT::const_iterator it = std::search( str1.begin(), str1.end(), str2.begin(), str2.end(),
+                                        ci_equal<typename charT::value_type>(loc) );
+    if ( it != str1.end() ) {
+        return it - str1.begin();
+    } else {
+        return -1;    // not found
+    }
+}
+
 // In non-SDL mode, width/height is just what's specified in the menu
 #if !defined(TILES)
 int get_terminal_width()

@@ -76,6 +76,13 @@ namespace std{
     };
 }
 
+//Used in for autopickup and safemode rules
+enum rule_state : int {
+    RULE_NONE,
+    RULE_WHITELISTED,
+    RULE_BLACKLISTED
+};
+
 enum visibility_type {
   VIS_HIDDEN,
   VIS_CLEAR,

@@ -619,6 +619,24 @@ class scrollingcombattext
 
 extern scrollingcombattext SCT;
 
+std::string wildcard_trim_rule( const std::string &sPatternIn );
+bool wildcard_match( const std::string &sTextIn, const std::string &sPatternIn );
+std::vector<std::string> &wildcard_split( const std::string &s, char delim, std::vector<std::string> &elems );
+template<typename charT>
+int ci_find_substr( const charT &str1, const charT &str2, const std::locale &loc = std::locale() );
+// templated version of ci_equal so it could work with both char and wchar_t
+template<typename charT>
+struct ci_equal {
+    public:
+        ci_equal( const std::locale &loc ) : loc_( loc ) {}
+
+        bool operator()( charT ch1, charT ch2 ) {
+            return std::toupper( ch1, loc_ ) == std::toupper( ch2, loc_ );
+        }
+    private:
+        const std::locale &loc_;
+};
+
 /** Get the width in font glyphs of the drawing screen.
  *
  *  May differ from OPTIONS["TERMINAL_X"], for instance in

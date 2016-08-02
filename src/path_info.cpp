@@ -105,6 +105,7 @@ void PATH_INFO::update_config_dir()
     update_pathname("fontlist", FILENAMES["config_dir"] + "fontlist.txt");
     update_pathname("fontdata", FILENAMES["config_dir"] + "fonts.json");
     update_pathname("autopickup", FILENAMES["config_dir"] + "auto_pickup.json");
+    update_pathname("safemode", FILENAMES["config_dir"] + "safemode.json");
     update_pathname("custom_colors", FILENAMES["config_dir"] + "custom_colors.json");
 }
 
@@ -182,6 +183,7 @@ void PATH_INFO::set_standard_filenames(void)
     update_pathname("fontlist", FILENAMES["config_dir"] + "fontlist.txt");
     update_pathname("fontdata", FILENAMES["config_dir"] + "fonts.json");
     update_pathname("autopickup", FILENAMES["config_dir"] + "auto_pickup.json");
+    update_pathname("safemode", FILENAMES["config_dir"] + "safemode.json");
     update_pathname("custom_colors", FILENAMES["config_dir"] + "custom_colors.json");
     update_pathname("worldoptions", "worldoptions.json");
 

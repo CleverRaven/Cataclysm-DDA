@@ -1,6 +1,6 @@
 #include "game.h"
 #include "player.h"
-#include "auto_pickup.h"
+#include "safemode_ui.h"
 #include "output.h"
 #include "debug.h"
 #include "item_factory.h"
@@ -19,18 +19,18 @@
 #include <string>
 #include <locale>
 
-auto_pickup &get_auto_pickup()
+safemode &get_safemode()
 {
-    static auto_pickup single_instance;
+    static safemode single_instance;
     return single_instance;
 }
 
-void auto_pickup::show()
+void safemode::show()
 {
-    show( _(" AUTO PICKUP MANAGER "), true );
+    show( _(" SAFEMODE MANAGER "), true );
 }
 
-void auto_pickup::show( const std::string &custom_name, bool is_autopickup )
+void safemode::show( const std::string &custom_name, bool is_safemode )
 {
     auto vRulesOld = vRules;
 
@@ -106,7 +106,7 @@ void auto_pickup::show( const std::string &custom_name, bool is_autopickup )
     int iColumn = 1;
     int iStartPos = 0;
     bool bStuffChanged = false;
-    input_context ctxt("AUTO_PICKUP");
+    input_context ctxt("SAFEMODE");
     ctxt.register_cardinal();
     ctxt.register_action("CONFIRM");
     ctxt.register_action("QUIT");
@@ -122,8 +122,8 @@ void auto_pickup::show( const std::string &custom_name, bool is_autopickup )
     ctxt.register_action("TEST_RULE");
     ctxt.register_action("HELP_KEYBINDINGS");
 
-    if( is_autopickup ) {
-        ctxt.register_action("SWITCH_AUTO_PICKUP_OPTION");
+    if( is_safemode ) {
+        ctxt.register_action("SWITCH_SAFEMODE_OPTION");
         ctxt.register_action("SWAP_RULE_GLOBAL_CHAR");
     }
 
@@ -137,10 +137,10 @@ void auto_pickup::show( const std::string &custom_name, bool is_autopickup )
                        (iTab == CHARACTER_TAB) ? hilite(c_white) : c_white, _("[<Character>]"));
 
         locx = 55;
-        mvwprintz(w_header, 0, locx, c_white, _("Auto pickup enabled:"));
+        mvwprintz(w_header, 0, locx, c_white, _("Safemode enabled:"));
         locx += shortcut_print(w_header, 1, locx,
-                               (get_option<bool>( "AUTO_PICKUP" ) ? c_ltgreen : c_ltred), c_white,
-                               (get_option<bool>( "AUTO_PICKUP" ) ? _("True") : _("False")));
+                               ((OPTIONS["AUTOSAFEMODE"]) ? c_ltgreen : c_ltred), c_white,
+                               ((OPTIONS["AUTOSAFEMODE"]) ? _("True") : _("False")));
         locx += shortcut_print(w_header, 1, locx, c_white, c_ltgreen, "  ");
         locx += shortcut_print(w_header, 1, locx, c_white, c_ltgreen, _("<S>witch"));
         shortcut_print(w_header, 1, locx, c_white, c_ltgreen, "  ");
@@ -173,7 +173,7 @@ void auto_pickup::show( const std::string &custom_name, bool is_autopickup )
         calcStartPos(iStartPos, iLine, iContentHeight,
                      vRules[iTab].size());
 
-        // display auto pickup
+        // display safemode
         for (int i = iStartPos; i < (int)vRules[iTab].size(); i++) {
             if (i >= iStartPos &&
                 i < iStartPos + ((iContentHeight > (int)vRules[iTab].size()) ?
@@ -287,7 +287,7 @@ void auto_pickup::show( const std::string &custom_name, bool is_autopickup )
 
                 draw_border(w_help);
                 wrefresh(w_help);
-                vRules[iTab][iLine].sRule = trim_rule(string_input_popup(_("Pickup Rule:"),
+                vRules[iTab][iLine].sRule = wildcard_trim_rule(string_input_popup(_("Safemode Rule:"),
                         30, vRules[iTab][iLine].sRule));
             } else if (iColumn == 2) {
                 vRules[iTab][iLine].bExclude =
@@ -329,7 +329,7 @@ void auto_pickup::show( const std::string &custom_name, bool is_autopickup )
             test_pattern(iTab, iLine);
         } else if (action == "SWITCH_OPTION") {
             // @todo Now that NPCs use this function, it could be used for them too
-            get_options().get_option( "AUTO_PICKUP" ).setNext();
+            OPTIONS["AUTOSAFEMODE"].setNext();
             get_options().save();
         }
     }
@@ -339,8 +339,8 @@ void auto_pickup::show( const std::string &custom_name, bool is_autopickup )
     }
 
     if( query_yn( _("Save changes?") ) ) {
-        // NPC pickup rules don't need to be saved explicitly
-        if( is_autopickup ) {
+        // NPC safemode rules don't need to be saved explicitly
+        if( is_safemode ) {
             save_global();
             if( g->u.name != "" ) {
                 save_character();
@@ -349,11 +349,11 @@ void auto_pickup::show( const std::string &custom_name, bool is_autopickup )
             create_rules();
         }
     } else {
-        vRules = vRulesOld;
+         vRules = vRulesOld;
     }
 }
 
-void auto_pickup::test_pattern(const int iTab, const int iRow)
+void safemode::test_pattern(const int iTab, const int iRow)
 {
     std::vector<std::string> vMatchingItems;
     std::string sItemName = "";
@@ -367,7 +367,7 @@ void auto_pickup::test_pattern(const int iTab, const int iRow)
     for( auto &p : item_controller->get_all_itypes() ) {
         sItemName = p.second->nname(1);
         if (vRules[iTab][iRow].bActive &&
-            match(sItemName, vRules[iTab][iRow].sRule)) {
+            wildcard_match(sItemName, vRules[iTab][iRow].sRule)) {
             vMatchingItems.push_back(sItemName);
         }
     }
@@ -400,7 +400,7 @@ void auto_pickup::test_pattern(const int iTab, const int iRow)
 
     int iLine = 0;
 
-    input_context ctxt("AUTO_PICKUP_TEST");
+    input_context ctxt("SAFEMODE_TEST");
     ctxt.register_updown();
     ctxt.register_action("QUIT");
 
@@ -414,7 +414,7 @@ void auto_pickup::test_pattern(const int iTab, const int iRow)
 
         calcStartPos(iStartPos, iLine, iContentHeight, vMatchingItems.size());
 
-        // display auto pickup
+        // display safemode
         for (int i = iStartPos; i < (int)vMatchingItems.size(); i++) {
             if (i >= iStartPos &&
                 i < iStartPos + ((iContentHeight > (int)vMatchingItems.size()) ? (int)vMatchingItems.size() :
@@ -456,7 +456,7 @@ void auto_pickup::test_pattern(const int iTab, const int iRow)
     }
 }
 
-bool auto_pickup::has_rule(const std::string &sRule)
+bool safemode::has_rule(const std::string &sRule)
 {
     for( auto &elem : vRules[CHARACTER_TAB] ) {
         if( sRule.length() == elem.sRule.length() && ci_find_substr( sRule, elem.sRule ) != -1 ) {
@@ -466,19 +466,19 @@ bool auto_pickup::has_rule(const std::string &sRule)
     return false;
 }
 
-void auto_pickup::add_rule(const std::string &sRule)
+void safemode::add_rule(const std::string &sRule)
 {
     vRules[CHARACTER_TAB].push_back(cRules(sRule, true, false));
     create_rule(sRule);
 
-    if (!get_option<bool>( "AUTO_PICKUP" ) &&
-        query_yn(_("Autopickup is not enabled in the options. Enable it now?")) ) {
-        get_options().get_option( "AUTO_PICKUP" ).setNext();
+    if (!OPTIONS["AUTOSAFEMODE"] &&
+        query_yn(_("Safemode is not enabled in the options. Enable it now?")) ) {
+        OPTIONS["AUTOSAFEMODE"].setNext();
         get_options().save();
     }
 }
 
-void auto_pickup::remove_rule(const std::string &sRule)
+void safemode::remove_rule(const std::string &sRule)
 {
     for (auto it = vRules[CHARACTER_TAB].begin();
          it != vRules[CHARACTER_TAB].end(); ++it) {
@@ -491,7 +491,7 @@ void auto_pickup::remove_rule(const std::string &sRule)
     }
 }
 
-bool auto_pickup::empty() const
+bool safemode::empty() const
 {
     for( int i = GLOBAL_TAB; i < MAX_TAB; i++ ) {
         if ( !vRules[i].empty() ) {
@@ -502,16 +502,16 @@ bool auto_pickup::empty() const
     return true;
 }
 
-void auto_pickup::create_rule( const std::string &to_match )
+void safemode::create_rule( const std::string &to_match )
 {
     for( int i = GLOBAL_TAB; i < MAX_TAB; i++ ) {
         for( auto &elem : vRules[i] ) {
             if( !elem.bExclude ) {
-                if( elem.bActive && match( to_match, elem.sRule ) ) {
+                if( elem.bActive && wildcard_match( to_match, elem.sRule ) ) {
                     map_items[ to_match ] = RULE_WHITELISTED;
                 }
             } else {
-                if( elem.bActive && match( to_match, elem.sRule ) ) {
+                if( elem.bActive && wildcard_match( to_match, elem.sRule ) ) {
                     map_items[ to_match ] = RULE_BLACKLISTED;
                 }
             }
@@ -519,7 +519,7 @@ void auto_pickup::create_rule( const std::string &to_match )
     }
 }
 
-void auto_pickup::create_rules()
+void safemode::create_rules()
 {
     map_items.clear();
 
@@ -532,15 +532,15 @@ void auto_pickup::create_rules()
                 //Check include patterns against all itemfactory items
                 for( auto &p : item_controller->get_all_itypes() ) {
                     const std::string &cur_item = p.second->nname(1);
-                    if( elem.bActive && match( cur_item, elem.sRule ) ) {
+                    if( elem.bActive && wildcard_match( cur_item, elem.sRule ) ) {
                         map_items[ cur_item ] = RULE_WHITELISTED;
                     }
                 }
             } else {
                 //only re-exclude items from the existing mapping for now
-                //new exclusions will process during pickup attempts
+                //new exclusions will process during safemode attempts
                 for (auto iter = map_items.begin(); iter != map_items.end(); ++iter) {
-                    if( elem.bActive && match( iter->first, elem.sRule ) ) {
+                    if( elem.bActive && wildcard_match( iter->first, elem.sRule ) ) {
                         map_items[ iter->first ] = RULE_BLACKLISTED;
                     }
                 }
@@ -549,133 +549,7 @@ void auto_pickup::create_rules()
     }
 }
 
-std::string auto_pickup::trim_rule(const std::string &sPatternIn)
-{
-    std::string sPattern = sPatternIn;
-    size_t iPos = 0;
-
-    //Remove all double ** in pattern
-    while((iPos = sPattern.find("**")) != std::string::npos) {
-        sPattern = sPattern.substr(0, iPos) + sPattern.substr(iPos + 1, sPattern.length() - iPos - 1);
-    }
-
-    return sPattern;
-}
-
-bool auto_pickup::match(const std::string &sTextIn, const std::string &sPatternIn)
-{
-    std::string sText = sTextIn;
-    std::string sPattern = sPatternIn;
-
-    //case insenitive search
-
-    /* Possible patterns
-    *
-    wooD
-    wood*
-    *wood
-    Wood*aRrOW
-    wood*arrow*
-    *wood*arrow
-    *wood*hard* *x*y*z*arrow*
-    */
-
-    if (sText == "") {
-        return false;
-    } else if (sText == "*") {
-        return true;
-    }
-
-    int iPos;
-    std::vector<std::string> vPattern;
-
-    sPattern = trim_rule(sPattern);
-
-    split(sPattern, '*', vPattern);
-    size_t iNum = vPattern.size();
-
-    if (iNum == 0) { //should never happen
-        return false;
-    } else if (iNum == 1) { // no * found
-        return (sText.length() == vPattern[0].length() && ci_find_substr(sText, vPattern[0]) != -1);
-    }
-
-    for (auto it = vPattern.begin(); it != vPattern.end(); ++it) {
-        if (it == vPattern.begin() && *it != "") { //beginning: ^vPat[i]
-            if (sText.length() < it->length() ||
-                ci_find_substr(sText.substr(0, it->length()), *it) == -1) {
-                return false;
-            }
-
-            sText = sText.substr(it->length(), sText.length() - it->length());
-        } else if (it == vPattern.end() - 1 && *it != "") { //linenend: vPat[i]$
-            if (sText.length() < it->length() ||
-                ci_find_substr(sText.substr(sText.length() - it->length(),
-                                            it->length()), *it) == -1) {
-                return false;
-            }
-        } else { //inbetween: vPat[i]
-            if (*it != "") {
-                if ((iPos = (int)ci_find_substr(sText, *it)) == -1) {
-                    return false;
-                }
-
-                sText = sText.substr(iPos + (int)it->length(), (int)sText.length() - iPos);
-=======
-/**
- * Stores or retrieves the current ruleset from temporary storage.
- * Used to implement the "cancel changes" capability ("[N]o, don't save") of the
- * auto-pickup interface.
- *
- * @param bReset false to store, true to retrieve.
- */
-void auto_pickup::save_reset_changes(const bool bReset)
-{
-    for (int i = GLOBAL; i <= CHARACTER; i++) { //Loop through global 1 and character 2
-        int destination = i + ((bReset) ? 0 : 2); // if reset, copy to vRules[1,2]
-        int source = i + ((bReset) ? 2 : 0); // if reset, copy from vRules[3,4]
-                                             // (temp storage from when bReset was false)
-        vRules[destination].clear();
-        for (auto it = vRules[source].begin(); it != vRules[source].end(); ++it) {
-            if (it->sRule != "") {
-                vRules[destination].push_back(*it);
-            }
-        }
-    }
-
-    return true;
-}
-
-std::vector<std::string> &auto_pickup::split(const std::string &s, char delim, std::vector<std::string> &elems)
-{
-    std::stringstream ss(s);
-    std::string item;
-    elems.clear();
-    while (std::getline(ss, item, delim)) {
-        elems.push_back(item);
-    }
-
-    if ( s.substr(s.length() - 1, 1) == "*") {
-        elems.push_back("");
-    }
-
-    return elems;
-}
-
-// find substring (case insensitive)
-template<typename charT>
-int auto_pickup::ci_find_substr( const charT &str1, const charT &str2, const std::locale &loc )
-{
-    typename charT::const_iterator it = std::search( str1.begin(), str1.end(), str2.begin(), str2.end(),
-                                        my_equal<typename charT::value_type>(loc) );
-    if ( it != str1.end() ) {
-        return it - str1.begin();
-    } else {
-        return -1;    // not found
-    }
-}
-
-pickup_rule_state auto_pickup::check_item( const std::string &sItemName ) const
+rule_state safemode::check_item( const std::string &sItemName ) const
 {
     const auto iter = map_items.find( sItemName );
     if( iter != map_items.end() ) {
@@ -685,37 +559,37 @@ pickup_rule_state auto_pickup::check_item( const std::string &sItemName ) const
     return RULE_NONE;
 }
 
-void auto_pickup::clear_character_rules()
+void safemode::clear_character_rules()
 {
     vRules[CHARACTER_TAB].clear();
 }
 
-bool auto_pickup::save_character()
+bool safemode::save_character()
 {
     return save(true);
 }
 
-bool auto_pickup::save_global()
+bool safemode::save_global()
 {
     return save(false);
 }
 
-bool auto_pickup::save(const bool bCharacter)
+bool safemode::save(const bool bCharacter)
 {
     bChar = bCharacter;
-    auto savefile = FILENAMES["autopickup"];
+    auto savefile = FILENAMES["safemode"];
 
-        if (bCharacter) {
-            savefile = world_generator->active_world->world_path + "/" + base64_encode(g->u.name) + ".apu.json";
-            std::ifstream fin;
+    if (bCharacter) {
+        savefile = world_generator->active_world->world_path + "/" + base64_encode(g->u.name) + ".sfm.json";
+        std::ifstream fin;
 
-            fin.open((world_generator->active_world->world_path + "/" +
-                      base64_encode(g->u.name) + ".sav").c_str());
-            if(!fin.is_open()) {
-                return true; //Character not saved yet.
-            }
-            fin.close();
+        fin.open((world_generator->active_world->world_path + "/" +
+                    base64_encode(g->u.name) + ".sav").c_str());
+        if(!fin.is_open()) {
+            return true; //Character not saved yet.
         }
+        fin.close();
+    }
 
     return write_to_file( savefile, [&]( std::ostream &fout ) {
         JsonOut jout( fout, true );
@@ -724,43 +598,37 @@ bool auto_pickup::save(const bool bCharacter)
         if(!bCharacter) {
             create_rules();
         }
-    }, _( "autopickup configuration" ) );
+    }, _( "safemode configuration" ) );
 }
 
-void auto_pickup::load_character()
+void safemode::load_character()
 {
     load(true);
 }
 
-void auto_pickup::load_global()
+void safemode::load_global()
 {
     load(false);
 }
 
-void auto_pickup::load(const bool bCharacter)
+void safemode::load(const bool bCharacter)
 {
     bChar = bCharacter;
 
     std::ifstream fin;
-    std::string sFile = FILENAMES["autopickup"];
+    std::string sFile = FILENAMES["safemode"];
     if (bCharacter) {
-        sFile = world_generator->active_world->world_path + "/" + base64_encode(g->u.name) + ".apu.json";
+        sFile = world_generator->active_world->world_path + "/" + base64_encode(g->u.name) + ".sfm.json";
     }
 
     fin.open(sFile.c_str(), std::ifstream::in | std::ifstream::binary);
 
-    if( !fin.good() ) {
-        if (load_legacy(bCharacter)) {
-            if (save(bCharacter)) {
-                remove_file(sFile);
-            }
-        }
-    } else {
+    if( fin.good() ) {
         try {
             JsonIn jsin(fin);
             deserialize(jsin);
         } catch( const JsonError &e ) {
-            DebugLog(D_ERROR, DC_ALL) << "auto_pickup::load: " << e;
+            DebugLog(D_ERROR, DC_ALL) << "safemode::load: " << e;
         }
     }
 
@@ -768,7 +636,7 @@ void auto_pickup::load(const bool bCharacter)
     create_rules();
 }
 
-void auto_pickup::serialize(JsonOut &json) const
+void safemode::serialize(JsonOut &json) const
 {
     json.start_array();
 
@@ -785,7 +653,7 @@ void auto_pickup::serialize(JsonOut &json) const
     json.end_array();
 }
 
-void auto_pickup::deserialize(JsonIn &jsin)
+void safemode::deserialize(JsonIn &jsin)
 {
     vRules[(bChar) ? CHARACTER_TAB : GLOBAL_TAB].clear();
 
@@ -799,76 +667,4 @@ void auto_pickup::deserialize(JsonIn &jsin)
 
         vRules[(bChar) ? CHARACTER_TAB : GLOBAL_TAB].push_back(cRules(sRule, bActive, bExclude));
     }
-}
-
-bool auto_pickup::load_legacy(const bool bCharacter)
-{
-    std::ifstream fin;
-    std::string sFile = FILENAMES["legacy_autopickup2"];
-
-    if (bCharacter) {
-        sFile = world_generator->active_world->world_path + "/" + base64_encode(g->u.name) + ".apu.txt";
-    }
-
-    fin.open(sFile.c_str());
-    if(!fin.is_open()) {
-        if( !bCharacter ) {
-            fin.open(FILENAMES["legacy_autopickup"].c_str());
-
-            if( !fin.is_open() ) {
-                DebugLog( D_ERROR, DC_ALL ) << "Could neither read nor create " << sFile;
-                return false;
-            }
-        } else {
-            return false;
-        }
-    }
-
-    vRules[(bCharacter) ? CHARACTER_TAB : GLOBAL_TAB].clear();
-
-    std::string sLine;
-    while(!fin.eof()) {
-        getline(fin, sLine);
-
-        if(sLine != "" && sLine[0] != '#') {
-            int iNum = std::count(sLine.begin(), sLine.end(), ';');
-
-            if(iNum != 2) {
-                DebugLog( D_ERROR, DC_ALL ) << "Bad Rule: " << sLine;
-            } else {
-                std::string sRule = "";
-                bool bActive = true;
-                bool bExclude = false;
-
-                size_t iPos = 0;
-                int iCol = 1;
-                do {
-                    iPos = sLine.find(";");
-
-                    std::string sTemp = (iPos == std::string::npos) ? sLine : sLine.substr(0, iPos);
-
-                    if (iCol == 1) {
-                        sRule = sTemp;
-
-                    } else if (iCol == 2) {
-                        bActive = sTemp == "T" || sTemp == "True";
-
-                    } else if (iCol == 3) {
-                        bExclude = sTemp == "T" || sTemp == "True";
-                    }
-
-                    iCol++;
-
-                    if (iPos != std::string::npos) {
-                        sLine = sLine.substr(iPos + 1, sLine.size());
-                    }
-
-                } while(iPos != std::string::npos);
-
-                vRules[(bCharacter) ? CHARACTER_TAB : GLOBAL_TAB].push_back(cRules(sRule, bActive, bExclude));
-            }
-        }
-    }
-
-    return true;
 }

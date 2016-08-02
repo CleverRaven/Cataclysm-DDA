@@ -1,5 +1,5 @@
-#ifndef AUTO_PICKUP_H
-#define AUTO_PICKUP_H
+#ifndef SEFEMODE_UI_H
+#define SEFEMODE_UI_H
 
 #include <unordered_map>
 #include <string>
@@ -9,20 +9,13 @@
 #include "json.h"
 #include "enums.h"
 
-class auto_pickup : public JsonSerializer, public JsonDeserializer
+class safemode : public JsonSerializer, public JsonDeserializer
 {
     private:
         void test_pattern( const int iCurrentPage, const int iCurrentLine );
-        std::string trim_rule( const std::string &sPatternIn );
-        bool match( const std::string &sTextIn, const std::string &sPatternIn );
-        std::vector<std::string> &split( const std::string &s, char delim,
-                                         std::vector<std::string> &elems );
-        template<typename charT>
-        int ci_find_substr( const charT &str1, const charT &str2, const std::locale &loc = std::locale() );
 
         void load( const bool bCharacter );
         bool save( const bool bCharacter );
-        bool load_legacy( const bool bCharacter );
 
         bool bChar;
 
@@ -55,8 +48,8 @@ class auto_pickup : public JsonSerializer, public JsonDeserializer
         };
 
         /**
-         * The currently-active set of auto-pickup rules, in a form that allows quick
-         * lookup. When this is filled (by @ref auto_pickup::create_rules()), every
+         * The currently-active set of safemode rules, in a form that allows quick
+         * lookup. When this is filled (by @ref safemode::create_rules()), every
          * item existing in the game that matches a rule (either white- or blacklist)
          * is added as the key, with RULE_WHITELISTED or RULE_BLACKLISTED as the values.
          */
@@ -78,7 +71,8 @@ class auto_pickup : public JsonSerializer, public JsonDeserializer
         rule_state check_item( const std::string &sItemName ) const;
 
         void show();
-        void show( const std::string &custom_name, bool is_autopickup = true );
+        void show( const std::string &custom_name, bool is_autopickup );
+
         bool save_character();
         bool save_global();
         void load_character();
@@ -91,6 +85,6 @@ class auto_pickup : public JsonSerializer, public JsonDeserializer
         void deserialize( JsonIn &jsin ) override;
 };
 
-auto_pickup &get_auto_pickup();
+safemode &get_safemode();
 
 #endif
