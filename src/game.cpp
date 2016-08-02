@@ -4166,7 +4166,11 @@ void game::debug()
                         }
 
                         if( bp_ptr != nullptr ) {
-                            int value = query_int( "Set the stat to? Currently: %d", *bp_ptr );
+                            std::string raw_input = query_string( "Set the stat to? Currently: %d", *bp_ptr );
+                            if( raw_input.empty() ) { // ESC is pressed
+                                break;
+                            }
+                            int value = atoi( raw_input.c_str() );
                             if( value >= 0 ) {
                                 *bp_ptr = value;
                                 p.reset_stats();

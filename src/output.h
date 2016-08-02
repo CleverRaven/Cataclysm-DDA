@@ -278,6 +278,7 @@ std::vector<std::string> split_by_color( const std::string &s );
 
 bool query_yn( const char *mes, ... );
 int  query_int( const char *mes, ... );
+std::string query_string( const char *mes, ... );
 
 bool internal_query_yn( const char *mes, va_list ap );
 

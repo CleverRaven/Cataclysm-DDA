@@ -713,6 +713,16 @@ int query_int( const char *mes, ... )
     return atoi( raw_input.c_str() );
 }
 
+std::string query_string( const char *mes, ... )
+{
+    va_list ap;
+    va_start( ap, mes );
+    const std::string text = vstring_format( mes, ap );
+    va_end( ap );
+
+    return string_input_popup( text );
+}
+
 std::string string_input_popup( std::string title, int width, std::string input, std::string desc,
                                 std::string identifier, int max_length, bool only_digits )
 {
