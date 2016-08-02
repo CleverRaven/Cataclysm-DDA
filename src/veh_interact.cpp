@@ -158,6 +158,7 @@ void veh_interact::do_main_loop()
     move_cursor (0, 0); // display w_disp & w_parts
     bool finish = false;
     while (!finish) {
+        display_contents();
         const std::string action = main_context.handle_input();
         int dx, dy;
         if (main_context.get_direction(dx, dy, action)) {
@@ -1354,9 +1355,66 @@ void veh_interact::move_cursor (int dx, int dy)
             }
         }
     }
+
     werase (w_msg);
     wrefresh (w_msg);
     display_mode (' ');
+}
+
+void veh_interact::display_contents()
+{
+    werase( w_list );
+
+    int y = 0;
+    for( int idx : parts_here ) {
+        auto &pt = veh->parts[ idx ];
+
+        std::string hdr;
+        std::string msg;
+
+        const auto turret = veh->turret_query( pt );
+        if( turret && turret.can_unload() ) {
+            hdr = turret.name();
+
+            if( turret.base()->magazine_current() ) {
+                if( turret.ammo_current() != "null" ) {
+                    msg = string_format( _( "%s with %s (%i/%i)" ),
+                                         turret.base()->magazine_current()->type_name().c_str(),
+                                         item::nname( turret.ammo_current(), turret.ammo_remaining() ).c_str(),
+                                         turret.ammo_remaining(), turret.ammo_capacity() );
+                } else {
+                    msg = string_format( _( "%s (%i/%i)" ),
+                                         turret.base()->magazine_current()->type_name().c_str(),
+                                         turret.ammo_remaining(), turret.ammo_capacity() );
+                }
+
+            } else if( turret.ammo_capacity() > 0 ) {
+                hdr += string_format( " (%i/%i)", turret.ammo_remaining(), turret.ammo_capacity() );
+                if( turret.ammo_remaining() && turret.ammo_current() != "null" ) {
+                    msg = item::nname( turret.ammo_current(), turret.ammo_remaining() );
+                }
+            }
+
+        // @todo display contents of vehicle tanks and batteries
+
+        } else {
+            continue;
+        }
+
+        y += fold_and_print( w_list, y, 1, getmaxx( w_list ) - 2, c_white, hdr );
+        y += fold_and_print( w_list, y, 3, getmaxx( w_list ) - 4, c_ltgray, msg ) + 1;
+    }
+
+    int cargo = veh->part_with_feature( cpart, "CARGO" );
+    if( cargo >= 0 ) {
+        y += fold_and_print( w_list, y, 1, getmaxx( w_list ) - 2, c_white, veh->parts[ cargo ].name() );
+        vehicle_cursor( *veh, cargo ).visit_items( [&]( const item *e ) {
+            y += fold_and_print( w_list, y, 3, getmaxx( w_list ) - 4, c_ltgray, e->display_name() );
+            return VisitResponse::SKIP;
+        } );
+    }
+
+    wrefresh( w_list );
 }
 
 void veh_interact::display_grid()

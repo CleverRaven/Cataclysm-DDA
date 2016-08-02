@@ -752,7 +752,7 @@ long pick_lock_actor::use( player *p, item *it, bool, const tripoint& ) const
         return 0;
     }
     tripoint dirp;
-    if( !choose_adjacent( _( "Use your pick lock where?" ), dirp ) ) {
+    if( !choose_adjacent( _( "Use your lockpick where?" ), dirp ) ) {
         return 0;
     }
     if( dirp == p->pos() ) {

@@ -528,8 +528,6 @@ classes = {
             { name = "disp_morale", rval = nil, args = { } },
             { name = "disp_name", rval = "string", args = { "bool" } },
             { name = "disp_name", rval = "string", args = { } },
-            { name = "dispose_item", rval = "bool", args = { "item" } },
-            { name = "dispose_item", rval = "bool", args = { "item", "string" } },
             { name = "do_read", rval = nil, args = { "item" } },
             { name = "dodge_roll", rval = "int", args = { } },
             { name = "drench", rval = nil, args = { "int", "int", "bool" } },

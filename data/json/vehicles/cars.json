@@ -958,10 +958,7 @@
             {"x": 1, "y": 2, "part": "frame_ne"},
             {"x": 1, "y": 2, "part": "wheel_steerable"},
             {"x": 1, "y": 2, "part": "water_dirty_tank"},
-            {"x": 1, "y": 2, "part": "m249"}
-        ],
-        "items" : [
-            {"x": 1, "y": 2, "chance": 90, "items": ["223","223","223","223","223","223","223","223","223","223","223"]}
+            {"x": 1, "y": 2, "part": "m249", "ammo": 100}
         ]
     },{
         "type" : "vehicle",

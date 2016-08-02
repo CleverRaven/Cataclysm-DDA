@@ -1,8 +1,8 @@
 [
     {
-    "type" : "MONSTER",
-    "id" : "mon_creeper_hub",
-    "edit-mode" : "modify",
+    "type": "MONSTER",
+    "id": "mon_creeper_hub",
+    "edit-mode": "modify",
     "name": "crowned creeper",
     "color": "magenta_green",
     "size": "LARGE",
@@ -24,35 +24,35 @@
     "hp":140,
     "vision_day":9,
     "vision_night":4,
-    "special_attacks":[["GROW_VINE", 3], ["SMASH", 15], ["TENTACLE", 15], ["ACID", 20]],
+    "special_attacks":[["GROW_VINE", 3], ["SMASH", 40], ["TENTACLE", 20], ["ACID", 40]],
     "special_when_hit":["ACIDSPLASH", 35],
     "description":"A thick stalk with rapidly sprouting tendrils at the base and a 'crown' of deep magenta pitchers at its head.  The pitchers taper into o-rings, pointing at various angles away from the hub.  From the center of the crown stems a single large, mace-like tentacle that flails around menacingly.",
     "flags":["NOHEAD", "IMMOBILE", "SEES"],
-    "//" : "When making this guy I was really unsure if it was a good idea.  I love the idea of an acid spitting critter that grabs you with thousands of minions.  But it's the thousands of minions part that worries me.  Hopefully I fixed that by castrating the life-span of the minions."
+    "//": "When making this guy I was really unsure if it was a good idea.  I love the idea of an acid spitting critter that grabs you with thousands of minions.  But it's the thousands of minions part that worries me.  Hopefully I fixed that by castrating the life-span of the minions."
     },{
-    "type" : "MONSTER",
-    "id" : "mon_creeper_vine",
-    "edit-mode" : "modify",
+    "type": "MONSTER",
+    "id": "mon_creeper_vine",
+    "edit-mode": "modify",
     "name": "creeping grass",
     "hp":10,
         "upgrades":{
       "into_group": "GROUP_CREEPER_VINE",
       "half_life": 1
       },
-    "death_function":"MELT",
-    "special_attacks":[["VINE", 3], ["DISAPPEAR", 600]],
+    "death_function": ["VINE_CUT", "MELT"],
+    "special_attacks":[["VINE", 3], ["DISAPPEAR", 300]],
     "description":"A vine-like tendril that is rooted to the ground.  It flails about constantly in a violent fashion for a time before disappearing into the Earth.",
-    "flags":["NOHEAD", "HARDTOSHOOT", "PLASTIC", "IMMOBILE", "GRABS", "NOGIB"],
-    "//" : "600 disappear is a little fast for my tastes, but given the output level of the hub it has to be this.  900 is preferable to my tastes."
+    "flags":["NOHEAD", "HARDTOSHOOT", "PLASTIC", "IMMOBILE", "GRABS", "NOGIB"]
     },{
-    "type" : "MONSTER",
-    "id" : "mon_biollante",
-    "edit-mode" : "modify",
+    "type": "MONSTER",
+    "id": "mon_biollante",
+    "edit-mode": "modify",
     "armor_acid":4,
     "upgrades":{
       "into": "mon_biollante_pk",
       "half_life": 14
     },
+    "emit_fields": [ "emit_gas_plume"],
     "death_drops": {
         "subtype": "collection",
         "//": "do duplicate item_groups work here?",
@@ -63,18 +63,18 @@
         ]
     }
     },{
-    "type" : "MONSTER",
-    "id" : "mon_triffid",
-    "edit-mode" : "modify",
+    "type": "MONSTER",
+    "id": "mon_triffid",
+    "edit-mode": "modify",
         "upgrades":{
       "into_group": "GROUP_TRIFFID_PK",
       "half_life": 14
       },
     "flags":["SEES", "SMELLS", "BASHES", "GROUP_BASH", "NOHEAD", "PARALYZEVENOM", "PUSH_MON"]
     },{
-    "type" : "MONSTER",
-    "id" : "mon_fungal_fighter",
-    "edit-mode" : "modify",
+    "type": "MONSTER",
+    "id": "mon_fungal_fighter",
+    "edit-mode": "modify",
         "upgrades":{
       "into_group": "GROUP_HISSER",
       "half_life": 21
@@ -87,17 +87,17 @@
         ]
     }
     },{
-    "type" : "MONSTER",
-    "id" : "mon_vinebeast",
-    "edit-mode" : "modify",
+    "type": "MONSTER",
+    "id": "mon_vinebeast",
+    "edit-mode": "modify",
         "speed": 90,
         "upgrades":{
       "into_group": "GROUP_TANGELA",
       "half_life": 21
       }
       },{
-    "type" : "MONSTER",
-    "id" : "mon_biollante_pk",
+    "type": "MONSTER",
+    "id": "mon_biollante_pk",
     "name": "glowing biollante",
     "species":"PLANT",
     "default_faction":"triffid",
@@ -118,7 +118,6 @@
     "armor_acid":4,
     "vision_day":9,
     "vision_night":3,
-    "emit_fields": [ "emit_toxic_leak" ],
     "death_drops": {
         "subtype": "collection",
         "//": "do duplicate item_groups work here?",
@@ -131,12 +130,13 @@
     "hp":120,
     "luminance":11,
     "special_attacks":[["SPIT_SAP", 10], ["IMPALE",20], ["GROW_VINE", 50]],
+    "emit_fields": [ "emit_gas_plume"],
     "description":"A puckered flower is all that adorns the stalk of this biollante.  Beneath its luminescent petals, something rigid appears to be moving, and consistent wisps of gas can be seen escaping into the surrounding air.",
     "flags":["NOHEAD", "IMMOBILE", "PARALYZEVENOM", "SEES"],
     "//": "This thing is pretty awesome.  One of my favorite creations from this faction.  The vine growth keeps it out of melee that much longer in the absence of a creeper hub, the sap is pretty deadly and accurate, and impale is surprise bleeding."
     },{
-    "type" : "MONSTER",
-    "id" : "mon_creeper_vine_terminal",
+    "type": "MONSTER",
+    "id": "mon_creeper_vine_terminal",
     "name": "creeping grass",
     "species":"PLANT",
     "default_faction":"triffid",
@@ -159,8 +159,8 @@
     "description":"A vine-like tendril that is rooted to the ground.  This one is behaving oddly.",
     "flags":["NOHEAD", "HARDTOSHOOT", "PLASTIC", "IMMOBILE", "GRABS", "NOGIB"]
     },{
-    "type" : "MONSTER",
-    "id" : "mon_creeper_vine_pk",
+    "type": "MONSTER",
+    "id": "mon_creeper_vine_pk",
     "name": "creeping vine",
     "species":"PLANT",
     "default_faction":"triffid",
@@ -176,7 +176,7 @@
     "melee_dice":1,
     "melee_dice_sides":8,
     "melee_cut":4,
-    "melee_damage" : [ {"damage_type" : "acid", "amount" : 2} ],
+    "melee_damage": [ {"damage_type": "acid", "amount": 2} ],
     "dodge":1,
     "armor_bash":8,
     "armor_stab":8,
@@ -191,8 +191,8 @@
     "flags":["SMELLS", "HEARS", "DIGS", "SWIMS", "NOHEAD", "HARDTOSHOOT", "PUSH_MON", "PLASTIC", "GRABS", "BASHES", "NOGIB"],
     "anger_triggers":["SOUND", "PLAYER_WEAK", "FRIEND_ATTACKED"]
     },{
-    "type" : "MONSTER",
-    "id" : "mon_creeper_vine_terminal_pk",
+    "type": "MONSTER",
+    "id": "mon_creeper_vine_terminal_pk",
     "name": "creeping vine",
     "species":"PLANT",
     "default_faction":"triffid",
@@ -208,7 +208,7 @@
     "melee_dice":1,
     "melee_dice_sides":12,
     "melee_cut":4,
-    "melee_damage" : [ {"damage_type" : "acid", "amount" : 2} ],
+    "melee_damage": [ {"damage_type": "acid", "amount": 2} ],
     "dodge":2,
     "armor_bash":10,
     "armor_cut":4,
@@ -219,8 +219,8 @@
     "flags":["SMELLS", "HEARS", "GOODHEARING", "DIGS", "NOHEAD", "HARDTOSHOOT", "PUSH_MON", "PLASTIC", "GRABS", "BASHES", "NOGIB"],
     "anger_triggers":["SOUND", "PLAYER_WEAK", "FRIEND_ATTACKED"]
     },{
-    "type" : "MONSTER",
-    "id" : "mon_creeper_root",
+    "type": "MONSTER",
+    "id": "mon_creeper_root",
     "name": "slithering root",
     "species":"PLANT",
     "default_faction":"triffid",
@@ -236,7 +236,7 @@
     "melee_dice":3,
     "melee_dice_sides":3,
     "melee_cut":6,
-    "melee_damage" : [ {"damage_type" : "acid", "amount" : 8} ],
+    "melee_damage": [ {"damage_type": "acid", "amount": 8} ],
     "dodge":2,
     "armor_bash":8,
     "armor_cut":6,
@@ -255,8 +255,8 @@
     "flags":["DIGS", "HEARS", "GOODHEARING", "SMELLS", "PATH_AVOID_DANGER_1", "BASHES", "GROUP_BASH", "SWIMS", "NOHEAD", "PUSH_MON", "PLASTIC", "VENOM"],
     "anger_triggers":["SOUND", "FIRE", "STALK", "HURT", "FRIEND_ATTACKED", "PLAYER_WEAK"]
     },{
-    "type" : "MONSTER",
-    "id" : "mon_vinebeast_terminal",
+    "type": "MONSTER",
+    "id": "mon_vinebeast_terminal",
     "name": "vine beast",
     "species":"PLANT",
     "default_faction":"triffid",
@@ -283,8 +283,8 @@
     "description":"An animated mass of roots and vines, creeping along the ground with alarming speed.  The tangle is thick enough that the center from which they grow is concealed.  This one looks tough.",
     "flags":["SEES", "HEARS", "GOODHEARING", "PUSH_MON", "NOHEAD", "HARDTOSHOOT", "GRABS", "PLASTIC"]
     },{
-    "type" : "MONSTER",
-    "id" : "mon_vinebeast_pk",
+    "type": "MONSTER",
+    "id": "mon_vinebeast_pk",
     "name": "tangala",
     "species":"PLANT",
     "default_faction":"triffid",
@@ -300,7 +300,7 @@
     "melee_dice":6,
     "melee_dice_sides":3,
     "melee_cut":6,
-    "melee_damage" : [ {"damage_type" : "acid", "amount" : 6} ],
+    "melee_damage": [ {"damage_type": "acid", "amount": 6} ],
     "dodge":4,
     "armor_bash":16,
     "armor_cut":8,
@@ -325,8 +325,8 @@
     "anger_triggers":["FIRE", "HURT", "FRIEND_DIED", "PLAYER_CLOSE"],
     "//": "Tangela is pretty neat, but, by design, not exactly 'a thug', to borrow the term from the Dominions series of games.  It's not going to slug it out well with the big guys."
     },{
-    "type" : "MONSTER",
-    "id" : "mon_triffid_pk",
+    "type": "MONSTER",
+    "id": "mon_triffid_pk",
     "name": "triffid",
     "species":"PLANT",
     "default_faction":"triffid",
@@ -342,7 +342,7 @@
     "melee_dice":2,
     "melee_dice_sides":8,
     "melee_cut":4,
-    "melee_damage" : [ {"damage_type" : "biological", "amount" : 2} ],
+    "melee_damage": [ {"damage_type": "biological", "amount": 2} ],
     "dodge":3,
     "armor_bash":14,
     "armor_cut":7,
@@ -363,8 +363,8 @@
     "flags":["SEES", "SMELLS", "BASHES", "GROUP_BASH", "PUSH_MON", "NOHEAD", "PARALYZEVENOM"],
     "//": "I didn't really want to add bells and whistles to these guys, but I don't think I could not have.  parasting is a pretty weak attack that only functions on funguses or (N)PCs, afaik."
     },{
-    "type" : "MONSTER",
-    "id" : "mon_treent",
+    "type": "MONSTER",
+    "id": "mon_treent",
     "name": "blue aurora",
     "species":"PLANT",
     "default_faction":"triffid",
@@ -380,7 +380,7 @@
     "melee_dice":6,
     "melee_dice_sides":6,
     "melee_cut":3,
-    "melee_damage" : [ {"damage_type" : "acid", "amount" : 2} ],
+    "melee_damage": [ {"damage_type": "acid", "amount": 2} ],
     "dodge":1,
     "armor_bash":16,
     "armor_cut":16,
@@ -416,8 +416,8 @@
     "anger_triggers":["FIRE", "HURT", "PLAYER_CLOSE", "FRIEND_DIED"],
     "//": "Intentionall keep weaker than they could be.  Numbers, and perhaps an evo if its called for."
     },{
-    "type" : "MONSTER",
-    "id" : "mon_treent_green",
+    "type": "MONSTER",
+    "id": "mon_treent_green",
     "name": "treunt",
     "species":"PLANT",
     "default_faction":"triffid",
@@ -460,8 +460,8 @@
     "anger_triggers":["FIRE", "HURT", "FRIEND_DIED",  "FRIEND_ATTACKED", "PLAYER_CLOSE"],
     "//": "I like these guys, but feel they are outliers and out of place among the triffids.  Maybe add other 'alien' plants?  Sounds like a job for compiling my own code."
     },{
-    "type" : "MONSTER",
-    "id" : "mon_dionaea_sprout",
+    "type": "MONSTER",
+    "id": "mon_dionaea_sprout",
     "name": "dionaea sprout",
     "species":"PLANT",
     "default_faction":"triffid",
@@ -491,17 +491,17 @@
     "hp":80,
     "special_attacks":[["VINE", 15],
         {
-        "type" : "bite",
-        "cooldown" : 20,
-        "no_infection_chance" : 20,
-        "min_mul" : 0.50, "//" : "baby dionaea bitch"
+        "type": "bite",
+        "cooldown": 20,
+        "no_infection_chance": 20,
+        "min_mul": 0.50, "//": "baby dionaea bitch"
     }],
     "description":"An animate plant a little under 2 meters long, this juvenile still packs a wallop with its fetid mouth.",
     "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "VENOM", "BASHES", "PUSH_MON", "NOHEAD"],
     "anger_triggers":["HURT", "FRIEND_DIED", "PLAYER_WEAK", "PLAYER_CLOSE"]
     },{
-    "type" : "MONSTER",
-    "id" : "mon_dionaea",
+    "type": "MONSTER",
+    "id": "mon_dionaea",
     "name": "dionaea",
     "species":"PLANT",
     "default_faction":"triffid",
@@ -517,7 +517,7 @@
     "melee_dice":4,
     "melee_dice_sides":4,
     "melee_cut":5,
-    "melee_damage" : [ {"damage_type" : "bash", "amount" : 6} ],
+    "melee_damage": [ {"damage_type": "bash", "amount": 6} ],
     "dodge":2,
     "armor_bash":10,
     "armor_cut":16,
@@ -528,10 +528,10 @@
     "hp":200,
     "special_attacks":[
         {
-        "type" : "bite",
-        "cooldown" : 12,
-        "no_infection_chance" : 10,
-        "min_mul" : 0.85, "//" : "dionaea bitch"
+        "type": "bite",
+        "cooldown": 12,
+        "no_infection_chance": 10,
+        "min_mul": 0.85, "//": "dionaea bitch"
         },
         ["VINE", 15], ["RANGED_PULL", 3]],
     "description":"A rotund armored 'head' with a massive maw dominates this monster's form.  Its head hangs low when its not in use, saving energy for its coordinated slither along the ground.",
@@ -539,8 +539,8 @@
     "anger_triggers":["HURT", "FRIEND_DIED", "PLAYER_WEAK", "PLAYER_CLOSE"],
     "//": "Minor concerns about their strength, but they add real meat to the triffid front lines."
     },{
-    "type" : "MONSTER",
-    "id" : "mon_minecraft",
+    "type": "MONSTER",
+    "id": "mon_minecraft",
     "name": "hissing brood",
     "species":"PLANT",
     "default_faction":"triffid",
@@ -569,8 +569,8 @@
     "anger_triggers":["SOUND", "PLAYER_WEAK"],
     "//": "I don't know if they fit in well, but they add a means for the triffids to troll."
     },{
-    "type" : "MONSTER",
-    "id" : "mon_minecraft_charged",
+    "type": "MONSTER",
+    "id": "mon_minecraft_charged",
     "name": "charged hissing brood",
     "species":"PLANT",
     "default_faction":"triffid",

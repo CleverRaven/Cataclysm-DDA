@@ -12,7 +12,6 @@
         "symbol" : "?",
         "material" : ["paper"],
         "volume" : 5,
-        "bashing" : -2,
         "time" : 60,
         "fun" : 0,
         "skill" : "fabrication",

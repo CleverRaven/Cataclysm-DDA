@@ -18,6 +18,8 @@
 extern const int savegame_version;
 extern int save_loading_version;
 
+extern bool test_mode;
+
 // The reference to the one and only game instance.
 class game;
 extern game *g;

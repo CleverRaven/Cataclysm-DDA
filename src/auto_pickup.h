@@ -8,6 +8,12 @@
 #include <algorithm>
 #include "json.h"
 
+enum pickup_rule_state : int {
+    RULE_NONE,
+    RULE_WHITELISTED,
+    RULE_BLACKLISTED
+};
+
 class auto_pickup : public JsonSerializer, public JsonDeserializer
 {
     private:
@@ -70,9 +76,9 @@ class auto_pickup : public JsonSerializer, public JsonDeserializer
          * The currently-active set of auto-pickup rules, in a form that allows quick
          * lookup. When this is filled (by @ref auto_pickup::create_rules()), every
          * item existing in the game that matches a rule (either white- or blacklist)
-         * is added as the key, with "true" or "false" as the values.
+         * is added as the key, with RULE_WHITELISTED or RULE_BLACKLISTED as the values.
          */
-        std::unordered_map<std::string, std::string> mapItems;
+        std::unordered_map<std::string, pickup_rule_state> map_items;
 
         /**
          * - vRules[0,1] aka vRules[GLOBAL,CHARACTER]: current rules split into global and
@@ -84,15 +90,19 @@ class auto_pickup : public JsonSerializer, public JsonDeserializer
         bool has_rule( const std::string &sRule );
         void add_rule( const std::string &sRule );
         void remove_rule( const std::string &sRule );
-        void create_rules( const std::string &sItemNameIn = "" );
+        void create_rules();
+        void create_rule( const std::string &to_match );
         void clear_character_rules();
-        const std::string &check_item( const std::string &sItemName );
+        pickup_rule_state check_item( const std::string &sItemName ) const;
 
         void show();
+        void show( const std::string &custom_name, bool is_autopickup = true );
         bool save_character();
         bool save_global();
         void load_character();
         void load_global();
+
+        bool empty() const;
 
         using JsonSerializer::serialize;
         void serialize( JsonOut &json ) const override;

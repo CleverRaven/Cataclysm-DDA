@@ -7,6 +7,7 @@
 #include "game.h"
 #include "rng.h"
 #include "addiction.h"
+#include "auto_pickup.h"
 #include "inventory.h"
 #include "artifact.h"
 #include "options.h"
@@ -834,6 +835,9 @@ void npc_follower_rules::serialize(JsonOut &json) const
     json.member( "allow_pulp", allow_pulp );
 
     json.member( "close_doors", close_doors );
+
+    json.member( "pickup_whitelist", *pickup_whitelist );
+
     json.end_object();
 }
 
@@ -856,6 +860,8 @@ void npc_follower_rules::deserialize(JsonIn &jsin)
     data.read( "allow_pulp", allow_pulp );
 
     data.read( "close_doors", close_doors );
+
+    data.read( "pickup_whitelist", *pickup_whitelist );
 }
 
 extern std::string convert_talk_topic( talk_topic_enum );
@@ -1601,6 +1607,15 @@ void vehicle_part::deserialize(JsonIn &jsin)
     if( data.has_int( "hp" ) ) {
         // migrate legacy savegames exploiting that al base items at that time had max_damage() of 4
         base.set_damage( 4 - ( 4 / double( id.obj().durability ) * data.get_int( "hp" ) ) );
+    }
+
+    // legacy turrets loaded ammo via a pseudo CARGO space
+    if( is_turret() && !items.empty() ) {
+        int qty = std::accumulate( items.begin(), items.end(), 0, []( int lhs, const item& rhs ) {
+            return lhs + rhs.charges;
+        } );
+        ammo_set( items.front().ammo_current(), qty );
+        items.clear();
     }
 }
 

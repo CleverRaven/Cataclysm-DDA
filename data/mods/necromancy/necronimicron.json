@@ -10,7 +10,6 @@
     "material": ["aluminum", "plastic"],
     "weight": 100,
     "volume": 0,
-    "bashing": 0,
     "category" : "spare_parts"
   },{
     "id" : "blob_dormant",
@@ -23,7 +22,6 @@
     "material": "flesh",
     "weight": 1000,
     "volume": 1,
-    "bashing": 0,
     "use_action": {
         "type": "place_monster",
         "monster_id": "mon_blob",
@@ -46,7 +44,6 @@
     "material": "flesh",
     "weight": 10000,
     "volume": 15,
-    "bashing": 0,
     "category": "tools",
     "use_action": {
         "type": "place_monster",
@@ -80,7 +77,6 @@
     "price": 100000,
     "weight": 1,
     "volume": 1,
-    "bashing": 0,
     "tool" : "syringe",
     "category": "drugs"
   },{
@@ -95,7 +91,6 @@
     "symbol" : "?",
     "material" : ["paper"],
     "volume" : 5,
-    "bashing" : -2,
     "time" : 120,
     "fun" : -3,
     "skill" : "firstaid",

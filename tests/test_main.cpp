@@ -55,6 +55,7 @@ void init_global_game_state() {
 int main( int argc, const char *argv[] )
 {
   debug_fatal = true; // prevents stalling on debugmsg, see issue #15723
+  test_mode = true;
 
   // TODO: Only init game if we're running tests that need it.
   init_global_game_state();

@@ -2032,24 +2032,6 @@
             {"item": "e_scrap", "count": [4, 16]},
             {"item": "plastic_chunk", "count": [2, 8]}
         ]
-    },{
-        "type" : "vehicle_part",
-        "id" : "watercannon",
-        "name" : "water cannon",
-        "symbol" : "t",
-        "color" : "blue",
-        "broken_symbol" : "#",
-        "broken_color" : "blue",
-        "damage_modifier" : 80,
-        "durability" : 400,
-        "range" : 7,
-        "item" : "watercannon",
-        "difficulty" : 5,
-        "location" : "on_roof",
-        "flags" : ["TURRET"],
-        "breaks_into" : [
-            {"item": "watercannon", "prob": 50}
-        ]
     },
     {
         "type" : "vehicle_part",

@@ -599,9 +599,9 @@ int player::fire_gun( const tripoint &target, int shots, item& gun )
             lifetime_stats()->headshots++; // @todo check head existence for headshot
         }
 
-        // If burst firing and we killed the target (or were shooting into empty space) then try to retarget
+        // If burst firing and we killed the target then try to retarget
         const auto critter = g->critter_at( aim, true );
-        if( !critter || critter->is_dead_state() ) {
+        if( critter && critter->is_dead_state() ) {
 
             // Find suitable targets that are in range, hostile and near any previous target
             auto hostiles = get_targetable_creatures( gun.gun_range( this ) );
@@ -1037,6 +1037,7 @@ std::vector<tripoint> game::pl_target_ui( target_mode mode, item *relevant, int 
         } ), targets.end() );
 
         if( targets.empty() ) {
+            idx = -1;
             return;
         }
 
