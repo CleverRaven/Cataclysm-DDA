@@ -150,6 +150,7 @@ void player_activity::serialize(JsonOut &json) const
     json.member( "position", position );
     json.member( "coords", coords );
     json.member( "name", name );
+    json.member( "targets", targets );
     json.member( "placement", placement );
     json.member( "values", values );
     json.member( "str_values", str_values );
@@ -174,6 +175,7 @@ void player_activity::deserialize(JsonIn &jsin)
     position = tmppos;
     data.read( "coords", coords );
     data.read( "name", name );
+    data.read( "targets", targets );
     data.read( "placement", placement );
     values = data.get_int_array("values");
     str_values = data.get_string_array("str_values");
@@ -936,7 +938,6 @@ void npc_opinion::deserialize(JsonIn &jsin)
     data.read("value", value);
     data.read("anger", anger);
     data.read("owed", owed);
-    data.read("favors", favors);
 }
 
 void npc_opinion::serialize(JsonOut &json) const
@@ -947,7 +948,6 @@ void npc_opinion::serialize(JsonOut &json) const
     json.member( "value", value );
     json.member( "anger", anger );
     json.member( "owed", owed );
-    json.member( "favors", favors );
     json.end_object();
 }
 
@@ -1045,6 +1045,13 @@ void npc::load(JsonObject &data)
 
     if ( data.read("mission", misstmp) ) {
         mission = npc_mission( misstmp );
+        static const std::set<npc_mission> legacy_missions = {{
+            NPC_MISSION_LEGACY_1, NPC_MISSION_LEGACY_2,
+            NPC_MISSION_LEGACY_3
+        }};
+        if( legacy_missions.count( mission ) > 0 ) {
+            mission = NPC_MISSION_NULL;
+        }
     }
 
     if ( data.read( "my_fac", facID) ) {
@@ -1053,6 +1060,13 @@ void npc::load(JsonObject &data)
 
     if ( data.read( "attitude", atttmp) ) {
         attitude = npc_attitude(atttmp);
+        static const std::set<npc_attitude> legacy_attitudes = {{
+            NPCATT_LEGACY_1, NPCATT_LEGACY_2, NPCATT_LEGACY_3,
+            NPCATT_LEGACY_4, NPCATT_LEGACY_5, NPCATT_LEGACY_6
+        }};
+        if( legacy_attitudes.count( attitude ) > 0 ) {
+            attitude = NPCATT_NULL;
+        }
     }
 
     if ( data.read( "companion_mission", comp_miss) ) {
@@ -1427,7 +1441,7 @@ void item::io( Archive& archive )
     archive.io( "item_vars", item_vars, io::empty_default_tag() );
     archive.io( "name", name, type_name( 1 ) ); // TODO: change default to empty string
     archive.io( "invlet", invlet, '\0' );
-    archive.io( "damage", damage, static_cast<decltype(damage)>( 0 ) );
+    archive.io( "damage", damage_, 0.0 );
     archive.io( "active", active, false );
     archive.io( "item_counter", item_counter, static_cast<decltype(item_counter)>( 0 ) );
     archive.io( "fridge", fridge, 0 );

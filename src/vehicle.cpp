@@ -626,7 +626,7 @@ void vehicle::smash() {
     }
 }
 
-const std::string vehicle::disp_name()
+const std::string vehicle::disp_name() const
 {
     return string_format( _("the %s"), name.c_str() );
 }
@@ -1370,7 +1370,7 @@ bool vehicle::fold_up() {
     return true;
 }
 
-double vehicle::engine_cold_factor( const int e )
+double vehicle::engine_cold_factor( const int e ) const
 {
     if( !is_engine_type( e, fuel_type_diesel ) ) { return 0.0; }
 
@@ -1382,7 +1382,7 @@ double vehicle::engine_cold_factor( const int e )
     return 1.0 - (std::max( 0, std::min( 30, eff_temp ) ) / 30.0);
 }
 
-int vehicle::engine_start_time( const int e )
+int vehicle::engine_start_time( const int e ) const
 {
     if( !is_engine_on( e ) || is_engine_type( e, fuel_type_muscle ) ||
         !fuel_left( part_info( engines[e] ).fuel_type ) ) { return 0; }
@@ -1496,7 +1496,7 @@ void vehicle::start_engines( const bool take_control )
     g->u.activity.values.push_back( take_control );
 }
 
-void vehicle::backfire( const int e )
+void vehicle::backfire( const int e ) const
 {
     const int power = part_power( engines[e], true );
     const tripoint pos = global_part_pos3( engines[e] );
@@ -2332,7 +2332,7 @@ void vehicle::set_label(int x, int y, std::string text)
     }
 }
 
-int vehicle::next_part_to_close(int p, bool outside)
+int vehicle::next_part_to_close( int p, bool outside ) const
 {
     std::vector<int> parts_here = parts_at_relative(parts[p].mount.x, parts[p].mount.y);
 
@@ -2353,7 +2353,7 @@ int vehicle::next_part_to_close(int p, bool outside)
     return -1;
 }
 
-int vehicle::next_part_to_open(int p, bool outside)
+int vehicle::next_part_to_open(int p, bool outside) const
 {
     std::vector<int> parts_here = parts_at_relative(parts[p].mount.x, parts[p].mount.y);
 
@@ -2953,15 +2953,21 @@ int vehicle::total_folded_volume() const
     return m;
 }
 
-void vehicle::center_of_mass(int &x, int &y, bool use_precalc) const
+const point &vehicle::rotated_center_of_mass() const
 {
-    if( use_precalc ? mass_center_precalc_dirty : mass_center_no_precalc_dirty ) {
-        calc_mass_center( use_precalc );
+    // @todo Bring back caching of this point
+    calc_mass_center( true );
+
+    return mass_center_precalc;
+}
+
+const point &vehicle::local_center_of_mass() const
+{
+    if( mass_center_no_precalc_dirty ) {
+        calc_mass_center( false );
     }
 
-    const auto &pt = use_precalc ? mass_center_precalc : mass_center_no_precalc;
-    x = pt.x;
-    y = pt.y;
+    return mass_center_no_precalc;
 }
 
 point vehicle::pivot_displacement() const
@@ -3308,24 +3314,12 @@ void vehicle::noise_and_smoke( double load, double time )
     sounds::ambient_sound( global_pos3(), noise, sound_msgs[lvl] );
 }
 
-float vehicle::wheels_area (int *const cnt) const
+float vehicle::wheel_area( bool boat ) const
 {
-    int count = 0;
-    int total_area = 0;
-    const auto &wheel_indices = wheelcache;
-    for( auto &wheel_indice : wheel_indices ) {
-        int p = wheel_indice;
-        int width = parts[ p ].wheel_width();
-        // 9 inches, for reference, is about normal for cars.
-        total_area += ((float)width / 9) * parts[ p ].wheel_diameter();
-        count++;
-    }
-    if (cnt) {
-        *cnt = count;
-    }
-
-    if (all_parts_with_feature("FLOATS").size() > 0) {
-        return 13;
+    float total_area = 0.0f;
+    const auto &wheel_indices = boat ? floating : wheelcache;
+    for( auto &wheel_index : wheel_indices ) {
+        total_area += parts[ wheel_index ].base.wheel_area();
     }
 
     return total_area;
@@ -3334,9 +3328,8 @@ float vehicle::wheels_area (int *const cnt) const
 float vehicle::k_friction() const
 {
     // calculate safe speed reduction due to wheel friction
-    float fr0 = 1000.0;
-    float kf = ( fr0 / (fr0 + wheels_area()) );
-    return kf;
+    constexpr float fr0 = 9000.0;
+    return fr0 / ( fr0 + wheel_area( false ) ) ;
 }
 
 float vehicle::k_aerodynamics() const
@@ -3379,15 +3372,31 @@ float vehicle::k_dynamics() const
 
 float vehicle::k_mass() const
 {
-    float wa = wheels_area();
-    if (wa <= 0)
+    // @todo Remove this sum, apply only the relevant wheel type
+    float wa = wheel_area( false ) + wheel_area( true );
+    if( wa <= 0 ) {
        return 0;
+    }
 
     float ma0 = 50.0;
     // calculate safe speed reduction due to mass
-    float km = ma0 / (ma0 + (total_mass()) / (8 * (float) wa));
+    float km = ma0 / ( ma0 + total_mass() / ( wa * 8.0f / 9.0f ) );
 
     return km;
+}
+
+float vehicle::k_traction( float wheel_traction_area ) const
+{
+    if( wheel_traction_area <= 0.01f ) {
+        return 0.0f;
+    }
+
+    const float mass_penalty = ( 1.0f - wheel_traction_area / wheel_area( !floating.empty() ) ) * total_mass();
+
+    float traction = std::min( 1.0f, wheel_traction_area / mass_penalty );
+    add_msg( m_debug, "%s has traction %.2f", name.c_str(), traction );
+    // For now make it easy until it gets properly balanced: add a low cap of 0.1
+    return std::max( 0.1f, traction );
 }
 
 float vehicle::drag() const
@@ -3409,11 +3418,12 @@ float vehicle::strain() const
     }
 }
 
-bool vehicle::sufficient_wheel_config() const
+bool vehicle::sufficient_wheel_config( bool boat ) const
 {
     std::vector<int> floats = all_parts_with_feature(VPFLAG_FLOATS);
-    if( !floats.empty() ) {
-        return floats.size() > 2;
+    // @todo Remove the limitations that boats can't move on land
+    if( boat || !floats.empty() ) {
+        return boat && floats.size() > 2;
     }
     std::vector<int> wheel_indices = all_parts_with_feature(VPFLAG_WHEEL);
     if(wheel_indices.empty()) {
@@ -3429,45 +3439,33 @@ bool vehicle::sufficient_wheel_config() const
     return true;
 }
 
-bool vehicle::balanced_wheel_config () const
+bool vehicle::balanced_wheel_config( bool boat ) const
 {
-    int x1 = 0, y1 = 0, x2 = 0, y2 = 0;
-    int count = 0;
-    std::vector<int> wheel_indices = all_parts_with_feature(VPFLAG_WHEEL);
+    int xmin = INT_MAX;
+    int ymin = INT_MAX;
+    int xmax = INT_MIN;
+    int ymax = INT_MIN;
     // find the bounding box of the wheels
     // TODO: find convex hull instead
-    for (auto &w : wheel_indices) {
-        if (!count) {
-            x1 = x2 = parts[w].precalc[0].x;
-            y1 = y2 = parts[w].precalc[0].y;
-        }
-        if (parts[w].precalc[0].x < x1) {
-            x1 = parts[w].precalc[0].x;
-        }
-        if (parts[w].precalc[0].x > x2) {
-            x2 = parts[w].precalc[0].x;
-        }
-        if (parts[w].precalc[0].y < y1) {
-            y1 = parts[w].precalc[0].y;
-        }
-        if (parts[w].precalc[0].y > y2) {
-            y2 = parts[w].precalc[0].y;
-        }
-        count++;
+    const auto &indices = boat ? floating : wheelcache;
+    for( auto &w : indices ) {
+        const auto &pt = parts[ w ].mount;
+        xmin = std::min( xmin, pt.x );
+        ymin = std::min( ymin, pt.y );
+        xmax = std::max( xmax, pt.x );
+        ymax = std::max( ymax, pt.y );
     }
-    // find the center of mass of the vehicle
-    int xo, yo;
-    center_of_mass(xo, yo);
-//    add_msg("cm x=%d y=%d x1=%d y1=%d x2=%d y2=%d", xo, yo, x1, y1, x2, y2);
-    if (xo < x1 || xo > x2 || yo < y1 || yo > y2) {
+
+    const point &com = local_center_of_mass();
+    if( com.x < xmin || com.x > xmax || com.y < ymin || com.y > ymax ) {
         return false; // center of mass not inside support of wheels (roughly)
     }
     return true;
 }
 
-bool vehicle::valid_wheel_config () const
+bool vehicle::valid_wheel_config( bool boat ) const
 {
-    return sufficient_wheel_config() && balanced_wheel_config();
+    return sufficient_wheel_config( boat ) && balanced_wheel_config( boat );
 }
 
 float vehicle::steering_effectiveness() const
@@ -3498,7 +3496,7 @@ float vehicle::steering_effectiveness() const
 float vehicle::handling_difficulty() const
 {
     const float steer = std::max( 0.0f, steering_effectiveness() );
-    const float traction = std::max( 0.0f, g->m.vehicle_traction( *this ) );
+    const float ktraction = k_traction( g->m.vehicle_wheel_traction( *this ) );
     const float kmass = k_mass();
     const float aligned = std::max( 0.0f, 1.0f - ( face_vec() - dir_vec() ).norm() );
 
@@ -3510,7 +3508,7 @@ float vehicle::handling_difficulty() const
     // TestVehicle but with bad steering (0.5 steer) and overloaded (0.5 kmass) = 10
     // TestVehicle but on fungal bed (0.5 friction), bad steering and overloaded = 15
     // TestVehicle but turned 90 degrees during this turn (0 align) = 10
-    const float diff_mod = ( ( 1.0f - steer ) + ( 1.0f - kmass ) + ( 1.0f - traction ) + ( 1.0f - aligned ) );
+    const float diff_mod = ( ( 1.0f - steer ) + ( 1.0f - kmass ) + ( 1.0f - ktraction ) + ( 1.0f - aligned ) );
     return velocity * diff_mod / tile_per_turn;
 }
 
@@ -3564,7 +3562,7 @@ void vehicle::consume_fuel( double load = 1.0 )
 std::vector<vehicle_part *> vehicle::lights( bool active )
 {
     std::vector<vehicle_part *> res;
-    for( auto& e : parts ) {
+    for( auto &e : parts ) {
         if( e.hp > 0 && e.is_light() && ( !active || e.enabled ) ) {
             res.push_back( &e );
         }
@@ -4061,9 +4059,9 @@ void vehicle::operate_scoop()
             if( !that_item_there ) {
                 continue;
             }
-            if( one_in( chance_to_damage_item ) && that_item_there->damage < MAX_ITEM_DAMAGE ) {
+            if( one_in( chance_to_damage_item ) && that_item_there->damage() < that_item_there->max_damage() ) {
                 //The scoop will not destroy the item, but it may damage it a bit.
-                that_item_there->damage++;
+                that_item_there->inc_damage( DT_BASH );
                 //The scoop gets a lot louder when breaking an item.
                 sounds::sound( position, rng(10, (long)that_item_there->volume() * 2 + 10),
                                _("BEEEThump") );
@@ -4153,7 +4151,7 @@ void vehicle::thrust( int thd ) {
     bool pl_ctrl = player_in_control( g->u );
 
     // No need to change velocity if there are no wheels
-    if( !valid_wheel_config() && velocity == 0 ) {
+    if( !valid_wheel_config( !floating.empty() ) && velocity == 0 ) {
         if( pl_ctrl ) {
             if( floating.empty() ) {
                 add_msg(_("The %s doesn't have enough wheels to move!"), name.c_str());
@@ -4172,8 +4170,16 @@ void vehicle::thrust( int thd ) {
     }
 
     // @todo Pass this as an argument to avoid recalculating
-    float traction = std::max( 0.0f, g->m.vehicle_traction( *this ) );
+    float traction = k_traction( g->m.vehicle_wheel_traction( *this ) );
     int accel = acceleration() * traction;
+    if( thrusting && accel == 0 ) {
+        if( pl_ctrl ) {
+            add_msg( _("The %s is too heavy for its engine(s)!"), name.c_str() );
+        }
+
+        return;
+    }
+
     int max_vel = max_velocity() * traction;
     // Get braking power
     int brake = 30 * k_mass();
@@ -4846,7 +4852,8 @@ void vehicle::handle_trap( const tripoint &p, int part )
     }
     if( g->u.sees(p) ) {
         if( g->u.knows_trap( p ) ) {
-            add_msg(m_bad, _("The %1$s's %s runs over %2$s."), name.c_str(),
+            //~ %1$s: name of the vehicle; %2$s: name of the related vehicle part; %3$s: trap name
+            add_msg(m_bad, _("The %1$s's %2$s runs over %3$s."), name.c_str(),
                     parts[ part ].name().c_str(), tr.name.c_str() );
         } else {
             add_msg(m_bad, _("The %1$s's %2$s runs over something."), name.c_str(),
@@ -5056,8 +5063,8 @@ void vehicle::place_spawn_items()
                     if( e.is_null() ) {
                         continue;
                     }
-                    if( broken ) {
-                        e.damage = rng( 1, MAX_ITEM_DAMAGE );
+                    if( broken && e.mod_damage( rng( 1, e.max_damage() ) ) ) {
+                        continue; // we destroyed the item
                     }
                     if( e.is_tool() || e.is_gun() || e.is_magazine() ) {
                         bool spawn_ammo = rng( 0, 99 ) < spawn.with_ammo && e.ammo_remaining() == 0;
@@ -5243,9 +5250,9 @@ void vehicle::refresh_pivot() const {
     // Const method, but messes with mutable fields
     pivot_dirty = false;
 
-    if (wheelcache.empty() || !valid_wheel_config()) {
+    if( wheelcache.empty() || !valid_wheel_config( false ) ) {
         // No usable wheels, use CoM (dragging)
-        center_of_mass(pivot_cache.x, pivot_cache.y, false);
+        pivot_cache = local_center_of_mass();
         return;
     }
 
@@ -5302,7 +5309,7 @@ void vehicle::refresh_pivot() const {
         const auto &wheel = parts[p];
 
         // @todo: load on tyre?
-        float contact_area = wheel.wheel_width() * wheel.wheel_diameter();
+        float contact_area = wheel.wheel_area();
         float weight_i;  // weighting for the in-line part
         float weight_p;  // weighting for the perpendicular part
         if (wheel.hp <= 0) {
@@ -5329,7 +5336,7 @@ void vehicle::refresh_pivot() const {
     if (xc_denominator < 0.1 || yc_denominator < 0.1) {
         debugmsg("vehicle::refresh_pivot had a bad weight: xc=%.3f/%.3f yc=%.3f/%.3f",
                  xc_numerator, xc_denominator, yc_numerator, yc_denominator);
-        center_of_mass(pivot_cache.x, pivot_cache.y, false);
+        pivot_cache = local_center_of_mass();
     } else {
         pivot_cache.x = round(xc_numerator / xc_denominator);
         pivot_cache.y = round(yc_numerator / yc_denominator);
@@ -6089,10 +6096,10 @@ vehicle_part::vehicle_part( const vpart_str_id& str, int const dx, int const dy,
                   vp.item.c_str(), base.typeId().c_str() );
     }
 
-    // item damage is [ 0..MAX_ITEM_DAMAGE ] whereas part hp is [ 1..durability ]
-    int health = ( MAX_ITEM_DAMAGE + 1 ) - base.damage;
+    // item damage is [ 0..max_damage() ] whereas part hp is [ 1..durability ]
+    int health = ( base.max_damage() + 1 ) - base.damage();
     health *= vp.durability; // [ 0, durability ]
-    health /= ( MAX_ITEM_DAMAGE + 1 );
+    health /= ( base.max_damage() + 1 );
     hp = std::max( 1, health );
 }
 
@@ -6123,10 +6130,9 @@ item vehicle_part::properties_to_item() const
         tmp.active = true;
     }
     // translate part damage to item damage.
-    // max damage is 4, min damage 0.
     // this is very lossy.
     float hpofdur = ( float )hp / vpinfo.durability;
-    tmp.damage = std::min( 4, std::max<int>( 0, ( 1 - hpofdur ) * 5 ) );
+    tmp.set_damage( std::min( tmp.max_damage(), std::max<int>( 0, ( 1 - hpofdur ) * ( tmp.max_damage() + 1 ) ) ) );
 
     return tmp;
 }
@@ -6266,7 +6272,7 @@ long vehicle_part::ammo_consume( long qty, const tripoint& pos )
     return res;
 }
 
-bool vehicle_part::can_reload( const itype_id &obj )
+bool vehicle_part::can_reload( const itype_id &obj ) const
 {
     // first check part is not destroyed and can contain ammo
     if( hp < 0 || ammo_capacity() <= 0 ) {
@@ -6316,6 +6322,11 @@ bool vehicle_part::fault_set( const fault_id &f )
     }
     base.faults.insert( f );
     return true;
+}
+
+int vehicle_part::wheel_area() const
+{
+    return base.is_wheel() ? base.type->wheel->diameter * base.type->wheel->width : 0;
 }
 
 /** Get wheel diameter (inches) or return 0 if part is not wheel */

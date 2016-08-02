@@ -1356,7 +1356,7 @@
     "symbol": ";",
     "color": "green",
     "name": "two-way radio",
-    "description": "This is a radio with a transmitting unit.  Using this allows you to send out a distress signal.  You could send either a general SOS, or send a direct call to a faction you are in contact with.",
+    "description": "This is a radio with a transmitting unit.  You could use it to contact someone who also has one.  Unfortunately no one seems to use those nowadays...",
     "price": 2000,
     "material": ["plastic", "aluminum"],
     "weight": 431,
@@ -1364,9 +1364,7 @@
     "bashing": 6,
     "max_charges": 100,
     "initial_charges": 100,
-    "charges_per_use": 1,
-    "ammo": "battery",
-    "use_action": "TWO_WAY_RADIO"
+    "ammo": "battery"
   },
   {
     "id": "radio",
@@ -3694,11 +3692,12 @@
   },
   {
     "id": "vacutainer",
-    "type": "TOOL",
+    "type": "CONTAINER",
     "symbol": ";",
     "color": "light_cyan",
     "name": "vacutainer",
-    "description": "This is a tool for drawing blood, including a vacuum-sealed test tube for holding the sample.  Use this tool to draw blood, either from yourself or from a corpse you are standing on.",
+    "category": "tools",
+    "description": "This is a tool for drawing blood, including a test tube for holding the sample.  Use this tool to draw blood, either from yourself or from a corpse you are standing on.",
     "price": 3000,
     "material": "plastic",
     "flags": "SPEAR",
@@ -3706,7 +3705,10 @@
     "volume": 1,
     "cutting": 6,
     "to_hit": -3,
-    "use_action": "VACUTAINER"
+    "use_action": "VACUTAINER",
+    "contains": 1,
+    "watertight": true,
+    "seals": true
   },
   {
     "id": "welder",
@@ -7086,7 +7088,7 @@
     "symbol": "/",
     "color": "brown",
     "name": "pro fishing rod",
-    "description": "A professional fishing rod & reel combo.  With this you should be able to catch 'em all.",
+    "description": "A professional fishing rod with a matching set of weights.  With this you should be able to catch 'em all.",
     "price": 20000,
     "material": "plastic",
     "weight": 1000,

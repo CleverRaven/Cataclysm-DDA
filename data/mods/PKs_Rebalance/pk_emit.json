@@ -1,0 +1,61 @@
+[
+    {
+    "id": "emit_gas_plume",
+    "type": "emit",
+    "//": "occassional wafts of toxic gas (example: gasbag)",
+    "field": "fd_toxic_gas",
+    "qty": 2,
+    "chance": 15
+  },{
+    "id": "emit_fire_small",
+    "type": "emit",
+    "//": "starts fires in its path and/or trail (example: lost soul)",
+    "field": "fd_fire",
+    "qty": 1,
+    "chance": 1
+  },{
+    "id": "emit_sludge",
+    "type": "emit",
+    "//": "sludge trail (example: sludge crawler)",
+    "field": "fd_sludge",
+    "qty": 2
+  },{
+    "id": "emit_sludge_small",
+    "type": "emit",
+    "//": "sludge trail (example: sludge crawler)",
+    "field": "fd_sludge",
+    "qty": 1,
+    "chance": 33
+  },{
+    "id": "emit_acid_small",
+    "type": "emit",
+    "//": "leaks a trail of thin acid (example: leaking corrosive zombie)",
+    "field": "fd_acid",
+    "qty": 2,
+    "density": 1,
+    "chance": 15
+  },{
+    "id": "emit_web_small",
+    "type": "emit",
+    "//": "occassionally lays down webs (example: web spider)",
+    "field": "fd_web",
+    "qty": 3,
+    "density": 1,
+    "chance": 5
+  },{
+    "id": "emit_web",
+    "type": "emit",
+    "//": "Lays down webs (example: black widow spider)",
+    "field": "fd_web",
+    "qty": 4,
+    "density": 2,
+    "chance": 10
+  },{
+    "id": "emit_fatigue",
+    "type": "emit",
+    "//": "adds portals to the area (example: amigara horror)",
+    "field": "fd_fatigue",
+    "qty": 1,
+    "chance": 1
+  }
+]

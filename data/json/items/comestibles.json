@@ -949,7 +949,8 @@
         "volume" : 1,
         "phase" : "liquid",
         "charges" : 7,
-        "fun" : 15
+        "fun" : 15,
+        "flags": [ "EATEN_COLD" ]
     },
     {
         "type" : "COMESTIBLE",
@@ -973,7 +974,8 @@
         "volume" : 1,
         "phase" : "liquid",
         "charges" : 7,
-        "fun" : 18
+        "fun" : 18,
+        "flags": [ "EATEN_COLD" ]
     },
     {
         "type" : "COMESTIBLE",
@@ -1150,7 +1152,8 @@
         "volume" : 1,
         "phase" : "liquid",
         "charges" : 1,
-        "fun" : 20
+        "fun" : 20,
+        "flags": [ "EATEN_HOT" ]
     },
     {
         "type" : "COMESTIBLE",
@@ -1496,7 +1499,8 @@
         "volume" : 1,
         "phase" : "liquid",
         "charges" : 1,
-        "fun" : 14
+        "fun" : 14,
+        "flags": [ "EATEN_COLD" ]
     },
     {
         "type" : "COMESTIBLE",
@@ -1545,7 +1549,8 @@
         "volume" : 1,
         "phase" : "liquid",
         "charges" : 1,
-        "fun" : 18
+        "fun" : 18,
+        "flags": [ "EATEN_COLD" ]
     },
     {
         "type" : "COMESTIBLE",
@@ -8561,10 +8566,10 @@
         "nutrition" : 35,
         "description" : "A sandwich of minced meat and cheese with condiments.  The apex of pre-cataclysm culinary achievement.",
         "price" : 1000,
-        "material" : ["flesh", "wheat", "milk"],
+        "material" : ["flesh", "wheat"],
         "volume" : 1,
         "charges" : 4,
-        "flags" : ["EATEN_HOT"],
+        "flags" : ["EATEN_HOT", "ALLERGEN_MILK"],
         "fun" : 5
     },
     {
@@ -8582,10 +8587,10 @@
         "nutrition" : 35,
         "description" : "A sandwich of minced human flesh and cheese with condiments.  The apex of post-cataclysm cannibalistic culinary achievement.",
         "price" : 0,
-        "material" : ["hflesh", "wheat", "milk"],
+        "material" : ["hflesh", "wheat"],
         "volume" : 1,
         "charges" : 4,
-        "flags" : ["EATEN_HOT"],
+        "flags" : ["EATEN_HOT", "ALLERGEN_MILK"],
         "fun" : 5
     },
     {

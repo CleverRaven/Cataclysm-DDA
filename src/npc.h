@@ -4,14 +4,10 @@
 #include "player.h"
 #include "faction.h"
 #include "json.h"
-#include "npc_favor.h"
 
 #include <vector>
 #include <string>
 #include <map>
-
-#define NPC_DANGER_LEVEL   10
-#define NPC_DANGER_VERY_LOW 5
 
 class item;
 class overmap;
@@ -37,39 +33,39 @@ void parse_tags( std::string &phrase, const player &u, const npc &me );
 enum npc_attitude : int {
  NPCATT_NULL = 0, // Don't care/ignoring player The places this is assigned is on shelter NPC generation, and when you order a NPC to stay in a location, and after talking to a NPC that wanted to talk to you.
  NPCATT_TALK,  // Move to and talk to player
- NPCATT_TRADE,  // Move to and trade with player
+ NPCATT_LEGACY_1,
  NPCATT_FOLLOW,  // Follow the player
- NPCATT_FOLLOW_RUN, // Follow the player, don't shoot monsters
+ NPCATT_LEGACY_2,
  NPCATT_LEAD,  // Lead the player, wait for them if they're behind
  NPCATT_WAIT,  // Waiting for the player
- NPCATT_DEFEND,  // Kill monsters that threaten the player
+ NPCATT_LEGACY_6,
  NPCATT_MUG,  // Mug the player
  NPCATT_WAIT_FOR_LEAVE, // Attack the player if our patience runs out
  NPCATT_KILL,  // Kill the player
  NPCATT_FLEE,  // Get away from the player
- NPCATT_SLAVE,  // Following the player under duress
+ NPCATT_LEGACY_3,
  NPCATT_HEAL,  // Get to the player and heal them
 
- NPCATT_MISSING, // Special; missing NPC as part of mission
- NPCATT_KIDNAPPED, // Special; kidnapped NPC as part of mission
+ NPCATT_LEGACY_4,
+ NPCATT_LEGACY_5,
  NPCATT_MAX
 };
 
 std::string npc_attitude_name(npc_attitude);
 
 enum npc_mission : int {
- NPC_MISSION_NULL = 0, // Nothing in particular
- NPC_MISSION_RESCUE_U, // Find the player and aid them
- NPC_MISSION_SHELTER, // Stay in shelter, introduce player to game
- NPC_MISSION_SHOPKEEP, // Stay still unless combat or something and sell stuff
+    NPC_MISSION_NULL = 0, // Nothing in particular
+    NPC_MISSION_LEGACY_1,
+    NPC_MISSION_SHELTER, // Stay in shelter, introduce player to game
+    NPC_MISSION_SHOPKEEP, // Stay still unless combat or something and sell stuff
 
- NPC_MISSION_MISSING, // Special; following player to finish mission
- NPC_MISSION_KIDNAPPED, // Special; was kidnapped, to be rescued by player
+    NPC_MISSION_LEGACY_2,
+    NPC_MISSION_LEGACY_3,
 
- NPC_MISSION_BASE, // Base Mission: unassigned (Might be used for assigning a npc to stay in a location).
- NPC_MISSION_GUARD, // Similar to Base Mission, for use outside of camps
+    NPC_MISSION_BASE, // Base Mission: unassigned (Might be used for assigning a npc to stay in a location).
+    NPC_MISSION_GUARD, // Similar to Base Mission, for use outside of camps
 
- NUM_NPC_MISSIONS
+    NUM_NPC_MISSIONS
 };
 
 //std::string npc_mission_name(npc_mission);
@@ -122,7 +118,6 @@ struct npc_opinion : public JsonSerializer, public JsonDeserializer
     int value;
     int anger;
     int owed;
-    std::vector<npc_favor> favors;
 
     npc_opinion() {
         trust = 0;
@@ -246,10 +241,12 @@ struct npc_target {
 // Data relevant only for this action
 struct npc_short_term_cache
 {
-    int danger;
-    int total_danger;
-    int danger_assessment;
+    float danger;
+    float total_danger;
+    float danger_assessment;
     npc_target target;
+
+    double my_weapon_value;
 
     std::vector<npc_target> friends;
 };
@@ -607,20 +604,17 @@ public:
 
 // Goal / mission functions
  void pick_long_term_goal();
- void perform_mission();
- int  minutes_to_u() const; // Time in minutes it takes to reach player
  bool fac_has_value(faction_value value) const;
  bool fac_has_job(faction_job job) const;
 
 // Interaction with the player
  void form_opinion( const player &u );
     std::string pick_talk_topic( const player &u );
- int  player_danger(const player &u) const; // Comparable to monsters
- int vehicle_danger(int radius) const;
+    float character_danger( const Character &u ) const;
+    float vehicle_danger(int radius) const;
  bool turned_hostile() const; // True if our anger is at least equal to...
  int hostile_anger_level() const; // ... this value!
  void make_angry(); // Called if the player attacks us
- bool wants_to_travel_with(player *p) const;
  int assigned_missions_value();
     /**
      * @return Skills of which this NPC has a higher level than the given player. In other
@@ -636,16 +630,12 @@ public:
  bool is_following() const; // Traveling w/ player (whether as a friend or a slave)
  bool is_friend() const; // Allies with the player
  bool is_leader() const; // Leading the player
- bool is_defending() const; // Putting the player's safety ahead of ours
     /** Standing in one spot, moving back if removed from it. */
     bool is_guarding() const;
     /** Trusts you a lot. */
     bool is_minion() const;
         Attitude attitude_to( const Creature &other ) const override;
 // What happens when the player makes a request
- void told_to_help();
- void told_to_wait();
- void told_to_leave();
  int  follow_distance() const; // How closely do we follow the player?
 
 
@@ -695,11 +685,11 @@ public:
     Creature *current_target();
 
 // Interaction and assessment of the world around us
-    int  danger_assessment();
-    int  average_damage_dealt(); // Our guess at how much damage we can deal
+    float danger_assessment();
+    float average_damage_dealt(); // Our guess at how much damage we can deal
     bool bravery_check(int diff);
     bool emergency() const;
-    bool emergency( int danger ) const;
+    bool emergency( float danger ) const;
     bool is_active() const;
     void say( const std::string line, ...) const;
     void decide_needs();
@@ -720,15 +710,15 @@ public:
     void process_turn() override;
 
     /** rates how dangerous a target is from 0 (harmless) to 1 (max danger) */
-    double evaluate_enemy( const Creature &target ) const;
+    float evaluate_enemy( const Creature &target ) const;
 
-    void choose_monster_target();
+    void choose_target();
     void assess_danger();
     // Functions which choose an action for a particular goal
     npc_action method_of_fleeing();
     npc_action method_of_attack();
     npc_action address_needs();
-    npc_action address_needs( int danger );
+    npc_action address_needs( float danger );
     npc_action address_player();
     npc_action long_term_goal_action();
     // Returns true if did something and we should end turn

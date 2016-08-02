@@ -859,7 +859,7 @@
       "symbol" : "(",
       "color" : "green",
       "name" : "pistol crossbow",
-      "description" : "A small concealable pistol-like crossbow.  It's weak due to it's small size and draw, so it is best suited for hunting small game.  Bolts fired from this weapon have a good chance of remaining intact for re-use.",
+      "description" : "A small concealable pistol-like crossbow.  It's weak due to its small size and draw, so it is best suited for hunting small game.  Bolts fired from this weapon have a good chance of remaining intact for re-use.",
       "price" : 55000,
       "material" : ["steel", "wood"],
       "flags" : "PRIMITIVE_RANGED_WEAPON",

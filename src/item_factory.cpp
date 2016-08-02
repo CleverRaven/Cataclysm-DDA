@@ -545,7 +545,6 @@ void Item_factory::init()
     add_iuse( "TOWEL", &iuse::towel );
     add_iuse( "TRIMMER_OFF", &iuse::trimmer_off );
     add_iuse( "TRIMMER_ON", &iuse::trimmer_on );
-    add_iuse( "TWO_WAY_RADIO", &iuse::two_way_radio );
     add_iuse( "UNFOLD_GENERIC", &iuse::unfold_generic );
     add_iuse( "UNPACK_ITEM", &iuse::unpack_item );
     add_iuse( "UPS_BATTERY", &iuse::ups_battery );
@@ -664,6 +663,9 @@ void Item_factory::check_definitions() const
         if( type->price < 0 ) {
             msg << "negative price" << "\n";
         }
+        if( type->description.empty() ) {
+            msg << "empty description" << "\n";
+        }
 
         for( auto mat_id : type->materials ) {
             if( mat_id.str() == "null" || !mat_id.is_valid() ) {
@@ -774,7 +776,7 @@ void Item_factory::check_definitions() const
             } else {
                 // whereas if it does use ammo enforce specifying either (but not both)
                 if( bool( type->gun->clip ) == !type->magazines.empty() ) {
-                    msg << "missing or duplicte clip_size or magazine" << "\n";
+                    msg << "missing or duplicate clip_size or magazine" << "\n";
                 }
 
                 if( type->item_tags.count( "RELOAD_AND_SHOOT" ) && !type->magazines.empty() ) {
@@ -1532,9 +1534,9 @@ void Item_factory::load_basic_info( JsonObject &jo, itype *new_item_template, co
     assign( jo, "stack_size", new_item_template->stack_size );
     assign( jo, "integral_volume", new_item_template->integral_volume );
     assign( jo, "color", new_item_template->color );
-    assign( jo, "bashing", new_item_template->melee_dam );
-    assign( jo, "cutting", new_item_template->melee_cut );
-    assign( jo, "to_hit", new_item_template->m_to_hit );
+    assign( jo, "bashing", new_item_template->melee_dam, strict );
+    assign( jo, "cutting", new_item_template->melee_cut, strict );
+    assign( jo, "to_hit", new_item_template->m_to_hit, strict );
     assign( jo, "container", new_item_template->default_container );
     assign( jo, "rigid", new_item_template->rigid );
     assign( jo, "min_strength", new_item_template->min_str );

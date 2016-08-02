@@ -630,12 +630,12 @@ Creature::Attitude monster::attitude_to( const Creature &other ) const
     } else if( p != nullptr ) {
         switch( attitude( const_cast<player *>( p ) ) ) {
             case MATT_FRIEND:
+            case MATT_ZLAVE:
                 return A_FRIENDLY;
             case MATT_FPASSIVE:
             case MATT_FLEE:
             case MATT_IGNORE:
             case MATT_FOLLOW:
-            case MATT_ZLAVE:
                 return A_NEUTRAL;
             case MATT_ATTACK:
                 return A_HOSTILE;
@@ -1916,9 +1916,9 @@ void monster::init_from_item( const item &itm )
         set_speed_base( get_speed_base() * 0.8 );
         const int burnt_penalty = itm.burnt;
         hp = static_cast<int>( hp * 0.7 );
-        if( itm.damage > 0 ) {
-            set_speed_base( speed_base / ( itm.damage + 1 ) );
-            hp /= itm.damage + 1;
+        if( itm.damage() > 0 ) {
+            set_speed_base( speed_base / ( itm.damage() + 1 ) );
+            hp /= itm.damage() + 1;
         }
 
         hp -= burnt_penalty;
@@ -1930,9 +1930,9 @@ void monster::init_from_item( const item &itm )
         }
     } else {
         // must be a robot
-        const int damfac = 5 - std::max<int>( 0, itm.damage ); // 5 (no damage) ... 1 (max damage)
+        const int damfac = itm.max_damage() - std::max( 0, itm.damage() ) + 1;
         // One hp at least, everything else would be unfair (happens only to monster with *very* low hp),
-        hp = std::max( 1, hp * damfac / 5 );
+        hp = std::max( 1, hp * damfac / ( itm.max_damage() + 1 ) );
     }
 }
 
@@ -1943,8 +1943,8 @@ item monster::to_item() const
     }
     // Birthday is wrong, but the item created here does not use it anyway (I hope).
     item result( type->revert_to_itype, calendar::turn );
-    const int damfac = std::max( 1, 5 * hp / type->hp ); // 1 ... 5 (or more for some monsters with hp > type->hp)
-    result.damage = std::max( 0, 5 - damfac ); // 4 ... 0
+    const int damfac = std::max( 1, ( result.max_damage() + 1 ) * hp / type->hp );
+    result.set_damage( std::max( 0, ( result.max_damage() + 1 ) - damfac ) );
     return result;
 }
 
@@ -1959,7 +1959,7 @@ float monster::power_rating() const
 
 float monster::speed_rating() const
 {
-    float ret = 1.0f / get_speed();
+    float ret = get_speed() / 100.0f;
     const auto leap = type->special_attacks.find( "leap" );
     if( leap != type->special_attacks.end() ) {
         // TODO: Make this calculate sane values here

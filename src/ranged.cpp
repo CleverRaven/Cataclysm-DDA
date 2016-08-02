@@ -467,12 +467,12 @@ bool player::handle_gun_damage( item &it )
         add_msg_player_or_npc(_("Your %s malfunctions!"),
                               _("<npcname>'s %s malfunctions!"),
                               it.tname().c_str());
-        if( it.damage < MAX_ITEM_DAMAGE && one_in( 4 * firing->durability ) ) {
+        if( it.damage() < it.max_damage() && one_in( 4 * firing->durability ) ) {
             add_msg_player_or_npc(m_bad, _("Your %s is damaged by the mechanical malfunction!"),
                                   _("<npcname>'s %s is damaged by the mechanical malfunction!"),
                                   it.tname().c_str());
             // Don't increment until after the message
-            it.damage++;
+            it.inc_damage();
         }
         return false;
         // Here we check for a chance for the weapon to suffer a misfire due to
@@ -491,12 +491,12 @@ bool player::handle_gun_damage( item &it )
         add_msg_player_or_npc(_("Your %s misfires with a muffled click!"),
                               _("<npcname>'s %s misfires with a muffled click!"),
                               it.tname().c_str());
-        if( it.damage < MAX_ITEM_DAMAGE && one_in( firing->durability ) ) {
+        if( it.damage() < it.max_damage() && one_in( firing->durability ) ) {
             add_msg_player_or_npc(m_bad, _("Your %s is damaged by the misfired round!"),
                                   _("<npcname>'s %s is damaged by the misfired round!"),
                                   it.tname().c_str());
             // Don't increment until after the message
-            it.damage++;
+            it.inc_damage();
         }
         return false;
     }
@@ -878,40 +878,41 @@ static int draw_targeting_window( WINDOW *w_target, item *relevant, player &p, t
         // Reserve a line for mouse instructions.
         --text_y;
     }
-    if( relevant ) {
-        if( mode == TARGET_MODE_FIRE ) {
-            // Reserve lines for aiming and firing instructions.
-            text_y -= ( 3 + aim_types.size() );
-        } else {
-            text_y -= 2;
-        }
+    if( mode == TARGET_MODE_FIRE || mode == TARGET_MODE_TURRET_MANUAL ) {
+        // Reserve lines for aiming and firing instructions.
+        text_y -= ( 3 + aim_types.size() );
+    } else {
+        text_y -= 2;
     }
 
     // The -1 is the -2 from above, but adjusted since this is a total, not an index.
     int lines_used = getmaxy(w_target) - 1 - text_y;
     mvwprintz(w_target, text_y++, 1, c_white, _("Move cursor to target with directional keys"));
-    if( relevant ) {
-        auto const front_or = [&](std::string const &s, char const fallback) {
-            auto const keys = ctxt.keys_bound_to(s);
-            return keys.empty() ? fallback : keys.front();
-        };
 
+    auto const front_or = [&](std::string const &s, char const fallback) {
+        auto const keys = ctxt.keys_bound_to(s);
+        return keys.empty() ? fallback : keys.front();
+    };
+
+    if( mode == TARGET_MODE_FIRE || mode == TARGET_MODE_TURRET_MANUAL ) {
         mvwprintz( w_target, text_y++, 1, c_white, _("%c %c Cycle targets; %c to fire."),
-                   front_or("PREV_TARGET", ' '), front_or("NEXT_TARGET", ' '),
-                   front_or("FIRE", ' ') );
+                   front_or("PREV_TARGET", ' '), front_or("NEXT_TARGET", ' '), front_or("FIRE", ' ') );
         mvwprintz( w_target, text_y++, 1, c_white, _("%c target self; %c toggle snap-to-target"),
                    front_or("CENTER", ' ' ), front_or("TOGGLE_SNAP_TO_TARGET", ' ') );
-        if( mode == TARGET_MODE_FIRE ) {
-            mvwprintz( w_target, text_y++, 1, c_white, _("%c to steady your aim. "),
-                       front_or("AIM", ' ') );
-            for( std::vector<aim_type>::const_iterator it = aim_types.begin(); it != aim_types.end(); it++ ) {
-                if(it->has_threshold){
-                    mvwprintz( w_target, text_y++, 1, c_white, it->help.c_str(), front_or( it->action, ' ') );
-                }
+    }
+
+    if( mode == TARGET_MODE_FIRE ) {
+        mvwprintz( w_target, text_y++, 1, c_white, _( "%c to steady your aim. " ), front_or( "AIM", ' ' ) );
+        for( const auto &e : aim_types ) {
+            if( e.has_threshold){
+                mvwprintz( w_target, text_y++, 1, c_white, e.help.c_str(), front_or( e.action, ' ') );
             }
-            mvwprintz( w_target, text_y++, 1, c_white, _("%c to switch aiming modes."),
-                       front_or("SWITCH_AIM", ' ') );
         }
+        mvwprintz( w_target, text_y++, 1, c_white, _( "%c to switch aiming modes." ), front_or( "SWITCH_AIM", ' ' ) );
+    }
+
+    if( mode == TARGET_MODE_TURRET_MANUAL ) {
+        mvwprintz( w_target, text_y++, 1, c_white, _( "%c to switch firing modes." ), front_or( "SWITCH_MODE", ' ' ) );
     }
 
     if( is_mouse_enabled() ) {
@@ -1116,6 +1117,11 @@ std::vector<tripoint> game::target( tripoint &p, const tripoint &low, const trip
         }
         aim_mode = aim_types.begin();
     }
+
+    if( mode == TARGET_MODE_TURRET_MANUAL ) {
+        ctxt.register_action( "SWITCH_MODE" );
+    }
+
     ctxt.register_action("CENTER");
     ctxt.register_action("TOGGLE_SNAP_TO_TARGET");
     ctxt.register_action("HELP_KEYBINDINGS");
@@ -1178,38 +1184,42 @@ std::vector<tripoint> game::target( tripoint &p, const tripoint &low, const trip
             draw_line( p, center, ret_this_zlevel );
 
             // Print to target window
-            if( !relevant ) {
-                // currently targetting vehicle to refill with fuel
-                vehicle *veh = m.veh_at(p);
-                if( veh != nullptr && u.sees( p ) ) {
-                    mvwprintw(w_target, line_number++, 1, _("There is a %s"),
-                              veh->name.c_str());
-                }
-            } else if( relevant == &u.weapon && relevant->is_gun() ) {
-                // firing a gun
-                mvwprintw( w_target, line_number++, 1, _( "Range: %d/%d, %s" ),
-                          rl_dist( from, p ), range, enemiesmsg.c_str() );
+            mvwprintw( w_target, line_number++, 1, _( "Range: %d/%d, %s" ),
+                      rl_dist( from, p ), range, enemiesmsg.c_str() );
 
-                auto m = relevant->gun_current_mode();
-                if( !m.mode.empty() ) {
-                    mvwprintw( w_target, line_number++, 1, _("Firing mode: %s"), m.mode.c_str() );
-                }
-            } else {
-                // throwing something or setting turret's target
-                mvwprintw( w_target, line_number++, 1, _("Range: %d/%d, %s"),
-                          rl_dist(from, p), range, enemiesmsg.c_str() );
-            }
-
-            if( critter != nullptr && u.sees( *critter ) ) {
-                // The 6 is 2 for the border and 4 for aim bars.
-                int available_lines = compact_window ? 1 :
-                                      ( height - num_instruction_lines - line_number - 6 );
-                line_number = critter->print_info( w_target, line_number, available_lines, 1);
-            } else {
-                mvwputch(w_terrain, POSY + p.y - center.y, POSX + p.x - center.x, c_red, '*');
-            }
         } else {
             mvwprintw( w_target, line_number++, 1, _("Range: %d, %s"), range, enemiesmsg.c_str() );
+        }
+
+        line_number++;
+
+        if( mode == TARGET_MODE_FIRE || mode == TARGET_MODE_TURRET_MANUAL ) {
+            auto m = relevant->gun_current_mode();
+
+            if( relevant != m.target ) {
+                mvwprintw( w_target, line_number++, 1, _( "Firing mode: %s %s (%d)" ),
+                           m->tname().c_str(), m.mode.c_str(), m.qty );
+            } else {
+                mvwprintw( w_target, line_number++, 1, _( "Firing mode: %s (%d)" ),
+                           m.mode.c_str(), m.qty );
+            }
+
+            if( m->ammo_data() ) {
+                mvwprintw( w_target, line_number++, 1,
+                           m->ammo_capacity() > 1 ? _( "Ammo: %s (%d/%d)" ) : _( "Ammo: %s" ),
+                           item::nname( m->ammo_current(), m->ammo_remaining() ).c_str(),
+                           m->ammo_remaining(), m->ammo_capacity() );
+            }
+            line_number++;
+        }
+
+        if( critter && critter != &u && u.sees( *critter ) ) {
+            // The 6 is 2 for the border and 4 for aim bars.
+            int available_lines = compact_window ? 1 :
+                                  ( height - num_instruction_lines - line_number - 6 );
+            line_number = critter->print_info( w_target, line_number, available_lines, 1);
+        } else {
+            mvwputch(w_terrain, POSY + p.y - center.y, POSX + p.x - center.x, c_red, '*');
         }
 
         if( mode == TARGET_MODE_FIRE && critter != nullptr && u.sees( *critter ) ) {
@@ -1331,6 +1341,8 @@ std::vector<tripoint> game::target( tripoint &p, const tripoint &low, const trip
                 u.view_offset = old_offset;
                 return ret;
             }
+        } else if( action == "SWITCH_MODE" ) {
+            relevant->gun_cycle_mode();
         } else if( action == "SWITCH_AIM" ) {
             aim_mode++;
             if( aim_mode == aim_types.end() ) {

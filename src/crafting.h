@@ -39,7 +39,7 @@ struct recipe {
     private:
         std::string ident_;
 
-        friend void load_recipe( JsonObject &jsobj );
+        friend void load_recipe( JsonObject &jsobj, const std::string &src, bool uncraft );
 
     public:
         itype_id result;
@@ -69,6 +69,9 @@ struct recipe {
         bool reversible; // can the item be disassembled?
         std::map<skill_id, int> autolearn_requirements; // Skill levels required to autolearn
         std::map<skill_id, int> learn_by_disassembly; // Skill levels required to learn by disassembly
+
+        /** If set (zero or positive) set charges of output result for items counted by charges */
+        int charges = -1;
 
         // maximum achievable time reduction, as percentage of the original time.
         // if zero then the recipe has no batch crafting time reduction.
@@ -129,7 +132,7 @@ void remove_ammo( item *dis_item, player &p );
 // same as above but for each item in the list
 void remove_ammo( std::list<item> &dis_items, player &p );
 
-void load_recipe( JsonObject &jsobj );
+void load_recipe( JsonObject &jsobj, const std::string &src, bool uncraft );
 void reset_recipes();
 const recipe *recipe_by_name( const std::string &name );
 const recipe *get_disassemble_recipe( const itype_id &type );

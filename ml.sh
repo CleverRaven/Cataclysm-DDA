@@ -1,0 +1,2 @@
+#!/bin/sh
+make -j4 CLANG=1 TILES=1 SOUND=1 LUA=1 ASTYLE_CHECK=1

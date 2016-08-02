@@ -1396,14 +1396,13 @@ void veh_interact::display_veh ()
         // show CoM, pivot in debug mode
 
         const point &pivot = veh->pivot_point();
-        int com_x, com_y;
-        veh->center_of_mass(com_x, com_y, false);
+        const point &com = veh->local_center_of_mass();
 
-        mvwprintz(w_disp, 0, 0, c_green, "CoM   %d,%d", com_x, com_y);
+        mvwprintz(w_disp, 0, 0, c_green, "CoM   %d,%d", com.x, com.y);
         mvwprintz(w_disp, 1, 0, c_red,   "Pivot %d,%d", pivot.x, pivot.y);
 
-        int com_sx = com_y + ddy + hw;
-        int com_sy = -(com_x + ddx) + hh;
+        int com_sx = com.y + ddy + hw;
+        int com_sy = -(com.x + ddx) + hh;
         int pivot_sx = pivot.y + ddy + hw;
         int pivot_sy = -(pivot.x + ddx) + hh;
 
@@ -1447,6 +1446,55 @@ void veh_interact::display_veh ()
     wrefresh (w_disp);
 }
 
+static std::string wheel_state_description( const vehicle &veh )
+{
+    bool is_boat = !veh.all_parts_with_feature(VPFLAG_FLOATS).empty();
+    bool is_land = !veh.all_parts_with_feature(VPFLAG_WHEEL).empty();
+
+    bool suf_land = veh.sufficient_wheel_config( false );
+    bool bal_land = veh.balanced_wheel_config( false );
+
+    bool suf_boat = veh.sufficient_wheel_config( true );
+    bool bal_boat = veh.balanced_wheel_config( true );
+    float steer = veh.steering_effectiveness();
+
+    std::string wheel_status;
+    if( !suf_land && is_boat ) {
+        wheel_status = _( "<color_ltred>disabled</color>" );
+    } else if( !suf_land ) {
+        wheel_status = _( "<color_ltred>lack</color>" );
+    } else if( !bal_land ) {
+        wheel_status = _( "<color_ltred>unbalanced</color>" );
+    } else if( steer < 0 ) {
+        wheel_status = _( "<color_ltred>no steering</color>" );
+    } else if( steer < 0.033 ) {
+        wheel_status = _( "<color_ltred>broken steering</color>" );
+    } else if( steer < 0.5 ) {
+        wheel_status = _( "<color_ltred>poor steering</color>" );
+    } else {
+        wheel_status = _( "<color_ltgreen>enough</color>" );
+    }
+
+    std::string boat_status;
+    if( !suf_boat ) {
+        boat_status = _( "<color_ltred>leaks</color>" );
+    } else if( !bal_boat ) {
+        boat_status = _( "<color_ltred>unbalanced</color>" );
+    } else {
+        boat_status = _( "<color_blue>swims</color>" );
+    }
+
+    if( is_boat && is_land ) {
+        return string_format( _( "Wheels/boat: %s/%s" ), wheel_status.c_str(), boat_status.c_str() );
+    }
+
+    if( is_boat ) {
+        return string_format( _( "Boat: %s" ), boat_status.c_str() );
+    }
+
+    return string_format( _( "Wheels: %s" ), wheel_status.c_str() );
+}
+
 /**
  * Displays the vehicle's stats at the bottom of the window.
  */
@@ -1473,13 +1521,13 @@ void veh_interact::display_stats()
             x[i] = 1;
             y[i] = i;
             w[i] = second_column - 2;
-        } else if (i < 12) { // Second column
+        } else if (i < 13) { // Second column
             x[i] = second_column;
             y[i] = i - 6;
             w[i] = third_column - second_column - 1;
         } else { // Third column
             x[i] = third_column;
-            y[i] = i - 12;
+            y[i] = i - 13;
             w[i] = extraw - third_column - 2;
         }
     }
@@ -1507,44 +1555,7 @@ void veh_interact::display_stats()
     x[4] += utf8_width(_("Status:")) + 1;
     fold_and_print(w_stats, y[4], x[4], w[4], totalDurabilityColor, totalDurabilityText);
 
-    bool isBoat = !veh->all_parts_with_feature(VPFLAG_FLOATS).empty();
-    bool suf, bal;
-    float steer;
-    suf = veh->sufficient_wheel_config();
-    bal = veh->balanced_wheel_config();
-    steer = veh->steering_effectiveness();
-    if( !isBoat ) {
-        if( !suf ) {
-            fold_and_print(w_stats, y[5], x[5], w[5], c_ltgray,
-                           _("Wheels: <color_ltred>lack</color>"));
-        } else if (!bal) {
-            fold_and_print(w_stats, y[5], x[5], w[5], c_ltgray,
-                           _("Wheels: <color_ltred>unbalanced</color>"));
-        } else if (steer < 0) {
-            fold_and_print(w_stats, y[5], x[5], w[5], c_ltgray,
-                           _("Wheels: <color_ltred>no steering</color>"));
-        } else if (steer < 0.033) {
-            fold_and_print(w_stats, y[5], x[5], w[5], c_ltgray,
-                           _("Wheels: <color_ltred>broken steering</color>"));
-        } else if (steer < 0.5) {
-            fold_and_print(w_stats, y[5], x[5], w[5], c_ltgray,
-                           _("Wheels: <color_ltred>poor steering</color>"));
-        } else {
-            fold_and_print(w_stats, y[5], x[5], w[5], c_ltgray,
-                           _("Wheels: <color_ltgreen>enough</color>"));
-        }
-    }   else {
-        if( !suf ) {
-            fold_and_print(w_stats, y[5], x[5], w[5], c_ltgray,
-                           _("Boat: <color_ltred>can't swim</color>"));
-        } else if (!bal) {
-            fold_and_print(w_stats, y[5], x[5], w[5], c_ltgray,
-                           _("Boat: <color_ltred>unbalanced</color>"));
-        } else {
-            fold_and_print(w_stats, y[5], x[5], w[5], c_ltgray,
-                           _("Boat: <color_blue>can swim</color>"));
-        }
-    }
+    fold_and_print( w_stats, y[5], x[5], w[5], c_ltgray, wheel_state_description( *veh ).c_str() );
 
     // Write the most damaged part
     if (mostDamagedPart != -1) {
@@ -1566,6 +1577,8 @@ void veh_interact::display_stats()
         }
     }
 
+    bool is_boat = !veh->all_parts_with_feature(VPFLAG_FLOATS).empty();
+
     fold_and_print(w_stats, y[7], x[7], w[7], c_ltgray,
                    _("K aerodynamics: <color_ltblue>%3d</color>%%"),
                    int(veh->k_aerodynamics() * 100));
@@ -1575,10 +1588,13 @@ void veh_interact::display_stats()
     fold_and_print(w_stats, y[9], x[9], w[9], c_ltgray,
                    _("K mass:         <color_ltblue>%3d</color>%%"),
                    int(veh->k_mass() * 100));
+    fold_and_print( w_stats, y[10], x[10], w[10], c_ltgray,
+                    _("Offroad:        <color_ltblue>%3d</color>%%"),
+                    int( veh->k_traction( veh->wheel_area( is_boat ) * 0.5f ) * 100 ) );
 
     // "Fuel usage (safe): " is renamed to "Fuel usage: ".
-    mvwprintz(w_stats, y[10], x[10], c_ltgray,  _("Fuel usage:      "));
-    x[10] += utf8_width(_("Fuel usage:      "));
+    mvwprintz(w_stats, y[11], x[11], c_ltgray,  _("Fuel usage:      "));
+    x[11] += utf8_width(_("Fuel usage:      "));
 
     bool first = true;
     int fuel_name_length = 0;
@@ -1591,26 +1607,26 @@ void veh_interact::display_stats()
                 fuel_usage = 1;
             }
             if (!first) {
-                mvwprintz(w_stats, y[10], x[10]++, c_ltgray, "/");
+                mvwprintz(w_stats, y[11], x[11]++, c_ltgray, "/");
             }
-            mvwprintz(w_stats, y[10], x[10]++, ft.color, "%d", fuel_usage);
+            mvwprintz(w_stats, y[11], x[11]++, ft.color, "%d", fuel_usage);
             if (fuel_usage > 9) {
-                x[10]++;
+                x[11]++;
             }
             if (fuel_usage > 99) {
-                x[10]++;
+                x[11]++;
             }
             first = false;
         }
         if (first) {
-            mvwprintz(w_stats, y[10], x[10], c_ltgray, "-"); // no engines
+            mvwprintz(w_stats, y[11], x[11], c_ltgray, "-"); // no engines
         }
     }
 
     // Print fuel percentage & type name only if it fits in the window, 10 is width of "E...F 100%"
-    veh->print_fuel_indicators (w_stats, y[12], x[12], fuel_index, true,
-                               ( x[ 12 ] + 10 < getmaxx( w_stats ) ),
-                               ( x[ 12 ] + 10 + fuel_name_length < getmaxx( w_stats ) ) );
+    veh->print_fuel_indicators (w_stats, y[13], x[13], fuel_index, true,
+                               ( x[ 13 ] + 10 < getmaxx( w_stats ) ),
+                               ( x[ 13 ] + 10 + fuel_name_length < getmaxx( w_stats ) ) );
 
     wrefresh(w_stats);
 }
@@ -2128,7 +2144,7 @@ void complete_vehicle ()
 
         add_msg( m_good, _("You install a %1$s into the %2$s." ), veh->parts[ partnum ].name().c_str(), veh->name.c_str() );
 
-        if( !reqs.get_tools().empty() ) {
+        if( !reqs.is_empty() ) {
             g->u.practice( skill_mechanics, vpinfo.difficulty * 50 );
         }
         break;
@@ -2207,7 +2223,7 @@ void complete_vehicle ()
         if (!broken) {
             g->m.add_item_or_charges( g->u.pos(), veh->parts[vehicle_part].properties_to_item() );
             // simple tasks won't train mechanics
-            if( !reqs.get_tools().empty() ) {
+            if( !reqs.is_empty() ) {
                 g->u.practice( skill_mechanics, vpinfo.difficulty * 50 );
             }
         } else {

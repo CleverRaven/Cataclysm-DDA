@@ -45,9 +45,9 @@
   {
     "id": "emit_toxic_blast",
     "type": "emit",
-    "//": "Small blast of toxic gas (example: bloated zombie explosion)",
+    "//": "Large blast of toxic gas (example: bloated zombie explosion)",
     "field": "fd_toxic_gas",
-    "qty": 36
+    "qty": 200
   },
   {
     "id": "emit_toxic_leak",

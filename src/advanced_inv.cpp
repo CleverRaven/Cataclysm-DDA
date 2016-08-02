@@ -421,8 +421,8 @@ struct advanced_inv_sorter {
                 }
                 break;
             case SORTBY_DAMAGE:
-                if( d1.items.front()->damage != d2.items.front()->damage ) {
-                    return d1.items.front()->damage < d2.items.front()->damage;
+                if( d1.items.front()->damage() != d2.items.front()->damage() ) {
+                    return d1.items.front()->damage() < d2.items.front()->damage();
                 }
                 break;
         }

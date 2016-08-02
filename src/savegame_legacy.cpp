@@ -237,7 +237,7 @@ void item::load_info( const std::string &data )
     convert( idtmp );
 
     invlet = char(lettmp);
-    damage = damtmp;
+    set_damage( damtmp );
     active = false;
     if (acttmp == 1) {
         active = true;
