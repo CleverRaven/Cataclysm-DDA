@@ -1,5 +1,6 @@
 #include "npc.h"
 #include "npc_class.h"
+#include "auto_pickup.h"
 #include "output.h"
 #include "game.h"
 #include "map.h"
@@ -24,6 +25,7 @@
 #include "text_snippets.h"
 #include "map_selector.h"
 #include "vehicle_selector.h"
+#include "ui.h"
 
 #include <vector>
 #include <string>
@@ -1493,10 +1495,13 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic ) const
     } else if( topic == "TALK_MISC_RULES" ) {
         std::stringstream status;
         std::string npcstr = rm_prefix(p->male ? _("<npc>He") : _("<npc>She"));
-        if( p->rules.allow_pick_up ) {
-            status << string_format(_(" %s will pick up items."), npcstr.c_str());
+
+        if( p->rules.allow_pick_up && p->rules.pickup_whitelist->empty() ) {
+            status << string_format( _(" %s will pick up all items."), npcstr.c_str() );
+        } else if( p->rules.allow_pick_up ) {
+            status << string_format( _(" %s will pick up items from the whitelist."), npcstr.c_str() );
         } else {
-            status << string_format(_(" %s will not pick up items."), npcstr.c_str());
+            status << string_format( _(" %s will not pick up items."), npcstr.c_str() );
         }
 
         if( p->rules.allow_bash ) {
@@ -2740,6 +2745,13 @@ void dialogue::gen_responses( const talk_topic &the_topic )
             add_response_done( _("Go back to sleep.") );
 
     } else if( topic == "TALK_MISC_RULES" ) {
+            add_response( _("Follow same rules as this follower."), "TALK_MISC_RULES", []( npc &np ) {
+                const npc *other = pick_follower();
+                if( other != nullptr && other != &np ) {
+                    np.rules = other->rules;
+                }
+            } );
+
             add_response( p->rules.allow_pick_up ? _("Don't pick up items.") : _("You can pick up items now."),
                           "TALK_MISC_RULES", []( npc &np ) { np.rules.allow_pick_up = !np.rules.allow_pick_up; } );
             add_response( p->rules.allow_bash ? _("Don't bash obstacles.") : _("You can bash obstacles."),
@@ -2752,6 +2764,11 @@ void dialogue::gen_responses( const talk_topic &the_topic )
                           "TALK_MISC_RULES", []( npc &np ) { np.rules.allow_pulp = !np.rules.allow_pulp; } );
             add_response( p->rules.close_doors ? _("Leave doors open.") : _("Close the doors."),
                           "TALK_MISC_RULES", []( npc &np ) { np.rules.close_doors = !np.rules.close_doors; } );
+
+            add_response( _("Set up pickup rules."), "TALK_MISC_RULES", []( npc &np ) {
+                const std::string title = string_format( _( "Pickup rules for %s" ), np.name.c_str() );
+                np.rules.pickup_whitelist->show( title, false );
+            } );
 
             add_response_none( _("Never mind.") );
 
@@ -4674,4 +4691,83 @@ std::string give_item_to( npc &p, bool allow_use, bool allow_carry )
     }
 
     return reason.str();
+}
+
+bool npc::has_item_whitelist() const
+{
+    return is_following() && !rules.pickup_whitelist->empty();
+}
+
+bool npc::item_whitelisted( const item &it )
+{
+    if( !has_item_whitelist() ) {
+        return true;
+    }
+
+    auto &wlist = *rules.pickup_whitelist;
+    const auto to_match = it.tname( 1, false );
+    const auto rule = wlist.check_item( to_match );
+    if( rule == RULE_WHITELISTED ) {
+        return true;
+    }
+
+    if( rule == RULE_BLACKLISTED ) {
+        return false;
+    }
+
+    wlist.create_rule( to_match );
+    return wlist.check_item( to_match ) == RULE_WHITELISTED;
+}
+
+npc_follower_rules::npc_follower_rules()
+{
+    engagement = ENGAGE_ALL;
+    aim = AIM_WHEN_CONVENIENT;
+    use_guns = true;
+    use_grenades = true;
+    use_silent = false;
+
+    allow_pick_up = false;
+    allow_bash = false;
+    allow_sleep = false;
+    allow_complain = true;
+    allow_pulp = true;
+
+    close_doors = false;
+
+    pickup_whitelist.reset( new auto_pickup() );
+};
+
+npc_follower_rules::~npc_follower_rules() = default;
+
+npc *pick_follower()
+{
+    std::vector<npc *> followers;
+    std::vector<tripoint> locations;
+
+    for( npc *np : g->active_npc ) {
+        if( np->is_following() && g->u.sees( *np ) ) {
+            followers.push_back( np );
+            locations.push_back( np->pos() );
+        }
+    }
+
+    pointmenu_cb callback( locations );
+
+    uimenu menu;
+    menu.text = _( "Select a follower" );
+    menu.return_invalid = true;
+    menu.callback = &callback;
+    menu.w_y = 2;
+
+    for( const npc *p : followers ) {
+        menu.addentry( -1, true, MENU_AUTOASSIGN, p->name );
+    }
+
+    menu.query();
+    if( menu.ret < 0 || menu.ret >= static_cast<int>( followers.size() ) ) {
+        return nullptr;
+    }
+
+    return followers[ menu.ret ];
 }
