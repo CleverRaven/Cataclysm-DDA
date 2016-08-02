@@ -1662,6 +1662,9 @@ void npc::find_item()
 
     fetching_item = false;
     int best_value = minimum_item_value();
+    // Not perfect, but has to mirror pickup code
+    auto volume_allowed = volume_capacity() - volume_carried();
+    auto weight_allowed = weight_capacity() - weight_carried();
     // For some reason range limiting by vision doesn't work properly
     const int range = 6;
     //int range = sight_range( g->light_level( posz() ) );
@@ -1670,25 +1673,58 @@ void npc::find_item()
     static const std::string no_pickup( "NO_NPC_PICKUP" );
 
     const item *wanted = nullptr;
+
+    const bool whitelisting = has_item_whitelist();
+
+    const auto consider_item =
+        [&wanted, &best_value, whitelisting, volume_allowed, weight_allowed, this]
+        ( const item &it, const tripoint &p ) {
+        if( it.made_of( LIQUID ) ) {
+            // Don't even consider liquids.
+            return;
+        }
+
+        if( whitelisting && !item_whitelisted( it ) ) {
+            return;
+        }
+
+        // When using a whitelist, skip the value check
+        // @todo Whitelist hierarchy?
+        int itval = whitelisting ? 1000 : value( it );
+        
+        if( itval > best_value &&
+            ( it.volume() <= volume_allowed && it.weight() <= weight_allowed ) ) {
+            wanted_item_pos = p;
+            wanted = &( it );
+            best_value = itval;
+            fetching_item = true;
+        }
+    };
+
     for( const tripoint &p : g->m.points_in_radius( pos(), range ) ) {
         // TODO: Make this sight check not overdraw nearby tiles
         // TODO: Optimize that zone check
         if( g->m.sees_some_items( p, *this ) && sees( p ) &&
             ( !is_following() || !g->check_zone( no_pickup, p ) ) ) {
-            for( auto &elem : g->m.i_at( p ) ) {
-                if( elem.made_of( LIQUID ) ) {
-                    // Don't even consider liquids.
-                    continue;
-                }
-                int itval = value( elem );
-                if( itval > best_value &&
-                    ( can_pickWeight( elem, true ) && can_pickVolume( elem, true ) ) ) {
-                    wanted_item_pos = p;
-                    wanted = &( elem );
-                    best_value = itval;
-                    fetching_item = true;
-                }
+            for( const item &it : g->m.i_at( p ) ) {
+                consider_item( it, p );
             }
+        }
+
+        int veh_part = -1;
+        const vehicle *veh = g->m.veh_at( p, veh_part );
+        if( veh == nullptr || veh->velocity != 0 ) {
+            continue;
+        }
+
+        veh_part = veh->part_with_feature( veh_part, VPFLAG_CARGO, true );
+        static const std::string locked_string( "LOCKED" );
+        if( veh_part < 0 || veh->part_flag( veh_part, locked_string ) ) {
+            continue;
+        }
+
+        for( const item &it : veh->get_items( veh_part ) ) {
+            consider_item( it, p );
         }
     }
 
@@ -1724,9 +1760,17 @@ void npc::pick_up_item()
              posx(), posy(), posz(), wanted_item_pos.x, wanted_item_pos.y, wanted_item_pos.z );
     update_path( wanted_item_pos );
 
-    auto items = g->m.i_at( wanted_item_pos );
+    int veh_part = -1;
+    vehicle *veh = g->m.veh_at( wanted_item_pos, veh_part );
+    if( veh != nullptr ) {
+        veh_part = veh->part_with_feature( veh_part, VPFLAG_CARGO, false );
+    }
 
-    if( ( items.size() == 0 && sees( wanted_item_pos ) ) ||
+    const bool has_cargo = veh != nullptr &&
+                           veh_part >= 0 &&
+                           !veh->part_flag( veh_part, "LOCKED" );
+
+    if( ( !g->m.has_items( wanted_item_pos ) && !has_cargo && sees( wanted_item_pos ) ) ||
         ( is_following() && g->check_zone( "NO_NPC_PICKUP", wanted_item_pos ) ) ) {
         // Items we wanted no longer exist and we can see it
         // Or player who is leading us doesn't want us to pick it up
@@ -1750,55 +1794,100 @@ void npc::pick_up_item()
     }
 
     // We're adjacent to the item; grab it!
-    moves -= 100;
-    fetching_item = false;
-    npc projected = *this;
-    std::vector<int> pickup; // Indices of items we want
 
-    for( size_t i = 0; i < items.size(); i++ ) {
-        const item &item = items[i];
-        int itval = value( item );
-        if ( itval >= minimum_item_value() && // (itval >= worst_item_value ||
-             ( projected.can_pickVolume( item, true ) &&
-               projected.can_pickWeight( item, true ) ) &&
-             !item.made_of( LIQUID ) ) {
-            pickup.push_back( i );
-            projected.i_add(item);
-        }
+    auto picked_up = pick_up_item_map( wanted_item_pos );
+    if( picked_up.empty() && has_cargo ) {
+        picked_up = pick_up_item_vehicle( *veh, veh_part );
     }
     // Describe the pickup to the player
     bool u_see = g->u.sees( *this ) || g->u.sees( wanted_item_pos );
     if( u_see ) {
-        if( pickup.size() == 1 ) {
+        if( picked_up.size() == 1 ) {
             add_msg(_("%1$s picks up a %2$s."), name.c_str(),
-                    items[pickup[0]].tname().c_str());
-        } else if( pickup.size() == 2 ) {
-            add_msg(_("%1$s picks up a %2$s and a %3$s."), name.c_str(),
-                    items[pickup[0]].tname().c_str(),
-                    items[pickup[1]].tname().c_str());
-        } else if( pickup.size() > 2 ) {
-            add_msg(_("%s picks up several items."), name.c_str());
+                    picked_up.front().tname().c_str());
+        } else if( picked_up.size() == 2 ) {
+            add_msg( _("%1$s picks up a %2$s and a %3$s."), name.c_str(),
+                     picked_up.front().tname().c_str(),
+                     picked_up.back().tname().c_str() );
+        } else if( picked_up.size() > 2 ) {
+            add_msg( _("%s picks up several items."), name.c_str() );
         } else {
-            add_msg(_("%s looks around nervously, as if searching for something."), name.c_str());
+            add_msg( _("%s looks around nervously, as if searching for something."), name.c_str() );
         }
     }
 
-    for (auto &i : pickup) {
-        int itval = value(items[i]);
-        if (itval < worst_item_value) {
+    for( auto &it : picked_up ) {
+        int itval = value( it );
+        if( itval < worst_item_value ) {
             worst_item_value = itval;
         }
-        i_add(items[i]);
-    }
-    for (auto &i : pickup) {
-        g->m.i_rem( wanted_item_pos, i );
-        // Fix indices
-        for (auto &j : pickup) {
-            j--;
-        }
+
+        i_add( it );
     }
 
+    moves -= 100;
+    fetching_item = false;
     has_new_items = true;
+}
+
+template <typename T>
+std::list<item> npc_pickup_from_stack( npc &who, T &items )
+{
+    const bool whitelisting = who.has_item_whitelist();
+    auto volume_allowed = who.volume_capacity() - who.volume_carried();
+    auto weight_allowed = who.weight_capacity() - who.weight_carried();
+    auto min_value = whitelisting ? 0 : who.minimum_item_value();
+    std::list<item> picked_up;
+
+    for( auto iter = items.begin(); iter != items.end(); ) {
+        const item &it = *iter;
+        if( it.made_of( LIQUID ) ) {
+            iter++;
+            continue;
+        }
+
+        if( whitelisting && !who.item_whitelisted( it ) ) {
+            iter++;
+            continue;
+        }
+
+        auto volume = it.volume();
+        if( volume > volume_allowed ) {
+            iter++;
+            continue;
+        }
+
+        auto weight = it.weight();
+        if( weight > weight_allowed ) {
+            iter++;
+            continue;
+        }
+
+        int itval = whitelisting ? 1000 : who.value( it );
+        if( itval < min_value ) {
+            iter++;
+            continue;
+        }
+
+        volume_allowed -= volume;
+        weight_allowed -= weight;
+        picked_up.push_back( it );
+        iter = items.erase( iter );
+    }
+
+    return picked_up;
+}
+
+std::list<item> npc::pick_up_item_map( const tripoint &where )
+{
+    auto stack = g->m.i_at( where );
+    return npc_pickup_from_stack( *this, stack );
+}
+
+std::list<item> npc::pick_up_item_vehicle( vehicle &veh, int part_index )
+{
+    auto stack = veh.get_items( part_index );
+    return npc_pickup_from_stack( *this, stack );
 }
 
 void npc::drop_items(int weight, int volume)
