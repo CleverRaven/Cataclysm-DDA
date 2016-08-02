@@ -4979,7 +4979,7 @@ long item::get_remaining_capacity_for_liquid( const item &liquid, const Characte
     long res = get_remaining_capacity_for_liquid( liquid, allow_bucket, err );
 
     if( res > 0 && !type->rigid && p.inv.has_item( *this ) ) {
-        const int volume_to_expand = std::max( p.volume_capacity() - p.volume_carried(), 0 );
+        const int volume_to_expand = std::max( ( p.volume_capacity() - p.volume_carried() ) / units::legacy_volume_factor, 0 );
 
         res = std::min( liquid.liquid_charges_per_volume( volume_to_expand ), res );
 

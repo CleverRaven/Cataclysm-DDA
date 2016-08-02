@@ -258,11 +258,12 @@ std::list<act_item> reorder_for_dropping( const player &p, const drop_indexes &d
     } );
 
     int storage_loss = 0;                        // Cumulatively increases
-    int remaining_storage = p.volume_capacity(); // Cumulatively decreases
+    int remaining_storage = p.volume_capacity() / units::legacy_volume_factor; // Cumulatively decreases
 
     while( !worn.empty() && !inv.empty() ) {
         storage_loss += worn.front().it->get_storage();
-        remaining_storage -= p.volume_capacity_reduced_by( storage_loss );
+        remaining_storage -= p.volume_capacity_reduced_by( storage_loss * units::legacy_volume_factor ) /
+                             units::legacy_volume_factor;
 
         if( remaining_storage < inv.front().it->volume() / units::legacy_volume_factor ) {
             break; // Does not fit
@@ -327,9 +328,9 @@ std::list<item> obtain_activity_items( player_activity &act, player &p )
         items.pop_front();
     }
     // Avoid tumbling to the ground. Unload cleanly.
-    const int excessive_volume = p.volume_carried() - p.volume_capacity();
+    const units::volume excessive_volume = p.volume_carried() - p.volume_capacity();
     if( excessive_volume > 0 ) {
-        const auto excess = p.inv.remove_randomly_by_volume( excessive_volume * units::legacy_volume_factor );
+        const auto excess = p.inv.remove_randomly_by_volume( excessive_volume );
         res.insert( res.begin(), excess.begin(), excess.end() );
     }
     // Load anything that remains (if any) into the activity

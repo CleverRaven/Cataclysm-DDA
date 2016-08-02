@@ -826,9 +826,9 @@ int Character::weight_carried() const
     return ret;
 }
 
-int Character::volume_carried() const
+units::volume Character::volume_carried() const
 {
-    return inv.volume() / units::legacy_volume_factor;
+    return inv.volume();
 }
 
 int Character::weight_capacity() const
@@ -859,14 +859,14 @@ int Character::weight_capacity() const
     return ret;
 }
 
-int Character::volume_capacity() const
+units::volume Character::volume_capacity() const
 {
     return volume_capacity_reduced_by( 0 );
 }
 
-int Character::volume_capacity_reduced_by( int mod ) const
+units::volume Character::volume_capacity_reduced_by( units::volume mod ) const
 {
-    int ret = -mod;
+    int ret = -mod / units::legacy_volume_factor;
     for (auto &i : worn) {
         ret += i.get_storage();
     }
@@ -885,14 +885,14 @@ int Character::volume_capacity_reduced_by( int mod ) const
     if (has_trait("DISORGANIZED")) {
         ret = int(ret * 0.6);
     }
-    return std::max( ret, 0 );
+    return std::max( ret, 0 ) * units::legacy_volume_factor;
 }
 
 bool Character::can_pickVolume( const item &it, bool ) const
 {
     inventory projected = inv;
     projected.add_item( it );
-   return projected.volume() / units::legacy_volume_factor <= volume_capacity();
+    return projected.volume() <= volume_capacity();
 }
 
 bool Character::can_pickWeight( const item &it, bool safe ) const
@@ -911,7 +911,7 @@ bool Character::can_pickWeight( const item &it, bool safe ) const
 void Character::drop_inventory_overflow() {
     if( volume_carried() > volume_capacity() ) {
         for( auto &item_to_drop :
-               inv.remove_randomly_by_volume( ( volume_carried() - volume_capacity() ) * units::legacy_volume_factor ) ) {
+               inv.remove_randomly_by_volume( volume_carried() - volume_capacity() ) ) {
             g->m.add_item_or_charges( pos(), item_to_drop );
         }
         add_msg_if_player( m_bad, _("Some items tumble to the ground.") );

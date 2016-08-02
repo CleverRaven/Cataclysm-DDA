@@ -945,7 +945,7 @@ bool npc::wear_if_wanted( const item &it )
 bool npc::wield( item& it )
 {
     if( is_armed() ) {
-        if ( volume_carried() + weapon.volume() / units::legacy_volume_factor <= volume_capacity() ) {
+        if ( volume_carried() + weapon.volume() <= volume_capacity() ) {
             add_msg_if_npc( m_info, _( "<npcname> puts away the %s." ), weapon.tname().c_str() );
             i_add( remove_weapon() );
             moves -= 15;
@@ -1361,7 +1361,7 @@ void npc::shop_restock()
         return;
     }
 
-    int total_space = volume_capacity();
+    int total_space = volume_capacity() / units::legacy_volume_factor;
     std::list<item> ret;
 
     while( total_space > 0 && !one_in( 50 ) ) {
@@ -2181,7 +2181,7 @@ bool npc::dispose_item( item_location &&obj, const std::string & )
         }
     }
 
-    if( volume_carried() + obj->volume() / units::legacy_volume_factor <= volume_capacity() ) {
+    if( volume_carried() + obj->volume() <= volume_capacity() ) {
         opts.emplace_back( dispose_option {
             item_handling_cost( *obj ) * INVENTORY_HANDLING_FACTOR,
             [this,&obj] {

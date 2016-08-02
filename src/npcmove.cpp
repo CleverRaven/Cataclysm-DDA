@@ -1691,7 +1691,7 @@ void npc::find_item()
         int itval = whitelisting ? 1000 : value( it );
         
         if( itval > best_value &&
-            ( it.volume() / units::legacy_volume_factor <= volume_allowed && it.weight() <= weight_allowed ) ) {
+            ( it.volume() <= volume_allowed && it.weight() <= weight_allowed ) ) {
             wanted_item_pos = p;
             wanted = &( it );
             best_value = itval;
@@ -1849,7 +1849,7 @@ std::list<item> npc_pickup_from_stack( npc &who, T &items )
             continue;
         }
 
-        auto volume = it.volume() / units::legacy_volume_factor;
+        auto volume = it.volume();
         if( volume > volume_allowed ) {
             iter++;
             continue;
@@ -1892,7 +1892,7 @@ void npc::drop_items(int weight, int volume)
 {
     add_msg( m_debug, "%s is dropping items-%d,%d (%d items, wgt %d/%d, vol %d/%d)",
                  name.c_str(), weight, volume, inv.size(), weight_carried(),
-                 weight_capacity(), volume_carried(), volume_capacity());
+                 weight_capacity(), volume_carried() / units::legacy_volume_factor, volume_capacity() / units::legacy_volume_factor);
 
     int weight_dropped = 0, volume_dropped = 0;
     std::vector<ratio_index> rWgt, rVol; // Weight/Volume to value ratios

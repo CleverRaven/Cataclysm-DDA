@@ -2640,7 +2640,7 @@ void dialogue::gen_responses( const talk_topic &the_topic )
                 add_response_done( _("Bye.") );
             } else {
                 if (!g->u.unarmed_attack()) {
-                    if (g->u.volume_carried() + g->u.weapon.volume() / units::legacy_volume_factor <= g->u.volume_capacity()){
+                    if (g->u.volume_carried() + g->u.weapon.volume() <= g->u.volume_capacity()){
                         RESPONSE(_("&Put away weapon."));
                             SUCCESS("TALK_STRANGER_NEUTRAL");
                                 SUCCESS_ACTION(&talk_function::player_weapon_away);
@@ -3947,7 +3947,7 @@ TAB key to switch lists, letters to pick items, Enter to finalize, Esc to quit,\
 
     // Make a temporary copy of the NPC to make sure volume calculations are correct
     npc temp = p;
-    int volume_left = temp.volume_capacity() - temp.volume_carried();
+    int volume_left = ( temp.volume_capacity() - temp.volume_carried() ) / units::legacy_volume_factor;
     int weight_left = temp.weight_capacity() - temp.weight_carried();
 
     do {
@@ -3979,7 +3979,7 @@ TAB key to switch lists, letters to pick items, Enter to finalize, Esc to quit,\
             }
             temp.inv = inventory_exchange( p.inv, without, added );
 
-            volume_left = temp.volume_capacity() - temp.volume_carried();
+            volume_left = ( temp.volume_capacity() - temp.volume_carried() ) / units::legacy_volume_factor;
             weight_left = temp.weight_capacity() - temp.weight_carried();
             mvwprintz( w_head, 3, 2, (volume_left < 0 || weight_left < 0) ? c_red : c_green,
                        _("Volume: %d, %s"), volume_left,
@@ -4675,7 +4675,7 @@ std::string give_item_to( npc &p, bool allow_use, bool allow_carry )
     }
     if( allow_carry ) {
         if( !p.can_pickVolume( given ) ) {
-            const int free_space = p.volume_capacity() - p.volume_carried();
+            const int free_space = ( p.volume_capacity() - p.volume_carried() ) / units::legacy_volume_factor;
             reason << std::endl;
             reason << string_format( _("I have no space to store it.") );
             reason << std::endl;

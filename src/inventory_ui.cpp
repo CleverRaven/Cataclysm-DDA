@@ -501,7 +501,7 @@ void inventory_selector::draw_inv_weight_vol( WINDOW *w, int weight_carried, int
 
 void inventory_selector::draw_inv_weight_vol( WINDOW *w ) const
 {
-    draw_inv_weight_vol( w, u.weight_carried(), u.volume_carried(), u.volume_capacity() );
+    draw_inv_weight_vol( w, u.weight_carried(), u.volume_carried() / units::legacy_volume_factor, u.volume_capacity() / units::legacy_volume_factor );
 }
 
 void inventory_selector::refresh_window() const
@@ -904,7 +904,7 @@ void inventory_drop_selector::draw( WINDOW *w ) const
     // (can be affected by various traits).
     player tmp = u;
     remove_dropping_items(tmp);
-    draw_inv_weight_vol( w, tmp.weight_carried(), tmp.volume_carried(), tmp.volume_capacity() );
+    draw_inv_weight_vol( w, tmp.weight_carried(), tmp.volume_carried() / units::legacy_volume_factor, tmp.volume_capacity() / units::legacy_volume_factor );
     mvwprintw(w, 1, 0, _("To drop x items, type a number and then the item hotkey."));
 }
 

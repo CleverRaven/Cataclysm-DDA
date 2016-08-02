@@ -11418,7 +11418,7 @@ void game::read()
         return;
     }
 
-    if( u.volume_carried() + book->volume() / units::legacy_volume_factor > u.volume_capacity() ) {
+    if( u.volume_carried() + book->volume() > u.volume_capacity() ) {
         add_msg( _( "No space in inventory for %s" ), book->tname().c_str() );
         return;
     }

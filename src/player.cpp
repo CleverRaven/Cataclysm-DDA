@@ -588,7 +588,7 @@ void player::apply_persistent_morale()
 {
     // Hoarders get a morale penalty if they're not carrying a full inventory.
     if( has_trait( "HOARDER" ) ) {
-        int pen = ( volume_capacity() - volume_carried() ) / 2;
+        int pen = ( volume_capacity() - volume_carried() ) / units::legacy_volume_factor / 2;
         if( pen > 70 ) {
             pen = 70;
         }
@@ -10159,7 +10159,7 @@ bool player::dispose_item( item_location &&obj, const std::string& prompt )
 
     opts.emplace_back( dispose_option {
         bucket ? _( "Spill contents and store in inventory" ) : _( "Store in inventory" ),
-        volume_carried() + obj->volume() / units::legacy_volume_factor <= volume_capacity(), '1',
+        volume_carried() + obj->volume() <= volume_capacity(), '1',
         item_handling_cost( *obj ) * INVENTORY_HANDLING_FACTOR,
         [this, bucket, &obj] {
             if( bucket && !obj->spill_contents( *this ) ) {
@@ -10621,7 +10621,7 @@ bool player::takeoff( const item &it, std::list<item> *res )
     }
 
     if( res == nullptr ) {
-        if( volume_carried() + it.volume() / units::legacy_volume_factor > volume_capacity_reduced_by( it.get_storage() ) ) {
+        if( volume_carried() + it.volume() > volume_capacity_reduced_by( it.get_storage() * units::legacy_volume_factor ) ) {
             if( is_npc() || query_yn( _( "No room in inventory for your %s.  Drop it?" ), it.tname().c_str() ) ) {
                 drop( get_item_position( &it ) );
             }

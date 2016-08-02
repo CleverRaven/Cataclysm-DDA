@@ -228,8 +228,8 @@ void advanced_inventory::print_items( advanced_inventory_pane &pane, bool active
         int hrightcol = columns -
                         to_string( convert_weight( g->u.weight_carried() ) ).length() - 3 - //"xxx.y/"
                         to_string( convert_weight( g->u.weight_capacity() ) ).length() - 3 - //"xxx.y_"
-                        to_string( g->u.volume_carried() ).length() - 1 - //"xxx/"
-                        to_string( g->u.volume_capacity() ).length() - 1; //"xxx|"
+                        to_string( g->u.volume_carried() / units::legacy_volume_factor ).length() - 1 - //"xxx/"
+                        to_string( g->u.volume_capacity() / units::legacy_volume_factor ).length() - 1; //"xxx|"
         nc_color color = c_ltgreen;//red color if overload
         if( g->u.weight_carried() > g->u.weight_capacity() ) {
             color = c_red;
@@ -241,8 +241,8 @@ void advanced_inventory::print_items( advanced_inventory_pane &pane, bool active
         } else {
             color = c_ltgreen;
         }
-        wprintz( window, color, "%d", g->u.volume_carried() );
-        wprintz( window, c_ltgray, "/%d ", g->u.volume_capacity() );
+        wprintz( window, color, "%d", g->u.volume_carried() / units::legacy_volume_factor );
+        wprintz( window, c_ltgray, "/%d ", g->u.volume_capacity() / units::legacy_volume_factor );
     } else { //print square's current and total weight + volume
         std::string head;
         if( pane.get_area() == AIM_ALL ) {
@@ -2002,7 +2002,7 @@ int advanced_inv_area::free_volume( bool in_vehicle ) const
 {
     assert( id != AIM_ALL ); // should be a specific location instead
     if( id == AIM_INVENTORY || id == AIM_WORN ) {
-        return ( g->u.volume_capacity() - g->u.volume_carried() );
+        return ( g->u.volume_capacity() - g->u.volume_carried() ) / units::legacy_volume_factor;
     }
     return (in_vehicle) ? veh->free_volume( vstor ) : g->m.free_volume( pos );
 }
