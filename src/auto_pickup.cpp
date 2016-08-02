@@ -344,15 +344,16 @@ void auto_pickup::show( const std::string &custom_name, bool is_autopickup )
     if( query_yn( _("Save changes?") ) ) {
         // NPC pickup rules don't need to be saved explicitly
         if( is_autopickup ) {
-            save( false );
+            save_global();
             if( g->u.name != "" ) {
-                save(true);
+                save_character();
             }
         } else {
-            merge_vector();
             create_rules();
         }
     } else {
+        for( int i = GLOBAL_TAB; i < MAX_TAB; i++ ) {
+            vRules[i] = vRulesOld[i];
         }
     }
 }
@@ -473,7 +474,7 @@ bool auto_pickup::has_rule(const std::string &sRule)
 void auto_pickup::add_rule(const std::string &sRule)
 {
     vRules[CHARACTER_TAB].push_back(cRules(sRule, true, false));
-    create_rules();
+    create_rule(sRule);
 
     if (!OPTIONS["AUTO_PICKUP"] &&
         query_yn(_("Autopickup is not enabled in the options. Enable it now?")) ) {
@@ -497,20 +498,26 @@ void auto_pickup::remove_rule(const std::string &sRule)
 
 bool auto_pickup::empty() const
 {
-    return vRules[ MERGED ].empty();
+    for( int i = GLOBAL_TAB; i < MAX_TAB; i++ ) {
+        if ( !vRules[i].empty() ) {
+            return false;
+        }
+    }
+
+    return true;
 }
 
 void auto_pickup::create_rule( const std::string &to_match )
 {
     for( int i = GLOBAL_TAB; i < MAX_TAB; i++ ) {
-    for( auto &elem : vRules[MERGED] ) {
-        if( !elem.bExclude ) {
-            if( elem.bActive && match( to_match, elem.sRule ) ) {
-                map_items[ to_match ] = RULE_WHITELISTED;
-            }
-        } else {
-            if( elem.bActive && match( to_match, elem.sRule ) ) {
-                map_items[ to_match ] = RULE_BLACKLISTED;
+        for( auto &elem : vRules[i] ) {
+            if( !elem.bExclude ) {
+                if( elem.bActive && match( to_match, elem.sRule ) ) {
+                    map_items[ to_match ] = RULE_WHITELISTED;
+                }
+            } else {
+                if( elem.bActive && match( to_match, elem.sRule ) ) {
+                    map_items[ to_match ] = RULE_BLACKLISTED;
                 }
             }
         }
@@ -525,26 +532,26 @@ void auto_pickup::create_rules()
     //if a specific item is being added, all the rules need to be checked now
     //may have some performance issues since exclusion needs to check all items also
     for( int i = GLOBAL_TAB; i < MAX_TAB; i++ ) {
-    for( auto &elem : vRules[MERGED] ) {
-        if( !elem.bExclude ) {
-            //Check include patterns against all itemfactory items
-            for( auto &p : item_controller->get_all_itypes() ) {
-                const std::string &cur_item = p.second->nname(1);
-                if( elem.bActive && match( cur_item, elem.sRule ) ) {
-                    map_items[ cur_item ] = RULE_WHITELISTED;
+        for( auto &elem : vRules[i] ) {
+            if( !elem.bExclude ) {
+                //Check include patterns against all itemfactory items
+                for( auto &p : item_controller->get_all_itypes() ) {
+                    const std::string &cur_item = p.second->nname(1);
+                    if( elem.bActive && match( cur_item, elem.sRule ) ) {
+                        map_items[ cur_item ] = RULE_WHITELISTED;
+                    }
                 }
-            }
-        } else {
-            //only re-exclude items from the existing mapping for now
-            //new exclusions will process during pickup attempts
-            for (auto iter = map_items.begin(); iter != map_items.end(); ++iter) {
-                if( elem.bActive && match( iter->first, elem.sRule ) ) {
-                    map_items[ iter->first ] = RULE_BLACKLISTED;
+            } else {
+                //only re-exclude items from the existing mapping for now
+                //new exclusions will process during pickup attempts
+                for (auto iter = map_items.begin(); iter != map_items.end(); ++iter) {
+                    if( elem.bActive && match( iter->first, elem.sRule ) ) {
+                        map_items[ iter->first ] = RULE_BLACKLISTED;
+                    }
                 }
             }
         }
     }
-}
 }
 
 std::string auto_pickup::trim_rule(const std::string &sPatternIn)
