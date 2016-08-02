@@ -393,6 +393,7 @@ ifdef SOUND
   else # not osx
     CXXFLAGS += $(shell $(PKG_CONFIG) --cflags SDL2_mixer)
     LDFLAGS += $(shell $(PKG_CONFIG) --libs SDL2_mixer)
+    LDFLAGS += -lpthread
   endif
 
   ifdef MSYS2
