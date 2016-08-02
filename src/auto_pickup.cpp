@@ -32,10 +32,7 @@ void auto_pickup::show()
 
 void auto_pickup::show( const std::string &custom_name, bool is_autopickup )
 {
-    std::vector<cRules> vRulesOld[MAX_TAB];
-    for( int i = GLOBAL_TAB; i < MAX_TAB; i++ ) {
-        vRulesOld[i] = vRules[i];
-    }
+    auto vRulesOld = vRules;
 
     const int iHeaderHeight = 4;
     const int iContentHeight = FULL_SCREEN_HEIGHT - 2 - iHeaderHeight;
@@ -213,14 +210,14 @@ void auto_pickup::show( const std::string &custom_name, bool is_autopickup )
 
         if (action == "NEXT_TAB") {
             iTab++;
-            if (iTab > CHARACTER_TAB) {
-                iTab = GLOBAL_TAB;
+            if (iTab >= MAX_TAB) {
+                iTab = 0;
                 iLine = 0;
             }
         } else if (action == "PREV_TAB") {
             iTab--;
-            if (iTab < GLOBAL_TAB) {
-                iTab = CHARACTER_TAB;
+            if (iTab < 0) {
+                iTab = MAX_TAB - 1;
                 iLine = 0;
             }
         } else if (action == "QUIT") {
@@ -352,9 +349,7 @@ void auto_pickup::show( const std::string &custom_name, bool is_autopickup )
             create_rules();
         }
     } else {
-        for( int i = GLOBAL_TAB; i < MAX_TAB; i++ ) {
-            vRules[i] = vRulesOld[i];
-        }
+        vRules = vRulesOld;
     }
 }
 

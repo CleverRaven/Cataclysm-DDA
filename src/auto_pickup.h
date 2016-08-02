@@ -84,7 +84,7 @@ class auto_pickup : public JsonSerializer, public JsonDeserializer
          * - vRules[0,1] aka vRules[GLOBAL,CHARACTER]: current rules split into global and
          *      character-specific. Allows the editor to show one or the other.
          */
-        std::vector<cRules> vRules[MAX_TAB];
+        std::array<std::vector<cRules>, MAX_TAB> vRules;
 
     public:
         bool has_rule( const std::string &sRule );
