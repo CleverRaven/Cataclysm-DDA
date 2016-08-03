@@ -1655,7 +1655,7 @@ void monster::drop_items_on_death()
         return;
     }
     const auto dropped = g->m.put_items_from_loc( type->death_drops, pos(), calendar::turn );
-    if( !type->in_species( ZOMBIE ) && !type->in_species( FUNGUS ) && !type->in_species( ABERRATION ) ) {
+    if( !type->in_species( ZOMBIE ) && !type->in_species( FUNGUS ) ) {
         return;
     }
     for( const auto &it : dropped ) {
