@@ -1036,11 +1036,11 @@ void vehicle::use_controls( const tripoint &pos, const bool remote_action )
     auto toggle = [&]( const std::string &flag ) {
         for( auto e : get_parts( flag ) ) {
             if( e->enabled ) {
-                add_msg( string_format( _( "Turned off %s" ), e->name().c_str() ).c_str() );
+                add_msg( _( "Turned off %s" ), e->name().c_str() );
                 e->enabled = false;
             } else {
                 if( can_enable( *e, true ) ) {
-                    add_msg( string_format( _( "Turned on %s" ), e->name().c_str() ).c_str() );
+                    add_msg( _( "Turned on %s" ), e->name().c_str() );
                     e->enabled = true;
                 }
             }
