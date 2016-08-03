@@ -464,11 +464,11 @@
         "color" : "brown",
         "symbol" : "/",
         "material" : ["wood", "steel"],
-        "techniques" : ["WBLOCK_1", "NONCONDUCTIVE"],
+        "techniques" : "WBLOCK_1",
         "volume" : 7,
         "bashing" : 11,
         "cutting" : 8,
-        "flags" : ["STAB"],
+        "flags" : ["STAB", "NONCONDUCTIVE"],
         "price" : 18000,
         "price_postapoc": 0
     },
