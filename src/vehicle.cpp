@@ -1032,19 +1032,20 @@ void vehicle::use_controls( const tripoint &pos, const bool remote_action )
                        _("Turn off camera system") : _("Turn on camera system") );
     }
     if( has_electronic_controls && has_part( "PLOW" ) ){
-        menu.addentry( toggle_plow, true, MENU_AUTOASSIGN, plow_on ?
+        menu.addentry( toggle_plow, true, MENU_AUTOASSIGN, has_part( "PLOW", true ) ?
                        _("Turn plow off") : _("Turn plow on") );
     }
     if( has_electronic_controls && has_part( "PLANTER" ) ){
-        menu.addentry( toggle_planter, true, 'P', planter_on ?
+        menu.addentry( toggle_planter, true, 'P', has_part( "PLANTER", true ) ?
                        _("Turn planter off") : _("Turn planter on") );
     }
     if( has_electronic_controls && has_part( "SCOOP" ) ) {
-        menu.addentry( toggle_scoop, true, 'S', scoop_on ?
+        menu.addentry( toggle_scoop, true, 'S', has_part( "SCOOP", true ) ?
                        _("Turn off scoop system") : _("Turn on scoop system") );
     }
     if( has_electronic_controls && has_part( "REAPER" ) ){
-        menu.addentry( toggle_reaper, true, 'H', reaper_on ?  _("Turn off reaper") : _("Turn on reaper") );
+        menu.addentry( toggle_reaper, true, 'H', has_part( "REAPER", true ) ?
+                       _("Turn off reaper") : _("Turn on reaper") );
     }
     menu.addentry( control_cancel, true, ' ', _("Do nothing") );
 
@@ -1217,27 +1218,26 @@ void vehicle::use_controls( const tripoint &pos, const bool remote_action )
             add_msg( _("Camera system won't turn on") );
         }
         break;
+
     case toggle_plow:
-        add_msg( plow_on ? _("Plow system stopped"): _("Plow system started"));
-        plow_on = !plow_on;
+        toggle( "PLOW" );
         break;
+
     case toggle_planter:
-        if( !planter_on && !warm_enough_to_plant() ) {
-            add_msg( m_info, _( "It is too cold to plant anything now." ) );
-            break;
-        }
-        add_msg(planter_on ? _("Planter system stopped"): _("Planter system started"));
-        planter_on = !planter_on;
+        toggle( "PLANTER" );
         break;
+
     case control_cancel:
         break;
+
     case toggle_reaper:
-        add_msg(reaper_on?_("Reaper turned off"):_("Reaper turned on"));
-        reaper_on = !reaper_on;
+        toggle( "REAPER" );
         break;
+
     case toggle_scoop:
-        scoop_on = !scoop_on;
+        toggle( "SCOOP" );
         break;
+
     }
     refresh();
 }
@@ -3637,12 +3637,15 @@ void vehicle::power_parts()
         epower += pt->info().epower;
     }
 
+    for( const auto pt : get_parts( "SCOOP", true ) ) {
+        epower += pt->info().epower;
+    }
+
     // Consumers of epower
     if( fridge_on ) epower += fridge_epower;
     if( recharger_on ) epower += recharger_epower;
     if( is_alarm_on ) epower += alarm_epower;
     if( camera_on ) epower += camera_epower;
-    if( scoop_on ) epower += scoop_epower;
     // Engines: can both produce (plasma) or consume (gas, diesel)
     // Gas engines require epower to run for ignition system, ECU, etc.
     int engine_epower = 0;
@@ -3734,12 +3737,14 @@ void vehicle::power_parts()
         for( auto pt : get_parts( "CHIMES" ) ) {
             pt->enabled = false;
         }
+        for( auto pt : get_parts( "SCOOP" ) ) {
+            pt->enabled = false;
+        }
 
         is_alarm_on = false;
         fridge_on = false;
         recharger_on = false;
         camera_on = false;
-        scoop_on = false;
         if( player_in_control( g->u ) || g->u.sees( global_pos3() ) ) {
             add_msg( _("The %s's battery dies!"), name.c_str() );
         }
@@ -3926,11 +3931,13 @@ void vehicle::idle(bool on_map) {
         engine_on = false;
     }
 
-    if( planter_on && !warm_enough_to_plant() ) {
-        if( g->u.sees( global_pos3() ) ) {
-            add_msg(_("The %s's planter turns off due to low temperature."), name.c_str());
+    if( !warm_enough_to_plant() ) {
+        for( auto e : get_parts( "PLANTER", true ) ) {
+            if( g->u.sees( global_pos3() ) ) {
+                add_msg( _( "The %s's planter turns off due to low temperature." ), name.c_str() );
+            }
+            e->enabled = false;
         }
-        planter_on = false;
     }
 
 
@@ -3952,16 +3959,16 @@ void vehicle::idle(bool on_map) {
 }
 
 void vehicle::on_move(){
-    if(scoop_on){
+    if( has_part( "SCOOP", true ) ) {
         operate_scoop();
     }
-    if( planter_on ){
+    if( has_part( "PLANTER", true ) ) {
         operate_planter();
     }
-    if( plow_on ){
+    if( has_part( "PLOW", true ) ) {
         operate_plow();
     }
-    if( reaper_on ){
+    if( has_part( "REAPER", true ) ) {
         operate_reaper();
     }
 }
@@ -4096,7 +4103,7 @@ void vehicle::operate_scoop()
                                _("BEEEThump") );
             }
             const int battery_deficit = discharge_battery( that_item_there->weight() *
-                                                           scoop_epower / rng( 8, 15 ) );
+                                                           -part_epower( scoop ) / rng( 8, 15 ) );
             if( battery_deficit == 0 && add_item( scoop, *that_item_there ) ) {
                 g->m.i_rem( position, itemdex );
             } else {
@@ -5223,9 +5230,6 @@ void vehicle::refresh()
         if( vpi.has_flag(VPFLAG_ALTERNATOR) ) {
             alternators.push_back( p );
         }
-        if( vpi.has_flag("SCOOP") ) {
-            scoop_epower += vpi.epower;
-        }
         if( vpi.has_flag(VPFLAG_FUEL_TANK) ) {
             fuel.push_back( p );
         }
@@ -5262,14 +5266,16 @@ void vehicle::refresh()
         if( vpi.has_flag( VPFLAG_FLOATS ) ) {
             floating.push_back( p );
         }
-        if( plow_on && vpi.has_flag( "PLOW" ) ){
-            extra_drag += vpi.power;
-        }
-        if( planter_on && vpi.has_flag( "PLANTER" ) ){
-            extra_drag += vpi.power;
-        }
-        if( reaper_on && vpi.has_flag( "REAPER" ) ){
-            extra_drag += vpi.power;
+        if( parts[ p ].enabled ) {
+            if( vpi.has_flag( "PLOW" ) ) {
+                extra_drag += vpi.power;
+            }
+            if( vpi.has_flag( "PLANTER" ) ) {
+                extra_drag += vpi.power;
+            }
+            if( vpi.has_flag( "REAPER" ) ) {
+                extra_drag += vpi.power;
+            }
         }
         // Build map of point -> all parts in that point
         const point pt = parts[p].mount;

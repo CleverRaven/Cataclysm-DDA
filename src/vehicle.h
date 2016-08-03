@@ -1164,7 +1164,6 @@ public:
     int recharger_epower    = 0; // total power consumed by rechargers
     int camera_epower       = 0; // power consumed by camera system
     int extra_drag          = 0;
-    int scoop_epower        = 0;
     // TODO: change these to a bitset + enum?
     bool cruise_on                  = true;  // cruise control on/off
     bool reactor_on                 = false; // reactor on/off
@@ -1179,10 +1178,6 @@ public:
     bool check_environmental_effects= false; // has bloody or smoking parts
     bool insides_dirty              = true;  // "inside" flags are outdated and need refreshing
     bool falling                    = false; // Is the vehicle hanging in the air and expected to fall down in the next turn?
-    bool plow_on                    = false; // Is the vehicle running a plow?
-    bool planter_on                 = false; // Is the vehicle sprawing seeds everywhere?
-    bool scoop_on                   = false; //Does the vehicle have a scoop? Which picks up items.
-    bool reaper_on                  = false; //Is the reaper active?
 
 private:
     void refresh_pivot() const;                // refresh pivot_cache, clear pivot_dirty
