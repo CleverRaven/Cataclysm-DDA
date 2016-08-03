@@ -11073,7 +11073,7 @@ void game::reload()
             item::reload_option opt = g->u.select_ammo( *turret.base(), true );
             if( opt ) {
                 g->u.assign_activity( ACT_RELOAD, opt.moves(), opt.qty() );
-                g->u.activity.targets.emplace_back( std::move( turret.base() ) );
+                g->u.activity.targets.emplace_back( turret.base() );
                 g->u.activity.targets.push_back( std::move( opt.ammo ) );
             }
             return;
