@@ -3368,12 +3368,21 @@ bool item::conductive() const
     if (is_null()) {
         return false;
     }
+    
+    if (has_flag( "CONDUCTIVE" ) ) {  
+        return true;
+    }
 
-    // If any material does not resist electricity we are conductive.
-    for (auto mat : made_of_types()) {
-        if (mat->elec_resist() <= 0) {
-            return true;
-        }
+    if (has_flag( "NONCONDUCTIVE" ) ) {  
+        return false;
+    }
+
+    // If any material has electricity resistance equal to or lower than flesh (1) we are conductive.
+    const auto mats = made_of_types();
+           return std::all_of( mats.begin(), mats.end(), []( const material_type *mt ) {
+               return mt->elec_resist() <= 1;
+    } );
+    
     }
     return false;
 }
