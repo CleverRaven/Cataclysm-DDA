@@ -4531,7 +4531,7 @@
     "price": 10000,
     "material": ["steel", "plastic"],
     "techniques": "RAPID",
-    "flags": ["STAB", "DURABLE_MELEE", "SHEATH_KNIFE", "NPC_THROWN"],
+    "flags": ["STAB", "DURABLE_MELEE", "SHEATH_KNIFE", "NPC_THROWN", "CONDUCTIVE"],
     "weight": 558,
     "volume": 2,
     "bashing": 2,
