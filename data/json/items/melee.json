@@ -9,6 +9,7 @@
         "symbol" : "/",
         "material" : ["wood", "steel"],
         "techniques" : ["BRUTAL", "WIDE"],
+        "flags": "NONCONDUCTIVE",
         "volume" : 10,
         "bashing" : 9999,
         "price" : 12000,
