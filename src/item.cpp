@@ -3382,9 +3382,6 @@ bool item::conductive() const
            return std::all_of( mats.begin(), mats.end(), []( const material_type *mt ) {
                return mt->elec_resist() <= 1;
     } );
-    
-    }
-    return false;
 }
 
 bool item::destroyed_at_zero_charges() const
