@@ -63,8 +63,7 @@ bool tutorial_game::init()
     g->u.set_skill_level( skill_id( "gun" ), 5 );
     g->u.set_skill_level( skill_id( "melee" ), 5 );
     g->load_map( omt_to_sm_copy( tripoint( lx, ly, 0 ) ) );
-    g->u.setx( 2 );
-    g->u.sety( 4 );
+    g->u.setpos( tripoint( 2, 4, 0 ) );
 
     // This shifts the view to center the players pos
     g->update_map( &( g->u ) );

@@ -540,28 +540,27 @@ std::vector<tripoint> overmapbuffer::find_all( const tripoint& origin, const std
 
 npc* overmapbuffer::find_npc(int id) {
     for( auto &it : overmaps ) {
-        for( auto &elem : it.second->npcs ) {
-            if( elem->getID() == id ) {
-                return elem;
-            }
+        auto npcs = it.second->npcs;
+        auto npc_it = npcs.find( id );
+        if( npc_it != npcs.end() ) {
+            return npc_it->second;;
         }
     }
-    return NULL;
+    return nullptr;
 }
 
 void overmapbuffer::remove_npc(int id)
 {
     for( auto &it : overmaps ) {
-        for (size_t i = 0; i < it.second->npcs.size(); i++) {
-            npc *p = it.second->npcs[i];
-            if (p->getID() == id) {
-                if( !p->is_dead() ) {
-                    debugmsg("overmapbuffer::remove_npc: NPC (%d) is not dead.", id);
-                }
-                it.second->npcs.erase(it.second->npcs.begin() + i);
-                delete p;
-                return;
+        auto npcs = it.second->npcs;
+        auto npc_it = npcs.find( id );
+        if( npc_it != npcs.end() ) {
+            if( !npc_it->second->is_dead() ) {
+                debugmsg("overmapbuffer::remove_npc: NPC (%d) is not dead.", id);
             }
+            npcs.erase( npc_it );
+            delete npc_it->second;
+            return;
         }
     }
     debugmsg("overmapbuffer::remove_npc: NPC (%d) not found.", id);
@@ -570,14 +569,14 @@ void overmapbuffer::remove_npc(int id)
 void overmapbuffer::hide_npc(int id)
 {
     for( auto &it : overmaps ) {
-        for (size_t i = 0; i < it.second->npcs.size(); i++) {
-            npc *p = it.second->npcs[i];
-            if (p->getID() == id) {
-                it.second->npcs.erase(it.second->npcs.begin() + i);
-                return;
-            }
+        auto npcs = it.second->npcs;
+        auto npc_it = npcs.find( id );
+        if( npc_it != npcs.end() ) {
+            npcs.erase( npc_it );
+            return;
         }
     }
+
     debugmsg("overmapbuffer::hide_npc: NPC (%d) not found.", id);
 }
 
@@ -624,14 +623,15 @@ std::vector<npc*> overmapbuffer::get_npcs_near(int x, int y, int z, int radius)
     std::vector<npc*> result;
     tripoint p{ x, y, z };
     for( auto &it : get_overmaps_near( p, radius ) ) {
-        for( auto &np : it->npcs ) {
+        for( auto &np_pair : it->npcs ) {
+            npc *np = np_pair.second;
             // Global position of NPC, in submap coordiantes
             const tripoint pos = np->global_sm_location();
             if( z != INT_MIN && pos.z != z ) {
                 continue;
             }
             const int npc_offset = square_dist( x, y, pos.x, pos.y );
-            if (npc_offset <= radius) {
+            if( npc_offset <= radius ) {
                 result.push_back( np );
             }
         }
@@ -644,7 +644,8 @@ std::vector<npc*> overmapbuffer::get_npcs_near_omt(int x, int y, int z, int radi
 {
     std::vector<npc*> result;
     for( auto &it : get_overmaps_near( omt_to_sm_copy( x, y ), radius ) ) {
-        for( auto &np : it->npcs ) {
+        for( auto &np_pair : it->npcs ) {
+            npc *np = np_pair.second;
             // Global position of NPC, in submap coordiantes
             tripoint pos = np->global_omt_location();
             if( z != INT_MIN && pos.z != z) {

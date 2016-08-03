@@ -316,6 +316,7 @@ class overmap
     void clear_mon_groups();
 private:
     std::multimap<tripoint, mongroup> zg;
+    std::unordered_map<int, npc *> npcs;
 public:
     /** Unit test enablers to check if a given mongroup is present. */
     bool mongroup_check(const mongroup &candidate) const;
@@ -324,10 +325,12 @@ public:
     int num_monsters() const;
     // TODO: make private
   std::vector<radio_tower> radios;
-  std::vector<npc *> npcs;
   std::map<int, om_vehicle> vehicles;
   std::vector<city> cities;
   std::vector<city> roads_out;
+
+    void add_npc( npc * );
+    void remove_npc( npc * );
 
  private:
   friend class overmapbuffer;

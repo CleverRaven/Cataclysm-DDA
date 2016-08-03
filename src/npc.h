@@ -557,7 +557,11 @@ public:
      * @param mx,my,mz are global submap coordinates.
      * This function also adds the npc object to the overmap.
      */
-    void spawn_at(int mx, int my, int mz);
+    void spawn_at( int mx, int my, int mz );
+    /**
+     * As @ref spawn_at, but with set position, not just map coords.
+     */
+    void spawn_at_global( const tripoint &pos );
     /**
      * Calls @ref spawn_at, spawns in a random city in
      * the given overmap on z-level 0.
@@ -675,11 +679,14 @@ public:
     bool is_dead() const;
     int smash_ability() const; // How well we smash terrain (not corpses!)
     bool complain(); // Finds something to complain about and complains. Returns if complained.
-/* shift() works much like monster::shift(), and is called when the player moves
- * from one submap to an adjacent submap.  It updates our position (shifting by
- * 12 tiles), as well as our plans.
- */
- void shift(int sx, int sy);
+    /* shift() works much like monster::shift(), and is called when the player moves
+     * from one submap to an adjacent submap.  It updates our position (shifting by
+     * 12 tiles), as well as our plans.
+     */
+    void shift(int sx, int sy);
+    /** Recalculates the current position so that mapx == g->get_levx() and ditto for mapy. */
+    void align_position();
+    void setpos( const tripoint &pos ) override;
 
 
 // Movement; the following are defined in npcmove.cpp

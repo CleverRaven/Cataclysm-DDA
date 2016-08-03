@@ -635,7 +635,8 @@ void overmap::unserialize( std::istream &fin ) {
                 if( !new_npc->fac_id.empty() ) {
                     new_npc->set_fac( new_npc->fac_id );
                 }
-                npcs.push_back( new_npc );
+
+                add_npc( new_npc );
             }
         }
     }
@@ -916,8 +917,8 @@ void overmap::serialize( std::ostream &fout ) const
 
     json.member("npcs");
     json.start_array();
-    for (auto &i : npcs) {
-        json.write( *i );
+    for( auto &i : npcs ) {
+        json.write( *i.second );
     }
     json.end_array();
     fout << std::endl;

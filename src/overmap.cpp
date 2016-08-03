@@ -4657,6 +4657,37 @@ void overmap::add_mon_group(const mongroup &group)
     DebugLog( D_ERROR, D_GAME ) << group.type.str() << ": " << group.population << " => " << xpop;
 }
 
+void overmap::add_npc( npc *np )
+{
+    if( np == nullptr ) {
+        debugmsg( "Tried to add null npc" );
+        return;
+    }
+
+    auto iter = npcs.find( np->getID() );
+    if( iter != npcs.end() ) {
+        debugmsg( "Duplicate NPC id %d on new overmap", np->getID() );
+        return;
+    }
+
+    npcs[ np->getID() ] = np;
+}
+
+void overmap::remove_npc( npc *np )
+{
+    if( np == nullptr ) {
+        debugmsg( "Tried to remove null npc" );
+        return;
+    }
+
+    auto iter = npcs.find( np->getID() );
+    if( iter != npcs.end() ) {
+        npcs.erase( iter );
+    } else {
+        debugmsg( "Could not find npc to remove %s on its overmap", np->name.c_str() );
+    }
+}
+
 const point overmap::invalid_point = point(INT_MIN, INT_MIN);
 const tripoint overmap::invalid_tripoint = tripoint(INT_MIN, INT_MIN, INT_MIN);
 //oter_id overmap::nulloter = "";

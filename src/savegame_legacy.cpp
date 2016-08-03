@@ -254,6 +254,7 @@ void overmap::unserialize_legacy(std::istream & fin) {
     std::string cstr;
     city tmp;
     std::list<item> npc_inventory;
+    npc *last_npc = nullptr;
 
     if ( fin.peek() == '#' ) {
         std::string vline;
@@ -361,15 +362,16 @@ void overmap::unserialize_legacy(std::istream & fin) {
 // When we start loading a new NPC, check to see if we've accumulated items for
 //   assignment to an NPC.
 
-            if (!npc_inventory.empty() && !npcs.empty()) {
-                npcs.back()->inv.add_stack(npc_inventory);
+            if( !npc_inventory.empty() && last_npc != nullptr ) {
+                last_npc->inv.add_stack(npc_inventory);
                 npc_inventory.clear();
             }
             std::string npcdata;
             getline(fin, npcdata);
             npc * tmp = new npc();
             tmp->load_info(npcdata);
-            npcs.push_back(tmp);
+            npcs[ tmp->getID() ] = tmp;
+            last_npc = tmp;
         } else if (datatype == 'P') {
             // Chomp the invlet_cache, since the npc doesn't use it.
             std::string itemdata;
@@ -384,13 +386,12 @@ void overmap::unserialize_legacy(std::istream & fin) {
             } else {
                 item tmp;
                 tmp.load_info(itemdata);
-                npc* last = npcs.back();
                 switch (datatype) {
                 case 'I': npc_inventory.push_back(tmp);                 break;
                 case 'C': npc_inventory.back().contents.push_back(tmp); break;
-                case 'W': last->worn.push_back(tmp);                    break;
-                case 'w': last->weapon = tmp;                           break;
-                case 'c': last->weapon.contents.push_back(tmp);         break;
+                case 'W': last_npc->worn.push_back(tmp);                    break;
+                case 'w': last_npc->weapon = tmp;                           break;
+                case 'c': last_npc->weapon.contents.push_back(tmp);         break;
                 }
             }
         } else if ( datatype == '!' ) { // temporary holder for future sanity
@@ -435,8 +436,8 @@ void overmap::unserialize_legacy(std::istream & fin) {
     }
 
 // If we accrued an npc_inventory, assign it now
-    if (!npc_inventory.empty() && !npcs.empty()) {
-        npcs.back()->inv.add_stack(npc_inventory);
+    if( !npc_inventory.empty() && last_npc != nullptr ) {
+        last_npc->inv.add_stack(npc_inventory);
     }
 }
 
