@@ -1820,7 +1820,6 @@
     "description": "An electric meat carver powered by batteries.  Two serrated blades that vibrate together to slice just about anything from turkey to ham...  even zombies!",
     "price": 2000,
     "material": ["steel", "plastic"],
-    "flags": "NONCONDUCTIVE",
     "weight": 1106,
     "volume": 6,
     "bashing": 2,
@@ -1829,7 +1828,7 @@
     "initial_charges": 100,
     "ammo": "battery",
     "use_action": "CARVER_OFF",
-    "flags": ["SHEATH_SWORD"]
+    "flags": ["SHEATH_SWORD", "NONCONDUCTIVE"]
   },{
     "id": "carver_on",
     "type": "TOOL",
