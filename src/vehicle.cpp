@@ -931,6 +931,13 @@ void vehicle::use_controls( const tripoint &pos, const bool remote_action )
         return;
     }
 
+    auto add_opt = [&]( const std::string &name, char key, const std::string &flag, int opt ) {
+        if( has_part( flag ) ) {
+            auto msg = string_format( has_part( flag, true ) ? _( "Turn off %s" ) : _( "Turn on %s" ), name.c_str() );
+            menu.addentry( opt, true, key, msg );
+        }
+    };
+
     // Toggle engine on/off, stop driving if we are driving.
     if( has_part( "ENGINE" ) ) {
         if( g->u.controlling_vehicle || ( remotely_controlled && engine_on ) ) {
@@ -964,36 +971,25 @@ void vehicle::use_controls( const tripoint &pos, const bool remote_action )
         }
     }
 
-    if( has_electronic_controls && has_part( "STEREO" ) ) {
-        menu.addentry( toggle_stereo, true, 'm', has_part( "STEREO", true ) ?
-                       _("Turn off stereo") : _("Turn on stereo") );
-    }
-
-    if( has_electronic_controls && has_part( "CHIMES" ) ) {
-        menu.addentry( toggle_chimes, true, 'i', has_part( "CHIMES", true ) ?
-                       _("Turn off chimes") : _("Turn on chimes") );
-    }
-
     //Honk the horn!
     if( has_part( "HORN") ) {
         menu.addentry( activate_horn, true, 'o', _("Honk horn") );
     }
 
-    // Turn the fridge on/off
-    if ( has_electronic_controls && has_part( "FRIDGE" ) ) {
-        menu.addentry( toggle_fridge, true, 'f', has_part( "FRIDGE", true ) ?
-                       _("Turn off fridge") : _("Turn on fridge") );
+    if( has_electronic_controls ) {
+        add_opt( _( "stereo" ), 'm', "STEREO", toggle_stereo );
+        add_opt( _( "chimes" ), 'i', "CHIMES", toggle_chimes );
+        add_opt( _( "fridge" ), 'f', "FRIDGE", toggle_fridge );
+        add_opt( _( "recharger" ), 'r', "RECHARGE", toggle_recharger );
+        add_opt( _( "plow" ), 'w', "PLOW", toggle_plow );
+        add_opt( _( "reaper" ), 'H', "REAPER" , toggle_reaper );
+        add_opt( _( "planter" ), 'P', "PLANTER", toggle_planter );
+        add_opt( _( "scoop" ), 'S', "SCOOP", toggle_scoop );
     }
 
     // Toggle individual turrets between automated and manual firing
     if( !turrets().empty() ) {
         menu.addentry( toggle_turrets, true, 't', _( "Set turret targeting modes" ) );
-    }
-
-    // Turn the recharging station on/off
-    if ( has_electronic_controls && has_part( "RECHARGE" ) ) {
-        menu.addentry( toggle_recharger, true, 'r', has_part( "RECHARGE", true ) ?
-                      _("Turn off recharger") : _("Turn on recharger") );
     }
 
     // Tracking on the overmap
@@ -1032,22 +1028,7 @@ void vehicle::use_controls( const tripoint &pos, const bool remote_action )
         menu.addentry( toggle_camera, true, 'M', camera_on ?
                        _("Turn off camera system") : _("Turn on camera system") );
     }
-    if( has_electronic_controls && has_part( "PLOW" ) ){
-        menu.addentry( toggle_plow, true, MENU_AUTOASSIGN, has_part( "PLOW", true ) ?
-                       _("Turn plow off") : _("Turn plow on") );
-    }
-    if( has_electronic_controls && has_part( "PLANTER" ) ){
-        menu.addentry( toggle_planter, true, 'P', has_part( "PLANTER", true ) ?
-                       _("Turn planter off") : _("Turn planter on") );
-    }
-    if( has_electronic_controls && has_part( "SCOOP" ) ) {
-        menu.addentry( toggle_scoop, true, 'S', has_part( "SCOOP", true ) ?
-                       _("Turn off scoop system") : _("Turn on scoop system") );
-    }
-    if( has_electronic_controls && has_part( "REAPER" ) ){
-        menu.addentry( toggle_reaper, true, 'H', has_part( "REAPER", true ) ?
-                       _("Turn off reaper") : _("Turn on reaper") );
-    }
+
     menu.addentry( control_cancel, true, ' ', _("Do nothing") );
 
     menu.query();
