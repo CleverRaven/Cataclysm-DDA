@@ -82,6 +82,8 @@ void sounds::sound( const tripoint &p, int vol, std::string description, bool am
         debugmsg( "negative sound volume %d", vol );
         return;
     }
+    vol = std::min( vol, MAX_VOLUME );
+
     recent_sounds.emplace_back( std::make_pair( p, vol ) );
     sounds_since_last_turn.emplace_back(
         std::make_pair( p, sound_event {vol, description, ambient, false, id, variant} ) );
@@ -90,7 +92,7 @@ void sounds::sound( const tripoint &p, int vol, std::string description, bool am
 void sounds::add_footstep( const tripoint &p, int volume, int, monster * )
 {
     sounds_since_last_turn.emplace_back(
-        std::make_pair( p, sound_event {volume, "", false, true, "", ""} ) );
+        std::make_pair( p, sound_event { std::min( volume, MAX_VOLUME ), "", false, true, "", ""} ) );
 }
 
 template <typename C>
@@ -171,13 +173,11 @@ void sounds::process_sounds()
         // --- Monster sound handling here ---
         // Alert all hordes
         if( vol > 20 && g->get_levz() == 0 ) {
-            int sig_power = ( ( vol > 140 ) ? 140 : vol );
             // With this, volume 100 reaches 20 overmap tiles away.
-            sig_power /= 5;
             const point abs_ms = g->m.getabs( source.x, source.y );
             const point abs_sm = ms_to_sm_copy( abs_ms );
             const tripoint target( abs_sm.x, abs_sm.y, source.z );
-            overmap_buffer.signal_hordes( target, sig_power );
+            overmap_buffer.signal_hordes( target, vol / 5 );
         }
         // Alert all monsters (that can hear) to the sound.
         for (int i = 0, numz = g->num_zombies(); i < numz; i++) {
@@ -212,7 +212,7 @@ void sounds::process_sound_markers( player *p )
         if( is_deaf ) {
             // Has to be here as well to work for stacking deafness (loud noises prolong deafness)
             if( !p->is_immune_effect( effect_deaf )
-                    && rng( ( max_volume - dist ) / 2, ( max_volume - dist ) ) >= 150 ) {
+                    && rng( ( max_volume - dist ) / 2, ( max_volume - dist ) ) >= DEAF_VOLUME ) {
                 // Prolong deafness, but not as much as if it was freshly applied
                 int duration = std::min( 40, ( max_volume - dist - 130 ) / 8 );
                 p->add_effect( effect_deaf, duration );
@@ -232,7 +232,7 @@ void sounds::process_sound_markers( player *p )
             p->volume = std::max( p->volume, volume );
         }
         // Check for deafness
-        if( !p->is_immune_effect( effect_deaf ) && rng((max_volume - dist) / 2, (max_volume - dist)) >= 150 ) {
+        if( !p->is_immune_effect( effect_deaf ) && rng((max_volume - dist) / 2, (max_volume - dist)) >= DEAF_VOLUME ) {
             int duration = (max_volume - dist - 130) / 4;
             p->add_effect( effect_deaf, duration );
             if( p->is_deaf() ) {

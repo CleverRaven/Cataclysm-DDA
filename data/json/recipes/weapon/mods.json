@@ -23,6 +23,19 @@
     ]
   },
   {
+    "result": "crafted_suppressor",
+    "type": "recipe",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_MODS",
+    "skill_used": "mechanics",
+    "difficulty": 1,
+    "skills_required": [ "gun", 1 ],
+    "time": 650,
+    "autolearn": true,
+    "qualities": [ { "id": "SAW_M_FINE", "level": 1 } ],
+    "components": [ [ [ "filter_liquid", 1 ], [ "filter_liquid_makeshift", 1 ] ] ]
+  },
+  {
     "result": "improve_sights",
     "type" : "recipe",
     "category": "CC_WEAPON",

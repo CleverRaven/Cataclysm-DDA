@@ -77,6 +77,12 @@
 /** Cap JACK requirements to support arbritrarily large vehicles */
 #define JACK_LIMIT 6000000 // 6000kg (6 metric tonnes)
 
+/** Maximum (effective) sound volume */
+#define MAX_VOLUME 140
+
+/** Volume above which temporary deafness occurs */
+#define DEAF_VOLUME 90
+
 /** Maximum density of a map field */
 #define MAX_FIELD_DENSITY 3
 
