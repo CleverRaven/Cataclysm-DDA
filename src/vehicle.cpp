@@ -905,109 +905,35 @@ void vehicle::use_controls( const tripoint &pos, const bool remote_action )
     menu.return_invalid = true;
     menu.text = _( "Vehicle controls" );
 
-    int vpart;
     if( !interact_vehicle_locked() ) {
         return;
     }
 
-    bool has_basic_controls = false;
     bool has_electronic_controls = false;
     bool remotely_controlled = g->remoteveh() == this;
 
-    if( g->m.veh_at( pos, vpart ) == this ) {
+    if( g->m.veh_at( pos ) == this ) {
         if ( g->u.controlling_vehicle ) {
             // Always have this option
             // Let go without turning the engine off.
             menu.addentry( release_control, true, 'l', _( "Let go of controls" ) );
         }
-        std::vector<int> parts_for_check = parts_at_relative( parts[vpart].mount.x,
-                                                              parts[vpart].mount.y );
-        // iterate over all parts in the selected tile
-        for( size_t p = 0; p < parts_for_check.size(); ++p ) {
-            if( part_flag( parts_for_check[p], "CONTROLS") ) {
-                has_basic_controls = true;
-            }
-            if( part_flag( parts_for_check[p], "CTRL_ELECTRONIC" ) ) {
-                has_electronic_controls = true;
-            }
-        }
+        has_electronic_controls = !get_parts( pos, "CTRL_ELECTRONIC" ).empty();
+
     } else if( remotely_controlled || remote_action ) {
         if( remotely_controlled ){
             menu.addentry( release_remote_control, true, 'l', _( "Stop controlling" ) );
         }
-
-        // iterate over all parts
-        for( size_t p = 0; !has_electronic_controls && p < parts.size(); ++p ) {
-            has_electronic_controls = part_flag( p, "CTRL_ELECTRONIC" ) ||
-                part_flag( p, "REMOTE_CONTROLS" );
-        }
+        has_electronic_controls = has_part( "CTRL_ELECTRONIC" ) || has_part( "REMOTE_CONTROLS" );
     }
-    if( !has_basic_controls && !has_electronic_controls ) {
+
+    if( get_parts( pos, "CONTROLS" ).empty() && !has_electronic_controls ) {
         add_msg( m_info, _( "No controls there." ) );
         return;
     }
-    bool has_stereo = false;
-    bool has_chimes = false;
-    bool has_horn = false;
-    bool has_reactor = false;
-    bool has_engine = false;
-    bool has_mult_engine = false;
-    bool has_fridge = false;
-    bool has_recharger = false;
-    bool can_trigger_alarm = false;
-    bool has_door_motor = false;
-    bool has_camera = false;
-    bool has_camera_control = false;
-    bool has_plow = false;
-    bool has_planter = false;
-    bool has_scoop = false;
-    bool has_reaper = false;
-
-    for( size_t p = 0; p < parts.size(); p++ ) {
-        if (part_flag(p, "HORN")) {
-            has_horn = true;
-        }
-        else if (part_flag(p, "STEREO")) {
-            has_stereo = true;
-        }
-        else if (part_flag(p, "CHIMES")) {
-            has_chimes = true;
-        }
-        else if( part_flag( p, "REACTOR" ) ) {
-            has_reactor = true;
-        }
-        else if (part_flag(p, "ENGINE")) {
-            has_mult_engine = has_engine;
-            has_engine = true;
-        }
-        else if (part_flag(p, "FRIDGE")) {
-            has_fridge = true;
-        }
-        else if (part_flag(p, "RECHARGE")) {
-            has_recharger = true;
-        } else if( part_flag( p, "SECURITY" ) && !is_alarm_on && !parts[ p ].is_broken() ) {
-            can_trigger_alarm = true;
-        } else if (part_flag(p, "DOOR_MOTOR")) {
-            has_door_motor = true;
-        } else if( part_flag( p, "CAMERA" ) ) {
-            if( part_flag( p, "CAMERA_CONTROL" ) ) {
-                has_camera_control = true;
-            } else {
-                has_camera = true;
-            }
-        } else if( part_flag(p,"PLOW") ) {
-            has_plow = true;
-        } else if( part_flag(p,"PLANTER") ) {
-            has_planter = true;
-        } else if( part_flag(p,"SCOOP") ) {
-            has_scoop = true;
-        } else if( part_flag(p,"REAPER") ) {
-            has_reaper = true;
-        }
-    }
 
     // Toggle engine on/off, stop driving if we are driving.
-    if( has_engine ) {
+    if( has_part( "ENGINE" ) ) {
         if( g->u.controlling_vehicle || ( remotely_controlled && engine_on ) ) {
             menu.addentry( toggle_engine, true, 'e', _("Stop driving") );
         } else if( has_engine_type_not(fuel_type_muscle, true ) ) {
@@ -1039,23 +965,23 @@ void vehicle::use_controls( const tripoint &pos, const bool remote_action )
         }
     }
 
-    if ( has_electronic_controls && has_stereo ) {
+    if( has_electronic_controls && has_part( "STEREO" ) ) {
         menu.addentry( toggle_stereo, true, 'm', stereo_on ?
                        _("Turn off stereo") : _("Turn on stereo") );
     }
 
-    if (has_electronic_controls && has_chimes) {
+    if( has_electronic_controls && has_part( "CHIMES" ) ) {
         menu.addentry( toggle_chimes, true, 'i', chimes_on ?
                        _("Turn off chimes") : _("Turn on chimes") );
     }
 
     //Honk the horn!
-    if (has_horn) {
+    if( has_part( "HORN") ) {
         menu.addentry( activate_horn, true, 'o', _("Honk horn") );
     }
 
     // Turn the fridge on/off
-    if ( has_electronic_controls && has_fridge ) {
+    if ( has_electronic_controls && has_part( "FRIDGE" ) ) {
         menu.addentry( toggle_fridge, true, 'f', fridge_on ? _("Turn off fridge") : _("Turn on fridge") );
     }
 
@@ -1065,7 +991,7 @@ void vehicle::use_controls( const tripoint &pos, const bool remote_action )
     }
 
     // Turn the recharging station on/off
-    if ( has_electronic_controls && has_recharger ) {
+    if ( has_electronic_controls && has_part( "RECHARGE" ) ) {
         menu.addentry( toggle_recharger, true, 'r', recharger_on ? _("Turn off recharger") : _("Turn on recharger") );
     }
 
@@ -1080,19 +1006,19 @@ void vehicle::use_controls( const tripoint &pos, const bool remote_action )
     }
 
     // Turn the reactor on/off
-    if( has_reactor ) {
+    if( has_part( "REACTOR" ) ) {
         menu.addentry( toggle_reactor, true, 'k', reactor_on ? _("Turn off reactor") : _("Turn on reactor") );
     }
     // Toggle doors remotely
-    if ( has_electronic_controls && has_door_motor ) {
+    if ( has_electronic_controls && has_part( "DOOR_MOTOR" ) ) {
         menu.addentry( toggle_doors, true, 'd', _("Toggle door") );
     }
     // control an engine
-    if (has_mult_engine) {
+    if( get_parts( "ENGINE" ).size() > 1 ) {
         menu.addentry( cont_engines, true, 'y', _("Control individual engines") );
     }
     // start alarm
-    if ( has_electronic_controls && can_trigger_alarm ) {
+    if ( has_electronic_controls && has_part( "SECURITY" ) && !is_alarm_on ) {
         menu.addentry( trigger_alarm, true, 'p', _("Trigger alarm") );
     }
     // cycle individual turret modes
@@ -1101,23 +1027,23 @@ void vehicle::use_controls( const tripoint &pos, const bool remote_action )
         menu.addentry( manual_aim, true, 'w', _("Aim turrets manually") );
     }
     // toggle cameras
-    if( has_electronic_controls && (camera_on || ( has_camera && has_camera_control )) ) {
+    if( has_electronic_controls && (camera_on || ( has_part( "CAMERA" ) && has_part( "CAMERA_CONTROL" ) ) ) ) {
         menu.addentry( toggle_camera, true, 'M', camera_on ?
                        _("Turn off camera system") : _("Turn on camera system") );
     }
-    if( has_electronic_controls && has_plow ){
+    if( has_electronic_controls && has_part( "PLOW" ) ){
         menu.addentry( toggle_plow, true, MENU_AUTOASSIGN, plow_on ?
                        _("Turn plow off") : _("Turn plow on") );
     }
-    if( has_electronic_controls && has_planter ){
+    if( has_electronic_controls && has_part( "PLANTER" ) ){
         menu.addentry( toggle_planter, true, 'P', planter_on ?
                        _("Turn planter off") : _("Turn planter on") );
     }
-    if( has_electronic_controls && has_scoop ) {
+    if( has_electronic_controls && has_part( "SCOOP" ) ) {
         menu.addentry( toggle_scoop, true, 'S', scoop_on ?
                        _("Turn off scoop system") : _("Turn on scoop system") );
     }
-    if( has_electronic_controls && has_reaper ){
+    if( has_electronic_controls && has_part( "REAPER" ) ){
         menu.addentry( toggle_reaper, true, 'H', reaper_on ?  _("Turn off reaper") : _("Turn on reaper") );
     }
     menu.addentry( control_cancel, true, ' ', _("Do nothing") );
