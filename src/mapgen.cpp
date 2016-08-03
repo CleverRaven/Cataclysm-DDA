@@ -4116,13 +4116,13 @@ ff.......|....|WWWWWWWW|\n\
         switch (rng(1, 7)) {
         case 1:
         case 2: // Weapons testing
-            loot_variant = rng(1, 10);
+            loot_variant = rng(1, 100); //The variants have a 67/22/7/4 split.
             add_spawn(mon_secubot, 1,            6,            6);
             add_spawn(mon_secubot, 1, SEEX * 2 - 7,            6);
             add_spawn(mon_secubot, 1,            6, SEEY * 2 - 7);
             add_spawn(mon_secubot, 1, SEEX * 2 - 7, SEEY * 2 - 7);
             spawn_item( SEEX - 4, SEEY - 2, "id_science" );
-            if(loot_variant != 10) {
+            if(loot_variant <= 96) {
                 madd_trap( this, SEEX - 3, SEEY - 3, tr_dissector);
                 madd_trap( this, SEEX + 2, SEEY - 3, tr_dissector);
                 madd_trap( this, SEEX - 3, SEEY + 2, tr_dissector);
@@ -4136,7 +4136,7 @@ ff.......|....|WWWWWWWW|\n\
                 furn_set(SEEX    , SEEY - 1, f_table);
                 furn_set(SEEX - 1, SEEY    , f_table);
                 furn_set(SEEX    , SEEY    , f_table);
-                if (loot_variant <= 3 ) {
+                if (loot_variant <= 67 ) {
                     spawn_item(SEEX - 1, SEEY - 1, "laser_pack", dice(4, 3));
                     spawn_item(SEEX    , SEEY - 1, "UPS_off");
                     spawn_item(SEEX    , SEEY - 1, "battery", dice(4, 3));
@@ -4145,20 +4145,20 @@ ff.......|....|WWWWWWWW|\n\
                     spawn_item(SEEX    , SEEY    , "ftk93");
                     spawn_item(SEEX - 1, SEEY    , "recipe_atomic_battery");
                     spawn_item(SEEX    , SEEY  -1, "solar_panel_v3"); //quantum solar panel, 6 panels in one!
-                } else if (loot_variant >= 4 && loot_variant <= 6) {
+                } else if (loot_variant > 67 && loot_variant < 89) {
                     spawn_item(SEEX - 1, SEEY - 1, "mininuke", dice(3, 6));
                     spawn_item(SEEX    , SEEY - 1, "mininuke", dice(3, 6));
                     spawn_item(SEEX - 1, SEEY    , "mininuke", dice(3, 6));
                     spawn_item(SEEX    , SEEY    , "mininuke", dice(3, 6));
                     spawn_item(SEEX    , SEEY    , "recipe_atomic_battery");
                     spawn_item(SEEX    , SEEY    , "solar_panel_v3"); //quantum solar panel, 6 panels in one!
-                }  else {
+                }  else { // loot_variant between 90 and 96.
                     spawn_item(SEEX - 1, SEEY - 1, "rm13_armor");
                     spawn_item(SEEX    , SEEY - 1, "plut_cell");
                     spawn_item(SEEX - 1, SEEY    , "plut_cell");
                     spawn_item(SEEX    , SEEY    , "recipe_caseless");
                 }
-            } else { // one in ten times it will be this weapons testing end.
+            } else { // 4% of the lab ends will be this weapons testing end.
                 madd_trap( this, SEEX - 4, SEEY - 3, tr_dissector);
                 madd_trap( this, SEEX + 3, SEEY - 3, tr_dissector);
                 madd_trap( this, SEEX - 4, SEEY + 2, tr_dissector);
