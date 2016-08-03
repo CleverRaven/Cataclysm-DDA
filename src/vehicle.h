@@ -616,6 +616,9 @@ public:
     std::vector<vehicle_part *> get_parts( const tripoint &pos, const std::string &flag = "", bool enabled = false );
     std::vector<const vehicle_part *> get_parts( const tripoint &pos, const std::string &flag = "", bool enabled = false ) const;
 
+    /** Test if part can be enabled (unbroken, sufficient fuel etc), optionally displaying failures to user */
+    bool can_enable( const vehicle_part &pt, bool alert = false ) const;
+
     /**
      *  Return the index of the next part to open at `p`'s location
      *

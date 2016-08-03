@@ -1050,6 +1050,20 @@ void vehicle::use_controls( const tripoint &pos, const bool remote_action )
 
     menu.query();
 
+    auto toggle = [&]( const std::string &flag ) {
+        for( auto e : get_parts( flag ) ) {
+            if( e->enabled ) {
+                add_msg( string_format( _( "Turned off %s" ), e->name().c_str() ).c_str() );
+                e->enabled = false;
+            } else {
+                if( can_enable( *e, true ) ) {
+                    add_msg( string_format( _( "Turned on %s" ), e->name().c_str() ).c_str() );
+                    e->enabled = true;
+                }
+            }
+        }
+    };
+
     switch( static_cast<vehicle_controls>( menu.ret ) ) {
     case trigger_alarm:
         is_alarm_on = true;
@@ -1081,26 +1095,9 @@ void vehicle::use_controls( const tripoint &pos, const bool remote_action )
         }
         break;
 
-    case toggle_stereo: {
-        bool status;
-        if( has_part( "STEREO", true ) ) {
-            add_msg( _( "Turned off music" ) );
-            status = false;
-
-        } else {
-            if( !fuel_left( fuel_type_battery, true ) ) {
-                add_msg( _( "The stereo won't come on!" ) );
-                break;
-            }
-            add_msg( _( "Turned on music" ) );
-            status = true;
-        }
-
-        for( auto e : get_parts( "STEREO" ) ) {
-            e->enabled = status;
-        }
+    case toggle_stereo:
+        toggle( "STEREO" );
         break;
-    }
 
     case toggle_chimes:
         if( ( chimes_on || fuel_left( fuel_type_battery, true ) ) ) {
@@ -2307,6 +2304,35 @@ std::vector<const vehicle_part *> vehicle::get_parts( const tripoint &pos, const
         }
     }
     return res;
+}
+
+bool vehicle::can_enable( const vehicle_part &pt, bool alert ) const
+{
+    if( std::none_of( parts.begin(), parts.end(), [&pt]( const vehicle_part &e ) { return &e == &pt; } ) || pt.removed ) {
+        debugmsg( "Cannot enable removed or non-existent part" );
+    }
+
+    if( pt.is_broken() ) {
+        return false;
+    }
+
+    if( pt.info().has_flag( "PLANTER" ) && !warm_enough_to_plant() ) {
+        if( alert ) {
+            add_msg( m_bad, _( "It is too cold to plant anything now." ) );
+        }
+        return false;
+    }
+
+    // @todo check fuel for combustion engines
+
+    if( fuel_left( "battery", true ) < -std::min( pt.info().epower, 0 ) ) {
+        if( alert ) {
+            add_msg( m_bad, _( "Insufficient power to enable %s" ), pt.name().c_str() );
+        }
+        return false;
+    }
+
+    return true;
 }
 
 /**
