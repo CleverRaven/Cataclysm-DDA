@@ -1757,16 +1757,17 @@ void vehicle::deserialize(JsonIn &jsin)
     // make it instantly fire all its turrets upon load.
     of_turn = 0;
 
-    if( data.get_bool( "stereo_on", false ) ) {
-        for( auto e : get_parts( "STEREO" ) ) {
-            e->enabled = true;
+
+    /** Legacy saved games did not store part enabled status within parts */
+    auto set_legacy_state = [&]( const std::string &var, const std::string &flag ) {
+        if( data.get_bool( var, false ) ) {
+            for( auto e : get_parts( flag ) ) {
+                e->enabled = true;
+            }
         }
-    }
-    if( data.get_bool( "chimes_on", false ) ) {
-        for( auto e : get_parts( "CHIMES" ) ) {
-            e->enabled = true;
-        }
-    }
+    };
+    set_legacy_state( "stereo_on", "STEREO" );
+    set_legacy_state( "chimes_on", "CHIMES" );
 }
 
 void vehicle::serialize(JsonOut &json) const
