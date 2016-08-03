@@ -1552,7 +1552,7 @@
         "id": "anemia",
         "name": [ "Iron deficiency", "Early anemia", "Anemia" ],
         "desc": [ "A lack of iron in your diet will result in progressively worsening anemia." ],
-        "apply_message": "You beging feeling increasingly tired and listless.",
+        "apply_message": "You begin feeling increasingly tired and listless.",
         "remove_message": "You no longer feel anemic.",
         "decay_messages": [
           [ "Your iron deficiency is nearly resolved.", "good" ],
@@ -1566,8 +1566,8 @@
         "id": "hypovitA",
         "name": [ "VitA deficiency", "Poor vision", "Night blindness" ],
         "desc": [ "A lack of vitamin A in your diet will progressively worsen your vision." ],
-        "apply_message": "You beging struggling to make out the finer details.",
-        "remove_message": "Your normal visual accuity returns.",
+        "apply_message": "You start struggling to make out the finer details.",
+        "remove_message": "Your normal visual acuity returns.",
         "decay_messages": [
           [ "Your vitamin A deficiency is nearly resolved.", "good" ],
           [ "Your vision improves as your Vitamin A deficiency improves.", "good" ]
