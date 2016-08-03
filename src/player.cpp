@@ -158,6 +158,12 @@ const matype_id style_none( "style_none" );
 
 const vitamin_id vitamin_iron( "iron" );
 
+namespace
+{
+std::map<std::string, bionic_data> bionics;
+std::vector<std::string> faulty_bionics;
+} //namespace
+
 // use this instead of having to type out 26 spaces like before
 static const std::string header_spaces( 26, ' ' );
 
@@ -8999,11 +9005,11 @@ bool player::has_fire(const int quantity) const
         return true;
     } else if (has_charges("candle_lit", 1)) {
         return true;
-    } else if (has_active_bionic("bio_tools")) {
+    } else if (has_active_bionic("bio_tools") && ( power_level > bionics["bio_tools"].power_activate )) {
         return true;
-    } else if (has_bionic("bio_lighter")) {
+    } else if (has_bionic("bio_lighter") && ( power_level > bionics["bio_lighter"].power_activate )) {
         return true;
-    } else if (has_bionic("bio_laser")) {
+    } else if (has_bionic("bio_laser") && ( power_level > bionics["bio_laser"].power_activate )) {
         return true;
     } else if (has_charges("ref_lighter", quantity)) {
         return true;
@@ -9043,6 +9049,7 @@ void player::use_fire(const int quantity)
 //Ok, so checks for nearby fires first,
 //then held lit torch or candle, bio tool/lighter/laser
 //tries to use 1 charge of lighters, matches, flame throwers
+//If there is enough power, will use power of one activation of the bio_lighter, bio_tools and bio_laser
 // (home made, military), hotplate, welder in that order.
 // bio_lighter, bio_laser, bio_tools, has_active_bionic("bio_tools"
 
@@ -9066,11 +9073,14 @@ void player::use_fire(const int quantity)
         return;
     } else if (has_charges("zweifire_on", quantity)) {
         return;
-    } else if (has_active_bionic("bio_tools")) {
+    } else if (has_active_bionic("bio_tools") && ( power_level > bionics["bio_tools"].power_activate )) {
+        charge_power( -bionics["bio_tools"].power_activate );
         return;
-    } else if (has_bionic("bio_lighter")) {
+    } else if (has_bionic("bio_lighter") && ( power_level > bionics["bio_lighter"].power_activate )) {
+        charge_power( -bionics["bio_lighter"].power_activate );
         return;
-    } else if (has_bionic("bio_laser")) {
+    } else if (has_bionic("bio_laser") && ( power_level > bionics["bio_laser"].power_activate )) {
+        charge_power( -bionics["bio_laser"].power_activate );
         return;
     } else if (has_charges("ref_lighter", quantity)) {
         use_charges("ref_lighter", quantity);
