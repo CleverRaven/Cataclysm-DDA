@@ -464,7 +464,7 @@
         "color" : "brown",
         "symbol" : "/",
         "material" : ["wood", "steel"],
-        "techniques" : "WBLOCK_1",
+        "techniques" : ["WBLOCK_1"],
         "volume" : 7,
         "bashing" : 11,
         "cutting" : 8,
