@@ -966,7 +966,7 @@ void vehicle::use_controls( const tripoint &pos, const bool remote_action )
     }
 
     if( has_electronic_controls && has_part( "STEREO" ) ) {
-        menu.addentry( toggle_stereo, true, 'm', stereo_on ?
+        menu.addentry( toggle_stereo, true, 'm', has_part( "STEREO", true ) ?
                        _("Turn off stereo") : _("Turn on stereo") );
     }
 
@@ -1080,14 +1080,28 @@ void vehicle::use_controls( const tripoint &pos, const bool remote_action )
             e->enabled = false;
         }
         break;
-    case toggle_stereo:
-        if( ( stereo_on || fuel_left( fuel_type_battery, true ) ) ) {
-            stereo_on = !stereo_on;
-            add_msg( stereo_on ? _("Turned on music") : _("Turned off music") );
+
+    case toggle_stereo: {
+        bool status;
+        if( has_part( "STEREO", true ) ) {
+            add_msg( _( "Turned off music" ) );
+            status = false;
+
         } else {
-            add_msg(_("The stereo won't come on!"));
+            if( !fuel_left( fuel_type_battery, true ) ) {
+                add_msg( _( "The stereo won't come on!" ) );
+                break;
+            }
+            add_msg( _( "Turned on music" ) );
+            status = true;
+        }
+
+        for( auto e : get_parts( "STEREO" ) ) {
+            e->enabled = status;
         }
         break;
+    }
+
     case toggle_chimes:
         if( ( chimes_on || fuel_left( fuel_type_battery, true ) ) ) {
             chimes_on = !chimes_on;
@@ -1509,16 +1523,13 @@ void vehicle::beeper_sound()
 
 void vehicle::play_music()
 {
-    for( size_t p = 0; p < parts.size(); ++p ) {
-        if ( ! part_flag( p, "STEREO" ) )
+    for( auto e : get_parts( "STEREO", true ) ) {
+        int req = - e->info().epower; // epower is negative for consumers
+        if( drain( fuel_type_battery, req ) != req ) {
+            e->enabled = false;
             continue;
-        // epower is negative for consumers
-        if( drain( fuel_type_battery, -part_epower( p ) ) == 0 ) {
-            stereo_on = false;
-            return;
         }
-        const auto radio_pos = tripoint( global_pos() + parts[p].precalc[0], smz );
-        iuse::play_music( &g->u, radio_pos, 15, 30 );
+        iuse::play_music( &g->u, global_part_pos3( *e ), 15, 30 );
     }
 }
 
@@ -3696,9 +3707,12 @@ void vehicle::power_parts()
             pt->enabled = false;
         }
 
+        for( auto pt : get_parts( "STEREO" ) ) {
+            pt->enabled = false;
+        }
+
         is_alarm_on = false;
         fridge_on = false;
-        stereo_on = false;
         chimes_on = false;
         recharger_on = false;
         camera_on = false;
@@ -3897,7 +3911,7 @@ void vehicle::idle(bool on_map) {
     }
 
 
-    if (stereo_on) {
+    if( has_part( "STEREO", true ) ) {
         play_music();
     }
 
@@ -4127,7 +4141,7 @@ void vehicle::thrust( int thd ) {
         skidding = false;
     }
 
-    if (stereo_on == true) {
+    if( has_part( "STEREO", true ) ) {
         play_music();
     }
 

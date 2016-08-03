@@ -1686,7 +1686,6 @@ void vehicle::deserialize(JsonIn &jsin)
     data.read("cruise_on", cruise_on);
     data.read("engine_on", engine_on);
     data.read("tracking_on", tracking_on);
-    data.read("stereo_on", stereo_on);
     data.read("chimes_on", chimes_on);
     data.read("fridge_on", fridge_on);
     data.read("recharger_on", recharger_on);
@@ -1758,6 +1757,12 @@ void vehicle::deserialize(JsonIn &jsin)
     // that can't be used as it currently stands because it would also
     // make it instantly fire all its turrets upon load.
     of_turn = 0;
+
+    if( data.get_bool( "stereo_on", false ) ) {
+        for( auto e : get_parts( "STEREO" ) ) {
+            e->enabled = true;
+        }
+    }
 }
 
 void vehicle::serialize(JsonOut &json) const
@@ -1777,7 +1782,6 @@ void vehicle::serialize(JsonOut &json) const
     json.member( "cruise_on", cruise_on );
     json.member( "engine_on", engine_on );
     json.member( "tracking_on", tracking_on );
-    json.member( "stereo_on", stereo_on);
     json.member( "chimes_on", chimes_on);
     json.member( "fridge_on", fridge_on );
     json.member( "recharger_on", recharger_on );
