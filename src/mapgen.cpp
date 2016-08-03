@@ -4117,7 +4117,6 @@ ff.......|....|WWWWWWWW|\n\
         case 1:
         case 2: // Weapons testing
             loot_variant = rng(1, 10);
-            loot_variant = 5;
             add_spawn(mon_secubot, 1,            6,            6);
             add_spawn(mon_secubot, 1, SEEX * 2 - 7,            6);
             add_spawn(mon_secubot, 1,            6, SEEY * 2 - 7);
