@@ -1542,3 +1542,22 @@ void Creature::check_dead_state() {
         die( nullptr );
     }
 }
+
+std::pair<std::string, nc_color> const &Creature::get_creature_attitude( Attitude att )
+{
+    using pair_t = std::pair<std::string, nc_color>;
+    static std::array<pair_t, A_MAX+1> const strings {
+        {
+            pair_t {_( "Hostile" ), c_red},
+            pair_t {_( "Neutral" ), h_white},
+            pair_t {_( "Friendly" ), c_green},
+            pair_t {_( "BUG: Behavior unnamed. (Creature::get_creature_attitude)" ), h_red}
+        }
+    };
+
+    if( att < 0 || att >= A_MAX ) {
+        return strings[A_MAX];
+    }
+
+    return strings[att];
+}

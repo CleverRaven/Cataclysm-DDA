@@ -8,6 +8,7 @@
 #include <algorithm>
 #include "json.h"
 #include "enums.h"
+#include "creature.h"
 
 class safemode : public JsonSerializer, public JsonDeserializer
 {
@@ -31,17 +32,23 @@ class safemode : public JsonSerializer, public JsonDeserializer
                 std::string sRule;
                 bool bActive;
                 bool bExclude;
+                int attCreature;
+                int iProxyDist;
 
                 cRules() {
                     this->sRule = "";
                     this->bActive = false;
                     this->bExclude = false;
+                    this->attCreature = Creature::A_HOSTILE;
+                    this->iProxyDist = 0;
                 }
 
-                cRules( std::string sRuleIn, bool bActiveIn, bool bExcludeIn ) {
+                cRules( std::string sRuleIn, bool bActiveIn, bool bExcludeIn, int attCreatureIn, int iProxyDistIn ) {
                     this->sRule = sRuleIn;
                     this->bActive = bActiveIn;
                     this->bExclude = bExcludeIn;
+                    this->attCreature = attCreatureIn;
+                    this->iProxyDist = iProxyDistIn;
                 }
 
                 ~cRules() {};
@@ -50,10 +57,10 @@ class safemode : public JsonSerializer, public JsonDeserializer
         /**
          * The currently-active set of safemode rules, in a form that allows quick
          * lookup. When this is filled (by @ref safemode::create_rules()), every
-         * item existing in the game that matches a rule (either white- or blacklist)
+         * monster existing in the game that matches a rule (either white- or blacklist)
          * is added as the key, with RULE_WHITELISTED or RULE_BLACKLISTED as the values.
          */
-        std::unordered_map<std::string, rule_state> map_items;
+        std::unordered_map<std::string, std::pair<rule_state, int> > map_monsters;
 
         /**
          * - vRules[0,1] aka vRules[GLOBAL,CHARACTER]: current rules split into global and
@@ -68,7 +75,7 @@ class safemode : public JsonSerializer, public JsonDeserializer
         void create_rules();
         void create_rule( const std::string &to_match );
         void clear_character_rules();
-        rule_state check_item( const std::string &sItemName ) const;
+        rule_state check_monster( const std::string &sMonsterName ) const;
 
         void show();
         void show( const std::string &custom_name, bool is_autopickup );
