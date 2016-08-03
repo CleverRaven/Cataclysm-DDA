@@ -483,9 +483,8 @@ void vehicle::init_state(int init_veh_fuel, int init_veh_status)
             blood_inside = true;
         }
 
-        //Fridge should always start out activated if present
-        if( all_parts_with_feature("FRIDGE").size() > 0 ) {
-            fridge_on = true;
+        for( auto e : get_parts( "FRIDGE" ) ) {
+            e->enabled = true;
         }
     }
 
@@ -982,7 +981,8 @@ void vehicle::use_controls( const tripoint &pos, const bool remote_action )
 
     // Turn the fridge on/off
     if ( has_electronic_controls && has_part( "FRIDGE" ) ) {
-        menu.addentry( toggle_fridge, true, 'f', fridge_on ? _("Turn off fridge") : _("Turn on fridge") );
+        menu.addentry( toggle_fridge, true, 'f', has_part( "FRIDGE", true ) ?
+                       _("Turn off fridge") : _("Turn on fridge") );
     }
 
     // Toggle individual turrets between automated and manual firing
@@ -992,7 +992,8 @@ void vehicle::use_controls( const tripoint &pos, const bool remote_action )
 
     // Turn the recharging station on/off
     if ( has_electronic_controls && has_part( "RECHARGE" ) ) {
-        menu.addentry( toggle_recharger, true, 'r', recharger_on ? _("Turn off recharger") : _("Turn on recharger") );
+        menu.addentry( toggle_recharger, true, 'r', has_part( "RECHARGE", true ) ?
+                      _("Turn off recharger") : _("Turn on recharger") );
     }
 
     // Tracking on the overmap
@@ -1110,28 +1111,15 @@ void vehicle::use_controls( const tripoint &pos, const bool remote_action )
     case toggle_turrets:
         turrets_set_targeting();
         break;
+
     case toggle_fridge:
-        if( fridge_on ) {
-            fridge_on = false;
-            add_msg(_("Fridge turned off"));
-        } else if (fuel_left(fuel_type_battery, true)) {
-            fridge_on = true;
-            add_msg(_("Fridge turned on"));
-        } else {
-            add_msg(_("The fridge won't turn on!"));
-        }
+        toggle( "FRIDGE" );
         break;
+
     case toggle_recharger:
-        if( recharger_on ) {
-            recharger_on = false;
-            add_msg(_("Recharger turned off"));
-        } else if (fuel_left(fuel_type_battery, true)) {
-            recharger_on = true;
-            add_msg(_("Recharger turned on"));
-        } else {
-            add_msg(_("The recharger won't turn on!"));
-        }
+        toggle( "RECHARGE" );
         break;
+
     case toggle_reactor:
     {
         bool can_toggle = reactor_on;
@@ -3640,10 +3628,14 @@ void vehicle::power_parts()
     for( const auto pt : get_parts( "SCOOP", true ) ) {
         epower += pt->info().epower;
     }
+    for( const auto pt : get_parts( "RECHARGE", true ) ) {
+        epower += pt->info().epower;
+    }
+    for( const auto pt : get_parts( "FRIDGE", true ) ) {
+        epower += pt->info().epower;
+    }
 
     // Consumers of epower
-    if( fridge_on ) epower += fridge_epower;
-    if( recharger_on ) epower += recharger_epower;
     if( is_alarm_on ) epower += alarm_epower;
     if( camera_on ) epower += camera_epower;
     // Engines: can both produce (plasma) or consume (gas, diesel)
@@ -3740,10 +3732,14 @@ void vehicle::power_parts()
         for( auto pt : get_parts( "SCOOP" ) ) {
             pt->enabled = false;
         }
+        for( auto pt : get_parts( "RECHARGE" ) ) {
+            pt->enabled = false;
+        }
+        for( auto pt : get_parts( "FRIDGE" ) ) {
+            pt->enabled = false;
+        }
 
         is_alarm_on = false;
-        fridge_on = false;
-        recharger_on = false;
         camera_on = false;
         if( player_in_control( g->u ) || g->u.sees( global_pos3() ) ) {
             add_msg( _("The %s's battery dies!"), name.c_str() );
@@ -5201,8 +5197,6 @@ void vehicle::refresh()
     speciality.clear();
     floating.clear();
     tracking_epower = 0;
-    fridge_epower = 0;
-    recharger_epower = 0;
     alternator_load = 0;
     camera_epower = 0;
     extra_drag = 0;
@@ -5220,12 +5214,6 @@ void vehicle::refresh()
         const vpart_info& vpi = part_info( p );
         if( parts[p].removed ) {
             continue;
-        }
-        if( vpi.has_flag(VPFLAG_FRIDGE) ) {
-            fridge_epower += vpi.epower;
-        }
-        if( vpi.has_flag(VPFLAG_RECHARGE) ) {
-            recharger_epower += vpi.epower;
         }
         if( vpi.has_flag(VPFLAG_ALTERNATOR) ) {
             alternators.push_back( p );

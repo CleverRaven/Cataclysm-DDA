@@ -1159,9 +1159,7 @@ public:
     float of_turn_carry;// leftover from prev. turn
 
     int tracking_epower     = 0; // total power consumed by tracking devices (why would you use more than one?)
-    int fridge_epower       = 0; // total power consumed by fridges
     int alarm_epower        = 0;
-    int recharger_epower    = 0; // total power consumed by rechargers
     int camera_epower       = 0; // power consumed by camera system
     int extra_drag          = 0;
     // TODO: change these to a bitset + enum?
@@ -1172,8 +1170,6 @@ public:
     bool is_locked                  = false; // vehicle has no key
     bool is_alarm_on                = false; // vehicle has alarm on
     bool camera_on                  = false;
-    bool fridge_on                  = false; // fridge on/off
-    bool recharger_on               = false; // recharger on/off
     bool skidding                   = false; // skidding mode
     bool check_environmental_effects= false; // has bloody or smoking parts
     bool insides_dirty              = true;  // "inside" flags are outdated and need refreshing

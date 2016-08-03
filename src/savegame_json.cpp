@@ -1686,8 +1686,6 @@ void vehicle::deserialize(JsonIn &jsin)
     data.read("cruise_on", cruise_on);
     data.read("engine_on", engine_on);
     data.read("tracking_on", tracking_on);
-    data.read("fridge_on", fridge_on);
-    data.read("recharger_on", recharger_on);
     data.read("skidding", skidding);
     data.read("of_turn_carry", of_turn_carry);
     data.read("is_locked", is_locked);
@@ -1764,8 +1762,10 @@ void vehicle::deserialize(JsonIn &jsin)
     };
     set_legacy_state( "stereo_on", "STEREO" );
     set_legacy_state( "chimes_on", "CHIMES" );
+    set_legacy_state( "fridge_on", "FRIDGE" );
     set_legacy_state( "reaper_on", "REAPER" );
     set_legacy_state( "planter_on", "PLANTER" );
+    set_legacy_state( "recharger_on", "RECHARGE" );
     set_legacy_state( "scoop_on", "SCOOP" );
     set_legacy_state( "plow_on", "PLOW" );
 }
@@ -1787,8 +1787,6 @@ void vehicle::serialize(JsonOut &json) const
     json.member( "cruise_on", cruise_on );
     json.member( "engine_on", engine_on );
     json.member( "tracking_on", tracking_on );
-    json.member( "fridge_on", fridge_on );
-    json.member( "recharger_on", recharger_on );
     json.member( "skidding", skidding );
     json.member( "of_turn_carry", of_turn_carry );
     json.member( "name", name );
