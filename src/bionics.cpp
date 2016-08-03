@@ -1063,7 +1063,7 @@ void bionics_install_failure( player *u, int difficulty, int success )
             break;
 
         case 4:
-            add_msg( m_mixed, _( "You do damage to your genetics, causing mutation!" ) );
+            add_msg( m_mixed, _( "Something inside you rejects the bionic, and reacts violently, causing mutation!" ) );
             while( failure_level > 0 ) {
                 u->mutate();
                 failure_level -= rng( 1, failure_level + 2 );
