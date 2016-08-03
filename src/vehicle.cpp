@@ -971,7 +971,7 @@ void vehicle::use_controls( const tripoint &pos, const bool remote_action )
     }
 
     if( has_electronic_controls && has_part( "CHIMES" ) ) {
-        menu.addentry( toggle_chimes, true, 'i', chimes_on ?
+        menu.addentry( toggle_chimes, true, 'i', has_part( "CHIMES", true ) ?
                        _("Turn off chimes") : _("Turn on chimes") );
     }
 
@@ -1100,13 +1100,9 @@ void vehicle::use_controls( const tripoint &pos, const bool remote_action )
         break;
 
     case toggle_chimes:
-        if( ( chimes_on || fuel_left( fuel_type_battery, true ) ) ) {
-            chimes_on = !chimes_on;
-            add_msg( chimes_on ? _("Turned on chimes") : _("Turned off chimes") );
-        } else {
-            add_msg(_("The chimes won't come on!"));
-        }
+        toggle( "CHIMES" );
         break;
+
     case activate_horn:
         honk_horn();
         break;
@@ -1532,18 +1528,17 @@ void vehicle::play_music()
 
 void vehicle::play_chimes()
 {
-    if (one_in(3)) {
-        for( size_t p = 0; p < parts.size(); ++p ) {
-            if ( ! part_flag( p, "CHIMES" ) )
-                continue;
-            // epower is negative for consumers
-            if( drain( fuel_type_battery, -part_epower( p ) ) == 0 ) {
-                chimes_on = false;
-                return;
-            }
-            const auto chimes_pos = tripoint( global_pos() + parts[p].precalc[0], smz );
-            sounds::sound(chimes_pos, 40, _("a simple melody blaring from the loudspeakers.") );
+    if( !one_in( 3 ) ) {
+        return;
+    }
+
+    for( auto e : get_parts( "CHIMES", true ) ) {
+        int req = - e->info().epower; // epower is negative for consumers
+        if( drain( fuel_type_battery, req ) != req ) {
+            e->enabled = false;
+            continue;
         }
+        sounds::sound( global_part_pos3( *e ), 40, _( "a simple melody blaring from the loudspeakers." ) );
     }
 }
 
@@ -3736,10 +3731,12 @@ void vehicle::power_parts()
         for( auto pt : get_parts( "STEREO" ) ) {
             pt->enabled = false;
         }
+        for( auto pt : get_parts( "CHIMES" ) ) {
+            pt->enabled = false;
+        }
 
         is_alarm_on = false;
         fridge_on = false;
-        chimes_on = false;
         recharger_on = false;
         camera_on = false;
         scoop_on = false;
@@ -3941,7 +3938,7 @@ void vehicle::idle(bool on_map) {
         play_music();
     }
 
-    if (chimes_on) {
+    if( has_part( "CHIMES", true ) ) {
         play_chimes();
     }
 
@@ -4171,7 +4168,7 @@ void vehicle::thrust( int thd ) {
         play_music();
     }
 
-    if (chimes_on == true) {
+    if( has_part( "CHIMES", true ) ) {
         play_chimes();
     }
 

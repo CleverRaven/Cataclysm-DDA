@@ -1686,7 +1686,6 @@ void vehicle::deserialize(JsonIn &jsin)
     data.read("cruise_on", cruise_on);
     data.read("engine_on", engine_on);
     data.read("tracking_on", tracking_on);
-    data.read("chimes_on", chimes_on);
     data.read("fridge_on", fridge_on);
     data.read("recharger_on", recharger_on);
     data.read("skidding", skidding);
@@ -1763,6 +1762,11 @@ void vehicle::deserialize(JsonIn &jsin)
             e->enabled = true;
         }
     }
+    if( data.get_bool( "chimes_on", false ) ) {
+        for( auto e : get_parts( "CHIMES" ) ) {
+            e->enabled = true;
+        }
+    }
 }
 
 void vehicle::serialize(JsonOut &json) const
@@ -1782,7 +1786,6 @@ void vehicle::serialize(JsonOut &json) const
     json.member( "cruise_on", cruise_on );
     json.member( "engine_on", engine_on );
     json.member( "tracking_on", tracking_on );
-    json.member( "chimes_on", chimes_on);
     json.member( "fridge_on", fridge_on );
     json.member( "recharger_on", recharger_on );
     json.member( "skidding", skidding );
