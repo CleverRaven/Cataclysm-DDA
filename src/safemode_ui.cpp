@@ -1,17 +1,19 @@
+#include "safemode_ui.h"
+
 #include "game.h"
 #include "player.h"
-#include "safemode_ui.h"
 #include "output.h"
 #include "debug.h"
-#include "item_factory.h"
 #include "catacharset.h"
 #include "translations.h"
 #include "cata_utility.h"
 #include "path_info.h"
 #include "filesystem.h"
 #include "input.h"
+#include "mtype.h"
+#include "generic_factory.h"
 #include "worldfactory.h"
-#include "itype.h"
+#include "monstergenerator.h"
 
 #include <stdlib.h>
 #include <fstream>
@@ -68,7 +70,8 @@ void safemode::show( const std::string &custom_name, bool is_safemode )
                                    1 + iOffsetX);
     WINDOW_PTR wptr( w );
 
-    draw_border(w_border);
+    draw_border( w_border, BORDER_COLOR, custom_name );
+
     mvwputch(w_border, 3,  0, c_ltgray, LINE_XXXO); // |-
     mvwputch(w_border, 3, 79, c_ltgray, LINE_XOXX); // -|
 
@@ -77,7 +80,6 @@ void safemode::show( const std::string &custom_name, bool is_safemode )
                   LINE_XXOX ); // _|_
     }
 
-    mvwprintz(w_border, 0, 29, c_ltred, custom_name.c_str() );
     wrefresh(w_border);
 
     int tmpx = 0;
@@ -242,13 +244,11 @@ void safemode::show( const std::string &custom_name, bool is_safemode )
             //Only allow loaded games to use the char sheet
         } else if (action == "DOWN") {
             iLine++;
-            iColumn = 0;
             if (iLine >= (int)vRules[iTab].size()) {
                 iLine = 0;
             }
         } else if (action == "UP") {
             iLine--;
-            iColumn = 0;
             if (iLine < 0) {
                 iLine = vRules[iTab].size() - 1;
             }
@@ -316,7 +316,7 @@ void safemode::show( const std::string &custom_name, bool is_safemode )
                 if ( vRules[iTab][iLine].attCreature >= Creature::A_MAX ) {
                     vRules[iTab][iLine].attCreature = 0;
                 }
-            } else if (iColumn == col_Dist) {
+            } else if (iColumn == col_Dist && !vRules[iTab][iLine].bExclude) {
                 const auto text = string_input_popup( _("Proximity Distance (0=max viewdistance)"),
                                                       4,
                                                       to_string( vRules[iTab][iLine].iProxyDist ),
@@ -343,17 +343,11 @@ void safemode::show( const std::string &custom_name, bool is_safemode )
             vRules[iTab][iLine].bActive = false;
         } else if (action == "LEFT") {
             iColumn--;
-            if (iColumn == col_Dist && vRules[iTab][iLine].bExclude) {
-                iColumn--;
-            }
             if (iColumn < 0) {
                 iColumn = iTotalCols - 1;
             }
         } else if (action == "RIGHT") {
             iColumn++;
-            if (iColumn == col_Dist && vRules[iTab][iLine].bExclude) {
-                iColumn++;
-            }
             if (iColumn >= iTotalCols) {
                 iColumn = 0;
             }
@@ -401,19 +395,23 @@ void safemode::show( const std::string &custom_name, bool is_safemode )
 
 void safemode::test_pattern(const int iTab, const int iRow)
 {
-    /*std::vector<std::string> vMatchingItems;
-    std::string sItemName = "";
+    std::vector<std::string> vMatchingMonsters;
+    std::string sMonsterName = "";
 
     if (vRules[iTab][iRow].sRule == "") {
         return;
     }
 
-    //Loop through all itemfactory items
-    for( auto &p : item_controller->get_all_itypes() ) {
-        sItemName = p.second->nname(1);
-        if (vRules[iTab][iRow].bActive &&
-            wildcard_match(sItemName, vRules[iTab][iRow].sRule)) {
-            vMatchingItems.push_back(sItemName);
+    if ( g->u.name == "" ) {
+        popup(_("No monsters loaded. Please start a game first."));
+        return;
+    }
+
+    //Loop through all monster mtypes
+    for( const auto &type : MonsterGenerator::generator().get_all_mtypes() ) {
+        sMonsterName = type.nname();
+        if (wildcard_match(sMonsterName, vRules[iTab][iRow].sRule)) {
+            vMatchingMonsters.push_back(sMonsterName);
         }
     }
 
@@ -432,14 +430,11 @@ void safemode::test_pattern(const int iTab, const int iRow)
 
     draw_border(w_test_rule_border);
 
-    int nmatch = vMatchingItems.size();
-    std::string buf = string_format(ngettext("%1$d item matches: %2$s", "%1$d items match: %2$s",
+    int nmatch = vMatchingMonsters.size();
+    std::string buf = string_format(ngettext("%1$d monster matches: %2$s", "%1$d monsters match: %2$s",
                                     nmatch), nmatch, vRules[iTab][iRow].sRule.c_str());
     mvwprintz(w_test_rule_border, 0, iContentWidth / 2 - utf8_width(buf) / 2, hilite(c_white),
               "%s", buf.c_str());
-
-    mvwprintz(w_test_rule_border, iContentHeight + 1, 1, red_background(c_white),
-              _("Won't display bottled and suffixes=(fits)"));
 
     wrefresh(w_test_rule_border);
 
@@ -457,12 +452,12 @@ void safemode::test_pattern(const int iTab, const int iRow)
             }
         }
 
-        calcStartPos(iStartPos, iLine, iContentHeight, vMatchingItems.size());
+        calcStartPos(iStartPos, iLine, iContentHeight, vMatchingMonsters.size());
 
         // display safemode
-        for (int i = iStartPos; i < (int)vMatchingItems.size(); i++) {
+        for (int i = iStartPos; i < (int)vMatchingMonsters.size(); i++) {
             if (i >= iStartPos &&
-                i < iStartPos + ((iContentHeight > (int)vMatchingItems.size()) ? (int)vMatchingItems.size() :
+                i < iStartPos + ((iContentHeight > (int)vMatchingMonsters.size()) ? (int)vMatchingMonsters.size() :
                                  iContentHeight)) {
                 nc_color cLineColor = c_white;
 
@@ -478,7 +473,7 @@ void safemode::test_pattern(const int iTab, const int iRow)
                 }
 
                 wprintz(w_test_rule_content, (iLine == i) ? hilite(cLineColor) : cLineColor,
-                        vMatchingItems[i].c_str());
+                        vMatchingMonsters[i].c_str());
             }
         }
 
@@ -487,20 +482,20 @@ void safemode::test_pattern(const int iTab, const int iRow)
         const std::string action = ctxt.handle_input();
         if (action == "DOWN") {
             iLine++;
-            if (iLine >= (int)vMatchingItems.size()) {
+            if (iLine >= (int)vMatchingMonsters.size()) {
                 iLine = 0;
             }
         } else if (action == "UP") {
             iLine--;
             if (iLine < 0) {
-                iLine = vMatchingItems.size() - 1;
+                iLine = vMatchingMonsters.size() - 1;
             }
         } else {
             break;
         }
-    }*/
+    }
 }
-
+/*
 bool safemode::has_rule(const std::string &sRule)
 {
     for( auto &elem : vRules[CHARACTER_TAB] ) {
@@ -535,7 +530,7 @@ void safemode::remove_rule(const std::string &sRule)
         }
     }
 }
-
+*/
 bool safemode::empty() const
 {
     for( int i = GLOBAL_TAB; i < MAX_TAB; i++ ) {
@@ -553,11 +548,11 @@ void safemode::create_rule( const std::string &to_match )
         for( auto &elem : vRules[i] ) {
             if( !elem.bExclude ) {
                 if( elem.bActive && wildcard_match( to_match, elem.sRule ) ) {
-                    map_monsters[ to_match ] = std::make_pair(RULE_WHITELISTED, 0);
+                    map_monsters[ to_match ][ elem.attCreature ] = std::make_pair(RULE_WHITELISTED, elem.iProxyDist);
                 }
             } else {
                 if( elem.bActive && wildcard_match( to_match, elem.sRule ) ) {
-                    map_monsters[ to_match ] = std::make_pair(RULE_BLACKLISTED, 0);
+                    map_monsters[ to_match ][ elem.attCreature ] = std::make_pair(RULE_BLACKLISTED, elem.iProxyDist);
                 }
             }
         }
@@ -574,11 +569,11 @@ void safemode::create_rules()
     for( int i = GLOBAL_TAB; i < MAX_TAB; i++ ) {
         for( auto &elem : vRules[i] ) {
             if( !elem.bExclude ) {
-                //Check include patterns against all itemfactory?? monsters
-                for( auto &p : item_controller->get_all_itypes() ) {
-                    const std::string &cur_item = p.second->nname(1);
+                //Check include patterns against all monster mtypes
+                for( const auto &type : MonsterGenerator::generator().get_all_mtypes() ) {
+                    const std::string &cur_item = type.nname();
                     if( elem.bActive && wildcard_match( cur_item, elem.sRule ) ) {
-                        map_monsters[ cur_item ] = std::make_pair(RULE_WHITELISTED, 0);
+                        map_monsters[ cur_item ][ elem.attCreature ] = std::make_pair(RULE_WHITELISTED, elem.iProxyDist);
                     }
                 }
             } else {
@@ -586,7 +581,7 @@ void safemode::create_rules()
                 //new exclusions will process during safemode attempts
                 for (auto iter = map_monsters.begin(); iter != map_monsters.end(); ++iter) {
                     if( elem.bActive && wildcard_match( iter->first, elem.sRule ) ) {
-                        map_monsters[ iter->first ] = std::make_pair(RULE_BLACKLISTED, 0);
+                        map_monsters[ iter->first ][ elem.attCreature ] = std::make_pair(RULE_BLACKLISTED, elem.iProxyDist);
                     }
                 }
             }
@@ -594,11 +589,19 @@ void safemode::create_rules()
     }
 }
 
-rule_state safemode::check_monster( const std::string &sMonsterName ) const
+rule_state safemode::check_monster( const std::string &sMonsterName, const int att, const int iDist ) const
 {
     const auto iter = map_monsters.find( sMonsterName );
     if( iter != map_monsters.end() ) {
-        return (iter->second).first;
+        const auto &tmp = (iter->second)[att];
+        if ( tmp.first == RULE_WHITELISTED ) {
+            if ( iDist <= tmp.second ) {
+                return RULE_WHITELISTED;
+            }
+
+        } else if ( tmp.first == RULE_BLACKLISTED ) {
+            return RULE_BLACKLISTED;
+        }
     }
 
     return RULE_NONE;

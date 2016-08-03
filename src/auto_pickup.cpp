@@ -60,7 +60,8 @@ void auto_pickup::show( const std::string &custom_name, bool is_autopickup )
                                    1 + iOffsetX);
     WINDOW_PTR wptr( w );
 
-    draw_border(w_border);
+    draw_border( w_border, BORDER_COLOR, custom_name );
+
     mvwputch(w_border, 3,  0, c_ltgray, LINE_XXXO); // |-
     mvwputch(w_border, 3, 79, c_ltgray, LINE_XOXX); // -|
 
@@ -69,7 +70,6 @@ void auto_pickup::show( const std::string &custom_name, bool is_autopickup )
                   LINE_XXOX ); // _|_
     }
 
-    mvwprintz(w_border, 0, 29, c_ltred, custom_name.c_str() );
     wrefresh(w_border);
 
     int tmpx = 0;

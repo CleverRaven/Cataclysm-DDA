@@ -86,6 +86,7 @@
 #include "gates.h"
 #include "item_factory.h"
 #include "scent_map.h"
+#include "safemode_ui.h"
 
 #include <map>
 #include <set>
@@ -275,6 +276,7 @@ void game::load_static_data()
     init_faction_data();
 
     get_auto_pickup().load_global();
+    get_safemode().load_global();
 
     // --- move/delete everything below
     // TODO: move this to player class
@@ -805,8 +807,10 @@ bool game::start_game(std::string worldname)
     u.next_climate_control_check = 0;  // Force recheck at startup
     u.last_climate_control_ret = false;
 
-    //Reset character pickup rules
+    //Reset character safemode/pickup rules
     get_auto_pickup().clear_character_rules();
+    get_safemode().clear_character_rules();
+
     //Put some NPCs in there!
     create_starting_npcs();
     //Load NPCs. Set nearby npcs to active.
@@ -3533,6 +3537,7 @@ void game::load(std::string worldname, std::string name)
 
     init_autosave();
     get_auto_pickup().load_character(); // Load character auto pickup rules
+    get_safemode().load_character(); // Load character safemode rules
     zone_manager::get_manager().load_zones(); // Load character world zones
     load_uistate(worldname);
 
@@ -3666,6 +3671,7 @@ bool game::save()
              !save_artifacts() ||
              !save_maps() ||
              !get_auto_pickup().save_character() ||
+             !get_safemode().save_character() ||
              !save_uistate()){
             return false;
         } else {
@@ -5920,17 +5926,26 @@ int game::mon_info(WINDOW *w)
                     break;
             }
         }
+
         if( m != nullptr ) {
+            //Safemode monster check
             auto &critter = *m;
 
-            monster_attitude matt = critter.attitude(&u);
-            if (MATT_ATTACK == matt || MATT_FOLLOW == matt) {
+            const monster_attitude matt = critter.attitude(&u);
+            const int mondist = rl_dist( u.pos(), critter.pos() );
+
+            rule_state safemode = RULE_NONE;
+            const bool bSafemode = !get_safemode().empty();
+            if ( bSafemode ) {
+                safemode = get_safemode().check_monster(critter.disp_name(), critter.attitude_to(u), mondist);
+            }
+
+            if (bSafemode && safemode == RULE_WHITELISTED || (!bSafemode && (MATT_ATTACK == matt || MATT_FOLLOW == matt))) {
                 if (index < 8 && critter.sees( g->u )) {
                     dangerous[index] = true;
                 }
 
-                int mondist = rl_dist( u.pos(), critter.pos() );
-                if (mondist <= iProxyDist) {
+                if (bSafemode || mondist <= iProxyDist) {
                     bool passmon = false;
                     if (critter.ignoring > 0) {
                         if (safe_mode != SAFE_MODE_ON) {
@@ -5958,6 +5973,7 @@ int game::mon_info(WINDOW *w)
                 vec.push_back( critter.type );
             }
         } else if( p != nullptr ) {
+            //Safemode NPC check
             if (p->attitude == NPCATT_KILL)
                 if (rl_dist( u.pos(), p->pos() ) <= iProxyDist) {
                     newseen++;
