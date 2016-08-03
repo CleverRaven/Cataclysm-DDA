@@ -3005,67 +3005,6 @@
 },
 {
     "type": "recipe",
-    "result": "45_acp",
-    "id_suffix": "uncraft",
-    "category": "CC_NONCRAFT",
-    "subcategory": "CSC_NONCRAFT",
-    "skill_used": "gun",
-    "difficulty": 5,
-    "time": 500,
-    "reversible": true,
-    "autolearn": false,
-    "flags": [ "UNCRAFT_SINGLE_CHARGE" ],
-    "tools": [ [ [ "puller", -1 ] ] ],
-    "components": [
-        [ [ "lead", 8 ] ],
-        [ [ "45_casing", 1 ] ],
-        [ [ "lgpistol_primer", 1 ] ],
-        [ [ "gunpowder", 10 ] ]
-    ]
-},
-{
-    "type": "recipe",
-    "result": "45_jhp",
-    "id_suffix": "uncraft",
-    "category": "CC_NONCRAFT",
-    "subcategory": "CSC_NONCRAFT",
-    "skill_used": "gun",
-    "difficulty": 5,
-    "time": 500,
-    "reversible": true,
-    "autolearn": false,
-    "flags": [ "UNCRAFT_SINGLE_CHARGE" ],
-    "tools": [ [ [ "puller", -1 ] ] ],
-    "components": [
-        [ [ "lead", 7 ] ],
-        [ [ "45_casing", 1 ] ],
-        [ [ "lgpistol_primer", 1 ] ],
-        [ [ "gunpowder", 10 ] ],
-        [ [ "copper", 7 ] ]
-    ]
-},
-{
-    "type": "recipe",
-    "result": "45_super",
-    "id_suffix": "uncraft",
-    "category": "CC_NONCRAFT",
-    "subcategory": "CSC_NONCRAFT",
-    "skill_used": "gun",
-    "difficulty": 5,
-    "time": 500,
-    "reversible": true,
-    "autolearn": false,
-    "flags": [ "UNCRAFT_SINGLE_CHARGE" ],
-    "tools": [ [ [ "puller", -1 ] ] ],
-    "components": [
-        [ [ "lead", 10 ] ],
-        [ [ "45_casing", 1 ] ],
-        [ [ "lgpistol_primer", 1 ] ],
-        [ [ "gunpowder", 12 ] ]
-    ]
-},
-{
-    "type": "recipe",
     "result": "454_Casull",
     "id_suffix": "uncraft",
     "category": "CC_NONCRAFT",
