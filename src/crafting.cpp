@@ -1922,7 +1922,7 @@ std::vector<npc *> player::get_crafting_helpers() const
     std::vector<npc *> ret;
     for( auto &elem : g->active_npc ) {
         if( rl_dist( elem->pos(), pos() ) < PICKUP_RANGE && elem->is_friend() &&
-            !elem->in_sleep_state() ) {
+            !elem->in_sleep_state() && g->m.clear_path( pos(), elem->pos(), PICKUP_RANGE, 1, 100 ) ) {
             ret.push_back( elem );
         }
     }
