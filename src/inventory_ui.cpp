@@ -749,7 +749,7 @@ inventory_pick_selector::inventory_pick_selector( player &u, const std::string &
                                                   const item_location_filter &filter ) :
             inventory_selector( u, title, filter ), null_location( new item_location() ) {}
 
-item_location &inventory_pick_selector::execute()
+item_location inventory_pick_selector::execute()
 {
     prepare_columns( false );
 
@@ -761,11 +761,11 @@ item_location &inventory_pick_selector::execute()
         const auto entry = find_entry_by_invlet( ch );
 
         if( entry != nullptr ) {
-            return entry->get_location();
+            return entry->get_location().clone();
         } else if( action == "QUIT" ) {
-            return *null_location;
+            return item_location();
         } else if( action == "RIGHT" || action == "CONFIRM" ) {
-            return get_active_column().get_selected().get_location();
+            return get_active_column().get_selected().get_location().clone();
         } else {
             on_action( action );
         }

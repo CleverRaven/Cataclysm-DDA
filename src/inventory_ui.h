@@ -299,7 +299,7 @@ class inventory_pick_selector : public inventory_selector
     public:
         inventory_pick_selector( player &u, const std::string &title,
                                  const item_location_filter &filter = allow_all_items );
-        item_location &execute();
+        item_location execute();
 
     protected:
         std::unique_ptr<item_location> null_location;

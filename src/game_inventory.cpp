@@ -16,12 +16,12 @@ void game::interactive_inv()
 
     int res;
     do {
-        const item_location &location = inv_s.execute();
-        if( location == item_location::nowhere ) {
+        item_location loc = inv_s.execute();
+        if( !loc ) {
             break;
         }
         refresh_all();
-        res = inventory_item_menu( u.get_item_position( location.get_item() ) );
+        res = inventory_item_menu( u.get_item_position( &*loc ) );
     } while( allowed_selections.count( res ) != 0 );
 }
 
@@ -115,7 +115,7 @@ item_location game::inv_map_splice( item_location_filter filter, const std::stri
         return item_location();
     }
 
-    return std::move( inv_s.execute() );
+    return inv_s.execute();
 }
 
 item *game::inv_map_for_liquid( const item &liquid, const std::string &title, int radius )
