@@ -561,11 +561,11 @@ void safemode::create_rule( const std::string &to_match )
         for( auto &elem : vRules[i] ) {
             if( !elem.bExclude ) {
                 if( elem.bActive && wildcard_match( to_match, elem.sRule ) ) {
-                    map_monsters[ to_match ][ elem.attCreature ] = cRuleState(RULE_WHITELISTED, elem.iProxyDist);
+                    map_monsters[ to_match ][ elem.attCreature ] = cRuleState(RULE_BLACKLISTED, elem.iProxyDist);
                 }
             } else {
                 if( elem.bActive && wildcard_match( to_match, elem.sRule ) ) {
-                    map_monsters[ to_match ][ elem.attCreature ] = cRuleState(RULE_BLACKLISTED, elem.iProxyDist);
+                    map_monsters[ to_match ][ elem.attCreature ] = cRuleState(RULE_WHITELISTED, elem.iProxyDist);
                 }
             }
         }
@@ -586,14 +586,14 @@ void safemode::create_rules()
                 for( const auto &type : MonsterGenerator::generator().get_all_mtypes() ) {
                     const std::string &cur_mon = type.nname();
                     if( elem.bActive && wildcard_match( cur_mon, elem.sRule ) ) {
-                        map_monsters[ cur_mon ][ elem.attCreature ] = cRuleState( RULE_WHITELISTED, elem.iProxyDist );
+                        map_monsters[ cur_mon ][ elem.attCreature ] = cRuleState( RULE_BLACKLISTED, elem.iProxyDist );
                     }
                 }
             } else {
                 //exclude monsters from the existing mapping
                 for( auto iter = map_monsters.begin(); iter != map_monsters.end(); ++iter ) {
                     if( elem.bActive && wildcard_match( iter->first, elem.sRule ) ) {
-                        map_monsters[ iter->first ][ elem.attCreature ] = cRuleState( RULE_BLACKLISTED, elem.iProxyDist );
+                        map_monsters[ iter->first ][ elem.attCreature ] = cRuleState( RULE_WHITELISTED, elem.iProxyDist );
                     }
                 }
             }
@@ -607,14 +607,14 @@ rule_state safemode::check_monster( const std::string &sMonsterName, const int a
     const auto iter = map_monsters.find( sMonsterName );
     if( iter != map_monsters.end() ) {
         const auto &tmp = ( iter->second )[attCreature];
-        if( tmp.state == RULE_WHITELISTED ) {
+        if( tmp.state == RULE_BLACKLISTED ) {
             const int check_dist = ( tmp.proxy_dist == 0 ) ? 50 : tmp.proxy_dist;
             if( iDist <= check_dist ) {
-                return RULE_WHITELISTED;
+                return RULE_BLACKLISTED;
             }
 
-        } else if( tmp.state == RULE_BLACKLISTED ) {
-            return RULE_BLACKLISTED;
+        } else if( tmp.state == RULE_WHITELISTED ) {
+            return RULE_WHITELISTED;
         }
     }
 

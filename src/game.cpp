@@ -5940,7 +5940,7 @@ int game::mon_info(WINDOW *w)
                 safemode_state = get_safemode().check_monster(critter.name(), critter.attitude_to(u), mondist);
             }
 
-            if ((!safemode_empty && safemode_state == RULE_WHITELISTED) || (safemode_empty && (MATT_ATTACK == matt || MATT_FOLLOW == matt))) {
+            if ((!safemode_empty && safemode_state == RULE_BLACKLISTED) || (safemode_empty && (MATT_ATTACK == matt || MATT_FOLLOW == matt))) {
                 if (index < 8 && critter.sees( g->u )) {
                     dangerous[index] = true;
                 }
