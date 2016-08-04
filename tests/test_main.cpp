@@ -90,21 +90,11 @@ void init_global_game_state( std::vector<const char *> &arg_vec )
     g->m.load( g->get_levx(), g->get_levy(), g->get_levz(), false );
 }
 
-std::vector<const char *> arg_vector( int argc, const char *argv[] )
-{
-    std::vector<const char *> ret;
-    for( size_t i = 0; i < argc; i++ ) {
-        ret.push_back( argv[ i ] );
-    }
-
-    return ret;
-}
-
 int main( int argc, const char *argv[] )
 {
-    std::vector<const char *> arg_vec = arg_vector( argc, argv );
+    std::vector<const char *> arg_vec( argv, argv + argc );
     debug_fatal = true; // prevents stalling on debugmsg, see issue #15723
-  test_mode = true;
+    test_mode = true;
 
     // TODO: Only init game if we're running tests that need it.
     init_global_game_state( arg_vec );

@@ -87,24 +87,23 @@ worldfactory::~worldfactory()
 WORLDPTR worldfactory::add_world( WORLDPTR retworld )
 {
     // add world to world list
-    all_worlds[retworld->world_name] = retworld;
-    all_worldnames.push_back(retworld->world_name);
+    all_worlds[ retworld->world_name ] = retworld;
+    all_worldnames.push_back( retworld->world_name );
 
     std::ostringstream path;
-    path << FILENAMES["savedir"] << retworld->world_name;
+    path << FILENAMES[ "savedir" ] << retworld->world_name;
     retworld->world_path = path.str();
-    //debugmsg("worldpath: %s", path.str().c_str());
 
-    if (!save_world(retworld)) {
+    if( !save_world( retworld ) ) {
         std::string worldname = retworld->world_name;
-        std::vector<std::string>::iterator it = std::find(all_worldnames.begin(), all_worldnames.end(),
-                                                worldname);
+        std::vector<std::string>::iterator it = std::find( all_worldnames.begin(), all_worldnames.end(),
+                                                           worldname );
         all_worldnames.erase(it);
-        if (all_worlds[worldname] != retworld) {
+        if( all_worlds[ worldname ] != retworld ) {
             delete retworld;
         }
-        delete all_worlds[worldname];
-        all_worlds.erase(worldname);
+        delete all_worlds[ worldname ];
+        all_worlds.erase( worldname );
         return nullptr;
     }
     return retworld;
