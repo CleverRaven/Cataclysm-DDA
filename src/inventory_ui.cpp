@@ -45,44 +45,26 @@ inventory_entry::inventory_entry( item_location &&location,
     const item_category *custom_category, nc_color custom_color, long custom_invlet ) :
         inventory_entry( std::move( location ), 1, custom_category, custom_color, custom_invlet ) {}
 
-bool inventory_entry::is_item() const {
-    return location;
-}
-
-bool inventory_entry::is_null() const {
-    return get_category_ptr() == nullptr;
-}
-
 size_t inventory_entry::get_available_count() const {
-    if( is_item() && get_stack_size() == 1 ) {
-        return get_item().count_by_charges() ? get_item().charges : 1;
+    if( location && stack_size == 1 ) {
+        return location->count_by_charges() ? location->charges : 1;
     } else {
-        return get_stack_size();
+        return stack_size;
     }
-}
-
-const item &inventory_entry::get_item() const {
-    if( !location ) {
-        static const item nullitem;
-        debugmsg( "Tried to access an empty item." );
-        return nullitem;
-    }
-    return *location;
 }
 
 long inventory_entry::get_invlet() const {
-    return ( custom_invlet != LONG_MIN ) ? custom_invlet : is_item() ? get_item().invlet : '\0';
+    return ( custom_invlet != LONG_MIN ) ? custom_invlet : ( location ? location->invlet : '\0' );
 }
 
 const item_category *inventory_entry::get_category_ptr() const {
-    return ( custom_category != nullptr )
-        ? custom_category : is_item() ? &get_item().get_category() : nullptr;
+    return custom_category ? custom_category : ( location ? &location->get_category() : nullptr );
 }
 
 inventory_entry *inventory_column::find_by_invlet( long invlet ) const
 {
     for( const auto &entry : entries ) {
-        if( entry.is_item() && ( entry.get_invlet() == invlet ) ) {
+        if( entry.location && entry.get_invlet() == invlet ) {
             return const_cast<inventory_entry *>( &entry );
         }
     }
@@ -121,9 +103,8 @@ bool inventory_column::is_selected( const inventory_entry &entry ) const
 
 bool inventory_column::is_selected_by_category( const inventory_entry &entry ) const
 {
-    return entry.is_item() && mode == navigation_mode::CATEGORY
-                           && entry.get_category_ptr() == get_selected().get_category_ptr()
-                           && page_of( entry ) == page_index();
+    return entry.location && mode == navigation_mode::CATEGORY &&
+           entry.get_category_ptr() == get_selected().get_category_ptr() && page_of( entry ) == page_index();
 }
 
 const inventory_entry &inventory_column::get_selected() const {
@@ -161,7 +142,7 @@ void inventory_column::on_action( const std::string &action )
         };
 
         size_t index = get_incremented( selected_index, step );
-        while( entries[index] != get_selected() && ( !entries[index].is_item() || is_selected_by_category( entries[index] ) ) ) {
+        while( entries[index] != get_selected() && ( !entries[index].location || is_selected_by_category( entries[index] ) ) ) {
             index = get_incremented( index, ( step > 0 ? 1 : -1 ) );
         }
 
@@ -185,7 +166,7 @@ void inventory_column::on_action( const std::string &action )
 
 void inventory_column::add_entry( const inventory_entry &entry )
 {
-    if( entry.is_item() ) {
+    if( entry.location ) {
         const auto iter = std::find_if( entries.rbegin(), entries.rend(),
             [ &entry ]( const inventory_entry &cur ) {
                 return cur.get_category_ptr() == entry.get_category_ptr()
@@ -208,7 +189,7 @@ void inventory_column::prepare_paging( size_t new_entries_per_page )
         entries_per_page = new_entries_per_page;
     }
     const auto new_end = std::remove_if( entries.begin(), entries.end(), []( const inventory_entry &entry ) {
-        return !entry.is_item();
+        return !entry.location;
     } );
     entries.erase( new_end, entries.end() );
 
@@ -230,9 +211,9 @@ std::string inventory_column::get_entry_text( const inventory_entry &entry ) con
 {
     std::ostringstream res;
 
-    if( entry.is_item() ) {
+    if( entry.location ) {
         if( OPTIONS["ITEM_SYMBOLS"] ) {
-            res << entry.get_item().symbol() << ' ';
+            res << entry.location->symbol() << ' ';
         }
 
         if( multiselect ) {
@@ -246,11 +227,11 @@ std::string inventory_column::get_entry_text( const inventory_entry &entry ) con
             res << " </color>";
         }
 
-        const size_t count = entry.get_stack_size();
+        const size_t count = entry.stack_size;
         if( count > 1 ) {
             res << count << ' ';
         }
-        res << entry.get_item().display_name( count );
+        res << entry.location->display_name( count );
     } else if( entry.get_category_ptr() != nullptr ) {
         res << entry.get_category_ptr()->name;
     }
@@ -259,19 +240,19 @@ std::string inventory_column::get_entry_text( const inventory_entry &entry ) con
 
 nc_color inventory_column::get_entry_color( const inventory_entry &entry ) const
 {
-    if( entry.is_item() ) {
+    if( entry.location ) {
         return ( active && is_selected( entry ) )
             ? h_white
             : ( custom_colors && entry.custom_color != c_unset )
                 ? entry.custom_color
-                : entry.get_item().color_in_inventory();
+                : entry.location->color_in_inventory();
     } else {
         return c_magenta;
     }
 }
 
 size_t inventory_column::get_entry_indent( const inventory_entry &entry ) const {
-    return entry.is_item() ? 2 : 0;
+    return entry.location ? 2 : 0;
 }
 
 size_t inventory_column::get_entry_width( const inventory_entry &entry ) const {
@@ -282,7 +263,7 @@ void inventory_column::draw( WINDOW *win, size_t x, size_t y ) const
 {
     for( size_t i = page_offset, line = 0; i < entries.size() && line < entries_per_page; ++i, ++line ) {
         const auto &entry = entries[i];
-        if( entry.is_null() ) {
+        if( !entry.get_category_ptr() ) {
             continue;
         }
 
@@ -305,7 +286,7 @@ selection_column::selection_column( const std::string &id, const std::string &na
 void selection_column::reserve_width_for( const inventory_column &column )
 {
     for( const auto &entry : column.get_entries() ) {
-        if( entry.is_item() ) {
+        if( entry.location ) {
             reserved_width = std::max( reserved_width, get_entry_width( entry ) );
         }
     }
@@ -348,9 +329,9 @@ std::string selection_column::get_entry_text( const inventory_entry &entry ) con
 {
     std::ostringstream res;
 
-    if( entry.is_item() ) {
+    if( entry.location ) {
         if( OPTIONS["ITEM_SYMBOLS"] ) {
-            res << entry.get_item().symbol() << ' ';
+            res << entry.location->symbol() << ' ';
         }
 
         const size_t available_count = entry.get_available_count();
@@ -359,7 +340,7 @@ std::string selection_column::get_entry_text( const inventory_entry &entry ) con
         } else if( available_count != 1 ) {
             res << available_count << ' ';
         }
-        res << entry.get_item().display_name( available_count );
+        res << entry.location->display_name( available_count );
     } else {
         res << inventory_column::get_entry_text( entry ) << ' ';
 
@@ -770,11 +751,11 @@ item_location inventory_pick_selector::execute()
         const auto entry = find_entry_by_invlet( ch );
 
         if( entry != nullptr ) {
-            return entry->get_location().clone();
+            return entry->location.clone();
         } else if( action == "QUIT" ) {
             return item_location();
         } else if( action == "RIGHT" || action == "CONFIRM" ) {
-            return get_active_column().get_selected().get_location().clone();
+            return get_active_column().get_selected().location.clone();
         } else {
             on_action( action );
         }
@@ -826,7 +807,7 @@ std::pair<const item *, const item *> inventory_compare_selector::execute()
         }
 
         if( compared.size() == 2 ) {
-            const auto res = std::make_pair( &compared.back()->get_item(), &compared.front()->get_item() );
+            const auto res = std::make_pair( &*compared.back()->location, &*compared.front()->location );
             toggle_entry( compared.back() );
             return res;
         }
@@ -918,7 +899,7 @@ void inventory_drop_selector::draw( WINDOW *w ) const
 
 void inventory_drop_selector::set_drop_count( inventory_entry &entry, size_t count )
 {
-    const auto iter = dropping.find( &entry.get_item() );
+    const auto iter = dropping.find( &*entry.location );
 
     if( count == 0 && iter != dropping.end() ) {
         entry.chosen_count = 0;
@@ -927,7 +908,7 @@ void inventory_drop_selector::set_drop_count( inventory_entry &entry, size_t cou
         entry.chosen_count = ( count == 0 )
             ? entry.get_available_count()
             : std::min( count, entry.get_available_count() );
-        dropping[&entry.get_item()] = entry.chosen_count;
+        dropping[&*entry.location] = entry.chosen_count;
     }
 
     on_change( entry );

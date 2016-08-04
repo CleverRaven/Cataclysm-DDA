@@ -19,65 +19,48 @@ enum class navigation_mode : int {
     CATEGORY
 };
 
-class inventory_entry
-{
-    private:
-        item_location location;
-        size_t stack_size;
-        const item_category *custom_category;
-        long custom_invlet;
+struct inventory_entry {
+    inventory_entry( const inventory_entry & );
+    inventory_entry &operator=( const inventory_entry & );
+    inventory_entry( inventory_entry && ) = default;
+    inventory_entry &operator=( inventory_entry && ) = default;
 
-    public:
-        size_t chosen_count = 0;
-        nc_color custom_color = c_unset;
+    inventory_entry( item_location &&location, size_t stack_size,
+                     const item_category *custom_category = nullptr,
+                     nc_color custom_color = c_unset, long custom_invlet = LONG_MIN )
+        : location( std::move( location ) ),
+          stack_size( this->location ? stack_size : 0 ),
+          custom_category( custom_category ),
+          custom_invlet( custom_invlet ),
+          custom_color( custom_color ) {}
 
-        inventory_entry( const inventory_entry & );
-        inventory_entry &operator=( const inventory_entry & );
-        inventory_entry( inventory_entry && ) = default;
-        inventory_entry &operator=( inventory_entry && ) = default;
+    inventory_entry( item_location &&location, const item_category *custom_category = nullptr,
+                     nc_color custom_color = c_unset, long custom_invlet = LONG_MIN );
 
-        inventory_entry( item_location &&location, size_t stack_size,
-                         const item_category *custom_category = nullptr,
-                         nc_color custom_color = c_unset, long custom_invlet = LONG_MIN )
-            : location( std::move( location ) ),
-              stack_size( this->location ? stack_size : 0 ),
-              custom_category( custom_category ),
-              custom_invlet( custom_invlet ),
-              custom_color( custom_color ) {}
+    inventory_entry( const item_category *custom_category = nullptr )
+        : inventory_entry( item_location(), custom_category ) {}
 
-        inventory_entry( item_location &&location,
-                         const item_category *custom_category = nullptr, nc_color custom_color = c_unset,
-                         long custom_invlet = LONG_MIN );
+    inventory_entry( const inventory_entry &entry, const item_category *custom_category )
+        : inventory_entry( entry ) {
+        this->custom_category = custom_category;
+    }
 
-        inventory_entry( const item_category *custom_category = nullptr )
-            : inventory_entry( item_location(), custom_category ) {}
+    // used for searching the category header, only the item pointer and the category are important there
+    bool operator ==( const inventory_entry &other ) const;
+    bool operator !=( const inventory_entry &other ) const {
+        return !( *this == other );
+    }
 
-        inventory_entry( const inventory_entry &entry, const item_category *custom_category )
-            : inventory_entry( entry ) {
-            this->custom_category = custom_category;
-        }
+    size_t get_available_count() const;
+    const item_category *get_category_ptr() const;
+    long get_invlet() const;
 
-        // used for searching the category header, only the item pointer and the category are important there
-        bool operator == ( const inventory_entry &other ) const;
-        bool operator != ( const inventory_entry &other ) const {
-            return !( *this == other );
-        }
-
-        bool is_item() const;
-        bool is_null() const;
-
-        size_t get_stack_size() const {
-            return stack_size;
-        }
-
-        size_t get_available_count() const;
-        const item &get_item() const;
-        const item_category *get_category_ptr() const;
-        long get_invlet() const;
-
-        item_location get_location() const {
-            return location.clone();
-        }
+    item_location location;
+    size_t stack_size;
+    const item_category *custom_category;
+    long custom_invlet;
+    size_t chosen_count = 0;
+    nc_color custom_color = c_unset;
 };
 
 class inventory_column
