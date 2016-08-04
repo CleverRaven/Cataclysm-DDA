@@ -4271,7 +4271,6 @@ void game::debug()
 
                         switch( smenu.ret ) {
                             int value;
-                            bool got_value;
                             case 0:
                                 if( query_int( value, "Set hunger to? Currently: %d", p.get_hunger() ) ) {
                                     p.set_hunger( value );
@@ -4315,7 +4314,6 @@ void game::debug()
                         smenu.query();
                         switch( smenu.ret ) {
                             int value;
-                            bool got_value;
                             case 0:
                                 if( query_int( value, "Set the value to? Currently: %d", p.get_healthy() ) ) {
                                     p.set_healthy( value );
