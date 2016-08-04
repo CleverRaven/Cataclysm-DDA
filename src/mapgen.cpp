@@ -5415,8 +5415,8 @@ ff.......|....|WWWWWWWW|\n\
                     p.x = rng(SEEX - 6, SEEX + 1);
                     p.y = rng(SEEY - 6, SEEY + 1);
                     okay = true;
-                    for (int i = p.x; i <= p.x + 5 && okay; i++) {
-                        for (int j = p.y; j <= p.y + 5 && okay; j++) {
+                    for (int i = p.x; ( i <= p.x + 5 ) && okay; i++) {
+                        for (int j = p.y; ( j <= p.y + 5 ) && okay; j++) {
                             if (ter(i, j) != t_rock_floor) {
                                 okay = false;
                             }
@@ -5478,8 +5478,8 @@ ff.......|....|WWWWWWWW|\n\
                     p.x = rng(SEEX - 6, SEEX + 1);
                     p.y = rng(SEEY - 6, SEEY + 1);
                     okay = true;
-                    for (int i = p.x; i <= p.x + 5 && okay; i++) {
-                        for (int j = p.y; j <= p.y + 5 && okay; j++) {
+                    for (int i = p.x; ( i <= p.x + 5 ) && okay; i++) {
+                        for (int j = p.y; ( j <= p.y + 5 ) && okay; j++) {
                             if (ter(i, j) != t_rock_floor) {
                                 okay = false;
                             }
