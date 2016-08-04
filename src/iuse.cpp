@@ -3060,7 +3060,14 @@ int iuse::dig(player *p, item *it, bool, const tripoint &pos )
 {
     for( const tripoint &pt : closest_tripoints_first( 1, pos ) ) {
         if( g->m.furn( pt ).obj().examine == iexamine::rubble ) {
-            p->add_msg_if_player( _("You clear up that %s."), g->m.furnname( pt ).c_str() );
+            if( pt == p->pos() ) {
+                p->add_msg_if_player( m_info, _( "You clear up the %s at your feet." ),
+                                      g->m.furnname( pt ).c_str() );
+            } else {
+                const std::string direction = direction_name( direction_from( p->pos(), pt ) );
+                p->add_msg_if_player( m_info, _( "You clear up the %s to your %s." ),
+                                      g->m.furnname( pt ).c_str(), direction.c_str() );
+            }
             g->m.furn_set( pt, f_null );
 
             // costs per tile:
@@ -3072,16 +3079,14 @@ int iuse::dig(player *p, item *it, bool, const tripoint &pos )
             bonus *= bonus;
 
             p->moves -= 5000 / ( bonus * bonus );
-
-            if( p ) {
-                p->mod_hunger ( 10 / bonus );
-                p->mod_thirst ( 10 / bonus );
-            }
+            p->mod_hunger ( 10 / bonus );
+            p->mod_thirst ( 10 / bonus );
 
             return it->type->charges_to_use();
         }
     }
 
+    p->add_msg_if_player( m_bad, _( "There's no rubble to clear." ) );
     return 0;
 }
 
