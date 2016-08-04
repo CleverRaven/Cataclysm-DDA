@@ -747,7 +747,7 @@ void inventory_selector::insert_selection_column( const std::string &id, const s
 
 inventory_pick_selector::inventory_pick_selector( player &u, const std::string &title,
                                                   const item_location_filter &filter ) :
-            inventory_selector( u, title, filter ), null_location( new item_location() ) {}
+            inventory_selector( u, title, filter ) {}
 
 item_location inventory_pick_selector::execute()
 {

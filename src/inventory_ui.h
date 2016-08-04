@@ -302,8 +302,6 @@ class inventory_pick_selector : public inventory_selector
         item_location execute();
 
     protected:
-        std::unique_ptr<item_location> null_location;
-
         virtual void draw( WINDOW *w ) const override;
 };
 
