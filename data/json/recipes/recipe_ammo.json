@@ -956,7 +956,7 @@
   "skill_used": "fabrication",
   "skills_required": [ "gun", 1 ],
   "difficulty": 3,
-  "time": 25000,
+  "time": 20000,
   "reversible": false,
   "autolearn": false,
   "book_learn": [["recipe_bullets" , 1 ] , [ "manual_pistol", 2 ]],
@@ -972,21 +972,21 @@
   ],
   "components": [
     [
-      [ "38_casing", 50 ]
+      [ "38_casing", 40 ]
     ],
     [
-      [ "smpistol_primer", 50 ]
+      [ "smpistol_primer", 40 ]
     ],
     [
-      [ "gunpowder", 250 ]
+      [ "gunpowder", 200 ]
     ],
     [
-      [ "lead", 250 ],
-      [ "gold_small", 250 ],
-      [ "silver_small", 250 ],
-      [ "tin", 250 ],
-      [ "bismuth", 250 ],
-      [ "solder_wire", 250 ]
+      [ "lead", 200 ],
+      [ "gold_small", 200 ],
+      [ "silver_small", 200 ],
+      [ "tin", 200 ],
+      [ "bismuth", 200 ],
+      [ "solder_wire", 200 ]
     ]
   ]
 },{
@@ -997,7 +997,7 @@
   "skill_used": "fabrication",
   "skills_required": [ "gun", 3 ],
   "difficulty": 4,
-  "time": 12500,
+  "time": 10000,
   "reversible": false,
   "autolearn": false,
   "book_learn": [["recipe_bullets" , 2 ] , [ "manual_pistol", 3 ]],
@@ -1013,21 +1013,21 @@
   ],
   "components": [
     [
-      [ "38_casing", 25 ]
+      [ "38_casing", 20 ]
     ],
     [
-      [ "smpistol_primer", 25 ]
+      [ "smpistol_primer", 20 ]
     ],
     [
-      [ "gunpowder", 175 ]
+      [ "gunpowder", 140 ]
     ],
     [
-      [ "lead", 125 ],
-      [ "gold_small", 125 ],
-      [ "silver_small", 125 ],
-      [ "tin", 125 ],
-      [ "bismuth", 125 ],
-      [ "solder_wire", 125 ]
+      [ "lead", 100 ],
+      [ "gold_small", 100 ],
+      [ "silver_small", 100 ],
+      [ "tin", 100 ],
+      [ "bismuth", 100 ],
+      [ "solder_wire", 100 ]
     ]
   ]
 },{
@@ -1038,7 +1038,7 @@
   "skill_used": "fabrication",
   "skills_required": [ "gun", 1 ],
   "difficulty": 3,
-  "time": 30000,
+  "time": 24000,
   "reversible": false,
   "autolearn": false,
   "book_learn": [["recipe_bullets" , 3 ] , [ "manual_pistol", 4 ]],
@@ -1054,21 +1054,21 @@
   ],
   "components": [
     [
-      [ "40_casing", 50 ]
+      [ "40_casing", 40 ]
     ],
     [
-      [ "smpistol_primer", 50 ]
+      [ "smpistol_primer", 40 ]
     ],
     [
-      [ "gunpowder", 300 ]
+      [ "gunpowder", 240 ]
     ],
     [
-      [ "lead", 300 ],
-      [ "gold_small", 300 ],
-      [ "silver_small", 300 ],
-      [ "tin", 300 ],
-      [ "bismuth", 300 ],
-      [ "solder_wire", 300 ]
+      [ "lead", 240 ],
+      [ "gold_small", 240 ],
+      [ "silver_small", 240 ],
+      [ "tin", 240 ],
+      [ "bismuth", 240 ],
+      [ "solder_wire", 240 ]
     ]
   ]
 },{
@@ -1079,7 +1079,7 @@
   "skill_used": "fabrication",
   "skills_required": [ "gun", 5 ],
   "difficulty": 5,
-  "time": 25000,
+  "time": 10000,
   "reversible": false,
   "autolearn": false,
   "book_learn": [["recipe_bullets" , 3 ] , [ "manual_pistol", 4 ]],
@@ -1095,21 +1095,21 @@
   ],
   "components": [
     [
-      [ "40_casing", 50 ]
+      [ "40_casing", 20 ]
     ],
     [
-      [ "lgpistol_primer", 50 ]
+      [ "lgpistol_primer", 20 ]
     ],
     [
-      [ "gunpowder", 400 ]
+      [ "gunpowder", 160 ]
     ],
     [
-      [ "lead", 400 ],
-      [ "gold_small", 400 ],
-      [ "silver_small", 400 ],
-      [ "tin", 400 ],
-      [ "bismuth", 400 ],
-      [ "solder_wire", 400 ]
+      [ "lead", 160 ],
+      [ "gold_small", 160 ],
+      [ "silver_small", 160 ],
+      [ "tin", 160 ],
+      [ "bismuth", 160 ],
+      [ "solder_wire", 160 ]
     ]
   ]
 },{
@@ -1243,7 +1243,7 @@
   "skill_used": "fabrication",
   "skills_required": [ "gun", 5 ],
   "difficulty": 5,
-  "time": 25000,
+  "time": 30000,
   "reversible": false,
   "autolearn": false,
   "book_learn": [["recipe_bullets" , 3 ] , [ "manual_pistol", 4 ]],
@@ -1259,21 +1259,21 @@
   ],
   "components": [
     [
-      [ "45_casing", 25 ]
+      [ "45_casing", 30 ]
     ],
     [
-      [ "lgpistol_primer", 25 ]
+      [ "lgpistol_primer", 30 ]
     ],
     [
-      [ "gunpowder", 250 ]
+      [ "gunpowder", 300 ]
     ],
     [
-      [ "lead", 400 ],
-      [ "gold_small", 400],
-      [ "silver_small", 400 ],
-      [ "tin", 400 ],
-      [ "bismuth", 400 ],
-      [ "solder_wire", 400 ]
+      [ "lead", 480 ],
+      [ "gold_small", 480],
+      [ "silver_small", 480 ],
+      [ "tin", 480 ],
+      [ "bismuth", 480 ],
+      [ "solder_wire", 480 ]
     ],
     [
       [ "cu_pipe", 3]
@@ -1457,7 +1457,7 @@
   "skill_used": "fabrication",
   "skills_required": [ "gun", 1 ],
   "difficulty": 3,
-  "time": 40000,
+  "time": 15000,
   "reversible": false,
   "autolearn": false,
   "book_learn": [["recipe_bullets" , 2 ] , [ "mag_rifle", 3 ]],
@@ -1473,24 +1473,24 @@
   ],
   "components": [
     [
-      [ "762_casing", 80 ]
+      [ "762_casing", 30 ]
     ],
     [
-      [ "lgrifle_primer", 80 ]
+      [ "lgrifle_primer", 30 ]
     ],
     [
-      [ "gunpowder", 560 ]
+      [ "gunpowder", 210 ]
     ],
     [
-      [ "lead", 400 ],
-      [ "gold_small", 400 ] ,
-      [ "silver_small", 400 ],
-      [ "tin", 400 ],
-      [ "bismuth", 400 ],
-      [ "solder_wire", 400 ]
+      [ "lead", 150 ],
+      [ "gold_small", 150 ] ,
+      [ "silver_small", 150 ],
+      [ "tin", 150 ],
+      [ "bismuth", 150 ],
+      [ "solder_wire", 150 ]
     ],
     [
-      [ "cu_pipe", 4 ]
+      [ "cu_pipe", 2 ]
     ]
   ]
 },{
@@ -1501,7 +1501,7 @@
   "skill_used": "fabrication",
   "skills_required": [ "gun", 5 ],
   "difficulty": 5,
-  "time": 40000,
+  "time": 15000,
   "reversible": false,
   "autolearn": false,
   "book_learn": [["recipe_bullets" , 3 ] , [ "mag_rifle", 4 ]],
@@ -1517,24 +1517,24 @@
   ],
   "components": [
     [
-      [ "762_casing", 80 ]
+      [ "762_casing", 30 ]
     ],
     [
-      [ "lgrifle_primer", 80 ]
+      [ "lgrifle_primer", 30 ]
     ],
     [
-      [ "gunpowder", 640 ]
+      [ "gunpowder", 240 ]
     ],
     [
-      [ "lead", 400 ],
-      [ "gold_small", 400 ],
-      [ "silver_small", 400 ],
-      [ "tin", 400 ],
-      [ "bismuth", 400 ],
-      [ "solder_wire", 400 ]
+      [ "lead", 150 ],
+      [ "gold_small", 150 ],
+      [ "silver_small", 150 ],
+      [ "tin", 150 ],
+      [ "bismuth", 150 ],
+      [ "solder_wire", 150 ]
     ],
     [
-      [ "cu_pipe", 4 ]
+      [ "cu_pipe", 2 ]
     ]
   ]
 },{
@@ -2064,7 +2064,7 @@
   "skill_used": "fabrication",
   "skills_required": [ "gun", 7 ],
   "difficulty": 8,
-  "time": 5000,
+  "time": 12500,
   "reversible": false,
   "autolearn": false,
   "book_learn": [["recipe_bullets" , 6 ]],
@@ -2080,21 +2080,21 @@
   ],
   "components": [
     [
-      [ "50_casing", 30 ]
+      [ "50_casing", 25 ]
     ],
     [
-      [ "lgrifle_primer", 30 ]
+      [ "lgrifle_primer", 25 ]
     ],
     [
-      [ "gunpowder", 1000 ]
+      [ "gunpowder", 840 ]
     ],
     [
-      [ "lead", 380 ],
-      [ "gold_small", 380 ],
-      [ "silver_small", 380 ],
-      [ "tin", 380 ],
-      [ "bismuth", 380 ],
-      [ "solder_wire", 380 ]
+      [ "lead", 320 ],
+      [ "gold_small", 320 ],
+      [ "silver_small", 320 ],
+      [ "tin", 320 ],
+      [ "bismuth", 320 ],
+      [ "solder_wire", 320 ]
     ],
     [
       [ "cu_pipe", 3 ]
@@ -2715,21 +2715,21 @@
     ],
     "components": [
       [
-        [ "38_casing", 50 ]
+        [ "38_casing", 40 ]
       ],
       [
-        [ "smpistol_primer", 50 ]
+        [ "smpistol_primer", 40 ]
       ],
       [
-        [ "gunpowder", 250 ]
+        [ "gunpowder", 200 ]
       ],
       [
-        [ "lead", 200 ],
-        [ "gold_small", 200 ],
-        [ "silver_small", 200 ],
-        [ "tin", 200 ],
-        [ "bismuth", 200 ],
-        [ "solder_wire", 200 ]
+        [ "lead", 160 ],
+        [ "gold_small", 160 ],
+        [ "silver_small", 160 ],
+        [ "tin", 160 ],
+        [ "bismuth", 160 ],
+        [ "solder_wire", 160 ]
       ],
       [
         [ "cu_pipe", 2 ]
@@ -2743,7 +2743,7 @@
     "skill_used": "fabrication",
     "skills_required": [ "gun", 4 ],
     "difficulty": 4,
-    "time": 35000,
+    "time": 28000,
     "reversible": false,
     "autolearn": false,
     "book_learn": [["recipe_bullets" , 3 ] , [ "manual_pistol", 4 ]],
@@ -2759,21 +2759,21 @@
     ],
     "components": [
       [
-        [ "40_casing", 50 ]
+        [ "40_casing", 40 ]
       ],
       [
-        [ "smpistol_primer", 50 ]
+        [ "smpistol_primer", 40 ]
       ],
       [
-        [ "gunpowder", 300 ]
+        [ "gunpowder", 240 ]
       ],
       [
-        [ "lead", 250 ],
-        [ "gold_small", 250 ],
-        [ "silver_small", 250 ],
-        [ "tin", 250 ],
-        [ "bismuth", 250 ],
-        [ "solder_wire", 250 ]
+        [ "lead", 200 ],
+        [ "gold_small", 200 ],
+        [ "silver_small", 200 ],
+        [ "tin", 200 ],
+        [ "bismuth", 200 ],
+        [ "solder_wire", 200 ]
       ],
       [
         [ "cu_pipe", 2 ]
@@ -2832,7 +2832,7 @@
     "skill_used": "fabrication",
     "skills_required": [ "gun", 4 ],
     "difficulty": 5,
-    "time": 25000,
+    "time": 10000,
     "reversible": false,
     "autolearn": false,
     "book_learn": [["recipe_bullets" , 3 ] , [ "manual_pistol", 4 ]],
@@ -2848,24 +2848,24 @@
     ],
     "components": [
       [
-        [ "44_casing", 50 ]
+        [ "44_casing", 20 ]
       ],
       [
-        [ "lgpistol_primer", 50 ]
+        [ "lgpistol_primer", 20 ]
       ],
       [
-        [ "gunpowder", 500 ]
+        [ "gunpowder", 200 ]
       ],
       [
-        [ "lead", 400 ],
-        [ "gold_small", 400 ],
-        [ "silver_small", 400 ],
-        [ "tin", 400 ],
-        [ "bismuth", 400 ],
-        [ "solder_wire", 400 ]
+        [ "lead", 160 ],
+        [ "gold_small", 160 ],
+        [ "silver_small", 160 ],
+        [ "tin", 160 ],
+        [ "bismuth", 160 ],
+        [ "solder_wire", 160 ]
       ],
       [
-        [ "cu_pipe", 3 ]
+        [ "cu_pipe", 2 ]
       ]
     ]
 },{
@@ -2920,7 +2920,7 @@
     "skill_used": "fabrication",
     "skills_required": [ "gun", 1 ],
     "difficulty": 2,
-    "time": 5000,
+    "time": 8000,
     "reversible": false,
     "autolearn": false,
     "book_learn": [[ "recipe_bullets", 5 ]],
@@ -2936,21 +2936,21 @@
      ],
     "components" : [
       [
-        [ "32_casing", 50 ]
+        [ "32_casing", 80 ]
       ],
       [
-        [ "smpistol_primer", 50 ]
+        [ "smpistol_primer", 80 ]
       ],
       [
-        [ "gunpowder", 80 ]
+        [ "gunpowder", 128 ]
       ],
       [
-        [ "lead", 60 ],
-        [ "gold_small", 60 ],
-        [ "silver_small", 60 ],
-        [ "tin", 60 ],
-        [ "bismuth", 60 ],
-        [ "solder_wire", 60 ]
+        [ "lead", 96 ],
+        [ "gold_small", 96 ],
+        [ "silver_small", 96 ],
+        [ "tin", 96 ],
+        [ "bismuth", 96 ],
+        [ "solder_wire", 96 ]
       ]
     ]
   },
@@ -3236,21 +3236,21 @@
   ],
   "components": [
     [
-      [ "700nx_casing", 30 ]
+      [ "700nx_casing", 10 ]
     ],
     [
-      [ "lgrifle_primer", 30 ]
+      [ "lgrifle_primer", 10 ]
     ],
     [
-      [ "gunpowder", 1150 ]
+      [ "gunpowder", 480 ]
     ],
     [
-      [ "lead", 420 ],
-      [ "gold_small", 420 ],
-      [ "silver_small", 420 ],
-      [ "tin", 420 ],
-      [ "bismuth", 420 ],
-      [ "solder_wire", 420 ]
+      [ "lead", 140 ],
+      [ "gold_small", 140 ],
+      [ "silver_small", 140 ],
+      [ "tin", 140 ],
+      [ "bismuth", 140 ],
+      [ "solder_wire", 140 ]
     ],
     [
       [ "cu_pipe", 4 ]
@@ -3426,7 +3426,7 @@
   "skill_used": "fabrication",
   "skills_required": [ "gun", 1 ],
   "difficulty": 3,
-  "time": 25000,
+  "time": 20000,
   "reversible": false,
   "autolearn": false,
   "book_learn": [["recipe_bullets" , 1 ] , [ "manual_pistol", 2 ]],
@@ -3442,18 +3442,18 @@
   ],
   "components": [
     [
-      [ "22_casing_new", 100 ]
+      [ "22_casing_new", 80 ]
     ],
     [
-      [ "gunpowder", 200 ]
+      [ "gunpowder", 160 ]
     ],
     [
-      [ "lead", 200 ],
-      [ "gold_small", 200 ],
-      [ "silver_small", 200 ],
-      [ "tin", 200 ],
-      [ "bismuth", 200 ],
-      [ "solder_wire", 200 ]
+      [ "lead", 160 ],
+      [ "gold_small", 160 ],
+      [ "silver_small", 160 ],
+      [ "tin", 160 ],
+      [ "bismuth", 160 ],
+      [ "solder_wire", 160 ]
     ]
   ]
 },{
@@ -3464,7 +3464,7 @@
   "skill_used": "fabrication",
   "skills_required": [ "gun", 1 ],
   "difficulty": 3,
-  "time": 25000,
+  "time": 20000,
   "reversible": false,
   "autolearn": false,
   "book_learn": [["recipe_bullets" , 1 ] , [ "manual_pistol", 2 ]],
@@ -3480,18 +3480,18 @@
   ],
   "components": [
     [
-      [ "22_casing_new", 100 ]
+      [ "22_casing_new", 80 ]
     ],
     [
-      [ "gunpowder", 200 ]
+      [ "gunpowder", 160 ]
     ],
     [
-      [ "lead", 200 ],
-      [ "gold_small", 200 ],
-      [ "silver_small", 200 ],
-      [ "tin", 200 ],
-      [ "bismuth", 200 ],
-      [ "solder_wire", 200 ]
+      [ "lead", 160 ],
+      [ "gold_small", 160 ],
+      [ "silver_small", 160 ],
+      [ "tin", 160 ],
+      [ "bismuth", 160 ],
+      [ "solder_wire", 160 ]
     ],
     [
       [ "cu_pipe", 2 ]
