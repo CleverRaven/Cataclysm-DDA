@@ -713,7 +713,11 @@ bool query_int( int &result, const char *mes, ... )
     }
 
     //Note that atoi returns 0 for anything it doesn't like.
-    result = atoi( raw_input.c_str() );
+    int num = atoi( raw_input.c_str() );
+    if( raw_input != "0" && num == 0) { //invalid input
+        return false;
+    }
+    result = num;
     return true;
 }
 
