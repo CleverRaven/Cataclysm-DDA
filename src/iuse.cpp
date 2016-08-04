@@ -3718,8 +3718,9 @@ int iuse::granade_act(player *, item *it, bool t, const tripoint &pos)
 
 int iuse::c4(player *p, item *it, bool, const tripoint& )
 {
-    int time = query_int(_("Set the timer to (0 to cancel)?"));
-    if (time <= 0) {
+    int time;
+    bool got_value = query_int( time, _("Set the timer to (0 to cancel)?") );
+    if( !got_value || time <= 0 ) {
         p->add_msg_if_player(_("Never mind."));
         return 0;
     }
@@ -3964,8 +3965,9 @@ int iuse::firecracker_act(player *, item *it, bool t, const tripoint &pos)
 
 int iuse::mininuke(player *p, item *it, bool, const tripoint& )
 {
-    int time = query_int(_("Set the timer to (0 to cancel)?"));
-    if (time <= 0) {
+    int time;
+    bool got_value = query_int( time, _("Set the timer to (0 to cancel)?") );
+    if( !got_value || time <= 0 ) {
         p->add_msg_if_player(_("Never mind."));
         return 0;
     }
