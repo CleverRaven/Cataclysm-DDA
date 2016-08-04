@@ -43,7 +43,8 @@ class safemode : public JsonSerializer, public JsonDeserializer
                     this->iProxyDist = 0;
                 }
 
-                cRules( std::string sRuleIn, bool bActiveIn, bool bExcludeIn, int attCreatureIn, int iProxyDistIn ) {
+                cRules( std::string sRuleIn, bool bActiveIn, bool bExcludeIn, int attCreatureIn,
+                        int iProxyDistIn ) {
                     this->sRule = sRuleIn;
                     this->bActive = bActiveIn;
                     this->bExclude = bExcludeIn;
@@ -54,7 +55,8 @@ class safemode : public JsonSerializer, public JsonDeserializer
                 ~cRules() {};
         };
 
-        class cRuleState {
+        class cRuleState
+        {
             public:
                 rule_state state;
                 int proxy_dist;
@@ -64,7 +66,7 @@ class safemode : public JsonSerializer, public JsonDeserializer
                     this->proxy_dist = 0;
                 }
 
-                cRuleState(rule_state state_in, int proxy_dist_in) {
+                cRuleState( rule_state state_in, int proxy_dist_in ) {
                     this->state = state_in;
                     this->proxy_dist = proxy_dist_in;
                 }
@@ -92,7 +94,8 @@ class safemode : public JsonSerializer, public JsonDeserializer
         void create_rules();
         void create_rule( const std::string &to_match );
         void clear_character_rules();
-        rule_state check_monster( const std::string &sMonsterName, const int attCreature, const int iDist ) const;
+        rule_state check_monster( const std::string &sMonsterName, const int attCreature,
+                                  const int iDist ) const;
 
         void show();
         void show( const std::string &custom_name, bool is_autopickup );
