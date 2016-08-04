@@ -4642,22 +4642,7 @@ bool item::reload( player &u, item_location loc, long qty )
         return false;
     }
 
-    // Firstly try reloading active gunmod, then item itself, any other auxiliary gunmods and finally any currently loaded magazine
-    std::vector<item *> opts = { &*gun_current_mode(), this };
-    auto mods = gunmods();
-    std::copy_if( mods.begin(), mods.end(), std::back_inserter( opts ), []( item *e ) {
-        return e->is_gun();
-    });
-    opts.push_back( magazine_current() );
-
-    auto target = std::find_if( opts.begin(), opts.end(), [&u,&ammo]( item *e ) {
-        return e && u.can_reload( *e, ammo->typeId() );
-    } );
-    if( target == opts.end() ) {
-        return false;
-    }
-
-    item *obj = *target; // what are we trying to reload?
+    item *obj = this;
     qty = std::min( qty, obj->ammo_capacity() - obj->ammo_remaining() );
 
     obj->casings_handle( [&u]( item &e ) {
@@ -4680,27 +4665,16 @@ bool item::reload( player &u, item_location loc, long qty )
     } else if ( !obj->magazine_integral() ) {
         // if we already have a magazine loaded prompt to eject it
         if( obj->magazine_current() ) {
-            std::string prompt = string_format( _( "Eject %s from %s?" ), ammo->tname().c_str(), obj->tname().c_str() );
+            std::string prompt = string_format( _( "Eject %s from %s?" ),
+                                                obj->magazine_current()->tname().c_str(), obj->tname().c_str() );
 
-            // Hack to allow ejection of vehicle turret magazines as requested in #17751
-            if( obj->has_flag( "VEHICLE" ) ) {
-                auto veh = g->m.veh_at( u.pos() );
-                auto parts = veh->get_parts( u.pos(), "TURRET" );
-                if( !parts.empty() ) {
-                    vehicle_cursor cur( *veh, veh->index_of_part( parts.front() ) );
-                    if( !u.dispose_item( item_location( cur, &*obj->magazine_current() ), prompt ) ) {
-                        return false;
-                    } else {
-                        obj->contents.emplace_back( *ammo );
-                        loc.remove_item();
-                        return true;
-                    }
-                }
-            }
-
-            if( !u.dispose_item( item_location( u, obj->magazine_current() ), prompt ) ) {
+            // eject magazine to player inventory and try to dispose of it from there
+            item &mag = u.i_add( *obj->magazine_current() );
+            if( !u.dispose_item( item_location( u, &mag ), prompt ) ) {
+                u.remove_item( mag ); // user canceled so delete the clone
                 return false;
             }
+            obj->remove_item( *obj->magazine_current() );
         }
 
         obj->contents.emplace_back( *ammo );
