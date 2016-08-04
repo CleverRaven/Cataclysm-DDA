@@ -6,13 +6,10 @@
 
 #include "color.h"
 #include "cursesdef.h"
-#include "enums.h"
+#include "item_location.h"
 #include "input.h"
 
-class item;
 class item_category;
-class item_location;
-
 class player;
 
 typedef std::function<bool( const item_location & )> item_location_filter;
@@ -25,7 +22,7 @@ enum class navigation_mode : int {
 class inventory_entry
 {
     private:
-        std::shared_ptr<item_location> location;
+        item_location location;
         size_t stack_size;
         const item_category *custom_category;
         long custom_invlet;
@@ -34,22 +31,26 @@ class inventory_entry
         size_t chosen_count = 0;
         nc_color custom_color = c_unset;
 
-        inventory_entry( const std::shared_ptr<item_location> &location, size_t stack_size,
+        inventory_entry( const inventory_entry & );
+        inventory_entry &operator=( const inventory_entry & );
+        inventory_entry( inventory_entry && ) = default;
+        inventory_entry &operator=( inventory_entry && ) = default;
+
+        inventory_entry( item_location &&location, size_t stack_size,
                          const item_category *custom_category = nullptr,
                          nc_color custom_color = c_unset, long custom_invlet = LONG_MIN )
-            : location( ( location != nullptr ) ? location :
-                        std::make_shared<item_location>() ), // to make sure that location != nullptr always
-              stack_size( stack_size ),
+            : location( std::move( location ) ),
+              stack_size( this->location ? stack_size : 0 ),
               custom_category( custom_category ),
               custom_invlet( custom_invlet ),
               custom_color( custom_color ) {}
 
-        inventory_entry( const std::shared_ptr<item_location> &location,
+        inventory_entry( item_location &&location,
                          const item_category *custom_category = nullptr, nc_color custom_color = c_unset,
                          long custom_invlet = LONG_MIN );
 
         inventory_entry( const item_category *custom_category = nullptr )
-            : inventory_entry( std::make_shared<item_location>(), custom_category ) {}
+            : inventory_entry( item_location(), custom_category ) {}
 
         inventory_entry( const inventory_entry &entry, const item_category *custom_category )
             : inventory_entry( entry ) {
@@ -74,8 +75,8 @@ class inventory_entry
         const item_category *get_category_ptr() const;
         long get_invlet() const;
 
-        item_location &get_location() const {
-            return *location;
+        item_location get_location() const {
+            return location.clone();
         }
 };
 
