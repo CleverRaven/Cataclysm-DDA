@@ -434,6 +434,7 @@ void Item_factory::init()
     add_iuse( "CS_LAJATANG_OFF", &iuse::cs_lajatang_off );
     add_iuse( "CS_LAJATANG_ON", &iuse::cs_lajatang_on );
     add_iuse( "DATURA", &iuse::datura );
+    add_iuse( "DIG", &iuse::dig );
     add_iuse( "DIRECTIONAL_ANTENNA", &iuse::directional_antenna );
     add_iuse( "DOGFOOD", &iuse::dogfood );
     add_iuse( "DOG_WHISTLE", &iuse::dog_whistle );
@@ -560,7 +561,6 @@ void Item_factory::init()
     add_actor( new ammobelt_actor() );
     add_actor( new bandolier_actor() );
     add_actor( new cauterize_actor() );
-    add_actor( new clear_rubble_actor() );
     add_actor( new consume_drug_iuse() );
     add_actor( new delayed_transform_iuse() );
     add_actor( new enzlave_actor() );

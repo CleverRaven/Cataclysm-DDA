@@ -71,7 +71,7 @@
         "type" : "tool_quality",
         "id" : "DIG",
         "name" : "digging",
-        "usages": [ [ 2, [ "CLEAR_RUBBLE" ] ] ]
+        "usages": [ [ 2, [ "DIG" ] ] ]
     },{
         "type" : "tool_quality",
         "id" : "WRENCH",

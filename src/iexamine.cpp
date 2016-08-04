@@ -652,7 +652,7 @@ void iexamine::rubble(player &p, const tripoint &examp)
         return lhs->get_quality( quality_dig ) < rhs->get_quality( quality_dig );
     } );
 
-    p.invoke_item( *it, "CLEAR_RUBBLE", examp );
+    p.invoke_item( *it, "DIG", examp );
 }
 
 void iexamine::crate(player &p, const tripoint &examp)
