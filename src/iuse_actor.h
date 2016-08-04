@@ -86,6 +86,7 @@ class iuse_transform : public iuse_actor
         iuse_actor *clone() const override;
         std::string get_name() const override;
         void finalize( const itype_id &my_item_type ) override;
+        void info( const item &, std::vector<iteminfo> & ) const override;
 };
 
 class countdown_actor : public iuse_actor

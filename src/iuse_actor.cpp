@@ -177,6 +177,21 @@ void iuse_transform::finalize( const itype_id & )
     }
 }
 
+void iuse_transform::info( const item &it, std::vector<iteminfo> &dump ) const
+{
+    const item dummy( target, calendar::turn, std::max( ammo_qty, 1l ) );
+    dump.emplace_back( "TOOL", string_format( _( "<bold>Turns into</bold>: %s" ),
+                                              dummy.tname().c_str() ) );
+    if( countdown > 0 ) {
+        dump.emplace_back( "TOOL", _( "Countdown: " ), "", countdown );
+    }
+
+    const auto *explosion_use = dummy.get_use( "explosion" );
+    if( explosion_use != nullptr ) {
+        explosion_use->get_actor_ptr()->info( it, dump );
+    }
+}
+
 countdown_actor::~countdown_actor() = default;
 
 iuse_actor *countdown_actor::clone() const
@@ -227,7 +242,7 @@ std::string countdown_actor::get_name() const
 
 void countdown_actor::info( const item &it, std::vector<iteminfo> &dump ) const
 {
-    dump.emplace_back( "TOOL", _( "<bold>Countdown</bold>: " ), "",
+    dump.emplace_back( "TOOL", _( "Countdown: " ), "",
                        interval > 0 ? interval : it.type->countdown_interval );
     const auto countdown_actor = it.type->countdown_action.get_actor_ptr();
     if( countdown_actor != nullptr ) {
@@ -332,15 +347,20 @@ void explosion_iuse::info( const item &, std::vector<iteminfo> &dump ) const
         return;
     }
 
-    dump.emplace_back( "TOOL", _( "<bold>Power at epicenter</bold>: " ), "", explosion.power );
-    dump.emplace_back( "TOOL", _( "<bold>Expected range (50% power)</bold>: " ), "",
-                       explosion.expected_range( 0.5f ), false );
-    dump.emplace_back( "TOOL", _( "<bold>Expected range (5% power)</bold>: " ), "",
-                       explosion.expected_range( 0.05f ), false );
+    dump.emplace_back( "TOOL", _( "Power at <bold>epicenter</bold>: " ), "", explosion.power );
+    int half_range = std::ceil( explosion.expected_range( 0.5f ) );
+    int safe_range = std::ceil( explosion.expected_range( 0.05f ) );
+    dump.emplace_back( "TOOL", string_format( _( "Power at <bold>%d</bold> tiles: " ), half_range ), "",
+                       explosion.power_at_range( half_range ) );
+    if( half_range != safe_range ) {
+        dump.emplace_back( "TOOL", string_format( _( "Power at <bold>%d</bold> tiles: " ), safe_range ), "",
+                           explosion.power_at_range( safe_range ) );
+    }
+
     const auto &sd = explosion.shrapnel;
     if( sd.count > 0 ) {
-        dump.emplace_back( "TOOL", _( "<bold>Shrapnel count</bold>: " ), "", sd.count );
-        dump.emplace_back( "TOOL", _( "<bold>Shrapnel mass</bold>: " ), "", sd.mass );
+        dump.emplace_back( "TOOL", _( "Shrapnel <bold>count</bold>: " ), "", sd.count );
+        dump.emplace_back( "TOOL", _( "Shrapnel <bold>mass</bold>: " ), "", sd.mass );
     }
 }
 

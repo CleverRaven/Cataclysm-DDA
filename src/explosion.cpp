@@ -421,3 +421,13 @@ float explosion_data::expected_range( float ratio ) const
     // The 1.1 is because actual power drops at roughly that rate
     return std::log( ratio ) / std::log( distance_factor / 1.1f );
 }
+
+float explosion_data::power_at_range( float dist ) const
+{
+    if( power <= 0.0f || distance_factor >= 1.0f || distance_factor <= 0.0f ) {
+        return 0.0f;
+    }
+
+    // The 1.1 is because actual power drops at roughly that rate
+    return power * std::pow( distance_factor / 1.1f, dist );
+}
