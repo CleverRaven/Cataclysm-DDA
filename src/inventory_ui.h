@@ -227,7 +227,7 @@ class inventory_selector
         player &u;
         /** The input context for navigation, already contains some actions for movement.
          * See @ref on_action */
-        input_context ctxt;
+        input_context ctxt = input_context( "INVENTORY" );
 
         void add_custom_items( const std::list<item>::const_iterator &from,
                                const std::list<item>::const_iterator &to,
@@ -286,9 +286,9 @@ class inventory_selector
 
         std::vector<std::unique_ptr<inventory_column>> columns;
         std::unique_ptr<inventory_column> custom_column;
-        size_t active_column_index;
+        size_t active_column_index = 0;
         std::list<item_category> categories;
-        navigation_mode navigation;
+        navigation_mode navigation = navigation_mode::ITEM;
 
         void insert_column( decltype( columns )::iterator position,
                             std::unique_ptr<inventory_column> &new_column );

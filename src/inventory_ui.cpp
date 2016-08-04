@@ -566,13 +566,9 @@ void inventory_selector::draw( WINDOW *w ) const
 
 inventory_selector::inventory_selector( player &u, const std::string &title, const item_location_filter &filter )
     : u(u)
-    , ctxt( "INVENTORY" )
     , title( title )
     , filter( filter )
     , w_inv( newwin( TERMY, TERMX, VIEW_OFFSET_Y, VIEW_OFFSET_X ) )
-    , columns()
-    , active_column_index( 0 )
-    , navigation( navigation_mode::ITEM )
 {
     ctxt.register_action("DOWN", _("Next item"));
     ctxt.register_action("UP", _("Previous item"));
