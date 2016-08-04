@@ -167,10 +167,10 @@ struct mission_type {
     oter_id target_id = 0;
     mission_type_id follow_up = mission_type_id( "MISSION_NULL" );
 
-    std::function<bool(const tripoint &)> place;
-    std::function<void(mission *)> start;
-    std::function<void(mission *)> end;
-    std::function<void(mission *)> fail;
+    std::function<bool(const tripoint &)> place = mission_place::always;
+    std::function<void(mission *)> start = mission_start::standard;
+    std::function<void(mission *)> end = mission_end::standard;
+    std::function<void(mission *)> fail = mission_fail::standard;
 
     mission_type() = default;
     mission_type(mission_type_id ID, std::string NAME, mission_goal GOAL, int DIF, int VAL,
