@@ -700,7 +700,7 @@ bool internal_query_yn( const char *mes, va_list ap )
     return ( ( ch != KEY_ESCAPE ) && result );
 }
 
-int query_int( const char *mes, ... )
+bool query_int( int &result, const char *mes, ... )
 {
     va_list ap;
     va_start( ap, mes );
@@ -708,9 +708,17 @@ int query_int( const char *mes, ... )
     va_end( ap );
 
     std::string raw_input = string_input_popup( text );
+    if( raw_input.empty() ) { //ESC key is pressed
+        return false;
+    }
 
     //Note that atoi returns 0 for anything it doesn't like.
-    return atoi( raw_input.c_str() );
+    int num = atoi( raw_input.c_str() );
+    if( raw_input != "0" && num == 0) { //invalid input
+        return false;
+    }
+    result = num;
+    return true;
 }
 
 std::string string_input_popup( std::string title, int width, std::string input, std::string desc,

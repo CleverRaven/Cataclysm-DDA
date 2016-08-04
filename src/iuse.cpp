@@ -3716,14 +3716,15 @@ int iuse::granade_act(player *, item *it, bool t, const tripoint &pos)
     return it->type->charges_to_use();
 }
 
-int iuse::c4(player *p, item *it, bool, const tripoint& )
+int iuse::c4( player *p, item *it, bool, const tripoint & )
 {
-    int time = query_int(_("Set the timer to (0 to cancel)?"));
-    if (time <= 0) {
-        p->add_msg_if_player(_("Never mind."));
+    int time;
+    bool got_value = query_int( time, _( "Set the timer to (0 to cancel)?" ) );
+    if( !got_value || time <= 0 ) {
+        p->add_msg_if_player( _( "Never mind." ) );
         return 0;
     }
-    p->add_msg_if_player(_("You set the timer to %d."), time);
+    p->add_msg_if_player( _( "You set the timer to %d." ), time );
     it->convert( "c4armed" );
     it->charges = time;
     it->active = true;
@@ -3962,23 +3963,25 @@ int iuse::firecracker_act(player *, item *it, bool t, const tripoint &pos)
     return 0;
 }
 
-int iuse::mininuke(player *p, item *it, bool, const tripoint& )
+int iuse::mininuke( player *p, item *it, bool, const tripoint & )
 {
-    int time = query_int(_("Set the timer to (0 to cancel)?"));
-    if (time <= 0) {
-        p->add_msg_if_player(_("Never mind."));
+    int time;
+    bool got_value = query_int( time, _( "Set the timer to (0 to cancel)?" ) );
+    if( !got_value || time <= 0 ) {
+        p->add_msg_if_player( _( "Never mind." ) );
         return 0;
     }
-    p->add_msg_if_player(_("You set the timer to %d."), time);
-    if (!p->is_npc()) {
-        p->add_memorial_log(pgettext("memorial_male", "Activated a mininuke."),
-                            pgettext("memorial_female", "Activated a mininuke."));
+    p->add_msg_if_player( _( "You set the timer to %d." ), time );
+    if( !p->is_npc() ) {
+        p->add_memorial_log( pgettext( "memorial_male", "Activated a mininuke." ),
+                             pgettext( "memorial_female", "Activated a mininuke." ) );
     }
     it->convert( "mininuke_act" );
     it->charges = time;
     it->active = true;
     return it->type->charges_to_use();
 }
+
 
 int iuse::pheromone( player *p, item *it, bool, const tripoint &pos )
 {

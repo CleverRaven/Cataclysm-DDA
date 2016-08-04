@@ -4143,7 +4143,7 @@ void game::debug()
                         smenu.addentry( 0, true, 'S', "%s: %d", _( "Maximum strength" ), p.str_max );
                         smenu.addentry( 1, true, 'D', "%s: %d", _( "Maximum dexterity" ), p.dex_max );
                         smenu.addentry( 2, true, 'I', "%s: %d", _( "Maximum intelligence" ), p.int_max );
-                        smenu.addentry( 3, true, 'I', "%s: %d", _( "Maximum perception" ), p.per_max );
+                        smenu.addentry( 3, true, 'P', "%s: %d", _( "Maximum perception" ), p.per_max );
                         smenu.addentry( 999, true, 'q', "%s", _( "[q]uit" ) );
                         smenu.selected = 0;
                         smenu.query();
@@ -4166,8 +4166,8 @@ void game::debug()
                         }
 
                         if( bp_ptr != nullptr ) {
-                            int value = query_int( "Set the stat to? Currently: %d", *bp_ptr );
-                            if( value >= 0 ) {
+                            int value;
+                            if( query_int( value, "Set the stat to? Currently: %d", *bp_ptr ) && value >= 0 ) {
                                 *bp_ptr = value;
                                 p.reset_stats();
                             }
@@ -4238,8 +4238,8 @@ void game::debug()
                         }
 
                         if( bp_ptr != nullptr ) {
-                            int value = query_int( "Set the hitpoints to? Currently: %d", *bp_ptr );
-                            if( value >= 0 ) {
+                            int value;
+                            if( query_int( value, "Set the hitpoints to? Currently: %d", *bp_ptr ) && value >= 0 ) {
                                 *bp_ptr = value;
                                 p.reset_stats();
                             }
@@ -4247,8 +4247,10 @@ void game::debug()
                     }
                     break;
                     case D_PAIN: {
-                        int dbg_damage = query_int( "Cause how much pain? pain: %d", p.get_pain() );
-                        p.mod_pain( dbg_damage );
+                        int value;
+                        if( query_int( value, "Cause how much pain? pain: %d", p.get_pain() ) ) {
+                            p.mod_pain( value );
+                        }
                     }
                     break;
                     case D_NEEDS: {
@@ -4268,24 +4270,32 @@ void game::debug()
                         smenu.query();
 
                         switch( smenu.ret ) {
+                            int value;
                             case 0:
-                                p.set_hunger( query_int( "Set hunger to? Currently: %d", p.get_hunger() ) );
+                                if( query_int( value, "Set hunger to? Currently: %d", p.get_hunger() ) ) {
+                                    p.set_hunger( value );
+                                }
                                 break;
 
                             case 1:
-                                p.set_thirst( query_int( "Set thirst to? Currently: %d", p.get_thirst() ) );
+                                if( query_int( value, "Set thirst to? Currently: %d", p.get_thirst() ) ) {
+                                    p.set_hunger( value );
+                                }
                                 break;
 
                             case 2:
-                                p.set_fatigue( query_int( "Set fatigue to? Currently: %d", p.get_fatigue() ) );
+                                if( query_int( value, "Set fatigue to? Currently: %d", p.get_fatigue() ) ) {
+                                    p.set_hunger( value );
+                                }
                                 break;
 
                             default:
                                 if( smenu.ret > 2 && smenu.ret < static_cast<int>( vits.size() + 3 ) ) {
                                     auto iter = std::next( vits.begin(), smenu.ret - 3 );
-                                    p.vitamin_set( iter->first, query_int( "Set %s to? Currently: %d",
-                                                                           iter->second.name().c_str(),
-                                                                           p.vitamin_get( iter->first ) ) );
+                                    if( query_int( value, "Set %s to? Currently: %d",
+                                        iter->second.name().c_str(), p.vitamin_get( iter->first ) ) ) {
+                                        p.vitamin_set( iter->first, value );
+                                    }
                                 }
                         }
 
@@ -4303,11 +4313,16 @@ void game::debug()
                         smenu.selected = 0;
                         smenu.query();
                         switch( smenu.ret ) {
+                            int value;
                             case 0:
-                                p.set_healthy( query_int( "Set the value to? Currently: %d", p.get_healthy() ) );
+                                if( query_int( value, "Set the value to? Currently: %d", p.get_healthy() ) ) {
+                                    p.set_healthy( value );
+                                }
                                 break;
                             case 1:
-                                p.set_healthy_mod( query_int( "Set the value to? Currently: %d", p.get_healthy_mod() ) );
+                                if( query_int( value, "Set the value to? Currently: %d", p.get_healthy_mod() ) ) {
+                                    p.set_healthy_mod( value );
+                                }
                                 break;
                             default:
                                 break;
@@ -4428,10 +4443,12 @@ void game::debug()
 
         // Damage Self
         case 22: {
-            int dbg_damage = query_int( _( "Damage self for how much? hp: %d" ), u.hp_cur[hp_torso] );
-            u.hp_cur[hp_torso] -= dbg_damage;
-            u.die( NULL );
-            draw_sidebar();
+            int dbg_damage;
+            if( query_int( dbg_damage, _( "Damage self for how much? hp: %d" ), u.hp_cur[hp_torso] ) ) {
+                u.hp_cur[hp_torso] -= dbg_damage;
+                u.die( NULL );
+                draw_sidebar();
+            }
         }
         break;
 
@@ -14177,8 +14194,9 @@ std::vector<faction *> game::factions_at( const tripoint &p )
 
 void game::display_scent()
 {
-    int div = query_int(_("Set the Scent Map sensitivity to (0 to cancel)?"));
-    if (div < 1) {
+    int div;
+    bool got_value = query_int( div, _("Set the Scent Map sensitivity to (0 to cancel)?") );
+    if ( !got_value || div < 1 ) {
         add_msg(_("Never mind."));
         return;
     };

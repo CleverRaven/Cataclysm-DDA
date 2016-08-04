@@ -277,7 +277,7 @@ std::vector<size_t> get_tag_positions( const std::string &s );
 std::vector<std::string> split_by_color( const std::string &s );
 
 bool query_yn( const char *mes, ... );
-int  query_int( const char *mes, ... );
+bool query_int( int &result, const char *mes, ... );
 
 bool internal_query_yn( const char *mes, va_list ap );
 
