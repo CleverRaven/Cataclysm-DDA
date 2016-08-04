@@ -54,14 +54,30 @@ class safemode : public JsonSerializer, public JsonDeserializer
                 ~cRules() {};
         };
 
+        class cRuleState {
+            public:
+                rule_state state;
+                int proxy_dist;
+
+                cRuleState() {
+                    this->state = RULE_NONE;
+                    this->proxy_dist = 0;
+                }
+
+                cRuleState(rule_state state_in, int proxy_dist_in) {
+                    this->state = state_in;
+                    this->proxy_dist = proxy_dist_in;
+                }
+        };
+
         /**
          * The currently-active set of safemode rules, in a form that allows quick
          * lookup. When this is filled (by @ref safemode::create_rules()), every
          * monster existing in the game that matches a rule (either white- or blacklist)
          * is added as the key, with RULE_WHITELISTED or RULE_BLACKLISTED as the values.
+         * map_monsters[ 'mob name' ][ 'monAttitude' ].cRuleState('rule_state', 'proxy dist')
          */
-        //                 mob name     monAttitude          rule_state  proxy dist
-        std::unordered_map<std::string, std::array<std::pair<rule_state, int>, Creature::A_MAX> > map_monsters;
+        std::unordered_map<std::string, std::array<cRuleState, Creature::A_MAX> > map_monsters;
 
         /**
          * - vRules[0,1] aka vRules[GLOBAL,CHARACTER]: current rules split into global and
@@ -76,7 +92,7 @@ class safemode : public JsonSerializer, public JsonDeserializer
         void create_rules();
         void create_rule( const std::string &to_match );
         void clear_character_rules();
-        rule_state check_monster( const std::string &sMonsterName, const int att, const int iDist ) const;
+        rule_state check_monster( const std::string &sMonsterName, const int attCreature, const int iDist ) const;
 
         void show();
         void show( const std::string &custom_name, bool is_autopickup );

@@ -14,6 +14,7 @@
 #include "generic_factory.h"
 #include "worldfactory.h"
 #include "monstergenerator.h"
+#include "debug.h"
 
 #include <stdlib.h>
 #include <fstream>
@@ -297,11 +298,11 @@ void safemode::show( const std::string &custom_name, bool is_safemode )
                                _(
                                    "* is used as a Wildcard. A few Examples:\n"
                                    "\n"
-                                   "wooden arrow    matches the itemname exactly\n"
-                                   "wooden ar*      matches items beginning with wood ar\n"
-                                   "*rrow           matches items ending with rrow\n"
-                                   "*avy fle*fi*arrow     multiple * are allowed\n"
-                                   "heAVY*woOD*arrOW      case insensitive search\n"
+                                   "zombie          matches the monster name exactly\n"
+                                   "acidic zo*      matches monsters beginning with 'acidic zo'\n"
+                                   "*mbie           matches monsters ending with 'mbie'\n"
+                                   "*cid*zo*ie      multiple * are allowed\n"
+                                   "AcI*zO*iE       case insensitive search\n"
                                    "")
                               );
 
@@ -436,6 +437,9 @@ void safemode::test_pattern(const int iTab, const int iRow)
     mvwprintz(w_test_rule_border, 0, iContentWidth / 2 - utf8_width(buf) / 2, hilite(c_white),
               "%s", buf.c_str());
 
+    mvwprintz(w_test_rule_border, iContentHeight + 1, 1, red_background(c_white),
+              _("Lists monsters regardless of their attitude."));
+
     wrefresh(w_test_rule_border);
 
     int iLine = 0;
@@ -533,7 +537,7 @@ void safemode::remove_rule(const std::string &sRule)
 */
 bool safemode::empty() const
 {
-    for( int i = GLOBAL_TAB; i < MAX_TAB; i++ ) {
+    for( int i = 0; i < MAX_TAB; i++ ) {
         if ( !vRules[i].empty() ) {
             return false;
         }
@@ -541,24 +545,24 @@ bool safemode::empty() const
 
     return true;
 }
-
+/*
 void safemode::create_rule( const std::string &to_match )
 {
-    for( int i = GLOBAL_TAB; i < MAX_TAB; i++ ) {
+    for( int i = 0; i < MAX_TAB; i++ ) {
         for( auto &elem : vRules[i] ) {
             if( !elem.bExclude ) {
                 if( elem.bActive && wildcard_match( to_match, elem.sRule ) ) {
-                    map_monsters[ to_match ][ elem.attCreature ] = std::make_pair(RULE_WHITELISTED, elem.iProxyDist);
+                    map_monsters[ to_match ][ elem.attCreature ] = cRuleState(RULE_WHITELISTED, elem.iProxyDist);
                 }
             } else {
                 if( elem.bActive && wildcard_match( to_match, elem.sRule ) ) {
-                    map_monsters[ to_match ][ elem.attCreature ] = std::make_pair(RULE_BLACKLISTED, elem.iProxyDist);
+                    map_monsters[ to_match ][ elem.attCreature ] = cRuleState(RULE_BLACKLISTED, elem.iProxyDist);
                 }
             }
         }
     }
 }
-
+*/
 void safemode::create_rules()
 {
     map_monsters.clear();
@@ -566,22 +570,21 @@ void safemode::create_rules()
     //process include/exclude in order of rules, global first, then character specific
     //if a specific monster is being added, all the rules need to be checked now
     //may have some performance issues since exclusion needs to check all monsters also
-    for( int i = GLOBAL_TAB; i < MAX_TAB; i++ ) {
+    for( int i = 0; i < MAX_TAB; i++ ) {
         for( auto &elem : vRules[i] ) {
             if( !elem.bExclude ) {
                 //Check include patterns against all monster mtypes
                 for( const auto &type : MonsterGenerator::generator().get_all_mtypes() ) {
-                    const std::string &cur_item = type.nname();
-                    if( elem.bActive && wildcard_match( cur_item, elem.sRule ) ) {
-                        map_monsters[ cur_item ][ elem.attCreature ] = std::make_pair(RULE_WHITELISTED, elem.iProxyDist);
+                    const std::string &cur_mon = type.nname();
+                    if( elem.bActive && wildcard_match( cur_mon, elem.sRule ) ) {
+                        map_monsters[ cur_mon ][ elem.attCreature ] = cRuleState(RULE_WHITELISTED, elem.iProxyDist);
                     }
                 }
             } else {
-                //only re-exclude monsters from the existing mapping for now
-                //new exclusions will process during safemode attempts
+                //exclude monsters from the existing mapping
                 for (auto iter = map_monsters.begin(); iter != map_monsters.end(); ++iter) {
                     if( elem.bActive && wildcard_match( iter->first, elem.sRule ) ) {
-                        map_monsters[ iter->first ][ elem.attCreature ] = std::make_pair(RULE_BLACKLISTED, elem.iProxyDist);
+                        map_monsters[ iter->first ][ elem.attCreature ] = cRuleState(RULE_BLACKLISTED, elem.iProxyDist);
                     }
                 }
             }
@@ -589,17 +592,18 @@ void safemode::create_rules()
     }
 }
 
-rule_state safemode::check_monster( const std::string &sMonsterName, const int att, const int iDist ) const
+rule_state safemode::check_monster( const std::string &sMonsterName, const int attCreature, const int iDist ) const
 {
     const auto iter = map_monsters.find( sMonsterName );
     if( iter != map_monsters.end() ) {
-        const auto &tmp = (iter->second)[att];
-        if ( tmp.first == RULE_WHITELISTED ) {
-            if ( iDist <= tmp.second ) {
+        const auto &tmp = (iter->second)[attCreature];
+        if ( tmp.state == RULE_WHITELISTED ) {
+            const int check_dist = ( tmp.proxy_dist == 0 ) ? 50 : tmp.proxy_dist;
+            if ( iDist <= check_dist ) {
                 return RULE_WHITELISTED;
             }
 
-        } else if ( tmp.first == RULE_BLACKLISTED ) {
+        } else if ( tmp.state == RULE_BLACKLISTED ) {
             return RULE_BLACKLISTED;
         }
     }

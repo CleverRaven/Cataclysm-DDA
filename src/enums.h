@@ -76,7 +76,7 @@ namespace std{
     };
 }
 
-//Used in for autopickup and safemode rules
+//Used for autopickup and safemode rules
 enum rule_state : int {
     RULE_NONE,
     RULE_WHITELISTED,

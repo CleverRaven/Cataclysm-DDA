@@ -93,7 +93,7 @@ class Creature
          * hostile - hate, want to kill, etc.
          * neutral - anything between.
          * friendly - avoid harming it, maybe even help.
-         * max - only for iterating
+         * max - used for iterating
          */
         enum Attitude : int {
             A_HOSTILE,

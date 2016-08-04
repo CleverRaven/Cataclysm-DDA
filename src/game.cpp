@@ -5934,18 +5934,18 @@ int game::mon_info(WINDOW *w)
             const monster_attitude matt = critter.attitude(&u);
             const int mondist = rl_dist( u.pos(), critter.pos() );
 
-            rule_state safemode = RULE_NONE;
-            const bool bSafemode = !get_safemode().empty();
-            if ( bSafemode ) {
-                safemode = get_safemode().check_monster(critter.disp_name(), critter.attitude_to(u), mondist);
+            rule_state safemode_state = RULE_NONE;
+            const bool safemode_empty = get_safemode().empty();
+            if ( !safemode_empty ) {
+                safemode_state = get_safemode().check_monster(critter.name(), critter.attitude_to(u), mondist);
             }
 
-            if (bSafemode && safemode == RULE_WHITELISTED || (!bSafemode && (MATT_ATTACK == matt || MATT_FOLLOW == matt))) {
+            if ((!safemode_empty && safemode_state == RULE_WHITELISTED) || (safemode_empty && (MATT_ATTACK == matt || MATT_FOLLOW == matt))) {
                 if (index < 8 && critter.sees( g->u )) {
                     dangerous[index] = true;
                 }
 
-                if (bSafemode || mondist <= iProxyDist) {
+                if (!safemode_empty || mondist <= iProxyDist) {
                     bool passmon = false;
                     if (critter.ignoring > 0) {
                         if (safe_mode != SAFE_MODE_ON) {
@@ -5954,6 +5954,7 @@ int game::mon_info(WINDOW *w)
                             passmon = true;
                         }
                     }
+
                     if (!passmon) {
                         int news = mon_at( critter.pos(), true );
                         if( news != -1 ) {
