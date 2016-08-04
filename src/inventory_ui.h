@@ -22,11 +22,6 @@ enum class navigation_mode : int {
     CATEGORY
 };
 
-const item_location_filter allow_all_items = []( const item_location & )
-{
-    return true;
-};
-
 class inventory_entry
 {
     private:
@@ -214,7 +209,7 @@ class inventory_selector
 {
     public:
         inventory_selector( player &u, const std::string &title,
-                            const item_location_filter &filter = allow_all_items );
+                            const item_location_filter &filter = item_location_filter() );
         ~inventory_selector();
         /** These functions add items from map / vehicles */
         void add_map_items( const tripoint &target );
@@ -298,7 +293,7 @@ class inventory_pick_selector : public inventory_selector
 {
     public:
         inventory_pick_selector( player &u, const std::string &title,
-                                 const item_location_filter &filter = allow_all_items );
+                                 const item_location_filter &filter = item_location_filter() );
         item_location execute();
 
     protected:
@@ -309,7 +304,7 @@ class inventory_compare_selector : public inventory_selector
 {
     public:
         inventory_compare_selector( player &u, const std::string &title,
-                                    const item_location_filter &filter = allow_all_items );
+                                    const item_location_filter &filter = item_location_filter() );
         std::pair<const item *, const item *> execute();
 
     protected:
@@ -323,7 +318,7 @@ class inventory_drop_selector : public inventory_selector
 {
     public:
         inventory_drop_selector( player &u, const std::string &title,
-                                 const item_location_filter &filter = allow_all_items );
+                                 const item_location_filter &filter = item_location_filter() );
         std::list<std::pair<int, int>> execute();
 
     protected:

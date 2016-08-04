@@ -388,7 +388,7 @@ void inventory_selector::add_custom_items( const std::list<item>::const_iterator
 {
     for( const auto &stack : restack_items( from, to ) ) {
         auto loc = locator( stack.front() );
-        if( filter( loc ) ) {
+        if( !filter || filter( loc ) ) {
             const std::string name = trim( string_format( _( "%s %s" ), to_upper_case( title ).c_str(),
                                                           direction_suffix( u.pos(), loc.position() ).c_str() ) );
             if( categories.empty() || categories.back().id != name ) {
@@ -591,7 +591,7 @@ inventory_selector::inventory_selector( player &u, const std::string &title, con
         const auto &stack = u.inv.const_stack( i );
         const auto location = std::make_shared<item_location>( u, const_cast<item *>( &stack.front() ) );
 
-        if( filter( *location ) ) {
+        if( !filter || filter( *location ) ) {
             first_column->add_entry( inventory_entry( location, stack.size() ) );
         }
     }
@@ -603,7 +603,7 @@ inventory_selector::inventory_selector( player &u, const std::string &title, con
     if( u.is_armed() ) {
         categories.emplace_back( "WEAPON", _( "WEAPON HELD" ), 0 );
         const auto location = std::make_shared<item_location>( u, &u.weapon );
-        if( filter( *location ) ) {
+        if( !filter || filter( *location ) ) {
             second_column->add_entry( inventory_entry( location, &categories.back(), c_ltblue ) );
         }
     }
@@ -612,7 +612,7 @@ inventory_selector::inventory_selector( player &u, const std::string &title, con
         categories.emplace_back( "ITEMS WORN", _( "ITEMS WORN" ), 0 );
         for( auto &it : u.worn ) {
             const auto location = std::make_shared<item_location>( u, &it );
-            if( filter( *location ) ) {
+            if( !filter || filter( *location ) ) {
                 second_column->add_entry( inventory_entry( location, &categories.back(), c_cyan ) );
             }
         }

@@ -47,7 +47,7 @@ int game::inv_for_filter( const std::string &title, item_location_filter filter,
 int game::inv_for_all( const std::string &title, const std::string &none_message )
 {
     const std::string msg = ( none_message.empty() ) ? _( "Your inventory is empty." ) : none_message;
-    return inv_for_filter( title, allow_all_items, msg );
+    return inv_for_filter( title, item_location_filter(), msg );
 }
 
 int game::inv_for_activatables( const player &p, const std::string &title )
