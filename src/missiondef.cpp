@@ -236,6 +236,8 @@ Fun get_function( JsonObject &jo, const std::string &id, const std::map<std::str
         if( iter != cont.end() ) {
             return iter->second;
         }
+
+        jo.throw_error( "Invalid mission function", id );
     }
 
     return { };
@@ -348,7 +350,9 @@ mission_type_id mission_type::from_legacy( int old_id )
         mission_type_id( "MISSION_RANCH_BARTENDER_3" ),
         mission_type_id( "MISSION_RANCH_BARTENDER_4" ),
         mission_type_id( "MISSION_RANCH_BARTENDER_5" ),
-        mission_type_id( "MISSION_FREE_MERCHANTS_EVAC_3" )
+        mission_type_id( "MISSION_FREE_MERCHANTS_EVAC_3" ),
+        // This is to help with the bugged find book mission
+        mission_type_id( "MISSION_NULL" )
     }};
 
     if( old_id >= 0 && old_id < (int)old_id_vec.size() ) {
