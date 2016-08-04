@@ -25,7 +25,8 @@
     "fail": "kill_npc",
     "origins": "ORIGIN_OPENER_NPC",
     "item": "antibiotics",
-    "deadline": [24, 48] 
+    "deadline_low": 24,
+    "deadline_high": 48 
 },
 {
     "type": "mission_definition",

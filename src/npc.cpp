@@ -83,7 +83,7 @@ npc::npc()
     per_max = 0;
     my_fac = NULL;
     fac_id = "";
-    miss_id = 0;
+    miss_id = NULL_ID;
     marked_for_death = false;
     dead = false;
     hit_by_player = false;
@@ -134,10 +134,10 @@ void npc::load_npc(JsonObject &jsobj)
     guy.attitude = npc_attitude(jsobj.get_int("attitude"));
     guy.mission = npc_mission(jsobj.get_int("mission"));
     guy.chatbin.first_topic = jsobj.get_string( "chat" );
-    if (jsobj.has_int("mission_offered")){
-        guy.miss_id = jsobj.get_int("mission_offered");
+    if( jsobj.has_string( "mission_offered" ) ){
+        guy.miss_id = mission_type_id( jsobj.get_string( "mission_offered" ) );
     } else {
-        guy.miss_id = 0;
+        guy.miss_id = NULL_ID;
     }
     _all_npc[guy.idz] = std::move( guy );
 }
@@ -174,8 +174,8 @@ void npc::load_npc_template(std::string ident)
         attitude = found->second.attitude;
         mission = found->second.mission;
         chatbin.first_topic = found->second.chatbin.first_topic;
-        if (static_cast<mission_type_id>(found->second.miss_id) != MISSION_NULL){
-            add_new_mission( mission::reserve_new(static_cast<mission_type_id>(found->second.miss_id), getID()) );
+        if( !found->second.miss_id.is_null() ){
+            add_new_mission( mission::reserve_new( found->second.miss_id, getID() ) );
         }
         return;
     } else {

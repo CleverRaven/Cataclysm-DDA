@@ -1799,8 +1799,10 @@ void mission::deserialize(JsonIn &jsin)
 {
     JsonObject jo = jsin.get_object();
 
-    if (jo.has_member("type_id")) {
-        type = mission_type::get( static_cast<mission_type_id>( jo.get_int( "type_id" ) ) );
+    if( jo.has_int( "type_id" ) ) {
+        type = &mission_type::from_legacy( jo.get_int( "type_id" ) ).obj();
+    } else if( jo.has_string( "type_id" ) ) {
+        type = &mission_type_id( jo.get_string( "type_id" ) ).obj();
     }
     jo.read("description", description);
     jo.read("failed", failed);
@@ -1816,7 +1818,13 @@ void mission::deserialize(JsonIn &jsin)
         target.x = ja.get_int(0);
         target.y = ja.get_int(1);
     }
-    follow_up = static_cast<mission_type_id>(jo.get_int("follow_up", follow_up));
+
+    if( jo.has_int( "follow_up" ) ) {
+        follow_up = mission_type::from_legacy( jo.get_int( "follow_up" ) );
+    } else if( jo.has_string( "follow_up" ) ) {
+        follow_up = mission_type_id( jo.get_string( "follow_up" ) );
+    }
+
     item_id = itype_id(jo.get_string("item_id", item_id));
 
     const std::string omid = jo.get_string( "target_id", "" );
@@ -1847,7 +1855,7 @@ void mission::serialize(JsonOut &json) const
 {
     json.start_object();
 
-    json.member("type_id", type == NULL ? -1 : static_cast<int>( type->id ) );
+    json.member("type_id", type);
     json.member("description", description);
     json.member("failed", failed);
     json.member("value", value);
@@ -1873,7 +1881,7 @@ void mission::serialize(JsonOut &json) const
     json.member("good_fac_id", good_fac_id);
     json.member("bad_fac_id", bad_fac_id);
     json.member("step", step);
-    json.member("follow_up", (int)follow_up);
+    json.member("follow_up", follow_up);
     json.member("player_id", player_id);
     json.member("was_started", was_started);
 
