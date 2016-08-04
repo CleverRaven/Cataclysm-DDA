@@ -865,4 +865,22 @@ class place_trap_actor : public iuse_actor
         iuse_actor *clone() const override;
 };
 
+class clear_rubble_actor : public iuse_actor
+{
+    public:
+
+    clear_rubble_actor( const std::string &type = "CLEAR_RUBBLE" ) : iuse_actor( type ) { }
+    iuse_actor *clone() const override;
+    void load( JsonObject & ) override { } //nothing to load
+    /**
+     * @param pos If the player's position, use any location (closest first) within a square of p. Otherwise, use pos.
+     */
+    long use( player *p, item *it, bool t, const tripoint &pos ) const;
+    /**
+     * @param pos If the player's position, return true if any of the 9 squares accessible by p have rubble.
+     * Otherwise, only check pos.
+     */
+    bool can_use( const player *p, const item *, bool, const tripoint &pos ) const override;
+};
+
 #endif

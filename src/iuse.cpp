@@ -3056,35 +3056,6 @@ int iuse::makemound(player *p, item *it, bool, const tripoint& )
     }
 }
 
-int iuse::dig(player *p, item *it, bool, const tripoint &pos )
-{
-    for( const tripoint &pt : closest_tripoints_first( 1, pos ) ) {
-        if( g->m.furn( pt ).obj().examine == iexamine::rubble ) {
-            p->add_msg_if_player( _("You clear up that %s."), g->m.furnname( pt ).c_str() );
-            g->m.furn_set( pt, f_null );
-
-            // costs per tile:
-            // DIG 2 = 300 seconds, 10 hunger and thirst
-            // DIG 3 =  75 seconds,  2 hunger and thirst
-            // DIG 4 =  33 seconds,  1 hunger and thirst
-            // DIG 5 =  18 seconds,  0 hunger and thirst
-            int bonus = std::max( it->get_quality( quality_id( "DIG" ) ) - 1, 1 );
-            bonus *= bonus;
-
-            p->moves -= 5000 / ( bonus * bonus );
-
-            if( p ) {
-                p->mod_hunger ( 10 / bonus );
-                p->mod_thirst ( 10 / bonus );
-            }
-
-            return it->type->charges_to_use();
-        }
-    }
-
-    return 0;
-}
-
 void act_vehicle_siphon(vehicle *); // veh_interact.cpp
 
 int iuse::siphon(player *p, item *it, bool, const tripoint& )
