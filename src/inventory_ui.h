@@ -232,7 +232,7 @@ class inventory_selector
         void add_custom_items( const std::list<item>::const_iterator &from,
                                const std::list<item>::const_iterator &to,
                                const std::string &title,
-                               const std::function<std::shared_ptr<item_location>( item * )> &locator );
+                               const std::function<item_location( item * )> &locator );
 
         /** Refreshes item categories */
         void prepare_columns( bool multiselect );

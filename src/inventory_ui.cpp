@@ -384,15 +384,13 @@ std::vector<std::list<item *>> restack_items( const std::list<item>::const_itera
 void inventory_selector::add_custom_items( const std::list<item>::const_iterator &from,
                                            const std::list<item>::const_iterator &to,
                                            const std::string &title,
-                                           const std::function<std::shared_ptr<item_location>( item * )> &locator )
+                                           const std::function<item_location( item * )> &locator )
 {
-    const auto &stacks = restack_items( from, to );
-
-    for( const auto &stack : stacks ) {
-        const auto &location = locator( stack.front() );
-        if( filter( *location ) ) {
+    for( const auto &stack : restack_items( from, to ) ) {
+        auto loc = locator( stack.front() );
+        if( filter( loc ) ) {
             const std::string name = trim( string_format( _( "%s %s" ), to_upper_case( title ).c_str(),
-                                                          direction_suffix( u.pos(), location->position() ).c_str() ) );
+                                                          direction_suffix( u.pos(), loc.position() ).c_str() ) );
             if( categories.empty() || categories.back().id != name ) {
                 categories.emplace_back( name, name, INT_MIN + int( categories.size() ) );
             }
@@ -400,7 +398,8 @@ void inventory_selector::add_custom_items( const std::list<item>::const_iterator
                 custom_column.reset( new inventory_column() );
             }
             const long invlet = ( cur_custom_invlet <= max_custom_invlet ) ? cur_custom_invlet++ : '\0';
-            custom_column->add_entry( inventory_entry( location, stack.size(), &categories.back(), c_unset, invlet ) );
+            custom_column->add_entry( inventory_entry( std::make_shared<item_location>( std::move( loc ) ),
+                                                       stack.size(), &categories.back(), c_unset, invlet ) );
         }
     }
 }
@@ -410,7 +409,7 @@ void inventory_selector::add_map_items( const tripoint &target )
     if( g->m.accessible_items( u.pos(), target, rl_dist( u.pos(), target ) ) ) {
         const auto items = g->m.i_at( target );
         add_custom_items( items.begin(), items.end(), g->m.name( target ), [ &target ]( item *it ) {
-            return std::make_shared<item_location>( target, it );
+            return item_location( target, it );
         } );
     }
 }
@@ -423,7 +422,7 @@ void inventory_selector::add_vehicle_items( const tripoint &target )
     if( veh != nullptr && ( part = veh->part_with_feature( part, "CARGO" ) ) >= 0 ) {
         const auto items = veh->get_items( part );
         add_custom_items( items.begin(), items.end(), veh->parts[part].name(), [ veh, part ]( item *it ) {
-            return std::make_shared<item_location>( vehicle_cursor( *veh, part ), it );
+            return item_location( vehicle_cursor( *veh, part ), it );
         } );
     }
 }
