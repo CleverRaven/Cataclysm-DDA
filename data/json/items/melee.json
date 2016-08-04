@@ -1036,6 +1036,18 @@
         "qualities": [["CUT", 1], ["BUTCHER", 14]]
     },
     {
+        "id": "diamond_punch_dagger",
+        "copy-from": "punch_dagger",
+        "type": "GENERIC",
+        "name": "diamond punch dagger",
+        "description": "A double edged dagger made to be gripped in the palm, with the blade protruding between the fingers. The blade has been coated with diamond-like carbon and holds a wickedly sharp edge.",
+        "material": [ "steel", "diamond" ],
+        "proportional": {
+            "price": 1.5,
+            "cutting": 1.3
+        }
+    },
+    {
         "type":"GENERIC",
         "id" : "bagh_nakha",
         "name" : "tiger claws",
