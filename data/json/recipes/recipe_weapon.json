@@ -4645,8 +4645,6 @@
   ],
   "tools": [
     [
-      ["toolset", 7],
-      ["fire", -1],
       ["forge", 7],
       ["oxy_torch", 2]
       ]
