@@ -1037,6 +1037,23 @@
     },
     {
         "type":"GENERIC",
+        "id" : "diamond_punch_dagger",
+        "name" : "diamond punch dagger",
+        "description" : "A double edged dagger made to be gripped in the palm, with the blade protruding between the fingers. The blade has been coated with diamond-like carbon and holds a wickedly sharp edge.",
+        "weight" : 160,
+        "to_hit" : 2,
+        "color" : "cyan",
+        "symbol" : "{",
+        "material" : ["steel", "diamond"],
+        "volume" : 1,
+        "bashing" : 2,
+        "cutting" : 13,
+        "flags" : ["STAB", "UNARMED_WEAPON", "DURABLE_MELEE", "SHEATH_KNIFE"],
+        "price" : 15000,
+        "qualities": [["CUT", 1], ["BUTCHER", 18]]
+    },
+    {
+        "type":"GENERIC",
         "id" : "bagh_nakha",
         "name" : "tiger claws",
         "name_plural" : "tiger claws",
