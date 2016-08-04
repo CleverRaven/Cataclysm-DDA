@@ -508,42 +508,47 @@ void safemode::test_pattern( const int iTab, const int iRow )
         }
     }
 }
-/*
-bool safemode::has_rule(const std::string &sRule)
+
+void safemode::add_rule( const std::string &sRule, const int attMonster, const int iProxyDist,
+                         const rule_state state )
+{
+    vRules[CHARACTER_TAB].push_back( cRules( sRule, true, ( state == RULE_BLACKLISTED ) ? false : true,
+                                     attMonster, iProxyDist ) );
+    create_rules();
+
+    if( !OPTIONS["SAFEMODE"] &&
+        query_yn( _( "Safemode is not enabled in the options. Enable it now?" ) ) ) {
+        OPTIONS["SAFEMODE"].setNext();
+        get_options().save();
+    }
+}
+
+bool safemode::has_rule( const std::string &sRule, const int attMonster )
 {
     for( auto &elem : vRules[CHARACTER_TAB] ) {
-        if( sRule.length() == elem.sRule.length() && ci_find_substr( sRule, elem.sRule ) != -1 ) {
+        if( sRule.length() == elem.sRule.length()
+            && ci_find_substr( sRule, elem.sRule ) != -1
+            && elem.attCreature == attMonster ) {
             return true;
         }
     }
     return false;
 }
 
-void safemode::add_rule(const std::string &sRule)
-{
-    vRules[CHARACTER_TAB].push_back(cRules(sRule, true, false, Creature::A_HOSTILE, OPTIONS["SAFEMODEPROXIMITY"]));
-    create_rule(sRule);
-
-    if (!OPTIONS["SAFEMODE"] &&
-        query_yn(_("Safemode is not enabled in the options. Enable it now?")) ) {
-        OPTIONS["SAFEMODE"].setNext();
-        get_options().save();
-    }
-}
-
-void safemode::remove_rule(const std::string &sRule)
+void safemode::remove_rule( const std::string &sRule, const int attMonster )
 {
     for (auto it = vRules[CHARACTER_TAB].begin();
          it != vRules[CHARACTER_TAB].end(); ++it) {
-        if (sRule.length() == it->sRule.length() &&
-            ci_find_substr(sRule, it->sRule) != -1) {
-            vRules[CHARACTER_TAB].erase(it);
+        if( sRule.length() == it->sRule.length()
+            && ci_find_substr( sRule, it->sRule ) != -1
+            && it->attCreature == attMonster ) {
+            vRules[CHARACTER_TAB].erase( it );
             create_rules();
             break;
         }
     }
 }
-*/
+
 bool safemode::empty() const
 {
     for( int i = 0; i < MAX_TAB; i++ ) {
@@ -554,24 +559,7 @@ bool safemode::empty() const
 
     return true;
 }
-/*
-void safemode::create_rule( const std::string &to_match )
-{
-    for( int i = 0; i < MAX_TAB; i++ ) {
-        for( auto &elem : vRules[i] ) {
-            if( !elem.bExclude ) {
-                if( elem.bActive && wildcard_match( to_match, elem.sRule ) ) {
-                    map_monsters[ to_match ][ elem.attCreature ] = cRuleState(RULE_BLACKLISTED, elem.iProxyDist);
-                }
-            } else {
-                if( elem.bActive && wildcard_match( to_match, elem.sRule ) ) {
-                    map_monsters[ to_match ][ elem.attCreature ] = cRuleState(RULE_WHITELISTED, elem.iProxyDist);
-                }
-            }
-        }
-    }
-}
-*/
+
 void safemode::create_rules()
 {
     map_monsters.clear();

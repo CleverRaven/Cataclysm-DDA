@@ -88,11 +88,11 @@ class safemode : public JsonSerializer, public JsonDeserializer
         std::array<std::vector<cRules>, MAX_TAB> vRules;
 
     public:
-        bool has_rule( const std::string &sRule );
-        void add_rule( const std::string &sRule );
-        void remove_rule( const std::string &sRule );
+        bool has_rule( const std::string &sRule, const int attMonster );
+        void add_rule( const std::string &sRule, const int attMonster, const int iProxyDist,
+                       const rule_state state );
+        void remove_rule( const std::string &sRule, const int attMonster );
         void create_rules();
-        void create_rule( const std::string &to_match );
         void clear_character_rules();
         rule_state check_monster( const std::string &sMonsterName, const int attCreature,
                                   const int iDist ) const;
