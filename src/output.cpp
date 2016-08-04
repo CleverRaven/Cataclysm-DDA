@@ -1973,7 +1973,7 @@ get_hp_bar( const int cur_hp, const int max_hp, const bool is_mon )
            ( ratio >= 0.3 && !is_mon ) ? strings[7]  :
            ( ratio >= 0.2 )            ? strings[8]  :
            ( ratio >= 0.1 && !is_mon ) ? strings[9]  :
-           ( ratio >= 0.0 )            ? strings[10] : strings[11];
+           ( ratio >  0.0 )            ? strings[10] : strings[11];
 }
 
 std::pair<std::string, nc_color> const &get_light_level( const float light )
