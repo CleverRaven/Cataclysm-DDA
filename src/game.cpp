@@ -4167,8 +4167,7 @@ void game::debug()
 
                         if( bp_ptr != nullptr ) {
                             int value;
-                            bool got_value = query_int( value, "Set the stat to? Currently: %d", *bp_ptr );
-                            if( got_value && value >= 0 ) {
+                            if( query_int( value, "Set the stat to? Currently: %d", *bp_ptr ) && value >= 0 ) {
                                 *bp_ptr = value;
                                 p.reset_stats();
                             }
@@ -4240,8 +4239,7 @@ void game::debug()
 
                         if( bp_ptr != nullptr ) {
                             int value;
-                            bool got_value = query_int( value, "Set the hitpoints to? Currently: %d", *bp_ptr );
-                            if( got_value && value >= 0 ) {
+                            if( query_int( value, "Set the hitpoints to? Currently: %d", *bp_ptr ) && value >= 0 ) {
                                 *bp_ptr = value;
                                 p.reset_stats();
                             }
@@ -4250,8 +4248,7 @@ void game::debug()
                     break;
                     case D_PAIN: {
                         int value;
-                        bool got_value = query_int( value, "Cause how much pain? pain: %d", p.get_pain() );
-                        if( got_value ) {
+                        if( query_int( value, "Cause how much pain? pain: %d", p.get_pain() ) ) {
                             p.mod_pain( value );
                         }
                     }
@@ -4276,22 +4273,19 @@ void game::debug()
                             int value;
                             bool got_value;
                             case 0:
-                                got_value = query_int( value, "Set hunger to? Currently: %d", p.get_hunger() );
-                                if( got_value ) {
+                                if( query_int( value, "Set hunger to? Currently: %d", p.get_hunger() ) ) {
                                     p.set_hunger( value );
                                 }
                                 break;
 
                             case 1:
-                                got_value = query_int( value, "Set thirst to? Currently: %d", p.get_thirst() );
-                                if( got_value ) {
+                                if( query_int( value, "Set thirst to? Currently: %d", p.get_thirst() ) ) {
                                     p.set_hunger( value );
                                 }
                                 break;
 
                             case 2:
-                                got_value = query_int( value, "Set fatigue to? Currently: %d", p.get_fatigue() );
-                                if( got_value ) {
+                                if( query_int( value, "Set fatigue to? Currently: %d", p.get_fatigue() ) ) {
                                     p.set_hunger( value );
                                 }
                                 break;
@@ -4299,9 +4293,8 @@ void game::debug()
                             default:
                                 if( smenu.ret > 2 && smenu.ret < static_cast<int>( vits.size() + 3 ) ) {
                                     auto iter = std::next( vits.begin(), smenu.ret - 3 );
-                                    got_value = query_int( value, "Set %s to? Currently: %d",
-                                        iter->second.name().c_str(), p.vitamin_get( iter->first ) );
-                                    if( got_value ) {
+                                    if( query_int( value, "Set %s to? Currently: %d",
+                                        iter->second.name().c_str(), p.vitamin_get( iter->first ) ) ) {
                                         p.vitamin_set( iter->first, value );
                                     }
                                 }
@@ -4324,14 +4317,12 @@ void game::debug()
                             int value;
                             bool got_value;
                             case 0:
-                                got_value = query_int( value, "Set the value to? Currently: %d", p.get_healthy() );
-                                if( got_value ) {
+                                if( query_int( value, "Set the value to? Currently: %d", p.get_healthy() ) ) {
                                     p.set_healthy( value );
                                 }
                                 break;
                             case 1:
-                                got_value = query_int( value, "Set the value to? Currently: %d", p.get_healthy_mod() );
-                                if( got_value ) {
+                                if( query_int( value, "Set the value to? Currently: %d", p.get_healthy_mod() ) ) {
                                     p.set_healthy_mod( value );
                                 }
                                 break;
@@ -4455,8 +4446,7 @@ void game::debug()
         // Damage Self
         case 22: {
             int dbg_damage;
-            bool got_value = query_int( dbg_damage, _( "Damage self for how much? hp: %d" ), u.hp_cur[hp_torso] );
-            if( got_value ) {
+            if( query_int( dbg_damage, _( "Damage self for how much? hp: %d" ), u.hp_cur[hp_torso] ) ) {
                 u.hp_cur[hp_torso] -= dbg_damage;
                 u.die( NULL );
                 draw_sidebar();
