@@ -2,6 +2,7 @@
 #include "translations.h"
 #include "rng.h"
 #include "generic_factory.h"
+#include "calendar.h"
 
 #include <algorithm>
 
@@ -259,8 +260,13 @@ void mission_type::load( JsonObject &jo )
     end = get_function<decltype(end)>( jo, "end", mission_function_map );
     fail = get_function<decltype(fail)>( jo, "fail", mission_function_map );
 
-    optional( jo, was_loaded, "deadline_low", deadline_low );
-    optional( jo, was_loaded, "deadline_high", deadline_high );
+    if( jo.has_int( "deadline_low" ) ) {
+        deadline_low = DAYS( jo.get_int( "deadline_low" ) );
+    }
+
+    if( jo.has_int( "deadline_high" ) ) {
+        deadline_high = DAYS( jo.get_int( "deadline_high" ) );
+    }
 
     if( jo.has_member( "origins" ) ) {
         origins.clear();
