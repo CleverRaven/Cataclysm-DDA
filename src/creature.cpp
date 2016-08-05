@@ -1543,7 +1543,7 @@ void Creature::check_dead_state() {
     }
 }
 
-std::pair<std::string, nc_color> const &Creature::get_creature_attitude( Attitude att )
+std::pair<std::string, nc_color> const &Creature::get_attitude_ui_data( Attitude att )
 {
     using pair_t = std::pair<std::string, nc_color>;
     static std::array<pair_t, A_MAX+1> const strings {
@@ -1552,7 +1552,7 @@ std::pair<std::string, nc_color> const &Creature::get_creature_attitude( Attitud
             pair_t {_( "Neutral" ), h_white},
             pair_t {_( "Friendly" ), c_green},
             pair_t {_( "Any" ), c_yellow},
-            pair_t {_( "BUG: Behavior unnamed. (Creature::get_creature_attitude)" ), h_red}
+            pair_t {_( "BUG: Behavior unnamed. (Creature::get_attitude_ui_data)" ), h_red}
         }
     };
 

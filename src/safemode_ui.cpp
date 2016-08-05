@@ -207,7 +207,7 @@ void safemode::show( const std::string &custom_name, bool is_safemode )
                          "%s", ( ( vRules[iTab][i].sRule == "" ) ? _( "<empty rule>" ) : vRules[iTab][i].sRule ).c_str()
                        );
 
-                auto attCreature = Creature::get_creature_attitude( ( Creature::Attitude )
+                auto attCreature = Creature::get_attitude_ui_data( ( Creature::Attitude )
                                    vRules[iTab][i].attCreature );
                 mvwprintz( w, i - iStartPos, mapPos[col_Attitude] + 2,
                            ( iLine == i && iColumn == col_Attitude ) ? hilite( cLineColor ) : cLineColor,
