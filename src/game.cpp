@@ -11624,7 +11624,7 @@ bool game::check_safe_mode_allowed( bool repeat_safe_mode_warnings )
     std::string spotted_creature_name;
     if( new_seen_mon.empty() ) {
         // naming consistent with code in game::mon_info
-        spotted_creature_name = _( "a hostile survivor" );
+        spotted_creature_name = _( "a survivor" );
         get_safemode().whitelist = "human";
     } else {
         spotted_creature_name = zombie( new_seen_mon.back() ).name();
