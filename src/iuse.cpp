@@ -4041,6 +4041,7 @@ int iuse::portal(player *p, item *it, bool, const tripoint& )
 int iuse::tazer(player *p, item *it, bool, const tripoint &pos )
 {
     if( !it->ammo_sufficient() ) {
+        p->add_msg_if_player( m_info, _("Insufficient power") );
         return 0;
     }
 
@@ -4107,17 +4108,11 @@ int iuse::tazer(player *p, item *it, bool, const tripoint &pos )
 
 int iuse::tazer2(player *p, item *it, bool b, const tripoint &pos )
 {
-    if( it->ammo_remaining() >= 100 ) {
-        // Instead of having a ctrl+c+v of the function above, spawn a fake tazer and use it
-        // Ugly, but less so than copied blocks
-        item fake( "tazer", 0 );
-        fake.charges = 100;
-        return tazer( p, &fake, b, pos );
-    } else {
-        p->add_msg_if_player( m_info, _("Insufficient power") );
-    }
-
-    return 0;
+    // Instead of having a ctrl+c+v of the function above, spawn a fake tazer and use it
+    // Ugly, but less so than copied blocks
+    item fake( "tazer", 0 );
+    fake.charges = std::min(it->charges, fake.ammo_capacity());
+    return tazer( p, &fake, b, pos );
 }
 
 int iuse::shocktonfa_off(player *p, item *it, bool t, const tripoint &pos)
