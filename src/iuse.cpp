@@ -3079,7 +3079,7 @@ int iuse::dig(player *p, item *it, bool, const tripoint &pos )
             bonus *= bonus;
 
             // @todo: This should be converted to an activity, with a move cost of 5000/(bonus*bonus)
-            p->mod_moves( -100 );
+            p->mod_moves( -500 );
             p->mod_hunger ( 10 / bonus );
             p->mod_thirst ( 10 / bonus );
 
