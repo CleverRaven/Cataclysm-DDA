@@ -11,7 +11,7 @@
 #include "debug.h"
 #include "cursesdef.h"
 #include "text_snippets.h"
-#include "material.h"
+#include "material.ch"
 #include "item_factory.h"
 #include "projectile.h"
 #include "item_group.h"
@@ -706,9 +706,9 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
                                       attack_time(), true, "", true, true ) );
                                       
             if( !conductive () ) { 
-                info.push_back( iteminfo( "BASE", string_format( _( "* This weapon does not conduct electricity." ) ) ) );
+                info.push_back( iteminfo( "BASE", string_format( _( "* This weapon <info>does not conduct</info> electricity." ) ) ) );
             } else { 
-                    info.push_back( iteminfo( "BASE", string_format( _( "* This weapon conducts electricity." ) ) ) );
+                    info.push_back( iteminfo( "BASE", string_format( _( "* This weapon <info>conducts</info> electricity." ) ) ) );
             }
         }
         
