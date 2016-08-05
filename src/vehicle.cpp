@@ -4987,7 +4987,7 @@ bool vehicle::is_full(const int part, const int addvolume, const int addnumber) 
 
 }
 
-bool vehicle::add_item (int part, item itm)
+bool vehicle::add_item( int part, const item &itm )
 {
     const int max_storage = MAX_ITEM_IN_VEHICLE_STORAGE; // (game.h)
     const int maxvolume = this->max_volume(part);         // (game.h => vehicle::max_volume(part) ) in theory this could differ per vpart ( seat vs trunk )
@@ -5026,6 +5026,16 @@ bool vehicle::add_item (int part, item itm)
     }
 
     return add_item_at( part, parts[part].items.end(), itm );
+}
+
+bool vehicle::add_item( vehicle_part &pt, const item &obj )
+{
+    int idx = index_of_part( &pt );
+    if( idx < 0 ) {
+        debugmsg( "Tried to add item to invalid part" );
+        return false;
+    }
+    return add_item( idx, obj );
 }
 
 bool vehicle::add_item_at(int part, std::list<item>::iterator index, item itm)

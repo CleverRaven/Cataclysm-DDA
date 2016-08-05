@@ -1523,12 +1523,25 @@ static void cycle_action( item& weap, const tripoint &pos ) {
     } ), tiles.end() );
     tripoint eject = tiles.empty() ? pos : random_entry( tiles );
 
+    // for turrets try and drop casings or linkages directly to any CARGO part on the same tile
+    auto veh = g->m.veh_at( pos );
+    std::vector<vehicle_part *> cargo;
+    if( veh && weap.has_flag( "VEHICLE" ) ) {
+        cargo = veh->get_parts( pos, "CARGO" );
+    }
+
     if( weap.ammo_data() && weap.ammo_data()->ammo->casing != "null" ) {
         if( weap.has_flag( "RELOAD_EJECT" ) || weap.gunmod_find( "brass_catcher" ) ) {
             weap.emplace_back( weap.ammo_data()->ammo->casing, calendar::turn, 1 );
 
         } else {
-            g->m.add_item_or_charges( eject, item( weap.ammo_data()->ammo->casing, calendar::turn, 1 ) );
+            item casing( weap.ammo_data()->ammo->casing, calendar::turn, 1 );
+            if( cargo.empty() ) {
+                g->m.add_item_or_charges( eject, casing );
+            } else {
+                veh->add_item( *cargo.front(), casing );
+            }
+
             sfx::play_variant_sound( "fire_gun", "brass_eject", sfx::get_heard_volume( eject ),
                                      sfx::get_heard_angle( eject ) );
         }
@@ -1537,7 +1550,12 @@ static void cycle_action( item& weap, const tripoint &pos ) {
     // some magazines also eject disintegrating linkages
     const auto mag = weap.magazine_current();
     if( mag && mag->type->magazine->linkage != "NULL" ) {
-        g->m.add_item_or_charges( eject, item( mag->type->magazine->linkage, calendar::turn, 1 ) );
+        item linkage( mag->type->magazine->linkage, calendar::turn, 1 );
+        if( cargo.empty() ) {
+            g->m.add_item_or_charges( eject, linkage );
+        } else {
+            veh->add_item( *cargo.front(), linkage );
+        }
     }
 }
 
