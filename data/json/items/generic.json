@@ -513,8 +513,7 @@
         "weight": 2340,
         "volume": 4,
         "bashing": 4,
-        "ammo_type" : "components",
-        "count" : 1
+        "ammo_type" : "components"
         },
     {
         "type":"GENERIC",
@@ -1928,8 +1927,7 @@
         "weight": 2340,
         "volume": 4,
         "bashing": 4,
-        "ammo_type" : "components",
-        "count" : 1
+        "ammo_type" : "components"
     },
     {
         "type":"GENERIC",
@@ -2014,10 +2012,6 @@
         "volume" : 5,
         "weight" : 10,
         "ammo_type" : "NULL",
-        "damage" : 0,
-        "range" : 0,
-        "dispersion" : 0,
-        "recoil" : 0,
         "count" : 100
     },
     {   "type" : "AMMO",
@@ -2033,10 +2027,6 @@
         "volume" : 5,
         "weight" : 10,
         "ammo_type" : "NULL",
-        "damage" : 0,
-        "range" : 0,
-        "dispersion" : 0,
-        "recoil" : 0,
         "count" : 100
     },
     {   "type" : "AMMO",
@@ -2052,10 +2042,6 @@
         "volume" : 5,
         "weight" : 10,
         "ammo_type" : "NULL",
-        "damage" : 0,
-        "range" : 0,
-        "dispersion" : 0,
-        "recoil" : 0,
         "count" : 100
     },
     {   "type" : "AMMO",
@@ -2071,10 +2057,6 @@
         "volume" : 5,
         "weight" : 10,
         "ammo_type" : "NULL",
-        "damage" : 0,
-        "range" : 0,
-        "dispersion" : 0,
-        "recoil" : 0,
         "count" : 100
     },
     {   "type" : "AMMO",
@@ -2090,10 +2072,6 @@
         "volume" : 5,
         "weight" : 10,
         "ammo_type" : "NULL",
-        "damage" : 0,
-        "range" : 0,
-        "dispersion" : 0,
-        "recoil" : 0,
         "count" : 100
     },
     {   "type" : "AMMO",
@@ -2109,10 +2087,6 @@
         "volume" : 5,
         "weight" : 10,
         "ammo_type" : "NULL",
-        "damage" : 0,
-        "range" : 0,
-        "dispersion" : 0,
-        "recoil" : 0,
         "count" : 100
     },
     {   "type" : "AMMO",
@@ -2127,10 +2101,6 @@
         "volume" : 7,
         "weight" : 45,
         "ammo_type" : "NULL",
-        "damage" : 0,
-        "range" : 0,
-        "dispersion" : 0,
-        "recoil" : 0,
         "count" : 5
     },
     {   "type" : "AMMO",
@@ -2145,10 +2115,6 @@
         "volume" : 7,
         "weight" : 45,
         "ammo_type" : "NULL",
-        "damage" : 0,
-        "range" : 0,
-        "dispersion" : 0,
-        "recoil" : 0,
         "count" : 5
     },
     {   "type" : "AMMO",
@@ -2163,10 +2129,6 @@
         "volume" : 7,
         "weight" : 45,
         "ammo_type" : "NULL",
-        "damage" : 0,
-        "range" : 0,
-        "dispersion" : 0,
-        "recoil" : 0,
         "count" : 5
     },
     {   "type" : "AMMO",
@@ -2181,10 +2143,6 @@
         "volume" : 7,
         "weight" : 45,
         "ammo_type" : "NULL",
-        "damage" : 0,
-        "range" : 0,
-        "dispersion" : 0,
-        "recoil" : 0,
         "count" : 5
     },
     {

@@ -208,7 +208,6 @@
       "damage" : 30,
       "pierce" : 5,
       "range" : 20,
-      "dispersion" : -50,
       "recoil" : 0,
       "count" : 6,
       "effects" : ["RECOVER_3", "NEVER_MISFIRES"]

@@ -336,10 +336,6 @@
       "weight" : 1,
       "bashing" : 1,
       "ammo_type" : "components",
-      "damage" : 0,
-      "range" : 0,
-      "dispersion" : 0,
-      "recoil" : 0,
       "count" : 10,
       "stack_size" : 100
    },
@@ -398,7 +394,6 @@
     "dispersion": 10,
     "sight_dispersion": 60,
     "aim_speed" : 6,
-    "recoil": 0,
     "durability": 8,
     "reload": 0,
     "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
@@ -474,7 +469,6 @@
         "dispersion": 75,
         "sight_dispersion": 150,
         "aim_speed" : 0,
-        "recoil": 0,
         "durability": 7,
         "clip_size": 1,
         "reload": 100
