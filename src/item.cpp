@@ -704,6 +704,12 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
                                       type->m_to_hit, true, "" ) );
             info.push_back( iteminfo( "BASE", _( "Moves per attack: " ), "",
                                       attack_time(), true, "", true, true ) );
+
+            if( !conductive () ) { 
+                info.push_back( iteminfo( "BASE", string_format( _( "* This weapon <good>does not conduct</good> electricity." ) ) ) );
+            } else { 
+                info.push_back( iteminfo( "BASE", string_format( _( "* This weapon <bad>conducts</bad> electricity." ) ) ) );
+            }
         }
 
         insert_separation_line();
@@ -3367,17 +3373,23 @@ bool item::made_of(phase_id phase) const
 
 bool item::conductive() const
 {
-    if (is_null()) {
+    if( is_null() ) {
+        return false;
+    }
+    
+    if( has_flag( "CONDUCTIVE" ) ) {  
+        return true;
+    }
+
+    if( has_flag( "NONCONDUCTIVE" ) ) {  
         return false;
     }
 
-    // If any material does not resist electricity we are conductive.
-    for (auto mat : made_of_types()) {
-        if (mat->elec_resist() <= 0) {
-            return true;
-        }
-    }
-    return false;
+    // If any material has electricity resistance equal to or lower than flesh (1) we are conductive.
+    const auto mats = made_of_types();
+    return std::any_of( mats.begin(), mats.end(), []( const material_type *mt ) {
+        return mt->elec_resist() <= 1;
+    } );
 }
 
 bool item::destroyed_at_zero_charges() const
