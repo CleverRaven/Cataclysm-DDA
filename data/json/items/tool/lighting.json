@@ -162,7 +162,7 @@
     "type": "TOOL",
     "name": "acetylene lamp (off)",
     "name_plural": "acetylene lamps (off)",
-    "description": "An antique brass lamp designed to run from a pressurised cylinder of acetylene.  It is an efficient, if not somewhat dangerous light source.",
+    "description": "An antique brass lamp designed to run from a pressurized cylinder of acetylene.  It is an efficient, if not somewhat dangerous light source.",
     "weight": 800,
     "volume": 2,
     "price": 6500,

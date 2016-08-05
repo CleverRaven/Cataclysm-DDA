@@ -31,7 +31,7 @@
     "id": "bayonet",
     "type": "GUNMOD",
     "name": "bayonet",
-    "description": "A bayonet is a stabbing weapon that can be attached to the front of a shotgun, submachinegun or rifle, allowing a melee attack to deal piercing damage.",
+    "description": "A bayonet is a stabbing weapon that can be attached to the front of a shotgun, submachine gun or rifle, allowing a melee attack to deal piercing damage.",
     "weight": 387,
     "volume": 2,
     "price": 4000,
