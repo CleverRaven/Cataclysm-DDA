@@ -348,15 +348,6 @@ void explosion_iuse::info( const item &, std::vector<iteminfo> &dump ) const
     }
 
     dump.emplace_back( "TOOL", _( "Power at <bold>epicenter</bold>: " ), "", explosion.power );
-    int half_range = std::ceil( explosion.expected_range( 0.5f ) );
-    int safe_range = std::ceil( explosion.expected_range( 0.05f ) );
-    dump.emplace_back( "TOOL", string_format( _( "Power at <bold>%d</bold> tiles: " ), half_range ), "",
-                       explosion.power_at_range( half_range ) );
-    if( half_range != safe_range ) {
-        dump.emplace_back( "TOOL", string_format( _( "Power at <bold>%d</bold> tiles: " ), safe_range ), "",
-                           explosion.power_at_range( safe_range ) );
-    }
-
     const auto &sd = explosion.shrapnel;
     if( sd.count > 0 ) {
         dump.emplace_back( "TOOL", _( "Shrapnel <bold>count</bold>: " ), "", sd.count );
