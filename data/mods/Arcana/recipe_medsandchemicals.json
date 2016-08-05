@@ -24,6 +24,7 @@
     [
       [ "chem_ethanol", 1 ],
       [ "denat_alcohol", 1 ],
+      [ "mixed_alcohol_strong", 2 ],
       [ "vodka", 2 ],
       [ "rum", 2 ],
       [ "whiskey", 2 ],
@@ -67,6 +68,7 @@
     [
       [ "chem_ethanol", 1 ],
       [ "denat_alcohol", 1 ],
+      [ "mixed_alcohol_strong", 2 ],
       [ "vodka", 2 ],
       [ "rum", 2 ],
       [ "whiskey", 2 ],
@@ -111,6 +113,7 @@
     [
       [ "chem_ethanol", 1 ],
       [ "denat_alcohol", 1 ],
+      [ "mixed_alcohol_strong", 2 ],
       [ "vodka", 2 ],
       [ "rum", 2 ],
       [ "whiskey", 2 ],
@@ -159,6 +162,7 @@
     [
       [ "chem_ethanol", 1 ],
       [ "denat_alcohol", 1 ],
+      [ "mixed_alcohol_strong", 2 ],
       [ "vodka", 2 ],
       [ "rum", 2 ],
       [ "whiskey", 2 ],
