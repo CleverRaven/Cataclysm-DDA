@@ -1369,7 +1369,7 @@ void veh_interact::display_contents()
     }
     
     werase( w_list );
-    
+
     int y = 0;
     for( int idx : parts_here ) {
         auto &pt = veh->parts[ idx ];
