@@ -16,7 +16,7 @@
 #include <numeric>
 
 damage_instance::damage_instance() { }
-damage_instance damage_instance::physical( float bash, float cut, float stab, int arpen )
+damage_instance damage_instance::physical( float bash, float cut, float stab, float arpen )
 {
     damage_instance d;
     d.add_damage( DT_BASH, bash, arpen );
@@ -24,21 +24,27 @@ damage_instance damage_instance::physical( float bash, float cut, float stab, in
     d.add_damage( DT_STAB, stab, arpen );
     return d;
 }
-damage_instance::damage_instance( damage_type dt, float a, int rp, float rm, float mul )
+damage_instance::damage_instance( damage_type dt, float a, float rp, float rm, float mul )
 {
     add_damage( dt, a, rp, rm, mul );
 }
 
-void damage_instance::add_damage( damage_type dt, float a, int rp, float rm, float mul )
+void damage_instance::add_damage( damage_type dt, float a, float rp, float rm, float mul )
 {
     damage_unit du( dt, a, rp, rm, mul );
     damage_units.push_back( du );
 }
 
-void damage_instance::mult_damage( double multiplier )
+void damage_instance::mult_damage( double multiplier, bool pre_armor )
 {
-    for( auto &elem : damage_units ) {
-        elem.damage_multiplier *= multiplier;
+    if( pre_armor ) {
+        for( auto &elem : damage_units ) {
+            elem.amount *= multiplier;
+        }
+    } else {
+        for( auto &elem : damage_units ) {
+            elem.damage_multiplier *= multiplier;
+        }
     }
 }
 float damage_instance::type_damage( damage_type dt ) const
@@ -63,6 +69,29 @@ float damage_instance::total_damage() const
 void damage_instance::clear()
 {
     damage_units.clear();
+}
+
+bool damage_instance::empty() const
+{
+    return damage_units.empty();
+}
+
+void damage_instance::add( const damage_instance &b )
+{
+    for( auto &added_du : b.damage_units ) {
+        auto iter = std::find_if( damage_units.begin(), damage_units.end(),
+        [&added_du]( const damage_unit &du ) {
+            return du.type == added_du.type;
+        } );
+        if( iter == damage_units.end() ) {
+            damage_units.emplace_back( added_du );
+        } else {
+            damage_unit &du = *iter;
+            float mult = added_du.damage_multiplier / du.damage_multiplier;
+            du.amount += added_du.amount * mult;
+            du.res_pen += added_du.res_pen * mult;
+        }
+    }
 }
 
 dealt_damage_instance::dealt_damage_instance()

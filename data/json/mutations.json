@@ -1135,7 +1135,32 @@
         "description" : "Your teeth have grown into two-inch-long fangs, allowing you to make an extra attack when conditions favor it.",
         "cancels" : ["BEAK", "BEAK_HUM", "BEAK_PECK"],
         "changes_to" : ["SABER_TEETH"],
-        "category" : ["MUTCAT_LIZARD", "MUTCAT_FISH", "MUTCAT_LUPINE", "MUTCAT_FELINE", "MUTCAT_CHIMERA"]
+        "category" : ["MUTCAT_LIZARD", "MUTCAT_FISH", "MUTCAT_LUPINE", "MUTCAT_FELINE", "MUTCAT_CHIMERA"],
+        "attacks" : [
+            {
+                "attack_text_u" : "You sink your fangs into %s",
+                "attack_text_npc" : "%1$s sinks their fangs into %2$s",
+                "blocker_mutations" : [ "MUZZLE", "MUZZLE_LONG", "MUZZLE_RAT" ],
+                "body_part" : "MOUTH",
+                "chance" : 20,
+                "base_damage" : { "damage_type" : "stab", "amount" : 20 }
+            },
+            {
+                "required_mutations" : [ "MUZZLE" ],
+                "blocker_mutations" : [ "MUZZLE_LONG", "MUZZLE_RAT" ],
+                "chance" : 18
+            },
+            {
+                "required_mutations" : [ "MUZZLE_LONG" ],
+                "blocker_mutations" : [ "MUZZLE", "MUZZLE_RAT" ],
+                "chance" : 15
+            },
+            {
+                "required_mutations" : [ "MUZZLE_RAT" ],
+                "blocker_mutations" : [ "MUZZLE", "MUZZLE_RAT", "MUZZLE_LONG" ],
+                "chance" : 19
+            }
+        ]
     },{
         "type" : "mutation",
         "id" : "INCISORS",
@@ -2240,7 +2265,17 @@
         "cancels" : ["BEAK", "BEAK_HUM", "BEAK_PECK", "PROBOSCIS", "MANDIBLES", "MUZZLE_LONG", "MUZZLE", "MINOTAUR"],
         "category" : ["MUTCAT_FELINE", "MUTCAT_CHIMERA"],
         "restricts_gear" : [ "MOUTH" ],
-        "destroys_gear" : true
+        "destroys_gear" : true,
+        "attacks" : [
+            {
+                "attack_text_u" : "You tear into %s with your saber teeth",
+                "attack_text_npc" : "%1$s tears into %2$s with their saber teeth",
+                "body_part" : "MOUTH",
+                "chance" : 20,
+                "base_damage" : { "damage_type" : "stab", "amount" : 25 },
+                "strength_damage" : { "damage_type" : "stab", "amount" : 1 }
+            }
+        ]
     },{
         "type" : "mutation",
         "id" : "EATHEALTH",
@@ -3809,7 +3844,16 @@
             { "part" : "MOUTH", "ignored" : 2 }
         ],
         "restricts_gear" : [ "MOUTH" ],
-        "destroys_gear" : true
+        "destroys_gear" : true,
+        "attacks": [
+            {
+                "attack_text_u" : "You jackhammer into %s with your beak",
+                "attack_text_npc" : "%1$s jackhammer into %2$s with their beak",
+                "body_part" : "MOUTH",
+                "chance" : 15,
+                "hardcoded_effect" : true
+            }
+        ]
     },{
         "type" : "mutation",
         "id" : "BEAK_HUM",
@@ -4035,7 +4079,15 @@
         "prereqs2" : ["VINES1"],
         "cancels" : ["WINGS_BAT", "WINGS_INSECT", "WINGS_BIRD", "WINGS_STUB", "WINGS_BUTTERFLY"],
         "changes_to" : ["VINES3"],
-        "category" : ["MUTCAT_PLANT"]
+        "category" : ["MUTCAT_PLANT"],
+        "attacks": [
+            {
+                "attack_text_u" : "You lash %s with a vine",
+                "attack_text_npc" : "%1$s lashes %2$s with their vines",
+                "chance" : 1,
+                "hardcoded_effect" : true
+            }
+        ]
     },{
         "type" : "mutation",
         "id" : "VINES3",
@@ -4053,7 +4105,16 @@
         "cost"       :    10,
         "time"       :    0,
         "hunger"     :    true,
-        "thirst"     :    true
+        "thirst"     :    true,
+        "attacks": [
+            {
+                "attack_text_u" : "You lash %s with a vine",
+                "attack_text_npc" : "%1$s lashes %2$s with their vines",
+                "chance" : 1,
+                "chance_active" : 1,
+                "hardcoded_effect" : true
+            }
+        ]
     },{
         "type" : "mutation",
         "id" : "ROOTS1",
@@ -4313,6 +4374,20 @@
             { "part" : "ARM_R", "neutral" : 19 },
             { "part" : "HAND_L", "neutral" : 5 },
             { "part" : "HAND_R", "neutral" : 5 }
+        ],
+        "attacks": [
+            {
+                "attack_text_u" : "You slap %s with your tentacle",
+                "attack_text_npc" : "%1$s slaps %2$s with their tentacle",
+                "blocker_mutations" : [ "CLAWS_TENTACLE" ],
+                "chance" : 1,
+                "hardcoded_effect" : true
+            },
+            {
+                "attack_text_u" : "You rake %s with your tentacle",
+                "attack_text_npc" : "%1$s rakes %2$s with their tentacle",
+                "required_mutations" : [ "CLAWS_TENTACLE" ]
+            }
         ]
     },{
         "type" : "mutation",
