@@ -407,6 +407,17 @@ submap *mapbuffer::unserialize_submaps( const tripoint &p )
     }
 
     JsonIn jsin( fin );
+    deserialize( jsin );
+    if( submaps.count( p ) == 0 ) {
+        debugmsg("file %s did not contain the expected submap %d,%d,%d", quad_path.str().c_str(), p.x, p.y,
+                 p.z);
+        return NULL;
+    }
+    return submaps[ p ];
+}
+
+void mapbuffer::deserialize( JsonIn &jsin )
+{
     jsin.start_array();
     while( !jsin.end_array() ) {
         std::unique_ptr<submap> sm(new submap());
@@ -606,10 +617,4 @@ submap *mapbuffer::unserialize_submaps( const tripoint &p )
                       submap_coordinates.z );
         }
     }
-    if( submaps.count( p ) == 0 ) {
-        debugmsg("file %s did not contain the expected submap %d,%d,%d", quad_path.str().c_str(), p.x, p.y,
-                 p.z);
-        return NULL;
-    }
-    return submaps[ p ];
 }
