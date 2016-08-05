@@ -1367,7 +1367,7 @@ void veh_interact::display_contents()
     werase( w_list );
     
     if( parts_here.empty() ) {
-        wrefresh(w_grid);
+        wrefresh( w_list );
         return;
     }
 
