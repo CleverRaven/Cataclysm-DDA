@@ -1364,11 +1364,12 @@ void veh_interact::move_cursor (int dx, int dy)
 
 void veh_interact::display_contents()
 {
+    werase( w_list );
+    
     if( parts_here.empty() ) {
+        wrefresh(w_grid);
         return;
     }
-    
-    werase( w_list );
 
     int y = 0;
     for( int idx : parts_here ) {
