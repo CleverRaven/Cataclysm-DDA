@@ -5,6 +5,12 @@
 
 #include <functional>
 
+// xorshift1024* RNG
+void init_xorshift_rng( unsigned long long seed );
+unsigned long long rand_u64();
+long long rand_s64();
+int rand_s32();
+
 long rng( long val1, long val2 );
 double rng_float( double val1, double val2 );
 bool one_in( int chance );
@@ -17,7 +23,7 @@ int roll_remainder( double value );
 // Returns x/y + x_in_y( (x/y)-int(x/y), 1 )
 int divide_roll_remainder( double dividend, double divisor );
 
-int djb2_hash( const unsigned char *input );
+unsigned long long fnv1a_hash( const unsigned char *input );
 
 /**
  * Returns a random entry in the container.

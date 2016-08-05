@@ -90,7 +90,7 @@ int main(int argc, char *argv[])
                 [&seed](int num_args, const char **params) -> int {
                     if (num_args < 1) return -1;
                     const unsigned char *hash_input = (const unsigned char *) params[0];
-                    seed = djb2_hash(hash_input);
+                    seed = fnv1a_hash(hash_input) & 0x7FFFFFFF;
                     return 1;
                 }
             },
@@ -407,7 +407,7 @@ int main(int argc, char *argv[])
     // curs_set(0); // Invisible cursor
     set_escdelay(10); // Make escape actually responsive
 
-    std::srand(seed);
+	init_xorshift_rng( seed );
 
     g = new game;
     // First load and initialize everything that does not
