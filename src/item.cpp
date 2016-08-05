@@ -3365,22 +3365,22 @@ bool item::made_of(phase_id phase) const
 
 bool item::conductive() const
 {
-    if (is_null()) {
+    if(is_null()) {
         return false;
     }
     
-    if (has_flag( "CONDUCTIVE" ) ) {  
+    if(has_flag( "CONDUCTIVE" ) ) {  
         return true;
     }
 
-    if (has_flag( "NONCONDUCTIVE" ) ) {  
+    if(has_flag( "NONCONDUCTIVE" ) ) {  
         return false;
     }
 
     // If any material has electricity resistance equal to or lower than flesh (1) we are conductive.
     const auto mats = made_of_types();
-           return std::all_of( mats.begin(), mats.end(), []( const material_type *mt ) {
-               return mt->elec_resist() <= 1;
+        return std::all_of( mats.begin(), mats.end(), []( const material_type *mt ) {
+            return mt->elec_resist() <= 1;
     } );
 }
 
