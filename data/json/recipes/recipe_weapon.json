@@ -4662,35 +4662,6 @@
   ]
 },{
   "type" : "recipe",
-  "result": "sword_forged",
-  "category": "CC_WEAPON",
-  "subcategory": "CSC_WEAPON_CUTTING",
-  "skill_used": "fabrication",
-  "difficulty": 5,
-  "time": 240000,
-  "reversible": false,
-  "autolearn": true,
-  "qualities": [
-    {"id":"HAMMER","level":1,"amount":1}
-  ],
-  "tools": [
-    [
-      ["toolset", 7],
-      ["fire", -1],
-      ["forge", 7],
-      ["oxy_torch", 2]
-      ]
-  ],
-  "components": [
-    [
-      ["steel_lump", 6]
-    ],
-    [
-      ["scrap", 4]
-    ]
-  ]
-},{
-  "type" : "recipe",
   "result": "cutlass",
   "category": "CC_WEAPON",
   "subcategory": "CSC_WEAPON_CUTTING",
