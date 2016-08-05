@@ -10050,7 +10050,7 @@ int game::list_monsters(const int iLastState)
             const auto m = dynamic_cast<monster*>( cCurMon );
             const std::string monName = (m != nullptr) ? m->name() : "human";
 
-            get_safemode().add_rule(monName, Creature::A_ANY, OPTIONS["SAFEMODEPROXIMITY"], RULE_BLACKLISTED);
+            get_safemode().add_rule(monName, Creature::A_ANY, get_option<int>( "SAFEMODEPROXIMITY" ), RULE_BLACKLISTED);
         } else if (action == "look") {
             tripoint recentered = look_around();
             iLastActivePos = recentered;

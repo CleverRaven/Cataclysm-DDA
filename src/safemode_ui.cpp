@@ -154,8 +154,8 @@ void safemode::show( const std::string &custom_name, bool is_safemode )
         locx = 55;
         mvwprintz( w_header, 0, locx, c_white, _( "Safemode enabled:" ) );
         locx += shortcut_print( w_header, 1, locx,
-                                ( ( OPTIONS["SAFEMODE"] ) ? c_ltgreen : c_ltred ), c_white,
-                                ( ( OPTIONS["SAFEMODE"] ) ? _( "True" ) : _( "False" ) ) );
+                                ( ( get_option<bool>( "SAFEMODE" ) ) ? c_ltgreen : c_ltred ), c_white,
+                                ( ( get_option<bool>( "SAFEMODE" ) ) ? _( "True" ) : _( "False" ) ) );
         locx += shortcut_print( w_header, 1, locx, c_white, c_ltgreen, "  " );
         locx += shortcut_print( w_header, 1, locx, c_white, c_ltgreen, _( "<S>witch" ) );
         shortcut_print( w_header, 1, locx, c_white, c_ltgreen, "  " );
@@ -260,7 +260,7 @@ void safemode::show( const std::string &custom_name, bool is_safemode )
         } else if( action == "ADD_RULE" ) {
             bStuffChanged = true;
             vRules[iTab].push_back( cRules( "", true, false, Creature::A_HOSTILE,
-                                            OPTIONS["SAFEMODEPROXIMITY"] ) );
+                                            get_option<int>( "SAFEMODEPROXIMITY" ) ) );
             iLine = vRules[iTab].size() - 1;
         } else if( action == "REMOVE_RULE" && currentPageNonEmpty ) {
             bStuffChanged = true;
@@ -326,19 +326,19 @@ void safemode::show( const std::string &custom_name, bool is_safemode )
                 const auto text = string_input_popup( _( "Proximity Distance (0=max viewdistance)" ),
                                                       4,
                                                       to_string( vRules[iTab][iLine].iProxyDist ),
-                                                      _( "Option: " ) + OPTIONS["SAFEMODEPROXIMITY"].getValue() +
-                                                      " " + OPTIONS["SAFEMODEPROXIMITY"].getDefaultText(),
+                                                      _( "Option: " ) + to_string( get_option<int>( "SAFEMODEPROXIMITY" ) ) +
+                                                      " " + get_options().get_option( "SAFEMODEPROXIMITY" ).getDefaultText(),
                                                       "",
                                                       3,
                                                       true
                                                     );
                 if( text.empty() ) {
-                    vRules[iTab][iLine].iProxyDist = OPTIONS["SAFEMODEPROXIMITY"];
+                    vRules[iTab][iLine].iProxyDist = get_option<int>( "SAFEMODEPROXIMITY" );
                 } else {
                     //Let the options class handle the validity of the new value
-                    auto tempOption = OPTIONS["SAFEMODEPROXIMITY"];
+                    auto tempOption = get_options().get_option( "SAFEMODEPROXIMITY" );
                     tempOption.setValue( text.c_str() );
-                    vRules[iTab][iLine].iProxyDist = tempOption;
+                    vRules[iTab][iLine].iProxyDist = atoi( tempOption.getValue().c_str() );
                 }
             }
         } else if( action == "ENABLE_RULE" && currentPageNonEmpty ) {
@@ -376,7 +376,7 @@ void safemode::show( const std::string &custom_name, bool is_safemode )
         } else if( action == "TEST_RULE" && currentPageNonEmpty ) {
             test_pattern( iTab, iLine );
         } else if( action == "SWITCH_OPTION" ) {
-            OPTIONS["SAFEMODE"].setNext();
+            get_options().get_option( "SAFEMODE" ).setNext();
             get_options().save();
         }
     }
@@ -516,9 +516,9 @@ void safemode::add_rule( const std::string &sRule, const int attMonster, const i
                                      attMonster, iProxyDist ) );
     create_rules();
 
-    if( !OPTIONS["SAFEMODE"] &&
+    if( !get_option<bool>( "SAFEMODE" ) &&
         query_yn( _( "Safemode is not enabled in the options. Enable it now?" ) ) ) {
-        OPTIONS["SAFEMODE"].setNext();
+        get_options().get_option( "SAFEMODE" ).setNext();
         get_options().save();
     }
 }

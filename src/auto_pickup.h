@@ -13,13 +13,6 @@ class auto_pickup : public JsonSerializer, public JsonDeserializer
 {
     private:
         void test_pattern( const int iCurrentPage, const int iCurrentLine );
-        std::string trim_rule( const std::string &sPatternIn );
-        bool match( const std::string &sTextIn, const std::string &sPatternIn );
-        std::vector<std::string> &split( const std::string &s, char delim,
-                                         std::vector<std::string> &elems );
-        template<typename charT>
-        int ci_find_substr( const charT &str1, const charT &str2, const std::locale &loc = std::locale() );
-
         void load( const bool bCharacter );
         bool save( const bool bCharacter );
         bool load_legacy( const bool bCharacter );

@@ -807,10 +807,10 @@ void options_manager::init()
         0, 20, 0
         );
 
-    OPTIONS["AUTO_PICKUP_SAFEMODE"] = cOpt("general", _("Auto pickup safemode"),
-                                           _("Auto pickup is disabled as long as you can see monsters nearby. This is affected by 'Safemode proximity distance'."),
-                                           false
-                                          );
+    add("AUTO_PICKUP_SAFEMODE", "general", _("Auto pickup safemode"),
+        _("Auto pickup is disabled as long as you can see monsters nearby. This is affected by 'Safemode proximity distance'."),
+        false
+        );
 
     mOptionsSort["general"]++;
 
@@ -821,30 +821,30 @@ void options_manager::init()
 
     mOptionsSort["general"]++;
 
-    OPTIONS["AUTOSAFEMODE"] = cOpt("general", _("Auto-safemode"),
-                                   _("If true, turns safemode automatically back on after it being disabled beforehand. See option 'Turns to re-enable safemode'"),
-                                   false
-                                  );
+    add("AUTOSAFEMODE", "general", _("Auto-safemode"),
+        _("If true, turns safemode automatically back on after it being disabled beforehand. See option 'Turns to re-enable safemode'"),
+        false
+        );
 
-    OPTIONS["AUTOSAFEMODETURNS"] = cOpt("general", _("Turns to re-enable safemode"),
-                                        _("Number of turns after safemode is re-enabled if no hostiles are in 'Safemode proximity distance'."),
-                                        1, 100, 50
-                                       );
+    add("AUTOSAFEMODETURNS", "general", _("Turns to re-enable safemode"),
+        _("Number of turns after safemode is re-enabled if no hostiles are in 'Safemode proximity distance'."),
+        1, 100, 50
+        );
 
-    OPTIONS["SAFEMODE"] = cOpt("general", _("Safemode"),
-                               _("If true, will hold the game and display a warning if a hostile monster/npc is approaching."),
-                               true
-                              );
+    add("SAFEMODE", "general", _("Safemode"),
+        _("If true, will hold the game and display a warning if a hostile monster/npc is approaching."),
+        true
+        );
 
-    OPTIONS["SAFEMODEPROXIMITY"] = cOpt("general", _("Safemode proximity distance"),
-                                        _("If safemode is enabled, distance to hostiles at which safemode should show a warning. 0 = Max player viewdistance."),
-                                        0, 50, 0
-                                       );
+    add("SAFEMODEPROXIMITY", "general", _("Safemode proximity distance"),
+        _("If safemode is enabled, distance to hostiles at which safemode should show a warning. 0 = Max player viewdistance."),
+        0, 50, 0
+        );
 
-    OPTIONS["SAFEMODEVEH"] = cOpt("general", _("Safemode when driving"),
-                                  _("When true, safemode will alert you of hostiles while you are driving a vehicle."),
-                                  false
-                                 );
+    add("SAFEMODEVEH", "general", _("Safemode when driving"),
+        _("When true, safemode will alert you of hostiles while you are driving a vehicle."),
+        false
+        );
 
     mOptionsSort["general"]++;
 
