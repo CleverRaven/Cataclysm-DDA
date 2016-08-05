@@ -739,12 +739,12 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
             }, false );
             info.push_back( iteminfo( "BASE", string_format( _( "Material: %s" ), material_list.c_str() ) ) );
         }
-        if( is_weap() || is_tool() ){
+        if( damage_bash() > 0 || damage_cut() > 0 ){
             if( conductive () && !has_flag ( "CONDUCTIVE" ) ) { 
                 info.push_back( iteminfo( "BASE", string_format( _( "This weapon conducts electricity." ) ) ) );
             }
-            if( conductive () && has_flag ( "CONDUCTIVE" ) ) { 
-                info.push_back( iteminfo( "BASE", string_format( _( "This weapon has too poor of a guard to protect you from electricity." ) ) ) );
+            if( has_flag ( "CONDUCTIVE" ) ) { 
+                info.push_back( iteminfo( "BASE", string_format( _( "This non-conductive weapon has too poor of a guard to protect you from electricity." ) ) ) );
             }
             if( !conductive () ) { 
                 info.push_back( iteminfo( "BASE", string_format( _( "This weapon does not conduct electricity." ) ) ) );
