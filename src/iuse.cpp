@@ -3078,7 +3078,8 @@ int iuse::dig(player *p, item *it, bool, const tripoint &pos )
             int bonus = std::max( it->get_quality( quality_id( "DIG" ) ) - 1, 1 );
             bonus *= bonus;
 
-            p->moves -= 5000 / ( bonus * bonus );
+            // @todo: This should be converted to an activity, with a move cost of 5000/(bonus*bonus)
+            p->mod_moves( -100 );
             p->mod_hunger ( 10 / bonus );
             p->mod_thirst ( 10 / bonus );
 
