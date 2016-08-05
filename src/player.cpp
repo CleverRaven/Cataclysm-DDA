@@ -9025,11 +9025,11 @@ bool player::has_fire(const int quantity) const
         return true;
     } else if (has_charges("zweifire_on", quantity)) {
         return true;
-    } else if (has_active_bionic("bio_tools") && ( power_level > (quantity * 5) )) {
+    } else if (has_active_bionic("bio_tools") && power_level > quantity * 5 ) {
         return true;
-    } else if (has_bionic("bio_lighter") && ( power_level > (quantity * 5) )) {
+    } else if (has_bionic("bio_lighter") && power_level > quantity * 5 ) {
         return true;
-    } else if (has_bionic("bio_laser") && ( power_level > (quantity * 5) )) {
+    } else if (has_bionic("bio_laser") && power_level > quantity * 5 ) {
         return true;
     } else if( is_npc() ) {
         // A hack to make NPCs use their molotovs
@@ -9106,14 +9106,14 @@ void player::use_fire(const int quantity)
     } else if (has_charges("zweifire_off", quantity)) {
         use_charges("zweifire_off", quantity);
         return;
-    } else if (has_active_bionic("bio_tools") && ( power_level > (quantity * 5) )) {
-        charge_power( -(quantity * 5) );
+    } else if (has_active_bionic("bio_tools") && power_level > quantity * 5 ) {
+        charge_power( -quantity * 5 );
         return;
-    } else if (has_bionic("bio_lighter") && ( power_level > (quantity * 5) )) {
-        charge_power( -(quantity * 5) );
+    } else if (has_bionic("bio_lighter") && power_level > quantity * 5 ) {
+        charge_power( -quantity * 5 );
         return;
-    } else if (has_bionic("bio_laser") && ( power_level > (quantity * 5) )) {
-        charge_power( -(quantity * 5) );
+    } else if (has_bionic("bio_laser") && power_level > quantity * 5 ) {
+        charge_power( -quantity * 5 );
         return;
     }
 }
