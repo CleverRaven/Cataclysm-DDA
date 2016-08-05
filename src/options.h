@@ -183,8 +183,8 @@ class options_manager : public JsonSerializer, public JsonDeserializer
                   float fDefaultIn, float fStepIn,
                   copt_hide_t opt_hide = COPT_NO_HIDE );
 
-        private:
-            std::unordered_map<std::string, cOpt> global_options;
+    private:
+        std::unordered_map<std::string, cOpt> global_options;
 };
 
 bool use_narrow_sidebar(); // short-circuits to on if terminal is too small
