@@ -1364,7 +1364,7 @@ void veh_interact::move_cursor (int dx, int dy)
 
 void veh_interact::display_contents()
 {
-    if( parts_here.size() < 1 ) {
+    if( parts_here.empty() ) {
         return;
     }
     
