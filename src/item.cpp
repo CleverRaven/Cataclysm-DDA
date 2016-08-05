@@ -704,8 +704,14 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
                                       type->m_to_hit, true, "" ) );
             info.push_back( iteminfo( "BASE", _( "Moves per attack: " ), "",
                                       attack_time(), true, "", true, true ) );
+                                      
+            if( !conductive () ) { 
+                info.push_back( iteminfo( "BASE", string_format( _( "This weapon does not conduct electricity." ) ) ) );
+            } else { 
+                    info.push_back( iteminfo( "BASE", string_format( _( "This weapon conducts electricity." ) ) ) );
+            }
         }
-
+        
         insert_separation_line();
 
         // Display any minimal stat or skill requirements for the item
@@ -738,17 +744,6 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
                 return string_format( "<stat>%s</stat>", material->name().c_str() );
             }, false );
             info.push_back( iteminfo( "BASE", string_format( _( "Material: %s" ), material_list.c_str() ) ) );
-        }
-        if( damage_bash() > 0 || damage_cut() > 0 ){
-            if( conductive () && !has_flag ( "CONDUCTIVE" ) ) { 
-                info.push_back( iteminfo( "BASE", string_format( _( "This weapon conducts electricity." ) ) ) );
-            }
-            if( has_flag ( "CONDUCTIVE" ) ) { 
-                info.push_back( iteminfo( "BASE", string_format( _( "This non-conductive weapon has too poor of a guard to protect you from electricity." ) ) ) );
-            }
-            if( !conductive () ) { 
-                info.push_back( iteminfo( "BASE", string_format( _( "This weapon does not conduct electricity." ) ) ) );
-            }
         }
         if( has_var( "contained_name" ) ) {
             info.push_back( iteminfo( "BASE", string_format( _( "Contains: %s" ),
