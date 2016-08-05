@@ -11,7 +11,7 @@
 #include "debug.h"
 #include "cursesdef.h"
 #include "text_snippets.h"
-#include "material.ch"
+#include "material.h"
 #include "item_factory.h"
 #include "projectile.h"
 #include "item_group.h"
@@ -704,14 +704,14 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
                                       type->m_to_hit, true, "" ) );
             info.push_back( iteminfo( "BASE", _( "Moves per attack: " ), "",
                                       attack_time(), true, "", true, true ) );
-                                      
+
             if( !conductive () ) { 
                 info.push_back( iteminfo( "BASE", string_format( _( "* This weapon <good>does not conduct</good> electricity." ) ) ) );
             } else { 
                 info.push_back( iteminfo( "BASE", string_format( _( "* This weapon <bad>conducts</bad> electricity." ) ) ) );
             }
         }
-        
+
         insert_separation_line();
 
         // Display any minimal stat or skill requirements for the item
