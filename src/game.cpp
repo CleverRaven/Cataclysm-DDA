@@ -3162,6 +3162,7 @@ bool game::handle_action()
                 get_safemode().add_rule( get_safemode().whitelist, Creature::A_ANY, 0, RULE_WHITELISTED );
                 add_msg( m_info, string_format( _( "Creature whitelisted: %s" ), get_safemode().whitelist.c_str() ).c_str() );
                 set_safe_mode( SAFE_MODE_ON );
+                mostseen = 0;
             }
             break;
 
