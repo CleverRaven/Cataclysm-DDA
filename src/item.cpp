@@ -706,9 +706,9 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
                                       attack_time(), true, "", true, true ) );
                                       
             if( !conductive () ) { 
-                info.push_back( iteminfo( "BASE", string_format( _( "* This weapon <info>does not conduct</info> electricity." ) ) ) );
+                info.push_back( iteminfo( "BASE", string_format( _( "* This weapon <good>does not conduct</good> electricity." ) ) ) );
             } else { 
-                    info.push_back( iteminfo( "BASE", string_format( _( "* This weapon <info>conducts</info> electricity." ) ) ) );
+                info.push_back( iteminfo( "BASE", string_format( _( "* This weapon <bad>conducts</bad> electricity." ) ) ) );
             }
         }
         
@@ -3371,15 +3371,15 @@ bool item::made_of(phase_id phase) const
 
 bool item::conductive() const
 {
-    if(is_null()) {
+    if( is_null() ) {
         return false;
     }
     
-    if(has_flag ( "CONDUCTIVE" ) ) {  
+    if( has_flag( "CONDUCTIVE" ) ) {  
         return true;
     }
 
-    if(has_flag ( "NONCONDUCTIVE" ) ) {  
+    if( has_flag( "NONCONDUCTIVE" ) ) {  
         return false;
     }
 
