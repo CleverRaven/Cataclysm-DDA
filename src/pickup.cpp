@@ -19,7 +19,28 @@
 
 #include <map>
 #include <vector>
+#include <string>
 #include <cstring>
+
+typedef std::pair<item, int> ItemCount;
+typedef std::map<std::string, ItemCount> PickupMap;
+
+// Pickup helper functions
+static void pick_one_up( const tripoint &pickup_target, item &newit,
+                         vehicle *veh, int cargo_part, int index, int quantity,
+                         bool &got_water, bool &offered_swap,
+                         PickupMap &mapPickup, bool autopickup );
+
+typedef enum {
+    DONE, ITEMS_FROM_CARGO, ITEMS_FROM_GROUND,
+} interact_results;
+
+static interact_results interact_with_vehicle( vehicle *veh, const tripoint &vpos,
+        int veh_root_part );
+
+static void remove_from_map_or_vehicle( const tripoint &pos, vehicle *veh, int cargo_part,
+                                        int &moves_taken, int curmit );
+static void show_pickup_message( const PickupMap &mapPickup );
 
 struct pickup_count {
     bool pick = false;
@@ -30,8 +51,8 @@ struct pickup_count {
 };
 
 // Handles interactions with a vehicle in the examine menu.
-Pickup::interact_results Pickup::interact_with_vehicle( vehicle *veh, const tripoint &pos,
-        int veh_root_part )
+interact_results interact_with_vehicle( vehicle *veh, const tripoint &pos,
+                                        int veh_root_part )
 {
     if( veh == nullptr ) {
         return ITEMS_FROM_GROUND;
@@ -335,9 +356,9 @@ pickup_answer handle_problematic_pickup( const item &it, bool &offered_swap,
     return static_cast<pickup_answer>( choice );
 }
 
-void Pickup::pick_one_up( const tripoint &pickup_target, item &newit, vehicle *veh,
-                          int cargo_part, int index, int quantity, bool &got_water,
-                          bool &offered_swap, PickupMap &mapPickup, bool autopickup )
+void pick_one_up( const tripoint &pickup_target, item &newit, vehicle *veh,
+                  int cargo_part, int index, int quantity, bool &got_water,
+                  bool &offered_swap, PickupMap &mapPickup, bool autopickup )
 {
     player &u = g->u;
     int moves_taken = 100;
@@ -366,36 +387,6 @@ void Pickup::pick_one_up( const tripoint &pickup_target, item &newit, vehicle *v
         got_water = true;
     } else if( !u.can_pickWeight( newit, false ) ) {
         add_msg( m_info, _( "The %s is too heavy!" ), newit.display_name().c_str() );
-    } else if( newit.is_ammo() && ( newit.ammo_type() == ammotype( "arrow" ) ||
-                                    newit.ammo_type() == ammotype( "bolt" ) ) ) {
-        // @todo Make quiver code generic so that ammo pouches can use it too
-        //add ammo to quiver
-        int quivered = handle_quiver_insertion( newit, moves_taken, picked_up );
-
-        if( quivered > 0 ) {
-            quantity = quivered;
-            //already picked up some for quiver so use special case handling
-            picked_up = true;
-            option = NUM_ANSWERS;
-        }
-        if( newit.charges > 0 ) {
-            if( !u.can_pickVolume( newit ) ) {
-                if( !autopickup ) {
-                    // Silence some messaging if we're doing autopickup.
-                    add_msg( m_info, ngettext( "There's no room in your inventory for the %s.",
-                                               "There's no room in your inventory for the %s.",
-                                               newit.charges ), newit.tname( newit.charges ).c_str() );
-                }
-            } else {
-                // Add to inventory instead
-                option = STASH;
-            }
-        }
-        if( option == NUM_ANSWERS ) {
-            //not picking up the rest so
-            //update the charges for the item that gets re-added to the game map
-            leftovers.charges = newit.charges;
-        }
     } else if( newit.is_bucket() && !newit.is_container_empty() ) {
         if( !autopickup ) {
             const std::string &explain = string_format( _( "Can't stash %s while it's not empty" ),
@@ -459,7 +450,7 @@ void Pickup::pick_one_up( const tripoint &pickup_target, item &newit, vehicle *v
     }
 
     if( picked_up ) {
-        Pickup::remove_from_map_or_vehicle( pickup_target, veh, cargo_part, moves_taken, index );
+        remove_from_map_or_vehicle( pickup_target, veh, cargo_part, moves_taken, index );
     }
     if( leftovers.charges > 0 ) {
         bool to_map = veh == nullptr;
@@ -990,24 +981,9 @@ void Pickup::pick_up( const tripoint &pos, int min )
     g->reenter_fullscreen();
 }
 
-//helper function for Pickup::pick_up
-//return value is amount of ammo added to quiver
-int Pickup::handle_quiver_insertion( item &here, int &moves_to_decrement, bool &picked_up )
-{
-    //add ammo to quiver
-    int quivered = g->u.add_ammo_to_worn_quiver( here );
-    if( quivered > 0 ) {
-        moves_to_decrement = 0; //moves already decremented in player::add_ammo_to_worn_quiver()
-        picked_up = true;
-        return quivered;
-    }
-
-    return 0;
-}
-
 //helper function for Pickup::pick_up (singular item)
-void Pickup::remove_from_map_or_vehicle( const tripoint &pos, vehicle *veh, int cargo_part,
-        int &moves_taken, int curmit )
+void remove_from_map_or_vehicle( const tripoint &pos, vehicle *veh, int cargo_part,
+                                 int &moves_taken, int curmit )
 {
     if( veh != nullptr ) {
         veh->remove_item( cargo_part, curmit );
@@ -1018,7 +994,7 @@ void Pickup::remove_from_map_or_vehicle( const tripoint &pos, vehicle *veh, int 
 }
 
 //helper function for Pickup::pick_up
-void Pickup::show_pickup_message( const PickupMap &mapPickup )
+void show_pickup_message( const PickupMap &mapPickup )
 {
     for( auto &entry : mapPickup ) {
         if( entry.second.first.invlet != 0 ) {
