@@ -80,7 +80,7 @@ void damage_instance::add( const damage_instance &b )
 {
     for( auto &added_du : b.damage_units ) {
         auto iter = std::find_if( damage_units.begin(), damage_units.end(),
-        [&added_du]( const damage_unit &du ) {
+        [&added_du]( const damage_unit & du ) {
             return du.type == added_du.type;
         } );
         if( iter == damage_units.end() ) {

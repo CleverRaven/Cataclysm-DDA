@@ -49,8 +49,6 @@ struct mut_attack {
 
     // Chance to proc is one_in( chance - dex - unarmed )
     int chance = 0;
-    // When active, chance drops to this
-    int chance_active = 0;
 
     damage_instance base_damage;
     // Multiplied by strength and added to the above

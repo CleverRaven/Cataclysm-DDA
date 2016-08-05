@@ -912,7 +912,7 @@ bool monster::block_hit(Creature *, body_part &, damage_instance &) {
 
 void monster::absorb_hit(body_part, damage_instance &dam) {
     for( auto &elem : dam.damage_units ) {
-        add_msg(m_debug, "Dam Type: %s :: Ar Pen: %d :: Armor Mult: %f", name_by_dt(elem.type).c_str(), elem.res_pen, elem.res_mult);
+        add_msg(m_debug, "Dam Type: %s :: Ar Pen: %.1f :: Armor Mult: %.1f", name_by_dt(elem.type).c_str(), elem.res_pen, elem.res_mult);
         elem.amount -= std::min( resistances( *this ).get_effective_resist( elem ), elem.amount );
     }
 }

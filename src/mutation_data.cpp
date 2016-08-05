@@ -74,6 +74,53 @@ void load_mutation_category(JsonObject &jsobj)
     mutation_category_traits[id] = new_category;
 }
 
+static void load_mutation_attack( JsonObject &jo, mut_attack &last_mut_atk, mutation_branch &new_mut )
+{
+    jo.read( "attack_text_u", last_mut_atk.attack_text_u );
+    jo.read( "attack_text_npc", last_mut_atk.attack_text_npc );
+    jo.read( "required_mutations", last_mut_atk.required_mutations );
+    jo.read( "blocker_mutations", last_mut_atk.blocker_mutations );
+    jo.read( "hardcoded_effect", last_mut_atk.hardcoded_effect );
+
+    if( jo.has_string( "body_part" ) ) {
+        last_mut_atk.bp = get_body_part_token( jo.get_string( "body_part" ) );
+    }
+
+    jo.read( "chance", last_mut_atk.chance );
+
+    if( jo.has_array( "base_damage" ) ) {
+        JsonArray jo_dam = jo.get_array( "base_damage" );
+        last_mut_atk.base_damage = load_damage_instance( jo_dam );
+    } else if( jo.has_object( "base_damage" ) ) {
+        JsonObject jo_dam = jo.get_object( "base_damage" );
+        last_mut_atk.base_damage = load_damage_instance( jo_dam );
+    }
+
+    if( jo.has_array( "strength_damage" ) ) {
+        JsonArray jo_dam = jo.get_array( "strength_damage" );
+        last_mut_atk.strength_damage = load_damage_instance( jo_dam );
+    } else if( jo.has_object( "strength_damage" ) ) {
+        JsonObject jo_dam = jo.get_object( "strength_damage" );
+        last_mut_atk.strength_damage = load_damage_instance( jo_dam );
+    }
+
+    if( last_mut_atk.attack_text_u.empty() || last_mut_atk.attack_text_npc.empty() ) {
+        debugmsg( "%s doesn't have messages set for an attack", new_mut.name.c_str() );
+    }
+
+    if( !last_mut_atk.hardcoded_effect && last_mut_atk.base_damage.empty() && last_mut_atk.strength_damage.empty() ) {
+        debugmsg( "%s doesn't have damage set for an attack", new_mut.name.c_str() );
+    } else if( last_mut_atk.hardcoded_effect && ( !last_mut_atk.base_damage.empty() || !last_mut_atk.strength_damage.empty() ) ) {
+        debugmsg( "%s has both damage and hardcoded effect set (should be either, but not both)", new_mut.name.c_str() );
+    }
+
+    if( last_mut_atk.chance <= 0 ) {
+        debugmsg( "%s has zero chance of procing", new_mut.name.c_str() );
+    }
+
+    new_mut.attacks_granted.emplace_back( last_mut_atk );
+}
+
 void mutation_branch::load( JsonObject &jsobj )
 {
     const std::string id = jsobj.get_string( "id" );
@@ -196,48 +243,16 @@ void mutation_branch::load( JsonObject &jsobj )
         }
     }
 
-    jsarr = jsobj.get_array( "attacks" );
     mut_attack last_mut_atk;
-    while( jsarr.has_more() ) {
-        JsonObject jo = jsarr.next_object();
-        jo.read( "attack_text_u", last_mut_atk.attack_text_u );
-        jo.read( "attack_text_npc", last_mut_atk.attack_text_npc );
-        jo.read( "required_mutations", last_mut_atk.required_mutations );
-        jo.read( "blocker_mutations", last_mut_atk.blocker_mutations );
-        jo.read( "hardcoded_effect", last_mut_atk.hardcoded_effect );
-
-        if( jo.has_string( "body_part" ) ) {
-            last_mut_atk.bp = get_body_part_token( jo.get_string( "body_part" ) );
+    if( jsobj.has_array( "attacks" ) ) {
+        jsarr = jsobj.get_array( "attacks" );
+        while( jsarr.has_more() ) {
+            JsonObject jo = jsarr.next_object();
+            load_mutation_attack( jo, last_mut_atk, new_mut );
         }
-
-        jo.read( "chance", last_mut_atk.chance );
-        jo.read( "chance_active", last_mut_atk.chance_active );
-
-        if( jo.has_object( "base_damage" ) ) {
-            JsonObject jo_dam = jo.get_object( "base_damage" );
-            last_mut_atk.base_damage = load_damage_instance( jo_dam );
-        }
-
-        if( jo.has_object( "strength_damage" ) ) {
-            JsonObject jo_dam = jo.get_object( "strength_damage" );
-            last_mut_atk.strength_damage = load_damage_instance( jo_dam );
-        }
-
-        if( last_mut_atk.attack_text_u.empty() || last_mut_atk.attack_text_npc.empty() ) {
-            debugmsg( "%s doesn't have messages set for an attack", new_mut.name.c_str() );
-        }
-
-        if( !last_mut_atk.hardcoded_effect && last_mut_atk.base_damage.empty() && last_mut_atk.strength_damage.empty() ) {
-            debugmsg( "%s doesn't have damage set for an attack", new_mut.name.c_str() );
-        } else if( last_mut_atk.hardcoded_effect && ( !last_mut_atk.base_damage.empty() || !last_mut_atk.strength_damage.empty() ) ) {
-            debugmsg( "%s has both damage and hardcoded effect set (should be either, but not both)", new_mut.name.c_str() );
-        }
-
-        if( last_mut_atk.chance <= 0 && last_mut_atk.chance_active ) {
-            debugmsg( "%s has zero chance of procing", new_mut.name.c_str() );
-        }
-
-        new_mut.attacks_granted.emplace_back( last_mut_atk );
+    } else if( jsobj.has_object( "attacks" ) ) {
+        JsonObject jo = jsobj.get_object( "attacks" );
+        load_mutation_attack( jo, last_mut_atk, new_mut );
     }
 }
 
