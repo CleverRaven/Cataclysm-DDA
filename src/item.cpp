@@ -3390,7 +3390,7 @@ bool item::conductive() const
 
     // If any material has electricity resistance equal to or lower than flesh (1) we are conductive.
     const auto mats = made_of_types();
-    return std::all_of( mats.begin(), mats.end(), []( const material_type *mt ) {
+    return std::any_of( mats.begin(), mats.end(), []( const material_type *mt ) {
         return mt->elec_resist() <= 1;
     } );
 }
