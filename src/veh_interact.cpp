@@ -1364,8 +1364,12 @@ void veh_interact::move_cursor (int dx, int dy)
 
 void veh_interact::display_contents()
 {
+    if( parts_here.size() < 1 ) {
+        return;
+    }
+    
     werase( w_list );
-
+    
     int y = 0;
     for( int idx : parts_here ) {
         auto &pt = veh->parts[ idx ];
