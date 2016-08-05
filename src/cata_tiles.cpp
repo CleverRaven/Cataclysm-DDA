@@ -1179,7 +1179,7 @@ void cata_tiles::init_minimap( int destx, int desty, int width, int height )
     minimap_tile_size.x = std::max( width / minimap_tiles_range.x, 1 );
     minimap_tile_size.y = std::max( height / minimap_tiles_range.y, 1 );
     //maintain a square "pixel" shape
-    if( get_option<int>( "PIXEL_MINIMAP_RATIO" ) ) {
+    if( get_option<bool>( "PIXEL_MINIMAP_RATIO" ) ) {
         int smallest_size = std::min( minimap_tile_size.x, minimap_tile_size.y );
         minimap_tile_size.x = smallest_size;
         minimap_tile_size.y = smallest_size;
