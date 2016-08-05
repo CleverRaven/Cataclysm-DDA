@@ -3158,7 +3158,7 @@ bool game::handle_action()
             break;
 
         case ACTION_WHITELIST_ENEMY:
-            if ( safe_mode == SAFE_MODE_STOP ) {
+            if ( safe_mode == SAFE_MODE_STOP && !get_safemode().empty() ) {
                 get_safemode().add_rule( get_safemode().whitelist, Creature::A_ANY, 0, RULE_WHITELISTED );
                 add_msg( m_info, string_format( _( "Creature whitelisted: %s" ), get_safemode().whitelist.c_str() ).c_str() );
                 set_safe_mode( SAFE_MODE_ON );
@@ -10048,10 +10048,12 @@ int game::list_monsters(const int iLastState)
                 get_safemode().remove_rule(monName, Creature::A_ANY);
             }
         } else if (action == "SAFEMODE_BLACKLIST_ADD") {
-            const auto m = dynamic_cast<monster*>( cCurMon );
-            const std::string monName = (m != nullptr) ? m->name() : "human";
+            if ( !get_safemode().empty() ) {
+                const auto m = dynamic_cast<monster*>( cCurMon );
+                const std::string monName = (m != nullptr) ? m->name() : "human";
 
-            get_safemode().add_rule(monName, Creature::A_ANY, get_option<int>( "SAFEMODEPROXIMITY" ), RULE_BLACKLISTED);
+                get_safemode().add_rule(monName, Creature::A_ANY, get_option<int>( "SAFEMODEPROXIMITY" ), RULE_BLACKLISTED);
+            }
         } else if (action == "look") {
             tripoint recentered = look_around();
             iLastActivePos = recentered;
@@ -10097,7 +10099,7 @@ int game::list_monsters(const int iLastState)
                         bTypeNPC = true;
                     }
 
-                    if ( selected ) {
+                    if ( selected && !get_safemode().empty() ) {
                         for (int i = 1; i < width-2; i++) {
                             mvwputch(w_monsters_border, TERMY - iInfoHeight - 1 - VIEW_OFFSET_Y * 2,
                                      i, BORDER_COLOR, LINE_OXOX); // -
