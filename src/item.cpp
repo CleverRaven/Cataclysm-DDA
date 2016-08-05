@@ -706,9 +706,9 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
                                       attack_time(), true, "", true, true ) );
                                       
             if( !conductive () ) { 
-                info.push_back( iteminfo( "BASE", string_format( _( "This weapon does not conduct electricity." ) ) ) );
+                info.push_back( iteminfo( "BASE", string_format( _( "* This weapon does not conduct electricity." ) ) ) );
             } else { 
-                    info.push_back( iteminfo( "BASE", string_format( _( "This weapon conducts electricity." ) ) ) );
+                    info.push_back( iteminfo( "BASE", string_format( _( "* This weapon conducts electricity." ) ) ) );
             }
         }
         
