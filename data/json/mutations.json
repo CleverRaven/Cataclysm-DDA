@@ -2535,7 +2535,6 @@
         "attacks" : {
             "attack_text_u" : "You sting %s with your tail",
             "attack_text_npc" : "%1$s stings %2$s with their tail",
-            "body_part" : "MOUTH",
             "chance" : 20,
             "base_damage" : { "damage_type" : "stab", "amount" : 20 }
         }
@@ -2555,7 +2554,6 @@
         "attacks" : {
             "attack_text_u" : "You club %s with your tail",
             "attack_text_npc" : "%1$s clubs %2$s with their tail",
-            "body_part" : "MOUTH",
             "chance" : 20,
             "base_damage" : { "damage_type" : "stab", "amount" : 18 }
         }
