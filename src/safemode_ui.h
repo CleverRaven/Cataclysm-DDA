@@ -79,7 +79,7 @@ class safemode : public JsonSerializer, public JsonDeserializer
          * is added as the key, with RULE_WHITELISTED or RULE_BLACKLISTED as the values.
          * map_monsters[ 'mob name' ][ 'monAttitude' ].cRuleState('rule_state', 'proxy dist')
          */
-        std::unordered_map<std::string, std::array<cRuleState, Creature::A_MAX> > map_monsters;
+        std::unordered_map < std::string, std::array < cRuleState, Creature::A_MAX - 1 > > map_monsters;
 
         /**
          * - vRules[0,1] aka vRules[GLOBAL,CHARACTER]: current rules split into global and
@@ -88,6 +88,8 @@ class safemode : public JsonSerializer, public JsonDeserializer
         std::array<std::vector<cRules>, MAX_TAB> vRules;
 
     public:
+        std::string whitelist;
+
         bool has_rule( const std::string &sRule, const int attMonster );
         void add_rule( const std::string &sRule, const int attMonster, const int iProxyDist,
                        const rule_state state );

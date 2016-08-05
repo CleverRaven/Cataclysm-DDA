@@ -537,8 +537,8 @@ bool safemode::has_rule( const std::string &sRule, const int attMonster )
 
 void safemode::remove_rule( const std::string &sRule, const int attMonster )
 {
-    for (auto it = vRules[CHARACTER_TAB].begin();
-         it != vRules[CHARACTER_TAB].end(); ++it) {
+    for( auto it = vRules[CHARACTER_TAB].begin();
+         it != vRules[CHARACTER_TAB].end(); ++it ) {
         if( sRule.length() == it->sRule.length()
             && ci_find_substr( sRule, it->sRule ) != -1
             && it->attCreature == attMonster ) {
@@ -564,6 +564,8 @@ void safemode::create_rules()
 {
     map_monsters.clear();
 
+    static std::vector<int> vAny = {{Creature::A_HOSTILE, Creature::A_NEUTRAL, Creature::A_FRIENDLY}};
+
     //process include/exclude in order of rules, global first, then character specific
     //if a specific monster is being added, all the rules need to be checked now
     //may have some performance issues since exclusion needs to check all monsters also
@@ -574,14 +576,26 @@ void safemode::create_rules()
                 for( const auto &type : MonsterGenerator::generator().get_all_mtypes() ) {
                     const std::string &cur_mon = type.nname();
                     if( elem.bActive && wildcard_match( cur_mon, elem.sRule ) ) {
-                        map_monsters[ cur_mon ][ elem.attCreature ] = cRuleState( RULE_BLACKLISTED, elem.iProxyDist );
+                        if( elem.attCreature == ( int )Creature::A_ANY ) {
+                            for( auto &any : vAny ) {
+                                map_monsters[ cur_mon ][ any ] = cRuleState( RULE_BLACKLISTED, elem.iProxyDist );
+                            }
+                        } else {
+                            map_monsters[ cur_mon ][ elem.attCreature ] = cRuleState( RULE_BLACKLISTED, elem.iProxyDist );
+                        }
                     }
                 }
             } else {
                 //exclude monsters from the existing mapping
                 for( auto iter = map_monsters.begin(); iter != map_monsters.end(); ++iter ) {
                     if( elem.bActive && wildcard_match( iter->first, elem.sRule ) ) {
-                        map_monsters[ iter->first ][ elem.attCreature ] = cRuleState( RULE_WHITELISTED, elem.iProxyDist );
+                        if( elem.attCreature == ( int )Creature::A_ANY ) {
+                            for( auto &any : vAny ) {
+                                map_monsters[ iter->first ][ any ] = cRuleState( RULE_WHITELISTED, elem.iProxyDist );
+                            }
+                        } else {
+                            map_monsters[ iter->first ][ elem.attCreature ] = cRuleState( RULE_WHITELISTED, elem.iProxyDist );
+                        }
                     }
                 }
             }

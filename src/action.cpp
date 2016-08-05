@@ -250,6 +250,8 @@ std::string action_ident( action_id act )
             return "autosafe";
         case ACTION_IGNORE_ENEMY:
             return "ignore_enemy";
+        case ACTION_WHITELIST_ENEMY:
+            return "whitelist_enemy";
         case ACTION_SAVE:
             return "save";
         case ACTION_QUICKSAVE:

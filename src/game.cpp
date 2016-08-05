@@ -2073,6 +2073,7 @@ input_context get_default_mode_input_context()
     ctxt.register_action("autosafe");
     ctxt.register_action("autoattack");
     ctxt.register_action("ignore_enemy");
+    ctxt.register_action("whitelist_enemy");
     ctxt.register_action("save");
     ctxt.register_action("quicksave");
 #ifndef RELEASE
@@ -3124,6 +3125,8 @@ bool game::handle_action()
                 } else {
                     add_msg(m_info, _("Safe mode OFF!"));
                 }
+
+                get_safemode().whitelist = "";
             }
             if( u.has_effect( effect_laserlocked) ) {
                 u.remove_effect( effect_laserlocked);
@@ -3149,10 +3152,19 @@ bool game::handle_action()
                     critter.ignoring = rl_dist( u.pos(), critter.pos() );
                 }
                 set_safe_mode( SAFE_MODE_ON );
+                get_safemode().whitelist = "";
             } else if( u.has_effect( effect_laserlocked) ) {
                 add_msg(m_info, _("Ignoring laser targeting!"));
                 u.remove_effect( effect_laserlocked);
                 safe_mode_warning_logged = false;
+            }
+            break;
+
+        case ACTION_WHITELIST_ENEMY:
+            if ( get_safemode().whitelist != "" ) {
+                get_safemode().add_rule( get_safemode().whitelist, Creature::A_ANY, 0, RULE_WHITELISTED );
+                add_msg( m_info, string_format( _( "Creature whitelisted: %s" ), get_safemode().whitelist.c_str() ).c_str() );
+                get_safemode().whitelist = "";
             }
             break;
 
@@ -10024,22 +10036,16 @@ int game::list_monsters(const int iLastState)
             return 1;
         } else if (action == "SAFEMODE_BLACKLIST_REMOVE") {
             const auto m = dynamic_cast<monster*>( cCurMon );
-            const auto p = dynamic_cast<npc*>( cCurMon );
-
-            const Creature::Attitude attMon = (m != nullptr) ? m->attitude_to(u) : p->attitude_to(u);
             const std::string monName = (m != nullptr) ? m->name() : "NPC";
 
-            if ( !get_safemode().has_rule(monName, attMon) ) {
-                get_safemode().remove_rule(monName, attMon);
+            if ( !get_safemode().has_rule(monName, Creature::A_ANY) ) {
+                get_safemode().remove_rule(monName, Creature::A_ANY);
             }
         } else if (action == "SAFEMODE_BLACKLIST_ADD") {
             const auto m = dynamic_cast<monster*>( cCurMon );
-            const auto p = dynamic_cast<npc*>( cCurMon );
-
-            const Creature::Attitude attMon = (m != nullptr) ? m->attitude_to(u) : p->attitude_to(u);
             const std::string monName = (m != nullptr) ? m->name() : "NPC";
 
-            get_safemode().add_rule(monName, attMon, OPTIONS["SAFEMODEPROXIMITY"], RULE_BLACKLISTED);
+            get_safemode().add_rule(monName, Creature::A_ANY, OPTIONS["SAFEMODEPROXIMITY"], RULE_BLACKLISTED);
         } else if (action == "look") {
             tripoint recentered = look_around();
             iLastActivePos = recentered;
@@ -10086,14 +10092,13 @@ int game::list_monsters(const int iLastState)
                     }
 
                     if ( selected ) {
-                        for (int i = 1; i < width; i++) {
+                        for (int i = 1; i < width-2; i++) {
                             mvwputch(w_monsters_border, TERMY - iInfoHeight - 1 - VIEW_OFFSET_Y * 2,
                                      i, BORDER_COLOR, LINE_OXOX); // -
                         }
                         std::string sSafemode = _("<A>dd do safemode Blacklist");
-                        const Creature::Attitude attMon = (bTypeNPC) ? p->attitude_to(u) : m->attitude_to(u);
                         const std::string monName = (bTypeNPC) ? "NPC" : m->name();
-                        if ( get_safemode().has_rule(monName, attMon) ) {
+                        if ( get_safemode().has_rule(monName, Creature::A_ANY) ) {
                             sSafemode = _("<R>emove from safemode Blacklist");
                         }
 
@@ -11616,10 +11621,16 @@ bool game::check_safe_mode_allowed( bool repeat_safe_mode_warnings )
         spotted_creature_name = zombie( new_seen_mon.back() ).name();
     }
 
+    std::string whitelist = "";
+    if ( !get_safemode().empty() ) {
+        whitelist = string_format( " or %s to whitelist the monster", press_x( ACTION_WHITELIST_ENEMY ).c_str() );
+        get_safemode().whitelist = spotted_creature_name;
+    }
+
     std::string const msg_safe_mode = press_x(ACTION_TOGGLE_SAFEMODE);
     add_msg( m_warning,
-             _( "Spotted %s--safe mode is on! (%s to turn it off or %s to ignore monster.)" ),
-             spotted_creature_name.c_str(), msg_safe_mode.c_str(), msg_ignore.c_str() );
+             _( "Spotted %s--safe mode is on! (%s to turn it off, %s to ignore monster%s)" ),
+             spotted_creature_name.c_str(), msg_safe_mode.c_str(), msg_ignore.c_str(), whitelist.c_str() );
     safe_mode_warning_logged = true;
     return false;
 }
