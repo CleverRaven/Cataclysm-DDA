@@ -1175,7 +1175,7 @@
         "category" : ["MUTCAT_RAT"],
         "attacks" : {
             "attack_text_u" : "You bite into %s with your ratlike incisors",
-            "attack_text_npc" : "%1$s bites %2$s with his ratlike incisors",
+            "attack_text_npc" : "%1$s bites %2$s with their ratlike incisors",
             "body_part" : "MOUTH",
             "chance" : 18,
             "base_damage" : [
@@ -2124,7 +2124,7 @@
         "armor" : [ { "parts" : [ "FOOT_L", "FOOT_R" ], "bash" : 1 } ],
         "attacks" : {
             "attack_text_u" : "You kick %s with your hooves",
-            "attack_text_npc" : "%1$s kicks %2$s with his hooves",
+            "attack_text_npc" : "%1$s kicks %2$s with their hooves",
             "chance" : 15,
             "strength_damage" : { "damage_type" : "bash", "amount" : 3 }
         }
@@ -2381,7 +2381,7 @@
         "allow_soft_gear" : true,
         "attacks" : {
             "attack_text_u" : "You butt %s with your antlers",
-            "attack_text_npc" : "%1$s butts %2$s with his antlers",
+            "attack_text_npc" : "%1$s butts %2$s with their antlers",
             "chance" : 20,
             "base_damage" : { "damage_type" : "bash", "amount" : 4 }
         }
@@ -2814,7 +2814,7 @@
         "destroys_gear" : true,
         "attacks" : {
             "attack_text_u" : "You bite %s with your fangs",
-            "attack_text_npc" : "%1$s bites %2$s with his fangs",
+            "attack_text_npc" : "%1$s bites %2$s with their fangs",
             "blocker_mutations" : [ "FANGS_SPIDER" ],
             "body_part" : "MOUTH",
             "chance" : 22,
@@ -2838,7 +2838,7 @@
         ],
         "attacks" : {
             "attack_text_u" : "You bite %s with your fangs",
-            "attack_text_npc" : "%1$s bites %2$s with his fangs",
+            "attack_text_npc" : "%1$s bites %2$s with their fangs",
             "blocker_mutations" : [ "MANDIBLES" ],
             "body_part" : "MOUTH",
             "chance" : 22,
