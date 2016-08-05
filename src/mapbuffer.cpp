@@ -400,14 +400,11 @@ submap *mapbuffer::unserialize_submaps( const tripoint &p )
               segment_addr.x << "." << segment_addr.y << "." << segment_addr.z << "/" <<
               om_addr.x << "." << om_addr.y << "." << om_addr.z << ".map";
 
-    std::ifstream fin( quad_path.str().c_str() );
-    if( !fin.is_open() ) {
+    using namespace std::placeholders;
+    if( !read_from_file_optional( quad_path.str(), std::bind( &mapbuffer::deserialize, this, _1 ) ) ) {
         // If it doesn't exist, trigger generating it.
         return NULL;
     }
-
-    JsonIn jsin( fin );
-    deserialize( jsin );
     if( submaps.count( p ) == 0 ) {
         debugmsg("file %s did not contain the expected submap %d,%d,%d", quad_path.str().c_str(), p.x, p.y,
                  p.z);
