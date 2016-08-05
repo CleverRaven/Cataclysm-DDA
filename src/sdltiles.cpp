@@ -26,6 +26,7 @@
 #include "game.h"
 #include "lightmap.h"
 #include "rng.h"
+#include <algorithm>
 
 //TODO replace these includes with filesystem.h
 #ifdef _MSC_VER
@@ -685,12 +686,10 @@ void find_videodisplays() {
     }
 
     int current_display = get_option<int>( "DISPLAY" );
-    auto &display_option = get_options().get_option( "DISPLAY" );
-
-    display_option = options_manager::cOpt("graphics", _("Display"),
-                              _("Sets which video display will be used to show the game. Requires restart."),
-                              displays, current_display, 0, options_manager::COPT_CURSES_HIDE
-                              );
+    get_options().add("DISPLAY", "graphics", _("Display"),
+                      _("Sets which video display will be used to show the game. Requires restart."),
+                      displays, current_display, 0, options_manager::COPT_CURSES_HIDE
+                      );
 }
 
 // line_id is one of the LINE_*_C constants

@@ -147,9 +147,6 @@ class options_manager : public JsonSerializer, public JsonDeserializer
         cOpt &get_option( const std::string &name );
         cOpt &get_world_option( const std::string &name );
 
-    private:
-        std::unordered_map<std::string, cOpt> global_options;
-
         //add string select option
         void add( const std::string sNameIn, const std::string sPageIn,
                   const std::string sMenuTextIn, const std::string sTooltipIn,
@@ -185,6 +182,9 @@ class options_manager : public JsonSerializer, public JsonDeserializer
                   const float fMinIn, float fMaxIn,
                   float fDefaultIn, float fStepIn,
                   copt_hide_t opt_hide = COPT_NO_HIDE );
+
+    private:
+        std::unordered_map<std::string, cOpt> global_options;
 };
 
 bool use_narrow_sidebar(); // short-circuits to on if terminal is too small
