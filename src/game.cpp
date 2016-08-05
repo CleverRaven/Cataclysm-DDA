@@ -189,7 +189,7 @@ public:
     }
 
     bool has_timeout_elapsed() {
-        float turn_duration = OPTIONS["TURN_DURATION"];
+        float turn_duration = get_option<float>( "TURN_DURATION" );
         // Magic number 0.005 chosen due to option menu's 2 digit precision and
         // the option menu UI rounding <= 0.005 down to "0.00" in the display.
         // This conditional will catch values (e.g. 0.003) that the options menu
@@ -258,8 +258,8 @@ void game::load_static_data()
     DynamicDataLoader::get_instance();
     // Only need to load names once, they do not depend on mods
     init_names();
-    narrow_sidebar = OPTIONS["SIDEBAR_STYLE"] == "narrow";
-    right_sidebar = OPTIONS["SIDEBAR_POSITION"] == "right";
+    narrow_sidebar = get_option<std::string>( "SIDEBAR_STYLE" ) == "narrow";
+    right_sidebar = get_option<std::string>( "SIDEBAR_POSITION" ) == "right";
     fullscreen = false;
     was_fullscreen = false;
 
@@ -402,7 +402,7 @@ void game::init_ui()
 #ifdef TILES
         //class variable to track the option being active
         //only set once, toggle action is used to change during game
-        pixel_minimap_option = OPTIONS["PIXEL_MINIMAP"];
+        pixel_minimap_option = get_option<bool>( "PIXEL_MINIMAP" );
 #endif // TILES
     }
 
@@ -509,7 +509,7 @@ void game::init_ui()
     bool pixel_minimap_custom_height = false;
 
 #ifdef TILES
-    pixel_minimap_custom_height = OPTIONS["PIXEL_MINIMAP_HEIGHT"] > 0;
+    pixel_minimap_custom_height = get_option<int>( "PIXEL_MINIMAP_HEIGHT" ) > 0;
 #endif // TILES
 
     if (use_narrow_sidebar()) {
@@ -524,8 +524,8 @@ void game::init_ui()
         stat2W = sidebarWidth;
         pixelminimapW = sidebarWidth;
         pixelminimapH = (pixelminimapW / 2);
-        if (pixel_minimap_custom_height && pixelminimapH > OPTIONS["PIXEL_MINIMAP_HEIGHT"]){
-            pixelminimapH = OPTIONS["PIXEL_MINIMAP_HEIGHT"];
+        if (pixel_minimap_custom_height && pixelminimapH > get_option<int>( "PIXEL_MINIMAP_HEIGHT" ) ) {
+            pixelminimapH = get_option<int>( "PIXEL_MINIMAP_HEIGHT" );
         }
         messHshort = TERRAIN_WINDOW_TERM_HEIGHT - (statH + locH + stat2H + pixelminimapH);
         messW = sidebarWidth;
@@ -562,8 +562,8 @@ void game::init_ui()
         messW = sidebarWidth - messX;
         pixelminimapW = messW;
         pixelminimapH = (pixelminimapW / 2);
-        if (pixel_minimap_custom_height && pixelminimapH > OPTIONS["PIXEL_MINIMAP_HEIGHT"]){
-            pixelminimapH = OPTIONS["PIXEL_MINIMAP_HEIGHT"];
+        if (pixel_minimap_custom_height && pixelminimapH > get_option<int>( "PIXEL_MINIMAP_HEIGHT" ) ) {
+            pixelminimapH = get_option<int>( "PIXEL_MINIMAP_HEIGHT" );
         }
         messHshort = TERRAIN_WINDOW_TERM_HEIGHT - (locH + statH + pixelminimapH); // 1 for w_location + 4 for w_stat, w_messages starts at 0
         if (messHshort < 9) {
@@ -689,7 +689,7 @@ void game::setup()
 {
     load_world_modfiles(world_generator->active_world);
 
-    m =  map( static_cast<bool>( ACTIVE_WORLD_OPTIONS["ZLEVELS"] ) ) ;
+    m =  map( get_world_option<bool>( "ZLEVELS" ) );
 
     next_npc_id = 1;
     next_faction_id = 1;
@@ -702,12 +702,12 @@ void game::setup()
 
     weather = WEATHER_CLEAR; // Start with some nice weather...
     // Weather shift in 30
-    nextweather = HOURS((int)OPTIONS["INITIAL_TIME"]) + MINUTES(30);
+    nextweather = HOURS( get_option<int>( "INITIAL_TIME" ) ) + MINUTES(30);
 
     turnssincelastmon = 0; //Auto safe mode init
-    autosafemode = OPTIONS["AUTOSAFEMODE"];
+    autosafemode = get_option<bool>( "AUTOSAFEMODE" );
     safemodeveh =
-        OPTIONS["SAFEMODEVEH"]; //Vehicle safemode check, in practice didn't trigger when needed
+        get_option<bool>( "SAFEMODEVEH" ); //Vehicle safemode check, in practice didn't trigger when needed
 
     sounds::reset_sounds();
     clear_zombies();
@@ -756,7 +756,7 @@ bool game::start_game(std::string worldname)
     start_calendar();
     nextweather = calendar::turn;
     weather_gen->set_seed( rand() );
-    safe_mode = (OPTIONS["SAFEMODE"] ? SAFE_MODE_ON : SAFE_MODE_OFF);
+    safe_mode = (get_option<bool>( "SAFEMODE" ) ? SAFE_MODE_ON : SAFE_MODE_OFF);
     mostseen = 0; // ...and mostseen is 0, we haven't seen any monsters yet.
 
     init_autosave();
@@ -794,7 +794,7 @@ bool game::start_game(std::string worldname)
     // ...but then rebuild it, because we want visibility cache to avoid spawning monsters in sight
     m.build_map_cache( get_levz() );
     // Start the overmap with out immediate neighborhood visible, this needs to be after place_player
-    overmap_buffer.reveal( point(u.global_omt_location().x, u.global_omt_location().y), OPTIONS["DISTANCE_INITIAL_VISIBILITY"], 0);
+    overmap_buffer.reveal( point(u.global_omt_location().x, u.global_omt_location().y), get_option<int>( "DISTANCE_INITIAL_VISIBILITY" ), 0);
 
     u.moves = 0;
     u.process_turn(); // process_turn adds the initial move points
@@ -813,7 +813,7 @@ bool game::start_game(std::string worldname)
     load_npcs();
     // Spawn the monsters
     const bool spawn_near =
-        ACTIVE_WORLD_OPTIONS["BLACK_ROAD"] || g->scen->has_flag("SUR_START");
+        get_world_option<bool>( "BLACK_ROAD" ) || g->scen->has_flag("SUR_START");
     m.spawn_monsters( !spawn_near ); // Static monsters
 
     // Make sure that no monsters are near the player
@@ -939,7 +939,7 @@ void game::load_mission_npcs()
 
 void game::create_starting_npcs()
 {
-    if (!ACTIVE_WORLD_OPTIONS["STATIC_NPC"]) {
+    if( !get_world_option<bool>( "STATIC_NPC" ) ) {
         return; //Do not generate a starting npc.
     }
 
@@ -1196,12 +1196,12 @@ bool game::cleanup_at_end()
             characters.erase(curchar);
         }
         if (characters.empty()) {
-            if (ACTIVE_WORLD_OPTIONS["DELETE_WORLD"] == "yes" ||
-                (ACTIVE_WORLD_OPTIONS["DELETE_WORLD"] == "query" &&
+            if (get_world_option<std::string>( "DELETE_WORLD" ) == "yes" ||
+                (get_world_option<std::string>( "DELETE_WORLD" ) == "query" &&
                  query_yn(_("Delete saved world?")))) {
                 delete_world(world_generator->active_world->world_name, true);
             }
-        } else if (ACTIVE_WORLD_OPTIONS["DELETE_WORLD"] != "no") {
+        } else if (get_world_option<std::string>( "DELETE_WORLD" ) != "no") {
             std::stringstream message;
             std::string tmpmessage;
             for( auto &character : characters ) {
@@ -1247,7 +1247,7 @@ static int veh_lumi( vehicle &veh )
 
 void game::calc_driving_offset(vehicle *veh)
 {
-    if (veh == nullptr || !OPTIONS["DRIVING_VIEW_OFFSET"]) {
+    if (veh == nullptr || !get_option<bool>( "DRIVING_VIEW_OFFSET" ) ) {
         set_driving_view_offset(point(0, 0));
         return;
     }
@@ -1377,8 +1377,8 @@ bool game::do_turn()
     u.update_body();
 
     // Auto-save if autosave is enabled
-    if (OPTIONS["AUTOSAVE"] &&
-        calendar::once_every(((int)OPTIONS["AUTOSAVE_TURNS"])) &&
+    if (get_option<bool>( "AUTOSAVE" ) &&
+        calendar::once_every(get_option<int>( "AUTOSAVE_TURNS" ) ) &&
         !u.is_dead_state()) {
         autosave();
     }
@@ -1630,7 +1630,7 @@ bool game::cancel_activity_or_ignore_query(const char *reason, ...)
     const std::string text = vstring_format(reason, ap);
     va_end(ap);
 
-    bool force_uc = OPTIONS["FORCE_CAPITAL_YN"];
+    bool force_uc = get_option<bool>( "FORCE_CAPITAL_YN" );
     int ch = (int)' ';
 
     std::string stop_message = text + " " + u.activity.get_stop_phrase() + " " +
@@ -2116,7 +2116,7 @@ input_context game::get_player_input(std::string &action)
 
     user_turn current_turn;
 
-    if (OPTIONS["ANIMATIONS"]) {
+    if (get_option<bool>( "ANIMATIONS" ) ) {
         int iStartX = (TERRAIN_WINDOW_WIDTH > 121) ? (TERRAIN_WINDOW_WIDTH - 121) / 2 : 0;
         int iStartY = (TERRAIN_WINDOW_HEIGHT > 121) ? (TERRAIN_WINDOW_HEIGHT - 121) / 2 : 0;
         int iEndX = (TERRAIN_WINDOW_WIDTH > 121) ? TERRAIN_WINDOW_WIDTH - (TERRAIN_WINDOW_WIDTH - 121) / 2 :
@@ -2167,7 +2167,7 @@ input_context game::get_player_input(std::string &action)
                 break;
             }
 
-            if( bWeatherEffect && OPTIONS["ANIMATION_RAIN"] ) {
+            if( bWeatherEffect && get_option<bool>( "ANIMATION_RAIN" ) ) {
                 /*
                 Location to add rain drop animation bits! Since it refreshes w_terrain it can be added to the animation section easily
                 Get tile information from above's weather information:
@@ -2213,7 +2213,7 @@ input_context game::get_player_input(std::string &action)
                 }
             }
             // don't bother calculating SCT if we won't show it
-            if (uquit != QUIT_WATCH && OPTIONS["ANIMATION_SCT"]) {
+            if (uquit != QUIT_WATCH && get_option<bool>( "ANIMATION_SCT" ) ) {
 #ifdef TILES
                 if (!use_tiles) {
 #endif
@@ -2484,7 +2484,7 @@ bool game::handle_action()
     // This has no action unless we're in a special game mode.
     gamemode->pre_action(act);
 
-    int soffset = (int)OPTIONS["MOVE_VIEW_OFFSET"];
+    int soffset = get_option<int>( "MOVE_VIEW_OFFSET" );
     int soffsetr = 0 - soffset;
 
     int before_action_moves = u.moves;
@@ -3011,15 +3011,15 @@ bool game::handle_action()
                 as_m.return_invalid = true;
                 as_m.text = _("Are you sure you want to sleep?");
                 as_m.entries.push_back(uimenu_entry(0, true,
-                                                    (OPTIONS["FORCE_CAPITAL_YN"] ? 'Y' : 'y'),
+                                                    (get_option<bool>( "FORCE_CAPITAL_YN" ) ? 'Y' : 'y'),
                                                     _("Yes.")));
 
-                if (OPTIONS["SAVE_SLEEP"]) {
+                if (get_option<bool>( "SAVE_SLEEP" ) ) {
                     as_m.entries.push_back(uimenu_entry(1, (moves_since_last_save),
-                                                        (OPTIONS["FORCE_CAPITAL_YN"] ? 'S' : 's'),
+                                                        (get_option<bool>( "FORCE_CAPITAL_YN" ) ? 'S' : 's'),
                                                         _("Yes, and save game before sleeping.")));
                 }
-                as_m.entries.push_back(uimenu_entry(2, true, (OPTIONS["FORCE_CAPITAL_YN"] ?
+                as_m.entries.push_back(uimenu_entry(2, true, (get_option<bool>( "FORCE_CAPITAL_YN" ) ?
                                                     'N' : 'n'), _("No.")));
 
                 if( u.has_alarm_clock() && u.get_hunger() < -60 && u.has_active_mutation( "HIBERNATE" ) ) {
@@ -3388,15 +3388,15 @@ bool game::is_game_over()
     }
     // is_dead_state() already checks hp_torso && hp_head, no need to for loop it
     if(u.is_dead_state()) {
-        if(OPTIONS["DEATHCAM"] == "always") {
+        if(get_option<std::string>( "DEATHCAM" ) == "always") {
             uquit = QUIT_WATCH;
-        } else if(OPTIONS["DEATHCAM"] == "ask") {
+        } else if(get_option<std::string>( "DEATHCAM" ) == "ask") {
             uquit = query_yn(_("Watch the last moments of your life...?")) ? QUIT_WATCH : QUIT_DIED;
-        } else if(OPTIONS["DEATHCAM"] == "never") {
+        } else if(get_option<std::string>( "DEATHCAM" ) == "never") {
             uquit = QUIT_DIED;
         } else {
             // Something funky happened here, just die.
-            dbg(D_ERROR) << "no deathcam option given to OPTIONS[], defaulting to QUIT_DIED";
+            dbg(D_ERROR) << "no deathcam option given to options, defaulting to QUIT_DIED";
             uquit = QUIT_DIED;
         }
         return is_game_over();
@@ -3528,7 +3528,7 @@ void game::load(std::string worldname, std::string name)
         gamemode.reset( new special_game() );
     }
 
-    safe_mode = (OPTIONS["SAFEMODE"] ? SAFE_MODE_ON : SAFE_MODE_OFF);
+    safe_mode = get_option<bool>( "SAFEMODE" ) ? SAFE_MODE_ON : SAFE_MODE_OFF;
     mostseen = 0; // ...and mostseen is 0, we haven't seen any monsters yet.
 
     init_autosave();
@@ -3980,7 +3980,7 @@ void game::debug()
                 u.posx(), u.posy(), get_levx(), get_levy(),
                 otermap[overmap_buffer.ter( u.global_omt_location() )].name.c_str(),
                 int( calendar::turn ), int( nextspawn ),
-                ( ACTIVE_WORLD_OPTIONS["RANDOM_NPC"] == "true" ? _( "NPCs are going to spawn." ) :
+                ( get_world_option<bool>( "RANDOM_NPC" ) ? _( "NPCs are going to spawn." ) :
                   _( "NPCs are NOT going to spawn." ) ),
                 num_zombies(), active_npc.size(), events.size() );
             if( !active_npc.empty() ) {
@@ -5241,7 +5241,7 @@ void game::draw_sidebar()
     mvwprintz(day_window, 0, sideStyle ? 0 : 41, c_white, _("%s, day %d"),
               season_name_upper(calendar::turn.get_season()).c_str(), calendar::turn.days() + 1);
     if (safe_mode != SAFE_MODE_OFF || autosafemode != 0) {
-        int iPercent = int((turnssincelastmon * 100) / OPTIONS["AUTOSAFEMODETURNS"]);
+        int iPercent = turnssincelastmon * 100 / get_option<int>( "AUTOSAFEMODETURNS" );
         wmove(w_status, sideStyle ? 4 : 1, getmaxx(w_status) - 4);
         const char *letters[] = { "S", "A", "F", "E" };
         for (int i = 0; i < 4; i++) {
@@ -5400,7 +5400,7 @@ void game::draw_ter( const tripoint &center, const bool looking, const bool draw
 
 tripoint game::get_veh_dir_indicator_location( bool next ) const
 {
-    if( !OPTIONS["VEHICLE_DIR_INDICATOR"] ) {
+    if( !get_option<bool>( "VEHICLE_DIR_INDICATOR" ) ) {
         return tripoint_min;
     }
     vehicle *veh = m.veh_at( u.pos() );
@@ -5799,7 +5799,7 @@ faction *game::faction_by_ident(std::string id)
 
 Creature *game::is_hostile_nearby()
 {
-    int distance = (OPTIONS["SAFEMODEPROXIMITY"] <= 0) ? 60 : OPTIONS["SAFEMODEPROXIMITY"];
+    int distance = (get_option<int>( "SAFEMODEPROXIMITY" ) <= 0) ? 60 : get_option<int>( "SAFEMODEPROXIMITY" );
     return is_hostile_within(distance);
 }
 
@@ -5847,7 +5847,7 @@ int game::mon_info(WINDOW *w)
     const int startrow = use_narrow_sidebar() ? 1 : 0;
 
     int newseen = 0;
-    const int iProxyDist = (OPTIONS["SAFEMODEPROXIMITY"] <= 0) ? 60 : OPTIONS["SAFEMODEPROXIMITY"];
+    const int iProxyDist = (get_option<int>( "SAFEMODEPROXIMITY" ) <= 0) ? 60 : get_option<int>( "SAFEMODEPROXIMITY" );
     // 7 0 1    unique_types uses these indices;
     // 6 8 2    0-7 are provide by direction_from()
     // 5 4 3    8 is used for local monsters (for when we explain them below)
@@ -5996,7 +5996,7 @@ int game::mon_info(WINDOW *w)
         }
     } else if (autosafemode && newseen == 0) { // Auto-safemode
         turnssincelastmon++;
-        if (turnssincelastmon >= OPTIONS["AUTOSAFEMODETURNS"] && safe_mode == SAFE_MODE_OFF) {
+        if (turnssincelastmon >= get_option<int>( "AUTOSAFEMODETURNS" ) && safe_mode == SAFE_MODE_OFF) {
             set_safe_mode( SAFE_MODE_ON );
         }
     }
@@ -8928,7 +8928,7 @@ tripoint game::look_around( WINDOW *w_info, const tripoint &start_point,
     draw_pixel_minimap();
     u.setpos(current_pos);
 
-    int soffset = (int)OPTIONS["MOVE_VIEW_OFFSET"];
+    int soffset = get_option<int>( "MOVE_VIEW_OFFSET" );
     bool fast_scroll = false;
     bool blink = false;
 
@@ -9365,11 +9365,11 @@ void game::reset_item_list_state(WINDOW *window, int height, bool bRadiusSort)
 void centerlistview( const tripoint &active_item_position )
 {
     player &u = g->u;
-    if (OPTIONS["SHIFT_LIST_ITEM_VIEW"] != "false") {
+    if (get_option<std::string>( "SHIFT_LIST_ITEM_VIEW" ) != "false") {
         u.view_offset.z = active_item_position.z;
         int xpos = POSX + active_item_position.x;
         int ypos = POSY + active_item_position.y;
-        if (OPTIONS["SHIFT_LIST_ITEM_VIEW"] == "centered") {
+        if (get_option<std::string>( "SHIFT_LIST_ITEM_VIEW" ) == "centered") {
             int xOffset = TERRAIN_WINDOW_WIDTH / 2;
             int yOffset = TERRAIN_WINDOW_HEIGHT / 2;
             if (!is_valid_in_w_terrain(xpos, ypos)) {
@@ -11158,7 +11158,7 @@ bool add_or_drop_with_msg( player &u, item &it )
         add_msg( _( "There's no room in your inventory for the %s, so you drop it." ),
                  it.tname().c_str() );
         g->m.add_item_or_charges( u.pos(), it );
-    } else if( !u.can_pickWeight( it, !OPTIONS["DANGEROUS_PICKUPS"] ) ) {
+    } else if( !u.can_pickWeight( it, !get_option<bool>( "DANGEROUS_PICKUPS" ) ) ) {
         add_msg( _( "The %s is too heavy to carry, so you drop it." ), it.tname().c_str() );
         g->m.add_item_or_charges( u.pos(), it );
     } else {
@@ -11548,7 +11548,7 @@ bool game::check_safe_mode_allowed( bool repeat_safe_mode_warnings )
         return true;
     }
     // Currently driving around, ignore the monster, they have no chance against a proper car anyway (-:
-    if( u.controlling_vehicle && !OPTIONS["SAFEMODEVEH"] ) {
+    if( u.controlling_vehicle && !get_option<bool>( "SAFEMODEVEH" ) ) {
         return true;
     }
     // Monsters around and we don't wanna run
@@ -12198,8 +12198,8 @@ void game::place_player( const tripoint &dest_loc )
     // and dest_loc was not adjusted and therefor is still in the un-shifted system and probably wrong.
 
     //Autopickup
-    if (OPTIONS["AUTO_PICKUP"] && (!OPTIONS["AUTO_PICKUP_SAFEMODE"] || mostseen == 0) &&
-        ( m.has_items( u.pos() ) || OPTIONS["AUTO_PICKUP_ADJACENT"])) {
+    if (get_option<bool>( "AUTO_PICKUP" ) && (!get_option<bool>( "AUTO_PICKUP_SAFEMODE" ) || mostseen == 0) &&
+        ( m.has_items( u.pos() ) || get_option<bool>( "AUTO_PICKUP_ADJACENT" ) ) ) {
         Pickup::pick_up(u.pos(), -1);
     }
 
@@ -12825,7 +12825,7 @@ void game::fling_creature(Creature *c, const int &dir, float flvel, bool control
     int steps = 0;
     const bool is_u = (c == &u);
     // Don't animate critters getting bashed if animations are off
-    const bool animate = is_u || OPTIONS["ANIMATIONS"];
+    const bool animate = is_u || get_option<bool>( "ANIMATIONS" );
 
     player *p = dynamic_cast<player*>(c);
 
@@ -13369,7 +13369,7 @@ void game::vertical_shift( const int z_after )
 
 void game::vertical_notes( int z_before, int z_after )
 {
-    if( z_before == z_after || !OPTIONS["AUTO_NOTES"] ) {
+    if( z_before == z_after || !get_option<bool>( "AUTO_NOTES" ) ) {
         return;
     }
 
@@ -13792,11 +13792,11 @@ void game::shift_monsters( const int shiftx, const int shifty, const int shiftz 
 void game::spawn_mon(int /*shiftx*/, int /*shifty*/)
 {
     // Create a new NPC?
-    if( !ACTIVE_WORLD_OPTIONS["RANDOM_NPC"] ) {
+    if( !get_world_option<bool>( "RANDOM_NPC" ) ) {
         return;
     }
 
-    float density = ACTIVE_WORLD_OPTIONS["NPC_DENSITY"];
+    float density = get_world_option<float>( "NPC_DENSITY" );
     const int npc_num = get_cur_om().npcs.size();
     if( npc_num > 0 ) {
         // 100%, 80%, 64%, 52%, 41%, 33%...
@@ -14256,7 +14256,7 @@ void game::quickload()
 void game::autosave()
 {
     //Don't autosave if the min-autosave interval has not passed since the last autosave/quicksave.
-    if (time(NULL) < last_save_timestamp + (60 * OPTIONS["AUTOSAVE_MINUTES"])) {
+    if (time(NULL) < last_save_timestamp + 60 * get_option<int>( "AUTOSAVE_MINUTES" ) ) {
         return;
     }
     quicksave();    //Driving checks are handled by quicksave()
@@ -14490,7 +14490,7 @@ void game::process_artifact(item *it, player *p)
 }
 void game::start_calendar()
 {
-    calendar::start = HOURS(ACTIVE_WORLD_OPTIONS["INITIAL_TIME"]);
+    calendar::start = HOURS(get_world_option<int>( "INITIAL_TIME" ) );
     if( scen->has_flag("SPR_START") || scen->has_flag("SUM_START") ||
         scen->has_flag("AUT_START") || scen->has_flag("WIN_START") ||
         scen->has_flag("SUM_ADV_START") ) {
@@ -14508,13 +14508,13 @@ void game::start_calendar()
             debugmsg("The Unicorn");
         }
     } else {
-        if( ACTIVE_WORLD_OPTIONS["INITIAL_SEASON"].getValue() == "spring" ) {
+        if( get_world_option<std::string>( "INITIAL_SEASON" ) == "spring" ) {
             calendar::initial_season = SPRING;
             ; // Do nothing.
-        } else if( ACTIVE_WORLD_OPTIONS["INITIAL_SEASON"].getValue() == "summer") {
+        } else if( get_world_option<std::string>( "INITIAL_SEASON" ) == "summer") {
             calendar::initial_season = SUMMER;
             calendar::start += DAYS( calendar::season_length() );
-        } else if( ACTIVE_WORLD_OPTIONS["INITIAL_SEASON"].getValue() == "autumn" ) {
+        } else if( get_world_option<std::string>( "INITIAL_SEASON" ) == "autumn" ) {
             calendar::initial_season = AUTUMN;
             calendar::start += DAYS( calendar::season_length() * 2 );
         } else {
@@ -14524,7 +14524,7 @@ void game::start_calendar()
     }
     calendar::turn = calendar::start;
 
-    if ( ACTIVE_WORLD_OPTIONS["ETERNAL_SEASON"] ) {
+    if ( get_world_option<bool>( "ETERNAL_SEASON" ) ) {
       calendar::eternal_season = true;
     }
 }

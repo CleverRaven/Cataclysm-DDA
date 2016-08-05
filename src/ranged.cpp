@@ -24,6 +24,7 @@
 #include "vehicle.h"
 #include "field.h"
 #include "mtype.h"
+#include <algorithm>
 
 const skill_id skill_pistol( "pistol" );
 const skill_id skill_rifle( "rifle" );
@@ -115,7 +116,7 @@ size_t blood_trail_len( int damage )
 dealt_projectile_attack Creature::projectile_attack( const projectile &proj_arg, const tripoint &source,
                                                      const tripoint &target_arg, double dispersion )
 {
-    const bool do_animation = OPTIONS["ANIMATIONS"];
+    const bool do_animation = get_option<bool>( "ANIMATIONS" );
 
     // for the isosceles triangle formed by the intended and actual targets
     // we can use the cosine formula (a² = b² + c² - 2bc⋅cosθ) to calculate the tangent
@@ -1146,7 +1147,7 @@ std::vector<tripoint> game::pl_target_ui( target_mode mode, item *relevant, int 
     }
 
     int num_instruction_lines = draw_targeting_window( w_target, relevant ? relevant->tname() : "", u, mode, ctxt, aim_types );
-    bool snap_to_target = OPTIONS["SNAP_TO_TARGET"];
+    bool snap_to_target = get_option<bool>( "SNAP_TO_TARGET" );
 
     std::string enemiesmsg;
     if( t.empty() ) {
@@ -1284,7 +1285,7 @@ std::vector<tripoint> game::pl_target_ui( target_mode mode, item *relevant, int 
         // Our coordinates will either be determined by coordinate input(mouse),
         // by a direction key, or by the previous value.
         if( action == "SELECT" && ctxt.get_coordinates(g->w_terrain, targ.x, targ.y) ) {
-            if( !OPTIONS["USE_TILES"] && snap_to_target ) {
+            if( !get_option<bool>( "USE_TILES" ) && snap_to_target ) {
                 // Snap to target doesn't currently work with tiles.
                 targ.x += dst.x - src.x;
                 targ.y += dst.y - src.y;

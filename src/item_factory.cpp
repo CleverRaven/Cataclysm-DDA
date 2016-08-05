@@ -146,7 +146,7 @@ void Item_factory::finalize() {
             }
         }
 
-        if( obj.engine && ACTIVE_WORLD_OPTIONS[ "NO_FAULTS" ] ) {
+        if( obj.engine && get_world_option<bool>( "NO_FAULTS" ) ) {
             obj.engine->faults.clear();
         }
 
@@ -234,7 +234,7 @@ void Item_factory::finalize() {
         npc_implied_flags( *e.second );
 
         if( obj.comestible ) {
-            if( ACTIVE_WORLD_OPTIONS[ "NO_VITAMINS" ] ) {
+            if( get_world_option<bool>( "NO_VITAMINS" ) ) {
                 obj.comestible->vitamins.clear();
             } else if( obj.comestible->vitamins.empty() && obj.comestible->healthy >= 0 ) {
                 // Default vitamins of healthy comestibles to their edible base materials if none explicitly specified.
@@ -279,7 +279,7 @@ void Item_factory::finalize_item_blacklist()
 
     // Can't be part of the blacklist loop because the magazines might be
     // deleted before the guns are processed.
-    const bool magazines_blacklisted = ACTIVE_WORLD_OPTIONS[ "BLACKLIST_MAGAZINES" ];
+    const bool magazines_blacklisted = get_world_option<bool>( "BLACKLIST_MAGAZINES" );
 
     if( magazines_blacklisted ) {
         for( auto& e : m_templates ) {
@@ -873,7 +873,7 @@ void Item_factory::check_definitions() const
         }
         debugmsg( "warnings for type %s:\n%s", type->id.c_str(), msg.str().c_str() );
     }
-    if( !ACTIVE_WORLD_OPTIONS[ "BLACKLIST_MAGAZINES" ] ) {
+    if( !get_world_option<bool>( "BLACKLIST_MAGAZINES" ) ) {
         for( auto &mag : magazines_defined ) {
             // some vehicle parts (currently batteries) are implemented as magazines
             if( magazines_used.count( mag ) == 0 && find_template( mag )->category->id != category_id_veh_parts ) {

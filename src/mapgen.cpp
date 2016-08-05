@@ -1129,7 +1129,7 @@ void jmapgen_objects::load_objects<jmapgen_loot>( JsonArray parray )
         jmapgen_place where( jsi );
 
         auto loot = new jmapgen_loot( jsi );
-        auto rate = ACTIVE_WORLD_OPTIONS[ "ITEM_SPAWNRATE" ];
+        auto rate = get_world_option<float>( "ITEM_SPAWNRATE" );
 
         if( where.repeat.valmax != 1 ) {
             // if loot can repeat scale according to rate
@@ -10425,7 +10425,7 @@ void map::post_process(unsigned zones)
 void map::place_spawns(const mongroup_id& group, const int chance,
                        const int x1, const int y1, const int x2, const int y2, const float density)
 {
-    if (!ACTIVE_WORLD_OPTIONS["STATIC_SPAWN"]) {
+    if (!get_world_option<bool>( "STATIC_SPAWN" ) ) {
         return;
     }
 
@@ -10436,7 +10436,7 @@ void map::place_spawns(const mongroup_id& group, const int chance,
         return;
     }
 
-    float multiplier = ACTIVE_WORLD_OPTIONS["SPAWN_DENSITY"];
+    float multiplier = get_world_option<float>( "SPAWN_DENSITY" );
 
     if( multiplier == 0.0 ) {
         return;
@@ -10513,7 +10513,7 @@ void map::place_vending(int x, int y, std::string type)
 
 int map::place_npc(int x, int y, std::string type)
 {
-    if(!ACTIVE_WORLD_OPTIONS["STATIC_NPC"]) {
+    if(!get_world_option<bool>( "STATIC_NPC" ) ) {
         return -1; //Do not generate an npc.
     }
     npc *temp = new npc();
@@ -10534,7 +10534,7 @@ std::vector<item *> map::place_items( items_location loc, int chance, int x1, in
 {
     std::vector<item *> res;
 
-    const float spawn_rate = ACTIVE_WORLD_OPTIONS["ITEM_SPAWNRATE"];
+    const float spawn_rate = get_world_option<float>( "ITEM_SPAWNRATE" );
 
     if (chance > 100 || chance <= 0) {
         debugmsg("map::place_items() called with an invalid chance (%d)", chance);
@@ -10611,7 +10611,7 @@ void map::add_spawn(const mtype_id& type, int count, int x, int y, bool friendly
                  type.c_str(), count, x, y);
         return;
     }
-    if( ACTIVE_WORLD_OPTIONS["CLASSIC_ZOMBIES"] ) {
+    if( get_world_option<bool>( "CLASSIC_ZOMBIES" ) ) {
         const mtype& mt = type.obj();
         if( !mt.in_category("CLASSIC") && !mt.in_category("WILDLIFE") ) {
             // Don't spawn non-classic monsters in classic zombie mode.
