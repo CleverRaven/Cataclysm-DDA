@@ -739,6 +739,17 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
             }, false );
             info.push_back( iteminfo( "BASE", string_format( _( "Material: %s" ), material_list.c_str() ) ) );
         }
+        if( is_weap() || is_tool() ){
+            if( conductive () && !has_flag ( "CONDUCTIVE" ) ) { 
+                info.push_back( iteminfo( "BASE", string_format( _( "This weapon conducts electricity." ) ) ) );
+            }
+            if( conductive () && has_flag ( "CONDUCTIVE" ) ) { 
+                info.push_back( iteminfo( "BASE", string_format( _( "This weapon has too poor of a guard to protect you from electricity." ) ) ) );
+            }
+            if( !conductive () ) { 
+                info.push_back( iteminfo( "BASE", string_format( _( "This weapon does not conduct electricity." ) ) ) );
+            }
+        }
         if( has_var( "contained_name" ) ) {
             info.push_back( iteminfo( "BASE", string_format( _( "Contains: %s" ),
                                       get_var( "contained_name" ).c_str() ) ) );
@@ -3369,18 +3380,18 @@ bool item::conductive() const
         return false;
     }
     
-    if(has_flag( "CONDUCTIVE" ) ) {  
+    if(has_flag ( "CONDUCTIVE" ) ) {  
         return true;
     }
 
-    if(has_flag( "NONCONDUCTIVE" ) ) {  
+    if(has_flag ( "NONCONDUCTIVE" ) ) {  
         return false;
     }
 
     // If any material has electricity resistance equal to or lower than flesh (1) we are conductive.
     const auto mats = made_of_types();
-        return std::all_of( mats.begin(), mats.end(), []( const material_type *mt ) {
-            return mt->elec_resist() <= 1;
+    return std::all_of( mats.begin(), mats.end(), []( const material_type *mt ) {
+        return mt->elec_resist() <= 1;
     } );
 }
 
