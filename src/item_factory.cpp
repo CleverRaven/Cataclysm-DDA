@@ -1058,33 +1058,35 @@ void Item_factory::load_wheel( JsonObject &jo, const std::string &src )
     }
 }
 
-void Item_factory::load( islot_gun &slot, JsonObject &jo, const std::string & )
+void Item_factory::load( islot_gun &slot, JsonObject &jo, const std::string &src )
 {
+    bool strict = src == "core";
+
     if( jo.has_member( "burst" ) && jo.has_member( "modes" ) ) {
         jo.throw_error( "cannot specify both burst and modes", "burst" );
     }
 
-    assign( jo, "skill", slot.skill_used );
-    assign( jo, "ammo", slot.ammo );
-    assign( jo, "range", slot.range );
-    assign( jo, "ranged_damage", slot.damage );
-    assign( jo, "pierce", slot.pierce );
-    assign( jo, "dispersion", slot.dispersion );
-    assign( jo, "sight_dispersion", slot.sight_dispersion );
-    assign( jo, "aim_speed", slot.aim_speed );
-    assign( jo, "recoil", slot.recoil );
-    assign( jo, "durability", slot.durability );
-    assign( jo, "burst", slot.burst );
-    assign( jo, "loudness", slot.loudness );
-    assign( jo, "clip_size", slot.clip );
-    assign( jo, "reload", slot.reload_time );
-    assign( jo, "reload_noise", slot.reload_noise );
-    assign( jo, "reload_noise_volume", slot.reload_noise_volume );
-    assign( jo, "barrel_length", slot.barrel_length );
-    assign( jo, "built_in_mods", slot.built_in_mods );
-    assign( jo, "default_mods", slot.default_mods );
-    assign( jo, "ups_charges", slot.ups_charges );
-    assign( jo, "ammo_effects", slot.ammo_effects );
+    assign( jo, "skill", slot.skill_used, strict );
+    assign( jo, "ammo", slot.ammo, strict );
+    assign( jo, "range", slot.range, strict );
+    assign( jo, "ranged_damage", slot.damage, strict );
+    assign( jo, "pierce", slot.pierce, strict );
+    assign( jo, "dispersion", slot.dispersion, strict );
+    assign( jo, "sight_dispersion", slot.sight_dispersion, strict, 0 );
+    assign( jo, "aim_speed", slot.aim_speed, strict, 0 );
+    assign( jo, "recoil", slot.recoil, strict );
+    assign( jo, "durability", slot.durability, strict, 0, 10 );
+    assign( jo, "burst", slot.burst, strict, 1 );
+    assign( jo, "loudness", slot.loudness, strict );
+    assign( jo, "clip_size", slot.clip, strict, 0 );
+    assign( jo, "reload", slot.reload_time, strict, 0 );
+    assign( jo, "reload_noise", slot.reload_noise, strict );
+    assign( jo, "reload_noise_volume", slot.reload_noise_volume, strict, 0 );
+    assign( jo, "barrel_length", slot.barrel_length, strict, 0 );
+    assign( jo, "built_in_mods", slot.built_in_mods, strict );
+    assign( jo, "default_mods", slot.default_mods, strict );
+    assign( jo, "ups_charges", slot.ups_charges, strict, 0 );
+    assign( jo, "ammo_effects", slot.ammo_effects, strict );
 
     if( jo.has_array( "valid_mod_locations" ) ) {
         slot.valid_mod_locations.clear();
