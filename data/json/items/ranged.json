@@ -45,8 +45,7 @@
     "sight_dispersion": 150,
     "aim_speed" : 0,
     "durability": 6,
-    "clip_size": 1,
-    "reload": 100
+    "clip_size": 1
   },
   {
     "id": "slingshot",
@@ -68,8 +67,7 @@
     "dispersion": 75,
     "sight_dispersion": 150,
     "durability": 6,
-    "clip_size": 1,
-    "reload": 100
+    "clip_size": 1
   },
   {
     "id": "wristrocket",
@@ -91,8 +89,7 @@
     "dispersion": 45,
     "sight_dispersion": 150,
     "durability": 7,
-    "clip_size": 1,
-    "reload": 100
+    "clip_size": 1
   },
    {
       "id" : "bullet_crossbow",
@@ -194,7 +191,6 @@
     "recoil": 10,
     "durability": 9,
     "clip_size": 1,
-    "reload": 100,
     "loudness" : 300
   },
   {
@@ -247,7 +243,6 @@
     "recoil": 30,
     "durability": 6,
     "clip_size": 1,
-    "reload": 100,
     "loudness" : 25,
     "barrel_length" : 2,
     "built_in_mods" : ["combination_gun_shotgun_pipe"],
@@ -584,7 +579,6 @@
     "recoil": -60,
     "durability": 8,
     "clip_size": 1,
-    "reload": 100,
     "loudness" : 25,
     "barrel_length" : 2,
     "built_in_mods" : ["combination_gun_shotgun"],

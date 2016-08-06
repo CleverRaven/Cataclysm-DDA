@@ -21,8 +21,7 @@
         "dispersion": 180,
         "aim_speed": -1,
         "sight_dispersion": -1,
-        "durability": 10,
-        "reload": 100
+        "durability": 10
     },
     "dispersion_modifier": 60,
     "flags": [ "STR_RELOAD" ]

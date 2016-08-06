@@ -20,8 +20,7 @@
       "dispersion": 300,
       "aim_speed": -1,
       "sight_dispersion": -1,
-      "durability": 10,
-      "reload": 100
+      "durability": 10
     },
     "dispersion_modifier": 30,
     "flags": [ "FIRE_100" ]
@@ -86,8 +85,7 @@
       "range": 2,
       "aim_speed": -1,
       "sight_dispersion": -1,
-      "durability": 10,
-      "reload": 100
+      "durability": 10
     },
     "dispersion_modifier": 15,
     "flags": [ "RELOAD_ONE", "IRREMOVABLE", "TRADER_AVOID" ]
@@ -118,7 +116,6 @@
       "sight_dispersion": 150,
       "recoil": 300,
       "durability": 6,
-      "reload": 100,
       "loudness": 175
     },
     "flags": [ "RELOAD_ONE", "IRREMOVABLE" ]
@@ -240,8 +237,7 @@
       "aim_speed": -1,
       "sight_dispersion": -1,
       "recoil": 375,
-      "durability": 10,
-      "reload": 100
+      "durability": 10
     },
     "flags": [ "RELOAD_ONE", "IRREMOVABLE" ]
   },
@@ -267,8 +263,7 @@
       "dispersion": 300,
       "aim_speed": -1,
       "sight_dispersion": -1,
-      "durability": 10,
-      "reload": 100
+      "durability": 10
     },
     "dispersion_modifier": 30
   },
@@ -294,8 +289,7 @@
       "dispersion": 20,
       "aim_speed": -1,
       "sight_dispersion": -1,
-      "durability": 10,
-      "reload": 100
+      "durability": 10
     },
     "dispersion_modifier": 60
   },
@@ -320,8 +314,7 @@
       "dispersion": 30,
       "aim_speed": -1,
       "sight_dispersion": -1,
-      "durability": 10,
-      "reload": 100
+      "durability": 10
     },
     "dispersion_modifier": 15,
     "flags": [ "RELOAD_ONE" ]
@@ -347,8 +340,7 @@
       "dispersion": 450,
       "aim_speed": -1,
       "sight_dispersion": -1,
-      "durability": 10,
-      "reload": 100
+      "durability": 10
     },
     "dispersion_modifier": 60
   },
@@ -440,8 +432,7 @@
       "dispersion": 75,
       "aim_speed": -1,
       "sight_dispersion": -1,
-      "durability": 100,
-      "reload": 100
+      "durability": 100
     },
     "dispersion_modifier": 30,
     "flags": [ "RELOAD_ONE" ]

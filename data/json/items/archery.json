@@ -643,7 +643,6 @@
       "aim_speed" : 0,
       "durability" : 6,
       "clip_size" : 1,
-      "reload" : 100,
       "valid_mod_locations": [["underbarrel", 1],[ "sights", 1 ],[ "accessories", 2 ]]
    },
    {
@@ -709,7 +708,6 @@
       "aim_speed" : 0,
       "durability" : 6,
       "clip_size" : 1,
-      "reload" : 100,
       "valid_mod_locations": [["underbarrel", 1],[ "sights", 1 ],[ "accessories", 2 ]]
    },
    {
@@ -742,7 +740,6 @@
       "aim_speed" : 0,
       "durability" : 6,
       "clip_size" : 1,
-      "reload" : 100,
       "valid_mod_locations": [["underbarrel", 1],[ "sights", 1 ],[ "accessories", 2 ]]
    },
    {
@@ -833,7 +830,6 @@
       "aim_speed" : 4,
       "durability" : 6,
       "clip_size" : 1,
-      "reload" : 100,
       "valid_mod_locations": [[ "accessories", 2 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
    },
    {

@@ -132,7 +132,6 @@
     "recoil": 225,
     "durability": 4,
     "clip_size": 2,
-    "reload": 100,
     "loudness" : 200,
     "valid_mod_locations": [[ "accessories", 4 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ]]
   },
@@ -159,7 +158,6 @@
     "recoil": 450,
     "durability": 6,
     "clip_size": 1,
-    "reload": 100,
     "loudness" : 200,
     "valid_mod_locations": [[ "stock", 1 ]]
   },
@@ -470,8 +468,7 @@
         "sight_dispersion": 150,
         "aim_speed" : 0,
         "durability": 7,
-        "clip_size": 1,
-        "reload": 100
+        "clip_size": 1
     },
     {
         "type" : "AMMO",
