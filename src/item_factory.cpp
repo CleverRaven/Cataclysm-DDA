@@ -1392,14 +1392,16 @@ void Item_factory::load_gunmod( JsonObject &jo, const std::string &src )
     }
 }
 
-void Item_factory::load( islot_magazine &slot, JsonObject &jo, const std::string & )
+void Item_factory::load( islot_magazine &slot, JsonObject &jo, const std::string &src )
 {
-    assign( jo, "ammo_type", slot.type );
-    assign( jo, "capacity", slot.capacity );
-    assign( jo, "count", slot.count );
-    assign( jo, "reliability", slot.reliability );
-    assign( jo, "reload_time", slot.reload_time );
-    assign( jo, "linkage", slot.linkage );
+    bool strict = src == "core";
+
+    assign( jo, "ammo_type", slot.type, strict );
+    assign( jo, "capacity", slot.capacity, strict, 0 );
+    assign( jo, "count", slot.count, strict, 0 );
+    assign( jo, "reliability", slot.reliability, strict, 0, 10 );
+    assign( jo, "reload_time", slot.reload_time, strict, 0 );
+    assign( jo, "linkage", slot.linkage, strict );
 }
 
 void Item_factory::load_magazine( JsonObject &jo, const std::string &src )
