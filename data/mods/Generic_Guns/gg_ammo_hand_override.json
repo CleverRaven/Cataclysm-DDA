@@ -1,5 +1,13 @@
 [
   {
+    "id": "reloaded_223",
+    "copy-from": "reloaded_223",
+    "type": "AMMO",
+    "name": "reloaded light rifle ammo",
+    "name_plural": "reloaded light rifle ammo",
+    "description": "Hand-loaded ammunition for lighter rifles, designed for small game and humans."
+  },
+  {
     "id": "reloaded_9mm",
     "copy-from": "reloaded_9mm",
     "type": "AMMO",
@@ -36,22 +44,12 @@
     "ammo_type": "44"
   },
   {
-    "id": "reloaded_556",
-    "copy-from": "reloaded_556",
-    "type": "AMMO",
-    "name": "reloaded light rifle ammo",
-    "name_plural": "reloaded light rifle ammo",
-    "description": "Hand-loaded ammunition for lighter rifles, designed for small game and humans.",
-    "ammo_type": "556"
-  },
-  {
     "id": "reloaded_556_incendiary",
     "copy-from": "reloaded_556_incendiary",
     "type": "AMMO",
     "name": "reloaded light rifle ammo, incendiary",
     "name_plural": "reloaded light rifle ammo, incendiary",
-    "description": "Hand-loaded incendiary ammunition for lighter rifles, designed to burn hotly upon impact, piercing armor and igniting flammable substances.",
-    "ammo_type": "556"
+    "description": "Hand-loaded incendiary ammunition for lighter rifles, designed to burn hotly upon impact, piercing armor and igniting flammable substances."
   },
   {
     "id": "reloaded_762_51",

@@ -80,8 +80,7 @@
     "type": "GUN",
     "name": "semiautomatic carbine",
     "description": "A compact and lightweight carbine favored by hunters and the police.  It holds ten rounds of light rifle ammo in a detachable magazine.",
-    "ammo": "556",
-    "magazines": [ [ "556", [ "stanag10" ] ] ]
+    "magazines": [ [ "223", [ "stanag10" ] ] ]
   },
   {
     "id": "m4a1",
@@ -89,8 +88,7 @@
     "type": "GUN",
     "name": "assault rifle",
     "description": "A lightweight assault rifle used by US military, it also has hundreds of commercial knockoffs for the civilian market.  It uses detachable magazines of various capacities.",
-    "ammo": "556",
-    "magazines": [ [ "556", [ "stanag10", "stanag30", "stanag50" ] ] ]
+    "magazines": [ [ "223", [ "stanag10", "stanag30", "stanag50" ] ] ]
   },
   {
     "id": "ak47",
@@ -107,8 +105,7 @@
     "type": "GUN",
     "name": "light machine gun",
     "description": "A portable lightweight machine gun built for laying down suppressive fire rather than placing accurate shots.  It can be reloaded using both drum magazines and ammo belts.",
-    "ammo": "556",
-    "magazines": [ [ "556", [ "stanag50", "belt223" ] ] ]
+    "magazines": [ [ "223", [ "stanag50", "belt223" ] ] ]
   },
   {
     "id": "m60",
@@ -116,8 +113,8 @@
     "type": "GUN",
     "name": "general purpose machine gun",
     "description": "A hefty machine gun meant to be fired from bipods or mounted to vehicles.  Unlike the lighter version this can only be reloaded using ammo belts",
-    "ammo": "556",
-    "magazines": [ [ "556", [ "belt223" ] ] ]
+    "ammo": "223",
+    "magazines": [ [ "223", [ "belt223" ] ] ]
   },
   {
     "id": "m134",
@@ -222,8 +219,7 @@
     "type": "GUN",
     "name": "survivor's carbine",
     "description": "A well designed homemade carbine using light rifle ammo.  Fits a 10-round detachable magazine and with a shortened barrel, this is one of the better homemade weapons.",
-    "ammo": "556",
-    "magazines": [ [ "556", [ "stanag10" ] ] ]
+    "magazines": [ [ "223", [ "stanag10" ] ] ]
   },
   {
     "id": "emp_gun",
