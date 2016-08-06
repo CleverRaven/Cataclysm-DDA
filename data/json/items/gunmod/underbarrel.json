@@ -410,7 +410,7 @@
       "ammo": "shot",
       "clip_size": 2,
       "dispersion": 75,
-      "durability": 100
+      "durability": 10
     },
     "dispersion_modifier": 30,
     "flags": [ "RELOAD_ONE" ]

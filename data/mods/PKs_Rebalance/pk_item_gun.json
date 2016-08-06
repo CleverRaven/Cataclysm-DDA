@@ -49,7 +49,7 @@
     "sight_dispersion": 50,
     "aim_speed": 5,
     "recoil": 50,
-    "durability": 666,
+    "durability": 10,
     "clip_size": 1,
     "reload": 300,
     "loudness": 1
