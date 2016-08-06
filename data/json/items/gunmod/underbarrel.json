@@ -20,7 +20,6 @@
       "dispersion": 300,
       "aim_speed": -1,
       "sight_dispersion": -1,
-      "recoil": 0,
       "durability": 10,
       "reload": 100
     },
@@ -87,7 +86,6 @@
       "range": 2,
       "aim_speed": -1,
       "sight_dispersion": -1,
-      "recoil": 0,
       "durability": 10,
       "reload": 100
     },
@@ -269,7 +267,6 @@
       "dispersion": 300,
       "aim_speed": -1,
       "sight_dispersion": -1,
-      "recoil": 0,
       "durability": 10,
       "reload": 100
     },
@@ -297,7 +294,6 @@
       "dispersion": 20,
       "aim_speed": -1,
       "sight_dispersion": -1,
-      "recoil": 0,
       "durability": 10,
       "reload": 100
     },
@@ -324,7 +320,6 @@
       "dispersion": 30,
       "aim_speed": -1,
       "sight_dispersion": -1,
-      "recoil": 0,
       "durability": 10,
       "reload": 100
     },
@@ -352,7 +347,6 @@
       "dispersion": 450,
       "aim_speed": -1,
       "sight_dispersion": -1,
-      "recoil": 0,
       "durability": 10,
       "reload": 100
     },
@@ -446,7 +440,6 @@
       "dispersion": 75,
       "aim_speed": -1,
       "sight_dispersion": -1,
-      "recoil": 0,
       "durability": 100,
       "reload": 100
     },
