@@ -182,6 +182,9 @@ struct vehicle_part : public JsonSerializer, public JsonDeserializer
      */
     /*@{*/
 
+    /** Can this part provide power or propulsion? */
+    bool is_engine() const;
+
     /** Is this any type of vehicle light? */
     bool is_light() const;
 

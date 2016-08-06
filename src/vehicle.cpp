@@ -1835,9 +1835,55 @@ int vehicle::install_part( int dx, int dy, const vpart_str_id &id, item&& obj, b
 int vehicle::install_part( int dx, int dy, const vehicle_part &new_part )
 {
     parts.push_back( new_part );
-    parts.back().mount.x = dx;
-    parts.back().mount.y = dy;
-    parts.back().enabled = parts.back().base.is_engine();
+    auto &pt = parts.back();
+
+    pt.mount.x = dx;
+    pt.mount.y = dy;
+
+    // @todo read toggle groups from JSON
+    if( pt.is_engine() ) {
+        pt.enabled = true;
+
+    } else if( pt.info().has_flag( "CONE_LIGHT" ) ) {
+        pt.enabled = has_part( "CONE_LIGHT", true );
+
+    } else if( pt.info().has_flag( "CIRCLE_LIGHT" ) ) {
+        pt.enabled = has_part( "CIRCLE_LIGHT", true );
+
+    } else if( pt.info().has_flag( "AISLE_LIGHT" ) ) {
+        pt.enabled = has_part( "AISLE_LIGHT", true );
+
+    } else if( pt.info().has_flag( "DOME_LIGHT" ) ) {
+        pt.enabled = has_part( "DOME_LIGHT", true );
+
+    } else if( pt.info().has_flag( "STEREO" ) ) {
+        pt.enabled = has_part( "STEREO", true );
+
+    } else if( pt.info().has_flag( "CHIMES" ) ) {
+        pt.enabled = has_part( "CHIMES", true );
+
+    } else if( pt.info().has_flag( "FRIDGE" ) ) {
+        pt.enabled = has_part( "FRIDGE", true );
+
+    } else if( pt.info().has_flag( "RECHARGE" ) ) {
+        pt.enabled = has_part( "RECHARGE", true );
+
+    } else if( pt.info().has_flag( "PLOW" ) ) {
+        pt.enabled = has_part( "PLOW", true );
+
+    } else if( pt.info().has_flag( "REAPER" ) ) {
+        pt.enabled = has_part( "REAPER", true );
+
+    } else if( pt.info().has_flag( "PLANTER" ) ) {
+        pt.enabled = has_part( "PLANTER", true );
+
+    } else if( pt.info().has_flag( "SCOOP" ) ) {
+        pt.enabled = has_part( "SCOOP", true );
+
+    } else {
+        pt.enabled = false;
+    }
+
     refresh();
     return parts.size() - 1;
 }
@@ -6175,6 +6221,11 @@ int vehicle_part::wheel_diameter() const
 int vehicle_part::wheel_width() const
 {
     return base.is_wheel() ? base.type->wheel->width : 0;
+}
+
+bool vehicle_part::is_engine() const
+{
+    return info().has_flag( VPFLAG_ENGINE );
 }
 
 bool vehicle_part::is_light() const
