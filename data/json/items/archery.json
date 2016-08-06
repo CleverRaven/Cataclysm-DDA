@@ -905,7 +905,6 @@
       "volume" : 10,
       "bashing" : 13,
       "to_hit" : -1,
-      "ranged_damage" : 0,
       "range" : 8,
       "dispersion" : 500,
       "sight_dispersion": 90,
