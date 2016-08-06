@@ -133,7 +133,6 @@
     "ranged_damage": -1,
     "dispersion": 120,
     "sight_dispersion": 200,
-    "aim_speed": 0,
     "recoil": 55,
     "durability": 9,
     "reload": 400,

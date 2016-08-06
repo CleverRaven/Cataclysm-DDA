@@ -154,7 +154,6 @@
     "ranged_damage": 1,
     "dispersion": 630,
     "sight_dispersion": 150,
-    "aim_speed" : 0,
     "recoil": 450,
     "durability": 6,
     "clip_size": 1,
@@ -466,7 +465,6 @@
         "to_hit": -2,
         "dispersion": 75,
         "sight_dispersion": 150,
-        "aim_speed" : 0,
         "durability": 7,
         "clip_size": 1
     },

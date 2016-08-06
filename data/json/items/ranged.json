@@ -43,7 +43,6 @@
     "range": 8,
     "dispersion": 150,
     "sight_dispersion": 150,
-    "aim_speed" : 0,
     "durability": 6,
     "clip_size": 1
   },
