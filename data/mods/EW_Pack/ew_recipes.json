@@ -92,8 +92,8 @@
   "tools": [
     [
       [ "welder", 30 ],
-      [ "toolset", 40 ],
-      [ "welder_crude", 40],
+      [ "toolset", 45 ],
+      [ "welder_crude", 45 ],
       [ "oxy_torch", 6 ]
     ]
   ],
