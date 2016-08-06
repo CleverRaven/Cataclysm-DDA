@@ -14,10 +14,6 @@ fi
 
 for file in "$@"; do
     echo -n "Linting $file: "
-    $PERL $LINTER -cq $file
-    if [ $? -ne 0 ]; then
-        echo FAIL
-        exit 65; # EX_DATAERR
-    fi
+    $PERL $LINTER -cq $file || exit 65; # EX_DATAERR
     echo OK
 done
