@@ -9,9 +9,9 @@
     "symbol": "=",
     "color": "dark_gray",
     "proportional": {
-        "price": 3.0,
-        "damage": 3.0,
-        "pierce": 3.0
+      "price": 3,
+      "damage": 3,
+      "pierce": 3
     }
   },
   {
@@ -24,15 +24,15 @@
     "weight": 4,
     "volume": 1,
     "price": 6000,
-    "count": 100,
-    "stack_size": 100,
     "material": "iron",
     "symbol": "=",
     "color": "cyan",
+    "count": 100,
+    "stack_size": 100,
     "ammo_type": "nail",
+    "range": 3,
     "damage": 4,
     "pierce": 3,
-    "range": 3,
     "dispersion": 60
   }
 ]

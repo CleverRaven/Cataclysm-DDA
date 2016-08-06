@@ -8,15 +8,15 @@
     "weight": 7,
     "volume": 1,
     "price": 2400,
-    "count": 50,
-    "stack_size": 50,
     "material": [ "steel", "powder" ],
     "symbol": "=",
     "color": "yellow",
+    "count": 50,
+    "stack_size": 50,
     "ammo_type": "9mm",
     "casing": "9mm_casing",
-    "damage": 26,
     "range": 14,
+    "damage": 26,
     "dispersion": 140,
     "recoil": 195,
     "effects": [ "COOKOFF" ]
@@ -29,8 +29,8 @@
     "name_plural": "9x19mm FMJ",
     "description": "9x19mm ammunition with a brass jacketed 115gr bullet.  It is a popular round for military, law enforcement, and civilian use even after almost 150 years.",
     "relative": {
-        "damage": -2,
-        "pierce": 4
+      "damage": -2,
+      "pierce": 4
     }
   },
   {
@@ -43,10 +43,10 @@
     "price": 3800,
     "count": 25,
     "relative": {
-        "damage": 2,
-        "pierce": 2,
-        "dispersion": -15,
-        "recoil": 30
+      "damage": 2,
+      "pierce": 2,
+      "dispersion": -15,
+      "recoil": 30
     }
   },
   {
@@ -59,10 +59,10 @@
     "price": 5200,
     "count": 10,
     "relative": {
-        "damage": 4,
-        "pierce": 4,
-        "dispersion": -30,
-        "recoil": 60
+      "damage": 4,
+      "pierce": 4,
+      "dispersion": -30,
+      "recoil": 60
     }
   },
   {
@@ -72,9 +72,9 @@
     "name": "reloaded 9x19mm JHP",
     "name_plural": "reloaded 9x19mm JHP",
     "proportional": {
-        "price": 0.7,
-        "damage": 0.9,
-        "dispersion": 1.1
+      "price": 0.7,
+      "damage": 0.9,
+      "dispersion": 1.1
     },
     "extend": { "effects": [ "RECYCLED" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ] }
@@ -86,9 +86,9 @@
     "name": "reloaded 9x19mm FMJ",
     "name_plural": "reloaded 9x19mm FMJ",
     "proportional": {
-        "price": 0.7,
-        "damage": 0.9,
-        "dispersion": 1.1
+      "price": 0.7,
+      "damage": 0.9,
+      "dispersion": 1.1
     },
     "extend": { "effects": [ "RECYCLED" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ] }
@@ -100,9 +100,9 @@
     "name": "reloaded 9x19mm +P",
     "name_plural": "reloaded 9x19mm +P",
     "proportional": {
-        "price": 0.7,
-        "damage": 0.9,
-        "dispersion": 1.1
+      "price": 0.7,
+      "damage": 0.9,
+      "dispersion": 1.1
     },
     "extend": { "effects": [ "RECYCLED" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ] }
@@ -114,9 +114,9 @@
     "name": "reloaded 9x19mm +P+",
     "name_plural": "reloaded 9x19mm +P+",
     "proportional": {
-        "price": 0.7,
-        "damage": 0.9,
-        "dispersion": 1.1
+      "price": 0.7,
+      "damage": 0.9,
+      "dispersion": 1.1
     },
     "extend": { "effects": [ "RECYCLED" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ] }
