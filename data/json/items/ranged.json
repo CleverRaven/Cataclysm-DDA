@@ -608,7 +608,6 @@
     "bashing": 10,
     "to_hit": -3,
     "pierce": 0,
-    "range": 0,
     "dispersion": 300,
     "sight_dispersion": 150,
     "aim_speed" : 2,
