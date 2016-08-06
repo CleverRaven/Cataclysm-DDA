@@ -8,11 +8,9 @@
   "skills_required": [ "cooking", 1 ],
   "difficulty": 4,
   "time": 8000,
-  "reversible": false,
-  "autolearn": false,
   "book_learn": [[ "textbook_anarch", 4 ] , ["recipe_bullets" , 2 ] , [ "manual_shotgun", 3 ] , [ "manual_pistol", 3 ], [ "adv_chemistry", 3 ] , [ "textbook_chemistry", 3 ]],
   "qualities":[
-    {"id":"CHEM","level":2,"amount":1}
+    {"id":"CHEM","level":2}
   ],
   "tools": [ [
     [ "chemistry_set", 50 ],
@@ -26,17 +24,15 @@
   ]
 },{
   "type" : "recipe",
-  "result": "8mm_bootleg",
+  "result": "8mm_bootleg_jsp",
   "category": "CC_AMMO",
   "subcategory": "CSC_AMMO_BULLETS",
   "skill_used": "fabrication",
   "skills_required": [ "cooking", 2 ],
-  "difficulty": 7,
+  "difficulty": 8,
   "time": 45000,
-  "reversible": false,
-  "autolearn": false,
   "book_learn": [[ "recipe_caseless", 5 ] , ["recipe_bullets" , 9 ] , ["manual_pistol", 10 ] , ["manual_rifle", 10 ]],
-  "qualities":[ {"id":"CHEM","level":2,"amount":1} ],
+  "qualities":[ {"id":"CHEM","level":2} ],
   "tools": [
     [
       [ "press", 50 ],
@@ -58,7 +54,8 @@
       [ "tin", 75 ],
       [ "bismuth", 75 ],
       [ "solder_wire", 75 ]
-    ]
+    ],
+    [ [ "cu_pipe", 5] ]
   ]
 },{
   "type" : "recipe",
@@ -69,10 +66,8 @@
   "skills_required": [ "cooking", 2 ],
   "difficulty": 8,
   "time": 45000,
-  "reversible": false,
-  "autolearn": false,
   "book_learn": [[ "recipe_caseless", 5 ] , ["recipe_bullets" , 9 ] , ["manual_shotgun", 10 ]],
-  "qualities":[ {"id":"CHEM","level":2,"amount":1} ],
+  "qualities":[ {"id":"CHEM","level":2} ],
   "tools": [
     [
       [ "press", 50 ],
@@ -105,10 +100,8 @@
   "skills_required": [ "cooking", 2 ],
   "difficulty": 8,
   "time": 45000,
-  "reversible": false,
-  "autolearn": false,
   "book_learn": [[ "recipe_caseless", 5 ] , ["recipe_bullets" , 9 ] , ["manual_shotgun", 10 ]],
-  "qualities":[ {"id":"CHEM","level":2,"amount":1} ],
+  "qualities":[ {"id":"CHEM","level":2} ],
   "tools": [
     [
       [ "press", 50 ],
@@ -135,10 +128,8 @@
   "skills_required": [ "cooking", 2 ],
   "difficulty": 8,
   "time": 45000,
-  "reversible": false,
-  "autolearn": false,
   "book_learn": [[ "recipe_caseless", 5 ] , ["recipe_bullets" , 9 ] , ["manual_shotgun", 10 ]],
-  "qualities":[ {"id":"CHEM","level":2,"amount":1} ],
+  "qualities":[ {"id":"CHEM","level":2} ],
   "tools": [
     [
       [ "press", 50 ],
@@ -174,8 +165,8 @@
   "reversible": true,
   "autolearn": true,
   "qualities":[
-    {"id":"SAW_M_FINE","level":1,"amount":1},
-    {"id":"SCREW_FINE","level":1,"amount":1}
+    {"id":"SAW_M_FINE","level":1},
+    {"id":"SCREW_FINE","level":1}
   ],
   "components": [
     [ [ "pipe", 1 ] ],
@@ -194,8 +185,8 @@
   "reversible": true,
   "autolearn": true,
   "qualities":[
-    {"id":"SAW_M_FINE","level":1,"amount":1},
-    {"id":"SCREW_FINE","level":1,"amount":1}
+    {"id":"SAW_M_FINE","level":1},
+    {"id":"SCREW_FINE","level":1}
   ],
   "components": [
     [ [ "pipe", 1 ] ],
@@ -214,8 +205,8 @@
   "reversible": true,
   "autolearn": true,
   "qualities":[
-    {"id":"SAW_M_FINE","level":1,"amount":1},
-    {"id":"SCREW_FINE","level":1,"amount":1}
+    {"id":"SAW_M_FINE","level":1},
+    {"id":"SCREW_FINE","level":1}
   ],
   "components": [
     [ [ "pipe", 1 ] ],
@@ -234,8 +225,8 @@
   "reversible": true,
   "autolearn": true,
   "qualities":[
-    {"id":"SAW_M_FINE","level":1,"amount":1},
-    {"id":"SCREW_FINE","level":1,"amount":1}
+    {"id":"SAW_M_FINE","level":1},
+    {"id":"SCREW_FINE","level":1}
   ],
   "components": [
     [ [ "pipe", 1 ] ],
@@ -254,8 +245,8 @@
   "reversible": true,
   "autolearn": true,
   "qualities":[
-    {"id":"SAW_M_FINE","level":1,"amount":1},
-    {"id":"SCREW_FINE","level":1,"amount":1}
+    {"id":"SAW_M_FINE","level":1},
+    {"id":"SCREW_FINE","level":1}
   ],
   "components": [
     [ [ "pipe", 3 ] ],
@@ -275,8 +266,8 @@
   "reversible": true,
   "autolearn": true,
   "qualities":[
-    {"id":"SAW_M_FINE","level":1,"amount":1},
-    {"id":"SCREW_FINE","level":1,"amount":1}
+    {"id":"SAW_M_FINE","level":1},
+    {"id":"SCREW_FINE","level":1}
   ],
   "components": [
     [ [ "pipe", 3 ] ],
@@ -296,8 +287,8 @@
   "reversible": true,
   "autolearn": true,
   "qualities":[
-    {"id":"SAW_M_FINE","level":1,"amount":1},
-    {"id":"SCREW_FINE","level":1,"amount":1}
+    {"id":"SAW_M_FINE","level":1},
+    {"id":"SCREW_FINE","level":1}
   ],
   "components": [
     [ [ "pipe", 3 ] ],
@@ -317,8 +308,8 @@
   "reversible": true,
   "autolearn": true,
   "qualities":[
-    {"id":"SAW_M_FINE","level":1,"amount":1},
-    {"id":"SCREW_FINE","level":1,"amount":1}
+    {"id":"SAW_M_FINE","level":1},
+    {"id":"SCREW_FINE","level":1}
   ],
   "components": [
     [ [ "pipe", 3 ] ],
@@ -338,8 +329,8 @@
   "reversible": true,
   "autolearn": true,
   "qualities":[
-    {"id":"SAW_M_FINE","level":1,"amount":1},
-    {"id":"SCREW_FINE","level":1,"amount":1}
+    {"id":"SAW_M_FINE","level":1},
+    {"id":"SCREW_FINE","level":1}
   ],
   "components": [
     [ [ "pipe", 3 ] ],

@@ -14,6 +14,7 @@
 namespace std {
     template <>
     struct hash<talk_topic_enum> {
+        // Operator overload required by std API.
         std::size_t operator()(const talk_topic_enum& k) const {
             return k; // the most trivial hash of them all
         }
@@ -236,7 +237,7 @@ void item::load_info( const std::string &data )
     convert( idtmp );
 
     invlet = char(lettmp);
-    damage = damtmp;
+    set_damage( damtmp );
     active = false;
     if (acttmp == 1) {
         active = true;
@@ -409,7 +410,7 @@ void overmap::unserialize_legacy(std::istream & fin) {
                                 // temporary; user changed option, this overmap should remain whatever it was set to.
                                 settings = rit->second; // todo optimize
                             } else { // ruh-roh! user changed option and deleted the .json with this overmap's region. We'll have to become current default. And whine about it.
-                                std::string tmpopt = ACTIVE_WORLD_OPTIONS["DEFAULT_REGION"].getValue();
+                                std::string tmpopt = get_world_option<std::string>( "DEFAULT_REGION" );
                                 rit = region_settings_map.find( tmpopt );
                                 if ( rit == region_settings_map.end() ) { // ...oy. Hopefully 'default' exists. If not, it's crashtime anyway.
                                     debugmsg("               WARNING: overmap uses missing region settings '%s'                 \n\
@@ -420,7 +421,7 @@ void overmap::unserialize_legacy(std::istream & fin) {
                                 } else {
                                     debugmsg("               WARNING: overmap uses missing region settings '%s', falling back to '%s'                \n",
                                               tmpstr.c_str(), tmpopt.c_str() );
-                                    // fallback means we already loaded ACTIVE_WORLD_OPTIONS["DEFAULT_REGION"]
+                                    // fallback means we already loaded the default region
                                 }
                             }
                         }

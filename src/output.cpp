@@ -613,7 +613,7 @@ bool internal_query_yn( const char *mes, va_list ap )
 {
     const std::string text = vstring_format( mes, ap );
 
-    bool const force_uc = !!OPTIONS["FORCE_CAPITAL_YN"];
+    bool const force_uc = get_option<bool>( "FORCE_CAPITAL_YN" );
 
     //~ Translation of query answer letters (y mean yes, n - no)
     //~ Translation MUST contain symbols ONLY from ASCII charset. Undefined behavior otherwise.
@@ -700,7 +700,7 @@ bool internal_query_yn( const char *mes, va_list ap )
     return ( ( ch != KEY_ESCAPE ) && result );
 }
 
-int query_int( const char *mes, ... )
+bool query_int( int &result, const char *mes, ... )
 {
     va_list ap;
     va_start( ap, mes );
@@ -708,9 +708,17 @@ int query_int( const char *mes, ... )
     va_end( ap );
 
     std::string raw_input = string_input_popup( text );
+    if( raw_input.empty() ) { //ESC key is pressed
+        return false;
+    }
 
     //Note that atoi returns 0 for anything it doesn't like.
-    return atoi( raw_input.c_str() );
+    int num = atoi( raw_input.c_str() );
+    if( raw_input != "0" && num == 0) { //invalid input
+        return false;
+    }
+    result = num;
+    return true;
 }
 
 std::string string_input_popup( std::string title, int width, std::string input, std::string desc,
@@ -1238,7 +1246,7 @@ std::string format_item_info( const std::vector<iteminfo> &vItemDisplay,
             }
 
             if( vItemDisplay[i].sValue != "-999" ) {
-                nc_color thisColor = OPTIONS["INFO_HIGHLIGHT"] ? c_yellow : c_ltgray;
+                nc_color thisColor = c_yellow;
                 for( auto &k : vItemCompare ) {
                     if( k.sValue != "-999" ) {
                         if( vItemDisplay[i].sName == k.sName && vItemDisplay[i].sType == k.sType ) {
@@ -1616,7 +1624,7 @@ void draw_scrollbar( WINDOW *window, const int iCurrentLine, const int iContentH
 void calcStartPos( int &iStartPos, const int iCurrentLine, const int iContentHeight,
                    const int iNumEntries )
 {
-    if( OPTIONS["MENU_SCROLL"] ) {
+    if( get_option<bool>( "MENU_SCROLL" ) ) {
         if( iNumEntries > iContentHeight ) {
             iStartPos = iCurrentLine - ( iContentHeight - 1 ) / 2;
 
@@ -1659,7 +1667,7 @@ void hit_animation( int iX, int iY, nc_color cColor, const std::string &cTile )
     mvwprintz( w_hit, 0, 0, cColor, "%s", cTile.c_str() );
     wrefresh( w_hit );
 
-    timeout( static_cast<int>( OPTIONS["ANIMATION_DELAY"] ) );
+    timeout( get_option<int>( "ANIMATION_DELAY" ) );
     getch(); //using this, because holding down a key with nanosleep can get yourself killed
     timeout( -1 );
 }
@@ -1973,30 +1981,7 @@ get_hp_bar( const int cur_hp, const int max_hp, const bool is_mon )
            ( ratio >= 0.3 && !is_mon ) ? strings[7]  :
            ( ratio >= 0.2 )            ? strings[8]  :
            ( ratio >= 0.1 && !is_mon ) ? strings[9]  :
-           ( ratio >= 0.0 )            ? strings[10] : strings[11];
-}
-
-std::pair<std::string, nc_color> const &get_item_hp_bar( const int dmg )
-{
-    using pair_t = std::pair<std::string, nc_color>;
-    static std::array<pair_t, 7> const strings {
-        {
-            //~ item health bars
-            pair_t {_( R"(++)" ), c_green},
-                   pair_t {_( R"(||)" ), c_ltgreen},
-                   pair_t {_( R"(|\)" ), c_yellow},
-                   pair_t {_( R"(|.)" ), c_magenta},
-                   pair_t {_( R"(\.)" ), c_ltred},
-                   pair_t {_( R"(..)" ), c_red},
-                   pair_t {_( R"(??)" ), c_white},
-        }
-    };
-
-    if( dmg >= -1 && dmg <= 4 ) {
-        return strings[dmg + 1];
-    }
-
-    return strings[6];
+           ( ratio >  0.0 )            ? strings[10] : strings[11];
 }
 
 std::pair<std::string, nc_color> const &get_light_level( const float light )
@@ -2125,7 +2110,7 @@ void scrollingcombattext::add( const int p_iPosX, const int p_iPosY, direction p
                                const std::string p_sText2, const game_message_type p_gmt2,
                                const std::string p_sType )
 {
-    if( OPTIONS["ANIMATION_SCT"] ) {
+    if( get_option<bool>( "ANIMATION_SCT" ) ) {
 
         int iCurStep = 0;
 
@@ -2360,13 +2345,13 @@ int msgtype_to_tilecolor( const game_message_type type, const bool bOldMsg )
 #if !defined(TILES)
 int get_terminal_width()
 {
-    int width = OPTIONS["TERMINAL_X"];
+    int width = get_option<int>( "TERMINAL_X" );
     return width < FULL_SCREEN_WIDTH ? FULL_SCREEN_WIDTH : width;
 }
 
 int get_terminal_height()
 {
-    return OPTIONS["TERMINAL_Y"];
+    return get_option<int>( "TERMINAL_Y" );
 }
 
 bool is_draw_tiles_mode()

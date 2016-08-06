@@ -97,7 +97,6 @@
         "material": "paper",
         "weight": 20,
         "volume": 1,
-        "bashing": -8,
         "to_hit": -2,
         "flags": [ "TRADER_AVOID" ]
     },
@@ -113,7 +112,6 @@
         "flags": ["NO_SALVAGE"],
         "weight": 114,
         "volume": 1,
-        "bashing": -8,
         "category": "spare_parts"
     },
     {
@@ -129,7 +127,6 @@
         "flags": ["NO_SALVAGE"],
         "weight": 100,
         "volume": 1,
-        "bashing": -2,
         "category" : "spare_parts",
         "to_hit": -1
     },
@@ -146,7 +143,6 @@
         "flags": ["NO_SALVAGE"],
         "weight": 100,
         "volume": 1,
-        "bashing": -2,
         "category" : "spare_parts",
         "to_hit": -1
     },
@@ -177,7 +173,6 @@
         "material": "plastic",
         "weight": 45,
         "volume": 1,
-        "bashing": -2,
         "to_hit": -2,
         "flags" : ["UNRECOVERABLE"]
     },
@@ -305,7 +300,6 @@
         "material": "veggy",
         "weight": 60,
         "volume": 1,
-        "bashing": -8,
         "to_hit": -3
     },
     {
@@ -409,7 +403,7 @@
         "price": 10000,
         "price_postapoc": 100,
         "material": "gold",
-        "weight": 1514,
+        "weight": 1500,
         "volume": 1,
         "bashing": 9
     },
@@ -519,8 +513,7 @@
         "weight": 2340,
         "volume": 4,
         "bashing": 4,
-        "ammo_type" : "components",
-        "count" : 1
+        "ammo_type" : "components"
         },
     {
         "type":"GENERIC",
@@ -626,8 +619,7 @@
         "price_postapoc": 100,
         "material": "iron",
         "weight": 3220,
-        "volume": 3,
-        "bashing": -1
+        "volume": 3
     },
     {
         "type":"GENERIC",
@@ -1935,8 +1927,7 @@
         "weight": 2340,
         "volume": 4,
         "bashing": 4,
-        "ammo_type" : "components",
-        "count" : 1
+        "ammo_type" : "components"
     },
     {
         "type":"GENERIC",
@@ -2021,10 +2012,6 @@
         "volume" : 5,
         "weight" : 10,
         "ammo_type" : "NULL",
-        "damage" : 0,
-        "range" : 0,
-        "dispersion" : 0,
-        "recoil" : 0,
         "count" : 100
     },
     {   "type" : "AMMO",
@@ -2040,10 +2027,6 @@
         "volume" : 5,
         "weight" : 10,
         "ammo_type" : "NULL",
-        "damage" : 0,
-        "range" : 0,
-        "dispersion" : 0,
-        "recoil" : 0,
         "count" : 100
     },
     {   "type" : "AMMO",
@@ -2059,10 +2042,6 @@
         "volume" : 5,
         "weight" : 10,
         "ammo_type" : "NULL",
-        "damage" : 0,
-        "range" : 0,
-        "dispersion" : 0,
-        "recoil" : 0,
         "count" : 100
     },
     {   "type" : "AMMO",
@@ -2078,10 +2057,6 @@
         "volume" : 5,
         "weight" : 10,
         "ammo_type" : "NULL",
-        "damage" : 0,
-        "range" : 0,
-        "dispersion" : 0,
-        "recoil" : 0,
         "count" : 100
     },
     {   "type" : "AMMO",
@@ -2097,10 +2072,6 @@
         "volume" : 5,
         "weight" : 10,
         "ammo_type" : "NULL",
-        "damage" : 0,
-        "range" : 0,
-        "dispersion" : 0,
-        "recoil" : 0,
         "count" : 100
     },
     {   "type" : "AMMO",
@@ -2116,10 +2087,6 @@
         "volume" : 5,
         "weight" : 10,
         "ammo_type" : "NULL",
-        "damage" : 0,
-        "range" : 0,
-        "dispersion" : 0,
-        "recoil" : 0,
         "count" : 100
     },
     {   "type" : "AMMO",
@@ -2134,10 +2101,6 @@
         "volume" : 7,
         "weight" : 45,
         "ammo_type" : "NULL",
-        "damage" : 0,
-        "range" : 0,
-        "dispersion" : 0,
-        "recoil" : 0,
         "count" : 5
     },
     {   "type" : "AMMO",
@@ -2152,10 +2115,6 @@
         "volume" : 7,
         "weight" : 45,
         "ammo_type" : "NULL",
-        "damage" : 0,
-        "range" : 0,
-        "dispersion" : 0,
-        "recoil" : 0,
         "count" : 5
     },
     {   "type" : "AMMO",
@@ -2170,10 +2129,6 @@
         "volume" : 7,
         "weight" : 45,
         "ammo_type" : "NULL",
-        "damage" : 0,
-        "range" : 0,
-        "dispersion" : 0,
-        "recoil" : 0,
         "count" : 5
     },
     {   "type" : "AMMO",
@@ -2188,10 +2143,6 @@
         "volume" : 7,
         "weight" : 45,
         "ammo_type" : "NULL",
-        "damage" : 0,
-        "range" : 0,
-        "dispersion" : 0,
-        "recoil" : 0,
         "count" : 5
     },
     {
@@ -2282,8 +2233,7 @@
         "price": 100,
         "material": ["paper"],
         "weight": 80,
-        "volume": 2,
-        "bashing": -3
+        "volume": 2
     },
     {
         "type":"GENERIC",
@@ -2296,7 +2246,6 @@
         "material": ["cotton"],
         "weight": 514,
         "volume": 4,
-        "bashing": -8,
         "category": "other"
     },
     {
@@ -2310,7 +2259,6 @@
         "material": ["cotton"],
         "weight": 514,
         "volume": 4,
-        "bashing": -8,
         "category": "other"
     },
     {
@@ -2323,8 +2271,7 @@
         "price": 200,
         "material": ["cotton"],
         "weight": 514,
-        "volume": 3,
-        "bashing": -2
+        "volume": 3
     },
     {
         "type":"GENERIC",
@@ -2337,8 +2284,6 @@
         "symbol" : ",",
         "material" : ["paper"],
         "volume" : 1,
-        "bashing" : -8,
-        "cutting": -3,
         "price" : 0
     },
     {
@@ -2492,7 +2437,6 @@
         "material": "plastic",
         "weight": 6,
         "volume": 0,
-        "bashing": -8,
         "to_hit": -3
     },
     {
@@ -2507,7 +2451,6 @@
         "material": "plastic",
         "weight": 6,
         "volume": 0,
-        "bashing": -8,
         "to_hit": -3
     },
     {
@@ -2563,14 +2506,16 @@
     },
     {
         "id": "shrapnel",
-        "type": "GENERIC",
+        "type": "AMMO",
         "name": "shrapnel",
         "description": "A twisted shard of jagged metal.",
         "weight": 5,
         "volume": 1,
         "price": 0,
-        "material": "iron",
+        "stack_size": 50,
+        "material": [ "steel" ],
         "symbol": ".",
-        "color": "white"
+        "color": "white",
+        "ammo_type": "components"
     }
 ]

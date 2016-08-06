@@ -37,6 +37,7 @@
 #include "cata_utility.h"
 #include "input.h"
 #include "fault.h"
+#include "vehicle_selector.h"
 
 #include <cmath> // floor
 #include <sstream>
@@ -309,6 +310,12 @@ item& item::ammo_unset()
     return *this;
 }
 
+item& item::set_damage( double qty )
+{
+    damage_ = std::max( std::min( qty, double( max_damage() ) ), double( min_damage() ) );
+    return *this;
+}
+
 item item::split( long qty )
 {
     if( !count_by_charges() || qty <= 0 || qty >= charges ) {
@@ -450,7 +457,7 @@ bool item::stacks_with( const item &rhs ) const
     if( !count_by_charges() && charges != rhs.charges ) {
         return false;
     }
-    if( damage != rhs.damage ) {
+    if( damage_ != rhs.damage_ ) {
         return false;
     }
     if( burnt != rhs.burnt ) {
@@ -697,6 +704,12 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
                                       type->m_to_hit, true, "" ) );
             info.push_back( iteminfo( "BASE", _( "Moves per attack: " ), "",
                                       attack_time(), true, "", true, true ) );
+
+            if( !conductive () ) { 
+                info.push_back( iteminfo( "BASE", string_format( _( "* This weapon <good>does not conduct</good> electricity." ) ) ) );
+            } else { 
+                info.push_back( iteminfo( "BASE", string_format( _( "* This weapon <bad>conducts</bad> electricity." ) ) ) );
+            }
         }
 
         insert_separation_line();
@@ -1625,7 +1638,7 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
                                       _( "* This item can be <neutral>clipped or hooked</neutral> on to a <info>belt loop</info> of the appropriate size." ) ) );
         }
 
-        if( has_flag( "LEAK_DAM" ) && has_flag( "RADIOACTIVE" ) && damage > 0 ) {
+        if( has_flag( "LEAK_DAM" ) && has_flag( "RADIOACTIVE" ) && damage() > 0 ) {
             info.push_back( iteminfo( "DESCRIPTION",
                                       _( "* The casing of this item has <neutral>cracked</neutral>, revealing an <info>ominous green glow</info>." ) ) );
         }
@@ -1912,7 +1925,7 @@ nc_color item::color_in_inventory() const
         ret = c_red;
     } else if( is_filthy() ) {
         ret = c_brown;
-    } else if ( has_flag("LEAK_DAM") && has_flag("RADIOACTIVE") && damage > 0 ) {
+    } else if ( has_flag("LEAK_DAM") && has_flag("RADIOACTIVE") && damage() > 0 ) {
         ret = c_ltgreen;
     } else if (active && !is_food() && !is_food_container()) { // Active items show up as yellow
         ret = c_yellow;
@@ -2117,19 +2130,23 @@ void item::on_contents_changed()
     }
 }
 
+void item::on_damage( double, damage_type )
+{
+
+}
+
 std::string item::tname( unsigned int quantity, bool with_prefix ) const
 {
     std::stringstream ret;
 
 // MATERIALS-TODO: put this in json
     std::string damtext = "";
-    if ((damage != 0 || ( OPTIONS["ITEM_HEALTH_BAR"] && is_armor() )) && !is_null() && with_prefix) {
-        if( damage < 0 )  {
-            if( damage < MIN_ITEM_DAMAGE ) {
-                damtext = rm_prefix(_("<dam_adj>bugged "));
-            } else if ( OPTIONS["ITEM_HEALTH_BAR"] ) {
-                auto const &nc_text = get_item_hp_bar(damage);
-                damtext = "<color_" + string_from_color(nc_text.second) + ">" + nc_text.first + " </color>";
+
+    if( ( damage() != 0 || ( get_option<bool>( "ITEM_HEALTH_BAR" ) && is_armor() ) ) && !is_null() && with_prefix ) {
+        if( damage() < 0 )  {
+            if( get_option<bool>( "ITEM_HEALTH_BAR" ) ) {
+                damtext = "<color_" + string_from_color( damage_color() ) + ">" + damage_symbol() + " </color>";
+
             } else if (is_gun())  {
                 damtext = rm_prefix(_("<dam_adj>accurized "));
             } else {
@@ -2137,17 +2154,16 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
             }
         } else {
             if (typeId() == "corpse") {
-                if (damage == 1) damtext = rm_prefix(_("<dam_adj>bruised "));
-                if (damage == 2) damtext = rm_prefix(_("<dam_adj>damaged "));
-                if (damage == 3) damtext = rm_prefix(_("<dam_adj>mangled "));
-                if (damage == 4) damtext = rm_prefix(_("<dam_adj>pulped "));
+                if (damage() == 1) damtext = rm_prefix(_("<dam_adj>bruised "));
+                if (damage() == 2) damtext = rm_prefix(_("<dam_adj>damaged "));
+                if (damage() == 3) damtext = rm_prefix(_("<dam_adj>mangled "));
+                if (damage() >= 4) damtext = rm_prefix(_("<dam_adj>pulped "));
 
-            } else if ( OPTIONS["ITEM_HEALTH_BAR"] ) {
-                auto const &nc_text = get_item_hp_bar(damage);
-                damtext = "<color_" + string_from_color(nc_text.second) + ">" + nc_text.first + " </color>";
+            } else if ( get_option<bool>( "ITEM_HEALTH_BAR" ) ) {
+                damtext = "<color_" + string_from_color( damage_color() ) + ">" + damage_symbol() + " </color>";
 
             } else {
-                damtext = rmp_format("%s ", get_base_material().dmg_adj(damage).c_str());
+                damtext = rmp_format( "%s ", get_base_material().dmg_adj( damage() ).c_str() );
             }
         }
     }
@@ -2370,9 +2386,9 @@ int item::price( bool practical ) const
         }
 
         int child = practical ? e->type->price_post : e->type->price;
-        if( e->damage > 0 ) {
+        if( e->damage() > 0 ) {
             // maximal damage is 4, maximal reduction is 40% of the value.
-            child -= child * static_cast<double>( e->damage ) / 10;
+            child -= child * static_cast<double>( e->damage() ) / 10;
         }
 
         if( e->count_by_charges() || e->made_of( LIQUID ) ) {
@@ -2396,7 +2412,7 @@ int item::price( bool practical ) const
 }
 
 // MATERIALS-TODO: add a density field to materials.json
-int item::weight() const
+int item::weight( bool include_contents ) const
 {
     if( is_null() ) {
         return 0;
@@ -2453,8 +2469,10 @@ int item::weight() const
         ret += 250;
     }
 
-    for( auto &elem : contents ) {
-        ret += elem.weight();
+    if( include_contents ) {
+        for( auto &elem : contents ) {
+            ret += elem.weight();
+        }
     }
 
     return ret;
@@ -2577,7 +2595,7 @@ int item::damage_bash() const
     if( is_null() ) {
         return 0;
     }
-    total -= total * (damage * 0.1);
+    total -= total * damage() * 0.1;
     if(has_flag("REDUCED_BASHING")) {
         total *= 0.5;
     }
@@ -2604,7 +2622,7 @@ int item::damage_cut() const
         return 0;
     }
 
-    total -= total * (damage * 0.1);
+    total -= total * damage() * 0.1;
     if (total > 0) {
         return total;
     } else {
@@ -2935,7 +2953,7 @@ const std::vector<itype_id> &item::brewing_results() const
 
 bool item::can_revive() const
 {
-    if( is_corpse() && corpse->has_flag( MF_REVIVES ) && damage < CORPSE_PULP_THRESHOLD ) {
+    if( is_corpse() && corpse->has_flag( MF_REVIVES ) && damage() < max_damage() ) {
         return true;
     }
     return false;
@@ -2948,8 +2966,8 @@ bool item::ready_to_revive( const tripoint &pos ) const
     }
     int age_in_hours = (int(calendar::turn) - bday) / HOURS( 1 );
     age_in_hours -= int((float)burnt / volume() * 24);
-    if( damage > 0 ) {
-        age_in_hours /= (damage + 1);
+    if( damage() > 0 ) {
+        age_in_hours /= ( damage() + 1 );
     }
     int rez_factor = 48 - age_in_hours;
     if( age_in_hours > 6 && (rez_factor <= 0 || one_in(rez_factor)) ) {
@@ -3014,7 +3032,7 @@ int item::bash_resist( bool to_self ) const
     if( is_armor() ) {
         // base resistance
         // Don't give reinforced items +armor, just more resistance to ripping
-        const int eff_damage = to_self ? std::min( damage, 0 ) : std::max( damage, 0 );
+        const int eff_damage = to_self ? std::min( damage(), 0 ) : std::max( damage(), 0 );
         eff_thickness = std::max( 1, get_thickness() - eff_damage );
     }
 
@@ -3060,7 +3078,7 @@ int item::cut_resist( bool to_self ) const
     if( is_armor() ) {
         // base resistance
         // Don't give reinforced items +armor, just more resistance to ripping
-        const int eff_damage = to_self ? std::min( damage, 0 ) : std::max( damage, 0 );
+        const int eff_damage = to_self ? std::min( damage(), 0 ) : std::max( damage(), 0 );
         eff_thickness = std::max( 1, get_thickness() - eff_damage );
     }
 
@@ -3147,10 +3165,6 @@ int item::fire_resist( bool to_self ) const
 
 int item::chip_resistance( bool worst ) const
 {
-    if( damage > MAX_ITEM_DAMAGE ) {
-        return 0;
-    }
-
     int res = worst ? INT_MAX : INT_MIN;
     for( const auto &mat : made_of_types() ) {
         const int val = mat->chip_resist();
@@ -3167,6 +3181,91 @@ int item::chip_resistance( bool worst ) const
 
     return res;
 }
+
+int item::damage() const {
+    return damage_ < 0 ? floor( damage_ ) : ceil( damage_ );
+}
+
+int item::min_damage() const
+{
+    return count_by_charges() ? 0 : -1;
+}
+
+int item::max_damage() const
+{
+    return count_by_charges() ? 0 : 4;
+}
+
+bool item::mod_damage( double qty, damage_type dt )
+{
+    bool destroy = false;
+
+    if( count_by_charges() ) {
+        charges -= std::min( type->stack_size * qty, double( charges ) );
+        destroy |= charges == 0;
+    }
+
+    if( qty > 0 ) {
+        on_damage( qty, dt );
+    }
+
+    destroy |= damage_ + qty > max_damage();
+
+    damage_ = std::max( std::min( damage_ + qty, double( max_damage() ) ), double( min_damage() ) );
+
+    return destroy;
+}
+
+nc_color item::damage_color() const
+{
+    // @todo unify with getDurabilityColor
+
+    // reinforced, undamaged and nearly destroyed items are special case
+    if( damage() < 0 ) {
+        return c_green;
+    }
+    if( damage() == 0 ) {
+        return c_ltgreen;
+    }
+    if( damage() == max_damage() ) {
+        return c_red;
+    }
+
+    // assign other colors proportionally
+    auto q = double( damage() ) / max_damage();
+    if( q > 0.66 ) {
+        return c_ltred;
+    }
+    if( q > 0.33 ) {
+        return c_magenta;
+    }
+    return c_yellow;
+}
+
+std::string item::damage_symbol() const
+{
+    // reinforced, undamaged and nearly destroyed items are special case
+    if( damage() < 0 ) {
+        return _( R"(++)" );
+    }
+    if( damage() == 0 ) {
+        return _( R"(||)" );
+    }
+    if( damage() == max_damage() ) {
+        return _( R"(..)" );
+    }
+
+    // assign other colors proportionally
+    auto q = double( damage() ) / max_damage();
+    if( q > 0.66 ) {
+        return _( R"(\.)" );
+    }
+    if( q > 0.33 ) {
+        return _( R"(|.)" );
+    }
+    return _( R"(|\)" );
+}
+
 
 void item::mitigate_damage( damage_unit &du ) const
 {
@@ -3274,17 +3373,23 @@ bool item::made_of(phase_id phase) const
 
 bool item::conductive() const
 {
-    if (is_null()) {
+    if( is_null() ) {
+        return false;
+    }
+    
+    if( has_flag( "CONDUCTIVE" ) ) {  
+        return true;
+    }
+
+    if( has_flag( "NONCONDUCTIVE" ) ) {  
         return false;
     }
 
-    // If any material does not resist electricity we are conductive.
-    for (auto mat : made_of_types()) {
-        if (mat->elec_resist() <= 0) {
-            return true;
-        }
-    }
-    return false;
+    // If any material has electricity resistance equal to or lower than flesh (1) we are conductive.
+    const auto mats = made_of_types();
+    return std::any_of( mats.begin(), mats.end(), []( const material_type *mt ) {
+        return mt->elec_resist() <= 1;
+    } );
 }
 
 bool item::destroyed_at_zero_charges() const
@@ -3529,6 +3634,11 @@ std::set<fault_id> item::faults_potential() const
         res.insert( type->engine->faults.begin(), type->engine->faults.end() );
     }
     return res;
+}
+
+int item::wheel_area() const
+{
+    return is_wheel() ? type->wheel->diameter * type->wheel->width : 0;
 }
 
 bool item::is_container_empty() const
@@ -3792,7 +3902,7 @@ int item::gun_dispersion( bool with_ammo ) const
     for( const auto mod : gunmods() ) {
         dispersion_sum += mod->type->gunmod->dispersion;
     }
-    dispersion_sum += damage * 60;
+    dispersion_sum += damage() * 60;
     dispersion_sum = std::max(dispersion_sum, 0);
     if( with_ammo && ammo_data() ) {
         dispersion_sum += ammo_data()->ammo->dispersion;
@@ -3864,7 +3974,7 @@ int item::gun_damage( bool with_ammo ) const
     for( const auto mod : gunmods() ) {
         ret += mod->type->gunmod->damage;
     }
-    ret -= damage * 2;
+    ret -= damage() * 2;
     return ret;
 }
 
@@ -3896,7 +4006,7 @@ int item::gun_recoil( bool with_ammo ) const
     for( const auto mod : gunmods() ) {
         ret += mod->type->gunmod->recoil;
     }
-    ret += 15 * damage;
+    ret += damage() * 15;
     return ret;
 }
 
@@ -4409,6 +4519,29 @@ item *item::get_usable_item( const std::string &use_name )
     return nullptr;
 }
 
+int item::units_remaining( const Character& ch, int limit ) const
+{
+    if( count_by_charges() ) {
+        return std::min( int( charges ), limit );
+    }
+
+    auto res = ammo_remaining();
+    if( res < limit && has_flag( "USE_UPS" ) ) {
+        res += ch.charges_of( "UPS", limit - res );
+    }
+
+    return std::min( int( res ), limit );
+}
+
+bool item::units_sufficient( const Character &ch, int qty ) const
+{
+    if( qty < 0 ) {
+        qty = count_by_charges() ? 1 : ammo_required();
+    }
+
+    return units_remaining( ch, qty ) == qty;
+}
+
 item::reload_option::reload_option( const reload_option &rhs ) :
     who( rhs.who ), target( rhs.target ), ammo( rhs.ammo.clone() ),
     qty_( rhs.qty_ ), max_qty( rhs.max_qty ), parent( rhs.parent ) {}
@@ -4523,22 +4656,7 @@ bool item::reload( player &u, item_location loc, long qty )
         return false;
     }
 
-    // Firstly try reloading active gunmod, then item itself, any other auxiliary gunmods and finally any currently loaded magazine
-    std::vector<item *> opts = { &*gun_current_mode(), this };
-    auto mods = gunmods();
-    std::copy_if( mods.begin(), mods.end(), std::back_inserter( opts ), []( item *e ) {
-        return e->is_gun();
-    });
-    opts.push_back( magazine_current() );
-
-    auto target = std::find_if( opts.begin(), opts.end(), [&u,&ammo]( item *e ) {
-        return e && u.can_reload( *e, ammo->typeId() );
-    } );
-    if( target == opts.end() ) {
-        return false;
-    }
-
-    item *obj = *target; // what are we trying to reload?
+    item *obj = this;
     qty = std::min( qty, obj->ammo_capacity() - obj->ammo_remaining() );
 
     obj->casings_handle( [&u]( item &e ) {
@@ -4561,10 +4679,16 @@ bool item::reload( player &u, item_location loc, long qty )
     } else if ( !obj->magazine_integral() ) {
         // if we already have a magazine loaded prompt to eject it
         if( obj->magazine_current() ) {
-            std::string prompt = string_format( _( "Eject %s from %s?" ), ammo->tname().c_str(), obj->tname().c_str() );
-            if( !u.dispose_item( *obj->magazine_current(), prompt ) ) {
+            std::string prompt = string_format( _( "Eject %s from %s?" ),
+                                                obj->magazine_current()->tname().c_str(), obj->tname().c_str() );
+
+            // eject magazine to player inventory and try to dispose of it from there
+            item &mag = u.i_add( *obj->magazine_current() );
+            if( !u.dispose_item( item_location( u, &mag ), prompt ) ) {
+                u.remove_item( mag ); // user canceled so delete the clone
                 return false;
             }
+            obj->remove_item( *obj->magazine_current() );
         }
 
         obj->contents.emplace_back( *ammo );
@@ -5112,73 +5236,6 @@ bool item_compare_by_charges( const item& left, const item& right)
     return item_ptr_compare_by_charges( &left, &right);
 }
 
-//return value is number of arrows/bolts quivered
-int item::quiver_store_arrow( item &arrow)
-{
-    if( arrow.charges <= 0 ) {
-        return 0;
-    }
-
-    //item is valid quiver to store items in if it satisfies these conditions:
-    // a) is a quiver
-    // b) has some arrow already, but same type is ok
-    // c) quiver isn't full
-
-    if( !type->can_use( "QUIVER")) {
-        return 0;
-    }
-
-    if( !contents.empty() && contents.front().typeId() != arrow.typeId() ) {
-        return 0;
-    }
-
-    long max_arrows = (long)max_charges_from_flag( "QUIVER");
-    if( !contents.empty() && contents.front().charges >= max_arrows) {
-        return 0;
-    }
-
-    // check ends, now store.
-    if( contents.empty()) {
-        item quivered_arrow( arrow);
-        quivered_arrow.charges = std::min( max_arrows, arrow.charges);
-        put_in( quivered_arrow);
-        arrow.charges -= quivered_arrow.charges;
-        return quivered_arrow.charges;
-    } else {
-        int quivered = std::min( max_arrows - contents.front().charges, arrow.charges );
-        contents.front().charges += quivered;
-        arrow.charges -= quivered;
-        return quivered;
-    }
-}
-
-//used to implement charges for items that aren't tools (e.g. quivers)
-//flagName arg is the flag's name before the underscore and integer on the end
-//e.g. for "QUIVER_20" flag, flagName = "QUIVER"
-int item::max_charges_from_flag(std::string flagName)
-{
-    item* it = this;
-    int maxCharges = 0;
-
-    //loop through item's flags, looking for flag that matches flagName
-    for( auto flag : it->type->item_tags ) {
-
-        if(flag.substr(0, flagName.size()) == flagName ) {
-            //get the substring of the flag starting w/ digit after underscore
-            std::stringstream ss(flag.substr(flagName.size() + 1, flag.size()));
-
-            //attempt to store that stringstream into maxCharges and error if there's a problem
-            if(!(ss >> maxCharges)) {
-                debugmsg("Error parsing %s_n tag (item::max_charges_from_flag)"), flagName.c_str();
-                maxCharges = -1;
-            }
-            break;
-        }
-    }
-
-    return maxCharges;
-}
-
 static const std::string USED_BY_IDS( "USED_BY_IDS" );
 bool item::already_used_by_player(const player &p) const
 {
@@ -5694,8 +5751,8 @@ bool item::is_soft() const
 
 bool item::is_reloadable() const
 {
-    if( has_flag( "NO_RELOAD") ) {
-        return false;
+    if( has_flag( "NO_RELOAD") && !has_flag( "VEHICLE" ) ) {
+        return false; // turrets ignore NO_RELOAD flag
 
     } else if( is_bandolier() ) {
         return true;

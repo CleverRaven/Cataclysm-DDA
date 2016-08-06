@@ -21,6 +21,8 @@
 #include "mapdata.h"
 #include "itype.h"
 #include <chrono>
+#include <algorithm>
+
 #ifdef SDL_SOUND
 #   include <SDL_mixer.h>
 #   include <thread>
@@ -596,6 +598,7 @@ struct sound_thread {
     int vol_targ;
     int ang_targ;
 
+    // Operator overload required for thread API.
     void operator()() const;
 };
 } // namespace sfx
@@ -636,7 +639,7 @@ sfx::sound_thread::sound_thread( const tripoint &source, const tripoint &target,
     weapon_volume = p->weapon.volume();
 }
 
-
+// Operator overload required for thread API.
 void sfx::sound_thread::operator()() const
 {
     // This is function is run in a separate thread. One must be careful and not access game data

@@ -622,7 +622,8 @@ void editmap::update_view( bool update_info )
         const auto &map_cache = g->m.get_cache( target.z );
 
         mvwprintw( w_info, off++, 1, _( "dist: %d u_see: %d v_in: %d scent: %d" ),
-                   rl_dist( g->u.pos(), target ), g->u.sees( target ), veh_in, g->scent( target ) );
+                   rl_dist( g->u.pos(), target ), g->u.sees( target ),
+                   veh_in, g->scent.get( target ) );
         mvwprintw( w_info, off++, 1, _( "sight_range: %d, daylight_sight_range: %d," ),
                    g->u.sight_range( g->light_level( g->u.posz() ) ), g->u.sight_range( DAYLIGHT_LEVEL ) );
         mvwprintw( w_info, off++, 1, _( "transparency: %.5f, visibility: %.5f," ),
@@ -1343,7 +1344,7 @@ int editmap::edit_itm()
             imenu.addentry( imenu_bday, true, -1, pgettext( "item manipulation debug menu entry", "bday: %d" ),
                             ( int )it->bday );
             imenu.addentry( imenu_damage, true, -1, pgettext( "item manipulation debug menu entry",
-                            "damage: %d" ), ( int )it->damage );
+                            "damage: %d" ), it->damage() );
             imenu.addentry( imenu_burnt, true, -1, pgettext( "item manipulation debug menu entry",
                             "burnt: %d" ), ( int )it->burnt );
             imenu.addentry( imenu_sep, false, 0, pgettext( "item manipulation debug menu entry",
@@ -1361,7 +1362,7 @@ int editmap::edit_itm()
                             intval = ( int )it->bday;
                             break;
                         case imenu_damage:
-                            intval = ( int )it->damage;
+                            intval = it->damage();
                             break;
                         case imenu_burnt:
                             intval = ( int )it->burnt;
@@ -1375,8 +1376,8 @@ int editmap::edit_itm()
                             it->bday = retval;
                             imenu.entries[imenu_bday].txt = string_format( "bday: %d", it->bday );
                         } else if( imenu.ret == imenu_damage ) {
-                            it->damage = retval;
-                            imenu.entries[imenu_damage].txt = string_format( "damage: %d", it->damage );
+                            it->set_damage( retval );
+                            imenu.entries[imenu_damage].txt = string_format( "damage: %d", it->damage() );
                         } else if( imenu.ret == imenu_burnt ) {
                             it->burnt = retval;
                             imenu.entries[imenu_burnt].txt = string_format( "burnt: %d", it->burnt );

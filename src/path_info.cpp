@@ -212,13 +212,13 @@ std::string PATH_INFO::find_translated_file( const std::string &pathid,
     std::string local_path_1; // complete locale: en_NZ
     std::string local_path_2; // only the first part: en
     std::string loc_name;
-    if( OPTIONS["USE_LANG"].getValue().empty() ) {
+    if( get_option<std::string>( "USE_LANG" ).empty() ) {
         const char *v = setlocale( LC_ALL, NULL );
         if( v != NULL ) {
             loc_name = v;
         }
     } else {
-        loc_name = OPTIONS["USE_LANG"].getValue();
+        loc_name = get_option<std::string>( "USE_LANG" );
     }
     if( loc_name == "C" ) {
         loc_name = "en";

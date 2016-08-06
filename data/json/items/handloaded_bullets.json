@@ -16,7 +16,6 @@
         "range" : 6,
         "dispersion" : 60,
         "recoil" : 840,
-        "count" : 1,
         "effects" : ["COOKOFF", "RECYCLED"]
     },{   "type" : "AMMO",
         "id" : "blun_shot",
@@ -32,9 +31,7 @@
         "ammo_type" : "blunderbuss",
         "damage" : 60,
         "range" : 3,
-        "dispersion" : 0,
         "recoil" : 780,
-        "count" : 1,
         "effects" : ["COOKOFF", "SHOT", "RECYCLED"]
     },{   "type" : "AMMO",
         "id" : "blun_flechette",
@@ -51,9 +48,7 @@
         "damage" : 53,
         "pierce" : 12,
         "range" : 5,
-        "dispersion" : 0,
         "recoil" : 840,
-        "count" : 1,
         "effects" : ["COOKOFF", "SHOT", "RECYCLED"]
     },
     {
@@ -72,8 +67,6 @@
         "damage" : 11,
         "pierce" : 14,
         "range" : 30,
-        "dispersion" : 0,
-        "recoil" : 0,
         "stack_size" : 40,
         "count" : 20,
         "effects" : ["COOKOFF", "RECYCLED"]

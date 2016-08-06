@@ -440,7 +440,7 @@ void player::activate_mutation( const std::string &mut )
         if ( !can_pickVolume( newit ) ) { //Accounts for result_mult
             add_msg_if_player(_("You detach a vine but don't have room to carry it, so you drop it."));
             g->m.add_item_or_charges(pos(), newit);
-        } else if ( !can_pickWeight( newit, !OPTIONS["DANGEROUS_PICKUPS"] ) ) {
+        } else if ( !can_pickWeight( newit, !get_option<bool>( "DANGEROUS_PICKUPS" ) ) ) {
             add_msg_if_player(_("Your freshly-detached vine is too heavy to carry, so you drop it."));
             g->m.add_item_or_charges(pos(), newit);
         } else {

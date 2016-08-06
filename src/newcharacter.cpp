@@ -30,6 +30,7 @@
 #include <fstream>
 #include <sstream>
 #include <vector>
+#include <algorithm>
 #include <cassert>
 
 // Colors used in this file: (Most else defaults to c_ltgray)
@@ -81,9 +82,9 @@ struct points_left {
 
     void init_from_options()
     {
-        stat_points = OPTIONS["INITIAL_STAT_POINTS"];
-        trait_points = OPTIONS["INITIAL_TRAIT_POINTS"];
-        skill_points = OPTIONS["INITIAL_SKILL_POINTS"];
+        stat_points = get_option<int>( "INITIAL_STAT_POINTS" );
+        trait_points = get_option<int>( "INITIAL_TRAIT_POINTS" );
+        skill_points = get_option<int>( "INITIAL_SKILL_POINTS" );
     }
 
     // Highest amount of points to spend on stats without points going invalid
@@ -178,8 +179,8 @@ bool lcmatch(const std::string &str, const std::string &findstr); // ui.cpp
 
 void Character::pick_name(bool bUseDefault)
 {
-    if (bUseDefault && OPTIONS["DEF_CHAR_NAME"]) {
-        name = OPTIONS["DEF_CHAR_NAME"].getValue();
+    if (bUseDefault && !get_option<std::string>( "DEF_CHAR_NAME" ).empty() ) {
+        name = get_option<std::string>( "DEF_CHAR_NAME" );
     } else {
         name = Name::generate(male);
     }
@@ -233,7 +234,7 @@ bool player::load_template( const std::string &template_name )
 void player::randomize( const bool random_scenario, points_left &points )
 {
 
-    const int max_trait_points = OPTIONS["MAX_TRAIT_POINTS"];
+    const int max_trait_points = get_option<int>( "MAX_TRAIT_POINTS" );
     // Reset everything to the defaults to have a clean state.
     *this = player();
 
@@ -1026,7 +1027,7 @@ tab_direction set_stats(WINDOW *w, player *u, points_left &points)
 
 tab_direction set_traits(WINDOW *w, player *u, points_left &points)
 {
-    const int max_trait_points = OPTIONS["MAX_TRAIT_POINTS"];
+    const int max_trait_points = get_option<int>( "MAX_TRAIT_POINTS" );
 
     draw_tabs( w, _("TRAITS") );
 
@@ -2148,8 +2149,8 @@ tab_direction set_description(WINDOW *w, player *u, const bool allow_reroll, poi
     select_location.setup();
     if(MAP_SHARING::isSharing()) {
         u->name = MAP_SHARING::getUsername();  // set the current username as default character name
-    } else if (OPTIONS["DEF_CHAR_NAME"]) {
-        u->name = OPTIONS["DEF_CHAR_NAME"].getValue();
+    } else if( !get_option<std::string>( "DEF_CHAR_NAME" ).empty() ) {
+        u->name = get_option<std::string>( "DEF_CHAR_NAME" );
     }
     do {
         if (redraw) {
@@ -2295,7 +2296,7 @@ tab_direction set_description(WINDOW *w, player *u, const bool allow_reroll, poi
         const std::string action = ctxt.handle_input();
 
         if (action == "NEXT_TAB") {
-            if (OPTIONS["POINT_DISTRIBUTION"] != "freeform" && !points.is_valid() ) {
+            if (!points.is_valid() ) {
                 if( points.skill_points_left() < 0 ) {
                         popup(_("Too many points allocated, change some features and try again."));
                 } else if( points.trait_points_left() < 0 ) {

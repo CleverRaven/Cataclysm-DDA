@@ -16,6 +16,7 @@
 #include <stdexcept>
 #include <errno.h>
 #include <ctype.h>
+#include <algorithm>
 
 extern bool tile_iso;
 extern bool lcmatch( const std::string &str, const std::string &findstr ); // ui.cpp
@@ -28,6 +29,7 @@ struct ContainsPredicate {
 
     ContainsPredicate( const T1 &container ) : container( container ) { }
 
+    // Operator overload required to leverage std functional iterface.
     bool operator()( T2 c ) {
         return std::find( container.begin(), container.end(), c ) != container.end();
     }
@@ -981,7 +983,7 @@ void input_context::display_help()
             inp_mngr.get_action_attributes( action_id, category, &is_local );
             const std::string name = get_action_name( action_id );
 
-            if( status == s_remove && ( !OPTIONS["QUERY_KEYBIND_REMOVAL"] ||
+            if( status == s_remove && ( !get_option<bool>( "QUERY_KEYBIND_REMOVAL" ) ||
                                         query_yn( _( "Clear keys for %s?" ), name.c_str() ) ) ) {
 
                 // If it's global, reset the global actions.

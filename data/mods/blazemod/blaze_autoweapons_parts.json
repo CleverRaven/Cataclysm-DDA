@@ -61,7 +61,7 @@
         "size" : 40,
         "difficulty" : 5,
         "location" : "on_roof",
-        "flags" : ["FOLDABLE", "TURRET", "CARGO", "NEEDS_BATTERY_MOUNT"],
+        "flags" : ["FOLDABLE", "TURRET", "NEEDS_BATTERY_MOUNT"],
         "breaks_into" : [
             {"item": "scrap", "count": [8, 12]},
             {"item": "pipe", "prob": 50},
@@ -86,7 +86,7 @@
         "size" : 40,
         "difficulty" : 4,
         "location" : "on_roof",
-        "flags" : ["FOLDABLE", "TURRET", "CARGO", "NEEDS_BATTERY_MOUNT"],
+        "flags" : ["FOLDABLE", "TURRET", "NEEDS_BATTERY_MOUNT"],
         "breaks_into" : [
             {"item": "scrap", "count": [8, 12]},
             {"item": "steel_lump", "count": [1, 2]},
@@ -112,7 +112,7 @@
         "size" : 40,
         "difficulty" : 4,
         "location" : "on_roof",
-        "flags" : ["FOLDABLE", "TURRET", "CARGO", "NEEDS_BATTERY_MOUNT"],
+        "flags" : ["FOLDABLE", "TURRET", "NEEDS_BATTERY_MOUNT"],
         "breaks_into" : [
             {"item": "scrap", "count": [8, 12]},
             {"item": "steel_lump", "count": [1, 2]},
@@ -138,7 +138,7 @@
         "size" : 40,
         "difficulty" : 4,
         "location" : "on_roof",
-        "flags" : ["FOLDABLE", "TURRET", "CARGO", "NEEDS_BATTERY_MOUNT"],
+        "flags" : ["FOLDABLE", "TURRET", "NEEDS_BATTERY_MOUNT"],
         "breaks_into" : [
             {"item": "scrap", "count": [8, 12]},
             {"item": "steel_lump", "count": [1, 2]},
@@ -164,7 +164,7 @@
         "size" : 40,
         "difficulty" : 4,
         "location" : "on_roof",
-        "flags" : ["FOLDABLE", "TURRET", "CARGO", "NEEDS_BATTERY_MOUNT"],
+        "flags" : ["FOLDABLE", "TURRET", "NEEDS_BATTERY_MOUNT"],
         "breaks_into" : [
             {"item": "scrap", "count": [12, 20]},
             {"item": "steel_lump", "count": [1, 2]},
@@ -190,7 +190,7 @@
         "size" : 40,
         "difficulty" : 4,
         "location" : "on_roof",
-        "flags" : ["FOLDABLE", "TURRET", "CARGO", "NEEDS_BATTERY_MOUNT"],
+        "flags" : ["FOLDABLE", "TURRET", "NEEDS_BATTERY_MOUNT"],
         "breaks_into" : [
             {"item": "scrap", "count": [12, 20]},
             {"item": "steel_lump", "count": [1, 2]},
@@ -216,7 +216,7 @@
         "size" : 40,
         "difficulty" : 4,
         "location" : "on_roof",
-        "flags" : ["FOLDABLE", "TURRET", "CARGO", "NEEDS_BATTERY_MOUNT"],
+        "flags" : ["FOLDABLE", "TURRET", "NEEDS_BATTERY_MOUNT"],
         "breaks_into" : [
             {"item": "scrap", "count": [12, 16]},
             {"item": "steel_lump", "count": [1, 2]},
@@ -242,7 +242,7 @@
         "size" : 40,
         "difficulty" : 4,
         "location" : "on_roof",
-        "flags" : ["FOLDABLE", "TURRET", "CARGO", "NEEDS_BATTERY_MOUNT"],
+        "flags" : ["FOLDABLE", "TURRET", "NEEDS_BATTERY_MOUNT"],
         "breaks_into" : [
             {"item": "scrap", "count": [16, 20]},
             {"item": "pipe", "count": [1, 4]},
@@ -271,7 +271,7 @@
         "size" : 40,
         "difficulty" : 2,
         "location" : "on_roof",
-        "flags" : ["TURRET", "CARGO", "FOLDABLE", "NEEDS_BATTERY_MOUNT"],
+        "flags" : ["TURRET", "FOLDABLE", "NEEDS_BATTERY_MOUNT"],
         "breaks_into" : [
             {"item": "pipe", "count": [0, 6]},
             {"item": "spring", "count": [0, 6]},
@@ -299,7 +299,7 @@
         "size" : 40,
         "difficulty" : 2,
         "location" : "on_roof",
-        "flags" : ["TURRET", "CARGO", "FOLDABLE", "NEEDS_BATTERY_MOUNT"],
+        "flags" : ["TURRET", "FOLDABLE", "NEEDS_BATTERY_MOUNT"],
         "breaks_into" : [
             {"item": "scrap", "count": [2, 6]},
             {"item": "hose", "count": [0, 4]},
@@ -327,7 +327,7 @@
         "size": 40,
         "difficulty" : 3,
         "location" : "on_roof",
-        "flags" : ["TURRET", "CARGO", "FOLDABLE", "NEEDS_BATTERY_MOUNT"],
+        "flags" : ["TURRET", "FOLDABLE", "NEEDS_BATTERY_MOUNT"],
         "breaks_into" : [
             {"item": "scrap", "count": [12, 16]},
             {"item": "pipe", "count": [1, 4]},
@@ -354,7 +354,7 @@
         "size" : 40,
         "difficulty" : 2,
         "location" : "on_roof",
-        "flags" : ["FOLDABLE", "TURRET", "CARGO", "NEEDS_BATTERY_MOUNT"],
+        "flags" : ["FOLDABLE", "TURRET", "NEEDS_BATTERY_MOUNT"],
         "breaks_into" : [
             {"item": "scrap", "count": [6, 26]},
             {"item": "steel_chunk", "count": [0, 6]},
@@ -381,7 +381,7 @@
         "size" : 40,
         "difficulty" : 3,
         "location" : "on_roof",
-        "flags" : ["FOLDABLE", "TURRET", "CARGO", "NEEDS_BATTERY_MOUNT"],
+        "flags" : ["FOLDABLE", "TURRET", "NEEDS_BATTERY_MOUNT"],
         "breaks_into" : [
             {"item": "scrap", "count": [12, 16]},
             {"item": "steel_lump", "count": [1, 2]},
@@ -407,7 +407,7 @@
         "size" : 40,
         "difficulty" : 3,
         "location" : "on_roof",
-        "flags" : ["FOLDABLE", "TURRET", "CARGO", "NEEDS_BATTERY_MOUNT"],
+        "flags" : ["FOLDABLE", "TURRET", "NEEDS_BATTERY_MOUNT"],
         "breaks_into" : [
             {"item": "scrap", "count": [12, 16]},
             {"item": "steel_lump", "count": [1, 2]},
@@ -433,7 +433,7 @@
         "size" : 40,
         "difficulty" : 3,
         "location" : "on_roof",
-        "flags" : ["FOLDABLE", "TURRET", "CARGO", "NEEDS_BATTERY_MOUNT"],
+        "flags" : ["FOLDABLE", "TURRET", "NEEDS_BATTERY_MOUNT"],
         "breaks_into" : [
             {"item": "scrap", "count": [12, 16]},
             {"item": "steel_lump", "count": [1, 2]},
@@ -459,7 +459,7 @@
         "size" : 40,
         "difficulty" : 4,
         "location" : "on_roof",
-        "flags" : ["FOLDABLE", "TURRET", "CARGO", "NEEDS_BATTERY_MOUNT"],
+        "flags" : ["FOLDABLE", "TURRET", "NEEDS_BATTERY_MOUNT"],
         "breaks_into" : [
             {"item": "scrap", "count": [16, 22]},
             {"item": "pipe", "count": [2, 6]},
@@ -486,7 +486,7 @@
         "size" : 40,
         "difficulty" : 4,
         "location" : "on_roof",
-        "flags" : ["FOLDABLE", "TURRET", "CARGO", "NEEDS_BATTERY_MOUNT"],
+        "flags" : ["FOLDABLE", "TURRET", "NEEDS_BATTERY_MOUNT"],
         "breaks_into" : [
             {"item": "scrap", "count": [12, 16]},
             {"item": "pipe", "count": [1, 4]},
@@ -589,7 +589,7 @@
         "size" : 40,
         "difficulty" : 3,
         "location" : "on_roof",
-        "flags" : ["FOLDABLE", "TURRET", "CARGO", "NEEDS_BATTERY_MOUNT"],
+        "flags" : ["FOLDABLE", "TURRET", "NEEDS_BATTERY_MOUNT"],
         "breaks_into" : [
             {"item": "scrap", "count": [8, 30]},
             {"item": "pipe", "count": [0, 3]},
@@ -616,7 +616,7 @@
         "size" : 40,
         "difficulty" : 5,
         "location" : "on_roof",
-        "flags" : ["TURRET", "CARGO", "FOLDABLE", "NEEDS_BATTERY_MOUNT"],
+        "flags" : ["TURRET", "FOLDABLE", "NEEDS_BATTERY_MOUNT"],
         "breaks_into" : [
             {"item": "scrap", "count": [8, 12]},
             {"item": "cable", "charges": [12, 40]},
@@ -642,7 +642,7 @@
         "size" : 40,
         "difficulty" : 5,
         "location" : "on_roof",
-        "flags" : ["TURRET", "CARGO", "FOLDABLE", "NEEDS_BATTERY_MOUNT"],
+        "flags" : ["TURRET", "FOLDABLE", "NEEDS_BATTERY_MOUNT"],
         "breaks_into" : [
             {"item": "scrap", "count": [8, 12]},
             {"item": "cable", "charges": [12, 40]},
@@ -668,7 +668,7 @@
         "size" : 40,
         "difficulty" : 5,
         "location" : "on_roof",
-        "flags" : ["TURRET", "CARGO", "FOLDABLE", "NEEDS_BATTERY_MOUNT"],
+        "flags" : ["TURRET", "FOLDABLE", "NEEDS_BATTERY_MOUNT"],
         "breaks_into" : [
             {"item": "scrap", "count": [8, 22]},
             {"item": "steel_chunk", "count": [2, 6]},
@@ -777,7 +777,7 @@
         "size" : 90,
         "difficulty" : 5,
         "location" : "on_roof",
-        "flags" : ["TURRET", "CARGO", "NEEDS_BATTERY_MOUNT", "FOLDABLE"],
+        "flags" : ["TURRET", "NEEDS_BATTERY_MOUNT", "FOLDABLE"],
         "folded_volume": 19,
         "breaks_into" : [
             {"item": "steel_chunk", "count": [4, 6]},

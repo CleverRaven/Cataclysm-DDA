@@ -25,6 +25,12 @@
     "replace": "battery_car"
   },
   {
+    "id": "gold",
+    "type": "MIGRATION",
+    "replace": "gold_small",
+    "charges": 1930
+  },
+  {
     "id": "jar_V8",
     "type": "MIGRATION",
     "replace": "jar_glass_sealed",
@@ -185,6 +191,12 @@
     "type": "MIGRATION",
     "replace": "saiga_12",
     "contents": [ "barrel_small" ]
+  },
+  {
+    "id": "silver",
+    "type": "MIGRATION",
+    "replace": "silver_small",
+    "charges": 1608
   },
   {
     "id": "shot_scrapslug",

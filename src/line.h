@@ -7,6 +7,8 @@
 #include <functional>
 #include <math.h>
 
+#include "game_constants.h"
+
 /** Converts degrees to radians */
 constexpr double DEGREES( double v )
 {

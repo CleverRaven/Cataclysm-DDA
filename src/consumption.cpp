@@ -126,7 +126,7 @@ int player::vitamin_mod( const vitamin_id &vit, int qty, bool capped )
 
 int player::vitamin_get( const vitamin_id &vit ) const
 {
-    if( ACTIVE_WORLD_OPTIONS[ "NO_VITAMINS" ] ) {
+    if( get_world_option<bool>( "NO_VITAMINS" ) ) {
         return 0;
     }
 

@@ -123,18 +123,6 @@
     "components": [ [ [ "copper", 200 ] ] ]
   },
   {
-    "result": "silver",
-    "type": "recipe",
-    "id_suffix": "uncraft",
-    "category": "CC_NONCRAFT",
-    "subcategory": "CSC_NONCRAFT",
-    "difficulty": 0,
-    "time": 500,
-    "reversible": true,
-    "qualities": [ {"id":"HAMMER","level":1} ],
-    "components": [ [ [ "silver_small", 800 ] ] ]
-  },
-  {
     "result": "small_relic",
     "type": "recipe",
     "id_suffix": "uncraft",
@@ -144,7 +132,7 @@
     "time": 500,
     "reversible": true,
     "qualities": [ {"id":"HAMMER","level":1} ],
-    "components": [ [ [ "silver_small", 100 ] ] ]
+    "components": [ [ [ "silver_small", 20 ] ] ]
   },
   {
     "result": "badge_deputy",
@@ -156,7 +144,7 @@
     "time": 500,
     "reversible": true,
     "qualities": [ {"id":"HAMMER","level":1} ],
-    "components": [ [ [ "silver_small", 100 ] ] ]
+    "components": [ [ [ "silver_small", 20 ] ] ]
   },
   {
     "result": "necklace",
@@ -168,7 +156,7 @@
     "time": 500,
     "reversible": true,
     "qualities": [ {"id":"HAMMER","level":1} ],
-    "components": [ [ [ "silver_small", 100 ] ] ]
+    "components": [ [ [ "silver_small", 10 ] ] ]
   },
   {
     "result": "locket",
@@ -180,7 +168,7 @@
     "time": 500,
     "reversible": true,
     "qualities":[ {"id":"HAMMER","level":1} ],
-    "components": [ [ [ "silver_small", 110 ] ] ]
+    "components": [ [ [ "silver_small", 10 ] ] ]
   },
   {
     "result": "gold_bracelet",
@@ -192,7 +180,7 @@
     "time": 600,
     "reversible": true,
     "qualities": [ {"id":"HAMMER","level":1} ],
-    "components": [ [ [ "gold_small", 260 ] ] ]
+    "components": [ [ [ "gold_small", 8 ] ] ]
   },
   {
     "result": "silver_bracelet",
@@ -204,7 +192,7 @@
     "time": 600,
     "reversible": true,
     "qualities": [ {"id":"HAMMER","level":1} ],
-    "components": [ [ [ "silver_small", 260 ] ] ]
+    "components": [ [ [ "silver_small", 10 ] ] ]
   },
   {
     "result": "copper_bracelet",
@@ -228,7 +216,7 @@
     "time": 500,
     "reversible": true,
     "qualities": [ {"id":"HAMMER","level":1} ],
-    "components": [ [ [ "gold_small", 50 ] ] ]
+    "components": [ [ [ "gold_small", 2 ] ] ]
   },
   {
     "result": "diamond_ring",
@@ -241,7 +229,7 @@
     "reversible": true,
     "qualities": [ {"id":"HAMMER","level":1} ],
     "components": [
-      [ [ "gold_small", 50 ] ],
+      [ [ "gold_small", 2 ] ],
       [ [ "diamond", 1 ] ]
     ]
   },
@@ -256,7 +244,7 @@
     "reversible": true,
     "qualities": [ {"id":"HAMMER","level":1} ],
     "components": [
-      [ [ "gold_small", 100 ] ],
+      [ [ "gold_small", 2 ] ],
       [ [ "diamond", 1 ] ]
     ]
   },
@@ -270,7 +258,7 @@
     "time": 500,
     "reversible": true,
     "qualities": [ {"id":"HAMMER","level":1} ],
-    "components": [ [ [ "gold_small", 100 ] ] ]
+    "components": [ [ [ "gold_small", 2 ] ] ]
   },
   {
     "result": "gold_ear",
@@ -282,7 +270,7 @@
     "time": 500,
     "reversible": true,
     "qualities": [ { "id": "HAMMER","level": 1 } ],
-    "components": [ [ [ "gold_small", 50 ] ] ]
+    "components": [ [ [ "gold_small", 2 ] ] ]
   },
   {
     "result": "silver_ear",
@@ -294,7 +282,7 @@
     "time": 500,
     "reversible": true,
     "qualities": [ { "id": "HAMMER","level": 1 } ],
-    "components": [ [ [ "silver_small", 60 ] ] ]
+    "components": [ [ [ "silver_small", 3 ] ] ]
   },
   {
     "result": "copper_ear",
@@ -318,7 +306,7 @@
     "time": 500,
     "reversible": true,
     "qualities": [ { "id": "HAMMER","level": 1 } ],
-    "components": [ [ [ "silver_small", 100 ] ] ]
+    "components": [ [ [ "silver_small", 4 ] ] ]
   },
   {
     "result": "usb_drive",
@@ -447,8 +435,7 @@
       { "id": "SCREW","level": 1 }
     ],
     "components": [
-      [ [ "scrap", 2 ] ],
-      [ [ "gold_small", 150 ] ],
+      [ [ "gold_small", 12 ] ],
       [ [ "clockworks", 1 ] ]
     ]
   },
@@ -466,8 +453,8 @@
       { "id": "SCREW","level": 1 }
     ],
     "components": [
-      [ [ "gold_small", 100 ] ],
-      [ [ "silver_small", 100 ] ],
+      [ [ "gold_small", 5 ] ],
+      [ [ "silver_small", 12 ] ],
       [ [ "clockworks", 1 ] ]
     ]
   },
@@ -1350,25 +1337,6 @@
             [ [ "amplifier", 2 ] ],
             [ [ "material_aluminium_ingot", 1 ] ]
         ]
-    },{
-  "type" : "recipe",
-  "result": "gold",
-  "id_suffix": "uncraft",
-  "category": "CC_NONCRAFT",
-  "subcategory": "CSC_NONCRAFT",
-  "difficulty": 0,
-  "time": 2000,
-  "reversible": true,
-  "autolearn": false,
-  "qualities":[
-    {"id":"HAMMER","level":1,"amount":1},
-    {"id":"SCREW","level":1,"amount":1}
-  ],
-  "components": [
-    [
-      ["gold_small", 800]
-    ]
-  ]
 },{
   "type" : "recipe",
     "result": "candlestick",
@@ -1384,7 +1352,7 @@
     {"id":"SCREW","level":1,"amount":1}
   ], "components": [
       [
-        ["gold_small", 100]
+        ["gold_small", 300 ]
       ]
     ]
 },{
@@ -2850,87 +2818,6 @@
         [ [ "22_casing_new", 1 ] ],
         [ [ "gunpowder", 1 ] ],
         [ [ "copper", 2 ] ]
-    ]
-},
-{
-    "type": "recipe",
-    "result": "9mm",
-    "id_suffix": "uncraft",
-    "category": "CC_NONCRAFT",
-    "subcategory": "CSC_NONCRAFT",
-    "skill_used": "gun",
-    "difficulty": 5,
-    "time": 500,
-    "reversible": true,
-    "autolearn": false,
-    "flags": [ "UNCRAFT_SINGLE_CHARGE" ],
-    "tools": [ [ [ "puller", -1 ] ] ],
-    "components": [
-        [ [ "lead", 4 ] ],
-        [ [ "9mm_casing", 1 ] ],
-        [ [ "smpistol_primer", 1 ] ],
-        [ [ "gunpowder", 4 ] ]
-    ]
-},
-{
-    "type": "recipe",
-    "result": "9mmP",
-    "id_suffix": "uncraft",
-    "category": "CC_NONCRAFT",
-    "subcategory": "CSC_NONCRAFT",
-    "skill_used": "gun",
-    "difficulty": 5,
-    "time": 500,
-    "reversible": true,
-    "autolearn": false,
-    "flags": [ "UNCRAFT_SINGLE_CHARGE" ],
-    "tools": [ [ [ "puller", -1 ] ] ],
-    "components": [
-        [ [ "lead", 4 ] ],
-        [ [ "9mm_casing", 1 ] ],
-        [ [ "smpistol_primer", 1 ] ],
-        [ [ "gunpowder", 5 ] ]
-    ]
-},
-{
-    "type": "recipe",
-    "result": "9mmP2",
-    "id_suffix": "uncraft",
-    "category": "CC_NONCRAFT",
-    "subcategory": "CSC_NONCRAFT",
-    "skill_used": "gun",
-    "difficulty": 5,
-    "time": 500,
-    "reversible": true,
-    "autolearn": false,
-    "flags": [ "UNCRAFT_SINGLE_CHARGE" ],
-    "tools": [ [ [ "puller", -1 ] ] ],
-    "components": [
-        [ [ "lead", 4 ] ],
-        [ [ "9mm_casing", 1 ] ],
-        [ [ "smpistol_primer", 1 ] ],
-        [ [ "gunpowder", 6 ] ]
-    ]
-},
-{
-    "type": "recipe",
-    "result": "9mmfmj",
-    "id_suffix": "uncraft",
-    "category": "CC_NONCRAFT",
-    "subcategory": "CSC_NONCRAFT",
-    "skill_used": "gun",
-    "difficulty": 5,
-    "time": 500,
-    "reversible": true,
-    "autolearn": false,
-    "flags": [ "UNCRAFT_SINGLE_CHARGE" ],
-    "tools": [ [ [ "puller", -1 ] ] ],
-    "components": [
-        [ [ "lead", 4 ] ],
-        [ [ "9mm_casing", 1 ] ],
-        [ [ "smpistol_primer", 1 ] ],
-        [ [ "gunpowder", 6 ] ],
-        [ [ "copper", 4 ] ]
     ]
 },
 {

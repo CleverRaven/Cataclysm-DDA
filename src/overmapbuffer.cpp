@@ -251,22 +251,6 @@ bool overmapbuffer::has_horde(int const x, int const y, int const z) {
     return false;
 }
 
-bool overmapbuffer::has_npc(int const x, int const y, int const z)
-{
-    overmap const *const om = get_existing_om_global(point(x, y));
-    if (!om) {
-        return false;
-    }
-
-    for (auto const &npc : om->npcs) {
-        if (npc->global_omt_location() == tripoint(x, y, z)) {
-            return true;
-        }
-    }
-
-    return false;
-}
-
 bool overmapbuffer::has_vehicle( int x, int y, int z )
 {
     if (z) {

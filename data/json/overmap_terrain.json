@@ -7108,5 +7108,23 @@
         "see_cost" : 5,
         "extras" : "forest",
         "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "pond_field",
+        "name" : "pond",
+        "sym" : 46,
+        "color" : "brown",
+        "see_cost" : 5,
+        "extras" : "none",
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "pond_forest",
+        "name" : "basin",
+        "sym" : 70,
+        "color" : "green",
+        "see_cost" : 5,
+        "extras" : "none",
+        "mondensity" : 2
     }
 ]

@@ -65,6 +65,7 @@ static const std::string TILE_CATEGORY_IDS[] = {
     "weather", // C_WEATHER,
 };
 
+// Operator overload required to leverage unique_ptr API.
 void SDL_Texture_deleter::operator()( SDL_Texture *const ptr )
 {
     if( ptr ) {
@@ -72,6 +73,7 @@ void SDL_Texture_deleter::operator()( SDL_Texture *const ptr )
     }
 }
 
+// Operator overload required to leverage unique_ptr API.
 void SDL_Surface_deleter::operator()( SDL_Surface *const ptr )
 {
     if( ptr ) {
@@ -134,16 +136,16 @@ void cata_tiles::init()
 {
     const std::string default_json = FILENAMES["defaulttilejson"];
     const std::string default_tileset = FILENAMES["defaulttilepng"];
-    const std::string current_tileset = OPTIONS["TILES"].getValue();
+    const std::string current_tileset = get_option<std::string>( "TILES" );
     std::string json_path, tileset_path, config_path;
 
     // Get curent tileset and it's directory path.
     if (current_tileset.empty()) {
-        dbg( D_ERROR ) << "Tileset not set in OPTIONS. Corrupted options or empty tileset name";
+        dbg( D_ERROR ) << "Tileset not set in options or empty.";
         json_path = default_json;
         tileset_path = default_tileset;
     } else {
-        dbg( D_INFO ) << "Current OPTIONS tileset is: " << current_tileset;
+        dbg( D_INFO ) << "Current tileset is: " << current_tileset;
     }
 
     // Build tileset config path
@@ -1177,7 +1179,7 @@ void cata_tiles::init_minimap( int destx, int desty, int width, int height )
     minimap_tile_size.x = std::max( width / minimap_tiles_range.x, 1 );
     minimap_tile_size.y = std::max( height / minimap_tiles_range.y, 1 );
     //maintain a square "pixel" shape
-    if (OPTIONS["PIXEL_MINIMAP_RATIO"]) {
+    if( get_option<bool>( "PIXEL_MINIMAP_RATIO" ) ) {
         int smallest_size = std::min( minimap_tile_size.x, minimap_tile_size.y );
         minimap_tile_size.x = smallest_size;
         minimap_tile_size.y = smallest_size;
@@ -1334,7 +1336,7 @@ void cata_tiles::draw_minimap( int destx, int desty, const tripoint &center, int
 
     //handles the enemy faction red highlights
     //this value should be divisible by 200
-    const int indicator_length = OPTIONS["PIXEL_MINIMAP_BLINK"] * 200; //default is 2000 ms, 2 seconds
+    const int indicator_length = get_option<int>( "PIXEL_MINIMAP_BLINK" ) * 200; //default is 2000 ms, 2 seconds
     int indicator_tick = 0; //if blink is disabled, leave at 0
     if( indicator_length > 0 ) {
         indicator_tick = SDL_GetTicks() % indicator_length;
@@ -1680,8 +1682,7 @@ bool cata_tiles::draw_from_id_string(std::string id, TILE_CATEGORY category,
         // use a fair mix function to turn the "random" seed into a random int
         // taken from public domain code at http://burtleburtle.net/bob/c/lookup3.c 2015/12/11
 #define rot32(x,k) (((x)<<(k)) | ((x)>>(32-(k))))
-        // to avoid compile error on MSVC, calculate b by (UINT32_MAX - seed + 1)
-        unsigned int a = seed, b = UINT32_MAX - seed + 1, c = seed*seed;
+        unsigned int a = seed, b = -seed, c = seed*seed;
         c ^= b; c -= rot32(b,14);
         a ^= c; a -= rot32(c,11);
         b ^= a; b -= rot32(a,25);
@@ -2724,7 +2725,7 @@ void cata_tiles::get_tile_values(const int t, const int *tn, int &subtile, int &
 }
 
 void cata_tiles::do_tile_loading_report() {
-    DebugLog( D_INFO, DC_ALL ) << "Loaded tileset: " << OPTIONS["TILES"].getValue();
+    DebugLog( D_INFO, DC_ALL ) << "Loaded tileset: " << get_option<std::string>( "TILES" );
 
     tile_loading_report<ter_t>( ter_t::count(), "Terrain", "" );
     tile_loading_report<furn_t>( furn_t::count(), "Furniture", "" );

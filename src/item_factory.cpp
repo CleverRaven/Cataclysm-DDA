@@ -146,7 +146,7 @@ void Item_factory::finalize() {
             }
         }
 
-        if( obj.engine && ACTIVE_WORLD_OPTIONS[ "NO_FAULTS" ] ) {
+        if( obj.engine && get_world_option<bool>( "NO_FAULTS" ) ) {
             obj.engine->faults.clear();
         }
 
@@ -234,7 +234,7 @@ void Item_factory::finalize() {
         npc_implied_flags( *e.second );
 
         if( obj.comestible ) {
-            if( ACTIVE_WORLD_OPTIONS[ "NO_VITAMINS" ] ) {
+            if( get_world_option<bool>( "NO_VITAMINS" ) ) {
                 obj.comestible->vitamins.clear();
             } else if( obj.comestible->vitamins.empty() && obj.comestible->healthy >= 0 ) {
                 // Default vitamins of healthy comestibles to their edible base materials if none explicitly specified.
@@ -279,7 +279,7 @@ void Item_factory::finalize_item_blacklist()
 
     // Can't be part of the blacklist loop because the magazines might be
     // deleted before the guns are processed.
-    const bool magazines_blacklisted = ACTIVE_WORLD_OPTIONS[ "BLACKLIST_MAGAZINES" ];
+    const bool magazines_blacklisted = get_world_option<bool>( "BLACKLIST_MAGAZINES" );
 
     if( magazines_blacklisted ) {
         for( auto& e : m_templates ) {
@@ -545,7 +545,6 @@ void Item_factory::init()
     add_iuse( "TOWEL", &iuse::towel );
     add_iuse( "TRIMMER_OFF", &iuse::trimmer_off );
     add_iuse( "TRIMMER_ON", &iuse::trimmer_on );
-    add_iuse( "TWO_WAY_RADIO", &iuse::two_way_radio );
     add_iuse( "UNFOLD_GENERIC", &iuse::unfold_generic );
     add_iuse( "UNPACK_ITEM", &iuse::unpack_item );
     add_iuse( "UPS_BATTERY", &iuse::ups_battery );
@@ -664,6 +663,9 @@ void Item_factory::check_definitions() const
         if( type->price < 0 ) {
             msg << "negative price" << "\n";
         }
+        if( type->description.empty() ) {
+            msg << "empty description" << "\n";
+        }
 
         for( auto mat_id : type->materials ) {
             if( mat_id.str() == "null" || !mat_id.is_valid() ) {
@@ -749,13 +751,8 @@ void Item_factory::check_definitions() const
             if( type->ammo->casing != "null" && !has_template( type->ammo->casing ) ) {
                 msg << string_format( "invalid casing property %s", type->ammo->casing.c_str() ) << "\n";
             }
-
             if( type->ammo->drop != "null" && !has_template( type->ammo->drop ) ) {
                 msg << string_format( "invalid drop item %s", type->ammo->drop.c_str() ) << "\n";
-            }
-
-            if( type->ammo->drop_chance < 0.0f || type->ammo->drop_chance > 1.0f ) {
-                msg << "drop chance outside of supported range" << "\n";
             }
         }
         if( type->gun ) {
@@ -774,7 +771,7 @@ void Item_factory::check_definitions() const
             } else {
                 // whereas if it does use ammo enforce specifying either (but not both)
                 if( bool( type->gun->clip ) == !type->magazines.empty() ) {
-                    msg << "missing or duplicte clip_size or magazine" << "\n";
+                    msg << "missing or duplicate clip_size or magazine" << "\n";
                 }
 
                 if( type->item_tags.count( "RELOAD_AND_SHOOT" ) && !type->magazines.empty() ) {
@@ -876,7 +873,7 @@ void Item_factory::check_definitions() const
         }
         debugmsg( "warnings for type %s:\n%s", type->id.c_str(), msg.str().c_str() );
     }
-    if( !ACTIVE_WORLD_OPTIONS[ "BLACKLIST_MAGAZINES" ] ) {
+    if( !get_world_option<bool>( "BLACKLIST_MAGAZINES" ) ) {
         for( auto &mag : magazines_defined ) {
             // some vehicle parts (currently batteries) are implemented as magazines
             if( magazines_used.count( mag ) == 0 && find_template( mag )->category->id != category_id_veh_parts ) {
@@ -1002,27 +999,30 @@ void Item_factory::load( islot_artifact &slot, JsonObject &jo, const std::string
     load_optional_enum_array( slot.effects_worn, jo, "effects_worn" );
 }
 
-void Item_factory::load( islot_ammo &slot, JsonObject &jo, const std::string & )
+void Item_factory::load( islot_ammo &slot, JsonObject &jo, const std::string &src )
 {
-    assign( jo, "ammo_type", slot.type );
-    assign( jo, "casing", slot.casing );
-    assign( jo, "drop", slot.drop );
-    assign( jo, "drop_chance", slot.drop_chance );
-    assign( jo, "drop_active", slot.drop_active );
-    assign( jo, "damage", slot.damage );
-    assign( jo, "pierce", slot.pierce );
-    assign( jo, "range", slot.range );
-    assign( jo, "dispersion", slot.dispersion );
-    assign( jo, "recoil", slot.recoil );
-    assign( jo, "count", slot.def_charges );
-    assign( jo, "loudness", slot.loudness );
-    assign( jo, "effects", slot.ammo_effects );
+    bool strict = src == "core";
+
+    assign( jo, "ammo_type", slot.type, strict );
+    assign( jo, "casing", slot.casing, strict );
+    assign( jo, "drop", slot.drop, strict );
+    assign( jo, "drop_chance", slot.drop_chance, strict, 0.0f, 1.0f );
+    assign( jo, "drop_active", slot.drop_active, strict );
+    assign( jo, "damage", slot.damage, strict, 0 );
+    assign( jo, "pierce", slot.pierce, strict, 0 );
+    assign( jo, "range", slot.range, strict, 0 );
+    assign( jo, "dispersion", slot.dispersion, strict, 0 );
+    assign( jo, "recoil", slot.recoil, strict, 0 );
+    assign( jo, "count", slot.def_charges, strict, 1L );
+    assign( jo, "loudness", slot.loudness, strict, 0 );
+    assign( jo, "effects", slot.ammo_effects, strict );
 }
 
 void Item_factory::load_ammo( JsonObject &jo, const std::string &src )
 {
     auto def = load_definition( jo, src );
     if( def) {
+        assign( jo, "stack_size", def->stack_size, src == "core", 1 );
         load_slot( def->ammo, jo, src );
         load_basic_info( jo, def, src );
     }
@@ -1293,6 +1293,7 @@ void Item_factory::load_comestible( JsonObject &jo, const std::string &src )
 {
     auto def = load_definition( jo, src );
     if( def ) {
+        assign( jo, "stack_size", def->stack_size, src == "core", 1 );
         load_slot( def->comestible, jo, src );
         load_basic_info( jo, def, src );
     }
@@ -1525,16 +1526,14 @@ void Item_factory::load_basic_info( JsonObject &jo, itype *new_item_template, co
         m_templates[ new_item_template->id ].reset( new_item_template );
     }
 
-    assign( jo, "weight", new_item_template->weight, strict );
+    assign( jo, "weight", new_item_template->weight, strict, 0 );
     assign( jo, "volume", new_item_template->volume );
     assign( jo, "price", new_item_template->price );
     assign( jo, "price_postapoc", new_item_template->price_post );
-    assign( jo, "stack_size", new_item_template->stack_size );
     assign( jo, "integral_volume", new_item_template->integral_volume );
-    assign( jo, "color", new_item_template->color );
-    assign( jo, "bashing", new_item_template->melee_dam );
-    assign( jo, "cutting", new_item_template->melee_cut );
-    assign( jo, "to_hit", new_item_template->m_to_hit );
+    assign( jo, "bashing", new_item_template->melee_dam, strict, 1 );
+    assign( jo, "cutting", new_item_template->melee_cut, strict, 1 );
+    assign( jo, "to_hit", new_item_template->m_to_hit, strict );
     assign( jo, "container", new_item_template->default_container );
     assign( jo, "rigid", new_item_template->rigid );
     assign( jo, "min_strength", new_item_template->min_str );

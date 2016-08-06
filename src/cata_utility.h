@@ -16,15 +16,6 @@ struct pair_greater_cmp {
     bool operator()( const std::pair<int, tripoint> &a, const std::pair<int, tripoint> &b );
 };
 
-// TODO: Put this into a header (which one?) and maybe move the implementation somewhere else.
-/** Comparator object to sort creatures according to their attitude from "u",
- * and (on same attitude) according to their distance to "u".
- */
-struct compare_by_dist_attitude {
-    const Creature &u;
-    bool operator()( Creature *a, Creature *b ) const;
-};
-
 enum units_type {
     VU_VEHICLE,
     VU_WIND

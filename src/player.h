@@ -210,8 +210,6 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         void reset_stats() override;
         /** Resets movement points and applies other non-idempotent changes */
         void process_turn() override;
-        /** Drop items randomly if insufficient inventory space except during pending activity */
-        void drop_inventory_overflow() override;
         /** Calculates the various speed bonuses we will get from mutations, etc. */
         void recalc_speed_bonus();
         /** Called after every action, invalidates player caches */
@@ -866,11 +864,11 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
 
         /**
          * Drop, wear, stash or otherwise try to dispose of an item consuming appropriate moves
-         * @param obj item to dispose of which must in the players possession
+         * @param obj item to dispose of
          * @param prompt optional message to display in any menu
          * @return whether the item was successfully disposed of
          */
-        virtual bool dispose_item( item& obj, const std::string& prompt = std::string() );
+        virtual bool dispose_item( item_location &&obj, const std::string& prompt = std::string() );
 
         /**
          * Attempt to mend an item (fix any current faults)
@@ -1122,8 +1120,10 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         bool has_weapon() const override;
 
         // Checks crafting inventory for books providing the requested recipe.
+        // Then checks nearby NPCs who could provide it too.
         // Returns -1 to indicate recipe not found, otherwise difficulty to learn.
-        int has_recipe( const recipe *r, const inventory &crafting_inv ) const;
+        int has_recipe( const recipe *r, const inventory &crafting_inv,
+                        const std::vector<npc *> &helpers ) const;
         bool knows_recipe( const recipe *rec ) const;
         void learn_recipe( const recipe *rec, bool force = false );
         int exceeds_recipe_requirements( const recipe &rec ) const;
@@ -1144,6 +1144,8 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         void make_craft( const std::string & id, int batch_size );
         void make_all_craft( const std::string & id, int batch_size );
         void complete_craft();
+        /** Returns nearby NPCs ready and willing to help with crafting. */
+        std::vector<npc *> get_crafting_helpers() const;
 
         // also crafting.cpp
         /**
@@ -1363,8 +1365,6 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
 
         void spores();
         void blossoms();
-
-        int add_ammo_to_worn_quiver(item &ammo);
 
         std::vector<mission*> get_active_missions() const;
         std::vector<mission*> get_completed_missions() const;

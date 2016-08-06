@@ -49,6 +49,7 @@ TEST_CASE( "gun_aiming", "[gun] [aim]" ) {
     GIVEN( "A typical survivor with a loded gun" ) {
 
         standard_npc who;
+        who.setpos( tripoint( 0, 0, 0 ) );
         who.wear_item( item( "gloves_lsurvivor" ) );
         who.wear_item( item( "mask_lsurvivor" ) );
         who.set_skill_level( skill_id( "gun" ), gun_skill );

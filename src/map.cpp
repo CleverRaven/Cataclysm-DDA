@@ -39,6 +39,7 @@
 #include <stdlib.h>
 #include <fstream>
 #include <cstring>
+#include <algorithm>
 
 const mtype_id mon_spore( "mon_spore" );
 const mtype_id mon_zombie( "mon_zombie" );
@@ -487,9 +488,10 @@ bool map::vehact( vehicle &veh )
         return true;
     }
 
-    const float traction = vehicle_traction( veh );
+    const float wheel_traction_area = vehicle_wheel_traction( veh );
+    const float traction = veh.k_traction( wheel_traction_area );
     // TODO: Remove this hack, have vehicle sink a z-level
-    if( traction < 0 ) {
+    if( wheel_traction_area < 0 ) {
         add_msg(m_bad, _("Your %s sank."), veh.name.c_str());
         if( pl_ctrl ) {
             veh.unboard_all();
@@ -630,7 +632,7 @@ bool map::vehicle_falling( vehicle &veh )
     return true;
 }
 
-float map::vehicle_traction( const vehicle &veh ) const
+float map::vehicle_wheel_traction( const vehicle &veh ) const
 {
     const tripoint pt = veh.global_pos3();
     // TODO: Remove this and allow amphibious vehicles
@@ -649,16 +651,11 @@ float map::vehicle_traction( const vehicle &veh ) const
 
     int submerged_wheels = 0;
     float traction_wheel_area = 0.0f;
-    float total_wheel_area = 0.0f;
     for( int w = 0; w < num_wheels; w++ ) {
         const int p = wheel_indices[w];
         const tripoint pp = pt + veh.parts[p].precalc[0];
 
-        // Not using vehicle::wheels_area so that if it changes,
-        //  this section will stay correct (ie. proportion of wheel area/total area)
-        const int width = veh.parts[ p ].wheel_width();
-        const float wheel_area = width * veh.parts[ p ].wheel_diameter();
-        total_wheel_area += wheel_area;
+        const float wheel_area = veh.parts[ p ].wheel_area();
 
         const auto &tr = ter( pp ).obj();
         // Deep water and air
@@ -693,17 +690,7 @@ float map::vehicle_traction( const vehicle &veh ) const
         return -1;
     }
 
-    if( total_wheel_area <= 0.01f ) {
-        debugmsg( "%s has wheel area <0.01", veh.name.c_str() );
-        return 0.0f;
-    }
-
-    const float mass_penalty = ( 1.0f - traction_wheel_area / total_wheel_area ) * veh.total_mass();
-
-    float traction = std::min( 1.0f, traction_wheel_area / mass_penalty );
-    add_msg( m_debug, "%s has traction %.2f", veh.name.c_str(), traction );
-    // For now make it easy until it gets properly balanced: add a low cap of 0.1
-    return std::max( 0.1f, traction );
+    return traction_wheel_area;
 }
 
 float map::vehicle_buoyancy( const vehicle &veh ) const
@@ -712,9 +699,11 @@ float map::vehicle_buoyancy( const vehicle &veh ) const
     const auto &float_indices = veh.floating;
     const int num = float_indices.size();
     int moored = 0;
+    float total_wheel_area = 0.0f;
     for( int w = 0; w < num; w++ ) {
         const int p = float_indices[w];
         const tripoint pp = pt + veh.parts[p].precalc[0];
+        total_wheel_area += veh.parts[ p ].wheel_width() * veh.parts[ p ].wheel_diameter();
 
         if( !has_flag( "SWIMMABLE", pp ) ) {
             moored++;
@@ -725,8 +714,7 @@ float map::vehicle_buoyancy( const vehicle &veh ) const
         return 0.0f;
     }
 
-    // TODO: Actually implement buoyancy
-    return 1.0f;
+    return total_wheel_area;
 }
 
 void map::move_vehicle( vehicle &veh, const tripoint &dp, const tileray &facing )
@@ -827,7 +815,7 @@ void map::move_vehicle( vehicle &veh, const tripoint &dp, const tileray &facing 
     }
 
     // If not enough wheels, mess up the ground a bit.
-    if( !vertical && !veh.valid_wheel_config() ) {
+    if( !vertical && !veh.valid_wheel_config( !veh.floating.empty() ) ) {
         veh.velocity += veh.velocity < 0 ? 2000 : -2000;
         for( const auto &p : veh.get_points() ) {
             const ter_id &pter = ter( p );
@@ -1012,9 +1000,12 @@ float map::vehicle_vehicle_collision( vehicle &veh, vehicle &veh2,
             0.5 * m2 * velo_veh2.norm() * velo_veh2.norm();
 
         // Collision_axis
-        int x_cof1 = 0, y_cof1 = 0, x_cof2 = 0, y_cof2 = 0;
-        veh .center_of_mass(x_cof1, y_cof1);
-        veh2.center_of_mass(x_cof2, y_cof2);
+        point cof1 = veh .rotated_center_of_mass();
+        point cof2 = veh2.rotated_center_of_mass();
+        int &x_cof1 = cof1.x;
+        int &y_cof1 = cof1.y;
+        int &x_cof2 = cof2.x;
+        int &y_cof2 = cof2.y;
         rl_vec2d collision_axis_y;
 
         collision_axis_y.x = ( veh.global_x() + x_cof1 ) - ( veh2.global_x() + x_cof2 );
@@ -1313,7 +1304,7 @@ void map::unboard_vehicle( const tripoint &p )
     veh->invalidate_mass();
 }
 
-void map::displace_vehicle( tripoint &p, const tripoint &dp )
+vehicle *map::displace_vehicle( tripoint &p, const tripoint &dp )
 {
     const tripoint p2 = p + dp;
     const tripoint src = p;
@@ -1322,7 +1313,7 @@ void map::displace_vehicle( tripoint &p, const tripoint &dp )
     if( !inbounds( src ) ) {
         add_msg( m_debug, "map::displace_vehicle: coords out of bounds %d,%d,%d->%d,%d,%d",
                         src.x, src.y, src.z, dst.x, dst.y, dst.z );
-        return;
+        return nullptr;
     }
 
     int src_offset_x, src_offset_y, dst_offset_x, dst_offset_y;
@@ -1352,7 +1343,7 @@ void map::displace_vehicle( tripoint &p, const tripoint &dp )
     }
     if( our_i < 0 ) {
         add_msg( m_debug, "displace_vehicle our_i=%d", our_i );
-        return;
+        return nullptr;
     }
     // move the vehicle
     vehicle *veh = src_submap->vehicles[our_i];
@@ -1362,7 +1353,7 @@ void map::displace_vehicle( tripoint &p, const tripoint &dp )
         // Silent debug
         dbg(D_ERROR) << "map:displace_vehicle: Stopping vehicle, displaced dp=("
                      << dp.x << ", " << dp.y << ", " << dp.z << ")";
-        return;
+        return veh;
     }
 
     // Need old coords to check for remote control
@@ -1462,6 +1453,7 @@ void map::displace_vehicle( tripoint &p, const tripoint &dp )
     }
 
     on_vehicle_moved( veh->smz );
+    return veh;
 }
 
 bool map::displace_water( const tripoint &p )
@@ -3203,14 +3195,14 @@ void map::smash_items(const tripoint &p, const int power)
             const field_id type_blood = i->is_corpse() ? i->get_mtype()->bloodType() : fd_null;
             while( ( damage_chance > material_factor ||
                      x_in_y( damage_chance, material_factor ) ) &&
-                     i->damage < MAX_ITEM_DAMAGE ) {
-                i->damage++;
+                     i->damage() < i->max_damage() ) {
+                i->inc_damage( DT_BASH );
                 add_splash( type_blood, p, 1, damage_chance );
                 damage_chance -= material_factor;
             }
         }
         // Remove them if they were damaged too much
-        if( i->damage >= MAX_ITEM_DAMAGE || ( by_charges && i->charges == 0 ) ) {
+        if( i->damage() == i->max_damage() || ( by_charges && i->charges == 0 ) ) {
             // But save the contents
             for( auto &elem : i->contents ) {
                 contents.push_back( elem );
@@ -4406,7 +4398,7 @@ item &map::spawn_an_item(const tripoint &p, item new_item,
         return nulitem;
     }
 
-    new_item.damage = std::min( std::max( damlevel, MIN_ITEM_DAMAGE ), MAX_ITEM_DAMAGE );
+    new_item.set_damage( damlevel );
 
     return add_item_or_charges(p, new_item);
 }
@@ -4651,8 +4643,10 @@ item map::water_from( const tripoint &p )
 // date to current time, and also check contents.
 static void apply_in_fridge(item &it)
 {
-    if (it.is_food() && it.fridge == 0) {
-        it.fridge = (int) calendar::turn;
+    if (it.is_food()) {
+        if (it.fridge == 0) {
+            it.fridge = (int) calendar::turn;
+        }
         // cool down of the HOT flag, is unsigned, don't go below 1
         if ((it.has_flag("HOT")) && (it.item_counter > 10)) {
             it.item_counter -= 10;
@@ -4662,7 +4656,7 @@ static void apply_in_fridge(item &it)
             it.item_tags.insert("COLD");
             it.active = true;
         }
-        if ((it.has_flag("COLD")) && (it.item_counter <= 590) && it.fridge > 0) {
+        if ((it.has_flag("COLD")) && (it.item_counter <= 590)) {
             it.item_counter += 10;
         }
     }
@@ -7035,6 +7029,25 @@ void map::rad_scorch( const tripoint &p, int time_since_last_actualize )
     }
 }
 
+void map::decay_cosmetic_fields( const tripoint &p, int time_since_last_actualize )
+{
+    for( auto &pr : field_at( p ) ) {
+        auto &fd = pr.second;
+        if( !fd.decays_on_actualize() ) {
+            continue;
+        }
+
+        const int added_age = 2 * time_since_last_actualize / rng( 2, 4 );
+        fd.mod_age( added_age );
+        const int hl = fieldlist[ fd.getFieldType() ].halflife;
+        const int density_drop = fd.getFieldAge() / hl;
+        if( density_drop > 0 ) {
+            fd.setFieldDensity( fd.getFieldDensity() - density_drop );
+            fd.mod_age( -hl * density_drop );
+        }
+    }
+}
+
 void map::actualize( const int gridx, const int gridy, const int gridz )
 {
     submap *const tmpsub = get_submap_at_grid( gridx, gridy, gridz );
@@ -7077,6 +7090,8 @@ void map::actualize( const int gridx, const int gridy, const int gridz )
             produce_sap( pnt, time_since_last_actualize );
 
             rad_scorch( pnt, time_since_last_actualize );
+
+            decay_cosmetic_fields( pnt, time_since_last_actualize );
         }
     }
 
@@ -7594,14 +7609,14 @@ void map::build_map_cache( const int zlev, bool skip_lightmap )
                 outside_cache[px][py] = false;
             }
 
-            if( v.v->part_flag(part, VPFLAG_OPAQUE) && v.v->parts[part].hp > 0 ) {
+            if( v.v->part_flag(part, VPFLAG_OPAQUE) && !v.v->parts[part].is_broken() ) {
                 int dpart = v.v->part_with_feature( part, VPFLAG_OPENABLE );
                 if (dpart < 0 || !v.v->parts[dpart].open) {
                     transparency_cache[px][py] = LIGHT_TRANSPARENCY_SOLID;
                 }
             }
 
-            if( v.v->part_flag( part, VPFLAG_BOARDABLE ) && v.v->parts[part].hp > 0 ) {
+            if( v.v->part_flag( part, VPFLAG_BOARDABLE ) && !v.v->parts[part].is_broken() ) {
                 floor_cache[px][py] = true;
             }
         }

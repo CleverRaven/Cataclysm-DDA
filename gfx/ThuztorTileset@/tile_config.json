@@ -2594,8 +2594,6 @@
             "fg":366,
             "rotates":false
         },
-
-
         {
             "id":"vp_seat",
             "fg":367,
@@ -3812,9 +3810,6 @@
             "bg":-1,
             "rotates":false
         },
-
-
-
         {
             "id":"mon_squirrel",
             "fg":501,
@@ -3881,7 +3876,6 @@
             "bg":500,
             "rotates":false
         },
-
         {
             "id":"mon_ant_larva",
             "fg":513,
@@ -3912,7 +3906,6 @@
             "bg":512,
             "rotates":false
         },
-
         {
             "id":"mon_fly",
             "fg":519,
@@ -3937,7 +3930,6 @@
             "bg":518,
             "rotates":false
         },
-
         {
             "id":"mon_worm",
             "fg":523,
@@ -3956,7 +3948,6 @@
             "bg":512,
             "rotates":false
         },
-
         {
             "id":"mon_zombie",
             "fg":527,
@@ -4556,7 +4547,6 @@
             "bg":617,
             "rotates":false
         },
-
         {
          "id" : "battery",
          "fg" : 640,
@@ -6440,7 +6430,6 @@
          "rotates" : false,
          "multitile" : false
       },
-
       {
          "id" : "hockey_stick",
          "fg" : 902,
@@ -8289,7 +8278,6 @@
          "rotates" : false,
          "multitile" : false
         },
-
         {
          "id" : "mag_porn",
          "fg" : 1168,
@@ -8444,7 +8432,6 @@
          "rotates" : false,
          "multitile" : false
         },
-
         {
          "id" : "manual_brawl",
          "fg" : 1192,
@@ -8662,7 +8649,6 @@
          "rotates" : false,
          "multitile" : false
         },
-
         {
          "id" : "record_weather",
          "fg" : 1225,
@@ -8985,7 +8971,6 @@
          "rotates" : false,
          "multitile" : false
         },
-
         {
          "id" : "mutagen",
          "fg" : 1272,
@@ -9756,7 +9741,6 @@
          "rotates" : false,
          "multitile" : false
         },
-
         {
          "id" : "bandages",
          "fg" : 1380,
@@ -10149,7 +10133,6 @@
          "rotates" : false,
          "multitile" : false
         },
-
         {
          "id" : "paper",
          "fg" : 1437,
@@ -10990,7 +10973,6 @@
          "rotates" : false,
          "multitile" : false
         },
-
         {
          "id" : "lighter",
          "fg" : 1558,
@@ -12216,7 +12198,6 @@
          "rotates" : false,
          "multitile" : false
         },
-
         {
          "id" : "bio_power_storage",
          "fg" : 1735,
@@ -12847,7 +12828,6 @@
          "rotates" : false,
          "multitile" : false
         },
-
         {
             "id":"t_trunk",
             "fg" :1825,
@@ -13157,7 +13137,6 @@
             "bg":1840,
             "rotates":false
         },
-
         {
             "id":"mon_bat",
             "fg":1889,
@@ -13404,7 +13383,6 @@
             "bg":548,
             "rotates":false
         },
-
         {
          "id" : "bio_sunglasses",
          "fg" : 1930,

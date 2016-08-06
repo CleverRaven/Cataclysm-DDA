@@ -560,6 +560,7 @@
                 "winter_gloves_army",
                 "socks",
                 "boots_combat",
+                "shoulder_strap",
                 "m4a1",
                 "223",
                 "stanag30",
@@ -622,11 +623,13 @@
                 "gloves_tactical",
                 "socks",
                 "boots_combat",
+                "shoulder_strap",
                 "rm2000_smg",
                 "8x40_25_mag",
                 "suppressor",
                 "8mm_fmj",
                 "8mm_fmj",
+                "sheath",
                 "kukri"
             ],
             "male": [
@@ -865,6 +868,82 @@
                 "boxer_shorts"
             ]
         }
+    },
+    {
+            "type": "profession",
+            "ident": "bio_sur",
+            "name": "Bionic Survivalist",
+            "description": "Mainly from paranoia, you augmented yourself, got some training and gear to go inawoods incase anything went down, well it did.  Now that civilization has fallen, the woods are your new home.", 
+            "points": 10,
+            "skills": [
+            {
+                "level": 3,
+                "name": "survival"
+            },
+            {
+                "level": 2,
+                "name": "fabrication"
+            },
+            {
+                "level": 2,
+                "name": "cooking"
+            },
+            {
+                "level": 2,
+                "name": "archery"
+            },
+            {
+                "level": 2,
+                "name": "traps"
+            },
+            {
+                "level": 2,
+                "name": "firstaid"
+            },
+            {
+                "level": 2,
+                "name": "swimming"
+            },
+            {
+                "level": 1,
+                "name": "gun"
+            }
+        ],
+        "CBMs":[
+            "bio_power_storage_mkII",
+            "bio_sunglasses",
+            "bio_metabolics",
+            "bio_lighter",
+            "bio_evap",
+            "bio_flashlight",
+            "bio_tools"
+        ],
+        "items":{
+            "both": [
+                "socks",
+                "army_top",
+                "hat_boonie",
+                "gloves_light",
+                "pants_cargo",
+                "boots_steel",
+                "jacket_army",
+                "knit_scarf",
+                "backpack",
+                "quiver",
+                "canteen",
+                "compbow",
+                "arrow_cf",
+                "arrow_cf"
+            ],
+            "male": [
+                "boxer_shorts"
+            ],
+             "female": [
+                "bra",
+                "panties"
+            ]
+        },
+         "flags" : ["SCEN_ONLY"]
     },
     {
         "type": "profession",
@@ -1225,6 +1304,7 @@
                 "usp_45",
                 "usp45mag",
                 "45_acp",
+                "shoulder_strap",
                 "remington_700",
                 "3006",
                 "3006",
@@ -1347,6 +1427,7 @@
                 "jacket_flannel",
                 "compbow",
                 "arrow_cf",
+                "sheath",
                 "knife_hunting",
                 "hat_hunting",
                 "quiver"
@@ -1380,8 +1461,10 @@
                 "boots_steel",
                 "pants_cargo",
                 "jacket_flannel",
+                "shoulder_strap",
                 "crossbow",
                 "bolt_metal",
+                "sheath",
                 "knife_hunting",
                 "hat_hunting",
                 "quiver"
@@ -1419,8 +1502,10 @@
                 "boots_steel",
                 "pants_cargo",
                 "jacket_flannel",
+                "shoulder_strap",
                 "shotgun_d",
                 "shot_00",
+                "sheath",
                 "knife_hunting",
                 "hat_hunting",
                 "bandolier_shotgun"
@@ -1458,8 +1543,10 @@
                 "boots_steel",
                 "pants_cargo",
                 "jacket_flannel",
+                "shoulder_strap",
                 "remington_700",
                 "270",
+                "sheath",
                 "knife_hunting",
                 "hat_hunting",
                 "bandolier_rifle"
@@ -1710,6 +1797,7 @@
                 "boots",
                 "bandana",
                 "jacket_leather",
+                "sheath",
                 "knife_trench"
             ],
             "male": [
@@ -2211,6 +2299,7 @@
                 "beret",
                 "socks",
                 "boots_combat",
+                "shoulder_strap",
                 "rm51_assault_rifle",
                 "8x40_50_mag",
                 "8mm_fmj",
@@ -2271,6 +2360,7 @@
                 "rollmat",
                 "lighter",
                 "mil_mess_kit",
+                "shoulder_strap",
                 "m2010",
                 "m2010mag",
                 "300_winmag",
@@ -2469,6 +2559,7 @@
                 "jacket_flannel",
                 "knit_scarf",
                 "beartrap",
+                "shoulder_strap",
                 "knife_hunting",
                 "tobacco",
                 "rolling_paper",
@@ -3786,10 +3877,12 @@
                 "hood_wsurvivor",
                 "gloves_wsurvivor",
                 "quiver_large",
+                "shoulder_strap",
                 "crossbow",
                 "bolt_wood",
                 "bolt_wood",
                 "mess_kit",
+                "sheath",
                 "kukri"
             ],
             "male": [
@@ -3839,6 +3932,7 @@
                 "tac_helmet",
                 "gloves_tactical",
                 "rucksack",
+                "shoulder_strap",
                 "scar_h",
                 "scarhmag",
                 "762_51",
@@ -3978,6 +4072,7 @@
                 "wearable_light",
                 "shotgun_d",
                 "reloaded_shot_00",
+                "sheath",
                 "knife_combat",
                 "duct_tape",
                 "ref_lighter",
@@ -4059,6 +4154,89 @@
             "female": [
                 "sports_bra",
                 "boy_shorts"
+            ]
+        },
+        "flags" : ["SCEN_ONLY"]
+    },
+    {
+        "type": "profession",
+        "ident": "player_bandit",
+        "name" : "Veteran Bandit",
+        "description" : "After the cities exploded there was a whirlwind of looting; a firestorm of fear.  Men began to feed on men.  On the roads it was a white line nightmare.  Only those mobile enough to scavenge or brutal enough to pillage would survive.  You are one of the latter.",
+        "points" : 6,
+        "skills": [
+            {
+                "level": 2,
+                "name": "gun"
+            },
+            {
+                "level" : 2,
+                "name" : "rifle"
+            },
+            {
+                "level": 2,
+                "name": "melee"
+            },
+            {
+                "level": 2,
+                "name": "cutting"
+            },
+            {
+                "level": 2,
+                "name": "unarmed"
+            },
+            {
+                "level": 2,
+                "name": "dodge"
+            },
+            {
+                "level": 1,
+                "name": "bashing"
+            },
+            {
+                "level": 1,
+                "name": "firstaid"
+            },
+            {
+                "level": 1,
+                "name": "survival"
+            }
+        ],
+        "items": {
+            "both": [
+                "gold_ear",
+                "pants_survivor",
+                "motorbike_boots",
+                "gauntlets_bone",
+                "survivor_goggles",
+                "nailrifle",
+                "shoulder_strap",
+                "folding_stock",
+                "nailmag",
+                "nailmag",
+                "combatnail",
+                "combatnail",
+                "chestpouch",
+                "waterskin2",
+                "survivor_scope",
+                "heavy_flashlight",
+                "makeshift_machete",
+                "scabbard",
+                "knuckle_steel",
+                "ref_lighter",
+                "mess_kit"
+            ],
+            "male": [
+                "football_armor",
+                "elbow_pads",
+                "bandana"
+            ],
+            "female": [
+                "leather_collar",
+                "halter_top",
+                "corset",
+                "vambrace_larmor",
+                "long_knit_scarf_loose"
             ]
         },
         "flags" : ["SCEN_ONLY"]
@@ -4241,6 +4419,7 @@
                 "leather_belt",
                 "knit_scarf",
                 "tricorne",
+                "shoulder_strap",
                 "rifle_flintlock",
                 "flintlock_ammo",
                 "hatchet",
@@ -4315,6 +4494,7 @@
                 "leather_belt",
                 "knit_scarf",
                 "tricorne",
+                "shoulder_strap",
                 "rifle_flintlock",
                 "flintlock_ammo",
                 "hatchet",

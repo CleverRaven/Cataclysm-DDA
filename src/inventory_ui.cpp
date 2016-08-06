@@ -161,7 +161,7 @@ void inventory_column::on_action( const std::string &action )
     } else if( action == "NEXT_TAB" ) {
         move_selection( std::max( std::min<int>( entries_per_page, entries.size() - selected_index - 1 ), 1 ) );
     } else if( action == "PREV_TAB" ) {
-        move_selection( std::min( std::max<int>( -entries_per_page, -selected_index + 1 ), -1 ) );
+        move_selection( std::min( std::max<int>( UINT32_MAX - entries_per_page + 1, (UINT32_MAX - selected_index + 1) + 1 ), -1 ) );
     } else if( action == "HOME" ) {
         select( 1 );
     } else if( action == "END" ) {
@@ -217,7 +217,7 @@ std::string inventory_column::get_entry_text( const inventory_entry &entry ) con
     std::ostringstream res;
 
     if( entry.is_item() ) {
-        if( OPTIONS["ITEM_SYMBOLS"] ) {
+        if( get_option<bool>( "ITEM_SYMBOLS" ) ) {
             res << entry.get_item().symbol() << ' ';
         }
 
@@ -335,7 +335,7 @@ std::string selection_column::get_entry_text( const inventory_entry &entry ) con
     std::ostringstream res;
 
     if( entry.is_item() ) {
-        if( OPTIONS["ITEM_SYMBOLS"] ) {
+        if( get_option<bool>( "ITEM_SYMBOLS" ) ) {
             res << entry.get_item().symbol() << ' ';
         }
 

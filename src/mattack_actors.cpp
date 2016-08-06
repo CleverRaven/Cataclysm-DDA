@@ -399,7 +399,7 @@ void gun_actor::shoot( monster &z, Creature &target, const std::string &mode ) c
     tmp.dex_cur = fake_dex;
     tmp.int_cur = fake_int;
     tmp.per_cur = fake_per;
-    tmp.attitude = z.friendly ? NPCATT_DEFEND : NPCATT_KILL;
+    tmp.attitude = z.friendly ? NPCATT_FOLLOW : NPCATT_KILL;
 
     if( fake_skills.empty() ) {
         tmp.set_skill_level( skill_id( "gun" ), 4 );
