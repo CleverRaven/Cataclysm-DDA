@@ -579,7 +579,6 @@
     "volume": 12,
     "bashing": 12,
     "to_hit": -1,
-    "dispersion": 0,
     "sight_dispersion": 60,
     "aim_speed" : 6,
     "recoil": -60,
