@@ -1370,13 +1370,11 @@ void veh_interact::display_contents()
     for( int idx : parts_here ) {
         auto &pt = veh->parts[ idx ];
 
-        std::string hdr;
+        std::string hdr = pt.name();
         std::string msg;
 
         const auto turret = veh->turret_query( pt );
         if( turret && turret.can_unload() ) {
-            hdr = turret.name();
-
             if( turret.base()->magazine_current() ) {
                 if( turret.ammo_current() != "null" ) {
                     msg = string_format( _( "%s with %s (%i/%i)" ),
@@ -1396,7 +1394,15 @@ void veh_interact::display_contents()
                 }
             }
 
-        // @todo display contents of vehicle tanks and batteries
+        } else if( pt.is_battery() ) {
+            hdr += string_format( " (%i/%i)", pt.ammo_remaining(), pt.ammo_capacity() );
+
+        } else if( pt.is_tank() ) {
+            if( pt.ammo_remaining() > 0 ) {
+                msg = string_format( "%s (%i)",
+                                     item::nname( pt.ammo_current(), pt.ammo_remaining() ).c_str(),
+                                     pt.ammo_remaining() );
+            }
 
         } else {
             continue;
@@ -1404,15 +1410,6 @@ void veh_interact::display_contents()
 
         y += fold_and_print( w_list, y, 1, getmaxx( w_list ) - 2, c_white, hdr );
         y += fold_and_print( w_list, y, 3, getmaxx( w_list ) - 4, c_ltgray, msg ) + 1;
-    }
-
-    int cargo = veh->part_with_feature( cpart, "CARGO" );
-    if( cargo >= 0 ) {
-        y += fold_and_print( w_list, y, 1, getmaxx( w_list ) - 2, c_white, veh->parts[ cargo ].name() );
-        vehicle_cursor( *veh, cargo ).visit_items( [&]( const item *e ) {
-            y += fold_and_print( w_list, y, 3, getmaxx( w_list ) - 4, c_ltgray, e->display_name() );
-            return VisitResponse::SKIP;
-        } );
     }
 
     wrefresh( w_list );
