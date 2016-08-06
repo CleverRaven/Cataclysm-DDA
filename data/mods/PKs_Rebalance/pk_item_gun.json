@@ -258,8 +258,6 @@
       "ammo": "bomblet",
       "clip_size": 3,
       "dispersion": 80,
-      "aim_speed": -1,
-      "sight_dispersion": -1,
       "recoil": 50,
       "durability": 10,
       "reload": 150,

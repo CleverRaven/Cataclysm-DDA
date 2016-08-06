@@ -18,8 +18,6 @@
       "ammo": "gasoline",
       "clip_size": 400,
       "dispersion": 300,
-      "aim_speed": -1,
-      "sight_dispersion": -1,
       "durability": 10
     },
     "dispersion_modifier": 30,
@@ -83,8 +81,6 @@
       "clip_size": 1,
       "dispersion": 20,
       "range": 2,
-      "aim_speed": -1,
-      "sight_dispersion": -1,
       "durability": 10
     },
     "dispersion_modifier": 15,
@@ -112,7 +108,6 @@
       "clip_size": 1,
       "ranged_damage": 2,
       "dispersion": 555,
-      "sight_dispersion": 150,
       "recoil": 300,
       "durability": 6,
       "loudness": 175
@@ -187,8 +182,6 @@
       "clip_size": 7,
       "ranged_damage": 3,
       "dispersion": 45,
-      "aim_speed": 3,
-      "sight_dispersion": 105,
       "recoil": 15,
       "durability": 10,
       "reload": 120,
@@ -233,8 +226,6 @@
       "dispersion": 300,
       "ranged_damage": 2,
       "range": -2,
-      "aim_speed": -1,
-      "sight_dispersion": -1,
       "recoil": 375,
       "durability": 10
     },
@@ -260,8 +251,6 @@
       "ammo": "40mm",
       "clip_size": 1,
       "dispersion": 300,
-      "aim_speed": -1,
-      "sight_dispersion": -1,
       "durability": 10
     },
     "dispersion_modifier": 30
@@ -286,8 +275,6 @@
       "ammo": "40mm",
       "clip_size": 1,
       "dispersion": 20,
-      "aim_speed": -1,
-      "sight_dispersion": -1,
       "durability": 10
     },
     "dispersion_modifier": 60
@@ -311,8 +298,6 @@
       "ammo": "shot",
       "clip_size": 4,
       "dispersion": 30,
-      "aim_speed": -1,
-      "sight_dispersion": -1,
       "durability": 10
     },
     "dispersion_modifier": 15,
@@ -337,8 +322,6 @@
       "ammo": "40mm",
       "clip_size": 1,
       "dispersion": 450,
-      "aim_speed": -1,
-      "sight_dispersion": -1,
       "durability": 10
     },
     "dispersion_modifier": 60
@@ -379,8 +362,6 @@
       "skill": "shotgun",
       "ammo": "20x66mm",
       "dispersion": 100,
-      "aim_speed": 3,
-      "sight_dispersion": 75,
       "recoil": 50,
       "durability": 9,
       "reload": 125
@@ -429,8 +410,6 @@
       "ammo": "shot",
       "clip_size": 2,
       "dispersion": 75,
-      "aim_speed": -1,
-      "sight_dispersion": -1,
       "durability": 100
     },
     "dispersion_modifier": 30,

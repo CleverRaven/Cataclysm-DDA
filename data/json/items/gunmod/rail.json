@@ -19,8 +19,6 @@
         "clip_size": 1,
         "range": 8,
         "dispersion": 180,
-        "aim_speed": -1,
-        "sight_dispersion": -1,
         "durability": 10
     },
     "dispersion_modifier": 60,
