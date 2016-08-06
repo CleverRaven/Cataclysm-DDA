@@ -526,10 +526,9 @@ public:
 
     /**
      *  Operate vehicle controls
-     *  @param pos Position of controls to operate
-     *  @param remote_action true if controls operated via remote controller
+     *  @param pos location of physical controls to operate (ignored during remote operation)
      */
-    void use_controls(const tripoint &pos, const bool remote_action = false);
+    void use_controls(const tripoint &pos );
 
     // Fold up the vehicle
     bool fold_up();
@@ -750,9 +749,6 @@ public:
      * @param active if true return only lights which are enabled
      */
     std::vector<vehicle_part *> lights( bool active = false );
-
-    /** Enable or disable specific vehicle lighting parts */
-    void lights_control();
 
     void power_parts();
 
