@@ -1163,7 +1163,6 @@ public:
     int extra_drag          = 0;
     // TODO: change these to a bitset + enum?
     bool cruise_on                  = true;  // cruise control on/off
-    bool reactor_on                 = false; // reactor on/off
     bool engine_on                  = false; // at least one engine is on, of any type
     bool tracking_on                = false; // vehicle tracking on/off
     bool is_locked                  = false; // vehicle has no key

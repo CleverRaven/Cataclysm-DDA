@@ -463,7 +463,7 @@ void vehicle::init_state(int init_veh_fuel, int init_veh_status)
     for( size_t p = 0; p < parts.size(); p++ ) {
         if( part_flag( p, "REACTOR" ) ) {
             // De-hardcoded reactors. Should always start active
-            reactor_on = true;
+            parts[ p ].enabled = true;
         }
 
         if( part_flag(p, "FUEL_TANK") ) {   // set fuel status
@@ -3523,7 +3523,7 @@ void vehicle::power_parts()
     }
 
     int epower_capacity_left = power_to_epower(fuel_capacity(fuel_type_battery) - fuel_left(fuel_type_battery));
-    if( reactor_on && epower_capacity_left - epower > 0 ) {
+    if( has_part( "REACTOR", true ) && epower_capacity_left - epower > 0 ) {
         // Still not enough surplus epower to fully charge battery
         // Produce additional epower from any reactors
         bool reactor_working = false;
@@ -3555,7 +3555,9 @@ void vehicle::power_parts()
 
         if( !reactor_working ) {
             // All reactors out of fuel or destroyed
-            reactor_on = false;
+            for( auto pt : get_parts( "REACTOR" ) ) {
+                pt->enabled = false;
+            }
             if( player_in_control(g->u) || g->u.sees( global_pos3() ) ) {
                 add_msg( _("The %s's reactor dies!"), name.c_str() );
             }
