@@ -1366,14 +1366,32 @@ void veh_interact::display_contents()
 {
     werase( w_list );
 
-    int y = 0;
+    std::vector<vehicle_part *> opts;
     for( int idx : parts_here ) {
         auto &pt = veh->parts[ idx ];
+        if( pt.is_turret() || pt.is_engine() || pt.is_battery() || pt.is_tank() ) {
+            opts.push_back( &pt );
+        }
+    }
+    std::stable_sort( opts.begin(), opts.end(), []( const vehicle_part *lhs, const vehicle_part *rhs ) {
+        return lhs->is_tank() && !rhs->is_tank();
+    } );
+    std::stable_sort( opts.begin(), opts.end(), []( const vehicle_part *lhs, const vehicle_part *rhs ) {
+        return lhs->is_battery() && !rhs->is_battery();
+    } );
+    std::stable_sort( opts.begin(), opts.end(), []( const vehicle_part *lhs, const vehicle_part *rhs ) {
+        return lhs->is_engine() && !rhs->is_engine();
+    } );
+    std::stable_sort( opts.begin(), opts.end(), []( const vehicle_part *lhs, const vehicle_part *rhs ) {
+        return lhs->is_turret() && !rhs->is_turret();
+    } );
 
-        std::string hdr = pt.name();
+    int y = 0;
+    for( const auto pt : opts ) {
+        std::string hdr = pt->name();
         std::string msg;
 
-        const auto turret = veh->turret_query( pt );
+        const auto turret = veh->turret_query( *pt );
         if( turret && turret.can_unload() ) {
             if( turret.base()->magazine_current() ) {
                 if( turret.ammo_current() != "null" ) {
@@ -1394,27 +1412,21 @@ void veh_interact::display_contents()
                 }
             }
 
-        } else if( pt.is_engine() ) {
-            // intentional no-op, engine faults are enumerated below
+        } else if( pt->is_battery() ) {
+            hdr += string_format( " (%i/%i)", pt->ammo_remaining(), pt->ammo_capacity() );
 
-        } else if( pt.is_battery() ) {
-            hdr += string_format( " (%i/%i)", pt.ammo_remaining(), pt.ammo_capacity() );
-
-        } else if( pt.is_tank() ) {
-            if( pt.ammo_remaining() > 0 ) {
+        } else if( pt->is_tank() ) {
+            if( pt->ammo_remaining() > 0 ) {
                 msg = string_format( "%s (%i)",
-                                     item::nname( pt.ammo_current(), pt.ammo_remaining() ).c_str(),
-                                     pt.ammo_remaining() );
+                                     item::nname( pt->ammo_current(), pt->ammo_remaining() ).c_str(),
+                                     pt->ammo_remaining() );
             }
-
-        } else {
-            continue;
         }
 
         y += fold_and_print( w_list, y, 1, getmaxx( w_list ) - 2, c_white, hdr );
         y += fold_and_print( w_list, y, 3, getmaxx( w_list ) - 4, c_ltgray, msg );
 
-        for( const auto &e : pt.faults() ) {
+        for( const auto &e : pt->faults() ) {
             y += fold_and_print( w_list, y, 3, getmaxx( w_list ) - 4, c_ltred, _( "faulty %s" ), e->name().c_str() );
         }
 
