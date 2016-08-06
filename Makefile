@@ -865,9 +865,9 @@ endif
 
 json-lint: $(ODIR)/lint.cache
 
-$(ODIR)/lint.cache: $(shell cat json_whitelist) | $(ODIR)
+$(ODIR)/lint.cache: json_whitelist $(shell cat json_whitelist) | $(ODIR)
 ifeq ($(shell if perl -c tools/format/format.pl 2>/dev/null; then echo $$?; fi),0)
-	@tools/lint.sh $^
+	@tools/lint.sh $(shell cat json_whitelist)
 	@touch $@
 else
 	@echo Cannot lint JSON, missing usable perl binary and/or p5-JSON module
