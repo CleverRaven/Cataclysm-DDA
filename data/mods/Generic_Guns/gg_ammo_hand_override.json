@@ -8,6 +8,14 @@
     "description": "Hand-loaded ammunition for lighter rifles, designed for small game and humans."
   },
   {
+    "id": "reloaded_308",
+    "copy-from": "reloaded_308",
+    "type": "AMMO",
+    "name": "reloaded rifle ammo",
+    "name_plural": "reloaded rifle ammo",
+    "description": "Hand-loaded ammunition for rifles, meant for taking down large game or humans."
+  },
+  {
     "id": "reloaded_9mm",
     "copy-from": "reloaded_9mm",
     "type": "AMMO",
@@ -52,22 +60,12 @@
     "description": "Hand-loaded incendiary ammunition for lighter rifles, designed to burn hotly upon impact, piercing armor and igniting flammable substances."
   },
   {
-    "id": "reloaded_762_51",
-    "copy-from": "reloaded_762_51",
-    "type": "AMMO",
-    "name": "reloaded rifle ammo",
-    "name_plural": "reloaded rifle ammo",
-    "description": "Hand-loaded ammunition for rifles, meant for taking down large game or humans.",
-    "ammo_type": "762"
-  },
-  {
     "id": "reloaded_762_51_incendiary",
     "copy-from": "reloaded_762_51_incendiary",
     "type": "AMMO",
     "name": "reloaded rifle ammo, incendiary",
     "name_plural": "reloaded rifle ammo, incendiary",
-    "description": "Hand-loaded incendiary ammunition for rifles, designed to burn hotly upon impact, piercing armor and igniting flammable substances.  This one has been hand-reloaded.",
-    "ammo_type": "762"
+    "description": "Hand-loaded incendiary ammunition for rifles, designed to burn hotly upon impact, piercing armor and igniting flammable substances.  This one has been hand-reloaded."
   },
   {
     "id": "reloaded_50bmg",

@@ -108,19 +108,9 @@
     "id": "308",
     "copy-from": "308",
     "type": "AMMO",
-    "name": "handloaded rifle ammo",
-    "name_plural": "hand loaded rifle ammo",
-    "description": "Hand-loaded ammunition for rifles, meant for taking down large game or humans.",
-    "ammo_type": "762"
-  },
-  {
-    "id": "762_51",
-    "copy-from": "762_51",
-    "type": "AMMO",
     "name": "rifle ammo",
     "name_plural": "rifle ammo",
-    "description": "Powerful and accurate ammunition for rifles, meant for taking down large game or humans.",
-    "ammo_type": "762"
+    "description": "Powerful and accurate ammunition for rifles, meant for taking down large game or humans."
   },
   {
     "id": "762_51_incendiary",
