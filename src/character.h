@@ -420,7 +420,7 @@ class Character : public Creature, public visitable<Character>
         bool can_pickVolume( const item &it, bool safe = false ) const;
         bool can_pickWeight( const item &it, bool safe = true ) const;
 
-        virtual void drop_inventory_overflow();
+        void drop_inventory_overflow();
 
         bool has_artifact_with(const art_effect_passive effect) const;
 

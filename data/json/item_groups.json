@@ -2007,7 +2007,6 @@
       ["cotton_ball", 50],
       ["aspirin", 85],
       ["bat", 60],
-      ["bismuth", 30],
       ["boxing_gloves", 35],
       ["bat_metal", 60],
       ["football_armor", 10],
@@ -2236,7 +2235,6 @@
       ["aspirin", 85],
       ["sports_drink", 20],
       ["bat", 60],
-      ["bismuth", 30],
       ["bat_metal", 60],
       ["boxing_gloves", 40],
       ["baseball", 60],
@@ -4118,8 +4116,8 @@
       ["canister_goo", 8],
       ["UPS_off", 5],
       ["adv_UPS_off", 3],
-      ["gold", 10],
-      ["silver", 30],
+      ["gold_small", 10],
+      ["silver_small", 30],
       ["plasma_engine", 1],
       ["bio_time_freeze", 10],
       ["bio_teleport", 10],
@@ -4265,8 +4263,8 @@
       ["pastaextruder", 8],
       ["can_sealer", 5],
       ["knuckle_brass", 15],
-      ["gold", 10],
-      ["silver", 20],
+      ["gold_small", 10],
+      ["silver_small", 20],
       ["cane", 10],
       ["suit", 60],
       ["waistcoat", 30],
@@ -8195,20 +8193,16 @@
       ["solder_wire", 60],
       ["hammer", 60],
       ["chisel", 60],
-      ["gold", 20],
-      ["silver", 30],
-      ["silver_small", 35],
-      ["gold_small", 25],
+      ["gold_small", 20],
+      ["silver_small", 30],
       ["diamond", 5]
     ]
   },{
 "type" : "item_group",
 "id" : "jewelry_safe",
 "items":[
-      ["gold", 80],
-      ["silver", 85],
-      ["silver_small", 95],
-      ["gold_small", 90],
+      ["gold_small", 80],
+      ["silver_small", 85],
       ["diamond", 75]
     ]
   },{

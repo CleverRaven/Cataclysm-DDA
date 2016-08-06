@@ -263,7 +263,7 @@
             {"x": 3, "y": 1, "part": "diesel_tank_small"},
             {"x": 3, "y": 1, "part": "seat_nocargo"},
             {"x": 3, "y": 1, "part": "seatbelt_heavyduty"},
-            {"x": 3, "y": 1, "part": "mounted_browning"},
+            {"x": 3, "y": 1, "part": "mounted_browning", "ammo": 60},
             {"x": 3, "y": 2, "part": "hdframe_vertical"},
             {"x": 3, "y": 2, "part": "wheel_armor_steerable"},
             {"x": 3, "y": 2, "part": "hdboard_vertical"},
@@ -302,14 +302,6 @@
             {"x": 5, "y": 2, "part": "hdframe_ne"},
             {"x": 5, "y": 2, "part": "hdhalfboard_ne"},
             {"x": 5, "y": 2, "part": "plating_military"}
-        ],
-        "items" : [
-            {"x": 3, "y": 1, "chance": 60, "items": ["50bmg", "50bmg", "50bmg"]},
-            {"x": 3, "y": 1, "chance": 20, "items": ["50bmg", "50bmg", "50bmg", "50bmg"]},
-            {"x": 3, "y": 1, "chance": 10, "items": ["50bmg", "50bmg", "50bmg", "50bmg", "50bmg"]},
-            {"x": 3, "y": 1, "chance": 5, "items": ["50bmg", "50bmg", "50bmg", "50bmg", "50bmg", "50bmg", "50bmg"]},
-            {"x": 3, "y": 1, "chance": 2, "items": ["50bmg", "50bmg", "50bmg", "50bmg", "50bmg", "50bmg", "50bmg", "50bmg", "50bmg"]},
-            {"x": 3, "y": 1, "chance": 1, "items": ["50bmg", "50bmg", "50bmg", "50bmg", "50bmg", "50bmg", "50bmg", "50bmg", "50bmg", "50bmg", "50bmg", "50bmg"]}
         ]
     },{
         "type" : "vehicle",
@@ -422,7 +414,7 @@
             {"x": 3, "y": 1, "part": "cam_control"},
             {"x": 3, "y": 1, "part": "diesel_tank_small"},
             {"x": 3, "y": 1, "part": "plating_military"},
-            {"x": 3, "y": 1, "part": "mounted_mk19"},
+            {"x": 3, "y": 1, "part": "mounted_mk19", "ammo": 60},
             {"x": 3, "y": 1, "part": "seat_nocargo"},
             {"x": 3, "y": 1, "part": "seatbelt_heavyduty"},
             {"x": 3, "y": 2, "part": "hdframe_vertical"},
@@ -465,13 +457,7 @@
             {"x": 5, "y": 2, "part": "plating_military"}
         ],
         "items" : [
-            {"x": 3, "y": -1, "chance": 2, "items": "id_military"},
-            {"x": 3, "y": 1, "chance": 60, "items": ["40mm_frag", "40mm_frag", "40mm_frag"]},
-            {"x": 3, "y": 1, "chance": 25, "items": ["40mm_smoke", "40mm_smoke", "40mm_smoke"]},
-            {"x": 3, "y": 1, "chance": 15, "items": ["40mm_flare", "40mm_flare", "40mm_flare"]},
-            {"x": 3, "y": 1, "chance": 10, "items": ["40mm_frag", "40mm_frag", "40mm_frag", "40mm_frag", "40mm_frag"]},
-            {"x": 3, "y": 1, "chance": 5, "items": ["40mm_frag", "40mm_frag", "40mm_frag", "40mm_frag", "40mm_frag", "40mm_frag", "40mm_frag"]},
-            {"x": 3, "y": 1, "chance": 1, "items": ["40mm_smoke", "40mm_flare", "40mm_frag", "40mm_frag", "40mm_frag", "40mm_frag", "40mm_frag", "40mm_frag", "40mm_frag", "40mm_frag"]}
+            {"x": 3, "y": -1, "chance": 2, "items": "id_military"}
         ]
     },{
         "type" : "vehicle",
@@ -588,7 +574,7 @@
             {"x": 3, "y": 1, "part": "diesel_tank_small"},
             {"x": 3, "y": 1, "part": "cam_control"},
             {"x": 3, "y": 1, "part": "plating_military"},
-            {"x": 3, "y": 1, "part": "mounted_browning"},
+            {"x": 3, "y": 1, "part": "mounted_browning", "ammo": 60},
             {"x": 3, "y": 1, "part": "seat_nocargo"},
             {"x": 3, "y": 1, "part": "seatbelt_heavyduty"},
             {"x": 3, "y": 2, "part": "hdframe_vertical"},
@@ -631,13 +617,7 @@
             {"x": 5, "y": 2, "part": "plating_military"}
         ],
         "items" : [
-            {"x": 3, "y": -1, "chance": 2, "items": "id_military"},
-            {"x": 3, "y": 1, "chance": 60, "items": ["50bmg", "50bmg", "50bmg"]},
-            {"x": 3, "y": 1, "chance": 20, "items": ["50bmg", "50bmg", "50bmg", "50bmg"]},
-            {"x": 3, "y": 1, "chance": 10, "items": ["50bmg", "50bmg", "50bmg", "50bmg", "50bmg"]},
-            {"x": 3, "y": 1, "chance": 5, "items": ["50bmg", "50bmg", "50bmg", "50bmg", "50bmg", "50bmg", "50bmg"]},
-            {"x": 3, "y": 1, "chance": 2, "items": ["50bmg", "50bmg", "50bmg", "50bmg", "50bmg", "50bmg", "50bmg", "50bmg", "50bmg"]},
-            {"x": 3, "y": 1, "chance": 1, "items": ["50bmg", "50bmg", "50bmg", "50bmg", "50bmg", "50bmg", "50bmg", "50bmg", "50bmg", "50bmg", "50bmg", "50bmg"]}
+            {"x": 3, "y": -1, "chance": 2, "items": "id_military"}
         ]
     },{
         "type" : "vehicle",
@@ -754,7 +734,7 @@
             {"x": 3, "y": 1, "part": "diesel_tank_small"},
             {"x": 3, "y": 1, "part": "cam_control"},
             {"x": 3, "y": 1, "part": "plating_military"},
-            {"x": 3, "y": 1, "part": "mounted_mk19"},
+            {"x": 3, "y": 1, "part": "mounted_mk19", "ammo": 60},
             {"x": 3, "y": 1, "part": "seat_nocargo"},
             {"x": 3, "y": 1, "part": "seatbelt_heavyduty"},
             {"x": 3, "y": 2, "part": "hdframe_vertical"},
@@ -797,13 +777,7 @@
             {"x": 5, "y": 2, "part": "plating_military"}
         ],
         "items" : [
-            {"x": 3, "y": -1, "chance": 2, "items": "id_military"},
-            {"x": 3, "y": 1, "chance": 60, "items": ["40mm_frag", "40mm_frag", "40mm_frag"]},
-            {"x": 3, "y": 1, "chance": 25, "items": ["40mm_smoke", "40mm_smoke", "40mm_smoke"]},
-            {"x": 3, "y": 1, "chance": 15, "items": ["40mm_flare", "40mm_flare", "40mm_flare"]},
-            {"x": 3, "y": 1, "chance": 10, "items": ["40mm_frag", "40mm_frag", "40mm_frag", "40mm_frag", "40mm_frag"]},
-            {"x": 3, "y": 1, "chance": 5, "items": ["40mm_frag", "40mm_frag", "40mm_frag", "40mm_frag", "40mm_frag", "40mm_frag", "40mm_frag"]},
-            {"x": 3, "y": 1, "chance": 1, "items": ["40mm_smoke", "40mm_flare", "40mm_frag", "40mm_frag", "40mm_frag", "40mm_frag", "40mm_frag", "40mm_frag", "40mm_frag", "40mm_frag"]}
+            {"x": 3, "y": -1, "chance": 2, "items": "id_military"}
         ]
     },{
         "type" : "vehicle",
@@ -884,7 +858,7 @@
             {"x": -1, "y": 1, "part": "hdframe_horizontal_2"},
             {"x": -1, "y": 1, "part": "aisle_horizontal"},
             {"x": -1, "y": 1, "part": "roof"},
-            {"x": -1, "y": 1, "part": "mounted_m60"},
+            {"x": -1, "y": 1, "part": "mounted_m60", "ammo": 60},
             {"x": -1, "y": 2, "part": "hdframe_horizontal_2"},
             {"x": -1, "y": 2, "part": "seat"},
             {"x": -1, "y": 2, "part": "seatbelt"},
@@ -932,12 +906,7 @@
         ],
         "items" : [
             {"x": 0, "y": 0, "chance": 5, "items": "id_military"},
-            {"x": -2, "y": 2, "chance": 15, "item_groups": ["fuel_diesel"]},
-            {"x": -1, "y": 1, "chance": 20, "items": ["308", "308", "308"]},
-            {"x": -1, "y": 1, "chance": 10, "items": ["308", "308", "308", "308"]},
-            {"x": -1, "y": 1, "chance": 5, "items": ["308", "308", "308", "308", "308"]},
-            {"x": -1, "y": 1, "chance": 2, "items": ["308", "308", "308", "308", "308", "308", "308"]},
-            {"x": -1, "y": 1, "chance": 1, "items": ["308", "308", "308", "308", "308", "308", "308", "308", "308"]}
+            {"x": -2, "y": 2, "chance": 15, "item_groups": ["fuel_diesel"]}
         ]
     },{
         "type" : "vehicle",
@@ -1018,7 +987,7 @@
             {"x": -1, "y": 1, "part": "hdframe_horizontal_2"},
             {"x": -1, "y": 1, "part": "aisle_horizontal"},
             {"x": -1, "y": 1, "part": "roof"},
-            {"x": -1, "y": 1, "part": "mounted_mk19"},
+            {"x": -1, "y": 1, "part": "mounted_mk19", "ammo": 60},
             {"x": -1, "y": 2, "part": "hdframe_horizontal_2"},
             {"x": -1, "y": 2, "part": "seat"},
             {"x": -1, "y": 2, "part": "seatbelt"},
@@ -1066,12 +1035,7 @@
         ],
         "items" : [
             {"x": 0, "y": 0, "chance": 5, "items": "id_military"},
-            {"x": -2, "y": 0, "chance": 5, "item_groups": ["fuel_diesel"]},
-            {"x": -1, "y": 1, "chance": 20, "items": ["40mm_frag", "40mm_frag", "40mm_frag"]},
-            {"x": -1, "y": 1, "chance": 10, "items": ["40mm_frag", "40mm_frag", "40mm_frag", "40mm_frag", "40mm_frag", "40mm_frag"]},
-            {"x": -1, "y": 1, "chance": 5, "items": ["40mm_frag", "40mm_frag", "40mm_frag", "40mm_frag", "40mm_frag", "40mm_frag", "40mm_frag"]},
-            {"x": -1, "y": 1, "chance": 2, "items": ["40mm_frag", "40mm_frag", "40mm_frag", "40mm_frag", "40mm_frag", "40mm_frag", "40mm_frag", "40mm_frag"]},
-            {"x": -1, "y": 1, "chance": 1, "items": ["40mm_frag", "40mm_frag", "40mm_frag", "40mm_frag", "40mm_frag", "40mm_frag", "40mm_frag", "40mm_frag", "40mm_frag", "40mm_frag"]}
+            {"x": -2, "y": 0, "chance": 5, "item_groups": ["fuel_diesel"]}
         ]
     }
 ]

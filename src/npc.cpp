@@ -1,5 +1,6 @@
 #include "npc.h"
 
+#include "auto_pickup.h"
 #include "coordinate_conversions.h"
 #include "rng.h"
 #include "map.h"
@@ -27,12 +28,6 @@
 #include <fstream>
 #include <sstream>
 #include <string>
-
-#define NPC_LOW_VALUE       5
-#define NPC_HI_VALUE        8
-#define NPC_VERY_HI_VALUE  15
-#define NPC_DANGER_LEVEL   10
-#define NPC_DANGER_VERY_LOW 5
 
 const skill_id skill_mechanics( "mechanics" );
 const skill_id skill_electronics( "electronics" );
@@ -108,6 +103,11 @@ npc::npc()
     ret_null = item( "null", 0 );
     last_updated = calendar::turn;
 }
+
+npc::npc(const npc &) = default;
+npc::npc(npc &&) = default;
+npc &npc::operator=(const npc &) = default;
+npc &npc::operator=(npc &&) = default;
 
 npc_map npc::_all_npc;
 
@@ -942,34 +942,6 @@ bool npc::wield( item& it )
     return true;
 }
 
-void npc::perform_mission()
-{
-    switch (mission) {
-    case NPC_MISSION_RESCUE_U:
-        if (calendar::once_every(24)) {
-            if (mapx > g->get_levx()) {
-                mapx--;
-            } else if (mapx < g->get_levx()) {
-                mapx++;
-            }
-            if (mapy > g->get_levy()) {
-                mapy--;
-            } else if (mapy < g->get_levy()) {
-                mapy++;
-            }
-            attitude = NPCATT_DEFEND;
-        }
-        break;
-    case NPC_MISSION_SHOPKEEP:
-        break; // Just stay where we are
-    default: // Random Walk
-        if (calendar::once_every(24)) {
-            mapx += rng(-1, 1);
-            mapy += rng(-1, 1);
-        }
-    }
-}
-
 void npc::form_opinion( const player &u )
 {
     // FEAR
@@ -1120,73 +1092,7 @@ void npc::form_opinion( const player &u )
              name.c_str(), npc_attitude_name( attitude ).c_str() );
 }
 
-std::string npc::pick_talk_topic( const player &u )
-{
- //form_opinion(u);
- (void)u;
- if (personality.aggression > 0) {
-  if (op_of_u.fear * 2 < personality.bravery && personality.altruism < 0)
-   return "TALK_MUG";
-  if (personality.aggression + personality.bravery - op_of_u.fear > 0)
-   return "TALK_STRANGER_AGGRESSIVE";
- }
- if (op_of_u.fear * 2 > personality.altruism + personality.bravery)
-  return "TALK_STRANGER_SCARED";
- if (op_of_u.fear * 2 > personality.bravery + op_of_u.trust)
-  return "TALK_STRANGER_WARY";
- if (op_of_u.trust - op_of_u.fear +
-     (personality.bravery + personality.altruism) / 2 > 0)
-  return "TALK_STRANGER_FRIENDLY";
-
- return "TALK_STRANGER_NEUTRAL";
-}
-
-int npc::player_danger( const player &ur ) const
-{
-    // TODO: Rewrite this function
-    const player *u = &ur;
- int ret = 0;
- if (u->weapon.is_gun()) {
-  if (weapon.is_gun())
-   ret += 4;
-  else
-   ret += 8;
- } else if( u->weapon_value( u->weapon ) > 20 )
-  ret++;
- else if( !u->is_armed() ) // Unarmed
-  ret -= 3;
-
- if (u->str_cur > 20) // Superhuman strength!
-  ret += 4;
- if (u->str_max >= 16)
-  ret += 2;
- else if (u->str_max >= 12)
-  ret += 1;
- else if (u->str_max <= 5)
-  ret -= 2;
- else if (u->str_max <= 3)
-  ret -= 4;
-
- for (int i = 0; i < num_hp_parts; i++) {
-  if (u->hp_cur[i] <= u->hp_max[i] / 2)
-   ret--;
-  if (hp_cur[i] <= hp_max[i] / 2)
-   ret++;
- }
-
- if (u->has_trait("TERRIFYING"))
-  ret += 2;
-
- if (u->stim > 20)
-  ret++;
-
- if (u->has_effect( effect_drunk))
-  ret -= 2;
-
- return ret;
-}
-
-int npc::vehicle_danger(int radius) const
+float npc::vehicle_danger(int radius) const
 {
     const tripoint from( posx() - radius, posy() - radius, posz() );
     const tripoint to( posx() + radius, posy() + radius, posz() );
@@ -1251,13 +1157,6 @@ void npc::make_angry()
     }
 }
 
-// STUB
-bool npc::wants_to_travel_with(player *p) const
-{
-    (void)p; // TODO: implement
-    return true;
-}
-
 int npc::assigned_missions_value()
 {
     int ret = 0;
@@ -1270,9 +1169,10 @@ int npc::assigned_missions_value()
 std::vector<skill_id> npc::skills_offered_to( const player &p ) const
 {
     std::vector<skill_id> ret;
-    for (auto const &skill : Skill::skills) {
-        if (p.get_skill_level(skill.ident()) < get_skill_level(skill.ident())) {
-            ret.push_back( skill.ident() );
+    for( auto const &skill : Skill::skills ) {
+        const auto &id = skill.ident();
+        if( p.get_skill_level( id ) < get_skill_level( id ) ) {
+            ret.push_back( id );
         }
     }
     return ret;
@@ -1287,18 +1187,6 @@ std::vector<matype_id> npc::styles_offered_to( const player &p ) const
         }
     }
     return ret;
-}
-
-int npc::minutes_to_u() const
-{
-    // TODO: what about different z-levels?
-    int ret = square_dist( mapx, mapy, g->get_levx(), g->get_levy() );
-    // TODO: someone should explain this calculation. Is 24 supposed to be SEEX*2?
- ret *= 24;
- ret /= 10;
- while (ret % 5 != 0) // Round up to nearest five-minute interval
-  ret++;
- return ret;
 }
 
 bool npc::fac_has_value(faction_value value) const
@@ -1400,11 +1288,12 @@ bool npc::wants_to_sell( const item &it ) const
 bool npc::wants_to_sell( const item &it, int at_price, int market_price ) const
 {
     (void)it;
+
     if( mission == NPC_MISSION_SHOPKEEP ) {
         return true;
     }
 
-    if( is_minion() ) {
+    if( is_friend() ) {
         return true;
     }
 
@@ -1423,51 +1312,12 @@ bool npc::wants_to_buy( const item &it, int at_price, int market_price ) const
     (void)market_price;
     (void)it;
 
-    if( is_minion() ) {
+    if( is_friend() ) {
         return true;
     }
 
     // TODO: Base on inventory
     return at_price >= 80;
-}
-
-std::vector<npc::item_pricing> npc::init_selling()
-{
-    std::vector<npc::item_pricing> result;
-    bool found_lighter = false;
-    invslice slice = inv.slice();
-    for( auto &i : slice ) {
-        // TODO: Make a list of reserved items,
-        // sort them by types and values
-        // allow selling some of them
-        auto &it = i->front();
-        if( !found_lighter && it.typeId() == "lighter" && it.ammo_remaining() >= 10 ) {
-            found_lighter = true;
-            continue;
-        }
-
-        const int price = it.price( true );
-        int val = value( it );
-        if( wants_to_sell( it, val, price ) ) {
-            result.push_back( item_pricing{ &i->front(), val, false } );
-        }
-    }
-    return result;
-}
-
-std::vector<npc::item_pricing> npc::init_buying(inventory& you)
-{
-    std::vector<npc::item_pricing> result;
-    invslice slice = you.slice();
-    for( auto &i : slice ) {
-        auto &it = i->front();
-        int market_price = it.price( true );
-        int val = value( it, market_price );
-        if( wants_to_buy( it, val, market_price ) ) {
-            result.push_back( item_pricing{ &i->front(), val, false } );
-        }
-    }
-    return result;
 }
 
 void npc::shop_restock()
@@ -1499,7 +1349,7 @@ void npc::shop_restock()
 }
 
 
-int npc::minimum_item_value()
+int npc::minimum_item_value() const
 {
     // TODO: Base on inventory
     int ret = 20;
@@ -1648,10 +1498,7 @@ bool npc::took_painkiller() const
 
 bool npc::is_friend() const
 {
- if (attitude == NPCATT_FOLLOW || attitude == NPCATT_DEFEND ||
-     attitude == NPCATT_LEAD)
-  return true;
- return false;
+    return attitude == NPCATT_FOLLOW || attitude == NPCATT_LEAD;
 }
 
 bool npc::is_minion() const
@@ -1663,9 +1510,6 @@ bool npc::is_following() const
 {
  switch (attitude) {
  case NPCATT_FOLLOW:
- case NPCATT_FOLLOW_RUN:
- case NPCATT_DEFEND:
- case NPCATT_SLAVE:
  case NPCATT_WAIT:
   return true;
  default:
@@ -1683,27 +1527,26 @@ bool npc::is_enemy() const
     return attitude == NPCATT_KILL || attitude == NPCATT_FLEE;
 }
 
-bool npc::is_defending() const
-{
- return (attitude == NPCATT_DEFEND);
-}
-
 bool npc::is_guarding() const
 {
     return mission == NPC_MISSION_SHELTER || mission == NPC_MISSION_BASE ||
-        mission == NPC_MISSION_SHOPKEEP || mission == NPC_MISSION_GUARD ||
-        has_effect( effect_infection );
+           mission == NPC_MISSION_SHOPKEEP || mission == NPC_MISSION_GUARD ||
+           has_effect( effect_infection );
 }
 
 Creature::Attitude npc::attitude_to( const Creature &other ) const
 {
     if( is_friend() ) {
         // Friendly NPCs share player's alliances
-        return g->u.attitude_to( *this );
+        return g->u.attitude_to( other );
     }
 
     if( other.is_npc() ) {
-        // No npc vs npc action, so simply ignore other npcs
+        // Hostile NPCs are also hostile towards player's allied
+        if( is_enemy() && g->u.attitude_to( other ) == A_FRIENDLY ) {
+            return A_HOSTILE;
+        }
+
         return A_NEUTRAL;
     } else if( other.is_player() ) {
         // For now, make it symmetric.
@@ -1725,12 +1568,12 @@ int npc::smash_ability() const
     return 0;
 }
 
-int npc::danger_assessment()
+float npc::danger_assessment()
 {
     return ai_cache.danger_assessment;
 }
 
-int npc::average_damage_dealt()
+float npc::average_damage_dealt()
 {
     return melee_value( weapon );
 }
@@ -1745,7 +1588,7 @@ bool npc::emergency() const
     return emergency( ai_cache.danger_assessment );
 }
 
-bool npc::emergency(int danger) const
+bool npc::emergency( float danger ) const
 {
     return (danger > (personality.bravery * 3 * hp_percentage()) / 100);
 }
@@ -1755,62 +1598,6 @@ bool npc::emergency(int danger) const
 bool npc::is_active() const
 {
     return std::find(g->active_npc.begin(), g->active_npc.end(), this) != g->active_npc.end();
-}
-
-void npc::told_to_help()
-{
- if (!is_following() && personality.altruism < 0) {
-  say(_("Screw you!"));
-  return;
- }
- if (is_following()) {
-  if (personality.altruism + 4 * op_of_u.value + personality.bravery >
-      danger_assessment()) {
-   say(_("I've got your back!"));
-   attitude = NPCATT_DEFEND;
-  }
-  return;
- }
- if (int((personality.altruism + personality.bravery) / 4) >
-     danger_assessment()) {
-  say(_("Alright, I got you covered!"));
-  attitude = NPCATT_DEFEND;
- }
-}
-
-void npc::told_to_wait()
-{
- if (!is_following()) {
-  debugmsg("%s told to wait, but isn't following", name.c_str());
-  return;
- }
- if (5 + op_of_u.value + op_of_u.trust + personality.bravery * 2 >
-     danger_assessment()) {
-  say(_("Alright, I'll wait here."));
-  if (one_in(3))
-   op_of_u.trust--;
-  attitude = NPCATT_WAIT;
- } else {
-  if (one_in(2))
-   op_of_u.trust--;
-  say(_("No way, man!"));
- }
-}
-
-void npc::told_to_leave()
-{
- if (!is_following()) {
-  debugmsg("%s told to leave, but isn't following", name.c_str());
-  return;
- }
- if (danger_assessment() - personality.bravery > op_of_u.value) {
-  say(_("No way, I need you!"));
-  op_of_u.trust -= 2;
- } else {
-  say(_("Alright, see you later."));
-  op_of_u.trust -= 2;
-  op_of_u.value -= 1;
- }
 }
 
 int npc::follow_distance() const
@@ -2082,44 +1869,33 @@ void npc::die(Creature* nkiller) {
 
 std::string npc_attitude_name(npc_attitude att)
 {
- switch (att) {
- case NPCATT_NULL:          // Don't care/ignoring player
-  return _("Ignoring");
- case NPCATT_TALK:          // Move to and talk to player
-  return _("Wants to talk");
- case NPCATT_TRADE:         // Move to and trade with player
-  return _("Wants to trade");
- case NPCATT_FOLLOW:        // Follow the player
-  return _("Following");
- case NPCATT_FOLLOW_RUN:    // Follow the player, don't shoot monsters
-  return _("Following & ignoring monsters");
- case NPCATT_LEAD:          // Lead the player, wait for them if they're behind
-  return _("Leading");
- case NPCATT_WAIT:          // Waiting for the player
-  return _("Waiting for you");
- case NPCATT_DEFEND:        // Kill monsters that threaten the player
-  return _("Defending you");
- case NPCATT_MUG:           // Mug the player
-  return _("Mugging you");
- case NPCATT_WAIT_FOR_LEAVE:// Attack the player if our patience runs out
-  return _("Waiting for you to leave");
- case NPCATT_KILL:          // Kill the player
-  return _("Attacking to kill");
- case NPCATT_FLEE:          // Get away from the player
-  return _("Fleeing");
- case NPCATT_SLAVE:         // Following the player under duress
-  return _("Enslaved");
- case NPCATT_HEAL:          // Get to the player and heal them
-  return _("Healing you");
+    switch( att ) {
+        case NPCATT_NULL:          // Don't care/ignoring player
+            return _("Ignoring");
+        case NPCATT_TALK:          // Move to and talk to player
+            return _("Wants to talk");
+        case NPCATT_FOLLOW:        // Follow the player
+            return _("Following");
+        case NPCATT_LEAD:          // Lead the player, wait for them if they're behind
+            return _("Leading");
+        case NPCATT_WAIT:          // Waiting for the player
+            return _("Waiting for you");
+        case NPCATT_MUG:           // Mug the player
+            return _("Mugging you");
+        case NPCATT_WAIT_FOR_LEAVE:// Attack the player if our patience runs out
+            return _("Waiting for you to leave");
+        case NPCATT_KILL:          // Kill the player
+            return _("Attacking to kill");
+        case NPCATT_FLEE:          // Get away from the player
+            return _("Fleeing");
+        case NPCATT_HEAL:          // Get to the player and heal them
+            return _("Healing you");
+        default:
+            break;
+    }
 
- case NPCATT_MISSING:       // Special; missing NPC as part of mission
-  return _("Missing NPC");
- case NPCATT_KIDNAPPED:     // Special; kidnapped NPC as part of mission
-  return _("Kidnapped");
- default:
-  return _("Unknown");
- }
- return _("Unknown");
+    debugmsg( "Invalid attitude: %d", att );
+    return _("Unknown");
 }
 
 void npc::setID (int i)
@@ -2351,13 +2127,13 @@ bool npc::query_yn( const char *, ... ) const
 
 float npc::speed_rating() const
 {
-    float ret = 1.0f / get_speed();
+    float ret = get_speed() / 100.0f;
     ret *= 100.0f / run_cost( 100, false );
 
     return ret;
 }
 
-bool npc::dispose_item( item& obj, const std::string & )
+bool npc::dispose_item( item_location &&obj, const std::string & )
 {
     using dispose_option = struct {
         int moves;
@@ -2367,21 +2143,22 @@ bool npc::dispose_item( item& obj, const std::string & )
     std::vector<dispose_option> opts;
 
     for( auto& e : worn ) {
-        if( e.can_holster( obj ) ) {
+        if( e.can_holster( *obj ) ) {
             auto ptr = dynamic_cast<const holster_actor *>( e.type->get_use( "holster" )->get_actor_ptr() );
             opts.emplace_back( dispose_option {
-                item_store_cost( obj, e, false, ptr->draw_cost ),
-                [this,ptr,&e,&obj]{ ptr->store( *this, e, obj ); }
+                item_store_cost( *obj, e, false, ptr->draw_cost ),
+                [this,ptr,&e,&obj]{ ptr->store( *this, e, *obj ); }
             } );
         }
     }
 
-    if( volume_carried() + obj.volume() <= volume_capacity() ) {
+    if( volume_carried() + obj->volume() <= volume_capacity() ) {
         opts.emplace_back( dispose_option {
-            item_handling_cost( obj ) * INVENTORY_HANDLING_FACTOR,
+            item_handling_cost( *obj ) * INVENTORY_HANDLING_FACTOR,
             [this,&obj] {
-                moves -= item_handling_cost( obj ) * INVENTORY_HANDLING_FACTOR;
-                inv.add_item_keep_invlet( i_rem( &obj ) );
+                moves -= item_handling_cost( *obj ) * INVENTORY_HANDLING_FACTOR;
+                inv.add_item_keep_invlet( *obj );
+                obj.remove_item();
                 inv.unsort();
             }
         } );
@@ -2389,7 +2166,8 @@ bool npc::dispose_item( item& obj, const std::string & )
 
     if( opts.empty() ) {
         // Drop it
-        g->m.add_item_or_charges( pos(), i_rem( &obj ) );
+        g->m.add_item_or_charges( pos(), *obj );
+        obj.remove_item();
         return true;
     }
 
@@ -2462,3 +2240,4 @@ bool npc::will_accept_from_player( const item &it ) const
 
     return true;
 }
+

@@ -1,6 +1,33 @@
 [
     {
     "type": "MONSTER",
+    "id": "mon_spider_cellar_giant",
+    "edit-mode": "modify",
+    "speed":145,
+    "melee_skill":6,
+    "melee_dice":1,
+    "melee_dice_sides":6,
+    "melee_cut":5,
+    "melee_damage": [ {"damage_type": "stab", "amount": 2} ],
+    "dodge":6,
+    "armor_bash":2,
+    "armor_cut":4,
+    "armor_acid":4,
+    "vision_day":5,
+    "vision_night":9,
+    "hp":45
+    },{
+    "type": "MONSTER",
+    "id": "mon_spider_widow_giant",
+    "edit-mode": "modify",
+    "emit_fields": [ "emit_web" ],
+    "melee_skill":6,
+    "melee_dice":1,
+    "melee_dice_sides":8,
+    "melee_cut":3,
+    "dodge":3
+    },{
+    "type": "MONSTER",
     "id": "mon_spider_trapdoor_giant",
     "edit-mode": "modify",
     "diff":15,
@@ -18,13 +45,35 @@
     "vision_day":5,
     "vision_night":7,
     "upgrades":{
-        "into": "mon_spider_jumping_giant_acid",
-        "half_life": 17
+        "into_group": "TRAP_SPIDER_UPGRADE",
+        "half_life": 19
     },
     "hp":70,
     "death_function":"NORMAL",
     "description":"A gigantic spider with a bulbous thorax.  It digs an underground burrow that serves as a pit to trap unwary prey.",
     "flags":["SEES", "SMELLS", "HEARS", "VENOM", "CAN_DIG", "WEBWALK", "CHITIN", "FAT", "CLIMBS", "PUSH_MON"]
+    },{
+    "type" : "MONSTER",
+    "id" : "mon_spider_jumping_giant",
+    "edit-mode": "modify",
+    "melee_skill":5,
+    "melee_dice":1,
+    "melee_dice_sides":3,
+    "melee_cut":4,
+    "melee_damage": [ {"damage_type": "stab", "amount": 6}, {"damage_type": "acid", "amount": 2} ],
+    "dodge":6,
+    "armor_bash":2,
+    "armor_cut":5,
+    "vision_day":15,
+    "vision_night":7,
+    "upgrades":{
+        "into": "mon_spider_jumping_giant_acid",
+        "half_life": 17
+    },
+    "hp":35,
+    "flags":["SEES", "SMELLS", "KEENNOSE", "HEARS", "VENOM", "CHITIN", "CLIMBS", "ACIDPROOF", "PUSH_MON"],
+    "anger_triggers":["PLAYER_CLOSE", "PLAYER_WEAK", "FRIEND_ATTACKED", "STALK"],
+    "fear_triggers": ["HURT", "FIRE"]
     },{
     "type": "MONSTER",
     "id": "mon_spider_web_s",
@@ -43,6 +92,10 @@
     "armor_cut":6,
     "vision_day":15,
     "vision_night":5,
+    "upgrades":{
+        "into": "mon_spider_web",
+        "half_life": 3
+    },
     "hp":20,
     "death_function":"NORMAL",
     "description":"A still immature giant grass spider.  Too young to be truly venomous, or to walk proficiently for that matter",
@@ -70,6 +123,7 @@
         "half_life": 19
     },
     "hp":40,
+    "emit_fields": [ "emit_web_small" ],
     "death_function":"NORMAL",
     "description":"A giant mutated grass spider, it waits for prey to become ensnared in the vast webs that it weaves between the trees.",
     "flags":["SEES", "SMELLS", "HEARS", "VENOM", "WEBWALK", "CHITIN", "CLIMBS", "PUSH_MON"]
@@ -255,6 +309,10 @@
     "armor_cut":7,
     "vision_day":5,
     "vision_night":7,
+    "upgrades":{
+        "into": "mon_spider_trapdoor_giant",
+        "half_life": 3
+    },
     "hp":30,
     "death_function":"NORMAL",
     "description":"A small trapdoor spider.  Too small to hunt effectively on its own, the loose commune of mutated trapdoor spiders offers limited protection from predators, although it places the spider at increased risk of being cannibalized.",
@@ -351,6 +409,7 @@
     "vision_day":15,
     "vision_night":10,
     "hp":60,
+    "emit_fields": [ "emit_web_small" ],
     "death_function":"NORMAL",
     "description":"A larger, more aggressive ambush predator, this web spider uses force to catch its prey.",
     "flags":["SEES", "SMELLS", "HEARS", "VENOM", "WEBWALK", "CHITIN", "CLIMBS", "PUSH_MON"]
@@ -389,6 +448,7 @@
     "vision_day":15,
     "vision_night":10,
     "hp":50,
+    "emit_fields": [ "emit_web_small" ],
     "death_function":"NORMAL",
     "description":"This web spider uses long-lasting toxins to incapacitate stronger foes.",
     "flags":["SEES", "SMELLS", "HEARS", "VENOM", "WEBWALK", "CHITIN", "CLIMBS", "PUSH_MON", "PRIORITIZE_TARGETS"]
@@ -427,6 +487,7 @@
     "vision_day":20,
     "vision_night":10,
     "hp":50,
+    "emit_fields": [ "emit_web_small" ],
     "death_function":"NORMAL",
     "description":"This web spider seems to have specialized to take down creatures infected with fungal spores; a surely underutilized food source.",
     "flags":["SEES", "SMELLS", "HEARS", "VENOM", "WEBWALK", "CHITIN", "CLIMBS", "PARALYZEVENOM", "HIT_AND_RUN", "PUSH_MON"]
@@ -449,9 +510,9 @@
     "melee_dice_sides":4,
     "melee_cut":2,
     "melee_damage": [ {"damage_type": "stab", "amount": 10}, {"damage_type": "acid", "amount": 3} ],
-    "dodge":3,
-    "armor_bash":2,
-    "armor_cut":6,
+    "dodge":6,
+    "armor_bash":3,
+    "armor_cut":7,
     "vision_day":20,
     "vision_night":7,
     "hp":45,

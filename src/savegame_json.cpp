@@ -7,6 +7,7 @@
 #include "game.h"
 #include "rng.h"
 #include "addiction.h"
+#include "auto_pickup.h"
 #include "inventory.h"
 #include "artifact.h"
 #include "options.h"
@@ -150,6 +151,7 @@ void player_activity::serialize(JsonOut &json) const
     json.member( "position", position );
     json.member( "coords", coords );
     json.member( "name", name );
+    json.member( "targets", targets );
     json.member( "placement", placement );
     json.member( "values", values );
     json.member( "str_values", str_values );
@@ -174,6 +176,7 @@ void player_activity::deserialize(JsonIn &jsin)
     position = tmppos;
     data.read( "coords", coords );
     data.read( "name", name );
+    data.read( "targets", targets );
     data.read( "placement", placement );
     values = data.get_int_array("values");
     str_values = data.get_string_array("str_values");
@@ -201,7 +204,7 @@ void SkillLevel::deserialize(JsonIn &jsin)
     data.read( "istraining", _isTraining );
     data.read( "lastpracticed", lastpractice );
     if(lastpractice == 0) {
-        _lastPracticed = HOURS(OPTIONS["INITIAL_TIME"]);
+        _lastPracticed = HOURS( get_option<int>( "INITIAL_TIME" ) );
     } else {
         _lastPracticed = lastpractice;
     }
@@ -832,6 +835,9 @@ void npc_follower_rules::serialize(JsonOut &json) const
     json.member( "allow_pulp", allow_pulp );
 
     json.member( "close_doors", close_doors );
+
+    json.member( "pickup_whitelist", *pickup_whitelist );
+
     json.end_object();
 }
 
@@ -854,6 +860,8 @@ void npc_follower_rules::deserialize(JsonIn &jsin)
     data.read( "allow_pulp", allow_pulp );
 
     data.read( "close_doors", close_doors );
+
+    data.read( "pickup_whitelist", *pickup_whitelist );
 }
 
 extern std::string convert_talk_topic( talk_topic_enum );
@@ -936,7 +944,6 @@ void npc_opinion::deserialize(JsonIn &jsin)
     data.read("value", value);
     data.read("anger", anger);
     data.read("owed", owed);
-    data.read("favors", favors);
 }
 
 void npc_opinion::serialize(JsonOut &json) const
@@ -947,7 +954,6 @@ void npc_opinion::serialize(JsonOut &json) const
     json.member( "value", value );
     json.member( "anger", anger );
     json.member( "owed", owed );
-    json.member( "favors", favors );
     json.end_object();
 }
 
@@ -1045,6 +1051,13 @@ void npc::load(JsonObject &data)
 
     if ( data.read("mission", misstmp) ) {
         mission = npc_mission( misstmp );
+        static const std::set<npc_mission> legacy_missions = {{
+            NPC_MISSION_LEGACY_1, NPC_MISSION_LEGACY_2,
+            NPC_MISSION_LEGACY_3
+        }};
+        if( legacy_missions.count( mission ) > 0 ) {
+            mission = NPC_MISSION_NULL;
+        }
     }
 
     if ( data.read( "my_fac", facID) ) {
@@ -1053,6 +1066,13 @@ void npc::load(JsonObject &data)
 
     if ( data.read( "attitude", atttmp) ) {
         attitude = npc_attitude(atttmp);
+        static const std::set<npc_attitude> legacy_attitudes = {{
+            NPCATT_LEGACY_1, NPCATT_LEGACY_2, NPCATT_LEGACY_3,
+            NPCATT_LEGACY_4, NPCATT_LEGACY_5, NPCATT_LEGACY_6
+        }};
+        if( legacy_attitudes.count( attitude ) > 0 ) {
+            attitude = NPCATT_NULL;
+        }
     }
 
     if ( data.read( "companion_mission", comp_miss) ) {
@@ -1427,7 +1447,7 @@ void item::io( Archive& archive )
     archive.io( "item_vars", item_vars, io::empty_default_tag() );
     archive.io( "name", name, type_name( 1 ) ); // TODO: change default to empty string
     archive.io( "invlet", invlet, '\0' );
-    archive.io( "damage", damage, static_cast<decltype(damage)>( 0 ) );
+    archive.io( "damage", damage_, 0.0 );
     archive.io( "active", active, false );
     archive.io( "item_counter", item_counter, static_cast<decltype(item_counter)>( 0 ) );
     archive.io( "fridge", fridge, 0 );
@@ -1556,7 +1576,6 @@ void vehicle_part::deserialize(JsonIn &jsin)
 
     data.read("mount_dx", mount.x);
     data.read("mount_dy", mount.y);
-    data.read("hp", hp );
     data.read("open", open );
     data.read("direction", direction );
     data.read("blood", blood );
@@ -1584,6 +1603,20 @@ void vehicle_part::deserialize(JsonIn &jsin)
         }
         base.item_tags.insert( "VEHICLE" );
     }
+
+    if( data.has_int( "hp" ) ) {
+        // migrate legacy savegames exploiting that al base items at that time had max_damage() of 4
+        base.set_damage( 4 - ( 4 / double( id.obj().durability ) * data.get_int( "hp" ) ) );
+    }
+
+    // legacy turrets loaded ammo via a pseudo CARGO space
+    if( is_turret() && !items.empty() ) {
+        int qty = std::accumulate( items.begin(), items.end(), 0, []( int lhs, const item& rhs ) {
+            return lhs + rhs.charges;
+        } );
+        ammo_set( items.front().ammo_current(), qty );
+        items.clear();
+    }
 }
 
 void vehicle_part::serialize(JsonOut &json) const
@@ -1594,7 +1627,6 @@ void vehicle_part::serialize(JsonOut &json) const
     json.member("base", base);
     json.member("mount_dx", mount.x);
     json.member("mount_dy", mount.y);
-    json.member("hp", hp);
     json.member("open", open );
     json.member("direction", direction );
     json.member("blood", blood);

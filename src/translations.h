@@ -16,7 +16,11 @@
 #include <libintl.h>
 #include <clocale>
 
-#define _(STRING) gettext(STRING)
+inline const char *_( const char *msg )
+{
+    return ( msg[0] == '\0' ) ? msg : gettext( msg );
+}
+
 const char *pgettext( const char *context, const char *msgid );
 
 #else // !LOCALIZE

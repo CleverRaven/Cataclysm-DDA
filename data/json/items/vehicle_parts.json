@@ -583,7 +583,6 @@
         "symbol" : ",",
         "material" : ["superalloy"],
         "volume" : 2,
-        "bashing" : -2,
         "category" : "veh_parts",
         "price" : 8500
     },

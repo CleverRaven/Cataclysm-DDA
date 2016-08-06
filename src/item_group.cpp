@@ -178,7 +178,7 @@ void Item_modifier::modify(item &new_item) const
         return;
     }
 
-    new_item.damage = std::min( std::max( (int) rng( damage.first, damage.second ), MIN_ITEM_DAMAGE ), MAX_ITEM_DAMAGE );
+    new_item.set_damage( rng( damage.first, damage.second ) );
 
     long ch = (charges.first == charges.second) ? charges.first : rng(charges.first, charges.second);
 

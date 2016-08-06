@@ -173,7 +173,7 @@
             [ [ "stick", 1 ] ],
             [ [ "string_36", 1 ] ]
         ],
-        "pre_special" : "check_empty",
+        "pre_terrain" : "t_door_frame",
         "post_terrain" : "t_door_curtain_c"
     },{
         "type" : "construction",

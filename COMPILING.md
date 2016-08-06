@@ -66,7 +66,7 @@ Given you're building from source you have a number of choices to make:
   * `LOCALIZE=0` - this disables localizations so `gettext` is not needed
   * `LUA=1` - this enables Lua support; needed only for full-fledged mods
   * `CLANG=1` - use Clang instead of GCC
-  * `CACHE=1` - use ccache
+  * `CCACHE=1` - use ccache
   * `USE_LIBCXX=1` - use libc++ instead of libstdc++ with Clang (default on OS X)
 
 There is a couple of other possible options - feel free to read the `Makefile`.

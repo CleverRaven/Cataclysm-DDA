@@ -14,7 +14,7 @@
         "difficulty" : 8,
         "size" : 10,
         "location" : "on_roof",
-        "flags" : ["TURRET", "CARGO", "MANUAL"],
+        "flags" : ["TURRET", "MANUAL"],
         "breaks_into" : [
             {"item": "tank_gun_manual", "prob": 50}
         ]
@@ -33,7 +33,7 @@
         "difficulty" : 8,
         "size" : 50,
         "location" : "on_roof",
-        "flags" : ["TURRET", "CARGO", "MANUAL"],
+        "flags" : ["TURRET", "MANUAL"],
         "breaks_into" : [
             {"item": "tank_gun_auto", "prob": 50}
         ]
@@ -52,7 +52,7 @@
         "difficulty" : 8,
         "size" : 100,
         "location" : "on_roof",
-        "flags" : ["TURRET", "CARGO", "NEEDS_BATTERY_MOUNT"],
+        "flags" : ["TURRET", "NEEDS_BATTERY_MOUNT"],
         "breaks_into" : [
             {"item": "tank_gun_rws", "prob": 50}
         ]
@@ -71,7 +71,7 @@
         "difficulty" : 8,
         "size" : 15,
         "location" : "on_roof",
-        "flags" : ["TURRET", "CARGO", "MANUAL"],
+        "flags" : ["TURRET", "MANUAL"],
         "breaks_into" : [
             {"item": "howitzer_gun", "prob": 50}
         ]
@@ -110,7 +110,7 @@
         "difficulty" : 8,
         "size" : 35,
         "location" : "on_roof",
-        "flags" : ["TURRET", "CARGO", "MANUAL"],
+        "flags" : ["TURRET", "MANUAL"],
         "breaks_into" : [
             {"item": "atgm_launcher", "prob": 50}
         ]
@@ -129,7 +129,7 @@
         "difficulty" : 8,
         "size" : 35,
         "location" : "on_roof",
-        "flags" : ["TURRET", "CARGO", "NEEDS_BATTERY_MOUNT"],
+        "flags" : ["TURRET", "NEEDS_BATTERY_MOUNT"],
         "breaks_into" : [
             {"item": "atgm_turret", "prob": 50}
         ]
@@ -148,7 +148,7 @@
         "difficulty" : 8,
         "size" : 50,
         "location" : "on_roof",
-        "flags" : ["TURRET", "CARGO", "MANUAL"],
+        "flags" : ["TURRET", "MANUAL"],
         "breaks_into" : [
             {"item": "30mm_autocannon", "prob": 50}
         ]

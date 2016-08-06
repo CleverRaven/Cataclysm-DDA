@@ -44,7 +44,7 @@ class weather_generator
          */
         weather_type debug_weather;
     private:
-        unsigned SEED;
+        unsigned SEED = 0;
 };
 
 #endif

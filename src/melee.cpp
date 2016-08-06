@@ -117,18 +117,18 @@ bool player::handle_melee_wear( item &shield, float wear_multiplier )
         return false;
     }
 
-    if( shield.damage < MAX_ITEM_DAMAGE ){
+    auto str = shield.tname(); // save name before we apply damage
+
+    if( !shield.inc_damage() ) {
         add_msg_player_or_npc( m_bad, _("Your %s is damaged by the force of the blow!"),
                                 _("<npcname>'s %s is damaged by the force of the blow!"),
-                                shield.tname().c_str());
-        //Don't increment until after the message is displayed
-        shield.damage++;
+                                str.c_str());
         return false;
     }
 
     add_msg_player_or_npc( m_bad, _("Your %s is destroyed by the blow!"),
                             _("<npcname>'s %s is destroyed by the blow!"),
-                            shield.tname().c_str());
+                            str.c_str());
     // Dump its contents on the ground
     for( auto &elem : shield.contents ) {
         g->m.add_item_or_charges( pos(), elem );

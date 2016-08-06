@@ -5,6 +5,7 @@
         "name": "software",
         "symbol": "#",
         "container": "usb_drive",
+        "description": "IF YOU ARE SEEING THIS IT IS A BUG.",
         "flags": [ "IRREMOVABLE", "NO_DROP" ]
     },
     {

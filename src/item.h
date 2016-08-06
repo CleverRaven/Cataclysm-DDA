@@ -171,6 +171,13 @@ class item : public JsonSerializer, public JsonDeserializer, public visitable<it
         item& ammo_unset();
 
         /**
+         * Filter setting damage constrained by @ref min_damage and @ref max_damage
+         * @note this method does not invoke the @ref on_damage callback
+         * @return same instance to allow method chaining
+         */
+        item& set_damage( double qty );
+
+        /**
          * Splits a count-by-charges item always leaving source item with minimum of 1 charge
          * @param qty number of required charges to split from source
          * @return new instance containing exactly qty charges or null item if splitting failed
@@ -334,7 +341,7 @@ class item : public JsonSerializer, public JsonDeserializer, public visitable<it
          */
         bool merge_charges( const item &rhs );
 
- int weight() const;
+        int weight( bool include_contents = true ) const;
 
     /* Total volume of an item accounting for all contained/integrated items
      * @param integral if true return effective volume if item was integrated into another */
@@ -670,6 +677,38 @@ public:
      */
     int chip_resistance( bool worst = false ) const;
 
+    /** How much damage has the item sustained? */
+    int damage() const;
+
+    /** Minimum amount of damage to an item (state of maximum repair) */
+    int min_damage() const;
+
+    /** Maximum amount of damage to an item (state before destroyed) */
+    int max_damage() const;
+
+    /**
+     * Apply damage to item constrained by @ref min_damage and @ref max_damage
+     * @param qty maximum amount by which to adjust damage (negative permissible)
+     * @param dmg type of damage which may be passed to @ref on_damage callback
+     * @return whether item should be destroyed
+     */
+    bool mod_damage( double qty, damage_type dt = DT_NULL );
+
+    /**
+     * Increment item damage constrained @ref max_damage
+     * @param dmg type of damage which may be passed to @ref on_damage callback
+     * @return whether item should be destroyed
+     */
+    bool inc_damage( damage_type dt = DT_NULL ) {
+        return mod_damage( 1, dt );
+    }
+
+    /** Provide color for UI display dependent upon current item damage level */
+    nc_color damage_color() const;
+
+    /** Provide prefix symbol for UI display dependent upon current item damage level */
+    std::string damage_symbol() const;
+
     /**
      * Check whether the item has been marked (by calling mark_as_used_by_player)
      * as used by this specific player.
@@ -772,6 +811,9 @@ public:
 
     /** What faults can potentially occur with this item? */
     std::set<fault_id> faults_potential() const;
+
+    /** Returns the total area of this wheel or 0 if it isn't one. */
+    int wheel_area() const;
 
     /**
      * Can this item have given item/itype as content?
@@ -876,6 +918,14 @@ public:
          * Callback when contents of the item are affected in any way other than just processing.
          */
         void on_contents_changed();
+
+         /**
+          * Callback immediately **before** an item is damaged
+          * @param qty maximum damage that will be applied (constrained by @ref max_damage)
+          * @param dmg type of damage (or DT_NULL)
+          */
+        void on_damage( double qty, damage_type dt );
+
         /**
          * Name of the item type (not the item), with proper plural.
          * This is only special when the item itself has a special name ("name" entry in
@@ -1392,6 +1442,20 @@ public:
         item *get_usable_item( const std::string &use_name );
 
         /**
+         * How many units (ammo or charges) are remaining?
+         * @param ch character responsible for invoking the item
+         * @param limit stop searching after this many units found
+         * @note also checks availability of UPS charges if applicable
+         */
+        int units_remaining( const Character &ch, int limit = INT_MAX ) const;
+
+        /**
+         * Check if item has sufficient units (ammo or charges) remaining
+         * @param qty units required, if unspecified use item default
+         */
+        bool units_sufficient( const Character &ch, int qty = -1 ) const;
+
+        /**
          * Returns the translated item name for the item with given id.
          * The name is in the proper plural form as specified by the
          * quantity parameter. This is roughly equivalent to creating an item instance and calling
@@ -1432,6 +1496,7 @@ public:
 
     private:
         std::string name;
+        double damage_ = 0;
         const itype* curammo = nullptr;
         std::map<std::string, std::string> item_vars;
         const mtype* corpse = nullptr;
@@ -1444,13 +1509,6 @@ public:
      char invlet = 0;      // Inventory letter
      long charges;
      bool active = false; // If true, it has active effects to be processed
-
-    /**
-     * How much damage the item has sustained
-     * @see MIN_ITEM_DAMAGE
-     * @see MAX_ITEM_DAMAGE
-     */
-    int damage = 0;
 
     int burnt = 0;           // How badly we're burnt
     int bday;                // The turn on which it was created
@@ -1469,8 +1527,6 @@ public:
  typedef std::vector<item> t_item_vector;
  t_item_vector components;
 
- int quiver_store_arrow(item &arrow);
- int max_charges_from_flag(std::string flagName);
  int get_gun_ups_drain() const;
 };
 

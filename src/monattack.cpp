@@ -168,7 +168,7 @@ npc make_fake_npc(monster *z, int str, int dex, int inte, int per) {
     tmp.int_cur = inte;
     tmp.per_cur = per;
     if( z->friendly != 0 ) {
-        tmp.attitude = NPCATT_DEFEND;
+        tmp.attitude = NPCATT_FOLLOW;
     } else {
         tmp.attitude = NPCATT_KILL;
     }
@@ -750,7 +750,7 @@ bool mattack::resurrect(monster *z)
                 }
                 return false;
             }
-            int raise_score = (i.damage + 1) * mt->hp + i.burnt;
+            int raise_score = (i.damage() + 1) * mt->hp + i.burnt;
             lowest_raise_score = std::min( lowest_raise_score, raise_score );
             if( raise_score <= raising_level ) {
                 corpses.push_back( std::make_pair( p, &i ) );
@@ -804,7 +804,7 @@ bool mattack::resurrect(monster *z)
     }
 
     std::pair<tripoint, item*> raised = random_entry( corpses );
-    float corpse_damage = raised.second->damage;
+    float corpse_damage = raised.second->damage();
     // Did we successfully raise something?
     if (g->revive_corpse(raised.first, *raised.second)) {
         g->m.i_rem( raised.first, raised.second );
@@ -2829,10 +2829,7 @@ void mattack::tankgun( monster *z, Creature *target )
     // Target the vehicle itself instead if there is one.
     vehicle *veh = g->m.veh_at( target->pos() );
     if( veh != nullptr ) {
-        veh->center_of_mass( aim_point.x, aim_point.y );
-        point vpos = veh->global_pos();
-        aim_point.x += vpos.x;
-        aim_point.y += vpos.y;
+        aim_point = veh->global_pos3() + veh->rotated_center_of_mass();
     }
     // kevingranade KA101: yes, but make it really inaccurate
     // Sure thing.

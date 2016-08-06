@@ -958,8 +958,8 @@ void activity_handlers::make_zlave_finish( player_activity *act, player *p )
             p->practice( skill_firstaid, rng(1, 8) );
             p->practice( skill_survival, rng(1, 8) );
 
-            body->damage = std::min( body->damage + (int) rng( 1, CORPSE_PULP_THRESHOLD ), CORPSE_PULP_THRESHOLD );
-            if( body->damage == CORPSE_PULP_THRESHOLD ) {
+            body->mod_damage( rng( 0, body->max_damage() - body->damage() ), DT_STAB );
+            if( body->damage() == body->max_damage() ) {
                 body->active = false;
                 p->add_msg_if_player(m_warning, _("You cut up the corpse too much, it is thoroughly pulped."));
             } else {
@@ -1055,16 +1055,17 @@ void activity_handlers::pulp_do_turn( player_activity *act, player *p )
             continue;
         }
 
-        if( corpse.damage >= CORPSE_PULP_THRESHOLD ) {
+        if( corpse.damage() >= corpse.max_damage() ) {
             // Deactivate already-pulped corpses that weren't properly deactivated
             corpse.active = false;
             continue;
         }
 
-        while( corpse.damage < CORPSE_PULP_THRESHOLD ) {
+        while( corpse.damage() < corpse.max_damage() ) {
             // Increase damage as we keep smashing ensuring we eventually smash the target.
             if( x_in_y( pulp_power, corpse.volume() ) ) {
-                if( ++corpse.damage == CORPSE_PULP_THRESHOLD ) {
+                corpse.inc_damage( DT_BASH );
+                if( corpse.damage() == corpse.max_damage() ) {
                     corpse.active = false;
                     num_corpses++;
                 }
@@ -1114,14 +1115,15 @@ void activity_handlers::reload_finish( player_activity *act, player *p )
 {
     act->type = ACT_NULL;
 
-    item *reloadable = &p->i_at( std::atoi( act->name.c_str() ) );
-    int qty = act->index;
-
-    if( reloadable->type->can_use( "holster" ) && !reloadable->contents.empty() ) {
-        reloadable = &reloadable->contents.front();
+    if( act->targets.size() != 2 || act->index <= 0 ) {
+        debugmsg( "invalid arguments to ACT_RELOAD" );
+        return;
     }
 
-    if( !reloadable->reload( *p, item_location( *p, &p->i_at( act->position ) ), act->index ) ) {
+    item *reloadable = &*act->targets[ 0 ];
+    int qty = act->index;
+
+    if( !reloadable->reload( *p, std::move( act->targets[ 1 ] ), qty ) ) {
         add_msg( m_info, _( "Can't reload the %s." ), reloadable->tname().c_str() );
         return;
     }
@@ -1549,7 +1551,7 @@ void activity_handlers::repair_item_finish( player_activity *act, player *p )
     const bool need_input =
         repeat == REPEAT_ONCE ||
         ( repeat == REPEAT_EVENT && event_happened ) ||
-        ( repeat == REPEAT_FULL && fix.damage <= 0 );
+        ( repeat == REPEAT_FULL && fix.damage() <= 0 );
 
     if( need_input ) {
         g->draw();
@@ -1587,25 +1589,12 @@ void activity_handlers::repair_item_finish( player_activity *act, player *p )
 
 void activity_handlers::mend_item_finish( player_activity *act, player *p )
 {
-    item_location target;
-    switch( static_cast<item_location::type>( act->index ) ) {
-        case item_location::type::character:
-            target = item_location( *p, &p->i_at( act->position ) );
-            break;
-
-        case item_location::type::vehicle: {
-            auto veh = g->m.veh_at( act->placement );
-            if( !veh ) {
-                return; // vehicle moved or destroyed
-            }
-            target = veh->part_base( act->position );
-            break;
-        }
-
-        default:
-            debugmsg( "unknown index in mend item handler" );
-            return;
+    if( act->targets.size() != 1 ) {
+        debugmsg( "invalid arguments to ACT_MEND_ITEM" );
+        return;
     }
+
+    item_location &target = act->targets[ 0 ];
 
     auto f = target->faults.find( fault_id( act->name ) );
     if( f == target->faults.end() ) {
@@ -1663,7 +1652,7 @@ void activity_handlers::gunmod_add_finish( player_activity *act, player *p )
         gun.contents.push_back( p->i_rem( &mod ) );
 
     } else if( rng( 0, 100 ) <= risk ) {
-        if( gun.damage++ >= MAX_ITEM_DAMAGE ) {
+        if( gun.inc_damage() ) {
             p->i_rem( &gun );
             add_msg( m_bad, _( "You failed at installing the %s and destroyed your %s!" ), mod.tname().c_str(),
                      gun.tname().c_str() );

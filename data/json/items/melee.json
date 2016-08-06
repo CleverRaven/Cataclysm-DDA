@@ -9,6 +9,7 @@
         "symbol" : "/",
         "material" : ["wood", "steel"],
         "techniques" : ["BRUTAL", "WIDE"],
+        "flags": "NONCONDUCTIVE",
         "volume" : 10,
         "bashing" : 9999,
         "price" : 12000,
@@ -109,7 +110,7 @@
         "price": 6000,
         "material": [ "wood", "iron" ],
         "techniques" : ["WBLOCK_1", "RAPID"],
-        "flags" : ["DURABLE_MELEE"],
+        "flags" : ["DURABLE_MELEE", "NONCONDUCTIVE"],
         "weight": 2200,
         "volume": 12,
         "bashing": 25,
@@ -126,7 +127,7 @@
         "price": 12000,
         "material": ["wood", "iron"],
         "techniques" : ["WBLOCK_1", "SPIN"],
-        "flags" : ["DURABLE_MELEE"],
+        "flags" : ["DURABLE_MELEE", "NONCONDUCTIVE"],
         "weight": 2500,
         "volume": 26,
         "bashing": 4,
@@ -147,7 +148,7 @@
         "volume": 2,
         "bashing": 12,
         "cutting": 6,
-        "flags" : ["DURABLE_MELEE","CHOP","BELT_CLIP"],
+        "flags" : ["DURABLE_MELEE", "CHOP", "BELT_CLIP", "NONCONDUCTIVE"],
         "to_hit": 1,
         "category" : "weapons",
         "qualities": [["CUT", 1], ["HAMMER", 2], ["HAMMER_FINE", 1], ["BUTCHER", 16]]
@@ -335,22 +336,6 @@
     },
     {
         "type":"GENERIC",
-        "id": "sword_forged",
-        "symbol" : "!",
-        "color": "dark_gray",
-        "name": "forged sword",
-        "description": "A common short sword, forged from several pieces of steel.  The pointy end is the dangerous one.",
-        "material": "steel",
-        "volume": 8,
-        "weight": 700,
-        "bashing": 4,
-        "cutting": 14,
-        "to_hit": 2,
-        "flags": ["SHEATH_SWORD","CHOP"],
-        "techniques": ["WBLOCK_2"]
-    },
-    {
-        "type":"GENERIC",
         "id" : "broom",
         "name" : "broom",
         "description" : "A long-handled broom.  Makes a terrible weapon unless you're chasing cats.",
@@ -374,6 +359,7 @@
         "color" : "brown",
         "symbol" : "/",
         "material" : ["wood", "steel"],
+        "flags" : "NONCONDUCTIVE",
         "techniques" : ["BRUTAL", "WIDE"],
         "volume" : 10,
         "bashing" : 40,
@@ -392,7 +378,7 @@
         "//": "Craftable from steel, shouldn't be silver.  A warhammer is essentially one end of a pickaxe with balancing weight on the other and crushes/pierces the armor.",
         "material" : ["iron", "wood"],
         "techniques" : ["BRUTAL"],
-        "flags" : ["DURABLE_MELEE", "SPEAR"],
+        "flags" : ["DURABLE_MELEE", "SPEAR", "NONCONDUCTIVE"],
         "volume" : 5,
         "bashing" : 20,
         "cutting" : 20,
@@ -445,7 +431,7 @@
         "symbol" : "/",
         "material" : ["wood", "steel"],
         "techniques" : ["WBLOCK_1"],
-        "flags" : ["DURABLE_MELEE"],
+        "flags" : ["DURABLE_MELEE", "NONCONDUCTIVE"],
         "volume" : 8,
         "bashing" : 20,
         "cutting" : 6,
@@ -466,7 +452,7 @@
         "volume" : 7,
         "bashing" : 11,
         "cutting" : 8,
-        "flags" : ["STAB"],
+        "flags" : ["STAB", "NONCONDUCTIVE"],
         "price" : 18000,
         "price_postapoc": 0
     },
@@ -499,7 +485,7 @@
         "volume" : 5,
         "bashing" : 28,
         "cutting" : 2,
-        "flags" : ["STAB"],
+        "flags" : ["STAB", "NONCONDUCTIVE"],
         "price" : 8000
     },
     {
@@ -634,7 +620,7 @@
         "volume" : 6,
         "bashing" : 6,
         "cutting" : 17,
-        "flags" : ["SPEAR", "REACH_ATTACK"],
+        "flags" : ["SPEAR", "REACH_ATTACK", "NONCONDUCTIVE"],
         "price" : 4900,
         "qualities": [["COOK", 1]]
     },{
@@ -651,7 +637,7 @@
         "volume" : 6,
         "bashing" : 5,
         "cutting" : 16,
-        "flags" : ["SPEAR", "REACH_ATTACK"],
+        "flags" : ["SPEAR", "REACH_ATTACK", "NONCONDUCTIVE"],
         "price" : 1400,
         "qualities": [["COOK", 1]]
     },{
@@ -685,7 +671,7 @@
         "volume" : 10,
         "bashing" : 4,
         "cutting" : 28,
-        "flags" : ["SPEAR", "REACH_ATTACK"],
+        "flags" : ["SPEAR", "REACH_ATTACK", "NONCONDUCTIVE"],
         "price" : 80000,
         "qualities": [["COOK", 1]]
     },{
@@ -697,7 +683,7 @@
         "description": "This is a versatile polearm with an axe blade, a spike, and other fun things attached to a long stick.",
         "price": 50000,
         "material": ["wood", "steel"],
-        "flags": ["CHOP", "DURABLE_MELEE", "REACH_ATTACK", "NON_STUCK"],
+        "flags": ["CHOP", "DURABLE_MELEE", "REACH_ATTACK", "NON_STUCK", "NONCONDUCTIVE"],
         "techniques": ["WBLOCK_1", "WIDE"],
         "weight": 3175,
         "volume": 15,
@@ -714,7 +700,7 @@
         "description": "This is a dull, cheaply made replica of a polearm with an axe blade, a spike, and other fun things attached to a long stick.",
         "price": 5000,
         "material": ["wood", "aluminum"],
-        "flags": "REACH_ATTACK",
+        "flags": ["REACH_ATTACK", "NONCONDUCTIVE"],
         "techniques": ["WBLOCK_1"],
         "weight": 1644,
         "volume": 15,
@@ -731,7 +717,7 @@
         "description": "A sturdy polearm with a sizable, single-edged blade on the end.",
         "price": 50000,
         "material": ["steel", "wood"],
-        "flags": ["CHOP", "DURABLE_MELEE", "REACH_ATTACK"],
+        "flags": ["CHOP", "DURABLE_MELEE", "REACH_ATTACK", "NONCONDUCTIVE"],
         "techniques" : "WBLOCK_2",
         "weight": 2100,
         "volume": 10,
@@ -753,7 +739,7 @@
         "volume" : 10,
         "bashing" : 6,
         "cutting" : 37,
-        "flags" : ["SLICE", "DURABLE_MELEE", "REACH_ATTACK"],
+        "flags" : ["SLICE", "DURABLE_MELEE", "REACH_ATTACK", "NONCONDUCTIVE"],
         "price" : 80000
     },{
         "type":"GENERIC",
@@ -876,6 +862,7 @@
         "symbol" : "/",
         "material" : ["wood", "aluminum"],
         "techniques" : ["WBLOCK_1"],
+        "flags" : "NONCONDUCTIVE",
         "volume" : 4,
         "bashing" : 10,
         "price" : 16000,
@@ -892,7 +879,7 @@
         "symbol" : "/",
         "material" : ["iron", "wood"],
         "techniques" : ["SWEEP"],
-        "flags" : ["DURABLE_MELEE"],
+        "flags" : ["DURABLE_MELEE", "NONCONDUCTIVE"],
         "volume" : 5,
         "//": "Same total damage and slightly higher weight than a morningstar - exchanged.",
         "bashing" : 37,
@@ -913,7 +900,7 @@
         "volume" : 6,
         "bashing" : 33,
         "cutting" : 4,
-        "flags" : ["DURABLE_MELEE", "SPEAR"],
+        "flags" : ["DURABLE_MELEE", "SPEAR", "NONCONDUCTIVE"],
         "price" : 120000,
         "qualities": [["HAMMER", 1]]
     },
@@ -982,7 +969,7 @@
         "volume" : 4,
         "bashing" : 5,
         "cutting" : 17,
-        "flags" : ["SPEAR"],
+        "flags" : ["SPEAR", "NONCONDUCTIVE"],
         "price" : 9000,
         "qualities": [["COOK", 1]]
     },
@@ -1034,6 +1021,18 @@
         "flags" : ["STAB", "UNARMED_WEAPON", "DURABLE_MELEE", "SHEATH_KNIFE"],
         "price" : 10000,
         "qualities": [["CUT", 1], ["BUTCHER", 14]]
+    },
+    {
+        "id": "diamond_punch_dagger",
+        "copy-from": "punch_dagger",
+        "type": "GENERIC",
+        "name": "diamond punch dagger",
+        "description": "A double edged dagger made to be gripped in the palm, with the blade protruding between the fingers. The blade has been coated with diamond-like carbon and holds a wickedly sharp edge.",
+        "material": [ "steel", "diamond" ],
+        "proportional": {
+            "price": 1.5,
+            "cutting": 1.3
+        }
     },
     {
         "type":"GENERIC",
@@ -1262,7 +1261,7 @@
         "weight": 129,
         "volume": 1,
         "cutting": 6,
-        "flags": ["SHEATH_KNIFE"],
+        "flags": ["SHEATH_KNIFE", "CONDUCTIVE"],
         "qualities": [["BUTCHER", -18]]
     },{
         "comment": "Id retained to avoid breaking anything, same reason as with the makeshift glaive.",
@@ -1297,7 +1296,7 @@
         "volume": 1,
         "bashing": 2,
         "cutting": 1,
-        "flags" : ["STAB", "SHEATH_KNIFE"]
+        "flags" : ["STAB", "SHEATH_KNIFE", "CONDUCTIVE"]
     },
     {
         "type":"GENERIC",
@@ -1620,6 +1619,7 @@
     "price": 1050,
     "price_postapoc": 300,
     "material": ["aluminum", "wood"],
+    "flags" : "NONCONDUCTIVE",
     "weight": 2068,
     "volume": 13,
     "bashing": 16,
@@ -1640,7 +1640,7 @@
     "volume": 10,
     "bashing": 16,
     "cutting": 24,
-    "flags" : ["CHOP"],
+    "flags" : ["CHOP", "NONCONDUCTIVE"],
     "to_hit": 1,
     "category": "weapons",
     "qualities": [["AXE", 2]]
@@ -1679,7 +1679,7 @@
         "volume" : 7,
         "bashing" : 5,
         "cutting" : 18,
-        "flags" : ["SPEAR", "REACH_ATTACK"],
+        "flags" : ["SPEAR", "REACH_ATTACK", "NONCONDUCTIVE"],
         "price" : 2000
     },{
         "id": "bullwhip",

@@ -576,7 +576,7 @@ const vehicle_prototype &string_id<vehicle_prototype>::obj() const
         debugmsg( "invalid vehicle prototype id %s", c_str() );
         static const vehicle_prototype dummy = {
             "",
-            std::vector<std::pair<point, vpart_str_id>>{},
+            std::vector<vehicle_prototype::part_def>{},
             std::vector<vehicle_item_spawn>{},
             nullptr
         };
@@ -614,9 +614,14 @@ void vehicle_prototype::load(JsonObject &jo)
     JsonArray parts = jo.get_array("parts");
     while (parts.has_more()) {
         JsonObject part = parts.next_object();
-        const point pxy( part.get_int("x"), part.get_int("y") );
-        const vpart_str_id pid( part.get_string( "part" ) );
-        vproto.parts.emplace_back( pxy, pid );
+
+        part_def pt;
+        pt.pos = point( part.get_int( "x" ), part.get_int( "y" ) );
+        pt.part = vpart_str_id( part.get_string( "part" ) );
+
+        assign( part, "ammo", pt.with_ammo, true, 0, 100 );
+
+        vproto.parts.push_back( pt );
     }
 
     JsonArray items = jo.get_array("items");
@@ -682,21 +687,27 @@ void vehicle_prototype::finalize()
         blueprint.type = id;
         blueprint.name = _(proto.name.c_str());
 
-        for( auto &part : proto.parts ) {
-            const point &p = part.first;
-            const vpart_str_id &part_id = part.second;
-            if( !part_id.is_valid() ) {
-                debugmsg("unknown vehicle part %s in %s", part_id.c_str(), id.c_str());
+        for( const auto &pt : proto.parts ) {
+            if( !pt.part.is_valid() ) {
+                debugmsg("unknown vehicle part %s in %s", pt.part.c_str(), id.c_str());
                 continue;
             }
 
-            if(blueprint.install_part(p.x, p.y, part_id) < 0) {
-                debugmsg("init_vehicles: '%s' part '%s'(%d) can't be installed to %d,%d",
-                         blueprint.name.c_str(), part_id.c_str(),
-                         blueprint.parts.size(), p.x, p.y);
+            if( blueprint.install_part( pt.pos.x, pt.pos.y, pt.part ) < 0 ) {
+                debugmsg( "init_vehicles: '%s' part '%s'(%d) can't be installed to %d,%d",
+                          blueprint.name.c_str(), pt.part.c_str(),
+                          blueprint.parts.size(), pt.pos.x, pt.pos.y );
             }
-            if( part_id.obj().has_flag("CARGO") ) {
-                cargo_spots.insert( p );
+
+            if( pt.with_ammo ) {
+                auto base = item::find_type( pt.part->item );
+                if( !base->gun ) {
+                    debugmsg( "init_vehicles: non-turret %s with ammo in %s", pt.part.c_str(), id.c_str() );
+                }
+            }
+
+            if( pt.part.obj().has_flag("CARGO") ) {
+                cargo_spots.insert( pt.pos );
             }
         }
 
@@ -716,9 +727,6 @@ void vehicle_prototype::finalize()
                 }
             }
         }
-        // Clear the parts vector as it is not needed anymore. Usage of swap guaranties that the
-        // memory of the vector is really freed (instead of simply marking the vector as empty).
-        std::remove_reference<decltype(proto.parts)>::type().swap( proto.parts );
     }
 }
 
