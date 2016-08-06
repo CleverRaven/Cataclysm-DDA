@@ -1394,6 +1394,9 @@ void veh_interact::display_contents()
                 }
             }
 
+        } else if( pt.is_engine() ) {
+            // intentional no-op, engine faults are enumerated below
+
         } else if( pt.is_battery() ) {
             hdr += string_format( " (%i/%i)", pt.ammo_remaining(), pt.ammo_capacity() );
 
@@ -1409,7 +1412,13 @@ void veh_interact::display_contents()
         }
 
         y += fold_and_print( w_list, y, 1, getmaxx( w_list ) - 2, c_white, hdr );
-        y += fold_and_print( w_list, y, 3, getmaxx( w_list ) - 4, c_ltgray, msg ) + 1;
+        y += fold_and_print( w_list, y, 3, getmaxx( w_list ) - 4, c_ltgray, msg );
+
+        for( const auto &e : pt.faults() ) {
+            y += fold_and_print( w_list, y, 3, getmaxx( w_list ) - 4, c_ltred, _( "faulty %s" ), e->name().c_str() );
+        }
+
+        y++;
     }
 
     wrefresh( w_list );

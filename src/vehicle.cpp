@@ -6421,6 +6421,11 @@ int vehicle_part::wheel_width() const
     return base.is_wheel() ? base.type->wheel->width : 0;
 }
 
+bool vehicle_part::is_engine() const
+{
+    return info().has_flag( VPFLAG_ENGINE );
+}
+
 bool vehicle_part::is_light() const
 {
     const auto &vp = info();
