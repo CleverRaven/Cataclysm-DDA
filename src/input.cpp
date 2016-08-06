@@ -97,6 +97,11 @@ void input_manager::init()
         throw std::runtime_error( FILENAMES["keybindings"] + ": " + err.what() );
     }
     try {
+        load( FILENAMES["keybindings_vehicle"], false );
+    } catch( const JsonError &err ) {
+        throw std::runtime_error( FILENAMES["keybindings_vehicle"] + ": " + err.what() );
+    }
+    try {
         load( FILENAMES["user_keybindings"], true );
     } catch( const JsonError &err ) {
         throw std::runtime_error( FILENAMES["user_keybindings"] + ": " + err.what() );
