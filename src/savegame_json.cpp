@@ -1809,7 +1809,11 @@ void mission::deserialize(JsonIn &jsin)
         type = &mission_type::from_legacy( jo.get_int( "type_id" ) ).obj();
     } else if( jo.has_string( "type_id" ) ) {
         type = &mission_type_id( jo.get_string( "type_id" ) ).obj();
+    } else {
+        debugmsg( "Saved mission has no type" );
+        type = &mission_type::get_all().front();
     }
+
     jo.read("description", description);
     jo.read("failed", failed);
     jo.read("value", value);
@@ -1861,7 +1865,7 @@ void mission::serialize(JsonOut &json) const
 {
     json.start_object();
 
-    json.member("type_id", type);
+    json.member("type_id", type->id);
     json.member("description", description);
     json.member("failed", failed);
     json.member("value", value);

@@ -342,6 +342,11 @@ const tripoint &mission::get_target() const
 
 const mission_type &mission::get_type() const
 {
+    if( type == nullptr ) {
+        debugmsg( "Null mission type" );
+        return mission_type::get_all().front();
+    }
+
     return *type;
 }
 

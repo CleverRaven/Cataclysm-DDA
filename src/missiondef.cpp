@@ -230,18 +230,16 @@ void mission_type::reset()
 }
 
 template <typename Fun>
-Fun get_function( JsonObject &jo, const std::string &id, const std::map<std::string, Fun> &cont )
+void assign_function( JsonObject &jo, const std::string &id, Fun &target, const std::map<std::string, Fun> &cont )
 {
     if( jo.has_string( id ) ) {
         const auto iter = cont.find( jo.get_string( id ) );
         if( iter != cont.end() ) {
-            return iter->second;
+            target = iter->second;
+        } else {
+            jo.throw_error( "Invalid mission function", id );
         }
-
-        jo.throw_error( "Invalid mission function", id );
     }
-
-    return { };
 }
 
 void mission_type::load( JsonObject &jo )
@@ -255,10 +253,10 @@ void mission_type::load( JsonObject &jo )
 
     goal = jo.get_enum_value<decltype(goal)>( "goal" );
 
-    place = get_function<decltype(place)>( jo, "place", tripoint_function_map );
-    start = get_function<decltype(start)>( jo, "start", mission_function_map );
-    end = get_function<decltype(end)>( jo, "end", mission_function_map );
-    fail = get_function<decltype(fail)>( jo, "fail", mission_function_map );
+    assign_function( jo, "place", place, tripoint_function_map );
+    assign_function( jo, "start", start, mission_function_map );
+    assign_function( jo, "end", end, mission_function_map );
+    assign_function( jo, "fail", fail, mission_function_map );
 
     if( jo.has_int( "deadline_low" ) ) {
         deadline_low = DAYS( jo.get_int( "deadline_low" ) );
@@ -369,27 +367,24 @@ mission_type_id mission_type::from_legacy( int old_id )
     return mission_type_id( "MISSION_NULL" );
 }
 
-std::vector<mission_type> mission_type::types;
-
 const mission_type *mission_type::get( const mission_type_id id )
 {
-    for( auto & t : types ) {
-        if( t.id == id ) {
-            return &t;
-        }
+    if( id.is_null() ) {
+        return nullptr;
     }
-    return nullptr;
+
+    return &id.obj();
 }
 
 const std::vector<mission_type> &mission_type::get_all()
 {
-    return types;
+    return mission_type_factory.get_all();
 }
 
 mission_type_id mission_type::get_random_id( const mission_origin origin, const tripoint &p )
 {
     std::vector<mission_type_id> valid;
-    for( auto & t : types ) {
+    for( auto & t : get_all() ) {
         if( std::find( t.origins.begin(), t.origins.end(), origin ) == t.origins.end() ) {
             continue;
         }
