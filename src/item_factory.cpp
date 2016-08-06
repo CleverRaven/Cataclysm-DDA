@@ -146,7 +146,7 @@ void Item_factory::finalize() {
             }
         }
 
-        if( obj.engine && ACTIVE_WORLD_OPTIONS[ "NO_FAULTS" ] ) {
+        if( obj.engine && get_world_option<bool>( "NO_FAULTS" ) ) {
             obj.engine->faults.clear();
         }
 
@@ -234,7 +234,7 @@ void Item_factory::finalize() {
         npc_implied_flags( *e.second );
 
         if( obj.comestible ) {
-            if( ACTIVE_WORLD_OPTIONS[ "NO_VITAMINS" ] ) {
+            if( get_world_option<bool>( "NO_VITAMINS" ) ) {
                 obj.comestible->vitamins.clear();
             } else if( obj.comestible->vitamins.empty() && obj.comestible->healthy >= 0 ) {
                 // Default vitamins of healthy comestibles to their edible base materials if none explicitly specified.
@@ -279,7 +279,7 @@ void Item_factory::finalize_item_blacklist()
 
     // Can't be part of the blacklist loop because the magazines might be
     // deleted before the guns are processed.
-    const bool magazines_blacklisted = ACTIVE_WORLD_OPTIONS[ "BLACKLIST_MAGAZINES" ];
+    const bool magazines_blacklisted = get_world_option<bool>( "BLACKLIST_MAGAZINES" );
 
     if( magazines_blacklisted ) {
         for( auto& e : m_templates ) {
@@ -751,13 +751,8 @@ void Item_factory::check_definitions() const
             if( type->ammo->casing != "null" && !has_template( type->ammo->casing ) ) {
                 msg << string_format( "invalid casing property %s", type->ammo->casing.c_str() ) << "\n";
             }
-
             if( type->ammo->drop != "null" && !has_template( type->ammo->drop ) ) {
                 msg << string_format( "invalid drop item %s", type->ammo->drop.c_str() ) << "\n";
-            }
-
-            if( type->ammo->drop_chance < 0.0f || type->ammo->drop_chance > 1.0f ) {
-                msg << "drop chance outside of supported range" << "\n";
             }
         }
         if( type->gun ) {
@@ -878,7 +873,7 @@ void Item_factory::check_definitions() const
         }
         debugmsg( "warnings for type %s:\n%s", type->id.c_str(), msg.str().c_str() );
     }
-    if( !ACTIVE_WORLD_OPTIONS[ "BLACKLIST_MAGAZINES" ] ) {
+    if( !get_world_option<bool>( "BLACKLIST_MAGAZINES" ) ) {
         for( auto &mag : magazines_defined ) {
             // some vehicle parts (currently batteries) are implemented as magazines
             if( magazines_used.count( mag ) == 0 && find_template( mag )->category->id != category_id_veh_parts ) {
@@ -1004,21 +999,23 @@ void Item_factory::load( islot_artifact &slot, JsonObject &jo, const std::string
     load_optional_enum_array( slot.effects_worn, jo, "effects_worn" );
 }
 
-void Item_factory::load( islot_ammo &slot, JsonObject &jo, const std::string & )
+void Item_factory::load( islot_ammo &slot, JsonObject &jo, const std::string &src )
 {
-    assign( jo, "ammo_type", slot.type );
-    assign( jo, "casing", slot.casing );
-    assign( jo, "drop", slot.drop );
-    assign( jo, "drop_chance", slot.drop_chance );
-    assign( jo, "drop_active", slot.drop_active );
-    assign( jo, "damage", slot.damage );
-    assign( jo, "pierce", slot.pierce );
-    assign( jo, "range", slot.range );
-    assign( jo, "dispersion", slot.dispersion );
-    assign( jo, "recoil", slot.recoil );
-    assign( jo, "count", slot.def_charges );
-    assign( jo, "loudness", slot.loudness );
-    assign( jo, "effects", slot.ammo_effects );
+    bool strict = src == "core";
+
+    assign( jo, "ammo_type", slot.type, strict );
+    assign( jo, "casing", slot.casing, strict );
+    assign( jo, "drop", slot.drop, strict );
+    assign( jo, "drop_chance", slot.drop_chance, strict, 0.0f, 1.0f );
+    assign( jo, "drop_active", slot.drop_active, strict );
+    assign( jo, "damage", slot.damage, strict, 0 );
+    assign( jo, "pierce", slot.pierce, strict, 0 );
+    assign( jo, "range", slot.range, strict, 0 );
+    assign( jo, "dispersion", slot.dispersion, strict, 0 );
+    assign( jo, "recoil", slot.recoil, strict, 0 );
+    assign( jo, "count", slot.def_charges, strict, 1L );
+    assign( jo, "loudness", slot.loudness, strict, 0 );
+    assign( jo, "effects", slot.ammo_effects, strict );
 }
 
 void Item_factory::load_ammo( JsonObject &jo, const std::string &src )

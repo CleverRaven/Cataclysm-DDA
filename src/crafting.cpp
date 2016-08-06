@@ -229,15 +229,18 @@ void reset_recipes()
 
 void finalize_recipes()
 {
-    recipe_dict.finalize();
-
-    std::ostringstream buffer;
+    // Has to be done before recipe finalization!
     for( auto r : recipe_dict ) {
         r->requirements_ = std::accumulate( r->reqs.begin(), r->reqs.end(), requirement_data(),
         []( const requirement_data & lhs, const std::pair<requirement_id, int> &rhs ) {
             return lhs + ( *rhs.first * rhs.second );
         } );
+    }
 
+    recipe_dict.finalize();
+
+    std::ostringstream buffer;
+    for( auto r : recipe_dict ) {
         buffer.clear();
         for( auto j = r->booksets.begin(); j != r->booksets.end(); ++j ) {
             const std::string &book_id = j->book_id;
@@ -523,11 +526,18 @@ bool player::can_make( const recipe *r, int batch_size )
 
 bool recipe::can_make_with_inventory( const inventory &crafting_inv, int batch ) const
 {
+    return can_make_with_inventory( crafting_inv, g->u.get_crafting_helpers(), batch );
+}
+
+bool recipe::can_make_with_inventory( const inventory &crafting_inv,
+                                      const std::vector<npc *> &helpers,
+                                      int batch ) const
+{
     if( g->u.has_trait( "DEBUG_HS" ) ) {
         return true;
     }
 
-    if( !g->u.knows_recipe( this ) && -1 == g->u.has_recipe( this, crafting_inv ) ) {
+    if( !g->u.knows_recipe( this ) && -1 == g->u.has_recipe( this, crafting_inv, helpers ) ) {
         return false;
     }
     return requirements().can_make_with_inventory( crafting_inv, batch );
@@ -571,6 +581,7 @@ void player::invalidate_crafting_inventory()
 }
 
 void batch_recipes( const inventory &crafting_inv,
+                    const std::vector<npc *> &helpers,
                     std::vector<const recipe *> &current,
                     std::vector<bool> &available, const recipe *rec )
 {
@@ -579,7 +590,7 @@ void batch_recipes( const inventory &crafting_inv,
 
     for( int i = 1; i <= 20; i++ ) {
         current.push_back( rec );
-        available.push_back( rec->can_make_with_inventory( crafting_inv, i ) );
+        available.push_back( rec->can_make_with_inventory( crafting_inv, helpers, i ) );
     }
 }
 
@@ -599,15 +610,11 @@ int recipe::batch_time( int batch ) const
     }
 
     // NPCs around you should assist in batch production if they have the skills
-    int assistants = 0;
-    for( auto &elem : g->active_npc ) {
-        if( rl_dist( elem->pos(), g->u.pos() ) < PICKUP_RANGE && elem->is_friend() &&
-            !elem->in_sleep_state() ) {
-            if( elem->get_skill_level( skill_used ) >= difficulty ) {
-                assistants++;
-            }
-        }
-    }
+    const auto helpers = g->u.get_crafting_helpers();
+    int assistants = std::count_if( helpers.begin(), helpers.end(),
+    [this]( const npc * np ) {
+        return np->get_skill_level( skill_used ) >= difficulty;
+    } );
 
     double total_time = 0.0;
     // At batch_rsize, incremental time increase is 99.5% of batch_rscale
@@ -770,8 +777,31 @@ void player::complete_craft()
         return;
     }
 
+    int secondary_dice = 0;
+    int secondary_difficulty = 0;
+    for( const auto &pr : making->required_skills ) {
+        secondary_dice += get_skill_level( pr.first );
+        secondary_difficulty += pr.second;
+    }
+
     // # of dice is 75% primary skill, 25% secondary (unless secondary is null)
-    int skill_dice = get_skill_level( making->skill_used ) * 4;
+    int skill_dice;
+    if( secondary_difficulty > 0 ) {
+        skill_dice = get_skill_level( making->skill_used ) * 3 + secondary_dice;
+    } else {
+        skill_dice = get_skill_level( making->skill_used ) * 4;
+    }
+
+    auto helpers = g->u.get_crafting_helpers();
+    for( const npc *np : helpers ) {
+        if( np->get_skill_level( making->skill_used ) >=
+            get_skill_level( making->skill_used ) ) {
+            // NPC assistance is worth half a skill level
+            skill_dice += 2;
+            add_msg( m_info, _( "%s helps with crafting..." ), np->name.c_str() );
+            break;
+        }
+    }
 
     // farsightedness can impose a penalty on electronics and tailoring success
     // it's equivalent to a 2-rank electronics penalty, 1-rank tailoring
@@ -805,7 +835,14 @@ void player::complete_craft()
     ///\EFFECT_INT increases crafting success chance
     int skill_sides = 16 + int_cur;
 
-    int diff_dice = making->difficulty * 4; // Since skill level is * 4 also
+    int diff_dice;
+    if( secondary_difficulty > 0 ) {
+        diff_dice = making->difficulty * 3 + secondary_difficulty;
+    } else {
+        // Since skill level is * 4 also
+        diff_dice = making->difficulty * 4;
+    }
+
     int diff_sides = 24; // 16 + 8 (default intelligence)
 
     int skill_roll = dice( skill_dice, skill_sides );
@@ -818,27 +855,24 @@ void player::complete_craft()
                   ( int )making->difficulty * 1.25 );
 
         //NPCs assisting or watching should gain experience...
-        for( auto &elem : g->active_npc ) {
-            if( rl_dist( elem->pos(), g->u.pos() ) < PICKUP_RANGE && elem->is_friend() &&
-                !elem->in_sleep_state() ) {
-                //If the NPC can understand what you are doing, they gain more exp
-                if( elem->get_skill_level( making->skill_used ) >= making->difficulty ) {
-                    elem->practice( making->skill_used,
-                                    ( int )( ( making->difficulty * 15 + 10 ) * ( 1 + making->batch_time( batch_size ) / 30000.0 ) *
-                                             .50 ), ( int )making->difficulty * 1.25 );
-                    if( batch_size > 1 ) {
-                        add_msg( m_info, _( "%s assists with crafting..." ), elem->name.c_str() );
-                    }
-                    if( batch_size == 1 ) {
-                        add_msg( m_info, _( "%s could assist you with a batch..." ), elem->name.c_str() );
-                    }
-                    //NPCs around you understand the skill used better
-                } else {
-                    elem->practice( making->skill_used,
-                                    ( int )( ( making->difficulty * 15 + 10 ) * ( 1 + making->batch_time( batch_size ) / 30000.0 ) *
-                                             .15 ), ( int )making->difficulty * 1.25 );
-                    add_msg( m_info, _( "%s watches you craft..." ), elem->name.c_str() );
+        for( auto &elem : helpers ) {
+            //If the NPC can understand what you are doing, they gain more exp
+            if( elem->get_skill_level( making->skill_used ) >= making->difficulty ) {
+                elem->practice( making->skill_used,
+                                ( int )( ( making->difficulty * 15 + 10 ) * ( 1 + making->batch_time( batch_size ) / 30000.0 ) *
+                                         .50 ), ( int )making->difficulty * 1.25 );
+                if( batch_size > 1 ) {
+                    add_msg( m_info, _( "%s assists with crafting..." ), elem->name.c_str() );
                 }
+                if( batch_size == 1 ) {
+                    add_msg( m_info, _( "%s could assist you with a batch..." ), elem->name.c_str() );
+                }
+                //NPCs around you understand the skill used better
+            } else {
+                elem->practice( making->skill_used,
+                                ( int )( ( making->difficulty * 15 + 10 ) * ( 1 + making->batch_time( batch_size ) / 30000.0 ) *
+                                         .15 ), ( int )making->difficulty * 1.25 );
+                add_msg( m_info, _( "%s watches you craft..." ), elem->name.c_str() );
             }
         }
 
@@ -917,7 +951,7 @@ void player::complete_craft()
                 // but also keeps going up as difficulty goes up.
                 // Worst case is lvl 10, which will typically take
                 // 10^4/10 (1,000) minutes, or about 16 hours of crafting it to learn.
-                int difficulty = has_recipe( making, crafting_inventory() );
+                int difficulty = has_recipe( making, crafting_inventory(), helpers );
                 ///\EFFECT_INT increases chance to learn recipe when crafting from a book
                 if( x_in_y( making->time, ( 1000 * 8 *
                                             ( difficulty * difficulty * difficulty * difficulty ) ) /
@@ -997,7 +1031,7 @@ void set_item_inventory( item &newit )
             add_msg( _( "There's no room in your inventory for the %s, so you drop it." ),
                      newit.tname().c_str() );
             g->m.add_item_or_charges( g->u.pos(), newit );
-        } else if( !g->u.can_pickWeight( newit, !OPTIONS["DANGEROUS_PICKUPS"] ) ) {
+        } else if( !g->u.can_pickWeight( newit, !get_option<bool>( "DANGEROUS_PICKUPS" ) ) ) {
             add_msg( _( "The %s is too heavy to carry, so you drop it." ),
                      newit.tname().c_str() );
             g->m.add_item_or_charges( g->u.pos(), newit );
@@ -1396,7 +1430,7 @@ bool player::can_disassemble( const item &dis_item, const recipe *cur_recipe,
 
 bool query_disassemble( const item &dis_item )
 {
-    if( OPTIONS["QUERY_DISASSEMBLE"] ) {
+    if( get_option<bool>( "QUERY_DISASSEMBLE" ) ) {
         return query_yn( _( "Really disassemble the %s?" ), dis_item.tname().c_str() );
     }
     return true;
@@ -1458,7 +1492,7 @@ bool player::disassemble( item &dis_item, int dis_pos,
     }
     // If we're trying to disassemble a book or magazine
     if( dis_item.is_book() ) {
-        if( msg_and_query && OPTIONS["QUERY_DISASSEMBLE"] &&
+        if( msg_and_query && get_option<bool>( "QUERY_DISASSEMBLE" ) &&
             !query_yn( _( "Do you want to tear %s into pages?" ),
                        dis_item.tname().c_str() ) ) {
             return false;
@@ -1881,4 +1915,17 @@ std::string recipe::required_skills_string() const
 const std::string &recipe::ident() const
 {
     return ident_;
+}
+
+std::vector<npc *> player::get_crafting_helpers() const
+{
+    std::vector<npc *> ret;
+    for( auto &elem : g->active_npc ) {
+        if( rl_dist( elem->pos(), pos() ) < PICKUP_RANGE && elem->is_friend() &&
+            !elem->in_sleep_state() && g->m.clear_path( pos(), elem->pos(), PICKUP_RANGE, 1, 100 ) ) {
+            ret.push_back( elem );
+        }
+    }
+
+    return ret;
 }

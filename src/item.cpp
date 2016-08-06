@@ -704,6 +704,12 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
                                       type->m_to_hit, true, "" ) );
             info.push_back( iteminfo( "BASE", _( "Moves per attack: " ), "",
                                       attack_time(), true, "", true, true ) );
+
+            if( !conductive () ) { 
+                info.push_back( iteminfo( "BASE", string_format( _( "* This weapon <good>does not conduct</good> electricity." ) ) ) );
+            } else { 
+                info.push_back( iteminfo( "BASE", string_format( _( "* This weapon <bad>conducts</bad> electricity." ) ) ) );
+            }
         }
 
         insert_separation_line();
@@ -2135,10 +2141,12 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
 
 // MATERIALS-TODO: put this in json
     std::string damtext = "";
-    if( ( damage() != 0 || ( OPTIONS[ "ITEM_HEALTH_BAR" ] && is_armor() ) ) && !is_null() && with_prefix ) {
+
+    if( ( damage() != 0 || ( get_option<bool>( "ITEM_HEALTH_BAR" ) && is_armor() ) ) && !is_null() && with_prefix ) {
         if( damage() < 0 )  {
-            if( OPTIONS[ "ITEM_HEALTH_BAR" ] ) {
+            if( get_option<bool>( "ITEM_HEALTH_BAR" ) ) {
                 damtext = "<color_" + string_from_color( damage_color() ) + ">" + damage_symbol() + " </color>";
+
             } else if (is_gun())  {
                 damtext = rm_prefix(_("<dam_adj>accurized "));
             } else {
@@ -2151,7 +2159,7 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
                 if (damage() == 3) damtext = rm_prefix(_("<dam_adj>mangled "));
                 if (damage() >= 4) damtext = rm_prefix(_("<dam_adj>pulped "));
 
-            } else if ( OPTIONS["ITEM_HEALTH_BAR"] ) {
+            } else if ( get_option<bool>( "ITEM_HEALTH_BAR" ) ) {
                 damtext = "<color_" + string_from_color( damage_color() ) + ">" + damage_symbol() + " </color>";
 
             } else {
@@ -3365,17 +3373,23 @@ bool item::made_of(phase_id phase) const
 
 bool item::conductive() const
 {
-    if (is_null()) {
+    if( is_null() ) {
+        return false;
+    }
+    
+    if( has_flag( "CONDUCTIVE" ) ) {  
+        return true;
+    }
+
+    if( has_flag( "NONCONDUCTIVE" ) ) {  
         return false;
     }
 
-    // If any material does not resist electricity we are conductive.
-    for (auto mat : made_of_types()) {
-        if (mat->elec_resist() <= 0) {
-            return true;
-        }
-    }
-    return false;
+    // If any material has electricity resistance equal to or lower than flesh (1) we are conductive.
+    const auto mats = made_of_types();
+    return std::any_of( mats.begin(), mats.end(), []( const material_type *mt ) {
+        return mt->elec_resist() <= 1;
+    } );
 }
 
 bool item::destroyed_at_zero_charges() const
@@ -4642,22 +4656,7 @@ bool item::reload( player &u, item_location loc, long qty )
         return false;
     }
 
-    // Firstly try reloading active gunmod, then item itself, any other auxiliary gunmods and finally any currently loaded magazine
-    std::vector<item *> opts = { &*gun_current_mode(), this };
-    auto mods = gunmods();
-    std::copy_if( mods.begin(), mods.end(), std::back_inserter( opts ), []( item *e ) {
-        return e->is_gun();
-    });
-    opts.push_back( magazine_current() );
-
-    auto target = std::find_if( opts.begin(), opts.end(), [&u,&ammo]( item *e ) {
-        return e && u.can_reload( *e, ammo->typeId() );
-    } );
-    if( target == opts.end() ) {
-        return false;
-    }
-
-    item *obj = *target; // what are we trying to reload?
+    item *obj = this;
     qty = std::min( qty, obj->ammo_capacity() - obj->ammo_remaining() );
 
     obj->casings_handle( [&u]( item &e ) {
@@ -4680,27 +4679,16 @@ bool item::reload( player &u, item_location loc, long qty )
     } else if ( !obj->magazine_integral() ) {
         // if we already have a magazine loaded prompt to eject it
         if( obj->magazine_current() ) {
-            std::string prompt = string_format( _( "Eject %s from %s?" ), ammo->tname().c_str(), obj->tname().c_str() );
+            std::string prompt = string_format( _( "Eject %s from %s?" ),
+                                                obj->magazine_current()->tname().c_str(), obj->tname().c_str() );
 
-            // Hack to allow ejection of vehicle turret magazines as requested in #17751
-            if( obj->has_flag( "VEHICLE" ) ) {
-                auto veh = g->m.veh_at( u.pos() );
-                auto parts = veh->get_parts( u.pos(), "TURRET" );
-                if( !parts.empty() ) {
-                    vehicle_cursor cur( *veh, veh->index_of_part( parts.front() ) );
-                    if( !u.dispose_item( item_location( cur, &*obj->magazine_current() ), prompt ) ) {
-                        return false;
-                    } else {
-                        obj->contents.emplace_back( *ammo );
-                        loc.remove_item();
-                        return true;
-                    }
-                }
-            }
-
-            if( !u.dispose_item( item_location( u, obj->magazine_current() ), prompt ) ) {
+            // eject magazine to player inventory and try to dispose of it from there
+            item &mag = u.i_add( *obj->magazine_current() );
+            if( !u.dispose_item( item_location( u, &mag ), prompt ) ) {
+                u.remove_item( mag ); // user canceled so delete the clone
                 return false;
             }
+            obj->remove_item( *obj->magazine_current() );
         }
 
         obj->contents.emplace_back( *ammo );
@@ -5246,73 +5234,6 @@ bool item_ptr_compare_by_charges( const item *left, const item *right)
 bool item_compare_by_charges( const item& left, const item& right)
 {
     return item_ptr_compare_by_charges( &left, &right);
-}
-
-//return value is number of arrows/bolts quivered
-int item::quiver_store_arrow( item &arrow)
-{
-    if( arrow.charges <= 0 ) {
-        return 0;
-    }
-
-    //item is valid quiver to store items in if it satisfies these conditions:
-    // a) is a quiver
-    // b) has some arrow already, but same type is ok
-    // c) quiver isn't full
-
-    if( !type->can_use( "QUIVER")) {
-        return 0;
-    }
-
-    if( !contents.empty() && contents.front().typeId() != arrow.typeId() ) {
-        return 0;
-    }
-
-    long max_arrows = (long)max_charges_from_flag( "QUIVER");
-    if( !contents.empty() && contents.front().charges >= max_arrows) {
-        return 0;
-    }
-
-    // check ends, now store.
-    if( contents.empty()) {
-        item quivered_arrow( arrow);
-        quivered_arrow.charges = std::min( max_arrows, arrow.charges);
-        put_in( quivered_arrow);
-        arrow.charges -= quivered_arrow.charges;
-        return quivered_arrow.charges;
-    } else {
-        int quivered = std::min( max_arrows - contents.front().charges, arrow.charges );
-        contents.front().charges += quivered;
-        arrow.charges -= quivered;
-        return quivered;
-    }
-}
-
-//used to implement charges for items that aren't tools (e.g. quivers)
-//flagName arg is the flag's name before the underscore and integer on the end
-//e.g. for "QUIVER_20" flag, flagName = "QUIVER"
-int item::max_charges_from_flag(std::string flagName)
-{
-    item* it = this;
-    int maxCharges = 0;
-
-    //loop through item's flags, looking for flag that matches flagName
-    for( auto flag : it->type->item_tags ) {
-
-        if(flag.substr(0, flagName.size()) == flagName ) {
-            //get the substring of the flag starting w/ digit after underscore
-            std::stringstream ss(flag.substr(flagName.size() + 1, flag.size()));
-
-            //attempt to store that stringstream into maxCharges and error if there's a problem
-            if(!(ss >> maxCharges)) {
-                debugmsg("Error parsing %s_n tag (item::max_charges_from_flag)"), flagName.c_str();
-                maxCharges = -1;
-            }
-            break;
-        }
-    }
-
-    return maxCharges;
 }
 
 static const std::string USED_BY_IDS( "USED_BY_IDS" );

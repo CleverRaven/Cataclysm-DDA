@@ -24,6 +24,7 @@
 #include "vehicle.h"
 #include "field.h"
 #include "mtype.h"
+#include <algorithm>
 
 const skill_id skill_pistol( "pistol" );
 const skill_id skill_rifle( "rifle" );
@@ -115,7 +116,7 @@ size_t blood_trail_len( int damage )
 dealt_projectile_attack Creature::projectile_attack( const projectile &proj_arg, const tripoint &source,
                                                      const tripoint &target_arg, double dispersion )
 {
-    const bool do_animation = OPTIONS["ANIMATIONS"];
+    const bool do_animation = get_option<bool>( "ANIMATIONS" );
 
     // for the isosceles triangle formed by the intended and actual targets
     // we can use the cosine formula (a² = b² + c² - 2bc⋅cosθ) to calculate the tangent
@@ -1146,7 +1147,7 @@ std::vector<tripoint> game::pl_target_ui( target_mode mode, item *relevant, int 
     }
 
     int num_instruction_lines = draw_targeting_window( w_target, relevant ? relevant->tname() : "", u, mode, ctxt, aim_types );
-    bool snap_to_target = OPTIONS["SNAP_TO_TARGET"];
+    bool snap_to_target = get_option<bool>( "SNAP_TO_TARGET" );
 
     std::string enemiesmsg;
     if( t.empty() ) {
@@ -1284,7 +1285,7 @@ std::vector<tripoint> game::pl_target_ui( target_mode mode, item *relevant, int 
         // Our coordinates will either be determined by coordinate input(mouse),
         // by a direction key, or by the previous value.
         if( action == "SELECT" && ctxt.get_coordinates(g->w_terrain, targ.x, targ.y) ) {
-            if( !OPTIONS["USE_TILES"] && snap_to_target ) {
+            if( !get_option<bool>( "USE_TILES" ) && snap_to_target ) {
                 // Snap to target doesn't currently work with tiles.
                 targ.x += dst.x - src.x;
                 targ.y += dst.y - src.y;
@@ -1522,12 +1523,25 @@ static void cycle_action( item& weap, const tripoint &pos ) {
     } ), tiles.end() );
     tripoint eject = tiles.empty() ? pos : random_entry( tiles );
 
+    // for turrets try and drop casings or linkages directly to any CARGO part on the same tile
+    auto veh = g->m.veh_at( pos );
+    std::vector<vehicle_part *> cargo;
+    if( veh && weap.has_flag( "VEHICLE" ) ) {
+        cargo = veh->get_parts( pos, "CARGO" );
+    }
+
     if( weap.ammo_data() && weap.ammo_data()->ammo->casing != "null" ) {
         if( weap.has_flag( "RELOAD_EJECT" ) || weap.gunmod_find( "brass_catcher" ) ) {
             weap.emplace_back( weap.ammo_data()->ammo->casing, calendar::turn, 1 );
 
         } else {
-            g->m.add_item_or_charges( eject, item( weap.ammo_data()->ammo->casing, calendar::turn, 1 ) );
+            item casing( weap.ammo_data()->ammo->casing, calendar::turn, 1 );
+            if( cargo.empty() ) {
+                g->m.add_item_or_charges( eject, casing );
+            } else {
+                veh->add_item( *cargo.front(), casing );
+            }
+
             sfx::play_variant_sound( "fire_gun", "brass_eject", sfx::get_heard_volume( eject ),
                                      sfx::get_heard_angle( eject ) );
         }
@@ -1536,7 +1550,12 @@ static void cycle_action( item& weap, const tripoint &pos ) {
     // some magazines also eject disintegrating linkages
     const auto mag = weap.magazine_current();
     if( mag && mag->type->magazine->linkage != "NULL" ) {
-        g->m.add_item_or_charges( eject, item( mag->type->magazine->linkage, calendar::turn, 1 ) );
+        item linkage( mag->type->magazine->linkage, calendar::turn, 1 );
+        if( cargo.empty() ) {
+            g->m.add_item_or_charges( eject, linkage );
+        } else {
+            veh->add_item( *cargo.front(), linkage );
+        }
     }
 }
 

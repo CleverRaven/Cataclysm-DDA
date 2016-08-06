@@ -38,6 +38,7 @@
 #include <math.h>
 #include <array>
 #include <numeric>
+#include <algorithm>
 
 /*
  * Speed up all those if ( blarg == "structure" ) statements that are used everywhere;
@@ -227,8 +228,16 @@ vehicle::~vehicle()
 
 void vehicle::set_hp( vehicle_part &pt, int qty )
 {
-    double k = pt.base.max_damage() / double( pt.info().durability );
-    pt.base.set_damage( pt.base.max_damage() - ( qty * k ) );
+    if( qty == pt.info().durability ) {
+        pt.base.set_damage( 0 );
+
+    } else if( qty == 0 ) {
+        pt.base.set_damage( pt.base.max_damage() );
+
+    } else {
+        double k = pt.base.max_damage() / double( pt.info().durability );
+        pt.base.set_damage( pt.base.max_damage() - ( qty * k ) );
+    }
 }
 
 bool vehicle::mod_hp( vehicle_part &pt, int qty, damage_type dt )
@@ -2645,7 +2654,7 @@ nc_color vehicle::part_color( const int p, const bool exact ) const
     int parm = -1;
 
     //If armoring is present and the option is set, it colors the visible part
-    if( OPTIONS["VEHICLE_ARMOR_COLOR"] ) {
+    if( get_option<bool>( "VEHICLE_ARMOR_COLOR" ) ) {
         parm = part_with_feature(p, VPFLAG_ARMOR, false);
     }
 
@@ -4978,7 +4987,7 @@ bool vehicle::is_full(const int part, const int addvolume, const int addnumber) 
 
 }
 
-bool vehicle::add_item (int part, item itm)
+bool vehicle::add_item( int part, const item &itm )
 {
     const int max_storage = MAX_ITEM_IN_VEHICLE_STORAGE; // (game.h)
     const int maxvolume = this->max_volume(part);         // (game.h => vehicle::max_volume(part) ) in theory this could differ per vpart ( seat vs trunk )
@@ -5017,6 +5026,16 @@ bool vehicle::add_item (int part, item itm)
     }
 
     return add_item_at( part, parts[part].items.end(), itm );
+}
+
+bool vehicle::add_item( vehicle_part &pt, const item &obj )
+{
+    int idx = index_of_part( &pt );
+    if( idx < 0 ) {
+        debugmsg( "Tried to add item to invalid part" );
+        return false;
+    }
+    return add_item( idx, obj );
 }
 
 bool vehicle::add_item_at(int part, std::list<item>::iterator index, item itm)

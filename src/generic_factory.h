@@ -853,13 +853,17 @@ typename std::enable_if<std::is_arithmetic<T>::value, bool>::type assign(
     T out;
     double scalar;
 
+    // dont require strict parsing for relative and proportional values as rules
+    // such as +10% are well-formed independent of whether they affect base value
     if( jo.get_object( "relative" ).read( name, out ) ) {
+        strict = false;
         out += val;
 
     } else if( jo.get_object( "proportional" ).read( name, scalar ) ) {
-        if( scalar <= 0 ) {
+        if( scalar <= 0 || scalar == 1 ) {
             jo.throw_error( "invalid proportional scalar", name );
         }
+        strict = false;
         out = val * scalar;
 
     } else if( !jo.read( name, out ) ) {

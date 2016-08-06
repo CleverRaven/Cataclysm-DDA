@@ -1527,8 +1527,6 @@ public:
  typedef std::vector<item> t_item_vector;
  t_item_vector components;
 
- int quiver_store_arrow(item &arrow);
- int max_charges_from_flag(std::string flagName);
  int get_gun_ups_drain() const;
 };
 

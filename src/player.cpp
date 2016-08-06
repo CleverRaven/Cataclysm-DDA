@@ -2913,7 +2913,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
                     mvwprintz( w_stats, 2, 1, h_ltgray, _( "Strength:" ) );
                     mvwprintz( w_stats, 6, 1, c_magenta, _( "Base HP:" ) );
                     mvwprintz( w_stats, 6, 22, c_magenta, "%3d", hp_max[1] );
-                    if( OPTIONS["USE_METRIC_WEIGHTS"] == "kg" ) {
+                    if( get_option<std::string>( "USE_METRIC_WEIGHTS" ) == "kg" ) {
                         mvwprintz( w_stats, 7, 1, c_magenta, _( "Carry weight(kg):" ) );
                     } else {
                         mvwprintz( w_stats, 7, 1, c_magenta, _( "Carry weight(lbs):" ) );
@@ -3614,7 +3614,7 @@ void player::disp_status( WINDOW *w, WINDOW *w2 )
         int speedox = sideStyle ? 0 : 33;
         int speedoy = sideStyle ? 5 :  3;
 
-        bool metric = OPTIONS["USE_METRIC_SPEEDS"] == "km/h";
+        bool metric = get_option<std::string>( "USE_METRIC_SPEEDS" ) == "km/h";
         // Logic below is not applicable to translated units and should be changed
         int velx    = metric ? 4 : 3; // strlen(units) + 1
         int cruisex = metric ? 9 : 8; // strlen(units) + 6
@@ -4378,14 +4378,14 @@ int player::read_speed(bool return_stat_effect) const
 
 int player::rust_rate(bool return_stat_effect) const
 {
-    if (OPTIONS["SKILL_RUST"] == "off") {
+    if (get_option<std::string>( "SKILL_RUST" ) == "off") {
         return 0;
     }
 
     // Stat window shows stat effects on based on current stat
     int intel = get_int();
     ///\EFFECT_INT reduces skill rust
-    int ret = ((OPTIONS["SKILL_RUST"] == "vanilla" || OPTIONS["SKILL_RUST"] == "capped") ? 500 : 500 - 35 * (intel - 8));
+    int ret = ((get_option<std::string>( "SKILL_RUST" ) == "vanilla" || get_option<std::string>( "SKILL_RUST" ) == "capped") ? 500 : 500 - 35 * (intel - 8));
 
     if (has_trait("FORGETFUL")) {
         ret *= 1.33;
@@ -8145,7 +8145,7 @@ void player::suffer()
         } else if (radiation > 2000) {
             radiation = 2000;
         }
-        if( OPTIONS["RAD_MUTATION"] && rng(100, 10000) < radiation ) {
+        if( get_option<bool>( "RAD_MUTATION" ) && rng(100, 10000) < radiation ) {
             mutate();
             radiation -= 50;
         } else if( radiation > 50 && rng(1, 3000) < radiation &&
@@ -9420,11 +9420,11 @@ bool player::consume(int target_position)
             add_msg_if_player(_("You are now wearing an empty %s."), target.tname().c_str());
         } else if( was_in_container && !is_npc() ) {
             bool drop_it = false;
-            if (OPTIONS["DROP_EMPTY"] == "no") {
+            if (get_option<std::string>( "DROP_EMPTY" ) == "no") {
                 drop_it = false;
-            } else if (OPTIONS["DROP_EMPTY"] == "watertight") {
+            } else if (get_option<std::string>( "DROP_EMPTY" ) == "watertight") {
                 drop_it = !target.is_watertight_container();
-            } else if (OPTIONS["DROP_EMPTY"] == "all") {
+            } else if (get_option<std::string>( "DROP_EMPTY" ) == "all") {
                 drop_it = true;
             }
             if (drop_it) {
@@ -12561,35 +12561,42 @@ bool player::knows_recipe(const recipe *rec) const
     return false;
 }
 
-int player::has_recipe( const recipe *r, const inventory &crafting_inv ) const
+int player::has_recipe( const recipe *r, const inventory &crafting_inv,
+                        const std::vector<npc *> &helpers ) const
 {
+    if( !r->skill_used ) {
+        return 0;
+    }
+
+    if( knows_recipe( r ) ) {
+        return r->difficulty;
+    }
+
+    int difficulty = INT_MAX;
+
     // Iterate over the nearby items and see if there's a book that has the recipe.
     const_invslice slice = crafting_inv.const_slice();
-    int difficulty = -1;
     for( auto stack = slice.cbegin(); stack != slice.cend(); ++stack ) {
         // We are only checking qualities, so we only care about the first item in the stack.
         const item &candidate = (*stack)->front();
-        if( candidate.is_book() && items_identified.count(candidate.typeId()) ) {
-            for( auto const & elem : candidate.type->book->recipes ) {
-                // Does it have the recipe, and do we meet it's requirements?
-                if( elem.recipe != r ) {
-                    continue;
-                }
-                if( ( !r->skill_used ||
-                      get_skill_level(r->skill_used) >= r->difficulty ) &&
-                    ( difficulty == -1 || r->difficulty < difficulty ) ) {
-                    difficulty = r->difficulty;
-                }
-            }
-        } else {
-            if (candidate.has_flag("HAS_RECIPE")){
-                if (candidate.get_var("RECIPE") == r->ident()){
-                    if (difficulty == -1) difficulty = r->difficulty;
+        if( candidate.is_book() && items_identified.count( candidate.typeId() ) ) {
+            for( auto const &elem : candidate.type->book->recipes ) {
+                if( elem.recipe == r && get_skill_level( r->skill_used ) >= elem.skill_level ) {
+                    difficulty = std::min( difficulty, elem.skill_level );
                 }
             }
         }
     }
-    return difficulty;
+
+    if( get_skill_level( r->skill_used ) >= (int)( r->difficulty * 0.8f ) ) {
+        for( const npc *np : helpers ) {
+            if( np->knows_recipe( r ) ) {
+                difficulty = std::min( difficulty, r->difficulty );
+            }
+        }
+    }
+
+    return difficulty < INT_MAX ? difficulty : -1;
 }
 
 void player::learn_recipe( const recipe * const rec, bool force )
@@ -13113,6 +13120,8 @@ Creature::Attitude player::attitude_to( const Creature &other ) const
         } else {
             return A_NEUTRAL;
         }
+    } else if( &other == this ) {
+        return A_FRIENDLY;
     }
 
     return A_NEUTRAL;
@@ -13470,34 +13479,6 @@ void player::blossoms()
             g->m.add_field( tmp, fd_fungal_haze, rng(1, 2), 0 );
         }
     }
-}
-
-int player::add_ammo_to_worn_quiver( item &ammo )
-{
-    std::vector<item *>quivers;
-    for( auto & worn_item : worn) {
-        if( worn_item.type->can_use( "QUIVER")) {
-            quivers.push_back( &worn_item);
-        }
-    }
-
-    // sort quivers by contents, such that empty quivers go last
-    std::sort( quivers.begin(), quivers.end(), item_ptr_compare_by_charges);
-
-    int quivered_sum = 0;
-    int move_cost_per_arrow = 10;
-    for( std::vector<item *>::iterator it = quivers.begin(); it != quivers.end(); it++) {
-        item *quiver = *it;
-        int stored = quiver->quiver_store_arrow( ammo);
-        if( stored > 0) {
-            add_msg_if_player( ngettext( "You store %1$d %2$s in your %3$s.", "You store %1$d %2$s in your %3$s.", stored),
-                               stored, quiver->contents.front().type_name(stored).c_str(), quiver->type_name().c_str());
-        }
-        moves -= std::min( 100, stored * move_cost_per_arrow);
-        quivered_sum += stored;
-    }
-
-    return quivered_sum;
 }
 
 float player::power_rating() const

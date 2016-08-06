@@ -16,6 +16,7 @@ class Skill;
 using skill_id = string_id<Skill>;
 class inventory;
 class player;
+class npc;
 
 enum body_part : int; // From bodypart.h
 typedef int nc_color; // From color.h
@@ -109,6 +110,9 @@ struct recipe {
         bool has_byproducts() const;
 
         bool can_make_with_inventory( const inventory &crafting_inv, int batch = 1 ) const;
+        bool can_make_with_inventory( const inventory &crafting_inv,
+                                      const std::vector<npc *> &helpers,
+                                      int batch = 1 ) const;
         bool check_eligible_containers_for_crafting( int batch = 1 ) const;
 
         // Can this recipe be memorized?
@@ -142,10 +146,12 @@ void finalize_recipes();
 bool query_dissamble( const item &dis_item );
 const recipe *select_crafting_recipe( int &batch_size );
 void pick_recipes( const inventory &crafting_inv,
+                   const std::vector<npc *> &helpers,
                    std::vector<const recipe *> &current,
                    std::vector<bool> &available, std::string tab,
                    std::string subtab, std::string filter );
 void batch_recipes( const inventory &crafting_inv,
+                    const std::vector<npc *> &helpers,
                     std::vector<const recipe *> &current,
                     std::vector<bool> &available, const recipe *r );
 

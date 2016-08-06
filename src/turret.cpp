@@ -158,8 +158,8 @@ bool turret_data::can_reload() const
     if( !veh || !part || part->info().has_flag( "USE_TANKS" ) ) {
         return false;
     }
-    if( !part->base.magazine_integral() && !part->base.magazine_current() ) {
-        return true;
+    if( !part->base.magazine_integral() ) {
+        return true; // always allow changing of magazines
     }
     return part->base.ammo_remaining() < part->base.ammo_capacity();
 }
