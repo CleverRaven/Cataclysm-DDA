@@ -13,7 +13,6 @@
     "ammo_type" : "44",
     "capacity" : 8,
     "reliability" : 8,
-    "reload_time" : 100,
     "flags": [ "MAG_COMPACT" ]
   }
 ]

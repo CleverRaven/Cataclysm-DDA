@@ -30,7 +30,6 @@
     "ammo_type" : "45",
     "capacity" : 10,
     "reliability" : 9,
-    "reload_time" : 100,
     "flags": [ "MAG_COMPACT" ]
   },
   {
@@ -47,7 +46,6 @@
     "ammo_type" : "45",
     "capacity" : 7,
     "reliability" : 10,
-    "reload_time" : 100,
     "flags": [ "MAG_COMPACT" ]
   },
   {
@@ -64,7 +62,6 @@
     "ammo_type" : "45",
     "capacity" : 30,
     "reliability" : 7,
-    "reload_time" : 100,
     "flags" : [ "MAG_COMPACT" ]
   },
   {
@@ -81,7 +78,6 @@
     "ammo_type" : "45",
     "capacity" : 30,
     "reliability" : 9,
-    "reload_time" : 100,
     "flags" : [ "MAG_COMPACT" ]
   },
   {
@@ -132,7 +128,6 @@
     "ammo_type" : "45",
     "capacity" : 20,
     "reliability" : 8,
-    "reload_time" : 100,
     "flags": [ "MAG_COMPACT" ]
   },
   {
@@ -149,7 +144,6 @@
     "ammo_type" : "45",
     "capacity" : 25,
     "reliability" : 9,
-    "reload_time" : 100,
     "flags" : [ "MAG_COMPACT" ]
   },
   {
@@ -166,7 +160,6 @@
     "ammo_type" : "45",
     "capacity" : 12,
     "reliability" : 10,
-    "reload_time" : 100,
     "flags": [ "MAG_COMPACT" ]
   }
 ]
