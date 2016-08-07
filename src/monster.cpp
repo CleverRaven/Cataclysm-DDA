@@ -1521,7 +1521,8 @@ void monster::normalize_ammo( const int old_ammo )
 void monster::explode()
 {
     // Handled in mondeath::normal
-    hp = INT_MIN;
+    // +1 to avoid overflow when evaluating -hp
+    hp = INT_MIN + 1;
 }
 
 void monster::process_turn()
