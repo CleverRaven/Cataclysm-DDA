@@ -704,13 +704,13 @@ void vehicle_prototype::finalize()
             }
 
             if( !base->gun ) {
-                if( pt.with_ammo ) {
+                if( pt.with_ammo  ) {
                     debugmsg( "init_vehicles: non-turret %s with ammo in %s", pt.part.c_str(), id.c_str() );
                 }
                 if( !pt.ammo_types.empty() ) {
                     debugmsg( "init_vehicles: non-turret %s with ammo_types in %s", pt.part.c_str(), id.c_str() );
                 }
-                if( pt.ammo_qty.first || pt.ammo_qty.second ) {
+                if( pt.ammo_qty.first > 0 || pt.ammo_qty.second > 0 ) {
                     debugmsg( "init_vehicles: non-turret %s with ammo_qty in %s", pt.part.c_str(), id.c_str() );
                 }
 
@@ -724,6 +724,12 @@ void vehicle_prototype::finalize()
                 }
                 if( pt.ammo_types.empty() ) {
                     pt.ammo_types.insert( default_ammo( base->gun->ammo ) );
+                }
+                if( pt.ammo_qty.first < 0 ) {
+                    pt.ammo_qty.first = INT_MAX;
+                }
+                if( pt.ammo_qty.second < 0 ) {
+                    pt.ammo_qty.second = INT_MAX;
                 }
             }
 
