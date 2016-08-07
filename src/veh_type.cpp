@@ -621,6 +621,7 @@ void vehicle_prototype::load(JsonObject &jo)
 
         assign( part, "ammo", pt.with_ammo, true, 0, 100 );
         assign( part, "ammo_types", pt.ammo_types, true );
+        assign( part, "ammo_qty", pt.ammo_qty, true, 0 );
 
         vproto.parts.push_back( pt );
     }
@@ -708,6 +709,9 @@ void vehicle_prototype::finalize()
                 }
                 if( !pt.ammo_types.empty() ) {
                     debugmsg( "init_vehicles: non-turret %s with ammo_types in %s", pt.part.c_str(), id.c_str() );
+                }
+                if( pt.ammo_qty.first || pt.ammo_qty.second ) {
+                    debugmsg( "init_vehicles: non-turret %s with ammo_qty in %s", pt.part.c_str(), id.c_str() );
                 }
 
             } else {

@@ -886,11 +886,11 @@ typename std::enable_if<std::is_arithmetic<T>::value, bool>::type assign(
 
 template <typename T>
 typename std::enable_if<std::is_arithmetic<T>::value, bool>::type assign(
-    JsonObject &jo, const std::string &name, std::pair<T,T> &val, bool strict = false,
+    JsonObject &jo, const std::string &name, std::pair<T, T> &val, bool strict = false,
     T lo = std::numeric_limits<T>::min(),
     T hi = std::numeric_limits<T>::max() )
 {
-    std::pair<T,T> out;
+    std::pair<T, T> out;
 
     if( jo.has_array( name ) ) {
         auto arr = jo.get_array( name );

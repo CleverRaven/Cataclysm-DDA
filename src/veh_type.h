@@ -227,6 +227,7 @@ struct vehicle_prototype {
         vpart_str_id part;
         int with_ammo = 0;
         std::set<itype_id> ammo_types;
+        std::pair<int, int> ammo_qty;
     };
 
     std::string name;
