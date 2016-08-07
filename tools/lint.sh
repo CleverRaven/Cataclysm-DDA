@@ -1,6 +1,6 @@
 #!/bin/sh
 
-PERL=`whereis -qb perl`
+PERL=`which perl`
 if [ $? -ne 0 ]; then
     echo "perl is required to run this script"
     exit 69; # EX_UNAVAILABLE

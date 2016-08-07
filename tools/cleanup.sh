@@ -41,13 +41,13 @@ cleanup() {
     exit 0;
 }
 
-PERL=`whereis -qb perl`
+PERL=`which perl`
 if [ $? -ne 0 ]; then
     echo "perl is required to run this script"
     exit 69; # EX_UNAVAILABLE
 fi
 
-JQ=`whereis -qb jq`
+JQ=`which jq`
 if [ $? -ne 0 ]; then
     echo "jq is required to run this script"
     exit 69; # EX_UNAVAILABLE
