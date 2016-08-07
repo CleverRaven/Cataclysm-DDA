@@ -23,8 +23,7 @@
     "type": "AMMO",
     "category": "spare_parts",
     "name": "light rifle ammo casing",
-    "description": "An empty casing from a light rifle round.",
-    "ammo_type": "556"
+    "description": "An empty casing from a light rifle round."
   },
   {
     "id": "308_casing",
@@ -93,20 +92,9 @@
     "id": "223",
     "copy-from": "223",
     "type": "AMMO",
-    "name": "handloaded light rifle ammo",
-    "name_plural": "handloaded light rifle ammo",
-    "//": "weapons with ammo spawn default type even blacklisted.",
-    "description": "Hand-loaded ammunition for lighter rifles, designed for small game and humans.",
-    "ammo_type": "556"
-  },
-  {
-    "id": "556",
-    "copy-from": "556",
-    "type": "AMMO",
     "name": "light rifle ammo",
     "name_plural": "light rifle ammo",
-    "description": "Low recoil ammunition for rifles, designed for small game and humans.",
-    "ammo_type": "556"
+    "description": "Low recoil ammunition for rifles, designed for small game and humans."
   },
   {
     "id": "556_incendiary",
@@ -114,26 +102,15 @@
     "type": "AMMO",
     "name": "light rifle ammo, incendiary",
     "name_plural": "light rifle ammo, incendiary",
-    "description": "Military ammunition for rifles, designed to burn hotly upon impact, piercing armor and igniting flammable substances.",
-    "ammo_type": "556"
+    "description": "Military ammunition for rifles, designed to burn hotly upon impact, piercing armor and igniting flammable substances."
   },
   {
     "id": "308",
     "copy-from": "308",
     "type": "AMMO",
-    "name": "handloaded rifle ammo",
-    "name_plural": "hand loaded rifle ammo",
-    "description": "Hand-loaded ammunition for rifles, meant for taking down large game or humans.",
-    "ammo_type": "762"
-  },
-  {
-    "id": "762_51",
-    "copy-from": "762_51",
-    "type": "AMMO",
     "name": "rifle ammo",
     "name_plural": "rifle ammo",
-    "description": "Powerful and accurate ammunition for rifles, meant for taking down large game or humans.",
-    "ammo_type": "762"
+    "description": "Powerful and accurate ammunition for rifles, meant for taking down large game or humans."
   },
   {
     "id": "762_51_incendiary",
