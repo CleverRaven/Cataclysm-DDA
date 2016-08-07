@@ -220,7 +220,6 @@
     "name": "L39B",
     "description": "A selective-firing 9mm handgun introduced in 2039, Leadworks LLC's L39B provides accurate single-shot placement as well as controllable short-range firepower with its three-round burst mode.  Users praised its accuracy and fearsome appearance.",
     "price": 95000,
-    "ammo": "9mm",
     "relative": {
         "weight": 130,
         "recoil": 15,
@@ -246,7 +245,6 @@
     "range": 1,
     "dispersion": 150,
     "sight_dispersion": 90,
-    "aim_speed": 4,
     "recoil": 60,
     "durability": 9,
     "magazine_well": 1,

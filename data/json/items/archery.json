@@ -574,7 +574,6 @@
       "range" : 5,
       "dispersion" : 250,
       "sight_dispersion": 150,
-      "aim_speed" : 0,
       "durability" : 6,
       "clip_size" : 1,
       "reload" : 70
@@ -606,7 +605,6 @@
       "range" : 6,
       "dispersion" : 210,
       "sight_dispersion": 150,
-      "aim_speed" : 0,
       "durability" : 6,
       "clip_size" : 1,
       "reload" : 60,
@@ -640,10 +638,8 @@
       "range" : 10,
       "dispersion" : 180,
       "sight_dispersion": 150,
-      "aim_speed" : 0,
       "durability" : 6,
       "clip_size" : 1,
-      "reload" : 100,
       "valid_mod_locations": [["underbarrel", 1],[ "sights", 1 ],[ "accessories", 2 ]]
    },
    {
@@ -673,7 +669,6 @@
       "range" : 12,
       "dispersion" : 150,
       "sight_dispersion": 150,
-      "aim_speed" : 0,
       "durability" : 6,
       "clip_size" : 1,
       "reload" : 110,
@@ -706,10 +701,8 @@
       "range" : 14,
       "dispersion" : 120,
       "sight_dispersion": 150,
-      "aim_speed" : 0,
       "durability" : 6,
       "clip_size" : 1,
-      "reload" : 100,
       "valid_mod_locations": [["underbarrel", 1],[ "sights", 1 ],[ "accessories", 2 ]]
    },
    {
@@ -739,10 +732,8 @@
       "range" : 16,
       "dispersion" : 120,
       "sight_dispersion": 150,
-      "aim_speed" : 0,
       "durability" : 6,
       "clip_size" : 1,
-      "reload" : 100,
       "valid_mod_locations": [["underbarrel", 1],[ "sights", 1 ],[ "accessories", 2 ]]
    },
    {
@@ -772,7 +763,6 @@
       "range" : 20,
       "dispersion" : 210,
       "sight_dispersion": 150,
-      "aim_speed" : 0,
       "durability" : 6,
       "clip_size" : 1,
       "reload" : 80,
@@ -805,7 +795,6 @@
       "range" : 18,
       "dispersion" : 120,
       "sight_dispersion": 150,
-      "aim_speed" : 0,
       "durability" : 6,
       "clip_size" : 1,
       "reload" : 80,
@@ -833,7 +822,6 @@
       "aim_speed" : 4,
       "durability" : 6,
       "clip_size" : 1,
-      "reload" : 100,
       "valid_mod_locations": [[ "accessories", 2 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
    },
    {
@@ -905,7 +893,6 @@
       "volume" : 10,
       "bashing" : 13,
       "to_hit" : -1,
-      "ranged_damage" : 0,
       "range" : 8,
       "dispersion" : 500,
       "sight_dispersion": 90,

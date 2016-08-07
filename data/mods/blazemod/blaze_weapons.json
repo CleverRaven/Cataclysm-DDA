@@ -112,7 +112,6 @@
     "aim_speed" : 0,
     "recoil": 0,
     "durability": 8,
-    "burst": 0,
     "reload": 0,
     "valid_mod_locations": []
   },

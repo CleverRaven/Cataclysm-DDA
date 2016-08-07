@@ -58,7 +58,6 @@
     "ammo_type" : "223",
     "capacity" : 10,
     "reliability" : 9,
-    "reload_time" : 100,
     "flags" : [ "MAG_COMPACT" ]
   },
   {
@@ -75,7 +74,6 @@
     "ammo_type" : "223",
     "capacity" : 30,
     "reliability" : 8,
-    "reload_time" : 100,
     "flags" : [ "MAG_COMPACT" ]
   },
   {
