@@ -136,7 +136,7 @@ item::item( const itype *type, int turn, long qty ) : type( type )
 
     } else if( type->magazine ) {
         if( type->magazine->count > 0 ) {
-            emplace_back( default_ammo( type->magazine->type ), calendar::turn, type->magazine->count );
+            emplace_back( type->magazine->default_ammo, calendar::turn, type->magazine->count );
         }
 
     } else if( type->comestible ) {

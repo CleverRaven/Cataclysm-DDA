@@ -199,6 +199,10 @@ void Item_factory::finalize() {
                 obj.ammo->special_cookoff = false;
             }
         }
+        // for magazines ensure default_ammo is set
+        if( obj.magazine && obj.magazine->default_ammo == "NULL" ) {
+               obj.magazine->default_ammo = default_ammo( obj.magazine->type );
+        }
         if( obj.gun ) {
             // @todo add explicit action field to gun definitions
             std::string defmode = "semi-auto";
@@ -822,6 +826,10 @@ void Item_factory::check_definitions() const
             if( type->magazine->count < 0 || type->magazine->count > type->magazine->capacity ) {
                 msg << string_format("invalid count %i", type->magazine->count) << "\n";
             }
+            const itype *da = find_template( type->magazine->default_ammo );
+            if( !( da->ammo && da->ammo->type == type->magazine->type ) ) {
+                msg << string_format( "invalid default_ammo %s", type->magazine->default_ammo.c_str() ) << "\n";
+            }
             if( type->magazine->reliability < 0 || type->magazine->reliability > 100) {
                 msg << string_format("invalid reliability %i", type->magazine->reliability) << "\n";
             }
@@ -1401,6 +1409,7 @@ void Item_factory::load( islot_magazine &slot, JsonObject &jo, const std::string
     assign( jo, "ammo_type", slot.type, strict );
     assign( jo, "capacity", slot.capacity, strict, 0 );
     assign( jo, "count", slot.count, strict, 0 );
+    assign( jo, "default_ammo", slot.default_ammo, strict );
     assign( jo, "reliability", slot.reliability, strict, 0, 10 );
     assign( jo, "reload_time", slot.reload_time, strict, 0 );
     assign( jo, "linkage", slot.linkage, strict );

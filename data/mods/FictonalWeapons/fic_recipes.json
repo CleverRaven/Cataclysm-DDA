@@ -13,7 +13,8 @@
     "tools": [
       [ ["mold_plastic", -1] ],
       [
-        [ "welder", 100 ],
+        [ "welder", 70 ],
+        [ "welder_crude", 100 ],
         [ "soldering_iron", 100 ],
         [ "toolset", 100 ]
       ]
