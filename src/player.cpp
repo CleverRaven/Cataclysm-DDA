@@ -76,6 +76,8 @@
 #include <fstream>
 #include <limits>
 
+const int MIN_RECOIL = 150;
+
 const mtype_id mon_dermatik_larva( "mon_dermatik_larva" );
 const mtype_id mon_player_blob( "mon_player_blob" );
 const mtype_id mon_shadow_snake( "mon_shadow_snake" );
@@ -1871,6 +1873,11 @@ bool player::is_immune_damage( const damage_type dt ) const
         default:
             return true;
     }
+}
+
+double player::recoil_current() const
+{
+    return recoil + driving_recoil;
 }
 
 bool player::is_underwater() const

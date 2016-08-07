@@ -92,7 +92,7 @@ class player_morale_ptr : public std::unique_ptr<player_morale> {
 
 // The minimum level recoil will reach without aiming.
 // Sets the floor for accuracy of a "snap" or "hip" shot.
-#define MIN_RECOIL 150
+extern const int MIN_RECOIL;
 
 //Don't forget to add new memorial counters
 //to the save and load functions in savegame_json.cpp
@@ -487,10 +487,15 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
          * @param force_technique special technique to use in attack.
          */
         void melee_attack(Creature &t, bool allow_special, const matec_id &force_technique) override;
+
         /** Returns a weapon's modified dispersion value */
-        double get_weapon_dispersion( const item *weapon, bool random ) const;
+        double get_weapon_dispersion( const item &obj ) const;
+
         /** Returns true if a gun misfires, jams, or has other problems, else returns false */
         bool handle_gun_damage( item &firing );
+
+        /** Current maximum recoil penalty */
+        double recoil_current() const;
 
         /**
          * Calculate range at which given chance of hit considering player stats, clothing and recoil

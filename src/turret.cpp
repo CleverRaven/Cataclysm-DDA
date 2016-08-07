@@ -391,8 +391,7 @@ int vehicle::automatic_fire_turret( vehicle_part &pt )
         const bool u_see = g->u.sees( pos );
         int boo_hoo;
 
-        // @todo calculate chance to hit and cap range based upon this
-        int range = std::min( gun.range(), 12 );
+        int range = round( tmp.gun_engagement_range( pt.base, player::engagement::effective_min ) );
         Creature *auto_target = tmp.auto_find_hostile_target( range, boo_hoo, area );
         if( auto_target == nullptr ) {
             if( u_see && boo_hoo ) {

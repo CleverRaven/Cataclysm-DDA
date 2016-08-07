@@ -1191,13 +1191,7 @@ int npc::confident_gun_mode_range( const item::gun_mode &gun, int at_recoil ) co
         return 0;
     }
 
-    double deviation = get_weapon_dispersion( gun.target, false ) + at_recoil;
-    // Halve to get expected values
-    deviation /= 2;
-    // Convert from MoA back to quarter-degrees.
-    deviation /= 15;
-
-    int ret = std::min( int( confidence_mult() * 360 / deviation ), gun->gun_range( this ) );
+    int ret = gun_engagement_range( *gun, engagement::effective_min, at_recoil );
 
     // 5 round burst equivalent to ~2 individually aimed shots
     ret /= std::max( sqrt( gun.qty / 1.5 ), 1.0 );
