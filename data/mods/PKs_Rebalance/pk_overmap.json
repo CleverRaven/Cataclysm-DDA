@@ -1,6 +1,26 @@
 [
     {
         "type" : "overmap_special",
+        "id" : "Bee Hive",
+        "overmaps" : [
+            { "point":[0,0,0], "overmap": "hive"},
+            { "point":[0,1,0], "overmap": "hive"},
+            { "point":[0,2,0], "overmap": "hive"},
+            { "point":[1,0,0], "overmap": "hive"},
+            { "point":[1,1,0], "overmap": "beehive_center"},
+            { "point":[1,2,0], "overmap": "hive"},
+            { "point":[2,0,0], "overmap": "hive"},
+            { "point":[2,1,0], "overmap": "hive"},
+            { "point":[2,2,0], "overmap": "hive"}
+        ],
+        "locations" : [ "forest" ],
+        "city_distance" : [12, -1],
+        "city_sizes" : [1, 16],
+        "occurrences" : [0, 8],
+        "rotate" : false,
+        "spawns" : { "group" : "GROUP_BEE", "population":[1200,3600], "radius":[50,100] }
+    },{
+        "type" : "overmap_special",
         "id" : "Farm",
         "overmaps" : [
             { "point":[0,0,0], "overmap": "farm_field"},
