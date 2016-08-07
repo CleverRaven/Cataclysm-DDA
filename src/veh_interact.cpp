@@ -1406,20 +1406,20 @@ void veh_interact::display_contents()
                 }
 
             } else if( turret.ammo_capacity() > 0 ) {
-                hdr += string_format( " (%i/%i)", turret.ammo_remaining(), turret.ammo_capacity() );
+                hdr += string_format( " <color_grey>(%i/%i)</color>", turret.ammo_remaining(), turret.ammo_capacity() );
                 if( turret.ammo_remaining() && turret.ammo_current() != "null" ) {
                     msg = item::nname( turret.ammo_current(), turret.ammo_remaining() );
                 }
             }
 
         } else if( pt->is_battery() ) {
-            hdr += string_format( " (%i/%i)", pt->ammo_remaining(), pt->ammo_capacity() );
+            hdr += string_format( " <color_grey>(%i/%i)</color>", pt->ammo_remaining(), pt->ammo_capacity() );
 
         } else if( pt->is_tank() ) {
             if( pt->ammo_remaining() > 0 ) {
-                msg = string_format( "%s (%i)",
+                hdr += string_format( " <color_grey>with %s (%i/%i)</color>",
                                      item::nname( pt->ammo_current(), pt->ammo_remaining() ).c_str(),
-                                     pt->ammo_remaining() );
+                                     pt->ammo_remaining(), pt->ammo_capacity() );
             }
         }
 
