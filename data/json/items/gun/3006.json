@@ -8,13 +8,13 @@
     "weight": 3135,
     "volume": 12,
     "price": 85000,
-    "bashing": 12,
     "to_hit": -1,
+    "bashing": 12,
     "material": [ "steel", "plastic" ],
     "symbol": "(",
     "color": "brown",
-    "skill": "rifle",
     "ammo": "3006",
+    "skill": "rifle",
     "ranged_damage": -1,
     "sight_dispersion": 60,
     "aim_speed": 6,
@@ -23,9 +23,7 @@
     "barrel_length": 2,
     "valid_mod_locations": [ [ "accessories", 4 ], [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "muzzle", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
     "magazine_well": 1,
-    "magazines": [
-      [ "3006", [ "blrmag" ] ]
-    ]
+    "magazines": [ [ "3006", [ "blrmag" ] ] ]
   },
   {
     "id": "garand",
@@ -35,24 +33,22 @@
     "weight": 4280,
     "volume": 10,
     "price": 90000,
-    "bashing": 12,
     "to_hit": -1,
-    "material": ["steel", "wood"],
+    "bashing": 12,
+    "material": [ "steel", "wood" ],
     "symbol": "(",
     "color": "brown",
-    "skill": "rifle",
     "ammo": "3006",
+    "skill": "rifle",
     "dispersion": 2,
     "sight_dispersion": 60,
-    "aim_speed" : 6,
+    "aim_speed": 6,
     "recoil": -15,
     "durability": 8,
     "reload": 150,
-    "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]],
-    "magazine_well" : 1,
-    "magazines" : [
-      [ "3006", [ "garandclip" ] ]
-    ]
+    "valid_mod_locations": [ [ "accessories", 4 ], [ "barrel", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "muzzle", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
+    "magazine_well": 1,
+    "magazines": [ [ "3006", [ "garandclip" ] ] ]
   },
   {
     "id": "m1903",
@@ -63,8 +59,8 @@
     "weight": 4080,
     "volume": 12,
     "price": 80000,
-    "bashing": 12,
     "to_hit": -1,
+    "bashing": 12,
     "material": [ "steel", "wood" ],
     "color": "brown",
     "ammo": "3006",
@@ -76,7 +72,7 @@
     "reload": 75,
     "barrel_length": 1,
     "valid_mod_locations": [ [ "accessories", 4 ], [ "barrel", 1 ], [ "bore", 1 ], [ "mechanism", 4 ], [ "muzzle", 1 ], [ "sights", 1 ] ],
-    "flags": "RELOAD_ONE"
+    "flags": [ "RELOAD_ONE" ]
   },
   {
     "id": "m1918",
@@ -86,24 +82,22 @@
     "weight": 7050,
     "volume": 10,
     "price": 350000,
-    "bashing": 12,
     "to_hit": -1,
-    "material": ["steel", "wood"],
+    "bashing": 12,
+    "material": [ "steel", "wood" ],
     "symbol": "(",
     "color": "dark_gray",
-    "skill": "rifle",
     "ammo": "3006",
+    "skill": "rifle",
     "dispersion": 75,
     "sight_dispersion": 60,
-    "aim_speed" : 6,
+    "aim_speed": 6,
     "recoil": 30,
     "durability": 8,
-    "barrel_length" : 4,
     "burst": 5,
-    "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]],
-    "magazines" : [
-       [ "3006", [ "m1918mag", "m1918bigmag" ] ]
-    ]
+    "barrel_length": 4,
+    "valid_mod_locations": [ [ "accessories", 4 ], [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "muzzle", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
+    "magazines": [ [ "3006", [ "m1918mag", "m1918bigmag" ] ] ]
   },
   {
     "id": "remington_700",
@@ -115,8 +109,8 @@
     "weight": 4080,
     "volume": 12,
     "price": 87000,
-    "bashing": 12,
     "to_hit": -1,
+    "bashing": 12,
     "material": [ "steel", "plastic" ],
     "color": "brown",
     "ammo": "3006",
@@ -133,18 +127,19 @@
     "type": "GUN",
     "name": "pipe rifle: .30-06",
     "name_plural": "pipe rifles: .30-06",
+    "//": "It's the same size as the others, but it's still a scrap weapon.",
     "description": "A homemade rifle.  It is simply a pipe attached to a stock, with a hammer to strike the single round it holds.  This one is made to support more gun attachments.",
     "weight": 4080,
     "volume": 12,
     "price": 110000,
-    "bashing": 12,
     "to_hit": -1,
+    "bashing": 12,
     "material": [ "steel", "wood" ],
     "symbol": "(",
     "color": "brown",
-    "skill": "rifle",
     "ammo": "3006",
-    "ranged_damage": -2, "//": "It's the same size as the others, but it's still a scrap weapon.",
+    "skill": "rifle",
+    "ranged_damage": -2,
     "dispersion": 60,
     "sight_dispersion": 150,
     "aim_speed": 6,
@@ -155,7 +150,7 @@
     "reload": 200,
     "barrel_length": 4,
     "valid_mod_locations": [ [ "accessories", 2 ], [ "muzzle", 1 ], [ "stock", 1 ] ],
-    "flags": "RELOAD_ONE"
+    "flags": [ "RELOAD_ONE" ]
   },
   {
     "id": "survivor_special_700",
@@ -166,9 +161,9 @@
     "description": "A rusty receiver, a R700 pattern barrel and half a broken crutch; all held together in the shape of a rifle with nothing more than glue, duct tape, and generous amounts of faith.",
     "price": 100000,
     "sight_dispersion": 120,
-    "relative": { "durability": -3 },
     "clip_size": 1,
-    "proportional": { "reload": 4.0 },
-    "valid_mod_locations": [ [ "accessories", 4 ], [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "muzzle", 1 ], [ "sights", 1 ] ]
+    "valid_mod_locations": [ [ "accessories", 4 ], [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "muzzle", 1 ], [ "sights", 1 ] ],
+    "relative": { "durability": -3 },
+    "proportional": { "reload": 4 }
   }
 ]

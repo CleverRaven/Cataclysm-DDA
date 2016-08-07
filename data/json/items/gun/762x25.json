@@ -7,27 +7,25 @@
     "weight": 3630,
     "volume": 8,
     "price": 280000,
-    "bashing": 10,
     "to_hit": -2,
+    "bashing": 10,
     "material": [ "steel", "wood" ],
     "symbol": "(",
     "color": "brown",
-    "skill": "smg",
     "ammo": "762x25",
+    "skill": "smg",
     "dispersion": 120,
     "sight_dispersion": 90,
     "aim_speed": 4,
     "recoil": -15,
-    "barrel_length": 2,
     "durability": 8,
+    "barrel_length": 2,
     "modes": [
       [ "DEFAULT", "semi-auto", 1 ],
       [ "AUTO", "auto", 8 ]
     ],
-    "valid_mod_locations": [[ "accessories", 3 ], [ "barrel", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "muzzle", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ]],
-    "magazines": [
-      [ "762x25", [ "ppshmag", "ppshdrum" ] ]
-    ]
+    "valid_mod_locations": [ [ "accessories", 3 ], [ "barrel", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "muzzle", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
+    "magazines": [ [ "762x25", [ "ppshmag", "ppshdrum" ] ] ]
   },
   {
     "id": "tokarev",
@@ -35,12 +33,13 @@
     "type": "GUN",
     "name": "Tokarev TT-30",
     "name_plural": "Tokarev TT-30",
+    "//": "And it's therefore expensive.",
     "description": "The Norinco manufactured Tokarev TT-30 is the standard sidearm of the Chinese military, it does not see extensive use outside of China.",
     "weight": 798,
     "volume": 2,
-    "price": 140000, "//" : "And it's therefore expensive.",
-    "bashing": 10,
+    "price": 140000,
     "to_hit": -2,
+    "bashing": 10,
     "material": [ "steel", "plastic" ],
     "ammo": "762x25",
     "dispersion": 225,
