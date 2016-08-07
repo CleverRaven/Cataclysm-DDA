@@ -550,5 +550,20 @@
         "to_hit": 2,
         "flags": ["SHEATH_SWORD","CHOP"],
         "techniques": ["WBLOCK_2"]
+    },
+    {
+        "type":"GENERIC",
+        "id": "skewer",
+        "symbol": ",",
+        "color": "brown",
+        "name": "skewer",
+        "description": "A thin wooden skewer.  Squirrel on a stick, anyone?",
+        "category": "other",
+        "material": "wood",
+        "flags": [ "NO_SALVAGE", "TRADER_AVOID" ],
+        "weight": 6,
+        "volume": 0,
+        "to_hit": -5,
+        "qualities": [["COOK", 1]]
     }
 ]
