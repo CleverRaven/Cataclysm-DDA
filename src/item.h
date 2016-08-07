@@ -156,7 +156,7 @@ class item : public JsonSerializer, public JsonDeserializer, public visitable<it
 
         /**
          * Filter setting the ammo for this instance
-         * Any existing ammo is removed. If necessary a default magazine is also added.
+         * Any existing ammo is removed. If necessary a magazine is also added.
          * @param ammo specific type of ammo (must be compatible with item ammo type)
          * @param qty maximum ammo (capped by item capacity) or negative to fill to capacity
          * @return same instance to allow method chaining
