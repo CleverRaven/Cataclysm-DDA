@@ -529,10 +529,9 @@ public:
 
     /**
      *  Operate vehicle controls
-     *  @param pos Position of controls to operate
-     *  @param remote_action true if controls operated via remote controller
+     *  @param pos location of physical controls to operate (ignored during remote operation)
      */
-    void use_controls(const tripoint &pos, const bool remote_action = false);
+    void use_controls(const tripoint &pos );
 
     // Fold up the vehicle
     bool fold_up();
@@ -618,6 +617,9 @@ public:
      */
     std::vector<vehicle_part *> get_parts( const tripoint &pos, const std::string &flag = "", bool enabled = false );
     std::vector<const vehicle_part *> get_parts( const tripoint &pos, const std::string &flag = "", bool enabled = false ) const;
+
+    /** Test if part can be enabled (unbroken, sufficient fuel etc), optionally displaying failures to user */
+    bool can_enable( const vehicle_part &pt, bool alert = false ) const;
 
     /**
      *  Return the index of the next part to open at `p`'s location
@@ -750,9 +752,6 @@ public:
      * @param active if true return only lights which are enabled
      */
     std::vector<vehicle_part *> lights( bool active = false );
-
-    /** Enable or disable specific vehicle lighting parts */
-    void lights_control();
 
     void power_parts();
 
@@ -1159,32 +1158,20 @@ public:
     float of_turn_carry;// leftover from prev. turn
 
     int tracking_epower     = 0; // total power consumed by tracking devices (why would you use more than one?)
-    int fridge_epower       = 0; // total power consumed by fridges
     int alarm_epower        = 0;
-    int recharger_epower    = 0; // total power consumed by rechargers
     int camera_epower       = 0; // power consumed by camera system
     int extra_drag          = 0;
-    int scoop_epower        = 0;
     // TODO: change these to a bitset + enum?
     bool cruise_on                  = true;  // cruise control on/off
-    bool reactor_on                 = false; // reactor on/off
     bool engine_on                  = false; // at least one engine is on, of any type
-    bool stereo_on                  = false;
-    bool chimes_on                  = false; // ice cream truck chimes
     bool tracking_on                = false; // vehicle tracking on/off
     bool is_locked                  = false; // vehicle has no key
     bool is_alarm_on                = false; // vehicle has alarm on
     bool camera_on                  = false;
-    bool fridge_on                  = false; // fridge on/off
-    bool recharger_on               = false; // recharger on/off
     bool skidding                   = false; // skidding mode
     bool check_environmental_effects= false; // has bloody or smoking parts
     bool insides_dirty              = true;  // "inside" flags are outdated and need refreshing
     bool falling                    = false; // Is the vehicle hanging in the air and expected to fall down in the next turn?
-    bool plow_on                    = false; // Is the vehicle running a plow?
-    bool planter_on                 = false; // Is the vehicle sprawing seeds everywhere?
-    bool scoop_on                   = false; //Does the vehicle have a scoop? Which picks up items.
-    bool reaper_on                  = false; //Is the reaper active?
 
 private:
     void refresh_pivot() const;                // refresh pivot_cache, clear pivot_dirty

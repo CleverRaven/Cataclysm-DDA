@@ -1686,19 +1686,11 @@ void vehicle::deserialize(JsonIn &jsin)
     data.read("cruise_on", cruise_on);
     data.read("engine_on", engine_on);
     data.read("tracking_on", tracking_on);
-    data.read("stereo_on", stereo_on);
-    data.read("chimes_on", chimes_on);
-    data.read("fridge_on", fridge_on);
-    data.read("recharger_on", recharger_on);
     data.read("skidding", skidding);
     data.read("of_turn_carry", of_turn_carry);
     data.read("is_locked", is_locked);
     data.read("is_alarm_on", is_alarm_on);
     data.read("camera_on", camera_on);
-    data.read("scoop_on",scoop_on);
-    data.read("plow_on",plow_on);
-    data.read("reaper_on",reaper_on);
-    data.read("planter_on",planter_on);
     int last_updated = calendar::turn;
     data.read( "last_update_turn", last_updated );
     last_update_turn = last_updated;
@@ -1758,6 +1750,25 @@ void vehicle::deserialize(JsonIn &jsin)
     // that can't be used as it currently stands because it would also
     // make it instantly fire all its turrets upon load.
     of_turn = 0;
+
+
+    /** Legacy saved games did not store part enabled status within parts */
+    auto set_legacy_state = [&]( const std::string &var, const std::string &flag ) {
+        if( data.get_bool( var, false ) ) {
+            for( auto e : get_parts( flag ) ) {
+                e->enabled = true;
+            }
+        }
+    };
+    set_legacy_state( "stereo_on", "STEREO" );
+    set_legacy_state( "chimes_on", "CHIMES" );
+    set_legacy_state( "fridge_on", "FRIDGE" );
+    set_legacy_state( "reaper_on", "REAPER" );
+    set_legacy_state( "planter_on", "PLANTER" );
+    set_legacy_state( "recharger_on", "RECHARGE" );
+    set_legacy_state( "scoop_on", "SCOOP" );
+    set_legacy_state( "plow_on", "PLOW" );
+    set_legacy_state( "reactor_on", "REACTOR" );
 }
 
 void vehicle::serialize(JsonOut &json) const
@@ -1777,10 +1788,6 @@ void vehicle::serialize(JsonOut &json) const
     json.member( "cruise_on", cruise_on );
     json.member( "engine_on", engine_on );
     json.member( "tracking_on", tracking_on );
-    json.member( "stereo_on", stereo_on);
-    json.member( "chimes_on", chimes_on);
-    json.member( "fridge_on", fridge_on );
-    json.member( "recharger_on", recharger_on );
     json.member( "skidding", skidding );
     json.member( "of_turn_carry", of_turn_carry );
     json.member( "name", name );
@@ -1791,10 +1798,6 @@ void vehicle::serialize(JsonOut &json) const
     json.member( "is_alarm_on", is_alarm_on );
     json.member( "camera_on", camera_on );
     json.member( "last_update_turn", last_update_turn.get_turn() );
-    json.member("scoop_on",scoop_on);
-    json.member("plow_on",plow_on);
-    json.member("reaper_on",reaper_on);
-    json.member("planter_on",planter_on);
     json.member("pivot",pivot_anchor[0]);
     json.end_object();
 }
