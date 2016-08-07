@@ -940,22 +940,26 @@ void vehicle::use_controls( const tripoint &pos )
 
     auto add_toggle = [&]( const std::string &name, char key, const std::string &flag ) {
         if( has_part( flag ) ) {
-            auto msg = string_format( has_part( flag, true ) ?_( "Turn off %s" ) : _( "Turn on %s" ), name.c_str() );
-            options.emplace_back( msg, key );
-
-            actions.push_back( [&]{
-                for( auto e : get_parts( flag ) ) {
-                    if( e->enabled ) {
+            if( has_part( flag, true ) ) {
+                options.emplace_back( string_format( _( "Turn off %s" ), name.c_str() ), key );
+                actions.push_back( [&]{
+                    for( auto e : get_parts( flag, true ) ) {
                         add_msg( _( "Turned off %s." ), e->name().c_str() );
                         e->enabled = false;
-                    } else {
-                        if( can_enable( *e, true ) ) {
-                            add_msg( _( "Turned on %s." ), e->name().c_str() );
-                            e->enabled = true;
-                        }
                     }
-                }
-            } );
+                } );
+            } else {
+                options.emplace_back( string_format( _( "Turn on %s" ), name.c_str() ), key );
+                actions.push_back( [&]{
+                    for( auto e : get_parts( flag ) ) {
+                        if( e->enabled ) {
+                            continue;
+                        }
+                        add_msg( _( "Turned on %s." ), e->name().c_str() );
+                        e->enabled = true;
+                    }
+                } );
+            }
         }
     };
 
