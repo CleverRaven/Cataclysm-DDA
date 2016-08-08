@@ -150,7 +150,7 @@ class Character : public Creature, public visitable<Character>
          * @note These units chosen as MOC/move would be too fast (lower bound 1MOC/move) and
          * move/MOC too slow (upper bound 1MOC/move).
          * As a result the smallest unit of aim time is 10 moves. */
-        int aim_per_time( const item& gun, int recoil ) const;
+        double aim_per_time( const item& gun, double recoil ) const;
 
         /** Combat getters */
         int get_dodge_base() const override;

@@ -1303,11 +1303,11 @@ bool npc::enough_time_to_reload( const item &gun ) const
 
 void npc::aim()
 {
-    int aim_amount = aim_per_time( weapon, recoil );
+    double aim_amount = aim_per_time( weapon, recoil );
     while( aim_amount > 0 && recoil > 0 && moves > 10 ) {
         moves -= 10;
         recoil -= aim_amount;
-        recoil = std::max( 0, recoil );
+        recoil = std::max( 0.0, recoil );
         aim_amount = aim_per_time( weapon, recoil );
     }
 }
@@ -1643,7 +1643,7 @@ void npc::move_pause()
     aim();
 
     // Player can cheese the pause recoil drop to speed up aiming, let npcs do it too
-    int pause_recoil = recoil - str_cur + 2 * get_skill_level( skill_gun );
+    double pause_recoil = recoil - str_cur + 2 * get_skill_level( skill_gun );
     pause_recoil = std::max( MIN_RECOIL * 2, pause_recoil );
     pause_recoil = pause_recoil / 2;
     if( pause_recoil < recoil ) {

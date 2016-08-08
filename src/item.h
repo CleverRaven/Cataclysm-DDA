@@ -1352,9 +1352,9 @@ public:
         void gun_cycle_mode();
 
         /** Aim speed. See ranged.cpp */
-        int aim_speed( int aim_threshold ) const;
+        int aim_speed( double aim_threshold ) const;
         /** We use the current aim level to decide which sight to use. */
-        int sight_dispersion( int aim_threshold ) const;
+        int sight_dispersion( double aim_threshold ) const;
         struct sound_data {
             /** Volume of the sound. Can be 0 if the gun is silent (or not a gun at all). */
             int volume;

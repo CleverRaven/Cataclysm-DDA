@@ -45,7 +45,7 @@ const efftype_id effect_hit_by_player( "hit_by_player" );
 static projectile make_gun_projectile( const item &gun );
 int time_to_fire( const Character &p, const itype &firing );
 static void cycle_action( item& weap, const tripoint &pos );
-int recoil_add( player& p, const item& gun, int shot );
+double recoil_add( player& p, const item& gun, int shot );
 void make_gun_sound_effect(player &p, bool burst, item *weapon);
 extern bool is_valid_in_w_terrain(int, int);
 void drop_or_embed_projectile( const dealt_projectile_attack &attack );
@@ -383,7 +383,7 @@ dealt_projectile_attack Creature::projectile_attack( const projectile &proj_arg,
     return attack;
 }
 
-double player::gun_engagement_range( const item& gun, int aim, int penalty, unsigned chance, double accuracy ) const
+double player::gun_engagement_range( const item& gun, int aim, double penalty, unsigned chance, double accuracy ) const
 {
     if( !gun.is_gun() || !gun.ammo_sufficient() ) {
         return 0;
@@ -393,10 +393,10 @@ double player::gun_engagement_range( const item& gun, int aim, int penalty, unsi
         return gun.gun_range( this );
     }
 
-    int driving = 0;
+    double driving = 0;
     if( penalty < 0 ) {
         // get current effective player recoil
-        penalty = std::max( recoil, 0 );
+        penalty = std::max( recoil, 0.0 );
         if( recoil < 0 ) {
             debugmsg( "negative player recoil when calculating effective range" );
         }
@@ -407,7 +407,7 @@ double player::gun_engagement_range( const item& gun, int aim, int penalty, unsi
 
     // aim_per_time() returns improvement (in MOA) per 10 moves
     for( int i = aim * 10; i != 0; --i ) {
-        int adj = aim_per_time( gun, penalty );
+        double adj = aim_per_time( gun, penalty );
         if( adj <= 0 ) {
             break; // no further improvement is possible
         }
@@ -429,7 +429,7 @@ double player::gun_engagement_range( const item& gun, int aim, int penalty, unsi
     return std::min( res, double( gun.gun_range( this ) ) );
 }
 
-double player::gun_engagement_range( const item& gun, engagement opts, int penalty ) const
+double player::gun_engagement_range( const item& gun, engagement opts, double penalty ) const
 {
     switch( opts ) {
         case engagement::effective_min:
@@ -942,12 +942,12 @@ static void do_aim( player *p, std::vector <Creature *> &t, int &target,
         p->recoil = std::max(MIN_RECOIL, p->recoil);
     }
 
-    const int aim_amount = p->aim_per_time( *relevant, p->recoil );
+    const double aim_amount = p->aim_per_time( *relevant, p->recoil );
     if( aim_amount > 0 ) {
         // Increase aim at the cost of moves
         p->moves -= 10;
         p->recoil -= aim_amount;
-        p->recoil = std::max( 0, p->recoil );
+        p->recoil = std::max( 0.0, p->recoil );
     } else {
         // If aim is already maxed, we're just waiting, so pass the turn.
         p->moves = 0;
@@ -955,7 +955,7 @@ static void do_aim( player *p, std::vector <Creature *> &t, int &target,
 }
 
 static int print_aim_bars( const player &p, WINDOW *w, int line_number, item *weapon,
-                           Creature *target, int predicted_recoil ) {
+                           Creature *target, double predicted_recoil ) {
     // This is absolute accuracy for the player.
     // TODO: push the calculations duplicated from Creature::deal_projectile_attack() and
     // Creature::projectile_attack() into shared methods.
@@ -1235,14 +1235,14 @@ std::vector<tripoint> game::pl_target_ui( target_mode mode, item *relevant, int 
         }
 
         if( mode == TARGET_MODE_FIRE && critter != nullptr && u.sees( *critter ) ) {
-            int predicted_recoil = u.recoil;
+            double predicted_recoil = u.recoil;
             int predicted_delay = 0;
             if( aim_mode->has_threshold && aim_mode->threshold < u.recoil ) {
                 do{
-                    const int aim_amount = u.aim_per_time( u.weapon, predicted_recoil );
+                    const double aim_amount = u.aim_per_time( u.weapon, predicted_recoil );
                     if( aim_amount > 0 ) {
                         predicted_delay += 10;
-                        predicted_recoil = std::max( predicted_recoil - aim_amount , 0);
+                        predicted_recoil = std::max( predicted_recoil - aim_amount, 0.0 );
                     }
                 } while( predicted_recoil > aim_mode->threshold &&
                           predicted_recoil - sight_dispersion > 0 );
@@ -1669,9 +1669,9 @@ double player::get_weapon_dispersion( const item &obj ) const
     return std::max( dispersion, 0.0 );
 }
 
-int recoil_add( player& p, const item &gun, int shot )
+double recoil_add( player& p, const item &gun, int shot )
 {
-    int qty = gun.gun_recoil();
+    double qty = gun.gun_recoil();
 
     ///\EFFECT_STR reduces recoil when using guns and tools
     qty -= rng( 7, 15 ) * p.get_str();
@@ -1686,7 +1686,7 @@ int recoil_add( player& p, const item &gun, int shot )
     double k = 1.6; // 5 round burst is equivalent to ~2 individually aimed shots
     qty *= pow( 1.0 / sqrt( shot ), k );
 
-    return p.recoil += std::max( qty, 0 );
+    return p.recoil += std::max( qty, 0.0 );
 }
 
 void drop_or_embed_projectile( const dealt_projectile_attack &attack )

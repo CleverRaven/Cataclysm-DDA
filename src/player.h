@@ -92,7 +92,7 @@ class player_morale_ptr : public std::unique_ptr<player_morale> {
 
 // The minimum level recoil will reach without aiming.
 // Sets the floor for accuracy of a "snap" or "hip" shot.
-extern const int MIN_RECOIL;
+extern const double MIN_RECOIL;
 
 //Don't forget to add new memorial counters
 //to the save and load functions in savegame_json.cpp
@@ -509,7 +509,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
          * @param accuracy minimum accuracy required
          * @return range in tiles (with default arguments this is the maximum effective range)
          */
-        double gun_engagement_range( const item& gun, int aim = -1, int penalty = -1,
+        double gun_engagement_range( const item& gun, int aim = -1, double penalty = -1,
                                     unsigned chance = 50, double accuracy = accuracy_goodhit ) const;
 
         enum class engagement {
@@ -519,7 +519,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         };
 
         /** Calculate range at which engagement rules apply */
-        double gun_engagement_range( const item& gun, engagement opts, int penalty = -1 ) const;
+        double gun_engagement_range( const item& gun, engagement opts, double penalty = -1 ) const;
 
         /**
          *  Fires a gun or axuiliary gunmod (ignoring any current mode)
@@ -1266,7 +1266,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         int tank_plut, reactor_plut, slow_rad;
         int oxygen;
         int stamina;
-        int recoil = MIN_RECOIL;
+        double recoil = MIN_RECOIL;
         int scent;
         int dodges_left, blocks_left;
         int stim, radiation;

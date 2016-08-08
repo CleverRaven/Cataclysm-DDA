@@ -111,10 +111,10 @@ void Character::mod_stat( const std::string &stat, int modifier )
     }
 }
 
-int Character::aim_per_time( const item& gun, int recoil ) const
+double Character::aim_per_time( const item& gun, double recoil ) const
 {
-    int aim = std::max( 1, 10 - gun.aim_speed( recoil ) ) * 3.2;
-    return std::max( std::min( aim, recoil - gun.sight_dispersion( recoil ) ), 0 );
+    double aim = std::max( 1, 10 - gun.aim_speed( recoil ) ) * 3.2;
+    return std::max( std::min( aim, recoil - gun.sight_dispersion( recoil ) ), 0.0 );
 }
 
 bool Character::move_effects(bool attacking)

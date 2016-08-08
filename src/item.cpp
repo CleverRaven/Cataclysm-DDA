@@ -3914,7 +3914,7 @@ int item::gun_dispersion( bool with_ammo ) const
 // Sight dispersion and aim speed pick the best sight bonus to use.
 // The best one is the fastest one whose dispersion is under the threshold.
 // If you provide a threshold of -1, it just gives lowest dispersion.
-int item::sight_dispersion( int aim_threshold ) const
+int item::sight_dispersion( double aim_threshold ) const
 {
     if (!is_gun()) {
         return 0;
@@ -3938,7 +3938,7 @@ int item::sight_dispersion( int aim_threshold ) const
 }
 
 // This method should never be called if the threshold exceeds the accuracy of the available sights.
-int item::aim_speed( int aim_threshold ) const
+int item::aim_speed( double aim_threshold ) const
 {
     if (!is_gun()) {
         return 0;
