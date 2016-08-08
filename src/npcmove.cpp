@@ -1184,7 +1184,7 @@ int npc::confident_shoot_range( const item &it ) const
 int npc::confident_gun_mode_range( const item::gun_mode &gun, int at_recoil ) const
 {
     if( at_recoil < 0 ) {
-        at_recoil = recoil_current();
+        at_recoil = recoil_total();
     }
 
     if( !gun || gun.melee() ) {

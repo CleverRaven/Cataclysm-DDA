@@ -206,7 +206,10 @@ int turret_data::fire( player &p, const tripoint &target )
     int shots = 0;
 
     p.add_effect( effect_on_roof, 1 );
-    p.recoil = abs( veh->velocity ) / 100 / 4;
+
+    // turrets are subject only to recoil_vehicle()
+    int old = p.recoil;
+    p.recoil = 0;
 
     auto mode = base()->gun_current_mode();
 
@@ -227,6 +230,7 @@ int turret_data::fire( player &p, const tripoint &target )
     veh->drain( fuel_type_battery, mode->get_gun_ups_drain() * shots );
 
     p.remove_effect( effect_on_roof );
+    p.recoil = old;
 
     return shots;
 }
@@ -371,7 +375,7 @@ int vehicle::automatic_fire_turret( vehicle_part &pt )
     tmp.name = rmp_format( _( "<veh_player>The %s" ), pt.name().c_str() );
     tmp.set_skill_level( gun.base()->gun_skill(), 8 );
     tmp.set_skill_level( skill_id( "gun" ), 4 );
-    tmp.recoil = abs( velocity ) / 100 / 4;
+    tmp.recoil = 0; // turrets are subject only to recoil_vehicle()
     tmp.setpos( pos );
     tmp.str_cur = 16;
     tmp.dex_cur = 8;

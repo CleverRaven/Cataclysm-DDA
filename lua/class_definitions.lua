@@ -411,7 +411,6 @@ classes = {
             cash = { type = "int", writable = true },
             controlling_vehicle = { type = "bool", writable = true },
             dodges_left = { type = "int", writable = true },
-            driving_recoil = { type = "int", writable = true },
             focus_pool = { type = "int", writable = true },
             grab_point = { type = "tripoint", writable = true },
             in_vehicle = { type = "bool", writable = true },

@@ -440,7 +440,6 @@ void player::load(JsonObject &data)
     data.read("male", male);
     data.read("cash", cash);
     data.read("recoil", recoil);
-    data.read("driving_recoil", driving_recoil);
     data.read("in_vehicle", in_vehicle);
     if( data.read( "id", tmpid ) ) {
         setID( tmpid );
@@ -527,7 +526,6 @@ void player::store(JsonOut &json) const
 
     json.member( "cash", cash );
     json.member( "recoil", recoil );
-    json.member( "driving_recoil", driving_recoil );
     json.member( "in_vehicle", in_vehicle );
     json.member( "id", getID() );
 

@@ -402,10 +402,7 @@ double player::gun_engagement_range( const item& gun, int aim, int penalty, unsi
         }
 
         // get maximum penalty from driving
-        driving = std::max( driving_recoil, 0 );
-        if( driving_recoil < 0 ) {
-            debugmsg( "negative driving recoil when calculating effective range" );
-        }
+        driving = recoil_vehicle();
     }
 
     // aim_per_time() returns improvement (in MOA) per 10 moves
@@ -558,7 +555,7 @@ int player::fire_gun( const tripoint &target, int shots, item& gun )
             break;
         }
 
-        double dispersion = rng_normal( get_weapon_dispersion( gun ) ) + rng_normal( recoil_current() );
+        double dispersion = rng_normal( get_weapon_dispersion( gun ) ) + rng_normal( recoil_total() );
         int range = rl_dist( pos(), aim );
 
         // Apply penalty when using bulky weapons at point-blank range (except when loaded with shot)
@@ -571,8 +568,6 @@ int player::fire_gun( const tripoint &target, int shots, item& gun )
         auto shot = projectile_attack( make_gun_projectile( gun ), aim, dispersion );
         curshot++;
 
-        // if we are firing a turret don't apply that recoil to the player
-        // @todo turrets need to accumulate recoil themselves
         recoil_add( *this, gun, ++burst );
 
         make_gun_sound_effect( *this, shots > 1, &gun );
@@ -830,7 +825,7 @@ dealt_projectile_attack player::throw_item( const tripoint &target, const item &
 static std::string print_recoil( const player &p)
 {
     if( p.weapon.is_gun() ) {
-        const int val = p.recoil_current();
+        const int val = p.recoil_total();
         if( val > MIN_RECOIL ) {
             const char *color_name = "c_ltgray";
             if( val >= 690 ) {
@@ -968,7 +963,7 @@ static int print_aim_bars( const player &p, WINDOW *w, int line_number, item *we
 
     // Confidence is chance of the actual shot being under the target threshold,
     // This simplifies the calculation greatly, that's intentional.
-    const double aim_level = p.get_weapon_dispersion( *weapon ) + predicted_recoil + p.driving_recoil;
+    const double aim_level = p.get_weapon_dispersion( *weapon ) + predicted_recoil + p.recoil_vehicle();
     const double range = rl_dist( p.pos(), target->pos() );
     const double missed_by = aim_level * 0.00021666666666666666 * range;
     const double hit_rating = missed_by;
@@ -1676,11 +1671,6 @@ double player::get_weapon_dispersion( const item &obj ) const
 
 int recoil_add( player& p, const item &gun, int shot )
 {
-    if( p.has_effect( effect_on_roof ) ) {
-        // @todo fix handling of turret recoil
-        return p.recoil;
-    }
-
     int qty = gun.gun_recoil();
 
     ///\EFFECT_STR reduces recoil when using guns and tools

@@ -1873,9 +1873,22 @@ bool player::is_immune_damage( const damage_type dt ) const
     }
 }
 
-double player::recoil_current() const
+double player::recoil_vehicle() const
 {
-    return recoil + driving_recoil;
+    // @todo vary penalty dependent upon vehicle part on which player is boarded
+
+    if( in_vehicle ) {
+        vehicle *veh = g->m.veh_at( pos() );
+        if( veh ) {
+            return double( abs( veh->velocity ) ) * 3 / 100;
+        }
+    }
+    return 0;
+}
+
+double player::recoil_total() const
+{
+    return recoil + recoil_vehicle();
 }
 
 bool player::is_underwater() const

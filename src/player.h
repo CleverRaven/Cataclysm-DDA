@@ -494,8 +494,11 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Returns true if a gun misfires, jams, or has other problems, else returns false */
         bool handle_gun_damage( item &firing );
 
-        /** Current maximum recoil penalty */
-        double recoil_current() const;
+        /** Get maximum recoil penalty due to vehicle motion */
+        double recoil_vehicle() const;
+
+        /** Current total maximum recoil penalty from all sources */
+        double recoil_total() const;
 
         /**
          * Calculate range at which given chance of hit considering player stats, clothing and recoil
@@ -1264,7 +1267,6 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         int oxygen;
         int stamina;
         int recoil = MIN_RECOIL;
-        int driving_recoil = 0;
         int scent;
         int dodges_left, blocks_left;
         int stim, radiation;
