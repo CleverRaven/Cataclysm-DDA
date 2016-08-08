@@ -492,6 +492,9 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Returns true if a gun misfires, jams, or has other problems, else returns false */
         bool handle_gun_damage( item &firing );
 
+        /** Current maximum recoil penalty */
+        double recoil_current() const;
+
         /**
          * Calculate range at which given chance of hit considering player stats, clothing and recoil
          * @param gun ranged weapon which must have sufficient ammo for at least one shot

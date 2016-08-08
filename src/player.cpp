@@ -1875,6 +1875,11 @@ bool player::is_immune_damage( const damage_type dt ) const
     }
 }
 
+double player::recoil_current() const
+{
+    return recoil + driving_recoil;
+}
+
 bool player::is_underwater() const
 {
     return underwater;
