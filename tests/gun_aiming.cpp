@@ -28,15 +28,15 @@ static void test_internal( const npc& who, const item &gun )
 
     WHEN( "a higher accuracy is requested" ) {
         THEN( "the effective range is worse" ) {
-            REQUIRE( who.gun_engagement_range( gun, 0, 50, -1, accuracy_grazing ) >
-                     who.gun_engagement_range( gun, 0, 50, -1, accuracy_critical  ) );
+            REQUIRE( who.gun_engagement_range( gun, 0, -1, 50, accuracy_grazing ) >
+                     who.gun_engagement_range( gun, 0, -1, 50, accuracy_critical  ) );
         }
     }
 
     WHEN( "a higher certainty is requested" ) {
         THEN( "the effective range is worse" ) {
-            REQUIRE( who.gun_engagement_range( gun, 0, 50 ) >
-                     who.gun_engagement_range( gun, 0, 80 ) );
+            REQUIRE( who.gun_engagement_range( gun, 0, -1, 50 ) >
+                     who.gun_engagement_range( gun, 0, -1, 80 ) );
         }
     }
 }
@@ -46,7 +46,7 @@ TEST_CASE( "gun_aiming", "[gun] [aim]" ) {
     const int weapon_skill = 4; // relevant weapon (eg. rifle)
 
     // Note that GIVEN statements cannot appear within loops
-    GIVEN( "A typical survivor with a loded gun" ) {
+    GIVEN( "A typical survivor with a loaded gun" ) {
 
         standard_npc who;
         who.setpos( tripoint( 0, 0, 0 ) );
