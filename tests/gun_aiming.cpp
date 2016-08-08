@@ -13,7 +13,7 @@ static void test_internal( const npc& who, const item &gun )
 
         // calculate actual accuracy at the given range
         double dispersion = ( who.get_weapon_dispersion( gun ) + recoil ) / 2;
-        double missed_by = sqrt( 2 * pow( range, 2 ) * ( 1 - cos( ARCMIN( dispersion ) ) ) );
+        double missed_by = iso_tangent( range, dispersion );
 
         INFO( "Recoil: " << recoil );
         INFO( "Range: " << range );
