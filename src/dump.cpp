@@ -22,6 +22,18 @@ void game::dump_stats( const std::string& what, dump_mode mode )
 
     int scol = 0; // sorting column
 
+    standard_npc s1;
+    s1.wear_item( item( "gloves_lsurvivor" ) );
+    s1.wear_item( item( "mask_lsurvivor" ) );
+    s1.set_skill_level( skill_id( "gun" ), 4 );
+    s1.set_skill_level( skill_id( "pistol" ), 4 );
+    s1.set_skill_level( skill_id( "rifle" ), 4 );
+    s1.set_skill_level( skill_id( "smg" ), 4 );
+    s1.set_skill_level( skill_id( "shotgun" ), 4 );
+    s1.set_skill_level( skill_id( "launcher" ), 4 );
+    s1.recoil = MIN_RECOIL;
+    s1.setpos( { 0, 0, 0 } );
+
     if( what == "AMMO" ) {
         header = {
             "Name", "Ammo", "Volume", "Weight", "Stack",
@@ -101,7 +113,7 @@ void game::dump_stats( const std::string& what, dump_mode mode )
             header.push_back( e );
         }
 
-        auto dump = [&rows,&locations]( const item& obj ) {
+        auto dump = [&rows,&locations]( const standard_npc &who, const item& obj ) {
             std::vector<std::string> r;
             r.push_back( obj.tname( 1, false ) );
             r.push_back( obj.ammo_type() ? obj.ammo_type().str() : "" );
@@ -114,16 +126,9 @@ void game::dump_stats( const std::string& what, dump_mode mode )
             r.push_back( to_string( obj.gun_damage() ) );
             r.push_back( to_string( obj.gun_pierce() ) );
 
-            standard_npc fake;
-            fake.wear_item( item( "gloves_lsurvivor" ) );
-            fake.wear_item( item( "mask_lsurvivor" ) );
-            fake.set_skill_level( skill_id( "gun" ), 4 );
-            fake.set_skill_level( obj.gun_skill(), 4 );
-            fake.recoil = MIN_RECOIL;
-
-            r.push_back( string_format( "%.1f", fake.gun_engagement_range( obj, player::engagement::effective_min ) ) );
-            r.push_back( string_format( "%.1f", fake.gun_engagement_range( obj, player::engagement::effective_max ) ) );
-            r.push_back( string_format( "%.1f", fake.gun_engagement_range( obj, player::engagement::absolute_max ) ) );
+            r.push_back( string_format( "%.1f", who.gun_engagement_range( obj, player::engagement::effective_min ) ) );
+            r.push_back( string_format( "%.1f", who.gun_engagement_range( obj, player::engagement::effective_max ) ) );
+            r.push_back( string_format( "%.1f", who.gun_engagement_range( obj, player::engagement::absolute_max ) ) );
 
             for( const auto &e : locations ) {
                 r.push_back( to_string( obj.type->gun->valid_mod_locations[ e ] ) );
@@ -138,11 +143,11 @@ void game::dump_stats( const std::string& what, dump_mode mode )
                 }
                 gun.ammo_set( default_ammo( gun.ammo_type() ), gun.ammo_capacity() );
 
-                dump( gun );
+                dump( s1, gun );
 
                 if( gun.type->gun->barrel_length > 0 ) {
                     gun.emplace_back( "barrel_small" );
-                    dump( gun );
+                    dump( s1, gun );
                 }
             }
         }
@@ -208,16 +213,6 @@ void game::dump_stats( const std::string& what, dump_mode mode )
             }
             rows.push_back( r );
         };
-
-        standard_npc s1;
-        s1.wear_item( item( "gloves_lsurvivor" ) );
-        s1.wear_item( item( "mask_lsurvivor" ) );
-        s1.set_skill_level( skill_id( "gun" ), 4 );
-        s1.set_skill_level( skill_id( "pistol" ), 4 );
-        s1.set_skill_level( skill_id( "rifle" ), 4 );
-        s1.set_skill_level( skill_id( "smg" ), 4 );
-        s1.recoil = MIN_RECOIL;
-        s1.setpos( { 65, 65, 0 } );
 
         item g19( "glock_19" );
         dump( "Glock", s1, g19.ammo_set( "9mm" ) );
