@@ -121,7 +121,7 @@ dealt_projectile_attack Creature::projectile_attack( const projectile &proj_arg,
     // for the isosceles triangle formed by the intended and actual targets
     // we can use the cosine formula (a² = b² + c² - 2bc⋅cosθ) to calculate the tangent
     double range = rl_dist( source, target_arg );
-    double missed_by = sqrt( 2 * pow( range, 2 ) - ( 2 * pow( range, 2 ) * cos( ARCMIN( dispersion ) ) ) );
+    double missed_by = sqrt( 2 * pow( range, 2 ) * ( 1 - cos( ARCMIN( dispersion ) ) ) );
 
     // TODO: move to-hit roll back in here
 
