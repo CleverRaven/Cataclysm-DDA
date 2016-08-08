@@ -3,16 +3,16 @@
     "id": "jack",
     "type": "TOOL",
     "name": "bottle jack",
-    "description": "A portable hydraulic bottle jack used for lifting vehicles.",
+    "description": "An industrial hydraulic bottle jack used for lifting vehicles.",
     "material": "steel",
     "symbol": ";",
     "color": "light_gray",
-    "weight": 11974,
+    "weight": 12000,
     "volume": 6,
     "price": 18000,
     "bashing": 8,
     "to_hit": -2,
-    "qualities": [ ["JACK", 6 ] ]
+    "qualities": [ ["JACK", 18 ] ]
   },
   {
     "id": "jack_makeshift",
@@ -27,7 +27,7 @@
     "price": 800,
     "bashing": 4,
     "to_hit": -2,
-    "qualities": [ ["JACK", 1 ] ]
+    "qualities": [ ["JACK", 2 ] ]
   },
   {
     "id": "jack_small",
@@ -42,7 +42,7 @@
     "price": 5000,
     "bashing": 4,
     "to_hit": -2,
-    "qualities": [ ["JACK", 2 ] ]
+    "qualities": [ ["JACK", 6 ] ]
   },
   {
     "id": "oxy_torch",
