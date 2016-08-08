@@ -956,19 +956,19 @@ int Character::skill_dispersion( const item& gun ) const
 
     const int lvl = get_skill_level( gun.gun_skill() );
     if( lvl < 10 ) {
-        // Up to 0.75 degrees for each skill point < 10.
+        // Up to 1/12 degrees for each skill point < 10.
         ///\EFFECT_PISTOL <10 randomly increases dispersion for pistols
         ///\EFFECT_SMG <10 randomly increases dispersion for smgs
         ///\EFFECT_RIFLE <10 randomly increases dispersion for rifles
         ///\EFFECT_LAUNCHER <10 randomly increases dispersion for launchers
-        dispersion += 45 * ( 10 - lvl );
+        dispersion += 5 * ( 10 - lvl );
     }
 
     const int marksmanship_lvl = get_skill_level( skill_gun );
     if( marksmanship_lvl < 10 ) {
-        // Up to 0.25 deg per each skill point < 10.
+        // Up to 1/6 deg per each skill point < 10.
         ///\EFFECT_GUN <10 randomly increased dispersion of all gunfire
-        dispersion += 15 * ( 10 - marksmanship_lvl );
+        dispersion += 10 * ( 10 - marksmanship_lvl );
     }
 
     return dispersion;
