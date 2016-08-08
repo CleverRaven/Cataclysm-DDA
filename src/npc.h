@@ -907,15 +907,15 @@ private:
 /** An NPC with standard stats */
 class standard_npc : public npc {
     public:
-        standard_npc() : npc() {
-          str_cur = 8;
-          str_max = 8;
-          dex_cur = 8;
-          dex_max = 8;
-          per_cur = 8;
-          per_max = 8;
-          int_cur = 8;
-          int_max = 8;
+        standard_npc( int s_str = 8, int s_dex = 8, int s_int = 8, int s_per = 8 ) : npc() {
+          str_cur = std::max( s_str, 0 );
+          str_max = std::max( s_str, 0 );
+          dex_cur = std::max( s_dex, 0 );
+          dex_max = std::max( s_dex, 0 );
+          per_cur = std::max( s_per, 0 );
+          per_max = std::max( s_per, 0 );
+          int_cur = std::max( s_int, 0 );
+          int_max = std::max( s_int, 0 );
         }
 };
 
