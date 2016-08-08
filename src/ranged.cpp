@@ -1670,11 +1670,7 @@ double player::get_weapon_dispersion( const item *weapon, bool random ) const
     dispersion += rand_or_max( random, 3 * (encumb(bp_arm_l) + encumb(bp_arm_r)));
     dispersion += rand_or_max( random, 6 * encumb(bp_eyes));
 
-    if( weapon->ammo_data() ) {
-        dispersion += rand_or_max( random, weapon->ammo_data()->ammo->dispersion );
-    }
-
-    dispersion += rand_or_max( random, weapon->gun_dispersion(false) );
+    dispersion += rand_or_max( random, weapon->gun_dispersion() );
     if( random ) {
         dispersion += rng( 0, recoil + driving_recoil );
     }
