@@ -2936,8 +2936,6 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
 
                     mvwprintz( w_stats, 6, 1, c_magenta, _( "Melee to-hit bonus:" ) );
                     mvwprintz( w_stats, 6, 22, c_magenta, "%+3d", get_hit_base() );
-                    mvwprintz( w_stats, 7, 1, c_magenta, _( "Ranged penalty:" ) );
-                    mvwprintz( w_stats, 7, 21, c_magenta, "%+4d", -( abs( ranged_dex_mod() ) ) );
                     if( throw_dex_mod( false ) <= 0 ) {
                         mvwprintz( w_stats, 8, 1, c_magenta, _( "Throwing bonus:" ) );
                     } else {
@@ -2964,8 +2962,6 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
                 } else if( line == 3 ) {
                     // Display player current perception effects
                     mvwprintz( w_stats, 5, 1, h_ltgray, _( "Perception:" ) );
-                    mvwprintz( w_stats, 6, 1,  c_magenta, _( "Ranged penalty:" ) );
-                    mvwprintz( w_stats, 6, 21, c_magenta, "%+4d", -( abs( ranged_per_mod() ) ) );
                     mvwprintz( w_stats, 7, 1, c_magenta, _( "Trap detection level:" ) );
                     mvwprintz( w_stats, 7, 23, c_magenta, "%2d", get_per() );
 

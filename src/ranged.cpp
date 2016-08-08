@@ -1646,9 +1646,6 @@ double player::get_weapon_dispersion( const item &obj ) const
 {
     double dispersion = skill_dispersion( obj );
 
-    dispersion += ranged_dex_mod();
-    dispersion += ranged_per_mod();
-
     dispersion += 3 * (encumb( bp_arm_l ) + encumb( bp_arm_r ) );
     dispersion += 6 * encumb( bp_eyes );
 
