@@ -223,8 +223,6 @@ player::player() : Character()
     reactor_plut = 0;
     slow_rad = 0;
     cash = 0;
-    recoil = 0;
-    driving_recoil = 0;
     scent = 500;
     male = true;
     prof = profession::has_initialized() ? profession::generic() :

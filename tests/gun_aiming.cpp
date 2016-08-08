@@ -79,7 +79,6 @@ TEST_CASE( "gun_aiming", "[gun] [aim]" ) {
                 }
                 gun.ammo_set( default_ammo( gun.ammo_type() ), gun.ammo_capacity() );
 
-                who.recoil = MIN_RECOIL;
                 who.set_skill_level( gun.gun_skill(), weapon_skill );
 
                 INFO( "GUN: " << gun.tname() );

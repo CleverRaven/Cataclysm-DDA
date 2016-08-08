@@ -830,15 +830,14 @@ dealt_projectile_attack player::throw_item( const tripoint &target, const item &
 static std::string print_recoil( const player &p)
 {
     if( p.weapon.is_gun() ) {
-        const int adj_recoil = p.recoil + p.driving_recoil;
-        if( adj_recoil > MIN_RECOIL ) {
-            // 150 is the minimum when not actively aiming
+        const int val = p.recoil_current();
+        if( val > MIN_RECOIL ) {
             const char *color_name = "c_ltgray";
-            if( adj_recoil >= 690 ) {
+            if( val >= 690 ) {
                 color_name = "c_red";
-            } else if( adj_recoil >= 450 ) {
+            } else if( val >= 450 ) {
                 color_name = "c_ltred";
-            } else if( adj_recoil >= 210 ) {
+            } else if( val >= 210 ) {
                 color_name = "c_yellow";
             }
             return string_format("<color_%s>%s</color>", color_name, _("Recoil"));

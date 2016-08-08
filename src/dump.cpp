@@ -31,7 +31,6 @@ void game::dump_stats( const std::string& what, dump_mode mode )
     s1.set_skill_level( skill_id( "smg" ), 4 );
     s1.set_skill_level( skill_id( "shotgun" ), 4 );
     s1.set_skill_level( skill_id( "launcher" ), 4 );
-    s1.recoil = MIN_RECOIL;
     s1.setpos( { 0, 0, 0 } );
 
     if( what == "AMMO" ) {

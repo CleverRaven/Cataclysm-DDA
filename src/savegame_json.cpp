@@ -440,6 +440,7 @@ void player::load(JsonObject &data)
     data.read("male", male);
     data.read("cash", cash);
     data.read("recoil", recoil);
+    data.read("driving_recoil", driving_recoil);
     data.read("in_vehicle", in_vehicle);
     if( data.read( "id", tmpid ) ) {
         setID( tmpid );
@@ -525,7 +526,8 @@ void player::store(JsonOut &json) const
     json.member( "male", male );
 
     json.member( "cash", cash );
-    json.member( "recoil", int(recoil) );
+    json.member( "recoil", recoil );
+    json.member( "driving_recoil", driving_recoil );
     json.member( "in_vehicle", in_vehicle );
     json.member( "id", getID() );
 
@@ -593,7 +595,6 @@ void player::serialize(JsonOut &json) const
         json.member( "scenario", g->scen->ident() );
     }
     // someday, npcs may drive
-    json.member( "driving_recoil", int(driving_recoil) );
     json.member( "controlling_vehicle", controlling_vehicle );
 
     // shopping carts, furniture etc
@@ -696,7 +697,6 @@ void player::deserialize(JsonIn &jsin)
         backlog.push_front( temp );
     }
 
-    data.read("driving_recoil", driving_recoil);
     data.read("controlling_vehicle", controlling_vehicle);
 
     data.read("grab_point", grab_point);
