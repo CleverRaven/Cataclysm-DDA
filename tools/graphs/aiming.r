@@ -8,7 +8,7 @@ png("output.png", width=800, height=720, pointsize=18)
 par(mar=c(5.5,5.5,3,3))
 par(bg = 'gray90')
 
-matplot(0:(length(d[[1]])-1),d, type='l', lty='solid', lwd=5, xlab='Turns aiming', ylab='Effective range', xaxs='i', yaxs='i', ylim=c(floor(min(d)),ceiling(max(d))), axes=F, mgp=c(3.5,0,0), font.lab=2, col.lab='gray10', cex.lab=1.2)
+matplot(0:(length(d[[1]])-1),d, type='l', lty='solid', lwd=5, xlab='Moves aiming', ylab='Effective range', xaxs='i', yaxs='i', ylim=c(floor(min(d)),ceiling(max(d))), axes=F, mgp=c(3.5,0,0), font.lab=2, col.lab='gray10', cex.lab=1.2)
 axis(side = 1, tck=-0.08, lwd=0, col='gray65', col.axis='gray10', lwd.ticks=2, mgp=c(0,2,0), font=2)
 axis(side = 2, tck=-0.08, lwd=0, col='gray65', col.axis='gray10', lwd.ticks=2, mgp=c(0,2,0), font=2)
 axis(side = 3, tck=-0.08, lwd=0, col='gray65', col.axis='gray10', lwd.ticks=2, labels=F)
@@ -17,6 +17,6 @@ grid(NULL, NULL, lty = 'solid', lwd=2, col='gray65')
 
 # Repeat plot so grid lines are positioned behind data series
 par(new=T)
-matplot(0:(length(d[[1]])-1),d, type='l', lty='solid', lwd=5, xlab='Turns aiming', ylab='Effective range', xaxs='i', yaxs='i', ylim=c(floor(min(d)),ceiling(max(d))), axes=F, mgp=c(3.5,0,0), font.lab=2, col.lab='gray10', cex.lab=1.2)
+matplot(0:(length(d[[1]])-1),d, type='l', lty='solid', lwd=5, xlab='Moves aiming', ylab='Effective range', xaxs='i', yaxs='i', ylim=c(floor(min(d)),ceiling(max(d))), axes=F, mgp=c(3.5,0,0), font.lab=2, col.lab='gray10', cex.lab=1.2)
 
 legend("bottomright", legend=colnames(d), inset=0.02, lwd=3, col=1:length(d), bg='gray90', box.lwd=0, text.col='gray10')

@@ -144,13 +144,8 @@ class Character : public Creature, public visitable<Character>
 
         void mod_stat( const std::string &stat, int modifier ) override;
 
-        /* Calculate aim improvement based on character stats/skills and gunsight properties
-         * @param recoil amount of applicable recoil when determining which gunsight to use
-         * @return MOC of aim improvement per 10 moves
-         * @note These units chosen as MOC/move would be too fast (lower bound 1MOC/move) and
-         * move/MOC too slow (upper bound 1MOC/move).
-         * As a result the smallest unit of aim time is 10 moves. */
-        double aim_per_time( const item& gun, double recoil ) const;
+        /* Calculate aim improvement per move spent aiming at a given @ref recoil */
+        double aim_per_move( const item &gun, double recoil ) const;
 
         /** Combat getters */
         int get_dodge_base() const override;

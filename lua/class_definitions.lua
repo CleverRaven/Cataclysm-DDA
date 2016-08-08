@@ -144,7 +144,7 @@ classes = {
             { name = "add_effect", rval = nil, args = { "efftype_id", "int", "body_part", "bool", "int" } },
             { name = "add_effect", rval = nil, args = { "efftype_id", "int", "body_part", "bool", "int", "bool" } },
             { name = "add_traits", rval = nil, args = { } },
-            { name = "aim_per_time", rval = "int", args = { "item", "int" } },
+            { name = "aim_per_move", rval = "float", args = { "item", "float" } },
             { name = "bloodType", rval = "field_id", args = { } },
             { name = "can_pickVolume", rval = "bool", args = { "item" } },
             { name = "can_pickVolume", rval = "bool", args = { "item", "bool" } },

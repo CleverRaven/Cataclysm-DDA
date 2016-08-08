@@ -111,9 +111,10 @@ void Character::mod_stat( const std::string &stat, int modifier )
     }
 }
 
-double Character::aim_per_time( const item& gun, double recoil ) const
+double Character::aim_per_move( const item& gun, double recoil ) const
 {
-    double aim = std::max( 1, 10 - gun.aim_speed( recoil ) ) * 3.2;
+    double k = 0.32; // magic value to avoid rescaling JSON data
+    double aim = std::max( 1, 10 - gun.aim_speed( recoil ) ) * k;
     return std::max( std::min( aim, recoil - gun.sight_dispersion( recoil ) ), 0.0 );
 }
 

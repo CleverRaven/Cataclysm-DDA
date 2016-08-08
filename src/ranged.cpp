@@ -405,9 +405,8 @@ double player::gun_engagement_range( const item& gun, int aim, double penalty, u
         driving = recoil_vehicle();
     }
 
-    // aim_per_time() returns improvement (in MOA) per 10 moves
-    for( int i = aim * 10; i != 0; --i ) {
-        double adj = aim_per_time( gun, penalty );
+    for( int i = aim; i != 0; --i ) {
+        double adj = aim_per_move( gun, penalty );
         if( adj <= 0 ) {
             break; // no further improvement is possible
         }
@@ -942,10 +941,10 @@ static void do_aim( player *p, std::vector <Creature *> &t, int &target,
         p->recoil = std::max(MIN_RECOIL, p->recoil);
     }
 
-    const double aim_amount = p->aim_per_time( *relevant, p->recoil );
+    const double aim_amount = p->aim_per_move( *relevant, p->recoil );
     if( aim_amount > 0 ) {
         // Increase aim at the cost of moves
-        p->moves -= 10;
+        p->moves--;
         p->recoil -= aim_amount;
         p->recoil = std::max( 0.0, p->recoil );
     } else {
@@ -1239,9 +1238,9 @@ std::vector<tripoint> game::pl_target_ui( target_mode mode, item *relevant, int 
             int predicted_delay = 0;
             if( aim_mode->has_threshold && aim_mode->threshold < u.recoil ) {
                 do{
-                    const double aim_amount = u.aim_per_time( u.weapon, predicted_recoil );
+                    const double aim_amount = u.aim_per_move( u.weapon, predicted_recoil );
                     if( aim_amount > 0 ) {
-                        predicted_delay += 10;
+                        predicted_delay++;
                         predicted_recoil = std::max( predicted_recoil - aim_amount, 0.0 );
                     }
                 } while( predicted_recoil > aim_mode->threshold &&

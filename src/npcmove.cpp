@@ -891,7 +891,7 @@ npc_action npc::method_of_attack()
         return npc_reload;
     }
 
-    if( !modes.empty() && sees( *critter ) && aim_per_time( weapon, recoil ) > 0 ) {
+    if( !modes.empty() && sees( *critter ) && aim_per_move( weapon, recoil ) > 0 ) {
         return npc_aim;
     }
 
@@ -1303,12 +1303,12 @@ bool npc::enough_time_to_reload( const item &gun ) const
 
 void npc::aim()
 {
-    double aim_amount = aim_per_time( weapon, recoil );
+    double aim_amount = aim_per_move( weapon, recoil );
     while( aim_amount > 0 && recoil > 0 && moves > 10 ) {
-        moves -= 10;
+        moves--;
         recoil -= aim_amount;
         recoil = std::max( 0.0, recoil );
-        aim_amount = aim_per_time( weapon, recoil );
+        aim_amount = aim_per_move( weapon, recoil );
     }
 }
 

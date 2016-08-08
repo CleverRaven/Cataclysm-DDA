@@ -198,7 +198,7 @@ void game::dump_stats( const std::string& what, dump_mode mode )
     } else if( what == "AIMING" ) {
         scol = -1; // unsorted output so graph columns have predictable ordering
 
-        const int cycles = 12;
+        const int cycles = 1200;
 
         header = { "Name" };
         for( int i = 0; i <= cycles; ++i ) {
