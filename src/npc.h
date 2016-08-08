@@ -909,9 +909,13 @@ class standard_npc : public npc {
     public:
         standard_npc() : npc() {
           str_cur = 8;
+          str_max = 8;
           dex_cur = 8;
+          dex_max = 8;
           per_cur = 8;
+          per_max = 8;
           int_cur = 8;
+          int_max = 8;
         }
 };
 
