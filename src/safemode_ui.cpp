@@ -33,67 +33,69 @@ void safemode::show()
     show( _( " SAFEMODE MANAGER " ), true );
 }
 
-void safemode::show( const std::string &custom_name, bool is_safemode )
+void safemode::show( const std::string &custom_name_in, bool is_safemode_in )
 {
-    auto vRulesOld = vRules;
+    auto rules_old = rules;
 
-    const int iHeaderHeight = 4;
-    const int iContentHeight = FULL_SCREEN_HEIGHT - 2 - iHeaderHeight;
+    const int header_height = 4;
+    const int content_height = FULL_SCREEN_HEIGHT - 2 - header_height;
 
-    const int iOffsetX = ( TERMX > FULL_SCREEN_WIDTH ) ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0;
-    const int iOffsetY = ( TERMY > FULL_SCREEN_HEIGHT ) ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0;
+    const int offset_x = ( TERMX > FULL_SCREEN_WIDTH ) ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0;
+    const int offset_y = ( TERMY > FULL_SCREEN_HEIGHT ) ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0;
 
-    enum enCols : int {
-        col_Rule,
-        col_Attitude,
-        col_Dist,
-        col_IE,
+    enum Columns : int {
+        COLUMN_RULE,
+        COLUMN_ATTITUDE,
+        COLUMN_PROXIMITY,
+        COLUMN_INCLUDE_EXCLUDE,
     };
 
-    std::map<int, int> mapPos;
-    mapPos[col_Rule] = 4;
-    mapPos[col_Attitude] = 50;
-    mapPos[col_Dist] = 61;
-    mapPos[col_IE] = 68;
+    std::map<int, int> column_pos;
+    column_pos[COLUMN_RULE] = 4;
+    column_pos[COLUMN_ATTITUDE] = 50;
+    column_pos[COLUMN_PROXIMITY] = 61;
+    column_pos[COLUMN_INCLUDE_EXCLUDE] = 68;
 
-    const int iTotalCols = mapPos.size();
+    const int num_columns = column_pos.size();
 
     WINDOW *w_help = newwin( ( FULL_SCREEN_HEIGHT / 2 ) - 2, FULL_SCREEN_WIDTH * 3 / 4,
-                             7 + iOffsetY + ( FULL_SCREEN_HEIGHT / 2 ) / 2, iOffsetX + 19 / 2 );
+                             7 + offset_y + ( FULL_SCREEN_HEIGHT / 2 ) / 2, offset_x + 19 / 2 );
     WINDOW_PTR w_helpptr( w_help );
 
-    WINDOW *w_border = newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH, iOffsetY, iOffsetX );
+    WINDOW *w_border = newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH, offset_y, offset_x );
     WINDOW_PTR w_borderptr( w_border );
-    WINDOW *w_header = newwin( iHeaderHeight, FULL_SCREEN_WIDTH - 2, 1 + iOffsetY,
-                               1 + iOffsetX );
+    WINDOW *w_header = newwin( header_height, FULL_SCREEN_WIDTH - 2, 1 + offset_y,
+                               1 + offset_x );
     WINDOW_PTR w_headerptr( w_header );
-    WINDOW *w = newwin( iContentHeight, FULL_SCREEN_WIDTH - 2, iHeaderHeight + 1 + iOffsetY,
-                        1 + iOffsetX );
+    WINDOW *w = newwin( content_height, FULL_SCREEN_WIDTH - 2, header_height + 1 + offset_y,
+                        1 + offset_x );
     WINDOW_PTR wptr( w );
 
-    draw_border( w_border, BORDER_COLOR, custom_name );
+    draw_border( w_border, BORDER_COLOR, custom_name_in );
 
     mvwputch( w_border, 3,  0, c_ltgray, LINE_XXXO ); // |-
     mvwputch( w_border, 3, 79, c_ltgray, LINE_XOXX ); // -|
 
-    for( auto &mapLine : mapPos ) {
-        mvwputch( w_border, FULL_SCREEN_HEIGHT - 1, mapLine.second + 1, c_ltgray,
+    for( auto &column : column_pos ) {
+        mvwputch( w_border, FULL_SCREEN_HEIGHT - 1, column.second + 1, c_ltgray,
                   LINE_XXOX ); // _|_
     }
 
     wrefresh( w_border );
 
+    static const std::vector<std::string> hotkeys = {{
+            _( "<A>dd" ), _( "<R>emove" ), _( "<C>opy" ), _( "<M>ove" ),
+            _( "<E>nable" ), _( "<D>isable" ), _( "<T>est" )
+        }
+    };
+
     int tmpx = 0;
-    tmpx += shortcut_print( w_header, 0, tmpx, c_white, c_ltgreen, _( "<A>dd" ) ) + 2;
-    tmpx += shortcut_print( w_header, 0, tmpx, c_white, c_ltgreen, _( "<R>emove" ) ) + 2;
-    tmpx += shortcut_print( w_header, 0, tmpx, c_white, c_ltgreen, _( "<C>opy" ) ) + 2;
-    tmpx += shortcut_print( w_header, 0, tmpx, c_white, c_ltgreen, _( "<M>ove" ) ) + 2;
-    tmpx += shortcut_print( w_header, 0, tmpx, c_white, c_ltgreen, _( "<E>nable" ) ) + 2;
-    tmpx += shortcut_print( w_header, 0, tmpx, c_white, c_ltgreen, _( "<D>isable" ) ) + 2;
-    shortcut_print( w_header, 0, tmpx, c_white, c_ltgreen, _( "<T>est" ) );
+    for( auto &hotkey : hotkeys ) {
+        tmpx += shortcut_print( w_header, 0, tmpx, c_white, c_ltgreen, hotkey ) + 2;
+    }
+
     tmpx = 0;
-    tmpx += shortcut_print( w_header, 1, tmpx, c_white, c_ltgreen,
-                            _( "<+-> Move up/down" ) ) + 2;
+    tmpx += shortcut_print( w_header, 1, tmpx, c_white, c_ltgreen, _( "<+-> Move up/down" ) ) + 2;
     tmpx += shortcut_print( w_header, 1, tmpx, c_white, c_ltgreen, _( "<Enter>-Edit" ) ) + 2;
     shortcut_print( w_header, 1, tmpx, c_white, c_ltgreen, _( "<Tab>-Switch Page" ) );
 
@@ -101,26 +103,24 @@ void safemode::show( const std::string &custom_name, bool is_safemode )
         mvwputch( w_header, 2, i, c_ltgray, LINE_OXOX ); // Draw line under header
     }
 
-    for( auto &mapLine : mapPos ) {
-        mvwputch( w_header, 2, mapLine.second, c_ltgray, LINE_OXXX );
-        mvwputch( w_header, 3, mapLine.second, c_ltgray, LINE_XOXO );
+    for( auto &pos : column_pos ) {
+        mvwputch( w_header, 2, pos.second, c_ltgray, LINE_OXXX );
+        mvwputch( w_header, 3, pos.second, c_ltgray, LINE_XOXO );
     }
 
     mvwprintz( w_header, 3, 1, c_white, "#" );
-    mvwprintz( w_header, 3, mapPos[col_Rule] + 4, c_white,
-               _( "Rules" ) ); //Creaturename with wildcard or NPC
-    mvwprintz( w_header, 3, mapPos[col_Attitude] + 2, c_white,
-               _( "Attitude" ) ); //Hostile/Neutral/Friendly
-    mvwprintz( w_header, 3, mapPos[col_Dist] + 2, c_white, _( "Dist" ) ); //Proximity distance
-    mvwprintz( w_header, 3, mapPos[col_IE] + 2, c_white, _( "I/E" ) ); //Include or Exclude rule
+    mvwprintz( w_header, 3, column_pos[COLUMN_RULE] + 4, c_white, _( "Rules" ) );
+    mvwprintz( w_header, 3, column_pos[COLUMN_ATTITUDE] + 2, c_white, _( "Attitude" ) );
+    mvwprintz( w_header, 3, column_pos[COLUMN_PROXIMITY] + 2, c_white, _( "Dist" ) );
+    mvwprintz( w_header, 3, column_pos[COLUMN_INCLUDE_EXCLUDE] + 2, c_white, _( "I/E" ) );
 
     wrefresh( w_header );
 
-    int iTab = GLOBAL_TAB;
-    int iLine = 0;
-    int iColumn = 0;
-    int iStartPos = 0;
-    bool bStuffChanged = false;
+    int tab = GLOBAL_TAB;
+    int line = 0;
+    int column = 0;
+    int start_pos = 0;
+    bool changes_made = false;
     input_context ctxt( "SAFEMODE" );
     ctxt.register_cardinal();
     ctxt.register_action( "CONFIRM" );
@@ -137,19 +137,19 @@ void safemode::show( const std::string &custom_name, bool is_safemode )
     ctxt.register_action( "TEST_RULE" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
 
-    if( is_safemode ) {
+    if( is_safemode_in ) {
         ctxt.register_action( "SWITCH_SAFEMODE_OPTION" );
         ctxt.register_action( "SWAP_RULE_GLOBAL_CHAR" );
     }
 
-    std::ostringstream sTemp;
+    std::ostringstream temp_stream;
 
     while( true ) {
         int locx = 17;
         locx += shortcut_print( w_header, 2, locx, c_white,
-                                ( iTab == GLOBAL_TAB ) ? hilite( c_white ) : c_white, _( "[<Global>]" ) ) + 1;
+                                ( tab == GLOBAL_TAB ) ? hilite( c_white ) : c_white, _( "[<Global>]" ) ) + 1;
         shortcut_print( w_header, 2, locx, c_white,
-                        ( iTab == CHARACTER_TAB ) ? hilite( c_white ) : c_white, _( "[<Character>]" ) );
+                        ( tab == CHARACTER_TAB ) ? hilite( c_white ) : c_white, _( "[<Character>]" ) );
 
         locx = 55;
         mvwprintz( w_header, 0, locx, c_white, _( "Safemode enabled:" ) );
@@ -163,67 +163,55 @@ void safemode::show( const std::string &custom_name, bool is_safemode )
         wrefresh( w_header );
 
         // Clear the lines
-        for( int i = 0; i < iContentHeight; i++ ) {
+        for( int i = 0; i < content_height; i++ ) {
             for( int j = 0; j < 79; j++ ) {
                 mvwputch( w, i, j, c_black, ' ' );
             }
 
-            for( auto &mapLine : mapPos ) {
-                mvwputch( w, i, mapLine.second, c_ltgray, LINE_XOXO );
+            for( auto &pos : column_pos ) {
+                mvwputch( w, i, pos.second, c_ltgray, LINE_XOXO );
             }
         }
 
-        const bool currentPageNonEmpty = !vRules[iTab].empty();
+        auto &current_tab = rules[tab];
+        const bool current_tab_non_empty = !current_tab.empty();
 
-        if( iTab == CHARACTER_TAB && g->u.name == "" ) {
-            vRules[CHARACTER_TAB].clear();
+        if( tab == CHARACTER_TAB && g->u.name == "" ) {
+            rules[CHARACTER_TAB].clear();
             mvwprintz( w, 8, 15, c_white, _( "Please load a character first to use this page!" ) );
         }
 
-        draw_scrollbar( w_border, iLine, iContentHeight, vRules[iTab].size(), 5 );
+        draw_scrollbar( w_border, line, content_height, current_tab.size(), 5 );
         wrefresh( w_border );
 
-        calcStartPos( iStartPos, iLine, iContentHeight, vRules[iTab].size() );
+        calcStartPos( start_pos, line, content_height, current_tab.size() );
 
         // display safemode
-        for( int i = iStartPos; i < ( int )vRules[iTab].size(); i++ ) {
-            if( i >= iStartPos &&
-                i < iStartPos + ( ( iContentHeight > ( int )vRules[iTab].size() ) ?
-                                  ( int )vRules[iTab].size() : iContentHeight ) ) {
-                nc_color cLineColor = ( vRules[iTab][i].bActive ) ? c_white : c_ltgray;
+        for( int i = start_pos; i < ( int )current_tab.size(); i++ ) {
+            if( i >= start_pos &&
+                i < start_pos + ( ( content_height > ( int )current_tab.size() ) ?
+                                  ( int )current_tab.size() : content_height ) ) {
 
-                sTemp.str( "" );
-                sTemp << i + 1;
-                mvwprintz( w, i - iStartPos, 1, cLineColor, "%s", sTemp.str().c_str() );
-                mvwprintz( w, i - iStartPos, 5, cLineColor, "" );
+                auto rule = current_tab[i];
 
-                if( iLine == i ) {
-                    wprintz( w, c_yellow, ">> " );
-                } else {
-                    wprintz( w, c_yellow, "   " );
-                }
+                nc_color line_color = ( rule.active ) ? c_white : c_ltgray;
 
-                wprintz( w, ( iLine == i && iColumn == col_Rule ) ? hilite( cLineColor ) : cLineColor,
-                         "%s", ( ( vRules[iTab][i].sRule == "" ) ? _( "<empty rule>" ) : vRules[iTab][i].sRule ).c_str()
-                       );
+                temp_stream.str( "" );
+                temp_stream << i + 1;
+                mvwprintz( w, i - start_pos, 1, line_color, "%s", temp_stream.str().c_str() );
+                mvwprintz( w, i - start_pos, 5, c_yellow, ( line == i ) ? ">> " : "   " );
 
-                auto attCreature = Creature::get_attitude_ui_data( ( Creature::Attitude )
-                                   vRules[iTab][i].attCreature );
-                mvwprintz( w, i - iStartPos, mapPos[col_Attitude] + 2,
-                           ( iLine == i && iColumn == col_Attitude ) ? hilite( cLineColor ) : cLineColor,
-                           "%s", ( attCreature.first ).c_str()
-                         );
+                auto draw_column = [&]( Columns column_in, std::string text_in ) {
+                    mvwprintz( w, i - start_pos, column_pos[column_in] + 2,
+                               ( line == i && column == column_in ) ? hilite( line_color ) : line_color,
+                               "%s", text_in.c_str()
+                             );
+                };
 
-                mvwprintz( w, i - iStartPos, mapPos[col_Dist] + 2,
-                           ( iLine == i && iColumn == col_Dist ) ? hilite( cLineColor ) : cLineColor,
-                           "%s", ( !vRules[iTab][i].bExclude ) ? to_string( vRules[iTab][i].iProxyDist ).c_str() : "---"
-                         );
-
-                mvwprintz( w, i - iStartPos, mapPos[col_IE] + 2,
-                           ( iLine == i && iColumn == col_IE ) ? hilite( cLineColor ) : cLineColor,
-                           "%s", ( ( vRules[iTab][i].bExclude ) ? rm_prefix( _( "Exclude" ) ).c_str() : rm_prefix(
-                                       _( "Include" ) ).c_str() )
-                         );
+                draw_column( COLUMN_RULE, ( rule.rule == "" ) ? _( "<empty rule>" ) : rule.rule );
+                draw_column( COLUMN_ATTITUDE, Creature::get_attitude_ui_data( rule.attitude ).first );
+                draw_column( COLUMN_PROXIMITY, ( !rule.exclude ) ? to_string( rule.proximity ).c_str() : "---" );
+                draw_column( COLUMN_INCLUDE_EXCLUDE, ( rule.exclude ) ?  _( "Exclude" ) : _( "Include" ) );
             }
         }
 
@@ -232,100 +220,106 @@ void safemode::show( const std::string &custom_name, bool is_safemode )
         const std::string action = ctxt.handle_input();
 
         if( action == "NEXT_TAB" ) {
-            iTab++;
-            if( iTab >= MAX_TAB ) {
-                iTab = 0;
-                iLine = 0;
+            tab++;
+            if( tab >= MAX_TAB ) {
+                tab = 0;
+                line = 0;
             }
         } else if( action == "PREV_TAB" ) {
-            iTab--;
-            if( iTab < 0 ) {
-                iTab = MAX_TAB - 1;
-                iLine = 0;
+            tab--;
+            if( tab < 0 ) {
+                tab = MAX_TAB - 1;
+                line = 0;
             }
         } else if( action == "QUIT" ) {
             break;
-        } else if( iTab == CHARACTER_TAB && g->u.name.empty() ) {
+        } else if( tab == CHARACTER_TAB && g->u.name.empty() ) {
             //Only allow loaded games to use the char sheet
         } else if( action == "DOWN" ) {
-            iLine++;
-            if( iLine >= ( int )vRules[iTab].size() ) {
-                iLine = 0;
+            line++;
+            if( line >= ( int )current_tab.size() ) {
+                line = 0;
             }
         } else if( action == "UP" ) {
-            iLine--;
-            if( iLine < 0 ) {
-                iLine = vRules[iTab].size() - 1;
+            line--;
+            if( line < 0 ) {
+                line = current_tab.size() - 1;
             }
         } else if( action == "ADD_RULE" ) {
-            bStuffChanged = true;
-            vRules[iTab].push_back( cRules( "", true, false, Creature::A_HOSTILE,
-                                            get_option<int>( "SAFEMODEPROXIMITY" ) ) );
-            iLine = vRules[iTab].size() - 1;
-        } else if( action == "REMOVE_RULE" && currentPageNonEmpty ) {
-            bStuffChanged = true;
-            vRules[iTab].erase( vRules[iTab].begin() + iLine );
-            if( iLine > ( int )vRules[iTab].size() - 1 ) {
-                iLine--;
+            changes_made = true;
+            current_tab.push_back( rules_class( "", true, false, Creature::A_HOSTILE,
+                                                get_option<int>( "SAFEMODEPROXIMITY" ) ) );
+            line = current_tab.size() - 1;
+        } else if( action == "REMOVE_RULE" && current_tab_non_empty ) {
+            changes_made = true;
+            current_tab.erase( current_tab.begin() + line );
+            if( line > ( int )current_tab.size() - 1 ) {
+                line--;
             }
-            if( iLine < 0 ) {
-                iLine = 0;
+            if( line < 0 ) {
+                line = 0;
             }
-        } else if( action == "COPY_RULE" && currentPageNonEmpty ) {
-            bStuffChanged = true;
-            vRules[iTab].push_back( cRules(
-                                        vRules[iTab][iLine].sRule,
-                                        vRules[iTab][iLine].bActive,
-                                        vRules[iTab][iLine].bExclude,
-                                        vRules[iTab][iLine].attCreature,
-                                        vRules[iTab][iLine].iProxyDist ) );
-            iLine = vRules[iTab].size() - 1;
-        } else if( action == "SWAP_RULE_GLOBAL_CHAR" && currentPageNonEmpty ) {
-            if( ( iTab == GLOBAL_TAB && g->u.name != "" ) || iTab == CHARACTER_TAB ) {
-                bStuffChanged = true;
+        } else if( action == "COPY_RULE" && current_tab_non_empty ) {
+            changes_made = true;
+            current_tab.push_back( rules_class(
+                                       current_tab[line].rule,
+                                       current_tab[line].active,
+                                       current_tab[line].exclude,
+                                       current_tab[line].attitude,
+                                       current_tab[line].proximity ) );
+            line = current_tab.size() - 1;
+        } else if( action == "SWAP_RULE_GLOBAL_CHAR" && current_tab_non_empty ) {
+            if( ( tab == GLOBAL_TAB && g->u.name != "" ) || tab == CHARACTER_TAB ) {
+                changes_made = true;
                 //copy over
-                vRules[( iTab == GLOBAL_TAB ) ? CHARACTER_TAB : GLOBAL_TAB].push_back( cRules(
-                            vRules[iTab][iLine].sRule,
-                            vRules[iTab][iLine].bActive,
-                            vRules[iTab][iLine].bExclude,
-                            vRules[iTab][iLine].attCreature,
-                            vRules[iTab][iLine].iProxyDist ) );
+                rules[( tab == GLOBAL_TAB ) ? CHARACTER_TAB : GLOBAL_TAB].push_back( rules_class(
+                            current_tab[line].rule,
+                            current_tab[line].active,
+                            current_tab[line].exclude,
+                            current_tab[line].attitude,
+                            current_tab[line].proximity ) );
 
                 //remove old
-                vRules[iTab].erase( vRules[iTab].begin() + iLine );
-                iLine = vRules[( iTab == GLOBAL_TAB ) ? CHARACTER_TAB : GLOBAL_TAB].size() - 1;
-                iTab = ( iTab == GLOBAL_TAB ) ? CHARACTER_TAB : GLOBAL_TAB;
+                current_tab.erase( current_tab.begin() + line );
+                line = rules[( tab == GLOBAL_TAB ) ? CHARACTER_TAB : GLOBAL_TAB].size() - 1;
+                tab = ( tab == GLOBAL_TAB ) ? CHARACTER_TAB : GLOBAL_TAB;
             }
-        } else if( action == "CONFIRM" && currentPageNonEmpty ) {
-            bStuffChanged = true;
-            if( iColumn == col_Rule ) {
+        } else if( action == "CONFIRM" && current_tab_non_empty ) {
+            changes_made = true;
+            if( column == COLUMN_RULE ) {
                 fold_and_print( w_help, 1, 1, 999, c_white,
                                 _(
                                     "* is used as a Wildcard. A few Examples:\n"
-                                    "\n"
-                                    "zombie          matches the monster name exactly\n"
-                                    "acidic zo*      matches monsters beginning with 'acidic zo'\n"
-                                    "*mbie           matches monsters ending with 'mbie'\n"
-                                    "*cid*zo*ie      multiple * are allowed\n"
-                                    "AcI*zO*iE       case insensitive search\n"
+                                    "human          matches every NPC"
+                                    "zombie         matches the monster name exactly\n"
+                                    "acidic zo*     matches monsters beginning with 'acidic zo'\n"
+                                    "*mbie          matches monsters ending with 'mbie'\n"
+                                    "*cid*zo*ie     multiple * are allowed\n"
+                                    "AcI*zO*iE      case insensitive search\n"
                                     "" )
                               );
 
                 draw_border( w_help );
                 wrefresh( w_help );
-                vRules[iTab][iLine].sRule = wildcard_trim_rule( string_input_popup( _( "Safemode Rule:" ),
-                                            30, vRules[iTab][iLine].sRule ) );
-            } else if( iColumn == col_IE ) {
-                vRules[iTab][iLine].bExclude = !vRules[iTab][iLine].bExclude;
-            } else if( iColumn == col_Attitude ) {
-                vRules[iTab][iLine].attCreature++;
-                if( vRules[iTab][iLine].attCreature >= Creature::A_MAX ) {
-                    vRules[iTab][iLine].attCreature = 0;
+                current_tab[line].rule = wildcard_trim_rule( string_input_popup( _( "Safemode Rule:" ),
+                                                        30, current_tab[line].rule ) );
+            } else if( column == COLUMN_INCLUDE_EXCLUDE ) {
+                current_tab[line].exclude = !current_tab[line].exclude;
+            } else if( column == COLUMN_ATTITUDE ) {
+                auto &attitude = current_tab[line].attitude;
+                if( attitude == Creature::A_HOSTILE ) {
+                    attitude = Creature::A_NEUTRAL;
+                } else if( attitude == Creature::A_NEUTRAL ) {
+                    attitude = Creature::A_FRIENDLY;
+                } else if( attitude == Creature::A_FRIENDLY ) {
+                    attitude = Creature::A_ANY;
+                } else if( attitude == Creature::A_ANY ) {
+                    attitude = Creature::A_HOSTILE;
                 }
-            } else if( iColumn == col_Dist && !vRules[iTab][iLine].bExclude ) {
+            } else if( column == COLUMN_PROXIMITY && !current_tab[line].exclude ) {
                 const auto text = string_input_popup( _( "Proximity Distance (0=max viewdistance)" ),
                                                       4,
-                                                      to_string( vRules[iTab][iLine].iProxyDist ),
+                                                      to_string( current_tab[line].proximity ),
                                                       _( "Option: " ) + to_string( get_option<int>( "SAFEMODEPROXIMITY" ) ) +
                                                       " " + get_options().get_option( "SAFEMODEPROXIMITY" ).getDefaultText(),
                                                       "",
@@ -333,60 +327,58 @@ void safemode::show( const std::string &custom_name, bool is_safemode )
                                                       true
                                                     );
                 if( text.empty() ) {
-                    vRules[iTab][iLine].iProxyDist = get_option<int>( "SAFEMODEPROXIMITY" );
+                    current_tab[line].proximity = get_option<int>( "SAFEMODEPROXIMITY" );
                 } else {
                     //Let the options class handle the validity of the new value
-                    auto tempOption = get_options().get_option( "SAFEMODEPROXIMITY" );
-                    tempOption.setValue( text.c_str() );
-                    vRules[iTab][iLine].iProxyDist = atoi( tempOption.getValue().c_str() );
+                    auto temp_option = get_options().get_option( "SAFEMODEPROXIMITY" );
+                    temp_option.setValue( text.c_str() );
+                    current_tab[line].proximity = atoi( temp_option.getValue().c_str() );
                 }
             }
-        } else if( action == "ENABLE_RULE" && currentPageNonEmpty ) {
-            bStuffChanged = true;
-            vRules[iTab][iLine].bActive = true;
-        } else if( action == "DISABLE_RULE" && currentPageNonEmpty ) {
-            bStuffChanged = true;
-            vRules[iTab][iLine].bActive = false;
+        } else if( action == "ENABLE_RULE" && current_tab_non_empty ) {
+            changes_made = true;
+            current_tab[line].active = true;
+        } else if( action == "DISABLE_RULE" && current_tab_non_empty ) {
+            changes_made = true;
+            current_tab[line].active = false;
         } else if( action == "LEFT" ) {
-            iColumn--;
-            if( iColumn < 0 ) {
-                iColumn = iTotalCols - 1;
+            column--;
+            if( column < 0 ) {
+                column = num_columns - 1;
             }
         } else if( action == "RIGHT" ) {
-            iColumn++;
-            if( iColumn >= iTotalCols ) {
-                iColumn = 0;
+            column++;
+            if( column >= num_columns ) {
+                column = 0;
             }
-        } else if( action == "MOVE_RULE_UP" && currentPageNonEmpty ) {
-            bStuffChanged = true;
-            if( iLine < ( int )vRules[iTab].size() - 1 ) {
-                std::swap( vRules[iTab][iLine],
-                           vRules[iTab][iLine + 1] );
-                iLine++;
-                iColumn = 0;
+        } else if( action == "MOVE_RULE_UP" && current_tab_non_empty ) {
+            changes_made = true;
+            if( line < ( int )current_tab.size() - 1 ) {
+                std::swap( current_tab[line], current_tab[line + 1] );
+                line++;
+                column = 0;
             }
-        } else if( action == "MOVE_RULE_DOWN" && currentPageNonEmpty ) {
-            bStuffChanged = true;
-            if( iLine > 0 ) {
-                std::swap( vRules[iTab][iLine],
-                           vRules[iTab][iLine - 1] );
-                iLine--;
-                iColumn = 0;
+        } else if( action == "MOVE_RULE_DOWN" && current_tab_non_empty ) {
+            changes_made = true;
+            if( line > 0 ) {
+                std::swap( current_tab[line],  current_tab[line - 1] );
+                line--;
+                column = 0;
             }
-        } else if( action == "TEST_RULE" && currentPageNonEmpty ) {
-            test_pattern( iTab, iLine );
+        } else if( action == "TEST_RULE" && current_tab_non_empty ) {
+            test_pattern( tab, line );
         } else if( action == "SWITCH_OPTION" ) {
             get_options().get_option( "SAFEMODE" ).setNext();
             get_options().save();
         }
     }
 
-    if( !bStuffChanged ) {
+    if( !changes_made ) {
         return;
     }
 
     if( query_yn( _( "Save changes?" ) ) ) {
-        if( is_safemode ) {
+        if( is_safemode_in ) {
             save_global();
             if( g->u.name != "" ) {
                 save_character();
@@ -395,16 +387,16 @@ void safemode::show( const std::string &custom_name, bool is_safemode )
             create_rules();
         }
     } else {
-        vRules = vRulesOld;
+        rules = rules_old;
     }
 }
 
-void safemode::test_pattern( const int iTab, const int iRow )
+void safemode::test_pattern( const int tab_in, const int row_in )
 {
-    std::vector<std::string> vMatchingMonsters;
-    std::string sMonsterName = "";
+    std::vector<std::string> creature_list;
+    std::string creature_name = "";
 
-    if( vRules[iTab][iRow].sRule == "" ) {
+    if( rules[tab_in][row_in].rule == "" ) {
         return;
     }
 
@@ -414,43 +406,43 @@ void safemode::test_pattern( const int iTab, const int iRow )
     }
 
     //Loop through all monster mtypes
-    for( const auto &type : MonsterGenerator::generator().get_all_mtypes() ) {
-        sMonsterName = type.nname();
-        if( wildcard_match( sMonsterName, vRules[iTab][iRow].sRule ) ) {
-            vMatchingMonsters.push_back( sMonsterName );
+    for( const auto &mtype : MonsterGenerator::generator().get_all_mtypes() ) {
+        creature_name = mtype.nname();
+        if( wildcard_match( creature_name, rules[tab_in][row_in].rule ) ) {
+            creature_list.push_back( creature_name );
         }
     }
 
-    const int iOffsetX = 15 + ( ( TERMX > FULL_SCREEN_WIDTH ) ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0 );
-    const int iOffsetY = 5 + ( ( TERMY > FULL_SCREEN_HEIGHT ) ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 :
+    const int offset_x = 15 + ( ( TERMX > FULL_SCREEN_WIDTH ) ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0 );
+    const int offset_y = 5 + ( ( TERMY > FULL_SCREEN_HEIGHT ) ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 :
                                0 );
 
-    int iStartPos = 0;
-    const int iContentHeight = FULL_SCREEN_HEIGHT - 8;
-    const int iContentWidth = FULL_SCREEN_WIDTH - 30;
-    std::ostringstream sTemp;
+    int start_pos = 0;
+    const int content_height = FULL_SCREEN_HEIGHT - 8;
+    const int content_width = FULL_SCREEN_WIDTH - 30;
+    std::ostringstream temp_stream;
 
-    WINDOW *w_test_rule_border = newwin( iContentHeight + 2, iContentWidth, iOffsetY, iOffsetX );
+    WINDOW *w_test_rule_border = newwin( content_height + 2, content_width, offset_y, offset_x );
     WINDOW_PTR w_test_rule_borderptr( w_test_rule_border );
-    WINDOW *w_test_rule_content = newwin( iContentHeight, iContentWidth - 2, 1 + iOffsetY,
-                                          1 + iOffsetX );
+    WINDOW *w_test_rule_content = newwin( content_height, content_width - 2, 1 + offset_y,
+                                          1 + offset_x );
     WINDOW_PTR w_test_rule_contentptr( w_test_rule_content );
 
     draw_border( w_test_rule_border );
 
-    int nmatch = vMatchingMonsters.size();
+    int nmatch = creature_list.size();
     std::string buf = string_format( ngettext( "%1$d monster matches: %2$s",
                                      "%1$d monsters match: %2$s",
-                                     nmatch ), nmatch, vRules[iTab][iRow].sRule.c_str() );
-    mvwprintz( w_test_rule_border, 0, iContentWidth / 2 - utf8_width( buf ) / 2, hilite( c_white ),
+                                     nmatch ), nmatch, rules[tab_in][row_in].rule.c_str() );
+    mvwprintz( w_test_rule_border, 0, content_width / 2 - utf8_width( buf ) / 2, hilite( c_white ),
                "%s", buf.c_str() );
 
-    mvwprintz( w_test_rule_border, iContentHeight + 1, 1, red_background( c_white ),
+    mvwprintz( w_test_rule_border, content_height + 1, 1, red_background( c_white ),
                _( "Lists monsters regardless of their attitude." ) );
 
     wrefresh( w_test_rule_border );
 
-    int iLine = 0;
+    int line = 0;
 
     input_context ctxt( "SAFEMODE_TEST" );
     ctxt.register_updown();
@@ -458,35 +450,31 @@ void safemode::test_pattern( const int iTab, const int iRow )
 
     while( true ) {
         // Clear the lines
-        for( int i = 0; i < iContentHeight; i++ ) {
+        for( int i = 0; i < content_height; i++ ) {
             for( int j = 0; j < 79; j++ ) {
                 mvwputch( w_test_rule_content, i, j, c_black, ' ' );
             }
         }
 
-        calcStartPos( iStartPos, iLine, iContentHeight, vMatchingMonsters.size() );
+        calcStartPos( start_pos, line, content_height, creature_list.size() );
 
         // display safemode
-        for( int i = iStartPos; i < ( int )vMatchingMonsters.size(); i++ ) {
-            if( i >= iStartPos &&
-                i < iStartPos + ( ( iContentHeight > ( int )vMatchingMonsters.size() ) ?
-                                  ( int )vMatchingMonsters.size() :
-                                  iContentHeight ) ) {
-                nc_color cLineColor = c_white;
+        for( int i = start_pos; i < ( int )creature_list.size(); i++ ) {
+            if( i >= start_pos &&
+                i < start_pos + ( ( content_height > ( int )creature_list.size() ) ?
+                                  ( int )creature_list.size() :
+                                  content_height ) ) {
+                nc_color line_color = c_white;
 
-                sTemp.str( "" );
-                sTemp << i + 1;
-                mvwprintz( w_test_rule_content, i - iStartPos, 0, cLineColor, "%s", sTemp.str().c_str() );
-                mvwprintz( w_test_rule_content, i - iStartPos, 4, cLineColor, "" );
+                temp_stream.str( "" );
+                temp_stream << i + 1;
+                mvwprintz( w_test_rule_content, i - start_pos, 0, line_color, "%s", temp_stream.str().c_str() );
+                mvwprintz( w_test_rule_content, i - start_pos, 4, line_color, "" );
 
-                if( iLine == i ) {
-                    wprintz( w_test_rule_content, c_yellow, ">> " );
-                } else {
-                    wprintz( w_test_rule_content, c_yellow, "   " );
-                }
+                wprintz( w_test_rule_content, c_yellow, ( line == i ) ? ">> " : "   " );
 
-                wprintz( w_test_rule_content, ( iLine == i ) ? hilite( cLineColor ) : cLineColor,
-                         vMatchingMonsters[i].c_str() );
+                wprintz( w_test_rule_content, ( line == i ) ? hilite( line_color ) : line_color,
+                         creature_list[i].c_str() );
             }
         }
 
@@ -494,14 +482,14 @@ void safemode::test_pattern( const int iTab, const int iRow )
 
         const std::string action = ctxt.handle_input();
         if( action == "DOWN" ) {
-            iLine++;
-            if( iLine >= ( int )vMatchingMonsters.size() ) {
-                iLine = 0;
+            line++;
+            if( line >= ( int )creature_list.size() ) {
+                line = 0;
             }
         } else if( action == "UP" ) {
-            iLine--;
-            if( iLine < 0 ) {
-                iLine = vMatchingMonsters.size() - 1;
+            line--;
+            if( line < 0 ) {
+                line = creature_list.size() - 1;
             }
         } else {
             break;
@@ -509,11 +497,13 @@ void safemode::test_pattern( const int iTab, const int iRow )
     }
 }
 
-void safemode::add_rule( const std::string &sRule, const int attMonster, const int iProxyDist,
-                         const rule_state state )
+void safemode::add_rule( const std::string &rule_in, const Creature::Attitude attitude_in,
+                         const int proximity_in,
+                         const rule_state state_in )
 {
-    vRules[CHARACTER_TAB].push_back( cRules( sRule, true, ( state == RULE_BLACKLISTED ) ? false : true,
-                                     attMonster, iProxyDist ) );
+    rules[CHARACTER_TAB].push_back( rules_class( rule_in, true,
+                                    ( state_in == RULE_BLACKLISTED ) ? false : true,
+                                    attitude_in, proximity_in ) );
     create_rules();
 
     if( !get_option<bool>( "SAFEMODE" ) &&
@@ -523,26 +513,26 @@ void safemode::add_rule( const std::string &sRule, const int attMonster, const i
     }
 }
 
-bool safemode::has_rule( const std::string &sRule, const int attMonster )
+bool safemode::has_rule( const std::string &rule_in, const Creature::Attitude attitude_in )
 {
-    for( auto &elem : vRules[CHARACTER_TAB] ) {
-        if( sRule.length() == elem.sRule.length()
-            && ci_find_substr( sRule, elem.sRule ) != -1
-            && elem.attCreature == attMonster ) {
+    for( auto &elem : rules[CHARACTER_TAB] ) {
+        if( rule_in.length() == elem.rule.length()
+            && ci_find_substr( rule_in, elem.rule ) != -1
+            && elem.attitude == attitude_in ) {
             return true;
         }
     }
     return false;
 }
 
-void safemode::remove_rule( const std::string &sRule, const int attMonster )
+void safemode::remove_rule( const std::string &rule_in, const Creature::Attitude attitude_in )
 {
-    for( auto it = vRules[CHARACTER_TAB].begin();
-         it != vRules[CHARACTER_TAB].end(); ++it ) {
-        if( sRule.length() == it->sRule.length()
-            && ci_find_substr( sRule, it->sRule ) != -1
-            && it->attCreature == attMonster ) {
-            vRules[CHARACTER_TAB].erase( it );
+    for( auto it = rules[CHARACTER_TAB].begin();
+         it != rules[CHARACTER_TAB].end(); ++it ) {
+        if( rule_in.length() == it->rule.length()
+            && ci_find_substr( rule_in, it->rule ) != -1
+            && it->attitude == attitude_in ) {
+            rules[CHARACTER_TAB].erase( it );
             create_rules();
             break;
         }
@@ -551,67 +541,57 @@ void safemode::remove_rule( const std::string &sRule, const int attMonster )
 
 bool safemode::empty() const
 {
-    for( int i = 0; i < MAX_TAB; i++ ) {
-        if( !vRules[i].empty() ) {
-            return false;
-        }
-    }
-
-    return true;
+    return std::all_of( rules.begin(), rules.end(), []( const std::vector<rules_class> &v ) { return v.empty(); } );
 }
 
 void safemode::create_rules()
 {
-    map_monsters.clear();
+    safemode_rules.clear();
 
-    static std::vector<int> vAny = {{Creature::A_HOSTILE, Creature::A_NEUTRAL, Creature::A_FRIENDLY}};
+    static std::vector<Creature::Attitude> attitude_any = {{Creature::A_HOSTILE, Creature::A_NEUTRAL, Creature::A_FRIENDLY}};
+
+    auto set_rule = [&](const rules_class rule_in, const std::string name_in, rule_state rs_in) {
+        if( rule_in.rule != "" && rule_in.active && wildcard_match( name_in, rule_in.rule ) ) {
+            if( rule_in.attitude == Creature::A_ANY ) {
+                for( auto &att : attitude_any ) {
+                    safemode_rules[ name_in ][ att ] = rule_state_class( rs_in, rule_in.proximity );
+                }
+            } else {
+                safemode_rules[ name_in ][ rule_in.attitude ] = rule_state_class( rs_in, rule_in.proximity );
+            }
+        }
+    };
 
     //process include/exclude in order of rules, global first, then character specific
     //if a specific monster is being added, all the rules need to be checked now
     //may have some performance issues since exclusion needs to check all monsters also
     for( int i = 0; i < MAX_TAB; i++ ) {
-        for( auto &elem : vRules[i] ) {
-            if( !elem.bExclude ) {
+        for( auto &rule : rules[i] ) {
+            if( !rule.exclude ) {
                 //Check include patterns against all monster mtypes
-                for( const auto &type : MonsterGenerator::generator().get_all_mtypes() ) {
-                    const std::string &cur_mon = type.nname();
-                    if( elem.bActive && wildcard_match( cur_mon, elem.sRule ) ) {
-                        if( elem.attCreature == ( int )Creature::A_ANY ) {
-                            for( auto &any : vAny ) {
-                                map_monsters[ cur_mon ][ any ] = cRuleState( RULE_BLACKLISTED, elem.iProxyDist );
-                            }
-                        } else {
-                            map_monsters[ cur_mon ][ elem.attCreature ] = cRuleState( RULE_BLACKLISTED, elem.iProxyDist );
-                        }
-                    }
+                for( const auto &mtype : MonsterGenerator::generator().get_all_mtypes() ) {
+                    set_rule( rule, mtype.nname(), RULE_BLACKLISTED );
                 }
             } else {
                 //exclude monsters from the existing mapping
-                for( auto iter = map_monsters.begin(); iter != map_monsters.end(); ++iter ) {
-                    if( elem.bActive && wildcard_match( iter->first, elem.sRule ) ) {
-                        if( elem.attCreature == ( int )Creature::A_ANY ) {
-                            for( auto &any : vAny ) {
-                                map_monsters[ iter->first ][ any ] = cRuleState( RULE_WHITELISTED, elem.iProxyDist );
-                            }
-                        } else {
-                            map_monsters[ iter->first ][ elem.attCreature ] = cRuleState( RULE_WHITELISTED, elem.iProxyDist );
-                        }
-                    }
+                for( auto iter = safemode_rules.begin(); iter != safemode_rules.end(); ++iter ) {
+                    set_rule( rule, iter->first, RULE_WHITELISTED );
                 }
             }
         }
     }
 }
 
-rule_state safemode::check_monster( const std::string &sMonsterName, const int attCreature,
-                                    const int iDist ) const
+rule_state safemode::check_monster( const std::string &creature_name_in,
+                                    const Creature::Attitude attitude_in,
+                                    const int proximity ) const
 {
-    const auto iter = map_monsters.find( sMonsterName );
-    if( iter != map_monsters.end() ) {
-        const auto &tmp = ( iter->second )[attCreature];
+    const auto iter = safemode_rules.find( creature_name_in );
+    if( iter != safemode_rules.end() ) {
+        const auto &tmp = ( iter->second )[( int )attitude_in];
         if( tmp.state == RULE_BLACKLISTED ) {
-            const int check_dist = ( tmp.proxy_dist == 0 ) ? 50 : tmp.proxy_dist;
-            if( iDist <= check_dist ) {
+            const int check_dist = ( tmp.proximity == 0 ) ? 50 : tmp.proximity;
+            if( proximity <= check_dist ) {
                 return RULE_BLACKLISTED;
             }
 
@@ -625,7 +605,7 @@ rule_state safemode::check_monster( const std::string &sMonsterName, const int a
 
 void safemode::clear_character_rules()
 {
-    vRules[CHARACTER_TAB].clear();
+    rules[CHARACTER_TAB].clear();
 }
 
 bool safemode::save_character()
@@ -638,14 +618,14 @@ bool safemode::save_global()
     return save( false );
 }
 
-bool safemode::save( const bool bCharacter )
+bool safemode::save( const bool character_in )
 {
-    bChar = bCharacter;
-    auto savefile = FILENAMES["safemode"];
+    character = character_in;
+    auto file = FILENAMES["safemode"];
 
-    if( bCharacter ) {
-        savefile = world_generator->active_world->world_path + "/" + base64_encode(
-                       g->u.name ) + ".sfm.json";
+    if( character ) {
+        file = world_generator->active_world->world_path + "/" + base64_encode(
+                   g->u.name ) + ".sfm.json";
         std::ifstream fin;
 
         fin.open( ( world_generator->active_world->world_path + "/" +
@@ -656,11 +636,11 @@ bool safemode::save( const bool bCharacter )
         fin.close();
     }
 
-    return write_to_file( savefile, [&]( std::ostream & fout ) {
+    return write_to_file( file, [&]( std::ostream & fout ) {
         JsonOut jout( fout, true );
         serialize( jout );
 
-        if( !bCharacter ) {
+        if( !character ) {
             create_rules();
         }
     }, _( "safemode configuration" ) );
@@ -676,17 +656,17 @@ void safemode::load_global()
     load( false );
 }
 
-void safemode::load( const bool bCharacter )
+void safemode::load( const bool character_in )
 {
-    bChar = bCharacter;
+    character = character_in;
 
     std::ifstream fin;
-    std::string sFile = FILENAMES["safemode"];
-    if( bCharacter ) {
-        sFile = world_generator->active_world->world_path + "/" + base64_encode( g->u.name ) + ".sfm.json";
+    std::string file = FILENAMES["safemode"];
+    if( character ) {
+        file = world_generator->active_world->world_path + "/" + base64_encode( g->u.name ) + ".sfm.json";
     }
 
-    fin.open( sFile.c_str(), std::ifstream::in | std::ifstream::binary );
+    fin.open( file.c_str(), std::ifstream::in | std::ifstream::binary );
 
     if( fin.good() ) {
         try {
@@ -705,14 +685,14 @@ void safemode::serialize( JsonOut &json ) const
 {
     json.start_array();
 
-    for( auto &elem : vRules[( bChar ) ? CHARACTER_TAB : GLOBAL_TAB] ) {
+    for( auto &elem : rules[( character ) ? CHARACTER_TAB : GLOBAL_TAB] ) {
         json.start_object();
 
-        json.member( "rule", elem.sRule );
-        json.member( "active", elem.bActive );
-        json.member( "exclude", elem.bExclude );
-        json.member( "attitude", elem.attCreature );
-        json.member( "proxy_dist", elem.iProxyDist );
+        json.member( "rule", elem.rule );
+        json.member( "active", elem.active );
+        json.member( "exclude", elem.exclude );
+        json.member( "attitude", elem.attitude );
+        json.member( "proximity", elem.proximity );
 
         json.end_object();
     }
@@ -722,20 +702,20 @@ void safemode::serialize( JsonOut &json ) const
 
 void safemode::deserialize( JsonIn &jsin )
 {
-    vRules[( bChar ) ? CHARACTER_TAB : GLOBAL_TAB].clear();
+    rules[( character ) ? CHARACTER_TAB : GLOBAL_TAB].clear();
 
     jsin.start_array();
     while( !jsin.end_array() ) {
         JsonObject jo = jsin.get_object();
 
-        const std::string sRule = jo.get_string( "rule" );
-        const bool bActive = jo.get_bool( "active" );
-        const bool bExclude = jo.get_bool( "exclude" );
-        const Creature::Attitude attCreature = ( Creature::Attitude ) jo.get_int( "attitude" );
-        const int iProxyDist = jo.get_int( "proxy_dist" );
+        const std::string rule = jo.get_string( "rule" );
+        const bool active = jo.get_bool( "active" );
+        const bool exclude = jo.get_bool( "exclude" );
+        const Creature::Attitude attitude = ( Creature::Attitude ) jo.get_int( "attitude" );
+        const int proximity = jo.get_int( "proximity" );
 
-        vRules[( bChar ) ? CHARACTER_TAB : GLOBAL_TAB].push_back(
-            cRules( sRule, bActive, bExclude, attCreature, iProxyDist )
+        rules[( character ) ? CHARACTER_TAB : GLOBAL_TAB].push_back(
+            rules_class( rule, active, exclude, attitude, proximity )
         );
     }
 }

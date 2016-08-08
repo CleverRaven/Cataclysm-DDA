@@ -13,63 +13,65 @@
 class safemode : public JsonSerializer, public JsonDeserializer
 {
     private:
-        void test_pattern( const int iCurrentPage, const int iCurrentLine );
+        void test_pattern( const int tab_in, const int row_in );
 
-        void load( const bool bCharacter );
-        bool save( const bool bCharacter );
+        void load( const bool character_in );
+        bool save( const bool character_in );
 
-        bool bChar;
+        bool character;
 
-        enum TAB : int {
+        enum Tabs : int {
             GLOBAL_TAB,
             CHARACTER_TAB,
             MAX_TAB
         };
 
-        class cRules
+        class rules_class
         {
             public:
-                std::string sRule;
-                bool bActive;
-                bool bExclude;
-                int attCreature;
-                int iProxyDist;
+                std::string rule;
+                bool active;
+                bool exclude;
+                Creature::Attitude attitude;
+                int proximity;
 
-                cRules() {
-                    this->sRule = "";
-                    this->bActive = false;
-                    this->bExclude = false;
-                    this->attCreature = Creature::A_HOSTILE;
-                    this->iProxyDist = 0;
+                rules_class() {
+                    this->rule = "";
+                    this->active = false;
+                    this->exclude = false;
+                    this->attitude = Creature::A_HOSTILE;
+                    this->proximity = 0;
                 }
 
-                cRules( std::string sRuleIn, bool bActiveIn, bool bExcludeIn, int attCreatureIn,
-                        int iProxyDistIn ) {
-                    this->sRule = sRuleIn;
-                    this->bActive = bActiveIn;
-                    this->bExclude = bExcludeIn;
-                    this->attCreature = attCreatureIn;
-                    this->iProxyDist = iProxyDistIn;
+                rules_class( std::string rule_in, bool active_in, bool exclude_in,
+                             Creature::Attitude attitude_in, int proximity_in ) {
+                    this->rule = rule_in;
+                    this->active = active_in;
+                    this->exclude = exclude_in;
+                    this->attitude = attitude_in;
+                    this->proximity = proximity_in;
                 }
 
-                ~cRules() {};
+                ~rules_class() {};
         };
 
-        class cRuleState
+        class rule_state_class
         {
             public:
                 rule_state state;
-                int proxy_dist;
+                int proximity;
 
-                cRuleState() {
+                rule_state_class() {
                     this->state = RULE_NONE;
-                    this->proxy_dist = 0;
+                    this->proximity = 0;
                 }
 
-                cRuleState( rule_state state_in, int proxy_dist_in ) {
+                rule_state_class( rule_state state_in, int proximity_in ) {
                     this->state = state_in;
-                    this->proxy_dist = proxy_dist_in;
+                    this->proximity = proximity_in;
                 }
+
+                ~rule_state_class() {};
         };
 
         /**
@@ -77,30 +79,31 @@ class safemode : public JsonSerializer, public JsonDeserializer
          * lookup. When this is filled (by @ref safemode::create_rules()), every
          * monster existing in the game that matches a rule (either white- or blacklist)
          * is added as the key, with RULE_WHITELISTED or RULE_BLACKLISTED as the values.
-         * map_monsters[ 'mob name' ][ 'monAttitude' ].cRuleState('rule_state', 'proxy dist')
+         * safemode_rules[ 'creature name' ][ 'attitude' ].rule_state_class('rule_state', 'proximity')
          */
-        std::unordered_map < std::string, std::array < cRuleState, Creature::A_MAX - 1 > > map_monsters;
+        std::unordered_map < std::string, std::array < rule_state_class,
+            Creature::A_MAX - 1 > > safemode_rules;
 
         /**
          * - vRules[0,1] aka vRules[GLOBAL,CHARACTER]: current rules split into global and
          *      character-specific. Allows the editor to show one or the other.
          */
-        std::array<std::vector<cRules>, MAX_TAB> vRules;
+        std::array<std::vector<rules_class>, MAX_TAB> rules;
 
     public:
         std::string whitelist;
 
-        bool has_rule( const std::string &sRule, const int attMonster );
-        void add_rule( const std::string &sRule, const int attMonster, const int iProxyDist,
-                       const rule_state state );
-        void remove_rule( const std::string &sRule, const int attMonster );
+        bool has_rule( const std::string &rule_in, const Creature::Attitude attitude_in );
+        void add_rule( const std::string &rule_in, const Creature::Attitude attitude_in,
+                       const int proximity_in, const rule_state state_in );
+        void remove_rule( const std::string &rule_in, const Creature::Attitude attitude_in );
         void create_rules();
         void clear_character_rules();
-        rule_state check_monster( const std::string &sMonsterName, const int attCreature,
-                                  const int iDist ) const;
+        rule_state check_monster( const std::string &creature_name_in, const Creature::Attitude attitude_in,
+                                  const int proximity_in ) const;
 
         void show();
-        void show( const std::string &custom_name, bool is_autopickup );
+        void show( const std::string &custom_name_in, bool is_autopickup_in );
 
         bool save_character();
         bool save_global();
