@@ -1191,7 +1191,7 @@ int npc::confident_gun_mode_range( const item::gun_mode &gun, int at_recoil ) co
         return 0;
     }
 
-    double deviation = get_weapon_dispersion( gun.target, false ) + at_recoil;
+    double deviation = get_weapon_dispersion( *gun.target ) + at_recoil;
     // Halve to get expected values
     deviation /= 2;
     // Convert from MoA back to quarter-degrees.

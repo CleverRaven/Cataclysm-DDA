@@ -418,7 +418,7 @@ double player::gun_engagement_range( const item& gun, int aim, int penalty, unsi
     }
 
     // calculate maximum potential dispersion
-    double dispersion = get_weapon_dispersion( &gun, false ) + penalty + driving;
+    double dispersion = get_weapon_dispersion( gun ) + penalty + driving;
 
     // dispersion is uniformly distributed at random so scale linearly with chance
     dispersion *= chance / 100.0;
@@ -539,7 +539,7 @@ int player::fire_gun( const tripoint &target, int shots, item& gun )
 
     const skill_id skill_used = gun.gun_skill();
 
-    const int player_dispersion = skill_dispersion( gun, false ) + ranged_skill_offset( skill_used );
+    const int player_dispersion = skill_dispersion( gun ) + ranged_skill_offset( skill_used );
     // If weapon dispersion exceeds skill dispersion you can't tell
     // if you need to correct or if the gun messed up, so you can't learn.
     ///\EFFECT_PER allows you to learn more often with less accurate weapons.
@@ -558,7 +558,7 @@ int player::fire_gun( const tripoint &target, int shots, item& gun )
             break;
         }
 
-        double dispersion = get_weapon_dispersion( &gun, true );
+        double dispersion = rng_normal( get_weapon_dispersion( gun ) ) + rng_normal( recoil_current() );
         int range = rl_dist( pos(), aim );
 
         // Apply penalty when using bulky weapons at point-blank range (except when loaded with shot)
@@ -969,8 +969,7 @@ static int print_aim_bars( const player &p, WINDOW *w, int line_number, item *we
 
     // Confidence is chance of the actual shot being under the target threshold,
     // This simplifies the calculation greatly, that's intentional.
-    const double aim_level = predicted_recoil + p.driving_recoil +
-        p.get_weapon_dispersion( weapon, false );
+    const double aim_level = p.get_weapon_dispersion( *weapon ) + predicted_recoil + p.driving_recoil;
     const double range = rl_dist( p.pos(), target->pos() );
     const double missed_by = aim_level * 0.00021666666666666666 * range;
     const double hit_rating = missed_by;
@@ -1636,12 +1635,6 @@ item::sound_data item::gun_noise( bool const burst ) const
     return { 0, "" }; // silent weapons
 }
 
-// Little helper to clean up dispersion calculation methods.
-static int rand_or_max( bool random, int max )
-{
-    return random ? rng(0, max) : max;
-}
-
 static bool is_driving( const player &p )
 {
     const auto veh = g->m.veh_at( p.pos() );
@@ -1650,37 +1643,34 @@ static bool is_driving( const player &p )
 
 
 // utility functions for projectile_attack
-double player::get_weapon_dispersion( const item *weapon, bool random ) const
+double player::get_weapon_dispersion( const item &obj ) const
 {
-    double dispersion = 0.; // Measured in quarter-degrees.
-    dispersion += skill_dispersion( *weapon, random );
+    double dispersion = skill_dispersion( obj );
+
+    dispersion += ranged_dex_mod();
+    dispersion += ranged_per_mod();
+
+    dispersion += 3 * (encumb( bp_arm_l ) + encumb( bp_arm_r ) );
+    dispersion += 6 * encumb( bp_eyes );
+
+    dispersion += obj.gun_dispersion();
 
     if( is_driving( *this ) ) {
         // get volume of gun (or for auxiliary gunmods the parent gun)
-        const item *parent = has_item( *weapon ) ? find_parent( *weapon ) : nullptr;
-        int vol = parent ? parent->volume() : weapon->volume();
+        const item *parent = has_item( obj ) ? find_parent( obj ) : nullptr;
+        int vol = parent ? parent->volume() : obj.volume();
 
         ///\EFFECT_DRIVING reduces the inaccuracy penalty when using guns whilst driving
         dispersion += std::max( vol - get_skill_level( skill_driving ), 1 ) * 20;
     }
 
-    dispersion += rand_or_max( random, ranged_dex_mod() );
-    dispersion += rand_or_max( random, ranged_per_mod() );
-
-    dispersion += rand_or_max( random, 3 * (encumb(bp_arm_l) + encumb(bp_arm_r)));
-    dispersion += rand_or_max( random, 6 * encumb(bp_eyes));
-
-    dispersion += rand_or_max( random, weapon->gun_dispersion() );
-    if( random ) {
-        dispersion += rng( 0, recoil + driving_recoil );
-    }
-
     if (has_bionic("bio_targeting")) {
         dispersion *= 0.75;
     }
-    if ((is_underwater() && !weapon->has_flag("UNDERWATER_GUN")) ||
+
+    if ((is_underwater() && !obj.has_flag("UNDERWATER_GUN")) ||
         // Range is effectively four times longer when shooting unflagged guns underwater.
-        (!is_underwater() && weapon->has_flag("UNDERWATER_GUN"))) {
+        (!is_underwater() && obj.has_flag("UNDERWATER_GUN"))) {
         // Range is effectively four times longer when shooting flagged guns out of water.
         dispersion *= 4;
     }
@@ -1831,7 +1821,7 @@ double player::gun_value( const item &weap, long ammo ) const
         total_recoil += def_ammo.recoil;
     }
 
-    total_dispersion += skill_dispersion( weap, false );
+    total_dispersion += skill_dispersion( weap );
     total_dispersion += weap.sight_dispersion( -1 );
 
     int move_cost = time_to_fire( *this, *weap.type );

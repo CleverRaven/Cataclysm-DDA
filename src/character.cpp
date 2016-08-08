@@ -116,7 +116,7 @@ int Character::aim_per_time( const item& gun, int recoil ) const
     int penalty = 0;
 
     // Range [0 - 10] after adjustment
-    penalty += skill_dispersion( gun, false ) / 60;
+    penalty += skill_dispersion( gun ) / 60;
 
     // Ranges [0 - 12] after adjustment
     penalty += ranged_dex_mod() / 15;
@@ -964,7 +964,7 @@ bool Character::meets_skill_requirements( const std::map<skill_id, int> &req ) c
     });
 }
 
-int Character::skill_dispersion( const item& gun, bool random ) const
+int Character::skill_dispersion( const item& gun ) const
 {
     static skill_id skill_gun( "gun" );
 
@@ -987,7 +987,7 @@ int Character::skill_dispersion( const item& gun, bool random ) const
         dispersion += 15 * ( 10 - marksmanship_lvl );
     }
 
-    return random ? rng(0, dispersion) : dispersion;
+    return dispersion;
 }
 
 void Character::normalize()
