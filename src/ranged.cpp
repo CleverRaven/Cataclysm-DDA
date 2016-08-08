@@ -982,9 +982,9 @@ static int print_aim_bars( const player &p, WINDOW *w, int line_number, item *we
     const double steadiness = 1.0 - steady_score / 250;
 
     const std::array<std::pair<double, char>, 3> confidence_ratings = {{
-        std::make_pair( 0.1, '*' ),
-        std::make_pair( 0.4, '+' ),
-        std::make_pair( 0.6, '|' ) }};
+        std::make_pair( accuracy_headshot, '*' ),
+        std::make_pair( accuracy_goodhit, '+' ),
+        std::make_pair( accuracy_grazing, '|' ) }};
 
     const int window_width = getmaxx( w ) - 2; // Window width minus borders.
     const std::string &confidence_bar = get_labeled_bar( confidence, window_width, _( "Confidence" ),
