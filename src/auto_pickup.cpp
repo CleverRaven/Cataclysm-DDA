@@ -528,20 +528,22 @@ void auto_pickup::create_rules()
     //may have some performance issues since exclusion needs to check all items also
     for( int i = GLOBAL_TAB; i < MAX_TAB; i++ ) {
         for( auto &elem : vRules[i] ) {
-            if( !elem.bExclude ) {
-                //Check include patterns against all itemfactory items
-                for( auto &p : item_controller->get_all_itypes() ) {
-                    const std::string &cur_item = p.second->nname(1);
-                    if( elem.bActive && wildcard_match( cur_item, elem.sRule ) ) {
-                        map_items[ cur_item ] = RULE_WHITELISTED;
+            if ( elem.sRule != "" ) {
+                if( !elem.bExclude ) {
+                    //Check include patterns against all itemfactory items
+                    for( auto &p : item_controller->get_all_itypes() ) {
+                        const std::string &cur_item = p.second->nname(1);
+                        if( elem.bActive && wildcard_match( cur_item, elem.sRule ) ) {
+                            map_items[ cur_item ] = RULE_WHITELISTED;
+                        }
                     }
-                }
-            } else {
-                //only re-exclude items from the existing mapping for now
-                //new exclusions will process during pickup attempts
-                for (auto iter = map_items.begin(); iter != map_items.end(); ++iter) {
-                    if( elem.bActive && wildcard_match( iter->first, elem.sRule ) ) {
-                        map_items[ iter->first ] = RULE_BLACKLISTED;
+                } else {
+                    //only re-exclude items from the existing mapping for now
+                    //new exclusions will process during pickup attempts
+                    for (auto iter = map_items.begin(); iter != map_items.end(); ++iter) {
+                        if( elem.bActive && wildcard_match( iter->first, elem.sRule ) ) {
+                            map_items[ iter->first ] = RULE_BLACKLISTED;
+                        }
                     }
                 }
             }
