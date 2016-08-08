@@ -302,7 +302,7 @@ void safemode::show( const std::string &custom_name_in, bool is_safemode_in )
                 draw_border( w_help );
                 wrefresh( w_help );
                 current_tab[line].rule = wildcard_trim_rule( string_input_popup( _( "Safemode Rule:" ),
-                                                        30, current_tab[line].rule ) );
+                                         30, current_tab[line].rule ) );
             } else if( column == COLUMN_INCLUDE_EXCLUDE ) {
                 current_tab[line].exclude = !current_tab[line].exclude;
             } else if( column == COLUMN_ATTITUDE ) {
@@ -541,7 +541,9 @@ void safemode::remove_rule( const std::string &rule_in, const Creature::Attitude
 
 bool safemode::empty() const
 {
-    return std::all_of( rules.begin(), rules.end(), []( const std::vector<rules_class> &v ) { return v.empty(); } );
+    return std::all_of( rules.begin(), rules.end(), []( const std::vector<rules_class> &v ) {
+        return v.empty();
+    } );
 }
 
 void safemode::create_rules()
@@ -550,7 +552,7 @@ void safemode::create_rules()
 
     static std::vector<Creature::Attitude> attitude_any = {{Creature::A_HOSTILE, Creature::A_NEUTRAL, Creature::A_FRIENDLY}};
 
-    auto set_rule = [&](const rules_class rule_in, const std::string name_in, rule_state rs_in) {
+    auto set_rule = [&]( const rules_class rule_in, const std::string name_in, rule_state rs_in ) {
         if( rule_in.rule != "" && rule_in.active && wildcard_match( name_in, rule_in.rule ) ) {
             if( rule_in.attitude == Creature::A_ANY ) {
                 for( auto &att : attitude_any ) {
