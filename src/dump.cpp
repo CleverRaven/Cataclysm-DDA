@@ -20,6 +20,8 @@ void game::dump_stats( const std::string& what, dump_mode mode )
     std::vector<std::string> header;
     std::vector<std::vector<std::string>> rows;
 
+    int scol = 0; // sorting column
+
     if( what == "AMMO" ) {
         header = {
             "Name", "Ammo", "Volume", "Weight", "Stack",
@@ -188,15 +190,58 @@ void game::dump_stats( const std::string& what, dump_mode mode )
         for( const auto e : vpart_info::get_all() ) {
             dump( e );
         }
+
+    } else if( what == "AIMING" ) {
+        scol = -1; // unsorted output so graph columns have predictable ordering
+
+        const int cycles = 12;
+
+        header = { "Name" };
+        for( int i = 0; i <= cycles; ++i ) {
+            header.push_back( std::to_string( i ) );
+        }
+
+        auto dump = [&rows]( const std::string &name, const standard_npc &who, const item &gun) {
+            std::vector<std::string> r( 1, name );
+            for( int i = 0; i <= cycles; ++i ) {
+                r.push_back( string_format( "%.2f", who.gun_engagement_range( gun, i ) ) );
+            }
+            rows.push_back( r );
+        };
+
+        standard_npc s1;
+        s1.wear_item( item( "gloves_lsurvivor" ) );
+        s1.wear_item( item( "mask_lsurvivor" ) );
+        s1.set_skill_level( skill_id( "gun" ), 4 );
+        s1.set_skill_level( skill_id( "pistol" ), 4 );
+        s1.set_skill_level( skill_id( "rifle" ), 4 );
+        s1.set_skill_level( skill_id( "smg" ), 4 );
+        s1.recoil = MIN_RECOIL;
+        s1.setpos( { 65, 65, 0 } );
+
+        item g19( "glock_19" );
+        dump( "Glock", s1, g19.ammo_set( "9mm" ) );
+
+        item mp5( "hk_mp5" );
+        dump( "MP5", s1, mp5.ammo_set( "9mm" ) );
+
+        item ar15( "ar15" );
+        dump( "AR15", s1, ar15.ammo_set( "223" ) );
+
+        item r700( "remington_700" );
+        r700.emplace_back( "rifle_scope" );
+        dump( "R700+scope", s1, r700.ammo_set( "270" ) );
     }
 
     rows.erase( std::remove_if( rows.begin(), rows.end(), []( const std::vector<std::string>& e ) {
         return e.empty();
     } ), rows.end() );
 
-    std::sort( rows.begin(), rows.end(), []( const std::vector<std::string>& lhs, const std::vector<std::string>& rhs ) {
-        return lhs[ 0 ] < rhs[ 0 ];
-    } );
+    if( scol >= 0 ) {
+        std::sort( rows.begin(), rows.end(), [&scol]( const std::vector<std::string>& lhs, const std::vector<std::string>& rhs ) {
+            return lhs[ scol ] < rhs[ scol ];
+        } );
+    }
 
     rows.erase( std::unique( rows.begin(), rows.end() ), rows.end() );
 
