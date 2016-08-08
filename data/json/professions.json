@@ -7,10 +7,9 @@
             "points": 8,
             "CBMs":[
                 "bio_torsionratchet",
-                "bio_power_storage",
+                "bio_power_storage_mkII",
                 "bio_tools",
-                "bio_sunglasses",
-                "bio_blindfold"
+                "bio_flashlight"
             ],
             "skills": [
                 {
@@ -40,7 +39,6 @@
                     "tshirt",
                     "socks",
                     "backpack",
-                    "knife_swissarmy",
                     "rope_30",
                     "canteen"
                 ],
@@ -1843,12 +1841,23 @@
         "ident": "bionic_thief",
         "name": "Bionic Thief",
         "description": "You have done many high profile heists, but your gains mean nothing in this world.  All you have left are the tools of your trade and your impeccable style.",
-        "points": 3,
+        "points": 4,
         "CBMs":[
             "bio_batteries",
             "bio_lockpick",
             "bio_fingerhack",
+            "bio_storage",
             "bio_power_storage_mkII"
+        ],
+        "skills": [
+            {
+                "level": 1,
+                "name": "gun"
+            },
+            {
+                "level": 1,
+                "name": "smg"
+            }
         ],
         "items": {
             "both": [
@@ -1861,8 +1870,8 @@
                 "gold_watch",
                 "briefcase_smg",
                 "stenmag",
-                "pda",
-                "9mm"
+                "9mm",
+                "pda"
             ],
             "male": [
                 "boxer_shorts"
@@ -2036,7 +2045,7 @@
         "ident": "bionic_worker",
         "name": "Industrial Cyborg",
         "description": "For better or for worse, bionic augmentation has turned you into a walking power tool.  Upgraded with a standard industrial-grade manual labor surgery and training package, you are augmented with bionic muscles and an integrated toolset, both powered by standard batteries.",
-        "points": 5,
+        "points": 6,
         "skills": [
             {
                 "level": 1,
@@ -2053,6 +2062,7 @@
         ],
         "CBMs":[
             "bio_tools",
+            "bio_sunglasses",
             "bio_hydraulics",
             "bio_batteries",
             "bio_power_storage_mkII"
@@ -2065,7 +2075,7 @@
                 "leather_belt",
                 "boots_steel",
                 "fire_gauntlets",
-                "goggles_welding",
+                "glasses_safety",
                 "hat_hard"
             ],
             "male": [
@@ -2389,13 +2399,21 @@
         "ident": "bionic_spy",
         "name": "Bionic Agent",
         "description": "Your body has several bionics worth millions of dollars, paid for by public taxes.  The government has turned you into an infiltration and recon specialist: you have night vision, an alarm and a hacking module.  And it all runs off piles and piles of everyday household batteries.",
-        "points": 3,
+        "points": 6,
         "CBMs":[
             "bio_fingerhack",
+			"bio_lockpick",
+			"bio_face_mask",
             "bio_alarm",
             "bio_night_vision",
             "bio_batteries",
             "bio_power_storage_mkII"
+        ],
+        "skills": [
+            {
+                "level": 2,
+                "name": "speech"
+            }
         ],
         "items": {
             "both": [
@@ -2418,26 +2436,30 @@
         "ident": "bionic_hitman",
         "name": "Bionic Assassin",
         "description": "The product of millions of dollars of clandestine research, you are a bionic sleeper agent capable of silently eliminating your target while maintaining an innocuous appearance.",
-        "points": 5,
+        "points": 6,
         "CBMs":[
+            "bio_cqb",
             "bio_blade",
             "bio_shock",
-            "bio_face_mask",
             "bio_torsionratchet",
             "bio_power_storage_mkII"
         ],
         "skills": [
             {
-                "level": 1,
+                "level": 2,
                 "name": "melee"
             },
             {
-                "level": 1,
+                "level": 2,
                 "name": "unarmed"
+            },
+			{
+                "level": 2,
+                "name": "stabbing"
             },
             {
                 "level": 2,
-                "name": "speech"
+                "name": "dodge"
             }
         ],
         "items": {
@@ -2445,7 +2467,8 @@
                 "dress_shoes",
                 "dress_shirt",
                 "knit_scarf",
-                "wristwatch"
+                "wristwatch",
+                "waistcoat"
             ],
             "male": [
                 "briefs",
@@ -2497,14 +2520,20 @@
         "ident": "bionic_customer",
         "name": "Commercial Cyborg",
         "description": "You always had to have the latest and best gadgets and gizmos, so is it any wonder that you upgraded your flesh along with your smart phone? Only time will tell if your status as a marvel of bionic technology will be enough to ensure your survival after the apocalypse.",
-        "points": 5,
+        "points": 6,
         "CBMs":[
-            "bio_tools",
             "bio_flashlight",
-            "bio_storage",
+			"bio_torsionratchet",
+            "bio_ups",
             "bio_watch",
             "bio_batteries",
             "bio_power_storage_mkII"
+        ],
+        "skills": [
+            {
+                "level": 1,
+                "name": "electronics"
+            }
         ],
         "items": {
             "both": [
