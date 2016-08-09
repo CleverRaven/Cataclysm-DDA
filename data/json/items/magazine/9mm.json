@@ -47,7 +47,6 @@
     "ammo_type" : "9mm",
     "capacity" : 15,
     "reliability" : 8,
-    "reload_time" : 100,
     "flags" : [ "MAG_COMPACT" ]
   },
   {
@@ -98,7 +97,6 @@
     "ammo_type" : "9mm",
     "capacity" : 15,
     "reliability" : 8,
-    "reload_time" : 100,
     "flags" : [ "MAG_COMPACT" ]
   },
   {
@@ -115,7 +113,6 @@
     "ammo_type" : "9mm",
     "capacity" : 30,
     "reliability" : 9,
-    "reload_time" : 100,
     "flags" : [ "MAG_COMPACT" ]
   },
   {
@@ -149,7 +146,6 @@
     "ammo_type" : "9mm",
     "capacity" : 32,
     "reliability" : 6,
-    "reload_time" : 100,
     "flags": [ "MAG_COMPACT" ]
   },
   {
@@ -183,7 +179,6 @@
     "ammo_type" : "9mm",
     "capacity" : 32,
     "reliability" : 7,
-    "reload_time" : 100,
     "flags" : [ "MAG_COMPACT" ]
   },
   {
@@ -200,7 +195,6 @@
     "ammo_type" : "9mm",
     "capacity" : 15,
     "reliability" : 10,
-    "reload_time" : 100,
     "flags" : [ "MAG_COMPACT" ]
   },
   {
@@ -217,7 +211,6 @@
     "ammo_type" : "9mm",
     "capacity" : 32,
     "reliability" : 8,
-    "reload_time" : 100,
     "flags" : [ "MAG_COMPACT" ]
   }
 ]

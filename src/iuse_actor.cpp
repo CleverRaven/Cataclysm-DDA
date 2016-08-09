@@ -177,6 +177,21 @@ void iuse_transform::finalize( const itype_id & )
     }
 }
 
+void iuse_transform::info( const item &it, std::vector<iteminfo> &dump ) const
+{
+    const item dummy( target, calendar::turn, std::max( ammo_qty, 1l ) );
+    dump.emplace_back( "TOOL", string_format( _( "<bold>Turns into</bold>: %s" ),
+                                              dummy.tname().c_str() ) );
+    if( countdown > 0 ) {
+        dump.emplace_back( "TOOL", _( "Countdown: " ), "", countdown );
+    }
+
+    const auto *explosion_use = dummy.get_use( "explosion" );
+    if( explosion_use != nullptr ) {
+        explosion_use->get_actor_ptr()->info( it, dump );
+    }
+}
+
 countdown_actor::~countdown_actor() = default;
 
 iuse_actor *countdown_actor::clone() const
@@ -227,8 +242,12 @@ std::string countdown_actor::get_name() const
 
 void countdown_actor::info( const item &it, std::vector<iteminfo> &dump ) const
 {
-    dump.emplace_back( "TOOL", _( "<bold>Countdown</bold>: " ), "",
+    dump.emplace_back( "TOOL", _( "Countdown: " ), "",
                        interval > 0 ? interval : it.type->countdown_interval );
+    const auto countdown_actor = it.type->countdown_action.get_actor_ptr();
+    if( countdown_actor != nullptr ) {
+        countdown_actor->info( it, dump );
+    }
 }
 
 explosion_iuse::~explosion_iuse()
@@ -319,6 +338,21 @@ long explosion_iuse::use(player *p, item *it, bool t, const tripoint &pos) const
         }
     }
     return 1;
+}
+
+void explosion_iuse::info( const item &, std::vector<iteminfo> &dump ) const
+{
+    if( explosion.power <= 0 ) {
+        // @todo List other effects, like EMP and clouds
+        return;
+    }
+
+    dump.emplace_back( "TOOL", _( "Power at <bold>epicenter</bold>: " ), "", explosion.power );
+    const auto &sd = explosion.shrapnel;
+    if( sd.count > 0 ) {
+        dump.emplace_back( "TOOL", _( "Shrapnel <bold>count</bold>: " ), "", sd.count );
+        dump.emplace_back( "TOOL", _( "Shrapnel <bold>mass</bold>: " ), "", sd.mass );
+    }
 }
 
 

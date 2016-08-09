@@ -47,7 +47,7 @@ void init_global_game_state() {
 
     g->u = player();
     g->u.create(PLTYPE_NOW);
-    g->m = map( static_cast<bool>( ACTIVE_WORLD_OPTIONS["ZLEVELS"] ) );
+    g->m = map( get_world_option<bool>( "ZLEVELS" ) );
 
     g->m.load( g->get_levx(), g->get_levy(), g->get_levz(), false );
 }

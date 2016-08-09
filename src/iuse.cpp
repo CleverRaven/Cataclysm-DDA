@@ -3060,7 +3060,14 @@ int iuse::dig(player *p, item *it, bool, const tripoint &pos )
 {
     for( const tripoint &pt : closest_tripoints_first( 1, pos ) ) {
         if( g->m.furn( pt ).obj().examine == iexamine::rubble ) {
-            p->add_msg_if_player( _("You clear up that %s."), g->m.furnname( pt ).c_str() );
+            if( pt == p->pos() ) {
+                p->add_msg_if_player( m_info, _( "You clear up the %s at your feet." ),
+                                      g->m.furnname( pt ).c_str() );
+            } else {
+                const std::string direction = direction_name( direction_from( p->pos(), pt ) );
+                p->add_msg_if_player( m_info, _( "You clear up the %s to your %s." ),
+                                      g->m.furnname( pt ).c_str(), direction.c_str() );
+            }
             g->m.furn_set( pt, f_null );
 
             // costs per tile:
@@ -3071,17 +3078,16 @@ int iuse::dig(player *p, item *it, bool, const tripoint &pos )
             int bonus = std::max( it->get_quality( quality_id( "DIG" ) ) - 1, 1 );
             bonus *= bonus;
 
-            p->moves -= 5000 / ( bonus * bonus );
-
-            if( p ) {
-                p->mod_hunger ( 10 / bonus );
-                p->mod_thirst ( 10 / bonus );
-            }
+            // @todo: This should be converted to an activity, with a move cost of 5000/(bonus*bonus)
+            p->mod_moves( -500 );
+            p->mod_hunger ( 10 / bonus );
+            p->mod_thirst ( 10 / bonus );
 
             return it->type->charges_to_use();
         }
     }
 
+    p->add_msg_if_player( m_bad, _( "There's no rubble to clear." ) );
     return 0;
 }
 
@@ -3716,14 +3722,15 @@ int iuse::granade_act(player *, item *it, bool t, const tripoint &pos)
     return it->type->charges_to_use();
 }
 
-int iuse::c4(player *p, item *it, bool, const tripoint& )
+int iuse::c4( player *p, item *it, bool, const tripoint & )
 {
-    int time = query_int(_("Set the timer to (0 to cancel)?"));
-    if (time <= 0) {
-        p->add_msg_if_player(_("Never mind."));
+    int time;
+    bool got_value = query_int( time, _( "Set the timer to (0 to cancel)?" ) );
+    if( !got_value || time <= 0 ) {
+        p->add_msg_if_player( _( "Never mind." ) );
         return 0;
     }
-    p->add_msg_if_player(_("You set the timer to %d."), time);
+    p->add_msg_if_player( _( "You set the timer to %d." ), time );
     it->convert( "c4armed" );
     it->charges = time;
     it->active = true;
@@ -3962,23 +3969,25 @@ int iuse::firecracker_act(player *, item *it, bool t, const tripoint &pos)
     return 0;
 }
 
-int iuse::mininuke(player *p, item *it, bool, const tripoint& )
+int iuse::mininuke( player *p, item *it, bool, const tripoint & )
 {
-    int time = query_int(_("Set the timer to (0 to cancel)?"));
-    if (time <= 0) {
-        p->add_msg_if_player(_("Never mind."));
+    int time;
+    bool got_value = query_int( time, _( "Set the timer to (0 to cancel)?" ) );
+    if( !got_value || time <= 0 ) {
+        p->add_msg_if_player( _( "Never mind." ) );
         return 0;
     }
-    p->add_msg_if_player(_("You set the timer to %d."), time);
-    if (!p->is_npc()) {
-        p->add_memorial_log(pgettext("memorial_male", "Activated a mininuke."),
-                            pgettext("memorial_female", "Activated a mininuke."));
+    p->add_msg_if_player( _( "You set the timer to %d." ), time );
+    if( !p->is_npc() ) {
+        p->add_memorial_log( pgettext( "memorial_male", "Activated a mininuke." ),
+                             pgettext( "memorial_female", "Activated a mininuke." ) );
     }
     it->convert( "mininuke_act" );
     it->charges = time;
     it->active = true;
     return it->type->charges_to_use();
 }
+
 
 int iuse::pheromone( player *p, item *it, bool, const tripoint &pos )
 {
@@ -7160,7 +7169,7 @@ int iuse::remoteveh(player *p, item *it, bool t, const tripoint &pos)
             veh->start_engines();
         }
     } else if( choice == 3 ) {
-        veh->use_controls( pos, true );
+        veh->use_controls( pos );
     } else {
         return 0;
     }

@@ -566,7 +566,7 @@
         "type" : "material",
         "ident" : "wood",
         "name" : "Wood",
-        "salvaged_into" : "skewer",
+        "salvaged_into" : "splinter",
         "bash_resist" : 3,
         "cut_resist" : 2,
         "bash_dmg_verb" : "splintered",

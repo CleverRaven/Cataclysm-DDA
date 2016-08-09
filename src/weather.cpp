@@ -586,7 +586,7 @@ std::string print_temperature( double fahrenheit, int decimals )
     ret.precision( decimals );
     ret << std::fixed;
 
-    if(OPTIONS["USE_CELSIUS"] == "celsius") {
+    if(get_option<std::string>( "USE_CELSIUS" ) == "celsius") {
         ret << temp_to_celsius( fahrenheit );
         return rmp_format( _( "<Celsius>%sC" ), ret.str().c_str() );
     } else {

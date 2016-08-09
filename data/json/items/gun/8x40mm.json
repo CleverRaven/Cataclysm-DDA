@@ -230,7 +230,6 @@
     "recoil": 75,
     "durability": 9,
     "clip_size": 5,
-    "reload": 100,
     "valid_mod_locations": [[ "accessories", 2 ],[ "barrel", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]],
     "flags": [ "WATERPROOF_GUN", "RELOAD_ONE", "NEVER_JAMS" ]
   }

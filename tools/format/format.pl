@@ -123,4 +123,4 @@ if ($dirty) {
 }
 
 print $result unless $opts{'q'};
-exit($opts{'c'} ? ($original eq $result ? 0 : 1) : 0)
+exit($opts{'c'} ? (($original // '') eq ($result // '') ? 0 : 1) : 0)

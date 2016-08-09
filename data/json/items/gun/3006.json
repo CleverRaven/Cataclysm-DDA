@@ -70,7 +70,6 @@
     "ammo": "3006",
     "dispersion": 5,
     "sight_dispersion": 60,
-    "aim_speed": 8,
     "recoil": 75,
     "durability": 8,
     "clip_size": 5,

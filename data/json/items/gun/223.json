@@ -180,7 +180,7 @@
     },
     "sight_dispersion": 0,
     "durability": 9,
-    "burst": 0
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ] ]
   },
   {
     "id": "l_mbr_223",
@@ -213,7 +213,7 @@
         "recoil": -150
     },
     "durability": 9,
-    "burst": 20
+    "modes": [ [ "DEFAULT", "auto", 20 ] ]
   },
   {
     "id": "m249",

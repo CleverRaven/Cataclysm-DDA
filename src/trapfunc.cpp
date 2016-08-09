@@ -627,9 +627,6 @@ void trapfunc::dissector( Creature *c, const tripoint &p )
             n->deal_damage( nullptr, bp_foot_r, damage_instance( DT_CUT, 10 ) );
         } else if( z != nullptr ) {
             z->apply_damage( nullptr, bp_torso, 60 );
-            if( z->is_dead() ) {
-                z->explode();
-            }
         }
         c->check_dead_state();
     }

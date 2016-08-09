@@ -2240,3 +2240,4 @@ bool npc::will_accept_from_player( const item &it ) const
 
     return true;
 }
+

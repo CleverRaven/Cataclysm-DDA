@@ -46,7 +46,6 @@
     "ammo": "metal_rail",
     "dispersion": 90,
     "sight_dispersion": 150,
-    "aim_speed" : 0,
     "recoil": 60,
     "durability": 6,
     "clip_size": 1,

@@ -82,7 +82,6 @@ class worldfactory
         void draw_mod_list( WINDOW *w, int &start, int &cursor, const std::vector<std::string> &mods,
                             bool is_active_list, const std::string &text_if_empty, WINDOW *w_shift );
 
-        void get_default_world_options( WORLDPTR &world );
         bool load_world_options( WORLDPTR &world );
 
         std::unique_ptr<mod_manager> mman;

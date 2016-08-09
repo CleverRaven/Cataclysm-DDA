@@ -912,7 +912,7 @@ Those flags are added by the game code to specific items (that specific welder, 
 - ```COMBATSAW_ON``` Turn the combat-saw off
 - ```CROWBAR``` Pry open doors, windows, man-hole covers and many other things that need prying.
 - ```DEJAR```
-- ```DIG``` Dig a hole in the ground.
+- ```DIG``` Clear rubble.
 - ```DIRECTIONAL_ANTENNA``` Find the source of a signal with your radio.
 - ```DOG_WHISTLE``` Dogs hate this thing; your dog seems pretty cool with it though.
 - ```DOLLCHAT``` That creepy doll just keeps on talking.

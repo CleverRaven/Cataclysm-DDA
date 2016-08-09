@@ -139,8 +139,8 @@ void auto_pickup::show( const std::string &custom_name, bool is_autopickup )
         locx = 55;
         mvwprintz(w_header, 0, locx, c_white, _("Auto pickup enabled:"));
         locx += shortcut_print(w_header, 1, locx,
-                               ((OPTIONS["AUTO_PICKUP"]) ? c_ltgreen : c_ltred), c_white,
-                               ((OPTIONS["AUTO_PICKUP"]) ? _("True") : _("False")));
+                               (get_option<bool>( "AUTO_PICKUP" ) ? c_ltgreen : c_ltred), c_white,
+                               (get_option<bool>( "AUTO_PICKUP" ) ? _("True") : _("False")));
         locx += shortcut_print(w_header, 1, locx, c_white, c_ltgreen, "  ");
         locx += shortcut_print(w_header, 1, locx, c_white, c_ltgreen, _("<S>witch"));
         shortcut_print(w_header, 1, locx, c_white, c_ltgreen, "  ");
@@ -329,7 +329,7 @@ void auto_pickup::show( const std::string &custom_name, bool is_autopickup )
             test_pattern(iTab, iLine);
         } else if (action == "SWITCH_OPTION") {
             // @todo Now that NPCs use this function, it could be used for them too
-            OPTIONS["AUTO_PICKUP"].setNext();
+            get_options().get_option( "AUTO_PICKUP" ).setNext();
             get_options().save();
         }
     }
@@ -471,9 +471,9 @@ void auto_pickup::add_rule(const std::string &sRule)
     vRules[CHARACTER_TAB].push_back(cRules(sRule, true, false));
     create_rule(sRule);
 
-    if (!OPTIONS["AUTO_PICKUP"] &&
+    if (!get_option<bool>( "AUTO_PICKUP" ) &&
         query_yn(_("Autopickup is not enabled in the options. Enable it now?")) ) {
-        OPTIONS["AUTO_PICKUP"].setNext();
+        get_options().get_option( "AUTO_PICKUP" ).setNext();
         get_options().save();
     }
 }

@@ -212,8 +212,8 @@ std::string inventory_column::get_entry_text( const inventory_entry &entry ) con
     std::ostringstream res;
 
     if( entry.location ) {
-        if( OPTIONS["ITEM_SYMBOLS"] ) {
-            res << entry.location->symbol() << ' ';
+        if( get_option<bool>( "ITEM_SYMBOLS" ) ) {
+            res << entry.get_item().symbol() << ' ';
         }
 
         if( multiselect ) {
@@ -329,9 +329,15 @@ std::string selection_column::get_entry_text( const inventory_entry &entry ) con
 {
     std::ostringstream res;
 
+<<<<<<< HEAD
     if( entry.location ) {
         if( OPTIONS["ITEM_SYMBOLS"] ) {
             res << entry.location->symbol() << ' ';
+=======
+    if( entry.is_item() ) {
+        if( get_option<bool>( "ITEM_SYMBOLS" ) ) {
+            res << entry.get_item().symbol() << ' ';
+>>>>>>> master
         }
 
         const size_t available_count = entry.get_available_count();

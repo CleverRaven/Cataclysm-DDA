@@ -21,7 +21,6 @@
       "aim_speed" : 0,
       "recoil" : 0,
       "durability" : 6,
-      "burst" : 0,
       "clip_size" : 1,
       "reload" : 80,
       "valid_mod_locations": [["underbarrel", 1]]

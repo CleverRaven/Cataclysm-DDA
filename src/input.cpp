@@ -16,6 +16,7 @@
 #include <stdexcept>
 #include <errno.h>
 #include <ctype.h>
+#include <algorithm>
 
 extern bool tile_iso;
 extern bool lcmatch( const std::string &str, const std::string &findstr ); // ui.cpp
@@ -94,6 +95,11 @@ void input_manager::init()
         load( FILENAMES["keybindings"], false );
     } catch( const JsonError &err ) {
         throw std::runtime_error( FILENAMES["keybindings"] + ": " + err.what() );
+    }
+    try {
+        load( FILENAMES["keybindings_vehicle"], false );
+    } catch( const JsonError &err ) {
+        throw std::runtime_error( FILENAMES["keybindings_vehicle"] + ": " + err.what() );
     }
     try {
         load( FILENAMES["user_keybindings"], true );
@@ -982,7 +988,7 @@ void input_context::display_help()
             inp_mngr.get_action_attributes( action_id, category, &is_local );
             const std::string name = get_action_name( action_id );
 
-            if( status == s_remove && ( !OPTIONS["QUERY_KEYBIND_REMOVAL"] ||
+            if( status == s_remove && ( !get_option<bool>( "QUERY_KEYBIND_REMOVAL" ) ||
                                         query_yn( _( "Clear keys for %s?" ), name.c_str() ) ) ) {
 
                 // If it's global, reset the global actions.
