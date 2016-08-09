@@ -249,7 +249,9 @@ void mission_type::load( JsonObject &jo )
     mandatory( jo, was_loaded, "difficulty", difficulty );
     mandatory( jo, was_loaded, "value", value );
 
-    optional( jo, was_loaded, "urgent", urgent, false );
+    optional( jo, was_loaded, "urgent", urgent );
+    optional( jo, was_loaded, "item", item_id );
+    optional( jo, was_loaded, "count", item_count );
 
     goal = jo.get_enum_value<decltype(goal)>( "goal" );
 
@@ -271,6 +273,14 @@ void mission_type::load( JsonObject &jo )
         for( auto &m : jo.get_tags( "origins" ) ) {
             origins.emplace_back( io::string_to_enum_look_up( io::origin_map, m ) );
         }
+    }
+
+    if( jo.has_member( "followup" ) ) {
+        follow_up = mission_type_id( jo.get_string( "followup" ) );
+    }
+
+    if( jo.has_member( "destination" ) ) {
+        target_id = oter_id( jo.get_string( "destination" ) );
     }
 }
 
