@@ -1116,8 +1116,7 @@ item_location inventory_pick_selector::execute()
         if( input.entry != nullptr ) {
             return input.entry->get_location().clone();
         } else if( input.action == "QUIT" ) {
-            static const item_location null_location;
-            return null_location.clone();
+            return item_location();
         } else if( input.action == "RIGHT" || input.action == "CONFIRM" ) {
             return get_active_column().get_selected().get_location().clone();
         } else {
