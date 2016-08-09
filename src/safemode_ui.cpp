@@ -324,7 +324,6 @@ void safemode::show( const std::string &custom_name_in, bool is_safemode_in )
                     case Creature::A_ANY:
                     default:
                         attitude = Creature::A_HOSTILE;
-                        break;
                 }
             } else if( column == COLUMN_PROXIMITY && !current_tab[line].exclude ) {
                 const auto text = string_input_popup( _( "Proximity Distance (0=max viewdistance)" ),
