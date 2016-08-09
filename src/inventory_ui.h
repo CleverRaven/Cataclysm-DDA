@@ -202,11 +202,11 @@ class inventory_column
         size_t get_height() const {
             return entries_per_page;
         }
-        /// Expands the column to fit the new entry
+        /** Expands the column to fit the new entry */
         void expand_to_fit( const inventory_entry &entry );
-        /// Resets width to original (unchanged)
+        /** Resets width to original (unchanged) */
         void reset_width();
-        /// Returns next custom inventory letter
+        /** Returns next custom inventory letter */
         long reassign_custom_invlets( const player &p, long min_invlet, long max_invlet );
 
         virtual void prepare_paging();
