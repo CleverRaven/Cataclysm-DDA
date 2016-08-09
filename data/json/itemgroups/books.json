@@ -9,7 +9,8 @@
       [ "mag_pistol", 50 ],
       [ "mag_rifle", 50 ],
       [ "mag_shotgun", 30 ],
-      [ "mag_smg", 10 ]
+      [ "mag_smg", 10 ],
+      [ "mag_muzzle", 30 ]
     ]
   },
   {
@@ -23,7 +24,8 @@
       [ "manual_shotgun", 30 ],
       [ "manual_smg", 10 ],
       [ "pocket_firearms", 100 ],
-      [ "recipe_bullets", 80 ]
+      [ "recipe_bullets", 80 ],
+      [ "mag_muzzle", 30 ]
     ]
   },
   {

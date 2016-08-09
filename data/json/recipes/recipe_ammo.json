@@ -2275,7 +2275,7 @@
   "time": 500,
   "reversible": false,
   "autolearn": true,
-  "book_learn": [["recipe_bullets" , 2 ] , [ "manual_shotgun", 2 ]],
+  "book_learn": [["recipe_bullets" , 2 ] , [ "manual_shotgun", 2 ] , [ "mag_muzzle", 2 ]],
   "qualities":[
     {"id":"SAW_M","level":1,"amount":1}
   ],
@@ -2314,7 +2314,7 @@
   "time": 500,
   "reversible": false,
   "autolearn": true,
-  "book_learn": [["recipe_bullets" , 2 ] , [ "manual_shotgun", 2 ]],
+  "book_learn": [["recipe_bullets" , 2 ] , [ "manual_shotgun", 2 ] , [ "mag_muzzle", 2 ]],
   "qualities":[
   {"id":"SAW_M","level":1,"amount":1}
   ],
@@ -2963,6 +2963,7 @@
     "time": 20000,
     "reversible": false,
     "autolearn": true,
+    "book_learn": [[ "mag_muzzle", 2 ]],
     "components": [
       [
         [ "gunpowder", 300 ],
@@ -2992,6 +2993,7 @@
     "time": 20000,
     "reversible": false,
     "autolearn": true,
+    "book_learn": [[ "mag_muzzle", 2 ]],
     "components": [
       [
         [ "gunpowder", 300 ],
