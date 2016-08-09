@@ -4336,14 +4336,17 @@ void game::debug()
                         uimenu types;
                         types.return_invalid = true;
                         types.text = _( "Choose mission type" );
-                        for( auto & mt : mission_type::get_all() ) {
-                            types.addentry( mt.id, true, -1, mt.name );
+                        const auto all_missions = mission_type::get_all();
+                        std::vector<const mission_type *> mts;
+                        for( size_t i = 0; i < all_missions.size(); i++ ) {
+                            types.addentry( i, true, -1, all_missions[ i ].name );
+                            mts.push_back( &all_missions[ i ] );
                         }
+
                         types.addentry( INT_MAX, true, -1, _( "Cancel" ) );
                         types.query();
-                        if( types.ret != INT_MAX && types.ret >= 0 ) {
-                            np->add_new_mission( mission::reserve_new( static_cast<mission_type_id>( types.ret ),
-                                                 np->getID() ) );
+                        if( types.ret >= 0 && types.ret < (int)mts.size() ) {
+                            np->add_new_mission( mission::reserve_new( mts[ types.ret ]->id, np->getID() ) );
                         }
                     }
                     break;

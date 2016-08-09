@@ -16,9 +16,11 @@ class player;
 class field_entry;
 class npc_class;
 class auto_pickup;
+struct mission_type;
 enum game_message_type : int;
 
 using npc_class_id = string_id<npc_class>;
+using mission_type_id = string_id<mission_type>;
 
 void parse_tags( std::string &phrase, const player &u, const npc &me );
 
@@ -803,7 +805,7 @@ public:
  npc_attitude attitude; // What we want to do to the player
     npc_class_id myclass; // What's our archetype?
  std::string idz; // A temp variable used to inform the game which npc json to use as a template
- int miss_id; // A temp variable used to link to the correct mission
+    mission_type_id miss_id; // A temp variable used to link to the correct mission
 
 private:
     /**
