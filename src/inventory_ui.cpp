@@ -820,11 +820,11 @@ void inventory_selector::prepare_layout()
 
 void inventory_selector::draw_header( WINDOW *w ) const
 {
-    trim_and_print( w, 0, screen_border_gap, getmaxx( w ) - screen_border_gap, c_ltgray, title.c_str() );
+    trim_and_print( w, 0, screen_border_gap, getmaxx( w ) - screen_border_gap, c_ltgray, "%s", title.c_str() );
     if( has_available_choices() ) {
-        trim_and_print( w, 1, screen_border_gap, getmaxx( w ) - screen_border_gap, c_dkgray, hint.c_str() );
+        trim_and_print( w, 1, screen_border_gap, getmaxx( w ) - screen_border_gap, c_dkgray, "%s", hint.c_str() );
     } else {
-        trim_and_print( w, 1, screen_border_gap, getmaxx( w ) - screen_border_gap, c_red,
+        trim_and_print( w, 1, screen_border_gap, getmaxx( w ) - screen_border_gap, c_red, "%s",
                         _( "There are no available choices." ) );
     }
 
@@ -871,8 +871,8 @@ void inventory_selector::draw_header( WINDOW *w ) const
         right_print( w, 0, x, c_dkgray, stats[0][i].c_str() );
         right_print( w, 1, x, c_dkgray, stats[1][i].c_str() );
     }
-    print_colored_text( w, 0, getmaxx( w ) - x, base_color, base_color, stats[0][cells_count - 1].c_str() );
-    print_colored_text( w, 1, getmaxx( w ) - x, base_color, base_color, stats[1][cells_count - 1].c_str() );
+    print_colored_text( w, 0, getmaxx( w ) - x, base_color, base_color, stats[0][cells_count - 1] );
+    print_colored_text( w, 1, getmaxx( w ) - x, base_color, base_color, stats[1][cells_count - 1] );
 }
 
 void inventory_selector::refresh_window() const
@@ -938,7 +938,7 @@ void inventory_selector::draw_footer( WINDOW *w ) const
     if( are_columns_centered() ) {
         center_print( w, getmaxy( w ) - 1, msg_color, msg_str.c_str() );
     } else {
-        trim_and_print( w, getmaxy( w ) - 1, 1, getmaxx( w ), msg_color, msg_str.c_str() );
+        trim_and_print( w, getmaxy( w ) - 1, 1, getmaxx( w ), msg_color, "%s", msg_str.c_str() );
     }
 }
 
