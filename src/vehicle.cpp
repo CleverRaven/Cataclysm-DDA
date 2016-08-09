@@ -2142,7 +2142,7 @@ std::vector<const vehicle_part *> vehicle::get_parts( const std::string &flag, b
 {
     std::vector<const vehicle_part *> res;
     for( const auto &e : parts ) {
-        if( !e.removed && !e.is_broken() > 0 && ( !enabled || e.enabled ) && e.info().has_flag( flag ) ) {
+        if( !e.removed && !e.is_broken() && ( !enabled || e.enabled ) && e.info().has_flag( flag ) ) {
             res.push_back( &e );
         }
     }

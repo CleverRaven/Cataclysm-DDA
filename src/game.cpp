@@ -4453,7 +4453,7 @@ void game::debug()
         break;
 
         case 23: {
-#ifndef TILES
+#ifdef TILES
             const point offset {
                 POSX - u.posx() + u.view_offset.x,
                      POSY - u.posy() + u.view_offset.y

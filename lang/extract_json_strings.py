@@ -51,6 +51,7 @@ ignorable = {
     "region_settings",
     "requirement",
     "SPECIES",
+    "uncraft",
     "vehicle_group",
     "vehicle_placement",
     "WORLD_OPTION"
