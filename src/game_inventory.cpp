@@ -5,6 +5,19 @@
 #include "item.h"
 #include "itype.h"
 
+class inventory_filter_preset : public inventory_selector_preset
+{
+    public:
+        inventory_filter_preset( const item_location_filter &filter ) : filter( filter ) {}
+
+        bool is_shown( const item_location &location ) const override {
+            return filter( location );
+        }
+
+    private:
+        item_location_filter filter;
+};
+
 static item_location inv_internal( player &p, const inventory_selector_preset &preset,
                                    const std::string &title, int radius,
                                    const std::string &none_message )
@@ -27,7 +40,7 @@ static item_location inv_internal( player &p, const inventory_selector_preset &p
         return item_location();
     }
 
-    return std::move( inv_s.execute() );
+    return inv_s.execute();
 }
 
 void game::interactive_inv()
@@ -56,13 +69,20 @@ void game::interactive_inv()
     } while( allowed_selections.count( res ) != 0 );
 }
 
-int game::inv_for_filter( const std::string &title, const item_filter &filter,
-                          const std::string &none_message )
+item_location_filter convert_filter( const item_filter &filter )
 {
-    return u.get_item_position( inv_map_splice( filter, title, -1, none_message ).get_item() );
+    return [ &filter ]( const item_location & loc ) {
+        return filter( *loc );
+    };
 }
 
-int game::inv_for_filter( const std::string &title, const item_location_filter &filter,
+int game::inv_for_filter( const std::string &title, item_filter filter,
+                          const std::string &none_message )
+{
+    return inv_for_filter( title, convert_filter( filter ), none_message );
+}
+
+int game::inv_for_filter( const std::string &title, item_location_filter filter,
                           const std::string &none_message )
 {
     return u.get_item_position( inv_map_splice( filter, title, -1, none_message ).get_item() );
@@ -117,15 +137,13 @@ int game::inv_for_unequipped( const std::string &title )
     }, _( "You don't have any items to wear." ) );
 }
 
-item_location game::inv_map_splice( const item_filter &filter, const std::string &title, int radius,
+item_location game::inv_map_splice( item_filter filter, const std::string &title, int radius,
                                     const std::string &none_message )
 {
-    return inv_map_splice( [ &filter ]( const item_location & location ) {
-        return filter( *location.get_item() );
-    }, title, radius, none_message );
+    return inv_map_splice( convert_filter( filter ), title, radius, none_message );
 }
 
-item_location game::inv_map_splice( const item_location_filter &filter, const std::string &title,
+item_location game::inv_map_splice( item_location_filter filter, const std::string &title,
                                     int radius,
                                     const std::string &none_message )
 {
@@ -154,25 +172,15 @@ item *game::inv_map_for_liquid( const item &liquid, const std::string &title, in
                                         liquid.tname().c_str() ) ).get_item();
 }
 
-class drop_inventory_preset: public inventory_selector_preset
-{
-    public:
-        drop_inventory_preset( const player &p ) : p( p ) {}
-
-        bool is_enabled( const item &it ) const override {
-            return p.can_unwield( it, false );
-        }
-
-    private:
-        const player &p;
-};
-
 std::list<std::pair<int, int>> game::multidrop()
 {
     u.inv.restack( &u );
     u.inv.sort();
 
-    const drop_inventory_preset preset( u );
+    const inventory_filter_preset preset( [ this ]( const item_location & location ) {
+        return u.can_unwield( *location, false );
+    } );
+
     inventory_drop_selector inv_s( u, preset );
 
     inv_s.add_character_items( u );

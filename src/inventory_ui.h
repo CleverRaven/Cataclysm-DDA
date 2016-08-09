@@ -128,35 +128,36 @@ class inventory_selector_preset
 
 const inventory_selector_preset default_preset;
 
-class inventory_filter_preset : public inventory_selector_preset
-{
-    public:
-        inventory_filter_preset( const item_location_filter &filter ) : filter( filter ) {}
-
-        bool is_shown( const item_location &location ) const override {
-            return filter( location );
-        }
-
-    private:
-        item_location_filter filter;
-};
-
 class inventory_column
 {
     public:
-        inventory_column( const inventory_selector_preset &preset = default_preset );
+        inventory_column( const inventory_selector_preset &preset = default_preset ) :
+            preset( preset ),
+            entries(),
+            mode( navigation_mode::ITEM ),
+            active( false ),
+            multiselect( false ),
+            paging_is_valid( false ),
+            visibility( true ),
+            selected_index( 1 ),
+            page_offset( 0 ),
+            entries_per_page( 1 ) {
+
+            cell_widths.resize( preset.get_cells_count(), 0 );
+        }
+
         virtual ~inventory_column() {}
 
         bool empty() const {
             return entries.empty();
         }
-
+        // true if can be activated
+        virtual bool activatable() const;
+        // true if displayed
         bool visible() const {
             return !empty() && visibility && preset.get_cells_count() > 0;
         }
 
-        // true if can be activated
-        virtual bool activatable() const;
         // true if allows selecting entries
         virtual bool allows_selecting() const {
             return activatable();
@@ -174,7 +175,7 @@ class inventory_column
         bool is_selected_by_category( const inventory_entry &entry ) const;
 
         const inventory_entry &get_selected() const;
-        std::vector<inventory_entry *> get_all_selected();
+        std::vector<inventory_entry *> get_all_selected() const;
 
         inventory_entry *find_by_invlet( long invlet );
 
@@ -232,28 +233,46 @@ class inventory_column
         size_t get_entry_indent( const inventory_entry &entry ) const;
         size_t get_entry_cell_width( const inventory_entry &entry, size_t cell_index ) const;
 
-        std::vector<inventory_entry> entries;
-
-    private:
         std::vector<size_t> cell_widths;
 
         const inventory_selector_preset &preset;
-        navigation_mode mode = navigation_mode::ITEM;
 
-        bool active = false;
-        bool multiselect = false;
-        bool paging_is_valid = false;
-        bool visibility = true;
+        std::vector<inventory_entry> entries;
+        navigation_mode mode;
+        bool active;
+        bool multiselect;
+        bool paging_is_valid;
+        bool visibility;
 
-        size_t selected_index = 0;
-        size_t page_offset = 0;
-        size_t entries_per_page = 1;
+        size_t selected_index;
+        size_t page_offset;
+        size_t entries_per_page;
+};
+
+class selection_column : public inventory_column
+{
+    public:
+        selection_column( const std::string &id, const std::string &name );
+
+        virtual bool activatable() const override {
+            return inventory_column::activatable() && pages_count() > 1;
+        }
+
+        virtual bool allows_selecting() const override {
+            return false;
+        }
+
+        virtual void prepare_paging() override;
+        virtual void on_change( const inventory_entry &entry ) override;
+
+    private:
+        const std::unique_ptr<item_category> selected_cat;
 };
 
 class inventory_selector
 {
     public:
-        inventory_selector( const player &p, const inventory_selector_preset &preset = default_preset );
+        inventory_selector( const player &u, const inventory_selector_preset &preset = default_preset );
         ~inventory_selector();
         /** These functions add items from map / vehicles */
         void add_character_items( Character &character );
@@ -276,14 +295,10 @@ class inventory_selector
         bool has_available_choices() const;
 
     protected:
-        const player &p;
+        const player &u;
         const inventory_selector_preset &preset;
 
         inventory_input get_input();
-
-        inventory_column own_inv_column;     // Column for own inventory items
-        inventory_column own_gear_column;    // Column for own gear (weapon, armor) items
-        inventory_column map_column;         // Column for map and vehicle items
 
         const item_category *naturalize_category( const item_category &category,
                 const tripoint &pos );
@@ -306,7 +321,7 @@ class inventory_selector
         virtual void rearrange_columns();
         /** Returns player for volume/weight numbers */
         virtual const player &get_player_for_stats() const {
-            return p;
+            return u;
         }
 
         void draw_header( WINDOW *w ) const;
@@ -314,9 +329,11 @@ class inventory_selector
         void draw_columns( WINDOW *w ) const;
 
         /** @return an entry from @ref entries by its invlet */
-        inventory_entry *find_entry_by_invlet( long invlet );
+        inventory_entry *find_entry_by_invlet( long invlet ) const;
 
-        const std::vector<inventory_column *> &get_all_columns() const;
+        const std::vector<inventory_column *> &get_all_columns() const {
+            return columns;
+        }
         std::vector<inventory_column *> get_visible_columns() const;
 
         inventory_column &get_column( size_t index ) const;
@@ -356,16 +373,21 @@ class inventory_selector
         virtual void on_change( const inventory_entry &entry );
 
     private:
+        input_context ctxt;
+        WINDOW *w_inv;
+
         std::list<item_location> items;
         std::vector<inventory_column *> columns;
 
-        WINDOW *w_inv;
         std::string title;
         std::string hint;
-        size_t active_column_index = 0;
+        size_t active_column_index;
         std::list<item_category> categories;
-        navigation_mode navigation = navigation_mode::ITEM;
-        input_context ctxt;
+        navigation_mode navigation;
+
+        inventory_column own_inv_column;     // Column for own inventory items
+        inventory_column own_gear_column;    // Column for own gear (weapon, armor) items
+        inventory_column map_column;         // Column for map and vehicle items
 
         bool display_stats = true;
         bool layout_is_valid = false;
