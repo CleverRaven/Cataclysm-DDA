@@ -18,19 +18,19 @@ class inventory_filter_preset : public inventory_selector_preset
         item_location_filter filter;
 };
 
-static item_location inv_internal( player &p, const inventory_selector_preset &preset,
+static item_location inv_internal( player &u, const inventory_selector_preset &preset,
                                    const std::string &title, int radius,
                                    const std::string &none_message )
 {
-    p.inv.restack( &p );
-    p.inv.sort();
+    u.inv.restack( &u );
+    u.inv.sort();
 
-    inventory_pick_selector inv_s( p, preset );
+    inventory_pick_selector inv_s( u, preset );
 
     inv_s.set_title( title );
     inv_s.set_display_stats( false );
 
-    inv_s.add_character_items( p );
+    inv_s.add_character_items( u );
     inv_s.add_nearby_items( radius );
 
     if( inv_s.empty() ) {

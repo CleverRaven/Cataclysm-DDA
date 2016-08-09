@@ -66,13 +66,13 @@ class selection_column_preset: public inventory_selector_preset
             return res.str();
         }
 
-        virtual nc_color get_color( const item &it ) const override {
-            if( &it == &g->u.weapon ) {
+        virtual nc_color get_color( const item_location & loc ) const override {
+            if( &*loc == &g->u.weapon ) {
                 return c_ltblue;
-            } else if( g->u.is_worn( it ) ) {
+            } else if( g->u.is_worn( *loc ) ) {
                 return c_cyan;
             } else {
-                return inventory_selector_preset::get_color( it );
+                return inventory_selector_preset::get_color( loc );
             }
         }
 };
@@ -144,44 +144,9 @@ inventory_selector_preset::inventory_selector_preset()
     } );
 }
 
-bool inventory_selector_preset::is_shown( const item & ) const
+nc_color inventory_selector_preset::get_color( const item_location &loc ) const
 {
-    return true;
-}
-
-bool inventory_selector_preset::is_shown( const item_location &location ) const
-{
-    return is_shown( *location );
-}
-
-bool inventory_selector_preset::is_enabled( const item & ) const
-{
-    return true;
-}
-
-bool inventory_selector_preset::is_enabled( const item_location &location ) const
-{
-    return is_enabled( *location );
-}
-
-int inventory_selector_preset::get_rank( const item & ) const
-{
-    return 0;
-}
-
-int inventory_selector_preset::get_rank( const item_location &location ) const
-{
-    return get_rank( *location );
-}
-
-nc_color inventory_selector_preset::get_color( const item &it ) const
-{
-    return it.color_in_inventory();
-}
-
-nc_color inventory_selector_preset::get_color( const item_location &location ) const
-{
-    return get_color( *location );
+    return loc->color_in_inventory();
 }
 
 std::string inventory_selector_preset::get_caption( const inventory_entry &entry ) const
@@ -219,24 +184,6 @@ size_t inventory_selector_preset::get_cell_width( const inventory_entry &entry,
         size_t cell_index ) const
 {
     return utf8_width( get_cell_text( entry, cell_index ), true );
-}
-
-void inventory_selector_preset::append_cell( const std::function<std::string( const item & )> &func,
-                                             const std::string &title )
-{
-    // Don't capture by reference here. The func should be able to die earlier than the object itself
-    append_cell( [ func ]( const inventory_entry & entry ) {
-        return func( entry.get_item() );
-    }, title );
-}
-
-void inventory_selector_preset::append_cell( const std::function<std::string( const item_location & )> &func,
-                                             const std::string &title )
-{
-    // Don't capture by reference here. The func should be able to die earlier than the object itself
-    append_cell( [ func ]( const inventory_entry & entry ) {
-        return func( entry.get_location() );
-    }, title );
 }
 
 void inventory_selector_preset::append_cell( const std::function<std::string( const inventory_entry & )> &func,
@@ -486,6 +433,13 @@ void inventory_column::remove_entry( const inventory_entry &entry )
     paging_is_valid = false;
 }
 
+void inventory_column::clear()
+{
+    entries.clear();
+    paging_is_valid = false;
+    prepare_paging();
+}
+
 size_t inventory_column::get_entry_indent( const inventory_entry &entry ) const {
     if( !entry.is_item() ) {
         return 0;
@@ -498,13 +452,6 @@ size_t inventory_column::get_entry_indent( const inventory_entry &entry ) const 
         res += 2;
     }
     return res;
-}
-
-void inventory_column::clear()
-{
-    entries.clear();
-    paging_is_valid = false;
-    prepare_paging();
 }
 
 long inventory_column::reassign_custom_invlets( const player &p, long min_invlet, long max_invlet )
@@ -630,15 +577,16 @@ void selection_column::on_change( const inventory_entry &entry )
     inventory_entry my_entry( entry, selected_cat.get() );
 
     const auto iter = std::find( entries.begin(), entries.end(), my_entry );
-    if( iter == entries.end() ) {
-        if( my_entry.chosen_count != 0 ) {
+
+    if( my_entry.chosen_count != 0 ) {
+        if( iter == entries.end() ) {
             add_entry( my_entry );
+        } else {
+            iter->chosen_count = my_entry.chosen_count;
+            expand_to_fit( my_entry );
         }
-    } else if( my_entry.chosen_count == 0 ) {
-        remove_entry( my_entry );
     } else {
-        iter->chosen_count = my_entry.chosen_count;
-        expand_to_fit( my_entry );
+        remove_entry( my_entry );
     }
 
     prepare_paging();

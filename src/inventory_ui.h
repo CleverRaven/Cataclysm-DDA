@@ -86,10 +86,19 @@ class inventory_selector_preset
     public:
         inventory_selector_preset();
 
-        virtual bool is_shown( const item_location &location ) const;
-        virtual bool is_enabled( const item_location &location ) const;
-        virtual int get_rank( const item_location &location ) const;
-        virtual nc_color get_color( const item_location &location ) const;
+        virtual bool is_shown( const item_location & ) const {
+            return true;
+        }
+
+        virtual bool is_enabled( const item_location & ) const {
+            return true;
+        }
+
+        virtual int get_rank( const item_location & ) const {
+            return 0;
+        }
+
+        virtual nc_color get_color( const item_location &loc ) const;
 
         std::string get_cell_text( const inventory_entry &entry, size_t cell_index ) const;
         size_t get_cell_width( const inventory_entry &entry, size_t cell_index ) const;
@@ -103,16 +112,6 @@ class inventory_selector_preset
         using cell_pair = std::pair<std::string, std::function<std::string( const inventory_entry & )>>;
 
         virtual std::string get_caption( const inventory_entry &entry ) const;
-
-        virtual bool is_shown( const item &it ) const;
-        virtual bool is_enabled( const item &it ) const;
-        virtual int get_rank( const item &it ) const;
-        virtual nc_color get_color( const item &it ) const;
-
-        void append_cell( const std::function<std::string( const item & )> &func,
-                          const std::string &title = "" );
-        void append_cell( const std::function<std::string( const item_location & )> &func,
-                          const std::string &title = "" );
         void append_cell( const std::function<std::string( const inventory_entry & )> &func,
                           const std::string &title = "" );
 
