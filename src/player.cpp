@@ -10898,14 +10898,19 @@ void player::use(int inventory_position)
             return;
         }
 
-        int gunpos = get_item_position( g->inv_for_gunmod( *used, _( "GUN TO MODIFY" ) ).get_item() );
+        int gunpos = g->inv_for_filter( _("Select gun to modify:" ), [&used]( const item& e ) {
+            return e.gunmod_compatible( *used, false, false );
+        }, _( "You don't have compatible guns." ) );
 
         if( gunpos == INT_MIN ) {
             add_msg_if_player( m_info, _( "Never mind." ) );
             return;
         }
 
-        gunmod_add( i_at( gunpos ), *used );
+        item& gun = i_at( gunpos );
+        if( gun.gunmod_compatible( *used ) ) {
+            gunmod_add( gun, *used );
+        }
         return;
 
     } else if (used->is_bionic()) {
@@ -11085,7 +11090,7 @@ bool player::gunmod_remove( item &gun, item& mod )
 
 void player::gunmod_add( item &gun, item &mod )
 {
-    if( !gun.gunmod_compatible( mod ) ) {
+    if( !gun.gunmod_compatible( mod, false ) ) {
         debugmsg( "Tried to add incompatible gunmod" );
         return;
     }

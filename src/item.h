@@ -1288,9 +1288,10 @@ public:
 
         /*
          * Checks if mod can be applied to this item considering any current state (jammed, loaded etc.)
-         * @param msg message describing reason for any incompatibility
+         * @param alert whether to display message describing reason for any incompatibility
+         * @param effects whether temporary efects (jammed, loaded etc) are considered when checking
          */
-        bool gunmod_compatible( const item& mod, std::string *msg = nullptr ) const;
+        bool gunmod_compatible( const item& mod, bool alert = true, bool effects = true ) const;
 
         struct gun_mode {
             std::string mode;           /** name of this mode */

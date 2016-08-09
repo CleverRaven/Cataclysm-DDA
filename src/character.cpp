@@ -1961,8 +1961,7 @@ bool Character::pour_into( item &container, item &liquid )
     const long amount = container.get_remaining_capacity_for_liquid( liquid, *this, &err );
 
     if( !err.empty() ) {
-        add_msg_if_player( m_bad, string_format( "You can't pour %1$s in your %2$s: it %3$s.",
-                           liquid.tname().c_str(), container.tname().c_str(), err.c_str() ).c_str() );
+        add_msg_if_player( m_bad, err.c_str() );
         return false;
     }
 

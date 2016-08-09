@@ -10386,7 +10386,7 @@ bool game::handle_liquid( item &liquid, item * const source, const int radius,
 
     menu.addentry( -1, true, 'c', _( "Pour into a container" ) );
     actions.emplace_back( [&]() {
-        const std::string text = string_format( _( "CONTAINER FOR %s" ), to_upper_case( liquid_name.c_str() ).c_str() );
+        const std::string text = string_format( _( "Container for %s" ), liquid_name.c_str() );
         item * const cont = inv_map_for_liquid( liquid, text, radius );
 
         if( cont == nullptr || cont->is_null() ) {
@@ -11043,23 +11043,29 @@ void game::eat(int pos)
     }
 
     // Can consume items from inventory or within one tile (including in vehicles)
-    item_location loc = inv_for_comestibles( _( "CONSUME ITEM" ) );
+    auto item_loc = inv_map_splice( [&]( const item &it ) {
+        if( it.typeId() == "1st_aid" ) {
+            return false; // temporary fix for #12991
+        }
+        return it.made_of( SOLID ) && (it.is_food( &u ) || it.is_food_container( &u ) );
+    }, _( "Consume item:" ), 1, _( "You have nothing to consume." ) );
 
-    if( !loc ) {
+    item *it = item_loc.get_item();
+    if( !it ) {
         add_msg( _( "Never mind." ) );
         return;
     }
 
-    item &it = *loc;
-    pos = u.get_item_position( &it );
+    pos = u.get_item_position( it );
     if( pos != INT_MIN ) {
         u.consume( pos );
-    } else if( u.consume_item( it ) ) {
-        if( it.is_food_container() ) {
-            it.contents.erase( it.contents.begin() );
-            add_msg( _("You leave the empty %s."), it.tname().c_str() );
+
+    } else if( u.consume_item( *it ) ) {
+        if( it->is_food_container() ) {
+            it->contents.erase( it->contents.begin() );
+            add_msg( _("You leave the empty %s."), it->tname().c_str() );
         } else {
-            loc.remove_item();
+            item_loc.remove_item();
         }
     }
 }

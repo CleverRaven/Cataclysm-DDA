@@ -4335,61 +4335,60 @@ const item * item::gunmod_find( const itype_id& mod ) const
     return const_cast<item *>( this )->gunmod_find( mod );
 }
 
-bool item::gunmod_compatible( const item& mod, std::string *err ) const
+bool item::gunmod_compatible( const item& mod, bool alert, bool effects ) const
 {
     if( !mod.is_gunmod() ) {
         debugmsg( "Tried checking compatibility of non-gunmod" );
         return false;
     }
 
-    const auto error = [ err ]( const std::string &error_msg ) {
-        if( err != nullptr ) {
-            *err = error_msg;
-        }
-        return false;
-    };
+    std::string msg;
 
     if( !is_gun() ) {
-        return error( string_format( _( "isn't a weapon" ) ) );
+        msg = string_format( _( "That %s is not a weapon." ), tname().c_str() );
 
     } else if( is_gunmod() ) {
-        return error( string_format( _( "a gunmod can not be modded" ) ) );
+        msg = string_format( _( "That %s is a gunmod, it can not be modded." ), tname().c_str() );
 
     } else if( gunmod_find( mod.typeId() ) ) {
-        return error( string_format( _( "already has a %s" ), mod.tname( 1 ).c_str() ) );
+        msg = string_format( _( "Your %1$s already has a %2$s." ), tname().c_str(), mod.tname( 1 ).c_str() );
 
     } else if( !type->gun->valid_mod_locations.count( mod.type->gunmod->location ) ) {
-        return error( string_format( _( "doesn't have a slot for this mod" ) ) );
+        msg = string_format( _( "Your %s doesn't have a slot for this mod." ), tname().c_str() );
 
     } else if( get_free_mod_locations( mod.type->gunmod->location ) <= 0 ) {
-        return error( string_format( _( "doesn't have enough room for another %s mod" ),
-                                     _( mod.type->gunmod->location.c_str() ) ) );
+        msg = string_format( _( "Your %1$s doesn't have enough room for another %2$s mod." ), tname().c_str(), _( mod.type->gunmod->location.c_str() ) );
 
-    } else if( ( mod.type->gunmod->ammo_modifier || !mod.type->gunmod->magazine_adaptor.empty() )
-               && ( ammo_remaining() > 0 || magazine_current() ) ) {
-        return error( string_format( _( "must be unloaded before installing this mod" ) ) );
+    } else if( effects && ( mod.type->gunmod->ammo_modifier || !mod.type->gunmod->magazine_adaptor.empty() )
+                       && ( ammo_remaining() > 0 || magazine_current() ) ) {
+        msg = string_format( _( "You must unload your %s before installing this mod." ), tname().c_str() );
 
     } else if( !mod.type->gunmod->usable.count( gun_type() ) ) {
-        return error( string_format( _( "this %s cannot be attached to a %s" ), mod.tname().c_str(), _( gun_type().c_str() ) ) );
+        msg = string_format( _( "That %s cannot be attached to a %s" ), mod.tname().c_str(), _( gun_type().c_str() ) );
 
     } else if( typeId() == "hand_crossbow" && !!mod.type->gunmod->usable.count( "pistol" ) ) {
-        return error( string_format( _("isn't big enough to use that mod") ) );
+        msg = string_format( _("Your %s isn't big enough to use that mod.'"), tname().c_str() );
 
     } else if ( !mod.type->gunmod->acceptable_ammo.empty() && !mod.type->gunmod->acceptable_ammo.count( ammo_type( false ) ) ) {
-        return error( string_format( _( "this %1$s cannot be used on a %2$s" ), mod.tname( 1 ).c_str(),
-                                     ammo_name( ammo_type( false ) ).c_str() ) );
+        msg = string_format( _( "That %1$s cannot be used on a %2$s." ), mod.tname( 1 ).c_str(), ammo_name( ammo_type( false ) ).c_str() );
 
     } else if( mod.typeId() == "waterproof_gunmod" && has_flag( "WATERPROOF_GUN" ) ) {
-        return error( string_format( _( "is already waterproof" ), tname().c_str() ) );
+        msg = string_format( _( "Your %s is already waterproof." ), tname().c_str() );
 
     } else if( mod.typeId() == "tuned_mechanism" && has_flag( "NEVER_JAMS" ) ) {
-        return error( string_format( _( "is eminently reliable and can't be improved this way" ) ) );
+        msg = string_format( _( "This %s is eminently reliable. You can't improve upon it this way." ), tname().c_str() );
 
     } else if( mod.typeId() == "brass_catcher" && has_flag( "RELOAD_EJECT" ) ) {
-        return error( string_format( _( "cannot have a brass catcher" ) ) );
+        msg = string_format( _( "You cannot attach a brass catcher to your %s." ), tname().c_str() );
+
+    } else {
+        return true;
     }
 
-    return true;
+    if( alert ) {
+        add_msg( m_info, msg.c_str() );
+    }
+    return false;
 }
 
 std::map<std::string, const item::gun_mode> item::gun_all_modes() const
@@ -4919,28 +4918,29 @@ long item::get_remaining_capacity_for_liquid( const item &liquid, bool allow_buc
 
     if( is_reloadable_with( liquid.typeId() ) ) {
         if( ammo_remaining() != 0 && ammo_current() != liquid.typeId() ) {
-            return error( string_format( _( "can't mix liquids" ) ) );
+            return error( string_format( _( "You can't mix loads in your %s." ), tname().c_str() ) );
         }
         remaining_capacity = ammo_capacity() - ammo_remaining();
     } else if( is_container() ) {
         if( !type->container->watertight ) {
-            return error( string_format( _( "isn't water-tight" ) ) );
+            return error( string_format( _( "That %s isn't water-tight." ), tname().c_str() ) );
         } else if( !type->container->seals && ( !allow_bucket || !is_bucket() ) ) {
-            return error( string_format( is_bucket() ? _( "must be on the ground or held to hold contents" )
-                                                     : _( "can't be sealed" ) ) );
+            return error( string_format( is_bucket() ? _( "That %s must be on the ground or held to hold contents!" )
+                                                     : _( "You can't seal that %s!" ), tname().c_str() ) );
         } else if( !contents.empty() && contents.front().typeId() != liquid.typeId() ) {
-            return error( string_format( _( "can't mix liquids" ) ) );
+            return error( string_format( _( "You can't mix loads in your %s." ), tname().c_str() ) );
         }
         remaining_capacity = liquid.charges_per_volume( get_container_capacity() );
         if( !contents.empty() ) {
             remaining_capacity -= contents.front().charges;
         }
     } else {
-        return error( string_format( _( "won't hold %s" ), liquid.tname().c_str() ) );
+        return error( string_format( _( "That %1$s won't hold %2$s." ), tname().c_str(), liquid.tname().c_str() ) );
     }
 
     if( remaining_capacity <= 0 ) {
-        return error( string_format( _( "is full" ) ) );
+        return error( string_format( _( "Your %1$s can't hold any more %2$s." ), tname().c_str(),
+                                     liquid.tname().c_str() ) );
     }
 
     return remaining_capacity;
