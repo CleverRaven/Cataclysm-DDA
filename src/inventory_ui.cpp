@@ -34,11 +34,6 @@ static const int screen_border_gap = 1;
 /** The minimal occupancy ratio (see @refer get_columns_occupancy_ratio()) to align columns to the center */
 static const double min_ratio_to_center = 0.65;
 
-static const item_category weapon_held_cat( "WEAPON HELD", _( "WEAPON HELD" ), -200 );
-static const item_category items_worn_cat( "ITEMS WORN", _( "ITEMS WORN" ), -100 );
-
-const std::string inventory_selector_preset::bug_text = _( "it's a bug!" );
-
 struct inventory_input {
     std::string action;
     long ch;
@@ -162,7 +157,7 @@ std::string inventory_selector_preset::get_cell_text( const inventory_entry &ent
 {
     if( cell_index >= cells.size() ) {
         debugmsg( "Invalid cell index %d.", cell_index );
-        return bug_text;
+        return "it's a bug!";
     }
     if( entry.is_null() ) {
         return std::string();
@@ -715,6 +710,9 @@ void inventory_selector::add_items( inventory_column &target_column,
 
 void inventory_selector::add_character_items( Character &character )
 {
+    static const item_category weapon_held_cat( "WEAPON HELD", _( "WEAPON HELD" ), -200 );
+    static const item_category items_worn_cat( "ITEMS WORN", _( "ITEMS WORN" ), -100 );
+
     character.visit_items( [ this, &character ]( item *it ) {
         if( it == &character.weapon ) {
             add_item( own_gear_column, item_location( character, it ), 1, &weapon_held_cat );

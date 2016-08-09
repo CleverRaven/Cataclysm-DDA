@@ -172,7 +172,7 @@ std::list<std::pair<int, int>> game::multidrop()
 
     inv_s.add_character_items( u );
     inv_s.set_title( _( "MULTIDROP" ) );
-    inv_s.set_hint( "To drop x items, type a number before selecting." );
+    inv_s.set_hint( _( "To drop x items, type a number before selecting." ) );
 
     if( inv_s.empty() ) {
         popup( std::string( _( "You have nothing to drop." ) ), PF_GET_KEY );
@@ -190,7 +190,7 @@ void game::compare( const tripoint &offset )
 
     inv_s.add_character_items( u );
     inv_s.set_title( _( "COMPARE" ) );
-    inv_s.set_hint( "Select two items to compare them." );
+    inv_s.set_hint( _( "Select two items to compare them." ) );
 
     if( offset != tripoint_min ) {
         inv_s.add_map_items( u.pos() + offset );
