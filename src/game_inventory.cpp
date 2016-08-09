@@ -79,12 +79,6 @@ item_location_filter convert_filter( const item_filter &filter )
 int game::inv_for_filter( const std::string &title, item_filter filter,
                           const std::string &none_message )
 {
-    return inv_for_filter( title, convert_filter( filter ), none_message );
-}
-
-int game::inv_for_filter( const std::string &title, item_location_filter filter,
-                          const std::string &none_message )
-{
     return u.get_item_position( inv_map_splice( filter, title, -1, none_message ).get_item() );
 }
 
@@ -140,14 +134,7 @@ int game::inv_for_unequipped( const std::string &title )
 item_location game::inv_map_splice( item_filter filter, const std::string &title, int radius,
                                     const std::string &none_message )
 {
-    return inv_map_splice( convert_filter( filter ), title, radius, none_message );
-}
-
-item_location game::inv_map_splice( item_location_filter filter, const std::string &title,
-                                    int radius,
-                                    const std::string &none_message )
-{
-    return inv_internal( u, inventory_filter_preset( filter ),
+    return inv_internal( u, inventory_filter_preset( convert_filter( filter ) ),
                          title, radius, none_message );
 }
 
