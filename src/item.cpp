@@ -239,12 +239,18 @@ item& item::activate()
 
 item& item::ammo_set( const itype_id& ammo, long qty )
 {
-    // if negative qty completely fill the item
     if( qty < 0 ) {
+        // completely fill an integral or existing magazine
         if( magazine_integral() || magazine_current() ) {
             qty = ammo_capacity();
         } else {
-            qty = item( magazine_default() ).ammo_capacity();
+            // if adding a magazine use default ammo count property if set
+            item mag( magazine_default() );
+            if( mag.type->magazine->count > 0 ) {
+                qty = mag.type->magazine->count;
+            } else {
+                qty = item( magazine_default() ).ammo_capacity();
+            }
         }
     }
 

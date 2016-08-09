@@ -725,12 +725,6 @@ void vehicle_prototype::finalize()
                 if( pt.ammo_types.empty() ) {
                     pt.ammo_types.insert( default_ammo( base->gun->ammo ) );
                 }
-                if( pt.ammo_qty.first < 0 ) {
-                    pt.ammo_qty.first = INT_MAX;
-                }
-                if( pt.ammo_qty.second < 0 ) {
-                    pt.ammo_qty.second = INT_MAX;
-                }
             }
 
             if( pt.part.obj().has_flag("CARGO") ) {
