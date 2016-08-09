@@ -35,26 +35,26 @@ struct dream {
 };
 
 struct mut_attack {
-    // Text printed when the attack is proced by you
+    /** Text printed when the attack is proced by you */
     std::string attack_text_u;
-    // As above, but for npc
+    /** As above, but for npc */
     std::string attack_text_npc;
-    // Need all of those to qualify for this attack
+    /** Need all of those to qualify for this attack */
     std::set<std::string> required_mutations;
-    // Need none of those to qualify for this attack
+    /** Need none of those to qualify for this attack */
     std::set<std::string> blocker_mutations;
 
-    // If not num_bp, this body part needs to be uncovered for the attack to proc
+    /** If not num_bp, this body part needs to be uncovered for the attack to proc */
     body_part bp = num_bp;
 
-    // Chance to proc is one_in( chance - dex - unarmed )
+    /** Chance to proc is one_in( chance - dex - unarmed ) */
     int chance = 0;
 
     damage_instance base_damage;
-    // Multiplied by strength and added to the above
+    /** Multiplied by strength and added to the above */
     damage_instance strength_damage;
 
-    // Should be true when and only when this attack needs hardcoded handling
+    /** Should be true when and only when this attack needs hardcoded handling */
     bool hardcoded_effect = false;
 };
 
@@ -94,7 +94,7 @@ struct mutation_branch {
     int bodytemp_max = 0;
     int bodytemp_sleep = 0;
 
-    // Attacks granted by this mutation
+    /** Attacks granted by this mutation */
     std::vector<mut_attack> attacks_granted;
 
     /** Mutations may adjust one or more of the default vitamin usage rates */

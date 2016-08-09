@@ -1146,19 +1146,31 @@
                 "base_damage" : { "damage_type" : "stab", "amount" : 20 }
             },
             {
+                "attack_text_u" : "You sink your fangs into %s",
+                "attack_text_npc" : "%1$s sinks their fangs into %2$s",
                 "required_mutations" : [ "MUZZLE" ],
                 "blocker_mutations" : [ "MUZZLE_LONG", "MUZZLE_RAT" ],
-                "chance" : 18
+                "body_part" : "MOUTH",
+                "chance" : 18,
+                "base_damage" : { "damage_type" : "stab", "amount" : 20 }
             },
             {
+                "attack_text_u" : "You sink your fangs into %s",
+                "attack_text_npc" : "%1$s sinks their fangs into %2$s",
                 "required_mutations" : [ "MUZZLE_LONG" ],
                 "blocker_mutations" : [ "MUZZLE", "MUZZLE_RAT" ],
-                "chance" : 15
+                "body_part" : "MOUTH",
+                "chance" : 15,
+                "base_damage" : { "damage_type" : "stab", "amount" : 20 }
             },
             {
+                "attack_text_u" : "You sink your fangs into %s",
+                "attack_text_npc" : "%1$s sinks their fangs into %2$s",
                 "required_mutations" : [ "MUZZLE_RAT" ],
                 "blocker_mutations" : [ "MUZZLE", "MUZZLE_RAT", "MUZZLE_LONG" ],
-                "chance" : 19
+                "body_part" : "MOUTH",
+                "chance" : 19,
+                "base_damage" : { "damage_type" : "stab", "amount" : 20 }
             }
         ]
     },{
@@ -4484,7 +4496,8 @@
                 "attack_text_u" : "You rake %s with your tentacle",
                 "attack_text_npc" : "%1$s rakes %2$s with their tentacle",
                 "required_mutations" : [ "CLAWS_TENTACLE" ],
-                "blocker_mutations" : []
+                "chance" : 1,
+                "hardcoded_effect" : true
             }
         ]
     },{
@@ -4522,7 +4535,8 @@
                 "attack_text_u" : "You rake %s with your tentacle",
                 "attack_text_npc" : "%1$s rakes %2$s with their tentacle",
                 "required_mutations" : [ "CLAWS_TENTACLE" ],
-                "blocker_mutations" : []
+                "chance" : 1,
+                "hardcoded_effect" : true
             }
         ]
     },{
@@ -4560,7 +4574,8 @@
                 "attack_text_u" : "You rake %s with your tentacle",
                 "attack_text_npc" : "%1$s rakes %2$s with their tentacle",
                 "required_mutations" : [ "CLAWS_TENTACLE" ],
-                "blocker_mutations" : []
+                "chance" : 1,
+                "hardcoded_effect" : true
             }
         ]
     },{
