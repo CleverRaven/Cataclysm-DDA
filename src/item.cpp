@@ -914,6 +914,11 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
             info.emplace_back( "GUN", space + _( "Maximum range: " ), "<num>", abs_max );
         }
 
+        int aim_mv = g->u.gun_engagement_moves( *mod );
+        if( aim_mv > 0 ) {
+            info.emplace_back( "GUN", _( "Maximum aiming time: " ), "<num> seconds", int( aim_mv / 16.67 ), true, "", true, true );
+        }
+
         info.push_back( iteminfo( "GUN", _( "Damage: " ), "", mod->gun_damage( false ), true, "", false, false ) );
 
         if( has_ammo ) {

@@ -444,6 +444,15 @@ double player::gun_engagement_range( const item& gun, engagement opts, double pe
     abort(); // never reached
 }
 
+int player::gun_engagement_moves( const item &gun ) const
+{
+    int mv = 0;
+    for( double penalty = recoil, adj; ( adj = aim_per_move( gun, penalty ) ) > 0.0; penalty -= adj ) {
+        mv++;
+    }
+    return mv;
+}
+
 bool player::handle_gun_damage( item &it )
 {
     if( !it.is_gun() ) {

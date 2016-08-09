@@ -521,6 +521,9 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Calculate range at which engagement rules apply */
         double gun_engagement_range( const item& gun, engagement opts, double penalty = -1 ) const;
 
+        /** How many moves does it take to aim gun to maximum accuracy? */
+        int gun_engagement_moves( const item &gun ) const;
+
         /**
          *  Fires a gun or axuiliary gunmod (ignoring any current mode)
          *  @param target where the first shot is aimed at (may vary for later shots)

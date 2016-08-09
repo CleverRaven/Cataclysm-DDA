@@ -96,7 +96,7 @@ void game::dump_stats( const std::string& what, dump_mode mode )
         header = {
             "Name", "Ammo", "Volume", "Weight", "Capacity",
             "Range", "Dispersion", "Recoil", "Damage", "Pierce",
-            "eff-min", "eff-max", "abs-max"
+            "Aim time", "Effective range", "Snapshot range", "Max range"
         };
 
         std::set<std::string> locations;
@@ -125,8 +125,10 @@ void game::dump_stats( const std::string& what, dump_mode mode )
             r.push_back( to_string( obj.gun_damage() ) );
             r.push_back( to_string( obj.gun_pierce() ) );
 
-            r.push_back( string_format( "%.1f", who.gun_engagement_range( obj, player::engagement::effective_min ) ) );
+            r.push_back( to_string( who.gun_engagement_moves( obj ) ) );
+
             r.push_back( string_format( "%.1f", who.gun_engagement_range( obj, player::engagement::effective_max ) ) );
+            r.push_back( string_format( "%.1f", who.gun_engagement_range( obj, player::engagement::effective_min ) ) );
             r.push_back( string_format( "%.1f", who.gun_engagement_range( obj, player::engagement::absolute_max ) ) );
 
             for( const auto &e : locations ) {
