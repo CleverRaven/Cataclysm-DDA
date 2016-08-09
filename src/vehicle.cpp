@@ -4945,7 +4945,7 @@ void vehicle::place_spawn_items()
                 continue;
             }
             if( x_in_y( pt.with_ammo, 100 ) ) {
-                parts[ turret ].ammo_set( default_ammo( parts[ turret ].ammo_type() ) );
+                parts[ turret ].ammo_set( random_entry( pt.ammo_types ), rng( pt.ammo_qty.first, pt.ammo_qty.second ) );
             }
         }
     }
