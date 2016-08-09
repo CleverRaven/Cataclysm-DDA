@@ -339,9 +339,6 @@ struct islot_gun : common_ranged_data {
     /** @todo add documentation */
     int sight_dispersion = 0;
 
-    /** @todo add documentation */
-    int aim_speed = 0;
-
     /** Modifies base loudness as provided by the currently loaded ammo */
     int loudness = 0;
 

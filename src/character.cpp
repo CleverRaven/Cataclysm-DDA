@@ -113,14 +113,14 @@ void Character::mod_stat( const std::string &stat, int modifier )
 
 double Character::aim_per_move( const item& gun, double recoil ) const
 {
-    // magic value to avoid rescaling JSON data
-    double k = 0.014;
+    // constant at which one unit of aim cost ~ 75 moves
+    int k = 25;
 
-    // increasing aiming cost results in linear penalty to aiming
-    double penalty = double( MAX_AIM_COST - gun.aim_speed( recoil ) + 1 ) / MAX_AIM_COST;
+    // calculate rate (b) from the exponential function y = a(1-b)^x where a is recoil
+    double improv = 1.0 - pow( 0.5, 1.0 / ( gun.aim_speed( recoil ) * k ) );
 
     // minimum improvment is 0.1MoA
-    double aim = std::max( recoil * k * penalty, 0.1 );
+    double aim = std::max( recoil * improv, 0.1 );
 
     // never improve by more than the currently used sights permit
     return std::max( std::min( aim, recoil - gun.sight_dispersion( recoil ) ), 0.0 );

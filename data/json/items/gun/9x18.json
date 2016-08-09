@@ -17,7 +17,6 @@
     "skill": "pistol",
     "dispersion": 225,
     "sight_dispersion": 90,
-    "aim_speed": 4,
     "recoil": 60,
     "durability": 6,
     "valid_mod_locations": [ [ "accessories", 2 ], [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "muzzle", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],

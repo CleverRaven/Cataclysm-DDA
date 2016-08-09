@@ -999,9 +999,6 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
         info.push_back( iteminfo( "GUN", _( "Sight dispersion: " ), "",
                                   mod->sight_dispersion( -1 ), true, "", false, true ) );
 
-        info.push_back( iteminfo( "GUN", space + _( "Aim speed: " ), "",
-                                  mod->aim_speed( -1 ), true, "", true, true ) );
-
         info.push_back( iteminfo( "GUN", _( "Recoil: " ), "", mod->gun_recoil( false ), true, "", false,
                                   true ) );
         if( has_ammo ) {
@@ -3927,7 +3924,7 @@ int item::sight_dispersion( double aim_threshold ) const
     int best_dispersion = gun->sight_dispersion;
     int best_aim_speed = INT_MAX;
     if( gun->sight_dispersion < aim_threshold || aim_threshold == -1 ) {
-        best_aim_speed = gun->aim_speed;
+        best_aim_speed = std::max( std::min( volume(), 8 ), 1 );
     }
     for( const auto e : gunmods() ) {
         const auto mod = e->type->gunmod.get();
@@ -3951,7 +3948,7 @@ int item::aim_speed( double aim_threshold ) const
     int best_dispersion = gun->sight_dispersion;
     int best_aim_speed = INT_MAX;
     if( gun->sight_dispersion <= aim_threshold || aim_threshold == -1 ) {
-        best_aim_speed = gun->aim_speed;
+        best_aim_speed = std::max( std::min( volume(), 8 ), 1 );
     }
     for( const auto e : gunmods() ) {
         const auto mod = e->type->gunmod.get();

@@ -183,8 +183,7 @@
       "weight": 1200,
       "volume": 4,
       "range": 3,
-      "ranged_damage": 3,
-      "aim_speed": 2
+      "ranged_damage": 3
     }
   },
   {
@@ -202,7 +201,6 @@
       "volume": 7,
       "ranged_damage": 2,
       "dispersion": 60,
-      "aim_speed": 2,
       "recoil": -150
     }
   },
@@ -217,7 +215,6 @@
     "relative": {
       "weight": 1200,
       "volume": 2,
-      "aim_speed": -2,
       "recoil": -50
     }
   },

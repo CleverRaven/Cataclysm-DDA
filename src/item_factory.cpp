@@ -222,14 +222,6 @@ void Item_factory::finalize() {
                                         std::set<std::string>() ) );
             }
 
-            // if JSON doesn't specify a useable aim speed then synthesise a reasonable one
-            if( obj.gun->aim_speed <= 0 ) {
-                obj.gun->aim_speed = std::min( obj.volume, MAX_AIM_COST - 2 );
-            }
-
-            // @todo rename JSON field aim_speed to aim_cost and add bounds checking
-            obj.gun->aim_speed = std::max( std::min( obj.gun->aim_speed, MAX_AIM_COST ), 1 );
-
             obj.gun->reload_noise = _( obj.gun->reload_noise.c_str() );
 
             // @todo Move to jsons?
@@ -1089,7 +1081,6 @@ void Item_factory::load( islot_gun &slot, JsonObject &jo, const std::string &src
     assign( jo, "pierce", slot.pierce, strict );
     assign( jo, "dispersion", slot.dispersion, strict );
     assign( jo, "sight_dispersion", slot.sight_dispersion, strict, 0 );
-    assign( jo, "aim_speed", slot.aim_speed, strict, 0 );
     assign( jo, "recoil", slot.recoil, strict );
     assign( jo, "durability", slot.durability, strict, 0, 10 );
     assign( jo, "burst", slot.burst, strict, 1 );
