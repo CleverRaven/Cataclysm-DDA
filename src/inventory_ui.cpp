@@ -250,7 +250,7 @@ void inventory_column::set_height( size_t height ) {
 void inventory_column::expand_to_fit( const inventory_entry &entry )
 {
     for( size_t cell_index = 0; cell_index < cell_widths.size(); ++cell_index ) {
-        size_t &cell_width = cell_widths.at( cell_index );
+        size_t &cell_width = cell_widths[cell_index];
         cell_width = std::max( cell_width, get_entry_cell_width( entry, cell_index ) );
     }
 
@@ -467,7 +467,7 @@ void inventory_column::draw( WINDOW *win, size_t x, size_t y ) const
     }
 
     const auto available_cell_width = [ this ]( const inventory_entry &entry, const size_t cell_index ) {
-        const size_t displayed_width = cell_widths.at( cell_index );
+        const size_t displayed_width = cell_widths[cell_index];
         const size_t real_width = get_entry_cell_width( entry, cell_index );
 
         return displayed_width > real_width ? displayed_width - real_width : 0;
@@ -498,7 +498,7 @@ void inventory_column::draw( WINDOW *win, size_t x, size_t y ) const
                 break; // Don't show duplicated titles
             }
 
-            x2 += cell_widths.at( cell_index );
+            x2 += cell_widths[cell_index];
 
             size_t text_width = preset.get_cell_width( entry, cell_index );
             size_t available_width = x2 - x1;
