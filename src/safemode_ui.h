@@ -13,13 +13,6 @@
 class safemode : public JsonSerializer, public JsonDeserializer
 {
     private:
-        void test_pattern( const int tab_in, const int row_in );
-
-        void load( const bool character_in );
-        bool save( const bool character_in );
-
-        bool character;
-
         enum Tabs : int {
             GLOBAL_TAB,
             CHARACTER_TAB,
@@ -81,14 +74,24 @@ class safemode : public JsonSerializer, public JsonDeserializer
          * is added as the key, with RULE_WHITELISTED or RULE_BLACKLISTED as the values.
          * safemode_rules[ 'creature name' ][ 'attitude' ].rule_state_class('rule_state', 'proximity')
          */
-        std::unordered_map < std::string, std::array < rule_state_class,
-            Creature::A_MAX - 1 > > safemode_rules;
+        std::unordered_map < std::string, std::array < rule_state_class, 3 > > safemode_rules;
 
         /**
-         * - vRules[0,1] aka vRules[GLOBAL,CHARACTER]: current rules split into global and
-         *      character-specific. Allows the editor to show one or the other.
+         * current rules for global and character tab
          */
-        std::array<std::vector<rules_class>, MAX_TAB> rules;
+        std::vector<rules_class> global_rules;
+        std::vector<rules_class> character_rules;
+
+        void test_pattern( const int tab_in, const int row_in );
+
+        void load( const bool character_in );
+        bool save( const bool character_in );
+
+        bool is_character;
+
+        void create_rules();
+        void add_rules( std::vector<rules_class> &rules_in );
+        void set_rule( const rules_class rule_in, const std::string name_in, rule_state rs_in );
 
     public:
         std::string whitelist;
@@ -97,7 +100,6 @@ class safemode : public JsonSerializer, public JsonDeserializer
         void add_rule( const std::string &rule_in, const Creature::Attitude attitude_in,
                        const int proximity_in, const rule_state state_in );
         void remove_rule( const std::string &rule_in, const Creature::Attitude attitude_in );
-        void create_rules();
         void clear_character_rules();
         rule_state check_monster( const std::string &creature_name_in, const Creature::Attitude attitude_in,
                                   const int proximity_in ) const;

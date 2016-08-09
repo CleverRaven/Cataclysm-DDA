@@ -35,7 +35,8 @@ void safemode::show()
 
 void safemode::show( const std::string &custom_name_in, bool is_safemode_in )
 {
-    auto rules_old = rules;
+    auto global_rules_old = global_rules;
+    auto character_rules_old = character_rules;
 
     const int header_height = 4;
     const int content_height = FULL_SCREEN_HEIGHT - 2 - header_height;
@@ -173,11 +174,11 @@ void safemode::show( const std::string &custom_name_in, bool is_safemode_in )
             }
         }
 
-        auto &current_tab = rules[tab];
+        auto &current_tab = ( tab == GLOBAL_TAB ) ? global_rules : character_rules;
         const bool current_tab_non_empty = !current_tab.empty();
 
         if( tab == CHARACTER_TAB && g->u.name == "" ) {
-            rules[CHARACTER_TAB].clear();
+            character_rules.clear();
             mvwprintz( w, 8, 15, c_white, _( "Please load a character first to use this page!" ) );
         }
 
@@ -272,16 +273,19 @@ void safemode::show( const std::string &custom_name_in, bool is_safemode_in )
             if( ( tab == GLOBAL_TAB && g->u.name != "" ) || tab == CHARACTER_TAB ) {
                 changes_made = true;
                 //copy over
-                rules[( tab == GLOBAL_TAB ) ? CHARACTER_TAB : GLOBAL_TAB].push_back( rules_class(
-                            current_tab[line].rule,
-                            current_tab[line].active,
-                            current_tab[line].exclude,
-                            current_tab[line].attitude,
-                            current_tab[line].proximity ) );
+                auto &temp_rules_from = ( tab == GLOBAL_TAB ) ? global_rules : character_rules;
+                auto &temp_rules_to = ( tab == GLOBAL_TAB ) ? character_rules : global_rules;
+
+                temp_rules_to.push_back( rules_class(
+                                             temp_rules_from[line].rule,
+                                             temp_rules_from[line].active,
+                                             temp_rules_from[line].exclude,
+                                             temp_rules_from[line].attitude,
+                                             temp_rules_from[line].proximity ) );
 
                 //remove old
-                current_tab.erase( current_tab.begin() + line );
-                line = rules[( tab == GLOBAL_TAB ) ? CHARACTER_TAB : GLOBAL_TAB].size() - 1;
+                temp_rules_from.erase( temp_rules_from.begin() + line );
+                line = temp_rules_from.size() - 1;
                 tab = ( tab == GLOBAL_TAB ) ? CHARACTER_TAB : GLOBAL_TAB;
             }
         } else if( action == "CONFIRM" && current_tab_non_empty ) {
@@ -307,14 +311,20 @@ void safemode::show( const std::string &custom_name_in, bool is_safemode_in )
                 current_tab[line].exclude = !current_tab[line].exclude;
             } else if( column == COLUMN_ATTITUDE ) {
                 auto &attitude = current_tab[line].attitude;
-                if( attitude == Creature::A_HOSTILE ) {
-                    attitude = Creature::A_NEUTRAL;
-                } else if( attitude == Creature::A_NEUTRAL ) {
-                    attitude = Creature::A_FRIENDLY;
-                } else if( attitude == Creature::A_FRIENDLY ) {
-                    attitude = Creature::A_ANY;
-                } else if( attitude == Creature::A_ANY ) {
-                    attitude = Creature::A_HOSTILE;
+                switch( attitude ) {
+                    case Creature::A_HOSTILE:
+                        attitude = Creature::A_NEUTRAL;
+                        break;
+                    case Creature::A_NEUTRAL:
+                        attitude = Creature::A_FRIENDLY;
+                        break;
+                    case Creature::A_FRIENDLY:
+                        attitude = Creature::A_ANY;
+                        break;
+                    case Creature::A_ANY:
+                    default:
+                        attitude = Creature::A_HOSTILE;
+                        break;
                 }
             } else if( column == COLUMN_PROXIMITY && !current_tab[line].exclude ) {
                 const auto text = string_input_popup( _( "Proximity Distance (0=max viewdistance)" ),
@@ -367,7 +377,7 @@ void safemode::show( const std::string &custom_name_in, bool is_safemode_in )
             }
         } else if( action == "TEST_RULE" && current_tab_non_empty ) {
             test_pattern( tab, line );
-        } else if( action == "SWITCH_OPTION" ) {
+        } else if( action == "SWITCH_SAFEMODE_OPTION" ) {
             get_options().get_option( "SAFEMODE" ).setNext();
             get_options().save();
         }
@@ -387,7 +397,8 @@ void safemode::show( const std::string &custom_name_in, bool is_safemode_in )
             create_rules();
         }
     } else {
-        rules = rules_old;
+        global_rules = global_rules_old;
+        character_rules = character_rules_old;
     }
 }
 
@@ -396,7 +407,9 @@ void safemode::test_pattern( const int tab_in, const int row_in )
     std::vector<std::string> creature_list;
     std::string creature_name = "";
 
-    if( rules[tab_in][row_in].rule == "" ) {
+    auto &temp_rules = ( tab_in == GLOBAL_TAB ) ? global_rules : character_rules;
+
+    if( temp_rules[row_in].rule == "" ) {
         return;
     }
 
@@ -408,7 +421,7 @@ void safemode::test_pattern( const int tab_in, const int row_in )
     //Loop through all monster mtypes
     for( const auto &mtype : MonsterGenerator::generator().get_all_mtypes() ) {
         creature_name = mtype.nname();
-        if( wildcard_match( creature_name, rules[tab_in][row_in].rule ) ) {
+        if( wildcard_match( creature_name, temp_rules[row_in].rule ) ) {
             creature_list.push_back( creature_name );
         }
     }
@@ -433,7 +446,7 @@ void safemode::test_pattern( const int tab_in, const int row_in )
     int nmatch = creature_list.size();
     std::string buf = string_format( ngettext( "%1$d monster matches: %2$s",
                                      "%1$d monsters match: %2$s",
-                                     nmatch ), nmatch, rules[tab_in][row_in].rule.c_str() );
+                                     nmatch ), nmatch, temp_rules[row_in].rule.c_str() );
     mvwprintz( w_test_rule_border, 0, content_width / 2 - utf8_width( buf ) / 2, hilite( c_white ),
                "%s", buf.c_str() );
 
@@ -501,9 +514,9 @@ void safemode::add_rule( const std::string &rule_in, const Creature::Attitude at
                          const int proximity_in,
                          const rule_state state_in )
 {
-    rules[CHARACTER_TAB].push_back( rules_class( rule_in, true,
-                                    ( state_in == RULE_BLACKLISTED ) ? false : true,
-                                    attitude_in, proximity_in ) );
+    character_rules.push_back( rules_class( rule_in, true,
+                                            ( state_in == RULE_BLACKLISTED ) ? false : true,
+                                            attitude_in, proximity_in ) );
     create_rules();
 
     if( !get_option<bool>( "SAFEMODE" ) &&
@@ -515,7 +528,7 @@ void safemode::add_rule( const std::string &rule_in, const Creature::Attitude at
 
 bool safemode::has_rule( const std::string &rule_in, const Creature::Attitude attitude_in )
 {
-    for( auto &elem : rules[CHARACTER_TAB] ) {
+    for( auto &elem : character_rules ) {
         if( rule_in.length() == elem.rule.length()
             && ci_find_substr( rule_in, elem.rule ) != -1
             && elem.attitude == attitude_in ) {
@@ -527,12 +540,12 @@ bool safemode::has_rule( const std::string &rule_in, const Creature::Attitude at
 
 void safemode::remove_rule( const std::string &rule_in, const Creature::Attitude attitude_in )
 {
-    for( auto it = rules[CHARACTER_TAB].begin();
-         it != rules[CHARACTER_TAB].end(); ++it ) {
+    for( auto it = character_rules.begin();
+         it != character_rules.end(); ++it ) {
         if( rule_in.length() == it->rule.length()
             && ci_find_substr( rule_in, it->rule ) != -1
             && it->attitude == attitude_in ) {
-            rules[CHARACTER_TAB].erase( it );
+            character_rules.erase( it );
             create_rules();
             break;
         }
@@ -541,45 +554,48 @@ void safemode::remove_rule( const std::string &rule_in, const Creature::Attitude
 
 bool safemode::empty() const
 {
-    return std::all_of( rules.begin(), rules.end(), []( const std::vector<rules_class> &v ) {
-        return v.empty();
-    } );
+    return global_rules.empty() && character_rules.empty();
 }
 
 void safemode::create_rules()
 {
     safemode_rules.clear();
 
-    static std::vector<Creature::Attitude> attitude_any = {{Creature::A_HOSTILE, Creature::A_NEUTRAL, Creature::A_FRIENDLY}};
-
-    auto set_rule = [&]( const rules_class rule_in, const std::string name_in, rule_state rs_in ) {
-        if( rule_in.rule != "" && rule_in.active && wildcard_match( name_in, rule_in.rule ) ) {
-            if( rule_in.attitude == Creature::A_ANY ) {
-                for( auto &att : attitude_any ) {
-                    safemode_rules[ name_in ][ att ] = rule_state_class( rs_in, rule_in.proximity );
-                }
-            } else {
-                safemode_rules[ name_in ][ rule_in.attitude ] = rule_state_class( rs_in, rule_in.proximity );
-            }
-        }
-    };
-
     //process include/exclude in order of rules, global first, then character specific
+    add_rules( global_rules );
+    add_rules( character_rules );
+}
+
+void safemode::add_rules( std::vector<rules_class> &rules_in )
+{
     //if a specific monster is being added, all the rules need to be checked now
     //may have some performance issues since exclusion needs to check all monsters also
-    for( int i = 0; i < MAX_TAB; i++ ) {
-        for( auto &rule : rules[i] ) {
-            if( !rule.exclude ) {
-                //Check include patterns against all monster mtypes
-                for( const auto &mtype : MonsterGenerator::generator().get_all_mtypes() ) {
-                    set_rule( rule, mtype.nname(), RULE_BLACKLISTED );
-                }
-            } else {
-                //exclude monsters from the existing mapping
-                for( auto iter = safemode_rules.begin(); iter != safemode_rules.end(); ++iter ) {
-                    set_rule( rule, iter->first, RULE_WHITELISTED );
-                }
+    for( auto &rule : rules_in ) {
+        if( !rule.exclude ) {
+            //Check include patterns against all monster mtypes
+            for( const auto &mtype : MonsterGenerator::generator().get_all_mtypes() ) {
+                set_rule( rule, mtype.nname(), RULE_BLACKLISTED );
             }
+        } else {
+            //exclude monsters from the existing mapping
+            for( auto iter = safemode_rules.begin(); iter != safemode_rules.end(); ++iter ) {
+                set_rule( rule, iter->first, RULE_WHITELISTED );
+            }
+        }
+    }
+}
+
+void safemode::set_rule( const rules_class rule_in, const std::string name_in, rule_state rs_in )
+{
+    static std::vector<Creature::Attitude> attitude_any = {{Creature::A_HOSTILE, Creature::A_NEUTRAL, Creature::A_FRIENDLY}};
+
+    if( rule_in.rule != "" && rule_in.active && wildcard_match( name_in, rule_in.rule ) ) {
+        if( rule_in.attitude == Creature::A_ANY ) {
+            for( auto &att : attitude_any ) {
+                safemode_rules[ name_in ][ att ] = rule_state_class( rs_in, rule_in.proximity );
+            }
+        } else {
+            safemode_rules[ name_in ][ rule_in.attitude ] = rule_state_class( rs_in, rule_in.proximity );
         }
     }
 }
@@ -607,7 +623,7 @@ rule_state safemode::check_monster( const std::string &creature_name_in,
 
 void safemode::clear_character_rules()
 {
-    rules[CHARACTER_TAB].clear();
+    character_rules.clear();
 }
 
 bool safemode::save_character()
@@ -620,12 +636,12 @@ bool safemode::save_global()
     return save( false );
 }
 
-bool safemode::save( const bool character_in )
+bool safemode::save( const bool is_character_in )
 {
-    character = character_in;
+    is_character = is_character_in;
     auto file = FILENAMES["safemode"];
 
-    if( character ) {
+    if( is_character ) {
         file = world_generator->active_world->world_path + "/" + base64_encode(
                    g->u.name ) + ".sfm.json";
         std::ifstream fin;
@@ -642,7 +658,7 @@ bool safemode::save( const bool character_in )
         JsonOut jout( fout, true );
         serialize( jout );
 
-        if( !character ) {
+        if( !is_character ) {
             create_rules();
         }
     }, _( "safemode configuration" ) );
@@ -658,13 +674,13 @@ void safemode::load_global()
     load( false );
 }
 
-void safemode::load( const bool character_in )
+void safemode::load( const bool is_character_in )
 {
-    character = character_in;
+    is_character = is_character_in;
 
     std::ifstream fin;
     std::string file = FILENAMES["safemode"];
-    if( character ) {
+    if( is_character ) {
         file = world_generator->active_world->world_path + "/" + base64_encode( g->u.name ) + ".sfm.json";
     }
 
@@ -687,7 +703,8 @@ void safemode::serialize( JsonOut &json ) const
 {
     json.start_array();
 
-    for( auto &elem : rules[( character ) ? CHARACTER_TAB : GLOBAL_TAB] ) {
+    auto &temp_rules = ( is_character ) ? character_rules : global_rules;
+    for( auto &elem : temp_rules ) {
         json.start_object();
 
         json.member( "rule", elem.rule );
@@ -704,7 +721,8 @@ void safemode::serialize( JsonOut &json ) const
 
 void safemode::deserialize( JsonIn &jsin )
 {
-    rules[( character ) ? CHARACTER_TAB : GLOBAL_TAB].clear();
+    auto &temp_rules = ( is_character ) ? character_rules : global_rules;
+    temp_rules.clear();
 
     jsin.start_array();
     while( !jsin.end_array() ) {
@@ -716,7 +734,7 @@ void safemode::deserialize( JsonIn &jsin )
         const Creature::Attitude attitude = ( Creature::Attitude ) jo.get_int( "attitude" );
         const int proximity = jo.get_int( "proximity" );
 
-        rules[( character ) ? CHARACTER_TAB : GLOBAL_TAB].push_back(
+        temp_rules.push_back(
             rules_class( rule, active, exclude, attitude, proximity )
         );
     }

@@ -94,14 +94,12 @@ class Creature
          * neutral - anything between.
          * friendly - avoid harming it, maybe even help.
          * any - any of the above, used in safemode_ui
-         * max - used for iterating
          */
         enum Attitude : int {
             A_HOSTILE,
             A_NEUTRAL,
             A_FRIENDLY,
-            A_ANY,
-            A_MAX
+            A_ANY
         };
 
         /**
