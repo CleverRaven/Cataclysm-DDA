@@ -144,7 +144,7 @@ void mission::on_creature_death( Creature &poor_dead_dude )
 mission* mission::reserve_random( const mission_origin origin, const tripoint &p, const int npc_id )
 {
     const auto type = mission_type::get_random_id( origin, p );
-    if( type == MISSION_NULL ) {
+    if( type.is_null() ) {
         return nullptr;
     }
     return mission::reserve_new( type, npc_id );
@@ -163,8 +163,7 @@ void mission::assign( player &u )
     player_id = u.getID();
     u.on_mission_assignment( *this );
     if( !was_started ) {
-        mission_start m_s;
-        (m_s.*type->start)(this);
+        type->start( this );
         was_started = true;
     }
 }
@@ -175,8 +174,8 @@ void mission::fail()
     if( g->u.getID() == player_id ) {
         g->u.on_mission_finished( *this );
     }
-    mission_fail failfunc;
-    (failfunc.*type->fail)( this );
+
+    type->fail( this );
 }
 
 void mission::set_target_to_mission_giver()
@@ -228,8 +227,8 @@ void mission::wrap_up()
             //Suppress warnings
             break;
     }
-    mission_end endfunc;
-    ( endfunc.*type->end )( this );
+
+    type->end( this );
 }
 
 bool mission::is_complete( const int _npc_id ) const
@@ -343,12 +342,17 @@ const tripoint &mission::get_target() const
 
 const mission_type &mission::get_type() const
 {
+    if( type == nullptr ) {
+        debugmsg( "Null mission type" );
+        return mission_type::get_all().front();
+    }
+
     return *type;
 }
 
 bool mission::has_follow_up() const
 {
-    return follow_up != MISSION_NULL;
+    return !follow_up.is_null();
 }
 
 mission_type_id mission::get_follow_up() const
@@ -409,7 +413,7 @@ void mission::load_info(std::istream &data)
     int type_id, rewtype, reward_id, rew_skill, tmpfollow, item_num, target_npc_id;
     std::string rew_item, itemid;
     data >> type_id;
-    type = mission_type::get( static_cast<mission_type_id>( type_id ) );
+    type = mission_type::get( mission_type::from_legacy( type_id ) );
     std::string tmpdesc;
     do {
         data >> tmpdesc;
@@ -422,7 +426,7 @@ void mission::load_info(std::istream &data)
          uid >> target.x >> target.y >> itemid >> item_num >> deadline >> npc_id >>
          good_fac_id >> bad_fac_id >> step >> tmpfollow >> target_npc_id;
     target.z = 0;
-    follow_up = mission_type_id(tmpfollow);
+    follow_up = mission_type::from_legacy(tmpfollow);
     reward.type = npc_favor_type(reward_id);
     reward.item_id = itype_id( rew_item );
     reward.skill = Skill::from_legacy_int( rew_skill );
@@ -437,8 +441,7 @@ std::string mission_dialogue (mission_type_id id, const std::string &state)
     // Return the text from within the mission case and leave the function there.
     // Reaching the end of the function is considered a bug and an appropriate message
     // is returned, so avoid it.
-    switch (id) {
-    case MISSION_GET_ANTIBIOTICS:
+    if( id == "MISSION_GET_ANTIBIOTICS" ) {
         if( state == "TALK_MISSION_DESCRIBE" ) {
             switch (rng(1, 4)) {
             case 1:
@@ -450,7 +453,6 @@ std::string mission_dialogue (mission_type_id id, const std::string &state)
             case 4:
                 return _("Oh god, it <swear> hurts...");
             }
-            break;
         } else if( state == "TALK_MISSION_OFFER" ) {
             return _("\
 I'm infected.  Badly.  I need you to get some antibiotics for me...");
@@ -473,9 +475,9 @@ There's a town nearby.  Check pharmacies; it'll be behind the counter.");
         } else if( state == "TALK_MISSION_FAILURE" ) {
             return _("How am I not dead already?!");
         }
-        break;
 
-    case MISSION_GET_SOFTWARE:
+
+    } else if( id == "MISSION_GET_SOFTWARE" ) {
         if( state == "TALK_MISSION_DESCRIBE" ) {
             return _("Oh man, I can't believe I forgot to download it...");
         } else if( state == "TALK_MISSION_OFFER" ) {
@@ -496,9 +498,9 @@ Thanks!  Just pull the data onto this USB drive and bring it to me.");
         } else if( state == "TALK_MISSION_FAILURE" ) {
             return _("Wow, you failed?  All that work, down the drain...");
         }
-        break;
 
-    case MISSION_GET_ZOMBIE_BLOOD_ANAL:
+
+    } else if( id == "MISSION_GET_ZOMBIE_BLOOD_ANAL" ) {
         if( state == "TALK_MISSION_DESCRIBE" ) {
             return _("\
 It could be very informative to perform an analysis of zombie blood...");
@@ -526,9 +528,9 @@ computers before completing that part.");
         } else if( state == "TALK_MISSION_FAILURE" ) {
             return _("What a shame, that data could have proved invaluable...");
         }
-        break;
 
-    case MISSION_RESCUE_DOG:
+
+    } else if( id == "MISSION_RESCUE_DOG" ) {
         if( state == "TALK_MISSION_DESCRIBE" ) {
             return _("Oh, my poor puppy...");
         } else if( state == "TALK_MISSION_OFFER" ) {
@@ -555,9 +557,9 @@ Thank you so much for finding him!");
         } else if( state == "TALK_MISSION_FAILURE" ) {
             return _("Oh no!  My poor puppy...");
         }
-        break;
 
-    case MISSION_KILL_ZOMBIE_MOM:
+
+    } else if( id == "MISSION_KILL_ZOMBIE_MOM" ) {
         if( state == "TALK_MISSION_DESCRIBE" ) {
             return _("Oh god, I can't believe it happened...");
         } else if( state == "TALK_MISSION_OFFER" ) {
@@ -579,10 +581,10 @@ of those things now.  Can you put her out of her misery for me?");
         } else if( state == "TALK_MISSION_FAILURE" ) {
             return _("Really... that's too bad.");
         }
-        break;
+
 
     //patriot mission 1
-    case MISSION_GET_FLAG:
+    } else if( id == "MISSION_GET_FLAG" ) {
         if( state == "TALK_MISSION_DESCRIBE" ) {
             return _("Does our flag still yet wave?");
         } else if( state == "TALK_MISSION_OFFER" ) {
@@ -605,10 +607,10 @@ Hell ya!  Find me one of those big ol' American flags.");
             return _("You give up?  This country fell apart because no one could find a\
 good man to rely on... might as well give up, I guess.");
         }
-        break;
+
 
     //patriot mission 2
-    case MISSION_GET_BLACK_BOX:
+    } else if( id == "MISSION_GET_BLACK_BOX" ) {
         if( state == "TALK_MISSION_DESCRIBE" ) {
             return _("We've got the flag, now we need to locate US forces.");
         } else if( state == "TALK_MISSION_OFFER" ) {
@@ -635,10 +637,10 @@ Fuck ya, America!");
         } else if( state == "TALK_MISSION_FAILURE" ) {
             return _("Damn, I'll have to find'er myself.");
         }
-        break;
+
 
     //patriot mission 3
-    case MISSION_GET_BLACK_BOX_TRANSCRIPT:
+    } else if( id == "MISSION_GET_BLACK_BOX_TRANSCRIPT" ) {
         if( state == "TALK_MISSION_DESCRIBE" ) {
             return _("With the black box in hand, we need to find a lab.");
         } else if( state == "TALK_MISSION_OFFER" ) {
@@ -667,10 +669,10 @@ Fuck ya, America!");
         } else if( state == "TALK_MISSION_FAILURE" ) {
             return _("Damn, I maybe we can find an egg-head to crack the terminal.");
         }
-        break;
+
 
     //patriot mission 4
-    case MISSION_EXPLORE_SARCOPHAGUS:
+    } else if( id == "MISSION_EXPLORE_SARCOPHAGUS" ) {
         if( state == "TALK_MISSION_DESCRIBE" ) {
             return _("You wouldn't believe what I found...");
         } else if( state == "TALK_MISSION_OFFER" ) {
@@ -698,10 +700,10 @@ bird coming to pick them up.");
         } else if( state == "TALK_MISSION_FAILURE" ) {
             return _("Damn, we were so close.");
         }
-        break;
+
 
     //martyr mission 1
-    case MISSION_GET_RELIC:
+    } else if( id == "MISSION_GET_RELIC" ) {
         if( state == "TALK_MISSION_DESCRIBE" ) {
             return _("St. Michael the archangel defend me in battle...");
         } else if( state == "TALK_MISSION_OFFER" ) {
@@ -725,10 +727,10 @@ I wish you the best of luck, may whatever god you please guide your path.");
         } else if( state == "TALK_MISSION_FAILURE" ) {
             return _("It was a lost cause anyways...");
         }
-        break;
+
 
     //martyr mission 2
-    case MISSION_RECOVER_PRIEST_DIARY:
+    } else if( id == "MISSION_RECOVER_PRIEST_DIARY" ) {
         if( state == "TALK_MISSION_DESCRIBE" ) {
             return _("St. Michael the archangel defend me in battle...");
         } else if( state == "TALK_MISSION_OFFER" ) {
@@ -756,10 +758,10 @@ within his own home.");
         } else if( state == "TALK_MISSION_FAILURE" ) {
             return _("It was a lost cause anyways...");
         }
-        break;
+
 
     //martyr mission 3
-    case MISSION_INVESTIGATE_CULT:
+    } else if( id == "MISSION_INVESTIGATE_CULT" ) {
         if( state == "TALK_MISSION_DESCRIBE" ) {
             return _("St. Michael the archangel defend me in battle...");
         } else if( state == "TALK_MISSION_OFFER" ) {
@@ -792,10 +794,10 @@ known if they are responsible for the outbreak but they certainly know more abou
         } else if( state == "TALK_MISSION_FAILURE" ) {
             return _("It was a lost cause anyways...");
         }
-        break;
+
 
     //martyr mission 4
-    case MISSION_INVESTIGATE_PRISON_VISIONARY:
+    } else if( id == "MISSION_INVESTIGATE_PRISON_VISIONARY" ) {
         if( state == "TALK_MISSION_DESCRIBE" ) {
             return _("St. Michael the archangel defend me in battle...");
         } else if( state == "TALK_MISSION_OFFER" ) {
@@ -825,9 +827,9 @@ their cells.  Either way, navigating the building will pose its own difficulties
         } else if( state == "TALK_MISSION_FAILURE" ) {
             return _("It was a lost cause anyways...");
         }
-        break;
 
-    case MISSION_GET_RECORD_WEATHER:
+
+    } else if( id == "MISSION_GET_RECORD_WEATHER" ) {
         if( state == "TALK_MISSION_DESCRIBE" ) {
             return _("I wonder if a retreat might exist...");
         } else if( state == "TALK_MISSION_OFFER" ) {
@@ -852,10 +854,10 @@ Thanks so much, you may save both of us yet.");
         } else if( state == "TALK_MISSION_FAILURE" ) {
             return _("If only we could find a great valley or something.");
         }
-        break;
+
 
     //humanitarian mission 1
-    case MISSION_GET_RECORD_PATIENT:
+    } else if( id == "MISSION_GET_RECORD_PATIENT" ) {
         if( state == "TALK_MISSION_DESCRIBE" ) {
             return _("I hope I don't see many names I know...");
         } else if( state == "TALK_MISSION_OFFER" ) {
@@ -877,10 +879,10 @@ Thank you, I suppose it won't change what has already happened but it will bring
         } else if( state == "TALK_MISSION_FAILURE" ) {
             return _("I bet some of them are still out there...");
         }
-        break;
+
 
     //humanitarian mission 2
-    case MISSION_REACH_FEMA_CAMP:
+    } else if( id == "MISSION_REACH_FEMA_CAMP" ) {
         if( state == "TALK_MISSION_DESCRIBE" ) {
             return _("Maybe they escaped to one of the camps...");
         } else if( state == "TALK_MISSION_OFFER" ) {
@@ -904,10 +906,10 @@ Thank you, just bring me to the camp... I just want to see.");
         } else if( state == "TALK_MISSION_FAILURE" ) {
             return _("I bet some of them are still out there...");
         }
-        break;
+
 
     //humanitarian mission 3
-    case MISSION_REACH_FARM_HOUSE:
+    } else if( id == "MISSION_REACH_FARM_HOUSE" ) {
         if( state == "TALK_MISSION_DESCRIBE" ) {
             return _("I just need a place to start over...");
         } else if( state == "TALK_MISSION_OFFER" ) {
@@ -933,10 +935,10 @@ ought to be safe for now.  You'll always be welcome here.");
         } else if( state == "TALK_MISSION_FAILURE" ) {
             return _("I guess it was just a pipe dream.");
         }
-        break;
+
 
     //vigilante mission 1
-    case MISSION_GET_RECORD_ACCOUNTING:
+    } else if( id == "MISSION_GET_RECORD_ACCOUNTING" ) {
         if( state == "TALK_MISSION_DESCRIBE" ) {
             return _("Those twisted snakes...");
         } else if( state == "TALK_MISSION_OFFER" ) {
@@ -961,10 +963,10 @@ will prove their guilt if we get an expert to examine it.");
         } else if( state == "TALK_MISSION_FAILURE" ) {
             return _("The day of reckoning will come for the corporations if it hasn't already.");
         }
-        break;
+
 
     //vigilante mission 2
-    case MISSION_GET_SAFE_BOX:
+    } else if( id == "MISSION_GET_SAFE_BOX" ) {
         if( state == "TALK_MISSION_DESCRIBE" ) {
             return _("Those twisted snakes...");
         } else if( state == "TALK_MISSION_OFFER" ) {
@@ -989,10 +991,10 @@ we take measure to stop those who seek to rule over us.");
         } else if( state == "TALK_MISSION_FAILURE" ) {
             return _("The day of reckoning will come for the corporations if it hasn't already.");
         }
-        break;
+
 
     //vigilante mission 3
-    case MISSION_GET_DEPUTY_BADGE:
+    } else if( id == "MISSION_GET_DEPUTY_BADGE" ) {
         if( state == "TALK_MISSION_DESCRIBE" ) {
             return _("Those twisted snakes...");
         } else if( state == "TALK_MISSION_OFFER" ) {
@@ -1015,10 +1017,10 @@ I'd check the police station.");
         } else if( state == "TALK_MISSION_FAILURE" ) {
             return _("The day of reckoning will come for the criminals if it hasn't already.");
         }
-        break;
+
 
     //demon slayer mission 1
-    case MISSION_KILL_JABBERWOCK:
+    } else if( id == "MISSION_KILL_JABBERWOCK" ) {
         if( state == "TALK_MISSION_DESCRIBE" ) {
             return _("The eater of the dead... something was ripping zombies to shreds and only leaving a few scattered limbs...");
         } else if( state == "TALK_MISSION_OFFER" ) {
@@ -1042,10 +1044,10 @@ Thanks, make sure you're ready for whatever the beast is.");
         } else if( state == "TALK_MISSION_FAILURE" ) {
             return _("I'm glad you came back alive... I wasn't sure if I had sent you to your death.");
         }
-        break;
+
 
     //demon slayer mission 2
-    case MISSION_KILL_100_Z:
+    } else if( id == "MISSION_KILL_100_Z" ) {
         if( state == "TALK_MISSION_DESCRIBE" ) {
             return _("You seem to know this new world better than most...");
         } else if( state == "TALK_MISSION_OFFER" ) {
@@ -1072,10 +1074,10 @@ our little neck of the world if you keep this up.");
         } else if( state == "TALK_MISSION_FAILURE" ) {
             return _("Quitting already?");
         }
-        break;
+
 
     //demon slayer mission 3
-    case MISSION_KILL_HORDE_MASTER:
+    } else if( id == "MISSION_KILL_HORDE_MASTER" ) {
         if( state == "TALK_MISSION_DESCRIBE" ) {
             return _("I've heard some bad rumors so I hope you are up for another challenge...");
         } else if( state == "TALK_MISSION_OFFER" ) {
@@ -1100,10 +1102,10 @@ alive under the rubble and ash.");
         } else if( state == "TALK_MISSION_FAILURE" ) {
             return _("Quitting already?");
         }
-        break;
+
 
     //demon slayer mission 4
-    case MISSION_RECRUIT_TRACKER:
+    } else if( id == "MISSION_RECRUIT_TRACKER" ) {
         if( state == "TALK_MISSION_DESCRIBE" ) {
             return _("You seem to know this new world better than most...");
         } else if( state == "TALK_MISSION_OFFER" ) {
@@ -1131,10 +1133,10 @@ target.");
         } else if( state == "TALK_MISSION_FAILURE" ) {
             return _("Quitting already?");
         }
-        break;
+
 
     //demon slayer mission 4b
-    case MISSION_JOIN_TRACKER:
+    } else if( id == "MISSION_JOIN_TRACKER" ) {
         if( state == "TALK_MISSION_DESCRIBE" ) {
             return _("Well damn, you must be the guys here to pick me up...");
         } else if( state == "TALK_MISSION_OFFER" ) {
@@ -1157,10 +1159,10 @@ Before we get into a major fight just make sure we have the gear we need, boss."
         } else if( state == "TALK_MISSION_FAILURE" ) {
             return _("Quitting already?");
         }
-        break;
+
 
     //Free Merchants
-    case MISSION_FREE_MERCHANTS_EVAC_1:
+    } else if( id == "MISSION_FREE_MERCHANTS_EVAC_1" ) {
         if( state == "TALK_MISSION_DESCRIBE" ) {
             return _("We need help...");
         } else if( state == "TALK_MISSION_OFFER" ) {
@@ -1185,9 +1187,9 @@ Before we get into a major fight just make sure we have the gear we need, boss."
         } else if( state == "TALK_MISSION_FAILURE" ) {
             return _("It was a lost cause anyways...");
         }
-        break;
 
-    case MISSION_FREE_MERCHANTS_EVAC_2:
+
+    } else if( id == "MISSION_FREE_MERCHANTS_EVAC_2" ) {
         if( state == "TALK_MISSION_DESCRIBE" ) {
             return _("We need help...");
         } else if( state == "TALK_MISSION_OFFER" ) {
@@ -1217,9 +1219,9 @@ Before we get into a major fight just make sure we have the gear we need, boss."
         } else if( state == "TALK_MISSION_FAILURE" ) {
             return _("It was a lost cause anyways...");
         }
-        break;
 
-    case MISSION_FREE_MERCHANTS_EVAC_3:
+
+    } else if( id == "MISSION_FREE_MERCHANTS_EVAC_3" ) {
         if( state == "TALK_MISSION_DESCRIBE" ) {
             return _("We need help...");
         } else if( state == "TALK_MISSION_OFFER" ) {
@@ -1241,9 +1243,9 @@ Before we get into a major fight just make sure we have the gear we need, boss."
         } else if( state == "TALK_MISSION_FAILURE" ) {
             return _("It was a lost cause anyways...");
         }
-        break;
 
-    case MISSION_FREE_MERCHANTS_EVAC_4:
+
+    } else if( id == "MISSION_FREE_MERCHANTS_EVAC_4" ) {
         if( state == "TALK_MISSION_DESCRIBE" ) {
             return _("We need help...");
         } else if( state == "TALK_MISSION_OFFER" ) {
@@ -1269,10 +1271,10 @@ Before we get into a major fight just make sure we have the gear we need, boss."
         } else if( state == "TALK_MISSION_FAILURE" ) {
             return _("It was a lost cause anyways...");
         }
-        break;
+
 
     //Old Guard
-    case MISSION_OLD_GUARD_REP_1:
+    } else if( id == "MISSION_OLD_GUARD_REP_1" ) {
         if( state == "TALK_MISSION_DESCRIBE" ) {
             return _("We need help...");
         } else if( state == "TALK_MISSION_OFFER" ) {
@@ -1295,9 +1297,9 @@ Before we get into a major fight just make sure we have the gear we need, boss."
         } else if( state == "TALK_MISSION_FAILURE" ) {
             return _("It was a lost cause anyways...");
         }
-        break;
 
-    case MISSION_OLD_GUARD_REP_2:
+
+    } else if( id == "MISSION_OLD_GUARD_REP_2" ) {
         if( state == "TALK_MISSION_DESCRIBE" ) {
             return _("We need help...");
         } else if( state == "TALK_MISSION_OFFER" ) {
@@ -1321,9 +1323,9 @@ Before we get into a major fight just make sure we have the gear we need, boss."
         } else if( state == "TALK_MISSION_FAILURE" ) {
             return _("It was a lost cause anyways...");
         }
-        break;
 
-    case MISSION_OLD_GUARD_REP_3:
+
+    } else if( id == "MISSION_OLD_GUARD_REP_3" ) {
         if( state == "TALK_MISSION_DESCRIBE" ) {
             return _("We need help...");
         } else if( state == "TALK_MISSION_OFFER" ) {
@@ -1348,9 +1350,9 @@ Before we get into a major fight just make sure we have the gear we need, boss."
         } else if( state == "TALK_MISSION_FAILURE" ) {
             return _("It was a lost cause anyways...");
         }
-        break;
 
-    case MISSION_OLD_GUARD_REP_4:
+
+    } else if( id == "MISSION_OLD_GUARD_REP_4" ) {
         if( state == "TALK_MISSION_DESCRIBE" ) {
             return _("We need help...");
         } else if( state == "TALK_MISSION_OFFER" ) {
@@ -1392,9 +1394,9 @@ Before we get into a major fight just make sure we have the gear we need, boss."
         } else if( state == "TALK_MISSION_FAILURE" ) {
             return _("It was a lost cause anyways...");
         }
-        break;
 
-    case MISSION_OLD_GUARD_NEC_1:
+
+    } else if( id == "MISSION_OLD_GUARD_NEC_1" ) {
         if( state == "TALK_MISSION_DESCRIBE" ) {
             return _("We need help...");
         } else if( state == "TALK_MISSION_OFFER" ) {
@@ -1420,9 +1422,9 @@ Before we get into a major fight just make sure we have the gear we need, boss."
         } else if( state == "TALK_MISSION_FAILURE" ) {
             return _("It was a lost cause anyways...");
         }
-        break;
 
-    case MISSION_OLD_GUARD_NEC_2:
+
+    } else if( id == "MISSION_OLD_GUARD_NEC_2" ) {
         if( state == "TALK_MISSION_DESCRIBE" ) {
             return _("We need help...");
         } else if( state == "TALK_MISSION_OFFER" ) {
@@ -1447,9 +1449,9 @@ Before we get into a major fight just make sure we have the gear we need, boss."
         } else if( state == "TALK_MISSION_FAILURE" ) {
             return _("It was a lost cause anyways...");
         }
-        break;
 
-    case MISSION_OLD_GUARD_NEC_COMMO_1:
+
+    } else if( id == "MISSION_OLD_GUARD_NEC_COMMO_1" ) {
         if( state == "TALK_MISSION_DESCRIBE" ) {
             return _("We need help...");
         } else if( state == "TALK_MISSION_OFFER" ) {
@@ -1477,9 +1479,9 @@ Before we get into a major fight just make sure we have the gear we need, boss."
         } else if( state == "TALK_MISSION_FAILURE" ) {
             return _("It was a lost cause anyways...");
         }
-        break;
 
-    case MISSION_OLD_GUARD_NEC_COMMO_2:
+
+    } else if( id == "MISSION_OLD_GUARD_NEC_COMMO_2" ) {
         if( state == "TALK_MISSION_DESCRIBE" ) {
             return _("We need help...");
         } else if( state == "TALK_MISSION_OFFER" ) {
@@ -1503,9 +1505,9 @@ Before we get into a major fight just make sure we have the gear we need, boss."
         } else if( state == "TALK_MISSION_FAILURE" ) {
             return _("It was a lost cause anyways...");
         }
-        break;
 
-    case MISSION_OLD_GUARD_NEC_COMMO_3:
+
+    } else if( id == "MISSION_OLD_GUARD_NEC_COMMO_3" ) {
         if( state == "TALK_MISSION_DESCRIBE" ) {
             return _("We need help...");
         } else if( state == "TALK_MISSION_OFFER" ) {
@@ -1530,9 +1532,9 @@ Before we get into a major fight just make sure we have the gear we need, boss."
         } else if( state == "TALK_MISSION_FAILURE" ) {
             return _("It was a lost cause anyways...");
         }
-        break;
 
-    case MISSION_OLD_GUARD_NEC_COMMO_4:
+
+    } else if( id == "MISSION_OLD_GUARD_NEC_COMMO_4" ) {
         if( state == "TALK_MISSION_DESCRIBE" ) {
             return _("We need help...");
         } else if( state == "TALK_MISSION_OFFER" ) {
@@ -1555,9 +1557,9 @@ Before we get into a major fight just make sure we have the gear we need, boss."
         } else if( state == "TALK_MISSION_FAILURE" ) {
             return _("It was a lost cause anyways...");
         }
-        break;
 
-    case MISSION_RANCH_FOREMAN_1:
+
+    } else if( id == "MISSION_RANCH_FOREMAN_1" ) {
         if( state == "TALK_MISSION_DESCRIBE" ) {
             return _("We need help...");
         } else if( state == "TALK_MISSION_OFFER" ) {
@@ -1581,9 +1583,9 @@ Before we get into a major fight just make sure we have the gear we need, boss."
         } else if( state == "TALK_MISSION_FAILURE" ) {
             return _("It was a lost cause anyways...");
         }
-        break;
 
-    case MISSION_RANCH_FOREMAN_2:
+
+    } else if( id == "MISSION_RANCH_FOREMAN_2" ) {
         if( state == "TALK_MISSION_DESCRIBE" ) {
             return _("We need help...");
         } else if( state == "TALK_MISSION_OFFER" ) {
@@ -1606,9 +1608,9 @@ Before we get into a major fight just make sure we have the gear we need, boss."
         } else if( state == "TALK_MISSION_FAILURE" ) {
             return _("It was a lost cause anyways...");
         }
-        break;
 
-    case MISSION_RANCH_FOREMAN_3:
+
+    } else if( id == "MISSION_RANCH_FOREMAN_3" ) {
         if( state == "TALK_MISSION_DESCRIBE" ) {
             return _("We need help...");
         } else if( state == "TALK_MISSION_OFFER" ) {
@@ -1632,9 +1634,9 @@ Before we get into a major fight just make sure we have the gear we need, boss."
         } else if( state == "TALK_MISSION_FAILURE" ) {
             return _("It was a lost cause anyways...");
         }
-        break;
 
-    case MISSION_RANCH_FOREMAN_4:
+
+    } else if( id == "MISSION_RANCH_FOREMAN_4" ) {
         if( state == "TALK_MISSION_DESCRIBE" ) {
             return _("We need help...");
         } else if( state == "TALK_MISSION_OFFER" ) {
@@ -1661,9 +1663,9 @@ Before we get into a major fight just make sure we have the gear we need, boss."
         } else if( state == "TALK_MISSION_FAILURE" ) {
             return _("It was a lost cause anyways...");
         }
-        break;
 
-    case MISSION_RANCH_FOREMAN_5:
+
+    } else if( id == "MISSION_RANCH_FOREMAN_5" ) {
         if( state == "TALK_MISSION_DESCRIBE" ) {
             return _("We need help...");
         } else if( state == "TALK_MISSION_OFFER" ) {
@@ -1688,9 +1690,9 @@ Before we get into a major fight just make sure we have the gear we need, boss."
         } else if( state == "TALK_MISSION_FAILURE" ) {
             return _("It was a lost cause anyways...");
         }
-        break;
 
-    case MISSION_RANCH_FOREMAN_6:
+
+    } else if( id == "MISSION_RANCH_FOREMAN_6" ) {
         if( state == "TALK_MISSION_DESCRIBE" ) {
             return _("We need help...");
         } else if( state == "TALK_MISSION_OFFER" ) {
@@ -1716,9 +1718,9 @@ Before we get into a major fight just make sure we have the gear we need, boss."
         } else if( state == "TALK_MISSION_FAILURE" ) {
             return _("It was a lost cause anyways...");
         }
-        break;
 
-    case MISSION_RANCH_FOREMAN_7:
+
+    } else if( id == "MISSION_RANCH_FOREMAN_7" ) {
         if( state == "TALK_MISSION_DESCRIBE" ) {
             return _("We need help...");
         } else if( state == "TALK_MISSION_OFFER" ) {
@@ -1740,9 +1742,9 @@ Before we get into a major fight just make sure we have the gear we need, boss."
         } else if( state == "TALK_MISSION_FAILURE" ) {
             return _("It was a lost cause anyways...");
         }
-        break;
 
-    case MISSION_RANCH_FOREMAN_8:
+
+    } else if( id == "MISSION_RANCH_FOREMAN_8" ) {
         if( state == "TALK_MISSION_DESCRIBE" ) {
             return _("We need help...");
         } else if( state == "TALK_MISSION_OFFER" ) {
@@ -1765,9 +1767,9 @@ Before we get into a major fight just make sure we have the gear we need, boss."
         } else if( state == "TALK_MISSION_FAILURE" ) {
             return _("It was a lost cause anyways...");
         }
-        break;
 
-    case MISSION_RANCH_FOREMAN_9:
+
+    } else if( id == "MISSION_RANCH_FOREMAN_9" ) {
         if( state == "TALK_MISSION_DESCRIBE" ) {
             return _("We need help...");
         } else if( state == "TALK_MISSION_OFFER" ) {
@@ -1791,9 +1793,9 @@ Before we get into a major fight just make sure we have the gear we need, boss."
         } else if( state == "TALK_MISSION_FAILURE" ) {
             return _("It was a lost cause anyways...");
         }
-        break;
 
-    case MISSION_RANCH_FOREMAN_10:
+
+    } else if( id == "MISSION_RANCH_FOREMAN_10" ) {
         if( state == "TALK_MISSION_DESCRIBE" ) {
             return _("We need help...");
         } else if( state == "TALK_MISSION_OFFER" ) {
@@ -1817,9 +1819,9 @@ Before we get into a major fight just make sure we have the gear we need, boss."
         } else if( state == "TALK_MISSION_FAILURE" ) {
             return _("It was a lost cause anyways...");
         }
-        break;
 
-    case MISSION_RANCH_FOREMAN_11:
+
+    } else if( id == "MISSION_RANCH_FOREMAN_11" ) {
         if( state == "TALK_MISSION_DESCRIBE" ) {
             return _("We need help...");
         } else if( state == "TALK_MISSION_OFFER" ) {
@@ -1841,12 +1843,10 @@ Before we get into a major fight just make sure we have the gear we need, boss."
             return _("What good does this do us?");
         } else if( state == "TALK_MISSION_FAILURE" ) {
             return _("It was a lost cause anyways...");
-        default: // It's a bug.
-            return "";
         }
-        break;
 
-    case MISSION_RANCH_FOREMAN_12:
+
+    } else if( id == "MISSION_RANCH_FOREMAN_12" ) {
         if( state == "TALK_MISSION_DESCRIBE" ) {
             return _("We need help...");
         } else if( state == "TALK_MISSION_OFFER" ) {
@@ -1869,9 +1869,9 @@ Before we get into a major fight just make sure we have the gear we need, boss."
         } else if( state == "TALK_MISSION_FAILURE" ) {
             return _("It was a lost cause anyways...");
         }
-        break;
 
-    case MISSION_RANCH_FOREMAN_13:
+
+    } else if( id == "MISSION_RANCH_FOREMAN_13" ) {
         if( state == "TALK_MISSION_DESCRIBE" ) {
             return _("We need help...");
         } else if( state == "TALK_MISSION_OFFER" ) {
@@ -1895,9 +1895,9 @@ Before we get into a major fight just make sure we have the gear we need, boss."
         } else if( state == "TALK_MISSION_FAILURE" ) {
             return _("It was a lost cause anyways...");
         }
-        break;
 
-    case MISSION_RANCH_FOREMAN_14:
+
+    } else if( id == "MISSION_RANCH_FOREMAN_14" ) {
         if( state == "TALK_MISSION_DESCRIBE" ) {
             return _("We need help...");
         } else if( state == "TALK_MISSION_OFFER" ) {
@@ -1920,9 +1920,9 @@ Before we get into a major fight just make sure we have the gear we need, boss."
         } else if( state == "TALK_MISSION_FAILURE" ) {
             return _("It was a lost cause anyways...");
         }
-        break;
 
-    case MISSION_RANCH_FOREMAN_15:
+
+    } else if( id == "MISSION_RANCH_FOREMAN_15" ) {
         if( state == "TALK_MISSION_DESCRIBE" ) {
             return _("We need help...");
         } else if( state == "TALK_MISSION_OFFER" ) {
@@ -1948,9 +1948,9 @@ Before we get into a major fight just make sure we have the gear we need, boss."
         } else if( state == "TALK_MISSION_FAILURE" ) {
             return _("It was a lost cause anyways...");
         }
-        break;
 
-    case MISSION_RANCH_FOREMAN_16:
+
+    } else if( id == "MISSION_RANCH_FOREMAN_16" ) {
         if( state == "TALK_MISSION_DESCRIBE" ) {
             return _("We need help...");
         } else if( state == "TALK_MISSION_OFFER" ) {
@@ -1974,9 +1974,9 @@ Before we get into a major fight just make sure we have the gear we need, boss."
         } else if( state == "ALK_MISSION_FAILURE" ) {
             return _("It was a lost cause anyways...");
         }
-        break;
 
-    case MISSION_RANCH_FOREMAN_17:
+
+    } else if( id == "MISSION_RANCH_FOREMAN_17" ) {
         if( state == "TALK_MISSION_DESCRIBE" ) {
             return _("We need help...");
         } else if( state == "TALK_MISSION_OFFER" ) {
@@ -2000,9 +2000,9 @@ Before we get into a major fight just make sure we have the gear we need, boss."
         } else if( state == "TALK_MISSION_FAILURE" ) {
             return _("It was a lost cause anyways...");
         }
-        break;
 
-    case MISSION_RANCH_NURSE_1:
+
+    } else if( id == "MISSION_RANCH_NURSE_1" ) {
         if( state == "TALK_MISSION_DESCRIBE" ) {
             return _("We need help...");
         } else if( state == "TALK_MISSION_OFFER" ) {
@@ -2026,9 +2026,9 @@ Before we get into a major fight just make sure we have the gear we need, boss."
         } else if( state == "TALK_MISSION_FAILURE" ) {
             return _("It was a lost cause anyways...");
         }
-        break;
 
-    case MISSION_RANCH_NURSE_2:
+
+    } else if( id == "MISSION_RANCH_NURSE_2" ) {
         if( state == "TALK_MISSION_DESCRIBE" ) {
             return _("We need help...");
         } else if( state == "TALK_MISSION_OFFER" ) {
@@ -2050,9 +2050,9 @@ Before we get into a major fight just make sure we have the gear we need, boss."
         } else if( state == "TALK_MISSION_FAILURE" ) {
             return _("It was a lost cause anyways...");
         }
-        break;
 
-    case MISSION_RANCH_NURSE_3:
+
+    } else if( id == "MISSION_RANCH_NURSE_3" ) {
         if( state == "TALK_MISSION_DESCRIBE" ) {
             return _("We need help...");
         } else if( state == "TALK_MISSION_OFFER" ) {
@@ -2077,9 +2077,9 @@ Before we get into a major fight just make sure we have the gear we need, boss."
         } else if( state == "TALK_MISSION_FAILURE" ) {
             return _("It was a lost cause anyways...");
         }
-        break;
 
-    case MISSION_RANCH_NURSE_4:
+
+    } else if( id == "MISSION_RANCH_NURSE_4" ) {
         if( state == "TALK_MISSION_DESCRIBE" ) {
             return _("We need help...");
         } else if( state == "TALK_MISSION_OFFER" ) {
@@ -2102,9 +2102,9 @@ Before we get into a major fight just make sure we have the gear we need, boss."
         } else if( state == "TALK_MISSION_FAILURE" ) {
             return _("It was a lost cause anyways...");
         }
-        break;
 
-    case MISSION_RANCH_NURSE_5:
+
+    } else if( id == "MISSION_RANCH_NURSE_5" ) {
         if( state == "TALK_MISSION_DESCRIBE" ) {
             return _("We need help...");
         } else if( state == "TALK_MISSION_OFFER" ) {
@@ -2126,9 +2126,9 @@ Before we get into a major fight just make sure we have the gear we need, boss."
         } else if( state == "TALK_MISSION_FAILURE" ) {
             return _("It was a lost cause anyways...");
         }
-        break;
 
-    case MISSION_RANCH_NURSE_6:
+
+    } else if( id == "MISSION_RANCH_NURSE_6" ) {
         if( state == "TALK_MISSION_DESCRIBE" ) {
             return _("We need help...");
         } else if( state == "TALK_MISSION_OFFER" ) {
@@ -2150,9 +2150,9 @@ Before we get into a major fight just make sure we have the gear we need, boss."
         } else if( state == "TALK_MISSION_FAILURE" ) {
             return _("It was a lost cause anyways...");
         }
-        break;
 
-    case MISSION_RANCH_NURSE_7:
+
+    } else if( id == "MISSION_RANCH_NURSE_7" ) {
         if( state == "TALK_MISSION_DESCRIBE" ) {
             return _("We need help...");
         } else if( state == "TALK_MISSION_OFFER" ) {
@@ -2175,9 +2175,9 @@ Before we get into a major fight just make sure we have the gear we need, boss."
         } else if( state == "TALK_MISSION_FAILURE" ) {
             return _("It was a lost cause anyways...");
         }
-        break;
 
-    case MISSION_RANCH_NURSE_8:
+
+    } else if( id == "MISSION_RANCH_NURSE_8" ) {
         if( state == "TALK_MISSION_DESCRIBE" ) {
             return _("We need help...");
         } else if( state == "TALK_MISSION_OFFER" ) {
@@ -2199,9 +2199,9 @@ Before we get into a major fight just make sure we have the gear we need, boss."
         } else if( state == "TALK_MISSION_FAILURE" ) {
             return _("It was a lost cause anyways...");
         }
-        break;
 
-    case MISSION_RANCH_NURSE_9:
+
+    } else if( id == "MISSION_RANCH_NURSE_9" ) {
         if( state == "TALK_MISSION_DESCRIBE" ) {
             return _("We need help...");
         } else if( state == "TALK_MISSION_OFFER" ) {
@@ -2223,9 +2223,9 @@ Before we get into a major fight just make sure we have the gear we need, boss."
         } else if( state == "TALK_MISSION_FAILURE" ) {
             return _("It was a lost cause anyways...");
         }
-        break;
 
-    case MISSION_RANCH_NURSE_10:
+
+    } else if( id == "MISSION_RANCH_NURSE_10" ) {
         if( state == "TALK_MISSION_DESCRIBE" ) {
             return _("We need help...");
         } else if( state == "TALK_MISSION_OFFER" ) {
@@ -2248,9 +2248,9 @@ Before we get into a major fight just make sure we have the gear we need, boss."
         } else if( state == "TALK_MISSION_FAILURE" ) {
             return _("It was a lost cause anyways...");
         }
-        break;
 
-    case MISSION_RANCH_NURSE_11:
+
+    } else if( id == "MISSION_RANCH_NURSE_11" ) {
         if( state == "TALK_MISSION_DESCRIBE" ) {
             return _("We need help...");
         } else if( state == "TALK_MISSION_OFFER" ) {
@@ -2272,9 +2272,9 @@ Before we get into a major fight just make sure we have the gear we need, boss."
         } else if( state == "TALK_MISSION_FAILURE" ) {
             return _("It was a lost cause anyways...");
         }
-        break;
 
-    case MISSION_RANCH_SCAVENGER_1:
+
+    } else if( id == "MISSION_RANCH_SCAVENGER_1" ) {
         if( state == "TALK_MISSION_DESCRIBE" ) {
             return _("We need help...");
         } else if( state == "TALK_MISSION_OFFER" ) {
@@ -2297,9 +2297,9 @@ Before we get into a major fight just make sure we have the gear we need, boss."
         } else if( state == "TALK_MISSION_FAILURE" ) {
             return _("It was a lost cause anyways...");
         }
-        break;
 
-    case MISSION_RANCH_SCAVENGER_2:
+
+    } else if( id == "MISSION_RANCH_SCAVENGER_2" ) {
         if( state == "TALK_MISSION_DESCRIBE" ) {
             return _("We need help...");
         } else if( state == "TALK_MISSION_OFFER" ) {
@@ -2321,9 +2321,9 @@ Before we get into a major fight just make sure we have the gear we need, boss."
         } else if( state == "TALK_MISSION_FAILURE" ) {
             return _("It was a lost cause anyways...");
         }
-        break;
 
-    case MISSION_RANCH_SCAVENGER_3:
+
+    } else if( id == "MISSION_RANCH_SCAVENGER_3" ) {
         if( state == "TALK_MISSION_DESCRIBE" ) {
             return _("We need help...");
         } else if( state == "TALK_MISSION_OFFER" ) {
@@ -2347,9 +2347,9 @@ Before we get into a major fight just make sure we have the gear we need, boss."
         } else if( state == "TALK_MISSION_FAILURE" ) {
             return _("It was a lost cause anyways...");
         }
-        break;
 
-    case MISSION_RANCH_SCAVENGER_4:
+
+    } else if( id == "MISSION_RANCH_SCAVENGER_4" ) {
         if( state == "TALK_MISSION_DESCRIBE" ) {
             return _("We need help...");
         } else if( state == "TALK_MISSION_OFFER" ) {
@@ -2372,9 +2372,9 @@ Before we get into a major fight just make sure we have the gear we need, boss."
         } else if( state == "TALK_MISSION_FAILURE" ) {
             return _("It was a lost cause anyways...");
         }
-        break;
 
-    case MISSION_RANCH_BARTENDER_1:
+
+    } else if( id == "MISSION_RANCH_BARTENDER_1" ) {
         if( state == "TALK_MISSION_DESCRIBE" ) {
             return _("We need help...");
         } else if( state == "TALK_MISSION_OFFER" ) {
@@ -2395,9 +2395,9 @@ Before we get into a major fight just make sure we have the gear we need, boss."
         } else if( state == "TALK_MISSION_FAILURE" ) {
             return _("It was a lost cause anyways...");
         }
-        break;
 
-    case MISSION_RANCH_BARTENDER_2:
+
+    } else if( id == "MISSION_RANCH_BARTENDER_2" ) {
         if( state == "TALK_MISSION_DESCRIBE" ) {
             return _("We need help...");
         } else if( state == "TALK_MISSION_OFFER" ) {
@@ -2419,9 +2419,9 @@ Before we get into a major fight just make sure we have the gear we need, boss."
         } else if( state == "TALK_MISSION_FAILURE" ) {
             return _("It was a lost cause anyways...");
         }
-        break;
 
-    case MISSION_RANCH_BARTENDER_3:
+
+    } else if( id == "MISSION_RANCH_BARTENDER_3" ) {
         if( state == "TALK_MISSION_DESCRIBE" ) {
             return _("We need help...");
         } else if( state == "TALK_MISSION_OFFER" ) {
@@ -2444,9 +2444,9 @@ Before we get into a major fight just make sure we have the gear we need, boss."
         } else if( state == "TALK_MISSION_FAILURE" ) {
             return _("It was a lost cause anyways...");
         }
-        break;
 
-    case MISSION_RANCH_BARTENDER_4:
+
+    } else if( id == "MISSION_RANCH_BARTENDER_4" ) {
         if( state == "TALK_MISSION_DESCRIBE" ) {
             return _("We need help...");
         } else if( state == "TALK_MISSION_OFFER" ) {
@@ -2470,9 +2470,9 @@ Before we get into a major fight just make sure we have the gear we need, boss."
         } else if( state == "TALK_MISSION_FAILURE" ) {
             return _("It was a lost cause anyways...");
         }
-        break;
 
-    case MISSION_RANCH_BARTENDER_5:
+
+    } else if( id == "MISSION_RANCH_BARTENDER_5" ) {
         if( state == "TALK_MISSION_DESCRIBE" ) {
             return _("We need help...");
         } else if( state == "TALK_MISSION_OFFER" ) {
@@ -2495,16 +2495,11 @@ Before we get into a major fight just make sure we have the gear we need, boss."
         } else if( state == "TALK_MISSION_FAILURE" ) {
             return _("It was a lost cause anyways...");
         }
-        break;
 
-    case MISSION_REACH_SAFETY:
-        // TODO: SOMEONE FILL THIS OUT!!!
-        break;
-    case MISSION_NULL:
-    case NUM_MISSION_IDS:
-        break; // fall though to error handling
+
     }
-    return string_format( "Someone forgot to code this message id is %d, topic is %s!", static_cast<int>( id ), state.c_str() );
+
+    return string_format( "Someone forgot to code this message id is %s, topic is %s!", id.c_str(), state.c_str() );
 }
 
 mission::mission()
@@ -2533,22 +2528,12 @@ mission::mission()
 
 mission_type::mission_type(mission_type_id ID, std::string NAME, mission_goal GOAL, int DIF, int VAL,
                  bool URGENT,
-                 bool (mission_place::*PLACE)( const tripoint& ),
-                 void (mission_start::*START)(mission *),
-                 void (mission_end  ::*END  )(mission *),
-                 void (mission_fail ::*FAIL )(mission *)) :
+                 std::function<bool(const tripoint &)> PLACE,
+                 std::function<void(mission *)> START,
+                 std::function<void(mission *)> END,
+                 std::function<void(mission *)> FAIL) :
         id (ID), name (NAME), goal (GOAL), difficulty (DIF), value (VAL),
         urgent(URGENT), place (PLACE), start (START), end (END), fail (FAIL)
 {
-    deadline_low = 0;
-    deadline_high = 0;
-    item_id = "null";
-    item_count = 1;
-    target_id = 0;
-    recruit_class = NC_NONE;
-    target_npc_id = -1;
-    monster_type = "mon_null";
-    monster_kill_goal = -1;
-    follow_up = MISSION_NULL;
 };
 

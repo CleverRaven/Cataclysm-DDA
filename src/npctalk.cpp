@@ -613,7 +613,7 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic ) const
         std::string ret = mission_dialogue( type.id, topic);
         if (ret.empty()) {
             debugmsg("Bug in npctalk.cpp:dynamic_line. Wrong mission_id(%d) or topic(%s)",
-                     type.id, topic.c_str());
+                     type.id.c_str(), topic.c_str());
             return "";
         }
 
@@ -3410,7 +3410,7 @@ void talk_function::player_weapon_drop( npc &p )
 
 void talk_function::lead_to_safety( npc &p )
 {
-    const auto mission = mission::reserve_new( MISSION_REACH_SAFETY, -1 );
+    const auto mission = mission::reserve_new( mission_type_id( "MISSION_REACH_SAFETY" ), -1 );
     mission->assign( g->u );
     p.goal = mission->get_target();
     p.attitude = NPCATT_LEAD;

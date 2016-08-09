@@ -17,8 +17,7 @@
     "mission" : 7,
     "chat" : "TALK_OLD_GUARD_REP",
     "faction" : "old_guard",
-    "mission_offered" : 31,
-    "comment" : "Mission_offered is based on the enum mission_id in mission.h.  0=MISSION_NULL"
+    "mission_offered" : "MISSION_OLD_GUARD_REP_1"
   },{
     "type" : "npc",
     "id" : "old_guard_soldier",
@@ -39,7 +38,7 @@
     "mission" : 7,
     "chat" : "TALK_OLD_GUARD_NEC_CPT",
     "faction" : "old_guard",
-    "mission_offered" : 35
+    "mission_offered" : "MISSION_OLD_GUARD_NEC_COMMO_1"
   },{
       "type" : "npc",
     "id" : "old_guard_necropolis_commo",
@@ -50,7 +49,7 @@
     "mission" : 7,
     "chat" : "TALK_OLD_GUARD_NEC_COMMO",
     "faction" : "old_guard",
-    "mission_offered" : 37
+    "mission_offered" : "MISSION_OLD_GUARD_NEC_COMMO_3"
   },{
     "type" : "npc",
     "id" : "evac_merchant",
@@ -60,7 +59,7 @@
     "attitude" : 0,
     "mission" : 3,
     "chat" : "TALK_EVAC_MERCHANT",
-    "mission_offered" : 27,
+    "mission_offered" : "MISSION_FREE_MERCHANTS_EVAC_1",
     "faction" : "free_merchants"
   },{
     "type" : "npc",
@@ -131,7 +130,7 @@
     "attitude" : 0,
     "mission" : 7,
     "chat" : "TALK_RANCH_FOREMAN",
-    "mission_offered" : 40,
+    "mission_offered" : "MISSION_RANCH_FOREMAN_1",
     "faction" : "tacoma_commune"
   },{
     "type" : "npc",
@@ -223,7 +222,7 @@
     "attitude" : 0,
     "mission" : 7,
     "chat" : "TALK_RANCH_NURSE",
-    "mission_offered" : 57,
+    "mission_offered" : "MISSION_RANCH_NURSE_1",
     "faction" : "tacoma_commune"
   },{
     "type" : "npc",
@@ -254,7 +253,7 @@
     "attitude" : 0,
     "mission" : 3,
     "chat" : "TALK_RANCH_SCAVENGER_1",
-    "mission_offered" : 68,
+    "mission_offered" : "MISSION_RANCH_SCAVENGER_1",
     "faction" : "tacoma_commune"
   },{
     "type" : "npc",
@@ -265,7 +264,7 @@
     "attitude" : 0,
     "mission" : 3,
     "chat" : "TALK_RANCH_BARKEEP",
-    "mission_offered" : 72,
+    "mission_offered" : "MISSION_RANCH_BARTENDER_1",
     "faction" : "tacoma_commune"
   },{
     "type" : "npc",

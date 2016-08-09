@@ -1,1 +1,3 @@
 data/json/items/ammo/*
+data/json/items/gun/*
+data/json/npcs/missiondef.json

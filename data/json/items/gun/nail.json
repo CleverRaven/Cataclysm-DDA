@@ -4,24 +4,25 @@
     "copy-from": "gun_base",
     "type": "GUN",
     "name": "coilgun",
+    "//": "Hard to make, plentiful and cheap ammo, and silent - people will want this thing.",
     "description": "A homemade gun, using electromagnets to accelerate a ferromagnetic projectile to high velocity.  Powered by UPS.",
     "weight": 3341,
     "volume": 11,
-    "price": 75000, "//": "Hard to make, plentiful and cheap ammo, and silent - people will want this thing.",
-    "bashing": 10,
+    "price": 75000,
     "to_hit": -2,
+    "bashing": 10,
     "material": "steel",
-    "skill": "rifle",
     "ammo": "nail",
-    "ranged_damage": 4,
+    "skill": "rifle",
     "range": 12,
+    "ranged_damage": 4,
     "pierce": 20,
     "dispersion": 60,
     "sight_dispersion": 150,
-    "aim_speed" : 6,
+    "aim_speed": 6,
     "durability": 5,
-    "valid_mod_locations": [ [ "accessories", 4 ], [ "grip", 1 ], [ "sights", 1 ], [ "stock", 1 ] ],
     "ups_charges": 5,
+    "valid_mod_locations": [ [ "accessories", 4 ], [ "grip", 1 ], [ "sights", 1 ], [ "stock", 1 ] ],
     "magazines": [ [ "nail", [ "nailmag" ] ] ]
   },
   {
@@ -32,13 +33,13 @@
     "weight": 3904,
     "volume": 3,
     "price": 13000,
-    "bashing": 6,
     "to_hit": -2,
+    "bashing": 6,
     "material": [ "plastic", "steel" ],
     "symbol": "(",
     "color": "yellow",
-    "skill": "pistol",
     "ammo": "nail",
+    "skill": "pistol",
     "dispersion": 240,
     "sight_dispersion": 150,
     "aim_speed": 12,
@@ -53,24 +54,24 @@
     "type": "GUN",
     "name": "nail rifle",
     "description": "This is a nailgun that has been extensively modified with the addition of a short barrel, stock and hand guard.  It can be reloaded using detachable magazines and is an overall much more effective weapon.",
-    "bashing": 12,
     "to_hit": -1,
+    "bashing": 12,
     "skill": "rifle",
-    "relative": {
-        "weight": 1000,
-        "volume": 6,
-        "range": 3,
-        "ranged_damage": 4
-    },
-    "proportional": {
-        "price": 3.0,
-        "dispersion": 0.5,
-        "sight_dispersion": 0.5,
-        "aim_speed": 0.5
-    },
     "burst": 10,
     "clip_size": 0,
+    "valid_mod_locations": [ [ "accessories", 4 ], [ "barrel", 1 ], [ "grip", 1 ], [ "sights", 1 ], [ "stock", 1 ] ],
     "magazines": [ [ "nail", [ "nailmag" ] ] ],
-    "valid_mod_locations": [ [ "accessories", 4 ], [ "barrel", 1 ], [ "grip", 1 ], [ "sights", 1 ], [ "stock", 1 ] ]
+    "relative": {
+      "weight": 1000,
+      "volume": 6,
+      "range": 3,
+      "ranged_damage": 4
+    },
+    "proportional": {
+      "price": 3,
+      "dispersion": 0.5,
+      "sight_dispersion": 0.5,
+      "aim_speed": 0.5
+    }
   }
 ]
