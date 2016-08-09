@@ -3321,8 +3321,8 @@
 [
 [ "oxy_torch", 6 ],
 [ "welder", 30 ],
-[ "welder_crude", 30 ],
-[ "toolset", 30 ]
+[ "welder_crude", 45 ],
+[ "toolset", 45 ]
 ],
 [
 [ "hotplate", 50 ],
