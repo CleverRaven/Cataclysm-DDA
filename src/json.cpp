@@ -1478,7 +1478,7 @@ void JsonIn::error(std::string message, int offset)
     stream->read(buffer, pos - startpos);
     buffer[pos - startpos] = '\0';
     err << buffer;
-    delete buffer;
+    delete[] buffer;
     if (!is_whitespace(peek())) {
         err << peek();
     }
