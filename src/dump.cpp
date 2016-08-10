@@ -230,15 +230,15 @@ bool game::dump_stats( const std::string& what, dump_mode mode, const std::vecto
                     std::cerr << "cannot parse test case: " << str << std::endl;
                     return false;
                 }
-                auto s = test_npcs.find( str.substr( 0, idx ) );
-                auto g = test_items.find( str.substr( idx + 1 ) );
+                auto test = std::make_pair( test_npcs.find( str.substr( 0, idx ) ),
+                                            test_items.find( str.substr( idx + 1 ) ) );
 
-                if( s == test_npcs.end() || g == test_items.end() ) {
+                if( test.first == test_npcs.end() || test.second == test_items.end() ) {
                     std::cerr << "invalid test case: " << str << std::endl;
                     return false;
                 }
 
-                dump( s->second, g->second );
+                dump( test.first->second, test.second->second );
             }
         }
 
