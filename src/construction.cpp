@@ -910,37 +910,6 @@ void construct::done_deconstruct( point p )
     }
 }
 
-std::vector<point> find_safe_places( point const &center )
-{
-    map &m = g->m;
-    // Determine safe places for the character to get pulled to
-    std::vector<point> safe;
-    for( int i = center.x - 1; i <= center.x + 1; i++ ) {
-        for( int j = center.y - 1; j <= center.y + 1; j++ ) {
-            if( m.passable( i, j ) ) {
-                safe.push_back( point( i, j ) );
-            }
-        }
-    }
-    return safe;
-}
-
-bool catch_with_rope( point const &center )
-{
-    player &u = g->u;
-    std::vector<point> const safe = find_safe_places( center );
-    if( safe.empty() ) {
-        add_msg( m_bad, _( "There's nowhere to pull yourself to, and you fall!" ) );
-        return false;
-    }
-    add_msg( _( "You pull yourself to safety!" ) );
-    const point p = random_entry( safe );
-    u.setx( p.x );
-    u.sety( p.y );
-    g->update_map( &u );
-    return true;
-}
-
 void unroll_digging( int const numer_of_2x4s )
 {
     // refund components!
