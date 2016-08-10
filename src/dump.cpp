@@ -26,6 +26,11 @@ void game::dump_stats( const std::string& what, dump_mode mode )
     standard_npc s1;
     s1.wear_item( item( "gloves_lsurvivor" ) );
     s1.wear_item( item( "mask_lsurvivor" ) );
+    for( item &e : s1.worn ) {
+        if( e.has_flag( "VARSIZE" ) ) {
+            e.item_tags.insert( "FIT" );
+        }
+    }
     s1.set_skill_level( skill_id( "gun" ), 4 );
     s1.set_skill_level( skill_id( "pistol" ), 4 );
     s1.set_skill_level( skill_id( "rifle" ), 4 );
