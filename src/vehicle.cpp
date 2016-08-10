@@ -942,7 +942,7 @@ void vehicle::use_controls( const tripoint &pos )
         if( has_part( flag ) ) {
             if( has_part( flag, true ) ) {
                 options.emplace_back( string_format( _( "Turn off %s" ), name.c_str() ), key );
-                actions.push_back( [&]{
+                actions.push_back( [=]{
                     for( auto e : get_parts( flag, true ) ) {
                         add_msg( _( "Turned off %s." ), e->name().c_str() );
                         e->enabled = false;
@@ -950,7 +950,7 @@ void vehicle::use_controls( const tripoint &pos )
                 } );
             } else {
                 options.emplace_back( string_format( _( "Turn on %s" ), name.c_str() ), key );
-                actions.push_back( [&]{
+                actions.push_back( [=]{
                     for( auto e : get_parts( flag ) ) {
                         if( e->enabled ) {
                             continue;
