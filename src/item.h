@@ -1351,8 +1351,13 @@ public:
         /** Switch to the next available firing mode */
         void gun_cycle_mode();
 
-        /** Aim speed. See ranged.cpp */
-        int aim_speed( double aim_threshold ) const;
+        /**
+         *  Selects fastest sight that can be used to improve aim to below @ref @threshold
+         *  @return positive aim cost or zero if aim cannot be further improved
+         *  @note from nil to maximum aim at DEX 8 via a single sight is ~75 moves per unit aim cost
+         */
+        int aim_cost( double threshold ) const;
+
         /** We use the current aim level to decide which sight to use. */
         int sight_dispersion( double aim_threshold ) const;
         struct sound_data {

@@ -1336,15 +1336,17 @@ void Item_factory::load( islot_container &slot, JsonObject &jo, const std::strin
     assign( jo, "unseals_into", slot.unseals_into );
 }
 
-void Item_factory::load( islot_gunmod &slot, JsonObject &jo, const std::string & )
+void Item_factory::load( islot_gunmod &slot, JsonObject &jo, const std::string &src )
 {
+    bool strict = src == "core";
+
     assign( jo, "damage_modifier", slot.damage );
     assign( jo, "loudness_modifier", slot.loudness );
     assign( jo, "ammo_modifier", slot.ammo_modifier );
     assign( jo, "location", slot.location );
     assign( jo, "dispersion_modifier", slot.dispersion );
     assign( jo, "sight_dispersion", slot.sight_dispersion );
-    assign( jo, "aim_speed", slot.aim_speed );
+    assign( jo, "aim_cost", slot.aim_cost, strict, 0 );
     assign( jo, "recoil_modifier", slot.recoil );
     assign( jo, "range_modifier", slot.range );
     assign( jo, "ups_charges", slot.ups_charges );

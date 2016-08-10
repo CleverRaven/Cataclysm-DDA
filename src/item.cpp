@@ -1093,9 +1093,9 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
             info.push_back( iteminfo( "GUNMOD", _( "Sight dispersion: " ), "",
                                       mod->sight_dispersion, true, "", true, true ) );
         }
-        if( mod->aim_speed != -1 ) {
-            info.push_back( iteminfo( "GUNMOD", _( "Aim speed: " ), "",
-                                      mod->aim_speed, true, "", true, true ) );
+        if( mod->aim_cost > 0 ) {
+            info.push_back( iteminfo( "GUNMOD", _( "Aim cost: " ), "",
+                                      mod->aim_cost, true, "", true, true ) );
         }
         if( mod->damage != 0 ) {
             info.push_back( iteminfo( "GUNMOD", _( "Damage: " ), "", mod->damage, true,
@@ -3922,45 +3922,46 @@ int item::sight_dispersion( double aim_threshold ) const
     }
     const auto gun = type->gun.get();
     int best_dispersion = gun->sight_dispersion;
-    int best_aim_speed = INT_MAX;
+    int best_aim_cost = INT_MAX;
     if( gun->sight_dispersion < aim_threshold || aim_threshold == -1 ) {
-        best_aim_speed = std::max( std::min( volume(), 8 ), 1 );
+        best_aim_cost = std::max( std::min( volume(), 8 ), 1 );
     }
     for( const auto e : gunmods() ) {
         const auto mod = e->type->gunmod.get();
-        if( mod->sight_dispersion != -1 && mod->aim_speed != -1 &&
+        if( mod->sight_dispersion != -1 && mod->aim_cost != -1 &&
             ( ( aim_threshold == -1 && mod->sight_dispersion < best_dispersion ) ||
-              ( mod->sight_dispersion < aim_threshold && mod->aim_speed < best_aim_speed ) ) ) {
-            best_aim_speed = mod->aim_speed;
+              ( mod->sight_dispersion < aim_threshold && mod->aim_cost < best_aim_cost ) ) ) {
+            best_aim_cost = mod->aim_cost;
             best_dispersion = mod->sight_dispersion;
         }
     }
     return best_dispersion;
 }
 
-// This method should never be called if the threshold exceeds the accuracy of the available sights.
-int item::aim_speed( double aim_threshold ) const
+
+int item::aim_cost( double threshold ) const
 {
-    if (!is_gun()) {
+    if( !is_gun() ) {
         return 0;
     }
-    const auto gun = type->gun.get();
-    int best_dispersion = gun->sight_dispersion;
-    int best_aim_speed = INT_MAX;
-    if( gun->sight_dispersion <= aim_threshold || aim_threshold == -1 ) {
-        best_aim_speed = std::max( std::min( volume(), 8 ), 1 );
+
+    int res = INT_MAX;
+
+    if( type->gun->sight_dispersion <= threshold ) {
+        res = std::max( std::min( volume(), 8 ), 1 );
     }
+
     for( const auto e : gunmods() ) {
         const auto mod = e->type->gunmod.get();
-        if( mod->sight_dispersion != -1 && mod->aim_speed != -1 &&
-            ((aim_threshold == -1 && mod->sight_dispersion < best_dispersion ) ||
-             (mod->sight_dispersion <= aim_threshold &&
-              mod->aim_speed < best_aim_speed)) ) {
-            best_aim_speed = mod->aim_speed;
-            best_dispersion = mod->sight_dispersion;
+        if( mod->sight_dispersion < 0 || mod->aim_cost <= 0 ) {
+            continue;
+        }
+        if( mod->sight_dispersion <= threshold && mod->aim_cost < res ) {
+            res = mod->aim_cost;
         }
     }
-    return best_aim_speed;
+
+    return res != INT_MAX ? res : 0;
 }
 
 int item::gun_damage( bool with_ammo ) const

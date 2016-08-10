@@ -213,7 +213,6 @@
     "range" : 15,
     "dispersion": 120,
     "sight_dispersion": 140,
-    "aim_speed" : 0,
     "recoil": 0,
     "durability": 6,
     "clip_size": 1,

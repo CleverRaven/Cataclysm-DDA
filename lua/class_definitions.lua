@@ -866,7 +866,7 @@ classes = {
             { name = "add_rain_to_container", rval = nil, args = { "bool" } },
             { name = "add_rain_to_container", rval = nil, args = { "bool", "int" } },
             { name = "add_technique", rval = nil, args = { "matec_id" } },
-            { name = "aim_speed", rval = "int", args = { "int" } },
+            { name = "aim_cost", rval = "int", args = { "float" } },
             { name = "already_used_by_player", rval = "bool", args = { "player" } },
             { name = "ammo_capacity", rval = "int", args = { } },
             { name = "ammo_current", rval = "string", args = { } },

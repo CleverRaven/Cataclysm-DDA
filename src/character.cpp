@@ -116,8 +116,13 @@ double Character::aim_per_move( const item& gun, double recoil ) const
     // constant at which one unit of aim cost ~ 75 moves
     int k = 25;
 
+    int cost = gun.aim_cost( recoil );
+    if( cost <= 0 ) {
+        return 0; // already at maxium aim
+    }
+
     ///\EFFECT_DEX increases aiming speed
-    int cost = std::max( gun.aim_speed( recoil ) + ( 8 - dex_cur ), 1 );
+    cost = std::max( cost + ( 8 - dex_cur ), 1 );
 
     // calculate rate (b) from the exponential function y = a(1-b)^x where a is recoil
     double improv = 1.0 - pow( 0.5, 1.0 / ( cost * k ) );
