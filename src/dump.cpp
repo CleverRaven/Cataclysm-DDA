@@ -13,7 +13,7 @@
 #include "veh_type.h"
 #include "npc.h"
 
-void game::dump_stats( const std::string& what, dump_mode mode )
+bool game::dump_stats( const std::string& what, dump_mode mode, const std::vector<std::string> &opts )
 {
     load_core_data();
     DynamicDataLoader::get_instance().finalize_loaded_data();
@@ -265,6 +265,10 @@ void game::dump_stats( const std::string& what, dump_mode mode )
                 dump( itt.nname( 1 ), c_ex->explosion );
             }
         }
+
+    } else {
+        std::cerr << "unknown argument: " << what << std::endl;
+        return false;
     }
 
     rows.erase( std::remove_if( rows.begin(), rows.end(), []( const std::vector<std::string>& e ) {
@@ -312,4 +316,6 @@ void game::dump_stats( const std::string& what, dump_mode mode )
             std::cout << "</table>";
             break;
     }
+
+    return true;
 }
