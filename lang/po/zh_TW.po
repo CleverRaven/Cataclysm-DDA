@@ -18,9 +18,11 @@
 # Laughing Man, 2015-2016
 # LeeOnField <asdf9685@gmail.com>, 2015
 # Leon Huang <leon12359@hotmail.com>, 2016
+# Liang Ying-Ruei <thumbd03803@gmail.com>, 2016
 # Meat <zero330xd@gmail.com>, 2015
 # mist9 <daikyou@hotmail.com>, 2015
 # Mizok H <karasunohina@gmail.com>, 2016
+# okami katuski <okamikatuski@gmail.com>, 2016
 # wei liu <mdonline2@hotmail.com>, 2015-2016
 # xap, 2015
 # xap, 2015
@@ -33,9 +35,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Cataclysm-DDA\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-07-11 12:55+0300\n"
-"PO-Revision-Date: 2016-07-12 08:43+0000\n"
-"Last-Translator: Vlasov Vitaly <vnigtha@gmail.com>\n"
+"POT-Creation-Date: 2016-08-09 09:18+0300\n"
+"PO-Revision-Date: 2016-08-10 06:12+0000\n"
+"Last-Translator: Laughing Man\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/cataclysm-dda-"
 "translators/cataclysm-dda/language/zh_TW/)\n"
 "Language: zh_TW\n"
@@ -407,11 +409,6 @@ msgid_plural ".50 BMG AP"
 msgstr[0] ".50 BMG 穿甲彈"
 
 #: lang/json/AMMO_from_json.py
-msgid ".50 BMG API"
-msgid_plural ".50 BMG API"
-msgstr[0] ".50 BMG 穿甲燃燒彈"
-
-#: lang/json/AMMO_from_json.py
 msgid ".50 BMG Ball"
 msgid_plural ".50 BMG Ball"
 msgstr[0] ".50 BMG 子彈"
@@ -420,6 +417,11 @@ msgstr[0] ".50 BMG 子彈"
 msgid ".50 BMG casing"
 msgid_plural ".50 BMG casings"
 msgstr[0] ".50 BMG 彈殼"
+
+#: lang/json/AMMO_from_json.py
+msgid ".50 BMG tracer"
+msgid_plural ".50 BMG tracer"
+msgstr[0] ""
 
 #: lang/json/AMMO_from_json.py
 msgid ".50 ammo belt linkage"
@@ -700,7 +702,7 @@ msgstr[0] "40mm 破片榴彈"
 #: lang/json/AMMO_from_json.py lang/json/ammunition_type_from_json.py
 msgid "40mm grenade"
 msgid_plural "40mm grenades"
-msgstr[0] ""
+msgstr[0] "40mm 榴彈"
 
 #: lang/json/AMMO_from_json.py
 msgid "40mm grenade belt linkage"
@@ -710,7 +712,7 @@ msgstr[0] "40mm 榴彈鏈帶"
 #: lang/json/AMMO_from_json.py
 msgid "40mm incendiary"
 msgid_plural "40mm incendiaries"
-msgstr[0] ""
+msgstr[0] "40mm 燃燒榴彈"
 
 #: lang/json/AMMO_from_json.py
 msgid "40mm smoke cover"
@@ -762,8 +764,9 @@ msgstr[0] "5.56 NATO 曳光彈"
 #: lang/json/AMMO_from_json.py
 msgid ""
 "5.56x45mm ammunition with a 62gr FMJ bullet containing a steel penetrator.  "
-"Its light weight, high accuracy, and managable recoil lead to widespread use "
-"in the 20th century and it remains popular among militaries and civilians."
+"Its light weight, high accuracy, and manageable recoil lead to widespread "
+"use in the 20th century and it remains popular among militaries and "
+"civilians."
 msgstr ""
 "使用 62 格令全金屬穿甲彈頭的 5.56x45mm 彈。輕量、高準確且低後座力讓他廣泛的在"
 "二十世紀軍中與民間流行。"
@@ -1233,7 +1236,7 @@ msgstr "非致命的 40mm 豆袋榴彈。"
 #. ~ Description for 40mm smoke cover
 #: lang/json/AMMO_from_json.py
 msgid "A 40mm grenade designed to provide smoke cover."
-msgstr ""
+msgstr "40mm的煙霧榴彈，用來提供煙霧掩護。"
 
 #. ~ Description for 40mm buckshot
 #: lang/json/AMMO_from_json.py
@@ -1393,6 +1396,8 @@ msgid ""
 "A brass-jacketed variant of the .44 Magnum round.  This increases "
 "penetration slightly at the cost of reduced damage from expansion."
 msgstr ""
+"以黃銅包覆全顆彈頭的 .44 麥格農彈。藉由犧牲彈頭擴張性所帶來的破壞力，其穿透力"
+"得以稍微提升。"
 
 #. ~ Description for blue paint
 #: lang/json/AMMO_from_json.py
@@ -1439,7 +1444,7 @@ msgstr "氧氣筒"
 msgid ""
 "A canister of pressurized hydrogen so heavily compressed it has turned "
 "solid.  With proper equipment, it could be heated to plasma."
-msgstr ""
+msgstr "能將氫氣壓縮成固體的鋼瓶。有正確的設備就能加熱成電漿。"
 
 #. ~ Description for rocket fuel
 #: lang/json/AMMO_from_json.py
@@ -1495,6 +1500,11 @@ msgid ""
 "\"consecrating\" a magic item."
 msgstr "一團黑漆漆，有點掉粉的奇怪精華。似乎是從一些魔法物品上面刮下來的。"
 
+#. ~ Description for bismuth
+#: lang/json/AMMO_from_json.py
+msgid "A dense but brittle metal often used as an alternative to lead."
+msgstr ""
+
 #. ~ Description for small acidbomb
 #: lang/json/AMMO_from_json.py
 msgid ""
@@ -1507,7 +1517,7 @@ msgstr ""
 #: lang/json/AMMO_from_json.py
 msgid ""
 "A gray powder composed of the highly flammable alkaline earth metal "
-"magnesium.  Useful for construting flares and similar items."
+"magnesium.  Useful for constructing flares and similar items."
 msgstr ""
 
 #. ~ Description for reloaded shotgun beanbag
@@ -1673,6 +1683,13 @@ msgstr ""
 "一把鋅粉。常用於化妝品與顏料中，某些業餘愛好者則用它混合硫磺來做火箭燃料。和"
 "強酸混合後會產生氫氣。"
 
+#. ~ Description for gold
+#: lang/json/AMMO_from_json.py
+msgid ""
+"A hard shiny metal.  Before the apocalypse this would've been worth a small "
+"fortune but now its value is greatly diminished."
+msgstr ""
+
 #. ~ Description for sprayable toxic gas
 #: lang/json/AMMO_from_json.py
 msgid ""
@@ -1684,7 +1701,7 @@ msgstr ""
 #. ~ Description for lump of steel
 #: lang/json/AMMO_from_json.py
 msgid "A heavy formed piece of steel.  Useful for some crafting recipes."
-msgstr ""
+msgstr "一大塊沉重的鋼鐵，適合用於製作物品。"
 
 #. ~ Description for lead ball
 #: lang/json/AMMO_from_json.py
@@ -2214,6 +2231,13 @@ msgid ""
 "a wide variety of uses including the manufacture of ammunition."
 msgstr ""
 
+#. ~ Description for silver
+#: lang/json/AMMO_from_json.py
+msgid ""
+"A soft shiny metal.  Before the cataclysm it was worth quite a bit but its "
+"value is now greatly diminished."
+msgstr ""
+
 #. ~ Description for napalm glob
 #: lang/json/AMMO_from_json.py
 msgid ""
@@ -2303,12 +2327,20 @@ msgstr ""
 msgid ""
 "A tiny steel dart.  Can be fired from a nail gun or similar weapon or used "
 "when crafting ammunition"
-msgstr ""
+msgstr "一根微小的鋼飛鏢。可從釘槍或類似的武器發射，也可以用來製作手工彈藥。"
 
 #. ~ Description for sinew
 #: lang/json/AMMO_from_json.py
 msgid "A tough sinew cut from a corpse, usable as thread."
 msgstr "從屍體切割下的堅韌的筋，可當做縫線。"
+
+#. ~ Description for .50 BMG tracer
+#: lang/json/AMMO_from_json.py
+msgid ""
+"A tracer variant of the powerful .50 BMG sniper round.  Tracer rounds to "
+"help keep the weapon they are fired from on target at the risk of igniting "
+"flammable substances."
+msgstr ""
 
 #. ~ Description for anti-tank guided missile
 #: lang/json/AMMO_from_json.py
@@ -2318,6 +2350,11 @@ msgid ""
 msgstr ""
 "一支以炮管發射，具有光學追蹤能力的線控導引飛彈。設計針對車輛和建築物，非常有"
 "效。"
+
+#. ~ Description for shrapnel
+#: lang/json/AMMO_from_json.py
+msgid "A twisted shard of jagged metal."
+msgstr "一塊扭曲尖銳的金屬碎片。"
 
 #. ~ Description for wooden javelin
 #: lang/json/AMMO_from_json.py
@@ -2452,16 +2489,6 @@ msgid ""
 "triggers on impact.  Carries a substantial explosive payload."
 msgstr "一個簡易爆炸裝置，以定量的材料與觸碰式引信組成。內含可觀的爆裂性酬載。"
 
-#. ~ Description for .50 BMG API
-#: lang/json/AMMO_from_json.py
-msgid ""
-"An armor-piercing incendiary variant of the powerful .50 BMG sniper round.  "
-"Incendiary rounds are designed to burn hotly upon impact, piercing armor and "
-"igniting flammable substances."
-msgstr ""
-"改造為可穿透裝甲並且燃燒的 .50 BMG 狙擊彈。燃燒彈在命中時會高溫燃燒，點燃周圍"
-"的可燃物。"
-
 #. ~ Description for reloaded .50 BMG API
 #: lang/json/AMMO_from_json.py
 msgid ""
@@ -2477,12 +2504,12 @@ msgstr ""
 msgid ""
 "An bulky assortment of small bits of scrap steel useful in all kinds of "
 "crafting"
-msgstr ""
+msgstr "各式種類的小塊金屬廢料，在物品製作上相當有用。"
 
 #. ~ Description for bomblet case
 #: lang/json/AMMO_from_json.py
 msgid "An empty bomblet case."
-msgstr ""
+msgstr "炸彈行李箱(空的)"
 
 #. ~ Description for unused .22 casing
 #: lang/json/AMMO_from_json.py
@@ -2740,11 +2767,6 @@ msgid "Big Bang canister"
 msgid_plural "Big Bang canisters"
 msgstr[0] "高爆榴彈"
 
-#. ~ Description for bismuth
-#: lang/json/AMMO_from_json.py
-msgid "Bismuth fishing weights and scraps.  Usable in making ammunition."
-msgstr "一些鉍的金屬。能用在在製造彈藥上。"
-
 #. ~ Description for charcoal
 #: lang/json/AMMO_from_json.py
 msgid ""
@@ -2922,10 +2944,9 @@ msgstr "用於重機槍或是特種軍事裝備的手工裝填子彈，能夠摧
 msgid ""
 "Hand-loaded ammunition for large revolvers and magnum pistols, as well as a "
 "few carbines."
-msgstr ""
+msgstr "手填的大口徑左輪手槍彈，也可以兼用在麥格農手槍和某些卡賓槍上。"
 
 #. ~ Description for reloaded light rifle ammo
-#. ~ Description for handloaded light rifle ammo
 #: lang/json/AMMO_from_json.py
 msgid ""
 "Hand-loaded ammunition for lighter rifles, designed for small game and "
@@ -2940,7 +2961,6 @@ msgid ""
 msgstr "手填的手槍子彈，裡面加入了超標的火藥量。它提高了傷害力也提高了後座力。"
 
 #. ~ Description for reloaded rifle ammo
-#. ~ Description for handloaded rifle ammo
 #: lang/json/AMMO_from_json.py
 msgid ""
 "Hand-loaded ammunition for rifles, meant for taking down large game or "
@@ -3078,7 +3098,14 @@ msgid ""
 msgstr "高放射性的漿液，最好離它遠點。"
 
 #. ~ Description for cent
-#: lang/json/AMMO_from_json.py
+#. ~ Description for placeholder ammunition
+#. ~ Description for software
+#. ~ Description for combination gun shotgun
+#. ~ Description for pipe combination gun shotgun
+#. ~ Description for KSG second magazine
+#. ~ Description for LeMat revolver shotgun
+#: lang/json/AMMO_from_json.py lang/json/GENERIC_from_json.py
+#: lang/json/GUNMOD_from_json.py
 msgid "IF YOU ARE SEEING THIS IT IS A BUG."
 msgstr "你看到這個的話就是有BUG。"
 
@@ -3245,7 +3272,7 @@ msgstr "粉末狀苛性鈉。"
 msgid ""
 "Powerful ammunition for large revolvers and magnum pistols, as well as a few "
 "carbines."
-msgstr ""
+msgstr "高火力的大口徑左輪手槍彈，也可以兼用在麥格農手槍和某些卡賓槍上。"
 
 #. ~ Description for rifle ammo
 #: lang/json/AMMO_from_json.py
@@ -3323,6 +3350,8 @@ msgid ""
 "has an extremely short range and is unable to injure all but the smallest "
 "creatures."
 msgstr ""
+"鼠彈是一種極低火力的彈種，專門設計來射殺老鼠、蛇或其他小型害蟲，同時確保不會"
+"對牆壁造成傷害。它只有非常短的射程，同時也只能傷害那些最小種類的生物。"
 
 #. ~ Description for handloaded .22 rat-shot
 #: lang/json/AMMO_from_json.py
@@ -3395,20 +3424,6 @@ msgstr ""
 "，它是一種軍用等級且穩定性高的爆裂物。可被製作成各種形狀的炸藥或者是與廢金屬"
 "混合，投擲後產生的超高速砲彈碎片將會痛擊所有爆炸區域內的生物。"
 
-#. ~ Description for gold
-#: lang/json/AMMO_from_json.py
-msgid ""
-"Small gold bits.  Before the cataclysm these would have been worth quite a "
-"bit.  Still usable in making ammunition."
-msgstr "小塊金塊，在災變前它值得可比它的外觀要多得多。還是能夠拿來製作彈藥。"
-
-#. ~ Description for silver
-#: lang/json/AMMO_from_json.py
-msgid ""
-"Small silver bits.  Before the cataclysm, these would have been worth quite "
-"a bit.  Still usable in making ammunition."
-msgstr "一些銀塊，在災變之前值很多錢，現在倒是可以用來製造彈藥。"
-
 #. ~ Description for metal fragment
 #: lang/json/AMMO_from_json.py
 msgid "Small slivers of metal.  Can't see much use for them."
@@ -3455,6 +3470,8 @@ msgid ""
 "using a primer instead of gunpowder.  The end result is a subsonic round "
 "that is so weak as to be nearly useless given your predicament."
 msgstr ""
+".22CB圓錐彈是.22口徑子彈的一種變體。它只有使用非常少量的火藥，使它成為一種亞"
+"音速子彈。射擊時幾乎沒有聲音，但它貧弱的威力實在對你的困境沒有幫助。"
 
 #. ~ Description for reloaded .300 Winchester Magnum
 #: lang/json/AMMO_from_json.py
@@ -3794,7 +3811,7 @@ msgstr[0] "丙酮"
 #: lang/json/AMMO_from_json.py
 msgid "acid bomblet"
 msgid_plural "acid bomblets"
-msgstr[0] ""
+msgstr[0] "酸液小型炸彈"
 
 #: lang/json/AMMO_from_json.py
 msgid "aluminum foil"
@@ -3849,7 +3866,7 @@ msgstr[0] "滾珠軸承"
 #: lang/json/AMMO_from_json.py
 msgid "belt ammo link"
 msgid_plural "belt ammo links"
-msgstr[0] ""
+msgstr[0] "空彈鏈"
 
 #: lang/json/AMMO_from_json.py
 msgid "birdshot"
@@ -3914,7 +3931,7 @@ msgstr[0] ""
 #: lang/json/AMMO_from_json.py
 msgid "bomblet case"
 msgid_plural "bomblet cases"
-msgstr[0] ""
+msgstr[0] "炸彈行李箱"
 
 #: lang/json/AMMO_from_json.py
 msgid "bone crossbow bolt"
@@ -3979,7 +3996,7 @@ msgstr[0] "氧化鉻"
 #: lang/json/AMMO_from_json.py
 msgid "chunk of steel"
 msgid_plural "chunk of steels"
-msgstr[0] ""
+msgstr[0] "鋼塊"
 
 #: lang/json/AMMO_from_json.py
 msgid "clay pellet"
@@ -4019,7 +4036,7 @@ msgstr[0] "銅線"
 #: lang/json/AMMO_from_json.py
 msgid "cyber rocket"
 msgid_plural "cyber rockets"
-msgstr[0] ""
+msgstr[0] "生化火箭"
 
 #: lang/json/AMMO_from_json.py lang/json/ammunition_type_from_json.py
 msgid "dart"
@@ -4149,7 +4166,7 @@ msgstr[0] "火焰箭"
 #: lang/json/AMMO_from_json.py
 msgid "flechette"
 msgid_plural "flechettes"
-msgstr[0] ""
+msgstr[0] "鋼鏢"
 
 #: lang/json/AMMO_from_json.py
 msgid "flechette shell"
@@ -4234,16 +4251,6 @@ msgstr[0] ".22 LR 子彈（手填彈）"
 msgid "handloaded .22 rat-shot"
 msgid_plural "handloaded .22 rat-shots"
 msgstr[0] ".22 鼠彈（手填彈）"
-
-#: lang/json/AMMO_from_json.py
-msgid "handloaded light rifle ammo"
-msgid_plural "handloaded light rifle ammo"
-msgstr[0] "輕型步槍子彈（手填彈）"
-
-#: lang/json/AMMO_from_json.py
-msgid "handloaded rifle ammo"
-msgid_plural "hand loaded rifle ammo"
-msgstr[0] "步槍子彈（手填彈）"
 
 #: lang/json/AMMO_from_json.py
 msgid "handmade 20x66mm buckshot"
@@ -4358,7 +4365,7 @@ msgstr[0] "燈油"
 #: lang/json/AMMO_from_json.py lang/json/TOOL_from_json.py
 msgid "large acidbomb"
 msgid_plural "large acidbombs"
-msgstr[0] ""
+msgstr[0] "大型酸液炸彈"
 
 #: lang/json/AMMO_from_json.py
 msgid "large electric primer"
@@ -4423,7 +4430,7 @@ msgstr[0] "長繩"
 #: lang/json/AMMO_from_json.py
 msgid "lump of steel"
 msgid_plural "lump of steels"
-msgstr[0] ""
+msgstr[0] "鋼鐵塊"
 
 #: lang/json/AMMO_from_json.py
 msgid "lye powder"
@@ -4433,7 +4440,7 @@ msgstr[0] "鹼粉"
 #: lang/json/AMMO_from_json.py
 msgid "magnesium powder"
 msgid_plural "magnesium powder"
-msgstr[0] ""
+msgstr[0] "鎂粉"
 
 #: lang/json/AMMO_from_json.py
 msgid "makeshift 120mm slug"
@@ -4458,7 +4465,7 @@ msgstr[0] "醫用膠帶"
 #: lang/json/AMMO_from_json.py lang/json/TOOL_from_json.py
 msgid "medium acidbomb"
 msgid_plural "medium acidbombs"
-msgstr[0] ""
+msgstr[0] "中型酸液炸彈"
 
 #: lang/json/AMMO_from_json.py
 msgid "metal arrow"
@@ -4493,7 +4500,7 @@ msgstr[0] "金屬碎片"
 #: lang/json/AMMO_from_json.py lang/json/TOOL_from_json.py
 msgid "micro acidbomb"
 msgid_plural "micro acidbombs"
-msgstr[0] ""
+msgstr[0] "微型酸液炸彈"
 
 #: lang/json/AMMO_from_json.py lang/json/ammunition_type_from_json.py
 msgid "modified mininuke"
@@ -5058,7 +5065,7 @@ msgstr[0] "沙子"
 #: lang/json/AMMO_from_json.py
 msgid "scrap metal"
 msgid_plural "scrap metals"
-msgstr[0] ""
+msgstr[0] "廢金屬"
 
 #: lang/json/AMMO_from_json.py
 msgid "searing bolt"
@@ -5100,6 +5107,11 @@ msgid "shotgun slug"
 msgid_plural "shotgun slugs"
 msgstr[0] "重擊散彈"
 
+#: lang/json/AMMO_from_json.py
+msgid "shrapnel"
+msgid_plural "shrapnels"
+msgstr[0] "彈片"
+
 #: lang/json/AMMO_from_json.py lang/json/ammunition_type_from_json.py
 msgid "signal flare"
 msgid_plural "signal flares"
@@ -5123,7 +5135,7 @@ msgstr[0] "骷髏火"
 #: lang/json/AMMO_from_json.py lang/json/TOOL_from_json.py
 msgid "small acidbomb"
 msgid_plural "small acidbombs"
-msgstr[0] ""
+msgstr[0] "小型酸液炸彈"
 
 #: lang/json/AMMO_from_json.py
 msgid "small electric primer"
@@ -5163,7 +5175,7 @@ msgstr[0] "焊料"
 #: lang/json/AMMO_from_json.py lang/json/GUN_from_json.py
 msgid "spider laser"
 msgid_plural "spider lasers"
-msgstr[0] ""
+msgstr[0] "蜘蛛雷射"
 
 #: lang/json/AMMO_from_json.py
 msgid "spiked home-made rocket"
@@ -5715,7 +5727,7 @@ msgstr ""
 msgid ""
 "A crude wooden shield, lacking any metal or leather reinforcement.  "
 "Lightweight but not very tough."
-msgstr ""
+msgstr "一面粗製的木盾，缺乏金屬或是皮革補強。輕量但不太堅固。"
 
 #. ~ Description for sleeveless survivor duster
 #: lang/json/ARMOR_from_json.py
@@ -6676,10 +6688,8 @@ msgstr "一件長袖的上衣。有著黑白相間的條紋。"
 msgid ""
 "A long-sleeved spring wetsuit with pink color details and cleavage-"
 "enhancing, hip-accentuating construction.  Not as protective as a full-body "
-"suit, but also less oppressive."
+"suit, but also less restrictive."
 msgstr ""
-"一件長袖的粉紅色連身泳裝，能夠完美的加強女性的胸部集中以及提臀效果。不像潛水"
-"衣有全身保護的效果，但壓迫感較少。"
 
 #. ~ Description for robe
 #: lang/json/ARMOR_from_json.py
@@ -7411,11 +7421,6 @@ msgstr "一雙白色二趾襪，常用在武術人員上。"
 msgid "A piece of clerical clothing, usually worn by Christian priests."
 msgstr "一件神職人員的服裝，通常是基督教牧師在穿得。"
 
-#. ~ Description for fancy hairpin
-#: lang/json/ARMOR_from_json.py
-msgid "A pink hairpin with cute flower textures."
-msgstr "一個粉紅色的髮簪，有著可愛的花朵裝飾。"
-
 #. ~ Description for radiation badge
 #: lang/json/ARMOR_from_json.py
 msgid ""
@@ -7556,6 +7561,8 @@ msgid ""
 "A rectangular shield from ancient Rome, made of wood and iron.  Perfect for "
 "fighting in formation, but not ideal for facing zombies alone."
 msgstr ""
+"一面來自古羅馬的矩形盾牌，以木和鐵製成。在編隊作戰中非常有用，但當要獨自面對"
+"殭屍時就不太理想。"
 
 #. ~ Description for hunting cap
 #: lang/json/ARMOR_from_json.py
@@ -7856,6 +7863,8 @@ msgid ""
 "Extremely light and tough, but its small size is as much a hindrance as it "
 "is an advantage."
 msgstr ""
+"一面源自中世紀晚期和文藝復興時期的小金屬盾。盾身輕而穩固，但它的尺寸之小實在"
+"是好壞參半。"
 
 #. ~ Description for pair of swim goggles
 #: lang/json/ARMOR_from_json.py
@@ -8560,7 +8569,7 @@ msgstr "一件古羅馬鎧甲，以重疊的金屬片條構成，金屬片之間
 msgid ""
 "An ancient style of wooden shield, lacking any metal or leather "
 "reinforcement.  Bulky, but offers a decent amount of protection."
-msgstr ""
+msgstr "一面舊式的木製盾牌，缺乏金屬或是皮革補強。笨重，但提供像樣的保護。"
 
 #. ~ Description for leather apron
 #: lang/json/ARMOR_from_json.py
@@ -10317,11 +10326,6 @@ msgid_plural "evening gowns"
 msgstr[0] "晚禮服"
 
 #: lang/json/ARMOR_from_json.py
-msgid "fancy hairpin"
-msgid_plural "fancy hairpins"
-msgstr[0] "花俏髮簪"
-
-#: lang/json/ARMOR_from_json.py
 msgid "fancy watch"
 msgid_plural "fancy watches"
 msgstr[0] "花俏手錶"
@@ -11979,7 +11983,7 @@ msgstr[0] "廢金屬裝"
 #: lang/json/ARMOR_from_json.py
 msgid "scutum"
 msgid_plural "scuta"
-msgstr[0] ""
+msgstr[0] "羅馬戰盾"
 
 #: lang/json/ARMOR_from_json.py
 msgid "shark suit"
@@ -12622,6 +12626,8 @@ msgid ""
 "data.  The data is compiled and presented as a simple readout of the current "
 "weather.  It also passively tells you your external temperature."
 msgstr ""
+"以許多科學儀器與感應器收集環境資訊，這些資訊將被分析以簡單推測出最近的天氣。"
+"它還能夠提示你周邊的溫度。"
 
 #. ~ Description for Remote Controller
 #. ~ Description for Remote Controller CBM
@@ -15789,7 +15795,7 @@ msgid ""
 msgstr ""
 "這本 Rivtech 有著警告標語，\"未經授權的讀者是我們最好的測試對象\"。因為: \"包"
 "含了整個無殼槍械生產線的完整設計規格與技術圖面\"。你也許能夠破除他們壟斷的市"
-"場來大賺一筆!"
+"場來大賺一筆！"
 
 #. ~ Description for Augmentative Tech Review 2041
 #: lang/json/BOOK_from_json.py
@@ -17347,6 +17353,13 @@ msgid ""
 "and heavily seasoned."
 msgstr "一個加肉的披薩，所有肉食者的最愛。加入了大量的肉類以及濃郁的醬料。"
 
+#. ~ Description for improvised first aid kit
+#: lang/json/COMESTIBLE_from_json.py
+msgid ""
+"A medical kit made with cheap, subpar components.  For when nothing else is "
+"available."
+msgstr ""
+
 #. ~ Description for codeine
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
@@ -17898,7 +17911,7 @@ msgstr ""
 msgid ""
 "A strong benzodiazepine drug used to treat muscle spasms, anxiety, seizures, "
 "and panic attacks."
-msgstr ""
+msgstr "強力的苯甲二氮䓬藥劑，用於治療肌肉痙攣，焦慮，癲癇發作和驚恐症發作。"
 
 #. ~ Description for oxycodone
 #: lang/json/COMESTIBLE_from_json.py
@@ -18084,7 +18097,7 @@ msgstr ""
 msgid ""
 "A thick and tasty beverage made from pure refined human protein and "
 "nutritious fruit."
-msgstr ""
+msgstr "濃厚的精製人類蛋白糊，配上營養水果做成的風味飲料。"
 
 #. ~ Description for fortified soylent green shake
 #: lang/json/COMESTIBLE_from_json.py
@@ -18092,6 +18105,8 @@ msgid ""
 "A thick and tasty beverage made from pure refined human protein and "
 "nutritious fruit.  It has been supplemented with extra vitamins and minerals"
 msgstr ""
+"濃厚的精製人類蛋白糊，配上營養水果做成的風味飲料。還進一步添加了額外的維他命"
+"和礦物質。"
 
 #. ~ Description for protein shake
 #: lang/json/COMESTIBLE_from_json.py
@@ -18106,6 +18121,8 @@ msgid ""
 "A thick and tasty beverage made from pure refined protein and nutritious "
 "fruit.  It has been supplemented with extra vitamins and minerals"
 msgstr ""
+"由濃厚的蛋白質糊與營養水果做成的風味飲料。還進一步添加了額外的維他命和礦物"
+"質。"
 
 #. ~ Description for bacon
 #: lang/json/COMESTIBLE_from_json.py
@@ -18133,7 +18150,7 @@ msgstr "用碎甜菜製作的濃糖漿。在烹飪時是種很好的甜味劑。
 msgid ""
 "A thin slurry of refined human protein mixed with water.  While quite "
 "nutritious, it is not particularly tasty."
-msgstr ""
+msgstr "稀釋過的精製人類蛋白糊。雖然相當有營養，但不是很好喝。"
 
 #. ~ Description for protein drink
 #: lang/json/COMESTIBLE_from_json.py
@@ -18923,7 +18940,7 @@ msgstr ""
 msgid ""
 "Dehydrated fish flakes.  With proper storage, this dried food will remain "
 "edible for an incredibly long time."
-msgstr "脫水過的魚肉片乾。有合適的儲存，這個乾燥食物能夠保持長時間不壞。"
+msgstr "脫水過的魚肉片乾。在合適的儲存下，這個乾燥食物能夠保持長時間不壞。"
 
 #. ~ Description for dehydrated fruit
 #: lang/json/COMESTIBLE_from_json.py
@@ -18932,6 +18949,8 @@ msgid ""
 "edible for an incredibly long time.  They are useful for several cooking "
 "recipes."
 msgstr ""
+"脫水過的水果。在合適的儲存下，這個乾燥食物能夠保持長時間不壞。在不少食譜中都"
+"用得上。"
 
 #. ~ Description for dried beans
 #: lang/json/COMESTIBLE_from_json.py
@@ -18945,7 +18964,7 @@ msgstr "脫水過的大北豆。當煮熟時美味又營養，但如果是乾燥
 msgid ""
 "Dehydrated human flesh flakes.  With proper storage, this dried food will "
 "remain edible for an incredibly long time."
-msgstr "脫水過的人肉片。有合適的儲存，這個乾燥食物能夠保持長時間不壞。"
+msgstr "脫水過的人肉片。在合適的儲存下，這個乾燥食物能夠保持長時間不壞。"
 
 #. ~ Description for dried rice
 #: lang/json/COMESTIBLE_from_json.py
@@ -18959,7 +18978,7 @@ msgstr "脫水過的白長米。當煮熟時美味又營養，但如果是乾燥
 msgid ""
 "Dehydrated meat flakes.  With proper storage, this dried food will remain "
 "edible for an incredibly long time."
-msgstr "脫水過的肉片。有合適的儲存，這個乾燥食物能夠保持長時間不壞。"
+msgstr "脫水過的肉片。在合適的儲存下，這個乾燥食物能夠保持長時間不壞。"
 
 #. ~ Description for powdered milk
 #: lang/json/COMESTIBLE_from_json.py
@@ -18971,7 +18990,7 @@ msgstr "脫水乾燥的奶粉。加水就是能喝的牛奶。"
 msgid ""
 "Dehydrated vegetable flakes.  With proper storage, this dried food will "
 "remain edible for an incredibly long time."
-msgstr "脫水過的蔬菜。有合適的儲存，這個乾燥食物能夠保持長時間不壞。"
+msgstr "脫水過的蔬菜。在合適的儲存下，這個乾燥食物能夠保持長時間不壞。"
 
 #. ~ Description for biscuit
 #: lang/json/COMESTIBLE_from_json.py
@@ -19217,17 +19236,17 @@ msgstr ""
 #. ~ Description for rum wash
 #: lang/json/COMESTIBLE_from_json.py
 msgid "Fermented, but not distilled rum.  No longer tastes sweet."
-msgstr ""
+msgstr "完成發酵，但尚未蒸餾的蘭姆酒。不再帶有甜味。"
 
 #. ~ Description for vodka wash
 #: lang/json/COMESTIBLE_from_json.py
 msgid "Fermented, but not distilled vodka.  No longer tastes sweet."
-msgstr ""
+msgstr "完成發酵，但尚未蒸餾的伏特加。不再帶有甜味。"
 
 #. ~ Description for whiskey wash
 #: lang/json/COMESTIBLE_from_json.py
 msgid "Fermented, but not distilled whiskey.  No longer tastes sweet."
-msgstr ""
+msgstr "完成發酵，但尚未蒸餾的威士忌。不再帶有甜味。"
 
 #. ~ Description for brioche
 #: lang/json/COMESTIBLE_from_json.py
@@ -19361,7 +19380,7 @@ msgstr "新鮮現抓的魚。勉強可以生吃。"
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
 "Freshly cooked entrails.  Unappetizing, but filled with essential vitamins."
-msgstr ""
+msgstr "剛煮過的內臟。它引不起食慾，但充滿了人體必需的維生素。"
 
 #. ~ Description for cooked fish
 #: lang/json/COMESTIBLE_from_json.py
@@ -20067,14 +20086,14 @@ msgstr "小麥顆粒，直接吃這原料不好吃。"
 msgid ""
 "Raw, refined protein made out of people!  While quite nutritious, it is "
 "difficult to enjoy in its pure form."
-msgstr ""
+msgstr "精製過的人類蛋白粉！雖然相當有營養，但是直接服用的話會很難受。"
 
 #. ~ Description for protein powder
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
 "Raw, refined protein.  While quite nutritious, it is difficult to enjoy in "
 "its pure form."
-msgstr "蛋白質的生原料，。雖然相當有營養，但是其原形不好吃。"
+msgstr "精製過的蛋白粉。雖然相當有營養，但是直接服用的話會很難受。"
 
 #. ~ Description for raw beans
 #: lang/json/COMESTIBLE_from_json.py
@@ -21114,7 +21133,7 @@ msgstr "番茄醬，好吃。"
 #. ~ Description for sewage water
 #: lang/json/COMESTIBLE_from_json.py
 msgid "Turbid liquid from the sewers with awful stench."
-msgstr ""
+msgstr "來自下水道的混濁液體，帶有可怕的惡臭。"
 
 #. ~ Description for raw offal
 #: lang/json/COMESTIBLE_from_json.py
@@ -21160,7 +21179,7 @@ msgstr "未發酵的私釀啤酒。裡面有煮熟後冷卻的碎大麥，並加
 msgid ""
 "Unfermented moonshine.  Just some water, sugar and corn, like good ol' "
 "aunt's recipe."
-msgstr ""
+msgstr "未發酵的私釀烈酒。就是水、糖、玉米的混合物，就和老姑媽的配方一樣。"
 
 #. ~ Description for pine wine must
 #: lang/json/COMESTIBLE_from_json.py
@@ -21179,7 +21198,7 @@ msgstr "未發酵的蘭姆酒。焦糖和糖蜜熬製成的甜水，基本上就
 #. ~ Description for spiced mead must
 #: lang/json/COMESTIBLE_from_json.py
 msgid "Unfermented spiced mead.  Dilluted honey and yeast."
-msgstr ""
+msgstr "未發酵的香料蜜酒。稀釋過的蜂蜜和酵母混合物。"
 
 #. ~ Description for vodka wort
 #: lang/json/COMESTIBLE_from_json.py
@@ -21266,7 +21285,7 @@ msgstr "添加了糖或蜂蜜的水。味道也就還好。"
 #. ~ Description for water
 #: lang/json/COMESTIBLE_from_json.py
 msgid "Water, the stuff of life, the best thirst-quencher available.."
-msgstr ""
+msgstr "水，生命之所需，最佳解渴靈藥…"
 
 #. ~ Description for fruit-shaped anomaly
 #: lang/json/COMESTIBLE_from_json.py
@@ -21358,18 +21377,18 @@ msgstr "你吃了搖頭丸。"
 #. ~ Use action activation_message for injectable iron.
 #: lang/json/COMESTIBLE_from_json.py
 msgid "You inject some iron."
-msgstr "你注射了一些鐵質"
+msgstr "你注射了一些鐵質。"
 
 #. ~ Use action activation_message for injectable vitamin B.
 #: lang/json/COMESTIBLE_from_json.py
 msgid "You inject some vitamin B."
-msgstr "你注射了一些維生素B"
+msgstr "你注射了一些維生素B。"
 
 #. ~ Use action activation_message for heroin.
 #. ~ Use action activation_message for morphine.
 #: lang/json/COMESTIBLE_from_json.py
 msgid "You shoot up."
-msgstr "你開槍了"
+msgstr "你來了一發海洛因。"
 
 #. ~ Use action activation_message for rolling tobacco.
 #: lang/json/COMESTIBLE_from_json.py
@@ -21425,7 +21444,7 @@ msgstr "你服用了一些曲馬多。"
 #: lang/json/COMESTIBLE_from_json.py
 #, no-python-format
 msgid "You take the %s."
-msgstr "你吃了 %s"
+msgstr "你吃了 %s。"
 
 #. ~ Use action activation_message for sewagas inhaler.
 #: lang/json/COMESTIBLE_from_json.py
@@ -22823,7 +22842,7 @@ msgstr[0] "強化蛋白奶昔"
 #: lang/json/COMESTIBLE_from_json.py
 msgid "fortified soylent green shake"
 msgid_plural "fortified soylent green shakes"
-msgstr[0] "強化代餐奶昔"
+msgstr[0] "強化綠代餐奶昔"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "fried SPAM"
@@ -23127,6 +23146,11 @@ msgstr[0] "過氧化氫"
 msgid "imperial stout"
 msgid_plural "imperial stouts"
 msgstr[0] "帝國司陶特啤酒"
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "improvised first aid kit"
+msgid_plural "improvised first aid kits"
+msgstr[0] ""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "injectable iron"
@@ -23676,12 +23700,12 @@ msgstr[0] "私釀烈酒"
 #: lang/json/COMESTIBLE_from_json.py
 msgid "moonshine mash"
 msgid_plural "moonshine mashes"
-msgstr[0] "烈酒原液"
+msgstr[0] "私釀烈酒原液"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "moonshine wash"
 msgid_plural "moonshine washes"
-msgstr[0] ""
+msgstr[0] "私釀烈酒酒汁"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "morel mushroom"
@@ -24330,7 +24354,7 @@ msgstr[0] "蘭姆可樂"
 #: lang/json/COMESTIBLE_from_json.py
 msgid "rum wash"
 msgid_plural "rum washes"
-msgstr[0] ""
+msgstr[0] "蘭姆酒酒汁"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "rum wort"
@@ -24470,7 +24494,7 @@ msgstr[0] "污水樣本"
 #: lang/json/COMESTIBLE_from_json.py
 msgid "sewage water"
 msgid_plural "sewage water"
-msgstr[0] ""
+msgstr[0] "污水"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "sewer brew"
@@ -24525,17 +24549,17 @@ msgstr[0] "醬油"
 #: lang/json/COMESTIBLE_from_json.py
 msgid "soylent green"
 msgid_plural "soylent green drinks"
-msgstr[0] "代餐飲料"
+msgstr[0] "綠代餐飲料"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "soylent green powder"
 msgid_plural "servings of soylent green powder"
-msgstr[0] ""
+msgstr[0] "綠蛋白粉"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "soylent green shake"
 msgid_plural "soylent green shakes"
-msgstr[0] "代餐奶昔"
+msgstr[0] "綠代餐奶昔"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "soylent slice"
@@ -24924,7 +24948,7 @@ msgstr[0] "伏特加"
 #: lang/json/COMESTIBLE_from_json.py
 msgid "vodka wash"
 msgid_plural "vodka washes"
-msgstr[0] ""
+msgstr[0] "伏特加酒汁"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "vodka wort"
@@ -24999,7 +25023,7 @@ msgstr[0] "威士忌酸酒"
 #: lang/json/COMESTIBLE_from_json.py
 msgid "whiskey wash"
 msgid_plural "whiskey washes"
-msgstr[0] ""
+msgstr[0] "威士忌酒汁"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "whiskey wort"
@@ -25175,12 +25199,12 @@ msgstr ""
 #. ~ Description for 30 gallon barrel
 #: lang/json/CONTAINER_from_json.py
 msgid "A huge plastic barrel with a resealable lid."
-msgstr "一個用可重複密封的蓋子密封的巨大塑膠桶。"
+msgstr "一個附有上蓋，可以重新密封的大塑膠桶。"
 
 #. ~ Description for steel drum (100L)
 #: lang/json/CONTAINER_from_json.py
 msgid "A huge steel barrel with a resealable lid."
-msgstr "一個附有上蓋，且可以重新密封的大鐵桶"
+msgstr "一個附有上蓋，可以重新密封的大鋼桶。"
 
 #. ~ Description for canvas sack
 #: lang/json/CONTAINER_from_json.py
@@ -25217,7 +25241,7 @@ msgstr "一個有背帶的水密大皮水袋，可容納5升的水。"
 #. ~ Description for steel drum (200L)
 #: lang/json/CONTAINER_from_json.py
 msgid "A massive steel barrel with a resealable lid."
-msgstr "一個用可重複密封的蓋子密封的巨大鋼桶。"
+msgstr "一個附有上蓋，可以重新密封的巨大鋼桶。"
 
 #. ~ Description for plastic canteen
 #: lang/json/CONTAINER_from_json.py
@@ -25307,12 +25331,12 @@ msgstr "一個小的塑膠袋子。基本上是垃圾。"
 #. ~ Description for opened plastic cup
 #: lang/json/CONTAINER_from_json.py
 msgid "A small, vacuum formed cup, essentially trash."
-msgstr ""
+msgstr "一個真空成型的小杯，基本上是垃圾。"
 
 #. ~ Description for plastic cup
 #: lang/json/CONTAINER_from_json.py
 msgid "A small, vacuum formed cup."
-msgstr ""
+msgstr "一個真空成型的小杯。"
 
 #. ~ Description for steel bottle
 #: lang/json/CONTAINER_from_json.py
@@ -25353,7 +25377,7 @@ msgstr "一個錫罐，通常是豆子裝在裡面。"
 msgid ""
 "A tin can, like what beans come in.  This one is opened and can't be easily "
 "sealed."
-msgstr ""
+msgstr "一個錫罐，通常是豆子裝在裡面。這罐已被開啟而且難以封密。"
 
 #. ~ Description for vortex generator
 #: lang/json/CONTAINER_from_json.py
@@ -25404,7 +25428,7 @@ msgstr "一個鋁製罐子，通常裝過了可樂之類的東西。"
 msgid ""
 "An aluminum can, like what soda comes in.  This one is opened and can't be "
 "easily sealed."
-msgstr ""
+msgstr "一個鋁製罐子，通常裝過了可樂之類的東西。這罐已被開啟而且難以封密。"
 
 #. ~ Description for paper wrapper
 #: lang/json/CONTAINER_from_json.py
@@ -25436,6 +25460,14 @@ msgid ""
 "The stomach of a large creature, cleaned and sealed with strings.  It can "
 "hold 3 liters of water."
 msgstr "一個大型生物的胃袋，清洗後用線密封。可容納3升的水。"
+
+#. ~ Description for vacutainer
+#: lang/json/CONTAINER_from_json.py
+msgid ""
+"This is a tool for drawing blood, including a test tube for holding the "
+"sample.  Use this tool to draw blood, either from yourself or from a corpse "
+"you are standing on."
+msgstr ""
 
 #. ~ Description for wooden barrel
 #: lang/json/CONTAINER_from_json.py
@@ -25569,17 +25601,17 @@ msgstr[0] "鐵製油桶 (60公升)"
 #: lang/json/CONTAINER_from_json.py
 msgid "opened aluminum can"
 msgid_plural "opened aluminum cans"
-msgstr[0] ""
+msgstr[0] "打開的鋁罐"
 
 #: lang/json/CONTAINER_from_json.py
 msgid "opened plastic cup"
 msgid_plural "opened plastic cups"
-msgstr[0] ""
+msgstr[0] "打開的塑膠杯"
 
 #: lang/json/CONTAINER_from_json.py
 msgid "opened tin can"
 msgid_plural "opened tin cans"
-msgstr[0] ""
+msgstr[0] "打開的錫罐"
 
 #: lang/json/CONTAINER_from_json.py
 msgid "pack"
@@ -25629,12 +25661,12 @@ msgstr[0] "塑膠油桶"
 #: lang/json/CONTAINER_from_json.py
 msgid "sealed 3L glass jar"
 msgid_plural "sealed 3L glass jars"
-msgstr[0] ""
+msgstr[0] "密封的3公升玻璃罐"
 
 #: lang/json/CONTAINER_from_json.py
 msgid "sealed glass jar"
 msgid_plural "sealed glass jars"
-msgstr[0] ""
+msgstr[0] "密封的玻璃罐"
 
 #: lang/json/CONTAINER_from_json.py
 msgid "sealed stomach"
@@ -25664,12 +25696,12 @@ msgstr[0] "鋼瓶"
 #: lang/json/CONTAINER_from_json.py
 msgid "steel drum (100L)"
 msgid_plural "steel drum (100L)s"
-msgstr[0] ""
+msgstr[0] "鋼桶（100公升）"
 
 #: lang/json/CONTAINER_from_json.py
 msgid "steel drum (200L)"
 msgid_plural "steel drum (200L)s"
-msgstr[0] ""
+msgstr[0] "鋼桶（200公升）"
 
 #: lang/json/CONTAINER_from_json.py
 msgid "steel jerrycan"
@@ -25680,6 +25712,11 @@ msgstr[0] "金屬油桶"
 msgid "tin can"
 msgid_plural "tin cans"
 msgstr[0] "錫罐"
+
+#: lang/json/CONTAINER_from_json.py
+msgid "vacutainer"
+msgid_plural "vacutainers"
+msgstr[0] "真空採血管"
 
 #: lang/json/CONTAINER_from_json.py lang/json/vehicle_part_from_json.py
 msgid "vortex engine"
@@ -25906,7 +25943,7 @@ msgstr ""
 #. ~ Description for long rope
 #: lang/json/GENERIC_from_json.py
 msgid "A 30-foot long rope.  Useful for keeping yourself safe from falls."
-msgstr ""
+msgstr "一段 30 英尺長的繩子，能讓你免於墜落的危險。"
 
 #. ~ Description for music CD
 #: lang/json/GENERIC_from_json.py
@@ -26348,7 +26385,7 @@ msgid ""
 "combined with this stock, the M320 can be used as a stand alone weapon"
 msgstr ""
 "一種為M320榴彈發射器設計的可折疊槍托。當M320與這槍托組合時，M320可作為一個獨"
-"立的武器"
+"立的武器。"
 
 #. ~ Description for forged sword
 #: lang/json/GENERIC_from_json.py
@@ -26362,7 +26399,7 @@ msgstr "一把普通的短劍，由許多塊鋼鐵所鍛製而成。其銳利的
 msgid ""
 "A compact lightweight alternator used to power small vehicle electrical "
 "systems."
-msgstr ""
+msgstr "一台用於驅動小型車輛電氣系統的輕量化發電機。"
 
 #. ~ Description for mess tin
 #: lang/json/GENERIC_from_json.py
@@ -26559,6 +26596,14 @@ msgstr "一個屍體。"
 #: lang/json/GENERIC_from_json.py
 msgid "A dead plant.  Good for starting fires."
 msgstr "枯死的植物，可幫助生火。"
+
+#. ~ Description for diamond punch dagger
+#: lang/json/GENERIC_from_json.py
+msgid ""
+"A double edged dagger made to be gripped in the palm, with the blade "
+"protruding between the fingers. The blade has been coated with diamond-like "
+"carbon and holds a wickedly sharp edge."
+msgstr ""
 
 #. ~ Description for razor blade
 #: lang/json/GENERIC_from_json.py
@@ -26839,20 +26884,6 @@ msgstr "一根有點不太利的大尖刺，裝在車上可以造成一些傷害
 msgid "A large and very powerful electric motor.  Useful for crafting."
 msgstr "大而強力的電力馬達。製作物品時很有用。"
 
-#. ~ Description for gold bar
-#: lang/json/GENERIC_from_json.py
-msgid ""
-"A large bar of gold.  Before the apocalypse, this would've been worth a "
-"small fortune; now its value is greatly diminished."
-msgstr "一大塊金子，在世界末日後，它的價值跟石頭沒兩樣。"
-
-#. ~ Description for silver bar
-#: lang/json/GENERIC_from_json.py
-msgid ""
-"A large bar of silver.  Before the cataclysm, this would've been worth quite "
-"a bit; now its value is greatly diminished."
-msgstr "一根大銀條。災變之前，這一根值得相當多，現在它的價值大打折扣。"
-
 #. ~ Description for coal pallet
 #: lang/json/GENERIC_from_json.py
 msgid "A large block of semi-processed coal."
@@ -26988,7 +27019,7 @@ msgstr "一片尖銳的大刀刃。能夠用於製作刀劍武器，或是裝在
 msgid ""
 "A larger and more powerful alternator used to power vehicle electrical "
 "systems."
-msgstr ""
+msgstr "一台用於驅動車輛電氣系統的大型強力發電機。"
 
 #. ~ Description for TX-5LR Laser Cannon
 #: lang/json/GENERIC_from_json.py
@@ -27316,7 +27347,7 @@ msgstr "強力的電力馬達。製作物品時很有用。"
 msgid ""
 "A primer on Miyamoto Musashi's style of combat and philosophy, Niten Ichi-"
 "Ryu."
-msgstr "一本由宮本武藏所流傳有關戰鬥與兵法的入門書，名為二天一流‧"
+msgstr "一本由宮本武藏所流傳有關戰鬥與兵法的入門書，名為二天一流。"
 
 #. ~ Description for circuit board
 #: lang/json/GENERIC_from_json.py
@@ -27343,7 +27374,7 @@ msgstr "從電路板上拔下來的各種電阻，電容和二極管。"
 #. ~ Description for light bulb
 #: lang/json/GENERIC_from_json.py
 msgid "A rather outdated light bulb used in all sorts of light equipment."
-msgstr ""
+msgstr "一個有點過時的燈泡，出現於各式燈光設備。"
 
 #. ~ Description for Gungnir
 #: lang/json/GENERIC_from_json.py
@@ -27763,7 +27794,7 @@ msgstr ""
 msgid ""
 "A small steel telescoping cantilever.  If attached to a frame it could be "
 "used to lift up to 1.5 metric tonnes."
-msgstr ""
+msgstr "一件鋼製的小型伸縮式懸臂。連接到車架後，它能抬起高達 1.5 公噸的物件。"
 
 #. ~ Description for damaged tent
 #: lang/json/GENERIC_from_json.py
@@ -27852,13 +27883,13 @@ msgstr "從松樹上長出來的帶刺堅果。搖一搖，可以聽到裡面有
 
 #. ~ Description for splintered wood
 #: lang/json/GENERIC_from_json.py
-msgid "A splintered piece of wood, useless as anything but kindling."
-msgstr "一塊木頭碎片，除了拿來當火種生火外沒什麼用途。"
+msgid "A splintered piece of wood, could be used as a skewer or for kindling."
+msgstr ""
 
 #. ~ Description for car alternator
 #: lang/json/GENERIC_from_json.py
 msgid "A standard alternator used to power vehicle electrical systems."
-msgstr ""
+msgstr "一台用於驅動車輛電氣系統的標準發電機。"
 
 #. ~ Description for automotive filter
 #: lang/json/GENERIC_from_json.py
@@ -27878,6 +27909,8 @@ msgid ""
 "it will play.  Commonly used by ice cream trucks to draw the attention of "
 "children in the days when children wanted ice cream more than brains."
 msgstr ""
+"一套配有揚聲器的立體聲系統，內置一段簡單的旋律。通常裝設在冰淇淋卡車上吸引兒"
+"童的注意，但現在的孩子比起冰淇淋更想要你的腦袋。"
 
 #. ~ Description for stereo system
 #: lang/json/GENERIC_from_json.py
@@ -27975,7 +28008,7 @@ msgstr ""
 #. ~ Description for drive belt
 #: lang/json/GENERIC_from_json.py
 msgid ""
-"A synthetic rubber V-belt with steel reinforcement fibers commonly fited to "
+"A synthetic rubber V-belt with steel reinforcement fibers commonly fitted to "
 "engines or other industrial equipment."
 msgstr ""
 
@@ -28065,11 +28098,6 @@ msgstr "一個真正的紳士總是抽完他的雪茄。"
 #: lang/json/GENERIC_from_json.py
 msgid "A tube of strong glue.  Used in many crafting recipes."
 msgstr "一管強力膠。在製作物品時常用到。"
-
-#. ~ Description for shrapnel
-#: lang/json/GENERIC_from_json.py
-msgid "A twisted shard of jagged metal."
-msgstr ""
 
 #. ~ Description for 2-by-sword
 #: lang/json/GENERIC_from_json.py
@@ -28357,7 +28385,7 @@ msgstr ""
 msgid ""
 "An bulky but efficient electrical generator designed to be attached to an "
 "engine."
-msgstr ""
+msgstr "一台笨重但有效的發電機，可以連接到引擎上。"
 
 #. ~ Description for high-pressure pump
 #: lang/json/GENERIC_from_json.py
@@ -28878,7 +28906,7 @@ msgstr[0] "PR-24 甩棍（收縮）"
 #: lang/json/GENERIC_from_json.py
 msgid "Practical Eskrima"
 msgid_plural "Practical Eskrima"
-msgstr[0] "實用菲律賓劍棍術"
+msgstr[0] "實戰菲律賓劍棍術"
 
 #: lang/json/GENERIC_from_json.py
 msgid "Practical Pugilism"
@@ -29212,6 +29240,19 @@ msgstr ""
 "後它會散發出濃厚的黑色煙霧，能夠讓身處其中的生物行動緩慢，同時也會影響視力與"
 "嗅覺。"
 
+#. ~ Description for tear gas grenade
+#: lang/json/GENERIC_from_json.py
+msgid ""
+"This is a canister grenade filled with noxious irritant.  Use this item to "
+"pull the pin and light the fuse, turning it into an active tear gas "
+"grenade.  In five turns it will begin to expel a highly toxic gas for some "
+"time.  This gas damages and slows those who enter it, as well as obscuring "
+"vision and scent."
+msgstr ""
+"這是一個充滿有毒刺激性氣體的手榴彈式武器。一旦拉開插銷，引信點火後數秒在五回"
+"合內會持續釋放催淚瓦斯。這種氣體會延緩那些進入有效範圍敵人的速度，也能遮蔽視"
+"野和混淆氣味。"
+
 #. ~ Description for kris
 #: lang/json/GENERIC_from_json.py
 msgid ""
@@ -29331,7 +29372,7 @@ msgstr ""
 msgid ""
 "This is a large blade attached to a long stick.  It could do a considerable "
 "amount of damage."
-msgstr "將大刀刃連接在一根長棍子上。它能造成可觀的傷害。\""
+msgstr "將大刀刃連接在一根長棍子上。它能造成可觀的傷害。"
 
 #. ~ Description for digging stick
 #: lang/json/GENERIC_from_json.py
@@ -29508,10 +29549,16 @@ msgid ""
 "impact."
 msgstr "這小型的土製炸彈可以裝在箭上，它會在擊中目標時爆炸。"
 
+#. ~ Description for armed tear gas canister
+#: lang/json/GENERIC_from_json.py
+msgid ""
+"This smoke bomb has had its pin removed and is expelling highly toxic gas."
+msgstr ""
+
 #. ~ Description for armed smoke bomb
 #: lang/json/GENERIC_from_json.py
 msgid "This smoke bomb has had its pin removed and is expelling thick smoke."
-msgstr ""
+msgstr "這個煙霧彈的插梢已被拔出，正在釋出濃厚的煙霧。"
 
 #. ~ Description for quantum solar panel
 #: lang/json/GENERIC_from_json.py
@@ -29558,7 +29605,7 @@ msgstr[0] "終極泰拳"
 #. ~ Description for pot
 #: lang/json/GENERIC_from_json.py
 msgid "Useful for boiling water when cooking spaghetti and more."
-msgstr "適合燒水或煮義大利麵。"
+msgstr "適合燒水、煮義大利麵，還有其他用途。"
 
 #. ~ Description for copper pot
 #: lang/json/GENERIC_from_json.py
@@ -29661,12 +29708,12 @@ msgstr "你打開了夜燈的燈罩。"
 msgid "You open the vacuum pack, exposing it to the atmosphere."
 msgstr "你打開了真空包，使它暴露在空氣中。"
 
-#. ~ Use action message for smoke bomb.
+#. ~ Use action message for canister grenade.
 #. ~ Use action message for nail bomb.
 #: lang/json/GENERIC_from_json.py lang/json/TOOL_from_json.py
 #, no-python-format
 msgid "You pull the pin on the %s."
-msgstr ""
+msgstr "你拉開 %s 的安全插銷。"
 
 #. ~ Use action msg for PR-24 baton (retracted).
 #: lang/json/GENERIC_from_json.py
@@ -29736,6 +29783,11 @@ msgstr[0] "天線"
 #: lang/json/GENERIC_from_json.py
 msgid "armed smoke bomb"
 msgid_plural "armed smoke bombs"
+msgstr[0] "啟動的煙霧彈"
+
+#: lang/json/GENERIC_from_json.py
+msgid "armed tear gas canister"
+msgid_plural "armed tear gas canisters"
 msgstr[0] ""
 
 #: lang/json/GENERIC_from_json.py lang/json/TOOL_from_json.py
@@ -30134,6 +30186,11 @@ msgid_plural "candlesticks"
 msgstr[0] "燭台"
 
 #: lang/json/GENERIC_from_json.py
+msgid "canister grenade"
+msgid_plural "canister grenades"
+msgstr[0] ""
+
+#: lang/json/GENERIC_from_json.py
 msgid "cannabis plant"
 msgid_plural "cannabis plants"
 msgstr[0] "大麻植物"
@@ -30146,7 +30203,7 @@ msgstr[0] "汽車發電機"
 #: lang/json/GENERIC_from_json.py
 msgid "car headlight"
 msgid_plural "car headlights"
-msgstr[0] ""
+msgstr[0] "車頭燈"
 
 #: lang/json/GENERIC_from_json.py
 msgid "carding paddles"
@@ -30351,6 +30408,11 @@ msgstr[0] "桌扇"
 msgid "diamond"
 msgid_plural "diamonds"
 msgstr[0] "鑽石"
+
+#: lang/json/GENERIC_from_json.py
+msgid "diamond punch dagger"
+msgid_plural "diamond punch daggers"
+msgstr[0] ""
 
 #: lang/json/GENERIC_from_json.py
 msgid "digging stick"
@@ -30603,11 +30665,6 @@ msgid_plural "glow plugs"
 msgstr[0] "電熱塞"
 
 #: lang/json/GENERIC_from_json.py
-msgid "gold bar"
-msgid_plural "gold bars"
-msgstr[0] "金條"
-
-#: lang/json/GENERIC_from_json.py
 msgid "golf club"
 msgid_plural "golf clubs"
 msgstr[0] "高爾夫球桿"
@@ -30785,7 +30842,7 @@ msgstr[0] "皮補丁"
 #: lang/json/GENERIC_from_json.py
 msgid "light bulb"
 msgid_plural "light bulbs"
-msgstr[0] ""
+msgstr[0] "電燈泡"
 
 #: lang/json/GENERIC_from_json.py lang/json/vehicle_part_from_json.py
 msgid "light wooden frame"
@@ -31091,6 +31148,7 @@ msgid_plural "plasma engines"
 msgstr[0] "電漿引擎"
 
 #: lang/json/GENERIC_from_json.py lang/json/vehicle_part_from_json.py
+#: src/vehicle.cpp
 msgid "plow"
 msgid_plural "plows"
 msgstr[0] "犁具"
@@ -31176,6 +31234,7 @@ msgid_plural "razorbar katars"
 msgstr[0] "劍棘拳刃"
 
 #: lang/json/GENERIC_from_json.py lang/json/vehicle_part_from_json.py
+#: src/vehicle.cpp
 msgid "reaper"
 msgid_plural "reapers"
 msgstr[0] "收割機"
@@ -31325,11 +31384,6 @@ msgid "short rope"
 msgid_plural "short ropes"
 msgstr[0] "短繩索"
 
-#: lang/json/GENERIC_from_json.py
-msgid "shrapnel"
-msgid_plural "shrapnels"
-msgstr[0] ""
-
 #: lang/json/GENERIC_from_json.py lang/json/vehicle_part_from_json.py
 msgid "shredder"
 msgid_plural "shredders"
@@ -31339,11 +31393,6 @@ msgstr[0] "碎紙機"
 msgid "signal receiver"
 msgid_plural "signal receivers"
 msgstr[0] "信號接收器"
-
-#: lang/json/GENERIC_from_json.py
-msgid "silver bar"
-msgid_plural "silver bars"
-msgstr[0] "銀條"
 
 #: lang/json/GENERIC_from_json.py
 msgid "silver glyph"
@@ -31549,6 +31598,11 @@ msgstr[0] "破爛的筆記"
 msgid "teapot"
 msgid_plural "teapots"
 msgstr[0] "茶壺"
+
+#: lang/json/GENERIC_from_json.py
+msgid "tear gas grenade"
+msgid_plural "tear gas grenades"
+msgstr[0] ""
 
 #: lang/json/GENERIC_from_json.py
 msgid "teddy bear"
@@ -31876,16 +31930,14 @@ msgstr "裝在退彈孔旁的袋子，可以蒐集開火後的彈殼，而不用
 #: lang/json/GUNMOD_from_json.py
 msgid ""
 "A bayonet is a stabbing weapon that can be attached to the front of a "
-"shotgun, submachinegun or rifle, allowing a melee attack to deal piercing "
+"shotgun, submachine gun or rifle, allowing a melee attack to deal piercing "
 "damage."
 msgstr ""
-"刺刀是一種穿刺武器，能夠附掛在霰彈槍，衝鋒槍，或是步槍上，可進行近戰攻擊來造"
-"成穿刺傷害。"
 
-#. ~ Description for leadworks magazine adaptor
+#. ~ Description for leadworks magazine adapter
 #: lang/json/GUNMOD_from_json.py
 msgid ""
-"A bootleg adaptor for permanently converting a firearm to accept proprietary "
+"A bootleg adapter for permanently converting a firearm to accept proprietary "
 "Leadworks magazines.  Guaranteed to void your warranty."
 msgstr ""
 
@@ -31939,7 +31991,7 @@ msgid ""
 "accuracy.  Aside from increased weight, there are no drawbacks."
 msgstr "握把可以增加槍枝的穩定度與準確性，缺點是會增加額外的重量。"
 
-#. ~ Description for belt feed adaptor
+#. ~ Description for belt feed adapter
 #: lang/json/GUNMOD_from_json.py
 msgid ""
 "A kit providing the necessary parts for permanently converting a firearm "
@@ -32123,6 +32175,13 @@ msgid ""
 "itself be reloaded before it can be used again."
 msgstr "後備彈夾可以加快裝填速度，但前提是裡面有子彈。"
 
+#. ~ Description for shotgun suppressor
+#: lang/json/GUNMOD_from_json.py
+msgid ""
+"A suppressor designed to work with shotguns.  It's a lot more complex than a "
+"suppressor for a pistol or rifle."
+msgstr ""
+
 #. ~ Description for homemade suppressor
 #. ~ Description for suppressor
 #: lang/json/GUNMOD_from_json.py
@@ -32133,13 +32192,6 @@ msgid ""
 "generally safe levels.  A suppressor will slightly reduce recoil and muzzle "
 "velocity."
 msgstr ""
-
-#. ~ Description for shotgun suppressor
-#: lang/json/GUNMOD_from_json.py
-msgid ""
-"A supressor designed to work with shotguns.  It's a lot more complex than a "
-"suppressor for a pistol or rifle."
-msgstr "為散彈槍特別設計的滅音器。比手槍或步槍用滅音器複雜許多。"
 
 #. ~ Description for sword bayonet
 #: lang/json/GUNMOD_from_json.py
@@ -32496,9 +32548,9 @@ msgid_plural "bayonets"
 msgstr[0] "刺刀"
 
 #: lang/json/GUNMOD_from_json.py
-msgid "belt feed adaptor"
-msgid_plural "belt feed adaptors"
-msgstr[0] "帶式進彈調配器"
+msgid "belt feed adapter"
+msgid_plural "belt feed adapters"
+msgstr[0] ""
 
 #: lang/json/GUNMOD_from_json.py
 msgid "bipod"
@@ -32618,8 +32670,8 @@ msgid "launchers"
 msgstr "發射器"
 
 #: lang/json/GUNMOD_from_json.py
-msgid "leadworks magazine adaptor"
-msgid_plural "leadworks magazine adaptors"
+msgid "leadworks magazine adapter"
+msgid_plural "leadworks magazine adapters"
 msgstr[0] ""
 
 #: lang/json/GUNMOD_from_json.py
@@ -33950,12 +34002,10 @@ msgstr ""
 #. ~ Description for pistol crossbow
 #: lang/json/GUN_from_json.py
 msgid ""
-"A small concealable pistol-like crossbow.  It's weak due to it's small size "
+"A small concealable pistol-like crossbow.  It's weak due to its small size "
 "and draw, so it is best suited for hunting small game.  Bolts fired from "
 "this weapon have a good chance of remaining intact for re-use."
 msgstr ""
-"一把可以藏在袖中的迷你手弩。由於尺寸的限制，傷害並不高，適合用於小型的狩獵遊"
-"戲。從這把弩射出的箭矢有一定的機率可以回收使用。"
 
 #. ~ Description for Cx4 Storm
 #: lang/json/GUN_from_json.py
@@ -34741,11 +34791,6 @@ msgstr ""
 "於 1945 年由蘇聯所發展，這把步槍出來沒多久就很快地被全自動的 AK47 替換了。然"
 "而，其超群的準確率與低後座力，讓這把槍仍然有著高人氣。"
 
-#. ~ Description for turret aim point
-#: lang/json/GUN_from_json.py
-msgid "Doesn't actually fire anything, just there to aim the turrets."
-msgstr ""
-
 #: lang/json/GUN_from_json.py
 msgid "EMP Projector"
 msgid_plural "EMP Projectors"
@@ -34945,7 +34990,7 @@ msgstr ""
 msgid ""
 "Its relative simplicity and reliability made the Benelli M4 the most "
 "successful semi-automatic shotgun ever created."
-msgstr ""
+msgstr "因為它的易用及可靠性使得伯奈利M4 成為有史以來最成功的半自動散彈槍。"
 
 #: lang/json/GUN_from_json.py
 msgid "Kel-Tec KSG"
@@ -35409,11 +35454,9 @@ msgstr ""
 #: lang/json/GUN_from_json.py
 msgid ""
 "One of the most recognizable handguns due to its popularity in movies, the "
-"\"Deagle\" is better known for its menacing appearance than its "
+"Desert Eagle is better known for its menacing appearance than its "
 "performance.  It's highly inaccurate, but its heavy weight reduces recoil."
 msgstr ""
-"一把高辨識度的強大手槍，常見於電影之中。其外型雖然威猛但是卻很不準，還好其重"
-"量能抵消後座力。"
 
 #. ~ Description for FN FAL
 #: lang/json/GUN_from_json.py
@@ -36241,15 +36284,6 @@ msgstr ""
 "這把莫辛-納甘更換了傳統的木製槍托為現代化的合成款，仔細的調校成相同重量並且還"
 "提供了現代化的配件支援。"
 
-#. ~ Description for tesla cannon turret
-#: lang/json/GUN_from_json.py
-msgid ""
-"This alteration of the Chain Lightning bionic fires articial lightning bolts "
-"that arc to nearby enemies.  It must be attached to a large power source, "
-"but it allows for much more powerful bolts.  Comes with a motor and fire "
-"control system for autonomous operation."
-msgstr ""
-
 #. ~ Description for mountable Tesla cannon
 #: lang/json/GUN_from_json.py
 msgid ""
@@ -36259,6 +36293,15 @@ msgid ""
 msgstr ""
 "一個「連鎖閃電（Chain Lightning）」生化模組的修改版，讓你可以對附近的敵人發射"
 "人造閃電球。它需要更大的電力來源，但是也更為強力。"
+
+#. ~ Description for tesla cannon turret
+#: lang/json/GUN_from_json.py
+msgid ""
+"This alteration of the Chain Lightning bionic fires artificial lightning "
+"bolts that arc to nearby enemies.  It must be attached to a large power "
+"source, but it allows for much more powerful bolts.  Comes with a motor and "
+"fire control system for autonomous operation."
+msgstr ""
 
 #. ~ Description for Mosin-Nagant M44-EBR
 #: lang/json/GUN_from_json.py
@@ -36543,6 +36586,8 @@ msgid ""
 "lightweight and accurate, but will malfunction if not properly maintained.  "
 "This one is a semi automatic civilian version."
 msgstr ""
+"這把普及的步槍是 M16 步槍系列的始祖。它重量輕，準確，但如果維護不當會常發生故"
+"障。這一把是半自動民用版。"
 
 #. ~ Description for RM360 rotary carbine
 #: lang/json/GUN_from_json.py
@@ -36720,16 +36765,6 @@ msgid "Winchester Model 70"
 msgid_plural "Winchester Model 70"
 msgstr[0] "溫徹斯特 M70 步槍"
 
-#. ~ Description for turbolaser cannon turret
-#: lang/json/GUN_from_json.py
-msgid ""
-"With an augmented emitter and capacitor, this mounted laser is capable of "
-"superheating most materials to the point of exploding.  The firing "
-"mechaniscm also requires the services of a specialized chassis, and one must "
-"be wary of the prodigious power needs of such a weapon.  Comes with a motor "
-"and fire control system for autonomous operation."
-msgstr ""
-
 #. ~ Description for mountable turbolaser cannon
 #: lang/json/GUN_from_json.py
 msgid ""
@@ -36737,6 +36772,16 @@ msgid ""
 "superheating most materials to the point of exploding.  The firing mechanism "
 "also requires the services of a specialized chassis, and one must be wary of "
 "the prodigious power needs of such a weapon."
+msgstr ""
+
+#. ~ Description for turbolaser cannon turret
+#: lang/json/GUN_from_json.py
+msgid ""
+"With an augmented emitter and capacitor, this mounted laser is capable of "
+"superheating most materials to the point of exploding.  The firing mechanism "
+"also requires the services of a specialized chassis, and one must be wary of "
+"the prodigious power needs of such a weapon.  Comes with a motor and fire "
+"control system for autonomous operation."
 msgstr ""
 
 #: lang/json/GUN_from_json.py
@@ -37537,12 +37582,12 @@ msgstr[0] "半自動步槍。"
 #: lang/json/GUN_from_json.py
 msgid "semiautomatic carbine"
 msgid_plural "semiautomatic carbines"
-msgstr[0] ""
+msgstr[0] "半自動卡賓槍"
 
 #: lang/json/GUN_from_json.py
 msgid "semiautomatic pistol"
 msgid_plural "semiautomatic pistols"
-msgstr[0] ""
+msgstr[0] "半自動手槍"
 
 #: lang/json/GUN_from_json.py
 msgid "service rifle"
@@ -37715,11 +37760,6 @@ msgid_plural "turbolaser cannon turrets"
 msgstr[0] "渦輪雷射砲塔"
 
 #: lang/json/GUN_from_json.py
-msgid "turret aim point"
-msgid_plural "turret aim points"
-msgstr[0] ""
-
-#: lang/json/GUN_from_json.py
 msgid "underbarrel"
 msgstr "槍管附掛"
 
@@ -37749,18 +37789,6 @@ msgstr "零部件"
 #: lang/json/ITEM_CATEGORY_from_json.py src/item_factory.cpp
 msgid "VEHICLE PARTS"
 msgstr "車輛零件"
-
-#: lang/json/MAGAZINE_from_json.py
-msgid ".223 ammo belt"
-msgstr ".223 彈鏈"
-
-#: lang/json/MAGAZINE_from_json.py
-msgid ".50 ammo belt"
-msgstr ".50 彈鏈"
-
-#: lang/json/MAGAZINE_from_json.py
-msgid "40mm grenade belt"
-msgstr ""
 
 #. ~ Description for RMSA10 magazine
 #: lang/json/MAGAZINE_from_json.py
@@ -38286,10 +38314,6 @@ msgstr "AKM 彈匣"
 msgid "Advanced SMG magazine"
 msgstr "進階衝鋒槍彈匣"
 
-#: lang/json/MAGAZINE_from_json.py
-msgid "Ammo belt"
-msgstr "彈鏈"
-
 #. ~ Description for FN SCAR-H drum magazine
 #: lang/json/MAGAZINE_from_json.py
 msgid "An 50-round drum magazine for the FN SCAR-H rifle."
@@ -38307,13 +38331,13 @@ msgid ""
 "rounds."
 msgstr "一個適用於白朗寧自動步槍的非原廠彈匣，能容納 30 發子彈。"
 
-#. ~ Description for Ammo belt
+#. ~ Description for ammo belt
 #: lang/json/MAGAZINE_from_json.py
 msgid ""
 "An ammo belt consisting of metal linkages which disintegrate upon firing."
 msgstr "一條彈鏈。子彈間有著金屬鏈結，會在發射後解體。"
 
-#. ~ Description for 40mm grenade belt
+#. ~ Description for grenade belt
 #: lang/json/MAGAZINE_from_json.py
 msgid ""
 "An ammo belt consisting of metal linkages which disintegrate upon firing.  "
@@ -38321,21 +38345,21 @@ msgid ""
 "belts."
 msgstr ""
 
-#. ~ Description for Ammo belt
+#. ~ Description for ammo belt
 #: lang/json/MAGAZINE_from_json.py
 msgid ""
 "An ammo belt designed for heavier machineguns consisting of metal linkages "
 "which disintegrate upon firing."
 msgstr ""
 
-#. ~ Description for Ammo belt
+#. ~ Description for ammo belt
 #: lang/json/MAGAZINE_from_json.py
 msgid ""
 "An ammo belt designed for mounted machineguns consisting of metal linkages "
 "which disintegrate upon firing."
 msgstr ""
 
-#. ~ Description for Light ammo belt
+#. ~ Description for ammo belt
 #: lang/json/MAGAZINE_from_json.py
 msgid ""
 "An belt of light rifle ammunition consisting of metal linkages which "
@@ -38434,7 +38458,7 @@ msgstr ""
 #. ~ Description for Imported rifle magazine
 #: lang/json/MAGAZINE_from_json.py
 msgid "An uncommon 30-round magazine made for imported automatic rifles."
-msgstr ""
+msgstr "一個少見的 30 發彈匣，適用於進口的自動步槍。"
 
 #. ~ Description for Imported drum magazine
 #: lang/json/MAGAZINE_from_json.py
@@ -38584,16 +38608,8 @@ msgid "LW-56 magazine"
 msgstr "LW-56 彈匣"
 
 #: lang/json/MAGAZINE_from_json.py
-msgid "Light ammo belt"
-msgstr ""
-
-#: lang/json/MAGAZINE_from_json.py
 msgid "M1 Garand Clip"
 msgstr "M1 加蘭德步槍彈夾條"
-
-#: lang/json/MAGAZINE_from_json.py
-msgid "M13 7.62x51mm ammo belt"
-msgstr "M13 7.62x51mm 彈鏈"
 
 #: lang/json/MAGAZINE_from_json.py
 msgid "M14 compact magazine"
@@ -38795,7 +38811,7 @@ msgstr ""
 #. ~ Description for Tokarev TT-30 magazine
 #: lang/json/MAGAZINE_from_json.py
 msgid "Standard 8-round magazine for Tokarev TT-30."
-msgstr ""
+msgstr "標準的 8 發彈匣，適用於托卡列夫 TT-30。"
 
 #: lang/json/MAGAZINE_from_json.py
 msgid "Submachinegun magazine"
@@ -38832,7 +38848,7 @@ msgstr "湯普森彈匣"
 
 #: lang/json/MAGAZINE_from_json.py
 msgid "Tokarev TT-30 magazine"
-msgstr ""
+msgstr "托卡列夫 TT-30 彈匣"
 
 #: lang/json/MAGAZINE_from_json.py
 msgid "UMP45 magazine"
@@ -38854,10 +38870,18 @@ msgstr "UZI 彈匣"
 msgid "Walther PPK magazine"
 msgstr "瓦爾特 PPK 彈匣"
 
+#: lang/json/MAGAZINE_from_json.py
+msgid "ammo belt"
+msgstr ""
+
 #: lang/json/MAGAZINE_from_json.py lang/json/vehicle_part_from_json.py
 msgid "car battery"
 msgid_plural "car batteries"
 msgstr[0] "汽車電池"
+
+#: lang/json/MAGAZINE_from_json.py
+msgid "grenade belt"
+msgstr ""
 
 #: lang/json/MAGAZINE_from_json.py lang/json/vehicle_part_from_json.py
 msgid "medium storage battery"
@@ -38929,7 +38953,7 @@ msgstr "加入一些職業專長，以符合經典 Roguelike 角色原型。"
 msgid ""
 "Adds basic 3-D buildings.  For testing z-levels and those who want to play "
 "with z-level buildings in their early state."
-msgstr ""
+msgstr "加入基本的立體建築。開放給想測試 Z 軸和那些想早期體驗 Z 軸建築的玩家。"
 
 #. ~ Description for Boats
 #: lang/json/MOD_INFO_from_json.py
@@ -38982,7 +39006,7 @@ msgstr "增加復活生物做為奴隸的能力。"
 msgid ""
 "Allows stats to raise naturally via skill progression.  Changes to starting "
 "stats will be disregarded"
-msgstr ""
+msgstr "屬性會隨技能發展自然提昇。創造人物時針對屬性所作的調整將被忽略。"
 
 #: lang/json/MOD_INFO_from_json.py
 msgid "Animatronic Monsters"
@@ -39077,6 +39101,8 @@ msgid ""
 "For those who prefer being innawoods.  Adds several tools, various recipes "
 "additions/tweaks, plus two new classes."
 msgstr ""
+"給那些喜歡林間生活的玩家。增加了一些工具，不同的配方添加/調整，以及兩個新職"
+"業。"
 
 #: lang/json/MOD_INFO_from_json.py
 msgid "Generic Guns"
@@ -39139,7 +39165,7 @@ msgstr "無上古槍械"
 
 #: lang/json/MOD_INFO_from_json.py
 msgid "No Diamond Weapons"
-msgstr ""
+msgstr "無鑽石武器"
 
 #: lang/json/MOD_INFO_from_json.py
 msgid "No Energy Weapons"
@@ -39147,7 +39173,7 @@ msgstr "無能量武器"
 
 #: lang/json/MOD_INFO_from_json.py
 msgid "No Explosive Zombies"
-msgstr ""
+msgstr "無爆裂殭屍"
 
 #: lang/json/MOD_INFO_from_json.py
 msgid "No Fictional Guns"
@@ -39187,7 +39213,7 @@ msgstr "無食人樹"
 
 #: lang/json/MOD_INFO_from_json.py
 msgid "No Zombie Animals"
-msgstr ""
+msgstr "無動物類殭屍"
 
 #: lang/json/MOD_INFO_from_json.py
 msgid "PKs Reimagining"
@@ -39206,7 +39232,7 @@ msgstr "阻止殭屍復活"
 msgid ""
 "Rebalances survivor weapons to become a more viable alternative compared to "
 "their factory equivalents."
-msgstr ""
+msgstr "調整生存者武器的平衡，使得它們相比起工廠制武器毫不遜色。"
 
 #. ~ Description for No Acid Zombies
 #: lang/json/MOD_INFO_from_json.py
@@ -39216,7 +39242,7 @@ msgstr "遊戲中不會出現酸液類殭屍。"
 #. ~ Description for No Explosive Zombies
 #: lang/json/MOD_INFO_from_json.py
 msgid "Removes all explosion-based zombies from the game."
-msgstr ""
+msgstr "遊戲中不會出現任何爆烈性的殭屍。"
 
 #. ~ Description for No Monsters
 #: lang/json/MOD_INFO_from_json.py
@@ -39237,7 +39263,7 @@ msgstr "移除上古槍械及那些已不再生產的。"
 #. ~ Description for No Diamond Weapons
 #: lang/json/MOD_INFO_from_json.py
 msgid "Removes diamond weapons."
-msgstr ""
+msgstr "移除鑽石武器。"
 
 #. ~ Description for No Energy Weapons
 #: lang/json/MOD_INFO_from_json.py
@@ -39297,12 +39323,12 @@ msgstr "遊戲中不會出現食人樹怪物。"
 #. ~ Description for No Zombie Animals
 #: lang/json/MOD_INFO_from_json.py
 msgid "Removes zombie animals from the game."
-msgstr ""
+msgstr "遊戲中不會出現動物類殭屍。"
 
 #. ~ Description for Generic Guns
 #: lang/json/MOD_INFO_from_json.py
 msgid "Replaces guns and ammo with generic types."
-msgstr ""
+msgstr "合拼同類的槍械，以通用類別取代槍支和彈藥。"
 
 #: lang/json/MOD_INFO_from_json.py
 msgid "Simplified nutrition"
@@ -39337,12 +39363,12 @@ msgstr "新增車輛模組包"
 msgid ""
 "Vehicle parts are perfectly reliable and never spawn with faults or develop "
 "them during use"
-msgstr ""
+msgstr "車輛零部件完全可靠，使用時絕對不會發生故障。"
 
 #. ~ Description for Crazy Cataclysm
 #: lang/json/MOD_INFO_from_json.py
 msgid "Want a little crazy in your Cataclysm? Try this one."
-msgstr ""
+msgstr "想在大災變中添加一點瘋狂？試試這個。"
 
 #: lang/json/MOD_INFO_from_json.py
 msgid "Zombie Nightvision"
@@ -39356,10 +39382,6 @@ msgstr "包含了由開發者所建議的所有模組"
 #: lang/json/MOD_INFO_from_json.py src/color.cpp
 msgid "default"
 msgstr "預設"
-
-#: lang/json/MONSTER_from_json.py
-msgid " alpha razorclaw"
-msgstr "阿爾法利爪怪"
 
 #. ~ Description for bowfin
 #: lang/json/MONSTER_from_json.py
@@ -39614,7 +39636,7 @@ msgstr ""
 "一個黑色扭曲的裸露人體，殘破的肉條從軀幹上垂下，並且會產生不定大小的黑色濃"
 "煙。"
 
-#. ~ Description for  alpha razorclaw
+#. ~ Description for alpha razorclaw
 #: lang/json/MONSTER_from_json.py
 msgid ""
 "A blood red, gigantic razorclaw.  Its sword like pincers serve as the "
@@ -39873,6 +39895,14 @@ msgid ""
 "A feathered bipedal dinosaur, standing as tall as a human.  It looks "
 "somewhat like a reptilian ostrich."
 msgstr "長著羽毛的雙足恐龍，站起來有個人那麼高。它看起來有點像爬蟲類的鴕鳥。"
+
+#. ~ Description for giant royal bee
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"A fecund bee of unknown sex.  Although the queen potentially tolerates the "
+"presence of other mating females within her hive, they are all her "
+"offspring, and if conflict arises all but one will end up leaving"
+msgstr ""
 
 #. ~ Description for young queen ant
 #: lang/json/MONSTER_from_json.py
@@ -40604,6 +40634,22 @@ msgid ""
 "A predatory segmented arthropod with dozens of legs and a venomous bite."
 msgstr "一種有著上百隻腳的有毒節肢動物。"
 
+#. ~ Description for shambling zombie
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"A prone body propped up on outstretched arms; with oozing cracks along its "
+"fire-hardened skin.  Sticky sludge escapes from holes in its chest cavity "
+"where the friction of crawling has torn through."
+msgstr ""
+
+#. ~ Description for shambler
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"A prone humanoidesque monster that springs forward with a sickening sucking "
+"sound.  As it consumes bodies and materials from the ground it becomes "
+"stronger and produces several blobs."
+msgstr ""
+
 #. ~ Description for glowing biollante
 #: lang/json/MONSTER_from_json.py
 msgid ""
@@ -40655,14 +40701,6 @@ msgstr "一個突變種人形，有著紫色的毛髮與有如柚子大佈滿血
 msgid ""
 "A revenant's homing missile, working its way towards you.  If only you could "
 "disable it . . ."
-msgstr ""
-
-#. ~ Description for shambling zombie
-#: lang/json/MONSTER_from_json.py
-msgid ""
-"A revolting crawling monster that excretes a copious amount of some "
-"biological goo from a gaping chest cavity.  Every so often a blob emerges "
-"from the charred and mangled stumps that used to be legs."
 msgstr ""
 
 #. ~ Description for broken cyborg
@@ -41229,6 +41267,19 @@ msgstr ""
 "一架殘骸般的狐狸機械布偶，攤成一堆在地上。它的牙齒和爪子看起來相當銳利。它能"
 "夠抓住周圍的東西，爬到天花板上。"
 
+#. ~ Description for bee larvae
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"A writhing mass of white flesh, this grub-like monster will mature based on "
+"its diet; richer diets will result in a more noble caste."
+msgstr ""
+
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"A writhing mass of yellowing flesh, this little guy expells its stomach "
+"contents if disturbed."
+msgstr ""
+
 #. ~ Description for ant larvae
 #: lang/json/MONSTER_from_json.py
 msgid ""
@@ -41277,7 +41328,7 @@ msgstr ""
 #: lang/json/MONSTER_from_json.py
 msgid ""
 "All evidence indicates that this used to be a survivor, who was killed by "
-"torture and body reanimated.  Its garments lack the weathered look of other "
+"torture and body reanimated. Its garments lack the weathered look of other "
 "zombies but are mutilated none-the-less.  Although it struggles to free "
 "itself, it is held fast with spikes, nails, and chains."
 msgstr ""
@@ -42457,6 +42508,15 @@ msgid ""
 "light, and actively avoids fire."
 msgstr ""
 
+#. ~ Description for giant queen bee
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"The queen bee, a typically unchallenged figure of dominance in bee society.  "
+"The fine coat of bristles along its abdomen seems to conduct electric "
+"energy.  Without her, the hive would melt away, seeking death or a new "
+"master."
+msgstr ""
+
 #. ~ Description for fox
 #: lang/json/MONSTER_from_json.py
 msgid ""
@@ -42824,6 +42884,14 @@ msgid ""
 msgstr ""
 "帶著菜刀大小的刺針，這隻跟狗一樣大的昆蟲有著黑黃相間的條紋警告你別靠近。"
 
+#. ~ Description for giant bee
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"With a stinger the size of a kitchen knife, this dog-sized insect's black "
+"and yellow markings warn you to leave it undisturbed.  Its fine coat of "
+"bristles seems to attract electric charge."
+msgstr ""
+
 #. ~ Description for zombie nadir
 #: lang/json/MONSTER_from_json.py
 msgid ""
@@ -42846,8 +42914,9 @@ msgstr ""
 #: lang/json/MONSTER_from_json.py
 msgid ""
 "With its joints in odd places and angles, this humanoid creature prowls "
-"across the landscape with suprising speed.  Its teeth and arms are sharpened "
-"into fine points, and black ooze seeps out from cuts between its muscles."
+"across the landscape with surprising speed.  Its teeth and arms are "
+"sharpened into fine points, and black ooze seeps out from cuts between its "
+"muscles."
 msgstr ""
 
 #. ~ Description for skeleton
@@ -42914,6 +42983,10 @@ msgstr "白化企鵝"
 #: lang/json/MONSTER_from_json.py
 msgid "alpha giant trapdoor spider"
 msgstr "阿爾法巨大暗門蜘蛛"
+
+#: lang/json/MONSTER_from_json.py
+msgid "alpha razorclaw"
+msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "amigara horror"
@@ -43027,6 +43100,10 @@ msgstr "熊"
 #: lang/json/MONSTER_from_json.py
 msgid "beaver"
 msgstr "河狸"
+
+#: lang/json/MONSTER_from_json.py
+msgid "bee larvae"
+msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "big blob"
@@ -43530,8 +43607,16 @@ msgid "giant mosquito"
 msgstr "巨大蚊"
 
 #: lang/json/MONSTER_from_json.py
+msgid "giant queen bee"
+msgstr ""
+
+#: lang/json/MONSTER_from_json.py
 msgid "giant rattlesnake"
 msgstr "巨大響尾蛇"
+
+#: lang/json/MONSTER_from_json.py
+msgid "giant royal bee"
+msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "giant salmon"
@@ -43983,6 +44068,10 @@ msgid "shady zombie"
 msgstr "黑影殭屍"
 
 #: lang/json/MONSTER_from_json.py
+msgid "shambler"
+msgstr ""
+
+#: lang/json/MONSTER_from_json.py
 msgid "shambling zombie"
 msgstr "蹣跚殭屍"
 
@@ -44302,7 +44391,7 @@ msgstr "空靈殭屍"
 
 #: lang/json/MONSTER_from_json.py
 msgid "zombie horse"
-msgstr ""
+msgstr "殭屍馬"
 
 #: lang/json/MONSTER_from_json.py
 msgid "zombie hulk"
@@ -44686,6 +44775,11 @@ msgid ""
 msgstr ""
 "一對光學鏡頭，附有掛繩連接。能夠用來觀看遠處。只要把它 帶/穿戴 在身上，你在大"
 "地圖上能看見的距離就會變成兩倍。你也可以用它來聚焦陽光。"
+
+#. ~ Description for fancy hairpin
+#: lang/json/TOOL_ARMOR_from_json.py
+msgid "A pink hairpin with cute flower textures."
+msgstr "一個粉紅色的髮簪，有著可愛的花朵裝飾。"
 
 #. ~ Description for hairpin
 #: lang/json/TOOL_ARMOR_from_json.py
@@ -45438,6 +45532,11 @@ msgstr[0] ""
 msgid "emergency blanket"
 msgid_plural "emergency blankets"
 msgstr[0] "救生毯"
+
+#: lang/json/TOOL_ARMOR_from_json.py
+msgid "fancy hairpin"
+msgid_plural "fancy hairpins"
+msgstr[0] "花俏髮簪"
 
 #: lang/json/TOOL_ARMOR_from_json.py
 msgid "fedora"
@@ -46291,9 +46390,9 @@ msgstr "一個基本的手動鑽頭，運作很慢而且很快耗盡你的體力
 #. ~ Description for pro fishing rod
 #: lang/json/TOOL_from_json.py
 msgid ""
-"A professional fishing rod & reel combo.  With this you should be able to "
-"catch 'em all."
-msgstr "一把專業的釣魚竿加上捲繩器，有了這個你就可以把魚兒一網打盡了。"
+"A professional fishing rod with a matching set of weights.  With this you "
+"should be able to catch 'em all."
+msgstr ""
 
 #. ~ Description for multi cooker
 #: lang/json/TOOL_from_json.py
@@ -46693,7 +46792,7 @@ msgstr ""
 #. ~ Description for acetylene lamp (off)
 #: lang/json/TOOL_from_json.py
 msgid ""
-"An antique brass lamp designed to run from a pressurised cylinder of "
+"An antique brass lamp designed to run from a pressurized cylinder of "
 "acetylene.  It is an efficient, if not somewhat dangerous light source."
 msgstr ""
 
@@ -46752,7 +46851,7 @@ msgstr ""
 msgid ""
 "As you drink from the chalice, you feel your breath being drawn from your "
 "lungs!"
-msgstr "當你喝下聖杯的內的液體，你感覺你的氣息從肺裡被抽了出來!"
+msgstr "當你喝下聖杯的內的液體，你感覺你的氣息從肺裡被抽了出來！"
 
 #. ~ Use action descriptions for golden fiddle.
 #: lang/json/TOOL_from_json.py
@@ -46780,12 +46879,12 @@ msgstr ""
 #. ~ Use action failure_message for shishkebab (off).
 #: lang/json/TOOL_from_json.py
 msgid "Aw, dangit.  It fails to start!"
-msgstr ""
+msgstr "我哩咧~發不動！"
 
 #. ~ Use action auto_extinguish_message for shishkebab (on).
 #: lang/json/TOOL_from_json.py
 msgid "Bummer, man!  Your shishkebab's flame flickers and dies out."
-msgstr ""
+msgstr "真衰！你的你的火焰刀閃一閃就沒火了。"
 
 #. ~ Use action bury_question for bear trap.
 #: lang/json/TOOL_from_json.py
@@ -47083,7 +47182,7 @@ msgstr "什麼事都沒有發生。"
 #. ~ Use action charges_extinguish_message for No. 9 (on).
 #: lang/json/TOOL_from_json.py
 msgid "Out of ammo!"
-msgstr ""
+msgstr "沒有彈藥了！"
 
 #: lang/json/TOOL_from_json.py
 msgid "PDA"
@@ -47098,7 +47197,7 @@ msgstr[0] "PDA - 手電筒模式"
 #. ~ Use action voluntary_extinguish_message for shishkebab (on).
 #: lang/json/TOOL_from_json.py
 msgid "Peace out.  Your shishkebab's flame dies."
-msgstr ""
+msgstr "不好玩。你的火焰刀沒火了。"
 
 #. ~ Description for L-stick (off)
 #: lang/json/TOOL_from_json.py
@@ -47238,7 +47337,7 @@ msgstr[0] "瑞士刀"
 #: lang/json/TOOL_from_json.py
 #, no-python-format
 msgid "The %s is extinguished"
-msgstr "%s 熄滅了"
+msgstr "%s 熄滅了。"
 
 #. ~ Use action need_charges_msg for acetylene lamp (off).
 #: lang/json/TOOL_from_json.py
@@ -47269,7 +47368,7 @@ msgstr ""
 #. ~ Use action charges_extinguish_message for Rising Sun (on).
 #: lang/json/TOOL_from_json.py
 msgid "The Light Fades."
-msgstr ""
+msgstr "陽炎漸暗。"
 
 #. ~ Use action msg for PDA - Flashlight.
 #: lang/json/TOOL_from_json.py
@@ -47294,17 +47393,17 @@ msgstr ""
 #. ~ Use action success_message for Rising Sun (off).
 #: lang/json/TOOL_from_json.py
 msgid "The Sun rises."
-msgstr ""
+msgstr "炎陽升起。"
 
 #. ~ Use action voluntary_extinguish_message for Rising Sun (on).
 #: lang/json/TOOL_from_json.py
 msgid "The Sun sets."
-msgstr ""
+msgstr "夕陽西下。"
 
 #. ~ Use action noise_message for Rising Sun (on).
 #: lang/json/TOOL_from_json.py
 msgid "The Sun shines brightly."
-msgstr ""
+msgstr "炎陽閃耀。"
 
 #. ~ Use action voluntary_extinguish_message for incorruptible sword (on).
 #: lang/json/TOOL_from_json.py
@@ -47793,16 +47892,6 @@ msgid ""
 "half hour before burning out."
 msgstr "這是正在發光的鎂光照明彈。將會持續約半小時。"
 
-#. ~ Description for active tear gas grenade
-#: lang/json/TOOL_from_json.py
-msgid ""
-"This canister of tear gas has had its pin removed, indicating that it is (or "
-"will shortly be) expelling highly toxic gas.  You should consider getting "
-"rid of it soon."
-msgstr ""
-"這罐催淚瓦斯的撞針已經取出，這表明它正在（或即將要）排出劇毒氣體。你應該考慮"
-"快點扔掉它。"
-
 #. ~ Description for gold gas discount card
 #: lang/json/TOOL_from_json.py
 msgid "This card gives you a good discount on the purchase of gasoline."
@@ -48103,19 +48192,6 @@ msgstr ""
 "這是一把寬闊的軍刀，因為水手和海盜常用而出名。這劍的作工很糟糕，但是應該還能"
 "承受得起揮舞一下。"
 
-#. ~ Description for tear gas canister
-#: lang/json/TOOL_from_json.py
-msgid ""
-"This is a canister grenade filled with noxious irritant.  Use this item to "
-"pull the pin and light the fuse, turning it into an active tear gas "
-"grenade.  In five turns it will begin to expel a highly toxic gas for some "
-"time.  This gas damages and slows those who enter it, as well as obscuring "
-"vision and scent."
-msgstr ""
-"這是一個充滿有毒刺激性氣體的手榴彈式武器。一旦拉開插銷，引信點火後數秒在五回"
-"合內會持續釋放催淚瓦斯。這種氣體會延緩那些進入有效範圍敵人的速度，也能遮蔽視"
-"野和混淆氣味。"
-
 #. ~ Description for car horn
 #: lang/json/TOOL_from_json.py
 msgid "This is a car horn meant to be attached to a car's electrical system."
@@ -48352,12 +48428,10 @@ msgstr "把一大塊加工過的銅固定在一個木柄上，就成了一把粗
 #. ~ Description for hammer
 #: lang/json/TOOL_from_json.py
 msgid ""
-"This is a demagnetized steel hammer with a rubber grip.  With a hammer, "
+"This is a demagnetized steel hammer with a wooden grip.  With a hammer, "
 "nails, and two by fours in your inventory, you could board up adjacent doors "
 "and windows.  It has myriad other uses as well."
 msgstr ""
-"這是一把消磁的鋼製鐵鎚，有一個橡膠手把。使用鐵鎚、鐵釘與 2x4 木材就能夠加固鄰"
-"近門窗。另外還有許多用途。"
 
 #. ~ Description for soldering iron
 #: lang/json/TOOL_from_json.py
@@ -49173,12 +49247,10 @@ msgstr "一個由黏土作成的原始坩堝。你可以用來進行金屬加工
 #. ~ Description for two-way radio
 #: lang/json/TOOL_from_json.py
 msgid ""
-"This is a radio with a transmitting unit.  Using this allows you to send out "
-"a distress signal.  You could send either a general SOS, or send a direct "
-"call to a faction you are in contact with."
+"This is a radio with a transmitting unit.  You could use it to contact "
+"someone who also has one.  Unfortunately no one seems to use those "
+"nowadays..."
 msgstr ""
-"這是個有一個訊號傳送元件的無線電。使用該裝置可以讓你發送求救信號 (SOS)，或是"
-"讓你與某些派系聯繫。"
 
 #. ~ Description for katana
 #: lang/json/TOOL_from_json.py
@@ -49871,16 +49943,6 @@ msgid ""
 "fuse stuck inside of it."
 msgstr "這是一個填滿黑火藥且有引信的錫罐。"
 
-#. ~ Description for vacutainer
-#: lang/json/TOOL_from_json.py
-msgid ""
-"This is a tool for drawing blood, including a vacuum-sealed test tube for "
-"holding the sample.  Use this tool to draw blood, either from yourself or "
-"from a corpse you are standing on."
-msgstr ""
-"一個真空的採血裝置，包含了真空密封試管的構造，來保存樣本。用它來採集你自己或"
-"是鄰近屍體的血液。"
-
 #. ~ Description for geiger counter (on)
 #: lang/json/TOOL_from_json.py
 msgid ""
@@ -49978,6 +50040,8 @@ msgid ""
 "This is a wooden washboard.  You can use it to wash filthy clothing if it's "
 "supplied with soap.  It requires 1 unit of soap per use."
 msgstr ""
+"這是一塊木製洗衣板。你可以使用它配合肥皂把髒衣服洗乾淨。每次使用需要 1 個單位"
+"的肥皂。"
 
 #. ~ Description for active glowstick
 #: lang/json/TOOL_from_json.py
@@ -50021,6 +50085,8 @@ msgid ""
 "well as to consume plutonium fuel cells rather than batteries.  Sadly, its "
 "plutonium reactor can't be charged in UPS charging station."
 msgstr ""
+"一個高階版的統一規格電力系統(UPS)。重新設計的規格讓它可以使用更有效率地鈽元"
+"素，而不是傳統電池。遺憾的是它的鈽反應器無法在UPS相容的車載充電站內充電。"
 
 #. ~ Description for RDX charge
 #: lang/json/TOOL_from_json.py
@@ -50595,7 +50661,7 @@ msgstr ""
 #. ~ Use action lacks_fuel_message for shishkebab (off).
 #: lang/json/TOOL_from_json.py
 msgid "This thing needs some fuel!"
-msgstr ""
+msgstr "這東西需要一些燃料！"
 
 #. ~ Description for kukri
 #: lang/json/TOOL_from_json.py
@@ -50633,7 +50699,6 @@ msgstr ""
 #. ~ Use action sound_msg for active flashbang.
 #. ~ Use action sound_msg for active EMP grenade.
 #. ~ Use action sound_msg for active scrambler grenade.
-#. ~ Use action sound_msg for active tear gas grenade.
 #. ~ Use action sound_msg for mininuke.
 #. ~ Use action sound_msg for C-4 explosive (armed).
 #. ~ Use action sound_msg for active ANFO charge.
@@ -50645,7 +50710,7 @@ msgstr "滴答。"
 #. ~ Use action lacks_fuel_message for Rising Sun (off).
 #: lang/json/TOOL_from_json.py
 msgid "Time stands still."
-msgstr ""
+msgstr "時間靜止了。"
 
 #: lang/json/TOOL_from_json.py lang/json/ammunition_type_from_json.py
 msgid "UPS"
@@ -50660,7 +50725,7 @@ msgstr[0] "UPS轉接模組"
 #. ~ Use action charges_extinguish_message for shishkebab (on).
 #: lang/json/TOOL_from_json.py
 msgid "Uncool, outta gas!  Your shishkebab's flame goes out."
-msgstr ""
+msgstr "不酷，沒油了！你的火焰刀沒火了。"
 
 #. ~ Use action activation_message for silver athame.
 #: lang/json/TOOL_from_json.py
@@ -50797,7 +50862,7 @@ msgstr ""
 #. ~ Use action msg for refillable lighter (lit).
 #: lang/json/TOOL_from_json.py
 msgid "You extinguish the lighter."
-msgstr ""
+msgstr "你熄滅打火機。"
 
 #. ~ Use action hostile_msg for glyph of Crawling Chaos.
 #: lang/json/TOOL_from_json.py
@@ -50809,7 +50874,7 @@ msgstr ""
 #. ~ Use action msg for refillable lighter.
 #: lang/json/TOOL_from_json.py
 msgid "You flick the lighter."
-msgstr ""
+msgstr "你彈動打火機。"
 
 #. ~ Use action msg for growing blob grinder.
 #. ~ Use action msg for growing blob wheel.
@@ -51083,7 +51148,7 @@ msgstr "你用小號吹了一小曲。"
 #. ~ Use action descriptions for ukulele.
 #: lang/json/TOOL_from_json.py
 msgid "You play a little tune on your ukulele."
-msgstr ""
+msgstr "你用烏克麗麗演奏了一小曲。"
 
 #. ~ Use action descriptions for violin.
 #: lang/json/TOOL_from_json.py
@@ -51160,11 +51225,6 @@ msgstr "你拉開手榴彈的安全插銷。"
 #: lang/json/TOOL_from_json.py
 msgid "You pull the pin on the scrambler grenade."
 msgstr "你拉開了干擾手榴彈的插銷。"
-
-#. ~ Use action msg for tear gas canister.
-#: lang/json/TOOL_from_json.py
-msgid "You pull the pin on the teargas canister."
-msgstr "你拉開了催淚彈的插銷。"
 
 #. ~ Use action msg for revenant rocket core.
 #: lang/json/TOOL_from_json.py
@@ -51382,7 +51442,6 @@ msgstr "你已經點燃了引信，還在等甚麼？"
 #. ~ Use action no_deactivate_msg for active flashbang.
 #. ~ Use action no_deactivate_msg for active EMP grenade.
 #. ~ Use action no_deactivate_msg for active scrambler grenade.
-#. ~ Use action no_deactivate_msg for active tear gas grenade.
 #: lang/json/TOOL_from_json.py src/iuse.cpp
 #, c-format, no-python-format
 msgid "You've already pulled the %s's pin, try throwing it instead."
@@ -51403,27 +51462,27 @@ msgstr "你犯了一些可怕的錯誤，這顆黏液球現在處於敵對狀態
 #. ~ Use action auto_extinguish_message for No. 9 (on).
 #: lang/json/TOOL_from_json.py
 msgid "Your No. 9 cuts out!"
-msgstr ""
+msgstr "你的九把刀沒油了！"
 
 #. ~ Use action success_message for No. 9 (off).
 #: lang/json/TOOL_from_json.py
 msgid "Your No. 9 glows!"
-msgstr ""
+msgstr "你的九把刀正在發亮！"
 
 #. ~ Use action voluntary_extinguish_message for No. 9 (on).
 #: lang/json/TOOL_from_json.py
 msgid "Your No. 9 goes dark."
-msgstr ""
+msgstr "你的九把刀熄滅了。"
 
 #. ~ Use action water_extinguish_message for No. 9 (on).
 #: lang/json/TOOL_from_json.py
 msgid "Your No. 9 hisses in the water and goes out."
-msgstr ""
+msgstr "你的九把刀在水裡發出嘶嘶聲後熄滅了。"
 
 #. ~ Use action noise_message for No. 9 (on).
 #: lang/json/TOOL_from_json.py
 msgid "Your No. 9 hisses."
-msgstr ""
+msgstr "你的九把刀發出嘶嘶聲。"
 
 #. ~ Use action noise_message for firebrand (on).
 #: lang/json/TOOL_from_json.py
@@ -51433,12 +51492,12 @@ msgstr ""
 #. ~ Use action noise_message for shishkebab (on).
 #: lang/json/TOOL_from_json.py
 msgid "Your shishkebab crackles!"
-msgstr ""
+msgstr "你的火焰刀嗶拍作響！"
 
 #. ~ Use action water_extinguish_message for shishkebab (on).
 #: lang/json/TOOL_from_json.py
 msgid "Your shishkebab hisses in the water and goes out."
-msgstr ""
+msgstr "你的火焰刀隨著嘶嘶聲在水中熄滅了。"
 
 #. ~ Use action msg for smart lamp (on).
 #: lang/json/TOOL_from_json.py
@@ -51449,7 +51508,7 @@ msgstr "你的智慧燈關閉了"
 #. ~ Use action water_extinguish_message for firebrand (on).
 #: lang/json/TOOL_from_json.py
 msgid "Your sword hisses in the water and goes out."
-msgstr ""
+msgstr "你的炎陽刀在水裡發出嘶嘶聲後熄滅了。"
 
 #. ~ Description for dormant minion
 #: lang/json/TOOL_from_json.py
@@ -51463,12 +51522,12 @@ msgstr ""
 #: lang/json/TOOL_from_json.py
 msgid "acetylene lamp (off)"
 msgid_plural "acetylene lamps (off)"
-msgstr[0] "乙炔燈 (關)"
+msgstr[0] "乙炔燈（關）"
 
 #: lang/json/TOOL_from_json.py
 msgid "acetylene lamp (on)"
 msgid_plural "acetylene lamps (on)"
-msgstr[0] "乙炔燈 (開)"
+msgstr[0] "乙炔燈（開）"
 
 #: lang/json/TOOL_from_json.py
 msgid "acetylene torch"
@@ -51569,11 +51628,6 @@ msgstr[0] "已啟動的鋼管炸彈"
 msgid "active scrambler grenade"
 msgid_plural "active scrambler grenades"
 msgstr[0] "啟動中干擾手榴彈"
-
-#: lang/json/TOOL_from_json.py
-msgid "active tear gas grenade"
-msgid_plural "active tear gas grenades"
-msgstr[0] "啟動中的催淚瓦斯彈"
 
 #: lang/json/TOOL_from_json.py
 msgid "advanced UPS"
@@ -53258,7 +53312,7 @@ msgstr[0] "帳篷"
 #: lang/json/TOOL_from_json.py lang/json/vehicle_part_from_json.py
 msgid "shiny cable"
 msgid_plural "shiny cables"
-msgstr[0] ""
+msgstr[0] "閃亮的電纜"
 
 #: lang/json/TOOL_from_json.py
 msgid "shishkebab (off)"
@@ -53483,11 +53537,6 @@ msgid "tazer"
 msgid_plural "tazers"
 msgstr[0] "電擊槍"
 
-#: lang/json/TOOL_from_json.py
-msgid "tear gas canister"
-msgid_plural "tear gas canisters"
-msgstr[0] "催淚瓦斯彈"
-
 #: lang/json/TOOL_from_json.py lang/json/trap_from_json.py
 msgid "teleport pad"
 msgid_plural "teleport pads"
@@ -53584,11 +53633,6 @@ msgid_plural "used heat packs"
 msgstr[0] "用過的暖暖包"
 
 #: lang/json/TOOL_from_json.py
-msgid "vacutainer"
-msgid_plural "vacutainers"
-msgstr[0] "真空採血管"
-
-#: lang/json/TOOL_from_json.py
 msgid "vacuum sealer"
 msgid_plural "vacuum sealers"
 msgstr[0] "真空封口機"
@@ -53621,7 +53665,7 @@ msgstr[0] "戰鐮"
 #: lang/json/TOOL_from_json.py
 msgid "washboard"
 msgid_plural "washboards"
-msgstr[0] ""
+msgstr[0] "洗衣板"
 
 #: lang/json/TOOL_from_json.py lang/json/vehicle_part_from_json.py
 msgid "water purifier"
@@ -53823,15 +53867,15 @@ msgstr ""
 
 #: lang/json/WHEEL_from_json.py lang/json/vehicle_part_from_json.py
 msgid "armored wheel"
-msgstr ""
+msgstr "裝甲輪胎"
 
 #: lang/json/WHEEL_from_json.py lang/json/vehicle_part_from_json.py
 msgid "banded wooden cart wheel"
-msgstr ""
+msgstr "包覆金屬片的木製購物車滑輪"
 
 #: lang/json/WHEEL_from_json.py lang/json/vehicle_part_from_json.py
 msgid "bicycle wheel"
-msgstr ""
+msgstr "單車輪胎"
 
 #: lang/json/WHEEL_from_json.py lang/json/vehicle_part_from_json.py
 msgid "blob wheel"
@@ -53854,15 +53898,15 @@ msgstr[0] "充氣節"
 
 #: lang/json/WHEEL_from_json.py
 msgid "large steel drum"
-msgstr ""
+msgstr "大型的壓路機鋼製滾輪"
 
 #: lang/json/WHEEL_from_json.py lang/json/vehicle_part_from_json.py
 msgid "metal wheel"
-msgstr ""
+msgstr "金屬輪"
 
 #: lang/json/WHEEL_from_json.py lang/json/vehicle_part_from_json.py
 msgid "motorbike wheel"
-msgstr ""
+msgstr "機車輪胎"
 
 #: lang/json/WHEEL_from_json.py
 msgid "pair of wheelchair wheels"
@@ -53876,23 +53920,23 @@ msgstr[0] "一組滑輪"
 
 #: lang/json/WHEEL_from_json.py lang/json/vehicle_part_from_json.py
 msgid "small wheel"
-msgstr ""
+msgstr "小輪胎"
 
 #: lang/json/WHEEL_from_json.py lang/json/vehicle_part_from_json.py
 msgid "wheel"
-msgstr ""
+msgstr "輪胎"
 
 #: lang/json/WHEEL_from_json.py lang/json/vehicle_part_from_json.py
 msgid "wheelbarrow wheel"
-msgstr ""
+msgstr "手推車車輪"
 
 #: lang/json/WHEEL_from_json.py lang/json/vehicle_part_from_json.py
 msgid "wide wheel"
-msgstr ""
+msgstr "寬輪胎"
 
 #: lang/json/WHEEL_from_json.py lang/json/vehicle_part_from_json.py
 msgid "wooden cart wheel"
-msgstr ""
+msgstr "木製購物車滑輪"
 
 #: lang/json/ammunition_type_from_json.py
 msgid ".20 DREAD Pellets"
@@ -55561,7 +55605,7 @@ msgstr "這個世界犯了一些錯誤，這個錯誤只有你能補救。"
 
 #: lang/json/dream_from_json.py
 msgid "We have been waiting a long time for a place such as this."
-msgstr "我們尋找這樣子的地點已經很久了"
+msgstr "我們尋找這樣子的地點已經很久了。"
 
 #: lang/json/dream_from_json.py
 msgid "We will raise bountiful orchards and beautiful gardens."
@@ -55645,7 +55689,7 @@ msgstr "你夢見了一個在森林的家。"
 
 #: lang/json/dream_from_json.py
 msgid "You dream of a strange quest for a bush that grows gray apples."
-msgstr "你妄想著能種出可以長出灰色蘋果的灌木"
+msgstr "你妄想著能種出可以長出灰色蘋果的灌木。"
 
 #: lang/json/dream_from_json.py
 msgid ""
@@ -55985,7 +56029,7 @@ msgstr "你從未感受過如此輕盈又充滿力量。"
 
 #: lang/json/dream_from_json.py
 msgid "Your body flows slightly faster than you expected... oh, just a dream."
-msgstr "你的身體比你預期的移動的更快...喔，原來只是一場夢"
+msgstr "你的身體比你預期的移動的更快...喔，原來只是一場夢。"
 
 #: lang/json/dream_from_json.py
 msgid "Your disturbingly lifelike dream has you pollinating plants."
@@ -56306,7 +56350,7 @@ msgstr "腎上腺素消退"
 
 #: lang/json/effects_from_json.py
 msgid "Adrenaline Rush"
-msgstr "腎上腺素激增"
+msgstr "腎上腺素高昂"
 
 #: lang/json/effects_from_json.py
 msgid "Aegis Cure"
@@ -56854,7 +56898,7 @@ msgstr "RX12 治療素消退"
 
 #: lang/json/effects_from_json.py
 msgid "RX12 Healing Rush"
-msgstr "RX12 治療素激增"
+msgstr "RX12 治療素高昂"
 
 #. ~ Description of effect 'Blind'.
 #: lang/json/effects_from_json.py
@@ -57098,7 +57142,7 @@ msgstr "這個樹脂太黏了讓你很難戰鬥。"
 #. ~ Apply message for effect(s) 'Dazed'.
 #: lang/json/effects_from_json.py
 msgid "The scream dazes you!"
-msgstr "尖叫聲使你暈眩!"
+msgstr "尖叫聲使你暈眩！"
 
 #. ~ Remove message for effect(s) 'Relaxation gas'.
 #: lang/json/effects_from_json.py
@@ -57113,7 +57157,7 @@ msgstr "興奮劑的效果逐漸減少，你感到呆滯。"
 #. ~ Description of effect 'Glare'.
 #: lang/json/effects_from_json.py
 msgid "The sun is in your eyes."
-msgstr "你的眼睛感到灼熱"
+msgstr "陽光有點刺眼。"
 
 #. ~ Apply message for effect(s) 'Glare'.
 #: lang/json/effects_from_json.py
@@ -57266,13 +57310,8 @@ msgstr "你正戴著耳機，不太聽到來自外界的聲音。"
 
 #. ~ Apply message for effect(s) 'Iron deficiency, Early anemia, Anemia'.
 #: lang/json/effects_from_json.py
-msgid "You beging feeling increasingly tired and listless."
-msgstr "你開始感覺越來越疲憊，無精打采。"
-
-#. ~ Apply message for effect(s) 'VitA deficiency, Poor vision, Night blindness'.
-#: lang/json/effects_from_json.py
-msgid "You beging struggling to make out the finer details."
-msgstr "你開始很難辨認出細節。"
+msgid "You begin feeling increasingly tired and listless."
+msgstr ""
 
 #. ~ Description of effect 'Ringing ears'.
 #: lang/json/effects_from_json.py
@@ -57307,7 +57346,7 @@ msgstr "您不能聽到任何東西，並且所有的噪音都會使你頭痛。
 
 #: lang/json/effects_from_json.py
 msgid "You can't look away from the faultline..."
-msgstr "你緊盯著裂痕..."
+msgstr "你的視線無法從斷層上移開..."
 
 #. ~ Description of effect 'Stuck in a light snare'.
 #. ~ Description of effect 'Stuck in a heavy snare'.
@@ -57444,7 +57483,7 @@ msgstr "你有一個被感染的傷口。"
 #. ~ Description of effect 'Badly Poisoned'.
 #: lang/json/effects_from_json.py
 msgid "You have been badly poisoned!"
-msgstr "你嚴重的中毒了"
+msgstr "你嚴重的中毒了！"
 
 #. ~ Description of effect 'Grabbed'.
 #: lang/json/effects_from_json.py
@@ -57463,7 +57502,7 @@ msgstr "你被恐懼癱瘓。"
 #. ~ Description of effect 'Poisoned'.
 #: lang/json/effects_from_json.py
 msgid "You have been poisoned!"
-msgstr "你中毒了"
+msgstr "你中毒了！"
 
 #. ~ Description of effect 'Stung'.
 #: lang/json/effects_from_json.py
@@ -57518,6 +57557,11 @@ msgstr ""
 msgid "You smoked too much"
 msgstr "你抽太多煙了"
 
+#. ~ Apply message for effect(s) 'VitA deficiency, Poor vision, Night blindness'.
+#: lang/json/effects_from_json.py
+msgid "You start struggling to make out the finer details."
+msgstr ""
+
 #. ~ Apply message for effect(s) 'Early scurvy, Scurvy, Bad Scurvy'.
 #: lang/json/effects_from_json.py
 msgid "You start to develop symptoms of scurvy."
@@ -57536,7 +57580,7 @@ msgstr "你顫抖"
 #. ~ Apply message for effect(s) 'Unstable footing'.
 #: lang/json/effects_from_json.py
 msgid "You try to keep your balance."
-msgstr "你試著保持平衡"
+msgstr "你試著保持平衡。"
 
 #: lang/json/effects_from_json.py
 msgid "You wake up."
@@ -57598,7 +57642,7 @@ msgstr "你被擊倒在地上。你要先站起來才能移動。"
 #. ~ Apply message for effect(s) 'On Fire'.
 #: lang/json/effects_from_json.py
 msgid "You're on fire!  Wait in place to attempt to put out the fire."
-msgstr ""
+msgstr "你著火了！待在原地不動你就會試圖撲滅火勢。"
 
 #. ~ Description of effect 'Playing an instrument'.
 #: lang/json/effects_from_json.py
@@ -57767,7 +57811,7 @@ msgstr "你的骨頭恢復原本的強度。"
 #. ~ Apply message for effect(s) 'Winded'.
 #: lang/json/effects_from_json.py
 msgid "Your breath gives out!"
-msgstr "你氣喘吁吁!"
+msgstr "你氣喘吁吁！"
 
 #. ~ Decay message for effect(s) 'Hypocalcemia, Weak bones, Brittle bones'.
 #: lang/json/effects_from_json.py
@@ -57792,7 +57836,7 @@ msgstr "你耳鳴了！"
 #. ~ Miss message for effect(s) 'Tear gas'.
 #: lang/json/effects_from_json.py
 msgid "Your eyes burn from the tear gas."
-msgstr "你的眼睛被催淚瓦斯弄得很痛"
+msgstr "你的眼睛被催淚瓦斯弄得很痛。"
 
 #. ~ Decay message for effect(s) 'Iron deficiency, Early anemia, Anemia'.
 #: lang/json/effects_from_json.py
@@ -57839,7 +57883,7 @@ msgstr "你的鐵質缺乏已經快要解決了。"
 #. ~ Miss message for effect(s) 'Smoke'.
 #: lang/json/effects_from_json.py
 msgid "Your lungs burn from the smoke."
-msgstr "你的肺部被煙灼傷"
+msgstr "你的肺部被煙灼傷。"
 
 #. ~ Remove message for effect(s) 'Hypervitaminosis'.
 #: lang/json/effects_from_json.py
@@ -57858,8 +57902,8 @@ msgstr "你的移動變得錯亂了。"
 
 #. ~ Remove message for effect(s) 'VitA deficiency, Poor vision, Night blindness'.
 #: lang/json/effects_from_json.py
-msgid "Your normal visual accuity returns."
-msgstr "你的視力恢復正常。"
+msgid "Your normal visual acuity returns."
+msgstr ""
 
 #. ~ Remove message for effect(s) 'Early scurvy, Scurvy, Bad Scurvy'.
 #: lang/json/effects_from_json.py
@@ -57948,7 +57992,7 @@ msgstr ""
 
 #: lang/json/effects_from_json.py
 msgid "web spider poison"
-msgstr ""
+msgstr "網蛛毒"
 
 #. ~ Description for The Free Merchants
 #: lang/json/faction_from_json.py
@@ -58720,7 +58764,7 @@ msgstr "黃色室內植物"
 #. ~ 'fail' action message of some gate object.
 #: lang/json/gates_from_json.py
 msgid "The barn doors can't be closed!"
-msgstr "倉庫門無法關起來!"
+msgstr "倉庫門無法關起來！"
 
 #. ~ 'close' action message of some gate object.
 #: lang/json/gates_from_json.py
@@ -58735,7 +58779,7 @@ msgstr "倉庫的門打開了！"
 #. ~ 'fail' action message of some gate object.
 #: lang/json/gates_from_json.py
 msgid "The door can't be closed!"
-msgstr "門無法關起來!"
+msgstr "門無法關起來！"
 
 #. ~ 'open' action message of some gate object.
 #: lang/json/gates_from_json.py
@@ -58750,7 +58794,7 @@ msgstr ""
 #. ~ 'fail' action message of some gate object.
 #: lang/json/gates_from_json.py
 msgid "The gate can't be closed!"
-msgstr "大門無法關起來!"
+msgstr "大門無法關起來！"
 
 #. ~ 'close' action message of some gate object.
 #: lang/json/gates_from_json.py
@@ -58765,7 +58809,7 @@ msgstr "大門已打開！"
 #. ~ 'fail' action message of some gate object.
 #: lang/json/gates_from_json.py
 msgid "The palisade gate can't be closed!"
-msgstr "柵欄門無法關起來!"
+msgstr "柵欄門無法關起來！"
 
 #. ~ 'close' action message of some gate object.
 #: lang/json/gates_from_json.py
@@ -58799,6 +58843,10 @@ msgstr "燒灼傷口"
 #: lang/json/item_action_from_json.py
 msgid "Check weather information"
 msgstr "檢查天氣資訊"
+
+#: lang/json/item_action_from_json.py
+msgid "Clear rubble"
+msgstr ""
 
 #: lang/json/item_action_from_json.py
 msgid "Create a zombie slave"
@@ -58878,7 +58926,7 @@ msgstr "修理木製/紙製/骨製/甲殼製的物品"
 
 #: lang/json/item_action_from_json.py
 msgid "Saw down barrel"
-msgstr ""
+msgstr "鋸短槍管"
 
 #: lang/json/item_action_from_json.py
 msgid "Sheathe/draw a knife"
@@ -58894,7 +58942,7 @@ msgstr "快速生火"
 
 #: lang/json/item_action_from_json.py
 msgid "Start countdown"
-msgstr ""
+msgstr "開始倒數"
 
 #: lang/json/item_action_from_json.py
 msgid "Take anticonvulsant"
@@ -58960,6 +59008,10 @@ msgstr "進階物品管理"
 msgid "Aim"
 msgstr "瞄準"
 
+#: lang/json/keybinding_from_json.py src/vehicle.cpp
+msgid "Aim turrets manually"
+msgstr "手動瞄準槍塔"
+
 #: lang/json/keybinding_from_json.py
 msgid "Aimed Shot"
 msgstr "瞄準射擊"
@@ -58978,7 +59030,7 @@ msgstr "指定特定裝甲的穿著順序"
 
 #: lang/json/keybinding_from_json.py
 msgid "Autoattack"
-msgstr ""
+msgstr "自動攻擊"
 
 #: lang/json/keybinding_from_json.py
 msgid "Batch crafting"
@@ -59063,6 +59115,10 @@ msgstr "建設地形"
 #: lang/json/keybinding_from_json.py
 msgid "Control Vehicle"
 msgstr "操作車輛"
+
+#: lang/json/keybinding_from_json.py src/vehicle.cpp
+msgid "Control individual engines"
+msgstr "控制個別引擎"
 
 #: lang/json/keybinding_from_json.py
 msgid "Copy rule"
@@ -59211,6 +59267,10 @@ msgstr "發射武器"
 #: lang/json/keybinding_from_json.py
 msgid "Fire Wielded Item"
 msgstr "發射手持的物品"
+
+#: lang/json/keybinding_from_json.py src/pickup.cpp
+msgid "Fold vehicle"
+msgstr "摺疊車輛"
 
 #: lang/json/keybinding_from_json.py
 msgid "Go Down"
@@ -59523,6 +59583,10 @@ msgid "Relabel a portion of a vehicle"
 msgstr "為某一臺車輛重新指定標籤"
 
 #: lang/json/keybinding_from_json.py
+msgid "Release controls"
+msgstr ""
+
+#: lang/json/keybinding_from_json.py
 msgid "Reload Wielded Item"
 msgstr "裝填手持的物品"
 
@@ -59706,6 +59770,14 @@ msgstr "選擇右邊的物品欄"
 msgid "Select shape"
 msgstr "選擇形狀"
 
+#: lang/json/keybinding_from_json.py src/turret.cpp src/vehicle.cpp
+msgid "Set turret firing modes"
+msgstr "設定槍塔射擊模式"
+
+#: lang/json/keybinding_from_json.py src/vehicle.cpp
+msgid "Set turret targeting modes"
+msgstr "設定槍塔瞄準模式"
+
 #: lang/json/keybinding_from_json.py
 msgid "Sew"
 msgstr "縫"
@@ -59743,6 +59815,10 @@ msgid "Solder/Weld"
 msgstr "焊接/鍛接"
 
 #: lang/json/keybinding_from_json.py
+msgid "Sound horn"
+msgstr ""
+
+#: lang/json/keybinding_from_json.py
 msgid "Start"
 msgstr "開始"
 
@@ -59757,6 +59833,10 @@ msgstr "在自己和目標之間切換"
 #: lang/json/keybinding_from_json.py
 msgid "Switch Aiming Mode"
 msgstr "切換瞄準模式"
+
+#: lang/json/keybinding_from_json.py
+msgid "Switch Firing Mode"
+msgstr ""
 
 #: lang/json/keybinding_from_json.py
 msgid "Switch Sidebar Style"
@@ -59827,6 +59907,14 @@ msgid "Toggle activate/examine"
 msgstr "切換 使用/檢視"
 
 #: lang/json/keybinding_from_json.py
+msgid "Toggle aisle lights"
+msgstr ""
+
+#: lang/json/keybinding_from_json.py
+msgid "Toggle alarm"
+msgstr ""
+
+#: lang/json/keybinding_from_json.py
 msgid "Toggle attack mode of Wielded Item"
 msgstr "切換手持物品的攻擊模式"
 
@@ -59835,20 +59923,88 @@ msgid "Toggle auto-pickup for item"
 msgstr "切換自動撿拾物品功能"
 
 #: lang/json/keybinding_from_json.py
+msgid "Toggle camera system"
+msgstr ""
+
+#: lang/json/keybinding_from_json.py
 msgid "Toggle category selection mode"
 msgstr "切換目錄選擇模式"
+
+#: lang/json/keybinding_from_json.py
+msgid "Toggle chimes"
+msgstr ""
+
+#: lang/json/keybinding_from_json.py
+msgid "Toggle cruise control"
+msgstr ""
+
+#: lang/json/keybinding_from_json.py
+msgid "Toggle dome lights"
+msgstr ""
+
+#: lang/json/keybinding_from_json.py src/vehicle.cpp
+msgid "Toggle doors"
+msgstr ""
+
+#: lang/json/keybinding_from_json.py
+msgid "Toggle engine"
+msgstr ""
+
+#: lang/json/keybinding_from_json.py
+msgid "Toggle fridge"
+msgstr ""
+
+#: lang/json/keybinding_from_json.py
+msgid "Toggle headlights"
+msgstr ""
 
 #: lang/json/keybinding_from_json.py
 msgid "Toggle move mode (run/walk)"
 msgstr "切換移動模式 (走/跑)"
 
 #: lang/json/keybinding_from_json.py
+msgid "Toggle overhead lights"
+msgstr ""
+
+#: lang/json/keybinding_from_json.py
+msgid "Toggle planter"
+msgstr ""
+
+#: lang/json/keybinding_from_json.py
+msgid "Toggle plow"
+msgstr ""
+
+#: lang/json/keybinding_from_json.py
+msgid "Toggle reactor"
+msgstr ""
+
+#: lang/json/keybinding_from_json.py
+msgid "Toggle reaper"
+msgstr ""
+
+#: lang/json/keybinding_from_json.py
+msgid "Toggle recharger"
+msgstr ""
+
+#: lang/json/keybinding_from_json.py
+msgid "Toggle scoop"
+msgstr ""
+
+#: lang/json/keybinding_from_json.py
 msgid "Toggle sorting order"
 msgstr "切換排序順序"
 
 #: lang/json/keybinding_from_json.py
+msgid "Toggle stereo"
+msgstr ""
+
+#: lang/json/keybinding_from_json.py
 msgid "Toggle tab"
 msgstr "切換分頁"
+
+#: lang/json/keybinding_from_json.py
+msgid "Toggle tracking"
+msgstr ""
 
 #: lang/json/keybinding_from_json.py
 msgid "Toggle unavailable constructions"
@@ -59970,7 +60126,7 @@ msgstr "<given_name> <family_name> 佔有 <full_name> 在 <city>"
 #. ~ Sign
 #: lang/json/mapgen_from_json.py
 msgid "<given_name>, <given_name>, and <given_name> were here!"
-msgstr "<given_name>, <given_name>, 和 <given_name> 在此!"
+msgstr "<given_name>, <given_name>, 和 <given_name> 在此！"
 
 #. ~ Sign
 #: lang/json/mapgen_from_json.py
@@ -60501,6 +60657,8 @@ msgid ""
 "strategically planned strikes.  Perception and Intelligence both boost "
 "dodging, and moving boosts your accuracy."
 msgstr ""
+"少林五形拳的其中一式。豹形拳注重於連續的戰術攻擊。你的感知與智力能夠提昇閃"
+"避，走動能提昇命中率。"
 
 #. ~ Description for martial art 'Snake Kung Fu'
 #: lang/json/martial_art_from_json.py
@@ -62613,8 +62771,8 @@ msgid ""
 "you thirsty.  And you so love your new parts.  You simply must have more "
 "mutagen!"
 msgstr ""
-"只要想到突變(像是一個可愛的字!\"突變\",一切就都完美了)就會讓你感覺興奮。你熱"
-"愛任何新突變的身體部位。你想要更多突變!!"
+"只要一想到突變劑（多麼美好的字眼！‘突變'。完美！）就會讓你感到飢渴。而且你非"
+"常喜愛你的新部位…你就是想要使用更多的突變劑！"
 
 #: lang/json/mutation_from_json.py src/morale.cpp
 msgid "Lactose Intolerance"
@@ -63559,6 +63717,8 @@ msgid ""
 "penalty for not wearing shoes, and even receive a 10% bonus when moving "
 "barefoot."
 msgstr ""
+"你的腳掌增生成厚厚的角質墊。你不穿鞋也不會有任何移動懲罰，赤腳甚至還能得到 "
+"10% 的移動加成。"
 
 #. ~ Description for Tough Feet
 #: lang/json/mutation_from_json.py
@@ -64494,6 +64654,8 @@ msgid ""
 "very light as a result, enabling you to move and attack 20% faster, but also "
 "frail; you can carry 40% less, and bashing attacks injure you more."
 msgstr ""
+"你有禽骨綜合症 - 你的骨頭幾乎是空心的。由於你的身體輕盈，讓你的攻擊和移動速度"
+"提昇 20%，同時也有缺點；你的負重能力降低 40%，並且鈍擊讓你受到的傷害更嚴重。"
 
 #. ~ Description for Good Memory
 #: lang/json/mutation_from_json.py
@@ -65355,7 +65517,7 @@ msgid ""
 "You've gotten rid of that terribly imprecise mouth and now imbibe your food "
 "like a proper person.  Chewing was tiresome anyway."
 msgstr ""
-"你終於擺脫了那副討厭的嘴巴。現在你可以像個一般人攝取食物。嚼食實在太無聊了。"
+"你終於擺脫了那副討厭的嘴巴。現在你可以像樣地吸吮食物。嚼食實在太無聊了。"
 
 #. ~ Description for Chitinous Plate
 #: lang/json/mutation_from_json.py
@@ -66084,7 +66246,7 @@ msgstr ""
 msgid ""
 "Your legs are extremely limber and fast-moving.  You move 30% faster on flat "
 "surfaces."
-msgstr ""
+msgstr "你的腿很有彈性並且可以動得很快。你在平地的移動速度提升 30%。"
 
 #. ~ Description for Leg Tentacles
 #: lang/json/mutation_from_json.py
@@ -66176,7 +66338,7 @@ msgstr "你的肌肉變得強壯些了。力量 +1"
 #: lang/json/mutation_from_json.py
 #, no-python-format
 msgid "Your muscles are generally slow to move.  You move 10% slower."
-msgstr ""
+msgstr "你的肌肉移動緩慢。你的移動速度下降 10%。"
 
 #. ~ Description for Extremely Strong
 #: lang/json/mutation_from_json.py
@@ -66197,7 +66359,7 @@ msgstr "你的肌肉完美的發展了。"
 #: lang/json/mutation_from_json.py
 #, no-python-format
 msgid "Your muscles are quite slow to move.  You move 20% slower."
-msgstr ""
+msgstr "你的肌肉移動遲緩。你的移動速度下降 20%。"
 
 #. ~ Description for Very Strong
 #: lang/json/mutation_from_json.py
@@ -66208,7 +66370,7 @@ msgstr "你的肌肉變得更強壯了。力量 +2"
 #: lang/json/mutation_from_json.py
 #, no-python-format
 msgid "Your muscles are very slow to move.  You move 30% slower."
-msgstr ""
+msgstr "你的肌肉移動非常遲緩。你的移動速度下降 30%。"
 
 #. ~ Description for Acidproof
 #: lang/json/mutation_from_json.py
@@ -66744,6 +66906,10 @@ msgstr "穀倉"
 #: lang/json/overmap_terrain_from_json.py
 msgid "basement"
 msgstr "地下室"
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "basin"
+msgstr ""
 
 #: lang/json/overmap_terrain_from_json.py
 msgid "bee hive"
@@ -67629,6 +67795,26 @@ msgid ""
 "zombies around you refuse to do laps, even at the blow of your whistle."
 msgstr "在教導完討厭運動的小孩後，這些殭屍居然不聽從你的哨音"
 
+#. ~ Profession (female Veteran Bandit) description
+#: lang/json/professions_from_json.py
+msgctxt "prof_desc_female"
+msgid ""
+"After the cities exploded there was a whirlwind of looting; a firestorm of "
+"fear.  Men began to feed on men.  On the roads it was a white line "
+"nightmare.  Only those mobile enough to scavenge or brutal enough to pillage "
+"would survive.  You are one of the latter."
+msgstr ""
+
+#. ~ Profession (male Veteran Bandit) description
+#: lang/json/professions_from_json.py
+msgctxt "prof_desc_male"
+msgid ""
+"After the cities exploded there was a whirlwind of looting; a firestorm of "
+"fear.  Men began to feed on men.  On the roads it was a white line "
+"nightmare.  Only those mobile enough to scavenge or brutal enough to pillage "
+"would survive.  You are one of the latter."
+msgstr ""
+
 #: lang/json/professions_from_json.py
 msgctxt "profession_female"
 msgid "Ahistorical Reenactor"
@@ -68057,6 +68243,16 @@ msgstr "生化學生"
 msgctxt "profession_male"
 msgid "Bionic Student"
 msgstr "生化學生"
+
+#: lang/json/professions_from_json.py
+msgctxt "profession_female"
+msgid "Bionic Survivalist"
+msgstr ""
+
+#: lang/json/professions_from_json.py
+msgctxt "profession_male"
+msgid "Bionic Survivalist"
+msgstr ""
 
 #: lang/json/professions_from_json.py
 msgctxt "profession_female"
@@ -69152,6 +69348,24 @@ msgstr "郵差"
 msgctxt "profession_male"
 msgid "Mail Carrier"
 msgstr "郵差"
+
+#. ~ Profession (female Bionic Survivalist) description
+#: lang/json/professions_from_json.py
+msgctxt "prof_desc_female"
+msgid ""
+"Mainly from paranoia, you augmented yourself, got some training and gear to "
+"go inawoods incase anything went down, well it did.  Now that civilization "
+"has fallen, the woods are your new home."
+msgstr ""
+
+#. ~ Profession (male Bionic Survivalist) description
+#: lang/json/professions_from_json.py
+msgctxt "prof_desc_male"
+msgid ""
+"Mainly from paranoia, you augmented yourself, got some training and gear to "
+"go inawoods incase anything went down, well it did.  Now that civilization "
+"has fallen, the woods are your new home."
+msgstr ""
 
 #: lang/json/professions_from_json.py
 msgctxt "profession_female"
@@ -70260,6 +70474,16 @@ msgstr "二手車商"
 msgctxt "profession_male"
 msgid "Used Car Salesman"
 msgstr "二手車商"
+
+#: lang/json/professions_from_json.py
+msgctxt "profession_female"
+msgid "Veteran Bandit"
+msgstr ""
+
+#: lang/json/professions_from_json.py
+msgctxt "profession_male"
+msgid "Veteran Bandit"
+msgstr ""
 
 #: lang/json/professions_from_json.py
 msgctxt "profession_female"
@@ -71715,8 +71939,8 @@ msgid ""
 "You're a miner, not a minor!  Your canteen is dry, your jackhammer is out of "
 "gas, and you're on your last pair of batteries for your mining helmet..."
 msgstr ""
-"你是個礦工，不是小人物! 你的水壺沒水了、你的手持式鑿岩機沒油了，而你將最後一"
-"組電池放入你的採礦帽裡..."
+"你是個礦工，不是小人物！你的水壺沒水了、你的手持式鑿岩機沒油了，而你將最後一"
+"組電池放入你的採礦帽裡…"
 
 #. ~ Profession (male Miner) description
 #: lang/json/professions_from_json.py
@@ -71725,8 +71949,8 @@ msgid ""
 "You're a miner, not a minor!  Your canteen is dry, your jackhammer is out of "
 "gas, and you're on your last pair of batteries for your mining helmet..."
 msgstr ""
-"你是個礦工，不是小人物! 你的水壺沒水了、你的手持式鑿岩機沒油了，而你將最後一"
-"組電池放入你的採礦帽裡..."
+"你是個礦工，不是小人物！你的水壺沒水了、你的手持式鑿岩機沒油了，而你將最後一"
+"組電池放入你的採礦帽裡…"
 
 #. ~ Profession (female Elementary Student) description
 #: lang/json/professions_from_json.py
@@ -72189,11 +72413,6 @@ msgstr "麵包"
 msgid "BREW"
 msgstr "釀造"
 
-#. ~ Crafting recipes subcategory of 'AMMO' category
-#: lang/json/recipe_category_from_json.py
-msgid "BULLETS"
-msgstr "子彈"
-
 #. ~ Crafting recipes subcategory of 'ELECTRONIC' category
 #: lang/json/recipe_category_from_json.py
 msgid "CBMS"
@@ -72268,7 +72487,7 @@ msgstr "燃料"
 #. ~ Crafting recipes subcategory of 'AMMO' category
 #: lang/json/recipe_category_from_json.py
 msgid "GRENADES"
-msgstr ""
+msgstr "手榴彈"
 
 #. ~ Crafting recipes subcategory of 'ARMOR' category
 #: lang/json/recipe_category_from_json.py
@@ -72343,10 +72562,20 @@ msgstr "麵食"
 msgid "PIERCING"
 msgstr "穿刺"
 
+#. ~ Crafting recipes subcategory of 'AMMO' category
+#: lang/json/recipe_category_from_json.py
+msgid "PISTOL"
+msgstr ""
+
 #. ~ Crafting recipes subcategory of 'WEAPON' category
 #: lang/json/recipe_category_from_json.py
 msgid "RANGED"
 msgstr "遠程"
+
+#. ~ Crafting recipes subcategory of 'AMMO' category
+#: lang/json/recipe_category_from_json.py
+msgid "RIFLE"
+msgstr ""
 
 #. ~ Crafting recipes subcategory of 'AMMO' category
 #: lang/json/recipe_category_from_json.py
@@ -73547,9 +73776,9 @@ msgid ""
 "about wildlife!...  And how to kill it.  Classic BEAR TRAP returns in this "
 "issue!"
 msgstr ""
-"你對野外生存了解嗎? 如果你沒做過圈套表示你根本不懂陷阱! 閱讀這本\"陷阱生活"
+"你對野外生存了解嗎？如果你沒做過圈套表示你根本不懂陷阱！閱讀這本\"陷阱生活"
 "\"來了解野生動物的習性，並了解如何殺死他們。這篇教你如何製作傳統的『捕熊陷"
-"阱』!"
+"阱』！"
 
 #: lang/json/snippet_from_json.py
 msgid ""
@@ -74310,8 +74539,19 @@ msgstr ""
 "試。可怕的是，XE037立即讓這些昆蟲產生了巨大化突變，只好進行安全干預。"
 
 #: lang/json/snippet_from_json.py
+msgid ""
+"Alertness comes somewhat fast, and your muscles stretch easier than before "
+"you went to bed."
+msgstr "你很快地醒來，而且肌肉伸展比睡前還要輕鬆。"
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"Alertness seems flighty today, and your body argues when you move towards it."
+msgstr "今天的警覺性反覆無常，當你前進時你的身體向你抗議著。"
+
+#: lang/json/snippet_from_json.py
 msgid "Alright, drop the <yrwp>!"
-msgstr "很好， 放下 <yrwp>!"
+msgstr "很好， 放下 <yrwp>！"
 
 #: lang/json/snippet_from_json.py
 msgid ""
@@ -74360,6 +74600,17 @@ msgid ""
 msgstr ""
 "試圖將XE037用於非哺乳類的研究已經有了一些進展。若直接將XE037進行皮下注射，待"
 "循環擴散到全身之後，便會留存在體內潛伏。"
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"Awareness comes fast, your body coming quickly to attention after your rest."
+msgstr "很快醒來，休息後你的身體意興高昂。"
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"Awareness seems to only come with a battle... and your body seem to be on "
+"its side."
+msgstr "似乎只有戰鬥的意識...你的身體好像在另一端"
 
 #: lang/json/snippet_from_json.py
 msgid ""
@@ -74435,6 +74686,11 @@ msgid ""
 msgstr ""
 "捕獸夾是用來掩護脫逃的好東西。若是你放一個在走廊上，走在最前面的殭屍被夾到"
 "後，其他的殭屍就會被堵住！"
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"Bleary-eyed and half-asleep, you consider why you are doing this to yourself."
+msgstr "睡眼惺忪半夢半醒間，你思考著為何這樣對待自己。"
 
 #: lang/json/snippet_from_json.py
 msgid ""
@@ -74680,7 +74936,7 @@ msgstr "放下<swear><yrwp>！"
 
 #: lang/json/snippet_from_json.py
 msgid "Drop the <yrwp>, <name_b>!"
-msgstr "丟下 <yrwp>， <name_b>!"
+msgstr "丟下 <yrwp>， <name_b>！"
 
 #: lang/json/snippet_from_json.py
 msgid "Drop your <swear> weapon!"
@@ -74688,11 +74944,11 @@ msgstr "丟下你手上 <swear> 武器！"
 
 #: lang/json/snippet_from_json.py
 msgid "Drop your <swear> weapon, <name_b>!"
-msgstr "放下你<swear>武器， <name_b>!"
+msgstr "放下你<swear>武器， <name_b>！"
 
 #: lang/json/snippet_from_json.py
 msgid "Drop your <yrwp>!"
-msgstr "放下你的 <yrwp>!"
+msgstr "放下你的 <yrwp>！"
 
 #: lang/json/snippet_from_json.py
 msgid ""
@@ -74793,7 +75049,7 @@ msgid ""
 "without proper registration.  Please seek military personnel if you need "
 "access."
 msgstr ""
-"『將軍表示請遠離碉堡』: 請不要嘗試接近你周遭的任何一個碉堡! 碉堡由於人手不"
+"『將軍表示請遠離碉堡』：請不要嘗試接近你周遭的任何一個碉堡！碉堡由於人手不"
 "足，皆由自動衛哨機槍防守，會直接對沒有進入許可的人開火。如果你想要進入，請尋"
 "求軍方相關人士協助。"
 
@@ -74897,6 +75153,27 @@ msgstr "快過來這裡！"
 
 #: lang/json/snippet_from_json.py
 msgid ""
+"Getting out of bed doesn't seem too hard today.  You could get used to this!"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"Getting out of bed only comes with great difficulty, and your muscles resist "
+"the movement."
+msgstr "你非常不想起床，而且你的身體不想動。"
+
+#: lang/json/snippet_from_json.py
+msgid "Getting up comes easy to you, your muscles revitalized after your rest."
+msgstr "你很輕鬆地起床，休息後肌肉恢復活力。"
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"Getting up seems like it should be easy, but all you want to do is go back "
+"to bed."
+msgstr "起床看似很容易，但你只想繼續睡。"
+
+#: lang/json/snippet_from_json.py
+msgid ""
 "Given the current population projections, PE065 deployment is no longer "
 "feasible.  We simply haven't the stock.  Remaining chemical and "
 "psychopharmacological department assets are being assigned to Dr. Sattler's "
@@ -74938,9 +75215,9 @@ msgid ""
 "compound bow and Hunt Your Own!?  Our arrows and bolts are completely "
 "reusable, so why not hunt animals like Mother Nature intended?"
 msgstr ""
-"『狩獵裝備!』: 有感於物價上漲，三餐的開銷壓的你喘不過氣嗎? 為何不試試帶上一把"
-"十字弓或是複合弓自己去打野味呢? 我們的箭隻跟弩矢都是可回收利用的，跟我們一起"
-"順從自然的法則去獵殺動物吧!"
+"『狩獵裝備！』：有感於物價上漲，三餐的開銷壓的你喘不過氣嗎？為何不試試帶上一"
+"把十字弓或是複合弓自己去打野味呢？我們的箭隻跟弩矢都是可回收利用的，跟我們一"
+"起順從自然的法則去獵殺動物吧！"
 
 #: lang/json/snippet_from_json.py
 msgid "Hands in the air!"
@@ -75024,7 +75301,7 @@ msgstr "嘿 <name_g><punc> 等等我！"
 
 #: lang/json/snippet_from_json.py
 msgid "Hey, I <really> want to talk to you!"
-msgstr "嘿，我<really>想跟你講話!"
+msgstr "嘿，我<really>想跟你講話！"
 
 #: lang/json/snippet_from_json.py
 msgid "Hey, I'm over here!"
@@ -75382,6 +75659,8 @@ msgid ""
 "types of zombies are camouflaged against it, and require proper light to be "
 "visible."
 msgstr ""
+"要是你拿到夜視鏡，好好留著！手電筒會暴露你的位置，夜視鏡卻能讓你潛行。要注意"
+"的是某些類型的殭屍具有偽裝能力，只會在亮光之下可見。"
 
 #: lang/json/snippet_from_json.py
 msgid ""
@@ -75680,7 +75959,7 @@ msgstr "讓開"
 
 #: lang/json/snippet_from_json.py
 msgid "Move it, <name_g>!"
-msgstr "快走開，<name_g>!"
+msgstr "快走開，<name_g>！"
 
 #: lang/json/snippet_from_json.py
 msgid "Move to the side"
@@ -75826,8 +76105,8 @@ msgid ""
 "for months or longer, and when you've eaten it, you can refill and seal the "
 "jar!  Stock your emergency supply TODAY!"
 msgstr ""
-"『一整罐肉醬!』: 就像你阿嬤喜歡做的那種。在你食用之後仍然能保存好幾個月，而且"
-"你可以再多塞一些進去然後將罐子密封起來保存。準備你的應急食物就從今天開始!"
+"『一整罐肉醬！』：就像你阿嬤喜歡做的那種。在你食用之後仍然能保存好幾個月，而"
+"且你可以再多塞一些進去然後將罐子密封起來保存。準備你的應急食物就從今天開始！"
 
 #: lang/json/snippet_from_json.py
 msgid ""
@@ -77022,6 +77301,12 @@ msgstr ""
 
 #: lang/json/snippet_from_json.py
 msgid ""
+"Tired hands rub at your eyes, the little aches of yesterday protesting your "
+"stretches."
+msgstr "疲憊的雙手揉著眼，伸展時能感受到昨天的疼痛。"
+
+#: lang/json/snippet_from_json.py
+msgid ""
 "Today we applied a very small sample of XE037, suspended in water, to "
 "subject TP92, prior to necessary termination.  During the postmortem "
 "examination, the subject went through a revivification progress, but "
@@ -77264,6 +77549,12 @@ msgstr "雖然不多，但加油站是汽油的好來源，能夠讓動力工具
 
 #: lang/json/snippet_from_json.py
 msgid ""
+"Within moments you're ready and up.  You don't feel like anything could stop "
+"you today!"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid ""
 "XE037 revivification has reached critical levels, which are rapidly "
 "overwhelming the available military and regional police assets' ability to "
 "stop.  Every team in the field has encountered hostile specimens, and "
@@ -77294,6 +77585,48 @@ msgid ""
 "You don't really need to wear gloves most of the time, but once in a while "
 "they'll really come in handy."
 msgstr "大部分的時候你並不一定要戴手套，但是有需要時很有用。"
+
+#: lang/json/snippet_from_json.py
+msgid "You feel awful, and every ache from yesterday is still there."
+msgstr "你覺得很糟糕，而且昨天的所有疼痛都依然存在。"
+
+#: lang/json/snippet_from_json.py
+msgid "You feel cruddy.  Maybe you should consider eating a bit healthier."
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "You feel extra alert, and your body feels ready to go."
+msgstr "你感覺非常的精神充沛，全身蓄勢待發。"
+
+#: lang/json/snippet_from_json.py
+msgid "You feel good.  Healthy living does seem to have some rewards."
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"You feel great! It doesn't seem like wounds could even slow you down for "
+"more than a day."
+msgstr "你覺得好極了！無論多麼嚴重的傷口，在一兩天內也能癒合。"
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"You feel like a rubber ball; whatever hits you, you'll just bounce back!"
+msgstr "你覺得自己像顆皮球，不論甚麼打了你，只會反彈回去。"
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"You get up feeling horrible, as if something was messing with your body."
+msgstr "你起床的感覺糟透了，像似有甚麼東西攪亂了你的身體。"
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"You get up feeling pretty good, as if all your little aches were fading "
+"faster."
+msgstr "起床後你感覺非常棒，似乎你所有的小痠痛都快速地消失了。"
+
+#: lang/json/snippet_from_json.py
+msgid "You get up with a bit of a scratch in your throat."
+msgstr "你喉嚨有些搔癢地起床了。"
 
 #: lang/json/snippet_from_json.py
 msgid ""
@@ -77330,6 +77663,59 @@ msgstr "你必須讓開，<name_g>，<okay>？"
 #: lang/json/snippet_from_json.py
 msgid "You okay, <name_g>?"
 msgstr "你還好嗎，<name_g>？"
+
+#: lang/json/snippet_from_json.py
+msgid "You stretch, but your muscles don't seem to be doing so good today."
+msgstr "你伸展身體，但是今天你的肌肉似乎狀況不佳。"
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"You struggle to awareness.  Being awake seems somewhat harder to reach today."
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"You're up and going rather quickly, and all the little aches from yesterday "
+"are gone."
+msgstr "你很快地起床，而且昨天所有的小痠痛都消失了。"
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"You're up and you feel fantastic.  No sickness is going to keep you down "
+"today!"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"You're up and your little pains from before seem to have faded away rather "
+"quickly."
+msgstr "你起來而且之前的小傷痛很快地消失了。"
+
+#: lang/json/snippet_from_json.py
+msgid "You're up, but your body seems like it would rather stay in bed."
+msgstr "你醒了，但是自己的身體寧願繼續賴在床上。"
+
+#: lang/json/snippet_from_json.py
+msgid "Your body stretches with ease, and you feel ready to take on the world."
+msgstr "你的身體伸展自如，你準備好迎接這個世界。"
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"Your eyes open and your entire body feels like it is just bursting with "
+"energy to burn!"
+msgstr "你睜開眼睛而起整個身體充滿了能量!"
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"Your eyes struggle to open, and your muscles ache like you didn't sleep at "
+"all."
+msgstr "你的眼睛勉強張開，你的身體好像沒睡過一樣痠痛。"
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"Your stomach gurgles.  It's probably nothing, but maybe you should look into "
+"eating something healthy."
+msgstr ""
 
 #: lang/json/snippet_from_json.py
 msgid ""
@@ -80083,7 +80469,7 @@ msgstr "<npcname> 使出鶴拳展翅！"
 #: lang/json/technique_from_json.py
 #, python-format
 msgid "<npcname> phase-strikes %s"
-msgstr "<npcname>  對 %s 發動 相位打擊!"
+msgstr "<npcname>  對 %s 發動 相位打擊！"
 
 #: lang/json/technique_from_json.py
 #, python-format
@@ -80594,7 +80980,7 @@ msgstr "你毒蛇咬 %s"
 #: lang/json/technique_from_json.py
 #, python-format
 msgid "You Viper Strike %s!"
-msgstr "你對 %s 發動 毒蛇攻擊!"
+msgstr "你對 %s 發動 毒蛇攻擊！"
 
 #: lang/json/technique_from_json.py
 #, python-format
@@ -80794,7 +81180,7 @@ msgstr "你格擋 %s"
 #: lang/json/technique_from_json.py
 #, python-format
 msgid "You phase-strike %s"
-msgstr "你對 %s 發動 相位打擊!"
+msgstr "你對 %s 發動 相位打擊！"
 
 #: lang/json/technique_from_json.py
 #, python-format
@@ -81325,7 +81711,7 @@ msgstr "損壞的木牆"
 
 #: lang/json/terrain_from_json.py
 msgid "brush."
-msgstr "唰唰聲."
+msgstr "灌木叢"
 
 #: lang/json/terrain_from_json.py
 msgid "card reader"
@@ -81386,6 +81772,10 @@ msgstr "關閉的金屬門"
 #: lang/json/terrain_from_json.py
 msgid "closed metal door with peephole"
 msgstr "關閉的窺孔金屬門"
+
+#: lang/json/terrain_from_json.py
+msgid "closed reinforced glass door"
+msgstr "關閉的強化玻璃門"
 
 #: lang/json/terrain_from_json.py
 msgid "closed reinforced wood door"
@@ -81741,11 +82131,11 @@ msgstr "原木牆"
 
 #: lang/json/terrain_from_json.py
 msgid "low stairs (beginning section)"
-msgstr "矮梯(開頭部分)"
+msgstr "矮梯（開頭部分）"
 
 #: lang/json/terrain_from_json.py
 msgid "low stairs (end section)"
-msgstr "矮梯(結尾部分)"
+msgstr "矮梯（結尾部分）"
 
 #: lang/json/terrain_from_json.py
 msgid "makeshift portcullis"
@@ -81850,6 +82240,10 @@ msgstr "打開的金屬門"
 #: lang/json/terrain_from_json.py
 msgid "open metal door with peephole"
 msgstr "打開的窺孔金屬門"
+
+#: lang/json/terrain_from_json.py
+msgid "open reinforced  glass door"
+msgstr "開啟的強化玻璃門"
 
 #: lang/json/terrain_from_json.py
 msgid "open reinforced wood door"
@@ -82137,7 +82531,7 @@ msgstr "損壞的汽油泵"
 
 #: lang/json/terrain_from_json.py
 msgid "smoothed rock"
-msgstr ""
+msgstr "光滑的岩石"
 
 #: lang/json/terrain_from_json.py lang/json/trap_from_json.py
 msgid "spiked pit"
@@ -82959,7 +83353,7 @@ msgstr "電動車"
 
 #: lang/json/vehicle_from_json.py
 msgid "Electric SUV"
-msgstr "電動 SUV"
+msgstr "電動運動型休旅車"
 
 #: lang/json/vehicle_from_json.py
 msgid "Electric Scooter"
@@ -83139,7 +83533,7 @@ msgstr "壓路機"
 
 #: lang/json/vehicle_from_json.py
 msgid "SUV"
-msgstr "SUV"
+msgstr "運動型休旅車"
 
 #: lang/json/vehicle_from_json.py
 msgid "SWAT Truck"
@@ -83273,7 +83667,7 @@ msgstr "走道"
 msgid "aisle curtain"
 msgstr "走道窗簾"
 
-#: lang/json/vehicle_part_from_json.py
+#: lang/json/vehicle_part_from_json.py src/vehicle.cpp
 msgid "aisle lights"
 msgstr "過道燈"
 
@@ -83337,7 +83731,7 @@ msgstr "載貨空間"
 msgid "casters"
 msgstr "滑輪"
 
-#: lang/json/vehicle_part_from_json.py
+#: lang/json/vehicle_part_from_json.py src/vehicle.cpp
 msgid "chimes"
 msgstr "音樂鈴"
 
@@ -83877,7 +84271,7 @@ msgstr "頂蓋"
 msgid "rotary speargun"
 msgstr "旋轉式魚叉槍"
 
-#: lang/json/vehicle_part_from_json.py
+#: lang/json/vehicle_part_from_json.py src/vehicle.cpp
 msgid "scoop"
 msgstr "鏟勺"
 
@@ -84317,7 +84711,7 @@ msgstr[0] "屍體已經完全變肉醬了。"
 
 #: src/activity_handlers.cpp
 msgid "The corpse moved before you could finish smashing it!"
-msgstr "在你完全打碎屍體前，屍體移動了!"
+msgstr "在你完全打碎屍體前，屍體移動了！"
 
 #: src/activity_handlers.cpp
 msgid "The red wire always starts the engine, doesn't it?"
@@ -84736,6 +85130,8 @@ msgid ""
 "Strength - 1;   Perception - 1;   Dexterity - 1;\n"
 "Depression and physical pain to some degree.  Frequent cravings.  Vomiting."
 msgstr ""
+"力量 - 1；   感知 - 1；   敏捷 - 1；\n"
+"憂鬱。一定程度的疼痛。頻繁的犯癮。嘔吐。"
 
 #: src/addiction.cpp
 msgid "Strength - 1;   Slight sluggishness;   Occasional cravings"
@@ -85162,7 +85558,7 @@ msgstr "你不能把物品放到那"
 
 #: src/advanced_inv.cpp
 msgid "You can't wear any more of that!"
-msgstr "你無法再穿上一件它!"
+msgstr "你無法再穿上一件它！"
 
 #: src/advanced_inv.cpp
 msgid "You don't have enough room for that!"
@@ -85226,8 +85622,13 @@ msgstr "重量"
 
 #: src/armor_layers.cpp
 #, c-format
-msgid "%s says: I don't trust you enough to let you do that!"
-msgstr "%s 說: 我還沒那麼相信你，不准你這麼做。"
+msgid "%s is not friendly!"
+msgstr ""
+
+#: src/armor_layers.cpp
+#, c-format
+msgid "%s is too far to sort armor."
+msgstr ""
 
 #: src/armor_layers.cpp
 msgid "(Innermost)"
@@ -86135,14 +86536,6 @@ msgid "<Enter>-Edit"
 msgstr "<Enter>-編輯"
 
 #: src/auto_pickup.cpp
-msgid "<Exclude>E"
-msgstr "<排除>E"
-
-#: src/auto_pickup.cpp
-msgid "<Include>I"
-msgstr "<包含>I"
-
-#: src/auto_pickup.cpp
 msgid "<M>ove"
 msgstr "<M>移動"
 
@@ -86174,6 +86567,10 @@ msgstr "啟用自動撿取:"
 msgid "Autopickup is not enabled in the options. Enable it now?"
 msgstr "自動拾取功能沒有啟用。現在啟用？"
 
+#: src/auto_pickup.cpp
+msgid "Exclude"
+msgstr ""
+
 #: src/auto_pickup.cpp src/options.cpp
 msgid "False"
 msgstr "否"
@@ -86181,6 +86578,10 @@ msgstr "否"
 #: src/auto_pickup.cpp
 msgid "I/E"
 msgstr "I/E"
+
+#: src/auto_pickup.cpp
+msgid "Include"
+msgstr ""
 
 #: src/auto_pickup.cpp
 msgid "Pickup Rule:"
@@ -86262,7 +86663,7 @@ msgstr "黑夜產生器啟動！"
 
 #: src/bionics.cpp
 msgid "Blood Test Results"
-msgstr ""
+msgstr "血液測試結果"
 
 #: src/bionics.cpp
 msgid "Clostridium Tetani Infection"
@@ -86279,7 +86680,7 @@ msgstr "在哪邊產生EMP？"
 #: src/bionics.cpp
 #, c-format
 msgid "Deactivate your %s first!"
-msgstr "請先關閉你的 %s !"
+msgstr "請先關閉你的 %s ！"
 
 #: src/bionics.cpp
 #, c-format
@@ -86469,6 +86870,10 @@ msgid "Some of your existing bionics are lost!"
 msgstr "你有一些生化插件消失了！"
 
 #: src/bionics.cpp
+msgid "Something went terribly wrong, you mutate!"
+msgstr ""
+
+#: src/bionics.cpp
 msgid "Start a fire where?"
 msgstr "在哪邊生火？"
 
@@ -86499,7 +86904,7 @@ msgstr "自動對焦透鏡已經成了你眼睛的一部分。移除它們會令
 
 #: src/bionics.cpp
 msgid "The bionic refuses to activate!"
-msgstr "生化插件無法啟動!"
+msgstr "生化插件無法啟動！"
 
 #: src/bionics.cpp
 msgid "The installation fails without incident."
@@ -86587,10 +86992,6 @@ msgid "You deactivate your %s."
 msgstr "你關閉你的 %s。"
 
 #: src/bionics.cpp
-msgid "You do damage to your genetics, causing mutation!"
-msgstr "你傷害到你的基因，造成突變！"
-
-#: src/bionics.cpp
 #, c-format
 msgid "You don't have the power to activate your %s."
 msgstr "你沒有能量啟動你的 %s。"
@@ -86670,7 +87071,7 @@ msgstr "你發動了強力震波！"
 #: src/bionics.cpp
 #, c-format
 msgid "You withdraw your %s."
-msgstr ""
+msgstr "你收回你的 %s。"
 
 #: src/bionics.cpp
 #, c-format
@@ -87120,7 +87521,7 @@ msgstr "將 %1$s 寫入至 \"%2$s\": %3$s 失敗"
 
 #: src/cata_utility.cpp src/options.cpp
 msgid "kg"
-msgstr "kg"
+msgstr "公斤"
 
 #: src/cata_utility.cpp src/options.cpp
 msgid "km/h"
@@ -87128,7 +87529,7 @@ msgstr "km/h"
 
 #: src/cata_utility.cpp src/options.cpp
 msgid "lbs"
-msgstr "lbs"
+msgstr "磅"
 
 #: src/cata_utility.cpp
 msgid "m/s"
@@ -87618,11 +88019,11 @@ msgstr ""
 "\n"
 "採礦作業已經暫停; 控制權移交阿彌殼計畫\n"
 "   命令 2:07B\n"
-"斷崖深度目前測定為 30.09 公里\n"
-"發現斷崖的損傷; 礦工因違反\n"
+"斷層深度目前測定為 30.09 公里\n"
+"發現斷層的損傷; 礦工因違反\n"
 "  87.08條例移交至 LAB 89-C \n"
 "   並成為測試樣本\n"
-"斷崖沒有受到破壞\n"
+"斷層沒有受到破壞\n"
 "初始化震動測試..."
 
 #: src/computer.cpp
@@ -87840,11 +88241,6 @@ msgstr "需要通行密碼！"
 msgid "Access is temporary blocked for security purposes."
 msgstr "由於安全理由暫時無法存取。"
 
-#: src/computer.cpp src/iexamine.cpp src/iuse.cpp src/iuse_actor.cpp
-#: src/map.cpp
-msgid "An alarm sounds!"
-msgstr "警報聲大作！"
-
 #: src/computer.cpp
 msgid "Backup Generator Power Failing"
 msgstr "備用發電機失效了"
@@ -87941,12 +88337,12 @@ msgid ""
 msgstr ""
 "記錄 47：\n"
 "我們在日常的採礦工作挖掘出一個中空的空間。另外更不正常的是， \n"
-"還找到了一個有完美垂直的斷崖。\n"
-"這個斷崖上有數個詭異的凹洞，一些迷信的工人們非常緊張；\n"
+"還找到了一個有完美垂直的斷層。\n"
+"這個斷層上有數個詭異的凹洞，一些迷信的工人們非常緊張；\n"
 "並且這些凹洞像是人造的。\n"
 "\n"
 "記錄 48：\n"
-"這些凹洞大約 10 到 20 呎高，大大小小分布在整個斷崖上。 \n"
+"這些凹洞大約 10 到 20 呎高，大大小小分布在整個斷層上。 \n"
 "每個看起來都像人的形狀，但四肢及脖子的部份卻是拉長的，\n"
 "整個凹洞是扭曲的。\n"
 
@@ -87977,7 +88373,7 @@ msgstr ""
 "居然還沒有被廢除，完全沒有考量到礦業是這個國家的經濟命脈。\n"
 "\n"
 "記錄 52：\n"
-"目前還在等這些考古學家完事，我們已經對這斷崖做了一些小分析；\n"
+"目前還在等這些考古學家完事，我們已經對這斷層做了一些小分析；\n"
 "我們的聲納設備還不足以探查這些凹洞的深度。 \n"
 "這個設備只能測到15英里深，並且不適合測這種狹隘的孔洞， \n"
 "所以也很難以確定到底正確深度是多少。\n"
@@ -88418,6 +88814,11 @@ msgstr "你不受電擊影響。"
 #: src/computer.cpp
 msgid "Your body is damaged by the electric shock!"
 msgstr "你被電的遍體麟傷了！"
+
+#: src/computer.cpp src/iexamine.cpp src/iuse.cpp src/iuse_actor.cpp
+#: src/map.cpp
+msgid "an alarm sound!"
+msgstr ""
 
 #: src/construction.cpp
 msgid " Construction "
@@ -88864,7 +89265,7 @@ msgstr "你享受一頓蜂蜜盛宴。"
 
 #: src/consumption.cpp
 msgid "You feel as though you're going to split open!  In a good way?"
-msgstr "你感覺身體似乎要爆開! 卻不是件壞事??"
+msgstr "你感覺身體似乎要爆開！卻不是件壞事？"
 
 #: src/consumption.cpp
 msgid "You feel horrible for eating a person."
@@ -88988,6 +89389,11 @@ msgstr "批量製作時 %s 能夠幫上忙…"
 
 #: src/crafting.cpp
 #, c-format
+msgid "%s helps with crafting..."
+msgstr ""
+
+#: src/crafting.cpp
+#, c-format
 msgid "%s watches you craft..."
 msgstr "%s 看著你製作…"
 
@@ -89016,7 +89422,7 @@ msgstr "這個東西腐爛了，我才不要吃。"
 msgid "N/A"
 msgstr "不適用"
 
-#: src/crafting.cpp src/game.cpp src/iexamine.cpp src/item.cpp src/iuse.cpp
+#: src/crafting.cpp src/game.cpp src/iexamine.cpp src/iuse.cpp
 #: src/iuse_actor.cpp src/npctalk.cpp src/pickup.cpp src/player.cpp
 #: src/veh_interact.cpp
 msgid "Never mind."
@@ -91938,7 +92344,7 @@ msgstr "你正站在酸液灘上面"
 
 #: src/field.cpp
 msgid "You're surrounded by raging fire!"
-msgstr "你被猛烈的火包圍了！"
+msgstr "你被烈火包圍了！"
 
 #: src/field.cpp
 msgid "You're torched by flames!"
@@ -92534,7 +92940,7 @@ msgstr "'%s' 從撿取規則中移除。"
 
 #: src/game.cpp
 msgid "(Y)es, (N)o, (I)gnore further distractions and finish."
-msgstr ""
+msgstr " (Y) 是，(N) 否，(I) 忽略所有影響並完成。"
 
 #: src/game.cpp
 #, c-format
@@ -92625,7 +93031,7 @@ msgstr "憤怒: %d"
 
 #: src/game.cpp
 msgid "Are you sure you want to sleep?"
-msgstr "確定要睡覺?"
+msgstr "確定要睡覺？"
 
 #: src/game.cpp
 msgid "Ascend Stairs"
@@ -92728,7 +93134,7 @@ msgstr "選擇任務類型："
 
 #: src/game.cpp
 msgid "Choose new class"
-msgstr ""
+msgstr "選擇新的職業"
 
 #: src/game.cpp
 msgid "Choose vehicle to spawn"
@@ -93156,7 +93562,7 @@ msgstr "殺掉NPC"
 
 #: src/game.cpp
 msgid "Kill all monsters"
-msgstr ""
+msgstr "殺死全部怪物"
 
 #: src/game.cpp src/player.cpp
 msgid "Kills:"
@@ -93551,7 +93957,7 @@ msgstr "真的要自殺？"
 
 #: src/game.cpp
 msgid "Randomize with [c]lass"
-msgstr ""
+msgstr "隨機選擇職業 [c]"
 
 #: src/game.cpp
 #, c-format
@@ -93563,23 +93969,13 @@ msgid "Read:"
 msgstr "閱讀:"
 
 #: src/game.cpp
-#, c-format
-msgid "Really attack %s?"
-msgstr "確定攻擊 %s ？"
-
-#: src/game.cpp
 msgid "Really kill the zombie slave?"
 msgstr "確定殺掉屍奴？"
 
 #: src/game.cpp
 #, c-format
 msgid "Really step into %s?"
-msgstr ""
-
-#: src/game.cpp
-#, c-format
-msgid "Really step onto that %s?"
-msgstr "確定踏上 %s ？"
+msgstr "確定踏入 %s ？"
 
 #: src/game.cpp
 msgid "Reassign item:"
@@ -94016,6 +94412,11 @@ msgstr "%s 短暫的來回調查區域。"
 
 #: src/game.cpp
 #, c-format
+msgid "The %s is already empty!"
+msgstr ""
+
+#: src/game.cpp
+#, c-format
 msgid "The %s is already fully loaded!"
 msgstr "%s 已經裝填完畢！"
 
@@ -94023,6 +94424,16 @@ msgstr "%s 已經裝填完畢！"
 #, c-format
 msgid "The %s is firmly sealed."
 msgstr "%s 牢牢封住了。"
+
+#: src/game.cpp
+#, c-format
+msgid "The %s is not powered."
+msgstr "%s 沒有電。"
+
+#: src/game.cpp
+#, c-format
+msgid "The %s is out of ammo."
+msgstr "%s 沒彈藥了。"
 
 #: src/game.cpp
 #, c-format
@@ -94502,7 +94913,7 @@ msgstr "你清除了一些蛛網。"
 #: src/game.cpp
 #, c-format
 msgid "You bump into the %s!"
-msgstr ""
+msgstr "你撞到 %s ！"
 
 #: src/game.cpp
 #, c-format
@@ -94515,7 +94926,7 @@ msgstr "你看不懂電腦螢幕上寫什麼！"
 
 #: src/game.cpp
 msgid "You can not see a computer screen!"
-msgstr "你無法看到電腦螢幕!"
+msgstr "你無法看到電腦螢幕！"
 
 #: src/game.cpp
 msgid "You can see through everything!"
@@ -94629,11 +95040,6 @@ msgid "You can't grab things while you're in your shell."
 msgstr "你在殼中的時候不能抓取東西。"
 
 #: src/game.cpp
-#, c-format
-msgid "You can't move %s while standing on it!"
-msgstr "你不能移動 %s 因為你站在那上面！"
-
-#: src/game.cpp
 msgid "You can't move mass quantities while you're in your shell."
 msgstr "你無法在殼中時移動大量東西。"
 
@@ -94704,7 +95110,7 @@ msgstr "你無法關閉 %s。"
 
 #: src/game.cpp
 msgid "You cannot pull yourself away from the faultline..."
-msgstr "你無法脫離裂縫．．．"
+msgstr "你無法脫離斷層…"
 
 #: src/game.cpp
 msgid "You cannot see what is inside of it."
@@ -94765,8 +95171,8 @@ msgid "You dive underwater!"
 msgstr "你潛到水下了！"
 
 #: src/game.cpp
-msgid "You don't have a sharp item to butcher with."
-msgstr "你沒有鋒利的物品來進行屠宰。"
+msgid "You don't have a butchering tool."
+msgstr ""
 
 #: src/game.cpp
 msgid "You don't have any items to throw."
@@ -98451,16 +98857,16 @@ msgstr "未知按鍵 %ld"
 #: src/inventory_ui.cpp
 #, c-format
 msgid "%d of %d"
-msgstr ""
+msgstr "%d 之 %d"
 
 #: src/inventory_ui.cpp
 #, c-format
 msgid "%s %s"
-msgstr ""
+msgstr "%s %s"
 
 #: src/inventory_ui.cpp
 msgid "(NONE)"
-msgstr ""
+msgstr "(無)"
 
 #: src/inventory_ui.cpp
 msgid "Category selection; [TAB] switches mode, arrows select."
@@ -98481,15 +98887,15 @@ msgstr "熱鍵:  %d/%d "
 
 #: src/inventory_ui.cpp
 msgid "ITEMS TO COMPARE"
-msgstr ""
+msgstr "比較物品"
 
 #: src/inventory_ui.cpp
 msgid "ITEMS TO DROP"
-msgstr ""
+msgstr "丟棄物品"
 
 #: src/inventory_ui.cpp
 msgid "ITEMS WORN"
-msgstr ""
+msgstr "穿戴的衣物"
 
 #: src/inventory_ui.cpp
 msgid "Item selection; [TAB] switches mode, arrows select."
@@ -98514,7 +98920,7 @@ msgstr "體積: "
 
 #: src/inventory_ui.cpp
 msgid "WEAPON HELD"
-msgstr ""
+msgstr "手持武器"
 
 #: src/inventory_ui.cpp
 #, c-format
@@ -98612,12 +99018,6 @@ msgstr "%d 穿刺 (%d 爆擊)"
 #, c-format
 msgid "%d x %s"
 msgstr "%d x %s"
-
-#. ~ magazine with ammo (count)
-#: src/item.cpp
-#, c-format
-msgid "%s with %s (%d)"
-msgstr "%s 含 %s (%d)"
 
 #. ~ %1$s is the name of a fault and %2$s is the description of the fault
 #: src/item.cpp
@@ -98960,6 +99360,14 @@ msgstr ""
 "一般電池</info>充電。"
 
 #: src/item.cpp
+msgid "* This weapon <bad>conducts</bad> electricity."
+msgstr ""
+
+#: src/item.cpp
+msgid "* This weapon <good>does not conduct</good> electricity."
+msgstr ""
+
+#: src/item.cpp
 msgid "* This weapon needs <info>two free hands</info> to fire."
 msgstr "* 這件武器需要<info>雙手</info>並用才能射擊。"
 
@@ -98989,6 +99397,14 @@ msgid "*%s*"
 msgstr "*%s*"
 
 #: src/item.cpp
+msgid "++"
+msgstr "++"
+
+#: src/item.cpp
+msgid ".."
+msgstr ".."
+
+#: src/item.cpp
 msgid "<bold>Capacity:</bold> "
 msgstr "<bold>容量:</bold> "
 
@@ -99004,6 +99420,10 @@ msgstr "<bold>兼容彈匣:</bold> "
 #: src/item.cpp
 msgid "<bold>Damage</bold>: "
 msgstr "<bold>傷害</bold>: "
+
+#: src/item.cpp
+msgid "<bold>Effective range: </bold>"
+msgstr ""
 
 #: src/item.cpp
 msgid "<bold>Encumbrance</bold>: "
@@ -99027,7 +99447,7 @@ msgstr "<bold>營養</bold>: "
 
 #: src/item.cpp
 msgid "<bold>Rigid</bold>: "
-msgstr ""
+msgstr "<bold>剛硬性</bold>:"
 
 #: src/item.cpp
 msgid "<bold>Volume</bold>: "
@@ -99048,10 +99468,6 @@ msgstr "<dam_adj>已校準"
 #: src/item.cpp
 msgid "<dam_adj>bruised "
 msgstr "<dam_adj>刮傷的 "
-
-#: src/item.cpp
-msgid "<dam_adj>bugged "
-msgstr "<dam_adj>被竊聽"
 
 #: src/item.cpp
 msgid "<dam_adj>damaged "
@@ -99228,6 +99644,12 @@ msgid "Category: "
 msgstr "分類: "
 
 #: src/item.cpp
+#, c-format
+msgid "Contains <stat>%i</stat> casing"
+msgid_plural "Contains <stat>%i</stat> casings"
+msgstr[0] ""
+
+#: src/item.cpp
 msgid "Contains items with qualities:"
 msgstr "收納的物品具有以下特性:"
 
@@ -99260,7 +99682,7 @@ msgstr "傷害: "
 #: src/item.cpp
 #, c-format
 msgid "Disassembling this item takes %s and might yield: %s."
-msgstr ""
+msgstr "拆解這個物品需時 %s 並有機會獲得: %s。"
 
 #: src/item.cpp
 msgid "Dispersion modifier: "
@@ -99402,6 +99824,10 @@ msgid_plural "Maximum <num> charges."
 msgstr[0] "最高 <num> 的容量。"
 
 #: src/item.cpp
+msgid "Maximum range: "
+msgstr ""
+
+#: src/item.cpp
 msgid "Mod: "
 msgstr "模組: "
 
@@ -99424,11 +99850,6 @@ msgstr "我滴神哪，你正在搬運的屍體開始活過來了！"
 #: src/item.cpp
 msgid "Oh dear god, a robot you're carrying has started moving!"
 msgstr "我滴神哪，你正在搬運的機器人開始動了！"
-
-#: src/item.cpp
-#, c-format
-msgid "Out of %s!"
-msgstr "%s 沒有了！"
 
 #: src/item.cpp
 msgid "Pierce: "
@@ -99467,11 +99888,6 @@ msgid "Recoil: "
 msgstr "後座力: "
 
 #: src/item.cpp
-#, c-format
-msgid "Reload %s"
-msgstr "重新填裝 %s"
-
-#: src/item.cpp
 msgid "Reload time: "
 msgstr "裝填時間: "
 
@@ -99493,7 +99909,7 @@ msgstr "味道: "
 
 #: src/item.cpp
 msgid "Some sort of <info>martial arts training manual</info>."
-msgstr ""
+msgstr "某種<info>武術訓練手冊</info>。"
 
 #: src/item.cpp
 msgid "Stab: "
@@ -99792,11 +100208,6 @@ msgstr "你必須先清空 %s 才能安裝這個模組。"
 
 #: src/item.cpp
 #, c-format
-msgid "You need a compatible magazine to reload the %s!"
-msgstr "你需要相容的彈匣來重新填裝 %s ！"
-
-#: src/item.cpp
-#, c-format
 msgid "You need an UPS to run the %s!"
 msgstr "你需要一個UPS讓 %s 運作！"
 
@@ -99809,11 +100220,6 @@ msgid "You notice the cable has come loose!"
 msgstr "你發現電纜線鬆了！"
 
 #: src/item.cpp
-#, c-format
-msgid "You pull a %1$s from your %2$s and nock it."
-msgstr "你拿出一個 %1$s 從你的 %2$s 並架好。"
-
-#: src/item.cpp
 msgid "You reel in the cable."
 msgstr "你捲收電纜線。"
 
@@ -99821,11 +100227,6 @@ msgstr "你捲收電纜線。"
 #, c-format
 msgid "You take a puff of your %s."
 msgstr "你抽了一口你的 %s 。"
-
-#: src/item.cpp
-#, c-format
-msgid "You try to pull a %1$s from your %2$s, but fail!"
-msgstr "你試著拿出 %1$s 從你的 %2$s ，但失敗了！"
 
 #: src/item.cpp
 #, c-format
@@ -99870,6 +100271,10 @@ msgstr "你顫抖的手導致你的 %s 掉了。"
 #: src/item.cpp
 msgid "[Integrated]"
 msgstr "[已整合]"
+
+#: src/item.cpp
+msgid "\\."
+msgstr "\\."
 
 #: src/item.cpp
 msgid "age: "
@@ -99962,20 +100367,16 @@ msgid "yellow"
 msgstr "黃"
 
 #: src/item.cpp
-msgid "| Amount  "
-msgstr "| 數量"
+msgid "|."
+msgstr "|."
 
 #: src/item.cpp
-msgid "| Damage  | Pierce  "
-msgstr "| 傷害  | 穿刺"
+msgid "|\\"
+msgstr "|\\"
 
 #: src/item.cpp
-msgid "| Location "
-msgstr "| 地點"
-
-#: src/item.cpp
-msgid "| Moves   "
-msgstr "| 移動數"
+msgid "||"
+msgstr "||"
 
 #: src/item_action.cpp
 msgid "Execute which action?"
@@ -100040,7 +100441,7 @@ msgstr ""
 
 #: src/itype.h
 msgid "click."
-msgstr ""
+msgstr "喀哩。"
 
 #: src/iuse.cpp
 msgid "\"Blue\""
@@ -100130,18 +100531,6 @@ msgstr "...但沒有發生任何事."
 #: src/iuse.cpp
 msgid "...but the robot refuses to acknowledge you as an ally!"
 msgstr "...但這機器人拒絕將你辨識為盟友！"
-
-#: src/iuse.cpp
-msgid ""
-"1: Radio a faction for help...\n"
-"2: Call Acquaintance...\n"
-"3: General S.O.S.\n"
-"0: Cancel"
-msgstr ""
-"1: 廣播給一個派系請求支援...\n"
-"2: 呼叫認識的人...\n"
-"3: 一般求救信號.\n"
-"0: 取消"
 
 #: src/iuse.cpp
 msgid "<A>ccept"
@@ -100256,12 +100645,6 @@ msgstr "%s 接著進入被動模式。"
 #: src/iuse.cpp
 msgid "A nearby splatter of goo forms into a goo pit."
 msgstr "一個附近的黏液灘變成了黏液坑。"
-
-#: src/iuse.cpp
-#, c-format
-msgid "A reply!  %s says, \"I'm on my way; give me %d minute!\""
-msgid_plural "A reply!  %s says, \"I'm on my way; give me %d minutes!\""
-msgstr[0] "有人回答！%s ：\"我來了；再等我 %d 分鐘！\""
 
 #: src/iuse.cpp src/trapfunc.cpp
 msgid "A shadow forms nearby."
@@ -100521,23 +100904,6 @@ msgid "CBRN defense system:            ONLINE."
 msgstr "CBRN 防禦系統: 上線."
 
 #: src/iuse.cpp
-msgid "Call for help..."
-msgstr "呼叫救援..."
-
-#: src/iuse.cpp
-#, c-format
-msgctxt "memorial_female"
-msgid "Called for help from %s."
-msgstr "向 %s 求援。"
-
-#. ~ %s is faction name
-#: src/iuse.cpp
-#, c-format
-msgctxt "memorial_male"
-msgid "Called for help from %s."
-msgstr "向 %s 求援。"
-
-#: src/iuse.cpp
 msgid "Can't place it there."
 msgstr "不能把物品放到那。"
 
@@ -100657,10 +101023,6 @@ msgid "Detach power mods from what?"
 msgstr "從什麼卸除電力模組？"
 
 #: src/iuse.cpp
-msgid "Do what with quiver?"
-msgstr "對箭筒做什麼？"
-
-#: src/iuse.cpp
 msgid "Don't do anything rash."
 msgstr "別太衝動。"
 
@@ -100684,10 +101046,6 @@ msgstr "鑽哪邊？"
 #: src/iuse.cpp
 msgid "Electro-reactive armor system:  ONLINE."
 msgstr "電感裝甲系統: 上線."
-
-#: src/iuse.cpp
-msgid "Empty quiver"
-msgstr "清空箭筒"
 
 #: src/iuse.cpp
 msgid "Enhance what?"
@@ -100959,10 +101317,6 @@ msgid "No vehicle available."
 msgstr "沒有可用的車輛。"
 
 #: src/iuse.cpp
-msgid "No-one seems to reply..."
-msgstr "看來沒人理你..."
-
-#: src/iuse.cpp
 msgid "Not enough thread to modify. Which modification do you want to remove?"
 msgstr "沒有足夠縫線去修改衣物。你想移除哪個改造？"
 
@@ -101229,14 +101583,6 @@ msgid "Stop cooking"
 msgstr "停止烹飪"
 
 #: src/iuse.cpp
-msgid "Store more arrows"
-msgstr "儲存更多箭矢"
-
-#: src/iuse.cpp
-msgid "Store which arrows?"
-msgstr "儲存哪個箭矢？"
-
-#: src/iuse.cpp
 msgid "Strange... there's nothing in the picture?"
 msgstr "奇怪... 沒有東西在照片上？"
 
@@ -101292,11 +101638,6 @@ msgstr "拿出餐點"
 
 #: src/iuse.cpp
 #, c-format
-msgid "That %s is already full!"
-msgstr "%s 已經滿了！"
-
-#: src/iuse.cpp
-#, c-format
 msgid "That %s is full!"
 msgstr "那個%s已經滿了！"
 
@@ -101321,6 +101662,10 @@ msgstr "這個物品已被改造成使用鈽電池。"
 #: src/iuse.cpp
 msgid "That item has already had its battery modified to use a UPS!"
 msgstr "這個物品已被改造成使用UPS！"
+
+#: src/iuse.cpp
+msgid "That volume of water is too large to purify."
+msgstr ""
 
 #: src/iuse.cpp
 #, c-format
@@ -101703,6 +102048,10 @@ msgid "There's no room to unfold the %s."
 msgstr "沒有足夠的空間讓你展開 %s 。"
 
 #: src/iuse.cpp
+msgid "There's no rubble to clear."
+msgstr ""
+
+#: src/iuse.cpp
 msgid "There's no vehicle there."
 msgstr "那裡沒有車輛"
 
@@ -101725,18 +102074,6 @@ msgstr "那裡沒有什麼可讓你電擊！"
 #: src/iuse.cpp
 msgid "Thermal regulation system:      ONLINE."
 msgstr "散熱裝置系統: 上線."
-
-#: src/iuse.cpp
-msgid "They reply, \"Hah!  We hope you die!\""
-msgstr "他們回答：\"哈！你去死吧！\""
-
-#: src/iuse.cpp
-msgid "They reply, \"Help is on the way!\""
-msgstr "他們回答，\"我們馬上來救你！\""
-
-#: src/iuse.cpp
-msgid "They reply, \"Sorry, you're on your own!\""
-msgstr "他們回答：\"抱歉，自己靠自己吧。\""
 
 #: src/iuse.cpp
 #, c-format
@@ -101832,10 +102169,6 @@ msgid "This vehicle's security system has locked you out!"
 msgstr "車輛的保全系統把你鎖在外面！"
 
 #: src/iuse.cpp
-msgid "Those aren't the same arrows!"
-msgstr "這些不是相同的箭矢！"
-
-#: src/iuse.cpp
 msgid "Tick!"
 msgstr "滴答！"
 
@@ -101916,7 +102249,7 @@ msgstr "這邊不能鑽洞。(法文)"
 
 #: src/iuse.cpp
 msgid "Wash what?"
-msgstr ""
+msgstr "清洗什麼？"
 
 #: src/iuse.cpp
 msgid "Wasted time, these pictures do not provoke your senses."
@@ -102100,10 +102433,6 @@ msgid "You breathe deeply from the %s"
 msgstr "你從 %s 沈重的呼吸。"
 
 #: src/iuse.cpp
-msgid "You can only purify water."
-msgstr "你只能淨化水。"
-
-#: src/iuse.cpp
 msgid "You can only tailor your clothes!"
 msgstr "你只能對你的衣物進行裁縫！"
 
@@ -102209,8 +102538,13 @@ msgstr "你翻動這裡的土壤。"
 
 #: src/iuse.cpp
 #, c-format
-msgid "You clear up that %s."
-msgstr "你清理了 %s。"
+msgid "You clear up the %s at your feet."
+msgstr ""
+
+#: src/iuse.cpp
+#, c-format
+msgid "You clear up the %s to your %s."
+msgstr ""
 
 #: src/iuse.cpp
 msgid "You cut the log into planks."
@@ -102253,11 +102587,6 @@ msgstr "你沒有能點燃的東西！"
 #: src/iuse.cpp
 msgid "You don't have appropriate food to heat up."
 msgstr "你沒有適合的食物可加熱。"
-
-#: src/iuse.cpp
-msgid ""
-"You don't have enough charges in your purifier to purify all of the water."
-msgstr "你的淨水器沒有足夠的電來淨化所有的水。"
 
 #: src/iuse.cpp
 msgid "You don't have guns with long barrels."
@@ -102573,7 +102902,7 @@ msgstr "你的製作技能必須達到等級1才能使用這個維修工具。"
 
 #: src/iuse.cpp
 msgid "You need a large amount of fresh water to use this."
-msgstr ""
+msgstr "你需要大量淡水才能使用它。"
 
 #: src/iuse.cpp
 msgid "You need a mechanics skill of 2 to use this repair kit."
@@ -102581,7 +102910,7 @@ msgstr "你的機械技能必須達到等級2才能使用這個維修工具。"
 
 #: src/iuse.cpp
 msgid "You need a soap to use this."
-msgstr ""
+msgstr "你需要肥皂才能使用它。"
 
 #: src/iuse.cpp src/iuse_actor.cpp
 msgid "You need a source of fire!"
@@ -102599,6 +102928,11 @@ msgstr "你需要電池燒灼傷口。"
 #: src/iuse.cpp
 msgid "You need soap to use this."
 msgstr "你需要肥皂才能使用它。"
+
+#: src/iuse.cpp
+#, c-format
+msgid "You need to be next to fire to heat something up with the %s."
+msgstr ""
 
 #: src/iuse.cpp
 msgid "You need welding goggles to do that."
@@ -102708,12 +103042,6 @@ msgstr "你顫抖著期待......"
 #, c-format
 msgid "You reinforce your %s."
 msgstr "你強化你的 %s。"
-
-#: src/iuse.cpp src/veh_interact.cpp
-#, c-format
-msgid "You remove the %1$s from the %2$s."
-msgid_plural "You remove the %1$s from the %2$s."
-msgstr[0] "你將 %1$s  從 %2$s 上移除。"
 
 #: src/iuse.cpp
 #, c-format
@@ -102827,12 +103155,6 @@ msgstr "你開始重新編譯 %s 成盟友。"
 #: src/iuse.cpp
 msgid "You stop shaking."
 msgstr "你停止顫抖了。"
-
-#: src/iuse.cpp src/player.cpp
-#, c-format
-msgid "You store %1$d %2$s in your %3$s."
-msgid_plural "You store %1$d %2$s in your %3$s."
-msgstr[0] "你把 %1$d %2$s 儲存到你的 %3$s。"
 
 #: src/iuse.cpp
 #, c-format
@@ -103014,7 +103336,7 @@ msgstr "你洗去眼睛上的黏液。"
 
 #: src/iuse.cpp
 msgid "You washed your clothing."
-msgstr ""
+msgstr "你清洗了你的衣服。"
 
 #: src/iuse.cpp
 msgid "You waste a lot of the wood."
@@ -103439,7 +103761,7 @@ msgstr "<bold>治癒機率(％):</bold>"
 
 #: src/iuse_actor.cpp
 msgid "<bold>Countdown</bold>: "
-msgstr ""
+msgstr "<bold>倒數</bold>:"
 
 #: src/iuse_actor.cpp
 msgid "<bold>Infection</bold>:"
@@ -103547,6 +103869,11 @@ msgid "Make love, not zlave."
 msgstr "做愛，不做屍奴。"
 
 #: src/iuse_actor.cpp
+#, c-format
+msgid "No matching ammo for the %1$s"
+msgstr ""
+
+#: src/iuse_actor.cpp
 msgid "No suitable corpses"
 msgstr "無合適屍體"
 
@@ -103590,11 +103917,6 @@ msgstr "裝子彈"
 #, c-format
 msgid "Store ammo in %s"
 msgstr "把子彈裝進 %s"
-
-#: src/iuse_actor.cpp
-#, c-format
-msgid "That %1$s isn't ammo!"
-msgstr "%1$s 不是子彈！"
 
 #: src/iuse_actor.cpp
 msgid "That arm is broken.  It needs surgical attention or a splint."
@@ -103730,14 +104052,14 @@ msgstr "這東西能用來維修其他物品，而非本身。"
 
 #: src/iuse_actor.cpp
 msgid "This tool doesn't have enough charges."
-msgstr ""
+msgstr "這個工具沒有足夠的電量。"
 
 #: src/iuse_actor.cpp
 #, c-format
 msgid "Try disassembling the %s instead."
 msgstr "嘗試拆解 %s 來代替。"
 
-#: src/iuse_actor.cpp
+#: src/iuse_actor.cpp src/pickup.cpp
 #, c-format
 msgid "Unload %s"
 msgstr "清空 %s"
@@ -103748,8 +104070,8 @@ msgid "Use %s"
 msgstr "使用 %s"
 
 #: src/iuse_actor.cpp
-msgid "Use your pick lock where?"
-msgstr "把你的的開鎖器用在哪邊？"
+msgid "Use your lockpick where?"
+msgstr ""
 
 #: src/iuse_actor.cpp
 msgid "Well, it's more constructive than just chopping 'em into gooey meat..."
@@ -103797,7 +104119,7 @@ msgstr "你無法在水下這樣做。"
 
 #: src/iuse_actor.cpp
 msgid "You can't inscribe an item that isn't solid!"
-msgstr "你不能雕刻非固體的物品!"
+msgstr "你不能雕刻非固體的物品！"
 
 #: src/iuse_actor.cpp
 #, c-format
@@ -104014,21 +104336,6 @@ msgstr "你正穿著它呢，你確定要這樣做？"
 #, c-format
 msgid "You've already set the %s's timer you might want to get away from it."
 msgstr "你已經設定 %s 的定時裝置，你也許會想要跑遠一點。"
-
-#: src/iuse_actor.cpp
-#, c-format
-msgid "Your %1$s already contains a different type of ammo"
-msgstr "%1$s 已經裝了不同類型的子彈"
-
-#: src/iuse_actor.cpp
-#, c-format
-msgid "Your %1$s can't store that type of ammo"
-msgstr "%1$s 無法裝入這類型的子彈"
-
-#: src/iuse_actor.cpp
-#, c-format
-msgid "Your %1$s is already full"
-msgstr "%1$s 已經滿了"
 
 #: src/iuse_actor.cpp
 #, c-format
@@ -105271,6 +105578,10 @@ msgid "Really Quit? All unsaved changes will be lost."
 msgstr "確定離開？所有未儲存的進度將會消失。"
 
 #: src/main_menu.cpp
+msgid " CREDITS "
+msgstr ""
+
+#: src/main_menu.cpp
 msgctxt "Main Menu|World"
 msgid "<C|c>reate World"
 msgstr "<C|c>創造世界"
@@ -105363,6 +105674,10 @@ msgid "No Worlds found!"
 msgstr "沒有找到世界！"
 
 #: src/main_menu.cpp
+msgid "No credits information found."
+msgstr ""
+
+#: src/main_menu.cpp
 msgid "No message today."
 msgstr "今天沒有訊息。"
 
@@ -105381,7 +105696,7 @@ msgstr "只有管理員能夠更換世界。"
 #: src/main_menu.cpp
 msgctxt "Main Menu|New Game"
 msgid "Play <N|n>ow!"
-msgstr "<N|n>立刻玩!"
+msgstr "<N|n>立刻玩！"
 
 #: src/main_menu.cpp
 msgid "Please report bugs to kevin.granade@gmail.com or post on the forums."
@@ -108119,6 +108434,8 @@ msgid ""
 "food it wouldn't do us much good now but I imagine we'll need to send you "
 "out to get more in the future.  "
 msgstr ""
+"鹽是保存肉類和其他易腐壞食物的關鍵…雖然現在沒有多餘的食物所以用不上，但我想將"
+"來還會需要你出去獲得更多的鹽。"
 
 #: src/mission.cpp
 msgid "Scrapping vehicles might be your best bet."
@@ -111876,7 +112193,7 @@ msgstr "壞脾氣"
 
 #: src/morale.cpp
 msgid "Barfed"
-msgstr ""
+msgstr "嘔吐"
 
 #: src/morale.cpp
 msgid "Caffeine Craving"
@@ -111926,7 +112243,7 @@ msgstr "妖精突變"
 
 #: src/morale.cpp
 msgid "Filthy Gear"
-msgstr ""
+msgstr "骯髒的穿著"
 
 #: src/morale.cpp
 msgid "Focus gain per minute"
@@ -112047,7 +112364,7 @@ msgstr "被鼓勵"
 
 #: src/morale.cpp
 msgid "Total morale gain"
-msgstr ""
+msgstr "士氣增益值"
 
 #. ~ You really don't like wearing the Uncomfy Gear
 #: src/morale.cpp
@@ -112368,7 +112685,7 @@ msgctxt "set_profession_skill"
 msgid "%1$s (%2$d)"
 msgstr "%1$s (%2$d)"
 
-#: src/newcharacter.cpp
+#: src/newcharacter.cpp src/npctalk.cpp
 #, c-format
 msgid "%s"
 msgstr "%s"
@@ -112547,7 +112864,7 @@ msgstr "無"
 
 #: src/newcharacter.cpp
 msgid "None!"
-msgstr "無!"
+msgstr "無！"
 
 #: src/newcharacter.cpp
 msgid "Nothing found."
@@ -112958,7 +113275,7 @@ msgstr "%1$s 正說著 \"%2$s\""
 #: src/npc.cpp
 #, c-format
 msgid "%1$s says something but you can't hear it!"
-msgstr "%1$s 說了什麼，但是你聽不到!!"
+msgstr "%1$s 說了什麼，但是你聽不到！"
 
 #: src/npc.cpp
 #, c-format
@@ -112992,18 +113309,6 @@ msgstr "要殺你"
 #: src/npc.cpp
 msgid "Afraid"
 msgstr "害怕"
-
-#: src/npc.cpp
-msgid "Alright, I got you covered!"
-msgstr "放心，我掩護你!"
-
-#: src/npc.cpp
-msgid "Alright, I'll wait here."
-msgstr "好，我在這裡等。"
-
-#: src/npc.cpp
-msgid "Alright, see you later."
-msgstr "好吧，待會見。"
 
 #: src/npc.cpp
 msgid "Ambivalent"
@@ -113056,16 +113361,8 @@ msgid "Considers you an annoyance"
 msgstr "覺得你很煩"
 
 #: src/npc.cpp
-msgid "Defending you"
-msgstr "保護你"
-
-#: src/npc.cpp
 msgid "Doesn't care about you"
 msgstr "不在乎你"
-
-#: src/npc.cpp
-msgid "Enslaved"
-msgstr "奴役"
 
 #: src/npc.cpp
 msgid "Fear: "
@@ -113080,24 +113377,12 @@ msgid "Following"
 msgstr "跟隨"
 
 #: src/npc.cpp
-msgid "Following & ignoring monsters"
-msgstr "跟隨並忽略怪物"
-
-#: src/npc.cpp
 msgid "Healing you"
 msgstr "治療你"
 
 #: src/npc.cpp
-msgid "I've got your back!"
-msgstr "我會掩護你!"
-
-#: src/npc.cpp
 msgid "Ignoring"
 msgstr "忽略中"
-
-#: src/npc.cpp
-msgid "Kidnapped"
-msgstr "被綁架"
 
 #: src/npc.cpp
 #, c-format
@@ -113202,10 +113487,6 @@ msgid "Leading"
 msgstr "帶領"
 
 #: src/npc.cpp
-msgid "Missing NPC"
-msgstr "失蹤的NPC"
-
-#: src/npc.cpp
 msgid "Mugging you"
 msgstr "搶劫你"
 
@@ -113215,20 +113496,8 @@ msgid "NPC: %s"
 msgstr "NPC: %s"
 
 #: src/npc.cpp
-msgid "No way, I need you!"
-msgstr "別這樣! 我需要你在!"
-
-#: src/npc.cpp
-msgid "No way, man!"
-msgstr "不行啊大哥!"
-
-#: src/npc.cpp
 msgid "Pissed off"
 msgstr "被激怒"
-
-#: src/npc.cpp
-msgid "Screw you!"
-msgstr "去你的!"
 
 #: src/npc.cpp
 msgid "Terrified"
@@ -113301,10 +113570,6 @@ msgstr "等你離開"
 #: src/npc.cpp
 msgid "Wants to talk"
 msgstr "想要說話"
-
-#: src/npc.cpp
-msgid "Wants to trade"
-msgstr "想要交易"
 
 #: src/npc.cpp
 msgid "Wary"
@@ -113618,8 +113883,13 @@ msgstr "%s 只有在緊急情況下才會抱怨。"
 
 #: src/npctalk.cpp
 #, c-format
-msgid " %s will pick up items."
-msgstr " %s 會撿拾物品。"
+msgid " %s will pick up all items."
+msgstr ""
+
+#: src/npctalk.cpp
+#, c-format
+msgid " %s will pick up items from the whitelist."
+msgstr ""
 
 #: src/npctalk.cpp
 #, c-format
@@ -113732,26 +114002,6 @@ msgstr "%s 覺得你的威脅減少了。"
 
 #: src/npctalk.cpp
 #, c-format
-msgid "%s gave you a beer..."
-msgstr "%s 給了你一份啤酒…"
-
-#: src/npctalk.cpp
-#, c-format
-msgid "%s gave you a shot of brandy..."
-msgstr "%s 給了你一份白蘭地…"
-
-#: src/npctalk.cpp
-#, c-format
-msgid "%s gave you a shot of rum..."
-msgstr "%s 給了你一份蘭姆酒…"
-
-#: src/npctalk.cpp
-#, c-format
-msgid "%s gave you a shot of whiskey..."
-msgstr "%s 給了你一份威士忌…"
-
-#: src/npctalk.cpp
-#, c-format
 msgid "%s gives you a decent haircut..."
 msgstr "%s 替你剪了一頭體面的髮型..."
 
@@ -113759,6 +114009,11 @@ msgstr "%s 替你剪了一頭體面的髮型..."
 #, c-format
 msgid "%s gives you a decent shave..."
 msgstr "%s 替你刮了一臉體面的鬍子..."
+
+#: src/npctalk.cpp
+#, c-format
+msgid "%s hands you a %s"
+msgstr ""
 
 #: src/npctalk.cpp
 #, c-format
@@ -113809,6 +114064,11 @@ msgstr "%s 要逃跑了！"
 #, c-format
 msgid "%s: $%.2f"
 msgstr "%s: $%.2f"
+
+#: src/npctalk.cpp
+#, c-format
+msgid "%s: %d -> %d"
+msgstr ""
 
 #. ~Skill name: current level -> next level (cost in cent)
 #: src/npctalk.cpp
@@ -113884,16 +114144,12 @@ msgid "...or to store anything else for that matter."
 msgstr ""
 
 #: src/npctalk.cpp
-msgid "< Back"
-msgstr "< 返回"
-
-#: src/npctalk.cpp
 msgid "<no>, and if you ask again, <ill_kill_you>!"
 msgstr "<no>，要是你敢再問的話， <ill_kill_you> ！"
 
 #: src/npctalk.cpp
 msgid "<no><punc> <fuck_you>!"
-msgstr "<no><punc> <fuck_you>!"
+msgstr "<no><punc> <fuck_you>！"
 
 #: src/npctalk.cpp
 #, c-format
@@ -113923,7 +114179,7 @@ msgstr "<npc>他的"
 
 #: src/npctalk.cpp
 msgid "<punc>!"
-msgstr "<punc>!"
+msgstr "<punc>！"
 
 #: src/npctalk.cpp
 msgid "<punc>."
@@ -114046,7 +114302,7 @@ msgstr "攻擊我先開打的目標。"
 
 #: src/npctalk.cpp
 msgid "Attack only enemies you can reach without moving."
-msgstr "只攻擊你不用移動就能打到的敵人"
+msgstr "只攻擊你不用移動就能打到的敵人。"
 
 #: src/npctalk.cpp
 msgid "Awesome!"
@@ -114186,44 +114442,13 @@ msgid "Dead tired"
 msgstr "累得要死"
 
 #: src/npctalk.cpp
+#, c-format
+msgid "Delivering %s."
+msgstr ""
+
+#: src/npctalk.cpp
 msgid "Delivering bandages."
 msgstr "提供繃帶。"
-
-#: src/npctalk.cpp
-msgid "Delivering cooking oil."
-msgstr "交付烹飪油。"
-
-#: src/npctalk.cpp
-msgid "Delivering cornmeal."
-msgstr "交付玉米粉。"
-
-#: src/npctalk.cpp
-msgid "Delivering flour."
-msgstr "交付麵粉。"
-
-#: src/npctalk.cpp
-msgid "Delivering fruit wine."
-msgstr "交付水果酒。"
-
-#: src/npctalk.cpp
-msgid "Delivering homebrew beer."
-msgstr "交付私釀啤酒。"
-
-#: src/npctalk.cpp
-msgid "Delivering jerky."
-msgstr "交付肉乾。"
-
-#: src/npctalk.cpp
-msgid "Delivering smoked fish."
-msgstr "交付煙燻魚肉。"
-
-#: src/npctalk.cpp
-msgid "Delivering smoked meat."
-msgstr "交付煙燻肉。"
-
-#: src/npctalk.cpp
-msgid "Delivering sugar."
-msgstr "交付糖。"
 
 #: src/npctalk.cpp
 #, c-format
@@ -114299,6 +114524,10 @@ msgstr "痾，算了。"
 msgid "Examine which item?"
 msgstr "檢視哪個物品？"
 
+#: src/npctalk.cpp
+msgid "Exchange"
+msgstr ""
+
 #: src/npctalk.cpp src/player.cpp
 msgid "Exhausted"
 msgstr "筋疲力竭"
@@ -114316,6 +114545,10 @@ msgstr "很好..."
 #: src/npctalk.cpp
 msgid "Fine... *coughupyourscough*"
 msgstr "沒事... *咳去死咳*"
+
+#: src/npctalk.cpp
+msgid "Follow same rules as this follower."
+msgstr ""
 
 #: src/npctalk.cpp
 msgid "For the right price could I borrow your services?"
@@ -114679,7 +114912,7 @@ msgstr "我可能會回來。"
 #: src/npctalk.cpp
 #, c-format
 msgid "I need a %s to consume that!"
-msgstr "我需要 %s 來使用它!"
+msgstr "我需要 %s 來使用它！"
 
 #: src/npctalk.cpp
 msgid "I need help removing an implant..."
@@ -114872,12 +115105,10 @@ msgstr "我會嘗試找到你的指揮官，然後..."
 
 #: src/npctalk.cpp
 msgid ""
-"I'm actually accepting a number of different foodstuffs: homebrew beer, "
-"sugar, flour, smoked meat, smoked fish, cooking oil; and as mentioned "
-"before, jerky, cornmeal, and fruit wine."
+"I'm actually accepting a number of different foodstuffs: beer, sugar, flour, "
+"smoked meat, smoked fish, cooking oil; and as mentioned before, jerky, "
+"cornmeal, and fruit wine."
 msgstr ""
-"事實上，我能夠接受許多不同的食物：私釀啤酒、糖、麵粉、煙燻肉、煙燻魚、烹飪"
-"油；同上所述，肉乾，玉米粉以及水果酒。"
 
 #: src/npctalk.cpp
 msgid "I'm actually new..."
@@ -114898,10 +115129,6 @@ msgstr "我要暫時分開一會。"
 #: src/npctalk.cpp
 msgid "I'm guarding this location."
 msgstr "我正在防禦這個位置。"
-
-#: src/npctalk.cpp
-msgid "I'm here to save you!"
-msgstr "我是來這救你的！"
 
 #: src/npctalk.cpp
 msgid "I'm holing up here for safety."
@@ -115041,15 +115268,21 @@ msgstr ""
 "兵事務，以及支援軍事行動。"
 
 #: src/npctalk.cpp
+msgid "I'm too hungry, give me something to eat."
+msgstr ""
+
+#: src/npctalk.cpp
+msgid "I'm too thirsty, give me something to drink."
+msgstr ""
+
+#: src/npctalk.cpp
+msgid "I'm too tired, let me rest first."
+msgstr ""
+
+#: src/npctalk.cpp
 #, c-format
-msgid ""
-"I'm willing to pay $%.2f per batch. You have %d serving for a total of $"
-"%.2f. No questions asked, here is your cash."
-msgid_plural ""
-"I'm willing to pay $%.2f per batch. You have %d servings for a total of $"
-"%.2f. No questions asked, here is your cash."
-msgstr[0] ""
-"每批量我會支付 $%.2f。你提供了 %d 次，總值 $%.2f 。不要問問題，這是你的錢。"
+msgid "I'm willing to pay $%.2f per batch for a total of $%.2f"
+msgstr ""
 
 #: src/npctalk.cpp
 msgid ""
@@ -115148,10 +115381,6 @@ msgid "It's just as bad out here, if not worse."
 msgstr "沒有最糟，只有更糟。"
 
 #: src/npctalk.cpp
-msgid "It's not safe here.  Let's get to safety first."
-msgstr "這裡不安全。我們先到安全的地方再說。"
-
-#: src/npctalk.cpp
 msgid "It's too encumbering to wear."
 msgstr "這穿起來太累贅了。"
 
@@ -115210,10 +115439,6 @@ msgstr "我們走。"
 #: src/npctalk.cpp
 msgid "Let's keep moving."
 msgstr "我們繼續行動吧。"
-
-#: src/npctalk.cpp
-msgid "Let's see what you've got..."
-msgstr "我們來看看你有什麼..."
 
 #: src/npctalk.cpp
 msgid "Let's see what you've managed to find..."
@@ -115278,6 +115503,10 @@ msgid "Maybe another time..."
 msgstr "或許下次吧…"
 
 #: src/npctalk.cpp
+msgid "Maybe later."
+msgstr ""
+
+#: src/npctalk.cpp
 msgid "Maybe later..."
 msgstr "也許晚點吧..."
 
@@ -115296,10 +115525,6 @@ msgstr "一些行動規則..."
 #: src/npctalk.cpp
 msgid "Mission success!  I don't know what else to say."
 msgstr "任務完成！我真不知道該說什麼了。"
-
-#: src/npctalk.cpp
-msgid "More >"
-msgstr "更多 >"
 
 #: src/npctalk.cpp
 msgid "Morning ma'am, how can I help you?"
@@ -115382,13 +115607,6 @@ msgstr "不成問題。"
 #, c-format
 msgid "Not enough cash!  You have $%.2f, price is $%.2f."
 msgstr "現金不夠！你有 $%.2f，但價格是 $%.2f。"
-
-#: src/npctalk.cpp
-#, c-format
-msgid ""
-"Not enough cash! %s has $%.2f, but the price is $%.2f. Use (T) to force the "
-"trade."
-msgstr "現金不夠！%s 有 $%.2f，但價格是 $%.2f。使用 (T) 強制交易。"
 
 #: src/npctalk.cpp
 msgid "Not interested."
@@ -115516,6 +115734,11 @@ msgid "Per %d - %d"
 msgstr "感知 %d - %d"
 
 #: src/npctalk.cpp
+#, c-format
+msgid "Pickup rules for %s"
+msgstr ""
+
+#: src/npctalk.cpp
 msgid "Please leave me alone..."
 msgstr "請離我遠一點..."
 
@@ -115549,8 +115772,16 @@ msgid "Seems like a decent plan..."
 msgstr "似乎是個不俗的計畫..."
 
 #: src/npctalk.cpp
+msgid "Select a follower"
+msgstr ""
+
+#: src/npctalk.cpp
 msgid "Seriously, give me more stuff!"
 msgstr "我說真的，再給我東西！"
+
+#: src/npctalk.cpp
+msgid "Set up pickup rules."
+msgstr ""
 
 #: src/npctalk.cpp
 msgid "Shall we resume?"
@@ -115703,10 +115934,6 @@ msgstr "跟我說更多關於拾荒者的運作..."
 #: src/npctalk.cpp
 msgid "Tell me when you need something."
 msgstr "當你需要什麼東西的時候就告訴我。"
-
-#: src/npctalk.cpp
-msgid "Thank you for your business!"
-msgstr "謝謝惠顧！"
 
 #: src/npctalk.cpp
 msgid "Thank you!"
@@ -115963,14 +116190,6 @@ msgstr "因為，我正在幫你的忙..."
 #: src/npctalk.cpp
 msgid "Well, I guess it's just us."
 msgstr "嗯，我想只剩我們了。"
-
-#: src/npctalk.cpp
-msgid "Well, I was kidnapped, but you saved me..."
-msgstr "嗯，我被綁架了，但是你救了我..."
-
-#: src/npctalk.cpp
-msgid "Well, I was lost, but you found me..."
-msgstr "嗯，我迷路了，還好有遇到你..."
 
 #: src/npctalk.cpp
 msgid ""
@@ -116323,6 +116542,10 @@ msgid ""
 msgstr "[任務] 難民中心的商人派我來拿取牧場創建計劃書。"
 
 #: src/npctalk.cpp
+msgid "[N/A] Can you teach me anything?"
+msgstr ""
+
+#: src/npctalk.cpp
 msgid "[STR 11] I punch things in face real good!"
 msgstr "[力量 11] 揍這東西的臉真爽！"
 
@@ -116641,7 +116864,7 @@ msgstr "遊戲開始時已知的範圍。"
 
 #: src/options.cpp
 msgid "Disables removable gun magaziones."
-msgstr ""
+msgstr "取消可移除彈匣"
 
 #: src/options.cpp
 msgid "Disables tracking vitamins in food items."
@@ -116815,7 +117038,7 @@ msgstr "若設定為 是，則會在上下樓層時自動註記樓梯於地圖�
 msgid ""
 "If true, disables removeable gun magazines, guns will all act as if they "
 "have integral magazines."
-msgstr ""
+msgstr "設定為 是，將會取消可移除彈匣。槍械會當作內置彈匣一樣處理。"
 
 #: src/options.cpp
 msgid ""
@@ -117499,19 +117722,6 @@ msgstr "預設世界"
 msgid "options"
 msgstr "選項"
 
-#. ~ item health bars
-#: src/output.cpp
-msgid "++"
-msgstr "++"
-
-#: src/output.cpp
-msgid ".."
-msgstr ".."
-
-#: src/output.cpp
-msgid "??"
-msgstr "??"
-
 #: src/output.cpp
 msgid "Case Sensitive"
 msgstr "大小寫敏感"
@@ -117519,10 +117729,6 @@ msgstr "大小寫敏感"
 #: src/output.cpp
 msgid "Press any key for more..."
 msgstr "按下任意鍵看更多..."
-
-#: src/output.cpp
-msgid "\\."
-msgstr ""
 
 #: src/output.cpp
 msgid "bright"
@@ -117559,18 +117765,6 @@ msgstr "非常黑暗"
 #: src/output.cpp
 msgid "yn"
 msgstr "yn"
-
-#: src/output.cpp
-msgid "|."
-msgstr "|."
-
-#: src/output.cpp
-msgid "|\\"
-msgstr ""
-
-#: src/output.cpp
-msgid "||"
-msgstr "||"
 
 #: src/output.h
 msgid ", "
@@ -117812,10 +118006,6 @@ msgid "Fill a container with water"
 msgstr "把水裝滿容器"
 
 #: src/pickup.cpp
-msgid "Fold vehicle"
-msgstr "摺疊車輛"
-
-#: src/pickup.cpp
 msgid "Get items"
 msgstr "拿取物品"
 
@@ -117848,21 +118038,20 @@ msgstr "攜帶容器中的淨化水"
 msgid "Purify water in vehicle's tank"
 msgstr "在車輛水箱中的淨化水"
 
+#: src/pickup.cpp src/player.cpp
+#, c-format
+msgid "Reload %s"
+msgstr "重新填裝 %s"
+
 #: src/pickup.cpp
 #, c-format
 msgid "Spill %s, then pick up %s"
-msgstr ""
+msgstr "倒掉 %s，然後撿取 %s"
 
 #: src/pickup.cpp
 #, c-format
 msgid "The %s is too heavy!"
 msgstr "%s 太重了！"
-
-#: src/pickup.cpp
-#, c-format
-msgid "There's no room in your inventory for the %s."
-msgid_plural "There's no room in your inventory for the %s."
-msgstr[0] "你的物品欄沒有空間容納 %s。"
 
 #: src/pickup.cpp
 msgid "Use the hotplate"
@@ -118108,6 +118297,12 @@ msgstr "%s ...像閃電一般迴避掉了！"
 msgid "%s tries to dodge but there's no room!"
 msgstr "%s 試著迴避掉，但是沒有空間能躲了！"
 
+#. ~ magazine with ammo (count)
+#: src/player.cpp
+#, c-format
+msgid "%s with %s (%d)"
+msgstr "%s 含 %s (%d)"
+
 #: src/player.cpp
 #, c-format
 msgid "%s's"
@@ -118141,7 +118336,7 @@ msgstr ""
 #: src/player.cpp
 #, c-format
 msgid "<npcname> bounces off %s!"
-msgstr "<npcname> 反彈了 %s!"
+msgstr "<npcname> 反彈了 %s！"
 
 #: src/player.cpp
 #, c-format
@@ -118188,7 +118383,7 @@ msgstr "<npcname> 穿戴上他的 %s。"
 
 #: src/player.cpp
 msgid "<npcname> rolls on the ground!"
-msgstr ""
+msgstr "<npcname> 在地上滾動！"
 
 #: src/player.cpp
 #, c-format
@@ -118244,11 +118439,11 @@ msgstr "一位同行的倖存者高聲地讀給你聽..."
 
 #: src/player.cpp
 msgid "A monster appears nearby!"
-msgstr "有怪物在附近出現了!"
+msgstr "有怪物在附近出現了！"
 
 #: src/player.cpp
 msgid "A portal opens nearby, and a monster crawls through!"
-msgstr "一個傳送門在附近開啟了, 有怪物傳送過來了!"
+msgstr "一個傳送門在附近開啟了，有怪物傳送過來了！"
 
 #: src/player.cpp
 msgid "A snake sprouts from your body!"
@@ -118257,17 +118452,6 @@ msgstr "一條蛇從你的身體鑽出！"
 #: src/player.cpp
 msgid "AHHHHHHH!"
 msgstr "啊啊啊啊啊啊啊！"
-
-#: src/player.cpp
-msgid ""
-"Alertness comes somewhat fast, and your muscles stretch easier than before "
-"you went to bed."
-msgstr "你很快地醒來，而且肌肉伸展比睡前還要輕鬆。"
-
-#: src/player.cpp
-msgid ""
-"Alertness seems flighty today, and your body argues when you move towards it."
-msgstr "今天的警覺性反覆無常，當你前進時你的身體向你抗議著。"
 
 #: src/player.cpp
 msgid "Anywhere would be a good place to sleep..."
@@ -118283,17 +118467,6 @@ msgstr "手臂累贅度影響到你使用遠距武器的命中率，以及近戰
 #, c-format
 msgid "Attach your %1$s to your %2$s?"
 msgstr "%1$s 附加到你的 %2$s 上?"
-
-#: src/player.cpp
-msgid ""
-"Awareness comes fast, your body coming quickly to attention after your rest."
-msgstr "很快醒來，休息後你的身體意興高昂。"
-
-#: src/player.cpp
-msgid ""
-"Awareness seems to only come with a battle... and your body seem to be on "
-"its side."
-msgstr "似乎只有戰鬥的意識...你的身體好像在另一端"
 
 #. ~Sound of buzzing Insect Wings
 #: src/player.cpp
@@ -118334,11 +118507,6 @@ msgid "Bionics:"
 msgstr "生化插件:"
 
 #: src/player.cpp
-msgid ""
-"Bleary-eyed and half-asleep, you consider why you are doing this to yourself."
-msgstr "睡眼惺忪半夢半醒間，你思考著為何這樣對待自己。"
-
-#: src/player.cpp
 msgid "Break"
 msgstr "打斷"
 
@@ -118362,11 +118530,11 @@ msgstr "能夠提昇你的 %s 技能到 %d。"
 
 #: src/player.cpp
 msgid "Carry weight(kg):"
-msgstr "負重(kg):"
+msgstr "負重(公斤):"
 
 #: src/player.cpp
 msgid "Carry weight(lbs):"
-msgstr "負重(lbs):"
+msgstr "負重(磅):"
 
 #: src/player.cpp
 #, c-format
@@ -118664,27 +118832,6 @@ msgid "Game History"
 msgstr "遊戲歷史"
 
 #: src/player.cpp
-msgid ""
-"Getting out of bed doesn't seem too hard today. You could get used to this!"
-msgstr "今天很容易起床。你會習慣的!"
-
-#: src/player.cpp
-msgid ""
-"Getting out of bed only comes with great difficulty, and your muscles resist "
-"the movement."
-msgstr "你非常不想起床，而且你的身體不想動。"
-
-#: src/player.cpp
-msgid "Getting up comes easy to you, your muscles revitalized after your rest."
-msgstr "你很輕鬆地起床，休息後肌肉恢復活力。"
-
-#: src/player.cpp
-msgid ""
-"Getting up seems like it should be easy, but all you want to do is go back "
-"to bed."
-msgstr "起床看似很容易，但你只想繼續睡。"
-
-#: src/player.cpp
 msgid "Glowing lights surround you, and you teleport."
 msgstr "你被光束圍繞，然後被傳送走了。"
 
@@ -118766,7 +118913,7 @@ msgstr "這會很有趣, 但你的 %s 技能不會增進。還是要閱讀嗎？
 
 #: src/player.cpp
 msgid "It's a bad idea to read while driving!"
-msgstr "邊駕駛邊讀書不是個好主意!"
+msgstr "邊駕駛邊讀書不是個好主意！"
 
 #: src/player.cpp
 msgid "It's a good time to lie down and sleep."
@@ -118790,7 +118937,7 @@ msgstr "在 %s 上很難以入睡。"
 
 #: src/player.cpp
 msgid "It's impossible to sleep in this wheeled pot!"
-msgstr "你不能睡在輪胎鍋裡!"
+msgstr "你不能睡在輪胎鍋裡！"
 
 #: src/player.cpp
 msgid "It's some kind of electric snake, coming right at you!"
@@ -118907,6 +119054,11 @@ msgstr "給我們一些高爾夫球鞋，不然我們都別想活著離開這個
 #: src/player.cpp
 msgid "Ouch, something hurts!"
 msgstr "唉呦！好痛！"
+
+#: src/player.cpp
+#, c-format
+msgid "Out of %s!"
+msgstr "%s 沒有了！"
 
 #: src/player.cpp
 #, c-format
@@ -119141,11 +119293,11 @@ msgstr "速度"
 
 #: src/player.cpp
 msgid "Spill contents and store in inventory"
-msgstr ""
+msgstr "倒掉內容物並把容器收到物品欄"
 
 #: src/player.cpp
 msgid "Spill contents and wear item"
-msgstr ""
+msgstr "倒掉內容物並穿起物品"
 
 #: src/player.cpp
 msgctxt "memorial_female"
@@ -119357,7 +119509,7 @@ msgstr ""
 
 #: src/player.cpp
 msgid "The sunlight is really irritating your eyes."
-msgstr "陽光非常刺眼!"
+msgstr "陽光非常刺眼！"
 
 #: src/player.cpp
 msgid "The sunlight is really irritating your skin."
@@ -119445,12 +119597,6 @@ msgstr "投擲懲罰:"
 #: src/player.cpp
 msgid "Time seems to slow down and you instinctively dodge!"
 msgstr "時間好像慢了下來一樣而你本能地躲開了！"
-
-#: src/player.cpp
-msgid ""
-"Tired hands rub at your eyes, the little aches of yesterday protesting your "
-"stretches."
-msgstr "疲憊的雙手揉著眼，伸展時能感受到昨天的疼痛。"
 
 #: src/player.cpp
 msgid "Toggle skill training"
@@ -119570,12 +119716,6 @@ msgid "Wield what?"
 msgstr "手持什麼？"
 
 #: src/player.cpp
-msgid ""
-"Within moments you're ready and up. You don't feel like anything could stop "
-"you today!"
-msgstr "當你準備醒來的時候，你感受不到今天是有什麼東西是可以阻止你的！"
-
-#: src/player.cpp
 #, c-format
 msgctxt "memorial_female"
 msgid "Worn %s was completely destroyed."
@@ -119610,7 +119750,7 @@ msgstr "你把 %s 裝填到你的反應爐中。"
 
 #: src/player.cpp
 msgid "You are STARVING!"
-msgstr "你餓得要死了!"
+msgstr "你餓得要死了！"
 
 #: src/player.cpp
 msgid "You are THIRSTY!"
@@ -119748,7 +119888,7 @@ msgstr "你不能把動力裝甲穿在其他裝備之上！"
 
 #: src/player.cpp
 msgid "You can't wear that, it's filthy!"
-msgstr "你無法穿戴它，它很髒!"
+msgstr "你無法穿戴它，它很髒！"
 
 #: src/player.cpp
 msgid "You can't wear that, it's made of wool!"
@@ -119814,39 +119954,12 @@ msgid "You feel anomalous sensation coming from your radiation sensors."
 msgstr "你身上的輻射感測器傳來一陣反常的感覺。"
 
 #: src/player.cpp
-msgid "You feel awful, and every ache from yesterday is still there."
-msgstr "你覺得很糟糕，而且昨天的所有疼痛都依然存在。"
-
-#: src/player.cpp
-msgid "You feel cruddy. Maybe you should consider eating a bit healthier."
-msgstr "你感到難受。或許你應該吃得健康點。"
-
-#: src/player.cpp
 msgid "You feel dizzy for a moment."
 msgstr "你有一點頭暈。"
 
 #: src/player.cpp
-msgid "You feel extra alert, and your body feels ready to go."
-msgstr "你感覺非常的精神充沛，全身蓄勢待發。"
-
-#: src/player.cpp
 msgid "You feel fatigued all of a sudden."
 msgstr "你突然感到疲倦。"
-
-#: src/player.cpp
-msgid "You feel good. Healthy living does seem to have some rewards."
-msgstr "你感覺很不錯，健康的生活似乎會有一些回饋。"
-
-#: src/player.cpp
-msgid ""
-"You feel great! It doesn't seem like wounds could even slow you down for "
-"more than a day."
-msgstr "你覺得好極了! 就像傷口無法減慢你的速度。"
-
-#: src/player.cpp
-msgid ""
-"You feel like a rubber ball; whatever hits you, you'll just bounce back!"
-msgstr "你覺得自己像顆皮球，不論甚麼打了你，只會反彈回去。"
 
 #: src/player.cpp
 msgid "You feel like you haven't slept in days."
@@ -119926,23 +120039,8 @@ msgid "You feel your %s getting warm."
 msgstr "你覺得你的 %s 變得溫熱。"
 
 #: src/player.cpp
-msgid ""
-"You get up feeling horrible, as if something was messing with your body."
-msgstr "你起床的感覺糟透了，像似有甚麼東西攪亂了你的身體。"
-
-#: src/player.cpp
-msgid ""
-"You get up feeling pretty good, as if all your little aches were fading "
-"faster."
-msgstr "起床後你感覺非常棒，似乎你所有的小痠痛都快速地消失了。"
-
-#: src/player.cpp
-msgid "You get up with a bit of a scratch in your throat."
-msgstr "你喉嚨有些搔癢地起床了。"
-
-#: src/player.cpp
 msgid "You have a sudden heart attack!"
-msgstr "你心臟病突然發作了!"
+msgstr "你突然心臟病發！"
 
 #: src/player.cpp
 msgid "You have a sudden nostalgic feeling."
@@ -119991,7 +120089,7 @@ msgstr "你在 %s 上著陸了。"
 #: src/player.cpp
 #, c-format
 msgid "You learn a little about %s! (%d%%)"
-msgstr "你學到了有關 %s 的知識! (%d%%)"
+msgstr "你學到了有關 %s 的知識！ (%d%%)"
 
 #: src/player.cpp
 msgid "You learned a new style."
@@ -120000,6 +120098,11 @@ msgstr "你學到了新招式。"
 #: src/player.cpp
 msgid "You lose some blood."
 msgstr "你失血了。"
+
+#: src/player.cpp
+#, c-format
+msgid "You need a compatible magazine to reload the %s!"
+msgstr "你需要相容的彈匣來重新填裝 %s ！"
 
 #: src/player.cpp
 msgid "You nestle your pile of clothes for warmth."
@@ -120049,7 +120152,7 @@ msgstr "你乾嘔，但你的胃是空的。"
 
 #: src/player.cpp
 msgid "You roll on the ground, trying to smother the fire!"
-msgstr ""
+msgstr "你在地上滾動，試圖抑制火勢！"
 
 #: src/player.cpp
 msgid "You shake with the excess stimulation."
@@ -120102,15 +120205,6 @@ msgstr "你開始搔你的 %s！"
 #: src/player.cpp
 msgid "You start to shake uncontrollably."
 msgstr "你開始不由自主的顫抖。"
-
-#: src/player.cpp
-msgid "You stretch, but your muscles don't seem to be doing so good today."
-msgstr "你伸展身體，但是今天你的肌肉似乎狀況不佳。"
-
-#: src/player.cpp
-msgid ""
-"You struggle to awareness. Being awake seems somewhat harder to reach today."
-msgstr "你掙扎著醒來，今天似乎很難保持清醒。"
 
 #: src/player.cpp
 msgid "You succumb to the infection."
@@ -120311,28 +120405,6 @@ msgid "You're too tired to stop yawning."
 msgstr "你累得一直打哈欠。"
 
 #: src/player.cpp
-msgid ""
-"You're up and going rather quickly, and all the little aches from yesterday "
-"are gone."
-msgstr "你很快地起床，而且昨天所有的小痠痛都消失了。"
-
-#: src/player.cpp
-msgid ""
-"You're up and you feel fantastic. No sickness is going to keep you down "
-"today!"
-msgstr "你起床，你覺得太棒了! 今天沒有病痛拖累你!"
-
-#: src/player.cpp
-msgid ""
-"You're up and your little pains from before seem to have faded away rather "
-"quickly."
-msgstr "你起來而且之前的小傷痛很快地消失了。"
-
-#: src/player.cpp
-msgid "You're up, but your body seems like it would rather stay in bed."
-msgstr "你醒了，但是自己的身體寧願繼續賴在床上。"
-
-#: src/player.cpp
 msgid "You're weak from hunger."
 msgstr "你因飢餓而變得虛弱。"
 
@@ -120373,7 +120445,7 @@ msgstr "你的 %s 發疼。"
 #: src/player.cpp
 #, c-format
 msgid "Your %s are very encumbered! %s"
-msgstr "你的 %s 受到嚴重累贅! %s"
+msgstr "你的 %s 受到嚴重累贅！ %s"
 
 #: src/player.cpp
 #, c-format
@@ -120410,7 +120482,7 @@ msgstr "你的 %s 不是一個好的閱讀材料。"
 #: src/player.cpp
 #, c-format
 msgid "Your %s is very encumbered! %s"
-msgstr "你的 %s 受到嚴重累贅! %s"
+msgstr "你的 %s 受到嚴重累贅！ %s"
 
 #: src/player.cpp
 #, c-format
@@ -120518,10 +120590,6 @@ msgid "Your body strains under the weight!"
 msgstr "你的身體被超重拖累！"
 
 #: src/player.cpp
-msgid "Your body stretches with ease, and you feel ready to take on the world."
-msgstr "你的身體伸展自如，你準備好迎接這個世界。"
-
-#: src/player.cpp
 msgid "Your bones feel like rubber as they melt and remend."
 msgstr "你的骨頭像橡膠似的融化。"
 
@@ -120562,18 +120630,6 @@ msgstr "你的衣物無法在風中為你的 %s 提供足夠的保護。"
 #: src/player.cpp
 msgid "Your clothing restricts your insect arms."
 msgstr "你的服裝限制了你蟲肢的行動。"
-
-#: src/player.cpp
-msgid ""
-"Your eyes open and your entire body feels like it is just bursting with "
-"energy to burn!"
-msgstr "你睜開眼睛而起整個身體充滿了能量!"
-
-#: src/player.cpp
-msgid ""
-"Your eyes struggle to open, and your muscles ache like you didn't sleep at "
-"all."
-msgstr "你的眼睛勉強張開，你的身體好像沒睡過一樣痠痛。"
 
 #: src/player.cpp
 msgid "Your eyes won't focus without reading glasses."
@@ -120807,12 +120863,6 @@ msgid "Your stomach feels so empty..."
 msgstr "你的胃好空..."
 
 #: src/player.cpp
-msgid ""
-"Your stomach gurgles. It's probably nothing, but maybe you should look into "
-"eating something healthy."
-msgstr "你的肚子咯咯作響。這也許不算什麼，但或者你該考慮吃些健康的食物。"
-
-#: src/player.cpp
 msgid "Your thick scales get in the way."
 msgstr "你被自己的厚鳞片妨礙到。"
 
@@ -120929,6 +120979,22 @@ msgstr ""
 #: src/player.cpp
 msgid "yourself shout loudly!"
 msgstr ""
+
+#: src/player.cpp
+msgid "| Amount  "
+msgstr "| 數量"
+
+#: src/player.cpp
+msgid "| Damage  | Pierce  "
+msgstr "| 傷害  | 穿刺"
+
+#: src/player.cpp
+msgid "| Location "
+msgstr "| 地點"
+
+#: src/player.cpp
+msgid "| Moves   "
+msgstr "| 移動數"
 
 #: src/player_activity.cpp
 #, c-format
@@ -121130,6 +121196,11 @@ msgstr "%c 切換目標模式"
 
 #: src/ranged.cpp
 #, c-format
+msgid "%c to switch firing modes."
+msgstr ""
+
+#: src/ranged.cpp
+#, c-format
 msgid "%c to take careful aim and fire."
 msgstr "%c 採取謹慎瞄準射擊。"
 
@@ -121180,6 +121251,16 @@ msgid "<npcname>'s %s misfires with a wet click!"
 msgstr "<npcname> 的 %s 只發出濕響無法擊發！"
 
 #: src/ranged.cpp
+#, c-format
+msgid "Ammo: %s"
+msgstr ""
+
+#: src/ranged.cpp
+#, c-format
+msgid "Ammo: %s (%d/%d)"
+msgstr ""
+
+#: src/ranged.cpp
 msgid "Brrrap!"
 msgstr "啪啦！"
 
@@ -121209,13 +121290,18 @@ msgstr "自信"
 
 #: src/ranged.cpp
 #, c-format
-msgid "Firing %s"
-msgstr "發射 %s"
+msgid "Firing %s %s"
+msgstr ""
 
 #: src/ranged.cpp
 #, c-format
-msgid "Firing mode: %s"
-msgstr "射擊模式: %s"
+msgid "Firing mode: %s %s (%d)"
+msgstr ""
+
+#: src/ranged.cpp
+#, c-format
+msgid "Firing mode: %s (%d)"
+msgstr ""
 
 #: src/ranged.cpp
 msgid "Fwoosh!"
@@ -121272,22 +121358,17 @@ msgid "Range: %d/%d, %s"
 msgstr "範圍: %d/%d, %s"
 
 #: src/ranged.cpp
+#, c-format
+msgid "Really attack %s?"
+msgstr "確定攻擊 %s ？"
+
+#: src/ranged.cpp
 msgid "Recoil"
 msgstr "後座力"
 
 #: src/ranged.cpp
-msgid "Select a vehicle"
-msgstr "選擇車輛"
-
-#: src/ranged.cpp
-#, c-format
-msgid "Setting target for %s"
-msgstr "設定 %s 的目標"
-
-#: src/ranged.cpp
-#, c-format
-msgid "Shooting %1$s from %2$s"
-msgstr "射擊 %1$s 自 %2$s"
+msgid "Set target"
+msgstr ""
 
 #: src/ranged.cpp
 msgid "Steadiness"
@@ -121311,11 +121392,6 @@ msgstr "%s 粉碎了！"
 #, c-format
 msgid "The attack bounced to %s!"
 msgstr "攻擊反彈到了 %s！"
-
-#: src/ranged.cpp
-#, c-format
-msgid "There is a %s"
-msgstr "這裡有 %s"
 
 #: src/ranged.cpp
 #, c-format
@@ -121456,11 +121532,11 @@ msgstr "從 %s 你聽見 %s"
 #: src/sounds.cpp
 #, c-format
 msgid "Heard %s!"
-msgstr "聽到 %s!"
+msgstr "聽到 %s！"
 
 #: src/sounds.cpp
 msgid "Heard a noise!"
-msgstr "聽到一個聲響!"
+msgstr "聽到一個聲響！"
 
 #: src/sounds.cpp
 msgid "Something is making noise."
@@ -121637,7 +121713,7 @@ msgstr "電子光束從地板中射出並切割 <npcname> 的血肉！"
 
 #: src/trapfunc.cpp
 msgid "Electrical beams emit from the floor and slice your flesh!"
-msgstr "電子光束從地板中射出並切割你的血肉!"
+msgstr "電子光束從地板中射出並切割你的血肉！"
 
 #: src/trapfunc.cpp
 msgctxt "memorial_female"
@@ -122088,7 +122164,7 @@ msgstr "你暴露在輻射之中！"
 #: src/trapfunc.cpp
 #, c-format
 msgid "Your %s is hit!"
-msgstr "你的 %s 被擊中!"
+msgstr "你的 %s 被擊中！"
 
 #. ~ a quiet humming sound
 #: src/trapfunc.cpp
@@ -122125,10 +122201,6 @@ msgstr "<veh_player> %s"
 msgid "Can't aim turrets: all turrets are offline"
 msgstr "無法目標瞄準： 所有槍塔離線中"
 
-#: src/turret.cpp src/vehicle.cpp
-msgid "Set turret firing modes"
-msgstr "設定槍塔射擊模式"
-
 #: src/turret.cpp
 msgid "Set turret targeting"
 msgstr "設定槍塔目標"
@@ -122137,16 +122209,6 @@ msgstr "設定槍塔目標"
 #, c-format
 msgid "The %1$s fires its %2$s!"
 msgstr "%1$s 發射了 %2$s！"
-
-#: src/turret.cpp
-#, c-format
-msgid "The %s is not powered."
-msgstr ""
-
-#: src/turret.cpp
-#, c-format
-msgid "The %s is out of ammo."
-msgstr ""
 
 #: src/turret.cpp
 msgid "auto"
@@ -122172,6 +122234,16 @@ msgstr ""
 
 #: src/veh_interact.cpp
 #, c-format
+msgid "%s (%i/%i)"
+msgstr ""
+
+#: src/veh_interact.cpp
+#, c-format
+msgid "%s with %s (%i/%i)"
+msgstr ""
+
+#: src/veh_interact.cpp
+#, c-format
 msgid "* <color_red>Faulty %1$s</color>"
 msgstr "* <color_red>故障 %1$s</color>"
 
@@ -122184,12 +122256,48 @@ msgid "<c>hange tire"
 msgstr "<c>更換輪胎"
 
 #: src/veh_interact.cpp
-msgid "<color_white>Additional requirements:</color>\n"
+msgid "<color_blue>swims</color>"
 msgstr ""
 
 #: src/veh_interact.cpp
-msgid "<color_white>Skills required:</color>\n"
+msgid "<color_ltgreen>enough</color>"
 msgstr ""
+
+#: src/veh_interact.cpp
+msgid "<color_ltred>broken steering</color>"
+msgstr ""
+
+#: src/veh_interact.cpp
+msgid "<color_ltred>disabled</color>"
+msgstr ""
+
+#: src/veh_interact.cpp
+msgid "<color_ltred>lack</color>"
+msgstr ""
+
+#: src/veh_interact.cpp
+msgid "<color_ltred>leaks</color>"
+msgstr ""
+
+#: src/veh_interact.cpp
+msgid "<color_ltred>no steering</color>"
+msgstr ""
+
+#: src/veh_interact.cpp
+msgid "<color_ltred>poor steering</color>"
+msgstr ""
+
+#: src/veh_interact.cpp
+msgid "<color_ltred>unbalanced</color>"
+msgstr ""
+
+#: src/veh_interact.cpp
+msgid "<color_white>Additional requirements:</color>\n"
+msgstr "<color_white>額外要求:</color>\n"
+
+#: src/veh_interact.cpp
+msgid "<color_white>Skills required:</color>\n"
+msgstr "<color_white>所需技能::</color>\n"
 
 #: src/veh_interact.cpp
 msgid "<i>nstall"
@@ -122210,17 +122318,17 @@ msgstr "<s>抽出汽油"
 #: src/veh_interact.cpp
 #, c-format
 msgid "> <color_%1$s>%2$s %3$i</color> for extra engines."
-msgstr ""
+msgstr "> <color_%1$s>%2$s %3$i</color> 以安裝更多引擎。"
 
 #: src/veh_interact.cpp
 #, c-format
 msgid "> <color_%1$s>%2$s %3$i</color> for extra steering axles."
-msgstr ""
+msgstr "> <color_%1$s>%2$s %3$i</color> 以安裝更多轉向軸。"
 
 #: src/veh_interact.cpp
 #, c-format
 msgid "> <color_%1$s>%2$s</color>"
-msgstr ""
+msgstr "> <color_%1$s>%2$s</color>"
 
 #: src/veh_interact.cpp
 #, c-format
@@ -122258,16 +122366,9 @@ msgid "Better not remove something while driving."
 msgstr "最好不要在開車時移除東西。"
 
 #: src/veh_interact.cpp
-msgid "Boat: <color_blue>can swim</color>"
-msgstr "船：<color_blue>可下水</color>"
-
-#: src/veh_interact.cpp
-msgid "Boat: <color_ltred>can't swim</color>"
-msgstr "船：<color_ltred>無法下水</color>"
-
-#: src/veh_interact.cpp
-msgid "Boat: <color_ltred>unbalanced</color>"
-msgstr "船：<color_ltred>不平衡</color>"
+#, c-format
+msgid "Boat: %s"
+msgstr ""
 
 #: src/veh_interact.cpp
 msgctxt "Vehicle Parts|"
@@ -122446,6 +122547,11 @@ msgid "O"
 msgstr "O"
 
 #: src/veh_interact.cpp
+#, c-format
+msgid "Offroad:        <color_ltblue>%3d</color>%%"
+msgstr ""
+
+#: src/veh_interact.cpp
 msgid "Only one muscle powered engine can be installed."
 msgstr "只能安裝一個人力引擎。"
 
@@ -122552,28 +122658,14 @@ msgid "Wheel Size"
 msgstr "輪胎尺寸"
 
 #: src/veh_interact.cpp
-msgid "Wheels: <color_ltgreen>enough</color>"
-msgstr "輪胎：<color_ltgreen>足夠</color>"
+#, c-format
+msgid "Wheels/boat: %s/%s"
+msgstr ""
 
 #: src/veh_interact.cpp
-msgid "Wheels: <color_ltred>broken steering</color>"
-msgstr "輪胎：<color_ltred>轉向軸損壞</color>"
-
-#: src/veh_interact.cpp
-msgid "Wheels: <color_ltred>lack</color>"
-msgstr "輪胎：<color_ltred>不足</color>"
-
-#: src/veh_interact.cpp
-msgid "Wheels: <color_ltred>no steering</color>"
-msgstr "輪胎：<color_ltred>沒有轉向軸</color>"
-
-#: src/veh_interact.cpp
-msgid "Wheels: <color_ltred>poor steering</color>"
-msgstr "輪胎：<color_ltred>轉向軸不良</color>"
-
-#: src/veh_interact.cpp
-msgid "Wheels: <color_ltred>unbalanced</color>"
-msgstr "輪胎：<color_ltred>不平衡</color>"
+#, c-format
+msgid "Wheels: %s"
+msgstr ""
 
 #: src/veh_interact.cpp
 msgid "Who is driving while you work?"
@@ -122625,7 +122717,7 @@ msgstr ""
 #: src/veh_interact.cpp
 #, c-format
 msgid "You don't meet the requirements to remove the %s."
-msgstr ""
+msgstr "你沒有對應的工具來移除 %s。"
 
 #: src/veh_interact.cpp
 #, c-format
@@ -122649,6 +122741,11 @@ msgstr "你需要 <color_red>軟管</color> 才能抽取油箱裡的燃料。"
 #, c-format
 msgid "You need level <color_%1$s>%2$d</color> skill in mechanics."
 msgstr "你需要 <color_%1$s>%2$d</color> 等級的 機械 技能。"
+
+#: src/veh_interact.cpp
+#, c-format
+msgid "You remove the %1$s from the %2$s."
+msgstr ""
 
 #: src/veh_interact.cpp
 #, c-format
@@ -122688,6 +122785,11 @@ msgstr "可加固"
 #: src/veh_interact.cpp
 msgid "error"
 msgstr "錯誤"
+
+#: src/veh_interact.cpp
+#, c-format
+msgid "faulty %s"
+msgstr ""
 
 #: src/veh_interact.cpp
 msgid "l<a>bel"
@@ -122743,16 +122845,12 @@ msgstr "%2.1fL"
 #: src/vehicle.cpp
 #, c-format
 msgid "%d\" "
-msgstr ""
+msgstr "%d\""
 
 #: src/vehicle.cpp
 #, c-format
 msgid "A folded %s."
 msgstr "一個折疊的 %s."
-
-#: src/vehicle.cpp
-msgid "Aim turrets manually"
-msgstr "手動瞄準槍塔"
 
 #: src/vehicle.cpp
 #, c-format
@@ -122764,7 +122862,7 @@ msgstr "車輛下方的金屬條就要夾到你了。你最好不要在搭乘的
 #. ~ backfire sound
 #: src/vehicle.cpp
 msgid "BANG!"
-msgstr "砰!"
+msgstr "砰！"
 
 #. ~ Moderate horn sound
 #: src/vehicle.cpp
@@ -122816,14 +122914,6 @@ msgid "Close"
 msgstr "關閉"
 
 #: src/vehicle.cpp
-msgid "Control individual engines"
-msgstr "控制各別引擎"
-
-#: src/vehicle.cpp
-msgid "Control vehicle lights"
-msgstr ""
-
-#: src/vehicle.cpp
 msgid "Cruise control turned off"
 msgstr "定速駕駛關閉"
 
@@ -122838,10 +122928,6 @@ msgstr "Cugugugugug"
 #: src/vehicle.cpp
 msgid "Disable cruise control"
 msgstr "關閉定速駕駛"
-
-#: src/vehicle.cpp
-msgid "Do nothing"
-msgstr "不做任何事"
 
 #: src/vehicle.cpp
 msgid "Enable cruise control"
@@ -122865,14 +122951,6 @@ msgstr "摺疊 %s"
 msgid "Forget vehicle position"
 msgstr "忘記車輛位置"
 
-#: src/vehicle.cpp
-msgid "Fridge turned off"
-msgstr "冰箱已關掉"
-
-#: src/vehicle.cpp
-msgid "Fridge turned on"
-msgstr "冰箱已啟動"
-
 #. ~ Loud horn sound
 #: src/vehicle.cpp
 msgid "HOOOOORNK!"
@@ -122885,6 +122963,11 @@ msgstr "按喇叭"
 #: src/vehicle.cpp
 msgid "Hotwire"
 msgstr "短接發動"
+
+#: src/vehicle.cpp
+#, c-format
+msgid "Insufficient power to enable %s"
+msgstr ""
 
 #. ~ indicates that a vehicle part is inside
 #: src/vehicle.cpp
@@ -122907,7 +122990,7 @@ msgstr "放開控制器"
 #: src/vehicle.cpp
 #, c-format
 msgid "Looks like the %1$s is out of %2$s."
-msgstr ""
+msgstr "%1$s 似乎缺少了 %2$s."
 
 #: src/vehicle.cpp
 msgid "Lost connection with the vehicle due to distance!"
@@ -122922,56 +123005,16 @@ msgid "NEEeu NEEeu NEEeu"
 msgstr "NEEeu NEEeu NEEeu"
 
 #: src/vehicle.cpp
-msgid "No controls there."
-msgstr "沒有控制器在那."
+msgid "No controls there"
+msgstr ""
 
 #: src/vehicle.cpp
 msgid "Open"
 msgstr "開啟"
 
 #: src/vehicle.cpp
-msgid "Planter system started"
-msgstr "播種機已啟動"
-
-#: src/vehicle.cpp
-msgid "Planter system stopped"
-msgstr "播種機已關閉"
-
-#: src/vehicle.cpp
-msgid "Plow system started"
-msgstr "犁具已啟動"
-
-#: src/vehicle.cpp
-msgid "Plow system stopped"
-msgstr "犁具已關閉"
-
-#: src/vehicle.cpp
 msgid "ROARRR!"
-msgstr "ROARRR!"
-
-#: src/vehicle.cpp
-msgid "Reactor turned off"
-msgstr "反應爐已關閉"
-
-#: src/vehicle.cpp
-msgid "Reactor turned on"
-msgstr "反應爐已啟動"
-
-#: src/vehicle.cpp
-msgid "Reaper turned off"
-msgstr "收割機已關閉"
-
-#: src/vehicle.cpp
-msgid "Reaper turned on"
-msgstr "收割機已啟動"
-
-#: src/vehicle.cpp
-msgid "Recharger turned off"
-msgstr "充電器關閉"
-
-#: src/vehicle.cpp
-msgid "Recharger turned on"
-msgstr "充電器啟動"
+msgstr "吼吼吼！"
 
 #: src/vehicle.cpp
 msgid "Remember vehicle position"
@@ -122980,10 +123023,6 @@ msgstr "記得車輛位置"
 #: src/vehicle.cpp
 msgid "Select door to toggle"
 msgstr "選擇要切換的門"
-
-#: src/vehicle.cpp
-msgid "Set turret targeting modes"
-msgstr "設定槍塔瞄準模式"
 
 #: src/vehicle.cpp
 msgid "Stop controlling"
@@ -123011,14 +123050,16 @@ msgstr "%1$s 的 %2$s 被摧毀了！"
 msgid "The %1$s's %2$s is torn off!"
 msgstr "%1$s 的 %2$s 被扯下！"
 
+#. ~ %1$s: name of the vehicle; %2$s: name of the related vehicle part; %3$s: trap name
+#: src/vehicle.cpp
+#, c-format
+msgid "The %1$s's %2$s runs over %3$s."
+msgstr ""
+
 #: src/vehicle.cpp
 #, c-format
 msgid "The %1$s's %2$s runs over something."
 msgstr "%1$s 的 %2$s 輾過了某些東西。"
-
-#: src/vehicle.cpp
-msgid "The %1$s's %s runs over %2$s."
-msgstr "%1$s 的 %s 輾過了 %2$s。"
 
 #: src/vehicle.cpp
 #, c-format
@@ -123028,6 +123069,11 @@ msgstr "%s 沒有足夠的輪子無法移動！"
 #: src/vehicle.cpp
 #, c-format
 msgid "The %s is stuck."
+msgstr "%s 被卡住了！"
+
+#: src/vehicle.cpp
+#, c-format
+msgid "The %s is too heavy for its engine(s)!"
 msgstr ""
 
 #: src/vehicle.cpp
@@ -123114,14 +123160,6 @@ msgid "The alarm stops."
 msgstr "警報聲停止了。"
 
 #: src/vehicle.cpp
-msgid "The chimes won't come on!"
-msgstr "音樂鈴發不出聲音!"
-
-#: src/vehicle.cpp
-msgid "The fridge won't turn on!"
-msgstr "冰箱無法啟動！"
-
-#: src/vehicle.cpp
 #, c-format
 msgctxt "memorial_female"
 msgid "The fuel tank of the %s exploded!"
@@ -123134,24 +123172,8 @@ msgid "The fuel tank of the %s exploded!"
 msgstr "%s 的油箱爆炸了！"
 
 #: src/vehicle.cpp
-msgid "The reactor won't turn on!"
-msgstr "反應爐無法啟動！"
-
-#: src/vehicle.cpp
-msgid "The recharger won't turn on!"
-msgstr "充電器無法啟動！"
-
-#: src/vehicle.cpp
-msgid "The stereo won't come on!"
-msgstr "音響發不出聲音！"
-
-#: src/vehicle.cpp
 msgid "The vehicle part you were working on has gone!"
 msgstr "你在處理的車輛零件消失了！"
-
-#: src/vehicle.cpp
-msgid "Toggle door"
-msgstr "切換門"
 
 #: src/vehicle.cpp
 msgid "Toggle which?"
@@ -123176,7 +123198,8 @@ msgid "Try to disarm alarm."
 msgstr "嘗試解除警報。"
 
 #: src/vehicle.cpp
-msgid "Turn off all lights"
+#, c-format
+msgid "Turn off %s"
 msgstr ""
 
 #: src/vehicle.cpp
@@ -123184,108 +123207,31 @@ msgid "Turn off camera system"
 msgstr "關閉攝影系統"
 
 #: src/vehicle.cpp
-msgid "Turn off chimes"
-msgstr "關閉音樂鈴"
-
-#: src/vehicle.cpp
-msgid "Turn off fridge"
-msgstr "關掉冰箱"
-
-#: src/vehicle.cpp
-msgid "Turn off reactor"
-msgstr "關閉反應爐"
-
-#: src/vehicle.cpp
-msgid "Turn off reaper"
-msgstr "關閉收割機"
-
-#: src/vehicle.cpp
-msgid "Turn off recharger"
-msgstr "關閉充電器"
-
-#: src/vehicle.cpp
-msgid "Turn off scoop system"
-msgstr "關閉鏟斗系統"
-
-#: src/vehicle.cpp
-msgid "Turn off stereo"
-msgstr "關閉音響"
-
-#: src/vehicle.cpp
 msgid "Turn off the engine"
 msgstr "關閉引擎"
+
+#: src/vehicle.cpp
+#, c-format
+msgid "Turn on %s"
+msgstr ""
 
 #: src/vehicle.cpp
 msgid "Turn on camera system"
 msgstr "啟動攝影系統"
 
 #: src/vehicle.cpp
-msgid "Turn on chimes"
-msgstr "開啟音樂鈴"
-
-#: src/vehicle.cpp
-msgid "Turn on fridge"
-msgstr "啟動冰箱"
-
-#: src/vehicle.cpp
-msgid "Turn on headlights"
-msgstr "啟動車頭燈"
-
-#: src/vehicle.cpp
-msgid "Turn on reactor"
-msgstr "啟動反應爐"
-
-#: src/vehicle.cpp
-msgid "Turn on reaper"
-msgstr "啟動收割機"
-
-#: src/vehicle.cpp
-msgid "Turn on recharger"
-msgstr "啟動充電器"
-
-#: src/vehicle.cpp
-msgid "Turn on scoop system"
-msgstr "開啟鏟斗系統"
-
-#: src/vehicle.cpp
-msgid "Turn on stereo"
-msgstr "啟動音響"
-
-#: src/vehicle.cpp
 msgid "Turn on the engine"
 msgstr "啟動引擎"
 
 #: src/vehicle.cpp
-msgid "Turn planter off"
-msgstr "關閉播種機"
+#, c-format
+msgid "Turned off %s."
+msgstr "%s 已關閉。"
 
 #: src/vehicle.cpp
-msgid "Turn planter on"
-msgstr "啟動播種機"
-
-#: src/vehicle.cpp
-msgid "Turn plow off"
-msgstr "關閉犁具"
-
-#: src/vehicle.cpp
-msgid "Turn plow on"
-msgstr "啟動犁具"
-
-#: src/vehicle.cpp
-msgid "Turned off chimes"
-msgstr "關閉音樂鈴"
-
-#: src/vehicle.cpp
-msgid "Turned off music"
-msgstr "關閉音樂"
-
-#: src/vehicle.cpp
-msgid "Turned on chimes"
-msgstr "開啟音樂鈴"
-
-#: src/vehicle.cpp
-msgid "Turned on music"
-msgstr "啟動音樂"
+#, c-format
+msgid "Turned on %s."
+msgstr "%s 已啟動。"
 
 #: src/vehicle.cpp
 msgid "Vehicle controls"
@@ -123385,7 +123331,7 @@ msgstr "你關閉了引擎。"
 #: src/vehicle.cpp
 #, c-format
 msgid "Your %1$s's %2$s rams into %3$s and stuns it!"
-msgstr "你的 %1$s's %2$s 撞到了 %3$s 並且卡住了!"
+msgstr "你的 %1$s 的 %2$s 撞到了 %3$s 並且震暈了它！"
 
 #. ~ 1$s - vehicle name, 2$s - part name, 3$s - collision object name, 4$s - sound message
 #: src/vehicle.cpp
@@ -123397,7 +123343,7 @@ msgstr "你 %1$s 的 %2$s 撞到了 %3$s，發出 %4$s 的聲響。"
 #: src/vehicle.cpp
 #, c-format
 msgid "Your %1$s's %2$s rams into %3$s!"
-msgstr "你的 %1$s's %2$s 撞到了 %3$s!。"
+msgstr "你的 %1$s 的 %2$s 撞到了 %3$s！"
 
 #. ~ 1$s - vehicle name, 2$s - part name, 3$s - collision object name
 #: src/vehicle.cpp
@@ -123423,17 +123369,49 @@ msgid "beep!"
 msgstr "嗶！"
 
 #: src/vehicle.cpp
+msgid "dome lights"
+msgstr ""
+
+#: src/vehicle.cpp
 #, c-format
 msgid "folded %s"
 msgstr "摺疊的 %s"
+
+#: src/vehicle.cpp
+msgid "fridge"
+msgstr ""
+
+#: src/vehicle.cpp
+msgid "headlights"
+msgstr ""
 
 #: src/vehicle.cpp
 msgid "hummm!"
 msgstr "hummm!"
 
 #: src/vehicle.cpp
+msgid "overhead lights"
+msgstr ""
+
+#: src/vehicle.cpp
+msgid "planter"
+msgstr ""
+
+#: src/vehicle.cpp
+msgid "reactor"
+msgstr ""
+
+#: src/vehicle.cpp
+msgid "recharger"
+msgstr ""
+
+#: src/vehicle.cpp
 msgid "roarrr!"
 msgstr "roarrr!"
+
+#: src/vehicle.cpp
+msgid "stereo"
+msgstr ""
 
 #: src/vehicle.cpp
 msgid "vroom!"
@@ -123515,7 +123493,7 @@ msgstr "您聽見天上隆隆的雷聲。"
 #: src/weather.cpp
 #, c-format
 msgid "Your %s protects you from the acidic drizzle."
-msgstr "你的 %s 防護了酸雨的傷害!"
+msgstr "你的 %s 防護了酸雨的傷害！"
 
 #: src/weather.cpp
 msgid "Your clothing protects you from the acid rain."
