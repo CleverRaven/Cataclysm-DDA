@@ -997,7 +997,7 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
         }
 
         info.push_back( iteminfo( "GUN", _( "Sight dispersion: " ), "",
-                                  mod->sight_dispersion( -1 ), true, "", false, true ) );
+                                  mod->sight_dispersion(), true, "", false, true ) );
 
         info.push_back( iteminfo( "GUN", _( "Recoil: " ), "", mod->gun_recoil( false ), true, "", false,
                                   true ) );
@@ -3912,56 +3912,23 @@ int item::gun_dispersion( bool with_ammo ) const
     return dispersion_sum;
 }
 
-// Sight dispersion and aim speed pick the best sight bonus to use.
-// The best one is the fastest one whose dispersion is under the threshold.
-// If you provide a threshold of -1, it just gives lowest dispersion.
-int item::sight_dispersion( double aim_threshold ) const
-{
-    if (!is_gun()) {
-        return 0;
-    }
-    const auto gun = type->gun.get();
-    int best_dispersion = gun->sight_dispersion;
-    int best_aim_cost = INT_MAX;
-    if( gun->sight_dispersion < aim_threshold || aim_threshold == -1 ) {
-        best_aim_cost = std::max( std::min( volume(), 8 ), 1 );
-    }
-    for( const auto e : gunmods() ) {
-        const auto mod = e->type->gunmod.get();
-        if( mod->sight_dispersion != -1 && mod->aim_cost != -1 &&
-            ( ( aim_threshold == -1 && mod->sight_dispersion < best_dispersion ) ||
-              ( mod->sight_dispersion < aim_threshold && mod->aim_cost < best_aim_cost ) ) ) {
-            best_aim_cost = mod->aim_cost;
-            best_dispersion = mod->sight_dispersion;
-        }
-    }
-    return best_dispersion;
-}
-
-
-int item::aim_cost( double threshold ) const
+int item::sight_dispersion() const
 {
     if( !is_gun() ) {
         return 0;
     }
 
-    int res = INT_MAX;
-
-    if( type->gun->sight_dispersion <= threshold ) {
-        res = std::max( std::min( volume(), 8 ), 1 );
-    }
+    int res = type->gun->sight_dispersion;
 
     for( const auto e : gunmods() ) {
         const auto mod = e->type->gunmod.get();
         if( mod->sight_dispersion < 0 || mod->aim_cost <= 0 ) {
-            continue;
+            continue; // skip gunmods which don't provide a sight
         }
-        if( mod->sight_dispersion <= threshold && mod->aim_cost < res ) {
-            res = mod->aim_cost;
-        }
+        res = std::min( res, mod->sight_dispersion );
     }
 
-    return res != INT_MAX ? res : 0;
+    return res;
 }
 
 int item::gun_damage( bool with_ammo ) const

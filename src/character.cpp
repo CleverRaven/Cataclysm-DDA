@@ -113,13 +113,36 @@ void Character::mod_stat( const std::string &stat, int modifier )
 
 double Character::aim_per_move( const item& gun, double recoil ) const
 {
-    // constant at which one unit of aim cost ~ 75 moves
-    int k = 25;
-
-    int cost = gun.aim_cost( recoil );
-    if( cost <= 0 ) {
-        return 0; // already at maxium aim
+    if( !gun.is_gun() ) {
+        return 0;
     }
+
+    // get fastest sight that can be used to improve aim further below @ref recoil
+    int cost = INT_MAX;
+    int limit = 0;
+    if( gun.type->gun->sight_dispersion < recoil ) {
+        cost  = std::max( std::min( gun.volume(), 8 ), 1 );
+        limit = gun.type->gun->sight_dispersion;
+    }
+
+    for( const auto e : gun.gunmods() ) {
+        const auto mod = e->type->gunmod.get();
+        if( mod->sight_dispersion < 0 || mod->aim_cost <= 0 ) {
+            continue; // skip gunmods which don't provide a sight
+        }
+        if( mod->sight_dispersion < recoil && mod->aim_cost < cost ) {
+            cost  = mod->aim_cost;
+            limit = mod->sight_dispersion;
+        }
+    }
+
+    if( cost == INT_MAX ) {
+        return 0; // no suitable sights (already at maxium aim)
+    }
+
+    // constant at which one unit of aim cost ~75 moves
+    // (presuming aiming from nil to maximum aim via single sight at DEX 8)
+    int k = 25;
 
     ///\EFFECT_DEX increases aiming speed
     cost = std::max( cost + ( 8 - dex_cur ), 1 );
@@ -131,7 +154,7 @@ double Character::aim_per_move( const item& gun, double recoil ) const
     double aim = std::max( recoil * improv, 0.1 );
 
     // never improve by more than the currently used sights permit
-    return std::max( std::min( aim, recoil - gun.sight_dispersion( recoil ) ), 0.0 );
+    return std::min( aim, recoil - limit );
 }
 
 bool Character::move_effects(bool attacking)
