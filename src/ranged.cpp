@@ -971,7 +971,7 @@ static int print_aim_bars( const player &p, WINDOW *w, int line_number, item *we
     const double confidence = 1 / hit_rating;
     // This is a relative measure of how steady the player's aim is,
     // 0 it is the best the player can do.
-    const double steady_score = predicted_recoil - p.weapon.sight_dispersion();
+    const double steady_score = predicted_recoil - p.effective_dispersion( p.weapon.sight_dispersion() );
     // Fairly arbitrary cap on steadiness...
     const double steadiness = 1.0 - steady_score / 250;
 
@@ -1091,7 +1091,7 @@ std::vector<tripoint> game::pl_target_ui( target_mode mode, item *relevant, int 
 
     std::vector<aim_type> aim_types;
     std::vector<aim_type>::iterator aim_mode;
-    int sight_dispersion = u.weapon.sight_dispersion();
+    int sight_dispersion = u.effective_dispersion( u.weapon.sight_dispersion() );
 
     if( mode == TARGET_MODE_FIRE ) {
         aim_types.push_back( aim_type { "", "", "", false, 0 } ); // dummy aim type for unaimed shots
@@ -1809,7 +1809,7 @@ double player::gun_value( const item &weap, long ammo ) const
     }
 
     total_dispersion += skill_dispersion( weap );
-    total_dispersion += weap.sight_dispersion();
+    total_dispersion += g->u.effective_dispersion( weap.sight_dispersion() );
 
     int move_cost = time_to_fire( *this, *weap.type );
     if( gun.clip != 0 && gun.clip < 10 ) {

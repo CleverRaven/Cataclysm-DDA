@@ -111,6 +111,12 @@ void Character::mod_stat( const std::string &stat, int modifier )
     }
 }
 
+int Character::effective_dispersion( int dispersion ) const
+{
+    ///\EFFECT_PER improves effectiveness of gun sights
+    return std::max( dispersion + ( ( 10 - per_cur ) * 15 ), 0 );
+}
+
 double Character::aim_per_move( const item& gun, double recoil ) const
 {
     if( !gun.is_gun() ) {
@@ -120,9 +126,9 @@ double Character::aim_per_move( const item& gun, double recoil ) const
     // get fastest sight that can be used to improve aim further below @ref recoil
     int cost = INT_MAX;
     int limit = 0;
-    if( gun.type->gun->sight_dispersion < recoil ) {
+    if( effective_dispersion( gun.type->gun->sight_dispersion ) < recoil ) {
         cost  = std::max( std::min( gun.volume(), 8 ), 1 );
-        limit = gun.type->gun->sight_dispersion;
+        limit = effective_dispersion( gun.type->gun->sight_dispersion );
     }
 
     for( const auto e : gun.gunmods() ) {
@@ -130,9 +136,9 @@ double Character::aim_per_move( const item& gun, double recoil ) const
         if( mod->sight_dispersion < 0 || mod->aim_cost <= 0 ) {
             continue; // skip gunmods which don't provide a sight
         }
-        if( mod->sight_dispersion < recoil && mod->aim_cost < cost ) {
+        if( effective_dispersion( mod->sight_dispersion ) < recoil && mod->aim_cost < cost ) {
             cost  = mod->aim_cost;
-            limit = mod->sight_dispersion;
+            limit = effective_dispersion( mod->sight_dispersion );
         }
     }
 

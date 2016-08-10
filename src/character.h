@@ -144,6 +144,9 @@ class Character : public Creature, public visitable<Character>
 
         void mod_stat( const std::string &stat, int modifier ) override;
 
+        /* Adjusts provided sight dispersion to account for player stats */
+        int effective_dispersion( int dispersion ) const;
+
         /* Calculate aim improvement per move spent aiming at a given @ref recoil */
         double aim_per_move( const item &gun, double recoil ) const;
 

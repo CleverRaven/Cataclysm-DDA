@@ -996,8 +996,20 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
                                       mod->gun_dispersion( true ), true, "", true, true, false ) );
         }
 
-        info.push_back( iteminfo( "GUN", _( "Sight dispersion: " ), "",
-                                  mod->sight_dispersion(), true, "", false, true ) );
+        // if effective sight dispersion differs from actual sight dispersion display both
+        int act_disp = mod->sight_dispersion();
+        int eff_disp = g->u.effective_dispersion( act_disp );
+        int adj_disp = eff_disp - act_disp;
+
+        if( adj_disp < 0 ) {
+            info.emplace_back( "GUN", _( "Sight dispersion: " ),
+                               string_format( "%i-%i = <num>", act_disp, -adj_disp), eff_disp, true, "", true, true );
+        } else if( adj_disp > 0 ) {
+            info.emplace_back( "GUN", _( "Sight dispersion: " ),
+                               string_format( "%i+%i = <num>", act_disp, adj_disp), eff_disp, true, "", true, true );
+        } else {
+            info.emplace_back( "GUN", _( "Sight dispersion: " ), "", eff_disp, true, "", true, true );
+        }
 
         info.push_back( iteminfo( "GUN", _( "Recoil: " ), "", mod->gun_recoil( false ), true, "", false,
                                   true ) );
