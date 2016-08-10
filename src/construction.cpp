@@ -941,13 +941,6 @@ bool catch_with_rope( point const &center )
     return true;
 }
 
-int digging_perception( int const offset )
-{
-    // Smart and perceptive folks can pick up on Bad Stuff Below farther out
-    int prox = ( ( g->u.int_cur + g->u.per_cur ) / 2 ) - offset;
-    return std::max( 1, prox );
-}
-
 void unroll_digging( int const numer_of_2x4s )
 {
     // refund components!
@@ -964,194 +957,42 @@ void construct::done_digormine_stair( point p, bool dig )
     tinymap tmpmap;
     tmpmap.load( pos_sm.x, pos_sm.y, pos_sm.z - 1, false );
     tripoint const local_tmp = tmpmap.getlocal( abs_pos );
-    bool danger_lava = false;
-    bool danger_open = false;
-    const int omtilesz = SEEX * 2; // KA101's 1337 copy & paste skillz
-    int const prox = digging_perception( 10 );
-    for( int i = 0; i < omtilesz; i++ ) {
-        for( int j = 0; j < omtilesz; j++ ) {
-            if( rl_dist( local_tmp.x, local_tmp.y, i, j ) <= prox && ( tmpmap.ter( i, j ) == t_lava ) ) {
-                danger_lava = true;
-            }
-            // This ought to catch anything that's open-space
-            if( rl_dist( local_tmp.x, local_tmp.y, i, j ) <= prox && ( tmpmap.move_cost( i, j ) >= 2 ) ) {
-                danger_open = true; // You might not know what's down there!
-            }
-        }
-    }
-    if( danger_lava || danger_open ) { // Bad Stuff detected.  Are you sure?
-        g->m.ter_set( p.x, p.y, t_pit ); // You dug down a bit before detecting the problem
-        if( danger_lava ) {
-            if( !( query_yn( _( "The rock feels much warmer than normal. Proceed?" ) ) ) ) {
-                unroll_digging( dig ? 8 : 12 );
-                return;
-            }
-        }
-        if( danger_open ) {
-            if( !( query_yn( _( "As you dig, the rock starts sounding hollow. Proceed?" ) ) ) ) {
-                unroll_digging( dig ? 8 : 12 );
-                return;
-            }
-        }
-    }
-    if( tmpmap.impassable( local_tmp.x, local_tmp.y ) ) { // Solid rock or a wall.  Safe enough.
-        if( g->u.has_trait( "PAINRESIST_TROGLO" ) || g->u.has_trait( "STOCKY_TROGLO" ) ) {
-            if( dig ) {
-                add_msg( _( "You strike deeply into the earth." ) );
-            } else {
-                add_msg( _( "You delve ever deeper into the earth." ) );
-            }
-            g->u.mod_hunger( dig ? 15 : 25 );
-            g->u.mod_thirst( dig ? 15 : 25 );
-            g->u.mod_fatigue( dig ? 20 : 30 );
-            g->u.mod_pain( dig ? 8 : 10 );
+
+    bool dig_muts = g->u.has_trait( "PAINRESIST_TROGLO" ) || g->u.has_trait( "STOCKY_TROGLO" );
+
+    int no_mut_penalty = dig_muts ? 10 : 0;
+    int mine_penalty = dig ? 0 : 10;
+    g->u.mod_hunger( 5 + mine_penalty + no_mut_penalty );
+    g->u.mod_thirst( 5 + mine_penalty + no_mut_penalty );
+    g->u.mod_fatigue( 10 + mine_penalty + no_mut_penalty );
+
+    if( tmpmap.ter( local_tmp ) == t_lava ) {
+        if( !( query_yn( _( "The rock feels much warmer than normal. Proceed?" ) ) ) ) {
+            g->m.ter_set( p.x, p.y, t_pit ); // You dug down a bit before detecting the problem
+            unroll_digging( dig ? 8 : 12 );
         } else {
-            if( dig ) {
-                add_msg( _( "You dig a stairway, adding sturdy timbers and a rope for safety." ) );
-            } else {
-                add_msg( _( "You drill out a passage, heading deeper underground." ) );
-            }
-            g->u.mod_hunger( dig ? 25 : 35 );
-            g->u.mod_thirst( dig ? 25 : 35 );
-            g->u.mod_fatigue( dig ? 30 : 40 );
-            if( !( g->u.has_trait( "NOPAIN" ) ) ) {
-                add_msg( m_bad, _( "You're quite sore from all that work, though." ) );
-                g->u.mod_pain( dig ? 8 : 10 ); // Backbreaking work, mining!
-            }
-        }
-        g->m.ter_set( p.x, p.y, t_stairs_down ); // There's the top half
-        // We need to write to submap-local coordinates.
-        tmpmap.ter_set( local_tmp.x, local_tmp.y, t_stairs_up ); // and there's the bottom half.
-        tmpmap.save();
-    } else if( tmpmap.ter( local_tmp.x, local_tmp.y ) == t_lava ) { // Oooooops
-        if( g->u.has_trait( "PAINRESIST_TROGLO" ) || g->u.has_trait( "STOCKY_TROGLO" ) ) {
-            if( dig ) {
-                add_msg( m_warning, _( "You strike deeply--above a magma flow!" ) );
-            } else {
-                add_msg( m_warning, _( "You delve down directly above a magma flow!" ) );
-            }
-            g->u.mod_hunger( dig ? 15 : 25 );
-            g->u.mod_thirst( dig ? 15 : 25 );
-            g->u.mod_fatigue( dig ? 20 : 30 );
-            g->u.mod_pain( 4 );
-        } else {
-            if( dig ) {
-                add_msg( m_warning, _( "You just tunneled into lava!" ) );
-            } else {
-                add_msg( m_warning, _( "You just mined into lava!" ) );
-            }
-            g->u.mod_hunger( dig ? 25 : 35 );
-            g->u.mod_thirst( dig ? 25 : 35 );
-            g->u.mod_fatigue( dig ? 30 : 40 );
-            g->u.mod_pain( 4 ); // Backbreaking work, mining!
-        }
-        if( dig )
+            add_msg( m_warning, _( "You just tunneled into lava!" ) );
             g->u.add_memorial_log( pgettext( "memorial_male", "Dug a shaft into lava." ),
                                    pgettext( "memorial_female", "Dug a shaft into lava." ) );
-        else
-            g->u.add_memorial_log( pgettext( "memorial_male", "Mined into lava." ),
-                                   pgettext( "memorial_female", "Mined into lava." ) );
+            g->m.ter_set( p.x, p.y, t_hole );
+        }
 
-        // Now to see if you go swimming.  Same idea as the sinkhole.
-        if( ( ( g->u.get_skill_level( skill_carpentry ) ) + ( g->u.per_cur ) ) > ( ( g->u.str_cur ) + ( rng( 5,
-                10 ) ) ) ) {
-            add_msg( _( "You avoid collapsing the rock underneath you." ) );
-            add_msg( _( "Lashing your lumber together, you make a stable platform." ) );
-            g->m.ter_set( p.x, p.y, t_pit );
-        } else {
-            g->m.ter_set( p.x, p.y, t_hole ); // Collapse handled here.
-            add_msg( _( "The rock gives way beneath you!" ) );
-            add_msg( _( "Your timbers plummet into the lava!" ) );
-            if( g->u.has_amount( "grapnel", 1 ) ) {
-                add_msg( _( "You desperately throw your grappling hook!" ) );
-                int throwroll = rng( g->u.get_skill_level( skill_throw ),
-                                     g->u.get_skill_level( skill_throw ) + g->u.str_cur + g->u.dex_cur );
-                if( throwroll >= 9 ) { // Little tougher here than in a sinkhole
-                    add_msg( _( "The grappling hook catches something!" ) );
-                    if( rng( g->u.get_skill_level( skill_unarmed ),
-                             g->u.get_skill_level( skill_unarmed ) + g->u.str_cur ) > 7 ) {
-                        if( !catch_with_rope( p ) ) {
-                            g->u.use_amount( "grapnel", 1 );
-                            g->m.spawn_item( g->u.posx() + rng( -1, 1 ), g->u.posy() + rng( -1, 1 ), "grapnel" );
-                            g->vertical_move( -1, true );
-                        }
-                    } else {
-                        add_msg( m_bad, _( "You're not strong enough to pull yourself out..." ) );
-                        g->u.moves -= 100;
-                        g->u.use_amount( "grapnel", 1 );
-                        g->m.spawn_item( g->u.posx() + rng( -1, 1 ), g->u.posy() + rng( -1, 1 ), "grapnel" );
-                        g->vertical_move( -1, true );
-                    }
-                } else {
-                    add_msg( m_bad, _( "Your throw misses completely, and you fall into the lava!" ) );
-                    if( one_in( ( g->u.str_cur + g->u.dex_cur ) / 3 ) ) {
-                        g->u.use_amount( "grapnel", 1 );
-                        g->m.spawn_item( g->u.posx() + rng( -1, 1 ), g->u.posy() + rng( -1, 1 ), "grapnel" );
-                    }
-                    g->vertical_move( -1, true );
-                }
-            } else {
-                // You have a rope because you needed one to construct
-                // (You aren't charged it here because you lose it at end/construction)
-                add_msg( _( "You desperately throw your rope!" ) );
-                int throwroll = rng( g->u.get_skill_level( skill_throw ),
-                                     g->u.get_skill_level( skill_throw ) + g->u.str_cur + g->u.dex_cur );
-                if( throwroll >= 11 ) { // No hook, so good luck with that
-                    add_msg( _( "The rope snags and holds!" ) );
-                    if( rng( g->u.get_skill_level( skill_unarmed ),
-                             g->u.get_skill_level( skill_unarmed ) + g->u.str_cur ) > 7 ) {
-                        if( !catch_with_rope( p ) ) {
-                            g->m.spawn_item( g->u.posx() + rng( -1, 1 ), g->u.posy() + rng( -1, 1 ), "rope_30" );
-                            g->vertical_move( -1, true );
-                        } else {
-                            add_msg( _( "The rope gives way and plummets, just as you escape." ) );
-                        }
-                    } else {
-                        add_msg( m_bad, _( "You're not strong enough to pull yourself out..." ) );
-                        g->u.moves -= 100;
-                        g->m.spawn_item( g->u.posx() + rng( -1, 1 ), g->u.posy() + rng( -1, 1 ), "rope_30" );
-                        g->vertical_move( -1, true );
-                    }
-                } else {
-                    add_msg( m_bad, _( "Your throw misses completely, and you fall into the lava!" ) );
-                    if( one_in( ( g->u.str_cur + g->u.dex_cur ) / 3 ) ) {
-                        g->m.spawn_item( g->u.posx() + rng( -1, 1 ), g->u.posy() + rng( -1, 1 ), "rope_30" );
-                    }
-                    g->vertical_move( -1, true );
-                }
-            }
-        }
-    } else if( tmpmap.move_cost( local_tmp.x, local_tmp.y ) >= 2 ) { // Empty non-lava terrain.
-        if( g->u.has_trait( "PAINRESIST_TROGLO" ) || g->u.has_trait( "STOCKY_TROGLO" ) ) {
-            if( dig ) {
-                add_msg( _( "You strike deeply into the earth, and break into open space." ) );
-            } else {
-                add_msg( _( "You delve ever deeper into the earth, and break into open space." ) );
-            }
-            g->u.mod_hunger( dig ? 10 : 20 ); // Less heavy work, but making the ladder's still fatiguing
-            g->u.mod_thirst( dig ? 10 : 20 );
-            g->u.mod_fatigue( dig ? 20 : 30 );
-            g->u.mod_pain( 4 );
-        } else {
-            if( dig ) {
-                add_msg( _( "You dig into a preexisting space, and improvise a ladder." ) );
-            } else {
-                add_msg( _( "You mine into a preexisting space, and improvise a ladder." ) );
-            }
-            g->u.mod_hunger( dig ? 20 : 30 );
-            g->u.mod_thirst( dig ? 20 : 30 );
-            g->u.mod_fatigue( dig ? 30 : 40 );
-            if( !( g->u.has_trait( "NOPAIN" ) ) ) {
-                add_msg( m_bad, _( "You're quite sore from all that work, though." ) );
-                g->u.mod_pain( 4 ); // Backbreaking work, mining!
-            }
-        }
-        g->m.ter_set( p.x, p.y, t_stairs_down ); // There's the top half
-        // Again, need to use submap-local coordinates.
-        tmpmap.ter_set( local_tmp.x, local_tmp.y, t_ladder_up ); // and there's the bottom half.
-        // And save to the center coordinate of the current active map.
-        tmpmap.save();
+        return;
     }
+
+    bool impassable = tmpmap.impassable( local_tmp );
+    if( !impassable ) {
+        add_msg( _( "You dig into a preexisting space, and improvise a ladder." ) );
+    } else if( dig ) {
+        add_msg( _( "You dig a stairway, adding sturdy timbers and a rope for safety." ) );
+    } else {
+        add_msg( _( "You drill out a passage, heading deeper underground." ) );
+    }
+    g->m.ter_set( p.x, p.y, t_stairs_down ); // There's the top half
+    // Again, need to use submap-local coordinates.
+    tmpmap.ter_set( local_tmp.x, local_tmp.y, impassable ? t_stairs_up : t_ladder_up ); // and there's the bottom half.
+    // And save to the center coordinate of the current active map.
+    tmpmap.save();
 }
 
 void construct::done_dig_stair( point p )
@@ -1170,96 +1011,38 @@ void construct::done_mine_upstair( point p )
     tripoint const pos_sm = ms_to_sm_copy( abs_pos );
     tinymap tmpmap;
     tmpmap.load( pos_sm.x, pos_sm.y, pos_sm.z + 1, false );
-    tripoint const local_tmp = tmpmap.getlocal( abs_pos );
-    bool danger_lava = false;
-    bool danger_open = false;
-    bool danger_liquid = false;
-    const int omtilesz = SEEX * 2; // KA101's 1337 copy & paste skillz
-    // Tougher with the noisy J-Hammer though
-    int const prox = digging_perception( 10 );
-    for (int i = 0; i < omtilesz; i++) {
-        for (int j = 0; j < omtilesz; j++) {
-          if (rl_dist(p.x % SEEX, p.y % SEEY, i, j) <= prox && (tmpmap.ter(i, j) == t_lava)) {
-              danger_lava = true;
-          }
-          // This ought to catch anything that's open-space
-          if (rl_dist(p.x % SEEX, p.y % SEEY, i, j) <= prox && (tmpmap.move_cost(i, j) >= 2 )) {
-              danger_open = true; // You might not know what's up there!
-          }
-          // Coming up into a river or sewer line could ruin your whole day!
-          if (rl_dist(p.x % SEEX, p.y % SEEY, i, j) <= prox && ( (tmpmap.ter(i, j) == t_water_sh) ||
-          (tmpmap.ter(i, j) == t_sewage) || (tmpmap.ter(i, j) == t_water_dp) ||
-          (tmpmap.ter(i, j) == t_water_pool) ) ) {
-              danger_liquid = true;
-          }
-      }
-  }
-  if (danger_lava || danger_open || danger_liquid) { // Bad Stuff detected.  Are you sure?
-      g->m.ter_set(p.x, p.y, t_rock_floor); // You dug a bit before discovering the problem
-      if (danger_lava) {
-          add_msg(m_warning, _("The rock overhead feels hot.  You decide *not* to mine magma."));
+    const tripoint local_tmp = tmpmap.getlocal( abs_pos );
+
+    if( tmpmap.ter( local_tmp ) == t_lava ) {
+        g->m.ter_set( p.x, p.y, t_rock_floor ); // You dug a bit before discovering the problem
+        add_msg(m_warning, _("The rock overhead feels hot.  You decide *not* to mine magma."));
         unroll_digging( 12 );
-          return;
-      }
-      if (danger_open) {
-          if (!(query_yn(_("As you dig, the rock starts sounding hollow. Proceed?"))) ) {
-            unroll_digging( 12 );
-              return;
-          }
-      }
-      if (danger_liquid) {
-          add_msg(m_warning, _("The rock above is rather damp.  You decide *not* to mine water."));
+        return;
+    }
+
+    static const std::set<ter_id> liquids = {{
+         t_water_sh, t_sewage,t_water_dp, t_water_pool
+    }};
+
+    if ( liquids.count( tmpmap.ter( local_tmp ) ) > 0 ) {
+        g->m.ter_set( p.x, p.y, t_rock_floor ); // You dug a bit before discovering the problem
+        add_msg(m_warning, _("The rock above is rather damp.  You decide *not* to mine water."));
         unroll_digging( 12 );
-          return;
-      }
-  }
-  if (tmpmap.impassable(p.x % SEEX, p.y % SEEY)) { // Solid rock or a wall.  Safe enough.
-      if (g->u.has_trait("PAINRESIST_TROGLO") || g->u.has_trait("STOCKY_TROGLO")) {
-          add_msg(_("You carve upward and breach open a space."));
-          g->u.mod_hunger(35);
-          g->u.mod_thirst(35);
-          g->u.mod_fatigue(40);
-          g->u.mod_pain(15); // NOPAIN is a THRESH_MEDICAL trait so shouldn't be present here
-      }
-      else {
-          add_msg(_("You drill out a passage, heading for the surface."));
-          g->u.mod_hunger(45);
-          g->u.mod_thirst(45);
-          g->u.mod_fatigue(50);
-          if (!(g->u.has_trait("NOPAIN"))) {
-              add_msg(m_bad, _("You're quite sore from all that work."));
-              g->u.mod_pain(15); // Backbreaking work, mining!
-          }
-      }
-      g->m.ter_set(p.x, p.y, t_stairs_up); // There's the bottom half
-      // We need to write to submap-local coordinates.
-      tmpmap.ter_set(p.x % SEEX, p.y % SEEY, t_stairs_down); // and there's the top half.
-      tmpmap.save();
-   }
-   else if (tmpmap.move_cost(p.x % SEEX, p.y % SEEY) >= 2) { // Empty non-lava terrain.
-      if (g->u.has_trait("PAINRESIST_TROGLO") || g->u.has_trait("STOCKY_TROGLO")) {
-          add_msg(_("You carve upward, and break into open space."));
-          g->u.mod_hunger(30); // Tougher to go up than down.
-          g->u.mod_thirst(30);
-          g->u.mod_fatigue(40);
-          g->u.mod_pain(5);
-      }
-      else {
-          add_msg(_("You drill up into a preexisting space."));
-          g->u.mod_hunger(40);
-          g->u.mod_thirst(40);
-          g->u.mod_fatigue(50);
-          if (!(g->u.has_trait("NOPAIN"))) {
-              add_msg(m_bad, _("You're quite sore from all that work."));
-              g->u.mod_pain(5);
-          }
-      }
-      g->m.ter_set(p.x, p.y, t_stairs_up); // There's the bottom half
-      // Again, need to use submap-local coordinates.
-      tmpmap.ter_set(p.x % SEEX, p.y % SEEY, t_stairs_down); // and there's the top half.
-      // And save to the center coordinate of the current active map.
-      tmpmap.save();
-   }
+        return;
+    }
+
+    bool dig_muts = g->u.has_trait( "PAINRESIST_TROGLO" ) || g->u.has_trait( "STOCKY_TROGLO" );
+
+    int no_mut_penalty = dig_muts ? 15 : 0;
+    g->u.mod_hunger( 20 + no_mut_penalty );
+    g->u.mod_thirst( 20 + no_mut_penalty );
+    g->u.mod_fatigue( 25 + no_mut_penalty );
+
+    add_msg( _("You drill out a passage, heading for the surface.") );
+    g->m.ter_set( p.x, p.y, t_stairs_up ); // There's the bottom half
+    // We need to write to submap-local coordinates.
+    tmpmap.ter_set( local_tmp, t_stairs_down ); // and there's the top half.
+    tmpmap.save();
 }
 
 void construct::done_window_curtains(point)
