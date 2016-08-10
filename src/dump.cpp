@@ -23,21 +23,17 @@ bool game::dump_stats( const std::string& what, dump_mode mode, const std::vecto
 
     int scol = 0; // sorting column
 
-    standard_npc s1;
-    s1.wear_item( item( "gloves_lsurvivor" ) );
-    s1.wear_item( item( "mask_lsurvivor" ) );
-    for( item &e : s1.worn ) {
-        if( e.has_flag( "VARSIZE" ) ) {
-            e.item_tags.insert( "FIT" );
-        }
-    }
-    s1.set_skill_level( skill_id( "gun" ), 4 );
-    s1.set_skill_level( skill_id( "pistol" ), 4 );
-    s1.set_skill_level( skill_id( "rifle" ), 4 );
-    s1.set_skill_level( skill_id( "smg" ), 4 );
-    s1.set_skill_level( skill_id( "shotgun" ), 4 );
-    s1.set_skill_level( skill_id( "launcher" ), 4 );
-    s1.setpos( { 0, 0, 0 } );
+    std::map<std::string, standard_npc> test_npcs;
+    test_npcs[ "S1" ] = standard_npc( "S1", { "gloves_survivor", "mask_lsurvivor" } );
+    test_npcs[ "S2" ] = standard_npc( "S2", { "gloves_fingerless", "sunglasses" }, 4,  8, 8, 8, 10 /* PER  10 */ );
+    test_npcs[ "S3" ] = standard_npc( "S3", { "gloves_plate", "helmet_plate" },  4, 10, 8, 8, 8 /* STAT 10 */ );
+
+    std::map<std::string, item> test_items;
+    test_items[ "G1" ] = item( "glock_19" ).ammo_set( "9mm" );
+    test_items[ "G2" ] = item( "hk_mp5" ).ammo_set( "9mm" );
+    test_items[ "G3" ] = item( "ar15" ).ammo_set( "223" );
+    test_items[ "G4" ] = item( "remington_700" ).ammo_set( "270" );
+    test_items[ "G4" ].emplace_back( "rifle_scope" );
 
     if( what == "AMMO" ) {
         header = {
@@ -71,7 +67,7 @@ bool game::dump_stats( const std::string& what, dump_mode mode, const std::vecto
         for( const auto& v : vitamin::all() ) {
              header.push_back( v.second.name() );
         }
-        auto dump = [&rows]( const item& obj ) {
+        auto dump = [&rows,&test_npcs]( const item& obj ) {
             std::vector<std::string> r;
             r.push_back( obj.tname( false ) );
             r.push_back( to_string( obj.volume() ) );
@@ -150,11 +146,11 @@ bool game::dump_stats( const std::string& what, dump_mode mode, const std::vecto
                 }
                 gun.ammo_set( default_ammo( gun.ammo_type() ), gun.ammo_capacity() );
 
-                dump( s1, gun );
+                dump( test_npcs[ "S1" ], gun );
 
                 if( gun.type->gun->barrel_length > 0 ) {
                     gun.emplace_back( "barrel_small" );
-                    dump( s1, gun );
+                    dump( test_npcs[ "S1" ], gun );
                 }
             }
         }
@@ -213,26 +209,38 @@ bool game::dump_stats( const std::string& what, dump_mode mode, const std::vecto
             header.push_back( std::to_string( i ) );
         }
 
-        auto dump = [&rows]( const std::string &name, const standard_npc &who, const item &gun) {
-            std::vector<std::string> r( 1, name );
+        auto dump = [&rows]( const standard_npc &who, const item &gun) {
+            std::vector<std::string> r( 1, string_format( "%s %s", who.get_name().c_str(), gun.tname().c_str() ) );
             for( int i = 0; i <= cycles; ++i ) {
                 r.push_back( string_format( "%.2f", who.gun_engagement_range( gun, i ) ) );
             }
             rows.push_back( r );
         };
 
-        item g19( "glock_19" );
-        dump( "Glock", s1, g19.ammo_set( "9mm" ) );
+        if( opts.empty() ) {
+            dump( test_npcs[ "S1" ], test_items[ "G1" ] );
+            dump( test_npcs[ "S1" ], test_items[ "G2" ] );
+            dump( test_npcs[ "S1" ], test_items[ "G3" ] );
+            dump( test_npcs[ "S1" ], test_items[ "G4" ] );
 
-        item mp5( "hk_mp5" );
-        dump( "MP5", s1, mp5.ammo_set( "9mm" ) );
+        } else {
+            for( const auto &str : opts ) {
+                auto idx = str.find( ':' );
+                if( idx == std::string::npos ) {
+                    std::cerr << "cannot parse test case: " << str << std::endl;
+                    return false;
+                }
+                auto s = test_npcs.find( str.substr( 0, idx ) );
+                auto g = test_items.find( str.substr( idx + 1 ) );
 
-        item ar15( "ar15" );
-        dump( "AR15", s1, ar15.ammo_set( "223" ) );
+                if( s == test_npcs.end() || g == test_items.end() ) {
+                    std::cerr << "invalid test case: " << str << std::endl;
+                    return false;
+                }
 
-        item r700( "remington_700" );
-        r700.emplace_back( "rifle_scope" );
-        dump( "R700+scope", s1, r700.ammo_set( "270" ) );
+                dump( s->second, g->second );
+            }
+        }
 
     } else if( what == "EXPLOSIVE" ) {
         header = {
