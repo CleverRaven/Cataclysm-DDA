@@ -1640,12 +1640,7 @@ static bool is_driving( const player &p )
 // utility functions for projectile_attack
 double player::get_weapon_dispersion( const item &obj ) const
 {
-    double dispersion = skill_dispersion( obj );
-
-    dispersion += 3 * (encumb( bp_arm_l ) + encumb( bp_arm_r ) );
-    dispersion += 6 * encumb( bp_eyes );
-
-    dispersion += obj.gun_dispersion();
+    double dispersion = skill_dispersion( obj ) + obj.gun_dispersion();
 
     if( is_driving( *this ) ) {
         // get volume of gun (or for auxiliary gunmods the parent gun)

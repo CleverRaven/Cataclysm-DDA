@@ -114,7 +114,11 @@ void Character::mod_stat( const std::string &stat, int modifier )
 int Character::effective_dispersion( int dispersion ) const
 {
     ///\EFFECT_PER improves effectiveness of gun sights
-    return std::max( dispersion + ( ( 10 - per_cur ) * 15 ), 0 );
+    dispersion += ( 10 - per_cur ) * 15;
+
+    dispersion += encumb( bp_eyes );
+
+    return std::max( dispersion, 0 );
 }
 
 double Character::aim_per_move( const item& gun, double recoil ) const
@@ -146,12 +150,17 @@ double Character::aim_per_move( const item& gun, double recoil ) const
         return 0; // no suitable sights (already at maxium aim)
     }
 
+    // each 5 points (combined) of hand encumbrance increases aim cost by one unit
+    cost += round ( ( encumb( bp_arm_l ) + encumb( bp_arm_r ) ) / 10.0 );
+
+    ///\EFFECT_DEX increases aiming speed
+    cost += 8 - dex_cur;
+
+    cost = std::max( cost, 1 );
+
     // constant at which one unit of aim cost ~75 moves
     // (presuming aiming from nil to maximum aim via single sight at DEX 8)
     int k = 25;
-
-    ///\EFFECT_DEX increases aiming speed
-    cost = std::max( cost + ( 8 - dex_cur ), 1 );
 
     // calculate rate (b) from the exponential function y = a(1-b)^x where a is recoil
     double improv = 1.0 - pow( 0.5, 1.0 / ( cost * k ) );
@@ -1003,8 +1012,8 @@ int Character::skill_dispersion( const item& gun ) const
     ///\EFFECT_RIFLE reduces dispersion for rifles
     ///\EFFECT_LAUNCHER reduces dispersion for launchers
     ///\EFFECT_GUN significantly reduces dispersion of all gunfire
-    return (  5 * ( MAX_SKILL - std::min( int( get_skill_level( gun.gun_skill() ) ), MAX_SKILL ) ) ) +
-           ( 10 * ( MAX_SKILL - std::min( int( get_skill_level( skill_gun ) ), MAX_SKILL ) ) );
+    return ( 10 * ( MAX_SKILL - std::min( int( get_skill_level( gun.gun_skill() ) ), MAX_SKILL ) ) ) +
+           ( 15 * ( MAX_SKILL - std::min( int( get_skill_level( skill_gun ) ), MAX_SKILL ) ) );
 }
 
 void Character::normalize()
