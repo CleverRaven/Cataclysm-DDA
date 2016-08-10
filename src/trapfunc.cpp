@@ -17,6 +17,8 @@ const mtype_id mon_blob( "mon_blob" );
 const mtype_id mon_shadow( "mon_shadow" );
 const mtype_id mon_shadow_snake( "mon_shadow_snake" );
 
+const species_id ROBOT( "ROBOT" );
+
 const skill_id skill_throw( "throw" );
 
 const efftype_id effect_beartrap( "beartrap" );
@@ -605,14 +607,22 @@ void trapfunc::goo( Creature *c, const tripoint &p )
 
 void trapfunc::dissector( Creature *c, const tripoint &p )
 {
-    //~ the sound of a dissector dissecting
-    sounds::sound( p, 10, _( "BRZZZAP!" ) );
     if( c != nullptr ) {
+        monster *z = dynamic_cast<monster *>( c );
+        if( z != nullptr && z->type->in_species( ROBOT ) ){
+            //The monster is a robot. So the dissector should not try to dissect the monsters flesh.
+            sounds::sound( p, 4, _( "BEEPBOOP! Please remove non-organic object. " ) ); //Dissector error sound.
+            c->add_msg_player_or_npc( m_bad, _( "The dissector lights up, and shuts down." ),
+                                  _( "The dissector lights up, and shuts down" ) );
+            return;
+        }
+
+        //~ the sound of a dissector dissecting
+        sounds::sound( p, 10, _( "BRZZZAP!" ) );
         c->add_msg_player_or_npc( m_bad, _( "Electrical beams emit from the floor and slice your flesh!" ),
                                   _( "Electrical beams emit from the floor and slice <npcname>s flesh!" ) );
         c->add_memorial_log( pgettext( "memorial_male", "Stepped into a dissector." ),
                              pgettext( "memorial_female", "Stepped into a dissector." ) );
-        monster *z = dynamic_cast<monster *>( c );
         player *n = dynamic_cast<player *>( c );
         if( n != nullptr ) {
             n->deal_damage( nullptr, bp_head, damage_instance( DT_CUT, 15 ) );
