@@ -5731,11 +5731,11 @@ void player::regen( int rate_multiplier )
 
 void player::update_stamina( int turns )
 {
-    int stamina_recovery = 0;
+    float stamina_recovery = 0.0f;
     // Recover some stamina every turn.
     if( !has_effect( effect_winded ) ) {
         // But mouth encumberance interferes.
-        stamina_recovery += std::max( 1, 10 - (encumb(bp_mouth) / 10) );
+        stamina_recovery += std::max( 1.0f, 10.0f - ( encumb( bp_mouth ) / 10.0f ) );
         // TODO: recovering stamina causes hunger/thirst/fatigue.
         // TODO: Tiredness slowing recovery
     }
@@ -5743,19 +5743,30 @@ void player::update_stamina( int turns )
     // stim recovers stamina (or impairs recovery)
     if( stim > 0 ) {
         // TODO: Make stamina recovery with stims cost health
-        stamina_recovery += std::min( 5, stim / 20 );
+        stamina_recovery += std::min( 5.0f, stim / 20.0f );
     } else if( stim < 0 ) {
         // Affect it less near 0 and more near full
         // Stamina maxes out around 1000, stims kill at -200
         // At -100 stim fully counters regular regeneration at 500 stamina,
         // halves at 250 stamina, cuts by 25% at 125 stamina
         // At -50 stim fully counters at 1000, halves at 500
-        stamina_recovery += stim * stamina / 1000 / 5 ;
+        stamina_recovery += stim * stamina / 1000.0f / 5.0f;
     }
 
+    const int max_stam = get_stamina_max();
+    if( power_level >= 3 && has_active_bionic( "bio_gills" ) ) {
+        int bonus = std::min<int>( power_level / 3, max_stam - stamina - stamina_recovery * turns );
+        bonus = std::min( bonus, 3 );
+        if( bonus > 0 ) {
+            charge_power( -3 * bonus );
+            stamina_recovery += bonus;
+        }
+    }
+
+    stamina = roll_remainder( stamina + stamina_recovery * turns );
+
     // Cap at max
-    stamina = std::min( stamina + stamina_recovery * turns, get_stamina_max() );
-    stamina = std::max( stamina, 0 );
+    stamina = std::min( std::max( stamina, 0 ), max_stam );
 }
 
 bool player::is_hibernating() const
