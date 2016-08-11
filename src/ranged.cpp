@@ -427,9 +427,17 @@ double player::gun_engagement_range( const item &gun, engagement opt ) const
 int player::gun_engagement_moves( const item &gun ) const
 {
     int mv = 0;
-    for( double penalty = recoil, adj; ( adj = aim_per_move( gun, penalty ) ) > 0.0; penalty -= adj ) {
+    double penalty = MIN_RECOIL;
+
+    while( true ) {
+        double adj = aim_per_move( gun, penalty );
+        if( adj <= 0 ) {
+            break;
+        }
+        penalty -= adj;
         mv++;
     }
+
     return mv;
 }
 
