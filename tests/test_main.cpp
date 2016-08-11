@@ -10,8 +10,43 @@
 #include "player.h"
 #include "worldfactory.h"
 #include "debug.h"
+#include "mod_manager.h"
 
-void init_global_game_state() {
+std::vector<std::string> extract_mod_selection( std::vector<const char *> &arg_vec )
+{
+    std::vector<std::string> ret;
+    static const char *mod_tag = "--mods=";
+    std::string mod_string;
+    for( auto iter = arg_vec.begin(); iter != arg_vec.end(); iter++ ) {
+        if( strncmp( *iter, mod_tag, strlen( mod_tag ) ) == 0 ) {
+            mod_string = std::string( &(*iter)[ strlen( mod_tag ) ] );
+            arg_vec.erase( iter );
+            break;
+        }
+    }
+
+    const char delim = ',';
+    size_t i = 0;
+    size_t pos = mod_string.find( delim );
+    if( pos == std::string::npos && !mod_string.empty() ) {
+        ret.push_back( mod_string );
+    }
+
+    while( pos != std::string::npos ) {
+        ret.push_back( mod_string.substr( i, pos - i ) );
+        i = ++pos;
+        pos = mod_string.find( delim, pos );
+
+        if( pos == std::string::npos ) {
+            ret.push_back( mod_string.substr( i, mod_string.length() ) );
+        }
+    }
+
+    return ret;
+}
+
+void init_global_game_state( std::vector<const char *> &arg_vec )
+{
     PATH_INFO::init_base_path("");
     PATH_INFO::init_user_dir("./");
     PATH_INFO::set_standard_filenames();
@@ -32,21 +67,24 @@ void init_global_game_state() {
     get_options().load();
     init_colors();
 
+    const std::vector<std::string> mods = extract_mod_selection( arg_vec );
+
     g = new game;
 
     g->load_static_data();
-    g->load_core_data();
-    DynamicDataLoader::get_instance().finalize_loaded_data();
 
     world_generator->set_active_world(NULL);
     world_generator->get_all_worlds();
-    WORLDPTR test_world = world_generator->make_new_world( false );
+    WORLDPTR test_world = world_generator->make_new_world( mods );
     assert( test_world != NULL );
     world_generator->set_active_world(test_world);
     assert( world_generator->active_world != NULL );
 
+    g->load_world_modfiles( world_generator->active_world, true );
+
     g->u = player();
     g->u.create(PLTYPE_NOW);
+
     g->m = map( get_world_option<bool>( "ZLEVELS" ) );
 
     g->m.load( g->get_levx(), g->get_levy(), g->get_levz(), false );
@@ -54,20 +92,21 @@ void init_global_game_state() {
 
 int main( int argc, const char *argv[] )
 {
-  debug_fatal = true; // prevents stalling on debugmsg, see issue #15723
-  test_mode = true;
+    std::vector<const char *> arg_vec( argv, argv + argc );
+    debug_fatal = true; // prevents stalling on debugmsg, see issue #15723
+    test_mode = true;
 
-  // TODO: Only init game if we're running tests that need it.
-  init_global_game_state();
+    // TODO: Only init game if we're running tests that need it.
+    init_global_game_state( arg_vec );
 
-  int result = Catch::Session().run( argc, argv );
+    int result = Catch::Session().run( arg_vec.size(), &arg_vec[0] );
 
-  auto world_name = world_generator->active_world->world_name;
-  if (result == 0) {
-      g->delete_world(world_name, true);
-  } else {
-      printf("Test world \"%s\" left for inspection.\n", world_name.c_str());
-  }
+    auto world_name = world_generator->active_world->world_name;
+    if( result == 0 ) {
+        g->delete_world(world_name, true);
+    } else {
+        printf("Test world \"%s\" left for inspection.\n", world_name.c_str());
+    }
 
-  return result;
+    return result;
 }

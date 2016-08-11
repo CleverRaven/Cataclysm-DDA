@@ -3560,14 +3560,19 @@ void game::load(std::string worldname, std::string name)
     draw();
 }
 
-void game::load_world_modfiles(WORLDPTR world)
+void game::load_world_modfiles( WORLDPTR world, bool silent )
 {
-    popup_nowait(_("Please wait while the world data loads...\nLoading core JSON..."));
+    if( !silent ) {
+        popup_nowait(_("Please wait while the world data loads...\nLoading core JSON..."));
+    }
+
     load_core_data();
 
-    erase();
-    refresh();
-    popup_nowait(_("Please wait while the world data loads...\nLoading mods..."));
+    if( !silent ) {
+        erase();
+        refresh();
+        popup_nowait(_("Please wait while the world data loads...\nLoading mods..."));
+    }
     if (world != NULL) {
         load_artifacts(world->world_path + "/artifacts.gsav");
         mod_manager *mm = world_generator->get_mod_manager();
@@ -3591,9 +3596,12 @@ void game::load_world_modfiles(WORLDPTR world)
         load_data_from_dir( world->world_path + "/mods", "custom" );
     }
 
-    erase();
-    refresh();
-    popup_nowait(_("Please wait while the world data loads...\nFinalizing and verifying..."));
+    if( !silent ) {
+        erase();
+        refresh();
+        popup_nowait(_("Please wait while the world data loads...\nFinalizing and verifying..."));
+    }
+
     DynamicDataLoader::get_instance().finalize_loaded_data();
 }
 
