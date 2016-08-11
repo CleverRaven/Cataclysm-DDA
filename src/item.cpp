@@ -2405,36 +2405,33 @@ nc_color item::color() const
 
 int item::price( bool practical ) const
 {
-    int res = 0;
+    if( rotten() ) {
+        // @todo Special case things that stay useful when rotten
+        return 0;
+    }
 
-    visit_items( [&res, practical]( const item *e ) {
-        if( e->rotten() ) {
-            // @todo Special case things that stay useful when rotten
-            return VisitResponse::NEXT;
-        }
+    int res = practical ? type->price_post : type->price;
+    if( damage() > 0 ) {
+        // maximal damage is 4, maximal reduction is 40% of the value.
+        res -= res * static_cast<double>( damage() ) / 10;
+    }
 
-        int child = practical ? e->type->price_post : e->type->price;
-        if( e->damage() > 0 ) {
-            // maximal damage is 4, maximal reduction is 40% of the value.
-            child -= child * static_cast<double>( e->damage() ) / 10;
-        }
+    if( count_by_charges() || made_of( LIQUID ) ) {
+        // price from json data is for default-sized stack similar to volume calculation
+        res *= charges / static_cast<double>( type->stack_size );
 
-        if( e->count_by_charges() || e->made_of( LIQUID ) ) {
-            // price from json data is for default-sized stack similar to volume calculation
-            child *= e->charges / static_cast<double>( e->type->stack_size );
+    } else if( magazine_integral() && ammo_remaining() && ammo_data() ) {
+        // items with integral magazines may contain ammunition which can affect the price
+        res += item( ammo_data(), calendar::turn, charges ).price( practical );
 
-        } else if( e->magazine_integral() && e->ammo_remaining() && e->ammo_data() ) {
-            // items with integral magazines may contain ammunition which can affect the price
-            child += item( e->ammo_data(), calendar::turn, e->charges ).price( practical );
+    } else if( is_tool() && !ammo_type() && ammo_capacity() ) {
+        // if tool has no ammo (eg. spray can) reduce price proportional to remaining charges
+        res *= ammo_remaining() / double( std::max( type->charges_default(), 1 ) );
+    }
 
-        } else if( e->is_tool() && !e->ammo_type() && e->ammo_capacity() ) {
-            // if tool has no ammo (eg. spray can) reduce price proportional to remaining charges
-            child *= e->ammo_remaining() / double( std::max( e->type->charges_default(), 1 ) );
-        }
-
-        res += child;
-        return VisitResponse::NEXT;
-    } );
+    for( const auto &e : contents ) {
+        res += e.price( practical );
+    }
 
     return res;
 }
