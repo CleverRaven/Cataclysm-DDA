@@ -210,7 +210,7 @@ void npc::move()
              name.c_str(), target_name.c_str(), ai_cache.danger, confident_shoot_range( weapon ) );
 
     //faction opinion determines if it should consider you hostile
-    if( my_fac != nullptr && my_fac->likes_u < -10 && sees( g->u ) ) {
+    if( my_fac != nullptr && my_fac->likes_u < -10 && is_enemy() && sees( g->u ) ) {
         add_msg( m_debug, "NPC %s turning hostile because my_fac->likes_u %d < -10",
                  name.c_str(), my_fac->likes_u );
         if (op_of_u.fear > 10 + personality.aggression + personality.bravery) {
@@ -244,10 +244,6 @@ void npc::move()
         // TODO: Think about how this actually needs to work, for now assume flee from player
         ai_cache.target = npc_target::player();
     }
-
-    // TODO: morale breaking when surrounded by hostiles
-    //if (!bravery_check(danger) || !bravery_check(total_danger) ||
-    // TODO: near by active explosives spotted
 
     if( target == &g->u && attitude == NPCATT_FLEE ) {
         action = method_of_fleeing();
@@ -774,8 +770,10 @@ void npc::choose_target()
     if( is_friend() ) {
         ai_cache.friends.emplace_back( npc_target::player() );
     } else if( is_enemy() ) {
-        if( check_hostile_character( g->u ) ) {
+        // Hostile characters can always find the player
+        if( ai_cache.target.get() == nullptr || check_hostile_character( g->u ) ) {
             ai_cache.target = npc_target::player();
+            ai_cache.danger = std::max( 1.0f, ai_cache.danger );
         }
     }
 }
@@ -792,7 +790,7 @@ npc_action npc::method_of_fleeing()
     const tripoint &enemy_loc = target->pos();
     int distance = rl_dist( pos(), enemy_loc );
 
-    if( distance / enemy_speed < 4 && enemy_speed > speed_rating() ) {
+    if( distance < 2 && enemy_speed > speed_rating() ) {
         // Can't outrun, so attack
         return method_of_attack();
     }
