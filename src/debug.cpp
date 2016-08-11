@@ -32,7 +32,8 @@ static int debugLevel = D_ERROR;
 static int debugClass = D_MAIN;
 #endif
 
-bool debug_fatal = false;
+extern bool test_mode;
+
 bool debug_mode = false;
 
 namespace
@@ -54,9 +55,9 @@ void realDebugmsg( const char *filename, const char *line, const char *funcname,
     const std::string text = vstring_format( mes, ap );
     va_end( ap );
 
-    if( debug_fatal ) {
-        throw std::runtime_error( string_format( "%s:%s [%s] %s", filename, line, funcname,
-                                  text.c_str() ) );
+    if( test_mode ) {
+        std::cerr << filename << ":" << line << " [" << funcname << "] " << text << std::endl;
+        return;
     }
 
     DebugLog( D_ERROR, D_MAIN ) << filename << ":" << line << " [" << funcname << "] " << text;

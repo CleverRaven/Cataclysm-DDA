@@ -93,7 +93,6 @@ void init_global_game_state( std::vector<const char *> &arg_vec )
 int main( int argc, const char *argv[] )
 {
     std::vector<const char *> arg_vec( argv, argv + argc );
-    debug_fatal = true; // prevents stalling on debugmsg, see issue #15723
     test_mode = true;
 
     // TODO: Only init game if we're running tests that need it.
