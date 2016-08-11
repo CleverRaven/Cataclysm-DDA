@@ -108,6 +108,7 @@ int main(int argc, char *argv[])
                 "Checks the json files belonging to cdda mods",
                 section_default,
                 [&check_all_mods](int, const char **) -> int {
+                    test_mode = true;
                     check_all_mods = true;
                     return 0;
                 }
@@ -120,6 +121,7 @@ int main(int argc, char *argv[])
                     if( n < 1 ) {
                         return -1;
                     }
+                    test_mode = true;
                     dump = params[ 0 ];
                     if( n == 2 ) {
                         if( !strcmp( params[ 1 ], "TSV" ) ) {
@@ -387,9 +389,8 @@ int main(int argc, char *argv[])
 
     set_language(true);
 
-    // if we are dumping stats don't initialize curses to avoid escape sequences
-    // being inserted in to the output stream
-    if( dump.empty() ) {
+    // in test mode don't initialize curses to avoid escape sequences being inserted into output stream
+    if( !test_mode ) {
          if( initscr() == nullptr ) { // Initialize ncurses
             DebugLog( D_ERROR, DC_ALL ) << "initscr failed!";
             return 1;
@@ -426,18 +427,8 @@ int main(int argc, char *argv[])
             exit( 0 );
         }
         if (check_all_mods) {
-            // Here we load all the mods and check their
-            // consistency (both is done in check_all_mod_data).
-            g->init_ui();
-            popup_nowait("checking all mods");
-            g->check_all_mod_data();
-            if(g->game_error()) {
-                exit_handler(-999);
-            }
-            // At this stage, the mods (and core game data)
-            // are find and we could start playing, but this
-            // is only for verifying that stage, so we exit.
-            exit_handler(0);
+            init_colors();
+            exit( g->check_all_mod_data() ? 0 : 1 );
         }
     } catch( const std::exception &err ) {
         debugmsg( "%s", err.what() );

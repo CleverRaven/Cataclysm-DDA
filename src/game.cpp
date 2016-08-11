@@ -281,7 +281,7 @@ void game::load_static_data()
     moveCount = 0;
 }
 
-void game::check_all_mod_data()
+bool game::check_all_mod_data()
 {
     mod_manager *mm = world_generator->get_mod_manager();
     dependency_tree &dtree = mm->get_tree();
@@ -303,9 +303,7 @@ void game::check_all_mod_data()
             // this mod, so there is no need to check this mod now.
             continue;
         }
-        erase();
-        refresh();
-        popup_nowait( "Checking mod <color_yellow>%s</color>", mod.name.c_str() );
+        std::cout << "Checking mod " << mod.name << std::endl;
         // Reset & load core data, than load dependencies
         // and the actual mod and finally finalize all.
         load_core_data();
@@ -319,6 +317,8 @@ void game::check_all_mod_data()
         load_data_from_dir( mod.path, mod.ident );
         DynamicDataLoader::get_instance().finalize_loaded_data();
     }
+
+    return !g->game_error();
 }
 
 void game::load_core_data()

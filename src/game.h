@@ -142,7 +142,7 @@ class game
         /** Loads static data that does not depend on mods or similar. */
         void load_static_data();
         /** Loads core data and all mods. */
-        void check_all_mod_data();
+        bool check_all_mod_data();
         /** Loads core dynamic data. */
         void load_core_data();
         /** Loads core data and mods from the given world. */
