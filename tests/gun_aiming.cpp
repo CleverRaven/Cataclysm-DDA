@@ -9,7 +9,7 @@ static void test_internal( const npc& who, const item &gun )
     THEN( "the effective range is correctly calcuated" ) {
         // calculate range for 50% chance of critical hit at arbitrary recoil
         double recoil = rng_float( 0, 1000 );
-        double range = who.gun_engagement_range( gun, 0, recoil, 50, accuracy_critical );
+        double range = who.gun_current_range( gun, recoil, 50, accuracy_critical );
 
         // calculate actual accuracy at the given range
         double dispersion = ( who.get_weapon_dispersion( gun ) + recoil ) / 2;
@@ -34,23 +34,30 @@ static void test_internal( const npc& who, const item &gun )
     }
 
     WHEN( "the gun it is aimed" ) {
-        THEN( "the effective range is the same or better" ) {
-            REQUIRE( who.gun_engagement_range( gun, 0 ) <=
-                     who.gun_engagement_range( gun, 1 ) );
+        double penalty = MIN_RECOIL;
+        double aimed = penalty - who.aim_per_move( gun, penalty );
+
+        THEN( "recoil is the the same or less" ) {
+            REQUIRE( aimed <= penalty );
+
+            AND_THEN( "the effective range is the same or better" ) {
+                REQUIRE( who.gun_current_range( gun, penalty ) <=
+                         who.gun_current_range( gun, aimed ) );
+            }
         }
     }
 
     WHEN( "a higher accuracy is requested" ) {
         THEN( "the effective range is worse" ) {
-            REQUIRE( who.gun_engagement_range( gun, 0, -1, 50, accuracy_grazing ) >
-                     who.gun_engagement_range( gun, 0, -1, 50, accuracy_critical  ) );
+            REQUIRE( who.gun_current_range( gun, MIN_RECOIL, 50, accuracy_grazing ) >
+                     who.gun_current_range( gun, MIN_RECOIL, 50, accuracy_critical  ) );
         }
     }
 
     WHEN( "a higher certainty is requested" ) {
         THEN( "the effective range is worse" ) {
-            REQUIRE( who.gun_engagement_range( gun, 0, -1, 50 ) >
-                     who.gun_engagement_range( gun, 0, -1, 80 ) );
+            REQUIRE( who.gun_current_range( gun, MIN_RECOIL, 50 ) >
+                     who.gun_current_range( gun, MIN_RECOIL, 80 ) );
         }
     }
 }

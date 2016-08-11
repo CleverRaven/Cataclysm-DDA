@@ -211,8 +211,10 @@ bool game::dump_stats( const std::string& what, dump_mode mode, const std::vecto
 
         auto dump = [&rows]( const standard_npc &who, const item &gun) {
             std::vector<std::string> r( 1, string_format( "%s %s", who.get_name().c_str(), gun.tname().c_str() ) );
+            double penalty = MIN_RECOIL;
             for( int i = 0; i <= cycles; ++i ) {
-                r.push_back( string_format( "%.2f", who.gun_engagement_range( gun, i ) ) );
+                penalty -= who.aim_per_move( gun, penalty );
+                r.push_back( string_format( "%.2f", who.gun_current_range( gun, penalty ) ) );
             }
             rows.push_back( r );
         };

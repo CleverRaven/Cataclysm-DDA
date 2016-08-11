@@ -501,16 +501,14 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         double recoil_total() const;
 
         /**
-         * Calculate range at which given chance of hit considering player stats, clothing and recoil
-         * @param gun ranged weapon which must have sufficient ammo for at least one shot
-         * @param aim maximum moves to spend aiming (or unlimited if negative)
-         * @param penalty if set (non-negative) use this value instead of current total player recoil
-         * @param chance probability of hit, range [0-100) with zero returning absolute maximum range
-         * @param accuracy minimum accuracy required
-         * @return range in tiles (with default arguments this is the maximum effective range)
+         *  Calculate range at which given chance of hit considering player stats, clothing and recoil
+         *  @param gun ranged weapon which must have sufficient ammo for at least one shot
+         *  @param penalty if set (non-negative) use this value instead of @ref recoil_total()
+         *  @param chance probability of hit, range [0-100) with zero returning absolute maximum range
+         *  @param accuracy minimum accuracy required
          */
-        double gun_engagement_range( const item& gun, int aim = -1, double penalty = -1,
-                                    unsigned chance = 50, double accuracy = accuracy_goodhit ) const;
+        double gun_current_range( const item &gun, double penalty = -1,
+                                  unsigned chance = 50, double accuracy = accuracy_goodhit ) const;
 
         enum class engagement {
             snapshot,   // 50% chance of good hit with no aiming

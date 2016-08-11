@@ -383,7 +383,7 @@ dealt_projectile_attack Creature::projectile_attack( const projectile &proj_arg,
     return attack;
 }
 
-double player::gun_engagement_range( const item& gun, int aim, double penalty, unsigned chance, double accuracy ) const
+double player::gun_current_range( const item& gun, double penalty, unsigned chance, double accuracy ) const
 {
     if( !gun.is_gun() || !gun.ammo_sufficient() ) {
         return 0;
@@ -393,28 +393,8 @@ double player::gun_engagement_range( const item& gun, int aim, double penalty, u
         return gun.gun_range( this );
     }
 
-    double driving = 0;
-    if( penalty < 0 ) {
-        // get current effective player recoil
-        penalty = std::max( recoil, 0.0 );
-        if( recoil < 0 ) {
-            debugmsg( "negative player recoil when calculating effective range" );
-        }
-
-        // get maximum penalty from driving
-        driving = recoil_vehicle();
-    }
-
-    for( int i = aim; i != 0; --i ) {
-        double adj = aim_per_move( gun, penalty );
-        if( adj <= 0 ) {
-            break; // no further improvement is possible
-        }
-        penalty -= adj;
-    }
-
     // calculate maximum potential dispersion
-    double dispersion = get_weapon_dispersion( gun ) + penalty + driving;
+    double dispersion = get_weapon_dispersion( gun ) + ( penalty < 0 ? recoil_total() : penalty );
 
     // dispersion is uniformly distributed at random so scale linearly with chance
     dispersion *= chance / 100.0;
@@ -432,13 +412,13 @@ double player::gun_engagement_range( const item &gun, engagement opt ) const
 {
     switch( opt ) {
         case engagement::snapshot:
-            return gun_engagement_range( gun, 0, MIN_RECOIL, 50, accuracy_goodhit );
+            return gun_current_range( gun, MIN_RECOIL, 50, accuracy_goodhit );
 
         case engagement::effective:
-            return gun_engagement_range( gun, -1, MIN_RECOIL, 50, accuracy_goodhit );
+            return gun_current_range( gun, effective_dispersion( gun.sight_dispersion() ), 50, accuracy_goodhit );
 
         case engagement::maximum:
-            return gun_engagement_range( gun, -1, MIN_RECOIL, 10, accuracy_grazing );
+            return gun_current_range( gun, effective_dispersion( gun.sight_dispersion() ), 10, accuracy_grazing );
     }
 
     abort(); // never reached
