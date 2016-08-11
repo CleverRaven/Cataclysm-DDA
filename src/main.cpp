@@ -57,9 +57,10 @@ int main(int argc, char *argv[])
 #endif
     int seed = time(NULL);
     bool verifyexit = false;
-    bool check_all_mods = false;
+    bool check_mods = false;
     std::string dump;
     dump_mode dmode = dump_mode::TSV;
+    std::vector<std::string> opts;
 
     // Set default file paths
 #ifdef PREFIX
@@ -104,12 +105,15 @@ int main(int argc, char *argv[])
                 }
             },
             {
-                "--check-mods", nullptr,
+                "--check-mods", "[mods...]",
                 "Checks the json files belonging to cdda mods",
                 section_default,
-                [&check_all_mods](int, const char **) -> int {
+                [&check_mods,&opts]( int n, const char *params[] ) -> int {
+                    check_mods = true;
                     test_mode = true;
-                    check_all_mods = true;
+                    for( int i = 0; i < n; ++i ) {
+                        opts.emplace_back( params[ i ] );
+                    }
                     return 0;
                 }
             },
@@ -426,9 +430,9 @@ int main(int argc, char *argv[])
             g->dump_stats( dump, dmode );
             exit( 0 );
         }
-        if (check_all_mods) {
+        if( check_mods ) {
             init_colors();
-            exit( g->check_all_mod_data() ? 0 : 1 );
+            exit( g->check_mod_data( opts ) ? 0 : 1 );
         }
     } catch( const std::exception &err ) {
         debugmsg( "%s", err.what() );

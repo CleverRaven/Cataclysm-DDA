@@ -281,40 +281,54 @@ void game::load_static_data()
     moveCount = 0;
 }
 
-bool game::check_all_mod_data()
+bool game::check_mod_data( const std::vector<std::string> &opts )
 {
-    mod_manager *mm = world_generator->get_mod_manager();
-    dependency_tree &dtree = mm->get_tree();
-    if (mm->mod_map.empty()) {
-        // If we don't have any mods, test core data only
+    auto &mods = world_generator->get_mod_manager()->mod_map;
+    auto &tree = world_generator->get_mod_manager()->get_tree();
+
+    // deduplicated list of mods to check
+    std::set<std::string> check( opts.begin(), opts.end() );
+
+    // if no specific mods specified check everything
+    if( check.empty() ) {
+        for( const auto &e : mods ) {
+            check.emplace( e.first );
+        }
+    }
+
+    if( check.empty() ) {
+        // if no loadable mods then test core data only
         load_core_data();
         DynamicDataLoader::get_instance().finalize_loaded_data();
     }
-    for (mod_manager::t_mod_map::iterator a = mm->mod_map.begin(); a != mm->mod_map.end(); ++a) {
-        MOD_INFORMATION &mod = *a->second;
-        if (!dtree.is_available(mod.ident)) {
-            debugmsg("Skipping mod %s (%s)", mod.name.c_str(), dtree.get_node(mod.ident)->s_errors().c_str());
-            continue;
+
+    for( const auto &e : check ) {
+        auto iter = mods.find( e );
+        if( iter == mods.end() ) {
+            std::cerr << "Unknown mod: " << e << std::endl;
+            return false;
         }
-        std::vector<std::string> deps = dtree.get_dependents_of_X_as_strings(mod.ident);
-        if (!deps.empty()) {
-            // mod is dependency of another mod(s)
-            // When those mods get checked, they will pull in
-            // this mod, so there is no need to check this mod now.
-            continue;
+
+        MOD_INFORMATION &mod = *iter->second;
+
+        if( !tree.is_available( mod.ident ) ) {
+            std::cerr << "Missing dependencies: " << mod.name << "\n"
+                      << tree.get_node( mod.ident )->s_errors() << std::endl;
+            return false;
         }
-        std::cout << "Checking mod " << mod.name << std::endl;
-        // Reset & load core data, than load dependencies
-        // and the actual mod and finally finalize all.
+
+        std::cout << "Checking mod " << mod.name << " [" << mod.ident << "]" << std::endl;
+
         load_core_data();
-        deps = dtree.get_dependencies_of_X_as_strings(mod.ident);
-        for( auto &dep : deps ) {
-            // assert(mm->has_mod(deps[i]));
-            // ^^ dependency tree takes care of that case
-            MOD_INFORMATION &dmod = *mm->mod_map[dep];
-            load_data_from_dir( dmod.path, dmod.ident );
+
+        // Load any dependencies
+        for( auto &dep : tree.get_dependencies_of_X_as_strings( mod.ident ) ) {
+            load_data_from_dir( mods[dep]->path, mods[dep]->ident );
         }
+
+        // Load mod itself
         load_data_from_dir( mod.path, mod.ident );
+
         DynamicDataLoader::get_instance().finalize_loaded_data();
     }
 
