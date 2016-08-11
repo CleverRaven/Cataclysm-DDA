@@ -390,9 +390,9 @@ void player_activity::finish( player *p )
             activity_handlers::reload_finish( this, p );
             break;
         case ACT_READ:
-            p->do_read( &( p->i_at( position ) ) );
+            p->do_read( targets[0].get_item() );
             if( type == ACT_NULL ) {
-                add_msg( _( "You finish reading." ) );
+                add_msg( m_info, _( "You finish reading." ) );
             }
             break;
         case ACT_WAIT:
@@ -617,6 +617,9 @@ bool player_activity::can_resume_with( const player_activity &other, const Chara
                 if( std::find( values.begin(), values.end(), foo ) == values.end() ) {
                     return false;
                 }
+            }
+            if( targets.empty() || other.targets.empty() || targets[0] != other.targets[0] ) {
+                return false;
             }
             break;
     }

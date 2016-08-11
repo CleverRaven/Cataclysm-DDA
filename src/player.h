@@ -980,7 +980,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         int time_to_read( const item &book, const player &reader, const player *learner = nullptr ) const;
         bool fun_to_read( const item &book ) const;
         /** Handles reading effects and returns true if activity started */
-        bool read(int pos);
+        bool read( int inventory_position, const bool continuous = false );
         /** Completes book reading action. **/
         void do_read( item *book );
         /** Note that we've read a book at least once. **/
