@@ -2994,7 +2994,7 @@ bool item::craft_has_charges()
 }
 
 #ifdef _MSC_VER
-// Deal with MSVC compiler bug
+// Deal with MSVC compiler bug (#17791, #17958)
 #pragma optimize( "", off )
 #endif
 
@@ -3089,7 +3089,7 @@ int item::cut_resist( bool to_self ) const
 }
 
 #ifdef _MSC_VER
-#pragma ( "", on )
+#pragma optimize( "", on )
 #endif
 
 int item::stab_resist(bool to_self) const
