@@ -3584,7 +3584,10 @@ void vehicle::power_parts()
 
     if( battery_deficit != 0 ) {
         for( auto &pt : lights() ) {
-            pt->enabled = false;
+            // atomic lights don't consume epower, so don't turn them off
+            if( pt->info().epower < 0 ) {
+                pt->enabled = false;
+            }
         }
 
         for( auto pt : get_parts( "STEREO" ) ) {
