@@ -66,16 +66,7 @@ enum edible_rating {
 
 struct special_attack {
     std::string text;
-    int bash;
-    int cut;
-    int stab;
-
-    special_attack()
-    {
-        bash = 0;
-        cut = 0;
-        stab = 0;
-    };
+    damage_instance damage;
 };
 
 class player_morale;
