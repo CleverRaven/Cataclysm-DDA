@@ -608,38 +608,40 @@ void trapfunc::goo( Creature *c, const tripoint &p )
 void trapfunc::dissector( Creature *c, const tripoint &p )
 {
     if( c != nullptr ) {
-        monster *z = dynamic_cast<monster *>( c );
-        if( z != nullptr && z->type->in_species( ROBOT ) ){
-            //The monster is a robot. So the dissector should not try to dissect the monsters flesh.
-            sounds::sound( p, 4, _( "BEEPBOOP! Please remove non-organic object. " ) ); //Dissector error sound.
-            c->add_msg_player_or_npc( m_bad, _( "The dissector lights up, and shuts down." ),
-                                  _( "The dissector lights up, and shuts down" ) );
-            return;
-        }
-
-        //~ the sound of a dissector dissecting
-        sounds::sound( p, 10, _( "BRZZZAP!" ) );
-        c->add_msg_player_or_npc( m_bad, _( "Electrical beams emit from the floor and slice your flesh!" ),
-                                  _( "Electrical beams emit from the floor and slice <npcname>s flesh!" ) );
-        c->add_memorial_log( pgettext( "memorial_male", "Stepped into a dissector." ),
-                             pgettext( "memorial_female", "Stepped into a dissector." ) );
-        player *n = dynamic_cast<player *>( c );
-        if( n != nullptr ) {
-            n->deal_damage( nullptr, bp_head, damage_instance( DT_CUT, 15 ) );
-            n->deal_damage( nullptr, bp_torso, damage_instance( DT_CUT, 20 ) );
-            n->deal_damage( nullptr, bp_arm_r, damage_instance( DT_CUT, 12 ) );
-            n->deal_damage( nullptr, bp_arm_l, damage_instance( DT_CUT, 12 ) );
-            n->deal_damage( nullptr, bp_hand_r, damage_instance( DT_CUT, 10 ) );
-            n->deal_damage( nullptr, bp_hand_l, damage_instance( DT_CUT, 10 ) );
-            n->deal_damage( nullptr, bp_leg_r, damage_instance( DT_CUT, 12 ) );
-            n->deal_damage( nullptr, bp_leg_r, damage_instance( DT_CUT, 12 ) );
-            n->deal_damage( nullptr, bp_foot_l, damage_instance( DT_CUT, 10 ) );
-            n->deal_damage( nullptr, bp_foot_r, damage_instance( DT_CUT, 10 ) );
-        } else if( z != nullptr ) {
-            z->apply_damage( nullptr, bp_torso, 60 );
-        }
-        c->check_dead_state();
+        return;
     }
+
+    monster *z = dynamic_cast<monster *>( c );
+    if( z != nullptr && z->type->in_species( ROBOT ) ){
+        //The monster is a robot. So the dissector should not try to dissect the monsters flesh.
+        sounds::sound( p, 4, _( "BEEPBOOP! Please remove non-organic object." ) ); //Dissector error sound.
+        c->add_msg_player_or_npc( m_bad, _( "The dissector lights up, and shuts down." ),
+                              _( "The dissector lights up, and shuts down." ) );
+        return;
+    }
+
+    //~ the sound of a dissector dissecting
+    sounds::sound( p, 10, _( "BRZZZAP!" ) );
+    c->add_msg_player_or_npc( m_bad, _( "Electrical beams emit from the floor and slice your flesh!" ),
+                              _( "Electrical beams emit from the floor and slice <npcname>s flesh!" ) );
+    c->add_memorial_log( pgettext( "memorial_male", "Stepped into a dissector." ),
+                         pgettext( "memorial_female", "Stepped into a dissector." ) );
+    player *n = dynamic_cast<player *>( c );
+    if( n != nullptr ) {
+        n->deal_damage( nullptr, bp_head, damage_instance( DT_CUT, 15 ) );
+        n->deal_damage( nullptr, bp_torso, damage_instance( DT_CUT, 20 ) );
+        n->deal_damage( nullptr, bp_arm_r, damage_instance( DT_CUT, 12 ) );
+        n->deal_damage( nullptr, bp_arm_l, damage_instance( DT_CUT, 12 ) );
+        n->deal_damage( nullptr, bp_hand_r, damage_instance( DT_CUT, 10 ) );
+        n->deal_damage( nullptr, bp_hand_l, damage_instance( DT_CUT, 10 ) );
+        n->deal_damage( nullptr, bp_leg_r, damage_instance( DT_CUT, 12 ) );
+        n->deal_damage( nullptr, bp_leg_r, damage_instance( DT_CUT, 12 ) );
+        n->deal_damage( nullptr, bp_foot_l, damage_instance( DT_CUT, 10 ) );
+        n->deal_damage( nullptr, bp_foot_r, damage_instance( DT_CUT, 10 ) );
+    } else if( z != nullptr ) {
+        z->apply_damage( nullptr, bp_torso, 60 );
+    }
+    c->check_dead_state();
 }
 
 void trapfunc::pit( Creature *c, const tripoint &p )
