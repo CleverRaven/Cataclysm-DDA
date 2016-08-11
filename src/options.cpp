@@ -1392,6 +1392,13 @@ void options_manager::init()
 
     mOptionsSort["world_default"]++;
 
+    add("ALIGN_STAIRS", "world_default", _("Align up and down stairs"),
+        _("If true, downstairs will be placed directly above upstairs, even if this results in uglier maps."),
+        false
+        );
+
+    mOptionsSort["world_default"]++;
+
     add("NO_FAULTS", "world_default", _("Disables vehicle part faults."),
         _("If true, disables vehicle part faults, vehicle parts will be totally reliable unless destroyed, and can only be repaired via replacement."),
         false, COPT_ALWAYS_HIDE

@@ -1,5 +1,6 @@
 #include "mapgen.h"
 #include "mapgen_functions.h"
+#include "map_iterator.h"
 #include "output.h"
 #include "item_factory.h"
 #include "line.h"
@@ -68,6 +69,38 @@ mapgendata::mapgendata( oter_id north, oter_id east, oter_id south, oter_id west
     default_groundcover.primary = region->default_groundcover.primary;
     default_groundcover.secondary = region->default_groundcover.secondary;
 
+}
+
+tripoint rotate_point( const tripoint &p, int rotations )
+{
+    if( p.x < 0 || p.x >= SEEX * 2 ||
+        p.y < 0 || p.y >= SEEY * 2 ) {
+        debugmsg( "Point out of range: %d,%d,%d", p.x, p.y, p.z );
+        // Mapgen is vulnerable, don't supply invalid points, debugmsg is enough
+        return tripoint( 0, 0, p.z );
+    }
+
+    rotations = rotations % 4;
+
+    tripoint ret = p;
+    switch( rotations ) {
+        case 0:
+            break;
+        case 1:
+            ret.x = p.y;
+            ret.y = SEEX * 2 - 1 - p.x;
+            break;
+        case 2:
+            ret.x = SEEX * 2 - 1 - p.x;
+            ret.y = SEEY * 2 - 1 - p.y;
+            break;
+        case 3:
+            ret.x = SEEY * 2 - 1 - p.y;
+            ret.y = p.x;
+            break;
+    }
+
+    return ret;
 }
 
 std::map<std::string, building_gen_pointer> mapgen_cfunction_map;
@@ -2561,23 +2594,73 @@ void mapgen_generic_house(map *m, oter_id terrain_type, mapgendata dat, int turn
         }
     }
 
-    if ("house_base" == terrain_type.t().id_base ) {
-        int attempts = 100;
-        int stairs_height = actual_house_height - 1;
-        do {
-            rn = rng( lw + 1, rw - 1 );
-            // After 50 failed attempts, relax the placement limitations a bit
-            // Otherwise it will most likely fail the next 50 too
-            if( attempts < 50 ) {
-                stairs_height = rng( 1, SEEY );
+    // For rotation
+    const int iid_diff = (int)terrain_type - terrain_type.t().loadid_base;
+    const bool has_basement = terrain_type.t().id_base == "house_base";
+    if( has_basement ) {
+        const bool force = get_world_option<bool>( "ALIGN_STAIRS" );
+        // Find the basement's stairs first
+        const tripoint abs_sub_here = m->get_abs_sub();
+        tinymap basement;
+        basement.load( abs_sub_here.x, abs_sub_here.y, abs_sub_here.z - 1, false );
+        std::vector<tripoint> upstairs;
+        const tripoint from( 0, 0, abs_sub_here.z - 1 );
+        const tripoint to( SEEX * 2, SEEY * 2, abs_sub_here.z - 1 );
+        for( const tripoint &p : m->points_in_rectangle( from, to ) ) {
+            if( basement.has_flag( TFLAG_GOES_UP, p ) ) {
+                upstairs.emplace_back( p );
             }
-            attempts--;
-            if( m->ter( rn, stairs_height ) == t_floor && !m->has_furn( rn, stairs_height ) ) {
-                m->ter_set( rn, stairs_height, t_stairs_down );
-                break;
+        }
+
+        bool placed_any = false;
+        for( const tripoint &p : upstairs ) {
+            static const tripoint up = tripoint( 0, 0, 1 );
+            const tripoint here = rotate_point( p + up, iid_diff );
+            // @todo Less ugly check
+            // If aligning isn't forced, allow only floors. Otherwise allow all non-walls
+            const ter_t &ter_here = m->ter( here ).obj();
+            if( ( force && ter_here.movecost > 0 ) ||
+                ( ter_here.has_flag( "INDOORS" ) && ter_here.has_flag( "FLAT" ) ) ) {
+                m->ter_set( here, t_stairs_down );
+                placed_any = true;
             }
-        } while( attempts > 0 );
+
+            // Try to push away furniture
+            const furn_id furn_here = m->furn( here );
+            if( furn_here != f_null ) {
+                for( const tripoint &push_point : m->points_in_radius( here, 1 ) ) {
+                    if( m->furn( push_point ) == f_null ) {
+                        m->furn_set( push_point, furn_here );
+                        break;
+                    }
+                }
+
+                m->furn_set( here, f_null );
+            }
+        }
+
+        // If not forcing alignment and didn't place any stairs, allow legacy stair placement
+        // Note: any, not all - legacy stairs wouldn't deal well with multiple random stairs
+        if( !placed_any && !force ) {
+            // Legacy stair spawning code - allows teleports
+            int attempts = 100;
+            int stairs_height = actual_house_height - 1;
+            do {
+                rn = rng( lw + 1, rw - 1 );
+                // After 50 failed attempts, relax the placement limitations a bit
+                // Otherwise it will most likely fail the next 50 too
+                if( attempts < 50 ) {
+                    stairs_height = rng( 1, SEEY );
+                }
+                attempts--;
+                if( m->ter( rn, stairs_height ) == t_floor && !m->has_furn( rn, stairs_height ) ) {
+                    m->ter_set( rn, stairs_height, t_stairs_down );
+                    break;
+                }
+            } while( attempts > 0 );
+        }
     }
+    
     if (one_in(100)) { // todo: region data // Houses have a 1 in 100 chance of wasps!
         for (int i = 0; i < SEEX * 2; i++) {
             for (int j = 0; j < SEEY * 2; j++) {
@@ -2646,7 +2729,6 @@ void mapgen_generic_house(map *m, oter_id terrain_type, mapgendata dat, int turn
         m->place_spawns( mongroup_id( "GROUP_ZOMBIE" ), 2, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, density);
     }
 
-    int iid_diff = (int)terrain_type - terrain_type.t().loadid_base;
     if ( iid_diff > 0 ) {
         m->rotate(iid_diff);
     }
