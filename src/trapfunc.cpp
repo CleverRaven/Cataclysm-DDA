@@ -607,7 +607,7 @@ void trapfunc::goo( Creature *c, const tripoint &p )
 
 void trapfunc::dissector( Creature *c, const tripoint &p )
 {
-    if( c != nullptr ) {
+    if( c == nullptr ) {
         return;
     }
 
