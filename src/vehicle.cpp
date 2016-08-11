@@ -432,6 +432,7 @@ void vehicle::init_state(int init_veh_fuel, int init_veh_status)
         auto light_dome  = one_in( 16 );
         auto light_aisle = one_in(  8 );
         auto light_overh = one_in(  4 );
+        auto light_atom  = one_in(  2 );
         for( auto &pt : parts ) {
             if( pt.has_flag( VPFLAG_CONE_LIGHT ) ) {
                 pt.enabled = light_head;
@@ -441,6 +442,8 @@ void vehicle::init_state(int init_veh_fuel, int init_veh_status)
                 pt.enabled = light_aisle;
             } else if( pt.has_flag( VPFLAG_CIRCLE_LIGHT ) ) {
                 pt.enabled = light_overh;
+            } else if( pt.has_flag( VPFLAG_ATOMIC_LIGHT ) ) {
+                pt.enabled = light_atom;
             }
         }
 
@@ -970,6 +973,7 @@ void vehicle::use_controls( const tripoint &pos )
         add_toggle( _( "overhead lights" ), keybind( "TOGGLE_OVERHEAD_LIGHT" ), "CIRCLE_LIGHT" );
         add_toggle( _( "aisle lights" ), keybind( "TOGGLE_AISLE_LIGHT" ), "AISLE_LIGHT" );
         add_toggle( _( "dome lights" ), keybind( "TOGGLE_DOME_LIGHT" ), "DOME_LIGHT" );
+        add_toggle( _( "atomic lights" ), keybind( "TOGGLE_ATOMIC_LIGHT" ), "ATOMIC_LIGHT" );
         add_toggle( _( "stereo" ), keybind( "TOGGLE_STEREO" ), "STEREO" );
         add_toggle( _( "chimes" ), keybind( "TOGGLE_CHIMES" ), "CHIMES" );
         add_toggle( _( "fridge" ), keybind( "TOGGLE_FRIDGE" ), "FRIDGE" );
@@ -1865,6 +1869,9 @@ int vehicle::install_part( int dx, int dy, const vehicle_part &new_part )
 
     } else if( pt.info().has_flag( "DOME_LIGHT" ) ) {
         pt.enabled = has_part( "DOME_LIGHT", true );
+
+    } else if( pt.info().has_flag( "ATOMIC_LIGHT" ) ) {
+        pt.enabled = has_part( "ATOMIC_LIGHT", true );
 
     } else if( pt.info().has_flag( "STEREO" ) ) {
         pt.enabled = has_part( "STEREO", true );
