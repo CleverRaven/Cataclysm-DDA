@@ -545,7 +545,7 @@
             },
             {
                 "level": 2,
-                "name": "pistol"
+                "name": "stabbing"
             }
         ],
         "items": {
@@ -1284,6 +1284,10 @@
             {
                 "level": 4,
                 "name": "rifle"
+            },
+            {
+                "level": 1,
+                "name": "pistol"
             }
         ],
         "traits": [
@@ -3751,8 +3755,7 @@
                 "gloves_wool",
                 "knit_scarf",
                 "mbag",
-                "ref_lighter",
-                "pockknife",
+                "dog_whistle",
                 "newest_newspaper",
                 "newest_newspaper",
                 "newest_newspaper",
