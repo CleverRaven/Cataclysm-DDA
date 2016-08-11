@@ -593,7 +593,11 @@
             },
             {
                 "level": 2,
-                "name": "pistol"
+                "name": "cutting"
+            },
+            {
+                "level": 1,
+                "name": "melee"
             },
             {
                 "level": 1,
@@ -614,8 +618,11 @@
         ],
         "items": {
             "both": [
-                "winter_pants_army",
-                "winter_jacket_army",
+                "undershirt",
+				"arm_warmers",
+                "leg_warmers",
+				"pants_army",
+                "jacket_army",
                 "balclava",
                 "beret",
                 "gloves_liner",
