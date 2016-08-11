@@ -873,7 +873,7 @@
             "ident": "bio_sur",
             "name": "Bionic Survivalist",
             "description": "Mainly from paranoia, you augmented yourself, got some training and gear to go inawoods incase anything went down, well it did.  Now that civilization has fallen, the woods are your new home.", 
-            "points": 10,
+            "points": 8,
             "skills": [
             {
                 "level": 3,
@@ -893,15 +893,7 @@
             },
             {
                 "level": 2,
-                "name": "traps"
-            },
-            {
-                "level": 2,
                 "name": "firstaid"
-            },
-            {
-                "level": 2,
-                "name": "swimming"
             },
             {
                 "level": 1,
@@ -911,7 +903,7 @@
         "CBMs":[
             "bio_power_storage_mkII",
             "bio_sunglasses",
-            "bio_metabolics",
+            "bio_solar",
             "bio_lighter",
             "bio_evap",
             "bio_flashlight",
@@ -932,7 +924,9 @@
                 "canteen",
                 "compbow",
                 "arrow_cf",
-                "arrow_cf"
+                "arrow_cf",
+                "tent_kit",
+                "rollmat"
             ],
             "male": [
                 "boxer_shorts"
