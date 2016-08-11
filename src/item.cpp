@@ -3032,6 +3032,11 @@ bool item::craft_has_charges()
     return false;
 }
 
+#ifdef _MSC_VER
+// Deal with MSVC compiler bug (#17791, #17958)
+#pragma optimize( "", off )
+#endif
+
 int item::bash_resist( bool to_self ) const
 {
     float resist = 0;
@@ -3121,6 +3126,10 @@ int item::cut_resist( bool to_self ) const
 
     return lround((resist * eff_thickness * adjustment) + l_padding + k_padding);
 }
+
+#ifdef _MSC_VER
+#pragma optimize( "", on )
+#endif
 
 int item::stab_resist(bool to_self) const
 {
