@@ -26,6 +26,8 @@
 
 void exit_handler(int s);
 
+extern bool test_dirty;
+
 namespace {
 
 struct arg_handler {
@@ -432,7 +434,7 @@ int main(int argc, char *argv[])
         }
         if( check_mods ) {
             init_colors();
-            exit( g->check_mod_data( opts ) ? 0 : 1 );
+            exit( g->check_mod_data( opts ) && !test_dirty ? 0 : 1 );
         }
     } catch( const std::exception &err ) {
         debugmsg( "%s", err.what() );
