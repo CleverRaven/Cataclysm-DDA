@@ -513,13 +513,13 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
                                     unsigned chance = 50, double accuracy = accuracy_goodhit ) const;
 
         enum class engagement {
-            effective_min,   // 50% chance of good hit with no aiming
-            effective_max,   // 50% chance of good hit at maximum aim
-            absolute_max,    // 10% chance of any hit at maximum aim
+            snapshot,   // 50% chance of good hit with no aiming
+            effective,  // 50% chance of good hit at maximum aim
+            maximum,    // 10% chance of any hit at maximum aim
         };
 
-        /** Calculate range at which engagement rules apply */
-        double gun_engagement_range( const item& gun, engagement opts, double penalty = -1 ) const;
+        /** Get engagement ranges for gun */
+        double gun_engagement_range( const item &gun, engagement opt ) const;
 
         /** How many moves does it take to aim gun to maximum accuracy? */
         int gun_engagement_moves( const item &gun ) const;

@@ -23,17 +23,14 @@ static void test_internal( const npc& who, const item &gun )
         REQUIRE( std::abs( missed_by - accuracy_critical ) < accuracy_critical / 1000 );
     }
 
-    THEN( "the effective range is less than maximum range" ) {
-        REQUIRE( who.gun_engagement_range( gun, player::engagement::effective_min ) <=
-                 who.gun_engagement_range( gun, player::engagement::absolute_max ) );
-
-        REQUIRE( who.gun_engagement_range( gun, player::engagement::effective_max ) <=
-                 who.gun_engagement_range( gun, player::engagement::absolute_max ) );
+    THEN( "the snapshot range is less than the effective range" ) {
+        REQUIRE( who.gun_engagement_range( gun, player::engagement::snapshot ) <=
+                 who.gun_engagement_range( gun, player::engagement::effective ) );
     }
 
-    THEN( "the effective minimum is less than the effective maximum range" ) {
-        REQUIRE( who.gun_engagement_range( gun, player::engagement::effective_min ) <=
-                 who.gun_engagement_range( gun, player::engagement::effective_max ) );
+    THEN( "the effective range is less than maximum range" ) {
+        REQUIRE( who.gun_engagement_range( gun, player::engagement::effective ) <=
+                 who.gun_engagement_range( gun, player::engagement::maximum ) );
     }
 
     WHEN( "the gun it is aimed" ) {

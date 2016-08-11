@@ -129,9 +129,9 @@ bool game::dump_stats( const std::string& what, dump_mode mode, const std::vecto
 
             r.push_back( to_string( who.gun_engagement_moves( obj ) ) );
 
-            r.push_back( string_format( "%.1f", who.gun_engagement_range( obj, player::engagement::effective_max ) ) );
-            r.push_back( string_format( "%.1f", who.gun_engagement_range( obj, player::engagement::effective_min ) ) );
-            r.push_back( string_format( "%.1f", who.gun_engagement_range( obj, player::engagement::absolute_max ) ) );
+            r.push_back( string_format( "%.1f", who.gun_engagement_range( obj, player::engagement::effective ) ) );
+            r.push_back( string_format( "%.1f", who.gun_engagement_range( obj, player::engagement::snapshot ) ) );
+            r.push_back( string_format( "%.1f", who.gun_engagement_range( obj, player::engagement::maximum ) ) );
 
             for( const auto &e : locations ) {
                 r.push_back( to_string( obj.type->gun->valid_mod_locations[ e ] ) );

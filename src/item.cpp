@@ -944,15 +944,12 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
 
         insert_separation_line();
 
-        int eff_max = round( g->u.gun_engagement_range( *mod, player::engagement::effective_max, MIN_RECOIL ) );
-        int abs_max = round( g->u.gun_engagement_range( *mod, player::engagement::absolute_max,  MIN_RECOIL ) );
+        int eff_range = round( g->u.gun_engagement_range( *mod, player::engagement::effective ) );
+        int max_range = round( g->u.gun_engagement_range( *mod, player::engagement::maximum ) );
 
-        if( eff_max > 0 ) {
-            info.emplace_back( "GUN", _( "<bold>Effective range: </bold>" ), "<num>", eff_max, true, "", abs_max <= 0 );
-        }
-
-        if( abs_max > 0 ) {
-            info.emplace_back( "GUN", space + _( "Maximum range: " ), "<num>", abs_max );
+        if( eff_range > 0 ) {
+            info.emplace_back( "GUN", _( "<bold>Effective range: </bold>" ), "<num>", eff_range, true, "", false );
+            info.emplace_back( "GUN", space + _( "Maximum range: " ), "<num>", max_range );
         }
 
         int aim_mv = g->u.gun_engagement_moves( *mod );

@@ -428,17 +428,17 @@ double player::gun_engagement_range( const item& gun, int aim, double penalty, u
     return std::min( res, double( gun.gun_range( this ) ) );
 }
 
-double player::gun_engagement_range( const item& gun, engagement opts, double penalty ) const
+double player::gun_engagement_range( const item &gun, engagement opt ) const
 {
-    switch( opts ) {
-        case engagement::effective_min:
-            return gun_engagement_range( gun, 0, penalty, 50, accuracy_goodhit );
+    switch( opt ) {
+        case engagement::snapshot:
+            return gun_engagement_range( gun, 0, MIN_RECOIL, 50, accuracy_goodhit );
 
-        case engagement::effective_max:
-            return gun_engagement_range( gun, -1, penalty, 50, accuracy_goodhit );
+        case engagement::effective:
+            return gun_engagement_range( gun, -1, MIN_RECOIL, 50, accuracy_goodhit );
 
-        case engagement::absolute_max:
-            return gun_engagement_range( gun, -1, penalty, 10, accuracy_grazing );
+        case engagement::maximum:
+            return gun_engagement_range( gun, -1, MIN_RECOIL, 10, accuracy_grazing );
     }
 
     abort(); // never reached
