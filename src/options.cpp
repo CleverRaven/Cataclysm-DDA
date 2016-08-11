@@ -1213,7 +1213,7 @@ void options_manager::init()
 
     add("INITIAL_STAT_POINTS", "debug", _("Initial stat points"),
         _("Initial points available to spend on stats on character generation."),
-                                          0, 1000, 6
+        0, 1000, 6
         );
 
     add("INITIAL_TRAIT_POINTS", "debug", _("Initial trait points"),
