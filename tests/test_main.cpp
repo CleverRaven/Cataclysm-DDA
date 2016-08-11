@@ -80,7 +80,7 @@ void init_global_game_state( std::vector<const char *> &arg_vec )
     world_generator->set_active_world(test_world);
     assert( world_generator->active_world != NULL );
 
-    g->load_world_modfiles( world_generator->active_world, true );
+    g->load_world_modfiles( world_generator->active_world );
 
     g->u = player();
     g->u.create(PLTYPE_NOW);
