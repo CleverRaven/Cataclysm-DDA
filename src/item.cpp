@@ -2993,6 +2993,11 @@ bool item::craft_has_charges()
     return false;
 }
 
+#ifdef _MSC_VER
+// Deal with MSVC compiler bug
+#pragma optimize( "", off )
+#endif
+
 int item::bash_resist( bool to_self ) const
 {
     float resist = 0;
@@ -3021,14 +3026,7 @@ int item::bash_resist( bool to_self ) const
     if( is_armor() ) {
         // base resistance
         // Don't give reinforced items +armor, just more resistance to ripping
-        // Workaround for a MSVC compiler bug
-        // avoid item::damage() being improperly inlined
-        int eff_damage = damage();
-        if( to_self ) {
-            eff_damage = std::min(eff_damage, 0);
-        } else {
-            eff_damage = std::max(eff_damage, 0);
-        }
+        const int eff_damage = to_self ? std::min( damage(), 0 ) : std::max( damage(), 0 );
         eff_thickness = std::max( 1, get_thickness() - eff_damage );
     }
 
@@ -3074,14 +3072,7 @@ int item::cut_resist( bool to_self ) const
     if( is_armor() ) {
         // base resistance
         // Don't give reinforced items +armor, just more resistance to ripping
-        // Workaround for a MSVC compiler bug
-        // avoid item::damage() being improperly inlined
-        int eff_damage = damage();
-        if( to_self ) {
-            eff_damage = std::min(eff_damage, 0);
-        } else {
-            eff_damage = std::max(eff_damage, 0);
-        }
+        const int eff_damage = to_self ? std::min( damage(), 0 ) : std::max( damage(), 0 );
         eff_thickness = std::max( 1, get_thickness() - eff_damage );
     }
 
@@ -3096,6 +3087,10 @@ int item::cut_resist( bool to_self ) const
 
     return lround((resist * eff_thickness * adjustment) + l_padding + k_padding);
 }
+
+#ifdef _MSC_VER
+#pragma ( "", on )
+#endif
 
 int item::stab_resist(bool to_self) const
 {
