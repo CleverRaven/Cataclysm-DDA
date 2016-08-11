@@ -91,12 +91,13 @@ size_t inventory_entry::get_available_count() const {
 }
 
 const item &inventory_entry::get_item() const {
-    if( !is_item() ) {
+    const item_location &loc = get_location();
+    if( !loc ) {
         static const item nullitem;
         debugmsg( "Tried to access an empty item." );
         return nullitem;
     }
-    return *( *location );
+    return *loc;
 }
 
 long inventory_entry::get_invlet() const {
