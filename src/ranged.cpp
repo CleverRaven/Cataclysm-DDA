@@ -1321,7 +1321,9 @@ std::vector<tripoint> game::pl_target_ui( target_mode mode, item *relevant, int 
             }
             dst = t[newtarget]->pos();
         } else if( (action == "AIM") && target != -1 ) {
-            do_aim( &u, t, target, relevant, dst );
+            for( int i = 0; i != 10; ++i ) {
+                do_aim( &u, t, target, relevant, dst );
+            }
             if( u.moves <= 0 ) {
                 // We've run out of moves, clear target vector, but leave target selected.
                 u.assign_activity( ACT_AIM, 0, 0 );
