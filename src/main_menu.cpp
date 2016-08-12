@@ -164,28 +164,28 @@ void game::mmenu_refresh_motd()
 void game::mmenu_refresh_credits()
 {
     mmenu_credits.clear();
-    std::ifstream stream( PATH_INFO::find_translated_file( "creditsdir", ".credits",
-                          "credits" ).c_str() );
     std::vector<std::string> buffer;
-    std::string line;
-    std::ostringstream ss;
-    while( std::getline( stream, line ) ) {
-        if( line[0] == '#' ) {
-            continue;
-        } else {
-            buffer.push_back( line );
-        }
-        if( buffer.size() > 14 || line.empty() ) {
-            ss.str( "" );
-            for( std::vector<std::string>::iterator it = buffer.begin(); it != buffer.end(); ++it ) {
-                ss << *it << std::endl;
+    read_from_file_optional( PATH_INFO::find_translated_file( "creditsdir", ".credits",
+    "credits" ), [&buffer]( std::istream & stream ) {
+        std::string line;
+        while( std::getline( stream, line ) ) {
+            if( line[0] == '#' ) {
+                continue;
+            } else {
+                buffer.push_back( line );
             }
-            mmenu_credits.push_back( ss.str() );
-            buffer.clear();
+            if( buffer.size() > 14 || line.empty() ) {
+                std::ostringstream ss;
+                for( std::vector<std::string>::iterator it = buffer.begin(); it != buffer.end(); ++it ) {
+                    ss << *it << std::endl;
+                }
+                mmenu_credits.push_back( ss.str() );
+                buffer.clear();
+            }
         }
-    }
+    } );
     if( !buffer.empty() ) {
-        ss.str( "" );
+        std::ostringstream ss;
         for( std::vector<std::string>::iterator it = buffer.begin(); it != buffer.end(); ++it ) {
             ss << *it << std::endl;
         }
