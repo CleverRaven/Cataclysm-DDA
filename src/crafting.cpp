@@ -1105,36 +1105,36 @@ comp_selection<item_comp> player::select_item_component( const std::vector<item_
             std::ostringstream tmpStr;
             tmpStr << item::nname( map_ha.type ) << " (";
             if( item::count_by_charges( map_ha.type ) ) {
-                tmpStr << map_inv.charges_of( map_ha.type ) << " charges";
+                tmpStr << map_inv.charges_of( map_ha.type ) << _( " charges" );
             }
             else {
                 tmpStr << map_inv.amount_of( map_ha.type );
             }
-            tmpStr << " nearby)";
+            tmpStr << _( " nearby)" );
             cmenu.addentry( tmpStr.str() );
         }
         for( auto &player_ha : player_has ) {
             std::ostringstream tmpStr;
             tmpStr << item::nname( player_ha.type ) << " (";
             if( item::count_by_charges( player_ha.type ) ) {
-                tmpStr << charges_of( player_ha.type ) << " charges";
+                tmpStr << charges_of( player_ha.type ) << _( " charges" );
             }
             else {
                 tmpStr << amount_of( player_ha.type );
             }
-            tmpStr << " on person)";
+            tmpStr << _( " on person)" );
             cmenu.addentry( tmpStr.str() );
         }
         for( auto &elem : mixed ) {
             std::ostringstream tmpStr;
             tmpStr << item::nname( elem.type ) << " (";
             if( item::count_by_charges( elem.type ) ) {
-                tmpStr << (map_inv.charges_of( elem.type ) + charges_of( elem.type )) << " charges";
+                tmpStr << (map_inv.charges_of( elem.type ) + charges_of( elem.type )) << _( " charges" );
             }
             else {
                 tmpStr << (map_inv.amount_of( elem.type ) + amount_of( elem.type ));
             }
-            tmpStr << " on person & nearby)";
+            tmpStr << _( " on person & nearby)" );
             cmenu.addentry( tmpStr.str() );
         }
 
