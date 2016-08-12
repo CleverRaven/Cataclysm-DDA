@@ -146,20 +146,20 @@
     "color": "light_red"
   },
   {
--    "id": "gas_tank_small",		
- -   "copy-from": "tank_small",		
- -   "type": "vehicle_part",		
- -   "name": "gasoline tank (10L)",		
- -   "fuel_type": "gasoline",		
- -   "color": "light_red"		
+    "id": "gas_tank_small",		
+    "copy-from": "tank_small",		
+    "type": "vehicle_part",		
+    "name": "gasoline tank (10L)",		
+    "fuel_type": "gasoline",		
+    "color": "light_red"		
  -},
   {
--    "id": "gas_tank_medium",		
- -   "copy-from": "tank_medium",		
- -   "type": "vehicle_part",		
- -   "name": "gasoline tank (20L)",		
- -   "fuel_type": "gasoline",		
- -   "color": "light_red"		
+    "id": "gas_tank_medium",		
+    "copy-from": "tank_medium",		
+    "type": "vehicle_part",		
+    "name": "gasoline tank (20L)",		
+    "fuel_type": "gasoline",		
+    "color": "light_red"		
  -},
   {
     "id": "gas_tank",
