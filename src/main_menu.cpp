@@ -15,6 +15,7 @@
 #include "path_info.h"
 #include "mapsharing.h"
 #include "sounds.h"
+#include "cata_utility.h"
 
 #include <fstream>
 
@@ -132,15 +133,16 @@ void game::print_menu( WINDOW *w_open, int iSel, const int iMenuOffsetX, int iMe
 
 std::vector<std::string> load_file( const std::string &path, const std::string &alternative_text )
 {
-    std::ifstream stream( path.c_str() );
     std::vector<std::string> result;
-    std::string line;
-    while( std::getline( stream, line ) ) {
-        if( !line.empty() && line[0] == '#' ) {
-            continue;
+    read_from_file_optional( path, [&result]( std::istream & fin ) {
+        std::string line;
+        while( std::getline( fin, line ) ) {
+            if( !line.empty() && line[0] == '#' ) {
+                continue;
+            }
+            result.push_back( line );
         }
-        result.push_back( line );
-    }
+    } );
     if( result.empty() ) {
         result.push_back( alternative_text );
     }
