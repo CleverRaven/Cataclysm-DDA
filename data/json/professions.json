@@ -1893,12 +1893,13 @@
         "ident": "bionic_patient",
         "name": "Bionic Patient",
         "description": "When the diagnosis came back positive you signed up for a series of experimental bionic surgeries that saved your life.  Now you're healthier than you ever were before, thanks to a suite of bionic systems powered by standard batteries.  Make the most of your second chance at life.",
-        "points": 3,
+        "points": 5,
         "CBMs":[
             "bio_leukocyte",
             "bio_blood_anal",
             "bio_blood_filter",
-            "bio_batteries",
+            "bio_nanobots",
+            "bio_metabolics",
             "bio_power_storage_mkII"
         ],
         "items":{
@@ -1906,8 +1907,7 @@
                 "jeans",
                 "tshirt",
                 "socks",
-                "sneakers",
-                "battery"
+                "sneakers"
             ],
             "male": [
                 "briefs"
