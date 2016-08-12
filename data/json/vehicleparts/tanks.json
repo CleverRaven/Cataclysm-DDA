@@ -30,6 +30,25 @@
     "flags": [ "FUEL_TANK" ]
   },
   {
+    "abstract": "tank_medium",
+    "type": "vehicle_part",
+    "name": "vehicle tank (20L)",
+    "item": "jerrycan_big",
+    "location": "fuel_source",
+    "symbol": "O",
+    "broken_color": "red",
+    "size": 20000,
+    "durability": 120,
+    "difficulty": 1,
+    "damage_modifier": 80,
+    "breaks_into": [
+      { "item": "steel_lump", "count": [ 1, 2 ] },
+      { "item": "steel_chunk", "count": [ 1, 2 ] },
+      { "item": "scrap", "count": [ 1, 2 ] }
+    ],
+    "flags": [ "FUEL_TANK" ]
+  },
+  {
     "abstract": "tank",
     "type": "vehicle_part",
     "name": "vehicle tank (60L)",
@@ -87,6 +106,14 @@
     "color": "green"
   },
   {
+    "id": "diesel_tank_medium",
+    "copy-from": "tank_medium",
+    "type": "vehicle_part",
+    "name": "diesel tank (20L)",
+    "fuel_type": "diesel",
+    "color": "green"
+  },
+  {
     "id": "diesel_tank",
     "copy-from": "tank",
     "type": "vehicle_part",
@@ -115,14 +142,6 @@
     "copy-from": "tank_little",
     "type": "vehicle_part",
     "name": "gasoline tank (2L)",
-    "fuel_type": "gasoline",
-    "color": "light_red"
-  },
-  {
-    "id": "gas_tank_small",
-    "copy-from": "tank_small",
-    "type": "vehicle_part",
-    "name": "gasoline tank (10L)",
     "fuel_type": "gasoline",
     "color": "light_red"
   },
@@ -167,6 +186,14 @@
     "color": "light_cyan"
   },
   {
+    "id": "water_dirty_tank_medium",
+    "copy-from": "tank_medium",
+    "type": "vehicle_part",
+    "name": "dirty water tank (20L)",
+    "fuel_type": "water",
+    "color": "light_cyan"
+  },
+  {
     "id": "water_dirty_tank",
     "copy-from": "tank",
     "type": "vehicle_part",
@@ -203,6 +230,14 @@
     "copy-from": "tank_small",
     "type": "vehicle_part",
     "name": "clean water tank (10L)",
+    "fuel_type": "water_clean",
+    "color": "light_blue"
+  },
+  {
+    "id": "water_tank_medium",
+    "copy-from": "tank_medium",
+    "type": "vehicle_part",
+    "name": "clean water tank (20L)",
     "fuel_type": "water_clean",
     "color": "light_blue"
   },
