@@ -152,7 +152,7 @@
     "name": "gasoline tank (10L)",		
     "fuel_type": "gasoline",		
     "color": "light_red"		
- -},
+  },
   {
     "id": "gas_tank_medium",		
     "copy-from": "tank_medium",		
@@ -160,7 +160,7 @@
     "name": "gasoline tank (20L)",		
     "fuel_type": "gasoline",		
     "color": "light_red"		
- -},
+  },
   {
     "id": "gas_tank",
     "copy-from": "tank",
