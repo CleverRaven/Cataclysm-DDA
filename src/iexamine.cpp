@@ -724,7 +724,7 @@ void iexamine::chainfence( player &p, const tripoint &examp )
     if( examp.x < SEEX * int( MAPSIZE / 2 ) || examp.y < SEEY * int( MAPSIZE / 2 ) ||
         examp.x >= SEEX * ( 1 + int( MAPSIZE / 2 ) ) || examp.y >= SEEY * ( 1 + int( MAPSIZE / 2 ) ) ) {
         if( p.is_player() ) {
-            g->update_map( &p );
+            g->update_map( p );
         }
     }
 }

@@ -369,10 +369,6 @@ void start_location::place_player( player &u ) const
         }
     }
 
-    int posx = u.posx();
-    int posy = u.posy();
-    g->update_map( posx, posy ); // The player's submap must be in the center of the map
-
     if( !found_good_spot ) {
         debugmsg( "Could not find a good starting place for character" );
     }

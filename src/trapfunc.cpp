@@ -206,7 +206,7 @@ void trapfunc::tripwire( Creature *c, const tripoint &p )
                 n->hurtall( rng( 1, 4 ), nullptr );
             }
             if( c == &g->u ) {
-                g->update_map( &g->u );
+                g->update_map( g->u );
             }
         }
         c->check_dead_state();
@@ -919,7 +919,7 @@ static bool sinkhole_safety_roll( player *p, const std::string &itemname, const 
                                   _( "<npcname> steps on a sinkhole, but manages to pull themselves to safety." ) );
         p->setpos( random_entry( safe ) );
         if( p == &g->u ) {
-            g->update_map( p );
+            g->update_map( *p );
         }
 
         return true;
