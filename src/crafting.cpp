@@ -1102,40 +1102,46 @@ comp_selection<item_comp> player::select_item_component( const std::vector<item_
         uimenu cmenu;
         // Populate options with the names of the items
         for( auto &map_ha : map_has ) {
-            std::ostringstream tmpStr;
-            tmpStr << item::nname( map_ha.type ) << " (";
+            std::string tmpStr;
             if( item::count_by_charges( map_ha.type ) ) {
-                tmpStr << map_inv.charges_of( map_ha.type ) << _( " charges" );
+                tmpStr =  string_format( _( "%s (%d charges nearby)" ),
+                                        item::nname( map_ha.type ).c_str(),
+                                        map_inv.charges_of( map_ha.type ));
             }
             else {
-                tmpStr << map_inv.amount_of( map_ha.type );
+                tmpStr = string_format( _( "%s (%d nearby)" ),
+                                       item::nname( map_ha.type ).c_str(),
+                                       map_inv.amount_of( map_ha.type ) );
             }
-            tmpStr << _( " nearby)" );
-            cmenu.addentry( tmpStr.str() );
+            cmenu.addentry( tmpStr );
         }
         for( auto &player_ha : player_has ) {
-            std::ostringstream tmpStr;
-            tmpStr << item::nname( player_ha.type ) << " (";
+            std::string tmpStr;
             if( item::count_by_charges( player_ha.type ) ) {
-                tmpStr << charges_of( player_ha.type ) << _( " charges" );
+                tmpStr =  string_format( _( "%s (%d charges on person)" ),
+                                        item::nname( player_ha.type ).c_str(),
+                                        charges_of( player_ha.type ));
             }
             else {
-                tmpStr << amount_of( player_ha.type );
+                tmpStr = string_format( _( "%s (%d on person)" ),
+                                       item::nname( player_ha.type ).c_str(),
+                                       amount_of( player_ha.type ) );
             }
-            tmpStr << _( " on person)" );
-            cmenu.addentry( tmpStr.str() );
+            cmenu.addentry( tmpStr );
         }
         for( auto &elem : mixed ) {
-            std::ostringstream tmpStr;
-            tmpStr << item::nname( elem.type ) << " (";
+            std::string tmpStr;
             if( item::count_by_charges( elem.type ) ) {
-                tmpStr << (map_inv.charges_of( elem.type ) + charges_of( elem.type )) << _( " charges" );
+                tmpStr =  string_format( _( "%s (%d charges nearby & on person)" ),
+                                        item::nname( elem.type ).c_str(),
+                                        map_inv.charges_of( elem.type ) + charges_of( elem.type ));
             }
             else {
-                tmpStr << (map_inv.amount_of( elem.type ) + amount_of( elem.type ));
+                tmpStr = string_format( _( "%s (%d nearby & on person)" ),
+                                       item::nname( elem.type ).c_str(),
+                                       map_inv.amount_of( elem.type ) + amount_of( elem.type));
             }
-            tmpStr << _( " on person & nearby)" );
-            cmenu.addentry( tmpStr.str() );
+            cmenu.addentry( tmpStr );
         }
 
         // Unlike with tools, it's a bad thing if there aren't any components available
@@ -1285,10 +1291,11 @@ player::select_tool_component( const std::vector<tool_comp> &tools, int batch, i
         uimenu tmenu( hotkeys );
         for( auto &map_ha : map_has ) {
             if( item::find_type(map_ha.type)->maximum_charges() > 1 ) {
-                std::ostringstream tmpStr;
-                tmpStr << item::nname( map_ha.type ) << " (";
-                tmpStr << map_inv.charges_of( map_ha.type ) << _( " charges nearby)" );
-                tmenu.addentry( tmpStr.str() );
+                std::string tmpStr;
+                tmpStr = string_format( "%s (%d charges nearby)",
+                                       item::nname( map_ha.type ).c_str(),
+                                       map_inv.charges_of( map_ha.type ));
+                tmenu.addentry( tmpStr );
             }
             else {
                 std::string tmpStr = item::nname( map_ha.type ) + _( " (nearby)" );
@@ -1297,10 +1304,11 @@ player::select_tool_component( const std::vector<tool_comp> &tools, int batch, i
         }
         for( auto &player_ha : player_has ) {
             if( item::find_type(player_ha.type)->maximum_charges() > 1 ) {
-                std::ostringstream tmpStr;
-                tmpStr << item::nname( player_ha.type ) << " (";
-                tmpStr << charges_of( player_ha.type ) << _( " charges on person)" );
-                tmenu.addentry( tmpStr.str() );
+                std::string tmpStr;
+                tmpStr = string_format( "%s (%d charges on person)",
+                                       item::nname( player_ha.type ).c_str(),
+                                       map_inv.charges_of( player_ha.type ));
+                tmenu.addentry( tmpStr );
             }
             else {
                 tmenu.addentry( item::nname( player_ha.type ) );
