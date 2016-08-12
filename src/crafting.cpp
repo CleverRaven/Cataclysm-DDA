@@ -1102,15 +1102,40 @@ comp_selection<item_comp> player::select_item_component( const std::vector<item_
         uimenu cmenu;
         // Populate options with the names of the items
         for( auto &map_ha : map_has ) {
-            std::string tmpStr = item::nname( map_ha.type ) + _( " (nearby)" );
-            cmenu.addentry( tmpStr );
+            std::ostringstream tmpStr;
+            tmpStr << item::nname( map_ha.type ) << " (";
+            if( item::count_by_charges( map_ha.type ) ) {
+                tmpStr << map_inv.charges_of( map_ha.type ) << " charges";
+            }
+            else {
+                tmpStr << map_inv.amount_of( map_ha.type );
+            }
+            tmpStr << " nearby)";
+            cmenu.addentry( tmpStr.str() );
         }
         for( auto &player_ha : player_has ) {
-            cmenu.addentry( item::nname( player_ha.type ) );
+            std::ostringstream tmpStr;
+            tmpStr << item::nname( player_ha.type ) << " (";
+            if( item::count_by_charges( player_ha.type ) ) {
+                tmpStr << charges_of( player_ha.type ) << " charges";
+            }
+            else {
+                tmpStr << amount_of( player_ha.type );
+            }
+            tmpStr << " on person)";
+            cmenu.addentry( tmpStr.str() );
         }
         for( auto &elem : mixed ) {
-            std::string tmpStr = item::nname( elem.type ) + _( " (on person & nearby)" );
-            cmenu.addentry( tmpStr );
+            std::ostringstream tmpStr;
+            tmpStr << item::nname( elem.type ) << " (";
+            if( item::count_by_charges( elem.type ) ) {
+                tmpStr << (map_inv.charges_of( elem.type ) + charges_of( elem.type )) << " charges";
+            }
+            else {
+                tmpStr << (map_inv.amount_of( elem.type ) + amount_of( elem.type ));
+            }
+            tmpStr << " on person & nearby)";
+            cmenu.addentry( tmpStr.str() );
         }
 
         // Unlike with tools, it's a bad thing if there aren't any components available
