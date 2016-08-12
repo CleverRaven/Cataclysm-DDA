@@ -889,7 +889,7 @@ npc_action npc::method_of_attack()
         return npc_reload;
     }
 
-    if( !modes.empty() && sees( *critter ) && aim_per_time( weapon, recoil ) > 0 ) {
+    if( !modes.empty() && sees( *critter ) && aim_per_move( weapon, recoil ) > 0 ) {
         return npc_aim;
     }
 
@@ -1182,14 +1182,14 @@ int npc::confident_shoot_range( const item &it ) const
 int npc::confident_gun_mode_range( const item::gun_mode &gun, int at_recoil ) const
 {
     if( at_recoil < 0 ) {
-        at_recoil = recoil + driving_recoil;
+        at_recoil = recoil_total();
     }
 
     if( !gun || gun.melee() ) {
         return 0;
     }
 
-    double deviation = get_weapon_dispersion( gun.target, false ) + at_recoil;
+    double deviation = get_weapon_dispersion( *gun.target ) + at_recoil;
     // Halve to get expected values
     deviation /= 2;
     // Convert from MoA back to quarter-degrees.
@@ -1301,12 +1301,12 @@ bool npc::enough_time_to_reload( const item &gun ) const
 
 void npc::aim()
 {
-    int aim_amount = aim_per_time( weapon, recoil );
+    double aim_amount = aim_per_move( weapon, recoil );
     while( aim_amount > 0 && recoil > 0 && moves > 10 ) {
-        moves -= 10;
+        moves--;
         recoil -= aim_amount;
-        recoil = std::max( 0, recoil );
-        aim_amount = aim_per_time( weapon, recoil );
+        recoil = std::max( 0.0, recoil );
+        aim_amount = aim_per_move( weapon, recoil );
     }
 }
 
@@ -1641,7 +1641,7 @@ void npc::move_pause()
     aim();
 
     // Player can cheese the pause recoil drop to speed up aiming, let npcs do it too
-    int pause_recoil = recoil - str_cur + 2 * get_skill_level( skill_gun );
+    double pause_recoil = recoil - str_cur + 2 * get_skill_level( skill_gun );
     pause_recoil = std::max( MIN_RECOIL * 2, pause_recoil );
     pause_recoil = pause_recoil / 2;
     if( pause_recoil < recoil ) {

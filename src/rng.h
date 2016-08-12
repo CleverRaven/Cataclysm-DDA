@@ -19,6 +19,13 @@ int divide_roll_remainder( double dividend, double divisor );
 
 int djb2_hash( const unsigned char *input );
 
+double rng_normal( double lo, double hi );
+
+inline double rng_normal( double hi )
+{
+    return rng_normal( 0.0, hi );
+}
+
 /**
  * Returns a random entry in the container.
  * The container must have a `size()` function and must support iterators as usual.

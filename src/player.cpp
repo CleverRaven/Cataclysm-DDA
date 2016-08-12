@@ -76,6 +76,8 @@
 #include <fstream>
 #include <limits>
 
+const double MIN_RECOIL = 600;
+
 const mtype_id mon_dermatik_larva( "mon_dermatik_larva" );
 const mtype_id mon_player_blob( "mon_player_blob" );
 const mtype_id mon_shadow_snake( "mon_shadow_snake" );
@@ -221,8 +223,6 @@ player::player() : Character()
     reactor_plut = 0;
     slow_rad = 0;
     cash = 0;
-    recoil = 0;
-    driving_recoil = 0;
     scent = 500;
     male = true;
     prof = profession::has_initialized() ? profession::generic() :
@@ -1872,6 +1872,24 @@ bool player::is_immune_damage( const damage_type dt ) const
     }
 }
 
+double player::recoil_vehicle() const
+{
+    // @todo vary penalty dependent upon vehicle part on which player is boarded
+
+    if( in_vehicle ) {
+        vehicle *veh = g->m.veh_at( pos() );
+        if( veh ) {
+            return double( abs( veh->velocity ) ) * 3 / 100;
+        }
+    }
+    return 0;
+}
+
+double player::recoil_total() const
+{
+    return recoil + recoil_vehicle();
+}
+
 bool player::is_underwater() const
 {
     return underwater;
@@ -2930,8 +2948,6 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
 
                     mvwprintz( w_stats, 6, 1, c_magenta, _( "Melee to-hit bonus:" ) );
                     mvwprintz( w_stats, 6, 22, c_magenta, "%+3d", get_hit_base() );
-                    mvwprintz( w_stats, 7, 1, c_magenta, _( "Ranged penalty:" ) );
-                    mvwprintz( w_stats, 7, 21, c_magenta, "%+4d", -( abs( ranged_dex_mod() ) ) );
                     if( throw_dex_mod( false ) <= 0 ) {
                         mvwprintz( w_stats, 8, 1, c_magenta, _( "Throwing bonus:" ) );
                     } else {
@@ -2958,8 +2974,6 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
                 } else if( line == 3 ) {
                     // Display player current perception effects
                     mvwprintz( w_stats, 5, 1, h_ltgray, _( "Perception:" ) );
-                    mvwprintz( w_stats, 6, 1,  c_magenta, _( "Ranged penalty:" ) );
-                    mvwprintz( w_stats, 6, 21, c_magenta, "%+4d", -( abs( ranged_per_mod() ) ) );
                     mvwprintz( w_stats, 7, 1, c_magenta, _( "Trap detection level:" ) );
                     mvwprintz( w_stats, 7, 23, c_magenta, "%2d", get_per() );
 

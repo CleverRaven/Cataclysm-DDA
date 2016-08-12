@@ -120,16 +120,19 @@ int main(int argc, char *argv[])
                 }
             },
             {
-                "--dump-stats", "<what> [mode = TSV]",
+                "--dump-stats", "<what> [mode = TSV] [opts...]",
                 "Dumps item stats",
                 section_default,
-                [&dump,&dmode](int n, const char *params[]) -> int {
+                [&dump,&dmode,&opts](int n, const char *params[]) -> int {
                     if( n < 1 ) {
                         return -1;
                     }
                     test_mode = true;
                     dump = params[ 0 ];
-                    if( n == 2 ) {
+                    for( int i = 2; i < n; ++i ) {
+                        opts.emplace_back( params[ i ] );
+                    }
+                    if( n >= 2 ) {
                         if( !strcmp( params[ 1 ], "TSV" ) ) {
                             dmode = dump_mode::TSV;
                             return 0;
@@ -429,8 +432,7 @@ int main(int argc, char *argv[])
         }
         if( !dump.empty() ) {
             init_colors();
-            g->dump_stats( dump, dmode );
-            exit( 0 );
+            exit( g->dump_stats( dump, dmode, opts ) ? 0 : 1 );
         }
         if( check_mods ) {
             init_colors();

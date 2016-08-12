@@ -973,15 +973,17 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
 
         insert_separation_line();
 
-        int eff_max = round( g->u.gun_engagement_range( *mod, player::engagement::effective_max, MIN_RECOIL ) );
-        int abs_max = round( g->u.gun_engagement_range( *mod, player::engagement::absolute_max,  MIN_RECOIL ) );
+        int eff_range = round( g->u.gun_engagement_range( *mod, player::engagement::effective ) );
+        int max_range = round( g->u.gun_engagement_range( *mod, player::engagement::maximum ) );
 
-        if( eff_max > 0 ) {
-            info.emplace_back( "GUN", _( "<bold>Effective range: </bold>" ), "<num>", eff_max, true, "", abs_max <= 0 );
+        if( eff_range > 0 ) {
+            info.emplace_back( "GUN", _( "<bold>Effective range: </bold>" ), "<num>", eff_range, true, "", false );
+            info.emplace_back( "GUN", space + _( "Maximum range: " ), "<num>", max_range );
         }
 
-        if( abs_max > 0 ) {
-            info.emplace_back( "GUN", space + _( "Maximum range: " ), "<num>", abs_max );
+        int aim_mv = g->u.gun_engagement_moves( *mod );
+        if( aim_mv > 0 ) {
+            info.emplace_back( "GUN", _( "Maximum aiming time: " ), "<num> seconds", int( aim_mv / 16.67 ), true, "", true, true );
         }
 
         info.push_back( iteminfo( "GUN", _( "Damage: " ), "", mod->gun_damage( false ), true, "", false, false ) );
@@ -1020,11 +1022,20 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
                                       mod->gun_dispersion( true ), true, "", true, true, false ) );
         }
 
-        info.push_back( iteminfo( "GUN", _( "Sight dispersion: " ), "",
-                                  mod->sight_dispersion( -1 ), true, "", false, true ) );
+        // if effective sight dispersion differs from actual sight dispersion display both
+        int act_disp = mod->sight_dispersion();
+        int eff_disp = g->u.effective_dispersion( act_disp );
+        int adj_disp = eff_disp - act_disp;
 
-        info.push_back( iteminfo( "GUN", space + _( "Aim speed: " ), "",
-                                  mod->aim_speed( -1 ), true, "", true, true ) );
+        if( adj_disp < 0 ) {
+            info.emplace_back( "GUN", _( "Sight dispersion: " ),
+                               string_format( "%i-%i = <num>", act_disp, -adj_disp), eff_disp, true, "", true, true );
+        } else if( adj_disp > 0 ) {
+            info.emplace_back( "GUN", _( "Sight dispersion: " ),
+                               string_format( "%i+%i = <num>", act_disp, adj_disp), eff_disp, true, "", true, true );
+        } else {
+            info.emplace_back( "GUN", _( "Sight dispersion: " ), "", eff_disp, true, "", true, true );
+        }
 
         info.push_back( iteminfo( "GUN", _( "Recoil: " ), "", mod->gun_recoil( false ), true, "", false,
                                   true ) );
@@ -1120,9 +1131,9 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
             info.push_back( iteminfo( "GUNMOD", _( "Sight dispersion: " ), "",
                                       mod->sight_dispersion, true, "", true, true ) );
         }
-        if( mod->aim_speed != -1 ) {
-            info.push_back( iteminfo( "GUNMOD", _( "Aim speed: " ), "",
-                                      mod->aim_speed, true, "", true, true ) );
+        if( mod->aim_cost > 0 ) {
+            info.push_back( iteminfo( "GUNMOD", _( "Aim cost: " ), "",
+                                      mod->aim_cost, true, "", true, true ) );
         }
         if( mod->damage != 0 ) {
             info.push_back( iteminfo( "GUNMOD", _( "Damage: " ), "", mod->damage, true,
@@ -3948,55 +3959,23 @@ int item::gun_dispersion( bool with_ammo ) const
     return dispersion_sum;
 }
 
-// Sight dispersion and aim speed pick the best sight bonus to use.
-// The best one is the fastest one whose dispersion is under the threshold.
-// If you provide a threshold of -1, it just gives lowest dispersion.
-int item::sight_dispersion( int aim_threshold ) const
+int item::sight_dispersion() const
 {
-    if (!is_gun()) {
+    if( !is_gun() ) {
         return 0;
     }
-    const auto gun = type->gun.get();
-    int best_dispersion = gun->sight_dispersion;
-    int best_aim_speed = INT_MAX;
-    if( gun->sight_dispersion < aim_threshold || aim_threshold == -1 ) {
-        best_aim_speed = gun->aim_speed;
-    }
-    for( const auto e : gunmods() ) {
-        const auto mod = e->type->gunmod.get();
-        if( mod->sight_dispersion != -1 && mod->aim_speed != -1 &&
-            ( ( aim_threshold == -1 && mod->sight_dispersion < best_dispersion ) ||
-              ( mod->sight_dispersion < aim_threshold && mod->aim_speed < best_aim_speed ) ) ) {
-            best_aim_speed = mod->aim_speed;
-            best_dispersion = mod->sight_dispersion;
-        }
-    }
-    return best_dispersion;
-}
 
-// This method should never be called if the threshold exceeds the accuracy of the available sights.
-int item::aim_speed( int aim_threshold ) const
-{
-    if (!is_gun()) {
-        return 0;
-    }
-    const auto gun = type->gun.get();
-    int best_dispersion = gun->sight_dispersion;
-    int best_aim_speed = INT_MAX;
-    if( gun->sight_dispersion <= aim_threshold || aim_threshold == -1 ) {
-        best_aim_speed = gun->aim_speed;
-    }
+    int res = type->gun->sight_dispersion;
+
     for( const auto e : gunmods() ) {
         const auto mod = e->type->gunmod.get();
-        if( mod->sight_dispersion != -1 && mod->aim_speed != -1 &&
-            ((aim_threshold == -1 && mod->sight_dispersion < best_dispersion ) ||
-             (mod->sight_dispersion <= aim_threshold &&
-              mod->aim_speed < best_aim_speed)) ) {
-            best_aim_speed = mod->aim_speed;
-            best_dispersion = mod->sight_dispersion;
+        if( mod->sight_dispersion < 0 || mod->aim_cost <= 0 ) {
+            continue; // skip gunmods which don't provide a sight
         }
+        res = std::min( res, mod->sight_dispersion );
     }
-    return best_aim_speed;
+
+    return res;
 }
 
 int item::gun_damage( bool with_ammo ) const

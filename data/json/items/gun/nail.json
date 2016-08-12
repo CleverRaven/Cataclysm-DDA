@@ -19,7 +19,6 @@
     "pierce": 20,
     "dispersion": 60,
     "sight_dispersion": 150,
-    "aim_speed": 6,
     "durability": 5,
     "ups_charges": 5,
     "valid_mod_locations": [ [ "accessories", 4 ], [ "grip", 1 ], [ "sights", 1 ], [ "stock", 1 ] ],
@@ -42,7 +41,6 @@
     "skill": "pistol",
     "dispersion": 240,
     "sight_dispersion": 150,
-    "aim_speed": 12,
     "durability": 8,
     "loudness": 5,
     "clip_size": 20,
@@ -70,8 +68,7 @@
     "proportional": {
       "price": 3,
       "dispersion": 0.5,
-      "sight_dispersion": 0.5,
-      "aim_speed": 0.5
+      "sight_dispersion": 0.5
     }
   }
 ]

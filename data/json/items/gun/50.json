@@ -42,7 +42,6 @@
     "range": 45,
     "dispersion": 30,
     "sight_dispersion": 75,
-    "aim_speed": 5,
     "recoil": 225,
     "durability": 8,
     "reload": 400,

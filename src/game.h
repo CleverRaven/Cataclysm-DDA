@@ -183,8 +183,8 @@ class game
         void unserialize_master(std::istream &fin);  // for load
         bool unserialize_master_legacy(std::istream &fin);  // for old load
 
-        /** write stats of all loaded items of the given type to stdout */
-        void dump_stats( const std::string& what, dump_mode mode );
+        /** write statisics to stdout and @return true if sucessful */
+        bool dump_stats( const std::string& what, dump_mode mode, const std::vector<std::string> &opts );
 
         /** Returns false if saving failed. */
         bool save();

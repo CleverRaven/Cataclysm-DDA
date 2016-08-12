@@ -45,7 +45,7 @@ const efftype_id effect_hit_by_player( "hit_by_player" );
 static projectile make_gun_projectile( const item &gun );
 int time_to_fire( const Character &p, const itype &firing );
 static void cycle_action( item& weap, const tripoint &pos );
-int recoil_add( player& p, const item& gun, int shot );
+double recoil_add( player& p, const item& gun, int shot );
 void make_gun_sound_effect(player &p, bool burst, item *weapon);
 extern bool is_valid_in_w_terrain(int, int);
 void drop_or_embed_projectile( const dealt_projectile_attack &attack );
@@ -118,10 +118,10 @@ dealt_projectile_attack Creature::projectile_attack( const projectile &proj_arg,
 {
     const bool do_animation = get_option<bool>( "ANIMATIONS" );
 
-    // for the isosceles triangle formed by the intended and actual targets
-    // we can use the cosine formula (a² = b² + c² - 2bc⋅cosθ) to calculate the tangent
     double range = rl_dist( source, target_arg );
-    double missed_by = sqrt( 2 * pow( range, 2 ) - ( 2 * pow( range, 2 ) * cos( ARCMIN( dispersion ) ) ) );
+
+    // an isosceles triangle is formed by the intended and actual targets
+    double missed_by = iso_tangent( range, dispersion );
 
     // TODO: move to-hit roll back in here
 
@@ -383,7 +383,7 @@ dealt_projectile_attack Creature::projectile_attack( const projectile &proj_arg,
     return attack;
 }
 
-double player::gun_engagement_range( const item& gun, int aim, int penalty, unsigned chance, double accuracy ) const
+double player::gun_current_range( const item& gun, double penalty, unsigned chance, double accuracy ) const
 {
     if( !gun.is_gun() || !gun.ammo_sufficient() ) {
         return 0;
@@ -393,32 +393,8 @@ double player::gun_engagement_range( const item& gun, int aim, int penalty, unsi
         return gun.gun_range( this );
     }
 
-    int driving = 0;
-    if( penalty < 0 ) {
-        // get current effective player recoil
-        penalty = std::max( recoil, 0 );
-        if( recoil < 0 ) {
-            debugmsg( "negative player recoil when calculating effective range" );
-        }
-
-        // get maximum penalty from driving
-        driving = std::max( driving_recoil, 0 );
-        if( driving_recoil < 0 ) {
-            debugmsg( "negative driving recoil when calculating effective range" );
-        }
-    }
-
-    // aim_per_time() returns improvement (in MOA) per 10 moves
-    for( int i = aim * 10; i != 0; --i ) {
-        int adj = aim_per_time( gun, penalty );
-        if( adj <= 0 ) {
-            break; // no further improvement is possible
-        }
-        penalty -= adj;
-    }
-
     // calculate maximum potential dispersion
-    double dispersion = get_weapon_dispersion( &gun, false ) + penalty + driving;
+    double dispersion = get_weapon_dispersion( gun ) + ( penalty < 0 ? recoil_total() : penalty );
 
     // dispersion is uniformly distributed at random so scale linearly with chance
     dispersion *= chance / 100.0;
@@ -432,20 +408,37 @@ double player::gun_engagement_range( const item& gun, int aim, int penalty, unsi
     return std::min( res, double( gun.gun_range( this ) ) );
 }
 
-double player::gun_engagement_range( const item& gun, engagement opts, int penalty ) const
+double player::gun_engagement_range( const item &gun, engagement opt ) const
 {
-    switch( opts ) {
-        case engagement::effective_min:
-            return gun_engagement_range( gun, 0, penalty, 50, accuracy_goodhit );
+    switch( opt ) {
+        case engagement::snapshot:
+            return gun_current_range( gun, MIN_RECOIL, 50, accuracy_goodhit );
 
-        case engagement::effective_max:
-            return gun_engagement_range( gun, -1, penalty, 50, accuracy_goodhit );
+        case engagement::effective:
+            return gun_current_range( gun, effective_dispersion( gun.sight_dispersion() ), 50, accuracy_goodhit );
 
-        case engagement::absolute_max:
-            return gun_engagement_range( gun, -1, penalty, 10, accuracy_grazing );
+        case engagement::maximum:
+            return gun_current_range( gun, effective_dispersion( gun.sight_dispersion() ), 10, accuracy_grazing );
     }
 
     abort(); // never reached
+}
+
+int player::gun_engagement_moves( const item &gun ) const
+{
+    int mv = 0;
+    double penalty = MIN_RECOIL;
+
+    while( true ) {
+        double adj = aim_per_move( gun, penalty );
+        if( adj <= 0 ) {
+            break;
+        }
+        penalty -= adj;
+        mv++;
+    }
+
+    return mv;
 }
 
 bool player::handle_gun_damage( item &it )
@@ -539,7 +532,7 @@ int player::fire_gun( const tripoint &target, int shots, item& gun )
 
     const skill_id skill_used = gun.gun_skill();
 
-    const int player_dispersion = skill_dispersion( gun, false ) + ranged_skill_offset( skill_used );
+    const int player_dispersion = skill_dispersion( gun ) + ranged_skill_offset( skill_used );
     // If weapon dispersion exceeds skill dispersion you can't tell
     // if you need to correct or if the gun messed up, so you can't learn.
     ///\EFFECT_PER allows you to learn more often with less accurate weapons.
@@ -558,21 +551,12 @@ int player::fire_gun( const tripoint &target, int shots, item& gun )
             break;
         }
 
-        double dispersion = get_weapon_dispersion( &gun, true );
+        double dispersion = rng_normal( get_weapon_dispersion( gun ) ) + rng_normal( recoil_total() );
         int range = rl_dist( pos(), aim );
-
-        // Apply penalty when using bulky weapons at point-blank range (except when loaded with shot)
-        // If we are firing an auxiliary gunmod we wan't to use the base guns volume (which includes the gunmod itself)
-        if( !gun.ammo_effects().count( "SHOT" ) ) {
-            const item *parent = gun.is_gunmod() && has_item( gun ) ? find_parent( gun ) : nullptr;
-            dispersion *= std::max( ( ( parent ? parent->volume() : gun.volume() ) / 3.0 ) / range, 1.0 );
-        }
 
         auto shot = projectile_attack( make_gun_projectile( gun ), aim, dispersion );
         curshot++;
 
-        // if we are firing a turret don't apply that recoil to the player
-        // @todo turrets need to accumulate recoil themselves
         recoil_add( *this, gun, ++burst );
 
         make_gun_sound_effect( *this, shots > 1, &gun );
@@ -830,15 +814,14 @@ dealt_projectile_attack player::throw_item( const tripoint &target, const item &
 static std::string print_recoil( const player &p)
 {
     if( p.weapon.is_gun() ) {
-        const int adj_recoil = p.recoil + p.driving_recoil;
-        if( adj_recoil > MIN_RECOIL ) {
-            // 150 is the minimum when not actively aiming
+        const int val = p.recoil_total();
+        if( val > MIN_RECOIL ) {
             const char *color_name = "c_ltgray";
-            if( adj_recoil >= 690 ) {
+            if( val >= 690 ) {
                 color_name = "c_red";
-            } else if( adj_recoil >= 450 ) {
+            } else if( val >= 450 ) {
                 color_name = "c_ltred";
-            } else if( adj_recoil >= 210 ) {
+            } else if( val >= 210 ) {
                 color_name = "c_yellow";
             }
             return string_format("<color_%s>%s</color>", color_name, _("Recoil"));
@@ -948,12 +931,12 @@ static void do_aim( player *p, std::vector <Creature *> &t, int &target,
         p->recoil = std::max(MIN_RECOIL, p->recoil);
     }
 
-    const int aim_amount = p->aim_per_time( *relevant, p->recoil );
+    const double aim_amount = p->aim_per_move( *relevant, p->recoil );
     if( aim_amount > 0 ) {
         // Increase aim at the cost of moves
-        p->moves -= 10;
+        p->moves--;
         p->recoil -= aim_amount;
-        p->recoil = std::max( 0, p->recoil );
+        p->recoil = std::max( 0.0, p->recoil );
     } else {
         // If aim is already maxed, we're just waiting, so pass the turn.
         p->moves = 0;
@@ -961,7 +944,7 @@ static void do_aim( player *p, std::vector <Creature *> &t, int &target,
 }
 
 static int print_aim_bars( const player &p, WINDOW *w, int line_number, item *weapon,
-                           Creature *target, int predicted_recoil ) {
+                           Creature *target, double predicted_recoil ) {
     // This is absolute accuracy for the player.
     // TODO: push the calculations duplicated from Creature::deal_projectile_attack() and
     // Creature::projectile_attack() into shared methods.
@@ -969,22 +952,21 @@ static int print_aim_bars( const player &p, WINDOW *w, int line_number, item *we
 
     // Confidence is chance of the actual shot being under the target threshold,
     // This simplifies the calculation greatly, that's intentional.
-    const double aim_level = predicted_recoil + p.driving_recoil +
-        p.get_weapon_dispersion( weapon, false );
+    const double aim_level = p.get_weapon_dispersion( *weapon ) + predicted_recoil + p.recoil_vehicle();
     const double range = rl_dist( p.pos(), target->pos() );
     const double missed_by = aim_level * 0.00021666666666666666 * range;
     const double hit_rating = missed_by;
     const double confidence = 1 / hit_rating;
     // This is a relative measure of how steady the player's aim is,
     // 0 it is the best the player can do.
-    const double steady_score = predicted_recoil - p.weapon.sight_dispersion( -1 );
+    const double steady_score = predicted_recoil - p.effective_dispersion( p.weapon.sight_dispersion() );
     // Fairly arbitrary cap on steadiness...
     const double steadiness = 1.0 - steady_score / 250;
 
     const std::array<std::pair<double, char>, 3> confidence_ratings = {{
-        std::make_pair( 0.1, '*' ),
-        std::make_pair( 0.4, '+' ),
-        std::make_pair( 0.6, '|' ) }};
+        std::make_pair( accuracy_headshot, '*' ),
+        std::make_pair( accuracy_goodhit, '+' ),
+        std::make_pair( accuracy_grazing, '|' ) }};
 
     const int window_width = getmaxx( w ) - 2; // Window width minus borders.
     const std::string &confidence_bar = get_labeled_bar( confidence, window_width, _( "Confidence" ),
@@ -1097,7 +1079,7 @@ std::vector<tripoint> game::pl_target_ui( target_mode mode, item *relevant, int 
 
     std::vector<aim_type> aim_types;
     std::vector<aim_type>::iterator aim_mode;
-    int sight_dispersion = u.weapon.sight_dispersion( -1 );
+    int sight_dispersion = u.effective_dispersion( u.weapon.sight_dispersion() );
 
     if( mode == TARGET_MODE_FIRE ) {
         aim_types.push_back( aim_type { "", "", "", false, 0 } ); // dummy aim type for unaimed shots
@@ -1242,14 +1224,14 @@ std::vector<tripoint> game::pl_target_ui( target_mode mode, item *relevant, int 
         }
 
         if( mode == TARGET_MODE_FIRE && critter != nullptr && u.sees( *critter ) ) {
-            int predicted_recoil = u.recoil;
+            double predicted_recoil = u.recoil;
             int predicted_delay = 0;
             if( aim_mode->has_threshold && aim_mode->threshold < u.recoil ) {
                 do{
-                    const int aim_amount = u.aim_per_time( u.weapon, predicted_recoil );
+                    const double aim_amount = u.aim_per_move( u.weapon, predicted_recoil );
                     if( aim_amount > 0 ) {
-                        predicted_delay += 10;
-                        predicted_recoil = std::max( predicted_recoil - aim_amount , 0);
+                        predicted_delay++;
+                        predicted_recoil = std::max( predicted_recoil - aim_amount, 0.0 );
                     }
                 } while( predicted_recoil > aim_mode->threshold &&
                           predicted_recoil - sight_dispersion > 0 );
@@ -1339,7 +1321,9 @@ std::vector<tripoint> game::pl_target_ui( target_mode mode, item *relevant, int 
             }
             dst = t[newtarget]->pos();
         } else if( (action == "AIM") && target != -1 ) {
-            do_aim( &u, t, target, relevant, dst );
+            for( int i = 0; i != 10; ++i ) {
+                do_aim( &u, t, target, relevant, dst );
+            }
             if( u.moves <= 0 ) {
                 // We've run out of moves, clear target vector, but leave target selected.
                 u.assign_activity( ACT_AIM, 0, 0 );
@@ -1636,12 +1620,6 @@ item::sound_data item::gun_noise( bool const burst ) const
     return { 0, "" }; // silent weapons
 }
 
-// Little helper to clean up dispersion calculation methods.
-static int rand_or_max( bool random, int max )
-{
-    return random ? rng(0, max) : max;
-}
-
 static bool is_driving( const player &p )
 {
     const auto veh = g->m.veh_at( p.pos() );
@@ -1650,41 +1628,26 @@ static bool is_driving( const player &p )
 
 
 // utility functions for projectile_attack
-double player::get_weapon_dispersion( const item *weapon, bool random ) const
+double player::get_weapon_dispersion( const item &obj ) const
 {
-    double dispersion = 0.; // Measured in quarter-degrees.
-    dispersion += skill_dispersion( *weapon, random );
+    double dispersion = skill_dispersion( obj ) + obj.gun_dispersion();
 
     if( is_driving( *this ) ) {
         // get volume of gun (or for auxiliary gunmods the parent gun)
-        const item *parent = has_item( *weapon ) ? find_parent( *weapon ) : nullptr;
-        int vol = parent ? parent->volume() : weapon->volume();
+        const item *parent = has_item( obj ) ? find_parent( obj ) : nullptr;
+        int vol = parent ? parent->volume() : obj.volume();
 
         ///\EFFECT_DRIVING reduces the inaccuracy penalty when using guns whilst driving
         dispersion += std::max( vol - get_skill_level( skill_driving ), 1 ) * 20;
     }
 
-    dispersion += rand_or_max( random, ranged_dex_mod() );
-    dispersion += rand_or_max( random, ranged_per_mod() );
-
-    dispersion += rand_or_max( random, 3 * (encumb(bp_arm_l) + encumb(bp_arm_r)));
-    dispersion += rand_or_max( random, 6 * encumb(bp_eyes));
-
-    if( weapon->ammo_data() ) {
-        dispersion += rand_or_max( random, weapon->ammo_data()->ammo->dispersion );
-    }
-
-    dispersion += rand_or_max( random, weapon->gun_dispersion(false) );
-    if( random ) {
-        dispersion += rng( 0, recoil + driving_recoil );
-    }
-
     if (has_bionic("bio_targeting")) {
         dispersion *= 0.75;
     }
-    if ((is_underwater() && !weapon->has_flag("UNDERWATER_GUN")) ||
+
+    if ((is_underwater() && !obj.has_flag("UNDERWATER_GUN")) ||
         // Range is effectively four times longer when shooting unflagged guns underwater.
-        (!is_underwater() && weapon->has_flag("UNDERWATER_GUN"))) {
+        (!is_underwater() && obj.has_flag("UNDERWATER_GUN"))) {
         // Range is effectively four times longer when shooting flagged guns out of water.
         dispersion *= 4;
     }
@@ -1692,14 +1655,9 @@ double player::get_weapon_dispersion( const item *weapon, bool random ) const
     return std::max( dispersion, 0.0 );
 }
 
-int recoil_add( player& p, const item &gun, int shot )
+double recoil_add( player& p, const item &gun, int shot )
 {
-    if( p.has_effect( effect_on_roof ) ) {
-        // @todo fix handling of turret recoil
-        return p.recoil;
-    }
-
-    int qty = gun.gun_recoil();
+    double qty = gun.gun_recoil();
 
     ///\EFFECT_STR reduces recoil when using guns and tools
     qty -= rng( 7, 15 ) * p.get_str();
@@ -1714,7 +1672,7 @@ int recoil_add( player& p, const item &gun, int shot )
     double k = 1.6; // 5 round burst is equivalent to ~2 individually aimed shots
     qty *= pow( 1.0 / sqrt( shot ), k );
 
-    return p.recoil += std::max( qty, 0 );
+    return p.recoil += std::max( qty, 0.0 );
 }
 
 void drop_or_embed_projectile( const dealt_projectile_attack &attack )
@@ -1835,8 +1793,8 @@ double player::gun_value( const item &weap, long ammo ) const
         total_recoil += def_ammo.recoil;
     }
 
-    total_dispersion += skill_dispersion( weap, false );
-    total_dispersion += weap.sight_dispersion( -1 );
+    total_dispersion += skill_dispersion( weap );
+    total_dispersion += g->u.effective_dispersion( weap.sight_dispersion() );
 
     int move_cost = time_to_fire( *this, *weap.type );
     if( gun.clip != 0 && gun.clip < 10 ) {
