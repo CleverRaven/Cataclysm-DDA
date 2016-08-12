@@ -251,7 +251,7 @@ void mission_type::load( JsonObject &jo )
 
     optional( jo, was_loaded, "urgent", urgent );
     optional( jo, was_loaded, "item", item_id );
-    optional( jo, was_loaded, "count", item_count );
+    optional( jo, was_loaded, "count", item_count, 1 );
 
     goal = jo.get_enum_value<decltype(goal)>( "goal" );
 
