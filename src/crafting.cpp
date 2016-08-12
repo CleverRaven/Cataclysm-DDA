@@ -1284,11 +1284,27 @@ player::select_tool_component( const std::vector<tool_comp> &tools, int batch, i
         // Populate the list
         uimenu tmenu( hotkeys );
         for( auto &map_ha : map_has ) {
-            std::string tmpStr = item::nname( map_ha.type ) + _( " (nearby)" );
-            tmenu.addentry( tmpStr );
+            if( item::find_type(map_ha.type)->maximum_charges() > 1 ) {
+                std::ostringstream tmpStr;
+                tmpStr << item::nname( map_ha.type ) << " (";
+                tmpStr << map_inv.charges_of( map_ha.type ) << _( " charges nearby)" );
+                tmenu.addentry( tmpStr.str() );
+            }
+            else {
+                std::string tmpStr = item::nname( map_ha.type ) + _( " (nearby)" );
+                tmenu.addentry( tmpStr );
+            }
         }
         for( auto &player_ha : player_has ) {
-            tmenu.addentry( item::nname( player_ha.type ) );
+            if( item::find_type(player_ha.type)->maximum_charges() > 1 ) {
+                std::ostringstream tmpStr;
+                tmpStr << item::nname( player_ha.type ) << " (";
+                tmpStr << charges_of( player_ha.type ) << _( " charges on person)" );
+                tmenu.addentry( tmpStr.str() );
+            }
+            else {
+                tmenu.addentry( item::nname( player_ha.type ) );
+            }
         }
 
         if( tmenu.entries.empty() ) {  // This SHOULD only happen if cooking with a fire,
