@@ -34,6 +34,9 @@ static int debugClass = D_MAIN;
 
 extern bool test_mode;
 
+/** When in @ref test_mode will be set if any debugmsg are emitted */
+bool test_dirty = false;
+
 bool debug_mode = false;
 
 namespace
@@ -56,6 +59,7 @@ void realDebugmsg( const char *filename, const char *line, const char *funcname,
     va_end( ap );
 
     if( test_mode ) {
+        test_dirty = true;
         std::cerr << filename << ":" << line << " [" << funcname << "] " << text << std::endl;
         return;
     }

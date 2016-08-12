@@ -141,8 +141,14 @@ class game
 
         /** Loads static data that does not depend on mods or similar. */
         void load_static_data();
-        /** Loads core data and all mods. */
-        void check_all_mod_data();
+
+        /**
+         *  Check if mods can be sucessfully loaded
+         *  @param opts check specific mods (or all if unspecified)
+         *  @return whether all mods were successfully loaded
+         */
+        bool check_mod_data( const std::vector<std::string> &opts );
+
         /** Loads core dynamic data. */
         void load_core_data();
         /** Loads core data and mods from the given world. */
