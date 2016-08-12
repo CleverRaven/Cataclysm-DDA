@@ -128,7 +128,6 @@
     "ranged_damage": 4,
     "dispersion": 150,
     "sight_dispersion": 90,
-    "aim_speed" : 4,
     "recoil": 225,
     "durability": 4,
     "clip_size": 2,
@@ -390,7 +389,6 @@
     "to_hit": -1,
     "dispersion": 10,
     "sight_dispersion": 60,
-    "aim_speed" : 6,
     "durability": 8,
     "reload": 0,
     "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]

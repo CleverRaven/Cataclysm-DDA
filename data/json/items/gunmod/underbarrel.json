@@ -203,7 +203,7 @@
     "color": "dark_gray",
     "location": "underbarrel",
     "mod_targets": [ "smg", "rifle", "pistol", "shotgun", "crossbow", "bow", "launcher" ],
-    "aim_speed": 1,
+    "aim_cost": 1,
     "sight_dispersion": 75
   },
   {
