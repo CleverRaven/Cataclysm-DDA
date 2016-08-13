@@ -384,7 +384,7 @@ distribution distribution::operator*( const distribution &other ) const
     } );
 }
 
-distribution& distribution::operator=( const distribution &other )
+distribution &distribution::operator=( const distribution &other )
 {
     generator_function = other.generator_function;
     return *this;

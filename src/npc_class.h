@@ -33,7 +33,7 @@ class distribution
 
         distribution operator+( const distribution &other ) const;
         distribution operator*( const distribution &other ) const;
-        distribution& operator=( const distribution &other );
+        distribution &operator=( const distribution &other );
 
         static distribution constant( float val );
         static distribution rng_roll( int from, int to );
