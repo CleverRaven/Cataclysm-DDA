@@ -9380,7 +9380,8 @@
         "material" : "junk",
         "volume" : 1,
         "charges" : 3,
-        "fun" : 4
+        "fun" : 4,
+        "flags" : [ "EATEN_HOT" ]
     },
     {
         "type" : "COMESTIBLE",
