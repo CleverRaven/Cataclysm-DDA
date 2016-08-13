@@ -3,27 +3,26 @@
     "id": "ak74",
     "type": "GUN",
     "name": "AK-74M",
+    "//": "AKs likewise aren't commercially traded in the US, plus this is newer.",
     "description": "The successor to the well-known AK-47 rifle, chambered in 5.45x39mm.",
     "weight": 3170,
     "volume": 7,
-    "price": 390000, "//" : "AKs likewise aren't commercially traded in the US, plus this is newer.",
-    "bashing": 11,
+    "price": 390000,
     "to_hit": -1,
-    "material": ["steel", "wood"],
+    "bashing": 11,
+    "material": [ "steel", "wood" ],
     "symbol": "(",
     "color": "brown",
-    "skill": "rifle",
     "ammo": "545x39",
+    "skill": "rifle",
     "dispersion": 45,
     "sight_dispersion": 60,
-    "aim_speed" : 6,
+    "aim_speed": 6,
     "durability": 8,
-    "barrel_length" : 1,
     "burst": 8,
-    "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]],
-    "magazines" : [
-      [ "545x39", [ "ak74mag", "rpk74mag" ] ]
-    ],
+    "barrel_length": 1,
+    "valid_mod_locations": [ [ "accessories", 4 ], [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "muzzle", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
+    "magazines": [ [ "545x39", [ "ak74mag", "rpk74mag" ] ] ],
     "flags": [ "NEVER_JAMS" ]
   },
   {
@@ -34,27 +33,25 @@
     "weight": 3620,
     "volume": 7,
     "price": 420000,
-    "bashing": 11,
     "to_hit": -1,
-    "material": ["steel", "plastic"],
+    "bashing": 11,
+    "material": [ "steel", "plastic" ],
     "symbol": "(",
     "color": "brown",
-    "skill": "rifle",
     "ammo": "545x39",
+    "skill": "rifle",
     "dispersion": 35,
     "sight_dispersion": 50,
-    "aim_speed" : 4,
+    "aim_speed": 4,
     "recoil": -10,
     "durability": 7,
-    "barrel_length" : 1,
-    "modes" : [
+    "barrel_length": 1,
+    "modes": [
       [ "DEFAULT", "semi-auto", 1 ],
       [ "BURST", "2 rd.", 2 ],
       [ "AUTO", "auto", 10 ]
     ],
-    "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]],
-    "magazines" : [
-      [ "545x39", [ "ak74mag", "rpk74mag" ] ]
-    ]
+    "valid_mod_locations": [ [ "accessories", 4 ], [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "muzzle", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
+    "magazines": [ [ "545x39", [ "ak74mag", "rpk74mag" ] ] ]
   }
 ]

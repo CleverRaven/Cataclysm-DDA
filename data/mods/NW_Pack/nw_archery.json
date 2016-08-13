@@ -14,7 +14,6 @@
       "weight" : 740,
       "volume" : 7,
       "bashing" : 14,
-      "cutting" : 0,
       "ranged_damage" : 18,
       "range" : 19,
       "dispersion" : 110,
@@ -22,7 +21,6 @@
       "aim_speed" : 0,
       "recoil" : 0,
       "durability" : 6,
-      "burst" : 0,
       "clip_size" : 1,
       "reload" : 80,
       "valid_mod_locations": [["underbarrel", 1]]

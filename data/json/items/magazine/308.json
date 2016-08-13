@@ -3,10 +3,11 @@
     "id": "belt308",
     "copy-from": "magazine_belt",
     "type": "MAGAZINE",
-    "name": "M13 7.62x51mm ammo belt",
+    "name": "ammo belt",
     "ammo_type": "308",
-    "capacity": 200,
+    "capacity": 500,
     "count": 100,
+    "default_ammo": "762_51",
     "linkage": "ammolink308"
   },
   {
@@ -23,7 +24,6 @@
     "ammo_type": "308",
     "capacity": 20,
     "reliability": 9,
-    "reload_time": 100,
     "flags": [ "MAG_COMPACT" ]
   },
   {
@@ -40,7 +40,6 @@
     "ammo_type": "308",
     "capacity": 30,
     "reliability": 8,
-    "reload_time": 100,
     "flags": [ "MAG_COMPACT" ]
   },
   {
@@ -57,7 +56,6 @@
     "ammo_type": "308",
     "capacity": 20,
     "reliability": 9,
-    "reload_time": 100,
     "flags": [ "MAG_COMPACT" ]
   },
   {
@@ -91,7 +89,6 @@
     "ammo_type": "308",
     "capacity": 20,
     "reliability": 9,
-    "reload_time": 100,
     "flags": [ "MAG_COMPACT" ]
   },
   {
@@ -125,7 +122,6 @@
     "ammo_type": "308",
     "capacity": 30,
     "reliability": 9,
-    "reload_time": 100,
     "flags": [ "MAG_COMPACT" ]
   },
   {

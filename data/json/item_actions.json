@@ -143,5 +143,9 @@
         "type" : "item_action",
         "id" : "SAW_BARREL",
         "name" : "Saw down barrel"
+    },{
+        "type" : "item_action",
+        "id" : "DIG",
+        "name" : "Clear rubble"
     }
 ]

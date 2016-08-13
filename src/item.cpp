@@ -37,6 +37,7 @@
 #include "cata_utility.h"
 #include "input.h"
 #include "fault.h"
+#include "vehicle_selector.h"
 
 #include <cmath> // floor
 #include <sstream>
@@ -135,7 +136,7 @@ item::item( const itype *type, int turn, long qty ) : type( type )
 
     } else if( type->magazine ) {
         if( type->magazine->count > 0 ) {
-            emplace_back( default_ammo( type->magazine->type ), calendar::turn, type->magazine->count );
+            emplace_back( type->magazine->default_ammo, calendar::turn, type->magazine->count );
         }
 
     } else if( type->comestible ) {
@@ -238,12 +239,18 @@ item& item::activate()
 
 item& item::ammo_set( const itype_id& ammo, long qty )
 {
-    // if negative qty completely fill the item
     if( qty < 0 ) {
+        // completely fill an integral or existing magazine
         if( magazine_integral() || magazine_current() ) {
             qty = ammo_capacity();
         } else {
-            qty = item( magazine_default() ).ammo_capacity();
+            // if adding a magazine use default ammo count property if set
+            item mag( magazine_default() );
+            if( mag.type->magazine->count > 0 ) {
+                qty = mag.type->magazine->count;
+            } else {
+                qty = item( magazine_default() ).ammo_capacity();
+            }
         }
     }
 
@@ -282,7 +289,30 @@ item& item::ammo_set( const itype_id& ammo, long qty )
 
     } else {
         if( !magazine_current() ) {
-            emplace_back( magazine_default() );
+            const itype *mag = find_type( magazine_default() );
+            if( !mag->magazine ) {
+                debugmsg( "Tried to set ammo of %s without suitable magazine for %s",
+                          atype->nname( qty ).c_str(), tname().c_str() );
+                return *this;
+            }
+
+            // if default magazine too small fetch instead closest available match
+            if( mag->magazine->capacity < qty ) {
+                // as above call to magazine_default successful can infer minimum one option exists
+                auto iter = type->magazines.find( ammo_type() );
+                std::vector<itype_id> opts( iter->second.begin(), iter->second.end() );
+                std::sort( opts.begin(), opts.end(), [qty]( const itype_id &lhs, const itype_id &rhs ) {
+                    return find_type( lhs )->magazine->capacity < find_type( rhs )->magazine->capacity;
+                } );
+                mag = find_type( opts.back() );
+                for( const auto &e : opts ) {
+                    if( find_type( e )->magazine->capacity >= qty ) {
+                        mag = find_type( e );
+                        break;
+                    }
+                }
+            }
+            emplace_back( mag );
         }
         magazine_current()->ammo_set( ammo, qty );
     }
@@ -703,6 +733,12 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
                                       type->m_to_hit, true, "" ) );
             info.push_back( iteminfo( "BASE", _( "Moves per attack: " ), "",
                                       attack_time(), true, "", true, true ) );
+
+            if( !conductive () ) { 
+                info.push_back( iteminfo( "BASE", string_format( _( "* This weapon <good>does not conduct</good> electricity." ) ) ) );
+            } else { 
+                info.push_back( iteminfo( "BASE", string_format( _( "* This weapon <bad>conducts</bad> electricity." ) ) ) );
+            }
         }
 
         insert_separation_line();
@@ -797,6 +833,47 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
         } );
         if( !required_vits.empty() ) {
             info.emplace_back( "FOOD", _( "Vitamins (RDA): " ), required_vits.c_str() );
+        }
+
+        if( food_item->has_flag( "CANNIBALISM" ) ) {
+            if( !g->u.has_trait_flag( "CANNIBAL" ) ) {
+                info.emplace_back( "DESCRIPTION", _( "* This food contains <bad>human flesh</bad>." ) );
+            } else {
+                info.emplace_back( "DESCRIPTION", _( "* This food contains <good>human flesh</good>." ) );
+            }
+        }
+
+        if( food_item->is_tainted() ) {
+            info.emplace_back( "DESCRIPTION", _( "* This food is <bad>tainted</bad> and will poison you." ) );
+        }
+
+        ///\EFFECT_SURVIVAL >=3 allows detection of poisonous food
+        if( food_item->has_flag( "HIDDEN_POISON" ) && g->u.get_skill_level( skill_survival ).level() >= 3 ) {
+            info.emplace_back( "DESCRIPTION", _( "* On closer inspection, this appears to be <bad>poisonous</bad>." ) );
+        }
+
+        ///\EFFECT_SURVIVAL >=5 allows detection of hallucinogenic food
+        if( food_item->has_flag( "HIDDEN_HALLU" ) && g->u.get_skill_level( skill_survival ).level() >= 5 ) {
+            info.emplace_back( "DESCRIPTION", _( "* On closer inspection, this appears to be <neutral>hallucinogenic</neutral>." ) );
+        }
+
+        if( food_item->goes_bad() ) {
+            const std::string rot_time = calendar( food_item->type->comestible->spoils ).textify_period();
+            info.emplace_back( "DESCRIPTION",
+                               string_format( _( "* This food is <neutral>perishable</neutral>, and takes <info>%s</info> to rot from full freshness, at room temperature." ),
+                                              rot_time.c_str() ) );
+            if( food_item->rotten() ) {
+                if( g->u.has_bionic( "bio_digestion" ) ) {
+                    info.push_back( iteminfo( "DESCRIPTION",
+                                              _( "This food has started to <neutral>rot</neutral>, but <info>your bionic digestion can tolerate it</info>." ) ) );
+                } else if( g->u.has_trait( "SAPROVORE" ) ) {
+                    info.push_back( iteminfo( "DESCRIPTION",
+                                              _( "This food has started to <neutral>rot</neutral>, but <info>you can tolerate it</info>." ) ) );
+                } else {
+                    info.push_back( iteminfo( "DESCRIPTION",
+                                              _( "This food has started to <bad>rot</bad>.  <info>Eating</info> it would be a <bad>very bad idea</bad>." ) ) );
+                }
+            }
         }
     }
 
@@ -1641,30 +1718,6 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
                                       _( "* This object is <neutral>surrounded</neutral> by a <info>sickly green glow</info>." ) ) );
         }
 
-        if( is_food() ) {
-            if( has_flag( "CANNIBALISM" ) ) {
-                if( !g->u.has_trait_flag( "CANNIBAL" ) ) {
-                    info.emplace_back( "DESCRIPTION", _( "* This food contains <bad>human flesh</bad>." ) );
-                } else {
-                    info.emplace_back( "DESCRIPTION", _( "* This food contains <good>human flesh</good>." ) );
-                }
-            }
-
-            if( is_tainted() ) {
-                info.emplace_back( "DESCRIPTION", _( "* This food is <bad>tainted</bad> and will poison you." ) );
-            }
-
-            ///\EFFECT_SURVIVAL >=3 allows detection of poisonous food
-            if( has_flag( "HIDDEN_POISON" ) && g->u.get_skill_level( skill_survival ).level() >= 3 ) {
-                info.emplace_back( "DESCRIPTION", _( "* On closer inspection, this appears to be <bad>poisonous</bad>." ) );
-            }
-
-            ///\EFFECT_SURVIVAL >=5 allows detection of hallucinogenic food
-            if( has_flag( "HIDDEN_HALLU" ) && g->u.get_skill_level( skill_survival ).level() >= 5 ) {
-                info.emplace_back( "DESCRIPTION", _( "* On closer inspection, this appears to be <neutral>hallucinogenic</neutral>." ) );
-            }
-        }
-
         if( is_brewable() || ( !contents.empty() && contents.front().is_brewable() ) ) {
             const item &brewed = !is_brewable() ? contents.front() : *this;
             int btime = brewed.brewing_time();
@@ -1749,24 +1802,6 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
             }
         }
 
-        if( ( is_food() && goes_bad() ) || ( is_food_container() && contents.front().goes_bad() ) ) {
-            if( rotten() || ( is_food_container() && contents.front().rotten() ) ) {
-                if( g->u.has_bionic( "bio_digestion" ) ) {
-                    info.push_back( iteminfo( "DESCRIPTION",
-                                              _( "This food has started to <neutral>rot</neutral>, but <info>your bionic digestion can tolerate it</info>." ) ) );
-                } else if( g->u.has_trait( "SAPROVORE" ) ) {
-                    info.push_back( iteminfo( "DESCRIPTION",
-                                              _( "This food has started to <neutral>rot</neutral>, but <info>you can tolerate it</info>." ) ) );
-                } else {
-                    info.push_back( iteminfo( "DESCRIPTION",
-                                              _( "This food has started to <bad>rot</bad>.  <info>Eating</info> it would be a <bad>very bad idea</bad>." ) ) );
-                }
-            } else {
-                info.push_back( iteminfo( "DESCRIPTION",
-                                          _( "This food is <neutral>perishable</neutral>, and will eventually rot." ) ) );
-            }
-
-        }
         std::map<std::string, std::string>::const_iterator item_note = item_vars.find( "item_note" );
         std::map<std::string, std::string>::const_iterator item_note_type =
             item_vars.find( "item_note_type" );
@@ -2134,10 +2169,12 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
 
 // MATERIALS-TODO: put this in json
     std::string damtext = "";
-    if( ( damage() != 0 || ( OPTIONS[ "ITEM_HEALTH_BAR" ] && is_armor() ) ) && !is_null() && with_prefix ) {
+
+    if( ( damage() != 0 || ( get_option<bool>( "ITEM_HEALTH_BAR" ) && is_armor() ) ) && !is_null() && with_prefix ) {
         if( damage() < 0 )  {
-            if( OPTIONS[ "ITEM_HEALTH_BAR" ] ) {
+            if( get_option<bool>( "ITEM_HEALTH_BAR" ) ) {
                 damtext = "<color_" + string_from_color( damage_color() ) + ">" + damage_symbol() + " </color>";
+
             } else if (is_gun())  {
                 damtext = rm_prefix(_("<dam_adj>accurized "));
             } else {
@@ -2150,7 +2187,7 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
                 if (damage() == 3) damtext = rm_prefix(_("<dam_adj>mangled "));
                 if (damage() >= 4) damtext = rm_prefix(_("<dam_adj>pulped "));
 
-            } else if ( OPTIONS["ITEM_HEALTH_BAR"] ) {
+            } else if ( get_option<bool>( "ITEM_HEALTH_BAR" ) ) {
                 damtext = "<color_" + string_from_color( damage_color() ) + ">" + damage_symbol() + " </color>";
 
             } else {
@@ -2403,7 +2440,7 @@ int item::price( bool practical ) const
 }
 
 // MATERIALS-TODO: add a density field to materials.json
-int item::weight() const
+int item::weight( bool include_contents ) const
 {
     if( is_null() ) {
         return 0;
@@ -2460,8 +2497,10 @@ int item::weight() const
         ret += 250;
     }
 
-    for( auto &elem : contents ) {
-        ret += elem.weight();
+    if( include_contents ) {
+        for( auto &elem : contents ) {
+            ret += elem.weight();
+        }
     }
 
     return ret;
@@ -3362,17 +3401,23 @@ bool item::made_of(phase_id phase) const
 
 bool item::conductive() const
 {
-    if (is_null()) {
+    if( is_null() ) {
+        return false;
+    }
+    
+    if( has_flag( "CONDUCTIVE" ) ) {  
+        return true;
+    }
+
+    if( has_flag( "NONCONDUCTIVE" ) ) {  
         return false;
     }
 
-    // If any material does not resist electricity we are conductive.
-    for (auto mat : made_of_types()) {
-        if (mat->elec_resist() <= 0) {
-            return true;
-        }
-    }
-    return false;
+    // If any material has electricity resistance equal to or lower than flesh (1) we are conductive.
+    const auto mats = made_of_types();
+    return std::any_of( mats.begin(), mats.end(), []( const material_type *mt ) {
+        return mt->elec_resist() <= 1;
+    } );
 }
 
 bool item::destroyed_at_zero_charges() const
@@ -4639,22 +4684,7 @@ bool item::reload( player &u, item_location loc, long qty )
         return false;
     }
 
-    // Firstly try reloading active gunmod, then item itself, any other auxiliary gunmods and finally any currently loaded magazine
-    std::vector<item *> opts = { &*gun_current_mode(), this };
-    auto mods = gunmods();
-    std::copy_if( mods.begin(), mods.end(), std::back_inserter( opts ), []( item *e ) {
-        return e->is_gun();
-    });
-    opts.push_back( magazine_current() );
-
-    auto target = std::find_if( opts.begin(), opts.end(), [&u,&ammo]( item *e ) {
-        return e && u.can_reload( *e, ammo->typeId() );
-    } );
-    if( target == opts.end() ) {
-        return false;
-    }
-
-    item *obj = *target; // what are we trying to reload?
+    item *obj = this;
     qty = std::min( qty, obj->ammo_capacity() - obj->ammo_remaining() );
 
     obj->casings_handle( [&u]( item &e ) {
@@ -4677,10 +4707,16 @@ bool item::reload( player &u, item_location loc, long qty )
     } else if ( !obj->magazine_integral() ) {
         // if we already have a magazine loaded prompt to eject it
         if( obj->magazine_current() ) {
-            std::string prompt = string_format( _( "Eject %s from %s?" ), ammo->tname().c_str(), obj->tname().c_str() );
-            if( !u.dispose_item( *obj->magazine_current(), prompt ) ) {
+            std::string prompt = string_format( _( "Eject %s from %s?" ),
+                                                obj->magazine_current()->tname().c_str(), obj->tname().c_str() );
+
+            // eject magazine to player inventory and try to dispose of it from there
+            item &mag = u.i_add( *obj->magazine_current() );
+            if( !u.dispose_item( item_location( u, &mag ), prompt ) ) {
+                u.remove_item( mag ); // user canceled so delete the clone
                 return false;
             }
+            obj->remove_item( *obj->magazine_current() );
         }
 
         obj->contents.emplace_back( *ammo );
@@ -5228,73 +5264,6 @@ bool item_compare_by_charges( const item& left, const item& right)
     return item_ptr_compare_by_charges( &left, &right);
 }
 
-//return value is number of arrows/bolts quivered
-int item::quiver_store_arrow( item &arrow)
-{
-    if( arrow.charges <= 0 ) {
-        return 0;
-    }
-
-    //item is valid quiver to store items in if it satisfies these conditions:
-    // a) is a quiver
-    // b) has some arrow already, but same type is ok
-    // c) quiver isn't full
-
-    if( !type->can_use( "QUIVER")) {
-        return 0;
-    }
-
-    if( !contents.empty() && contents.front().typeId() != arrow.typeId() ) {
-        return 0;
-    }
-
-    long max_arrows = (long)max_charges_from_flag( "QUIVER");
-    if( !contents.empty() && contents.front().charges >= max_arrows) {
-        return 0;
-    }
-
-    // check ends, now store.
-    if( contents.empty()) {
-        item quivered_arrow( arrow);
-        quivered_arrow.charges = std::min( max_arrows, arrow.charges);
-        put_in( quivered_arrow);
-        arrow.charges -= quivered_arrow.charges;
-        return quivered_arrow.charges;
-    } else {
-        int quivered = std::min( max_arrows - contents.front().charges, arrow.charges );
-        contents.front().charges += quivered;
-        arrow.charges -= quivered;
-        return quivered;
-    }
-}
-
-//used to implement charges for items that aren't tools (e.g. quivers)
-//flagName arg is the flag's name before the underscore and integer on the end
-//e.g. for "QUIVER_20" flag, flagName = "QUIVER"
-int item::max_charges_from_flag(std::string flagName)
-{
-    item* it = this;
-    int maxCharges = 0;
-
-    //loop through item's flags, looking for flag that matches flagName
-    for( auto flag : it->type->item_tags ) {
-
-        if(flag.substr(0, flagName.size()) == flagName ) {
-            //get the substring of the flag starting w/ digit after underscore
-            std::stringstream ss(flag.substr(flagName.size() + 1, flag.size()));
-
-            //attempt to store that stringstream into maxCharges and error if there's a problem
-            if(!(ss >> maxCharges)) {
-                debugmsg("Error parsing %s_n tag (item::max_charges_from_flag)"), flagName.c_str();
-                maxCharges = -1;
-            }
-            break;
-        }
-    }
-
-    return maxCharges;
-}
-
 static const std::string USED_BY_IDS( "USED_BY_IDS" );
 bool item::already_used_by_player(const player &p) const
 {
@@ -5810,8 +5779,8 @@ bool item::is_soft() const
 
 bool item::is_reloadable() const
 {
-    if( has_flag( "NO_RELOAD") ) {
-        return false;
+    if( has_flag( "NO_RELOAD") && !has_flag( "VEHICLE" ) ) {
+        return false; // turrets ignore NO_RELOAD flag
 
     } else if( is_bandolier() ) {
         return true;

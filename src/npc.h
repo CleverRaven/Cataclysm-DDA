@@ -4,22 +4,23 @@
 #include "player.h"
 #include "faction.h"
 #include "json.h"
+#include "copyable_unique_ptr.h"
 
 #include <vector>
 #include <string>
 #include <map>
-
-#define NPC_DANGER_LEVEL   10
-#define NPC_DANGER_VERY_LOW 5
 
 class item;
 class overmap;
 class player;
 class field_entry;
 class npc_class;
+class auto_pickup;
+struct mission_type;
 enum game_message_type : int;
 
 using npc_class_id = string_id<npc_class>;
+using mission_type_id = string_id<mission_type>;
 
 void parse_tags( std::string &phrase, const player &u, const npc &me );
 
@@ -41,7 +42,7 @@ enum npc_attitude : int {
  NPCATT_LEGACY_2,
  NPCATT_LEAD,  // Lead the player, wait for them if they're behind
  NPCATT_WAIT,  // Waiting for the player
- NPCATT_DEFEND,  // Kill monsters that threaten the player
+ NPCATT_LEGACY_6,
  NPCATT_MUG,  // Mug the player
  NPCATT_WAIT_FOR_LEAVE, // Attack the player if our patience runs out
  NPCATT_KILL,  // Kill the player
@@ -176,6 +177,7 @@ enum aim_rule {
     AIM_STRICTLY_PRECISE
 };
 
+
 struct npc_follower_rules : public JsonSerializer, public JsonDeserializer
 {
     combat_engagement engagement;
@@ -192,22 +194,10 @@ struct npc_follower_rules : public JsonSerializer, public JsonDeserializer
 
     bool close_doors;
 
-    npc_follower_rules()
-    {
-        engagement = ENGAGE_ALL;
-        aim = AIM_WHEN_CONVENIENT;
-        use_guns = true;
-        use_grenades = true;
-        use_silent = false;
+    copyable_unique_ptr<auto_pickup> pickup_whitelist;
 
-        allow_pick_up = false;
-        allow_bash = true;
-        allow_sleep = false;
-        allow_complain = true;
-        allow_pulp = true;
-
-        close_doors = false;
-    };
+    npc_follower_rules();
+    ~npc_follower_rules();
 
     using JsonSerializer::serialize;
     void serialize(JsonOut &jsout) const override;
@@ -244,10 +234,12 @@ struct npc_target {
 // Data relevant only for this action
 struct npc_short_term_cache
 {
-    int danger;
-    int total_danger;
-    int danger_assessment;
+    float danger;
+    float total_danger;
+    float danger_assessment;
     npc_target target;
+
+    double my_weapon_value;
 
     std::vector<npc_target> friends;
 };
@@ -545,10 +537,10 @@ class npc : public player
 public:
 
  npc();
- npc(const npc &) = default;
- npc(npc &&) = default;
- npc &operator=(const npc &) = default;
- npc &operator=(npc &&) = default;
+ npc(const npc &);
+ npc(npc &&);
+ npc &operator=(const npc &);
+ npc &operator=(npc &&);
  ~npc() override;
 
  bool is_player() const override { return false; }
@@ -611,8 +603,8 @@ public:
 // Interaction with the player
  void form_opinion( const player &u );
     std::string pick_talk_topic( const player &u );
- int  player_danger(const player &u) const; // Comparable to monsters
- int vehicle_danger(int radius) const;
+    float character_danger( const Character &u ) const;
+    float vehicle_danger(int radius) const;
  bool turned_hostile() const; // True if our anger is at least equal to...
  int hostile_anger_level() const; // ... this value!
  void make_angry(); // Called if the player attacks us
@@ -631,7 +623,6 @@ public:
  bool is_following() const; // Traveling w/ player (whether as a friend or a slave)
  bool is_friend() const; // Allies with the player
  bool is_leader() const; // Leading the player
- bool is_defending() const; // Putting the player's safety ahead of ours
     /** Standing in one spot, moving back if removed from it. */
     bool is_guarding() const;
     /** Trusts you a lot. */
@@ -643,23 +634,10 @@ public:
 
 // Dialogue and bartering--see npctalk.cpp
  void talk_to_u();
-// Bartering - select items we're willing to buy/sell and set prices
-// Prices are later modified by g->u's barter skill; see dialogue.cpp
-    struct item_pricing {
-        item *itm;
-        int price;
-        // Whether this is selected for trading, init_buying and init_selling initialize
-        // this to `false`.
-        bool selected;
-    };
-// returns prices for items in `you`
-    std::vector<item_pricing> init_buying( inventory& you );
-// returns prices and items in the inventory of this NPC
-    std::vector<item_pricing> init_selling();
 // Re-roll the inventory of a shopkeeper
  void shop_restock();
 // Use and assessment of items
- int  minimum_item_value(); // The minimum value to want to pick up an item
+ int  minimum_item_value() const; // The minimum value to want to pick up an item
  void update_worst_item_value(); // Find the worst value in our inventory
     int value( const item &it ) const;
     int value( const item &it, int market_price ) const;
@@ -687,11 +665,11 @@ public:
     Creature *current_target();
 
 // Interaction and assessment of the world around us
-    int  danger_assessment();
-    int  average_damage_dealt(); // Our guess at how much damage we can deal
+    float danger_assessment();
+    float average_damage_dealt(); // Our guess at how much damage we can deal
     bool bravery_check(int diff);
     bool emergency() const;
-    bool emergency( int danger ) const;
+    bool emergency( float danger ) const;
     bool is_active() const;
     void say( const std::string line, ...) const;
     void decide_needs();
@@ -712,15 +690,15 @@ public:
     void process_turn() override;
 
     /** rates how dangerous a target is from 0 (harmless) to 1 (max danger) */
-    double evaluate_enemy( const Creature &target ) const;
+    float evaluate_enemy( const Creature &target ) const;
 
-    void choose_monster_target();
+    void choose_target();
     void assess_danger();
     // Functions which choose an action for a particular goal
     npc_action method_of_fleeing();
     npc_action method_of_attack();
     npc_action address_needs();
-    npc_action address_needs( int danger );
+    npc_action address_needs( float danger );
     npc_action address_player();
     npc_action long_term_goal_action();
     // Returns true if did something and we should end turn
@@ -745,7 +723,7 @@ public:
     item_location find_usable_ammo( const item &weap );
     const item_location find_usable_ammo( const item &weap ) const;
 
-    bool dispose_item( item& obj, const std::string& prompt = std::string() ) override;
+    bool dispose_item( item_location &&obj, const std::string& prompt = std::string() ) override;
 
     void aim();
     void do_reload( item &what );
@@ -769,6 +747,13 @@ public:
  void find_item  (); // Look around and pick an item
  void pick_up_item (); // Move to, or grab, our targeted item
  void drop_items (int weight, int volume); // Drop wgt and vol
+
+    /** Picks up items and returns a list of them. */
+    std::list<item> pick_up_item_map( const tripoint &where );
+    std::list<item> pick_up_item_vehicle( vehicle &veh, int part_index );
+
+    bool has_item_whitelist() const;
+    bool item_whitelisted( const item &it );
 
     /** Returns true if it finds one. */
     bool find_corpse_to_pulp();
@@ -820,7 +805,7 @@ public:
  npc_attitude attitude; // What we want to do to the player
     npc_class_id myclass; // What's our archetype?
  std::string idz; // A temp variable used to inform the game which npc json to use as a template
- int miss_id; // A temp variable used to link to the correct mission
+    mission_type_id miss_id; // A temp variable used to link to the correct mission
 
 private:
     /**
@@ -949,5 +934,8 @@ struct epilogue {
 };
 
 std::ostream& operator<< (std::ostream & os, npc_need need);
+
+/** Opens a menu and allows player to select a friendly NPC. */
+npc *pick_follower();
 
 #endif

@@ -7,24 +7,24 @@
     "weight": 1780,
     "volume": 7,
     "price": 340000,
-    "bashing": 7,
     "to_hit": -2,
-    "material": ["steel", "plastic"],
+    "bashing": 7,
+    "material": [ "steel", "plastic" ],
     "symbol": "(",
     "color": "dark_gray",
-    "skill": "smg",
     "ammo": "46",
+    "skill": "smg",
     "dispersion": 195,
     "sight_dispersion": 105,
-    "aim_speed" : 3,
+    "aim_speed": 3,
     "recoil": -60,
     "durability": 8,
     "burst": 20,
-    "valid_mod_locations": [[ "accessories", 3 ],[ "barrel", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]],
-    "magazine_well" : 1,
-    "magazines" : [
-        [ "46", [ "hk46mag", "hk46bigmag" ] ],
-        [ "22", [ "ruger1022bigmag", "ruger1022mag" ] ]
+    "valid_mod_locations": [ [ "accessories", 3 ], [ "barrel", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "muzzle", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
+    "magazine_well": 1,
+    "magazines": [
+      [ "46", [ "hk46mag", "hk46bigmag" ] ],
+      [ "22", [ "ruger1022bigmag", "ruger1022mag" ] ]
     ]
   },
   {
@@ -34,25 +34,25 @@
     "description": "Designed to work with H&K's proprietary 4.6x30mm round, the UCP is a small pistol with a very high capacity, best used against armored opponents.",
     "weight": 730,
     "volume": 2,
-    "bashing": 6,
-    "to_hit": -2,
     "price": 125000,
-    "material": ["steel", "plastic"],
+    "to_hit": -2,
+    "bashing": 6,
+    "material": [ "steel", "plastic" ],
     "symbol": "(",
     "color": "light_gray",
-    "skill": "pistol",
     "ammo": "46",
+    "skill": "pistol",
     "ranged_damage": -1,
     "dispersion": 60,
     "sight_dispersion": 90,
-    "aim_speed" : 4,
+    "aim_speed": 4,
     "recoil": 90,
     "durability": 8,
-    "magazine_well" : 1,
-    "magazines" : [
-        [ "46", [ "hk46mag", "hk46bigmag" ] ],
-        [ "22", [ "ruger1022bigmag", "ruger1022mag" ] ]
-    ],
-    "valid_mod_locations": [[ "accessories", 2 ],[ "barrel", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
+    "valid_mod_locations": [ [ "accessories", 2 ], [ "barrel", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "muzzle", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
+    "magazine_well": 1,
+    "magazines": [
+      [ "46", [ "hk46mag", "hk46bigmag" ] ],
+      [ "22", [ "ruger1022bigmag", "ruger1022mag" ] ]
+    ]
   }
 ]

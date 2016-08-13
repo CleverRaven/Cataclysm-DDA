@@ -3079,7 +3079,7 @@
         },
         ["IMPALE", 25]
     ],
-    "description":"With its joints in odd places and angles, this humanoid creature prowls across the landscape with suprising speed.  Its teeth and arms are sharpened into fine points, and black ooze seeps out from cuts between its muscles.",
+    "description":"With its joints in odd places and angles, this humanoid creature prowls across the landscape with surprising speed.  Its teeth and arms are sharpened into fine points, and black ooze seeps out from cuts between its muscles.",
     "flags":["SEES", "HEARS", "SMELLS", "WARM", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "BONES", "PUSH_MON"]
     },{
     "type" : "MONSTER",
@@ -6237,7 +6237,7 @@
     },{
     "type" : "MONSTER",
     "id" : "mon_alpha_razorclaw",
-    "name": " alpha razorclaw",
+    "name": "alpha razorclaw",
     "species":"MUTANT",
     "default_faction":"razorclaw",
     "symbol":"Y",

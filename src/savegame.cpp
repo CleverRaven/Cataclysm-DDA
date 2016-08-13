@@ -206,11 +206,11 @@ void game::unserialize(std::istream & fin)
         load_map( tripoint( levx + comx * OMAPX * 2, levy + comy * OMAPY * 2, levz ) );
 
         safe_mode = static_cast<safe_mode_type>( tmprun );
-        if (OPTIONS["SAFEMODE"] && safe_mode == SAFE_MODE_OFF) {
+        if (get_option<bool>( "SAFEMODE" ) && safe_mode == SAFE_MODE_OFF) {
             safe_mode = SAFE_MODE_ON;
         }
-        autosafemode = OPTIONS["AUTOSAFEMODE"];
-        safemodeveh = OPTIONS["SAFEMODEVEH"];
+        autosafemode = get_option<bool>( "AUTOSAFEMODE" );
+        safemodeveh = get_option<bool>( "SAFEMODEVEH" );
         last_target = tmptar;
 
         linebuf="";

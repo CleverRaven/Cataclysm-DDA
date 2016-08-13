@@ -7,24 +7,24 @@
     "weight": 490,
     "volume": 2,
     "price": 124900,
-    "bashing": 6,
     "to_hit": -2,
-    "material": ["steel", "plastic"],
+    "bashing": 6,
+    "material": [ "steel", "plastic" ],
     "symbol": "(",
     "color": "light_gray",
-    "skill": "pistol",
     "ammo": "57",
+    "skill": "pistol",
     "ranged_damage": -2,
     "dispersion": 75,
     "sight_dispersion": 90,
-    "aim_speed" : 4,
+    "aim_speed": 4,
     "recoil": 90,
     "durability": 8,
-    "valid_mod_locations": [[ "accessories", 2 ],[ "barrel", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]],
-    "magazine_well" : 1,
-    "magazines" : [
-        [ "57", [ "fn57mag" ] ],
-        [ "22", [ "ruger1022bigmag", "ruger1022mag" ] ]
+    "valid_mod_locations": [ [ "accessories", 2 ], [ "barrel", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "muzzle", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
+    "magazine_well": 1,
+    "magazines": [
+      [ "57", [ "fn57mag" ] ],
+      [ "22", [ "ruger1022bigmag", "ruger1022mag" ] ]
     ]
   },
   {
@@ -32,26 +32,26 @@
     "type": "GUN",
     "name": "FN P90",
     "description": "The first in a new genre of guns, termed \"personal defense weapons.\"  FN designed the P90 to use their proprietary 5.7x28mm ammunition.  It is made for firing bursts manageably.",
-    "symbol": "(",
-    "color": "light_gray",
     "weight": 2300,
     "volume": 6,
     "price": 350000,
-    "bashing": 10,
     "to_hit": -2,
-    "material": ["steel", "plastic"],
-    "skill": "smg",
+    "bashing": 10,
+    "material": [ "steel", "plastic" ],
+    "symbol": "(",
+    "color": "light_gray",
     "ammo": "57",
+    "skill": "smg",
     "dispersion": 210,
     "sight_dispersion": 90,
-    "aim_speed" : 4,
+    "aim_speed": 4,
     "durability": 8,
     "burst": 20,
-    "valid_mod_locations": [[ "accessories", 3 ],[ "barrel", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]],
-    "magazine_well" : 2,
-    "magazines" : [
-        [ "57", [ "fnp90mag" ] ],
-        [ "22", [ "a180mag" ] ]
+    "valid_mod_locations": [ [ "accessories", 3 ], [ "barrel", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "muzzle", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
+    "magazine_well": 2,
+    "magazines": [
+      [ "57", [ "fnp90mag" ] ],
+      [ "22", [ "a180mag" ] ]
     ]
   }
 ]

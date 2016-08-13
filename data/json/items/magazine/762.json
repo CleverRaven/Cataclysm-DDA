@@ -13,7 +13,6 @@
     "ammo_type" : "762",
     "capacity" : 30,
     "reliability" : 9,
-    "reload_time" : 100,
     "flags" : [ "MAG_COMPACT" ]
   },
   {

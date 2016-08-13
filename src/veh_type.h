@@ -222,8 +222,16 @@ struct vehicle_item_spawn {
  * is a nullptr. Creating a new vehicle copies the blueprint vehicle.
  */
 struct vehicle_prototype {
+    struct part_def {
+        point pos;
+        vpart_str_id part;
+        int with_ammo = 0;
+        std::set<itype_id> ammo_types;
+        std::pair<int, int> ammo_qty = { -1, -1 };
+    };
+
     std::string name;
-    std::vector<std::pair<point, vpart_str_id> > parts;
+    std::vector<part_def> parts;
     std::vector<vehicle_item_spawn> item_spawns;
 
     std::unique_ptr<vehicle> blueprint;

@@ -20,10 +20,6 @@
     "weight" : 5, "//": "NOTE: Weights are given for ONE UNIT.  The actual weight of a spawned pile of sulfur is now 5*100 = 500g.  For reference, 1 C:DDA unit of volume is around a quarter of a liter (calculated from the weight of water).",
     "bashing" : 1,
     "ammo_type" : "components",
-    "damage" : 0,
-    "range" : 0,
-    "dispersion" : 0,
-    "recoil" : 0,
     "container" : "bag_canvas",
     "count" : 100
    },
@@ -41,11 +37,7 @@
     "volume" : 5,
     "weight" : 500,
     "bashing" : 1,
-    "ammo_type" : "components",
-    "damage" : 0,
-    "range" : 0,
-    "dispersion" : 0,
-    "recoil" : 0
+    "ammo_type" : "components"
    },
   {
     "type" : "AMMO",
@@ -62,10 +54,6 @@
     "weight" : 20,
     "bashing" : 1,
     "ammo_type" : "components",
-    "damage" : 0,
-    "range" : 0,
-    "dispersion" : 0,
-    "recoil" : 0,
     "count" : 50
    },
    {
@@ -83,10 +71,6 @@
     "weight" : 14,
     "bashing" : 1,
     "ammo_type" : "components",
-    "damage" : 0,
-    "range" : 0,
-    "dispersion" : 0,
-    "recoil" : 0,
     "count" : 50
    },
    {
@@ -104,10 +88,6 @@
     "weight" : 15,
     "bashing" : 1,
     "ammo_type" : "components",
-    "damage" : 0,
-    "range" : 0,
-    "dispersion" : 0,
-    "recoil" : 0,
     "count" : 50
    },
    {
@@ -125,10 +105,6 @@
     "weight" : 10,
     "bashing" : 1,
     "ammo_type" : "components",
-    "damage" : 0,
-    "range" : 0,
-    "dispersion" : 0,
-    "recoil" : 0,
     "count" : 50
    },
    {
@@ -175,8 +151,7 @@
     "material" : "stone",
     "volume" : 14,
     "weight" : 650,
-    "bashing" : 1,
-    "damage" : 0
+    "bashing" : 1
    },
    {
     "type" : "COMESTIBLE",
@@ -407,10 +382,6 @@
     "weight" : 1.75,
     "bashing" : 1,
     "ammo_type" : "components",
-    "damage" : 0,
-    "range" : 0,
-    "dispersion" : 0,
-    "recoil" : 0,
     "container" : "bag_plastic",
     "count" : 100
    },
@@ -429,10 +400,6 @@
     "weight" : 8.4,
     "bashing" : 1,
     "ammo_type" : "components",
-    "damage" : 0,
-    "range" : 0,
-    "dispersion" : 0,
-    "recoil" : 0,
     "container" : "bag_plastic",
     "count" : 100
    },
@@ -450,14 +417,9 @@
     "weight" : 460,
     "bashing" : 1,
     "ammo_type" : "components",
-    "damage" : 0,
-    "range" : 0,
-    "dispersion" : 0,
-    "recoil" : 0,
     "charges" : 2,
     "phase" : "liquid",
-    "container" : "bottle_glass",
-    "count" : 1
+    "container" : "bottle_glass"
    },
 {
     "type" : "AMMO",
@@ -473,14 +435,9 @@
     "weight" : 200,
     "bashing" : 1,
     "ammo_type" : "components",
-    "damage" : 0,
-    "range" : 0,
-    "dispersion" : 0,
-    "recoil" : 0,
     "charges" : 1,
     "phase" : "liquid",
-    "container" : "bottle_glass",
-    "count" : 1
+    "container" : "bottle_glass"
    },
 {
     "type" : "AMMO",
@@ -496,14 +453,9 @@
     "weight" : 375,
     "bashing" : 1,
     "ammo_type" : "components",
-    "damage" : 0,
-    "range" : 0,
-    "dispersion" : 0,
-    "recoil" : 0,
     "charges" : 2,
     "phase" : "liquid",
-    "container" : "bottle_glass",
-    "count" : 1
+    "container" : "bottle_glass"
    },
 {
     "type" : "AMMO",
@@ -520,10 +472,6 @@
     "weight" : 13.05,
     "bashing" : 1,
     "ammo_type" : "components",
-    "damage" : 0,
-    "range" : 0,
-    "dispersion" : 0,
-    "recoil" : 0,
     "container" : "bag_canvas",
     "count" : 100
    },
@@ -542,10 +490,6 @@
     "weight" : 5.55,
     "bashing" : 1,
     "ammo_type" : "components",
-    "damage" : 0,
-    "range" : 0,
-    "dispersion" : 0,
-    "recoil" : 0,
     "container" : "bag_plastic",
     "count" : 100
    },
@@ -564,10 +508,6 @@
     "weight" : 16.625,
     "bashing" : 1,
     "ammo_type" : "components",
-    "damage" : 0,
-    "range" : 0,
-    "dispersion" : 0,
-    "recoil" : 0,
     "container" : "box_small",
     "count" : 20
    },
@@ -585,14 +525,9 @@
     "weight" : 325,
     "bashing" : 1,
     "ammo_type" : "components",
-    "damage" : 0,
-    "range" : 0,
-    "dispersion" : 0,
-    "recoil" : 0,
     "charges" : 1,
     "phase" : "liquid",
-    "container" : "bottle_glass",
-    "count" : 1
+    "container" : "bottle_glass"
    },
    {
     "type" : "AMMO",
@@ -609,10 +544,6 @@
     "weight" : 8.6,
     "bashing" : 1,
     "ammo_type" : "components",
-    "damage" : 0,
-    "range" : 0,
-    "dispersion" : 0,
-    "recoil" : 0,
     "container" : "bag_canvas",
     "count" : 50
    },
@@ -631,10 +562,6 @@
     "weight" : 5.275,
     "bashing" : 1,
     "ammo_type" : "components",
-    "damage" : 0,
-    "range" : 0,
-    "dispersion" : 0,
-    "recoil" : 0,
     "container" : "bag_canvas",
     "count" : 50
    },
@@ -653,10 +580,6 @@
     "weight" : 13.35,
     "bashing" : 1,
     "ammo_type" : "components",
-    "damage" : 0,
-    "range" : 0,
-    "dispersion" : 0,
-    "recoil" : 0,
     "container" : "bag_canvas",
     "count" : 50
    },
@@ -674,14 +597,9 @@
     "weight" : 300,
     "bashing" : 1,
     "ammo_type" : "components",
-    "damage" : 0,
-    "range" : 0,
-    "dispersion" : 0,
-    "recoil" : 0,
     "charges" : 1,
     "phase" : "liquid",
-    "container" : "bottle_glass",
-    "count" : 1
+    "container" : "bottle_glass"
    },
    {
     "type" : "AMMO",
@@ -698,10 +616,6 @@
     "weight" : 10, "//": "Weight might not be accurate.",
     "bashing" : 1,
     "ammo_type" : "components",
-    "damage" : 0,
-    "range" : 0,
-    "dispersion" : 0,
-    "recoil" : 0,
     "container" : "bag_canvas",
     "count" : 50
    },
@@ -720,10 +634,6 @@
     "weight" : 9,
     "bashing" : 1,
     "ammo_type" : "components",
-    "damage" : 0,
-    "range" : 0,
-    "dispersion" : 0,
-    "recoil" : 0,
     "container" : "bag_canvas",
     "count" : 50
    },
@@ -742,10 +652,6 @@
     "weight" : 5,
     "bashing" : 1,
     "ammo_type" : "components",
-    "damage" : 0,
-    "range" : 0,
-    "dispersion" : 0,
-    "recoil" : 0,
     "container" : "bag_canvas",
     "count" : 50
    },
@@ -764,10 +670,6 @@
     "weight" : 100,
     "bashing" : 1,
     "ammo_type" : "components",
-    "damage" : 0,
-    "range" : 0,
-    "dispersion" : 0,
-    "recoil" : 0,
     "count" : 5
    },
    {
@@ -785,10 +687,6 @@
     "weight" : 200,
     "bashing" : 1,
     "ammo_type" : "components",
-    "damage" : 0,
-    "range" : 0,
-    "dispersion" : 0,
-    "recoil" : 0,
     "container" : "bag_plastic",
     "count" : 10
    },
@@ -807,10 +705,6 @@
     "weight" : 70,
     "bashing" : 1,
     "ammo_type" : "components",
-    "damage" : 0,
-    "range" : 0,
-    "dispersion" : 0,
-    "recoil" : 0,
     "container" : "bag_plastic",
     "count" : 10
    },

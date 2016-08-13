@@ -136,6 +136,7 @@ void apply_ammo_effects( const tripoint &p, const std::set<std::string> &effects
         }
     }
 
+
     if( effects.count( "EXPLOSIVE_BIG" ) > 0 ) {
         g->explosion( p, 40 );
     }

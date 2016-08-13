@@ -424,6 +424,9 @@ struct islot_magazine {
     /** Default amount of ammo contained by a magazine (often set for ammo belts) */
     int count = 0;
 
+    /** Default type of ammo contained by a magazine (often set for ammo belts) */
+    itype_id default_ammo = "NULL";
+
     /**
      * How reliable this this magazine on a range of 0 to 10?
      * @see doc/GAME_BALANCE.md

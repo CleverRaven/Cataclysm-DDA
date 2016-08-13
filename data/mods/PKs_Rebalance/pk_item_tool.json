@@ -10,7 +10,6 @@
     "weight": 300,
     "volume": 3,
     "bashing": 3,
-    "cutting": 0,
     "use_action": "CAPTURE_MONSTER_ACT",
     "properties": [["monster_size_capacity", "HUGE"]],
     "material": ["steel", "plastic"]

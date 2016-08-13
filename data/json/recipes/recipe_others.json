@@ -245,7 +245,7 @@
       ["welder", 100],
       ["welder_crude", 150],
       ["toolset", 150],
-      ["oxy_torch", 10]
+      ["oxy_torch", 20]
     ]
   ],
   "components": [
@@ -750,7 +750,6 @@
   ],
   "components": [
     [
-      [ "skewer", 1 ],
       [ "splinter", 1 ]
     ]
   ]
@@ -984,7 +983,7 @@
       [ "2x4", 1 ]
     ],
     [
-      [ "skewer", 1 ]
+      [ "splinter", 1 ]
     ],
     [
       [ "string_6", 3 ]
@@ -1049,7 +1048,7 @@
   "components": [
     [
       [ "skewer_bone", 2 ],
-      [ "skewer", 2 ]
+      [ "splinter", 2 ]
     ]
   ]
 },{
@@ -1093,7 +1092,7 @@
     ],
     [
       [ "skewer_bone", 20 ],
-      [ "skewer", 20 ]
+      [ "splinter", 20 ]
     ]
   ]
 },{
@@ -1495,7 +1494,7 @@
       [ "welder", 100 ],
       [ "welder_crude", 150 ],
       [ "toolset", 150 ],
-      [ "oxy_torch", 10]
+      [ "oxy_torch", 20 ]
     ]
   ],
   "components": [
@@ -1612,7 +1611,7 @@
       [ "welder", 50 ],
       [ "welder_crude", 75 ],
       [ "toolset", 75 ],
-      [ "oxy_torch", 5]
+      [ "oxy_torch", 10 ]
     ]
   ],
   "components": [
@@ -2233,7 +2232,7 @@
       [ "welder", 50 ],
       [ "welder_crude", 75 ],
       [ "toolset", 75 ],
-      [ "oxy_torch", 5]
+      [ "oxy_torch", 10 ]
     ]
   ],
   "components": [
@@ -2257,7 +2256,7 @@
       [ "welder", 50 ],
       [ "welder_crude", 75 ],
       [ "toolset", 75 ],
-      [ "oxy_torch", 5]
+      [ "oxy_torch", 10 ]
     ]
   ],
   "components": [
@@ -2285,7 +2284,7 @@
       [ "welder", 60 ],
       [ "welder_crude", 90 ],
       [ "toolset", 90 ],
-      [ "oxy_torch", 6]
+      [ "oxy_torch", 12 ]
     ]
   ],
   "components": [
@@ -2309,7 +2308,7 @@
       [ "welder", 60 ],
       [ "welder_crude", 90 ],
       [ "toolset", 90 ],
-      [ "oxy_torch", 6]
+      [ "oxy_torch", 12 ]
     ]
   ],
   "components": [
@@ -2358,7 +2357,7 @@
   ], "tools": [
     [
       [ "welder", 40 ],
-      [ "oxy_torch", 4],
+      [ "oxy_torch", 8 ],
       [ "welder_crude", 60 ],
       [ "toolset", 60 ]
     ]
@@ -2387,7 +2386,7 @@
   ], "tools": [
     [
       [ "welder", 20 ],
-      [ "oxy_torch", 2],
+      [ "oxy_torch", 4 ],
       [ "welder_crude", 30 ],
       [ "toolset", 30 ]
     ]
@@ -2937,7 +2936,7 @@
       [ "welder", 50 ],
       [ "welder_crude", 75 ],
       [ "toolset", 75 ],
-      [ "oxy_torch", 5]
+      [ "oxy_torch", 10 ]
     ]
   ],
   "components": [
@@ -2963,7 +2962,7 @@
       [ "welder", 50 ],
       [ "welder_crude", 75 ],
       [ "toolset", 75 ],
-      [ "oxy_torch", 5]
+      [ "oxy_torch", 10 ]
     ],
     [
     [ "soldering_iron", 10 ]
@@ -2998,7 +2997,7 @@
       [ "welder", 20 ],
       [ "welder_crude", 30 ],
       [ "toolset", 30 ],
-      [ "oxy_torch", 2]
+      [ "oxy_torch", 4 ]
     ]
   ],
   "components": [
@@ -3746,7 +3745,7 @@
       [ "welder_crude", 300 ],
       [ "toolset", 300 ],
       [ "soldering_iron", 300 ],
-      ["oxy_torch", 20]
+      [ "oxy_torch", 40 ]
       ] ],
   "components":
     [
@@ -4648,11 +4647,12 @@
       [ "welder", 100],
       [ "welder_crude", 150],
       [ "toolset", 150],
-      [ "oxy_torch", 10]
+      [ "oxy_torch", 20]
     ]
   ],
   "components": [
     [
+      [ "1cyl_combustion", 1 ],
       [ "1cyl_combustion_small", 1 ]
     ],
     [
@@ -4884,7 +4884,7 @@
       [ "welder_crude", 150 ],
       [ "toolset", 150 ],
       [ "soldering_iron", 150 ],
-      [ "oxy_torch", 10]
+      [ "oxy_torch", 20 ]
      ]
     ],
   "components":
@@ -4928,7 +4928,7 @@
       [ "welder_crude", 75 ],
       [ "toolset", 75 ],
       [ "soldering_iron", 75 ],
-      [ "oxy_torch", 5]
+      [ "oxy_torch", 10 ]
      ]
     ],
   "components":
@@ -5036,7 +5036,7 @@
       [ "welder", 150 ],
       [ "welder_crude", 225 ],
       [ "toolset", 225 ],
-      [ "oxy_torch", 15 ]
+      [ "oxy_torch", 30 ]
     ] ],
   "components":
     [
@@ -5075,7 +5075,7 @@
       [ "welder", 200 ],
       [ "welder_crude", 300 ],
       [ "toolset", 300 ],
-      [ "oxy_torch", 20 ]
+      [ "oxy_torch", 40 ]
     ],
     [
       [ "soldering_iron", 25 ],
@@ -5163,7 +5163,7 @@
       [ "welder_crude", 225 ],
       [ "toolset", 225 ],
       [ "soldering_iron", 225 ],
-      [ "oxy_torch", 15]
+      [ "oxy_torch", 30 ]
     ] ],
   "components":
     [
@@ -6073,7 +6073,7 @@
   ],
   "tools": [ [ ["sheet_metal", -1 ] ] ],
   "components": [
-    [ [ "splinter", 10 ], [ "stick", 4 ], [ "2x4", 4 ], [ "withered", 20 ], [ "skewer", 10 ] ],
+    [ [ "splinter", 10 ], [ "stick", 4 ], [ "2x4", 4 ], [ "withered", 20 ] ],
     [ [ "water", 4 ], [ "water_clean", 4 ] ]
   ]
   },
@@ -6365,7 +6365,7 @@
       [ "welder", 30 ],
       [ "welder_crude", 45 ],
       [ "toolset", 45 ],
-      [ "oxy_torch", 3 ]
+      [ "oxy_torch", 6 ]
     ]
     ],
     "components": [
@@ -6394,7 +6394,7 @@
       [ "welder", 30 ],
       [ "welder_crude", 45 ],
       [ "toolset", 45 ],
-      [ "oxy_torch", 3 ]
+      [ "oxy_torch", 6 ]
     ]
     ],
     "components": [
@@ -7388,7 +7388,7 @@
     [
       [ "plastic_chunk", 1 ],
       [ "skewer_bone", 4 ],
-      [ "skewer", 4 ]
+      [ "splinter", 4 ]
     ]
   ]
 },{
@@ -7444,7 +7444,7 @@
       [ "welder", 50 ],
       [ "welder_crude", 75 ],
       [ "toolset", 75 ],
-      [ "oxy_torch", 5]
+      [ "oxy_torch", 10 ]
     ]
   ],
   "components": [
@@ -7473,7 +7473,7 @@
       [ "welder", 50 ],
       [ "welder_crude", 75 ],
       [ "toolset", 75 ],
-      [ "oxy_torch", 5]
+      [ "oxy_torch", 10 ]
     ]
   ],
   "components": [
@@ -7503,7 +7503,7 @@
       [ "welder", 50 ],
       [ "welder_crude", 75 ],
       [ "toolset", 75 ],
-      [ "oxy_torch", 5]
+      [ "oxy_torch", 10 ]
     ]
   ],
   "components": [
@@ -7532,7 +7532,7 @@
       [ "welder", 50 ],
       [ "welder_crude", 75 ],
       [ "toolset", 75 ],
-      [ "oxy_torch", 5]
+      [ "oxy_torch", 10 ]
     ]
   ],
   "components": [
@@ -7599,6 +7599,6 @@
   "time": 1000,
   "autolearn": true,
   "qualities" : [ {"id":"CUT","level":1} ],
-  "components": [ [ [ "2x4", 1 ] ] ] 
+  "components": [ [ [ "2x4", 1 ] ] ]
 }
 ]

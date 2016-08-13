@@ -2799,7 +2799,7 @@
   "type" : "recipe",
   "result": "starch",
   "id_suffix": "from_fibrous_stuff",
-  "byproducts": { "id" : "plant_fibre", "charges_mult" : 5 },
+  "byproducts": { "id" : "plant_fibre", "amount" : 5 },
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_VEGGI",
   "skill_used": "cooking",
@@ -7744,7 +7744,7 @@
       [ "can_tuna", 2 ],
       [ "sausage", 4 ],
       [ "bacon", 4 ],
-      [ "powder_eggs", 40 ],
+      [ "powder_eggs", 20 ],
       [ "egg_bird", 4 ],
       [ "egg_reptile", 4 ]
     ],
@@ -10528,7 +10528,7 @@
   "type" : "recipe",
   "result": "juice",
   "id_suffix": "fresh",
-  "byproducts": { "id" : "juice_pulp", "charges_mult" : 2 },
+  "byproducts": { "id" : "juice_pulp", "amount" : 2 },
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_DRINKS",
   "skill_used": "cooking",
@@ -10599,7 +10599,7 @@
       [ "can_coconut", 1 ]
     ],
     [
-      [ "powder_eggs", 15 ],
+      [ "powder_eggs", 10 ],
       [ "egg_bird", 2 ],
       [ "egg_reptile", 2 ]
     ],

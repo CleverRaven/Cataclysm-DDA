@@ -16,9 +16,14 @@
     ],
     "tools": [
       [ [ "mold_plastic", -1 ] ],
-      [ [ "hotplate", 50 ], ["fire", -1 ] ]
+      [ [ "hotplate", 50 ], [ "toolset", 50 ], ["fire", -1 ] ]
     ],
-    "components": [ [ [ "plastic_chunk", 3 ], [ "wire", 1 ], [ "scrap", 1 ], [ "bismuth", 200 ] ] ]
+    "components": [ 
+        [ [ "plastic_chunk", 3 ] ],
+        [ [ "wire", 1 ] ],
+        [ [ "scrap", 1 ] ],
+        [ [ "bismuth", 200 ] ]
+      ]
   },
   {
     "result": "jack",

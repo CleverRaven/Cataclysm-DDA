@@ -1417,10 +1417,10 @@ int construction::print_time( WINDOW *w, int ypos, int xpos, int width,
 float construction::time_scale() const
 {
     //incorporate construction time scaling
-    if( ACTIVE_WORLD_OPTIONS.empty() || int( ACTIVE_WORLD_OPTIONS["CONSTRUCTION_SCALING"] ) == 0 ) {
+    if( get_world_option<int>( "CONSTRUCTION_SCALING" ) == 0 ) {
         return calendar::season_ratio();
     } else {
-        return 100.0 / int( ACTIVE_WORLD_OPTIONS["CONSTRUCTION_SCALING"] );
+        return 100.0 / get_world_option<int>( "CONSTRUCTION_SCALING" );
     }
 }
 

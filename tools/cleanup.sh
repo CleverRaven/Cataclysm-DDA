@@ -41,13 +41,13 @@ cleanup() {
     exit 0;
 }
 
-PERL=`whereis -qb perl`
+PERL=`which perl`
 if [ $? -ne 0 ]; then
     echo "perl is required to run this script"
     exit 69; # EX_UNAVAILABLE
 fi
 
-JQ=`whereis -qb jq`
+JQ=`which jq`
 if [ $? -ne 0 ]; then
     echo "jq is required to run this script"
     exit 69; # EX_UNAVAILABLE
@@ -63,9 +63,11 @@ task=$1;
 shift;
 
 case $task in
-    none   ) cleanup "." $@;;
-    item   ) cleanup "sort_by(.id)" $@;;
-    recipe ) cleanup "sort_by(.result)" $@;;
+    none    ) cleanup "." $@;;
+    item    ) cleanup "sort_by(.id)" $@;;
+    mission ) cleanup "sort_by(.id)" $@;;
+    recipe  ) cleanup "sort_by(.result)" $@;;
+    uncraft ) cleanup "sort_by(.result)" $@;;
 
     * ) usage;;
 esac

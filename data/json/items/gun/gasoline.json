@@ -8,8 +8,8 @@
     "weight": 1587,
     "volume": 16,
     "price": 80000,
-    "bashing": 10,
     "to_hit": -1,
+    "bashing": 10,
     "material": "steel",
     "range": 4,
     "dispersion": 300,
@@ -17,8 +17,8 @@
     "durability": 8,
     "burst": 4,
     "clip_size": 3000,
-    "reload_noise_volume": 4,
     "reload_noise": "slosh.",
+    "reload_noise_volume": 4,
     "valid_mod_locations": [ [ "accessories", 1 ], [ "grip", 1 ] ]
   },
   {
@@ -27,17 +27,17 @@
     "type": "GUN",
     "name": "spraycan flamethrower",
     "description": "A favorite of hooligans around the world, this lighter duct-taped to a spray can is probably as dangerous to the user as anyone else.  The nozzle has been crudely modified to disperse gasoline, and a small pump attached to the side allows for repressurization, though this process takes a few minutes.",
-    "price": 16000,
-    "material": "steel",
     "weight": 451,
     "volume": 2,
+    "price": 16000,
+    "material": "steel",
     "range": -2,
     "dispersion": 300,
     "sight_dispersion": 150,
     "durability": 8,
     "clip_size": 100,
     "valid_mod_locations": [ [ "grip", 1 ], [ "stock", 1 ] ],
-    "relative": { "reload": 4.0 }
+    "relative": { "reload": 4 }
   },
   {
     "id": "flamethrower_simple",
@@ -48,15 +48,15 @@
     "weight": 907,
     "volume": 20,
     "price": 20000,
-    "bashing": 8,
     "to_hit": -1,
-    "material": ["steel", "plastic"],
+    "bashing": 8,
+    "material": [ "steel", "plastic" ],
     "ranged_damage": -5,
     "dispersion": 300,
     "sight_dispersion": 150,
     "durability": 6,
     "clip_size": 1600,
-    "relative": { "reload": 2.0 }
+    "relative": { "reload": 2 }
   },
   {
     "id": "rm451_flamethrower",
@@ -67,9 +67,9 @@
     "weight": 1320,
     "volume": 14,
     "price": 970000,
-    "bashing": 10,
     "to_hit": -1,
-    "material": ["superalloy", "ceramic"],
+    "bashing": 10,
+    "material": [ "superalloy", "ceramic" ],
     "range": 12,
     "ranged_damage": 10,
     "dispersion": 240,
@@ -78,7 +78,7 @@
     "burst": 5,
     "clip_size": 2000,
     "valid_mod_locations": [ [ "accessories", 4 ], [ "rail", 1 ], [ "grip", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
-    "delete": { "flags": [ "FIRE_100" ] },
-    "extend": { "flags": [ "FIRE_20", "MODE_BURST" ] }
+    "extend": { "flags": [ "FIRE_20", "MODE_BURST" ] },
+    "delete": { "flags": [ "FIRE_100" ] }
   }
 ]

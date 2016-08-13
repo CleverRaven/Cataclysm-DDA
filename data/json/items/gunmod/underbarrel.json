@@ -18,11 +18,7 @@
       "ammo": "gasoline",
       "clip_size": 400,
       "dispersion": 300,
-      "aim_speed": -1,
-      "sight_dispersion": -1,
-      "recoil": 0,
-      "durability": 10,
-      "reload": 100
+      "durability": 10
     },
     "dispersion_modifier": 30,
     "flags": [ "FIRE_100" ]
@@ -31,7 +27,7 @@
     "id": "bayonet",
     "type": "GUNMOD",
     "name": "bayonet",
-    "description": "A bayonet is a stabbing weapon that can be attached to the front of a shotgun, submachinegun or rifle, allowing a melee attack to deal piercing damage.",
+    "description": "A bayonet is a stabbing weapon that can be attached to the front of a shotgun, submachine gun or rifle, allowing a melee attack to deal piercing damage.",
     "weight": 387,
     "volume": 2,
     "price": 4000,
@@ -85,11 +81,7 @@
       "clip_size": 1,
       "dispersion": 20,
       "range": 2,
-      "aim_speed": -1,
-      "sight_dispersion": -1,
-      "recoil": 0,
-      "durability": 10,
-      "reload": 100
+      "durability": 10
     },
     "dispersion_modifier": 15,
     "flags": [ "RELOAD_ONE", "IRREMOVABLE", "TRADER_AVOID" ]
@@ -116,11 +108,8 @@
       "clip_size": 1,
       "ranged_damage": 2,
       "dispersion": 555,
-      "aim_speed": 0,
-      "sight_dispersion": 150,
       "recoil": 300,
       "durability": 6,
-      "reload": 100,
       "loudness": 175
     },
     "flags": [ "RELOAD_ONE", "IRREMOVABLE" ]
@@ -193,8 +182,6 @@
       "clip_size": 7,
       "ranged_damage": 3,
       "dispersion": 45,
-      "aim_speed": 3,
-      "sight_dispersion": 105,
       "recoil": 15,
       "durability": 10,
       "reload": 120,
@@ -239,11 +226,8 @@
       "dispersion": 300,
       "ranged_damage": 2,
       "range": -2,
-      "aim_speed": -1,
-      "sight_dispersion": -1,
       "recoil": 375,
-      "durability": 10,
-      "reload": 100
+      "durability": 10
     },
     "flags": [ "RELOAD_ONE", "IRREMOVABLE" ]
   },
@@ -267,11 +251,7 @@
       "ammo": "40mm",
       "clip_size": 1,
       "dispersion": 300,
-      "aim_speed": -1,
-      "sight_dispersion": -1,
-      "recoil": 0,
-      "durability": 10,
-      "reload": 100
+      "durability": 10
     },
     "dispersion_modifier": 30
   },
@@ -295,11 +275,7 @@
       "ammo": "40mm",
       "clip_size": 1,
       "dispersion": 20,
-      "aim_speed": -1,
-      "sight_dispersion": -1,
-      "recoil": 0,
-      "durability": 10,
-      "reload": 100
+      "durability": 10
     },
     "dispersion_modifier": 60
   },
@@ -322,11 +298,7 @@
       "ammo": "shot",
       "clip_size": 4,
       "dispersion": 30,
-      "aim_speed": -1,
-      "sight_dispersion": -1,
-      "recoil": 0,
-      "durability": 10,
-      "reload": 100
+      "durability": 10
     },
     "dispersion_modifier": 15,
     "flags": [ "RELOAD_ONE" ]
@@ -350,11 +322,7 @@
       "ammo": "40mm",
       "clip_size": 1,
       "dispersion": 450,
-      "aim_speed": -1,
-      "sight_dispersion": -1,
-      "recoil": 0,
-      "durability": 10,
-      "reload": 100
+      "durability": 10
     },
     "dispersion_modifier": 60
   },
@@ -394,8 +362,6 @@
       "skill": "shotgun",
       "ammo": "20x66mm",
       "dispersion": 100,
-      "aim_speed": 3,
-      "sight_dispersion": 75,
       "recoil": 50,
       "durability": 9,
       "reload": 125
@@ -444,11 +410,7 @@
       "ammo": "shot",
       "clip_size": 2,
       "dispersion": 75,
-      "aim_speed": -1,
-      "sight_dispersion": -1,
-      "recoil": 0,
-      "durability": 100,
-      "reload": 100
+      "durability": 10
     },
     "dispersion_modifier": 30,
     "flags": [ "RELOAD_ONE" ]

@@ -132,7 +132,6 @@
     "recoil": 225,
     "durability": 4,
     "clip_size": 2,
-    "reload": 100,
     "loudness" : 200,
     "valid_mod_locations": [[ "accessories", 4 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ]]
   },
@@ -155,11 +154,9 @@
     "ranged_damage": 1,
     "dispersion": 630,
     "sight_dispersion": 150,
-    "aim_speed" : 0,
     "recoil": 450,
     "durability": 6,
     "clip_size": 1,
-    "reload": 100,
     "loudness" : 200,
     "valid_mod_locations": [[ "stock", 1 ]]
   },
@@ -336,10 +333,6 @@
       "weight" : 1,
       "bashing" : 1,
       "ammo_type" : "components",
-      "damage" : 0,
-      "range" : 0,
-      "dispersion" : 0,
-      "recoil" : 0,
       "count" : 10,
       "stack_size" : 100
    },
@@ -398,7 +391,6 @@
     "dispersion": 10,
     "sight_dispersion": 60,
     "aim_speed" : 6,
-    "recoil": 0,
     "durability": 8,
     "reload": 0,
     "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
@@ -473,11 +465,8 @@
         "to_hit": -2,
         "dispersion": 75,
         "sight_dispersion": 150,
-        "aim_speed" : 0,
-        "recoil": 0,
         "durability": 7,
-        "clip_size": 1,
-        "reload": 100
+        "clip_size": 1
     },
     {
         "type" : "AMMO",
@@ -545,5 +534,36 @@
         }
     },
     "flags": [ "BOMB" ]
-  }
+  },
+  {
+        "type":"GENERIC",
+        "id": "sword_forged",
+        "symbol" : "!",
+        "color": "dark_gray",
+        "name": "forged sword",
+        "description": "A common short sword, forged from several pieces of steel.  The pointy end is the dangerous one.",
+        "material": "steel",
+        "volume": 8,
+        "weight": 700,
+        "bashing": 4,
+        "cutting": 14,
+        "to_hit": 2,
+        "flags": ["SHEATH_SWORD","CHOP"],
+        "techniques": ["WBLOCK_2"]
+    },
+    {
+        "type":"GENERIC",
+        "id": "skewer",
+        "symbol": ",",
+        "color": "brown",
+        "name": "skewer",
+        "description": "A thin wooden skewer.  Squirrel on a stick, anyone?",
+        "category": "other",
+        "material": "wood",
+        "flags": [ "NO_SALVAGE", "TRADER_AVOID" ],
+        "weight": 6,
+        "volume": 0,
+        "to_hit": -5,
+        "qualities": [["COOK", 1]]
+    }
 ]

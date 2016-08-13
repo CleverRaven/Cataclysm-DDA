@@ -13,7 +13,6 @@
     "ammo_type" : "3006",
     "capacity" : 4,
     "reliability" : 10,
-    "reload_time" : 100,
     "flags": [ "MAG_COMPACT" ]
   },
   {
@@ -65,7 +64,6 @@
     "ammo_type" : "3006",
     "capacity" : 20,
     "reliability" : 9,
-    "reload_time" : 100,
     "flags": [ "MAG_COMPACT" ]
   }
 ]

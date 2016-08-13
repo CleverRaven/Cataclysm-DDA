@@ -6,15 +6,15 @@
     "weight": 230,
     "volume": 1,
     "price": 40000,
-    "count": 4,
-    "stack_size": 4,
     "material": [ "steel", "powder" ],
     "symbol": "=",
     "color": "yellow",
+    "count": 4,
+    "stack_size": 4,
     "ammo_type": "40mm",
     "casing": "40mm_casing",
-    "damage": 5,
     "range": 40,
+    "damage": 5,
     "dispersion": 30,
     "recoil": 225,
     "effects": [ "COOKOFF", "NEVER_MISFIRES" ]
@@ -42,8 +42,8 @@
     "type": "AMMO",
     "name": "40mm flare",
     "description": "A 40mm signal flare.  It will burn brightly for up to a minute, and will also leave a streak of smoke cover in its wake.",
-    "extend": { "effects": [ "TRAIL", "NO_EMBED" ] },
-    "drop": "handflare_lit"
+    "drop": "handflare_lit",
+    "extend": { "effects": [ "TRAIL", "NO_EMBED" ] }
   },
   {
     "id": "40mm_flashbang",
@@ -88,8 +88,8 @@
     "type": "AMMO",
     "name": "40mm buckshot",
     "description": "A 40mm grenade with a buckshot load.",
-    "damage": 70,
     "range": 12,
+    "damage": 70,
     "recoil": 525,
     "extend": { "effects": [ "SHOT" ] }
   },
@@ -100,8 +100,8 @@
     "name": "40mm smoke cover",
     "name_plural": "40mm smoke cover",
     "description": "A 40mm grenade designed to provide smoke cover.",
-    "extend": { "effects": [ "TRAIL", "NO_EMBED" ] },
-    "drop": "smokebomb_act"
+    "drop": "smokebomb_act",
+    "extend": { "effects": [ "TRAIL", "NO_EMBED" ] }
   },
   {
     "id": "40mm_teargas",
@@ -110,7 +110,7 @@
     "name": "40mm teargas",
     "name_plural": "40mm teargas",
     "description": "A 40mm grenade with a teargas load.  It will burst in a cloud of highly incapacitating gas.",
-    "extend": { "effects": [ "NO_EMBED" ] },
-    "drop": "gasbomb_act"
+    "drop": "gasbomb_act",
+    "extend": { "effects": [ "NO_EMBED" ] }
   }
 ]
