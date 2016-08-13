@@ -2362,7 +2362,7 @@
     "death_drops": "default_zombie_death_drops",
     "upgrades":{
       "into_group": "GROUP_ZOMBIE_BRUTE",
-      "half_life": 28
+      "half_life": 21
     },
     "burn_into" : "mon_zombie_fiend",
     "hp":120,
