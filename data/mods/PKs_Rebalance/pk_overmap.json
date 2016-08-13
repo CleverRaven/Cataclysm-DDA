@@ -1,7 +1,6 @@
 [
     {
         "type" : "overmap_special",
-<<<<<<< HEAD
         "id" : "Prison",
         "overmaps" : [
             { "point":[-1,0,0], "overmap": "prison_3"},
@@ -24,18 +23,13 @@
             { "point":[1,2,-1], "overmap": "prison_b"}
         ],
         "locations" : [ "land" ],
-        "city_distance" : [3, -1],
+        "city_distance" : [10, -1],
         "city_sizes" : [4, 12],
         "occurrences" : [1, 1],
         "rotate" : false,
         "flags" : [ "CLASSIC" ]
-    },{
+    }{
         "type" : "overmap_special",
-        "id" : "Slime Pit",
-        "overmaps" :
-        [
-            { "point":[0,0,0], "overmap": "slimepit_down"}
-=======
         "id" : "Bee Hive",
         "overmaps" : [
             { "point":[0,0,0], "overmap": "hive"},
@@ -47,7 +41,6 @@
             { "point":[2,0,0], "overmap": "hive"},
             { "point":[2,1,0], "overmap": "hive"},
             { "point":[2,2,0], "overmap": "hive"}
->>>>>>> refs/remotes/origin/master
         ],
         "locations" : [ "forest" ],
         "city_distance" : [12, -1],
