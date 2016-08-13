@@ -7,8 +7,8 @@
     "weight": 2950,
     "volume": 12,
     "price": 1600000,
-    "bashing": 12,
     "to_hit": -1,
+    "bashing": 12,
     "material": [ "steel", "plastic" ],
     "symbol": "(",
     "color": "cyan",
@@ -21,10 +21,13 @@
     "aim_speed": 6,
     "durability": 10,
     "burst": 3,
+    "ups_charges": 70,
     "reload": 0,
     "valid_mod_locations": [ [ "accessories", 4 ], [ "grip", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
-    "ups_charges": 70,
-    "ammo_effects": [ "DRAW_LASER_BEAM", "EMP" ],
+    "ammo_effects": [
+      "DRAW_LASER_BEAM",
+      "EMP"
+    ],
     "flags": [ "NEVER_JAMS", "NO_UNLOAD" ]
   },
   {
@@ -35,8 +38,8 @@
     "weight": 5140,
     "volume": 6,
     "price": 400000,
-    "bashing": 4,
     "to_hit": -1,
+    "bashing": 4,
     "material": [ "steel", "plastic" ],
     "symbol": "(",
     "color": "magenta",
@@ -46,11 +49,13 @@
     "pierce": 15,
     "dispersion": 90,
     "sight_dispersion": 150,
-    "aim_speed": 0,
     "durability": 7,
-    "reload": 200,
     "ups_charges": 25,
-    "ammo_effects": [ "LASER", "INCENDIARY" ],
+    "reload": 200,
+    "ammo_effects": [
+      "LASER",
+      "INCENDIARY"
+    ],
     "flags": [ "NO_UNLOAD" ]
   },
   {
@@ -61,8 +66,8 @@
     "weight": 2950,
     "volume": 12,
     "price": 1600000,
-    "bashing": 12,
     "to_hit": -1,
+    "bashing": 12,
     "material": [ "steel", "plastic" ],
     "symbol": "(",
     "color": "yellow",
@@ -75,10 +80,13 @@
     "aim_speed": 6,
     "durability": 8,
     "burst": 5,
+    "ups_charges": 40,
     "reload": 0,
     "valid_mod_locations": [ [ "accessories", 4 ], [ "grip", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
-    "ups_charges": 40,
-    "ammo_effects": [ "LASER", "INCENDIARY" ],
+    "ammo_effects": [
+      "LASER",
+      "INCENDIARY"
+    ],
     "flags": [ "NEVER_JAMS", "NO_UNLOAD" ]
   },
   {
@@ -89,8 +97,8 @@
     "weight": 2680,
     "volume": 10,
     "price": 420000,
-    "bashing": 10,
     "to_hit": -1,
+    "bashing": 10,
     "material": [ "steel", "plastic" ],
     "symbol": "(",
     "color": "magenta",
@@ -99,12 +107,16 @@
     "ranged_damage": 22,
     "dispersion": 90,
     "sight_dispersion": 150,
-    "aim_speed": 0,
     "durability": 6,
+    "ups_charges": 40,
     "reload": 600,
     "valid_mod_locations": [ [ "grip", 1 ], [ "sights", 1 ], [ "stock", 1 ] ],
-    "ups_charges": 40,
-    "ammo_effects": [ "PLASMA", "EXPLOSIVE", "FLAME", "NEVER_JAMS" ],
+    "ammo_effects": [
+      "PLASMA",
+      "EXPLOSIVE",
+      "FLAME",
+      "NEVER_JAMS"
+    ],
     "flags": [ "NO_UNLOAD" ]
   },
   {
@@ -115,8 +127,8 @@
     "weight": 680,
     "volume": 4,
     "price": 720000,
-    "bashing": 5,
     "to_hit": -2,
+    "bashing": 5,
     "material": [ "steel", "plastic" ],
     "symbol": "(",
     "color": "magenta",
@@ -128,10 +140,13 @@
     "sight_dispersion": 90,
     "aim_speed": 4,
     "durability": 8,
-    "reload": 200,
-    "valid_mod_locations": [ [ "accessories", 2 ], [ "barrel", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "muzzle", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
     "ups_charges": 20,
-    "ammo_effects": [ "LASER", "INCENDIARY" ],
+    "reload": 200,
+    "valid_mod_locations": [ [ "accessories", 2 ], [ "grip", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
+    "ammo_effects": [
+      "LASER",
+      "INCENDIARY"
+    ],
     "flags": [ "NEVER_JAMS", "NO_UNLOAD" ]
   },
   {
@@ -142,8 +157,8 @@
     "weight": 540,
     "volume": 8,
     "price": 500000,
-    "bashing": 5,
     "to_hit": -2,
+    "bashing": 5,
     "material": [ "steel", "plastic" ],
     "symbol": "(",
     "color": "magenta",
@@ -153,12 +168,14 @@
     "pierce": 6,
     "dispersion": 180,
     "sight_dispersion": 150,
-    "aim_speed": 0,
     "durability": 4,
+    "ups_charges": 20,
     "reload": 300,
     "valid_mod_locations": [ [ "accessories", 2 ], [ "grip", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ] ],
-    "ups_charges": 20,
-    "ammo_effects": [ "LASER", "INCENDIARY" ],
+    "ammo_effects": [
+      "LASER",
+      "INCENDIARY"
+    ],
     "flags": [ "NO_UNLOAD" ]
   }
 ]

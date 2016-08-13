@@ -563,9 +563,10 @@ Mods can modify this via "add:traits" and "remove:traits".
 "type": "MAGAZINE",   // Defines this as a MAGAZINE
 ...                   // same entries as above for the generic item.
                       // additional some magazine specific entries:
-"ammo_type": "9mm",   // What type of ammo this magazine can be loaded with
+"ammo_type": "223",   // What type of ammo this magazine can be loaded with
 "capacity" : 15,      // Capacity of magazine (in equivalent units to ammo charges)
 "count" : 0,          // Default amount of ammo contained by a magazine (set this for ammo belts)
+"default_ammo": "556",// If specified override the default ammo (optionally set this for ammo belts)
 "reliability" : 8,    // How reliable this this magazine on a range of 0 to 10? (see GAME_BALANCE.md)
 "reload_time" : 100,  // How long it takes to load each unit of ammo into the magazine
 "linkage" : "ammolink"// If set one linkage (of given type) is dropped for each unit of ammo consumed (set for disintegrating ammo belts)

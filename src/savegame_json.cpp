@@ -7,6 +7,7 @@
 #include "game.h"
 #include "rng.h"
 #include "addiction.h"
+#include "auto_pickup.h"
 #include "inventory.h"
 #include "artifact.h"
 #include "options.h"
@@ -203,7 +204,7 @@ void SkillLevel::deserialize(JsonIn &jsin)
     data.read( "istraining", _isTraining );
     data.read( "lastpracticed", lastpractice );
     if(lastpractice == 0) {
-        _lastPracticed = HOURS(OPTIONS["INITIAL_TIME"]);
+        _lastPracticed = HOURS( get_option<int>( "INITIAL_TIME" ) );
     } else {
         _lastPracticed = lastpractice;
     }
@@ -834,6 +835,9 @@ void npc_follower_rules::serialize(JsonOut &json) const
     json.member( "allow_pulp", allow_pulp );
 
     json.member( "close_doors", close_doors );
+
+    json.member( "pickup_whitelist", *pickup_whitelist );
+
     json.end_object();
 }
 
@@ -856,6 +860,8 @@ void npc_follower_rules::deserialize(JsonIn &jsin)
     data.read( "allow_pulp", allow_pulp );
 
     data.read( "close_doors", close_doors );
+
+    data.read( "pickup_whitelist", *pickup_whitelist );
 }
 
 extern std::string convert_talk_topic( talk_topic_enum );
@@ -1062,7 +1068,7 @@ void npc::load(JsonObject &data)
         attitude = npc_attitude(atttmp);
         static const std::set<npc_attitude> legacy_attitudes = {{
             NPCATT_LEGACY_1, NPCATT_LEGACY_2, NPCATT_LEGACY_3,
-            NPCATT_LEGACY_4, NPCATT_LEGACY_5
+            NPCATT_LEGACY_4, NPCATT_LEGACY_5, NPCATT_LEGACY_6
         }};
         if( legacy_attitudes.count( attitude ) > 0 ) {
             attitude = NPCATT_NULL;
@@ -1570,7 +1576,6 @@ void vehicle_part::deserialize(JsonIn &jsin)
 
     data.read("mount_dx", mount.x);
     data.read("mount_dy", mount.y);
-    data.read("hp", hp );
     data.read("open", open );
     data.read("direction", direction );
     data.read("blood", blood );
@@ -1598,6 +1603,20 @@ void vehicle_part::deserialize(JsonIn &jsin)
         }
         base.item_tags.insert( "VEHICLE" );
     }
+
+    if( data.has_int( "hp" ) ) {
+        // migrate legacy savegames exploiting that al base items at that time had max_damage() of 4
+        base.set_damage( 4 - ( 4 / double( id.obj().durability ) * data.get_int( "hp" ) ) );
+    }
+
+    // legacy turrets loaded ammo via a pseudo CARGO space
+    if( is_turret() && !items.empty() ) {
+        int qty = std::accumulate( items.begin(), items.end(), 0, []( int lhs, const item& rhs ) {
+            return lhs + rhs.charges;
+        } );
+        ammo_set( items.front().ammo_current(), qty );
+        items.clear();
+    }
 }
 
 void vehicle_part::serialize(JsonOut &json) const
@@ -1608,7 +1627,6 @@ void vehicle_part::serialize(JsonOut &json) const
     json.member("base", base);
     json.member("mount_dx", mount.x);
     json.member("mount_dy", mount.y);
-    json.member("hp", hp);
     json.member("open", open );
     json.member("direction", direction );
     json.member("blood", blood);
@@ -1668,19 +1686,11 @@ void vehicle::deserialize(JsonIn &jsin)
     data.read("cruise_on", cruise_on);
     data.read("engine_on", engine_on);
     data.read("tracking_on", tracking_on);
-    data.read("stereo_on", stereo_on);
-    data.read("chimes_on", chimes_on);
-    data.read("fridge_on", fridge_on);
-    data.read("recharger_on", recharger_on);
     data.read("skidding", skidding);
     data.read("of_turn_carry", of_turn_carry);
     data.read("is_locked", is_locked);
     data.read("is_alarm_on", is_alarm_on);
     data.read("camera_on", camera_on);
-    data.read("scoop_on",scoop_on);
-    data.read("plow_on",plow_on);
-    data.read("reaper_on",reaper_on);
-    data.read("planter_on",planter_on);
     int last_updated = calendar::turn;
     data.read( "last_update_turn", last_updated );
     last_update_turn = last_updated;
@@ -1740,6 +1750,25 @@ void vehicle::deserialize(JsonIn &jsin)
     // that can't be used as it currently stands because it would also
     // make it instantly fire all its turrets upon load.
     of_turn = 0;
+
+
+    /** Legacy saved games did not store part enabled status within parts */
+    auto set_legacy_state = [&]( const std::string &var, const std::string &flag ) {
+        if( data.get_bool( var, false ) ) {
+            for( auto e : get_parts( flag ) ) {
+                e->enabled = true;
+            }
+        }
+    };
+    set_legacy_state( "stereo_on", "STEREO" );
+    set_legacy_state( "chimes_on", "CHIMES" );
+    set_legacy_state( "fridge_on", "FRIDGE" );
+    set_legacy_state( "reaper_on", "REAPER" );
+    set_legacy_state( "planter_on", "PLANTER" );
+    set_legacy_state( "recharger_on", "RECHARGE" );
+    set_legacy_state( "scoop_on", "SCOOP" );
+    set_legacy_state( "plow_on", "PLOW" );
+    set_legacy_state( "reactor_on", "REACTOR" );
 }
 
 void vehicle::serialize(JsonOut &json) const
@@ -1759,10 +1788,6 @@ void vehicle::serialize(JsonOut &json) const
     json.member( "cruise_on", cruise_on );
     json.member( "engine_on", engine_on );
     json.member( "tracking_on", tracking_on );
-    json.member( "stereo_on", stereo_on);
-    json.member( "chimes_on", chimes_on);
-    json.member( "fridge_on", fridge_on );
-    json.member( "recharger_on", recharger_on );
     json.member( "skidding", skidding );
     json.member( "of_turn_carry", of_turn_carry );
     json.member( "name", name );
@@ -1773,10 +1798,6 @@ void vehicle::serialize(JsonOut &json) const
     json.member( "is_alarm_on", is_alarm_on );
     json.member( "camera_on", camera_on );
     json.member( "last_update_turn", last_update_turn.get_turn() );
-    json.member("scoop_on",scoop_on);
-    json.member("plow_on",plow_on);
-    json.member("reaper_on",reaper_on);
-    json.member("planter_on",planter_on);
     json.member("pivot",pivot_anchor[0]);
     json.end_object();
 }
@@ -1787,9 +1808,15 @@ void mission::deserialize(JsonIn &jsin)
 {
     JsonObject jo = jsin.get_object();
 
-    if (jo.has_member("type_id")) {
-        type = mission_type::get( static_cast<mission_type_id>( jo.get_int( "type_id" ) ) );
+    if( jo.has_int( "type_id" ) ) {
+        type = &mission_type::from_legacy( jo.get_int( "type_id" ) ).obj();
+    } else if( jo.has_string( "type_id" ) ) {
+        type = &mission_type_id( jo.get_string( "type_id" ) ).obj();
+    } else {
+        debugmsg( "Saved mission has no type" );
+        type = &mission_type::get_all().front();
     }
+
     jo.read("description", description);
     jo.read("failed", failed);
     jo.read("value", value);
@@ -1804,7 +1831,13 @@ void mission::deserialize(JsonIn &jsin)
         target.x = ja.get_int(0);
         target.y = ja.get_int(1);
     }
-    follow_up = static_cast<mission_type_id>(jo.get_int("follow_up", follow_up));
+
+    if( jo.has_int( "follow_up" ) ) {
+        follow_up = mission_type::from_legacy( jo.get_int( "follow_up" ) );
+    } else if( jo.has_string( "follow_up" ) ) {
+        follow_up = mission_type_id( jo.get_string( "follow_up" ) );
+    }
+
     item_id = itype_id(jo.get_string("item_id", item_id));
 
     const std::string omid = jo.get_string( "target_id", "" );
@@ -1835,7 +1868,7 @@ void mission::serialize(JsonOut &json) const
 {
     json.start_object();
 
-    json.member("type_id", type == NULL ? -1 : static_cast<int>( type->id ) );
+    json.member("type_id", type->id);
     json.member("description", description);
     json.member("failed", failed);
     json.member("value", value);
@@ -1861,7 +1894,7 @@ void mission::serialize(JsonOut &json) const
     json.member("good_fac_id", good_fac_id);
     json.member("bad_fac_id", bad_fac_id);
     json.member("step", step);
-    json.member("follow_up", (int)follow_up);
+    json.member("follow_up", follow_up);
     json.member("player_id", player_id);
     json.member("was_started", was_started);
 

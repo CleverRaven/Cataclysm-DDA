@@ -409,7 +409,6 @@
     [
       [ "lightstrip_dead", 1 ],
       [ "light_bulb", 1 ]
-      
     ],
     [ [ "cable", 10 ] ]
   ]
@@ -2209,7 +2208,7 @@
       [ "welder", 100],
       [ "welder_crude", 150],
       [ "toolset", 150],
-      [ "oxy_torch", 10]
+      [ "oxy_torch", 20]
     ]
   ],
   "components": [
@@ -2244,7 +2243,7 @@
       ["welder", 100],
       ["welder_crude", 150],
       ["toolset", 150],
-      ["oxy_torch", 10]
+      ["oxy_torch", 20]
     ]
   ],
   "components": [

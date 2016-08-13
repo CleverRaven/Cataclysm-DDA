@@ -5,7 +5,7 @@
     "location": "engine_block",
     "symbol": "*",
     "color": "light_red",
-    "broken_color": "red",    
+    "broken_color": "red",
     "flags": [ "ENGINE", "TOOL_WRENCH" ]
   },
   {

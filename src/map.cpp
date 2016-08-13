@@ -39,6 +39,7 @@
 #include <stdlib.h>
 #include <fstream>
 #include <cstring>
+#include <algorithm>
 
 const mtype_id mon_spore( "mon_spore" );
 const mtype_id mon_zombie( "mon_zombie" );
@@ -4642,8 +4643,10 @@ item map::water_from( const tripoint &p )
 // date to current time, and also check contents.
 static void apply_in_fridge(item &it)
 {
-    if (it.is_food() && it.fridge == 0) {
-        it.fridge = (int) calendar::turn;
+    if (it.is_food()) {
+        if (it.fridge == 0) {
+            it.fridge = (int) calendar::turn;
+        }
         // cool down of the HOT flag, is unsigned, don't go below 1
         if ((it.has_flag("HOT")) && (it.item_counter > 10)) {
             it.item_counter -= 10;
@@ -4653,7 +4656,7 @@ static void apply_in_fridge(item &it)
             it.item_tags.insert("COLD");
             it.active = true;
         }
-        if ((it.has_flag("COLD")) && (it.item_counter <= 590) && it.fridge > 0) {
+        if ((it.has_flag("COLD")) && (it.item_counter <= 590)) {
             it.item_counter += 10;
         }
     }
@@ -4693,13 +4696,13 @@ static bool process_map_items( item_stack &items, std::list<item>::iterator &n,
 
 static void process_vehicle_items( vehicle *cur_veh, int part )
 {
-    const bool fridge_here = cur_veh->fridge_on && cur_veh->part_flag(part, VPFLAG_FRIDGE);
+    const bool fridge_here = cur_veh->has_part( "FRIDGE", true ) && cur_veh->part_flag(part, VPFLAG_FRIDGE);
     if( fridge_here ) {
         for( auto &n : cur_veh->get_items( part ) ) {
             apply_in_fridge(n);
         }
     }
-    if( cur_veh->recharger_on && cur_veh->part_with_feature(part, VPFLAG_RECHARGE) >= 0 ) {
+    if( cur_veh->has_part( "RECHARGE", true ) && cur_veh->part_with_feature(part, VPFLAG_RECHARGE) >= 0 ) {
         for( auto &n : cur_veh->get_items( part ) ) {
             if( !n.is_tool() || ( !n.has_flag("RECHARGE") && !n.has_flag("USE_UPS") ) ) {
                 continue;
@@ -7606,14 +7609,14 @@ void map::build_map_cache( const int zlev, bool skip_lightmap )
                 outside_cache[px][py] = false;
             }
 
-            if( v.v->part_flag(part, VPFLAG_OPAQUE) && v.v->parts[part].hp > 0 ) {
+            if( v.v->part_flag(part, VPFLAG_OPAQUE) && !v.v->parts[part].is_broken() ) {
                 int dpart = v.v->part_with_feature( part, VPFLAG_OPENABLE );
                 if (dpart < 0 || !v.v->parts[dpart].open) {
                     transparency_cache[px][py] = LIGHT_TRANSPARENCY_SOLID;
                 }
             }
 
-            if( v.v->part_flag( part, VPFLAG_BOARDABLE ) && v.v->parts[part].hp > 0 ) {
+            if( v.v->part_flag( part, VPFLAG_BOARDABLE ) && !v.v->parts[part].is_broken() ) {
                 floor_cache[px][py] = true;
             }
         }

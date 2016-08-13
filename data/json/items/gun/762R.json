@@ -8,13 +8,13 @@
     "description": "The Model 44 is the carbine sized variant of the standard 1891/30.  It has a shorter barrel, therefore it is weaker than the 1891/30, but easier to carry.",
     "price": 23000,
     "relative": {
-        "weight": -500,
-        "volume": -2,
-        "range": -6,
-        "ranged_damage": -3,
-        "dispersion": 30,
-        "aim_speed": -2,
-        "barrel_length": -2
+      "weight": -500,
+      "volume": -2,
+      "range": -6,
+      "ranged_damage": -3,
+      "dispersion": 30,
+      "aim_speed": -2,
+      "barrel_length": -2
     }
   },
   {
@@ -26,8 +26,8 @@
     "description": "This carbine packs the classic Mosin-Nagant model 44 action in a modern-day stock capable of accepting modifications.",
     "material": [ "steel", "plastic" ],
     "color": "light_gray",
-    "relative" : { "price": 10000 },
-    "valid_mod_locations": [ [ "accessories", 4 ], [ "barrel", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "muzzle", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ]
+    "valid_mod_locations": [ [ "accessories", 4 ], [ "barrel", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "muzzle", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
+    "relative": { "price": 10000 }
   },
   {
     "id": "mosin91_30",
@@ -39,8 +39,8 @@
     "weight": 4000,
     "volume": 12,
     "price": 19000,
-    "bashing": 12,
     "to_hit": -1,
+    "bashing": 12,
     "material": [ "steel", "wood" ],
     "color": "brown",
     "ammo": "762R",
@@ -62,7 +62,7 @@
     "description": "This Mosin-Nagant has exchanged the classic wooden stock for a modern synthetic model, carefully balanced to the same weight and handling yet offering support for modern accessories.",
     "material": [ "steel", "plastic" ],
     "color": "light_gray",
-    "relative" : { "price": 10000 },
-    "valid_mod_locations": [ [ "accessories", 4 ], [ "barrel", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "muzzle", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ]
+    "valid_mod_locations": [ [ "accessories", 4 ], [ "barrel", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "muzzle", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
+    "relative": { "price": 10000 }
   }
 ]

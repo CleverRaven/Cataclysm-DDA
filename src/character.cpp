@@ -17,6 +17,8 @@
 #include "mutation.h"
 #include "vehicle.h"
 
+#include <algorithm>
+
 const efftype_id effect_beartrap( "beartrap" );
 const efftype_id effect_bite( "bite" );
 const efftype_id effect_bleed( "bleed" );
@@ -653,7 +655,7 @@ bool Character::i_add_or_drop(item& it, int qty) {
     bool drop = false;
     inv.assign_empty_invlet(it);
     for (int i = 0; i < qty; ++i) {
-        if ( !drop && ( !can_pickWeight( it, !OPTIONS["DANGEROUS_PICKUPS"] )
+        if ( !drop && ( !can_pickWeight( it, !get_option<bool>( "DANGEROUS_PICKUPS" ) )
                       || !can_pickVolume( it ) ) ) {
             drop = true;
         }

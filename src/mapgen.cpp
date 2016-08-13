@@ -1129,7 +1129,7 @@ void jmapgen_objects::load_objects<jmapgen_loot>( JsonArray parray )
         jmapgen_place where( jsi );
 
         auto loot = new jmapgen_loot( jsi );
-        auto rate = ACTIVE_WORLD_OPTIONS[ "ITEM_SPAWNRATE" ];
+        auto rate = get_world_option<float>( "ITEM_SPAWNRATE" );
 
         if( where.repeat.valmax != 1 ) {
             // if loot can repeat scale according to rate
@@ -4112,40 +4112,58 @@ ff.......|....|WWWWWWWW|\n\
             ter_set(SEEX    , SEEY * 2 - 1, t_door_metal_c);
         }
 
+        int loot_variant; //only used for weapons testing variant.
         switch (rng(1, 7)) {
         case 1:
         case 2: // Weapons testing
+            loot_variant = rng(1, 100); //The variants have a 67/22/7/4 split.
             add_spawn(mon_secubot, 1,            6,            6);
             add_spawn(mon_secubot, 1, SEEX * 2 - 7,            6);
             add_spawn(mon_secubot, 1,            6, SEEY * 2 - 7);
             add_spawn(mon_secubot, 1, SEEX * 2 - 7, SEEY * 2 - 7);
-            spawn_item( SEEX - 3, SEEY - 2, "id_science" );
-            madd_trap( this, SEEX - 2, SEEY - 2, tr_dissector);
-            madd_trap( this, SEEX + 1, SEEY - 2, tr_dissector);
-            madd_trap( this, SEEX - 2, SEEY + 1, tr_dissector);
-            madd_trap( this, SEEX + 1, SEEY + 1, tr_dissector);
-            if (!one_in(3)) {
-                spawn_item(SEEX - 1, SEEY - 1, "laser_pack", dice(4, 3));
-                spawn_item(SEEX    , SEEY - 1, "UPS_off");
-                spawn_item(SEEX    , SEEY - 1, "battery", dice(4, 3));
-                spawn_item(SEEX - 1, SEEY    , "v29");
-                spawn_item(SEEX - 1, SEEY    , "laser_rifle", dice (1, 0));
-                spawn_item(SEEX    , SEEY    , "ftk93");
-                spawn_item(SEEX - 1, SEEY    , "recipe_atomic_battery");
-                spawn_item(SEEX    , SEEY  -1, "solar_panel_v3"); //quantum solar panel, 5 panels in one!
-            } else if (!one_in(3)) {
-                spawn_item(SEEX - 1, SEEY - 1, "mininuke", dice(3, 6));
-                spawn_item(SEEX    , SEEY - 1, "mininuke", dice(3, 6));
-                spawn_item(SEEX - 1, SEEY    , "mininuke", dice(3, 6));
-                spawn_item(SEEX    , SEEY    , "mininuke", dice(3, 6));
-                spawn_item(SEEX    , SEEY    , "recipe_atomic_battery");
-                spawn_item(SEEX    , SEEY    , "solar_panel_v3"); //quantum solar panel, 5 panels in one!
-            }  else if (!one_in(3)) {
-                spawn_item(SEEX - 1, SEEY - 1, "rm13_armor");
-                spawn_item(SEEX    , SEEY - 1, "plut_cell");
-                spawn_item(SEEX - 1, SEEY    , "plut_cell");
-                spawn_item(SEEX    , SEEY    , "recipe_caseless");
-            } else {
+            spawn_item( SEEX - 4, SEEY - 2, "id_science" );
+            if(loot_variant <= 96) {
+                madd_trap( this, SEEX - 3, SEEY - 3, tr_dissector);
+                madd_trap( this, SEEX + 2, SEEY - 3, tr_dissector);
+                madd_trap( this, SEEX - 3, SEEY + 2, tr_dissector);
+                madd_trap( this, SEEX + 2, SEEY + 2, tr_dissector);
+                line(this, t_reinforced_glass, SEEX + 1, SEEY + 1, SEEX - 2, SEEY + 1);
+                line(this, t_reinforced_glass, SEEX - 2, SEEY    , SEEX - 2, SEEY - 2);
+                line(this, t_reinforced_glass, SEEX - 1, SEEY - 2, SEEX + 1, SEEY - 2);
+                ter_set (SEEX + 1, SEEY - 1, t_reinforced_glass);
+                ter_set (SEEX + 1, SEEY    , t_reinforced_door_glass_c);
+                furn_set(SEEX - 1, SEEY - 1, f_table);
+                furn_set(SEEX    , SEEY - 1, f_table);
+                furn_set(SEEX - 1, SEEY    , f_table);
+                furn_set(SEEX    , SEEY    , f_table);
+                if (loot_variant <= 67 ) {
+                    spawn_item(SEEX - 1, SEEY - 1, "laser_pack", dice(4, 3));
+                    spawn_item(SEEX    , SEEY - 1, "UPS_off");
+                    spawn_item(SEEX    , SEEY - 1, "battery", dice(4, 3));
+                    spawn_item(SEEX - 1, SEEY    , "v29");
+                    spawn_item(SEEX - 1, SEEY    , "laser_rifle", dice (1, 0));
+                    spawn_item(SEEX    , SEEY    , "ftk93");
+                    spawn_item(SEEX - 1, SEEY    , "recipe_atomic_battery");
+                    spawn_item(SEEX    , SEEY  -1, "solar_panel_v3"); //quantum solar panel, 6 panels in one!
+                } else if (loot_variant > 67 && loot_variant < 89) {
+                    spawn_item(SEEX - 1, SEEY - 1, "mininuke", dice(3, 6));
+                    spawn_item(SEEX    , SEEY - 1, "mininuke", dice(3, 6));
+                    spawn_item(SEEX - 1, SEEY    , "mininuke", dice(3, 6));
+                    spawn_item(SEEX    , SEEY    , "mininuke", dice(3, 6));
+                    spawn_item(SEEX    , SEEY    , "recipe_atomic_battery");
+                    spawn_item(SEEX    , SEEY    , "solar_panel_v3"); //quantum solar panel, 6 panels in one!
+                }  else { // loot_variant between 90 and 96.
+                    spawn_item(SEEX - 1, SEEY - 1, "rm13_armor");
+                    spawn_item(SEEX    , SEEY - 1, "plut_cell");
+                    spawn_item(SEEX - 1, SEEY    , "plut_cell");
+                    spawn_item(SEEX    , SEEY    , "recipe_caseless");
+                }
+            } else { // 4% of the lab ends will be this weapons testing end.
+                madd_trap( this, SEEX - 4, SEEY - 3, tr_dissector);
+                madd_trap( this, SEEX + 3, SEEY - 3, tr_dissector);
+                madd_trap( this, SEEX - 4, SEEY + 2, tr_dissector);
+                madd_trap( this, SEEX + 3, SEEY + 2, tr_dissector);
+
                 furn_set(SEEX - 2, SEEY - 1, f_rack);
                 furn_set(SEEX - 1, SEEY - 1, f_rack);
                 furn_set(SEEX    , SEEY - 1, f_rack);
@@ -4154,9 +4172,13 @@ ff.......|....|WWWWWWWW|\n\
                 furn_set(SEEX - 1, SEEY    , f_rack);
                 furn_set(SEEX    , SEEY    , f_rack);
                 furn_set(SEEX + 1, SEEY    , f_rack);
+                line(this, t_reinforced_door_glass_c, SEEX - 2, SEEY - 2, SEEX + 1, SEEY - 2);
+                line(this, t_reinforced_door_glass_c, SEEX - 2, SEEY + 1, SEEX + 1, SEEY + 1);
+                line(this, t_reinforced_glass, SEEX - 3, SEEY - 2, SEEX - 3, SEEY + 1);
+                line(this, t_reinforced_glass, SEEX + 2, SEEY - 2, SEEX + 2, SEEY + 1);
                 place_items("ammo_rare", 96, SEEX - 2, SEEY - 1, SEEX + 1, SEEY - 1, false, 0);
                 place_items("guns_rare", 96, SEEX - 2, SEEY, SEEX + 1, SEEY, false, 0);
-                spawn_item(SEEX + 1, SEEY    , "solar_panel_v3"); //quantum solar panel, 5 panels in one!
+                spawn_item(SEEX + 1, SEEY    , "solar_panel_v3"); //quantum solar panel, 6 panels in one!
             }
             break;
         case 3:
@@ -5415,8 +5437,8 @@ ff.......|....|WWWWWWWW|\n\
                     p.x = rng(SEEX - 6, SEEX + 1);
                     p.y = rng(SEEY - 6, SEEY + 1);
                     okay = true;
-                    for (int i = p.x; i <= p.x + 5 && okay; i++) {
-                        for (int j = p.y; j <= p.y + 5 && okay; j++) {
+                    for (int i = p.x; ( i <= p.x + 5 ) && okay; i++) {
+                        for (int j = p.y; ( j <= p.y + 5 ) && okay; j++) {
                             if (ter(i, j) != t_rock_floor) {
                                 okay = false;
                             }
@@ -5478,8 +5500,8 @@ ff.......|....|WWWWWWWW|\n\
                     p.x = rng(SEEX - 6, SEEX + 1);
                     p.y = rng(SEEY - 6, SEEY + 1);
                     okay = true;
-                    for (int i = p.x; i <= p.x + 5 && okay; i++) {
-                        for (int j = p.y; j <= p.y + 5 && okay; j++) {
+                    for (int i = p.x; ( i <= p.x + 5 ) && okay; i++) {
+                        for (int j = p.y; ( j <= p.y + 5 ) && okay; j++) {
                             if (ter(i, j) != t_rock_floor) {
                                 okay = false;
                             }
@@ -10403,7 +10425,7 @@ void map::post_process(unsigned zones)
 void map::place_spawns(const mongroup_id& group, const int chance,
                        const int x1, const int y1, const int x2, const int y2, const float density)
 {
-    if (!ACTIVE_WORLD_OPTIONS["STATIC_SPAWN"]) {
+    if (!get_world_option<bool>( "STATIC_SPAWN" ) ) {
         return;
     }
 
@@ -10414,7 +10436,7 @@ void map::place_spawns(const mongroup_id& group, const int chance,
         return;
     }
 
-    float multiplier = ACTIVE_WORLD_OPTIONS["SPAWN_DENSITY"];
+    float multiplier = get_world_option<float>( "SPAWN_DENSITY" );
 
     if( multiplier == 0.0 ) {
         return;
@@ -10491,7 +10513,7 @@ void map::place_vending(int x, int y, std::string type)
 
 int map::place_npc(int x, int y, std::string type)
 {
-    if(!ACTIVE_WORLD_OPTIONS["STATIC_NPC"]) {
+    if(!get_world_option<bool>( "STATIC_NPC" ) ) {
         return -1; //Do not generate an npc.
     }
     npc *temp = new npc();
@@ -10512,7 +10534,7 @@ std::vector<item *> map::place_items( items_location loc, int chance, int x1, in
 {
     std::vector<item *> res;
 
-    const float spawn_rate = ACTIVE_WORLD_OPTIONS["ITEM_SPAWNRATE"];
+    const float spawn_rate = get_world_option<float>( "ITEM_SPAWNRATE" );
 
     if (chance > 100 || chance <= 0) {
         debugmsg("map::place_items() called with an invalid chance (%d)", chance);
@@ -10589,7 +10611,7 @@ void map::add_spawn(const mtype_id& type, int count, int x, int y, bool friendly
                  type.c_str(), count, x, y);
         return;
     }
-    if( ACTIVE_WORLD_OPTIONS["CLASSIC_ZOMBIES"] ) {
+    if( get_world_option<bool>( "CLASSIC_ZOMBIES" ) ) {
         const mtype& mt = type.obj();
         if( !mt.in_category("CLASSIC") && !mt.in_category("WILDLIFE") ) {
             // Don't spawn non-classic monsters in classic zombie mode.

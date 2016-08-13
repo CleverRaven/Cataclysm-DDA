@@ -378,7 +378,7 @@ void mission_start::place_npc_software( mission *miss )
     } else if( dev->myclass == NC_DOCTOR ) {
         miss->item_id = "software_medical";
         type = "s_pharm";
-        miss->follow_up = MISSION_GET_ZOMBIE_BLOOD_ANAL;
+        miss->follow_up = mission_type_id( "MISSION_GET_ZOMBIE_BLOOD_ANAL" );
     } else if( dev->myclass == NC_SCIENTIST ) {
         miss->item_id = "software_math";
     } else {
@@ -615,7 +615,7 @@ void mission_start::recruit_tracker( mission *miss )
     temp->mission = NPC_MISSION_SHOPKEEP;
     temp->personality.aggression -= 1;
     temp->op_of_u.owed = 10;
-    temp->add_new_mission( mission::reserve_new( MISSION_JOIN_TRACKER, temp->getID() ) );
+    temp->add_new_mission( mission::reserve_new( mission_type_id( "MISSION_JOIN_TRACKER" ), temp->getID() ) );
 }
 
 void mission_start::radio_repeater( mission *miss )

@@ -9,11 +9,10 @@
   "difficulty": 8,
   "time": 600000,
   "reversible": true,
-  "autolearn": false,
   "qualities" : [
-    {"id":"SCREW","level":1,"amount":1},
-    {"id":"WRENCH","level":1,"amount":1},
-    {"id":"SAW_M","level":1,"amount":1}
+    {"id":"SCREW","level":1},
+    {"id":"WRENCH","level":1},
+    {"id":"SAW_M","level":1}
   ],
   "tools": [
     [
@@ -49,10 +48,8 @@
   "skills_required": [ ["launcher", 3], ["electronics", 1] ],
   "difficulty": 5,
   "time": 25000,
-  "reversible": false,
-  "autolearn": false,
   "book_learn": [ ["textbook_launcher" , 5 ] ],
-  "qualities" : [ {"id":"WRENCH","level":1,"amount":1} ],
+  "qualities" : [ {"id":"WRENCH","level":1} ],
   "tools": [
     [
       [ "fire", -1 ],
@@ -82,10 +79,8 @@
   "skills_required": [ ["launcher", 4], ["electronics", 1] ],
   "difficulty": 6,
   "time": 25000,
-  "reversible": false,
-  "autolearn": false,
   "book_learn": [ ["textbook_launcher" , 6 ] ],
-  "qualities" : [ {"id":"WRENCH","level":1,"amount":1} ],
+  "qualities" : [ {"id":"WRENCH","level":1} ],
   "tools": [
     [
       [ "fire", -1 ],
@@ -115,10 +110,8 @@
   "skills_required": [ ["launcher", 4], ["electronics", 1] ],
   "difficulty": 7,
   "time": 27500,
-  "reversible": false,
-  "autolearn": false,
   "book_learn": [ ["textbook_launcher" , 7 ] ],
-  "qualities" : [ {"id":"WRENCH","level":1,"amount":1} ],
+  "qualities" : [ {"id":"WRENCH","level":1} ],
   "tools": [
     [
       [ "fire", -1 ],
@@ -153,10 +146,8 @@
   "skills_required": [ ["launcher", 5], ["electronics", 1] ],
   "difficulty": 7,
   "time": 30000,
-  "reversible": false,
-  "autolearn": false,
   "book_learn": [ ["textbook_launcher" , 7 ] ],
-  "qualities" : [ {"id":"WRENCH","level":1,"amount":1} ],
+  "qualities" : [ {"id":"WRENCH","level":1} ],
   "tools": [
     [
       [ "fire", -1 ],
@@ -186,10 +177,8 @@
   "skills_required": [ ["launcher", 5], ["electronics", 1] ],
   "difficulty": 8,
   "time": 33000,
-  "reversible": false,
-  "autolearn": false,
   "book_learn": [ ["textbook_launcher" , 8 ] ],
-  "qualities" : [ {"id":"WRENCH","level":1,"amount":1} ],
+  "qualities" : [ {"id":"WRENCH","level":1} ],
   "tools": [
     [
       [ "fire", -1 ],

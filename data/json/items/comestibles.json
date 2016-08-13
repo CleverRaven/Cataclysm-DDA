@@ -8566,10 +8566,10 @@
         "nutrition" : 35,
         "description" : "A sandwich of minced meat and cheese with condiments.  The apex of pre-cataclysm culinary achievement.",
         "price" : 1000,
-        "material" : ["flesh", "wheat", "milk"],
+        "material" : ["flesh", "wheat"],
         "volume" : 1,
         "charges" : 4,
-        "flags" : ["EATEN_HOT"],
+        "flags" : ["EATEN_HOT", "ALLERGEN_MILK"],
         "fun" : 5
     },
     {
@@ -8587,10 +8587,10 @@
         "nutrition" : 35,
         "description" : "A sandwich of minced human flesh and cheese with condiments.  The apex of post-cataclysm cannibalistic culinary achievement.",
         "price" : 0,
-        "material" : ["hflesh", "wheat", "milk"],
+        "material" : ["hflesh", "wheat"],
         "volume" : 1,
         "charges" : 4,
-        "flags" : ["EATEN_HOT"],
+        "flags" : ["EATEN_HOT", "ALLERGEN_MILK"],
         "fun" : 5
     },
     {
@@ -8927,11 +8927,6 @@
         "volume" : 1,
         "weight" : 1,
         "ammo_type" : "NULL",
-        "damage" : 0,
-        "range" : 0,
-        "dispersion" : 0,
-        "recoil" : 0,
-        "count" : 1,
         "stack_size" : 8,
         "seed_data": {
             "fruit": "null", "//": "dummy entry, results are hardcoded",
@@ -11406,7 +11401,6 @@
         "symbol" : ",",
         "material" : ["veggy"],
         "volume" : 1,
-        "bashing" : -8,
         "charges" : 1,
         "price" : 0
     },{
@@ -11518,7 +11512,6 @@
         "symbol" : ",",
         "material" : ["veggy"],
         "volume" : 1,
-        "bashing" : -8,
         "charges" : 1,
         "price" : 0
 },{
@@ -11538,7 +11531,6 @@
         "symbol" : ",",
         "material" : ["veggy"],
         "volume" : 1,
-        "bashing" : -8,
         "charges" : 1,
         "price" : 0
 },{
@@ -11578,7 +11570,6 @@
        "symbol" : ",",
        "material" : ["veggy"],
        "volume" : 1,
-       "bashing" : -8,
        "charges" : 1,
        "price" : 0
 },{
@@ -11642,7 +11633,6 @@
        "symbol" : ",",
        "material" : ["veggy"],
        "volume" : 1,
-       "bashing" : -8,
        "charges" : 1,
        "price" : 0
 },{

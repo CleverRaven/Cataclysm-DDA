@@ -41,8 +41,7 @@
         "description" : "IF YOU ARE SEEING THIS IT IS A BUG.",
         "flags" : "TRADER_AVOID",
         "volume" : 0,
-        "ammo_type" : "money",
-        "count" : 1
+        "ammo_type" : "money"
     },{
        "type" : "AMMO",
         "id" : "string_6",
@@ -56,9 +55,7 @@
         "flags": ["NO_SALVAGE"],
         "volume" : 1,
         "weight" : 6,
-        "bashing" : -20,
         "ammo_type" : "components",
-        "count" : 1,
         "stack_size" : 18
     },{
        "type" : "AMMO",
@@ -73,9 +70,7 @@
         "flags": ["NO_SALVAGE"],
         "volume" : 1,
         "weight" : 36,
-        "bashing" : -5,
         "ammo_type" : "components",
-        "count" : 1,
         "stack_size" : 3
     },{
        "type" : "AMMO",
@@ -389,7 +384,6 @@
         "range" : 80,
         "dispersion" : 30,
         "recoil" : 225,
-        "count" : 1,
         "effects" : ["COOKOFF", "EXPLOSIVE", "TRAIL"]
     },
     {
@@ -409,7 +403,6 @@
         "range" : 80,
         "dispersion" : 5,
         "recoil" : 30,
-        "count" : 1,
         "effects" : ["CUSTOM_EXPLOSION", "TRAIL"],
         "explode_in_fire" : true,
         "explosion" : {
@@ -1105,7 +1098,6 @@
         "range" : 120,
         "dispersion" : 60,
         "recoil" : 45,
-        "count" : 1,
         "effects" : ["COOKOFF", "EXPLOSIVE_BIG", "FRAG", "NEVER_MISFIRES"]
     },
     {   "type" : "AMMO",
@@ -1124,7 +1116,6 @@
         "range" : 100,
         "dispersion" : 75,
         "recoil" : 60,
-        "count" : 1,
         "effects" : ["COOKOFF", "EXPLOSIVE_BIG", "NEVER_MISFIRES"]
     },
     {   "type" : "AMMO",
@@ -1143,7 +1134,6 @@
         "range" : 140,
         "dispersion" : 30,
         "recoil" : 45,
-        "count" : 1,
         "effects" : ["COOKOFF", "SMOKE_BIG", "NEVER_MISFIRES"]
     },
     {
@@ -1163,7 +1153,6 @@
         "range" : 60,
         "dispersion" : 75,
         "recoil" : 450,
-        "count" : 1,
         "effects" : ["COOKOFF", "EXPLOSIVE", "TRAIL", "NEVER_MISFIRES"]
     },
     {   "type" : "AMMO",
@@ -1196,7 +1185,6 @@
         "description" : "IF YOU ARE SEEING THIS IT IS A BUG.",
         "volume" : 0,
         "ammo_type" : "NULL",
-        "count" : 1,
         "flags" : ["UNRECOVERABLE"]
     },
     {   "type" : "AMMO",
@@ -1260,7 +1248,6 @@
         "bashing" : 8,
         "ammo_type" : "mininuke_mod",
         "damage" : 14,
-        "count" : 1,
         "stack_size" : 2,
         "effects" : ["MININUKE_MOD", "NEVER_MISFIRES"]
     },
@@ -1771,7 +1758,6 @@
         "range" : 18,
         "dispersion" : 180,
         "recoil" : 130,
-        "count" : 1,
         "effects" : ["COOKOFF", "TRAIL"]
      },
      {
@@ -1791,7 +1777,6 @@
         "range" : 23,
         "dispersion" : 170,
         "recoil" : 130,
-        "count" : 1,
         "effects" : ["COOKOFF", "TRAIL", "EXPLOSIVE"]
         },
         {
@@ -1811,7 +1796,6 @@
         "range" : 13,
         "dispersion" : 200,
         "recoil" : 130,
-        "count" : 1,
         "effects" : ["COOKOFF", "TRAIL", "NAPALM"]
         },
     {
@@ -1827,8 +1811,7 @@
         "material" : "wood",
         "volume" : 1,
         "weight" : 300,
-        "ammo_type" : "unfinished_char",
-        "count" : 1
+        "ammo_type" : "unfinished_char"
     },
     {
         "type" : "AMMO",

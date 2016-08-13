@@ -1938,8 +1938,9 @@
   "tools": [
      [
       [ "welder", 28 ],
-      [ "soldering_iron", 28 ],
-      [ "toolset", 28 ]
+      [ "welder_crude", 42 ],
+      [ "soldering_iron", 42 ],
+      [ "toolset", 42 ]
      ],
      [
       [ "sewing_kit", 200 ]
@@ -2660,8 +2661,9 @@
   ], "tools": [
     [
       [ "welder", 56 ],
-      [ "soldering_iron", 56 ],
-      [ "toolset", 56 ]
+      [ "welder_crude", 84 ],
+      [ "soldering_iron", 84 ],
+      [ "toolset", 84 ]
     ]
   ],
   "components": [
@@ -2701,8 +2703,9 @@
   ], "tools": [
     [
       [ "welder", 56 ],
-      [ "soldering_iron", 56 ],
-      [ "toolset", 56 ]
+      [ "welder_crude", 84 ],
+      [ "soldering_iron", 84 ],
+      [ "toolset", 84 ]
     ]
   ],
   "components": [
@@ -2736,8 +2739,9 @@
     ],
     [
       [ "welder", 28 ],
-      [ "soldering_iron", 28 ],
-      [ "toolset", 28 ]
+      [ "welder_crude", 42 ],
+      [ "soldering_iron", 42 ],
+      [ "toolset", 42 ]
       ]
   ],
   "components": [
@@ -2780,8 +2784,9 @@
   "tools": [
       [
       [ "welder", 56 ],
-      [ "soldering_iron", 56 ],
-      [ "toolset", 56 ]
+      [ "welder_crude", 84 ],
+      [ "soldering_iron", 84 ],
+      [ "toolset", 84 ]
       ]
   ],
   "components": [
@@ -2823,8 +2828,9 @@
   "tools": [
       [
       [ "welder", 56 ],
-      [ "soldering_iron", 56 ],
-      [ "toolset", 56 ]
+      [ "welder_crude", 84 ],
+      [ "soldering_iron", 84 ],
+      [ "toolset", 84 ]
       ]
   ],
   "components": [
@@ -2866,8 +2872,9 @@
   "tools": [
       [
       [ "welder", 56 ],
-      [ "soldering_iron", 56 ],
-      [ "toolset", 56 ]
+      [ "welder_crude", 84 ],
+      [ "soldering_iron", 84 ],
+      [ "toolset", 84 ]
       ]
   ],
   "components": [
@@ -2909,8 +2916,9 @@
   "tools": [
       [
       [ "welder", 56 ],
-      [ "soldering_iron", 56 ],
-      [ "toolset", 56 ]
+      [ "welder_crude", 84 ],
+      [ "soldering_iron", 84 ],
+      [ "toolset", 84 ]
       ]
   ],
   "components": [
@@ -2952,8 +2960,9 @@
     ],
     [
       [ "welder", 56 ],
-      [ "soldering_iron", 56 ],
-      [ "toolset", 56 ]
+      [ "welder_crude", 84 ],
+      [ "soldering_iron", 84 ],
+      [ "toolset", 84 ]
     ]
   ],
   "components": [
@@ -2999,8 +3008,9 @@
     ],
     [
       [ "welder", 56 ],
-      [ "soldering_iron", 56 ],
-      [ "toolset", 56 ]
+      [ "welder_crude", 84 ],
+      [ "soldering_iron", 84 ],
+      [ "toolset", 84 ]
     ]
   ],
   "components": [
@@ -3047,8 +3057,9 @@
     ],
     [
       [ "welder", 56 ],
-      [ "soldering_iron", 56 ],
-      [ "toolset", 56 ]
+      [ "welder_crude", 84 ],
+      [ "soldering_iron", 84 ],
+      [ "toolset", 84 ]
     ]
   ],
   "components": [
@@ -3088,8 +3099,9 @@
     ],
     [
       [ "welder", 56 ],
-      [ "soldering_iron", 56 ],
-      [ "toolset", 56 ]
+      [ "welder_crude", 84 ],
+      [ "soldering_iron", 84 ],
+      [ "toolset", 84 ]
     ]
   ],
   "components": [
@@ -3128,8 +3140,9 @@
     ],
     [
       [ "welder", 56 ],
-      [ "soldering_iron", 56 ],
-      [ "toolset", 56 ]
+      [ "welder_crude", 84 ],
+      [ "soldering_iron", 84 ],
+      [ "toolset", 84 ]
     ]
   ],
   "components": [
@@ -3171,8 +3184,9 @@
     ],
     [
       [ "welder", 56 ],
-      [ "soldering_iron", 56 ],
-      [ "toolset", 56 ]
+      [ "welder_crude", 84 ],
+      [ "soldering_iron", 84 ],
+      [ "toolset", 84 ]
     ]
   ],
   "components": [
@@ -3276,8 +3290,9 @@
   ], "tools": [
     [
       [ "welder", 56 ],
-      [ "soldering_iron", 56 ],
-      [ "toolset", 56 ]
+      [ "welder_crude", 84 ],
+      [ "soldering_iron", 84 ],
+      [ "toolset", 84 ]
     ]
   ],
   "components": [
@@ -3320,8 +3335,9 @@
   ], "tools": [
     [
       [ "welder", 56 ],
-      [ "soldering_iron", 56 ],
-      [ "toolset", 56 ]
+      [ "welder_crude", 84 ],
+      [ "soldering_iron", 84 ],
+      [ "toolset", 84 ]
     ]
   ],
   "components": [
@@ -3364,8 +3380,9 @@
   ], "tools": [
     [
       [ "welder", 56 ],
-      [ "soldering_iron", 56 ],
-      [ "toolset", 56 ]
+      [ "welder_crude", 84 ],
+      [ "soldering_iron", 84 ],
+      [ "toolset", 84 ]
     ]
   ],
   "components": [
@@ -4908,8 +4925,9 @@
   "tools": [
      [
       [ "welder", 28 ],
-      [ "soldering_iron", 28 ],
-      [ "toolset", 28 ]
+      [ "welder_crude", 42 ],
+      [ "soldering_iron", 42 ],
+      [ "toolset", 42 ]
      ],
      [
       [ "sewing_kit", 100 ]
@@ -4961,8 +4979,9 @@
   "tools": [
      [
       [ "welder", 18 ],
-      [ "soldering_iron", 18 ],
-      [ "toolset", 18 ]
+      [ "welder_crude", 27 ],
+      [ "soldering_iron", 27 ],
+      [ "toolset", 27 ]
      ],
      [
       [ "sewing_kit", 60 ]
@@ -5014,8 +5033,9 @@
   "tools": [
      [
       [ "welder", 10 ],
-      [ "soldering_iron", 10 ],
-      [ "toolset", 10 ]
+      [ "welder_crude", 15 ],
+      [ "soldering_iron", 15 ],
+      [ "toolset", 15 ]
      ],
      [
       [ "sewing_kit", 40 ]
@@ -5061,8 +5081,9 @@
   "tools": [
      [
       [ "welder", 28 ],
-      [ "soldering_iron", 28 ],
-      [ "toolset", 28 ]
+      [ "welder_crude", 42 ],
+      [ "soldering_iron", 42 ],
+      [ "toolset", 42 ]
      ],
      [
       [ "sewing_kit", 150 ]
@@ -5118,9 +5139,9 @@
   "tools": [
     [
       [ "welder", 56 ],
-      [ "soldering_iron", 56 ],
-      [ "toolset", 56
-      ]
+      [ "welder_crude", 84 ],
+      [ "soldering_iron", 84 ],
+      [ "toolset", 84 ]
     ],
     [
       [ "sewing_kit", 200 ]
@@ -5180,8 +5201,9 @@
   "tools": [
     [
       [ "welder", 28 ],
-      [ "soldering_iron", 28 ],
-      [ "toolset", 28 ]
+      [ "welder_crude", 42 ],
+      [ "soldering_iron", 42 ],
+      [ "toolset", 42 ]
     ],
     [
       [ "sewing_kit", 200 ]
@@ -5242,8 +5264,9 @@
   "tools": [
      [
       [ "welder", 28 ],
-      [ "soldering_iron", 28 ],
-      [ "toolset", 28 ]
+      [ "welder_crude", 42 ],
+      [ "soldering_iron", 42 ],
+      [ "toolset", 42 ]
      ],
      [
       [ "sewing_kit", 200 ]
@@ -5300,8 +5323,9 @@
   "tools": [
     [
       [ "welder", 56 ],
-      [ "soldering_iron", 56 ],
-      [ "toolset", 56 ]
+      [ "welder_crude", 84 ],
+      [ "soldering_iron", 84 ],
+      [ "toolset", 84 ]
     ],
     [
       [ "sewing_kit", 200 ]
@@ -5354,8 +5378,9 @@
   "tools": [
      [
       [ "welder", 56 ],
-      [ "soldering_iron", 56 ],
-      [ "toolset", 56 ]
+      [ "welder_crude", 84 ],
+      [ "soldering_iron", 84 ],
+      [ "toolset", 84 ]
      ],
      [
       [ "sewing_kit", 200 ]
@@ -5414,8 +5439,9 @@
   "tools": [
     [
       [ "welder", 42 ],
-      [ "soldering_iron", 42 ],
-      [ "toolset", 42 ]
+      [ "welder_crude", 63 ],
+      [ "soldering_iron", 63 ],
+      [ "toolset", 63 ]
     ],
     [
       [ "sewing_kit", 160 ]
@@ -5457,8 +5483,9 @@
   "tools": [
     [
       [ "welder", 28 ],
-      [ "soldering_iron", 28 ],
-      [ "toolset", 28 ]
+      [ "welder_crude", 42 ],
+      [ "soldering_iron", 42 ],
+      [ "toolset", 42 ]
     ],
     [
       [ "sewing_kit", 100 ]
@@ -5500,8 +5527,9 @@
   "tools": [
     [
       [ "welder", 42 ],
-      [ "soldering_iron", 42 ],
-      [ "toolset", 42 ]
+      [ "welder_crude", 63 ],
+      [ "soldering_iron", 63 ],
+      [ "toolset", 63 ]
     ],
     [
       [ "sewing_kit", 80 ]
@@ -5546,8 +5574,9 @@
   "tools": [
     [
       [ "welder", 84 ],
-      [ "soldering_iron", 84 ],
-      [ "toolset", 84 ]
+      [ "welder_crude", 126 ],
+      [ "soldering_iron", 126 ],
+      [ "toolset", 126 ]
     ],
     [
       [ "sewing_kit", 20 ]
@@ -5595,8 +5624,9 @@
   "tools": [
     [
       [ "welder", 21 ],
-      [ "soldering_iron", 21 ],
-      [ "toolset", 21 ]
+      [ "welder_crude", 32 ],
+      [ "soldering_iron", 32 ],
+      [ "toolset", 32 ]
     ],
     [
       [ "sewing_kit", 40 ]
@@ -5634,8 +5664,9 @@
   "tools": [
     [
       [ "welder", 21 ],
-      [ "soldering_iron", 21 ],
-      [ "toolset", 21 ]
+      [ "welder_crude", 32 ],
+      [ "soldering_iron", 32 ],
+      [ "toolset", 32 ]
     ],
     [
       [ "sewing_kit", 40 ]
@@ -5677,8 +5708,9 @@
   "tools": [
     [
       [ "welder", 42 ],
-      [ "soldering_iron", 42 ],
-      [ "toolset", 42 ]
+      [ "welder_crude", 63 ],
+      [ "soldering_iron", 63 ],
+      [ "toolset", 63 ]
     ],
     [
       [ "sewing_kit", 10 ]
@@ -5737,8 +5769,9 @@
   "tools": [
     [
       [ "welder", 42 ],
-      [ "soldering_iron", 42 ],
-      [ "toolset", 42 ]
+      [ "welder_crude", 63 ],
+      [ "soldering_iron", 63 ],
+      [ "toolset", 63 ]
     ],
     [
       [ "sewing_kit", 10 ]
@@ -5797,8 +5830,9 @@
   "tools": [
     [
       [ "welder", 21 ],
-      [ "soldering_iron", 21 ],
-      [ "toolset", 21 ]
+      [ "welder_crude", 32 ],
+      [ "soldering_iron", 32 ],
+      [ "toolset", 32 ]
     ],
     [
       [ "sewing_kit", 40 ]
@@ -5841,8 +5875,9 @@
   "tools": [
     [
       [ "welder", 21 ],
-      [ "soldering_iron", 21 ],
-      [ "toolset", 21 ]
+      [ "welder_crude", 32 ],
+      [ "soldering_iron", 32 ],
+      [ "toolset", 32 ]
     ],
     [
       [ "sewing_kit", 40 ]
@@ -5879,8 +5914,9 @@
   "tools": [
     [
       [ "welder", 21 ],
-      [ "soldering_iron", 21 ],
-      [ "toolset", 21 ]
+      [ "welder_crude", 32 ],
+      [ "soldering_iron", 32 ],
+      [ "toolset", 32 ]
     ],
     [
       [ "sewing_kit", 40 ]
@@ -5917,8 +5953,9 @@
   "tools": [
     [
       [ "welder", 14 ],
-      [ "soldering_iron", 14 ],
-      [ "toolset", 14 ]
+      [ "welder_crude", 21 ],
+      [ "soldering_iron", 21 ],
+      [ "toolset", 21 ]
     ],
     [
       [ "sewing_kit", 50 ]
@@ -5963,8 +6000,9 @@
   "tools": [
     [
       [ "welder", 14 ],
-      [ "soldering_iron", 14 ],
-      [ "toolset", 14 ]
+      [ "welder_crude", 21 ],
+      [ "soldering_iron", 21 ],
+      [ "toolset", 21 ]
     ],
     [
       [ "sewing_kit", 50 ]
@@ -6010,8 +6048,9 @@
   "tools": [
     [
       [ "welder", 28 ],
-      [ "soldering_iron", 28 ],
-      [ "toolset", 28 ]
+      [ "welder_crude", 42 ],
+      [ "soldering_iron", 42 ],
+      [ "toolset", 42 ]
     ],
     [
       [ "sewing_kit", 40 ]
@@ -6059,8 +6098,9 @@
   "tools": [
     [
       [ "welder", 14 ],
-      [ "soldering_iron", 14 ],
-      [ "toolset", 14 ]
+      [ "welder_crude", 21 ],
+      [ "soldering_iron", 21 ],
+      [ "toolset", 21 ]
     ],
     [
       [ "sewing_kit", 50 ]
@@ -6106,8 +6146,9 @@
   "tools": [
     [
       [ "welder", 14 ],
-      [ "soldering_iron", 14 ],
-      [ "toolset", 14 ]
+      [ "welder_crude", 21 ],
+      [ "soldering_iron", 21 ],
+      [ "toolset", 21 ]
     ],
     [
       [ "sewing_kit", 50 ]
@@ -6149,8 +6190,9 @@
   "tools": [
     [
       [ "welder", 14 ],
-      [ "soldering_iron", 14 ],
-      [ "toolset", 14 ]
+      [ "welder_crude", 21 ],
+      [ "soldering_iron", 21 ],
+      [ "toolset", 21 ]
     ],
     [
       [ "sewing_kit", 50 ]
@@ -6188,8 +6230,9 @@
   "tools": [
     [
       [ "welder", 21 ],
-      [ "soldering_iron", 21 ],
-      [ "toolset", 21 ]
+      [ "welder_crude", 32 ],
+      [ "soldering_iron", 32 ],
+      [ "toolset", 32 ]
     ],
     [
       [ "sewing_kit", 80 ]
@@ -6230,8 +6273,9 @@
   "tools": [
     [
       [ "welder", 21 ],
-      [ "soldering_iron", 21 ],
-      [ "toolset", 21 ]
+      [ "welder_crude", 32 ],
+      [ "soldering_iron", 32 ],
+      [ "toolset", 32 ]
     ],
     [
       [ "sewing_kit", 80 ]
@@ -6273,8 +6317,9 @@
   "tools": [
     [
       [ "welder", 42 ],
-      [ "soldering_iron", 42 ],
-      [ "toolset", 42 ]
+      [ "welder_crude", 63 ],
+      [ "soldering_iron", 63 ],
+      [ "toolset", 63 ]
     ],
     [
       [ "sewing_kit", 60 ]
@@ -6322,8 +6367,9 @@
   "tools": [
     [
       [ "welder", 21 ],
-      [ "soldering_iron", 21 ],
-      [ "toolset", 21 ]
+      [ "welder_crude", 32 ],
+      [ "soldering_iron", 32 ],
+      [ "toolset", 32 ]
     ],
     [
       [ "sewing_kit", 80 ]
@@ -6365,8 +6411,9 @@
   "tools": [
     [
       [ "welder", 21 ],
-      [ "soldering_iron", 21 ],
-      [ "toolset", 21 ]
+      [ "welder_crude", 32 ],
+      [ "soldering_iron", 32 ],
+      [ "toolset", 32 ]
     ],
     [
       [ "sewing_kit", 80 ]
@@ -6408,8 +6455,9 @@
   "tools": [
     [
       [ "welder", 21 ],
-      [ "soldering_iron", 21 ],
-      [ "toolset", 21 ]
+      [ "welder_crude", 32 ],
+      [ "soldering_iron", 32 ],
+      [ "toolset", 32 ]
     ],
     [
       [ "sewing_kit", 80 ]
@@ -6452,8 +6500,9 @@
   "tools": [
     [
       [ "welder", 112 ],
-      [ "soldering_iron", 112 ],
-      [ "toolset", 112 ]
+      [ "welder_crude", 168 ],
+      [ "soldering_iron", 168 ],
+      [ "toolset", 168 ]
     ]
   ],
   "components": [
@@ -6487,8 +6536,9 @@
   "tools": [
     [
       [ "welder", 112 ],
-      [ "soldering_iron", 112 ],
-      [ "toolset", 112 ]
+      [ "welder_crude", 168 ],
+      [ "soldering_iron", 168 ],
+      [ "toolset", 168 ]
     ]
   ],
   "components": [
@@ -6570,8 +6620,9 @@
   "tools": [
     [
       [ "welder", 42 ],
-      [ "soldering_iron", 42 ],
-      [ "toolset", 42 ]
+      [ "welder_crude", 63 ],
+      [ "soldering_iron", 63 ],
+      [ "toolset", 63 ]
     ],
     [
       [ "sewing_kit", 20 ]

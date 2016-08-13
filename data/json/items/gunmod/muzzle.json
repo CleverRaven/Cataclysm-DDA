@@ -59,7 +59,7 @@
     "id": "shot_suppressor",
     "type": "GUNMOD",
     "name": "shotgun suppressor",
-    "description": "A supressor designed to work with shotguns.  It's a lot more complex than a suppressor for a pistol or rifle.",
+    "description": "A suppressor designed to work with shotguns.  It's a lot more complex than a suppressor for a pistol or rifle.",
     "weight": 600,
     "volume": 4,
     "price": 140000,

@@ -87,6 +87,7 @@ void PATH_INFO::update_datadir()
     update_pathname("names", FILENAMES["namesdir"] + "en.json");
     update_pathname("colors", FILENAMES["rawdir"] + "colors.json");
     update_pathname("keybindings", FILENAMES["rawdir"] + "keybindings.json");
+    update_pathname("keybindings_vehicle", FILENAMES["rawdir"] + "keybindings/vehicle.json");
     update_pathname("legacy_fontdata", FILENAMES["datadir"] + "fontdata.json");
     update_pathname("sokoban", FILENAMES["rawdir"] + "sokoban.txt");
     update_pathname("defaulttilejson", FILENAMES["gfx"] + "tile_config.json");
@@ -149,6 +150,7 @@ void PATH_INFO::set_standard_filenames(void)
     update_pathname("names", FILENAMES["namesdir"] + "en.json");
     update_pathname("colors", FILENAMES["rawdir"] + "colors.json");
     update_pathname("keybindings", FILENAMES["rawdir"] + "keybindings.json");
+    update_pathname("keybindings_vehicle", FILENAMES["rawdir"] + "keybindings/vehicle.json");
     update_pathname("sokoban", FILENAMES["rawdir"] + "sokoban.txt");
     update_pathname("defaulttilejson", FILENAMES["gfx"] + "tile_config.json");
     update_pathname("defaulttilepng", FILENAMES["gfx"] + "tinytile.png");
@@ -212,13 +214,13 @@ std::string PATH_INFO::find_translated_file( const std::string &pathid,
     std::string local_path_1; // complete locale: en_NZ
     std::string local_path_2; // only the first part: en
     std::string loc_name;
-    if( OPTIONS["USE_LANG"].getValue().empty() ) {
+    if( get_option<std::string>( "USE_LANG" ).empty() ) {
         const char *v = setlocale( LC_ALL, NULL );
         if( v != NULL ) {
             loc_name = v;
         }
     } else {
-        loc_name = OPTIONS["USE_LANG"].getValue();
+        loc_name = get_option<std::string>( "USE_LANG" );
     }
     if( loc_name == "C" ) {
         loc_name = "en";

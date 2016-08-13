@@ -170,7 +170,9 @@ void DynamicDataLoader::initialize()
     add( "SPECIES", []( JsonObject &jo ) { MonsterGenerator::generator().load_species( jo ); } );
 
     add( "recipe_category", &load_recipe_category );
-    add( "recipe", &load_recipe );
+    add( "recipe",  []( JsonObject &jo, const std::string &src ) { load_recipe( jo, src, false ); } );
+    add( "uncraft", []( JsonObject &jo, const std::string &src ) { load_recipe( jo, src, true  ); } );
+
     add( "tool_quality", &quality::load_static );
     add( "technique", &load_technique );
     add( "martial_art", &load_martial_art );
@@ -205,6 +207,7 @@ void DynamicDataLoader::initialize()
 
     add( "gate", &gates::load_gates );
     add( "overlay_order", &load_overlay_ordering );
+    add( "mission_definition", []( JsonObject &jo ) { mission_type::load_mission_type( jo ); } );
 }
 
 void DynamicDataLoader::load_data_from_path( const std::string &path, const std::string &src )
@@ -335,7 +338,6 @@ void DynamicDataLoader::finalize_loaded_data()
 {
     item_controller->finalize();
     vpart_info::finalize();
-    mission_type::initialize(); // Needs overmap terrain.
     set_ter_ids();
     set_furn_ids();
     set_oter_ids();
