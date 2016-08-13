@@ -4282,13 +4282,13 @@ void game::debug()
 
                             case 1:
                                 if( query_int( value, "Set thirst to? Currently: %d", p.get_thirst() ) ) {
-                                    p.set_hunger( value );
+                                    p.set_thirst( value );
                                 }
                                 break;
 
                             case 2:
                                 if( query_int( value, "Set fatigue to? Currently: %d", p.get_fatigue() ) ) {
-                                    p.set_hunger( value );
+                                    p.set_fatigue( value );
                                 }
                                 break;
 
