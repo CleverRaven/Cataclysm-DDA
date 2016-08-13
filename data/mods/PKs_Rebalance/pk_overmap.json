@@ -211,9 +211,9 @@
         "rotate": false,
         "spawns": { "group":  "GROUP_DOOM", "population":[75, 150], "radius":[9,25] }
     },{
-        "type": "overmap_special",
-        "id": "hell_castle",
-        "overmaps":
+        "type" : "overmap_special",
+        "id" : "hell_castle",
+        "overmaps" :
         [
             { "point":[0,0,0], "overmap": "hell_castle_NW"},
             { "point":[1,0,0], "overmap": "hell_castle_N"},
@@ -223,22 +223,13 @@
             { "point":[2,1,0], "overmap": "hell_castle_CE"},
             { "point":[0,2,0], "overmap": "hell_castle_SW"},
             { "point":[1,2,0], "overmap": "hell_castle_S"},
-            { "point":[2,2,0], "overmap": "hell_castle_SE"},
-            { "point":[0,0,-1], "overmap": "hell_castle_B1_NW"},
-            { "point":[1,0,-1], "overmap": "hell_castle_B1_N"},
-            { "point":[2,0,-1], "overmap": "hell_castle_B1_NE"},
-            { "point":[0,1,-1], "overmap": "hell_castle_B1_CW"},
-            { "point":[1,1,-1], "overmap": "hell_castle_B1_C"},
-            { "point":[2,1,-1], "overmap": "hell_castle_B1_CE"},
-            { "point":[0,2,-1], "overmap": "hell_castle_B1_SW"},
-            { "point":[1,2,-1], "overmap": "hell_castle_B1_S"},
-            { "point":[2,2,-1], "overmap": "hell_castle_B1_SE"}
+            { "point":[2,2,0], "overmap": "hell_castle_SE"}
         ],
-        "locations": [ "land" ],
-        "city_distance": [2, 25],
-        "city_sizes": [4, 16],
-        "occurrences": [0, 1],
-        "rotate": false,
-        "spawns": { "group":  "GROUP_DOOM", "population":[125, 250], "radius":[25,50] }
+        "locations" : [ "land" ], "//":"what special locations does it spawn",
+        "city_distance" : [2, 20], "//":"how far from a city it should be",
+        "city_sizes" : [4, 16], "//":"what city sizes should it spawn in",
+        "occurrences" : [0, 1], "//":"how many per overmap",
+        "rotate" : false, "//":"allow rotation",
+        "spawns" : { "group" :  "GROUP_DOOM", "population":[150, 250], "radius":[25,50] }
     }
 ]
