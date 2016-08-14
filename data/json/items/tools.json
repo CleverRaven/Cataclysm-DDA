@@ -3829,7 +3829,7 @@
     "techniques": "PRECISE",
     "weight": 23,
     "volume": 1,
-    "cutting": 7,
+    "cutting": 4,
     "to_hit": -2,
     "qualities": [["CUT", 1]]
   },
@@ -3846,7 +3846,7 @@
     "techniques": "PRECISE",
     "weight": 23,
     "volume": 1,
-    "cutting": 8,
+    "cutting": 5,
     "to_hit": -2,
     "qualities": [["CUT", 1]]
   },
