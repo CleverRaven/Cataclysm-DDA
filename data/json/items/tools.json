@@ -3830,7 +3830,7 @@
     "weight": 23,
     "volume": 1,
     "cutting": 7,
-    "to_hit": -4,
+    "to_hit": -2,
     "qualities": [["CUT", 1]]
   },
   {
@@ -3847,7 +3847,7 @@
     "weight": 23,
     "volume": 1,
     "cutting": 8,
-    "to_hit": -4,
+    "to_hit": -2,
     "qualities": [["CUT", 1]]
   },
   {
@@ -4502,7 +4502,7 @@
     "volume": 1,
     "bashing": 2,
     "cutting": 7,
-    "to_hit": -3,
+    "to_hit": -1,
     "qualities": [["CUT", 1], ["BUTCHER", 20]],
     "flags": ["STAB", "SHEATH_KNIFE"]
   },
@@ -4520,7 +4520,7 @@
     "volume": 2,
     "bashing": 2,
     "cutting": 10,
-    "to_hit": -3,
+    "to_hit": -1,
     "category": "weapons",
     "qualities": [["CUT", 1], ["BUTCHER", 25]],
     "flags": ["CHOP", "SHEATH_KNIFE"]
@@ -5307,7 +5307,7 @@
     "weight": 141,
     "volume": 0,
     "cutting": 7,
-    "to_hit": -4,
+    "to_hit": -2,
     "qualities": [["CUT", 1], ["BUTCHER", 12]]
   },{
     "id" : "copper_knife",
@@ -6538,7 +6538,7 @@
     "volume": 2,
     "bashing": 6,
     "cutting": 14,
-    "to_hit": -1,
+    "to_hit": 1,
     "category" : "weapons",
     "qualities": [["CUT", 1], ["BUTCHER", 19]]
   },
@@ -6630,7 +6630,7 @@
     "volume": 1,
     "cutting": 16,
     "flags" : ["SHEATH_KNIFE","CHOP"],
-    "to_hit": -1,
+    "to_hit": 0,
     "category": "weapons",
     "qualities": [["CUT", 1], ["BUTCHER", 30]]
   },
@@ -6669,7 +6669,7 @@
     "weight": 246,
     "volume": 0,
     "cutting": 6,
-    "to_hit": -4,
+    "to_hit": -2,
     "qualities": [["CUT", 1], ["SAW_W", 1], ["SAW_M", 1], ["SCREW", 1], ["BUTCHER", 8]]
   },
   {
@@ -6843,7 +6843,7 @@
     "weight": 226,
     "volume": 0,
     "cutting": 12,
-    "to_hit": -1,
+    "to_hit": 0,
     "qualities": [["CUT", 1], ["PRY", 1], ["BUTCHER", 15]],
     "flags": ["CHOP", "SHEATH_KNIFE"]
   },
