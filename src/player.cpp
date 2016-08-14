@@ -11250,6 +11250,10 @@ const player *player::get_book_reader( const item &book, std::vector<std::string
                    !elem->is_wearing( "glasses_bifocal" ) && !elem->has_effect( effect_contacts ) ) {
             reasons.push_back( string_format( _( "%s needs reading glasses!" ),
                                               elem->disp_name().c_str() ) );
+        } else if( std::min( fine_detail_vision_mod(), elem->fine_detail_vision_mod() ) > 4 ) {
+            reasons.push_back( string_format(
+                                   _( "It's too dark for %s to read!" ),
+                                   elem->disp_name().c_str() ) );
         } else if( !elem->sees( *this ) ) {
             reasons.push_back( string_format( _( "%s could read that to you, but they can't see you." ),
                                               elem->disp_name().c_str() ) );
@@ -11257,12 +11261,6 @@ const player *player::get_book_reader( const item &book, std::vector<std::string
                    has_identified( book.typeId() ) ) {
             // Low morale still permits skimming
             reasons.push_back( string_format( _( "%s morale is too low!" ), elem->disp_name( true ).c_str() ) );
-        } else if( elem->is_deaf() ) {
-            reasons.push_back( string_format( _( "%s is deaf!" ), elem->disp_name().c_str() ) );
-        } else if( std::min( fine_detail_vision_mod(), elem->fine_detail_vision_mod() ) > 4 ) {
-            reasons.push_back( string_format(
-                                   _( "It's too dark for %s to read!" ),
-                                   elem->disp_name().c_str() ) );
         } else {
             int proj_time = time_to_read( book, *elem );
             if( proj_time < time_taken ) {
@@ -11373,10 +11371,9 @@ bool player::read( int inventory_position, const bool continuous )
     const std::string skill_name = skill ? skill.obj().name() : "";
 
     // Find NPCs to join the study session:
-    std::map<npc *, double> learners; //value is their penalty
-    std::vector<npc *> fun_learners; //reading only for fun
-    std::map<const npc *, std::string>
-    nonlearners; //value is a short reason (e.g. "too sad") for not participating
+    std::map<npc *, std::string> learners;
+    std::map<npc *, std::string> fun_learners; //reading only for fun
+    std::map<npc *, std::string> nonlearners;
     auto candidates = get_crafting_helpers();
     for( npc *elem : candidates ) {
         const int lvl = elem->get_skill_level( skill );
@@ -11384,11 +11381,13 @@ bool player::read( int inventory_position, const bool continuous )
                                ( skill && lvl < type->level && lvl >= type->req );
         const bool morale_req = elem->fun_to_read( it ) || elem->has_morale_to_read();
 
-        if( !skill_req ) {
+        if( !skill_req && elem != reader ) {
             if( skill && lvl < type->req ) {
                 nonlearners.insert( { elem, string_format( _( " (needs %d %s)" ), type->req, skill_name.c_str() ) } );
+            } else if( skill ) {
+                nonlearners.insert( { elem, string_format( _( " (already has %d %s)" ), type->level, skill_name.c_str() ) } );
             } else {
-                nonlearners.insert( { elem, _( " (can't learn from this book)" ) } );
+                nonlearners.insert( { elem, _( " (uninterested)" ) } );
             }
         } else if( elem->is_deaf() && reader != elem ) {
             nonlearners.insert( { elem, _( " (deaf)" ) } );
@@ -11396,89 +11395,80 @@ bool player::read( int inventory_position, const bool continuous )
             nonlearners.insert( { elem, _( " (too sad)" ) } );
         } else if( skill && lvl < type->level ) {
             const double penalty = ( double )time_taken / time_to_read( it, *reader, elem );
-            learners.insert( {elem, penalty} );
+            learners.insert( {elem, elem == reader ? _( " (reading aloud to you)" ) : ""} );
+            act.values.push_back( elem->getID() );
+            act.str_values.push_back( std::to_string( penalty ) );
         } else {
-            fun_learners.push_back( elem );
+            fun_learners.insert( {elem, elem == reader ? _( " (reading aloud to you)" ) : "" } );
+            act.values.push_back( elem->getID() );
+            act.str_values.push_back( "1" );
         }
     }
 
     if( !continuous ) {
-        if( skill || !nonlearners.empty() || !learners.empty() || !fun_learners.empty() ) {
-            //only show the menu if there's useful information or multiple options
-
-            // Maximum name lengths for lining stuff up with each other
-            auto f_max_ele = std::max_element( fun_learners.begin(), fun_learners.end(), []( npc * left,
-            npc * right ) {
-                return left->disp_name().size() < right->disp_name().size();
-            } );
-            const size_t fun_max = f_max_ele != fun_learners.end() ? ( *f_max_ele )->disp_name().size() : 0;
-
-            auto l_max_ele = std::max_element( learners.begin(), learners.end(),
-            []( std::pair<npc *, double> left, std::pair<npc *, double> right ) {
-                return left.first->disp_name().size() < right.first->disp_name().size();
-            } );
-            const size_t learners_max = l_max_ele != learners.end() ? l_max_ele->first->disp_name().size() : 0;
-
-            auto n_max_ele = std::max_element( nonlearners.begin(), nonlearners.end(),
-            []( std::pair<const npc *, std::string> left, std::pair<const npc *, std::string> right ) {
-                return left.first->disp_name().size() + left.second.size() < right.first->disp_name().size() +
-                       right.second.size();
-            } );
-            const size_t nonlearners_max = n_max_ele != nonlearners.end() ? n_max_ele->first->disp_name().size()
-                                           + n_max_ele->second.size() : 0;
-
+        //only show the menu if there's useful information or multiple options
+        if( skill || !nonlearners.empty() || !fun_learners.empty() ) {
             uimenu menu;
+
+            // Some helpers to reduce repetition:
+            auto length = []( const std::pair<npc *, std::string> &elem ) {
+                return elem.first->disp_name().size() + elem.second.size();
+            };
+
+            auto max_length = [&length]( const std::map<npc *, std::string> &m ) {
+                auto max_ele = std::max_element( m.begin(), m.end(), [&length]( std::pair<npc *, std::string> left,
+                std::pair<npc *, std::string> right ) {
+                    return length( left ) < length( right );
+                } );
+                return max_ele == m.end() ? 0 : length( *max_ele );
+            };
+
+            auto get_text =
+                [&]( const std::map<npc *, std::string> &m, const std::pair<npc *, std::string> &elem )
+            {
+                const int lvl = elem.first->get_skill_level( skill );
+                const std::string lvl_text = skill ? string_format( _( " | current level: %d" ), lvl ) : "";
+                const std::string name_text = elem.first->disp_name() + elem.second;
+                return string_format( ( "%-*s%s" ), max_length( m ), name_text.c_str(), lvl_text.c_str() );
+            };
+
+            auto add_header = [&menu]( const std::string & str ) {
+                menu.addentry( -1, false, -1, "" );
+                uimenu_entry header( -1, false, -1, str , c_yellow, c_yellow );
+                header.force_color = true;
+                menu.entries.push_back( header );
+            };
+
             menu.return_invalid = true;
             menu.title = !skill ? string_format( _( "Reading %s" ), it.tname().c_str() ) :
                          string_format( _( "Reading %s (can train %s from %d to %d)" ), it.tname().c_str(),
                                         skill_name.c_str(), type->req, type->level );
 
-            menu.addentry( 0, true, -1, _( "Read once" ) );
-
             if( skill ) {
-                menu.addentry( -1, false, -1, "" ); //blank line separator
-                uimenu_entry header( -1, false, -1, _( "Read until this player gains a level:" ), c_yellow,
-                                     c_yellow );
-                header.force_color = true;
-                menu.entries.push_back( header );
+                const int lvl = ( int )get_skill_level( skill );
+                menu.addentry( getID(), lvl < type->level, '0',
+                               string_format( _( "Read until you gain a level | current level: %d" ), lvl ) );
+            } else {
+                menu.addentry( -1, false, '0', _( "Read until you gain a level" ) );
+            }
+            menu.addentry( 0, true, '1', _( "Read once" ) );
 
-                menu.addentry( getID(), get_skill_level( skill ) < type->level, -1,
-                               string_format( _( "%-*s | current level: %d" ), learners_max, _( "You" ),
-                                              ( int )get_skill_level( skill ) ) );
+            if( skill && !learners.empty() ) {
+                add_header( _( "Read until this NPC gains a level:" ) );
                 for( const auto &elem : learners ) {
-                    const npc *guy = elem.first;
-                    const int lvl = guy->get_skill_level( skill );
-                    menu.addentry( guy->getID(), true, -1,
-                                   string_format( _( "%-*s | current level: %d" ), learners_max, guy->disp_name().c_str(), lvl ) );
+                    menu.addentry( elem.first->getID(), true, -1, get_text( learners, elem ) );
                 }
             }
-
             if( !fun_learners.empty() ) {
-                menu.addentry( -1, false, -1, "" );
-                uimenu_entry header( -1, false, -1, _( "Reading for fun:" ), c_yellow, c_yellow );
-                header.force_color = true;
-                menu.entries.push_back( header );
-
-                for( const npc *elem : fun_learners ) {
-                    const int lvl = elem->get_skill_level( skill );
-                    const std::string lvl_text = skill ? string_format( _( " | current level: %d" ), lvl ) : "";
-                    menu.entries.push_back( uimenu_entry( -1, false, -1,
-                                                          string_format( ( "%-*s%s" ), fun_max, elem->disp_name().c_str(), lvl_text.c_str() ) ) );
+                add_header( _( "Reading for fun:" ) );
+                for( const auto &elem : fun_learners ) {
+                    menu.addentry( -1, false, -1, get_text( fun_learners, elem ) );
                 }
             }
-
             if( !nonlearners.empty() ) {
-                menu.addentry( -1, false, -1, "" );
-                uimenu_entry header( -1, false, -1, _( "Not participating:" ), c_yellow, c_yellow );
-                header.force_color = true;
-                menu.entries.push_back( header );
-
+                add_header( _( "Not participating:" ) );
                 for( const auto &elem : nonlearners ) {
-                    const int lvl = elem.first->get_skill_level( skill );
-                    const std::string lvl_text = skill ? string_format( _( " | current level: %d" ), lvl ) : "";
-                    const std::string combined_text = elem.first->disp_name() + elem.second;
-                    menu.addentry( -1, false, -1, string_format( ( "%-*s%s" ), nonlearners_max, combined_text.c_str(),
-                                   lvl_text.c_str() ) );
+                    menu.addentry( -1, false, -1, get_text( nonlearners, elem ) );
                 }
             }
 
@@ -11500,13 +11490,13 @@ bool player::read( int inventory_position, const bool continuous )
         if( reader != this ) {
             add_msg( m_info, "%s", fail_messages[0].c_str() );
             add_msg( m_info, _( "%s reads aloud..." ), reader->disp_name().c_str() );
-        } else if( !learners.empty() ) {
+        } else if( !learners.empty() || !fun_learners.empty() ) {
             add_msg( m_info, _( "You read aloud..." ) );
         }
     }
 
     if( !continuous ||
-    !std::all_of( learners.begin(), learners.end(), [&]( std::pair<npc *, double> elem ) {
+    !std::all_of( learners.begin(), learners.end(), [&]( std::pair<npc *, std::string> elem ) {
     return std::count( activity.values.begin(), activity.values.end(), elem.first->getID() ) != 0;
     } ) ||
     !std::all_of( activity.values.begin(), activity.values.end(), [&]( int elem ) {
@@ -11517,19 +11507,23 @@ bool player::read( int inventory_position, const bool continuous )
             add_msg( m_info, _( "%s studies with you." ), learners.begin()->first->disp_name().c_str() );
         } else if( !learners.empty() ) {
             const std::string them = enumerate_as_string( learners.begin(),
-            learners.end(), [&]( std::pair<npc *, double> elem ) {
+            learners.end(), [&]( std::pair<npc *, std::string> elem ) {
                 return elem.first->disp_name();
             } );
             add_msg( m_info, _( "%s study with you." ), them.c_str() );
         }
 
-        if( fun_learners.size() == 1 ) {
-            add_msg( m_info, _( "%s reads with you for fun." ), fun_learners.front()->disp_name().c_str() );
-        } else if( !fun_learners.empty() ) {
-            const std::string them = enumerate_as_string( fun_learners.begin(), fun_learners.end(),
-            [&]( npc * elem ) {
-                return elem->disp_name();
-            } );
+        // Don't include the reader as it would be too redundant.
+        std::set<std::string> readers;
+        for( const auto &elem : fun_learners ) {
+            if( elem.first != reader ) {
+                readers.insert( elem.first->disp_name() );
+            }
+        }
+        if( readers.size() == 1 ) {
+            add_msg( m_info, _( "%s reads with you for fun." ), readers.begin()->c_str() );
+        } else if( !readers.empty() ) {
+            const std::string them = enumerate_as_string( readers );
             add_msg( m_info, _( "%s read with you for fun." ), them.c_str() );
         }
     }
@@ -11548,25 +11542,17 @@ bool player::read( int inventory_position, const bool continuous )
                  complex_player->disp_name().c_str() );
     }
 
-    for( const auto &elem : learners ) {
-        act.values.push_back( elem.first->getID() );
-        act.str_values.push_back( std::to_string( elem.second ) );
-    }
-    for( npc *elem : fun_learners ) {
-        act.values.push_back( elem->getID() );
-        act.str_values.push_back( "1" );
-    }
     assign_activity( act );
 
     // Reinforce any existing morale bonus/penalty, so it doesn't decay
     // away while you read more.
     const int minutes = time_taken / 1000;
     std::set<player *> apply_morale = { this };
-    for( auto &elem : learners ) {
+    for( const auto &elem : learners ) {
         apply_morale.insert( elem.first );
     }
-    for( npc *elem : fun_learners ) {
-        apply_morale.insert( elem );
+    for( const auto &elem : fun_learners ) {
+        apply_morale.insert( elem.first );
     }
     for( player *elem : apply_morale ) {
         // If you don't have a problem with eating humans, To Serve Man becomes rewarding
@@ -11649,6 +11635,7 @@ void player::do_read( item *book )
     bool continuous = false; //whether to continue reading or not
     std::set<std::string> little_learned; // NPCs who learned a little about the skill
     std::set<std::string> cant_learn;
+    std::list<std::string> out_of_chapters;
 
     for( auto &elem : learners ) {
         player *learner = elem.first;
@@ -11660,14 +11647,11 @@ void player::do_read( item *book )
             if( chapters > 0 && remain == 0 ) {
                 //Book is out of chapters -> re-reading old book, less fun
                 if( learner->is_player() ) {
-                    add_msg( _( "The %s isn't as much fun now that you've finished it." ), book->tname().c_str() );
+                    // This goes in the front because "It isn't as much fun for Jim and you"
+                    // sounds weird compared to "It isn't as much fun for you and Jim"
+                    out_of_chapters.push_front( learner->disp_name() );
                 } else {
-                    dynamic_cast<npc *>( learner )->say( string_format(
-                            _( "The %s isn't as much fun now that I've finished it." ),
-                            book->tname().c_str() ) );
-                }
-                if( learner->is_player() && one_in( 6 ) ) { //Don't nag incessantly, just once in a while
-                    add_msg( m_info, _( "Maybe you should find something new to read..." ) );
+                    out_of_chapters.push_back( learner->disp_name() );
                 }
                 //50% penalty
                 fun_bonus = ( reading->fun * 5 ) / 2;
@@ -11772,6 +11756,14 @@ void player::do_read( item *book )
     if( !cant_learn.empty() ) {
         const std::string names = enumerate_as_string( cant_learn );
         add_msg( m_info, _( "%s can no longer learn from %s." ), names.c_str(), book->type_name().c_str() );
+    }
+    if( !out_of_chapters.empty() ) {
+        const std::string names = enumerate_as_string( out_of_chapters );
+        add_msg( m_info, _( "Rereading the %s isn't as much fun for %s." ),
+                 book->tname().c_str(), names.c_str() );
+        if( out_of_chapters.front() == disp_name() && one_in( 6 ) ) {
+            add_msg( m_info, _( "Maybe you should find something new to read..." ) );
+        }
     }
 
     if( continuous ) {
