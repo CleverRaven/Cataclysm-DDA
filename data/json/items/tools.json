@@ -3829,8 +3829,8 @@
     "techniques": "PRECISE",
     "weight": 23,
     "volume": 1,
-    "cutting": 4,
-    "to_hit": -2,
+    "cutting": 6,
+    "to_hit": -3,
     "qualities": [["CUT", 1]]
   },
   {
@@ -3846,8 +3846,8 @@
     "techniques": "PRECISE",
     "weight": 23,
     "volume": 1,
-    "cutting": 5,
-    "to_hit": -2,
+    "cutting": 7,
+    "to_hit": -3,
     "qualities": [["CUT", 1]]
   },
   {
@@ -4955,7 +4955,7 @@
     "volume": 1,
     "bashing": 2,
     "cutting": 6,
-    "to_hit": 1,
+    "to_hit": -1,
     "qualities": [["SCREW", 1]]
   },
   {
@@ -4971,7 +4971,7 @@
     "volume": 2,
     "bashing": 2,
     "cutting": 6,
-    "to_hit": 1,
+    "to_hit": -1,
     "qualities": [["SCREW", 1], ["SCREW_FINE", 1]]
   },
   {
@@ -4987,7 +4987,7 @@
     "weight": 907,
     "volume": 2,
     "bashing": 9,
-    "to_hit": 2,
+    "to_hit": 1,
     "qualities": [ ["WRENCH", 2 ], [ "WRENCH_FINE", 1 ] ]
   },
   {
