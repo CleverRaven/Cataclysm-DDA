@@ -3934,11 +3934,11 @@
   "components":
     [
      [
-     ["charcoal", 150],
-     ["coal_lump", 150]
+     ["charcoal", 175],
+     ["coal_lump", 175]
      ],
      [
-     [ "plasma", 60 ]
+     [ "plasma", 70 ]
      ],
      [
      [ "zweihander", 1 ]
@@ -4010,11 +4010,11 @@
   "components":
     [
      [
-     ["charcoal", 400],
-     ["coal_lump", 400]
+     ["charcoal", 175],
+     ["coal_lump", 175]
      ],
      [
-     [ "plasma", 160 ]
+     [ "plasma", 70 ]
      ],
      [
      [ "nodachi", 1 ]

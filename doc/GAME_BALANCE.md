@@ -247,3 +247,8 @@ To that end, here's a list of containers with non-one volume.  If you have somet
 - 3L glass jar: 12, as expected
 
 - gallon jug: 15
+
+# Diamond weapons
+Diamond weapons should be uniform in their CVD machine requirements.
+Coal requirements are `floor((weapon_volume+1)/2)*25`.
+Hydrogen requirements are `coal_requirements/2.5`.
