@@ -40,7 +40,7 @@
             "orchard_processing"
         ],
         "method": "json",
-        "weight": 500,
+        "weight": 2500,
         "object": {
             "fill_ter": "t_metal_floor",
         "rows": [
@@ -118,7 +118,7 @@
             "orchard_stall"
         ],
         "method": "json",
-        "weight": 500,
+        "weight": 2500,
         "object": {
             "fill_ter": "t_floor",
         "rows": [
@@ -202,7 +202,7 @@
             "orchard_tree_apple"
         ],
         "method": "json",
-        "weight": 500,
+        "weight": 2500,
         "object": {
             "fill_ter": "t_dirt",
         "rows": [
