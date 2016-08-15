@@ -7127,30 +7127,31 @@
         "extras" : "none",
         "mondensity" : 2
     },{
-        "type" : "overmap_special",
-        "id" : "apple_orchard",
-        "overmaps" : [
-            { "point":[0,0,0], "overmap": "orchard_processing"},
-            { "point":[1,0,0], "overmap": "orchard_tree_apple"},
-            { "point":[2,0,0], "overmap": "orchard_tree_apple"},
-            { "point":[3,0,0], "overmap": "orchard_tree_apple"},
-            { "point":[0,1,0], "overmap": "orchard_stall", "connect": "road"},
-            { "point":[1,1,0], "overmap": "orchard_tree_apple"},
-            { "point":[2,1,0], "overmap": "orchard_tree_apple"},
-            { "point":[3,1,0], "overmap": "orchard_tree_apple"},
-            { "point":[0,2,0], "overmap": "orchard_tree_apple"},
-            { "point":[1,2,0], "overmap": "orchard_tree_apple"},
-            { "point":[2,2,0], "overmap": "orchard_tree_apple"},
-            { "point":[3,2,0], "overmap": "orchard_tree_apple"},
-            { "point":[0,3,0], "overmap": "pond_field"},
-            { "point":[1,3,0], "overmap": "orchard_tree_apple"},
-            { "point":[2,3,0], "overmap": "orchard_tree_apple"},
-            { "point":[3,3,0], "overmap": "orchard_tree_apple"}
-        ],
-        "locations" : [ "land" ],
-        "city_distance" : [20, -1],
-        "city_sizes" : [1, 12],
-        "occurrences" : [0, 1],
-        "flags" : [ "CLASSIC" ]
+        "type" : "overmap_terrain",
+        "id" : "orchard_tree_apple",
+        "name" : "apple orchard",
+        "sym" : 84,
+        "color" : "ltgreen",
+        "see_cost" : 5,
+        "extras" : "field",
+        "mondensity" : 3
+    },{
+        "type" : "overmap_terrain",
+        "id" : "orchard_processing",
+        "name" : "orchard processing",
+        "sym" : 84,
+        "color" : "i_ltgreen",
+        "see_cost" : 5,
+        "extras" : "field",
+        "mondensity" : 3
+    },{
+        "type" : "overmap_terrain",
+        "id" : "orchard_stall",
+        "name" : "orchard stall",
+        "sym" : 84,
+        "color" : "i_ltgreen",
+        "see_cost" : 5,
+        "extras" : "field",
+        "mondensity" : 3
     }
 ]
