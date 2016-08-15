@@ -13,7 +13,6 @@
       "range": -2,
       "ranged_damage": -4,
       "dispersion": 110,
-      "aim_speed": -2,
       "recoil": 15
     },
     "proportional": { "reload": 0.5 }
@@ -37,7 +36,6 @@
     "ranged_damage": 2,
     "dispersion": 360,
     "sight_dispersion": 120,
-    "aim_speed": 6,
     "recoil": 120,
     "durability": 6,
     "clip_size": 1,
@@ -62,7 +60,6 @@
     "skill": "pistol",
     "dispersion": 360,
     "sight_dispersion": 140,
-    "aim_speed": 6,
     "recoil": 120,
     "durability": 6,
     "clip_size": 6,
@@ -89,7 +86,6 @@
     "ranged_damage": 10,
     "dispersion": 180,
     "sight_dispersion": 90,
-    "aim_speed": 10,
     "recoil": 30,
     "durability": 6,
     "clip_size": 1,

@@ -26,6 +26,8 @@
 
 void exit_handler(int s);
 
+extern bool test_dirty;
+
 namespace {
 
 struct arg_handler {
@@ -57,9 +59,10 @@ int main(int argc, char *argv[])
 #endif
     int seed = time(NULL);
     bool verifyexit = false;
-    bool check_all_mods = false;
+    bool check_mods = false;
     std::string dump;
     dump_mode dmode = dump_mode::TSV;
+    std::vector<std::string> opts;
 
     // Set default file paths
 #ifdef PREFIX
@@ -104,24 +107,32 @@ int main(int argc, char *argv[])
                 }
             },
             {
-                "--check-mods", nullptr,
+                "--check-mods", "[mods...]",
                 "Checks the json files belonging to cdda mods",
                 section_default,
-                [&check_all_mods](int, const char **) -> int {
-                    check_all_mods = true;
+                [&check_mods,&opts]( int n, const char *params[] ) -> int {
+                    check_mods = true;
+                    test_mode = true;
+                    for( int i = 0; i < n; ++i ) {
+                        opts.emplace_back( params[ i ] );
+                    }
                     return 0;
                 }
             },
             {
-                "--dump-stats", "<what> [mode = TSV]",
+                "--dump-stats", "<what> [mode = TSV] [opts...]",
                 "Dumps item stats",
                 section_default,
-                [&dump,&dmode](int n, const char *params[]) -> int {
+                [&dump,&dmode,&opts](int n, const char *params[]) -> int {
                     if( n < 1 ) {
                         return -1;
                     }
+                    test_mode = true;
                     dump = params[ 0 ];
-                    if( n == 2 ) {
+                    for( int i = 2; i < n; ++i ) {
+                        opts.emplace_back( params[ i ] );
+                    }
+                    if( n >= 2 ) {
                         if( !strcmp( params[ 1 ], "TSV" ) ) {
                             dmode = dump_mode::TSV;
                             return 0;
@@ -387,9 +398,8 @@ int main(int argc, char *argv[])
 
     set_language(true);
 
-    // if we are dumping stats don't initialize curses to avoid escape sequences
-    // being inserted in to the output stream
-    if( dump.empty() ) {
+    // in test mode don't initialize curses to avoid escape sequences being inserted into output stream
+    if( !test_mode ) {
          if( initscr() == nullptr ) { // Initialize ncurses
             DebugLog( D_ERROR, DC_ALL ) << "initscr failed!";
             return 1;
@@ -422,22 +432,11 @@ int main(int argc, char *argv[])
         }
         if( !dump.empty() ) {
             init_colors();
-            g->dump_stats( dump, dmode );
-            exit( 0 );
+            exit( g->dump_stats( dump, dmode, opts ) ? 0 : 1 );
         }
-        if (check_all_mods) {
-            // Here we load all the mods and check their
-            // consistency (both is done in check_all_mod_data).
-            g->init_ui();
-            popup_nowait("checking all mods");
-            g->check_all_mod_data();
-            if(g->game_error()) {
-                exit_handler(-999);
-            }
-            // At this stage, the mods (and core game data)
-            // are find and we could start playing, but this
-            // is only for verifying that stage, so we exit.
-            exit_handler(0);
+        if( check_mods ) {
+            init_colors();
+            exit( g->check_mod_data( opts ) && !test_dirty ? 0 : 1 );
         }
     } catch( const std::exception &err ) {
         debugmsg( "%s", err.what() );

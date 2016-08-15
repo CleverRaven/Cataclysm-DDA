@@ -11,6 +11,8 @@
 #include "messages.h"
 #include "mapdata.h"
 
+#include <algorithm>
+
 // activity_item_handling.cpp
 void activity_on_turn_drop();
 void activity_on_turn_move_items();
@@ -353,6 +355,17 @@ void player_activity::do_turn( player *p )
             }
             break;
 
+        case ACT_READ:
+            if( p->moves <= moves_left ) {
+                moves_left -= p->moves;
+                p->moves = 0;
+            } else {
+                p->moves -= moves_left;
+                moves_left = 0;
+            }
+            p->rooted();
+            break;
+
         default:
             // Based on speed, not time
             if( p->moves <= moves_left ) {
@@ -377,9 +390,9 @@ void player_activity::finish( player *p )
             activity_handlers::reload_finish( this, p );
             break;
         case ACT_READ:
-            p->do_read( &( p->i_at( position ) ) );
+            p->do_read( targets[0].get_item() );
             if( type == ACT_NULL ) {
-                add_msg( _( "You finish reading." ) );
+                add_msg( m_info, _( "You finish reading." ) );
             }
             break;
         case ACT_WAIT:
@@ -534,7 +547,6 @@ bool player_activity::can_resume_with( const player_activity &other, const Chara
         case NUM_ACTIVITIES:
             return false;
         case ACT_RELOAD:
-        case ACT_READ:
         case ACT_GAME:
         case ACT_REFILL_VEHICLE:
             break;
@@ -594,6 +606,21 @@ bool player_activity::can_resume_with( const player_activity &other, const Chara
         case ACT_MEND_ITEM:
             // Those should have extra limitations
             // But for now it's better to allow too much than too little
+            break;
+        case ACT_READ:
+            // Return false if any NPCs joined or left the study session
+            // the vector {1, 2} != {2, 1}, so we'll have to check manually
+            if( values.size() != other.values.size() ) {
+                return false;
+            }
+            for( int foo : other.values ) {
+                if( std::find( values.begin(), values.end(), foo ) == values.end() ) {
+                    return false;
+                }
+            }
+            if( targets.empty() || other.targets.empty() || targets[0] != other.targets[0] ) {
+                return false;
+            }
             break;
     }
 

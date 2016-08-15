@@ -13,13 +13,27 @@
 #include "veh_type.h"
 #include "npc.h"
 
-void game::dump_stats( const std::string& what, dump_mode mode )
+bool game::dump_stats( const std::string& what, dump_mode mode, const std::vector<std::string> &opts )
 {
     load_core_data();
     DynamicDataLoader::get_instance().finalize_loaded_data();
 
     std::vector<std::string> header;
     std::vector<std::vector<std::string>> rows;
+
+    int scol = 0; // sorting column
+
+    std::map<std::string, standard_npc> test_npcs;
+    test_npcs[ "S1" ] = standard_npc( "S1", { "gloves_survivor", "mask_lsurvivor" } );
+    test_npcs[ "S2" ] = standard_npc( "S2", { "gloves_fingerless", "sunglasses" }, 4,  8, 8, 8, 10 /* PER  10 */ );
+    test_npcs[ "S3" ] = standard_npc( "S3", { "gloves_plate", "helmet_plate" },  4, 10, 8, 8, 8 /* STAT 10 */ );
+
+    std::map<std::string, item> test_items;
+    test_items[ "G1" ] = item( "glock_19" ).ammo_set( "9mm" );
+    test_items[ "G2" ] = item( "hk_mp5" ).ammo_set( "9mm" );
+    test_items[ "G3" ] = item( "ar15" ).ammo_set( "223" );
+    test_items[ "G4" ] = item( "remington_700" ).ammo_set( "270" );
+    test_items[ "G4" ].emplace_back( "rifle_scope" );
 
     if( what == "AMMO" ) {
         header = {
@@ -53,7 +67,7 @@ void game::dump_stats( const std::string& what, dump_mode mode )
         for( const auto& v : vitamin::all() ) {
              header.push_back( v.second.name() );
         }
-        auto dump = [&rows]( const item& obj ) {
+        auto dump = [&rows,&test_npcs]( const item& obj ) {
             std::vector<std::string> r;
             r.push_back( obj.tname( false ) );
             r.push_back( to_string( obj.volume() ) );
@@ -84,7 +98,7 @@ void game::dump_stats( const std::string& what, dump_mode mode )
         header = {
             "Name", "Ammo", "Volume", "Weight", "Capacity",
             "Range", "Dispersion", "Recoil", "Damage", "Pierce",
-            "eff-min", "eff-max", "abs-max"
+            "Aim time", "Effective range", "Snapshot range", "Max range"
         };
 
         std::set<std::string> locations;
@@ -100,7 +114,7 @@ void game::dump_stats( const std::string& what, dump_mode mode )
             header.push_back( e );
         }
 
-        auto dump = [&rows,&locations]( const item& obj ) {
+        auto dump = [&rows,&locations]( const standard_npc &who, const item& obj ) {
             std::vector<std::string> r;
             r.push_back( obj.tname( 1, false ) );
             r.push_back( obj.ammo_type() ? obj.ammo_type().str() : "" );
@@ -113,16 +127,11 @@ void game::dump_stats( const std::string& what, dump_mode mode )
             r.push_back( to_string( obj.gun_damage() ) );
             r.push_back( to_string( obj.gun_pierce() ) );
 
-            standard_npc fake;
-            fake.wear_item( item( "gloves_lsurvivor" ) );
-            fake.wear_item( item( "mask_lsurvivor" ) );
-            fake.set_skill_level( skill_id( "gun" ), 4 );
-            fake.set_skill_level( obj.gun_skill(), 4 );
-            fake.recoil = MIN_RECOIL;
+            r.push_back( to_string( who.gun_engagement_moves( obj ) ) );
 
-            r.push_back( string_format( "%.1f", fake.gun_engagement_range( obj, player::engagement::effective_min ) ) );
-            r.push_back( string_format( "%.1f", fake.gun_engagement_range( obj, player::engagement::effective_max ) ) );
-            r.push_back( string_format( "%.1f", fake.gun_engagement_range( obj, player::engagement::absolute_max ) ) );
+            r.push_back( string_format( "%.1f", who.gun_engagement_range( obj, player::engagement::effective ) ) );
+            r.push_back( string_format( "%.1f", who.gun_engagement_range( obj, player::engagement::snapshot ) ) );
+            r.push_back( string_format( "%.1f", who.gun_engagement_range( obj, player::engagement::maximum ) ) );
 
             for( const auto &e : locations ) {
                 r.push_back( to_string( obj.type->gun->valid_mod_locations[ e ] ) );
@@ -137,11 +146,11 @@ void game::dump_stats( const std::string& what, dump_mode mode )
                 }
                 gun.ammo_set( default_ammo( gun.ammo_type() ), gun.ammo_capacity() );
 
-                dump( gun );
+                dump( test_npcs[ "S1" ], gun );
 
                 if( gun.type->gun->barrel_length > 0 ) {
                     gun.emplace_back( "barrel_small" );
-                    dump( gun );
+                    dump( test_npcs[ "S1" ], gun );
                 }
             }
         }
@@ -189,6 +198,52 @@ void game::dump_stats( const std::string& what, dump_mode mode )
         for( const auto e : vpart_info::get_all() ) {
             dump( e );
         }
+
+    } else if( what == "AIMING" ) {
+        scol = -1; // unsorted output so graph columns have predictable ordering
+
+        const int cycles = 1400;
+
+        header = { "Name" };
+        for( int i = 0; i <= cycles; ++i ) {
+            header.push_back( std::to_string( i ) );
+        }
+
+        auto dump = [&rows]( const standard_npc &who, const item &gun) {
+            std::vector<std::string> r( 1, string_format( "%s %s", who.get_name().c_str(), gun.tname().c_str() ) );
+            double penalty = MIN_RECOIL;
+            for( int i = 0; i <= cycles; ++i ) {
+                penalty -= who.aim_per_move( gun, penalty );
+                r.push_back( string_format( "%.2f", who.gun_current_range( gun, penalty ) ) );
+            }
+            rows.push_back( r );
+        };
+
+        if( opts.empty() ) {
+            dump( test_npcs[ "S1" ], test_items[ "G1" ] );
+            dump( test_npcs[ "S1" ], test_items[ "G2" ] );
+            dump( test_npcs[ "S1" ], test_items[ "G3" ] );
+            dump( test_npcs[ "S1" ], test_items[ "G4" ] );
+
+        } else {
+            for( const auto &str : opts ) {
+                auto idx = str.find( ':' );
+                if( idx == std::string::npos ) {
+                    std::cerr << "cannot parse test case: " << str << std::endl;
+                    return false;
+                }
+                auto test = std::make_pair( test_npcs.find( str.substr( 0, idx ) ),
+                                            test_items.find( str.substr( idx + 1 ) ) );
+
+                if( test.first == test_npcs.end() || test.second == test_items.end() ) {
+                    std::cerr << "invalid test case: " << str << std::endl;
+                    return false;
+                }
+
+                dump( test.first->second, test.second->second );
+            }
+        }
+
     } else if( what == "EXPLOSIVE" ) {
         header = {
             // @todo Should display more useful data: shrapnel damage, safe range
@@ -220,15 +275,21 @@ void game::dump_stats( const std::string& what, dump_mode mode )
                 dump( itt.nname( 1 ), c_ex->explosion );
             }
         }
+
+    } else {
+        std::cerr << "unknown argument: " << what << std::endl;
+        return false;
     }
 
     rows.erase( std::remove_if( rows.begin(), rows.end(), []( const std::vector<std::string>& e ) {
         return e.empty();
     } ), rows.end() );
 
-    std::sort( rows.begin(), rows.end(), []( const std::vector<std::string>& lhs, const std::vector<std::string>& rhs ) {
-        return lhs[ 0 ] < rhs[ 0 ];
-    } );
+    if( scol >= 0 ) {
+        std::sort( rows.begin(), rows.end(), [&scol]( const std::vector<std::string>& lhs, const std::vector<std::string>& rhs ) {
+            return lhs[ scol ] < rhs[ scol ];
+        } );
+    }
 
     rows.erase( std::unique( rows.begin(), rows.end() ), rows.end() );
 
@@ -265,4 +326,6 @@ void game::dump_stats( const std::string& what, dump_mode mode )
             std::cout << "</table>";
             break;
     }
+
+    return true;
 }
