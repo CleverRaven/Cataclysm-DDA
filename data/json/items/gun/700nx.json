@@ -16,7 +16,6 @@
     "skill": "rifle",
     "dispersion": 60,
     "sight_dispersion": 60,
-    "aim_speed": 8,
     "durability": 8,
     "clip_size": 1,
     "reload": 600,

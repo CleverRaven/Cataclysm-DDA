@@ -21,6 +21,17 @@ constexpr double ARCMIN( double v )
     return DEGREES( v ) / 60;
 }
 
+/** Calculate base of an isosceles triangle
+  * @param distance one of the the equal lengths
+  * @param vertex the unequal angle expresed in MoA
+  @ @param returns base in equivalent units to distance
+  */
+inline double iso_tangent( double distance, double vertex )
+{
+    // we can use the cosine formula (a² = b² + c² - 2bc⋅cosθ) to calculate the tangent
+    return sqrt( 2 * pow( distance, 2 ) * ( 1 - cos( ARCMIN( vertex ) ) ) );
+}
+
 //! This compile-time useable function combines the sign of each (x, y, z) component into a single integer
 //! to allow simple runtime and compiletime mapping of (x, y, z) tuples to @ref direction enumerators.
 //! Specifically, (0, -, +) => (0, 1, 2); a base-3 number.

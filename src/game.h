@@ -141,15 +141,21 @@ class game
 
         /** Loads static data that does not depend on mods or similar. */
         void load_static_data();
-        /** Loads core data and all mods. */
-        void check_all_mod_data();
+
+        /**
+         *  Check if mods can be sucessfully loaded
+         *  @param opts check specific mods (or all if unspecified)
+         *  @return whether all mods were successfully loaded
+         */
+        bool check_mod_data( const std::vector<std::string> &opts );
+
         /** Loads core dynamic data. */
         void load_core_data();
+        /** Loads core data and mods from the given world. */
+        void load_world_modfiles(WORLDPTR world);
     protected:
         /** Loads dynamic data from the given directory. */
         void load_data_from_dir( const std::string &path, const std::string &src );
-        /** Loads core data and mods from the given world. */
-        void load_world_modfiles(WORLDPTR world);
 
         // May be a bit hacky, but it's probably better than the header spaghetti
         std::unique_ptr<map> map_ptr;
@@ -177,8 +183,8 @@ class game
         void unserialize_master(std::istream &fin);  // for load
         bool unserialize_master_legacy(std::istream &fin);  // for old load
 
-        /** write stats of all loaded items of the given type to stdout */
-        void dump_stats( const std::string& what, dump_mode mode );
+        /** write statisics to stdout and @return true if sucessful */
+        bool dump_stats( const std::string& what, dump_mode mode, const std::vector<std::string> &opts );
 
         /** Returns false if saving failed. */
         bool save();

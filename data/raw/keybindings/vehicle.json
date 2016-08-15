@@ -42,6 +42,13 @@
     "bindings":[ { "input_method": "keyboard", "key": "z" } ]
   },
   {
+    "id": "TOGGLE_ATOMIC_LIGHT",
+    "type": "keybinding",
+    "category": "VEHICLE",
+    "name": "Toggle atomic lights",
+    "bindings":[ { "input_method": "keyboard", "key": "A" } ]
+  },
+  {
     "id": "TOGGLE_CAMERA",
     "type": "keybinding",
     "category": "VEHICLE",

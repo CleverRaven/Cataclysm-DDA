@@ -99,10 +99,6 @@ class Character : public Creature, public visitable<Character>
         virtual int get_per_bonus() const;
         virtual int get_int_bonus() const;
 
-        // Penalty modifiers applied for ranged attacks due to low stats
-        virtual int ranged_dex_mod() const;
-        virtual int ranged_per_mod() const;
-
         /** Setters for stats exclusive to characters */
         virtual void set_str_bonus(int nstr);
         virtual void set_dex_bonus(int ndex);
@@ -148,13 +144,11 @@ class Character : public Creature, public visitable<Character>
 
         void mod_stat( const std::string &stat, int modifier ) override;
 
-        /* Calculate aim improvement based on character stats/skills and gunsight properties
-         * @param recoil amount of applicable recoil when determining which gunsight to use
-         * @return MOC of aim improvement per 10 moves
-         * @note These units chosen as MOC/move would be too fast (lower bound 1MOC/move) and
-         * move/MOC too slow (upper bound 1MOC/move).
-         * As a result the smallest unit of aim time is 10 moves. */
-        int aim_per_time( const item& gun, int recoil ) const;
+        /* Adjusts provided sight dispersion to account for player stats */
+        int effective_dispersion( int dispersion ) const;
+
+        /* Calculate aim improvement per move spent aiming at a given @ref recoil */
+        double aim_per_move( const item &gun, double recoil ) const;
 
         /** Combat getters */
         int get_dodge_base() const override;
@@ -443,7 +437,7 @@ class Character : public Creature, public visitable<Character>
         bool meets_skill_requirements( const std::map<skill_id, int> &req ) const;
 
         /** Return character dispersion penalty dependent upon relevant gun skill level */
-        int skill_dispersion( const item& gun, bool random ) const;
+        int skill_dispersion( const item& gun ) const;
 
         // --------------- Other Stuff ---------------
 

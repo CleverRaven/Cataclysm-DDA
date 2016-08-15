@@ -74,6 +74,54 @@ void load_mutation_category(JsonObject &jsobj)
     mutation_category_traits[id] = new_category;
 }
 
+static mut_attack load_mutation_attack( JsonObject &jo )
+{
+    mut_attack ret;
+    jo.read( "attack_text_u", ret.attack_text_u );
+    jo.read( "attack_text_npc", ret.attack_text_npc );
+    jo.read( "required_mutations", ret.required_mutations );
+    jo.read( "blocker_mutations", ret.blocker_mutations );
+    jo.read( "hardcoded_effect", ret.hardcoded_effect );
+
+    if( jo.has_string( "body_part" ) ) {
+        ret.bp = get_body_part_token( jo.get_string( "body_part" ) );
+    }
+
+    jo.read( "chance", ret.chance );
+
+    if( jo.has_array( "base_damage" ) ) {
+        JsonArray jo_dam = jo.get_array( "base_damage" );
+        ret.base_damage = load_damage_instance( jo_dam );
+    } else if( jo.has_object( "base_damage" ) ) {
+        JsonObject jo_dam = jo.get_object( "base_damage" );
+        ret.base_damage = load_damage_instance( jo_dam );
+    }
+
+    if( jo.has_array( "strength_damage" ) ) {
+        JsonArray jo_dam = jo.get_array( "strength_damage" );
+        ret.strength_damage = load_damage_instance( jo_dam );
+    } else if( jo.has_object( "strength_damage" ) ) {
+        JsonObject jo_dam = jo.get_object( "strength_damage" );
+        ret.strength_damage = load_damage_instance( jo_dam );
+    }
+
+    if( ret.attack_text_u.empty() || ret.attack_text_npc.empty() ) {
+        jo.throw_error( "Attack message unset" );
+    }
+
+    if( !ret.hardcoded_effect && ret.base_damage.empty() && ret.strength_damage.empty() ) {
+        jo.throw_error( "Damage unset" );
+    } else if( ret.hardcoded_effect && ( !ret.base_damage.empty() || !ret.strength_damage.empty() ) ) {
+        jo.throw_error( "Damage and hardcoded effect are both set (must be one, not both)" );
+    }
+
+    if( ret.chance <= 0 ) {
+        jo.throw_error( "Chance of procing must be set and positive" );
+    }
+
+    return ret;
+}
+
 void mutation_branch::load( JsonObject &jsobj )
 {
     const std::string id = jsobj.get_string( "id" );
@@ -194,6 +242,17 @@ void mutation_branch::load( JsonObject &jsobj )
         for( body_part bp : bps ) {
             new_mut.armor[ bp ] = res;
         }
+    }
+
+    if( jsobj.has_array( "attacks" ) ) {
+        jsarr = jsobj.get_array( "attacks" );
+        while( jsarr.has_more() ) {
+            JsonObject jo = jsarr.next_object();
+            new_mut.attacks_granted.emplace_back( load_mutation_attack( jo ) );
+        }
+    } else if( jsobj.has_object( "attacks" ) ) {
+        JsonObject jo = jsobj.get_object( "attacks" );
+        new_mut.attacks_granted.emplace_back( load_mutation_attack( jo ) );
     }
 }
 

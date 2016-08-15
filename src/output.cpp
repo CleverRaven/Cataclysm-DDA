@@ -47,6 +47,8 @@ scrollingcombattext SCT;
 extern bool tile_iso;
 extern bool use_tiles;
 
+extern bool test_mode;
+
 void delwin_functor::operator()( WINDOW *w ) const
 {
     if( w == nullptr ) {
@@ -1065,6 +1067,11 @@ void popup_top( const char *mes, ... )
 
 long popup( const std::string &text, PopupFlags flags )
 {
+    if( test_mode ) {
+        std::cerr << text << std::endl;
+        return 0;
+    }
+
     int width = 0;
     int height = 2;
     std::vector<std::string> folded = foldstring( text, FULL_SCREEN_WIDTH - 2 );
