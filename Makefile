@@ -190,9 +190,7 @@ ifdef RELEASE
   CXXFLAGS += $(OPTLEVEL)
 
   ifdef LTO
-    ifneq ($(NATIVE), osx)
-      LDFLAGS += -fuse-ld=gold
-    endif
+    LDFLAGS += -fuse-ld=gold
     ifdef CLANG
       LTOFLAGS += -flto
     else
