@@ -230,32 +230,32 @@ void trapfunc::crossbow( Creature *c, const tripoint &p )
             if( !one_in( 4 ) && rng( 8, 20 ) > n->get_dodge() ) {
                 body_part hit = num_bp;
                 switch( rng( 1, 10 ) ) {
-                    case  1:
-                        if( one_in( 2 ) ) {
-                            hit = bp_foot_l;
-                        } else {
-                            hit = bp_foot_r;
-                        }
-                        break;
-                    case  2:
-                    case  3:
-                    case  4:
-                        if( one_in( 2 ) ) {
-                            hit = bp_leg_l;
-                        } else {
-                            hit = bp_leg_r;
-                        }
-                        break;
-                    case  5:
-                    case  6:
-                    case  7:
-                    case  8:
-                    case  9:
-                        hit = bp_torso;
-                        break;
-                    case 10:
-                        hit = bp_head;
-                        break;
+                case  1:
+                    if( one_in( 2 ) ) {
+                        hit = bp_foot_l;
+                    } else {
+                        hit = bp_foot_r;
+                    }
+                    break;
+                case  2:
+                case  3:
+                case  4:
+                    if( one_in( 2 ) ) {
+                        hit = bp_leg_l;
+                    } else {
+                        hit = bp_leg_r;
+                    }
+                    break;
+                case  5:
+                case  6:
+                case  7:
+                case  8:
+                case  9:
+                    hit = bp_torso;
+                    break;
+                case 10:
+                    hit = bp_head;
+                    break;
                 }
                 //~ %s is bodypart
                 n->add_msg_if_player( m_bad, _( "Your %s is hit!" ), body_part_name( hit ).c_str() );
@@ -270,21 +270,21 @@ void trapfunc::crossbow( Creature *c, const tripoint &p )
             int chance = 0;
             // adapted from shotgun code - chance of getting hit depends on size
             switch( z->type->size ) {
-                case MS_TINY:
-                    chance = 50;
-                    break;
-                case MS_SMALL:
-                    chance =  8;
-                    break;
-                case MS_MEDIUM:
-                    chance =  6;
-                    break;
-                case MS_LARGE:
-                    chance =  4;
-                    break;
-                case MS_HUGE:
-                    chance =  1;
-                    break;
+            case MS_TINY:
+                chance = 50;
+                break;
+            case MS_SMALL:
+                chance =  8;
+                break;
+            case MS_MEDIUM:
+                chance =  6;
+                break;
+            case MS_LARGE:
+                chance =  4;
+                break;
+            case MS_HUGE:
+                chance =  1;
+                break;
             }
             if( one_in( chance ) ) {
                 if( seen ) {
@@ -327,32 +327,32 @@ void trapfunc::shotgun( Creature *c, const tripoint &p )
             if( rng( 5, 50 ) > n->get_dodge() ) {
                 body_part hit = num_bp;
                 switch( rng( 1, 10 ) ) {
-                    case  1:
-                        if( one_in( 2 ) ) {
-                            hit = bp_foot_l;
-                        } else {
-                            hit = bp_foot_r;
-                        }
-                        break;
-                    case  2:
-                    case  3:
-                    case  4:
-                        if( one_in( 2 ) ) {
-                            hit = bp_leg_l;
-                        } else {
-                            hit = bp_leg_r;
-                        }
-                        break;
-                    case  5:
-                    case  6:
-                    case  7:
-                    case  8:
-                    case  9:
-                        hit = bp_torso;
-                        break;
-                    case 10:
-                        hit = bp_head;
-                        break;
+                case  1:
+                    if( one_in( 2 ) ) {
+                        hit = bp_foot_l;
+                    } else {
+                        hit = bp_foot_r;
+                    }
+                    break;
+                case  2:
+                case  3:
+                case  4:
+                    if( one_in( 2 ) ) {
+                        hit = bp_leg_l;
+                    } else {
+                        hit = bp_leg_r;
+                    }
+                    break;
+                case  5:
+                case  6:
+                case  7:
+                case  8:
+                case  9:
+                    hit = bp_torso;
+                    break;
+                case 10:
+                    hit = bp_head;
+                    break;
                 }
                 //~ %s is bodypart
                 n->add_msg_if_player( m_bad, _( "Your %s is hit!" ), body_part_name( hit ).c_str() );
@@ -365,21 +365,21 @@ void trapfunc::shotgun( Creature *c, const tripoint &p )
             bool seen = g->u.sees( *z );
             int chance = 0;
             switch( z->type->size ) {
-                case MS_TINY:
-                    chance = 100;
-                    break;
-                case MS_SMALL:
-                    chance =  16;
-                    break;
-                case MS_MEDIUM:
-                    chance =  12;
-                    break;
-                case MS_LARGE:
-                    chance =   8;
-                    break;
-                case MS_HUGE:
-                    chance =   2;
-                    break;
+            case MS_TINY:
+                chance = 100;
+                break;
+            case MS_SMALL:
+                chance =  16;
+                break;
+            case MS_MEDIUM:
+                chance =  12;
+                break;
+            case MS_LARGE:
+                chance =   8;
+                break;
+            case MS_HUGE:
+                chance =   2;
+                break;
             }
             shots = ( one_in( 8 ) || one_in( chance ) ? 2 : 1 );
             if( g->m.tr_at( p ).loadid == tr_shotgun_1 ) {
@@ -484,17 +484,17 @@ void trapfunc::snare_heavy( Creature *c, const tripoint &p )
         } else if( z != nullptr ) {
             int damage;
             switch( z->type->size ) {
-                case MS_TINY:
-                    damage = 20;
-                    break;
-                case MS_SMALL:
-                    damage = 20;
-                    break;
-                case MS_MEDIUM:
-                    damage = 10;
-                    break;
-                default:
-                    damage = 0;
+            case MS_TINY:
+                damage = 20;
+                break;
+            case MS_SMALL:
+                damage = 20;
+                break;
+            case MS_MEDIUM:
+                damage = 10;
+                break;
+            default:
+                damage = 0;
             }
             z->apply_damage( nullptr, hit, damage );
         }
@@ -612,11 +612,11 @@ void trapfunc::dissector( Creature *c, const tripoint &p )
     }
 
     monster *z = dynamic_cast<monster *>( c );
-    if( z != nullptr && z->type->in_species( ROBOT ) ){
+    if( z != nullptr && z->type->in_species( ROBOT ) ) {
         //The monster is a robot. So the dissector should not try to dissect the monsters flesh.
         sounds::sound( p, 4, _( "BEEPBOOP! Please remove non-organic object." ) ); //Dissector error sound.
         c->add_msg_player_or_npc( m_bad, _( "The dissector lights up, and shuts down." ),
-                              _( "The dissector lights up, and shuts down." ) );
+                                  _( "The dissector lights up, and shuts down." ) );
         return;
     }
 
@@ -708,26 +708,26 @@ void trapfunc::pit_spikes( Creature *c, const tripoint &p )
             } else {
                 body_part hit = num_bp;
                 switch( rng( 1, 10 ) ) {
-                    case  1:
-                        hit = bp_leg_l;
-                        break;
-                    case  2:
-                        hit = bp_leg_r;
-                        break;
-                    case  3:
-                        hit = bp_arm_l;
-                        break;
-                    case  4:
-                        hit = bp_arm_r;
-                        break;
-                    case  5:
-                    case  6:
-                    case  7:
-                    case  8:
-                    case  9:
-                    case 10:
-                        hit = bp_torso;
-                        break;
+                case  1:
+                    hit = bp_leg_l;
+                    break;
+                case  2:
+                    hit = bp_leg_r;
+                    break;
+                case  3:
+                    hit = bp_arm_l;
+                    break;
+                case  4:
+                    hit = bp_arm_r;
+                    break;
+                case  5:
+                case  6:
+                case  7:
+                case  8:
+                case  9:
+                case 10:
+                    hit = bp_torso;
+                    break;
                 }
                 n->add_msg_if_player( m_bad, _( "The spikes impale your %s!" ),
                                       body_part_name_accusative( hit ).c_str() );
@@ -782,30 +782,30 @@ void trapfunc::pit_glass( Creature *c, const tripoint &p )
             } else {
                 body_part hit = num_bp;
                 switch( rng( 1, 10 ) ) {
-                    case  1:
-                        hit = bp_leg_l;
-                        break;
-                    case  2:
-                        hit = bp_leg_r;
-                        break;
-                    case  3:
-                        hit = bp_arm_l;
-                        break;
-                    case  4:
-                        hit = bp_arm_r;
-                        break;
-                    case  5:
-                        hit = bp_foot_l;
-                        break;
-                    case  6:
-                        hit = bp_foot_r;
-                        break;
-                    case  7:
-                    case  8:
-                    case  9:
-                    case 10:
-                        hit = bp_torso;
-                        break;
+                case  1:
+                    hit = bp_leg_l;
+                    break;
+                case  2:
+                    hit = bp_leg_r;
+                    break;
+                case  3:
+                    hit = bp_arm_l;
+                    break;
+                case  4:
+                    hit = bp_arm_r;
+                    break;
+                case  5:
+                    hit = bp_foot_l;
+                    break;
+                case  6:
+                    hit = bp_foot_r;
+                    break;
+                case  7:
+                case  8:
+                case  9:
+                case 10:
+                    hit = bp_torso;
+                    break;
                 }
                 n->add_msg_if_player( m_bad, _( "The glass shards slash your %s!" ),
                                       body_part_name_accusative( hit ).c_str() );
@@ -858,9 +858,9 @@ void trapfunc::lava( Creature *c, const tripoint &p )
                 dam = 80;
             }
             if( z->made_of( material_id( "paper" ) ) || z->made_of( LIQUID ) ||
-                z->made_of( material_id( "powder" ) ) ||
-                z->made_of( material_id( "wood" ) )  || z->made_of( material_id( "cotton" ) ) ||
-                z->made_of( material_id( "wool" ) ) ) {
+                    z->made_of( material_id( "powder" ) ) ||
+                    z->made_of( material_id( "wood" ) )  || z->made_of( material_id( "cotton" ) ) ||
+                    z->made_of( material_id( "wool" ) ) ) {
                 dam = 200;
             }
             if( z->made_of( material_id( "stone" ) ) ) {
