@@ -1873,7 +1873,7 @@ std::vector<special_attack> player::mutation_attacks(Creature &t) const
             ///\EFFECT_DEX increases chance of attacking with mutated body parts
             const float chance = get_dex() + unarmed / mut_atk.chance;
             add_msg( m_debug, "%s proc chance: %d", pr.first.c_str(), chance );
-            if( get_dex() + unarmed >= mut_atk.chance || x_in_y( get_dex() + unarmed, mut_atk.chance ) ) {
+            if( get_dex() + unarmed < mut_atk.chance || !x_in_y( get_dex() + unarmed, mut_atk.chance ) ) {
                 continue;
             }
 
