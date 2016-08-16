@@ -16,7 +16,6 @@
     "skill": "smg",
     "dispersion": 120,
     "sight_dispersion": 90,
-    "aim_speed": 4,
     "recoil": -15,
     "durability": 8,
     "barrel_length": 2,

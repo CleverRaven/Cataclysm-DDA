@@ -210,7 +210,7 @@ void npc::move()
              name.c_str(), target_name.c_str(), ai_cache.danger, confident_shoot_range( weapon ) );
 
     //faction opinion determines if it should consider you hostile
-    if( my_fac != nullptr && my_fac->likes_u < -10 && sees( g->u ) ) {
+    if( my_fac != nullptr && my_fac->likes_u < -10 && is_enemy() && sees( g->u ) ) {
         add_msg( m_debug, "NPC %s turning hostile because my_fac->likes_u %d < -10",
                  name.c_str(), my_fac->likes_u );
         if (op_of_u.fear > 10 + personality.aggression + personality.bravery) {
@@ -244,10 +244,6 @@ void npc::move()
         // TODO: Think about how this actually needs to work, for now assume flee from player
         ai_cache.target = npc_target::player();
     }
-
-    // TODO: morale breaking when surrounded by hostiles
-    //if (!bravery_check(danger) || !bravery_check(total_danger) ||
-    // TODO: near by active explosives spotted
 
     if( target == &g->u && attitude == NPCATT_FLEE ) {
         action = method_of_fleeing();
@@ -774,8 +770,10 @@ void npc::choose_target()
     if( is_friend() ) {
         ai_cache.friends.emplace_back( npc_target::player() );
     } else if( is_enemy() ) {
-        if( check_hostile_character( g->u ) ) {
+        // Hostile characters can always find the player
+        if( ai_cache.target.get() == nullptr || check_hostile_character( g->u ) ) {
             ai_cache.target = npc_target::player();
+            ai_cache.danger = std::max( 1.0f, ai_cache.danger );
         }
     }
 }
@@ -792,7 +790,7 @@ npc_action npc::method_of_fleeing()
     const tripoint &enemy_loc = target->pos();
     int distance = rl_dist( pos(), enemy_loc );
 
-    if( distance / enemy_speed < 4 && enemy_speed > speed_rating() ) {
+    if( distance < 2 && enemy_speed > speed_rating() ) {
         // Can't outrun, so attack
         return method_of_attack();
     }
@@ -891,7 +889,7 @@ npc_action npc::method_of_attack()
         return npc_reload;
     }
 
-    if( !modes.empty() && sees( *critter ) && aim_per_time( weapon, recoil ) > 0 ) {
+    if( !modes.empty() && sees( *critter ) && aim_per_move( weapon, recoil ) > 0 ) {
         return npc_aim;
     }
 
@@ -1184,14 +1182,14 @@ int npc::confident_shoot_range( const item &it ) const
 int npc::confident_gun_mode_range( const item::gun_mode &gun, int at_recoil ) const
 {
     if( at_recoil < 0 ) {
-        at_recoil = recoil + driving_recoil;
+        at_recoil = recoil_total();
     }
 
     if( !gun || gun.melee() ) {
         return 0;
     }
 
-    double deviation = get_weapon_dispersion( gun.target, false ) + at_recoil;
+    double deviation = get_weapon_dispersion( *gun.target ) + at_recoil;
     // Halve to get expected values
     deviation /= 2;
     // Convert from MoA back to quarter-degrees.
@@ -1303,12 +1301,12 @@ bool npc::enough_time_to_reload( const item &gun ) const
 
 void npc::aim()
 {
-    int aim_amount = aim_per_time( weapon, recoil );
+    double aim_amount = aim_per_move( weapon, recoil );
     while( aim_amount > 0 && recoil > 0 && moves > 10 ) {
-        moves -= 10;
+        moves--;
         recoil -= aim_amount;
-        recoil = std::max( 0, recoil );
-        aim_amount = aim_per_time( weapon, recoil );
+        recoil = std::max( 0.0, recoil );
+        aim_amount = aim_per_move( weapon, recoil );
     }
 }
 
@@ -1643,7 +1641,7 @@ void npc::move_pause()
     aim();
 
     // Player can cheese the pause recoil drop to speed up aiming, let npcs do it too
-    int pause_recoil = recoil - str_cur + 2 * get_skill_level( skill_gun );
+    double pause_recoil = recoil - str_cur + 2 * get_skill_level( skill_gun );
     pause_recoil = std::max( MIN_RECOIL * 2, pause_recoil );
     pause_recoil = pause_recoil / 2;
     if( pause_recoil < recoil ) {

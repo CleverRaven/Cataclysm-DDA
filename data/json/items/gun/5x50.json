@@ -18,7 +18,6 @@
     "ranged_damage": 10,
     "dispersion": 50,
     "sight_dispersion": 75,
-    "aim_speed": 4,
     "durability": 9,
     "barrel_length": 1,
     "modes": [
@@ -48,7 +47,6 @@
     "skill": "pistol",
     "dispersion": 125,
     "sight_dispersion": 95,
-    "aim_speed": 5,
     "recoil": 50,
     "durability": 9,
     "modes": [

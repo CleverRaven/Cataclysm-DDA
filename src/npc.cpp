@@ -104,6 +104,36 @@ npc::npc()
     last_updated = calendar::turn;
 }
 
+standard_npc::standard_npc( const std::string &name, const std::vector<itype_id> &clothing,
+                            int sk_lvl, int s_str, int s_dex, int s_int, int s_per )
+{
+    this->name = name;
+    position = { 0, 0, 0 };
+
+    str_cur = std::max( s_str, 0 );
+    str_max = std::max( s_str, 0 );
+    dex_cur = std::max( s_dex, 0 );
+    dex_max = std::max( s_dex, 0 );
+    per_cur = std::max( s_per, 0 );
+    per_max = std::max( s_per, 0 );
+    int_cur = std::max( s_int, 0 );
+    int_max = std::max( s_int, 0 );
+
+    for( auto &e: _skills ) {
+        e.second = std::min( std::max( sk_lvl, 0 ), MAX_SKILL );
+    }
+
+    for( const auto &e : clothing ) {
+        wear_item( item( e ) );
+    }
+
+    for( item &e : worn ) {
+        if( e.has_flag( "VARSIZE" ) ) {
+            e.item_tags.insert( "FIT" );
+        }
+    }
+}
+
 npc::npc(const npc &) = default;
 npc::npc(npc &&) = default;
 npc &npc::operator=(const npc &) = default;

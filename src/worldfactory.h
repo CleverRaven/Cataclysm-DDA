@@ -47,6 +47,8 @@ class worldfactory
         // Generate a world
         WORLDPTR make_new_world( bool show_prompt = true );
         WORLDPTR make_new_world( special_game_id special_type );
+        // Used for unit tests - does NOT verify if the mods can be loaded
+        WORLDPTR make_new_world( const std::vector<std::string> &mods );
         WORLDPTR convert_to_world( std::string origin_path );
 
         void set_active_world( WORLDPTR world );
@@ -83,6 +85,8 @@ class worldfactory
                             bool is_active_list, const std::string &text_if_empty, WINDOW *w_shift );
 
         bool load_world_options( WORLDPTR &world );
+
+        WORLDPTR add_world( WORLDPTR world );
 
         std::unique_ptr<mod_manager> mman;
         std::unique_ptr<mod_ui> mman_ui;

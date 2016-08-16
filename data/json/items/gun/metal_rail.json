@@ -19,7 +19,6 @@
     "ranged_damage": 40,
     "dispersion": 100,
     "sight_dispersion": 150,
-    "aim_speed": 6,
     "recoil": 300,
     "durability": 7,
     "clip_size": 10,

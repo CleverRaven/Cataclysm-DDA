@@ -909,12 +909,8 @@ private:
 /** An NPC with standard stats */
 class standard_npc : public npc {
     public:
-        standard_npc() : npc() {
-          str_cur = 8;
-          dex_cur = 8;
-          per_cur = 8;
-          int_cur = 8;
-        }
+        standard_npc( const std::string &name = "", const std::vector<itype_id> &clothing = {},
+                      int skill = 4, int s_str = 8, int s_dex = 8, int s_int = 8, int s_per = 8 );
 };
 
 struct epilogue {
