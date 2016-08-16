@@ -1,6 +1,35 @@
 [
     {
         "type" : "overmap_special",
+        "id" : "Prison",
+        "overmaps" : [
+            { "point":[-1,0,0], "overmap": "prison_3"},
+            { "point":[0,0,0], "overmap": "prison_2", "connect":"road"},
+            { "point":[1,0,0], "overmap": "prison_1"},
+            { "point":[-1,1,0], "overmap": "prison_6"},
+            { "point":[0,1,0], "overmap": "prison_5"},
+            { "point":[1,1,0], "overmap": "prison_4"},
+            { "point":[-1,2,0], "overmap": "prison_9"},
+            { "point":[0,2,0], "overmap": "prison_8"},
+            { "point":[1,2,0], "overmap": "prison_7"},
+            { "point":[-1,0,-1], "overmap": "prison_b"},
+            { "point":[0,0,-1], "overmap": "prison_b_entrance"},
+            { "point":[1,0,-1], "overmap": "prison_b"},
+            { "point":[-1,1,-1], "overmap": "prison_b"},
+            { "point":[0,1,-1], "overmap": "prison_b"},
+            { "point":[1,1,-1], "overmap": "prison_b"},
+            { "point":[-1,2,-1], "overmap": "prison_b"},
+            { "point":[0,2,-1], "overmap": "prison_b"},
+            { "point":[1,2,-1], "overmap": "prison_b"}
+        ],
+        "locations" : [ "land" ],
+        "city_distance" : [10, -1],
+        "city_sizes" : [4, 12],
+        "occurrences" : [1, 1],
+        "rotate" : false,
+        "flags" : [ "CLASSIC" ]
+    }{
+        "type" : "overmap_special",
         "id" : "Bee Hive",
         "overmaps" : [
             { "point":[0,0,0], "overmap": "hive"},
