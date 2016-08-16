@@ -4813,7 +4813,7 @@
     "price": 9000,
     "material": "steel",
     "flags": "TRADER_AVOID",
-    "weight": 5066,
+    "weight": 2000,
     "volume": 6,
     "bashing": 7,
     "to_hit": 1,
