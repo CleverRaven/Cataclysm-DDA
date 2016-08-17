@@ -5383,33 +5383,33 @@ int vehicle::damage( int p, int dmg, damage_type type, bool aimed )
             return dmg;
         }
     }
-    int parm = part_with_feature( p, "ARMOR" );
-    int pdm = random_entry( pl );
-    int dres;
-    if( parm < 0 ) {
+    int armor_part = part_with_feature( p, "ARMOR" );
+    int target_part = random_entry( pl );
+    int damage_dealt;
+    if( armor_part < 0 ) {
         // Not covered by armor -- damage part
-        dres = damage_direct( pdm, dmg, type );
+        damage_dealt = damage_direct( target_part, dmg, type );
     } else {
         // Covered by armor -- hit both armor and part, but reduce damage by armor's reduction
-        int protection = part_info( parm ).damage_reduction[ type ];
+        int protection = part_info( armor_part ).damage_reduction[ type ];
         // Parts on roof aren't protected
-        bool overhead = part_flag( pdm, "ROOF" ) || part_info( pdm ).location == "on_roof";
+        bool overhead = part_flag( target_part, "ROOF" ) || part_info( target_part ).location == "on_roof";
         // Calling damage_direct may remove the damaged part
-        // completely, therefor the other indes (pdm) becames
-        // wrong if pdm > parm.
+        // completely, therefor the other indes (target_part) becames
+        // wrong if target_part > armor_part.
         // Damaging the part with the higher index first is save,
         // as removing a part only changes indizes after the
         // removed part.
-        if( parm < pdm ) {
-            damage_direct( pdm, overhead ? dmg : dmg - protection, type );
-            dres = damage_direct( parm, dmg, type );
+        if( armor_part < target_part ) {
+            damage_direct( target_part, overhead ? dmg : dmg - protection, type );
+            damage_dealt = damage_direct( armor_part, dmg, type );
         } else {
-            dres = damage_direct( parm, dmg, type );
-            damage_direct( pdm, overhead ? dmg : dmg - protection, type );
+            damage_dealt = damage_direct( armor_part, dmg, type );
+            damage_direct( target_part, overhead ? dmg : dmg - protection, type );
         }
     }
 
-    return dres;
+    return damage_dealt;
 }
 
 void vehicle::damage_all( int dmg1, int dmg2, damage_type type, const point &impact )
