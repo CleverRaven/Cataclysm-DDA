@@ -1345,8 +1345,7 @@
         "material": "glass",
         "weight": 375,
         "volume": 1,
-        "bashing": 1,
-        "qualities": [["CONTAIN", 1]]
+        "bashing": 1
     },
     {
         "type":"GENERIC",
