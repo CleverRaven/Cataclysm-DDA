@@ -190,7 +190,9 @@ ifdef RELEASE
   CXXFLAGS += $(OPTLEVEL)
 
   ifdef LTO
-    LDFLAGS += -fuse-ld=gold
+    ifneq ($(NATIVE), osx)
+      LDFLAGS += -fuse-ld=gold
+    endif
     ifdef CLANG
       LTOFLAGS += -flto
     else
@@ -200,9 +202,13 @@ ifdef RELEASE
   CXXFLAGS += $(LTOFLAGS)
 
   # OTHERS += -mmmx -m3dnow -msse -msse2 -msse3 -mfpmath=sse -mtune=native
-  # Strip symbols, generates smaller executable.
+  # if DEBUGINFO not defined, then strip symbols, generates smaller executable.
   OTHERS += $(RELEASE_FLAGS)
-  DEBUG =
+  ifdef DEBUGINFO
+    LDFLAGS += -g
+  else
+    DEBUG =
+  endif
   DEFINES += -DRELEASE
   # Check for astyle or JSON regressions on release builds.
   CHECKS = astyle-check json-lint
@@ -615,7 +621,9 @@ all: version $(CHECKS) $(TARGET) $(L10N) tests
 $(TARGET): $(ODIR) $(OBJS)
 	+$(LD) $(W32FLAGS) -o $(TARGET) $(OBJS) $(LDFLAGS)
 ifdef RELEASE
+  ifndef DEBUGINFO
 	$(STRIP) $(TARGET)
+  endif
 endif
 
 $(BUILD_PREFIX)$(TARGET_NAME).a: $(ODIR) $(OBJS)
