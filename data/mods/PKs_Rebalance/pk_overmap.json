@@ -28,7 +28,7 @@
         "occurrences" : [1, 1],
         "rotate" : false,
         "flags" : [ "CLASSIC" ]
-    }{
+    },{
         "type" : "overmap_special",
         "id" : "Bee Hive",
         "overmaps" : [
