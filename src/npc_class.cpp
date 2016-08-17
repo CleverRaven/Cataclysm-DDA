@@ -383,3 +383,10 @@ distribution distribution::operator*( const distribution &other ) const
         return my_fun() * other_fun();
     } );
 }
+
+distribution &distribution::operator=( const distribution &other )
+{
+    generator_function = other.generator_function;
+    return *this;
+}
+
