@@ -1872,8 +1872,8 @@ std::vector<special_attack> player::mutation_attacks(Creature &t) const
             ///\EFFECT_UNARMED increases chance of attacking with mutated body parts
             ///\EFFECT_DEX increases chance of attacking with mutated body parts
             add_msg( m_debug, "%s proc chance: %.1f in %.1f", pr.first.c_str(), get_dex() + unarmed, mut_atk.chance );
-            // If the mutation attack can fail to proc, and it does fail to proc, bail out
-            if({ get_dex() + unarmed < mut_atk.chance && }!x_in_y( get_dex() + unarmed, mut_atk.chance ) ) {
+            // If the mutation attack fails to proc, bail out
+            if( !x_in_y( get_dex() + unarmed, mut_atk.chance ) ) {
                 continue;
             }
 
