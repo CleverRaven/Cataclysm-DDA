@@ -1752,7 +1752,6 @@
         "category" : ["MUTCAT_MYCUS"],
         "active"     :    true,
         "cost"       :    8,
-        "time"       :    0,
         "hunger"     :    true,
         "thirst"     :    true
     },{
@@ -1785,7 +1784,6 @@
         "category" : ["MUTCAT_MYCUS"],
         "active"     :    true,
         "cost"       :    10,
-        "time"       :    0,
         "hunger"     :    true,
         "thirst"     :    true,
         "fatigue"    :    true
@@ -2278,7 +2276,6 @@
         "category" : ["MUTCAT_RAT"],
         "active"     :    true,
         "cost"       :    10,
-        "time"       :    0,
         "hunger"     :    true,
         "thirst"     :    true,
         "fatigue"    :    true
@@ -3203,7 +3200,8 @@
         "id" : "INT_UP_2",
         "name" : "Very Smart",
         "points" : 2,
-        "ugliness" : 0,"description" : "You are smarter.  Intelligence + 2",
+        "ugliness" : 0,
+        "description" : "You are smarter.  Intelligence + 2",
         "prereqs" : ["INT_UP"],
         "changes_to" : ["INT_UP_3"],
         "passive_mods" : {
@@ -3682,7 +3680,6 @@
         "changes_to" : ["VOMITOUS", "EATPOISON"],
         "category" : ["MUTCAT_ALPHA"],
         "active" : true,
-        "time" : 0
     },{
         "type" : "mutation",
         "id" : "VOMITOUS",
@@ -3693,7 +3690,6 @@
         "changes_to" : ["EATPOISON"],
         "category" : ["MUTCAT_SLIME", "MUTCAT_RAT", "MUTCAT_MEDICAL", "MUTCAT_ELFA"],
         "active" : true,
-        "time" : 0
     },{
         "type" : "mutation",
         "id" : "HUNGER",
@@ -4105,7 +4101,6 @@
         "category" : ["MUTCAT_SLIME"],
         "active"     :    true,
         "cost"       :    40,
-        "time"       :    0,
         "hunger"     :    true,
         "thirst"     :    true
     },{
@@ -4210,7 +4205,6 @@
         "category" : ["MUTCAT_PLANT"],
         "active"     :    true,
         "cost"       :    10,
-        "time"       :    0,
         "hunger"     :    true,
         "thirst"     :    true,
         "attacks": [
