@@ -630,7 +630,7 @@
         "points" : -2,
         "description" : "You have problems with eating meat.  It's possible for you to eat it, but you will suffer morale penalties due to nausea.",
         "starting_trait" : true,
-        "//" : "Intolerances are presumed a psychological issue unless stated otherwise, and cancelled by digestive mutations, which force the issue.",
+        "note" : "Intolerances are presumed a psychological issue unless stated otherwise, and cancelled by digestive mutations, which force the issue.",
         "valid" : false,
         "cancels" : ["CANNIBAL", "MEATARIAN", "ANTIFRUIT"]
     },{
@@ -665,7 +665,7 @@
         "id" : "LACTOSE",
         "name" : "Lactose Intolerance",
         "points" : -1,
-        "//" : "Actual digestive issue, on even footing with the -vore mutations.",
+        "note" : "Actual digestive issue, on even footing with the -vore mutations.",
         "description" : "You like 75 percent of the world, cannot tolerate milk or milk based products.  It's possible for you to eat them, but you will suffer morale penalties due to nausea.",
         "starting_trait" : true
     },{
@@ -681,7 +681,7 @@
         "id" : "ANTIWHEAT",
         "name" : "Wheat Allergy",
         "points" : -2,
-        "//" : "Actual digestive issue, on even footing with the -vore mutations.",
+        "note" : "Actual digestive issue, on even footing with the -vore mutations.",
         "description" : "You have a rare allergy that prevents you from eating wheat.  It's possible for you to eat them, but you will suffer morale penalties due to nausea.",
         "starting_trait" : true
     },{
@@ -4920,7 +4920,7 @@
         "id" : "PROF_MED",
         "name" : "MD",
         "points" : 0,
-        "//" : "In the US, a medical 'residency' is essentially an extended post-graduate, on-the-job medical training.  The idea here is that hopsital computer systems would recognize the PC as a valid user and grant access.",
+        "note" : "In the US, a medical 'residency' is essentially an extended post-graduate, on-the-job medical training.  The idea here is that hopsital computer systems would recognize the PC as a valid user and grant access.",
         "description" : "You were just through with the administrative formalities for your residency when the cataclysm struck.  \"Your\" hospital was overrun and evacuated, but there's always work for a good doctor.",
         "valid": false,
         "purifiable": false,
