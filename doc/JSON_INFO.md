@@ -377,6 +377,7 @@ Mods can modify this via "add:traits" and "remove:traits".
 "starting_trait": true, // Can be selected at character creation (default: false)
 "valid": false,      // Can be mutated ingame (default: true)
 "purifiable": false, //Cannot be purified (default: true)
+"profession": true, //trait is a starting profession special trait. (default: false)
 "initial_ma_styles" : [ "style_centipede", "style_venom_snake" ], //List of starting martial arts types. One of the list is selectable at start. Only works at character creation.
 "category": ["MUTCAT_BIRD", "MUTCAT_INSECT"], // Categories containing this mutation
 "prereqs": ["SKIN_ROUGH"], // Needs these mutations before you can mutate toward this mutation
