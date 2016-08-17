@@ -301,7 +301,7 @@
         "type":"GENERIC",
         "id" : "plasma_engine",
         "name" : "plasma engine",
-        "description" : "High technology engine, working on hydrogen fuel.",
+        "description" : "High technology plasma engine, working on pressurized hydrogen fuel canisters.",
         "weight" : 39689,
         "to_hit" : -2,
         "color" : "light_cyan",
