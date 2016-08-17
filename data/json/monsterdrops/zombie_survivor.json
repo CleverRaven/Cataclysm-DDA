@@ -3,6 +3,7 @@
     "type" : "item_group",
     "subtype": "collection",
     "id": "mon_zombie_survivor_death_drops",
+    "magazine": 100,
     "entries": [
       { "group": "clothing_outdoor_set", "damage": [1,4] },
       { "group": "bags", "damage": [1,4], "prob": 10 },
