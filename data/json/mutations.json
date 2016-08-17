@@ -3679,7 +3679,7 @@
         "prereqs" : ["WEAKSTOMACH"],
         "changes_to" : ["VOMITOUS", "EATPOISON"],
         "category" : ["MUTCAT_ALPHA"],
-        "active" : true,
+        "active" : true
     },{
         "type" : "mutation",
         "id" : "VOMITOUS",
@@ -3689,7 +3689,7 @@
         "prereqs" : ["NAUSEA"],
         "changes_to" : ["EATPOISON"],
         "category" : ["MUTCAT_SLIME", "MUTCAT_RAT", "MUTCAT_MEDICAL", "MUTCAT_ELFA"],
-        "active" : true,
+        "active" : true
     },{
         "type" : "mutation",
         "id" : "HUNGER",
