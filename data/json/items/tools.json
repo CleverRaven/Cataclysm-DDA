@@ -917,9 +917,9 @@
     "weight": 45,
     "volume": 3,
     "bashing": 1,
-    "max_charges": 28,
-    "initial_charges": 28,
-    "charges_per_use": 1,
+    "max_charges": 500,
+    "initial_charges": 500,
+    "charges_per_use": 1, "//": "Should be 20 but currently recipes do not utilize this value",
     "ammo": "conc_alcohol",
     "use_action": "HOTPLATE"
   },
