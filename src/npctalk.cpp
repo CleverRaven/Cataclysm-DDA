@@ -632,7 +632,7 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic ) const
     }
 
     if( topic == "TALK_NONE" || topic == "TALK_DONE" ) {
-            return "";
+            return "Bye.";
 
     } else if( topic == "TALK_GUARD" ) {
         switch (rng(1,5)){
