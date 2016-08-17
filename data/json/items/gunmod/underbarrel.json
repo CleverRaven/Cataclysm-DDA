@@ -168,7 +168,7 @@
     "id": "ksg_aux_shotgun",
     "type": "GUNMOD",
     "name": "KSG second magazine",
-    "description": "The integrated senond shotgun magazine of the Kel-Tec KSG.",
+    "description": "The integrated second shotgun magazine of the Kel-Tec KSG.",
     "volume": 0,
     "price": 0,
     "material": [ "steel" ],
