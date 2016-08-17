@@ -260,7 +260,7 @@
     {
         "type" : "ammunition_type",
         "id" : "plasma",
-        "name" : "hydrogen",
+        "name" : "solid hydrogen",
         "default" : "plasma"
     },
     {
