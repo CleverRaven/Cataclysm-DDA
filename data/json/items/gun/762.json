@@ -14,7 +14,7 @@
     "color": "brown",
     "ammo": "762",
     "skill": "rifle",
-    "dispersion": 45,
+    "dispersion": 180,
     "recoil": 60,
     "durability": 9,
     "burst": 8,
@@ -43,7 +43,7 @@
     "color": "blue",
     "ammo": "762",
     "skill": "rifle",
-    "dispersion": 30,
+    "dispersion": 160,
     "recoil": 60,
     "durability": 9,
     "burst": 3,
@@ -53,8 +53,7 @@
       [ "762", [ "akmmag", "akmbigmag" ] ],
       [ "223", [ "stanag30", "stanag10", "stanag50" ] ],
       [ "308", [ "g3mag", "g3bigmag" ] ]
-    ],
-    "flags": [ "MODE_BURST" ]
+    ]
   },
   {
     "id": "sks",
@@ -72,7 +71,7 @@
     "ammo": "762",
     "skill": "rifle",
     "ranged_damage": 1,
-    "dispersion": 2,
+    "dispersion": 90,
     "recoil": -60,
     "durability": 8,
     "clip_size": 10,

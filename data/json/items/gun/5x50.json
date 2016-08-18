@@ -16,7 +16,7 @@
     "skill": "smg",
     "range": 10,
     "ranged_damage": 10,
-    "dispersion": 50,
+    "dispersion": 260,
     "durability": 9,
     "barrel_length": 1,
     "modes": [
@@ -44,7 +44,7 @@
     "color": "dark_gray",
     "ammo": "5x50",
     "skill": "pistol",
-    "dispersion": 125,
+    "dispersion": 440,
     "recoil": 50,
     "durability": 9,
     "modes": [

@@ -19,7 +19,7 @@
     "range": 37,
     "damage": 40,
     "pierce": 6,
-    "dispersion": 5,
+    "dispersion": 30,
     "recoil": 360,
     "effects": [ "COOKOFF" ]
   },

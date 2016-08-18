@@ -15,7 +15,7 @@
     "symbol": "(",
     "color": "light_gray",
     "ammo": "500",
-    "dispersion": 180,
+    "dispersion": 280,
     "recoil": 30,
     "durability": 8,
     "clip_size": 5,

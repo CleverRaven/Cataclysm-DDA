@@ -17,7 +17,7 @@
     "casing": "9mm_casing",
     "range": 14,
     "damage": 26,
-    "dispersion": 140,
+    "dispersion": 60,
     "recoil": 195,
     "effects": [ "COOKOFF" ]
   },
