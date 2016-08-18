@@ -167,7 +167,7 @@
         "type" : "COMESTIBLE",
         "id" : "brew_mead",
         "name" : "spiced mead must",
-        "description" : "Unfermented spiced mead.  Dilluted honey and yeast.",
+        "description" : "Unfermented spiced mead.  Diluted honey and yeast.",
         "weight" : 38,
         "color" : "yellow",
         "container" : "bottle_glass",
