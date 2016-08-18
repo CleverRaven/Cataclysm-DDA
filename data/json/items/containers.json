@@ -224,7 +224,7 @@
         },
         "watertight": true,
         "seals": true,
-        "flags": ["WAIST"]
+        "flags": ["WAIST", "OVERSIZE"]
     },
     {
         "id": "2lcanteen",
@@ -250,7 +250,7 @@
         },
         "watertight": true,
         "seals": true,
-        "flags": ["WAIST"]
+        "flags": ["WAIST", "OVERSIZE"]
     },
     {
         "id": "camelbak",
