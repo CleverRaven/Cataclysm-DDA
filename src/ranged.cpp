@@ -564,9 +564,6 @@ int player::fire_gun( const tripoint &target, int shots, item& gun )
     moves -= time_to_fire( *this, *gun.type );
 
     practice( skill_gun, xp * get_skill_level( skill_gun ) );
-    if( shots > 0 && xp == 0 && one_in( 20 ) ) {
-        add_msg_if_player( m_info, _( "You'll need a more accurate gun to keep improving your aim." ) );
-    }
 
     return curshot;
 }
