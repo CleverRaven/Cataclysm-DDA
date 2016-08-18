@@ -68,7 +68,7 @@
     "bashing": 50,
     "to_hit": -5,
     "dispersion": 1300,
-    "sight_dispersion": 2000,
+    "sight_dispersion": 200,
     "recoil": 500,
     "durability": 10,
     "clip_size": 6,
