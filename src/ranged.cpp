@@ -566,7 +566,7 @@ int player::fire_gun( const tripoint &target, int shots, item& gun )
     // Use different amounts of time depending on the type of gun and our skill
     moves -= time_to_fire( *this, *gun.type );
 
-    practice( skill_gun, xp * get_skill_level( skill_gun ) );
+    practice( skill_gun, xp * ( get_skill_level( skill_gun ) + 1 ) );
     practice( gun.gun_skill(), dmg );
 
     return curshot;
