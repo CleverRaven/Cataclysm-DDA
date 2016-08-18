@@ -204,7 +204,7 @@
     "location": "underbarrel",
     "mod_targets": [ "smg", "rifle", "pistol", "shotgun", "crossbow", "bow", "launcher" ],
     "aim_cost": 1,
-    "sight_dispersion": 75
+    "sight_dispersion": 300
   },
   {
     "id": "lemat_revolver_shotgun",
