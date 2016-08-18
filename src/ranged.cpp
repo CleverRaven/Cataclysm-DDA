@@ -489,7 +489,8 @@ int player::fire_gun( const tripoint &target, int shots, item& gun )
     tripoint aim = target;
     int curshot = 0;
     int burst = 0; // count of shots against current target
-    int xp = 0;
+    int xp = 0; // experience gain for marksmanship skill
+    int dmg = 0; // total damage to all targets
     while( curshot != shots ) {
         if( !handle_gun_damage( gun ) ) {
             break;
@@ -526,6 +527,8 @@ int player::fire_gun( const tripoint &target, int shots, item& gun )
             // shots at sufficient distance that hit their target train marksmanship
             xp += range;
         }
+
+        dmg += shot.dealt_dam.total_damage();
 
         // If burst firing and we killed the target then try to retarget
         const auto critter = g->critter_at( aim, true );
@@ -564,6 +567,7 @@ int player::fire_gun( const tripoint &target, int shots, item& gun )
     moves -= time_to_fire( *this, *gun.type );
 
     practice( skill_gun, xp * get_skill_level( skill_gun ) );
+    practice( gun.gun_skill(), dmg );
 
     return curshot;
 }
