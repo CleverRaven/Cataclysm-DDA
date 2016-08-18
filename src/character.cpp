@@ -156,6 +156,13 @@ double Character::aim_per_move( const item& gun, double recoil ) const
     ///\EFFECT_DEX increases aiming speed
     cost += 8 - dex_cur;
 
+    ///\EFFECT_PISTOL increases aiming speed for pistols
+    ///\EFFECT_SMG increases aiming speed for SMGs
+    ///\EFFECT_RIFLE increases aiming speed for rifles
+    ///\EFFECT_SHOTGUN increases aiming speed for shotguns
+    ///\EFFECT_LAUNCHER increases aiming speed for launchers
+    cost += ( ( MAX_SKILL / 2 ) - get_skill_level( gun.gun_skill() ) ) * 2;
+
     cost = std::max( cost, 1 );
 
     // constant at which one unit of aim cost ~75 moves
