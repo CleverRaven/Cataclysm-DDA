@@ -1007,13 +1007,8 @@ int Character::skill_dispersion( const item& gun ) const
 {
     static skill_id skill_gun( "gun" );
 
-    ///\EFFECT_PISTOL reduces dispersion for pistols
-    ///\EFFECT_SMG reduces dispersion for smgs
-    ///\EFFECT_RIFLE reduces dispersion for rifles
-    ///\EFFECT_LAUNCHER reduces dispersion for launchers
-    ///\EFFECT_GUN significantly reduces dispersion of all gunfire
-    return ( 10 * ( MAX_SKILL - std::min( int( get_skill_level( gun.gun_skill() ) ), MAX_SKILL ) ) ) +
-           ( 15 * ( MAX_SKILL - std::min( int( get_skill_level( skill_gun ) ), MAX_SKILL ) ) );
+    ///\EFFECT_GUN improves usage of accurate weapons and sights
+    return 10 * ( MAX_SKILL - std::min( int( get_skill_level( skill_gun ) ), MAX_SKILL ) );
 }
 
 void Character::normalize()
