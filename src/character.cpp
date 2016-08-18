@@ -130,7 +130,7 @@ double Character::aim_per_move( const item& gun, double recoil ) const
     // get fastest sight that can be used to improve aim further below @ref recoil
     int cost = INT_MAX;
     int limit = 0;
-    if( effective_dispersion( gun.type->gun->sight_dispersion ) < recoil ) {
+    if( !gun.has_flag( "DISABLE_SIGHTS" ) && effective_dispersion( gun.type->gun->sight_dispersion ) < recoil ) {
         cost  = std::max( std::min( gun.volume(), 8 ), 1 );
         limit = effective_dispersion( gun.type->gun->sight_dispersion );
     }

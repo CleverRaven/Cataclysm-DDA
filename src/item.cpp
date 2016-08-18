@@ -1714,6 +1714,11 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
                                       _( "* This weapon needs <info>two free hands</info> to fire." ) ) );
         }
 
+        if( is_gunmod() && has_flag( "DISABLE_SIGHTS" ) ) {
+            info.push_back( iteminfo( "DESCRIPTION",
+                                      _( "* This mod <bad>obscures sights</bad> of the base weapon." ) ) );
+        }
+
         if( has_flag( "BELT_CLIP" ) ) {
             info.push_back( iteminfo( "DESCRIPTION",
                                       _( "* This item can be <neutral>clipped or hooked</neutral> on to a <info>belt loop</info> of the appropriate size." ) ) );
@@ -3965,7 +3970,7 @@ int item::sight_dispersion() const
         return 0;
     }
 
-    int res = type->gun->sight_dispersion;
+    int res = has_flag( "DISABLE_SIGHTS" ) ? MIN_RECOIL : type->gun->sight_dispersion;
 
     for( const auto e : gunmods() ) {
         const auto mod = e->type->gunmod.get();

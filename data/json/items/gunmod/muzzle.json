@@ -35,7 +35,8 @@
     "damage_modifier": -5,
     "dispersion_modifier": 15,
     "loudness_modifier": -30,
-    "recoil_modifier": -15
+    "recoil_modifier": -15,
+    "flags": [ "DISABLE_SIGHTS" ]
   },
   {
     "id": "muzzle_brake",

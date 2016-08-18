@@ -804,6 +804,7 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```BACKBLAST``` Causes a small explosion behind the person firing the weapon. Currently not implemented?
 - ```CHARGE``` Has to be charged to fire. Higher charges do more damage.
 - ```COLLAPSIBLE_STOCK``` Reduces weapon volume proportional to the base size of the gun excluding any mods (see also SLOW_WIELD).
+- ```DISABLE_SIGHTS``` Prevents use of the base weapon sights
 - ```FIRE_50``` Uses 50 shots per firing.
 - ```FIRE_100``` Uses 100 shots per firing.
 - ```FIRE_TWOHAND``` Gun can only be fired if player has two free hands.

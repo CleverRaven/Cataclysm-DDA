@@ -31,7 +31,8 @@
     "mod_targets": [ "smg", "rifle", "shotgun", "crossbow", "pistol", "launcher" ],
     "min_skills": [ [ "gun", 3 ] ],
     "aim_cost": 6,
-    "sight_dispersion": 60
+    "sight_dispersion": 60,
+    "flags": [ "DISABLE_SIGHTS" ]
   },
   {
     "id": "improve_sights",
@@ -50,7 +51,8 @@
     "mod_targets": [ "smg", "rifle", "pistol", "shotgun", "crossbow", "launcher" ],
     "min_skills": [ [ "gun", 1 ] ],
     "aim_cost": 6,
-    "sight_dispersion": 120
+    "sight_dispersion": 120,
+    "flags": [ "DISABLE_SIGHTS" ]
   },
   {
     "id": "pistol_scope",
@@ -67,7 +69,8 @@
     "mod_targets": [ "pistol", "crossbow" ],
     "min_skills": [ [ "gun", 4 ] ],
     "aim_cost": 10,
-    "sight_dispersion": 30
+    "sight_dispersion": 30,
+    "flags": [ "DISABLE_SIGHTS" ]
   },
   {
     "id": "red_dot_sight",
@@ -85,7 +88,8 @@
     "mod_targets": [ "smg", "rifle", "shotgun", "pistol", "crossbow", "launcher" ],
     "min_skills": [ [ "gun", 2 ] ],
     "aim_cost": 4,
-    "sight_dispersion": 90
+    "sight_dispersion": 90,
+    "flags": [ "DISABLE_SIGHTS" ]
   },
   {
     "id": "rifle_scope",
@@ -104,6 +108,6 @@
     "install_time": 30000,
     "aim_cost": 10,
     "sight_dispersion": 0,
-    "flags": [ "ZOOM" ]
+    "flags": [ "DISABLE_SIGHTS", "ZOOM" ]
   }
 ]
