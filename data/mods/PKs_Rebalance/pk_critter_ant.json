@@ -16,7 +16,7 @@
         "half_life": 14
     },
     "special_attacks":[["ACID_BARF", 15]],
-    "description":"A writhing mass of yellowing flesh, this little guy expells its stomach contents if disturbed.",
+    "description":"A writhing mass of yellowing flesh, this little guy expels its stomach contents if disturbed.",
     "flags":["HEARS", "SMELLS", "LARVA", "CHITIN"],
     "anger_triggers":["HURT", "PLAYER_WEAK"],
     "placate_triggers":["MEAT"]
