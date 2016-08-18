@@ -1620,7 +1620,10 @@ static bool is_driving( const player &p )
 // utility functions for projectile_attack
 double player::get_weapon_dispersion( const item &obj ) const
 {
-    double dispersion = skill_dispersion( obj ) + obj.gun_dispersion();
+    double dispersion = obj.gun_dispersion();
+
+    ///\EFFECT_GUN improves usage of accurate weapons and sights
+    dispersion += 10 * ( MAX_SKILL - std::min( int( get_skill_level( skill_gun ) ), MAX_SKILL ) );
 
     if( is_driving( *this ) ) {
         // get volume of gun (or for auxiliary gunmods the parent gun)
@@ -1772,7 +1775,10 @@ double player::gun_value( const item &weap, long ammo ) const
     float damage_factor = weap.gun_damage( false );
     damage_factor += weap.gun_pierce( false ) / 2.0;
 
-    int total_dispersion = weap.gun_dispersion( false );
+    item tmp = weap;
+    tmp.ammo_set( weap.ammo_default() );
+    int total_dispersion = get_weapon_dispersion( tmp ) + effective_dispersion( tmp.sight_dispersion() );
+
     int total_recoil = weap.gun_recoil( false );
 
     if( def_ammo_i != nullptr && def_ammo_i->ammo != nullptr ) {
@@ -1782,9 +1788,6 @@ double player::gun_value( const item &weap, long ammo ) const
         total_dispersion += def_ammo.dispersion;
         total_recoil += def_ammo.recoil;
     }
-
-    total_dispersion += skill_dispersion( weap );
-    total_dispersion += g->u.effective_dispersion( weap.sight_dispersion() );
 
     int move_cost = time_to_fire( *this, *weap.type );
     if( gun.clip != 0 && gun.clip < 10 ) {

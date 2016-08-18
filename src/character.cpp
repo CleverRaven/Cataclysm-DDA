@@ -1003,14 +1003,6 @@ bool Character::meets_skill_requirements( const std::map<skill_id, int> &req ) c
     });
 }
 
-int Character::skill_dispersion( const item& gun ) const
-{
-    static skill_id skill_gun( "gun" );
-
-    ///\EFFECT_GUN improves usage of accurate weapons and sights
-    return 10 * ( MAX_SKILL - std::min( int( get_skill_level( skill_gun ) ), MAX_SKILL ) );
-}
-
 void Character::normalize()
 {
     Creature::normalize();
