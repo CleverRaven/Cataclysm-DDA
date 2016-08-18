@@ -151,7 +151,7 @@ double Character::aim_per_move( const item& gun, double recoil ) const
     }
 
     // each 5 points (combined) of hand encumbrance increases aim cost by one unit
-    cost += round ( ( encumb( bp_arm_l ) + encumb( bp_arm_r ) ) / 10.0 );
+    cost += round ( ( encumb( bp_hand_l ) + encumb( bp_hand_r ) ) / 10.0 );
 
     ///\EFFECT_DEX increases aiming speed
     cost += 8 - dex_cur;
