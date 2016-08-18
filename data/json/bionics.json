@@ -66,6 +66,9 @@
         ],
         "power_source": true,
         "toggled": true,
+        "included_bionics": [
+            "bio_plutdump"
+        ],
         "description": "This stripped down mini-reactor may not be the best thing to have in your chest.  There is no way to shut it down, but you can toggle additional fuel intake."
     },{
         "type": "bionic",
@@ -76,6 +79,9 @@
         ],
         "power_source": true,
         "toggled": true,
+        "included_bionics": [
+            "bio_plutdump"
+        ],
         "description": "This stripped down mini-reactor is safer than it appears due to integrated radiation cleansers.  There is no way to shut it down, but you can toggle additional fuel intake."
     },{
         "type": "bionic",
@@ -142,6 +148,9 @@
         "name": "Enhanced Hearing",
         "occupied_bodyparts": [
             [ "HEAD", 3 ]
+        ],
+        "included_bionics": [
+            "bio_earplugs"
         ],
         "toggled": true,
         "description": "When this bionic is active, your hearing will be drastically improved, allowing you to hear ten times better than the average person.  Additionally, high-intensity sounds will be automatically dampened before they can damage your hearing."
@@ -234,6 +243,9 @@
             [ "EYES", 1 ]
         ],
         "fake_item" : "fake_goggles",
+        "included_bionics": [
+            "bio_blindfold"
+        ],
         "description": "Your eyes have quick-reacting transition lenses installed over them.  They negate glare penalties, partially protect you from bright flashes, and protect your eyes when welding."
     },{
         "type": "bionic",

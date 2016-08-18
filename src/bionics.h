@@ -55,6 +55,14 @@ struct bionic_data {
      * E.g. enhanced optic bionic may cancel HYPEROPIC trait.
      */
     std::vector<std::string> canceled_mutations;
+    /**
+     * Additional bionics that are installed automatically when this
+     * bionic is installed. This can be used to install several bionics
+     * from one CBM item, which is useful as each of those can be
+     * activated independently.
+     */
+    std::vector<std::string> included_bionics;
+    bool is_included( const std::string &id ) const;
 };
 
 bionic_data const &bionic_info( std::string const &id );
