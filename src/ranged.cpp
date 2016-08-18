@@ -1004,6 +1004,7 @@ static int draw_turret_aim( const player &p, WINDOW *w, int line_number, const t
 // TODO: Shunt redundant drawing code elsewhere
 std::vector<tripoint> game::pl_target_ui( target_mode mode, item *relevant, int range )
 {
+    static const std::vector<tripoint> empty_result{};
     std::vector<tripoint> ret;
 
     tripoint src = u.pos();
@@ -1328,9 +1329,8 @@ std::vector<tripoint> game::pl_target_ui( target_mode mode, item *relevant, int 
                 // We've run out of moves, clear target vector, but leave target selected.
                 u.assign_activity( ACT_AIM, 0, 0 );
                 u.activity.str_values.push_back( "AIM" );
-                ret.clear();
                 u.view_offset = old_offset;
-                return ret;
+                return empty_result;
             }
         } else if( action == "SWITCH_MODE" ) {
             relevant->gun_cycle_mode();
@@ -1377,9 +1377,8 @@ std::vector<tripoint> game::pl_target_ui( target_mode mode, item *relevant, int 
                 // Also clear target vector, but leave target selected.
                 u.assign_activity( ACT_AIM, 0, 0 );
                 u.activity.str_values.push_back( action );
-                ret.clear();
                 u.view_offset = old_offset;
-                return ret;
+                return empty_result;
             }
         } else if( action == "FIRE" ) {
             target = find_target( t, dst );
