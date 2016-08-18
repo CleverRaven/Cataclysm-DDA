@@ -1874,7 +1874,7 @@ std::vector<special_attack> player::mutation_attacks(Creature &t) const
 
             // Calculate actor ability value to be compared against mutation attack difficulty and add debug message
             const int proc_value = get_dex() + unarmed;
-            add_msg( m_debug, "%s proc chance: %.1f in %.1f", pr.first.c_str(), proc_value, mut_atk.chance );
+            add_msg( m_debug, "%s proc chance: %d in %d", pr.first.c_str(), proc_value, mut_atk.chance );
             // If the mutation attack fails to proc, bail out
             if( !x_in_y( proc_value, mut_atk.chance ) ) {
                 continue;
