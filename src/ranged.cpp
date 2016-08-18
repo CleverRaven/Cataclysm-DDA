@@ -1140,6 +1140,21 @@ std::vector<tripoint> game::pl_target_ui( target_mode mode, item *relevant, int 
                                             t.size()), t.size());
     }
 
+    const auto confirm_non_enemy_target = [this]( const tripoint &dst ) {
+        if( dst == u.pos() ) {
+            return true;
+        }
+        const int npc_index = npc_at( dst );
+        if( npc_index >= 0 ) {
+            const npc &who = *active_npc[ npc_index ];
+            if( who.is_enemy() ) {
+                return true;
+            }
+            return query_yn( _( "Really attack %s?" ), who.name.c_str() );
+        }
+        return true;
+    };
+
     const tripoint old_offset = u.view_offset;
     do {
         ret = g->m.find_clear_path( src, dst );
@@ -1322,6 +1337,8 @@ std::vector<tripoint> game::pl_target_ui( target_mode mode, item *relevant, int 
             }
             dst = t[newtarget]->pos();
         } else if( (action == "AIM") && target != -1 ) {
+            // No confirm_non_enemy_target here because we have not initiated the firing.
+            // Aiming can be stopped / aborted at any time.
             for( int i = 0; i != 10; ++i ) {
                 do_aim( &u, t, target, relevant, dst );
             }
@@ -1341,6 +1358,11 @@ std::vector<tripoint> game::pl_target_ui( target_mode mode, item *relevant, int 
             }
         } else if( (action == "AIMED_SHOT" || action == "CAREFUL_SHOT" || action == "PRECISE_SHOT") &&
                    target != -1 ) {
+            // This action basically means "FIRE" as well, the actual firing may be delayed
+            // through aiming, but there is usually no means to stop it. Therefor we query here.
+            if( !confirm_non_enemy_target( dst ) ) {
+                continue;
+            }
             int aim_threshold;
             std::vector<aim_type>::iterator it;
             for( it = aim_types.begin(); it != aim_types.end(); it++ ) {
@@ -1381,6 +1403,9 @@ std::vector<tripoint> game::pl_target_ui( target_mode mode, item *relevant, int 
                 return empty_result;
             }
         } else if( action == "FIRE" ) {
+            if( !confirm_non_enemy_target( dst ) ) {
+                continue;
+            }
             target = find_target( t, dst );
             if( src == dst ) {
                 ret.clear();
@@ -1407,12 +1432,7 @@ std::vector<tripoint> game::pl_target_ui( target_mode mode, item *relevant, int 
 
     if( ( last_target = npc_at( ret.back() ) ) >= 0 ) {
         if( !active_npc[ last_target ]->is_enemy() ) {
-            if( !query_yn( _( "Really attack %s?" ), active_npc[ last_target ]->name.c_str() ) ) {
-                last_target = -1;
-                return {};
-            } else {
-                active_npc[ last_target ]->hit_by_player = true; // used for morale penalty
-            }
+            active_npc[ last_target ]->hit_by_player = true; // used for morale penalty
         }
         last_target_was_npc = true;
         active_npc[ last_target ]->make_angry();
