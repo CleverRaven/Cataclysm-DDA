@@ -26,15 +26,8 @@
 #include "mtype.h"
 #include <algorithm>
 
-const skill_id skill_pistol( "pistol" );
-const skill_id skill_rifle( "rifle" );
-const skill_id skill_smg( "smg" );
-const skill_id skill_shotgun( "shotgun" );
-const skill_id skill_launcher( "launcher" );
-const skill_id skill_archery( "archery" );
 const skill_id skill_throw( "throw" );
 const skill_id skill_gun( "gun" );
-const skill_id skill_melee( "melee" );
 const skill_id skill_driving( "driving" );
 const skill_id skill_dodge( "dodge" );
 
@@ -62,43 +55,6 @@ dealt_projectile_attack Creature::projectile_attack( const projectile &proj, con
                                                      double shot_dispersion )
 {
     return projectile_attack( proj, pos(), target, shot_dispersion );
-}
-
-/* Adjust dispersion cutoff thresholds per skill type.
- * If these drift significantly might need to adjust the values here.
- * Keep in mind these include factoring in the best ammo and the best mods.
- * The target is being able to skill up to lvl 10/10 guns/guntype with average (8) perception.
- * That means the adjustment should be dispersion of best-in-class weapon - 8.
- *
- * pistol 0 (.22 is 8, S&W 22A can get down to 0 with significant modding.)
- * rifle 0 (There are any number of rifles you can get down to 0/0.)
- * smg 0 (H&K MP5 can get dropped to 0, leaving 9mm +P+ as the limiting factor at 8.)
- * shotgun 0 (no comment.)
- * launcher 0 (no comment.)
- * archery 6 (best craftable bow is composite at 10, and best arrow is wood at 4)
- * throwing 13 (sling)
- * As a simple tweak, we're shifting the ranges so they match,
- * so if you acquire the best of a weapon type you can reach max skill with it.
- */
-
-int ranged_skill_offset( const skill_id &skill )
-{
-    if( skill == skill_pistol ) {
-        return 0;
-    } else if( skill == skill_rifle ) {
-        return 0;
-    } else if( skill == skill_smg ) {
-        return 0;
-    } else if( skill == skill_shotgun ) {
-        return 0;
-    } else if( skill == skill_launcher ) {
-        return 0;
-    } else if( skill == skill_archery ) {
-        return 135;
-    } else if( skill == skill_throw ) {
-        return 195;
-    }
-    return 0;
 }
 
 size_t blood_trail_len( int damage )
