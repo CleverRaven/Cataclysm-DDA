@@ -530,22 +530,10 @@ int player::fire_gun( const tripoint &target, int shots, item& gun )
         debugmsg( "Attempted to fire zero or negative shots using %s", gun.tname().c_str() );
     }
 
-    const skill_id skill_used = gun.gun_skill();
-
-    const int player_dispersion = skill_dispersion( gun ) + ranged_skill_offset( skill_used );
-    // If weapon dispersion exceeds skill dispersion you can't tell
-    // if you need to correct or if the gun messed up, so you can't learn.
-    ///\EFFECT_PER allows you to learn more often with less accurate weapons.
-    const bool train_skill = gun.gun_dispersion() < player_dispersion + 15 * rng( 0, get_per() );
-    if( train_skill ) {
-        practice( skill_used, 8 + 2 * shots );
-    } else if( one_in( 30 ) ) {
-        add_msg_if_player(m_info, _("You'll need a more accurate gun to keep improving your aim."));
-    }
-
     tripoint aim = target;
     int curshot = 0;
     int burst = 0; // count of shots against current target
+    int xp = 0;
     while( curshot != shots ) {
         if( !handle_gun_damage( gun ) ) {
             break;
@@ -573,15 +561,14 @@ int player::fire_gun( const tripoint &target, int shots, item& gun )
             use_charges( "UPS", gun.get_gun_ups_drain() );
         }
 
-        // Experience gain is limited by range and penalised proportional to inaccuracy.
-        int exp = std::min( range, 3 * ( get_skill_level( skill_used ) + 1 ) ) * 20;
-        int penalty = std::max( int( sqrt( shot.missed_by * 36 ) ), 1 );
-
-        // Even if we are not training we practice the skill to prevent rust.
-        practice( skill_used, train_skill ? exp / penalty : 0 );
 
         if( shot.missed_by <= .1 ) {
             lifetime_stats()->headshots++; // @todo check head existence for headshot
+        }
+
+        if( shot.hit_critter && range > double( get_skill_level( skill_gun ) ) / MAX_SKILL * MAX_RANGE ) {
+            // shots at sufficient distance that hit their target train marksmanship
+            xp += range;
         }
 
         // If burst firing and we killed the target then try to retarget
@@ -617,10 +604,13 @@ int player::fire_gun( const tripoint &target, int shots, item& gun )
         }
     }
 
-    practice( skill_gun, train_skill ? 15 : 0 );
-
     // Use different amounts of time depending on the type of gun and our skill
     moves -= time_to_fire( *this, *gun.type );
+
+    practice( skill_gun, xp * get_skill_level( skill_gun ) );
+    if( shots > 0 && xp == 0 && one_in( 20 ) ) {
+        add_msg_if_player( m_info, _( "You'll need a more accurate gun to keep improving your aim." ) );
+    }
 
     return curshot;
 }
