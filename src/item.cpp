@@ -4038,7 +4038,7 @@ int item::gun_range( bool with_ammo ) const
     if( with_ammo && ammo_data() ) {
         ret += ammo_data()->ammo->range;
     }
-    return std::max( 0, ret );
+    return std::min( std::max( 0, ret ), MAX_RANGE );
 }
 
 int item::gun_range( const player *p ) const

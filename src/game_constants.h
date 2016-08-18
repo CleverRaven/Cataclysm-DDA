@@ -86,6 +86,9 @@
 /** Maximum (effective) level for a skill */
 #define MAX_SKILL 10
 
+/** Maximum range for aimed weapons */
+#define MAX_RANGE 30
+
 /** Accuracy levels which a shots tangent must be below */
 constexpr double accuracy_headshot = 0.1;
 constexpr double accuracy_critical = 0.2;
