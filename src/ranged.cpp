@@ -1140,6 +1140,15 @@ std::vector<tripoint> game::pl_target_ui( target_mode mode, item *relevant, int 
                                             t.size()), t.size());
     }
 
+    const auto set_last_target = [this]( const tripoint &dst ) {
+        if( ( last_target = npc_at( dst ) ) >= 0 ) {
+            last_target_was_npc = true;
+
+        } else if( ( last_target = mon_at( dst, true ) ) >= 0 ) {
+            last_target_was_npc = false;
+        }
+    };
+
     const auto confirm_non_enemy_target = [this]( const tripoint &dst ) {
         if( dst == u.pos() ) {
             return true;
@@ -1347,6 +1356,7 @@ std::vector<tripoint> game::pl_target_ui( target_mode mode, item *relevant, int 
                 u.assign_activity( ACT_AIM, 0, 0 );
                 u.activity.str_values.push_back( "AIM" );
                 u.view_offset = old_offset;
+                set_last_target( dst );
                 return empty_result;
             }
         } else if( action == "SWITCH_MODE" ) {
@@ -1389,6 +1399,7 @@ std::vector<tripoint> game::pl_target_ui( target_mode mode, item *relevant, int 
                 // Also fire if we're at our best aim level already.
                 delwin( w_target );
                 u.view_offset = old_offset;
+                set_last_target( dst );
                 return ret;
 
             } else {
@@ -1400,6 +1411,7 @@ std::vector<tripoint> game::pl_target_ui( target_mode mode, item *relevant, int 
                 u.assign_activity( ACT_AIM, 0, 0 );
                 u.activity.str_values.push_back( action );
                 u.view_offset = old_offset;
+                set_last_target( dst );
                 return empty_result;
             }
         } else if( action == "FIRE" ) {
@@ -1430,15 +1442,18 @@ std::vector<tripoint> game::pl_target_ui( target_mode mode, item *relevant, int 
         return ret;
     }
 
-    if( ( last_target = npc_at( ret.back() ) ) >= 0 ) {
+    set_last_target( ret.back() );
+
+    if( last_target >= 0 && last_target_was_npc ) {
         if( !active_npc[ last_target ]->is_enemy() ) {
+            // TODO: get rid of this. Or combine it with effect_hit_by_player
             active_npc[ last_target ]->hit_by_player = true; // used for morale penalty
         }
-        last_target_was_npc = true;
+        // TODO: should probably go into the on-hit code?
         active_npc[ last_target ]->make_angry();
 
-    } else if( ( last_target = mon_at( ret.back(), true ) ) >= 0 ) {
-        last_target_was_npc = false;
+    } else if( last_target >= 0 && !last_target_was_npc ) {
+        // TODO: get rid of this. Or move into the on-hit code?
         zombie( last_target ).add_effect( effect_hit_by_player, 100 );
     }
 
