@@ -2066,7 +2066,7 @@ bool bandolier_actor::reload( player &p, item &obj ) const
         return false; // cancelled menu
     }
 
-    p.mod_moves( sel.moves() );
+    p.mod_moves( -sel.moves() );
 
     // add or stack the ammo dependent upon existing contents
     if( obj.contents.empty() ) {
