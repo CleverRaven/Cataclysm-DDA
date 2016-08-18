@@ -15,7 +15,6 @@
     "ammo": "700nx",
     "skill": "rifle",
     "dispersion": 60,
-    "sight_dispersion": 60,
     "durability": 8,
     "clip_size": 1,
     "reload": 600,

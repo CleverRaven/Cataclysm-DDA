@@ -17,7 +17,6 @@
     "range": 10,
     "ranged_damage": 10,
     "dispersion": 50,
-    "sight_dispersion": 75,
     "durability": 9,
     "barrel_length": 1,
     "modes": [
@@ -46,7 +45,6 @@
     "ammo": "5x50",
     "skill": "pistol",
     "dispersion": 125,
-    "sight_dispersion": 95,
     "recoil": 50,
     "durability": 9,
     "modes": [

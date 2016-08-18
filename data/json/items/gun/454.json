@@ -16,7 +16,6 @@
     "color": "light_gray",
     "ammo": "454",
     "dispersion": 180,
-    "sight_dispersion": 90,
     "recoil": 60,
     "durability": 8,
     "clip_size": 5,

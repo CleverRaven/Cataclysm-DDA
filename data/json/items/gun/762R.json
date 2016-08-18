@@ -44,7 +44,6 @@
     "color": "brown",
     "ammo": "762R",
     "range": 3,
-    "sight_dispersion": 60,
     "recoil": 75,
     "durability": 10,
     "clip_size": 5,
