@@ -945,12 +945,13 @@ bool player::install_bionics( const itype &type, int skill_level )
         add_msg( m_good, _( "Successfully installed %s." ), bionics[bioid].name.c_str() );
         add_bionic( bioid );
 
-        if( bioid == "bio_eye_optic" && has_trait( "HYPEROPIC" ) ) {
-            remove_mutation( "HYPEROPIC" );
+        for( const auto &mid : bionics[bioid].canceled_mutations ) {
+            if( has_trait( mid ) ) {
+                remove_mutation( mid );
+            }
         }
-        if( bioid == "bio_eye_optic" && has_trait( "MYOPIC" ) ) {
-            remove_mutation( "MYOPIC" );
-        } else if( bioid == "bio_ears" ) {
+
+        if( bioid == "bio_ears" ) {
             add_bionic( "bio_earplugs" ); // automatically add the earplugs, they're part of the same bionic
         } else if( bioid == "bio_sunglasses" ) {
             add_bionic( "bio_blindfold" ); // automatically add the Optical Dampers, they're part of the same bionic
@@ -1329,6 +1330,8 @@ void load_bionic( JsonObject &jsobj )
 
     new_bionic.fake_item = jsobj.get_string( "fake_item", "" );
 
+    jsobj.read( "canceled_mutations", new_bionic.canceled_mutations );
+
     std::map<body_part, size_t> occupied_bodyparts;
     JsonArray jsarr = jsobj.get_array( "occupied_bodyparts" );
     if( !jsarr.empty() ) {
@@ -1359,6 +1362,12 @@ void check_bionics()
             !item::type_is_defined( bio.second.fake_item ) ) {
             debugmsg( "Bionic %s has unknown fake_item %s",
                       bio.first.c_str(), bio.second.fake_item.c_str() );
+        }
+        for( const auto &mid : bio.second.canceled_mutations ) {
+            if( !mutation_branch::has( mid ) ) {
+                debugmsg( "Bionic %s cancels undefined mutation %s",
+                          bio.first.c_str(), mid.c_str() );
+            }
         }
     }
 }

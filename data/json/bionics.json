@@ -251,6 +251,10 @@
         "occupied_bodyparts": [
             [ "EYES", 2 ]
         ],
+        "canceled_mutations": [
+            "HYPEROPIC",
+            "MYOPIC"
+        ],
         "description": "Much of the material in your inner eye has been removed and replaced with an array of high-powered, auto-focusing lenses.  You can now see much farther and more clearly than before, any vision problems you might have had are now gone."
     },{
         "type": "bionic",

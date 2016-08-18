@@ -50,6 +50,11 @@ struct bionic_data {
      * Also the item used for gun bionics.
      */
     std::string fake_item;
+    /**
+     * Mutations/trait that are removed upon installing this CBM.
+     * E.g. enhanced optic bionic may cancel HYPEROPIC trait.
+     */
+    std::vector<std::string> canceled_mutations;
 };
 
 bionic_data const &bionic_info( std::string const &id );
