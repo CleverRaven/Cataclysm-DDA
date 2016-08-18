@@ -1366,6 +1366,10 @@ void check_bionics()
                 debugmsg( "Bionic %s includes undefined bionic %s",
                           bio.first.c_str(), bid.c_str() );
             }
+            if( !bionics[bid].occupied_bodyparts.empty() ) {
+                debugmsg( "Bionic %s (included by %s) consumes slots, those should be part of the containing bionic instead.",
+                          bid.c_str(), bio.first.c_str() );
+            }
         }
     }
 }

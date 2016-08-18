@@ -47,9 +47,6 @@
         "type": "bionic",
         "id": "bio_plutdump",
         "name": "Plutonium Purger",
-        "occupied_bodyparts": [
-            [ "TORSO", 10 ]
-        ],
         "act_cost": 1,
         "description": "Emergency reactor fuel purge ejects all fuel from your reactor."
     },{
@@ -158,9 +155,6 @@
         "type": "bionic",
         "id": "bio_earplugs",
         "name": "Sound Dampeners",
-        "occupied_bodyparts": [
-            [ "HEAD", 3 ]
-        ],
         "toggled": true,
         "description": "When this bionic is active, you can block hearing completely (with Enhanced Hearing deactivated) or dampen sound slightly (with Enhanced Hearing activated)."
     },{
@@ -251,9 +245,6 @@
         "type": "bionic",
         "id": "bio_blindfold",
         "name": "Optical Dampers",
-        "occupied_bodyparts": [
-            [ "EYES", 1 ]
-        ],
         "toggled": true,
         "description": "The lenses installed over your eyes can be tinted to block out incoming light."
     },{
