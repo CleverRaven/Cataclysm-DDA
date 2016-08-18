@@ -1040,7 +1040,7 @@ std::vector<tripoint> game::pl_target_ui( target_mode mode, item *relevant, int 
 
         auto found = std::find( targets.begin(), targets.end(), last );
         idx = found != targets.end() ? std::distance( targets.begin(), found ) : 0;
-        dst = idx >= 0 ? targets[ target ]->pos() : u.pos();
+        dst = targets[ target ]->pos();
     };
 
     update_targets( range, t, target, dst );
