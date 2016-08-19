@@ -723,30 +723,19 @@ void auto_pickup::load(const bool bCharacter)
 {
     bChar = bCharacter;
 
-    std::ifstream fin;
     std::string sFile = FILENAMES["autopickup"];
     if (bCharacter) {
         sFile = world_generator->active_world->world_path + "/" + base64_encode(g->u.name) + ".apu.json";
     }
 
-    fin.open(sFile.c_str(), std::ifstream::in | std::ifstream::binary);
-
-    if( !fin.good() ) {
+    if( !read_from_file_optional( sFile, *this ) ) {
         if (load_legacy(bCharacter)) {
             if (save(bCharacter)) {
                 remove_file(sFile);
             }
         }
-    } else {
-        try {
-            JsonIn jsin(fin);
-            deserialize(jsin);
-        } catch( const JsonError &e ) {
-            DebugLog(D_ERROR, DC_ALL) << "auto_pickup::load: " << e;
-        }
     }
 
-    fin.close();
     create_rules();
 }
 
