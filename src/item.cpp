@@ -2191,16 +2191,16 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
                 damtext = "<color_" + string_from_color( damage_color() ) + ">" + damage_symbol() + " </color>";
 
             } else if (is_gun())  {
-                damtext = rm_prefix(_("<dam_adj>accurized "));
+                damtext = pgettext( "damage adjective", "accurized " );
             } else {
-                damtext = rm_prefix(_("<dam_adj>reinforced "));
+                damtext = pgettext( "damage adjective", "reinforced " );
             }
         } else {
             if (typeId() == "corpse") {
-                if (damage() == 1) damtext = rm_prefix(_("<dam_adj>bruised "));
-                if (damage() == 2) damtext = rm_prefix(_("<dam_adj>damaged "));
-                if (damage() == 3) damtext = rm_prefix(_("<dam_adj>mangled "));
-                if (damage() >= 4) damtext = rm_prefix(_("<dam_adj>pulped "));
+                if (damage() == 1) damtext = pgettext( "damage adjective", "bruised " );
+                if (damage() == 2) damtext = pgettext( "damage adjective", "damaged " );
+                if (damage() == 3) damtext = pgettext( "damage adjective", "mangled " );
+                if (damage() >= 4) damtext = pgettext( "damage adjective", "pulped " );
 
             } else if ( get_option<bool>( "ITEM_HEALTH_BAR" ) ) {
                 damtext = "<color_" + string_from_color( damage_color() ) + ">" + damage_symbol() + " </color>";
@@ -2217,18 +2217,18 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
 
     std::string vehtext = "";
     if( is_engine() && engine_displacement() > 0 ) {
-        vehtext = rm_prefix(string_format( _( "<veh_adj>%2.1fL " ), engine_displacement() / 100.0f ));
+        vehtext = string_format( pgettext( "vehicle adjective", "%2.1fL " ), engine_displacement() / 100.0f );
 
     } else if( is_wheel() && type->wheel->diameter > 0 ) {
-        vehtext = rm_prefix(string_format( _( "<veh_adj>%d\" " ), type->wheel->diameter ));
+        vehtext = string_format( pgettext( "vehicle adjective", "%d\" " ), type->wheel->diameter );
     }
 
     std::string burntext = "";
     if (with_prefix && !made_of(LIQUID)) {
         if (volume() >= 4 && burnt >= volume() * 2) {
-            burntext = rm_prefix(_("<burnt_adj>badly burnt "));
+            burntext = pgettext( "burnt adjective", "badly burnt " );
         } else if (burnt > 0) {
-            burntext = rm_prefix(_("<burnt_adj>burnt "));
+            burntext = pgettext( "burnt adjective", "burnt " );
         }
     }
 
@@ -2274,18 +2274,18 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
         maintext = ret.str();
     } else if (contents.size() == 1) {
         if( contents.front().made_of( LIQUID ) ) {
-            maintext = rm_prefix(string_format(_("<item_name>%s of %s"), label(quantity).c_str(), contents.front().tname( quantity, with_prefix ).c_str()));
+            maintext = string_format( pgettext( "item name", "%s of %s" ), label(quantity).c_str(), contents.front().tname( quantity, with_prefix ).c_str());
         } else if( contents.front().is_food() ) {
-            maintext = contents.front().charges > 1 ? rm_prefix(string_format(_("<item_name>%s of %s"), label(quantity).c_str(),
-                                                            contents.front().tname(contents.front().charges, with_prefix).c_str())) :
-                                                 rm_prefix(string_format(_("<item_name>%s of %s"), label(quantity).c_str(),
-                                                            contents.front().tname( quantity, with_prefix ).c_str()));
+            maintext = contents.front().charges > 1 ? string_format( pgettext( "item name", "%s of %s" ), label(quantity).c_str(),
+                                                            contents.front().tname(contents.front().charges, with_prefix).c_str()) :
+                                                 string_format( pgettext( "item name", "%s of %s" ), label(quantity).c_str(),
+                                                            contents.front().tname( quantity, with_prefix ).c_str());
         } else {
-            maintext = rm_prefix(string_format(_("<item_name>%s with %s"), label(quantity).c_str(), contents.front().tname( quantity, with_prefix ).c_str()));
+            maintext = string_format( pgettext( "item name", "%s with %s" ), label(quantity).c_str(), contents.front().tname( quantity, with_prefix ).c_str());
         }
     }
     else if (!contents.empty()) {
-        maintext = rm_prefix(string_format(_("<item_name>%s, full"), label(quantity).c_str()));
+        maintext = string_format( pgettext( "item name", "%s, full" ), label(quantity).c_str());
     } else {
         maintext = label(quantity);
     }

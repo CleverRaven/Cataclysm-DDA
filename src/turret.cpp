@@ -372,7 +372,7 @@ int vehicle::automatic_fire_turret( vehicle_part &pt )
 
     npc tmp;
     tmp.set_fake( true );
-    tmp.name = rm_prefix(string_format( _( "<veh_player>The %s" ), pt.name().c_str() ));
+    tmp.name = string_format( pgettext( "vehicle turret", "The %s" ), pt.name().c_str() );
     tmp.set_skill_level( gun.base()->gun_skill(), 8 );
     tmp.set_skill_level( skill_id( "gun" ), 4 );
     tmp.recoil = 0; // turrets are subject only to recoil_vehicle()
