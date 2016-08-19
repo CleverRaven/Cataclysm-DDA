@@ -135,7 +135,7 @@
         "method": "json",
         "weight": 100,
         "object": {
-            "fill_ter": "t_dirt",
+            "fill_ter": "t_dirtfloor",
             "rows": [
             "                |       ",
             "   __x_X========X_x__   ",
