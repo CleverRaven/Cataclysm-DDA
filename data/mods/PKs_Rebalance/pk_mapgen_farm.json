@@ -164,7 +164,7 @@
             ],
             "terrain": {
                 " ": ["t_dirt", "t_dirt", "t_dirt", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass"],
-                ".": "t_dirt",
+                ".": "t_dirtfloor",
                 "#": "t_fence_barbed",
                 "+": "t_fencegate_c",
                 "-": "t_fence_v",
