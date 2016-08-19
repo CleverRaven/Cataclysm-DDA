@@ -949,10 +949,6 @@ bool player::install_bionics( const itype &type, int skill_level )
             }
         }
 
-        for( const auto &inc_bid : bionics[bioid].included_bionics ) {
-            add_bionic( inc_bid );
-        }
-
         if( bioid == "bio_reactor_upgrade" ) {
             remove_bionic( "bio_reactor" );
             remove_bionic( "bio_reactor_upgrade" );
@@ -1205,6 +1201,11 @@ void player::add_bionic( std::string const &b )
     if( b == "bio_tools" || b == "bio_ears" ) {
         activate_bionic( my_bionics.size() - 1 );
     }
+
+    for( const auto &inc_bid : bionics[b].included_bionics ) {
+        add_bionic( inc_bid );
+    }
+
     recalc_sight_limits();
 }
 
