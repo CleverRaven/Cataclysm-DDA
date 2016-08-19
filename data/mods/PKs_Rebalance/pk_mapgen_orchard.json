@@ -20,21 +20,6 @@
       { "monster": "mon_spider_wolf_giant_pk", "freq":  3, "cost_multiplier": 10, "starts":  100, "conditions": ["SPRING", "SUMMER", "AUTUMN"] }
     ]
     },{
-    "type": "item_group",
-    "id": "rack_smoke",
-    "items": [
-        ["null", 15],
-        ["dry_meat", 5],
-        ["dry_fish", 5],
-        ["dry_veggy", 5],
-        ["dry_fruit", 5],
-        ["meat_smoked", 10],
-        ["fish_smoked", 10],
-        ["salt", 5],
-        ["pepper", 5],
-        ["seasoning_salt", 5]
-    ]
-    },{
     "type": "mapgen",
         "om_terrain": [
             "orchard_processing"
