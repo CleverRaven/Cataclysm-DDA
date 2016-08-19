@@ -2236,23 +2236,23 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
     std::string maintext = "";
     if (corpse != NULL && typeId() == "corpse" ) {
         if (name != "") {
-            maintext = rm_prefix(string_format(ngettext("<item_name>%s corpse of %s",
-                                           "<item_name>%s corpses of %s",
-                                           quantity), corpse->nname().c_str(), name.c_str()));
+            maintext = string_format( npgettext( "item name", "%s corpse of %s",
+                                           "%s corpses of %s",
+                                           quantity), corpse->nname().c_str(), name.c_str());
         } else {
-            maintext = rm_prefix(string_format(ngettext("<item_name>%s corpse",
-                                           "<item_name>%s corpses",
-                                           quantity), corpse->nname().c_str()));
+            maintext = string_format( npgettext( "item name", "%s corpse",
+                                           "%s corpses",
+                                           quantity), corpse->nname().c_str());
         }
     } else if (typeId() == "blood") {
         if (corpse == NULL || corpse->id == NULL_ID )
-            maintext = rm_prefix(ngettext("<item_name>human blood",
-                                          "<item_name>human blood",
+            maintext = string_format( npgettext( "item name", "human blood",
+                                          "human blood",
                                           quantity));
         else
-            maintext = rm_prefix(string_format(ngettext("<item_name>%s blood",
-                                           "<item_name>%s blood",
-                                           quantity), corpse->nname().c_str()));
+            maintext = string_format( npgettext( "item name", "%s blood",
+                                           "%s blood",
+                                           quantity), corpse->nname().c_str());
     }
     else if (iname != item_vars.end()) {
         maintext = iname->second;
@@ -5792,22 +5792,22 @@ std::string item::type_name( unsigned int quantity ) const
     const auto iter = item_vars.find( "name" );
     if( corpse != nullptr && typeId() == "corpse" ) {
         if( name.empty() ) {
-            return rm_prefix(string_format( ngettext( "<item_name>%s corpse",
-                                         "<item_name>%s corpses", quantity ),
-                               corpse->nname().c_str() ));
+            return string_format( npgettext( "item name", "%s corpse",
+                                         "%s corpses", quantity ),
+                               corpse->nname().c_str() );
         } else {
-            return rm_prefix(string_format( ngettext( "<item_name>%s corpse of %s",
-                                         "<item_name>%s corpses of %s", quantity ),
-                               corpse->nname().c_str(), name.c_str() ));
+            return string_format( npgettext( "item name", "%s corpse of %s",
+                                         "%s corpses of %s", quantity ),
+                               corpse->nname().c_str(), name.c_str() );
         }
     } else if( typeId() == "blood" ) {
         if( corpse == nullptr || corpse->id == NULL_ID ) {
-            return rm_prefix( ngettext( "<item_name>human blood",
-                                        "<item_name>human blood", quantity ) );
+            return string_format( npgettext( "item name", "human blood",
+                                        "human blood", quantity ) );
         } else {
-            return rm_prefix(string_format( ngettext( "<item_name>%s blood",
-                                         "<item_name>%s blood",  quantity ),
-                               corpse->nname().c_str() ));
+            return string_format( npgettext( "item name", "%s blood",
+                                         "%s blood",  quantity ),
+                               corpse->nname().c_str() );
         }
     } else if( iter != item_vars.end() ) {
         return iter->second;
