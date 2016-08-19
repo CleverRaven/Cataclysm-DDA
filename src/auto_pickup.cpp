@@ -199,8 +199,7 @@ void auto_pickup::show( const std::string &custom_name, bool is_autopickup )
 
                 mvwprintz(w, i - iStartPos, 52, (iLine == i &&
                           iColumn == 2) ? hilite(cLineColor) : cLineColor, "%s",
-                          ((vRules[iTab][i].bExclude) ? rm_prefix(_("Exclude")).c_str() : rm_prefix(
-                               _("Include")).c_str()));
+                          ((vRules[iTab][i].bExclude) ? _("Exclude") :  _("Include")));
             }
         }
 

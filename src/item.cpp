@@ -2206,7 +2206,7 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
                 damtext = "<color_" + string_from_color( damage_color() ) + ">" + damage_symbol() + " </color>";
 
             } else {
-                damtext = rm_prefix(string_format( "%s ", get_base_material().dmg_adj( damage() ).c_str() ));
+                damtext = string_format( "%s ", get_base_material().dmg_adj( damage() ).c_str() );
             }
         }
     }
