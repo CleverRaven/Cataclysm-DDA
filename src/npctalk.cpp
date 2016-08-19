@@ -573,7 +573,10 @@ void npc::talk_to_u()
     } while (!d.done);
     delwin(d.win);
     g->refresh_all();
-    g->cancel_activity_query( _("%s talked to you."), name.c_str() );
+    // Don't query if we're training the player
+    if( g->u.activity.type != ACT_TRAIN || g->u.activity.index != getID() ) {
+        g->cancel_activity_query( _("%s talked to you."), name.c_str() );
+    }
 }
 
 std::string dialogue::dynamic_line( const talk_topic &the_topic ) const
@@ -3458,7 +3461,7 @@ void talk_function::start_training( npc &p )
     } else if( !pay_npc( p, cost ) ) {
         return;
     }
-    g->u.assign_activity( ACT_TRAIN, time * 100, 0, 0, name );
+    g->u.assign_activity( ACT_TRAIN, time * 100, p.getID(), 0, name );
     p.add_effect( effect_asked_to_train, 3600 );
 }
 
