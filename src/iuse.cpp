@@ -2003,28 +2003,23 @@ int iuse::sew_advanced(player *p, item *it, bool, const tripoint& )
         return 0;
     }
 
-    std::vector<std::string> plurals;
     std::vector<itype_id> repair_items;
-    std::string plural = "";
-    //translation note: add <plural> tag to keep them unique
 
     // Little helper to cut down some surplus redundancy and repetition
     const auto add_material = [&]( const material_id &material,
-                                   const itype_id &mat_item,
-                                   const std::string &plural ) {
+                                   const itype_id &mat_item ) {
         if( mod->made_of( material ) ) {
             repair_items.push_back( mat_item );
-            plurals.push_back( rm_prefix( plural.c_str() ) );
         }
     };
 
-    add_material( material_id( "cotton" ), "rag", _( "<plural>rags" ) );
-    add_material( material_id( "leather" ), "leather", _( "<plural>leather" ) );
-    add_material( material_id( "fur" ), "fur", _( "<plural>fur" ) );
-    add_material( material_id( "nomex" ), "nomex", _( "<plural>Nomex" ) );
-    add_material( material_id( "plastic" ), "plastic_chunk", _( "<plural>plastic" ) );
-    add_material( material_id( "kevlar" ), "kevlar_plate", _( "<plural>Kevlar" ) );
-    add_material( material_id( "wool" ), "felt_patch", _( "<plural>wool" ) );
+    add_material( material_id( "cotton" ), "rag" );
+    add_material( material_id( "leather" ), "leather" );
+    add_material( material_id( "fur" ), "fur" );
+    add_material( material_id( "nomex" ), "nomex" );
+    add_material( material_id( "plastic" ), "plastic_chunk" );
+    add_material( material_id( "kevlar" ), "kevlar_plate" );
+    add_material( material_id( "wool" ), "felt_patch" );
     if (repair_items.empty()) {
         p->add_msg_if_player(m_info, _("Your %s is not made of fabric, leather, fur, Kevlar, wool or plastic."),
                              mod->tname().c_str());
