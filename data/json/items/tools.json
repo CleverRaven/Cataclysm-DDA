@@ -8402,7 +8402,7 @@
     "volume": 3,
     "bashing": 14,
     "cutting": 3,
-    "flags" : ["DURABLE_MELEE"],
+    "flags" : ["DURABLE_MELEE", "BELT_CLIP"],
     "techniques": ["WBLOCK_1"],
     "to_hit": 2,
     "use_action": "CROWBAR",
