@@ -638,8 +638,8 @@ void it_artifact_tool::create_name(const std::string &type)
 
 void it_artifact_tool::create_name(const std::string &property_name, const std::string &shape_name)
 {
-    name = rmp_format(_("<artifact_name>%1$s %2$s"), property_name.c_str(),
-                      shape_name.c_str());
+    name = rm_prefix(string_format(_("<artifact_name>%1$s %2$s"), property_name.c_str(),
+                      shape_name.c_str()));
     name_plural = name;
 }
 
@@ -905,8 +905,8 @@ std::string new_natural_artifact(artifact_natural_property prop)
     art->m_to_hit = 0;
 
     art->create_name(property_data->name, shape_data->name);
-    art->description = rmp_format(_("<artifact_desc>This %1$s %2$s."), shape_data->desc.c_str(),
-                                  property_data->desc.c_str());
+    art->description = rm_prefix(string_format(_("<artifact_desc>This %1$s %2$s."), shape_data->desc.c_str(),
+                                  property_data->desc.c_str()));
 
     // Three possibilities: good passive + bad passive, good active + bad active,
     // and bad passive + good active
@@ -1057,7 +1057,7 @@ std::string artifact_name(std::string type)
     std::string noun = artifact_noun[rng(0, NUM_ART_NOUNS - 1)];
     std::string adj = artifact_adj[rng(0, NUM_ART_ADJS - 1)];
     ret = string_format(noun, adj.c_str());
-    ret = rmp_format(fmtstr, type.c_str(), ret.c_str());
+    ret = rm_prefix(string_format(fmtstr, type.c_str(), ret.c_str()));
     return ret;
 }
 

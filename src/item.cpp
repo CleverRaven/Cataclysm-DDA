@@ -734,10 +734,10 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
             info.push_back( iteminfo( "BASE", _( "Moves per attack: " ), "",
                                       attack_time(), true, "", true, true ) );
 
-            if( !conductive () ) { 
+            if( !conductive () ) {
                 info.push_back( iteminfo( "BASE", string_format( _( "* This weapon <good>does not conduct</good> electricity." ) ) ) );
-            } 
-            else if( has_flag( "CONDUCTIVE" ) ) { 
+            }
+            else if( has_flag( "CONDUCTIVE" ) ) {
                 info.push_back( iteminfo( "BASE", string_format( _( "* This weapon effectively <bad>conducts</bad> electricity, as it has no guard." ) ) ) );
             }
             else {
@@ -2206,7 +2206,7 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
                 damtext = "<color_" + string_from_color( damage_color() ) + ">" + damage_symbol() + " </color>";
 
             } else {
-                damtext = rmp_format( "%s ", get_base_material().dmg_adj( damage() ).c_str() );
+                damtext = rm_prefix(string_format( "%s ", get_base_material().dmg_adj( damage() ).c_str() ));
             }
         }
     }
@@ -2217,10 +2217,10 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
 
     std::string vehtext = "";
     if( is_engine() && engine_displacement() > 0 ) {
-        vehtext = rmp_format( _( "<veh_adj>%2.1fL " ), engine_displacement() / 100.0f );
+        vehtext = rm_prefix(string_format( _( "<veh_adj>%2.1fL " ), engine_displacement() / 100.0f ));
 
     } else if( is_wheel() && type->wheel->diameter > 0 ) {
-        vehtext = rmp_format( _( "<veh_adj>%d\" " ), type->wheel->diameter );
+        vehtext = rm_prefix(string_format( _( "<veh_adj>%d\" " ), type->wheel->diameter ));
     }
 
     std::string burntext = "";
@@ -2236,13 +2236,13 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
     std::string maintext = "";
     if (corpse != NULL && typeId() == "corpse" ) {
         if (name != "") {
-            maintext = rmp_format(ngettext("<item_name>%s corpse of %s",
+            maintext = rm_prefix(string_format(ngettext("<item_name>%s corpse of %s",
                                            "<item_name>%s corpses of %s",
-                                           quantity), corpse->nname().c_str(), name.c_str());
+                                           quantity), corpse->nname().c_str(), name.c_str()));
         } else {
-            maintext = rmp_format(ngettext("<item_name>%s corpse",
+            maintext = rm_prefix(string_format(ngettext("<item_name>%s corpse",
                                            "<item_name>%s corpses",
-                                           quantity), corpse->nname().c_str());
+                                           quantity), corpse->nname().c_str()));
         }
     } else if (typeId() == "blood") {
         if (corpse == NULL || corpse->id == NULL_ID )
@@ -2250,9 +2250,9 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
                                           "<item_name>human blood",
                                           quantity));
         else
-            maintext = rmp_format(ngettext("<item_name>%s blood",
+            maintext = rm_prefix(string_format(ngettext("<item_name>%s blood",
                                            "<item_name>%s blood",
-                                           quantity), corpse->nname().c_str());
+                                           quantity), corpse->nname().c_str()));
     }
     else if (iname != item_vars.end()) {
         maintext = iname->second;
@@ -2274,18 +2274,18 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
         maintext = ret.str();
     } else if (contents.size() == 1) {
         if( contents.front().made_of( LIQUID ) ) {
-            maintext = rmp_format(_("<item_name>%s of %s"), label(quantity).c_str(), contents.front().tname( quantity, with_prefix ).c_str());
+            maintext = rm_prefix(string_format(_("<item_name>%s of %s"), label(quantity).c_str(), contents.front().tname( quantity, with_prefix ).c_str()));
         } else if( contents.front().is_food() ) {
-            maintext = contents.front().charges > 1 ? rmp_format(_("<item_name>%s of %s"), label(quantity).c_str(),
-                                                            contents.front().tname(contents.front().charges, with_prefix).c_str()) :
-                                                 rmp_format(_("<item_name>%s of %s"), label(quantity).c_str(),
-                                                            contents.front().tname( quantity, with_prefix ).c_str());
+            maintext = contents.front().charges > 1 ? rm_prefix(string_format(_("<item_name>%s of %s"), label(quantity).c_str(),
+                                                            contents.front().tname(contents.front().charges, with_prefix).c_str())) :
+                                                 rm_prefix(string_format(_("<item_name>%s of %s"), label(quantity).c_str(),
+                                                            contents.front().tname( quantity, with_prefix ).c_str()));
         } else {
-            maintext = rmp_format(_("<item_name>%s with %s"), label(quantity).c_str(), contents.front().tname( quantity, with_prefix ).c_str());
+            maintext = rm_prefix(string_format(_("<item_name>%s with %s"), label(quantity).c_str(), contents.front().tname( quantity, with_prefix ).c_str()));
         }
     }
     else if (!contents.empty()) {
-        maintext = rmp_format(_("<item_name>%s, full"), label(quantity).c_str());
+        maintext = rm_prefix(string_format(_("<item_name>%s, full"), label(quantity).c_str()));
     } else {
         maintext = label(quantity);
     }
@@ -3428,12 +3428,12 @@ bool item::conductive() const
     if( is_null() ) {
         return false;
     }
-    
-    if( has_flag( "CONDUCTIVE" ) ) {  
+
+    if( has_flag( "CONDUCTIVE" ) ) {
         return true;
     }
 
-    if( has_flag( "NONCONDUCTIVE" ) ) {  
+    if( has_flag( "NONCONDUCTIVE" ) ) {
         return false;
     }
 
@@ -5792,22 +5792,22 @@ std::string item::type_name( unsigned int quantity ) const
     const auto iter = item_vars.find( "name" );
     if( corpse != nullptr && typeId() == "corpse" ) {
         if( name.empty() ) {
-            return rmp_format( ngettext( "<item_name>%s corpse",
+            return rm_prefix(string_format( ngettext( "<item_name>%s corpse",
                                          "<item_name>%s corpses", quantity ),
-                               corpse->nname().c_str() );
+                               corpse->nname().c_str() ));
         } else {
-            return rmp_format( ngettext( "<item_name>%s corpse of %s",
+            return rm_prefix(string_format( ngettext( "<item_name>%s corpse of %s",
                                          "<item_name>%s corpses of %s", quantity ),
-                               corpse->nname().c_str(), name.c_str() );
+                               corpse->nname().c_str(), name.c_str() ));
         }
     } else if( typeId() == "blood" ) {
         if( corpse == nullptr || corpse->id == NULL_ID ) {
             return rm_prefix( ngettext( "<item_name>human blood",
                                         "<item_name>human blood", quantity ) );
         } else {
-            return rmp_format( ngettext( "<item_name>%s blood",
+            return rm_prefix(string_format( ngettext( "<item_name>%s blood",
                                          "<item_name>%s blood",  quantity ),
-                               corpse->nname().c_str() );
+                               corpse->nname().c_str() ));
         }
     } else if( iter != item_vars.end() ) {
         return iter->second;

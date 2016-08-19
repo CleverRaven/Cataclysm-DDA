@@ -2018,8 +2018,8 @@ void dialogue::gen_responses( const talk_topic &the_topic )
     } else if( topic == "TALK_FREE_MERCHANT_STOCKS" ) {
             add_response( _("Who are you?"), "TALK_FREE_MERCHANT_STOCKS_NEW" );
             static const std::vector<itype_id> wanted = {{
-                "jerky", "meat_smoked", "fish_smoked", 
-                "cooking_oil", "cornmeal", "flour", 
+                "jerky", "meat_smoked", "fish_smoked",
+                "cooking_oil", "cornmeal", "flour",
                 "fruit_wine", "beer", "sugar",
             }};
 
@@ -3648,19 +3648,19 @@ void talk_response::do_formatting( const dialogue &d, char const letter )
 {
     std::string ftext;
     if( trial != TALK_TRIAL_NONE ) { // dialogue w/ a % chance to work
-        ftext = rmp_format(
+        ftext = rm_prefix(string_format(
             _( "<talk option>%1$c: [%2$s %3$d%%] %4$s" ),
             letter,                         // option letter
             trial.name().c_str(),     // trial type
             trial.calc_chance( d ), // trial % chance
             text.c_str()                // response
-        );
+        ));
     } else { // regular dialogue
-        ftext = rmp_format(
+        ftext = rm_prefix(string_format(
             _( "<talk option>%1$c: %2$s" ),
             letter,          // option letter
             text.c_str() // response
-        );
+        ));
     }
     parse_tags( ftext, *d.alpha, *d.beta );
     // Remaining width of the responses area, -2 for the border, -2 for indentation
@@ -3720,11 +3720,11 @@ talk_topic dialogue::opt( const talk_topic &topic )
         // No name prepended!
         challenge = challenge.substr(1);
     } else if( challenge[0] == '*' ) {
-        challenge = rmp_format( _("<npc does something>%s %s"), beta->name.c_str(),
-                                challenge.substr(1).c_str() );
+        challenge = rm_prefix(string_format( _("<npc does something>%s %s"), beta->name.c_str(),
+                                challenge.substr(1).c_str() ));
     } else {
-        challenge = rmp_format( _("<npc says something>%s: %s"), beta->name.c_str(),
-                                challenge.c_str() );
+        challenge = rm_prefix(string_format( _("<npc says something>%s: %s"), beta->name.c_str(),
+                                challenge.c_str() ));
     }
 
     history.push_back( "" ); // Empty line between lines of dialogue
@@ -3757,7 +3757,7 @@ talk_topic dialogue::opt( const talk_topic &topic )
     } while( !okay );
     history.push_back( "" );
 
-    std::string response_printed = rmp_format(_("<you say something>You: %s"), responses[ch].text.c_str());
+    std::string response_printed = rm_prefix(string_format(_("<you say something>You: %s"), responses[ch].text.c_str()));
     add_to_history( response_printed );
 
     talk_response chosen = responses[ch];
@@ -4148,7 +4148,7 @@ TAB key to switch lists, letters to pick items, Enter to finalize, Esc to quit,\
         // Removing items from an inventory invalidates the pointers
         std::set<item *> removing_yours;
         std::vector<item *> giving_them;
-        
+
         for( auto &pricing : yours ) {
             mark_for_exchange( pricing, removing_yours, giving_them );
         }

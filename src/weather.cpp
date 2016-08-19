@@ -564,7 +564,7 @@ std::string weather_forecast( point const &abs_sm_pos )
             started_at_night = false;
         }
         if(d > 0 && ((started_at_night && !(d % 2)) || (!started_at_night && d % 2))) {
-            day = rmp_format(_("<Mon Night>%s Night"), c.day_of_week().c_str());
+            day = rm_prefix(string_format(_("<Mon Night>%s Night"), c.day_of_week().c_str()));
         } else {
             day = c.day_of_week();
         }
@@ -588,10 +588,10 @@ std::string print_temperature( double fahrenheit, int decimals )
 
     if(get_option<std::string>( "USE_CELSIUS" ) == "celsius") {
         ret << temp_to_celsius( fahrenheit );
-        return rmp_format( _( "<Celsius>%sC" ), ret.str().c_str() );
+        return rm_prefix(string_format( _( "<Celsius>%sC" ), ret.str().c_str() ));
     } else {
         ret << fahrenheit;
-        return rmp_format( _( "<Fahrenheit>%sF" ), ret.str().c_str() );
+        return rm_prefix(string_format( _( "<Fahrenheit>%sF" ), ret.str().c_str() ));
     }
 
 }
@@ -606,7 +606,7 @@ std::string print_humidity( double humidity, int decimals )
     ret << std::fixed;
 
     ret << humidity;
-    return rmp_format( _( "%s%%" ), ret.str().c_str() );
+    return rm_prefix(string_format( _( "%s%%" ), ret.str().c_str() ));
 }
 
 /**
@@ -619,7 +619,7 @@ std::string print_pressure( double pressure, int decimals )
     ret << std::fixed;
 
     ret << pressure / 10;
-    return rmp_format( _( "%s kPa" ), ret.str().c_str() );
+    return rm_prefix(string_format( _( "%s kPa" ), ret.str().c_str() ));
 }
 
 
