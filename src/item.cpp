@@ -736,7 +736,7 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
 
             if( !conductive () ) { 
                 info.push_back( iteminfo( "BASE", string_format( _( "* This weapon <good>does not conduct</good> electricity." ) ) ) );
-            } if( has_flag ( "CONDUCTIVE" ) ) { 
+            } if( has_flag( "CONDUCTIVE" ) ) { 
 -                info.push_back( iteminfo( "BASE", string_format( _( "* This weapon effectively <bad>conducts</bad> electricity, as it has no guard." ) ) ) );
 -           } else { 
                 info.push_back( iteminfo( "BASE", string_format( _( "* This weapon <bad>conducts</bad> electricity." ) ) ) );
