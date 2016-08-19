@@ -14,7 +14,6 @@
 #include <unordered_set>
 
 #include "json.h"
-#include <fstream>
 
 #define MOD_SEARCH_FILE "modinfo.json"
 

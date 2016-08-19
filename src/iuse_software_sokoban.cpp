@@ -11,7 +11,6 @@
 #include <iostream>
 #include <iterator>
 #include <sstream>
-#include <fstream>
 
 sokoban_game::sokoban_game()
 {

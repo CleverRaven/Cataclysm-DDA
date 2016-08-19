@@ -17,7 +17,6 @@
 #endif // TILES
 
 #include <stdlib.h>
-#include <fstream>
 #include <string>
 #include <locale>
 #include <sstream>

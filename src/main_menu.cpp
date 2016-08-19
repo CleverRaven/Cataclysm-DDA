@@ -17,8 +17,6 @@
 #include "sounds.h"
 #include "cata_utility.h"
 
-#include <fstream>
-
 //TODO replace these with filesystem.h
 #include <sys/stat.h>
 #ifdef _MSC_VER

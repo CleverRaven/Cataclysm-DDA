@@ -8,7 +8,6 @@
 #include "ui.h"
 #include "translations.h"
 #include <iostream>
-#include <fstream>
 
 color_manager &get_all_colors()
 {

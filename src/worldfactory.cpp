@@ -15,8 +15,6 @@
 #include "name.h"
 #include "json.h"
 
-#include <fstream>
-
 using namespace std::placeholders;
 
 #define SAVE_MASTER "master.gsav"

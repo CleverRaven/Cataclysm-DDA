@@ -15,7 +15,6 @@
 #include "vehicle.h"
 #include "submap.h"
 
-#include <fstream>
 #include <sstream>
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_MAP) << __FILE__ << ":" << __LINE__ << ": "

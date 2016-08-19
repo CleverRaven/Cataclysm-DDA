@@ -10,7 +10,6 @@
 
 #include <bitset>
 #include <cmath>
-#include <fstream>
 #include <sstream>
 
 // mfb(t_flag) converts a flag to a bit for insertion into a bitfield

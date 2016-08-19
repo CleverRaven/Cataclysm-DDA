@@ -10,7 +10,6 @@
 #include "catacharset.h"
 #include "ui.h"
 #include <iostream>
-#include <fstream>
 
 zone_manager::zone_manager()
 {
