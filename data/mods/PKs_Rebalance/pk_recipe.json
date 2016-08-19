@@ -1,0 +1,20 @@
+[
+    {
+    "type" : "recipe",
+    "result": "pipe_solid_spear",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_PIERCING",
+    "skill_used": "fabrication",
+    "difficulty": 0,
+    "time": 136000,
+    "reversible": false,
+    "autolearn": true,
+    "qualities":[
+        {"id":"HAMMER","level":1,"amount":1} ],
+    "components": [
+        [[ "pipe_solid", 1 ]],
+        [[ "leather", 1 ]],
+        [[ "string_36", 1 ], [ "string_6", 6 ]]
+    ]
+    }
+]
