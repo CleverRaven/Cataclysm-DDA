@@ -231,7 +231,7 @@
         "description" : "You are less likely to throw up from food poisoning, alcohol, etc.  If you throw up nevertheless, you won't suffer a residual nausea.",
         "starting_trait" : true,
         "changes_to" : ["NAUSEA"],
-        "note" : "nope.  This does NOT lead to EATPOISON.  Stomach problems are part of the GI upgrades--one advantage to not having Robust Genetics.",
+        "//" : "nope.  This does NOT lead to EATPOISON.  Stomach problems are part of the GI upgrades--one advantage to not having Robust Genetics.",
         "cancels" : ["WEAKSTOMACH"]
     },{
         "type" : "mutation",
@@ -390,7 +390,7 @@
         "category" : ["MUTCAT_FISH", "MUTCAT_SLIME", "MUTCAT_ALPHA", "MUTCAT_MEDICAL"]
     },{
         "type" : "mutation",
-        "id" : "EAGLEEYED", "note" : "Can't change the ID as that breaks save-compatibility.",
+        "id" : "EAGLEEYED", "//" : "Can't change the ID as that breaks save-compatibility.",
         "name" : "Scout",
         "points" : 1,
         "description" : "You're an excellent navigator and your ability to spot distant landmarks is unmatched.  Your sight radius on the overmap extends beyond the normal range.",
@@ -630,7 +630,7 @@
         "points" : -2,
         "description" : "You have problems with eating meat.  It's possible for you to eat it, but you will suffer morale penalties due to nausea.",
         "starting_trait" : true,
-        "note" : "Intolerances are presumed a psychological issue unless stated otherwise, and cancelled by digestive mutations, which force the issue.",
+        "//" : "Intolerances are presumed a psychological issue unless stated otherwise, and cancelled by digestive mutations, which force the issue.",
         "valid" : false,
         "cancels" : ["CANNIBAL", "MEATARIAN", "ANTIFRUIT"]
     },{
@@ -665,7 +665,7 @@
         "id" : "LACTOSE",
         "name" : "Lactose Intolerance",
         "points" : -1,
-        "note" : "Actual digestive issue, on even footing with the -vore mutations.",
+        "//" : "Actual digestive issue, on even footing with the -vore mutations.",
         "description" : "You like 75 percent of the world, cannot tolerate milk or milk based products.  It's possible for you to eat them, but you will suffer morale penalties due to nausea.",
         "starting_trait" : true
     },{
@@ -681,7 +681,7 @@
         "id" : "ANTIWHEAT",
         "name" : "Wheat Allergy",
         "points" : -2,
-        "note" : "Actual digestive issue, on even footing with the -vore mutations.",
+        "//" : "Actual digestive issue, on even footing with the -vore mutations.",
         "description" : "You have a rare allergy that prevents you from eating wheat.  It's possible for you to eat them, but you will suffer morale penalties due to nausea.",
         "starting_trait" : true
     },{
@@ -2143,7 +2143,7 @@
         "description" : "So it's fermented?  Whatever, it's still good drinking.  You've developed the ability to metabolize alcohol as a food source.",
         "prereqs" : ["TOLERANCE", "EATPOISON"],
         "prereqs2" : ["SAPROVORE", "EATPOISON"],
-        "note" : "It's unlikely but possible to get EATPOISON without ALCMET.  Since EATPOISON's arguably a stronger version, it serves as both prereqs.",
+        "//" : "It's unlikely but possible to get EATPOISON without ALCMET.  Since EATPOISON's arguably a stronger version, it serves as both prereqs.",
         "category" : ["MUTCAT_TROGLOBITE"],
         "valid" : false
     },{
@@ -2247,7 +2247,7 @@
         "description" : "Your guts have developed the ability to handle poisonous food.  Mostly.",
         "changes_to" : ["EATDEAD"],
         "prereqs" : ["NAUSEA", "VOMITOUS", "POISRESIST", "POISONOUS"],
-        "note" : "Yes, you eventually got over the massive digestive upset.  Mutations aren't easy on a system!",
+        "//" : "Yes, you eventually got over the massive digestive upset.  Mutations aren't easy on a system!",
         "prereqs2" : ["SAPROVORE", "TOLERANCE"],
         "threshreq" : ["THRESH_TROGLOBITE", "THRESH_CHIMERA", "THRESH_RAPTOR", "THRESH_RAT"],
         "category" : ["MUTCAT_TROGLOBITE", "MUTCAT_RAPTOR", "MUTCAT_RAT", "MUTCAT_CHIMERA"],
@@ -2647,7 +2647,7 @@
         "threshreq" : ["THRESH_MEDICAL"],
         "leads_to" : ["MUT_TOUGH"],
         "changes_to" : ["CENOBITE"],
-        "note" : "MASOCHIST_MED and NOPAIN don't cancel each other.  By design.  Poor painless folks...",
+        "//" : "MASOCHIST_MED and NOPAIN don't cancel each other.  By design.  Poor painless folks...",
         "category" : ["MUTCAT_MEDICAL"]
     },{
         "type" : "mutation",
@@ -2662,7 +2662,7 @@
         "prereqs" : ["MASOCHIST_MED"],
         "prereqs2" : ["PAINREC3", "ADDICTIVE"],
         "threshreq" : ["THRESH_MEDICAL"],
-        "note" : "CENOBITE and NOPAIN also don't cancel each other.  By design.  Poor painless cenobites...",
+        "//" : "CENOBITE and NOPAIN also don't cancel each other.  By design.  Poor painless cenobites...",
         "category" : ["MUTCAT_MEDICAL"]
     },{
         "type" : "mutation",
@@ -2675,7 +2675,7 @@
         "prereqs" : ["MASOCHIST", "PAINRESIST"],
         "prereqs2" : ["PAINREC3"],
         "threshreq" : ["THRESH_MEDICAL"],
-        "note" : "MASOCHIST_MED, CENOBITE, and NOPAIN don't cancel each other.  By design.  Poor painless people...",
+        "//" : "MASOCHIST_MED, CENOBITE, and NOPAIN don't cancel each other.  By design.  Poor painless people...",
         "category" : ["MUTCAT_MEDICAL"]
     },{
         "type" : "mutation",
@@ -3358,7 +3358,7 @@
         "type" : "mutation",
         "id" : "MUT_JUNKIE",
         "name" : "Metallassomaiphile",
-        "note" : "name courtesy of wiktionary's Greek for 'mutate'.  Greek-speakers, feel free to correct the term",
+        "//" : "name courtesy of wiktionary's Greek for 'mutate'.  Greek-speakers, feel free to correct the term",
         "points" : -1,
         "visibility" : 0,
         "ugliness" : 0,
@@ -4920,7 +4920,7 @@
         "id" : "PROF_MED",
         "name" : "MD",
         "points" : 0,
-        "note" : "In the US, a medical 'residency' is essentially an extended post-graduate, on-the-job medical training.  The idea here is that hopsital computer systems would recognize the PC as a valid user and grant access.",
+        "//" : "In the US, a medical 'residency' is essentially an extended post-graduate, on-the-job medical training.  The idea here is that hopsital computer systems would recognize the PC as a valid user and grant access.",
         "description" : "You were just through with the administrative formalities for your residency when the cataclysm struck.  \"Your\" hospital was overrun and evacuated, but there's always work for a good doctor.",
         "valid": false,
         "purifiable": false,
