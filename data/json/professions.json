@@ -356,6 +356,7 @@
                 "boots_steel",
                 "tool_belt",
                 "wrench",
+                "duct_tape",
                 "mag_cars"
             ],
             "male": [
@@ -879,7 +880,7 @@
             "ident": "bio_sur",
             "name": "Bionic Survivalist",
             "description": "Mainly from paranoia, you augmented yourself, got some training and basic gear to go inawoods incase anything went down, well it did.  Seems your paranoia paid off.", 
-            "points": 8,
+            "points": 10,
             "skills": [
             {
                 "level": 4,
@@ -917,7 +918,6 @@
         ],
         "items": {
             "both": [
-                "flashlight",
                 "shorts_cargo",
                 "boots",
                 "hat_boonie",
@@ -926,7 +926,6 @@
                 "socks",
                 "backpack",
                 "knife_hunting",
-                "lighter",
                 "rope_30",
                 "canteen",
                 "scabbard"
@@ -2719,6 +2718,12 @@
         "name": "Otaku",
         "description": "Late nights with friends watching anime and eating snacks has prepared you for the premier anime convention in the Northeast.  It just had to be the day of the apocalypse.  At least you were ready in case your costume tore.",
         "points": 1,
+        "skills": [
+            {
+                "level": 1,
+                "name": "tailor"
+            }
+        ],
         "items": {
             "both": [
                 "shorts",
@@ -2998,6 +3003,7 @@
                 "postman_hat",
                 "postman_shirt",
                 "mbag",
+                "dog_whistle",
                 "wristwatch",
                 "leather_belt",
                 "postman_shorts",
@@ -3161,11 +3167,11 @@
             "both": [
                 "tank_top",
                 "shorts",
+                "socks",
                 "lowtops",
                 "aspirin",
-                "tobacco",
-                "rolling_paper",
-                "lighter"
+                "1st_aid",
+                "pockknife"
             ],
             "male": [
                 "briefs"
@@ -3663,7 +3669,6 @@
                 "pizza_veggy",
                 "pizza_meat",
                 "money_bundle",
-                "weed",
                 "mbag"
             ],
             "male": [
