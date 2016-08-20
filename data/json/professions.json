@@ -878,12 +878,16 @@
             "type": "profession",
             "ident": "bio_sur",
             "name": "Bionic Survivalist",
-            "description": "Mainly from paranoia, you augmented yourself, got some training and gear to go inawoods incase anything went down, well it did.  Now that civilization has fallen, the woods are your new home.", 
+            "description": "Mainly from paranoia, you augmented yourself, got some training and basic gear to go inawoods incase anything went down, well it did.  Seems your paranoia paid off.", 
             "points": 8,
             "skills": [
             {
-                "level": 3,
+                "level": 4,
                 "name": "survival"
+            },
+            {
+                "level": 2,
+                "name": "traps"
             },
             {
                 "level": 2,
@@ -895,54 +899,46 @@
             },
             {
                 "level": 2,
-                "name": "archery"
-            },
-            {
-                "level": 2,
                 "name": "firstaid"
             },
             {
-                "level": 1,
-                "name": "gun"
+                "level": 2,
+                "name": "swimming"
             }
         ],
         "CBMs":[
             "bio_power_storage_mkII",
             "bio_sunglasses",
-            "bio_solar",
+            "bio_torsionratchet",
             "bio_lighter",
             "bio_evap",
             "bio_flashlight",
             "bio_tools"
         ],
-        "items":{
+        "items": {
             "both": [
-                "socks",
-                "army_top",
+                "flashlight",
+                "shorts_cargo",
+                "boots",
                 "hat_boonie",
-                "gloves_light",
-                "pants_cargo",
-                "boots_steel",
-                "jacket_army",
-                "knit_scarf",
+                "blazer",
+                "tshirt",
+                "socks",
                 "backpack",
-                "quiver",
+                "knife_hunting",
+                "lighter",
+                "rope_30",
                 "canteen",
-                "compbow",
-                "arrow_cf",
-                "arrow_cf",
-                "tent_kit",
-                "rollmat"
+                "scabbard"
             ],
             "male": [
                 "boxer_shorts"
             ],
-             "female": [
+            "female": [
                 "bra",
-                "panties"
+                "boxer_shorts"
             ]
-        },
-         "flags" : ["SCEN_ONLY"]
+        }
     },
     {
         "type": "profession",
