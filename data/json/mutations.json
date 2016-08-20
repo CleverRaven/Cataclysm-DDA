@@ -415,6 +415,7 @@
         "description" : "You don't experience guilt like others do.  Even when you know your actions are wrong, you just don't care.",
         "starting_trait" : true,
         "valid" : false,
+        "cancels" : ["PACIFIST"]
         "flags" : ["CANNIBAL"]
     },{
         "type" : "mutation",
@@ -814,7 +815,8 @@
         "points" : -4,
         "description" : "You don't like thinking about violence.  Your combat skills advance much slower than usual, and you feel more guilt about killing.",
         "starting_trait" : true,
-        "valid" : false
+        "valid" : false,
+        "cancels" : ["PSYCHOPATH", "PRED1", "PRED2", "PRED3", "PRED4"]
     },{
         "type" : "mutation",
         "id" : "MOODSWINGS",
