@@ -638,7 +638,7 @@ void player::process_bionic( int b )
         sounds::sound( pos(), 19, _( "HISISSS!" ) );
     } else if( bio.id == "bio_nanobots" ) {
         for( int i = 0; i < num_hp_parts; i++ ) {
-            if( power_level >= 5 && hp_cur[i] < hp_max[i] ) {
+            if( power_level >= 5 && hp_cur[i] > 0 && hp_cur[i] < hp_max[i] ) {
                 heal( ( hp_part )i, 1 );
                 charge_power( -5 );
             }

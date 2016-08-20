@@ -951,6 +951,7 @@ static int draw_turret_aim( const player &p, WINDOW *w, int line_number, const t
 // TODO: Shunt redundant drawing code elsewhere
 std::vector<tripoint> game::pl_target_ui( target_mode mode, item *relevant, int range )
 {
+    static const std::vector<tripoint> empty_result{};
     std::vector<tripoint> ret;
 
     tripoint src = u.pos();
@@ -986,7 +987,7 @@ std::vector<tripoint> game::pl_target_ui( target_mode mode, item *relevant, int 
 
         auto found = std::find( targets.begin(), targets.end(), last );
         idx = found != targets.end() ? std::distance( targets.begin(), found ) : 0;
-        dst = idx >= 0 ? dst = t[ target ]->pos() : u.pos();
+        dst = targets[ target ]->pos();
     };
 
     update_targets( range, t, target, dst );
@@ -1085,6 +1086,30 @@ std::vector<tripoint> game::pl_target_ui( target_mode mode, item *relevant, int 
         enemiesmsg = string_format(ngettext("%d target in range.", "%d targets in range.",
                                             t.size()), t.size());
     }
+
+    const auto set_last_target = [this]( const tripoint &dst ) {
+        if( ( last_target = npc_at( dst ) ) >= 0 ) {
+            last_target_was_npc = true;
+
+        } else if( ( last_target = mon_at( dst, true ) ) >= 0 ) {
+            last_target_was_npc = false;
+        }
+    };
+
+    const auto confirm_non_enemy_target = [this]( const tripoint &dst ) {
+        if( dst == u.pos() ) {
+            return true;
+        }
+        const int npc_index = npc_at( dst );
+        if( npc_index >= 0 ) {
+            const npc &who = *active_npc[ npc_index ];
+            if( who.is_enemy() ) {
+                return true;
+            }
+            return query_yn( _( "Really attack %s?" ), who.name.c_str() );
+        }
+        return true;
+    };
 
     const tripoint old_offset = u.view_offset;
     do {
@@ -1268,6 +1293,8 @@ std::vector<tripoint> game::pl_target_ui( target_mode mode, item *relevant, int 
             }
             dst = t[newtarget]->pos();
         } else if( (action == "AIM") && target != -1 ) {
+            // No confirm_non_enemy_target here because we have not initiated the firing.
+            // Aiming can be stopped / aborted at any time.
             for( int i = 0; i != 10; ++i ) {
                 do_aim( &u, t, target, relevant, dst );
             }
@@ -1275,9 +1302,9 @@ std::vector<tripoint> game::pl_target_ui( target_mode mode, item *relevant, int 
                 // We've run out of moves, clear target vector, but leave target selected.
                 u.assign_activity( ACT_AIM, 0, 0 );
                 u.activity.str_values.push_back( "AIM" );
-                ret.clear();
                 u.view_offset = old_offset;
-                return ret;
+                set_last_target( dst );
+                return empty_result;
             }
         } else if( action == "SWITCH_MODE" ) {
             relevant->gun_cycle_mode();
@@ -1288,6 +1315,11 @@ std::vector<tripoint> game::pl_target_ui( target_mode mode, item *relevant, int 
             }
         } else if( (action == "AIMED_SHOT" || action == "CAREFUL_SHOT" || action == "PRECISE_SHOT") &&
                    target != -1 ) {
+            // This action basically means "FIRE" as well, the actual firing may be delayed
+            // through aiming, but there is usually no means to stop it. Therefor we query here.
+            if( !confirm_non_enemy_target( dst ) ) {
+                continue;
+            }
             int aim_threshold;
             std::vector<aim_type>::iterator it;
             for( it = aim_types.begin(); it != aim_types.end(); it++ ) {
@@ -1314,6 +1346,7 @@ std::vector<tripoint> game::pl_target_ui( target_mode mode, item *relevant, int 
                 // Also fire if we're at our best aim level already.
                 delwin( w_target );
                 u.view_offset = old_offset;
+                set_last_target( dst );
                 return ret;
 
             } else {
@@ -1324,11 +1357,14 @@ std::vector<tripoint> game::pl_target_ui( target_mode mode, item *relevant, int 
                 // Also clear target vector, but leave target selected.
                 u.assign_activity( ACT_AIM, 0, 0 );
                 u.activity.str_values.push_back( action );
-                ret.clear();
                 u.view_offset = old_offset;
-                return ret;
+                set_last_target( dst );
+                return empty_result;
             }
         } else if( action == "FIRE" ) {
+            if( !confirm_non_enemy_target( dst ) ) {
+                continue;
+            }
             target = find_target( t, dst );
             if( src == dst ) {
                 ret.clear();
@@ -1353,20 +1389,18 @@ std::vector<tripoint> game::pl_target_ui( target_mode mode, item *relevant, int 
         return ret;
     }
 
-    if( ( last_target = npc_at( ret.back() ) ) >= 0 ) {
+    set_last_target( ret.back() );
+
+    if( last_target >= 0 && last_target_was_npc ) {
         if( !active_npc[ last_target ]->is_enemy() ) {
-            if( !query_yn( _( "Really attack %s?" ), active_npc[ last_target ]->name.c_str() ) ) {
-                last_target = -1;
-                return {};
-            } else {
-                active_npc[ last_target ]->hit_by_player = true; // used for morale penalty
-            }
+            // TODO: get rid of this. Or combine it with effect_hit_by_player
+            active_npc[ last_target ]->hit_by_player = true; // used for morale penalty
         }
-        last_target_was_npc = true;
+        // TODO: should probably go into the on-hit code?
         active_npc[ last_target ]->make_angry();
 
-    } else if( ( last_target = mon_at( ret.back(), true ) ) >= 0 ) {
-        last_target_was_npc = false;
+    } else if( last_target >= 0 && !last_target_was_npc ) {
+        // TODO: get rid of this. Or move into the on-hit code?
         zombie( last_target ).add_effect( effect_hit_by_player, 100 );
     }
 

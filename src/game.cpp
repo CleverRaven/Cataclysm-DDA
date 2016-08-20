@@ -3053,8 +3053,14 @@ bool game::handle_action()
                         continue;
                     }
 
+                    // bio_alarm is usefull for waking up during sleeping
+                    // turning off bio_leukocyte has 'unpleasant side effects'
+                    if( bio.id == "bio_alarm" || bio.id == "bio_leukocyte" ) {
+                        continue;
+                    }
+
                     auto const &info = bio.info();
-                    if (info.power_over_time > 0 && bio.id != "bio_alarm") {
+                    if ( info.power_over_time > 0 ) {
                         active.push_back(info.name);
                     }
                 }
@@ -4296,13 +4302,13 @@ void game::debug()
 
                             case 1:
                                 if( query_int( value, "Set thirst to? Currently: %d", p.get_thirst() ) ) {
-                                    p.set_hunger( value );
+                                    p.set_thirst( value );
                                 }
                                 break;
 
                             case 2:
                                 if( query_int( value, "Set fatigue to? Currently: %d", p.get_fatigue() ) ) {
-                                    p.set_hunger( value );
+                                    p.set_fatigue( value );
                                 }
                                 break;
 

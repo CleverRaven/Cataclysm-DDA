@@ -267,13 +267,14 @@
     },{
         "type": "bionic",
         "id": "bio_gills",
-        "name": "Membrane Oxygenator",
+        "name": "Oxygenator",
+        "toggled": true,
         "occupied_bodyparts": [
-            [ "TORSO", 4 ],
+            [ "TORSO", 8 ],
             [ "HEAD", 2 ],
             [ "MOUTH", 2 ]
         ],
-        "description": "An oxygen interchange system automatically switches on while underwater, slowly draining your energy reserves but providing oxygen."
+        "description": "A complex oxygen delivery system.  Improves the ability to extract oxygen from air and allows extracting it from water.  Will automatically turn on when drowning.  Turn on to recharge stamina faster, at moderate power cost."
     },{
         "type": "bionic",
         "id": "bio_purifier",

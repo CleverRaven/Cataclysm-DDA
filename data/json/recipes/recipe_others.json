@@ -2915,7 +2915,7 @@
     {"id":"HAMMER","level":2,"amount":1}
   ], "components": [
     [
-      [ "sheet_metal", 1 ]
+      [ "sheet_metal", 2 ]
     ]
   ]
 },{
