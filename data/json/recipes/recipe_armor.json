@@ -2424,7 +2424,23 @@
   "flags": ["BLIND_EASY"],
   "components": [
     [
-      [ "bandana", 1 ]
+      [ "bandana", 1 ],
+      [ "scarf", 1 ],
+      [ "scarf_long", 1 ],
+      [ "patchwork_scarf", 1 ],
+      [ "long_patchwork_scarf", 1 ],
+      [ "scarf_fur", 1 ],
+      [ "scarf_fur_long", 1 ],
+      [ "knit_scarf", 1 ],
+      [ "long_knit_scarf", 1 ],
+      [ "scarf_loose", 1 ],
+      [ "scarf_long_loose", 1 ],
+      [ "patchwork_scarf_loose", 1 ],
+      [ "long_patchwork_scarf_loose", 1 ],
+      [ "scarf_fur_loose", 1 ],
+      [ "scarf_fur_long_loose", 1 ],
+      [ "knit_scarf_loose", 1 ],
+      [ "long_knit_scarf_loose", 1 ]
     ]
   ]
 },{
