@@ -4612,7 +4612,7 @@
         "ident": "jdelinquent",
         "name": "Juvenile Delinquent",
         "description": "You never cared for grown-ups telling you what to do, and that's how you ended up spending most of your days in the principal's office.  Now, not needing grown-ups to tell you what to do is the only reason you're alive.  Man, you really should've played hooky today.",
-        "points": 1,
+        "points": 2,
         "skills": [
             {
                 "level": 1,
@@ -4635,6 +4635,7 @@
                 "socks",
                 "sneakers",
                 "gloves_fingerless",
+                "slingpack",
                 "matches",
                 "hairpin",
                 "hairpin",
@@ -4797,7 +4798,7 @@
                 "jeans",
                 "socks",
                 "lowtops",
-                "fanny",
+                "slingpack",
                 "juice"
             ],
             "male": [
