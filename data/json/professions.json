@@ -9,6 +9,7 @@
                 "bio_torsionratchet",
                 "bio_power_storage_mkII",
                 "bio_sunglasses",
+                "bio_blindfold",
                 "bio_tools",
                 "bio_flashlight"
             ],
@@ -619,7 +620,7 @@
         "items": {
             "both": [
                 "undershirt",
-				"arm_warmers",
+                "arm_warmers",
                 "leg_warmers",
 				"pants_army",
                 "jacket_army",
@@ -910,6 +911,7 @@
         "CBMs":[
             "bio_power_storage_mkII",
             "bio_sunglasses",
+            "bio_blindfold",
             "bio_torsionratchet",
             "bio_lighter",
             "bio_evap",
@@ -2400,7 +2402,7 @@
         "ident": "bionic_spy",
         "name": "Bionic Agent",
         "description": "Your body has several bionics worth millions of dollars, paid for by public taxes.  The government has turned you into an infiltration and recon specialist: you have night vision, an alarm and a hacking module.  And it all runs off piles and piles of everyday household batteries.",
-        "points": 6,
+        "points": 4,
         "CBMs":[
             "bio_fingerhack",
 			"bio_lockpick",
