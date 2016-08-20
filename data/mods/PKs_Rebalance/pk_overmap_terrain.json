@@ -296,5 +296,95 @@
         "see_cost" : 5,
         "extras" : "none",
         "mondensity" : 4
+    },{
+        "type" : "overmap_terrain",
+        "id" : "farm_unsettled_barn",
+        "name" : "farm field",
+        "sym" : 35,
+        "color" : "i_brown",
+        "see_cost" : 5,
+        "extras" : "field",
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "farm_unsettled_barn_f2",
+        "name" : "farm field",
+        "sym" : 35,
+        "color" : "i_brown",
+        "see_cost" : 5,
+        "extras" : "field",
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "farm_unsettled_house",
+        "name" : "farm",
+        "sym" : 94,
+        "color" : "i_brown",
+        "see_cost" : 5,
+        "extras" : "field",
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "farm_unsettled_topright",
+        "name" : "farm field",
+        "sym" : 35,
+        "color" : "i_brown",
+        "see_cost" : 5,
+        "extras" : "field",
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "farm_unsettled_centerleft",
+        "name" : "farm field",
+        "sym" : 35,
+        "color" : "i_brown",
+        "see_cost" : 5,
+        "extras" : "field",
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "farm_unsettled_centercenter",
+        "name" : "farm field",
+        "sym" : 35,
+        "color" : "i_brown",
+        "see_cost" : 5,
+        "extras" : "field",
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "farm_unsettled_centerright",
+        "name" : "farm field",
+        "sym" : 35,
+        "color" : "i_brown",
+        "see_cost" : 5,
+        "extras" : "field",
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "farm_unsettled_bottomleft",
+        "name" : "farm field",
+        "sym" : 35,
+        "color" : "i_brown",
+        "see_cost" : 5,
+        "extras" : "field",
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "farm_unsettled_bottomcenter",
+        "name" : "farm field",
+        "sym" : 35,
+        "color" : "i_brown",
+        "see_cost" : 5,
+        "extras" : "field",
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "farm_unsettled_bottomright",
+        "name" : "farm field",
+        "sym" : 35,
+        "color" : "i_brown",
+        "see_cost" : 5,
+        "extras" : "field",
+        "mondensity" : 2
     }
 ]

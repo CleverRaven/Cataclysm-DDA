@@ -69,6 +69,27 @@
         "rotate" : false,
         "flags" : [ "CLASSIC" ]
     },{
+        "type" : "overmap_special",
+        "id" : "Farm_unsettled",
+        "overmaps" : [
+            { "point":[0,0,0], "overmap": "farm_unsettled_barn"},
+            { "point":[0,0,1], "overmap": "farm_unsettled_barn_f2"},
+            { "point":[1,0,0], "overmap": "farm_unsettled_house", "connect": "road"},
+            { "point":[2,0,0], "overmap": "farm_unsettled_topright"},
+            { "point":[0,1,0], "overmap": "farm_unsettled_centerleft"},
+            { "point":[1,1,0], "overmap": "farm_unsettled_centercenter"},
+            { "point":[2,1,0], "overmap": "farm_unsettled_centerright"},
+            { "point":[0,2,0], "overmap": "farm_unsettled_bottomleft"},
+            { "point":[1,2,0], "overmap": "farm_unsettled_bottomcenter"},
+            { "point":[2,2,0], "overmap": "farm_unsettled_bottomright"}
+        ],
+        "locations" : [ "wilderness" ],
+        "city_distance" : [20, -1],
+        "city_sizes" : [1, 12],
+        "occurrences" : [0, 4],
+        "rotate" : false,
+        "flags" : [ "CLASSIC" ]
+    },{
         "type": "overmap_special",
         "id": "Triffid Grove",
         "overmaps":
