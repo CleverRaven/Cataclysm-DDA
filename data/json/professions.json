@@ -32,7 +32,6 @@
             ],
             "items": {
                 "both": [
-                    "flashlight",
                     "shorts_cargo",
                     "boots",
                     "hat_boonie",
@@ -2069,6 +2068,7 @@
         "CBMs":[
             "bio_tools",
             "bio_sunglasses",
+            "bio_flashlight",
             "bio_hydraulics",
             "bio_batteries",
             "bio_power_storage_mkII"
@@ -2080,7 +2080,7 @@
                 "jeans",
                 "leather_belt",
                 "boots_steel",
-                "fire_gauntlets",
+                "gloves_work",
                 "glasses_safety",
                 "hat_hard"
             ],
