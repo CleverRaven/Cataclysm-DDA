@@ -2405,8 +2405,8 @@
         "points": 4,
         "CBMs":[
             "bio_fingerhack",
-			"bio_lockpick",
-			"bio_face_mask",
+            "bio_lockpick",
+            "bio_face_mask",
             "bio_alarm",
             "bio_night_vision",
             "bio_batteries",
@@ -2456,7 +2456,7 @@
                 "level": 2,
                 "name": "unarmed"
             },
-			{
+            {
                 "level": 2,
                 "name": "stabbing"
             },
@@ -2526,7 +2526,7 @@
         "points": 6,
         "CBMs":[
             "bio_flashlight",
-			"bio_tools",
+            "bio_tools",
             "bio_ups",
             "bio_watch",
             "bio_batteries",
