@@ -61,6 +61,8 @@ groups of vehicle definitions with self-explanatory names of files:
 "time"         : 0,  // How long, when activated, between drawing cost.
                      // If 0, it draws power once. (default: 0)
 "description"  : "You have a battery draining attachment, and thus can make use of the energy contained in normal, everyday batteries.  Use 'E' to consume batteries." // In-game description
+"canceled_mutations": ["HYPEROPIC"] // (optional) A list of mutations/traits that are removed when this bionic is installed (e.g. because it replaces the fault biological part).
+"included_bionics": ["bio_blindfold"] // (optional) Additional bionics that are installed automatically when this bionic is installed. This can be used to install several bionics from one CBM item, which is useful as each of those can be activated independently.
 ```
 ###DREAMS
 ```C++
