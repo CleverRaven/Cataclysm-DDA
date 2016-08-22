@@ -2341,65 +2341,62 @@ int msgtype_to_tilecolor( const game_message_type type, const bool bOldMsg )
     return -1;
 }
 
-bool wildcard_match(const std::string &sTextIn, const std::string &sPatternIn)
+/**
+ * Match text containing wildcards (*)
+ * @param text_in Text to check
+ * @param pattern_in Pattern to check text_in against
+ * Case insenitive search
+ * Possible patterns:
+ * *
+ * wooD
+ * wood*
+ * *wood
+ * Wood*aRrOW
+ * wood*arrow*
+ * *wood*arrow
+ * *wood*hard* *x*y*z*arrow*
+ **/
+bool wildcard_match(const std::string &text_in, const std::string &pattern_in)
 {
-    std::string sText = sTextIn;
-    std::string sPattern = sPatternIn;
+    std::string text = text_in;
 
-    //case insenitive search
-
-    /* Possible patterns
-    *
-    wooD
-    wood*
-    *wood
-    Wood*aRrOW
-    wood*arrow*
-    *wood*arrow
-    *wood*hard* *x*y*z*arrow*
-    */
-
-    if (sText == "") {
+    if (text == "") {
         return false;
-    } else if (sText == "*") {
+    } else if (text == "*") {
         return true;
     }
 
-    int iPos;
-    std::vector<std::string> vPattern;
+    int pos;
+    std::vector<std::string> pattern;
 
-    sPattern = wildcard_trim_rule(sPattern);
+    wildcard_split(wildcard_trim_rule(pattern_in), '*', pattern);
 
-    wildcard_split(sPattern, '*', vPattern);
-    size_t iNum = vPattern.size();
-
-    if (iNum == 0) { //should never happen
-        return false;
-    } else if (iNum == 1) { // no * found
-        return (sText.length() == vPattern[0].length() && ci_find_substr(sText, vPattern[0]) != -1);
+    if (pattern.size() == 1) { // no * found
+        return (text.length() == pattern[0].length() && ci_find_substr(text, pattern[0]) != -1);
     }
 
-    for (auto it = vPattern.begin(); it != vPattern.end(); ++it) {
-        if (it == vPattern.begin() && *it != "") { //beginning: ^vPat[i]
-            if (sText.length() < it->length() ||
-                ci_find_substr(sText.substr(0, it->length()), *it) == -1) {
+    for (auto it = pattern.begin(); it != pattern.end(); ++it) {
+        if (it == pattern.begin() && *it != "") {
+            if (text.length() < it->length() ||
+                ci_find_substr(text.substr(0, it->length()), *it) == -1) {
                 return false;
             }
 
-            sText = sText.substr(it->length(), sText.length() - it->length());
-        } else if (it == vPattern.end() - 1 && *it != "") { //linenend: vPat[i]$
-            if (sText.length() < it->length() ||
-                ci_find_substr(sText.substr(sText.length() - it->length(),
+            text = text.substr(it->length(), text.length() - it->length());
+        } else if (it == pattern.end() - 1 && *it != "") {
+            if (text.length() < it->length() ||
+                ci_find_substr(text.substr(text.length() - it->length(),
                                             it->length()), *it) == -1) {
                 return false;
             }
-        } else { //inbetween: vPat[i]
-            if (*it != "") {
-                if ((iPos = (int)ci_find_substr(sText, *it)) == -1) {
+        } else {
+            if (!(*it).empty()) {
+                pos = ci_find_substr(text, *it);
+                if (pos == -1) {
                     return false;
                 }
 
-                sText = sText.substr(iPos + (int)it->length(), (int)sText.length() - iPos);
+                text = text.substr(pos + (int)it->length(), (int)text.length() - pos);
             }
         }
     }
@@ -2407,41 +2404,43 @@ bool wildcard_match(const std::string &sTextIn, const std::string &sPatternIn)
     return true;
 }
 
-std::string wildcard_trim_rule(const std::string &sPatternIn)
+std::string wildcard_trim_rule(const std::string &pattern_in)
 {
-    std::string sPattern = sPatternIn;
-    size_t iPos = 0;
+    std::string pattern = pattern_in;
+    size_t pos = pattern.find("**");
 
     //Remove all double ** in pattern
-    while((iPos = sPattern.find("**")) != std::string::npos) {
-        sPattern = sPattern.substr(0, iPos) + sPattern.substr(iPos + 1, sPattern.length() - iPos - 1);
+    while(pos != std::string::npos) {
+        pattern = pattern.substr(0, pos) + pattern.substr(pos + 1, pattern.length() - pos - 1);
+        pos = pattern.find("**");
     }
 
-    return sPattern;
+    return pattern;
 }
 
-std::vector<std::string> &wildcard_split(const std::string &s, char delim, std::vector<std::string> &elems)
+std::vector<std::string> &wildcard_split(const std::string &text_in, char delim_in, std::vector<std::string> &elems_in)
 {
-    std::stringstream ss(s);
+    std::stringstream ss(text_in);
     std::string item;
-    elems.clear();
-    while (std::getline(ss, item, delim)) {
-        elems.push_back(item);
+    elems_in.clear();
+    while (std::getline(ss, item, delim_in)) {
+        elems_in.push_back(item);
     }
 
-    if ( s.substr(s.length() - 1, 1) == "*") {
-        elems.push_back("");
+    if ( text_in.substr(text_in.length() - 1, 1) == "*") {
+        elems_in.push_back("");
     }
 
-    return elems;
+    return elems_in;
 }
 
 // find substring (case insensitive)
-template<typename charT>
-int ci_find_substr( const charT &str1, const charT &str2, const std::locale &loc )
+int ci_find_substr( const std::string &str1, const std::string &str2, const std::locale &loc )
 {
-    typename charT::const_iterator it = std::search( str1.begin(), str1.end(), str2.begin(), str2.end(),
-                                        ci_equal<typename charT::value_type>(loc) );
+    std::string::const_iterator it = std::search( str1.begin(), str1.end(), str2.begin(), str2.end(),
+                                [&] ( const char str1_in, const char str2_in ) {
+                                    return std::toupper( str1_in, loc ) == std::toupper( str2_in, loc );
+                                } );
     if ( it != str1.end() ) {
         return it - str1.begin();
     } else {

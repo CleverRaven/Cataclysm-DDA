@@ -143,8 +143,6 @@ void safemode::show( const std::string &custom_name_in, bool is_safemode_in )
         ctxt.register_action( "SWAP_RULE_GLOBAL_CHAR" );
     }
 
-    std::ostringstream temp_stream;
-
     while( true ) {
         int locx = 17;
         locx += shortcut_print( w_header, 2, locx, c_white,
@@ -175,9 +173,8 @@ void safemode::show( const std::string &custom_name_in, bool is_safemode_in )
         }
 
         auto &current_tab = ( tab == GLOBAL_TAB ) ? global_rules : character_rules;
-        const bool current_tab_non_empty = !current_tab.empty();
 
-        if( tab == CHARACTER_TAB && g->u.name == "" ) {
+        if( tab == CHARACTER_TAB && g->u.name.empty() ) {
             character_rules.clear();
             mvwprintz( w, 8, 15, c_white, _( "Please load a character first to use this page!" ) );
         }
@@ -190,16 +187,13 @@ void safemode::show( const std::string &custom_name_in, bool is_safemode_in )
         // display safemode
         for( int i = start_pos; i < ( int )current_tab.size(); i++ ) {
             if( i >= start_pos &&
-                i < start_pos + ( ( content_height > ( int )current_tab.size() ) ?
-                                  ( int )current_tab.size() : content_height ) ) {
+                i < start_pos + ( std::min( content_height, static_cast<int>( current_tab.size() ) ) ) ) {
 
                 auto rule = current_tab[i];
 
                 nc_color line_color = ( rule.active ) ? c_white : c_ltgray;
 
-                temp_stream.str( "" );
-                temp_stream << i + 1;
-                mvwprintz( w, i - start_pos, 1, line_color, "%s", temp_stream.str().c_str() );
+                mvwprintz( w, i - start_pos, 1, line_color, "%d", i + 1 );
                 mvwprintz( w, i - start_pos, 5, c_yellow, ( line == i ) ? ">> " : "   " );
 
                 auto draw_column = [&]( Columns column_in, std::string text_in ) {
@@ -209,7 +203,7 @@ void safemode::show( const std::string &custom_name_in, bool is_safemode_in )
                              );
                 };
 
-                draw_column( COLUMN_RULE, ( rule.rule == "" ) ? _( "<empty rule>" ) : rule.rule );
+                draw_column( COLUMN_RULE, ( rule.rule.empty() ) ? _( "<empty rule>" ) : rule.rule );
                 draw_column( COLUMN_ATTITUDE, Creature::get_attitude_ui_data( rule.attitude ).first );
                 draw_column( COLUMN_PROXIMITY, ( !rule.exclude ) ? to_string( rule.proximity ).c_str() : "---" );
                 draw_column( COLUMN_INCLUDE_EXCLUDE, ( rule.exclude ) ?  _( "Exclude" ) : _( "Include" ) );
@@ -251,7 +245,7 @@ void safemode::show( const std::string &custom_name_in, bool is_safemode_in )
             current_tab.push_back( rules_class( "", true, false, Creature::A_HOSTILE,
                                                 get_option<int>( "SAFEMODEPROXIMITY" ) ) );
             line = current_tab.size() - 1;
-        } else if( action == "REMOVE_RULE" && current_tab_non_empty ) {
+        } else if( action == "REMOVE_RULE" && !current_tab.empty() ) {
             changes_made = true;
             current_tab.erase( current_tab.begin() + line );
             if( line > ( int )current_tab.size() - 1 ) {
@@ -260,35 +254,25 @@ void safemode::show( const std::string &custom_name_in, bool is_safemode_in )
             if( line < 0 ) {
                 line = 0;
             }
-        } else if( action == "COPY_RULE" && current_tab_non_empty ) {
+        } else if( action == "COPY_RULE" && !current_tab.empty() ) {
             changes_made = true;
-            current_tab.push_back( rules_class(
-                                       current_tab[line].rule,
-                                       current_tab[line].active,
-                                       current_tab[line].exclude,
-                                       current_tab[line].attitude,
-                                       current_tab[line].proximity ) );
+            current_tab.push_back( current_tab[line] );
             line = current_tab.size() - 1;
-        } else if( action == "SWAP_RULE_GLOBAL_CHAR" && current_tab_non_empty ) {
-            if( ( tab == GLOBAL_TAB && g->u.name != "" ) || tab == CHARACTER_TAB ) {
+        } else if( action == "SWAP_RULE_GLOBAL_CHAR" && !current_tab.empty() ) {
+            if( ( tab == GLOBAL_TAB && !g->u.name.empty() ) || tab == CHARACTER_TAB ) {
                 changes_made = true;
                 //copy over
                 auto &temp_rules_from = ( tab == GLOBAL_TAB ) ? global_rules : character_rules;
                 auto &temp_rules_to = ( tab == GLOBAL_TAB ) ? character_rules : global_rules;
 
-                temp_rules_to.push_back( rules_class(
-                                             temp_rules_from[line].rule,
-                                             temp_rules_from[line].active,
-                                             temp_rules_from[line].exclude,
-                                             temp_rules_from[line].attitude,
-                                             temp_rules_from[line].proximity ) );
+                temp_rules_to.push_back( temp_rules_from[line] );
 
                 //remove old
                 temp_rules_from.erase( temp_rules_from.begin() + line );
                 line = temp_rules_from.size() - 1;
                 tab = ( tab == GLOBAL_TAB ) ? CHARACTER_TAB : GLOBAL_TAB;
             }
-        } else if( action == "CONFIRM" && current_tab_non_empty ) {
+        } else if( action == "CONFIRM" && !current_tab.empty() ) {
             changes_made = true;
             if( column == COLUMN_RULE ) {
                 fold_and_print( w_help, 1, 1, 999, c_white,
@@ -322,7 +306,6 @@ void safemode::show( const std::string &custom_name_in, bool is_safemode_in )
                         attitude = Creature::A_ANY;
                         break;
                     case Creature::A_ANY:
-                    default:
                         attitude = Creature::A_HOSTILE;
                 }
             } else if( column == COLUMN_PROXIMITY && !current_tab[line].exclude ) {
@@ -340,14 +323,14 @@ void safemode::show( const std::string &custom_name_in, bool is_safemode_in )
                 } else {
                     //Let the options class handle the validity of the new value
                     auto temp_option = get_options().get_option( "SAFEMODEPROXIMITY" );
-                    temp_option.setValue( text.c_str() );
+                    temp_option.setValue( text );
                     current_tab[line].proximity = atoi( temp_option.getValue().c_str() );
                 }
             }
-        } else if( action == "ENABLE_RULE" && current_tab_non_empty ) {
+        } else if( action == "ENABLE_RULE" && !current_tab.empty() ) {
             changes_made = true;
             current_tab[line].active = true;
-        } else if( action == "DISABLE_RULE" && current_tab_non_empty ) {
+        } else if( action == "DISABLE_RULE" && !current_tab.empty() ) {
             changes_made = true;
             current_tab[line].active = false;
         } else if( action == "LEFT" ) {
@@ -360,21 +343,21 @@ void safemode::show( const std::string &custom_name_in, bool is_safemode_in )
             if( column >= num_columns ) {
                 column = 0;
             }
-        } else if( action == "MOVE_RULE_UP" && current_tab_non_empty ) {
+        } else if( action == "MOVE_RULE_UP" && !current_tab.empty() ) {
             changes_made = true;
             if( line < ( int )current_tab.size() - 1 ) {
                 std::swap( current_tab[line], current_tab[line + 1] );
                 line++;
                 column = 0;
             }
-        } else if( action == "MOVE_RULE_DOWN" && current_tab_non_empty ) {
+        } else if( action == "MOVE_RULE_DOWN" && !current_tab.empty() ) {
             changes_made = true;
             if( line > 0 ) {
                 std::swap( current_tab[line],  current_tab[line - 1] );
                 line--;
                 column = 0;
             }
-        } else if( action == "TEST_RULE" && current_tab_non_empty ) {
+        } else if( action == "TEST_RULE" && !current_tab.empty() ) {
             test_pattern( tab, line );
         } else if( action == "SWITCH_SAFEMODE_OPTION" ) {
             get_options().get_option( "SAFEMODE" ).setNext();
@@ -389,7 +372,7 @@ void safemode::show( const std::string &custom_name_in, bool is_safemode_in )
     if( query_yn( _( "Save changes?" ) ) ) {
         if( is_safemode_in ) {
             save_global();
-            if( g->u.name != "" ) {
+            if( !g->u.name.empty() ) {
                 save_character();
             }
         } else {
@@ -404,15 +387,15 @@ void safemode::show( const std::string &custom_name_in, bool is_safemode_in )
 void safemode::test_pattern( const int tab_in, const int row_in )
 {
     std::vector<std::string> creature_list;
-    std::string creature_name = "";
+    std::string creature_name;
 
     auto &temp_rules = ( tab_in == GLOBAL_TAB ) ? global_rules : character_rules;
 
-    if( temp_rules[row_in].rule == "" ) {
+    if( temp_rules[row_in].rule.empty() ) {
         return;
     }
 
-    if( g->u.name == "" ) {
+    if( g->u.name.empty() ) {
         popup( _( "No monsters loaded. Please start a game first." ) );
         return;
     }
@@ -432,7 +415,6 @@ void safemode::test_pattern( const int tab_in, const int row_in )
     int start_pos = 0;
     const int content_height = FULL_SCREEN_HEIGHT - 8;
     const int content_width = FULL_SCREEN_WIDTH - 30;
-    std::ostringstream temp_stream;
 
     WINDOW *w_test_rule_border = newwin( content_height + 2, content_width, offset_y, offset_x );
     WINDOW_PTR w_test_rule_borderptr( w_test_rule_border );
@@ -473,19 +455,15 @@ void safemode::test_pattern( const int tab_in, const int row_in )
         // display safemode
         for( int i = start_pos; i < ( int )creature_list.size(); i++ ) {
             if( i >= start_pos &&
-                i < start_pos + ( ( content_height > ( int )creature_list.size() ) ?
-                                  ( int )creature_list.size() :
-                                  content_height ) ) {
+                i < start_pos + std::min( content_height, static_cast<int>( creature_list.size() ) ) ) {
                 nc_color line_color = c_white;
 
-                temp_stream.str( "" );
-                temp_stream << i + 1;
-                mvwprintz( w_test_rule_content, i - start_pos, 0, line_color, "%s", temp_stream.str().c_str() );
+                mvwprintz( w_test_rule_content, i - start_pos, 0, line_color, "%d", i + 1 );
                 mvwprintz( w_test_rule_content, i - start_pos, 4, line_color, "" );
 
                 wprintz( w_test_rule_content, c_yellow, ( line == i ) ? ">> " : "   " );
 
-                wprintz( w_test_rule_content, ( line == i ) ? hilite( line_color ) : line_color,
+                wprintz( w_test_rule_content, ( line == i ) ? hilite( line_color ) : line_color, "%s",
                          creature_list[i].c_str() );
             }
         }
@@ -513,8 +491,7 @@ void safemode::add_rule( const std::string &rule_in, const Creature::Attitude at
                          const int proximity_in,
                          const rule_state state_in )
 {
-    character_rules.push_back( rules_class( rule_in, true,
-                                            ( state_in == RULE_BLACKLISTED ) ? false : true,
+    character_rules.push_back( rules_class( rule_in, true, ( state_in == RULE_BLACKLISTED ),
                                             attitude_in, proximity_in ) );
     create_rules();
 
@@ -588,7 +565,7 @@ void safemode::set_rule( const rules_class rule_in, const std::string name_in, r
 {
     static std::vector<Creature::Attitude> attitude_any = {{Creature::A_HOSTILE, Creature::A_NEUTRAL, Creature::A_FRIENDLY}};
 
-    if( rule_in.rule != "" && rule_in.active && wildcard_match( name_in, rule_in.rule ) ) {
+    if( !rule_in.rule.empty() && rule_in.active && wildcard_match( name_in, rule_in.rule ) ) {
         if( rule_in.attitude == Creature::A_ANY ) {
             for( auto &att : attitude_any ) {
                 safemode_rules[ name_in ][ att ] = rule_state_class( rs_in, rule_in.proximity );

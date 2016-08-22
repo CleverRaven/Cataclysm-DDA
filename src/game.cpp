@@ -3160,7 +3160,7 @@ bool game::handle_action()
         case ACTION_WHITELIST_ENEMY:
             if ( safe_mode == SAFE_MODE_STOP && !get_safemode().empty() ) {
                 get_safemode().add_rule( get_safemode().whitelist, Creature::A_ANY, 0, RULE_WHITELISTED );
-                add_msg( m_info, string_format( _( "Creature whitelisted: %s" ), get_safemode().whitelist.c_str() ).c_str() );
+                add_msg( m_info, _( "Creature whitelisted: %s" ), get_safemode().whitelist.c_str() );
                 set_safe_mode( SAFE_MODE_ON );
                 mostseen = 0;
             }
@@ -10044,7 +10044,7 @@ int game::list_monsters(const int iLastState)
             const auto m = dynamic_cast<monster*>( cCurMon );
             const std::string monName = (m != nullptr) ? m->name() : "human";
 
-            if ( !get_safemode().has_rule(monName, Creature::A_ANY) ) {
+            if ( get_safemode().has_rule(monName, Creature::A_ANY) ) {
                 get_safemode().remove_rule(monName, Creature::A_ANY);
             }
         } else if (action == "SAFEMODE_BLACKLIST_ADD") {
@@ -11633,7 +11633,7 @@ bool game::check_safe_mode_allowed( bool repeat_safe_mode_warnings )
 
     std::string whitelist = "";
     if ( !get_safemode().empty() ) {
-        whitelist = string_format( " or %s to whitelist the monster", press_x( ACTION_WHITELIST_ENEMY ).c_str() );
+        whitelist = string_format( _( " or %s to whitelist the monster" ), press_x( ACTION_WHITELIST_ENEMY ).c_str() );
     }
 
     std::string const msg_safe_mode = press_x(ACTION_TOGGLE_SAFEMODE);

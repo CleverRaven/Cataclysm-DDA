@@ -28,24 +28,11 @@ class safemode : public JsonSerializer, public JsonDeserializer
                 Creature::Attitude attitude;
                 int proximity;
 
-                rules_class() {
-                    this->rule = "";
-                    this->active = false;
-                    this->exclude = false;
-                    this->attitude = Creature::A_HOSTILE;
-                    this->proximity = 0;
-                }
-
-                rules_class( std::string rule_in, bool active_in, bool exclude_in,
-                             Creature::Attitude attitude_in, int proximity_in ) {
-                    this->rule = rule_in;
-                    this->active = active_in;
-                    this->exclude = exclude_in;
-                    this->attitude = attitude_in;
-                    this->proximity = proximity_in;
-                }
-
-                ~rules_class() {};
+                rules_class() : rule(), active( false ), exclude( false ), attitude( Creature::A_HOSTILE ),
+                    proximity( 0 ) {}
+                rules_class( std::string rule_in, bool active_in, bool exclude_in, Creature::Attitude attitude_in,
+                             int proximity_in ) : rule( rule_in ), active( active_in ), exclude( exclude_in ),
+                    attitude( attitude_in ), proximity( proximity_in ) {}
         };
 
         class rule_state_class
@@ -54,17 +41,9 @@ class safemode : public JsonSerializer, public JsonDeserializer
                 rule_state state;
                 int proximity;
 
-                rule_state_class() {
-                    this->state = RULE_NONE;
-                    this->proximity = 0;
-                }
-
-                rule_state_class( rule_state state_in, int proximity_in ) {
-                    this->state = state_in;
-                    this->proximity = proximity_in;
-                }
-
-                ~rule_state_class() {};
+                rule_state_class() : state( RULE_NONE ), proximity( 0 ) {}
+                rule_state_class( rule_state state_in, int proximity_in ) : state( state_in ),
+                    proximity( proximity_in ) {}
         };
 
         /**

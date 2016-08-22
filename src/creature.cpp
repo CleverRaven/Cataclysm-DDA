@@ -1556,8 +1556,8 @@ std::pair<std::string, nc_color> const &Creature::get_attitude_ui_data( Attitude
         }
     };
 
-    if( ( int ) att < 0 || ( int ) att > 4 ) {
-        return strings[4];
+    if( ( int ) att < 0 || ( int ) att >= ( int ) strings.size() ) {
+        return strings.back();
     }
 
     return strings[att];
