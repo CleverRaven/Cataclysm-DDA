@@ -2175,9 +2175,8 @@ tab_direction set_description(WINDOW *w, player *u, const bool allow_reroll, poi
             } else {
                 for( auto &current_trait : current_traits ) {
                     wprintz(w_traits, c_ltgray, "\n");
-                    nc_color color = mutation_branch::get( current_trait ).points > 0 ? c_ltgreen : c_ltred;
-                    color = mutation_branch::get( current_trait ).profession ? c_white : color;
-                    wprintz( w_traits, color, mutation_branch::get_name( current_trait ).c_str() );
+                    const auto &mdata = mutation_branch::get( current_trait );
+                    wprintz( w_traits, mdata.get_display_color(), mdata.name.c_str() );
                 }
             }
             wrefresh(w_traits);
