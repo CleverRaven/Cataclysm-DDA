@@ -193,7 +193,7 @@ void safemode::show( const std::string &custom_name_in, bool is_safemode_in )
         // display safemode
         for( int i = start_pos; i < ( int )current_tab.size(); i++ ) {
             if( i >= start_pos &&
-                i < start_pos + ( std::min( content_height, static_cast<int>( current_tab.size() ) ) ) ) {
+                i < start_pos + std::min( content_height, static_cast<int>( current_tab.size() ) ) ) {
 
                 auto rule = current_tab[i];
 
