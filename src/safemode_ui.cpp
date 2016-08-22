@@ -33,6 +33,12 @@ void safemode::show()
     show( _( " SAFEMODE MANAGER " ), true );
 }
 
+std::string safemode::npc_type_name()
+{
+    static std::string name = "human";
+    return name;
+}
+
 void safemode::show( const std::string &custom_name_in, bool is_safemode_in )
 {
     auto global_rules_old = global_rules;
@@ -48,14 +54,14 @@ void safemode::show( const std::string &custom_name_in, bool is_safemode_in )
         COLUMN_RULE,
         COLUMN_ATTITUDE,
         COLUMN_PROXIMITY,
-        COLUMN_INCLUDE_EXCLUDE,
+        COLUMN_WHITE_BLACKLIST,
     };
 
     std::map<int, int> column_pos;
     column_pos[COLUMN_RULE] = 4;
-    column_pos[COLUMN_ATTITUDE] = 50;
-    column_pos[COLUMN_PROXIMITY] = 61;
-    column_pos[COLUMN_INCLUDE_EXCLUDE] = 68;
+    column_pos[COLUMN_ATTITUDE] = 48;
+    column_pos[COLUMN_PROXIMITY] = 59;
+    column_pos[COLUMN_WHITE_BLACKLIST] = 66;
 
     const int num_columns = column_pos.size();
 
@@ -113,7 +119,7 @@ void safemode::show( const std::string &custom_name_in, bool is_safemode_in )
     mvwprintz( w_header, 3, column_pos[COLUMN_RULE] + 4, c_white, _( "Rules" ) );
     mvwprintz( w_header, 3, column_pos[COLUMN_ATTITUDE] + 2, c_white, _( "Attitude" ) );
     mvwprintz( w_header, 3, column_pos[COLUMN_PROXIMITY] + 2, c_white, _( "Dist" ) );
-    mvwprintz( w_header, 3, column_pos[COLUMN_INCLUDE_EXCLUDE] + 2, c_white, _( "I/E" ) );
+    mvwprintz( w_header, 3, column_pos[COLUMN_WHITE_BLACKLIST] + 2, c_white, _( "B/W" ) );
 
     wrefresh( w_header );
 
@@ -205,8 +211,8 @@ void safemode::show( const std::string &custom_name_in, bool is_safemode_in )
 
                 draw_column( COLUMN_RULE, ( rule.rule.empty() ) ? _( "<empty rule>" ) : rule.rule );
                 draw_column( COLUMN_ATTITUDE, Creature::get_attitude_ui_data( rule.attitude ).first );
-                draw_column( COLUMN_PROXIMITY, ( !rule.exclude ) ? to_string( rule.proximity ).c_str() : "---" );
-                draw_column( COLUMN_INCLUDE_EXCLUDE, ( rule.exclude ) ?  _( "Exclude" ) : _( "Include" ) );
+                draw_column( COLUMN_PROXIMITY, ( !rule.whitelist ) ? to_string( rule.proximity ).c_str() : "---" );
+                draw_column( COLUMN_WHITE_BLACKLIST, ( rule.whitelist ) ? _( "Whitelist" ) : _( "Blacklist" ) );
             }
         }
 
@@ -291,8 +297,8 @@ void safemode::show( const std::string &custom_name_in, bool is_safemode_in )
                 wrefresh( w_help );
                 current_tab[line].rule = wildcard_trim_rule( string_input_popup( _( "Safemode Rule:" ),
                                          30, current_tab[line].rule ) );
-            } else if( column == COLUMN_INCLUDE_EXCLUDE ) {
-                current_tab[line].exclude = !current_tab[line].exclude;
+            } else if( column == COLUMN_WHITE_BLACKLIST ) {
+                current_tab[line].whitelist = !current_tab[line].whitelist;
             } else if( column == COLUMN_ATTITUDE ) {
                 auto &attitude = current_tab[line].attitude;
                 switch( attitude ) {
@@ -308,7 +314,7 @@ void safemode::show( const std::string &custom_name_in, bool is_safemode_in )
                     case Creature::A_ANY:
                         attitude = Creature::A_HOSTILE;
                 }
-            } else if( column == COLUMN_PROXIMITY && !current_tab[line].exclude ) {
+            } else if( column == COLUMN_PROXIMITY && !current_tab[line].whitelist ) {
                 const auto text = string_input_popup( _( "Proximity Distance (0=max viewdistance)" ),
                                                       4,
                                                       to_string( current_tab[line].proximity ),
@@ -491,7 +497,7 @@ void safemode::add_rule( const std::string &rule_in, const Creature::Attitude at
                          const int proximity_in,
                          const rule_state state_in )
 {
-    character_rules.push_back( rules_class( rule_in, true, ( state_in == RULE_BLACKLISTED ),
+    character_rules.push_back( rules_class( rule_in, true, ( state_in == RULE_WHITELISTED ),
                                             attitude_in, proximity_in ) );
     create_rules();
 
@@ -547,7 +553,7 @@ void safemode::add_rules( std::vector<rules_class> &rules_in )
     //if a specific monster is being added, all the rules need to be checked now
     //may have some performance issues since exclusion needs to check all monsters also
     for( auto &rule : rules_in ) {
-        if( !rule.exclude ) {
+        if( !rule.whitelist ) {
             //Check include patterns against all monster mtypes
             for( const auto &mtype : MonsterGenerator::generator().get_all_mtypes() ) {
                 set_rule( rule, mtype.nname(), RULE_BLACKLISTED );
@@ -685,7 +691,7 @@ void safemode::serialize( JsonOut &json ) const
 
         json.member( "rule", elem.rule );
         json.member( "active", elem.active );
-        json.member( "exclude", elem.exclude );
+        json.member( "whitelist", elem.whitelist );
         json.member( "attitude", elem.attitude );
         json.member( "proximity", elem.proximity );
 
@@ -706,12 +712,12 @@ void safemode::deserialize( JsonIn &jsin )
 
         const std::string rule = jo.get_string( "rule" );
         const bool active = jo.get_bool( "active" );
-        const bool exclude = jo.get_bool( "exclude" );
+        const bool whitelist = jo.get_bool( "whitelist" );
         const Creature::Attitude attitude = ( Creature::Attitude ) jo.get_int( "attitude" );
         const int proximity = jo.get_int( "proximity" );
 
         temp_rules.push_back(
-            rules_class( rule, active, exclude, attitude, proximity )
+            rules_class( rule, active, whitelist, attitude, proximity )
         );
     }
 }

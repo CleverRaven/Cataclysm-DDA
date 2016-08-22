@@ -24,14 +24,14 @@ class safemode : public JsonSerializer, public JsonDeserializer
             public:
                 std::string rule;
                 bool active;
-                bool exclude;
+                bool whitelist;
                 Creature::Attitude attitude;
                 int proximity;
 
-                rules_class() : rule(), active( false ), exclude( false ), attitude( Creature::A_HOSTILE ),
+                rules_class() : rule(), active( false ), whitelist( false ), attitude( Creature::A_HOSTILE ),
                     proximity( 0 ) {}
                 rules_class( std::string rule_in, bool active_in, bool exclude_in, Creature::Attitude attitude_in,
-                             int proximity_in ) : rule( rule_in ), active( active_in ), exclude( exclude_in ),
+                             int proximity_in ) : rule( rule_in ), active( active_in ), whitelist( exclude_in ),
                     attitude( attitude_in ), proximity( proximity_in ) {}
         };
 
@@ -73,7 +73,7 @@ class safemode : public JsonSerializer, public JsonDeserializer
         void set_rule( const rules_class rule_in, const std::string name_in, rule_state rs_in );
 
     public:
-        std::string whitelist;
+        std::string lastmon_whitelist;
 
         bool has_rule( const std::string &rule_in, const Creature::Attitude attitude_in );
         void add_rule( const std::string &rule_in, const Creature::Attitude attitude_in,
@@ -82,6 +82,8 @@ class safemode : public JsonSerializer, public JsonDeserializer
         void clear_character_rules();
         rule_state check_monster( const std::string &creature_name_in, const Creature::Attitude attitude_in,
                                   const int proximity_in ) const;
+
+        std::string npc_type_name();
 
         void show();
         void show( const std::string &custom_name_in, bool is_autopickup_in );
