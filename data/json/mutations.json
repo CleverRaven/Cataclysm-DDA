@@ -4474,7 +4474,7 @@
         "restricts_gear" : [ "HAND_L", "HAND_R" ],
         "leads_to" : ["CLAWS_TENTACLE"],
         "changes_to" : ["ARM_TENTACLES_4"],
-        "cancels" : ["PAWS", "PAWS_LARGE", "NAILS", "CLAWS", "TALONS"],
+        "cancels" : ["PAWS", "PAWS_LARGE", "NAILS", "CLAWS", "TALONS", "WEBBED"],
         "wet_protection" : [
             { "part" : "ARM_L", "neutral" : 19 },
             { "part" : "ARM_R", "neutral" : 19 },
@@ -4513,7 +4513,7 @@
         "prereqs" : ["ARM_TENTACLES"],
         "leads_to" : ["CLAWS_TENTACLE"],
         "changes_to" : ["ARM_TENTACLES_8"],
-        "cancels" : ["PAWS", "PAWS_LARGE", "NAILS", "CLAWS", "TALONS"],
+        "cancels" : ["PAWS", "PAWS_LARGE", "NAILS", "CLAWS", "TALONS", "WEBBED"],
         "wet_protection" : [
             { "part" : "ARM_L", "neutral" : 19 },
             { "part" : "ARM_R", "neutral" : 19 },
@@ -4550,7 +4550,7 @@
         ],
         "restricts_gear" : [ "HAND_L", "HAND_R" ],
         "prereqs" : ["ARM_TENTACLES_4"],
-        "cancels" : ["PAWS", "PAWS_LARGE", "NAILS", "CLAWS", "TALONS"],
+        "cancels" : ["PAWS", "PAWS_LARGE", "NAILS", "CLAWS", "TALONS", "WEBBED"],
         "leads_to" : ["CLAWS_TENTACLE"],
         "category" : ["MUTCAT_CEPHALOPOD"],
         "wet_protection" : [
