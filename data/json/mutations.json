@@ -3943,7 +3943,7 @@
         "description" : "Pecking at prey is part of your daily routine now.  Slightly reduces wet effects.",
         "valid" : false,
         "purifiable" : false,
-        "cancels" : ["BEAK", "BEAK_HUM", "BEAK_PECK", "PROBOSCIS", "MINOTAUR", "MUZZLE_BEAR", "MUZZLE_LONG", "MUZZLE_RAT" , "MANDIBLES", "MOUTH_TENTACLES", "FANGS", "SABER_TEETH"],
+        "cancels" : ["BEAK_PECK", "PROBOSCIS", "MINOTAUR", "MUZZLE_BEAR", "MUZZLE_LONG", "MUZZLE_RAT" , "MANDIBLES", "MOUTH_TENTACLES", "FANGS", "SABER_TEETH"],
         "prereqs" : ["BEAK"],
         "threshreq" : ["THRESH_BIRD"],
         "category" : ["MUTCAT_BIRD"],
