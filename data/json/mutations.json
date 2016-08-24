@@ -4258,7 +4258,7 @@
         "cancels" : ["LEG_TENTACLES", "RAP_TALONS"],
         "changes_to" : ["ROOTS3"],
         "category" : ["MUTCAT_PLANT"],
-        "encumbrance_always" : [
+        "encumbrance_covered" : [
             [ "FOOT_L", 10 ],
             [ "FOOT_R", 10 ]
         ]
@@ -4275,7 +4275,7 @@
         "threshreq" : ["THRESH_PLANT"],
         "cancels" : ["LEG_TENTACLES"],
         "category" : ["MUTCAT_PLANT"],
-        "encumbrance_always" : [
+        "encumbrance_covered" : [
             [ "FOOT_L", 10 ],
             [ "FOOT_R", 10 ]
         ]
@@ -4293,7 +4293,11 @@
         "prereqs2" : ["SAPROPHAGE"],
         "threshreq" : ["THRESH_PLANT"],
         "cancels" : ["LEG_TENTACLES", "SMELLY", "SMELLY2"],
-        "category" : ["MUTCAT_PLANT"]
+        "category" : ["MUTCAT_PLANT"],
+        "encumbrance_covered" : [
+            [ "FOOT_L", 10 ],
+            [ "FOOT_R", 10 ]
+        ]
     },{
         "type" : "mutation",
         "id" : "COLDBLOOD",
