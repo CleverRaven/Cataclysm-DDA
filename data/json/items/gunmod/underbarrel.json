@@ -275,7 +275,8 @@
       "ammo": "40mm",
       "clip_size": 1,
       "dispersion": 20,
-      "durability": 10
+      "durability": 10,
+      "flags": [ "NEVER_JAMS", "RELOAD_EJECT" ]
     },
     "dispersion_modifier": 60
   },
