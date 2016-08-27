@@ -231,7 +231,7 @@
         "description" : "You are less likely to throw up from food poisoning, alcohol, etc.  If you throw up nevertheless, you won't suffer a residual nausea.",
         "starting_trait" : true,
         "changes_to" : ["NAUSEA"],
-        "note" : "nope.  This does NOT lead to EATPOISON.  Stomach problems are part of the GI upgrades--one advantage to not having Robust Genetics.",
+        "//" : "nope.  This does NOT lead to EATPOISON.  Stomach problems are part of the GI upgrades--one advantage to not having Robust Genetics.",
         "cancels" : ["WEAKSTOMACH"]
     },{
         "type" : "mutation",
@@ -390,7 +390,7 @@
         "category" : ["MUTCAT_FISH", "MUTCAT_SLIME", "MUTCAT_ALPHA", "MUTCAT_MEDICAL"]
     },{
         "type" : "mutation",
-        "id" : "EAGLEEYED", "note" : "Can't change the ID as that breaks save-compatibility.",
+        "id" : "EAGLEEYED", "//" : "Can't change the ID as that breaks save-compatibility.",
         "name" : "Scout",
         "points" : 1,
         "description" : "You're an excellent navigator and your ability to spot distant landmarks is unmatched.  Your sight radius on the overmap extends beyond the normal range.",
@@ -1752,7 +1752,6 @@
         "category" : ["MUTCAT_MYCUS"],
         "active"     :    true,
         "cost"       :    8,
-        "time"       :    0,
         "hunger"     :    true,
         "thirst"     :    true
     },{
@@ -1785,7 +1784,6 @@
         "category" : ["MUTCAT_MYCUS"],
         "active"     :    true,
         "cost"       :    10,
-        "time"       :    0,
         "hunger"     :    true,
         "thirst"     :    true,
         "fatigue"    :    true
@@ -2145,7 +2143,7 @@
         "description" : "So it's fermented?  Whatever, it's still good drinking.  You've developed the ability to metabolize alcohol as a food source.",
         "prereqs" : ["TOLERANCE", "EATPOISON"],
         "prereqs2" : ["SAPROVORE", "EATPOISON"],
-        "note" : "It's unlikely but possible to get EATPOISON without ALCMET.  Since EATPOISON's arguably a stronger version, it serves as both prereqs.",
+        "//" : "It's unlikely but possible to get EATPOISON without ALCMET.  Since EATPOISON's arguably a stronger version, it serves as both prereqs.",
         "category" : ["MUTCAT_TROGLOBITE"],
         "valid" : false
     },{
@@ -2249,7 +2247,7 @@
         "description" : "Your guts have developed the ability to handle poisonous food.  Mostly.",
         "changes_to" : ["EATDEAD"],
         "prereqs" : ["NAUSEA", "VOMITOUS", "POISRESIST", "POISONOUS"],
-        "note" : "Yes, you eventually got over the massive digestive upset.  Mutations aren't easy on a system!",
+        "//" : "Yes, you eventually got over the massive digestive upset.  Mutations aren't easy on a system!",
         "prereqs2" : ["SAPROVORE", "TOLERANCE"],
         "threshreq" : ["THRESH_TROGLOBITE", "THRESH_CHIMERA", "THRESH_RAPTOR", "THRESH_RAT"],
         "category" : ["MUTCAT_TROGLOBITE", "MUTCAT_RAPTOR", "MUTCAT_RAT", "MUTCAT_CHIMERA"],
@@ -2278,7 +2276,6 @@
         "category" : ["MUTCAT_RAT"],
         "active"     :    true,
         "cost"       :    10,
-        "time"       :    0,
         "hunger"     :    true,
         "thirst"     :    true,
         "fatigue"    :    true
@@ -2650,7 +2647,7 @@
         "threshreq" : ["THRESH_MEDICAL"],
         "leads_to" : ["MUT_TOUGH"],
         "changes_to" : ["CENOBITE"],
-        "note" : "MASOCHIST_MED and NOPAIN don't cancel each other.  By design.  Poor painless folks...",
+        "//" : "MASOCHIST_MED and NOPAIN don't cancel each other.  By design.  Poor painless folks...",
         "category" : ["MUTCAT_MEDICAL"]
     },{
         "type" : "mutation",
@@ -2665,7 +2662,7 @@
         "prereqs" : ["MASOCHIST_MED"],
         "prereqs2" : ["PAINREC3", "ADDICTIVE"],
         "threshreq" : ["THRESH_MEDICAL"],
-        "note" : "CENOBITE and NOPAIN also don't cancel each other.  By design.  Poor painless cenobites...",
+        "//" : "CENOBITE and NOPAIN also don't cancel each other.  By design.  Poor painless cenobites...",
         "category" : ["MUTCAT_MEDICAL"]
     },{
         "type" : "mutation",
@@ -2678,7 +2675,7 @@
         "prereqs" : ["MASOCHIST", "PAINRESIST"],
         "prereqs2" : ["PAINREC3"],
         "threshreq" : ["THRESH_MEDICAL"],
-        "note" : "MASOCHIST_MED, CENOBITE, and NOPAIN don't cancel each other.  By design.  Poor painless people...",
+        "//" : "MASOCHIST_MED, CENOBITE, and NOPAIN don't cancel each other.  By design.  Poor painless people...",
         "category" : ["MUTCAT_MEDICAL"]
     },{
         "type" : "mutation",
@@ -3203,7 +3200,8 @@
         "id" : "INT_UP_2",
         "name" : "Very Smart",
         "points" : 2,
-        "ugliness" : 0,"description" : "You are smarter.  Intelligence + 2",
+        "ugliness" : 0,
+        "description" : "You are smarter.  Intelligence + 2",
         "prereqs" : ["INT_UP"],
         "changes_to" : ["INT_UP_3"],
         "passive_mods" : {
@@ -3360,7 +3358,7 @@
         "type" : "mutation",
         "id" : "MUT_JUNKIE",
         "name" : "Metallassomaiphile",
-        "note" : "name courtesy of wiktionary's Greek for 'mutate'.  Greek-speakers, feel free to correct the term",
+        "//" : "name courtesy of wiktionary's Greek for 'mutate'.  Greek-speakers, feel free to correct the term",
         "points" : -1,
         "visibility" : 0,
         "ugliness" : 0,
@@ -3681,8 +3679,7 @@
         "prereqs" : ["WEAKSTOMACH"],
         "changes_to" : ["VOMITOUS", "EATPOISON"],
         "category" : ["MUTCAT_ALPHA"],
-        "active" : true,
-        "time" : 0
+        "active" : true
     },{
         "type" : "mutation",
         "id" : "VOMITOUS",
@@ -3692,8 +3689,7 @@
         "prereqs" : ["NAUSEA"],
         "changes_to" : ["EATPOISON"],
         "category" : ["MUTCAT_SLIME", "MUTCAT_RAT", "MUTCAT_MEDICAL", "MUTCAT_ELFA"],
-        "active" : true,
-        "time" : 0
+        "active" : true
     },{
         "type" : "mutation",
         "id" : "HUNGER",
@@ -4105,7 +4101,6 @@
         "category" : ["MUTCAT_SLIME"],
         "active"     :    true,
         "cost"       :    40,
-        "time"       :    0,
         "hunger"     :    true,
         "thirst"     :    true
     },{
@@ -4216,7 +4211,6 @@
         "category" : ["MUTCAT_PLANT"],
         "active"     :    true,
         "cost"       :    10,
-        "time"       :    0,
         "hunger"     :    true,
         "thirst"     :    true,
         "attacks": [
