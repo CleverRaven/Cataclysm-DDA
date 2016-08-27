@@ -9022,12 +9022,6 @@ bool player::has_fire(const int quantity) const
         return true;
     } else if (has_charges("candle_lit", 1)) {
         return true;
-    } else if (has_active_bionic("bio_tools")) {
-        return true;
-    } else if (has_bionic("bio_lighter")) {
-        return true;
-    } else if (has_bionic("bio_laser")) {
-        return true;
     } else if (has_charges("ref_lighter", quantity)) {
         return true;
     } else if (has_charges("matches", quantity)) {
@@ -9054,6 +9048,12 @@ bool player::has_fire(const int quantity) const
         return true;
     } else if (has_charges("zweifire_on", quantity)) {
         return true;
+    } else if (has_active_bionic("bio_tools") && power_level > quantity * 5 ) {
+        return true;
+    } else if (has_bionic("bio_lighter") && power_level > quantity * 5 ) {
+        return true;
+    } else if (has_bionic("bio_laser") && power_level > quantity * 5 ) {
+        return true;
     } else if( is_npc() ) {
         // A hack to make NPCs use their molotovs
         return true;
@@ -9066,6 +9066,7 @@ void player::use_fire(const int quantity)
 //Ok, so checks for nearby fires first,
 //then held lit torch or candle, bio tool/lighter/laser
 //tries to use 1 charge of lighters, matches, flame throwers
+//If there is enough power, will use power of one activation of the bio_lighter, bio_tools and bio_laser
 // (home made, military), hotplate, welder in that order.
 // bio_lighter, bio_laser, bio_tools, has_active_bionic("bio_tools"
 
@@ -9088,12 +9089,6 @@ void player::use_fire(const int quantity)
     } else if (has_charges("firekatana_on", quantity)) {
         return;
     } else if (has_charges("zweifire_on", quantity)) {
-        return;
-    } else if (has_active_bionic("bio_tools")) {
-        return;
-    } else if (has_bionic("bio_lighter")) {
-        return;
-    } else if (has_bionic("bio_laser")) {
         return;
     } else if (has_charges("ref_lighter", quantity)) {
         use_charges("ref_lighter", quantity);
@@ -9133,6 +9128,15 @@ void player::use_fire(const int quantity)
         return;
     } else if (has_charges("zweifire_off", quantity)) {
         use_charges("zweifire_off", quantity);
+        return;
+    } else if (has_active_bionic("bio_tools") && power_level > quantity * 5 ) {
+        charge_power( -quantity * 5 );
+        return;
+    } else if (has_bionic("bio_lighter") && power_level > quantity * 5 ) {
+        charge_power( -quantity * 5 );
+        return;
+    } else if (has_bionic("bio_laser") && power_level > quantity * 5 ) {
+        charge_power( -quantity * 5 );
         return;
     }
 }
