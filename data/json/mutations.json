@@ -4173,7 +4173,10 @@
         "prereqs" : ["PLANTSKIN", "BARK"],
         "cancels" : ["WINGS_BAT", "WINGS_INSECT", "WINGS_BIRD", "WINGS_STUB", "WINGS_BUTTERFLY"],
         "changes_to" : ["VINES2"],
-        "category" : ["MUTCAT_PLANT"]
+        "category" : ["MUTCAT_PLANT"],
+        "encumbrance_always" : [
+            [ "TORSO", 10 ]
+        ]
     },{
         "type" : "mutation",
         "id" : "VINES2",
@@ -4194,6 +4197,9 @@
                 "chance" : 1,
                 "hardcoded_effect" : true
             }
+        ],
+        "encumbrance_always" : [
+            [ "TORSO", 10 ]
         ]
     },{
         "type" : "mutation",
@@ -4233,7 +4239,11 @@
         "threshreq" : ["THRESH_PLANT"],
         "cancels" : ["LEG_TENTACLES"],
         "changes_to" : ["ROOTS2"],
-        "category" : ["MUTCAT_PLANT"]
+        "category" : ["MUTCAT_PLANT"],
+        "encumbrance_covered" : [
+            [ "FOOT_L", 10 ],
+            [ "FOOT_R", 10 ]
+        ]
     },{
         "type" : "mutation",
         "id" : "ROOTS2",
@@ -4247,7 +4257,11 @@
         "threshreq" : ["THRESH_PLANT"],
         "cancels" : ["LEG_TENTACLES", "RAP_TALONS"],
         "changes_to" : ["ROOTS3"],
-        "category" : ["MUTCAT_PLANT"]
+        "category" : ["MUTCAT_PLANT"],
+        "encumbrance_covered" : [
+            [ "FOOT_L", 10 ],
+            [ "FOOT_R", 10 ]
+        ]
     },{
         "type" : "mutation",
         "id" : "ROOTS3",
@@ -4260,7 +4274,11 @@
         "prereqs2" : ["SAPROPHAGE"],
         "threshreq" : ["THRESH_PLANT"],
         "cancels" : ["LEG_TENTACLES"],
-        "category" : ["MUTCAT_PLANT"]
+        "category" : ["MUTCAT_PLANT"],
+        "encumbrance_covered" : [
+            [ "FOOT_L", 10 ],
+            [ "FOOT_R", 10 ]
+        ]
     },{
         "type" : "mutation",
         "id" : "CHLOROMORPH",
@@ -4275,7 +4293,11 @@
         "prereqs2" : ["SAPROPHAGE"],
         "threshreq" : ["THRESH_PLANT"],
         "cancels" : ["LEG_TENTACLES", "SMELLY", "SMELLY2"],
-        "category" : ["MUTCAT_PLANT"]
+        "category" : ["MUTCAT_PLANT"],
+        "encumbrance_covered" : [
+            [ "FOOT_L", 10 ],
+            [ "FOOT_R", 10 ]
+        ]
     },{
         "type" : "mutation",
         "id" : "COLDBLOOD",
