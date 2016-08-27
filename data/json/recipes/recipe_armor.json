@@ -4544,7 +4544,8 @@
      ],
      [
       [ "trenchcoat", 1 ],
-      [ "jacket_army", 1 ]
+      [ "jacket_army", 1 ],
+      [ "sleeveless_trenchcoat", 1 ]
      ],
      [
       [ "kevlar", 1 ],
@@ -8609,7 +8610,8 @@
      [
       [ "duster", 1 ],
       [ "duster_leather", 1 ],
-      [ "jacket_army", 1 ]
+      [ "jacket_army", 1 ],
+      [ "sleeveless_duster", 1 ]
      ],
      [
       [ "kevlar", 1 ],
