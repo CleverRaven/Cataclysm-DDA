@@ -86,6 +86,7 @@
 #include "gates.h"
 #include "item_factory.h"
 #include "scent_map.h"
+#include "safemode_ui.h"
 
 #include <map>
 #include <set>
@@ -274,6 +275,7 @@ void game::load_static_data()
     init_faction_data();
 
     get_auto_pickup().load_global();
+    get_safemode().load_global();
 
     // --- move/delete everything below
     // TODO: move this to player class
@@ -818,8 +820,10 @@ bool game::start_game(std::string worldname)
     u.next_climate_control_check = 0;  // Force recheck at startup
     u.last_climate_control_ret = false;
 
-    //Reset character pickup rules
+    //Reset character safemode/pickup rules
     get_auto_pickup().clear_character_rules();
+    get_safemode().clear_character_rules();
+
     //Put some NPCs in there!
     create_starting_npcs();
     //Load NPCs. Set nearby npcs to active.
@@ -2082,6 +2086,7 @@ input_context get_default_mode_input_context()
     ctxt.register_action("autosafe");
     ctxt.register_action("autoattack");
     ctxt.register_action("ignore_enemy");
+    ctxt.register_action("whitelist_enemy");
     ctxt.register_action("save");
     ctxt.register_action("quicksave");
 #ifndef RELEASE
@@ -3171,6 +3176,15 @@ bool game::handle_action()
             }
             break;
 
+        case ACTION_WHITELIST_ENEMY:
+            if ( safe_mode == SAFE_MODE_STOP && !get_safemode().empty() ) {
+                get_safemode().add_rule( get_safemode().lastmon_whitelist, Creature::A_ANY, 0, RULE_WHITELISTED );
+                add_msg( m_info, _( "Creature whitelisted: %s" ), get_safemode().lastmon_whitelist.c_str() );
+                set_safe_mode( SAFE_MODE_ON );
+                mostseen = 0;
+            }
+            break;
+
         case ACTION_QUIT:
             if (query_yn(_("Commit suicide?"))) {
                 if (query_yn(_("REALLY commit suicide?"))) {
@@ -3515,6 +3529,7 @@ void game::load(std::string worldname, std::string name)
 
     init_autosave();
     get_auto_pickup().load_character(); // Load character auto pickup rules
+    get_safemode().load_character(); // Load character safemode rules
     zone_manager::get_manager().load_zones(); // Load character world zones
     load_uistate(worldname);
 
@@ -3651,6 +3666,7 @@ bool game::save()
              !save_artifacts() ||
              !save_maps() ||
              !get_auto_pickup().save_character() ||
+             !get_safemode().save_character() ||
              !save_uistate()){
             return false;
         } else {
@@ -5908,25 +5924,33 @@ int game::mon_info(WINDOW *w)
                     break;
             }
         }
+
+        rule_state safemode_state = RULE_NONE;
+        const bool safemode_empty = get_safemode().empty();
+
         if( m != nullptr ) {
+            //Safemode monster check
             auto &critter = *m;
 
-            monster_attitude matt = critter.attitude(&u);
-            if (MATT_ATTACK == matt || MATT_FOLLOW == matt) {
+            const monster_attitude matt = critter.attitude(&u);
+            const int mon_dist = rl_dist( u.pos(), critter.pos() );
+            safemode_state = get_safemode().check_monster(critter.name(), critter.attitude_to(u), mon_dist);
+
+            if ((!safemode_empty && safemode_state == RULE_BLACKLISTED) || (safemode_empty && (MATT_ATTACK == matt || MATT_FOLLOW == matt))) {
                 if (index < 8 && critter.sees( g->u )) {
                     dangerous[index] = true;
                 }
 
-                int mondist = rl_dist( u.pos(), critter.pos() );
-                if (mondist <= iProxyDist) {
+                if (!safemode_empty || mon_dist <= iProxyDist) {
                     bool passmon = false;
                     if (critter.ignoring > 0) {
                         if (safe_mode != SAFE_MODE_ON) {
                             critter.ignoring = 0;
-                        } else if (mondist > critter.ignoring / 2 || mondist < 6) {
+                        } else if (mon_dist > critter.ignoring / 2 || mon_dist < 6) {
                             passmon = true;
                         }
                     }
+
                     if (!passmon) {
                         int news = mon_at( critter.pos(), true );
                         if( news != -1 ) {
@@ -5946,11 +5970,16 @@ int game::mon_info(WINDOW *w)
                 vec.push_back( critter.type );
             }
         } else if( p != nullptr ) {
-            if (p->attitude == NPCATT_KILL)
-                if (rl_dist( u.pos(), p->pos() ) <= iProxyDist) {
+            //Safemode NPC check
+
+            const int npc_dist = rl_dist( u.pos(), p->pos() );
+            safemode_state = get_safemode().check_monster(get_safemode().npc_type_name(), p->attitude_to( u ), npc_dist);
+
+            if ( ( !safemode_empty && safemode_state == RULE_BLACKLISTED ) || (safemode_empty && p->attitude == NPCATT_KILL ) ) {
+                if ( !safemode_empty || npc_dist <= iProxyDist ) {
                     newseen++;
                 }
-
+            }
             unique_types[index].push_back( p );
         }
     }
@@ -9942,34 +9971,36 @@ int game::list_monsters(const int iLastState)
 
     for (int i = 1; i < TERMX; i++) {
         if (i < width) {
-            mvwputch(w_monsters_border, 0, i, c_ltgray, LINE_OXOX); // -
-            mvwputch(w_monsters_border, TERMY - iInfoHeight - 1 - VIEW_OFFSET_Y * 2, i, c_ltgray,
+            mvwputch(w_monsters_border, 0, i, BORDER_COLOR, LINE_OXOX); // -
+            mvwputch(w_monsters_border, TERMY - iInfoHeight - 1 - VIEW_OFFSET_Y * 2, i, BORDER_COLOR,
                      LINE_OXOX); // -
         }
 
         if (i < TERMY - iInfoHeight - VIEW_OFFSET_Y * 2) {
-            mvwputch(w_monsters_border, i, 0, c_ltgray, LINE_XOXO); // |
-            mvwputch(w_monsters_border, i, width - 1, c_ltgray, LINE_XOXO); // |
+            mvwputch(w_monsters_border, i, 0, BORDER_COLOR, LINE_XOXO); // |
+            mvwputch(w_monsters_border, i, width - 1, BORDER_COLOR, LINE_XOXO); // |
         }
     }
 
-    mvwputch(w_monsters_border, 0, 0, c_ltgray, LINE_OXXO); // |^
-    mvwputch(w_monsters_border, 0, width - 1, c_ltgray, LINE_OOXX); // ^|
+    mvwputch(w_monsters_border, 0, 0, BORDER_COLOR, LINE_OXXO); // |^
+    mvwputch(w_monsters_border, 0, width - 1, BORDER_COLOR, LINE_OOXX); // ^|
 
-    mvwputch(w_monsters_border, TERMY - iInfoHeight - 1 - VIEW_OFFSET_Y * 2, 0, c_ltgray,
+    mvwputch(w_monsters_border, TERMY - iInfoHeight - 1 - VIEW_OFFSET_Y * 2, 0, BORDER_COLOR,
              LINE_XXXO); // |-
-    mvwputch(w_monsters_border, TERMY - iInfoHeight - 1 - VIEW_OFFSET_Y * 2, width - 1, c_ltgray,
+    mvwputch(w_monsters_border, TERMY - iInfoHeight - 1 - VIEW_OFFSET_Y * 2, width - 1, BORDER_COLOR,
              LINE_XOXX); // -|
 
     mvwprintz(w_monsters_border, 0, 2, c_ltgreen, "<Tab> ");
     wprintz(w_monsters_border, c_white, _("Monsters"));
 
     std::string action;
-    input_context ctxt("DEFAULTMODE");
+    input_context ctxt("LIST_MONSTERS");
     ctxt.register_action("UP", _("Move cursor up"));
     ctxt.register_action("DOWN", _("Move cursor down"));
     ctxt.register_action("NEXT_TAB");
     ctxt.register_action("PREV_TAB");
+    ctxt.register_action("SAFEMODE_BLACKLIST_ADD");
+    ctxt.register_action("SAFEMODE_BLACKLIST_REMOVE");
     ctxt.register_action("QUIT");
     if ( bVMonsterLookFire ) {
         ctxt.register_action("look");
@@ -9978,140 +10009,172 @@ int game::list_monsters(const int iLastState)
     ctxt.register_action("HELP_KEYBINDINGS");
 
     do {
-            if (action == "UP") {
-                iActive--;
-                if (iActive < 0) {
-                    iActive = iMonsterNum - 1;
-                }
-            } else if (action == "DOWN") {
-                iActive++;
-                if (iActive >= iMonsterNum) {
-                    iActive = 0;
-                }
-            } else if (action == "NEXT_TAB" || action == "PREV_TAB") {
+        if (action == "UP") {
+            iActive--;
+            if (iActive < 0) {
+                iActive = iMonsterNum - 1;
+            }
+        } else if (action == "DOWN") {
+            iActive++;
+            if (iActive >= iMonsterNum) {
+                iActive = 0;
+            }
+        } else if (action == "NEXT_TAB" || action == "PREV_TAB") {
+            u.view_offset = stored_view_offset;
+            return 1;
+        } else if (action == "SAFEMODE_BLACKLIST_REMOVE") {
+            const auto m = dynamic_cast<monster*>( cCurMon );
+            const std::string monName = (m != nullptr) ? m->name() : "human";
+
+            if ( get_safemode().has_rule(monName, Creature::A_ANY) ) {
+                get_safemode().remove_rule(monName, Creature::A_ANY);
+            }
+        } else if (action == "SAFEMODE_BLACKLIST_ADD") {
+            if ( !get_safemode().empty() ) {
+                const auto m = dynamic_cast<monster*>( cCurMon );
+                const std::string monName = (m != nullptr) ? m->name() : "human";
+
+                get_safemode().add_rule(monName, Creature::A_ANY, get_option<int>( "SAFEMODEPROXIMITY" ), RULE_BLACKLISTED);
+            }
+        } else if (action == "look") {
+            tripoint recentered = look_around();
+            iLastActivePos = recentered;
+        } else if (action == "fire") {
+            if( cCurMon != nullptr &&
+                rl_dist( u.pos(), cCurMon->pos() ) <= iWeaponRange) {
+                last_target = mon_at( cCurMon->pos(), true );
                 u.view_offset = stored_view_offset;
-                return 1;
-            } else if (action == "look") {
-                tripoint recentered = look_around();
-                iLastActivePos = recentered;
-            } else if (action == "fire") {
-                if( cCurMon != nullptr &&
-                    rl_dist( u.pos(), cCurMon->pos() ) <= iWeaponRange) {
-                    last_target = mon_at( cCurMon->pos(), true );
-                    u.view_offset = stored_view_offset;
-                    return 2;
-                }
+                return 2;
             }
+        }
 
-            if (vMonsters.empty()) {
-                wrefresh(w_monsters_border);
-                mvwprintz(w_monsters, 10, 2, c_white, _("You don't see any monsters around you!"));
-            } else {
-                if( static_cast<size_t>( iActive ) >= vMonsters.size() ) {
-                    iActive = 0;
-                }
-                werase(w_monsters);
+        if (vMonsters.empty()) {
+            wrefresh(w_monsters_border);
+            mvwprintz(w_monsters, 10, 2, c_white, _("You don't see any monsters around you!"));
+        } else {
+            if( static_cast<size_t>( iActive ) >= vMonsters.size() ) {
+                iActive = 0;
+            }
+            werase(w_monsters);
 
-                calcStartPos(iStartPos, iActive, iMaxRows, iMonsterNum);
+            calcStartPos(iStartPos, iActive, iMaxRows, iMonsterNum);
 
-                cCurMon = vMonsters[iActive];
-                iActivePos = cCurMon->pos() - u.pos();
+            cCurMon = vMonsters[iActive];
+            iActivePos = cCurMon->pos() - u.pos();
 
-                const auto endY = std::min<int>( iMaxRows, iMonsterNum - iStartPos );
-                for( int y = 0; y < endY; ++y ) {
-                    const auto critter = vMonsters[y + iStartPos];
-                    const bool selected = ( cCurMon == critter );
-                    const auto m = dynamic_cast<monster*>( critter );
-                    const auto p = dynamic_cast<npc*>( critter );
+            const auto endY = std::min<int>( iMaxRows, iMonsterNum - iStartPos );
+            for( int y = 0; y < endY; ++y ) {
+                const auto critter = vMonsters[y + iStartPos];
+                const bool selected = ( cCurMon == critter );
+                const auto m = dynamic_cast<monster*>( critter );
+                const auto p = dynamic_cast<npc*>( critter );
 
-                        if( critter->sees( g->u ) ) {
-                            mvwprintz(w_monsters, y, 0, c_yellow, "!");
-                        }
-
-                        if( m != nullptr ) {
-                            mvwprintz(w_monsters, y, 1, selected ? c_ltgreen : c_white, "%s", m->name().c_str());
-                        } else {
-                            mvwprintz(w_monsters, y, 1, selected ? c_ltgreen : c_white, "%s", critter->disp_name().c_str());
-                        }
-                        nc_color color = c_white;
-                        std::string sText;
-
-                        if( m != nullptr ) {
-                            m->get_HP_Bar(color, sText);
-                        } else {
-                            std::tie(sText, color) =
-                                ::get_hp_bar( critter->get_hp(), critter->get_hp_max(), false );
-                        }
-                        mvwprintz(w_monsters, y, 22, color, "%s", sText.c_str());
-
-                        if( m != nullptr ) {
-                            m->get_Attitude(color, sText);
-                        } else if( p != nullptr ) {
-                            sText = npc_attitude_name( p->attitude );
-                            color = p->symbol_color();
-                        }
-                        mvwprintz(w_monsters, y, 28, color, "%s", sText.c_str());
-
-                        int numw = iMonsterNum > 9 ? 2 : 1;
-                        mvwprintz(w_monsters, y, width - (6 + numw),
-                                  (selected ? c_ltgreen : c_ltgray), "%*d %s",
-                                  numw, square_dist(0, 0, critter->posx() - u.posx(),
-                                                  critter->posy() - u.posy()),
-                                  direction_name_short(
-                                      direction_from( 0, 0, critter->posx() - u.posx(),
-                                                      critter->posy() - u.posy())).c_str() );
-                }
-
-                mvwprintz(w_monsters_border, 0, (width - 9) / 2 + ((iMonsterNum > 9) ? 0 : 1),
-                          c_ltgreen, " %*d", ((iMonsterNum > 9) ? 2 : 1), iActive + 1);
-                wprintz(w_monsters_border, c_white, " / %*d ", ((iMonsterNum > 9) ? 2 : 1), iMonsterNum);
-
-                werase(w_monster_info);
-
-                //print monster info
-                cCurMon->print_info(w_monster_info, 1, 11, 1);
-
-                if (bVMonsterLookFire) {
-                    mvwprintz(w_monsters, getmaxy(w_monsters) - 1, 1, c_ltgreen, "%s", ctxt.press_x( "look" ).c_str());
-                    wprintz(w_monsters, c_ltgray, " %s", _("to look around"));
-
-                    if (rl_dist( u.pos(), cCurMon->pos() ) <= iWeaponRange) {
-                        wprintz(w_monsters, c_ltgray, "%s", " ");
-                        wprintz(w_monsters, c_ltgreen, "%s", ctxt.press_x( "fire" ).c_str());
-                        wprintz(w_monsters, c_ltgray, " %s", _("to shoot"));
+                    if( critter->sees( g->u ) ) {
+                        mvwprintz(w_monsters, y, 0, c_yellow, "!");
                     }
+
+                    bool type_npc = false;
+                    if( m != nullptr ) {
+                        mvwprintz(w_monsters, y, 1, selected ? c_ltgreen : c_white, "%s", m->name().c_str());
+                    } else {
+                        mvwprintz(w_monsters, y, 1, selected ? c_ltgreen : c_white, "%s", critter->disp_name().c_str());
+                        type_npc = true;
+                    }
+
+                    if ( selected && !get_safemode().empty() ) {
+                        for (int i = 1; i < width-2; i++) {
+                            mvwputch(w_monsters_border, TERMY - iInfoHeight - 1 - VIEW_OFFSET_Y * 2,
+                                     i, BORDER_COLOR, LINE_OXOX); // -
+                        }
+                        std::string sSafemode = _("<A>dd do safemode Blacklist");
+                        const std::string monName = (type_npc) ? get_safemode().npc_type_name() : m->name();
+                        if ( get_safemode().has_rule(monName, Creature::A_ANY) ) {
+                            sSafemode = _("<R>emove from safemode Blacklist");
+                        }
+
+                        shortcut_print(w_monsters_border, TERMY - iInfoHeight - 1 - VIEW_OFFSET_Y * 2, 3,
+                        c_white, c_ltgreen, sSafemode.c_str());
+                    }
+
+                    nc_color color = c_white;
+                    std::string sText;
+
+                    if( m != nullptr ) {
+                        m->get_HP_Bar(color, sText);
+                    } else {
+                        std::tie(sText, color) =
+                            ::get_hp_bar( critter->get_hp(), critter->get_hp_max(), false );
+                    }
+                    mvwprintz(w_monsters, y, 22, color, "%s", sText.c_str());
+
+                    if( m != nullptr ) {
+                        m->get_Attitude(color, sText);
+                    } else if( p != nullptr ) {
+                        sText = npc_attitude_name( p->attitude );
+                        color = p->symbol_color();
+                    }
+                    mvwprintz(w_monsters, y, 28, color, "%s", sText.c_str());
+
+                    int numw = iMonsterNum > 9 ? 2 : 1;
+                    mvwprintz(w_monsters, y, width - (6 + numw),
+                                (selected ? c_ltgreen : c_ltgray), "%*d %s",
+                                numw, square_dist(0, 0, critter->posx() - u.posx(),
+                                                critter->posy() - u.posy()),
+                                direction_name_short(
+                                    direction_from( 0, 0, critter->posx() - u.posx(),
+                                                    critter->posy() - u.posy())).c_str() );
+            }
+
+            mvwprintz(w_monsters_border, 0, (width - 9) / 2 + ((iMonsterNum > 9) ? 0 : 1),
+                        c_ltgreen, " %*d", ((iMonsterNum > 9) ? 2 : 1), iActive + 1);
+            wprintz(w_monsters_border, c_white, " / %*d ", ((iMonsterNum > 9) ? 2 : 1), iMonsterNum);
+
+            werase(w_monster_info);
+
+            //print monster info
+            cCurMon->print_info(w_monster_info, 1, 11, 1);
+
+            if (bVMonsterLookFire) {
+                mvwprintz(w_monsters, getmaxy(w_monsters) - 1, 1, c_ltgreen, "%s", ctxt.press_x( "look" ).c_str());
+                wprintz(w_monsters, c_ltgray, " %s", _("to look around"));
+
+                if (rl_dist( u.pos(), cCurMon->pos() ) <= iWeaponRange) {
+                    wprintz(w_monsters, c_ltgray, "%s", " ");
+                    wprintz(w_monsters, c_ltgreen, "%s", ctxt.press_x( "fire" ).c_str());
+                    wprintz(w_monsters, c_ltgray, " %s", _("to shoot"));
                 }
-
-                //Only redraw trail/terrain if x/y position changed
-                if( iActivePos != iLastActivePos ) {
-                    iLastActivePos = iActivePos;
-                    centerlistview( iActivePos );
-                    draw_trail_to_square( iActivePos, false );
-                }
-
-                draw_scrollbar(w_monsters_border, iActive, iMaxRows, iMonsterNum, 1);
-                wrefresh(w_monsters_border);
             }
 
-            for (int j = 0; j < iInfoHeight - 1; j++) {
-                mvwputch(w_monster_info_border, j, 0, c_ltgray, LINE_XOXO);
-                mvwputch(w_monster_info_border, j, width - 1, c_ltgray, LINE_XOXO);
+            //Only redraw trail/terrain if x/y position changed
+            if( iActivePos != iLastActivePos ) {
+                iLastActivePos = iActivePos;
+                centerlistview( iActivePos );
+                draw_trail_to_square( iActivePos, false );
             }
 
-            for (int j = 0; j < width - 1; j++) {
-                mvwputch(w_monster_info_border, iInfoHeight - 1, j, c_ltgray, LINE_OXOX);
-            }
+            draw_scrollbar(w_monsters_border, iActive, iMaxRows, iMonsterNum, 1);
+            wrefresh(w_monsters_border);
+        }
 
-            mvwputch(w_monster_info_border, iInfoHeight - 1, 0, c_ltgray, LINE_XXOO);
-            mvwputch(w_monster_info_border, iInfoHeight - 1, width - 1, c_ltgray, LINE_XOOX);
+        for (int j = 0; j < iInfoHeight - 1; j++) {
+            mvwputch(w_monster_info_border, j, 0, c_ltgray, LINE_XOXO);
+            mvwputch(w_monster_info_border, j, width - 1, c_ltgray, LINE_XOXO);
+        }
 
-            wrefresh(w_monsters);
-            wrefresh(w_monster_info_border);
-            wrefresh(w_monster_info);
+        for (int j = 0; j < width - 1; j++) {
+            mvwputch(w_monster_info_border, iInfoHeight - 1, j, c_ltgray, LINE_OXOX);
+        }
 
-            refresh();
+        mvwputch(w_monster_info_border, iInfoHeight - 1, 0, c_ltgray, LINE_XXOO);
+        mvwputch(w_monster_info_border, iInfoHeight - 1, width - 1, c_ltgray, LINE_XOOX);
 
-            action = ctxt.handle_input();
+        wrefresh(w_monsters);
+        wrefresh(w_monster_info_border);
+        wrefresh(w_monster_info);
+
+        refresh();
+
+        action = ctxt.handle_input();
     } while (action != "QUIT");
 
     u.view_offset = stored_view_offset;
@@ -11543,15 +11606,22 @@ bool game::check_safe_mode_allowed( bool repeat_safe_mode_warnings )
     std::string spotted_creature_name;
     if( new_seen_mon.empty() ) {
         // naming consistent with code in game::mon_info
-        spotted_creature_name = _( "a hostile survivor" );
+        spotted_creature_name = _( "a survivor" );
+        get_safemode().lastmon_whitelist = get_safemode().npc_type_name();
     } else {
         spotted_creature_name = zombie( new_seen_mon.back() ).name();
+        get_safemode().lastmon_whitelist = spotted_creature_name;
+    }
+
+    std::string whitelist = "";
+    if ( !get_safemode().empty() ) {
+        whitelist = string_format( _( " or %s to whitelist the monster" ), press_x( ACTION_WHITELIST_ENEMY ).c_str() );
     }
 
     std::string const msg_safe_mode = press_x(ACTION_TOGGLE_SAFEMODE);
     add_msg( m_warning,
-             _( "Spotted %s--safe mode is on! (%s to turn it off or %s to ignore monster.)" ),
-             spotted_creature_name.c_str(), msg_safe_mode.c_str(), msg_ignore.c_str() );
+             _( "Spotted %s--safe mode is on! (%s to turn it off, %s to ignore monster%s)" ),
+             spotted_creature_name.c_str(), msg_safe_mode.c_str(), msg_ignore.c_str(), whitelist.c_str() );
     safe_mode_warning_logged = true;
     return false;
 }

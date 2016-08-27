@@ -800,7 +800,7 @@ void options_manager::init()
         );
 
     add("AUTO_PICKUP_SAFEMODE", "general", _("Auto pickup safemode"),
-        _("Auto pickup is disabled as long as you can see monsters nearby. This is affected by Safemode proximity distance."),
+        _("Auto pickup is disabled as long as you can see monsters nearby. This is affected by 'Safemode proximity distance'."),
         false
         );
 
@@ -813,23 +813,23 @@ void options_manager::init()
 
     mOptionsSort["general"]++;
 
-    add("AUTOSAFEMODE", "general", _("Auto-safemode on by default"),
-        _("If true, auto-safemode will be on after starting a new game or loading."),
+    add("AUTOSAFEMODE", "general", _("Auto-safemode"),
+        _("If true, turns safemode automatically back on after it being disabled beforehand. See option 'Turns to re-enable safemode'"),
         false
         );
 
     add("AUTOSAFEMODETURNS", "general", _("Turns to re-enable safemode"),
-        _("Number of turns after safemode is re-enabled if no hostiles are in safemodeproximity distance."),
+        _("Number of turns after safemode is re-enabled if no hostiles are in 'Safemode proximity distance'."),
         1, 100, 50
         );
 
-    add("SAFEMODE", "general", _("Safemode on by default"),
-        _("If true, safemode will be on after starting a new game or loading."),
+    add("SAFEMODE", "general", _("Safemode"),
+        _("If true, will hold the game and display a warning if a hostile monster/npc is approaching."),
         true
         );
 
     add("SAFEMODEPROXIMITY", "general", _("Safemode proximity distance"),
-        _("If safemode is enabled, distance to hostiles when safemode should show a warning. 0 = Max player viewdistance."),
+        _("If safemode is enabled, distance to hostiles at which safemode should show a warning. 0 = Max player viewdistance."),
         0, 50, 0
         );
 
