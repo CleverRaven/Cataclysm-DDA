@@ -206,7 +206,7 @@ bool game::dump_stats( const std::string& what, dump_mode mode, const std::vecto
 
         header = { "Name" };
         for( int i = 0; i <= cycles; ++i ) {
-            header.push_back( std::to_string( i ) );
+            header.push_back( to_string( i ) );
         }
 
         auto dump = [&rows]( const standard_npc &who, const item &gun) {

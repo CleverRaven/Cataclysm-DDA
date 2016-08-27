@@ -11408,7 +11408,7 @@ bool player::read( int inventory_position, const bool continuous )
             const double penalty = ( double )time_taken / time_to_read( it, *reader, elem );
             learners.insert( {elem, elem == reader ? _( " (reading aloud to you)" ) : ""} );
             act.values.push_back( elem->getID() );
-            act.str_values.push_back( std::to_string( penalty ) );
+            act.str_values.push_back( to_string( penalty ) );
         } else {
             fun_learners.insert( {elem, elem == reader ? _( " (reading aloud to you)" ) : "" } );
             act.values.push_back( elem->getID() );
@@ -11637,8 +11637,9 @@ void player::do_read( item *book )
     std::vector<std::pair<player *, double>> learners; //learners and their penalties
     for( size_t i = 0; i < activity.values.size(); i++ ) {
         player *n = g->find_npc( activity.values[i] );
-        if( n ) {
-            learners.push_back( { n, std::stod( activity.get_str_value( i, "1" ) ) } );
+        if( n != nullptr ) {
+            const std::string &s = activity.get_str_value( i, "1" );
+            learners.push_back( { n, strtod( s.c_str(), nullptr ) } );
         }
         // Otherwise they must have died/teleported or something
     }
