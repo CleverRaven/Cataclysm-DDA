@@ -617,18 +617,18 @@ int recipe::batch_time( int batch ) const
         return local_time * batch;
     }
 
-    double total_time = 0.0;
+    float total_time = 0.0;
     // if recipe does not benefit from batching but we do have assistants, skip calculating the batching scale factor
     if( batch_rscale == 0.0 ) {
-        total_time = ( double )local_time * batch;
+        total_time = local_time * batch;
     } else {
         // recipe benefits from batching, so batching scale factor needs to be calculated
         // At batch_rsize, incremental time increase is 99.5% of batch_rscale
         double scale = batch_rsize / 6.0;
-        for( int x = 0; x < batch; x++ ) {
+        for( double x = 0; x < batch; x++ ) {
             // scaled logistic function output
-            double logf = ( 2.0 / ( 1.0 + exp( -( ( double )x / scale ) ) ) ) - 1.0;
-            total_time += ( double )local_time * ( 1.0 - ( batch_rscale * logf ) );
+            double logf = ( 2.0 / ( 1.0 + exp( -( x / scale ) ) ) ) - 1.0;
+            total_time += local_time * ( 1.0 - ( batch_rscale * logf ) );
         }
     }
 
