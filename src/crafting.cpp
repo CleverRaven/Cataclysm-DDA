@@ -620,6 +620,7 @@ int recipe::batch_time( int batch ) const
     if( batch_rscale == 0.0 ) {
         double total_time = local_time * batch;
     } else {
+        // recipe benefits from batching, so batching scale factor needs to be calculated
         double total_time = 0.0;
         // At batch_rsize, incremental time increase is 99.5% of batch_rscale
         double scale = batch_rsize / 6.0;
