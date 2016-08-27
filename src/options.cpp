@@ -848,8 +848,8 @@ void options_manager::init()
 
     mOptionsSort["general"]++;
 
-    add("TURN_DURATION", "general", _("Automatic Zombie Advancement"),
-        _("If enabled, zombies will take periodic gameplay turns. This value is the delay between each turn, in seconds. Works best with Safemode disabled. 0 = disabled."),
+    add("TURN_DURATION", "general", _("Realtime turn progression"),
+        _("If enabled, monsters will take periodic gameplay turns. This value is the delay between each turn, in seconds. Works best with Safemode disabled. 0 = disabled."),
         0.0, 10.0, 0.0, 0.05
         );
 
