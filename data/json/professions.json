@@ -4,13 +4,14 @@
             "ident": "bionic_prepper",
             "name": "Bionic Prepper",
             "description": "You knew the end was coming.  You augmented yourself with some basic bionics and got additional survival training.  Now the end has come, and it is time to see if your efforts have paid off.",
-            "points": 8,
+            "points": 6,
             "CBMs":[
                 "bio_torsionratchet",
-                "bio_power_storage",
-                "bio_tools",
+                "bio_power_storage_mkII",
                 "bio_sunglasses",
-                "bio_blindfold"
+                "bio_blindfold",
+                "bio_tools",
+                "bio_flashlight"
             ],
             "skills": [
                 {
@@ -32,7 +33,6 @@
             ],
             "items": {
                 "both": [
-                    "flashlight",
                     "shorts_cargo",
                     "boots",
                     "hat_boonie",
@@ -40,7 +40,6 @@
                     "tshirt",
                     "socks",
                     "backpack",
-                    "knife_swissarmy",
                     "rope_30",
                     "canteen"
                 ],
@@ -358,6 +357,7 @@
                 "boots_steel",
                 "tool_belt",
                 "wrench",
+                "duct_tape",
                 "mag_cars"
             ],
             "male": [
@@ -546,7 +546,7 @@
             },
             {
                 "level": 2,
-                "name": "pistol"
+                "name": "stabbing"
             }
         ],
         "items": {
@@ -594,7 +594,11 @@
             },
             {
                 "level": 2,
-                "name": "pistol"
+                "name": "cutting"
+            },
+            {
+                "level": 1,
+                "name": "melee"
             },
             {
                 "level": 1,
@@ -615,8 +619,11 @@
         ],
         "items": {
             "both": [
-                "winter_pants_army",
-                "winter_jacket_army",
+                "undershirt",
+                "arm_warmers",
+                "leg_warmers",
+                "pants_army",
+                "jacket_army",
                 "balclava",
                 "beret",
                 "gloves_liner",
@@ -873,12 +880,16 @@
             "type": "profession",
             "ident": "bio_sur",
             "name": "Bionic Survivalist",
-            "description": "Mainly from paranoia, you augmented yourself, got some training and gear to go inawoods incase anything went down, well it did.  Now that civilization has fallen, the woods are your new home.", 
+            "description": "Mainly from paranoia, you augmented yourself, got some training and basic gear to go inawoods incase anything went down, well it did.  Seems your paranoia paid off.", 
             "points": 10,
             "skills": [
             {
-                "level": 3,
+                "level": 4,
                 "name": "survival"
+            },
+            {
+                "level": 2,
+                "name": "traps"
             },
             {
                 "level": 2,
@@ -890,60 +901,45 @@
             },
             {
                 "level": 2,
-                "name": "archery"
-            },
-            {
-                "level": 2,
-                "name": "traps"
-            },
-            {
-                "level": 2,
                 "name": "firstaid"
             },
             {
                 "level": 2,
                 "name": "swimming"
-            },
-            {
-                "level": 1,
-                "name": "gun"
             }
         ],
         "CBMs":[
             "bio_power_storage_mkII",
             "bio_sunglasses",
-            "bio_metabolics",
+            "bio_blindfold",
+            "bio_torsionratchet",
             "bio_lighter",
             "bio_evap",
             "bio_flashlight",
             "bio_tools"
         ],
-        "items":{
+        "items": {
             "both": [
-                "socks",
-                "army_top",
+                "shorts_cargo",
+                "boots",
                 "hat_boonie",
-                "gloves_light",
-                "pants_cargo",
-                "boots_steel",
-                "jacket_army",
-                "knit_scarf",
+                "blazer",
+                "tshirt",
+                "socks",
                 "backpack",
-                "quiver",
+                "knife_hunting",
+                "rope_30",
                 "canteen",
-                "compbow",
-                "arrow_cf",
-                "arrow_cf"
+                "sheath"
             ],
             "male": [
                 "boxer_shorts"
             ],
-             "female": [
+            "female": [
                 "bra",
-                "panties"
+                "boxer_shorts"
             ]
-        },
-         "flags" : ["SCEN_ONLY"]
+        }
     },
     {
         "type": "profession",
@@ -1284,6 +1280,10 @@
             {
                 "level": 4,
                 "name": "rifle"
+            },
+            {
+                "level": 1,
+                "name": "pistol"
             }
         ],
         "traits": [
@@ -1843,12 +1843,23 @@
         "ident": "bionic_thief",
         "name": "Bionic Thief",
         "description": "You have done many high profile heists, but your gains mean nothing in this world.  All you have left are the tools of your trade and your impeccable style.",
-        "points": 3,
+        "points": 4,
         "CBMs":[
             "bio_batteries",
             "bio_lockpick",
             "bio_fingerhack",
+            "bio_storage",
             "bio_power_storage_mkII"
+        ],
+        "skills": [
+            {
+                "level": 1,
+                "name": "gun"
+            },
+            {
+                "level": 1,
+                "name": "smg"
+            }
         ],
         "items": {
             "both": [
@@ -1861,8 +1872,8 @@
                 "gold_watch",
                 "briefcase_smg",
                 "stenmag",
-                "pda",
-                "9mm"
+                "9mm",
+                "pda"
             ],
             "male": [
                 "boxer_shorts"
@@ -1877,13 +1888,14 @@
         "type" : "profession",
         "ident": "bionic_patient",
         "name": "Bionic Patient",
-        "description": "When the diagnosis came back positive you signed up for a series of experimental bionic surgeries that saved your life.  Now you're healthier than you ever were before, thanks to a suite of bionic systems powered by standard batteries.  Make the most of your second chance at life.",
-        "points": 3,
+        "description": "When the diagnosis came back positive you signed up for a series of experimental bionic surgeries that saved your life.  Now you're healthier than you ever were before, thanks to a suite of bionic systems powered by your own metabolic functions.  Make the most of your second chance at life.",
+        "points": 5,
         "CBMs":[
             "bio_leukocyte",
             "bio_blood_anal",
             "bio_blood_filter",
-            "bio_batteries",
+            "bio_nanobots",
+            "bio_metabolics",
             "bio_power_storage_mkII"
         ],
         "items":{
@@ -1891,8 +1903,7 @@
                 "jeans",
                 "tshirt",
                 "socks",
-                "sneakers",
-                "battery"
+                "sneakers"
             ],
             "male": [
                 "briefs"
@@ -2036,7 +2047,7 @@
         "ident": "bionic_worker",
         "name": "Industrial Cyborg",
         "description": "For better or for worse, bionic augmentation has turned you into a walking power tool.  Upgraded with a standard industrial-grade manual labor surgery and training package, you are augmented with bionic muscles and an integrated toolset, both powered by standard batteries.",
-        "points": 5,
+        "points": 6,
         "skills": [
             {
                 "level": 1,
@@ -2053,6 +2064,8 @@
         ],
         "CBMs":[
             "bio_tools",
+            "bio_sunglasses",
+            "bio_flashlight",
             "bio_hydraulics",
             "bio_batteries",
             "bio_power_storage_mkII"
@@ -2064,8 +2077,8 @@
                 "jeans",
                 "leather_belt",
                 "boots_steel",
-                "fire_gauntlets",
-                "goggles_welding",
+                "gloves_work",
+                "glasses_safety",
                 "hat_hard"
             ],
             "male": [
@@ -2389,13 +2402,21 @@
         "ident": "bionic_spy",
         "name": "Bionic Agent",
         "description": "Your body has several bionics worth millions of dollars, paid for by public taxes.  The government has turned you into an infiltration and recon specialist: you have night vision, an alarm and a hacking module.  And it all runs off piles and piles of everyday household batteries.",
-        "points": 3,
+        "points": 4,
         "CBMs":[
             "bio_fingerhack",
+            "bio_lockpick",
+            "bio_face_mask",
             "bio_alarm",
             "bio_night_vision",
             "bio_batteries",
             "bio_power_storage_mkII"
+        ],
+        "skills": [
+            {
+                "level": 2,
+                "name": "speech"
+            }
         ],
         "items": {
             "both": [
@@ -2418,26 +2439,30 @@
         "ident": "bionic_hitman",
         "name": "Bionic Assassin",
         "description": "The product of millions of dollars of clandestine research, you are a bionic sleeper agent capable of silently eliminating your target while maintaining an innocuous appearance.",
-        "points": 5,
+        "points": 6,
         "CBMs":[
+            "bio_cqb",
             "bio_blade",
             "bio_shock",
-            "bio_face_mask",
             "bio_torsionratchet",
             "bio_power_storage_mkII"
         ],
         "skills": [
             {
-                "level": 1,
+                "level": 2,
                 "name": "melee"
             },
             {
-                "level": 1,
+                "level": 2,
                 "name": "unarmed"
             },
             {
                 "level": 2,
-                "name": "speech"
+                "name": "stabbing"
+            },
+            {
+                "level": 2,
+                "name": "dodge"
             }
         ],
         "items": {
@@ -2445,7 +2470,8 @@
                 "dress_shoes",
                 "dress_shirt",
                 "knit_scarf",
-                "wristwatch"
+                "wristwatch",
+                "waistcoat"
             ],
             "male": [
                 "briefs",
@@ -2497,14 +2523,20 @@
         "ident": "bionic_customer",
         "name": "Commercial Cyborg",
         "description": "You always had to have the latest and best gadgets and gizmos, so is it any wonder that you upgraded your flesh along with your smart phone? Only time will tell if your status as a marvel of bionic technology will be enough to ensure your survival after the apocalypse.",
-        "points": 5,
+        "points": 6,
         "CBMs":[
-            "bio_tools",
             "bio_flashlight",
-            "bio_storage",
+            "bio_tools",
+            "bio_ups",
             "bio_watch",
             "bio_batteries",
             "bio_power_storage_mkII"
+        ],
+        "skills": [
+            {
+                "level": 1,
+                "name": "electronics"
+            }
         ],
         "items": {
             "both": [
@@ -2688,6 +2720,12 @@
         "name": "Otaku",
         "description": "Late nights with friends watching anime and eating snacks has prepared you for the premier anime convention in the Northeast.  It just had to be the day of the apocalypse.  At least you were ready in case your costume tore.",
         "points": 1,
+        "skills": [
+            {
+                "level": 1,
+                "name": "tailor"
+            }
+        ],
         "items": {
             "both": [
                 "shorts",
@@ -2967,6 +3005,7 @@
                 "postman_hat",
                 "postman_shirt",
                 "mbag",
+                "dog_whistle",
                 "wristwatch",
                 "leather_belt",
                 "postman_shorts",
@@ -3130,11 +3169,11 @@
             "both": [
                 "tank_top",
                 "shorts",
+                "socks",
                 "lowtops",
                 "aspirin",
-                "tobacco",
-                "rolling_paper",
-                "lighter"
+                "1st_aid",
+                "pockknife"
             ],
             "male": [
                 "briefs"
@@ -3632,7 +3671,6 @@
                 "pizza_veggy",
                 "pizza_meat",
                 "money_bundle",
-                "weed",
                 "mbag"
             ],
             "male": [
@@ -3720,8 +3758,7 @@
                 "gloves_wool",
                 "knit_scarf",
                 "mbag",
-                "ref_lighter",
-                "pockknife",
+                "dog_whistle",
                 "newest_newspaper",
                 "newest_newspaper",
                 "newest_newspaper",
