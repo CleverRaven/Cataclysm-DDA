@@ -9,7 +9,6 @@
 #include "npc.h"
 #include "npc_class.h"
 
-#include <fstream>
 #include <sstream>
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "

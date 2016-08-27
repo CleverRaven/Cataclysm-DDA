@@ -17,7 +17,6 @@
 #endif // TILES
 
 #include <stdlib.h>
-#include <fstream>
 #include <string>
 #include <locale>
 #include <sstream>
@@ -683,51 +682,44 @@ static std::string build_resource_list(
                                                      FILENAMES[dirname_label], true );
 
     for( auto &resource_dir : resource_dirs ) {
-        std::ifstream fin;
-        std::string file = resource_dir + "/" + FILENAMES[filename_label];
+        read_from_file( resource_dir + "/" + FILENAMES[filename_label], [&]( std::istream &fin ) {
+            std::string resource_name;
+            // should only have 2 values inside it, otherwise is going to only load the last 2 values
+            while( !fin.eof() ) {
+                std::string sOption;
+                fin >> sOption;
 
-        fin.open( file.c_str() );
-        if( !fin.is_open() ) {
-            DebugLog( D_ERROR, DC_ALL ) << "Can't read " << operation_name << " config from " << file;
-        }
-
-        std::string resource_name;
-        // should only have 2 values inside it, otherwise is going to only load the last 2 values
-        while( !fin.eof() ) {
-            std::string sOption;
-            fin >> sOption;
-
-            if( sOption.empty() ) {
-                getline( fin, sOption );    // Empty line, chomp it
-            } else if( sOption[0] == '#' ) { // # indicates a comment
-                getline( fin, sOption );
-            } else {
-                if( sOption.find( "NAME" ) != std::string::npos ) {
-                    resource_name = "";
-                    getline( fin, resource_name );
-                    resource_name.erase( std::remove( resource_name.begin(), resource_name.end(), ',' ), resource_name.end() );
-                    resource_name = trim( resource_name );
-                    if( resource_names.empty() ) {
-                        resource_names += resource_name;
-                    } else {
-                        resource_names += std::string( "," );
-                        resource_names += resource_name;
+                if( sOption.empty() ) {
+                    getline( fin, sOption );    // Empty line, chomp it
+                } else if( sOption[0] == '#' ) { // # indicates a comment
+                    getline( fin, sOption );
+                } else {
+                    if( sOption.find( "NAME" ) != std::string::npos ) {
+                        resource_name = "";
+                        getline( fin, resource_name );
+                        resource_name.erase( std::remove( resource_name.begin(), resource_name.end(), ',' ), resource_name.end() );
+                        resource_name = trim( resource_name );
+                        if( resource_names.empty() ) {
+                            resource_names += resource_name;
+                        } else {
+                            resource_names += std::string( "," );
+                            resource_names += resource_name;
+                        }
+                    } else if( sOption.find( "VIEW" ) != std::string::npos ) {
+                        std::string viewName = "";
+                        getline( fin, viewName );
+                        viewName = trim( viewName );
+                        optionNames[resource_name] = viewName;
+                        break;
                     }
-                } else if( sOption.find( "VIEW" ) != std::string::npos ) {
-                    std::string viewName = "";
-                    getline( fin, viewName );
-                    viewName = trim( viewName );
-                    optionNames[resource_name] = viewName;
-                    break;
                 }
             }
-        }
-        fin.close();
-        if( resource_option.count( resource_name ) != 0 ) {
-            DebugLog( D_ERROR, DC_ALL ) << "Found " << operation_name << " duplicate with name " << resource_name;
-        } else {
-            resource_option.insert( std::pair<std::string,std::string>( resource_name, resource_dir ) );
-        }
+            if( resource_option.count( resource_name ) != 0 ) {
+                DebugLog( D_ERROR, DC_ALL ) << "Found " << operation_name << " duplicate with name " << resource_name;
+            } else {
+                resource_option.insert( std::pair<std::string,std::string>( resource_name, resource_dir ) );
+            }
+        } );
     }
 
     return resource_names;
@@ -1889,26 +1881,14 @@ void options_manager::load()
 {
     const auto file = FILENAMES["options"];
 
-    std::ifstream fin;
-    fin.open(file.c_str(), std::ifstream::in | std::ifstream::binary);
-    if( !fin.good() ) {
+    if( !read_from_file_optional( file, *this ) ) {
         if (load_legacy()) {
             if (save()) {
                 remove_file(FILENAMES["legacy_options"]);
                 remove_file(FILENAMES["legacy_options2"]);
             }
         }
-
-    } else {
-        try {
-            JsonIn jsin(fin);
-            deserialize(jsin);
-        } catch( const JsonError &e ) {
-            DebugLog(D_ERROR, DC_ALL) << "options_manager::load: " << e;
-        }
     }
-
-    fin.close();
 
     // cache to global due to heavy usage.
     trigdist = ::get_option<bool>( "CIRCLEDIST" );
@@ -1920,36 +1900,25 @@ void options_manager::load()
 
 bool options_manager::load_legacy()
 {
-    std::ifstream fin;
-    // Try at the legacy location.
-    fin.open(FILENAMES["legacy_options"].c_str());
-    if(!fin.is_open()) {
-        // Try at the legacy location 2.
-        fin.open(FILENAMES["legacy_options2"].c_str());
-        if(!fin.is_open()) {
-            //No legacy txt options found, load json options
-            return false;
+    const auto reader = [&]( std::istream &fin ) {
+        std::string sLine;
+        while(!fin.eof()) {
+            getline(fin, sLine);
+
+            if(sLine != "" && sLine[0] != '#' && std::count(sLine.begin(), sLine.end(), ' ') == 1) {
+                int iPos = sLine.find(' ');
+                const std::string loadedvar = sLine.substr(0, iPos);
+                const std::string loadedval = sLine.substr(iPos + 1, sLine.length());
+                // option with values from post init() might get clobbered
+                add_retry(loadedvar, loadedval); // stash it until update();
+
+                global_options[ loadedvar ].setValue( loadedval );
+            }
         }
-    }
+    };
 
-    std::string sLine;
-    while(!fin.eof()) {
-        getline(fin, sLine);
-
-        if(sLine != "" && sLine[0] != '#' && std::count(sLine.begin(), sLine.end(), ' ') == 1) {
-            int iPos = sLine.find(' ');
-            const std::string loadedvar = sLine.substr(0, iPos);
-            const std::string loadedval = sLine.substr(iPos + 1, sLine.length());
-            // option with values from post init() might get clobbered
-            add_retry(loadedvar, loadedval); // stash it until update();
-
-            global_options[ loadedvar ].setValue( loadedval );
-        }
-    }
-
-    fin.close();
-
-    return true;
+    return read_from_file_optional( FILENAMES["legacy_options"], reader ) ||
+           read_from_file_optional( FILENAMES["legacy_options2"], reader );
 }
 
 bool use_narrow_sidebar()

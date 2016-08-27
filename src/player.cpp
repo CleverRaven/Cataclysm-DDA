@@ -73,7 +73,6 @@
 #include <string>
 #include <sstream>
 #include <stdlib.h>
-#include <fstream>
 #include <limits>
 
 const double MIN_RECOIL = 600;

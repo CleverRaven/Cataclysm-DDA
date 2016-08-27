@@ -15,8 +15,6 @@
 #include "name.h"
 #include "json.h"
 
-#include <fstream>
-
 using namespace std::placeholders;
 
 #define SAVE_MASTER "master.gsav"
@@ -1417,73 +1415,59 @@ bool worldfactory::valid_worldname(std::string name, bool automated)
     return false;
 }
 
+void WORLD::load_options( JsonIn &jsin )
+{
+    jsin.start_array();
+    while( !jsin.end_array() ) {
+        JsonObject jo = jsin.get_object();
+        const std::string name = jo.get_string( "name" );
+        const std::string value = jo.get_string( "value" );
+        if( get_options().get_option( name ).getPage() == "world_default" ) {
+            WORLD_OPTIONS[ name ].setValue( value );
+        }
+    }
+    // for legacy saves, try to simulate old city_size based density
+    if( WORLD_OPTIONS.count( "CITY_SPACING" ) == 0 ) {
+        WORLD_OPTIONS["CITY_SPACING"].setValue( 5 - get_option<int>( "CITY_SIZE" ) / 3 );
+    }
+}
+
+void WORLD::load_legacy_options( std::istream &fin )
+{
+    //load legacy txt
+    std::string sLine;
+    while( !fin.eof() ) {
+        getline( fin, sLine );
+        if( sLine != "" && sLine[0] != '#' && std::count( sLine.begin(), sLine.end(), ' ' ) == 1 ) {
+            int ipos = sLine.find( ' ' );
+            // make sure that the option being loaded is part of the world_default page in OPTIONS
+            if( get_options().get_option( sLine.substr( 0, ipos ) ).getPage() == "world_default" ) {
+                WORLD_OPTIONS[sLine.substr( 0, ipos )].setValue( sLine.substr( ipos + 1, sLine.length() ) );
+            }
+        }
+    }
+}
+
 bool worldfactory::load_world_options(WORLDPTR &world)
 {
     world->WORLD_OPTIONS = get_options().get_world_defaults();
-    std::ifstream fin;
 
-    auto path = world->world_path + "/" + FILENAMES["worldoptions"];
+    using namespace std::placeholders;
+    const auto path = world->world_path + "/" + FILENAMES["worldoptions"];
+    if( read_from_file_optional( path, std::bind( &WORLD::load_options, world, _1 ) ) ) {
+        return true;
+    }
 
-    fin.open(path.c_str(), std::ifstream::in | std::ifstream::binary);
-
-    if (!fin.is_open()) {
-        fin.close();
-
-        path = world->world_path + "/" + FILENAMES["legacy_worldoptions"];
-        fin.open(path.c_str());
-
-        if (!fin.is_open()) {
-            fin.close();
-
-            DebugLog( D_ERROR, DC_ALL ) << "Couldn't read world options file";
-            return false;
-
-        } else {
-            //load legacy txt
-            std::string sLine;
-
-            while (!fin.eof()) {
-                getline(fin, sLine);
-
-                if (sLine != "" && sLine[0] != '#' && std::count(sLine.begin(), sLine.end(), ' ') == 1) {
-                    int ipos = sLine.find(' ');
-                    // make sure that the option being loaded is part of the world_default page in OPTIONS
-                    if(get_options().get_option(sLine.substr(0, ipos)).getPage() == "world_default") {
-                        world->WORLD_OPTIONS[sLine.substr(0, ipos)].setValue(sLine.substr(ipos + 1, sLine.length()));
-                    }
-                }
-            }
-            fin.close();
-
-            if ( save_world( world ) ) {
-                remove_file( path );
-            }
-
-            return true;
+    const auto legacy_path = world->world_path + "/" + FILENAMES["legacy_worldoptions"];
+    if( read_from_file_optional( legacy_path, std::bind( &WORLD::load_legacy_options, world, _1 ) ) ) {
+        if( save_world( world ) ) {
+            // Remove old file as the options have been saved to the new file.
+            remove_file( legacy_path );
         }
+        return true;
     }
 
-    //load json
-    JsonIn jsin(fin);
-
-    jsin.start_array();
-    while (!jsin.end_array()) {
-        JsonObject jo = jsin.get_object();
-
-        const std::string name = jo.get_string("name");
-        const std::string value = jo.get_string("value");
-
-        if(get_options().get_option( name ).getPage() == "world_default") {
-            world->WORLD_OPTIONS[ name ].setValue( value );
-        }
-    }
-
-    // for legacy saves, try to simulate old city_size based density
-    if( world->WORLD_OPTIONS.count( "CITY_SPACING" ) == 0 ) {
-        world->WORLD_OPTIONS["CITY_SPACING"].setValue( 5 - get_option<int>( "CITY_SIZE" ) / 3 );
-    }
-
-    return true;
+    return false;
 }
 
 void load_world_option( JsonObject &jo )

@@ -5,7 +5,6 @@
 #include "item_factory.h"
 #include "translations.h"
 
-#include <fstream>
 #include <stdexcept>
 #include <algorithm>
 

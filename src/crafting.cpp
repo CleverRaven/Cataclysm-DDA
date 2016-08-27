@@ -22,7 +22,6 @@
 #include "crafting_gui.h"
 
 #include <algorithm> //std::min
-#include <fstream>
 #include <iostream>
 #include <math.h>    //sqrt
 #include <queue>

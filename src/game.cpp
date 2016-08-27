@@ -91,7 +91,6 @@
 #include <set>
 #include <algorithm>
 #include <string>
-#include <fstream>
 #include <sstream>
 #include <cmath>
 #include <vector>
@@ -3468,53 +3467,25 @@ void game::move_save_to_graveyard()
 
 bool game::load_master(std::string worldname)
 {
-    std::ifstream fin;
-    std::stringstream datafile;
-    datafile << world_generator->all_worlds[worldname]->world_path << "/master.gsav";
-    fin.open(datafile.str().c_str(), std::ifstream::in | std::ifstream::binary);
-    if (!fin.is_open()) {
-        return false;
-    }
-
-    unserialize_master(fin);
-    fin.close();
-    return true;
+    using namespace std::placeholders;
+    const auto datafile = world_generator->all_worlds[worldname]->world_path + "/master.gsav";
+    return read_from_file_optional( datafile, std::bind( &game::unserialize_master, this, _1 ) );
 }
 
 void game::load_uistate(std::string worldname)
 {
-    std::stringstream savefile;
-    savefile << world_generator->all_worlds[worldname]->world_path << "/uistate.json";
-
-    std::ifstream fin;
-    fin.open(savefile.str().c_str(), std::ifstream::in | std::ifstream::binary);
-    if (!fin.good()) {
-        fin.close();
-        return;
-    }
-    try {
-        JsonIn jsin(fin);
-        uistate.deserialize(jsin);
-    } catch( const JsonError &e ) {
-        dbg(D_ERROR) << "load_uistate: " << e;
-    }
-    fin.close();
+    using namespace std::placeholders;
+    const auto savefile = world_generator->all_worlds[worldname]->world_path + "/uistate.json";
+    read_from_file_optional( savefile, uistate );
 }
 
 void game::load(std::string worldname, std::string name)
 {
-    std::ifstream fin;
-    std::string worldpath = world_generator->all_worlds[worldname]->world_path;
-    worldpath += "/";
-    std::stringstream playerfile;
-    playerfile << worldpath << name << ".sav";
-    fin.open(playerfile.str().c_str(), std::ifstream::in | std::ifstream::binary);
-    // First, read in basic game state information.
-    if (!fin.is_open()) {
-        dbg(D_ERROR) << "game:load: No save game exists!";
-        debugmsg("No save game exists!");
-        return;
-    }
+    using namespace std::placeholders;
+
+    const std::string worldpath = world_generator->all_worlds[worldname]->world_path + "/";
+    const std::string playerfile = worldpath + name + ".sav";
+
     // Now load up the master game data; factions (and more?)
     load_master(worldname);
     u = player();
@@ -3522,24 +3493,15 @@ void game::load(std::string worldname, std::string name)
     // This should be initialized more globally (in player/Character constructor)
     u.ret_null = item( "null", 0 );
     u.weapon = item("null", 0);
-    unserialize(fin);
-    fin.close();
+    if( !read_from_file( playerfile, std::bind( &game::unserialize, this, _1 ) ) ) {
+        return;
+    }
 
-    // weather
-    std::string wfile = std::string(worldpath + base64_encode(u.name) + ".weather");
-    fin.open(wfile.c_str());
-    if (fin.is_open()) {
-        load_weather(fin);
-    }
-    fin.close();
+    read_from_file_optional( worldpath + name + ".weather", std::bind( &game::load_weather, this, _1 ) );
     nextweather = int(calendar::turn);
-    // log
-    std::string mfile = std::string(worldpath + base64_encode(u.name) + ".log");
-    fin.open(mfile.c_str());
-    if (fin.is_open()) {
-        u.load_memorial_file(fin);
-    }
-    fin.close();
+
+    read_from_file_optional( worldpath + name + ".log", std::bind( &player::load_memorial_file, &u, _1 ) );
+
     // Now that the player's worn items are updated, their sight limits need to be
     // recalculated. (This would be cleaner if u.worn were private.)
     u.recalc_sight_limits();

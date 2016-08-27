@@ -27,7 +27,6 @@
 #include <unistd.h>
 #endif
 #include <cstring>
-#include <fstream>
 #include <sstream>
 #include <vector>
 #include <algorithm>
@@ -213,22 +212,16 @@ matype_id choose_ma_style( const character_type type, const std::vector<matype_i
 
 bool player::load_template( const std::string &template_name )
 {
-    const std::string path = FILENAMES["templatedir"] + template_name + ".template";
-    std::ifstream fin( path.c_str() );
-    if( !fin.is_open() ) {
-        debugmsg( "Couldn't open %s!", path.c_str() );
-        return false;
-    }
-    std::string data;
-    getline( fin, data );
-    load_info( data );
+    return read_from_file( FILENAMES["templatedir"] + template_name + ".template", [&]( std::istream &fin ) {
+        std::string data;
+        getline( fin, data );
+        load_info( data );
 
-    if( MAP_SHARING::isSharing() ) {
-        // just to make sure we have the right name
-        name = MAP_SHARING::getUsername();
-    }
-
-    return true;
+        if( MAP_SHARING::isSharing() ) {
+            // just to make sure we have the right name
+            name = MAP_SHARING::getUsername();
+        }
+    } );
 }
 
 void player::randomize( const bool random_scenario, points_left &points )
