@@ -525,10 +525,8 @@ bool player::scored_crit(int target_dodge) const
 /**
  * Limits a probability to be between 0.0 and 1.0
  */
-double limit_probability ( double unbounded_probability ) {
-    double probability = std::fmin( unbounded_probability, 1.0 );
-    double bounded_probability = std::fmax( probability, 0.0 );
-    return bounded_probability;
+inline double limit_probability( double unbounded_probability ) {
+    return std::max( std::min( unbounded_probability, 1.0 ), 0.0 );
 }
 
 double player::crit_chance( int roll_hit, int target_dodge, const item &weap ) const
