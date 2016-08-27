@@ -616,13 +616,12 @@ int recipe::batch_time( int batch ) const
     if( batch_rscale == 0.0 && assistants == 0 ) {
         return local_time * batch;
     }
-    
+
     double total_time = 0.0;
     // if recipe does not benefit from batching but we do have assistants, skip calculating the batching scale factor
     if( batch_rscale == 0.0 ) {
         total_time = ( double )local_time * batch;
-    } else 
-        {
+    } else {
         // recipe benefits from batching, so batching scale factor needs to be calculated
         // At batch_rsize, incremental time increase is 99.5% of batch_rscale
         double scale = batch_rsize / 6.0;
