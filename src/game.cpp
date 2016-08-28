@@ -714,11 +714,7 @@ void game::reenter_fullscreen(void)
  */
 void game::setup()
 {
-    try {
-        load_world_modfiles(world_generator->active_world);
-    } catch( const std::exception &err ) {
-        debugmsg( "Error loading data from json: %s", err.what() );
-    }
+    load_world_modfiles(world_generator->active_world);
 
     m =  map( get_world_option<bool>( "ZLEVELS" ) );
 
@@ -14319,7 +14315,11 @@ void game::quickload()
         if( moves_since_last_save != 0 ) { // See if we need to reload anything
             MAPBUFFER.reset();
             overmap_buffer.clear();
-            setup();
+            try {
+                setup();
+            } catch( const std::exception &err ) {
+                debugmsg( "Error: %s", err.what() );
+            }
             load( active_world->world_name, save_name );
         }
     } else {

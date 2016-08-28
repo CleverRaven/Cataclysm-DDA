@@ -460,7 +460,11 @@ bool game::opening_screen()
                             continue;
                         }
                         world_generator->set_active_world( world );
-                        setup();
+                        try {
+                            setup();
+                        } catch( const std::exception &err ) {
+                            debugmsg( "Error: %s", err.what() );
+                        }
                         if( !u.create( sel2 == 0 ? PLTYPE_CUSTOM : ( sel2 == 2 ? PLTYPE_RANDOM : PLTYPE_NOW ) ) ) {
                             u = player();
                             continue;
@@ -649,7 +653,11 @@ bool game::opening_screen()
                             continue;
                         }
                         world_generator->set_active_world( world );
-                        setup();
+                        try {
+                            setup();
+                        } catch( const std::exception &err ) {
+                            debugmsg( "Error: %s", err.what() );
+                        }
                         if( !gamemode->init() ) {
                             gamemode.reset();
                             u = player();
@@ -724,7 +732,11 @@ bool game::opening_screen()
                         wrefresh( w_background );
                         WORLDPTR world = world_generator->all_worlds[world_generator->all_worldnames[sel2]];
                         world_generator->set_active_world( world );
-                        setup();
+                        try {
+                            setup();
+                        } catch( const std::exception &err ) {
+                            debugmsg( "Error: %s", err.what() );
+                        }
 
                         load( world->world_name, savegames[sel3] );
                         start = true;
@@ -867,7 +879,11 @@ bool game::opening_screen()
                         continue;
                     }
                     world_generator->set_active_world( world );
-                    setup();
+                    try {
+                        setup();
+                    } catch( const std::exception &err ) {
+                        debugmsg( "Error: %s", err.what() );
+                    }
                     if( !u.create( PLTYPE_TEMPLATE, templates[sel3] ) ) {
                         u = player();
                         continue;
