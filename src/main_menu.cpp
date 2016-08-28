@@ -464,6 +464,8 @@ bool game::opening_screen()
                             setup();
                         } catch( const std::exception &err ) {
                             debugmsg( "Error: %s", err.what() );
+                            u = player();
+                            continue;
                         }
                         if( !u.create( sel2 == 0 ? PLTYPE_CUSTOM : ( sel2 == 2 ? PLTYPE_RANDOM : PLTYPE_NOW ) ) ) {
                             u = player();
@@ -657,6 +659,9 @@ bool game::opening_screen()
                             setup();
                         } catch( const std::exception &err ) {
                             debugmsg( "Error: %s", err.what() );
+                            gamemode.reset();
+                            u = player();
+                            continue;
                         }
                         if( !gamemode->init() ) {
                             gamemode.reset();
@@ -736,6 +741,8 @@ bool game::opening_screen()
                             setup();
                         } catch( const std::exception &err ) {
                             debugmsg( "Error: %s", err.what() );
+                            u = player();
+                            continue;
                         }
 
                         load( world->world_name, savegames[sel3] );
@@ -883,6 +890,8 @@ bool game::opening_screen()
                         setup();
                     } catch( const std::exception &err ) {
                         debugmsg( "Error: %s", err.what() );
+                        u = player();
+                        continue;
                     }
                     if( !u.create( PLTYPE_TEMPLATE, templates[sel3] ) ) {
                         u = player();
