@@ -149,7 +149,7 @@ class game
          */
         bool check_mod_data( const std::vector<std::string> &opts );
 
-        /** Loads core dynamic data. */
+        /** Loads core dynamic data. May throw. */
         void load_core_data();
         /** Loads core data and mods from the given world. */
         void load_world_modfiles(WORLDPTR world);

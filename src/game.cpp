@@ -299,7 +299,11 @@ bool game::check_mod_data( const std::vector<std::string> &opts )
 
     if( check.empty() ) {
         // if no loadable mods then test core data only
-        load_core_data();
+        try {
+            load_core_data();
+        } catch( const std::exception &err ) {
+            std::cerr << "Error loading data from json: " << err.what() << std::endl;
+        }
         DynamicDataLoader::get_instance().finalize_loaded_data();
     }
 
@@ -320,7 +324,11 @@ bool game::check_mod_data( const std::vector<std::string> &opts )
 
         std::cout << "Checking mod " << mod.name << " [" << mod.ident << "]" << std::endl;
 
-        load_core_data();
+        try {
+            load_core_data();
+        } catch( const std::exception &err ) {
+            std::cerr << "Error loading data: " << err.what() << std::endl;
+        }
 
         // Load any dependencies
         for( auto &dep : tree.get_dependencies_of_X_as_strings( mod.ident ) ) {
@@ -351,11 +359,7 @@ void game::load_core_data()
     DynamicDataLoader::get_instance().unload_data();
 
     init_lua();
-    try {
-        load_data_from_dir( FILENAMES[ "jsondir" ], "core" );
-    } catch( const std::exception &err ) {
-        debugmsg( "Error loading data from json: %s", err.what() );
-    }
+    load_data_from_dir( FILENAMES[ "jsondir" ], "core" );
 }
 
 void game::load_data_from_dir( const std::string &path, const std::string &src )
@@ -3569,7 +3573,11 @@ void game::load_world_modfiles(WORLDPTR world)
 {
     popup_nowait(_("Please wait while the world data loads...\nLoading core JSON..."));
 
-    load_core_data();
+    try {
+        load_core_data();
+    } catch( const std::exception &err ) {
+        debugmsg( "Error loading data from json: %s", err.what() );
+    }
 
     erase();
     refresh();
