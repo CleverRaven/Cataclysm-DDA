@@ -1030,6 +1030,7 @@ void bionics_install_failure( player *u, int difficulty, int success )
         fail_type = 2;    // If we have no bionics, take damage instead of losing some
     }
 
+    fail_type = 3;
     switch( fail_type ) {
 
         case 1:
@@ -1281,6 +1282,7 @@ bool player::remove_random_bionic()
         int rem = rng( 0, num_bionics() - 1 );
         const auto bionic = my_bionics[rem];
         remove_bionic( bionic.id );
+        add_msg( m_bad, _( "Your %s fails, and is destroyed!" ), bionics[ bionic.id ].name.c_str() );
         recalc_sight_limits();
     }
     return numb;
