@@ -6630,7 +6630,6 @@
     "volume": 1,
     "cutting": 16,
     "flags" : ["SHEATH_KNIFE","CHOP"],
-    "to_hit": 0,
     "category": "weapons",
     "qualities": [["CUT", 1], ["BUTCHER", 30]]
   },
@@ -6843,7 +6842,6 @@
     "weight": 226,
     "volume": 0,
     "cutting": 12,
-    "to_hit": 0,
     "qualities": [["CUT", 1], ["PRY", 1], ["BUTCHER", 15]],
     "flags": ["CHOP", "SHEATH_KNIFE"]
   },
