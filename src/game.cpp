@@ -324,11 +324,19 @@ bool game::check_mod_data( const std::vector<std::string> &opts )
 
         // Load any dependencies
         for( auto &dep : tree.get_dependencies_of_X_as_strings( mod.ident ) ) {
-            load_data_from_dir( mods[dep]->path, mods[dep]->ident );
+            try {
+                load_data_from_dir( mods[dep]->path, mods[dep]->ident );
+            } catch( const std::exception &err ) {
+                std::cerr << "Error loading data: " << err.what() << std::endl;
+            }
         }
 
-        // Load mod itself
-        load_data_from_dir( mod.path, mod.ident );
+        try {
+            // Load mod itself
+            load_data_from_dir( mod.path, mod.ident );
+        } catch( const std::exception &err ) {
+            std::cerr << "Error loading data: " << err.what() << std::endl;
+        }
 
         DynamicDataLoader::get_instance().finalize_loaded_data();
     }
@@ -343,7 +351,11 @@ void game::load_core_data()
     DynamicDataLoader::get_instance().unload_data();
 
     init_lua();
-    load_data_from_dir( FILENAMES[ "jsondir" ], "core" );
+    try {
+        load_data_from_dir( FILENAMES[ "jsondir" ], "core" );
+    } catch( const std::exception &err ) {
+        debugmsg( "Error loading data from json: %s", err.what() );
+    }
 }
 
 void game::load_data_from_dir( const std::string &path, const std::string &src )
@@ -353,11 +365,7 @@ void game::load_data_from_dir( const std::string &path, const std::string &src )
     // the items that need them are parsed
     lua_loadmod( path, "preload.lua" );
 
-    try {
-        DynamicDataLoader::get_instance().load_data_from_path( path, src );
-    } catch( const std::exception &err ) {
-        debugmsg("Error loading data from json: %s", err.what());
-    }
+    DynamicDataLoader::get_instance().load_data_from_path( path, src );
 
     // main.lua will be executed after JSON, allowing to
     // work with items defined by mod's JSON
@@ -3580,14 +3588,22 @@ void game::load_world_modfiles(WORLDPTR world)
                 MOD_INFORMATION &mod = *mm->mod_map[mod_ident];
                 if( !mod.obsolete ) {
                     // Silently ignore mods marked as obsolete.
-                    load_data_from_dir( mod.path, mod.ident );
+                    try {
+                        load_data_from_dir( mod.path, mod.ident );
+                    } catch( const std::exception &err ) {
+                        debugmsg( "Error loading data from json: %s", err.what() );
+                    }
                 }
             } else {
                 debugmsg("the world uses an unknown mod %s", mod_ident.c_str());
             }
         }
-        // Load additional mods from that world-specific folder
-        load_data_from_dir( world->world_path + "/mods", "custom" );
+        try {
+            // Load additional mods from that world-specific folder
+            load_data_from_dir( world->world_path + "/mods", "custom" );
+        } catch( const std::exception &err ) {
+            debugmsg( "Error loading data from json: %s", err.what() );
+        }
     }
 
     erase();

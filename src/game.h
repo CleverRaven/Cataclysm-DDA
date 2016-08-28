@@ -154,7 +154,7 @@ class game
         /** Loads core data and mods from the given world. */
         void load_world_modfiles(WORLDPTR world);
     protected:
-        /** Loads dynamic data from the given directory. */
+        /** Loads dynamic data from the given directory. May throw. */
         void load_data_from_dir( const std::string &path, const std::string &src );
 
         // May be a bit hacky, but it's probably better than the header spaghetti
