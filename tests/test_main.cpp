@@ -80,7 +80,13 @@ void init_global_game_state( std::vector<const char *> &arg_vec )
     world_generator->set_active_world(test_world);
     assert( world_generator->active_world != NULL );
 
-    g->load_world_modfiles( world_generator->active_world );
+    try {
+        g->load_world_modfiles( world_generator->active_world );
+    } catch( const std::exception &err ) {
+        fprintf( stderr, "Error loading data from json: %s", err.what() );
+        assert( !"Loading from JSON failed. Run `./cataclysm --check-mods`" );
+    }
+
 
     g->u = player();
     g->u.create(PLTYPE_NOW);

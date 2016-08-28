@@ -151,7 +151,7 @@ class game
 
         /** Loads core dynamic data. May throw. */
         void load_core_data();
-        /** Loads core data and mods from the given world. */
+        /** Loads core data and mods from the given world. May throw. */
         void load_world_modfiles(WORLDPTR world);
     protected:
         /** Loads dynamic data from the given directory. May throw. */

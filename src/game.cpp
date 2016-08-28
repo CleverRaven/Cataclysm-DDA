@@ -714,7 +714,11 @@ void game::reenter_fullscreen(void)
  */
 void game::setup()
 {
-    load_world_modfiles(world_generator->active_world);
+    try {
+        load_world_modfiles(world_generator->active_world);
+    } catch( const std::exception &err ) {
+        debugmsg( "Error loading data from json: %s", err.what() );
+    }
 
     m =  map( get_world_option<bool>( "ZLEVELS" ) );
 
@@ -3573,11 +3577,7 @@ void game::load_world_modfiles(WORLDPTR world)
 {
     popup_nowait(_("Please wait while the world data loads...\nLoading core JSON..."));
 
-    try {
-        load_core_data();
-    } catch( const std::exception &err ) {
-        debugmsg( "Error loading data from json: %s", err.what() );
-    }
+    load_core_data();
 
     erase();
     refresh();
@@ -3596,22 +3596,14 @@ void game::load_world_modfiles(WORLDPTR world)
                 MOD_INFORMATION &mod = *mm->mod_map[mod_ident];
                 if( !mod.obsolete ) {
                     // Silently ignore mods marked as obsolete.
-                    try {
-                        load_data_from_dir( mod.path, mod.ident );
-                    } catch( const std::exception &err ) {
-                        debugmsg( "Error loading data from json: %s", err.what() );
-                    }
+                    load_data_from_dir( mod.path, mod.ident );
                 }
             } else {
                 debugmsg("the world uses an unknown mod %s", mod_ident.c_str());
             }
         }
-        try {
-            // Load additional mods from that world-specific folder
-            load_data_from_dir( world->world_path + "/mods", "custom" );
-        } catch( const std::exception &err ) {
-            debugmsg( "Error loading data from json: %s", err.what() );
-        }
+        // Load additional mods from that world-specific folder
+        load_data_from_dir( world->world_path + "/mods", "custom" );
     }
 
     erase();
