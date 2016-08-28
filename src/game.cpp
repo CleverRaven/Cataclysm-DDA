@@ -326,20 +326,12 @@ bool game::check_mod_data( const std::vector<std::string> &opts )
 
         try {
             load_core_data();
-        } catch( const std::exception &err ) {
-            std::cerr << "Error loading data: " << err.what() << std::endl;
-        }
 
-        // Load any dependencies
-        for( auto &dep : tree.get_dependencies_of_X_as_strings( mod.ident ) ) {
-            try {
+            // Load any dependencies
+            for( auto &dep : tree.get_dependencies_of_X_as_strings( mod.ident ) ) {
                 load_data_from_dir( mods[dep]->path, mods[dep]->ident );
-            } catch( const std::exception &err ) {
-                std::cerr << "Error loading data: " << err.what() << std::endl;
             }
-        }
 
-        try {
             // Load mod itself
             load_data_from_dir( mod.path, mod.ident );
         } catch( const std::exception &err ) {
