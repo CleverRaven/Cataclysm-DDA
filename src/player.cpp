@@ -4087,8 +4087,9 @@ bool player::sight_impaired() const
                !is_wearing( "glasses_eye" ) &&
                !is_wearing( "glasses_monocle" ) &&
                !is_wearing( "glasses_bifocal" ) &&
-               !has_effect( effect_contacts ) ) ||
-             has_trait( "PER_SLIME" ) );
+               !has_effect( effect_contacts ) &&
+               !has_bionic( "bio_eye_optic") ) ||
+                has_trait( "PER_SLIME" ) );
 }
 
 bool player::has_two_arms() const
@@ -11231,7 +11232,7 @@ const player *player::get_book_reader( const item &book, std::vector<std::string
     if( type->intel > 0 && has_trait( "ILLITERATE" ) ) {
         reasons.push_back( _( "You're illiterate!" ) );
     } else if( has_trait( "HYPEROPIC" ) && !is_wearing( "glasses_reading" ) &&
-               !is_wearing( "glasses_bifocal" ) && !has_effect( effect_contacts ) ) {
+               !is_wearing( "glasses_bifocal" ) && !has_effect( effect_contacts ) !has_bionic( "bio_eye_optic") ) {
         reasons.push_back( _( "Your eyes won't focus without reading glasses." ) );
     } else if( fine_detail_vision_mod() > 4 ) {
         // Too dark to read only applies if the player can read to himself
