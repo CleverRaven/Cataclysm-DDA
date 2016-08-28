@@ -4300,7 +4300,7 @@
         "description" : "Your muscle response is dependent on ambient temperatures.  You lose 1% of your speed for every 5 (2.8) degrees below 65 F (18.3 C).",
         "changes_to" : ["COLDBLOOD2"],
         "cancels" : ["HUNGER", "HUNGER2", "HUNGER3", "EATHEALTH"],
-        "category" : ["MUTCAT_FISH", "MUTCAT_BIRD", "MUTCAT_CEPHALOPOD", "MUTCAT_SPIDER"]
+        "category" : ["MUTCAT_FISH", "MUTCAT_CEPHALOPOD", "MUTCAT_SPIDER"]
     },{
         "type" : "mutation",
         "id" : "COLDBLOOD2",
