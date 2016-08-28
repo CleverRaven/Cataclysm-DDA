@@ -1030,7 +1030,6 @@ void bionics_install_failure( player *u, int difficulty, int success )
         fail_type = 2;    // If we have no bionics, take damage instead of losing some
     }
 
-    fail_type = 3;
     switch( fail_type ) {
 
         case 1:
