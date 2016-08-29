@@ -1836,8 +1836,8 @@ void options_manager::serialize(JsonOut &json) const
     for( size_t j = 0; j < vPages.size(); ++j ) {
         for( auto &elem : mPageItems[j] ) {
             const auto iter = global_options.find( elem );
-            const auto &opt = iter->second;
-            if( opt.getDefaultText() != "" ) {
+            if( iter != global_options.end() ) {
+                const auto &opt = iter->second;
                 json.start_object();
 
                 json.member( "info", opt.getTooltip() );
