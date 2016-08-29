@@ -3,24 +3,29 @@
 # 1 1 <pola8846@gmail.com>, 2015-2016
 # 3strikerz <dlrhkd109@naver.com>, 2015
 # 3strikerz <dlrhkd109@naver.com>, 2015
+# fenjo <fenjo1@gmail.com>, 2016
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2013
 # indejeC <s203258@naver.com>, 2015
 # indejeC <s203258@naver.com>, 2015-2016
 # Jay Bae <saysin@gmail.com>, 2015-2016
-# KHJ, 2015-2016
+# fenjo <fenjo1@gmail.com>, 2015-2016
+# Kim Hyongwan <romanticroma@naver.com>, 2016
 # Miyu, 2015
+# mcmilan tac <hrqa12@gmail.com>, 2016
 # Miyu, 2015
 # Miyu, 2015-2016
 # 오민우 <qqq30845250@gmail.com>, 2016
 # mcmilan tac <hrqa12@gmail.com>, 2015-2016
 # Soonhwan Kim <tnsghks852@naver.com>, 2016
+# T itan <un8214@naver.com>, 2016
+# YM Lee <lymtwin@gmail.com>, 2016
 # YM Lee <lymtwin@gmail.com>, 2016
 msgid ""
 msgstr ""
 "Project-Id-Version: Cataclysm-DDA\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-07-11 12:55+0300\n"
-"PO-Revision-Date: 2016-07-12 08:43+0000\n"
+"POT-Creation-Date: 2016-08-09 09:18+0300\n"
+"PO-Revision-Date: 2016-08-10 06:12+0000\n"
 "Last-Translator: Vlasov Vitaly <vnigtha@gmail.com>\n"
 "Language-Team: Korean (http://www.transifex.com/cataclysm-dda-translators/"
 "cataclysm-dda/language/ko/)\n"
@@ -347,7 +352,7 @@ msgstr[0] ".45 ACP FMJ"
 #: lang/json/AMMO_from_json.py
 msgid ".45 ACP JHP"
 msgid_plural ".45 ACP JHP"
-msgstr[0] ".45 ACP FMJ"
+msgstr[0] ".45 ACP JHP"
 
 #. ~ Description for .45 ACP JHP
 #: lang/json/AMMO_from_json.py
@@ -403,11 +408,6 @@ msgid_plural ".50 BMG AP"
 msgstr[0] ".50 BMG AP"
 
 #: lang/json/AMMO_from_json.py
-msgid ".50 BMG API"
-msgid_plural ".50 BMG API"
-msgstr[0] ".50 BMG API"
-
-#: lang/json/AMMO_from_json.py
 msgid ".50 BMG Ball"
 msgid_plural ".50 BMG Ball"
 msgstr[0] ".50 BMG Ball"
@@ -416,6 +416,11 @@ msgstr[0] ".50 BMG Ball"
 msgid ".50 BMG casing"
 msgid_plural ".50 BMG casings"
 msgstr[0] ".50 BMG 탄피"
+
+#: lang/json/AMMO_from_json.py
+msgid ".50 BMG tracer"
+msgid_plural ".50 BMG tracer"
+msgstr[0] ""
 
 #: lang/json/AMMO_from_json.py
 msgid ".50 ammo belt linkage"
@@ -697,7 +702,7 @@ msgstr[0] "40mm 파편탄"
 #: lang/json/AMMO_from_json.py lang/json/ammunition_type_from_json.py
 msgid "40mm grenade"
 msgid_plural "40mm grenades"
-msgstr[0] "40mm 수류탄"
+msgstr[0] "40mm 유탄"
 
 #: lang/json/AMMO_from_json.py
 msgid "40mm grenade belt linkage"
@@ -707,7 +712,7 @@ msgstr[0] "40mm 유탄 벨트 링크"
 #: lang/json/AMMO_from_json.py
 msgid "40mm incendiary"
 msgid_plural "40mm incendiaries"
-msgstr[0] ""
+msgstr[0] "40mm 소이탄"
 
 #: lang/json/AMMO_from_json.py
 msgid "40mm smoke cover"
@@ -759,12 +764,10 @@ msgstr[0] "5.56 NATO 예광탄"
 #: lang/json/AMMO_from_json.py
 msgid ""
 "5.56x45mm ammunition with a 62gr FMJ bullet containing a steel penetrator.  "
-"Its light weight, high accuracy, and managable recoil lead to widespread use "
-"in the 20th century and it remains popular among militaries and civilians."
+"Its light weight, high accuracy, and manageable recoil lead to widespread "
+"use in the 20th century and it remains popular among militaries and "
+"civilians."
 msgstr ""
-"62gr 무게의 탄두를 사용한 5.56x45mm FMJ 탄약. 가벼운 무게와 높은 정확도, 제"
-"어 가능한 반동으로 인해 20세기에 널리 사용되었고, 아직도 군대와 민간에서 사랑"
-"받고 있다."
 
 #: lang/json/AMMO_from_json.py
 msgid "5.7x28mm SS190"
@@ -834,17 +837,17 @@ msgstr[0] "7.62mm NATO 예광탄"
 #: lang/json/AMMO_from_json.py
 msgid "7.62x25mm FMJ hot load"
 msgid_plural "7.62x25mm FMJ hot load"
-msgstr[0] ""
+msgstr[0] "7.62x25mm FMJ 고압탄"
 
 #: lang/json/AMMO_from_json.py
 msgid "7.62x25mm JHP"
 msgid_plural "7.62x25mm JHP"
-msgstr[0] ""
+msgstr[0] "7.62x25mm JHP"
 
 #: lang/json/AMMO_from_json.py
 msgid "7.62x25mm Type P"
 msgid_plural "7.62x25mm Type P"
-msgstr[0] ""
+msgstr[0] "7.62x25mm P형"
 
 #: lang/json/AMMO_from_json.py
 msgid "7.62x39mm M43"
@@ -1071,6 +1074,8 @@ msgid ""
 "Eastern Bloc during the 20th century and remained in Russian military "
 "service into the 21st century."
 msgstr ""
+"9x18mm 마카로프 SP-7 탄약. 20세기 동구권 탄약의 표준이었으며 21세기가 되어서"
+"도 러시아군이 사용하고 있습니다."
 
 #. ~ Description for 9x18mm 57-N-181S
 #: lang/json/AMMO_from_json.py
@@ -1079,6 +1084,8 @@ msgid ""
 "round was very common in the Eastern Bloc during the 20th century and "
 "remained in Russian military service into the 21st century."
 msgstr ""
+"93그램의 FMJ 강철 탄두를 이용한 9x18mm 마카로프 탄약. 20세기 동구권 탄약의 표"
+"준이었으며 21세기가 되어서도 러시아군이 사용하고 있습니다."
 
 #: lang/json/AMMO_from_json.py
 msgid "9x18mm RG028"
@@ -1237,7 +1244,7 @@ msgstr "강력한 비살상 제압력을 가진 40mm 빈백탄이다."
 #. ~ Description for 40mm smoke cover
 #: lang/json/AMMO_from_json.py
 msgid "A 40mm grenade designed to provide smoke cover."
-msgstr ""
+msgstr "연막용 40mm 유탄"
 
 #. ~ Description for 40mm buckshot
 #: lang/json/AMMO_from_json.py
@@ -1398,6 +1405,7 @@ msgid ""
 "A brass-jacketed variant of the .44 Magnum round.  This increases "
 "penetration slightly at the cost of reduced damage from expansion."
 msgstr ""
+".44 매그넘탄의 피황동 변종. 대인저지력을 포기하고 관통력을 약간 늘렸습니다."
 
 #. ~ Description for blue paint
 #: lang/json/AMMO_from_json.py
@@ -1445,6 +1453,8 @@ msgid ""
 "A canister of pressurized hydrogen so heavily compressed it has turned "
 "solid.  With proper equipment, it could be heated to plasma."
 msgstr ""
+"압력을 가해 고체화된 수소가 담긴 용기. 적절한 장비와 함께 열을 가하면 플라즈"
+"마로 만들 수 있습니다."
 
 #. ~ Description for rocket fuel
 #: lang/json/AMMO_from_json.py
@@ -1472,6 +1482,8 @@ msgid ""
 "of Soviet Russia.  It was derived from the 7.63x25mm cartridge used by the "
 "C96 pistol."
 msgstr ""
+"소련군 용으로 제작된 7.62x25mm 탄환의 상업용 버전. C96 권총에서 쓰던 "
+"7.62x25mm 탄환에서 유래되었습니다."
 
 #. ~ Description for copper javelin
 #: lang/json/AMMO_from_json.py
@@ -1506,6 +1518,11 @@ msgid ""
 msgstr ""
 "까맣고 소량의 분말형태의 이상한 정수,  파괴적인 \"재물\" 형태로서의 마법 물품"
 
+#. ~ Description for bismuth
+#: lang/json/AMMO_from_json.py
+msgid "A dense but brittle metal often used as an alternative to lead."
+msgstr ""
+
 #. ~ Description for small acidbomb
 #: lang/json/AMMO_from_json.py
 msgid ""
@@ -1513,12 +1530,14 @@ msgid ""
 "exposed to the air they will spray out in every direction, creating modest "
 "fields of acid."
 msgstr ""
+"치명적인 화학물질을 채운 후 밀봉된 유리병(혹은 플라스크). 유리병이 깨진다면 "
+"안에 들었던 물질이 사방으로 퍼져 강산을 퍼트릴 것입니다."
 
 #. ~ Description for magnesium powder
 #: lang/json/AMMO_from_json.py
 msgid ""
 "A gray powder composed of the highly flammable alkaline earth metal "
-"magnesium.  Useful for construting flares and similar items."
+"magnesium.  Useful for constructing flares and similar items."
 msgstr ""
 
 #. ~ Description for reloaded shotgun beanbag
@@ -1694,6 +1713,13 @@ msgstr ""
 "면에 조금 독특한 취미를 가진 사람들은 황과 섞어서 간단한 로켓 연료나 연막을 "
 "만들어낸다. 강산과 반응하면 수소를 생성한다."
 
+#. ~ Description for gold
+#: lang/json/AMMO_from_json.py
+msgid ""
+"A hard shiny metal.  Before the apocalypse this would've been worth a small "
+"fortune but now its value is greatly diminished."
+msgstr ""
+
 #. ~ Description for sprayable toxic gas
 #: lang/json/AMMO_from_json.py
 msgid ""
@@ -1793,6 +1819,8 @@ msgid ""
 "A high-pressure commercial version of the 7.62x25mm cartridge, loaded with a "
 "85 gr. FMJ bullet.  It is more powerful than the original."
 msgstr ""
+"7.62x25mm의 상업용 고압탄. 85그램의 FMJ 탄약을 포함하고 있습니다. 원본보다 "
+"더 파괴력이 강해졌습니다. "
 
 #. ~ Description for denatured alcohol
 #: lang/json/AMMO_from_json.py
@@ -2114,6 +2142,8 @@ msgid ""
 "sharpened on one end.  Could be used as a projectile by a sufficiently "
 "powerful electromagnetic weapon."
 msgstr ""
+"끝을 날카롭게 깎은 짧은 강자성 철근 조각. 전자기 무기의 발사체로 쓸 수 있습니"
+"다."
 
 #. ~ Description for steel rail
 #: lang/json/AMMO_from_json.py
@@ -2122,6 +2152,8 @@ msgid ""
 "Could be used as a projectile by a sufficiently powerful electromagnetic "
 "weapon."
 msgstr ""
+"한 쪽 끝을 날카롭게 깎고 연마한 강철 조각. 전자기 무기의 발사체로 쓸 수 있습"
+"니다."
 
 #. ~ Description for flechette shell
 #: lang/json/AMMO_from_json.py
@@ -2197,6 +2229,8 @@ msgid ""
 "A single glass flask filled with caustic chemicals.  When exposed to the air "
 "they will spray out in every direction, creating a modest field of acid."
 msgstr ""
+"치명적인 화학물질을 채운 후 밀봉된 유리병(혹은 플라스크). 유리병이 깨진다면 "
+"안에 들었던 물질이 사방으로 퍼져 강산을 퍼트릴 것입니다. "
 
 #. ~ Description for fire bomblet
 #: lang/json/AMMO_from_json.py
@@ -2269,6 +2303,13 @@ msgstr ""
 "둔한 광택이 나는 금속입니다. 고대부터 알려진 금속으로 대단히 부드럽고 유연해"
 "서 탄약 생산 등 다양한 용도로 쓸 수 있습니다."
 
+#. ~ Description for silver
+#: lang/json/AMMO_from_json.py
+msgid ""
+"A soft shiny metal.  Before the cataclysm it was worth quite a bit but its "
+"value is now greatly diminished."
+msgstr ""
+
 #. ~ Description for napalm glob
 #: lang/json/AMMO_from_json.py
 msgid ""
@@ -2317,6 +2358,7 @@ msgid ""
 "firearms.  It offers good armor penetration at the cost of slightly less "
 "damage."
 msgstr ""
+"소음무기용 7.62x25mm 저속 탄환. 피해량이 감소하고 장갑관통력이 증가했다. "
 
 #. ~ Description for lamp oil
 #: lang/json/AMMO_from_json.py
@@ -2364,11 +2406,21 @@ msgid ""
 "A tiny steel dart.  Can be fired from a nail gun or similar weapon or used "
 "when crafting ammunition"
 msgstr ""
+"작은 철제 화살. 탄약의 재료나 그 자체로 네일건, 혹은 비슷한 무기의 탄약이 될 "
+"수 있습니다."
 
 #. ~ Description for sinew
 #: lang/json/AMMO_from_json.py
 msgid "A tough sinew cut from a corpse, usable as thread."
 msgstr "시체에서 잘라낸 질긴 힘줄. 실타래처럼 쓸 수 있다."
+
+#. ~ Description for .50 BMG tracer
+#: lang/json/AMMO_from_json.py
+msgid ""
+"A tracer variant of the powerful .50 BMG sniper round.  Tracer rounds to "
+"help keep the weapon they are fired from on target at the risk of igniting "
+"flammable substances."
+msgstr ""
 
 #. ~ Description for anti-tank guided missile
 #: lang/json/AMMO_from_json.py
@@ -2378,6 +2430,11 @@ msgid ""
 msgstr ""
 "튜브 발사, 광학 유도식, 유선 미사일. 차량과 구조물에 효과를 발휘하도록 제작되"
 "었다."
+
+#. ~ Description for shrapnel
+#: lang/json/AMMO_from_json.py
+msgid "A twisted shard of jagged metal."
+msgstr "가장자리가 들쭉날쭉하고 뒤틀린 금속판 조각입니다. "
 
 #. ~ Description for wooden javelin
 #: lang/json/AMMO_from_json.py
@@ -2527,16 +2584,6 @@ msgid ""
 msgstr ""
 "충격에 의해 폭발하는 폭발물이 밀봉 상태로 담긴 급조폭발물(IED)입니다. 충분한 "
 "양의 폭발물이 담겨있습니다."
-
-#. ~ Description for .50 BMG API
-#: lang/json/AMMO_from_json.py
-msgid ""
-"An armor-piercing incendiary variant of the powerful .50 BMG sniper round.  "
-"Incendiary rounds are designed to burn hotly upon impact, piercing armor and "
-"igniting flammable substances."
-msgstr ""
-".50 BMG 저격탄을 철갑소이탄으로 만든 것이다. 이 탄은 충격시 불타도록 만들어졌"
-"으며, 장갑을 뚫고 가연성 물질을 태울 수 있다."
 
 #. ~ Description for reloaded .50 BMG API
 #: lang/json/AMMO_from_json.py
@@ -2829,11 +2876,6 @@ msgid "Big Bang canister"
 msgid_plural "Big Bang canisters"
 msgstr[0] "대폭발 용기"
 
-#. ~ Description for bismuth
-#: lang/json/AMMO_from_json.py
-msgid "Bismuth fishing weights and scraps.  Usable in making ammunition."
-msgstr "비스무트로 된 낚시용 무게추와 잔해 조각. 탄약 제조에 사용이 가능하다."
-
 #. ~ Description for charcoal
 #: lang/json/AMMO_from_json.py
 msgid ""
@@ -3022,10 +3064,9 @@ msgstr ""
 msgid ""
 "Hand-loaded ammunition for large revolvers and magnum pistols, as well as a "
 "few carbines."
-msgstr ""
+msgstr "대형 리볼버, 매그넘 권총, 일부 카빈 총에서 쓰이는 재생탄약."
 
 #. ~ Description for reloaded light rifle ammo
-#. ~ Description for handloaded light rifle ammo
 #: lang/json/AMMO_from_json.py
 msgid ""
 "Hand-loaded ammunition for lighter rifles, designed for small game and "
@@ -3044,7 +3085,6 @@ msgstr ""
 "이것은 재생탄입니다."
 
 #. ~ Description for reloaded rifle ammo
-#. ~ Description for handloaded rifle ammo
 #: lang/json/AMMO_from_json.py
 msgid ""
 "Hand-loaded ammunition for rifles, meant for taking down large game or "
@@ -3190,7 +3230,14 @@ msgid ""
 msgstr "고농도의 방사능 폐기물. 되도록 가까이 하지 않는게 좋다."
 
 #. ~ Description for cent
-#: lang/json/AMMO_from_json.py
+#. ~ Description for placeholder ammunition
+#. ~ Description for software
+#. ~ Description for combination gun shotgun
+#. ~ Description for pipe combination gun shotgun
+#. ~ Description for KSG second magazine
+#. ~ Description for LeMat revolver shotgun
+#: lang/json/AMMO_from_json.py lang/json/GENERIC_from_json.py
+#: lang/json/GUNMOD_from_json.py
 msgid "IF YOU ARE SEEING THIS IT IS A BUG."
 msgstr "IF YOU ARE SEEING THIS IT IS A BUG."
 
@@ -3234,6 +3281,8 @@ msgid ""
 "6.54x42mm rifle cartridge for his new SVS-24 Assault Rifle.  This one has "
 "been hand-reloaded."
 msgstr ""
+"알렉산더 사라파노프가 개조 .270 탄약을 보고 만든 신형 SVS-24 돌격소총의 전용 "
+"탄약. 이것은 재생탄입니다."
 
 #. ~ Description for fire lance shot
 #: lang/json/AMMO_from_json.py
@@ -3367,6 +3416,8 @@ msgid ""
 "Powerful ammunition for large revolvers and magnum pistols, as well as a few "
 "carbines."
 msgstr ""
+"대형 리볼버와 매그넘 권총에 사용되는 강력한 탄환. 몇몇 단축형 소총에도 사용됩"
+"니다."
 
 #. ~ Description for rifle ammo
 #: lang/json/AMMO_from_json.py
@@ -3446,6 +3497,9 @@ msgid ""
 "has an extremely short range and is unable to injure all but the smallest "
 "creatures."
 msgstr ""
+"매우 약한 .22 샷건 카트리지. 벽에 손상을 주지는 않으면서 쥐나 뱀 혹은 다른 유"
+"해 조류들을 잡기 위해 만들어졌습니다. 때문에 사거리가 매우 짧고 작은 생물 말"
+"고는 잡기가 불가능합니다. "
 
 #. ~ Description for handloaded .22 rat-shot
 #: lang/json/AMMO_from_json.py
@@ -3465,7 +3519,7 @@ msgstr ""
 msgid ""
 "Relatively weak for a rocket, the strength of it is its ability to be fired "
 "in burst."
-msgstr ""
+msgstr "로켓 치고는 약한편이지만, 연발로 사격이 가능한것이 강점입니다."
 
 #. ~ Description for rubber slug
 #: lang/json/AMMO_from_json.py
@@ -3521,24 +3575,6 @@ msgstr ""
 "군용 등급의 안정성 높은 폭발물인 RDX 혹은 헥소겐의 흰색 결정 몇개. 성형 작약"
 "으로 만들거나 금속 조각을 넣어 고속의 파편을 흩뿌리는데 사용된다."
 
-#. ~ Description for gold
-#: lang/json/AMMO_from_json.py
-msgid ""
-"Small gold bits.  Before the cataclysm these would have been worth quite a "
-"bit.  Still usable in making ammunition."
-msgstr ""
-"대격변 전이었다면 꽤 값어치가 나갔을 작은 금 조각. 지금도 탄약 제조에는 사용"
-"이 가능하다."
-
-#. ~ Description for silver
-#: lang/json/AMMO_from_json.py
-msgid ""
-"Small silver bits.  Before the cataclysm, these would have been worth quite "
-"a bit.  Still usable in making ammunition."
-msgstr ""
-"대격변 전이었다면 꽤 값어치가 나갔을 작은 은 조각. 지금도 탄약 제조에는 사용"
-"이 가능하다."
-
 #. ~ Description for metal fragment
 #: lang/json/AMMO_from_json.py
 msgid "Small slivers of metal.  Can't see much use for them."
@@ -3585,6 +3621,8 @@ msgid ""
 "using a primer instead of gunpowder.  The end result is a subsonic round "
 "that is so weak as to be nearly useless given your predicament."
 msgstr ""
+".22 구경 탄약의 변종. 화약 대신 뇌관만을 이용해 추진력을 얻습니다. 그 결과 탄"
+"속이 크게 떨어져 현재와 같이 열악한 상황에서는 쓸모가 없어졌습니다."
 
 #. ~ Description for reloaded .300 Winchester Magnum
 #: lang/json/AMMO_from_json.py
@@ -3660,6 +3698,8 @@ msgid ""
 "tungsten carbide core.  Tungsten carbide was used in anti-tank rounds of the "
 "20th and 21st century."
 msgstr ""
+"탄화 텅스텐 탄두를 가진 6.54x42mm 9N12 탄약. 20~21세기에 대전차무기의 탄두로 "
+"쓰인 탄화 텅스텐을 통해 매우 높은 장갑 관통도를 가지게 되었습니다. "
 
 #. ~ Description for H&K 12mm
 #: lang/json/AMMO_from_json.py
@@ -3697,6 +3737,8 @@ msgid ""
 "There is enough frothing fluid inside this acidbomb to coat a relatively "
 "large area with fields of acid."
 msgstr ""
+"이 산성폭탄에는 비교정 넓은 지역을 덮기에 충분한 량의 거품넘치는 산성 액체가 "
+"들어 있다."
 
 #. ~ Description for medium acidbomb
 #: lang/json/AMMO_from_json.py
@@ -3704,6 +3746,8 @@ msgid ""
 "There is enough frothing fluid inside this acidbomb to coat a relatively "
 "large area with sprays of acid."
 msgstr ""
+"이 산성폭탄에는 비교적 넓은 지역을 옅게 덮기에 충분한 량의 거품넘치는 산성 액"
+"체가 들어 있다."
 
 #. ~ Description for charcoal pieces
 #: lang/json/AMMO_from_json.py
@@ -3924,12 +3968,12 @@ msgstr "소형의 파이어볼. 주변의 공기가 불타오르고 있습니다
 #. ~ Description for skullfire
 #: lang/json/AMMO_from_json.py
 msgid "a gout of flame."
-msgstr ""
+msgstr "불타는 화염의 덩어리."
 
 #. ~ Description for spider laser
 #: lang/json/AMMO_from_json.py
 msgid "a spider laser.  Go on, pick it up.  No need for gloves."
-msgstr ""
+msgstr "거미 레이저. 자, 집어들어요. 장갑은 필요 없으니."
 
 #: lang/json/AMMO_from_json.py
 msgid "acetic acid"
@@ -3984,7 +4028,7 @@ msgstr[0] "화살촉"
 #. ~ Description for plasma
 #: lang/json/AMMO_from_json.py
 msgid "baron-plasma."
-msgstr ""
+msgstr "남작-플라즈마"
 
 #: lang/json/AMMO_from_json.py
 msgid "battery"
@@ -3999,7 +4043,7 @@ msgstr[0] "베어링"
 #: lang/json/AMMO_from_json.py
 msgid "belt ammo link"
 msgid_plural "belt ammo links"
-msgstr[0] ""
+msgstr[0] "벨트 탄약 연결부"
 
 #: lang/json/AMMO_from_json.py
 msgid "birdshot"
@@ -4084,7 +4128,7 @@ msgstr[0] "청동"
 #. ~ Description for plasma
 #: lang/json/AMMO_from_json.py
 msgid "cacco-plasma."
-msgstr ""
+msgstr "카코-플라즈마"
 
 #: lang/json/AMMO_from_json.py
 msgid "calcium carbide"
@@ -4169,7 +4213,7 @@ msgstr[0] "구리 전선"
 #: lang/json/AMMO_from_json.py
 msgid "cyber rocket"
 msgid_plural "cyber rockets"
-msgstr[0] ""
+msgstr[0] "사이버 로켓"
 
 #: lang/json/AMMO_from_json.py lang/json/ammunition_type_from_json.py
 msgid "dart"
@@ -4299,7 +4343,7 @@ msgstr[0] "불 화살"
 #: lang/json/AMMO_from_json.py
 msgid "flechette"
 msgid_plural "flechettes"
-msgstr[0] ""
+msgstr[0] "플레쉐트탄"
 
 #: lang/json/AMMO_from_json.py
 msgid "flechette shell"
@@ -4384,16 +4428,6 @@ msgstr[0] ".22 LR (재생)"
 msgid "handloaded .22 rat-shot"
 msgid_plural "handloaded .22 rat-shots"
 msgstr[0] ".22 rat-shot (수제)"
-
-#: lang/json/AMMO_from_json.py
-msgid "handloaded light rifle ammo"
-msgid_plural "handloaded light rifle ammo"
-msgstr[0] "소형 소총탄 (재생)"
-
-#: lang/json/AMMO_from_json.py
-msgid "handloaded rifle ammo"
-msgid_plural "hand loaded rifle ammo"
-msgstr[0] "소총탄 (재생)"
 
 #: lang/json/AMMO_from_json.py
 msgid "handmade 20x66mm buckshot"
@@ -4498,7 +4532,7 @@ msgstr[0] "철제 자벨린"
 #. ~ Description for plasma
 #: lang/json/AMMO_from_json.py
 msgid "knight's plasma."
-msgstr ""
+msgstr "기사의 플라즈마"
 
 #: lang/json/AMMO_from_json.py lang/json/ammunition_type_from_json.py
 msgid "lamp oil"
@@ -4508,7 +4542,7 @@ msgstr[0] "램프 기름"
 #: lang/json/AMMO_from_json.py lang/json/TOOL_from_json.py
 msgid "large acidbomb"
 msgid_plural "large acidbombs"
-msgstr[0] "대형 산성탄"
+msgstr[0] "대형 산성폭탄"
 
 #: lang/json/AMMO_from_json.py
 msgid "large electric primer"
@@ -4583,7 +4617,7 @@ msgstr[0] "가성소다 가루"
 #: lang/json/AMMO_from_json.py
 msgid "magnesium powder"
 msgid_plural "magnesium powder"
-msgstr[0] ""
+msgstr[0] "마그네슘 분말"
 
 #: lang/json/AMMO_from_json.py
 msgid "makeshift 120mm slug"
@@ -4608,7 +4642,7 @@ msgstr[0] "의료용 테이프"
 #: lang/json/AMMO_from_json.py lang/json/TOOL_from_json.py
 msgid "medium acidbomb"
 msgid_plural "medium acidbombs"
-msgstr[0] ""
+msgstr[0] "중형 산성폭탄"
 
 #: lang/json/AMMO_from_json.py
 msgid "metal arrow"
@@ -4643,7 +4677,7 @@ msgstr[0] "금속 파편"
 #: lang/json/AMMO_from_json.py lang/json/TOOL_from_json.py
 msgid "micro acidbomb"
 msgid_plural "micro acidbombs"
-msgstr[0] ""
+msgstr[0] "초소형 산성폭탄"
 
 #: lang/json/AMMO_from_json.py lang/json/ammunition_type_from_json.py
 msgid "modified mininuke"
@@ -4758,7 +4792,7 @@ msgstr[0] "식물 섬유"
 #: lang/json/AMMO_from_json.py
 msgid "plasma"
 msgid_plural "plasmas"
-msgstr[0] ""
+msgstr[0] "플라즈마"
 
 #: lang/json/AMMO_from_json.py
 msgid "plastic arrow"
@@ -5023,7 +5057,7 @@ msgstr[0] "7.62x39mm M43 (재생)"
 #: lang/json/AMMO_from_json.py
 msgid "reloaded 7.62x39mm M67"
 msgid_plural "reloaded 7.62x39mm M67"
-msgstr[0] ""
+msgstr[0] "7.62x39mm M67 (재생)"
 
 #: lang/json/AMMO_from_json.py
 msgid "reloaded 7.62x51mm"
@@ -5250,6 +5284,11 @@ msgid "shotgun slug"
 msgid_plural "shotgun slugs"
 msgstr[0] "슬러그탄"
 
+#: lang/json/AMMO_from_json.py
+msgid "shrapnel"
+msgid_plural "shrapnels"
+msgstr[0] "파편"
+
 #: lang/json/AMMO_from_json.py lang/json/ammunition_type_from_json.py
 msgid "signal flare"
 msgid_plural "signal flares"
@@ -5268,12 +5307,12 @@ msgstr[0] "힘줄"
 #: lang/json/AMMO_from_json.py
 msgid "skullfire"
 msgid_plural "skullfires"
-msgstr[0] ""
+msgstr[0] "스컬파이어"
 
 #: lang/json/AMMO_from_json.py lang/json/TOOL_from_json.py
 msgid "small acidbomb"
 msgid_plural "small acidbombs"
-msgstr[0] ""
+msgstr[0] "소형 산성폭탄"
 
 #: lang/json/AMMO_from_json.py
 msgid "small electric primer"
@@ -5313,7 +5352,7 @@ msgstr[0] "납땜용 연납"
 #: lang/json/AMMO_from_json.py lang/json/GUN_from_json.py
 msgid "spider laser"
 msgid_plural "spider lasers"
-msgstr[0] ""
+msgstr[0] "거미 레이저"
 
 #: lang/json/AMMO_from_json.py
 msgid "spiked home-made rocket"
@@ -6398,6 +6437,9 @@ msgid ""
 "stomach.  Offers decent protection from flame and acid, and features various "
 "straps and pockets for holstering guns and holding stims and ammo."
 msgstr ""
+"얇고 유연한 필라멘트를 어깨, 쇄골, 복부에 장착한 미세 고분자 플라스틱 녹색 갑"
+"옷. 산과 불에 약한 방호력을 제공하며 총, 스팀팩, 탄약을 보관할 수 있는 벨트"
+"와 주머니가 특징적입니다."
 
 #. ~ Description for bone armor helmet
 #: lang/json/ARMOR_from_json.py
@@ -6489,6 +6531,8 @@ msgid ""
 "A heavy helmet with a tinted visor and sturdy, reinforced electronic "
 "wiring.  A simple filter is fixed onto either side."
 msgstr ""
+"차양막과 견고하고 전기 배선이 부착된 중헬멧. 양 옆쪽으로 간단한 형태의 필터"
+"가 달려있습니다."
 
 #. ~ Description for leather cloak
 #: lang/json/ARMOR_from_json.py
@@ -6963,10 +7007,8 @@ msgstr "수평으로 검은색과 흰색 줄무늬가 그려진 긴 소매 셔�
 msgid ""
 "A long-sleeved spring wetsuit with pink color details and cleavage-"
 "enhancing, hip-accentuating construction.  Not as protective as a full-body "
-"suit, but also less oppressive."
+"suit, but also less restrictive."
 msgstr ""
-"긴 소매에 분홍색으로 장식된 봄에 입는 수영복. 엉덩이와 가슴골이 강조되어 있습"
-"니다. 전신 수영복보다는 몸을 덜 보호하지만, 그만큼 덜 불편합니다."
 
 #. ~ Description for robe
 #: lang/json/ARMOR_from_json.py
@@ -7246,7 +7288,7 @@ msgstr ""
 msgid ""
 "A pair of black gloves, stretched tight against the skin so as not to "
 "interfere with dexterous tasks."
-msgstr ""
+msgstr "손재주가 필요한 일이라도 방해하지 않게 피부에 딱 달라붙는 검은 장갑."
 
 #. ~ Description for leather chaps
 #: lang/json/ARMOR_from_json.py
@@ -7761,11 +7803,6 @@ msgstr ""
 #: lang/json/ARMOR_from_json.py
 msgid "A piece of clerical clothing, usually worn by Christian priests."
 msgstr "주로 가톨릭 사제가 입는 사제복."
-
-#. ~ Description for fancy hairpin
-#: lang/json/ARMOR_from_json.py
-msgid "A pink hairpin with cute flower textures."
-msgstr "귀여운 꽃무늬가 그려진 분홍색 머리핀입니다."
 
 #. ~ Description for radiation badge
 #: lang/json/ARMOR_from_json.py
@@ -9098,6 +9135,8 @@ msgid ""
 "An embroidered leather bandolier for keeping revolver and pistol cartridges "
 "close to hand.  If this doesn't make you feel like a cowboy, nothing will."
 msgstr ""
+"수가 놓아진 가죽 재질의 탄약대. 리볼버와 권총 탄약을 손에 가까운곳에 보관해 "
+"둘 수 있습니다. 카우보이가 된 기분을 내줍니다."
 
 #. ~ Description for pistol bandolier
 #: lang/json/ARMOR_from_json.py
@@ -9597,6 +9636,9 @@ msgid ""
 "the knee, where they are sealed with a large strap.  They can be very hard "
 "to even walk around in untrained, especially if they are improperly fitted."
 msgstr ""
+"'개똥밟개'라는 애칭을 가진, 무릅까지 올라오는 플라스틱 부츠. 긴 줄로 신발을 "
+"맨다. 비숙련 상태, 특히 사이즈가 맞지도 않은 경우에는 걷기 조차 힘들 정도 입"
+"니다."
 
 #: lang/json/ARMOR_from_json.py
 msgid "MBR vest (Kevlar plates)"
@@ -9937,6 +9979,8 @@ msgid ""
 "Space sleeves that keep the arms covered during cold conditions.  Can also "
 "protect from flame, with some discomfort."
 msgstr ""
+"방한용 스페이스 마린 팔 방호구. 방화 기능도 있지만, 약간의 불편함은 감수해야 "
+"합니다."
 
 #. ~ Description for pair of cleats
 #: lang/json/ARMOR_from_json.py
@@ -10089,6 +10133,9 @@ msgid ""
 "fire.  Although it has no pockets it does have slots along its length to "
 "carry small items more easily, and really shapes the thighs!"
 msgstr ""
+"화염으로부터 스페이스 마린을 보호하는 두꺼우면서도 어떤 의미에서는 강압적인 "
+"다리 방호구. 주머니 없이 작은 틈 사이로 소형 물품 만을 보관할 수 있기는 한데 "
+"정말 편하거든!"
 
 #. ~ Description for fur body armor
 #: lang/json/ARMOR_from_json.py
@@ -10425,7 +10472,7 @@ msgstr[0] "복면"
 #: lang/json/ARMOR_from_json.py
 msgid "baldric"
 msgid_plural "baldrics"
-msgstr[0] "볼드릭"
+msgstr[0] "수대"
 
 #: lang/json/ARMOR_from_json.py
 msgid "ballistic mask"
@@ -10871,11 +10918,6 @@ msgstr[0] "화재 진입 슈트"
 msgid "evening gown"
 msgid_plural "evening gowns"
 msgstr[0] "야회복"
-
-#: lang/json/ARMOR_from_json.py
-msgid "fancy hairpin"
-msgid_plural "fancy hairpins"
-msgstr[0] "고급 머리핀"
 
 #: lang/json/ARMOR_from_json.py
 msgid "fancy watch"
@@ -12675,32 +12717,32 @@ msgstr[0] "솜브레로"
 #: lang/json/ARMOR_from_json.py
 msgid "space marine armor"
 msgid_plural "space marine armors"
-msgstr[0] ""
+msgstr[0] "스페이스 마린 갑옷"
 
 #: lang/json/ARMOR_from_json.py
 msgid "space marine boots"
 msgid_plural "space marine boots"
-msgstr[0] ""
+msgstr[0] "스페이스 마린 부츠"
 
 #: lang/json/ARMOR_from_json.py
 msgid "space marine gloves"
 msgid_plural "space marine gloves"
-msgstr[0] ""
+msgstr[0] "스페이스 마린 장갑"
 
 #: lang/json/ARMOR_from_json.py
 msgid "space marine helmet"
 msgid_plural "space marine helmets"
-msgstr[0] ""
+msgstr[0] "스페이스 마린 헬멧"
 
 #: lang/json/ARMOR_from_json.py
 msgid "space marine leggings"
 msgid_plural "space marine leggings"
-msgstr[0] ""
+msgstr[0] "스페이스 마린 다리 방호구"
 
 #: lang/json/ARMOR_from_json.py
 msgid "space marine sleeves"
 msgid_plural "space marine sleeves"
-msgstr[0] ""
+msgstr[0] "스페이스 마린 팔 방호구"
 
 #: lang/json/ARMOR_from_json.py
 msgid "sports bra"
@@ -14201,6 +14243,9 @@ msgid ""
 "power.  It is supposed to run continously and may cause unpleasant side "
 "effects when turned off."
 msgstr ""
+"백혈구를 생성하는 기관에 자극장치를 탑재해 내장 전력을 사용해 백혈구 생산을 "
+"가속 시킬 수 있습니다. 지속적으로 가동되어야 하는것으로 작동을 중단하면 좋지 "
+"못한 부작용이 생길 수 있습니다."
 
 #. ~ Description for Ethanol Burner
 #. ~ Description for Ethanol Burner CBM
@@ -14667,8 +14712,8 @@ msgid ""
 "deemed safe to use."
 msgstr ""
 "어떤 비밀 종교집단에서 쓴 책. 그들은 이계에서 우리세계를 침공한 초자연적인 존"
-"재를 절멸시키기로 맹세했으며 이를 위한 도구로 어떤 \"농축된\" 에센스를 사용"
-"한 마법에 의존하고 있습니다. 그들은 그 에센스가 안전하다고 여기고 있습니다."
+"재를 절멸시키기로 맹세했으며 이를 위한 도구로 어떤 \"농축된\" 정수를 사용한 "
+"마법에 의존하고 있습니다. 그들은 그 정수가 안전하다고 여기고 있습니다."
 
 #. ~ Description for Sanguine Codex
 #: lang/json/BOOK_from_json.py
@@ -16207,7 +16252,7 @@ msgstr[0] "SICP"
 #: lang/json/BOOK_from_json.py
 msgid "Sanguine Codex"
 msgid_plural "Sanguine Codices"
-msgstr[0] "유쾌한 유언 보충서"
+msgstr[0] "피의 고문서"
 
 #: lang/json/BOOK_from_json.py
 msgid "Self-Esteem for Dummies"
@@ -16461,9 +16506,9 @@ msgid ""
 "very persuasive case for the adoption of spring-driven nuclear shells.  It's "
 "stamped \"DENIED\"."
 msgstr ""
-"이 빈틈없이 연구되고 문서화된 제안서의 저자는 용수철로 구동되는 핵 포탄의 채"
-"택을 위해 매우 설득력있는 사례를 정리했습니다.\r\n"
-"이 제안서에는 \"불허됨\" 도장이 찍혀있습니다."
+"이 빈틈없이 연구되고 문서화된 제안서의 저자는 용수철로 사출되는 핵 포탄의 채"
+"택을 위해 매우 설득력있는 사례를 정리했습니다. 이 제안서에는 \"불허됨\" 도장"
+"이 찍혀있습니다."
 
 #. ~ Description for western novel
 #: lang/json/BOOK_from_json.py
@@ -16664,6 +16709,8 @@ msgid ""
 "This file details illegal gun modifications.  Maybe you could learn "
 "something.  At least you don't have to worry about the cops anymore."
 msgstr ""
+"불법 총기 개조에 대한 내용이 담긴 문서집. 뭔가 배울 수 있을지도 모릅니다. 더 "
+"이상 경찰을 걱정할 필요가 없으니까요."
 
 #. ~ Description for lab journal-Herrera
 #: lang/json/BOOK_from_json.py
@@ -17394,6 +17441,8 @@ msgid ""
 "though it is designed to quickly attach itself to damaged tissue, not "
 "disinfect."
 msgstr ""
+"PRM 브랜드의 의료 키트. 교전상황에서 신속하게 사용할 수 있습니다. 소독효과는 "
+"없지만 다친 조직에 빠르게 붙일 수 있도록 만들어졌습니다."
 
 #. ~ Description for BLT
 #: lang/json/COMESTIBLE_from_json.py
@@ -18220,6 +18269,13 @@ msgid ""
 msgstr ""
 "고기 피자입니다. 육식을 위한 것, 즉 조미료가 많이 들어간 큼지막한 고기로 가"
 "득 차있습니다."
+
+#. ~ Description for improvised first aid kit
+#: lang/json/COMESTIBLE_from_json.py
+msgid ""
+"A medical kit made with cheap, subpar components.  For when nothing else is "
+"available."
+msgstr ""
 
 #. ~ Description for codeine
 #: lang/json/COMESTIBLE_from_json.py
@@ -22405,7 +22461,7 @@ msgstr "토마토 소스다. 냠냠."
 #. ~ Description for sewage water
 #: lang/json/COMESTIBLE_from_json.py
 msgid "Turbid liquid from the sewers with awful stench."
-msgstr ""
+msgstr "하수도에서 얻은 탁한 액체로 끔찍한 악취를 풍깁니다."
 
 #. ~ Description for raw offal
 #: lang/json/COMESTIBLE_from_json.py
@@ -22768,12 +22824,12 @@ msgstr ""
 #: lang/json/COMESTIBLE_from_json.py
 msgid "abstract iv mutagen flavor"
 msgid_plural "abstract iv mutagen flavors"
-msgstr[0] ""
+msgstr[0] "뮤타젠 비슷한 냄새가 나는것"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "abstract mutagen flavor"
 msgid_plural "abstract mutagen flavors"
-msgstr[0] ""
+msgstr[0] "뮤타젠 비슷한 냄새가 나는것"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "acid water"
@@ -24455,6 +24511,11 @@ msgid_plural "imperial stouts"
 msgstr[0] "임페리얼 스타우트"
 
 #: lang/json/COMESTIBLE_from_json.py
+msgid "improvised first aid kit"
+msgid_plural "improvised first aid kits"
+msgstr[0] ""
+
+#: lang/json/COMESTIBLE_from_json.py
 msgid "injectable iron"
 msgid_plural "injectable irons"
 msgstr[0] "철분 주사제"
@@ -25731,12 +25792,12 @@ msgstr[0] "생선회"
 #: lang/json/COMESTIBLE_from_json.py
 msgid "sauerkraut"
 msgid_plural "sauerkraut"
-msgstr[0] "자우어크라우트"
+msgstr[0] "자워크라우트"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "sauerkraut w/ sautee'd onions"
 msgid_plural "sauerkraut w/ sautee'd onions"
-msgstr[0] "양파 소테를 곁들인 자우어크라우트"
+msgstr[0] "양파 소테를 곁들인 자워크라우트"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "sausage"
@@ -25796,7 +25857,7 @@ msgstr[0] "하수 샘플"
 #: lang/json/COMESTIBLE_from_json.py
 msgid "sewage water"
 msgid_plural "sewage water"
-msgstr[0] ""
+msgstr[0] "하수도 물"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "sewer brew"
@@ -26804,6 +26865,14 @@ msgid ""
 "hold 3 liters of water."
 msgstr "깨끗이 씻어내고 끈으로 묶은 커다란 동물의 위. 3L의 물을 담을 수 있다."
 
+#. ~ Description for vacutainer
+#: lang/json/CONTAINER_from_json.py
+msgid ""
+"This is a tool for drawing blood, including a test tube for holding the "
+"sample.  Use this tool to draw blood, either from yourself or from a corpse "
+"you are standing on."
+msgstr ""
+
 #. ~ Description for wooden barrel
 #: lang/json/CONTAINER_from_json.py
 msgid ""
@@ -27048,6 +27117,11 @@ msgid "tin can"
 msgid_plural "tin cans"
 msgstr[0] "주석 캔"
 
+#: lang/json/CONTAINER_from_json.py
+msgid "vacutainer"
+msgid_plural "vacutainers"
+msgstr[0] "진공 채혈기"
+
 #: lang/json/CONTAINER_from_json.py lang/json/vehicle_part_from_json.py
 msgid "vortex engine"
 msgid_plural "vortex engines"
@@ -27282,7 +27356,7 @@ msgstr ""
 #. ~ Description for long rope
 #: lang/json/GENERIC_from_json.py
 msgid "A 30-foot long rope.  Useful for keeping yourself safe from falls."
-msgstr ""
+msgstr "30피트 길이의 밧줄. 추락을 방지하는 용도로 쓸 수 있습니다."
 
 #. ~ Description for music CD
 #: lang/json/GENERIC_from_json.py
@@ -27990,6 +28064,14 @@ msgstr "시체."
 msgid "A dead plant.  Good for starting fires."
 msgstr "죽은 식물. 불 붙이는데 쓰기 좋다."
 
+#. ~ Description for diamond punch dagger
+#: lang/json/GENERIC_from_json.py
+msgid ""
+"A double edged dagger made to be gripped in the palm, with the blade "
+"protruding between the fingers. The blade has been coated with diamond-like "
+"carbon and holds a wickedly sharp edge."
+msgstr ""
+
 #. ~ Description for razor blade
 #: lang/json/GENERIC_from_json.py
 msgid "A double edged razor blade."
@@ -28294,24 +28376,6 @@ msgstr ""
 msgid "A large and very powerful electric motor.  Useful for crafting."
 msgstr "크고 매우 강력한 전기 모터이다. 제작에 쓰인다."
 
-#. ~ Description for gold bar
-#: lang/json/GENERIC_from_json.py
-msgid ""
-"A large bar of gold.  Before the apocalypse, this would've been worth a "
-"small fortune; now its value is greatly diminished."
-msgstr ""
-"큼직한 금괴다. 세상이 멸망하기 전에는 큰 재산이었지만 이제 그 가치는 크게 줄"
-"었다."
-
-#. ~ Description for silver bar
-#: lang/json/GENERIC_from_json.py
-msgid ""
-"A large bar of silver.  Before the cataclysm, this would've been worth quite "
-"a bit; now its value is greatly diminished."
-msgstr ""
-"큼직한 은괴다. 세상이 멸망하기 전에는 꽤 가치가 있었지만 이제 그 가치는 크게 "
-"줄었다."
-
 #. ~ Description for coal pallet
 #: lang/json/GENERIC_from_json.py
 msgid "A large block of semi-processed coal."
@@ -28530,6 +28594,9 @@ msgid ""
 "flaying the rotten flesh off of walking corpses.  Great for when a problem "
 "comes along."
 msgstr ""
+"긴 가죽줄을 땋은 끝에 손잡이를 단것. 방목하는 소들이 다투는 것을 정리할 용도"
+"로 만들어진것으로, 이제는 걷는 시체들의 썩은 고깃덩이를 뜯어내는데 더 유용합"
+"니다."
 
 #. ~ Description for broom
 #: lang/json/GENERIC_from_json.py
@@ -29375,8 +29442,8 @@ msgstr "소나무의 끝이 뾰족한 열매이다. 흔들면 마른 씨앗이 �
 
 #. ~ Description for splintered wood
 #: lang/json/GENERIC_from_json.py
-msgid "A splintered piece of wood, useless as anything but kindling."
-msgstr "쪼개진 나무 조각. 불쏘시개 말고는 별다른 쓸모가 없습니다."
+msgid "A splintered piece of wood, could be used as a skewer or for kindling."
+msgstr ""
 
 #. ~ Description for car alternator
 #: lang/json/GENERIC_from_json.py
@@ -29507,10 +29574,9 @@ msgstr ""
 #. ~ Description for drive belt
 #: lang/json/GENERIC_from_json.py
 msgid ""
-"A synthetic rubber V-belt with steel reinforcement fibers commonly fited to "
+"A synthetic rubber V-belt with steel reinforcement fibers commonly fitted to "
 "engines or other industrial equipment."
 msgstr ""
-"금속섬유와 합성고무로 만들어진 V-벨트. 엔진이나 다양한 산업 설비에 쓰입니다."
 
 #. ~ Description for Mosin-Nagant EBR conversion kit
 #: lang/json/GENERIC_from_json.py
@@ -29603,11 +29669,6 @@ msgstr "진짜 신사는 언제나 시가를 즐기지."
 #: lang/json/GENERIC_from_json.py
 msgid "A tube of strong glue.  Used in many crafting recipes."
 msgstr "강력한 접착제가 들어있는 튜브입니다. 여러 가지 제작에 사용됩니다."
-
-#. ~ Description for shrapnel
-#: lang/json/GENERIC_from_json.py
-msgid "A twisted shard of jagged metal."
-msgstr ""
 
 #. ~ Description for 2-by-sword
 #: lang/json/GENERIC_from_json.py
@@ -29848,7 +29909,7 @@ msgstr ""
 #: lang/json/GENERIC_from_json.py
 msgid ""
 "An advanced electronic device used to cut down, collect and store crops."
-msgstr ""
+msgstr "추수하는데 쓰는 고급 전자장비."
 
 #. ~ Description for pitchfork
 #: lang/json/GENERIC_from_json.py
@@ -30693,7 +30754,7 @@ msgstr "자전거에 쓰이는 페달과 기어."
 #. ~ Use action not_ready_msg for fermenting sauerkraut jar.
 #: lang/json/GENERIC_from_json.py
 msgid "The sauerkraut isn't done fermenting yet."
-msgstr "자우어크라우트가 아직 발효되지 않았습니다."
+msgstr "자워크라우트가 아직 발효되지 않았습니다."
 
 #. ~ Description for joint
 #: lang/json/GENERIC_from_json.py
@@ -30814,6 +30875,8 @@ msgid ""
 "not earlier.  It combines a spear head with the perpendicular blade of the "
 "earlier ge or dagger-axe."
 msgstr ""
+"중국 상 왕조, 혹은 그 이전에서부터 유래된 청동 창. 창의 양쪽에 수직으로 뻗은 "
+"과 형태의 날을 달았습니다. "
 
 #. ~ Description for smoke bomb
 #: lang/json/GENERIC_from_json.py
@@ -30827,6 +30890,19 @@ msgstr ""
 "다양한 불꽃성의 화학물들이 담긴 수류탄. 사용하면 핀을 뽑으며 도화선에 불이 붙"
 "어 점화됩니다. 5턴이 지나고 나면, 짙은 검은 연기를 내뿜게 됩니다. 이 연기는 "
 "상대방의 행동을 느리게 만들고, 더불어 시야와 냄새까지 차단합니다."
+
+#. ~ Description for tear gas grenade
+#: lang/json/GENERIC_from_json.py
+msgid ""
+"This is a canister grenade filled with noxious irritant.  Use this item to "
+"pull the pin and light the fuse, turning it into an active tear gas "
+"grenade.  In five turns it will begin to expel a highly toxic gas for some "
+"time.  This gas damages and slows those who enter it, as well as obscuring "
+"vision and scent."
+msgstr ""
+"유해한 자극물이 들어있는 수류탄. 사용하면 핀을 뽑아 도화선에 불이 붙어 점화합"
+"니다. 유독한 가스를 내뿜기 전까지 5턴이 남았습니다. 이 가스는 상대방의 행동"
+"을 느리게 만들고, 시야와 냄새까지 차단해 줍니다."
 
 #. ~ Description for kris
 #: lang/json/GENERIC_from_json.py
@@ -30861,6 +30937,8 @@ msgid ""
 "This is a dull, cheaply made replica of a classic medieval sword, just the "
 "right size to use one-handed."
 msgstr ""
+"고전적 중세 검. 한손으로 사용하기 적당한 크기입니다. 날이 무딘 저가형 모조품"
+"입니다."
 
 #. ~ Description for scimitar
 #: lang/json/GENERIC_from_json.py
@@ -30931,6 +31009,8 @@ msgid ""
 "longsword.  It requires a larger baldric or scabbard, compared to smaller "
 "swords."
 msgstr ""
+"롱소드와 유사한 얇은 검으로, 레이피어의 선조격입니다. 작은 검과 비교하면 더 "
+"큰 수대나 칼집이 필요합니다. 모조품입니다."
 
 #. ~ Description for longsword
 #: lang/json/GENERIC_from_json.py
@@ -30938,6 +31018,8 @@ msgid ""
 "This is a dull, cheaply-made replica of the classic medieval longsword.  It "
 "requires a larger baldric or scabbard, compared to smaller swords."
 msgstr ""
+"고전적 중세 롱소드. 작언 검과 비교하면 더 큰 수대나 칼집이 필요합니다. 날이 "
+"무딘 저가형 모조품입니다."
 
 #. ~ Description for survivor's map
 #: lang/json/GENERIC_from_json.py
@@ -31042,6 +31124,8 @@ msgid ""
 "rapier.  It requires a larger baldric or scabbard, compared to smaller "
 "swords."
 msgstr ""
+"롱소드와 유사한 얇은 검으로, 레이피어의 선조격입니다. 작은 검과 비교하면 더 "
+"큰 수대나 칼집이 필요합니다."
 
 #. ~ Description for halberd
 #: lang/json/GENERIC_from_json.py
@@ -31076,8 +31160,8 @@ msgid ""
 "This jar contains a batch of sauerkraut set to ferment.  You can seal up the "
 "jar once the process is completed."
 msgstr ""
-"유리병에 자우어크라우트를 넣어 발효시키고 있는 중입니다. 일단 발효가 다 되면 "
-"밀봉해서 보존할 수 있습니다."
+"유리병에 자워크라우트를 넣어 발효시키고 있는 중입니다. 일단 발효가 다 되면 밀"
+"봉해서 보존할 수 있습니다."
 
 #. ~ Description for shock absorber
 #: lang/json/GENERIC_from_json.py
@@ -31148,10 +31232,16 @@ msgid ""
 "impact."
 msgstr "이 간단한 급조폭발물은 화살에 부착해 명중시 폭발하도록 만들어졌다."
 
+#. ~ Description for armed tear gas canister
+#: lang/json/GENERIC_from_json.py
+msgid ""
+"This smoke bomb has had its pin removed and is expelling highly toxic gas."
+msgstr ""
+
 #. ~ Description for armed smoke bomb
 #: lang/json/GENERIC_from_json.py
 msgid "This smoke bomb has had its pin removed and is expelling thick smoke."
-msgstr ""
+msgstr "핀이 뽑힌 연막탄으로, 짙은 연기를 내뿜고 있습니다."
 
 #. ~ Description for quantum solar panel
 #: lang/json/GENERIC_from_json.py
@@ -31310,12 +31400,12 @@ msgstr "야간등의 커버를 열었다."
 msgid "You open the vacuum pack, exposing it to the atmosphere."
 msgstr "진공포장을 열어 대기중에 노출시켰다."
 
-#. ~ Use action message for smoke bomb.
+#. ~ Use action message for canister grenade.
 #. ~ Use action message for nail bomb.
 #: lang/json/GENERIC_from_json.py lang/json/TOOL_from_json.py
 #, no-python-format
 msgid "You pull the pin on the %s."
-msgstr ""
+msgstr "%s 핀을 뽑았다."
 
 #. ~ Use action msg for PR-24 baton (retracted).
 #: lang/json/GENERIC_from_json.py
@@ -31332,7 +31422,8 @@ msgstr "삼단봉을 휘둘러서 폈다."
 msgid ""
 "You test the batch, and it tastes good, so you seal the jar up for storage."
 msgstr ""
-"열어서 발효가 잘 되어 맛이 좋은 것을 확인한 후 보존을 위해 다시 밀봉했습니다."
+"열고 나니, 발효가 잘 되어 맛이 좋은 것을 확인한 후 보존을 위해 다시 밀봉했습"
+"니다."
 
 #: lang/json/GENERIC_from_json.py
 msgid "Zui Quan and You"
@@ -31346,7 +31437,7 @@ msgstr "a smoking device and a source of flame"
 #: lang/json/GENERIC_from_json.py lang/json/vehicle_part_from_json.py
 msgid "advanced reaper"
 msgid_plural "advanced reapers"
-msgstr[0] ""
+msgstr[0] "고급 수확기"
 
 #: lang/json/GENERIC_from_json.py lang/json/vehicle_part_from_json.py
 msgid "advanced seed drill"
@@ -31386,6 +31477,11 @@ msgstr[0] "안테나"
 #: lang/json/GENERIC_from_json.py
 msgid "armed smoke bomb"
 msgid_plural "armed smoke bombs"
+msgstr[0] "연막탄 (켜짐)"
+
+#: lang/json/GENERIC_from_json.py
+msgid "armed tear gas canister"
+msgid_plural "armed tear gas canisters"
 msgstr[0] ""
 
 #: lang/json/GENERIC_from_json.py lang/json/TOOL_from_json.py
@@ -31784,6 +31880,11 @@ msgid_plural "candlesticks"
 msgstr[0] "촛대"
 
 #: lang/json/GENERIC_from_json.py
+msgid "canister grenade"
+msgid_plural "canister grenades"
+msgstr[0] ""
+
+#: lang/json/GENERIC_from_json.py
 msgid "cannabis plant"
 msgid_plural "cannabis plants"
 msgstr[0] "대마"
@@ -32003,6 +32104,11 @@ msgid_plural "diamonds"
 msgstr[0] "다이아몬드"
 
 #: lang/json/GENERIC_from_json.py
+msgid "diamond punch dagger"
+msgid_plural "diamond punch daggers"
+msgstr[0] ""
+
+#: lang/json/GENERIC_from_json.py
 msgid "digging stick"
 msgid_plural "digging sticks"
 msgstr[0] "뒤지개"
@@ -32090,7 +32196,7 @@ msgstr[0] "초경량 프레임"
 #: lang/json/GENERIC_from_json.py
 msgid "fake item"
 msgid_plural "fake items"
-msgstr[0] ""
+msgstr[0] "가짜 물품"
 
 #: lang/json/GENERIC_from_json.py
 msgid "fancy table"
@@ -32120,7 +32226,7 @@ msgstr[0] "펜싱용 사브르"
 #: lang/json/GENERIC_from_json.py
 msgid "fermenting sauerkraut jar"
 msgid_plural "fermenting sauerkraut jars"
-msgstr[0] "발효중인 자우어크라우트 유리병"
+msgstr[0] "발효중인 자워크라우트 유리병"
 
 #: lang/json/GENERIC_from_json.py
 msgid "fertilizer"
@@ -32253,11 +32359,6 @@ msgid_plural "glow plugs"
 msgstr[0] "예열 플러그"
 
 #: lang/json/GENERIC_from_json.py
-msgid "gold bar"
-msgid_plural "gold bars"
-msgstr[0] "금괴"
-
-#: lang/json/GENERIC_from_json.py
 msgid "golf club"
 msgid_plural "golf clubs"
 msgstr[0] "골프채"
@@ -32365,7 +32466,7 @@ msgstr[0] "쇠장식 육척봉"
 #: lang/json/GENERIC_from_json.py
 msgid "ji"
 msgid_plural "ji"
-msgstr[0] ""
+msgstr[0] "극"
 
 #: lang/json/GENERIC_from_json.py lang/json/TOOL_from_json.py
 msgid "jian"
@@ -32741,6 +32842,7 @@ msgid_plural "plasma engines"
 msgstr[0] "플라즈마 엔진"
 
 #: lang/json/GENERIC_from_json.py lang/json/vehicle_part_from_json.py
+#: src/vehicle.cpp
 msgid "plow"
 msgid_plural "plows"
 msgstr[0] "쟁기"
@@ -32826,6 +32928,7 @@ msgid_plural "razorbar katars"
 msgstr[0] "철근 카타르"
 
 #: lang/json/GENERIC_from_json.py lang/json/vehicle_part_from_json.py
+#: src/vehicle.cpp
 msgid "reaper"
 msgid_plural "reapers"
 msgstr[0] "수확기"
@@ -32975,11 +33078,6 @@ msgid "short rope"
 msgid_plural "short ropes"
 msgstr[0] "짧은 밧줄"
 
-#: lang/json/GENERIC_from_json.py
-msgid "shrapnel"
-msgid_plural "shrapnels"
-msgstr[0] ""
-
 #: lang/json/GENERIC_from_json.py lang/json/vehicle_part_from_json.py
 msgid "shredder"
 msgid_plural "shredders"
@@ -32989,11 +33087,6 @@ msgstr[0] "분쇄기"
 msgid "signal receiver"
 msgid_plural "signal receivers"
 msgstr[0] "신호 수신기"
-
-#: lang/json/GENERIC_from_json.py
-msgid "silver bar"
-msgid_plural "silver bars"
-msgstr[0] "은괴"
 
 #: lang/json/GENERIC_from_json.py
 msgid "silver glyph"
@@ -33199,6 +33292,11 @@ msgstr[0] "너덜너덜한 메모"
 msgid "teapot"
 msgid_plural "teapots"
 msgstr[0] "찻주전자"
+
+#: lang/json/GENERIC_from_json.py
+msgid "tear gas grenade"
+msgid_plural "tear gas grenades"
+msgstr[0] ""
 
 #: lang/json/GENERIC_from_json.py
 msgid "teddy bear"
@@ -33528,14 +33626,14 @@ msgstr ""
 #: lang/json/GUNMOD_from_json.py
 msgid ""
 "A bayonet is a stabbing weapon that can be attached to the front of a "
-"shotgun, submachinegun or rifle, allowing a melee attack to deal piercing "
+"shotgun, submachine gun or rifle, allowing a melee attack to deal piercing "
 "damage."
 msgstr ""
 
-#. ~ Description for leadworks magazine adaptor
+#. ~ Description for leadworks magazine adapter
 #: lang/json/GUNMOD_from_json.py
 msgid ""
-"A bootleg adaptor for permanently converting a firearm to accept proprietary "
+"A bootleg adapter for permanently converting a firearm to accept proprietary "
 "Leadworks magazines.  Guaranteed to void your warranty."
 msgstr ""
 
@@ -33595,7 +33693,7 @@ msgstr ""
 "정확도와 총기 통제의 향상을 위해 총열에 달린 수직 손잡이. 증가된 무게를 제외"
 "하면 단점은 없다."
 
-#. ~ Description for belt feed adaptor
+#. ~ Description for belt feed adapter
 #: lang/json/GUNMOD_from_json.py
 msgid ""
 "A kit providing the necessary parts for permanently converting a firearm "
@@ -33638,7 +33736,7 @@ msgid ""
 "fired."
 msgstr ""
 "가장 작은 펌프액션 산탄총. 대부분의 소총 총열 밑에 장착 할 수 있습니다. 총 4"
-"발의 산탄총 탄을 장전하고 발사 할 수 있습니다."
+"발의 샷건쉘을 장전하고 발사 할 수 있습니다."
 
 #. ~ Description for underbarrel bomblet thrower
 #: lang/json/GUNMOD_from_json.py
@@ -33662,6 +33760,8 @@ msgid ""
 "A pistol bayonet is a stabbing weapon that can be attached to the front of a "
 "handgun, allowing a melee attack to deal piercing damage."
 msgstr ""
+"권총용 총검.  권총 끝에 달면 적에게 관통 피해를 주는 근접공격을 할 수 있습니"
+"다."
 
 #. ~ Description for ported barrel
 #: lang/json/GUNMOD_from_json.py
@@ -33797,6 +33897,13 @@ msgstr ""
 "재장전을 빨리 하기 위한 여분의 탄창. 재사용을 위해서는 미리 삽탄을 해두어야 "
 "한다."
 
+#. ~ Description for shotgun suppressor
+#: lang/json/GUNMOD_from_json.py
+msgid ""
+"A suppressor designed to work with shotguns.  It's a lot more complex than a "
+"suppressor for a pistol or rifle."
+msgstr ""
+
 #. ~ Description for homemade suppressor
 #. ~ Description for suppressor
 #: lang/json/GUNMOD_from_json.py
@@ -33811,19 +33918,12 @@ msgstr ""
 "고 보호구 없이는 청력에 문제를 일으킬 수 있다. 소음기는 안전한 수준으로 소음"
 "을 줄여준다. 총구 반동과 탄속도 조금 줄어든다."
 
-#. ~ Description for shotgun suppressor
-#: lang/json/GUNMOD_from_json.py
-msgid ""
-"A supressor designed to work with shotguns.  It's a lot more complex than a "
-"suppressor for a pistol or rifle."
-msgstr "샷건을 위한 소음기. 권총이나 소총의 소음기보다 훨씬 복잡하다."
-
 #. ~ Description for sword bayonet
 #: lang/json/GUNMOD_from_json.py
 msgid ""
 "A sword bayonet is a large slashing weapon that can be attached to the front "
 "of a shotgun or rifle, allowing a melee attack to deal cutting damage."
-msgstr ""
+msgstr "베기용 총검. 샷건이나 소총 앞에 부착하여 베기 피해를 줄 수 있습니다. "
 
 #. ~ Description for underbarrel laser sight
 #: lang/json/GUNMOD_from_json.py
@@ -34188,8 +34288,8 @@ msgid_plural "bayonets"
 msgstr[0] "총검"
 
 #: lang/json/GUNMOD_from_json.py
-msgid "belt feed adaptor"
-msgid_plural "belt feed adaptors"
+msgid "belt feed adapter"
+msgid_plural "belt feed adapters"
 msgstr[0] ""
 
 #: lang/json/GUNMOD_from_json.py
@@ -34310,8 +34410,8 @@ msgid "launchers"
 msgstr "유탄발사기"
 
 #: lang/json/GUNMOD_from_json.py
-msgid "leadworks magazine adaptor"
-msgid_plural "leadworks magazine adaptors"
+msgid "leadworks magazine adapter"
+msgid_plural "leadworks magazine adapters"
 msgstr[0] ""
 
 #: lang/json/GUNMOD_from_json.py
@@ -34540,6 +34640,8 @@ msgid ""
 "A .40 S&W variant of the popular Glock 17 pistol.  The standard-issue "
 "firearm of the FBI and of countless other law enforcement agencies worldwide."
 msgstr ""
+"대중적인 글록 17 권총의 .40 S&W 변종. FBI와 다른 전 세계의 수많은 치안기관에"
+"서 표준 제식 무기로 사용하고 있습니다."
 
 #. ~ Description for 120mm autoloading tank gun
 #: lang/json/GUN_from_json.py
@@ -34740,6 +34842,8 @@ msgid ""
 "A cheap but reliable assault rifle imported from overseas.  It uses imported "
 "magazines which are incompatible with standard rifle magazines."
 msgstr ""
+"해외에서 들여온 저격소총. 저렴하지만 신뢰성도 떨어집니다. 기존의 소총 탄창과 "
+"호환되지 않는 전용 탄창을 이용합니다."
 
 #. ~ Description for plinking carbine
 #: lang/json/GUN_from_json.py
@@ -34803,6 +34907,8 @@ msgid ""
 "A compact, double-action-only revolver designed for easy concealment, with a "
 "stainless steel cylinder and aluminum frame."
 msgstr ""
+"은닉용으로 만들어진 소형 더블액션 리볼버. 스테인리스 강 실린더와 알루미늄 뼈"
+"대를 갖추고 있습니다."
 
 #. ~ Description for wraithslayer crossbow
 #: lang/json/GUN_from_json.py
@@ -34937,6 +35043,8 @@ msgid ""
 "cataclysm, and even rarely by cataclysm survivors.  Its massive size and "
 "design make it impossible to use unless deployed or mounted to a vehicle."
 msgstr ""
+"미군이 사용되는 중기관총. 대재앙 생존자들이 쉽게 찾기 힘든것입니다. 거대한 크"
+"기와 형태 때문에 거치하거나 차량에 설치하지 않으면 사용할 수 없습니다."
 
 #. ~ Description for Mark 19 grenade launcher
 #: lang/json/GUN_from_json.py
@@ -34976,6 +35084,9 @@ msgid ""
 "States Special Operations Command.  The 'H' in its name stands for heavy, as "
 "it uses the powerful .308 round."
 msgstr ""
+"명중률과 모듈성이 우수한 돌격소총. 미국 특수 작전 사령부(USSOCOM, the United "
+"States Special Operations Command)를 위해 고안되었습니다. 이름의 'H'는 중량"
+"(heavy)을 의미하며, 강력한 .308탄을 사용합니다."
 
 #. ~ Description for Browning BLR
 #: lang/json/GUN_from_json.py
@@ -35001,6 +35112,8 @@ msgid ""
 "A highly modular, selective fire battle rifle used by the US military.  It "
 "uses either compact 20-round or bulkier 30-round detachable magazines."
 msgstr ""
+"모듈식의 미국 제식 점사형 전투 소총. 20발 들이의 단축 탄창 또는 30발 들이의 "
+"확장 탄창이 사용됩니다. 탄창은 탈부탁이 가능합니다."
 
 #. ~ Description for pipe gun: revolver ammo
 #: lang/json/GUN_from_json.py
@@ -35033,6 +35146,7 @@ msgid ""
 "A home-made gun.  It is simply a pipe attached to a stock, with a hammer to "
 "strike the single round it holds."
 msgstr ""
+"직접 만든 총. 개머리판, 파이프, 그리고 공이만 단 단순한 1발 들이 총입니다."
 
 #. ~ Description for pipe rifle: .22
 #. ~ Description for pipe rifle: 9mm
@@ -35127,6 +35241,8 @@ msgid ""
 "A homemade triple-barrel 40mm grenade launcher.  Capable of launching all "
 "three grenades at once, it is extremely powerful for a homemade weapon."
 msgstr ""
+"수제 3연장 40mm 유탄 발사기. 한 번에 3발의 유탄을 발사할 수 있으며, 수제 무기"
+"를 넘어선 파괴력을 보여줍니다."
 
 #. ~ Description for blunderbuss
 #: lang/json/GUN_from_json.py
@@ -35216,6 +35332,8 @@ msgid ""
 "commercial knockoffs for the civilian market.  It uses detachable magazines "
 "of various capacities."
 msgstr ""
+"미군에서 사용한 경량 돌격소퐁총. 민간 시장에서 수백종의 모조품이 유통되고 있"
+"습니다. 탄창은 탈착식이며, 종류에 따라 탄환 용량이 다릅니다."
 
 #. ~ Description for gunsword
 #: lang/json/GUN_from_json.py
@@ -35415,6 +35533,8 @@ msgid ""
 "durability, it has been found to stay accurate even after being subjected to "
 "extreme abuse."
 msgstr ""
+"사법기관에서 널리 쓰이는 권총. 내구성은 확실히 검증되어 마구 굴려도 정확도를 "
+"유지할 정도입니다."
 
 #. ~ Description for SIG Mosquito
 #: lang/json/GUN_from_json.py
@@ -35459,6 +35579,8 @@ msgid ""
 "A powerful electrolaser developed by the R&D outfit \"Aerial Labs\".  "
 "Especially effective against electronic targets."
 msgstr ""
+"\"항공 연구소\" R&D 팀에서 제작한 EMP 프로젝터. 전자 제품을 이용한 장비에 큰 "
+"효과를 보입니다."
 
 #. ~ Description for mountable NX-17 pulse rifle
 #: lang/json/GUN_from_json.py
@@ -35732,12 +35854,10 @@ msgstr ""
 #. ~ Description for pistol crossbow
 #: lang/json/GUN_from_json.py
 msgid ""
-"A small concealable pistol-like crossbow.  It's weak due to it's small size "
+"A small concealable pistol-like crossbow.  It's weak due to its small size "
 "and draw, so it is best suited for hunting small game.  Bolts fired from "
 "this weapon have a good chance of remaining intact for re-use."
 msgstr ""
-"작고 숨기기 쉬운 권총 같은 쇠뇌. 작은 크기와 시위거리 때문에 위력이 약해서 작"
-"은 사냥감을 잡는게 좋다. 이 무기에서 발사된 볼트는 재사용 확률이 높다."
 
 #. ~ Description for Cx4 Storm
 #: lang/json/GUN_from_json.py
@@ -36012,7 +36132,7 @@ msgstr[0] "AK-74M"
 #: lang/json/GUN_from_json.py
 msgid "AKM"
 msgid_plural "AKMs"
-msgstr[0] ""
+msgstr[0] "AKMs"
 
 #: lang/json/GUN_from_json.py
 msgid "AN-94"
@@ -36091,6 +36211,9 @@ msgid ""
 "It achieved overnight stardom when it appeared in \"Treasure Trail\", a "
 "popular space-Western series running from 2030 through 2037."
 msgstr ""
+"\"자동 리볼버\", 리더워크 유한책임회사에서 만든 6연발 권총. 사용과 장전이 쉬"
+"운 반자동 리볼버 권총입니다. 2030년부터 2037년까지 방영한 \"보물의 길\"이라"
+"는 유명한 SF 드라마에 등장해 큰 인기를 끌었습니다. "
 
 #. ~ Description for Thompson submachine gun
 #: lang/json/GUN_from_json.py
@@ -36100,6 +36223,8 @@ msgid ""
 "gangsters, and was used during World War II before being mostly replaced "
 "with less-expensive alternatives."
 msgstr ""
+"1차 세계대전 말 미국에 의해 개발된 기관단총. 1920년대 갱단의 무기로 악명이 높"
+"았으며, 저가의 대체품이 나오기 전까지 2차 세계대전의 전장에서도 활약했습니다."
 
 #. ~ Description for M2 Browning turret
 #: lang/json/GUN_from_json.py
@@ -36475,8 +36600,8 @@ msgid ""
 "lightweight pistol with a very high capacity, best used against armored "
 "opponents."
 msgstr ""
-"FN 사가 개발한 5.7x28mm 구경 탄환을 사용하기 위해 제작된 권총입니다. 파이브-"
-"세븐 (Five-Seven) 은 매우 가벼우며, 장탄량이 많고, 장갑 관통력이 좋습니다."
+"FN 사가 개발한 5.7x28mm 구경 탄환을 사용하기 위해 제작된 권총. 파이브-세븐 "
+"(Five-Seven) 은 매우 가벼우며, 장탄량이 많고, 장갑 관통력이 좋습니다."
 
 #. ~ Description for H&K UCP
 #: lang/json/GUN_from_json.py
@@ -36551,11 +36676,6 @@ msgstr ""
 "니다. 하지만, 최상의 명중률과 적은 반동덕분에 여전히 막대한 인기를 끌고 있습"
 "니다."
 
-#. ~ Description for turret aim point
-#: lang/json/GUN_from_json.py
-msgid "Doesn't actually fire anything, just there to aim the turrets."
-msgstr ""
-
 #: lang/json/GUN_from_json.py
 msgid "EMP Projector"
 msgid_plural "EMP Projectors"
@@ -36611,12 +36731,12 @@ msgstr[0] "FN FAL"
 #: lang/json/GUN_from_json.py
 msgid "FN Five-Seven"
 msgid_plural "FN Five-Sevens"
-msgstr[0] ""
+msgstr[0] "FN 파이브-세븐"
 
 #: lang/json/GUN_from_json.py
 msgid "FN P90"
 msgid_plural "FN P90s"
-msgstr[0] ""
+msgstr[0] "FN P90s"
 
 #: lang/json/GUN_from_json.py
 msgid "FN SCAR-H"
@@ -36693,12 +36813,12 @@ msgstr[0] "H&K MP5A5 EOD"
 #: lang/json/GUN_from_json.py
 msgid "H&K MP7"
 msgid_plural "H&K MP7s"
-msgstr[0] ""
+msgstr[0] "H&K MP7s"
 
 #: lang/json/GUN_from_json.py
 msgid "H&K UCP"
 msgid_plural "H&K UCPs"
-msgstr[0] ""
+msgstr[0] "H&K UCPs"
 
 #: lang/json/GUN_from_json.py
 msgid "H&K UMP45"
@@ -36958,7 +37078,7 @@ msgstr ""
 #: lang/json/GUN_from_json.py
 msgid "M1 Garand"
 msgid_plural "M1 Garands"
-msgstr[0] ""
+msgstr[0] "M1 개런드"
 
 #: lang/json/GUN_from_json.py
 msgid "M1014 shotgun"
@@ -36978,7 +37098,7 @@ msgstr[0] "M14 EBR-RI"
 #: lang/json/GUN_from_json.py
 msgid "M1903 Springfield"
 msgid_plural "M1903 Springfields"
-msgstr[0] ""
+msgstr[0] "M1903 스프링필드"
 
 #: lang/json/GUN_from_json.py
 msgid "M1911"
@@ -36988,7 +37108,7 @@ msgstr[0] "M1911"
 #: lang/json/GUN_from_json.py
 msgid "M1911 DS"
 msgid_plural "M1911 DSs"
-msgstr[0] ""
+msgstr[0] "M1911 DS"
 
 #: lang/json/GUN_from_json.py
 msgid "M1A"
@@ -37126,6 +37246,9 @@ msgid ""
 "belt fed mechanism has been modified into a much smaller single round "
 "chamber."
 msgstr ""
+"M2 브라우닝 중기관총을 단축해 개조한것으로, 거치하지 않아도 사격 할 수 있습니"
+"다. 연발 사격 부품은 제거되었고, 벨트식 송탄 부품도 단발식으로 개조 되었습니"
+"다."
 
 #: lang/json/GUN_from_json.py
 msgid "Mosin-Nagant 1891/30"
@@ -37231,11 +37354,9 @@ msgstr ""
 #: lang/json/GUN_from_json.py
 msgid ""
 "One of the most recognizable handguns due to its popularity in movies, the "
-"\"Deagle\" is better known for its menacing appearance than its "
+"Desert Eagle is better known for its menacing appearance than its "
 "performance.  It's highly inaccurate, but its heavy weight reduces recoil."
 msgstr ""
-"영화 덕택에 가장 유명한 권총 중 하나로 \"D.eagle\" 은 성능보다 위협적인 외형"
-"으로 잘 알려져있다. 정확도는 굉장히 낮지만 무게가 반동을 낮춘다."
 
 #. ~ Description for FN FAL
 #: lang/json/GUN_from_json.py
@@ -37286,7 +37407,7 @@ msgstr ""
 #: lang/json/GUN_from_json.py
 msgid "PPSh-41"
 msgid_plural "PPSh-41s"
-msgstr[0] ""
+msgstr[0] "PPSh-41s"
 
 #: lang/json/GUN_from_json.py
 msgid "PRMP2 arbiter"
@@ -37497,7 +37618,7 @@ msgstr[0] "SIG 자우어 P230"
 #: lang/json/GUN_from_json.py
 msgid "SKS"
 msgid_plural "SKSs"
-msgstr[0] ""
+msgstr[0] "SKSs"
 
 #: lang/json/GUN_from_json.py
 msgid "STEN"
@@ -37715,6 +37836,8 @@ msgid ""
 "blanket an area with lightning clouds.  While damaging, it is less lethal "
 "than live ammunition."
 msgstr ""
+"전기구름으로 특정 영역을 재빨리 덮을 목적으로 만들어진 전경용 라이트닝 트레"
+"일 카빈. 피격 시 총탄 보다는 덜 치명적입니다."
 
 #. ~ Description for M134D-H Minigun
 #: lang/json/GUN_from_json.py
@@ -38041,9 +38164,9 @@ msgid ""
 "designed the P90 to use their proprietary 5.7x28mm ammunition.  It is made "
 "for firing bursts manageably."
 msgstr ""
-"\"개인방어화기(PDW)\" 라고 불리는 새로운 종류의 총기 중, 최초로 나온 물건입니"
-"다. FN 사는 새로 개발한 5.7x28mm 탄을 사용하기 위해 이 P90을 직접 디자인하였"
-"습니다. 이 새로운 탄약 덕분에, 연발 사격시 조작이 아주 쉬워진 총입니다."
+"\"개인방어화기(PDW)\"로서 최초로 등장한 총기. FN 사는 새로 개발한 5.7x28mm 탄"
+"을 사용하기 위해 이 P90을 직접 디자인하였습니다. 이 새로운 탄약 덕분에, 연발 "
+"사격시 안정적으로 통제 할 수 있게 되었습니다."
 
 #. ~ Description for hell ball shooter
 #: lang/json/GUN_from_json.py
@@ -38058,6 +38181,8 @@ msgid ""
 "laced with lime green details.  Now they will know why they fear the night.  "
 "Bat hood sold separately."
 msgstr ""
+"M1911 다크스토커. M1911 권총에 석궁과 추가 레일을 부착했고 흑단색의 말단에 라"
+"임색의 장식을 달았습니다. 이제 놈들에게 밤이 왜 무서운 것인지 알려주자고요! "
 
 #. ~ Description for Wrist DREAD
 #: lang/json/GUN_from_json.py
@@ -38066,6 +38191,9 @@ msgid ""
 "operator.  It fires .20 metal pellets at an incredible rate without any "
 "flash or noise.  It is mainly a defensive weapon."
 msgstr ""
+"DREAD 마크 9의 소형화 버젼. 오퍼레이터의 손목에 부착시켜 사용합니다.  어떠한 "
+"소음이나 섬광도 없이 빠른 속도로 20구경 강철탄을 발사합니다. 이 무기는 방어용"
+"으로 설계되었습니다."
 
 #. ~ Description for Marlin 39A
 #: lang/json/GUN_from_json.py
@@ -38089,15 +38217,8 @@ msgid ""
 "synthetic model, carefully balanced to the same weight and handling yet "
 "offering support for modern accessories."
 msgstr ""
-
-#. ~ Description for tesla cannon turret
-#: lang/json/GUN_from_json.py
-msgid ""
-"This alteration of the Chain Lightning bionic fires articial lightning bolts "
-"that arc to nearby enemies.  It must be attached to a large power source, "
-"but it allows for much more powerful bolts.  Comes with a motor and fire "
-"control system for autonomous operation."
-msgstr ""
+"전통적인 목재 개머리판을 합금으로 교채한 모신나강 소총. 기존의 무게와 착용감"
+"을 유지하는데 성공했지만 오늘날의 총기 부착물을 부착할 수는 없습니다."
 
 #. ~ Description for mountable Tesla cannon
 #: lang/json/GUN_from_json.py
@@ -38105,6 +38226,15 @@ msgid ""
 "This alteration of the Chain Lightning bionic fires artificial lightning "
 "bolts that arc to nearby enemies.  It must be attached to a large power "
 "source, but it allows for much more powerful bolts."
+msgstr ""
+
+#. ~ Description for tesla cannon turret
+#: lang/json/GUN_from_json.py
+msgid ""
+"This alteration of the Chain Lightning bionic fires artificial lightning "
+"bolts that arc to nearby enemies.  It must be attached to a large power "
+"source, but it allows for much more powerful bolts.  Comes with a motor and "
+"fire control system for autonomous operation."
 msgstr ""
 
 #. ~ Description for Mosin-Nagant M44-EBR
@@ -38597,16 +38727,6 @@ msgid "Winchester Model 70"
 msgid_plural "Winchester Model 70"
 msgstr[0] "윈체스터 M70"
 
-#. ~ Description for turbolaser cannon turret
-#: lang/json/GUN_from_json.py
-msgid ""
-"With an augmented emitter and capacitor, this mounted laser is capable of "
-"superheating most materials to the point of exploding.  The firing "
-"mechaniscm also requires the services of a specialized chassis, and one must "
-"be wary of the prodigious power needs of such a weapon.  Comes with a motor "
-"and fire control system for autonomous operation."
-msgstr ""
-
 #. ~ Description for mountable turbolaser cannon
 #: lang/json/GUN_from_json.py
 msgid ""
@@ -38614,6 +38734,16 @@ msgid ""
 "superheating most materials to the point of exploding.  The firing mechanism "
 "also requires the services of a specialized chassis, and one must be wary of "
 "the prodigious power needs of such a weapon."
+msgstr ""
+
+#. ~ Description for turbolaser cannon turret
+#: lang/json/GUN_from_json.py
+msgid ""
+"With an augmented emitter and capacitor, this mounted laser is capable of "
+"superheating most materials to the point of exploding.  The firing mechanism "
+"also requires the services of a specialized chassis, and one must be wary of "
+"the prodigious power needs of such a weapon.  Comes with a motor and fire "
+"control system for autonomous operation."
 msgstr ""
 
 #: lang/json/GUN_from_json.py
@@ -38624,7 +38754,7 @@ msgstr[0] "손목 부착형 DREAD"
 #: lang/json/GUN_from_json.py
 msgid "XM34 EMP projector"
 msgid_plural "XM34 EMP projectors"
-msgstr[0] ""
+msgstr[0] "XM34 EMP 프로젝터"
 
 #. ~ Description for spider laser
 #: lang/json/GUN_from_json.py
@@ -38643,7 +38773,7 @@ msgstr[0] "개량형 기관단총"
 #: lang/json/GUN_from_json.py
 msgid "antimateriel rifle"
 msgid_plural "antimateriel rifles"
-msgstr[0] ""
+msgstr[0] "대물 소총"
 
 #: lang/json/GUN_from_json.py
 msgid "arc cannon"
@@ -38894,7 +39024,7 @@ msgstr[0] "플린트락 소총"
 #: lang/json/GUN_from_json.py
 msgid "foreign assault rifle"
 msgid_plural "foreign assault rifles"
-msgstr[0] ""
+msgstr[0] "수출용 돌격소총"
 
 #: lang/json/GUN_from_json.py
 msgid "fully automatic rifle"
@@ -38919,7 +39049,7 @@ msgstr[0] ""
 #: lang/json/GUN_from_json.py
 msgid "general purpose machine gun"
 msgid_plural "general purpose machine guns"
-msgstr[0] ""
+msgstr[0] "다목적 기관총"
 
 #: lang/json/GUN_from_json.py lang/json/vehicle_part_from_json.py
 msgid "grenade turret"
@@ -38963,7 +39093,7 @@ msgstr[0] "대형 쇠뇌"
 #: lang/json/GUN_from_json.py
 msgid "heavy machine gun"
 msgid_plural "heavy machine guns"
-msgstr[0] ""
+msgstr[0] "중기관총"
 
 #: lang/json/GUN_from_json.py
 msgid "heavy rail rifle"
@@ -39028,7 +39158,7 @@ msgstr[0] "레버액션 카빈"
 #: lang/json/GUN_from_json.py
 msgid "light machine gun"
 msgid_plural "light machine guns"
-msgstr[0] ""
+msgstr[0] "경기관총"
 
 #: lang/json/GUN_from_json.py
 msgid "longbow"
@@ -39409,12 +39539,12 @@ msgstr[0] "수제 활"
 #: lang/json/GUN_from_json.py
 msgid "semi-automatic rifle"
 msgid_plural "semi-automatic rifles"
-msgstr[0] ""
+msgstr[0] "반자동 소총"
 
 #: lang/json/GUN_from_json.py
 msgid "semiautomatic carbine"
 msgid_plural "semiautomatic carbines"
-msgstr[0] ""
+msgstr[0] "반자동 카빈"
 
 #: lang/json/GUN_from_json.py
 msgid "semiautomatic pistol"
@@ -39592,11 +39722,6 @@ msgid_plural "turbolaser cannon turrets"
 msgstr[0] "터보레이저 캐논 터렛"
 
 #: lang/json/GUN_from_json.py
-msgid "turret aim point"
-msgid_plural "turret aim points"
-msgstr[0] "터렛 조준기"
-
-#: lang/json/GUN_from_json.py
 msgid "underbarrel"
 msgstr "총열하단"
 
@@ -39626,18 +39751,6 @@ msgstr "예비 부품"
 #: lang/json/ITEM_CATEGORY_from_json.py src/item_factory.cpp
 msgid "VEHICLE PARTS"
 msgstr "차량 부품"
-
-#: lang/json/MAGAZINE_from_json.py
-msgid ".223 ammo belt"
-msgstr ".223 탄약 벨트"
-
-#: lang/json/MAGAZINE_from_json.py
-msgid ".50 ammo belt"
-msgstr ""
-
-#: lang/json/MAGAZINE_from_json.py
-msgid "40mm grenade belt"
-msgstr ""
 
 #. ~ Description for RMSA10 magazine
 #: lang/json/MAGAZINE_from_json.py
@@ -40164,10 +40277,6 @@ msgstr ""
 msgid "Advanced SMG magazine"
 msgstr ""
 
-#: lang/json/MAGAZINE_from_json.py
-msgid "Ammo belt"
-msgstr "탄약 벨트"
-
 #. ~ Description for FN SCAR-H drum magazine
 #: lang/json/MAGAZINE_from_json.py
 msgid "An 50-round drum magazine for the FN SCAR-H rifle."
@@ -40186,13 +40295,13 @@ msgid ""
 msgstr ""
 "브라우닝 자동소총에 사용되는 30발들이 탄창. 부품시장에서 구할 수 있습니다."
 
-#. ~ Description for Ammo belt
+#. ~ Description for ammo belt
 #: lang/json/MAGAZINE_from_json.py
 msgid ""
 "An ammo belt consisting of metal linkages which disintegrate upon firing."
 msgstr "금속 링크들이 연결된 탄약 벨트, 사격 시 분리됩니다."
 
-#. ~ Description for 40mm grenade belt
+#. ~ Description for grenade belt
 #: lang/json/MAGAZINE_from_json.py
 msgid ""
 "An ammo belt consisting of metal linkages which disintegrate upon firing.  "
@@ -40200,21 +40309,21 @@ msgid ""
 "belts."
 msgstr ""
 
-#. ~ Description for Ammo belt
+#. ~ Description for ammo belt
 #: lang/json/MAGAZINE_from_json.py
 msgid ""
 "An ammo belt designed for heavier machineguns consisting of metal linkages "
 "which disintegrate upon firing."
 msgstr "금속 링크들이 연결된 중기관총용 탄약 벨트, 사격 시 분리됩니다."
 
-#. ~ Description for Ammo belt
+#. ~ Description for ammo belt
 #: lang/json/MAGAZINE_from_json.py
 msgid ""
 "An ammo belt designed for mounted machineguns consisting of metal linkages "
 "which disintegrate upon firing."
 msgstr ""
 
-#. ~ Description for Light ammo belt
+#. ~ Description for ammo belt
 #: lang/json/MAGAZINE_from_json.py
 msgid ""
 "An belt of light rifle ammunition consisting of metal linkages which "
@@ -40463,16 +40572,8 @@ msgid "LW-56 magazine"
 msgstr "LW-56 탄창"
 
 #: lang/json/MAGAZINE_from_json.py
-msgid "Light ammo belt"
-msgstr ""
-
-#: lang/json/MAGAZINE_from_json.py
 msgid "M1 Garand Clip"
 msgstr "M1 개런드 클립"
-
-#: lang/json/MAGAZINE_from_json.py
-msgid "M13 7.62x51mm ammo belt"
-msgstr "7.62x51mm M13 탄약 벨트"
 
 #: lang/json/MAGAZINE_from_json.py
 msgid "M14 compact magazine"
@@ -40735,10 +40836,18 @@ msgstr "우지 탄창"
 msgid "Walther PPK magazine"
 msgstr "발터 PPK 탄창"
 
+#: lang/json/MAGAZINE_from_json.py
+msgid "ammo belt"
+msgstr ""
+
 #: lang/json/MAGAZINE_from_json.py lang/json/vehicle_part_from_json.py
 msgid "car battery"
 msgid_plural "car batteries"
 msgstr[0] "자동차 배터리"
+
+#: lang/json/MAGAZINE_from_json.py
+msgid "grenade belt"
+msgstr ""
 
 #: lang/json/MAGAZINE_from_json.py lang/json/vehicle_part_from_json.py
 msgid "medium storage battery"
@@ -41260,10 +41369,6 @@ msgstr "개발자가 추천한 모든 모드를 포함합니다"
 msgid "default"
 msgstr "기본값"
 
-#: lang/json/MONSTER_from_json.py
-msgid " alpha razorclaw"
-msgstr "알파 레이저클로"
-
 #. ~ Description for bowfin
 #: lang/json/MONSTER_from_json.py
 msgid ""
@@ -41499,7 +41604,7 @@ msgstr ""
 "새까맣고 뒤틀린 나체상태의 인간 시체로, 살갗이 떨어져나간 부분에서 짙은 검은"
 "색 연기가 끊임없이 뿜어져나오고 있습니다."
 
-#. ~ Description for  alpha razorclaw
+#. ~ Description for alpha razorclaw
 #: lang/json/MONSTER_from_json.py
 msgid ""
 "A blood red, gigantic razorclaw.  Its sword like pincers serve as the "
@@ -41780,6 +41885,14 @@ msgid ""
 msgstr ""
 "털이 덮인 이족보행 공룡으로, 서 있는 크기가 사람 키만 합니다. 타조가 파충류"
 "화 한듯한 모습입니다."
+
+#. ~ Description for giant royal bee
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"A fecund bee of unknown sex.  Although the queen potentially tolerates the "
+"presence of other mating females within her hive, they are all her "
+"offspring, and if conflict arises all but one will end up leaving"
+msgstr ""
 
 #. ~ Description for young queen ant
 #: lang/json/MONSTER_from_json.py
@@ -42572,6 +42685,22 @@ msgid ""
 "A predatory segmented arthropod with dozens of legs and a venomous bite."
 msgstr "수십 개의 다리와 독성 이빨을 가진 절지동물입니다."
 
+#. ~ Description for shambling zombie
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"A prone body propped up on outstretched arms; with oozing cracks along its "
+"fire-hardened skin.  Sticky sludge escapes from holes in its chest cavity "
+"where the friction of crawling has torn through."
+msgstr ""
+
+#. ~ Description for shambler
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"A prone humanoidesque monster that springs forward with a sickening sucking "
+"sound.  As it consumes bodies and materials from the ground it becomes "
+"stronger and produces several blobs."
+msgstr ""
+
 #. ~ Description for glowing biollante
 #: lang/json/MONSTER_from_json.py
 msgid ""
@@ -42625,14 +42754,6 @@ msgstr ""
 msgid ""
 "A revenant's homing missile, working its way towards you.  If only you could "
 "disable it . . ."
-msgstr ""
-
-#. ~ Description for shambling zombie
-#: lang/json/MONSTER_from_json.py
-msgid ""
-"A revolting crawling monster that excretes a copious amount of some "
-"biological goo from a gaping chest cavity.  Every so often a blob emerges "
-"from the charred and mangled stumps that used to be legs."
 msgstr ""
 
 #. ~ Description for broken cyborg
@@ -43257,6 +43378,19 @@ msgstr ""
 "부서진 여우 로봇이 땅 위에 쓰러져있다. 하지만 이빨과 손톱은 여전히 날카로워 "
 "보이는 것이 주위를 기어다니거나 천장을 기어오를 수 있을 것 같다."
 
+#. ~ Description for bee larvae
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"A writhing mass of white flesh, this grub-like monster will mature based on "
+"its diet; richer diets will result in a more noble caste."
+msgstr ""
+
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"A writhing mass of yellowing flesh, this little guy expells its stomach "
+"contents if disturbed."
+msgstr ""
+
 #. ~ Description for ant larvae
 #: lang/json/MONSTER_from_json.py
 msgid ""
@@ -43312,7 +43446,7 @@ msgstr ""
 #: lang/json/MONSTER_from_json.py
 msgid ""
 "All evidence indicates that this used to be a survivor, who was killed by "
-"torture and body reanimated.  Its garments lack the weathered look of other "
+"torture and body reanimated. Its garments lack the weathered look of other "
 "zombies but are mutilated none-the-less.  Although it struggles to free "
 "itself, it is held fast with spikes, nails, and chains."
 msgstr ""
@@ -43870,6 +44004,8 @@ msgid ""
 "against either haunch rests a muscular folded limb terminating in a scythe-"
 "like bony protrusion."
 msgstr ""
+"몸에 옆면을 따라 검은 줄무늬가 있는 갈색 코요테. 둔부 양쪽 너머로 다리가 근육"
+"에 뒤싸인채 돌출된 것이 마치 낫과 같습니다."
 
 #. ~ Description for Titanis
 #: lang/json/MONSTER_from_json.py
@@ -44547,6 +44683,15 @@ msgid ""
 "light, and actively avoids fire."
 msgstr ""
 
+#. ~ Description for giant queen bee
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"The queen bee, a typically unchallenged figure of dominance in bee society.  "
+"The fine coat of bristles along its abdomen seems to conduct electric "
+"energy.  Without her, the hive would melt away, seeking death or a new "
+"master."
+msgstr ""
+
 #. ~ Description for fox
 #: lang/json/MONSTER_from_json.py
 msgid ""
@@ -44709,6 +44854,8 @@ msgid ""
 "This humanoid resembles a burnt cenobite.  It attacks with fire and claw, "
 "and is the grunt of the demonic armies."
 msgstr ""
+"전신을 붙태운 수도승같이 생긴 인간형 생물체. 손톱과 불을 이용해 공격합니다. "
+"악마의 군단에 배속되어 있습니다."
 
 #. ~ Description for blank body
 #: lang/json/MONSTER_from_json.py
@@ -44940,6 +45087,14 @@ msgstr ""
 "의 검은색과 노란색 무늬는 당신에게 얌전히 떠나라는 경고를 보내고 있는 것 같습"
 "니다."
 
+#. ~ Description for giant bee
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"With a stinger the size of a kitchen knife, this dog-sized insect's black "
+"and yellow markings warn you to leave it undisturbed.  Its fine coat of "
+"bristles seems to attract electric charge."
+msgstr ""
+
 #. ~ Description for zombie nadir
 #: lang/json/MONSTER_from_json.py
 msgid ""
@@ -44962,8 +45117,9 @@ msgstr ""
 #: lang/json/MONSTER_from_json.py
 msgid ""
 "With its joints in odd places and angles, this humanoid creature prowls "
-"across the landscape with suprising speed.  Its teeth and arms are sharpened "
-"into fine points, and black ooze seeps out from cuts between its muscles."
+"across the landscape with surprising speed.  Its teeth and arms are "
+"sharpened into fine points, and black ooze seeps out from cuts between its "
+"muscles."
 msgstr ""
 
 #. ~ Description for skeleton
@@ -45033,6 +45189,10 @@ msgstr "알비노 펭귄"
 #: lang/json/MONSTER_from_json.py
 msgid "alpha giant trapdoor spider"
 msgstr "알파 거대 문짝거미"
+
+#: lang/json/MONSTER_from_json.py
+msgid "alpha razorclaw"
+msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "amigara horror"
@@ -45148,6 +45308,10 @@ msgid "beaver"
 msgstr "비버"
 
 #: lang/json/MONSTER_from_json.py
+msgid "bee larvae"
+msgstr ""
+
+#: lang/json/MONSTER_from_json.py
 msgid "big blob"
 msgstr "대형 블럽"
 
@@ -45246,7 +45410,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "charred nightmare"
-msgstr ""
+msgstr "새까맣게 탄 악몽"
 
 #: lang/json/MONSTER_from_json.py
 msgid "chicken"
@@ -45649,8 +45813,16 @@ msgid "giant mosquito"
 msgstr "거대 모기"
 
 #: lang/json/MONSTER_from_json.py
+msgid "giant queen bee"
+msgstr ""
+
+#: lang/json/MONSTER_from_json.py
 msgid "giant rattlesnake"
 msgstr "거대 방울뱀"
+
+#: lang/json/MONSTER_from_json.py
+msgid "giant royal bee"
+msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "giant salmon"
@@ -45682,7 +45854,7 @@ msgstr "거대 지렁이"
 
 #: lang/json/MONSTER_from_json.py
 msgid "glowing biollante"
-msgstr ""
+msgstr "어린 비오란테"
 
 #: lang/json/MONSTER_from_json.py
 msgid "gozu"
@@ -45791,7 +45963,7 @@ msgstr "거대 거미줄거미 새끼"
 
 #: lang/json/MONSTER_from_json.py
 msgid "imp"
-msgstr ""
+msgstr "임프"
 
 #: lang/json/MONSTER_from_json.py
 msgid "infected survivor"
@@ -46067,7 +46239,7 @@ msgstr "괴성 좀비"
 
 #: lang/json/MONSTER_from_json.py
 msgid "scythed coyote"
-msgstr ""
+msgstr "낫코요테"
 
 #: lang/json/MONSTER_from_json.py
 msgid "security bot"
@@ -46100,6 +46272,10 @@ msgstr "그림자 뱀"
 #: lang/json/MONSTER_from_json.py
 msgid "shady zombie"
 msgstr "셰이디 좀비"
+
+#: lang/json/MONSTER_from_json.py
+msgid "shambler"
+msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "shambling zombie"
@@ -46360,7 +46536,7 @@ msgstr "젊은 여왕 개미"
 
 #: lang/json/MONSTER_from_json.py
 msgid "your mother"
-msgstr "느금마"
+msgstr "당신의 어머니"
 
 #: lang/json/MONSTER_from_json.py
 msgid "yugg"
@@ -46813,6 +46989,11 @@ msgstr ""
 "목에 걸 수 있게 끈이 달린 광학장비로 먼 곳을 볼 때 유용합니다. 그냥 들고 다녀"
 "도 되지만 장비할 수도 있습니다. 어느 쪽이건 지도에 표시되는 거리를 두배로 늘"
 "려줍니다. 태양빛으로 불을 붙일 때 쓸 수도 있습니다."
+
+#. ~ Description for fancy hairpin
+#: lang/json/TOOL_ARMOR_from_json.py
+msgid "A pink hairpin with cute flower textures."
+msgstr "귀여운 꽃무늬가 그려진 분홍색 머리핀입니다."
 
 #. ~ Description for hairpin
 #: lang/json/TOOL_ARMOR_from_json.py
@@ -47587,6 +47768,11 @@ msgstr[0] ""
 msgid "emergency blanket"
 msgid_plural "emergency blankets"
 msgstr[0] "비상용 담요"
+
+#: lang/json/TOOL_ARMOR_from_json.py
+msgid "fancy hairpin"
+msgid_plural "fancy hairpins"
+msgstr[0] "고급 머리핀"
 
 #: lang/json/TOOL_ARMOR_from_json.py
 msgid "fedora"
@@ -48436,9 +48622,9 @@ msgstr ""
 #. ~ Description for pro fishing rod
 #: lang/json/TOOL_from_json.py
 msgid ""
-"A professional fishing rod & reel combo.  With this you should be able to "
-"catch 'em all."
-msgstr "전문가용 낚싯대와 릴. 이놈과 함께라면 모조리 낚아버릴 수 있을 겁니다."
+"A professional fishing rod with a matching set of weights.  With this you "
+"should be able to catch 'em all."
+msgstr ""
 
 #. ~ Description for multi cooker
 #: lang/json/TOOL_from_json.py
@@ -48838,11 +49024,9 @@ msgstr ""
 #. ~ Description for acetylene lamp (off)
 #: lang/json/TOOL_from_json.py
 msgid ""
-"An antique brass lamp designed to run from a pressurised cylinder of "
+"An antique brass lamp designed to run from a pressurized cylinder of "
 "acetylene.  It is an efficient, if not somewhat dangerous light source."
 msgstr ""
-"구식 놋쇠 램프에 고압 아세틸린통을 달아놓았습니다. 효율적인 조명기구이긴 한"
-"데 상황에 따라 위험할 수 있습니다."
 
 #. ~ Description for electric carver (off)
 #: lang/json/TOOL_from_json.py
@@ -49950,14 +50134,6 @@ msgid ""
 "half hour before burning out."
 msgstr ""
 
-#. ~ Description for active tear gas grenade
-#: lang/json/TOOL_from_json.py
-msgid ""
-"This canister of tear gas has had its pin removed, indicating that it is (or "
-"will shortly be) expelling highly toxic gas.  You should consider getting "
-"rid of it soon."
-msgstr ""
-
 #. ~ Description for gold gas discount card
 #: lang/json/TOOL_from_json.py
 msgid "This card gives you a good discount on the purchase of gasoline."
@@ -50258,19 +50434,6 @@ msgid ""
 "appears to be made very poorly, but it should still stand up to a few swings."
 msgstr ""
 
-#. ~ Description for tear gas canister
-#: lang/json/TOOL_from_json.py
-msgid ""
-"This is a canister grenade filled with noxious irritant.  Use this item to "
-"pull the pin and light the fuse, turning it into an active tear gas "
-"grenade.  In five turns it will begin to expel a highly toxic gas for some "
-"time.  This gas damages and slows those who enter it, as well as obscuring "
-"vision and scent."
-msgstr ""
-"유해한 자극물이 들어있는 수류탄. 사용하면 핀을 뽑아 도화선에 불이 붙어 점화합"
-"니다. 유독한 가스를 내뿜기 전까지 5턴이 남았습니다. 이 가스는 상대방의 행동"
-"을 느리게 만들고, 시야와 냄새까지 차단해 줍니다."
-
 #. ~ Description for car horn
 #: lang/json/TOOL_from_json.py
 msgid "This is a car horn meant to be attached to a car's electrical system."
@@ -50512,7 +50675,7 @@ msgstr ""
 #. ~ Description for hammer
 #: lang/json/TOOL_from_json.py
 msgid ""
-"This is a demagnetized steel hammer with a rubber grip.  With a hammer, "
+"This is a demagnetized steel hammer with a wooden grip.  With a hammer, "
 "nails, and two by fours in your inventory, you could board up adjacent doors "
 "and windows.  It has myriad other uses as well."
 msgstr ""
@@ -51350,9 +51513,9 @@ msgstr ""
 #. ~ Description for two-way radio
 #: lang/json/TOOL_from_json.py
 msgid ""
-"This is a radio with a transmitting unit.  Using this allows you to send out "
-"a distress signal.  You could send either a general SOS, or send a direct "
-"call to a faction you are in contact with."
+"This is a radio with a transmitting unit.  You could use it to contact "
+"someone who also has one.  Unfortunately no one seems to use those "
+"nowadays..."
 msgstr ""
 
 #. ~ Description for katana
@@ -52041,16 +52204,6 @@ msgid ""
 "This is a tin can filled to the brim with black gunpowder and with a lit "
 "fuse stuck inside of it."
 msgstr ""
-
-#. ~ Description for vacutainer
-#: lang/json/TOOL_from_json.py
-msgid ""
-"This is a tool for drawing blood, including a vacuum-sealed test tube for "
-"holding the sample.  Use this tool to draw blood, either from yourself or "
-"from a corpse you are standing on."
-msgstr ""
-"피를 뽑는 도구입니다. 안에는 뽑아낸 피를 보관하는 진공 상태의 시험관이 들어 "
-"있습니다. 사용하면 자기 자신이나 발밑에 있는 시체의 피를 뽑습니다."
 
 #. ~ Description for geiger counter (on)
 #: lang/json/TOOL_from_json.py
@@ -52784,7 +52937,6 @@ msgstr "연료가 부족해 불이 꺼졌다."
 #. ~ Use action sound_msg for active flashbang.
 #. ~ Use action sound_msg for active EMP grenade.
 #. ~ Use action sound_msg for active scrambler grenade.
-#. ~ Use action sound_msg for active tear gas grenade.
 #. ~ Use action sound_msg for mininuke.
 #. ~ Use action sound_msg for C-4 explosive (armed).
 #. ~ Use action sound_msg for active ANFO charge.
@@ -53319,11 +53471,6 @@ msgstr "수류탄 핀을 뽑았다."
 msgid "You pull the pin on the scrambler grenade."
 msgstr "대전자기 수류탄의 핀을 뽑았다."
 
-#. ~ Use action msg for tear gas canister.
-#: lang/json/TOOL_from_json.py
-msgid "You pull the pin on the teargas canister."
-msgstr "최루탄 핀을 뽑았다."
-
 #. ~ Use action msg for revenant rocket core.
 #: lang/json/TOOL_from_json.py
 msgid "You puncture the rocket core!"
@@ -53544,7 +53691,6 @@ msgstr "도화선엔 이미 불이 붙어 있다 – 대체 뭘 기다리고 있
 #. ~ Use action no_deactivate_msg for active flashbang.
 #. ~ Use action no_deactivate_msg for active EMP grenade.
 #. ~ Use action no_deactivate_msg for active scrambler grenade.
-#. ~ Use action no_deactivate_msg for active tear gas grenade.
 #: lang/json/TOOL_from_json.py src/iuse.cpp
 #, c-format, no-python-format
 msgid "You've already pulled the %s's pin, try throwing it instead."
@@ -53729,11 +53875,6 @@ msgstr[0] "파이프 폭탄 (켜짐)"
 msgid "active scrambler grenade"
 msgid_plural "active scrambler grenades"
 msgstr[0] "대전자기 수류탄 (켜짐)"
-
-#: lang/json/TOOL_from_json.py
-msgid "active tear gas grenade"
-msgid_plural "active tear gas grenades"
-msgstr[0] "최루탄 (켜짐)"
 
 #: lang/json/TOOL_from_json.py
 msgid "advanced UPS"
@@ -55643,11 +55784,6 @@ msgid "tazer"
 msgid_plural "tazers"
 msgstr[0] "테이저"
 
-#: lang/json/TOOL_from_json.py
-msgid "tear gas canister"
-msgid_plural "tear gas canisters"
-msgstr[0] "최루탄"
-
 #: lang/json/TOOL_from_json.py lang/json/trap_from_json.py
 msgid "teleport pad"
 msgid_plural "teleport pads"
@@ -55742,11 +55878,6 @@ msgstr[0] ""
 msgid "used heat pack"
 msgid_plural "used heat packs"
 msgstr[0] "발열팩 (사용함)"
-
-#: lang/json/TOOL_from_json.py
-msgid "vacutainer"
-msgid_plural "vacutainers"
-msgstr[0] "진공 채혈기"
 
 #: lang/json/TOOL_from_json.py
 msgid "vacuum sealer"
@@ -57800,7 +57931,7 @@ msgstr "도마뱀 혼종이 되는 꿈을 꾸어 공포를 느꼈습니다."
 
 #: lang/json/dream_from_json.py
 msgid "You are terrified by a dream of becoming an ape hybrid."
-msgstr ""
+msgstr "유인원 혼종이 되는 꿈을 꾸어 공포를 느꼈습니다."
 
 #: lang/json/dream_from_json.py
 msgid "You are terrified by a dream of serving the hive queen mindlessly."
@@ -58953,7 +59084,7 @@ msgstr "니코틴"
 
 #: lang/json/effects_from_json.py
 msgid "Night blindness"
-msgstr ""
+msgstr "야맹증"
 
 #: lang/json/effects_from_json.py
 msgid "No ammo"
@@ -59140,7 +59271,7 @@ msgstr "뜨거움"
 
 #: lang/json/effects_from_json.py
 msgid "Scurvy"
-msgstr ""
+msgstr "괴혈병"
 
 #: lang/json/effects_from_json.py
 msgid "Shakes"
@@ -59161,7 +59292,7 @@ msgstr "끈적거림"
 
 #: lang/json/effects_from_json.py
 msgid "Slow healing"
-msgstr ""
+msgstr "혈액응고 지연"
 
 #: lang/json/effects_from_json.py
 msgid "Slowed"
@@ -59467,13 +59598,8 @@ msgstr "이어폰을 끼고있어서 바깥 소리가 잘 들리지 않는다."
 
 #. ~ Apply message for effect(s) 'Iron deficiency, Early anemia, Anemia'.
 #: lang/json/effects_from_json.py
-msgid "You beging feeling increasingly tired and listless."
-msgstr "점점 피곤하고 기운이 없어지기 시작한다."
-
-#. ~ Apply message for effect(s) 'VitA deficiency, Poor vision, Night blindness'.
-#: lang/json/effects_from_json.py
-msgid "You beging struggling to make out the finer details."
-msgstr "작은 글자를 읽는 게 점차 힘들어지고 있다."
+msgid "You begin feeling increasingly tired and listless."
+msgstr ""
 
 #. ~ Description of effect 'Ringing ears'.
 #: lang/json/effects_from_json.py
@@ -59590,7 +59716,7 @@ msgstr "마치 뭐든지 해낼 수 있을 것만 같은 강대한 힘이 느껴
 #. ~ Description of effect 'Ratting'.
 #: lang/json/effects_from_json.py
 msgid "You feel nauseous and rat-like."
-msgstr ""
+msgstr "메스꺼움이 느껴지고 역겨운 느낌이 납니다."
 
 #. ~ Description of effect 'Nausea'.
 #: lang/json/effects_from_json.py
@@ -59720,6 +59846,11 @@ msgstr "세상이 새빨갛게 보인다!"
 #: lang/json/effects_from_json.py
 msgid "You smoked too much"
 msgstr "너무 많이 피운 것 같다"
+
+#. ~ Apply message for effect(s) 'VitA deficiency, Poor vision, Night blindness'.
+#: lang/json/effects_from_json.py
+msgid "You start struggling to make out the finer details."
+msgstr ""
 
 #. ~ Apply message for effect(s) 'Early scurvy, Scurvy, Bad Scurvy'.
 #: lang/json/effects_from_json.py
@@ -60048,12 +60179,12 @@ msgstr "연기에 폐가 타는 것 같다."
 #. ~ Remove message for effect(s) 'Hypervitaminosis'.
 #: lang/json/effects_from_json.py
 msgid "Your metabolism becomes more stable."
-msgstr ""
+msgstr "신진대사의 균형이 바로 잡히고 있습니다."
 
 #. ~ Apply message for effect(s) 'Hypervitaminosis'.
 #: lang/json/effects_from_json.py
 msgid "Your metabolism becomes unstable."
-msgstr ""
+msgstr "신진대사 불균형 상태에 들어갑니다."
 
 #. ~ Description of effect 'Stunned'.
 #: lang/json/effects_from_json.py
@@ -60062,13 +60193,13 @@ msgstr "움직임이 무작위화 되었습니다."
 
 #. ~ Remove message for effect(s) 'VitA deficiency, Poor vision, Night blindness'.
 #: lang/json/effects_from_json.py
-msgid "Your normal visual accuity returns."
+msgid "Your normal visual acuity returns."
 msgstr ""
 
 #. ~ Remove message for effect(s) 'Early scurvy, Scurvy, Bad Scurvy'.
 #: lang/json/effects_from_json.py
 msgid "Your scurvy has resolved."
-msgstr ""
+msgstr "괴혈병이 낫았습니다."
 
 #. ~ Decay message for effect(s) 'Early scurvy, Scurvy, Bad Scurvy'.
 #: lang/json/effects_from_json.py
@@ -60132,7 +60263,7 @@ msgstr "싸울 의지가 잠시 동안 사라졌다."
 #. ~ Remove message for effect(s) 'B12 deficiency, Slow healing, No healing'.
 #: lang/json/effects_from_json.py
 msgid "Your wounds now heal normally."
-msgstr ""
+msgstr "이제 지혈이 제대로 진행됩니다."
 
 #: lang/json/effects_from_json.py
 msgid "Zapped"
@@ -60611,7 +60742,7 @@ msgstr "간이 침대"
 
 #: lang/json/furniture_from_json.py
 msgid "manacles"
-msgstr ""
+msgstr "족쇄"
 
 #: lang/json/furniture_from_json.py
 msgid "mannequin"
@@ -60816,7 +60947,7 @@ msgstr "동상"
 
 #: lang/json/furniture_from_json.py
 msgid "stone slab"
-msgstr ""
+msgstr "석재 평판"
 
 #: lang/json/furniture_from_json.py
 msgid "straw bed"
@@ -60840,7 +60971,7 @@ msgstr "쿵."
 
 #: lang/json/furniture_from_json.py
 msgid "thunk!"
-msgstr ""
+msgstr "꽝!"
 
 #: lang/json/furniture_from_json.py lang/json/terrain_from_json.py
 msgid "thunk."
@@ -60929,7 +61060,7 @@ msgstr "노란 실내 조경식물"
 #. ~ 'fail' action message of some gate object.
 #: lang/json/gates_from_json.py
 msgid "The barn doors can't be closed!"
-msgstr ""
+msgstr "헛간 문을 닫을 수 없습니다!"
 
 #. ~ 'close' action message of some gate object.
 #: lang/json/gates_from_json.py
@@ -60944,7 +61075,7 @@ msgstr "헛간 문이 열렸습니다!"
 #. ~ 'fail' action message of some gate object.
 #: lang/json/gates_from_json.py
 msgid "The door can't be closed!"
-msgstr ""
+msgstr "문을 닫을 수 없습니다!"
 
 #. ~ 'open' action message of some gate object.
 #: lang/json/gates_from_json.py
@@ -60959,7 +61090,7 @@ msgstr "문이 쾅하고 닫혔다!"
 #. ~ 'fail' action message of some gate object.
 #: lang/json/gates_from_json.py
 msgid "The gate can't be closed!"
-msgstr ""
+msgstr "큰 문을 닫을 수 없습니다!"
 
 #. ~ 'close' action message of some gate object.
 #: lang/json/gates_from_json.py
@@ -60974,7 +61105,7 @@ msgstr "큰 문이 열렸습니다!"
 #. ~ 'fail' action message of some gate object.
 #: lang/json/gates_from_json.py
 msgid "The palisade gate can't be closed!"
-msgstr ""
+msgstr "울타리 문을 닫을 수 없습니다!"
 
 #. ~ 'close' action message of some gate object.
 #: lang/json/gates_from_json.py
@@ -61008,6 +61139,10 @@ msgstr "상처 지지기"
 #: lang/json/item_action_from_json.py
 msgid "Check weather information"
 msgstr "날씨 정보 확인"
+
+#: lang/json/item_action_from_json.py
+msgid "Clear rubble"
+msgstr ""
 
 #: lang/json/item_action_from_json.py
 msgid "Create a zombie slave"
@@ -61169,6 +61304,10 @@ msgstr "고급 소지품 관리창 열기"
 msgid "Aim"
 msgstr "조준"
 
+#: lang/json/keybinding_from_json.py src/vehicle.cpp
+msgid "Aim turrets manually"
+msgstr "터렛 수동 조준"
+
 #: lang/json/keybinding_from_json.py
 msgid "Aimed Shot"
 msgstr "조준 사격"
@@ -61272,6 +61411,10 @@ msgstr "지형 건설하기"
 #: lang/json/keybinding_from_json.py
 msgid "Control Vehicle"
 msgstr "차량 조종하기"
+
+#: lang/json/keybinding_from_json.py src/vehicle.cpp
+msgid "Control individual engines"
+msgstr "개별 엔진 설정"
 
 #: lang/json/keybinding_from_json.py
 msgid "Copy rule"
@@ -61420,6 +61563,10 @@ msgstr "무기 발사"
 #: lang/json/keybinding_from_json.py
 msgid "Fire Wielded Item"
 msgstr "장비한 물품 사격"
+
+#: lang/json/keybinding_from_json.py src/pickup.cpp
+msgid "Fold vehicle"
+msgstr "차량 접기"
 
 #: lang/json/keybinding_from_json.py
 msgid "Go Down"
@@ -61732,6 +61879,10 @@ msgid "Relabel a portion of a vehicle"
 msgstr "차량 분류 라벨 변경"
 
 #: lang/json/keybinding_from_json.py
+msgid "Release controls"
+msgstr ""
+
+#: lang/json/keybinding_from_json.py
 msgid "Reload Wielded Item"
 msgstr "장비한 물품을 재장전/재충전"
 
@@ -61915,6 +62066,14 @@ msgstr "오른쪽 창 선택하기"
 msgid "Select shape"
 msgstr ""
 
+#: lang/json/keybinding_from_json.py src/turret.cpp src/vehicle.cpp
+msgid "Set turret firing modes"
+msgstr "터렛을 발사 모드로 설정"
+
+#: lang/json/keybinding_from_json.py src/vehicle.cpp
+msgid "Set turret targeting modes"
+msgstr "터렛을 조준 모드로 설정"
+
 #: lang/json/keybinding_from_json.py
 msgid "Sew"
 msgstr "바느질"
@@ -61952,6 +62111,10 @@ msgid "Solder/Weld"
 msgstr "납땜/용접"
 
 #: lang/json/keybinding_from_json.py
+msgid "Sound horn"
+msgstr ""
+
+#: lang/json/keybinding_from_json.py
 msgid "Start"
 msgstr "시작"
 
@@ -61965,6 +62128,10 @@ msgstr ""
 
 #: lang/json/keybinding_from_json.py
 msgid "Switch Aiming Mode"
+msgstr ""
+
+#: lang/json/keybinding_from_json.py
+msgid "Switch Firing Mode"
 msgstr ""
 
 #: lang/json/keybinding_from_json.py
@@ -62036,6 +62203,14 @@ msgid "Toggle activate/examine"
 msgstr "조작/정보 전환"
 
 #: lang/json/keybinding_from_json.py
+msgid "Toggle aisle lights"
+msgstr ""
+
+#: lang/json/keybinding_from_json.py
+msgid "Toggle alarm"
+msgstr ""
+
+#: lang/json/keybinding_from_json.py
 msgid "Toggle attack mode of Wielded Item"
 msgstr "장비한 물품의 공격모드 토글"
 
@@ -62044,20 +62219,88 @@ msgid "Toggle auto-pickup for item"
 msgstr "물품 자동 줍기 전환"
 
 #: lang/json/keybinding_from_json.py
+msgid "Toggle camera system"
+msgstr ""
+
+#: lang/json/keybinding_from_json.py
 msgid "Toggle category selection mode"
 msgstr "카테고리 선택 방식으로 전환"
+
+#: lang/json/keybinding_from_json.py
+msgid "Toggle chimes"
+msgstr ""
+
+#: lang/json/keybinding_from_json.py
+msgid "Toggle cruise control"
+msgstr ""
+
+#: lang/json/keybinding_from_json.py
+msgid "Toggle dome lights"
+msgstr ""
+
+#: lang/json/keybinding_from_json.py src/vehicle.cpp
+msgid "Toggle doors"
+msgstr ""
+
+#: lang/json/keybinding_from_json.py
+msgid "Toggle engine"
+msgstr ""
+
+#: lang/json/keybinding_from_json.py
+msgid "Toggle fridge"
+msgstr ""
+
+#: lang/json/keybinding_from_json.py
+msgid "Toggle headlights"
+msgstr ""
 
 #: lang/json/keybinding_from_json.py
 msgid "Toggle move mode (run/walk)"
 msgstr "이동방식 변경 (달리기/걷기)"
 
 #: lang/json/keybinding_from_json.py
+msgid "Toggle overhead lights"
+msgstr ""
+
+#: lang/json/keybinding_from_json.py
+msgid "Toggle planter"
+msgstr ""
+
+#: lang/json/keybinding_from_json.py
+msgid "Toggle plow"
+msgstr ""
+
+#: lang/json/keybinding_from_json.py
+msgid "Toggle reactor"
+msgstr ""
+
+#: lang/json/keybinding_from_json.py
+msgid "Toggle reaper"
+msgstr ""
+
+#: lang/json/keybinding_from_json.py
+msgid "Toggle recharger"
+msgstr ""
+
+#: lang/json/keybinding_from_json.py
+msgid "Toggle scoop"
+msgstr ""
+
+#: lang/json/keybinding_from_json.py
 msgid "Toggle sorting order"
 msgstr "정렬방식 전환"
 
 #: lang/json/keybinding_from_json.py
+msgid "Toggle stereo"
+msgstr ""
+
+#: lang/json/keybinding_from_json.py
 msgid "Toggle tab"
 msgstr "탭 전환"
+
+#: lang/json/keybinding_from_json.py
+msgid "Toggle tracking"
+msgstr ""
 
 #: lang/json/keybinding_from_json.py
 msgid "Toggle unavailable constructions"
@@ -62184,7 +62427,7 @@ msgstr ""
 #. ~ Sign
 #: lang/json/mapgen_from_json.py
 msgid "DANGER! Doggy Minefield!"
-msgstr ""
+msgstr "지뢰 주의!"
 
 #. ~ Sign
 #: lang/json/mapgen_from_json.py
@@ -62194,12 +62437,12 @@ msgstr "위험! 담배를 피지 마시오! 폭발의 위험이 있읍니다!"
 #. ~ Sign
 #: lang/json/mapgen_from_json.py
 msgid "Dog Park: Off Leash Area"
-msgstr ""
+msgstr "애견 공원: 목줄을 풀셔도 좋습니다."
 
 #. ~ Sign
 #: lang/json/mapgen_from_json.py
 msgid "Help me make more mapgen, you lazy bum"
-msgstr ""
+msgstr "맵진을 좀 더 하자고, 이 니트새꺄"
 
 #. ~ Sign
 #: lang/json/mapgen_from_json.py
@@ -62209,7 +62452,7 @@ msgstr ""
 #. ~ Sign
 #: lang/json/mapgen_from_json.py
 msgid "The Red Dragon Tea Shop"
-msgstr ""
+msgstr "적룡찻집"
 
 #. ~ Sign
 #: lang/json/mapgen_from_json.py
@@ -62358,6 +62601,9 @@ msgid ""
 "injury to the attacker.  It uses defensive throws and disarms.  Damage done "
 "while using this technique is halved, but pain inflicted is doubled."
 msgstr ""
+"아이키도는 적에게 피해를 최소로 하며 자기 방어에 집중하는 일본의 무술입니다. "
+"호신술과 무장해제술를 이용합니다. 아이키도를 쓰면 적이 받는 피해량은 절반이 "
+"되지만 고통은 두 배가 됩니다. "
 
 #. ~ Description for martial art 'Muay Thai'
 #: lang/json/martial_art_from_json.py
@@ -62554,6 +62800,9 @@ msgid ""
 "rapid, precise attacks, blocks, and fluid movement.  A successful hit allows "
 "you an extra dodge and two extra blocks on the following round."
 msgstr ""
+"가라데는 대중적인 무술로 일본에서 기원했습니다. 속공, 정밀 공격, 방어 그리고 "
+"물흐르는 듯한 움직임을 강조합니다. 공격에 성공할 경우 다음 공격에 회피 카운"
+"터 1개와 방어 카운터 2개를 추가합니다."
 
 #: lang/json/martial_art_from_json.py
 msgid "Krav Maga"
@@ -62789,6 +63038,8 @@ msgid ""
 "Sport of the true Gentleman, modern boxing has evolved from the prizefights "
 "of the Victorian era."
 msgstr ""
+"빅토리아 시대에 처음 등장하여 지금까지 진화해 온 진정한 신사들의 스포츠, 복싱"
+"입니다."
 
 #. ~ Description of buff for martial art 'Taekwondo'
 #: lang/json/martial_art_from_json.py
@@ -69062,6 +69313,10 @@ msgid "basement"
 msgstr "지하실"
 
 #: lang/json/overmap_terrain_from_json.py
+msgid "basin"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
 msgid "bee hive"
 msgstr "벌 군락지"
 
@@ -69943,6 +70198,26 @@ msgstr ""
 "아이들이 대부분 싫어하는 스포츠를 가르치는 게 당신의 직업이었죠. 이제 아무리 "
 "호루라기를 불어도 주변의 좀비들은 운동장을 도는 것을 거부합니다."
 
+#. ~ Profession (female Veteran Bandit) description
+#: lang/json/professions_from_json.py
+msgctxt "prof_desc_female"
+msgid ""
+"After the cities exploded there was a whirlwind of looting; a firestorm of "
+"fear.  Men began to feed on men.  On the roads it was a white line "
+"nightmare.  Only those mobile enough to scavenge or brutal enough to pillage "
+"would survive.  You are one of the latter."
+msgstr ""
+
+#. ~ Profession (male Veteran Bandit) description
+#: lang/json/professions_from_json.py
+msgctxt "prof_desc_male"
+msgid ""
+"After the cities exploded there was a whirlwind of looting; a firestorm of "
+"fear.  Men began to feed on men.  On the roads it was a white line "
+"nightmare.  Only those mobile enough to scavenge or brutal enough to pillage "
+"would survive.  You are one of the latter."
+msgstr ""
+
 #: lang/json/professions_from_json.py
 msgctxt "profession_female"
 msgid "Ahistorical Reenactor"
@@ -70387,6 +70662,16 @@ msgstr "바이오닉 학생"
 
 #: lang/json/professions_from_json.py
 msgctxt "profession_female"
+msgid "Bionic Survivalist"
+msgstr ""
+
+#: lang/json/professions_from_json.py
+msgctxt "profession_male"
+msgid "Bionic Survivalist"
+msgstr ""
+
+#: lang/json/professions_from_json.py
+msgctxt "profession_female"
 msgid "Bionic Thief"
 msgstr "바이오닉 도적"
 
@@ -70540,12 +70825,12 @@ msgstr ""
 #: lang/json/professions_from_json.py
 msgctxt "profession_female"
 msgid "Camper"
-msgstr ""
+msgstr "캠핑 매니아"
 
 #: lang/json/professions_from_json.py
 msgctxt "profession_male"
 msgid "Camper"
-msgstr ""
+msgstr "캠핑 매니아"
 
 #: lang/json/professions_from_json.py
 msgctxt "profession_female"
@@ -70702,12 +70987,12 @@ msgstr "생체개조 중독자"
 #: lang/json/professions_from_json.py
 msgctxt "profession_female"
 msgid "Dark Priest"
-msgstr ""
+msgstr "검은 사제"
 
 #: lang/json/professions_from_json.py
 msgctxt "profession_male"
 msgid "Dark Priest"
-msgstr ""
+msgstr "검은 사제"
 
 #: lang/json/professions_from_json.py
 msgctxt "profession_female"
@@ -71121,6 +71406,8 @@ msgid ""
 "He From Beyond The Veil calls to you, to your brothers and sisters.  And the "
 "faithful, those who remain at least, shall bring him into this world."
 msgstr ""
+"장막 너머의 귀인이 그대와 형제자매들을 불렀다. 그리고 신실함을 지켜 남아있는 "
+"자들이여, 그를 이 세계로 강림시켜야 할 것이다."
 
 #. ~ Profession (male Dark Priest) description
 #: lang/json/professions_from_json.py
@@ -71129,6 +71416,8 @@ msgid ""
 "He From Beyond The Veil calls to you, to your brothers and sisters.  And the "
 "faithful, those who remain at least, shall bring him into this world."
 msgstr ""
+"장막 너머의 귀인이 그대와 형제자매들을 불렀다. 그리고 신실함을 지켜 남아있는 "
+"자들이여, 그를 이 세계로 강림시켜야 할 것이다."
 
 #. ~ Profession (female Hoplite) description
 #: lang/json/professions_from_json.py
@@ -71507,6 +71796,24 @@ msgstr "우체부"
 msgctxt "profession_male"
 msgid "Mail Carrier"
 msgstr "우체부"
+
+#. ~ Profession (female Bionic Survivalist) description
+#: lang/json/professions_from_json.py
+msgctxt "prof_desc_female"
+msgid ""
+"Mainly from paranoia, you augmented yourself, got some training and gear to "
+"go inawoods incase anything went down, well it did.  Now that civilization "
+"has fallen, the woods are your new home."
+msgstr ""
+
+#. ~ Profession (male Bionic Survivalist) description
+#: lang/json/professions_from_json.py
+msgctxt "prof_desc_male"
+msgid ""
+"Mainly from paranoia, you augmented yourself, got some training and gear to "
+"go inawoods incase anything went down, well it did.  Now that civilization "
+"has fallen, the woods are your new home."
+msgstr ""
 
 #: lang/json/professions_from_json.py
 msgctxt "profession_female"
@@ -72634,6 +72941,16 @@ msgstr "중고차 판매원"
 
 #: lang/json/professions_from_json.py
 msgctxt "profession_female"
+msgid "Veteran Bandit"
+msgstr ""
+
+#: lang/json/professions_from_json.py
+msgctxt "profession_male"
+msgid "Veteran Bandit"
+msgstr ""
+
+#: lang/json/professions_from_json.py
+msgctxt "profession_female"
 msgid "Viking"
 msgstr "바이킹"
 
@@ -72822,6 +73139,9 @@ msgid ""
 "sounded.  The world may be ruined, but you're prepared to make a home "
 "wherever you may find yourself."
 msgstr ""
+"모든 것이 변하기 전까지 산행을 가거나 자연 속에서 자길 좋아하던 당신은 사이렌"
+"이 울리자 볼 것도 없이 캠핑용품이 든 가방을 쥐었습니다. 세상이 자연으로 변했"
+"지만 전처럼 자기 위해서는 준비가 좀 필요할 것입니다."
 
 #. ~ Profession (male Camper) description
 #: lang/json/professions_from_json.py
@@ -72832,6 +73152,9 @@ msgid ""
 "sounded.  The world may be ruined, but you're prepared to make a home "
 "wherever you may find yourself."
 msgstr ""
+"모든 것이 변하기 전까지 산행을 가거나 자연 속에서 자길 좋아하던 당신은 사이렌"
+"이 울리자 볼 것도 없이 캠핑용품이 든 가방을 쥐었습니다. 세상이 자연으로 변했"
+"지만 전처럼 자기 위해서는 준비가 좀 필요할 것입니다."
 
 #. ~ Profession (female Commercial Cyborg) description
 #: lang/json/professions_from_json.py
@@ -74620,11 +74943,6 @@ msgstr "빵"
 msgid "BREW"
 msgstr "주류"
 
-#. ~ Crafting recipes subcategory of 'AMMO' category
-#: lang/json/recipe_category_from_json.py
-msgid "BULLETS"
-msgstr "총탄"
-
 #. ~ Crafting recipes subcategory of 'ELECTRONIC' category
 #: lang/json/recipe_category_from_json.py
 msgid "CBMS"
@@ -74774,10 +75092,20 @@ msgstr "면류"
 msgid "PIERCING"
 msgstr "관통무기"
 
+#. ~ Crafting recipes subcategory of 'AMMO' category
+#: lang/json/recipe_category_from_json.py
+msgid "PISTOL"
+msgstr ""
+
 #. ~ Crafting recipes subcategory of 'WEAPON' category
 #: lang/json/recipe_category_from_json.py
 msgid "RANGED"
 msgstr "원거리무기"
+
+#. ~ Crafting recipes subcategory of 'AMMO' category
+#: lang/json/recipe_category_from_json.py
+msgid "RIFLE"
+msgstr ""
 
 #. ~ Crafting recipes subcategory of 'AMMO' category
 #: lang/json/recipe_category_from_json.py
@@ -76838,6 +77166,19 @@ msgstr ""
 "절차가 필요하였습니다."
 
 #: lang/json/snippet_from_json.py
+msgid ""
+"Alertness comes somewhat fast, and your muscles stretch easier than before "
+"you went to bed."
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"Alertness seems flighty today, and your body argues when you move towards it."
+msgstr ""
+"몸이 잘 움직이다가 가끔 둔해진다. 둔해진 몸을 억지로 움직이자 몸이 삐걱거린"
+"다."
+
+#: lang/json/snippet_from_json.py
 msgid "Alright, drop the <yrwp>!"
 msgstr "빨리 <yrwp> 내려놔!"
 
@@ -76885,6 +77226,19 @@ msgid ""
 "Direct subcutaneous injection of XE037 quickly spreads through the body, and "
 "while it immediately enters stasis after equalizing, it remains in the body."
 msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"Awareness comes fast, your body coming quickly to attention after your rest."
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"Awareness seems to only come with a battle... and your body seem to be on "
+"its side."
+msgstr ""
+"고투 끝에 겨우 의식을 되찾을 수 있었다. 머리와는 달리 몸은 아직도 움직이고 싶"
+"지 않은 것 같다."
 
 #: lang/json/snippet_from_json.py
 msgid ""
@@ -76955,6 +77309,11 @@ msgstr ""
 "곰 덫은 탈출을 보장하는 좋은 수단 중 하나입니다. 출입구에 하나 설치해두면 거"
 "길 지나려고 시도했던 첫 번째 좀비가 걸려서 꼼짝 못 하게 될 것이고, 그 좀비가 "
 "입구를 막고 있으니 나머지 좀비들도 통과할 수 없게 되겠죠!"
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"Bleary-eyed and half-asleep, you consider why you are doing this to yourself."
+msgstr "비몽사몽하여 게슴츠레한 눈으로 왜 이 짓을 하고 있는지 생각했다."
 
 #: lang/json/snippet_from_json.py
 msgid ""
@@ -77390,6 +77749,29 @@ msgstr "이리로 오라고!"
 
 #: lang/json/snippet_from_json.py
 msgid ""
+"Getting out of bed doesn't seem too hard today.  You could get used to this!"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"Getting out of bed only comes with great difficulty, and your muscles resist "
+"the movement."
+msgstr ""
+"침대에서 나오는 일이 엄청나게 힘들었다. 움직일 때마다 근육이 저항하는 게 느껴"
+"진다."
+
+#: lang/json/snippet_from_json.py
+msgid "Getting up comes easy to you, your muscles revitalized after your rest."
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"Getting up seems like it should be easy, but all you want to do is go back "
+"to bed."
+msgstr "일어나긴 했지만, 당장에라도 다시 잠자리로 돌아가고 싶다."
+
+#: lang/json/snippet_from_json.py
+msgid ""
 "Given the current population projections, PE065 deployment is no longer "
 "feasible.  We simply haven't the stock.  Remaining chemical and "
 "psychopharmacological department assets are being assigned to Dr. Sattler's "
@@ -77706,7 +78088,7 @@ msgstr "나 곧 죽을거야"
 
 #: lang/json/snippet_from_json.py
 msgid "I'll just go to sleep, <okay>?"
-msgstr ""
+msgstr "나 지금 당장 자러 갈 거야, <okay>?"
 
 #: lang/json/snippet_from_json.py
 msgid "I'll kill you"
@@ -77714,7 +78096,7 @@ msgstr "너 죽여버릴거야"
 
 #: lang/json/snippet_from_json.py
 msgid "I'm <swear> hungry."
-msgstr ""
+msgstr "<swear>. 배고파 죽겠네."
 
 #: lang/json/snippet_from_json.py
 msgid "I'm <swear> thirsty."
@@ -77754,7 +78136,7 @@ msgstr "난 끝났어"
 
 #: lang/json/snippet_from_json.py
 msgid "I'm hungry..."
-msgstr ""
+msgstr "배고프다고..."
 
 #: lang/json/snippet_from_json.py
 msgid "I'm in <very> serious trouble"
@@ -78659,7 +79041,7 @@ msgstr "그럼 안녕, <name_b>야!"
 
 #: lang/json/snippet_from_json.py
 msgid "So, <name_g>, when we eatin'?"
-msgstr ""
+msgstr "이봐, <name_g>, 밥은 언제 먹지?"
 
 #: lang/json/snippet_from_json.py
 msgid ""
@@ -79371,6 +79753,12 @@ msgstr ""
 
 #: lang/json/snippet_from_json.py
 msgid ""
+"Tired hands rub at your eyes, the little aches of yesterday protesting your "
+"stretches."
+msgstr "지친 손으로 눈을 비비고, 기지개를 켜자 어제의 경미한 통증이 느껴진다."
+
+#: lang/json/snippet_from_json.py
+msgid ""
 "Today we applied a very small sample of XE037, suspended in water, to "
 "subject TP92, prior to necessary termination.  During the postmortem "
 "examination, the subject went through a revivification progress, but "
@@ -79611,6 +79999,12 @@ msgstr ""
 
 #: lang/json/snippet_from_json.py
 msgid ""
+"Within moments you're ready and up.  You don't feel like anything could stop "
+"you today!"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid ""
 "XE037 revivification has reached critical levels, which are rapidly "
 "overwhelming the available military and regional police assets' ability to "
 "stop.  Every team in the field has encountered hostile specimens, and "
@@ -79644,6 +80038,49 @@ msgid ""
 msgstr ""
 "장갑은 대부분의 경우 착용할 필요를 느끼지 못하겠지만, 장갑이 꼭 필요하다 싶"
 "은 순간이 가끔 올지도 모릅니다."
+
+#: lang/json/snippet_from_json.py
+msgid "You feel awful, and every ache from yesterday is still there."
+msgstr "기분이 끔찍하다. 어제의 고통이 아직도 남아있다."
+
+#: lang/json/snippet_from_json.py
+msgid "You feel cruddy.  Maybe you should consider eating a bit healthier."
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "You feel extra alert, and your body feels ready to go."
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "You feel good.  Healthy living does seem to have some rewards."
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"You feel great! It doesn't seem like wounds could even slow you down for "
+"more than a day."
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"You feel like a rubber ball; whatever hits you, you'll just bounce back!"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"You get up feeling horrible, as if something was messing with your body."
+msgstr ""
+"끔찍한 기분으로 일어났다. 마치 뭔가가 몸을 엉망으로 만들고 있는 것 같다."
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"You get up feeling pretty good, as if all your little aches were fading "
+"faster."
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "You get up with a bit of a scratch in your throat."
+msgstr "일어나니 목이 따끔거린다."
 
 #: lang/json/snippet_from_json.py
 msgid ""
@@ -79682,6 +80119,60 @@ msgstr "움직여줘야겠어, <name_g>. <okay>?"
 #: lang/json/snippet_from_json.py
 msgid "You okay, <name_g>?"
 msgstr "왜 그래 <name_g>?"
+
+#: lang/json/snippet_from_json.py
+msgid "You stretch, but your muscles don't seem to be doing so good today."
+msgstr "기지개를 켜보았지만, 오늘은 별로 개운하지 않다."
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"You struggle to awareness.  Being awake seems somewhat harder to reach today."
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"You're up and going rather quickly, and all the little aches from yesterday "
+"are gone."
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"You're up and you feel fantastic.  No sickness is going to keep you down "
+"today!"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"You're up and your little pains from before seem to have faded away rather "
+"quickly."
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "You're up, but your body seems like it would rather stay in bed."
+msgstr "일어나긴 했지만 몸은 아직도 침대에 있고 싶어하는 것 같다."
+
+#: lang/json/snippet_from_json.py
+msgid "Your body stretches with ease, and you feel ready to take on the world."
+msgstr "몸이 쭉쭉 잘 뻗는다. 세상에 다시 나갈 준비가 된 것 같다."
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"Your eyes open and your entire body feels like it is just bursting with "
+"energy to burn!"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"Your eyes struggle to open, and your muscles ache like you didn't sleep at "
+"all."
+msgstr ""
+"눈을 힘겹게 뜨고 일어나자, 마치 한숨도 못 잔 것처럼 근육에서 통증이 느껴진다."
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"Your stomach gurgles.  It's probably nothing, but maybe you should look into "
+"eating something healthy."
+msgstr ""
 
 #: lang/json/snippet_from_json.py
 msgid ""
@@ -80261,7 +80752,7 @@ msgstr "\"이쪽으로 오시죠!\""
 
 #: lang/json/speech_from_json.py
 msgid "\"Come play with me!\""
-msgstr ""
+msgstr "\"이리와서 나랑 놀자!\""
 
 #: lang/json/speech_from_json.py
 msgid "\"Damn it!\""
@@ -80692,7 +81183,7 @@ msgstr ""
 
 #: lang/json/speech_from_json.py
 msgid "\"I was once a man.  A MAN!\""
-msgstr ""
+msgstr "\"난 원래 인간이었어. 인간!\""
 
 #: lang/json/speech_from_json.py
 msgid "\"I watched a snail crawl along the edge of a straight razor.\""
@@ -80848,7 +81339,7 @@ msgstr "\"우릴 똑바로 쳐다보고 있어.\""
 
 #: lang/json/speech_from_json.py
 msgid "\"It's me.\""
-msgstr ""
+msgstr "\"나야.\""
 
 #: lang/json/speech_from_json.py
 msgid "\"It's parroting us, but we're uncertain as to how or why.\""
@@ -80896,7 +81387,7 @@ msgstr "\"파티하자!\""
 
 #: lang/json/speech_from_json.py
 msgid "\"Let's eat!\""
-msgstr ""
+msgstr "\"같이 먹자!\""
 
 #: lang/json/speech_from_json.py
 msgid "\"Let's play!\""
@@ -81148,7 +81639,7 @@ msgstr ""
 
 #: lang/json/speech_from_json.py
 msgid "\"So . . . itchy\""
-msgstr ""
+msgstr "\"너무. . .가려워\""
 
 #: lang/json/speech_from_json.py
 msgid "\"So tired . . .\""
@@ -81465,7 +81956,7 @@ msgstr ""
 
 #: lang/json/speech_from_json.py
 msgid "\"You! Come here!\""
-msgstr ""
+msgstr "\"너! 이쪽으로 오라고!\""
 
 #: lang/json/speech_from_json.py
 msgid "\"You're gonna rot in hell for this!\""
@@ -81857,7 +82348,7 @@ msgstr "내가 도울 수 있는 일이 있을까?"
 
 #: lang/json/talk_topic_from_json.py
 msgid "Anything I can help with?"
-msgstr ""
+msgstr "내가 뭐 도울 것 없을까?"
 
 #: lang/json/talk_topic_from_json.py
 msgid ""
@@ -81887,6 +82378,9 @@ msgid ""
 "though.  Full up as hell; it's almost a crowd downstairs.  See the trader "
 "over there?  There's the one to ask."
 msgstr ""
+"나도 마찬가지야. 그렇다고. 그래도 난 우리가 헤프게 굴어선 안 된다 생각해. 지"
+"옥처럼 북적거리거든; 아래층은 더 심해. 저기 있는 상인 보여? 그 사람하고 얘기"
+"해봐."
 
 #: lang/json/talk_topic_from_json.py
 msgid ""
@@ -81896,11 +82390,11 @@ msgstr ""
 
 #: lang/json/talk_topic_from_json.py src/npctalk.cpp
 msgid "Heard anything about the outside world?"
-msgstr "바깥 소식 좀 들은 거 있어?"
+msgstr "바깥소식 좀 들은 거 있어?"
 
 #: lang/json/talk_topic_from_json.py
 msgid "Heh, you look important."
-msgstr "에, 넌 중요한 사람처럼 보이는데."
+msgstr "헤. 넌 뭐 좀 할 사람 같아 보이는데?"
 
 #: lang/json/talk_topic_from_json.py src/npctalk.cpp
 msgid "Hello marshal."
@@ -81925,6 +82419,10 @@ msgid ""
 "the pile of rebar for sale, that's probably me.  They've kept me well off in "
 "exchange, I guess.  I'll sell you a Molotov Cocktail or two, if you want."
 msgstr ""
+"\"난 건물에 불을 지르고 자유상인연합에 물건을 팔지. 어, 진짜야. 네가 교외에 "
+"있던 불에 탄 잔해를 발견하고, 또 그 철근 무더기가 매물이라면, 그거 내가 한걸 "
+"거야. 그 대가로 난 먹고사는 거니깐. 만약 네가 원한다면, 몰로토프 칵테일(화염"
+"병) 한두 병 팔 수도 있어."
 
 #: lang/json/talk_topic_from_json.py
 msgid ""
@@ -81933,6 +82431,10 @@ msgid ""
 "doesn't want me here when I'm not selling, but... some people get away with "
 "it."
 msgstr ""
+"잘은 몰라. 내 생각엔, 너 스스로 쓸모 있어지면 될지도. 물론 요즘엔 뭐 하나 확"
+"실한 것이 없지만, 그건 네가 누구에게 묻느냐에 달렸겠지. 내가 더 팔 게 없어지"
+"면 저 상인은 분명히 내가 더 머무는 것을 원하지 않겠지만... 어떤 사람들은 그"
+"런 상황을 모면하기도 해."
 
 #: lang/json/talk_topic_from_json.py
 msgid "I don't like your attitude."
@@ -81960,7 +82462,7 @@ msgstr ""
 
 #: lang/json/talk_topic_from_json.py
 msgid "I'm actually new."
-msgstr ""
+msgstr "난 여기 처음이야."
 
 #: lang/json/talk_topic_from_json.py
 msgid ""
@@ -81972,7 +82474,7 @@ msgstr ""
 
 #: lang/json/talk_topic_from_json.py src/npctalk.cpp
 msgid "Is there any way I can join your group?"
-msgstr ""
+msgstr "당신네 그룹에 들어갈 방법이 있어?"
 
 #: lang/json/talk_topic_from_json.py
 msgid "Is there anything I can do to help?"
@@ -81998,6 +82500,9 @@ msgid ""
 "there, and everyone with a radio seems to feel like documenting their last "
 "awful moments."
 msgstr ""
+"비상대피소는 현재 대부분 와해 되었어. 도시는 좀비들로 부글대고, 숲 속에서 조"
+"차 놈들의 눈깔이 번들대지. 이 밖은 다 그렇게 미쳐 돌아가고, 라디오(무전기)를 "
+"가진 모두는 사람들의 끔찍한 종말을 함께 체험하곤 해."
 
 #: lang/json/talk_topic_from_json.py src/npctalk.cpp
 msgid "Nope."
@@ -82008,6 +82513,8 @@ msgid ""
 "Nothing optimistic, at least.  Had a pal on the road with a ham radio, but "
 "she's gone and so is that thing.  Kaput."
 msgstr ""
+"그리 낙관적이진 않아. 전에 도롯가에서 단파 라디오로 송신이 왔었는데, 가보니 "
+"아무도 없고, 그냥 고장이었던 거야."
 
 #: lang/json/talk_topic_from_json.py
 msgid "Nothing optimistic?"
@@ -82072,8 +82579,8 @@ msgstr "물어봐서 미안"
 #: lang/json/talk_topic_from_json.py
 msgid "Ssh.  Some people in here hate... mutations.  This was an accident."
 msgstr ""
-"쉿. 여기있는 사람들 중 일부는... 돌연변이를 매우 싫어해. 난 어떤 사고 때문에 "
-"이렇게 됐지."
+"쉿. 여기 있는 사람 중 일부는... 돌연변이를 매우 싫어해. 내 귀는 사고 때문이었"
+"는데도 말이지."
 
 #: lang/json/talk_topic_from_json.py
 msgid ""
@@ -82094,7 +82601,7 @@ msgstr ""
 
 #: lang/json/talk_topic_from_json.py
 msgid "That sure is a shiny badge you got there!"
-msgstr ""
+msgstr "너 번쩍거리는 배지를 달고 있네?"
 
 #: lang/json/talk_topic_from_json.py
 msgid ""
@@ -82135,7 +82642,7 @@ msgstr ""
 
 #: lang/json/talk_topic_from_json.py src/npctalk.cpp
 msgid "Well, bye."
-msgstr "음, 안녕."
+msgstr "잘 있어."
 
 #: lang/json/talk_topic_from_json.py
 msgid "Well, then..."
@@ -82150,10 +82657,14 @@ msgid ""
 "few of those monsters seem to be able to break through a fence or wall "
 "constructed with the stuff."
 msgstr ""
+"아. 요 아래층에 공기압 대포를 주무르는 녀석이 있지. 그건 철근을 말이야, 소리"
+"도 없이 대포처럼 쏴 갈겨. 효율로 따지자면 끝내주지. 네가 만들 수 있는 즉석 무"
+"기들 같은 부족함도 없어. 더 대단한 건 말이지, 그걸로 요새화를 진행 중인 거 같"
+"단 거야. 괴물들 중 그게 설치된 벽이나 울타리를 뚫고 올 놈은 거의 없을걸?"
 
 #: lang/json/talk_topic_from_json.py src/npctalk.cpp
 msgid "What are you doing here?"
-msgstr ""
+msgstr "넌 여기서 뭐하고 있어?"
 
 #: lang/json/talk_topic_from_json.py
 msgid "What do you trade?"
@@ -82165,11 +82676,11 @@ msgstr "여기는 뭐하는 곳이지?"
 
 #: lang/json/talk_topic_from_json.py
 msgid "What's with your ears?"
-msgstr "네 귀는 왜그런거야?"
+msgstr "네 귀는 왜 그래?"
 
 #: lang/json/talk_topic_from_json.py
 msgid "Whatever, I had another question."
-msgstr ""
+msgstr "뭐 어쨌던, 다른 질문이 있어."
 
 #: lang/json/talk_topic_from_json.py
 msgid "Who are the Old Guard?"
@@ -83723,6 +84234,10 @@ msgid "closed metal door with peephole"
 msgstr ""
 
 #: lang/json/terrain_from_json.py
+msgid "closed reinforced glass door"
+msgstr ""
+
+#: lang/json/terrain_from_json.py
 msgid "closed reinforced wood door"
 msgstr "닫힌 강화 나무 문"
 
@@ -84184,6 +84699,10 @@ msgstr "열린 금속 문"
 
 #: lang/json/terrain_from_json.py
 msgid "open metal door with peephole"
+msgstr ""
+
+#: lang/json/terrain_from_json.py
+msgid "open reinforced  glass door"
 msgstr ""
 
 #: lang/json/terrain_from_json.py
@@ -85624,7 +86143,7 @@ msgstr "통로"
 msgid "aisle curtain"
 msgstr "통로 커튼"
 
-#: lang/json/vehicle_part_from_json.py
+#: lang/json/vehicle_part_from_json.py src/vehicle.cpp
 msgid "aisle lights"
 msgstr "통로 조명"
 
@@ -85688,7 +86207,7 @@ msgstr "화물 적재고"
 msgid "casters"
 msgstr "다리 바퀴"
 
-#: lang/json/vehicle_part_from_json.py
+#: lang/json/vehicle_part_from_json.py src/vehicle.cpp
 msgid "chimes"
 msgstr "차임벨"
 
@@ -86228,7 +86747,7 @@ msgstr "지붕"
 msgid "rotary speargun"
 msgstr "회전식 작살총"
 
-#: lang/json/vehicle_part_from_json.py
+#: lang/json/vehicle_part_from_json.py src/vehicle.cpp
 msgid "scoop"
 msgstr ""
 
@@ -86490,7 +87009,7 @@ msgstr "고속도로 위의 차량"
 
 #: lang/json/vitamin_from_json.py
 msgid "Calcium"
-msgstr ""
+msgstr "칼슘"
 
 #: lang/json/vitamin_from_json.py
 msgid "Vitamin A"
@@ -87584,7 +88103,12 @@ msgstr "무게"
 
 #: src/armor_layers.cpp
 #, c-format
-msgid "%s says: I don't trust you enough to let you do that!"
+msgid "%s is not friendly!"
+msgstr ""
+
+#: src/armor_layers.cpp
+#, c-format
+msgid "%s is too far to sort armor."
 msgstr ""
 
 #: src/armor_layers.cpp
@@ -87609,7 +88133,7 @@ msgstr "타격:"
 
 #: src/armor_layers.cpp
 msgid "Can't put this on"
-msgstr ""
+msgstr "이것을 입을 수 없다."
 
 #: src/armor_layers.cpp
 msgid "Coverage:"
@@ -88481,14 +89005,6 @@ msgid "<Enter>-Edit"
 msgstr "<Enter>수정"
 
 #: src/auto_pickup.cpp
-msgid "<Exclude>E"
-msgstr "<제외>E"
-
-#: src/auto_pickup.cpp
-msgid "<Include>I"
-msgstr "<포함>I"
-
-#: src/auto_pickup.cpp
 msgid "<M>ove"
 msgstr "<M>이동"
 
@@ -88520,6 +89036,10 @@ msgstr "자동 줍기 설정:"
 msgid "Autopickup is not enabled in the options. Enable it now?"
 msgstr "자동 줍기 설정이 켜져 있지 않습니다. 지금 설정할까요?"
 
+#: src/auto_pickup.cpp
+msgid "Exclude"
+msgstr ""
+
 #: src/auto_pickup.cpp src/options.cpp
 msgid "False"
 msgstr "끔"
@@ -88527,6 +89047,10 @@ msgstr "끔"
 #: src/auto_pickup.cpp
 msgid "I/E"
 msgstr "I/E"
+
+#: src/auto_pickup.cpp
+msgid "Include"
+msgstr ""
 
 #: src/auto_pickup.cpp
 msgid "Pickup Rule:"
@@ -88813,6 +89337,10 @@ msgid "Some of your existing bionics are lost!"
 msgstr "가지고 있는 바이오닉 중 몇몇이 사라졌습니다!"
 
 #: src/bionics.cpp
+msgid "Something went terribly wrong, you mutate!"
+msgstr ""
+
+#: src/bionics.cpp
 msgid "Start a fire where?"
 msgstr "어디에 불을 피웁니까?"
 
@@ -88931,10 +89459,6 @@ msgstr "당신은 생각을 바꾸고는 그것을 껐습니다."
 #, c-format
 msgid "You deactivate your %s."
 msgstr "%s을(를) 정지시켰다."
-
-#: src/bionics.cpp
-msgid "You do damage to your genetics, causing mutation!"
-msgstr "유전자가 손상되어 돌연변이가 일어났다!"
 
 #: src/bionics.cpp
 #, c-format
@@ -90111,11 +90635,6 @@ msgstr "접근 코드가 필요합니다!"
 msgid "Access is temporary blocked for security purposes."
 msgstr "보안 목적으로 인해 접근이 일시적으로 차단됨."
 
-#: src/computer.cpp src/iexamine.cpp src/iuse.cpp src/iuse_actor.cpp
-#: src/map.cpp
-msgid "An alarm sounds!"
-msgstr "경보음이 울린다!"
-
 #: src/computer.cpp
 msgid "Backup Generator Power Failing"
 msgstr ""
@@ -90700,6 +91219,11 @@ msgstr "감전으로부터 보호되었다."
 msgid "Your body is damaged by the electric shock!"
 msgstr "신체가 감전되어서 피해를 입었다!"
 
+#: src/computer.cpp src/iexamine.cpp src/iuse.cpp src/iuse_actor.cpp
+#: src/map.cpp
+msgid "an alarm sound!"
+msgstr ""
+
 #: src/construction.cpp
 msgid " Construction "
 msgstr " 건설 "
@@ -91274,6 +91798,11 @@ msgstr "%s이(가) 제작을 도울 수 있다..."
 
 #: src/crafting.cpp
 #, c-format
+msgid "%s helps with crafting..."
+msgstr ""
+
+#: src/crafting.cpp
+#, c-format
 msgid "%s watches you craft..."
 msgstr "%s이(가) 제작하는 것을 지켜본다..."
 
@@ -91302,7 +91831,7 @@ msgstr ""
 msgid "N/A"
 msgstr "해당없음"
 
-#: src/crafting.cpp src/game.cpp src/iexamine.cpp src/item.cpp src/iuse.cpp
+#: src/crafting.cpp src/game.cpp src/iexamine.cpp src/iuse.cpp
 #: src/iuse_actor.cpp src/npctalk.cpp src/pickup.cpp src/player.cpp
 #: src/veh_interact.cpp
 msgid "Never mind."
@@ -91480,7 +92009,7 @@ msgstr "어려움"
 
 #: src/crafting_gui.cpp
 msgid "Impossible"
-msgstr "불가능함"
+msgstr "불가능"
 
 #: src/crafting_gui.cpp
 msgid "NONCRAFT"
@@ -94112,7 +94641,7 @@ msgstr "전자기 구름에 영향을 받지 않았다."
 
 #: src/field.cpp
 msgid "The electric cloud doesn't seem to affect <npcname>."
-msgstr ""
+msgstr "<npcname>은(는) 전자기 구름에 영향을 받지 않았다."
 
 #: src/field.cpp
 msgid "The incendiary burns <npcname>!"
@@ -95821,11 +96350,6 @@ msgid "Read:"
 msgstr "읽기:"
 
 #: src/game.cpp
-#, c-format
-msgid "Really attack %s?"
-msgstr "정말로 %s을(를) 공격합니까?"
-
-#: src/game.cpp
 msgid "Really kill the zombie slave?"
 msgstr "정말로 노예 좀비를 죽이겠습니까?"
 
@@ -95833,11 +96357,6 @@ msgstr "정말로 노예 좀비를 죽이겠습니까?"
 #, c-format
 msgid "Really step into %s?"
 msgstr ""
-
-#: src/game.cpp
-#, c-format
-msgid "Really step onto that %s?"
-msgstr "정말로 %s에 발을 내딛습니까?"
 
 #: src/game.cpp
 msgid "Reassign item:"
@@ -96274,6 +96793,11 @@ msgstr "%s이(가) 마치 이 근방을 살피듯이 잠깐동안 공중을 선�
 
 #: src/game.cpp
 #, c-format
+msgid "The %s is already empty!"
+msgstr ""
+
+#: src/game.cpp
+#, c-format
 msgid "The %s is already fully loaded!"
 msgstr "%s은(는) 이미 장전되어 있다!"
 
@@ -96281,6 +96805,16 @@ msgstr "%s은(는) 이미 장전되어 있다!"
 #, c-format
 msgid "The %s is firmly sealed."
 msgstr "%s은(는) 단단히 봉해져 있다."
+
+#: src/game.cpp
+#, c-format
+msgid "The %s is not powered."
+msgstr "%s의 동력이 없다."
+
+#: src/game.cpp
+#, c-format
+msgid "The %s is out of ammo."
+msgstr "%s의 탄약이 다 떨어졌다."
 
 #: src/game.cpp
 #, c-format
@@ -96890,11 +97424,6 @@ msgid "You can't grab things while you're in your shell."
 msgstr ""
 
 #: src/game.cpp
-#, c-format
-msgid "You can't move %s while standing on it!"
-msgstr "그 위에 선 채로는 %s을(를) 옮길 수 없다!"
-
-#: src/game.cpp
 msgid "You can't move mass quantities while you're in your shell."
 msgstr ""
 
@@ -97026,8 +97555,8 @@ msgid "You dive underwater!"
 msgstr "물속으로 뛰어들었다!"
 
 #: src/game.cpp
-msgid "You don't have a sharp item to butcher with."
-msgstr "도축할 만큼 날카로운 물건이 없다."
+msgid "You don't have a butchering tool."
+msgstr ""
 
 #: src/game.cpp
 msgid "You don't have any items to throw."
@@ -99885,7 +100414,7 @@ msgstr "졌습니다."
 
 #: src/iexamine.cpp
 msgid "Not enough money, please refill your cash card."
-msgstr "금액이 부족합니다. 충분한 금액을 입금한 뒤 사용해주십시오."
+msgstr "현금 부족, 현금 카드를 충전해 주세요."
 
 #: src/iexamine.cpp
 msgid "Nothing legible on the sign."
@@ -100317,7 +100846,7 @@ msgstr[0] "얼마를 이체합니까? 최대: %d 센트. (0 입력시 취소됨)
 
 #: src/iexamine.cpp
 msgid "Unable to refund, no fuel in pump."
-msgstr "펌프에 연료가 없어 환불이 불가능합니다."
+msgstr "펌프에 연료가 없어 환불이 불가능하다."
 
 #: src/iexamine.cpp
 msgid "Use electrohack?"
@@ -100418,7 +100947,7 @@ msgstr "잔액이 있는 현금 카드로만 이체가 가능합니다!"
 
 #: src/iexamine.cpp
 msgid "You can't climb down there"
-msgstr ""
+msgstr "여기선 아래로 내려갈 수 없다"
 
 #: src/iexamine.cpp
 msgid "You can't crack a safe while deaf!"
@@ -100506,7 +101035,7 @@ msgstr "표지판에 그래피티를 남겼다."
 
 #: src/iexamine.cpp
 msgid "You hack the terminal and route all available fuel to your pump!"
-msgstr "단말기를 해킹하고 모든 연료를 펌프로 보냈습니다!"
+msgstr "단말기를 해킹하고 모든 연료를 펌프로 보냈다!"
 
 #: src/iexamine.cpp
 msgid "You have no brew to ferment."
@@ -100539,7 +101068,7 @@ msgstr "표지판을 그냥 내버려 두었다."
 
 #: src/iexamine.cpp
 msgid "You may have problems climbing back up. Climb down?"
-msgstr ""
+msgstr "내려가면 올라오기 어려울것 같습니다. 내려갑니까?"
 
 #: src/iexamine.cpp
 msgid "You mess with the dial for a little bit."
@@ -100643,11 +101172,13 @@ msgstr "구덩이에 나무판을 올렸습니다."
 
 #: src/iexamine.cpp
 msgid "You probably won't be able to get back up. Climb down?"
-msgstr ""
+msgstr "내려가면 다시 올라올 수 없을것 같습니다. 내려갑니까?"
 
 #: src/iexamine.cpp
 msgid "You probably won't be able to get up and jumping down may hurt. Jump?"
 msgstr ""
+"내려가면 다시 올라올 수 없을 것 같고, 뛰어 내리면 다칠 수도 있습니다. 뛰어 내"
+"립니까?"
 
 #: src/iexamine.cpp
 msgid "You quickly scale the fence."
@@ -100675,7 +101206,7 @@ msgstr "나중에 쓰기 위해 씨앗을 보관해두었습니다."
 msgid ""
 "You should be able to climb back up easily if you climb down there. Climb "
 "down?"
-msgstr ""
+msgstr "내려가면 쉽게 올라올 수 있을것 같습니다. 내려갑니까?"
 
 #: src/iexamine.cpp
 msgid "You slide right between the bars."
@@ -100727,7 +101258,7 @@ msgstr ""
 #, c-format
 msgid "Your cash card now holds %d cent."
 msgid_plural "Your cash card now holds %d cents."
-msgstr[0] "현금 카드에 남은 잔액은 %d 센트입니다."
+msgstr[0] "현금 카드에 남은 잔액은 %d 센트다."
 
 #: src/iexamine.cpp
 msgid "Your clumsy attempt jams the lock!"
@@ -100821,7 +101352,7 @@ msgstr ""
 #: src/input.cpp
 #, c-format
 msgid "This key is already used for %s."
-msgstr ""
+msgstr "이 키는 이미 %s로 사용하고 있습니다."
 
 #: src/input.cpp
 msgid "Unbound keys"
@@ -100861,7 +101392,7 @@ msgstr ""
 #: src/inventory_ui.cpp
 #, c-format
 msgid "%s %s"
-msgstr ""
+msgstr "%s %s"
 
 #: src/inventory_ui.cpp
 msgid "(NONE)"
@@ -101006,7 +101537,7 @@ msgstr "베기 피해 %d (치명타 시 %d)"
 #: src/item.cpp
 #, c-format
 msgid "%d moves per attack"
-msgstr ""
+msgstr "공격당 행동력 소모 %d"
 
 #: src/item.cpp
 #, c-format
@@ -101017,12 +101548,6 @@ msgstr "관통 피해 %d (치명타 시 %d)"
 #, c-format
 msgid "%d x %s"
 msgstr "%d x %s"
-
-#. ~ magazine with ammo (count)
-#: src/item.cpp
-#, c-format
-msgid "%s with %s (%d)"
-msgstr ""
 
 #. ~ %1$s is the name of a fault and %2$s is the description of the fault
 #: src/item.cpp
@@ -101046,7 +101571,7 @@ msgstr ""
 #: src/item.cpp
 #, c-format
 msgid "* It will be activated by the %s radio signal."
-msgstr ""
+msgstr "* %s 라디오 신호로 작동된다."
 
 #: src/item.cpp
 msgid "* On closer inspection, this appears to be <bad>poisonous</bad>."
@@ -101097,7 +101622,7 @@ msgstr "* 이 음식에는 <good>인육</good>.이 들어 있습니다."
 
 #: src/item.cpp
 msgid "* This food is <bad>tainted</bad> and will poison you."
-msgstr ""
+msgstr "* 이 음식은 <bad>오염</bad>되어 중독될 수 있습니다."
 
 #: src/item.cpp
 msgid ""
@@ -101257,7 +101782,7 @@ msgstr ""
 
 #: src/item.cpp
 msgid "* This piece of clothing can be used to block attacks when worn."
-msgstr ""
+msgstr "* 이 의류는 착용시 공격을 막을 수 있다."
 
 #: src/item.cpp
 msgid ""
@@ -101362,6 +101887,8 @@ msgid ""
 "* This tool has a <info>rechargeable power cell</info> and is <neutral>not "
 "compatible</neutral> with <info>standard batteries</info>."
 msgstr ""
+"* 이 도구는 <info>재충전 배터리를 </info> 사용하며 <info>표준 배터리</info>"
+"와 <neutral>호환 되지 않는다</neutral>."
 
 #: src/item.cpp
 msgid ""
@@ -101381,8 +101908,16 @@ msgstr ""
 "</info>와 <neutral>호환이 불가능</neutral>하다."
 
 #: src/item.cpp
-msgid "* This weapon needs <info>two free hands</info> to fire."
+msgid "* This weapon <bad>conducts</bad> electricity."
 msgstr ""
+
+#: src/item.cpp
+msgid "* This weapon <good>does not conduct</good> electricity."
+msgstr ""
+
+#: src/item.cpp
+msgid "* This weapon needs <info>two free hands</info> to fire."
+msgstr "* 이 무기는 사격하려면 <info>양손이 비어 있어야</info>한다."
 
 #: src/item.cpp
 msgid ""
@@ -101411,8 +101946,16 @@ msgid "*%s*"
 msgstr "*%s*"
 
 #: src/item.cpp
+msgid "++"
+msgstr "++"
+
+#: src/item.cpp
+msgid ".."
+msgstr ".."
+
+#: src/item.cpp
 msgid "<bold>Capacity:</bold> "
-msgstr ""
+msgstr "<bold>용량:</bold> "
 
 #: src/item.cpp
 #, c-format
@@ -101428,16 +101971,20 @@ msgid "<bold>Damage</bold>: "
 msgstr "<bold>피해량</bold>: "
 
 #: src/item.cpp
+msgid "<bold>Effective range: </bold>"
+msgstr ""
+
+#: src/item.cpp
 msgid "<bold>Encumbrance</bold>: "
 msgstr "<bold>방해도</bold>: "
 
 #: src/item.cpp
 msgid "<bold>Fire modes:</bold> "
-msgstr ""
+msgstr "<bold>사격 방식:</bold> "
 
 #: src/item.cpp
 msgid "<bold>Minimum requirements:</bold>"
-msgstr ""
+msgstr "<bold>최소 요구:</bold>"
 
 #: src/item.cpp
 msgid "<bold>Mods:<bold> "
@@ -101470,10 +102017,6 @@ msgstr "<dam_adj>정밀화 "
 #: src/item.cpp
 msgid "<dam_adj>bruised "
 msgstr "<dam_adj>상처난 "
-
-#: src/item.cpp
-msgid "<dam_adj>bugged "
-msgstr "<dam_adj>오작동 "
 
 #: src/item.cpp
 msgid "<dam_adj>damaged "
@@ -101575,7 +102118,7 @@ msgstr "<stat>허리</stat>. "
 #: src/item.cpp
 #, c-format
 msgid "<veh_adj>%2.1fL "
-msgstr ""
+msgstr "<veh_adj>%2.1fL "
 
 #: src/item.cpp
 #, c-format
@@ -101610,7 +102153,7 @@ msgstr "탄약: <stat>%s</stat>"
 
 #: src/item.cpp
 msgid "Ammunition: "
-msgstr ""
+msgstr "탄약: "
 
 #: src/item.cpp
 msgid "Armor-pierce: "
@@ -101626,7 +102169,7 @@ msgstr "청)"
 
 #: src/item.cpp
 msgid "Barter value: "
-msgstr ""
+msgstr "거래 가치:"
 
 #: src/item.cpp
 msgid "Bash: "
@@ -101643,11 +102186,17 @@ msgstr "<info>%s 기술</info>을 <num> 수준까지 올릴 수 있다."
 
 #: src/item.cpp
 msgid "Capacity: "
-msgstr ""
+msgstr "용량:"
 
 #: src/item.cpp
 msgid "Category: "
 msgstr "분류: "
+
+#: src/item.cpp
+#, c-format
+msgid "Contains <stat>%i</stat> casing"
+msgid_plural "Contains <stat>%i</stat> casings"
+msgstr[0] ""
 
 #: src/item.cpp
 msgid "Contains items with qualities:"
@@ -101711,7 +102260,7 @@ msgstr "<info>한 다리</info>. "
 #: src/item.cpp
 #, c-format
 msgid "Eject %s from %s?"
-msgstr ""
+msgstr "%s을(를) %s에서 빼냅니까?"
 
 #: src/item.cpp
 msgid "Enjoyability: "
@@ -101824,6 +102373,10 @@ msgid_plural "Maximum <num> charges."
 msgstr[0] "최대 충전량: <num>"
 
 #: src/item.cpp
+msgid "Maximum range: "
+msgstr ""
+
+#: src/item.cpp
 msgid "Mod: "
 msgstr "개조: "
 
@@ -101846,11 +102399,6 @@ msgstr "맙소사, 들고 있던 시체가 움직이기 시작했다!"
 #: src/item.cpp
 msgid "Oh dear god, a robot you're carrying has started moving!"
 msgstr "맙소사, 들고 있던 로봇이 움직이기 시작했다!"
-
-#: src/item.cpp
-#, c-format
-msgid "Out of %s!"
-msgstr "%s이(가) 부족하다!"
 
 #: src/item.cpp
 msgid "Pierce: "
@@ -101889,11 +102437,6 @@ msgid "Recoil: "
 msgstr "반동: "
 
 #: src/item.cpp
-#, c-format
-msgid "Reload %s"
-msgstr ""
-
-#: src/item.cpp
 msgid "Reload time: "
 msgstr "재장전 시간: "
 
@@ -101915,7 +102458,7 @@ msgstr "풍기는 냄새: "
 
 #: src/item.cpp
 msgid "Some sort of <info>martial arts training manual</info>."
-msgstr ""
+msgstr "일종의 <info>무술 훈련 도감</info>이다."
 
 #: src/item.cpp
 msgid "Stab: "
@@ -101954,7 +102497,7 @@ msgstr "%1$s을(를) %2$s에 사용할수 없다."
 #: src/item.cpp
 #, c-format
 msgid "That %1$s won't hold %2$s."
-msgstr "%1$s에는 %2$s을(를) 넣을 수 없다."
+msgstr "%1$s에 %2$s을(를) 넣을 수 없다."
 
 #: src/item.cpp
 #, c-format
@@ -101984,7 +102527,7 @@ msgstr "%s에는 물을 담을 수 없다."
 #: src/item.cpp
 #, c-format
 msgid "That %s must be on the ground or held to hold contents!"
-msgstr ""
+msgstr "내용물을 꺼내려면 %s을(를) 땅에 두거나 손에 들고 있어야한다."
 
 #: src/item.cpp
 msgid "The <info>arms</info>. "
@@ -102061,11 +102604,11 @@ msgstr "%s은(는) 신뢰성이 충분하기 때문에, 더이상 성능을 개�
 
 #: src/item.cpp
 msgid "This ammo <good>never misfires</good>"
-msgstr ""
+msgstr "이 탄약은 <good>절대 오발하지 않습니다</good>"
 
 #: src/item.cpp
 msgid "This ammo <neutral>starts fires</neutral>"
-msgstr ""
+msgstr "이 탄약은 <neutral>화재를 일으킵니다</neutral>"
 
 #: src/item.cpp
 msgid "This ammo has been <bad>hand-loaded</bad>"
@@ -102073,7 +102616,7 @@ msgstr ""
 
 #: src/item.cpp
 msgid "This bionic is installed in the following body part(s):"
-msgstr ""
+msgstr "이 바이오닉은 다음 신체 부분에 설치됨:"
 
 #: src/item.cpp src/player.cpp
 #, c-format
@@ -102150,7 +102693,7 @@ msgstr "다음에 사용됨: "
 #, c-format
 msgid "Uses <stat>%i</stat> charge of UPS per shot"
 msgid_plural "Uses <stat>%i</stat> charges of UPS per shot"
-msgstr[0] ""
+msgstr[0] "발당 UPS 충전량 <stat>%i</stat> 사용"
 
 #: src/item.cpp src/iuse_actor.cpp
 msgid "Vitamins (RDA): "
@@ -102219,13 +102762,8 @@ msgstr "이 모드를 설치하기 전에 %s을(를) 제거해야 합니다."
 
 #: src/item.cpp
 #, c-format
-msgid "You need a compatible magazine to reload the %s!"
-msgstr ""
-
-#: src/item.cpp
-#, c-format
 msgid "You need an UPS to run the %s!"
-msgstr ""
+msgstr "%s을(를) 사용하려면 UPS가 필요하다!"
 
 #: src/item.cpp
 msgid "You need to <info>read this book to see its contents</info>."
@@ -102236,11 +102774,6 @@ msgid "You notice the cable has come loose!"
 msgstr "줄이 풀리는게 느껴진다!"
 
 #: src/item.cpp
-#, c-format
-msgid "You pull a %1$s from your %2$s and nock it."
-msgstr "%2$s에서 %1$s을(를) 뽑아, 시위에 올렸다."
-
-#: src/item.cpp
 msgid "You reel in the cable."
 msgstr "줄을 감아 올렸다."
 
@@ -102248,11 +102781,6 @@ msgstr "줄을 감아 올렸다."
 #, c-format
 msgid "You take a puff of your %s."
 msgstr "%s을(를) 피웠다."
-
-#: src/item.cpp
-#, c-format
-msgid "You try to pull a %1$s from your %2$s, but fail!"
-msgstr "%2$s에서 %1$s을(를) 뽑으려고 했지만, 실패했다!"
 
 #: src/item.cpp
 #, c-format
@@ -102267,7 +102795,7 @@ msgstr "%1$s에 이미 %2$s이(가) 이미 장착되어 있다."
 #: src/item.cpp
 #, c-format
 msgid "Your %1$s can't hold any more %2$s."
-msgstr ""
+msgstr "%1$s에 %2$s을(를) 더이상 넣을 수 없다."
 
 #: src/item.cpp
 #, c-format
@@ -102297,6 +102825,10 @@ msgstr "손을 떠는 바람에 %s을(를) 떨어뜨렸다."
 #: src/item.cpp
 msgid "[Integrated]"
 msgstr "[일체형 부품]"
+
+#: src/item.cpp
+msgid "\\."
+msgstr "\\."
 
 #: src/item.cpp
 msgid "age: "
@@ -102329,7 +102861,7 @@ msgstr "<info>%.2f 리터</info>까지 담을 수 있다."
 
 #: src/item.cpp
 msgid "dexterity"
-msgstr ""
+msgstr "민첩성"
 
 #: src/item.cpp
 msgid "faulty "
@@ -102341,7 +102873,7 @@ msgstr "냉장:"
 
 #: src/item.cpp
 msgid "intelligence"
-msgstr ""
+msgstr "지능"
 
 #: src/item.cpp
 msgid "is <info>watertight</info>, "
@@ -102366,7 +102898,7 @@ msgstr "오렌지"
 
 #: src/item.cpp
 msgid "perception"
-msgstr ""
+msgstr "지각력"
 
 #: src/item.cpp
 msgid "right"
@@ -102378,7 +102910,7 @@ msgstr "절단한"
 
 #: src/item.cpp
 msgid "strength"
-msgstr ""
+msgstr "체력"
 
 #: src/item.cpp
 msgid "temp rot: "
@@ -102389,20 +102921,16 @@ msgid "yellow"
 msgstr "노란색"
 
 #: src/item.cpp
-msgid "| Amount  "
-msgstr ""
+msgid "|."
+msgstr "|."
 
 #: src/item.cpp
-msgid "| Damage  | Pierce  "
-msgstr ""
+msgid "|\\"
+msgstr "|\\"
 
 #: src/item.cpp
-msgid "| Location "
-msgstr ""
-
-#: src/item.cpp
-msgid "| Moves   "
-msgstr ""
+msgid "||"
+msgstr "||"
 
 #: src/item_action.cpp
 msgid "Execute which action?"
@@ -102559,18 +103087,6 @@ msgid "...but the robot refuses to acknowledge you as an ally!"
 msgstr "...하지만 그 로봇은 당신을 아군으로 인식하는 것을 거부했다!"
 
 #: src/iuse.cpp
-msgid ""
-"1: Radio a faction for help...\n"
-"2: Call Acquaintance...\n"
-"3: General S.O.S.\n"
-"0: Cancel"
-msgstr ""
-"1: 여러 집단에게 구조 요청\n"
-"2: 아는 사람 불러보기\n"
-"3: 일반적인 S.O.S.\n"
-"0: 취소"
-
-#: src/iuse.cpp
 msgid "<A>ccept"
 msgstr "<A> 확인"
 
@@ -102593,7 +103109,7 @@ msgstr "<npcname>이(가) %s에 감전공격을 했지만, 빗나갔다."
 
 #: src/iuse.cpp
 msgid "<npcname> injects themselves with adrenaline."
-msgstr ""
+msgstr "<npcname>이(가) 스스로 아드레날린을 주사했다."
 
 #: src/iuse.cpp
 #, c-format
@@ -102683,12 +103199,6 @@ msgstr ""
 #: src/iuse.cpp
 msgid "A nearby splatter of goo forms into a goo pit."
 msgstr "근처 오물 구덩이에서 무언가가 형체를 이룬다."
-
-#: src/iuse.cpp
-#, c-format
-msgid "A reply!  %s says, \"I'm on my way; give me %d minute!\""
-msgid_plural "A reply!  %s says, \"I'm on my way; give me %d minutes!\""
-msgstr[0] "답신이다! %s이(가) 말하길, \"가는 중이야! %d분만 기다려!\""
 
 #: src/iuse.cpp src/trapfunc.cpp
 msgid "A shadow forms nearby."
@@ -102950,23 +103460,6 @@ msgid "CBRN defense system:            ONLINE."
 msgstr "화생방 방호 시스템: 온라인."
 
 #: src/iuse.cpp
-msgid "Call for help..."
-msgstr "도움을 요청함..."
-
-#: src/iuse.cpp
-#, c-format
-msgctxt "memorial_female"
-msgid "Called for help from %s."
-msgstr "%s(으)로부터 도움을 요청받았다."
-
-#. ~ %s is faction name
-#: src/iuse.cpp
-#, c-format
-msgctxt "memorial_male"
-msgid "Called for help from %s."
-msgstr "%s(으)로부터 도움을 요청받았다."
-
-#: src/iuse.cpp
 msgid "Can't place it there."
 msgstr "그곳에 둘 수 없다."
 
@@ -102989,7 +103482,7 @@ msgstr "쾌락을 위해 지집니까?"
 
 #: src/iuse.cpp
 msgid "Choose an endpoint to hack."
-msgstr ""
+msgstr "해킹할 말단을 선택하세요."
 
 #: src/iuse.cpp
 msgid "Choose desired meal:"
@@ -103045,7 +103538,7 @@ msgstr "무엇을 잘라냅니까?"
 
 #: src/iuse.cpp
 msgid "Decrypt memory card"
-msgstr ""
+msgstr "메모리 카드 해독"
 
 #: src/iuse.cpp
 msgid "Decrypt memory card (low skill)"
@@ -103086,10 +103579,6 @@ msgid "Detach power mods from what?"
 msgstr ""
 
 #: src/iuse.cpp
-msgid "Do what with quiver?"
-msgstr "화살통에 무엇을 합니까?"
-
-#: src/iuse.cpp
 msgid "Don't do anything rash."
 msgstr "경솔하게 행동하지 않기로 했다."
 
@@ -103113,10 +103602,6 @@ msgstr "어디를 뚫을까요?"
 #: src/iuse.cpp
 msgid "Electro-reactive armor system:  ONLINE."
 msgstr "전기 반응장갑 시스템: 온라인."
-
-#: src/iuse.cpp
-msgid "Empty quiver"
-msgstr "빈 화살통"
 
 #: src/iuse.cpp
 msgid "Enhance what?"
@@ -103259,12 +103744,12 @@ msgstr "완전히 깜깜해집니다..."
 
 #: src/iuse.cpp
 msgid "It says I'm not irradiated"
-msgstr ""
+msgstr "피폭되지 않았다고 나온다."
 
 #: src/iuse.cpp
 #, c-format
 msgid "It says here that my radiation level is %d"
-msgstr ""
+msgstr "내 방사능 수치가 %d 라고 나온다."
 
 #: src/iuse.cpp
 msgid ""
@@ -103389,10 +103874,6 @@ msgid "No vehicle available."
 msgstr "가능한 차량 없음."
 
 #: src/iuse.cpp
-msgid "No-one seems to reply..."
-msgstr "아무도 응답하지 않는다..."
-
-#: src/iuse.cpp
 msgid "Not enough thread to modify. Which modification do you want to remove?"
 msgstr "개조하기 충분한 실이 없습니다. 어떤 개조를 제거합니까?"
 
@@ -103429,7 +103910,7 @@ msgstr "아야! 수갑에서 전기 충격이 가해졌다!"
 
 #: src/iuse.cpp
 msgid "Override IFF protocols"
-msgstr ""
+msgstr "피아식별 절차 해킹"
 
 #: src/iuse.cpp
 msgid "Pad with Kevlar"
@@ -103598,11 +104079,11 @@ msgstr "접속할 차량을 선택하세요."
 
 #: src/iuse.cpp
 msgid "Set friendly robots to combat mode"
-msgstr ""
+msgstr "우호적 로봇을 전투 모드로 변경"
 
 #: src/iuse.cpp
 msgid "Set friendly robots to passive mode"
-msgstr ""
+msgstr "우호적 로봇을 패시브 모드로 변경"
 
 #: src/iuse.cpp
 msgid "Set the timer to (0 to cancel)?"
@@ -103661,14 +104142,6 @@ msgid "Stop cooking"
 msgstr "요리 중단하기"
 
 #: src/iuse.cpp
-msgid "Store more arrows"
-msgstr ""
-
-#: src/iuse.cpp
-msgid "Store which arrows?"
-msgstr "어느 화살을 담습니까?"
-
-#: src/iuse.cpp
 msgid "Strange... there's nothing in the picture?"
 msgstr "이상하다... 사진에 아무것도 안 찍혔다."
 
@@ -103724,11 +104197,6 @@ msgstr "요리 꺼내기"
 
 #: src/iuse.cpp
 #, c-format
-msgid "That %s is already full!"
-msgstr "%s은(는) 이미 가득 차있다."
-
-#: src/iuse.cpp
-#, c-format
 msgid "That %s is full!"
 msgstr "%s은(는) 완전히 가득찼다!"
 
@@ -103753,6 +104221,10 @@ msgstr "이 물품은 이미 플루토늄 셀을 사용하도록 개조되어 �
 #: src/iuse.cpp
 msgid "That item has already had its battery modified to use a UPS!"
 msgstr "이 물품은 이미 UPS를 사용하도록 개조되어 있다."
+
+#: src/iuse.cpp
+msgid "That volume of water is too large to purify."
+msgstr ""
 
 #: src/iuse.cpp
 #, c-format
@@ -104139,6 +104611,10 @@ msgstr ""
 #: src/iuse.cpp src/iuse_actor.cpp
 #, c-format
 msgid "There's no room to unfold the %s."
+msgstr "%s을(를) 펼치기엔 공간이 부족하다."
+
+#: src/iuse.cpp
+msgid "There's no rubble to clear."
 msgstr ""
 
 #: src/iuse.cpp
@@ -104164,18 +104640,6 @@ msgstr ""
 #: src/iuse.cpp
 msgid "Thermal regulation system:      ONLINE."
 msgstr "온도 조절 시스템: 온라인."
-
-#: src/iuse.cpp
-msgid "They reply, \"Hah!  We hope you die!\""
-msgstr "그들이 답하길, \"하! 그냥 뒈졌으면 좋겠는데!\""
-
-#: src/iuse.cpp
-msgid "They reply, \"Help is on the way!\""
-msgstr "그들이 답하길, \"지금 도우러 가고 있다!\""
-
-#: src/iuse.cpp
-msgid "They reply, \"Sorry, you're on your own!\""
-msgstr "그들이 답하길, \"미안하다. 스스로 해결해!\""
 
 #: src/iuse.cpp
 #, c-format
@@ -104269,10 +104733,6 @@ msgstr "이 씨앗의 맛은 무척 이상하다!"
 #: src/iuse.cpp
 msgid "This vehicle's security system has locked you out!"
 msgstr "차량의 보안장치가 작동해서 갇혔다!"
-
-#: src/iuse.cpp
-msgid "Those aren't the same arrows!"
-msgstr "같은 종류의 화살만 담을 수 있다!"
 
 #: src/iuse.cpp
 msgid "Tick!"
@@ -104409,7 +104869,7 @@ msgstr "카메라로 무엇을 합니까?"
 
 #: src/iuse.cpp
 msgid "What to do with radio control?"
-msgstr ""
+msgstr "무선 조종으로 무엇을 합니까?"
 
 #: src/iuse.cpp
 msgid "What to do with remote vehicle control:"
@@ -104539,10 +104999,6 @@ msgid "You breathe deeply from the %s"
 msgstr "%s을(를) 깊게 들이 마셨다."
 
 #: src/iuse.cpp
-msgid "You can only purify water."
-msgstr "물만 정수할 수 있다."
-
-#: src/iuse.cpp
 msgid "You can only tailor your clothes!"
 msgstr "오로지 옷만 재단할 수 있다!"
 
@@ -104648,8 +105104,13 @@ msgstr "이곳의 땅을 휘저었다."
 
 #: src/iuse.cpp
 #, c-format
-msgid "You clear up that %s."
-msgstr "%s을(를) 치웠습니다."
+msgid "You clear up the %s at your feet."
+msgstr ""
+
+#: src/iuse.cpp
+#, c-format
+msgid "You clear up the %s to your %s."
+msgstr ""
 
 #: src/iuse.cpp
 msgid "You cut the log into planks."
@@ -104692,11 +105153,6 @@ msgstr "불을 붙일만한 것이 없다!"
 #: src/iuse.cpp
 msgid "You don't have appropriate food to heat up."
 msgstr "데울 음식이 없다."
-
-#: src/iuse.cpp
-msgid ""
-"You don't have enough charges in your purifier to purify all of the water."
-msgstr "모든 물을 정수하기에는 정수기의 전력이 부족하다."
 
 #: src/iuse.cpp
 msgid "You don't have guns with long barrels."
@@ -105038,6 +105494,11 @@ msgid "You need soap to use this."
 msgstr "비누가 부족하다."
 
 #: src/iuse.cpp
+#, c-format
+msgid "You need to be next to fire to heat something up with the %s."
+msgstr ""
+
+#: src/iuse.cpp
 msgid "You need welding goggles to do that."
 msgstr "작업을 시작하려면 용접용 고글이 필요하다."
 
@@ -105057,7 +105518,7 @@ msgstr "%s을(를) 보관하기 위해 말았다."
 #: src/iuse.cpp
 #, c-format
 msgid "You painstakingly unfold the %s and make it ready to ride."
-msgstr ""
+msgstr "공들여 %s을(를) 펼쳐 탈 수 있게 해놓았다."
 
 #: src/iuse.cpp
 msgid "You pause to engage in spiritual contemplation."
@@ -105145,12 +105606,6 @@ msgstr "기대감으로 인해 몸이 떨린다."
 #, c-format
 msgid "You reinforce your %s."
 msgstr "%s을(를) 강화했다."
-
-#: src/iuse.cpp src/veh_interact.cpp
-#, c-format
-msgid "You remove the %1$s from the %2$s."
-msgid_plural "You remove the %1$s from the %2$s."
-msgstr[0] "%2$s에서 %1$s을(를) 떼어냈다."
 
 #: src/iuse.cpp
 #, c-format
@@ -105266,12 +105721,6 @@ msgstr ""
 msgid "You stop shaking."
 msgstr "떠는걸 멈췄다."
 
-#: src/iuse.cpp src/player.cpp
-#, c-format
-msgid "You store %1$d %2$s in your %3$s."
-msgid_plural "You store %1$d %2$s in your %3$s."
-msgstr[0] ""
-
 #: src/iuse.cpp
 #, c-format
 msgid "You successfully decrypted content on %s!"
@@ -105280,7 +105729,7 @@ msgstr "성공적으로 %s을(를) 해독했다."
 #: src/iuse.cpp
 #, c-format
 msgid "You successfully override the %s's IFF protocols!"
-msgstr ""
+msgstr "%s의 피아식별"
 
 #: src/iuse.cpp
 msgid "You suddenly feel dizzy, and collapse to the ground."
@@ -105775,7 +106224,7 @@ msgstr "전기톱"
 
 #: src/iuse.cpp
 msgid "exceptional"
-msgstr ""
+msgstr "훌륭한"
 
 #: src/iuse.cpp
 msgid "extinguish"
@@ -105783,7 +106232,7 @@ msgstr "소화하기"
 
 #: src/iuse.cpp
 msgid "fine"
-msgstr ""
+msgstr "좋은"
 
 #: src/iuse.cpp
 msgid "good"
@@ -105989,6 +106438,11 @@ msgid "Make love, not zlave."
 msgstr ""
 
 #: src/iuse_actor.cpp
+#, c-format
+msgid "No matching ammo for the %1$s"
+msgstr ""
+
+#: src/iuse_actor.cpp
 msgid "No suitable corpses"
 msgstr "적당한 시체가 보이지 않는다."
 
@@ -106031,11 +106485,6 @@ msgstr ""
 #: src/iuse_actor.cpp
 #, c-format
 msgid "Store ammo in %s"
-msgstr ""
-
-#: src/iuse_actor.cpp
-#, c-format
-msgid "That %1$s isn't ammo!"
 msgstr ""
 
 #: src/iuse_actor.cpp
@@ -106179,7 +106628,7 @@ msgstr ""
 msgid "Try disassembling the %s instead."
 msgstr ""
 
-#: src/iuse_actor.cpp
+#: src/iuse_actor.cpp src/pickup.cpp
 #, c-format
 msgid "Unload %s"
 msgstr ""
@@ -106190,8 +106639,8 @@ msgid "Use %s"
 msgstr "%s 사용"
 
 #: src/iuse_actor.cpp
-msgid "Use your pick lock where?"
-msgstr "어디에 자물쇠따개를 씁니까?"
+msgid "Use your lockpick where?"
+msgstr ""
 
 #: src/iuse_actor.cpp
 msgid "Well, it's more constructive than just chopping 'em into gooey meat..."
@@ -106455,21 +106904,6 @@ msgstr "지금 입고 있습니다. 정말 잘라냅니까?"
 #: src/iuse_actor.cpp
 #, c-format
 msgid "You've already set the %s's timer you might want to get away from it."
-msgstr ""
-
-#: src/iuse_actor.cpp
-#, c-format
-msgid "Your %1$s already contains a different type of ammo"
-msgstr ""
-
-#: src/iuse_actor.cpp
-#, c-format
-msgid "Your %1$s can't store that type of ammo"
-msgstr ""
-
-#: src/iuse_actor.cpp
-#, c-format
-msgid "Your %1$s is already full"
 msgstr ""
 
 #: src/iuse_actor.cpp
@@ -107721,6 +108155,10 @@ msgid "Really Quit? All unsaved changes will be lost."
 msgstr "정말로 나가시겠습니까? 저장되지 않은 모든 정보는 사라지게 될 것입니다."
 
 #: src/main_menu.cpp
+msgid " CREDITS "
+msgstr ""
+
+#: src/main_menu.cpp
 msgctxt "Main Menu|World"
 msgid "<C|c>reate World"
 msgstr "월드맵 생성"
@@ -107811,6 +108249,10 @@ msgstr "불러오기"
 #: src/main_menu.cpp
 msgid "No Worlds found!"
 msgstr "월드맵이 없습니다!"
+
+#: src/main_menu.cpp
+msgid "No credits information found."
+msgstr ""
 
 #: src/main_menu.cpp
 msgid "No message today."
@@ -109423,7 +109865,7 @@ msgstr ""
 
 #: src/mission.cpp
 msgid "Do you have the book?"
-msgstr ""
+msgstr "책을 갖고 있습니까?"
 
 #: src/mission.cpp
 msgid "Do you have the car batteries?"
@@ -111029,8 +111471,8 @@ msgid ""
 msgstr ""
 "이 임무는 좀 더 설득하는 기술이 필요할겁니다. 헬레이더가 지금 여기에 정보원"
 "을 심어둔것 같습니다. 누가 그 정보원인지 찾아내서 처리하도록 하세요. 보통 우"
-"리는 자유 상인들은 간섭하지 않기 때문에 이 일에 대해선 아무도 모르도록 해주시"
-"면 좋겠습니다."
+"리는 자유상인연합에게 간섭하지 않기 때문에 이 일에 대해선 아무도 모르도록 해"
+"주시면 좋겠습니다."
 
 #: src/mission.cpp
 msgid "Those twisted snakes..."
@@ -112030,7 +112472,7 @@ msgstr ""
 #: src/mission_companion.cpp
 #, c-format
 msgid "You receive %d %s..."
-msgstr ""
+msgstr "당신은 받았다 %d %s..."
 
 #: src/mission_companion.cpp
 msgid "but was rescued from the debris with only minor injuries!"
@@ -112627,7 +113069,7 @@ msgstr ""
 #: src/monattack.cpp
 #, c-format
 msgid "A %s appears!"
-msgstr ""
+msgstr "%s이(가) 나타났다!"
 
 #. ~ %1$s is the name of the zombie upgrading the other, %2$s is the zombie being upgraded.
 #: src/monattack.cpp
@@ -112729,7 +113171,7 @@ msgstr "멈춰서서 체포에 순응하십시오! 잠시 후 경찰이 도착�
 
 #: src/monattack.cpp
 msgid "He's brandishing a knife!"
-msgstr ""
+msgstr "그가 칼을 휘두른다!"
 
 #: src/monattack.cpp
 msgid ""
@@ -113474,7 +113916,7 @@ msgstr ""
 #: src/monattack.cpp
 #, c-format
 msgid "The %s vanishes!"
-msgstr ""
+msgstr "%s이(가) 사라졌다!"
 
 #: src/monattack.cpp
 #, c-format
@@ -114842,7 +115284,7 @@ msgctxt "set_profession_skill"
 msgid "%1$s (%2$d)"
 msgstr "%1$s (%2$d)"
 
-#: src/newcharacter.cpp
+#: src/newcharacter.cpp src/npctalk.cpp
 #, c-format
 msgid "%s"
 msgstr "%s"
@@ -115474,18 +115916,6 @@ msgid "Afraid"
 msgstr "두려운"
 
 #: src/npc.cpp
-msgid "Alright, I got you covered!"
-msgstr "좋아, 내가 널 엄호하지!"
-
-#: src/npc.cpp
-msgid "Alright, I'll wait here."
-msgstr "좋아, 난 여기서 기다리겠어."
-
-#: src/npc.cpp
-msgid "Alright, see you later."
-msgstr "좋아, 나중에 보자."
-
-#: src/npc.cpp
 msgid "Ambivalent"
 msgstr "양립 불가능한"
 
@@ -115536,16 +115966,8 @@ msgid "Considers you an annoyance"
 msgstr "무시하는 것을 고려해봐"
 
 #: src/npc.cpp
-msgid "Defending you"
-msgstr "당신을 보호"
-
-#: src/npc.cpp
 msgid "Doesn't care about you"
 msgstr "너에 대해서 걱정하지마"
-
-#: src/npc.cpp
-msgid "Enslaved"
-msgstr "노예로 만듦"
 
 #: src/npc.cpp
 msgid "Fear: "
@@ -115560,24 +115982,12 @@ msgid "Following"
 msgstr "따라감"
 
 #: src/npc.cpp
-msgid "Following & ignoring monsters"
-msgstr "따라감 & 몬스터 무시"
-
-#: src/npc.cpp
 msgid "Healing you"
 msgstr "당신을 치료"
 
 #: src/npc.cpp
-msgid "I've got your back!"
-msgstr "난 너의 뒤에 있어!"
-
-#: src/npc.cpp
 msgid "Ignoring"
 msgstr "무시중"
-
-#: src/npc.cpp
-msgid "Kidnapped"
-msgstr "납치됨"
 
 #: src/npc.cpp
 #, c-format
@@ -115684,10 +116094,6 @@ msgid "Leading"
 msgstr "이끌어감"
 
 #: src/npc.cpp
-msgid "Missing NPC"
-msgstr "NPC 없음"
-
-#: src/npc.cpp
 msgid "Mugging you"
 msgstr "당신을 처다봄"
 
@@ -115697,20 +116103,8 @@ msgid "NPC: %s"
 msgstr "NPC: %s"
 
 #: src/npc.cpp
-msgid "No way, I need you!"
-msgstr "절대 안돼, 난 네가 필요해!"
-
-#: src/npc.cpp
-msgid "No way, man!"
-msgstr "절대 안된다고!"
-
-#: src/npc.cpp
 msgid "Pissed off"
 msgstr "화가 머리끝까지 치솟은"
-
-#: src/npc.cpp
-msgid "Screw you!"
-msgstr "엿이나 처먹어!"
 
 #: src/npc.cpp
 msgid "Terrified"
@@ -115783,10 +116177,6 @@ msgstr "당신이 떠나기를 기다림"
 #: src/npc.cpp
 msgid "Wants to talk"
 msgstr "이야기 하고 싶어함"
-
-#: src/npc.cpp
-msgid "Wants to trade"
-msgstr "거래하고 싶어함"
 
 #: src/npc.cpp
 msgid "Wary"
@@ -116100,7 +116490,12 @@ msgstr ""
 
 #: src/npctalk.cpp
 #, c-format
-msgid " %s will pick up items."
+msgid " %s will pick up all items."
+msgstr ""
+
+#: src/npctalk.cpp
+#, c-format
+msgid " %s will pick up items from the whitelist."
 msgstr ""
 
 #: src/npctalk.cpp
@@ -116214,26 +116609,6 @@ msgstr "%s은(는) 당신에게 가졌던 두려움이 조금 가신 것 같다.
 
 #: src/npctalk.cpp
 #, c-format
-msgid "%s gave you a beer..."
-msgstr "%s이(가) 맥주를 건넸다..."
-
-#: src/npctalk.cpp
-#, c-format
-msgid "%s gave you a shot of brandy..."
-msgstr "%s이(가) 브랜디를 한 잔 건넸다..."
-
-#: src/npctalk.cpp
-#, c-format
-msgid "%s gave you a shot of rum..."
-msgstr "%s이(가) 럼을 한 잔 건넸다..."
-
-#: src/npctalk.cpp
-#, c-format
-msgid "%s gave you a shot of whiskey..."
-msgstr "%s이(가) 위스키를 한 잔 건넸다..."
-
-#: src/npctalk.cpp
-#, c-format
 msgid "%s gives you a decent haircut..."
 msgstr "%s이(가) 머리를 깔끔하게 다듬어줬다..."
 
@@ -116241,6 +116616,11 @@ msgstr "%s이(가) 머리를 깔끔하게 다듬어줬다..."
 #, c-format
 msgid "%s gives you a decent shave..."
 msgstr "%s이(가) 면도를 깔끔하게 해줬다..."
+
+#: src/npctalk.cpp
+#, c-format
+msgid "%s hands you a %s"
+msgstr ""
 
 #: src/npctalk.cpp
 #, c-format
@@ -116291,6 +116671,11 @@ msgstr "%s이(가) 도망간다!"
 #, c-format
 msgid "%s: $%.2f"
 msgstr "%s: $%.2f"
+
+#: src/npctalk.cpp
+#, c-format
+msgid "%s: %d -> %d"
+msgstr ""
 
 #. ~Skill name: current level -> next level (cost in cent)
 #: src/npctalk.cpp
@@ -116364,10 +116749,6 @@ msgstr "*은(는) 교전하지 않을 것입니다."
 #: src/npctalk.cpp
 msgid "...or to store anything else for that matter."
 msgstr ""
-
-#: src/npctalk.cpp
-msgid "< Back"
-msgstr "< 뒤로"
 
 #: src/npctalk.cpp
 msgid "<no>, and if you ask again, <ill_kill_you>!"
@@ -116658,44 +117039,13 @@ msgid "Dead tired"
 msgstr "심하게 피곤함"
 
 #: src/npctalk.cpp
+#, c-format
+msgid "Delivering %s."
+msgstr ""
+
+#: src/npctalk.cpp
 msgid "Delivering bandages."
 msgstr "붕대 전달."
-
-#: src/npctalk.cpp
-msgid "Delivering cooking oil."
-msgstr "식용유 전달."
-
-#: src/npctalk.cpp
-msgid "Delivering cornmeal."
-msgstr "옥수수 가루 전달."
-
-#: src/npctalk.cpp
-msgid "Delivering flour."
-msgstr "밀가루 전달."
-
-#: src/npctalk.cpp
-msgid "Delivering fruit wine."
-msgstr "과일주 전달."
-
-#: src/npctalk.cpp
-msgid "Delivering homebrew beer."
-msgstr "자가 양조 맥주 전달."
-
-#: src/npctalk.cpp
-msgid "Delivering jerky."
-msgstr "육포 전달."
-
-#: src/npctalk.cpp
-msgid "Delivering smoked fish."
-msgstr "훈제 생선 전달."
-
-#: src/npctalk.cpp
-msgid "Delivering smoked meat."
-msgstr "훈제 고기 전달."
-
-#: src/npctalk.cpp
-msgid "Delivering sugar."
-msgstr "설탕 전달."
 
 #: src/npctalk.cpp
 #, c-format
@@ -116771,6 +117121,10 @@ msgstr "어... 아무것도 아냐."
 msgid "Examine which item?"
 msgstr "어떤 물건을 조사합니까?"
 
+#: src/npctalk.cpp
+msgid "Exchange"
+msgstr ""
+
 #: src/npctalk.cpp src/player.cpp
 msgid "Exhausted"
 msgstr "탈진함"
@@ -116788,6 +117142,10 @@ msgstr "좋아..."
 #: src/npctalk.cpp
 msgid "Fine... *coughupyourscough*"
 msgstr "좋아... *가래 기침*"
+
+#: src/npctalk.cpp
+msgid "Follow same rules as this follower."
+msgstr ""
 
 #: src/npctalk.cpp
 msgid "For the right price could I borrow your services?"
@@ -117329,9 +117687,9 @@ msgstr "그럼 당신 지휘관을 찾아보도록 하지..."
 
 #: src/npctalk.cpp
 msgid ""
-"I'm actually accepting a number of different foodstuffs: homebrew beer, "
-"sugar, flour, smoked meat, smoked fish, cooking oil; and as mentioned "
-"before, jerky, cornmeal, and fruit wine."
+"I'm actually accepting a number of different foodstuffs: beer, sugar, flour, "
+"smoked meat, smoked fish, cooking oil; and as mentioned before, jerky, "
+"cornmeal, and fruit wine."
 msgstr ""
 
 #: src/npctalk.cpp
@@ -117351,10 +117709,6 @@ msgstr "잠깐 나 혼자 움직일게."
 #: src/npctalk.cpp
 msgid "I'm guarding this location."
 msgstr "난 여길 지키고 있지."
-
-#: src/npctalk.cpp
-msgid "I'm here to save you!"
-msgstr "널 구하기 위해 왔어!"
 
 #: src/npctalk.cpp
 msgid "I'm holing up here for safety."
@@ -117486,14 +117840,21 @@ msgid ""
 msgstr ""
 
 #: src/npctalk.cpp
+msgid "I'm too hungry, give me something to eat."
+msgstr ""
+
+#: src/npctalk.cpp
+msgid "I'm too thirsty, give me something to drink."
+msgstr ""
+
+#: src/npctalk.cpp
+msgid "I'm too tired, let me rest first."
+msgstr ""
+
+#: src/npctalk.cpp
 #, c-format
-msgid ""
-"I'm willing to pay $%.2f per batch. You have %d serving for a total of $"
-"%.2f. No questions asked, here is your cash."
-msgid_plural ""
-"I'm willing to pay $%.2f per batch. You have %d servings for a total of $"
-"%.2f. No questions asked, here is your cash."
-msgstr[0] ""
+msgid "I'm willing to pay $%.2f per batch for a total of $%.2f"
+msgstr ""
 
 #: src/npctalk.cpp
 msgid ""
@@ -117592,10 +117953,6 @@ msgid "It's just as bad out here, if not worse."
 msgstr ""
 
 #: src/npctalk.cpp
-msgid "It's not safe here.  Let's get to safety first."
-msgstr "여긴 안전하지 않은 것 같군. 먼저 안전한 곳에 가자고."
-
-#: src/npctalk.cpp
 msgid "It's too encumbering to wear."
 msgstr "착용하기에 너무 불편하다."
 
@@ -117654,10 +118011,6 @@ msgstr "가자."
 #: src/npctalk.cpp
 msgid "Let's keep moving."
 msgstr "계속 움직이자."
-
-#: src/npctalk.cpp
-msgid "Let's see what you've got..."
-msgstr "네가 가진 것좀 보자..."
 
 #: src/npctalk.cpp
 msgid "Let's see what you've managed to find..."
@@ -117722,6 +118075,10 @@ msgid "Maybe another time..."
 msgstr "다음에 할게..."
 
 #: src/npctalk.cpp
+msgid "Maybe later."
+msgstr ""
+
+#: src/npctalk.cpp
 msgid "Maybe later..."
 msgstr "아마 나중에..."
 
@@ -117740,10 +118097,6 @@ msgstr "규칙에 대해 몇 가지 말할게 있어..."
 #: src/npctalk.cpp
 msgid "Mission success!  I don't know what else to say."
 msgstr "미션 성공! 이거 말곤 할말이 생각나질 않아."
-
-#: src/npctalk.cpp
-msgid "More >"
-msgstr "추가 >"
 
 #: src/npctalk.cpp
 msgid "Morning ma'am, how can I help you?"
@@ -117826,15 +118179,6 @@ msgstr "그정돈 쉽지."
 #, c-format
 msgid "Not enough cash!  You have $%.2f, price is $%.2f."
 msgstr "잔액이 부족하다! 현재 $%.2f을(를) 가지고 있으며, 가격은 $%.2f이다."
-
-#: src/npctalk.cpp
-#, c-format
-msgid ""
-"Not enough cash! %s has $%.2f, but the price is $%.2f. Use (T) to force the "
-"trade."
-msgstr ""
-"현금이 충분하지 않다! %s이(가) $%.2f를 가지고 있지만,  가격은 $%.2f.다 (T)를 "
-"눌러 강제로 거래."
 
 #: src/npctalk.cpp
 msgid "Not interested."
@@ -117961,6 +118305,11 @@ msgid "Per %d - %d"
 msgstr "지각 %d - %d"
 
 #: src/npctalk.cpp
+#, c-format
+msgid "Pickup rules for %s"
+msgstr ""
+
+#: src/npctalk.cpp
 msgid "Please leave me alone..."
 msgstr "제발 날 그냥 내버려둬..."
 
@@ -117994,8 +118343,16 @@ msgid "Seems like a decent plan..."
 msgstr "괜찮은 계획 같군..."
 
 #: src/npctalk.cpp
+msgid "Select a follower"
+msgstr ""
+
+#: src/npctalk.cpp
 msgid "Seriously, give me more stuff!"
 msgstr "장난치지 말고, 좀 더 줘!"
+
+#: src/npctalk.cpp
+msgid "Set up pickup rules."
+msgstr ""
 
 #: src/npctalk.cpp
 msgid "Shall we resume?"
@@ -118143,10 +118500,6 @@ msgstr ""
 #: src/npctalk.cpp
 msgid "Tell me when you need something."
 msgstr "뭔가 필요하면 말해줘."
-
-#: src/npctalk.cpp
-msgid "Thank you for your business!"
-msgstr ""
 
 #: src/npctalk.cpp
 msgid "Thank you!"
@@ -118391,14 +118744,6 @@ msgstr "내가 널 도와주고 있잖아."
 #: src/npctalk.cpp
 msgid "Well, I guess it's just us."
 msgstr "흠, 우리 뿐인 것 같네."
-
-#: src/npctalk.cpp
-msgid "Well, I was kidnapped, but you saved me..."
-msgstr "음, 난 납치당했엇지만, 네가 날 구했어..."
-
-#: src/npctalk.cpp
-msgid "Well, I was lost, but you found me..."
-msgstr "음, 난 길을 잃었어, 근데 네가 날 찾았지..."
 
 #: src/npctalk.cpp
 msgid ""
@@ -118740,6 +119085,10 @@ msgid ""
 "[MISSION] The merchant at the Refugee Center sent me to get a prospectus "
 "from you."
 msgstr "[임무] 피난 시설의 상인이 너에게 계획서를 받아오라고 날 보냈어."
+
+#: src/npctalk.cpp
+msgid "[N/A] Can you teach me anything?"
+msgstr ""
 
 #: src/npctalk.cpp
 msgid "[STR 11] I punch things in face real good!"
@@ -119963,19 +120312,6 @@ msgstr "기본 월드맵"
 msgid "options"
 msgstr "설정"
 
-#. ~ item health bars
-#: src/output.cpp
-msgid "++"
-msgstr "++"
-
-#: src/output.cpp
-msgid ".."
-msgstr ".."
-
-#: src/output.cpp
-msgid "??"
-msgstr "??"
-
 #: src/output.cpp
 msgid "Case Sensitive"
 msgstr "대소문자 구분"
@@ -119983,10 +120319,6 @@ msgstr "대소문자 구분"
 #: src/output.cpp
 msgid "Press any key for more..."
 msgstr "다음 페이지로 넘기시려면 아무 키나 눌러주세요..."
-
-#: src/output.cpp
-msgid "\\."
-msgstr "\\."
 
 #: src/output.cpp
 msgid "bright"
@@ -120023,18 +120355,6 @@ msgstr "캄캄함"
 #: src/output.cpp
 msgid "yn"
 msgstr "yn"
-
-#: src/output.cpp
-msgid "|."
-msgstr "|."
-
-#: src/output.cpp
-msgid "|\\"
-msgstr "|\\"
-
-#: src/output.cpp
-msgid "||"
-msgstr "||"
 
 #: src/output.h
 msgid ", "
@@ -120281,10 +120601,6 @@ msgid "Fill a container with water"
 msgstr "물 채우기"
 
 #: src/pickup.cpp
-msgid "Fold vehicle"
-msgstr "차량 접기"
-
-#: src/pickup.cpp
 msgid "Get items"
 msgstr "물건 줍기"
 
@@ -120317,6 +120633,11 @@ msgstr "용기에 담긴 물 정화하기"
 msgid "Purify water in vehicle's tank"
 msgstr "차량의 탱크에 담긴 물 정화하기"
 
+#: src/pickup.cpp src/player.cpp
+#, c-format
+msgid "Reload %s"
+msgstr "%s 재장전"
+
 #: src/pickup.cpp
 #, c-format
 msgid "Spill %s, then pick up %s"
@@ -120326,12 +120647,6 @@ msgstr ""
 #, c-format
 msgid "The %s is too heavy!"
 msgstr "%s은(는) 너무 무겁다!"
-
-#: src/pickup.cpp
-#, c-format
-msgid "There's no room in your inventory for the %s."
-msgid_plural "There's no room in your inventory for the %s."
-msgstr[0] "%s을(를) 넣을 공간이 없다."
 
 #: src/pickup.cpp
 msgid "Use the hotplate"
@@ -120577,6 +120892,12 @@ msgstr "%s이(가) 아주 빠르게... 피했다!"
 msgid "%s tries to dodge but there's no room!"
 msgstr "%s이(가) 피하려고 했지만, 피할 공간이 없다!"
 
+#. ~ magazine with ammo (count)
+#: src/player.cpp
+#, c-format
+msgid "%s with %s (%d)"
+msgstr ""
+
 #: src/player.cpp
 #, c-format
 msgid "%s's"
@@ -120619,7 +120940,7 @@ msgstr "<npcname>이(가) %s을(를) 튕겨냈다!"
 
 #: src/player.cpp
 msgid "<npcname> can't place items here!"
-msgstr ""
+msgstr "<npcname>이(가) 그곳에 물품을 놓을 수 없다!"
 
 #: src/player.cpp
 msgid ""
@@ -120728,19 +121049,6 @@ msgid "AHHHHHHH!"
 msgstr "아아아아아아아아!"
 
 #: src/player.cpp
-msgid ""
-"Alertness comes somewhat fast, and your muscles stretch easier than before "
-"you went to bed."
-msgstr ""
-
-#: src/player.cpp
-msgid ""
-"Alertness seems flighty today, and your body argues when you move towards it."
-msgstr ""
-"몸이 잘 움직이다가 가끔 둔해진다. 둔해진 몸을 억지로 움직이자 몸이 삐걱거린"
-"다."
-
-#: src/player.cpp
 msgid "Anywhere would be a good place to sleep..."
 msgstr "어디서든지 잠들 수 있을 것 같다."
 
@@ -120755,19 +121063,6 @@ msgstr ""
 #, c-format
 msgid "Attach your %1$s to your %2$s?"
 msgstr "%1$s을(를) %2$s에 장착합니까?"
-
-#: src/player.cpp
-msgid ""
-"Awareness comes fast, your body coming quickly to attention after your rest."
-msgstr ""
-
-#: src/player.cpp
-msgid ""
-"Awareness seems to only come with a battle... and your body seem to be on "
-"its side."
-msgstr ""
-"고투 끝에 겨우 의식을 되찾을 수 있었다. 머리와는 달리 몸은 아직도 움직이고 싶"
-"지 않은 것 같다."
 
 #. ~Sound of buzzing Insect Wings
 #: src/player.cpp
@@ -120806,11 +121101,6 @@ msgstr "바이오닉 가속        +%s%d%%"
 #: src/player.cpp
 msgid "Bionics:"
 msgstr "바이오닉:"
-
-#: src/player.cpp
-msgid ""
-"Bleary-eyed and half-asleep, you consider why you are doing this to yourself."
-msgstr "비몽사몽하여 게슴츠레한 눈으로 왜 이 짓을 하고 있는지 생각했다."
 
 #: src/player.cpp
 msgid "Break"
@@ -121138,29 +121428,6 @@ msgid "Game History"
 msgstr "게임 내역"
 
 #: src/player.cpp
-msgid ""
-"Getting out of bed doesn't seem too hard today. You could get used to this!"
-msgstr ""
-
-#: src/player.cpp
-msgid ""
-"Getting out of bed only comes with great difficulty, and your muscles resist "
-"the movement."
-msgstr ""
-"침대에서 나오는 일이 엄청나게 힘들었다. 움직일 때마다 근육이 저항하는 게 느껴"
-"진다."
-
-#: src/player.cpp
-msgid "Getting up comes easy to you, your muscles revitalized after your rest."
-msgstr ""
-
-#: src/player.cpp
-msgid ""
-"Getting up seems like it should be easy, but all you want to do is go back "
-"to bed."
-msgstr "일어나긴 했지만, 당장에라도 다시 잠자리로 돌아가고 싶다."
-
-#: src/player.cpp
 msgid "Glowing lights surround you, and you teleport."
 msgstr "반짝이는 빛에 휩싸이며 순간이동했다."
 
@@ -121386,6 +121653,11 @@ msgstr ""
 #: src/player.cpp
 msgid "Ouch, something hurts!"
 msgstr "아야! 무언가가 공격했다!"
+
+#: src/player.cpp
+#, c-format
+msgid "Out of %s!"
+msgstr "%s이(가) 부족하다!"
 
 #: src/player.cpp
 #, c-format
@@ -121929,12 +122201,6 @@ msgid "Time seems to slow down and you instinctively dodge!"
 msgstr "시간이 느리게 느껴지더니 본능적으로 피했다!"
 
 #: src/player.cpp
-msgid ""
-"Tired hands rub at your eyes, the little aches of yesterday protesting your "
-"stretches."
-msgstr "지친 손으로 눈을 비비고, 기지개를 켜자 어제의 경미한 통증이 느껴진다."
-
-#: src/player.cpp
 msgid "Toggle skill training"
 msgstr "기술 성장 여부 변경"
 
@@ -122052,12 +122318,6 @@ msgstr "왜 그런 쓸데없는 것에 시간을 낭비합니까?"
 #: src/player.cpp
 msgid "Wield what?"
 msgstr "무엇을 듭니까?"
-
-#: src/player.cpp
-msgid ""
-"Within moments you're ready and up. You don't feel like anything could stop "
-"you today!"
-msgstr ""
 
 #: src/player.cpp
 #, c-format
@@ -122187,7 +122447,7 @@ msgstr "%s은(는) 먹을 수 없다."
 
 #: src/player.cpp
 msgid "You can't place items here!"
-msgstr ""
+msgstr "그곳에 물품을 놓을 수 없다!"
 
 #: src/player.cpp
 #, c-format
@@ -122301,41 +122561,12 @@ msgid "You feel anomalous sensation coming from your radiation sensors."
 msgstr "방사능 감지기에서 비정상적인 감각이 올라오는 것을 느꼈다."
 
 #: src/player.cpp
-msgid "You feel awful, and every ache from yesterday is still there."
-msgstr "기분이 끔찍하다. 어제의 고통이 아직도 남아있다."
-
-#: src/player.cpp
-msgid "You feel cruddy. Maybe you should consider eating a bit healthier."
-msgstr ""
-"땀으로 푹 젖어서 깨어났다. 좀더 건강에 좋은 음식을 먹는 걸 고려해봐야 할 것 "
-"같다."
-
-#: src/player.cpp
 msgid "You feel dizzy for a moment."
 msgstr "잠깐 어지러움을 느꼈다."
 
 #: src/player.cpp
-msgid "You feel extra alert, and your body feels ready to go."
-msgstr ""
-
-#: src/player.cpp
 msgid "You feel fatigued all of a sudden."
 msgstr "갑자기 피로감이 든다."
-
-#: src/player.cpp
-msgid "You feel good. Healthy living does seem to have some rewards."
-msgstr "기분이 좋다. 건강한 생활방식이 보답을 가져다 준듯하다."
-
-#: src/player.cpp
-msgid ""
-"You feel great! It doesn't seem like wounds could even slow you down for "
-"more than a day."
-msgstr ""
-
-#: src/player.cpp
-msgid ""
-"You feel like a rubber ball; whatever hits you, you'll just bounce back!"
-msgstr ""
 
 #: src/player.cpp
 msgid "You feel like you haven't slept in days."
@@ -122417,22 +122648,6 @@ msgid "You feel your %s getting warm."
 msgstr "%s이(가) 약간 뜨거워졌다."
 
 #: src/player.cpp
-msgid ""
-"You get up feeling horrible, as if something was messing with your body."
-msgstr ""
-"끔찍한 기분으로 일어났다. 마치 뭔가가 몸을 엉망으로 만들고 있는 것 같다."
-
-#: src/player.cpp
-msgid ""
-"You get up feeling pretty good, as if all your little aches were fading "
-"faster."
-msgstr ""
-
-#: src/player.cpp
-msgid "You get up with a bit of a scratch in your throat."
-msgstr "일어나니 목이 따끔거린다."
-
-#: src/player.cpp
 msgid "You have a sudden heart attack!"
 msgstr "갑자기 심장마비가 왔다!"
 
@@ -122468,12 +122683,12 @@ msgstr "%s 기술이 %d로 올랐다."
 #: src/player.cpp
 #, c-format
 msgid "You lack the %s to use the %s"
-msgstr "%s을(를) 사용하기엔 %s이(가) 부족하다."
+msgstr "%s이(가) 부족해서 %s을(를) 사용하지 못했다 ."
 
 #: src/player.cpp
 #, c-format
 msgid "You lack the skill in %s to use the %s"
-msgstr "%s을(를) 사용하기엔 %s 기술이 부족하다."
+msgstr "%s 기술이 부족해서 %s을(를) 사용하지 못했다."
 
 #: src/player.cpp
 #, c-format
@@ -122492,6 +122707,11 @@ msgstr "새로운 전투 방식을 익혔다."
 #: src/player.cpp
 msgid "You lose some blood."
 msgstr "피를 조금 흘렸다."
+
+#: src/player.cpp
+#, c-format
+msgid "You need a compatible magazine to reload the %s!"
+msgstr "%s을(를) 재장전 하려면 호환되는 탄창이 필요하다!"
 
 #: src/player.cpp
 msgid "You nestle your pile of clothes for warmth."
@@ -122594,16 +122814,6 @@ msgstr "%s을(를) 긁기 시작했다!"
 #: src/player.cpp
 msgid "You start to shake uncontrollably."
 msgstr "통제할 수 없을 정도로 떨리기 시작했다."
-
-#: src/player.cpp
-msgid "You stretch, but your muscles don't seem to be doing so good today."
-msgstr "기지개를 켜보았지만, 오늘은 별로 개운하지 않다."
-
-#: src/player.cpp
-msgid ""
-"You struggle to awareness. Being awake seems somewhat harder to reach today."
-msgstr ""
-"의식을 되찾기 위해 애썼다. 깨어나는 게 오늘은  평소보다 더 힘든 것 같다."
 
 #: src/player.cpp
 msgid "You succumb to the infection."
@@ -122805,30 +123015,6 @@ msgid "You're too tired to stop yawning."
 msgstr "너무 피곤해서 하품을 멈출 수가 없다."
 
 #: src/player.cpp
-msgid ""
-"You're up and going rather quickly, and all the little aches from yesterday "
-"are gone."
-msgstr ""
-
-#: src/player.cpp
-msgid ""
-"You're up and you feel fantastic. No sickness is going to keep you down "
-"today!"
-msgstr ""
-"환상적인 기분으로 잠에서 깨어났다. 그 어떤 질병도 오늘 당신을 막아설 순 없을 "
-"것이다!"
-
-#: src/player.cpp
-msgid ""
-"You're up and your little pains from before seem to have faded away rather "
-"quickly."
-msgstr ""
-
-#: src/player.cpp
-msgid "You're up, but your body seems like it would rather stay in bed."
-msgstr "일어나긴 했지만 몸은 아직도 침대에 있고 싶어하는 것 같다."
-
-#: src/player.cpp
 msgid "You're weak from hunger."
 msgstr "굶주림으로 인해 약해졌다."
 
@@ -123014,10 +123200,6 @@ msgid "Your body strains under the weight!"
 msgstr "짐이 너무 무겁다!"
 
 #: src/player.cpp
-msgid "Your body stretches with ease, and you feel ready to take on the world."
-msgstr "몸이 쭉쭉 잘 뻗는다. 세상에 다시 나갈 준비가 된 것 같다."
-
-#: src/player.cpp
 msgid "Your bones feel like rubber as they melt and remend."
 msgstr "뼈가 고무처럼 되어 녹았다가, 다시 복구되는 것을 느꼈다."
 
@@ -123058,19 +123240,6 @@ msgstr "지금 입고 있는 옷은 바람으로부터 %s을(를) 충분히 막�
 #: src/player.cpp
 msgid "Your clothing restricts your insect arms."
 msgstr "옷이 곤충 팔을 방해한다."
-
-#: src/player.cpp
-msgid ""
-"Your eyes open and your entire body feels like it is just bursting with "
-"energy to burn!"
-msgstr ""
-
-#: src/player.cpp
-msgid ""
-"Your eyes struggle to open, and your muscles ache like you didn't sleep at "
-"all."
-msgstr ""
-"눈을 힘겹게 뜨고 일어나자, 마치 한숨도 못 잔 것처럼 근육에서 통증이 느껴진다."
 
 #: src/player.cpp
 msgid "Your eyes won't focus without reading glasses."
@@ -123304,14 +123473,6 @@ msgid "Your stomach feels so empty..."
 msgstr "위장이 텅 빈 것 같다..."
 
 #: src/player.cpp
-msgid ""
-"Your stomach gurgles. It's probably nothing, but maybe you should look into "
-"eating something healthy."
-msgstr ""
-"배에서 꾸르륵하는 소리가 난다. 별일 아닐 수도 있지만, 뭔가 영양가 있는 음식"
-"을 먹는 게 좋을 것 같다."
-
-#: src/player.cpp
 msgid "Your thick scales get in the way."
 msgstr "두꺼운 비늘이 방해된다."
 
@@ -123428,6 +123589,22 @@ msgstr ""
 #: src/player.cpp
 msgid "yourself shout loudly!"
 msgstr ""
+
+#: src/player.cpp
+msgid "| Amount  "
+msgstr "| 개수"
+
+#: src/player.cpp
+msgid "| Damage  | Pierce  "
+msgstr "| 피해  | 관통"
+
+#: src/player.cpp
+msgid "| Location "
+msgstr "| 위치"
+
+#: src/player.cpp
+msgid "| Moves   "
+msgstr "| 이동"
 
 #: src/player_activity.cpp
 #, c-format
@@ -123629,6 +123806,11 @@ msgstr "%c 조준 모두 전환."
 
 #: src/ranged.cpp
 #, c-format
+msgid "%c to switch firing modes."
+msgstr ""
+
+#: src/ranged.cpp
+#, c-format
 msgid "%c to take careful aim and fire."
 msgstr "%c 세심한 사격."
 
@@ -123646,7 +123828,7 @@ msgstr[0] "사정거리 안의 목표 수 %d."
 #: src/ranged.cpp
 #, c-format
 msgid "%s Delay: %i"
-msgstr ""
+msgstr "%s 소모시간: %i"
 
 #: src/ranged.cpp
 #, c-format
@@ -123679,6 +123861,16 @@ msgid "<npcname>'s %s misfires with a wet click!"
 msgstr "<npcname>의 %s이(가) 습기탓에 불발되었다!"
 
 #: src/ranged.cpp
+#, c-format
+msgid "Ammo: %s"
+msgstr ""
+
+#: src/ranged.cpp
+#, c-format
+msgid "Ammo: %s (%d/%d)"
+msgstr ""
+
+#: src/ranged.cpp
 msgid "Brrrap!"
 msgstr "팝!"
 
@@ -123708,13 +123900,18 @@ msgstr "명중률"
 
 #: src/ranged.cpp
 #, c-format
-msgid "Firing %s"
-msgstr "%s 사격"
+msgid "Firing %s %s"
+msgstr ""
 
 #: src/ranged.cpp
 #, c-format
-msgid "Firing mode: %s"
-msgstr "사격 모드: %s"
+msgid "Firing mode: %s %s (%d)"
+msgstr ""
+
+#: src/ranged.cpp
+#, c-format
+msgid "Firing mode: %s (%d)"
+msgstr ""
 
 #: src/ranged.cpp
 msgid "Fwoosh!"
@@ -123771,22 +123968,17 @@ msgid "Range: %d/%d, %s"
 msgstr "사정거리: %d/%d, %s"
 
 #: src/ranged.cpp
+#, c-format
+msgid "Really attack %s?"
+msgstr "정말로 %s을(를) 공격합니까?"
+
+#: src/ranged.cpp
 msgid "Recoil"
 msgstr "반동"
 
 #: src/ranged.cpp
-msgid "Select a vehicle"
-msgstr "차량 선택"
-
-#: src/ranged.cpp
-#, c-format
-msgid "Setting target for %s"
-msgstr "%s의 목표를 설정"
-
-#: src/ranged.cpp
-#, c-format
-msgid "Shooting %1$s from %2$s"
-msgstr "%2$s에서 %1$s 사격"
+msgid "Set target"
+msgstr ""
 
 #: src/ranged.cpp
 msgid "Steadiness"
@@ -123810,11 +124002,6 @@ msgstr "%s이(가) 산산이 부서졌다!"
 #, c-format
 msgid "The attack bounced to %s!"
 msgstr "공격이 %s에 튕겨나갔다!"
-
-#: src/ranged.cpp
-#, c-format
-msgid "There is a %s"
-msgstr "%s이(가) 있다."
 
 #: src/ranged.cpp
 #, c-format
@@ -124631,10 +124818,6 @@ msgstr "<veh_player>%s"
 msgid "Can't aim turrets: all turrets are offline"
 msgstr "터렛 조준 불가: 모든 터렛 꺼짐"
 
-#: src/turret.cpp src/vehicle.cpp
-msgid "Set turret firing modes"
-msgstr "터렛을 발사 모드로 설정"
-
 #: src/turret.cpp
 msgid "Set turret targeting"
 msgstr "터렛 조준 설정"
@@ -124643,16 +124826,6 @@ msgstr "터렛 조준 설정"
 #, c-format
 msgid "The %1$s fires its %2$s!"
 msgstr "%1$s이(가) %2$s을(를) 사격했다!"
-
-#: src/turret.cpp
-#, c-format
-msgid "The %s is not powered."
-msgstr "%s의 동력이 없다."
-
-#: src/turret.cpp
-#, c-format
-msgid "The %s is out of ammo."
-msgstr "%s의 탄약이 다 떨어졌다."
 
 #: src/turret.cpp
 msgid "auto"
@@ -124679,6 +124852,16 @@ msgstr ""
 
 #: src/veh_interact.cpp
 #, c-format
+msgid "%s (%i/%i)"
+msgstr ""
+
+#: src/veh_interact.cpp
+#, c-format
+msgid "%s with %s (%i/%i)"
+msgstr ""
+
+#: src/veh_interact.cpp
+#, c-format
 msgid "* <color_red>Faulty %1$s</color>"
 msgstr "* <color_red>고장 %1$s</color>"
 
@@ -124691,12 +124874,48 @@ msgid "<c>hange tire"
 msgstr "<c>타이어 교체"
 
 #: src/veh_interact.cpp
-msgid "<color_white>Additional requirements:</color>\n"
+msgid "<color_blue>swims</color>"
 msgstr ""
 
 #: src/veh_interact.cpp
-msgid "<color_white>Skills required:</color>\n"
+msgid "<color_ltgreen>enough</color>"
 msgstr ""
+
+#: src/veh_interact.cpp
+msgid "<color_ltred>broken steering</color>"
+msgstr ""
+
+#: src/veh_interact.cpp
+msgid "<color_ltred>disabled</color>"
+msgstr ""
+
+#: src/veh_interact.cpp
+msgid "<color_ltred>lack</color>"
+msgstr ""
+
+#: src/veh_interact.cpp
+msgid "<color_ltred>leaks</color>"
+msgstr ""
+
+#: src/veh_interact.cpp
+msgid "<color_ltred>no steering</color>"
+msgstr ""
+
+#: src/veh_interact.cpp
+msgid "<color_ltred>poor steering</color>"
+msgstr ""
+
+#: src/veh_interact.cpp
+msgid "<color_ltred>unbalanced</color>"
+msgstr ""
+
+#: src/veh_interact.cpp
+msgid "<color_white>Additional requirements:</color>\n"
+msgstr "<color_white>그외 필요 조건:</color>\n"
+
+#: src/veh_interact.cpp
+msgid "<color_white>Skills required:</color>\n"
+msgstr "<color_white>필요 기술:</color>\n"
 
 #: src/veh_interact.cpp
 msgid "<i>nstall"
@@ -124717,12 +124936,12 @@ msgstr "<s>연료 흡인"
 #: src/veh_interact.cpp
 #, c-format
 msgid "> <color_%1$s>%2$s %3$i</color> for extra engines."
-msgstr ""
+msgstr "> <color_%1$s>%2$s %3$i</color> 엔진 추가시"
 
 #: src/veh_interact.cpp
 #, c-format
 msgid "> <color_%1$s>%2$s %3$i</color> for extra steering axles."
-msgstr ""
+msgstr "> <color_%1$s>%2$s %3$i</color> 스티어링 액슬 추가시"
 
 #: src/veh_interact.cpp
 #, c-format
@@ -124735,6 +124954,8 @@ msgid ""
 "> <color_%1$s>1 tool with %2$s %3$i</color> <color_white>OR</color> <color_"
 "%4$s>strength %5$i</color>"
 msgstr ""
+"> <color_%1$s>%2$s %3$i 가능 도구</color> <color_white>또는</color> <color_"
+"%4$s>%5$i의 힘</color>"
 
 #: src/veh_interact.cpp
 msgctxt "Vehicle Parts|"
@@ -124765,16 +124986,9 @@ msgid "Better not remove something while driving."
 msgstr "운전 중엔 뭔가 빼내지 않는것이 좋습니다."
 
 #: src/veh_interact.cpp
-msgid "Boat: <color_blue>can swim</color>"
-msgstr "부력: <color_ltred>충분함</color>"
-
-#: src/veh_interact.cpp
-msgid "Boat: <color_ltred>can't swim</color>"
-msgstr "부력: <color_ltred>부족함</color>"
-
-#: src/veh_interact.cpp
-msgid "Boat: <color_ltred>unbalanced</color>"
-msgstr "부력: <color_ltred>불균형</color>"
+#, c-format
+msgid "Boat: %s"
+msgstr ""
 
 #: src/veh_interact.cpp
 msgctxt "Vehicle Parts|"
@@ -124953,6 +125167,11 @@ msgid "O"
 msgstr "별"
 
 #: src/veh_interact.cpp
+#, c-format
+msgid "Offroad:        <color_ltblue>%3d</color>%%"
+msgstr ""
+
+#: src/veh_interact.cpp
 msgid "Only one muscle powered engine can be installed."
 msgstr "인력으로 작동하는 동력장치는 하나만 설치할 수 있다."
 
@@ -125057,28 +125276,14 @@ msgid "Wheel Size"
 msgstr "바퀴 크기"
 
 #: src/veh_interact.cpp
-msgid "Wheels: <color_ltgreen>enough</color>"
-msgstr "바퀴: <color_ltgreen>충분함</color>"
+#, c-format
+msgid "Wheels/boat: %s/%s"
+msgstr ""
 
 #: src/veh_interact.cpp
-msgid "Wheels: <color_ltred>broken steering</color>"
-msgstr "바퀴: <color_ltred>조향장치 고장</color>"
-
-#: src/veh_interact.cpp
-msgid "Wheels: <color_ltred>lack</color>"
-msgstr "바퀴: <color_ltred>부족함</color>"
-
-#: src/veh_interact.cpp
-msgid "Wheels: <color_ltred>no steering</color>"
-msgstr "바퀴: <color_ltred>조향장치 없음</color>"
-
-#: src/veh_interact.cpp
-msgid "Wheels: <color_ltred>poor steering</color>"
-msgstr "바퀴: <color_ltred>조향장치 불량</color>"
-
-#: src/veh_interact.cpp
-msgid "Wheels: <color_ltred>unbalanced</color>"
-msgstr "바퀴: <color_ltred>불균형</color>"
+#, c-format
+msgid "Wheels: %s"
+msgstr ""
 
 #: src/veh_interact.cpp
 msgid "Who is driving while you work?"
@@ -125157,6 +125362,11 @@ msgstr "<color_%1$s>%2$d</color> 이상의 기계공학 기술이 필요하다."
 
 #: src/veh_interact.cpp
 #, c-format
+msgid "You remove the %1$s from the %2$s."
+msgstr ""
+
+#: src/veh_interact.cpp
+#, c-format
 msgid "You remove the broken %1$s from the %2$s."
 msgstr "%2$s에서 손상된 %1$s을(를) 떼어냈다."
 
@@ -125193,6 +125403,11 @@ msgstr "적재가능"
 #: src/veh_interact.cpp
 msgid "error"
 msgstr "오류"
+
+#: src/veh_interact.cpp
+#, c-format
+msgid "faulty %s"
+msgstr ""
 
 #: src/veh_interact.cpp
 msgid "l<a>bel"
@@ -125254,10 +125469,6 @@ msgstr "%d\" "
 #, c-format
 msgid "A folded %s."
 msgstr "접힌 %s"
-
-#: src/vehicle.cpp
-msgid "Aim turrets manually"
-msgstr "터렛 수동 조준"
 
 #: src/vehicle.cpp
 #, c-format
@@ -125323,14 +125534,6 @@ msgid "Close"
 msgstr "닫기"
 
 #: src/vehicle.cpp
-msgid "Control individual engines"
-msgstr "개별 엔진 설정"
-
-#: src/vehicle.cpp
-msgid "Control vehicle lights"
-msgstr "차량 조명 조정"
-
-#: src/vehicle.cpp
 msgid "Cruise control turned off"
 msgstr "크루즈 모드 꺼짐"
 
@@ -125345,10 +125548,6 @@ msgstr ""
 #: src/vehicle.cpp
 msgid "Disable cruise control"
 msgstr "크루즈 모드 해제"
-
-#: src/vehicle.cpp
-msgid "Do nothing"
-msgstr "아무것도 하지 않기"
 
 #: src/vehicle.cpp
 msgid "Enable cruise control"
@@ -125372,14 +125571,6 @@ msgstr "%s 접기"
 msgid "Forget vehicle position"
 msgstr "차량 위치 삭제"
 
-#: src/vehicle.cpp
-msgid "Fridge turned off"
-msgstr "냉장고 꺼짐"
-
-#: src/vehicle.cpp
-msgid "Fridge turned on"
-msgstr "냉장고 켜짐"
-
 #. ~ Loud horn sound
 #: src/vehicle.cpp
 msgid "HOOOOORNK!"
@@ -125392,6 +125583,11 @@ msgstr "경적 울리기"
 #: src/vehicle.cpp
 msgid "Hotwire"
 msgstr "합선시켜 시동걸기"
+
+#: src/vehicle.cpp
+#, c-format
+msgid "Insufficient power to enable %s"
+msgstr ""
 
 #. ~ indicates that a vehicle part is inside
 #: src/vehicle.cpp
@@ -125429,56 +125625,16 @@ msgid "NEEeu NEEeu NEEeu"
 msgstr ""
 
 #: src/vehicle.cpp
-msgid "No controls there."
-msgstr "조종장치가 없다."
+msgid "No controls there"
+msgstr ""
 
 #: src/vehicle.cpp
 msgid "Open"
 msgstr "열기"
 
 #: src/vehicle.cpp
-msgid "Planter system started"
-msgstr "파종기 켜짐"
-
-#: src/vehicle.cpp
-msgid "Planter system stopped"
-msgstr "파종기 꺼짐"
-
-#: src/vehicle.cpp
-msgid "Plow system started"
-msgstr "쟁기 장치 켜짐"
-
-#: src/vehicle.cpp
-msgid "Plow system stopped"
-msgstr "쟁기 장치 꺼짐"
-
-#: src/vehicle.cpp
 msgid "ROARRR!"
 msgstr ""
-
-#: src/vehicle.cpp
-msgid "Reactor turned off"
-msgstr "반응로 꺼짐"
-
-#: src/vehicle.cpp
-msgid "Reactor turned on"
-msgstr "반응로 켜짐"
-
-#: src/vehicle.cpp
-msgid "Reaper turned off"
-msgstr "수확기 꺼짐"
-
-#: src/vehicle.cpp
-msgid "Reaper turned on"
-msgstr "수확기 켜짐"
-
-#: src/vehicle.cpp
-msgid "Recharger turned off"
-msgstr "재충전기 꺼짐"
-
-#: src/vehicle.cpp
-msgid "Recharger turned on"
-msgstr "재충전기 켜짐"
 
 #: src/vehicle.cpp
 msgid "Remember vehicle position"
@@ -125487,10 +125643,6 @@ msgstr "차량 위치 기억"
 #: src/vehicle.cpp
 msgid "Select door to toggle"
 msgstr "여닫을 문을 선택하세요."
-
-#: src/vehicle.cpp
-msgid "Set turret targeting modes"
-msgstr "터렛을 조준 모드로 설정"
 
 #: src/vehicle.cpp
 msgid "Stop controlling"
@@ -125518,14 +125670,16 @@ msgstr "%1$s의 %2$s이(가) 부서졌다!"
 msgid "The %1$s's %2$s is torn off!"
 msgstr "%1$s의 %2$s이(가) 뜯겨져 나갔다!"
 
+#. ~ %1$s: name of the vehicle; %2$s: name of the related vehicle part; %3$s: trap name
+#: src/vehicle.cpp
+#, c-format
+msgid "The %1$s's %2$s runs over %3$s."
+msgstr ""
+
 #: src/vehicle.cpp
 #, c-format
 msgid "The %1$s's %2$s runs over something."
 msgstr "%1$s의 %2$s이(가) 뭔가를 치어 넘었다."
-
-#: src/vehicle.cpp
-msgid "The %1$s's %s runs over %2$s."
-msgstr "%1$s의 %2$s이(가) %s을(를) 치어 넘었다."
 
 #: src/vehicle.cpp
 #, c-format
@@ -125536,6 +125690,11 @@ msgstr "%s에는 움직이기 위해 필요한 만큼의 바퀴가 없다!"
 #, c-format
 msgid "The %s is stuck."
 msgstr "%s은(는) 걸려 있다."
+
+#: src/vehicle.cpp
+#, c-format
+msgid "The %s is too heavy for its engine(s)!"
+msgstr ""
 
 #: src/vehicle.cpp
 #, c-format
@@ -125621,14 +125780,6 @@ msgid "The alarm stops."
 msgstr "경보음이 멈췄다."
 
 #: src/vehicle.cpp
-msgid "The chimes won't come on!"
-msgstr "차임벨이 켜지지 않는다!"
-
-#: src/vehicle.cpp
-msgid "The fridge won't turn on!"
-msgstr "냉장고가 켜지지 않는다!"
-
-#: src/vehicle.cpp
 #, c-format
 msgctxt "memorial_female"
 msgid "The fuel tank of the %s exploded!"
@@ -125641,24 +125792,8 @@ msgid "The fuel tank of the %s exploded!"
 msgstr "%s의 연료탱크가 폭발했다!"
 
 #: src/vehicle.cpp
-msgid "The reactor won't turn on!"
-msgstr "반응로가 켜지지 않는다!"
-
-#: src/vehicle.cpp
-msgid "The recharger won't turn on!"
-msgstr "재충전기가 켜지지 않는다!"
-
-#: src/vehicle.cpp
-msgid "The stereo won't come on!"
-msgstr "오디오가 켜지지 않는다!"
-
-#: src/vehicle.cpp
 msgid "The vehicle part you were working on has gone!"
 msgstr "작업 중이던 차량 부품이 사라졌다!"
-
-#: src/vehicle.cpp
-msgid "Toggle door"
-msgstr "문 여닫기"
 
 #: src/vehicle.cpp
 msgid "Toggle which?"
@@ -125683,116 +125818,40 @@ msgid "Try to disarm alarm."
 msgstr "경보기 해제"
 
 #: src/vehicle.cpp
-msgid "Turn off all lights"
-msgstr "모든 조명 끄기"
+#, c-format
+msgid "Turn off %s"
+msgstr ""
 
 #: src/vehicle.cpp
 msgid "Turn off camera system"
 msgstr "카메라 시스템 끄기"
 
 #: src/vehicle.cpp
-msgid "Turn off chimes"
-msgstr "차임벨 끄기"
-
-#: src/vehicle.cpp
-msgid "Turn off fridge"
-msgstr "냉장고 끄기"
-
-#: src/vehicle.cpp
-msgid "Turn off reactor"
-msgstr "반응로 끄기"
-
-#: src/vehicle.cpp
-msgid "Turn off reaper"
-msgstr "수확기 끄기"
-
-#: src/vehicle.cpp
-msgid "Turn off recharger"
-msgstr "재충전기 끄기"
-
-#: src/vehicle.cpp
-msgid "Turn off scoop system"
-msgstr "집수 시스템 끄기"
-
-#: src/vehicle.cpp
-msgid "Turn off stereo"
-msgstr "오디오 끄기"
-
-#: src/vehicle.cpp
 msgid "Turn off the engine"
 msgstr "엔진 끄기"
+
+#: src/vehicle.cpp
+#, c-format
+msgid "Turn on %s"
+msgstr ""
 
 #: src/vehicle.cpp
 msgid "Turn on camera system"
 msgstr "카메라 시스템 켜기"
 
 #: src/vehicle.cpp
-msgid "Turn on chimes"
-msgstr "차임벨 켜기"
-
-#: src/vehicle.cpp
-msgid "Turn on fridge"
-msgstr "냉장고 켜기"
-
-#: src/vehicle.cpp
-msgid "Turn on headlights"
-msgstr "헤드라이트 켜기"
-
-#: src/vehicle.cpp
-msgid "Turn on reactor"
-msgstr "반응로 켜기"
-
-#: src/vehicle.cpp
-msgid "Turn on reaper"
-msgstr "수확기 켜기"
-
-#: src/vehicle.cpp
-msgid "Turn on recharger"
-msgstr "재충전기 켜기"
-
-#: src/vehicle.cpp
-msgid "Turn on scoop system"
-msgstr "집수 시스템 켜기"
-
-#: src/vehicle.cpp
-msgid "Turn on stereo"
-msgstr "오디오 켜기"
-
-#: src/vehicle.cpp
 msgid "Turn on the engine"
 msgstr "엔진 켜기"
 
 #: src/vehicle.cpp
-msgid "Turn planter off"
-msgstr "파종기 끄기"
+#, c-format
+msgid "Turned off %s."
+msgstr ""
 
 #: src/vehicle.cpp
-msgid "Turn planter on"
-msgstr "파종기 켜기"
-
-#: src/vehicle.cpp
-msgid "Turn plow off"
-msgstr "쟁기 장치 끄기"
-
-#: src/vehicle.cpp
-msgid "Turn plow on"
-msgstr "쟁기 장치 켜기"
-
-#: src/vehicle.cpp
-msgid "Turned off chimes"
-msgstr "차임벨 꺼짐"
-
-#: src/vehicle.cpp
-msgid "Turned off music"
-msgstr "오디오 꺼짐"
-
-#: src/vehicle.cpp
-msgid "Turned on chimes"
-msgstr "차임벨 켜짐"
-
-#: src/vehicle.cpp
-msgid "Turned on music"
-msgstr "오디오 켜짐"
+#, c-format
+msgid "Turned on %s."
+msgstr ""
 
 #: src/vehicle.cpp
 msgid "Vehicle controls"
@@ -125930,16 +125989,48 @@ msgid "beep!"
 msgstr "삐익!"
 
 #: src/vehicle.cpp
+msgid "dome lights"
+msgstr ""
+
+#: src/vehicle.cpp
 #, c-format
 msgid "folded %s"
 msgstr "접힌 %s"
+
+#: src/vehicle.cpp
+msgid "fridge"
+msgstr ""
+
+#: src/vehicle.cpp
+msgid "headlights"
+msgstr ""
 
 #: src/vehicle.cpp
 msgid "hummm!"
 msgstr ""
 
 #: src/vehicle.cpp
+msgid "overhead lights"
+msgstr ""
+
+#: src/vehicle.cpp
+msgid "planter"
+msgstr ""
+
+#: src/vehicle.cpp
+msgid "reactor"
+msgstr ""
+
+#: src/vehicle.cpp
+msgid "recharger"
+msgstr ""
+
+#: src/vehicle.cpp
 msgid "roarrr!"
+msgstr ""
+
+#: src/vehicle.cpp
+msgid "stereo"
 msgstr ""
 
 #: src/vehicle.cpp

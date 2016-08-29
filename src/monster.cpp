@@ -13,7 +13,6 @@
 #include "translations.h"
 #include "overmapbuffer.h"
 #include <sstream>
-#include <fstream>
 #include <stdlib.h>
 #include <algorithm>
 #include "cursesdef.h"
@@ -87,6 +86,7 @@ const species_id ZOMBIE( "ZOMBIE" );
 const species_id FUNGUS( "FUNGUS" );
 const species_id INSECT( "INSECT" );
 const species_id MAMMAL( "MAMMAL" );
+const species_id ABERRATION( "ABERRATION" );
 
 const efftype_id effect_badpoison( "badpoison" );
 const efftype_id effect_beartrap( "beartrap" );
@@ -202,7 +202,7 @@ void monster::poly( const mtype_id& id )
 }
 
 bool monster::can_upgrade() {
-    return upgrades && (ACTIVE_WORLD_OPTIONS["MONSTER_UPGRADE_FACTOR"] > 0.0);
+    return upgrades && get_world_option<float>( "MONSTER_UPGRADE_FACTOR" ) > 0.0;
 }
 
 // For master special attack.
@@ -211,7 +211,7 @@ void monster::hasten_upgrade() {
         return;
     }
 
-    const int scaled_half_life = type->half_life * ACTIVE_WORLD_OPTIONS["MONSTER_UPGRADE_FACTOR"];
+    const int scaled_half_life = type->half_life * get_world_option<float>( "MONSTER_UPGRADE_FACTOR" );
     upgrade_time -= rng(1, scaled_half_life);
     if (upgrade_time < 0) {
         upgrade_time = 0;
@@ -221,7 +221,7 @@ void monster::hasten_upgrade() {
 // This will disable upgrades in case max iters have been reached.
 // Checking for return value of -1 is necessary.
 int monster::next_upgrade_time() {
-    const int scaled_half_life = type->half_life * ACTIVE_WORLD_OPTIONS["MONSTER_UPGRADE_FACTOR"];
+    const int scaled_half_life = type->half_life * get_world_option<float>( "MONSTER_UPGRADE_FACTOR" );
     int day = scaled_half_life;
     for (int i = 0; i < UPGRADE_MAX_ITERS; i++) {
         if (one_in(2)) {
@@ -630,12 +630,12 @@ Creature::Attitude monster::attitude_to( const Creature &other ) const
     } else if( p != nullptr ) {
         switch( attitude( const_cast<player *>( p ) ) ) {
             case MATT_FRIEND:
+            case MATT_ZLAVE:
                 return A_FRIENDLY;
             case MATT_FPASSIVE:
             case MATT_FLEE:
             case MATT_IGNORE:
             case MATT_FOLLOW:
-            case MATT_ZLAVE:
                 return A_NEUTRAL;
             case MATT_ATTACK:
                 return A_HOSTILE;
@@ -912,7 +912,7 @@ bool monster::block_hit(Creature *, body_part &, damage_instance &) {
 
 void monster::absorb_hit(body_part, damage_instance &dam) {
     for( auto &elem : dam.damage_units ) {
-        add_msg(m_debug, "Dam Type: %s :: Ar Pen: %d :: Armor Mult: %f", name_by_dt(elem.type).c_str(), elem.res_pen, elem.res_mult);
+        add_msg(m_debug, "Dam Type: %s :: Ar Pen: %.1f :: Armor Mult: %.1f", name_by_dt(elem.type).c_str(), elem.res_pen, elem.res_mult);
         elem.amount -= std::min( resistances( *this ).get_effective_resist( elem ), elem.amount );
     }
 }
@@ -1521,7 +1521,8 @@ void monster::normalize_ammo( const int old_ammo )
 void monster::explode()
 {
     // Handled in mondeath::normal
-    hp = INT_MIN;
+    // +1 to avoid overflow when evaluating -hp
+    hp = INT_MIN + 1;
 }
 
 void monster::process_turn()
@@ -1654,7 +1655,7 @@ void monster::drop_items_on_death()
         return;
     }
     const auto dropped = g->m.put_items_from_loc( type->death_drops, pos(), calendar::turn );
-    if( !type->in_species( ZOMBIE ) ) {
+    if( !type->in_species( ZOMBIE ) && !type->in_species( FUNGUS ) ) {
         return;
     }
     for( const auto &it : dropped ) {
@@ -1959,7 +1960,7 @@ float monster::power_rating() const
 
 float monster::speed_rating() const
 {
-    float ret = 1.0f / get_speed();
+    float ret = get_speed() / 100.0f;
     const auto leap = type->special_attacks.find( "leap" );
     if( leap != type->special_attacks.end() ) {
         // TODO: Make this calculate sane values here

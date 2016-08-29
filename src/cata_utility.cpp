@@ -9,6 +9,8 @@
 #include "debug.h"
 #include "mapsharing.h"
 #include "output.h"
+#include "json.h"
+#include "filesystem.h"
 
 #include <algorithm>
 
@@ -131,17 +133,6 @@ int list_filter_low_priority( std::vector<map_item_stack> &stack, int start,
 }
 
 // Operator overload required by sort interface.
-bool compare_by_dist_attitude::operator()( Creature *a, Creature *b ) const
-{
-    const auto aa = u.attitude_to( *a );
-    const auto ab = u.attitude_to( *b );
-    if( aa != ab ) {
-        return aa < ab;
-    }
-    return rl_dist( a->pos(), u.pos() ) < rl_dist( b->pos(), u.pos() );
-}
-
-// Operator overload required by sort interface.
 bool pair_greater_cmp::operator()( const std::pair<int, tripoint> &a,
                                    const std::pair<int, tripoint> &b )
 {
@@ -206,7 +197,7 @@ int bound_mod_to_vals( int val, int mod, int max, int min )
 
 const char *velocity_units( const units_type vel_units )
 {
-    if( OPTIONS["USE_METRIC_SPEEDS"].getValue() == "mph" ) {
+    if( get_option<std::string>( "USE_METRIC_SPEEDS" ) == "mph" ) {
         return _( "mph" );
     } else {
         switch( vel_units ) {
@@ -221,7 +212,7 @@ const char *velocity_units( const units_type vel_units )
 
 const char *weight_units()
 {
-    return OPTIONS["USE_METRIC_WEIGHTS"].getValue() == "lbs" ? _( "lbs" ) : _( "kg" );
+    return get_option<std::string>( "USE_METRIC_WEIGHTS" ) == "lbs" ? _( "lbs" ) : _( "kg" );
 }
 
 /**
@@ -232,7 +223,7 @@ double convert_velocity( int velocity, const units_type vel_units )
     // internal units to mph conversion
     double ret = double( velocity ) / 100;
 
-    if( OPTIONS["USE_METRIC_SPEEDS"] == "km/h" ) {
+    if( get_option<std::string>( "USE_METRIC_SPEEDS" ) == "km/h" ) {
         switch( vel_units ) {
             case VU_VEHICLE:
                 // mph to km/h conversion
@@ -254,7 +245,7 @@ double convert_weight( int weight )
 {
     double ret;
     ret = double( weight );
-    if( OPTIONS["USE_METRIC_WEIGHTS"] == "kg" ) {
+    if( get_option<std::string>( "USE_METRIC_WEIGHTS" ) == "kg" ) {
         ret /= 1000;
     } else {
         ret /= 453.6;
@@ -362,4 +353,63 @@ bool write_to_file_exclusive( const std::string &path,
         }
         return false;
     }
+}
+
+bool read_from_file( const std::string &path, const std::function<void( std::istream & )> &reader )
+{
+    try {
+        std::ifstream fin( path, std::ios::binary );
+        if( !fin ) {
+            throw std::runtime_error( "opening file failed" );
+        }
+        reader( fin );
+        if( fin.bad() ) {
+            throw std::runtime_error( "reading file failed" );
+        }
+        return true;
+
+    } catch( const std::exception &err ) {
+        popup( _( "Failed to read from \"%1$s\": %2$s" ), path.c_str(), err.what() );
+        return false;
+    }
+}
+
+bool read_from_file( const std::string &path, const std::function<void( JsonIn & )> &reader )
+{
+    return read_from_file( path, [&reader]( std::istream & fin ) {
+        JsonIn jsin( fin );
+        reader( jsin );
+    } );
+}
+
+bool read_from_file( const std::string &path, JsonDeserializer &reader )
+{
+    return read_from_file( path, [&reader]( JsonIn & jsin ) {
+        reader.deserialize( jsin );
+    } );
+}
+
+bool read_from_file_optional( const std::string &path,
+                              const std::function<void( std::istream & )> &reader )
+{
+    // Note: slight race condition here, but we'll ignore it. Worst case: the file
+    // exists and got removed before reading it -> reading fails with a message
+    // Or file does not exists, than everything works fine because it's optional anyway.
+    return file_exist( path ) && read_from_file( path, reader );
+}
+
+bool read_from_file_optional( const std::string &path,
+                              const std::function<void( JsonIn & )> &reader )
+{
+    return read_from_file_optional( path, [&reader]( std::istream & fin ) {
+        JsonIn jsin( fin );
+        reader( jsin );
+    } );
+}
+
+bool read_from_file_optional( const std::string &path, JsonDeserializer &reader )
+{
+    return read_from_file_optional( path, [&reader]( JsonIn & jsin ) {
+        reader.deserialize( jsin );
+    } );
 }

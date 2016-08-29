@@ -2,7 +2,7 @@
   {
     "id": "beltfeed",
     "type": "GUNMOD",
-    "name": "belt feed adaptor",
+    "name": "belt feed adapter",
     "description": "A kit providing the necessary parts for permanently converting a firearm from magazine to belt-feed.  Guaranteed to void your warranty.",
     "weight": 950,
     "volume": 3,
@@ -26,8 +26,8 @@
   {
     "id": "lwfeed",
     "type": "GUNMOD",
-    "name": "leadworks magazine adaptor",
-    "description": "A bootleg adaptor for permanently converting a firearm to accept proprietary Leadworks magazines.  Guaranteed to void your warranty.",
+    "name": "leadworks magazine adapter",
+    "description": "A bootleg adapter for permanently converting a firearm to accept proprietary Leadworks magazines.  Guaranteed to void your warranty.",
     "weight": 140,
     "volume": 1,
     "integral_volume": 1,

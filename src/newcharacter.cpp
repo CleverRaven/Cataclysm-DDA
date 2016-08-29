@@ -27,9 +27,9 @@
 #include <unistd.h>
 #endif
 #include <cstring>
-#include <fstream>
 #include <sstream>
 #include <vector>
+#include <algorithm>
 #include <cassert>
 
 // Colors used in this file: (Most else defaults to c_ltgray)
@@ -81,9 +81,9 @@ struct points_left {
 
     void init_from_options()
     {
-        stat_points = OPTIONS["INITIAL_STAT_POINTS"];
-        trait_points = OPTIONS["INITIAL_TRAIT_POINTS"];
-        skill_points = OPTIONS["INITIAL_SKILL_POINTS"];
+        stat_points = get_option<int>( "INITIAL_STAT_POINTS" );
+        trait_points = get_option<int>( "INITIAL_TRAIT_POINTS" );
+        skill_points = get_option<int>( "INITIAL_SKILL_POINTS" );
     }
 
     // Highest amount of points to spend on stats without points going invalid
@@ -178,8 +178,8 @@ bool lcmatch(const std::string &str, const std::string &findstr); // ui.cpp
 
 void Character::pick_name(bool bUseDefault)
 {
-    if (bUseDefault && OPTIONS["DEF_CHAR_NAME"]) {
-        name = OPTIONS["DEF_CHAR_NAME"].getValue();
+    if (bUseDefault && !get_option<std::string>( "DEF_CHAR_NAME" ).empty() ) {
+        name = get_option<std::string>( "DEF_CHAR_NAME" );
     } else {
         name = Name::generate(male);
     }
@@ -212,28 +212,22 @@ matype_id choose_ma_style( const character_type type, const std::vector<matype_i
 
 bool player::load_template( const std::string &template_name )
 {
-    const std::string path = FILENAMES["templatedir"] + template_name + ".template";
-    std::ifstream fin( path.c_str() );
-    if( !fin.is_open() ) {
-        debugmsg( "Couldn't open %s!", path.c_str() );
-        return false;
-    }
-    std::string data;
-    getline( fin, data );
-    load_info( data );
+    return read_from_file( FILENAMES["templatedir"] + template_name + ".template", [&]( std::istream &fin ) {
+        std::string data;
+        getline( fin, data );
+        load_info( data );
 
-    if( MAP_SHARING::isSharing() ) {
-        // just to make sure we have the right name
-        name = MAP_SHARING::getUsername();
-    }
-
-    return true;
+        if( MAP_SHARING::isSharing() ) {
+            // just to make sure we have the right name
+            name = MAP_SHARING::getUsername();
+        }
+    } );
 }
 
 void player::randomize( const bool random_scenario, points_left &points )
 {
 
-    const int max_trait_points = OPTIONS["MAX_TRAIT_POINTS"];
+    const int max_trait_points = get_option<int>( "MAX_TRAIT_POINTS" );
     // Reset everything to the defaults to have a clean state.
     *this = player();
 
@@ -597,12 +591,6 @@ bool player::create(character_type type, std::string tempname)
     // Adjust current energy level to maximum
     power_level = max_power_level;
 
-    // Get traits
-    std::vector<std::string> prof_traits = g->u.prof->traits();
-    for (std::vector<std::string>::const_iterator iter = prof_traits.begin();
-         iter != prof_traits.end(); ++iter) {
-         g->u.toggle_trait(*iter);
-    }
     for( auto &t : get_base_traits() ) {
         std::vector<matype_id> styles;
         for( auto &s : mutation_branch::get( t ).initial_ma_styles ) {
@@ -902,10 +890,6 @@ tab_direction set_stats(WINDOW *w, player *u, points_left &points)
                 mvwprintz(w_description, 1, 0, COL_STAT_PENALTY, _("Throwing penalty: -%d"),
                           abs(u->throw_dex_mod(false)));
             }
-            if (u->ranged_dex_mod() != 0) {
-                mvwprintz(w_description, 2, 0, COL_STAT_PENALTY, _("Ranged penalty: -%d"),
-                          abs(u->ranged_dex_mod()));
-            }
             fold_and_print(w_description, 4, 0, getmaxx(w_description) - 1, COL_STAT_NEUTRAL,
                            _("Dexterity also enhances many actions which require finesse."));
             break;
@@ -931,10 +915,6 @@ tab_direction set_stats(WINDOW *w, player *u, points_left &points)
             mvwprintz(w, 9,  16, COL_STAT_ACT, "%2d", u->per_max);
             if (u->per_max >= HIGH_STAT) {
                 mvwprintz(w, 3, iSecondColumn, c_ltred, _("Increasing Per further costs 2 points."));
-            }
-            if (u->ranged_per_mod() != 0) {
-                mvwprintz(w_description, 0, 0, COL_STAT_PENALTY, _("Ranged penalty: -%d"),
-                          abs(u->ranged_per_mod()));
             }
             fold_and_print(w_description, 2, 0, getmaxx(w_description) - 1, COL_STAT_NEUTRAL,
                            _("Perception is also used for detecting traps and other things of interest."));
@@ -1026,7 +1006,7 @@ tab_direction set_stats(WINDOW *w, player *u, points_left &points)
 
 tab_direction set_traits(WINDOW *w, player *u, points_left &points)
 {
-    const int max_trait_points = OPTIONS["MAX_TRAIT_POINTS"];
+    const int max_trait_points = get_option<int>( "MAX_TRAIT_POINTS" );
 
     draw_tabs( w, _("TRAITS") );
 
@@ -1206,16 +1186,15 @@ tab_direction set_traits(WINDOW *w, player *u, points_left &points)
             if (u->has_trait(cur_trait)) {
 
                 inc_type = -1;
-                // If turning off the trait violates a profession condition,
-                // turn it back on.
-                if(!(u->prof->can_pick(u, 0))) {
+
+                if( g->scen->locked_traits( cur_trait ) ) {
                     inc_type = 0;
-                    popup(_("Your profession of %s prevents you from removing this trait."),
-                          u->prof->gender_appropriate_name(u->male).c_str());
-                }
-                if(g->scen->locked_traits(cur_trait)) {
+                    popup( _( "Your scenario of %s prevents you from removing this trait." ),
+                           g->scen->gender_appropriate_name( u->male ).c_str() );
+                } else if( u->prof->locked_traits( cur_trait ) ) {
                     inc_type = 0;
-                    popup(_("The scenario you picked prevents you from removing this trait!"));
+                    popup( _( "Your profession of %s prevents you from removing this trait." ),
+                           u->prof->gender_appropriate_name( u->male ).c_str() );
                 }
             } else if(u->has_conflicting_trait(cur_trait)) {
                 popup(_("You already picked a conflicting trait!"));
@@ -1235,15 +1214,6 @@ tab_direction set_traits(WINDOW *w, player *u, points_left &points)
 
             } else {
                 inc_type = 1;
-
-                // If turning on the trait violates a profession condition,
-                // turn it back off.
-                if(!(u->prof->can_pick(u, 0))) {
-                    inc_type = 0;
-                    popup(_("Your profession of %s prevents you from taking this trait."),
-                          u->prof->gender_appropriate_name(u->male).c_str());
-
-                }
             }
 
             //inc_type is either -1 or 1, so we can just multiply by it to invert
@@ -1547,7 +1517,15 @@ tab_direction set_profession(WINDOW *w, player *u, points_left &points)
                 desc_offset++;
             }
         } else if (action == "CONFIRM") {
+            // Remove old profession-specific traits (e.g. pugilist for boxers)
+            const auto old_traits = u->prof->traits();
+            for( const std::string &old_trait : old_traits ) {
+                u->toggle_trait( old_trait );
+            }
             u->prof = sorted_profs[cur_id];
+            // Add traits for the new profession (and perhaps scenario, if, for example,
+            // both the scenario and old profession require the same trait)
+            u->add_traits();
             points.skill_points -= netPointCost;
         } else if (action == "CHANGE_GENDER") {
             u->male = !u->male;
@@ -2148,8 +2126,8 @@ tab_direction set_description(WINDOW *w, player *u, const bool allow_reroll, poi
     select_location.setup();
     if(MAP_SHARING::isSharing()) {
         u->name = MAP_SHARING::getUsername();  // set the current username as default character name
-    } else if (OPTIONS["DEF_CHAR_NAME"]) {
-        u->name = OPTIONS["DEF_CHAR_NAME"].getValue();
+    } else if( !get_option<std::string>( "DEF_CHAR_NAME" ).empty() ) {
+        u->name = get_option<std::string>( "DEF_CHAR_NAME" );
     }
     do {
         if (redraw) {
@@ -2190,8 +2168,8 @@ tab_direction set_description(WINDOW *w, player *u, const bool allow_reroll, poi
             } else {
                 for( auto &current_trait : current_traits ) {
                     wprintz(w_traits, c_ltgray, "\n");
-                    wprintz( w_traits, ( mutation_branch::get( current_trait ).points > 0 ) ? c_ltgreen : c_ltred,
-                             mutation_branch::get_name( current_trait ).c_str() );
+                    const auto &mdata = mutation_branch::get( current_trait );
+                    wprintz( w_traits, mdata.get_display_color(), mdata.name.c_str() );
                 }
             }
             wrefresh(w_traits);
@@ -2295,7 +2273,7 @@ tab_direction set_description(WINDOW *w, player *u, const bool allow_reroll, poi
         const std::string action = ctxt.handle_input();
 
         if (action == "NEXT_TAB") {
-            if (OPTIONS["POINT_DISTRIBUTION"] != "freeform" && !points.is_valid() ) {
+            if (!points.is_valid() ) {
                 if( points.skill_points_left() < 0 ) {
                         popup(_("Too many points allocated, change some features and try again."));
                 } else if( points.trait_points_left() < 0 ) {
@@ -2437,14 +2415,19 @@ void Character::empty_skills()
         sk.second.level( 0 );
     }
 }
+
 void Character::add_traits()
 {
     for( auto &traits_iter : mutation_branch::get_all() ) {
-        if( g->scen->locked_traits( traits_iter.first ) ) {
+        if( g->scen->locked_traits( traits_iter.first ) && !has_trait( traits_iter.first ) ) {
+            toggle_trait( traits_iter.first );
+        }
+        if( g->u.prof->locked_traits( traits_iter.first ) && !has_trait( traits_iter.first ) ) {
             toggle_trait( traits_iter.first );
         }
     }
 }
+
 std::string Character::random_good_trait()
 {
     std::vector<std::string> vTraitsGood;

@@ -15,11 +15,12 @@
 #include "trap.h"
 #include "itype.h"
 #include "mapdata.h"
+#include "cata_utility.h"
 
 #include <istream>
 #include <sstream>
-#include <fstream>
 #include <iterator>
+#include <algorithm>
 
 extern input_context get_default_mode_input_context();
 extern bool tile_iso;
@@ -31,22 +32,14 @@ void load_keyboard_settings( std::map<char, action_id> &keymap,
                              std::string &keymap_file_loaded_from,
                              std::set<action_id> &unbound_keymap )
 {
-    // Load the player's actual keymap
-    std::ifstream fin;
-    fin.open( FILENAMES["keymap"].c_str() );
-    if( !fin.is_open() ) { // It doesn't exist
-        // Try it at the legacy location.
-        fin.open( FILENAMES["legacy_keymap"].c_str() );
-        if( fin.is_open() ) {
-            keymap_file_loaded_from = FILENAMES["legacy_keymap"];
-        }
-    } else {
+    const auto parser = [&]( std::istream & fin ) {
+        parse_keymap( fin, keymap, unbound_keymap );
+    };
+    if( read_from_file_optional( FILENAMES["keymap"], parser ) ) {
         keymap_file_loaded_from = FILENAMES["keymap"];
+    } else if( read_from_file_optional( FILENAMES["legacy_keymap"], parser ) ) {
+        keymap_file_loaded_from = FILENAMES["legacy_keymap"];
     }
-    if( !fin.is_open() ) { // Still can't open it--probably bad permissions
-        return;
-    }
-    parse_keymap( fin, keymap, unbound_keymap );
 }
 
 void parse_keymap( std::istream &keymap_txt, std::map<char, action_id> &kmap,
@@ -249,6 +242,8 @@ std::string action_ident( action_id act )
             return "autosafe";
         case ACTION_IGNORE_ENEMY:
             return "ignore_enemy";
+        case ACTION_WHITELIST_ENEMY:
+            return "whitelist_enemy";
         case ACTION_SAVE:
             return "save";
         case ACTION_QUICKSAVE:

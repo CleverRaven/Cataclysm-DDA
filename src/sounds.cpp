@@ -21,6 +21,8 @@
 #include "mapdata.h"
 #include "itype.h"
 #include <chrono>
+#include <algorithm>
+
 #ifdef SDL_SOUND
 #   include <SDL_mixer.h>
 #   include <thread>

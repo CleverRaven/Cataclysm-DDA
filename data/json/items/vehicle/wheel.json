@@ -1,5 +1,5 @@
 [
-  {   
+  {
     "id": "wheel",
     "type": "WHEEL",
     "category": "veh_parts",
@@ -36,7 +36,7 @@
   {
     "id": "wheel_barrow",
     "type": "WHEEL",
-    "category": "veh_parts",    
+    "category": "veh_parts",
     "name": "wheelbarrow wheel",
     "description": "A small wheel from a common garden wheelbarrow.",
     "weight": 2722,

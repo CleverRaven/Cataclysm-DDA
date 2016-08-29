@@ -2362,7 +2362,7 @@
     "death_drops": "default_zombie_death_drops",
     "upgrades":{
       "into_group": "GROUP_ZOMBIE_BRUTE",
-      "half_life": 28
+      "half_life": 21
     },
     "burn_into" : "mon_zombie_fiend",
     "hp":120,
@@ -3079,7 +3079,7 @@
         },
         ["IMPALE", 25]
     ],
-    "description":"With its joints in odd places and angles, this humanoid creature prowls across the landscape with suprising speed.  Its teeth and arms are sharpened into fine points, and black ooze seeps out from cuts between its muscles.",
+    "description":"With its joints in odd places and angles, this humanoid creature prowls across the landscape with surprising speed.  Its teeth and arms are sharpened into fine points, and black ooze seeps out from cuts between its muscles.",
     "flags":["SEES", "HEARS", "SMELLS", "WARM", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "BONES", "PUSH_MON"]
     },{
     "type" : "MONSTER",
@@ -6237,7 +6237,7 @@
     },{
     "type" : "MONSTER",
     "id" : "mon_alpha_razorclaw",
-    "name": " alpha razorclaw",
+    "name": "alpha razorclaw",
     "species":"MUTANT",
     "default_faction":"razorclaw",
     "symbol":"Y",
@@ -6326,7 +6326,7 @@
     "death_function":"NORMAL",
     "special_attacks":[["PARROT", 80]],
     "description":"A robot body with the head of a human.  All kinds of electronic wires and devices are implanted in its head.  Patches of skin look diseased or rotting.  This cyborg moves erratically and has a confused and deranged look in its eyes.",
-    "flags":["SEES", "HEARS", "BASHES", "ATTACKMON", "ELECTRONIC", "NO_BREATHE", "REVIVES", "WARM", "STUMBLES", "CBM_POWER", "HUMAN", "BONES"]
+    "flags":["SEES", "HEARS", "BASHES", "ATTACKMON", "ELECTRONIC", "NO_BREATHE", "REVIVES", "WARM", "STUMBLES", "CBM_POWER", "HUMAN", "BONES", "NO_NECRO"]
     },{
     "type" : "MONSTER",
     "id" : "mon_zoose",

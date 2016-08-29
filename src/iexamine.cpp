@@ -996,7 +996,7 @@ void iexamine::safe(player &p, const tripoint &examp)
 void iexamine::gunsafe_ml(player &p, const tripoint &examp)
 {
     std::string furn_name = g->m.tername(examp).c_str();
-    if( !( p.has_amount("crude_picklock", 1) || p.has_amount("hairpin", 1) ||
+    if( !( p.has_amount("crude_picklock", 1) || p.has_amount("hairpin", 1) || p.has_amount("fc_hairpin", 1) ||
            p.has_amount("picklocks", 1) || p.has_bionic("bio_lockpick") ) ) {
         add_msg(m_info, _("You need a lockpick to open this gun safe."));
         return;
@@ -1007,6 +1007,8 @@ void iexamine::gunsafe_ml(player &p, const tripoint &examp)
     int pick_quality = 1;
     if( p.has_amount("picklocks", 1) || p.has_bionic("bio_lockpick") ) {
         pick_quality = 5;
+    } else if (p.has_amount("fc_hairpin",1)) {
+        pick_quality = 1;
     } else {
         pick_quality = 3;
     }
@@ -2507,12 +2509,12 @@ void iexamine::shrub_wildveggies( player &p, const tripoint &examp )
     return;
 }
 
-int sum_up_item_weight_by_material( map_stack &stack, const material_id &material, bool remove_items )
+int sum_up_item_weight_by_material( map_stack &stack, const material_id &material, bool remove_items, bool include_contents )
 {
     int sum_weight = 0;
     for( auto item_it = stack.begin(); item_it != stack.end(); ) {
         if( item_it->made_of(material) && item_it->weight() > 0) {
-            sum_weight += item_it->weight();
+            sum_weight += item_it->weight( include_contents );
             if( remove_items ) {
                 item_it = stack.erase( item_it );
             } else {
@@ -2544,7 +2546,7 @@ void iexamine::recycler(player &p, const tripoint &examp)
     // check for how much steel, by weight, is in the recycler
     // only items made of STEEL are checked
     // IRON and other metals cannot be turned into STEEL for now
-    int steel_weight = sum_up_item_weight_by_material( items_on_map, material_id( "steel" ), false );
+    int steel_weight = sum_up_item_weight_by_material( items_on_map, material_id( "steel" ), false, false );
     if (steel_weight == 0) {
         add_msg(m_info,
                 _("The recycler is currently empty.  Drop some metal items onto it and examine it again."));
@@ -2559,8 +2561,8 @@ void iexamine::recycler(player &p, const tripoint &examp)
                                                             weight_units());
     as_m.text = string_format(_("Recycle %s metal into:"), weight_str.c_str());
     add_recyle_menu_entry(as_m, norm_recover_weight, 'l', "steel_lump");
-    add_recyle_menu_entry(as_m, norm_recover_weight, 'S', "sheet_metal");
-    add_recyle_menu_entry(as_m, norm_recover_weight, 'c', "steel_chunk");
+    add_recyle_menu_entry(as_m, norm_recover_weight, 'm', "sheet_metal");
+    add_recyle_menu_entry(as_m, norm_recover_weight, 'C', "steel_chunk");
     add_recyle_menu_entry(as_m, norm_recover_weight, 's', "scrap");
     as_m.entries.push_back(uimenu_entry(0, true, 'c', _("Cancel")));
     as_m.selected = 4;
@@ -2578,7 +2580,7 @@ void iexamine::recycler(player &p, const tripoint &examp)
 
     // Sum up again, this time remove the items,
     // ignore result, should be the same as before.
-    sum_up_item_weight_by_material( items_on_map, material_id( "steel" ), true );
+    sum_up_item_weight_by_material( items_on_map, material_id( "steel" ), true, false );
 
     double recover_factor = rng(6, 9) / 10.0;
     steel_weight = (int)(steel_weight * recover_factor);

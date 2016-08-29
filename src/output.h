@@ -277,7 +277,7 @@ std::vector<size_t> get_tag_positions( const std::string &s );
 std::vector<std::string> split_by_color( const std::string &s );
 
 bool query_yn( const char *mes, ... );
-int  query_int( const char *mes, ... );
+bool query_int( int &result, const char *mes, ... );
 
 bool internal_query_yn( const char *mes, va_list ap );
 
@@ -618,6 +618,11 @@ class scrollingcombattext
 };
 
 extern scrollingcombattext SCT;
+
+std::string wildcard_trim_rule( const std::string &sPatternIn );
+bool wildcard_match( const std::string &sTextIn, const std::string &sPatternIn );
+std::vector<std::string> &wildcard_split( const std::string &s, char delim, std::vector<std::string> &elems );
+int ci_find_substr( const std::string &str1, const std::string &str2, const std::locale &loc = std::locale() );
 
 /** Get the width in font glyphs of the drawing screen.
  *

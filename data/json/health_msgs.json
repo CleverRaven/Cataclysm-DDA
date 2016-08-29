@@ -6,7 +6,7 @@
     },{
         "type" : "snippet",
         "category" : "health_great",
-        "text" : "Within moments you're ready and up. You don't feel like anything could stop you today!"
+        "text" : "Within moments you're ready and up.  You don't feel like anything could stop you today!"
     },{
         "type" : "snippet",
         "category" : "health_great",
@@ -18,7 +18,7 @@
     },{
         "type" : "snippet",
         "category" : "health_great",
-        "text" : "You're up and you feel fantastic. No sickness is going to keep you down today!"
+        "text" : "You're up and you feel fantastic.  No sickness is going to keep you down today!"
     },{
         "type" : "snippet",
         "category" : "health_very_good",
@@ -42,11 +42,11 @@
     },{
         "type" : "snippet",
         "category" : "health_good",
-        "text" : "You feel good. Healthy living does seem to have some rewards."
+        "text" : "You feel good.  Healthy living does seem to have some rewards."
     },{
         "type" : "snippet",
         "category" : "health_good",
-        "text" : "Getting out of bed doesn't seem too hard today. You could get used to this!"
+        "text" : "Getting out of bed doesn't seem too hard today.  You could get used to this!"
     },{
         "type" : "snippet",
         "category" : "health_good",
@@ -62,7 +62,7 @@
     },{
         "type" : "snippet",
         "category" : "health_bad",
-        "text" : "You feel cruddy. Maybe you should consider eating a bit healthier."
+        "text" : "You feel cruddy.  Maybe you should consider eating a bit healthier."
     },{
         "type" : "snippet",
         "category" : "health_bad",
@@ -74,11 +74,11 @@
     },{
         "type" : "snippet",
         "category" : "health_bad",
-        "text" : "Your stomach gurgles. It's probably nothing, but maybe you should look into eating something healthy."
+        "text" : "Your stomach gurgles.  It's probably nothing, but maybe you should look into eating something healthy."
     },{
         "type" : "snippet",
         "category" : "health_bad",
-        "text" : "You struggle to awareness. Being awake seems somewhat harder to reach today."
+        "text" : "You struggle to awareness.  Being awake seems somewhat harder to reach today."
     },{
         "type" : "snippet",
         "category" : "health_very_bad",

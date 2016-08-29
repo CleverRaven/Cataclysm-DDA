@@ -27,7 +27,6 @@
     "weight": 828,
     "volume": 2,
     "skill": "pistol",
-    "aim_speed": 4,
     "relative": {
         "durability": -2
     },

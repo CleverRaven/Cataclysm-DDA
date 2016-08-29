@@ -28,6 +28,7 @@
 #include "weighted_list.h"
 #include "submap.h"
 #include "overlay_ordering.h"
+#include "cata_utility.h"
 
 #include <algorithm>
 #include <fstream>
@@ -136,16 +137,16 @@ void cata_tiles::init()
 {
     const std::string default_json = FILENAMES["defaulttilejson"];
     const std::string default_tileset = FILENAMES["defaulttilepng"];
-    const std::string current_tileset = OPTIONS["TILES"].getValue();
+    const std::string current_tileset = get_option<std::string>( "TILES" );
     std::string json_path, tileset_path, config_path;
 
     // Get curent tileset and it's directory path.
     if (current_tileset.empty()) {
-        dbg( D_ERROR ) << "Tileset not set in OPTIONS. Corrupted options or empty tileset name";
+        dbg( D_ERROR ) << "Tileset not set in options or empty.";
         json_path = default_json;
         tileset_path = default_tileset;
     } else {
-        dbg( D_INFO ) << "Current OPTIONS tileset is: " << current_tileset;
+        dbg( D_INFO ) << "Current tileset is: " << current_tileset;
     }
 
     // Build tileset config path
@@ -184,36 +185,31 @@ void cata_tiles::get_tile_information(std::string config_path, std::string &json
     const std::string default_tileset = FILENAMES["defaulttilepng"];
 
     // Get JSON and TILESET vars from config
-    std::ifstream fin;
-    fin.open(config_path.c_str());
-    if(!fin.is_open()) {
-        fin.close();
-        dbg( D_ERROR ) << "Can't open " << config_path << " -- Setting default values!";
+    const auto reader = [&]( std::istream &fin ) {
+        while(!fin.eof()) {
+            std::string sOption;
+            fin >> sOption;
+
+            if(sOption == "") {
+                getline(fin, sOption);
+            } else if(sOption[0] == '#') { // Skip comment
+                getline(fin, sOption);
+            } else if (sOption.find("JSON") != std::string::npos) {
+                fin >> json_path;
+                dbg( D_INFO ) << "JSON path set to [" << json_path << "].";
+            } else if (sOption.find("TILESET") != std::string::npos) {
+                fin >> tileset_path;
+                dbg( D_INFO ) << "TILESET path set to [" << tileset_path << "].";
+            } else {
+                getline(fin, sOption);
+            }
+        }
+    };
+
+    if( !read_from_file( config_path, reader ) ) {
         json_path = default_json;
         tileset_path = default_tileset;
-        return;
     }
-
-    while(!fin.eof()) {
-        std::string sOption;
-        fin >> sOption;
-
-        if(sOption == "") {
-            getline(fin, sOption);
-        } else if(sOption[0] == '#') { // Skip comment
-            getline(fin, sOption);
-        } else if (sOption.find("JSON") != std::string::npos) {
-            fin >> json_path;
-            dbg( D_INFO ) << "JSON path set to [" << json_path << "].";
-        } else if (sOption.find("TILESET") != std::string::npos) {
-            fin >> tileset_path;
-            dbg( D_INFO ) << "TILESET path set to [" << tileset_path << "].";
-        } else {
-            getline(fin, sOption);
-        }
-    }
-
-    fin.close();
 
     if (json_path == "") {
         json_path = default_json;
@@ -1179,7 +1175,7 @@ void cata_tiles::init_minimap( int destx, int desty, int width, int height )
     minimap_tile_size.x = std::max( width / minimap_tiles_range.x, 1 );
     minimap_tile_size.y = std::max( height / minimap_tiles_range.y, 1 );
     //maintain a square "pixel" shape
-    if (OPTIONS["PIXEL_MINIMAP_RATIO"]) {
+    if( get_option<bool>( "PIXEL_MINIMAP_RATIO" ) ) {
         int smallest_size = std::min( minimap_tile_size.x, minimap_tile_size.y );
         minimap_tile_size.x = smallest_size;
         minimap_tile_size.y = smallest_size;
@@ -1336,7 +1332,7 @@ void cata_tiles::draw_minimap( int destx, int desty, const tripoint &center, int
 
     //handles the enemy faction red highlights
     //this value should be divisible by 200
-    const int indicator_length = OPTIONS["PIXEL_MINIMAP_BLINK"] * 200; //default is 2000 ms, 2 seconds
+    const int indicator_length = get_option<int>( "PIXEL_MINIMAP_BLINK" ) * 200; //default is 2000 ms, 2 seconds
     int indicator_tick = 0; //if blink is disabled, leave at 0
     if( indicator_length > 0 ) {
         indicator_tick = SDL_GetTicks() % indicator_length;
@@ -2725,7 +2721,7 @@ void cata_tiles::get_tile_values(const int t, const int *tn, int &subtile, int &
 }
 
 void cata_tiles::do_tile_loading_report() {
-    DebugLog( D_INFO, DC_ALL ) << "Loaded tileset: " << OPTIONS["TILES"].getValue();
+    DebugLog( D_INFO, DC_ALL ) << "Loaded tileset: " << get_option<std::string>( "TILES" );
 
     tile_loading_report<ter_t>( ter_t::count(), "Terrain", "" );
     tile_loading_report<furn_t>( furn_t::count(), "Furniture", "" );

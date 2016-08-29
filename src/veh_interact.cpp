@@ -26,6 +26,7 @@
 #include <functional>
 #include <sstream>
 #include <iterator>
+#include <algorithm>
 
 #ifdef _MSC_VER
 #include <math.h>
@@ -158,6 +159,7 @@ void veh_interact::do_main_loop()
     move_cursor (0, 0); // display w_disp & w_parts
     bool finish = false;
     while (!finish) {
+        display_contents();
         const std::string action = main_context.handle_input();
         int dx, dy;
         if (main_context.get_direction(dx, dy, action)) {
@@ -800,14 +802,14 @@ void veh_interact::do_repair()
         wrefresh (w_parts);
         werase (w_msg);
         bool has_comps = true;
-        int dif = sel_vpart_info->difficulty + ((sel_vehicle_part->hp <= 0) ? 0 : 2);
+        int dif = sel_vpart_info->difficulty + ((sel_vehicle_part->is_broken()) ? 0 : 2);
         ///\EFFECT_MECHANICS determines which vehicle parts can be replaced
         bool has_skill = g->u.get_skill_level( skill_mechanics ) >= dif;
         fold_and_print(w_msg, 0, 1, msg_width - 2, c_ltgray,
                        _("You need level <color_%1$s>%2$d</color> skill in mechanics."),
                        has_skill ? "ltgreen" : "red",
                        dif);
-        if (sel_vehicle_part->hp <= 0) {
+        if( sel_vehicle_part->is_broken() ) {
             itype_id itm = sel_vpart_info->item;
             has_comps = crafting_inv.has_components(itm, 1);
             fold_and_print(w_msg, 1, 1, msg_width - 2, c_ltgray,
@@ -820,7 +822,7 @@ void veh_interact::do_repair()
         const std::string action = main_context.handle_input();
         if ((action == "REPAIR" || action == "CONFIRM") &&
             has_comps &&
-            (sel_vehicle_part->hp > 0 || has_wrench) && has_skill) {
+            (!sel_vehicle_part->is_broken() || has_wrench) && has_skill) {
             sel_cmd = 'r';
             return;
         } else if (action == "QUIT") {
@@ -1346,7 +1348,7 @@ void veh_interact::move_cursor (int dx, int dy)
         for (size_t i = 0; i < parts_here.size(); i++) {
             int p = parts_here[i];
             const vpart_info &vpinfo = veh->part_info( p );
-            if (veh->parts[p].hp < vpinfo.durability) {
+            if( veh->parts[p].hp() < vpinfo.durability ) {
                 need_repair.push_back (i);
             }
             if (veh->part_flag(p, "WHEEL")) {
@@ -1354,9 +1356,89 @@ void veh_interact::move_cursor (int dx, int dy)
             }
         }
     }
+
     werase (w_msg);
     wrefresh (w_msg);
     display_mode (' ');
+}
+
+void veh_interact::display_contents()
+{
+    werase( w_list );
+    
+    if( parts_here.empty() ) {
+        wrefresh( w_list );
+        return;
+    }
+
+    std::vector<vehicle_part *> opts;
+    for( int idx : parts_here ) {
+        auto &pt = veh->parts[ idx ];
+        if( pt.is_turret() || pt.is_engine() || pt.is_battery() || pt.is_tank() ) {
+            opts.push_back( &pt );
+        }
+    }
+    std::stable_sort( opts.begin(), opts.end(), []( const vehicle_part *lhs, const vehicle_part *rhs ) {
+        return lhs->is_tank() && !rhs->is_tank();
+    } );
+    std::stable_sort( opts.begin(), opts.end(), []( const vehicle_part *lhs, const vehicle_part *rhs ) {
+        return lhs->is_battery() && !rhs->is_battery();
+    } );
+    std::stable_sort( opts.begin(), opts.end(), []( const vehicle_part *lhs, const vehicle_part *rhs ) {
+        return lhs->is_engine() && !rhs->is_engine();
+    } );
+    std::stable_sort( opts.begin(), opts.end(), []( const vehicle_part *lhs, const vehicle_part *rhs ) {
+        return lhs->is_turret() && !rhs->is_turret();
+    } );
+
+    int y = 0;
+    for( const auto pt : opts ) {
+        std::string hdr = pt->name();
+        std::string msg;
+
+        const auto turret = veh->turret_query( *pt );
+        if( turret && turret.can_unload() ) {
+            if( turret.base()->magazine_current() ) {
+                if( turret.ammo_current() != "null" ) {
+                    msg = string_format( _( "%s with %s (%i/%i)" ),
+                                         turret.base()->magazine_current()->type_name().c_str(),
+                                         item::nname( turret.ammo_current(), turret.ammo_remaining() ).c_str(),
+                                         turret.ammo_remaining(), turret.ammo_capacity() );
+                } else {
+                    msg = string_format( _( "%s (%i/%i)" ),
+                                         turret.base()->magazine_current()->type_name().c_str(),
+                                         turret.ammo_remaining(), turret.ammo_capacity() );
+                }
+
+            } else if( turret.ammo_capacity() > 0 ) {
+                hdr += string_format( " <color_grey>(%i/%i)</color>", turret.ammo_remaining(), turret.ammo_capacity() );
+                if( turret.ammo_remaining() && turret.ammo_current() != "null" ) {
+                    msg = item::nname( turret.ammo_current(), turret.ammo_remaining() );
+                }
+            }
+
+        } else if( pt->is_battery() ) {
+            hdr += string_format( " <color_grey>(%i/%i)</color>", pt->ammo_remaining(), pt->ammo_capacity() );
+
+        } else if( pt->is_tank() ) {
+            if( pt->ammo_remaining() > 0 ) {
+                hdr += string_format( " <color_grey>with %s (%i/%i)</color>",
+                                     item::nname( pt->ammo_current(), pt->ammo_remaining() ).c_str(),
+                                     pt->ammo_remaining(), pt->ammo_capacity() );
+            }
+        }
+
+        y += fold_and_print( w_list, y, 1, getmaxx( w_list ) - 2, c_white, hdr );
+        y += fold_and_print( w_list, y, 3, getmaxx( w_list ) - 4, c_ltgray, msg );
+
+        for( const auto &e : pt->faults() ) {
+            y += fold_and_print( w_list, y, 3, getmaxx( w_list ) - 4, c_ltred, _( "faulty %s" ), e->name().c_str() );
+        }
+
+        y++;
+    }
+
+    wrefresh( w_list );
 }
 
 void veh_interact::display_grid()
@@ -1565,7 +1647,7 @@ void veh_interact::display_stats()
         w[6] -= iw;
         const vpart_info &info = veh->parts[mostDamagedPart].info();
         vehicle_part part = veh->parts[mostDamagedPart];
-        int damagepercent = 100 * part.hp / info.durability;
+        int damagepercent = 100 * part.hp() / info.durability;
         nc_color damagecolor = getDurabilityColor(damagepercent);
         partName = veh->parts[mostDamagedPart].name();
         const auto hoff = fold_and_print(w_stats, y[6], x[6], w[6], damagecolor, partName);
@@ -1865,11 +1947,11 @@ void veh_interact::countDurability()
         const vpart_info &info = part.info();
         const int part_dur = info.durability;
 
-        sum += part.hp;
+        sum += part.hp();
         max += part_dur;
 
-        if(part.hp < part_dur) {
-            double damageRatio = (double) part.hp / part_dur;
+        if( part.hp() < part_dur ) {
+            double damageRatio = double( part.hp() ) / part_dur;
             if (!ISNAN(damageRatio) && (damageRatio < mostDamaged)) {
                 mostDamaged = damageRatio;
                 mostDamagedPart = it;
@@ -2143,7 +2225,7 @@ void complete_vehicle ()
 
         add_msg( m_good, _("You install a %1$s into the %2$s." ), veh->parts[ partnum ].name().c_str(), veh->name.c_str() );
 
-        if( !reqs.get_tools().empty() ) {
+        if( !reqs.is_empty() ) {
             g->u.practice( skill_mechanics, vpinfo.difficulty * 50 );
         }
         break;
@@ -2155,7 +2237,9 @@ void complete_vehicle ()
 
         std::string name = veh->parts[ vehicle_part ].name();
 
-        if( veh->parts[vehicle_part].hp <= 0 ) {
+        auto &pt = veh->parts[ vehicle_part ];
+
+        if( pt.is_broken() ) {
             // replacing a broken part
             veh->break_part_into_pieces( vehicle_part, g->u.posx(), g->u.posy() );
             veh->remove_part( vehicle_part );
@@ -2164,8 +2248,8 @@ void complete_vehicle ()
 
         } else {
             // repairing a damaged part
-            dmg = 1.1 - (double) (veh->parts[ vehicle_part ].hp) / veh->part_info( vehicle_part ).durability;
-            veh->parts[ vehicle_part ].hp = veh->part_info(vehicle_part).durability;
+            dmg = 1.1 - double( pt.hp() ) / pt.info().durability;
+            veh->set_hp( pt, pt.info().durability );
             g->u.practice( skill_mechanics, ( ( veh->part_info( vehicle_part ).difficulty + 2 ) * 5 + 20 ) * dmg );
         }
 
@@ -2218,11 +2302,11 @@ void complete_vehicle ()
             veh->remove_remote_part(vehicle_part);
         }
 
-        broken = veh->parts[vehicle_part].hp <= 0;
+        broken = veh->parts[ vehicle_part ].is_broken();
         if (!broken) {
             g->m.add_item_or_charges( g->u.pos(), veh->parts[vehicle_part].properties_to_item() );
             // simple tasks won't train mechanics
-            if( !reqs.get_tools().empty() ) {
+            if( !reqs.is_empty() ) {
                 g->u.practice( skill_mechanics, vpinfo.difficulty * 50 );
             }
         } else {
@@ -2255,7 +2339,7 @@ void complete_vehicle ()
                 debugmsg( "no wheel to remove when changing wheels." );
                 return;
             }
-            broken = veh->parts[replaced_wheel].hp <= 0;
+            broken = veh->parts[ replaced_wheel ].is_broken();
             removed_wheel = veh->parts[replaced_wheel].properties_to_item();
             veh->remove_part( replaced_wheel );
             veh->part_removal_cleanup();

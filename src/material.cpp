@@ -66,7 +66,7 @@ void material_type::load( JsonObject &jsobj )
     optional( jsobj, was_loaded, "salvaged_into", _salvaged_into, "null" );
     optional( jsobj, was_loaded, "repaired_with", _repaired_with, "null" );
     optional( jsobj, was_loaded, "edible", _edible, false );
-    optional( jsobj, was_loaded, "chip_resist", _soft, false );
+    optional( jsobj, was_loaded, "soft", _soft, false );
 
     auto arr = jsobj.get_array( "vitamins" );
     while( arr.has_more() ) {

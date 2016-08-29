@@ -339,9 +339,6 @@ struct islot_gun : common_ranged_data {
     /** @todo add documentation */
     int sight_dispersion = 0;
 
-    /** @todo add documentation */
-    int aim_speed = 0;
-
     /** Modifies base loudness as provided by the currently loaded ammo */
     int loudness = 0;
 
@@ -395,8 +392,9 @@ struct islot_gunmod : common_ranged_data {
     /** @todo add documentation */
     int sight_dispersion = -1;
 
-    /** @todo add documentation */
-    int aim_speed = -1;
+    /**
+     *  If set (non-zero) mod functions as sight when recoil above mod @ref sight_dispersion */
+    int aim_cost = 0;
 
     /** Modifies base loudness as provided by the currently loaded ammo */
     int loudness = 0;
@@ -423,6 +421,9 @@ struct islot_magazine {
 
     /** Default amount of ammo contained by a magazine (often set for ammo belts) */
     int count = 0;
+
+    /** Default type of ammo contained by a magazine (often set for ammo belts) */
+    itype_id default_ammo = "NULL";
 
     /**
      * How reliable this this magazine on a range of 0 to 10?

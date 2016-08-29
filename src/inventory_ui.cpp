@@ -217,7 +217,7 @@ std::string inventory_column::get_entry_text( const inventory_entry &entry ) con
     std::ostringstream res;
 
     if( entry.is_item() ) {
-        if( OPTIONS["ITEM_SYMBOLS"] ) {
+        if( get_option<bool>( "ITEM_SYMBOLS" ) ) {
             res << entry.get_item().symbol() << ' ';
         }
 
@@ -335,7 +335,7 @@ std::string selection_column::get_entry_text( const inventory_entry &entry ) con
     std::ostringstream res;
 
     if( entry.is_item() ) {
-        if( OPTIONS["ITEM_SYMBOLS"] ) {
+        if( get_option<bool>( "ITEM_SYMBOLS" ) ) {
             res << entry.get_item().symbol() << ' ';
         }
 

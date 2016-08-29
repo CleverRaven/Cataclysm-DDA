@@ -18,6 +18,8 @@
 extern const int savegame_version;
 extern int save_loading_version;
 
+extern bool test_mode;
+
 // The reference to the one and only game instance.
 class game;
 extern game *g;
@@ -139,15 +141,21 @@ class game
 
         /** Loads static data that does not depend on mods or similar. */
         void load_static_data();
-        /** Loads core data and all mods. */
-        void check_all_mod_data();
-        /** Loads core dynamic data. */
-        void load_core_data();
-    protected:
-        /** Loads dynamic data from the given directory. */
-        void load_data_from_dir( const std::string &path, const std::string &src );
-        /** Loads core data and mods from the given world. */
+
+        /**
+         *  Check if mods can be sucessfully loaded
+         *  @param opts check specific mods (or all if unspecified)
+         *  @return whether all mods were successfully loaded
+         */
+        bool check_mod_data( const std::vector<std::string> &opts );
+
+        /** Loads core data and mods from the given world. May throw. */
         void load_world_modfiles(WORLDPTR world);
+    protected:
+        /** Loads dynamic data from the given directory. May throw. */
+        void load_data_from_dir( const std::string &path, const std::string &src );
+        /** Loads core dynamic data. May throw. */
+        void load_core_data();
 
         // May be a bit hacky, but it's probably better than the header spaghetti
         std::unique_ptr<map> map_ptr;
@@ -175,8 +183,8 @@ class game
         void unserialize_master(std::istream &fin);  // for load
         bool unserialize_master_legacy(std::istream &fin);  // for old load
 
-        /** write stats of all loaded items of the given type to stdout */
-        void dump_stats( const std::string& what, dump_mode mode );
+        /** write statisics to stdout and @return true if sucessful */
+        bool dump_stats( const std::string& what, dump_mode mode, const std::vector<std::string> &opts );
 
         /** Returns false if saving failed. */
         bool save();
@@ -323,23 +331,19 @@ class game
          *  Handles interactive parts of gun firing (target selection, etc.).
          *  @return whether an attack was actually performed
          */
-        bool plfire( const tripoint &default_target = tripoint_min );
+        bool plfire();
 
         /** Target is an interactive function which allows the player to choose a nearby
          *  square.  It display information on any monster/NPC on that square, and also
          *  returns a Bresenham line to that square.  It is called by plfire(),
          *  throw() and vehicle::aim_turrets() */
-        std::vector<tripoint> target( tripoint &p, const tripoint &low, const tripoint &high,
-                                      std::vector<Creature *> t, int &target,
-                                      item *relevant, target_mode mode,
-                                      const tripoint &from = tripoint_min );
-        /**
-         * Interface to target(), collects a list of targets & selects default target
-         * finally calls target() and returns its result.
-         * Used by vehicle::manual_fire_turret()
-         */
-        std::vector<tripoint> pl_target_ui( tripoint &p, int range, item *relevant, target_mode mode,
-                                            const tripoint &default_target = tripoint_min );
+        std::vector<tripoint> target( tripoint src, tripoint dst, int range,
+                                      std::vector<Creature *> t, int target,
+                                      item *relevant, target_mode mode );
+
+        /** Prompts for target and returns trajectory to it */
+        std::vector<tripoint> pl_target_ui( target_mode mode, item *relevant, int range );
+
         /** Redirects to player::cancel_activity(). */
         void cancel_activity();
         /** Asks if the player wants to cancel their activity, and if so cancels it. */
@@ -835,7 +839,6 @@ private:
         void process_events();   // Processes and enacts long-term events
         void process_activity(); // Processes and enacts the player's activity
         void update_weather();   // Updates the temperature and weather patten
-        void hallucinate( const tripoint &center ); // Prints hallucination junk to the screen
         int  mon_info(WINDOW *); // Prints a list of nearby monsters
         void handle_key_blocking_activity(); // Abort reading etc.
         bool handle_action();
