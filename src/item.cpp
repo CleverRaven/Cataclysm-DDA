@@ -4676,61 +4676,60 @@ bool item::reload( player &u, item_location loc, long qty )
         return false;
     }
 
-    item *obj = this;
-    qty = std::min( qty, obj->ammo_capacity() - obj->ammo_remaining() );
+    qty = std::min( qty, ammo_capacity() - ammo_remaining() );
 
-    obj->casings_handle( [&u]( item &e ) {
+    casings_handle( [&u]( item &e ) {
         return u.i_add_or_drop( e );
     } );
 
-    if( obj->is_magazine() ) {
+    if( is_magazine() ) {
         qty = std::min( qty, ammo->charges );
 
-        if( obj->is_ammo_belt() && obj->type->magazine->linkage != "NULL" ) {
-            if( !u.use_charges_if_avail( obj->type->magazine->linkage, qty ) ) {
+        if( is_ammo_belt() && type->magazine->linkage != "NULL" ) {
+            if( !u.use_charges_if_avail( type->magazine->linkage, qty ) ) {
                 debugmsg( "insufficient linkages available when reloading ammo belt" );
             }
         }
 
-        obj->contents.emplace_back( *ammo );
-        obj->contents.back().charges = qty;
+        contents.emplace_back( *ammo );
+        contents.back().charges = qty;
         ammo->charges -= qty;
 
-    } else if ( !obj->magazine_integral() ) {
+    } else if ( !magazine_integral() ) {
         // if we already have a magazine loaded prompt to eject it
-        if( obj->magazine_current() ) {
+        if( magazine_current() ) {
             std::string prompt = string_format( _( "Eject %s from %s?" ),
-                                                obj->magazine_current()->tname().c_str(), obj->tname().c_str() );
+                                                magazine_current()->tname().c_str(), tname().c_str() );
 
             // eject magazine to player inventory and try to dispose of it from there
-            item &mag = u.i_add( *obj->magazine_current() );
+            item &mag = u.i_add( *magazine_current() );
             if( !u.dispose_item( item_location( u, &mag ), prompt ) ) {
                 u.remove_item( mag ); // user canceled so delete the clone
                 return false;
             }
-            obj->remove_item( *obj->magazine_current() );
+            remove_item( *magazine_current() );
         }
 
-        obj->contents.emplace_back( *ammo );
+        contents.emplace_back( *ammo );
         loc.remove_item();
         return true;
 
     } else {
-        obj->curammo = item::find_type( ammo->typeId() );
+        curammo = item::find_type( ammo->typeId() );
 
         if( ammo_type() == ammotype( "plutonium" ) ) {
             // Warning: qty here refers to minimum of plutonium cells and capacity left
             // always consume at least one cell but never more than actually available
             auto cells = std::min( qty / PLUTONIUM_CHARGES + ( qty % PLUTONIUM_CHARGES != 0 ), ammo->charges );
             ammo->charges -= cells;
-            // any excess is wasted rather than overfilling the obj
-            obj->charges += std::min( cells, qty ) * PLUTONIUM_CHARGES;
+            // any excess is wasted rather than overfilling the item
+            charges += std::min( cells, qty ) * PLUTONIUM_CHARGES;
             // Cap at max, because the above formula doesn't guarantee it
-            obj->charges = std::min( obj->charges, obj->ammo_capacity() );
+            charges = std::min( charges, ammo_capacity() );
         } else {
             qty = std::min( qty, ammo->charges );
-            ammo->charges   -= qty;
-            obj->charges += qty;
+            ammo->charges -= qty;
+            charges += qty;
         }
     }
 
