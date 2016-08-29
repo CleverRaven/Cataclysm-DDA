@@ -5655,7 +5655,8 @@ int iuse::misc_repair(player *p, item *it, bool, const tripoint& )
     }
     int inventory_index = g->inv_for_filter( _("Select the item to repair."), []( const item & itm ) {
         return ( !itm.is_firearm() ) && (itm.made_of( material_id( "wood" ) ) || itm.made_of( material_id( "paper" ) ) ||
-                                 itm.made_of( material_id( "bone" ) ) || itm.made_of( material_id( "chitin" ) ) ) ;
+                                 itm.made_of( material_id( "bone" ) ) || itm.made_of( material_id( "chitin" ) ) ) &&
+               !itm.count_by_charges();
     } );
     item *fix = &( p->i_at(inventory_index ) );
     if (fix == NULL || fix->is_null()) {
