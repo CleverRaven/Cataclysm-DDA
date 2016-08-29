@@ -4672,7 +4672,7 @@ bool item::reload( player &u, item_location loc, long qty )
         ammo = &ammo->contents.front();
     }
 
-    if( !is_reloadable() ) {
+    if( !is_reloadable_with( ammo->typeId() ) ) {
         return false;
     }
 
