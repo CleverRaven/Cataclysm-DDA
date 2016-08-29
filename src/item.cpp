@@ -164,13 +164,13 @@ item::item( const itype *type, int turn, default_charges_tag )
     : item( type, turn, type->charges_default() ) {}
 
 item::item( const itype_id& id, int turn, default_charges_tag tag )
-    : item( item::find_type( id ), turn, tag ) {}
+    : item( find_type( id ), turn, tag ) {}
 
 item::item( const itype *type, int turn, solitary_tag )
     : item( type, turn, type->count_by_charges() ? 1 : -1 ) {}
 
 item::item( const itype_id& id, int turn, solitary_tag tag )
-    : item( item::find_type( id ), turn, tag ) {}
+    : item( find_type( id ), turn, tag ) {}
 
 item item::make_corpse( const mtype_id& mt, int turn, const std::string &name )
 {
@@ -1328,7 +1328,7 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
                 if( knows_it ) {
                     // In case the recipe is known, but has a different name in the book, use the
                     // real name to avoid confusing the player.
-                    const std::string name = item::nname( elem.recipe->result );
+                    const std::string name = nname( elem.recipe->result );
                     recipe_list.push_back( "<bold>" + name + "</bold>" );
                 } else {
                     recipe_list.push_back( "<dark>" + elem.name + "</dark>" );
@@ -1758,7 +1758,7 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
             for( const auto &res : brewed.brewing_results() ) {
                 info.push_back( iteminfo( "DESCRIPTION",
                                           string_format( _( "* Fermenting this will produce <neutral>%s</neutral>." ),
-                                                         item::nname( res, brewed.charges ).c_str() ) ) );
+                                                         nname( res, brewed.charges ).c_str() ) ) );
             }
         }
 
@@ -1881,9 +1881,9 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
                 const std::string recipes = enumerate_as_string( known_recipes.begin(), known_recipes.end(),
                 [ &inv ]( const recipe *r ) {
                     if( r->can_make_with_inventory( inv ) ) {
-                        return item::nname( r->result );
+                        return nname( r->result );
                     } else {
-                        return string_format( "<dark>%s</dark>", item::nname( r->result ).c_str() );
+                        return string_format( "<dark>%s</dark>", nname( r->result ).c_str() );
                     }
                 } );
                 if( !recipes.empty() ) {
@@ -2903,23 +2903,23 @@ int item::get_encumber() const
     }
 
     // Fit checked before changes, fitting shouldn't reduce penalties from patching.
-    if( item::item_tags.count("FIT") ) {
+    if( item_tags.count("FIT") ) {
         encumber = std::max( encumber / 2, encumber - 10 );
     }
 
     const int thickness = get_thickness();
     const int coverage = get_coverage();
-    if( item::item_tags.count("wooled") ) {
+    if( item_tags.count("wooled") ) {
         encumber += 1 + 3 * coverage / 100;
     }
-    if( item::item_tags.count("furred") ){
+    if( item_tags.count("furred") ){
         encumber += 1 + 4 * coverage / 100;
     }
 
-    if( item::item_tags.count("leather_padded") ) {
+    if( item_tags.count("leather_padded") ) {
         encumber += thickness * coverage / 100 + 5;
     }
-    if( item::item_tags.count("kevlar_padded") ) {
+    if( item_tags.count("kevlar_padded") ) {
         encumber += thickness * coverage / 100 + 5;
     }
 
@@ -2971,11 +2971,11 @@ int item::get_warmth() const
     // it_armor::warmth is signed char
     int result = static_cast<int>( t->warmth );
 
-    if( item::item_tags.count("furred") > 0 ) {
+    if( item_tags.count("furred") > 0 ) {
         fur_lined = 35 * get_coverage() / 100;
     }
 
-    if( item::item_tags.count("wooled") > 0 ) {
+    if( item_tags.count("wooled") > 0 ) {
         wool_lined = 20 * get_coverage() / 100;
     }
 
@@ -3717,7 +3717,7 @@ bool item::is_reloadable_with( const itype_id& ammo ) const
                     return false;
                 }
             } else {
-                auto at = item::find_type( ammo );
+                auto at = find_type( ammo );
                 if( !at->ammo || ammo_type() != at->ammo->type ) {
                     return false;
                 }
@@ -4715,7 +4715,7 @@ bool item::reload( player &u, item_location loc, long qty )
         return true;
 
     } else {
-        curammo = item::find_type( ammo->typeId() );
+        curammo = find_type( ammo->typeId() );
 
         if( ammo_type() == ammotype( "plutonium" ) ) {
             // Warning: qty here refers to minimum of plutonium cells and capacity left
