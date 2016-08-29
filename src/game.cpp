@@ -299,7 +299,11 @@ bool game::check_mod_data( const std::vector<std::string> &opts )
 
     if( check.empty() ) {
         // if no loadable mods then test core data only
-        load_core_data();
+        try {
+            load_core_data();
+        } catch( const std::exception &err ) {
+            std::cerr << "Error loading data from json: " << err.what() << std::endl;
+        }
         DynamicDataLoader::get_instance().finalize_loaded_data();
     }
 
@@ -320,15 +324,19 @@ bool game::check_mod_data( const std::vector<std::string> &opts )
 
         std::cout << "Checking mod " << mod.name << " [" << mod.ident << "]" << std::endl;
 
-        load_core_data();
+        try {
+            load_core_data();
 
-        // Load any dependencies
-        for( auto &dep : tree.get_dependencies_of_X_as_strings( mod.ident ) ) {
-            load_data_from_dir( mods[dep]->path, mods[dep]->ident );
+            // Load any dependencies
+            for( auto &dep : tree.get_dependencies_of_X_as_strings( mod.ident ) ) {
+                load_data_from_dir( mods[dep]->path, mods[dep]->ident );
+            }
+
+            // Load mod itself
+            load_data_from_dir( mod.path, mod.ident );
+        } catch( const std::exception &err ) {
+            std::cerr << "Error loading data: " << err.what() << std::endl;
         }
-
-        // Load mod itself
-        load_data_from_dir( mod.path, mod.ident );
 
         DynamicDataLoader::get_instance().finalize_loaded_data();
     }
@@ -353,11 +361,7 @@ void game::load_data_from_dir( const std::string &path, const std::string &src )
     // the items that need them are parsed
     lua_loadmod( path, "preload.lua" );
 
-    try {
-        DynamicDataLoader::get_instance().load_data_from_path( path, src );
-    } catch( const std::exception &err ) {
-        debugmsg("Error loading data from json: %s", err.what());
-    }
+    DynamicDataLoader::get_instance().load_data_from_path( path, src );
 
     // main.lua will be executed after JSON, allowing to
     // work with items defined by mod's JSON
@@ -14303,7 +14307,11 @@ void game::quickload()
         if( moves_since_last_save != 0 ) { // See if we need to reload anything
             MAPBUFFER.reset();
             overmap_buffer.clear();
-            setup();
+            try {
+                setup();
+            } catch( const std::exception &err ) {
+                debugmsg( "Error: %s", err.what() );
+            }
             load( active_world->world_name, save_name );
         }
     } else {
