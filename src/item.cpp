@@ -734,10 +734,10 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
             info.push_back( iteminfo( "BASE", _( "Moves per attack: " ), "",
                                       attack_time(), true, "", true, true ) );
 
-            if( !conductive () ) { 
+            if( !conductive () ) {
                 info.push_back( iteminfo( "BASE", string_format( _( "* This weapon <good>does not conduct</good> electricity." ) ) ) );
-            } 
-            else if( has_flag( "CONDUCTIVE" ) ) { 
+            }
+            else if( has_flag( "CONDUCTIVE" ) ) {
                 info.push_back( iteminfo( "BASE", string_format( _( "* This weapon effectively <bad>conducts</bad> electricity, as it has no guard." ) ) ) );
             }
             else {
@@ -3261,9 +3261,11 @@ bool item::mod_damage( double qty, damage_type dt )
         on_damage( qty, dt );
     }
 
-    destroy |= damage_ + qty > max_damage();
+    if( !count_by_charges() ) {
+        destroy |= damage_ + qty > max_damage();
 
-    damage_ = std::max( std::min( damage_ + qty, double( max_damage() ) ), double( min_damage() ) );
+        damage_ = std::max( std::min( damage_ + qty, double( max_damage() ) ), double( min_damage() ) );
+    }
 
     return destroy;
 }
@@ -3428,12 +3430,12 @@ bool item::conductive() const
     if( is_null() ) {
         return false;
     }
-    
-    if( has_flag( "CONDUCTIVE" ) ) {  
+
+    if( has_flag( "CONDUCTIVE" ) ) {
         return true;
     }
 
-    if( has_flag( "NONCONDUCTIVE" ) ) {  
+    if( has_flag( "NONCONDUCTIVE" ) ) {
         return false;
     }
 
