@@ -634,7 +634,9 @@ void player::update_mental_focus()
 
     // Moved from calc_focus_equilibrium, because it is now const
     if( activity.type == ACT_READ ) {
-        if( !inv.has_item( *activity.targets[0].get_item() ) ) {
+        const item *book = activity.targets[0].get_item();
+        if( get_item_position( book ) == INT_MIN || !book->is_book() ) {
+            add_msg_if_player( m_bad, _( "You lost your book! You stop reading." ) );
             activity.type = ACT_NULL;
         }
     }
@@ -648,7 +650,7 @@ int player::calc_focus_equilibrium() const
 
     if( activity.type == ACT_READ ) {
         const item &book = *activity.targets[0].get_item();
-        if( book.is_book() ) {
+        if( book.is_book() && get_item_position( &book ) != INT_MIN ) {
             auto &bt = *book.type->book;
             // apply a penalty when we're actually learning something
             const auto &skill_level = get_skill_level( bt.skill );
@@ -11329,7 +11331,7 @@ bool player::fun_to_read( const item &book ) const
  * Explanation of ACT_READ activity values:
  *
  * position: ID of the reader
- * targets: 1-element vector with the item_location (always in inventory) of the book being read
+ * targets: 1-element vector with the item_location (always in inventory/wielded) of the book being read
  * index: We are studying until the player with this ID gains a level; 0 indicates reading once
  * values: IDs of the NPCs who will learn something
  * str_values: Parallel to values, these contain the learning penalties (as doubles in string form) as follows:
@@ -11454,8 +11456,8 @@ bool player::read( int inventory_position, const bool continuous )
             };
 
             menu.return_invalid = true;
-            menu.title = !skill ? string_format( _( "Reading %s" ), it.tname().c_str() ) :
-                         string_format( _( "Reading %s (can train %s from %d to %d)" ), it.tname().c_str(),
+            menu.title = !skill ? string_format( _( "Reading %s" ), it.type_name().c_str() ) :
+                         string_format( _( "Reading %s (can train %s from %d to %d)" ), it.type_name().c_str(),
                                         skill_name.c_str(), type->req, type->level );
 
             if( skill ) {
@@ -11494,7 +11496,7 @@ bool player::read( int inventory_position, const bool continuous )
             act.index = menu.ret;
         }
         add_msg( m_info, _( "Now reading %s, %s to stop early." ),
-                 it.tname().c_str(), press_x( ACTION_PAUSE ).c_str() );
+                 it.type_name().c_str(), press_x( ACTION_PAUSE ).c_str() );
         rooted_message();
     }
 
@@ -11775,7 +11777,7 @@ void player::do_read( item *book )
     if( !out_of_chapters.empty() ) {
         const std::string names = enumerate_as_string( out_of_chapters );
         add_msg( m_info, _( "Rereading the %s isn't as much fun for %s." ),
-                 book->tname().c_str(), names.c_str() );
+                 book->type_name().c_str(), names.c_str() );
         if( out_of_chapters.front() == disp_name() && one_in( 6 ) ) {
             add_msg( m_info, _( "Maybe you should find something new to read..." ) );
         }
@@ -11783,7 +11785,7 @@ void player::do_read( item *book )
 
     if( continuous ) {
         activity.type = ACT_NULL;
-        read( inv.position_by_item( book ), true );
+        read( get_item_position( book ), true );
         if( activity.type != ACT_NULL ) {
             return;
         }
