@@ -202,10 +202,10 @@
     "type": "scenario",
     "ident": "fema_help",
     "name": "Challenge-FEMA Death Camp",
-    "points" : -8,
+    "points" : -4,
     "description": "You were one of the many law enforcement and military personel alike called in to keep order on one of the FEMA camps, it all went to shit fast...wounded, infected, surrounded by fire you lay...and they just keep comming...",
     "allowed_locs": ["fema_entrance_s","fema_s"],
-	"professions" : ["cop","sniper_police","riot_police","bionic_cop","detective","swat","swat_heavy","soldier","bio_soldier","bio_sniper","specops"],
+    "professions" : ["cop","sniper_police","riot_police","bionic_cop","swat","swat_heavy","soldier","bio_soldier","bio_sniper","specops"],
     "start_name": "Fema Camp",
     "flags": ["HELI_CRASH","SUR_START","FIRE_START","INFECTED","CHALLENGE"]
   }
