@@ -724,9 +724,10 @@ void player::consume_effects( item &food, bool rotten )
     if( food.has_flag( "HOT" ) && food.has_flag( "EATEN_HOT" ) ) {
         add_morale( MORALE_FOOD_HOT, 5, 10 );
     }
-    if( has_trait( "CARNIVORE" ) && food.has_flag( "CARNIVORE_OK" ) ) {
+    if( has_trait( "CARNIVORE" ) && food.has_flag( "ALLERGEN_MEAT" ) ) {
         if( !food.has_any_flag( carnivore_blacklist ) ) {
-            //Food is edible by carnivores, player has carnivore mutation, and there are no non carnivore parts in the food.
+            //Food is made out of meat (use ALLERGEN_MEAT, not CARNIVORE_OK (the latter has eggs and milk),
+            //player has carnivore mutation, and there are no non carnivore parts in the food.
             add_morale( MORALE_FOOD_CARNIVORE, 5, 10 );
         }
     }
