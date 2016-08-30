@@ -330,10 +330,15 @@
 		</Linker>
 		<ExtraCommands>
 			<Add before="cmd /c git --version || echo &apos;git&apos; command not found!" />
-			<Add before='cmd /c for /F &quot;tokens=*&quot; %%i in (&apos;git describe --tags --always --dirty&apos;) do echo #define VERSION &quot;%%i&quot; &gt;  src/version.h' />
+			<Add before="cmd /c git describe --tags --always --dirty &gt; version.tmp || echo no-git&gt; version.tmp" />
+			<Add before='cmd /c for /F &quot;tokens=*&quot; %%i in (version.tmp) do echo #define VERSION &quot;%%i&quot; &gt; src/version.h' />
+			<Add before="cmd /c del version.tmp" />
 			<Mode after="always" />
 		</ExtraCommands>
-		<UnitsGlob directory="src" recursive="0" wildcard="" />
+		<UnitsGlob directory="src" recursive="0" />
+		<Unit filename="src/resource.rc">
+			<Option compilerVar="WINDRES" />
+		</Unit>
 		<Extensions>
 			<code_completion />
 			<debugger />
