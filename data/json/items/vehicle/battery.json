@@ -35,12 +35,12 @@
     "name": "medium storage battery",
     "name_plural": "medium storage batteries",
     "description": "A medium storage battery.",
-    "weight": 31000,
+    "weight": 37500,
     "volume": 10,
     "price": 50000,
     "price_postapoc": 8000,
     "bashing": 14,
-    "capacity": 700
+    "capacity": 10000
   },
   {
     "id": "small_storage_battery",
@@ -49,12 +49,12 @@
     "name": "small storage battery",
     "name_plural": "small storage batteries",
     "description": "A small storage battery.  Useful for crafting.",
-    "weight": 2500,
+    "weight": 4688,
     "volume": 2,
     "price": 5000,
     "price_postapoc": 1000,
     "bashing": 7,
-    "capacity": 500
+    "capacity": 1250
   },
   {
     "id": "storage_battery",
