@@ -4236,8 +4236,8 @@
         "description" : "Your toes have grown wriggly, and you can't imagine why you wear that stuff on your feet.  Take it off.  It's in the way.",
         "prereqs" : ["PLANTSKIN"],
         "threshreq" : ["THRESH_PLANT"],
-        "cancels" : ["LEG_TENTACLES"],
         "changes_to" : ["ROOTS2"],
+        "cancels" : ["LEG_TENTACLES"],
         "category" : ["MUTCAT_PLANT"],
         "encumbrance_covered" : [
             [ "FOOT_L", 10 ],
@@ -4254,7 +4254,7 @@
         "description" : "It's about time you started developing a root system.  When reading, fishing from, waiting, or otherwise being stationary for a while on diggable terrain, you'll extract nutrients and water from the soil.",
         "prereqs" : ["ROOTS1"],
         "threshreq" : ["THRESH_PLANT"],
-        "cancels" : ["LEG_TENTACLES", "RAP_TALONS"],
+        "cancels" : ["PADDED_FEET", "LEG_TENTACLES", "HOOVES", "RAP_TALONS"],
         "changes_to" : ["ROOTS3"],
         "category" : ["MUTCAT_PLANT"],
         "encumbrance_covered" : [
@@ -4272,7 +4272,7 @@
         "prereqs" : ["ROOTS2"],
         "prereqs2" : ["SAPROPHAGE"],
         "threshreq" : ["THRESH_PLANT"],
-        "cancels" : ["LEG_TENTACLES"],
+        "cancels" : ["PADDED_FEET", "LEG_TENTACLES", "HOOVES", "RAP_TALONS"],
         "category" : ["MUTCAT_PLANT"],
         "encumbrance_covered" : [
             [ "FOOT_L", 10 ],
@@ -4291,7 +4291,7 @@
         "prereqs" : ["ROOTS2", "ROOTS3"],
         "prereqs2" : ["SAPROPHAGE"],
         "threshreq" : ["THRESH_PLANT"],
-        "cancels" : ["LEG_TENTACLES", "SMELLY", "SMELLY2"],
+        "cancels" : ["PADDED_FEET", "LEG_TENTACLES", "HOOVES", "RAP_TALONS", "SMELLY", "SMELLY2"],
         "category" : ["MUTCAT_PLANT"],
         "encumbrance_covered" : [
             [ "FOOT_L", 10 ],
