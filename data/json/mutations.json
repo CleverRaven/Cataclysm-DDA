@@ -2130,7 +2130,7 @@
         "ugliness" : 2,
         "mixed_effect" : true,
         "description" : "Your feet have fused into hooves.  This allows kicking attacks to do much more damage, provides natural armor, and removes the need to wear shoes; however, you can not wear shoes of any kind.  Reduces wet effects.",
-        "cancels" : ["PADDED_FEET", "LEG_TENTACLES", "RAP_TALONS"],
+        "cancels" : ["PADDED_FEET", "LEG_TENTACLES", "RAP_TALONS", "ROOTS1", "ROOTS2", "ROOTS3"],
         "category" : ["MUTCAT_CATTLE", "MUTCAT_CHIMERA"],
         "wet_protection":[
             { "part" : "FOOT_L", "neutral" : 10 },
@@ -4239,7 +4239,7 @@
         "prereqs" : ["PLANTSKIN"],
         "threshreq" : ["THRESH_PLANT"],
         "changes_to" : ["ROOTS2"],
-        "cancels" : ["LEG_TENTACLES"],
+        "cancels" : ["LEG_TENTACLES", "HOOVES"],
         "category" : ["MUTCAT_PLANT"],
         "encumbrance_covered" : [
             [ "FOOT_L", 10 ],
