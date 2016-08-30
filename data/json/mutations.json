@@ -1423,6 +1423,47 @@
         "armor" : [ { "parts" : "ALL", "bash" : 1 } ]
     },{
         "type" : "mutation",
+        "id" : "LAMIA_SCALES",
+        "name" : "Armored Scales",
+        "points" : 10,
+        "visibility" : 15,
+        "ugliness" : 4,
+        "description" : "Your tail and mouth have grown bullet resistant scales",
+        "cancels" : ["SCALES", "FEATHERS", "CHITIN", "PLANTSKIN", "FELINE_FUR", "LUPINE_FUR", "CHITIN_FUR"],
+        "prereqs" : ["LAMIA_TAIL"],
+        "threshreq" : ["THRESH_LAMIA"],
+        "category" : ["MUTCAT_LAMIA"],
+        "armor" : [ 
+            { "parts" : "LEG_L", "bash" : 11, "cut" : 24 }, 
+            { "parts" : "LEG_R", "bash" : 11, "cut" : 24 },
+            { "parts" : "FOOT_L", "bash" : 11 , "cut" : 24 },
+            { "parts" : "FOOT_R", "bash" : 11 , "cut" : 24 },
+            { "parts" : "MOUTH", "cut" : 14}
+            ]
+    },{
+        "type" : "mutation",
+        "id" : "LAMIA_TAIL",
+        "name" : "Snake Tail",
+        "points" : 14,
+        "visibility" : 15,
+        "ugliness" : 6,
+        "description" : "Your legs now terminate in an enormous noodly tail. You can now move greatly faster, but without scales, you're fairly vulnerable",
+        "cancels" : ["SCALES", "FEATHERS", "CHITIN", "PLANTSKIN", "FELINE_FUR", "LUPINE_FUR", "CHITIN_FUR"],
+        "prereqs" : ["LAMIA_TAIL_JEUVENILE"],
+        "threshreq" : ["THRESH_LAMIA"],
+        "category" : ["MUTCAT_LAMIA"],
+        "purifiable" : false
+    },{
+        "type" : "mutation",
+        "id" : "THRESH_LAMIA",
+        "name" : "Lamia",
+        "points" : 1,
+        "description" : "You have embraced the noodle, you are now one with the snakes. With it comes an intense urge to boop your own nose",
+        "valid": false,
+        "purifiable": false,
+        "threshold": true
+    },{
+        "type" : "mutation",
         "id" : "URSINE_FUR",
         "name" : "Shaggy Fur",
         "points" : 4,
@@ -2900,7 +2941,7 @@
         "ugliness" : 1,
         "description" : "Your upper earlobes have grown noticeably higher.  Fortunately, they don't get in the way of your headgear, much.  Unfortunately, they also don't seem to help your hearing any.",
         "valid" : false,
-        "category" : ["MUTCAT_ELFA"],
+        "category" : ["MUTCAT_ELFA", "MUTCAT_LAMIA"],
         "cancels" : ["FELINE_EARS", "LUPINE_EARS", "URSINE_EARS", "CANINE_EARS"]
     },{
         "type" : "mutation",
