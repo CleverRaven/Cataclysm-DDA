@@ -724,12 +724,15 @@ void player::consume_effects( item &food, bool rotten )
     if( food.has_flag( "HOT" ) && food.has_flag( "EATEN_HOT" ) ) {
         add_morale( MORALE_FOOD_HOT, 5, 10 );
     }
-    if( has_trait( "CARNIVORE" ) && food.has_flag( "ALLERGEN_MEAT" ) ) {
-        if( !food.has_any_flag( carnivore_blacklist ) ) {
-            //Food is made out of meat (use ALLERGEN_MEAT, not CARNIVORE_OK (the latter has eggs and milk),
-            //player has carnivore mutation, and there are no non carnivore parts in the food.
-            add_morale( MORALE_FOOD_CARNIVORE, 5, 10 );
-        }
+    bool carnivore_food = ( has_trait( "CARNIVORE" ) && food.has_flag( "ALLERGEN_MEAT" ) && !food.has_any_flag( carnivore_blacklist ));
+    //Food is made out of meat (use ALLERGEN_MEAT, not CARNIVORE_OK (the latter has eggs and milk),
+    //player has carnivore mutation, and there are no non carnivore parts in the food.
+    //This also negates bad morale penalties on food made only of meat, as a carnivore.
+    if( carnivore_food && food.has_flag( "CANNIBALISM" ) && !has_trait( "CANNIBAL" )) {
+        carnivore_food = false; //Don't give the bonus if it is human flesh, and the player is no cannibal.
+    }
+    if( carnivore_food ) {
+        add_morale( MORALE_FOOD_CARNIVORE, 5, 20 );
     }
     auto fun = comest->fun;
     if( food.has_flag( "COLD" ) && food.has_flag( "EATEN_COLD" ) && fun > 0 ) {
@@ -743,12 +746,12 @@ void player::consume_effects( item &food, bool rotten )
     const bool gourmand = has_trait( "GOURMAND" );
     const bool hibernate = has_active_mutation( "HIBERNATE" );
     if( gourmand ) {
-        if( fun < -2 ) {
+        if( fun < -2 && !carnivore_food) {
             add_morale( MORALE_FOOD_BAD, fun * 0.5, fun, 60, 30, false, food.type );
         } else if( fun > 0 ) {
             add_morale( MORALE_FOOD_GOOD, fun * 3, fun * 6, 60, 30, false, food.type );
         }
-    } else if( fun < 0 ) {
+    } else if( fun < 0 && !carnivore_food) {
         add_morale( MORALE_FOOD_BAD, fun, fun * 6, 60, 30, false, food.type );
     } else if( fun > 0 ) {
         add_morale( MORALE_FOOD_GOOD, fun, fun * 4, 60, 30, false, food.type );
