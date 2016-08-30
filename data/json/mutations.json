@@ -1213,6 +1213,7 @@
         "ugliness" : 3,
         "description" : "You've grown a set of gills in your neck, allowing you to breathe underwater.  Slightly increases wet benefits.",
         "category" : ["MUTCAT_FISH"],
+        "cancels" : ["GILLS_CEPH"],
         "wet_protection" : [
             { "part" : "HEAD", "good" : 1 }
         ]
@@ -1225,6 +1226,7 @@
         "ugliness" : 4,
         "description" : "You've grown a set of gills, running from your neck up behind your ears.  They allow you to breathe underwater and slightly increase wet benefits.",
         "category" : ["MUTCAT_CEPHALOPOD"],
+        "cancels" : ["GILLS"],
         "wet_protection" : [
             { "part" : "HEAD", "good" : 1 }
         ]
