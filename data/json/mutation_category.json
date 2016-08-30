@@ -17,6 +17,14 @@
         "memorial_message" : "Metamorphosed."
     },{
         "type" : "mutation_category",
+        "id" : "mutation_lamia",
+        "name" : "Lamia",
+        "category" : "LAMIA", "//" : "Snek references abound",
+        "mutagen_message" : "You feel more snek.",
+        "iv_message" : "You boop snake oil into your blood noodles.",
+        "memorial_message" : "Became a Noodle."
+    },{
+        "type" : "mutation_category",
         "id" : "mutation_spider",
         "name" : "Spider",
         "category" : "SPIDER",
