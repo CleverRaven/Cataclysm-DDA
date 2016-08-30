@@ -2005,6 +2005,7 @@ enums = {
         "MORALE_NULL",
         "MORALE_FOOD_GOOD",
         "MORALE_FOOD_HOT",
+        "MORALE_FOOD_CARNIVORE",
         "MORALE_MUSIC",
         "MORALE_HONEY",
         "MORALE_GAME",

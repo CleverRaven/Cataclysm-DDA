@@ -29,6 +29,7 @@ const std::string &get_morale_data( const morale_type id )
             { "This is a bug (player.cpp:moraledata)" },
             { _( "Enjoyed %i" ) },
             { _( "Enjoyed a hot meal" ) },
+            { _( "Savored some meat" ) },
             { _( "Music" ) },
             { _( "Enjoyed honey" ) },
             { _( "Played Video Game" ) },

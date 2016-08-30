@@ -5,6 +5,7 @@ enum morale_type : int {
     MORALE_NULL = 0,
     MORALE_FOOD_GOOD,
     MORALE_FOOD_HOT,
+    MORALE_FOOD_CARNIVORE,
     MORALE_MUSIC,
     MORALE_HONEY,
     MORALE_GAME,
