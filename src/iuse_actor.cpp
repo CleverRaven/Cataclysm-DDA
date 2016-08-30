@@ -2226,7 +2226,7 @@ long repair_item_actor::use( player *p, item *it, bool, const tripoint & ) const
         return 0;
     }
     const int pos = g->inv_for_filter( _( "Repair what?" ), [this, it]( const item &itm ) {
-        return itm.made_of_any( materials ) && !itm.is_ammo() && !itm.is_firearm() && &itm != it;
+        return itm.made_of_any( materials ) && !itm.count_by_charges() && !itm.is_firearm() && &itm != it;
     }, string_format( _( "You have no items that could be repaired with a %s." ), it->type_name( 1 ).c_str() ) );
 
     if( pos == INT_MIN ) {
@@ -2373,7 +2373,7 @@ bool repair_item_actor::can_repair( player &pl, const item &tool, const item &fi
         }
         return false;
     }
-    if( fix.is_ammo() ) {
+    if( fix.count_by_charges() ) {
         if( print_msg ) {
             pl.add_msg_if_player( m_info, _("You cannot repair this type of item.") );
         }
