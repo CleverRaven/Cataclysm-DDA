@@ -430,19 +430,17 @@ item visitable<T>::remove_item( item& it ) {
     }
 }
 
-template <typename OutputIterator>
 static void remove_internal( const std::function<bool( item & )> &filter, item &node, int &count,
-                             OutputIterator out )
+                             std::list<item> &res )
 {
     for( auto it = node.contents.begin(); it != node.contents.end(); ) {
         if( filter( *it ) ) {
-            out = std::move( *it );
-            it = node.contents.erase( it );
+            res.splice( res.end(), node.contents, it++ );
             if( --count == 0 ) {
                 return;
             }
         } else {
-            remove_internal( filter, *it, count, out );
+            remove_internal( filter, *it, count, res );
             ++it;
         }
     }
@@ -459,7 +457,7 @@ std::list<item> visitable<item>::remove_items_with( const std::function<bool( co
         return res; // nothing to do
     }
 
-    remove_internal( filter, *it, count, std::back_inserter( res ) );
+    remove_internal( filter, *it, count, res );
     return res;
 }
 
@@ -501,7 +499,7 @@ std::list<item> visitable<inventory>::remove_items_with( const
         } else {
             // recurse through the contents of each stacked item separately
             for( auto &e : *stack ) {
-                remove_internal( filter, e, count, std::back_inserter( res ) );
+                remove_internal( filter, e, count, res );
                 if( count == 0 ) {
                     return res;
                 }
@@ -540,7 +538,7 @@ std::list<item> visitable<Character>::remove_items_with( const
                 return res;
             }
         } else {
-            remove_internal( filter, *iter, count, std::back_inserter( res ) );
+            remove_internal( filter, *iter, count, res );
             if( count == 0 ) {
                 return res;
             }
@@ -553,7 +551,7 @@ std::list<item> visitable<Character>::remove_items_with( const
         res.push_back( ch->remove_weapon() );
         count--;
     } else {
-        remove_internal( filter, ch->weapon, count, std::back_inserter( res ) );
+        remove_internal( filter, ch->weapon, count, res );
     }
 
     return res;
@@ -596,7 +594,7 @@ std::list<item> visitable<map_cursor>::remove_items_with( const
                 return res;
             }
         } else {
-            remove_internal( filter, *iter, count, std::back_inserter( res ) );
+            remove_internal( filter, *iter, count, res );
             if( count == 0 ) {
                 return res;
             }
@@ -649,7 +647,7 @@ std::list<item> visitable<vehicle_cursor>::remove_items_with( const
                 return res;
             }
         } else {
-            remove_internal( filter, *iter, count, std::back_inserter( res ) );
+            remove_internal( filter, *iter, count, res );
             if( count == 0 ) {
                 return res;
             }
