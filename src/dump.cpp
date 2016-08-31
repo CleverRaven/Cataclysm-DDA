@@ -13,7 +13,8 @@
 #include "veh_type.h"
 #include "npc.h"
 
-bool game::dump_stats( const std::string& what, dump_mode mode, const std::vector<std::string> &opts )
+bool game::dump_stats( const std::string &what, dump_mode mode,
+                       const std::vector<std::string> &opts )
 {
     try {
         load_core_data();
@@ -30,8 +31,10 @@ bool game::dump_stats( const std::string& what, dump_mode mode, const std::vecto
 
     std::map<std::string, standard_npc> test_npcs;
     test_npcs[ "S1" ] = standard_npc( "S1", { "gloves_survivor", "mask_lsurvivor" } );
-    test_npcs[ "S2" ] = standard_npc( "S2", { "gloves_fingerless", "sunglasses" }, 4,  8, 8, 8, 10 /* PER  10 */ );
-    test_npcs[ "S3" ] = standard_npc( "S3", { "gloves_plate", "helmet_plate" },  4, 10, 8, 8, 8 /* STAT 10 */ );
+    test_npcs[ "S2" ] = standard_npc( "S2", { "gloves_fingerless", "sunglasses" }, 4,  8, 8, 8,
+                                      10 /* PER  10 */ );
+    test_npcs[ "S3" ] = standard_npc( "S3", { "gloves_plate", "helmet_plate" },  4, 10, 8, 8,
+                                      8 /* STAT 10 */ );
 
     std::map<std::string, item> test_items;
     test_items[ "G1" ] = item( "glock_19" ).ammo_set( "9mm" );
@@ -45,7 +48,7 @@ bool game::dump_stats( const std::string& what, dump_mode mode, const std::vecto
             "Name", "Ammo", "Volume", "Weight", "Stack",
             "Range", "Dispersion", "Recoil", "Damage", "Pierce"
         };
-        auto dump = [&rows]( const item& obj ) {
+        auto dump = [&rows]( const item & obj ) {
             std::vector<std::string> r;
             r.push_back( obj.tname( 1, false ) );
             r.push_back( obj.type->ammo->type.str() );
@@ -59,7 +62,7 @@ bool game::dump_stats( const std::string& what, dump_mode mode, const std::vecto
             r.push_back( to_string( obj.type->ammo->pierce ) );
             rows.push_back( r );
         };
-        for( auto& e : item_controller->get_all_itypes() ) {
+        for( auto &e : item_controller->get_all_itypes() ) {
             if( e.second->ammo ) {
                 dump( item( e.first, calendar::turn, item::solitary_tag {} ) );
             }
@@ -69,10 +72,10 @@ bool game::dump_stats( const std::string& what, dump_mode mode, const std::vecto
         header = {
             "Name", "Volume", "Weight", "Stack", "Calories", "Quench", "Healthy"
         };
-        for( const auto& v : vitamin::all() ) {
-             header.push_back( v.second.name() );
+        for( const auto &v : vitamin::all() ) {
+            header.push_back( v.second.name() );
         }
-        auto dump = [&rows,&test_npcs]( const item& obj ) {
+        auto dump = [&rows, &test_npcs]( const item & obj ) {
             std::vector<std::string> r;
             r.push_back( obj.tname( false ) );
             r.push_back( to_string( obj.volume() ) );
@@ -82,12 +85,12 @@ bool game::dump_stats( const std::string& what, dump_mode mode, const std::vecto
             r.push_back( to_string( obj.type->comestible->quench ) );
             r.push_back( to_string( obj.type->comestible->healthy ) );
             auto vits = g->u.vitamins_from( obj );
-            for( const auto& v : vitamin::all() ) {
-                 r.push_back( to_string( vits[ v.first ] ) );
+            for( const auto &v : vitamin::all() ) {
+                r.push_back( to_string( vits[ v.first ] ) );
             }
             rows.push_back( r );
         };
-        for( auto& e : item_controller->get_all_itypes() ) {
+        for( auto &e : item_controller->get_all_itypes() ) {
             if( e.second->comestible &&
                 ( e.second->comestible->comesttype == "FOOD" ||
                   e.second->comestible->comesttype == "DRINK" ) ) {
@@ -107,19 +110,21 @@ bool game::dump_stats( const std::string& what, dump_mode mode, const std::vecto
         };
 
         std::set<std::string> locations;
-        for( const auto& e : item_controller->get_all_itypes() ) {
+        for( const auto &e : item_controller->get_all_itypes() ) {
             if( e.second->gun ) {
                 std::transform( e.second->gun->valid_mod_locations.begin(),
                                 e.second->gun->valid_mod_locations.end(),
                                 std::inserter( locations, locations.begin() ),
-                                []( const std::pair<std::string, int>& e ) { return e.first; } );
+                []( const std::pair<std::string, int> &e ) {
+                    return e.first;
+                } );
             }
         }
         for( const auto &e : locations ) {
             header.push_back( e );
         }
 
-        auto dump = [&rows,&locations]( const standard_npc &who, const item& obj ) {
+        auto dump = [&rows, &locations]( const standard_npc & who, const item & obj ) {
             std::vector<std::string> r;
             r.push_back( obj.tname( 1, false ) );
             r.push_back( obj.ammo_type() ? obj.ammo_type().str() : "" );
@@ -134,16 +139,19 @@ bool game::dump_stats( const std::string& what, dump_mode mode, const std::vecto
 
             r.push_back( to_string( who.gun_engagement_moves( obj ) ) );
 
-            r.push_back( string_format( "%.1f", who.gun_engagement_range( obj, player::engagement::effective ) ) );
-            r.push_back( string_format( "%.1f", who.gun_engagement_range( obj, player::engagement::snapshot ) ) );
-            r.push_back( string_format( "%.1f", who.gun_engagement_range( obj, player::engagement::maximum ) ) );
+            r.push_back( string_format( "%.1f", who.gun_engagement_range( obj,
+                                        player::engagement::effective ) ) );
+            r.push_back( string_format( "%.1f", who.gun_engagement_range( obj,
+                                        player::engagement::snapshot ) ) );
+            r.push_back( string_format( "%.1f", who.gun_engagement_range( obj,
+                                        player::engagement::maximum ) ) );
 
             for( const auto &e : locations ) {
                 r.push_back( to_string( obj.type->gun->valid_mod_locations[ e ] ) );
             }
             rows.push_back( r );
         };
-        for( const auto& e : item_controller->get_all_itypes() ) {
+        for( const auto &e : item_controller->get_all_itypes() ) {
             if( e.second->gun ) {
                 item gun( e.first );
                 if( !gun.magazine_integral() ) {
@@ -167,7 +175,7 @@ bool game::dump_stats( const std::string& what, dump_mode mode, const std::vecto
             "Mass coeff %", "Aerodynamics coeff %", "Friction coeff %",
             "Traction coeff % (grass)"
         };
-        auto dump = [&rows]( const vproto_id& obj ) {
+        auto dump = [&rows]( const vproto_id & obj ) {
             auto veh_empty = vehicle( obj, 0, 0 );
             auto veh_fueled = vehicle( obj, 100, 0 );
 
@@ -178,13 +186,14 @@ bool game::dump_stats( const std::string& what, dump_mode mode, const std::vecto
             r.push_back( to_string( veh_fueled.max_velocity() / 100 ) );
             r.push_back( to_string( veh_fueled.safe_velocity() / 100 ) );
             r.push_back( to_string( veh_fueled.acceleration() / 100 ) );
-            r.push_back( to_string( (int)( 100 * veh_fueled.k_mass() ) ) );
-            r.push_back( to_string( (int)( 100 * veh_fueled.k_aerodynamics() ) ) );
-            r.push_back( to_string( (int)( 100 * veh_fueled.k_friction() ) ) );
-            r.push_back( to_string( (int)( 100 * veh_fueled.k_traction( veh_fueled.wheel_area( false ) / 2.0f ) ) ) );
+            r.push_back( to_string( ( int )( 100 * veh_fueled.k_mass() ) ) );
+            r.push_back( to_string( ( int )( 100 * veh_fueled.k_aerodynamics() ) ) );
+            r.push_back( to_string( ( int )( 100 * veh_fueled.k_friction() ) ) );
+            r.push_back( to_string( ( int )( 100 * veh_fueled.k_traction( veh_fueled.wheel_area(
+                                                 false ) / 2.0f ) ) ) );
             rows.push_back( r );
         };
-        for( auto& e : vehicle_prototype::get_all() ) {
+        for( auto &e : vehicle_prototype::get_all() ) {
             dump( e );
         }
 
@@ -192,7 +201,7 @@ bool game::dump_stats( const std::string& what, dump_mode mode, const std::vecto
         header = {
             "Name", "Location", "Weight", "Size"
         };
-        auto dump = [&rows]( const vpart_info *obj ) {
+        auto dump = [&rows]( const vpart_info * obj ) {
             std::vector<std::string> r;
             r.push_back( obj->name() );
             r.push_back( obj->location );
@@ -214,8 +223,9 @@ bool game::dump_stats( const std::string& what, dump_mode mode, const std::vecto
             header.push_back( to_string( i ) );
         }
 
-        auto dump = [&rows]( const standard_npc &who, const item &gun) {
-            std::vector<std::string> r( 1, string_format( "%s %s", who.get_name().c_str(), gun.tname().c_str() ) );
+        auto dump = [&rows, cycles]( const standard_npc & who, const item & gun ) {
+            std::vector<std::string> r( 1, string_format( "%s %s", who.get_name().c_str(),
+                                        gun.tname().c_str() ) );
             double penalty = MIN_RECOIL;
             for( int i = 0; i <= cycles; ++i ) {
                 penalty -= who.aim_per_move( gun, penalty );
@@ -255,7 +265,7 @@ bool game::dump_stats( const std::string& what, dump_mode mode, const std::vecto
             "Name", "Power", "Power at 5 tiles", "Power halves at", "Shrapnel count", "Shrapnel mass"
         };
 
-        auto dump = [&rows]( const std::string &name, const explosion_data &ex ) {
+        auto dump = [&rows]( const std::string & name, const explosion_data & ex ) {
             std::vector<std::string> r;
             r.push_back( name );
             r.push_back( to_string( ex.power ) );
@@ -265,7 +275,7 @@ bool game::dump_stats( const std::string& what, dump_mode mode, const std::vecto
             r.push_back( to_string( ex.shrapnel.mass ) );
             rows.push_back( r );
         };
-        for( const auto& e : item_controller->get_all_itypes() ) {
+        for( const auto &e : item_controller->get_all_itypes() ) {
             const auto &itt = *e.second;
             const auto use = itt.get_use( "explosion" );
             if( use != nullptr && use->get_actor_ptr() != nullptr ) {
@@ -286,12 +296,13 @@ bool game::dump_stats( const std::string& what, dump_mode mode, const std::vecto
         return false;
     }
 
-    rows.erase( std::remove_if( rows.begin(), rows.end(), []( const std::vector<std::string>& e ) {
+    rows.erase( std::remove_if( rows.begin(), rows.end(), []( const std::vector<std::string> &e ) {
         return e.empty();
     } ), rows.end() );
 
     if( scol >= 0 ) {
-        std::sort( rows.begin(), rows.end(), [&scol]( const std::vector<std::string>& lhs, const std::vector<std::string>& rhs ) {
+        std::sort( rows.begin(), rows.end(), [&scol]( const std::vector<std::string> &lhs,
+        const std::vector<std::string> &rhs ) {
             return lhs[ scol ] < rhs[ scol ];
         } );
     }
@@ -301,7 +312,7 @@ bool game::dump_stats( const std::string& what, dump_mode mode, const std::vecto
     switch( mode ) {
         case dump_mode::TSV:
             rows.insert( rows.begin(), header );
-            for( const auto& r : rows ) {
+            for( const auto &r : rows ) {
                 std::copy( r.begin(), r.end() - 1, std::ostream_iterator<std::string>( std::cout, "\t" ) );
                 std::cout << r.back() << "\n";
             }
@@ -312,16 +323,16 @@ bool game::dump_stats( const std::string& what, dump_mode mode, const std::vecto
 
             std::cout << "<thead>";
             std::cout << "<tr>";
-            for( const auto& col : header ) {
+            for( const auto &col : header ) {
                 std::cout << "<th>" << col << "</th>";
             }
             std::cout << "</tr>";
             std::cout << "</thead>";
 
             std::cout << "<tdata>";
-            for( const auto& r : rows ) {
+            for( const auto &r : rows ) {
                 std::cout << "<tr>";
-                for( const auto& col : r ) {
+                for( const auto &col : r ) {
                     std::cout << "<td>" << col << "</td>";
                 }
                 std::cout << "</tr>";
