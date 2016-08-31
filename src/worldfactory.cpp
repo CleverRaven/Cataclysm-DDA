@@ -1454,9 +1454,9 @@ bool worldfactory::load_world_options(WORLDPTR &world)
 
     using namespace std::placeholders;
     const auto path = world->world_path + "/" + FILENAMES["worldoptions"];
-	auto options_reader = [world]( JsonIn &js ){ 
+    auto options_reader = [world]( JsonIn &js ){ 
 		world->load_options( js );
-	};
+    };
 
     if( read_from_file_optional( path, options_reader ) ) {
         return true;
