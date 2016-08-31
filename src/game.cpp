@@ -1854,7 +1854,7 @@ int game::inventory_item_menu( int pos, int iStartX, int iWidth,
         addentry( 'r', pgettext( "action", "reload" ), u.rate_action_reload( oThisItem ) );
         addentry( 'p', pgettext( "action", "part reload" ), u.rate_action_reload( oThisItem ) );
         addentry( 'm', pgettext( "action", "mend" ), u.rate_action_mend( oThisItem ) );
-		addentry( 'M', pgettext( "action", "toogle important gear" ), HINT_GOOD );
+        addentry( 'M', pgettext( "action", "toogle important gear" ), HINT_GOOD );
         addentry( 'D', pgettext( "action", "disassemble" ), u.rate_action_disassemble( oThisItem ) );
         addentry( '=', pgettext( "action", "reassign" ), HINT_GOOD );
         if( bHPR ) {
@@ -1948,9 +1948,9 @@ int game::inventory_item_menu( int pos, int iStartX, int iWidth,
                 case 'm':
                     mend( pos );
                     break;
-				case 'M':
-					toggle_important(pos);
-					break;
+                case 'M':
+                    toggle_important( pos );
+                    break;
                 case 'R':
                     u.read( pos );
                     break;
@@ -11277,14 +11277,14 @@ void game::mend( int pos )
 
 void game::toggle_important( int pos )
 {
-	item& obj = g->u.i_at(pos);
-	if (g->u.has_item(obj)) {
-		if (obj.has_flag("IMPORTANT_GEAR")) {
-			obj.item_tags.erase("IMPORTANT_GEAR");
-		} else {
-			obj.item_tags.insert("IMPORTANT_GEAR");
-		}
-	}
+    item &obj = g->u.i_at( pos );
+    if( g->u.has_item( obj ) ) {
+        if( obj.has_flag( "IMPORTANT_GEAR" ) ) {
+            obj.item_tags.erase( "IMPORTANT_GEAR" );
+        } else {
+            obj.item_tags.insert( "IMPORTANT_GEAR" );
+        }
+    }
 }
 
 bool add_or_drop_with_msg( player &u, item &it )
