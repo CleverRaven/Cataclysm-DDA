@@ -677,7 +677,7 @@ bool auto_pickup::load_legacy(const bool bCharacter)
     auto &rules = vRules[(bCharacter) ? CHARACTER_TAB : GLOBAL_TAB];
 
     using namespace std::placeholders;
-	const auto reader = ( const std::function<void( std::istream & )> & ) std::bind( &auto_pickup::load_legacy_rules, this, std::ref( rules ), _1 );
+    const auto reader = ( const std::function<void( std::istream & )> & ) std::bind( &auto_pickup::load_legacy_rules, this, std::ref( rules ), _1 );
     if( !read_from_file_optional( sFile, reader ) ) {
         if( !bCharacter ) {
             return read_from_file_optional( FILENAMES["legacy_autopickup"], reader );

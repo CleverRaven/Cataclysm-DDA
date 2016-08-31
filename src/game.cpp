@@ -3512,16 +3512,16 @@ void game::load(std::string worldname, std::string name)
     // This should be initialized more globally (in player/Character constructor)
     u.ret_null = item( "null", 0 );
     u.weapon = item("null", 0);
-	const auto unserialise_reader = ( const std::function<void( std::istream & )> & ) std::bind( &game::unserialize, this, _1 );
+    const auto unserialise_reader = ( const std::function<void( std::istream & )> & ) std::bind( &game::unserialize, this, _1 );
     if( !read_from_file( playerfile, unserialise_reader ) ) {
         return;
     }
 
-	const auto load_weather_reader = ( const std::function<void( std::istream & )> & ) std::bind( &game::load_weather, this, _1 );
+    const auto load_weather_reader = ( const std::function<void( std::istream & )> & ) std::bind( &game::load_weather, this, _1 );
     read_from_file_optional( worldpath + name + ".weather", load_weather_reader );
     nextweather = int(calendar::turn);
 
-	const auto load_memorial_file_reader = ( const std::function<void( std::istream & )> & ) std::bind( &player::load_memorial_file, &u, _1 );
+    const auto load_memorial_file_reader = ( const std::function<void( std::istream & )> & ) std::bind( &player::load_memorial_file, &u, _1 );
     read_from_file_optional( worldpath + name + ".log", load_memorial_file_reader );
 
     // Now that the player's worn items are updated, their sight limits need to be
