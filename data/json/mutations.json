@@ -231,7 +231,7 @@
         "description" : "You are less likely to throw up from food poisoning, alcohol, etc.  If you throw up nevertheless, you won't suffer a residual nausea.",
         "starting_trait" : true,
         "changes_to" : ["NAUSEA"],
-        "note" : "nope.  This does NOT lead to EATPOISON.  Stomach problems are part of the GI upgrades--one advantage to not having Robust Genetics.",
+        "//" : "nope.  This does NOT lead to EATPOISON.  Stomach problems are part of the GI upgrades--one advantage to not having Robust Genetics.",
         "cancels" : ["WEAKSTOMACH"]
     },{
         "type" : "mutation",
@@ -390,7 +390,7 @@
         "category" : ["MUTCAT_FISH", "MUTCAT_SLIME", "MUTCAT_ALPHA", "MUTCAT_MEDICAL"]
     },{
         "type" : "mutation",
-        "id" : "EAGLEEYED", "note" : "Can't change the ID as that breaks save-compatibility.",
+        "id" : "EAGLEEYED", "//" : "Can't change the ID as that breaks save-compatibility.",
         "name" : "Scout",
         "points" : 1,
         "description" : "You're an excellent navigator and your ability to spot distant landmarks is unmatched.  Your sight radius on the overmap extends beyond the normal range.",
@@ -1752,7 +1752,6 @@
         "category" : ["MUTCAT_MYCUS"],
         "active"     :    true,
         "cost"       :    8,
-        "time"       :    0,
         "hunger"     :    true,
         "thirst"     :    true
     },{
@@ -1785,7 +1784,6 @@
         "category" : ["MUTCAT_MYCUS"],
         "active"     :    true,
         "cost"       :    10,
-        "time"       :    0,
         "hunger"     :    true,
         "thirst"     :    true,
         "fatigue"    :    true
@@ -2145,7 +2143,7 @@
         "description" : "So it's fermented?  Whatever, it's still good drinking.  You've developed the ability to metabolize alcohol as a food source.",
         "prereqs" : ["TOLERANCE", "EATPOISON"],
         "prereqs2" : ["SAPROVORE", "EATPOISON"],
-        "note" : "It's unlikely but possible to get EATPOISON without ALCMET.  Since EATPOISON's arguably a stronger version, it serves as both prereqs.",
+        "//" : "It's unlikely but possible to get EATPOISON without ALCMET.  Since EATPOISON's arguably a stronger version, it serves as both prereqs.",
         "category" : ["MUTCAT_TROGLOBITE"],
         "valid" : false
     },{
@@ -2176,7 +2174,6 @@
         "name" : "Saprovore",
         "points" : 2,
         "description" : "Your digestive system is specialized to allow you to consume decaying material.  You can eat rotten food, albeit for less nutrition than usual.",
-        "prereqs" : ["CARNIVORE"],
         "cancels" : ["HERBIVORE", "RUMINANT"],
         "category" : ["MUTCAT_TROGLOBITE", "MUTCAT_CHIMERA"]
     },{
@@ -2249,7 +2246,7 @@
         "description" : "Your guts have developed the ability to handle poisonous food.  Mostly.",
         "changes_to" : ["EATDEAD"],
         "prereqs" : ["NAUSEA", "VOMITOUS", "POISRESIST", "POISONOUS"],
-        "note" : "Yes, you eventually got over the massive digestive upset.  Mutations aren't easy on a system!",
+        "//" : "Yes, you eventually got over the massive digestive upset.  Mutations aren't easy on a system!",
         "prereqs2" : ["SAPROVORE", "TOLERANCE"],
         "threshreq" : ["THRESH_TROGLOBITE", "THRESH_CHIMERA", "THRESH_RAPTOR", "THRESH_RAT"],
         "category" : ["MUTCAT_TROGLOBITE", "MUTCAT_RAPTOR", "MUTCAT_RAT", "MUTCAT_CHIMERA"],
@@ -2278,7 +2275,6 @@
         "category" : ["MUTCAT_RAT"],
         "active"     :    true,
         "cost"       :    10,
-        "time"       :    0,
         "hunger"     :    true,
         "thirst"     :    true,
         "fatigue"    :    true
@@ -2650,7 +2646,7 @@
         "threshreq" : ["THRESH_MEDICAL"],
         "leads_to" : ["MUT_TOUGH"],
         "changes_to" : ["CENOBITE"],
-        "note" : "MASOCHIST_MED and NOPAIN don't cancel each other.  By design.  Poor painless folks...",
+        "//" : "MASOCHIST_MED and NOPAIN don't cancel each other.  By design.  Poor painless folks...",
         "category" : ["MUTCAT_MEDICAL"]
     },{
         "type" : "mutation",
@@ -2665,7 +2661,7 @@
         "prereqs" : ["MASOCHIST_MED"],
         "prereqs2" : ["PAINREC3", "ADDICTIVE"],
         "threshreq" : ["THRESH_MEDICAL"],
-        "note" : "CENOBITE and NOPAIN also don't cancel each other.  By design.  Poor painless cenobites...",
+        "//" : "CENOBITE and NOPAIN also don't cancel each other.  By design.  Poor painless cenobites...",
         "category" : ["MUTCAT_MEDICAL"]
     },{
         "type" : "mutation",
@@ -2678,7 +2674,7 @@
         "prereqs" : ["MASOCHIST", "PAINRESIST"],
         "prereqs2" : ["PAINREC3"],
         "threshreq" : ["THRESH_MEDICAL"],
-        "note" : "MASOCHIST_MED, CENOBITE, and NOPAIN don't cancel each other.  By design.  Poor painless people...",
+        "//" : "MASOCHIST_MED, CENOBITE, and NOPAIN don't cancel each other.  By design.  Poor painless people...",
         "category" : ["MUTCAT_MEDICAL"]
     },{
         "type" : "mutation",
@@ -2745,8 +2741,8 @@
         "purifiable" : false,
         "prereqs" : ["CARNIVORE"],
         "prereqs2" : ["PRED3", "PRED4"],
-        "threshreq" : ["THRESH_BEAST", "THRESH_RAPTOR", "THRESH_CHIMERA", "THRESH_URSINE", "THRESH_LIZARD", "THRESH_SPIDER"],
-        "category" : ["MUTCAT_BEAST", "MUTCAT_RAPTOR", "MUTCAT_CHIMERA", "MUTCAT_URSINE", "MUTCAT_LIZARD", "MUTCAT_SPIDER"],
+        "threshreq" : ["THRESH_BEAST", "THRESH_RAPTOR", "THRESH_CHIMERA", "THRESH_LIZARD", "THRESH_SPIDER"],
+        "category" : ["MUTCAT_BEAST", "MUTCAT_RAPTOR", "MUTCAT_CHIMERA", "MUTCAT_LIZARD", "MUTCAT_SPIDER"],
         "flags" : ["CANNIBAL"]
     },{
         "type" : "mutation",
@@ -3203,7 +3199,8 @@
         "id" : "INT_UP_2",
         "name" : "Very Smart",
         "points" : 2,
-        "ugliness" : 0,"description" : "You are smarter.  Intelligence + 2",
+        "ugliness" : 0,
+        "description" : "You are smarter.  Intelligence + 2",
         "prereqs" : ["INT_UP"],
         "changes_to" : ["INT_UP_3"],
         "passive_mods" : {
@@ -3360,7 +3357,7 @@
         "type" : "mutation",
         "id" : "MUT_JUNKIE",
         "name" : "Metallassomaiphile",
-        "note" : "name courtesy of wiktionary's Greek for 'mutate'.  Greek-speakers, feel free to correct the term",
+        "//" : "name courtesy of wiktionary's Greek for 'mutate'.  Greek-speakers, feel free to correct the term",
         "points" : -1,
         "visibility" : 0,
         "ugliness" : 0,
@@ -3681,8 +3678,7 @@
         "prereqs" : ["WEAKSTOMACH"],
         "changes_to" : ["VOMITOUS", "EATPOISON"],
         "category" : ["MUTCAT_ALPHA"],
-        "active" : true,
-        "time" : 0
+        "active" : true
     },{
         "type" : "mutation",
         "id" : "VOMITOUS",
@@ -3692,8 +3688,7 @@
         "prereqs" : ["NAUSEA"],
         "changes_to" : ["EATPOISON"],
         "category" : ["MUTCAT_SLIME", "MUTCAT_RAT", "MUTCAT_MEDICAL", "MUTCAT_ELFA"],
-        "active" : true,
-        "time" : 0
+        "active" : true
     },{
         "type" : "mutation",
         "id" : "HUNGER",
@@ -4105,7 +4100,6 @@
         "category" : ["MUTCAT_SLIME"],
         "active"     :    true,
         "cost"       :    40,
-        "time"       :    0,
         "hunger"     :    true,
         "thirst"     :    true
     },{
@@ -4123,7 +4117,6 @@
         "points" : -4,
         "description" : "Your body's ability to digest fruits, vegetables and grains is severely hampered.  You cannot eat anything besides meat.",
         "cancels" : ["VEGETARIAN", "HERBIVORE", "RUMINANT",  "GRAZER"],
-        "leads_to" : ["SAPROVORE"],
         "category" : ["MUTCAT_LIZARD", "MUTCAT_BEAST", "MUTCAT_SPIDER", "MUTCAT_CHIMERA", "MUTCAT_RAPTOR", "MUTCAT_FELINE"],
         "vitamin_rates": [ [ "vitC", -1200 ] ]
     },{
@@ -4173,7 +4166,10 @@
         "prereqs" : ["PLANTSKIN", "BARK"],
         "cancels" : ["WINGS_BAT", "WINGS_INSECT", "WINGS_BIRD", "WINGS_STUB", "WINGS_BUTTERFLY"],
         "changes_to" : ["VINES2"],
-        "category" : ["MUTCAT_PLANT"]
+        "category" : ["MUTCAT_PLANT"],
+        "encumbrance_always" : [
+            [ "TORSO", 10 ]
+        ]
     },{
         "type" : "mutation",
         "id" : "VINES2",
@@ -4194,6 +4190,9 @@
                 "chance" : 1,
                 "hardcoded_effect" : true
             }
+        ],
+        "encumbrance_always" : [
+            [ "TORSO", 10 ]
         ]
     },{
         "type" : "mutation",
@@ -4210,7 +4209,6 @@
         "category" : ["MUTCAT_PLANT"],
         "active"     :    true,
         "cost"       :    10,
-        "time"       :    0,
         "hunger"     :    true,
         "thirst"     :    true,
         "attacks": [
@@ -4233,7 +4231,11 @@
         "threshreq" : ["THRESH_PLANT"],
         "cancels" : ["LEG_TENTACLES"],
         "changes_to" : ["ROOTS2"],
-        "category" : ["MUTCAT_PLANT"]
+        "category" : ["MUTCAT_PLANT"],
+        "encumbrance_covered" : [
+            [ "FOOT_L", 10 ],
+            [ "FOOT_R", 10 ]
+        ]
     },{
         "type" : "mutation",
         "id" : "ROOTS2",
@@ -4247,7 +4249,11 @@
         "threshreq" : ["THRESH_PLANT"],
         "cancels" : ["LEG_TENTACLES", "RAP_TALONS"],
         "changes_to" : ["ROOTS3"],
-        "category" : ["MUTCAT_PLANT"]
+        "category" : ["MUTCAT_PLANT"],
+        "encumbrance_covered" : [
+            [ "FOOT_L", 10 ],
+            [ "FOOT_R", 10 ]
+        ]
     },{
         "type" : "mutation",
         "id" : "ROOTS3",
@@ -4260,7 +4266,11 @@
         "prereqs2" : ["SAPROPHAGE"],
         "threshreq" : ["THRESH_PLANT"],
         "cancels" : ["LEG_TENTACLES"],
-        "category" : ["MUTCAT_PLANT"]
+        "category" : ["MUTCAT_PLANT"],
+        "encumbrance_covered" : [
+            [ "FOOT_L", 10 ],
+            [ "FOOT_R", 10 ]
+        ]
     },{
         "type" : "mutation",
         "id" : "CHLOROMORPH",
@@ -4275,7 +4285,11 @@
         "prereqs2" : ["SAPROPHAGE"],
         "threshreq" : ["THRESH_PLANT"],
         "cancels" : ["LEG_TENTACLES", "SMELLY", "SMELLY2"],
-        "category" : ["MUTCAT_PLANT"]
+        "category" : ["MUTCAT_PLANT"],
+        "encumbrance_covered" : [
+            [ "FOOT_L", 10 ],
+            [ "FOOT_R", 10 ]
+        ]
     },{
         "type" : "mutation",
         "id" : "COLDBLOOD",
@@ -4284,7 +4298,7 @@
         "description" : "Your muscle response is dependent on ambient temperatures.  You lose 1% of your speed for every 5 (2.8) degrees below 65 F (18.3 C).",
         "changes_to" : ["COLDBLOOD2"],
         "cancels" : ["HUNGER", "HUNGER2", "HUNGER3", "EATHEALTH"],
-        "category" : ["MUTCAT_FISH", "MUTCAT_BIRD", "MUTCAT_CEPHALOPOD", "MUTCAT_SPIDER"]
+        "category" : ["MUTCAT_FISH", "MUTCAT_CEPHALOPOD", "MUTCAT_SPIDER"]
     },{
         "type" : "mutation",
         "id" : "COLDBLOOD2",
@@ -4706,7 +4720,6 @@
         "name" : "Bear",
         "points" : 1,
         "description" : "So the humans died, what's the worry? Now they won't ruin the woods.",
-        "cancels" : ["CARNIVORE"],
         "valid": false,
         "purifiable": false,
         "threshold": true
