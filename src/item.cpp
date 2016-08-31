@@ -1960,18 +1960,18 @@ const std::string &item::symbol() const
 nc_color item::color_in_inventory() const
 {
     player* const u = &g->u; // TODO: make a reference, make a const reference
-    nc_color ret = c_ltgray;
+    nc_color ret = (is_marked_important()) ? c_black_white : c_ltgray;
 
     if(has_flag("WET")) {
-        ret = c_cyan;
+		ret = (is_marked_important()) ? c_cyan_white : c_cyan;
     } else if(has_flag("LITCIG")) {
-        ret = c_red;
+		ret = (is_marked_important()) ? c_red_white : c_red;
     } else if( is_filthy() ) {
-        ret = c_brown;
+		ret = (is_marked_important()) ? c_brown_white : c_brown;
     } else if ( has_flag("LEAK_DAM") && has_flag("RADIOACTIVE") && damage() > 0 ) {
-        ret = c_ltgreen;
+		ret = (is_marked_important()) ? c_ltgreen_white : c_ltgreen;
     } else if (active && !is_food() && !is_food_container()) { // Active items show up as yellow
-        ret = c_yellow;
+		ret = (is_marked_important()) ? c_yellow_white : c_yellow;
     } else if( is_food() || is_food_container() ) {
         const bool preserves = type->container && type->container->preserves;
         const item &to_color = is_food() ? *this : contents.front();
@@ -1989,22 +1989,22 @@ nc_color item::color_in_inventory() const
                 if( preserves ) {
                     // Nothing, canned food won't rot
                 } else if( to_color.is_going_bad() ) {
-                    ret = c_yellow;
+					ret = (is_marked_important()) ? c_yellow_white : c_yellow;
                 } else if( to_color.goes_bad() ) {
-                    ret = c_cyan;
+					ret = (is_marked_important()) ? c_cyan_white : c_cyan;
                 }
                 break;
             case INEDIBLE:
             case INEDIBLE_MUTATION:
-                ret = c_dkgray;
+				ret = (is_marked_important()) ? c_dkgray_white : c_dkgray;
                 break;
             case ALLERGY:
             case ALLERGY_WEAK:
             case CANNIBALISM:
-                ret = c_red;
+				ret = (is_marked_important()) ? c_red_white : c_red;
                 break;
             case ROTTEN:
-                ret = c_brown;
+				ret = (is_marked_important()) ? c_brown_white : c_brown;
                 break;
             case NO_TOOL:
                 break;
@@ -2017,9 +2017,9 @@ nc_color item::color_in_inventory() const
         bool has_ammo = !u->find_ammo( *this, false, -1 ).empty();
         bool has_mag = magazine_integral() || !u->find_ammo( *this, true, -1 ).empty();
         if( has_ammo && has_mag ) {
-            ret = c_green;
+			ret = (is_marked_important()) ? c_green_white : c_green;
         } else if( has_ammo || has_mag ) {
-            ret = c_ltred;
+			ret = (is_marked_important()) ? c_ltred_white : c_ltred;
         }
     } else if( is_ammo() ) {
         // Likewise, ammo is green if you have guns that use it
@@ -2029,9 +2029,9 @@ nc_color item::color_in_inventory() const
         bool has_gun = u->has_gun_for_ammo( amtype );
         bool has_mag = u->has_magazine_for_ammo( amtype );
         if( has_gun && has_mag ) {
-            ret = c_green;
+			ret = (is_marked_important()) ? c_green_white : c_green;
         } else if( has_gun || has_mag ) {
-            ret = c_ltred;
+			ret = (is_marked_important()) ? c_ltred_white : c_ltred;
         }
     } else if( is_magazine() ) {
         // Magazines are green if you have guns and ammo for them
@@ -2042,9 +2042,9 @@ nc_color item::color_in_inventory() const
         } );
         bool has_ammo = !u->find_ammo( *this, false, -1 ).empty();
         if( has_gun && has_ammo ) {
-            ret = c_green;
+			ret = (is_marked_important()) ? c_green_white : c_green;
         } else if( has_gun || has_ammo ) {
-            ret = c_ltred;
+			ret = (is_marked_important()) ? c_ltred_white : c_ltred;
         }
     } else if (is_book()) {
         if(u->has_identified( typeId() )) {
@@ -2053,22 +2053,24 @@ nc_color item::color_in_inventory() const
                 u->get_skill_level( tmp.skill ).can_train() &&
                 u->get_skill_level( tmp.skill ) >= tmp.req &&
                 u->get_skill_level( tmp.skill ) < tmp.level ) {
-                ret = c_ltblue;
+				ret = (is_marked_important()) ? c_ltblue_white : c_ltblue;
             } else if( !u->studied_all_recipes( *type ) ) { // Book can't improve skill right now, but has more recipes: yellow
-                ret = c_yellow;
+				ret = (is_marked_important()) ? c_yellow_white : c_yellow;
             } else if( tmp.skill && // Book can't improve skill right now, but maybe later: pink
                        u->get_skill_level( tmp.skill ).can_train() &&
                        u->get_skill_level( tmp.skill ) < tmp.level ) {
-                ret = c_pink;
+				ret = (is_marked_important()) ? c_pink_white : c_pink;
             }
         } else {
-            ret = c_red; // Book hasn't been identified yet: red
+			ret = (is_marked_important()) ? c_red_white : c_red;
         }
-    } else if (is_bionic()) {
+    } else if (is_marked_important()) {
+		ret = c_black_white;		//if the item is marked important, but hasn't met any other conditions yet, just use white/black
+	} else if (is_bionic()) {
         if (!u->has_bionic(typeId())) {
             ret = u->bionic_installation_issues( typeId() ).empty() ? c_green : c_red;
         }
-    }
+    } 
     return ret;
 }
 
@@ -5904,4 +5906,8 @@ bool item_category::operator!=( const item_category &rhs ) const
 
 bool item::is_filthy() const {
     return has_flag( "FILTHY" );
+}
+
+bool item::is_marked_important() const {
+	return has_flag( "IMPORTANT_GEAR" );
 }

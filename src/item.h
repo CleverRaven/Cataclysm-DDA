@@ -722,6 +722,9 @@ public:
     /** Marks the item as filthy, so characters with squeamish trait can't wear it.
     */
     bool is_filthy() const;
+	/** Item has been marked manually by the player
+	*/
+	bool is_marked_important() const;
     /**
      * This is called once each turn. It's usually only useful for active items,
      * but can be called for inactive items without problems.

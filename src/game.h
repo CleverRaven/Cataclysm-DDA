@@ -782,6 +782,7 @@ class game
         void reload(); // Reload a wielded gun/tool  'r'
         void reload( int pos, bool prompt = false );
         void mend( int pos = INT_MIN );
+		void toggle_important( int pos ); //Marks item with IMPORTANT_GEAR flag; removes flag if already present
         void autoattack();
 public:
         bool unload( item &it ); // Unload a gun/tool  'U'
