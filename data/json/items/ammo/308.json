@@ -32,7 +32,7 @@
     "relative": {
       "damage": -2,
       "pierce": 4,
-      "dispersion": -10,
+      "dispersion": 10,
       "recoil": 40
     },
     "extend": { "effects": [ "NEVER_MISFIRES" ] }
@@ -44,7 +44,6 @@
     "name": "7.62 NATO tracer",
     "name_plural": "7.62 NATO tracer",
     "description": "This ammunition is a one-in-five mix of M80 and M62 tracer rounds to help keep the weapon they are fired from on target.",
-    "proportional": { "dispersion": 0.8 },
     "extend": { "effects": [ "INCENDIARY" ] }
   },
   {

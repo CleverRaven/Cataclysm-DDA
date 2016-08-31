@@ -55,6 +55,8 @@ static void set_allergy_flags( itype &item_template );
 static void hflesh_to_flesh( itype &item_template );
 static void npc_implied_flags( itype &item_template );
 
+extern const double MIN_RECOIL;
+
 bool item_is_blacklisted(const std::string &id)
 {
     if (item_whitelist.count(id) > 0) {
@@ -1080,7 +1082,7 @@ void Item_factory::load( islot_gun &slot, JsonObject &jo, const std::string &src
     assign( jo, "ranged_damage", slot.damage, strict );
     assign( jo, "pierce", slot.pierce, strict );
     assign( jo, "dispersion", slot.dispersion, strict );
-    assign( jo, "sight_dispersion", slot.sight_dispersion, strict, 0 );
+    assign( jo, "sight_dispersion", slot.sight_dispersion, strict, 0, int( MIN_RECOIL ) );
     assign( jo, "recoil", slot.recoil, strict );
     assign( jo, "durability", slot.durability, strict, 0, 10 );
     assign( jo, "burst", slot.burst, strict, 1 );

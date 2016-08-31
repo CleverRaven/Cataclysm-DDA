@@ -39,6 +39,6 @@
     "location": "rail",
     "mod_targets": [ "smg", "rifle", "pistol", "shotgun", "crossbow", "launcher" ],
     "aim_cost": 2,
-    "sight_dispersion": 100
+    "sight_dispersion": 360
   }
 ]

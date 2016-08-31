@@ -14,7 +14,6 @@
     "ranged_damage": 22,
     "pierce": 15,
     "dispersion": 30,
-    "sight_dispersion": 150,
     "durability": 10,
     "reload": 500,
     "ammo_effects": [
@@ -39,7 +38,6 @@
     "ranged_damage": 10,
     "pierce": 15,
     "dispersion": 10,
-    "sight_dispersion": 150,
     "durability": 10,
     "reload": 500,
     "ammo_effects": [
@@ -62,7 +60,6 @@
     "range": 10,
     "ranged_damage": 16,
     "dispersion": 10,
-    "sight_dispersion": 150,
     "durability": 10,
     "reload": 500,
     "ammo_effects": [

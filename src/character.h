@@ -436,9 +436,6 @@ class Character : public Creature, public visitable<Character>
 
         bool meets_skill_requirements( const std::map<skill_id, int> &req ) const;
 
-        /** Return character dispersion penalty dependent upon relevant gun skill level */
-        int skill_dispersion( const item& gun ) const;
-
         // --------------- Other Stuff ---------------
 
 

@@ -30,15 +30,16 @@
     "location": "sights",
     "mod_targets": [ "smg", "rifle", "shotgun", "crossbow", "pistol", "launcher" ],
     "min_skills": [ [ "gun", 3 ] ],
-    "aim_cost": 4,
-    "sight_dispersion": 35
+    "aim_cost": 6,
+    "sight_dispersion": 60,
+    "flags": [ "DISABLE_SIGHTS" ]
   },
   {
     "id": "improve_sights",
     "type": "GUNMOD",
     "name": "improved iron sights",
-    "name_plural": "improved iron sights",
-    "description": "Improves the weapon's iron sights, increasing accuracy.  No drawbacks.",
+    "name_plural": "iron sights",
+    "description": "A basic set of iron sights",
     "weight": 60,
     "volume": 1,
     "integral_volume": 0,
@@ -50,13 +51,14 @@
     "mod_targets": [ "smg", "rifle", "pistol", "shotgun", "crossbow", "launcher" ],
     "min_skills": [ [ "gun", 1 ] ],
     "aim_cost": 6,
-    "sight_dispersion": 45
+    "sight_dispersion": 120,
+    "flags": [ "DISABLE_SIGHTS" ]
   },
   {
     "id": "pistol_scope",
     "type": "GUNMOD",
     "name": "pistol scope",
-    "description": "A small scope intended for use on a handgun or submachine gun, increases weight but improves accuracy greatly.",
+    "description": "A small scope intended for use on a handgun. Increases weight but improves accuracy greatly.",
     "weight": 212,
     "volume": 1,
     "price": 54000,
@@ -64,10 +66,11 @@
     "symbol": ":",
     "color": "dark_gray",
     "location": "sights",
-    "mod_targets": [ "pistol", "smg", "crossbow" ],
-    "min_skills": [ [ "gun", 3 ] ],
-    "aim_cost": 8,
-    "sight_dispersion": 15
+    "mod_targets": [ "pistol", "crossbow" ],
+    "min_skills": [ [ "gun", 4 ] ],
+    "aim_cost": 10,
+    "sight_dispersion": 30,
+    "flags": [ "DISABLE_SIGHTS" ]
   },
   {
     "id": "red_dot_sight",
@@ -84,8 +87,9 @@
     "location": "sights",
     "mod_targets": [ "smg", "rifle", "shotgun", "pistol", "crossbow", "launcher" ],
     "min_skills": [ [ "gun", 2 ] ],
-    "aim_cost": 3,
-    "sight_dispersion": 50
+    "aim_cost": 4,
+    "sight_dispersion": 90,
+    "flags": [ "DISABLE_SIGHTS" ]
   },
   {
     "id": "rifle_scope",
@@ -104,6 +108,6 @@
     "install_time": 30000,
     "aim_cost": 10,
     "sight_dispersion": 0,
-    "flags": [ "ZOOM" ]
+    "flags": [ "DISABLE_SIGHTS", "ZOOM" ]
   }
 ]
