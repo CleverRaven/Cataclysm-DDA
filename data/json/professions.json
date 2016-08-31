@@ -326,8 +326,7 @@
                 "coat_lab",
                 "gloves_rubber",
                 "glasses_safety",
-                "chemistry_set",
-                "id_science"
+                "chemistry_set"
             ],
             "male": [
                 "briefs"
