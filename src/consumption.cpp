@@ -733,11 +733,7 @@ void player::consume_effects( item &food, bool rotten )
         }
     }
     //Food is made out of meat (use ALLERGEN_MEAT, not CARNIVORE_OK (the latter has eggs and milk),
-    //player has carnivore mutation, and there are no non carnivore parts in the food.
-    //The food is not human flesh without the player being a cannibal.
     //Reduces bad morale penalties on food only made of meat.
-    //This also negates bad morale penalties on food made only of meat, as a carnivore.
-    //Don't give the bonus if it is human flesh, and the player is no cannibal.
     if( has_trait( "CARNIVORE" ) && food.has_flag( "ALLERGEN_MEAT" ) &&
         !food.has_any_flag( carnivore_blacklist ) &&
         !( food.has_flag( "CANNIBALISM" ) && !has_trait( "CANNIBAL" ) ) ) {
