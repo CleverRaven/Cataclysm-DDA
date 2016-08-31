@@ -473,38 +473,31 @@ std::list<item> visitable<inventory>::remove_items_with( const
         return res; // nothing to do
     }
 
-    for( auto stack = inv->items.begin(); stack != inv->items.end(); ) {
-        // all items in a stack are identical so we only need to call the predicate once
-        if( filter( stack->front() ) ) {
+    for( auto stack = inv->items.begin(); stack != inv->items.end() && count > 0; ) {
+        std::list<item> &istack = *stack;
+        const auto original_invlet = istack.front().invlet;
 
-            if( count >= int( stack->size() ) ) {
-                // remove the entire stack
-                count -= stack->size();
-                res.splice( res.end(), *stack );
-                stack = inv->items.erase( stack );
-                if( count == 0 ) {
-                    return res;
+        for( auto istack_iter = istack.begin(); istack_iter != istack.end() && count > 0; ) {
+            if( filter( *istack_iter ) ) {
+                count--;
+                res.splice( res.end(), istack, istack_iter++ );
+                // The non-first items of a stack may have different invlets, the code
+                // in inventory only ever checks the invlet of the first item. This
+                // ensures that the first item of a stack always has the same invlet, even
+                // after the orignal first item was removed.
+                if( istack_iter == istack.begin() && istack_iter != istack.end() ) {
+                    istack_iter->invlet = original_invlet;
                 }
 
             } else {
-                // remove only some of the stack
-                char invlet = stack->front().invlet;
-                auto fin = stack->begin();
-                std::advance( fin, count );
-                res.splice( res.end(), *stack, stack->begin(), fin );
-                stack->front().invlet = invlet; // preserve invlet for remaining stacked items
-                return res;
+                remove_internal( filter, *istack_iter, count, res );
+                ++istack_iter;
             }
+        }
 
+        if( istack.empty() ) {
+            stack = inv->items.erase( stack );
         } else {
-            // recurse through the contents of each stacked item separately
-            for( auto &e : *stack ) {
-                remove_internal( filter, e, count, res );
-                if( count == 0 ) {
-                    return res;
-                }
-            }
-
             ++stack;
         }
     }
