@@ -2448,6 +2448,7 @@
 {
   "type" : "recipe",
   "result": "blindfold",
+  "id_suffix": "from_tape",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_HEAD",
   "skill_used": "fabrication",
