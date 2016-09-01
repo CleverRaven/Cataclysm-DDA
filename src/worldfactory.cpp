@@ -1454,8 +1454,8 @@ bool worldfactory::load_world_options(WORLDPTR &world)
 
     using namespace std::placeholders;
     const auto path = world->world_path + "/" + FILENAMES["worldoptions"];
-    auto options_reader = [world]( JsonIn &js ){ 
-		world->load_options( js );
+    auto options_reader = [world]( JsonIn & js ) {
+        world->load_options( js );
     };
 
     if( read_from_file_optional( path, options_reader ) ) {
@@ -1463,7 +1463,7 @@ bool worldfactory::load_world_options(WORLDPTR &world)
     }
 
     const auto legacy_path = world->world_path + "/" + FILENAMES["legacy_worldoptions"];
-    auto legacy_options_reader = [world]( std::istream &is ) {
+    auto legacy_options_reader = [world]( std::istream & is ) {
         world->load_legacy_options( is );
     };
 
