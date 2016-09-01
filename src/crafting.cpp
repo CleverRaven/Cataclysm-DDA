@@ -604,10 +604,6 @@ int recipe::batch_time( int batch ) const
 
     float local_time = float( time ) / lighting_speed;
 
-    if( batch_rscale == 0.0 ) {
-        return local_time * batch;
-    }
-
     // NPCs around you should assist in batch production if they have the skills
     const auto helpers = g->u.get_crafting_helpers();
     int assistants = std::count_if( helpers.begin(), helpers.end(),
@@ -615,13 +611,24 @@ int recipe::batch_time( int batch ) const
         return np->get_skill_level( skill_used ) >= difficulty;
     } );
 
-    double total_time = 0.0;
-    // At batch_rsize, incremental time increase is 99.5% of batch_rscale
-    double scale = batch_rsize / 6.0;
-    for( int x = 0; x < batch; x++ ) {
-        // scaled logistic function output
-        double logf = ( 2.0 / ( 1.0 + exp( -( ( double )x / scale ) ) ) ) - 1.0;
-        total_time += ( double )local_time * ( 1.0 - ( batch_rscale * logf ) );
+    // if recipe does not benefit from batching and we have no assistants, don't do unnecessary additional calculations
+    if( batch_rscale == 0.0 && assistants == 0 ) {
+        return local_time * batch;
+    }
+
+    float total_time = 0.0;
+    // if recipe does not benefit from batching but we do have assistants, skip calculating the batching scale factor
+    if( batch_rscale == 0.0 ) {
+        total_time = local_time * batch;
+    } else {
+        // recipe benefits from batching, so batching scale factor needs to be calculated
+        // At batch_rsize, incremental time increase is 99.5% of batch_rscale
+        double scale = batch_rsize / 6.0;
+        for( double x = 0; x < batch; x++ ) {
+            // scaled logistic function output
+            double logf = ( 2.0 / ( 1.0 + exp( -( x / scale ) ) ) ) - 1.0;
+            total_time += local_time * ( 1.0 - ( batch_rscale * logf ) );
+        }
     }
 
     //Assistants can decrease the time for production but never less than that of one unit
