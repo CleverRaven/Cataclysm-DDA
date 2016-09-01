@@ -422,8 +422,6 @@ void replace_substring( std::string &input, const std::string &substring,
 std::string string_replace( std::string text, const std::string &before, const std::string &after );
 std::string replace_colors( std::string text );
 std::string &capitalize_letter( std::string &pattern, size_t n = 0 );
-std::string rm_prefix( std::string str, char c1 = '<', char c2 = '>' );
-#define rmp_format(...) rm_prefix(string_format(__VA_ARGS__))
 size_t shortcut_print( WINDOW *w, int y, int x, nc_color text_color, nc_color shortcut_color,
                        const std::string &fmt );
 size_t shortcut_print( WINDOW *w, nc_color text_color, nc_color shortcut_color,

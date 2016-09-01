@@ -2191,22 +2191,22 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
                 damtext = "<color_" + string_from_color( damage_color() ) + ">" + damage_symbol() + " </color>";
 
             } else if (is_gun())  {
-                damtext = rm_prefix(_("<dam_adj>accurized "));
+                damtext = pgettext( "damage adjective", "accurized " );
             } else {
-                damtext = rm_prefix(_("<dam_adj>reinforced "));
+                damtext = pgettext( "damage adjective", "reinforced " );
             }
         } else {
             if (typeId() == "corpse") {
-                if (damage() == 1) damtext = rm_prefix(_("<dam_adj>bruised "));
-                if (damage() == 2) damtext = rm_prefix(_("<dam_adj>damaged "));
-                if (damage() == 3) damtext = rm_prefix(_("<dam_adj>mangled "));
-                if (damage() >= 4) damtext = rm_prefix(_("<dam_adj>pulped "));
+                if (damage() == 1) damtext = pgettext( "damage adjective", "bruised " );
+                if (damage() == 2) damtext = pgettext( "damage adjective", "damaged " );
+                if (damage() == 3) damtext = pgettext( "damage adjective", "mangled " );
+                if (damage() >= 4) damtext = pgettext( "damage adjective", "pulped " );
 
             } else if ( get_option<bool>( "ITEM_HEALTH_BAR" ) ) {
                 damtext = "<color_" + string_from_color( damage_color() ) + ">" + damage_symbol() + " </color>";
 
             } else {
-                damtext = rmp_format( "%s ", get_base_material().dmg_adj( damage() ).c_str() );
+                damtext = string_format( "%s ", get_base_material().dmg_adj( damage() ).c_str() );
             }
         }
     }
@@ -2217,18 +2217,18 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
 
     std::string vehtext = "";
     if( is_engine() && engine_displacement() > 0 ) {
-        vehtext = rmp_format( _( "<veh_adj>%2.1fL " ), engine_displacement() / 100.0f );
+        vehtext = string_format( pgettext( "vehicle adjective", "%2.1fL " ), engine_displacement() / 100.0f );
 
     } else if( is_wheel() && type->wheel->diameter > 0 ) {
-        vehtext = rmp_format( _( "<veh_adj>%d\" " ), type->wheel->diameter );
+        vehtext = string_format( pgettext( "vehicle adjective", "%d\" " ), type->wheel->diameter );
     }
 
     std::string burntext = "";
     if (with_prefix && !made_of(LIQUID)) {
         if (volume() >= 4 && burnt >= volume() * 2) {
-            burntext = rm_prefix(_("<burnt_adj>badly burnt "));
+            burntext = pgettext( "burnt adjective", "badly burnt " );
         } else if (burnt > 0) {
-            burntext = rm_prefix(_("<burnt_adj>burnt "));
+            burntext = pgettext( "burnt adjective", "burnt " );
         }
     }
 
@@ -2236,22 +2236,22 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
     std::string maintext = "";
     if (corpse != NULL && typeId() == "corpse" ) {
         if (name != "") {
-            maintext = rmp_format(ngettext("<item_name>%s corpse of %s",
-                                           "<item_name>%s corpses of %s",
+            maintext = string_format( npgettext( "item name", "%s corpse of %s",
+                                           "%s corpses of %s",
                                            quantity), corpse->nname().c_str(), name.c_str());
         } else {
-            maintext = rmp_format(ngettext("<item_name>%s corpse",
-                                           "<item_name>%s corpses",
+            maintext = string_format( npgettext( "item name", "%s corpse",
+                                           "%s corpses",
                                            quantity), corpse->nname().c_str());
         }
     } else if (typeId() == "blood") {
         if (corpse == NULL || corpse->id == NULL_ID )
-            maintext = rm_prefix(ngettext("<item_name>human blood",
-                                          "<item_name>human blood",
+            maintext = string_format( npgettext( "item name", "human blood",
+                                          "human blood",
                                           quantity));
         else
-            maintext = rmp_format(ngettext("<item_name>%s blood",
-                                           "<item_name>%s blood",
+            maintext = string_format( npgettext( "item name", "%s blood",
+                                           "%s blood",
                                            quantity), corpse->nname().c_str());
     }
     else if (iname != item_vars.end()) {
@@ -2274,18 +2274,18 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
         maintext = ret.str();
     } else if (contents.size() == 1) {
         if( contents.front().made_of( LIQUID ) ) {
-            maintext = rmp_format(_("<item_name>%s of %s"), label(quantity).c_str(), contents.front().tname( quantity, with_prefix ).c_str());
+            maintext = string_format( pgettext( "item name", "%s of %s" ), label(quantity).c_str(), contents.front().tname( quantity, with_prefix ).c_str());
         } else if( contents.front().is_food() ) {
-            maintext = contents.front().charges > 1 ? rmp_format(_("<item_name>%s of %s"), label(quantity).c_str(),
+            maintext = contents.front().charges > 1 ? string_format( pgettext( "item name", "%s of %s" ), label(quantity).c_str(),
                                                             contents.front().tname(contents.front().charges, with_prefix).c_str()) :
-                                                 rmp_format(_("<item_name>%s of %s"), label(quantity).c_str(),
+                                                 string_format( pgettext( "item name", "%s of %s" ), label(quantity).c_str(),
                                                             contents.front().tname( quantity, with_prefix ).c_str());
         } else {
-            maintext = rmp_format(_("<item_name>%s with %s"), label(quantity).c_str(), contents.front().tname( quantity, with_prefix ).c_str());
+            maintext = string_format( pgettext( "item name", "%s with %s" ), label(quantity).c_str(), contents.front().tname( quantity, with_prefix ).c_str());
         }
     }
     else if (!contents.empty()) {
-        maintext = rmp_format(_("<item_name>%s, full"), label(quantity).c_str());
+        maintext = string_format( pgettext( "item name", "%s, full" ), label(quantity).c_str());
     } else {
         maintext = label(quantity);
     }
@@ -5794,21 +5794,21 @@ std::string item::type_name( unsigned int quantity ) const
     const auto iter = item_vars.find( "name" );
     if( corpse != nullptr && typeId() == "corpse" ) {
         if( name.empty() ) {
-            return rmp_format( ngettext( "<item_name>%s corpse",
-                                         "<item_name>%s corpses", quantity ),
+            return string_format( npgettext( "item name", "%s corpse",
+                                         "%s corpses", quantity ),
                                corpse->nname().c_str() );
         } else {
-            return rmp_format( ngettext( "<item_name>%s corpse of %s",
-                                         "<item_name>%s corpses of %s", quantity ),
+            return string_format( npgettext( "item name", "%s corpse of %s",
+                                         "%s corpses of %s", quantity ),
                                corpse->nname().c_str(), name.c_str() );
         }
     } else if( typeId() == "blood" ) {
         if( corpse == nullptr || corpse->id == NULL_ID ) {
-            return rm_prefix( ngettext( "<item_name>human blood",
-                                        "<item_name>human blood", quantity ) );
+            return string_format( npgettext( "item name", "human blood",
+                                        "human blood", quantity ) );
         } else {
-            return rmp_format( ngettext( "<item_name>%s blood",
-                                         "<item_name>%s blood",  quantity ),
+            return string_format( npgettext( "item name", "%s blood",
+                                         "%s blood",  quantity ),
                                corpse->nname().c_str() );
         }
     } else if( iter != item_vars.end() ) {

@@ -41,6 +41,7 @@ int FULL_SCREEN_HEIGHT;
 int OVERMAP_WINDOW_HEIGHT;
 int OVERMAP_WINDOW_WIDTH;
 
+static std::string rm_prefix( std::string str, char c1 = '<', char c2 = '>' );
 
 scrollingcombattext SCT;
 extern bool tile_iso;
