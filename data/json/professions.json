@@ -2513,11 +2513,11 @@
             }
         ],
         "items": {
+            "both": [
                 "undershirt",
                 "arm_warmers",
                 "leg_warmers",
-                "helmet_liner",
-                "gloves_liner",
+                "gloves_liner",,
                 "pants_army",
                 "army_top",
                 "jacket_army",
@@ -2530,7 +2530,7 @@
                 "sheath",
                 "knife_combat",
                 "canteen",
-                "ref_lighter",
+                "ref_light",
                 "pur_tablets",
                 "tent_kit",
                 "rollmat",
@@ -2543,7 +2543,7 @@
                 "suppressor",
                 "rifle_scope",
                 "id_military"
-            },
+            ],
             "male": [
                 "boxer_shorts"
             ],
