@@ -657,7 +657,7 @@
             ]
         }
     },
-	{
+    {
         "type": "profession",
         "ident": "bio_specops",
         "name": "Bionic Special Operator",
@@ -697,7 +697,7 @@
                 "name": "survival"
             }
         ],
-		"CBMs":[
+        "CBMs":[
             "bio_targeting",
             "bio_purifier",
             "bio_carbon",
@@ -1418,7 +1418,7 @@
         "description": "Your skill as a sharpshooter served you well in the line of duty, protecting the innocent with a single, well placed bullet.  Now survival itself is on the line, and you can't afford to miss if you don't want to end up as something's dinner.",
         "points": 6,
         "CBMs":[
-		    "bio_targeting",
+            "bio_targeting",
             "bio_infrared",
             "bio_metabolics",
             "bio_power_storage_mkII"
@@ -2281,8 +2281,8 @@
         "description": "Mortally injured in the line of duty, you were resurrected by the surgeons from the department's revolutionary Cybercop program.  Now, in these lawless times, you are truly the future of law enforcement.",
         "points": 5,
         "CBMs":[
-		    "bio_armor_eyes",
-		    "bio_armor_head",
+            "bio_armor_eyes",
+            "bio_armor_head",
             "bio_armor_torso",
             "bio_armor_legs",
             "bio_armor_arms",
