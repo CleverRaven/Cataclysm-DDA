@@ -53,7 +53,7 @@
   ],
   "components": [
     [
-      [ "salt_water", 10 ],
+      [ "salt_water", 8 ],
       [ "saline", 40 ]
     ]
   ]
