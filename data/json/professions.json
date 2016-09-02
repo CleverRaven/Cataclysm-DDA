@@ -1413,6 +1413,65 @@
     },
     {
         "type": "profession",
+        "ident": "bio_sniper_police",
+        "name": "Bionic Police Sniper",
+        "description": "Your skill as a sharpshooter served you well in the line of duty, protecting the innocent with a single, well placed bullet.  Now survival itself is on the line, and you can't afford to miss if you don't want to end up as something's dinner.",
+        "points": 6,
+        "CBMs":[
+		    "bio_targeting",
+            "bio_infrared",
+            "bio_metabolics",
+            "bio_power_storage_mkII"
+        ],
+        "skills": [
+            {
+                "level": 5,
+                "name": "gun"
+            },
+            {
+                "level": 4,
+                "name": "rifle"
+            },
+            {
+                "level": 1,
+                "name": "pistol"
+            }
+        ],
+        "traits": [
+            "PROF_POLICE"
+        ],
+        "items": {
+            "both": [
+                "socks",
+                "pants_army",
+                "hoodie",
+                "sneakers",
+                "gloves_tactical",
+                "glasses_bal",
+                "hat_boonie",
+                "badge_deputy",
+                "holster",
+                "wristwatch",
+                "usp_45",
+                "usp45mag",
+                "45_acp",
+                "shoulder_strap",
+                "remington_700",
+                "3006",
+                "3006",
+                "rifle_scope"
+            ],
+            "male": [
+                "boxer_shorts"
+            ],
+            "female": [
+                "bra",
+                "boy_shorts"
+            ]
+        }
+    },
+    {
+        "type": "profession",
         "ident": "riot_police",
         "name": "Riot Control Officer",
         "description": "The riots were brutal, and that's before the dead rose and started to devour the living.  Soon it became apparent that the line you were holding was about to break - it was only through a bit of luck and a lot of head-bashing that you got away in one piece, and the worst is yet to come.",
@@ -2222,6 +2281,8 @@
         "description": "Mortally injured in the line of duty, you were resurrected by the surgeons from the department's revolutionary Cybercop program.  Now, in these lawless times, you are truly the future of law enforcement.",
         "points": 5,
         "CBMs":[
+		    "bio_armor_eyes",
+		    "bio_armor_head",
             "bio_armor_torso",
             "bio_armor_legs",
             "bio_armor_arms",
