@@ -21,7 +21,12 @@
         "name" : "Lamia",
         "category" : "LAMIA", "//" : "Snek references abound",
         "mutagen_message" : "You feel more snek.",
-        "iv_message" : "You boop snake oil into your blood noodles.",
+        "iv_message" : "The Snek becomes you, and you feel a sudden urge to hibernate",
+        "iv_hunger" : 25 "//" : "Lamia causes extreme physiological changes, along the lines of Chimera."
+        "iv_thirst" : 25
+        "iv_sleep" : true,
+        "iv_sleep_dur" : 1000,
+        "iv_sleep_message" : "You wake up beside a pile of your own shed skin",
         "memorial_message" : "Became a Noodle."
     },{
         "type" : "mutation_category",
