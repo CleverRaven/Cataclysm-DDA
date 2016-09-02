@@ -5689,7 +5689,7 @@
     "death_function":"BROKEN",
     "special_attacks":[["TAZER", 5]],
     "description":"A insectoid robot the size of a small dog, designed for home security.  Armed with two close-range tazers, it can skate across the ground with great speed.",
-    "flags":["SEES", "HEARS", "GOODHEARING", "ELECTRONIC", "NO_BREATHE"]
+    "flags":["SEES", "HEARS", "GOODHEARING", "ELECTRONIC", "NO_BREATHE", "PATH_AVOID_DANGER_1"]
     },{
     "type" : "MONSTER",
     "id" : "mon_hazmatbot",
@@ -5715,7 +5715,7 @@
     "hp":120,
     "death_function":"EXPLODE",
     "description":"The Ford Sanitron, a utility robot designed for cleaning up waste material in hazardous conditions.",
-    "flags":["SEES", "HEARS", "BASHES", "ELECTRONIC", "NO_BREATHE", "PRIORITIZE_TARGETS"]
+    "flags":["SEES", "HEARS", "BASHES", "ELECTRONIC", "NO_BREATHE", "PRIORITIZE_TARGETS", "PATH_AVOID_DANGER_1"]
     },{
     "type" : "MONSTER",
     "id" : "mon_copbot",
@@ -5748,7 +5748,7 @@
     "death_function":"BROKEN",
     "special_attacks":[["COPBOT", 3]],
     "description":"One of the many models of armored law enforcement robots employed shortly before the collapse of civilization.  Solar powered like many other robots, it maintains its programmed pursuit of law and order, propelled on a trio of omni wheels.",
-    "flags":["SEES", "HEARS", "BASHES", "ELECTRONIC", "NO_BREATHE", "PRIORITIZE_TARGETS"]
+    "flags":["SEES", "HEARS", "BASHES", "ELECTRONIC", "NO_BREATHE", "PRIORITIZE_TARGETS", "PATH_AVOID_DANGER_1"]
     },{
     "type" : "MONSTER",
     "id" : "mon_molebot",
@@ -5779,7 +5779,7 @@
     "hp":80,
     "death_function":"BROKEN",
     "description":"A snake-like, segmented robot built to tunnel into the ground and detonate landmines.",
-    "flags":["HEARS", "GOODHEARING", "DIGS", "NO_BREATHE", "ELECTRONIC"]
+    "flags":["HEARS", "GOODHEARING", "DIGS", "NO_BREATHE", "ELECTRONIC", "PATH_AVOID_DANGER_1"]
     },{
     "type" : "MONSTER",
     "id" : "mon_tripod",
@@ -6638,7 +6638,7 @@
     "death_function":"BROKEN",
     "special_attacks":[["RIOTBOT", 1]],
     "description":"Nonviolent riot-control bot.  Designed to suppress riots and make mass arrests of those participating.  Though its relaxation gas is by far its best-known weapon, it carries a blinding flash and a low-powered stungun for self-defense--in addition to its supply of electronic handcuffs.",
-    "flags":["SEES", "HEARS", "GOODHEARING", "ELECTRONIC", "NO_BREATHE", "PRIORITIZE_TARGETS"]
+    "flags":["SEES", "HEARS", "GOODHEARING", "ELECTRONIC", "NO_BREATHE", "PRIORITIZE_TARGETS", "PATH_AVOID_DANGER_1"]
     }, {
     "type" : "MONSTER",
     "id" : "mon_zombie_technician",
