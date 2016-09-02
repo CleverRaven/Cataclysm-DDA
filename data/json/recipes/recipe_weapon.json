@@ -6842,34 +6842,27 @@
   "qualities":[
     {"id":"HAMMER","level":3,"amount":1},
     { "id": "CHISEL", "level": 3 }
-  ], "tools": [
+  ],
+  "tools" : [
+      [ ["tongs", -1] ],
+      [ ["anvil", -1] ],
+      [ ["swage", -1] ],
       [
-      ["tongs", -1]
+        ["forge", 300], 
+	    [ "oxy_torch", 60]
       ],
       [
-      ["anvil", -1]
-      ],
-      [
-      ["swage", -1]
-      ],
-      [
-      ["forge", 300], [ "oxy_torch", 60]
-      ],
-      [
-      ["mold_plastic", -1]
+        ["mold_plastic", -1]
       ]
-      ],
-  "components":
+  ],
+  "components" : [
     [
-     [
-     [ "steel_lump", 1 ],
-     [ "steel_chunk", 4 ],
-     [ "scrap", 12 ]
-     ],
-     [
-     [ "plastic_chunk", 1 ]
-     ]
-    ]
+      [ "steel_lump", 1 ],
+      [ "steel_chunk", 4 ],
+      [ "scrap", 12 ]
+    ],
+    [ [ "plastic_chunk", 1 ] ]
+  ]
 },{
   "type" : "recipe",
   "result": "pistol_bayonet",
@@ -6884,33 +6877,24 @@
   "qualities":[
     {"id":"HAMMER","level":3,"amount":1},
     { "id": "CHISEL", "level": 3 }
-  ], "tools": [
+  ],
+  "tools" : [
+      [ ["tongs", -1] ],
+      [ ["anvil", -1] ],
+      [ ["swage", -1] ],
       [
-      ["tongs", -1]
+        ["forge", 250], 
+		[ "oxy_torch", 50]
       ],
+      [ ["mold_plastic", -1] ]
+  ],
+ "components": [
       [
-      ["anvil", -1]
+        [ "steel_chunk", 2 ],
+        [ "scrap", 6 ]
       ],
-      [
-      ["swage", -1]
-      ],
-      [
-      ["forge", 250], [ "oxy_torch", 50]
-      ],
-      [
-      ["mold_plastic", -1]
-      ]
-      ],
-  "components":
-    [
-     [
-     [ "steel_chunk", 2 ],
-     [ "scrap", 6 ]
-     ],
-     [
-     [ "plastic_chunk", 1 ]
-     ]
-    ]
+      [ [ "plastic_chunk", 1 ] ]
+  ]
 },{
   "type" : "recipe",
   "result": "sword_bayonet",
@@ -6925,33 +6909,24 @@
   "qualities":[
     {"id":"HAMMER","level":3,"amount":1},
     { "id": "CHISEL", "level": 3 }
-  ], "tools": [
-      [
-      ["tongs", -1]
-      ],
-      [
-      ["anvil", -1]
-      ],
-      [
-      ["swage", -1]
-      ],
-      [
-      ["forge", 400], [ "oxy_torch", 80]
-      ],
-      [
-      ["mold_plastic", -1]
-      ]
-      ],
-  "components":
+  ],
+  "tools" : [
+    [ ["tongs", -1] ],
+    [ ["anvil", -1] ],
+    [ ["swage", -1] ],
     [
-     [
-     [ "steel_lump", 2 ],
-     [ "steel_chunk", 8 ],
-     [ "scrap", 24 ]
-     ],
-     [
-     [ "plastic_chunk", 2 ]
-     ]
-    ]
+      ["forge", 400], 
+	  [ "oxy_torch", 80]
+    ],
+    [ ["mold_plastic", -1] ]
+  ],
+  "components": [
+    [
+      [ "steel_lump", 2 ],
+      [ "steel_chunk", 8 ],
+      [ "scrap", 24 ]
+    ],
+    [ [ "plastic_chunk", 2 ] ]
+  ]
 }
 ]
