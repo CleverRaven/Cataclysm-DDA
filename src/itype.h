@@ -11,6 +11,7 @@
 #include "explosion.h"
 #include "vitamin.h"
 #include "emit.h"
+#include "units.h"
 
 #include <string>
 #include <vector>
@@ -627,11 +628,11 @@ public:
     /** After loading from JSON these properties guaranteed to be zero or positive */
     /*@{*/
     int weight          =  0; // Weight in grams for item (or each stack member)
-    int volume          =  0; // Space occupied by items of this type
+    units::volume volume = 0; // Space occupied by items of this type
     int price           =  0; // Value before cataclysm
     int price_post      = -1; // Value after cataclysm (dependent upon practical usages)
     int stack_size      =  0; // Maximum identical items that can stack per above unit volume
-    int integral_volume = -1; // Space consumed when integrated as part of another item (defaults to volume)
+    units::volume integral_volume = units::from_milliliter( -1 ); // Space consumed when integrated as part of another item (defaults to volume)
     /*@}*/
 
     bool rigid = true; // If non-rigid volume (and if worn encumbrance) increases proportional to contents

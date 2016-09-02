@@ -43,6 +43,7 @@ extern "C" {
 #endif
 
 using item_stack_iterator = std::list<item>::iterator;
+using volume = units::volume;
 
 lua_State *lua_state = nullptr;
 

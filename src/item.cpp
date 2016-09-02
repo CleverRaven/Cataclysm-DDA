@@ -464,7 +464,7 @@ long item::liquid_charges( long units ) const
 
 long item::liquid_charges_per_volume( int volume ) const
 {
-    return ( type->volume != 0 ) ? liquid_charges( volume / type->volume ) : INFINITE_CHARGES;
+    return ( type->volume != 0 ) ? liquid_charges( volume / ( type->volume / units::legacy_volume_factor ) ) : INFINITE_CHARGES;
 }
 
 long item::liquid_units( long charges ) const
@@ -704,8 +704,8 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
                                   string_format( "<num> %s", weight_units() ),
                                   convert_weight( weight() ), false, "", true, true ) );
 
-        if( count_by_charges() && type->volume > 0 && type->stack_size > 1 ) {
-            if( type->volume == 1 ) {
+        if( count_by_charges() && type->volume / units::legacy_volume_factor > 0 && type->stack_size > 1 ) {
+            if( type->volume / units::legacy_volume_factor == 1 ) {
                 //~ %1$d is stack size and guaranteed to be > 1
                 info.emplace_back( "BASE", string_format( _( "Stacks in groups of <stat>%1$d</stat>" ), type->stack_size ) );
             } else {
@@ -2125,7 +2125,7 @@ void item::on_wield( player &p, int mv )
             d /= std::max( (float)p.get_skill_level( weap_skill() ), 1.0f );
         }
 
-        int penalty = get_var( "volume", type->volume ) * d;
+        int penalty = get_var( "volume", type->volume / units::legacy_volume_factor ) * d;
         p.moves -= penalty;
         mv += penalty;
     }
@@ -2504,7 +2504,7 @@ int item::weight( bool include_contents ) const
     // reduce weight for sawn-off weepons capped to the apportioned weight of the barrel
     if( gunmod_find( "barrel_small" ) ) {
         float b = type->gun->barrel_length;
-        ret -= std::min( b * 250, b / type->volume * type->weight );
+        ret -= std::min( b * 250, b / ( type->volume / units::legacy_volume_factor ) * type->weight );
     }
 
     // tool mods also add about a pound of weight
@@ -2524,7 +2524,7 @@ int item::weight( bool include_contents ) const
 int item::precise_unit_volume() const
 {
     if( count_by_charges() || made_of( LIQUID ) ) {
-        return get_var( "volume", type->volume ) * 1000 / type->stack_size;
+        return get_var( "volume", type->volume / units::legacy_volume_factor ) * 1000 / type->stack_size;
     }
     return volume() * 1000;
 }
@@ -2552,7 +2552,7 @@ int item::base_volume() const
         return corpse_volume( corpse->size );
     }
 
-    return type->volume;
+    return type->volume / units::legacy_volume_factor;
 }
 
 int item::volume( bool integral ) const
@@ -2565,7 +2565,15 @@ int item::volume( bool integral ) const
         return corpse_volume( corpse->size );
     }
 
-    int ret = get_var( "volume", integral ? type->integral_volume : type->volume );
+    const int local_volume = get_var( "volume", -1 );
+    int ret;
+    if( local_volume >= 0 ) {
+        ret = local_volume;
+    } else if( integral ) {
+        ret = type->integral_volume / units::legacy_volume_factor;
+    } else {
+        ret = type->volume / units::legacy_volume_factor;
+    }
 
     // For items counted per charge the above volume is per stack so adjust dependent upon charges
     if( count_by_charges() || made_of( LIQUID ) ) {
@@ -2592,7 +2600,7 @@ int item::volume( bool integral ) const
         // @todo implement stock_length property for guns
         if (has_flag("COLLAPSIBLE_STOCK")) {
             // consider only the base size of the gun (without mods)
-            int tmpvol = get_var( "volume", type->volume - type->gun->barrel_length );
+            int tmpvol = get_var( "volume", type->volume / units::legacy_volume_factor - type->gun->barrel_length );
             if     ( tmpvol <=  3 ) ; // intentional NOP
             else if( tmpvol <=  5 ) ret -= 2;
             else if( tmpvol <=  6 ) ret -= 3;

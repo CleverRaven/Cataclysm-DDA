@@ -1894,13 +1894,21 @@ classes = {
             { name = "num_monsters", rval = "int", args = { } },
         }
     },
+    volume = {
+        by_value = true,
+        attributes = {
+        },
+        functions = {
+            { name = "value", rval = "int", args = { } },
+        },
+    },
     itype = {
         attributes = {
             color = { type = "int", writable = true },
             default_container = { type = "string", writable = true },
             description = { type = "string", writable = true },
             explode_in_fire = { type = "bool", writable = true },
-            integral_volume = { type = "int", writable = true },
+            integral_volume = { type = "volume", writable = true },
             light_emission = { type = "int", writable = true },
             m_to_hit = { type = "int", writable = true },
             magazine_well = { type = "int", writable = true },
@@ -1917,7 +1925,7 @@ classes = {
             snippet_category = { type = "string", writable = true },
             stack_size = { type = "int", writable = true },
             sym = { type = "string", writable = true },
-            volume = { type = "int", writable = true },
+            volume = { type = "volume", writable = true },
             weight = { type = "int", writable = true },
         },
         functions = {

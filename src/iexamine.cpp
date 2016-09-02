@@ -1766,7 +1766,7 @@ void iexamine::kiln_empty(player &p, const tripoint &examp)
     }
 
     auto char_type = item::find_type( "unfinished_charcoal" );
-    int char_charges = ( 100 - loss ) * total_volume * char_type->ammo->def_charges / 100 / char_type->volume;
+    int char_charges = ( 100 - loss ) * total_volume * char_type->ammo->def_charges / 100 / ( char_type->volume / units::legacy_volume_factor );
     if( char_charges < 1 ) {
         add_msg( _("The batch in this kiln is too small to yield any charcoal.") );
         return;
@@ -1836,7 +1836,7 @@ void iexamine::kiln_full(player &, const tripoint &examp)
     }
 
     item result( "charcoal", calendar::turn.get_turn() );
-    result.charges = total_volume * char_type->ammo->def_charges / char_type->volume;
+    result.charges = total_volume * char_type->ammo->def_charges / ( char_type->volume / units::legacy_volume_factor );
     g->m.add_item( examp, result );
     g->m.furn_set( examp, next_kiln_type);
 }
@@ -2728,7 +2728,7 @@ void iexamine::reload_furniture(player &p, const tripoint &examp)
         //~ %1$s - furniture, %2$d - number, %3$s items.
         add_msg(_("The %1$s contains %2$d %3$s."), f.name.c_str(), amount_in_furn, ammo->nname(amount_in_furn).c_str());
     }
-    const int max_amount_in_furn = f.max_volume * ammo->stack_size / ammo->volume;
+    const int max_amount_in_furn = f.max_volume * ammo->stack_size / ( ammo->volume / units::legacy_volume_factor );
     const int max_reload_amount = max_amount_in_furn - amount_in_furn;
     if( max_reload_amount <= 0 ) {
         return;

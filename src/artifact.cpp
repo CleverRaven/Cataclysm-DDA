@@ -661,7 +661,7 @@ std::string new_artifact()
         art->color = info->color;
         art->sym = std::string( 1, info->sym );
         art->materials.push_back(info->material);
-        art->volume = rng(info->volume_min, info->volume_max);
+        art->volume = rng(info->volume_min, info->volume_max) * units::legacy_volume_factor;
         art->weight = rng(info->weight_min, info->weight_max);
         // Set up the basic weapon type
         artifact_weapon_datum *weapon = &(artifact_weapon_data[info->base_weapon]);
@@ -676,7 +676,7 @@ std::string new_artifact()
             int select = rng(0, 2);
             if (info->extra_weapons[select] != ARTWEAP_NULL) {
                 weapon = &(artifact_weapon_data[ info->extra_weapons[select] ]);
-                art->volume += weapon->volume;
+                art->volume += weapon->volume * units::legacy_volume_factor;
                 art->weight += weapon->weight;
                 art->melee_dam += rng(weapon->bash_min, weapon->bash_max);
                 art->melee_cut += rng(weapon->cut_min, weapon->cut_max);
@@ -784,7 +784,7 @@ std::string new_artifact()
         art->sym = "["; // Armor is always [
         art->color = info->color;
         art->materials.push_back(info->material);
-        art->volume = info->volume;
+        art->volume = info->volume * units::legacy_volume_factor;
         art->weight = info->weight;
         art->melee_dam = info->melee_bash;
         art->melee_cut = info->melee_cut;
@@ -808,10 +808,10 @@ std::string new_artifact()
             if (info->available_mods[index] != ARMORMOD_NULL) {
                 artifact_armor_mod mod = info->available_mods[index];
                 artifact_armor_form_datum *modinfo = &(artifact_armor_mod_data[mod]);
-                if( modinfo->volume >= 0 || art->volume > std::abs( modinfo->volume ) ) {
-                    art->volume += modinfo->volume;
+                if( modinfo->volume >= 0 || art->volume / units::legacy_volume_factor > std::abs( modinfo->volume ) ) {
+                    art->volume += modinfo->volume * units::legacy_volume_factor;
                 } else {
-                    art->volume = 1;
+                    art->volume = 1 * units::legacy_volume_factor;
                 }
 
                 if( modinfo->weight >= 0 || art->weight > std::abs( modinfo->weight ) ) {
@@ -898,7 +898,7 @@ std::string new_natural_artifact(artifact_natural_property prop)
     art->sym = ":";
     art->color = c_yellow;
     art->materials.push_back( material_id( "stone" ) );
-    art->volume = rng(shape_data->volume_min, shape_data->volume_max);
+    art->volume = rng(shape_data->volume_min, shape_data->volume_max) * units::legacy_volume_factor;
     art->weight = rng(shape_data->weight_min, shape_data->weight_max);
     art->melee_dam = 0;
     art->melee_cut = 0;
@@ -997,7 +997,7 @@ std::string architects_cube()
     art->color = info->color;
     art->sym = std::string( 1, info->sym );
       art->materials.push_back(info->material);
-    art->volume = rng(info->volume_min, info->volume_max);
+    art->volume = rng(info->volume_min, info->volume_max) * units::legacy_volume_factor;
     art->weight = rng(info->weight_min, info->weight_max);
     // Set up the basic weapon type
     artifact_weapon_datum *weapon = &(artifact_weapon_data[info->base_weapon]);
@@ -1113,7 +1113,7 @@ void it_artifact_tool::deserialize(JsonObject &jo)
             materials.push_back( material_id ( jarr.get_string( i ) ) );
         }
     }
-    volume = jo.get_int("volume");
+    volume = jo.get_int("volume") * units::legacy_volume_factor;
     weight = jo.get_int("weight");
     melee_dam = jo.get_int("melee_dam");
     melee_cut = jo.get_int("melee_cut");
@@ -1183,7 +1183,7 @@ void it_artifact_armor::deserialize(JsonObject &jo)
             materials.push_back( material_id( jarr.get_string( i ) ) );
         }
     }
-    volume = jo.get_int("volume");
+    volume = jo.get_int("volume") * units::legacy_volume_factor;
     weight = jo.get_int("weight");
     melee_dam = jo.get_int("melee_dam");
     melee_cut = jo.get_int("melee_cut");
@@ -1253,7 +1253,7 @@ void it_artifact_tool::serialize(JsonOut &json) const
         json.write(mat);
     }
     json.end_array();
-    json.member("volume", volume);
+    json.member("volume", volume / units::legacy_volume_factor);
     json.member("weight", weight);
     json.member("melee_dam", melee_dam);
     json.member("melee_cut", melee_cut);
@@ -1298,7 +1298,7 @@ void it_artifact_armor::serialize(JsonOut &json) const
         json.write(mat);
     }
     json.end_array();
-    json.member("volume", volume);
+    json.member("volume", volume / units::legacy_volume_factor);
     json.member("weight", weight);
     json.member("melee_dam", melee_dam);
     json.member("melee_cut", melee_cut);
