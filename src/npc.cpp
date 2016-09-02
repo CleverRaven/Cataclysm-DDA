@@ -1361,14 +1361,14 @@ void npc::shop_restock()
         return;
     }
 
-    int total_space = volume_capacity() / units::legacy_volume_factor;
+    units::volume total_space = volume_capacity();
     std::list<item> ret;
 
     while( total_space > 0 && !one_in( 50 ) ) {
         item tmpit = item_group::item_from( from, 0 );
-        if( !tmpit.is_null() && total_space >= tmpit.volume() / units::legacy_volume_factor ) {
+        if( !tmpit.is_null() && total_space >= tmpit.volume() ) {
             ret.push_back( tmpit );
-            total_space -= tmpit.volume() / units::legacy_volume_factor;
+            total_space -= tmpit.volume();
         }
     }
 
