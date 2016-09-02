@@ -2505,8 +2505,10 @@ int item::weight( bool include_contents ) const
 
     // reduce weight for sawn-off weepons capped to the apportioned weight of the barrel
     if( gunmod_find( "barrel_small" ) ) {
-        float b = type->gun->barrel_length;
-        ret -= std::min( b * 250, b / ( type->volume / units::legacy_volume_factor ) * type->weight );
+        const units::volume b = type->gun->barrel_length;
+        const int max_barrel_weight = to_milliliter( b );
+        const int barrel_weight = b * type->weight / type->volume;
+        ret -= std::min( max_barrel_weight, barrel_weight );
     }
 
     // tool mods also add about a pound of weight
@@ -2602,7 +2604,7 @@ units::volume item::volume( bool integral ) const
         // @todo implement stock_length property for guns
         if (has_flag("COLLAPSIBLE_STOCK")) {
             // consider only the base size of the gun (without mods)
-            int tmpvol = get_var( "volume", type->volume / units::legacy_volume_factor - type->gun->barrel_length );
+            int tmpvol = get_var( "volume", ( type->volume - type->gun->barrel_length ) / units::legacy_volume_factor );
             if     ( tmpvol <=  3 ) ; // intentional NOP
             else if( tmpvol <=  5 ) ret -=  500_ml;
             else if( tmpvol <=  6 ) ret -=  750_ml;
@@ -2613,7 +2615,7 @@ units::volume item::volume( bool integral ) const
         }
 
         if( gunmod_find( "barrel_small" ) ) {
-            ret -= type->gun->barrel_length * units::legacy_volume_factor;
+            ret -= type->gun->barrel_length;
         }
     }
 

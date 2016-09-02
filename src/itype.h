@@ -350,7 +350,7 @@ struct islot_gun : common_ranged_data {
     /**
      * Length of gun barrel, if positive allows sawing down of the barrel
      */
-    int barrel_length = 0;
+    units::volume barrel_length = 0;
     /**
      * Effects that are applied to the ammo when fired.
      */
