@@ -729,7 +729,7 @@
             "type": "gun",
             "cooldown": 50,
             "gun_type": "bomblet_launcher_rotary",
-            "ammo_type": "bomblet_archvile",
+            "ammo_type": "bomblet_vile",
             "max_ammo": 1000,
             "fake_str": 10,
             "fake_dex": 20,
