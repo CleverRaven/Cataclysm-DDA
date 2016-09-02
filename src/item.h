@@ -937,20 +937,11 @@ public:
         std::string type_name( unsigned int quantity = 1 ) const;
 
         /**
-         * Liquids use a different (and type specific) scale for the charges vs volume.
-         * This functions converts them. You can assume that
-         * @code liquid_charges( liquid_units( x ) ) == x @endcode holds true.
-         * For items that are not liquids or otherwise don't use this system, both functions
-         * simply return their input (conversion factor is 1).
-         * One "unit" takes up one container storage capacity, e.g.
-         * A container with @ref islot_container::contains == 2 can store
-         * @code liquid.liquid_charges( 2 ) @endcode charges of the given liquid.
-         * For water this would be 2, for most strong alcohols it's 14, etc.
+         * Number of charges of this item type that fit into the given volume.
+         * May return 0 if not even one charge fits into the volume. Only depends on the *type*
+         * of this item not on its current charge count.
          */
-        /*@{*/
-        long liquid_charges( long units ) const;
-        long liquid_charges_per_volume( int volume ) const;
-        /*@}*/
+        long charges_per_volume( const units::volume &vol ) const;
 
         /**
          * @name Item variables

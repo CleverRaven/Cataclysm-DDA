@@ -3176,8 +3176,7 @@ void map::smash_items(const tripoint &p, const int power)
         const bool by_charges = i->count_by_charges();
         // See if they were damaged
         if( by_charges ) {
-            const int def_charges = i->liquid_charges( 1 );
-            damage_chance *= def_charges;
+            damage_chance *= i->charges_per_volume( units::from_milliliter( 250 ) );
             while( ( damage_chance > material_factor ||
                      x_in_y( damage_chance, material_factor ) ) &&
                    i->charges > 0 ) {

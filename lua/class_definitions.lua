@@ -1005,7 +1005,7 @@ classes = {
             { name = "is_weap", rval = "bool", args = { } },
             { name = "label", rval = "string", args = { } },
             { name = "label", rval = "string", args = { "int" } },
-            { name = "liquid_charges", rval = "int", args = { "int" } },
+            { name = "charges_per_volume", rval = "int", args = { "volume" } },
             { name = "load_info", rval = nil, args = { "string" } },
             { name = "made_of", rval = "bool", args = { "phase_id" } },
             { name = "made_of", rval = "bool", args = { "material_id" } },

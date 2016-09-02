@@ -445,7 +445,7 @@ item item::in_container( const itype_id &cont ) const
         if( made_of( LIQUID ) && ret.is_container() ) {
             // Note: we can't use any of the normal normal container functions as they check the
             // container being suitable (seals, watertight etc.)
-            ret.contents.back().charges = liquid_charges( ret.get_container_capacity() / units::legacy_volume_factor );
+            ret.contents.back().charges = charges_per_volume( ret.get_container_capacity() );
         }
 
         ret.invlet = invlet;
@@ -455,18 +455,10 @@ item item::in_container( const itype_id &cont ) const
     }
 }
 
-long item::liquid_charges( long units ) const
+long item::charges_per_volume( const units::volume &vol ) const
 {
-    if( is_ammo() || is_food() ) {
-        return std::max( type->stack_size, 1 ) * units;
-    } else {
-        return units;
-    }
-}
-
-long item::liquid_charges_per_volume( int volume ) const
-{
-    return ( type->volume != 0 ) ? liquid_charges( volume / ( type->volume / units::legacy_volume_factor ) ) : INFINITE_CHARGES;
+    // TODO: items should not have 0 volume at all!
+    return type->volume != 0 ? vol / type->volume : INFINITE_CHARGES;
 }
 
 bool item::stacks_with( const item &rhs ) const
@@ -4939,7 +4931,7 @@ long item::get_remaining_capacity_for_liquid( const item &liquid, bool allow_buc
         } else if( !contents.empty() && contents.front().typeId() != liquid.typeId() ) {
             return error( string_format( _( "You can't mix loads in your %s." ), tname().c_str() ) );
         }
-        remaining_capacity = liquid.liquid_charges( get_container_capacity() / units::legacy_volume_factor );
+        remaining_capacity = liquid.charges_per_volume( get_container_capacity() );
         if( !contents.empty() ) {
             remaining_capacity -= contents.front().charges;
         }
@@ -4961,9 +4953,9 @@ long item::get_remaining_capacity_for_liquid( const item &liquid, const Characte
     long res = get_remaining_capacity_for_liquid( liquid, allow_bucket, err );
 
     if( res > 0 && !type->rigid && p.inv.has_item( *this ) ) {
-        const int volume_to_expand = std::max( ( p.volume_capacity() - p.volume_carried() ) / units::legacy_volume_factor, 0 );
+        const units::volume volume_to_expand = std::max( p.volume_capacity() - p.volume_carried(), units::volume( 0 ) );
 
-        res = std::min( liquid.liquid_charges_per_volume( volume_to_expand ), res );
+        res = std::min( liquid.charges_per_volume( volume_to_expand ), res );
 
         if( res == 0 && err != nullptr ) {
             *err = string_format( _( "That %s doesn't have room to expand." ), tname().c_str() );

@@ -586,10 +586,8 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act_, player *p )
             liquid = *on_ground;
         }
 
-        // liquid_charges takes care of the different scale of liquids (gasoline vs alcohol
-        // vs water). One volume unit of those contains differing amount of charges, this ensures
-        // the same *volume* is transferred on each turn.
-        const long charges_per_turn = liquid.liquid_charges( 10 );
+        static const auto volume_per_turn = units::from_liter( 4 );
+        const long charges_per_turn = std::max( 1l, liquid.charges_per_volume( volume_per_turn ) );
         liquid.charges = std::min( charges_per_turn, liquid.charges );
         const long original_charges = liquid.charges;
 

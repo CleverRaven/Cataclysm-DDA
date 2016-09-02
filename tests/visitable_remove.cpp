@@ -200,7 +200,7 @@ TEST_CASE( "visitable_remove", "[visitable]" ) {
 
         WHEN( "a hip flask containing water is worn" ) {
             item obj( worn_id );
-            obj.emplace_back( liquid_id, calendar::turn, obj.type->container->contains );
+            obj.emplace_back( liquid_id, calendar::turn, temp_liquid.charges_per_volume( obj.get_container_capacity() ) );
             p.wear_item( obj );
 
             REQUIRE( count_items( p, container_id ) == count );
