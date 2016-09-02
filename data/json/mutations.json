@@ -415,6 +415,7 @@
         "description" : "You don't experience guilt like others do.  Even when you know your actions are wrong, you just don't care.",
         "starting_trait" : true,
         "valid" : false,
+        "cancels" : ["PACIFIST"],
         "flags" : ["CANNIBAL"]
     },{
         "type" : "mutation",
@@ -814,7 +815,8 @@
         "points" : -4,
         "description" : "You don't like thinking about violence.  Your combat skills advance much slower than usual, and you feel more guilt about killing.",
         "starting_trait" : true,
-        "valid" : false
+        "valid" : false,
+        "cancels" : ["PSYCHOPATH", "PRED1", "PRED2", "PRED3", "PRED4"]
     },{
         "type" : "mutation",
         "id" : "MOODSWINGS",
@@ -2687,6 +2689,7 @@
         "changes_to" : ["PRED2"],
         "prereqs" : ["CARNIVORE", "THRESH_URSINE"],
         "threshreq" : ["THRESH_BEAST", "THRESH_RAPTOR", "THRESH_CHIMERA", "THRESH_LUPINE", "THRESH_FELINE", "THRESH_URSINE", "THRESH_LIZARD", "THRESH_SPIDER"],
+        "cancels" : ["PACIFIST"],
         "category" : ["MUTCAT_BEAST", "MUTCAT_RAPTOR", "MUTCAT_CHIMERA", "MUTCAT_LUPINE", "MUTCAT_FELINE", "MUTCAT_URSINE", "MUTCAT_LIZARD", "MUTCAT_SPIDER"]
     },{
         "type" : "mutation",
@@ -2699,6 +2702,7 @@
         "prereqs2" : ["PRED1"],
         "changes_to" : ["PRED3"],
         "threshreq" : ["THRESH_BEAST", "THRESH_RAPTOR", "THRESH_CHIMERA", "THRESH_LUPINE", "THRESH_FELINE", "THRESH_URSINE", "THRESH_LIZARD", "THRESH_SPIDER"],
+        "cancels" : ["PACIFIST"],
         "category" : ["MUTCAT_BEAST", "MUTCAT_RAPTOR", "MUTCAT_CHIMERA", "MUTCAT_LUPINE", "MUTCAT_FELINE", "MUTCAT_URSINE", "MUTCAT_LIZARD", "MUTCAT_SPIDER"]
     },{
         "type" : "mutation",
@@ -2713,6 +2717,7 @@
         "leads_to" : ["SAPIOVORE"],
         "changes_to" : ["PRED4"],
         "threshreq" : ["THRESH_BEAST", "THRESH_RAPTOR", "THRESH_CHIMERA", "THRESH_LUPINE", "THRESH_FELINE", "THRESH_URSINE", "THRESH_LIZARD", "THRESH_SPIDER"],
+        "cancels" : ["PACIFIST"],
         "category" : ["MUTCAT_BEAST", "MUTCAT_RAPTOR", "MUTCAT_CHIMERA", "MUTCAT_LUPINE", "MUTCAT_FELINE", "MUTCAT_URSINE", "MUTCAT_LIZARD", "MUTCAT_SPIDER"],
         "passive_mods" : {
             "int_mod" : -1
@@ -2727,6 +2732,7 @@
         "purifiable" : false,
         "prereqs" : ["CARNIVORE", "THRESH_URSINE"],
         "prereqs2" : ["PRED3"],
+        "cancels" : ["PACIFIST"],
         "threshreq" : ["THRESH_BEAST", "THRESH_RAPTOR", "THRESH_CHIMERA", "THRESH_URSINE"],
         "category" : ["MUTCAT_BEAST", "MUTCAT_RAPTOR", "MUTCAT_CHIMERA", "MUTCAT_URSINE"],
         "passive_mods" : {
