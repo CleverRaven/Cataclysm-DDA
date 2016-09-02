@@ -154,6 +154,75 @@
     "range": 21,
     "count": 1,
     "effects": ["NAPALM", "PLASMA", "WIDE", "FLAME", "TRAIL", "SMOKE", "NEVER_MISFIRES"]
+    },{
+    "type": "AMMO",
+    "id": "bomblet_vile",
+    "price": 0,
+    "name": "vile flame generator",
+    "symbol": "*",
+    "color": "yellow_red",
+    "description": "The vile will summon a rift of flame to smite its foes.",
+    "material": ["flesh", "bone"],
+    "ammo_type": "bomblet",
+    "volume": 1,
+    "weight": 100,
+    "damage": 2,
+    "pierce": 200,
+    "range": 25,
+    "effects": ["ACT_ON_RANGED_HIT", "RECOVER_5"],
+    "use_action": {
+        "type": "transform",
+        "target": "bomblet_vile_act",
+        "target_charges": 5,
+        "active": true
+    }
+    },{
+    "type": "AMMO",
+    "id": "bomblet_archvile",
+    "price": 0,
+    "name": "archvile flame vent generator",
+    "symbol": "*",
+    "color": "yellow_red",
+    "description": "The archvile will summon flame from hell to smite its foes.",
+    "material": ["flesh", "bone"],
+    "ammo_type": "bomblet",
+    "volume": 1,
+    "weight": 100,
+    "damage": 3,
+    "pierce": 200,
+    "range": 25,
+    "effects": ["ACT_ON_RANGED_HIT", "RECOVER_5"],
+    "use_action": {
+        "type": "transform",
+        "target": "bomblet_archvile_act",
+        "target_charges": 5,
+        "active": true
+    }
+    },{
+    "type": "AMMO",
+    "id": "bomblet_archdemon",
+    "price": 0,
+    "name": "caccodemon spawner",
+    "symbol": "*",
+    "color": "brown",
+    "description": "The archdemon will summon these, and you will die.",
+    "material": ["flesh", "steel"],
+    "ammo_type": "bomblet",
+    "volume": 1,
+    "weight": 100,
+    "damage": 5,
+    "pierce": 200,
+    "range": 25,
+    "effects": ["ACT_ON_RANGED_HIT", "RECOVER_5"],
+    "revert_to": "null",
+    "use_action": {
+        "type": "place_monster",
+        "monster_id": "mon_cacodemon",
+        "place_randomly": true,
+        "difficulty": 90,
+        "skill1": "survival",
+        "skill2": "melee"
+    }
     },
 
     {
@@ -183,15 +252,15 @@
     "weight": 80,
     "ammo_type": "bomblet",
     "damage": 1,
-    "pierce": 100,
+    "pierce": 10,
     "range": 25,
-    "count": 4,
+    "count": 6,
     "effects": ["NEVER_MISFIRES", "COOKOFF", "RECOVER_9", "ACT_ON_RANGED_HIT", "CUSTOM_EXPLOSION"],
     "explode_in_fire": true,
     "explosion": {
         "power": 12,
         "shrapnel": 2,
-        "distance_factor": 0.3
+        "distance_factor": 0.1
     }
     },{
     "type": "AMMO",
@@ -206,14 +275,14 @@
     "weight": 80,
     "ammo_type": "bomblet",
     "damage": 3,
-    "pierce": 100,
+    "pierce": 10,
     "range": 20,
-    "count": 4,
-    "effects": ["SMOKE", "NEVER_MISFIRES", "COOKOFF", "RECOVER_9", "ACT_ON_RANGED_HIT", "CUSTOM_EXPLOSION"],
+    "count": 6,
+    "effects": ["NEVER_MISFIRES", "COOKOFF", "RECOVER_9", "ACT_ON_RANGED_HIT", "CUSTOM_EXPLOSION"],
     "explode_in_fire": true,
     "explosion": {
         "power": 4,
-        "shrapnel": 20,
+        "shrapnel": 12,
         "distance_factor": 0.1
     }
     },{
@@ -229,15 +298,20 @@
     "weight": 80,
     "ammo_type": "bomblet",
     "damage": 3,
-    "pierce": 100,
+    "pierce": 10,
     "range": 20,
-    "count": 4,
-    "effects": ["NAPALM", "FLARE", "SMOKE", "NEVER_MISFIRES", "COOKOFF", "RECOVER_9", "ACT_ON_RANGED_HIT", "CUSTOM_EXPLOSION"],
+    "count": 6,
+    "effects": ["NEVER_MISFIRES", "COOKOFF", "RECOVER_9", "ACT_ON_RANGED_HIT", "CUSTOM_EXPLOSION"],
     "explode_in_fire": true,
-    "explosion": {
-        "power": 6,
-         "distance_factor": 0.3,
-        "draw_explosion_color": "ltred"
+    "emits": [ "emit_smoke_bomblet", "emit_fire_bomblet", "emit_fire_bomblet_small" ],
+    "countdown_interval": 2,
+    "countdown_destroy": true,
+    "countdown_action": {
+        "type": "explosion",
+        "explosion": {
+            "power": 4,
+        "distance_factor": 0.1
+        }
     }
     },{
     "type": "AMMO",
@@ -252,14 +326,20 @@
     "weight": 80,
     "ammo_type": "bomblet",
     "damage": 3,
-    "pierce": 100,
+    "pierce": 10,
     "range": 20,
-    "count": 4,
-    "effects": ["ACIDBOMB", "TOXICGAS", "NEVER_MISFIRES", "COOKOFF", "RECOVER_9", "ACT_ON_RANGED_HIT", "CUSTOM_EXPLOSION"],
+    "count": 6,
+    "effects": ["NEVER_MISFIRES", "COOKOFF", "RECOVER_9", "ACT_ON_RANGED_HIT", "CUSTOM_EXPLOSION"],
     "explode_in_fire": true,
-    "explosion": {
-        "power": 8,
-        "distance_factor": 0.2
+    "emits": [ "emit_tgas_bomblet", "emit_acid_bomblet" ],
+    "countdown_interval": 2,
+    "countdown_destroy": true,
+    "countdown_action": {
+        "type": "explosion",
+        "explosion": {
+            "power": 4,
+        "distance_factor": 0.1
+        }
     }
     },{
     "type": "AMMO",
@@ -274,10 +354,44 @@
     "weight": 80,
     "ammo_type": "bomblet",
     "damage": 3,
-    "pierce": 100,
+    "pierce": 10,
     "range": 25,
-    "count": 4,
-    "effects": ["INCENDIARY", "LARGE_BEANBAG", "FLASHBANG", "NEVER_MISFIRES", "COOKOFF"]
+    "count": 6,
+    "effects": ["INCENDIARY", "LARGE_BEANBAG", "RECOVER_9", "NEVER_MISFIRES", "COOKOFF", "ACT_ON_RANGED_HIT", "CUSTOM_EXPLOSION"],
+    "explode_in_fire": true,
+    "emits": [ "emit_dazzle_bomblet", "emit_teargas_bomblet" ],
+    "countdown_interval": 2,
+    "countdown_destroy": true,
+    "countdown_action": {
+        "type": "transform",
+        "target": "bomblet_stun_act",
+        "target_charges": 1,
+        "active": true
+    }
+    },{
+    "type": "TOOL",
+    "id": "bomblet_stun_act",
+    "price": 45000,
+    "name": "stun bomblet",
+    "symbol": "*",
+    "color": "ltblue",
+    "description": "An active stun bomblet, ready to explode.",
+    "material": ["plastic", "powder"],
+    "volume": 2,
+    "weight": 80,
+    "effects": ["COOKOFF", "ACT_ON_RANGED_HIT", "CUSTOM_EXPLOSION"],
+    "max_charges": 1,
+    "initial_charges": 1,
+    "turns_per_charge": 1,
+    "use_action": {
+        "type": "explosion",
+        "explosion": {
+            "power": 1,
+            "shrapnel": 1,
+            "emp_blast_radius": 1,
+            "distance_factor": 0.2
+        }
+    }
     },{
     "id": "acidbomb_large",
     "edit-mode": "override",
@@ -298,7 +412,7 @@
     "use_action": {
         "type": "transform",
         "target": "acidbomb_large_act",
-        "target_charges": 1,
+        "target_charges": 0,
         "active": true
     }
     },{
