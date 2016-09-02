@@ -706,17 +706,6 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
                                   string_format( "<num> %s", weight_units() ),
                                   convert_weight( weight() ), false, "", true, true ) );
 
-        if( count_by_charges() && type->volume / units::legacy_volume_factor > 0 && type->stack_size > 1 ) {
-            if( type->volume / units::legacy_volume_factor == 1 ) {
-                //~ %1$d is stack size and guaranteed to be > 1
-                info.emplace_back( "BASE", string_format( _( "Stacks in groups of <stat>%1$d</stat>" ), type->stack_size ) );
-            } else {
-                //~ %1$d is stack size and %2$d is base volume with both guaranteed to be > 1
-                info.emplace_back( "BASE", string_format( _( "Stack of <stat>%1$d</stat> consumes <stat>%2$d</stat> volume" ),
-                                   type->stack_size, type->volume ) );
-            }
-        }
-
         if( !type->rigid ) {
             info.emplace_back( "BASE", _( "<bold>Rigid</bold>: " ), _( "No (contents increase volume)" ) );
         }
@@ -2437,7 +2426,7 @@ int item::price( bool practical ) const
         }
 
         if( e->count_by_charges() || e->made_of( LIQUID ) ) {
-            // price from json data is for default-sized stack similar to volume calculation
+            // price from json data is for default-sized stack
             child *= e->charges / static_cast<double>( e->type->stack_size );
 
         } else if( e->magazine_integral() && e->ammo_remaining() && e->ammo_data() ) {
@@ -2528,7 +2517,7 @@ int item::weight( bool include_contents ) const
 int item::precise_unit_volume() const
 {
     if( count_by_charges() || made_of( LIQUID ) ) {
-        return get_var( "volume", type->volume / units::legacy_volume_factor ) * 1000 / type->stack_size;
+        return get_var( "volume", type->volume / units::legacy_volume_factor ) * 1000;
     }
     return volume() / units::legacy_volume_factor * 1000;
 }
@@ -2579,9 +2568,8 @@ units::volume item::volume( bool integral ) const
         ret = type->volume;
     }
 
-    // For items counted per charge the above volume is per stack so adjust dependent upon charges
     if( count_by_charges() || made_of( LIQUID ) ) {
-        ret *= double( charges ) / type->stack_size;
+        ret *= charges;
     }
 
     // Non-rigid items add the volume of the content

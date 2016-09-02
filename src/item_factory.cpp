@@ -166,6 +166,11 @@ void Item_factory::finalize() {
         if( obj.stack_size == 0 && ( obj.ammo || obj.comestible ) ) {
             obj.stack_size = obj.charges_default();
         }
+        // JSON contains volume per complete stack, convert it to volume per single item
+        if( obj.count_by_charges() ) {
+            obj.volume = obj.volume / obj.stack_size;
+            obj.integral_volume = obj.integral_volume / obj.stack_size;
+        }
         for( const auto &tag : obj.item_tags ) {
             if( tag.size() > 6 && tag.substr( 0, 6 ) == "LIGHT_" ) {
                 obj.light_emission = std::max( atoi( tag.substr( 6 ).c_str() ), 0 );
