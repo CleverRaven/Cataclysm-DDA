@@ -93,7 +93,7 @@ struct advanced_inv_area {
 
     void init();
     // if you want vehicle cargo, specify so via `in_vehicle'
-    int free_volume( bool in_vehicle = false ) const;
+    units::volume free_volume( bool in_vehicle = false ) const;
     int get_item_count() const;
     // Other area is actually the same item source, e.g. dragged vehicle to the south and AIM_SOUTH
     bool is_same( const advanced_inv_area &other ) const;

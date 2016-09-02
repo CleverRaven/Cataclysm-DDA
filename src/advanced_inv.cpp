@@ -1998,13 +1998,13 @@ bool advanced_inventory::move_content( item &src_container, item &dest_container
     return true;
 }
 
-int advanced_inv_area::free_volume( bool in_vehicle ) const
+units::volume advanced_inv_area::free_volume( bool in_vehicle ) const
 {
     assert( id != AIM_ALL ); // should be a specific location instead
     if( id == AIM_INVENTORY || id == AIM_WORN ) {
-        return ( g->u.volume_capacity() - g->u.volume_carried() ) / units::legacy_volume_factor;
+        return ( g->u.volume_capacity() - g->u.volume_carried() );
     }
-    return (in_vehicle) ? veh->free_volume( vstor ) : g->m.free_volume( pos );
+    return ( (in_vehicle) ? veh->free_volume( vstor ) : g->m.free_volume( pos ) ) * units::legacy_volume_factor;
 }
 
 bool advanced_inventory::query_charges( aim_location destarea, const advanced_inv_listitem &sitem,
@@ -2016,7 +2016,7 @@ bool advanced_inventory::query_charges( aim_location destarea, const advanced_in
     advanced_inv_area &p = squares[destarea];
     const bool by_charges = it.count_by_charges();
     const int unitvolume = it.precise_unit_volume();
-    const int free_volume = 1000 * p.free_volume( panes[dest].in_vehicle() );
+    const int free_volume = 1000 * p.free_volume( panes[dest].in_vehicle() ) / units::legacy_volume_factor;
     // default to move all, unless if being equipped
     const long input_amount = by_charges ? it.charges :
             (action == "MOVE_SINGLE_ITEM") ? 1 : sitem.stacks;
