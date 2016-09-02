@@ -6867,5 +6867,93 @@
       [ "scrap", 12]
     ]
   ]
+},{
+  "type" : "recipe",
+  "result": "sawblade_axe",
+  "category": "CC_WEAPON",
+  "subcategory": "CSC_WEAPON_Cutting",
+  "skill_used": "fabrication",
+  "difficulty": 2,
+  "time": 18000,
+  "reversible": true,
+  "autolearn": true,
+  "qualities": [
+    {"id":"HAMMER","level":2},
+    {"id":"SAW_M","level":1}
+	],
+  "tools": [[
+    [ "toolset", 30 ],
+    [ "cordless_drill", 15 ]]
+	],
+  "components": [
+    [[ "pipe", 1 ]],
+    [[ "circsaw_blade", 1 ]],
+    [[ "nail", 4]]
+    ]
+},{
+  "type" : "recipe",
+  "result": "spikebat",
+  "category": "CC_WEAPON",
+  "subcategory": "CSC_WEAPON_BASHING",
+  "skill_used": "fabrication",
+  "difficulty": 2,
+  "time": 10000,
+  "reversible": true,
+  "autolearn": true,
+  "qualities":[
+    {"id":"HAMMER","level":2}
+    ],
+  "tools": [[
+    [ "toolset", 20 ],
+    [ "cordless_drill", 10 ]
+	]], 
+  "components": [
+    [[ "bat", 1 ]],
+    [[ "spike", 1 ]]
+    ]
+},{
+  "type" : "recipe",
+  "result": "alu_spikebat",
+  "category": "CC_WEAPON",
+  "subcategory": "CSC_WEAPON_BASHING",
+  "skill_used": "fabrication",
+  "difficulty": 3,
+  "time": 18000,
+  "reversible": true,
+  "autolearn": true,
+  "qualities":[
+    {"id":"HAMMER","level":2}
+    ],
+  "tools": [[
+    [ "toolset", 40 ],
+    [ "cordless_drill", 20 ]
+	]],  
+  "components": [
+    [[ "bat_metal", 1 ]],
+    [[ "spike", 1 ]]
+    ]
+},{
+  "type" : "recipe",
+  "result": "sawblade_lajatang",
+  "category": "CC_WEAPON",
+  "subcategory": "CSC_WEAPON_Cutting",
+  "skill_used": "fabrication",
+  "difficulty": 3,
+  "time": 18000,
+  "reversible": true,
+  "autolearn": true,
+  "qualities":[
+    {"id":"SAW_W","level":1},
+    {"id":"HAMMER","level":2}
+    ],
+  "tools": [[
+    [ "toolset", 60 ],
+    [ "cordless_drill", 30 ]
+	]], 
+  "components": [
+    [[ "q_staff", 1 ]],
+    [[ "circsaw_blade", 2 ]],
+    [[ "nail", 8 ]]
+	]
 }
 ]

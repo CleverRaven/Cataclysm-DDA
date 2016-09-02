@@ -1,4 +1,4 @@
-[
+﻿[
     {
         "type":"GENERIC",
         "id" : "mjolnir",
@@ -4066,5 +4066,73 @@
         "bashing": 1,
         "cutting": 0,
         "to_hit": -2
-    }
+    },{
+    "type": "GENERIC",
+    "id": "sawblade_axe",
+    "name": "sawblade axe",
+    "description": "This is an axe made by attaching the blade of a circular saw to a pipe. It makes a decent melee weapon.",
+    "weight": 1600,
+    "to_hit": 1,
+    "color": "dark_gray",
+	"symbol": "/",
+    "material": ["steel"],
+    "techniques" : ["WBLOCK_1"],
+	"volume": 5,
+    "bashing": 12,
+    "cutting": 14,
+    "flags" : ["CHOP", "DURABLE_MELEE"],
+    "price": 27500,
+    "price_postapoc": 1200,
+    "qualities": [["AXE", 2]]
+	},{
+	"type":"GENERIC",
+    "id" : "spikebat",
+    "name" : "spiked bat",
+    "description" : "A baseball bat with a large and slightly misshapen spike driven through it, an excellent melee weapon.",
+    "weight" : 1683,
+    "to_hit" : 3,
+    "color" : "brown",
+    "symbol" : "/",
+    "material" : ["wood","steel"],
+    "techniques" : ["WBLOCK_1"],
+    "volume" : 7,
+    "bashing" : 21,
+    "cutting" : 6,
+    "flags" : ["STAB", "NONCONDUCTIVE"],
+    "price" : 16000,
+    "price_postapoc": 1500 
+	},{
+	"type":"GENERIC",
+    "id" : "alu_spikebat",
+    "name" : "spiked aluminum bat",
+    "description" : "An aluminum baseball bat with a large and slightly misshapen spike driven through it, an excellent melee weapon.",
+    "weight" : 1315,
+    "to_hit" : 3,
+    "color" : "light_gray",
+    "symbol" : "/",
+    "material" : ["aluminum", "steel"],
+    "techniques" : ["WBLOCK_1"],
+    "flags" : ["STAB", "DURABLE_MELEE"],
+    "volume" : 7,
+    "bashing" : 22,
+	"cutting" : 6,
+    "price" : 16000,
+    "price_postapoc": 1800 
+	},{
+	"type":"GENERIC",
+    "id" : "sawblade_lajatang",
+    "name" : "sawblade lajatang",
+    "description" : "A smooth and sturdy staff with a leather-wrapped grip and a sawblade of a circular saw attached to each end.",
+    "weight" : 2100,
+    "to_hit" : 2,
+    "color" : "light_gray",
+    "symbol" : "/",
+    "material" : ["wood", "steel"],
+    "techniques" : ["WBLOCK_1", "SPIN"],
+    "flags" : ["DURABLE_MELEE" , "NONCONDUCTIVE"],
+    "volume" : 7,
+    "bashing" : 4,
+	"cutting" : 26,
+    "price" : 44000,
+    "price_postapoc": 2100 }
 ]
