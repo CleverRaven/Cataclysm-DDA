@@ -1,6 +1,20 @@
 [
     {
     "type":"GENERIC",
+    "id": "broken_mechaspider",
+    "symbol": "%",
+    "color": "white",
+    "name": "destroyed arachnotron",
+    "category": "other",
+    "description": "A dead arachnotron.  But was it ever truly alive?",
+    "price": 100000,
+    "material": ["steel", "flesh"],
+    "weight": 18520,
+    "volume": 340,
+    "bashing": 4,
+    "to_hit": -3
+    },{
+    "type":"GENERIC",
     "id": "arachnotron_guts",
     "symbol": "%",
     "color": "ltgray",
