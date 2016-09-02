@@ -351,9 +351,6 @@ class item : public JsonSerializer, public JsonDeserializer, public visitable<it
     /** Simplified, faster volume check for when processing time is important and exact volume is not. */
     units::volume base_volume() const;
 
-    /* Volume of an item or of a single unit for charged items multipled by 1000 */
-    int precise_unit_volume() const;
-
     /** Required strength to be able to successfully lift the item unaided by equipment */
     int lift_strength() const;
 

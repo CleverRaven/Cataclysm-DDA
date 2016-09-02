@@ -2007,6 +2007,17 @@ units::volume advanced_inv_area::free_volume( bool in_vehicle ) const
     return (in_vehicle) ? veh->free_volume( vstor ) : g->m.free_volume( pos );
 }
 
+static units::volume unit_volume( const item &i )
+{
+    if( !i.count_by_charges() || i.charges == 1 ) {
+        return i.volume();
+    }
+    // TODO: this assumes the item does not have instance specific properties
+    // (like corpse type) that affect the volume. Items counted by charges should not have
+    // those anyway. But they might get them in the future?
+    return i.type->volume;
+}
+
 bool advanced_inventory::query_charges( aim_location destarea, const advanced_inv_listitem &sitem,
                                         const std::string &action, long &amount )
 {
@@ -2015,8 +2026,8 @@ bool advanced_inventory::query_charges( aim_location destarea, const advanced_in
     const item &it = *sitem.items.front();
     advanced_inv_area &p = squares[destarea];
     const bool by_charges = it.count_by_charges();
-    const int unitvolume = it.precise_unit_volume();
-    const int free_volume = 1000 * p.free_volume( panes[dest].in_vehicle() ) / units::legacy_volume_factor;
+    const units::volume unitvolume = unit_volume( it );
+    const units::volume free_volume = p.free_volume( panes[dest].in_vehicle() );
     // default to move all, unless if being equipped
     const long input_amount = by_charges ? it.charges :
             (action == "MOVE_SINGLE_ITEM") ? 1 : sitem.stacks;

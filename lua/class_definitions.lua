@@ -1028,7 +1028,6 @@ classes = {
             { name = "on_takeoff", rval = nil, args = { "player" } },
             { name = "on_wear", rval = nil, args = { "player" } },
             { name = "on_wield", rval = nil, args = { "player" } },
-            { name = "precise_unit_volume", rval = "int", args = { } },
             { name = "price", rval = "int", args = { "bool" } },
             { name = "process", rval = "bool", args = { "player", "tripoint", "bool" } },
             { name = "process_artifact", rval = nil, args = { "player", "tripoint" } },

@@ -2497,14 +2497,6 @@ int item::weight( bool include_contents ) const
     return ret;
 }
 
-int item::precise_unit_volume() const
-{
-    if( count_by_charges() || made_of( LIQUID ) ) {
-        return get_var( "volume", type->volume / units::legacy_volume_factor ) * 1000;
-    }
-    return volume() / units::legacy_volume_factor * 1000;
-}
-
 static units::volume corpse_volume( m_size corpse_size )
 {
     switch( corpse_size ) {
