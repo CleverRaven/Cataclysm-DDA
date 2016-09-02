@@ -6836,8 +6836,6 @@
   "skill_used": "fabrication",
   "difficulty": 6,
   "time": 360000,
-  "reversible": false,
-  "autolearn": false,
   "book_learn": [[ "recipe_melee", 5 ]],
   "qualities":[
     {"id":"HAMMER","level":3,"amount":1},
@@ -6849,7 +6847,7 @@
       [ ["swage", -1] ],
       [
         ["forge", 300], 
-	    [ "oxy_torch", 60]
+        [ "oxy_torch", 60]
       ],
       [
         ["mold_plastic", -1]
@@ -6871,8 +6869,6 @@
   "skill_used": "fabrication",
   "difficulty": 5,
   "time": 320000,
-  "reversible": false,
-  "autolearn": false,
   "book_learn": [[ "recipe_melee", 4 ]],
   "qualities":[
     {"id":"HAMMER","level":3,"amount":1},
@@ -6884,7 +6880,7 @@
       [ ["swage", -1] ],
       [
         ["forge", 250], 
-		[ "oxy_torch", 50]
+        [ "oxy_torch", 50]
       ],
       [ ["mold_plastic", -1] ]
   ],
@@ -6903,8 +6899,6 @@
   "skill_used": "fabrication",
   "difficulty": 7,
   "time": 400000,
-  "reversible": false,
-  "autolearn": false,
   "book_learn": [[ "recipe_melee", 6 ]],
   "qualities":[
     {"id":"HAMMER","level":3,"amount":1},
@@ -6916,7 +6910,7 @@
     [ ["swage", -1] ],
     [
       ["forge", 400], 
-	  [ "oxy_torch", 80]
+      [ "oxy_torch", 80]
     ],
     [ ["mold_plastic", -1] ]
   ],
