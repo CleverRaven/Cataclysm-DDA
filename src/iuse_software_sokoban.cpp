@@ -237,7 +237,7 @@ int sokoban_game::start_game()
     const int iOffsetY = (TERMY > FULL_SCREEN_HEIGHT) ? (TERMY - FULL_SCREEN_HEIGHT) / 2 : 0;
 
     using namespace std::placeholders;
-    read_from_file( FILENAMES["sokoban"], [this]( std::istream &is ) { 
+    read_from_file_istream( FILENAMES["sokoban"], [this]( std::istream &is ) { 
 		parse_level( is );
 	} );
 

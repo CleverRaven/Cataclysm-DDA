@@ -189,7 +189,7 @@ void zone_manager::load_zones()
     std::string savefile = world_generator->active_world->world_path + "/" + base64_encode(
                                g->u.name ) + ".zones.json";
 
-    read_from_file_optional( savefile, [&]( std::istream & fin ) {
+    read_from_file_optional_istream( savefile, [&]( std::istream & fin ) {
         JsonIn jsin( fin );
         deserialize( jsin );
     } );

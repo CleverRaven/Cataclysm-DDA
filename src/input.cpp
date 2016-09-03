@@ -67,7 +67,7 @@ bool is_mouse_enabled()
 std::string get_input_string_from_file( std::string fname )
 {
     std::string ret;
-    read_from_file_optional( fname, [&ret]( std::istream & fin ) {
+    read_from_file_optional_istream( fname, [&ret]( std::istream & fin ) {
         getline( fin, ret );
         //remove utf8 bmm
         if( !ret.empty() && ( unsigned char )ret[0] == 0xef ) {

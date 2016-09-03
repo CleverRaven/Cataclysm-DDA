@@ -132,7 +132,7 @@ void game::print_menu( WINDOW *w_open, int iSel, const int iMenuOffsetX, int iMe
 std::vector<std::string> load_file( const std::string &path, const std::string &alternative_text )
 {
     std::vector<std::string> result;
-    read_from_file_optional( path, [&result]( std::istream & fin ) {
+    read_from_file_optional_istream( path, [&result]( std::istream & fin ) {
         std::string line;
         while( std::getline( fin, line ) ) {
             if( !line.empty() && line[0] == '#' ) {
@@ -163,7 +163,7 @@ void game::mmenu_refresh_credits()
 {
     mmenu_credits.clear();
     std::vector<std::string> buffer;
-    read_from_file_optional( PATH_INFO::find_translated_file( "creditsdir", ".credits",
+    read_from_file_optional_istream( PATH_INFO::find_translated_file( "creditsdir", ".credits",
     "credits" ), [&buffer]( std::istream & stream ) {
         std::string line;
         while( std::getline( stream, line ) ) {

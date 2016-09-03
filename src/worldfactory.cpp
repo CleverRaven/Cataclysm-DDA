@@ -1458,7 +1458,7 @@ bool worldfactory::load_world_options(WORLDPTR &world)
         world->load_options( js );
     };
 
-    if( read_from_file_optional( path, options_reader ) ) {
+    if( read_from_file_optional_jsonin( path, options_reader ) ) {
         return true;
     }
 
@@ -1467,7 +1467,7 @@ bool worldfactory::load_world_options(WORLDPTR &world)
         world->load_legacy_options( is );
     };
 
-    if( read_from_file_optional( legacy_path, legacy_options_reader ) ) {
+    if( read_from_file_optional_istream( legacy_path, legacy_options_reader ) ) {
         if( save_world( world ) ) {
             // Remove old file as the options have been saved to the new file.
             remove_file( legacy_path );

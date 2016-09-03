@@ -3487,16 +3487,16 @@ bool game::load_master(std::string worldname)
 {
     using namespace std::placeholders;
     const auto datafile = world_generator->all_worlds[worldname]->world_path + "/master.gsav";
-    const auto reader = ( const std::function<void( std::istream & )> & ) 
+    const std::function<void( std::istream & )> & reader = 
 		std::bind( &game::unserialize_master, this, _1 );
-    return read_from_file_optional( datafile, reader );
+    return read_from_file_optional_istream( datafile, reader );
 }
 
 void game::load_uistate(std::string worldname)
 {
     using namespace std::placeholders;
     const auto savefile = world_generator->all_worlds[worldname]->world_path + "/uistate.json";
-    read_from_file_optional( savefile, uistate );
+    read_from_file_optional_json_deserializer( savefile, uistate );
 }
 
 void game::load(std::string worldname, std::string name)
@@ -3513,20 +3513,20 @@ void game::load(std::string worldname, std::string name)
     // This should be initialized more globally (in player/Character constructor)
     u.ret_null = item( "null", 0 );
     u.weapon = item("null", 0);
-    const auto unserialise_reader = ( const std::function<void( std::istream & )> & ) 
+    const std::function<void( std::istream & )> & unserialise_reader = 
 		std::bind( &game::unserialize, this, _1 );
-    if( !read_from_file( playerfile, unserialise_reader ) ) {
+    if( !read_from_file_istream( playerfile, unserialise_reader ) ) {
         return;
     }
 
-    const auto load_weather_reader = ( const std::function<void( std::istream & )> & ) 
+    const std::function<void( std::istream & )> & load_weather_reader = 
 		std::bind( &game::load_weather, this, _1 );
-    read_from_file_optional( worldpath + name + ".weather", load_weather_reader );
+    read_from_file_optional_istream( worldpath + name + ".weather", load_weather_reader );
     nextweather = int(calendar::turn);
 
-    const auto load_memorial_file_reader = ( const std::function<void( std::istream & )> & ) std::bind(
-            &player::load_memorial_file, &u, _1 );
-    read_from_file_optional( worldpath + name + ".log", load_memorial_file_reader );
+    const std::function<void( std::istream & )> & load_memorial_file_reader = 
+		std::bind( &player::load_memorial_file, &u, _1 );
+    read_from_file_optional_istream( worldpath + name + ".log", load_memorial_file_reader );
 
     // Now that the player's worn items are updated, their sight limits need to be
     // recalculated. (This would be cleaner if u.worn were private.)

@@ -35,9 +35,9 @@ void load_keyboard_settings( std::map<char, action_id> &keymap,
     const auto parser = [&]( std::istream & fin ) {
         parse_keymap( fin, keymap, unbound_keymap );
     };
-    if( read_from_file_optional( FILENAMES["keymap"], parser ) ) {
+    if( read_from_file_optional_istream( FILENAMES["keymap"], parser ) ) {
         keymap_file_loaded_from = FILENAMES["keymap"];
-    } else if( read_from_file_optional( FILENAMES["legacy_keymap"], parser ) ) {
+    } else if( read_from_file_optional_istream( FILENAMES["legacy_keymap"], parser ) ) {
         keymap_file_loaded_from = FILENAMES["legacy_keymap"];
     }
 }

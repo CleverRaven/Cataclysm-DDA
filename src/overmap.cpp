@@ -4320,12 +4320,12 @@ void overmap::open()
     std::string const terfilename = overmapbuffer::terrain_filename(loc.x, loc.y);
 
     using namespace std::placeholders;
-    const auto unserialise_reader = ( const std::function<void( std::istream & )> & ) 
+    const std::function<void( std::istream & )> & unserialise_reader = 
 		std::bind( &overmap::unserialize, this, _1 );
-    const auto unserialise_view_reader = ( const std::function<void( std::istream & )> & ) 
+    const std::function<void( std::istream & )> & unserialise_view_reader = 
 		std::bind( &overmap::unserialize_view, this, _1 );
-    if( read_from_file_optional( terfilename, unserialise_reader ) ) {
-        read_from_file_optional( plrfilename, unserialise_view_reader );
+    if( read_from_file_optional_istream( terfilename, unserialise_reader ) ) {
+        read_from_file_optional_istream( plrfilename, unserialise_view_reader );
     } else { // No map exists!  Prepare neighbors, and generate one.
         std::vector<const overmap*> pointers;
         // Fetch south and north
