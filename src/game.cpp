@@ -7992,8 +7992,7 @@ bool pet_menu(monster *z)
     return true;
 }
 
-// Returns true if the menu handled stuff and player shouldn't do anything else
-bool npc_menu( npc &who )
+bool game::npc_menu( npc &who )
 {
     enum choices : int {
         cancel = 0,
@@ -8028,16 +8027,19 @@ bool npc_menu( npc &who )
     }
 
     if( choice == swap_pos ) {
+        if( !prompt_dangerous_tile( who.pos() ) ) {
+            return true;
+        }
         // TODO: Make NPCs protest when displaced onto dangerous crap
         add_msg(_("You swap places with %s."), who.name.c_str());
-        g->swap_critters( g->u, who );
+        swap_critters( u, who );
         // TODO: Make that depend on stuff
-        g->u.mod_moves( -200 );
+        u.mod_moves( -200 );
     } else if( choice == push ) {
         // TODO: Make NPCs protest when displaced onto dangerous crap
         tripoint oldpos = who.pos();
-        who.move_away_from( g->u.pos(), true );
-        g->u.mod_moves( -20 );
+        who.move_away_from( u.pos(), true );
+        u.mod_moves( -20 );
         if( oldpos != who.pos() ) {
             add_msg(_("%s moves out of the way."), who.name.c_str());
         } else {
@@ -8047,7 +8049,7 @@ bool npc_menu( npc &who )
         ///\EFFECT_PER slightly increases precision when examining NPCs' wounds
 
         ///\EFFECT_FIRSTAID increases precision when examining NPCs' wounds
-        const bool precise = g->u.get_skill_level( skill_firstaid ) * 4 + g->u.per_cur >= 20;
+        const bool precise = u.get_skill_level( skill_firstaid ) * 4 + u.per_cur >= 20;
         who.body_window( precise );
     } else if( choice == use_item ) {
         static const std::string heal_string( "heal" );
@@ -8064,21 +8066,21 @@ bool npc_menu( npc &who )
                    actor->head_power >= 0 &&
                    actor->torso_power >= 0;
         };
-        const int pos = g->inv_for_filter( _("Use which item:"), will_accept );
+        const int pos = inv_for_filter( _("Use which item:"), will_accept );
 
         if( pos == INT_MIN ) {
             add_msg( _("Never mind") );
             return false;
         }
-        item &used = g->u.i_at( pos );
-        bool did_use = g->u.invoke_item( &used, heal_string, who.pos() );
+        item &used = u.i_at( pos );
+        bool did_use = u.invoke_item( &used, heal_string, who.pos() );
         if( did_use ) {
             // Note: exiting a body part selection menu counts as use here
-            g->u.mod_moves( -300 );
+            u.mod_moves( -300 );
         }
     } else if( choice == sort_armor ) {
         who.sort_armor();
-        g->u.mod_moves( -100 );
+        u.mod_moves( -100 );
     } else if( choice == attack ) {
         if(query_yn(_("You may be attacked! Proceed?"))) {
             //The NPC knows we started the fight, used for morale penalty.
@@ -8086,7 +8088,7 @@ bool npc_menu( npc &who )
                 who.hit_by_player = true;
             }
 
-            g->u.melee_attack( who, true );
+            u.melee_attack( who, true );
             who.make_angry();
         }
     }
@@ -11695,6 +11697,54 @@ bool game::disable_robot( const tripoint &p )
     return false;
 }
 
+bool game::prompt_dangerous_tile( const tripoint &dest_loc ) const
+{
+    std::vector<std::string> harmful_stuff;
+    const auto fields_here = m.field_at( u.pos() );
+    for( const auto& e : m.field_at( dest_loc ) ) {
+        // warn before moving into a dangerous field except when already standing within a similar field
+        if( u.is_dangerous_field( e.second ) && fields_here.findField( e.first ) == nullptr ) {
+            harmful_stuff.push_back( e.second.name() );
+        }
+    }
+
+    if( !u.is_blind() ) {
+        const trap &tr = m.tr_at(dest_loc);
+        int vpart;
+        const vehicle *const veh = m.veh_at( dest_loc, vpart );
+        const bool boardable = veh && veh->part_with_feature( vpart, "BOARDABLE" ) >= 0;
+        // Hack for now, later ledge should stop being a trap
+        if( tr.can_see(dest_loc, u) && !tr.is_benign() &&
+            m.has_floor( dest_loc ) && !boardable ) {
+            harmful_stuff.push_back( tr.name.c_str() );
+        }
+
+        static const std::set< body_part > sharp_bps = {
+            bp_eyes, bp_mouth, bp_head, bp_leg_l, bp_leg_r, bp_foot_l, bp_foot_r, bp_arm_l, bp_arm_r,
+            bp_hand_l, bp_hand_r, bp_torso
+        };
+
+        static const auto sharp_bp_check = [this]( body_part bp ) {
+            return u.immune_to( bp, { DT_CUT, 10 } );
+        };
+
+        if( m.has_flag( "ROUGH", dest_loc ) && !m.has_flag( "ROUGH", u.pos() ) && !boardable &&
+            ( u.get_armor_bash( bp_foot_l ) < 5 || u.get_armor_bash( bp_foot_r ) < 5 ) ) {
+            harmful_stuff.push_back( m.name( dest_loc ).c_str() );
+        } else if( m.has_flag( "SHARP", dest_loc ) && !m.has_flag( "SHARP", u.pos() ) && !boardable &&
+                   u.dex_cur < 78 && !std::all_of( sharp_bps.begin(), sharp_bps.end(), sharp_bp_check ) ) {
+            harmful_stuff.push_back( m.name( dest_loc ).c_str() );
+        }
+
+    }
+
+    if( !harmful_stuff.empty() &&
+        !query_yn( _("Really step into %s?"), enumerate_as_string( harmful_stuff ).c_str() ) ) {
+        return false;
+    }
+    return true;
+}
+
 bool game::plmove(int dx, int dy, int dz)
 {
     if( (!check_safe_mode_allowed()) || u.has_active_mutation("SHELL2") ) {
@@ -12032,52 +12082,8 @@ bool game::walk_move( const tripoint &dest_loc )
     }
     u.set_underwater(false);
 
-    if( !shifting_furniture ) {
-
-        std::vector<std::string> harmful_stuff;
-        const auto fields_here = m.field_at( u.pos() );
-        for( const auto& e : m.field_at( dest_loc ) ) {
-            // warn before moving into a dangerous field except when already standing within a similar field
-            if( u.is_dangerous_field( e.second ) && fields_here.findField( e.first ) == nullptr ) {
-                harmful_stuff.push_back( e.second.name() );
-            }
-        }
-
-        if( !u.is_blind() ) {
-            const trap &tr = m.tr_at(dest_loc);
-            int vpart;
-            const vehicle *const veh = m.veh_at( dest_loc, vpart );
-            const bool boardable = veh && veh->part_with_feature( vpart, "BOARDABLE" ) >= 0;
-            // Hack for now, later ledge should stop being a trap
-            if( tr.can_see(dest_loc, u) && !tr.is_benign() &&
-                m.has_floor( dest_loc ) && !boardable ) {
-                harmful_stuff.push_back( tr.name.c_str() );
-            }
-
-            static const std::set< body_part > sharp_bps = {
-                bp_eyes, bp_mouth, bp_head, bp_leg_l, bp_leg_r, bp_foot_l, bp_foot_r, bp_arm_l, bp_arm_r,
-                bp_hand_l, bp_hand_r, bp_torso
-            };
-
-            static const auto sharp_bp_check = [this]( body_part bp ) {
-                return u.immune_to( bp, { DT_CUT, 10 } );
-            };
-
-            if( m.has_flag( "ROUGH", dest_loc ) && !m.has_flag( "ROUGH", u.pos() ) && !boardable &&
-                ( u.get_armor_bash( bp_foot_l ) < 5 || u.get_armor_bash( bp_foot_r ) < 5 ) ) {
-                harmful_stuff.push_back( m.name( dest_loc ).c_str() );
-            } else if( m.has_flag( "SHARP", dest_loc ) && !m.has_flag( "SHARP", u.pos() ) && !boardable &&
-                       u.dex_cur < 78 && !std::all_of( sharp_bps.begin(), sharp_bps.end(), sharp_bp_check ) ) {
-                harmful_stuff.push_back( m.name( dest_loc ).c_str() );
-            }
-
-        }
-
-        if( !harmful_stuff.empty() &&
-            !query_yn( _("Really step into %s?"), enumerate_as_string( harmful_stuff ).c_str() ) ) {
-            return true;
-        }
-
+    if( !shifting_furniture && !prompt_dangerous_tile( dest_loc ) ) {
+        return true;
     }
 
     // Used to decide whether to print a 'moving is slow message
