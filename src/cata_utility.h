@@ -138,14 +138,16 @@ class JsonDeserializer;
  * @return `true` is the file was read without any errors, `false` upon any error.
  */
 /**@{*/
-bool read_from_file_istream( const std::string &path, const std::function<void( std::istream & )> &reader );
-bool read_from_file_jsonin( const std::string &path, const std::function<void( JsonIn & )> &reader );
+bool read_from_file_istream( const std::string &path,
+                             const std::function<void( std::istream & )> &reader );
+bool read_from_file_jsonin( const std::string &path,
+                            const std::function<void( JsonIn & )> &reader );
 bool read_from_file_json_deserializer( const std::string &path, JsonDeserializer &reader );
 
 bool read_from_file_optional_istream( const std::string &path,
-                              const std::function<void( std::istream & )> &reader );
+                                      const std::function<void( std::istream & )> &reader );
 bool read_from_file_optional_jsonin( const std::string &path,
-                              const std::function<void( JsonIn & )> &reader );
+                                     const std::function<void( JsonIn & )> &reader );
 bool read_from_file_optional_json_deserializer( const std::string &path, JsonDeserializer &reader );
 /**@}*/
 /**
