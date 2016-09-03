@@ -326,8 +326,7 @@
                 "coat_lab",
                 "gloves_rubber",
                 "glasses_safety",
-                "chemistry_set",
-                "id_science"
+                "chemistry_set"
             ],
             "male": [
                 "briefs"
@@ -657,11 +656,11 @@
             ]
         }
     },
-    {
+	{
         "type": "profession",
         "ident": "bio_specops",
-        "name": "Bionic Special Operator",
-        "description": "You were the best of the best, the military's finest.  That's why you were chosen for military bionic augmentation once it was tested in the field.  These two fact are the reason you are still alive.  As far as you can tell, military command abandoned you in this hellhole when you missed the emergency evac.",
+        "name": "Bionic Spec-Op",
+        "description": "You were the best of the best, the military's finest.  That's why you were chosen for military bionic augmentation , the reason you are still alive.  As far as you can tell, military command abandoned you in this hellhole when you missed the emergency evac.",
         "points": 8,
         "skills": [
             {
@@ -697,7 +696,7 @@
                 "name": "survival"
             }
         ],
-        "CBMs":[
+		"CBMs":[
             "bio_targeting",
             "bio_purifier",
             "bio_carbon",
@@ -1418,7 +1417,7 @@
         "description": "Your skill as a sharpshooter served you well in the line of duty, protecting the innocent with a single, well placed bullet.  Now survival itself is on the line, and you can't afford to miss if you don't want to end up as something's dinner.",
         "points": 6,
         "CBMs":[
-            "bio_targeting",
+		    "bio_targeting",
             "bio_infrared",
             "bio_metabolics",
             "bio_power_storage_mkII"
@@ -2281,8 +2280,8 @@
         "description": "Mortally injured in the line of duty, you were resurrected by the surgeons from the department's revolutionary Cybercop program.  Now, in these lawless times, you are truly the future of law enforcement.",
         "points": 5,
         "CBMs":[
-            "bio_armor_eyes",
-            "bio_armor_head",
+		    "bio_armor_eyes",
+		    "bio_armor_head",
             "bio_armor_torso",
             "bio_armor_legs",
             "bio_armor_arms",
@@ -2464,8 +2463,8 @@
                 "helmet_liner",
                 "gloves_liner",
                 "pants_army",
-                "jacket_army",
-                "gloves_tactical",
+                "acket_army",
+                "gloves_tacticaly",
                 "balclava",
                 "beret",
                 "socks",
@@ -2513,10 +2512,10 @@
             }
         ],
         "items": {
-            "both": [
                 "undershirt",
                 "arm_warmers",
                 "leg_warmers",
+                "helmet_liner",
                 "gloves_liner",
                 "pants_army",
                 "army_top",
@@ -2592,7 +2591,7 @@
                 "undershirt",
                 "arm_warmers",
                 "leg_warmers",
-                "gloves_liner",
+                "gloves_liner",,
                 "pants_army",
                 "army_top",
                 "jacket_army",
