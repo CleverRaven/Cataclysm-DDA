@@ -660,7 +660,7 @@
         "type": "profession",
         "ident": "bio_specops",
         "name": "Bionic Spec-Op",
-        "description": "You were the best of the best, the military's finest.  That's why you were chosen for military bionic augmentation , the reason you are still alive.  As far as you can tell, military command abandoned you in this hellhole when you missed the emergency evac.",
+        "description": "You were the best of the best, the military's finest.  That's why you were chosen for military bionic augmentation, the reason you are still alive.  As far as you can tell, military command abandoned you in this hellhole when you missed the emergency evac.",
         "points": 8,
         "skills": [
             {
@@ -2463,8 +2463,8 @@
                 "helmet_liner",
                 "gloves_liner",
                 "pants_army",
-                "acket_army",
-                "gloves_tacticaly",
+                "jacket_army",
+                "gloves_tactical",
                 "balclava",
                 "beret",
                 "socks",
@@ -2512,6 +2512,7 @@
             }
         ],
         "items": {
+            "both": [
                 "undershirt",
                 "arm_warmers",
                 "leg_warmers",
@@ -2591,7 +2592,7 @@
                 "undershirt",
                 "arm_warmers",
                 "leg_warmers",
-                "gloves_liner",,
+                "gloves_liner",
                 "pants_army",
                 "army_top",
                 "jacket_army",
