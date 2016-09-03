@@ -325,6 +325,7 @@ classes = {
             { name = "clear_zombies", rval = nil, args = { } },
             { name = "critter_at", rval = "Creature&", args = { "tripoint" } },
             { name = "critter_at", rval = "Creature&", args = { "tripoint", "bool" } },
+            { name = "critter_by_id", rval = "Creature&", args = { "int" } },
             { name = "do_blast", rval = nil, args = { "tripoint", "float", "float", "bool" } },
             { name = "draw", rval = nil, args = { } },
             { name = "draw_critter", rval = nil, args = { "Creature", "tripoint" } },
