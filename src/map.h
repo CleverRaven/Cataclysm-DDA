@@ -86,27 +86,18 @@ struct pathfinding_cache;
 
 class map_stack : public item_stack {
 private:
-    std::list<item> *mystack;
     tripoint location;
     map *myorigin;
 public:
     map_stack( std::list<item> *newstack, tripoint newloc, map *neworigin ) :
-    mystack(newstack), location(newloc), myorigin(neworigin) {};
-    size_t size() const override;
-    bool empty() const override;
+    item_stack( newstack ), location(newloc), myorigin(neworigin) {};
     std::list<item>::iterator erase( std::list<item>::iterator it ) override;
     void push_back( const item &newitem ) override;
     void insert_at( std::list<item>::iterator index, const item &newitem ) override;
-    std::list<item>::iterator begin();
-    std::list<item>::iterator end();
-    std::list<item>::const_iterator begin() const;
-    std::list<item>::const_iterator end() const;
-    std::list<item>::reverse_iterator rbegin();
-    std::list<item>::reverse_iterator rend();
-    std::list<item>::const_reverse_iterator rbegin() const;
-    std::list<item>::const_reverse_iterator rend() const;
-    item &front() override;
-    item &operator[]( size_t index ) override;
+    int count_limit() const override {
+        return MAX_ITEM_IN_SQUARE;
+    }
+    units::volume max_volume() const override;
 };
 
 struct visibility_variables {
@@ -785,9 +776,6 @@ void add_corpse( const tripoint &p );
     void spawn_item(const int x, const int y, const std::string &itype_id,
                     const unsigned quantity=1, const long charges=0,
                     const unsigned birthday=0, const int damlevel=0);
-    units::volume max_volume(const int x, const int y);
-    units::volume free_volume(const int x, const int y);
-    units::volume stored_volume(const int x, const int y);
     bool add_item_or_charges(const int x, const int y, item new_item, int overflow_radius = 2);
     void add_item(const int x, const int y, item new_item);
     void spawn_an_item( const int x, const int y, item new_item,
@@ -815,8 +803,23 @@ void add_corpse( const tripoint &p );
     units::volume max_volume( const tripoint &p );
     units::volume free_volume( const tripoint &p );
     units::volume stored_volume( const tripoint &p );
+    /** Adds an item to map point, or stacks charges.
+     * @warning: This function is expensive, and meant for user initiated actions, not mapgen!
+     *
+     * @param overflow_radius: if p is full, attempt to drop item up to overflow_radius squares away
+     * @ret The item that was added, or nulitem. Items counted by charges might be dropped on different
+     * squares due to the volume limit; in that case the most recently added/merged item is returned.
+     */
     item &add_item_or_charges( const tripoint &p, item new_item, int overflow_radius = 2 );
+    /** Helper for map::add_item */
     item &add_item_at( const tripoint &p, std::list<item>::iterator index, item new_item );
+    /**
+     * Place an item on the map, despite the parameter name, this is not necessaraly a new item.
+     * WARNING: does -not- check volume or stack charges. player functions (drop etc) should use
+     * map::add_item_or_charges
+     *
+     * @ret The item that got added, or nulitem.
+     */
     item &add_item( const tripoint &p, item new_item );
     item &spawn_an_item( const tripoint &p, item new_item,
                         const long charges, const int damlevel);
