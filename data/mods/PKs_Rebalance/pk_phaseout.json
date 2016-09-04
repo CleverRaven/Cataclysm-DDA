@@ -226,5 +226,41 @@
         "place_randomly": true,
         "moves": 60
     }
+    },{
+    "type": "MONSTER",
+    "id": "mon_zombie_shady_pk",
+    "name": "ethereal zombie",
+    "species":"ZOMBIE",
+    "default_faction":"zombie",
+    "symbol":"Z",
+    "color":"black_white",
+    "size":"MEDIUM",
+    "material":"flesh",
+    "diff":16,
+    "aggression":50,
+    "morale":90,
+    "speed":100,
+    "melee_skill":6,
+    "melee_dice":3,
+    "melee_dice_sides":6,
+    "melee_damage": [ {"damage_type": "true", "amount": 1} ],
+    "dodge":5,
+    "armor_bash":6,
+    "armor_cut":16,
+    "armor_acid":2,
+    "armor_fire":5,
+    "vision_day":10,
+    "vision_night":50,
+    "hp":90,
+    "death_function":"NORMAL",
+    "special_attacks":[{
+            "type": "bite",
+            "cooldown": 5
+        }, ["GRAB", 4]],
+    "description":"The permanent shadow around this gaunt figure makes it hard to make out.  What you can see appears translucent and shimmering.  It is disoriented in light, and actively avoids fire.",
+    "flags":["HARDTOSHOOT", "SEES", "HEARS", "PATH_AVOID_DANGER_1", "SMELLS", "STUMBLES", "BASHES", "GROUP_BASH", "POISON", "BLEED", "NO_BREATHE", "REVIVES", "BONES", "PUSH_MON", "NIGHT_INVISIBILITY", "SWIMS", "PLASTIC"],
+    "categories":["CLASSIC"],
+    "anger_triggers":["PLAYER_CLOSE", "FRIEND_DIED", "STALK", "HURT"],
+    "placate_triggers":["FIRE"]
     }
 ]
