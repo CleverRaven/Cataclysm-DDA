@@ -633,6 +633,7 @@ bool player_activity::can_resume_with( const player_activity &other, const Chara
             if( other.coords.empty() || other.coords[0] != coords[0] ) {
                 return false;
             }
+            break;
     }
 
     return !auto_resume && type == other.type && index == other.index &&
