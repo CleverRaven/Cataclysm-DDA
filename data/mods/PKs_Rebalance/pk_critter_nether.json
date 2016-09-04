@@ -1,8 +1,8 @@
 [
 {
-    "type" : "MONSTER",
-    "id" : "mon_gracke",
-    "edit-mode" : "override",
+    "type": "MONSTER",
+    "id": "mon_gracke",
+    "edit-mode": "override",
     "name": "gracken",
     "species":"NETHER",
     "default_faction":"nether",
@@ -29,6 +29,6 @@
     "anger_triggers":["PLAYER_WEAK", "FIRE", "PLAYER_CLOSE"],
     "fear_triggers":["MEAT", "FRIEND_DIED"],
     "placate_triggers":["HURT", "SOUND"],
-    "//" : "http://smf.cataclysmdda.com/index.php?topic=2816.0"
+    "//": "http://smf.cataclysmdda.com/index.php?topic=2816.0"
     }
 ]
