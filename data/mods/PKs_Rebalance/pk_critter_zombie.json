@@ -9,6 +9,22 @@
     }
     },{
     "type": "MONSTER",
+    "id": "mon_zombie_rot",
+    "edit-mode": "modify",
+    "upgrades":{
+      "into_group": "GROUP_ZOMBIE_DECAY",
+      "half_life": 9
+    }
+    },{
+    "type": "MONSTER",
+    "id": "mon_beekeeper",
+    "edit-mode": "modify",
+    "upgrades":{
+      "into_group": "GROUP_ZOMBIE_DECAY",
+      "half_life": 9
+    }
+    },{
+    "type": "MONSTER",
     "id": "mon_zombie_shrieker",
     "edit-mode": "modify",
     "vision_day":50,
@@ -347,6 +363,46 @@
     "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "BLEED", "NO_BREATHE", "REVIVES", "BONES", "FAT", "PUSH_MON"],
     "categories":["CLASSIC"]
     },{
+    "type" : "MONSTER",
+    "id" : "mon_beekeeper_pk",
+    "name": "scabby zombie",
+    "species":"ZOMBIE",
+    "default_faction":"zombie",
+    "symbol":"Z",
+    "color":"pink",
+    "size":"MEDIUM",
+    "material":"flesh",
+    "diff":12,
+    "aggression":100,
+    "morale":100,
+    "speed":50,
+    "melee_skill":5,
+    "melee_dice":2,
+    "melee_dice_sides":4,
+    "melee_cut":2,
+    "dodge":0,
+    "armor_bash":7,
+    "armor_cut":11,
+    "death_drops": {
+        "subtype": "collection",
+        "groups": [
+            [ "default_zombie_clothes", 50 ],
+            [ "hive", 30 ]
+        ]
+    },
+    "burn_into": "mon_zombie_scorched_pk",
+    "hp":80,
+    "death_function":["NORMAL"],
+    "emit_fields": [ "emit_flesh_slough", "emit_bees" ],
+    "special_attacks":[["GRAB", 20],
+        {
+            "type" : "bite",
+            "cooldown" : 5
+        }
+    ],
+    "description":"A deformed human body, its skin has been transformed into one thick, calloused envelope of scar tissue.",
+    "flags":["HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "REVIVES", "BONES", "PUSH_MON", "ELECTRIC"]
+},{
     "type": "MONSTER",
     "id": "mon_zombie_child_pk",
     "name": "zombie scrapper",
