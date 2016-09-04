@@ -400,7 +400,7 @@
             "cooldown" : 5
         }
     ],
-    "description":"A deformed human body, its skin has been transformed into one thick, calloused envelope of scar tissue.",
+    "description":"A deformed human body, its skin has been transformed into one thick, calloused envelope of scar tissue.  Its tissues emit an oozing liquid that smells like poisonous death.",
     "flags":["HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "REVIVES", "BONES", "PUSH_MON", "ELECTRIC", "VENOM"]
 },{
     "type": "MONSTER",
