@@ -173,5 +173,13 @@
     "//": "A firevent bursts forth around the player. (example: archvile)",
     "field": "fd_fire_vent",
     "qty": 7
+  },{
+    "id": "emit_bees",
+    "type": "emit",
+    "//": "Bees for the Bees God.  (example: Scabby zombie)",
+    "field": "fd_bees",
+    "qty": 2,
+    "density": 1,
+    "chance": 4
   }
 ]
