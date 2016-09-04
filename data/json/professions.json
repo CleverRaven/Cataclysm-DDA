@@ -9,7 +9,6 @@
                 "bio_torsionratchet",
                 "bio_power_storage_mkII",
                 "bio_sunglasses",
-                "bio_blindfold",
                 "bio_tools",
                 "bio_flashlight"
             ],
@@ -911,7 +910,6 @@
         "CBMs":[
             "bio_power_storage_mkII",
             "bio_sunglasses",
-            "bio_blindfold",
             "bio_torsionratchet",
             "bio_lighter",
             "bio_evap",
@@ -3094,7 +3092,6 @@
             "bio_razors",
             "bio_armor_eyes",
             "bio_sunglasses",
-            "bio_blindfold",
             "bio_dex_enhancer",
             "bio_ears",
             "bio_earplugs",
