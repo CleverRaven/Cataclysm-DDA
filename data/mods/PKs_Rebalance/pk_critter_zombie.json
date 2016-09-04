@@ -393,7 +393,7 @@
     "burn_into": "mon_zombie_scorched_pk",
     "hp":80,
     "death_function":["NORMAL"],
-    "emit_fields": [ "emit_flesh_slough", "emit_bees" ],
+    "emit_fields": [ "emit_flesh_slough" ],
     "special_attacks":[["GRAB", 20],
         {
             "type" : "bite",
@@ -401,7 +401,7 @@
         }
     ],
     "description":"A deformed human body, its skin has been transformed into one thick, calloused envelope of scar tissue.",
-    "flags":["HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "REVIVES", "BONES", "PUSH_MON", "ELECTRIC"]
+    "flags":["HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "REVIVES", "BONES", "PUSH_MON", "ELECTRIC", "VENOM"]
 },{
     "type": "MONSTER",
     "id": "mon_zombie_child_pk",
