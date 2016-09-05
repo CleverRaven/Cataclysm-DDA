@@ -4601,7 +4601,7 @@
         "type": "profession",
         "ident": "photojournalist",
         "name": "Photojournalist",
-        "description": "You were a freelance photojournalist before the end. You have a chance to be the first journalist to cover the apocalypse, though finding a publisher seems more difficult a prospect than usual. You managed to hold onto your camera, hopefully you can get some fantastic shots.",
+        "description": "You were a freelance photojournalist before the end.  You have a chance to be the first journalist to cover the apocalypse, though finding a publisher seems more difficult a prospect than usual.  You managed to hold onto your camera, hopefully you can get some fantastic shots.",
         "points": 0,
         "items": {
             "both": [
