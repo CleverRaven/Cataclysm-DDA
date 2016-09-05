@@ -2062,13 +2062,13 @@ void CachedTTFFont::load_font(std::string typeface, int fontsize)
         dbg( D_INFO ) << "Using font [" + typeface + "]." ;
     }
     //make fontdata compatible with wincurse
-    if(!file_exists(typeface)) {
+    if(!file_exist(typeface)) {
         faceIndex = 0;
         typeface = FILENAMES["fontdir"] + typeface + ".ttf";
         dbg( D_INFO ) << "Using compatible font [" + typeface + "]." ;
     }
     //different default font with wincurse
-    if(!file_exists(typeface)) {
+    if(!file_exist(typeface)) {
         faceIndex = 0;
         typeface = FILENAMES["fontdir"] + "fixedsys.ttf";
         dbg( D_INFO ) << "Using fallback font [" + typeface + "]." ;
