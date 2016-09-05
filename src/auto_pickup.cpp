@@ -14,7 +14,6 @@
 #include "itype.h"
 
 #include <stdlib.h>
-#include <fstream>
 #include <sstream>
 #include <string>
 #include <locale>
@@ -582,14 +581,11 @@ bool auto_pickup::save(const bool bCharacter)
 
         if (bCharacter) {
             savefile = world_generator->active_world->world_path + "/" + base64_encode(g->u.name) + ".apu.json";
-            std::ifstream fin;
 
-            fin.open((world_generator->active_world->world_path + "/" +
-                      base64_encode(g->u.name) + ".sav").c_str());
-            if(!fin.is_open()) {
+            const std::string player_save = world_generator->active_world->world_path + "/" + base64_encode(g->u.name) + ".sav";
+            if( !file_exist( player_save ) ) {
                 return true; //Character not saved yet.
             }
-            fin.close();
         }
 
     return write_to_file( savefile, [&]( std::ostream &fout ) {
