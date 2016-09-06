@@ -19,8 +19,8 @@
     "type": "emit",
     "//": "sludge trail (example: sludge crawler)",
     "field": "fd_sludge",
-    "density": 1,
-    "qty": 2
+    "density": 2,
+    "qty": 1
   },{
     "id": "emit_sludge_small",
     "type": "emit",
@@ -71,7 +71,7 @@
     "//": "adds portals to the area (example: amigara horror)",
     "field": "fd_fatigue",
     "density": 1,
-    "chance": 1
+    "chance": 2
   },{
     "id": "emit_spark",
     "type": "emit",
@@ -92,7 +92,8 @@
     "type": "emit",
     "//": "occassionally drop fleshy chunks (example: zombear)",
     "field": "fd_gibs_flesh",
-    "chance": 2
+    "chance": 1,
+    "density": 1
   },{
     "id": "emit_radiation_revenant_rocket",
     "type": "emit",

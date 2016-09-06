@@ -39,7 +39,8 @@
     "type": "MONSTER",
     "id": "mon_zombie_pig",
     "edit-mode": "modify",
-    "burn_into": "mon_zanimal_scorched"
+    "burn_into": "mon_zanimal_scorched",
+    "emit_fields": [ "emit_flesh_slough" ]
     },{
     "type": "MONSTER",
     "id": "mon_zoose",
@@ -51,6 +52,7 @@
     "armor_acid":2,
     "hp":230,
     "special_attacks":[["SMASH", 50]],
+    "emit_fields": [ "emit_flesh_slough" ],
     "burn_into": "mon_horse_zombie_scorched",
     "flags":["SEES", "HEARS", "SMELLS", "ANIMAL", "BASHES", "WARM", "FUR", "BLEED", "ATTACKMON", "BONES", "FAT", "POISON", "NO_BREATHE", "REVIVES"],
     "anger_triggers":["HURT", "PLAYER_CLOSE", "FIRE", "FRIEND_ATTACKED"]
@@ -105,6 +107,7 @@
         "cooldown": 15,
         "min_mul": 0.8, "//": "strong jaws"
         }],
+    "emit_fields": [ "emit_flesh_slough" ],
     "burn_into": "mon_bear_smoky"
     },{
     "type": "MONSTER",
@@ -131,6 +134,7 @@
     "vision_day":35,
     "hp":140,
     "death_function":"NORMAL",
+    "emit_fields": [ "emit_flesh_slough" ],
     "burn_into": "mon_horse_zombie_scorched",
     "description":"This horse has a brackish liquid coating its bared teeth, as well as the occasional oozing wounds breaking the otherwise glorious sheen of its hair.  Its hooves are fearsome weapons.",
     "flags":["SEES", "HEARS", "SMELLS", "PATH_AVOID_DANGER_1", "ANIMAL", "WARM", "FUR", "BONES", "FAT", "NO_BREATHE", "POISON", "REVIVES", "PUSH_MON", "STUMBLES", "BASHES"],
