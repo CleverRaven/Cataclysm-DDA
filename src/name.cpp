@@ -164,7 +164,7 @@ void NameGenerator::load( JsonIn &jsin )
 void load_names_from_file( const std::string &filename )
 {
     using namespace std::placeholders;
-    read_from_file_jsonin( filename, 
-		std::bind( &NameGenerator::load, &NameGenerator::generator(), _1 ) );
+    read_from_file_jsonin( filename,
+                       std::bind( &NameGenerator::load, &NameGenerator::generator(), _1 ) );
 }
 
