@@ -246,14 +246,14 @@ void player::randomize( const bool random_scenario, points_left &points )
             }
         }
         g->scen = random_entry( scenarios );
-        g->u.start_location = g->scen->random_start_location();
     }
     
-    if (g->scen->profsize() > 0) {
+    if( g->scen->profsize() > 0 ) {
         g->u.prof = g->scen->random_profession();
     } else {
         g->u.prof = profession::weighted_random();
     }
+    g->u.start_location = g->scen->random_start_location();
     
     str_max = rng( 6, HIGH_STAT - 2 );
     dex_max = rng( 6, HIGH_STAT - 2 );
@@ -268,7 +268,7 @@ void player::randomize( const bool random_scenario, points_left &points )
 
     int num_gtraits = 0, num_btraits = 0, tries = 0;
     std::string rn = "";
-    add_traits(); // add mandatory prof/scen traits.
+    add_traits(); // adds mandatory prof/scen traits.
     for( const auto &mut : my_mutations ) {
         if( mutation_branch::get( mut.first ).profession ) {
             continue;
@@ -293,8 +293,8 @@ void player::randomize( const bool random_scenario, points_left &points )
             do {
                 rn = random_bad_trait();
                 tries++;
-            } while ((has_trait(rn) || num_btraits - mutation_branch::get( rn ).points > max_trait_points) &&
-                     tries < 5);
+            } while( ( has_trait( rn ) || num_btraits - mutation_branch::get( rn ).points > max_trait_points ) &&
+                     tries < 5 && !g->scen->forbidden_traits( rn ) );
 
             if (tries < 5 && !has_conflicting_trait(rn)) {
                 toggle_trait(rn);
@@ -345,7 +345,7 @@ void player::randomize( const bool random_scenario, points_left &points )
                 rn = random_good_trait();
                 auto &mdata = mutation_branch::get( rn );
                 if( !has_trait(rn) && points.trait_points_left() >= mdata.points &&
-                    num_gtraits + mdata.points <= max_trait_points &&
+                    num_gtraits + mdata.points <= max_trait_points && !g->scen->forbidden_traits( rn ) &&
                     !has_conflicting_trait(rn) ) {
                     toggle_trait(rn);
                     points.trait_points -= mdata.points;
