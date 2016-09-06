@@ -25,6 +25,7 @@
 #include "translations.h"
 
 void exit_handler(int s);
+void hangup_handler(int dummy);
 
 extern bool test_dirty;
 
@@ -458,6 +459,12 @@ int main(int argc, char *argv[])
     sigemptyset(&sigIntHandler.sa_mask);
     sigIntHandler.sa_flags = 0;
     sigaction(SIGINT, &sigIntHandler, NULL);
+
+    struct sigaction sigHupHandler;
+    sigHupHandler.sa_handler = hangup_handler;
+    sigemptyset(&sigHupHandler.sa_mask);
+    sigHupHandler.sa_flags = 0;
+    sigaction(SIGHUP, &sigHupHandler, NULL);
 #endif
 
     bool quit_game = false;
@@ -542,4 +549,26 @@ void exit_handler(int s)
 
         exit( exit_status );
     }
+}
+
+void hangup_handler(int signum)
+{
+    int exit_status = 0;
+    (void) signum;
+
+    erase();
+
+    if( g != NULL ) {
+        g->save();
+        if( g->game_error() ) {
+            exit_status = 1;
+        }
+        delete g;
+    }
+
+    deinitDebug();
+
+    endwin();
+
+    exit( exit_status );
 }
