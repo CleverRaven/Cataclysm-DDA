@@ -903,7 +903,8 @@
         "description": "This is a modified RX12 jet injector which can be worn on the body.  A label on the side warns against using more than two doses per hour.",
         "price": 40000,
         "material": ["ceramic", "superalloy"],
-        "flags" : ["OVERSIZE"],
+        "flags" : ["OVERSIZE", "SKINTIGHT"],
+        "covers" : ["ARMS_EITHER"],
         "weight" : 364,
         "volume": 3,
         "max_charges": 2,
@@ -911,7 +912,7 @@
         "ammo": "ampoule",
         "use_action": "JET_INJECTOR",
         "encumbrance" : 0,
-        "coverage" : 0,
+        "coverage" : 1,
         "material_thickness" : 3
     },
     {
@@ -925,7 +926,8 @@
         "description": "The Rivtech RX11 stimulant delivery system is a jet autoinjector system worn on the user's body.  A simple press of its activator injects powerful chemical stimulants into the bloodstream without using a needle.",
         "price": 40000,
         "material": ["superalloy", "kevlar"],
-        "flags" : ["OVERSIZE"],
+        "flags" : ["OVERSIZE", "SKINTIGHT"],
+        "covers" : ["ARMS_EITHER"],
         "weight" : 212,
         "volume": 3,
         "max_charges": 5,
@@ -934,7 +936,7 @@
         "ammo": "stimpack_ammo",
         "use_action": "STIMPACK",
         "encumbrance" : 0,
-        "coverage" : 0,
+        "coverage" : 1,
         "material_thickness" : 3
     },
     {
@@ -1153,13 +1155,15 @@
         "weight" : 68,
         "volume": 1,
         "to_hit" : -3,
+        "flags" : ["BULKY"],
+        "covers" : ["HAND_EITHER"],
         "max_charges": 20,
         "initial_charges": 20,
         "charges_per_use": 1,
         "ammo": "battery",
         "use_action": "RADGLOVE",
-        "encumbrance" : 0,
-        "coverage" : 0,
+        "encumbrance" : 2,
+        "coverage" : 5,
         "material_thickness" : 1
     },
     {
@@ -1919,9 +1923,9 @@
         "price" : 1000,
         "material" : ["steel"],
         "volume" : 1,
-        "encumbrance" : 0,
+        "encumbrance" : 2,
         "flags" : ["BELTED"],
-        "coverage" : 0,
+        "coverage" : 5,
         "material_thickness" : 1
     },
     {
