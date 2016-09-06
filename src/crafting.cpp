@@ -547,8 +547,7 @@ bool recipe::can_make_with_inventory( const inventory &crafting_inv,
 
 bool recipe::valid_learn() const
 {
-    static const std::string ncraft = "CC_NONCRAFT";
-    return cat != ncraft;
+    return !uncraft;
 }
 
 const inventory &player::crafting_inventory()
