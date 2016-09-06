@@ -36,8 +36,8 @@ static const std::string fake_recipe_book = "book";
 void remove_from_component_lookup( recipe *r );
 
 recipe::recipe() :
-    result( "null" ), contained( false ), container( "null" ),
-    skill_used( NULL_ID ), reversible( false ),
+    result( "null" ), uncraft( false ), contained( false ),
+    container( "null" ), skill_used( NULL_ID ), reversible( false ),
     autolearn_requirements(), learn_by_disassembly(), result_mult( 1 )
 {
 }
@@ -70,6 +70,8 @@ void load_recipe( JsonObject &jsobj, const std::string & /* src */, bool uncraft
     // required
     std::string result = jsobj.get_string( "result" );
     std::string category = uncraft ? "CC_NONCRAFT" : jsobj.get_string( "category" );
+    // @todo Fix the recipes and remove this
+    uncraft = uncraft || category == "CC_NONCRAFT";
     int time = jsobj.get_int( "time" );
     int difficulty = jsobj.get_int( "difficulty" );
 
@@ -168,6 +170,7 @@ void load_recipe( JsonObject &jsobj, const std::string & /* src */, bool uncraft
     rec->result = result;
     rec->time = time;
     rec->difficulty = difficulty;
+    rec->uncraft = uncraft;
     rec->byproducts = bps;
     rec->cat = category;
     rec->contained = contained;

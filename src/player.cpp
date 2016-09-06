@@ -12838,6 +12838,10 @@ bool player::knows_recipe(const recipe *rec) const
 int player::has_recipe( const recipe *r, const inventory &crafting_inv,
                         const std::vector<npc *> &helpers ) const
 {
+    if( r->uncraft ) {
+        return -1;
+    }
+
     if( !r->skill_used ) {
         return 0;
     }
