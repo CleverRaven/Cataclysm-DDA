@@ -3511,9 +3511,8 @@ void game::load(std::string worldname, std::string name)
     // This should be initialized more globally (in player/Character constructor)
     u.ret_null = item( "null", 0 );
     u.weapon = item("null", 0);
-    const std::function<void( std::istream & )> & unserialise_reader = 
-		std::bind( &game::unserialize, this, _1 );
-    if( !read_from_file_istream( playerfile, unserialise_reader ) ) {
+		
+    if( !read_from_file_istream( playerfile, std::bind( &game::unserialize, this, _1 ) ) ) {
         return;
     }
 
