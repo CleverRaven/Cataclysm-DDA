@@ -134,8 +134,8 @@ class JsonDeserializer;
  * The functions with the "_optional" prefix do not show a debug message when the file does not
  * exist. They simply ignore the call and return `false` immediately (without calling the callback).
  * They can be used for loading legacy files.
- * 
- * These are specifically named and not overloaded. This is because overloading results in 
+ *
+ * These are specifically named and not overloaded. This is because overloading results in
  * ambiguity compile time errors in MSVC unless you specifically declare the callback type,
  * or cast it (which is messy and prone to breaking if you don't know about the issue).
  *
