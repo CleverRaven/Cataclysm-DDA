@@ -61,6 +61,7 @@ const char clear_str[] = "                                                ";
 
 void draw_tabs(WINDOW *w, std::string sTab);
 void draw_points( WINDOW *w, points_left &points, int netPointCost = 0 );
+static int skill_increment_cost( const Character &u, const skill_id &skill );
 
 struct points_left {
     int stat_points = 0;
@@ -245,40 +246,42 @@ void player::randomize( const bool random_scenario, points_left &points )
             }
         }
         g->scen = random_entry( scenarios );
-        if (g->scen->profsize() > 0) {
-            g->u.prof = g->scen->random_profession();
-        } else {
-            g->u.prof = profession::weighted_random();
-        }
         g->u.start_location = g->scen->random_start_location();
+    }
+    
+    if (g->scen->profsize() > 0) {
+        g->u.prof = g->scen->random_profession();
     } else {
         g->u.prof = profession::weighted_random();
     }
-    str_max = rng(6, 12);
-    dex_max = rng(6, 12);
-    int_max = rng(6, 12);
-    per_max = rng(6, 12);
+    
+    str_max = rng( 6, HIGH_STAT - 2 );
+    dex_max = rng( 6, HIGH_STAT - 2 );
+    int_max = rng( 6, HIGH_STAT - 2 );
+    per_max = rng( 6, HIGH_STAT - 2 );
     points.stat_points = points.stat_points - str_max - dex_max - int_max - per_max;
     points.skill_points = points.skill_points - g->u.prof->point_cost() - g->scen->point_cost();
     // The default for each stat is 8, and that default does not cost any points.
     // Values below give points back, values above require points. The line above has removed
     // to many points, therefor they are added back.
     points.stat_points += 8 * 4;
-    if (str_max > HIGH_STAT) {
-        points.stat_points -= (str_max - HIGH_STAT);
-    }
-    if (dex_max > HIGH_STAT) {
-        points.stat_points -= (dex_max - HIGH_STAT);
-    }
-    if (int_max > HIGH_STAT) {
-        points.stat_points -= (int_max - HIGH_STAT);
-    }
-    if (per_max > HIGH_STAT) {
-        points.stat_points -= (per_max - HIGH_STAT);
-    }
 
     int num_gtraits = 0, num_btraits = 0, tries = 0;
     std::string rn = "";
+    add_traits(); // add mandatory prof/scen traits.
+    for( const auto &mut : my_mutations ) {
+        if( mutation_branch::get( mut.first ).profession ) {
+            continue;
+        }
+        const mutation_branch &mut_info = mutation_branch::get( mut.first );
+        if( mut_info.points >= 0 ) {
+            num_gtraits += mut_info.points;
+            points.trait_points -= mut_info.points;
+        } else {
+            num_btraits -= mut_info.points;
+            points.trait_points -= mut_info.points;
+        }
+    }
 
     /* The loops variable is used to prevent the algorithm running in an infinite loop */
     unsigned int loops = 0;
@@ -402,8 +405,8 @@ void player::randomize( const bool random_scenario, points_left &points )
             int level = get_skill_level(aSkill);
 
             if (level < points.skill_points_left() && level < MAX_SKILL && (level <= 10 || loops > 10000)) {
-                points.skill_points -= level + 1;
-                set_skill_level( aSkill, level + 2 );
+                points.skill_points -= skill_increment_cost( *this, aSkill );
+                set_skill_level( aSkill, level + 1 );
             }
             break;
         }
@@ -2433,7 +2436,8 @@ std::string Character::random_good_trait()
     std::vector<std::string> vTraitsGood;
 
     for( auto &traits_iter : mutation_branch::get_all() ) {
-        if( traits_iter.second.startingtrait && traits_iter.second.points >= 0 ) {
+        if( traits_iter.second.points >= 0 &&
+            ( traits_iter.second.startingtrait || g->scen->traitquery( traits_iter.first ) ) ) {
             vTraitsGood.push_back( traits_iter.first );
         }
     }
@@ -2446,7 +2450,8 @@ std::string Character::random_bad_trait()
     std::vector<std::string> vTraitsBad;
 
     for( auto &traits_iter : mutation_branch::get_all() ) {
-        if( traits_iter.second.startingtrait && traits_iter.second.points < 0 ) {
+        if( traits_iter.second.points < 0 &&
+            ( traits_iter.second.startingtrait || g->scen->traitquery( traits_iter.first ) ) ) {
             vTraitsBad.push_back( traits_iter.first );
         }
     }
