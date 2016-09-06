@@ -402,11 +402,12 @@ void player::randomize( const bool random_scenario, points_left &points )
         case 8:
         case 9:
             const skill_id aSkill = Skill::random_skill();
-            int level = get_skill_level(aSkill);
+            const int level = get_skill_level(aSkill);
 
             if (level < points.skill_points_left() && level < MAX_SKILL && (level <= 10 || loops > 10000)) {
                 points.skill_points -= skill_increment_cost( *this, aSkill );
-                set_skill_level( aSkill, level + 1 );
+                // For balance reasons, increasing a skill from level 0 gives you 1 extra level for free
+                set_skill_level( aSkill, ( level == 0 ? 2 : level + 1 )  );
             }
             break;
         }
@@ -1566,6 +1567,8 @@ tab_direction set_profession(WINDOW *w, player *u, points_left &points)
 /**
  * @return The skill points to consume when a skill is increased (by one level) from the
  * current level.
+ *
+ * @note: There is one exception: if the current level is 0, it can be boosted by 2 levels for 1 point.
  */
 static int skill_increment_cost( const Character &u, const skill_id &skill )
 {
@@ -1734,15 +1737,20 @@ tab_direction set_skills(WINDOW *w, player *u, points_left &points)
             }
             currentSkill = sorted_skills[cur_pos];
         } else if (action == "LEFT") {
-            if( u->get_skill_level( currentSkill->ident() ) > 0 ) {
-                u->boost_skill_level( currentSkill->ident(), -1 );
+            const int level = u->get_skill_level( currentSkill->ident() );
+            if( level > 0 ) {
+                // For balance reasons, increasing a skill from level 0 gives 1 extra level for free, but
+                // decreasing it from level 2 forfeits the free extra level (thus changes it to 0)
+                u->boost_skill_level( currentSkill->ident(), ( level == 2 ? -2 : -1 ) );
                 // Done *after* the decrementing to get the original cost for incrementing back.
                 points.skill_points += skill_increment_cost( *u, currentSkill->ident() );
             }
         } else if (action == "RIGHT") {
-            if( u->get_skill_level( currentSkill->ident() ) < MAX_SKILL ) {
+            const int level = u->get_skill_level( currentSkill->ident() );
+            if( level < MAX_SKILL ) {
                 points.skill_points -= skill_increment_cost( *u, currentSkill->ident() );
-                u->boost_skill_level( currentSkill->ident(), +1 );
+                // For balance reasons, increasing a skill from level 0 gives 1 extra level for free
+                u->boost_skill_level( currentSkill->ident(), ( level == 0 ? +2 : +1 ) );
             }
         } else if (action == "SCROLL_DOWN") {
             selected++;
