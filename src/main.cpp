@@ -25,7 +25,7 @@
 #include "translations.h"
 
 void exit_handler(int s);
-void hangup_handler(int dummy);
+void hangup_handler(int);
 
 extern bool test_dirty;
 
@@ -551,10 +551,9 @@ void exit_handler(int s)
     }
 }
 
-void hangup_handler(int signum)
+void hangup_handler(int)
 {
     int exit_status = 0;
-    (void) signum;
 
     erase();
 
