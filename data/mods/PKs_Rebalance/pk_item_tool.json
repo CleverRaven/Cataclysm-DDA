@@ -50,6 +50,47 @@
     "qualities": [["CUT", 1], ["DIG", 3], ["BUTCHER", -8], ["SAW_W", 1], [ "SAW_M", 1 ]],
     "use_action": "BOLTCUTTERS"
     },{
+    "type":"GENERIC",
+    "id": "broken_manhack_fire",
+    "symbol": ",",
+    "color": "red",
+    "name": "broken firebomb hack",
+    "category": "other",
+    "description": "A broken firebomb hack.  Much less threatening now that it lies quiet on solid ground.  Could be gutted for parts.",
+    "price": 9000,
+    "price_postapoc": 1000,
+    "material": ["aluminum", "plastic"],
+    "weight": 2113,
+    "volume": 3,
+    "bashing": 6,
+    "cutting": 6,
+    "to_hit": -3
+    },{
+    "id": "bot_manhack_fire",
+    "type": "TOOL",
+    "symbol": ",",
+    "color": "red",
+    "name": "inactive firebomb hack",
+    "description": "This is an inactive firebomb hack.  When activated it will fly into a hostile and detonate, showering the area with flame.",
+    "price": 80000,
+    "material": ["aluminum", "plastic"],
+    "weight": 500,
+    "volume": 1,
+    "bashing": 6,
+    "cutting": 6,
+    "to_hit": -3,
+    "use_action": {
+        "type": "place_monster",
+        "monster_id": "mon_manhack_fire",
+        "difficulty": 6,
+        "skill1": "electronics",
+        "skill2": "computer",
+        "hostile_msg": "You mis-program the firebomb hack; take cover!",
+        "friendly_msg": "The firebomb hack flies from your hand and surveys the area!",
+        "place_randomly": true,
+        "moves": 60
+    }
+    },{
     "id": "spess_chunk",
     "type": "TOOL",
     "symbol": ",",
@@ -263,6 +304,95 @@
         }
     ]}
     },{
+    "id": "broken_soulcube",
+    "type": "TOOL",
+    "symbol": ",",
+    "color": "white",
+    "name": "glowing soulcube",
+    "description": "An unknown cube-shaped device of obviously alien origin, it's purpose is unknown.",
+    "price": 1000000,
+    "material": "diamond",
+    "weight": 1000,
+    "volume": 2,
+    "bashing": 6,
+    "cutting": 6,
+    "to_hit": -3,
+    "flags": "LIGHT_50",
+    "use_action": {
+         "type": "transform",
+         "target": "soulcube_on",
+         "active": true,
+         "target_charges": 4,
+         "msg": "The glow transfers over to you, healing your wounds!"
+      }
+    },{
+    "id": "soulcube_on",
+    "type": "TOOL",
+    "symbol": ",",
+    "color": "white",
+    "name": "healing soulcube",
+    "description": "An unknown cube-shaped device of obviously alien origin, it's purpose is unknown.",
+    "price": 1000000,
+    "material": "diamond",
+    "weight": 1000,
+    "volume": 2,
+    "bashing": 6,
+    "cutting": 6,
+    "to_hit": -3,
+    "max_charges": 4,
+    "initial_charges": 4,
+    "turns_per_charge": 1,
+    "revert_to": "soulcube_charging",
+    "use_action": "ARTIFACT",
+        "artifact_data": {
+            "effects_activated": ["AEA_HEAL"]
+        }
+    },{
+    "id": "soulcube_charging",
+    "type": "TOOL",
+    "symbol": ",",
+    "color": "white",
+    "name": "recharging soulcube",
+    "description": "An unknown cube-shaped device of obviously alien origin, it's purpose is unknown.",
+    "price": 1000000,
+    "material": "diamond",
+    "weight": 1000,
+    "volume": 2,
+    "bashing": 6,
+    "cutting": 6,
+    "to_hit": -3,
+    "use_action": {
+        "type": "delayed_transform",
+        "transform_age": 4200, "//": "7 hours",
+        "not_ready_msg": "You fiddle with the cube, but nothing happens.",
+        "msg": "\"USE US.\"",
+        "moves": 0,
+        "target": "soulcube"
+    }
+    },{
+    "id": "soulcube",
+    "type": "TOOL",
+    "symbol": ",",
+    "color": "white",
+    "name": "soulcube",
+    "description": "An unknown cube-shaped device of obviously alien origin, it's purpose is unknown.",
+    "price": 1000000,
+    "material": "diamond",
+    "weight": 1000,
+    "volume": 2,
+    "bashing": 6,
+    "cutting": 6,
+    "to_hit": -3,
+    "use_action": {
+        "type": "place_monster",
+        "monster_id": "mon_soulcube",
+        "skill1": "survival",
+        "place_randomly": true,
+        "hostile_msg": "Oh, it's hostile. That's probably not supposed to happen.  Probably.",
+        "friendly_msg": "As you fiddle with the cube, it flies from your hands!",
+        "moves": 50
+    }
+    },{
     "id": "bot_fungal_boil_egg",
     "type": "TOOL",
     "symbol": "o",
@@ -305,5 +435,97 @@
         "skill2": "computer",
         "moves": 100
     }
+    },{
+    "type": "TOOL",
+    "id": "triffid_sap_grenade",
+    "name": "sap grenade",
+    "category": "weapons",
+    "weight": 315,
+    "volume": 2,
+    "ammo_type": "thrown",
+    "material": ["glass"],
+    "symbol": "%",
+    "color": "i_yellow",
+    "turns_per_charge": 1,
+    "description": "Extract from a biollante's budding flowers, dilluted with a weak acid water.  When thrown it will produce a fast-thickening goop that will trap whatever walks into it.",
+    "flags": ["ACT_ON_RANGED_HIT"],
+    "use_action": {
+        "type": "transform",
+        "target": "triffid_sap_grenade_act",
+        "target_charges": 3,
+        "active": true
+    }
+    },{
+    "type": "AMMO",
+    "id": "triffid_sap_grenade_act",
+    "name": "sap grenade",
+    "category": "weapons",
+    "weight": 315,
+    "volume": 2,
+    "ammo_type": "thrown",
+    "material": ["glass"],
+    "symbol": "%",
+    "color": "i_yellow",
+    "turns_per_charge": 1,
+    "description": "Extract from a biollante's budding flowers, dilluted with a weak acid water.  When thrown it will produce a fast-thickening goop that will trap whatever walks into it.",
+    "emits": [ "emit_sap_grenade" ],
+    "countdown_interval": 2,
+    "countdown_destroy": true,
+    "countdown_action": {
+        "type": "explosion",
+        "explosion": {
+            "power": 2,
+        "distance_factor": 0.2
+        }
+    }
+    },{
+    "id": "antidote_posion",
+    "name": "triffid antidote",
+    "type" : "COMESTIBLE",
+    "comestible_type" : "MED",
+    "tool" : "syringe",
+    "weight": 175,
+    "volume": 1,
+    "container": "flask_glass",
+    "phase": "liquid",
+    "color": "ltgreen",
+    "symbol": ",",
+    "material": ["powder"],
+    "description": "A handmade brew to ward off basic poisons.  Works on a wide variety of known poisons, but may not be up to the task of the nastier venoms.  Cures and blocks biological poisons.",
+    "price": 35000,
+    "use_action": {
+    "type": "consume_drug",
+    "effects": [
+        {
+                "id": "triffid_cure",
+                "duration": 1
+        },{
+                "id": "doom_unhealth",
+                "duration": 5
+        }
+    ]}
+    },{
+    "id": "antidote_badpoison",
+    "name": "triffid neutralizer",
+    "type" : "COMESTIBLE",
+    "comestible_type" : "MED",
+    "tool" : "syringe",
+    "weight": 175,
+    "volume": 1,
+    "container": "flask_glass",
+    "phase": "liquid",
+    "color": "ltgreen",
+    "symbol": ",",
+    "material": ["powder"],
+    "description": "A concentrated medical brew to neutralize most known toxins and flush them out of the system.  Unlike royal jelly, it blocks future attacks for a time.",
+    "price": 35000,
+    "use_action": {
+    "type": "consume_drug",
+    "effects": [
+        {
+                "id": "triffid_neutralization",
+                "duration": 1
+        }
+    ]}
     }
 ]
