@@ -36,7 +36,7 @@ static const std::string fake_recipe_book = "book";
 void remove_from_component_lookup( recipe *r );
 
 recipe::recipe() :
-    result( "null" ), uncraft( false ), contained( false ),
+    result( "null" ), valid_to_learn( false ), contained( false ),
     container( "null" ), skill_used( NULL_ID ), reversible( false ),
     autolearn_requirements(), learn_by_disassembly(), result_mult( 1 )
 {
@@ -170,7 +170,7 @@ void load_recipe( JsonObject &jsobj, const std::string & /* src */, bool uncraft
     rec->result = result;
     rec->time = time;
     rec->difficulty = difficulty;
-    rec->uncraft = uncraft;
+    rec->valid_to_learn = !uncraft;
     rec->byproducts = bps;
     rec->cat = category;
     rec->contained = contained;
@@ -547,7 +547,7 @@ bool recipe::can_make_with_inventory( const inventory &crafting_inv,
 
 bool recipe::valid_learn() const
 {
-    return !uncraft;
+    return valid_to_learn;
 }
 
 const inventory &player::crafting_inventory()

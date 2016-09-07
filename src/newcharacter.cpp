@@ -1627,7 +1627,7 @@ tab_direction set_skills(WINDOW *w, player *u, points_left &points)
             if( !prof_u.has_recipe_autolearned( *cur_recipe ) &&
                 ( cur_recipe->skill_used == currentSkill->ident() || skill > 0 ) &&
                 prof_u.has_recipe_requirements( *cur_recipe ) &&
-                cur_recipe->ident().find("uncraft") == std::string::npos )  {
+                cur_recipe->valid_learn() )  {
 
                 recipes[cur_recipe->skill_used.obj().name()].push_back(
                     make_pair( item::nname( cur_recipe->result ),
