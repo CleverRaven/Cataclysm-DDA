@@ -15,9 +15,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Cataclysm-DDA\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-29 09:48+0300\n"
-"PO-Revision-Date: 2016-08-31 08:26+0000\n"
-"Last-Translator: Dikai Li <glacias3183@gmail.com>\n"
+"POT-Creation-Date: 2016-09-05 11:44+0300\n"
+"PO-Revision-Date: 2016-09-07 07:10+0000\n"
+"Last-Translator: cainiao <cainiaowu@hotmail.com>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/cataclysm-dda-"
 "translators/cataclysm-dda/language/zh_CN/)\n"
 "Language: zh_CN\n"
@@ -489,7 +489,7 @@ msgstr[0] "155mm 弹壳"
 #: lang/json/AMMO_from_json.py
 msgid "20x66mm beanbag"
 msgid_plural "20x66mm beanbags"
-msgstr[0] "26X66mm 沙包弹"
+msgstr[0] "20X66mm 沙包弹"
 
 #: lang/json/AMMO_from_json.py
 msgid "20x66mm buckshot"
@@ -579,12 +579,12 @@ msgstr ""
 #: lang/json/AMMO_from_json.py
 msgid "20x66mm explosive"
 msgid_plural "20x66mm explosives"
-msgstr[0] "26X66mm 爆裂弹"
+msgstr[0] "20X66mm 爆裂弹"
 
 #: lang/json/AMMO_from_json.py
 msgid "20x66mm flare"
 msgid_plural "20x66mm flares"
-msgstr[0] "26X66mm 火焰弹"
+msgstr[0] "20X66mm 火焰弹"
 
 #: lang/json/AMMO_from_json.py
 msgid "20x66mm flechette"
@@ -594,12 +594,12 @@ msgstr[0] "26X66mm 镖形弹"
 #: lang/json/AMMO_from_json.py
 msgid "20x66mm frag"
 msgid_plural "20x66mm frags"
-msgstr[0] "26X66mm 碎片弹"
+msgstr[0] "20X66mm 碎片弹"
 
 #: lang/json/AMMO_from_json.py
 msgid "20x66mm incendiary"
 msgid_plural "20x66mm incendiaries"
-msgstr[0] "26X66mm 燃烧弹"
+msgstr[0] "20X66mm 燃烧弹"
 
 #: lang/json/AMMO_from_json.py
 msgid "20x66mm slug"
@@ -679,7 +679,7 @@ msgstr[0] "40mm镖形弹"
 #: lang/json/AMMO_from_json.py
 msgid "40mm frag"
 msgid_plural "40mm frag"
-msgstr[0] "40mm榴弹"
+msgstr[0] "40mm破片榴弹"
 
 #: lang/json/AMMO_from_json.py lang/json/ammunition_type_from_json.py
 msgid "40mm grenade"
@@ -810,8 +810,8 @@ msgid ""
 "warheads are filled with a thickened pyrophoric agent, which burns at 2200 "
 "degrees Fahrenheit."
 msgstr ""
-"M202 FLASH火箭筒使用的66mm燃烧弹。弹头中装填的TPA即经过聚异丁烯增稠的三乙基"
-"铝，燃烧温度达到1200°C。"
+"M202 FLASH火箭筒使用的66mm燃烧弹。弹头中装填了TPA（经过聚异丁烯增稠的三乙基"
+"铝），燃烧温度达到1200°C。"
 
 #: lang/json/AMMO_from_json.py
 msgid "7.62 NATO tracer"
@@ -993,7 +993,7 @@ msgstr[0] "8x40mm 无壳燃烧弹"
 #. ~ Description for PG-7VL rocket
 #: lang/json/AMMO_from_json.py
 msgid "93mm single-stage high-explosive ammunition for the RPG-7."
-msgstr "用于RPG-7的93mm单级高爆弹。"
+msgstr "用于RPG-7的93mm单级高爆火箭弹。"
 
 #: lang/json/AMMO_from_json.py
 msgid "9mm casing"
@@ -1208,7 +1208,7 @@ msgstr "一颗 30x113mm 高爆燃烧弹。主要用于打击无装甲车辆以�
 #. ~ Description for 40mm beanbag
 #: lang/json/AMMO_from_json.py
 msgid "A 40mm beanbag that deals massive, but less-lethal, force."
-msgstr "一发40mm防暴弹。冲击巨大，但致命性较低。"
+msgstr "一颗40mm防暴榴弹。冲击巨大，但致命性较低。"
 
 #. ~ Description for 40mm smoke cover
 #: lang/json/AMMO_from_json.py
@@ -1218,12 +1218,12 @@ msgstr "设计用来提供烟幕掩护的40mm榴弹。"
 #. ~ Description for 40mm buckshot
 #: lang/json/AMMO_from_json.py
 msgid "A 40mm grenade with a buckshot load."
-msgstr "一种40mm口径榴弹，并配有重铅弹头。"
+msgstr "一颗40mm独头榴弹，配有重铅弹头。"
 
 #. ~ Description for 40mm concussive
 #: lang/json/AMMO_from_json.py
 msgid "A 40mm grenade with a concussive explosion load."
-msgstr "一个40mm震荡爆炸榴弹。"
+msgstr "一颗40mm口径榴弹，配有震荡爆炸弹头。"
 
 #. ~ Description for 40mm flashbang
 #: lang/json/AMMO_from_json.py
@@ -1231,15 +1231,15 @@ msgid ""
 "A 40mm grenade with a flashbang load.  It will detonate with a blast of "
 "light and sound, designed to blind, deafen, and disorient anyone nearby."
 msgstr ""
-"一颗40mm闪光榴弹。它能在引爆后产生强光和巨响，对附近的所有目标产生致盲、致聋"
-"的效果，能够闪瞎任何合金制成的狗眼，包括氪金。"
+"一颗40mm闪光榴弹。它能在引爆后产生强光和巨响，对附近的所有目标产生致盲、失聪"
+"的效果。"
 
 #. ~ Description for 40mm frag
 #: lang/json/AMMO_from_json.py
 msgid ""
 "A 40mm grenade with a small explosive load and a high number of damaging "
 "fragments."
-msgstr "一颗40mm榴弹，能产生小型爆炸和大量冲击碎片。"
+msgstr "一颗40mm破片榴弹，能产生小型爆炸和大量冲击碎片。"
 
 #. ~ Description for 40mm incendiary
 #: lang/json/AMMO_from_json.py
@@ -1255,8 +1255,7 @@ msgstr ""
 msgid ""
 "A 40mm grenade with a teargas load.  It will burst in a cloud of highly "
 "incapacitating gas."
-msgstr ""
-"一颗40mm催泪瓦斯榴弹。它在爆炸后会产生高浓度的能使目标暂时丧失战斗力的气雾。"
+msgstr "一颗40mm催泪瓦斯榴弹。它爆炸后会散发的气雾能使目标暂时丧失战斗力。"
 
 #. ~ Description for 40mm flechette
 #: lang/json/AMMO_from_json.py
@@ -1268,7 +1267,9 @@ msgstr "一种40mm口径榴弹，配有能穿甲的镖形弹头。"
 msgid ""
 "A 40mm signal flare.  It will burn brightly for up to a minute, and will "
 "also leave a streak of smoke cover in its wake."
-msgstr "一个40mm闪光弹。它会明亮地燃烧大约一分钟，并留下一条烟带。"
+msgstr ""
+"一颗40mm照明榴弹。它会明亮地燃烧大约一分钟，并同时会在它的飞行轨迹上留下一道"
+"烟雾的痕迹。"
 
 #. ~ Description for small string
 #: lang/json/AMMO_from_json.py
@@ -1441,7 +1442,7 @@ msgstr "做成条状的肥皂。"
 #. ~ Description for pool ball
 #: lang/json/AMMO_from_json.py lang/json/GENERIC_from_json.py
 msgid "A colorful, hard ball.  Essentially a rock."
-msgstr "一颗彩色的硬球。本来是一块岩石。"
+msgstr "一颗彩色的硬球。基本上和一块石头一样。"
 
 #. ~ Description for 7.62x25mm JHP
 #: lang/json/AMMO_from_json.py
@@ -1509,7 +1510,7 @@ msgstr ""
 msgid ""
 "A hand-reloaded beanbag round for shotguns, not deadly but designed to "
 "disable."
-msgstr "一种霰弹枪用的防暴霰弹，不致命但是会非常疼。手工复装的型号。"
+msgstr "一种霰弹枪用的防暴霰弹，不致命但是会非常疼。这是手工复装的型号。"
 
 #. ~ Description for sand
 #: lang/json/AMMO_from_json.py
@@ -1586,12 +1587,12 @@ msgstr ""
 #: lang/json/AMMO_from_json.py
 msgid ""
 "A handful of glass marbles, useful as ammunition for slings or slingshots."
-msgstr "一把小玻璃弹珠，很适合当弹弓的弹药。"
+msgstr "一把小玻璃弹珠，很适合当抛石索和弹弓的弹药。"
 
 #. ~ Description for pebble
 #: lang/json/AMMO_from_json.py
 msgid "A handful of pebbles, useful as ammunition for slings or slingshots."
-msgstr "一把小石子，很适合当弹弓的弹药。"
+msgstr "一把小石子，很适合当抛石索和弹弓的弹药。"
 
 #. ~ Description for clay pellet
 #: lang/json/AMMO_from_json.py
@@ -1722,7 +1723,7 @@ msgid ""
 "explode on impact.  While it is now somewhat lighter than before, it can no "
 "longer be triggered manually."
 msgstr ""
-"经过魔改的便携核装置。外壳被取下，受到强烈冲击便会爆炸。似乎是比原先轻了点"
+"经过魔改的便携核弹装置。外壳被取下，受到强烈冲击便会爆炸。似乎是比原先轻了点"
 "儿，不过只能装进发射器里当做炮弹打出去了。"
 
 #. ~ Description for signal flare
@@ -1789,7 +1790,7 @@ msgid ""
 "onto a pipe, filled with improvised rocket fuel.  Short-range incendiary – "
 "handle with care!"
 msgstr ""
-"一管土制燃烧弹头火箭筒。其实就是在一个钢管中填了一罐可燃物凝胶作弹头和一些就"
+"一管土制燃烧弹头火箭筒。其实就是在一根钢管中填了一罐可燃物凝胶作弹头和一些就"
 "地取材的易燃液体作为推进燃料。燃烧弹的射程很短，注意使用方法，别烧到自己眉毛"
 "了！"
 
@@ -1800,7 +1801,7 @@ msgid ""
 "a pipe, filled with improvised rocket fuel.  Not very powerful, but can be "
 "made from scratch."
 msgstr ""
-"一管土制爆炸弹头火箭筒。其实就是在一个钢管中填了简单的爆炸物作弹头和一些就地"
+"一管土制爆炸弹头火箭筒。其实就是在一根钢管中填了简单的爆炸物作弹头和一些就地"
 "取材的易燃液体作为推进燃料。作为一管把一堆零零碎碎的东西凭凑起来的武器，伤害"
 "不太高。"
 
@@ -1811,7 +1812,7 @@ msgid ""
 "filled with improvised rocket fuel.  Horribly inaccurate, as can be expected "
 "of this grade of weapon, but packs a fierce punch... if it hits."
 msgstr ""
-"一支土制的火箭，用一条铁管，装满代用的火箭燃料，然后再在前端焊上一条尖刺。没"
+"一支土制的火箭，用一根钢管，装满代用的火箭燃料，然后再在前端焊上一条尖刺。没"
 "准头得可怕，但是如果能击中目标的话还是能打出一定的伤害的，土制武器做到做好也"
 "只能是这种等级了。"
 
@@ -1842,14 +1843,14 @@ msgstr "一块焊接着7块锋利刀片作裙裾的金属圆盘。 名实相符�
 #. ~ Description for lawn dart
 #: lang/json/AMMO_from_json.py
 msgid "A large plastic dart made for outdoor games."
-msgstr "一个为户外游戏所制造的大型塑料飞镖。"
+msgstr "一个在户外游戏中所使用的大型塑料飞镖。"
 
 #. ~ Description for throwing axe
 #: lang/json/AMMO_from_json.py
 msgid ""
 "A lightweight hatchet made for throwing.  Its ineffective cutting edge and "
 "light weight makes it unsuitable for use as a tool."
-msgstr "一把适合投掷的轻斧。所以基本上除了飞以外这把小斧头做不了任何事情。"
+msgstr "一把适合投掷的轻斧。它没有刀刃，而且重量太轻，这让它没法当作工具使用。"
 
 #. ~ Description for explosive crossbow bolt
 #: lang/json/AMMO_from_json.py
@@ -1857,7 +1858,9 @@ msgid ""
 "A lightweight, sharpened bolt made from some kind of metal.  It is fairly "
 "unwieldy and only provides moderate accuracy, due to being filled with "
 "explosives and fitted with an impact trigger."
-msgstr "由金属削尖制得的弩矢。比较轻但不好拿，精准性一般，里面装有炸药和引信。"
+msgstr ""
+"一根重量轻，顶端磨尖的某种金属弩矢。由于装填满了撞针引信及炸药，因此用起来很"
+"不方便，而且精度也一般。"
 
 #. ~ Description for nicotine liquid
 #: lang/json/AMMO_from_json.py
@@ -1888,13 +1891,14 @@ msgstr "一个边缘满是锯齿的金属圆盘。就像听上去那么危险。
 msgid ""
 "A misshapen chunk of steel.  Makes a decent weapon in a pinch, and is also "
 "useful for some crafting recipes."
-msgstr "这是变形的钢块，可以用来砸人，也可以用来做东西。"
+msgstr ""
+"一块扭曲变形的钢块。在紧要关头时可以用来当作武器，此外也可以用于制造物品。"
 
 #. ~ Description for plutonium cell
 #: lang/json/AMMO_from_json.py
 msgid ""
 "A nuclear-powered battery.  Used to charge advanced and rare electronics."
-msgstr "一枚核动力电池。用于某些罕见的高级电子设备。"
+msgstr "一枚核动力电池。用于给某些罕见的高级电子设备供电。"
 
 #. ~ Description for .36 paper cartridge
 #: lang/json/AMMO_from_json.py
@@ -1920,8 +1924,8 @@ msgid ""
 "A paper cartridge containing black powder and a metallic projectile.  "
 "Historically used to reload muzzleloaders in a more reasonable time."
 msgstr ""
-"一个装满了黑火药和金属弹丸的纸药卷，这玩意儿在历史上被用来加快老式燧发枪填弹"
-"装置那可怜的装载速度。"
+"一个装满了黑火药和金属弹丸的纸药卷。这玩意儿在历史上被用来加快老式燧发枪那可"
+"怜的装填速度。"
 
 #. ~ Description for paper shot cartridge
 #: lang/json/AMMO_from_json.py
@@ -1976,27 +1980,27 @@ msgstr "循环呼吸器面罩使用的过滤芯。"
 msgid ""
 "A rock the size of a baseball.  Makes a decent melee weapon, and is also "
 "good for throwing at enemies."
-msgstr "一个棒球大小的岩石。可以当一个凑合的近战武器，也可以砸向敌人。"
+msgstr "一个棒球大小的岩石。可以当一个凑合的近战武器，也可以当作投掷武器。"
 
 #. ~ Description for green carpet
 #: lang/json/AMMO_from_json.py
 msgid "A roll of green carpet."
-msgstr "一卷绿地毯"
+msgstr "一卷绿地毯。"
 
 #. ~ Description for duct tape
 #: lang/json/AMMO_from_json.py
 msgid "A roll of incredibly strong tape.  Its uses are innumerable."
-msgstr "有着难以置信黏性的强力胶带，用途非常多。"
+msgstr "一卷有着难以置信黏性的强力胶带，用途非常多。"
 
 #. ~ Description for medical tape
 #: lang/json/AMMO_from_json.py
 msgid "A roll of medical tape, similar to duct tape."
-msgstr "一卷医用胶布，很像强力胶带。"
+msgstr "一卷医用胶布，类似于强力胶带。"
 
 #. ~ Description for purple carpet
 #: lang/json/AMMO_from_json.py
 msgid "A roll of purple carpet."
-msgstr "一卷紫地毯"
+msgstr "一卷紫地毯。"
 
 #. ~ Description for red carpet
 #: lang/json/AMMO_from_json.py
@@ -2006,7 +2010,7 @@ msgstr "一卷红地毯。"
 #. ~ Description for yellow carpet
 #: lang/json/AMMO_from_json.py
 msgid "A roll of yellow carpet."
-msgstr "一卷黄地毯"
+msgstr "一卷黄地毯。"
 
 #. ~ Description for battery
 #: lang/json/AMMO_from_json.py
@@ -2198,6 +2202,16 @@ msgstr ""
 "一个小型圆筒，装满了粘性炸药和金属碎屑。相当有威力，但对使用者也难以预测，相"
 "当危险。"
 
+#. ~ Description for shock bomblet
+#: lang/json/AMMO_from_json.py
+msgid ""
+"A small cylinder that discharges a sizable static charge when activated.  "
+"Used to stun crowds and inflict nonphysical damage.  Can be loaded into a "
+"specially-designed carrier manhack with the proper tools so it can use them."
+msgstr ""
+"一小罐激活后可产生范围可观的静电场的小型炸弹。能击昏一大群怪物并造成非物理伤"
+"害。以使用适宜工具搭载其在特制无人机上使用。"
+
 #. ~ Description for stun bomblet
 #: lang/json/AMMO_from_json.py
 msgid ""
@@ -2222,7 +2236,7 @@ msgstr "一小团细线，能补充缝纫工具箱。"
 #. ~ Description for solder
 #: lang/json/AMMO_from_json.py
 msgid "A small spool of solder, able to be used in ammunition and electronics."
-msgstr "一小卷焊料，能够用在弹药和电子制品的制作过程中。"
+msgstr "一小卷焊料，可以用来制造弹药和电子制品。"
 
 #. ~ Description for lead
 #: lang/json/AMMO_from_json.py
@@ -2293,14 +2307,15 @@ msgstr ""
 #. ~ Description for lamp oil
 #: lang/json/AMMO_from_json.py
 msgid "A thin and clean-burning oil made for use in oil lamps."
-msgstr "一份灯油，在油灯中使用，可以完全燃烧而不产生烟。"
+msgstr "一份无烟轻型灯油，在油灯中使用。"
 
 #. ~ Description for throwing knife
 #: lang/json/AMMO_from_json.py
 msgid ""
 "A thin and flat knife made for throwing.  Its ineffective cutting edge and "
 "odd shape makes it unsuitable for use as a tool."
-msgstr "小李飞刀，例不虚发。所以基本上除了飞以外这把小刀做不了任何事情。"
+msgstr ""
+"小李飞刀，例不虚发。它没有刀刃，而且形状也很怪异，这让它没法当作工具使用。"
 
 #. ~ Description for aluminum foil
 #: lang/json/AMMO_from_json.py
@@ -2836,7 +2851,7 @@ msgstr ""
 msgid ""
 "Copper scraps.  Could be used to craft something, for example makeshift "
 "shotgun shells."
-msgstr "废铜料。可用于制造些有用的东西，例如自制霰弹枪子弹。"
+msgstr "废铜料。可用于制造些有用的东西，例如自制霰弹。"
 
 #. ~ Description for bronze
 #: lang/json/AMMO_from_json.py
@@ -2931,7 +2946,7 @@ msgstr ""
 msgid ""
 "Gasoline is a highly flammable liquid.  When under pressure, it has the "
 "potential for violent explosion."
-msgstr "汽油是一种极其易燃的液体，当承受压力时时，它很有可能会爆炸。"
+msgstr "汽油是一种极其易燃的液体，当承受压力时，它很有可能会爆炸。"
 
 #: lang/json/AMMO_from_json.py
 msgid "H&K 12mm"
@@ -3129,8 +3144,8 @@ msgid ""
 "energy based weapons.  The result was the standard fusion pack, capable of "
 "delivering bolts of superheated gas at near light speed with no recoil."
 msgstr ""
-"在21世纪中期，军方开始寄希望于能量武器。结果就是它了，能射出接近光速的高温气"
-"体，还没有任何后坐力。"
+"在21世纪中期，军方开始寄希望于能量武器。其研究成果就是标准核聚变能源包，能射"
+"出接近光速的高温气体，还没有任何后坐力。"
 
 #. ~ Description for bootleg fusion pack
 #: lang/json/AMMO_from_json.py
@@ -3140,8 +3155,8 @@ msgid ""
 "delivering bolts of superheated gas at near light speed with no recoil.  "
 "This one has been hand-crafted from spare parts."
 msgstr ""
-"在21世纪中期，军方开始寄希望于能量武器。结果就是它了，能射出接近光速的高温气"
-"体，还没有任何后坐力。这是手工制造的简易替代品。"
+"在21世纪中期，军方开始寄希望于能量武器。其研究成果就是标准核聚变能源包，能射"
+"出接近光速的高温气体，还没有任何后坐力。这是手工制造的简易替代品。"
 
 #. ~ Description for 6.54x42mm 9N8
 #: lang/json/AMMO_from_json.py
@@ -3261,7 +3276,7 @@ msgstr "弓箭用的塑料箭镞。安装在箭上将会增加伤害和穿透性
 #. ~ Description for copper wire
 #: lang/json/AMMO_from_json.py
 msgid "Plastic jacketed copper cable of the type used in small electronics."
-msgstr "这是塑料护套的铜芯电缆，是小型电子产品中使用的类型。"
+msgstr "包裹着塑料外皮的铜芯电线。一般用于小型电子产品中。"
 
 #. ~ Description for cement
 #: lang/json/AMMO_from_json.py
@@ -3495,7 +3510,7 @@ msgstr ""
 msgid ""
 "The .32 ACP was a popular handgun cartridge in the 20th century.  Not so "
 "powerful as the .38 or the 9mm though."
-msgstr ".32 ACP弹是20世纪流行的手枪弹药，尽管威力小于.38弹或者9mm弹。"
+msgstr ".32 ACP弹是一种20世纪流行的手枪弹药。其威力不如.38弹及9mm弹。"
 
 #. ~ Description for .50 BMG Ball
 #: lang/json/AMMO_from_json.py
@@ -3528,9 +3543,9 @@ msgid ""
 "one of the most deadly rounds available, offset only by its drastic recoil "
 "and noise."
 msgstr ""
-".700 Nitro Express是一种为远距离射击所设计的一种非常强力的步枪子弹，它优秀的"
-"准确度和穿甲性能使其成为最致命的弹药之一，这足够弥补其巨大的后坐力和噪音所带"
-"来的负面影响。"
+".700 Nitro Express是一种非常强力的步枪子弹，设计用于远距离射击。它优秀的准确"
+"度和穿甲性能使其成为最致命的弹药之一，这足够弥补其巨大的后坐力和噪音所带来的"
+"负面影响。"
 
 #. ~ Description for reloaded 5.45x39mm 7N10
 #: lang/json/AMMO_from_json.py
@@ -3559,6 +3574,16 @@ msgid ""
 "a ferromagnetic metal, probably cobalt."
 msgstr "用于H&K电磁枪的子弹。由磁性金属制成，很可能是钴。"
 
+#. ~ Description for caccodemon spawner
+#: lang/json/AMMO_from_json.py
+msgid "The archdemon will summon these, and you will die."
+msgstr "大恶魔会召唤这些巨脑魔，你死定了。"
+
+#. ~ Description for archvile flame vent generator
+#: lang/json/AMMO_from_json.py
+msgid "The archvile will summon flame from hell to smite its foes."
+msgstr "大邪魔会召唤一条地狱之火毁灭它的敌人。"
+
 #. ~ Description for quicklime
 #: lang/json/AMMO_from_json.py
 msgid ""
@@ -3577,6 +3602,11 @@ msgid ""
 "fuel in a charcoal kiln."
 msgstr ""
 "中断了制造木炭过程，在半途就拆解取出来的东西。无用，除了塞回木炭窑炉当燃料。"
+
+#. ~ Description for vile flame generator
+#: lang/json/AMMO_from_json.py
+msgid "The vile will summon a rift of flame to smite its foes."
+msgstr "邪魔会召唤一道火焰裂痕毁灭它的敌人。"
 
 #. ~ Description for large acidbomb
 #: lang/json/AMMO_from_json.py
@@ -3612,7 +3642,7 @@ msgstr "卷烟丝用的薄纸带。"
 msgid ""
 "These metal pellets are propelled with the help of electromagnets, therefore "
 "they do not produce sound, flash or heat signature."
-msgstr "这些金属小球依靠电磁推进，不产生任何声音、闪光或热信号。"
+msgstr "这些金属小球被电磁力加速射出，因此不会产生任何声音、闪光或热信号。"
 
 #. ~ Description for 7.62 NATO tracer
 #: lang/json/AMMO_from_json.py
@@ -3695,8 +3725,8 @@ msgid ""
 "surface and increase burning temperature, meant to be used with a "
 "flamethrower."
 msgstr ""
-"这是一种混合着汽油的固体物质，由于汽油附着在其表面燃烧，温度可以达到很高。主"
-"要用来烧火锅涮人片，当然火焰喷射器也可以使用。"
+"一种混合了一些特殊成分的汽油，使得其可以粘附在物体表面并增加燃烧时的温度。需"
+"要配合火焰喷射器使用。"
 
 #. ~ Description for metal arrow
 #: lang/json/AMMO_from_json.py
@@ -3748,7 +3778,7 @@ msgstr ""
 #. ~ Description for tin
 #: lang/json/AMMO_from_json.py
 msgid "Tin and pewter scraps.  Usable in making ammo."
-msgstr "锡及铅锡合金碎片，可以用来制造弹药。"
+msgstr "锡及铅锡合金碎片。可以用来制造弹药。"
 
 #. ~ Description for plant fiber
 #: lang/json/AMMO_from_json.py
@@ -3787,7 +3817,8 @@ msgid ""
 "Weak shotgun ammunition.  Designed for hunting birds and other small game, "
 "its applications in combat are very limited."
 msgstr ""
-"低伤害的霰弹枪弹药。用来狩猎鸟类和其他小玩意还行，其在战斗中的应用极为有限。"
+"威力有限的霰弹枪弹药。用来狩猎鸟类和其他小玩意还行，在战斗中的实用性极为有"
+"限。"
 
 #. ~ Description for yarn
 #: lang/json/AMMO_from_json.py
@@ -3853,6 +3884,11 @@ msgstr[0] "硝酸铵"
 msgid "anti-tank guided missile"
 msgid_plural "anti-tank guided missiles"
 msgstr[0] "反坦克导弹"
+
+#: lang/json/AMMO_from_json.py
+msgid "archvile flame vent generator"
+msgid_plural "archvile flame vent generators"
+msgstr[0] "大邪魔喷火管发生器"
 
 #: lang/json/AMMO_from_json.py
 msgid "arrowhead"
@@ -3963,6 +3999,11 @@ msgstr[0] "青铜"
 #: lang/json/AMMO_from_json.py
 msgid "cacco-plasma."
 msgstr "巨脑魔喷出的热等离子体。"
+
+#: lang/json/AMMO_from_json.py
+msgid "caccodemon spawner"
+msgid_plural "caccodemon spawners"
+msgstr[0] "巨脑魔生成器"
 
 #: lang/json/AMMO_from_json.py
 msgid "calcium carbide"
@@ -4266,7 +4307,7 @@ msgstr[0] "复装.22猎鼠弹"
 #: lang/json/AMMO_from_json.py
 msgid "handmade 20x66mm buckshot"
 msgid_plural "handmade 20x66mm buckshots"
-msgstr[0] "26X66mm 手工猎鹿弹"
+msgstr[0] "20X66mm 手工猎鹿弹"
 
 #: lang/json/AMMO_from_json.py
 msgid "handmade 20x66mm flechette"
@@ -4346,7 +4387,7 @@ msgstr[0] "过氧化氢（浓缩）"
 #: lang/json/AMMO_from_json.py
 msgid "incendiary"
 msgid_plural "incendiaries"
-msgstr[0] "易燃原料"
+msgstr[0] "易燃剂"
 
 #: lang/json/AMMO_from_json.py
 msgid "incendiary home-made rocket"
@@ -4456,12 +4497,12 @@ msgstr[0] "镁粉"
 #: lang/json/AMMO_from_json.py
 msgid "makeshift 120mm slug"
 msgid_plural "makeshift 120mm slugs"
-msgstr[0] "手工120mm独头炮弹"
+msgstr[0] "自制120mm独头炮弹"
 
 #: lang/json/AMMO_from_json.py
 msgid "makeshift shotgun shot"
 msgid_plural "makeshift shotgun shot"
-msgstr[0] "手工霰弹"
+msgstr[0] "自制霰弹"
 
 #: lang/json/AMMO_from_json.py
 msgid "marble"
@@ -4516,7 +4557,7 @@ msgstr[0] "酸液炸弹（微）"
 #: lang/json/AMMO_from_json.py lang/json/ammunition_type_from_json.py
 msgid "modified mininuke"
 msgid_plural "modified mininukes"
-msgstr[0] "改良迷你核弹"
+msgstr[0] "改装微型核弹"
 
 #: lang/json/AMMO_from_json.py
 msgid "mortar"
@@ -5099,6 +5140,11 @@ msgid_plural "shatter bolts"
 msgstr[0] "爆散弩矢"
 
 #: lang/json/AMMO_from_json.py
+msgid "shock bomblet"
+msgid_plural "shock bomblets"
+msgstr[0] "电击小型炸弹"
+
+#: lang/json/AMMO_from_json.py
 msgid "shotgun beanbag"
 msgid_plural "shotgun beanbag"
 msgstr[0] "沙包弹"
@@ -5218,7 +5264,7 @@ msgid "stone javelin"
 msgid_plural "stone javelins"
 msgstr[0] "石尖标枪"
 
-#: lang/json/AMMO_from_json.py
+#: lang/json/AMMO_from_json.py lang/json/TOOL_from_json.py
 msgid "stun bomblet"
 msgid_plural "stun bomblets"
 msgstr[0] "震击小型炸弹"
@@ -5312,6 +5358,11 @@ msgstr[0] "狩猎无翎羽小箭"
 msgid "unused .22 casing"
 msgid_plural "unused .22 casings"
 msgstr[0] ".22弹壳（新）"
+
+#: lang/json/AMMO_from_json.py
+msgid "vile flame generator"
+msgid_plural "vile flame generators"
+msgstr[0] "邪魔火焰发生器"
 
 #: lang/json/AMMO_from_json.py
 msgid "vortex core"
@@ -5684,7 +5735,7 @@ msgstr "由圆形、有光泽的珍珠制成的项链，它的前主人一定是
 #: lang/json/ARMOR_from_json.py
 msgid ""
 "A colorful and ridiculous costume fit for a clown.  Provides decent storage."
-msgstr "一件五颜六色的搞笑的衣服，扮小丑必备，有很多口袋。"
+msgstr "一件五颜六色的搞笑的衣服，扮小丑必备。提供了不错的储物空间。"
 
 #. ~ Description for fast draw holster
 #: lang/json/ARMOR_from_json.py
@@ -6088,8 +6139,7 @@ msgid ""
 "A full body fursuit in the form of an anthropomorphic wolf.  It is quite "
 "encumbering and has little storage but is very warm."
 msgstr ""
-"整套狼外形的套装。很累赘并且只有一点存储空间，但是非常暖和。提升对羊的攻击"
-"力，同时让你不自觉的想要吃掉带红帽子的人。谢天谢地！马里奥还活着。"
+"一套全身狼人外形的毛皮套装。十分累赘，而且没多少存储空间，但是非常暖和。"
 
 #. ~ Description for gas mask
 #: lang/json/ARMOR_from_json.py
@@ -6103,14 +6153,14 @@ msgstr "一套完整的防毒面具，能够非常有效抵抗烟尘和催泪瓦
 msgid ""
 "A full-body costume in the form of an anthropomorphic dinosaur.  It is quite "
 "encumbering and has little storage but is very warm."
-msgstr "一件外形是拟人的恐龙的服装，它很累赘，只存放一点点东西，但是很温暖。"
+msgstr "一套全身恐龙外形的服装。十分累赘，而且没多少存储空间，但是非常暖和。"
 
 #. ~ Description for suit
 #: lang/json/ARMOR_from_json.py
 msgid ""
 "A full-body cotton suit.  Makes the apocalypse a truly gentlemanly "
 "experience."
-msgstr "一套贴身棉西装，让你体会到什么叫做绅士。"
+msgstr "一套全身棉制西装。在末日来临之时也要有绅士风范。"
 
 #. ~ Description for wetsuit
 #: lang/json/ARMOR_from_json.py
@@ -6120,7 +6170,7 @@ msgstr "一件全身氯丁橡胶潜水服。"
 #. ~ Description for tuxedo
 #: lang/json/ARMOR_from_json.py
 msgid "A full-body tuxedo.  Makes the apocalypse feel a little more classy."
-msgstr "一套全身燕尾服。穿起来很漂亮。"
+msgstr "一套全身燕尾服。在末日来临之时也要有贵族风范。"
 
 #. ~ Description for chainmail hauberk
 #: lang/json/ARMOR_from_json.py
@@ -6153,7 +6203,8 @@ msgid ""
 "A fur pelt tied into a loincloth.  Covers your modesty, but not much else.  "
 "Now you are a true barbarian warrior."
 msgstr ""
-"用毛皮缝制的遮羞布，遮羞效果请自行脑补。总之穿起来你就是真正的原始人战士了！"
+"用几片毛皮缝制的遮羞布，遮羞效果请自行脑补。总之穿起来你就是真正的原始人战士"
+"了！"
 
 #. ~ Description for pair of fuzzy cat ears
 #: lang/json/ARMOR_from_json.py
@@ -6376,7 +6427,7 @@ msgstr ""
 #. ~ Description for fur pants
 #: lang/json/ARMOR_from_json.py
 msgid "A hefty pair of fur-lined pants."
-msgstr "这是一条沉重的毛皮裤子。"
+msgstr "一条有着沉重毛皮内衬的裤子。"
 
 #. ~ Description for pot helmet
 #: lang/json/ARMOR_from_json.py
@@ -6631,7 +6682,7 @@ msgstr "一个挂在臀部的皮枪套，可以放一把手枪尺寸的枪支。
 msgid ""
 "A light and breezy cotton dress.  Though cool and comfortable to wear, it "
 "lacks any storage space."
-msgstr "清凉的棉布裙。虽然穿起来凉爽舒适，但它没有任何的存储空间。"
+msgstr "一件轻便清凉的棉质吊带裙。虽然穿起来凉爽舒适，但没有任何存储空间。"
 
 #. ~ Description for mail carrier shirt
 #: lang/json/ARMOR_from_json.py
@@ -6709,7 +6760,7 @@ msgstr ""
 #: lang/json/ARMOR_from_json.py
 msgid ""
 "A long cotton dress.  Though comfortable to wear, it lacks any storage space."
-msgstr "这是一件棉质礼服，虽然非常漂亮但穿着它活动会很困难。没有任何储物空间。"
+msgstr "一件棉质长连衣裙。虽然穿着很舒适，但没有任何储物空间。"
 
 #. ~ Description for long underwear top
 #: lang/json/ARMOR_from_json.py
@@ -6730,7 +6781,7 @@ msgstr "长而宽松大袖管的白袍，阿拉伯传统服饰。"
 #. ~ Description for long-sleeved shirt
 #: lang/json/ARMOR_from_json.py
 msgid "A long-sleeved cotton shirt."
-msgstr "一件长袖的全棉衬衣"
+msgstr "一件长袖的全棉衬衣。"
 
 #. ~ Description for striped shirt
 #: lang/json/ARMOR_from_json.py
@@ -6896,7 +6947,7 @@ msgstr "品质优良的金质项链，有着某个被遗忘的信仰的徽记。
 #. ~ Description for wetsuit hood
 #: lang/json/ARMOR_from_json.py
 msgid "A neoprene hood, commonly worn by divers."
-msgstr "一个橡胶的兜帽，通常是潜水员穿的"
+msgstr "一个橡胶的兜帽，通常是潜水员穿的。"
 
 #. ~ Description for silver bracelet
 #: lang/json/ARMOR_from_json.py
@@ -7011,16 +7062,14 @@ msgstr "一双黑色的手套，紧紧的贴着皮肤因此不会妨碍需要灵
 msgid ""
 "A pair of black leather chaps.  Very tough, and light, but doesn't offer any "
 "storage."
-msgstr "一条黑色的皮裹腿。非常贴身又轻盈，但是没有口袋。"
+msgstr "一条黑色的皮裹腿。非常坚韧又轻盈，但是没有口袋。"
 
 #. ~ Description for leather pants
 #: lang/json/ARMOR_from_json.py
 msgid ""
 "A pair of black leather pants.  Very tough, but cumbersome and without much "
 "storage."
-msgstr ""
-"黑色的皮革裤。又难看又笨重又不能装几个东西，但是它硬又黑，能提供不错的防护，"
-"穿着也挺酷。"
+msgstr "一条黑色皮裤。非常坚韧，但穿着很笨重而且装不了多少东西。"
 
 #. ~ Description for pair of tabi
 #: lang/json/ARMOR_from_json.py
@@ -7030,7 +7079,7 @@ msgstr "一双黑色的布袜，搭配日本传统服装。"
 #. ~ Description for jeans
 #: lang/json/ARMOR_from_json.py
 msgid "A pair of blue jeans with two deep pockets."
-msgstr "有着两个大口袋的蓝色牛仔裤。"
+msgstr "一件有着两个深口袋的蓝色牛仔裤。"
 
 #. ~ Description for blue work pants
 #: lang/json/ARMOR_from_json.py
@@ -7040,7 +7089,7 @@ msgstr "一条蓝色的裤子，工作时穿穿还是不错的。"
 #. ~ Description for briefs
 #: lang/json/ARMOR_from_json.py
 msgid "A pair of briefs.  Comfortable underwear worn by men."
-msgstr "一条三角内裤。裆部有开口。"
+msgstr "一条三角内裤。男性常穿的舒适内衣。"
 
 #. ~ Description for pair of bronze greaves
 #: lang/json/ARMOR_from_json.py
@@ -7152,16 +7201,14 @@ msgstr ""
 #. ~ Description for mail carrier shorts
 #: lang/json/ARMOR_from_json.py
 msgid "A pair of dark blue shorts, the kind used by postal service workers."
-msgstr "一条深蓝色的短裤，像是邮政工作人员常穿的那种。"
+msgstr "一条深蓝色的短裤，就是邮差们常穿的那种。"
 
 #. ~ Description for denim shorts
 #: lang/json/ARMOR_from_json.py
 msgid ""
 "A pair of denim shorts.  Thick and tough, they provide excellent protection "
 "from cuts."
-msgstr ""
-"一条牛仔短裤。结实耐磨，连折叠刀都无法将它划破，当然主要是用来衬托你的翘臀，"
-"如果你有的话。"
+msgstr "一条牛仔短裤。厚实而坚韧，提供了极佳的劈砍防护。"
 
 #. ~ Description for pair of bag gloves
 #: lang/json/ARMOR_from_json.py
@@ -7226,7 +7273,7 @@ msgstr "一双自制的钢背凯夫拉手套，易于穿戴，在极端环境下
 #. ~ Description for pair of heels
 #: lang/json/ARMOR_from_json.py
 msgid "A pair of high heels.  Difficult to even walk in."
-msgstr "一双高跟鞋，穿起来走路PIAPIA的。"
+msgstr "一双高跟鞋。穿着它走路都有点困难。"
 
 #. ~ Description for pair of 2-by-arm guards
 #: lang/json/ARMOR_from_json.py
@@ -7260,8 +7307,8 @@ msgid ""
 "A pair of inline skates.  Very fast on flat floors, but they make it hard to "
 "move on rough terrain, or to dodge effectively."
 msgstr ""
-"一双直排轮滑鞋，在平地上非常迅速。但是在崎岖地形上会让你举步维艰，并且更难躲"
-"闪。"
+"一双直排轮滑鞋。在平地上移动速度很快，但是在崎岖地形上会让你举步维艰，并且更"
+"难躲闪。"
 
 #. ~ Description for pair of iron greaves
 #: lang/json/ARMOR_from_json.py
@@ -7271,12 +7318,12 @@ msgstr "一对有着简易皮内衬的铁制护胫。"
 #. ~ Description for pants
 #: lang/json/ARMOR_from_json.py
 msgid "A pair of khaki pants.  Slightly warmer than jeans."
-msgstr "这是卡其裤，比牛仔裤要保暖些。"
+msgstr "一条卡其裤，比牛仔裤要稍微保暖些。"
 
 #. ~ Description for shorts
 #: lang/json/ARMOR_from_json.py
 msgid "A pair of khaki shorts."
-msgstr "一条卡其裤。"
+msgstr "一条卡其短裤。"
 
 #. ~ Description for pair of knee pads
 #: lang/json/ARMOR_from_json.py
@@ -7310,7 +7357,7 @@ msgstr "一条浅蓝色的裤子，工作时穿穿还是不错的。"
 #. ~ Description for long underwear bottom
 #: lang/json/ARMOR_from_json.py
 msgid "A pair of long underwear that help to maintain body temperature."
-msgstr "一条大裤衩，有保暖效用。有一种寒冷，叫做忘穿秋裤！"
+msgstr "一条保暖内衣长裤。有一种寒冷，叫做忘穿秋裤！"
 
 #. ~ Description for pair of hard arm guards
 #: lang/json/ARMOR_from_json.py
@@ -7320,7 +7367,7 @@ msgstr "这双橡胶护臂外面覆盖了一层厚塑料模具，能承受更多
 #. ~ Description for pair of swimming booties
 #: lang/json/ARMOR_from_json.py
 msgid "A pair of neoprene swimming booties, with individual toes."
-msgstr "一对合成橡胶制的泳袜，是五趾袜哦！"
+msgstr "一双橡胶制的泳袜，脚趾部分是分开的。"
 
 #. ~ Description for pair of winter gloves
 #: lang/json/ARMOR_from_json.py
@@ -7340,12 +7387,12 @@ msgstr "一套为摩托车手和越野自行车手所使用的裤子。"
 #. ~ Description for cargo pants
 #: lang/json/ARMOR_from_json.py
 msgid "A pair of pants lined with pockets, offering lots of storage."
-msgstr "一条衬有口袋的裤子，可以放很多东西。"
+msgstr "一条衬有许多口袋的裤子，可以放很多东西。"
 
 #. ~ Description for ski pants
 #: lang/json/ARMOR_from_json.py
 msgid "A pair of pants meant for alpine skiing."
-msgstr "这是条为高山滑雪而设计的裤子。"
+msgstr "一条专门为高山滑雪而设计的裤子。"
 
 #. ~ Description for makeshift knapsack
 #: lang/json/ARMOR_from_json.py
@@ -7397,7 +7444,7 @@ msgstr "一双橡胶靴，在清理腐蚀性物质时经常使用"
 msgid ""
 "A pair of rubber flippers worn on the feet which improve swimming speed "
 "while greatly impeding the wearer's ability to walk."
-msgstr "一双穿在脚上的橡胶脚蹼，可以提高游泳速度，但也极大地阻碍了行走。"
+msgstr "一双穿在脚上的橡胶脚蹼，可以提高游泳速度，但走起路来非常困难。"
 
 #. ~ Description for pair of rubber gloves
 #: lang/json/ARMOR_from_json.py
@@ -7485,7 +7532,7 @@ msgstr "一双保暖的拳击手套，但是它们实在是太笨重了。"
 #. ~ Description for pair of beekeeping gloves
 #: lang/json/ARMOR_from_json.py
 msgid "A pair of white beekeeping gloves made out of smooth leather."
-msgstr "一双光滑皮革制成的养蜂手套。"
+msgstr "一双光滑皮革制成的白色养蜂手套。"
 
 #. ~ Description for pair of gi tabi
 #: lang/json/ARMOR_from_json.py
@@ -7718,7 +7765,7 @@ msgid ""
 "A short, breezy cotton skirt.  Easy to move in, but only has a single small "
 "pocket."
 msgstr ""
-"一个短小的、清凉的棉裙。移动方便，但只有一个小口袋，放不了什么东西进去。"
+"一条短小而清凉的棉短裙。穿着很方便，但只有一个小口袋，放不了什么东西进去。"
 
 #: lang/json/ARMOR_from_json.py
 msgid ""
@@ -7729,7 +7776,7 @@ msgstr "这是棉质的短袖衬衫，上面印着\"失聪老公，艹我\"的�
 #. ~ Description for polo shirt
 #: lang/json/ARMOR_from_json.py
 msgid "A short-sleeved cotton shirt, slightly thicker than a t-shirt."
-msgstr "这是棉质的短袖Polo衫，比T恤衫稍厚一点。"
+msgstr "这是一件短袖棉衬衫，比T恤衫稍厚一点。"
 
 #. ~ Description for t-shirt
 #: lang/json/ARMOR_from_json.py
@@ -7760,7 +7807,7 @@ msgstr "一片用于遮挡眼睛的简单的布料。"
 #. ~ Description for fur bikini top
 #: lang/json/ARMOR_from_json.py
 msgid "A simple fur bikini top."
-msgstr "一件简易的毛茸茸的比基尼罩罩，泰迪熊也许会喜欢。"
+msgstr "一件简单的毛皮比基尼罩罩。泰迪熊也许会喜欢。"
 
 #. ~ Description for tunic
 #: lang/json/ARMOR_from_json.py
@@ -7780,7 +7827,7 @@ msgstr ""
 #. ~ Description for leather bikini top
 #: lang/json/ARMOR_from_json.py
 msgid "A simple leather bikini top."
-msgstr "一件皮质的比基尼罩罩。"
+msgstr "一件简单的皮质比基尼罩罩。"
 
 #. ~ Description for handmade holy symbol
 #: lang/json/ARMOR_from_json.py
@@ -7828,7 +7875,7 @@ msgstr "一个简单的单肩挎包。比一般背包更方便拿取东西，不
 msgid ""
 "A simple white undershirt.  Worn beneath your regular clothes, it provides a "
 "little extra warmth."
-msgstr "一件白色衬衣。能够起到一点点保暖作用。"
+msgstr "一件简单的白色汗衫。穿在其他衣物下，能够起到一点点保暖作用。"
 
 #. ~ Description for wool poncho
 #: lang/json/ARMOR_from_json.py
@@ -7861,12 +7908,12 @@ msgstr "覆盖了躯干和腿部的无袖布衣。"
 #. ~ Description for camo tank top
 #: lang/json/ARMOR_from_json.py
 msgid "A sleeveless cotton shirt with camouflage dye.  Very easy to move in."
-msgstr "涂上迷彩色的无袖棉背心。"
+msgstr "一件无袖迷彩棉背心。穿着很方便。"
 
 #. ~ Description for tank top
 #: lang/json/ARMOR_from_json.py
 msgid "A sleeveless cotton shirt.  Very easy to move in."
-msgstr "无袖棉衬衫，走路更方便！"
+msgstr "一件无袖棉衬衫。穿着很方便。"
 
 #. ~ Description for newsboy cap
 #: lang/json/ARMOR_from_json.py
@@ -7887,7 +7934,7 @@ msgstr "这是一个小巧背包，虽然不大但却能装不少东西。"
 msgid ""
 "A small camisole made from silk.  Typically used as an undergarment, it is "
 "light and easy to wear."
-msgstr "丝质吊带小背心。轻便舒适，做内衣也不错。"
+msgstr "一件丝质吊带小背心。通常作为内衣穿着，轻便舒适，穿着方便。"
 
 #. ~ Description for ankle holster
 #: lang/json/ARMOR_from_json.py
@@ -8019,7 +8066,7 @@ msgstr ""
 msgid ""
 "A snug, black leather corset.  Has no pockets, but its thick material "
 "provides good protection from harm."
-msgstr "一件紧身的黑色皮衣，没有口袋，但是厚实的材料会很好地保护你。"
+msgstr "一件紧身的黑色皮衣，没有口袋，但是厚实材质提供了不错的伤害防护。"
 
 #. ~ Description for cotton hat
 #: lang/json/ARMOR_from_json.py
@@ -8086,7 +8133,7 @@ msgstr ""
 msgid ""
 "A sturdy nylon bra to provide additional support during physical movement.  "
 "Typically worn when exercising, it clings to the skin and is easy to wear."
-msgstr "结实的尼龙胸罩，运动型。保证不会因为运动激烈而走光。"
+msgstr "结实的尼龙胸罩，运动型。通常在锻炼时穿着，贴合肌肤而且穿着简单。"
 
 #. ~ Description for scavenger cowl
 #: lang/json/ARMOR_from_json.py
@@ -8167,7 +8214,7 @@ msgstr ""
 msgid ""
 "A suit of snug, black leather.  Has no pockets, but does feature an "
 "abundance of unusually located zippers."
-msgstr "没有口袋，但是在有些部位有拉链，你懂的。"
+msgstr "一件贴身的黑色皮衣。没有口袋，但是在有些诡异的部位有拉链，你懂的。"
 
 #. ~ Description for hoodie
 #: lang/json/ARMOR_from_json.py
@@ -8178,7 +8225,7 @@ msgstr "一件带有兜帽的卫衣。小哥，你的黑金古刀呢？"
 #. ~ Description for flag shirt
 #: lang/json/ARMOR_from_json.py
 msgid "A t-shirt embroidered with the pattern of an American flag."
-msgstr "一件带着星条旗花纹的t恤。"
+msgstr "一件印着星条旗花纹的T恤衫。"
 
 #: lang/json/ARMOR_from_json.py
 msgid ""
@@ -8243,7 +8290,7 @@ msgstr ""
 #. ~ Description for sheriff's shirt
 #: lang/json/ARMOR_from_json.py
 msgid "A tan button-down shirt with long sleeves."
-msgstr "棕褐色钮扣的长袖衬衫。"
+msgstr "一件棕褐色的长袖纽扣衬衫。西部片里警长常常穿着它。"
 
 #. ~ Description for detective badge
 #: lang/json/ARMOR_from_json.py
@@ -8307,7 +8354,7 @@ msgstr ""
 msgid ""
 "A thick leather body suit made for protection while riding motorcycles.  "
 "Light and very comfortable."
-msgstr "这件厚皮外套可以在骑摩托车的时候保护你，轻巧而舒适。"
+msgstr "这件厚皮外套可以在骑摩托车的时候保护你。轻巧而舒适。"
 
 #. ~ Description for leather duster
 #: lang/json/ARMOR_from_json.py
@@ -8391,8 +8438,8 @@ msgid ""
 "A thin, short-sleeved jumpsuit updated for the trans-human who needs full-"
 "body clothing.  Provides some storage and adjustable to minimize encumbrance."
 msgstr ""
-"一件为某些需要全身着装的特殊人群设计的面料轻薄的短袖连身衣，可以提供一些储藏"
-"空间和最基本的环境防护。"
+"一件轻薄的短袖连身衣，为某些需要全身着装的超人类所设计。可以提供一些储藏空间"
+"并经过调整以使累赘最低。"
 
 #. ~ Description for jumpsuit
 #: lang/json/ARMOR_from_json.py
@@ -8400,15 +8447,15 @@ msgid ""
 "A thin, short-sleeved jumpsuit; similar to those worn by prisoners.  "
 "Provides decent storage and is not very encumbering."
 msgstr ""
-"一件薄的短袖连身衣，和犯人穿的囚服差不多。口袋里能装一些东西，而且它也不算笨"
-"重。"
+"一件轻薄的短袖连身衣，和犯人穿的囚服差不多。可以提供一些储藏空间，而且也不太"
+"累赘。"
 
 #. ~ Description for bondage mask
 #: lang/json/ARMOR_from_json.py
 msgid ""
 "A tight mask made of black leather.  The eyes and mouth can be closed using "
 "zippers."
-msgstr "黑色皮革做的面具，眼部和口部有拉链。"
+msgstr "一件黑色皮革做的面具，眼部和口部有拉链，你懂的。"
 
 #. ~ Description for arm splint
 #. ~ Description for leg splint
@@ -8426,13 +8473,12 @@ msgstr "一个面部以钢丝网制成的击剑护脸。"
 msgid ""
 "A tough hooded jacket with lots of pockets, thickly padded for warmth.  "
 "Favored by the military."
-msgstr ""
-"一件结实的外套，上面带有很多口袋，有防寒衬里。军队指定用品，嗯，挺帅的。"
+msgstr "一件结实的外套，上面缝着不少口袋，有防寒衬里。军队指定用品。"
 
 #. ~ Description for army jacket
 #: lang/json/ARMOR_from_json.py
 msgid "A tough jacket with lots of pockets.  Favored by the military."
-msgstr "一件结实的外套，上面带有很多口袋。军队指定用品，嗯，挺帅的。"
+msgstr "一件结实的外套，上面缝着不少口袋。军队指定用品。"
 
 #. ~ Description for pair of work gloves
 #: lang/json/ARMOR_from_json.py
@@ -8444,12 +8490,12 @@ msgstr "一双耐用的手套，适用于每日艰苦的工作。"
 msgid ""
 "A tough pair of pants lined with pockets, thickly padded for warmth.  "
 "Favored by the military."
-msgstr "一条厚实的军裤，上面缝着不少口袋，有防寒衬里，常用于军队之中。"
+msgstr "一条厚实的长裤，上面缝着不少口袋，有防寒衬里。军队指定用品。"
 
 #. ~ Description for army pants
 #: lang/json/ARMOR_from_json.py
 msgid "A tough pair of pants lined with pockets.  Favored by the military."
-msgstr "一条厚实的军裤，上面缝着不少口袋，常用于军队之中。"
+msgstr "一条厚实的长裤，上面缝着不少口袋。军队指定用品。"
 
 #. ~ Description for toque
 #: lang/json/ARMOR_from_json.py
@@ -8494,7 +8540,7 @@ msgstr ""
 #: lang/json/ARMOR_from_json.py
 msgid ""
 "A very short leather skirt, clearly designed to look good, not be practical."
-msgstr "皮制迷你裙，为了美丽冻人而牺牲了实用性。"
+msgstr "一条非常短的皮裙，明显只是为了好看而设计的，并不实用。"
 
 #. ~ Description for sable coat
 #: lang/json/ARMOR_from_json.py
@@ -8561,7 +8607,7 @@ msgstr "一个罩在头盔上的绳网，可以用来挂伪装。"
 #. ~ Description for dress shirt
 #: lang/json/ARMOR_from_json.py
 msgid "A white button-down shirt with long sleeves.  Looks professional!"
-msgstr "一件白色纽扣领的长袖衬衫，让你看起来像个专业人才。"
+msgstr "一件白色纽扣领的长袖衬衫。穿着看起来很专业！"
 
 #. ~ Description for beekeeping suit
 #: lang/json/ARMOR_from_json.py
@@ -8700,8 +8746,7 @@ msgid ""
 "An armored, impermeable full-body suit that functions as body armor, as well "
 "as protecting from nuclear, biological, and chemical hazards."
 msgstr ""
-"一套经过装甲加强的防水全身套装，能抵御各种类型的攻击，具有防弹衣和三防服的所"
-"有功能。"
+"一套不透气的经过装甲加强的全身套装，在充当护甲的同时能够抵御核生化威胁。"
 
 #. ~ Description for nasal helm
 #: lang/json/ARMOR_from_json.py
@@ -8718,8 +8763,7 @@ msgstr ""
 msgid ""
 "An elegant waistcoat.  Ideal for those occasions when wearing only a shirt "
 "would be too casual and a suit would be just overdoing it."
-msgstr ""
-"一件飘逸的马甲，当穿一件衬衫太随意，穿一件外套又太过的时候，就选择它吧。"
+msgstr "一件优雅的背心。当穿衬衫太随意，穿正装又太过的时候，就选择它吧。"
 
 #. ~ Description for pistol bandolier
 #: lang/json/ARMOR_from_json.py
@@ -8795,8 +8839,8 @@ msgid ""
 "An old-fashioned pair of leather rollerskates with steel frames.  While "
 "quite fast on flat floors, they make it difficult to move on rough terrain."
 msgstr ""
-"一双老样式钢架皮革旱冰鞋，在平地上非常迅速。但是在崎岖地形上会让你举步维艰，"
-"并且更难躲闪。"
+"一双老样式钢架皮制滚轴溜冰鞋。在平地上移动速度很快，但是在崎岖地形上会让你举"
+"步维艰，并且更难躲闪。"
 
 #. ~ Description for copper bracelet
 #: lang/json/ARMOR_from_json.py
@@ -8831,14 +8875,14 @@ msgstr "把什么夹到腰带上？"
 msgid ""
 "Bits of wool stitched together and tied into a makeshift loincloth.  Covers "
 "your modesty, but not much else."
-msgstr "把羊毛缝在一起就成了简易的兜裆布。能够盖住你害羞的地方，但就这样而已。"
+msgstr "用几片羊毛缝制的自制兜裆布。能够盖住你害羞的地方，但就这样而已。"
 
 #. ~ Description for bone body armor
 #: lang/json/ARMOR_from_json.py
 msgid ""
 "Body armor consisting of a leather backing suit with bone reinforcement.  "
 "Light and strong."
-msgstr "以骨片强化的皮制护甲，轻便坚韧。"
+msgstr "以骨片强化的皮制护甲，轻便而坚韧。"
 
 #. ~ Description for pair of fur boots
 #: lang/json/ARMOR_from_json.py
@@ -8926,7 +8970,7 @@ msgstr ""
 #. ~ Description for pair of dress shoes
 #: lang/json/ARMOR_from_json.py
 msgid "Fancy patent leather shoes.  Not designed for running in."
-msgstr "绚丽的名牌皮鞋，但并不是为跑步而设计的。"
+msgstr "绚丽的名牌皮鞋。但并不是为跑步而设计的。"
 
 #. ~ Description for pair of wool foot wraps
 #: lang/json/ARMOR_from_json.py
@@ -8948,7 +8992,7 @@ msgstr ""
 #: lang/json/ARMOR_from_json.py
 msgid ""
 "Female underwear similar to men's boxer shorts but much more close fitting."
-msgstr "女式内裤，和男式拳击短裤有些相似，不过更弹更薄更贴身。"
+msgstr "女式平角内裤，和男式拳击短裤有些相似，不过更弹更薄更贴身。"
 
 #: lang/json/ARMOR_from_json.py
 msgid "French maid clothes"
@@ -8984,7 +9028,7 @@ msgstr "一双由昆虫躯壳制成的手套，轻便耐用。"
 #. ~ Description for pair of clown shoes
 #: lang/json/ARMOR_from_json.py
 msgid "Gigantic shoes fit for a clown.  Incredibly difficult to walk in."
-msgstr "超大的鞋子，穿上就别想走路了。"
+msgstr "小丑们穿着的超大的鞋子。穿上就别想走路了。"
 
 #. ~ Description for pair of sneakers
 #: lang/json/ARMOR_from_json.py
@@ -9057,19 +9101,19 @@ msgid ""
 "Known as klompen in the Netherlands and sabots in France, these wooden shoes "
 "have endured through the ages due to their simple design and durability."
 msgstr ""
-"著名的荷兰木鞋，一整块原木雕琢而成。设计简单，但是其耐用性经过上千年时间的考"
-"验哦。"
+"著名的荷兰木鞋，一整块原木雕琢而成。木鞋因其设计简单而经久耐用，历经千年仍旧"
+"被人们所使用。"
 
 #. ~ Description for pair of XL leg warmers
 #: lang/json/ARMOR_from_json.py
 msgid "Large, soft, snug cloth sleeves to keep your exotic anatomy warm."
-msgstr "宽大、柔软、温暖的布袖子，连骨头缝儿都暖洋洋的。"
+msgstr "加大号的舒适合身柔软的布套，可以保持你的变异肢体温暖。"
 
 #. ~ Description for pair of bone armor boots
 #: lang/json/ARMOR_from_json.py
 msgid ""
 "Leather boots armored with reinforcements made from bone.  Light and strong."
-msgstr "用骨片加固的皮靴，轻巧坚固。"
+msgstr "用骨片加固的皮靴，轻巧而坚固。"
 
 #. ~ Description for pair of steeltoed boots
 #: lang/json/ARMOR_from_json.py
@@ -9087,7 +9131,7 @@ msgstr "用骨片加强的皮质护手，轻巧而坚韧。"
 msgid ""
 "Leather patches stitched together and tied into a makeshift loincloth.  "
 "Covers your modesty, but not much else."
-msgstr "妥妥的就是皮质的遮羞布，简直比不穿还要……嗯……就是这样喵"
+msgstr "用几片皮革缝制的自制遮羞布。非常清凉，动一动就会走光。"
 
 #. ~ Description for pair of leather foot wraps
 #: lang/json/ARMOR_from_json.py
@@ -9129,7 +9173,7 @@ msgid ""
 "Lightweight sandals made from wound cord.  They offer little in the way of "
 "protection, but keep you cool during warmer months."
 msgstr ""
-"用线编成的轻飘飘的凉鞋，几乎无法提供任何保护，但在最热的日子里可以为你提供一"
+"用线编成的轻飘飘的凉鞋。几乎无法提供有效防护，但在最热的日子里可以为你提供一"
 "点慰藉。"
 
 #. ~ Description for pair of lowtop tennis shoes
@@ -9253,7 +9297,7 @@ msgstr "令你想有自来水来洗个澡。"
 #: lang/json/ARMOR_from_json.py
 msgid ""
 "Men's boxer shorts.  More fashionable than briefs and just as comfortable."
-msgstr "男式拳击短裤。比三角内裤更爷们儿，透气性也更好。"
+msgstr "男式平角短裤。和三角内裤同样舒适但更爷们儿。"
 
 #. ~ Description for pair of combat boots
 #: lang/json/ARMOR_from_json.py
@@ -9356,14 +9400,14 @@ msgstr "提供额外容量，没有任何副作用哦！"
 msgid ""
 "Rags stitched together and tied into a makeshift loincloth.  Covers your "
 "modesty, but not much else."
-msgstr "几片破布头缝合成的遮羞布，非常清凉，动一动就会走光。"
+msgstr "用几片破布头缝制的自制遮羞布。非常清凉，动一动就会走光。"
 
 #. ~ Description for pair of foot rags
 #: lang/json/ARMOR_from_json.py
 msgid ""
 "Rags tied around your feet.  Not much of an improvement over being barefoot, "
 "still better than nothing."
-msgstr "裹在脚上的破布，比光脚好不了多少，但也总比光着要好。"
+msgstr "裹在脚上的布条，比光脚好不了多少，但也总比光着要好。"
 
 #. ~ Description for turban
 #: lang/json/ARMOR_from_json.py
@@ -9452,7 +9496,7 @@ msgstr "一双设计很简单的拖鞋，穿上之后很难跑起步来。"
 #. ~ Description for pair of moccasins
 #: lang/json/ARMOR_from_json.py
 msgid "Simple shoes made from animal pelts."
-msgstr "动物皮毛做的简陋鞋子"
+msgstr "动物皮毛做的简陋鞋子。"
 
 #. ~ Description for pair of birchbark shoes
 #: lang/json/ARMOR_from_json.py
@@ -9483,7 +9527,7 @@ msgstr "紧身尼龙裤，一般在锻炼的时候穿着，使你的大腿暖融
 #. ~ Description for pair of fetlock furs
 #: lang/json/ARMOR_from_json.py
 msgid "Snug fur sleeves to keep your fetlocks warm."
-msgstr "这对舒适的毛皮套筒可以为你的蹄子（如果你有的话）保暖。"
+msgstr "舒适的毛皮套筒，可以为你的蹄子（如果你有的话）保暖。"
 
 #. ~ Description for pair of fur leggings
 #: lang/json/ARMOR_from_json.py
@@ -9495,17 +9539,17 @@ msgstr "让您腿部保暖的舒适皮草套子。始于史前时代，简单有
 #. ~ Description for pair of arm warmers
 #: lang/json/ARMOR_from_json.py
 msgid "Snug, soft cloth sleeves to keep your arms warm."
-msgstr "使用舒适合身柔软的布料来保持你的手臂温暖"
+msgstr "舒适合身柔软的布套，可以保持你的手臂温暖。"
 
 #. ~ Description for pair of leg warmers
 #: lang/json/ARMOR_from_json.py
 msgid "Snug, soft cloth sleeves to keep your legs warm."
-msgstr "使用舒适合身柔软的布料来保持你的腿温暖"
+msgstr "舒适合身柔软的布套，可以保持你的腿部温暖。"
 
 #. ~ Description for pair of socks
 #: lang/json/ARMOR_from_json.py
 msgid "Socks.  Put 'em on your feet."
-msgstr "袜子，请穿在你的脚下而不是罩在你的头上。"
+msgstr "一双袜子，请穿在你的脚下而不是罩在你的头上。"
 
 #. ~ Description for pair of slippers
 #: lang/json/ARMOR_from_json.py
@@ -9557,8 +9601,8 @@ msgid ""
 "Sturdy leather hiking sandals with a heel strap.  Offers little in the way "
 "of protection, but keeps you cool during warmer months."
 msgstr ""
-"结实的皮质登山凉鞋，采用鞋跟带设计。没什么防御力，但透气性堪称一流，夏日首"
-"选。"
+"结实的皮制登山凉鞋，有着一根脚踝带。几乎无法提供有效防护，但透气性堪称一流，"
+"夏日首选。"
 
 #. ~ Description for Jedi cloak
 #: lang/json/ARMOR_from_json.py
@@ -9668,32 +9712,32 @@ msgstr ""
 #. ~ Description for fur body armor
 #: lang/json/ARMOR_from_json.py
 msgid "Thick body armor made from furs.  Warm and comfortable."
-msgstr "用厚皮毛制成的护甲，舒适和温暖。"
+msgstr "用毛皮制成的厚重护甲。舒适而温暖。"
 
 #. ~ Description for boiled leather armor
 #: lang/json/ARMOR_from_json.py
 msgid ""
 "Thick leather body armor that has been hardened via chemical treatment.  "
 "Light and strong."
-msgstr "通过化学鞣制硬化的厚皮甲，轻巧坚固。"
+msgstr "通过化学鞣制硬化的厚皮甲，轻便而坚韧。"
 
 #. ~ Description for plated leather armor
 #: lang/json/ARMOR_from_json.py
 msgid ""
 "Thick leather body armor that has been reinforced with strategically-placed "
 "metal plates.  Strong and comfortable."
-msgstr "这件厚皮甲已经在适当的位置被金属板加强，坚韧而舒适。"
+msgstr "这件厚皮甲已经在重要位置加上金属护板加强。坚韧而舒适。"
 
 #. ~ Description for leather body armor
 #: lang/json/ARMOR_from_json.py
 msgid "Thick leather body armor.  Light and comfortable."
-msgstr "牢固又轻便的皮甲。舒服又耐磨。"
+msgstr "厚实的皮革护甲。轻便而舒适。"
 
 #. ~ Description for pair of leather armor boots
 #: lang/json/ARMOR_from_json.py
 msgid ""
 "Thick leather boots made specifically to protect the feet.  Light and tough."
-msgstr "可以保护脚部的厚皮靴，轻巧坚韧。"
+msgstr "专门为保护脚部而设计的厚皮靴。轻巧而坚韧。"
 
 #. ~ Description for chef's jacket
 #: lang/json/ARMOR_from_json.py
@@ -9726,7 +9770,7 @@ msgstr "不少人将这些玩意插入耳垂中当做耳饰。"
 #. ~ Description for pair of boots
 #: lang/json/ARMOR_from_json.py
 msgid "Tough leather boots.  Very durable."
-msgstr "结实的皮靴，非常耐用"
+msgstr "一对结实的皮靴，非常耐用。"
 
 #. ~ Description for pair of hiking boots
 #: lang/json/ARMOR_from_json.py
@@ -9738,7 +9782,7 @@ msgstr "结实又轻便的皮靴，耐用而舒适。"
 msgid ""
 "Underwear designed to be worn by women.  Preserves your modesty in desperate "
 "times."
-msgstr "为女士设计的内衣，在关键时刻保持你的矜持。"
+msgstr "为女士设计的内衣。在末日之时任然能保持你的矜持。"
 
 #. ~ Description for briefcase
 #: lang/json/ARMOR_from_json.py
@@ -9767,7 +9811,7 @@ msgstr[0] "WS-47G保湿衣"
 #. ~ Description for pair of wool socks
 #: lang/json/ARMOR_from_json.py
 msgid "Warm socks made of wool."
-msgstr "羊毛制成的袜子，非常暖和"
+msgstr "羊毛制成的袜子，非常暖和。"
 
 #. ~ Description for pair of fishing waders
 #: lang/json/ARMOR_from_json.py
@@ -9957,17 +10001,17 @@ msgstr[0] "军装夹克"
 #: lang/json/ARMOR_from_json.py
 msgid "army pants"
 msgid_plural "army pants"
-msgstr[0] "军装裤"
+msgstr[0] "军装长裤"
 
 #: lang/json/ARMOR_from_json.py
 msgid "army winter jacket"
 msgid_plural "army winter jackets"
-msgstr[0] "冬用军装夹克"
+msgstr[0] "防寒军装夹克"
 
 #: lang/json/ARMOR_from_json.py
 msgid "army winter pants"
 msgid_plural "army winter pants"
-msgstr[0] "军装冬裤"
+msgstr[0] "防寒军装长裤"
 
 #: lang/json/ARMOR_from_json.py
 msgid "back holster"
@@ -10187,7 +10231,7 @@ msgstr[0] "手提箱"
 #: lang/json/ARMOR_from_json.py
 msgid "briefs"
 msgid_plural "briefs"
-msgstr[0] "内裤（男用）"
+msgstr[0] "男用内裤"
 
 #: lang/json/ARMOR_from_json.py
 msgid "brown belt"
@@ -10372,7 +10416,7 @@ msgstr[0] "钻戒"
 #: lang/json/ARMOR_from_json.py
 msgid "dinosaur suit"
 msgid_plural "dinosaur suits"
-msgstr[0] "恐龙COS套装"
+msgstr[0] "恐龙套装"
 
 #: lang/json/ARMOR_from_json.py
 msgid "dive bag"
@@ -11107,12 +11151,12 @@ msgstr[0] "兜裆布"
 #: lang/json/ARMOR_from_json.py
 msgid "long underwear bottom"
 msgid_plural "long underwear bottoms"
-msgstr[0] "保暖卫裤"
+msgstr[0] "保暖衬裤"
 
 #: lang/json/ARMOR_from_json.py
 msgid "long underwear top"
 msgid_plural "long underwear tops"
-msgstr[0] "保暖卫衣"
+msgstr[0] "保暖衬衣"
 
 #: lang/json/ARMOR_from_json.py
 msgid "long-sleeved shirt"
@@ -11252,7 +11296,7 @@ msgstr[0] "简易护胫"
 #: lang/json/ARMOR_from_json.py
 msgid "pair of XL leg warmers"
 msgid_plural "pairs of XL leg warmers"
-msgstr[0] "XL号暖腿宝"
+msgstr[0] "XL号暖腿套"
 
 #: lang/json/ARMOR_from_json.py
 msgid "pair of XL survivor boots"
@@ -11642,7 +11686,7 @@ msgstr[0] "轻型幸存者手套"
 #: lang/json/ARMOR_from_json.py
 msgid "pair of lowtop tennis shoes"
 msgid_plural "pairs of lowtop tennis shoes"
-msgstr[0] "网球鞋"
+msgstr[0] "短筒网球鞋"
 
 #: lang/json/ARMOR_from_json.py
 msgid "pair of medical gloves"
@@ -11912,7 +11956,7 @@ msgstr[0] "劳保手套"
 #: lang/json/ARMOR_from_json.py
 msgid "panties"
 msgid_plural "panties"
-msgstr[0] "内裤（女用）"
+msgstr[0] "女用内裤"
 
 #: lang/json/ARMOR_from_json.py
 msgid "pants"
@@ -11952,7 +11996,7 @@ msgstr[0] "板甲"
 #: lang/json/ARMOR_from_json.py
 msgid "plated leather armor"
 msgid_plural "plated leather armors"
-msgstr[0] "电镀皮甲"
+msgstr[0] "镶板皮甲"
 
 #: lang/json/ARMOR_from_json.py
 msgid "plug"
@@ -12117,7 +12161,7 @@ msgstr[0] "布料"
 #: lang/json/ARMOR_from_json.py
 msgid "sheriff's shirt"
 msgid_plural "sheriff's shirts"
-msgstr[0] "警用衬衫"
+msgstr[0] "警长衬衫"
 
 #: lang/json/ARMOR_from_json.py
 msgid "shorts"
@@ -12277,7 +12321,7 @@ msgstr[0] "运动球衣"
 #: lang/json/ARMOR_from_json.py
 msgid "spring suit"
 msgid_plural "spring suits"
-msgstr[0] "保暖潜水衣"
+msgstr[0] "连身泳衣"
 
 #: lang/json/ARMOR_from_json.py
 msgid "straw basket"
@@ -12302,7 +12346,7 @@ msgstr[0] "条纹衬衫"
 #: lang/json/ARMOR_from_json.py
 msgid "subject suit"
 msgid_plural "subject suits"
-msgstr[0] "D级人员制服"
+msgstr[0] "研究样本服"
 
 #: lang/json/ARMOR_from_json.py
 msgid "suit"
@@ -12617,7 +12661,7 @@ msgstr[0] "冬季幸存者套装"
 #: lang/json/ARMOR_from_json.py
 msgid "wolf suit"
 msgid_plural "wolf suits"
-msgstr[0] "野狼COS套装"
+msgstr[0] "狼人套装"
 
 #: lang/json/ARMOR_from_json.py
 msgid "wooden shield"
@@ -17679,6 +17723,11 @@ msgstr "用大自然的馈赠做成的营养又美味的汤。"
 msgid "A nutritious broth made from human bones."
 msgstr "用人骨慢火熬成的富含营养的骨头汤。"
 
+#. ~ Description for arachnotron soup
+#: lang/json/COMESTIBLE_from_json.py
+msgid "A nutritious broth with minced arachnotron and vegtables mixed in."
+msgstr "一份营养丰富的肉汤，采用切碎的机械蜘蛛肉和蔬菜熬制而成。"
+
 #. ~ Description for tramadol
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
@@ -17966,6 +18015,11 @@ msgstr "就是面包加奶酪。"
 msgid ""
 "A simple sauce sandwich.  Not very filling but beats eating just the bread."
 msgstr "单一调味酱的三明治。比起面包夹面包好的多。"
+
+#. ~ Description for batter fried arachnotron fillet
+#: lang/json/COMESTIBLE_from_json.py
+msgid "A slice of batter coated and fried mechaspider.  Delicious."
+msgstr "一片挂了面糊并且经过油炸的机械蜘蛛肉。很美味。"
 
 #. ~ Description for boiled human stomach
 #: lang/json/COMESTIBLE_from_json.py
@@ -18982,6 +19036,11 @@ msgid ""
 "Antibacterial medication designed to prevent or stop the spread of infection."
 msgstr "这种抗菌药物旨在预防及阻止感染扩散。"
 
+#. ~ Description for arachnotron sandwich
+#: lang/json/COMESTIBLE_from_json.py
+msgid "Arachnotron fillets cooked and wrapped in bread."
+msgstr "烹饪过的机械蜘蛛肉排加载两片面包之中。"
+
 #: lang/json/COMESTIBLE_from_json.py
 msgid "BLT"
 msgid_plural "BLTs"
@@ -19184,7 +19243,7 @@ msgstr ""
 "组成一个特殊的混合电解质和分子糖分的饮料，这种饮料味道有点像瓶装水，但是很解"
 "渴。广告中只会出现光头黑人是一个显著的特点。"
 
-#. ~ Description for stamina vial
+#. ~ Description for stamina tonic
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
 "Containing a slew of charged organic chemicals, this 3-layer slurry might go "
@@ -19200,6 +19259,13 @@ msgstr ""
 #: lang/json/COMESTIBLE_from_json.py
 msgid "Contains up to eight vegetables!  Nutritious and tasty."
 msgstr "含有多达8种蔬菜，既营养又美味。"
+
+#. ~ Description for arachnotron fillet
+#: lang/json/COMESTIBLE_from_json.py
+msgid ""
+"Cooked arachnotron fillets, without any seasoning.  Not terrible tasting, "
+"just not all that exciting."
+msgstr "烹饪过的机械蜘蛛肉片，没加任何佐料。不算太难吃，也不让人激动。"
 
 #. ~ Description for cooked dandelion greens
 #: lang/json/COMESTIBLE_from_json.py
@@ -20873,6 +20939,11 @@ msgstr "一些花生酱夹在两片面包之中，分量不是很足，会像胶
 msgid "Some raspberry seeds."
 msgstr "一些树莓种子"
 
+#. ~ Description for raw arachnotron fillet
+#: lang/json/COMESTIBLE_from_json.py
+msgid "Some raw arachnotron fillets, sliced much as a fish fillet would be."
+msgstr "一些生的机械蜘蛛肉片，被切的和生鱼片一样薄。"
+
 #. ~ Description for pumpkin seed
 #: lang/json/COMESTIBLE_from_json.py
 msgid "Some raw pumpkin seeds.  Could be fried and eaten or planted."
@@ -21115,6 +21186,15 @@ msgstr ""
 "干燥后的花蕾、叶子，采集自各种大麻植物。用来减轻恶心，刺激食欲，提升情绪。它"
 "可以致瘾，并可能有不良反应。"
 
+#. ~ Description for arachnotron flesh
+#: lang/json/COMESTIBLE_from_json.py
+msgid ""
+"The flesh of an arachnotron, seperated from its mechanical apparatus.  Its "
+"somewhat briny smell indicates the flesh can keep for a time."
+msgstr ""
+"机械蜘蛛的肉，从它的机械装置上分离下来的。它的淡淡的盐水味表明了它可以储存一"
+"段时间。"
+
 #. ~ Description for cabernet sauvignon
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
@@ -21316,6 +21396,13 @@ msgstr "这是一道混合洋葱丝和德国酸菜的美味小炒。单是气味
 #: lang/json/COMESTIBLE_from_json.py
 msgid "This is a grayish bone meal made from rotten bones."
 msgstr "腐烂骨头制成的灰色骨粉。"
+
+#. ~ Description for pickled fish
+#: lang/json/COMESTIBLE_from_json.py
+msgid ""
+"This is a jar with 2 sealed servings of (re)pickled arachnotron flesh.  "
+"Suprisingly tasty and healthy."
+msgstr "这是一罐双人份的腌制机械蜘蛛肉。相当美味而且很健康。"
 
 #. ~ Description for pickled fish
 #: lang/json/COMESTIBLE_from_json.py
@@ -21893,6 +21980,26 @@ msgid_plural "apricots"
 msgstr[0] "杏子"
 
 #: lang/json/COMESTIBLE_from_json.py
+msgid "arachnotron fillet"
+msgid_plural "arachnotron fillets"
+msgstr[0] "机械蜘蛛肉排"
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "arachnotron flesh"
+msgid_plural "arachnotron fleshs"
+msgstr[0] "机械蜘蛛肉"
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "arachnotron sandwich"
+msgid_plural "arachnotron sandwiches"
+msgstr[0] "机械蜘蛛三明治"
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "arachnotron soup"
+msgid_plural "arachnotron soups"
+msgstr[0] "机械蜘蛛汤"
+
+#: lang/json/COMESTIBLE_from_json.py
 msgid "aspic"
 msgid_plural "aspics"
 msgstr[0] "肉冻"
@@ -21956,6 +22063,11 @@ msgstr[0] "大麦"
 msgid "barley seed"
 msgid_plural "barley seeds"
 msgstr[0] "大麦种子"
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "batter fried arachnotron fillet"
+msgid_plural "batter fried fish"
+msgstr[0] "面拖炸机械蜘蛛"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "batter fried fish"
@@ -24561,6 +24673,11 @@ msgid_plural "raviolis"
 msgstr[0] "意大利方饺"
 
 #: lang/json/COMESTIBLE_from_json.py
+msgid "raw arachnotron fillet"
+msgid_plural "raw arachnotron fillets"
+msgstr[0] "机械蜘蛛生肉排"
+
+#: lang/json/COMESTIBLE_from_json.py
 msgid "raw beans"
 msgid_plural "raw beans"
 msgstr[0] "生豆"
@@ -24981,9 +25098,9 @@ msgid_plural "sports drinks"
 msgstr[0] "运动饮料"
 
 #: lang/json/COMESTIBLE_from_json.py
-msgid "stamina vial"
-msgid_plural "stamina vials"
-msgstr[0] "体力药剂"
+msgid "stamina tonic"
+msgid_plural "stamina tonics"
+msgstr[0] "耐力药剂"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "starch"
@@ -26428,6 +26545,14 @@ msgstr ""
 "一个损坏的EMP电磁脉冲无人机。现在安静的散在地上构不成威胁了。可以拆解得到部"
 "件。"
 
+#. ~ Description for broken acidbomb hack
+#: lang/json/GENERIC_from_json.py
+msgid ""
+"A broken acidbomb hack.  Much less threatening now that it lies quiet on "
+"solid ground.  Could be gutted for parts."
+msgstr ""
+"一个损坏的酸液炸弹无人机。现在安静的散在地上构不成威胁了。可以拆解得到部件。"
+
 #. ~ Description for broken animatronic bat
 #: lang/json/GENERIC_from_json.py
 msgid ""
@@ -26983,6 +27108,16 @@ msgstr "大丽花的花蕾，包含了一些大丽花特有的成分。"
 #: lang/json/GENERIC_from_json.py
 msgid "A dahlia stalk with some petals."
 msgstr "还带有几片花瓣的大丽花。"
+
+#. ~ Description for demeated arachnotron
+#: lang/json/GENERIC_from_json.py
+msgid "A dead arachnotron, with the largest chunks of flesh quickly cut off."
+msgstr "一只死的机械蜘蛛，大部分肉都已经被切除了。"
+
+#. ~ Description for destroyed arachnotron
+#: lang/json/GENERIC_from_json.py
+msgid "A dead arachnotron.  But was it ever truly alive?"
+msgstr "一只死的机械蜘蛛。不过它真的曾经活过吗？"
 
 #. ~ Description for corpse
 #: lang/json/GENERIC_from_json.py
@@ -27895,6 +28030,11 @@ msgid ""
 "inside when it's done culturing."
 msgstr "装满了洗干净的酵母增殖原料的密封容器。当发酵完毕你就可以收获酵母了。"
 
+#. ~ Description for sealed jar of pickled arachnotron fillets
+#: lang/json/GENERIC_from_json.py
+msgid "A sealed jar of mechaspider flesh.  Use to open and eat to enjoy."
+msgstr "一个密封了的机械蜘蛛肉罐头，打开之后尽情享用吧。"
+
 #. ~ Description for security camera
 #: lang/json/GENERIC_from_json.py
 msgid ""
@@ -28353,7 +28493,7 @@ msgstr "一个装满了车用级滤纸的钢罐。"
 #: lang/json/GENERIC_from_json.py
 msgid ""
 "A steel pipe, makes a good melee weapon.  Useful in a few crafting recipes."
-msgstr "一段铁管，优质的肉搏武器。有时候也能拿来制作一些东西。"
+msgstr "一根钢管，优质的肉搏武器。有时候也能拿来制作一些东西。"
 
 #. ~ Description for chime loudspeakers
 #: lang/json/GENERIC_from_json.py
@@ -30193,6 +30333,7 @@ msgid "You open the flask and harvest the culture."
 msgstr "你打开瓶罐收获培养物。"
 
 #. ~ Use action msg for sealed jar of sauerkraut.
+#. ~ Use action msg for sealed jar of pickled arachnotron fillets.
 #: lang/json/GENERIC_from_json.py
 msgid "You open the jar, exposing it to the atmosphere."
 msgstr "你打开了罐子，内容物暴露在空气中。"
@@ -30497,6 +30638,11 @@ msgstr[0] "C-4炸弹无人机（损坏）"
 msgid "broken EMP hack"
 msgid_plural "broken EMP hacks"
 msgstr[0] "EMP无人机（损坏）"
+
+#: lang/json/GENERIC_from_json.py
+msgid "broken acidbomb hack"
+msgid_plural "broken acidbomb hacks"
+msgstr[0] "酸液炸弹无人机（损坏）"
 
 #: lang/json/GENERIC_from_json.py
 msgid "broken animatronic bat"
@@ -30908,9 +31054,19 @@ msgid_plural "dead flares"
 msgstr[0] "照明弹（燃尽）"
 
 #: lang/json/GENERIC_from_json.py
+msgid "demeated arachnotron"
+msgid_plural "demeated arachnotrons"
+msgstr[0] "机械蜘蛛（已剥肉）"
+
+#: lang/json/GENERIC_from_json.py
 msgid "desk fan"
 msgid_plural "desk fans"
 msgstr[0] "台风扇"
+
+#: lang/json/GENERIC_from_json.py
+msgid "destroyed arachnotron"
+msgid_plural "destroyed arachnotrons"
+msgstr[0] "机械蜘蛛（损坏）"
 
 #: lang/json/GENERIC_from_json.py
 msgid "diamond"
@@ -31648,7 +31804,7 @@ msgstr[0] "松塔"
 #: lang/json/GENERIC_from_json.py
 msgid "pipe"
 msgid_plural "pipes"
-msgstr[0] "铁管"
+msgstr[0] "钢管"
 
 #: lang/json/GENERIC_from_json.py
 msgid "pitchfork"
@@ -31816,6 +31972,11 @@ msgstr[0] "弯刀"
 msgid "scrap copper"
 msgid_plural "scrap copper"
 msgstr[0] "废铜料"
+
+#: lang/json/GENERIC_from_json.py
+msgid "sealed jar of pickled arachnotron fillets"
+msgid_plural "sealed jars of pickled arachnotron fillets"
+msgstr[0] "密封腌机械蜘蛛肉罐头"
 
 #: lang/json/GENERIC_from_json.py
 msgid "sealed jar of sauerkraut"
@@ -32850,7 +33011,7 @@ msgstr[0] "KSG霰弹枪第二弹仓"
 #: lang/json/GUNMOD_from_json.py
 msgid "LeMat revolver shotgun"
 msgid_plural "LeMat revolver shotguns"
-msgstr[0] "LeMat霰弹左轮"
+msgstr[0] "LeMat 霰弹左轮"
 
 #: lang/json/GUNMOD_from_json.py
 msgid "M203"
@@ -33981,7 +34142,7 @@ msgstr ""
 msgid ""
 "A home-made breech-loading gun made from a metal pipe.  It can hold a single "
 "revolver round."
-msgstr "一把自制的后膛装填的单发枪，由金属管制成。能够装载一发左轮弹。"
+msgstr "一把自制的后膛装填的单发枪，由一根金属管制成。能够装载一发左轮弹。"
 
 #. ~ Description for pipe combination gun
 #: lang/json/GUN_from_json.py
@@ -34054,7 +34215,7 @@ msgid ""
 "option to fire both barrels at once, a crude sight, and can be made to "
 "accept a limited array of modifications."
 msgstr ""
-"自制简易小型炸弹发射器，嗯，变成两条铁管了，双发，还有简易准星，还能加一些改"
+"自制简易小型炸弹发射器，嗯，变成两根钢管了，双发，还有简易准星，还能加一些改"
 "装零件，不错不错，可以骑脸了。"
 
 #. ~ Description for coilgun
@@ -34072,7 +34233,7 @@ msgid ""
 "improvements have been made, such as a tube system for feeding and "
 "chambering more powerful rifle rounds."
 msgstr ""
-"一把手工制作枪支。尽管还是用的一条铁管和一条2x4制式木料，在细节方面已经是做了"
+"一把手工制作枪支。尽管还是用的一根钢管和一条2x4制式木料，在细节方面已经是做了"
 "不少改进了，比如管式填弹机构和能装入大威力的步枪子弹的弹仓。"
 
 #. ~ Description for pipe rifle: .308
@@ -34083,7 +34244,7 @@ msgid ""
 "some minor improvements have been made, such as an integral magazine for "
 "rounds, and chambering the more powerful .308 rounds."
 msgstr ""
-"一把自制的杠杆式步枪。尽管还是用的一条铁管和一条2x4制式木料，在细节方面已经是"
+"一把自制的杠杆式步枪。尽管还是用的一条钢管和一条2x4制式木料，在细节方面已经是"
 "做了不少改进了，比如整合弹匣和能使用威力更大的.308子弹的弹仓。"
 
 #. ~ Description for pipe rifle: .30-06
@@ -34394,8 +34555,8 @@ msgid ""
 "A popular, very small .22 pistol.  \"Ergonomically designed to give the best "
 "shooting experience.\" --SIG Sauer official website"
 msgstr ""
-"一款很普及也很小巧的.22手枪。\"基于人体工学设计，让你体验最佳感觉。\"--出自"
-"SIG SAUER官方网站"
+"一款广受欢迎的小巧的.22口径手枪。\"基于人体工学设计，让你体验最佳射击感"
+"觉。\"--出自西格&绍尔官方网站"
 
 #. ~ Description for light machine gun
 #: lang/json/GUN_from_json.py
@@ -34605,7 +34766,7 @@ msgid ""
 "nailed to a length of piping and a modified stopper to hold and activate the "
 "bomblet."
 msgstr ""
-"自制简易小型炸弹发射器，在一条铁管上，木制枪托钉两钉，手工弹托钉两钉，再给底"
+"自制简易小型炸弹发射器，在一根钢管上，木制枪托钉两钉，手工弹托钉两钉，再给底"
 "火留一钉，完成。"
 
 #. ~ Description for simple flamethrower
@@ -35146,8 +35307,8 @@ msgid ""
 "gunpowder.  While it has an extremely short range, it gives a powerful edge "
 "in close combat."
 msgstr ""
-"中国古代的原始火枪，其拥有用于使用一次性火药的粗铁管发射器。虽然它的有效射程"
-"极短，但在近战中却能起到强大的优势。"
+"中国古代的原始火枪，在枪头有个小型铁管可发射单发火药弹。虽然它的有效射程极"
+"短，但在近战中却能起到强大的优势。"
 
 #. ~ Description for H&K G3
 #: lang/json/GUN_from_json.py
@@ -35192,7 +35353,7 @@ msgid ""
 "a thick-walled steel pipe, equipped with a pilot light, several batteries "
 "and a simple circuit board.  Effective only at medium range, barely."
 msgstr ""
-"一个用于发射土制火箭弹的粗制直接点火火箭发射筒。结构简单，只是由一条三层钢"
+"一个用于发射土制火箭弹的粗制直接点火火箭发射筒。结构简单，只是由一根厚壁钢"
 "管，射灯瞄准指示器，一些电池组和一块简单的电路板，组合而成。作为中等距离的火"
 "箭发射筒，勉勉强强还能用。"
 
@@ -35617,9 +35778,9 @@ msgid ""
 "powerful and surprisingly accurate, but far too large to be used without "
 "some sort of stable platform."
 msgstr ""
-"自动机构控制着由两条覆钢长铁管中间用来提供推进力的几条长弦，使这把武器可以自"
-"动瞄准、拉弓和发射。别看它机构简单，它拥有超出你想像的威力和不俗的准确度。但"
-"是它体积太大，需要装载到一个可以支撑它的大型平台上操作使用。"
+"自动机构控制着由两条经过加固的长钢条，中间用来提供推进力的几条长弦，使这把武"
+"器可以自动瞄准、拉弓和发射。别看它机构简单，它拥有超出你想像的威力和不俗的准"
+"确度。但是它体积太大，需要装载到一个可以支撑它的大型平台上操作使用。"
 
 #. ~ Description for mountable slingshot cannon
 #: lang/json/GUN_from_json.py
@@ -36148,8 +36309,8 @@ msgid ""
 "belt fed mechanism has been modified into a much smaller single round "
 "chamber."
 msgstr ""
-"M2勃朗宁机枪的修改版。这把阉割过的步枪已经可用作手持武器。连射模式已经被关"
-"闭，而且它的弹链供弹装置也已经被改装成一个小型的只能装单发子弹的弹仓了。"
+"M2勃朗宁机枪的修改版。这把阉割过的步枪已经可用作手持武器。该枪已经不能连发射"
+"击，而且它的弹链供弹装置也已经被改装成一个小型的只能装单发子弹的弹仓了。"
 
 #: lang/json/GUN_from_json.py
 msgid "Mosin-Nagant 1891/30"
@@ -36280,8 +36441,8 @@ msgid ""
 "Originally marketed as a lightweight and compact alternative to older SIG "
 "handguns, the Pro .40 is popular among European police forces."
 msgstr ""
-"上市之初，这款.40口径手枪作为旧版SIG手枪的替代品，在设计上更加轻巧紧凑，使它"
-"受到欧洲各国警方的青睐。"
+"上市之初，这款.40口径手枪作为旧版西格&绍尔手枪的替代品，在设计上更加轻巧紧"
+"凑，使它受到欧洲各国警方的青睐。"
 
 #. ~ Description for RM51 assault rifle
 #: lang/json/GUN_from_json.py
@@ -36494,22 +36655,22 @@ msgstr[0] "S&W 629左轮手枪"
 #: lang/json/GUN_from_json.py
 msgid "SIG 552"
 msgid_plural "SIG 552s"
-msgstr[0] "SIG 552自动步枪"
+msgstr[0] "西格&绍尔552自动步枪"
 
 #: lang/json/GUN_from_json.py
 msgid "SIG Mosquito"
 msgid_plural "SIG Mosquito"
-msgstr[0] "SIG Mosquito手枪"
+msgstr[0] "西格&绍尔\"蚊\"式手枪"
 
 #: lang/json/GUN_from_json.py
 msgid "SIG Pro .40"
 msgid_plural "SIG Pro .40"
-msgstr[0] "SIG Pro .40手枪"
+msgstr[0] "西格&绍尔Pro .40手枪"
 
 #: lang/json/GUN_from_json.py
 msgid "SIG Sauer P230"
 msgid_plural "SIG Sauer P230"
-msgstr[0] "SIG绍尔P230手枪"
+msgstr[0] "西格&绍尔P230手枪"
 
 #: lang/json/GUN_from_json.py
 msgid "SKS"
@@ -36539,7 +36700,7 @@ msgstr[0] "Saiga-12霰弹枪"
 #: lang/json/GUN_from_json.py
 msgid "Savage 111F"
 msgid_plural "Savage 111F"
-msgstr[0] "Savage 111F步枪"
+msgstr[0] "萨维奇 111F步枪"
 
 #. ~ Description for short bow
 #: lang/json/GUN_from_json.py
@@ -36661,8 +36822,8 @@ msgid ""
 "The Calico M960 is an automatic carbine with a unique circular magazine that "
 "allows for high capacities and reduced recoil."
 msgstr ""
-"卡利科M960是一把全自动卡宾枪，它配备有一副独一无二的环形弹匣，增大了弹容量并"
-"减轻后坐力。"
+"卡利科M960是一把全自动卡宾枪，它配备有一副独一无二的螺旋式弹筒弹匣，增大了弹"
+"容量并减轻后坐力。"
 
 #. ~ Description for CWD-63
 #: lang/json/GUN_from_json.py
@@ -36874,8 +37035,8 @@ msgid ""
 "The SIG Sauer P230 is a small, semi-automatic handgun chambered in .32 ACP.  "
 "Due to its small dimensions, it was often carried as a backup weapon."
 msgstr ""
-"SIG Sauer P230是一种使用.32ACP弹药的小型半自动手枪。它体型小巧，通常作为一个"
-"备用武器。"
+"西格&绍尔P230手枪是一种使用.32ACP弹药的小型半自动手枪。它体型小巧，通常作为一"
+"个备用武器。"
 
 #. ~ Description for Saiga-12
 #: lang/json/GUN_from_json.py
@@ -36920,10 +37081,10 @@ msgid ""
 "The Soviet made PPSh-41, chambered in 7.62 Tokarev, provides a relatively "
 "large ammunition capacity coupled with low recoil and decent accuracy."
 msgstr ""
-"苏联制造的PPSh-41 波波沙冲锋枪，发射7.62mm Tokarev托卡列夫弹，弹匣很大，后坐"
-"力小，准确度适中。有着\"人民冲锋枪\"的美誉，在二战时屡建奇功，是二战时苏联名"
-"枪之一。中国也有仿制，名为\"50式冲锋枪\"，是人民志愿军前去抗美援朝时使用过、"
-"人民英雄雷锋拍海报是拿过的枪支。"
+"苏联制造的PPSh-41 波波沙冲锋枪，发射7.62mm托卡列夫弹，弹匣很大，后坐力小，准"
+"确度适中。有着\"人民冲锋枪\"的美誉，在二战时屡建奇功，是二战时苏联名枪之一。"
+"中国也有仿制，名为\"50式冲锋枪\"，是人民志愿军前去抗美援朝时使用过、人民英雄"
+"雷锋拍海报时拿过的枪支。"
 
 #. ~ Description for Steyr AUG
 #: lang/json/GUN_from_json.py
@@ -37254,7 +37415,7 @@ msgid ""
 "developed by Rivtech for the US military shortly before the end of the "
 "world.  Designed to be fired in bursts, it excels in close combat."
 msgstr ""
-"RM216卡宾枪使用5 x50mm穿甲镖形弹， 作为特殊用途个人武器，这把先进的枪支，是由"
+"RM216卡宾枪使用5x50mm穿甲镖形弹， 作为特殊用途个人武器，这把先进的枪支，是由"
 "Rivtech公司为末日前夕的军方设计的，它擅长近距离作战，贴脸扣下扳机连发即可。"
 "（SPIW是特殊用途步兵武器的意思）"
 
@@ -38131,7 +38292,7 @@ msgstr[0] "马格南手枪"
 #: lang/json/GUN_from_json.py
 msgid "makeshift lever shotgun"
 msgid_plural "makeshift lever shotguns"
-msgstr[0] "手工杠杆式霰弹枪"
+msgstr[0] "自制杠杆式霰弹枪"
 
 #: lang/json/GUN_from_json.py
 msgid "manual autoshotgun"
@@ -38279,27 +38440,27 @@ msgstr[0] "大型穿孔机炮台"
 #: lang/json/GUN_from_json.py
 msgid "pipe SMG: .22"
 msgid_plural "pipe SMG: .22s"
-msgstr[0] ".22 铁管冲锋枪"
+msgstr[0] "自制钢管冲锋枪（.22口径）"
 
 #: lang/json/GUN_from_json.py
 msgid "pipe SMG: .38"
 msgid_plural "pipe SMG: .38s"
-msgstr[0] ".38 铁管冲锋枪"
+msgstr[0] "自制钢管冲锋枪（.38口径）"
 
 #: lang/json/GUN_from_json.py
 msgid "pipe SMG: .40"
 msgid_plural "pipe SMG: .40s"
-msgstr[0] ".40 铁管冲锋枪"
+msgstr[0] "自制钢管冲锋枪（.40口径）"
 
 #: lang/json/GUN_from_json.py
 msgid "pipe SMG: .45"
 msgid_plural "pipe SMG: .45s"
-msgstr[0] ".45 铁管冲锋枪"
+msgstr[0] "自制钢管冲锋枪（.45口径）"
 
 #: lang/json/GUN_from_json.py
 msgid "pipe SMG: 9mm"
 msgid_plural "pipe SMG: 9mms"
-msgstr[0] "9mm 铁管冲锋枪"
+msgstr[0] "自制钢管冲锋枪（9mm口径）"
 
 #: lang/json/GUN_from_json.py
 msgid "pipe combination gun"
@@ -38309,62 +38470,62 @@ msgstr[0] "自制步霰两用枪"
 #: lang/json/GUN_from_json.py
 msgid "pipe gun: pistol ammo"
 msgid_plural "pipe rifles: pistol ammo"
-msgstr[0] "自制步枪（手枪弹）"
+msgstr[0] "自制钢管步枪（手枪弹）"
 
 #: lang/json/GUN_from_json.py
 msgid "pipe gun: revolver ammo"
 msgid_plural "pipe guns: revolver ammo"
-msgstr[0] "铁管步枪（左轮弹）"
+msgstr[0] "自制钢管步枪（左轮弹）"
 
 #: lang/json/GUN_from_json.py
 msgid "pipe gun: rifle ammo"
 msgid_plural "pipe guns: rifle ammo"
-msgstr[0] "自制步枪（步枪弹）"
+msgstr[0] "自制钢管步枪（步枪弹）"
 
 #: lang/json/GUN_from_json.py
 msgid "pipe rifle"
 msgid_plural "pipe rifles"
-msgstr[0] "自制步枪"
+msgstr[0] "自制钢管步枪"
 
 #: lang/json/GUN_from_json.py
 msgid "pipe rifle: .22"
 msgid_plural "pipe rifles: .22"
-msgstr[0] "自制 .22 步枪"
+msgstr[0] "自制钢管步枪（.22口径）"
 
 #: lang/json/GUN_from_json.py
 msgid "pipe rifle: .30-06"
 msgid_plural "pipe rifles: .30-06"
-msgstr[0] ".30-06铁管步枪"
+msgstr[0] "自制钢管步枪（.30-06口径）"
 
 #: lang/json/GUN_from_json.py
 msgid "pipe rifle: .308"
 msgid_plural "pipe rifles: .308"
-msgstr[0] ".308 铁管步枪"
+msgstr[0] "自制钢管步枪（.308口径）"
 
 #: lang/json/GUN_from_json.py
 msgid "pipe rifle: .38"
 msgid_plural "pipe rifles: .38"
-msgstr[0] ".38 铁管步枪"
+msgstr[0] "自制钢管步枪（.38口径）"
 
 #: lang/json/GUN_from_json.py
 msgid "pipe rifle: .40"
 msgid_plural "pipe rifles: .40"
-msgstr[0] ".40 铁管步枪"
+msgstr[0] "自制钢管步枪（.40口径）"
 
 #: lang/json/GUN_from_json.py
 msgid "pipe rifle: .44"
 msgid_plural "pipe rifles: .44"
-msgstr[0] ".44 铁管步枪"
+msgstr[0] "自制钢管步枪（.44口径）"
 
 #: lang/json/GUN_from_json.py
 msgid "pipe rifle: .45"
 msgid_plural "pipe rifles: .45"
-msgstr[0] ".45 铁管步枪"
+msgstr[0] "自制钢管步枪（.45口径）"
 
 #: lang/json/GUN_from_json.py
 msgid "pipe rifle: 9mm"
 msgid_plural "pipe rifles: 9mm"
-msgstr[0] "自制 9mm 步枪"
+msgstr[0] "自制钢管步枪（9mm口径）"
 
 #: lang/json/GUN_from_json.py
 msgid "pipe shotgun"
@@ -38709,7 +38870,7 @@ msgstr "载具部件"
 #. ~ Description for RMSA10 magazine
 #: lang/json/MAGAZINE_from_json.py
 msgid "A 10 round box magazine for use with the RM121 auxiliary shotgun."
-msgstr "10发弹匣，可用于 RM121 附挂霰弹枪。"
+msgstr "10发盒式弹匣，可用于 RM121 附挂霰弹枪。"
 
 #. ~ Description for RMGP10 magazine
 #: lang/json/MAGAZINE_from_json.py
@@ -38819,7 +38980,7 @@ msgstr "一个35发弹匣，用于PPSh-41冲锋枪。"
 #. ~ Description for RMSB40 magazine
 #: lang/json/MAGAZINE_from_json.py
 msgid "A 40 round box magazine for use with the RM20 caseless shotgun."
-msgstr "40发弹匣，可用于 RM20 自动无壳霰弹枪。"
+msgstr "40发盒式弹匣，可用于 RM20 自动无壳霰弹枪。"
 
 #. ~ Description for AKM extended magazine
 #: lang/json/MAGAZINE_from_json.py
@@ -38832,7 +38993,7 @@ msgstr ""
 #. ~ Description for RMRD400 magazine
 #: lang/json/MAGAZINE_from_json.py
 msgid "A 400 round drum magazine for use with the RM360 rotary carbine."
-msgstr "400发盒式弹匣，可用于 RM360 转轮式卡宾枪。"
+msgstr "400发弹鼓，可用于 RM360 转轮式卡宾枪。"
 
 #. ~ Description for AK-74M extended magazine
 #: lang/json/MAGAZINE_from_json.py
@@ -38864,7 +39025,7 @@ msgid ""
 "to greater reliablity."
 msgstr ""
 "50发的弹鼓，可用于汤普森冲锋枪。因为被黑帮分子广泛使用而出名，但军队偏好使用"
-"标准的20发或30发弹夹，因为更可靠。"
+"标准的20发或30发弹匣，因为更可靠。"
 
 #. ~ Description for Extended SMG magazine
 #: lang/json/MAGAZINE_from_json.py
@@ -38942,7 +39103,7 @@ msgstr "一个紧凑的4发盒式弹匣，可用于勃朗宁BLR步枪。"
 #. ~ Description for SIG Pro .40 magazine
 #: lang/json/MAGAZINE_from_json.py
 msgid "A compact and reliable magazine for use with the SIG Pro .40 pistol."
-msgstr "一个紧凑结实的弹匣，可用于SIG Pro .40手枪。"
+msgstr "一个紧凑结实的弹匣，可用于西格&绍尔Pro .40手枪。"
 
 #. ~ Description for Glock magazine
 #: lang/json/MAGAZINE_from_json.py
@@ -38992,7 +39153,7 @@ msgstr "一个工厂制造的半透明高分子聚合物弹匣，可用于FN-P90
 #. ~ Description for SIG Mosquito magazine
 #: lang/json/MAGAZINE_from_json.py
 msgid "A factory specification 10-round magazine for the SIG Mosquito."
-msgstr "一个工厂生产的规范的10发弹匣，可用于SIG Mosquito手枪。"
+msgstr "一个工厂生产的规范的10发弹匣，可用于西格&绍尔\"蚊\"式手枪。"
 
 #. ~ Description for USP 9mm magazine
 #: lang/json/MAGAZINE_from_json.py
@@ -39004,7 +39165,7 @@ msgstr "一个工厂生产的规范的15发弹匣，可用于可靠的H&K USP 9m
 #. ~ Description for SIG P230 magazine
 #: lang/json/MAGAZINE_from_json.py
 msgid "A factory specification 8-round magazine for the SIG Sauer P230."
-msgstr "一个工厂生产的规范的8发弹匣，可用于SIG Sauer P230手枪。"
+msgstr "一个工厂生产的规范的8发弹匣，可用于西格&绍尔P230手枪。"
 
 #. ~ Description for PPSh 71-round drum magazine
 #: lang/json/MAGAZINE_from_json.py
@@ -39038,7 +39199,7 @@ msgstr ""
 #. ~ Description for H&K G3 magazine
 #: lang/json/MAGAZINE_from_json.py
 msgid "A lightweight aluminum box magazine for the H&K G3 rifle."
-msgstr "一个重量很轻的铝制弹匣，可用于H&K G3步枪。"
+msgstr "一个重量很轻的铝制盒式弹匣，可用于H&K G3步枪。"
 
 #. ~ Description for H&K G80 magazine
 #: lang/json/MAGAZINE_from_json.py
@@ -39238,7 +39399,7 @@ msgstr "高级冲锋枪弹匣"
 #. ~ Description for FN SCAR-H drum magazine
 #: lang/json/MAGAZINE_from_json.py
 msgid "An 50-round drum magazine for the FN SCAR-H rifle."
-msgstr "一个军用的装弹为50发的 FN SCAR-H步枪钢制弹鼓。"
+msgstr "一个装弹为50发的 FN SCAR-H步枪钢制弹鼓。"
 
 #. ~ Description for H&K G3 drum magazine
 #: lang/json/MAGAZINE_from_json.py
@@ -39250,7 +39411,7 @@ msgstr "50发弹鼓，可用于H&K G3步枪。"
 msgid ""
 "An aftermarket magazine for use with the Browning Automatic Rifle, holds 30 "
 "rounds."
-msgstr "30发弹匣，一只用于勃朗宁自动步枪的代用弹匣。"
+msgstr "30发弹匣，一只用于勃朗宁BAR步枪的代用弹匣。"
 
 #. ~ Description for ammo belt
 #: lang/json/MAGAZINE_from_json.py
@@ -39432,7 +39593,7 @@ msgstr "弹鼓"
 #. ~ Description for Ruger BX-25 magazine
 #: lang/json/MAGAZINE_from_json.py
 msgid "Extended 25-round stick magazine for the Ruger 10/22."
-msgstr "加长的25发长杆型弹匣，可用于儒格 10/22 步枪。"
+msgstr "加长的25发直式弹匣，可用于儒格 10/22 步枪。"
 
 #: lang/json/MAGAZINE_from_json.py
 msgid "Extended SMG magazine"
@@ -39660,7 +39821,7 @@ msgid ""
 "Removable 10-round rotary magazine for the Ruger 10/22 which allows the "
 "magazine to fit flush with the bottom of the stock."
 msgstr ""
-"可拆卸的10发螺旋性弹匣，可使用在儒格 10/22步枪上。弹匣底部能够与枪托底部紧贴"
+"可拆卸的10发螺旋形弹匣，可使用在儒格 10/22步枪上。弹匣底部能够与枪托底部紧贴"
 "齐平。"
 
 #: lang/json/MAGAZINE_from_json.py
@@ -39669,7 +39830,7 @@ msgstr "步枪弹匣"
 
 #: lang/json/MAGAZINE_from_json.py
 msgid "Ruger 10/22 rotary magazine"
-msgstr "儒格 10/22 螺旋型弹匣"
+msgstr "儒格 10/22 螺旋弹匣"
 
 #: lang/json/MAGAZINE_from_json.py
 msgid "Ruger 223 magazine"
@@ -39685,15 +39846,15 @@ msgstr "S&W 22A 弹匣"
 
 #: lang/json/MAGAZINE_from_json.py
 msgid "SIG Mosquito magazine"
-msgstr "SIG Mosquito 手枪弹匣"
+msgstr "西格&绍尔\"蚊\"式手枪弹匣"
 
 #: lang/json/MAGAZINE_from_json.py
 msgid "SIG P230 magazine"
-msgstr "SIG P230 手枪弹匣"
+msgstr "西格&绍尔P230手枪弹匣"
 
 #: lang/json/MAGAZINE_from_json.py
 msgid "SIG Pro .40 magazine"
-msgstr "SIG Pro .40 手枪弹匣"
+msgstr "西格&绍尔Pro .40手枪弹匣"
 
 #: lang/json/MAGAZINE_from_json.py
 msgid "STANAG drum magazine"
@@ -41391,7 +41552,7 @@ msgstr "一只大型活体大火，移动时如同燃烧的木头一样噼啪作
 #: lang/json/MONSTER_from_json.py
 msgid ""
 "A massive face cross-sectioned with large machinery; various tubes of "
-"bubbling liquid bury themselves and reemerge from pustulating wounds.  Its "
+"bubbling liquid bury themselves and reemerge from pustulating wounds. Its "
 "forehead has been removed, exposing a pulsating brain mass from which sound "
 "emanates."
 msgstr ""
@@ -41784,7 +41945,7 @@ msgstr ""
 "被诅咒者的仆人。这个可怜的家伙被从恐怖的恶魔前线赦免以供后方滥用。它的舌头被"
 "割了。"
 
-#. ~ Description for archvile
+#. ~ Description for vile
 #: lang/json/MONSTER_from_json.py
 msgid ""
 "A sickly yellow, elongated humanoid.  With almost complete control over its "
@@ -43347,6 +43508,16 @@ msgid ""
 "surroundings with an empty black gaze."
 msgstr "这生前吃多了垃圾食品的臃肿尸体踉跄着，用它那空洞的黑色眼眶扫视四周。"
 
+#. ~ Description for shock turret
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"Taking the dense storage capacity of UPS to its logical conclusion, the PRD3 "
+"Mounted Shockcannon is a 'computer aided defense tool designed for repeling "
+"crowds in a nonlethal manner'."
+msgstr ""
+"利用UPS高储能特性的合理产物，PRD3型车载电击炮台是一台\"采用非致命手段驱散人群"
+"的计算机辅助防御工具\"。"
+
 #. ~ Description for foose
 #: lang/json/MONSTER_from_json.py
 msgid ""
@@ -43871,6 +44042,11 @@ msgstr ""
 "这看起来像一个人的身体，但它的肉是雪白的，并且它的脸上没有任何东西，除了一个"
 "正圆形的嘴。"
 
+#. ~ Description for acidbomb hack
+#: lang/json/MONSTER_from_json.py
+msgid "This manhack carries an acid bomb within its core."
+msgstr "核心处装着一颗酸液炸弹的无人机。"
+
 #. ~ Description for debug monster
 #: lang/json/MONSTER_from_json.py
 msgid "This monster exists only for testing purposes."
@@ -44195,6 +44371,10 @@ msgid ""
 msgstr "一团干枯的灌木，褐色的沙沙作响的叶子善于伏击。易爆炸，并且容易被激活。"
 
 #: lang/json/MONSTER_from_json.py
+msgid "acidbomb hack"
+msgstr "酸液炸弹无人机"
+
+#: lang/json/MONSTER_from_json.py
 msgid "acidic zombie"
 msgstr "酸液丧尸"
 
@@ -44302,10 +44482,6 @@ msgstr "大恶魔"
 #: lang/json/MONSTER_from_json.py
 msgid "archon"
 msgstr "执政官"
-
-#: lang/json/MONSTER_from_json.py
-msgid "archvile"
-msgstr "大邪魔"
 
 #: lang/json/MONSTER_from_json.py
 msgid "armored zombie"
@@ -45303,6 +45479,10 @@ msgid_plural "sheep"
 msgstr[0] "羊"
 
 #: lang/json/MONSTER_from_json.py
+msgid "shock turret"
+msgstr "电击炮台"
+
+#: lang/json/MONSTER_from_json.py
 msgid "shocker brute"
 msgstr "放电丧尸兽"
 
@@ -45506,6 +45686,10 @@ msgstr[0] "扭曲体"
 #: lang/json/MONSTER_from_json.py
 msgid "vampire bat"
 msgstr "吸血蝙蝠"
+
+#: lang/json/MONSTER_from_json.py
+msgid "vile"
+msgstr "邪魔"
 
 #: lang/json/MONSTER_from_json.py
 msgid "vine beast"
@@ -47347,12 +47531,17 @@ msgstr ""
 "一个被点火的鞭炮，引信燃烧的同时还在嘶嘶作响。动作快一点，不然就等着被炸伤"
 "吧！"
 
+#. ~ Description for flame fissure
+#: lang/json/TOOL_from_json.py
+msgid "A fissure, rupturing its flames into reality."
+msgstr "一道裂痕，它喷涌的火焰确是真真切切的。"
+
 #. ~ Description for pocket ball
 #: lang/json/TOOL_from_json.py
 msgid ""
-"A fist-sized ball that holds the ... erm, 'energy' of a monster, allowing "
-"you to transport them within safely.  Seems to conserve weight, making its "
-"use impractical."
+"A fist-sized ball that holds the ...erm, 'energy' of a monster, allowing you "
+"to transport them within safely.  Seems to conserve weight, making its use "
+"impractical."
 msgstr ""
 "一个拳头大小的球，保存着…呃，怪物的\"能量\"，让你能够安全的运输它们。似乎依然"
 "保持重量，使它不太实用。"
@@ -47370,6 +47559,11 @@ msgid ""
 "A folded lightweight plastic rain poncho with a hood.  Use it to unfold for "
 "use."
 msgstr "一件带兜帽的可折叠雨披，分量很轻，快递叔叔的最爱！按<使用>键展开。"
+
+#. ~ Description for flame gout
+#: lang/json/TOOL_from_json.py
+msgid "A gout from nowhere, rupturing its flames into reality."
+msgstr "不知从哪冒出的火球，它喷涌的火焰确是真真切切的。"
 
 #. ~ Description for veinreaver
 #: lang/json/TOOL_from_json.py
@@ -47934,6 +48128,15 @@ msgstr ""
 "一个奇怪的银色印记，上面不规则的刻着古怪难懂的符文。使用它会召唤一只恐怖猎"
 "手，并将其和你的意念绑定，但愿吧。在白天使用它可是个很差的主意。"
 
+#. ~ Description for chinese digging tool
+#: lang/json/TOOL_from_json.py
+msgid ""
+"A sturdy spade made from cheap steel.  The spade's edge has been sharpened "
+"and its joints are tapered into a fine enough point to cut through wire."
+msgstr ""
+"一把由廉价钢料制成的结实铲子。铲子边缘已被磨尖，它的折叠头处是一个能够剪开电"
+"线的锥形钳。"
+
 #. ~ Description for E-Ink Tablet PC
 #: lang/json/TOOL_from_json.py
 msgid ""
@@ -48064,6 +48267,11 @@ msgid ""
 msgstr ""
 "沙丁胺醇吸入剂。用于治疗支气管痉挛，对于哮喘患者非常有用。一种温和的兴奋剂，"
 "它可能导致神经过敏或震颤。"
+
+#. ~ Description for stun bomblet
+#: lang/json/TOOL_from_json.py
+msgid "An active stun bomblet, ready to explode."
+msgstr "一发被激活的震击小型炸弹，马上要炸了。"
 
 #. ~ Description for advanced electronic cigarette
 #: lang/json/TOOL_from_json.py
@@ -48215,8 +48423,8 @@ msgstr ""
 msgid "Charge!!"
 msgstr "冲啊！！"
 
-#. ~ Use action failure_message for No. 9 (off).
 #. ~ Use action lacks_fuel_message for No. 9 (off).
+#. ~ Use action failure_message for No. 9 (off).
 #: lang/json/TOOL_from_json.py src/iuse.cpp
 msgid "Click."
 msgstr "点击"
@@ -48362,6 +48570,7 @@ msgstr "嘶嘶…"
 #. ~ Use action no_deactivate_msg for medium acidbomb.
 #. ~ Use action no_deactivate_msg for small acidbomb.
 #. ~ Use action no_deactivate_msg for micro acidbomb.
+#. ~ Use action no_deactivate_msg for manhack acidbomb.
 #: lang/json/TOOL_from_json.py
 msgid ""
 "Its a bug that you can see this, but that doesnt mean it won't kill you.  "
@@ -48591,15 +48800,60 @@ msgid ""
 "menacingly!"
 msgstr "有东西搞错了。沉睡的丧尸突然醒过来，向你冲了过来！"
 
+#. ~ Description for black imp spawner
+#: lang/json/TOOL_from_json.py
+msgid "Spawns a black imp into the world."
+msgstr "往世界里生成一只黑色小鬼。"
+
 #. ~ Description for rat spawner
 #: lang/json/TOOL_from_json.py
 msgid "Spawns a black rat into the world."
 msgstr "往世界里生成一只黑老鼠。"
 
+#. ~ Description for cacodemon spawner
+#: lang/json/TOOL_from_json.py
+msgid "Spawns a cacodemon into the world."
+msgstr "往世界里生成一只巨脑魔。"
+
+#. ~ Description for cyberdemon spawner
+#: lang/json/TOOL_from_json.py
+msgid "Spawns a cyberdemon into the world."
+msgstr "往世界里生成一只机械恶魔。"
+
 #. ~ Description for guardian trapdoor spider spawner
 #: lang/json/TOOL_from_json.py
 msgid "Spawns a guardian trapdoor spider into the world."
 msgstr "往世界里生成一只螲蟷蛛守卫。"
+
+#. ~ Description for hell baron spawner
+#: lang/json/TOOL_from_json.py
+msgid "Spawns a hell baron into the world."
+msgstr "往世界里生成一只地狱男爵。"
+
+#. ~ Description for hell knight spawner
+#: lang/json/TOOL_from_json.py
+msgid "Spawns a hell knight into the world."
+msgstr "往世界里生成一只地狱骑士。"
+
+#. ~ Description for lost soul spawn
+#: lang/json/TOOL_from_json.py
+msgid "Spawns a lost soul into the world."
+msgstr "往世界里生成一只失落之魂。"
+
+#. ~ Description for mancubus spawner
+#: lang/json/TOOL_from_json.py
+msgid "Spawns a mancubus into the world."
+msgstr "往世界里生成一只马库巴斯。"
+
+#. ~ Description for pinky spawner
+#: lang/json/TOOL_from_json.py
+msgid "Spawns a pink demon into the world."
+msgstr "往世界里生成一只粉红恶魔。"
+
+#. ~ Description for revenant spawn
+#: lang/json/TOOL_from_json.py
+msgid "Spawns a revenant into the world."
+msgstr "往世界里生成一只亡灵。"
 
 #. ~ Description for baby trapdoor spider spawner
 #: lang/json/TOOL_from_json.py
@@ -48620,6 +48874,16 @@ msgstr "往世界里生成一只带有超级毒药的蜘蛛。"
 #: lang/json/TOOL_from_json.py
 msgid "Spawns a trapdoor spider into the world."
 msgstr "往世界里生成一只螲蟷蛛。"
+
+#. ~ Description for arachnotron spawner
+#: lang/json/TOOL_from_json.py
+msgid "Spawns an arachnotron into the world."
+msgstr "往世界里生成一只机械蜘蛛。"
+
+#. ~ Description for imp spawner
+#: lang/json/TOOL_from_json.py
+msgid "Spawns an imp into the world."
+msgstr "往世界里生成一只烈焰小鬼。"
 
 #. ~ Description for diamond machete
 #: lang/json/TOOL_from_json.py
@@ -48706,6 +48970,11 @@ msgstr "太阳落下。"
 #: lang/json/TOOL_from_json.py
 msgid "The Sun shines brightly."
 msgstr "阳光灿烂。"
+
+#. ~ Use action friendly_msg for inactive acidbomb hack.
+#: lang/json/TOOL_from_json.py
+msgid "The acid hack flies from your hand and surveys the area!"
+msgstr "酸液炸弹无人机从你手上飞起，在附近区域自动寻找目标中！"
 
 #. ~ Use action voluntary_extinguish_message for incorruptible sword (on).
 #: lang/json/TOOL_from_json.py
@@ -50337,7 +50606,7 @@ msgid ""
 "This is a makeshift shaving kit.  You can use it to shave if it's supplied "
 "with soap.  It requires 1 unit of soap per use."
 msgstr ""
-"一把临时的剃须刀。如果你有肥皂，你可以用它刮胡子。每次使用需要1单位的肥皂"
+"一把简易剃须刀。如果你有肥皂，你可以用它刮胡子。每次使用需要1单位的肥皂。"
 
 #. ~ Description for stethoscope
 #: lang/json/TOOL_from_json.py
@@ -50426,7 +50695,7 @@ msgid ""
 "crowbar.  Use it to open locked doors without destroying them, or to lift "
 "manhole covers.  You could also wield it to fight with, in a pinch."
 msgstr ""
-"这是一个末端被砸扁并弯曲成撬棍的铁管。使用它，你可以在不破坏门的前提下，撬开"
+"这是一个末端被砸扁并弯曲成撬棍的钢管。使用它，你可以在不破坏门的前提下，撬开"
 "门锁。或者利用它客串一把撬井盖专业户。当然，你也可以在紧急关头运用它撬开敌人"
 "的脑壳。一物多用，实是居家旅行、杀人放火的必备良品。"
 
@@ -51021,7 +51290,7 @@ msgid ""
 "This is a small, makeshift funnel used to collect rainwater.  Use it outside "
 "and place a container beneath it to collect water when it rains."
 msgstr ""
-"一个用来收集雨水的小型手工粗制漏斗状装置。在户外激活该物品把它放在地上，然后"
+"一个用来收集雨水的小型手工简易漏斗状装置。在户外激活该物品把它放在地上，然后"
 "在它下面放一个容器就可以收集雨水了。"
 
 #. ~ Description for PDA
@@ -51362,6 +51631,24 @@ msgid ""
 msgstr ""
 "一块木制的洗衣板。如果你有肥皂，你可以用它洗脏衣服。每次使用需要1单位的肥皂。"
 
+#. ~ Description for manhack acidbomb
+#: lang/json/TOOL_from_json.py
+msgid ""
+"This is an acidbomb fitted into a manhack and rigged so the manhack can self-"
+"activate it.  Due to the manhack exploding the effective radius is somewhat "
+"larger."
+msgstr ""
+"酸液炸弹被放进无人机体内，而且能够被无人机自行引爆。因为在无人机上引爆因此有"
+"效范围会稍微大些。"
+
+#. ~ Description for manhack acidbomb
+#: lang/json/TOOL_from_json.py
+msgid ""
+"This is an acidbomb fitted into a manhack and rigged so the manhack can self-"
+"activate it.  This one is active."
+msgstr ""
+"酸液炸弹被放进无人机体内，而且能够被无人机自行引爆。这个炸弹已经被激活了。"
+
 #. ~ Description for active glowstick
 #: lang/json/TOOL_from_json.py
 msgid ""
@@ -51560,6 +51847,15 @@ msgstr ""
 "一台未激活的EMP无人机。EMP无人机是一台可以飞在空中的拳头大小机器人。这台机的"
 "内部装载了一只EMP手雷，会飞向敌人并引爆。使用它以激活。"
 
+#. ~ Description for inactive acidbomb hack
+#: lang/json/TOOL_from_json.py
+msgid ""
+"This is an inactive acidbomb hack.  When activated it will fly into a "
+"hostile and detonate, showering the area with acid."
+msgstr ""
+"一台未激活的酸液炸弹无人机。激活后会飞向敌人并引爆，将一大片区域覆盖在酸液"
+"中。使用它以激活。"
+
 #. ~ Description for inactive flashbang hack
 #: lang/json/TOOL_from_json.py
 msgid ""
@@ -51612,6 +51908,19 @@ msgid ""
 msgstr ""
 "一台未激活的微型核弹无人机。两倍于普通黑客无人机的大小，这台机的内部装载了一"
 "枚微型核弹，会飞向敌人并激活微型核弹摧毁敌人。使用它以激活。"
+
+#. ~ Description for inactive shockcannon turret
+#: lang/json/TOOL_from_json.py
+msgid ""
+"This is an inactive shockcannon turret.  Using this item involves turning it "
+"on and placing it on the ground, where it will attach itself.  The turret "
+"will then identify you as a friendly, and requires 100 batteries per "
+"discharge.  Any batteries within you inventory will be used to power the "
+"turret when you place it."
+msgstr ""
+"未激活的震动加农炮炮台。使用它以将它开启并放在地面上。此炮台保证在用它那威力"
+"无比的震动加农炮扫射丧尸时不会误伤自己。每次射击需要消耗100单位电量，当你安装"
+"时你物品栏内所有的电池都会给炮塔充能。"
 
 #. ~ Description for inactive tear gas hack
 #: lang/json/TOOL_from_json.py
@@ -51704,6 +52013,16 @@ msgid ""
 msgstr ""
 "老式农业工具，专门用来割杂草，构造十分简单，一片巨大的片叶和棍子，但是令人难"
 "以置信的好用。"
+
+#. ~ Description for soda can stove kit
+#: lang/json/TOOL_from_json.py
+msgid ""
+"This is an ultra-light alcohol-burning stove with simmer ring, crafted by "
+"hand from a couple of aluminum soda cans.  It comes with a 250 ml plastic "
+"bottle to hold concentrated alcohol fuel."
+msgstr ""
+"这是一个超轻型酒精燃烧炉，有着用铝罐手工加工而成的火力密封环。它配备了一个250"
+"毫升的塑料瓶，以容纳提炼过的酒精燃料。"
 
 #. ~ Description for soda can stove kit
 #: lang/json/TOOL_from_json.py
@@ -52348,6 +52667,11 @@ msgid ""
 "to be friendly."
 msgstr "你正对上燃烧之眼的凝视，它先眨眼了，似乎表示着友好。"
 
+#. ~ Use action hostile_msg for inactive acidbomb hack.
+#: lang/json/TOOL_from_json.py
+msgid "You mis-program the acidbomb hack; take cover!"
+msgstr "你没设好这台酸液炸弹无人机的程序，现在，快找掩护吧！"
+
 #. ~ Use action hostile_msg for revenant rocket.
 #: lang/json/TOOL_from_json.py
 msgid "You mis-program the missile; it's hostile!"
@@ -52428,7 +52752,7 @@ msgstr "你安置了皮革集雨器，等待收集雨水。"
 #. ~ Use action done_message for makeshift funnel.
 #: lang/json/TOOL_from_json.py
 msgid "You place the makeshift funnel, waiting to collect rain."
-msgstr "你放置了粗制集雨器，万事俱备，只待下雨了。"
+msgstr "你放置了简易集雨器，万事俱备，只待下雨了。"
 
 #. ~ Use action done_message for teleport pad.
 #: lang/json/TOOL_from_json.py
@@ -52560,11 +52884,6 @@ msgstr "你拉开了手榴弹的保险插销。"
 #: lang/json/TOOL_from_json.py
 msgid "You pull the pin on the scrambler grenade."
 msgstr "你拉开了扰频手雷的保险插梢"
-
-#. ~ Use action msg for revenant rocket core.
-#: lang/json/TOOL_from_json.py
-msgid "You puncture the rocket core!"
-msgstr "你给了亡灵火箭核心一拳头！"
 
 #. ~ Use action msg for offering chalice.
 #: lang/json/TOOL_from_json.py
@@ -52882,7 +53201,7 @@ msgstr[0] "无线炸药（激活）"
 #: lang/json/TOOL_from_json.py
 msgid "activated radio pipe bomb"
 msgid_plural "activated radio pipe bombs"
-msgstr[0] "无线雷管（激活）"
+msgstr[0] "土制无线雷管（激活）"
 
 #: lang/json/TOOL_from_json.py
 msgid "active ANFO charge"
@@ -52980,6 +53299,11 @@ msgid_plural "anvils"
 msgstr[0] "铁砧"
 
 #: lang/json/TOOL_from_json.py
+msgid "arachnotron spawner"
+msgid_plural "arachnotron spawners"
+msgstr[0] "机械蜘蛛生成器"
+
+#: lang/json/TOOL_from_json.py
 msgid "atomic battery mod"
 msgid_plural "atomic battery mods"
 msgstr[0] "原子电池模块"
@@ -53055,6 +53379,11 @@ msgid_plural "black gunpowder charges"
 msgstr[0] "黑火药药包"
 
 #: lang/json/TOOL_from_json.py
+msgid "black imp spawner"
+msgid_plural "black imp spawners"
+msgstr[0] "黑色小鬼生成器"
+
+#: lang/json/TOOL_from_json.py
 msgid "blade trap"
 msgid_plural "blade traps"
 msgstr[0] "刀刃陷阱"
@@ -53108,6 +53437,11 @@ msgstr[0] "火箭软糖（燃烧）"
 msgid "butcher knife"
 msgid_plural "butcher knives"
 msgstr[0] "屠宰刀"
+
+#: lang/json/TOOL_from_json.py
+msgid "cacodemon spawner"
+msgid_plural "cacodemon spawners"
+msgstr[0] "巨脑魔生成器"
 
 #: lang/json/TOOL_from_json.py
 msgid "camera"
@@ -53193,6 +53527,11 @@ msgstr[0] "炭滤净水器"
 msgid "chemistry set"
 msgid_plural "chemistry sets"
 msgstr[0] "化学用品包"
+
+#: lang/json/TOOL_from_json.py
+msgid "chinese digging tool"
+msgid_plural "chinese digging tools"
+msgstr[0] "中国军铲"
 
 #: lang/json/TOOL_from_json.py
 msgid "circular saw (off)"
@@ -53313,6 +53652,11 @@ msgstr[0] "诅咒之刃（开）"
 msgid "curved needle"
 msgid_plural "curved needles"
 msgstr[0] "弯针"
+
+#: lang/json/TOOL_from_json.py
+msgid "cyberdemon spawner"
+msgid_plural "cyberdemon spawners"
+msgstr[0] "机械恶魔生成器"
 
 #: lang/json/TOOL_from_json.py
 msgid "damaged shelter kit"
@@ -53568,6 +53912,16 @@ msgstr[0] "鞭炮"
 msgid "firecracker (lit)"
 msgid_plural "firecrackers (lit)"
 msgstr[0] "鞭炮（点燃）"
+
+#: lang/json/TOOL_from_json.py
+msgid "flame fissure"
+msgid_plural "flame fissures"
+msgstr[0] "喷火裂痕"
+
+#: lang/json/TOOL_from_json.py
+msgid "flame gout"
+msgid_plural "flame gouts"
+msgstr[0] "一团火焰"
 
 #: lang/json/TOOL_from_json.py
 msgid "flammable arrow"
@@ -53901,6 +54255,16 @@ msgid_plural "hedge trimmers (on)"
 msgstr[0] "树篱机（开）"
 
 #: lang/json/TOOL_from_json.py
+msgid "hell baron spawner"
+msgid_plural "hell baron spawners"
+msgstr[0] "地狱男爵生成器"
+
+#: lang/json/TOOL_from_json.py
+msgid "hell knight spawner"
+msgid_plural "hell knight spawners"
+msgstr[0] "地狱骑士生成器"
+
+#: lang/json/TOOL_from_json.py
 msgid "hexamine stove"
 msgid_plural "hexamine stoves"
 msgstr[0] "固态燃料块便携炉"
@@ -53952,6 +54316,11 @@ msgid_plural "ice axes"
 msgstr[0] "冰斧"
 
 #: lang/json/TOOL_from_json.py
+msgid "imp spawner"
+msgid_plural "imp spawners"
+msgstr[0] "烈焰小鬼生成器"
+
+#: lang/json/TOOL_from_json.py
 msgid "improvised lockpick"
 msgid_plural "improvised lockpicks"
 msgstr[0] "简易撬锁工具"
@@ -53965,6 +54334,11 @@ msgstr[0] "C-4无人机（关）"
 msgid "inactive EMP hack"
 msgid_plural "inactive EMP hacks"
 msgstr[0] "EMP无人机（关）"
+
+#: lang/json/TOOL_from_json.py
+msgid "inactive acidbomb hack"
+msgid_plural "inactive acidbomb hacks"
+msgstr[0] "酸液炸弹无人机（关）"
 
 #: lang/json/TOOL_from_json.py
 msgid "inactive flashbang hack"
@@ -53995,6 +54369,11 @@ msgstr[0] "微型核弹无人机（关）"
 msgid "inactive rifle turret"
 msgid_plural "inactive rifle turrets"
 msgstr[0] "步枪炮台（关）"
+
+#: lang/json/TOOL_from_json.py
+msgid "inactive shockcannon turret"
+msgid_plural "inactive shockcannon turrets"
+msgstr[0] "震动加农炮炮台（关）"
 
 #: lang/json/TOOL_from_json.py
 msgid "inactive tear gas hack"
@@ -54153,6 +54532,11 @@ msgid_plural "loose caltrops"
 msgstr[0] "铁蒺藜"
 
 #: lang/json/TOOL_from_json.py
+msgid "lost soul spawn"
+msgid_plural "lost soul spawns"
+msgstr[0] "失落之魂生成器"
+
+#: lang/json/TOOL_from_json.py
 msgid "machete"
 msgid_plural "machetes"
 msgstr[0] "砍刀"
@@ -54176,7 +54560,7 @@ msgstr[0] "简易撬棍"
 #: lang/json/vehicle_part_from_json.py
 msgid "makeshift funnel"
 msgid_plural "makeshift funnels"
-msgstr[0] "手工集雨器"
+msgstr[0] "简易集雨器"
 
 #: lang/json/TOOL_from_json.py
 msgid "makeshift gas canister"
@@ -54186,7 +54570,7 @@ msgstr[0] "自制催泪弹"
 #: lang/json/TOOL_from_json.py
 msgid "makeshift haircut kit"
 msgid_plural "makeshift haircut kits"
-msgstr[0] "临时理发剪"
+msgstr[0] "简易理发剪"
 
 #: lang/json/TOOL_from_json.py
 msgid "makeshift hammer"
@@ -54211,7 +54595,7 @@ msgstr[0] "土制砍刀"
 #: lang/json/TOOL_from_json.py
 msgid "makeshift shaving kit"
 msgid_plural "makeshift shaving kits"
-msgstr[0] "临时剃须刀套装"
+msgstr[0] "简易剃须刀套装"
 
 #: lang/json/TOOL_from_json.py
 msgid "makeshift shovel"
@@ -54227,6 +54611,16 @@ msgstr[0] "简易真空封口机"
 msgid "makeshift welder"
 msgid_plural "makeshift welders"
 msgstr[0] "简易电焊枪"
+
+#: lang/json/TOOL_from_json.py
+msgid "mancubus spawner"
+msgid_plural "mancubus spawners"
+msgstr[0] "马库巴斯生成器"
+
+#: lang/json/TOOL_from_json.py
+msgid "manhack acidbomb"
+msgid_plural "manhack acidbombs"
+msgstr[0] "酸液炸弹无人机"
 
 #: lang/json/TOOL_from_json.py
 msgid "match head bomb"
@@ -54415,6 +54809,11 @@ msgid_plural "pickaxes"
 msgstr[0] "鹤嘴锄"
 
 #: lang/json/TOOL_from_json.py
+msgid "pinky spawner"
+msgid_plural "pinky spawners"
+msgstr[0] "粉红恶魔生成器"
+
+#: lang/json/TOOL_from_json.py
 msgid "pipe bomb"
 msgid_plural "pipe bombs"
 msgstr[0] "土制雷管"
@@ -54469,6 +54868,11 @@ msgid "powered quarterstaff"
 msgid_plural "powered quarterstaves"
 msgstr[0] "电棍"
 
+#. ~ Use action sound_msg for manhack acidbomb.
+#: lang/json/TOOL_from_json.py
+msgid "pphhhffzzzz"
+msgstr "滋咝咝咝"
+
 #: lang/json/TOOL_from_json.py
 msgid "pro fishing rod"
 msgid_plural "pro fishing rods"
@@ -54502,7 +54906,7 @@ msgstr[0] "无线炸药"
 #: lang/json/TOOL_from_json.py
 msgid "radio pipe bomb"
 msgid_plural "radio pipe bombs"
-msgstr[0] "无线雷管"
+msgstr[0] "土制无线雷管"
 
 #: lang/json/TOOL_from_json.py
 msgid "rag"
@@ -54543,6 +54947,11 @@ msgstr[0] "载具远程遥控器"
 msgid "revenant rocket core"
 msgid_plural "revenant rocket cores"
 msgstr[0] "亡灵火箭核心"
+
+#: lang/json/TOOL_from_json.py
+msgid "revenant spawn"
+msgid_plural "revenant spawns"
+msgstr[0] "亡灵生成器"
 
 #: lang/json/TOOL_from_json.py
 msgid "rocket candy"
@@ -59408,7 +59817,7 @@ msgid ""
 "The remains of the federal government.  The extent of their strength is "
 "unknown but squads of patrolling soldiers have been seen under their banner."
 msgstr ""
-"联邦政府的残部。他们具体的实力并不明了，不过时时有成小队的士兵打着他们的旗帜"
+"联邦政府的残部。他们具体的实力并不明了，不过时常有成小队的士兵打着他们的旗帜"
 "巡逻。"
 
 #. ~ Description for Your Followers
@@ -60983,11 +61392,11 @@ msgstr "修理部件"
 
 #: lang/json/keybinding_from_json.py
 msgid "Reroll Random Character"
-msgstr "Reroll随机角色"
+msgstr "重新生成随机角色"
 
 #: lang/json/keybinding_from_json.py
 msgid "Reroll Random Character With Scenario"
-msgstr "Reroll随机角色和场景"
+msgstr "重新生成随机角色和场景"
 
 #: lang/json/keybinding_from_json.py
 msgid "Reset filter"
@@ -62729,7 +63138,7 @@ msgstr "收集5个背包"
 
 #: lang/json/mission_definition_from_json.py
 msgid "Gather 50 Pipes"
-msgstr "收集50根铁管"
+msgstr "收集50根钢管"
 
 #: lang/json/mission_definition_from_json.py
 msgid "Gather 6 First Aid Kits"
@@ -78387,8 +78796,7 @@ msgid ""
 "Sledge hammers may seem like a great weapon, but swinging them is really "
 "slow, and you won't do much damage unless you're really strong."
 msgstr ""
-"Sledge hammers看着像是不错的武器，但抡起来可真慢。除非你真的够壮，不然伤害可"
-"不高。"
+"大榔锤看着像是不错的武器，但抡起来可真慢。除非你真的够壮，不然伤害可不高。"
 
 #: lang/json/snippet_from_json.py
 msgid "Smash the Bots!"
@@ -84064,7 +84472,7 @@ msgstr "重型机械"
 
 #: lang/json/terrain_from_json.py
 msgid "heavy pipe"
-msgstr "重型铁管"
+msgstr "重型钢管"
 
 #: lang/json/terrain_from_json.py
 msgid "hickory tree"
@@ -87933,6 +88341,18 @@ msgstr ""
 
 #: src/artifact.cpp
 #, c-format
+msgctxt "artifact name (property, shape)"
+msgid "%1$s %2$s"
+msgstr "%1$s %2$s"
+
+#: src/artifact.cpp
+#, c-format
+msgctxt "artifact name (type, noun)"
+msgid "%1$s of %2$s"
+msgstr "%1$s 之 %2$s"
+
+#: src/artifact.cpp
+#, c-format
 msgid "%s Aeons"
 msgstr "%s之永恒"
 
@@ -88010,21 +88430,6 @@ msgstr "%s之苦难"
 #, c-format
 msgid "%s Technique"
 msgstr "%s之技艺"
-
-#: src/artifact.cpp
-#, c-format
-msgid "<artifact_desc>This %1$s %2$s."
-msgstr "<artifact_desc> 这是 %1$s %2$s。"
-
-#: src/artifact.cpp
-#, c-format
-msgid "<artifact_name>%1$s %2$s"
-msgstr "<artifact_name> %1$s %2$s"
-
-#: src/artifact.cpp
-#, c-format
-msgid "<artifact_name>%1$s of %2$s"
-msgstr "<artifact_name> %2$s 的 %1$s"
 
 #: src/artifact.cpp
 msgid "Ancient"
@@ -88161,6 +88566,12 @@ msgstr "剑"
 #: src/artifact.cpp
 msgid "The architect's cube."
 msgstr "这是供建筑师设计建筑时用的方块。"
+
+#: src/artifact.cpp
+#, c-format
+msgctxt "artifact description"
+msgid "This %1$s %2$s."
+msgstr "这个 %1$s %2$s。"
 
 #: src/artifact.cpp
 #, c-format
@@ -92910,376 +93321,17 @@ msgid "%1$s of %2$s"
 msgstr "%2$s 的 %1$s"
 
 #: src/faction.cpp
-msgid "<fac_adj>Ald"
-msgstr "<fac_adj>Ald"
-
-#: src/faction.cpp
-msgid "<fac_adj>Brogg"
-msgstr "<fac_adj>Brogg"
-
-#: src/faction.cpp
-msgid "<fac_adj>Cald"
-msgstr "<fac_adj>Cald"
-
-#: src/faction.cpp
-msgid "<fac_adj>Dredd"
-msgstr "<fac_adj>Dredd"
-
-#: src/faction.cpp
-msgid "<fac_adj>Eld"
-msgstr "<fac_adj>Eld"
-
-#: src/faction.cpp
-msgid "<fac_adj>Forr"
-msgstr "<fac_adj>Forr"
-
-#: src/faction.cpp
-msgid "<fac_adj>Gugg"
-msgstr "<fac_adj>Gugg"
-
-#: src/faction.cpp
-msgid "<fac_adj>Horr"
-msgstr "<fac_adj>Horr"
-
-#: src/faction.cpp
-msgid "<fac_adj>Ill"
-msgstr "<fac_adj>Ill"
-
-#: src/faction.cpp
-msgid "<fac_adj>Jov"
-msgstr "<fac_adj>Jov"
-
-#: src/faction.cpp
-msgid "<fac_adj>Kok"
-msgstr "<fac_adj>Kok"
-
-#: src/faction.cpp
-msgid "<fac_adj>Lill"
-msgstr "<fac_adj>Lill"
-
-#: src/faction.cpp
-msgid "<fac_adj>Moom"
-msgstr "<fac_adj>Moom"
-
-#: src/faction.cpp
-msgid "<fac_adj>Nov"
-msgstr "<fac_adj>Nov"
-
-#: src/faction.cpp
-msgid "<fac_adj>Orb"
-msgstr "<fac_adj>Orb"
-
-#: src/faction.cpp
-msgid "<fac_adj>Perv"
-msgstr "<fac_adj>Perv"
-
-#: src/faction.cpp
-msgid "<fac_adj>Quot"
-msgstr "<fac_adj>Quot"
-
-#: src/faction.cpp
-msgid "<fac_adj>Rar"
-msgstr "<fac_adj>Rar"
-
-#: src/faction.cpp
-msgid "<fac_adj>Suss"
-msgstr "<fac_adj>Suss"
-
-#: src/faction.cpp
-msgid "<fac_adj>Torr"
-msgstr "<fac_adj>Torr"
-
-#: src/faction.cpp
-msgid "<fac_adj>Umbr"
-msgstr "<fac_adj>Umbr"
-
-#: src/faction.cpp
-msgid "<fac_adj>Viv"
-msgstr "<fac_adj>Viv"
-
-#: src/faction.cpp
-msgid "<fac_adj>Warr"
-msgstr "<fac_adj>Warr"
-
-#: src/faction.cpp
-msgid "<fac_adj>Xen"
-msgstr "<fac_adj>Xen"
-
-#: src/faction.cpp
-msgid "<fac_adj>Yend"
-msgstr "<fac_adj>Yend"
-
-#: src/faction.cpp
-msgid "<fac_adj>Zor"
-msgstr "<fac_adj>Zor"
-
-#: src/faction.cpp
-msgid "<fac_adj>al"
-msgstr "<fac_adj>al"
-
-#: src/faction.cpp
-msgid "<fac_adj>an"
-msgstr "<fac_adj>an"
-
-#: src/faction.cpp
-msgid "<fac_adj>antr"
-msgstr "<fac_adj>antr"
-
-#: src/faction.cpp
-msgid "<fac_adj>ard"
-msgstr "<fac_adj>ard"
-
-#: src/faction.cpp
-msgid "<fac_adj>arn"
-msgstr "<fac_adj>arn"
-
-#: src/faction.cpp
-msgid "<fac_adj>astr"
-msgstr "<fac_adj>astr"
-
-#: src/faction.cpp
-msgid "<fac_adj>ate"
-msgstr "<fac_adj>ate"
-
-#: src/faction.cpp
-msgid "<fac_adj>e"
-msgstr "<fac_adj>e"
-
-#: src/faction.cpp
-msgid "<fac_adj>ed"
-msgstr "<fac_adj>ed"
-
-#: src/faction.cpp
-msgid "<fac_adj>ell"
-msgstr "<fac_adj>ell"
-
-#: src/faction.cpp
-msgid "<fac_adj>emm"
-msgstr "<fac_adj>emm"
-
-#: src/faction.cpp
-msgid "<fac_adj>empr"
-msgstr "<fac_adj>empr"
-
-#: src/faction.cpp
-msgid "<fac_adj>en"
-msgstr "<fac_adj>en"
-
-#: src/faction.cpp
-msgid "<fac_adj>ent"
-msgstr "<fac_adj>ent"
-
-#: src/faction.cpp
-msgid "<fac_adj>er"
-msgstr "<fac_adj>er"
-
-#: src/faction.cpp
-msgid "<fac_adj>ev"
-msgstr "<fac_adj>ev"
-
-#: src/faction.cpp
-msgid "<fac_adj>ial"
-msgstr "<fac_adj>ial"
-
-#: src/faction.cpp
-msgid "<fac_adj>ian"
-msgstr "<fac_adj>ian"
-
-#: src/faction.cpp
-msgid "<fac_adj>iated"
-msgstr "<fac_adj>iated"
-
-#: src/faction.cpp
-msgid "<fac_adj>ier"
-msgstr "<fac_adj>ier"
-
-#: src/faction.cpp
-msgid "<fac_adj>ill"
-msgstr "<fac_adj>ill"
-
-#: src/faction.cpp
-msgid "<fac_adj>ior"
-msgstr "<fac_adj>ior"
-
-#: src/faction.cpp
-msgid "<fac_adj>ious"
-msgstr "<fac_adj>ious"
-
-#: src/faction.cpp
-msgid "<fac_adj>ish"
-msgstr "<fac_adj>ish"
-
-#: src/faction.cpp
-msgid "<fac_adj>ive"
-msgstr "<fac_adj>ive"
-
-#: src/faction.cpp
-msgid "<fac_adj>old"
-msgstr "<fac_adj>old"
-
-#: src/faction.cpp
-msgid "<fac_adj>omn"
-msgstr "<fac_adj>omn"
-
-#: src/faction.cpp
-msgid "<fac_adj>oo"
-msgstr "<fac_adj>oo"
-
-#: src/faction.cpp
-msgid "<fac_adj>or"
-msgstr "<fac_adj>or"
-
-#: src/faction.cpp
-msgid "<fac_adj>ordr"
-msgstr "<fac_adj>ordr"
-
-#: src/faction.cpp
-msgid "<fac_adj>oth"
-msgstr "<fac_adj>oth"
-
-#: src/faction.cpp
-msgid "<fac_adj>ous"
-msgstr "<fac_adj>ous"
-
-#: src/faction.cpp
-msgid "<fac_adj>ul"
-msgstr "<fac_adj>ul"
-
-#: src/faction.cpp
-msgid "<fac_adj>ule"
-msgstr "<fac_adj>ule"
-
-#: src/faction.cpp
-msgid "<fac_adj>ulv"
-msgstr "<fac_adj>ulv"
-
-#: src/faction.cpp
-msgid "<fac_adj>un"
-msgstr "<fac_adj>un"
-
-#: src/faction.cpp
-msgid "<fac_adj>urn"
-msgstr "<fac_adj>urn"
-
-#: src/faction.cpp
-msgid "<fac_adj>uv"
-msgstr "<fac_adj>uv"
-
-#: src/faction.cpp
-msgid "<fac_adj>y"
-msgstr "<fac_adj>y"
-
-#: src/faction.cpp
-msgid "<fac_name>ab"
-msgstr "<fac_name>ab"
-
-#: src/faction.cpp
-msgid "<fac_name>bon"
-msgstr "<fac_name>bon"
-
-#: src/faction.cpp
-msgid "<fac_name>cor"
-msgstr "<fac_name>cor"
-
-#: src/faction.cpp
-msgid "<fac_name>den"
-msgstr "<fac_name>den"
-
-#: src/faction.cpp
-msgid "<fac_name>el"
-msgstr "<fac_name>el"
-
-#: src/faction.cpp
-msgid "<fac_name>fes"
-msgstr "<fac_name>fes"
-
-#: src/faction.cpp
-msgid "<fac_name>gun"
-msgstr "<fac_name>gun"
-
-#: src/faction.cpp
-msgid "<fac_name>hit"
-msgstr "<fac_name>hit"
-
-#: src/faction.cpp
-msgid "<fac_name>id"
-msgstr "<fac_name>id"
-
-#: src/faction.cpp
-msgid "<fac_name>jan"
-msgstr "<fac_name>jan"
-
-#: src/faction.cpp
-msgid "<fac_name>kal"
-msgstr "<fac_name>kal"
-
-#: src/faction.cpp
-msgid "<fac_name>ler"
-msgstr "<fac_name>ler"
-
-#: src/faction.cpp
-msgid "<fac_name>mal"
-msgstr "<fac_name>mal"
-
-#: src/faction.cpp
-msgid "<fac_name>nor"
-msgstr "<fac_name>nor"
-
-#: src/faction.cpp
-msgid "<fac_name>or"
-msgstr "<fac_name>or"
-
-#: src/faction.cpp
-msgid "<fac_name>oxo"
-msgstr "<fac_name>oxo"
-
-#: src/faction.cpp
-msgid "<fac_name>pan"
-msgstr "<fac_name>pan"
-
-#: src/faction.cpp
-msgid "<fac_name>qua"
-msgstr "<fac_name>qua"
-
-#: src/faction.cpp
-msgid "<fac_name>ros"
-msgstr "<fac_name>ros"
-
-#: src/faction.cpp
-msgid "<fac_name>sin"
-msgstr "<fac_name>sin"
-
-#: src/faction.cpp
-msgid "<fac_name>tor"
-msgstr "<fac_name>tor"
-
-#: src/faction.cpp
-msgid "<fac_name>urr"
-msgstr "<fac_name>urr"
-
-#: src/faction.cpp
-msgid "<fac_name>ven"
-msgstr "<fac_name>ven"
-
-#: src/faction.cpp
-msgid "<fac_name>wel"
-msgstr "<fac_name>wel"
-
-#: src/faction.cpp
-msgid "<fac_name>yen"
-msgstr "<fac_name>yen"
-
-#: src/faction.cpp
-msgid "<fac_name>zu"
-msgstr "<fac_name>zu"
-
-#: src/faction.cpp
 msgid "Affluent"
 msgstr "富甲一方"
 
 #: src/faction.cpp
 msgid "Agents"
 msgstr "特工"
+
+#: src/faction.cpp
+msgctxt "faction adjective"
+msgid "Ald"
+msgstr "Ald"
 
 #: src/faction.cpp
 msgid "Arachnids"
@@ -93318,8 +93370,18 @@ msgid "Bright"
 msgstr "明亮的"
 
 #: src/faction.cpp
+msgctxt "faction adjective"
+msgid "Brogg"
+msgstr "Brogg"
+
+#: src/faction.cpp
 msgid "Brotherhood"
 msgstr "兄弟会"
+
+#: src/faction.cpp
+msgctxt "faction adjective"
+msgid "Cald"
+msgstr "Cald"
 
 #: src/faction.cpp
 msgid "Church"
@@ -93426,8 +93488,18 @@ msgid "Dread"
 msgstr "可怕的"
 
 #: src/faction.cpp
+msgctxt "faction adjective"
+msgid "Dredd"
+msgstr "Dredd"
+
+#: src/faction.cpp
 msgid "Eels"
 msgstr "滑头"
+
+#: src/faction.cpp
+msgctxt "faction adjective"
+msgid "Eld"
+msgstr "Eld"
 
 #: src/faction.cpp
 msgid "Elders"
@@ -93486,6 +93558,11 @@ msgid "Folk"
 msgstr "民族"
 
 #: src/faction.cpp
+msgctxt "faction adjective"
+msgid "Forr"
+msgstr "Forr"
+
+#: src/faction.cpp
 msgid "Foul"
 msgstr "犯规的"
 
@@ -93514,6 +93591,11 @@ msgid "Guerillas"
 msgstr "浪客"
 
 #: src/faction.cpp
+msgctxt "faction adjective"
+msgid "Gugg"
+msgstr "Gugg"
+
+#: src/faction.cpp
 msgid "Guild"
 msgstr "派别"
 
@@ -93534,6 +93616,11 @@ msgid "Holy"
 msgstr "神圣的"
 
 #: src/faction.cpp
+msgctxt "faction adjective"
+msgid "Horr"
+msgstr "Horr"
+
+#: src/faction.cpp
 msgid "Horror"
 msgstr "恐怖的"
 
@@ -93544,6 +93631,11 @@ msgstr "猎人"
 #: src/faction.cpp
 msgid "Idol"
 msgstr "崇拜"
+
+#: src/faction.cpp
+msgctxt "faction adjective"
+msgid "Ill"
+msgstr "Ill"
 
 #: src/faction.cpp
 msgid "Immaculate"
@@ -93562,6 +93654,11 @@ msgid "Invincible"
 msgstr "无敌的"
 
 #: src/faction.cpp
+msgctxt "faction adjective"
+msgid "Jov"
+msgstr "Jov"
+
+#: src/faction.cpp
 msgid "Killers"
 msgstr "杀手"
 
@@ -93572,6 +93669,11 @@ msgstr "王国"
 #: src/faction.cpp
 msgid "Knights"
 msgstr "骑士"
+
+#: src/faction.cpp
+msgctxt "faction adjective"
+msgid "Kok"
+msgstr "Kok"
 
 #: src/faction.cpp
 msgid "Laughingstock"
@@ -93588,6 +93690,11 @@ msgstr "传奇"
 #: src/faction.cpp
 msgid "Liked"
 msgstr "喜欢"
+
+#: src/faction.cpp
+msgctxt "faction adjective"
+msgid "Lill"
+msgstr "Lill"
 
 #: src/faction.cpp
 msgid "Mafia"
@@ -93618,6 +93725,11 @@ msgid "Monks"
 msgstr "僧侣"
 
 #: src/faction.cpp
+msgctxt "faction adjective"
+msgid "Moom"
+msgstr "Moom"
+
+#: src/faction.cpp
 msgid "Muggers"
 msgstr "抢劫犯"
 
@@ -93638,8 +93750,18 @@ msgid "Not Welcome"
 msgstr "敌视"
 
 #: src/faction.cpp
+msgctxt "faction adjective"
+msgid "Nov"
+msgstr "Nov"
+
+#: src/faction.cpp
 msgid "Ones"
 msgstr "人们"
+
+#: src/faction.cpp
+msgctxt "faction adjective"
+msgid "Orb"
+msgstr "Orb"
 
 #: src/faction.cpp
 msgid "Original"
@@ -93678,6 +93800,11 @@ msgid "Pernicious"
 msgstr "致命的"
 
 #: src/faction.cpp
+msgctxt "faction adjective"
+msgid "Perv"
+msgstr "Perv"
+
+#: src/faction.cpp
 msgid "Pestilent"
 msgstr "瘟疫的"
 
@@ -93702,12 +93829,22 @@ msgid "Punks"
 msgstr "朋克"
 
 #: src/faction.cpp
+msgctxt "faction adjective"
+msgid "Quot"
+msgstr "Quot"
+
+#: src/faction.cpp
 msgid "Racket"
 msgstr "球拍"
 
 #: src/faction.cpp
 msgid "Radiant"
 msgstr "发光的"
+
+#: src/faction.cpp
+msgctxt "faction adjective"
+msgid "Rar"
+msgstr "Rar"
 
 #: src/faction.cpp
 msgid "Rats"
@@ -93814,6 +93951,11 @@ msgid "Supreme"
 msgstr "至高的"
 
 #: src/faction.cpp
+msgctxt "faction adjective"
+msgid "Suss"
+msgstr "Suss"
+
+#: src/faction.cpp
 msgid "Tenet"
 msgstr "信条"
 
@@ -93840,8 +93982,18 @@ msgid "Tigers"
 msgstr "虎狼之徒"
 
 #: src/faction.cpp
+msgctxt "faction adjective"
+msgid "Torr"
+msgstr "Torr"
+
+#: src/faction.cpp
 msgid "Tribe"
 msgstr "部落"
+
+#: src/faction.cpp
+msgctxt "faction adjective"
+msgid "Umbr"
+msgstr "Umbr"
 
 #: src/faction.cpp
 msgid "Unchallenged"
@@ -93892,6 +94044,11 @@ msgid "Virtuous"
 msgstr "善良的"
 
 #: src/faction.cpp
+msgctxt "faction adjective"
+msgid "Viv"
+msgstr "Viv"
+
+#: src/faction.cpp
 msgid "Wanted Criminal"
 msgstr "敌对"
 
@@ -93902,6 +94059,11 @@ msgstr "死敌"
 #: src/faction.cpp
 msgid "Wanting"
 msgstr "囊中羞涩"
+
+#: src/faction.cpp
+msgctxt "faction adjective"
+msgid "Warr"
+msgstr "Warr"
 
 #: src/faction.cpp
 msgid "Warriors"
@@ -93936,12 +94098,72 @@ msgid "Worthless Scum"
 msgstr "渣滓"
 
 #: src/faction.cpp
+msgctxt "faction adjective"
+msgid "Xen"
+msgstr "Xen"
+
+#: src/faction.cpp
+msgctxt "faction adjective"
+msgid "Yend"
+msgstr "Yend"
+
+#: src/faction.cpp
+msgctxt "faction adjective"
+msgid "Zor"
+msgstr "Zor"
+
+#: src/faction.cpp
+msgctxt "faction name"
+msgid "ab"
+msgstr "ab"
+
+#: src/faction.cpp
+msgctxt "faction adjective"
+msgid "al"
+msgstr "al"
+
+#: src/faction.cpp
+msgctxt "faction adjective"
+msgid "an"
+msgstr "an"
+
+#: src/faction.cpp
+msgctxt "faction adjective"
+msgid "antr"
+msgstr "antr"
+
+#: src/faction.cpp
+msgctxt "faction adjective"
+msgid "ard"
+msgstr "ard"
+
+#: src/faction.cpp
+msgctxt "faction adjective"
+msgid "arn"
+msgstr "arn"
+
+#: src/faction.cpp
 msgid "assassinations"
 msgstr "暗杀"
 
 #: src/faction.cpp
+msgctxt "faction adjective"
+msgid "astr"
+msgstr "astr"
+
+#: src/faction.cpp
+msgctxt "faction adjective"
+msgid "ate"
+msgstr "ate"
+
+#: src/faction.cpp
 msgid "basic survival"
 msgstr "基本生存"
+
+#: src/faction.cpp
+msgctxt "faction name"
+msgid "bon"
+msgstr "bon"
 
 #: src/faction.cpp
 msgid "bringing the apocalypse"
@@ -93956,6 +94178,16 @@ msgid "contact with unseen powers"
 msgstr "与无形力量的联系"
 
 #: src/faction.cpp
+msgctxt "faction name"
+msgid "cor"
+msgstr "cor"
+
+#: src/faction.cpp
+msgctxt "faction name"
+msgid "den"
+msgstr "den"
+
+#: src/faction.cpp
 msgid "dominance of the region"
 msgstr "地区优势"
 
@@ -93964,12 +94196,67 @@ msgid "drug dealing"
 msgstr "毒品交易"
 
 #: src/faction.cpp
+msgctxt "faction adjective"
+msgid "e"
+msgstr "e"
+
+#: src/faction.cpp
+msgctxt "faction adjective"
+msgid "ed"
+msgstr "ed"
+
+#: src/faction.cpp
+msgctxt "faction name"
+msgid "el"
+msgstr "el"
+
+#: src/faction.cpp
+msgctxt "faction adjective"
+msgid "ell"
+msgstr "ell"
+
+#: src/faction.cpp
+msgctxt "faction adjective"
+msgid "emm"
+msgstr "emm"
+
+#: src/faction.cpp
+msgctxt "faction adjective"
+msgid "empr"
+msgstr "empr"
+
+#: src/faction.cpp
+msgctxt "faction adjective"
+msgid "en"
+msgstr "en"
+
+#: src/faction.cpp
+msgctxt "faction adjective"
+msgid "ent"
+msgstr "ent"
+
+#: src/faction.cpp
+msgctxt "faction adjective"
+msgid "er"
+msgstr "er"
+
+#: src/faction.cpp
+msgctxt "faction adjective"
+msgid "ev"
+msgstr "ev"
+
+#: src/faction.cpp
 msgid "exploring extensively"
 msgstr "广泛探索"
 
 #: src/faction.cpp
 msgid "farming & selling food"
 msgstr "农业和食品销售"
+
+#: src/faction.cpp
+msgctxt "faction name"
+msgid "fes"
+msgstr "fes"
 
 #: src/faction.cpp
 msgid "financial wealth"
@@ -93984,8 +94271,88 @@ msgid "general chaos and anarchy"
 msgstr "混乱及无政府状态"
 
 #: src/faction.cpp
+msgctxt "faction name"
+msgid "gun"
+msgstr "gun"
+
+#: src/faction.cpp
 msgid "harmony with nature"
 msgstr "自然和谐"
+
+#: src/faction.cpp
+msgctxt "faction name"
+msgid "hit"
+msgstr "hit"
+
+#: src/faction.cpp
+msgctxt "faction adjective"
+msgid "ial"
+msgstr "ial"
+
+#: src/faction.cpp
+msgctxt "faction adjective"
+msgid "ian"
+msgstr "ian"
+
+#: src/faction.cpp
+msgctxt "faction adjective"
+msgid "iated"
+msgstr "iated"
+
+#: src/faction.cpp
+msgctxt "faction name"
+msgid "id"
+msgstr "id"
+
+#: src/faction.cpp
+msgctxt "faction adjective"
+msgid "ier"
+msgstr "ier"
+
+#: src/faction.cpp
+msgctxt "faction adjective"
+msgid "ill"
+msgstr "ill"
+
+#: src/faction.cpp
+msgctxt "faction adjective"
+msgid "ior"
+msgstr "ior"
+
+#: src/faction.cpp
+msgctxt "faction adjective"
+msgid "ious"
+msgstr "ious"
+
+#: src/faction.cpp
+msgctxt "faction adjective"
+msgid "ish"
+msgstr "ish"
+
+#: src/faction.cpp
+msgctxt "faction adjective"
+msgid "ive"
+msgstr "ive"
+
+#: src/faction.cpp
+msgctxt "faction name"
+msgid "jan"
+msgstr "jan"
+
+#: src/faction.cpp
+msgctxt "faction name"
+msgid "kal"
+msgstr "kal"
+
+#: src/faction.cpp
+msgctxt "faction name"
+msgid "ler"
+msgstr "ler"
+
+#: src/faction.cpp
+msgctxt "faction name"
+msgid "mal"
+msgstr "mal"
 
 #: src/faction.cpp
 msgid "medical aid"
@@ -93996,8 +94363,68 @@ msgid "mercenary work"
 msgstr "佣兵工作"
 
 #: src/faction.cpp
+msgctxt "faction name"
+msgid "nor"
+msgstr "nor"
+
+#: src/faction.cpp
+msgctxt "faction adjective"
+msgid "old"
+msgstr "old"
+
+#: src/faction.cpp
+msgctxt "faction adjective"
+msgid "omn"
+msgstr "omn"
+
+#: src/faction.cpp
+msgctxt "faction adjective"
+msgid "oo"
+msgstr "oo"
+
+#: src/faction.cpp
+msgctxt "faction adjective"
+msgid "or"
+msgstr "or"
+
+#: src/faction.cpp
+msgctxt "faction name"
+msgid "or"
+msgstr "or"
+
+#: src/faction.cpp
+msgctxt "faction adjective"
+msgid "ordr"
+msgstr "ordr"
+
+#: src/faction.cpp
+msgctxt "faction adjective"
+msgid "oth"
+msgstr "oth"
+
+#: src/faction.cpp
+msgctxt "faction adjective"
+msgid "ous"
+msgstr "ous"
+
+#: src/faction.cpp
+msgctxt "faction name"
+msgid "oxo"
+msgstr "oxo"
+
+#: src/faction.cpp
+msgctxt "faction name"
+msgid "pan"
+msgstr "pan"
+
+#: src/faction.cpp
 msgid "protection rackets"
 msgstr "保护费"
+
+#: src/faction.cpp
+msgctxt "faction name"
+msgid "qua"
+msgstr "qua"
 
 #: src/faction.cpp
 msgid "raiding settlements"
@@ -94008,12 +94435,22 @@ msgid "rebuilding civilization"
 msgstr "重建文明"
 
 #: src/faction.cpp
+msgctxt "faction name"
+msgid "ros"
+msgstr "ros"
+
+#: src/faction.cpp
 msgid "scavenging supplies"
 msgstr "清洁用品"
 
 #: src/faction.cpp
 msgid "selling manufactured goods"
 msgstr "销售成品"
+
+#: src/faction.cpp
+msgctxt "faction name"
+msgid "sin"
+msgstr "sin"
 
 #: src/faction.cpp
 msgid "spreading the fungus"
@@ -94076,12 +94513,77 @@ msgid "their robotics factories"
 msgstr "他们的机器人工厂"
 
 #: src/faction.cpp
+msgctxt "faction name"
+msgid "tor"
+msgstr "tor"
+
+#: src/faction.cpp
 msgid "trade caravans"
 msgstr "商队贸易"
 
 #: src/faction.cpp
 msgid "treachery"
 msgstr "背信弃义"
+
+#: src/faction.cpp
+msgctxt "faction adjective"
+msgid "ul"
+msgstr "ul"
+
+#: src/faction.cpp
+msgctxt "faction adjective"
+msgid "ule"
+msgstr "ule"
+
+#: src/faction.cpp
+msgctxt "faction adjective"
+msgid "ulv"
+msgstr "ulv"
+
+#: src/faction.cpp
+msgctxt "faction adjective"
+msgid "un"
+msgstr "un"
+
+#: src/faction.cpp
+msgctxt "faction adjective"
+msgid "urn"
+msgstr "urn"
+
+#: src/faction.cpp
+msgctxt "faction name"
+msgid "urr"
+msgstr "urr"
+
+#: src/faction.cpp
+msgctxt "faction adjective"
+msgid "uv"
+msgstr "uv"
+
+#: src/faction.cpp
+msgctxt "faction name"
+msgid "ven"
+msgstr "ven"
+
+#: src/faction.cpp
+msgctxt "faction name"
+msgid "wel"
+msgstr "wel"
+
+#: src/faction.cpp
+msgctxt "faction adjective"
+msgid "y"
+msgstr "y"
+
+#: src/faction.cpp
+msgctxt "faction name"
+msgid "yen"
+msgstr "yen"
+
+#: src/faction.cpp
+msgctxt "faction name"
+msgid "zu"
+msgstr "zu"
 
 #: src/field.cpp
 msgid "<npcname> burns their legs and feet!"
@@ -100988,6 +101490,12 @@ msgstr "%1$s%2$s%3$s%4$s%5$s%6$s"
 
 #: src/item.cpp
 #, c-format
+msgctxt "vehicle adjective"
+msgid "%2.1fL "
+msgstr "%2.1fL "
+
+#: src/item.cpp
+#, c-format
 msgid "%d bashing (%d on a critical hit)"
 msgstr "%d 钝击（%d 暴击）"
 
@@ -101010,6 +101518,51 @@ msgstr "%d 穿刺（%d 暴击）"
 #, c-format
 msgid "%d x %s"
 msgstr "%d x %s"
+
+#: src/item.cpp
+#, c-format
+msgctxt "vehicle adjective"
+msgid "%d\" "
+msgstr "%d\" "
+
+#: src/item.cpp
+#, c-format
+msgctxt "item name"
+msgid "%s blood"
+msgid_plural "%s blood"
+msgstr[0] "%s 血液"
+
+#: src/item.cpp
+#, c-format
+msgctxt "item name"
+msgid "%s corpse"
+msgid_plural "%s corpses"
+msgstr[0] "%s 的尸体"
+
+#: src/item.cpp
+#, c-format
+msgctxt "item name"
+msgid "%s corpse of %s"
+msgid_plural "%s corpses of %s"
+msgstr[0] "%s 的尸体（%s）"
+
+#: src/item.cpp
+#, c-format
+msgctxt "item name"
+msgid "%s of %s"
+msgstr "%s 之 %s"
+
+#: src/item.cpp
+#, c-format
+msgctxt "item name"
+msgid "%s with %s"
+msgstr "%s 装着 %s"
+
+#: src/item.cpp
+#, c-format
+msgctxt "item name"
+msgid "%s, full"
+msgstr "%s（满）"
 
 #. ~ %1$s is the name of a fault and %2$s is the description of the fault
 #: src/item.cpp
@@ -101462,38 +102015,6 @@ msgid "<bold>Volume</bold>: "
 msgstr "<bold>体积</bold>："
 
 #: src/item.cpp
-msgid "<burnt_adj>badly burnt "
-msgstr "<burnt_adj>严重烧焦的 "
-
-#: src/item.cpp
-msgid "<burnt_adj>burnt "
-msgstr "<burnt_adj>烧焦的 "
-
-#: src/item.cpp
-msgid "<dam_adj>accurized "
-msgstr "<dam_adj>精校的 "
-
-#: src/item.cpp
-msgid "<dam_adj>bruised "
-msgstr "<dam_adj>划痕的 "
-
-#: src/item.cpp
-msgid "<dam_adj>damaged "
-msgstr "<dam_adj>受损的 "
-
-#: src/item.cpp
-msgid "<dam_adj>mangled "
-msgstr "<dam_adj>损坏的 "
-
-#: src/item.cpp
-msgid "<dam_adj>pulped "
-msgstr "<dam_adj>破碎的 "
-
-#: src/item.cpp
-msgid "<dam_adj>reinforced "
-msgstr "<dam_adj>强化的 "
-
-#: src/item.cpp
 msgid "<good>preserves spoiling</good>, "
 msgstr "<good>防止腐坏</good>，"
 
@@ -101501,44 +102022,6 @@ msgstr "<good>防止腐坏</good>，"
 #, c-format
 msgid "<info>Requires %s level</info> <num> to understand."
 msgstr "需要 <info>%s 技能</info> <num> 级才能理解。"
-
-#: src/item.cpp
-#, c-format
-msgid "<item_name>%s blood"
-msgid_plural "<item_name>%s blood"
-msgstr[0] "<item_name>%s 的血液"
-
-#: src/item.cpp
-#, c-format
-msgid "<item_name>%s corpse"
-msgid_plural "<item_name>%s corpses"
-msgstr[0] "<item_name>%s 的尸体"
-
-#: src/item.cpp
-#, c-format
-msgid "<item_name>%s corpse of %s"
-msgid_plural "<item_name>%s corpses of %s"
-msgstr[0] "<item_name>%s %s 的尸体"
-
-#: src/item.cpp
-#, c-format
-msgid "<item_name>%s of %s"
-msgstr "<item_name>%s 装的 %s"
-
-#: src/item.cpp
-#, c-format
-msgid "<item_name>%s with %s"
-msgstr "<item_name>%s 装有 %s"
-
-#: src/item.cpp
-#, c-format
-msgid "<item_name>%s, full"
-msgstr "<item_name>%s，装满"
-
-#: src/item.cpp
-msgid "<item_name>human blood"
-msgid_plural "<item_name>human blood"
-msgstr[0] "<item_name>人类血液制剂"
 
 #: src/item.cpp
 msgid "<num> <info>(fits)</info>"
@@ -101573,16 +102056,6 @@ msgstr "<stat>背系</stat>。"
 #: src/item.cpp
 msgid "<stat>Waist</stat>. "
 msgstr "<stat>腰部</stat>。"
-
-#: src/item.cpp
-#, c-format
-msgid "<veh_adj>%2.1fL "
-msgstr "<veh_adj>%2.1fL "
-
-#: src/item.cpp
-#, c-format
-msgid "<veh_adj>%d\" "
-msgstr "<veh_adj>%d\" "
 
 #: src/item.cpp
 msgid "A chapter of this book takes <num> <info>minute to read</info>."
@@ -102285,12 +102758,22 @@ msgid "\\."
 msgstr "\\."
 
 #: src/item.cpp
+msgctxt "damage adjective"
+msgid "accurized "
+msgstr "精校的 "
+
+#: src/item.cpp
 msgid "age: "
 msgstr "寿命： "
 
 #: src/item.cpp
 msgid "atomic "
 msgstr "原子 "
+
+#: src/item.cpp
+msgctxt "burnt adjective"
+msgid "badly burnt "
+msgstr "严重烧焦的 "
 
 #: src/item.cpp
 msgid "bday rot: "
@@ -102301,8 +102784,18 @@ msgid "black"
 msgstr "黑色"
 
 #: src/item.cpp
+msgctxt "damage adjective"
+msgid "bruised "
+msgstr "划痕的 "
+
+#: src/item.cpp
 msgid "burn: "
 msgstr "热度： "
+
+#: src/item.cpp
+msgctxt "burnt adjective"
+msgid "burnt "
+msgstr "烧焦的 "
 
 #: src/item.cpp
 msgid "can be <info>resealed</info>, "
@@ -102312,6 +102805,11 @@ msgstr "能<info>重新封装</info>，"
 #, c-format
 msgid "can store <info>%.2f liters</info>."
 msgstr "能够储存<info> %.2f 升</info>。"
+
+#: src/item.cpp
+msgctxt "damage adjective"
+msgid "damaged "
+msgstr "损坏的"
 
 #: src/item.cpp
 msgid "dexterity"
@@ -102324,6 +102822,12 @@ msgstr "已故障"
 #: src/item.cpp
 msgid "fridge: "
 msgstr "冷藏："
+
+#: src/item.cpp
+msgctxt "item name"
+msgid "human blood"
+msgid_plural "human blood"
+msgstr[0] "人类血液"
 
 #: src/item.cpp
 msgid "intelligence"
@@ -102342,6 +102846,11 @@ msgid "left"
 msgstr "左 "
 
 #: src/item.cpp
+msgctxt "damage adjective"
+msgid "mangled "
+msgstr "残破的 "
+
+#: src/item.cpp
 msgid "max rot: "
 msgstr "最大腐坏回合数： "
 
@@ -102353,6 +102862,16 @@ msgstr "橙色"
 #: src/item.cpp
 msgid "perception"
 msgstr "感知"
+
+#: src/item.cpp
+msgctxt "damage adjective"
+msgid "pulped "
+msgstr "碎浆的"
+
+#: src/item.cpp
+msgctxt "damage adjective"
+msgid "reinforced "
+msgstr "强化的 "
 
 #: src/item.cpp
 msgid "right"
@@ -102606,34 +103125,6 @@ msgstr "<npcname> 挣扎着倒在了地上。"
 #: src/iuse.cpp
 msgid "<npcname> writhes in agony and collapses to the ground!"
 msgstr "<npcname> 在痛苦中挣扎着倒在了地上。"
-
-#: src/iuse.cpp
-msgid "<plural>Kevlar"
-msgstr "<plural>凯夫拉"
-
-#: src/iuse.cpp
-msgid "<plural>Nomex"
-msgstr "<plural>\"诺梅克斯\"防火纤维"
-
-#: src/iuse.cpp
-msgid "<plural>fur"
-msgstr "<plural>毛皮"
-
-#: src/iuse.cpp
-msgid "<plural>leather"
-msgstr "<plural>皮革"
-
-#: src/iuse.cpp
-msgid "<plural>plastic"
-msgstr "<plural>塑料"
-
-#: src/iuse.cpp
-msgid "<plural>rags"
-msgstr "<plural>布条"
-
-#: src/iuse.cpp
-msgid "<plural>wool"
-msgstr "<plural>羊毛"
 
 #: src/iuse.cpp
 #, c-format
@@ -109088,7 +109579,7 @@ msgstr "弄到马达了吗？"
 
 #: src/mission.cpp
 msgid "Do you have the pipes?"
-msgstr "弄到铁管了吗？"
+msgstr "弄到钢管了吗？"
 
 #: src/mission.cpp
 msgid "Do you have the prospectus?"
@@ -110198,7 +110689,7 @@ msgid ""
 "Pipes are used in numerous metal constructions.  Smashing abandoned "
 "furniture may provide the material we need."
 msgstr ""
-"铁管在无数金属建筑中都发挥着作用。破坏无用的家具可能可以提供所需的金属材料。"
+"钢管在无数金属建筑中都发挥着作用。破坏无用的家具可能可以提供所需的金属材料。"
 
 #: src/mission.cpp
 msgid "Please be careful, we don't need any more deaths."
@@ -110753,9 +111244,9 @@ msgid ""
 "eventually become desirable.  You could assist us with procuring 50 steel "
 "pipes, if you so have the chance."
 msgstr ""
-"要建设水井的手泵和其他用来作其他用途的组件，我们需要找到或者生产一定数量的铁"
+"要建设水井的手泵和其他用来作其他用途的组件，我们需要找到或者生产一定数量的钢"
 "管。尽管管道工程目前还不太需要，但是这里最终还是要实现某种灌溉方式的改进的。"
-"有机会的话，请找到50条铁管给我们。"
+"有机会的话，请找到50条钢管给我们。"
 
 #: src/mission.cpp
 msgid "Traveling the backroads would be a good way to search for one."
@@ -115641,6 +116132,11 @@ msgid " %s will use silenced firearms."
 msgstr "%s 将使用无声武器。"
 
 #: src/npctalk.cpp
+msgctxt "punctuation"
+msgid "!"
+msgstr "!"
+
+#: src/npctalk.cpp
 msgid "!Calm down.  I'm not going to hurt you."
 msgstr "!冷静，我不打算伤害你。"
 
@@ -115662,6 +116158,18 @@ msgstr "去你妈的！"
 
 #: src/npctalk.cpp
 #, c-format
+msgctxt "talk option"
+msgid "%1$c: %2$s"
+msgstr "%1$c：%2$s"
+
+#: src/npctalk.cpp
+#, c-format
+msgctxt "talk option"
+msgid "%1$c: [%2$s %3$d%%] %4$s"
+msgstr "%1$c：[%2$s %3$d%%] %4$s"
+
+#: src/npctalk.cpp
+#, c-format
 msgid "%1$s gives you a %2$s"
 msgstr "%1$s 给了你一个 %2$s"
 
@@ -115680,6 +116188,12 @@ msgstr[0] "%d 英尺。"
 #, c-format
 msgid "%d.%d miles."
 msgstr "%d.%d 英里。"
+
+#: src/npctalk.cpp
+#, c-format
+msgctxt "npc does something"
+msgid "%s %s"
+msgstr "%s %s"
 
 #. ~Martial art style (cost in cent)
 #: src/npctalk.cpp
@@ -115796,6 +116310,12 @@ msgid "%s: %d -> %d (cost $%d)"
 msgstr "%s：%d -> %d （花费 $%d）"
 
 #: src/npctalk.cpp
+#, c-format
+msgctxt "npc says something"
+msgid "%s: %s"
+msgstr "%s: %s"
+
+#: src/npctalk.cpp
 msgid "&Drop weapon."
 msgstr "&放下武器。"
 
@@ -115859,6 +116379,16 @@ msgid "*is not engaging enemies."
 msgstr "*无法吸引敌人。"
 
 #: src/npctalk.cpp
+msgctxt "punctuation"
+msgid "."
+msgstr "."
+
+#: src/npctalk.cpp
+msgctxt "punctuation"
+msgid "..."
+msgstr "..."
+
+#: src/npctalk.cpp
 msgid "...or to store anything else for that matter."
 msgstr "…或存储任何有点用东西。"
 
@@ -115869,59 +116399,6 @@ msgstr "<no>，如果你敢再问，<ill_kill_you>！"
 #: src/npctalk.cpp
 msgid "<no><punc> <fuck_you>!"
 msgstr "<no><punc> <fuck_you>！"
-
-#: src/npctalk.cpp
-#, c-format
-msgid "<npc does something>%s %s"
-msgstr "<npc does something>%s %s"
-
-#: src/npctalk.cpp
-#, c-format
-msgid "<npc says something>%s: %s"
-msgstr "<npc says something>%s：%s"
-
-#: src/npctalk.cpp
-msgid "<npc>He"
-msgstr "<npc>他"
-
-#: src/npctalk.cpp
-msgid "<npc>She"
-msgstr "<npc>她"
-
-#: src/npctalk.cpp
-msgid "<npc>her"
-msgstr "<npc>她的"
-
-#: src/npctalk.cpp
-msgid "<npc>his"
-msgstr "<npc>他的"
-
-#: src/npctalk.cpp
-msgid "<punc>!"
-msgstr "<punc>！"
-
-#: src/npctalk.cpp
-msgid "<punc>."
-msgstr "<punc>。"
-
-#: src/npctalk.cpp
-msgid "<punc>..."
-msgstr "<punc>……"
-
-#: src/npctalk.cpp
-#, c-format
-msgid "<talk option>%1$c: %2$s"
-msgstr "<talk option>%1$c：%2$s"
-
-#: src/npctalk.cpp
-#, c-format
-msgid "<talk option>%1$c: [%2$s %3$d%%] %4$s"
-msgstr "<talk option>%1$c：[%2$s %3$d%%] %4$s"
-
-#: src/npctalk.cpp
-#, c-format
-msgid "<you say something>You: %s"
-msgstr "<you say something>你：%s"
 
 #: src/npctalk.cpp
 msgid ""
@@ -116375,6 +116852,11 @@ msgstr ""
 #: src/npctalk.cpp
 msgid "Have you seen anyone who might be hiding something?"
 msgstr "你有发现任何可能藏匿物品的人吗？"
+
+#: src/npctalk.cpp
+msgctxt "npc"
+msgid "He"
+msgstr "他"
 
 #: src/npctalk.cpp
 msgid "Heard of anything better than the odd gun cache?"
@@ -117567,6 +118049,11 @@ msgid "Shall we resume?"
 msgstr "让我们继续？"
 
 #: src/npctalk.cpp
+msgctxt "npc"
+msgid "She"
+msgstr "她"
+
+#: src/npctalk.cpp
 msgid "Shift+L: Look at"
 msgstr "Shift+L：审视对方"
 
@@ -118254,6 +118741,12 @@ msgid "You: $%.2f"
 msgstr "你：$%.2f"
 
 #: src/npctalk.cpp
+#, c-format
+msgctxt "you say something"
+msgid "You: %s"
+msgstr "你：%s"
+
+#: src/npctalk.cpp
 msgid "Your response:"
 msgstr "你的回复："
 
@@ -118354,6 +118847,16 @@ msgstr "[力量 11] 拳头大是硬道理！"
 #: src/npctalk.cpp src/player.cpp
 msgid "fists"
 msgstr "拳头"
+
+#: src/npctalk.cpp
+msgctxt "npc"
+msgid "her"
+msgstr "她的"
+
+#: src/npctalk.cpp
+msgctxt "npc"
+msgid "his"
+msgstr "他的"
 
 #: src/options.cpp
 msgid " OPTIONS "
@@ -122043,6 +122546,10 @@ msgid "You lose some blood."
 msgstr "你流了一些血。"
 
 #: src/player.cpp
+msgid "You lost your book! You stop reading."
+msgstr "你的书没了！你停止阅读。"
+
+#: src/player.cpp
 #, c-format
 msgid "You need a compatible magazine to reload the %s!"
 msgstr "你需要一个兼容的弹匣才能重新装填 %s！"
@@ -122534,7 +123041,7 @@ msgstr "你的身体由于负重过高而感到疼痛！"
 
 #: src/player.cpp
 msgid "Your bones feel like rubber as they melt and remend."
-msgstr "你的骨头和橡胶一样融化然后重构了。"
+msgstr "你觉得自己的骨头像橡胶一样，融化并重新愈合了。"
 
 #: src/player.cpp
 msgid "Your bones feel like they're crumbling."
@@ -123719,6 +124226,10 @@ msgstr "你的 %s 触发了捕猎陷阱。"
 msgid "A snare closes on your leg."
 msgstr "你的腿被捕猎陷阱缠住了。"
 
+#: src/trapfunc.cpp
+msgid "BEEPBOOP! Please remove non-organic object."
+msgstr "哔嘟！请移除非有机物物体。"
+
 #. ~ the sound of a dissector dissecting
 #: src/trapfunc.cpp src/vehicle.cpp
 msgid "BRZZZAP!"
@@ -123914,6 +124425,10 @@ msgstr "%s 的周围空气稀薄……"
 #: src/trapfunc.cpp
 msgid "The air shimmers around you..."
 msgstr "你的周围空气稀薄……"
+
+#: src/trapfunc.cpp
+msgid "The dissector lights up, and shuts down."
+msgstr "解剖台灯亮了起来，然后它关闭了。"
 
 #: src/trapfunc.cpp
 #, c-format
@@ -124224,11 +124739,6 @@ msgid_plural "%s points in your direction and emits %d annoyed sounding beeps."
 msgstr[0] "%s 指向了你的方向并且发出了 %d 声警告。"
 
 #: src/turret.cpp
-#, c-format
-msgid "<veh_player>The %s"
-msgstr "<veh_player>%s"
-
-#: src/turret.cpp
 msgid "Can't aim turrets: all turrets are offline"
 msgstr "炮塔无法瞄准：所有炮塔不在线"
 
@@ -124240,6 +124750,12 @@ msgstr "设置炮塔目标"
 #, c-format
 msgid "The %1$s fires its %2$s!"
 msgstr "%1$s 发射了 %2$s！"
+
+#: src/turret.cpp
+#, c-format
+msgctxt "vehicle turret"
+msgid "The %s"
+msgstr "%s"
 
 #: src/turret.cpp
 msgid "auto"
@@ -125462,11 +125978,19 @@ msgstr "追尾残骸"
 
 #: src/weather.cpp
 #, c-format
+msgctxt "Mon Night"
+msgid "%s Night"
+msgstr "%s 夜"
+
+#: src/weather.cpp
+#, c-format
+msgctxt "air pressure in kPa"
 msgid "%s kPa"
 msgstr "%s kPa"
 
 #: src/weather.cpp
 #, c-format
+msgctxt "humidity in percent"
 msgid "%s%%"
 msgstr "%s%%"
 
@@ -125477,18 +126001,15 @@ msgstr "%s……%s。最高 %s。最低 %s。"
 
 #: src/weather.cpp
 #, c-format
-msgid "<Celsius>%sC"
-msgstr "<Celsius>%sC"
+msgctxt "temperatur in Celsius"
+msgid "%sC"
+msgstr "%sC"
 
 #: src/weather.cpp
 #, c-format
-msgid "<Fahrenheit>%sF"
-msgstr "<Fahrenheit>%sF"
-
-#: src/weather.cpp
-#, c-format
-msgid "<Mon Night>%s Night"
-msgstr "<Mon Night>%s之夜"
+msgctxt "temperatur in Fahrenheit"
+msgid "%sF"
+msgstr "%sF"
 
 #: src/weather.cpp
 msgid "A flash of lightning illuminates your surroundings!"
