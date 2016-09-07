@@ -250,7 +250,6 @@
     "symbol" : "o",
     "description" : "A sealed purse of water.  activate to consume its contents.",
     "price" : 7500,
-    "spoils_in": 256,
     "material" : "veggy",
     "volume" : 1,
     "encumbrance" : 1,
