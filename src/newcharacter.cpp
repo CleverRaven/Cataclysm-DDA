@@ -270,16 +270,16 @@ void player::randomize( const bool random_scenario, points_left &points )
     std::string rn = "";
     add_traits(); // adds mandatory prof/scen traits.
     for( const auto &mut : my_mutations ) {
-        if( mutation_branch::get( mut.first ).profession ) {
+        const mutation_branch &mut_info = mutation_branch::get( mut.first );
+        if( mut_info.profession ) {
             continue;
         }
-        const mutation_branch &mut_info = mutation_branch::get( mut.first );
+        // Scenario/profession traits do not cost any points, but they are counted toward
+        // the limit (MAX_TRAIT_POINTS)
         if( mut_info.points >= 0 ) {
             num_gtraits += mut_info.points;
-            points.trait_points -= mut_info.points;
         } else {
             num_btraits -= mut_info.points;
-            points.trait_points -= mut_info.points;
         }
     }
 
