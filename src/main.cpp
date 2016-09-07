@@ -26,6 +26,7 @@
 
 void exit_handler(int s);
 void hangup_handler(int);
+void kill_game();
 
 extern bool test_dirty;
 
@@ -533,39 +534,34 @@ void printHelpMessage(const arg_handler *first_pass_arguments,
 void exit_handler(int s)
 {
     if (s != 2 || query_yn(_("Really Quit? All unsaved changes will be lost."))) {
-        erase(); // Clear screen
-
-        deinitDebug();
-
-        int exit_status = 0;
-        if( g != NULL ) {
-            if( g->game_error() ) {
-                exit_status = 1;
-            }
-            delete g;
-        }
-
-        endwin();
-
-        exit( exit_status );
+        kill_game();
     }
 }
 
 void hangup_handler(int)
 {
-    int exit_status = 0;
-
-    erase();
-
     if( g != NULL ) {
         g->save();
+    }
+
+    kill_game();
+}
+
+void kill_game()
+{
+    int exit_status = 0;
+
+    // Clear screen
+    erase();
+
+    deinitDebug();
+
+    if( g != NULL ) {
         if( g->game_error() ) {
             exit_status = 1;
         }
         delete g;
     }
-
-    deinitDebug();
 
     endwin();
 
