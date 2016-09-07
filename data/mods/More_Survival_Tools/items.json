@@ -240,7 +240,7 @@
     "dispersion" : 135,
     "recoil" : 0,
     "count" : 1,
-	"loudness" : 0,
+    "loudness" : 0,
     "stack_size" : 4,
     "effects" : ["RECOVER_10"]
   },{
@@ -267,7 +267,7 @@
     "dispersion" : 135,
     "recoil" : 0,
     "count" : 1,
-	"loudness" : 0,
+    "loudness" : 0,
     "stack_size" : 4,
     "effects" : ["RECOVER_10"]
   },{
@@ -294,7 +294,7 @@
     "dispersion" : 135,
     "recoil" : 0,
     "count" : 1,
-	"loudness" : 0,
+    "loudness" : 0,
     "stack_size" : 4,
     "effects" : ["RECOVER_10"]
   },{
@@ -321,7 +321,7 @@
     "dispersion" : 135,
     "recoil" : 0,
     "count" : 1,
-	"loudness" : 0,
+    "loudness" : 0,
     "stack_size" : 4,
     "effects" : ["RECOVER_15"]
   },{

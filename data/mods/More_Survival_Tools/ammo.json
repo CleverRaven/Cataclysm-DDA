@@ -38,7 +38,7 @@
         "dispersion" : 195,
         "recoil" : 0,
         "count" : 40,
-		"loudness" : 0,
+        "loudness" : 0,
         "effects" : ["NEVER_MISFIRES"]
     },
     {   "type" : "AMMO",
@@ -59,7 +59,7 @@
         "dispersion" : 240,
         "recoil" : 0,
         "count" : 30,
-		"loudness" : 0,
+        "loudness" : 0,
         "effects" : ["NEVER_MISFIRES"]
     },
    {
@@ -102,7 +102,7 @@
     "dispersion" : 145,
     "recoil" : 0,
     "count" : 10,
-	"loudness" : 0,
+    "loudness" : 0,
     "effects" : ["RECOVER_10"]
    }
 ]
