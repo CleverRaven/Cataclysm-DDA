@@ -1490,15 +1490,6 @@
         ]
     },{
         "type" : "mutation",
-        "id" : "THRESH_LAMIA",
-        "name" : "Lamia",
-        "points" : 1,
-        "description" : "You have embraced the noodle, you are now one with the snakes. With it comes an intense urge to boop your own nose",
-        "valid": false,
-        "purifiable": false,
-        "threshold": true
-    },{
-        "type" : "mutation",
         "id" : "URSINE_FUR",
         "name" : "Shaggy Fur",
         "points" : 4,
@@ -4880,6 +4871,15 @@
         "name" : "Prototype",
         "points" : 1,
         "description" : "After all those experiments, what's a few more, hmm?",
+        "valid": false,
+        "purifiable": false,
+        "threshold": true
+    },{
+        "type" : "mutation",
+        "id" : "THRESH_LAMIA",
+        "name" : "Lamia",
+        "points" : 1,
+        "description" : "You have embraced the noodle, you are now one with the snakes. With it comes an intense urge to boop your own nose",
         "valid": false,
         "purifiable": false,
         "threshold": true
