@@ -1398,6 +1398,13 @@ void options_manager::init()
 
     mOptionsSort["world_default"]++;
 
+    add("FILTHY_MORALE", "world_default", _("Morale penalty for filthy clothing."),
+        _("If true, wearing filthy clothing will cause morale penalties."),
+        false, COPT_ALWAYS_HIDE
+        );
+
+    mOptionsSort["world_default"]++;
+
     add("BLACKLIST_MAGAZINES", "world_default", _("Disables removable gun magaziones."),
         _("If true, disables removeable gun magazines, guns will all act as if they have integral magazines."),
         false, COPT_ALWAYS_HIDE
