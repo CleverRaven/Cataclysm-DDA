@@ -1447,9 +1447,14 @@
         "points" : 4,
         "visibility" : 10,
         "ugliness" : 1,
-        "description" : "You have grown a smooth, scale-like skin over your legs and mouth. While luxuriously soft, they offer no real benefit",
+        "description" : "You have grown a smooth, scale-like skin over your legs and mouth. While luxuriously soft, they also give some small resistance to acid",
         "cancels" : ["SCALES", "FEATHERS", "CHITIN", "PLANTSKIN", "FELINE_FUR", "LUPINE_FUR", "CHITIN_FUR"],
         "category" : ["MUTCAT_LAMIA"]
+        "armor" : [
+            { "parts" : "LEG_L", "acid" : 3},
+            { "parts" : "LEG_R", "acid" : 3},
+            { "parts" : "FOOT_R", "acid" : 3},
+            { "parts" : "FOOT_L", "acid" : 3}]
     },{
         "type" : "mutation",
         "id" : "LAMIA_TAIL",
@@ -1476,21 +1481,20 @@
         "visibility" : 15,
         "ugliness" : 6,
         "description" : "Your legs have fused together to form the beginings of a snake tail. While inherently useless now, you hope it will grow much bigger",
-        "cancels" : ["SCALES", "FEATHERS", "CHITIN", "PLANTSKIN", "FELINE_FUR", "LUPINE_FUR", "CHITIN_FUR"],
+        "cancels" : ["SCALES", "FEATHERS", "CHITIN", "PLANTSKIN", "FELINE_FUR", "LUPINE_FUR", "CHITIN_FUR", "LEG_TENTACLES"],
         "prereqs" : ["LAMIA_TAIL_JEUVENILE"],
         "threshreq" : ["THRESH_LAMIA"],
         "category" : ["MUTCAT_LAMIA"],
-        "purifiable" : false,
+        "purifiable" : true,
         "restricts_gear" : [ "FOOT_L", "FOOT_R", "LEG_L", "LEG_R"],
         "passive_mods" : {
-            "dex_mod" : -2,
+            "dex_mod" : -2,},
             "encumbrance_always" : [
             [ "LEG_L", 50 ],
             [ "LEG_R", 50 ],
             [ "FOOT_L", 50 ],
             [ "FOOT_R", 50 ]
         ]
-        }
         },{
         "type" : "mutation",
         "id" : "URSINE_FUR",
