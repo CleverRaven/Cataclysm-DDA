@@ -1488,8 +1488,7 @@
             [ "FOOT_L", 50 ],
             [ "FOOT_R", 50 ]
         ]
-    },
-    {
+    },{
         "type" : "mutation",
         "id" : "THRESH_LAMIA",
         "name" : "Lamia",
