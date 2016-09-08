@@ -1449,7 +1449,7 @@
         "ugliness" : 1,
         "description" : "You have grown a smooth, scale-like skin over your legs and mouth. While luxuriously soft, they offer no real benefit",
         "cancels" : ["SCALES", "FEATHERS", "CHITIN", "PLANTSKIN", "FELINE_FUR", "LUPINE_FUR", "CHITIN_FUR"],
-        "category" : ["MUTCAT_LAMIA"],
+        "category" : ["MUTCAT_LAMIA"]
     },{
         "type" : "mutation",
         "id" : "LAMIA_TAIL",
