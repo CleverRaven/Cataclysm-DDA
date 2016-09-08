@@ -553,7 +553,7 @@ bool player_morale::consistent_with( const player_morale &morale ) const
         debugmsg( "player_morale::stylish is inconsistent." );
         return false;
     } else if( filth_tolerant != morale.filth_tolerant ) {
-        debugmsg( "player_morale::filth tolerance is inconsistent." );
+        debugmsg( "player_morale::filth tolerant is inconsistent." );
 return false;
     } else if( perceived_pain != morale.perceived_pain ) {
         debugmsg( "player_morale::perceived_pain is inconsistent." );
@@ -694,6 +694,14 @@ void player_morale::set_stylish( bool new_stylish )
     if( stylish != new_stylish ) {
         stylish = new_stylish;
         update_stylish_bonus();
+    }
+}
+
+void player_morale::set_filth_tolerant( bool new_filth_tolerant )
+{
+    if( filth_tolerant != new_filth_tolerant ) {
+        filth_tolerant = new_filth_tolerant;
+        update_squeamish_penalty();
     }
 }
 
