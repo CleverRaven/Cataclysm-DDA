@@ -1487,7 +1487,7 @@
         "purifiable" : true,
         "restricts_gear" : [ "FOOT_L", "FOOT_R", "LEG_L", "LEG_R"],
         "passive_mods" : {
-            "dex_mod" : -2,},
+            "dex_mod" : -2},
             "encumbrance_always" : [
             [ "LEG_L", 50 ],
             [ "LEG_R", 50 ],
