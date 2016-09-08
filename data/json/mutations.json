@@ -1462,7 +1462,7 @@
         "prereqs" : ["LAMIA_TAIL_JEUVENILE"],
         "threshreq" : ["THRESH_LAMIA"],
         "category" : ["MUTCAT_LAMIA"],
-        "purifiable" : false
+        "purifiable" : false,
         "passive_mods" : {
             "str_mod" : 1
             "dex_mod" : 2
@@ -1478,7 +1478,7 @@
         "prereqs" : ["LAMIA_TAIL_JEUVENILE"],
         "threshreq" : ["THRESH_LAMIA"],
         "category" : ["MUTCAT_LAMIA"],
-        "purifiable" : false
+        "purifiable" : false,
         "passive_mods" : {
             "dex_mod" : -2
             "encumbrance_always" : [
