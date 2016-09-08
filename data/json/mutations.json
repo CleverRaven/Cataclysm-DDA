@@ -1453,7 +1453,7 @@
         "ugliness" : 1,
         "description" : "You have grown a smooth, scale-like skin over your legs and mouth. While luxuriously soft, they also give some small resistance to acid",
         "cancels" : ["SCALES", "FEATHERS", "CHITIN", "PLANTSKIN", "FELINE_FUR", "LUPINE_FUR", "CHITIN_FUR"],
-        "category" : ["MUTCAT_LAMIA"],
+        "category" : ["MUTCAT_LAMIA"], "//" : "Yes, this is intended to be pre-thresh. You can end up with snake scales regardless if you have a tail or not",
         "armor" : [
             { "parts" : "LEG_L", "acid" : 3},
             { "parts" : "LEG_R", "acid" : 3},
