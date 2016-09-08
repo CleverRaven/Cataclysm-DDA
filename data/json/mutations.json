@@ -1484,6 +1484,7 @@
         "cancels" : ["SCALES", "FEATHERS", "CHITIN", "PLANTSKIN", "FELINE_FUR", "LUPINE_FUR", "CHITIN_FUR", "LEG_TENTACLES", "PADDED_FEET"],
         "threshreq" : ["THRESH_LAMIA"],
         "category" : ["MUTCAT_LAMIA"],
+        "changes_to" : ["LAMIA_TAIL"],
         "purifiable" : true,
         "restricts_gear" : [ "FOOT_L", "FOOT_R", "LEG_L", "LEG_R"],
         "passive_mods" : {
