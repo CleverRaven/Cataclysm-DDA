@@ -443,7 +443,7 @@
             },
             "place_signs": [
                 { "x": 11, "y": 11, "signage": "Scoop the Poop!" },
-                { "x": 1, "y": 9, "signage": "DANGER! Doggy Minefield!" },
+                { "x": 1, "y": 9, "signage": "DANGER!  Doggy Minefield!" },
                 { "x": 9, "y": 22, "signage": "Dog Park: Off Leash Area" },
                 { "x": 14, "y": 1, "signage": "Watch your step!" },
                 { "x": 22, "y": 14, "signage": "Use park at your own risk." }

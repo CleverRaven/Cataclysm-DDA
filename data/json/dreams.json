@@ -468,7 +468,7 @@
     },{
         "type" : "dream",
         "messages" : [
-            "NO! You will not allow this corruption to prevail!",
+            "NO!  You will not allow this corruption to prevail!",
             "You see yourself reflected in the beauty of the forest."
             ],
         "category" : "MUTCAT_ELFA",
@@ -612,7 +612,7 @@
     },{
         "type" : "dream",
         "messages" : [
-            "The Fury is so big! it's GONNA GET YOAAAAAH! *pant* only a dream.",
+            "The Fury is so big!  It's GONNA GET YOAAAAAH! *pant* only a dream.",
             "You find your paws twitching.  There's a cave.  You should go."
             ],
         "category" : "MUTCAT_RAT",

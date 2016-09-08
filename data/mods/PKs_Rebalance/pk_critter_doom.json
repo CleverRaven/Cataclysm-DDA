@@ -696,7 +696,7 @@
     "death_function":["NORMAL"],
     "special_attacks":[
         ["FEAR_PARALYZE", 25]],
-    "description":"All evidence indicates that this used to be a survivor, who was killed by torture and body reanimated. Its garments lack the weathered look of other zombies but are mutilated none-the-less.  Although it struggles to free itself, it is held fast with spikes, nails, and chains.",
+    "description":"All evidence indicates that this used to be a survivor, who was killed by torture and body reanimated.  Its garments lack the weathered look of other zombies but are mutilated none-the-less.  Although it struggles to free itself, it is held fast with spikes, nails, and chains.",
     "flags":["SEES", "HEARS", "SMELLS", "WARM", "IMMOBILE", "GUILT", "POISON", "REVIVES", "BONES"]
     },{
     "type": "MONSTER",
@@ -797,7 +797,7 @@
             "no_ammo_sound": "lliw ruoy erimda ew"
         }],
     "starting_ammo": { "bomblet_archdemon": 7, "bot_imp": 20, "bot_imp_black": 15, "bot_pinky": 15, "bot_lostsoul": 15, "bot_revenant": 10, "bot_hell_knight": 10, "bot_hell_baron": 5, "bot_mancubus": 5, "bot_cacodemon": 5, "bot_mechaspider": 5, "bot_cyberdemon": 1 },
-    "description":"A massive face cross-sectioned with large machinery; various tubes of bubbling liquid bury themselves and reemerge from pustulating wounds. Its forehead has been removed, exposing a pulsating brain mass from which sound emanates.",
+    "description":"A massive face cross-sectioned with large machinery; various tubes of bubbling liquid bury themselves and reemerge from pustulating wounds.  Its forehead has been removed, exposing a pulsating brain mass from which sound emanates.",
     "flags":["SEES", "WARM", "POISON", "NO_BREATHE", "IMMOBILE", "QUEEN"]
     }
 ]
