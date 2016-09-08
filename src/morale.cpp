@@ -798,13 +798,12 @@ void player_morale::update_constrained_penalty()
 void player_morale::update_squeamish_penalty()
 {
     int penalty = 0;
-
     if( !filth_tolerant ) {
-        const auto bp_pen = [ this ]( body_part bp, int penalty ) -> int {
-            return (
-                body_parts[bp].filthy > 0 ||
-                body_parts[opposite_body_part( bp )].filthy > 0 ) ? penalty : 0;
-        };
+    const auto bp_pen = [ this ]( body_part bp, int penalty ) -> int {
+        return (
+            body_parts[bp].filthy > 0 ||
+            body_parts[opposite_body_part( bp )].filthy > 0 ) ? penalty : 0;
+    };
     penalty = ( bp_pen( bp_torso,  6 ) +
                 bp_pen( bp_head,   7 ) +
                 bp_pen( bp_eyes,   8 ) +
