@@ -553,7 +553,7 @@ bool player_morale::consistent_with( const player_morale &morale ) const
         debugmsg( "player_morale::stylish is inconsistent." );
         return false;
     } else if( filth_tolerant != morale.filth_tolerant ) {
-        debugmsg( "player_morale::filth tolerant is inconsistent." );
+        debugmsg( "player_morale::filth_tolerant is inconsistent." );
         return false;
     } else if( perceived_pain != morale.perceived_pain ) {
         debugmsg( "player_morale::perceived_pain is inconsistent." );
@@ -799,23 +799,23 @@ void player_morale::update_squeamish_penalty()
 {
     int penalty = 0;
     if( !filth_tolerant ) {
-    const auto bp_pen = [ this ]( body_part bp, int penalty ) -> int {
-        return (
-            body_parts[bp].filthy > 0 ||
-            body_parts[opposite_body_part( bp )].filthy > 0 ) ? penalty : 0;
-    };
-    penalty = ( bp_pen( bp_torso,  6 ) +
-                bp_pen( bp_head,   7 ) +
-                bp_pen( bp_eyes,   8 ) +
-                bp_pen( bp_mouth,  9 ) +
-                bp_pen( bp_leg_l,  5 ) +
-                bp_pen( bp_leg_r,  5 ) +
-                bp_pen( bp_arm_l,  5 ) +
-                bp_pen( bp_arm_r,  5 ) +
-                bp_pen( bp_foot_l, 3 ) +
-                bp_pen( bp_foot_r, 3 ) +
-                bp_pen( bp_hand_l, 3 ) +
-                bp_pen( bp_hand_r, 3 ) );
-    }
+        const auto bp_pen = [ this ]( body_part bp, int penalty ) -> int {
+            return (
+                body_parts[bp].filthy > 0 ||
+                body_parts[opposite_body_part( bp )].filthy > 0 ) ? penalty : 0;
+        };
+        penalty = ( bp_pen( bp_torso,  6 ) +
+                    bp_pen( bp_head,   7 ) +
+                    bp_pen( bp_eyes,   8 ) +
+                    bp_pen( bp_mouth,  9 ) +
+                    bp_pen( bp_leg_l,  5 ) +
+                    bp_pen( bp_leg_r,  5 ) +
+                    bp_pen( bp_arm_l,  5 ) +
+                    bp_pen( bp_arm_r,  5 ) +
+                    bp_pen( bp_foot_l, 3 ) +
+                    bp_pen( bp_foot_r, 3 ) +
+                    bp_pen( bp_hand_l, 3 ) +
+                    bp_pen( bp_hand_r, 3 ) );
+        }
     set_permanent( MORALE_PERM_FILTHY, -penalty );
 }
