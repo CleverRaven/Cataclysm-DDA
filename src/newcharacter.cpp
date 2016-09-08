@@ -526,7 +526,7 @@ bool player::create(character_type type, std::string tempname)
     // Learn recipes
     for( auto &cur_recipe : recipe_dict ) {
         if( cur_recipe->valid_learn() && !has_recipe_autolearned( *cur_recipe ) &&
-            has_recipe_requirements( *cur_recipe ) &&
+            has_recipe_requirements( *cur_recipe ) && !cur_recipe->has_flag( "EXCLUDE_START" ) &&
             learned_recipes.find( cur_recipe->ident() ) == learned_recipes.end() ) {
 
             learn_recipe( &*cur_recipe );
@@ -1626,7 +1626,7 @@ tab_direction set_skills(WINDOW *w, player *u, points_left &points)
 
             if( !prof_u.has_recipe_autolearned( *cur_recipe ) &&
                 ( cur_recipe->skill_used == currentSkill->ident() || skill > 0 ) &&
-                prof_u.has_recipe_requirements( *cur_recipe ) &&
+                prof_u.has_recipe_requirements( *cur_recipe ) && !cur_recipe->has_flag( "EXCLUDE_START" ) &&
                 cur_recipe->ident().find("uncraft") == std::string::npos )  {
 
                 recipes[cur_recipe->skill_used.obj().name()].push_back(

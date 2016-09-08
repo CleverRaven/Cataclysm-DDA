@@ -63,7 +63,8 @@
     "components": [
       [ [ "rag", 4 ], [ "leather_belt", 1 ], [ "rope_6", 1 ] ],
       [ [ "duct_tape", 20 ] ]
-    ]
+    ],
+    "flags": [ "EXCLUDE_START" ]
   },
   {
     "result": "filter_air_makeshift",
@@ -80,7 +81,8 @@
       [ [ "bottle_plastic", 1 ] ],
       [ [ "paper", 50 ] ],
       [ [ "duct_tape", 20 ] ]
-    ]
+    ],
+    "flags": [ "EXCLUDE_START" ]
   },
   {
     "result": "filter_liquid_makeshift",
@@ -97,6 +99,7 @@
       [ [ "can_drink_unsealed", 1 ], [ "can_food_unsealed", 1 ] ],
       [ [ "paper", 50 ] ],
       [ [ "duct_tape", 20 ] ]
-    ]
+    ],
+    "flags": [ "EXCLUDE_START" ]
   }
 ]
