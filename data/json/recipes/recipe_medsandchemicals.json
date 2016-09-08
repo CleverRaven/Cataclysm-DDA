@@ -819,7 +819,9 @@
   ],
   "components": [
     [
-      [ "mutagen", 1 ]
+      [ "mutagen_slime", 1 ],
+      [ "mutagen_lizard", 1],
+      [ "mutagen_bird", 1]
     ],
     [
       [ "cooking_oil", 1 ],
