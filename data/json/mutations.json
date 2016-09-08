@@ -1466,6 +1466,12 @@
         "passive_mods" : {
             "str_mod" : 1,
             "dex_mod" : 2
+        },
+        "restricts_gear" : {
+        [ "LEG_L" ],
+        [ "LEG_R"],
+        [ "FOOT_L"],
+        [ "FOOT_R"]
         }
     },{
         "type" : "mutation",
@@ -1488,6 +1494,12 @@
             [ "FOOT_L", 50 ],
             [ "FOOT_R", 50 ]
         ]
+        },
+        "restricts_gear" : {
+        [ "LEG_L" ],
+        [ "LEG_R"],
+        [ "FOOT_L"],
+        [ "FOOT_R"]
         }
     },{
         "type" : "mutation",
