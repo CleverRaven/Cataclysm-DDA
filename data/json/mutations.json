@@ -1467,7 +1467,8 @@
             "str_mod" : 1,
             "dex_mod" : 2
         }
-    },{
+    },
+    {
         "type" : "mutation",
         "id" : "LAMIA_TAIL_JEUVENILE",
         "name" : "Short Snake Tail",
