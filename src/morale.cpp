@@ -300,7 +300,7 @@ player_morale::player_morale() :
     const auto set_badtemper      = std::bind( &player_morale::set_permanent, _1, MORALE_PERM_BADTEMPER,
                                     _2, nullptr );
     const auto set_stylish        = std::bind( &player_morale::set_stylish, _1, _2 );
- const auto set_filth_tolerant = std::bind( &player_morale::set_filth_tolerant, _1, _2 );
+    const auto set_filth_tolerant = std::bind( &player_morale::set_filth_tolerant, _1, _2 );
     const auto update_constrained = std::bind( &player_morale::update_constrained_penalty, _1 );
     const auto update_masochist   = std::bind( &player_morale::update_masochist_bonus, _1 );
 
@@ -315,7 +315,7 @@ player_morale::player_morale() :
                                      std::bind( set_stylish, _1, false ) );
     mutations["FILTH_TOLERANT"]       = mutation_data(
                                      std::bind( set_filth_tolerant, _1, true ),
-std::bind( set_filth_tolerant, _1, false ) );
+                                     std::bind( set_filth_tolerant, _1, false ) );
     mutations["FLOWERS"]       = mutation_data( update_constrained );
     mutations["ROOTS"]         = mutation_data( update_constrained );
     mutations["ROOTS2"]        = mutation_data( update_constrained );
@@ -554,7 +554,7 @@ bool player_morale::consistent_with( const player_morale &morale ) const
         return false;
     } else if( filth_tolerant != morale.filth_tolerant ) {
         debugmsg( "player_morale::filth tolerant is inconsistent." );
-return false;
+        return false;
     } else if( perceived_pain != morale.perceived_pain ) {
         debugmsg( "player_morale::perceived_pain is inconsistent." );
         return false;
