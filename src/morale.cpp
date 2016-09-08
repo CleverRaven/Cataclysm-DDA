@@ -314,8 +314,8 @@ player_morale::player_morale() :
                                      std::bind( set_stylish, _1, true ),
                                      std::bind( set_stylish, _1, false ) );
     mutations["FILTH_TOLERANT"] = mutation_data(
-                                     std::bind( set_filth_tolerant, _1, true ),
-                                     std::bind( set_filth_tolerant, _1, false ) );
+                                      std::bind( set_filth_tolerant, _1, true ),
+                                      std::bind( set_filth_tolerant, _1, false ) );
     mutations["FLOWERS"]       = mutation_data( update_constrained );
     mutations["ROOTS"]         = mutation_data( update_constrained );
     mutations["ROOTS2"]        = mutation_data( update_constrained );
@@ -816,6 +816,6 @@ void player_morale::update_squeamish_penalty()
                     bp_pen( bp_foot_r, 3 ) +
                     bp_pen( bp_hand_l, 3 ) +
                     bp_pen( bp_hand_r, 3 ) );
-        }
+    }
     set_permanent( MORALE_PERM_FILTHY, -penalty );
 }
