@@ -1482,7 +1482,6 @@
         "ugliness" : 6,
         "description" : "Your legs have fused together to form the beginings of a snake tail. While inherently useless now, you hope it will grow much bigger",
         "cancels" : ["SCALES", "FEATHERS", "CHITIN", "PLANTSKIN", "FELINE_FUR", "LUPINE_FUR", "CHITIN_FUR", "LEG_TENTACLES", "PADDED_FEET"],
-        "prereqs" : ["LAMIA_TAIL_JEUVENILE"],
         "threshreq" : ["THRESH_LAMIA"],
         "category" : ["MUTCAT_LAMIA"],
         "purifiable" : true,
