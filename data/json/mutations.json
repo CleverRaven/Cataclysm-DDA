@@ -1463,15 +1463,10 @@
         "threshreq" : ["THRESH_LAMIA"],
         "category" : ["MUTCAT_LAMIA"],
         "purifiable" : false,
+        "restricts_gear" : [ "FOOT_L", "FOOT_R", "LEG_L", "LEG_R"],
         "passive_mods" : {
             "str_mod" : 1,
             "dex_mod" : 2
-        },
-        "restricts_gear" : {
-        [ "LEG_L" ],
-        [ "LEG_R"],
-        [ "FOOT_L"],
-        [ "FOOT_R"]
         }
     },{
         "type" : "mutation",
@@ -1486,6 +1481,7 @@
         "threshreq" : ["THRESH_LAMIA"],
         "category" : ["MUTCAT_LAMIA"],
         "purifiable" : false,
+        "restricts_gear" : [ "FOOT_L", "FOOT_R", "LEG_L", "LEG_R"],
         "passive_mods" : {
             "dex_mod" : -2,
             "encumbrance_always" : [
@@ -1494,14 +1490,8 @@
             [ "FOOT_L", 50 ],
             [ "FOOT_R", 50 ]
         ]
-        },
-        "restricts_gear" : {
-        [ "LEG_L" ],
-        [ "LEG_R"],
-        [ "FOOT_L"],
-        [ "FOOT_R"]
         }
-    },{
+        },{
         "type" : "mutation",
         "id" : "URSINE_FUR",
         "name" : "Shaggy Fur",
