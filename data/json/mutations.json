@@ -1466,7 +1466,7 @@
         "passive_mods" : {
             "str_mod" : 1,
             "dex_mod" : 2
-        ],
+        ]
     },{
         "type" : "mutation",
         "id" : "LAMIA_TAIL_JEUVENILE",
@@ -1487,7 +1487,7 @@
             [ "LEG_R", 50 ],
             [ "FOOT_L", 50 ],
             [ "FOOT_R", 50 ]
-        ],
+        ]
     },{
         "type" : "mutation",
         "id" : "THRESH_LAMIA",
