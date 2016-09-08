@@ -1439,7 +1439,7 @@
             { "parts" : "FOOT_L", "bash" : 11 , "cut" : 24 },
             { "parts" : "FOOT_R", "bash" : 11 , "cut" : 24 },
             { "parts" : "MOUTH", "cut" : 14}
-            ]
+            ],
         "encumbrance_always" : [
             [ "LEG_L", 15 ],
             [ "LEG_R", 15 ],
