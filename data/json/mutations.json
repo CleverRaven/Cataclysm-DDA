@@ -1440,6 +1440,12 @@
             { "parts" : "FOOT_R", "bash" : 11 , "cut" : 24 },
             { "parts" : "MOUTH", "cut" : 14}
             ]
+        "encumbrance_always" : [
+            [ "LEG_L", 15 ],
+            [ "LEG_R", 15 ],
+            [ "FOOT_L", 15 ],
+            [ "FOOT_R", 15 ]
+        ]
     },{
         "type" : "mutation",
         "id" : "LAMIA_SCALES",
@@ -1489,7 +1495,7 @@
         "restricts_gear" : [ "FOOT_L", "FOOT_R", "LEG_L", "LEG_R"],
         "passive_mods" : {
             "dex_mod" : -2},
-            "encumbrance_always" : [
+        "encumbrance_always" : [
             [ "LEG_L", 50 ],
             [ "LEG_R", 50 ],
             [ "FOOT_L", 50 ],
