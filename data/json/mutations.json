@@ -1487,7 +1487,7 @@
             [ "LEG_R", 50 ],
             [ "FOOT_L", 50 ],
             [ "FOOT_R", 50 ]
-        ],
+        ]
         }
     },{
         "type" : "mutation",
