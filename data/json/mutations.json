@@ -3467,8 +3467,8 @@
         "points" : 0,
         "visibility" : 1,
         "ugliness" : 3,
-        "description" : "Your tongue is forked, like that of a reptile.  This has no effect.",
-        "category" : ["MUTCAT_LIZARD", "MUTCAT_RAPTOR"]
+        "description" : "Your tongue is forked, like that of a reptile.  While you can now taste smells, it offers no real benefit.",
+        "category" : ["MUTCAT_LIZARD", "MUTCAT_RAPTOR", "MUTCAT_LAMIA"]
     },{
         "type" : "mutation",
         "id" : "EYEBULGE",
