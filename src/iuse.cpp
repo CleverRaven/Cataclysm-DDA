@@ -3051,20 +3051,17 @@ int iuse::makemound(player *p, item *it, bool, const tripoint& )
     }
 }
 
+/**
+ * Explanation of ACT_CLEAR_RUBBLE activity values:
+ *
+ * coords[0]: Where the rubble is.
+ * index: The bonus, for calculating hunger and thirst penalties.
+ */
+
 int iuse::dig(player *p, item *it, bool, const tripoint &pos )
 {
     for( const tripoint &pt : closest_tripoints_first( 1, pos ) ) {
         if( g->m.furn( pt ).obj().examine == iexamine::rubble ) {
-            if( pt == p->pos() ) {
-                p->add_msg_if_player( m_info, _( "You clear up the %s at your feet." ),
-                                      g->m.furnname( pt ).c_str() );
-            } else {
-                const std::string direction = direction_name( direction_from( p->pos(), pt ) );
-                p->add_msg_if_player( m_info, _( "You clear up the %s to your %s." ),
-                                      g->m.furnname( pt ).c_str(), direction.c_str() );
-            }
-            g->m.furn_set( pt, f_null );
-
             // costs per tile:
             // DIG 2 = 300 seconds, 10 hunger and thirst
             // DIG 3 =  75 seconds,  2 hunger and thirst
@@ -3072,11 +3069,9 @@ int iuse::dig(player *p, item *it, bool, const tripoint &pos )
             // DIG 5 =  18 seconds,  0 hunger and thirst
             int bonus = std::max( it->get_quality( quality_id( "DIG" ) ) - 1, 1 );
             bonus *= bonus;
-
-            // @todo: This should be converted to an activity, with a move cost of 5000/(bonus*bonus)
-            p->mod_moves( -500 );
-            p->mod_hunger ( 10 / bonus );
-            p->mod_thirst ( 10 / bonus );
+            player_activity act( ACT_CLEAR_RUBBLE, 5000 / ( bonus * bonus ), bonus );
+            act.coords.push_back( pt );
+            p->assign_activity( act );
 
             return it->type->charges_to_use();
         }
