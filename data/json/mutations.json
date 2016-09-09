@@ -5129,6 +5129,15 @@
         "name" : "Squeamish",
         "points" : -1,
         "starting_trait" : true,
-        "description" : "You can't even think about putting filthy clothes on yourself, especially from zombies' corpses."
+        "description" : "You can't even think about putting filthy clothes on yourself, especially from zombies' corpses.",
+        "cancels" : ["FILTH_TOLERANT"]
+    },{
+        "type" : "mutation",
+        "id" : "FILTH_TOLERANT",
+        "name" : "Filth Tolerant",
+        "points" : 1,
+        "starting_trait" : true,
+        "description" : "You never minded re-using old clothes every so often, and now who's going to care if you skip laundry day?",
+        "cancels" : ["SQUEAMISH"]
     }
 ]

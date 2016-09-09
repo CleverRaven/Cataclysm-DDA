@@ -55,7 +55,7 @@
     "allowed_locs" : ["forest"],
     "professions" : ["churl"],
     "forced_traits" : ["ILLITERATE", "ANTIJUNK", "STRONGSTOMACH"],
-    "forbidden_traits" : ["FASTREADER", "SLOWREADER"],
+    "forbidden_traits" : ["FASTREADER", "SLOWREADER", "SQUEAMISH"],
     "flags" : ["CHALLENGE"]
   },{
     "type": "scenario",
