@@ -23,6 +23,7 @@
 #include "weather.h"
 #include "cata_utility.h"
 #include "output.h"
+#include "mutation.h"
 #include "requirements.h"
 
 #include <algorithm> //std::min
@@ -85,6 +86,10 @@ bionic_data const &bionic_info( std::string const &id )
 
     static bionic_data const null_value;
     return null_value;
+}
+
+bool bionic_data::is_included( const std::string &id ) const {
+    return std::find( included_bionics.begin(), included_bionics.end(), id ) != included_bionics.end();
 }
 
 void bionics_install_failure( player *u, int difficulty, int success );
@@ -785,22 +790,18 @@ bool player::uninstall_bionic( std::string const &b_id, int skill_level )
                 _( "WARNING: Removing a reactor may leave radioactive material! Remove anyway?" ) ) ) {
             return false;
         }
-    } else if( b_id == "bio_plutdump" ) {
-        popup( _( "You must remove your reactor to remove the Plutonium Purger." ) );
     }
 
-    if( b_id == "bio_earplugs" ) {
-        popup( _( "You must remove the Enhanced Hearing bionic to remove the Sound Dampeners." ) );
-        return false;
+    for( const auto &e : bionics ) {
+        if( e.second.is_included( b_id ) ) {
+            popup( _( "You must remove the %s bionic to remove the %s." ), e.second.name.c_str(),
+                   bionic_info( b_id ).name.c_str() );
+            return false;
+        }
     }
 
     if( b_id == "bio_eye_optic" ) {
         popup( _( "The Telescopic Lenses are part of your eyes now.  Removing them would leave you blind." ) );
-        return false;
-    }
-
-    if( b_id == "bio_blindfold" ) {
-        popup( _( "You must remove the Anti-glare Compensators bionic to remove the Optical Dampers." ) );
         return false;
     }
 
@@ -842,6 +843,7 @@ bool player::uninstall_bionic( std::string const &b_id, int skill_level )
         std::vector<item_comp> comps;
         comps.push_back( item_comp( "1st_aid", 1 ) );
         consume_items( comps );
+        invalidate_crafting_inventory();
     }
 
     practice( skilll_electronics, int( ( 100 - chance_of_success ) * 1.5 ) );
@@ -860,9 +862,6 @@ bool player::uninstall_bionic( std::string const &b_id, int skill_level )
         // remove power bank provided by bionic
         max_power_level -= bionics[b_id].capacity;
         remove_bionic( b_id );
-        if( b_id == "bio_reactor" || b_id == "bio_advreactor" ) {
-            remove_bionic( "bio_plutdump" );
-        }
         g->m.spawn_item( pos(), "burnt_out_bionic", 1 );
     } else {
         add_memorial_log( pgettext( "memorial_male", "Removed bionic: %s." ),
@@ -945,21 +944,16 @@ bool player::install_bionics( const itype &type, int skill_level )
         add_msg( m_good, _( "Successfully installed %s." ), bionics[bioid].name.c_str() );
         add_bionic( bioid );
 
-        if( bioid == "bio_eye_optic" && has_trait( "HYPEROPIC" ) ) {
-            remove_mutation( "HYPEROPIC" );
+        for( const auto &mid : bionics[bioid].canceled_mutations ) {
+            if( has_trait( mid ) ) {
+                remove_mutation( mid );
+            }
         }
-        if( bioid == "bio_eye_optic" && has_trait( "MYOPIC" ) ) {
-            remove_mutation( "MYOPIC" );
-        } else if( bioid == "bio_ears" ) {
-            add_bionic( "bio_earplugs" ); // automatically add the earplugs, they're part of the same bionic
-        } else if( bioid == "bio_sunglasses" ) {
-            add_bionic( "bio_blindfold" ); // automatically add the Optical Dampers, they're part of the same bionic
-        } else if( bioid == "bio_reactor_upgrade" ) {
+
+        if( bioid == "bio_reactor_upgrade" ) {
             remove_bionic( "bio_reactor" );
             remove_bionic( "bio_reactor_upgrade" );
             add_bionic( "bio_advreactor" );
-        } else if( bioid == "bio_reactor" || bioid == "bio_advreactor" ) {
-            add_bionic( "bio_plutdump" );
         }
     } else {
         add_memorial_log( pgettext( "memorial_male", "Installed bionic: %s." ),
@@ -1208,6 +1202,11 @@ void player::add_bionic( std::string const &b )
     if( b == "bio_tools" || b == "bio_ears" ) {
         activate_bionic( my_bionics.size() - 1 );
     }
+
+    for( const auto &inc_bid : bionics[b].included_bionics ) {
+        add_bionic( inc_bid );
+    }
+
     recalc_sight_limits();
 }
 
@@ -1219,13 +1218,8 @@ void player::remove_bionic( std::string const &b )
             continue;
         }
 
-        // Ears and earplugs and sunglasses and blindfold go together like peanut butter and jelly.
-        // Therefore, removing one, should remove the other.
-        if( ( b == "bio_ears" && i.id == "bio_earplugs" ) ||
-            ( b == "bio_earplugs" && i.id == "bio_ears" ) ) {
-            continue;
-        } else if( ( b == "bio_sunglasses" && i.id == "bio_blindfold" ) ||
-                   ( b == "bio_blindfold" && i.id == "bio_sunglasses" ) ) {
+        // Linked bionics: if either is removed, the other is removed as well.
+        if( bionic_info( b ).is_included( i.id ) || bionic_info( i.id ).is_included( b ) ) {
             continue;
         }
 
@@ -1288,6 +1282,7 @@ bool player::remove_random_bionic()
         int rem = rng( 0, num_bionics() - 1 );
         const auto bionic = my_bionics[rem];
         remove_bionic( bionic.id );
+        add_msg( m_bad, _( "Your %s fails, and is destroyed!" ), bionics[ bionic.id ].name.c_str() );
         recalc_sight_limits();
     }
     return numb;
@@ -1329,6 +1324,9 @@ void load_bionic( JsonObject &jsobj )
 
     new_bionic.fake_item = jsobj.get_string( "fake_item", "" );
 
+    jsobj.read( "canceled_mutations", new_bionic.canceled_mutations );
+    jsobj.read( "included_bionics", new_bionic.included_bionics );
+
     std::map<body_part, size_t> occupied_bodyparts;
     JsonArray jsarr = jsobj.get_array( "occupied_bodyparts" );
     if( !jsarr.empty() ) {
@@ -1359,6 +1357,22 @@ void check_bionics()
             !item::type_is_defined( bio.second.fake_item ) ) {
             debugmsg( "Bionic %s has unknown fake_item %s",
                       bio.first.c_str(), bio.second.fake_item.c_str() );
+        }
+        for( const auto &mid : bio.second.canceled_mutations ) {
+            if( !mutation_branch::has( mid ) ) {
+                debugmsg( "Bionic %s cancels undefined mutation %s",
+                          bio.first.c_str(), mid.c_str() );
+            }
+        }
+        for( const auto &bid : bio.second.included_bionics ) {
+            if( !is_valid_bionic( bid ) ) {
+                debugmsg( "Bionic %s includes undefined bionic %s",
+                          bio.first.c_str(), bid.c_str() );
+            }
+            if( !bionics[bid].occupied_bodyparts.empty() ) {
+                debugmsg( "Bionic %s (included by %s) consumes slots, those should be part of the containing bionic instead.",
+                          bid.c_str(), bio.first.c_str() );
+            }
         }
     }
 }

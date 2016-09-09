@@ -525,10 +525,8 @@ bool player::scored_crit(int target_dodge) const
 /**
  * Limits a probability to be between 0.0 and 1.0
  */
-double limit_probability ( double unbounded_probability ) {
-    double probability = std::fmin( unbounded_probability, 1.0 );
-    double bounded_probability = std::fmax( probability, 0.0 );
-    return bounded_probability;
+inline double limit_probability( double unbounded_probability ) {
+    return std::max( std::min( unbounded_probability, 1.0 ), 0.0 );
 }
 
 double player::crit_chance( int roll_hit, int target_dodge, const item &weap ) const
@@ -1870,11 +1868,13 @@ std::vector<special_attack> player::mutation_attacks(Creature &t) const
             }
 
             ///\EFFECT_UNARMED increases chance of attacking with mutated body parts
-
             ///\EFFECT_DEX increases chance of attacking with mutated body parts
-            const int chance = std::max( 1, mut_atk.chance - get_dex() - unarmed );
-            add_msg( m_debug, "%s proc chance: %d", pr.first.c_str(), chance );
-            if( chance != 1 && !one_in( chance ) ) {
+
+            // Calculate actor ability value to be compared against mutation attack difficulty and add debug message
+            const int proc_value = get_dex() + unarmed;
+            add_msg( m_debug, "%s proc chance: %d in %d", pr.first.c_str(), proc_value, mut_atk.chance );
+            // If the mutation attack fails to proc, bail out
+            if( !x_in_y( proc_value, mut_atk.chance ) ) {
                 continue;
             }
 

@@ -15,7 +15,12 @@
 
 bool game::dump_stats( const std::string& what, dump_mode mode, const std::vector<std::string> &opts )
 {
-    load_core_data();
+    try {
+        load_core_data();
+    } catch( const std::exception &err ) {
+        std::cerr << "Error loading data from json: " << err.what() << std::endl;
+        return false;
+    }
     DynamicDataLoader::get_instance().finalize_loaded_data();
 
     std::vector<std::string> header;
@@ -209,7 +214,7 @@ bool game::dump_stats( const std::string& what, dump_mode mode, const std::vecto
 
         header = { "Name" };
         for( int i = 0; i <= cycles; ++i ) {
-            header.push_back( std::to_string( i ) );
+            header.push_back( to_string( i ) );
         }
 
         auto dump = [&rows]( const standard_npc &who, const item &gun) {

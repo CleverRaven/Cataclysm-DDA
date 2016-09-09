@@ -73,7 +73,6 @@
 #include <string>
 #include <sstream>
 #include <stdlib.h>
-#include <fstream>
 #include <limits>
 
 const double MIN_RECOIL = 600;
@@ -635,7 +634,9 @@ void player::update_mental_focus()
 
     // Moved from calc_focus_equilibrium, because it is now const
     if( activity.type == ACT_READ ) {
-        if( !inv.has_item( *activity.targets[0].get_item() ) ) {
+        const item *book = activity.targets[0].get_item();
+        if( get_item_position( book ) == INT_MIN || !book->is_book() ) {
+            add_msg_if_player( m_bad, _( "You lost your book! You stop reading." ) );
             activity.type = ACT_NULL;
         }
     }
@@ -649,7 +650,7 @@ int player::calc_focus_equilibrium() const
 
     if( activity.type == ACT_READ ) {
         const item &book = *activity.targets[0].get_item();
-        if( book.is_book() ) {
+        if( book.is_book() && get_item_position( &book ) != INT_MIN ) {
             auto &bt = *book.type->book;
             // apply a penalty when we're actually learning something
             const auto &skill_level = get_skill_level( bt.skill );
@@ -9023,12 +9024,6 @@ bool player::has_fire(const int quantity) const
         return true;
     } else if (has_charges("candle_lit", 1)) {
         return true;
-    } else if (has_active_bionic("bio_tools")) {
-        return true;
-    } else if (has_bionic("bio_lighter")) {
-        return true;
-    } else if (has_bionic("bio_laser")) {
-        return true;
     } else if (has_charges("ref_lighter", quantity)) {
         return true;
     } else if (has_charges("matches", quantity)) {
@@ -9055,6 +9050,12 @@ bool player::has_fire(const int quantity) const
         return true;
     } else if (has_charges("zweifire_on", quantity)) {
         return true;
+    } else if (has_active_bionic("bio_tools") && power_level > quantity * 5 ) {
+        return true;
+    } else if (has_bionic("bio_lighter") && power_level > quantity * 5 ) {
+        return true;
+    } else if (has_bionic("bio_laser") && power_level > quantity * 5 ) {
+        return true;
     } else if( is_npc() ) {
         // A hack to make NPCs use their molotovs
         return true;
@@ -9067,6 +9068,7 @@ void player::use_fire(const int quantity)
 //Ok, so checks for nearby fires first,
 //then held lit torch or candle, bio tool/lighter/laser
 //tries to use 1 charge of lighters, matches, flame throwers
+//If there is enough power, will use power of one activation of the bio_lighter, bio_tools and bio_laser
 // (home made, military), hotplate, welder in that order.
 // bio_lighter, bio_laser, bio_tools, has_active_bionic("bio_tools"
 
@@ -9089,12 +9091,6 @@ void player::use_fire(const int quantity)
     } else if (has_charges("firekatana_on", quantity)) {
         return;
     } else if (has_charges("zweifire_on", quantity)) {
-        return;
-    } else if (has_active_bionic("bio_tools")) {
-        return;
-    } else if (has_bionic("bio_lighter")) {
-        return;
-    } else if (has_bionic("bio_laser")) {
         return;
     } else if (has_charges("ref_lighter", quantity)) {
         use_charges("ref_lighter", quantity);
@@ -9134,6 +9130,15 @@ void player::use_fire(const int quantity)
         return;
     } else if (has_charges("zweifire_off", quantity)) {
         use_charges("zweifire_off", quantity);
+        return;
+    } else if (has_active_bionic("bio_tools") && power_level > quantity * 5 ) {
+        charge_power( -quantity * 5 );
+        return;
+    } else if (has_bionic("bio_lighter") && power_level > quantity * 5 ) {
+        charge_power( -quantity * 5 );
+        return;
+    } else if (has_bionic("bio_laser") && power_level > quantity * 5 ) {
+        charge_power( -quantity * 5 );
         return;
     }
 }
@@ -11326,7 +11331,7 @@ bool player::fun_to_read( const item &book ) const
  * Explanation of ACT_READ activity values:
  *
  * position: ID of the reader
- * targets: 1-element vector with the item_location (always in inventory) of the book being read
+ * targets: 1-element vector with the item_location (always in inventory/wielded) of the book being read
  * index: We are studying until the player with this ID gains a level; 0 indicates reading once
  * values: IDs of the NPCs who will learn something
  * str_values: Parallel to values, these contain the learning penalties (as doubles in string form) as follows:
@@ -11408,7 +11413,7 @@ bool player::read( int inventory_position, const bool continuous )
             const double penalty = ( double )time_taken / time_to_read( it, *reader, elem );
             learners.insert( {elem, elem == reader ? _( " (reading aloud to you)" ) : ""} );
             act.values.push_back( elem->getID() );
-            act.str_values.push_back( std::to_string( penalty ) );
+            act.str_values.push_back( to_string( penalty ) );
         } else {
             fun_learners.insert( {elem, elem == reader ? _( " (reading aloud to you)" ) : "" } );
             act.values.push_back( elem->getID() );
@@ -11451,8 +11456,8 @@ bool player::read( int inventory_position, const bool continuous )
             };
 
             menu.return_invalid = true;
-            menu.title = !skill ? string_format( _( "Reading %s" ), it.tname().c_str() ) :
-                         string_format( _( "Reading %s (can train %s from %d to %d)" ), it.tname().c_str(),
+            menu.title = !skill ? string_format( _( "Reading %s" ), it.type_name().c_str() ) :
+                         string_format( _( "Reading %s (can train %s from %d to %d)" ), it.type_name().c_str(),
                                         skill_name.c_str(), type->req, type->level );
 
             if( skill ) {
@@ -11491,7 +11496,7 @@ bool player::read( int inventory_position, const bool continuous )
             act.index = menu.ret;
         }
         add_msg( m_info, _( "Now reading %s, %s to stop early." ),
-                 it.tname().c_str(), press_x( ACTION_PAUSE ).c_str() );
+                 it.type_name().c_str(), press_x( ACTION_PAUSE ).c_str() );
         rooted_message();
     }
 
@@ -11637,8 +11642,9 @@ void player::do_read( item *book )
     std::vector<std::pair<player *, double>> learners; //learners and their penalties
     for( size_t i = 0; i < activity.values.size(); i++ ) {
         player *n = g->find_npc( activity.values[i] );
-        if( n ) {
-            learners.push_back( { n, std::stod( activity.get_str_value( i, "1" ) ) } );
+        if( n != nullptr ) {
+            const std::string &s = activity.get_str_value( i, "1" );
+            learners.push_back( { n, strtod( s.c_str(), nullptr ) } );
         }
         // Otherwise they must have died/teleported or something
     }
@@ -11771,7 +11777,7 @@ void player::do_read( item *book )
     if( !out_of_chapters.empty() ) {
         const std::string names = enumerate_as_string( out_of_chapters );
         add_msg( m_info, _( "Rereading the %s isn't as much fun for %s." ),
-                 book->tname().c_str(), names.c_str() );
+                 book->type_name().c_str(), names.c_str() );
         if( out_of_chapters.front() == disp_name() && one_in( 6 ) ) {
             add_msg( m_info, _( "Maybe you should find something new to read..." ) );
         }
@@ -11779,7 +11785,7 @@ void player::do_read( item *book )
 
     if( continuous ) {
         activity.type = ACT_NULL;
-        read( inv.position_by_item( book ), true );
+        read( get_item_position( book ), true );
         if( activity.type != ACT_NULL ) {
             return;
         }

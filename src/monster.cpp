@@ -13,7 +13,6 @@
 #include "translations.h"
 #include "overmapbuffer.h"
 #include <sstream>
-#include <fstream>
 #include <stdlib.h>
 #include <algorithm>
 #include "cursesdef.h"

@@ -17,7 +17,6 @@
 #endif // TILES
 
 #include <stdlib.h>
-#include <fstream>
 #include <string>
 #include <locale>
 #include <sstream>
@@ -683,51 +682,44 @@ static std::string build_resource_list(
                                                      FILENAMES[dirname_label], true );
 
     for( auto &resource_dir : resource_dirs ) {
-        std::ifstream fin;
-        std::string file = resource_dir + "/" + FILENAMES[filename_label];
+        read_from_file( resource_dir + "/" + FILENAMES[filename_label], [&]( std::istream &fin ) {
+            std::string resource_name;
+            // should only have 2 values inside it, otherwise is going to only load the last 2 values
+            while( !fin.eof() ) {
+                std::string sOption;
+                fin >> sOption;
 
-        fin.open( file.c_str() );
-        if( !fin.is_open() ) {
-            DebugLog( D_ERROR, DC_ALL ) << "Can't read " << operation_name << " config from " << file;
-        }
-
-        std::string resource_name;
-        // should only have 2 values inside it, otherwise is going to only load the last 2 values
-        while( !fin.eof() ) {
-            std::string sOption;
-            fin >> sOption;
-
-            if( sOption.empty() ) {
-                getline( fin, sOption );    // Empty line, chomp it
-            } else if( sOption[0] == '#' ) { // # indicates a comment
-                getline( fin, sOption );
-            } else {
-                if( sOption.find( "NAME" ) != std::string::npos ) {
-                    resource_name = "";
-                    getline( fin, resource_name );
-                    resource_name.erase( std::remove( resource_name.begin(), resource_name.end(), ',' ), resource_name.end() );
-                    resource_name = trim( resource_name );
-                    if( resource_names.empty() ) {
-                        resource_names += resource_name;
-                    } else {
-                        resource_names += std::string( "," );
-                        resource_names += resource_name;
+                if( sOption.empty() ) {
+                    getline( fin, sOption );    // Empty line, chomp it
+                } else if( sOption[0] == '#' ) { // # indicates a comment
+                    getline( fin, sOption );
+                } else {
+                    if( sOption.find( "NAME" ) != std::string::npos ) {
+                        resource_name = "";
+                        getline( fin, resource_name );
+                        resource_name.erase( std::remove( resource_name.begin(), resource_name.end(), ',' ), resource_name.end() );
+                        resource_name = trim( resource_name );
+                        if( resource_names.empty() ) {
+                            resource_names += resource_name;
+                        } else {
+                            resource_names += std::string( "," );
+                            resource_names += resource_name;
+                        }
+                    } else if( sOption.find( "VIEW" ) != std::string::npos ) {
+                        std::string viewName = "";
+                        getline( fin, viewName );
+                        viewName = trim( viewName );
+                        optionNames[resource_name] = viewName;
+                        break;
                     }
-                } else if( sOption.find( "VIEW" ) != std::string::npos ) {
-                    std::string viewName = "";
-                    getline( fin, viewName );
-                    viewName = trim( viewName );
-                    optionNames[resource_name] = viewName;
-                    break;
                 }
             }
-        }
-        fin.close();
-        if( resource_option.count( resource_name ) != 0 ) {
-            DebugLog( D_ERROR, DC_ALL ) << "Found " << operation_name << " duplicate with name " << resource_name;
-        } else {
-            resource_option.insert( std::pair<std::string,std::string>( resource_name, resource_dir ) );
-        }
+            if( resource_option.count( resource_name ) != 0 ) {
+                DebugLog( D_ERROR, DC_ALL ) << "Found " << operation_name << " duplicate with name " << resource_name;
+            } else {
+                resource_option.insert( std::pair<std::string,std::string>( resource_name, resource_dir ) );
+            }
+        } );
     }
 
     return resource_names;
@@ -808,7 +800,7 @@ void options_manager::init()
         );
 
     add("AUTO_PICKUP_SAFEMODE", "general", _("Auto pickup safemode"),
-        _("Auto pickup is disabled as long as you can see monsters nearby. This is affected by Safemode proximity distance."),
+        _("Auto pickup is disabled as long as you can see monsters nearby. This is affected by 'Safemode proximity distance'."),
         false
         );
 
@@ -821,23 +813,23 @@ void options_manager::init()
 
     mOptionsSort["general"]++;
 
-    add("AUTOSAFEMODE", "general", _("Auto-safemode on by default"),
-        _("If true, auto-safemode will be on after starting a new game or loading."),
+    add("AUTOSAFEMODE", "general", _("Auto-safemode"),
+        _("If true, turns safemode automatically back on after it being disabled beforehand. See option 'Turns to re-enable safemode'"),
         false
         );
 
     add("AUTOSAFEMODETURNS", "general", _("Turns to re-enable safemode"),
-        _("Number of turns after safemode is re-enabled if no hostiles are in safemodeproximity distance."),
+        _("Number of turns after safemode is re-enabled if no hostiles are in 'Safemode proximity distance'."),
         1, 100, 50
         );
 
-    add("SAFEMODE", "general", _("Safemode on by default"),
-        _("If true, safemode will be on after starting a new game or loading."),
+    add("SAFEMODE", "general", _("Safemode"),
+        _("If true, will hold the game and display a warning if a hostile monster/npc is approaching."),
         true
         );
 
     add("SAFEMODEPROXIMITY", "general", _("Safemode proximity distance"),
-        _("If safemode is enabled, distance to hostiles when safemode should show a warning. 0 = Max player viewdistance."),
+        _("If safemode is enabled, distance to hostiles at which safemode should show a warning. 0 = Max player viewdistance."),
         0, 50, 0
         );
 
@@ -848,8 +840,8 @@ void options_manager::init()
 
     mOptionsSort["general"]++;
 
-    add("TURN_DURATION", "general", _("Automatic Zombie Advancement"),
-        _("If enabled, zombies will take periodic gameplay turns. This value is the delay between each turn, in seconds. Works best with Safemode disabled. 0 = disabled."),
+    add("TURN_DURATION", "general", _("Realtime turn progression"),
+        _("If enabled, monsters will take periodic gameplay turns. This value is the delay between each turn, in seconds. Works best with Safemode disabled. 0 = disabled."),
         0.0, 10.0, 0.0, 0.05
         );
 
@@ -1392,6 +1384,13 @@ void options_manager::init()
 
     mOptionsSort["world_default"]++;
 
+    add("ALIGN_STAIRS", "world_default", _("Align up and down stairs"),
+        _("If true, downstairs will be placed directly above upstairs, even if this results in uglier maps."),
+        false
+        );
+
+    mOptionsSort["world_default"]++;
+
     add("NO_FAULTS", "world_default", _("Disables vehicle part faults."),
         _("If true, disables vehicle part faults, vehicle parts will be totally reliable unless destroyed, and can only be repaired via replacement."),
         false, COPT_ALWAYS_HIDE
@@ -1837,8 +1836,8 @@ void options_manager::serialize(JsonOut &json) const
     for( size_t j = 0; j < vPages.size(); ++j ) {
         for( auto &elem : mPageItems[j] ) {
             const auto iter = global_options.find( elem );
-            const auto &opt = iter->second;
-            if( opt.getDefaultText() != "" ) {
+            if( iter != global_options.end() ) {
+                const auto &opt = iter->second;
                 json.start_object();
 
                 json.member( "info", opt.getTooltip() );
@@ -1889,26 +1888,14 @@ void options_manager::load()
 {
     const auto file = FILENAMES["options"];
 
-    std::ifstream fin;
-    fin.open(file.c_str(), std::ifstream::in | std::ifstream::binary);
-    if( !fin.good() ) {
+    if( !read_from_file_optional( file, *this ) ) {
         if (load_legacy()) {
             if (save()) {
                 remove_file(FILENAMES["legacy_options"]);
                 remove_file(FILENAMES["legacy_options2"]);
             }
         }
-
-    } else {
-        try {
-            JsonIn jsin(fin);
-            deserialize(jsin);
-        } catch( const JsonError &e ) {
-            DebugLog(D_ERROR, DC_ALL) << "options_manager::load: " << e;
-        }
     }
-
-    fin.close();
 
     // cache to global due to heavy usage.
     trigdist = ::get_option<bool>( "CIRCLEDIST" );
@@ -1920,36 +1907,25 @@ void options_manager::load()
 
 bool options_manager::load_legacy()
 {
-    std::ifstream fin;
-    // Try at the legacy location.
-    fin.open(FILENAMES["legacy_options"].c_str());
-    if(!fin.is_open()) {
-        // Try at the legacy location 2.
-        fin.open(FILENAMES["legacy_options2"].c_str());
-        if(!fin.is_open()) {
-            //No legacy txt options found, load json options
-            return false;
+    const auto reader = [&]( std::istream &fin ) {
+        std::string sLine;
+        while(!fin.eof()) {
+            getline(fin, sLine);
+
+            if(sLine != "" && sLine[0] != '#' && std::count(sLine.begin(), sLine.end(), ' ') == 1) {
+                int iPos = sLine.find(' ');
+                const std::string loadedvar = sLine.substr(0, iPos);
+                const std::string loadedval = sLine.substr(iPos + 1, sLine.length());
+                // option with values from post init() might get clobbered
+                add_retry(loadedvar, loadedval); // stash it until update();
+
+                global_options[ loadedvar ].setValue( loadedval );
+            }
         }
-    }
+    };
 
-    std::string sLine;
-    while(!fin.eof()) {
-        getline(fin, sLine);
-
-        if(sLine != "" && sLine[0] != '#' && std::count(sLine.begin(), sLine.end(), ' ') == 1) {
-            int iPos = sLine.find(' ');
-            const std::string loadedvar = sLine.substr(0, iPos);
-            const std::string loadedval = sLine.substr(iPos + 1, sLine.length());
-            // option with values from post init() might get clobbered
-            add_retry(loadedvar, loadedval); // stash it until update();
-
-            global_options[ loadedvar ].setValue( loadedval );
-        }
-    }
-
-    fin.close();
-
-    return true;
+    return read_from_file_optional( FILENAMES["legacy_options"], reader ) ||
+           read_from_file_optional( FILENAMES["legacy_options2"], reader );
 }
 
 bool use_narrow_sidebar()

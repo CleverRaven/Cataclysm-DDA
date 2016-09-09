@@ -15,8 +15,7 @@
 #include "path_info.h"
 #include "mapsharing.h"
 #include "sounds.h"
-
-#include <fstream>
+#include "cata_utility.h"
 
 //TODO replace these with filesystem.h
 #include <sys/stat.h>
@@ -132,15 +131,16 @@ void game::print_menu( WINDOW *w_open, int iSel, const int iMenuOffsetX, int iMe
 
 std::vector<std::string> load_file( const std::string &path, const std::string &alternative_text )
 {
-    std::ifstream stream( path.c_str() );
     std::vector<std::string> result;
-    std::string line;
-    while( std::getline( stream, line ) ) {
-        if( !line.empty() && line[0] == '#' ) {
-            continue;
+    read_from_file_optional( path, [&result]( std::istream & fin ) {
+        std::string line;
+        while( std::getline( fin, line ) ) {
+            if( !line.empty() && line[0] == '#' ) {
+                continue;
+            }
+            result.push_back( line );
         }
-        result.push_back( line );
-    }
+    } );
     if( result.empty() ) {
         result.push_back( alternative_text );
     }
@@ -162,28 +162,28 @@ void game::mmenu_refresh_motd()
 void game::mmenu_refresh_credits()
 {
     mmenu_credits.clear();
-    std::ifstream stream( PATH_INFO::find_translated_file( "creditsdir", ".credits",
-                          "credits" ).c_str() );
     std::vector<std::string> buffer;
-    std::string line;
-    std::ostringstream ss;
-    while( std::getline( stream, line ) ) {
-        if( line[0] == '#' ) {
-            continue;
-        } else {
-            buffer.push_back( line );
-        }
-        if( buffer.size() > 14 || line.empty() ) {
-            ss.str( "" );
-            for( std::vector<std::string>::iterator it = buffer.begin(); it != buffer.end(); ++it ) {
-                ss << *it << std::endl;
+    read_from_file_optional( PATH_INFO::find_translated_file( "creditsdir", ".credits",
+    "credits" ), [&buffer]( std::istream & stream ) {
+        std::string line;
+        while( std::getline( stream, line ) ) {
+            if( line[0] == '#' ) {
+                continue;
+            } else {
+                buffer.push_back( line );
             }
-            mmenu_credits.push_back( ss.str() );
-            buffer.clear();
+            if( buffer.size() > 14 || line.empty() ) {
+                std::ostringstream ss;
+                for( std::vector<std::string>::iterator it = buffer.begin(); it != buffer.end(); ++it ) {
+                    ss << *it << std::endl;
+                }
+                mmenu_credits.push_back( ss.str() );
+                buffer.clear();
+            }
         }
-    }
+    } );
     if( !buffer.empty() ) {
-        ss.str( "" );
+        std::ostringstream ss;
         for( std::vector<std::string>::iterator it = buffer.begin(); it != buffer.end(); ++it ) {
             ss << *it << std::endl;
         }
@@ -460,7 +460,13 @@ bool game::opening_screen()
                             continue;
                         }
                         world_generator->set_active_world( world );
-                        setup();
+                        try {
+                            setup();
+                        } catch( const std::exception &err ) {
+                            debugmsg( "Error: %s", err.what() );
+                            u = player();
+                            continue;
+                        }
                         if( !u.create( sel2 == 0 ? PLTYPE_CUSTOM : ( sel2 == 2 ? PLTYPE_RANDOM : PLTYPE_NOW ) ) ) {
                             u = player();
                             continue;
@@ -649,7 +655,14 @@ bool game::opening_screen()
                             continue;
                         }
                         world_generator->set_active_world( world );
-                        setup();
+                        try {
+                            setup();
+                        } catch( const std::exception &err ) {
+                            debugmsg( "Error: %s", err.what() );
+                            gamemode.reset();
+                            u = player();
+                            continue;
+                        }
                         if( !gamemode->init() ) {
                             gamemode.reset();
                             u = player();
@@ -724,7 +737,13 @@ bool game::opening_screen()
                         wrefresh( w_background );
                         WORLDPTR world = world_generator->all_worlds[world_generator->all_worldnames[sel2]];
                         world_generator->set_active_world( world );
-                        setup();
+                        try {
+                            setup();
+                        } catch( const std::exception &err ) {
+                            debugmsg( "Error: %s", err.what() );
+                            u = player();
+                            continue;
+                        }
 
                         load( world->world_name, savegames[sel3] );
                         start = true;
@@ -867,7 +886,13 @@ bool game::opening_screen()
                         continue;
                     }
                     world_generator->set_active_world( world );
-                    setup();
+                    try {
+                        setup();
+                    } catch( const std::exception &err ) {
+                        debugmsg( "Error: %s", err.what() );
+                        u = player();
+                        continue;
+                    }
                     if( !u.create( PLTYPE_TEMPLATE, templates[sel3] ) ) {
                         u = player();
                         continue;

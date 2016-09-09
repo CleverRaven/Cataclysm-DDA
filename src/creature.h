@@ -91,14 +91,22 @@ class Creature
         /**
          * Simplified attitude towards any creature:
          * hostile - hate, want to kill, etc.
-         * friendly - avoid harming it, maybe even help.
          * neutral - anything between.
+         * friendly - avoid harming it, maybe even help.
+         * any - any of the above, used in safemode_ui
          */
-        enum Attitude {
+        enum Attitude : int {
             A_HOSTILE,
             A_NEUTRAL,
             A_FRIENDLY,
+            A_ANY
         };
+
+        /**
+         * Creature Attitude as String and color
+         */
+        static std::pair<std::string, nc_color> const &get_attitude_ui_data( Attitude att );
+
         /**
          * Attitude (of this creature) towards another creature. This might not be symmetric.
          */

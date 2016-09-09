@@ -843,6 +843,17 @@ class string_id_reader : public generic_typed_reader<string_id_reader<T>>
         }
 };
 
+inline void report_strict_violation( JsonObject &jo, const std::string &message,
+                                     const std::string &name )
+{
+    try {
+        // Let the json class do the formatting, it includes the context of the JSON data.
+        jo.throw_error( message, name );
+    } catch( const JsonError &err ) {
+        // And catch the exception so the loading continues like normal.
+        debugmsg( "%s", err.what() );
+    }
+}
 
 template <typename T>
 typename std::enable_if<std::is_arithmetic<T>::value, bool>::type assign(
@@ -876,7 +887,7 @@ typename std::enable_if<std::is_arithmetic<T>::value, bool>::type assign(
     }
 
     if( strict && out == val ) {
-        jo.throw_error( "assignment does not update value", name );
+        report_strict_violation( jo, "assignment does not update value", name );
     }
 
     val = out;
@@ -913,7 +924,7 @@ typename std::enable_if<std::is_arithmetic<T>::value, bool>::type assign(
     }
 
     if( strict && out == val ) {
-        jo.throw_error( "assignment does not update value", name );
+        report_strict_violation( jo, "assignment does not update value", name );
     }
 
     val = out;
@@ -931,7 +942,7 @@ typename std::enable_if<std::is_constructible<T, std::string>::value, bool>::typ
     }
 
     if( strict && out == val ) {
-        jo.throw_error( "assignment does not update value", name );
+        report_strict_violation( jo, "assignment does not update value", name );
     }
 
     val = out;

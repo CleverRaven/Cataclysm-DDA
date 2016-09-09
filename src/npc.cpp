@@ -25,7 +25,6 @@
 #include "iuse_actor.h"
 
 #include <algorithm>
-#include <fstream>
 #include <sstream>
 #include <string>
 

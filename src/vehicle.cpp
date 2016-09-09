@@ -5383,33 +5383,57 @@ int vehicle::damage( int p, int dmg, damage_type type, bool aimed )
             return dmg;
         }
     }
-    int parm = part_with_feature( p, "ARMOR" );
-    int pdm = random_entry( pl );
-    int dres;
-    if( parm < 0 ) {
-        // Not covered by armor -- damage part
-        dres = damage_direct( pdm, dmg, type );
-    } else {
-        // Covered by armor -- hit both armor and part, but reduce damage by armor's reduction
-        int protection = part_info( parm ).damage_reduction[ type ];
-        // Parts on roof aren't protected
-        bool overhead = part_flag( pdm, "ROOF" ) || part_info( pdm ).location == "on_roof";
-        // Calling damage_direct may remove the damaged part
-        // completely, therefor the other indes (pdm) becames
-        // wrong if pdm > parm.
-        // Damaging the part with the higher index first is save,
-        // as removing a part only changes indizes after the
-        // removed part.
-        if( parm < pdm ) {
-            damage_direct( pdm, overhead ? dmg : dmg - protection, type );
-            dres = damage_direct( parm, dmg, type );
-        } else {
-            dres = damage_direct( parm, dmg, type );
-            damage_direct( pdm, overhead ? dmg : dmg - protection, type );
+
+    int target_part = random_entry( pl );
+
+    // door motor mechanism is protected by closed doors
+    if( part_flag( target_part, "DOOR_MOTOR" ) ) {
+        // find the most strong openable thats not open
+        int strongest_door_part = -1;
+        int strongest_door_durability = INT_MIN;
+        for( int part : pl ) {
+            if( part_flag( part, "OPENABLE" ) && !parts[part].open ) {
+                int door_durability = part_info( part ).durability;
+                if (door_durability > strongest_door_durability) {
+                   strongest_door_part = part;
+                   strongest_door_durability = door_durability;
+                }
+            }
+        }
+
+        // if we found a closed door, target it instead of the door_motor
+        if (strongest_door_part != -1) {
+            target_part = strongest_door_part;
         }
     }
 
-    return dres;
+    int damage_dealt;
+
+    int armor_part = part_with_feature( p, "ARMOR" );
+    if( armor_part < 0 ) {
+        // Not covered by armor -- damage part
+        damage_dealt = damage_direct( target_part, dmg, type );
+    } else {
+        // Covered by armor -- hit both armor and part, but reduce damage by armor's reduction
+        int protection = part_info( armor_part ).damage_reduction[ type ];
+        // Parts on roof aren't protected
+        bool overhead = part_flag( target_part, "ROOF" ) || part_info( target_part ).location == "on_roof";
+        // Calling damage_direct may remove the damaged part
+        // completely, therefor the other indes (target_part) becames
+        // wrong if target_part > armor_part.
+        // Damaging the part with the higher index first is save,
+        // as removing a part only changes indizes after the
+        // removed part.
+        if( armor_part < target_part ) {
+            damage_direct( target_part, overhead ? dmg : dmg - protection, type );
+            damage_dealt = damage_direct( armor_part, dmg, type );
+        } else {
+            damage_dealt = damage_direct( armor_part, dmg, type );
+            damage_direct( target_part, overhead ? dmg : dmg - protection, type );
+        }
+    }
+
+    return damage_dealt;
 }
 
 void vehicle::damage_all( int dmg1, int dmg2, damage_type type, const point &impact )

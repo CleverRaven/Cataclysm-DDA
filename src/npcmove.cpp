@@ -1563,9 +1563,9 @@ void npc::avoid_friendly_fire()
     }
 
     float friend_count = ai_cache.friends.size();
-    center.x = std::round( center.x / friend_count );
-    center.y = std::round( center.y / friend_count );
-    center.z = std::round( center.z / friend_count );
+    center.x = round( center.x / friend_count );
+    center.y = round( center.y / friend_count );
+    center.z = round( center.z / friend_count );
 
     auto candidates = closest_tripoints_first( 1, pos() );
     candidates.erase( candidates.begin() );

@@ -1,11 +1,30 @@
 [
     {
+    "id": "popcan_stove",
+    "sub": "hotplate",
+    "edit-mode": "override",
+    "type": "TOOL",
+    "symbol": ";",
+    "color": "light_gray",
+    "name": "soda can stove kit",
+    "description": "This is an ultra-light alcohol-burning stove with simmer ring, crafted by hand from a couple of aluminum soda cans.  It comes with a 250 ml plastic bottle to hold concentrated alcohol fuel.",
+    "price" : 250,
+    "material" : "aluminum",
+    "weight": 45,
+    "volume": 3,
+    "bashing": 1,
+    "max_charges": 250,
+    "initial_charges": 140,
+    "charges_per_use": 4,
+    "ammo": "conc_alcohol",
+    "use_action": "HOTPLATE"
+    },{
     "id": "pokeball",
     "type": "TOOL",
     "name": "pocket ball",
     "color": "light_red",
     "symbol": "o",
-    "description": "A fist-sized ball that holds the ... erm, 'energy' of a monster, allowing you to transport them within safely.  Seems to conserve weight, making its use impractical.",
+    "description": "A fist-sized ball that holds the ...erm, 'energy' of a monster, allowing you to transport them within safely.  Seems to conserve weight, making its use impractical.",
     "price": 2000000,
     "weight": 300,
     "volume": 3,
@@ -13,6 +32,23 @@
     "use_action": "CAPTURE_MONSTER_ACT",
     "properties": [["monster_size_capacity", "HUGE"]],
     "material": ["steel", "plastic"]
+    },{
+    "id": "e_tool_chinese",
+    "type": "TOOL",
+    "symbol": "/",
+    "color": "light_gray",
+    "name": "chinese digging tool",
+    "description": "A sturdy spade made from cheap steel.  The spade's edge has been sharpened and its joints are tapered into a fine enough point to cut through wire.",
+    "price": 4000,
+    "material": "steel",
+    "weight": 628,
+    "volume": 4,
+    "bashing": 8,
+    "cutting": 8,
+    "flags" : ["CHOP", "DURABLE_MELEE"],
+    "to_hit": 1,
+    "qualities": [["CUT", 1], ["DIG", 3], ["BUTCHER", -8], ["SAW_W", 1], [ "SAW_M", 1 ]],
+    "use_action": "BOLTCUTTERS"
     },{
     "id": "spess_chunk",
     "type": "TOOL",
@@ -64,15 +100,14 @@
     "volume": 2,
     "bashing": 6,
     "to_hit": -1,
-    "flags": ["RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "TRADER_AVOID"],
-    "revert_to": "null",
+    "flags": ["TRADER_AVOID", "CUSTOM_EXPLOSION"],
     "category": "weapons",
+    "explode_in_fire": true,
     "use_action": {
         "type": "transform",
         "target": "rocket_core_act",
-        "target_charges": 3,
-        "active": true,
-        "msg": "You puncture the rocket core!"
+        "target_charges": 4,
+        "active": true
     }
     },{
     "id": "rocket_core_act",
@@ -86,12 +121,13 @@
     "volume": 2,
     "bashing": 6,
     "to_hit": -1,
-    "max_charges": 3,
-    "initial_charges": 3,
+    "max_charges": 4,
+    "initial_charges": 1,
     "turns_per_charge": 1,
-    "flags": ["BOMB", "TRADER_AVOID"],
+    "flags": ["BOMB", "TRADER_AVOID", "CUSTOM_EXPLOSION"],
     "revert_to": "null",
     "category": "weapons",
+    "emits": [ "emit_radiation" ],
     "use_action": {
         "type": "explosion",
         "sound_volume": 0,
@@ -99,9 +135,11 @@
         "no_deactivate_msg": "There's a hole in this core; it's gonna blow!",
         "explosion": {
             "emp_blast_radius": 2,
+            "distance_factor": 0.5,
             "draw_explosion_radius": 2,
             "draw_explosion_color": "ltblue",
-            "power": 8
+            "power": 12,
+            "shrapnel": 1
         }
       }
     },{
@@ -118,6 +156,7 @@
     "volume": 2,
     "charges": 3,
     "stack_size": 6,
+    "flags": ["USE_ON_NPC"],
     "revert_to": "",
     "use_action": {
         "type": "heal",
@@ -196,7 +235,7 @@
     },{
     "type": "COMESTIBLE",
     "id": "stamina_vial",
-    "name": "stamina vial",
+    "name": "stamina tonic",
     "volume": 3,
     "description": "Containing a slew of charged organic chemicals, this 3-layer slurry might go down hard but provides a noticeable endurance boost for hardcore athletes and demanding soldiers alike.  Like most PRM products it is designed for short-term use only, and may upset the body's balance.",
     "weight": 720,
@@ -209,7 +248,8 @@
     "price": 1000000,
     "material": ["glass"],
     "flags": ["NO_RELOAD", "NO_UNLOAD"],
-    "revert_to": "bottle_glass",
+    "container": "flask_glass",
+    "phase": "liquid",
     "charges": 3,
     "use_action": {
     "type": "consume_drug",
@@ -244,5 +284,26 @@
         "active": false,
         "msg": "The boil inside matures!"
         }
+    },{
+    "id": "bot_turret_shockcannon",
+    "type": "TOOL",
+    "symbol": ";",
+    "color": "white",
+    "name": "inactive shockcannon turret",
+    "description": "This is an inactive shockcannon turret.  Using this item involves turning it on and placing it on the ground, where it will attach itself.  The turret will then identify you as a friendly, and requires 100 batteries per discharge.  Any batteries within you inventory will be used to power the turret when you place it.",
+    "price": 600000,
+    "material": ["spess_plastic", "steel"],
+    "weight": 1450,
+    "volume": 12,
+    "bashing": 8,
+    "to_hit": -3,
+    "use_action": {
+        "type": "place_monster",
+        "monster_id": "mon_turret_shockcannon",
+        "difficulty": 6,
+        "skill1": "electronics",
+        "skill2": "computer",
+        "moves": 100
+    }
     }
 ]

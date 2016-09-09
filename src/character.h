@@ -486,6 +486,7 @@ class Character : public Creature, public visitable<Character>
         }
         /** Empties the trait list */
         void empty_traits();
+        /** Adds mandatory scenario and profession traits unless you already have them */
         void add_traits();
 
         // --------------- Values ---------------

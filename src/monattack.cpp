@@ -38,7 +38,6 @@
 
 // for loading monster dialogue:
 #include <iostream>
-#include <fstream>
 
 #include <limits>  // std::numeric_limits
 #define SKIPLINE(stream) stream.ignore(std::numeric_limits<std::streamsize>::max(), '\n')

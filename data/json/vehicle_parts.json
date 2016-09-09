@@ -707,7 +707,7 @@
         "damage_modifier" : 50,
         "durability" : 50,
         "folded_volume": 2,
-        "power" : 45,
+        "power" : 64,
         "fuel_type" : "muscle",
         "item" : "foot_crank",
         "difficulty" : 1,

@@ -47,9 +47,6 @@
         "type": "bionic",
         "id": "bio_plutdump",
         "name": "Plutonium Purger",
-        "occupied_bodyparts": [
-            [ "TORSO", 10 ]
-        ],
         "act_cost": 1,
         "description": "Emergency reactor fuel purge ejects all fuel from your reactor."
     },{
@@ -66,6 +63,9 @@
         ],
         "power_source": true,
         "toggled": true,
+        "included_bionics": [
+            "bio_plutdump"
+        ],
         "description": "This stripped down mini-reactor may not be the best thing to have in your chest.  There is no way to shut it down, but you can toggle additional fuel intake."
     },{
         "type": "bionic",
@@ -76,6 +76,9 @@
         ],
         "power_source": true,
         "toggled": true,
+        "included_bionics": [
+            "bio_plutdump"
+        ],
         "description": "This stripped down mini-reactor is safer than it appears due to integrated radiation cleansers.  There is no way to shut it down, but you can toggle additional fuel intake."
     },{
         "type": "bionic",
@@ -143,15 +146,15 @@
         "occupied_bodyparts": [
             [ "HEAD", 3 ]
         ],
+        "included_bionics": [
+            "bio_earplugs"
+        ],
         "toggled": true,
         "description": "When this bionic is active, your hearing will be drastically improved, allowing you to hear ten times better than the average person.  Additionally, high-intensity sounds will be automatically dampened before they can damage your hearing."
     },{
         "type": "bionic",
         "id": "bio_earplugs",
         "name": "Sound Dampeners",
-        "occupied_bodyparts": [
-            [ "HEAD", 3 ]
-        ],
         "toggled": true,
         "description": "When this bionic is active, you can block hearing completely (with Enhanced Hearing deactivated) or dampen sound slightly (with Enhanced Hearing activated)."
     },{
@@ -234,14 +237,14 @@
             [ "EYES", 1 ]
         ],
         "fake_item" : "fake_goggles",
+        "included_bionics": [
+            "bio_blindfold"
+        ],
         "description": "Your eyes have quick-reacting transition lenses installed over them.  They negate glare penalties, partially protect you from bright flashes, and protect your eyes when welding."
     },{
         "type": "bionic",
         "id": "bio_blindfold",
         "name": "Optical Dampers",
-        "occupied_bodyparts": [
-            [ "EYES", 1 ]
-        ],
         "toggled": true,
         "description": "The lenses installed over your eyes can be tinted to block out incoming light."
     },{
@@ -250,6 +253,10 @@
         "name": "Telescopic Eyes",
         "occupied_bodyparts": [
             [ "EYES", 2 ]
+        ],
+        "canceled_mutations": [
+            "HYPEROPIC",
+            "MYOPIC"
         ],
         "description": "Much of the material in your inner eye has been removed and replaced with an array of high-powered, auto-focusing lenses.  You can now see much farther and more clearly than before, any vision problems you might have had are now gone."
     },{

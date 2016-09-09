@@ -12,6 +12,9 @@
 #include <vector>
 #include <string>
 #include <memory>
+#include <iosfwd>
+
+class JsonIn;
 
 struct WORLD {
     std::string world_path;
@@ -28,6 +31,9 @@ struct WORLD {
 
     bool save_exists( const std::string &name ) const;
     void add_save( const std::string &name );
+
+    void load_options( JsonIn &jsin );
+    void load_legacy_options( std::istream &fin );
 };
 
 class mod_manager;
