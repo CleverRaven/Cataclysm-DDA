@@ -58,7 +58,7 @@
         "copy-from" : "iv_mutagen_flavor",
         "type" : "COMESTIBLE",
         "name" : "lamia serum",
-        "description" : "A prismatic mutagen with a scaly texture. You need a syringe to inject it... if you really want to?",
+        "description" : "A prismatic mutagen with a scaly texture.  You need a syringe to inject it...  if you really want to?",
         "color" : "cyan",
         "flags" : "MUTAGEN_LAMIA"
     },
