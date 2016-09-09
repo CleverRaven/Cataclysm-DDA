@@ -4581,8 +4581,12 @@ int iuse::oxytorch(player *p, item *it, bool, const tripoint& )
     return 0;
 }
 
-int iuse::hacksaw(player *p, item *it, bool, const tripoint &pos )
+int iuse::hacksaw(player *p, item *it, bool active, const tripoint &pos )
 {
+    if( !p || active ) {
+        return 0;
+    }
+    
     tripoint dirp = pos;
     if (!choose_adjacent(_("Cut up metal where?"), dirp)) {
         return 0;
@@ -7874,9 +7878,9 @@ int iuse::ladder( player *p, item *, bool, const tripoint& )
     return 1;
 }
 
-int iuse::saw_barrel( player *p, item *, bool, const tripoint& )
+int iuse::saw_barrel( player *p, item *, bool ticking, const tripoint& )
 {
-    if( p == nullptr ) {
+    if( p == nullptr || ticking ) {
         return 0;
     }
 
