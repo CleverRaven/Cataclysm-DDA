@@ -5,6 +5,7 @@
   "category": "CC_CHEM",
   "subcategory": "CSC_CHEM_OTHER",
   "skill_used": "cooking",
+  "autolearn": true,
   "difficulty": 0,
   "time": 1000,
   "flags": ["BLIND_HARD"],
