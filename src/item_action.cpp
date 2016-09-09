@@ -17,7 +17,6 @@
 #include "player.h"
 #include <istream>
 #include <sstream>
-#include <fstream>
 #include <iterator>
 
 static item_action nullaction;

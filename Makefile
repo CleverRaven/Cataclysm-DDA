@@ -204,8 +204,8 @@ ifdef RELEASE
   OTHERS += $(RELEASE_FLAGS)
   DEBUG =
   DEFINES += -DRELEASE
-  # Do an astyle regression check on release builds.
-  ASTYLE = astyle-check json-format-check
+  # Check for astyle or JSON regressions on release builds.
+  CHECKS = astyle-check json-lint
 endif
 
 ifdef CLANG
@@ -609,7 +609,7 @@ ifdef LTO
   LDFLAGS += $(CXXFLAGS)
 endif
 
-all: version $(ASTYLE) $(TARGET) $(L10N) tests
+all: version $(CHECKS) $(TARGET) $(L10N) tests
 	@
 
 $(TARGET): $(ODIR) $(OBJS)
@@ -850,9 +850,6 @@ astyle:
 astyle-all: $(SOURCES) $(HEADERS)
 	$(ASTYLE_BINARY) --options=.astylerc -n $(SOURCES) $(HEADERS)
 
-json-format-check:
-	tools/json_format_check.sh
-
 # Test whether the system has a version of astyle that supports --dry-run
 ifeq ($(shell if $(ASTYLE_BINARY) -Q -X --dry-run src/game.h > /dev/null; then echo foo; fi),foo)
 ASTYLE_CHECK=$(shell LC_ALL=C $(ASTYLE_BINARY) --options=.astylerc --dry-run -X -Q $(shell cat astyled_whitelist))
@@ -864,6 +861,16 @@ ifdef ASTYLE_CHECK
         else printf "astyle regressions found.\n$(ASTYLE_CHECK)\n" && false; fi
 else
 	@echo Cannot run an astyle check, your system either does not have astyle, or it is too old.
+endif
+
+json-lint: $(ODIR)/lint.cache
+
+$(ODIR)/lint.cache: json_whitelist $(shell cat json_whitelist) | $(ODIR)
+ifeq ($(shell if perl -c tools/format/format.pl 2>/dev/null; then echo $$?; fi),0)
+	@tools/lint.sh $(shell cat json_whitelist)
+	@touch $@
+else
+	@echo Cannot lint JSON, missing usable perl binary and/or p5-JSON module
 endif
 
 tests: version $(BUILD_PREFIX)cataclysm.a

@@ -27,7 +27,6 @@
 #include <unistd.h>
 #endif
 #include <cstring>
-#include <fstream>
 #include <sstream>
 #include <vector>
 #include <algorithm>
@@ -62,6 +61,7 @@ const char clear_str[] = "                                                ";
 
 void draw_tabs(WINDOW *w, std::string sTab);
 void draw_points( WINDOW *w, points_left &points, int netPointCost = 0 );
+static int skill_increment_cost( const Character &u, const skill_id &skill );
 
 struct points_left {
     int stat_points = 0;
@@ -213,22 +213,16 @@ matype_id choose_ma_style( const character_type type, const std::vector<matype_i
 
 bool player::load_template( const std::string &template_name )
 {
-    const std::string path = FILENAMES["templatedir"] + template_name + ".template";
-    std::ifstream fin( path.c_str() );
-    if( !fin.is_open() ) {
-        debugmsg( "Couldn't open %s!", path.c_str() );
-        return false;
-    }
-    std::string data;
-    getline( fin, data );
-    load_info( data );
+    return read_from_file( FILENAMES["templatedir"] + template_name + ".template", [&]( std::istream &fin ) {
+        std::string data;
+        getline( fin, data );
+        load_info( data );
 
-    if( MAP_SHARING::isSharing() ) {
-        // just to make sure we have the right name
-        name = MAP_SHARING::getUsername();
-    }
-
-    return true;
+        if( MAP_SHARING::isSharing() ) {
+            // just to make sure we have the right name
+            name = MAP_SHARING::getUsername();
+        }
+    } );
 }
 
 void player::randomize( const bool random_scenario, points_left &points )
@@ -252,40 +246,42 @@ void player::randomize( const bool random_scenario, points_left &points )
             }
         }
         g->scen = random_entry( scenarios );
-        if (g->scen->profsize() > 0) {
-            g->u.prof = g->scen->random_profession();
-        } else {
-            g->u.prof = profession::weighted_random();
-        }
-        g->u.start_location = g->scen->random_start_location();
+    }
+    
+    if( g->scen->profsize() > 0 ) {
+        g->u.prof = g->scen->random_profession();
     } else {
         g->u.prof = profession::weighted_random();
     }
-    str_max = rng(6, 12);
-    dex_max = rng(6, 12);
-    int_max = rng(6, 12);
-    per_max = rng(6, 12);
+    g->u.start_location = g->scen->random_start_location();
+    
+    str_max = rng( 6, HIGH_STAT - 2 );
+    dex_max = rng( 6, HIGH_STAT - 2 );
+    int_max = rng( 6, HIGH_STAT - 2 );
+    per_max = rng( 6, HIGH_STAT - 2 );
     points.stat_points = points.stat_points - str_max - dex_max - int_max - per_max;
     points.skill_points = points.skill_points - g->u.prof->point_cost() - g->scen->point_cost();
     // The default for each stat is 8, and that default does not cost any points.
     // Values below give points back, values above require points. The line above has removed
     // to many points, therefor they are added back.
     points.stat_points += 8 * 4;
-    if (str_max > HIGH_STAT) {
-        points.stat_points -= (str_max - HIGH_STAT);
-    }
-    if (dex_max > HIGH_STAT) {
-        points.stat_points -= (dex_max - HIGH_STAT);
-    }
-    if (int_max > HIGH_STAT) {
-        points.stat_points -= (int_max - HIGH_STAT);
-    }
-    if (per_max > HIGH_STAT) {
-        points.stat_points -= (per_max - HIGH_STAT);
-    }
 
     int num_gtraits = 0, num_btraits = 0, tries = 0;
     std::string rn = "";
+    add_traits(); // adds mandatory prof/scen traits.
+    for( const auto &mut : my_mutations ) {
+        const mutation_branch &mut_info = mutation_branch::get( mut.first );
+        if( mut_info.profession ) {
+            continue;
+        }
+        // Scenario/profession traits do not cost any points, but they are counted toward
+        // the limit (MAX_TRAIT_POINTS)
+        if( mut_info.points >= 0 ) {
+            num_gtraits += mut_info.points;
+        } else {
+            num_btraits -= mut_info.points;
+        }
+    }
 
     /* The loops variable is used to prevent the algorithm running in an infinite loop */
     unsigned int loops = 0;
@@ -297,8 +293,8 @@ void player::randomize( const bool random_scenario, points_left &points )
             do {
                 rn = random_bad_trait();
                 tries++;
-            } while ((has_trait(rn) || num_btraits - mutation_branch::get( rn ).points > max_trait_points) &&
-                     tries < 5);
+            } while( ( has_trait( rn ) || num_btraits - mutation_branch::get( rn ).points > max_trait_points ) &&
+                     tries < 5 && !g->scen->forbidden_traits( rn ) );
 
             if (tries < 5 && !has_conflicting_trait(rn)) {
                 toggle_trait(rn);
@@ -349,7 +345,7 @@ void player::randomize( const bool random_scenario, points_left &points )
                 rn = random_good_trait();
                 auto &mdata = mutation_branch::get( rn );
                 if( !has_trait(rn) && points.trait_points_left() >= mdata.points &&
-                    num_gtraits + mdata.points <= max_trait_points &&
+                    num_gtraits + mdata.points <= max_trait_points && !g->scen->forbidden_traits( rn ) &&
                     !has_conflicting_trait(rn) ) {
                     toggle_trait(rn);
                     points.trait_points -= mdata.points;
@@ -406,11 +402,12 @@ void player::randomize( const bool random_scenario, points_left &points )
         case 8:
         case 9:
             const skill_id aSkill = Skill::random_skill();
-            int level = get_skill_level(aSkill);
+            const int level = get_skill_level(aSkill);
 
             if (level < points.skill_points_left() && level < MAX_SKILL && (level <= 10 || loops > 10000)) {
-                points.skill_points -= level + 1;
-                set_skill_level( aSkill, level + 2 );
+                points.skill_points -= skill_increment_cost( *this, aSkill );
+                // For balance reasons, increasing a skill from level 0 gives you 1 extra level for free
+                set_skill_level( aSkill, ( level == 0 ? 2 : level + 1 )  );
             }
             break;
         }
@@ -598,12 +595,6 @@ bool player::create(character_type type, std::string tempname)
     // Adjust current energy level to maximum
     power_level = max_power_level;
 
-    // Get traits
-    std::vector<std::string> prof_traits = g->u.prof->traits();
-    for (std::vector<std::string>::const_iterator iter = prof_traits.begin();
-         iter != prof_traits.end(); ++iter) {
-         g->u.toggle_trait(*iter);
-    }
     for( auto &t : get_base_traits() ) {
         std::vector<matype_id> styles;
         for( auto &s : mutation_branch::get( t ).initial_ma_styles ) {
@@ -903,10 +894,6 @@ tab_direction set_stats(WINDOW *w, player *u, points_left &points)
                 mvwprintz(w_description, 1, 0, COL_STAT_PENALTY, _("Throwing penalty: -%d"),
                           abs(u->throw_dex_mod(false)));
             }
-            if (u->ranged_dex_mod() != 0) {
-                mvwprintz(w_description, 2, 0, COL_STAT_PENALTY, _("Ranged penalty: -%d"),
-                          abs(u->ranged_dex_mod()));
-            }
             fold_and_print(w_description, 4, 0, getmaxx(w_description) - 1, COL_STAT_NEUTRAL,
                            _("Dexterity also enhances many actions which require finesse."));
             break;
@@ -932,10 +919,6 @@ tab_direction set_stats(WINDOW *w, player *u, points_left &points)
             mvwprintz(w, 9,  16, COL_STAT_ACT, "%2d", u->per_max);
             if (u->per_max >= HIGH_STAT) {
                 mvwprintz(w, 3, iSecondColumn, c_ltred, _("Increasing Per further costs 2 points."));
-            }
-            if (u->ranged_per_mod() != 0) {
-                mvwprintz(w_description, 0, 0, COL_STAT_PENALTY, _("Ranged penalty: -%d"),
-                          abs(u->ranged_per_mod()));
             }
             fold_and_print(w_description, 2, 0, getmaxx(w_description) - 1, COL_STAT_NEUTRAL,
                            _("Perception is also used for detecting traps and other things of interest."));
@@ -1207,16 +1190,15 @@ tab_direction set_traits(WINDOW *w, player *u, points_left &points)
             if (u->has_trait(cur_trait)) {
 
                 inc_type = -1;
-                // If turning off the trait violates a profession condition,
-                // turn it back on.
-                if(!(u->prof->can_pick(u, 0))) {
+
+                if( g->scen->locked_traits( cur_trait ) ) {
                     inc_type = 0;
-                    popup(_("Your profession of %s prevents you from removing this trait."),
-                          u->prof->gender_appropriate_name(u->male).c_str());
-                }
-                if(g->scen->locked_traits(cur_trait)) {
+                    popup( _( "Your scenario of %s prevents you from removing this trait." ),
+                           g->scen->gender_appropriate_name( u->male ).c_str() );
+                } else if( u->prof->locked_traits( cur_trait ) ) {
                     inc_type = 0;
-                    popup(_("The scenario you picked prevents you from removing this trait!"));
+                    popup( _( "Your profession of %s prevents you from removing this trait." ),
+                           u->prof->gender_appropriate_name( u->male ).c_str() );
                 }
             } else if(u->has_conflicting_trait(cur_trait)) {
                 popup(_("You already picked a conflicting trait!"));
@@ -1236,15 +1218,6 @@ tab_direction set_traits(WINDOW *w, player *u, points_left &points)
 
             } else {
                 inc_type = 1;
-
-                // If turning on the trait violates a profession condition,
-                // turn it back off.
-                if(!(u->prof->can_pick(u, 0))) {
-                    inc_type = 0;
-                    popup(_("Your profession of %s prevents you from taking this trait."),
-                          u->prof->gender_appropriate_name(u->male).c_str());
-
-                }
             }
 
             //inc_type is either -1 or 1, so we can just multiply by it to invert
@@ -1548,7 +1521,15 @@ tab_direction set_profession(WINDOW *w, player *u, points_left &points)
                 desc_offset++;
             }
         } else if (action == "CONFIRM") {
+            // Remove old profession-specific traits (e.g. pugilist for boxers)
+            const auto old_traits = u->prof->traits();
+            for( const std::string &old_trait : old_traits ) {
+                u->toggle_trait( old_trait );
+            }
             u->prof = sorted_profs[cur_id];
+            // Add traits for the new profession (and perhaps scenario, if, for example,
+            // both the scenario and old profession require the same trait)
+            u->add_traits();
             points.skill_points -= netPointCost;
         } else if (action == "CHANGE_GENDER") {
             u->male = !u->male;
@@ -1586,6 +1567,8 @@ tab_direction set_profession(WINDOW *w, player *u, points_left &points)
 /**
  * @return The skill points to consume when a skill is increased (by one level) from the
  * current level.
+ *
+ * @note: There is one exception: if the current level is 0, it can be boosted by 2 levels for 1 point.
  */
 static int skill_increment_cost( const Character &u, const skill_id &skill )
 {
@@ -1754,15 +1737,20 @@ tab_direction set_skills(WINDOW *w, player *u, points_left &points)
             }
             currentSkill = sorted_skills[cur_pos];
         } else if (action == "LEFT") {
-            if( u->get_skill_level( currentSkill->ident() ) > 0 ) {
-                u->boost_skill_level( currentSkill->ident(), -1 );
+            const int level = u->get_skill_level( currentSkill->ident() );
+            if( level > 0 ) {
+                // For balance reasons, increasing a skill from level 0 gives 1 extra level for free, but
+                // decreasing it from level 2 forfeits the free extra level (thus changes it to 0)
+                u->boost_skill_level( currentSkill->ident(), ( level == 2 ? -2 : -1 ) );
                 // Done *after* the decrementing to get the original cost for incrementing back.
                 points.skill_points += skill_increment_cost( *u, currentSkill->ident() );
             }
         } else if (action == "RIGHT") {
-            if( u->get_skill_level( currentSkill->ident() ) < MAX_SKILL ) {
+            const int level = u->get_skill_level( currentSkill->ident() );
+            if( level < MAX_SKILL ) {
                 points.skill_points -= skill_increment_cost( *u, currentSkill->ident() );
-                u->boost_skill_level( currentSkill->ident(), +1 );
+                // For balance reasons, increasing a skill from level 0 gives 1 extra level for free
+                u->boost_skill_level( currentSkill->ident(), ( level == 0 ? +2 : +1 ) );
             }
         } else if (action == "SCROLL_DOWN") {
             selected++;
@@ -2191,8 +2179,8 @@ tab_direction set_description(WINDOW *w, player *u, const bool allow_reroll, poi
             } else {
                 for( auto &current_trait : current_traits ) {
                     wprintz(w_traits, c_ltgray, "\n");
-                    wprintz( w_traits, ( mutation_branch::get( current_trait ).points > 0 ) ? c_ltgreen : c_ltred,
-                             mutation_branch::get_name( current_trait ).c_str() );
+                    const auto &mdata = mutation_branch::get( current_trait );
+                    wprintz( w_traits, mdata.get_display_color(), mdata.name.c_str() );
                 }
             }
             wrefresh(w_traits);
@@ -2438,20 +2426,26 @@ void Character::empty_skills()
         sk.second.level( 0 );
     }
 }
+
 void Character::add_traits()
 {
     for( auto &traits_iter : mutation_branch::get_all() ) {
-        if( g->scen->locked_traits( traits_iter.first ) ) {
+        if( g->scen->locked_traits( traits_iter.first ) && !has_trait( traits_iter.first ) ) {
+            toggle_trait( traits_iter.first );
+        }
+        if( g->u.prof->locked_traits( traits_iter.first ) && !has_trait( traits_iter.first ) ) {
             toggle_trait( traits_iter.first );
         }
     }
 }
+
 std::string Character::random_good_trait()
 {
     std::vector<std::string> vTraitsGood;
 
     for( auto &traits_iter : mutation_branch::get_all() ) {
-        if( traits_iter.second.startingtrait && traits_iter.second.points >= 0 ) {
+        if( traits_iter.second.points >= 0 &&
+            ( traits_iter.second.startingtrait || g->scen->traitquery( traits_iter.first ) ) ) {
             vTraitsGood.push_back( traits_iter.first );
         }
     }
@@ -2464,7 +2458,8 @@ std::string Character::random_bad_trait()
     std::vector<std::string> vTraitsBad;
 
     for( auto &traits_iter : mutation_branch::get_all() ) {
-        if( traits_iter.second.startingtrait && traits_iter.second.points < 0 ) {
+        if( traits_iter.second.points < 0 &&
+            ( traits_iter.second.startingtrait || g->scen->traitquery( traits_iter.first ) ) ) {
             vTraitsBad.push_back( traits_iter.first );
         }
     }

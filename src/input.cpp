@@ -66,9 +66,8 @@ bool is_mouse_enabled()
 //helper function for those have problem inputing certain characters.
 std::string get_input_string_from_file( std::string fname )
 {
-    std::string ret = "";
-    std::ifstream fin( fname.c_str() );
-    if( fin ) {
+    std::string ret;
+    read_from_file_optional( fname, [&ret]( std::istream & fin ) {
         getline( fin, ret );
         //remove utf8 bmm
         if( !ret.empty() && ( unsigned char )ret[0] == 0xef ) {
@@ -77,7 +76,7 @@ std::string get_input_string_from_file( std::string fname )
         while( !ret.empty() && ( ret[ret.size() - 1] == '\r' ||  ret[ret.size() - 1] == '\n' ) ) {
             ret.erase( ret.size() - 1, 1 );
         }
-    }
+    } );
     return ret;
 }
 
@@ -95,6 +94,11 @@ void input_manager::init()
         load( FILENAMES["keybindings"], false );
     } catch( const JsonError &err ) {
         throw std::runtime_error( FILENAMES["keybindings"] + ": " + err.what() );
+    }
+    try {
+        load( FILENAMES["keybindings_vehicle"], false );
+    } catch( const JsonError &err ) {
+        throw std::runtime_error( FILENAMES["keybindings_vehicle"] + ": " + err.what() );
     }
     try {
         load( FILENAMES["user_keybindings"], true );

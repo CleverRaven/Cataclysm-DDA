@@ -3,28 +3,12 @@
     "id": "belt308",
     "copy-from": "magazine_belt",
     "type": "MAGAZINE",
-    "name": "M13 7.62x51mm ammo belt",
+    "name": "ammo belt",
     "ammo_type": "308",
     "capacity": 500,
     "count": 100,
+    "default_ammo": "762_51",
     "linkage": "ammolink308"
-  },
-  {
-    "id": "falmag",
-    "type": "MAGAZINE",
-    "name": "FN FAL magazine",
-    "description": "A military issue 20-round steel box magazine for the FN FAL rifle.",
-    "weight": 240,
-    "volume": 2,
-    "price": 1200,
-    "material": "steel",
-    "symbol": "#",
-    "color": "ltgray",
-    "ammo_type": "308",
-    "capacity": 20,
-    "reliability": 9,
-    "reload_time": 100,
-    "flags": [ "MAG_COMPACT" ]
   },
   {
     "id": "falbigmag",
@@ -40,15 +24,14 @@
     "ammo_type": "308",
     "capacity": 30,
     "reliability": 8,
-    "reload_time": 100,
     "flags": [ "MAG_COMPACT" ]
   },
   {
-    "id": "g3mag",
+    "id": "falmag",
     "type": "MAGAZINE",
-    "name": "H&K G3 magazine",
-    "description": "A lightweight aluminum box magazine for the H&K G3 rifle.",
-    "weight": 120,
+    "name": "FN FAL magazine",
+    "description": "A military issue 20-round steel box magazine for the FN FAL rifle.",
+    "weight": 240,
     "volume": 2,
     "price": 1200,
     "material": "steel",
@@ -57,7 +40,6 @@
     "ammo_type": "308",
     "capacity": 20,
     "reliability": 9,
-    "reload_time": 100,
     "flags": [ "MAG_COMPACT" ]
   },
   {
@@ -78,6 +60,22 @@
     "flags": [ "MAG_BULKY" ]
   },
   {
+    "id": "g3mag",
+    "type": "MAGAZINE",
+    "name": "H&K G3 magazine",
+    "description": "A lightweight aluminum box magazine for the H&K G3 rifle.",
+    "weight": 120,
+    "volume": 2,
+    "price": 1200,
+    "material": "steel",
+    "symbol": "#",
+    "color": "ltgray",
+    "ammo_type": "308",
+    "capacity": 20,
+    "reliability": 9,
+    "flags": [ "MAG_COMPACT" ]
+  },
+  {
     "id": "m14mag",
     "type": "MAGAZINE",
     "name": "M14 magazine",
@@ -91,7 +89,6 @@
     "ammo_type": "308",
     "capacity": 20,
     "reliability": 9,
-    "reload_time": 100,
     "flags": [ "MAG_COMPACT" ]
   },
   {
@@ -112,23 +109,6 @@
     "flags": [ "MAG_COMPACT" ]
   },
   {
-    "id": "scarhmag",
-    "type": "MAGAZINE",
-    "name": "FN SCAR-H magazine",
-    "description": "A military issue 30-round steel box magazine for the FN SCAR-H rifle.",
-    "weight": 300,
-    "volume": 3,
-    "price": 5600,
-    "material": "steel",
-    "symbol": "#",
-    "color": "ltgray",
-    "ammo_type": "308",
-    "capacity": 30,
-    "reliability": 9,
-    "reload_time": 100,
-    "flags": [ "MAG_COMPACT" ]
-  },
-  {
     "id": "scarhbigmag",
     "type": "MAGAZINE",
     "name": "FN SCAR-H drum magazine",
@@ -144,5 +124,21 @@
     "reliability": 7,
     "reload_time": 160,
     "flags": [ "MAG_BULKY" ]
+  },
+  {
+    "id": "scarhmag",
+    "type": "MAGAZINE",
+    "name": "FN SCAR-H magazine",
+    "description": "A military issue 30-round steel box magazine for the FN SCAR-H rifle.",
+    "weight": 300,
+    "volume": 3,
+    "price": 5600,
+    "material": "steel",
+    "symbol": "#",
+    "color": "ltgray",
+    "ammo_type": "308",
+    "capacity": 30,
+    "reliability": 9,
+    "flags": [ "MAG_COMPACT" ]
   }
 ]

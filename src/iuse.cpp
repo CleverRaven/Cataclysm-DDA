@@ -2003,28 +2003,23 @@ int iuse::sew_advanced(player *p, item *it, bool, const tripoint& )
         return 0;
     }
 
-    std::vector<std::string> plurals;
     std::vector<itype_id> repair_items;
-    std::string plural = "";
-    //translation note: add <plural> tag to keep them unique
 
     // Little helper to cut down some surplus redundancy and repetition
     const auto add_material = [&]( const material_id &material,
-                                   const itype_id &mat_item,
-                                   const std::string &plural ) {
+                                   const itype_id &mat_item ) {
         if( mod->made_of( material ) ) {
             repair_items.push_back( mat_item );
-            plurals.push_back( rm_prefix( plural.c_str() ) );
         }
     };
 
-    add_material( material_id( "cotton" ), "rag", _( "<plural>rags" ) );
-    add_material( material_id( "leather" ), "leather", _( "<plural>leather" ) );
-    add_material( material_id( "fur" ), "fur", _( "<plural>fur" ) );
-    add_material( material_id( "nomex" ), "nomex", _( "<plural>Nomex" ) );
-    add_material( material_id( "plastic" ), "plastic_chunk", _( "<plural>plastic" ) );
-    add_material( material_id( "kevlar" ), "kevlar_plate", _( "<plural>Kevlar" ) );
-    add_material( material_id( "wool" ), "felt_patch", _( "<plural>wool" ) );
+    add_material( material_id( "cotton" ), "rag" );
+    add_material( material_id( "leather" ), "leather" );
+    add_material( material_id( "fur" ), "fur" );
+    add_material( material_id( "nomex" ), "nomex" );
+    add_material( material_id( "plastic" ), "plastic_chunk" );
+    add_material( material_id( "kevlar" ), "kevlar_plate" );
+    add_material( material_id( "wool" ), "felt_patch" );
     if (repair_items.empty()) {
         p->add_msg_if_player(m_info, _("Your %s is not made of fabric, leather, fur, Kevlar, wool or plastic."),
                              mod->tname().c_str());
@@ -3056,20 +3051,17 @@ int iuse::makemound(player *p, item *it, bool, const tripoint& )
     }
 }
 
+/**
+ * Explanation of ACT_CLEAR_RUBBLE activity values:
+ *
+ * coords[0]: Where the rubble is.
+ * index: The bonus, for calculating hunger and thirst penalties.
+ */
+
 int iuse::dig(player *p, item *it, bool, const tripoint &pos )
 {
     for( const tripoint &pt : closest_tripoints_first( 1, pos ) ) {
         if( g->m.furn( pt ).obj().examine == iexamine::rubble ) {
-            if( pt == p->pos() ) {
-                p->add_msg_if_player( m_info, _( "You clear up the %s at your feet." ),
-                                      g->m.furnname( pt ).c_str() );
-            } else {
-                const std::string direction = direction_name( direction_from( p->pos(), pt ) );
-                p->add_msg_if_player( m_info, _( "You clear up the %s to your %s." ),
-                                      g->m.furnname( pt ).c_str(), direction.c_str() );
-            }
-            g->m.furn_set( pt, f_null );
-
             // costs per tile:
             // DIG 2 = 300 seconds, 10 hunger and thirst
             // DIG 3 =  75 seconds,  2 hunger and thirst
@@ -3077,11 +3069,9 @@ int iuse::dig(player *p, item *it, bool, const tripoint &pos )
             // DIG 5 =  18 seconds,  0 hunger and thirst
             int bonus = std::max( it->get_quality( quality_id( "DIG" ) ) - 1, 1 );
             bonus *= bonus;
-
-            // @todo: This should be converted to an activity, with a move cost of 5000/(bonus*bonus)
-            p->mod_moves( -500 );
-            p->mod_hunger ( 10 / bonus );
-            p->mod_thirst ( 10 / bonus );
+            player_activity act( ACT_CLEAR_RUBBLE, 5000 / ( bonus * bonus ), bonus );
+            act.coords.push_back( pt );
+            p->assign_activity( act );
 
             return it->type->charges_to_use();
         }
@@ -4586,8 +4576,12 @@ int iuse::oxytorch(player *p, item *it, bool, const tripoint& )
     return 0;
 }
 
-int iuse::hacksaw(player *p, item *it, bool, const tripoint &pos )
+int iuse::hacksaw(player *p, item *it, bool active, const tripoint &pos )
 {
+    if( !p || active ) {
+        return 0;
+    }
+    
     tripoint dirp = pos;
     if (!choose_adjacent(_("Cut up metal where?"), dirp)) {
         return 0;
@@ -5655,7 +5649,8 @@ int iuse::misc_repair(player *p, item *it, bool, const tripoint& )
     }
     int inventory_index = g->inv_for_filter( _("Select the item to repair."), []( const item & itm ) {
         return ( !itm.is_firearm() ) && (itm.made_of( material_id( "wood" ) ) || itm.made_of( material_id( "paper" ) ) ||
-                                 itm.made_of( material_id( "bone" ) ) || itm.made_of( material_id( "chitin" ) ) ) ;
+                                 itm.made_of( material_id( "bone" ) ) || itm.made_of( material_id( "chitin" ) ) ) &&
+               !itm.count_by_charges();
     } );
     item *fix = &( p->i_at(inventory_index ) );
     if (fix == NULL || fix->is_null()) {
@@ -7169,7 +7164,7 @@ int iuse::remoteveh(player *p, item *it, bool t, const tripoint &pos)
             veh->start_engines();
         }
     } else if( choice == 3 ) {
-        veh->use_controls( pos, true );
+        veh->use_controls( pos );
     } else {
         return 0;
     }
@@ -7878,9 +7873,9 @@ int iuse::ladder( player *p, item *, bool, const tripoint& )
     return 1;
 }
 
-int iuse::saw_barrel( player *p, item *, bool, const tripoint& )
+int iuse::saw_barrel( player *p, item *, bool ticking, const tripoint& )
 {
-    if( p == nullptr ) {
+    if( p == nullptr || ticking ) {
         return 0;
     }
 

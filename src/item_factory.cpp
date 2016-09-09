@@ -199,6 +199,10 @@ void Item_factory::finalize() {
                 obj.ammo->special_cookoff = false;
             }
         }
+        // for magazines ensure default_ammo is set
+        if( obj.magazine && obj.magazine->default_ammo == "NULL" ) {
+               obj.magazine->default_ammo = default_ammo( obj.magazine->type );
+        }
         if( obj.gun ) {
             // @todo add explicit action field to gun definitions
             std::string defmode = "semi-auto";
@@ -822,6 +826,10 @@ void Item_factory::check_definitions() const
             if( type->magazine->count < 0 || type->magazine->count > type->magazine->capacity ) {
                 msg << string_format("invalid count %i", type->magazine->count) << "\n";
             }
+            const itype *da = find_template( type->magazine->default_ammo );
+            if( !( da->ammo && da->ammo->type == type->magazine->type ) ) {
+                msg << string_format( "invalid default_ammo %s", type->magazine->default_ammo.c_str() ) << "\n";
+            }
             if( type->magazine->reliability < 0 || type->magazine->reliability > 100) {
                 msg << string_format("invalid reliability %i", type->magazine->reliability) << "\n";
             }
@@ -1058,33 +1066,34 @@ void Item_factory::load_wheel( JsonObject &jo, const std::string &src )
     }
 }
 
-void Item_factory::load( islot_gun &slot, JsonObject &jo, const std::string & )
+void Item_factory::load( islot_gun &slot, JsonObject &jo, const std::string &src )
 {
+    bool strict = src == "core";
+
     if( jo.has_member( "burst" ) && jo.has_member( "modes" ) ) {
         jo.throw_error( "cannot specify both burst and modes", "burst" );
     }
 
-    assign( jo, "skill", slot.skill_used );
-    assign( jo, "ammo", slot.ammo );
-    assign( jo, "range", slot.range );
-    assign( jo, "ranged_damage", slot.damage );
-    assign( jo, "pierce", slot.pierce );
-    assign( jo, "dispersion", slot.dispersion );
-    assign( jo, "sight_dispersion", slot.sight_dispersion );
-    assign( jo, "aim_speed", slot.aim_speed );
-    assign( jo, "recoil", slot.recoil );
-    assign( jo, "durability", slot.durability );
-    assign( jo, "burst", slot.burst );
-    assign( jo, "loudness", slot.loudness );
-    assign( jo, "clip_size", slot.clip );
-    assign( jo, "reload", slot.reload_time );
-    assign( jo, "reload_noise", slot.reload_noise );
-    assign( jo, "reload_noise_volume", slot.reload_noise_volume );
-    assign( jo, "barrel_length", slot.barrel_length );
-    assign( jo, "built_in_mods", slot.built_in_mods );
-    assign( jo, "default_mods", slot.default_mods );
-    assign( jo, "ups_charges", slot.ups_charges );
-    assign( jo, "ammo_effects", slot.ammo_effects );
+    assign( jo, "skill", slot.skill_used, strict );
+    assign( jo, "ammo", slot.ammo, strict );
+    assign( jo, "range", slot.range, strict );
+    assign( jo, "ranged_damage", slot.damage, strict );
+    assign( jo, "pierce", slot.pierce, strict );
+    assign( jo, "dispersion", slot.dispersion, strict );
+    assign( jo, "sight_dispersion", slot.sight_dispersion, strict, 0 );
+    assign( jo, "recoil", slot.recoil, strict );
+    assign( jo, "durability", slot.durability, strict, 0, 10 );
+    assign( jo, "burst", slot.burst, strict, 1 );
+    assign( jo, "loudness", slot.loudness, strict );
+    assign( jo, "clip_size", slot.clip, strict, 0 );
+    assign( jo, "reload", slot.reload_time, strict, 0 );
+    assign( jo, "reload_noise", slot.reload_noise, strict );
+    assign( jo, "reload_noise_volume", slot.reload_noise_volume, strict, 0 );
+    assign( jo, "barrel_length", slot.barrel_length, strict, 0 );
+    assign( jo, "built_in_mods", slot.built_in_mods, strict );
+    assign( jo, "default_mods", slot.default_mods, strict );
+    assign( jo, "ups_charges", slot.ups_charges, strict, 0 );
+    assign( jo, "ammo_effects", slot.ammo_effects, strict );
 
     if( jo.has_array( "valid_mod_locations" ) ) {
         slot.valid_mod_locations.clear();
@@ -1327,15 +1336,17 @@ void Item_factory::load( islot_container &slot, JsonObject &jo, const std::strin
     assign( jo, "unseals_into", slot.unseals_into );
 }
 
-void Item_factory::load( islot_gunmod &slot, JsonObject &jo, const std::string & )
+void Item_factory::load( islot_gunmod &slot, JsonObject &jo, const std::string &src )
 {
+    bool strict = src == "core";
+
     assign( jo, "damage_modifier", slot.damage );
     assign( jo, "loudness_modifier", slot.loudness );
     assign( jo, "ammo_modifier", slot.ammo_modifier );
     assign( jo, "location", slot.location );
     assign( jo, "dispersion_modifier", slot.dispersion );
     assign( jo, "sight_dispersion", slot.sight_dispersion );
-    assign( jo, "aim_speed", slot.aim_speed );
+    assign( jo, "aim_cost", slot.aim_cost, strict, 0 );
     assign( jo, "recoil_modifier", slot.recoil );
     assign( jo, "range_modifier", slot.range );
     assign( jo, "ups_charges", slot.ups_charges );
@@ -1392,14 +1403,17 @@ void Item_factory::load_gunmod( JsonObject &jo, const std::string &src )
     }
 }
 
-void Item_factory::load( islot_magazine &slot, JsonObject &jo, const std::string & )
+void Item_factory::load( islot_magazine &slot, JsonObject &jo, const std::string &src )
 {
-    assign( jo, "ammo_type", slot.type );
-    assign( jo, "capacity", slot.capacity );
-    assign( jo, "count", slot.count );
-    assign( jo, "reliability", slot.reliability );
-    assign( jo, "reload_time", slot.reload_time );
-    assign( jo, "linkage", slot.linkage );
+    bool strict = src == "core";
+
+    assign( jo, "ammo_type", slot.type, strict );
+    assign( jo, "capacity", slot.capacity, strict, 0 );
+    assign( jo, "count", slot.count, strict, 0 );
+    assign( jo, "default_ammo", slot.default_ammo, strict );
+    assign( jo, "reliability", slot.reliability, strict, 0, 10 );
+    assign( jo, "reload_time", slot.reload_time, strict, 0 );
+    assign( jo, "linkage", slot.linkage, strict );
 }
 
 void Item_factory::load_magazine( JsonObject &jo, const std::string &src )

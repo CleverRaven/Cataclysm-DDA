@@ -9,6 +9,34 @@
     }
     },{
     "type": "MONSTER",
+    "id": "mon_zombie_rot",
+    "edit-mode": "modify",
+    "upgrades":{
+      "into_group": "GROUP_ZOMBIE_DECAY",
+      "half_life": 9
+    }
+    },{
+    "type": "MONSTER",
+    "id": "mon_beekeeper",
+    "edit-mode": "modify",
+    "upgrades":{
+      "into_group": "GROUP_ZOMBIE_DECAY",
+      "half_life": 9
+    }
+    },{
+    "type": "MONSTER",
+    "id": "mon_zombie_shrieker",
+    "edit-mode": "modify",
+    "vision_day":50,
+    "vision_night":2
+    },{
+    "type": "MONSTER",
+    "id": "mon_zombie_screecher",
+    "edit-mode": "modify",
+    "vision_day":50,
+    "vision_night":3
+    },{
+    "type": "MONSTER",
     "id": "mon_zombie_corrosive",
     "edit-mode": "modify",
     "emit_fields": [ "emit_acid_small" ]
@@ -335,6 +363,46 @@
     "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "BLEED", "NO_BREATHE", "REVIVES", "BONES", "FAT", "PUSH_MON"],
     "categories":["CLASSIC"]
     },{
+    "type" : "MONSTER",
+    "id" : "mon_beekeeper_pk",
+    "name": "scabby zombie",
+    "species":"ZOMBIE",
+    "default_faction":"zombie",
+    "symbol":"Z",
+    "color":"pink",
+    "size":"MEDIUM",
+    "material":"flesh",
+    "diff":12,
+    "aggression":100,
+    "morale":100,
+    "speed":50,
+    "melee_skill":5,
+    "melee_dice":2,
+    "melee_dice_sides":4,
+    "melee_cut":2,
+    "dodge":0,
+    "armor_bash":7,
+    "armor_cut":11,
+    "death_drops": {
+        "subtype": "collection",
+        "groups": [
+            [ "default_zombie_clothes", 50 ],
+            [ "hive", 30 ]
+        ]
+    },
+    "burn_into": "mon_zombie_scorched_pk",
+    "hp":80,
+    "death_function":["NORMAL"],
+    "emit_fields": [ "emit_flesh_slough" ],
+    "special_attacks":[["GRAB", 20],
+        {
+            "type" : "bite",
+            "cooldown" : 5
+        }
+    ],
+    "description":"A deformed human body, its skin has been transformed into one thick, calloused envelope of scar tissue.  Its tissues emit an oozing liquid that smells like poisonous death.",
+    "flags":["HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "REVIVES", "BONES", "PUSH_MON", "ELECTRIC", "VENOM"]
+},{
     "type": "MONSTER",
     "id": "mon_zombie_child_pk",
     "name": "zombie scrapper",
@@ -566,7 +634,51 @@
     "type": "MONSTER",
     "id": "mon_zombie_electric",
     "edit-mode": "modify",
+    "upgrades":{
+        "into": "mon_zombie_electric_pk",
+        "half_life": 14
+    },
     "burn_into": "mon_zombie_scorched_shocker"
+    },{
+    "type" : "MONSTER",
+    "id" : "mon_zombie_electric_pk",
+    "name": "sparker zombie",
+    "species":"ZOMBIE",
+    "default_faction":"zombie",
+    "symbol":"Z",
+    "color":"ltcyan",
+    "size":"MEDIUM",
+    "material":"flesh",
+    "diff":16,
+    "aggression":100,
+    "morale":100,
+    "speed":105,
+    "melee_skill":4,
+    "melee_dice":2,
+    "melee_dice_sides":5,
+    "melee_cut":2,
+    "melee_damage": [ {"damage_type": "electric", "amount": 3} ],
+    "dodge":3,
+    "armor_bash":3,
+    "armor_cut":3,
+    "vision_day":35,
+    "vision_night":8,
+    "death_drops": "mon_zombie_hulk_death_drops",
+    "burn_into": "mon_zombie_scorched_shocker",
+    "luminance":16,
+    "hp":125,
+    "death_function":["NORMAL"],
+    "special_attacks":[
+        ["SHOCKSTORM", 60],
+        {
+            "type" : "bite",
+            "cooldown" : 5
+        }
+    ],
+    "special_when_hit":["ZAPBACK", 100],
+    "emit_fields": [ "emit_spark", "emit_boltstorm" ],
+    "description":"As this zombie began to deform like the other zombies, its bionics have become unstable and unreliable.",
+    "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "ELECTRIC", "CBM_CIV", "NO_BREATHE",  "REVIVES", "BONES", "PUSH_MON"]
     },{
     "type": "MONSTER",
     "id": "mon_zombie_brute_shocker",
@@ -575,12 +687,14 @@
     "melee_dice":3,
     "melee_dice_sides":8,
     "melee_cut":2,
+    "melee_damage": [ {"damage_type": "electric", "amount": 6} ],
     "dodge":1,
     "armor_bash":6,
     "armor_cut":8,
     "hp":240,
     "special_when_hit":["ZAPBACK", 75],
-    "burn_into": "mon_zombie_fiend_shocker"
+    "burn_into": "mon_zombie_fiend_shocker",
+    "emit_fields": [ "emit_spark" ]
     },{
     "type": "MONSTER",
     "edit-mode": "modify",
@@ -652,7 +766,7 @@
     "edit-mode": "modify",
     "upgrades":{
         "into": "mon_zombie_gasbag_pk",
-        "half_life": 21
+        "half_life": 18
     },
     "emit_fields": [ "emit_gas_plume"]
     },{
@@ -670,12 +784,52 @@
     "edit-mode": "modify",
     "upgrades":{
         "into": "mon_zombie_shady_pk",
-        "half_life": 21
+        "half_life": 11
     },
     "burn_into": "mon_zombie_crawler_pk_weak"
     },{
+    "type" : "MONSTER",
+    "id" : "mon_zombie_shady_pk",
+    "name": "shady zombie",
+    "species":"ZOMBIE",
+    "default_faction":"zombie",
+    "symbol":"Z",
+    "color":"ltgray",
+    "size":"MEDIUM",
+    "material":"flesh",
+    "diff":3,
+    "aggression":60,
+    "morale":100,
+    "speed":75,
+    "melee_skill":6,
+    "melee_dice":2,
+    "melee_dice_sides":7,
+    "melee_cut":2,
+    "dodge":3,
+    "armor_bash":3,
+    "armor_cut":3,
+    "vision_day":5,
+    "vision_night":40,
+    "death_drops": "default_zombie_death_drops",
+    "upgrades":{
+        "into": "mon_zombie_shady_ghost",
+        "half_life": 21
+    },
+    "hp":100,
+    "death_function":"NORMAL",
+    "burn_into": "mon_zombie_scorched",
+    "special_attacks":[["GRAB", 7],
+            {
+            "type": "bite",
+            "cooldown": 5
+        }],
+    "description":"A ropey humanoid figure with a shimmering silhouette, even in full light.  It moves like a zombie, but you can tell nothing more than that.",
+    "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "BLEED", "NO_BREATHE", "REVIVES", "BONES", "PUSH_MON", "NIGHT_INVISIBILITY"],
+    "anger_triggers":["PLAYER_CLOSE", "FRIEND_DIED", "HURT"],
+    "categories":["CLASSIC"]
+},{
     "type": "MONSTER",
-    "id": "mon_zombie_shady_pk",
+    "id": "mon_zombie_shady_ghost",
     "name": "ethereal zombie",
     "species":"ZOMBIE",
     "default_faction":"zombie",
@@ -684,14 +838,14 @@
     "size":"MEDIUM",
     "material":"flesh",
     "diff":16,
-    "aggression":50,
+    "aggression":5,
     "morale":90,
     "speed":100,
     "melee_skill":6,
     "melee_dice":3,
     "melee_dice_sides":6,
     "melee_damage": [ {"damage_type": "true", "amount": 1} ],
-    "dodge":5,
+    "dodge":6,
     "armor_bash":6,
     "armor_cut":16,
     "armor_acid":2,
@@ -898,7 +1052,7 @@
     "melee_skill":5,
     "melee_dice":2,
     "melee_dice_sides":3,
-    "melee_cut":3,
+    "melee_cut":4,
     "melee_damage": [{"damage_type": "stab", "amount": 6}],
     "dodge":1,
     "armor_bash":8,
@@ -907,10 +1061,6 @@
     "vision_day":35,
     "vision_night":3,
     "death_drops": "default_zombie_death_drops",
-    "upgrades":{
-      "into_group": "GROUP_ZOMBIE_DECAY",
-      "half_life": 21
-    },
     "hp":80,
     "death_function":["NORMAL"],
     "burn_into": "mon_zombie_crawler_pk_weak",
@@ -920,6 +1070,7 @@
             "accuracy": 7
         },
     ["GRAB", 6]],
+    "emit_fields": [ "emit_gas_plume"],
     "description":"A corpse that rots even as it moves to kill.  Swarms of flies dart in and out of this monsters many bloated and oozing wounds..",
     "flags":["SEES", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "BLEED", "NO_BREATHE", "REVIVES", "BONES", "PUSH_MON"],
     "categories":["CLASSIC"]
@@ -1039,10 +1190,6 @@
     "vision_night":30,
     "hp":90,
     "emit_fields": [ "emit_sludge_small" ],
-    "upgrades":{
-        "into": "mon_zombie_crawler_pk",
-        "half_life": 35
-    },
     "death_function":["NORMAL"],
     "burn_into": "mon_zombie_crawler_pk",
     "special_when_hit":["ACIDSPLASH", 15],
@@ -1057,12 +1204,12 @@
     "default_faction":"zombie",
     "symbol":"Z",
     "color":"green_yellow",
-    "size":"MEDIUM",
+    "size":"LARGE",
     "material":"flesh",
     "diff":24,
     "aggression":100,
     "morale":100,
-    "speed":85,
+    "speed":65,
     "melee_skill":5,
     "melee_dice":1,
     "melee_dice_sides":6,
@@ -1072,15 +1219,15 @@
     "armor_bash":7,
     "armor_cut":4,
     "armor_fire":3,
-    "vision_day":15,
-    "vision_night":35,
+    "vision_day":7,
+    "vision_night":20,
     "hp":90,
     "emit_fields": [ "emit_sludge" ],
     "death_function":["NORMAL"],
     "burn_into": "mon_zombie_crawler_scorched",
     "special_when_hit":["ACIDSPLASH", 7],
     "special_attacks": [["ACID_BARF", 30], ["GRAB", 60], ["FORMBLOB", 240]],
-    "description":"A prone humanoidesque monster that springs forward with a sickening sucking sound.  As it consumes bodies and materials from the ground it becomes stronger and produces several blobs.",
+    "description":"A prone humanoidesque monster, engorged to the size of 3 men, that springs forward with a sickening sucking sound.  As it consumes bodies and materials from the ground it becomes stronger and produces several blobs.",
     "flags":["ACIDPROOF", "ACID_BLOOD", "SEES", "HEARS", "POISON", "NO_BREATHE", "REVIVES", "NO_NECRO", "REVIVES_HEALTHY", "PLASTIC", "SLUDGEPROOF", "FLAMMABLE", "NIGHT_INVISIBILITY", "ABSORBS", "SWIMS"]
     },{
     "type": "MONSTER",
@@ -1115,6 +1262,36 @@
     "description":"Rumored to be the conjoining of several bodies, the massive Zombie Tank is perhaps the ultimate tool of destruction.  Making up for what it lacks in skill with brutality, it is the wrecking ball of the zombie scourge.",
     "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "BLEED", "DESTROYS", "POISON", "ATTACKMON", "LEATHER", "NO_BREATHE", "REVIVES", "BONES", "FAT", "PUSH_MON"]
     },{
+    "type" : "MONSTER",
+    "id" : "mon_boomer_huge_pk",
+    "name": "huge boomer",
+    "species":"ZOMBIE",
+    "default_faction":"zombie",
+    "symbol":"Z",
+    "color":"pink_white",
+    "size":"LARGE",
+    "material":"flesh",
+    "diff":15,
+    "aggression":100,
+    "morale":100,
+    "speed":85,
+    "melee_skill":2,
+    "melee_dice":3,
+    "melee_dice_sides":3,
+    "melee_cut":0,
+    "dodge":0,
+    "armor_bash":5,
+    "armor_cut":5,
+    "vision_day":40,
+    "vision_night":5,
+    "death_drops": "default_zombie_items",
+    "hp":120,
+    "luminance":1,
+    "death_function":["BOOMER_GLOW"],
+    "special_attacks":[["BOOMER_GLOW", 20], ["BREATHE", 8]],
+    "description":"This boomer, normally swollen and ready to burst, has strengthened and solidified.  The bile dribbling from its mouth also appears to have changed...",
+    "flags":["SEES", "GOODHEARING", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "REVIVES", "BILE_BLOOD", "BONES", "FAT", "PUSH_MON"]
+},{
     "type": "MONSTER",
     "id": "mon_zombie_gasbag_pk",
     "name": "putrid zombie",

@@ -156,7 +156,7 @@ class item : public JsonSerializer, public JsonDeserializer, public visitable<it
 
         /**
          * Filter setting the ammo for this instance
-         * Any existing ammo is removed. If necessary a default magazine is also added.
+         * Any existing ammo is removed. If necessary a magazine is also added.
          * @param ammo specific type of ammo (must be compatible with item ammo type)
          * @param qty maximum ammo (capped by item capacity) or negative to fill to capacity
          * @return same instance to allow method chaining
@@ -1351,10 +1351,9 @@ public:
         /** Switch to the next available firing mode */
         void gun_cycle_mode();
 
-        /** Aim speed. See ranged.cpp */
-        int aim_speed( int aim_threshold ) const;
-        /** We use the current aim level to decide which sight to use. */
-        int sight_dispersion( int aim_threshold ) const;
+        /** Get lowest dispersion of either integral or any attached sights */
+        int sight_dispersion() const;
+
         struct sound_data {
             /** Volume of the sound. Can be 0 if the gun is silent (or not a gun at all). */
             int volume;

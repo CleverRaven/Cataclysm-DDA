@@ -2208,7 +2208,7 @@
       [ "welder", 100],
       [ "welder_crude", 150],
       [ "toolset", 150],
-      [ "oxy_torch", 10]
+      [ "oxy_torch", 20]
     ]
   ],
   "components": [
@@ -2243,7 +2243,7 @@
       ["welder", 100],
       ["welder_crude", 150],
       ["toolset", 150],
-      ["oxy_torch", 10]
+      ["oxy_torch", 20]
     ]
   ],
   "components": [
@@ -2372,7 +2372,7 @@
 },{
   "type" : "recipe",
   "result": "omnicamera",
-  "id_suffix": "from-eyebots",
+  "id_suffix": "from-cameras",
   "category": "CC_ELECTRONIC",
   "subcategory": "CSC_ELECTRONIC_PARTS",
   "skill_used": "electronics",
@@ -2392,7 +2392,7 @@
     ]
   ],
   "components": [
-    [ [ "broken_eyebot", 2 ] ],
+    [ [ "camera", 2 ], [ "camera_pro", 2 ], [ "broken_eyebot", 2 ] ],
     [ [ "power_supply", 1 ] ],
     [ [ "cable", 5 ] ]
   ]

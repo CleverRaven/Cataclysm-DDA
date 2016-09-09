@@ -620,6 +620,8 @@ void vehicle_prototype::load(JsonObject &jo)
         pt.part = vpart_str_id( part.get_string( "part" ) );
 
         assign( part, "ammo", pt.with_ammo, true, 0, 100 );
+        assign( part, "ammo_types", pt.ammo_types, true );
+        assign( part, "ammo_qty", pt.ammo_qty, true, 0 );
 
         vproto.parts.push_back( pt );
     }
@@ -687,7 +689,9 @@ void vehicle_prototype::finalize()
         blueprint.type = id;
         blueprint.name = _(proto.name.c_str());
 
-        for( const auto &pt : proto.parts ) {
+        for( auto &pt : proto.parts ) {
+            auto base = item::find_type( pt.part->item );
+
             if( !pt.part.is_valid() ) {
                 debugmsg("unknown vehicle part %s in %s", pt.part.c_str(), id.c_str());
                 continue;
@@ -699,10 +703,27 @@ void vehicle_prototype::finalize()
                           blueprint.parts.size(), pt.pos.x, pt.pos.y );
             }
 
-            if( pt.with_ammo ) {
-                auto base = item::find_type( pt.part->item );
-                if( !base->gun ) {
+            if( !base->gun ) {
+                if( pt.with_ammo  ) {
                     debugmsg( "init_vehicles: non-turret %s with ammo in %s", pt.part.c_str(), id.c_str() );
+                }
+                if( !pt.ammo_types.empty() ) {
+                    debugmsg( "init_vehicles: non-turret %s with ammo_types in %s", pt.part.c_str(), id.c_str() );
+                }
+                if( pt.ammo_qty.first > 0 || pt.ammo_qty.second > 0 ) {
+                    debugmsg( "init_vehicles: non-turret %s with ammo_qty in %s", pt.part.c_str(), id.c_str() );
+                }
+
+            } else {
+                for( const auto &e : pt.ammo_types ) {
+                    auto ammo = item::find_type( e );
+                    if( !ammo->ammo && ammo->ammo->type == base->gun->ammo ) {
+                        debugmsg( "init_vehicles: turret %s has invalid ammo_type %s in %s",
+                                  pt.part.c_str(), e.c_str(), id.c_str() );
+                    }
+                }
+                if( pt.ammo_types.empty() ) {
+                    pt.ammo_types.insert( default_ammo( base->gun->ammo ) );
                 }
             }
 

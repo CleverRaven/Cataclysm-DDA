@@ -7,19 +7,19 @@
     "weight": 2,
     "volume": 1,
     "price": 5000,
-    "count": 100,
-    "stack_size": 200,
-    "material": ["plastic", "powder"],
-    "ammo_type": "5x50",
+    "material": [ "plastic", "powder" ],
     "symbol": "=",
     "color": "green",
+    "count": 100,
+    "stack_size": 200,
+    "ammo_type": "5x50",
     "casing": "5x50_hull",
+    "range": 60,
     "damage": 20,
     "pierce": 30,
-    "range": 60,
     "dispersion": 100,
     "recoil": 60,
-    "effects": ["COOKOFF", "NEVER_MISFIRES"]
+    "effects": [ "COOKOFF", "NEVER_MISFIRES" ]
   },
   {
     "id": "5x50heavy",
@@ -30,11 +30,11 @@
     "weight": 3,
     "price": 7500,
     "relative": {
-        "damage": 5,
-        "pierce": 20,
-        "range": -10,
-        "dispersion": 20,
-        "recoil": 15
+      "range": -10,
+      "damage": 5,
+      "pierce": 20,
+      "dispersion": 20,
+      "recoil": 15
     }
   }
 ]

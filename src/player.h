@@ -66,16 +66,7 @@ enum edible_rating {
 
 struct special_attack {
     std::string text;
-    int bash;
-    int cut;
-    int stab;
-
-    special_attack()
-    {
-        bash = 0;
-        cut = 0;
-        stab = 0;
-    };
+    damage_instance damage;
 };
 
 class player_morale;
@@ -92,7 +83,7 @@ class player_morale_ptr : public std::unique_ptr<player_morale> {
 
 // The minimum level recoil will reach without aiming.
 // Sets the floor for accuracy of a "snap" or "hip" shot.
-#define MIN_RECOIL 150
+extern const double MIN_RECOIL;
 
 //Don't forget to add new memorial counters
 //to the save and load functions in savegame_json.cpp
@@ -487,31 +478,40 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
          * @param force_technique special technique to use in attack.
          */
         void melee_attack(Creature &t, bool allow_special, const matec_id &force_technique) override;
+
         /** Returns a weapon's modified dispersion value */
-        double get_weapon_dispersion( const item *weapon, bool random ) const;
+        double get_weapon_dispersion( const item &obj ) const;
+
         /** Returns true if a gun misfires, jams, or has other problems, else returns false */
         bool handle_gun_damage( item &firing );
 
+        /** Get maximum recoil penalty due to vehicle motion */
+        double recoil_vehicle() const;
+
+        /** Current total maximum recoil penalty from all sources */
+        double recoil_total() const;
+
         /**
-         * Calculate range at which given chance of hit considering player stats, clothing and recoil
-         * @param gun ranged weapon which must have sufficient ammo for at least one shot
-         * @param aim maximum turns to spend aiming (or unlimited if negative)
-         * @param penalty if set (non-negative) use this value instead of current total player recoil
-         * @param chance probability of hit, range [0-100) with zero returning absolute maximum range
-         * @param accuracy minimum accuracy required
-         * @return range in tiles (with default arguments this is the maximum effective range)
+         *  Calculate range at which given chance of hit considering player stats, clothing and recoil
+         *  @param gun ranged weapon which must have sufficient ammo for at least one shot
+         *  @param penalty if set (non-negative) use this value instead of @ref recoil_total()
+         *  @param chance probability of hit, range [0-100) with zero returning absolute maximum range
+         *  @param accuracy minimum accuracy required
          */
-        double gun_engagement_range( const item& gun, int aim = -1, int penalty = -1,
-                                    unsigned chance = 50, double accuracy = accuracy_goodhit ) const;
+        double gun_current_range( const item &gun, double penalty = -1,
+                                  unsigned chance = 50, double accuracy = accuracy_goodhit ) const;
 
         enum class engagement {
-            effective_min,   // 50% chance of good hit with no aiming
-            effective_max,   // 50% chance of good hit at maximum aim
-            absolute_max,    // 10% chance of any hit at maximum aim
+            snapshot,   // 50% chance of good hit with no aiming
+            effective,  // 50% chance of good hit at maximum aim
+            maximum,    // 10% chance of any hit at maximum aim
         };
 
-        /** Calculate range at which engagement rules apply */
-        double gun_engagement_range( const item& gun, engagement opts, int penalty = -1 ) const;
+        /** Get engagement ranges for gun */
+        double gun_engagement_range( const item &gun, engagement opt ) const;
+
+        /** How many moves does it take to aim gun to maximum accuracy? */
+        int gun_engagement_moves( const item &gun ) const;
 
         /**
          *  Fires a gun or axuiliary gunmod (ignoring any current mode)
@@ -962,8 +962,25 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
 
         /** Attempts to install bionics, returns false if the player cancels prior to installation */
         bool install_bionics(const itype &type, int skill_level = -1);
+        /**
+         * Helper function for player::read.
+         *
+         * @param reasons Starting with g->u, for each player/NPC who cannot read, a message will be pushed back here.
+         * @ret nullptr, if neither the player nor his followers can read to the player, otherwise the player/NPC
+         * who can read and can read the fastest
+         */
+        const player *get_book_reader( const item &book, std::vector<std::string> &reasons ) const;
+        /**
+         * Helper function for get_book_reader
+         * @warning This function assumes that the everyone is able to read
+         *
+         * @param reader the player/NPC who's reading to the caller
+         * @param learner if not nullptr, assume that the caller and reader read at a pace that isn't too fast for him
+         */
+        int time_to_read( const item &book, const player &reader, const player *learner = nullptr ) const;
+        bool fun_to_read( const item &book ) const;
         /** Handles reading effects and returns true if activity started */
-        bool read(int pos);
+        bool read( int inventory_position, const bool continuous = false );
         /** Completes book reading action. **/
         void do_read( item *book );
         /** Note that we've read a book at least once. **/
@@ -1258,8 +1275,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         int tank_plut, reactor_plut, slow_rad;
         int oxygen;
         int stamina;
-        int recoil;
-        int driving_recoil;
+        double recoil = MIN_RECOIL;
         int scent;
         int dodges_left, blocks_left;
         int stim, radiation;

@@ -7,8 +7,8 @@
     "name_plural": ".38 FMJ",
     "description": ".38 Special ammunition with brass jacketed 130gr bullets.  The .38 Special round has been known from its inception for its accuracy and low recoil.",
     "relative": {
-        "damage": -2,
-        "pierce": 4
+      "damage": -2,
+      "pierce": 4
     }
   },
   {
@@ -20,15 +20,15 @@
     "weight": 8,
     "volume": 1,
     "price": 2200,
-    "count": 40,
-    "stack_size": 40,
     "material": [ "steel", "powder" ],
     "symbol": "=",
     "color": "yellow",
+    "count": 40,
+    "stack_size": 40,
     "ammo_type": "38",
     "casing": "38_casing",
-    "damage": 22,
     "range": 14,
+    "damage": 22,
     "dispersion": 125,
     "recoil": 125,
     "effects": [ "COOKOFF" ]
@@ -43,10 +43,10 @@
     "price": 2700,
     "count": 20,
     "relative": {
-        "damage": 4,
-        "pierce": 4,
-        "dispersion": -30,
-        "recoil": 60
+      "damage": 4,
+      "pierce": 4,
+      "dispersion": -30,
+      "recoil": 60
     }
   },
   {
@@ -56,9 +56,9 @@
     "name": "reloaded .38 FMJ",
     "name_plural": "reloaded .38 FMJ",
     "proportional": {
-        "price": 0.7,
-        "damage": 0.9,
-        "dispersion": 1.1
+      "price": 0.7,
+      "damage": 0.9,
+      "dispersion": 1.1
     },
     "extend": { "effects": [ "RECYCLED" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ] }
@@ -70,9 +70,9 @@
     "name": "reloaded .38 Special",
     "name_plural": "reloaded .38 Special",
     "proportional": {
-        "price": 0.7,
-        "damage": 0.9,
-        "dispersion": 1.1
+      "price": 0.7,
+      "damage": 0.9,
+      "dispersion": 1.1
     },
     "extend": { "effects": [ "RECYCLED" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ] }
@@ -84,9 +84,9 @@
     "name": "reloaded .38 Super",
     "name_plural": "reloaded .38 Super",
     "proportional": {
-        "price": 0.7,
-        "damage": 0.9,
-        "dispersion": 1.1
+      "price": 0.7,
+      "damage": 0.9,
+      "dispersion": 1.1
     },
     "extend": { "effects": [ "RECYCLED" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ] }

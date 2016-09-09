@@ -177,6 +177,21 @@ void iuse_transform::finalize( const itype_id & )
     }
 }
 
+void iuse_transform::info( const item &it, std::vector<iteminfo> &dump ) const
+{
+    const item dummy( target, calendar::turn, std::max( ammo_qty, 1l ) );
+    dump.emplace_back( "TOOL", string_format( _( "<bold>Turns into</bold>: %s" ),
+                                              dummy.tname().c_str() ) );
+    if( countdown > 0 ) {
+        dump.emplace_back( "TOOL", _( "Countdown: " ), "", countdown );
+    }
+
+    const auto *explosion_use = dummy.get_use( "explosion" );
+    if( explosion_use != nullptr ) {
+        explosion_use->get_actor_ptr()->info( it, dump );
+    }
+}
+
 countdown_actor::~countdown_actor() = default;
 
 iuse_actor *countdown_actor::clone() const
@@ -227,8 +242,12 @@ std::string countdown_actor::get_name() const
 
 void countdown_actor::info( const item &it, std::vector<iteminfo> &dump ) const
 {
-    dump.emplace_back( "TOOL", _( "<bold>Countdown</bold>: " ), "",
+    dump.emplace_back( "TOOL", _( "Countdown: " ), "",
                        interval > 0 ? interval : it.type->countdown_interval );
+    const auto countdown_actor = it.type->countdown_action.get_actor_ptr();
+    if( countdown_actor != nullptr ) {
+        countdown_actor->info( it, dump );
+    }
 }
 
 explosion_iuse::~explosion_iuse()
@@ -319,6 +338,21 @@ long explosion_iuse::use(player *p, item *it, bool t, const tripoint &pos) const
         }
     }
     return 1;
+}
+
+void explosion_iuse::info( const item &, std::vector<iteminfo> &dump ) const
+{
+    if( explosion.power <= 0 ) {
+        // @todo List other effects, like EMP and clouds
+        return;
+    }
+
+    dump.emplace_back( "TOOL", _( "Power at <bold>epicenter</bold>: " ), "", explosion.power );
+    const auto &sd = explosion.shrapnel;
+    if( sd.count > 0 ) {
+        dump.emplace_back( "TOOL", _( "Shrapnel <bold>count</bold>: " ), "", sd.count );
+        dump.emplace_back( "TOOL", _( "Shrapnel <bold>mass</bold>: " ), "", sd.mass );
+    }
 }
 
 
@@ -2032,7 +2066,7 @@ bool bandolier_actor::reload( player &p, item &obj ) const
         return false; // cancelled menu
     }
 
-    p.mod_moves( sel.moves() );
+    p.mod_moves( -sel.moves() );
 
     // add or stack the ammo dependent upon existing contents
     if( obj.contents.empty() ) {
@@ -2192,7 +2226,7 @@ long repair_item_actor::use( player *p, item *it, bool, const tripoint & ) const
         return 0;
     }
     const int pos = g->inv_for_filter( _( "Repair what?" ), [this, it]( const item &itm ) {
-        return itm.made_of_any( materials ) && !itm.is_ammo() && !itm.is_firearm() && &itm != it;
+        return itm.made_of_any( materials ) && !itm.count_by_charges() && !itm.is_firearm() && &itm != it;
     }, string_format( _( "You have no items that could be repaired with a %s." ), it->type_name( 1 ).c_str() ) );
 
     if( pos == INT_MIN ) {
@@ -2339,7 +2373,7 @@ bool repair_item_actor::can_repair( player &pl, const item &tool, const item &fi
         }
         return false;
     }
-    if( fix.is_ammo() ) {
+    if( fix.count_by_charges() ) {
         if( print_msg ) {
             pl.add_msg_if_player( m_info, _("You cannot repair this type of item.") );
         }

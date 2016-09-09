@@ -76,6 +76,7 @@ src/version.cpp
 src/vitamin.cpp
 src/weather_gen.cpp
 src/wish.cpp
+src/safemode_ui.cpp
 src/action.h
 src/active_item_cache.h
 src/activity_handlers.h
@@ -202,3 +203,4 @@ src/vitamin.h
 src/weather.h
 src/weighted_list.h
 src/worldfactory.h
+src/safemode_ui.h

@@ -80,6 +80,9 @@
 /** Maximum density of a map field */
 #define MAX_FIELD_DENSITY 3
 
+/** Slowest speed at which a gun can be aimed */
+#define MAX_AIM_COST 10
+
 /** Maximum (effective) level for a skill */
 #define MAX_SKILL 10
 

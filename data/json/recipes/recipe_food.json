@@ -415,6 +415,7 @@
   "time": 3000,
   "reversible": false,
   "autolearn": true,
+  "flags": ["BLIND_HARD"],
   "qualities":[
     {"id":"CONTAIN","level":1,"amount":1}
   ], "components": [
@@ -435,6 +436,7 @@
   "time": 3000,
   "reversible": false,
   "autolearn": true,
+  "flags": ["BLIND_HARD"],
   "qualities":[
     {"id":"CONTAIN","level":1,"amount":1}
   ], "components": [
@@ -456,6 +458,7 @@
   "reversible": false,
   "autolearn": false,
   "book_learn": [[ "cookbook_human", 4 ]],
+  "flags": ["BLIND_HARD"],
   "qualities":[
     {"id":"CONTAIN","level":1,"amount":1}
   ], "components": [
@@ -476,6 +479,7 @@
   "time": 3000,
   "reversible": false,
   "autolearn": true,
+  "flags": ["BLIND_HARD"],
   "qualities":[
     {"id":"CONTAIN","level":1,"amount":1}
   ], "components": [
@@ -496,6 +500,7 @@
   "time": 3000,
   "reversible": false,
   "autolearn": true,
+  "flags": ["BLIND_HARD"],
   "qualities":[
     {"id":"CONTAIN","level":1,"amount":1}
   ], "components": [
@@ -10684,6 +10689,7 @@
   "time": 1000,
   "reversible": false,
   "autolearn": true,
+  "flags": ["BLIND_HARD"],
   "qualities":[
     {"id":"CONTAIN","level":1,"amount":1}
   ],

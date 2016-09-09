@@ -6743,7 +6743,7 @@
     "items":[
       ["tazer", 3],
       ["flamethrower", 1],
-      ["9mm", 8],
+      ["556", 8],
       ["alloy_plate", 10],
       ["kevlar_plate", 10],
       ["ceramic_armor", 10],
@@ -8075,7 +8075,6 @@
       ["wire", 1],
       ["wire_barbed", 1],
       ["splinter", 3],
-      ["skewer", 3],
       ["rag", 2],
       ["rag_bloody", 1],
       ["bone", 2],

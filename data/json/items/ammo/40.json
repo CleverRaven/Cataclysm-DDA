@@ -9,10 +9,10 @@
     "price": 2900,
     "count": 20,
     "relative": {
-        "damage": 4,
-        "pierce": 4,
-        "dispersion": -30,
-        "recoil": 60
+      "damage": 4,
+      "pierce": 4,
+      "dispersion": -30,
+      "recoil": 60
     }
   },
   {
@@ -23,8 +23,8 @@
     "name_plural": ".40 S&W FMJ",
     "description": ".40 S&W ammunition with 180gr FMJ bullets.  Designed to retain the 10mm Auto cartridge's power with lower recoil, the .40 S&W round became popular for law enforcement and personal defense.",
     "relative": {
-        "damage": -3,
-        "pierce": 6
+      "damage": -3,
+      "pierce": 6
     }
   },
   {
@@ -36,15 +36,15 @@
     "weight": 9,
     "volume": 1,
     "price": 2800,
-    "count": 40,
-    "stack_size": 40,
     "material": [ "steel", "powder" ],
     "symbol": "=",
     "color": "yellow",
+    "count": 40,
+    "stack_size": 40,
     "ammo_type": "40",
     "casing": "40_casing",
-    "damage": 28,
     "range": 14,
+    "damage": 28,
     "pierce": 2,
     "dispersion": 160,
     "recoil": 230,
@@ -57,9 +57,9 @@
     "name": "reloaded 10mm Auto",
     "name_plural": "reloaded 10mm Auto",
     "proportional": {
-        "price": 0.7,
-        "damage": 0.9,
-        "dispersion": 1.1
+      "price": 0.7,
+      "damage": 0.9,
+      "dispersion": 1.1
     },
     "extend": { "effects": [ "RECYCLED" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ] }
@@ -71,9 +71,9 @@
     "name": "reloaded .40 S&W FMJ",
     "name_plural": "reloaded .40 S&W FMJ",
     "proportional": {
-        "price": 0.7,
-        "damage": 0.9,
-        "dispersion": 1.1
+      "price": 0.7,
+      "damage": 0.9,
+      "dispersion": 1.1
     },
     "extend": { "effects": [ "RECYCLED" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ] }
@@ -85,9 +85,9 @@
     "name": "reloaded .40 S&W JHP",
     "name_plural": "reloaded .40 S&W JHP",
     "proportional": {
-        "price": 0.7,
-        "damage": 0.9,
-        "dispersion": 1.1
+      "price": 0.7,
+      "damage": 0.9,
+      "dispersion": 1.1
     },
     "extend": { "effects": [ "RECYCLED" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ] }

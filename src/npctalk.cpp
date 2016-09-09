@@ -30,7 +30,6 @@
 #include <vector>
 #include <string>
 #include <sstream>
-#include <fstream>
 #include <algorithm>
 
 const skill_id skill_speech( "speech" );
@@ -573,7 +572,10 @@ void npc::talk_to_u()
     } while (!d.done);
     delwin(d.win);
     g->refresh_all();
-    g->cancel_activity_query( _("%s talked to you."), name.c_str() );
+    // Don't query if we're training the player
+    if( g->u.activity.type != ACT_TRAIN || g->u.activity.index != getID() ) {
+        g->cancel_activity_query( _("%s talked to you."), name.c_str() );
+    }
 }
 
 std::string dialogue::dynamic_line( const talk_topic &the_topic ) const
@@ -613,7 +615,7 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic ) const
         std::string ret = mission_dialogue( type.id, topic);
         if (ret.empty()) {
             debugmsg("Bug in npctalk.cpp:dynamic_line. Wrong mission_id(%d) or topic(%s)",
-                     type.id, topic.c_str());
+                     type.id.c_str(), topic.c_str());
             return "";
         }
 
@@ -632,7 +634,7 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic ) const
     }
 
     if( topic == "TALK_NONE" || topic == "TALK_DONE" ) {
-            return "";
+            return _("Bye.");
 
     } else if( topic == "TALK_GUARD" ) {
         switch (rng(1,5)){
@@ -1332,7 +1334,7 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic ) const
                 status << _("*is engaging all enemies.");
                 break;
         }
-        std::string npcstr = rm_prefix(p->male ? _("<npc>He") : _("<npc>She"));
+        std::string npcstr = p->male ? pgettext( "npc", "He" ) : pgettext( "npc", "She" );
         if (p->rules.use_guns) {
             if (p->rules.use_silent) {
                 status << string_format(_(" %s will use silenced firearms."), npcstr.c_str());
@@ -1399,7 +1401,7 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic ) const
         } // switch (p->mission)
 
     } else if( topic == "TALK_WEAPON_DROPPED" ) {
-        std::string npcstr = rm_prefix(p->male ? _("<npc>his") : _("<npc>her"));
+        std::string npcstr = p->male ? pgettext( "npc", "his" ) : pgettext( "npc", "her" );
         return string_format(_("*drops %s weapon."), npcstr.c_str());
 
     } else if( topic == "TALK_DEMAND_LEAVE" ) {
@@ -1494,7 +1496,7 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic ) const
 
     } else if( topic == "TALK_MISC_RULES" ) {
         std::stringstream status;
-        std::string npcstr = rm_prefix(p->male ? _("<npc>He") : _("<npc>She"));
+        std::string npcstr = p->male ? pgettext( "npc", "He" ) : pgettext( "npc", "She" );
 
         if( p->rules.allow_pick_up && p->rules.pickup_whitelist->empty() ) {
             status << string_format( _(" %s will pick up all items."), npcstr.c_str() );
@@ -2016,8 +2018,8 @@ void dialogue::gen_responses( const talk_topic &the_topic )
     } else if( topic == "TALK_FREE_MERCHANT_STOCKS" ) {
             add_response( _("Who are you?"), "TALK_FREE_MERCHANT_STOCKS_NEW" );
             static const std::vector<itype_id> wanted = {{
-                "jerky", "meat_smoked", "fish_smoked", 
-                "cooking_oil", "cornmeal", "flour", 
+                "jerky", "meat_smoked", "fish_smoked",
+                "cooking_oil", "cornmeal", "flour",
                 "fruit_wine", "beer", "sugar",
             }};
 
@@ -3410,7 +3412,7 @@ void talk_function::player_weapon_drop( npc &p )
 
 void talk_function::lead_to_safety( npc &p )
 {
-    const auto mission = mission::reserve_new( MISSION_REACH_SAFETY, -1 );
+    const auto mission = mission::reserve_new( mission_type_id( "MISSION_REACH_SAFETY" ), -1 );
     mission->assign( g->u );
     p.goal = mission->get_target();
     p.attitude = NPCATT_LEAD;
@@ -3458,7 +3460,7 @@ void talk_function::start_training( npc &p )
     } else if( !pay_npc( p, cost ) ) {
         return;
     }
-    g->u.assign_activity( ACT_TRAIN, time * 100, 0, 0, name );
+    g->u.assign_activity( ACT_TRAIN, time * 100, p.getID(), 0, name );
     p.add_effect( effect_asked_to_train, 3600 );
 }
 
@@ -3503,13 +3505,13 @@ void parse_tags( std::string &phrase, const player &u, const npc &me )
         } else if( tag == "<punc>" ) {
             switch( rng( 0, 2 ) ) {
                 case 0:
-                    phrase.replace( fa, l, rm_prefix( _("<punc>.") ) );
+                    phrase.replace( fa, l, pgettext( "punctuation", "." ) );
                     break;
                 case 1:
-                    phrase.replace( fa, l, rm_prefix( _("<punc>...") ) );
+                    phrase.replace( fa, l, pgettext( "punctuation", "..." ) );
                     break;
                 case 2:
-                    phrase.replace( fa, l, rm_prefix( _("<punc>!") ) );
+                    phrase.replace( fa, l, pgettext( "punctuation", "!" ) );
                     break;
             }
         } else if( !tag.empty() ) {
@@ -3646,16 +3648,16 @@ void talk_response::do_formatting( const dialogue &d, char const letter )
 {
     std::string ftext;
     if( trial != TALK_TRIAL_NONE ) { // dialogue w/ a % chance to work
-        ftext = rmp_format(
-            _( "<talk option>%1$c: [%2$s %3$d%%] %4$s" ),
+        ftext = string_format( pgettext( "talk option",
+            "%1$c: [%2$s %3$d%%] %4$s" ),
             letter,                         // option letter
             trial.name().c_str(),     // trial type
             trial.calc_chance( d ), // trial % chance
             text.c_str()                // response
         );
     } else { // regular dialogue
-        ftext = rmp_format(
-            _( "<talk option>%1$c: %2$s" ),
+        ftext = string_format( pgettext( "talk option",
+            "%1$c: %2$s" ),
             letter,          // option letter
             text.c_str() // response
         );
@@ -3718,10 +3720,10 @@ talk_topic dialogue::opt( const talk_topic &topic )
         // No name prepended!
         challenge = challenge.substr(1);
     } else if( challenge[0] == '*' ) {
-        challenge = rmp_format( _("<npc does something>%s %s"), beta->name.c_str(),
+        challenge = string_format( pgettext( "npc does something", "%s %s" ), beta->name.c_str(),
                                 challenge.substr(1).c_str() );
     } else {
-        challenge = rmp_format( _("<npc says something>%s: %s"), beta->name.c_str(),
+        challenge = string_format( pgettext( "npc says something", "%s: %s" ), beta->name.c_str(),
                                 challenge.c_str() );
     }
 
@@ -3755,7 +3757,7 @@ talk_topic dialogue::opt( const talk_topic &topic )
     } while( !okay );
     history.push_back( "" );
 
-    std::string response_printed = rmp_format(_("<you say something>You: %s"), responses[ch].text.c_str());
+    std::string response_printed = string_format( pgettext( "you say something", "You: %s" ), responses[ch].text.c_str());
     add_to_history( response_printed );
 
     talk_response chosen = responses[ch];
@@ -4146,7 +4148,7 @@ TAB key to switch lists, letters to pick items, Enter to finalize, Esc to quit,\
         // Removing items from an inventory invalidates the pointers
         std::set<item *> removing_yours;
         std::vector<item *> giving_them;
-        
+
         for( auto &pricing : yours ) {
             mark_for_exchange( pricing, removing_yours, giving_them );
         }

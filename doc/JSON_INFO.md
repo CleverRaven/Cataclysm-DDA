@@ -49,6 +49,9 @@ groups of vehicle definitions with self-explanatory names of files:
 
 #raw jsons
 
+###All files
+"//" : "comment", // Preferred method of leaving comments inside json files.
+
 ###BIONICS
 ```C++
 "id"           : "bio_batteries",  // Unique ID. Must be one continuous word,
@@ -61,6 +64,8 @@ groups of vehicle definitions with self-explanatory names of files:
 "time"         : 0,  // How long, when activated, between drawing cost.
                      // If 0, it draws power once. (default: 0)
 "description"  : "You have a battery draining attachment, and thus can make use of the energy contained in normal, everyday batteries.  Use 'E' to consume batteries." // In-game description
+"canceled_mutations": ["HYPEROPIC"] // (optional) A list of mutations/traits that are removed when this bionic is installed (e.g. because it replaces the fault biological part).
+"included_bionics": ["bio_blindfold"] // (optional) Additional bionics that are installed automatically when this bionic is installed. This can be used to install several bionics from one CBM item, which is useful as each of those can be activated independently.
 ```
 ###DREAMS
 ```C++
@@ -376,14 +381,26 @@ Mods can modify this via "add:traits" and "remove:traits".
 "description": "Nothing gets you down!" // In-game description
 "starting_trait": true, // Can be selected at character creation (default: false)
 "valid": false,      // Can be mutated ingame (default: true)
+"purifiable": false, //Sets if the mutation be purified (default: true)
+"profession": true, //Trait is a starting profession special trait. (default: false)
+"initial_ma_styles" : [ "style_centipede", "style_venom_snake" ], //List of starting martial arts types. One of the list is selectable at start. Only works at character creation.
 "category": ["MUTCAT_BIRD", "MUTCAT_INSECT"], // Categories containing this mutation
 "prereqs": ["SKIN_ROUGH"], // Needs these mutations before you can mutate toward this mutation
+"prereqs2": ["LEAVES"], //Also need these mutations before you can mutate towards this mutation. When both set creates 2 different mutation paths, random from one is picked. Only use together with "prereqs"
+"threshreq": ["THRESH_SPIDER"], //Required threshold for this mutation to be possible
 "cancels": ["ROT1", "ROT2", "ROT3"], // Cancels these mutations when mutating
 "changes_to": ["FASTHEALER2"], // Can change into these mutations when mutating further
 "leads_to": [], // Mutations that add to this one
+"passive_mods" : { //increases stats with the listed value. Negative means a stat reduction
+            "per_mod" : 1, //Possible values per_mod, str_mod, dex_mod, int_mod
+            "str_mod" : 2
+},
 "wet_protection":[{ "part": "HEAD", // Wet Protection on specific bodyparts
                     "good": 1 } ] // "neutral/good/ignored" // Good increases pos and cancels neg, neut cancels neg, ignored cancels both
 "vitamin_rates": [ [ "vitC", -1200 ] ], // How much extra vitamins do you consume per minute. Negative values mean production
+"restricts_gear" : [ "TORSO" ], //list of bodyparts that get restricted by this mutation
+"allow_soft_gear" : true, //If there is a list of 'restricts_gear' this sets if the location still allows items made out of soft materials (Only one of the types need to be soft for it to be considered soft). (default: false)
+"destroys_gear" : true, //If true, destroys the gear in the 'restricts_gear' location when mutated into. (default: false)
 "encumbrance_always" : [ // Adds this much encumbrance to selected body parts
     [ "ARM_L", 20 ],
     [ "ARM_R", 20 ]
@@ -391,7 +408,7 @@ Mods can modify this via "add:traits" and "remove:traits".
 "encumbrance_covered" : [ // Adds this much encumbrance to selected body parts, but only if the part is covered by not-OVERSIZE worn equipment
     [ "HAND_L", 50 ],
     [ "HAND_R", 50 ]
-]
+],
 "armor" : [ // Protects selected body parts this much. Resistances use syntax like `PART RESISTANCE` below.
     [
         [ "ALL" ], // Shorthand that applies the selected resistance to the entire body
@@ -401,7 +418,14 @@ Mods can modify this via "add:traits" and "remove:traits".
         [ "ARM_L", "ARM_R" ], // Overrides the above settings for those body parts
         { "bash" : 1 }        // ...and gives them those resistances instead
     ]
-]
+],
+"active" : true, //When set the mutation is an active mutation that the player needs to activate (default: false)
+"starts_active" : true, //When true, this 'active' mutation starts active (default: false, requires 'active')
+"cost" : 8, // Cost to activate this mutation. Needs one of the hunger, thirst, or fatigue values set to true. (default: 0)
+"time" : 100, //Sets the amount of (turns * current player speed ) time units that need to pass before the cost is to be paid again. Needs to be higher than one to have any effect. (default: 0)
+"hunger" : true, //If true, activated mutation increases hunger by cost. (default: false)
+"thirst" : true, //If true, activated mutation increases thirst by cost. (default: false)
+"fatigue" : true, //If true, activated mutation increases fatigue by cost. (default: false)
 ```
 ###VEHICLE GROUPS
 ```C++
@@ -563,9 +587,10 @@ Mods can modify this via "add:traits" and "remove:traits".
 "type": "MAGAZINE",   // Defines this as a MAGAZINE
 ...                   // same entries as above for the generic item.
                       // additional some magazine specific entries:
-"ammo_type": "9mm",   // What type of ammo this magazine can be loaded with
+"ammo_type": "223",   // What type of ammo this magazine can be loaded with
 "capacity" : 15,      // Capacity of magazine (in equivalent units to ammo charges)
 "count" : 0,          // Default amount of ammo contained by a magazine (set this for ammo belts)
+"default_ammo": "556",// If specified override the default ammo (optionally set this for ammo belts)
 "reliability" : 8,    // How reliable this this magazine on a range of 0 to 10? (see GAME_BALANCE.md)
 "reload_time" : 100,  // How long it takes to load each unit of ammo into the magazine
 "linkage" : "ammolink"// If set one linkage (of given type) is dropped for each unit of ammo consumed (set for disintegrating ammo belts)

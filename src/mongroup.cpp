@@ -1,4 +1,3 @@
-#include <fstream>
 #include <vector>
 
 #include "rng.h"
