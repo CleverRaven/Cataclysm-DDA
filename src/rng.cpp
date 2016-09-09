@@ -77,5 +77,6 @@ double rng_normal( double lo, double hi )
 {
     static std::default_random_engine eng;
     double range = ( hi + lo );
-    return std::normal_distribution<double>( range / 2, range / 4 )( eng );
+    double val = std::normal_distribution<double>( range / 2, range / 4 )( eng );
+    return std::max( std::min( val, hi ), lo );
 }
