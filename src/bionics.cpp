@@ -843,6 +843,7 @@ bool player::uninstall_bionic( std::string const &b_id, int skill_level )
         std::vector<item_comp> comps;
         comps.push_back( item_comp( "1st_aid", 1 ) );
         consume_items( comps );
+        invalidate_crafting_inventory();
     }
 
     practice( skilll_electronics, int( ( 100 - chance_of_success ) * 1.5 ) );
