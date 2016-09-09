@@ -387,24 +387,12 @@ void gun_actor::shoot( monster &z, Creature &target, const std::string &mode ) c
         return;
     }
 
-    npc tmp;
-    tmp.name = _( "The " ) + z.name();
+    standard_npc tmp( _( "The " ) + z.name(), {}, 8, fake_str, fake_dex, fake_int, fake_per );
     tmp.set_fake( true );
     tmp.setpos( z.pos() );
-    tmp.str_max = fake_str;
-    tmp.dex_max = fake_dex;
-    tmp.int_max = fake_int;
-    tmp.per_max = fake_per;
-    tmp.str_cur = fake_str;
-    tmp.dex_cur = fake_dex;
-    tmp.int_cur = fake_int;
-    tmp.per_cur = fake_per;
     tmp.attitude = z.friendly ? NPCATT_FOLLOW : NPCATT_KILL;
+    tmp.recoil = 0; // no need to aim
 
-    if( fake_skills.empty() ) {
-        tmp.set_skill_level( skill_id( "gun" ), 4 );
-        tmp.set_skill_level( gun.gun_skill(), 8 );
-    }
     for( const auto &pr : fake_skills ) {
         tmp.set_skill_level( pr.first, pr.second );
     }
