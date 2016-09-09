@@ -5967,7 +5967,7 @@ bool einkpc_download_memory_card(player *p, item *eink, item *mc)
             const int dif = ( elem )->difficulty;
 
             if (science) {
-                if( ( elem )->cat != "CC_NONCRAFT" ) {
+                if( elem->valid_learn() ) {
                     if (dif >= 3 && one_in(dif + 1)) {
                         candidates.push_back( elem );
                     }
