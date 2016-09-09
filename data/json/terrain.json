@@ -3992,39 +3992,46 @@
         }
     },{
         "type" : "terrain",
-        "id" : "t_water_sh",
+        "id" : "t_water_sh", 
         "name": "shallow water",
         "symbol": "~",
         "color": "ltblue",
         "move_cost": 5,
-        "flags": ["TRANSPARENT", "LIQUID", "SWIMMABLE", "FISHABLE"],
+        "flags": ["TRANSPARENT", "LIQUID", "SWIMMABLE", "FISHABLE", "AUTO_WALL_SYMBOL"],
+        "connects_to": "WOODFENCE",
         "examine_action": "water_source"
-    },{
+    },
+        {
         "type" : "terrain",
-        "id" : "t_water_dp",
+        "id" : "t_water_dp", 
         "name": "deep water",
         "symbol": "~",
         "color": "blue",
         "move_cost": 8,
         "flags": ["TRANSPARENT", "LIQUID", "SWIMMABLE", "DEEP_WATER", "FISHABLE"],
+        "connects_to": "WOODFENCE",
         "examine_action": "water_source"
-    },{
+    },
+        {
         "type" : "terrain",
         "id" : "t_swater_sh",
-        "name": "shallow water",
+        "name": "shallow salt water",
         "symbol": "~",
         "color": "ltblue",
         "move_cost": 5,
-        "flags": ["TRANSPARENT", "LIQUID", "SWIMMABLE", "SALT_WATER", "FISHABLE"],
+        "flags": ["TRANSPARENT", "LIQUID", "SWIMMABLE", "SALT_WATER", "FISHABLE", "AUTO_WALL_SYMBOL"],
+        "connects_to": "WOODFENCE",
         "examine_action": "water_source"
-    },{
+    },
+        {
         "type" : "terrain",
-        "id" : "t_swater_dp",
-        "name": "deep water",
+        "id" : "t_swater_dp", 
+        "name": "deep salt water",
         "symbol": "~",
         "color": "blue",
         "move_cost": 8,
-        "flags": ["TRANSPARENT", "LIQUID", "SWIMMABLE", "SALT_WATER", "DEEP_WATER", "FISHABLE"],
+        "flags": ["TRANSPARENT", "LIQUID", "SWIMMABLE", "DEEP_WATER", "FISHABLE", "SALT_WATER"],
+        "connects_to": "WOODFENCE",
         "examine_action": "water_source"
     },{
         "type" : "terrain",
