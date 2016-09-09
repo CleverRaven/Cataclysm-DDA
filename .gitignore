@@ -1,4 +1,3 @@
-tests/cata_test
 cataclysm
 cataclysm-tiles
 chkjson*
@@ -97,10 +96,13 @@ Cataclysm.dmg
 # Jetbrains CLion
 .idea/
 
-# linked test executable
+# test executables and generated data
+tests/cata_test
 tests/line_test
 tests/map_iterator_test
 tests/shadowcasting_test
+tests/data/jsionized_overmap.sav
+
 # static library used to link the test executable
 cataclysm.a
 

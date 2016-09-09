@@ -56,7 +56,7 @@
                 "2": { "item_group": "vending_food" }
             },
             "signs": {
-                "P": { "signage": "Danger! Do not smoke! Risk of explosion!" }
+                "P": { "signage": "Danger!  Do not smoke!  Risk of explosion!" }
             },
             "place_liquids": [
                 { "liquid": "gasoline", "x": 3, "y": 5, "repeat": [200, 1075] }

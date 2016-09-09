@@ -432,6 +432,7 @@ void vehicle::init_state(int init_veh_fuel, int init_veh_status)
         auto light_dome  = one_in( 16 );
         auto light_aisle = one_in(  8 );
         auto light_overh = one_in(  4 );
+        auto light_atom  = one_in(  2 );
         for( auto &pt : parts ) {
             if( pt.has_flag( VPFLAG_CONE_LIGHT ) ) {
                 pt.enabled = light_head;
@@ -441,6 +442,8 @@ void vehicle::init_state(int init_veh_fuel, int init_veh_status)
                 pt.enabled = light_aisle;
             } else if( pt.has_flag( VPFLAG_CIRCLE_LIGHT ) ) {
                 pt.enabled = light_overh;
+            } else if( pt.has_flag( VPFLAG_ATOMIC_LIGHT ) ) {
+                pt.enabled = light_atom;
             }
         }
 
@@ -942,7 +945,7 @@ void vehicle::use_controls( const tripoint &pos )
         if( has_part( flag ) ) {
             if( has_part( flag, true ) ) {
                 options.emplace_back( string_format( _( "Turn off %s" ), name.c_str() ), key );
-                actions.push_back( [&]{
+                actions.push_back( [=]{
                     for( auto e : get_parts( flag, true ) ) {
                         add_msg( _( "Turned off %s." ), e->name().c_str() );
                         e->enabled = false;
@@ -950,7 +953,7 @@ void vehicle::use_controls( const tripoint &pos )
                 } );
             } else {
                 options.emplace_back( string_format( _( "Turn on %s" ), name.c_str() ), key );
-                actions.push_back( [&]{
+                actions.push_back( [=]{
                     for( auto e : get_parts( flag ) ) {
                         if( e->enabled ) {
                             continue;
@@ -970,6 +973,7 @@ void vehicle::use_controls( const tripoint &pos )
         add_toggle( _( "overhead lights" ), keybind( "TOGGLE_OVERHEAD_LIGHT" ), "CIRCLE_LIGHT" );
         add_toggle( _( "aisle lights" ), keybind( "TOGGLE_AISLE_LIGHT" ), "AISLE_LIGHT" );
         add_toggle( _( "dome lights" ), keybind( "TOGGLE_DOME_LIGHT" ), "DOME_LIGHT" );
+        add_toggle( _( "atomic lights" ), keybind( "TOGGLE_ATOMIC_LIGHT" ), "ATOMIC_LIGHT" );
         add_toggle( _( "stereo" ), keybind( "TOGGLE_STEREO" ), "STEREO" );
         add_toggle( _( "chimes" ), keybind( "TOGGLE_CHIMES" ), "CHIMES" );
         add_toggle( _( "fridge" ), keybind( "TOGGLE_FRIDGE" ), "FRIDGE" );
@@ -1865,6 +1869,9 @@ int vehicle::install_part( int dx, int dy, const vehicle_part &new_part )
 
     } else if( pt.info().has_flag( "DOME_LIGHT" ) ) {
         pt.enabled = has_part( "DOME_LIGHT", true );
+
+    } else if( pt.info().has_flag( "ATOMIC_LIGHT" ) ) {
+        pt.enabled = has_part( "ATOMIC_LIGHT", true );
 
     } else if( pt.info().has_flag( "STEREO" ) ) {
         pt.enabled = has_part( "STEREO", true );
@@ -3577,7 +3584,10 @@ void vehicle::power_parts()
 
     if( battery_deficit != 0 ) {
         for( auto &pt : lights() ) {
-            pt->enabled = false;
+            // atomic lights don't consume epower, so don't turn them off
+            if( pt->info().epower < 0 ) {
+                pt->enabled = false;
+            }
         }
 
         for( auto pt : get_parts( "STEREO" ) ) {
@@ -4945,7 +4955,7 @@ void vehicle::place_spawn_items()
                 continue;
             }
             if( x_in_y( pt.with_ammo, 100 ) ) {
-                parts[ turret ].ammo_set( default_ammo( parts[ turret ].ammo_type() ) );
+                parts[ turret ].ammo_set( random_entry( pt.ammo_types ), rng( pt.ammo_qty.first, pt.ammo_qty.second ) );
             }
         }
     }
@@ -5373,33 +5383,57 @@ int vehicle::damage( int p, int dmg, damage_type type, bool aimed )
             return dmg;
         }
     }
-    int parm = part_with_feature( p, "ARMOR" );
-    int pdm = random_entry( pl );
-    int dres;
-    if( parm < 0 ) {
-        // Not covered by armor -- damage part
-        dres = damage_direct( pdm, dmg, type );
-    } else {
-        // Covered by armor -- hit both armor and part, but reduce damage by armor's reduction
-        int protection = part_info( parm ).damage_reduction[ type ];
-        // Parts on roof aren't protected
-        bool overhead = part_flag( pdm, "ROOF" ) || part_info( pdm ).location == "on_roof";
-        // Calling damage_direct may remove the damaged part
-        // completely, therefor the other indes (pdm) becames
-        // wrong if pdm > parm.
-        // Damaging the part with the higher index first is save,
-        // as removing a part only changes indizes after the
-        // removed part.
-        if( parm < pdm ) {
-            damage_direct( pdm, overhead ? dmg : dmg - protection, type );
-            dres = damage_direct( parm, dmg, type );
-        } else {
-            dres = damage_direct( parm, dmg, type );
-            damage_direct( pdm, overhead ? dmg : dmg - protection, type );
+
+    int target_part = random_entry( pl );
+
+    // door motor mechanism is protected by closed doors
+    if( part_flag( target_part, "DOOR_MOTOR" ) ) {
+        // find the most strong openable thats not open
+        int strongest_door_part = -1;
+        int strongest_door_durability = INT_MIN;
+        for( int part : pl ) {
+            if( part_flag( part, "OPENABLE" ) && !parts[part].open ) {
+                int door_durability = part_info( part ).durability;
+                if (door_durability > strongest_door_durability) {
+                   strongest_door_part = part;
+                   strongest_door_durability = door_durability;
+                }
+            }
+        }
+
+        // if we found a closed door, target it instead of the door_motor
+        if (strongest_door_part != -1) {
+            target_part = strongest_door_part;
         }
     }
 
-    return dres;
+    int damage_dealt;
+
+    int armor_part = part_with_feature( p, "ARMOR" );
+    if( armor_part < 0 ) {
+        // Not covered by armor -- damage part
+        damage_dealt = damage_direct( target_part, dmg, type );
+    } else {
+        // Covered by armor -- hit both armor and part, but reduce damage by armor's reduction
+        int protection = part_info( armor_part ).damage_reduction[ type ];
+        // Parts on roof aren't protected
+        bool overhead = part_flag( target_part, "ROOF" ) || part_info( target_part ).location == "on_roof";
+        // Calling damage_direct may remove the damaged part
+        // completely, therefor the other indes (target_part) becames
+        // wrong if target_part > armor_part.
+        // Damaging the part with the higher index first is save,
+        // as removing a part only changes indizes after the
+        // removed part.
+        if( armor_part < target_part ) {
+            damage_direct( target_part, overhead ? dmg : dmg - protection, type );
+            damage_dealt = damage_direct( armor_part, dmg, type );
+        } else {
+            damage_dealt = damage_direct( armor_part, dmg, type );
+            damage_direct( target_part, overhead ? dmg : dmg - protection, type );
+        }
+    }
+
+    return damage_dealt;
 }
 
 void vehicle::damage_all( int dmg1, int dmg2, damage_type type, const point &impact )

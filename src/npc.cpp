@@ -25,7 +25,6 @@
 #include "iuse_actor.h"
 
 #include <algorithm>
-#include <fstream>
 #include <sstream>
 #include <string>
 
@@ -84,7 +83,7 @@ npc::npc()
     per_max = 0;
     my_fac = NULL;
     fac_id = "";
-    miss_id = 0;
+    miss_id = NULL_ID;
     marked_for_death = false;
     dead = false;
     hit_by_player = false;
@@ -102,6 +101,36 @@ npc::npc()
     // ret_null is a bit more than just a regular "null", it is the "fist" for unarmed attacks
     ret_null = item( "null", 0 );
     last_updated = calendar::turn;
+}
+
+standard_npc::standard_npc( const std::string &name, const std::vector<itype_id> &clothing,
+                            int sk_lvl, int s_str, int s_dex, int s_int, int s_per )
+{
+    this->name = name;
+    position = { 0, 0, 0 };
+
+    str_cur = std::max( s_str, 0 );
+    str_max = std::max( s_str, 0 );
+    dex_cur = std::max( s_dex, 0 );
+    dex_max = std::max( s_dex, 0 );
+    per_cur = std::max( s_per, 0 );
+    per_max = std::max( s_per, 0 );
+    int_cur = std::max( s_int, 0 );
+    int_max = std::max( s_int, 0 );
+
+    for( auto &e: _skills ) {
+        e.second = std::min( std::max( sk_lvl, 0 ), MAX_SKILL );
+    }
+
+    for( const auto &e : clothing ) {
+        wear_item( item( e ) );
+    }
+
+    for( item &e : worn ) {
+        if( e.has_flag( "VARSIZE" ) ) {
+            e.item_tags.insert( "FIT" );
+        }
+    }
 }
 
 npc::npc(const npc &) = default;
@@ -140,10 +169,10 @@ void npc::load_npc(JsonObject &jsobj)
     guy.attitude = npc_attitude(jsobj.get_int("attitude"));
     guy.mission = npc_mission(jsobj.get_int("mission"));
     guy.chatbin.first_topic = jsobj.get_string( "chat" );
-    if (jsobj.has_int("mission_offered")){
-        guy.miss_id = jsobj.get_int("mission_offered");
+    if( jsobj.has_string( "mission_offered" ) ){
+        guy.miss_id = mission_type_id( jsobj.get_string( "mission_offered" ) );
     } else {
-        guy.miss_id = 0;
+        guy.miss_id = NULL_ID;
     }
     _all_npc[guy.idz] = std::move( guy );
 }
@@ -180,8 +209,8 @@ void npc::load_npc_template(std::string ident)
         attitude = found->second.attitude;
         mission = found->second.mission;
         chatbin.first_topic = found->second.chatbin.first_topic;
-        if (static_cast<mission_type_id>(found->second.miss_id) != MISSION_NULL){
-            add_new_mission( mission::reserve_new(static_cast<mission_type_id>(found->second.miss_id), getID()) );
+        if( !found->second.miss_id.is_null() ){
+            add_new_mission( mission::reserve_new( found->second.miss_id, getID() ) );
         }
         return;
     } else {
@@ -1171,7 +1200,7 @@ std::vector<skill_id> npc::skills_offered_to( const player &p ) const
     std::vector<skill_id> ret;
     for( auto const &skill : Skill::skills ) {
         const auto &id = skill.ident();
-        if( p.get_skill_level( id ) < get_skill_level( id ) ) {
+        if( p.get_skill_level( id ).level() < get_skill_level( id ).level() ) {
             ret.push_back( id );
         }
     }

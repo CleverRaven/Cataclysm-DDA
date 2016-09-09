@@ -15,6 +15,17 @@
     "name": "mounted flamethrower",
     "item": "flamethrower",
     "difficulty": 5,
+    "requirements": {
+      "install": {
+        "using": [ [ "welding_standard", 10 ] ],
+        "skills": [ [ "mechanics", 5 ], [ "launcher", 1 ] ],
+        "time": 120000
+      },
+      "removal": {
+        "using": "vehicle_weld_removal",
+        "skills": [ [ "mechanics", 3 ] ]
+      }
+    },
     "color": "dark_gray",
     "broken_color": "dark_gray",
     "breaks_into": [ { "item": "flamethrower", "prob": 50 } ],
@@ -26,7 +37,18 @@
     "type": "vehicle_part",
     "name": "mounted fusion gun",
     "item": "ftk93",
-    "difficulty": 8,
+    "difficulty": 6,
+    "requirements": {
+      "install": {
+        "using": [ [ "welding_standard", 10 ] ],
+        "skills": [ [ "mechanics", 6 ], [ "electronics", 6 ] ],
+        "time": 120000
+      },
+      "removal": {
+        "using": "vehicle_weld_removal",
+        "skills": [ [ "mechanics", 4 ] ]
+      }
+    },
     "color": "magenta",
     "broken_color": "magenta",
     "breaks_into": [ {"item": "ftk93", "prob": 50 } ]
@@ -37,7 +59,18 @@
     "type": "vehicle_part",
     "name": "mounted A7 laser rifle",
     "item": "laser_rifle",
-    "difficulty": 8,
+    "difficulty": 5,
+    "requirements": {
+      "install": {
+        "using": [ [ "welding_standard", 10 ] ],
+        "skills": [ [ "mechanics", 5 ], [ "electronics", 5 ] ],
+        "time": 120000
+      },
+      "removal": {
+        "using": "vehicle_weld_removal",
+        "skills": [ [ "mechanics", 3 ] ]
+      }
+    },
     "color": "magenta",
     "broken_color": "magenta",
     "breaks_into": [ { "item": "laser_rifle", "prob": 50 } ]
@@ -48,7 +81,18 @@
     "type": "vehicle_part",
     "name": "mounted M249",
     "item": "m249",
-    "difficulty": 4,
+    "difficulty": 3,
+    "requirements": {
+      "install": {
+        "using": [ [ "welding_standard", 10 ] ],
+        "skills": [ [ "mechanics", 3 ], [ "rifle", 1 ] ],
+        "time": 120000
+      },
+      "removal": {
+        "using": "vehicle_weld_removal",
+        "skills": [ [ "mechanics", 1 ] ]
+      }
+    },
     "color": "cyan",
     "broken_color": "cyan",
     "breaks_into": [ { "item": "m249", "prob": 50 } ]
@@ -59,7 +103,18 @@
     "type": "vehicle_part",
     "name": "mounted automatic shotgun",
     "item": "abzats",
-    "difficulty": 5,
+    "difficulty": 3,
+    "requirements": {
+      "install": {
+        "using": [ [ "welding_standard", 10 ] ],
+        "skills": [ [ "mechanics", 3 ], [ "shotgun", 1 ] ],
+        "time": 120000
+      },
+      "removal": {
+        "using": "vehicle_weld_removal",
+        "skills": [ [ "mechanics", 1 ] ]
+      }
+    },
     "color": "green",
     "broken_color": "green",
     "breaks_into": [ { "item": "abzats", "prob": 50 } ]
@@ -70,7 +125,18 @@
     "type": "vehicle_part",
     "name": "mounted M2 Browning",
     "item": "m2browning",
-    "difficulty": 5,
+    "difficulty": 4,
+    "requirements": {
+      "install": {
+        "using": [ [ "welding_standard", 10 ] ],
+        "skills": [ [ "mechanics", 4 ], [ "rifle", 2 ] ],
+        "time": 120000
+      },
+      "removal": {
+        "using": "vehicle_weld_removal",
+        "skills": [ [ "mechanics", 2 ] ]
+      }
+    },
     "color": "green",
     "broken_color": "green",
     "breaks_into": [ { "item": "m2browning", "prob": 50 } ]
@@ -81,7 +147,18 @@
     "type": "vehicle_part",
     "name": "mounted M134D-H Minigun",
     "item": "m134",
-    "difficulty": 7,
+    "difficulty": 6,
+    "requirements": {
+      "install": {
+        "using": [ [ "welding_standard", 10 ] ],
+        "skills": [ [ "mechanics", 6 ], [ "rifle", 3 ] ],
+        "time": 120000
+      },
+      "removal": {
+        "using": "vehicle_weld_removal",
+        "skills": [ [ "mechanics", 4 ] ]
+      }
+    },
     "color": "green",
     "broken_color": "green",
     "breaks_into": [ { "item": "m134", "prob": 50 } ]
@@ -93,6 +170,17 @@
     "name": "mounted Browning Automatic Rifle",
     "item": "m1918",
     "difficulty": 4,
+    "requirements": {
+      "install": {
+        "using": [ [ "welding_standard", 10 ] ],
+        "skills": [ [ "mechanics", 4 ], [ "rifle", 2 ] ],
+        "time": 120000
+      },
+      "removal": {
+        "using": "vehicle_weld_removal",
+        "skills": [ [ "mechanics", 2 ] ]
+      }
+    },
     "color": "cyan",
     "broken_color": "cyan",
     "breaks_into": [ { "item": "m1918", "prob": 50 } ]
@@ -104,6 +192,17 @@
     "name": "mounted M240",
     "item": "m240",
     "difficulty": 4,
+    "requirements": {
+      "install": {
+        "using": [ [ "welding_standard", 10 ] ],
+        "skills": [ [ "mechanics", 4 ], [ "rifle", 2 ] ],
+        "time": 120000
+      },
+      "removal": {
+        "using": "vehicle_weld_removal",
+        "skills": [ [ "mechanics", 2 ] ]
+      }
+    },
     "color": "cyan",
     "broken_color": "cyan",
     "breaks_into": [ { "item": "m240", "prob": 50 } ]
@@ -115,6 +214,17 @@
     "name": "mounted M60",
     "item": "m60",
     "difficulty": 4,
+    "requirements": {
+      "install": {
+        "using": [ [ "welding_standard", 10 ] ],
+        "skills": [ [ "mechanics", 4 ], [ "rifle", 2 ] ],
+        "time": 120000
+      },
+      "removal": {
+        "using": "vehicle_weld_removal",
+        "skills": [ [ "mechanics", 2 ] ]
+      }
+    },
     "color": "cyan",
     "broken_color": "cyan",
     "breaks_into": [ { "item": "m60", "prob": 50 } ]
@@ -126,6 +236,17 @@
     "name": "mounted Mark 19 grenade launcher",
     "item": "mark19",
     "difficulty": 5,
+    "requirements": {
+      "install": {
+        "using": [ [ "welding_standard", 10 ] ],
+        "skills": [ [ "mechanics", 5 ], [ "launcher", 1 ] ],
+        "time": 120000
+      },
+      "removal": {
+        "using": "vehicle_weld_removal",
+        "skills": [ [ "mechanics", 3 ] ]
+      }
+    },
     "color": "green",
     "broken_color": "green",
     "breaks_into": [ { "item": "mark19", "prob": 50 } ]
@@ -137,6 +258,17 @@
     "name": "mounted RM298 HMG",
     "item": "rm298",
     "difficulty": 6,
+    "requirements": {
+      "install": {
+        "using": [ [ "welding_standard", 10 ] ],
+        "skills": [ [ "mechanics", 5 ], [ "rifle", 2 ] ],
+        "time": 120000
+      },
+      "removal": {
+        "using": "vehicle_weld_removal",
+        "skills": [ [ "mechanics", 3 ] ]
+      }
+    },
     "color": "white",
     "broken_color": "white",
     "breaks_into": [ { "item": "rm298", "prob": 50 } ]
@@ -148,6 +280,17 @@
     "name": "mounted RM614 LMG",
     "item": "rm614_lmg",
     "difficulty": 6,
+    "requirements": {
+      "install": {
+        "using": [ [ "welding_standard", 10 ] ],
+        "skills": [ [ "mechanics", 5 ], [ "rifle", 2 ] ],
+        "time": 120000
+      },
+      "removal": {
+        "using": "vehicle_weld_removal",
+        "skills": [ [ "mechanics", 3 ] ]
+      }
+    },
     "color": "white",
     "broken_color": "white",
     "breaks_into": [ { "item": "rm614_lmg", "prob": 50 } ]
@@ -158,7 +301,18 @@
     "type": "vehicle_part",
     "name": "mounted plasma gun",
     "item": "plasma_rifle",
-    "difficulty": 8,
+    "difficulty": 5,
+    "requirements": {
+      "install": {
+        "using": [ [ "welding_standard", 10 ] ],
+        "skills": [ [ "mechanics", 5 ], [ "electronics", 5 ] ],
+        "time": 120000
+      },
+      "removal": {
+        "using": "vehicle_weld_removal",
+        "skills": [ [ "mechanics", 3 ] ]
+      }
+    },
     "color": "light_blue",
     "broken_color": "light_blue",
     "breaks_into": [ { "item": "plasma_rifle", "prob": 50 } ]
@@ -169,7 +323,18 @@
     "type": "vehicle_part",
     "name": "water cannon",
     "item": "watercannon",
-    "difficulty": 5,
+    "difficulty": 4,
+    "requirements": {
+      "install": {
+        "using": [ [ "welding_standard", 10 ] ],
+        "skills": [ [ "mechanics", 4 ] ],
+        "time": 120000
+      },
+      "removal": {
+        "using": "vehicle_weld_removal",
+        "skills": [ [ "mechanics", 2 ] ]
+      }
+    },
     "color": "blue",
     "broken_color": "blue",
     "breaks_into": [ { "item": "watercannon", "prob": 50 } ],

@@ -28,6 +28,7 @@
 #include "weighted_list.h"
 #include "submap.h"
 #include "overlay_ordering.h"
+#include "cata_utility.h"
 
 #include <algorithm>
 #include <fstream>
@@ -184,36 +185,31 @@ void cata_tiles::get_tile_information(std::string config_path, std::string &json
     const std::string default_tileset = FILENAMES["defaulttilepng"];
 
     // Get JSON and TILESET vars from config
-    std::ifstream fin;
-    fin.open(config_path.c_str());
-    if(!fin.is_open()) {
-        fin.close();
-        dbg( D_ERROR ) << "Can't open " << config_path << " -- Setting default values!";
+    const auto reader = [&]( std::istream &fin ) {
+        while(!fin.eof()) {
+            std::string sOption;
+            fin >> sOption;
+
+            if(sOption == "") {
+                getline(fin, sOption);
+            } else if(sOption[0] == '#') { // Skip comment
+                getline(fin, sOption);
+            } else if (sOption.find("JSON") != std::string::npos) {
+                fin >> json_path;
+                dbg( D_INFO ) << "JSON path set to [" << json_path << "].";
+            } else if (sOption.find("TILESET") != std::string::npos) {
+                fin >> tileset_path;
+                dbg( D_INFO ) << "TILESET path set to [" << tileset_path << "].";
+            } else {
+                getline(fin, sOption);
+            }
+        }
+    };
+
+    if( !read_from_file( config_path, reader ) ) {
         json_path = default_json;
         tileset_path = default_tileset;
-        return;
     }
-
-    while(!fin.eof()) {
-        std::string sOption;
-        fin >> sOption;
-
-        if(sOption == "") {
-            getline(fin, sOption);
-        } else if(sOption[0] == '#') { // Skip comment
-            getline(fin, sOption);
-        } else if (sOption.find("JSON") != std::string::npos) {
-            fin >> json_path;
-            dbg( D_INFO ) << "JSON path set to [" << json_path << "].";
-        } else if (sOption.find("TILESET") != std::string::npos) {
-            fin >> tileset_path;
-            dbg( D_INFO ) << "TILESET path set to [" << tileset_path << "].";
-        } else {
-            getline(fin, sOption);
-        }
-    }
-
-    fin.close();
 
     if (json_path == "") {
         json_path = default_json;

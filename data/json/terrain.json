@@ -20,6 +20,17 @@
         "flags": ["TRANSPARENT", "NOITEM"]
     },{
         "type" : "terrain",
+        "id" : "t_open_air_rooved",
+        "name": "open air",
+        "symbol": " ",
+        "color": "i_cyan",
+        "move_cost": 2,
+        "roof": "t_flat_roof",
+        "trap": "tr_ledge",
+        "flags": ["TRANSPARENT", "NO_FLOOR"],
+        "examine_action": "climb_down"
+    },{
+        "type" : "terrain",
         "id" : "t_brick_wall_halfway",
         "name": "half-built brick wall",
         "symbol": "#",

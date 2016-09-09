@@ -27,6 +27,19 @@ const char *pgettext( const char *context, const char *msgid )
     }
 }
 
+const char *npgettext( const char *const context, const char *const msgid,
+                       const char *const msgid_plural, const unsigned long int n )
+{
+    const std::string context_id = std::string( context ) + '\004' + msgid;
+    const char *const msg_ctxt_id = context_id.c_str();
+    const char *const translation = dcngettext( nullptr, msg_ctxt_id, msgid_plural, n, LC_MESSAGES );
+    if( translation == msg_ctxt_id ) {
+        return n == 1 ? msgid : msgid_plural;
+    } else {
+        return translation;
+    }
+}
+
 void set_language( bool reload_options )
 {
     // Step 1. Setup locale settings.

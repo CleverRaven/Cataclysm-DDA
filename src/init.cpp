@@ -207,6 +207,7 @@ void DynamicDataLoader::initialize()
 
     add( "gate", &gates::load_gates );
     add( "overlay_order", &load_overlay_ordering );
+    add( "mission_definition", []( JsonObject &jo ) { mission_type::load_mission_type( jo ); } );
 }
 
 void DynamicDataLoader::load_data_from_path( const std::string &path, const std::string &src )
@@ -337,7 +338,6 @@ void DynamicDataLoader::finalize_loaded_data()
 {
     item_controller->finalize();
     vpart_info::finalize();
-    mission_type::initialize(); // Needs overmap terrain.
     set_ter_ids();
     set_furn_ids();
     set_oter_ids();

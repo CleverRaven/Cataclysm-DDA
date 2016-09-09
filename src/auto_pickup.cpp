@@ -14,7 +14,6 @@
 #include "itype.h"
 
 #include <stdlib.h>
-#include <fstream>
 #include <sstream>
 #include <string>
 #include <locale>
@@ -60,7 +59,8 @@ void auto_pickup::show( const std::string &custom_name, bool is_autopickup )
                                    1 + iOffsetX);
     WINDOW_PTR wptr( w );
 
-    draw_border(w_border);
+    draw_border( w_border, BORDER_COLOR, custom_name );
+
     mvwputch(w_border, 3,  0, c_ltgray, LINE_XXXO); // |-
     mvwputch(w_border, 3, 79, c_ltgray, LINE_XOXX); // -|
 
@@ -69,7 +69,6 @@ void auto_pickup::show( const std::string &custom_name, bool is_autopickup )
                   LINE_XXOX ); // _|_
     }
 
-    mvwprintz(w_border, 0, 29, c_ltred, custom_name.c_str() );
     wrefresh(w_border);
 
     int tmpx = 0;
@@ -199,8 +198,7 @@ void auto_pickup::show( const std::string &custom_name, bool is_autopickup )
 
                 mvwprintz(w, i - iStartPos, 52, (iLine == i &&
                           iColumn == 2) ? hilite(cLineColor) : cLineColor, "%s",
-                          ((vRules[iTab][i].bExclude) ? rm_prefix(_("Exclude")).c_str() : rm_prefix(
-                               _("Include")).c_str()));
+                          ((vRules[iTab][i].bExclude) ? _("Exclude") :  _("Include")));
             }
         }
 
@@ -287,7 +285,7 @@ void auto_pickup::show( const std::string &custom_name, bool is_autopickup )
 
                 draw_border(w_help);
                 wrefresh(w_help);
-                vRules[iTab][iLine].sRule = trim_rule(string_input_popup(_("Pickup Rule:"),
+                vRules[iTab][iLine].sRule = wildcard_trim_rule(string_input_popup(_("Pickup Rule:"),
                         30, vRules[iTab][iLine].sRule));
             } else if (iColumn == 2) {
                 vRules[iTab][iLine].bExclude =
@@ -367,7 +365,7 @@ void auto_pickup::test_pattern(const int iTab, const int iRow)
     for( auto &p : item_controller->get_all_itypes() ) {
         sItemName = p.second->nname(1);
         if (vRules[iTab][iRow].bActive &&
-            match(sItemName, vRules[iTab][iRow].sRule)) {
+            wildcard_match(sItemName, vRules[iTab][iRow].sRule)) {
             vMatchingItems.push_back(sItemName);
         }
     }
@@ -507,11 +505,11 @@ void auto_pickup::create_rule( const std::string &to_match )
     for( int i = GLOBAL_TAB; i < MAX_TAB; i++ ) {
         for( auto &elem : vRules[i] ) {
             if( !elem.bExclude ) {
-                if( elem.bActive && match( to_match, elem.sRule ) ) {
+                if( elem.bActive && wildcard_match( to_match, elem.sRule ) ) {
                     map_items[ to_match ] = RULE_WHITELISTED;
                 }
             } else {
-                if( elem.bActive && match( to_match, elem.sRule ) ) {
+                if( elem.bActive && wildcard_match( to_match, elem.sRule ) ) {
                     map_items[ to_match ] = RULE_BLACKLISTED;
                 }
             }
@@ -528,20 +526,22 @@ void auto_pickup::create_rules()
     //may have some performance issues since exclusion needs to check all items also
     for( int i = GLOBAL_TAB; i < MAX_TAB; i++ ) {
         for( auto &elem : vRules[i] ) {
-            if( !elem.bExclude ) {
-                //Check include patterns against all itemfactory items
-                for( auto &p : item_controller->get_all_itypes() ) {
-                    const std::string &cur_item = p.second->nname(1);
-                    if( elem.bActive && match( cur_item, elem.sRule ) ) {
-                        map_items[ cur_item ] = RULE_WHITELISTED;
+            if ( elem.sRule != "" ) {
+                if( !elem.bExclude ) {
+                    //Check include patterns against all itemfactory items
+                    for( auto &p : item_controller->get_all_itypes() ) {
+                        const std::string &cur_item = p.second->nname(1);
+                        if( elem.bActive && wildcard_match( cur_item, elem.sRule ) ) {
+                            map_items[ cur_item ] = RULE_WHITELISTED;
+                        }
                     }
-                }
-            } else {
-                //only re-exclude items from the existing mapping for now
-                //new exclusions will process during pickup attempts
-                for (auto iter = map_items.begin(); iter != map_items.end(); ++iter) {
-                    if( elem.bActive && match( iter->first, elem.sRule ) ) {
-                        map_items[ iter->first ] = RULE_BLACKLISTED;
+                } else {
+                    //only re-exclude items from the existing mapping for now
+                    //new exclusions will process during pickup attempts
+                    for (auto iter = map_items.begin(); iter != map_items.end(); ++iter) {
+                        if( elem.bActive && wildcard_match( iter->first, elem.sRule ) ) {
+                            map_items[ iter->first ] = RULE_BLACKLISTED;
+                        }
                     }
                 }
             }
@@ -549,115 +549,7 @@ void auto_pickup::create_rules()
     }
 }
 
-std::string auto_pickup::trim_rule(const std::string &sPatternIn)
-{
-    std::string sPattern = sPatternIn;
-    size_t iPos = 0;
-
-    //Remove all double ** in pattern
-    while((iPos = sPattern.find("**")) != std::string::npos) {
-        sPattern = sPattern.substr(0, iPos) + sPattern.substr(iPos + 1, sPattern.length() - iPos - 1);
-    }
-
-    return sPattern;
-}
-
-bool auto_pickup::match(const std::string &sTextIn, const std::string &sPatternIn)
-{
-    std::string sText = sTextIn;
-    std::string sPattern = sPatternIn;
-
-    //case insenitive search
-
-    /* Possible patterns
-    *
-    wooD
-    wood*
-    *wood
-    Wood*aRrOW
-    wood*arrow*
-    *wood*arrow
-    *wood*hard* *x*y*z*arrow*
-    */
-
-    if (sText == "") {
-        return false;
-    } else if (sText == "*") {
-        return true;
-    }
-
-    int iPos;
-    std::vector<std::string> vPattern;
-
-    sPattern = trim_rule(sPattern);
-
-    split(sPattern, '*', vPattern);
-    size_t iNum = vPattern.size();
-
-    if (iNum == 0) { //should never happen
-        return false;
-    } else if (iNum == 1) { // no * found
-        return (sText.length() == vPattern[0].length() && ci_find_substr(sText, vPattern[0]) != -1);
-    }
-
-    for (auto it = vPattern.begin(); it != vPattern.end(); ++it) {
-        if (it == vPattern.begin() && *it != "") { //beginning: ^vPat[i]
-            if (sText.length() < it->length() ||
-                ci_find_substr(sText.substr(0, it->length()), *it) == -1) {
-                return false;
-            }
-
-            sText = sText.substr(it->length(), sText.length() - it->length());
-        } else if (it == vPattern.end() - 1 && *it != "") { //linenend: vPat[i]$
-            if (sText.length() < it->length() ||
-                ci_find_substr(sText.substr(sText.length() - it->length(),
-                                            it->length()), *it) == -1) {
-                return false;
-            }
-        } else { //inbetween: vPat[i]
-            if (*it != "") {
-                if ((iPos = (int)ci_find_substr(sText, *it)) == -1) {
-                    return false;
-                }
-
-                sText = sText.substr(iPos + (int)it->length(), (int)sText.length() - iPos);
-            }
-        }
-    }
-
-    return true;
-}
-
-std::vector<std::string> &auto_pickup::split(const std::string &s, char delim, std::vector<std::string> &elems)
-{
-    std::stringstream ss(s);
-    std::string item;
-    elems.clear();
-    while (std::getline(ss, item, delim)) {
-        elems.push_back(item);
-    }
-
-    if ( s.substr(s.length() - 1, 1) == "*") {
-        elems.push_back("");
-    }
-
-    return elems;
-}
-
-// find substring (case insensitive)
-template<typename charT>
-int auto_pickup::ci_find_substr( const charT &str1, const charT &str2, const std::locale &loc )
-{
-    typename charT::const_iterator it = std::search( str1.begin(), str1.end(), str2.begin(), str2.end(),
-                                        my_equal<typename charT::value_type>(loc) );
-    if ( it != str1.end() ) {
-        return it - str1.begin();
-    } else {
-        return -1;    // not found
-    }
-}
-
-pickup_rule_state auto_pickup::check_item( const std::string &sItemName ) const
+rule_state auto_pickup::check_item( const std::string &sItemName ) const
 {
     const auto iter = map_items.find( sItemName );
     if( iter != map_items.end() ) {
@@ -689,14 +581,11 @@ bool auto_pickup::save(const bool bCharacter)
 
         if (bCharacter) {
             savefile = world_generator->active_world->world_path + "/" + base64_encode(g->u.name) + ".apu.json";
-            std::ifstream fin;
 
-            fin.open((world_generator->active_world->world_path + "/" +
-                      base64_encode(g->u.name) + ".sav").c_str());
-            if(!fin.is_open()) {
+            const std::string player_save = world_generator->active_world->world_path + "/" + base64_encode(g->u.name) + ".sav";
+            if( !file_exist( player_save ) ) {
                 return true; //Character not saved yet.
             }
-            fin.close();
         }
 
     return write_to_file( savefile, [&]( std::ostream &fout ) {
@@ -723,30 +612,19 @@ void auto_pickup::load(const bool bCharacter)
 {
     bChar = bCharacter;
 
-    std::ifstream fin;
     std::string sFile = FILENAMES["autopickup"];
     if (bCharacter) {
         sFile = world_generator->active_world->world_path + "/" + base64_encode(g->u.name) + ".apu.json";
     }
 
-    fin.open(sFile.c_str(), std::ifstream::in | std::ifstream::binary);
-
-    if( !fin.good() ) {
+    if( !read_from_file_optional( sFile, *this ) ) {
         if (load_legacy(bCharacter)) {
             if (save(bCharacter)) {
                 remove_file(sFile);
             }
         }
-    } else {
-        try {
-            JsonIn jsin(fin);
-            deserialize(jsin);
-        } catch( const JsonError &e ) {
-            DebugLog(D_ERROR, DC_ALL) << "auto_pickup::load: " << e;
-        }
     }
 
-    fin.close();
     create_rules();
 }
 
@@ -785,28 +663,30 @@ void auto_pickup::deserialize(JsonIn &jsin)
 
 bool auto_pickup::load_legacy(const bool bCharacter)
 {
-    std::ifstream fin;
     std::string sFile = FILENAMES["legacy_autopickup2"];
 
     if (bCharacter) {
         sFile = world_generator->active_world->world_path + "/" + base64_encode(g->u.name) + ".apu.txt";
     }
 
-    fin.open(sFile.c_str());
-    if(!fin.is_open()) {
-        if( !bCharacter ) {
-            fin.open(FILENAMES["legacy_autopickup"].c_str());
+    auto &rules = vRules[(bCharacter) ? CHARACTER_TAB : GLOBAL_TAB];
 
-            if( !fin.is_open() ) {
-                DebugLog( D_ERROR, DC_ALL ) << "Could neither read nor create " << sFile;
-                return false;
-            }
+    using namespace std::placeholders;
+    const auto reader = std::bind( &auto_pickup::load_legacy_rules, this, std::ref( rules ), _1 );
+    if( !read_from_file_optional( sFile, reader ) ) {
+        if( !bCharacter ) {
+            return read_from_file_optional( FILENAMES["legacy_autopickup"], reader );
         } else {
             return false;
         }
     }
 
-    vRules[(bCharacter) ? CHARACTER_TAB : GLOBAL_TAB].clear();
+    return true;
+}
+
+void auto_pickup::load_legacy_rules( std::vector<cRules> &rules, std::istream &fin )
+{
+    rules.clear();
 
     std::string sLine;
     while(!fin.eof()) {
@@ -847,10 +727,8 @@ bool auto_pickup::load_legacy(const bool bCharacter)
 
                 } while(iPos != std::string::npos);
 
-                vRules[(bCharacter) ? CHARACTER_TAB : GLOBAL_TAB].push_back(cRules(sRule, bActive, bExclude));
+                rules.push_back(cRules(sRule, bActive, bExclude));
             }
         }
     }
-
-    return true;
 }

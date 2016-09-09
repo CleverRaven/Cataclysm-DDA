@@ -37,7 +37,6 @@
 
 #include <cmath>
 #include <stdlib.h>
-#include <fstream>
 #include <cstring>
 #include <algorithm>
 
@@ -1280,7 +1279,6 @@ void map::unboard_vehicle( const tripoint &p )
         }
         if( passenger ) {
             passenger->in_vehicle = false;
-            passenger->driving_recoil = 0;
             passenger->controlling_vehicle = false;
         }
         return;
@@ -1297,7 +1295,6 @@ void map::unboard_vehicle( const tripoint &p )
         return;
     }
     passenger->in_vehicle = false;
-    passenger->driving_recoil = 0;
     passenger->controlling_vehicle = false;
     veh->parts[seat_part].remove_flag(vehicle_part::passenger_flag);
     veh->skidding = true;
@@ -1366,8 +1363,6 @@ vehicle *map::displace_vehicle( tripoint &p, const tripoint &dp )
         psgs.push_back( veh->get_passenger( prt ) );
     }
 
-    const int rec = abs( veh->velocity ) * 3 / 100;
-
     bool need_update = false;
     int z_change = 0;
     // Move passengers
@@ -1398,8 +1393,6 @@ vehicle *map::displace_vehicle( tripoint &p, const tripoint &dp )
         tripoint psgp( part_pos.x + dp.x + veh->parts[prt].precalc[1].x - veh->parts[prt].precalc[0].x,
                        part_pos.y + dp.y + veh->parts[prt].precalc[1].y - veh->parts[prt].precalc[0].y,
                        psg->posz() );
-        // Add recoil
-        psg->driving_recoil = rec;
         if( psg == &g->u ) {
             // If passenger is you, we need to update the map
             psg->setpos( psgp );
@@ -8004,8 +7997,8 @@ template<typename Functor>
     const int minx = std::max( std::min(stx, enx ), 0 );
     const int miny = std::max( std::min(sty, eny ), 0 );
     const int minz = std::max( std::min(stz, enz ), -OVERMAP_DEPTH );
-    const int maxx = std::min( std::max(stx, enx ), my_MAPSIZE * SEEX );
-    const int maxy = std::min( std::max(sty, eny ), my_MAPSIZE * SEEY );
+    const int maxx = std::min( std::max(stx, enx ), my_MAPSIZE * SEEX - 1 );
+    const int maxy = std::min( std::max(sty, eny ), my_MAPSIZE * SEEY - 1 );
     const int maxz = std::min( std::max(stz, enz ), OVERMAP_HEIGHT );
 
     // Submaps that contain the bounding points

@@ -843,6 +843,17 @@ class string_id_reader : public generic_typed_reader<string_id_reader<T>>
         }
 };
 
+inline void report_strict_violation( JsonObject &jo, const std::string &message,
+                                     const std::string &name )
+{
+    try {
+        // Let the json class do the formatting, it includes the context of the JSON data.
+        jo.throw_error( message, name );
+    } catch( const JsonError &err ) {
+        // And catch the exception so the loading continues like normal.
+        debugmsg( "%s", err.what() );
+    }
+}
 
 template <typename T>
 typename std::enable_if<std::is_arithmetic<T>::value, bool>::type assign(
@@ -876,7 +887,44 @@ typename std::enable_if<std::is_arithmetic<T>::value, bool>::type assign(
     }
 
     if( strict && out == val ) {
-        jo.throw_error( "assignment does not update value", name );
+        report_strict_violation( jo, "assignment does not update value", name );
+    }
+
+    val = out;
+
+    return true;
+}
+
+template <typename T>
+typename std::enable_if<std::is_arithmetic<T>::value, bool>::type assign(
+    JsonObject &jo, const std::string &name, std::pair<T, T> &val, bool strict = false,
+    T lo = std::numeric_limits<T>::min(),
+    T hi = std::numeric_limits<T>::max() )
+{
+    std::pair<T, T> out;
+
+    if( jo.has_array( name ) ) {
+        auto arr = jo.get_array( name );
+        arr.read( 0, out.first );
+        arr.read( 1, out.second );
+
+    } else if( jo.read( name, out.first ) ) {
+        out.second = out.first;
+
+    } else {
+        return false;
+    }
+
+    if( out.first > out.second ) {
+        std::swap( out.first, out.second );
+    }
+
+    if( out.first < lo || out.second > hi ) {
+        jo.throw_error( "value outside supported range", name );
+    }
+
+    if( strict && out == val ) {
+        report_strict_violation( jo, "assignment does not update value", name );
     }
 
     val = out;
@@ -894,7 +942,7 @@ typename std::enable_if<std::is_constructible<T, std::string>::value, bool>::typ
     }
 
     if( strict && out == val ) {
-        jo.throw_error( "assignment does not update value", name );
+        report_strict_violation( jo, "assignment does not update value", name );
     }
 
     val = out;

@@ -88,6 +88,7 @@ automatically_convertible = {
     "ITEM_CATEGORY",
     "keybinding",
     "MAGAZINE",
+    "mission_definition",
     "MOD_INFO",
     "MONSTER",
     "mutation",

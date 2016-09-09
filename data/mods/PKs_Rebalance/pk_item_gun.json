@@ -207,7 +207,7 @@
     "recoil": 20,
     "durability": 10,
     "burst": 4,
-    "clip_size": 20,
+    "clip_size": 24,
     "reload": 150,
     "range": 5,
     "valid_mod_locations": [[ "accessories", 4 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
@@ -234,7 +234,7 @@
     "recoil": 45,
     "durability": 6,
     "burst": 2,
-    "clip_size": 4,
+    "clip_size": 6,
     "reload": 200,
     "range": 5,
     "valid_mod_locations": [[ "accessories", 4 ], [ "grip", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ]],
@@ -258,12 +258,14 @@
       "ammo": "bomblet",
       "clip_size": 3,
       "dispersion": 80,
+      "aim_speed": 1,
+      "sight_dispersion": 1,
       "recoil": 50,
       "durability": 10,
       "reload": 150,
       "flags": ["NEVER_JAMS", "RELOAD_ONE"]
     },
-    "dispersion_modifier": 80
+    "dispersion_modifier": 40
     },{
     "type": "vehicle_part",
     "id": "mounted_bomblet_launcher",

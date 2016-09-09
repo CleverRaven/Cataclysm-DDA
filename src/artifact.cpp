@@ -10,7 +10,6 @@
 
 #include <bitset>
 #include <cmath>
-#include <fstream>
 #include <sstream>
 
 // mfb(t_flag) converts a flag to a bit for insertion into a bitfield
@@ -639,8 +638,8 @@ void it_artifact_tool::create_name(const std::string &type)
 
 void it_artifact_tool::create_name(const std::string &property_name, const std::string &shape_name)
 {
-    name = rmp_format(_("<artifact_name>%1$s %2$s"), property_name.c_str(),
-                      shape_name.c_str());
+    name = string_format( pgettext( "artifact name (property, shape)", "%1$s %2$s" ), property_name.c_str(),
+                          shape_name.c_str() );
     name_plural = name;
 }
 
@@ -906,8 +905,8 @@ std::string new_natural_artifact(artifact_natural_property prop)
     art->m_to_hit = 0;
 
     art->create_name(property_data->name, shape_data->name);
-    art->description = rmp_format(_("<artifact_desc>This %1$s %2$s."), shape_data->desc.c_str(),
-                                  property_data->desc.c_str());
+    art->description = string_format( pgettext( "artifact description", "This %1$s %2$s." ),
+                                      shape_data->desc.c_str(), property_data->desc.c_str() );
 
     // Three possibilities: good passive + bad passive, good active + bad active,
     // and bad passive + good active
@@ -1054,11 +1053,10 @@ std::vector<art_effect_active> fill_bad_active()
 std::string artifact_name(std::string type)
 {
     std::string ret;
-    const char *fmtstr = _("<artifact_name>%1$s of %2$s");
     std::string noun = artifact_noun[rng(0, NUM_ART_NOUNS - 1)];
     std::string adj = artifact_adj[rng(0, NUM_ART_ADJS - 1)];
     ret = string_format(noun, adj.c_str());
-    ret = rmp_format(fmtstr, type.c_str(), ret.c_str());
+    ret = string_format( pgettext( "artifact name (type, noun)", "%1$s of %2$s" ), type.c_str(), ret.c_str() );
     return ret;
 }
 
@@ -1067,42 +1065,23 @@ std::string artifact_name(std::string type)
 
 void load_artifacts(const std::string &artfilename)
 {
-    std::ifstream file_test(artfilename.c_str(),
-                            std::ifstream::in | std::ifstream::binary);
-    if (!file_test.good()) {
-        file_test.close();
-        return;
-    }
-
-    try {
-        load_artifacts_from_ifstream(file_test);
-    } catch( const JsonError &e ) {
-        debugmsg("%s: %s", artfilename.c_str(), e.c_str());
-    }
-
-    file_test.close();
-}
-
-void load_artifacts_from_ifstream(std::ifstream &f)
-{
-    // read and create artifacts from json array in artifacts.gsav
-    JsonIn artifact_json(f);
-    artifact_json.start_array();
-    while (!artifact_json.end_array()) {
-        JsonObject jo = artifact_json.get_object();
-        std::string type = jo.get_string("type");
-        if (type == "artifact_tool") {
-            it_artifact_tool *art = new it_artifact_tool(jo);
-            item_controller->add_item_type( art );
-        } else if (type == "artifact_armor") {
-            it_artifact_armor *art = new it_artifact_armor(jo);
-            item_controller->add_item_type( art );
-        } else {
-            jo.throw_error( "unrecognized artifact type.", "type" );
+    read_from_file_optional( artfilename, []( JsonIn &artifact_json ) {
+        artifact_json.start_array();
+        while (!artifact_json.end_array()) {
+            JsonObject jo = artifact_json.get_object();
+            std::string type = jo.get_string("type");
+            if (type == "artifact_tool") {
+                it_artifact_tool *art = new it_artifact_tool(jo);
+                item_controller->add_item_type( art );
+            } else if (type == "artifact_armor") {
+                it_artifact_armor *art = new it_artifact_armor(jo);
+                item_controller->add_item_type( art );
+            } else {
+                jo.throw_error( "unrecognized artifact type.", "type" );
+            }
         }
-    }
+    } );
 }
-
 
 void it_artifact_tool::deserialize(JsonObject &jo)
 {

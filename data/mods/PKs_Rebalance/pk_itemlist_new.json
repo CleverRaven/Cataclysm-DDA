@@ -326,5 +326,31 @@
     "items":[
         { "item": "fighter_sting", "damage": [0, 1], "count": [ 1, 6 ] }
     ]
-  }
+  },{
+    "type": "item_group",
+    "id": "Shockcannon_turret",
+    "items":[
+        { "item": "shockcannon", "damage": [2, 4], "prob": 10 },
+        { "item": "robot_controls", "damage": [1, 4], "prob": 20 },
+        ["battery", 50],
+        ["battery", 50],
+        ["battery", 50],
+        ["pipe_solid", 30],
+        ["adv_UPS_off", 10 ],
+        ["e_scrap", 25],
+        ["power_supply", 10],
+        ["processor", 20],
+        ["steel_chunk", 40]
+    ]
+  },{
+        "type": "item_group",
+        "id": "rocket_drops",
+        "//": "rocket drops",
+        "items": [
+        ["null", 40],
+        ["rocket_core", 5],
+        ["scrap", 30],
+        ["e_scrap", 25]
+    ]
+    }
 ]

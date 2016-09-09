@@ -32,7 +32,7 @@
       "groups": [ ["robots", 4], ["secubot", 1] ]
     },
     "death_function": "EXPLODE",
-    "flags": [ "SEES", "HEARS", "BASHES", "ELECTRONIC", "NO_BREATHE" ]
+    "flags": [ "SEES", "HEARS", "BASHES", "ELECTRONIC", "NO_BREATHE", "PATH_AVOID_DANGER_1" ]
   },
   {
     "id": "mon_turret",

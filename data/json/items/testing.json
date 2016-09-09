@@ -74,7 +74,6 @@
         "bashing": 1,
         "dispersion": 255,
         "sight_dispersion": 90,
-        "aim_speed" : 4,
         "recoil": 130,
         "durability": 1,
         "clip_size": 25,
