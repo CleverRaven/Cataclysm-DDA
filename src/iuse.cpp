@@ -7912,12 +7912,6 @@ int iuse::washclothes( player *p, item *it, bool, const tripoint& )
         return 0;
     }
 
-    const inventory &crafting_inv = p->crafting_inventory();
-    if( !crafting_inv.has_charges( "water", 40 ) && !crafting_inv.has_charges( "water_clean", 40 ) ) {
-        p->add_msg_if_player( _( "You need a large amount of fresh water to use this." ) );
-        return 0;
-    }
-
     const int pos = g->inv_for_flag( "FILTHY", _( "Wash what?" ) );
     item &mod = p->i_at( pos );
     if( pos == INT_MIN ) {
@@ -7925,9 +7919,17 @@ int iuse::washclothes( player *p, item *it, bool, const tripoint& )
         return 0;
     }
 
+    int qty = it->volume() * 2;
+
+    const inventory &crafting_inv = p->crafting_inventory();
+    if( !crafting_inv.has_charges( "water", qty ) && !crafting_inv.has_charges( "water_clean", qty ) ) {
+        p->add_msg_if_player( _( "You need %1$i charges of water to wash your %2$s." ), qty, it->tname().c_str() );
+        return 0;
+    }
+
     std::vector<item_comp> comps;
-    comps.push_back( item_comp( "water", 40 ) );
-    comps.push_back( item_comp( "water_clean", 40 ) );
+    comps.push_back( item_comp( "water", qty ) );
+    comps.push_back( item_comp( "water_clean", qty ) );
     p->consume_items( comps );
 
     p->add_msg_if_player( _( "You washed your clothing." ) );

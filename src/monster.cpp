@@ -1658,9 +1658,12 @@ void monster::drop_items_on_death()
     if( !type->in_species( ZOMBIE ) && !type->in_species( FUNGUS ) ) {
         return;
     }
-    for( const auto &it : dropped ) {
-        if( it->is_armor() ) {
-            it->item_tags.insert( "FILTHY" );
+
+    if( !ACTIVE_WORLD_OPTIONS[ "NO_FILTHY" ] ) {
+        for( const auto &it : dropped ) {
+            if( it->is_armor() ) {
+                it->item_tags.insert( "FILTHY" );
+            }
         }
     }
 }

@@ -4788,6 +4788,17 @@ dealt_damage_instance player::deal_damage(Creature* source, body_part bp, const 
                                 source->disp_name().c_str());
             }
         }
+
+        // Melee damage causing lacerations through filthy clothing may result in infection
+        if( d.type_damage( DT_CUT ) || d.type_damage( DT_STAB ) ) {
+            bool filthy = std::any_of( worn.begin(), worn.end(), [bp]( const item& e ) {
+                return e.covers( bp ) && e.is_filthy();
+            } );
+            if( filthy && one_in( 2 ) ) {
+                add_effect( effect_bite, 1, bp, true );
+                add_msg_if_player( "Dirt from your clothing is implanted deep in the wound" );
+            }
+        }
     }
 
     on_hurt( source );
