@@ -76,5 +76,6 @@ int djb2_hash( const unsigned char *str )
 double rng_normal( double lo, double hi )
 {
     static std::default_random_engine eng;
-    return std::normal_distribution<double>( ( hi + lo ) / 2, 3 )( eng );
+    double range = ( hi + lo );
+    return std::normal_distribution<double>( range / 2, range / 4 )( eng );
 }
