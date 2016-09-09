@@ -22,7 +22,7 @@
         "type" : "material",
         "//" : "identical save for acid resistance",
         "ident" : "wyrmskin",
-        "name" : "Leather",
+        "name" : "Wyrmskin",
         "salvaged_into" : "leather",
         "bash_resist" : 2,
         "cut_resist" : 2,
