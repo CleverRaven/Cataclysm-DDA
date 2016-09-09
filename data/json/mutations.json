@@ -1443,7 +1443,8 @@
             [ "LEG_L", 15 ],
             [ "LEG_R", 15 ],
             [ "FOOT_L", 15 ],
-            [ "FOOT_R", 15 ]]
+            [ "FOOT_R", 15 ]
+            ]
     },{
         "type" : "mutation",
         "id" : "LAMIA_SCALES",
@@ -1458,7 +1459,8 @@
             { "parts" : "LEG_L", "acid" : 3},
             { "parts" : "LEG_R", "acid" : 3},
             { "parts" : "FOOT_R", "acid" : 3},
-            { "parts" : "FOOT_L", "acid" : 3}]
+            { "parts" : "FOOT_L", "acid" : 3}
+            ]
     },{
         "type" : "mutation",
         "id" : "LAMIA_TAIL",
@@ -1475,7 +1477,8 @@
         "restricts_gear" : [ "FOOT_L", "FOOT_R", "LEG_L", "LEG_R"],
         "passive_mods" : {
             "str_mod" : 1,
-            "dex_mod" : 2 }
+            "dex_mod" : 2 
+        }
     },{
         "type" : "mutation",
         "id" : "LAMIA_TAIL_JEUVENILE",
@@ -1496,7 +1499,8 @@
             [ "LEG_L", 50 ],
             [ "LEG_R", 50 ],
             [ "FOOT_L", 50 ],
-            [ "FOOT_R", 50 ] ]
+            [ "FOOT_R", 50 ]
+            ]
         },{
         "type" : "mutation",
         "id" : "URSINE_FUR",
