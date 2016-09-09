@@ -40,8 +40,6 @@
             {"x": 1, "y": 0, "part": "wheel_bicycle_steerable"},
             {"x": -1, "y": 0, "part": "xlframe_vertical_2"},
             {"x": -1, "y": 0, "part": "saddle"},
-            {"x": -1, "y": 0, "part": "horn_bicycle"},
-            {"x": -1, "y": 0, "part": "foot_pedals"},
             {"x": -2, "y": 0, "part": "xlframe_vertical"},
             {"x": -2, "y": 0, "part": "wheel_bicycle"},
             {"x": -2, "y": 0, "part": "basketsm"}
