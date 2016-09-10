@@ -88,13 +88,13 @@
     "material": [ "chitin" ],
     "color": "green",
     "coverage": 100,
+    "relative": { "material_thickness": 1 },
     "proportional": {
       "weight": 1.4,
       "volume": 1.2,
       "price": 4.5,
       "warmth": 0.5
     },
-    "relative": { "material_thickness": 1 },
     "extend": { "flags": [ "STURDY" ] }
   },
   {
@@ -190,33 +190,18 @@
   },
   {
     "id": "boots_hsurvivor",
+    "copy-from": "boots_plate",
     "type": "ARMOR",
     "category": "armor",
-    "name": "pair of heavy survivor boots",
-    "name_plural": "pairs of heavy survivor boots",
-    "description": "A pair of customized kevlar boots, heavily armored with steel and modified to provide maximum protection from harm, even when knee-deep in the dead.",
-    "weight": 1610,
-    "volume": 12,
-    "price": 24000,
-    "material": [ "kevlar", "steel" ],
-    "symbol": "[",
-    "color": "dark_gray",
-    "covers": [ "FEET" ],
-    "coverage": 100,
-    "encumbrance": 35,
-    "warmth": 15,
-    "material_thickness": 6,
-    "environmental_protection": 5,
-    "use_action": {
-      "type": "holster",
-      "holster_prompt": "Sheath knife",
-      "holster_msg": "You sheath your %s",
-      "max_volume": 1,
-      "draw_cost": 80,
-      "multi": 2,
-      "flags": [ "SHEATH_KNIFE" ]
+    "name": "pair of armored survivor boots",
+    "name_plural": "pairs of armored survivor boots",
+    "description": "A custom pair of heavily armored boots modified to provide maximum protection from harm, even when knee-deep in the dead.",
+    "material": [ "steel", "kevlar" ],
+    "relative": {
+      "material_thickness": 1,
+      "environmental_protection": 3
     },
-    "flags": [ "VARSIZE", "WATERPROOF", "STURDY" ]
+    "proportional": { "price": 2.5 }
   },
   {
     "id": "boots_larmor",
@@ -238,33 +223,17 @@
   },
   {
     "id": "boots_lsurvivor",
+    "copy-from": "boots_hiking",
     "type": "ARMOR",
-    "category": "armor",
-    "name": "pair of light survivor boots",
-    "name_plural": "pairs of light survivor boots",
-    "description": "A pair of customized, kevlar armored cloth boots, modified to provide maximum protection from harm, even when knee-deep in the dead.",
-    "weight": 1120,
-    "volume": 8,
-    "price": 24000,
+    "name": "pair of survivor hiking boots",
+    "name_plural": "pairs of survivor hiking boots",
+    "description": "A pair of customized hiking boots, modified to provide maximum protection from harm, even when knee-deep in the dead.",
     "material": [ "kevlar", "cotton" ],
-    "symbol": "[",
-    "color": "green",
-    "covers": [ "FEET" ],
-    "coverage": 100,
-    "encumbrance": 18,
-    "warmth": 15,
-    "material_thickness": 5,
-    "environmental_protection": 3,
-    "use_action": {
-      "type": "holster",
-      "holster_prompt": "Sheath knife",
-      "holster_msg": "You sheath your %s",
-      "max_volume": 1,
-      "draw_cost": 80,
-      "multi": 2,
-      "flags": [ "SHEATH_KNIFE" ]
+    "relative": {
+      "material_thickness": 1,
+      "environmental_protection": 3
     },
-    "flags": [ "VARSIZE", "WATERPROOF", "STURDY" ]
+    "proportional": { "price": 2.5 }
   },
   {
     "id": "boots_plate",
@@ -319,33 +288,16 @@
   },
   {
     "id": "boots_survivor",
+    "copy-from": "boots_combat",
     "type": "ARMOR",
-    "category": "armor",
     "name": "pair of survivor boots",
     "name_plural": "pairs of survivor boots",
-    "description": "A pair of customized leather boots, armored with kevlar and modified to provide maximum protection from harm, even when knee-deep in the dead.",
-    "weight": 1330,
-    "volume": 10,
-    "price": 24000,
-    "material": [ "kevlar", "leather" ],
-    "symbol": "[",
-    "color": "brown",
-    "covers": [ "FEET" ],
-    "coverage": 100,
-    "encumbrance": 24,
-    "warmth": 15,
-    "material_thickness": 5,
-    "environmental_protection": 3,
-    "use_action": {
-      "type": "holster",
-      "holster_prompt": "Sheath knife",
-      "holster_msg": "You sheath your %s",
-      "max_volume": 1,
-      "draw_cost": 80,
-      "multi": 2,
-      "flags": [ "SHEATH_KNIFE" ]
+    "description": "A pair of customized combat boots modified to provide maximum protection from harm, even when knee-deep in the dead.",
+    "relative": {
+      "material_thickness": 1,
+      "environmental_protection": 3
     },
-    "flags": [ "VARSIZE", "WATERPROOF", "STURDY" ]
+    "proportional": { "price": 2.5 }
   },
   {
     "id": "boots_western",

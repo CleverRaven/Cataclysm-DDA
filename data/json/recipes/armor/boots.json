@@ -33,6 +33,56 @@
     ]
   },
   {
+    "result": "boots_hsurvivor",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_FEET",
+    "skill_used": "tailor",
+    "difficulty": 7,
+    "skills_required": [ "survival", 5 ],
+    "time": 240000,
+    "autolearn": true,
+    "using": [ [ "welding_standard", 5 ], [ "steel_standard", 1 ] ],
+    "components": [
+      [ [ "boots_plate", 1 ] ],
+      [ [ "kevlar_plate", 8 ] ]
+    ]
+  },
+  {
+    "result": "boots_lsurvivor",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_FEET",
+    "skill_used": "tailor",
+    "difficulty": 5,
+    "skills_required": [ "survival", 3 ],
+    "time": 240000,
+    "autolearn": true,
+    "tools": [ [ [ "tailors_kit", 80 ] ] ],
+    "components": [
+      [ [ "boots_hiking", 1 ] ],
+      [ [ "kevlar_plate", 4 ] ],
+      [ [ "duct_tape", 100 ] ]
+    ]
+  },
+  {
+    "result": "boots_survivor",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_FEET",
+    "skill_used": "tailor",
+    "difficulty": 6,
+    "skills_required": [ "survival", 4 ],
+    "time": 240000,
+    "autolearn": true,
+    "tools": [ [ [ "tailors_kit", 120 ] ] ],
+    "components": [
+      [ [ "boots_combat", 1 ] ],
+      [ [ "kevlar_plate", 8 ] ],
+      [ [ "duct_tape", 150 ] ]
+    ]
+  },
+  {
     "result": "boots_winter",
     "type": "recipe",
     "category": "CC_ARMOR",
@@ -45,6 +95,40 @@
     "tools": [ [ [ "tailors_kit", 40 ] ] ],
     "components": [
       [ [ "boots", 1 ] ],
+      [ [ "fur", 8 ] ]
+    ]
+  },
+  {
+    "result": "boots_wsurvivor",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_FEET",
+    "skill_used": "tailor",
+    "difficulty": 6,
+    "skills_required": [ "survival", 4 ],
+    "time": 240000,
+    "autolearn": true,
+    "tools": [ [ [ "tailors_kit", 120 ] ] ],
+    "components": [
+      [ [ "boots_combat", 1 ] ],
+      [ [ "kevlar_plate", 8 ] ],
+      [ [ "duct_tape", 150 ] ]
+    ]
+  },
+  {
+    "result": "boots_wsurvivor",
+    "type": "recipe",
+    "id_suffix": "from_survivor",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_FEET",
+    "skill_used": "tailor",
+    "difficulty": 6,
+    "skills_required": [ "survival", 4 ],
+    "time": 240000,
+    "autolearn": true,
+    "tools": [ [ [ "tailors_kit", 40 ] ] ],
+    "components": [
+      [ [ "boots_survivor", 1 ] ],
       [ [ "fur", 8 ] ]
     ]
   }
