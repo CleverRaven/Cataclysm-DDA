@@ -274,23 +274,6 @@
     "flags": [ "TURRET", "MANUAL", "CARGO" ]
   },
   {
-    "id": "laser_gun",
-    "type": "vehicle_part",
-    "name": "manual NX17",
-    "item": "nx17",
-    "location": "on_roof",
-    "symbol": "t",
-    "broken_symbol": "#",
-    "color": "magenta",
-    "broken_color": "magenta",
-    "difficulty": 8,
-    "durability": 400,
-    "range": 12,
-    "damage_modifier": 80,
-    "breaks_into": [ { "item": "nx17", "prob": 50 } ],
-    "flags": [ "TURRET" ]
-  },
-  {
     "id": "laser_rifle",
     "type": "vehicle_part",
     "name": "manual A7 laser rifle",

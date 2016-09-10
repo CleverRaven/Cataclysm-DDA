@@ -8,7 +8,7 @@
   {
     "id": "h_projectile",
     "name": "heavy projectiles",
-    "default": "mininuke_mod",
+    "default": "h_projectile",
     "type": "ammunition_type"
   },
   {
