@@ -379,32 +379,17 @@
   },
   {
     "id": "boots_steel",
+    "copy-from": "boots",
     "type": "ARMOR",
     "name": "pair of steeltoed boots",
     "name_plural": "pairs of steeltoed boots",
     "description": "Leather boots with a steel toe.  Extremely durable.",
-    "weight": 1320,
-    "volume": 12,
-    "price": 12000,
     "material": [ "leather", "steel" ],
-    "symbol": "[",
-    "color": "brown",
-    "covers": [ "FEET" ],
-    "coverage": 90,
-    "encumbrance": 20,
-    "warmth": 30,
-    "material_thickness": 3,
-    "environmental_protection": 3,
-    "use_action": {
-      "type": "holster",
-      "holster_prompt": "Sheath knife",
-      "holster_msg": "You sheath your %s",
-      "max_volume": 1,
-      "draw_cost": 80,
-      "multi": 2,
-      "flags": [ "SHEATH_KNIFE" ]
-    },
-    "flags": [ "VARSIZE", "WATERPROOF" ]
+    "proportional": {
+      "weight": 1.3,
+      "price": 1.5,
+      "encumbrance": 1.5
+    }
   },
   {
     "id": "boots_survivor",
