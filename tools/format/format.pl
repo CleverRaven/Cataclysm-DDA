@@ -57,7 +57,7 @@ sub assemble($@)
         $str = join(",\n", @_);
     }
 
-    if ($str =~ tr/\n//) {
+    if ($str =~ tr/\n// or has_flag($context, 'WRAP')) {
         $str =~ s/^/  /mg;
         return "\n$str\n";
     } else {
