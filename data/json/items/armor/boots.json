@@ -305,33 +305,20 @@
   },
   {
     "id": "boots_plate",
+    "copy-from": "boots",
     "type": "ARMOR",
-    "category": "armor",
     "name": "pair of armored boots",
     "name_plural": "pairs of armored boots",
     "description": "An extremely heavy set of armor plated boots.",
-    "weight": 1890,
-    "volume": 13,
-    "price": 50000,
-    "material": [ "iron", "leather" ],
-    "symbol": "[",
-    "color": "light_gray",
-    "covers": [ "FEET" ],
+    "material": [ "steel", "leather" ],
     "coverage": 100,
-    "encumbrance": 28,
-    "warmth": 20,
-    "material_thickness": 4,
-    "environmental_protection": 1,
-    "use_action": {
-      "type": "holster",
-      "holster_prompt": "Sheath knife",
-      "holster_msg": "You sheath your %s",
-      "max_volume": 1,
-      "draw_cost": 80,
-      "multi": 2,
-      "flags": [ "SHEATH_KNIFE" ]
+    "proportional": {
+      "weight": 3,
+      "volume": 1.5,
+      "price": 3,
+      "encumbrance": 2
     },
-    "flags": [ "VARSIZE", "WATERPROOF", "STURDY" ]
+    "extend": { "flags": [ "STURDY" ] }
   },
   {
     "id": "boots_rubber",
