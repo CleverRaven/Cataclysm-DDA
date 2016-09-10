@@ -14,7 +14,6 @@
     "skill": "launcher",
     "ammo": "gasoline",
     "ammo_effects": [ "NO_BOOM", "FLARE" ],
-    "aim_speed": 10,
     "reload": 4,
     "flags": [ "FIRE_100", "NEVER_JAMS" ]
   },
@@ -34,7 +33,6 @@
     "type": "GUN",
     "name": "base pistol",
     "skill": "pistol",
-    "aim_speed": 4,
     "valid_mod_locations": [ [ "accessories", 2 ], [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "magazine", 1 ], [ "muzzle", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ]
   },
   {
@@ -53,7 +51,6 @@
     "type": "GUN",
     "name": "base rifle",
     "skill": "rifle",
-    "aim_speed": 8,
     "valid_mod_locations": [ [ "accessories", 4 ], [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "magazine", 1 ], [ "muzzle", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ]
   },
   {
@@ -83,7 +80,6 @@
     "name": "base shotgun",
     "skill": "shotgun",
     "ammo": "shot",
-    "aim_speed": 6,
     "valid_mod_locations": [ [ "accessories", 4 ], [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "muzzle", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ]
   },
   {
@@ -100,7 +96,6 @@
     "copy-from": "gun_base",
     "type": "GUN",
     "name": "base SMG",
-    "skill": "smg",
-    "aim_speed": 6
+    "skill": "smg"
   }
 ]

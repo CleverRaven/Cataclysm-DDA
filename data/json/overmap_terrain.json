@@ -7108,5 +7108,50 @@
         "see_cost" : 5,
         "extras" : "forest",
         "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "pond_field",
+        "name" : "pond",
+        "sym" : 46,
+        "color" : "brown",
+        "see_cost" : 5,
+        "extras" : "none",
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "pond_forest",
+        "name" : "basin",
+        "sym" : 70,
+        "color" : "green",
+        "see_cost" : 5,
+        "extras" : "none",
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "orchard_tree_apple",
+        "name" : "apple orchard",
+        "sym" : 84,
+        "color" : "ltgreen",
+        "see_cost" : 5,
+        "extras" : "field",
+        "mondensity" : 3
+    },{
+        "type" : "overmap_terrain",
+        "id" : "orchard_processing",
+        "name" : "orchard processing",
+        "sym" : 84,
+        "color" : "i_ltgreen",
+        "see_cost" : 5,
+        "extras" : "field",
+        "mondensity" : 3
+    },{
+        "type" : "overmap_terrain",
+        "id" : "orchard_stall",
+        "name" : "orchard stall",
+        "sym" : 84,
+        "color" : "i_ltgreen",
+        "see_cost" : 5,
+        "extras" : "field",
+        "mondensity" : 3
     }
 ]

@@ -37,10 +37,7 @@ material_type::material_type() :
     _bash_dmg_verb( _( "damages" ) ),
     _cut_dmg_verb( _( "damages" ) )
 {
-    _dmg_adj[0] = _( "lightly damaged" );
-    _dmg_adj[1] = _( "damaged" );
-    _dmg_adj[2] = _( "very damaged" );
-    _dmg_adj[3] = _( "thoroughly damaged" );
+    _dmg_adj = { _( "lightly damaged" ), _( "damaged" ), _( "very damaged" ), _( "thoroughly damaged" ) };
 }
 
 mat_burn_data load_mat_burn_data( JsonObject &jsobj )
@@ -69,7 +66,7 @@ void material_type::load( JsonObject &jsobj )
     optional( jsobj, was_loaded, "salvaged_into", _salvaged_into, "null" );
     optional( jsobj, was_loaded, "repaired_with", _repaired_with, "null" );
     optional( jsobj, was_loaded, "edible", _edible, false );
-    optional( jsobj, was_loaded, "chip_resist", _soft, false );
+    optional( jsobj, was_loaded, "soft", _soft, false );
 
     auto arr = jsobj.get_array( "vitamins" );
     while( arr.has_more() ) {
@@ -81,10 +78,9 @@ void material_type::load( JsonObject &jsobj )
     mandatory( jsobj, was_loaded, "cut_dmg_verb", _cut_dmg_verb, translated_string_reader );
 
     JsonArray jsarr = jsobj.get_array( "dmg_adj" );
-    _dmg_adj[0] = _( jsarr.next_string().c_str() );
-    _dmg_adj[1] = _( jsarr.next_string().c_str() );
-    _dmg_adj[2] = _( jsarr.next_string().c_str() );
-    _dmg_adj[3] = _( jsarr.next_string().c_str() );
+    while( jsarr.has_more() ) {
+        _dmg_adj.push_back( _( jsarr.next_string().c_str() ) );
+    }
 
     JsonArray burn_data_array = jsobj.get_array( "burn_data" );
     for( size_t intensity = 0; intensity < MAX_FIELD_DENSITY; intensity++ ) {
@@ -108,6 +104,9 @@ void material_type::check() const
 {
     if( name().empty() ) {
         debugmsg( "material %s has no name.", id.c_str() );
+    }
+    if( _dmg_adj.size() < 4 ) {
+        debugmsg( "material %s specifies insufficient damaged adjectives.", id.c_str() );
     }
     if( !item::type_is_defined( _salvaged_into ) ) {
         debugmsg( "invalid \"salvaged_into\" %s for %s.", _salvaged_into.c_str(), id.c_str() );
@@ -189,7 +188,7 @@ std::string material_type::dmg_adj( int damage ) const
     }
 
     // apply bounds checking
-    return _dmg_adj[ std::min( damage, MAX_ITEM_DAMAGE ) - 1 ];
+    return _dmg_adj[ std::min( size_t( damage ), _dmg_adj.size() ) - 1 ];
 }
 
 int material_type::acid_resist() const

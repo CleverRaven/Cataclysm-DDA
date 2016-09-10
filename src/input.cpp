@@ -16,6 +16,7 @@
 #include <stdexcept>
 #include <errno.h>
 #include <ctype.h>
+#include <algorithm>
 
 extern bool tile_iso;
 extern bool lcmatch( const std::string &str, const std::string &findstr ); // ui.cpp
@@ -28,6 +29,7 @@ struct ContainsPredicate {
 
     ContainsPredicate( const T1 &container ) : container( container ) { }
 
+    // Operator overload required to leverage std functional iterface.
     bool operator()( T2 c ) {
         return std::find( container.begin(), container.end(), c ) != container.end();
     }
@@ -64,9 +66,8 @@ bool is_mouse_enabled()
 //helper function for those have problem inputing certain characters.
 std::string get_input_string_from_file( std::string fname )
 {
-    std::string ret = "";
-    std::ifstream fin( fname.c_str() );
-    if( fin ) {
+    std::string ret;
+    read_from_file_optional( fname, [&ret]( std::istream & fin ) {
         getline( fin, ret );
         //remove utf8 bmm
         if( !ret.empty() && ( unsigned char )ret[0] == 0xef ) {
@@ -75,7 +76,7 @@ std::string get_input_string_from_file( std::string fname )
         while( !ret.empty() && ( ret[ret.size() - 1] == '\r' ||  ret[ret.size() - 1] == '\n' ) ) {
             ret.erase( ret.size() - 1, 1 );
         }
-    }
+    } );
     return ret;
 }
 
@@ -93,6 +94,11 @@ void input_manager::init()
         load( FILENAMES["keybindings"], false );
     } catch( const JsonError &err ) {
         throw std::runtime_error( FILENAMES["keybindings"] + ": " + err.what() );
+    }
+    try {
+        load( FILENAMES["keybindings_vehicle"], false );
+    } catch( const JsonError &err ) {
+        throw std::runtime_error( FILENAMES["keybindings_vehicle"] + ": " + err.what() );
     }
     try {
         load( FILENAMES["user_keybindings"], true );
@@ -981,7 +987,7 @@ void input_context::display_help()
             inp_mngr.get_action_attributes( action_id, category, &is_local );
             const std::string name = get_action_name( action_id );
 
-            if( status == s_remove && ( !OPTIONS["QUERY_KEYBIND_REMOVAL"] ||
+            if( status == s_remove && ( !get_option<bool>( "QUERY_KEYBIND_REMOVAL" ) ||
                                         query_yn( _( "Clear keys for %s?" ), name.c_str() ) ) ) {
 
                 // If it's global, reset the global actions.

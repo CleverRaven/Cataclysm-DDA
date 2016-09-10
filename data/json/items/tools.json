@@ -303,14 +303,14 @@
     "symbol": ";",
     "color": "brown",
     "name": "hammer",
-    "description": "This is a demagnetized steel hammer with a rubber grip.  With a hammer, nails, and two by fours in your inventory, you could board up adjacent doors and windows.  It has myriad other uses as well.",
+    "description": "This is a demagnetized steel hammer with a wooden grip.  With a hammer, nails, and two by fours in your inventory, you could board up adjacent doors and windows.  It has myriad other uses as well.",
     "price": 700,
     "material": ["steel", "wood"],
     "weight": 566,
     "volume": 2,
     "bashing": 9,
     "to_hit": 1,
-    "flags": ["BELT_CLIP"],
+    "flags": ["BELT_CLIP", "NONCONDUCTIVE"],
     "use_action": "HAMMER",
     "qualities": [["HAMMER", 3], ["HAMMER_FINE", 1]]
   },
@@ -385,7 +385,7 @@
     "description": "A folding grappling hook attached to a stout 30-foot long piece of lightweight cord.  Useful for keeping yourself safe from falls.",
     "category": "tools",
     "techniques" : ["RAPID", "SPIN"],
-    "flags" : "DURABLE_MELEE",
+    "flags" : ["DURABLE_MELEE", "NONCONDUCTIVE"],
     "price": 25000,
     "material": ["cotton", "steel"],
     "weight": 760,
@@ -917,9 +917,9 @@
     "weight": 45,
     "volume": 3,
     "bashing": 1,
-    "max_charges": 28,
-    "initial_charges": 28,
-    "charges_per_use": 1,
+    "max_charges": 500,
+    "initial_charges": 500,
+    "charges_per_use": 1, "//": "Should be 20 but currently recipes do not utilize this value",
     "ammo": "conc_alcohol",
     "use_action": "HOTPLATE"
   },
@@ -990,7 +990,7 @@
     "symbol": ",",
     "color": "light_green",
     "name": "atomic coffee maker",
-    "description": "Never sacrifice taste for convenience, when you can have both with the Rivtech atomic coffee maker! Its simple and robust atomic-age construction guarantees a service life of at least 160 million years.",
+    "description": "Never sacrifice taste for convenience, when you can have both with the Rivtech atomic coffee maker!  Its simple and robust atomic-age construction guarantees a service life of at least 160 million years.",
     "price": 100000,
     "material": ["plastic", "aluminum"],
     "flags": ["LEAK_DAM", "RADIOACTIVE", "DURABLE_MELEE"],
@@ -1015,7 +1015,8 @@
     "volume": 10,
     "bashing": 4,
     "to_hit": -1,
-    "qualities": [["COOK", 3], ["BOIL", 2], ["CONTAIN", 1], ["CHEM", 1]]
+    "qualities": [["COOK", 3], ["BOIL", 2], ["CONTAIN", 1], ["CHEM", 1]],
+    "use_action": "HEAT_FOOD"
   },
   {
     "type":"GENERIC",
@@ -1035,7 +1036,8 @@
     "container_data" : {
         "contains": 8,
         "watertight": true
-    }
+    },
+    "use_action": "HEAT_FOOD"
   },
   {
     "type":"GENERIC",
@@ -1055,7 +1057,8 @@
     "container_data" : {
         "contains": 8,
         "watertight": true
-    }
+    },
+    "use_action": "HEAT_FOOD"
   },
   {
     "type":"GENERIC",
@@ -1075,7 +1078,8 @@
     "container_data" : {
         "contains": 4,
         "watertight": true
-    }
+    },
+    "use_action": "HEAT_FOOD"
   },
   {
     "type":"GENERIC",
@@ -1124,7 +1128,8 @@
     "container_data" : {
         "contains": 8,
         "watertight": true
-    }
+    },
+    "use_action": "HEAT_FOOD"
   },
   {
     "type": "GENERIC",
@@ -1351,7 +1356,7 @@
     "symbol": ";",
     "color": "green",
     "name": "two-way radio",
-    "description": "This is a radio with a transmitting unit.  Using this allows you to send out a distress signal.  You could send either a general SOS, or send a direct call to a faction you are in contact with.",
+    "description": "This is a radio with a transmitting unit.  You could use it to contact someone who also has one.  Unfortunately no one seems to use those nowadays...",
     "price": 2000,
     "material": ["plastic", "aluminum"],
     "weight": 431,
@@ -1359,9 +1364,7 @@
     "bashing": 6,
     "max_charges": 100,
     "initial_charges": 100,
-    "charges_per_use": 1,
-    "ammo": "battery",
-    "use_action": "TWO_WAY_RADIO"
+    "ammo": "battery"
   },
   {
     "id": "radio",
@@ -1687,6 +1690,7 @@
     "description": "This is a digging tool.  Use it to dig pits adjacent to your location.",
     "price": 2000,
     "material": ["steel", "wood"],
+    "flags": "NONCONDUCTIVE",
     "weight": 1315,
     "volume": 14,
     "bashing": 14,
@@ -1731,6 +1735,7 @@
     "description": "This is a lumbering tool moonlighting as weapon of opportunity.  If loaded with gas, using this item will cause it to turn on, turning it into a very powerful but unwieldy melee weapon.",
     "price": 8000,
     "material": ["steel", "plastic"],
+    "flags": "NONCONDUCTIVE",
     "techniques": "SWEEP",
     "weight": 6577,
     "volume": 10,
@@ -1755,7 +1760,7 @@
     "volume": 10,
     "bashing": 4,
     "cutting": 70,
-    "flags" : ["CHOP", "MESSY", "TRADER_AVOID"],
+    "flags" : ["CHOP", "MESSY", "TRADER_AVOID", "NONCONDUCTIVE"],
     "to_hit": -5,
     "max_charges": 400,
     "turns_per_charge": 1,
@@ -1773,6 +1778,7 @@
     "description": "This is a lumbering tool moonlighting as weapon of opportunity.  If loaded with batteries, using this item will cause it to turn on, turning it into a very powerful but unwieldy melee weapon.",
     "price": 8000,
     "material": ["steel", "plastic"],
+    "flags": "NONCONDUCTIVE",
     "techniques": "SWEEP",
     "weight": 6577,
     "volume": 10,
@@ -1796,7 +1802,7 @@
     "volume": 10,
     "bashing": 4,
     "cutting": 70,
-    "flags" : ["CHOP", "MESSY", "TRADER_AVOID"],
+    "flags" : ["CHOP", "MESSY", "TRADER_AVOID", "NONCONDUCTIVE"],
     "to_hit": -5,
     "max_charges": 400,
     "turns_per_charge": 1,
@@ -1822,7 +1828,7 @@
     "initial_charges": 100,
     "ammo": "battery",
     "use_action": "CARVER_OFF",
-    "flags": ["SHEATH_SWORD"]
+    "flags": ["SHEATH_SWORD", "NONCONDUCTIVE"]
   },{
     "id": "carver_on",
     "type": "TOOL",
@@ -1837,7 +1843,7 @@
     "volume": 6,
     "bashing": 2,
     "cutting": 30,
-    "flags" : ["CHOP", "MESSY", "TRADER_AVOID"],
+    "flags" : ["CHOP", "MESSY", "TRADER_AVOID", "NONCONDUCTIVE"],
     "max_charges": 200,
     "turns_per_charge": 1,
     "ammo": "battery",
@@ -1854,6 +1860,7 @@
     "description": "A cordless, double-sided, gasoline-powered hedge trimmer.  A long line of sharp-edged teeth extends from the engine; turning the trimmer on will make them rapidly vibrate.  The poor man's chainsaw as far as the zombies are concerned.",
     "price": 4000,
     "material": ["steel", "plastic"],
+    "flags": "NONCONDUCTIVE",
     "weight": 4500,
     "volume": 10,
     "bashing": 4,
@@ -1876,7 +1883,7 @@
     "volume": 8,
     "bashing": 4,
     "cutting": 40,
-    "flags" : ["CHOP", "MESSY", "TRADER_AVOID"],
+    "flags" : ["CHOP", "MESSY", "TRADER_AVOID", "NONCONDUCTIVE"],
     "to_hit": -1,
     "max_charges": 600,
     "turns_per_charge": 1,
@@ -1893,6 +1900,7 @@
     "description": "A lightweight handheld cordless circular saw.  Spins a circular blade fast enough to cut wood, metal, zombies, or in an emergency, pizza.  The blade, while effective in combat, is hard to hit with due to its small size.",
     "price": 5000,
     "material": ["steel", "plastic"],
+    "flags": "NONCONDUCTIVE",
     "weight": 2940,
     "volume": 3,
     "bashing": 2,
@@ -1922,14 +1930,14 @@
     "volume": 3,
     "bashing": 2,
     "cutting": 50,
-    "flags" : ["CHOP", "MESSY", "TRADER_AVOID"],
+    "flags" : ["CHOP", "MESSY", "TRADER_AVOID", "NONCONDUCTIVE"],
     "to_hit": -3,
     "max_charges": 100,
     "turns_per_charge": 1,
     "ammo": "battery",
     "revert_to": "circsaw_off",
     "use_action": "CIRCSAW_ON",
-    "qualities": [["SAW_W", 2], ["BUTCHER", 60]]
+    "qualities": [["SAW_W", 2], ["SAW_M", 2], ["BUTCHER", 60]]
   },{
     "id": "combatsaw_off",
     "type": "TOOL",
@@ -1983,6 +1991,7 @@
     "price": 40000,
     "material": ["plastic", "steel"],
     "techniques" : ["WBLOCK_1", "SPIN"],
+    "flags": "NONCONDUCTIVE",
     "weight": 14254,
     "volume": 30,
     "bashing": 20,
@@ -2007,7 +2016,7 @@
     "volume": 30,
     "bashing": 4,
     "cutting": 140,
-    "flags" : ["CHOP", "MESSY", "HURT_WHEN_PULLED", "DURABLE_MELEE", "TRADER_AVOID"],
+    "flags" : ["CHOP", "MESSY", "HURT_WHEN_PULLED", "DURABLE_MELEE", "TRADER_AVOID", "NONCONDUCTIVE"],
     "to_hit": -5,
     "max_charges": 800,
     "turns_per_charge": 1,
@@ -3445,7 +3454,7 @@
     "price" : 17000,
     "material" : ["plastic", "steel"],
     "techniques" : ["WBLOCK_2", "RAPID"],
-    "flags" : ["DURABLE_MELEE", "NO_UNLOAD", "RECHARGE"],
+    "flags" : ["DURABLE_MELEE", "NO_UNLOAD", "RECHARGE", "NONCONDUCTIVE"],
     "weight" : 726,
     "volume" : 9,
     "bashing" : 14,
@@ -3466,7 +3475,7 @@
     "description" : "This is a reinforced plastic tonfa; the core is hollowed out and is filled with capacitors and a high-yield rechargeable storage battery.  When a switch on the handle is pressed, a high-voltage current is transmitted to the two electrodes mounted in the end of the weapon, and by extension to anyone unfortunate enough to be in contact with them.  The integral flashlight is turned on, continually draining power and lighting the surrounding area.",
     "price" : 17000,
     "material" : ["plastic", "steel"],
-    "flags": [ "LIGHT_450", "CHARGEDIM", "DURABLE_MELEE", "TRADER_AVOID" ],
+    "flags": [ "LIGHT_450", "CHARGEDIM", "DURABLE_MELEE", "TRADER_AVOID", "NONCONDUCTIVE"],
     "techniques" : ["WBLOCK_2", "RAPID"],
     "weight" : 726,
     "volume" : 9,
@@ -3689,11 +3698,12 @@
   },
   {
     "id": "vacutainer",
-    "type": "TOOL",
+    "type": "CONTAINER",
     "symbol": ";",
     "color": "light_cyan",
     "name": "vacutainer",
-    "description": "This is a tool for drawing blood, including a vacuum-sealed test tube for holding the sample.  Use this tool to draw blood, either from yourself or from a corpse you are standing on.",
+    "category": "tools",
+    "description": "This is a tool for drawing blood, including a test tube for holding the sample.  Use this tool to draw blood, either from yourself or from a corpse you are standing on.",
     "price": 3000,
     "material": "plastic",
     "flags": "SPEAR",
@@ -3701,7 +3711,10 @@
     "volume": 1,
     "cutting": 6,
     "to_hit": -3,
-    "use_action": "VACUTAINER"
+    "use_action": "VACUTAINER",
+    "contains": 1,
+    "watertight": true,
+    "seals": true
   },
   {
     "id": "welder",
@@ -3816,8 +3829,8 @@
     "techniques": "PRECISE",
     "weight": 23,
     "volume": 1,
-    "cutting": 7,
-    "to_hit": -4,
+    "cutting": 6,
+    "to_hit": -3,
     "qualities": [["CUT", 1]]
   },
   {
@@ -3833,8 +3846,8 @@
     "techniques": "PRECISE",
     "weight": 23,
     "volume": 1,
-    "cutting": 8,
-    "to_hit": -4,
+    "cutting": 7,
+    "to_hit": -3,
     "qualities": [["CUT", 1]]
   },
   {
@@ -4118,7 +4131,7 @@
     "color": "red",
     "name": "Rising Sun (on)",
     "name_plural": "Rising Suns (on)",
-    "description": "This is a katana that glows with the fury and heat of the SUN! Well, okay it's not THAT hot, but getting hit with it still stings like the dickens.  Use to shut off the gas.",
+    "description": "This is a katana that glows with the fury and heat of the SUN!  Well, okay it's not THAT hot, but getting hit with it still stings like the dickens.  Use to shut off the gas.",
     "price": 98000,
     "material": "steel",
     "flags": ["FIRE", "SLICE", "LIGHT_240", "CHARGEDIM", "FLAMING", "DURABLE_MELEE", "TRADER_AVOID"],
@@ -4157,7 +4170,7 @@
     "description": "This is a simple wood pole made much more deadly by the blade tied to it.",
     "price": 1400,
     "material": ["wood", "iron"],
-    "flags": ["SPEAR", "REACH_ATTACK"],
+    "flags": ["SPEAR", "REACH_ATTACK", "NONCONDUCTIVE"],
     "techniques": "WBLOCK_1",
     "weight": 1487,
     "volume": 6,
@@ -4196,7 +4209,7 @@
     "price": 40000,
     "material": ["iron", "wood"],
     "techniques" : ["IMPALE", "WBLOCK_2"],
-    "flags" : ["DURABLE_MELEE", "SPEAR", "REACH_ATTACK", "REACH3"],
+    "flags" : ["DURABLE_MELEE", "SPEAR", "REACH_ATTACK", "REACH3", "NONCONDUCTIVE"],
     "weight": 6000,
     "volume": 14,
     "bashing": 15,
@@ -4489,7 +4502,7 @@
     "volume": 1,
     "bashing": 2,
     "cutting": 7,
-    "to_hit": -3,
+    "to_hit": -1,
     "qualities": [["CUT", 1], ["BUTCHER", 20]],
     "flags": ["STAB", "SHEATH_KNIFE"]
   },
@@ -4507,7 +4520,7 @@
     "volume": 2,
     "bashing": 2,
     "cutting": 10,
-    "to_hit": -3,
+    "to_hit": -1,
     "category": "weapons",
     "qualities": [["CUT", 1], ["BUTCHER", 25]],
     "flags": ["CHOP", "SHEATH_KNIFE"]
@@ -4541,6 +4554,7 @@
     "description": "This is a thin saw, useful for cutting through wood objects.",
     "price": 3000,
     "material": ["steel", "wood"],
+    "flags": "NONCONDUCTIVE",
     "weight": 283,
     "volume": 5,
     "cutting": 1,
@@ -4560,7 +4574,7 @@
     "volume": 10,
     "bashing": 20,
     "cutting": 14,
-    "flags" : ["CHOP"],
+    "flags" : ["CHOP", "NONCONDUCTIVE"],
     "to_hit": 1,
     "qualities": [["AXE", 3]]
   },
@@ -4578,7 +4592,7 @@
     "volume": 8,
     "bashing": 20,
     "cutting": 20,
-    "flags" : ["CHOP", "DURABLE_MELEE"],
+    "flags" : ["CHOP", "DURABLE_MELEE", "NONCONDUCTIVE"],
     "to_hit": 1,
     "qualities": [["AXE", 2]]
   },
@@ -4595,7 +4609,7 @@
     "volume": 10,
     "bashing": 20,
     "cutting": 30,
-    "flags" : ["CHOP", "DURABLE_MELEE"],
+    "flags" : ["CHOP", "DURABLE_MELEE", "NONCONDUCTIVE"],
     "to_hit": 1,
     "category": "weapons",
     "qualities": [["AXE", 2]]
@@ -4799,7 +4813,7 @@
     "price": 9000,
     "material": "steel",
     "flags": "TRADER_AVOID",
-    "weight": 5066,
+    "weight": 2000,
     "volume": 6,
     "bashing": 7,
     "to_hit": 1,
@@ -4941,7 +4955,7 @@
     "volume": 1,
     "bashing": 2,
     "cutting": 6,
-    "to_hit": 1,
+    "to_hit": -1,
     "qualities": [["SCREW", 1]]
   },
   {
@@ -4957,7 +4971,7 @@
     "volume": 2,
     "bashing": 2,
     "cutting": 6,
-    "to_hit": 1,
+    "to_hit": -1,
     "qualities": [["SCREW", 1], ["SCREW_FINE", 1]]
   },
   {
@@ -4973,7 +4987,7 @@
     "weight": 907,
     "volume": 2,
     "bashing": 9,
-    "to_hit": 2,
+    "to_hit": 1,
     "qualities": [ ["WRENCH", 2 ], [ "WRENCH_FINE", 1 ] ]
   },
   {
@@ -5112,7 +5126,7 @@
     "description": "This is a large steel pickaxe, suitable for breaking up hard things or (with enough skill) hard targets.  Strike the earth!",
     "price": 16000,
     "material": ["wood","steel"],
-    "flags": ["SPEAR", "DURABLE_MELEE"],
+    "flags": ["SPEAR", "DURABLE_MELEE", "NONCONDUCTIVE"],
     "weight": 4535,
     "volume": 12,
     "bashing": 12,
@@ -5293,7 +5307,7 @@
     "weight": 141,
     "volume": 0,
     "cutting": 7,
-    "to_hit": -4,
+    "to_hit": -2,
     "qualities": [["CUT", 1], ["BUTCHER", 12]]
   },{
     "id" : "copper_knife",
@@ -5408,6 +5422,7 @@
     "description": "This is a crude hammer make from a piece of metal affixed to a stick.  It functions adequately as a hammer, but really can't compare to a proper one.",
     "price": 0,
     "material": ["steel", "wood"],
+    "flags": "NONCONDUCTIVE",
     "weight": 1020,
     "volume": 2,
     "bashing": 9,
@@ -5455,7 +5470,7 @@
     "volume": 14,
     "bashing": 18,
     "cutting": 12,
-    "flags" : ["CHOP"],
+    "flags" : ["CHOP", "NONCONDUCTIVE"],
     "qualities": [["AXE", 2]]
   },{
     "id": "primitive_shovel",
@@ -6125,7 +6140,8 @@
     "volume": 2,
     "bashing": 3,
     "to_hit": 1,
-    "qualities": [["COOK", 1]]
+    "qualities": [["COOK", 1]],
+    "use_action": "HEAT_FOOD"
   },{
     "id": "chisel",
     "type": "TOOL",
@@ -6522,7 +6538,7 @@
     "volume": 2,
     "bashing": 6,
     "cutting": 14,
-    "to_hit": -1,
+    "to_hit": 1,
     "category" : "weapons",
     "qualities": [["CUT", 1], ["BUTCHER", 19]]
   },
@@ -6614,7 +6630,6 @@
     "volume": 1,
     "cutting": 16,
     "flags" : ["SHEATH_KNIFE","CHOP"],
-    "to_hit": -1,
     "category": "weapons",
     "qualities": [["CUT", 1], ["BUTCHER", 30]]
   },
@@ -6653,7 +6668,7 @@
     "weight": 246,
     "volume": 0,
     "cutting": 6,
-    "to_hit": -4,
+    "to_hit": -2,
     "qualities": [["CUT", 1], ["SAW_W", 1], ["SAW_M", 1], ["SCREW", 1], ["BUTCHER", 8]]
   },
   {
@@ -6801,7 +6816,7 @@
     "price": 8000,
     "material": [ "wood", "iron" ],
     "techniques" : ["WBLOCK_1", "RAPID"],
-    "flags" : ["DURABLE_MELEE", "NO_UNLOAD", "RECHARGE"],
+    "flags" : ["DURABLE_MELEE", "NO_UNLOAD", "RECHARGE", "NONCONDUCTIVE"],
     "weight": 2351,
     "volume": 13,
     "bashing": 25,
@@ -6827,7 +6842,6 @@
     "weight": 226,
     "volume": 0,
     "cutting": 12,
-    "to_hit": -1,
     "qualities": [["CUT", 1], ["PRY", 1], ["BUTCHER", 15]],
     "flags": ["CHOP", "SHEATH_KNIFE"]
   },
@@ -7080,7 +7094,7 @@
     "symbol": "/",
     "color": "brown",
     "name": "pro fishing rod",
-    "description": "A professional fishing rod & reel combo.  With this you should be able to catch 'em all.",
+    "description": "A professional fishing rod with a matching set of weights.  With this you should be able to catch 'em all.",
     "price": 20000,
     "material": "plastic",
     "weight": 1000,
@@ -8386,7 +8400,7 @@
     "volume": 3,
     "bashing": 14,
     "cutting": 3,
-    "flags" : ["DURABLE_MELEE"],
+    "flags" : ["DURABLE_MELEE", "BELT_CLIP"],
     "techniques": ["WBLOCK_1"],
     "to_hit": 2,
     "use_action": "CROWBAR",

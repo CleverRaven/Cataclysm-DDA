@@ -7,11 +7,9 @@
   "skill_used": "fabrication",
   "difficulty": 9,
   "time": 480000,
-  "reversible": false,
-  "autolearn": false,
   "book_learn": [[ "book_asgard", 10 ]],
   "qualities": [
-    {"id":"HAMMER","level":3,"amount":1}
+    {"id":"HAMMER","level":3}
   ],
   "tools": [
       [
@@ -38,10 +36,10 @@
      [ "warhammer", 1 ]
      ],
      [
-      [ "gold", 1 ]
+      [ "gold_small", 1 ]
      ],
      [
-      [ "silver", 2 ]
+      [ "silver_small", 2 ]
      ],
      [
       [ "rebar", 1 ]
@@ -56,11 +54,9 @@
   "skill_used": "fabrication",
   "difficulty": 9,
   "time": 480000,
-  "reversible": false,
-  "autolearn": false,
   "book_learn": [[ "book_asgard", 10 ]],
     "qualities": [
-    {"id":"HAMMER","level":3,"amount":1}
+    {"id":"HAMMER","level":3}
   ],
   "tools": [
       [
@@ -87,10 +83,10 @@
       [ "spear_steel", 1 ]
      ],
      [
-      [ "gold", 1 ]
+      [ "gold_small", 1 ]
      ],
      [
-      [ "silver", 2 ]
+      [ "silver_small", 2 ]
      ]
     ]
 },
@@ -102,11 +98,9 @@
   "skill_used": "fabrication",
   "difficulty": 9,
   "time": 480000,
-  "reversible": false,
-  "autolearn": false,
   "book_learn": [[ "book_asgard", 10 ]],
     "qualities": [
-    {"id":"HAMMER","level":3,"amount":1}
+    {"id":"HAMMER","level":3}
   ],
   "tools": [
       [
@@ -133,10 +127,10 @@
       [ "reflexrecurvebow", 1 ]
      ],
      [
-      [ "gold", 1 ]
+      [ "gold_small", 1 ]
      ],
      [
-      [ "silver", 2 ]
+      [ "silver_small", 2 ]
      ]
     ]
 },
@@ -148,11 +142,9 @@
   "skill_used": "fabrication",
   "difficulty": 9,
   "time": 480000,
-  "reversible": false,
-  "autolearn": false,
   "book_learn": [[ "book_asgard", 10 ]],
     "qualities": [
-    {"id":"HAMMER","level":3,"amount":1}
+    {"id":"HAMMER","level":3}
   ],
   "tools": [
       [
@@ -179,10 +171,10 @@
       [ "broadsword", 1 ]
      ],
      [
-      [ "gold", 1 ]
+      [ "gold_small", 1 ]
      ],
      [
-      [ "silver", 2 ]
+      [ "silver_small", 2 ]
      ]
     ]
 }

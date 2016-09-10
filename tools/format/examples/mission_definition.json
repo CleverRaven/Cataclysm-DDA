@@ -1,0 +1,18 @@
+[
+  {
+    "id": "MISSION_GET_ANTIBIOTICS",
+    "type": "mission_definition",
+    "name": "Find Antibiotics",
+    "goal": "MGOAL_FIND_ITEM",
+    "difficulty": 2,
+    "value": 150000,
+    "urgent": true,
+    "item": "antibiotics",
+    "start": "infect_npc",
+    "end": "heal_infection",
+    "fail": "kill_npc",
+    "origins": [ "ORIGIN_OPENER_NPC" ],
+    "deadline_low": 24,
+    "deadline_high": 48
+  }
+]

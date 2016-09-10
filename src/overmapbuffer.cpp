@@ -12,10 +12,10 @@
 #include "catacharset.h"
 #include "npc.h"
 #include "vehicle.h"
+#include "filesystem.h"
 
 #include <algorithm>
 #include <cassert>
-#include <fstream>
 #include <sstream>
 #include <stdlib.h>
 
@@ -154,12 +154,9 @@ overmap *overmapbuffer::get_existing(int x, int y)
         // checked in a previous call of this function).
         return NULL;
     }
-    // Check if the overmap exist on disk,
-    std::ifstream tmp(terrain_filename( x, y ).c_str(), std::ios::in);
-    if(tmp.is_open()) {
+    if( file_exist( terrain_filename( x, y ) ) ) {
         // File exists, load it normally (the get function
         // indirectly call overmap::open to do so).
-        tmp.close();
         return &get( x, y );
     }
     // File does not exist (or not readable which is essentially
@@ -244,22 +241,6 @@ void overmapbuffer::toggle_explored(int x, int y, int z)
 bool overmapbuffer::has_horde(int const x, int const y, int const z) {
     for (auto const &m : overmap_buffer.monsters_at(x, y, z)) {
         if (m->horde) {
-            return true;
-        }
-    }
-
-    return false;
-}
-
-bool overmapbuffer::has_npc(int const x, int const y, int const z)
-{
-    overmap const *const om = get_existing_om_global(point(x, y));
-    if (!om) {
-        return false;
-    }
-
-    for (auto const &npc : om->npcs) {
-        if (npc->global_omt_location() == tripoint(x, y, z)) {
             return true;
         }
     }

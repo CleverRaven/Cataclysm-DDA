@@ -250,7 +250,6 @@ Flags used to describe monsters and define their properties and abilities.
 - ```INTERIOR_AMMO``` Monster contains ammo inside itself, no need to load on launch. Prevents ammo from being dropped on disable.
 - ```KEENNOSE``` Keen sense of smell.
 - ```LARVA``` Creature is a larva. Currently used for gib and blood handling.
-- ```LEAKSGAS``` Leaks toxic gas.
 - ```LEATHER``` May produce leather when butchered.
 - ```NIGHT_INVISIBILITY``` Monster becomes invisible if it's more than one tile away and the lighting on its tile is LL_LOW or less. Visibility is not affected by night vision.
 - ```NOHEAD``` Headshots not allowed!
@@ -574,7 +573,6 @@ listings, as ids are constant throughout DDA's code.  Happy chambering!  :-)
 ### Effects
 
 - ```ACIDBOMB``` Leaves a pool of acid on detonation.
-- ```ACID_DROP``` Creates a tiny field of weak acid.
 - ```BEANBAG``` Stuns the target.
 - ```BLINDS_EYES``` Blinds the target if it hits the head (ranged projectiles can't actually hit the eyes at the moment).
 - ```BOUNCE``` Inflicts target with `bounced` effect and rebounds to a nearby target without this effect.
@@ -607,7 +605,6 @@ listings, as ids are constant throughout DDA's code.  Happy chambering!  :-)
 - ```SMOKE_BIG``` Generates a large cloud of smoke at the target.
 - ```STREAM``` Leaves a trail of fire fields.
 - ```STREAM_BIG``` Leaves a trail of intense fire fields.
-- ```TEARGAS``` Generates a cloud of teargas.
 - ```TRAIL``` Creates a trail of smoke.
 - ```WIDE``` Prevents `HARDTOSHOOT` monster flag from having any effect. Implied by ```SHOT``` or liquid ammo.
 
@@ -915,7 +912,7 @@ Those flags are added by the game code to specific items (that specific welder, 
 - ```COMBATSAW_ON``` Turn the combat-saw off
 - ```CROWBAR``` Pry open doors, windows, man-hole covers and many other things that need prying.
 - ```DEJAR```
-- ```DIG``` Dig a hole in the ground.
+- ```DIG``` Clear rubble.
 - ```DIRECTIONAL_ANTENNA``` Find the source of a signal with your radio.
 - ```DOG_WHISTLE``` Dogs hate this thing; your dog seems pretty cool with it though.
 - ```DOLLCHAT``` That creepy doll just keeps on talking.
@@ -951,6 +948,7 @@ Those flags are added by the game code to specific items (that specific welder, 
 - ```HANDFLARE``` Light the flare.
 - ```HANDFLARE_LIT``` The flare dies out.
 - ```HEATPACK``` Activate the heatpack and get warm.
+- ```HEAT_FOOD``` Heat food around fires.
 - ```HORN_BICYCLE``` Honk the horn.
 - ```HOTPLATE``` Use the hotplate.
 - ```JACKHAMMER``` Bust down walls and other constructions.

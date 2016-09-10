@@ -27,6 +27,28 @@
         }
     },
     {
+        "id" : "1st_aid_survivor",
+        "type" : "COMESTIBLE",
+        "comestible_type" : "MED",
+        "name" : "improvised first aid kit",
+        "description" : "A medical kit made with cheap, subpar components.  For when nothing else is available.",
+        "weight" : 240,
+        "volume" : 2,
+        "price" : 100,
+        "stack_size" : 2,
+        "material" : "cotton",
+        "symbol" : "!",
+        "color" : "dkgray",
+        "use_action" : {
+            "type" : "heal",
+            "limb_power" : 8,
+            "limb_scaling" : 1,
+            "bleed" : 1.0,
+            "move_cost" : 50000,
+            "long_action" : true
+        }
+    },
+    {
         "id" : "adderall",
         "type" : "COMESTIBLE",
         "comestible_type" : "MED",
@@ -370,7 +392,7 @@
         "use_action" : {
             "type" : "consume_drug",
             "activation_message" : "You take some codeine.",
-            "effects" : [ 
+            "effects" : [
                 { "id" : "pkill2", "duration" : 180 },
                 { "id" : "cough_suppress", "duration" : 1000 }
             ]
@@ -672,7 +694,7 @@
             "type" : "consume_drug",
             "activation_message" : "You shoot up.",
             "tools_needed" : { "syringe" : 1 },
-            "effects" : [ 
+            "effects" : [
                 { "id" : "pkill3", "duration" : 80 },
                 { "id" : "pkill2", "duration" : 200 },
                 { "id" : "cough_suppress", "duration" : 1000 }

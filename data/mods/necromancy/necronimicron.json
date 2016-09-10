@@ -10,7 +10,6 @@
     "material": ["aluminum", "plastic"],
     "weight": 100,
     "volume": 0,
-    "bashing": 0,
     "category" : "spare_parts"
   },{
     "id" : "blob_dormant",
@@ -23,7 +22,6 @@
     "material": "flesh",
     "weight": 1000,
     "volume": 1,
-    "bashing": 0,
     "use_action": {
         "type": "place_monster",
         "monster_id": "mon_blob",
@@ -46,7 +44,6 @@
     "material": "flesh",
     "weight": 10000,
     "volume": 15,
-    "bashing": 0,
     "category": "tools",
     "use_action": {
         "type": "place_monster",
@@ -80,7 +77,6 @@
     "price": 100000,
     "weight": 1,
     "volume": 1,
-    "bashing": 0,
     "tool" : "syringe",
     "category": "drugs"
   },{
@@ -95,7 +91,6 @@
     "symbol" : "?",
     "material" : ["paper"],
     "volume" : 5,
-    "bashing" : -2,
     "time" : 120,
     "fun" : -3,
     "skill" : "firstaid",
@@ -112,10 +107,9 @@
     "time": 30000,
     "reversible": true,
     "decomp_learn": 7,
-    "autolearn": false,
     "book_learn": [[ "abdul_necro", 5 ]],
     "qualities":[
-      {"id":"SCREW","level":1,"amount":1} ],
+      {"id":"SCREW","level":1} ],
     "tools": [
       [ [ "soldering_iron", 10], [ "toolset", 10] ]
     ],
@@ -135,8 +129,6 @@
     "skills_required": [[ "electronics", 2]],
     "difficulty": 5,
     "time": 15000,
-    "reversible": false,
-    "autolearn": false,
     "book_learn": [[ "abdul_necro", 4 ]],
     "tools":[
       [ [ "sewing_kit", 30] ],
@@ -155,11 +147,9 @@
     "skills_required": [ "firstaid", 3],
     "difficulty": 4,
     "time": 10000,
-    "reversible": false,
-    "autolearn": false,
     "book_learn": [[ "abdul_necro", 3 ] ],
     "qualities":[
-      {"id":"CHEM","level":2,"amount":1} ],
+      {"id":"CHEM","level":2} ],
     "tools": [
       [ [ "char_smoker", 3], [ "hotplate", 25], [ "toolset", 25], [ "fire", -1] ],
       [ [ "vacutainer", -1] ]
@@ -177,8 +167,6 @@
     "skills_required": [[ "tailor", 6], [ "electronics", 6]],
     "difficulty": 7,
     "time": 120000,
-    "reversible": false,
-    "autolearn": false,
     "book_learn": [["abdul_necro", 6]],
     "tools": [
       [ ["sewing_kit", 30] ],

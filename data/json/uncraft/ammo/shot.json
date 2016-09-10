@@ -1,9 +1,7 @@
 [
   {
-    "type": "recipe",
     "result": "shot_00",
-    "category": "CC_NONCRAFT",
-    "subcategory": "CSC_NONCRAFT",
+    "type": "uncraft",
     "skill_used": "gun",
     "difficulty": 5,
     "time": 100,
@@ -17,10 +15,8 @@
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
   },
   {
-    "type": "recipe",
     "result": "shot_beanbag",
-    "category": "CC_NONCRAFT",
-    "subcategory": "CSC_NONCRAFT",
+    "type": "uncraft",
     "skill_used": "gun",
     "difficulty": 5,
     "time": 100,
@@ -34,10 +30,8 @@
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
   },
   {
-    "type": "recipe",
     "result": "shot_bird",
-    "category": "CC_NONCRAFT",
-    "subcategory": "CSC_NONCRAFT",
+    "type": "uncraft",
     "skill_used": "gun",
     "difficulty": 5,
     "time": 100,
@@ -51,10 +45,8 @@
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
   },
   {
-    "type": "recipe",
     "result": "shot_flechette",
-    "category": "CC_NONCRAFT",
-    "subcategory": "CSC_NONCRAFT",
+    "type": "uncraft",
     "skill_used": "gun",
     "difficulty": 5,
     "time": 100,
@@ -68,10 +60,8 @@
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
   },
   {
-    "type": "recipe",
+    "type": "uncraft",
     "result": "shot_he",
-    "category": "CC_NONCRAFT",
-    "subcategory": "CSC_NONCRAFT",
     "skill_used": "gun",
     "difficulty": 5,
     "time": 5000, "//": "A little more carefully...",
@@ -85,10 +75,8 @@
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
   },
   {
-    "type": "recipe",
     "result": "shot_slug",
-    "category": "CC_NONCRAFT",
-    "subcategory": "CSC_NONCRAFT",
+    "type": "uncraft",
     "skill_used": "gun",
     "difficulty": 5,
     "time": 100,

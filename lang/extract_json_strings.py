@@ -51,6 +51,7 @@ ignorable = {
     "region_settings",
     "requirement",
     "SPECIES",
+    "uncraft",
     "vehicle_group",
     "vehicle_placement",
     "WORLD_OPTION"
@@ -87,6 +88,7 @@ automatically_convertible = {
     "ITEM_CATEGORY",
     "keybinding",
     "MAGAZINE",
+    "mission_definition",
     "MOD_INFO",
     "MONSTER",
     "mutation",

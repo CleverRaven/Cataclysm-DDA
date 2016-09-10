@@ -33,6 +33,7 @@ class distribution
 
         distribution operator+( const distribution &other ) const;
         distribution operator*( const distribution &other ) const;
+        distribution &operator=( const distribution &other );
 
         static distribution constant( float val );
         static distribution rng_roll( int from, int to );
@@ -61,7 +62,7 @@ class npc_class
 
     public:
         npc_class_id id;
-        bool was_loaded;
+        bool was_loaded = false;
 
         npc_class();
 

@@ -277,7 +277,7 @@ std::vector<size_t> get_tag_positions( const std::string &s );
 std::vector<std::string> split_by_color( const std::string &s );
 
 bool query_yn( const char *mes, ... );
-int  query_int( const char *mes, ... );
+bool query_int( int &result, const char *mes, ... );
 
 bool internal_query_yn( const char *mes, va_list ap );
 
@@ -422,8 +422,6 @@ void replace_substring( std::string &input, const std::string &substring,
 std::string string_replace( std::string text, const std::string &before, const std::string &after );
 std::string replace_colors( std::string text );
 std::string &capitalize_letter( std::string &pattern, size_t n = 0 );
-std::string rm_prefix( std::string str, char c1 = '<', char c2 = '>' );
-#define rmp_format(...) rm_prefix(string_format(__VA_ARGS__))
 size_t shortcut_print( WINDOW *w, int y, int x, nc_color text_color, nc_color shortcut_color,
                        const std::string &fmt );
 size_t shortcut_print( WINDOW *w, nc_color text_color, nc_color shortcut_color,
@@ -434,7 +432,6 @@ size_t shortcut_print( WINDOW *w, nc_color text_color, nc_color shortcut_color,
 void hit_animation( int iX, int iY, nc_color cColor, const std::string &cTile );
 
 std::pair<std::string, nc_color> const &get_hp_bar( int cur_hp, int max_hp, bool is_mon = false );
-std::pair<std::string, nc_color> const &get_item_hp_bar( int dmg );
 
 std::pair<std::string, nc_color> const &get_light_level( const float light );
 
@@ -619,6 +616,11 @@ class scrollingcombattext
 };
 
 extern scrollingcombattext SCT;
+
+std::string wildcard_trim_rule( const std::string &sPatternIn );
+bool wildcard_match( const std::string &sTextIn, const std::string &sPatternIn );
+std::vector<std::string> &wildcard_split( const std::string &s, char delim, std::vector<std::string> &elems );
+int ci_find_substr( const std::string &str1, const std::string &str2, const std::locale &loc = std::locale() );
 
 /** Get the width in font glyphs of the drawing screen.
  *

@@ -60,7 +60,6 @@
     "material": ["stone", "steel"],
     "weight": 400,
     "volume": 1,
-    "cutting": -5,
     "to_hit": -1,
     "max_charges": 2000,
     "initial_charges": 2000,
@@ -214,7 +213,6 @@
     "range" : 15,
     "dispersion": 120,
     "sight_dispersion": 140,
-    "aim_speed" : 0,
     "recoil": 0,
     "durability": 6,
     "clip_size": 1,
@@ -242,6 +240,7 @@
     "dispersion" : 135,
     "recoil" : 0,
     "count" : 1,
+    "loudness" : 0,
     "stack_size" : 4,
     "effects" : ["RECOVER_10"]
   },{
@@ -268,6 +267,7 @@
     "dispersion" : 135,
     "recoil" : 0,
     "count" : 1,
+    "loudness" : 0,
     "stack_size" : 4,
     "effects" : ["RECOVER_10"]
   },{
@@ -294,6 +294,7 @@
     "dispersion" : 135,
     "recoil" : 0,
     "count" : 1,
+    "loudness" : 0,
     "stack_size" : 4,
     "effects" : ["RECOVER_10"]
   },{
@@ -320,6 +321,7 @@
     "dispersion" : 135,
     "recoil" : 0,
     "count" : 1,
+    "loudness" : 0,
     "stack_size" : 4,
     "effects" : ["RECOVER_15"]
   },{
@@ -426,7 +428,6 @@
     "price": 0,
     "weight": 5,
     "volume": 0,
-    "bashing": -8,
     "to_hit": -2,
     "contains": 10,
     "rigid": false,
@@ -462,7 +463,6 @@
     "price": 0,
     "weight": 13,
     "volume": 0,
-    "bashing": -2,
     "to_hit": 1,
     "material": "plastic",
     "contains": 2,

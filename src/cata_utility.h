@@ -16,15 +16,6 @@ struct pair_greater_cmp {
     bool operator()( const std::pair<int, tripoint> &a, const std::pair<int, tripoint> &b );
 };
 
-// TODO: Put this into a header (which one?) and maybe move the implementation somewhere else.
-/** Comparator object to sort creatures according to their attitude from "u",
- * and (on same attitude) according to their distance to "u".
- */
-struct compare_by_dist_attitude {
-    const Creature &u;
-    bool operator()( Creature *a, Creature *b ) const;
-};
-
 enum units_type {
     VU_VEHICLE,
     VU_WIND
@@ -126,7 +117,37 @@ class ofstream_wrapper
  */
 bool write_to_file( const std::string &path, const std::function<void( std::ostream & )> &writer,
                     const char *fail_message );
+class JsonIn;
+class JsonDeserializer;
+/**
+ * Try to open and read from given file using the given callback.
+ * The file is opened for reading (binary mode), given to the callback (which does the actual
+ * reading) and closed.
+ * Any exceptions from the callbacks are caught and reported as `debugmsg`.
+ * If the stream is in a fail state (other than EOF) after the callback returns, it is handled as
+ * error as well.
+ *
+ * The callback can either be a generic `std::istream`, a @ref JsonIn stream (which has been
+ * initialized from the `std::istream`) or a @ref JsonDeserializer object (in case of the later,
+ * it's `JsonDeserializer::deserialize` method will be invoked).
+ *
+ * The functions with the "_optional" prefix do not show a debug message when the file does not
+ * exist. They simply ignore the call and return `false` immediately (without calling the callback).
+ * They can be used for loading legacy files.
+ *
+ * @return `true` is the file was read without any errors, `false` upon any error.
+ */
+/**@{*/
+bool read_from_file( const std::string &path, const std::function<void( std::istream & )> &reader );
+bool read_from_file( const std::string &path, const std::function<void( JsonIn & )> &reader );
+bool read_from_file( const std::string &path, JsonDeserializer &reader );
 
+bool read_from_file_optional( const std::string &path,
+                              const std::function<void( std::istream & )> &reader );
+bool read_from_file_optional( const std::string &path,
+                              const std::function<void( JsonIn & )> &reader );
+bool read_from_file_optional( const std::string &path, JsonDeserializer &reader );
+/**@}*/
 /**
  * Same as ofstream_wrapper, but uses exclusive I/O (@ref fopen_exclusive).
  * The interface intentionally matches ofstream_wrapper. One should be able to use

@@ -41,8 +41,7 @@
         "description" : "IF YOU ARE SEEING THIS IT IS A BUG.",
         "flags" : "TRADER_AVOID",
         "volume" : 0,
-        "ammo_type" : "money",
-        "count" : 1
+        "ammo_type" : "money"
     },{
        "type" : "AMMO",
         "id" : "string_6",
@@ -56,9 +55,7 @@
         "flags": ["NO_SALVAGE"],
         "volume" : 1,
         "weight" : 6,
-        "bashing" : -20,
         "ammo_type" : "components",
-        "count" : 1,
         "stack_size" : 18
     },{
        "type" : "AMMO",
@@ -73,9 +70,7 @@
         "flags": ["NO_SALVAGE"],
         "volume" : 1,
         "weight" : 36,
-        "bashing" : -5,
         "ammo_type" : "components",
-        "count" : 1,
         "stack_size" : 3
     },{
        "type" : "AMMO",
@@ -389,7 +384,6 @@
         "range" : 80,
         "dispersion" : 30,
         "recoil" : 225,
-        "count" : 1,
         "effects" : ["COOKOFF", "EXPLOSIVE", "TRAIL"]
     },
     {
@@ -409,7 +403,6 @@
         "range" : 80,
         "dispersion" : 5,
         "recoil" : 30,
-        "count" : 1,
         "effects" : ["CUSTOM_EXPLOSION", "TRAIL"],
         "explode_in_fire" : true,
         "explosion" : {
@@ -441,8 +434,8 @@
     {   "type" : "AMMO",
         "id" : "plasma",
         "price" : 80000,
-        "name" : "hydrogen",
-        "name_plural" : "hydrogen",
+        "name" : "hydrogen canister",
+        "name_plural" : "hydrogen canisters",
         "symbol" : "=",
         "color" : "light_gray",
         "description" : "A canister of pressurized hydrogen so heavily compressed it has turned solid.  With proper equipment, it could be heated to plasma.",
@@ -894,36 +887,6 @@
         "ammo_type" : "components",
         "count" : 200
     },
-    {    "type" : "AMMO",
-        "id" : "silver_small",
-        "category" : "spare_parts",
-        "price" : 17500,
-        "name" : "silver",
-        "name_plural" : "silver",
-        "symbol" : "=",
-        "color" : "light_gray",
-        "description" : "Small silver bits.  Before the cataclysm, these would have been worth quite a bit.  Still usable in making ammunition.",
-        "material" : "silver",
-        "volume" : 0,
-        "weight" : 3,
-        "ammo_type" : "components",
-        "count" : 200
-    },
-    {   "type" : "AMMO",
-        "id" : "bismuth",
-        "category" : "spare_parts",
-        "price" : 1000,
-        "name" : "bismuth",
-        "name_plural" : "bismuth",
-        "symbol" : "=",
-        "color" : "light_gray",
-        "description" : "Bismuth fishing weights and scraps.  Usable in making ammunition.",
-        "material" : "steel",
-        "volume" : 0,
-        "weight" : 3,
-        "ammo_type" : "components",
-        "count" : 200
-    },
     {   "type" : "AMMO",
         "id" : "tin",
         "category" : "spare_parts",
@@ -936,21 +899,6 @@
         "material" : "steel",
         "volume" : 0,
         "weight" : 3,
-        "ammo_type" : "components",
-        "count" : 200
-    },
-    {   "type" : "AMMO",
-        "id" : "gold_small",
-        "category" : "spare_parts",
-        "price" : 50000,
-        "name" : "gold",
-        "name_plural" : "gold",
-        "symbol" : "=",
-        "color" : "yellow",
-        "description" : "Small gold bits.  Before the cataclysm these would have been worth quite a bit.  Still usable in making ammunition.",
-        "material" : "gold",
-        "volume" : 1,
-        "weight" : 4,
         "ammo_type" : "components",
         "count" : 200
     },
@@ -1150,7 +1098,6 @@
         "range" : 120,
         "dispersion" : 60,
         "recoil" : 45,
-        "count" : 1,
         "effects" : ["COOKOFF", "EXPLOSIVE_BIG", "FRAG", "NEVER_MISFIRES"]
     },
     {   "type" : "AMMO",
@@ -1169,7 +1116,6 @@
         "range" : 100,
         "dispersion" : 75,
         "recoil" : 60,
-        "count" : 1,
         "effects" : ["COOKOFF", "EXPLOSIVE_BIG", "NEVER_MISFIRES"]
     },
     {   "type" : "AMMO",
@@ -1188,7 +1134,6 @@
         "range" : 140,
         "dispersion" : 30,
         "recoil" : 45,
-        "count" : 1,
         "effects" : ["COOKOFF", "SMOKE_BIG", "NEVER_MISFIRES"]
     },
     {
@@ -1208,7 +1153,6 @@
         "range" : 60,
         "dispersion" : 75,
         "recoil" : 450,
-        "count" : 1,
         "effects" : ["COOKOFF", "EXPLOSIVE", "TRAIL", "NEVER_MISFIRES"]
     },
     {   "type" : "AMMO",
@@ -1238,10 +1182,9 @@
         "name_plural" : "placeholder ammunition",
         "symbol" : "=",
         "color" : "red",
-        "description" : "",
+        "description" : "IF YOU ARE SEEING THIS IT IS A BUG.",
         "volume" : 0,
         "ammo_type" : "NULL",
-        "count" : 1,
         "flags" : ["UNRECOVERABLE"]
     },
     {   "type" : "AMMO",
@@ -1293,69 +1236,6 @@
         "stack_size" : 10
     },
     {   "type" : "AMMO",
-        "id" : "50bmg",
-        "price" : 32500,
-        "name" : ".50 BMG Ball",
-        "name_plural" : ".50 BMG Ball",
-        "symbol" : "=",
-        "color" : "dark_gray",
-        "description" : "The .50 BMG is a very powerful rifle round designed for long-range use.  Its stupendous accuracy and armor piercing capabilities make it one of the most deadly rounds available, offset only by its drastic recoil and noise.",
-        "material" : ["steel", "powder"],
-        "volume" : 3,
-        "weight" : 118,
-        "ammo_type" : "50",
-        "casing" : "50_casing",
-        "damage" : 70,
-        "pierce" : 30,
-        "range" : 90,
-        "dispersion" : 15,
-        "recoil" : 750,
-        "count" : 30,
-        "effects" : ["COOKOFF", "NEVER_MISFIRES"]
-    },
-    {   "type" : "AMMO",
-        "id" : "50ss",
-        "price" : 15500,
-        "name" : ".50 BMG AP",
-        "name_plural" : ".50 BMG AP",
-        "symbol" : "=",
-        "color" : "dark_gray",
-        "description" : "Variant of the .50 BMG round that uses a core of very dense, hardened tungsten steel.  Penetration is increased, but damage is reduced.",
-        "material" : ["steel", "powder"],
-        "volume" : 1,
-        "weight" : 110,
-        "ammo_type" : "50",
-        "casing" : "50_casing",
-        "damage" : 60,
-        "pierce" : 40,
-        "range" : 90,
-        "dispersion" : 15,
-        "recoil" : 750,
-        "count" : 10,
-        "effects" : ["COOKOFF"]
-    },
-    {   "type" : "AMMO",
-        "id" : "50_incendiary",
-        "price" : 20000,
-        "name" : ".50 BMG API",
-        "name_plural" : ".50 BMG API",
-        "symbol" : "=",
-        "color" : "dark_gray",
-        "description" : "An armor-piercing incendiary variant of the powerful .50 BMG sniper round.  Incendiary rounds are designed to burn hotly upon impact, piercing armor and igniting flammable substances.",
-        "material" : ["steel", "powder"],
-        "volume" : 1,
-        "weight" : 120,
-        "ammo_type" : "50",
-        "casing" : "50_casing",
-        "damage" : 55,
-        "pierce" : 50,
-        "range" : 90,
-        "dispersion" : 30,
-        "recoil" : 525,
-        "count" : 10,
-        "effects" : ["INCENDIARY"]
-    },
-    {   "type" : "AMMO",
         "id" : "mininuke_mod",
         "price" : 180000, "//" : "Never marketed pre-Cataclysm.",
         "name" : "modified mininuke",
@@ -1368,7 +1248,6 @@
         "bashing" : 8,
         "ammo_type" : "mininuke_mod",
         "damage" : 14,
-        "count" : 1,
         "stack_size" : 2,
         "effects" : ["MININUKE_MOD", "NEVER_MISFIRES"]
     },
@@ -1879,7 +1758,6 @@
         "range" : 18,
         "dispersion" : 180,
         "recoil" : 130,
-        "count" : 1,
         "effects" : ["COOKOFF", "TRAIL"]
      },
      {
@@ -1899,7 +1777,6 @@
         "range" : 23,
         "dispersion" : 170,
         "recoil" : 130,
-        "count" : 1,
         "effects" : ["COOKOFF", "TRAIL", "EXPLOSIVE"]
         },
         {
@@ -1919,7 +1796,6 @@
         "range" : 13,
         "dispersion" : 200,
         "recoil" : 130,
-        "count" : 1,
         "effects" : ["COOKOFF", "TRAIL", "NAPALM"]
         },
     {
@@ -1935,8 +1811,7 @@
         "material" : "wood",
         "volume" : 1,
         "weight" : 300,
-        "ammo_type" : "unfinished_char",
-        "count" : 1
+        "ammo_type" : "unfinished_char"
     },
     {
         "type" : "AMMO",

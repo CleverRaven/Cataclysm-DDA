@@ -30,8 +30,13 @@ TEST_CASE( "reload_magazine", "[magazine] [visitable] [item] [item_location]" ) 
     item& mag = p.i_add( item( mag_id ) );
     CHECK( mag.is_magazine() == true );
     CHECK( mag.is_reloadable() == true );
+    CHECK( mag.is_reloadable_with( ammo_id ) == true );
+    CHECK( mag.is_reloadable_with( alt_ammo ) == true );
+    CHECK( mag.is_reloadable_with( bad_ammo ) == false );
     CHECK( p.can_reload( mag ) == true );
     CHECK( p.can_reload( mag, ammo_id ) == true );
+    CHECK( p.can_reload( mag, alt_ammo ) == true );
+    CHECK( p.can_reload( mag, bad_ammo ) == false );
     CHECK( mag.ammo_type() == gun_ammo );
     CHECK( mag.ammo_capacity() == mag_cap );
     CHECK( mag.ammo_current() == "null" );

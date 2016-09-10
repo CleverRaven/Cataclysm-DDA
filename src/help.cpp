@@ -2,6 +2,7 @@
 
 #include "action.h"
 #include "auto_pickup.h"
+#include "safemode_ui.h"
 #include "catacharset.h"
 #include "input.h"
 #include "options.h"
@@ -76,11 +77,12 @@ Press q or ESC to return to the game." ) ) + 1;
     headers.push_back( _( "1: List of all commands (you can change key commands here)" ) );
     headers.push_back( _( "2: List of all options  (you can change options here)" ) );
     headers.push_back( _( "3: Auto pickup manager  (you can change pickup rules here)" ) );
-    headers.push_back( _( "4: Color manager        (you can change all colors here)" ) );
-    headers.push_back( _( "5: List of item types and data" ) );
-    headers.push_back( _( "6: Description of map symbols" ) );
-    headers.push_back( _( "7: Description of gun types" ) );
-    headers.push_back( _( "8: Frequently Asked Questions (Some spoilers!)" ) );
+    headers.push_back( _( "4: Safemode manager     (you can change safemode rules here)" ) );
+    headers.push_back( _( "5: Color manager        (you can change all colors here)" ) );
+    headers.push_back( _( "6: List of item types and data" ) );
+    headers.push_back( _( "7: Description of map symbols" ) );
+    headers.push_back( _( "8: Description of gun types" ) );
+    headers.push_back( _( "9: Frequently Asked Questions (Some spoilers!)" ) );
     headers.push_back( _( " " ) );
     headers.push_back( _( "q: Return to game" ) );
 
@@ -1111,23 +1113,28 @@ void display_help()
                 break;
 
             case '4':
-                all_colors.show_gui();
+                get_safemode().show();
                 werase( w_help );
                 break;
 
             case '5':
-                multipage( w_help, text_types(), _( "Item types:" ) );
+                all_colors.show_gui();
+                werase( w_help );
                 break;
 
             case '6':
-                help_map( w_help );
+                multipage( w_help, text_types(), _( "Item types:" ) );
                 break;
 
             case '7':
-                multipage( w_help, text_guns(), _( "Gun types:" ) );
+                help_map( w_help );
                 break;
 
             case '8':
+                multipage( w_help, text_guns(), _( "Gun types:" ) );
+                break;
+
+            case '9':
                 multipage( w_help, text_faq() );
                 break;
 

@@ -39,7 +39,8 @@
     "type": "MONSTER",
     "id": "mon_zombie_pig",
     "edit-mode": "modify",
-    "burn_into": "mon_zanimal_scorched"
+    "burn_into": "mon_zanimal_scorched",
+    "emit_fields": [ "emit_flesh_slough" ]
     },{
     "type": "MONSTER",
     "id": "mon_zoose",
@@ -51,6 +52,7 @@
     "armor_acid":2,
     "hp":230,
     "special_attacks":[["SMASH", 50]],
+    "emit_fields": [ "emit_flesh_slough" ],
     "burn_into": "mon_horse_zombie_scorched",
     "flags":["SEES", "HEARS", "SMELLS", "ANIMAL", "BASHES", "WARM", "FUR", "BLEED", "ATTACKMON", "BONES", "FAT", "POISON", "NO_BREATHE", "REVIVES"],
     "anger_triggers":["HURT", "PLAYER_CLOSE", "FIRE", "FRIEND_ATTACKED"]
@@ -105,6 +107,7 @@
         "cooldown": 15,
         "min_mul": 0.8, "//": "strong jaws"
         }],
+    "emit_fields": [ "emit_flesh_slough" ],
     "burn_into": "mon_bear_smoky"
     },{
     "type": "MONSTER",
@@ -131,6 +134,7 @@
     "vision_day":35,
     "hp":140,
     "death_function":"NORMAL",
+    "emit_fields": [ "emit_flesh_slough" ],
     "burn_into": "mon_horse_zombie_scorched",
     "description":"This horse has a brackish liquid coating its bared teeth, as well as the occasional oozing wounds breaking the otherwise glorious sheen of its hair.  Its hooves are fearsome weapons.",
     "flags":["SEES", "HEARS", "SMELLS", "PATH_AVOID_DANGER_1", "ANIMAL", "WARM", "FUR", "BONES", "FAT", "NO_BREATHE", "POISON", "REVIVES", "PUSH_MON", "STUMBLES", "BASHES"],
@@ -201,7 +205,6 @@
     "vision_night":4,
     "hp":60,
     "death_function":"NORMAL",
-    "emit_fields": [ "emit_smoke_stream" ],
     "special_attacks":[
         {
             "type": "bite",
@@ -210,6 +213,7 @@
             "min_mul": 0.5, "//": "stronger jaws"
         },
         ["SHRIEK_ALERT", 50],  ["SHRIEK_STUN", 1]],
+    "emit_fields": [ "emit_smoke_stream" ],
     "description":"Through its smoke you can make out a lithe, tightly wound frame.  From time to time it emits a coarse, rumbling howl that sounds like it came from the bowels of the Earth.",
     "flags":["SEES", "HEARS", "PATH_AVOID_DANGER_1", "NO_BREATHE", "HARDTOSHOOT", "REVIVES", "REVIVES_HEALTHY", "NO_NECRO", "BASHES", "WARM"]
     },{
@@ -238,13 +242,6 @@
     "vision_day":40,
     "vision_night":4,
     "hp":50,
-        "death_drops": {
-        "subtype": "collection",
-        "//": "20% chance of an item from group dog_cop",
-        "groups": [
-            [ "dog_cop", 20 ]
-        ]
-    },
     "death_function":["BOOMER_GLOW"],
     "special_attacks":[
         {
@@ -285,13 +282,13 @@
     "vision_day":30,
     "vision_night":10,
     "hp":100,
-    "emit_fields": [ "emit_smoke_stream" ],
     "special_attacks":[{
         "type": "bite",
         "cooldown": 15,
         "no_infection_chance": 5,
         "min_mul": 0.75, "//": "strong jaws"
         }],
+    "emit_fields": [ "emit_smoke_stream" ],
     "death_function":["SMOKEBURST", "NORMAL"],
     "description":"A smoking husk is all that remains of this once proud bear.  Its black eyes gaze at you with malice... and hunger.",
     "flags":["SEES", "HEARS", "PATH_AVOID_DANGER_1", "ANIMAL", "BASHES", "ATTACKMON", "BONES", "FIREPROOF", "NO_BREATHE", "POISON", "REVIVES", "REVIVES_HEALTHY", "NO_NECRO"],

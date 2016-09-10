@@ -1,5 +1,4 @@
 #include <iostream>
-#include <fstream>
 #include <sstream>
 #include <iterator>
 
@@ -307,4 +306,9 @@ bool profession::can_pick( player *u, int points ) const
 
     return true;
 }
-// vim:ts=4:sw=4:et:tw=0:fdm=marker:fdl=0:
+
+bool profession::locked_traits( const std::string &trait ) const
+{
+    return std::find( _starting_traits.begin(), _starting_traits.end(), trait ) !=
+           _starting_traits.end();
+}

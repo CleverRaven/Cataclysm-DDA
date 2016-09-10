@@ -177,6 +177,21 @@ void iuse_transform::finalize( const itype_id & )
     }
 }
 
+void iuse_transform::info( const item &it, std::vector<iteminfo> &dump ) const
+{
+    const item dummy( target, calendar::turn, std::max( ammo_qty, 1l ) );
+    dump.emplace_back( "TOOL", string_format( _( "<bold>Turns into</bold>: %s" ),
+                                              dummy.tname().c_str() ) );
+    if( countdown > 0 ) {
+        dump.emplace_back( "TOOL", _( "Countdown: " ), "", countdown );
+    }
+
+    const auto *explosion_use = dummy.get_use( "explosion" );
+    if( explosion_use != nullptr ) {
+        explosion_use->get_actor_ptr()->info( it, dump );
+    }
+}
+
 countdown_actor::~countdown_actor() = default;
 
 iuse_actor *countdown_actor::clone() const
@@ -227,8 +242,12 @@ std::string countdown_actor::get_name() const
 
 void countdown_actor::info( const item &it, std::vector<iteminfo> &dump ) const
 {
-    dump.emplace_back( "TOOL", _( "<bold>Countdown</bold>: " ), "",
+    dump.emplace_back( "TOOL", _( "Countdown: " ), "",
                        interval > 0 ? interval : it.type->countdown_interval );
+    const auto countdown_actor = it.type->countdown_action.get_actor_ptr();
+    if( countdown_actor != nullptr ) {
+        countdown_actor->info( it, dump );
+    }
 }
 
 explosion_iuse::~explosion_iuse()
@@ -321,6 +340,21 @@ long explosion_iuse::use(player *p, item *it, bool t, const tripoint &pos) const
     return 1;
 }
 
+void explosion_iuse::info( const item &, std::vector<iteminfo> &dump ) const
+{
+    if( explosion.power <= 0 ) {
+        // @todo List other effects, like EMP and clouds
+        return;
+    }
+
+    dump.emplace_back( "TOOL", _( "Power at <bold>epicenter</bold>: " ), "", explosion.power );
+    const auto &sd = explosion.shrapnel;
+    if( sd.count > 0 ) {
+        dump.emplace_back( "TOOL", _( "Shrapnel <bold>count</bold>: " ), "", sd.count );
+        dump.emplace_back( "TOOL", _( "Shrapnel <bold>mass</bold>: " ), "", sd.mass );
+    }
+}
+
 
 
 unfold_vehicle_iuse::~unfold_vehicle_iuse()
@@ -381,7 +415,9 @@ long unfold_vehicle_iuse::use(player *p, item *it, bool /*t*/, const tripoint &/
     if (!data.empty() && data[0] >= '0' && data[0] <= '9') {
         // starts with a digit -> old format
         for( auto &elem : veh->parts ) {
-            veh_data >> elem.hp;
+            int tmp;
+            veh_data >> tmp;
+            veh->set_hp( elem, tmp );
         }
     } else {
         try {
@@ -395,7 +431,7 @@ long unfold_vehicle_iuse::use(player *p, item *it, bool /*t*/, const tripoint &/
                 vehicle_part &dst = veh->parts[i];
                 // and now only copy values, that are
                 // expected to be consistent.
-                dst.hp = src.hp;
+                veh->set_hp( dst, src.hp() );
                 dst.blood = src.blood;
                 // door state/amount of fuel/direction of headlight
                 dst.ammo_set( src.ammo_current(), src.ammo_remaining() );
@@ -750,7 +786,7 @@ long pick_lock_actor::use( player *p, item *it, bool, const tripoint& ) const
         return 0;
     }
     tripoint dirp;
-    if( !choose_adjacent( _( "Use your pick lock where?" ), dirp ) ) {
+    if( !choose_adjacent( _( "Use your lockpick where?" ), dirp ) ) {
         return 0;
     }
     if( dirp == p->pos() ) {
@@ -799,16 +835,19 @@ long pick_lock_actor::use( player *p, item *it, bool, const tripoint& ) const
     p->moves -= std::max(0, ( 1000 - ( pick_quality * 100 ) ) - ( p->dex_cur + p->get_skill_level( skill_mechanics ) ) * 5);
     ///\EFFECT_DEX improves chances of successfully picking door lock, reduces chances of bad outcomes
 
+    bool destroy = false;
+
     ///\EFFECT_MECHANICS improves chances of successfully picking door lock, reduces chances of bad outcomes
-    int pick_roll = ( dice( 2, p->get_skill_level( skill_mechanics ) ) + dice( 2, p->dex_cur ) - it->damage / 2 ) * pick_quality;
+    int pick_roll = ( dice( 2, p->get_skill_level( skill_mechanics ) ) + dice( 2, p->dex_cur ) - it->damage() / 2 ) * pick_quality;
     int door_roll = dice( 4, 30 );
     if( pick_roll >= door_roll ) {
         p->practice( skill_mechanics, 1 );
         p->add_msg_if_player( m_good, "%s", open_message.c_str() );
         g->m.ter_set( dirp, new_type );
     } else if( door_roll > ( 1.5 * pick_roll ) ) {
-        if( it->damage++ >= MAX_ITEM_DAMAGE ) {
+        if( it->inc_damage() ) {
             p->add_msg_if_player( m_bad, _( "The lock stumps your efforts to pick it, and you destroy your tool." ) );
+            destroy = true;
         } else {
             p->add_msg_if_player( m_bad, _( "The lock stumps your efforts to pick it, and you damage your tool." ) );
         }
@@ -816,12 +855,12 @@ long pick_lock_actor::use( player *p, item *it, bool, const tripoint& ) const
         p->add_msg_if_player( m_bad, _( "The lock stumps your efforts to pick it." ) );
     }
     if( type == t_door_locked_alarm && ( door_roll + dice( 1, 30 ) ) > pick_roll ) {
-        sounds::sound( p->pos(), 40, _( "An alarm sounds!" ) );
+        sounds::sound( p->pos(), 40, _( "an alarm sound!" ) );
         if( !g->event_queued( EVENT_WANTED ) ) {
             g->add_event( EVENT_WANTED, int( calendar::turn ) + 300, 0, p->global_sm_location() );
         }
     }
-    if( it->damage > MAX_ITEM_DAMAGE ) {
+    if( destroy ) {
         p->i_rem( it );
         return 0;
     }
@@ -1174,8 +1213,8 @@ int salvage_actor::cut_up(player *p, item *it, item *cut) const
     // If more than 1 material component can still be be salvaged,
     // chance of losing more components if the item is damaged.
     // If the item being cut is not damaged, no additional losses will be incurred.
-    if (count > 0 && cut->damage > 0) {
-        float component_success_chance = std::min(std::pow(0.8, cut->damage), 1.0);
+    if (count > 0 && cut->damage() > 0) {
+        float component_success_chance = std::min( std::pow( 0.8, cut->damage() ), 1.0 );
         for(int i = count; i > 0; i--) {
             if(component_success_chance < rng_float(0,1)) {
                 count--;
@@ -1562,7 +1601,7 @@ long enzlave_actor::use( player *p, item *it, bool t, const tripoint& ) const
     // Speed range is 20 - 120 (for humanoids, dogs get way faster)
     // This gives us a difficulty ranging rougly from 10 - 40, with up to +25 for corpse damage.
     // An average zombie with an undamaged corpse is 0 + 8 + 14 = 22.
-    int difficulty = (body->damage * 5) + (mt->hp / 10) + (mt->speed / 5);
+    int difficulty = ( body->damage() * 5 ) + ( mt->hp / 10 ) + ( mt->speed / 5 );
     // 0 - 30
     ///\EFFECT_DEX increases chance of success for enzlavement
 
@@ -1620,7 +1659,7 @@ long fireweapon_off_actor::use( player *p, item *it, bool t, const tripoint& ) c
     }
 
     p->moves -= moves;
-    if( rng( 0, 10 ) - it->damage > success_chance && !p->is_underwater() ) {
+    if( rng( 0, 10 ) - it->damage() > success_chance && !p->is_underwater() ) {
         if( noise > 0 ) {
             sounds::sound( p->pos(), noise, _(success_message.c_str()) );
         } else {
@@ -2027,7 +2066,7 @@ bool bandolier_actor::reload( player &p, item &obj ) const
         return false; // cancelled menu
     }
 
-    p.mod_moves( sel.moves() );
+    p.mod_moves( -sel.moves() );
 
     // add or stack the ammo dependent upon existing contents
     if( obj.contents.empty() ) {
@@ -2126,16 +2165,11 @@ long ammobelt_actor::use( player *p, item *, bool, const tripoint& ) const
 
     item::reload_option opt = p->select_ammo( mag, true );
     if( opt ) {
-        std::stringstream ss;
-        ss << p->get_item_position( &p->i_add( mag ) );
-
-        // store moves and qty locally as obtain() will invalidate the reload_option
-        int mv = opt.moves();
-        long qty = opt.qty();
-        int pos = opt.ammo.obtain( *p, qty );
-
-        p->assign_activity( ACT_RELOAD, mv, qty, pos, ss.str() );
+        p->assign_activity( ACT_RELOAD, opt.moves(), opt.qty() );
+        p->activity.targets.emplace_back( *p, &p->i_add( mag ) );
+        p->activity.targets.push_back( std::move( opt.ammo ) );
     }
+
     return 0;
 }
 
@@ -2192,7 +2226,7 @@ long repair_item_actor::use( player *p, item *it, bool, const tripoint & ) const
         return 0;
     }
     const int pos = g->inv_for_filter( _( "Repair what?" ), [this, it]( const item &itm ) {
-        return itm.made_of_any( materials ) && !itm.is_ammo() && !itm.is_firearm() && &itm != it;
+        return itm.made_of_any( materials ) && !itm.count_by_charges() && !itm.is_firearm() && &itm != it;
     }, string_format( _( "You have no items that could be repaired with a %s." ), it->type_name( 1 ).c_str() ) );
 
     if( pos == INT_MIN ) {
@@ -2339,7 +2373,7 @@ bool repair_item_actor::can_repair( player &pl, const item &tool, const item &fi
         }
         return false;
     }
-    if( fix.is_ammo() ) {
+    if( fix.count_by_charges() ) {
         if( print_msg ) {
             pl.add_msg_if_player( m_info, _("You cannot repair this type of item.") );
         }
@@ -2363,11 +2397,11 @@ bool repair_item_actor::can_repair( player &pl, const item &tool, const item &fi
         return true;
     }
 
-    if( fix.damage > 0 ) {
+    if( fix.damage() > 0 ) {
         return true;
     }
 
-    if( fix.damage < 0 ) {
+    if( fix.damage() < 0 ) {
         if( print_msg ) {
             pl.add_msg_if_player( m_info, _("Your %s is already enhanced."), fix.tname().c_str() );
         }
@@ -2394,15 +2428,15 @@ std::pair<float, float> repair_item_actor::repair_chance(
     int action_difficulty = 0;
     switch( action_type ) {
         case RT_REPAIR:
-            action_difficulty = fix.damage;
+            action_difficulty = fix.damage();
             break;
         case RT_REFIT:
             // Let's make refitting as hard as recovering an almost-wrecked item
-            action_difficulty = MAX_ITEM_DAMAGE;
+            action_difficulty = fix.max_damage();
             break;
         case RT_REINFORCE:
             // Reinforcing is at least as hard as refitting
-            action_difficulty = std::max( MAX_ITEM_DAMAGE, recipe_difficulty );
+            action_difficulty = std::max( fix.max_damage(), recipe_difficulty );
             break;
         case RT_PRACTICE:
             // Skill gain scales with recipe difficulty, so practice difficulty should too
@@ -2434,7 +2468,7 @@ std::pair<float, float> repair_item_actor::repair_chance(
 
 repair_item_actor::repair_type repair_item_actor::default_action( const item &fix, int current_skill_level ) const
 {
-    if( fix.damage > 0 ) {
+    if( fix.damage() > 0 ) {
         return RT_REPAIR;
     }
 
@@ -2442,7 +2476,7 @@ repair_item_actor::repair_type repair_item_actor::default_action( const item &fi
         return RT_REFIT;
     }
 
-    if( fix.damage == 0 ) {
+    if( fix.damage() == 0 ) {
         return RT_REINFORCE;
     }
 
@@ -2456,8 +2490,7 @@ repair_item_actor::repair_type repair_item_actor::default_action( const item &fi
 bool damage_item( player &pl, item &fix )
 {
     pl.add_msg_if_player(m_bad, _("You damage your %s!"), fix.tname().c_str());
-    fix.damage++;
-    if( fix.damage >= 5 ) {
+    if( fix.inc_damage() ) {
         pl.add_msg_if_player(m_bad, _("You destroy it!"));
         const int pos = pl.get_item_position( &fix );
         if( pos != INT_MIN ) {
@@ -2520,7 +2553,7 @@ repair_item_actor::attempt_hint repair_item_actor::repair( player &pl, item &too
         if( roll == SUCCESS ) {
             pl.add_msg_if_player(m_good, _("You repair your %s!"), fix.tname().c_str());
             handle_components( pl, fix, false, false );
-            fix.damage--;
+            fix.mod_damage( -1 );
             return AS_SUCCESS;
         }
 
@@ -2547,7 +2580,7 @@ repair_item_actor::attempt_hint repair_item_actor::repair( player &pl, item &too
 
         if( roll == SUCCESS ) {
             pl.add_msg_if_player(m_good, _("You make your %s extra sturdy."), fix.tname().c_str());
-            fix.damage--;
+            fix.mod_damage( -1 );
             handle_components( pl, fix, false, false );
             return AS_SUCCESS;
         }

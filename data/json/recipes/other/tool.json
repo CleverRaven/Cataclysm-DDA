@@ -1,5 +1,31 @@
 [
   {
+    "result": "fishing_rod_professional",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "skills_required": [ "survival", 4 ],
+    "time": 300000,
+    "reversible": true,
+    "book_learn": [ [ "mag_survival", 4 ] , [ "manual_survival", 4 ] , [ "textbook_survival", 4 ] ],
+    "qualities": [
+      { "id": "CUT", "level": 1 },
+      { "id": "SCREW_FINE", "level": 1 }
+    ],
+    "tools": [
+      [ [ "mold_plastic", -1 ] ],
+      [ [ "hotplate", 50 ], [ "toolset", 50 ], ["fire", -1 ] ]
+    ],
+    "components": [ 
+        [ [ "plastic_chunk", 3 ] ],
+        [ [ "wire", 1 ] ],
+        [ [ "scrap", 1 ] ],
+        [ [ "bismuth", 200 ] ]
+      ]
+  },
+  {
     "result": "jack",
     "type": "recipe",
     "category": "CC_OTHER",

@@ -48,7 +48,7 @@
     "id" : "ammo_rifle_common",
     "//" : "Rifle ammo commonly owned by citizens and found in many locations.",
     "items": [
-       [ "556", 100 ]
+       [ "223", 100 ]
     ]
   },
   {
@@ -56,7 +56,7 @@
     "id" : "ammo_rifle_rare",
     "//" : "Less common rifle ammo including that only used by police/paramilitary forces.",
     "items": [
-      [ "762_51", 70 ],
+      [ "308", 70 ],
       [ "50bmg", 30 ]
     ]
   },
@@ -84,9 +84,9 @@
     "id" : "ammo_rifle_reloaded",
     "//" : "Reloaded rifle ammo balanced according to rarity.",
     "items": [
-      [ "reloaded_556", 30 ],
+      [ "reloaded_223", 30 ],
+      [ "reloaded_308", 20 ],
       [ "reloaded_556_incendiary", 15 ],
-      [ "reloaded_762_51", 20 ],
       [ "reloaded_762_51_incendiary", 10 ],
       [ "reloaded_50bmg", 15 ],
       [ "reloaded_50ss", 5 ],
@@ -219,7 +219,7 @@
     "//": "Ammo issued to paramilitary forces in addition to standard police issue.",
     "items": [
       { "group": "ammo_cop", "prob": 70 },
-      [ "556", 10 ],
+      [ "223", 10 ],
       [ "shot_slug", 20 ]
     ]
   }
