@@ -351,7 +351,7 @@
   "recoil": 15,
   "durability": 8,
   "burst": 5,
-  "clip_size": 5,
+  "clip_size": 20,
   "reload": 100,
   "loudness" : 175
 },{
@@ -398,7 +398,7 @@
   "sight_dispersion": 60,
   "recoil": -10,
   "durability": 9,
-  "clip_size": 1,
+  "clip_size": 5,
   "reload": 100,
   "loudness" : 300,
   "flags" : [ "NO_RELOAD" ]
@@ -422,7 +422,7 @@
   "sight_dispersion": 60,
   "recoil": -20,
   "durability": 8,
-  "clip_size": 1,
+  "clip_size": 5,
   "reload": 100,
   "loudness" : 300,
   "flags": [ "NO_RELOAD" ]
@@ -493,7 +493,7 @@
   "sight_dispersion": 20,
   "recoil": -10,
   "durability": 9,
-  "clip_size": 1,
+  "clip_size": 2,
   "reload": 100,
   "loudness" : 200,
   "flags": [ "NO_RELOAD" ]
