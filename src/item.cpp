@@ -164,13 +164,13 @@ item::item( const itype *type, int turn, default_charges_tag )
     : item( type, turn, type->charges_default() ) {}
 
 item::item( const itype_id& id, int turn, default_charges_tag tag )
-    : item( item::find_type( id ), turn, tag ) {}
+    : item( find_type( id ), turn, tag ) {}
 
 item::item( const itype *type, int turn, solitary_tag )
     : item( type, turn, type->count_by_charges() ? 1 : -1 ) {}
 
 item::item( const itype_id& id, int turn, solitary_tag tag )
-    : item( item::find_type( id ), turn, tag ) {}
+    : item( find_type( id ), turn, tag ) {}
 
 item item::make_corpse( const mtype_id& mt, int turn, const std::string &name )
 {
@@ -1328,7 +1328,7 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
                 if( knows_it ) {
                     // In case the recipe is known, but has a different name in the book, use the
                     // real name to avoid confusing the player.
-                    const std::string name = item::nname( elem.recipe->result );
+                    const std::string name = nname( elem.recipe->result );
                     recipe_list.push_back( "<bold>" + name + "</bold>" );
                 } else {
                     recipe_list.push_back( "<dark>" + elem.name + "</dark>" );
@@ -1758,7 +1758,7 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
             for( const auto &res : brewed.brewing_results() ) {
                 info.push_back( iteminfo( "DESCRIPTION",
                                           string_format( _( "* Fermenting this will produce <neutral>%s</neutral>." ),
-                                                         item::nname( res, brewed.charges ).c_str() ) ) );
+                                                         nname( res, brewed.charges ).c_str() ) ) );
             }
         }
 
@@ -1881,9 +1881,9 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
                 const std::string recipes = enumerate_as_string( known_recipes.begin(), known_recipes.end(),
                 [ &inv ]( const recipe *r ) {
                     if( r->can_make_with_inventory( inv ) ) {
-                        return item::nname( r->result );
+                        return nname( r->result );
                     } else {
-                        return string_format( "<dark>%s</dark>", item::nname( r->result ).c_str() );
+                        return string_format( "<dark>%s</dark>", nname( r->result ).c_str() );
                     }
                 } );
                 if( !recipes.empty() ) {
@@ -2903,23 +2903,23 @@ int item::get_encumber() const
     }
 
     // Fit checked before changes, fitting shouldn't reduce penalties from patching.
-    if( item::item_tags.count("FIT") ) {
+    if( item_tags.count("FIT") ) {
         encumber = std::max( encumber / 2, encumber - 10 );
     }
 
     const int thickness = get_thickness();
     const int coverage = get_coverage();
-    if( item::item_tags.count("wooled") ) {
+    if( item_tags.count("wooled") ) {
         encumber += 1 + 3 * coverage / 100;
     }
-    if( item::item_tags.count("furred") ){
+    if( item_tags.count("furred") ){
         encumber += 1 + 4 * coverage / 100;
     }
 
-    if( item::item_tags.count("leather_padded") ) {
+    if( item_tags.count("leather_padded") ) {
         encumber += thickness * coverage / 100 + 5;
     }
-    if( item::item_tags.count("kevlar_padded") ) {
+    if( item_tags.count("kevlar_padded") ) {
         encumber += thickness * coverage / 100 + 5;
     }
 
@@ -2971,11 +2971,11 @@ int item::get_warmth() const
     // it_armor::warmth is signed char
     int result = static_cast<int>( t->warmth );
 
-    if( item::item_tags.count("furred") > 0 ) {
+    if( item_tags.count("furred") > 0 ) {
         fur_lined = 35 * get_coverage() / 100;
     }
 
-    if( item::item_tags.count("wooled") > 0 ) {
+    if( item_tags.count("wooled") > 0 ) {
         wool_lined = 20 * get_coverage() / 100;
     }
 
@@ -3719,7 +3719,7 @@ bool item::is_reloadable_with( const itype_id& ammo ) const
                     return false;
                 }
             } else {
-                auto at = item::find_type( ammo );
+                auto at = find_type( ammo );
                 if( !at->ammo || ammo_type() != at->ammo->type ) {
                     return false;
                 }
@@ -4674,65 +4674,64 @@ bool item::reload( player &u, item_location loc, long qty )
         ammo = &ammo->contents.front();
     }
 
-    if( !is_reloadable() ) {
+    if( !is_reloadable_with( ammo->typeId() ) ) {
         return false;
     }
 
-    item *obj = this;
-    qty = std::min( qty, obj->ammo_capacity() - obj->ammo_remaining() );
+    qty = std::min( qty, ammo_capacity() - ammo_remaining() );
 
-    obj->casings_handle( [&u]( item &e ) {
+    casings_handle( [&u]( item &e ) {
         return u.i_add_or_drop( e );
     } );
 
-    if( obj->is_magazine() ) {
+    if( is_magazine() ) {
         qty = std::min( qty, ammo->charges );
 
-        if( obj->is_ammo_belt() && obj->type->magazine->linkage != "NULL" ) {
-            if( !u.use_charges_if_avail( obj->type->magazine->linkage, qty ) ) {
+        if( is_ammo_belt() && type->magazine->linkage != "NULL" ) {
+            if( !u.use_charges_if_avail( type->magazine->linkage, qty ) ) {
                 debugmsg( "insufficient linkages available when reloading ammo belt" );
             }
         }
 
-        obj->contents.emplace_back( *ammo );
-        obj->contents.back().charges = qty;
+        contents.emplace_back( *ammo );
+        contents.back().charges = qty;
         ammo->charges -= qty;
 
-    } else if ( !obj->magazine_integral() ) {
+    } else if ( !magazine_integral() ) {
         // if we already have a magazine loaded prompt to eject it
-        if( obj->magazine_current() ) {
+        if( magazine_current() ) {
             std::string prompt = string_format( _( "Eject %s from %s?" ),
-                                                obj->magazine_current()->tname().c_str(), obj->tname().c_str() );
+                                                magazine_current()->tname().c_str(), tname().c_str() );
 
             // eject magazine to player inventory and try to dispose of it from there
-            item &mag = u.i_add( *obj->magazine_current() );
+            item &mag = u.i_add( *magazine_current() );
             if( !u.dispose_item( item_location( u, &mag ), prompt ) ) {
                 u.remove_item( mag ); // user canceled so delete the clone
                 return false;
             }
-            obj->remove_item( *obj->magazine_current() );
+            remove_item( *magazine_current() );
         }
 
-        obj->contents.emplace_back( *ammo );
+        contents.emplace_back( *ammo );
         loc.remove_item();
         return true;
 
     } else {
-        obj->curammo = item::find_type( ammo->typeId() );
+        curammo = find_type( ammo->typeId() );
 
         if( ammo_type() == ammotype( "plutonium" ) ) {
             // Warning: qty here refers to minimum of plutonium cells and capacity left
             // always consume at least one cell but never more than actually available
             auto cells = std::min( qty / PLUTONIUM_CHARGES + ( qty % PLUTONIUM_CHARGES != 0 ), ammo->charges );
             ammo->charges -= cells;
-            // any excess is wasted rather than overfilling the obj
-            obj->charges += std::min( cells, qty ) * PLUTONIUM_CHARGES;
+            // any excess is wasted rather than overfilling the item
+            charges += std::min( cells, qty ) * PLUTONIUM_CHARGES;
             // Cap at max, because the above formula doesn't guarantee it
-            obj->charges = std::min( obj->charges, obj->ammo_capacity() );
+            charges = std::min( charges, ammo_capacity() );
         } else {
             qty = std::min( qty, ammo->charges );
-            ammo->charges   -= qty;
-            obj->charges += qty;
+            ammo->charges -= qty;
+            charges += qty;
         }
     }
 
