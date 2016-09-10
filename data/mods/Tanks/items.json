@@ -383,7 +383,7 @@
   "reload": 100,
   "loudness" : 175,
   "magazines": [
-      [ "223", [ "belt30mm" ] ]
+      [ "30mm", [ "belt30mm" ] ]
   ]
 },{
   "id": "tank_gun_manual",
