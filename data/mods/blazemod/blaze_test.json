@@ -1072,7 +1072,7 @@
     "pierce": 5,
     "dispersion": 300,
     "sight_dispersion": 150,
-    "durability": 80,
+    "durability": 10,
     "clip_size": 1,
     "reload": 1000,
     "valid_mod_locations": [],
