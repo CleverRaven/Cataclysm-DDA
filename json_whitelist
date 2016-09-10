@@ -2,3 +2,4 @@ data/json/items/ammo/*
 data/json/items/gun/*
 data/json/items/magazine/*
 data/json/npcs/missiondef.json
+data/mods/blazemod/*.json
