@@ -231,33 +231,21 @@
   },
   {
     "id": "boots_larmor",
+    "copy-from": "boots",
     "type": "ARMOR",
-    "category": "armor",
     "name": "pair of leather armor boots",
     "name_plural": "pairs of leather armor boots",
     "description": "Thick leather boots made specifically to protect the feet.  Light and tough.",
-    "weight": 902,
-    "volume": 8,
-    "price": 12500,
     "material": [ "leather" ],
-    "symbol": "[",
-    "color": "brown",
-    "covers": [ "FEET" ],
     "coverage": 95,
-    "encumbrance": 18,
-    "warmth": 25,
     "material_thickness": 5,
-    "environmental_protection": 2,
-    "use_action": {
-      "type": "holster",
-      "holster_prompt": "Sheath knife",
-      "holster_msg": "You sheath your %s",
-      "max_volume": 1,
-      "draw_cost": 80,
-      "multi": 2,
-      "flags": [ "SHEATH_KNIFE" ]
+    "proportional": {
+      "weight": 1.2,
+      "volume": 1.2,
+      "price": 2.5,
+      "encumbrance": 1.5
     },
-    "flags": [ "VARSIZE", "WATERPROOF", "STURDY" ]
+    "flags": [ "STURDY" ]
   },
   {
     "id": "boots_lsurvivor",
