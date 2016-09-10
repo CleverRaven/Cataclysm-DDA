@@ -380,7 +380,6 @@
   "recoil": 15,
   "durability": 8,
   "burst": 5,
-  "clip_size": 150,
   "reload": 100,
   "loudness" : 175,
   "magazines": [
