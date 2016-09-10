@@ -1,0 +1,46 @@
+[
+  {
+    "type" : "item_group",
+    "id" : "pawn",
+    "items":[
+      ["sword_bayonet", 10],
+      ["bayonet", 10],
+      ["pistol_bayonet", 4]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "mil_surplus",
+    "items":[
+      ["bayonet", 10],
+      ["pistol_bayonet", 4]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "mil_accessories",
+    "items":[
+      ["bayonet", 10],
+      ["pistol_bayonet", 4]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "helicopter",
+    "items":[
+      ["bayonet", 10],
+      ["pistol_bayonet", 4]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "antique",
+    "items":[
+      ["sword_bayonet", 10]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "museum_melee",
+    "items":[
+      ["sword_bayonet", 10],
+      ["bayonet", 10],
+      ["pistol_bayonet", 4]
+    ]
+  }
+]

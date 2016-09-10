@@ -1,0 +1,10 @@
+{
+    "type": "MOD_INFO",
+    "mod_type": "SUPPLEMENTAL",
+    "ident": "makeshift_bayonet",
+    "name": "Makeshift Bayonets Mod",
+    "description": "Rework of bayonets to differentiate military version from what a survivor can craft.",
+    "author": "Noctifer",
+    "category": "items",
+    "path": ""
+}
