@@ -260,55 +260,52 @@ ter_t null_terrain_t() {
   return new_terrain;
 }
 
-long string_to_symbol( JsonIn &js )
-{
-    const std::string s = js.get_string();
-    if( s == "LINE_XOXO" ) {
-        return LINE_XOXO;
-    } else if( s == "LINE_OXOX" ) {
-        return LINE_OXOX;
-    } else if( s.length() != 1 ) {
-        js.error( "Symbol string must be exactly 1 character long." );
-    }
-    return s[0];
-}
-
 template<typename C, typename F>
-void load_season_array( JsonIn &js, C &container, F load_func )
+void load_season_array( JsonObject &jo, const std::string &key, C &container, F load_func )
 {
-    if( js.test_array() ) {
-        js.start_array();
-        for( auto &season_entry : container ) {
-            season_entry = load_func( js );
-            js.end_array(); // consume separator
+    if( jo.has_string( key ) ) {
+        container.fill( load_func( jo.get_string( key ) ) );
+
+    } else if( jo.has_array( key ) ) {
+        auto arr = jo.get_array( key );
+        if( arr.size() == 1 ) {
+            container.fill( load_func( arr.get_string( 0 ) ) );
+
+        } else if( arr.size() == container.size() ) {
+            for( auto &e : container ) {
+                e = load_func( arr.next_string() );
+            }
+
+        } else {
+            jo.throw_error( "Incorrect number of entries", key );
         }
+
     } else {
-        container.fill( load_func( js ) );
+        jo.throw_error( "Expected string or array", key );
     }
-}
-
-nc_color bgcolor_from_json( JsonIn &js)
-{
-    return bgcolor_from_string( js.get_string() );
-}
-
-nc_color color_from_json( JsonIn &js)
-{
-    return color_from_string( js.get_string() );
 }
 
 void map_data_common_t::load_symbol( JsonObject &jo )
 {
-    load_season_array( *jo.get_raw( "symbol" ), symbol_, string_to_symbol );
+    load_season_array( jo, "symbol", symbol_, [&jo]( const std::string &str ) {
+        if( str == "LINE_XOXO" ) {
+            return LINE_XOXO;
+        } else if( str == "LINE_OXOX" ) {
+            return LINE_OXOX;
+        } else if( str.length() != 1 ) {
+            jo.throw_error( "Symbol string must be exactly 1 character long.", "symbol" );
+        }
+        return (int) str[0];
+    } );
 
     const bool has_color = jo.has_member( "color" );
     const bool has_bgcolor = jo.has_member( "bgcolor" );
     if( has_color && has_bgcolor ) {
         jo.throw_error( "Found both color and bgcolor, only one of these is allowed." );
     } else if( has_color ) {
-        load_season_array( *jo.get_raw( "color" ), color_, color_from_json );
+        load_season_array( jo, "color", color_, color_from_string );
     } else if( has_bgcolor ) {
-        load_season_array( *jo.get_raw( "bgcolor" ), color_, bgcolor_from_json );
+        load_season_array( jo, "bgcolor", color_, bgcolor_from_string );
     } else {
         jo.throw_error( "Missing member: one of: \"color\", \"bgcolor\" must exist." );
     }
