@@ -362,19 +362,10 @@
     "color": "dark_gray",
     "covers": [ "FEET" ],
     "coverage": 100,
-    "encumbrance": 30,
+    "encumbrance": 40,
     "warmth": 10,
     "material_thickness": 3,
     "environmental_protection": 12,
-    "use_action": {
-      "type": "holster",
-      "holster_prompt": "Sheath knife",
-      "holster_msg": "You sheath your %s",
-      "max_volume": 1,
-      "draw_cost": 80,
-      "multi": 2,
-      "flags": [ "SHEATH_KNIFE" ]
-    },
     "flags": [ "WATERPROOF" ]
   },
   {
