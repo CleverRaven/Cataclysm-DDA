@@ -1,5 +1,21 @@
 [
   {
+    "result": "boots_bone",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_FEET",
+    "skill_used": "tailor",
+    "difficulty": 3,
+    "skills_required": [ "survival", 2 ],
+    "time": 240000,
+    "book_learn": [ [ "textbook_tailor", 4 ], [ "manual_survival", 2 ], [ "textbook_survival", 2 ] ],
+    "tools": [ [ [ "tailors_kit", 40 ] ] ],
+    "components": [
+      [ [ "boots", 1 ] ],
+      [ [ "bone", 12 ], [ "bone_human", 12 ], [ "bone_tainted", 12 ] ]
+    ]
+  },
+  {
     "result": "boots_winter",
     "type": "recipe",
     "category": "CC_ARMOR",

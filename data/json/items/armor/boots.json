@@ -49,33 +49,19 @@
   },
   {
     "id": "boots_bone",
+    "copy-from": "boots",
     "type": "ARMOR",
-    "category": "armor",
     "name": "pair of bone armor boots",
     "name_plural": "pairs of bone armor boots",
-    "description": "Leather boots armored with reinforcements made from bone.  Light and strong.",
-    "weight": 1824,
-    "volume": 17,
-    "price": 13500,
+    "description": "Leather boots reinforced with bone.  Sturdier but more cumbersome.",
     "material": [ "bone", "leather" ],
-    "symbol": "[",
     "color": "white",
-    "covers": [ "FEET" ],
-    "coverage": 95,
-    "encumbrance": 16,
-    "warmth": 20,
-    "material_thickness": 4,
-    "environmental_protection": 3,
-    "use_action": {
-      "type": "holster",
-      "holster_prompt": "Sheath knife",
-      "holster_msg": "You sheath your %s",
-      "max_volume": 1,
-      "draw_cost": 80,
-      "multi": 2,
-      "flags": [ "SHEATH_KNIFE" ]
+    "proportional": {
+      "weight": 1.5,
+      "price": 1.5,
+      "encumbrance": 1.5
     },
-    "flags": [ "VARSIZE", "WATERPROOF", "STURDY" ]
+    "extend": { "flags": [ "STURDY" ] }
   },
   {
     "id": "boots_bunker",

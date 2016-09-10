@@ -511,36 +511,6 @@
   ]
 },{
   "type" : "recipe",
-  "result": "boots_bone",
-  "category": "CC_ARMOR",
-  "subcategory": "CSC_ARMOR_FEET",
-  "skill_used": "tailor",
-  "difficulty": 3,
-  "time": 40000,
-  "reversible": false,
-  "autolearn": true,
-  "book_learn": [[ "manual_tailor", 2 ] , ["textbook_tailor", 2]],
-  "qualities" : [
-    {"id":"CUT","level":1,"amount":1}
-  ],
-  "tools": [
-    [
-      [ "sewing_kit", 18 ]
-    ]
-  ],
-  "components": [
-    [
-      [ "bone", 18 ],
-      [ "bone_human", 18 ],
-      [ "bone_tainted", 36 ]
-    ],
-    [
-      [ "leather", 6 ],
-      [ "fur", 6 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
   "result": "boots_larmor",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_FEET",
