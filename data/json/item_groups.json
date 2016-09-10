@@ -4597,7 +4597,10 @@
       ["eboshi", 1],
       ["kariginu", 2],
       ["kimono", 3],
-      ["l-stick", 1]
+      ["l-stick", 1],
+      ["sword_bayonet", 10],
+      ["bayonet", 10],
+      ["pistol_bayonet", 4]
     ]
   },{
     "type" : "item_group",
@@ -4681,7 +4684,9 @@
       ["bfipowder", 20],
       ["sheath", 10],
       ["bootsheath", 10],
-      ["survnote", 1]
+      ["survnote", 1],
+      ["bayonet", 10],
+      ["pistol_bayonet", 4]
     ]
   },{
     "type" : "item_group",
@@ -5753,7 +5758,9 @@
       ["sheath", 10],
       ["bootsheath", 8],
       ["holster", 15],
-      ["sholster", 10]
+      ["sholster", 10],
+      ["bayonet", 10],
+      ["pistol_bayonet", 4]
     ]
   },{
     "type" : "item_group",
@@ -6861,7 +6868,9 @@
       ["grapnel", 1],
       ["briefcase", 5],
       ["survnote", 2],
-      ["robot_controls", 3]
+      ["robot_controls", 3],
+      ["bayonet", 10],
+      ["pistol_bayonet", 4]
     ]
   },{
     "type" : "item_group",
@@ -8245,7 +8254,8 @@
       ["straw_doll", 1],
       ["pitchfork", 1],
       ["straw_sandals", 1],
-      ["holy_symbol", 10]
+      ["holy_symbol", 10],
+      ["sword_bayonet", 10]
     ]
   },{
 "type"  : "item_group",
@@ -8444,7 +8454,10 @@
       ["morningstar", 2],
       ["warhammer", 2],
       ["scythe_war", 2],
-      ["pike", 2]
+      ["pike", 2],
+      ["sword_bayonet", 10],
+      ["bayonet", 10],
+      ["pistol_bayonet", 4]
     ]
   },{
 "type" : "item_group",

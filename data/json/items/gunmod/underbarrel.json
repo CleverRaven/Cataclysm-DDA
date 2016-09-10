@@ -31,7 +31,7 @@
     "weight": 387,
     "volume": 2,
     "price": 4000,
-    "cutting": 12,
+    "cutting": 15,
     "to_hit": -1,
     "material": [ "steel" ],
     "symbol": ":",
@@ -335,7 +335,7 @@
     "weight": 122,
     "volume": 1,
     "price": 4000,
-    "cutting": 6,
+    "cutting": 8,
     "to_hit": -4,
     "material": [ "steel" ],
     "symbol": ":",
@@ -382,7 +382,7 @@
     "weight": 923,
     "volume": 3,
     "price": 5000,
-    "cutting": 18,
+    "cutting": 22,
     "material": [ "steel" ],
     "symbol": ":",
     "color": "dark_gray",
@@ -415,5 +415,38 @@
     },
     "dispersion_modifier": 30,
     "flags": [ "RELOAD_ONE" ]
+  },
+  {
+    "id": "makeshift_bayonet",
+    "type": "GUNMOD",
+    "copy-from": "bayonet",
+    "name": "makeshift bayonet",
+    "description": "A makeshift version of a bayonet that consists of a mere spike with some string.  It still makes a decent melee weapon providing reach attacks when attached to long arm, smg or crossbow.",
+    "proportional": {
+      "price": 0.5,
+      "cutting": 0.75
+    }
+  },
+  {
+    "id": "makeshift_pistol_bayonet",
+    "copy-from": "pistol_bayonet",
+    "type": "GUNMOD",
+    "name": "makeshift pistol bayonet",
+    "description": "A makeshift version of a bayonet meant for a pistol that consists of a mere spike with some string.  It still makes a decent melee weapon in a pinch when attached to a pistol.",
+    "proportional": {
+      "price": 0.5,
+      "cutting": 0.75
+    }
+  },
+  {
+    "id": "makeshift_sword_bayonet",
+    "copy-from": "sword_bayonet",
+    "type": "GUNMOD",
+    "name": "makeshift sword bayonet",
+    "description": "A makeshift version of a sword bayonet that consists of a salvaged blade with some string.  It still makes a good melee weapon providing reach attacks when attached to long arm or crossbow.",
+    "proportional": {
+      "price": 0.5,
+      "cutting": 0.75
+    }
   }
 ]
