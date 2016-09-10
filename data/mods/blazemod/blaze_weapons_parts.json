@@ -11,11 +11,10 @@
     "broken_color": "ltgray",
     "difficulty": 4,
     "durability": 400,
-    "size": 10,
     "damage_modifier": 80,
     "folded_volume": 12,
     "breaks_into": [ { "item": "bolter", "count": [ 0, 1 ] } ],
-    "flags": [ "FOLDABLE", "TURRET", "CARGO", "MANUAL", "TOOL_NONE" ]
+    "flags": [ "FOLDABLE", "TURRET", "MANUAL", "TOOL_NONE" ]
   },
   {
     "id": "cangun",
@@ -29,11 +28,10 @@
     "broken_color": "brown",
     "difficulty": 4,
     "durability": 400,
-    "size": 10,
     "damage_modifier": 80,
     "folded_volume": 22,
     "breaks_into": [ { "item": "cangun", "count": [ 0, 1 ] } ],
-    "flags": [ "TURRET", "CARGO", "FOLDABLE", "MANUAL", "TOOL_NONE" ]
+    "flags": [ "TURRET", "FOLDABLE", "MANUAL", "TOOL_NONE" ]
   },
   {
     "id": "gattler1",
@@ -47,12 +45,11 @@
     "broken_color": "dark_gray",
     "difficulty": 5,
     "durability": 400,
-    "size": 10,
     "range": 15,
     "damage_modifier": 80,
     "folded_volume": 15,
     "breaks_into": [ { "item": "gattler", "count": [ 0, 1 ] } ],
-    "flags": [ "FOLDABLE", "TURRET", "CARGO", "MANUAL", "TOOL_NONE" ]
+    "flags": [ "FOLDABLE", "TURRET", "MANUAL", "TOOL_NONE" ]
   },
   {
     "id": "laser_gunp",
@@ -135,11 +132,10 @@
     "difficulty": 5,
     "durability": 400,
     "power": -5,
-    "size": 10,
     "range": 12,
     "folded_volume": 8,
     "breaks_into": [ { "item": "cutter", "count": [ 0, 1 ] } ],
-    "flags": [ "TURRET", "CARGO", "MANUAL", "TOOL_NONE", "FOLDABLE", "EXTRA_DRAG" ]
+    "flags": [ "TURRET", "MANUAL", "TOOL_NONE", "FOLDABLE", "EXTRA_DRAG" ]
   },
   {
     "id": "mflamethrower3",
@@ -171,11 +167,10 @@
     "broken_color": "dark_gray",
     "difficulty": 5,
     "durability": 400,
-    "size": 4,
     "damage_modifier": 80,
     "folded_volume": 10,
     "breaks_into": [ { "item": "nailer", "count": [ 0, 1 ] } ],
-    "flags": [ "FOLDABLE", "TURRET", "CARGO", "MANUAL", "TOOL_NONE" ]
+    "flags": [ "FOLDABLE", "TURRET", "MANUAL", "TOOL_NONE" ]
   },
   {
     "id": "needler",
@@ -189,11 +184,10 @@
     "broken_color": "blue",
     "difficulty": 5,
     "durability": 400,
-    "size": 4,
     "damage_modifier": 80,
     "folded_volume": 15,
     "breaks_into": [ { "item": "needler", "count": [ 0, 1 ] } ],
-    "flags": [ "TURRET", "CARGO", "FOLDABLE", "MANUAL", "TOOL_NONE" ]
+    "flags": [ "TURRET", "FOLDABLE", "MANUAL", "TOOL_NONE" ]
   },
   {
     "id": "railturret",
@@ -207,12 +201,11 @@
     "broken_color": "magenta",
     "difficulty": 5,
     "durability": 400,
-    "size": 5,
     "range": 14,
     "damage_modifier": 80,
     "folded_volume": 16,
     "breaks_into": [ { "item": "railturret", "count": [ 0, 1 ] } ],
-    "flags": [ "TURRET", "CARGO", "FOLDABLE", "MANUAL", "TOOL_NONE" ]
+    "flags": [ "TURRET", "FOLDABLE", "MANUAL", "TOOL_NONE" ]
   },
   {
     "id": "ripper",
@@ -227,11 +220,10 @@
     "difficulty": 5,
     "durability": 400,
     "power": -25,
-    "size": 20,
     "range": 15,
     "folded_volume": 15,
     "breaks_into": [ { "item": "ripper", "count": [ 0, 1 ] } ],
-    "flags": [ "TURRET", "CARGO", "MANUAL", "TOOL_NONE", "FOLDABLE", "EXTRA_DRAG" ]
+    "flags": [ "TURRET", "MANUAL", "TOOL_NONE", "FOLDABLE", "EXTRA_DRAG" ]
   },
   {
     "id": "rslauncher",
@@ -245,11 +237,10 @@
     "broken_color": "ltgray",
     "difficulty": 5,
     "durability": 400,
-    "size": 30,
     "damage_modifier": 80,
     "folded_volume": 18,
     "breaks_into": [ { "item": "rslauncher", "count": [ 0, 1 ] } ],
-    "flags": [ "FOLDABLE", "CARGO", "TURRET", "MANUAL", "TOOL_NONE" ]
+    "flags": [ "FOLDABLE", "TURRET", "MANUAL", "TOOL_NONE" ]
   },
   {
     "id": "scorpion",
@@ -263,11 +254,10 @@
     "broken_color": "brown",
     "difficulty": 4,
     "durability": 400,
-    "size": 10,
     "damage_modifier": 80,
     "folded_volume": 20,
     "breaks_into": [ { "item": "scorpion", "count": [ 0, 1 ] } ],
-    "flags": [ "TURRET", "CARGO", "FOLDABLE", "MANUAL", "TOOL_NONE" ]
+    "flags": [ "TURRET", "FOLDABLE", "MANUAL", "TOOL_NONE" ]
   },
   {
     "id": "shardgun",
@@ -281,11 +271,10 @@
     "broken_color": "blue",
     "difficulty": 6,
     "durability": 400,
-    "size": 4,
     "damage_modifier": 80,
     "folded_volume": 14,
     "breaks_into": [ { "item": "shardgun", "count": [ 0, 1 ] } ],
-    "flags": [ "TURRET", "CARGO", "FOLDABLE", "MANUAL", "TOOL_NONE" ]
+    "flags": [ "TURRET", "FOLDABLE", "MANUAL", "TOOL_NONE" ]
   },
   {
     "id": "slauncher",
@@ -299,11 +288,10 @@
     "broken_color": "ltgray",
     "difficulty": 3,
     "durability": 400,
-    "size": 30,
     "damage_modifier": 80,
     "folded_volume": 12,
     "breaks_into": [ { "item": "slauncher", "count": [ 0, 1 ] } ],
-    "flags": [ "FOLDABLE", "CARGO", "TURRET", "MANUAL", "TOOL_NONE" ]
+    "flags": [ "FOLDABLE", "TURRET", "MANUAL", "TOOL_NONE" ]
   },
   {
     "id": "teslagun",
@@ -334,10 +322,9 @@
     "broken_color": "ltgray",
     "difficulty": 4,
     "durability": 400,
-    "size": 40,
     "damage_modifier": 80,
     "folded_volume": 15,
     "breaks_into": [ { "item": "tiharturret", "count": [ 0, 1 ] } ],
-    "flags": [ "TURRET", "CARGO", "FOLDABLE", "MANUAL", "TOOL_NONE" ]
+    "flags": [ "TURRET", "FOLDABLE", "MANUAL", "TOOL_NONE" ]
   }
 ]

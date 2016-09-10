@@ -11,12 +11,11 @@
     "broken_color": "dark_gray",
     "difficulty": 3,
     "durability": 400,
-    "size": 5,
     "range": 10,
     "damage_modifier": 80,
     "folded_volume": 7,
     "breaks_into": [ { "item": "TDI", "count": [ 0, 1 ] } ],
-    "flags": [ "FOLDABLE", "TURRET", "CARGO", "NEEDS_BATTERY_MOUNT", "TOOL_NONE" ]
+    "flags": [ "FOLDABLE", "TURRET", "NEEDS_BATTERY_MOUNT", "TOOL_NONE" ]
   },
   {
     "id": "TDInc",
@@ -48,12 +47,11 @@
     "broken_color": "ltgray",
     "difficulty": 4,
     "durability": 400,
-    "size": 10,
     "range": 15,
     "damage_modifier": 80,
     "folded_volume": 12,
     "breaks_into": [ { "item": "bolter", "count": [ 0, 1 ] } ],
-    "flags": [ "FOLDABLE", "TURRET", "CARGO", "NEEDS_BATTERY_MOUNT", "TOOL_NONE" ]
+    "flags": [ "FOLDABLE", "TURRET", "NEEDS_BATTERY_MOUNT", "TOOL_NONE" ]
   },
   {
     "id": "abolternc",
@@ -85,12 +83,11 @@
     "broken_color": "brown",
     "difficulty": 5,
     "durability": 400,
-    "size": 10,
     "range": 25,
     "damage_modifier": 80,
     "folded_volume": 22,
     "breaks_into": [ { "item": "cangun", "count": [ 0, 1 ] } ],
-    "flags": [ "TURRET", "CARGO", "FOLDABLE", "NEEDS_BATTERY_MOUNT", "TOOL_NONE" ]
+    "flags": [ "TURRET", "FOLDABLE", "NEEDS_BATTERY_MOUNT", "TOOL_NONE" ]
   },
   {
     "id": "acangunnc",
@@ -122,12 +119,11 @@
     "broken_color": "dark_gray",
     "difficulty": 3,
     "durability": 400,
-    "size": 5,
     "range": 15,
     "damage_modifier": 80,
     "folded_volume": 10,
     "breaks_into": [ { "item": "acr", "count": [ 0, 1 ] } ],
-    "flags": [ "FOLDABLE", "TURRET", "CARGO", "NEEDS_BATTERY_MOUNT", "TOOL_NONE" ]
+    "flags": [ "FOLDABLE", "TURRET", "NEEDS_BATTERY_MOUNT", "TOOL_NONE" ]
   },
   {
     "id": "acrnc",
@@ -159,12 +155,11 @@
     "broken_color": "dark_gray",
     "difficulty": 5,
     "durability": 400,
-    "size": 10,
     "range": 15,
     "damage_modifier": 80,
     "folded_volume": 15,
     "breaks_into": [ { "item": "gattler", "count": [ 0, 1 ] } ],
-    "flags": [ "FOLDABLE", "TURRET", "CARGO", "NEEDS_BATTERY_MOUNT", "TOOL_NONE" ]
+    "flags": [ "FOLDABLE", "TURRET", "NEEDS_BATTERY_MOUNT", "TOOL_NONE" ]
   },
   {
     "id": "agattler1nc",
@@ -196,12 +191,11 @@
     "broken_color": "dark_gray",
     "difficulty": 3,
     "durability": 400,
-    "size": 5,
     "range": 15,
     "damage_modifier": 80,
     "folded_volume": 9,
     "breaks_into": [ { "item": "ak47", "count": [ 0, 1 ] } ],
-    "flags": [ "FOLDABLE", "TURRET", "CARGO", "NEEDS_BATTERY_MOUNT", "TOOL_NONE" ]
+    "flags": [ "FOLDABLE", "TURRET", "NEEDS_BATTERY_MOUNT", "TOOL_NONE" ]
   },
   {
     "id": "ak74",
@@ -215,12 +209,11 @@
     "broken_color": "dark_gray",
     "difficulty": 3,
     "durability": 400,
-    "size": 5,
     "range": 15,
     "damage_modifier": 80,
     "folded_volume": 9,
     "breaks_into": [ { "item": "ak74", "count": [ 0, 1 ] } ],
-    "flags": [ "FOLDABLE", "TURRET", "CARGO", "NEEDS_BATTERY_MOUNT", "TOOL_NONE" ]
+    "flags": [ "FOLDABLE", "TURRET", "NEEDS_BATTERY_MOUNT", "TOOL_NONE" ]
   },
   {
     "id": "alaser_gunp",
@@ -306,12 +299,11 @@
     "broken_color": "dark_gray",
     "difficulty": 3,
     "durability": 400,
-    "size": 5,
     "range": 10,
     "damage_modifier": 80,
     "folded_volume": 7,
     "breaks_into": [ { "item": "american_180", "count": [ 0, 1 ] } ],
-    "flags": [ "FOLDABLE", "TURRET", "CARGO", "NEEDS_BATTERY_MOUNT", "TOOL_NONE" ]
+    "flags": [ "FOLDABLE", "TURRET", "NEEDS_BATTERY_MOUNT", "TOOL_NONE" ]
   },
   {
     "id": "american_180nc",
@@ -343,12 +335,11 @@
     "broken_color": "dark_gray",
     "difficulty": 3,
     "durability": 400,
-    "size": 5,
     "range": 15,
     "damage_modifier": 80,
     "folded_volume": 9,
     "breaks_into": [ { "item": "an94", "count": [ 0, 1 ] } ],
-    "flags": [ "FOLDABLE", "TURRET", "CARGO", "NEEDS_BATTERY_MOUNT", "TOOL_NONE" ]
+    "flags": [ "FOLDABLE", "TURRET", "NEEDS_BATTERY_MOUNT", "TOOL_NONE" ]
   },
   {
     "id": "anailer",
@@ -362,12 +353,11 @@
     "broken_color": "dark_gray",
     "difficulty": 5,
     "durability": 400,
-    "size": 4,
     "range": 18,
     "damage_modifier": 80,
     "folded_volume": 10,
     "breaks_into": [ { "item": "nailer", "count": [ 0, 1 ] } ],
-    "flags": [ "FOLDABLE", "TURRET", "CARGO", "NEEDS_BATTERY_MOUNT", "TOOL_NONE" ]
+    "flags": [ "FOLDABLE", "TURRET", "NEEDS_BATTERY_MOUNT", "TOOL_NONE" ]
   },
   {
     "id": "anailernc",
@@ -399,12 +389,11 @@
     "broken_color": "blue",
     "difficulty": 5,
     "durability": 400,
-    "size": 4,
     "range": 15,
     "damage_modifier": 80,
     "folded_volume": 15,
     "breaks_into": [ { "item": "needler", "count": [ 0, 1 ] } ],
-    "flags": [ "TURRET", "CARGO", "FOLDABLE", "NEEDS_BATTERY_MOUNT", "TOOL_NONE" ]
+    "flags": [ "TURRET", "FOLDABLE", "NEEDS_BATTERY_MOUNT", "TOOL_NONE" ]
   },
   {
     "id": "aneedlernc",
@@ -436,12 +425,11 @@
     "broken_color": "dark_gray",
     "difficulty": 3,
     "durability": 400,
-    "size": 5,
     "range": 15,
     "damage_modifier": 80,
     "folded_volume": 10,
     "breaks_into": [ { "item": "ar15", "count": [ 0, 1 ] } ],
-    "flags": [ "FOLDABLE", "TURRET", "CARGO", "NEEDS_BATTERY_MOUNT", "TOOL_NONE" ]
+    "flags": [ "FOLDABLE", "TURRET", "NEEDS_BATTERY_MOUNT", "TOOL_NONE" ]
   },
   {
     "id": "ar15nc",
@@ -473,12 +461,11 @@
     "broken_color": "magenta",
     "difficulty": 5,
     "durability": 400,
-    "size": 5,
     "range": 14,
     "damage_modifier": 80,
     "folded_volume": 16,
     "breaks_into": [ { "item": "railturret", "count": [ 0, 1 ] } ],
-    "flags": [ "TURRET", "CARGO", "FOLDABLE", "NEEDS_BATTERY_MOUNT", "TOOL_NONE" ]
+    "flags": [ "TURRET", "FOLDABLE", "NEEDS_BATTERY_MOUNT", "TOOL_NONE" ]
   },
   {
     "id": "aripper",
@@ -493,11 +480,10 @@
     "difficulty": 5,
     "durability": 400,
     "power": -25,
-    "size": 20,
     "range": 15,
     "folded_volume": 15,
     "breaks_into": [ { "item": "ripper", "count": [ 0, 1 ] } ],
-    "flags": [ "TURRET", "CARGO", "NEEDS_BATTERY_MOUNT", "TOOL_NONE", "FOLDABLE", "EXTRA_DRAG" ]
+    "flags": [ "TURRET", "NEEDS_BATTERY_MOUNT", "TOOL_NONE", "FOLDABLE", "EXTRA_DRAG" ]
   },
   {
     "id": "arippernc",
@@ -529,12 +515,11 @@
     "broken_color": "brown",
     "difficulty": 4,
     "durability": 400,
-    "size": 10,
     "range": 20,
     "damage_modifier": 80,
     "folded_volume": 20,
     "breaks_into": [ { "item": "scorpion", "count": [ 0, 1 ] } ],
-    "flags": [ "TURRET", "CARGO", "FOLDABLE", "NEEDS_BATTERY_MOUNT", "TOOL_NONE" ]
+    "flags": [ "TURRET", "FOLDABLE", "NEEDS_BATTERY_MOUNT", "TOOL_NONE" ]
   },
   {
     "id": "ascorpionnc",
@@ -566,12 +551,11 @@
     "broken_color": "blue",
     "difficulty": 6,
     "durability": 400,
-    "size": 4,
     "range": 6,
     "damage_modifier": 80,
     "folded_volume": 14,
     "breaks_into": [ { "item": "shardgun", "count": [ 0, 1 ] } ],
-    "flags": [ "TURRET", "CARGO", "FOLDABLE", "NEEDS_BATTERY_MOUNT", "TOOL_NONE" ]
+    "flags": [ "TURRET", "FOLDABLE", "NEEDS_BATTERY_MOUNT", "TOOL_NONE" ]
   },
   {
     "id": "ashardgunnc",
@@ -621,12 +605,11 @@
     "broken_color": "ltgray",
     "difficulty": 4,
     "durability": 400,
-    "size": 40,
     "range": 15,
     "damage_modifier": 80,
     "folded_volume": 15,
     "breaks_into": [ { "item": "tiharturret", "count": [ 0, 1 ] } ],
-    "flags": [ "TURRET", "CARGO", "FOLDABLE", "NEEDS_BATTERY_MOUNT", "TOOL_NONE" ]
+    "flags": [ "TURRET", "FOLDABLE", "NEEDS_BATTERY_MOUNT", "TOOL_NONE" ]
   },
   {
     "id": "atiharturretnc",
@@ -658,12 +641,11 @@
     "broken_color": "dark_gray",
     "difficulty": 4,
     "durability": 400,
-    "size": 5,
     "range": 6,
     "damage_modifier": 80,
     "folded_volume": 10,
     "breaks_into": [ { "item": "bigun", "count": [ 0, 1 ] } ],
-    "flags": [ "FOLDABLE", "TURRET", "CARGO", "NEEDS_BATTERY_MOUNT", "TOOL_NONE" ]
+    "flags": [ "FOLDABLE", "TURRET", "NEEDS_BATTERY_MOUNT", "TOOL_NONE" ]
   },
   {
     "id": "bigun",
@@ -695,12 +677,11 @@
     "broken_color": "dark_gray",
     "difficulty": 5,
     "durability": 400,
-    "size": 5,
     "range": 6,
     "damage_modifier": 80,
     "folded_volume": 12,
     "breaks_into": [ { "item": "blunderbuss", "count": [ 0, 1 ] } ],
-    "flags": [ "FOLDABLE", "TURRET", "CARGO", "NEEDS_BATTERY_MOUNT", "TOOL_NONE" ]
+    "flags": [ "FOLDABLE", "TURRET", "NEEDS_BATTERY_MOUNT", "TOOL_NONE" ]
   },
   {
     "id": "blunderbussnc",
@@ -732,12 +713,11 @@
     "broken_color": "dark_gray",
     "difficulty": 3,
     "durability": 400,
-    "size": 5,
     "range": 15,
     "damage_modifier": 80,
     "folded_volume": 12,
     "breaks_into": [ { "item": "browning_blr", "count": [ 0, 1 ] } ],
-    "flags": [ "FOLDABLE", "TURRET", "CARGO", "NEEDS_BATTERY_MOUNT", "TOOL_NONE" ]
+    "flags": [ "FOLDABLE", "TURRET", "NEEDS_BATTERY_MOUNT", "TOOL_NONE" ]
   },
   {
     "id": "calico",
@@ -751,12 +731,11 @@
     "broken_color": "dark_gray",
     "difficulty": 3,
     "durability": 400,
-    "size": 5,
     "range": 10,
     "damage_modifier": 80,
     "folded_volume": 6,
     "breaks_into": [ { "item": "calico", "count": [ 0, 1 ] } ],
-    "flags": [ "FOLDABLE", "TURRET", "CARGO", "NEEDS_BATTERY_MOUNT", "TOOL_NONE" ]
+    "flags": [ "FOLDABLE", "TURRET", "NEEDS_BATTERY_MOUNT", "TOOL_NONE" ]
   },
   {
     "id": "caliconc",
@@ -788,11 +767,10 @@
     "broken_color": "dark_gray",
     "difficulty": 4,
     "durability": 240,
-    "size": 2,
     "range": 8,
     "folded_volume": 5,
     "breaks_into": [ { "item": "carbine_flintlock", "count": [ 0, 1 ] } ],
-    "flags": [ "TURRET", "CARGO", "FOLDABLE", "NEEDS_BATTERY_MOUNT", "TOOL_NONE" ]
+    "flags": [ "TURRET", "FOLDABLE", "NEEDS_BATTERY_MOUNT", "TOOL_NONE" ]
   },
   {
     "id": "carbine_flintlocknc",
@@ -823,12 +801,11 @@
     "broken_color": "dark_gray",
     "difficulty": 5,
     "durability": 400,
-    "size": 5,
     "range": 10,
     "damage_modifier": 80,
     "folded_volume": 12,
     "breaks_into": [ { "item": "coilgun", "count": [ 0, 1 ] } ],
-    "flags": [ "FOLDABLE", "TURRET", "CARGO", "NEEDS_BATTERY_MOUNT", "TOOL_NONE" ]
+    "flags": [ "FOLDABLE", "TURRET", "NEEDS_BATTERY_MOUNT", "TOOL_NONE" ]
   },
   {
     "id": "coilgunnc",
@@ -861,11 +838,10 @@
     "difficulty": 5,
     "durability": 400,
     "power": -5,
-    "size": 10,
     "range": 12,
     "folded_volume": 8,
     "breaks_into": [ { "item": "cutter", "count": [ 0, 1 ] } ],
-    "flags": [ "TURRET", "CARGO", "NEEDS_BATTERY_MOUNT", "TOOL_NONE", "FOLDABLE", "EXTRA_DRAG" ]
+    "flags": [ "TURRET", "NEEDS_BATTERY_MOUNT", "TOOL_NONE", "FOLDABLE", "EXTRA_DRAG" ]
   },
   {
     "id": "cutternc",
@@ -897,12 +873,11 @@
     "broken_color": "dark_gray",
     "difficulty": 3,
     "durability": 400,
-    "size": 5,
     "range": 15,
     "damage_modifier": 80,
     "folded_volume": 7,
     "breaks_into": [ { "item": "cx4", "count": [ 0, 1 ] } ],
-    "flags": [ "FOLDABLE", "TURRET", "CARGO", "NEEDS_BATTERY_MOUNT", "TOOL_NONE" ]
+    "flags": [ "FOLDABLE", "TURRET", "NEEDS_BATTERY_MOUNT", "TOOL_NONE" ]
   },
   {
     "id": "cx4nc",
@@ -988,12 +963,11 @@
     "broken_color": "dark_gray",
     "difficulty": 3,
     "durability": 400,
-    "size": 5,
     "range": 15,
     "damage_modifier": 80,
     "folded_volume": 10,
     "breaks_into": [ { "item": "fn_fal", "count": [ 0, 1 ] } ],
-    "flags": [ "FOLDABLE", "TURRET", "CARGO", "NEEDS_BATTERY_MOUNT", "TOOL_NONE" ]
+    "flags": [ "FOLDABLE", "TURRET", "NEEDS_BATTERY_MOUNT", "TOOL_NONE" ]
   },
   {
     "id": "fn_falnc",
@@ -1025,12 +999,11 @@
     "broken_color": "dark_gray",
     "difficulty": 3,
     "durability": 400,
-    "size": 5,
     "range": 10,
     "damage_modifier": 80,
     "folded_volume": 6,
     "breaks_into": [ { "item": "fn_p90", "count": [ 0, 1 ] } ],
-    "flags": [ "FOLDABLE", "TURRET", "CARGO", "NEEDS_BATTERY_MOUNT", "TOOL_NONE" ]
+    "flags": [ "FOLDABLE", "TURRET", "NEEDS_BATTERY_MOUNT", "TOOL_NONE" ]
   },
   {
     "id": "h&k416a5",
@@ -1044,12 +1017,11 @@
     "broken_color": "dark_gray",
     "difficulty": 3,
     "durability": 400,
-    "size": 5,
     "range": 15,
     "damage_modifier": 80,
     "folded_volume": 9,
     "breaks_into": [ { "item": "h&k416a5", "count": [ 0, 1 ] } ],
-    "flags": [ "FOLDABLE", "TURRET", "CARGO", "NEEDS_BATTERY_MOUNT", "TOOL_NONE" ]
+    "flags": [ "FOLDABLE", "TURRET", "NEEDS_BATTERY_MOUNT", "TOOL_NONE" ]
   },
   {
     "id": "h&k416a5nc",
@@ -1081,12 +1053,11 @@
     "broken_color": "dark_gray",
     "difficulty": 5,
     "durability": 400,
-    "size": 5,
     "range": 18,
     "damage_modifier": 80,
     "folded_volume": 18,
     "breaks_into": [ { "item": "heavy_rail_rifle", "count": [ 0, 1 ] } ],
-    "flags": [ "FOLDABLE", "TURRET", "CARGO", "NEEDS_BATTERY_MOUNT", "TOOL_NONE" ]
+    "flags": [ "FOLDABLE", "TURRET", "NEEDS_BATTERY_MOUNT", "TOOL_NONE" ]
   },
   {
     "id": "hk_g3",
@@ -1100,12 +1071,11 @@
     "broken_color": "dark_gray",
     "difficulty": 3,
     "durability": 400,
-    "size": 5,
     "range": 15,
     "damage_modifier": 80,
     "folded_volume": 3,
     "breaks_into": [ { "item": "hk_g3", "count": [ 0, 1 ] } ],
-    "flags": [ "FOLDABLE", "TURRET", "CARGO", "NEEDS_BATTERY_MOUNT", "TOOL_NONE" ]
+    "flags": [ "FOLDABLE", "TURRET", "NEEDS_BATTERY_MOUNT", "TOOL_NONE" ]
   },
   {
     "id": "hk_g36",
@@ -1119,12 +1089,11 @@
     "broken_color": "dark_gray",
     "difficulty": 3,
     "durability": 400,
-    "size": 5,
     "range": 15,
     "damage_modifier": 80,
     "folded_volume": 12,
     "breaks_into": [ { "item": "hk_g36", "count": [ 0, 1 ] } ],
-    "flags": [ "FOLDABLE", "TURRET", "CARGO", "NEEDS_BATTERY_MOUNT", "TOOL_NONE" ]
+    "flags": [ "FOLDABLE", "TURRET", "NEEDS_BATTERY_MOUNT", "TOOL_NONE" ]
   },
   {
     "id": "hk_g36nc",
@@ -1174,12 +1143,11 @@
     "broken_color": "dark_gray",
     "difficulty": 5,
     "durability": 400,
-    "size": 5,
     "range": 25,
     "damage_modifier": 80,
     "folded_volume": 12,
     "breaks_into": [ { "item": "hk_g80", "count": [ 0, 1 ] } ],
-    "flags": [ "FOLDABLE", "TURRET", "CARGO", "NEEDS_BATTERY_MOUNT", "TOOL_NONE" ]
+    "flags": [ "FOLDABLE", "TURRET", "NEEDS_BATTERY_MOUNT", "TOOL_NONE" ]
   },
   {
     "id": "hk_mp5",
@@ -1193,12 +1161,11 @@
     "broken_color": "dark_gray",
     "difficulty": 3,
     "durability": 400,
-    "size": 5,
     "range": 10,
     "damage_modifier": 80,
     "folded_volume": 7,
     "breaks_into": [ { "item": "hk_mp5", "count": [ 0, 1 ] } ],
-    "flags": [ "FOLDABLE", "TURRET", "CARGO", "NEEDS_BATTERY_MOUNT", "TOOL_NONE" ]
+    "flags": [ "FOLDABLE", "TURRET", "NEEDS_BATTERY_MOUNT", "TOOL_NONE" ]
   },
   {
     "id": "hk_mp5nc",
@@ -1230,12 +1197,11 @@
     "broken_color": "dark_gray",
     "difficulty": 3,
     "durability": 400,
-    "size": 5,
     "range": 10,
     "damage_modifier": 80,
     "folded_volume": 7,
     "breaks_into": [ { "item": "hk_mp7", "count": [ 0, 1 ] } ],
-    "flags": [ "FOLDABLE", "TURRET", "CARGO", "NEEDS_BATTERY_MOUNT", "TOOL_NONE" ]
+    "flags": [ "FOLDABLE", "TURRET", "NEEDS_BATTERY_MOUNT", "TOOL_NONE" ]
   },
   {
     "id": "hk_ump45",
@@ -1249,12 +1215,11 @@
     "broken_color": "dark_gray",
     "difficulty": 3,
     "durability": 400,
-    "size": 5,
     "range": 10,
     "damage_modifier": 80,
     "folded_volume": 7,
     "breaks_into": [ { "item": "hk_ump45", "count": [ 0, 1 ] } ],
-    "flags": [ "FOLDABLE", "TURRET", "CARGO", "NEEDS_BATTERY_MOUNT", "TOOL_NONE" ]
+    "flags": [ "FOLDABLE", "TURRET", "NEEDS_BATTERY_MOUNT", "TOOL_NONE" ]
   },
   {
     "id": "hk_ump45nc",
@@ -1286,12 +1251,11 @@
     "broken_color": "dark_gray",
     "difficulty": 4,
     "durability": 400,
-    "size": 5,
     "range": 6,
     "damage_modifier": 80,
     "folded_volume": 7,
     "breaks_into": [ { "item": "ksg", "count": [ 0, 1 ] } ],
-    "flags": [ "FOLDABLE", "TURRET", "CARGO", "NEEDS_BATTERY_MOUNT", "TOOL_NONE" ]
+    "flags": [ "FOLDABLE", "TURRET", "NEEDS_BATTERY_MOUNT", "TOOL_NONE" ]
   },
   {
     "id": "ksgnc",
@@ -1323,12 +1287,11 @@
     "broken_color": "dark_gray",
     "difficulty": 3,
     "durability": 400,
-    "size": 5,
     "range": 15,
     "damage_modifier": 80,
     "folded_volume": 6,
     "breaks_into": [ { "item": "l_base_223", "count": [ 0, 1 ] } ],
-    "flags": [ "FOLDABLE", "TURRET", "CARGO", "NEEDS_BATTERY_MOUNT", "TOOL_NONE" ]
+    "flags": [ "FOLDABLE", "TURRET", "NEEDS_BATTERY_MOUNT", "TOOL_NONE" ]
   },
   {
     "id": "l_base_223nc",
@@ -1360,12 +1323,11 @@
     "broken_color": "dark_gray",
     "difficulty": 3,
     "durability": 400,
-    "size": 5,
     "range": 15,
     "damage_modifier": 80,
     "folded_volume": 8,
     "breaks_into": [ { "item": "l_car_223", "count": [ 0, 1 ] } ],
-    "flags": [ "FOLDABLE", "TURRET", "CARGO", "NEEDS_BATTERY_MOUNT", "TOOL_NONE" ]
+    "flags": [ "FOLDABLE", "TURRET", "NEEDS_BATTERY_MOUNT", "TOOL_NONE" ]
   },
   {
     "id": "l_car_223nc",
@@ -1397,12 +1359,11 @@
     "broken_color": "dark_gray",
     "difficulty": 3,
     "durability": 400,
-    "size": 5,
     "range": 6,
     "damage_modifier": 80,
     "folded_volume": 11,
     "breaks_into": [ { "item": "l_def_12", "count": [ 0, 1 ] } ],
-    "flags": [ "FOLDABLE", "TURRET", "CARGO", "NEEDS_BATTERY_MOUNT", "TOOL_NONE" ]
+    "flags": [ "FOLDABLE", "TURRET", "NEEDS_BATTERY_MOUNT", "TOOL_NONE" ]
   },
   {
     "id": "l_def_12nc",
@@ -1434,12 +1395,11 @@
     "broken_color": "dark_gray",
     "difficulty": 3,
     "durability": 400,
-    "size": 5,
     "range": 21,
     "damage_modifier": 80,
     "folded_volume": 12,
     "breaks_into": [ { "item": "l_dsr_223", "count": [ 0, 1 ] } ],
-    "flags": [ "FOLDABLE", "TURRET", "CARGO", "NEEDS_BATTERY_MOUNT", "TOOL_NONE" ]
+    "flags": [ "FOLDABLE", "TURRET", "NEEDS_BATTERY_MOUNT", "TOOL_NONE" ]
   },
   {
     "id": "l_dsr_223nc",
@@ -1471,12 +1431,11 @@
     "broken_color": "dark_gray",
     "difficulty": 3,
     "durability": 400,
-    "size": 5,
     "range": 21,
     "damage_modifier": 80,
     "folded_volume": 18,
     "breaks_into": [ { "item": "l_lmg_223", "count": [ 0, 1 ] } ],
-    "flags": [ "FOLDABLE", "TURRET", "CARGO", "NEEDS_BATTERY_MOUNT", "TOOL_NONE" ]
+    "flags": [ "FOLDABLE", "TURRET", "NEEDS_BATTERY_MOUNT", "TOOL_NONE" ]
   },
   {
     "id": "l_lmg_223nc",
@@ -1508,12 +1467,11 @@
     "broken_color": "dark_gray",
     "difficulty": 3,
     "durability": 400,
-    "size": 5,
     "range": 15,
     "damage_modifier": 80,
     "folded_volume": 13,
     "breaks_into": [ { "item": "l_long_45", "count": [ 0, 1 ] } ],
-    "flags": [ "FOLDABLE", "TURRET", "CARGO", "NEEDS_BATTERY_MOUNT", "TOOL_NONE" ]
+    "flags": [ "FOLDABLE", "TURRET", "NEEDS_BATTERY_MOUNT", "TOOL_NONE" ]
   },
   {
     "id": "l_long_45nc",
@@ -1545,12 +1503,11 @@
     "broken_color": "dark_gray",
     "difficulty": 3,
     "durability": 400,
-    "size": 5,
     "range": 15,
     "damage_modifier": 80,
     "folded_volume": 9,
     "breaks_into": [ { "item": "l_mbr_223", "count": [ 0, 1 ] } ],
-    "flags": [ "FOLDABLE", "TURRET", "CARGO", "NEEDS_BATTERY_MOUNT", "TOOL_NONE" ]
+    "flags": [ "FOLDABLE", "TURRET", "NEEDS_BATTERY_MOUNT", "TOOL_NONE" ]
   },
   {
     "id": "l_mbr_223nc",
@@ -1582,12 +1539,11 @@
     "broken_color": "dark_gray",
     "difficulty": 4,
     "durability": 400,
-    "size": 5,
     "range": 25,
     "damage_modifier": 80,
     "folded_volume": 5,
     "breaks_into": [ { "item": "launcher_simple", "count": [ 0, 1 ] } ],
-    "flags": [ "FOLDABLE", "TURRET", "CARGO", "NEEDS_BATTERY_MOUNT", "TOOL_NONE" ]
+    "flags": [ "FOLDABLE", "TURRET", "NEEDS_BATTERY_MOUNT", "TOOL_NONE" ]
   },
   {
     "id": "m1014",
@@ -1601,12 +1557,11 @@
     "broken_color": "dark_gray",
     "difficulty": 4,
     "durability": 400,
-    "size": 5,
     "range": 6,
     "damage_modifier": 80,
     "folded_volume": 10,
     "breaks_into": [ { "item": "m1014", "count": [ 0, 1 ] } ],
-    "flags": [ "FOLDABLE", "TURRET", "CARGO", "NEEDS_BATTERY_MOUNT", "TOOL_NONE" ]
+    "flags": [ "FOLDABLE", "TURRET", "NEEDS_BATTERY_MOUNT", "TOOL_NONE" ]
   },
   {
     "id": "m1014nc",
@@ -1638,12 +1593,11 @@
     "broken_color": "dark_gray",
     "difficulty": 3,
     "durability": 400,
-    "size": 5,
     "range": 25,
     "damage_modifier": 80,
     "folded_volume": 18,
     "breaks_into": [ { "item": "m107a1", "count": [ 0, 1 ] } ],
-    "flags": [ "FOLDABLE", "TURRET", "CARGO", "NEEDS_BATTERY_MOUNT", "TOOL_NONE" ]
+    "flags": [ "FOLDABLE", "TURRET", "NEEDS_BATTERY_MOUNT", "TOOL_NONE" ]
   },
   {
     "id": "m107a1",
@@ -1675,12 +1629,11 @@
     "broken_color": "dark_gray",
     "difficulty": 3,
     "durability": 400,
-    "size": 5,
     "range": 21,
     "damage_modifier": 80,
     "folded_volume": 11,
     "breaks_into": [ { "item": "m14ebr", "count": [ 0, 1 ] } ],
-    "flags": [ "FOLDABLE", "TURRET", "CARGO", "NEEDS_BATTERY_MOUNT", "TOOL_NONE" ]
+    "flags": [ "FOLDABLE", "TURRET", "NEEDS_BATTERY_MOUNT", "TOOL_NONE" ]
   },
   {
     "id": "m14ebrnc",
@@ -1712,12 +1665,11 @@
     "broken_color": "dark_gray",
     "difficulty": 3,
     "durability": 400,
-    "size": 5,
     "range": 15,
     "damage_modifier": 80,
     "folded_volume": 11,
     "breaks_into": [ { "item": "m1a", "count": [ 0, 1 ] } ],
-    "flags": [ "FOLDABLE", "TURRET", "CARGO", "NEEDS_BATTERY_MOUNT", "TOOL_NONE" ]
+    "flags": [ "FOLDABLE", "TURRET", "NEEDS_BATTERY_MOUNT", "TOOL_NONE" ]
   },
   {
     "id": "m1anc",
@@ -1749,12 +1701,11 @@
     "broken_color": "dark_gray",
     "difficulty": 3,
     "durability": 400,
-    "size": 5,
     "range": 21,
     "damage_modifier": 80,
     "folded_volume": 12,
     "breaks_into": [ { "item": "m2010", "count": [ 0, 1 ] } ],
-    "flags": [ "FOLDABLE", "TURRET", "CARGO", "NEEDS_BATTERY_MOUNT", "TOOL_NONE" ]
+    "flags": [ "FOLDABLE", "TURRET", "NEEDS_BATTERY_MOUNT", "TOOL_NONE" ]
   },
   {
     "id": "m27iar",
@@ -1768,12 +1719,11 @@
     "broken_color": "dark_gray",
     "difficulty": 3,
     "durability": 400,
-    "size": 5,
     "range": 21,
     "damage_modifier": 80,
     "folded_volume": 11,
     "breaks_into": [ { "item": "m27iar", "count": [ 0, 1 ] } ],
-    "flags": [ "FOLDABLE", "TURRET", "CARGO", "NEEDS_BATTERY_MOUNT", "TOOL_NONE" ]
+    "flags": [ "FOLDABLE", "TURRET", "NEEDS_BATTERY_MOUNT", "TOOL_NONE" ]
   },
   {
     "id": "m27iarnc",
@@ -1841,12 +1791,11 @@
     "broken_color": "dark_gray",
     "difficulty": 4,
     "durability": 400,
-    "size": 5,
     "range": 25,
     "damage_modifier": 80,
     "folded_volume": 3,
     "breaks_into": [ { "item": "m320", "count": [ 0, 1 ] } ],
-    "flags": [ "FOLDABLE", "TURRET", "CARGO", "NEEDS_BATTERY_MOUNT", "TOOL_NONE" ]
+    "flags": [ "FOLDABLE", "TURRET", "NEEDS_BATTERY_MOUNT", "TOOL_NONE" ]
   },
   {
     "id": "m4a1",
@@ -1860,12 +1809,11 @@
     "broken_color": "dark_gray",
     "difficulty": 3,
     "durability": 400,
-    "size": 5,
     "range": 15,
     "damage_modifier": 80,
     "folded_volume": 9,
     "breaks_into": [ { "item": "m4a1", "count": [ 0, 1 ] } ],
-    "flags": [ "FOLDABLE", "TURRET", "CARGO", "NEEDS_BATTERY_MOUNT", "TOOL_NONE" ]
+    "flags": [ "FOLDABLE", "TURRET", "NEEDS_BATTERY_MOUNT", "TOOL_NONE" ]
   },
   {
     "id": "m4a1nc",
@@ -1897,12 +1845,11 @@
     "broken_color": "dark_gray",
     "difficulty": 3,
     "durability": 400,
-    "size": 5,
     "range": 15,
     "damage_modifier": 80,
     "folded_volume": 16,
     "breaks_into": [ { "item": "m60", "count": [ 0, 1 ] } ],
-    "flags": [ "FOLDABLE", "TURRET", "CARGO", "NEEDS_BATTERY_MOUNT", "TOOL_NONE" ]
+    "flags": [ "FOLDABLE", "TURRET", "NEEDS_BATTERY_MOUNT", "TOOL_NONE" ]
   },
   {
     "id": "m60nc",
@@ -1934,12 +1881,11 @@
     "broken_color": "dark_gray",
     "difficulty": 3,
     "durability": 400,
-    "size": 5,
     "range": 25,
     "damage_modifier": 80,
     "folded_volume": 4,
     "breaks_into": [ { "item": "m79", "count": [ 0, 1 ] } ],
-    "flags": [ "FOLDABLE", "TURRET", "CARGO", "NEEDS_BATTERY_MOUNT", "TOOL_NONE" ]
+    "flags": [ "FOLDABLE", "TURRET", "NEEDS_BATTERY_MOUNT", "TOOL_NONE" ]
   },
   {
     "id": "mac_10",
@@ -1953,12 +1899,11 @@
     "broken_color": "dark_gray",
     "difficulty": 3,
     "durability": 400,
-    "size": 5,
     "range": 10,
     "damage_modifier": 80,
     "folded_volume": 4,
     "breaks_into": [ { "item": "mac_10", "count": [ 0, 1 ] } ],
-    "flags": [ "FOLDABLE", "TURRET", "CARGO", "NEEDS_BATTERY_MOUNT", "TOOL_NONE" ]
+    "flags": [ "FOLDABLE", "TURRET", "NEEDS_BATTERY_MOUNT", "TOOL_NONE" ]
   },
   {
     "id": "mac_10nc",
@@ -1990,12 +1935,11 @@
     "broken_color": "dark_gray",
     "difficulty": 3,
     "durability": 400,
-    "size": 5,
     "range": 15,
     "damage_modifier": 80,
     "folded_volume": 10,
     "breaks_into": [ { "item": "marlin_9a", "count": [ 0, 1 ] } ],
-    "flags": [ "FOLDABLE", "TURRET", "CARGO", "NEEDS_BATTERY_MOUNT", "TOOL_NONE" ]
+    "flags": [ "FOLDABLE", "TURRET", "NEEDS_BATTERY_MOUNT", "TOOL_NONE" ]
   },
   {
     "id": "marlin_9anc",
@@ -2027,12 +1971,11 @@
     "broken_color": "dark_gray",
     "difficulty": 4,
     "durability": 400,
-    "size": 5,
     "range": 25,
     "damage_modifier": 80,
     "folded_volume": 9,
     "breaks_into": [ { "item": "mgl", "count": [ 0, 1 ] } ],
-    "flags": [ "FOLDABLE", "TURRET", "CARGO", "NEEDS_BATTERY_MOUNT", "TOOL_NONE" ]
+    "flags": [ "FOLDABLE", "TURRET", "NEEDS_BATTERY_MOUNT", "TOOL_NONE" ]
   },
   {
     "id": "mossberg_500",
@@ -2046,12 +1989,11 @@
     "broken_color": "dark_gray",
     "difficulty": 4,
     "durability": 400,
-    "size": 5,
     "range": 6,
     "damage_modifier": 80,
     "folded_volume": 10,
     "breaks_into": [ { "item": "mossberg_500", "count": [ 0, 1 ] } ],
-    "flags": [ "FOLDABLE", "TURRET", "CARGO", "NEEDS_BATTERY_MOUNT", "TOOL_NONE" ]
+    "flags": [ "FOLDABLE", "TURRET", "NEEDS_BATTERY_MOUNT", "TOOL_NONE" ]
   },
   {
     "id": "mossberg_500nc",
@@ -2083,12 +2025,11 @@
     "broken_color": "dark_gray",
     "difficulty": 4,
     "durability": 400,
-    "size": 5,
     "range": 6,
     "damage_modifier": 80,
     "folded_volume": 10,
     "breaks_into": [ { "item": "nailrifle", "count": [ 0, 1 ] } ],
-    "flags": [ "FOLDABLE", "TURRET", "CARGO", "NEEDS_BATTERY_MOUNT", "TOOL_NONE" ]
+    "flags": [ "FOLDABLE", "TURRET", "NEEDS_BATTERY_MOUNT", "TOOL_NONE" ]
   },
   {
     "id": "nailriflenc",
@@ -2120,12 +2061,11 @@
     "broken_color": "dark_gray",
     "difficulty": 3,
     "durability": 400,
-    "size": 5,
     "range": 10,
     "damage_modifier": 80,
     "folded_volume": 12,
     "breaks_into": [ { "item": "needlegun", "count": [ 0, 1 ] } ],
-    "flags": [ "FOLDABLE", "TURRET", "CARGO", "NEEDS_BATTERY_MOUNT", "TOOL_NONE" ]
+    "flags": [ "FOLDABLE", "TURRET", "NEEDS_BATTERY_MOUNT", "TOOL_NONE" ]
   },
   {
     "id": "pipe_double_shotgun",
@@ -2139,12 +2079,11 @@
     "broken_color": "dark_gray",
     "difficulty": 5,
     "durability": 400,
-    "size": 5,
     "range": 6,
     "damage_modifier": 80,
     "folded_volume": 12,
     "breaks_into": [ { "item": "pipe_double_shotgun", "count": [ 0, 1 ] } ],
-    "flags": [ "FOLDABLE", "TURRET", "CARGO", "NEEDS_BATTERY_MOUNT", "TOOL_NONE" ]
+    "flags": [ "FOLDABLE", "TURRET", "NEEDS_BATTERY_MOUNT", "TOOL_NONE" ]
   },
   {
     "id": "pipe_double_shotgunnc",
@@ -2176,12 +2115,11 @@
     "broken_color": "dark_gray",
     "difficulty": 5,
     "durability": 400,
-    "size": 5,
     "range": 9,
     "damage_modifier": 80,
     "folded_volume": 3,
     "breaks_into": [ { "item": "pipe_shotgun", "count": [ 0, 1 ] } ],
-    "flags": [ "FOLDABLE", "TURRET", "CARGO", "NEEDS_BATTERY_MOUNT", "TOOL_NONE" ]
+    "flags": [ "FOLDABLE", "TURRET", "NEEDS_BATTERY_MOUNT", "TOOL_NONE" ]
   },
   {
     "id": "pipe_shotgunnc",
@@ -2213,12 +2151,11 @@
     "broken_color": "dark_gray",
     "difficulty": 5,
     "durability": 400,
-    "size": 5,
     "range": 6,
     "damage_modifier": 80,
     "folded_volume": 6,
     "breaks_into": [ { "item": "pipe_shotgunsawn", "count": [ 0, 1 ] } ],
-    "flags": [ "FOLDABLE", "TURRET", "CARGO", "NEEDS_BATTERY_MOUNT", "TOOL_NONE" ]
+    "flags": [ "FOLDABLE", "TURRET", "NEEDS_BATTERY_MOUNT", "TOOL_NONE" ]
   },
   {
     "id": "pipe_shotgunsawnnc",
@@ -2250,12 +2187,11 @@
     "broken_color": "dark_gray",
     "difficulty": 5,
     "durability": 400,
-    "size": 5,
     "range": 18,
     "damage_modifier": 80,
     "folded_volume": 10,
     "breaks_into": [ { "item": "rebar_rifle", "count": [ 0, 1 ] } ],
-    "flags": [ "FOLDABLE", "TURRET", "CARGO", "NEEDS_BATTERY_MOUNT", "TOOL_NONE" ]
+    "flags": [ "FOLDABLE", "TURRET", "NEEDS_BATTERY_MOUNT", "TOOL_NONE" ]
   },
   {
     "id": "remington_700",
@@ -2269,12 +2205,11 @@
     "broken_color": "dark_gray",
     "difficulty": 3,
     "durability": 400,
-    "size": 5,
     "range": 15,
     "damage_modifier": 80,
     "folded_volume": 12,
     "breaks_into": [ { "item": "remington_700", "count": [ 0, 1 ] } ],
-    "flags": [ "FOLDABLE", "TURRET", "CARGO", "NEEDS_BATTERY_MOUNT", "TOOL_NONE" ]
+    "flags": [ "FOLDABLE", "TURRET", "NEEDS_BATTERY_MOUNT", "TOOL_NONE" ]
   },
   {
     "id": "remington_870",
@@ -2288,12 +2223,11 @@
     "broken_color": "dark_gray",
     "difficulty": 4,
     "durability": 400,
-    "size": 5,
     "range": 6,
     "damage_modifier": 80,
     "folded_volume": 10,
     "breaks_into": [ { "item": "remington_870", "count": [ 0, 1 ] } ],
-    "flags": [ "FOLDABLE", "TURRET", "CARGO", "NEEDS_BATTERY_MOUNT", "TOOL_NONE" ]
+    "flags": [ "FOLDABLE", "TURRET", "NEEDS_BATTERY_MOUNT", "TOOL_NONE" ]
   },
   {
     "id": "remington_870nc",
@@ -2325,12 +2259,11 @@
     "broken_color": "ltgray",
     "difficulty": 4,
     "durability": 400,
-    "size": 10,
     "range": 8,
     "damage_modifier": 80,
     "folded_volume": 10,
     "breaks_into": [ { "item": "rep_crossbow", "count": [ 0, 1 ] } ],
-    "flags": [ "FOLDABLE", "TURRET", "CARGO", "NEEDS_BATTERY_MOUNT", "TOOL_NONE" ]
+    "flags": [ "FOLDABLE", "TURRET", "NEEDS_BATTERY_MOUNT", "TOOL_NONE" ]
   },
   {
     "id": "repeatingcrossbownc",
@@ -2362,12 +2295,11 @@
     "broken_color": "dark_gray",
     "difficulty": 5,
     "durability": 400,
-    "size": 5,
     "range": 6,
     "damage_modifier": 80,
     "folded_volume": 11,
     "breaks_into": [ { "item": "revolver_shotgun", "count": [ 0, 1 ] } ],
-    "flags": [ "FOLDABLE", "TURRET", "CARGO", "NEEDS_BATTERY_MOUNT", "TOOL_NONE" ]
+    "flags": [ "FOLDABLE", "TURRET", "NEEDS_BATTERY_MOUNT", "TOOL_NONE" ]
   },
   {
     "id": "revolver_shotgunnc",
@@ -2399,12 +2331,11 @@
     "broken_color": "dark_gray",
     "difficulty": 4,
     "durability": 400,
-    "size": 5,
     "range": 12,
     "damage_modifier": 80,
     "folded_volume": 7,
     "breaks_into": [ { "item": "rifle_22", "count": [ 0, 1 ] } ],
-    "flags": [ "FOLDABLE", "TURRET", "CARGO", "NEEDS_BATTERY_MOUNT", "TOOL_NONE" ]
+    "flags": [ "FOLDABLE", "TURRET", "NEEDS_BATTERY_MOUNT", "TOOL_NONE" ]
   },
   {
     "id": "rifle_22nc",
@@ -2436,12 +2367,11 @@
     "broken_color": "dark_gray",
     "difficulty": 4,
     "durability": 400,
-    "size": 5,
     "range": 12,
     "damage_modifier": 80,
     "folded_volume": 8,
     "breaks_into": [ { "item": "rifle_308", "count": [ 0, 1 ] } ],
-    "flags": [ "FOLDABLE", "TURRET", "CARGO", "NEEDS_BATTERY_MOUNT", "TOOL_NONE" ]
+    "flags": [ "FOLDABLE", "TURRET", "NEEDS_BATTERY_MOUNT", "TOOL_NONE" ]
   },
   {
     "id": "rifle_308nc",
@@ -2473,12 +2403,11 @@
     "broken_color": "dark_gray",
     "difficulty": 4,
     "durability": 400,
-    "size": 5,
     "range": 12,
     "damage_modifier": 80,
     "folded_volume": 8,
     "breaks_into": [ { "item": "rifle_9mm", "count": [ 0, 1 ] } ],
-    "flags": [ "FOLDABLE", "TURRET", "CARGO", "NEEDS_BATTERY_MOUNT", "TOOL_NONE" ]
+    "flags": [ "FOLDABLE", "TURRET", "NEEDS_BATTERY_MOUNT", "TOOL_NONE" ]
   },
   {
     "id": "rifle_9mmnc",
@@ -2510,11 +2439,10 @@
     "broken_color": "dark_gray",
     "difficulty": 4,
     "durability": 240,
-    "size": 2,
     "range": 8,
     "folded_volume": 7,
     "breaks_into": [ { "item": "rifle_flintlock", "count": [ 0, 1 ] } ],
-    "flags": [ "TURRET", "CARGO", "FOLDABLE", "NEEDS_BATTERY_MOUNT", "TOOL_NONE" ]
+    "flags": [ "TURRET", "FOLDABLE", "NEEDS_BATTERY_MOUNT", "TOOL_NONE" ]
   },
   {
     "id": "rifle_flintlocknc",
@@ -2545,12 +2473,11 @@
     "broken_color": "dark_gray",
     "difficulty": 3,
     "durability": 400,
-    "size": 5,
     "range": 21,
     "damage_modifier": 80,
     "folded_volume": 13,
     "breaks_into": [ { "item": "rm11b_sniper_rifle", "count": [ 0, 1 ] } ],
-    "flags": [ "FOLDABLE", "TURRET", "CARGO", "NEEDS_BATTERY_MOUNT", "TOOL_NONE" ]
+    "flags": [ "FOLDABLE", "TURRET", "NEEDS_BATTERY_MOUNT", "TOOL_NONE" ]
   },
   {
     "id": "rm2000_smg",
@@ -2564,12 +2491,11 @@
     "broken_color": "dark_gray",
     "difficulty": 3,
     "durability": 400,
-    "size": 5,
     "range": 10,
     "damage_modifier": 80,
     "folded_volume": 6,
     "breaks_into": [ { "item": "rm2000_smg", "count": [ 0, 1 ] } ],
-    "flags": [ "FOLDABLE", "TURRET", "CARGO", "NEEDS_BATTERY_MOUNT", "TOOL_NONE" ]
+    "flags": [ "FOLDABLE", "TURRET", "NEEDS_BATTERY_MOUNT", "TOOL_NONE" ]
   },
   {
     "id": "rm360_carbine",
@@ -2583,12 +2509,11 @@
     "broken_color": "dark_gray",
     "difficulty": 3,
     "durability": 400,
-    "size": 5,
     "range": 10,
     "damage_modifier": 80,
     "folded_volume": 6,
     "breaks_into": [ { "item": "rm360_carbine", "count": [ 0, 1 ] } ],
-    "flags": [ "FOLDABLE", "TURRET", "CARGO", "NEEDS_BATTERY_MOUNT", "TOOL_NONE" ]
+    "flags": [ "FOLDABLE", "TURRET", "NEEDS_BATTERY_MOUNT", "TOOL_NONE" ]
   },
   {
     "id": "rm360_carbinenc",
@@ -2620,12 +2545,11 @@
     "broken_color": "dark_gray",
     "difficulty": 3,
     "durability": 400,
-    "size": 5,
     "range": 18,
     "damage_modifier": 80,
     "folded_volume": 9,
     "breaks_into": [ { "item": "rm51_assault_rifle", "count": [ 0, 1 ] } ],
-    "flags": [ "FOLDABLE", "TURRET", "CARGO", "NEEDS_BATTERY_MOUNT", "TOOL_NONE" ]
+    "flags": [ "FOLDABLE", "TURRET", "NEEDS_BATTERY_MOUNT", "TOOL_NONE" ]
   },
   {
     "id": "rm614_lmg",
@@ -2639,12 +2563,11 @@
     "broken_color": "dark_gray",
     "difficulty": 3,
     "durability": 400,
-    "size": 5,
     "range": 15,
     "damage_modifier": 80,
     "folded_volume": 10,
     "breaks_into": [ { "item": "rm614_lmg", "count": [ 0, 1 ] } ],
-    "flags": [ "FOLDABLE", "TURRET", "CARGO", "NEEDS_BATTERY_MOUNT", "TOOL_NONE" ]
+    "flags": [ "FOLDABLE", "TURRET", "NEEDS_BATTERY_MOUNT", "TOOL_NONE" ]
   },
   {
     "id": "rm802",
@@ -2658,12 +2581,11 @@
     "broken_color": "dark_gray",
     "difficulty": 4,
     "durability": 400,
-    "size": 5,
     "range": 21,
     "damage_modifier": 80,
     "folded_volume": 7,
     "breaks_into": [ { "item": "rm802", "count": [ 0, 1 ] } ],
-    "flags": [ "FOLDABLE", "TURRET", "CARGO", "NEEDS_BATTERY_MOUNT", "TOOL_NONE" ]
+    "flags": [ "FOLDABLE", "TURRET", "NEEDS_BATTERY_MOUNT", "TOOL_NONE" ]
   },
   {
     "id": "rm88_battle_rifle",
@@ -2677,12 +2599,11 @@
     "broken_color": "dark_gray",
     "difficulty": 3,
     "durability": 400,
-    "size": 5,
     "range": 18,
     "damage_modifier": 80,
     "folded_volume": 11,
     "breaks_into": [ { "item": "rm88_battle_rifle", "count": [ 0, 1 ] } ],
-    "flags": [ "FOLDABLE", "TURRET", "CARGO", "NEEDS_BATTERY_MOUNT", "TOOL_NONE" ]
+    "flags": [ "FOLDABLE", "TURRET", "NEEDS_BATTERY_MOUNT", "TOOL_NONE" ]
   },
   {
     "id": "rslauncher",
@@ -2696,12 +2617,11 @@
     "broken_color": "ltgray",
     "difficulty": 4,
     "durability": 400,
-    "size": 30,
     "range": 15,
     "damage_modifier": 80,
     "folded_volume": 18,
     "breaks_into": [ { "item": "rslauncher", "count": [ 0, 1 ] } ],
-    "flags": [ "FOLDABLE", "CARGO", "TURRET", "NEEDS_BATTERY_MOUNT", "TOOL_NONE" ]
+    "flags": [ "FOLDABLE", "TURRET", "NEEDS_BATTERY_MOUNT", "TOOL_NONE" ]
   },
   {
     "id": "rslauncher",
@@ -2733,12 +2653,11 @@
     "broken_color": "dark_gray",
     "difficulty": 3,
     "durability": 400,
-    "size": 5,
     "range": 15,
     "damage_modifier": 80,
     "folded_volume": 10,
     "breaks_into": [ { "item": "ruger_1022", "count": [ 0, 1 ] } ],
-    "flags": [ "FOLDABLE", "TURRET", "CARGO", "NEEDS_BATTERY_MOUNT", "TOOL_NONE" ]
+    "flags": [ "FOLDABLE", "TURRET", "NEEDS_BATTERY_MOUNT", "TOOL_NONE" ]
   },
   {
     "id": "ruger_1022nc",
@@ -2770,12 +2689,11 @@
     "broken_color": "dark_gray",
     "difficulty": 3,
     "durability": 400,
-    "size": 5,
     "range": 15,
     "damage_modifier": 80,
     "folded_volume": 9,
     "breaks_into": [ { "item": "ruger_mini", "count": [ 0, 1 ] } ],
-    "flags": [ "FOLDABLE", "TURRET", "CARGO", "NEEDS_BATTERY_MOUNT", "TOOL_NONE" ]
+    "flags": [ "FOLDABLE", "TURRET", "NEEDS_BATTERY_MOUNT", "TOOL_NONE" ]
   },
   {
     "id": "ruger_mininc",
@@ -2807,12 +2725,11 @@
     "broken_color": "dark_gray",
     "difficulty": 3,
     "durability": 400,
-    "size": 5,
     "range": 6,
     "damage_modifier": 80,
     "folded_volume": 12,
     "breaks_into": [ { "item": "saiga_12", "count": [ 0, 1 ] } ],
-    "flags": [ "FOLDABLE", "TURRET", "CARGO", "NEEDS_BATTERY_MOUNT", "TOOL_NONE" ]
+    "flags": [ "FOLDABLE", "TURRET", "NEEDS_BATTERY_MOUNT", "TOOL_NONE" ]
   },
   {
     "id": "saiga_12nc",
@@ -2844,12 +2761,11 @@
     "broken_color": "dark_gray",
     "difficulty": 3,
     "durability": 400,
-    "size": 5,
     "range": 15,
     "damage_modifier": 80,
     "folded_volume": 12,
     "breaks_into": [ { "item": "savage_111f", "count": [ 0, 1 ] } ],
-    "flags": [ "FOLDABLE", "TURRET", "CARGO", "NEEDS_BATTERY_MOUNT", "TOOL_NONE" ]
+    "flags": [ "FOLDABLE", "TURRET", "NEEDS_BATTERY_MOUNT", "TOOL_NONE" ]
   },
   {
     "id": "savage_111fnc",
@@ -2881,12 +2797,11 @@
     "broken_color": "dark_gray",
     "difficulty": 3,
     "durability": 400,
-    "size": 5,
     "range": 15,
     "damage_modifier": 80,
     "folded_volume": 11,
     "breaks_into": [ { "item": "scar_h", "count": [ 0, 1 ] } ],
-    "flags": [ "FOLDABLE", "TURRET", "CARGO", "NEEDS_BATTERY_MOUNT", "TOOL_NONE" ]
+    "flags": [ "FOLDABLE", "TURRET", "NEEDS_BATTERY_MOUNT", "TOOL_NONE" ]
   },
   {
     "id": "scar_hnc",
@@ -2918,12 +2833,11 @@
     "broken_color": "dark_gray",
     "difficulty": 3,
     "durability": 400,
-    "size": 5,
     "range": 15,
     "damage_modifier": 80,
     "folded_volume": 10,
     "breaks_into": [ { "item": "scar_l", "count": [ 0, 1 ] } ],
-    "flags": [ "FOLDABLE", "TURRET", "CARGO", "NEEDS_BATTERY_MOUNT", "TOOL_NONE" ]
+    "flags": [ "FOLDABLE", "TURRET", "NEEDS_BATTERY_MOUNT", "TOOL_NONE" ]
   },
   {
     "id": "scar_lnc",
@@ -2955,12 +2869,11 @@
     "broken_color": "dark_gray",
     "difficulty": 4,
     "durability": 400,
-    "size": 5,
     "range": 6,
     "damage_modifier": 80,
     "folded_volume": 8,
     "breaks_into": [ { "item": "shotgun_d", "count": [ 0, 1 ] } ],
-    "flags": [ "FOLDABLE", "TURRET", "CARGO", "NEEDS_BATTERY_MOUNT", "TOOL_NONE" ]
+    "flags": [ "FOLDABLE", "TURRET", "NEEDS_BATTERY_MOUNT", "TOOL_NONE" ]
   },
   {
     "id": "shotgun_dnc",
@@ -2992,12 +2905,11 @@
     "broken_color": "dark_gray",
     "difficulty": 4,
     "durability": 400,
-    "size": 5,
     "range": 6,
     "damage_modifier": 80,
     "folded_volume": 8,
     "breaks_into": [ { "item": "shotgun_s", "count": [ 0, 1 ] } ],
-    "flags": [ "FOLDABLE", "TURRET", "CARGO", "NEEDS_BATTERY_MOUNT", "TOOL_NONE" ]
+    "flags": [ "FOLDABLE", "TURRET", "NEEDS_BATTERY_MOUNT", "TOOL_NONE" ]
   },
   {
     "id": "shotgun_sawn",
@@ -3011,12 +2923,11 @@
     "broken_color": "dark_gray",
     "difficulty": 4,
     "durability": 400,
-    "size": 5,
     "range": 6,
     "damage_modifier": 80,
     "folded_volume": 4,
     "breaks_into": [ { "item": "shotgun_sawn", "count": [ 0, 1 ] } ],
-    "flags": [ "FOLDABLE", "TURRET", "CARGO", "NEEDS_BATTERY_MOUNT", "TOOL_NONE" ]
+    "flags": [ "FOLDABLE", "TURRET", "NEEDS_BATTERY_MOUNT", "TOOL_NONE" ]
   },
   {
     "id": "shotgun_sawnnc",
@@ -3066,12 +2977,11 @@
     "broken_color": "dark_gray",
     "difficulty": 3,
     "durability": 400,
-    "size": 5,
     "range": 15,
     "damage_modifier": 80,
     "folded_volume": 10,
     "breaks_into": [ { "item": "sks", "count": [ 0, 1 ] } ],
-    "flags": [ "FOLDABLE", "TURRET", "CARGO", "NEEDS_BATTERY_MOUNT", "TOOL_NONE" ]
+    "flags": [ "FOLDABLE", "TURRET", "NEEDS_BATTERY_MOUNT", "TOOL_NONE" ]
   },
   {
     "id": "slauncher",
@@ -3085,12 +2995,11 @@
     "broken_color": "ltgray",
     "difficulty": 4,
     "durability": 400,
-    "size": 30,
     "range": 12,
     "damage_modifier": 80,
     "folded_volume": 12,
     "breaks_into": [ { "item": "slauncher", "count": [ 0, 1 ] } ],
-    "flags": [ "FOLDABLE", "CARGO", "TURRET", "NEEDS_BATTERY_MOUNT", "TOOL_NONE" ]
+    "flags": [ "FOLDABLE", "TURRET", "NEEDS_BATTERY_MOUNT", "TOOL_NONE" ]
   },
   {
     "id": "slauncher",
@@ -3122,12 +3031,11 @@
     "broken_color": "dark_gray",
     "difficulty": 3,
     "durability": 400,
-    "size": 5,
     "range": 15,
     "damage_modifier": 80,
     "folded_volume": 7,
     "breaks_into": [ { "item": "steyr_aug", "count": [ 0, 1 ] } ],
-    "flags": [ "FOLDABLE", "TURRET", "CARGO", "NEEDS_BATTERY_MOUNT", "TOOL_NONE" ]
+    "flags": [ "FOLDABLE", "TURRET", "NEEDS_BATTERY_MOUNT", "TOOL_NONE" ]
   },
   {
     "id": "steyr_augnc",
@@ -3159,12 +3067,11 @@
     "broken_color": "dark_gray",
     "difficulty": 4,
     "durability": 400,
-    "size": 5,
     "range": 15,
     "damage_modifier": 80,
     "folded_volume": 6,
     "breaks_into": [ { "item": "surv_carbine_223", "count": [ 0, 1 ] } ],
-    "flags": [ "FOLDABLE", "TURRET", "CARGO", "NEEDS_BATTERY_MOUNT", "TOOL_NONE" ]
+    "flags": [ "FOLDABLE", "TURRET", "NEEDS_BATTERY_MOUNT", "TOOL_NONE" ]
   },
   {
     "id": "surv_carbine_223nc",
@@ -3196,12 +3103,11 @@
     "broken_color": "dark_gray",
     "difficulty": 3,
     "durability": 400,
-    "size": 5,
     "range": 15,
     "damage_modifier": 80,
     "folded_volume": 12,
     "breaks_into": [ { "item": "survivor_special_700", "count": [ 0, 1 ] } ],
-    "flags": [ "FOLDABLE", "TURRET", "CARGO", "NEEDS_BATTERY_MOUNT", "TOOL_NONE" ]
+    "flags": [ "FOLDABLE", "TURRET", "NEEDS_BATTERY_MOUNT", "TOOL_NONE" ]
   },
   {
     "id": "tec9",
@@ -3215,12 +3121,11 @@
     "broken_color": "dark_gray",
     "difficulty": 3,
     "durability": 400,
-    "size": 5,
     "range": 10,
     "damage_modifier": 80,
     "folded_volume": 3,
     "breaks_into": [ { "item": "tec9", "count": [ 0, 1 ] } ],
-    "flags": [ "FOLDABLE", "TURRET", "CARGO", "NEEDS_BATTERY_MOUNT", "TOOL_NONE" ]
+    "flags": [ "FOLDABLE", "TURRET", "NEEDS_BATTERY_MOUNT", "TOOL_NONE" ]
   },
   {
     "id": "tec9nc",
@@ -3252,12 +3157,11 @@
     "broken_color": "dark_gray",
     "difficulty": 3,
     "durability": 400,
-    "size": 5,
     "range": 10,
     "damage_modifier": 80,
     "folded_volume": 5,
     "breaks_into": [ { "item": "uzi", "count": [ 0, 1 ] } ],
-    "flags": [ "FOLDABLE", "TURRET", "CARGO", "NEEDS_BATTERY_MOUNT", "TOOL_NONE" ]
+    "flags": [ "FOLDABLE", "TURRET", "NEEDS_BATTERY_MOUNT", "TOOL_NONE" ]
   },
   {
     "id": "uzinc",
