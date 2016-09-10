@@ -65,33 +65,18 @@
   },
   {
     "id": "boots_bunker",
+    "copy-from": "boots_rubber",
     "type": "ARMOR",
-    "category": "armor",
     "name": "pair of turnout boots",
     "name_plural": "pairs of turnout boots",
     "description": "A pair of steel-toed rubber boots, the sort worn by firefighters.  Highly resistant to heat and flame, they provide excellent protection from injury.",
-    "weight": 1930,
-    "volume": 14,
-    "price": 13000,
     "material": [ "plastic", "nomex" ],
-    "symbol": "[",
-    "color": "dark_gray",
-    "covers": [ "FEET" ],
-    "coverage": 100,
-    "encumbrance": 40,
-    "warmth": 35,
-    "material_thickness": 4,
-    "environmental_protection": 8,
-    "use_action": {
-      "type": "holster",
-      "holster_prompt": "Sheath knife",
-      "holster_msg": "You sheath your %s",
-      "max_volume": 1,
-      "draw_cost": 80,
-      "multi": 2,
-      "flags": [ "SHEATH_KNIFE" ]
+    "proportional": {
+      "weight": 2,
+      "price": 4,
+      "environmental_protection": 0.7
     },
-    "flags": [ "VARSIZE", "WATERPROOF", "STURDY" ]
+    "extend": { "flags": [ "VARSIZE", "STURDY" ] }
   },
   {
     "id": "boots_chitin",
