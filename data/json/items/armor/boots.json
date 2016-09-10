@@ -186,32 +186,18 @@
   },
   {
     "id": "boots_hiking",
+    "copy-from": "boots",
     "type": "ARMOR",
     "name": "pair of hiking boots",
     "name_plural": "pairs of hiking boots",
-    "description": "Tough yet light leather boots.  Durable and comfortable.",
-    "weight": 960,
-    "volume": 8,
-    "price": 14000,
-    "material": [ "leather", "plastic" ],
-    "symbol": "[",
-    "color": "brown",
-    "covers": [ "FEET" ],
-    "coverage": 95,
-    "encumbrance": 12,
-    "warmth": 30,
-    "material_thickness": 2,
-    "environmental_protection": 2,
-    "use_action": {
-      "type": "holster",
-      "holster_prompt": "Sheath knife",
-      "holster_msg": "You sheath your %s",
-      "max_volume": 1,
-      "draw_cost": 80,
-      "multi": 2,
-      "flags": [ "SHEATH_KNIFE" ]
+    "description": "A pair of comfortable hiking boots ideal for use in difficult terrain.",
+    "material": [ "leather", "cotton" ],
+    "proportional": {
+      "weight": 0.8,
+      "price": 2,
+      "encumbrance": 0.8
     },
-    "flags": [ "VARSIZE", "WATERPROOF" ]
+    "extend": { "flags": [ "GRIP" ] }
   },
   {
     "id": "boots_hsurvivor",

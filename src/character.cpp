@@ -953,10 +953,10 @@ bool Character::is_wearing_on_bp(const itype_id & it, body_part bp) const
     return false;
 }
 
-bool Character::worn_with_flag( const std::string &flag ) const
+bool Character::worn_with_flag( const std::string &flag, body_part bp ) const
 {
-    return std::any_of( worn.begin(), worn.end(), [&flag]( const item &it ) {
-        return it.has_flag( flag );
+    return std::any_of( worn.begin(), worn.end(), [&flag,bp]( const item &it ) {
+        return it.has_flag( flag ) && ( bp == num_bp || it.covers( bp ) );
     } );
 }
 

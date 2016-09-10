@@ -1865,7 +1865,6 @@
       ["bucket", 50],
       ["rebar", 25],
       ["boots_steel", 50],
-      ["boots_hiking", 10],
       ["runner_bag", 5],
       ["hat_hard", 50],
       ["wearable_light", 10],
@@ -7594,7 +7593,6 @@
       ["boots_bunker", 70],
       ["boots_steel", 20],
       ["boots_rubber", 10],
-      ["boots_hiking", 5],
       ["nomex_socks", 40]
     ]
   },{

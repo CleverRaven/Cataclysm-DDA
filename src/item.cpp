@@ -1593,6 +1593,9 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
                 info.push_back( iteminfo( "DESCRIPTION",
                                           _( "* This piece of clothing allows you to <good>see much further</good> <info>under water</info>." ) ) );
             }
+            if( has_flag( "GRIP" ) ) {
+                info.emplace_back( "DESCRIPTION", _( "* This piece of clothing provides good <good>grip</good> on <info>unstable surfaces</info>." ) );
+            }
             if( item_tags.count( "wooled" ) ) {
                 info.push_back( iteminfo( "DESCRIPTION",
                                           _( "* This piece of clothing has a wool lining sewn into it to <good>increase</good> its overall <info>warmth</info>." ) ) );

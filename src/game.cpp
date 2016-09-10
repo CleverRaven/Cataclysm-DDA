@@ -12192,7 +12192,7 @@ void game::place_player( const tripoint &dest_loc )
              }
         }
     }
-    if (m.has_flag("UNSTABLE", dest_loc)) {
+    if (m.has_flag("UNSTABLE", dest_loc) && !( u.worn_with_flag("GRIP", bp_foot_l) && u.worn_with_flag("GRIP", bp_foot_r))) {
         u.add_effect( effect_bouldering, 1, num_bp, true);
     } else if (u.has_effect( effect_bouldering)) {
         u.remove_effect( effect_bouldering);
