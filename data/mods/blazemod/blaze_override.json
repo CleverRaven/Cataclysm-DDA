@@ -720,7 +720,6 @@
     "range": 24,
     "dispersion": 600,
     "sight_dispersion": 150,
-    "aim_speed": 10,
     "recoil": 300,
     "durability": 7,
     "clip_size": 1,
