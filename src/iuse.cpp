@@ -4576,9 +4576,9 @@ int iuse::oxytorch(player *p, item *it, bool, const tripoint& )
     return 0;
 }
 
-int iuse::hacksaw(player *p, item *it, bool active, const tripoint &pos )
+int iuse::hacksaw(player *p, item *it, bool t, const tripoint &pos )
 {
-    if( !p || active ) {
+    if( !p || t ) {
         return 0;
     }
     
@@ -7873,9 +7873,9 @@ int iuse::ladder( player *p, item *, bool, const tripoint& )
     return 1;
 }
 
-int iuse::saw_barrel( player *p, item *, bool ticking, const tripoint& )
+int iuse::saw_barrel( player *p, item *, bool t, const tripoint& )
 {
-    if( p == nullptr || ticking ) {
+    if( p == nullptr || t ) {
         return 0;
     }
 
