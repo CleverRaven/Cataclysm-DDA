@@ -125,33 +125,19 @@
   },
   {
     "id": "boots_combat",
+    "copy-from": "boots",
     "type": "ARMOR",
-    "category": "armor",
     "name": "pair of combat boots",
     "name_plural": "pairs of combat boots",
     "description": "Modern reinforced tactical combat boots.  Very durable.",
-    "weight": 1060,
-    "volume": 8,
-    "price": 7000,
     "material": [ "kevlar", "leather" ],
-    "symbol": "[",
-    "color": "dark_gray",
-    "covers": [ "FEET" ],
     "coverage": 100,
-    "encumbrance": 25,
-    "warmth": 25,
-    "material_thickness": 3,
-    "environmental_protection": 2,
-    "use_action": {
-      "type": "holster",
-      "holster_prompt": "Sheath knife",
-      "holster_msg": "You sheath your %s",
-      "max_volume": 1,
-      "draw_cost": 80,
-      "multi": 2,
-      "flags": [ "SHEATH_KNIFE" ]
+    "proportional": {
+      "weight": 1.2,
+      "volume": 1.2,
+      "price": 3
     },
-    "flags": [ "VARSIZE", "WATERPROOF", "STURDY" ]
+    "extend": { "flags": [ "STURDY" ] }
   },
   {
     "id": "boots_fsurvivor",

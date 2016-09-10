@@ -72,7 +72,7 @@
       { "group": "clothing_soldier_shirt" },
       { "item": "winter_jacket_army" },
       { "item": "winter_pants_army" },
-      { "item": "boots_combat" },
+      { "item": "boots_winter" },
       { "collection": [
         { "item": "helmet_army" },
         { "item": "helmet_liner" }
@@ -131,7 +131,6 @@
     "//": "Standard (non-winter) shoes suitable for wearing outdoors.",
     "items": [
       [ "boots", 100 ],
-      [ "boots_combat", 10 ],
       [ "boots_hiking", 40 ],
       [ "boots_western", 15 ],
       [ "knee_high_boots", 20 ],
