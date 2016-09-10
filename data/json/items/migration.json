@@ -20,6 +20,11 @@
     "replace": "battery_car"
   },
   {
+    "id": "boots_fur",
+    "type": "MIGRATION",
+    "replace": "boots_winter"
+  },
+  {
     "id": "gold",
     "type": "MIGRATION",
     "replace": "gold_small",

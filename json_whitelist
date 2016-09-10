@@ -3,4 +3,5 @@ data/json/items/armor/boots.json
 data/json/items/gun/*
 data/json/items/magazine/*
 data/json/npcs/missiondef.json
+data/json/recipes/armor/*.json
 data/mods/blazemod/*.json

@@ -487,33 +487,6 @@
   ]
 },{
   "type" : "recipe",
-  "result": "boots_fur",
-  "category": "CC_ARMOR",
-  "subcategory": "CSC_ARMOR_FEET",
-  "skill_used": "tailor",
-  "skills_required": [ "survival", 1 ],
-  "difficulty": 2,
-  "time": 40000,
-  "reversible": false,
-  "autolearn": true,
-  "book_learn": [["textbook_survival", 1]],
-  "tools": [
-    [
-      [ "sewing_kit", 13 ]
-    ]
-  ],
-  "components": [
-    [
-      [ "leather", 7 ],
-      [ "tanned_hide", 1 ]
-    ],
-    [
-      [ "fur", 7 ],
-      [ "tanned_pelt", 1 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
   "result": "boots_chitin",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_FEET",
@@ -8337,25 +8310,6 @@
     [
       [ "felt_patch", 25 ]
     ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "boots_winter",
-  "category": "CC_ARMOR",
-  "subcategory": "CSC_ARMOR_FEET",
-  "skill_used": "tailor",
-  "difficulty": 6,
-  "time": 360000,
-  "reversible": false,
-  "autolearn": true,
-  "tools": [
-    [
-        [ "sewing_kit", 80 ]
-    ]
-  ],
-  "components": [
-    [ [ "felt_patch", 20 ] ],
-    [ [ "bag_plastic", 8 ] ]
   ]
 },{
   "type" : "recipe",
