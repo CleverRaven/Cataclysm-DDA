@@ -1042,7 +1042,7 @@ npc_action npc::address_needs( float danger )
     }
 
     // TODO: More risky attempts at sleep when exhausted
-    if( danger <= 0.01 && get_fatigue() > TIRED ) {
+    if( danger <= 0.01 && get_fatigue() >= TIRED ) {
         if( !is_following() ) {
             set_fatigue(0); // TODO: Make tired NPCs handle sleep offscreen
             return npc_undecided;
