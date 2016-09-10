@@ -38,7 +38,7 @@
         "encumbrance" : 10,
         "bashing" : 10,
         "flags" : ["VARSIZE", "STURDY"],
-        "coverage" : 60,
+        "coverage" : 70,
         "material_thickness" : 3
     },{
         "type" : "ARMOR",
@@ -58,7 +58,7 @@
         "encumbrance" : 10,
         "bashing" : 10,
         "flags" : ["VARSIZE", "STURDY"],
-        "coverage" : 80,
+        "coverage" : 60,
         "material_thickness" : 3
     },{
         "type" : "ARMOR",
@@ -119,7 +119,7 @@
         "bashing" : 6,
         "flags" : ["VARSIZE", "OUTER", "STURDY"],
         "coverage" : 90,
-        "material_thickness" : 3
+        "material_thickness" : 4
     },{
         "type" : "ARMOR",
         "id" : "chainmail_hauberk",
@@ -133,7 +133,7 @@
         "price" : 30000,
         "material" : ["iron", "leather"],
         "volume" : 10,
-        "encumbrance" : 15,
+        "encumbrance" : 20,
         "flags" : ["VARSIZE", "STURDY"],
         "coverage" : 95,
         "material_thickness" : 4
@@ -154,7 +154,7 @@
         "material" : ["bronze", "leather"],
         "volume" : 22,
         "warmth" : 15,
-        "encumbrance" : 20,
+        "encumbrance" : 10,
         "coverage" : 70,
         "material_thickness" : 4
     },{
