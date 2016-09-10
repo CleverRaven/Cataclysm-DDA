@@ -5532,7 +5532,11 @@ void player::update_needs( int rate_multiplier )
 {
     // Hunger, thirst, & fatigue up every 5 minutes
     effect &sleep = get_effect( effect_sleep );
-    const bool debug_ls = has_trait("DEBUG_LS");
+    // No food/thirst/fatigue clock at all
+    const bool debug_ls = has_trait( "DEBUG_LS" );
+    // No food/thirst, capped fatigue clock (only up to tired)
+    const bool npc_no_food = is_npc() && get_world_option<bool>( "NO_NPC_FOOD" );
+    const bool foodless = debug_ls || npc_no_food;
     const bool has_recycler = has_bionic("bio_recycler");
     const bool asleep = !sleep.is_null();
     const bool lying = asleep || has_effect( effect_lying_down );
@@ -5577,12 +5581,12 @@ void player::update_needs( int rate_multiplier )
         thirst_rate *= 0.25f;
     }
 
-    if( !debug_ls && hunger_rate > 0.0f ) {
+    if( !foodless && hunger_rate > 0.0f ) {
         const int rolled_hunger = divide_roll_remainder( hunger_rate * rate_multiplier, 1.0 );
         mod_hunger( rolled_hunger );
     }
 
-    if( !debug_ls && thirst_rate > 0.0f ) {
+    if( !foodless && thirst_rate > 0.0f ) {
         mod_thirst( divide_roll_remainder( thirst_rate * rate_multiplier, 1.0 ) );
     }
 
@@ -5617,6 +5621,9 @@ void player::update_needs( int rate_multiplier )
 
         if( !debug_ls && fatigue_rate > 0.0f ) {
             mod_fatigue( divide_roll_remainder( fatigue_rate * rate_multiplier, 1.0 ) );
+            if( npc_no_food && get_fatigue() > TIRED ) {
+                set_fatigue( TIRED );
+            }
         }
     } else if( asleep ) {
         const int intense = sleep.is_null() ? 0 : sleep.get_intensity();
@@ -5690,17 +5697,6 @@ void player::update_needs( int rate_multiplier )
     dec_stom_water = dec_stom_water < 10 ? 10 : dec_stom_water;
     mod_stomach_food(-dec_stom_food);
     mod_stomach_water(-dec_stom_water);
-
-    if( is_npc() ) {
-        // Caps because NPCs are dumb
-        if( get_hunger() > 500 ) {
-            set_hunger( 500 );
-        }
-
-        if( get_thirst() > 300 ) {
-            set_thirst( 300 );
-        }
-    }
 }
 
 void player::regen( int rate_multiplier )

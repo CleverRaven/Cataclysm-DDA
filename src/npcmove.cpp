@@ -657,7 +657,7 @@ void npc::choose_target()
         if( !is_following() ) {
             return true;
         }
-    
+
         switch( rules.engagement ) {
             case ENGAGE_NONE:
                 return false;
@@ -1689,7 +1689,7 @@ void npc::find_item()
         // When using a whitelist, skip the value check
         // @todo Whitelist hierarchy?
         int itval = whitelisting ? 1000 : value( it );
-        
+
         if( itval > best_value &&
             ( it.volume() <= volume_allowed && it.weight() <= weight_allowed ) ) {
             wanted_item_pos = p;
