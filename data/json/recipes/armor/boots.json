@@ -16,6 +16,23 @@
     ]
   },
   {
+    "result": "boots_chitin",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_FEET",
+    "skill_used": "tailor",
+    "difficulty": 6,
+    "skills_required": [ "survival", 3 ],
+    "time": 480000,
+    "autolearn": true,
+    "components": [
+      [ [ "chitin_piece", 8 ] ],
+      [ [ "superglue", 1 ] ],
+      [ [ "string_36", 1 ], [ "string_6", 4 ] ],
+      [ [ "leather", 4 ], [ "fur", 4 ], [ "rag", 4 ] ]
+    ]
+  },
+  {
     "result": "boots_winter",
     "type": "recipe",
     "category": "CC_ARMOR",

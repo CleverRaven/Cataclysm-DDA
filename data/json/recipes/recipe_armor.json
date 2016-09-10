@@ -487,30 +487,6 @@
   ]
 },{
   "type" : "recipe",
-  "result": "boots_chitin",
-  "category": "CC_ARMOR",
-  "subcategory": "CSC_ARMOR_FEET",
-  "skill_used": "tailor",
-  "difficulty": 4,
-  "time": 40000,
-  "reversible": false,
-  "autolearn": true,
-  "components": [
-    [
-      [ "string_36", 1 ],
-      [ "string_6", 4 ]
-    ],
-    [
-      [ "chitin_piece", 8 ]
-    ],
-    [
-      [ "leather", 4 ],
-      [ "fur", 4 ],
-      [ "rag", 4 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
   "result": "boots_larmor",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_FEET",

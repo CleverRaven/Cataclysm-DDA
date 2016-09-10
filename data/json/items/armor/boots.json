@@ -80,33 +80,22 @@
   },
   {
     "id": "boots_chitin",
+    "copy-from": "boots",
     "type": "ARMOR",
-    "category": "armor",
     "name": "pair of chitinous boots",
     "name_plural": "pairs of chitinous boots",
     "description": "Boots made from the exoskeletons of insects.  Light and durable.",
-    "weight": 1620,
-    "volume": 17,
-    "price": 13500,
     "material": [ "chitin" ],
-    "symbol": "[",
     "color": "green",
-    "covers": [ "FEET" ],
-    "coverage": 95,
-    "encumbrance": 14,
-    "warmth": 10,
-    "material_thickness": 4,
-    "environmental_protection": 3,
-    "use_action": {
-      "type": "holster",
-      "holster_prompt": "Sheath knife",
-      "holster_msg": "You sheath your %s",
-      "max_volume": 1,
-      "draw_cost": 80,
-      "multi": 2,
-      "flags": [ "SHEATH_KNIFE" ]
+    "coverage": 100,
+    "proportional": {
+      "weight": 1.4,
+      "volume": 1.2,
+      "price": 4.5,
+      "warmth": 0.5
     },
-    "flags": [ "STURDY" ]
+    "relative": { "material_thickness": 1 },
+    "extend": { "flags": [ "STURDY" ] }
   },
   {
     "id": "boots_combat",
