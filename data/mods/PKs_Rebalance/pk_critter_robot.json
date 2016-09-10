@@ -73,6 +73,41 @@
     "description":"A revenant's homing missile, working its way towards you.  If only you could disable it . . .",
     "flags":["SEES", "PATH_AVOID_DANGER_2", "PRIORITIZE_TARGETS", "FLIES", "NOHEAD", "ELECTRONIC", "NO_BREATHE", "INTERIOR_AMMO"]
     },{
+    "type": "MONSTER",
+    "id": "mon_manhack_fire",
+    "name": "firebomb hack",
+    "species":"ROBOT",
+    "default_faction":"defense_bot",
+    "symbol":"e",
+    "color":"i_ltgreen",
+    "size":"TINY",
+    "material":"steel",
+    "diff":10,
+    "aggression":100,
+    "morale":100,
+    "speed":250,
+    "melee_skill":0,
+    "melee_dice":0,
+    "melee_dice_sides":0,
+    "dodge":6,
+    "armor_cut":4,
+    "vision_day":40,
+    "revert_to_itype": "bot_manhack_fire",
+    "special_attacks":[["KAMIKAZE", 0]],
+    "starting_ammo": {"manhack_firebomb": 1},
+    "death_drops": {
+        "subtype": "collection",
+        "//": "80% chance of an item from group robots",
+        "groups": [
+            [ "robots", 80 ]
+        ]
+    },
+    "luminance":5,
+    "hp":10,
+    "death_function":"BROKEN_AMMO",
+    "description":"This manhack carries an incendiary explosive within its core.",
+    "flags":["SEES", "FLIES", "NOHEAD", "ELECTRONIC", "NO_BREATHE", "INTERIOR_AMMO"]
+    },{
     "id": "mon_turret_shockcannon",
     "type": "MONSTER",
     "name": "shock turret",
