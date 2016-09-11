@@ -8,7 +8,7 @@
             ["|x--|||"],
             ["+x+#---"],
             ["|x--t||"],
-            ["ooooooo"]
+            ["ooooooo"]u
         ],
         "parts" : [
             {"x": -3, "y": -2, "part": "hdframe_vertical_2"},
@@ -2220,7 +2220,7 @@
             {"x": 0, "y": 0, "part": "seat_nocargo"},
             {"x": 0, "y": 0, "part": "seatbelt_heavyduty"},
             {"x": 0, "y": 0, "part": "cam_control"},
-            {"x": 0, "y": 0, "part": "mounted_30mm_autocannon", "ammo": 100, "ammo_types": [ "30mm_hedp", "120mm_usable_hei" ]},
+            {"x": 0, "y": 0, "part": "mounted_30mm_autocannon", "ammo": 100, "ammo_types": [ "30mm_hedp", "30mm_hei" ]},
             {"x": 0, "y": 0, "part": "vehicle_clock"},
             {"x": 0, "y": 0, "part": "hdroof"},
             {"x": 1, "y": 0, "part": "hdframe_vertical_2"},
