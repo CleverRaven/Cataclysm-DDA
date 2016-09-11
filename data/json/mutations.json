@@ -5123,5 +5123,13 @@
         "valid" : false,
         "description" : "Mind the bugs, would you kindly?.",
         "threshold" : true
+    },{
+        "type" : "mutation",
+        "id" : "SQUEAMISH",
+        "name" : "Debug Squeamish",
+        "points" : 99,
+        "valid" : false,
+        "description" : "This exists only to avoid breaking older saves, due to this trait being moved out of mainline.",
+        "threshold" : true
     }
 ]
