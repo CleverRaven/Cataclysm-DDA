@@ -8,6 +8,7 @@
 #include "cursesdef.h"
 #include "enums.h"
 #include "input.h"
+#include "units.h"
 
 class item;
 class item_category;
@@ -246,7 +247,8 @@ class inventory_selector
 
         virtual void draw( WINDOW *w ) const;
 
-        void draw_inv_weight_vol( WINDOW *w, int weight_carried, int vol_carried, int vol_capacity ) const;
+        void draw_inv_weight_vol( WINDOW *w, int weight_carried, units::volume vol_carried,
+                                  units::volume vol_capacity ) const;
         void draw_inv_weight_vol( WINDOW *w ) const;
 
         /** Returns an entry from @ref entries by its invlet */

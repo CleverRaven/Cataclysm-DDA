@@ -19,6 +19,8 @@
 
 #include <algorithm>
 
+using namespace units::literals;
+
 const efftype_id effect_beartrap( "beartrap" );
 const efftype_id effect_bite( "bite" );
 const efftype_id effect_bleed( "bleed" );
@@ -131,7 +133,7 @@ double Character::aim_per_move( const item& gun, double recoil ) const
     int cost = INT_MAX;
     int limit = 0;
     if( effective_dispersion( gun.type->gun->sight_dispersion ) < recoil ) {
-        cost  = std::max( std::min( gun.volume(), 8 ), 1 );
+        cost  = std::max( std::min( gun.volume() / 250_ml, 8 ), 1 );
         limit = effective_dispersion( gun.type->gun->sight_dispersion );
     }
 
@@ -826,7 +828,7 @@ int Character::weight_carried() const
     return ret;
 }
 
-int Character::volume_carried() const
+units::volume Character::volume_carried() const
 {
     return inv.volume();
 }
@@ -859,40 +861,40 @@ int Character::weight_capacity() const
     return ret;
 }
 
-int Character::volume_capacity() const
+units::volume Character::volume_capacity() const
 {
     return volume_capacity_reduced_by( 0 );
 }
 
-int Character::volume_capacity_reduced_by( int mod ) const
+units::volume Character::volume_capacity_reduced_by( units::volume mod ) const
 {
-    int ret = -mod;
+    units::volume ret = -mod;
     for (auto &i : worn) {
         ret += i.get_storage();
     }
     if (has_bionic("bio_storage")) {
-        ret += 8;
+        ret += 2000_ml;
     }
     if (has_trait("SHELL")) {
-        ret += 16;
+        ret += 4000_ml;
     }
     if (has_trait("SHELL2") && !has_active_mutation("SHELL2")) {
-        ret += 24;
+        ret += 6000_ml;
     }
     if (has_trait("PACKMULE")) {
-        ret = int(ret * 1.4);
+        ret = ret * 1.4;
     }
     if (has_trait("DISORGANIZED")) {
-        ret = int(ret * 0.6);
+        ret = ret * 0.6;
     }
-    return std::max( ret, 0 );
+    return std::max( ret, 0_ml );
 }
 
 bool Character::can_pickVolume( const item &it, bool ) const
 {
     inventory projected = inv;
     projected.add_item( it );
-   return projected.volume() <= volume_capacity();
+    return projected.volume() <= volume_capacity();
 }
 
 bool Character::can_pickWeight( const item &it, bool safe ) const
@@ -1927,7 +1929,7 @@ int Character::throw_range( const item &it ) const
     // Increases as weight decreases until 150 g, then decreases again
     ///\EFFECT_STR increases throwing range, vs item weight (high or low)
     int ret = (str_cur * 8) / (tmp.weight() >= 150 ? tmp.weight() / 113 : 10 - int(tmp.weight() / 15));
-    ret -= int(tmp.volume() / 4);
+    ret -= tmp.volume() / 1000_ml;
     static const std::set<material_id> affected_materials = { material_id( "iron" ), material_id( "steel" ) };
     if( has_active_bionic("bio_railgun") && tmp.made_of_any( affected_materials ) ) {
         ret *= 2;

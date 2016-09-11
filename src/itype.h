@@ -11,6 +11,7 @@
 #include "explosion.h"
 #include "vitamin.h"
 #include "emit.h"
+#include "units.h"
 
 #include <string>
 #include <vector>
@@ -127,9 +128,9 @@ struct islot_brewable {
 
 struct islot_container {
     /**
-     * Volume, scaled by the default-stack size of the item that is contained in this container.
+     * Inner volume of the container.
      */
-    int contains = 0;
+    units::volume contains = 0;
     /**
      * Can be resealed.
      */
@@ -183,7 +184,7 @@ struct islot_armor {
     /**
      * How much storage this items provides when worn.
      */
-    unsigned char storage = 0;
+    units::volume storage = 0;
     /**
      * Whether this is a power armor item.
      */
@@ -349,7 +350,7 @@ struct islot_gun : common_ranged_data {
     /**
      * Length of gun barrel, if positive allows sawing down of the barrel
      */
-    int barrel_length = 0;
+    units::volume barrel_length = 0;
     /**
      * Effects that are applied to the ammo when fired.
      */
@@ -627,11 +628,11 @@ public:
     /** After loading from JSON these properties guaranteed to be zero or positive */
     /*@{*/
     int weight          =  0; // Weight in grams for item (or each stack member)
-    int volume          =  0; // Space occupied by items of this type
+    units::volume volume = 0; // Space occupied by items of this type
     int price           =  0; // Value before cataclysm
     int price_post      = -1; // Value after cataclysm (dependent upon practical usages)
     int stack_size      =  0; // Maximum identical items that can stack per above unit volume
-    int integral_volume = -1; // Space consumed when integrated as part of another item (defaults to volume)
+    units::volume integral_volume = units::from_milliliter( -1 ); // Space consumed when integrated as part of another item (defaults to volume)
     /*@}*/
 
     bool rigid = true; // If non-rigid volume (and if worn encumbrance) increases proportional to contents
@@ -654,7 +655,7 @@ public:
     std::map< ammotype, itype_id > magazine_default;
 
     /** Volume above which the magazine starts to protrude from the item and add extra volume */
-    int magazine_well = 0;
+    units::volume magazine_well = 0;
 
     std::string get_item_type_string() const
     {

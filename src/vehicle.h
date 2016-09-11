@@ -12,6 +12,7 @@
 #include "active_item_cache.h"
 #include "string_id.h"
 #include "int_id.h"
+#include "units.h"
 
 #include <vector>
 #include <array>
@@ -446,7 +447,7 @@ private:
     // Do stuff like clean up blood and produce smoke from broken parts. Returns false if nothing needs doing.
     bool do_environmental_effects();
 
-    int total_folded_volume() const;
+    units::volume total_folded_volume() const;
 
     // Gets the fuel color for a given fuel
     nc_color get_fuel_color ( const itype_id &fuel_type ) const;
@@ -919,10 +920,9 @@ public:
     // Process the trap beneath
     void handle_trap( const tripoint &p, int part );
 
-    int max_volume(int part) const; // stub for per-vpart limit
-    int free_volume(int part) const;
-    int stored_volume(int part) const;
-    bool is_full(int part, int addvolume = -1, int addnumber = -1) const;
+    units::volume max_volume(int part) const; // stub for per-vpart limit
+    units::volume free_volume(int part) const;
+    units::volume stored_volume(int part) const;
 
     // add item to part's cargo. if false, then there's no cargo at this part or cargo is full(*)
     // *: "full" means more than 1024 items, or max_volume(part) volume (500 for now)

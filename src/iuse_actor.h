@@ -8,6 +8,7 @@
 #include "string_id.h"
 #include "explosion.h"
 #include "vitamin.h"
+#include "units.h"
 #include <limits.h>
 
 struct vehicle_prototype;
@@ -621,9 +622,9 @@ class holster_actor : public iuse_actor
         /** Message to show when holstering an item */
         std::string holster_msg;
         /** Maximum volume of each item that can be holstered */
-        int max_volume;
+        units::volume max_volume;
         /** Minimum volume of each item that can be holstered or 1/3 max_volume if unspecified */
-        int min_volume;
+        units::volume min_volume;
         /** Maximum weight of each item. If unspecified no weight limit is imposed */
         int max_weight = -1;
         /** Total number of items that holster can contain **/

@@ -26,6 +26,8 @@
 #include "mtype.h"
 #include <algorithm>
 
+using namespace units::literals;
+
 const skill_id skill_pistol( "pistol" );
 const skill_id skill_rifle( "rifle" );
 const skill_id skill_smg( "smg" );
@@ -687,11 +689,13 @@ dealt_projectile_attack player::throw_item( const tripoint &target, const item &
         deviation -= per_cur - 8;
     }
 
+    const int vol = thrown.volume() / 250_ml;
+
     deviation += rng(0, ((encumb(bp_hand_l) + encumb(bp_hand_r)) + encumb(bp_eyes) + 1) / 10);
-    if (thrown.volume() > 5) {
-        deviation += rng(0, 1 + (thrown.volume() - 5) / 4);
+    if (vol > 5) {
+        deviation += rng(0, 1 + (vol - 5) / 4);
     }
-    if (thrown.volume() == 0) {
+    if (vol == 0) {
         deviation += rng(0, 3);
     }
 
@@ -711,7 +715,7 @@ dealt_projectile_attack player::throw_item( const tripoint &target, const item &
     int real_dam = ( (thrown.weight() / 452)
                      + (thrown.type->melee_dam / 2)
                      + (str_cur / 2) )
-                   / (2.0 + (thrown.volume() / 4.0));
+                   / (2.0 + (vol / 4.0));
     if( real_dam > thrown.weight() / 40 ) {
         real_dam = thrown.weight() / 40;
     }
@@ -739,7 +743,7 @@ dealt_projectile_attack player::throw_item( const tripoint &target, const item &
     // Item will shatter upon landing, destroying the item, dealing damage, and making noise
     ///\EFFECT_STR increases chance of shattering thrown glass items (NEGATIVE)
     const bool shatter = !thrown.active && thrown.made_of( material_id( "glass" ) ) &&
-                         rng(0, thrown.volume() + 8) - rng(0, str_cur) < thrown.volume();
+                         rng(0, vol + 8) - rng(0, str_cur) < vol;
 
     // Add some flags to the projectile
     // TODO: Add this flag only when the item is heavy
@@ -756,13 +760,13 @@ dealt_projectile_attack player::throw_item( const tripoint &target, const item &
         proj_effects.insert( "LIGHTNING" );
     }
 
-    if( thrown.volume() > 2 ) {
+    if( vol > 2 ) {
         proj_effects.insert( "WIDE" );
     }
 
     // Deal extra cut damage if the item breaks
     if( shatter ) {
-        const int glassdam = rng( 0, thrown.volume() * 2 );
+        const int glassdam = rng( 0, vol * 2 );
         impact.add_damage( DT_CUT, glassdam );
         proj_effects.insert( "SHATTER_SELF" );
     }
@@ -1669,7 +1673,7 @@ double player::get_weapon_dispersion( const item &obj ) const
     if( is_driving( *this ) ) {
         // get volume of gun (or for auxiliary gunmods the parent gun)
         const item *parent = has_item( obj ) ? find_parent( obj ) : nullptr;
-        int vol = parent ? parent->volume() : obj.volume();
+        const int vol = ( parent ? parent->volume() : obj.volume() ) / 250_ml;
 
         ///\EFFECT_DRIVING reduces the inaccuracy penalty when using guns whilst driving
         dispersion += std::max( vol - get_skill_level( skill_driving ), 1 ) * 20;
@@ -1747,16 +1751,16 @@ void drop_or_embed_projectile( const dealt_projectile_attack &attack )
     // Don't embed in small creatures
     if( embed ) {
         const m_size critter_size = mon->get_size();
-        const int vol = dropped_item.volume();
-        embed = embed && ( critter_size > MS_TINY || vol < 1 );
-        embed = embed && ( critter_size > MS_SMALL || vol < 2 );
+        const units::volume vol = dropped_item.volume();
+        embed = embed && ( critter_size > MS_TINY || vol < 250_ml );
+        embed = embed && ( critter_size > MS_SMALL || vol < 500_ml );
         // And if we deal enough damage
         // Item volume bumps up the required damage too
         embed = embed &&
                  ( attack.dealt_dam.type_damage( DT_CUT ) / 2 ) +
                    attack.dealt_dam.type_damage( DT_STAB ) >
                      attack.dealt_dam.type_damage( DT_BASH ) +
-                     vol * 3 + rng( 0, 5 );
+                     vol * 3 / 250_ml + rng( 0, 5 );
     }
 
     if( embed ) {
@@ -1870,7 +1874,7 @@ double player::gun_value( const item &weap, long ammo ) const
 
     // Penalty for dodging in melee makes the gun unusable in melee
     // Until NPCs get proper kiting, at least
-    int melee_penalty = weapon.volume() - get_skill_level( skill_dodge );
+    int melee_penalty = weapon.volume() / 250_ml - get_skill_level( skill_dodge );
     if( melee_penalty <= 0 ) {
         // Dispersion matters less if you can just use the gun in melee
         total_dispersion = std::min<int>(

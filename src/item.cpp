@@ -48,6 +48,8 @@
 #include <tuple>
 #include <iterator>
 
+using namespace units::literals;
+
 static const std::string GUN_MODE_VAR_NAME( "item::mode" );
 
 const skill_id skill_survival( "survival" );
@@ -443,7 +445,7 @@ item item::in_container( const itype_id &cont ) const
         if( made_of( LIQUID ) && ret.is_container() ) {
             // Note: we can't use any of the normal normal container functions as they check the
             // container being suitable (seals, watertight etc.)
-            ret.contents.back().charges = liquid_charges( ret.get_container_capacity() );
+            ret.contents.back().charges = charges_per_volume( ret.get_container_capacity() );
         }
 
         ret.invlet = invlet;
@@ -453,27 +455,10 @@ item item::in_container( const itype_id &cont ) const
     }
 }
 
-long item::liquid_charges( long units ) const
+long item::charges_per_volume( const units::volume &vol ) const
 {
-    if( is_ammo() || is_food() ) {
-        return std::max( type->stack_size, 1 ) * units;
-    } else {
-        return units;
-    }
-}
-
-long item::liquid_charges_per_volume( int volume ) const
-{
-    return ( type->volume != 0 ) ? liquid_charges( volume / type->volume ) : INFINITE_CHARGES;
-}
-
-long item::liquid_units( long charges ) const
-{
-    if( is_ammo() || is_food() ) {
-        return charges / std::max( type->stack_size, 1 );
-    } else {
-        return charges;
-    }
+    // TODO: items should not have 0 volume at all!
+    return type->volume != 0 ? vol / type->volume : INFINITE_CHARGES;
 }
 
 bool item::stacks_with( const item &rhs ) const
@@ -697,23 +682,13 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
                             ( double )price_postapoc / 100, false, "$", true, true ) );
         }
 
-        info.push_back( iteminfo( "BASE", _( "<bold>Volume</bold>: " ), "", volume(), true, "", false,
-                                  true ) );
+        const std::string unit = string_format( "<num> %s", _( "ml" ) );
+        info.push_back( iteminfo( "BASE", _( "<bold>Volume</bold>: " ), unit, to_milliliter( volume() ),
+                                   true, "", false, true ) );
 
         info.push_back( iteminfo( "BASE", space + _( "Weight: " ),
                                   string_format( "<num> %s", weight_units() ),
                                   convert_weight( weight() ), false, "", true, true ) );
-
-        if( count_by_charges() && type->volume > 0 && type->stack_size > 1 ) {
-            if( type->volume == 1 ) {
-                //~ %1$d is stack size and guaranteed to be > 1
-                info.emplace_back( "BASE", string_format( _( "Stacks in groups of <stat>%1$d</stat>" ), type->stack_size ) );
-            } else {
-                //~ %1$d is stack size and %2$d is base volume with both guaranteed to be > 1
-                info.emplace_back( "BASE", string_format( _( "Stack of <stat>%1$d</stat> consumes <stat>%2$d</stat> volume" ),
-                                   type->stack_size, type->volume ) );
-            }
-        }
 
         if( !type->rigid ) {
             info.emplace_back( "BASE", _( "<bold>Rigid</bold>: " ), _( "No (contents increase volume)" ) );
@@ -1257,7 +1232,8 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
                                       get_encumber(), true, "", false, true ) );
         }
 
-        info.push_back( iteminfo( "ARMOR", space + _( "Storage: " ), "", get_storage() ) );
+        const std::string unit = string_format( "<num> %s", _( "ml" ) );
+        info.push_back( iteminfo( "ARMOR", space + _( "Storage: " ), unit, to_milliliter( get_storage() ) ) );
 
         info.push_back( iteminfo( "ARMOR", _( "Protection: Bash: " ), "", bash_resist(), true, "",
                                   false ) );
@@ -1371,7 +1347,7 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
             temp1 << _( "<good>preserves spoiling</good>, " );
         }
 
-        temp1 << string_format( _( "can store <info>%.2f liters</info>." ), c.contains / 4.0 );
+        temp1 << string_format( _( "can store <info>%.2f liters</info>." ), c.contains / 1000.0_ml );
 
         info.push_back( iteminfo( "CONTAINER", temp1.str() ) );
     }
@@ -2125,7 +2101,7 @@ void item::on_wield( player &p, int mv )
             d /= std::max( (float)p.get_skill_level( weap_skill() ), 1.0f );
         }
 
-        int penalty = get_var( "volume", type->volume ) * d;
+        int penalty = get_var( "volume", type->volume / units::legacy_volume_factor ) * d;
         p.moves -= penalty;
         mv += penalty;
     }
@@ -2225,7 +2201,7 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
 
     std::string burntext = "";
     if (with_prefix && !made_of(LIQUID)) {
-        if (volume() >= 4 && burnt >= volume() * 2) {
+        if( volume() >= 1000_ml && burnt * 125_ml >= volume() ) {
             burntext = pgettext( "burnt adjective", "badly burnt " );
         } else if (burnt > 0) {
             burntext = pgettext( "burnt adjective", "burnt " );
@@ -2435,7 +2411,7 @@ int item::price( bool practical ) const
         }
 
         if( e->count_by_charges() || e->made_of( LIQUID ) ) {
-            // price from json data is for default-sized stack similar to volume calculation
+            // price from json data is for default-sized stack
             child *= e->charges / static_cast<double>( e->type->stack_size );
 
         } else if( e->magazine_integral() && e->ammo_remaining() && e->ammo_data() ) {
@@ -2503,8 +2479,10 @@ int item::weight( bool include_contents ) const
 
     // reduce weight for sawn-off weepons capped to the apportioned weight of the barrel
     if( gunmod_find( "barrel_small" ) ) {
-        float b = type->gun->barrel_length;
-        ret -= std::min( b * 250, b / type->volume * type->weight );
+        const units::volume b = type->gun->barrel_length;
+        const int max_barrel_weight = to_milliliter( b );
+        const int barrel_weight = b * type->weight / type->volume;
+        ret -= std::min( max_barrel_weight, barrel_weight );
     }
 
     // tool mods also add about a pound of weight
@@ -2521,28 +2499,20 @@ int item::weight( bool include_contents ) const
     return ret;
 }
 
-int item::precise_unit_volume() const
-{
-    if( count_by_charges() || made_of( LIQUID ) ) {
-        return get_var( "volume", type->volume ) * 1000 / type->stack_size;
-    }
-    return volume() * 1000;
-}
-
-static int corpse_volume( m_size corpse_size )
+static units::volume corpse_volume( m_size corpse_size )
 {
     switch( corpse_size ) {
-        case MS_TINY:    return    3;
-        case MS_SMALL:   return  120;
-        case MS_MEDIUM:  return  250;
-        case MS_LARGE:   return  370;
-        case MS_HUGE:    return 3500;
+        case MS_TINY:    return    750_ml;
+        case MS_SMALL:   return  30000_ml;
+        case MS_MEDIUM:  return  62500_ml;
+        case MS_LARGE:   return  92500_ml;
+        case MS_HUGE:    return 875000_ml;
     }
     debugmsg( "unknown monster size for corpse" );
     return 0;
 }
 
-int item::base_volume() const
+units::volume item::base_volume() const
 {
     if( is_null() ) {
         return 0;
@@ -2555,7 +2525,7 @@ int item::base_volume() const
     return type->volume;
 }
 
-int item::volume( bool integral ) const
+units::volume item::volume( bool integral ) const
 {
     if( is_null() ) {
         return 0;
@@ -2565,11 +2535,18 @@ int item::volume( bool integral ) const
         return corpse_volume( corpse->size );
     }
 
-    int ret = get_var( "volume", integral ? type->integral_volume : type->volume );
+    const int local_volume = get_var( "volume", -1 );
+    units::volume ret;
+    if( local_volume >= 0 ) {
+        ret = local_volume * units::legacy_volume_factor;
+    } else if( integral ) {
+        ret = type->integral_volume;
+    } else {
+        ret = type->volume;
+    }
 
-    // For items counted per charge the above volume is per stack so adjust dependent upon charges
     if( count_by_charges() || made_of( LIQUID ) ) {
-        ret = ceil( ret * double( charges ) / type->stack_size );
+        ret *= charges;
     }
 
     // Non-rigid items add the volume of the content
@@ -2581,7 +2558,7 @@ int item::volume( bool integral ) const
 
     // Some magazines sit (partly) flush with the item so add less extra volume
     if( magazine_current() != nullptr ) {
-        ret += std::max( magazine_current()->volume() - type->magazine_well, 0 );
+        ret += std::max( magazine_current()->volume() - type->magazine_well, units::volume( 0 ) );
     }
 
     if (is_gun()) {
@@ -2592,14 +2569,14 @@ int item::volume( bool integral ) const
         // @todo implement stock_length property for guns
         if (has_flag("COLLAPSIBLE_STOCK")) {
             // consider only the base size of the gun (without mods)
-            int tmpvol = get_var( "volume", type->volume - type->gun->barrel_length );
+            int tmpvol = get_var( "volume", ( type->volume - type->gun->barrel_length ) / units::legacy_volume_factor );
             if     ( tmpvol <=  3 ) ; // intentional NOP
-            else if( tmpvol <=  5 ) ret -= 2;
-            else if( tmpvol <=  6 ) ret -= 3;
-            else if( tmpvol <=  8 ) ret -= 4;
-            else if( tmpvol <= 11 ) ret -= 5;
-            else if( tmpvol <= 16 ) ret -= 6;
-            else                    ret -= 7;
+            else if( tmpvol <=  5 ) ret -=  500_ml;
+            else if( tmpvol <=  6 ) ret -=  750_ml;
+            else if( tmpvol <=  8 ) ret -= 1000_ml;
+            else if( tmpvol <= 11 ) ret -= 1250_ml;
+            else if( tmpvol <= 16 ) ret -= 1500_ml;
+            else                    ret -= 1750_ml;
         }
 
         if( gunmod_find( "barrel_small" ) ) {
@@ -2609,13 +2586,13 @@ int item::volume( bool integral ) const
 
     // Battery mods also add volume
     if( has_flag("ATOMIC_AMMO") ) {
-        ret += 1;
+        ret += 250_ml;
     }
 
     if( has_flag("DOUBLE_AMMO") ) {
         // Batteries have volume 1 per 100 charges
         // TODO: De-hardcode this
-        ret += type->maximum_charges() / 100;
+        ret += type->maximum_charges() * 2.50_ml;
     }
 
     return ret;
@@ -2628,7 +2605,7 @@ int item::lift_strength() const
 
 int item::attack_time() const
 {
-    int ret = 65 + 4 * volume() + weight() / 60;
+    int ret = 65 + volume() / 62.5_ml + weight() / 60;
     return ret;
 }
 
@@ -2856,14 +2833,13 @@ void item::calc_rot(const tripoint &location)
     }
 }
 
-int item::get_storage() const
+units::volume item::get_storage() const
 {
     auto t = find_armor_data();
     if( t == nullptr )
         return 0;
 
-    // it_armor::storage is unsigned char
-    return static_cast<int> (static_cast<unsigned int>( t->storage ) );
+    return t->storage;
 }
 
 int item::get_env_resist() const
@@ -2890,7 +2866,7 @@ int item::get_encumber() const
     const auto t = find_armor_data();
     if( t == nullptr ) {
         // handle wearable guns (eg. shoulder strap) as special case
-        return is_gun() ? volume() / 3 : 0;
+        return is_gun() ? volume() / 750_ml : 0;
     }
     // it_armor::encumber is signed char
     int encumber = static_cast<int>( t->encumber );
@@ -2898,7 +2874,7 @@ int item::get_encumber() const
     // Non-rigid items add additional encumbrance proportional to their volume
     if( !type->rigid ) {
         for( const auto &e : contents ) {
-            encumber += e.volume();
+            encumber += e.volume() / 250_ml;
         }
     }
 
@@ -3008,7 +2984,7 @@ bool item::ready_to_revive( const tripoint &pos ) const
         return false;
     }
     int age_in_hours = (int(calendar::turn) - bday) / HOURS( 1 );
-    age_in_hours -= int((float)burnt / volume() * 24);
+    age_in_hours -= int((float)burnt / ( volume() / 250_ml ) );
     if( damage() > 0 ) {
         age_in_hours /= ( damage() + 1 );
     }
@@ -3747,7 +3723,7 @@ bool item::is_disassemblable() const
     return get_disassemble_recipe(typeId()) != NULL;
 }
 
-bool item::is_funnel_container(int &bigger_than) const
+bool item::is_funnel_container(units::volume &bigger_than) const
 {
     if ( ! is_watertight_container() ) {
         return false;
@@ -4752,7 +4728,7 @@ bool item::burn( fire_data &frd )
     float smoke_added = 0.0f;
     float time_added = 0.0f;
     float burn_added = 0.0f;
-    const int vol = base_volume();
+    const int vol = base_volume() / units::legacy_volume_factor;
     for( const auto &m : mats ) {
         const auto &bd = m.obj().burn_data( frd.fire_intensity );
         if( bd.immune ) {
@@ -4843,7 +4819,7 @@ bool item::flammable( int threshold ) const
     }
 
     chance /= mats.size();
-    int vol = base_volume();
+    int vol = base_volume() / units::legacy_volume_factor;
     if( chance > 0 && chance < vol ) {
         flammability = flammability * chance / vol;
     } else {
@@ -4915,7 +4891,7 @@ int item::getlight_emit() const
     return lumint;
 }
 
-long item::get_container_capacity() const
+units::volume item::get_container_capacity() const
 {
     if( !is_container() ) {
         return 0;
@@ -4948,7 +4924,7 @@ long item::get_remaining_capacity_for_liquid( const item &liquid, bool allow_buc
         } else if( !contents.empty() && contents.front().typeId() != liquid.typeId() ) {
             return error( string_format( _( "You can't mix loads in your %s." ), tname().c_str() ) );
         }
-        remaining_capacity = liquid.liquid_charges( get_container_capacity() );
+        remaining_capacity = liquid.charges_per_volume( get_container_capacity() );
         if( !contents.empty() ) {
             remaining_capacity -= contents.front().charges;
         }
@@ -4970,9 +4946,9 @@ long item::get_remaining_capacity_for_liquid( const item &liquid, const Characte
     long res = get_remaining_capacity_for_liquid( liquid, allow_bucket, err );
 
     if( res > 0 && !type->rigid && p.inv.has_item( *this ) ) {
-        const int volume_to_expand = std::max( p.volume_capacity() - p.volume_carried(), 0 );
+        const units::volume volume_to_expand = std::max( p.volume_capacity() - p.volume_carried(), units::volume( 0 ) );
 
-        res = std::min( liquid.liquid_charges_per_volume( volume_to_expand ), res );
+        res = std::min( liquid.charges_per_volume( volume_to_expand ), res );
 
         if( res == 0 && err != nullptr ) {
             *err = string_format( _( "That %s doesn't have room to expand." ), tname().c_str() );
@@ -5378,7 +5354,7 @@ bool item::process_corpse( player *carrier, const tripoint &pos )
     }
 
     active = false;
-    if( rng( 0, volume() ) > burnt && g->revive_corpse( pos, *this ) ) {
+    if( rng( 0, volume() / units::legacy_volume_factor ) > burnt && g->revive_corpse( pos, *this ) ) {
         if( carrier == nullptr ) {
             if( g->u.sees( pos ) ) {
                 if( corpse->in_species( ROBOT ) ) {

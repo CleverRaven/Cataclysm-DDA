@@ -406,10 +406,10 @@ class Character : public Creature, public visitable<Character>
         int throw_range( const item & ) const;
 
         int weight_carried() const;
-        int volume_carried() const;
+        units::volume volume_carried() const;
         int weight_capacity() const override;
-        int volume_capacity() const;
-        int volume_capacity_reduced_by( int mod ) const;
+        units::volume volume_capacity() const;
+        units::volume volume_capacity_reduced_by( units::volume mod ) const;
 
         bool can_pickVolume( const item &it, bool safe = false ) const;
         bool can_pickWeight( const item &it, bool safe = true ) const;

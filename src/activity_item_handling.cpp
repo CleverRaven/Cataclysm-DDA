@@ -90,7 +90,8 @@ void put_into_vehicle( player &p, const std::list<item> &items, vehicle &veh, in
 
 void stash_on_pet( const std::list<item> &items, monster &pet )
 {
-    int remaining_volume = pet.inv.empty() ? 0 : pet.inv.front().get_storage();
+    units::volume remaining_volume = pet.inv.empty() ? units::volume( 0 ) :
+                                     pet.inv.front().get_storage();
     int remaining_weight = pet.weight_capacity();
 
     for( const auto &it : pet.inv ) {
@@ -257,8 +258,8 @@ std::list<act_item> reorder_for_dropping( const player &p, const drop_indexes &d
                     && !second.it->is_worn_only_with( *first.it ) );
     } );
 
-    int storage_loss = 0;                        // Cumulatively increases
-    int remaining_storage = p.volume_capacity(); // Cumulatively decreases
+    units::volume storage_loss = 0;                        // Cumulatively increases
+    units::volume remaining_storage = p.volume_capacity(); // Cumulatively decreases
 
     while( !worn.empty() && !inv.empty() ) {
         storage_loss += worn.front().it->get_storage();
@@ -326,7 +327,7 @@ std::list<item> obtain_activity_items( player_activity &act, player &p )
         items.pop_front();
     }
     // Avoid tumbling to the ground. Unload cleanly.
-    const int excessive_volume = p.volume_carried() - p.volume_capacity();
+    const units::volume excessive_volume = p.volume_carried() - p.volume_capacity();
     if( excessive_volume > 0 ) {
         const auto excess = p.inv.remove_randomly_by_volume( excessive_volume );
         res.insert( res.begin(), excess.begin(), excess.end() );

@@ -228,8 +228,8 @@ void advanced_inventory::print_items( advanced_inventory_pane &pane, bool active
         int hrightcol = columns -
                         to_string( convert_weight( g->u.weight_carried() ) ).length() - 3 - //"xxx.y/"
                         to_string( convert_weight( g->u.weight_capacity() ) ).length() - 3 - //"xxx.y_"
-                        to_string( g->u.volume_carried() ).length() - 1 - //"xxx/"
-                        to_string( g->u.volume_capacity() ).length() - 1; //"xxx|"
+                        to_string( g->u.volume_carried() / units::legacy_volume_factor ).length() - 1 - //"xxx/"
+                        to_string( g->u.volume_capacity() / units::legacy_volume_factor ).length() - 1; //"xxx|"
         nc_color color = c_ltgreen;//red color if overload
         if( g->u.weight_carried() > g->u.weight_capacity() ) {
             color = c_red;
@@ -241,16 +241,16 @@ void advanced_inventory::print_items( advanced_inventory_pane &pane, bool active
         } else {
             color = c_ltgreen;
         }
-        wprintz( window, color, "%d", g->u.volume_carried() );
-        wprintz( window, c_ltgray, "/%d ", g->u.volume_capacity() );
+        wprintz( window, color, "%d", g->u.volume_carried() / units::legacy_volume_factor );
+        wprintz( window, c_ltgray, "/%d ", g->u.volume_capacity() / units::legacy_volume_factor );
     } else { //print square's current and total weight + volume
         std::string head;
         if( pane.get_area() == AIM_ALL ) {
             head = string_format( "%3.1f %3d",
                                   convert_weight( squares[pane.get_area()].weight ),
-                                  squares[pane.get_area()].volume );
+                                  squares[pane.get_area()].volume / units::legacy_volume_factor );
         } else {
-            int maxvolume = 0;
+            units::volume maxvolume = 0;
             auto &s = squares[pane.get_area()];
             if( pane.get_area() == AIM_CONTAINER && s.get_container(pane.in_vehicle()) != nullptr ) {
                 maxvolume = s.get_container(pane.in_vehicle())->get_container_capacity();
@@ -259,7 +259,7 @@ void advanced_inventory::print_items( advanced_inventory_pane &pane, bool active
             } else {
                 maxvolume = g->m.max_volume( s.pos );
             }
-            head = string_format( "%3.1f %3d/%3d", convert_weight( s.weight ), s.volume, maxvolume );
+            head = string_format( "%3.1f %3d/%3d", convert_weight( s.weight ), s.volume / units::legacy_volume_factor, maxvolume / units::legacy_volume_factor );
         }
         mvwprintz( window, 4, columns - 1 - head.length(), norm, "%s", head.c_str() );
     }
@@ -361,7 +361,7 @@ void advanced_inventory::print_items( advanced_inventory_pane &pane, bool active
         mvwprintz( window, 6 + x, weight_startpos, print_color, "%5.*f", w_precision, it_weight );
 
         //print volume column
-        int it_vol = sitem.volume;
+        int it_vol = sitem.volume / units::legacy_volume_factor;
         print_color = ( it_vol > 0 ) ? thiscolor : thiscolordark;
         if( it_vol > 9999 ) {
             it_vol = 9999;
@@ -598,7 +598,6 @@ void advanced_inv_area::init()
                 desc[0] = veh->name;
                 canputitemsloc = true;
                 max_size = MAX_ITEM_IN_VEHICLE_STORAGE;
-                max_volume = veh->max_volume( vstor );
             } else {
                 veh = nullptr;
                 canputitemsloc = false;
@@ -634,7 +633,6 @@ void advanced_inv_area::init()
             }
             canputitemsloc = can_store_in_vehicle() || g->m.can_put_items_ter_furn( pos );
             max_size = MAX_ITEM_IN_SQUARE;
-            max_volume = g->m.max_volume( pos );
             if( can_store_in_vehicle() ) {
                 // get storage label
                 const auto part = veh->parts[veh->global_part_at(pos.x, pos.y)];
@@ -2000,13 +1998,24 @@ bool advanced_inventory::move_content( item &src_container, item &dest_container
     return true;
 }
 
-int advanced_inv_area::free_volume( bool in_vehicle ) const
+units::volume advanced_inv_area::free_volume( bool in_vehicle ) const
 {
     assert( id != AIM_ALL ); // should be a specific location instead
     if( id == AIM_INVENTORY || id == AIM_WORN ) {
         return ( g->u.volume_capacity() - g->u.volume_carried() );
     }
     return (in_vehicle) ? veh->free_volume( vstor ) : g->m.free_volume( pos );
+}
+
+static units::volume unit_volume( const item &i )
+{
+    if( !i.count_by_charges() || i.charges == 1 ) {
+        return i.volume();
+    }
+    // TODO: this assumes the item does not have instance specific properties
+    // (like corpse type) that affect the volume. Items counted by charges should not have
+    // those anyway. But they might get them in the future?
+    return i.type->volume;
 }
 
 bool advanced_inventory::query_charges( aim_location destarea, const advanced_inv_listitem &sitem,
@@ -2017,8 +2026,8 @@ bool advanced_inventory::query_charges( aim_location destarea, const advanced_in
     const item &it = *sitem.items.front();
     advanced_inv_area &p = squares[destarea];
     const bool by_charges = it.count_by_charges();
-    const int unitvolume = it.precise_unit_volume();
-    const int free_volume = 1000 * p.free_volume( panes[dest].in_vehicle() );
+    const units::volume unitvolume = unit_volume( it );
+    const units::volume free_volume = p.free_volume( panes[dest].in_vehicle() );
     // default to move all, unless if being equipped
     const long input_amount = by_charges ? it.charges :
             (action == "MOVE_SINGLE_ITEM") ? 1 : sitem.stacks;

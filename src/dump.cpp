@@ -49,7 +49,7 @@ bool game::dump_stats( const std::string& what, dump_mode mode, const std::vecto
             std::vector<std::string> r;
             r.push_back( obj.tname( 1, false ) );
             r.push_back( obj.type->ammo->type.str() );
-            r.push_back( to_string( obj.volume() ) );
+            r.push_back( to_string( obj.volume() / units::legacy_volume_factor ) );
             r.push_back( to_string( obj.weight() ) );
             r.push_back( to_string( obj.type->stack_size ) );
             r.push_back( to_string( obj.type->ammo->range ) );
@@ -75,7 +75,7 @@ bool game::dump_stats( const std::string& what, dump_mode mode, const std::vecto
         auto dump = [&rows,&test_npcs]( const item& obj ) {
             std::vector<std::string> r;
             r.push_back( obj.tname( false ) );
-            r.push_back( to_string( obj.volume() ) );
+            r.push_back( to_string( obj.volume() / units::legacy_volume_factor ) );
             r.push_back( to_string( obj.weight() ) );
             r.push_back( to_string( obj.type->stack_size ) );
             r.push_back( to_string( obj.type->comestible->get_calories() ) );
@@ -123,7 +123,7 @@ bool game::dump_stats( const std::string& what, dump_mode mode, const std::vecto
             std::vector<std::string> r;
             r.push_back( obj.tname( 1, false ) );
             r.push_back( obj.ammo_type() ? obj.ammo_type().str() : "" );
-            r.push_back( to_string( obj.volume() ) );
+            r.push_back( to_string( obj.volume() / units::legacy_volume_factor ) );
             r.push_back( to_string( obj.weight() ) );
             r.push_back( to_string( obj.ammo_capacity() ) );
             r.push_back( to_string( obj.gun_range() ) );
@@ -197,7 +197,7 @@ bool game::dump_stats( const std::string& what, dump_mode mode, const std::vecto
             r.push_back( obj->name() );
             r.push_back( obj->location );
             r.push_back( to_string( int( ceil( item( obj->item ).weight() / 1000.0 ) ) ) );
-            r.push_back( to_string( obj->size ) );
+            r.push_back( to_string( obj->size / units::legacy_volume_factor ) );
             rows.push_back( r );
         };
         for( const auto e : vpart_info::get_all() ) {

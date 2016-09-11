@@ -25,6 +25,8 @@ const string_id<furn_t> string_id<furn_t>::NULL_ID( "f_null", 0 );
 namespace
 {
 
+const units::volume DEFAULT_MAX_VOLUME_IN_SQUARE = units::from_liter( 1000 );
+
 generic_factory<ter_t> terrain_data( "terrain", "id", "aliases" );
 generic_factory<furn_t> furniture_data( "furniture", "id", "aliases" );
 
@@ -240,7 +242,7 @@ furn_t null_furniture_t() {
   new_furniture.transparent = true;
   new_furniture.set_flag("TRANSPARENT");
   new_furniture.examine = iexamine_function_from_string("none");
-  new_furniture.max_volume = MAX_VOLUME_IN_SQUARE;
+  new_furniture.max_volume = DEFAULT_MAX_VOLUME_IN_SQUARE;
   return new_furniture;
 }
 
@@ -256,7 +258,7 @@ ter_t null_terrain_t() {
   new_terrain.set_flag("TRANSPARENT");
   new_terrain.set_flag("DIGGABLE");
   new_terrain.examine = iexamine_function_from_string("none");
-  new_terrain.max_volume = MAX_VOLUME_IN_SQUARE;
+  new_terrain.max_volume = DEFAULT_MAX_VOLUME_IN_SQUARE;
   return new_terrain;
 }
 
@@ -878,7 +880,7 @@ void ter_t::load( JsonObject &jo )
 {
     mandatory( jo, was_loaded, "name", name, translated_string_reader );
     mandatory( jo, was_loaded, "move_cost", movecost );
-    optional( jo, was_loaded, "max_volume", max_volume, MAX_VOLUME_IN_SQUARE );
+    optional( jo, was_loaded, "max_volume", max_volume, legacy_volume_reader, DEFAULT_MAX_VOLUME_IN_SQUARE );
     optional( jo, was_loaded, "trap", trap_id_str );
 
     load_symbol( jo );
@@ -993,7 +995,7 @@ void furn_t::load( JsonObject &jo )
     mandatory( jo, was_loaded, "name", name, translated_string_reader );
     mandatory( jo, was_loaded, "move_cost_mod", movecost );
     mandatory( jo, was_loaded, "required_str", move_str_req );
-    optional( jo, was_loaded, "max_volume", max_volume, MAX_VOLUME_IN_SQUARE );
+    optional( jo, was_loaded, "max_volume", max_volume, legacy_volume_reader, DEFAULT_MAX_VOLUME_IN_SQUARE );
     optional( jo, was_loaded, "crafting_pseudo_item", crafting_pseudo_item, "" );
 
     load_symbol( jo );

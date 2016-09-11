@@ -166,6 +166,17 @@ void Item_factory::finalize() {
         if( obj.stack_size == 0 && ( obj.ammo || obj.comestible ) ) {
             obj.stack_size = obj.charges_default();
         }
+        // JSON contains volume per complete stack, convert it to volume per single item
+        if( obj.count_by_charges() ) {
+            obj.volume = obj.volume / obj.stack_size;
+            obj.integral_volume = obj.integral_volume / obj.stack_size;
+        }
+        // Items always should have some volume.
+        // TODO: handle possible exception software?
+        // TODO: make items with 0 volume an error during loading?
+        if( obj.volume <= 0 ) {
+            obj.volume = units::from_milliliter( 1 );
+        }
         for( const auto &tag : obj.item_tags ) {
             if( tag.size() > 6 && tag.substr( 0, 6 ) == "LIGHT_" ) {
                 obj.light_emission = std::max( atoi( tag.substr( 6 ).c_str() ), 0 );
@@ -1722,7 +1733,7 @@ void Item_factory::migrate_item( const itype_id& id, item& obj )
         // check contents of migrated containers do not exceed capacity
         if( obj.is_container() && !obj.contents.empty() ) {
             item &child = obj.contents.back();
-            const long capacity = child.liquid_charges( obj.get_container_capacity() );
+            const long capacity = child.charges_per_volume( obj.get_container_capacity() );
             child.charges = std::min( child.charges, capacity );
         }
     }
