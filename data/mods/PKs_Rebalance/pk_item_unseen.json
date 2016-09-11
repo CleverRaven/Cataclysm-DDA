@@ -1,7 +1,6 @@
 [
     {
     "id": "acidbomb_large_act",
-    "edit-mode": "override",
     "type": "TOOL",
     "symbol": "*",
     "color": "i_green",
@@ -22,7 +21,6 @@
         }
     },{
     "id": "acidbomb_medium_act",
-    "edit-mode": "override",
     "type": "TOOL",
     "symbol": "*",
     "color": "i_ltgreen",
@@ -44,7 +42,6 @@
         }
     },{
     "id": "acidbomb_small_act",
-    "edit-mode": "override",
     "type": "TOOL",
     "symbol": "*",
     "color": "green",
@@ -66,7 +63,6 @@
         }
     },{
     "id": "acidbomb_micro_act",
-    "edit-mode": "override",
     "type": "TOOL",
     "symbol": "*",
     "color": "ltgreen",
@@ -88,7 +84,6 @@
         }
     },{
     "id": "molotov_micro_act",
-    "edit-mode": "override",
     "type": "TOOL",
     "symbol": "*",
     "color": "ltred",
