@@ -264,10 +264,10 @@
     "//": "Healing items appropriate for soldiers and other paramilitary forces",
     "entries": [
       { "item": "berserker_drug", "prob": 15 },
-      { "item": "stamina_vial", "prob": 25 },
-      { "item": "medikit", "prob": 20 },
+      { "item": "stamina_vial", "prob": 35 },
+      { "item": "medikit", "prob": 25 },
       { "item": "chloroform_rag", "prob": 10 },
-      { "item": "antidote_posion", "prob": 5 }
+      { "item": "antidote_posion", "prob": 10 }
     ]
     },{
     "type": "item_group",
