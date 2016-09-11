@@ -32,6 +32,7 @@ const skill_id skill_throw( "throw" );
 const skill_id skill_gun( "gun" );
 const skill_id skill_driving( "driving" );
 const skill_id skill_dodge( "dodge" );
+const skill_id skill_launcher( "launcher" );
 
 const efftype_id effect_on_roof( "on_roof" );
 const efftype_id effect_bounced( "bounced" );
@@ -492,7 +493,7 @@ int player::fire_gun( const tripoint &target, int shots, item& gun )
     int curshot = 0;
     int burst = 0; // count of shots against current target
     int xp = 0; // experience gain for marksmanship skill
-    int dmg = 0; // total damage to all targets
+    int hits = 0; // total shots on target
     while( curshot != shots ) {
         if( !handle_gun_damage( gun ) ) {
             break;
@@ -525,12 +526,12 @@ int player::fire_gun( const tripoint &target, int shots, item& gun )
             lifetime_stats()->headshots++; // @todo check head existence for headshot
         }
 
-        if( shot.hit_critter && range > double( get_skill_level( skill_gun ) ) / MAX_SKILL * MAX_RANGE ) {
-            // shots at sufficient distance that hit their target train marksmanship
-            xp += range;
+        if( shot.hit_critter ) {
+            hits++;
+            if( range > double( get_skill_level( skill_gun ) ) / MAX_SKILL * MAX_RANGE ) {
+                xp += range; // shots at sufficient distance train marksmanship
+            }
         }
-
-        dmg += shot.dealt_dam.total_damage();
 
         // If burst firing and we killed the target then try to retarget
         const auto critter = g->critter_at( aim, true );
@@ -573,7 +574,8 @@ int player::fire_gun( const tripoint &target, int shots, item& gun )
         add_msg_if_player( m_info, _( "You'll need to aim at more distant targets to further improve your marksmanship." ) );
     }
 
-    practice( gun.gun_skill(), dmg );
+    // launchers train weapon skill for both hits and misses
+    practice( gun.gun_skill(), ( gun.gun_skill() == skill_launcher ? curshot : hits ) * 10 );
 
     return curshot;
 }
