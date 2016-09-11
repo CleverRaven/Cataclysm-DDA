@@ -2130,7 +2130,7 @@
         "coverage" : 10,
         "material_thickness" : 2
     },
-  {
+    {
     "id": "stethoscope",
     "type": "TOOL_ARMOR",
     "symbol": "y",
@@ -2143,7 +2143,8 @@
     "volume": 1,
         "covers" : ["TORSO"],
         "encumbrance" : 1,
+        "flags" : ["BELTED"],
         "coverage" : 5,
         "material_thickness" : 1
-  }
+    }
 ]
