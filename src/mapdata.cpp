@@ -154,6 +154,7 @@ static const std::unordered_map<std::string, ter_connects> ter_connects_map = { 
     { "CHAINFENCE",               TERCONN_CHAINFENCE },
     { "WOODFENCE",                TERCONN_WOODFENCE },
     { "RAILING",                  TERCONN_RAILING },
+    { "WATER",                  TERCONN_WATER },
 } };
 
 void load_map_bash_tent_centers( JsonArray ja, std::vector<std::string> &centers ) {
