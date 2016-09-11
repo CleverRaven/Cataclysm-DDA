@@ -484,5 +484,31 @@
         "target_charges": 0,
         "active": true
     }
+    },{
+    "id": "molotov_micro",
+    "edit-mode": "override",
+    "type": "TOOL",
+    "category": "weapons",
+    "symbol": "*",
+    "color": "ltred",
+    "name": "small homemade molotov",
+    "description": "A small container filled with gasoline and tied off with a fuse.  When lit and thrown it may catch, or may dowse out and be useless.",
+    "price": 4500,
+    "material": ["hydrocarbons", "cotton", "glass"],
+    "weight": 295,
+    "volume": 1,
+    "bashing": 8,
+    "to_hit": -1,
+    "flags": "NPC_ACTIVATE",
+    "explode_in_fire": true,
+    "use_action": {
+        "type": "transform",
+        "target": "molotov_micro_act",
+        "need_fire": 1,
+        "target_charges": 2,
+        "msg": "You light the homemade molotov.",
+        "moves": 75,
+        "active": true
+    }
     }
 ]

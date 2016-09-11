@@ -6,6 +6,7 @@
 #include "item.h"
 #include "itype.h"
 #include "output.h"
+#include "options.h"
 #include "bodypart.h"
 #include "translations.h"
 #include "catacharset.h"
@@ -780,6 +781,11 @@ void player_morale::update_constrained_penalty()
 
 void player_morale::update_squeamish_penalty()
 {
+    if( !get_world_option<bool>( "FILTHY_MORALE" ) ) {
+        set_permanent( MORALE_PERM_FILTHY, 0 );
+        return;
+    }
+
     int penalty = 0;
     const auto bp_pen = [ this ]( body_part bp, int penalty ) -> int {
         return (

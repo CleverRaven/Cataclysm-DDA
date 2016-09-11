@@ -3947,7 +3947,7 @@ TAB key to switch lists, letters to pick items, Enter to finalize, Esc to quit,\
 
     // Make a temporary copy of the NPC to make sure volume calculations are correct
     npc temp = p;
-    int volume_left = temp.volume_capacity() - temp.volume_carried();
+    units::volume volume_left = temp.volume_capacity() - temp.volume_carried();
     int weight_left = temp.weight_capacity() - temp.weight_carried();
 
     do {
@@ -3982,9 +3982,8 @@ TAB key to switch lists, letters to pick items, Enter to finalize, Esc to quit,\
             volume_left = temp.volume_capacity() - temp.volume_carried();
             weight_left = temp.weight_capacity() - temp.weight_carried();
             mvwprintz( w_head, 3, 2, (volume_left < 0 || weight_left < 0) ? c_red : c_green,
-                       _("Volume: %d, %s"), volume_left,
-                       string_format( _( "Weight: %.1f %s" ),
-                                      convert_weight( weight_left ), weight_units() ).c_str() );
+                       _("Volume: %.2f liters, Weight: %.1f %s"), to_milliliter( volume_left ) / 1000.0,
+                                      convert_weight( weight_left ), weight_units() );
 
             std::string cost_string = ex ? _("Exchange") : ( cash >= 0 ? _("Profit $%.2f") : _("Cost $%.2f") );
             mvwprintz( w_head, 3, TERMX / 2 + ( TERMX / 2 - cost_string.length() ) / 2,
@@ -4675,13 +4674,13 @@ std::string give_item_to( npc &p, bool allow_use, bool allow_carry )
     }
     if( allow_carry ) {
         if( !p.can_pickVolume( given ) ) {
-            const int free_space = p.volume_capacity() - p.volume_carried();
+            const units::volume free_space = p.volume_capacity() - p.volume_carried();
             reason << std::endl;
             reason << string_format( _("I have no space to store it.") );
             reason << std::endl;
             if( free_space > 0 ) {
                 reason << string_format( _("I can only store %.2f liters more."),
-                    free_space / 4.0f );
+                    to_milliliter( free_space ) / 1000.0 );
             } else {
                 reason << string_format( _("...or to store anything else for that matter.") );
             }

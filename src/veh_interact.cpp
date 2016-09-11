@@ -1587,10 +1587,9 @@ void veh_interact::display_stats()
     int x[18], y[18], w[18]; // 3 columns * 6 rows = 18 slots max
 
     std::vector<int> cargo_parts = veh->all_parts_with_feature("CARGO");
-    int total_cargo = 0;
-    int free_cargo = 0;
-    for( auto &cargo_part : cargo_parts ) {
-        const int p = cargo_part;
+    units::volume total_cargo = 0;
+    units::volume free_cargo = 0;
+    for( const auto &p : cargo_parts ) {
         total_cargo += veh->max_volume(p);
         free_cargo += veh->free_volume(p);
     }
@@ -1630,7 +1629,7 @@ void veh_interact::display_stats()
                     convert_weight( veh->total_mass() * 1000.0f ), weight_units() );
     fold_and_print( w_stats, y[3], x[3], w[3], c_ltgray,
                     _( "Cargo Volume: <color_ltgray>%d/%d</color>" ),
-                    total_cargo - free_cargo, total_cargo);
+                    ( total_cargo - free_cargo ) / units::legacy_volume_factor, total_cargo / units::legacy_volume_factor);
     // Write the overall damage
     mvwprintz(w_stats, y[4], x[4], c_ltgray, _("Status:"));
     x[4] += utf8_width(_("Status:")) + 1;
@@ -1868,9 +1867,9 @@ void veh_interact::display_details( const vpart_info *part )
                    weight_units());
     if ( part->folded_volume != 0 ) {
         fold_and_print(w_details, line+2, col_2, column_width, c_white,
-                       "%s: <color_ltgray>%d</color>",
+                       "%s: <color_ltgray>%d ml</color>",
                        small_mode ? _("FoldVol") : _("Folded Volume"),
-                       part->folded_volume);
+                       units::to_milliliter( part->folded_volume ) );
     }
 
     // line 3: (column 1) size,bonus,wheel_width (as applicable)    (column 2) epower (if applicable)

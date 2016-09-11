@@ -657,7 +657,7 @@ void npc::choose_target()
         if( !is_following() ) {
             return true;
         }
-    
+
         switch( rules.engagement ) {
             case ENGAGE_NONE:
                 return false;
@@ -1042,7 +1042,7 @@ npc_action npc::address_needs( float danger )
     }
 
     // TODO: More risky attempts at sleep when exhausted
-    if( danger <= 0.01 && get_fatigue() > TIRED ) {
+    if( danger <= 0.01 && get_fatigue() >= TIRED ) {
         if( !is_following() ) {
             set_fatigue(0); // TODO: Make tired NPCs handle sleep offscreen
             return npc_undecided;
@@ -1218,7 +1218,7 @@ int npc::confident_throw_range( const item &thrown ) const
     ///\EFFECT_STR_NPC increases throwing confidence of heavy items
     deviation += std::min( ( thrown.weight() / 100 ) - str_cur, 0 );
 
-    deviation += thrown.volume() / 4;
+    deviation += thrown.volume() / units::legacy_volume_factor / 4;
 
     deviation += encumb( bp_hand_r ) + encumb( bp_hand_l ) + encumb( bp_eyes );
 
@@ -1689,7 +1689,7 @@ void npc::find_item()
         // When using a whitelist, skip the value check
         // @todo Whitelist hierarchy?
         int itval = whitelisting ? 1000 : value( it );
-        
+
         if( itval > best_value &&
             ( it.volume() <= volume_allowed && it.weight() <= weight_allowed ) ) {
             wanted_item_pos = p;
@@ -1892,7 +1892,7 @@ void npc::drop_items(int weight, int volume)
 {
     add_msg( m_debug, "%s is dropping items-%d,%d (%d items, wgt %d/%d, vol %d/%d)",
                  name.c_str(), weight, volume, inv.size(), weight_carried(),
-                 weight_capacity(), volume_carried(), volume_capacity());
+                 weight_capacity(), volume_carried() / units::legacy_volume_factor, volume_capacity() / units::legacy_volume_factor);
 
     int weight_dropped = 0, volume_dropped = 0;
     std::vector<ratio_index> rWgt, rVol; // Weight/Volume to value ratios
@@ -1907,7 +1907,7 @@ void npc::drop_items(int weight, int volume)
             vol_ratio = 99999;
         } else {
             wgt_ratio = it.weight() / value(it);
-            vol_ratio = it.volume() / value(it);
+            vol_ratio = it.volume() / units::legacy_volume_factor / value(it);
         }
         bool added_wgt = false, added_vol = false;
         for (size_t j = 0; j < rWgt.size() && !added_wgt; j++) {
@@ -1963,7 +1963,7 @@ void npc::drop_items(int weight, int volume)
             }
         }
         weight_dropped += slice[index]->front().weight();
-        volume_dropped += slice[index]->front().volume();
+        volume_dropped += slice[index]->front().volume() / units::legacy_volume_factor;
         item dropped = i_rem(index);
         num_items_dropped++;
         if (num_items_dropped == 1) {

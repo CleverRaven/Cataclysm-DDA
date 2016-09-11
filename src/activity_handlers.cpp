@@ -586,10 +586,8 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act_, player *p )
             liquid = *on_ground;
         }
 
-        // liquid_charges takes care of the different scale of liquids (gasoline vs alcohol
-        // vs water). One volume unit of those contains differing amount of charges, this ensures
-        // the same *volume* is transferred on each turn.
-        const long charges_per_turn = liquid.liquid_charges( 10 );
+        static const auto volume_per_turn = units::from_liter( 4 );
+        const long charges_per_turn = std::max( 1l, liquid.charges_per_volume( volume_per_turn ) );
         liquid.charges = std::min( charges_per_turn, liquid.charges );
         const long original_charges = liquid.charges;
 
@@ -1063,7 +1061,7 @@ void activity_handlers::pulp_do_turn( player_activity *act, player *p )
 
         while( corpse.damage() < corpse.max_damage() ) {
             // Increase damage as we keep smashing ensuring we eventually smash the target.
-            if( x_in_y( pulp_power, corpse.volume() ) ) {
+            if( x_in_y( pulp_power, corpse.volume() / units::legacy_volume_factor ) ) {
                 corpse.inc_damage( DT_BASH );
                 if( corpse.damage() == corpse.max_damage() ) {
                     corpse.active = false;
@@ -1071,7 +1069,7 @@ void activity_handlers::pulp_do_turn( player_activity *act, player *p )
                 }
             }
 
-            if( x_in_y( pulp_power, corpse.volume() ) ) { // Splatter some blood around
+            if( x_in_y( pulp_power, corpse.volume() / units::legacy_volume_factor ) ) { // Splatter some blood around
                 // Splatter a bit more randomly, so that it looks cooler
                 const int radius = mess_radius + x_in_y( pulp_power, 500 ) + x_in_y( pulp_power, 1000 );
                 const tripoint dest( pos.x + rng( -radius, radius ), pos.y + rng( -radius, radius ), pos.z );

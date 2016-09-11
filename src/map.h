@@ -782,9 +782,9 @@ void add_corpse( const tripoint &p );
     void spawn_item(const int x, const int y, const std::string &itype_id,
                     const unsigned quantity=1, const long charges=0,
                     const unsigned birthday=0, const int damlevel=0);
-    int max_volume(const int x, const int y);
-    int free_volume(const int x, const int y);
-    int stored_volume(const int x, const int y);
+    units::volume max_volume(const int x, const int y);
+    units::volume free_volume(const int x, const int y);
+    units::volume stored_volume(const int x, const int y);
     bool add_item_or_charges(const int x, const int y, item new_item, int overflow_radius = 2);
     void add_item(const int x, const int y, item new_item);
     void spawn_an_item( const int x, const int y, item new_item,
@@ -809,10 +809,9 @@ void add_corpse( const tripoint &p );
     void spawn_item( const tripoint &p, const std::string &itype_id,
                      const unsigned quantity=1, const long charges=0,
                      const unsigned birthday=0, const int damlevel=0);
-    int max_volume( const tripoint &p );
-    int free_volume( const tripoint &p );
-    int stored_volume( const tripoint &p );
-    bool is_full( const tripoint &p, const int addvolume = -1, const int addnumber = -1 );
+    units::volume max_volume( const tripoint &p );
+    units::volume free_volume( const tripoint &p );
+    units::volume stored_volume( const tripoint &p );
     item &add_item_or_charges( const tripoint &p, item new_item, int overflow_radius = 2 );
     item &add_item_at( const tripoint &p, std::list<item>::iterator index, item new_item );
     item &add_item( const tripoint &p, item new_item );

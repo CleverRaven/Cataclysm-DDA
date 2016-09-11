@@ -1398,6 +1398,13 @@ void options_manager::init()
 
     mOptionsSort["world_default"]++;
 
+    add("FILTHY_MORALE", "world_default", _("Morale penalty for filthy clothing."),
+        _("If true, wearing filthy clothing will cause morale penalties."),
+        false, COPT_ALWAYS_HIDE
+        );
+
+    mOptionsSort["world_default"]++;
+
     add("BLACKLIST_MAGAZINES", "world_default", _("Disables removable gun magaziones."),
         _("If true, disables removeable gun magazines, guns will all act as if they have integral magazines."),
         false, COPT_ALWAYS_HIDE
@@ -1407,6 +1414,13 @@ void options_manager::init()
 
     add("NO_VITAMINS", "world_default", _("Disables tracking vitamins in food items."),
         _("If true, disables vitamin tracking and vitamin disorders."),
+        false, COPT_ALWAYS_HIDE
+        );
+
+    mOptionsSort["world_default"]++;
+
+    add("NO_NPC_FOOD", "world_default", _("Disables tracking food, thirst and (partially) fatigue for NPCs."),
+        _("If true, NPCs won't need to eat or drink and will only get tired enough to sleep, not to get penalties."),
         false, COPT_ALWAYS_HIDE
         );
 

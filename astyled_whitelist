@@ -204,3 +204,4 @@ src/weather.h
 src/weighted_list.h
 src/worldfactory.h
 src/safemode_ui.h
+src/units.h

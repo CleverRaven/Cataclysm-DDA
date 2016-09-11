@@ -36,8 +36,8 @@ static const std::string fake_recipe_book = "book";
 void remove_from_component_lookup( recipe *r );
 
 recipe::recipe() :
-    result( "null" ), contained( false ), container( "null" ),
-    skill_used( NULL_ID ), reversible( false ),
+    result( "null" ), valid_to_learn( false ), contained( false ),
+    container( "null" ), skill_used( NULL_ID ), reversible( false ),
     autolearn_requirements(), learn_by_disassembly(), result_mult( 1 )
 {
 }
@@ -70,6 +70,8 @@ void load_recipe( JsonObject &jsobj, const std::string & /* src */, bool uncraft
     // required
     std::string result = jsobj.get_string( "result" );
     std::string category = uncraft ? "CC_NONCRAFT" : jsobj.get_string( "category" );
+    // @todo Fix the recipes and remove this
+    uncraft = uncraft || category == "CC_NONCRAFT";
     int time = jsobj.get_int( "time" );
     int difficulty = jsobj.get_int( "difficulty" );
 
@@ -168,6 +170,7 @@ void load_recipe( JsonObject &jsobj, const std::string & /* src */, bool uncraft
     rec->result = result;
     rec->time = time;
     rec->difficulty = difficulty;
+    rec->valid_to_learn = !uncraft;
     rec->byproducts = bps;
     rec->cat = category;
     rec->contained = contained;
@@ -544,8 +547,7 @@ bool recipe::can_make_with_inventory( const inventory &crafting_inv,
 
 bool recipe::valid_learn() const
 {
-    static const std::string ncraft = "CC_NONCRAFT";
-    return cat != ncraft;
+    return valid_to_learn;
 }
 
 const inventory &player::crafting_inventory()
@@ -1630,9 +1632,8 @@ void player::complete_disassemble()
             return;
         }
 
-        // Twice the volume then multiplied by 10.
-        // A book with volume 3 will give 60 pages.
-        const int num_pages = ( org_item.volume() * 2 ) * 10;
+        const int num_pages = org_item.volume() / units::from_milliliter( 12.5 );
+        // TODO: add check for num_pages == 0 (or round up?)
         g->m.spawn_item( pos(), "paper", 0, num_pages );
         if( from_ground ) {
             g->m.i_rem( loc, item_pos );

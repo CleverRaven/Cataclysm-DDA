@@ -475,8 +475,8 @@ void inventory_selector::prepare_columns( bool multiselect )
     refresh_active_column();
 }
 
-void inventory_selector::draw_inv_weight_vol( WINDOW *w, int weight_carried, int vol_carried,
-        int vol_capacity) const
+void inventory_selector::draw_inv_weight_vol( WINDOW *w, int weight_carried, units::volume vol_carried,
+        units::volume vol_capacity) const
 {
     // Print weight
     mvwprintw(w, 0, 32, _("Weight (%s): "), weight_units());
@@ -490,13 +490,13 @@ void inventory_selector::draw_inv_weight_vol( WINDOW *w, int weight_carried, int
     wprintz(w, c_ltgray, "/%-6.1f", convert_weight(u.weight_capacity()));
 
     // Print volume
-    mvwprintw(w, 0, 61, _("Volume: "));
+    mvwprintw(w, 0, 61, _("Volume (ml): "));
     if (vol_carried > vol_capacity) {
-        wprintz(w, c_red, "%3d", vol_carried);
+        wprintz(w, c_red, "%3d", to_milliliter( vol_carried ) );
     } else {
-        wprintz(w, c_ltgray, "%3d", vol_carried);
+        wprintz(w, c_ltgray, "%3d", to_milliliter( vol_carried ) );
     }
-    wprintw(w, "/%-3d", vol_capacity);
+    wprintw(w, "/%-3d", to_milliliter( vol_capacity ) );
 }
 
 void inventory_selector::draw_inv_weight_vol( WINDOW *w ) const

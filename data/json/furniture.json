@@ -203,7 +203,7 @@
             ]
         },
         "max_volume": 4000,
-        "flags": ["TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH",
+        "flags": ["TRANSPARENT", "FLAMMABLE_ASH",
                   "PLACE_ITEM", "ORGANIC", "MOUNTABLE"],
         "bash": {
             "str_min": 12, "str_max": 40,

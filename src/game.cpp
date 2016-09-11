@@ -7218,6 +7218,7 @@ void game::close()
 
 void game::close( const tripoint &closep )
 {
+    using namespace units::literals;
     bool didit = false;
     const bool inside = !m.is_outside( u.pos() );
 
@@ -7280,24 +7281,24 @@ void game::close( const tripoint &closep )
     } else {
         // Scoot up to 10 volume of items out of the way, only counting items that are vol >= 1.
         if (m.furn(closep) != f_safe_o && !items_in_way.empty()) {
-            int total_item_volume = 0;
+            units::volume total_item_volume = 0;
             if (items_in_way.size() > 10) {
                 add_msg(m_info, _("Too many items to push out of the way!"));
                 return;
             }
             for( auto &elem : items_in_way ) {
                 // Don't even count tiny items.
-                if( elem.volume() < 1 ) {
+                if( elem.volume() < 250_ml ) {
                     continue;
                 }
-                if( elem.volume() > 10 ) {
+                if( elem.volume() > 2500_ml ) {
                     add_msg( m_info, _( "There's a %s in the way that is too big to just nudge out "
                                         "of the way." ),
                              elem.tname().c_str() );
                     return;
                 }
                 total_item_volume += elem.volume();
-                if (total_item_volume > 10) {
+                if (total_item_volume > 2500_ml ) {
                     add_msg(m_info, _("There is too much stuff in the way."));
                     return;
                 }
@@ -7375,17 +7376,18 @@ void game::smash()
         if (u.get_skill_level( skill_melee ) == 0) {
             u.practice( skill_melee, rng(0, 1) * rng(0, 1));
         }
+        const int vol = u.weapon.volume() / units::legacy_volume_factor;
         if (u.weapon.made_of( material_id( "glass" ) ) &&
-            rng(0, u.weapon.volume() + 3) < u.weapon.volume()) {
+            rng(0, vol + 3) < vol) {
             add_msg(m_bad, _("Your %s shatters!"), u.weapon.tname().c_str());
             for( auto &elem : u.weapon.contents ) {
                 m.add_item_or_charges( u.pos(), elem );
             }
             sounds::sound(u.pos(), 24, "");
-            u.deal_damage( nullptr, bp_hand_r, damage_instance( DT_CUT, rng( 0, u.weapon.volume() ) ) );
-            if (u.weapon.volume() > 20) {
+            u.deal_damage( nullptr, bp_hand_r, damage_instance( DT_CUT, rng( 0, vol ) ) );
+            if (vol > 20) {
                 // Hurt left arm too, if it was big
-                u.deal_damage( nullptr, bp_hand_l, damage_instance( DT_CUT, rng( 0, long( u.weapon.volume() * .5 ) ) ) );
+                u.deal_damage( nullptr, bp_hand_l, damage_instance( DT_CUT, rng( 0, long( vol * .5 ) ) ) );
             }
             u.remove_weapon();
             u.check_dead_state();
@@ -7653,7 +7655,7 @@ bool game::forced_door_closing( const tripoint &p, const ter_id door_type, int b
             if( elem.made_of( LIQUID ) ) {
                 // Liquids are OK, will be destroyed later
                 continue;
-            } else if( elem.volume() <= 0 ) {
+            } else if( elem.volume() < units::from_milliliter( 250 ) ) {
                 // Dito for small items, will be moved away
                 continue;
             }
@@ -7928,7 +7930,7 @@ bool pet_menu(monster *z)
             return true;
         }
 
-        int max_cap = it->get_storage();
+        units::volume max_cap = it->get_storage();
         int max_weight = z->weight_capacity() - it->weight();
 
         if (z->inv.size() > 1) {
