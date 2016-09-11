@@ -708,11 +708,13 @@ void game::reenter_fullscreen(void)
  */
 void game::setup()
 {
-    popup_nowait(_("Please wait while the world data loads...\nLoading core JSON..."));
+    popup_status( _( "Please wait while the world data loads..." ), _( "Loading core data" ) );
     load_core_data();
 
     for( int i = get_world_option<int>( "CORE_VERSION" ); i < core_version; ++i ) {
-        popup_nowait( _( "Please wait while the world data loads...\nApplying legacy migrations (%i/%i)" ), i, core_version - 1 );
+        popup_status( _( "Please wait while the world data loads..." ),
+                      _( "Applying legacy migration (%i/%i)" ), i, core_version - 1 );
+
         load_data_from_dir( FILENAMES["legacydir"] + to_string( i ), "legacy" );
     }
 
@@ -3575,7 +3577,6 @@ void game::load_world_modfiles(WORLDPTR world)
 {
     erase();
     refresh();
-    popup_nowait(_("Please wait while the world data loads...\nLoading mods..."));
 
     if (world != NULL) {
         load_artifacts(world->world_path + "/artifacts.gsav");
@@ -3590,6 +3591,8 @@ void game::load_world_modfiles(WORLDPTR world)
                 MOD_INFORMATION &mod = *mm->mod_map[mod_ident];
                 if( !mod.obsolete ) {
                     // Silently ignore mods marked as obsolete.
+                    popup_status( _( "Please wait while the world data loads..." ),
+                                  _( "Loading mods (%s)" ), mod.ident.c_str() );
                     load_data_from_dir( mod.path, mod.ident );
                 }
             } else {
@@ -3602,7 +3605,7 @@ void game::load_world_modfiles(WORLDPTR world)
 
     erase();
     refresh();
-    popup_nowait(_("Please wait while the world data loads...\nFinalizing and verifying..."));
+    popup_status( _( "Please wait while the world data loads..." ), _( "Finalizing and verifying" ) );
 
     DynamicDataLoader::get_instance().finalize_loaded_data();
 }
