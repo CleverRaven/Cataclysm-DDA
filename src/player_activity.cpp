@@ -616,6 +616,7 @@ bool player_activity::can_resume_with( const player_activity &other, const Chara
         case ACT_GUNMOD_ADD:
         case ACT_REPAIR_ITEM:
         case ACT_MEND_ITEM:
+        case ACT_MEDITATE:
             // Those should have extra limitations
             // But for now it's better to allow too much than too little
             break;
