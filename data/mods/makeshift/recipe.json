@@ -1,0 +1,16 @@
+[
+  {
+    "result": "makeshift_kevlar",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_TORSO",
+    "skill_used": "tailor",
+    "difficulty": 4,
+    "time": 30000,
+    "reversible": true,
+    "decomp_learn": 4,
+    "autolearn": true,
+    "tools": [ [ [ "sewing_kit", 30 ] ] ],
+    "components": [ [ [ "kevlar_plate", 24 ] ] ]
+  }
+]
