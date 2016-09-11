@@ -5126,9 +5126,10 @@
     },{
         "type" : "mutation",
         "id" : "SQUEAMISH",
-        "name" : "Squeamish",
-        "points" : -1,
-        "starting_trait" : true,
-        "description" : "You can't even think about putting filthy clothes on yourself, especially from zombies' corpses."
+        "name" : "Debug Squeamish",
+        "points" : 99,
+        "valid" : false,
+        "description" : "This exists only to avoid breaking older saves, due to this trait being moved out of mainline.",
+        "threshold" : true
     }
 ]
