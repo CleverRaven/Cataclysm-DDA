@@ -7,10 +7,13 @@
 
 #include <cmath>
 #include <fstream>
+#include <cstdlib>
 
 namespace
 {
-constexpr double tau = 2 * M_PI;
+// GCC doesn't like M_PI here for some reason
+constexpr double PI  = 3.141592653589793238463;
+constexpr double tau = 2 * PI;
 } //namespace
 
 weather_generator::weather_generator() = default;
