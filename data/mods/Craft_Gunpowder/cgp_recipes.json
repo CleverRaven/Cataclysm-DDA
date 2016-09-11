@@ -24,7 +24,7 @@
   ]
 },{
   "type" : "recipe",
-  "result": "8mm_bootleg_jsp",
+  "result": "8mm_bootleg",
   "category": "CC_AMMO",
   "subcategory": "CSC_AMMO_BULLETS",
   "skill_used": "fabrication",
