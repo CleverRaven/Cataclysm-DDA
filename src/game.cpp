@@ -117,7 +117,7 @@
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 
-const int core_version = 1;
+const int core_version = 2;
 
 /** Will be set to true when running unit tests */
 bool test_mode = false;
