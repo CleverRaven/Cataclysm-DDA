@@ -423,8 +423,9 @@ class Character : public Creature, public visitable<Character>
         bool is_wearing(const itype_id &it) const;
         /** Returns true if the player is wearing the item on the given body_part. */
         bool is_wearing_on_bp(const itype_id &it, body_part bp) const;
-        /** Returns true if the player is wearing an item with the given flag. */
-        bool worn_with_flag( const std::string &flag ) const;
+
+        /** Check if wearing an item with flag, optionally restricting to specific body part */
+        bool worn_with_flag( const std::string &flag, body_part bp = num_bp ) const;
 
         // --------------- Skill Stuff ---------------
         SkillLevel &get_skill_level( const skill_id &ident );

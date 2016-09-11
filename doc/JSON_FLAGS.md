@@ -652,6 +652,7 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```FLOTATION``` Prevents the player from drowning in deep water. Also prevents diving underwater.
 - ```FRAGILE``` This gear is less resistant to damage than normal.
 - ```FURRED``` This piece of clothing has a fur lining sewn into it to increase its overall warmth.
+- ```GRIP``` Provides sufficient grip to prevent the bouldering effect when moving on to UNSTABLE terrain
 - ```HOOD``` Allow this clothing to conditionally cover the head, for additional warmth or water protection., if the player's head isn't encumbered
 - ```HYGROMETER``` This gear is equipped with an accurate hygrometer (which is used to measure humidity).
 - ```KEVLAR_PADDED``` This gear has kevlar inserted into strategic locations to increase protection without increasing encumbrance.
