@@ -394,7 +394,6 @@
     }
     },{
     "id": "acidbomb_large",
-    "edit-mode": "override",
     "type": "AMMO",
     "category": "weapons",
     "ammo_type": "thrown",
@@ -417,7 +416,6 @@
     }
     },{
     "id": "acidbomb_medium",
-    "edit-mode": "override",
     "type": "AMMO",
     "category": "weapons",
     "ammo_type": "thrown",
@@ -440,7 +438,6 @@
     }
     },{
     "id": "acidbomb_small",
-    "edit-mode": "override",
     "type": "AMMO",
     "category": "weapons",
     "ammo_type": "thrown",
@@ -463,7 +460,6 @@
     }
     },{
     "id": "acidbomb_micro",
-    "edit-mode": "override",
     "type": "AMMO",
     "category": "weapons",
     "ammo_type": "thrown",
@@ -486,7 +482,6 @@
     }
     },{
     "id": "molotov_micro",
-    "edit-mode": "override",
     "type": "TOOL",
     "category": "weapons",
     "symbol": "*",
