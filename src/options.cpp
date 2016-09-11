@@ -1417,6 +1417,13 @@ void options_manager::init()
         false, COPT_ALWAYS_HIDE
         );
 
+    mOptionsSort["world_default"]++;
+
+    add("NO_NPC_FOOD", "world_default", _("Disables tracking food, thirst and (partially) fatigue for NPCs."),
+        _("If true, NPCs won't need to eat or drink and will only get tired enough to sleep, not to get penalties."),
+        false, COPT_ALWAYS_HIDE
+        );
+
     for (unsigned i = 0; i < vPages.size(); ++i) {
         mPageItems[i].resize(mOptionsSort[vPages[i].first]);
     }

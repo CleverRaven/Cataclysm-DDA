@@ -657,7 +657,7 @@ void npc::choose_target()
         if( !is_following() ) {
             return true;
         }
-    
+
         switch( rules.engagement ) {
             case ENGAGE_NONE:
                 return false;
@@ -1042,7 +1042,7 @@ npc_action npc::address_needs( float danger )
     }
 
     // TODO: More risky attempts at sleep when exhausted
-    if( danger <= 0.01 && get_fatigue() > TIRED ) {
+    if( danger <= 0.01 && get_fatigue() >= TIRED ) {
         if( !is_following() ) {
             set_fatigue(0); // TODO: Make tired NPCs handle sleep offscreen
             return npc_undecided;
@@ -1689,7 +1689,7 @@ void npc::find_item()
         // When using a whitelist, skip the value check
         // @todo Whitelist hierarchy?
         int itval = whitelisting ? 1000 : value( it );
-        
+
         if( itval > best_value &&
             ( it.volume() <= volume_allowed && it.weight() <= weight_allowed ) ) {
             wanted_item_pos = p;
