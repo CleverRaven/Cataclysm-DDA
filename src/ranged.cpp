@@ -533,6 +533,10 @@ int player::fire_gun( const tripoint &target, int shots, item& gun )
             }
         }
 
+        if( gun.gun_skill() == skill_launcher ) {
+            continue; // skip retargeting for launchers
+        }
+
         // If burst firing and we killed the target then try to retarget
         const auto critter = g->critter_at( aim, true );
         if( !critter || critter->is_dead_state() ) {
