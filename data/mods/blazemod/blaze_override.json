@@ -31,12 +31,7 @@
       { "item": "steel_lump", "count": [ 1, 2 ] },
       { "item": "steel_chunk", "count": [ 1, 2 ] },
       { "item": "scrap", "count": [ 1, 2 ] },
-      {
-        "item": "cable", "charges": [
-          3,
-          6
-        ]
-      }
+      { "item": "cable", "charges": [ 3, 6 ] }
     ],
     "flags": [ "ENGINE", "FOLDABLE" ]
   },
