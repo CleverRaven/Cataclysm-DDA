@@ -5123,12 +5123,5 @@
         "valid" : false,
         "description" : "Mind the bugs, would you kindly?.",
         "threshold" : true
-    },{
-        "type" : "mutation",
-        "id" : "SQUEAMISH",
-        "name" : "Squeamish",
-        "points" : -1,
-        "starting_trait" : true,
-        "description" : "You can't even think about putting filthy clothes on yourself, especially from zombies' corpses."
     }
 ]
