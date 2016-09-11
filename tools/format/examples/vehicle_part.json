@@ -14,7 +14,7 @@
     "breaks_into": [
       { "item": "steel_lump", "count": [ 3, 6 ] },
       { "item": "steel_chunk", "count": [ 3, 6 ] },
-      { "item": "scrap", "min": 3, "max": 6 }
+      { "item": "scrap", "count": [ 3, 6 ] }
     ],
     "extend": { "flags": [ "TOOL_WRENCH" ] }
   },
@@ -22,7 +22,6 @@
     "id": "battery_car",
     "type": "vehicle_part",
     "name": "car battery",
-    "//": "TOOL_NONE is a legacy flag that means no tools are required for installation or removal",
     "item": "battery_car",
     "fuel_type": "battery",
     "symbol": "o",
@@ -42,7 +41,6 @@
     "id": "crane_medium",
     "type": "vehicle_part",
     "name": "boom crane",
-    "//": "TOOL_WRENCH is a legacy flag that means at least level 2 of the WRENCH quality is required to install/remove the part",
     "item": "cantilever_medium",
     "location": "structure",
     "symbol": "=",
@@ -81,7 +79,6 @@
     "id": "seat_wood",
     "type": "vehicle_part",
     "name": "wooden seat",
-    "//": "The hammer and nail requirements are implied by the legacy flag TOOL_NAILABLE",
     "item": "frame_wood",
     "location": "center",
     "symbol": "#",
@@ -91,7 +88,7 @@
     "difficulty": 1,
     "durability": 125,
     "damage_modifier": 60,
-    "breaks_into": [ { "item": "splinter", "min": 7, "max": 9 } ],
+    "breaks_into": [ { "item": "splinter", "count": [ 7, 9 ] } ],
     "requirements": {
       "install": {
         "skills": [ [ "mechanics", 1 ] ],
