@@ -624,6 +624,19 @@ void options_manager::cOpt::setValue(float fSetIn)
 }
 
 //set value
+void options_manager::cOpt::setValue( int iSetIn )
+{
+    if( sType != "int" ) {
+        debugmsg( "tried to set an int value to a %s option", sType.c_str() );
+        return;
+    }
+    iSet = iSetIn;
+    if( iSet < iMin || iSet > iMax ) {
+        iSet = iDefault;
+    }
+}
+
+//set value
 void options_manager::cOpt::setValue(std::string sSetIn)
 {
     if (sType == "string_select") {

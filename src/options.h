@@ -81,6 +81,7 @@ class options_manager : public JsonSerializer, public JsonDeserializer
                 //set value
                 void setValue( std::string sSetIn );
                 void setValue( float fSetIn );
+                void setValue( int iSetIn );
 
                 template<typename T>
                 T value_as() const;
