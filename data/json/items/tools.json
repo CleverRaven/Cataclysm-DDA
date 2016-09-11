@@ -1698,18 +1698,6 @@
     "to_hit": 3,
     "qualities": [ [ "DIG", 3 ] ]
   },
-  {
-    "id": "stethoscope",
-    "type": "TOOL",
-    "symbol": "y",
-    "color": "dark_gray",
-    "name": "stethoscope",
-    "description": "This is a medical listening tool.  Use it to listen to things.  Closely.",
-    "price": 4000,
-    "material": ["plastic", "aluminum"],
-    "weight": 150,
-    "volume": 1
-  },
     {
         "id" : "hose",
         "type": "TOOL",

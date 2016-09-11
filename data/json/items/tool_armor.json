@@ -2129,5 +2129,21 @@
         "encumbrance" : 5,
         "coverage" : 10,
         "material_thickness" : 2
+    },
+    {
+    "id": "stethoscope",
+    "type": "TOOL_ARMOR",
+    "symbol": "y",
+    "color": "dark_gray",
+    "name": "stethoscope",
+    "description": "This is a medical listening tool.  Use it to listen to things.  Closely.",
+    "price": 4000,
+    "material": ["plastic", "aluminum"],
+    "weight": 150,
+    "volume": 1,
+        "covers" : ["TORSO"],
+        "encumbrance" : 1,
+        "flags" : ["BELTED"],
+        "coverage" : 5
     }
 ]
