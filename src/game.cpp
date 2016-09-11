@@ -117,6 +117,8 @@
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 
+const int core_version = 1;
+
 /** Will be set to true when running unit tests */
 bool test_mode = false;
 
@@ -706,6 +708,14 @@ void game::reenter_fullscreen(void)
  */
 void game::setup()
 {
+    popup_nowait(_("Please wait while the world data loads...\nLoading core JSON..."));
+    load_core_data();
+
+    for( int i = get_world_option<int>( "CORE_VERSION" ); i < core_version; ++i ) {
+        popup_nowait( _( "Please wait while the world data loads...\nApplying legacy migrations (%i/%i)" ), i, core_version - 1 );
+        load_data_from_dir( FILENAMES["legacydir"] + to_string( i ), "legacy" );
+    }
+
     load_world_modfiles(world_generator->active_world);
 
     m =  map( get_world_option<bool>( "ZLEVELS" ) );
@@ -3563,10 +3573,6 @@ void game::load(std::string worldname, std::string name)
 
 void game::load_world_modfiles(WORLDPTR world)
 {
-    popup_nowait(_("Please wait while the world data loads...\nLoading core JSON..."));
-
-    load_core_data();
-
     erase();
     refresh();
     popup_nowait(_("Please wait while the world data loads...\nLoading mods..."));

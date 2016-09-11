@@ -1267,6 +1267,13 @@ void options_manager::init()
         );
 
     ////////////////////////////WORLD DEFAULT////////////////////
+    add("CORE_VERSION", "world_default", _("Core version data"),
+        _("Controls what migrations are applied for legacy worlds"),
+        1, core_version, core_version, COPT_ALWAYS_HIDE
+        );
+
+    mOptionsSort["world_default"]++;
+
     optionNames["no"] = _("No");
     optionNames["yes"] = _("Yes");
     optionNames["query"] = _("Query");
