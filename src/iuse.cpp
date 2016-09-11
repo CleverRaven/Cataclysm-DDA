@@ -851,8 +851,12 @@ int iuse::fun_hallu(player *p, item *it, bool, const tripoint& )
     return it->type->charges_to_use();
 }
 
-int iuse::meditate(player *p, item *it, bool, const tripoint& )
+int iuse::meditate(player *p, item *it, bool t, const tripoint& )
 {
+    if( !p || t ) {
+        return 0;
+    }
+    
     if( p->has_trait( "SPIRITUAL" ) ) {
         p->assign_activity( ACT_MEDITATE, 2000 );
     } else {
