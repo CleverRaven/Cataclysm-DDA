@@ -13,7 +13,7 @@
     "color": "dark_gray",
     "location": "grip",
     "mod_targets": [ "pistol", "smg", "rifle", "shotgun", "crossbow", "launcher" ],
-    "min_skills": [ [ "gun", 3 ] ],
+    "min_skills": [ [ "weapon", 3 ] ],
     "flags": [ "REDUCED_WEIGHT", "REDUCED_BASHING" ]
   },
   {
@@ -30,8 +30,8 @@
     "color": "dark_gray",
     "location": "grip",
     "mod_targets": [ "smg", "rifle", "pistol", "shotgun", "crossbow", "launcher" ],
-    "min_skills": [ [ "gun", 2 ] ],
     "dispersion_modifier": -30,
-    "recoil_modifier": -30
+    "recoil_modifier": -30,
+    "min_skills": [ [ "weapon", 2 ] ]
   }
 ]

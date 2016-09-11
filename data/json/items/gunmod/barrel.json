@@ -14,7 +14,7 @@
     "color": "light_gray",
     "location": "barrel",
     "mod_targets": [ "smg", "rifle", "shotgun", "pistol" ],
-    "min_skills": [ [ "gun", 5 ] ],
+    "min_skills" : [ [ "weapon", 4 ] ],
     "damage_modifier": 1,
     "dispersion_modifier": -90,
     "recoil_modifier": 75
@@ -35,7 +35,7 @@
     "color": "light_gray",
     "location": "barrel",
     "mod_targets": [ "shotgun" ],
-    "min_skills": [ [ "gun", 5 ] ],
+    "min_skills" : [ [ "weapon", 5 ] ],
     "damage_modifier": -20,
     "dispersion_modifier": -150
   },

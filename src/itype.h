@@ -616,7 +616,7 @@ public:
     int min_dex = 0;
     int min_int = 0;
     int min_per = 0;
-    std::map<skill_id, int> min_skills;
+    std::map<std::string, int> min_skills;
 
     // Should the item explode when lit on fire
     bool explode_in_fire = false;

@@ -29,7 +29,7 @@
     "color": "dark_gray",
     "location": "sights",
     "mod_targets": [ "smg", "rifle", "shotgun", "crossbow", "pistol", "launcher" ],
-    "min_skills": [ [ "gun", 3 ] ],
+    "min_skills": [ [ "weapon", 2 ], [ "gun", 3 ] ],
     "aim_cost": 6,
     "sight_dispersion": 60,
     "flags": [ "DISABLE_SIGHTS" ]
@@ -49,7 +49,7 @@
     "color": "dark_gray",
     "location": "sights",
     "mod_targets": [ "smg", "rifle", "pistol", "shotgun", "crossbow", "launcher" ],
-    "min_skills": [ [ "gun", 1 ] ],
+    "min_skills": [ [ "weapon", 2 ], [ "gun", 1 ] ],
     "aim_cost": 6,
     "sight_dispersion": 120,
     "flags": [ "DISABLE_SIGHTS" ]
@@ -67,7 +67,7 @@
     "color": "dark_gray",
     "location": "sights",
     "mod_targets": [ "pistol", "crossbow" ],
-    "min_skills": [ [ "gun", 4 ] ],
+    "min_skills": [ [ "weapon", 2 ], [ "gun", 4 ] ],
     "aim_cost": 10,
     "sight_dispersion": 30,
     "flags": [ "DISABLE_SIGHTS" ]
@@ -86,7 +86,7 @@
     "color": "dark_gray",
     "location": "sights",
     "mod_targets": [ "smg", "rifle", "shotgun", "pistol", "crossbow", "launcher" ],
-    "min_skills": [ [ "gun", 2 ] ],
+    "min_skills": [ [ "weapon", 2 ], [ "gun", 2 ] ],
     "aim_cost": 4,
     "sight_dispersion": 90,
     "flags": [ "DISABLE_SIGHTS" ]
@@ -104,7 +104,7 @@
     "color": "dark_gray",
     "location": "sights",
     "mod_targets": [ "rifle", "crossbow", "launcher" ],
-    "min_skills": [ [ "gun", 4 ], [ "rifle", 1 ] ],
+    "min_skills": [ [ "weapon", 2 ], [ "gun", 4 ] ],
     "install_time": 30000,
     "aim_cost": 10,
     "sight_dispersion": 0,

@@ -10088,35 +10088,44 @@ hint_rating player::rate_action_change_side( const item &it ) const {
     return HINT_GOOD;
 }
 
-bool player::can_use( const item& it, bool interactive ) const {
+bool player::can_use( const item& it, bool interactive, const skill_id &context ) const {
     // First check stats
     std::string fail_stat;
+    int min_stat;
     if( it.type->min_str > get_str() ) {
         fail_stat = "strength";
+        min_stat = it.type->min_str;
     } else if( it.type->min_dex > get_dex() ) {
         fail_stat = "dexterity";
+        min_stat = it.type->min_dex;
     } else if( it.type->min_int > get_int() ) {
         fail_stat = "intelligence";
+        min_stat = it.type->min_int;
     } else if( it.type->min_per > get_per() ) {
         fail_stat = "perception";
+        min_stat = it.type->min_per;
     }
     if( !fail_stat.empty() ) {
         if( interactive ) {
-            add_msg_if_player( m_bad, _( "You lack the %s to use the %s" ),
-                               fail_stat.c_str(), it.tname().c_str() );
+            add_msg_if_player( m_bad, _( "You need at least %s %i to use the %s" ),
+                               fail_stat.c_str(), min_stat, it.tname().c_str() );
         }
         return false;
     }
 
     // Then check skills
     const auto& reqs = it.type->min_skills;
-    return std::none_of( reqs.begin(), reqs.end(), [&]( const std::pair<skill_id, int>& e ) {
-        if( get_skill_level( e.first ) >= e.second ) {
+    return std::none_of( reqs.begin(), reqs.end(), [&]( const std::pair<std::string, int>& e ) {
+        auto sk = skill_id( e.first );
+        if( !sk.is_valid() ) {
+            sk = context;
+        }
+        if( !sk.is_valid() || get_skill_level( sk ) >= e.second ) {
             return false;
         }
         if( interactive ) {
-            add_msg_if_player( m_bad, _( "You lack the skill in %s to use the %s" ),
-			       e.first.obj().name().c_str(), it.tname().c_str() );
+            add_msg_if_player( m_bad, _( "You need at least %s %i to use the %s" ),
+                               sk->name().c_str(), e.second, it.tname().c_str() );
         }
         return true;
     });
@@ -10885,11 +10894,6 @@ void player::use(int inventory_position)
         invoke_item( used );
     } else if (used->is_gunmod()) {
 
-        // first check at least the minimum requirements are met
-        if( !( can_use( *used ) || has_trait( "DEBUG_HS" ) ) ) {
-            return;
-        }
-
         int gunpos = g->inv_for_filter( _("Select gun to modify:" ), [&used]( const item& e ) {
             return e.gunmod_compatible( *used, false, false );
         }, _( "You don't have compatible guns." ) );
@@ -11093,7 +11097,7 @@ void player::gunmod_add( item &gun, item &mod )
     }
 
     // first check at least the minimum requirements are met
-    if( !( can_use( mod ) || has_trait( "DEBUG_HS" ) ) ) {
+    if( !( can_use( mod, true, gun.gun_skill() ) || has_trait( "DEBUG_HS" ) ) ) {
         return;
     }
 
@@ -11108,9 +11112,10 @@ void player::gunmod_add( item &gun, item &mod )
     if( mod.has_flag( "INSTALL_DIFFICULT" ) && !has_trait( "DEBUG_HS" ) ) {
         int chances = 1; // start with 1 in 6 (~17% chance)
 
-        for( const auto &sk : mod.type->min_skills ) {
+        for( const auto &e : mod.type->min_skills ) {
             // gain an additional chance for every level above the minimum requirement
-            chances += std::max( get_skill_level( sk.first ) - sk.second, 0 );
+            skill_id sk = e.first == "weapon" ? gun.gun_skill() : skill_id( e.first );
+            chances += std::max( get_skill_level( sk ) - e.second, 0 );
         }
 
         // cap success from skill alone to 1 in 5 (~83% chance)

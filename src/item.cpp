@@ -737,7 +737,8 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
             req.push_back( string_format( "%s %d", _( "perception" ), type->min_per ) );
         }
         for( const auto &sk : type->min_skills ) {
-            req.push_back( string_format( "%s %d", sk.first.obj().name().c_str(), sk.second ) );
+            std::string txt = sk.first == "weapon" ? _( "weapon" ) : skill_id( sk.first )->name();
+            req.push_back( string_format( "%s %d", txt.c_str(), sk.second ) );
         }
         if( !req.empty() ) {
             info.emplace_back( "BASE", _("<bold>Minimum requirements:</bold>") );

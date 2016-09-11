@@ -12,7 +12,7 @@
     "color": "light_red",
     "location": "rail",
     "mod_targets": [ "shotgun", "rifle", "crossbow" ],
-    "min_skills": [ [ "gun", 2 ] ],
+    "min_skills": [ [ "weapon", 2 ], [ "archery", 1 ] ],
     "gun_data": {
         "skill": "archery",
         "ammo": "bolt",
@@ -38,6 +38,7 @@
     "color": "dark_gray",
     "location": "rail",
     "mod_targets": [ "smg", "rifle", "pistol", "shotgun", "crossbow", "launcher" ],
+    "min_skills": [ [ "weapon", 2 ], [ "gun", 1 ] ],
     "aim_cost": 2,
     "sight_dispersion": 360
   }
