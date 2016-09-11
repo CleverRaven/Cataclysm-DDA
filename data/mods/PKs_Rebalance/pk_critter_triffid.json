@@ -34,13 +34,13 @@
     "id": "mon_creeper_vine",
     "edit-mode": "modify",
     "name": "creeping grass",
-    "hp":10,
+    "hp":5,
         "upgrades":{
       "into_group": "GROUP_CREEPER_VINE",
       "half_life": 1
       },
     "death_function": ["VINE_CUT", "MELT"],
-    "special_attacks":[["VINE", 3], ["DISAPPEAR", 300]],
+    "special_attacks":[["VINE", 10], ["DISAPPEAR", 240]],
     "description":"A vine-like tendril that is rooted to the ground.  It flails about constantly in a violent fashion for a time before disappearing into the Earth.",
     "flags":["NOHEAD", "HARDTOSHOOT", "PLASTIC", "IMMOBILE", "GRABS", "NOGIB"]
     },{
@@ -61,21 +61,36 @@
             [ "biollante", 35 ],
             [ "biollante", 35 ]
         ]
-    }
+    },
+    "flags":["NOHEAD", "IMMOBILE", "NO_BREATHE"]
     },{
     "type": "MONSTER",
     "id": "mon_triffid",
     "edit-mode": "modify",
         "upgrades":{
       "into_group": "GROUP_TRIFFID_PK",
-      "half_life": 14
+      "half_life": 6
       },
+    "death_drops": {
+        "subtype": "collection",
+        "groups": [
+            [ "fungal_sting", 10 ],
+            [ "biollante", 10 ]
+        ]
+    },
     "flags":["SEES", "SMELLS", "BASHES", "GROUP_BASH", "NOHEAD", "PARALYZEVENOM", "PUSH_MON"]
     },{
     "type": "MONSTER",
     "id": "mon_fungal_fighter",
     "edit-mode": "modify",
-        "upgrades":{
+    "melee_skill":8,
+    "melee_dice":1,
+    "melee_dice_sides":8,
+    "melee_cut":5,
+    "dodge":2,
+    "armor_bash":4,
+    "armor_cut":6,
+    "upgrades":{
       "into_group": "GROUP_HISSER",
       "half_life": 21
     },
@@ -83,6 +98,7 @@
         "subtype": "collection",
         "groups": [
             [ "fungal_sting", 100 ],
+            ["fungal_fighter_sting", 75],
             ["fungal_fighter_sting", 75]
         ]
     }
@@ -91,6 +107,9 @@
     "id": "mon_vinebeast",
     "edit-mode": "modify",
         "speed": 90,
+        "armor_bash":18,
+        "armor_cut":2,
+        "armor_stab":12,
         "upgrades":{
       "into_group": "GROUP_TANGELA",
       "half_life": 21
@@ -120,7 +139,6 @@
     "vision_night":3,
     "death_drops": {
         "subtype": "collection",
-        "//": "do duplicate item_groups work here?",
         "groups": [
             [ "biollante", 50 ],
             [ "biollante", 50 ],
@@ -132,7 +150,7 @@
     "special_attacks":[["SPIT_SAP", 10], ["IMPALE",20], ["GROW_VINE", 50]],
     "emit_fields": [ "emit_gas_plume"],
     "description":"A puckered flower is all that adorns the stalk of this biollante.  Beneath its luminescent petals, something rigid appears to be moving, and consistent wisps of gas can be seen escaping into the surrounding air.",
-    "flags":["NOHEAD", "IMMOBILE", "PARALYZEVENOM", "SEES"],
+    "flags":["SEES", "NOHEAD", "IMMOBILE", "PARALYZEVENOM", "NO_BREATHE"],
     "//": "This thing is pretty awesome.  One of my favorite creations from this faction.  The vine growth keeps it out of melee that much longer in the absence of a creeper hub, the sap is pretty deadly and accurate, and impale is surprise bleeding."
     },{
     "type": "MONSTER",
