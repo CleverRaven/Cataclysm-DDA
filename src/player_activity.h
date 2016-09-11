@@ -52,6 +52,7 @@ enum activity_type : int {    // expanded this enum for readability
     ACT_GUNMOD_ADD,
     ACT_WAIT_NPC,
     ACT_CLEAR_RUBBLE,
+    ACT_MEDITATE,
     NUM_ACTIVITIES
 };
 

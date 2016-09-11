@@ -1683,3 +1683,9 @@ void activity_handlers::clear_rubble_finish( player_activity *act, player *p )
     p->mod_hunger ( 10 / bonus );
     p->mod_thirst ( 10 / bonus );
 }
+
+void activity_handlers::meditate_finish( player_activity *, player *p )
+{
+    p->add_msg_if_player( m_good, _( "You pause to engage in spiritual contemplation." ) );
+    p->add_morale( MORALE_FEELING_GOOD, 5, 10 );
+}
