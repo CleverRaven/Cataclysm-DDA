@@ -2144,7 +2144,6 @@
         "covers" : ["TORSO"],
         "encumbrance" : 1,
         "flags" : ["BELTED"],
-        "coverage" : 5,
-        "material_thickness" : 1
+        "coverage" : 5
     }
 ]
