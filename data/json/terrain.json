@@ -3998,6 +3998,7 @@
         "color": "ltblue",
         "move_cost": 5,
         "flags": ["TRANSPARENT", "LIQUID", "SWIMMABLE", "FISHABLE"],
+        "connects_to": "WATER",
         "examine_action": "water_source"
     },{
         "type" : "terrain",
@@ -4007,6 +4008,7 @@
         "color": "blue",
         "move_cost": 8,
         "flags": ["TRANSPARENT", "LIQUID", "SWIMMABLE", "DEEP_WATER", "FISHABLE"],
+        "connects_to": "WATER",        
         "examine_action": "water_source"
     },{
         "type" : "terrain",
@@ -4016,6 +4018,7 @@
         "color": "ltblue",
         "move_cost": 5,
         "flags": ["TRANSPARENT", "LIQUID", "SWIMMABLE", "SALT_WATER", "FISHABLE"],
+        "connects_to": "WATER",
         "examine_action": "water_source"
     },{
         "type" : "terrain",
@@ -4025,6 +4028,7 @@
         "color": "blue",
         "move_cost": 8,
         "flags": ["TRANSPARENT", "LIQUID", "SWIMMABLE", "SALT_WATER", "DEEP_WATER", "FISHABLE"],
+        "connects_to": "WATER",
         "examine_action": "water_source"
     },{
         "type" : "terrain",
