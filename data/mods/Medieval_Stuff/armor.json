@@ -38,7 +38,7 @@
         "encumbrance" : 10,
         "bashing" : 10,
         "flags" : ["VARSIZE", "STURDY"],
-        "coverage" : 80,
+        "coverage" : 85,
         "material_thickness" : 3
     },{
         "type" : "ARMOR",
@@ -58,7 +58,7 @@
         "encumbrance" : 10,
         "bashing" : 10,
         "flags" : ["VARSIZE", "STURDY"],
-        "coverage" : 70,
+        "coverage" : 80,
         "material_thickness" : 3
     },{
         "type" : "ARMOR",

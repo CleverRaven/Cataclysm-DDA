@@ -7819,11 +7819,10 @@
     "id_suffix": "assembly",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_SUIT",
-    "skill_used": "tailor",
+    "skill_used": "fabrication",
     "difficulty": 3,
     "time": 20000,
-    "reversible": false,
-    "autolearn": false,
+    "reversible": true,
     "components": [
       [ [ "cuirass_lightplate", 1 ] ],
       [ [ "armguard_lightplate", 1 ] ],
