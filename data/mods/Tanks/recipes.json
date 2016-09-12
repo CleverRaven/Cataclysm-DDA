@@ -1,14 +1,11 @@
 [
   {
-  "type" : "recipe",
+  "type" : "uncraft",
   "result": "broken_tankbot",
   "override": true,
-  "category": "CC_NONCRAFT",
-  "subcategory": "CSC_NONCRAFT",
   "skill_used": "electronics",
   "difficulty": 8,
   "time": 600000,
-  "reversible": true,
   "qualities" : [
     {"id":"SCREW","level":1},
     {"id":"WRENCH","level":1},
@@ -40,10 +37,8 @@
     [ [ "tank_gun_auto", 1 ] ]
   ]
 },{
-  "type" : "recipe",
+  "type" : "uncraft",
   "result": "30mm_slug",
-  "category": "CC_AMMO",
-  "subcategory": "CSC_AMMO_BULLETS",
   "skill_used": "fabrication",
   "skills_required": [ ["launcher", 3], ["electronics", 1] ],
   "difficulty": 5,
@@ -71,10 +66,8 @@
     ]
   ]
 },{
-  "type" : "recipe",
+  "type" : "uncraft",
   "result": "120mm_usable_shot",
-  "category": "CC_AMMO",
-  "subcategory": "CSC_AMMO_BULLETS",
   "skill_used": "fabrication",
   "skills_required": [ ["launcher", 4], ["electronics", 1] ],
   "difficulty": 6,
@@ -102,10 +95,8 @@
     ]
   ]
 },{
-  "type" : "recipe",
+  "type" : "uncraft",
   "result": "120mm_usable_slug",
-  "category": "CC_AMMO",
-  "subcategory": "CSC_AMMO_BULLETS",
   "skill_used": "fabrication",
   "skills_required": [ ["launcher", 4], ["electronics", 1] ],
   "difficulty": 7,
@@ -138,10 +129,8 @@
     ]
   ]
 },{
-  "type" : "recipe",
+  "type" : "uncraft",
   "result": "155mm_shot",
-  "category": "CC_AMMO",
-  "subcategory": "CSC_AMMO_BULLETS",
   "skill_used": "fabrication",
   "skills_required": [ ["launcher", 5], ["electronics", 1] ],
   "difficulty": 7,
@@ -169,10 +158,8 @@
     ]
   ]
 },{
-  "type" : "recipe",
+  "type" : "uncraft",
   "result": "155mm_slug",
-  "category": "CC_AMMO",
-  "subcategory": "CSC_AMMO_BULLETS",
   "skill_used": "fabrication",
   "skills_required": [ ["launcher", 5], ["electronics", 1] ],
   "difficulty": 8,
