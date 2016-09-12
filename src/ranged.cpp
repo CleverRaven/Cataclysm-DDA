@@ -922,7 +922,7 @@ static int print_aim_bars( const player &p, WINDOW *w, int line_number, item *we
     // 0 it is the best the player can do.
     const double steady_score = predicted_recoil - p.effective_dispersion( p.weapon.sight_dispersion() );
     // Fairly arbitrary cap on steadiness...
-    const double steadiness = 1.0 - steady_score / 250;
+    const double steadiness = 1.0 - steady_score / MIN_RECOIL;
 
     const std::array<std::pair<double, char>, 3> confidence_ratings = {{
         std::make_pair( accuracy_headshot, '*' ),
