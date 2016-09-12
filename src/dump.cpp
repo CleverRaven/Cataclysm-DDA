@@ -65,6 +65,39 @@ bool game::dump_stats( const std::string& what, dump_mode mode, const std::vecto
             }
         }
 
+    } else if( what == "ARMOR" ) {
+        header = {
+            "Name", "Encumber (fit)", "Warmth", "Weight", "Storage", "Coverage", "Bash", "Cut", "Acid", "Fire"
+        };
+        auto dump = [&rows]( const item& obj ) {
+            std::vector<std::string> r;
+            r.push_back( obj.tname( 1, false ) );
+            r.push_back( to_string( obj.get_encumber() ) );
+            r.push_back( to_string( obj.get_warmth() ) );
+            r.push_back( to_string( obj.weight() ) );
+            r.push_back( to_string( obj.get_storage() / units::legacy_volume_factor ) );
+            r.push_back( to_string( obj.get_coverage() ) );
+            r.push_back( to_string( obj.bash_resist() ) );
+            r.push_back( to_string( obj.cut_resist() ) );
+            r.push_back( to_string( obj.acid_resist() ) );
+            r.push_back( to_string( obj.fire_resist() ) );
+            rows.push_back( r );
+        };
+
+        body_part bp = opts.empty() ? num_bp : get_body_part_token( opts.front() );
+
+        for( auto& e : item_controller->get_all_itypes() ) {
+            if( e.second->armor ) {
+                item obj( e.first );
+                if( bp == num_bp || obj.covers( bp ) ) {
+                    if( obj.has_flag( "VARSIZE" ) ) {
+                        obj.item_tags.insert( "FIT" );
+                    }
+                    dump( obj );
+                }
+            }
+        }
+
     } else if( what == "EDIBLE" ) {
         header = {
             "Name", "Volume", "Weight", "Stack", "Calories", "Quench", "Healthy"
