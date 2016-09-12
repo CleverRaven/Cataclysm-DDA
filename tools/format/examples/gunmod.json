@@ -82,7 +82,7 @@
     "mod_targets": [ "rifle", "crossbow", "launcher" ],
     "install_time": 30000,
     "sight_dispersion": 0,
-    "aim_speed": 10,
+    "aim_cost": 10,
     "min_skills": [ [ "gun", 4 ], [ "rifle", 1 ] ],
     "flags": [ "ZOOM" ]
   },
@@ -104,7 +104,6 @@
       "skill": "shotgun",
       "dispersion": 100,
       "sight_dispersion": 75,
-      "aim_speed": 3,
       "recoil": 50,
       "durability": 9,
       "reload": 125
