@@ -10091,7 +10091,7 @@ hint_rating player::rate_action_change_side( const item &it ) const {
 bool player::can_use( const item& it, bool interactive, const skill_id &context ) const {
     // First check stats
     std::string fail_stat;
-    int min_stat;
+    int min_stat = 0;
     if( it.type->min_str > get_str() ) {
         fail_stat = "strength";
         min_stat = it.type->min_str;
