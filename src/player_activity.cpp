@@ -93,7 +93,8 @@ const std::string &player_activity::get_stop_phrase() const
             _( "Stop using the ATM?" ), _( "Stop trying to start the vehicle?" ),
             _( "Stop welding?" ), _( "Stop cracking?" ), _( "Stop repairing?" ),
             _( "Stop mending?" ), _( "Stop modifying gun?" ),
-            _( "Stop interacting with the NPC?" ), _( "Stop clearing that rubble?" )
+            _( "Stop interacting with the NPC?" ), _( "Stop clearing that rubble?" ),
+            _( "Stop meditating?" )
         }
     };
     return stop_phrase[type];
@@ -132,6 +133,7 @@ bool player_activity::is_abortable() const
         case ACT_GUNMOD_ADD:
         case ACT_BUTCHER:
         case ACT_CLEAR_RUBBLE:
+        case ACT_MEDITATE:
             return true;
         default:
             return false;
@@ -520,6 +522,10 @@ void player_activity::finish( player *p )
             activity_handlers::clear_rubble_finish( this, p );
             type = ACT_NULL;
             break;
+        case ACT_MEDITATE:
+            activity_handlers::meditate_finish( this, p );
+            type = ACT_NULL;
+            break;
         default:
             type = ACT_NULL;
     }
@@ -610,6 +616,7 @@ bool player_activity::can_resume_with( const player_activity &other, const Chara
         case ACT_GUNMOD_ADD:
         case ACT_REPAIR_ITEM:
         case ACT_MEND_ITEM:
+        case ACT_MEDITATE:
             // Those should have extra limitations
             // But for now it's better to allow too much than too little
             break;
