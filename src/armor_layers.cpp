@@ -304,7 +304,7 @@ void player::sort_armor()
 
         // Left header
         mvwprintz( w_sort_left, 0, 0, c_ltgray, _( "(Innermost)" ) );
-        right_print( w_sort_left, 0, 0, c_ltgray, _( "Storage" ) );
+        right_print( w_sort_left, 0, 0, c_ltgray, _( "Storage (ml)" ) );
         // Left list
         for( int drawindex = 0; drawindex < leftListSize; drawindex++ ) {
             int itemindex = leftListOffset + drawindex;
@@ -317,8 +317,8 @@ void player::sort_armor()
             trim_and_print( w_sort_left, drawindex + 1, offset_x, left_w - offset_x - 3,
                             tmp_worn[itemindex]->damage_color(),
                             tmp_worn[itemindex]->type_name( 1 ).c_str() );
-            mvwprintz( w_sort_left, drawindex + 1, left_w - 3, c_ltgray, "%3d ml",
-                       to_milliliter( tmp_worn[itemindex]->get_storage() ) );
+            right_print( w_sort_left, drawindex + 1, 0, c_ltgray, "%3d",
+                         to_milliliter( tmp_worn[itemindex]->get_storage() ) );
         }
 
         // Left footer
