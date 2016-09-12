@@ -2,7 +2,6 @@
     {
     "id": "popcan_stove",
     "sub": "hotplate",
-    "edit-mode": "override",
     "type": "TOOL",
     "symbol": ";",
     "color": "light_gray",
@@ -20,7 +19,6 @@
     "use_action": "HOTPLATE"
     },{
     "id": "pipe_launcher40mm",
-    "edit-mode": "override",
     "type": "GUNMOD",
     "name": "40mm pipe launcher",
     "description": "This is a home built launcher tube that can be attached to almost any rifle.  It allows a single 40mm grenade to be loaded and fired.",
@@ -44,7 +42,6 @@
     },{
     "type" : "ARMOR",
     "id" : "fireman_belt",
-    "edit-mode": "override",
     "name" : "firefighter belt",
     "volume" : 2,
     "material_thickness" : 1,
@@ -73,7 +70,6 @@
     },{
     "type" : "ARMOR",
     "id" : "leather_cat_ears",
-    "edit-mode": "override",
     "name" : "pair of leather cat ears",
     "name_plural" : "pairs of leather cat ears",
     "volume" : 1,
@@ -92,7 +88,6 @@
     },{
     "type" : "ARMOR",
     "id" : "fur_cat_ears",
-    "edit-mode": "override",
     "name" : "pair of fuzzy cat ears",
     "name_plural" : "pairs of fuzzy cat ears",
     "volume" : 1,
@@ -111,7 +106,6 @@
     },{
     "type" : "ARMOR",
     "id" : "leather_cat_tail",
-    "edit-mode": "override",
     "name" : "leather cat tail",
     "volume" : 1,
     "material_thickness" : 1,
@@ -130,7 +124,6 @@
     },{
     "type" : "ARMOR",
     "id" : "fur_cat_tail",
-    "edit-mode": "override",
     "name" : "fuzzy cat tail",
     "volume" : 1,
     "material_thickness" : 1,
@@ -149,7 +142,6 @@
     },{
     "type" : "ARMOR",
     "id" : "gold_dental_grill",
-    "edit-mode": "override",
     "name" : "gold dental grill",
     "volume" : 0,
     "material_thickness" : 1,
@@ -169,7 +161,6 @@
     },{
     "type" : "ARMOR",
     "id" : "diamond_dental_grill",
-    "edit-mode": "override",
     "name" : "diamond dental grill",
     "volume" : 0,
     "material_thickness" : 1,
@@ -188,7 +179,6 @@
     "flags" : ["SUPER_FANCY", "SKINTIGHT", "OVERSIZE"]
     },{
     "id": "wearable_rx12",
-    "edit-mode": "override",
     "type": "TOOL_ARMOR",
     "category" : "clothing",
     "symbol": "[",
@@ -210,7 +200,6 @@
     "material_thickness" : 3
     },{
     "id": "rx11_stimpack",
-    "edit-mode": "override",
     "type": "TOOL_ARMOR",
     "category" : "clothing",
     "symbol": "[",
@@ -234,7 +223,6 @@
     "material_thickness" : 3
     },{
     "id": "rad_monitor",
-    "edit-mode": "override",
     "type": "TOOL_ARMOR",
     "category" : "clothing",
     "symbol": "[",
@@ -259,7 +247,6 @@
     },{
     "type" : "TOOL_ARMOR",
     "id" : "harmonica_holder",
-    "edit-mode": "override",
     "name" : "harmonica with a holder",
     "name_plural": "harmonicas with holders",
     "category" : "tools",
@@ -292,7 +279,6 @@
     },{
     "type" : "ARMOR",
     "id" : "wristwatch",
-    "edit-mode": "override",
     "name" : "wrist watch",
     "name_plural" : "wrist watches",
     "volume" : 1,
@@ -312,7 +298,6 @@
     },{
     "type" : "ARMOR",
     "id" : "diving_watch",
-    "edit-mode": "override",
     "name" : "diver's watch",
     "name_plural" : "diver's watches",
     "volume" : 1,
@@ -333,7 +318,6 @@
     },{
     "type" : "ARMOR",
     "id" : "gold_watch",
-    "edit-mode": "override",
     "name" : "gold watch",
     "name_plural" : "gold watches",
     "volume" : 1,
@@ -353,7 +337,6 @@
     },{
     "type" : "ARMOR",
     "id" : "sf_watch",
-    "edit-mode": "override",
     "name" : "fancy watch",
     "name_plural" : "fancy watches",
     "volume" : 1,

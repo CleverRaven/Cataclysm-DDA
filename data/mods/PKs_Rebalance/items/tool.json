@@ -155,11 +155,11 @@
         "sound_volume": 0,
         "sound_msg": "Tick.",
         "no_deactivate_msg": "There's a hole in this core; it's gonna blow!",
+        "emp_blast_radius": 2,
+        "draw_explosion_radius": 2,
+        "draw_explosion_color": "ltblue",
         "explosion": {
-            "emp_blast_radius": 2,
             "distance_factor": 0.5,
-            "draw_explosion_radius": 2,
-            "draw_explosion_color": "ltblue",
             "power": 12,
             "shrapnel": 1
         }
@@ -179,7 +179,6 @@
     "charges": 3,
     "stack_size": 6,
     "flags": ["USE_ON_NPC"],
-    "revert_to": "",
     "use_action": {
         "type": "heal",
         "limb_power": 20,
@@ -219,12 +218,12 @@
     "coverage": 10,
     "use_action": {
     "type": "transform",
-    "move_cost": 250,
+    "moves": 250,
     "target": "berserker_drug_act",
     "target_charges": 7,
-    "active": true
-    },
+    "active": true,
     "msg": "You insert the needle into your vein and your blood boils!"
+    }
     },{
     "type": "TOOL_ARMOR",
     "id": "berserker_drug_act",
@@ -423,7 +422,6 @@
     "category": "weapons",
     "weight": 315,
     "volume": 2,
-    "ammo_type": "thrown",
     "material": ["glass"],
     "symbol": "%",
     "color": "i_yellow",
@@ -437,13 +435,12 @@
         "active": true
     }
     },{
-    "type": "AMMO",
+    "type": "TOOL",
     "id": "triffid_sap_grenade_act",
     "name": "sap grenade",
     "category": "weapons",
     "weight": 315,
     "volume": 2,
-    "ammo_type": "thrown",
     "material": ["glass"],
     "symbol": "%",
     "color": "i_yellow",
@@ -464,7 +461,6 @@
     "name": "triffid antidote",
     "type" : "COMESTIBLE",
     "comestible_type" : "MED",
-    "tool" : "syringe",
     "weight": 175,
     "volume": 1,
     "container": "flask_glass",
@@ -476,6 +472,7 @@
     "price": 35000,
     "use_action": {
     "type": "consume_drug",
+    "tools_needed" : "syringe",
     "effects": [
         {
                 "id": "triffid_cure",
@@ -490,7 +487,6 @@
     "name": "triffid neutralizer",
     "type" : "COMESTIBLE",
     "comestible_type" : "MED",
-    "tool" : "syringe",
     "weight": 175,
     "volume": 1,
     "container": "flask_glass",
@@ -502,6 +498,7 @@
     "price": 35000,
     "use_action": {
     "type": "consume_drug",
+    "tools_needed" : "syringe",
     "effects": [
         {
                 "id": "triffid_neutralization",

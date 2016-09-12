@@ -175,7 +175,7 @@
     "material_thickness" : 3,
     "use_action": {
         "type": "transform",
-        "move_cost": 200,
+        "moves": 200,
         "target": "vest_leather_zuicide_short_active",
         "target_charges": 60,
         "active": true
@@ -219,17 +219,17 @@
     "sub": "clay_canister",
     "category": "clothing",
     "name" : "small purse",
-    "storage" : 1,
-    "contains": 1,
     "rigid": false,
-    "watertight": true,
-    "seals": false,
+    "container_data": {
+      "contains": 1,
+      "watertight": true,
+      "seals": false
+    },
     "weight" : 182,
     "color" : "green",
     "material" : "veggy",
     "symbol" : "o",
     "volume" : 0,
-    "stack_size": 3,
     "encumbrance" : 0,
     "coverage" : 2,
     "material_thickness" : 1,
@@ -246,7 +246,6 @@
     "name" : "sealed purse of clean water",
     "weight" : 265,
     "color" : "cyan_green",
-    "comestible_type" : "FOOD",
     "symbol" : "o",
     "description" : "A sealed purse of water.  activate to consume its contents.",
     "price" : 7500,
@@ -257,10 +256,6 @@
     "material_thickness" : 1,
     "revert_to": "sac_purse",
     "covers" : ["TORSO"],
-    "flags" : ["WAIST", "FRAGILE"],
-    "quench" : 50,
-    "heal" : 0,
-    "nutrition" : 0,
-    "fun" : 0
+    "flags" : ["WAIST", "FRAGILE"]
     }
 ]

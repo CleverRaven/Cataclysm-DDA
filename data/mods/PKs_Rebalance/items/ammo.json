@@ -214,7 +214,6 @@
     "pierce": 200,
     "range": 25,
     "effects": ["ACT_ON_RANGED_HIT", "RECOVER_5"],
-    "revert_to": "null",
     "use_action": {
         "type": "place_monster",
         "monster_id": "mon_cacodemon",
@@ -349,7 +348,7 @@
     "symbol": "*",
     "color": "ltblue",
     "description": "A small cylinder that produces aggressive amounts of sound and light when popped.  Can be loaded into a specially-designed carrier manhack with the proper tools so it can use them.",
-    "material": ["plastic", "powder"], "///": "Not actually powder, here it means 'something that burns fast/explodes",
+    "material": ["plastic", "powder"], "//": "Not actually powder, here it means 'something that burns fast/explodes",
     "volume": 2,
     "weight": 80,
     "ammo_type": "bomblet",
@@ -379,16 +378,15 @@
     "material": ["plastic", "powder"],
     "volume": 2,
     "weight": 80,
-    "effects": ["COOKOFF", "ACT_ON_RANGED_HIT", "CUSTOM_EXPLOSION"],
     "max_charges": 1,
     "initial_charges": 1,
     "turns_per_charge": 1,
     "use_action": {
         "type": "explosion",
+        "emp_blast_radius": 1,
         "explosion": {
             "power": 1,
             "shrapnel": 1,
-            "emp_blast_radius": 1,
             "distance_factor": 0.2
         }
     }
