@@ -318,7 +318,7 @@ void player::sort_armor()
                             tmp_worn[itemindex]->damage_color(),
                             tmp_worn[itemindex]->type_name( 1 ).c_str() );
             right_print( w_sort_left, drawindex + 1, 0, c_ltgray, "%3d", 
-                            to_milliliter( tmp_worn[itemindex]->get_storage() ) );
+                         to_milliliter( tmp_worn[itemindex]->get_storage() ) );
         }
 
         // Left footer
