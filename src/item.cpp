@@ -737,7 +737,8 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
             req.push_back( string_format( "%s %d", _( "perception" ), type->min_per ) );
         }
         for( const auto &sk : type->min_skills ) {
-            req.push_back( string_format( "%s %d", sk.first.obj().name().c_str(), sk.second ) );
+            std::string txt = sk.first == "weapon" ? _( "weapon" ) : skill_id( sk.first )->name();
+            req.push_back( string_format( "%s %d", txt.c_str(), sk.second ) );
         }
         if( !req.empty() ) {
             info.emplace_back( "BASE", _("<bold>Minimum requirements:</bold>") );
@@ -1692,6 +1693,11 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
         if( is_gun() && has_flag( "FIRE_TWOHAND" ) ) {
             info.push_back( iteminfo( "DESCRIPTION",
                                       _( "* This weapon needs <info>two free hands</info> to fire." ) ) );
+        }
+
+        if( is_gunmod() && has_flag( "DISABLE_SIGHTS" ) ) {
+            info.push_back( iteminfo( "DESCRIPTION",
+                                      _( "* This mod <bad>obscures sights</bad> of the base weapon." ) ) );
         }
 
         if( has_flag( "BELT_CLIP" ) ) {
@@ -3947,7 +3953,7 @@ int item::sight_dispersion() const
         return 0;
     }
 
-    int res = type->gun->sight_dispersion;
+    int res = has_flag( "DISABLE_SIGHTS" ) ? MIN_RECOIL : type->gun->sight_dispersion;
 
     for( const auto e : gunmods() ) {
         const auto mod = e->type->gunmod.get();
@@ -4020,7 +4026,7 @@ int item::gun_range( bool with_ammo ) const
     if( with_ammo && ammo_data() ) {
         ret += ammo_data()->ammo->range;
     }
-    return std::max( 0, ret );
+    return std::min( std::max( 0, ret ), MAX_RANGE );
 }
 
 int item::gun_range( const player *p ) const

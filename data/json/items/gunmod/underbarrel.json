@@ -12,7 +12,7 @@
     "color": "light_red",
     "location": "underbarrel",
     "mod_targets": [ "rifle", "shotgun", "smg", "crossbow" ],
-    "min_skills": [ [ "gun", 2 ] ],
+    "min_skills": [ [ "weapon", 2 ], [ "launcher", 1 ] ],
     "gun_data": {
       "skill": "launcher",
       "ammo": "gasoline",
@@ -38,6 +38,7 @@
     "color": "light_gray",
     "location": "underbarrel",
     "mod_targets": [ "shotgun", "smg", "rifle", "crossbow", "launcher" ],
+    "min_skills": [ [ "weapon", 2 ], [ "melee", 1 ] ],
     "dispersion_modifier": 10,
     "mode_modifier": [ [ "REACH", "bayonet", 2, [ "MELEE" ] ] ],
     "flags": [ "NON_STUCK", "SPEAR", "BAYONET" ]
@@ -57,7 +58,7 @@
     "color": "brown",
     "location": "underbarrel",
     "mod_targets": [ "rifle", "launcher" ],
-    "min_skills": [ [ "gun", 2 ] ],
+    "min_skills": [ [ "weapon", 2 ] ],
     "dispersion_modifier": -45,
     "recoil_modifier": -15
   },
@@ -100,7 +101,6 @@
     "color": "light_red",
     "location": "underbarrel",
     "mod_targets": [ "rifle" ],
-    "min_skills": [ [ "gun", 1 ] ],
     "gun_data": {
       "skill": "shotgun",
       "ammo": "shot",
@@ -160,7 +160,7 @@
     "color": "brown",
     "location": "underbarrel",
     "mod_targets": [ "shotgun", "smg", "rifle", "crossbow", "launcher" ],
-    "min_skills": [ [ "gun", 1 ] ],
+    "min_skills": [ [ "weapon", 2 ] ],
     "dispersion_modifier": -30,
     "recoil_modifier": -30
   },
@@ -203,8 +203,9 @@
     "color": "dark_gray",
     "location": "underbarrel",
     "mod_targets": [ "smg", "rifle", "pistol", "shotgun", "crossbow", "bow", "launcher" ],
+    "min_skills": [ [ "weapon", 2 ], [ "gun", 1 ] ],
     "aim_cost": 1,
-    "sight_dispersion": 75
+    "sight_dispersion": 300
   },
   {
     "id": "lemat_revolver_shotgun",
@@ -245,7 +246,7 @@
     "color": "light_red",
     "location": "underbarrel",
     "mod_targets": [ "rifle", "crossbow" ],
-    "min_skills": [ [ "gun", 1 ] ],
+    "min_skills": [ [ "weapon", 2 ], [ "launcher", 1 ] ],
     "gun_data": {
       "skill": "launcher",
       "ammo": "40mm",
@@ -269,7 +270,7 @@
     "color": "dark_gray",
     "location": "underbarrel",
     "mod_targets": [ "rifle", "crossbow" ],
-    "min_skills": [ [ "gun", 2 ] ],
+    "min_skills": [ [ "weapon", 2 ], [ "launcher", 1 ] ],
     "gun_data": {
       "skill": "launcher",
       "ammo": "40mm",
@@ -293,7 +294,7 @@
     "color": "light_red",
     "location": "underbarrel",
     "mod_targets": [ "rifle", "crossbow" ],
-    "min_skills": [ [ "gun", 2 ] ],
+    "min_skills": [ [ "weapon", 2 ], [ "shotgun", 1 ] ],
     "gun_data": {
       "skill": "shotgun",
       "ammo": "shot",
@@ -317,7 +318,7 @@
     "color": "light_gray",
     "location": "underbarrel",
     "mod_targets": [ "rifle", "crossbow" ],
-    "min_skills": [ [ "gun", 1 ] ],
+    "min_skills": [ [ "weapon", 2 ], [ "launcher", 1 ] ],
     "gun_data": {
       "skill": "launcher",
       "ammo": "40mm",
@@ -342,6 +343,7 @@
     "color": "light_gray",
     "location": "underbarrel",
     "mod_targets": [ "pistol" ],
+    "min_skills": [ [ "weapon", 2 ], [ "melee", 1 ] ],
     "dispersion_modifier": 15,
     "flags": [ "STAB", "BAYONET" ]
   },
@@ -358,7 +360,7 @@
     "color": "dark_gray",
     "location": "underbarrel",
     "mod_targets": [ "rifle", "crossbow" ],
-    "min_skills": [ [ "gun", 2 ] ],
+    "min_skills": [ [ "weapon", 2 ], [ "shotgun", 2 ] ],
     "gun_data": {
       "skill": "shotgun",
       "ammo": "20x66mm",
@@ -388,6 +390,7 @@
     "color": "dark_gray",
     "location": "underbarrel",
     "mod_targets": [ "shotgun", "rifle", "crossbow", "launcher" ],
+    "min_skills": [ [ "weapon", 2 ], [ "melee", 2 ] ],
     "dispersion_modifier": 20,
     "mode_modifier": [ [ "REACH", "bayonet", 2, [ "MELEE" ] ] ],
     "flags": [ "NON_STUCK", "CHOP", "BAYONET" ]
@@ -405,7 +408,7 @@
     "color": "light_red",
     "location": "underbarrel",
     "mod_targets": [ "rifle", "crossbow" ],
-    "min_skills": [ [ "gun", 1 ] ],
+    "min_skills": [ [ "weapon", 2 ], [ "shotgun", 1 ] ],
     "gun_data": {
       "skill": "shotgun",
       "ammo": "shot",

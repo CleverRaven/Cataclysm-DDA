@@ -132,7 +132,7 @@ double Character::aim_per_move( const item& gun, double recoil ) const
     // get fastest sight that can be used to improve aim further below @ref recoil
     int cost = INT_MAX;
     int limit = 0;
-    if( effective_dispersion( gun.type->gun->sight_dispersion ) < recoil ) {
+    if( !gun.has_flag( "DISABLE_SIGHTS" ) && effective_dispersion( gun.type->gun->sight_dispersion ) < recoil ) {
         cost  = std::max( std::min( gun.volume() / 250_ml, 8 ), 1 );
         limit = effective_dispersion( gun.type->gun->sight_dispersion );
     }
@@ -153,10 +153,17 @@ double Character::aim_per_move( const item& gun, double recoil ) const
     }
 
     // each 5 points (combined) of hand encumbrance increases aim cost by one unit
-    cost += round ( ( encumb( bp_arm_l ) + encumb( bp_arm_r ) ) / 10.0 );
+    cost += round ( ( encumb( bp_hand_l ) + encumb( bp_hand_r ) ) / 10.0 );
 
     ///\EFFECT_DEX increases aiming speed
     cost += 8 - dex_cur;
+
+    ///\EFFECT_PISTOL increases aiming speed for pistols
+    ///\EFFECT_SMG increases aiming speed for SMGs
+    ///\EFFECT_RIFLE increases aiming speed for rifles
+    ///\EFFECT_SHOTGUN increases aiming speed for shotguns
+    ///\EFFECT_LAUNCHER increases aiming speed for launchers
+    cost += ( ( MAX_SKILL / 2 ) - get_skill_level( gun.gun_skill() ) ) * 2;
 
     cost = std::max( cost, 1 );
 
@@ -1003,19 +1010,6 @@ bool Character::meets_skill_requirements( const std::map<skill_id, int> &req ) c
     return std::all_of( req.begin(), req.end(), [this]( const std::pair<skill_id, int> &pr ) {
         return get_skill_level( pr.first ) >= pr.second;
     });
-}
-
-int Character::skill_dispersion( const item& gun ) const
-{
-    static skill_id skill_gun( "gun" );
-
-    ///\EFFECT_PISTOL reduces dispersion for pistols
-    ///\EFFECT_SMG reduces dispersion for smgs
-    ///\EFFECT_RIFLE reduces dispersion for rifles
-    ///\EFFECT_LAUNCHER reduces dispersion for launchers
-    ///\EFFECT_GUN significantly reduces dispersion of all gunfire
-    return ( 10 * ( MAX_SKILL - std::min( int( get_skill_level( gun.gun_skill() ) ), MAX_SKILL ) ) ) +
-           ( 15 * ( MAX_SKILL - std::min( int( get_skill_level( skill_gun ) ), MAX_SKILL ) ) );
 }
 
 void Character::normalize()
