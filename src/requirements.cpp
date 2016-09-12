@@ -714,6 +714,11 @@ const requirement_data requirement_data::disassembly_requirements() const
         qualities.resize( std::distance( qualities.begin(), itr ) );
     }
 
+    static quality_id quality_multimeter( "MULTIMETER" );
+    qualities.erase( std::remove_if( qualities.begin(), qualities.end(), [&]( const quality_requirement &e ) {
+        return e.type == quality_multimeter;
+    } ), qualities.end() );
+
     // Remove empty variant sections
     ret.tools.erase( std::remove_if( ret.tools.begin(), ret.tools.end(),
                                      []( const std::vector<tool_comp> &tcv ) {

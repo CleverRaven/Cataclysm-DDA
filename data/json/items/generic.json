@@ -673,7 +673,7 @@
         "symbol": ";",
         "color": "dark_gray",
         "name": "television",
-        "description": "A large cathode ray tube television, full of delicious electronics.",
+        "description": "An LCD television, full of delicious electronics.",
         "price": 0,
         "material": "plastic",
         "weight": 22600,

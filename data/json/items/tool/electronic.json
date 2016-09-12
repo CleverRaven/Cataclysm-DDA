@@ -1,0 +1,40 @@
+[
+  {
+    "id": "multimeter",
+    "type": "TOOL",
+    "name": "digital multimeter",
+    "description": "A portable measuring instrument with a number of functions useful for testing electronic circuits.",
+    "weight": 250,
+    "volume": 2,
+    "price": 1400,
+    "material": [ "plastic" ],
+    "symbol": ";",
+    "color": "yellow",
+    "qualities": [ [ "MULTIMETER", 2 ] ]
+  },
+  {
+    "id": "makeshift_oscilloscope",
+    "copy-from": "oscilloscope",
+    "type": "TOOL",
+    "name": "makeshift oscilloscope",
+    "description": "Improvised from an LCD television display this makeshift oscilloscope is bulky but functional.",
+    "proportional": {
+        "weight": 1.5,
+        "volume": 2.0,
+        "price": 0.3
+    }
+  },
+  {
+    "id": "oscilloscope",
+    "type": "TOOL",
+    "name": "oscilloscope",
+    "description": "A compact digital oscilloscope required for more advanced electronics projects.",
+    "weight": 2350,
+    "volume": 6,
+    "price": 32600,
+    "material": [ "plastic" ],
+    "symbol": ";",
+    "color": "yellow",
+    "qualities": [ [ "MULTIMETER", 3 ] ]
+  }
+]
