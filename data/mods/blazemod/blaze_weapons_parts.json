@@ -52,23 +52,6 @@
     "flags": [ "FOLDABLE", "TURRET", "MANUAL", "TOOL_NONE" ]
   },
   {
-    "id": "laser_gunp",
-    "type": "vehicle_part",
-    "name": "manual NX-17 pulse cannon",
-    "item": "nx17p",
-    "location": "on_roof",
-    "symbol": "t",
-    "broken_symbol": "#",
-    "color": "blue",
-    "broken_color": "blue",
-    "difficulty": 6,
-    "durability": 400,
-    "damage_modifier": 80,
-    "folded_volume": 15,
-    "breaks_into": [ { "item": "nx17p", "count": [ 0, 1 ] } ],
-    "flags": [ "TURRET", "MANUAL", "TOOL_NONE", "FOLDABLE" ]
-  },
-  {
     "id": "lasgun",
     "type": "vehicle_part",
     "name": "manual laser cannon",
