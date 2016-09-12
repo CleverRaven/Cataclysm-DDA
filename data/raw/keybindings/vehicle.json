@@ -81,7 +81,7 @@
     "type": "keybinding",
     "category": "VEHICLE",
     "name": "Toggle doors",
-    "bindings":[ { "input_method": "keyboard", "key": "d" } ]
+    "bindings":[ { "input_method": "keyboard", "key": "D" } ]
   },
   {
     "id": "TOGGLE_ENGINE",
