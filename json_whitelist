@@ -5,3 +5,4 @@ data/json/items/magazine/*
 data/json/npcs/missiondef.json
 data/json/vehicleparts/*
 data/mods/blazemod/*.json
+data/mods/makeshift/*.json
