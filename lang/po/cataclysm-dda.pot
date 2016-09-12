@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cataclysm-dda 0.C\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-09-05 11:44+0300\n"
+"POT-Creation-Date: 2016-09-12 11:48+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -683,117 +683,6 @@ msgstr[1] ""
 msgid "A roll of medical tape, similar to duct tape."
 msgstr ""
 
-#: lang/json/AMMO_from_json.py lang/json/ammunition_type_from_json.py
-msgid "8x40mm caseless"
-msgid_plural "8x40mm caseless"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for 8x40mm caseless
-#: lang/json/AMMO_from_json.py
-msgid ""
-"8x40mm caseless rounds.  Proprietary ammunition for Rivtech firearms.  Being "
-"caseless rounds, these cannot be disassembled or reloaded."
-msgstr ""
-
-#: lang/json/AMMO_from_json.py
-msgid "8x40mm caseless sporting"
-msgid_plural "8x40mm caseless sporting"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for 8x40mm caseless sporting
-#: lang/json/AMMO_from_json.py
-msgid ""
-"8x40mm caseless rounds, light sporting load.  Proprietary ammunition for "
-"Rivtech firearms.  Being caseless rounds, these cannot be disassembled or "
-"reloaded."
-msgstr ""
-
-#: lang/json/AMMO_from_json.py
-msgid "handmade 8x40mm caseless"
-msgid_plural "handmade 8x40mm caseless"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for handmade 8x40mm caseless
-#: lang/json/AMMO_from_json.py
-msgid ""
-"Handcrafted bootleg duplicates of Rivtech 8x40mm caseless rounds.  Being "
-"caseless rounds, these cannot be disassembled or reloaded."
-msgstr ""
-
-#: lang/json/AMMO_from_json.py
-msgid "handmade 8x40mm caseless JSP"
-msgid_plural "handmade 8x40mm caseless JSP"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for handmade 8x40mm caseless JSP
-#: lang/json/AMMO_from_json.py
-msgid ""
-"Handcrafted bootleg jacketed soft point duplicates of Rivtech 8x40mm "
-"caseless rounds.  Being caseless rounds, these cannot be disassembled or "
-"reloaded."
-msgstr ""
-
-#: lang/json/AMMO_from_json.py
-msgid "8x40mm FMJ caseless"
-msgid_plural "8x40mm FMJ caseless"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for 8x40mm FMJ caseless
-#: lang/json/AMMO_from_json.py
-msgid ""
-"8x40mm caseless rounds, full metal jacket.  Military grade ammunition for "
-"Rivtech firearms.  Being caseless rounds, these cannot be disassembled or "
-"reloaded."
-msgstr ""
-
-#: lang/json/AMMO_from_json.py
-msgid "8x40mm JHP caseless"
-msgid_plural "8x40mm JHP caseless"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for 8x40mm JHP caseless
-#: lang/json/AMMO_from_json.py
-msgid ""
-"8x40mm caseless rounds, jacketed hollowpoint.  Military grade ammunition for "
-"Rivtech firearms.  Being caseless rounds, these cannot be disassembled or "
-"reloaded."
-msgstr ""
-
-#: lang/json/AMMO_from_json.py
-msgid "8x40mm incendiary caseless"
-msgid_plural "8x40mm incendiary caseless"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for 8x40mm incendiary caseless
-#: lang/json/AMMO_from_json.py
-msgid ""
-"8x40mm caseless rounds, incendiary type.  Military grade ammunition for "
-"Rivtech firearms.  Being caseless rounds, these cannot be disassembled or "
-"reloaded."
-msgstr ""
-
-#: lang/json/AMMO_from_json.py
-msgid "8x40mm HVP"
-msgid_plural "8x40mm HVP"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for 8x40mm HVP
-#: lang/json/AMMO_from_json.py
-msgid ""
-"8x40mm caseless rounds, saboted high-velocity penetrator type.  Advanced "
-"military grade, armor-piercing ammunition that fires a single depleted "
-"uranium flechette.  Being caseless rounds, these cannot be disassembled or "
-"reloaded."
-msgstr ""
-
 #: lang/json/AMMO_from_json.py
 msgid "FFV441B HE rocket"
 msgid_plural "FFV441B HE rockets"
@@ -877,7 +766,8 @@ msgstr[1] ""
 msgid "An empty plastic hull from a 5x50mm flechette round."
 msgstr ""
 
-#: lang/json/AMMO_from_json.py lang/json/ammunition_type_from_json.py
+#: lang/json/AMMO_from_json.py
+#: lang/json/ammunition_type_from_json.py
 msgid "charcoal"
 msgid_plural "charcoal"
 msgstr[0] ""
@@ -918,157 +808,6 @@ msgid ""
 "specialized launcher, its case has been cut down and it has been rigged to "
 "explode on impact.  While it is now somewhat lighter than before, it can no "
 "longer be triggered manually."
-msgstr ""
-
-#: lang/json/AMMO_from_json.py
-msgid "20x66mm buckshot"
-msgid_plural "20x66mm buckshots"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for 20x66mm buckshot
-#: lang/json/AMMO_from_json.py
-msgid ""
-"20x66mm caseless shotgun rounds, buckshot type.  Proprietary ammunition for "
-"Rivtech shotguns.  Being caseless rounds, these cannot be disassembled or "
-"reloaded."
-msgstr ""
-
-#: lang/json/AMMO_from_json.py
-msgid "20x66mm flechette"
-msgid_plural "20x66mm flechettes"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for 20x66mm flechette
-#: lang/json/AMMO_from_json.py
-msgid ""
-"20x66mm caseless shotgun rounds, flechette type.  Proprietary ammunition for "
-"Rivtech shotguns.  Being caseless rounds, these cannot be disassembled or "
-"reloaded."
-msgstr ""
-
-#: lang/json/AMMO_from_json.py
-msgid "20x66mm slug"
-msgid_plural "20x66mm slugs"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for 20x66mm slug
-#: lang/json/AMMO_from_json.py
-msgid ""
-"20x66mm caseless shotgun rounds, solid projectile type.  Proprietary "
-"ammunition for Rivtech shotguns.  Being caseless rounds, these cannot be "
-"disassembled or reloaded."
-msgstr ""
-
-#: lang/json/AMMO_from_json.py
-msgid "20x66mm explosive"
-msgid_plural "20x66mm explosives"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for 20x66mm explosive
-#: lang/json/AMMO_from_json.py
-msgid ""
-"20x66mm caseless shotgun rounds, explosive projectile type.  Proprietary "
-"ammunition for Rivtech shotguns.  Being caseless rounds, these cannot be "
-"disassembled or reloaded."
-msgstr ""
-
-#: lang/json/AMMO_from_json.py
-msgid "20x66mm frag"
-msgid_plural "20x66mm frags"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for 20x66mm frag
-#: lang/json/AMMO_from_json.py
-msgid ""
-"20x66mm caseless shotgun rounds, explosive fragmentation type.  Proprietary "
-"ammunition for Rivtech shotguns.  Being caseless rounds, these cannot be "
-"disassembled or reloaded."
-msgstr ""
-
-#: lang/json/AMMO_from_json.py
-msgid "20x66mm flare"
-msgid_plural "20x66mm flares"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for 20x66mm flare
-#: lang/json/AMMO_from_json.py
-msgid ""
-"20x66mm caseless shotgun rounds, signal flare type.  Proprietary ammunition "
-"for Rivtech shotguns.  Being caseless rounds, these cannot be disassembled "
-"or reloaded."
-msgstr ""
-
-#: lang/json/AMMO_from_json.py
-msgid "20x66mm incendiary"
-msgid_plural "20x66mm incendiaries"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for 20x66mm incendiary
-#: lang/json/AMMO_from_json.py
-msgid ""
-"20x66mm caseless shotgun rounds, incendiary type.  Proprietary ammunition "
-"for Rivtech shotguns.  Being caseless rounds, these cannot be disassembled "
-"or reloaded."
-msgstr ""
-
-#: lang/json/AMMO_from_json.py
-msgid "20x66mm beanbag"
-msgid_plural "20x66mm beanbags"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for 20x66mm beanbag
-#: lang/json/AMMO_from_json.py
-msgid ""
-"20x66mm caseless shotgun rounds, sublethal beanbag type.  Proprietary "
-"ammunition for Rivtech shotguns.  Being caseless rounds, these cannot be "
-"disassembled or reloaded."
-msgstr ""
-
-#: lang/json/AMMO_from_json.py
-msgid "handmade 20x66mm buckshot"
-msgid_plural "handmade 20x66mm buckshots"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for handmade 20x66mm buckshot
-#: lang/json/AMMO_from_json.py
-msgid ""
-"Handcrafted bootleg duplicates of Rivtech 20x66mm caseless buckshot rounds.  "
-"Being caseless rounds, these cannot be disassembled or reloaded."
-msgstr ""
-
-#: lang/json/AMMO_from_json.py
-msgid "handmade 20x66mm flechette"
-msgid_plural "handmade 20x66mm flechettes"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for handmade 20x66mm flechette
-#: lang/json/AMMO_from_json.py
-msgid ""
-"Handcrafted bootleg duplicates of Rivtech 20x66mm caseless flechette "
-"rounds.  Being caseless rounds, these cannot be disassembled or reloaded."
-msgstr ""
-
-#: lang/json/AMMO_from_json.py
-msgid "handmade 20x66mm slug"
-msgid_plural "handmade 20x66mm slugs"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for handmade 20x66mm slug
-#: lang/json/AMMO_from_json.py
-msgid ""
-"Handcrafted bootleg duplicates of Rivtech 20x66mm caseless solid projectile "
-"rounds.  Being caseless rounds, these cannot be disassembled or reloaded."
 msgstr ""
 
 #: lang/json/AMMO_from_json.py
@@ -1134,21 +873,6 @@ msgstr[1] ""
 msgid ""
 "An empty casing from a .700 NX round.  These are rare, so you might want to "
 "hold onto these."
-msgstr ""
-
-#: lang/json/AMMO_from_json.py
-msgid ".300 Winchester Magnum"
-msgid_plural ".300 Winchester Magnum"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for .300 Winchester Magnum
-#: lang/json/AMMO_from_json.py
-msgid ""
-".300 Winchester Magnum rounds with 220gr JHP bullets.  The 300WM round is an "
-"extremely powerful and accurate rifle round introduced in 1963.  It has "
-"proven popular with hunters and snipers, although it is not as common "
-"as .308 or .30-06."
 msgstr ""
 
 #: lang/json/AMMO_from_json.py
@@ -2275,7 +1999,8 @@ msgid ""
 "Petroleum-based fuel made from a byproduct of the gasoline making process."
 msgstr ""
 
-#: lang/json/AMMO_from_json.py lang/json/ammunition_type_from_json.py
+#: lang/json/AMMO_from_json.py
+#: lang/json/ammunition_type_from_json.py
 msgid "gasoline"
 msgid_plural "gasoline"
 msgstr[0] ""
@@ -2525,20 +2250,6 @@ msgid ""
 msgstr ""
 
 #: lang/json/AMMO_from_json.py
-msgid "reloaded .300 Winchester Magnum"
-msgid_plural "reloaded .300 Winchester Magnum"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for reloaded .300 Winchester Magnum
-#: lang/json/AMMO_from_json.py
-msgid ""
-"The .300 Winchester Magnum is extremely versatile and has been adopted by "
-"many shooting disciplines.  The cartridge has found use by hunters, military "
-"units, and law enforcement departments.  This one has been hand-reloaded."
-msgstr ""
-
-#: lang/json/AMMO_from_json.py
 msgid "handloaded .22 CB"
 msgid_plural "handloaded .22 CB"
 msgstr[0] ""
@@ -2625,6 +2336,157 @@ msgstr[1] ""
 #. ~ Description for dart
 #: lang/json/AMMO_from_json.py
 msgid "A handful of darts, useful as ammunition for blowguns."
+msgstr ""
+
+#: lang/json/AMMO_from_json.py
+msgid "20x66mm beanbag"
+msgid_plural "20x66mm beanbags"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for 20x66mm beanbag
+#: lang/json/AMMO_from_json.py
+msgid ""
+"20x66mm caseless shotgun rounds, sublethal beanbag type.  Proprietary "
+"ammunition for Rivtech shotguns.  Being caseless rounds, these cannot be "
+"disassembled or reloaded."
+msgstr ""
+
+#: lang/json/AMMO_from_json.py
+msgid "handmade 20x66mm flechette"
+msgid_plural "handmade 20x66mm flechettes"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for handmade 20x66mm flechette
+#: lang/json/AMMO_from_json.py
+msgid ""
+"Handcrafted bootleg duplicates of Rivtech 20x66mm caseless flechette "
+"rounds.  Being caseless rounds, these cannot be disassembled or reloaded."
+msgstr ""
+
+#: lang/json/AMMO_from_json.py
+msgid "handmade 20x66mm buckshot"
+msgid_plural "handmade 20x66mm buckshots"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for handmade 20x66mm buckshot
+#: lang/json/AMMO_from_json.py
+msgid ""
+"Handcrafted bootleg duplicates of Rivtech 20x66mm caseless buckshot rounds.  "
+"Being caseless rounds, these cannot be disassembled or reloaded."
+msgstr ""
+
+#: lang/json/AMMO_from_json.py
+msgid "handmade 20x66mm slug"
+msgid_plural "handmade 20x66mm slugs"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for handmade 20x66mm slug
+#: lang/json/AMMO_from_json.py
+msgid ""
+"Handcrafted bootleg duplicates of Rivtech 20x66mm caseless solid projectile "
+"rounds.  Being caseless rounds, these cannot be disassembled or reloaded."
+msgstr ""
+
+#: lang/json/AMMO_from_json.py
+msgid "20x66mm explosive"
+msgid_plural "20x66mm explosives"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for 20x66mm explosive
+#: lang/json/AMMO_from_json.py
+msgid ""
+"20x66mm caseless shotgun rounds, explosive projectile type.  Proprietary "
+"ammunition for Rivtech shotguns.  Being caseless rounds, these cannot be "
+"disassembled or reloaded."
+msgstr ""
+
+#: lang/json/AMMO_from_json.py
+msgid "20x66mm flare"
+msgid_plural "20x66mm flares"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for 20x66mm flare
+#: lang/json/AMMO_from_json.py
+msgid ""
+"20x66mm caseless shotgun rounds, signal flare type.  Proprietary ammunition "
+"for Rivtech shotguns.  Being caseless rounds, these cannot be disassembled "
+"or reloaded."
+msgstr ""
+
+#: lang/json/AMMO_from_json.py
+msgid "20x66mm flechette"
+msgid_plural "20x66mm flechettes"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for 20x66mm flechette
+#: lang/json/AMMO_from_json.py
+msgid ""
+"20x66mm caseless shotgun rounds, flechette type.  Proprietary ammunition for "
+"Rivtech shotguns.  Being caseless rounds, these cannot be disassembled or "
+"reloaded."
+msgstr ""
+
+#: lang/json/AMMO_from_json.py
+msgid "20x66mm frag"
+msgid_plural "20x66mm frags"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for 20x66mm frag
+#: lang/json/AMMO_from_json.py
+msgid ""
+"20x66mm caseless shotgun rounds, explosive fragmentation type.  Proprietary "
+"ammunition for Rivtech shotguns.  Being caseless rounds, these cannot be "
+"disassembled or reloaded."
+msgstr ""
+
+#: lang/json/AMMO_from_json.py
+msgid "20x66mm incendiary"
+msgid_plural "20x66mm incendiaries"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for 20x66mm incendiary
+#: lang/json/AMMO_from_json.py
+msgid ""
+"20x66mm caseless shotgun rounds, incendiary type.  Proprietary ammunition "
+"for Rivtech shotguns.  Being caseless rounds, these cannot be disassembled "
+"or reloaded."
+msgstr ""
+
+#: lang/json/AMMO_from_json.py
+msgid "20x66mm buckshot"
+msgid_plural "20x66mm buckshots"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for 20x66mm buckshot
+#: lang/json/AMMO_from_json.py
+msgid ""
+"20x66mm caseless shotgun rounds, buckshot type.  Proprietary ammunition for "
+"Rivtech shotguns.  Being caseless rounds, these cannot be disassembled or "
+"reloaded."
+msgstr ""
+
+#: lang/json/AMMO_from_json.py
+msgid "20x66mm slug"
+msgid_plural "20x66mm slugs"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for 20x66mm slug
+#: lang/json/AMMO_from_json.py
+msgid ""
+"20x66mm caseless shotgun rounds, solid projectile type.  Proprietary "
+"ammunition for Rivtech shotguns.  Being caseless rounds, these cannot be "
+"disassembled or reloaded."
 msgstr ""
 
 #: lang/json/AMMO_from_json.py
@@ -2756,6 +2618,35 @@ msgid "reloaded 5.56 NATO tracer"
 msgid_plural "reloaded 5.56 NATO tracer"
 msgstr[0] ""
 msgstr[1] ""
+
+#: lang/json/AMMO_from_json.py
+msgid ".300 Winchester Magnum"
+msgid_plural ".300 Winchester Magnum"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for .300 Winchester Magnum
+#: lang/json/AMMO_from_json.py
+msgid ""
+".300 Winchester Magnum rounds with 220gr JHP bullets.  The 300WM round is an "
+"extremely powerful and accurate rifle round introduced in 1963.  It has "
+"proven popular with hunters and snipers, although it is not as common "
+"as .308 or .30-06."
+msgstr ""
+
+#: lang/json/AMMO_from_json.py
+msgid "reloaded .300 Winchester Magnum"
+msgid_plural "reloaded .300 Winchester Magnum"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for reloaded .300 Winchester Magnum
+#: lang/json/AMMO_from_json.py
+msgid ""
+"The .300 Winchester Magnum is extremely versatile and has been adopted by "
+"many shooting disciplines.  The cartridge has found use by hunters, military "
+"units, and law enforcement departments.  This one has been hand-reloaded."
+msgstr ""
 
 #: lang/json/AMMO_from_json.py
 msgid ".270 Winchester"
@@ -3631,6 +3522,104 @@ msgid ""
 "A subsonic cartridge derived from the 7.62x25mm, designed for silenced "
 "firearms.  It offers good armor penetration at the cost of slightly less "
 "damage."
+msgstr ""
+
+#: lang/json/AMMO_from_json.py
+msgid "bootleg 8x40mm JHP"
+msgid_plural "bootleg 8x40mm JHP"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for bootleg 8x40mm JHP
+#: lang/json/AMMO_from_json.py
+msgid ""
+"Bootleg duplicates of Rivtech 8x40mm caseless rounds.  Being caseless "
+"rounds, these cannot be disassembled or reloaded."
+msgstr ""
+
+#: lang/json/AMMO_from_json.py
+msgid "8x40m"
+msgid_plural "8x40m"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for 8x40m
+#: lang/json/AMMO_from_json.py
+msgid ""
+"8x40mm caseless rounds.  Proprietary ammunition for Rivtech firearms.  Being "
+"caseless rounds, these cannot be disassembled or reloaded."
+msgstr ""
+
+#: lang/json/AMMO_from_json.py
+msgid "8x40m sporting"
+msgid_plural "8x40m sporting"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for 8x40m sporting
+#: lang/json/AMMO_from_json.py
+msgid ""
+"8x40mm caseless rounds, light sporting load sold for civilian use.  "
+"Proprietary ammunition for Rivtech firearms.  Being caseless rounds, these "
+"cannot be disassembled or reloaded."
+msgstr ""
+
+#: lang/json/AMMO_from_json.py
+msgid "8x40mm FMJ"
+msgid_plural "8x40mm FMJ"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for 8x40mm FMJ
+#: lang/json/AMMO_from_json.py
+msgid ""
+"8x40mm caseless rounds, full metal jacket.  Military grade ammunition for "
+"Rivtech firearms.  Being caseless rounds, these cannot be disassembled or "
+"reloaded."
+msgstr ""
+
+#: lang/json/AMMO_from_json.py
+msgid "8x40mm HVP"
+msgid_plural "8x40mm HVP"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for 8x40mm HVP
+#: lang/json/AMMO_from_json.py
+msgid ""
+"8x40mm caseless rounds, saboted high-velocity penetrator type.  Advanced "
+"military grade, armor-piercing ammunition that fires a single depleted "
+"uranium flechette.  Being caseless rounds, these cannot be disassembled or "
+"reloaded."
+msgstr ""
+
+#: lang/json/AMMO_from_json.py
+msgid "8x40mm tracer"
+msgid_plural "8x40mm tracer"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for 8x40mm tracer
+#: lang/json/AMMO_from_json.py
+msgid ""
+"8x40mm caseless rounds with tracers to help keep the weapon they are fired "
+"from on target at the risk of igniting flammable substances.  Military grade "
+"ammunition for Rivtech firearms.  Being caseless rounds, these cannot be "
+"disassembled or reloaded."
+msgstr ""
+
+#: lang/json/AMMO_from_json.py
+msgid "8x40mm JHP"
+msgid_plural "8x40mm JHP"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for 8x40mm JHP
+#: lang/json/AMMO_from_json.py
+msgid ""
+"8x40mm caseless rounds, jacketed hollowpoint.  Military grade ammunition for "
+"Rivtech firearms.  Being caseless rounds, these cannot be disassembled or "
+"reloaded."
 msgstr ""
 
 #: lang/json/AMMO_from_json.py
@@ -4964,6 +4953,45 @@ msgid ""
 msgstr ""
 
 #: lang/json/AMMO_from_json.py
+msgid "biollante sap"
+msgid_plural "biollante sap"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for biollante sap
+#: lang/json/AMMO_from_json.py
+msgid ""
+"The thick gelatin extract from a biollante's budding flowers.  Not "
+"particularly useful as is, but in a pinch you could throw it to create a "
+"field of sap, and harm anything you hit."
+msgstr ""
+
+#: lang/json/AMMO_from_json.py
+msgid "triffid extract"
+msgid_plural "triffid extracts"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for triffid extract
+#: lang/json/AMMO_from_json.py
+msgid "The extract of a fungal stinger from a Triffid plant."
+msgstr ""
+
+#: lang/json/AMMO_from_json.py lang/json/TOOL_from_json.py
+msgid "sap grenade"
+msgid_plural "sap grenades"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for sap grenade
+#: lang/json/AMMO_from_json.py lang/json/TOOL_from_json.py
+msgid ""
+"Extract from a biollante's budding flowers, dilluted with a weak acid "
+"water.  When thrown it will produce a fast-thickening goop that will trap "
+"whatever walks into it."
+msgstr ""
+
+#: lang/json/AMMO_from_json.py
 msgid "shock bomblet"
 msgid_plural "shock bomblets"
 msgstr[0] ""
@@ -5195,20 +5223,6 @@ msgid ""
 msgstr ""
 
 #: lang/json/AMMO_from_json.py
-msgid "fragmentation canister"
-msgid_plural "fragmentation canisters"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for fragmentation canister
-#: lang/json/AMMO_from_json.py
-msgid ""
-"An IED composed of a container filled with a payload material and a means to "
-"trigger it.  Intended to be fired from a specialized launcher.  This one is "
-"designed to spray the immediate area with deadly shrapnel."
-msgstr ""
-
-#: lang/json/AMMO_from_json.py
 msgid "fire canister"
 msgid_plural "fire canisters"
 msgstr[0] ""
@@ -5237,118 +5251,30 @@ msgid ""
 msgstr ""
 
 #: lang/json/AMMO_from_json.py
-msgid "wood ballista bolt"
-msgid_plural "wood ballista bolts"
+msgid "fragmentation canister"
+msgid_plural "fragmentation canisters"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Description for wood ballista bolt
+#. ~ Description for fragmentation canister
 #: lang/json/AMMO_from_json.py
 msgid ""
-"A sharpened bolt carved from wood.  It's fairly heavy, capable of dealing "
-"large amounts of damage, but isn't particularly accurate.  Stands a good "
-"chance of remaining intact once fired."
+"An IED composed of a container filled with a payload material and a means to "
+"trigger it.  Intended to be fired from a specialized launcher.  This one is "
+"designed to spray the immediate area with deadly shrapnel."
 msgstr ""
 
-#: lang/json/AMMO_from_json.py
-msgid "metal ballista bolt"
-msgid_plural "metal ballista bolts"
+#: lang/json/AMMO_from_json.py lang/json/ammunition_type_from_json.py
+msgid "harpoon"
+msgid_plural "harpoons"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Description for metal ballista bolt
+#. ~ Description for harpoon
 #: lang/json/AMMO_from_json.py
 msgid ""
-"A long shaft carved from wood ending in a tip of sharpened metal.  It's "
-"quite heavy, capable of dealing large amounts of damage, but isn't "
-"particularly accurate.  Stands a good chance of remaining intact once fired."
-msgstr ""
-
-#: lang/json/AMMO_from_json.py
-msgid "metal fragment"
-msgid_plural "metal fragments"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for metal fragment
-#: lang/json/AMMO_from_json.py
-msgid "Small slivers of metal.  Can't see much use for them."
-msgstr ""
-
-#: lang/json/AMMO_from_json.py
-msgid "bladed disc"
-msgid_plural "bladed discs"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for bladed disc
-#: lang/json/AMMO_from_json.py
-msgid ""
-"A large metal disc surrounded by 7 sharp blades.  It's as menacing as it "
-"sounds."
-msgstr ""
-
-#: lang/json/AMMO_from_json.py
-msgid "serrated disc"
-msgid_plural "serrated discs"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for serrated disc
-#: lang/json/AMMO_from_json.py
-msgid ""
-"A metal disc surrounded by serrated edges.  It's as menacing as it sounds."
-msgstr ""
-
-#: lang/json/AMMO_from_json.py lang/json/GENERIC_from_json.py
-msgid "rock"
-msgid_plural "rocks"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for rock
-#: lang/json/AMMO_from_json.py lang/json/GENERIC_from_json.py
-msgid ""
-"A rock the size of a baseball.  Makes a decent melee weapon, and is also "
-"good for throwing at enemies."
-msgstr ""
-
-#: lang/json/AMMO_from_json.py lang/json/GENERIC_from_json.py
-msgid "pool ball"
-msgid_plural "pool balls"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for pool ball
-#: lang/json/AMMO_from_json.py lang/json/GENERIC_from_json.py
-msgid "A colorful, hard ball.  Essentially a rock."
-msgstr ""
-
-#: lang/json/AMMO_from_json.py
-msgid "lead ball"
-msgid_plural "lead balls"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for lead ball
-#: lang/json/AMMO_from_json.py
-msgid ""
-"A heavy lead ball about 8cm in diameter.  Could pack quite a bit of a punch "
-"if you had something to launch it."
-msgstr ""
-
-#: lang/json/AMMO_from_json.py
-msgid "nuclear bolt"
-msgid_plural "nuclear bolts"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for nuclear bolt
-#: lang/json/AMMO_from_json.py
-msgid ""
-"A heavy modified handheld nuclear device affixed to the end of a large "
-"ballista bolt.  Its case has been cut down and it has been rigged to explode "
-"on impact.  It can no longer be triggered manually."
+"A large spear carved from wood.  This was fashioned specifically to be fired "
+"from a compatible weapon; thus unsuitable for melee combat."
 msgstr ""
 
 #: lang/json/AMMO_from_json.py
@@ -5380,21 +5306,6 @@ msgid ""
 msgstr ""
 
 #: lang/json/AMMO_from_json.py
-msgid "shatter bolt"
-msgid_plural "shatter bolts"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for shatter bolt
-#: lang/json/AMMO_from_json.py
-msgid ""
-"An IED composed of a container filled with a payload material affixed to the "
-"end of a large ballista bolt.  Intended to be fired from a specialized "
-"launcher.  This one is designed to spray the immediate area with deadly "
-"shrapnel."
-msgstr ""
-
-#: lang/json/AMMO_from_json.py
 msgid "searing bolt"
 msgid_plural "searing bolts"
 msgstr[0] ""
@@ -5422,29 +5333,159 @@ msgid ""
 "launcher.  This one is designed to douse a large area with deadly flames."
 msgstr ""
 
+#: lang/json/AMMO_from_json.py
+msgid "shatter bolt"
+msgid_plural "shatter bolts"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for shatter bolt
+#: lang/json/AMMO_from_json.py
+msgid ""
+"An IED composed of a container filled with a payload material affixed to the "
+"end of a large ballista bolt.  Intended to be fired from a specialized "
+"launcher.  This one is designed to spray the immediate area with deadly "
+"shrapnel."
+msgstr ""
+
+#: lang/json/AMMO_from_json.py
+msgid "steel ballista bolt"
+msgid_plural "steel ballista bolts"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for steel ballista bolt
+#: lang/json/AMMO_from_json.py
+msgid ""
+"A long shaft carved from wood ending in a tip of sharpened metal.  It's "
+"quite heavy, capable of dealing large amounts of damage, but isn't "
+"particularly accurate.  Stands a good chance of remaining intact once fired."
+msgstr ""
+
+#: lang/json/AMMO_from_json.py
+msgid "nuclear bolt"
+msgid_plural "nuclear bolts"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for nuclear bolt
+#: lang/json/AMMO_from_json.py
+msgid ""
+"A heavy modified handheld nuclear device affixed to the end of a large "
+"ballista bolt.  Its case has been cut down and it has been rigged to explode "
+"on impact.  It can no longer be triggered manually."
+msgstr ""
+
+#: lang/json/AMMO_from_json.py
+msgid "wood ballista bolt"
+msgid_plural "wood ballista bolts"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for wood ballista bolt
+#: lang/json/AMMO_from_json.py
+msgid ""
+"A sharpened bolt carved from wood.  It's fairly heavy, capable of dealing "
+"large amounts of damage, but isn't particularly accurate.  Stands a good "
+"chance of remaining intact once fired."
+msgstr ""
+
+#: lang/json/AMMO_from_json.py
+msgid "lead ball"
+msgid_plural "lead balls"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for lead ball
+#: lang/json/AMMO_from_json.py
+msgid ""
+"A heavy lead ball about 8cm in diameter.  Could pack quite a bit of a punch "
+"if you had something to launch it."
+msgstr ""
+
+#: lang/json/AMMO_from_json.py lang/json/GENERIC_from_json.py
+msgid "pool ball"
+msgid_plural "pool balls"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for pool ball
+#: lang/json/AMMO_from_json.py lang/json/GENERIC_from_json.py
+msgid "A colorful, hard ball.  Essentially a rock."
+msgstr ""
+
+#: lang/json/AMMO_from_json.py
+msgid "serrated disc"
+msgid_plural "serrated discs"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for serrated disc
+#: lang/json/AMMO_from_json.py
+msgid ""
+"A metal disc surrounded by serrated edges.  It's as menacing as it sounds."
+msgstr ""
+
+#: lang/json/AMMO_from_json.py lang/json/GENERIC_from_json.py
+msgid "rock"
+msgid_plural "rocks"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for rock
+#: lang/json/AMMO_from_json.py
+msgid "A rock is what you have in your head if you don't know what one is."
+msgstr ""
+
+#: lang/json/AMMO_from_json.py
+msgid "metal fragment"
+msgid_plural "metal fragments"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for metal fragment
+#: lang/json/AMMO_from_json.py
+msgid "Small slivers of metal.  Can't see much use for them."
+msgstr ""
+
 #: lang/json/AMMO_from_json.py lang/json/ammunition_type_from_json.py
 msgid "blob feed"
-msgid_plural "blob feeds"
+msgid_plural "blob feed"
 msgstr[0] ""
 msgstr[1] ""
 
 #. ~ Description for blob feed
 #: lang/json/AMMO_from_json.py
 msgid ""
-"This thick syrupy mixture of... let's not look too close, contains "
-"everything the blob needs to be healthy.  You think..."
+"An amalgam of various types of organic material, contains everything the "
+"blob needs to be healthy.  You think..."
+msgstr ""
+
+#: lang/json/AMMO_from_json.py
+msgid "diamond fragments"
+msgid_plural "diamond fragmentss"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for diamond fragments
+#: lang/json/AMMO_from_json.py
+msgid ""
+"These small fragments of diamond are formed as a byproduct from the "
+"crystallization process of a diamond matrix.  While the substance usually "
+"decays when separated from the catalyst; these fragments are small enough to "
+"remain stable."
 msgstr ""
 
 #: lang/json/AMMO_from_json.py
 msgid "vortex core"
-msgid_plural "vortex cores"
+msgid_plural "vortex core"
 msgstr[0] ""
 msgstr[1] ""
 
 #. ~ Description for vortex core
 #: lang/json/AMMO_from_json.py
 msgid ""
-"An unknown, but powerful force contained within spiral and vortex stones.  "
+"An unknown, but powerful force contained within spiral and vortex stones. "
 "Can be harnessed by those with the knowledge to do so."
 msgstr ""
 
@@ -5612,35 +5653,6 @@ msgid_plural "pairs of boots"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Use action holster_prompt for pair of boots.
-#. ~ Use action holster_prompt for pair of rollerblades.
-#. ~ Use action holster_prompt for pair of rollerskates.
-#. ~ Use action holster_prompt for pair of knee-high boots.
-#. ~ Use action holster_prompt for pair of fur boots.
-#. ~ Use action holster_prompt for pair of steeltoed boots.
-#. ~ Use action holster_prompt for pair of combat boots.
-#. ~ Use action holster_prompt for pair of hiking boots.
-#. ~ Use action holster_prompt for pair of winter boots.
-#. ~ Use action holster_prompt for pair of western boots.
-#. ~ Use action holster_prompt for pair of chitinous boots.
-#. ~ Use action holster_prompt for pair of bone armor boots.
-#. ~ Use action holster_prompt for pair of leather armor boots.
-#. ~ Use action holster_prompt for pair of rubber boots.
-#. ~ Use action holster_prompt for pair of turnout boots.
-#. ~ Use action holster_prompt for ankle sheath.
-#. ~ Use action holster_prompt for sheath.
-#. ~ Use action holster_prompt for pair of armored boots.
-#. ~ Use action holster_prompt for pair of winter survivor boots.
-#. ~ Use action holster_prompt for pair of survivor fireboots.
-#. ~ Use action holster_prompt for pair of survivor wetsuit boots.
-#. ~ Use action holster_prompt for pair of light survivor boots.
-#. ~ Use action holster_prompt for pair of survivor boots.
-#. ~ Use action holster_prompt for pair of heavy survivor boots.
-#. ~ Use action holster_prompt for pair of XL survivor boots.
-#: lang/json/ARMOR_from_json.py
-msgid "Sheath knife"
-msgstr ""
-
 #. ~ Use action holster_msg for pair of boots.
 #. ~ Use action holster_msg for pair of rollerblades.
 #. ~ Use action holster_msg for pair of rollerskates.
@@ -5674,6 +5686,35 @@ msgstr ""
 #: lang/json/ARMOR_from_json.py
 #, no-python-format
 msgid "You sheath your %s"
+msgstr ""
+
+#. ~ Use action holster_prompt for pair of boots.
+#. ~ Use action holster_prompt for pair of rollerblades.
+#. ~ Use action holster_prompt for pair of rollerskates.
+#. ~ Use action holster_prompt for pair of knee-high boots.
+#. ~ Use action holster_prompt for pair of fur boots.
+#. ~ Use action holster_prompt for pair of steeltoed boots.
+#. ~ Use action holster_prompt for pair of combat boots.
+#. ~ Use action holster_prompt for pair of hiking boots.
+#. ~ Use action holster_prompt for pair of winter boots.
+#. ~ Use action holster_prompt for pair of western boots.
+#. ~ Use action holster_prompt for pair of chitinous boots.
+#. ~ Use action holster_prompt for pair of bone armor boots.
+#. ~ Use action holster_prompt for pair of leather armor boots.
+#. ~ Use action holster_prompt for pair of rubber boots.
+#. ~ Use action holster_prompt for pair of turnout boots.
+#. ~ Use action holster_prompt for ankle sheath.
+#. ~ Use action holster_prompt for sheath.
+#. ~ Use action holster_prompt for pair of armored boots.
+#. ~ Use action holster_prompt for pair of winter survivor boots.
+#. ~ Use action holster_prompt for pair of survivor fireboots.
+#. ~ Use action holster_prompt for pair of survivor wetsuit boots.
+#. ~ Use action holster_prompt for pair of light survivor boots.
+#. ~ Use action holster_prompt for pair of survivor boots.
+#. ~ Use action holster_prompt for pair of heavy survivor boots.
+#. ~ Use action holster_prompt for pair of XL survivor boots.
+#: lang/json/ARMOR_from_json.py
+msgid "Sheath knife"
 msgstr ""
 
 #. ~ Description for pair of boots
@@ -8092,17 +8133,17 @@ msgid_plural "tool belts"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Use action holster_prompt for tool belt.
-#. ~ Use action holster_prompt for firefighter belt.
-#: lang/json/ARMOR_from_json.py
-msgid "Attach what to belt loop?"
-msgstr ""
-
 #. ~ Use action holster_msg for tool belt.
 #. ~ Use action holster_msg for firefighter belt.
 #: lang/json/ARMOR_from_json.py
 #, no-python-format
 msgid "You clip your %s to your %s"
+msgstr ""
+
+#. ~ Use action holster_prompt for tool belt.
+#. ~ Use action holster_prompt for firefighter belt.
+#: lang/json/ARMOR_from_json.py
+msgid "Attach what to belt loop?"
 msgstr ""
 
 #. ~ Description for tool belt
@@ -9388,15 +9429,15 @@ msgid_plural "leather belts"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Use action holster_prompt for leather belt.
-#: lang/json/ARMOR_from_json.py
-msgid "Stick what into your belt"
-msgstr ""
-
 #. ~ Use action holster_msg for leather belt.
 #: lang/json/ARMOR_from_json.py
 #, no-python-format
 msgid "You tuck your %s into your %s"
+msgstr ""
+
+#. ~ Use action holster_prompt for leather belt.
+#: lang/json/ARMOR_from_json.py
+msgid "Stick what into your belt"
 msgstr ""
 
 #. ~ Description for leather belt
@@ -12366,15 +12407,6 @@ msgid_plural "ammo satchels"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Use action holster_prompt for ammo satchel.
-#. ~ Use action holster_prompt for chest ammo pouch.
-#. ~ Use action holster_prompt for chest rig.
-#. ~ Use action holster_prompt for ankle ammo pouch.
-#. ~ Use action holster_prompt for leg ammo pouch.
-#: lang/json/ARMOR_from_json.py
-msgid "Stash ammo"
-msgstr ""
-
 #. ~ Use action holster_msg for ammo satchel.
 #. ~ Use action holster_msg for chest ammo pouch.
 #. ~ Use action holster_msg for chest rig.
@@ -12383,6 +12415,15 @@ msgstr ""
 #: lang/json/ARMOR_from_json.py
 #, no-python-format
 msgid "You stash your %s."
+msgstr ""
+
+#. ~ Use action holster_prompt for ammo satchel.
+#. ~ Use action holster_prompt for chest ammo pouch.
+#. ~ Use action holster_prompt for chest rig.
+#. ~ Use action holster_prompt for ankle ammo pouch.
+#. ~ Use action holster_prompt for leg ammo pouch.
+#: lang/json/ARMOR_from_json.py
+msgid "Stash ammo"
 msgstr ""
 
 #. ~ Description for ammo satchel
@@ -12871,85 +12912,110 @@ msgid ""
 msgstr ""
 
 #: lang/json/ARMOR_from_json.py
-msgid "space marine armor"
-msgid_plural "space marine armors"
+msgid "PRM marine armor"
+msgid_plural "PRM marine armors"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Description for space marine armor
+#. ~ Description for PRM marine armor
 #: lang/json/ARMOR_from_json.py
 msgid ""
-"A green piece of armor, made from microlayered polymer plastic and tapering "
-"off into a thin, flexible filament at the shoulder, collarbone, and "
-"stomach.  Offers decent protection from flame and acid, and features various "
-"straps and pockets for holstering guns and holding stims and ammo."
+"A green piece of the PRM Corperation Marine Corp, made from microlayered "
+"polymer plastic and tapering off into a thin, flexible filiment at the "
+"shoulder, collarbone, and stomach.  Offers decent protection from flame and "
+"acid, and features various straps and pockets for holstering guns and "
+"holding stims and ammo."
 msgstr ""
 
 #: lang/json/ARMOR_from_json.py
-msgid "space marine helmet"
-msgid_plural "space marine helmets"
+msgid "PRM marine helmet"
+msgid_plural "PRM marine helmets"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Description for space marine helmet
+#. ~ Description for PRM marine helmet
 #: lang/json/ARMOR_from_json.py
 msgid ""
 "A heavy helmet with a tinted visor and sturdy, reinforced electronic "
-"wiring.  A simple filter is fixed onto either side."
+"wiring.  A simple filter is fixed onto either side, and an atomic power unit "
+"ensures that as long as its in one general piece its basic HUD will function."
 msgstr ""
 
 #: lang/json/ARMOR_from_json.py
-msgid "space marine leggings"
-msgid_plural "space marine leggings"
+msgid "PRM marine leggings"
+msgid_plural "PRM marine leggings"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Description for space marine leggings
+#. ~ Description for PRM marine leggings
 #: lang/json/ARMOR_from_json.py
 msgid ""
-"Thick and somewhat oppressive leggings to protect space marines from energy-"
-"fire.  Although it has no pockets it does have slots along its length to "
-"carry small items more easily, and really shapes the thighs!"
+"Thick and somewhat oppressive leggings to protect PRM marines from "
+"enviornmental hazards.  Although it has no pockets it does have slots along "
+"its length to carry small items more easily, and really shapes the thighs!"
 msgstr ""
 
 #: lang/json/ARMOR_from_json.py
-msgid "space marine boots"
-msgid_plural "space marine boots"
+msgid "PRM marine boots"
+msgid_plural "PRM marine boots"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Description for space marine boots
+#. ~ Description for PRM marine boots
 #: lang/json/ARMOR_from_json.py
 msgid ""
-"Lovingly referred to as `shitstompers`, these polyplastic boots reach up to "
+"Lovingly refered to as 'shitstompers', these polyplastic boots reach up to "
 "the knee, where they are sealed with a large strap.  They can be very hard "
-"to even walk around in untrained, especially if they are improperly fitted."
+"to even walk around in untrained, especially if they are imporperly fitted."
 msgstr ""
 
 #: lang/json/ARMOR_from_json.py
-msgid "space marine gloves"
-msgid_plural "space marine gloves"
+msgid "PRM marine gloves"
+msgid_plural "PRM marine gloves"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Description for space marine gloves
+#. ~ Description for PRM marine gloves
 #: lang/json/ARMOR_from_json.py
 msgid ""
-"A pair of black gloves, stretched tight against the skin so as not to "
-"interfere with dexterous tasks."
+"A pair of black gloves emblazoned with the PRM logo, stretched tight against "
+"the skin so as not to interfere with dexterous tasks."
 msgstr ""
 
 #: lang/json/ARMOR_from_json.py
-msgid "space marine sleeves"
-msgid_plural "space marine sleeves"
+msgid "PRM marine sleeves"
+msgid_plural "PRM marine sleeves"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Description for space marine sleeves
+#. ~ Description for PRM marine sleeves
 #: lang/json/ARMOR_from_json.py
 msgid ""
-"Space sleeves that keep the arms covered during cold conditions.  Can also "
+"PRM sleeves that keep the arms covered during cold conditions.  Can also "
 "protect from flame, with some discomfort."
+msgstr ""
+
+#: lang/json/ARMOR_from_json.py
+msgid "megabear skull helmet"
+msgid_plural "megabear skull helmets"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for megabear skull helmet
+#: lang/json/ARMOR_from_json.py
+msgid ""
+"A elegantly shaped elephant bear helmet, taken from a young adult and "
+"fashioned into a helmet that covers the eyes and head.  Leaves the mouth "
+"free for a filter mask, and looks much more ceremonial than a makeshift bone "
+"helmet."
+msgstr ""
+
+#. ~ Description for diver's watch
+#: lang/json/ARMOR_from_json.py
+msgid ""
+"A waterpr1of, self-winding watch on a steel watchband.  Tells the time and "
+"current temperature and is impervious to water.  Activate to check the "
+"digital thermometer."
 msgstr ""
 
 #: lang/json/BIONIC_ITEM_from_json.py
@@ -13105,7 +13171,7 @@ msgstr[1] ""
 #. ~ Description for Fusion Blaster Arm CBM
 #: lang/json/BIONIC_ITEM_from_json.py
 msgid ""
-"Your left arm has been replaced by a heavy-duty fusion blaster! You may use "
+"Your left arm has been replaced by a heavy-duty fusion blaster!  You may use "
 "your energy banks to fire a damaging heat ray; however, you are unable to "
 "use or carry two-handed items, and may only fire handguns."
 msgstr ""
@@ -14872,7 +14938,7 @@ msgstr[1] ""
 #. ~ Description for Archery for Kids
 #: lang/json/BOOK_from_json.py
 msgid ""
-"Will you be able to place the arrow right into the bullseye? It is not that "
+"Will you be able to place the arrow right into the bullseye?  It is not that "
 "easy, but once you know how it's done, you will have a lot of fun with "
 "archery."
 msgstr ""
@@ -25996,6 +26062,39 @@ msgid ""
 "see this? We will not permit you to join us while we are modded out."
 msgstr ""
 
+#. ~ Description for fluid sac
+#: lang/json/COMESTIBLE_from_json.py
+msgid ""
+"A fluid bladder from a plant based lifeform.  Not very nutritious, and may "
+"play host to microscopic germs."
+msgstr ""
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "empty fluid sac"
+msgid_plural "empty fluid sacs"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for empty fluid sac
+#: lang/json/COMESTIBLE_from_json.py
+msgid ""
+"An empty fluid bladder.  Not very tasty, nutritious, or filling, but perhaps "
+"useful as kindling or in making a pouch."
+msgstr ""
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "juvenille megabear head"
+msgid_plural "juvenille megabear heads"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for juvenille megabear head
+#: lang/json/COMESTIBLE_from_json.py
+msgid ""
+"An uncleaned elephant bear head.  It could be crafted into a snug bone "
+"helmet with some skill and patience, and eaten in times of desperation."
+msgstr ""
+
 #: lang/json/COMESTIBLE_from_json.py
 msgid "arachnotron flesh"
 msgid_plural "arachnotron fleshs"
@@ -26074,6 +26173,20 @@ msgid ""
 msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
+msgid "mixed royal jelly"
+msgid_plural "mixed royal jellies"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for mixed royal jelly
+#: lang/json/COMESTIBLE_from_json.py
+msgid ""
+"A milky colored, sweet smelling jelly, mixed with some triffid sap to spread "
+"the alchemical properties of the jelly further.  While not useful for "
+"further crafting or cooking it can be used to heal afflictions."
+msgstr ""
+
+#: lang/json/COMESTIBLE_from_json.py
 msgid "medikit"
 msgid_plural "medikits"
 msgstr[0] ""
@@ -26100,6 +26213,33 @@ msgid ""
 "down hard but provides a noticeable endurance boost for hardcore athletes "
 "and demanding soldiers alike.  Like most PRM products it is designed for "
 "short-term use only, and may upset the body's balance."
+msgstr ""
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "triffid antidote"
+msgid_plural "triffid antidotes"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for triffid antidote
+#: lang/json/COMESTIBLE_from_json.py
+msgid ""
+"A handmade brew to ward off basic poisons.  Works on a wide variety of known "
+"poisons, but may not be up to the task of the nastier venoms.  Cures and "
+"blocks biological poisons."
+msgstr ""
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "triffid neutralizer"
+msgid_plural "triffid neutralizers"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for triffid neutralizer
+#: lang/json/COMESTIBLE_from_json.py
+msgid ""
+"A concentrated medical brew to neutralize most known toxins and flush them "
+"out of the system.  Unlike royal jelly, it blocks future attacks for a time."
 msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
@@ -26754,20 +26894,32 @@ msgid ""
 "or pitch.  Holds 1.5 liters and has a simple carry strap."
 msgstr ""
 
-#: lang/json/CONTAINER_from_json.py lang/json/vehicle_part_from_json.py
-msgid "blob core"
-msgid_plural "blob cores"
+#: lang/json/CONTAINER_from_json.py
+msgid "gelatinous tank"
+msgid_plural "gelatinous tanks"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Description for blob core
+#. ~ Description for gelatinous tank
+#. ~ Description for gray tank
+#. ~ Description for oozing tank
 #: lang/json/CONTAINER_from_json.py
 msgid ""
-"A large container previously filled with some horrendously smelling liquid "
-"and now infested with an equally horrendously smelling unknown substance "
-"that seems to have permeated into the it.  Occasionally the container gives "
-"a shake, as if alive."
+"While the blob is very eager to be fed, it's not as enthusiastic about "
+"giving up liquids.  A few alterations are necessary."
 msgstr ""
+
+#: lang/json/CONTAINER_from_json.py
+msgid "gray tank"
+msgid_plural "gray tanks"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/CONTAINER_from_json.py
+msgid "oozing tank"
+msgid_plural "oozing tanks"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/CONTAINER_from_json.py lang/json/vehicle_part_from_json.py
 msgid "vortex engine"
@@ -26778,13 +26930,13 @@ msgstr[1] ""
 #. ~ Description for vortex engine
 #: lang/json/CONTAINER_from_json.py
 msgid ""
-"A tornado in a box, so to speak.  Inside this innocuous tank contains either "
+"A tornado in a box, so to speak. Inside this innocuous tank contains either "
 "the culmination of human innovation in clean energy, or a weapon of mass "
 "destruction capable of wiping civilization - or what's left of it - off the "
-"map.  An external mechanism allows it to be attached to a vehicle to render "
-"it mobile.  To activate, install it on a vehicle, insert the vortex core, "
-"and activate.  The core must be removed from the machinery before "
-"installation, due to its sensitivity."
+"map. An external mechanism allows it to be attached to a vehicle to render "
+"it mobile. To activate, install it on a vehicle, insert the vortex core, and "
+"activate. The core must be removed from the machinery before installation, "
+"due to its sensitivity."
 msgstr ""
 
 #: lang/json/CONTAINER_from_json.py lang/json/vehicle_part_from_json.py
@@ -26796,13 +26948,13 @@ msgstr[1] ""
 #. ~ Description for vortex generator
 #: lang/json/CONTAINER_from_json.py
 msgid ""
-"A tornado in a box, so to speak.  Inside this innocuous tank contains either "
+"A tornado in a box, so to speak. Inside this innocuous tank contains either "
 "the culmination of human innovation in clean energy, or a weapon of mass "
 "destruction capable of wiping civilization - or what's left of it - off the "
-"map.  An external mechanism allow it to be hooked up to a battery to store "
-"the power generated.  To activate, install it on a vehicle, insert the "
-"vortex core, and activate.  The core must be removed from the machinery "
-"before installation, due to its sensitivity."
+"map. An external mechanism allow it to be hooked up to a battery to store "
+"the power generated. To activate, install it on a vehicle, insert the vortex "
+"core, and activate. The core must be removed from the machinery before "
+"installation, due to its sensitivity."
 msgstr ""
 
 #: lang/json/ENGINE_from_json.py
@@ -26817,7 +26969,7 @@ msgstr ""
 msgid "base gasoline engine"
 msgstr ""
 
-#: lang/json/ENGINE_from_json.py lang/json/vehicle_part_from_json.py
+#: lang/json/ENGINE_from_json.py
 #: lang/json/vehicle_part_from_json.py
 msgid "1-cylinder engine"
 msgstr ""
@@ -26908,19 +27060,6 @@ msgstr ""
 msgid ""
 "A massive and extremely powerful V12 engine, usually built into high end "
 "sports cars."
-msgstr ""
-
-#: lang/json/ENGINE_from_json.py lang/json/vehicle_part_from_json.py
-msgid "blob grinder"
-msgstr ""
-
-#. ~ Description for blob grinder
-#: lang/json/ENGINE_from_json.py
-msgid ""
-"A spherical blob the size of a large truck tire.  The outer layer has "
-"compacted itself into a solid shell; offering great resilience.  It rolls "
-"around in its harness, crushing anything unfortunate enough to be nearby.  "
-"It seems you can lead its movements by baiting it with a trickle of food."
 msgstr ""
 
 #: lang/json/GENERIC_from_json.py
@@ -29402,6 +29541,13 @@ msgstr[1] ""
 msgid "A dull knife, absolutely worthless in combat."
 msgstr ""
 
+#. ~ Description for rock
+#: lang/json/GENERIC_from_json.py
+msgid ""
+"A rock the size of a baseball.  Makes a decent melee weapon, and is also "
+"good for throwing at enemies."
+msgstr ""
+
 #: lang/json/GENERIC_from_json.py
 msgid "sharp rock"
 msgid_plural "sharp rocks"
@@ -30026,7 +30172,7 @@ msgstr[1] ""
 #: lang/json/GENERIC_from_json.py
 msgid ""
 "A double edged dagger made to be gripped in the palm, with the blade "
-"protruding between the fingers. The blade has been coated with diamond-like "
+"protruding between the fingers.  The blade has been coated with diamond-like "
 "carbon and holds a wickedly sharp edge."
 msgstr ""
 
@@ -30899,7 +31045,7 @@ msgstr[1] ""
 #: lang/json/GENERIC_from_json.py
 msgid ""
 "Never sacrifice taste for convenience, when you can have both with the "
-"Rivtech atomic coffee maker! Its simple and robust atomic-age construction "
+"Rivtech atomic coffee maker!  Its simple and robust atomic-age construction "
 "guarantees a service life of at least 160 million years."
 msgstr ""
 
@@ -33002,6 +33148,32 @@ msgid ""
 msgstr ""
 
 #: lang/json/GENERIC_from_json.py
+msgid "picked megabear skull"
+msgid_plural "picked megabear skulls"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for picked megabear skull
+#: lang/json/GENERIC_from_json.py
+msgid ""
+"The remains of an elephant bear head.  Something was eating at it, but "
+"scraps of stubborn sinew do remain."
+msgstr ""
+
+#: lang/json/GENERIC_from_json.py
+msgid "juvenille megabear skull"
+msgid_plural "juvenille megabear skulls"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for juvenille megabear skull
+#: lang/json/GENERIC_from_json.py
+msgid ""
+"The cleaned skull of a juvenille elephant bear.  The perfect size for a "
+"helmet, with a little work."
+msgstr ""
+
+#: lang/json/GENERIC_from_json.py
 msgid "destroyed arachnotron"
 msgid_plural "destroyed arachnotrons"
 msgstr[0] ""
@@ -33063,6 +33235,19 @@ msgid ""
 msgstr ""
 
 #: lang/json/GENERIC_from_json.py
+msgid "broken firebomb hack"
+msgid_plural "broken firebomb hacks"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for broken firebomb hack
+#: lang/json/GENERIC_from_json.py
+msgid ""
+"A broken firebomb hack.  Much less threatening now that it lies quiet on "
+"solid ground.  Could be gutted for parts."
+msgstr ""
+
+#: lang/json/GENERIC_from_json.py
 msgid "broken acidbomb hack"
 msgid_plural "broken acidbomb hacks"
 msgstr[0] ""
@@ -33073,139 +33258,6 @@ msgstr[1] ""
 msgid ""
 "A broken acidbomb hack.  Much less threatening now that it lies quiet on "
 "solid ground.  Could be gutted for parts."
-msgstr ""
-
-#: lang/json/GENERIC_from_json.py lang/json/vehicle_part_from_json.py
-msgid "blob frame"
-msgid_plural "blob frames"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for blob frame
-#: lang/json/GENERIC_from_json.py
-msgid ""
-"A vehicle frame made of bone.  It's coated in a thick layer of ooze, "
-"particularly at the bindings that hold it together.  Allowing a significant "
-"amount of flexibility; yet retaining strength.  It seems to stick to "
-"anything it touches if left for enough but loosens at your touch."
-msgstr ""
-
-#: lang/json/GENERIC_from_json.py lang/json/vehicle_part_from_json.py
-msgid "blob plating"
-msgid_plural "blob platings"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for blob plating
-#: lang/json/GENERIC_from_json.py
-msgid ""
-"A \"blanket\" made of layers of padding and blob supported by a loose "
-"framework of bone.  Made to absorb impacts rather than withstand them.  It "
-"appears to cling to the spot if left in place for too long, but loosens at "
-"your touch."
-msgstr ""
-
-#: lang/json/GENERIC_from_json.py lang/json/vehicle_part_from_json.py
-msgid "blob seat"
-msgid_plural "blob seats"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for blob seat
-#: lang/json/GENERIC_from_json.py
-msgid ""
-"A... seat made of goo with a framework of bone.  Sitting in it makes the goo "
-"engulf parts of your body.  It feels a bit like a waterbed.  Or a giant "
-"stomach."
-msgstr ""
-
-#: lang/json/GENERIC_from_json.py lang/json/vehicle_part_from_json.py
-msgid "blob harness"
-msgid_plural "blob harnesss"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for blob harness
-#: lang/json/GENERIC_from_json.py
-msgid ""
-"What appears to be some form of harness made of goo with a loose framework "
-"of bone.  It's quite sticky, but you can pull yourself away with some "
-"effort.  In theory, it should keep you in place even in the hardest of "
-"impacts.  The tradeoff being the feeling of being in a giant stomach."
-msgstr ""
-
-#: lang/json/GENERIC_from_json.py
-#: lang/json/GENERIC_from_json.py lang/json/vehicle_part_from_json.py
-#: lang/json/vehicle_part_from_json.py
-msgid "vehicle anomaly"
-msgid_plural "vehicle anomalys"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for vehicle anomaly
-#: lang/json/GENERIC_from_json.py
-msgid ""
-"This... thing was once mounted on your vehicle as a... You can't exactly "
-"remember.  It's as if all traces of whatever it was had been removed from "
-"existence entirely.  There seems to be something inside it, perhaps if you "
-"deconstruct it..."
-msgstr ""
-
-#: lang/json/GENERIC_from_json.py
-msgid "fire control system"
-msgid_plural "fire control systems"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for fire control system
-#: lang/json/GENERIC_from_json.py
-msgid ""
-"A small computer core that holds an adaptable program to target and operate "
-"mounted weapon systems."
-msgstr ""
-
-#: lang/json/GENERIC_from_json.py
-msgid "turret engine"
-msgid_plural "turret engines"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for turret engine
-#: lang/json/GENERIC_from_json.py
-msgid ""
-"An engine and power system made to align with an existing turret chassis.  "
-"However, it needs to be adapted to whatever weapon it's running before it "
-"can be used."
-msgstr ""
-
-#: lang/json/GENERIC_from_json.py
-msgid "large turret engine"
-msgid_plural "large turret engines"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for large turret engine
-#: lang/json/GENERIC_from_json.py
-msgid ""
-"A large engine and power system made to align with an existing turret "
-"chassis.  However, it needs to be adapted to whatever weapon it's running "
-"before it can be used."
-msgstr ""
-
-#: lang/json/GENERIC_from_json.py
-msgid "turret frame"
-msgid_plural "turret frames"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for turret frame
-#: lang/json/GENERIC_from_json.py
-msgid ""
-"A frame capable of rotating a full 360 degrees, capable of mounting multiple "
-"weapon systems either welded directly onto it or secured via the straps.  It "
-"comes with a easily modified container for ammunition storage, a rudimentary "
-"ammo feed system for easy access, and a section for a movement system.  It "
-"also folds for easier storage."
 msgstr ""
 
 #: lang/json/GENERIC_from_json.py
@@ -33219,6 +33271,36 @@ msgstr[1] ""
 msgid ""
 "Interlocked sections of rebar that allows for light and effective "
 "reinforcement of vehicle sections."
+msgstr ""
+
+#: lang/json/GENERIC_from_json.py lang/json/vehicle_part_from_json.py
+msgid "solar array"
+msgid_plural "solar arrays"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for solar array
+#: lang/json/GENERIC_from_json.py
+msgid ""
+"A dozen solar panels set on a chassis reaching several meters high.  It "
+"keeps the fragile panels safely away from any potential threats and improves "
+"efficiency due to being able track the sun.  However, this comes at the cost "
+"of being prohibitively heavy."
+msgstr ""
+
+#: lang/json/GENERIC_from_json.py lang/json/vehicle_part_from_json.py
+msgid "upgraded solar array"
+msgid_plural "upgraded solar arrays"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for upgraded solar array
+#: lang/json/GENERIC_from_json.py
+msgid ""
+"A dozen upgraded solar panels set on a chassis reaching several meters "
+"high.  It keeps the fragile panels safely away from any potential threats "
+"and improves efficiency due to being able to track the sun.  However, this "
+"comes at the cost of being prohibitively heavy and obstructive."
 msgstr ""
 
 #: lang/json/GENERIC_from_json.py lang/json/vehicle_part_from_json.py
@@ -33249,6 +33331,50 @@ msgid ""
 "rapidly; anything in front of it is likely to be ripped to shreds.  It is "
 "sturdy enough to withstand multiple impacts, and is designed to detach if it "
 "would take a hit that would break it."
+msgstr ""
+
+#: lang/json/GENERIC_from_json.py lang/json/vehicle_part_from_json.py
+msgid "turret chassis"
+msgid_plural "turret chassiss"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for turret chassis
+#: lang/json/GENERIC_from_json.py
+msgid ""
+"A frame capable of rotating a full 360 degrees, capable of mounting multiple "
+"weapon systems either welded directly onto it or secured via the straps.  It "
+"comes with a easily modified container for ammunition storage, a rudimentary "
+"ammo feed system for easy access, and a section for a movement system.  It "
+"is controlled by a targeting AI that can adapt to the usage of whatever "
+"weapon that has been loading, with proper programming."
+msgstr ""
+
+#: lang/json/GENERIC_from_json.py lang/json/vehicle_part_from_json.py
+#: lang/json/vehicle_part_from_json.py
+msgid "diamond frame"
+msgid_plural "diamond frames"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for diamond frame
+#: lang/json/GENERIC_from_json.py
+msgid ""
+"A brilliantly sparkling diamond vehicle frame.  Incredibly strong for its "
+"weight."
+msgstr ""
+
+#: lang/json/GENERIC_from_json.py lang/json/vehicle_part_from_json.py
+msgid "diamond plating"
+msgid_plural "diamond platings"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for diamond plating
+#: lang/json/GENERIC_from_json.py
+msgid ""
+"A piece of armor plating made of clear diamond.  Incredibly strong for its "
+"weight."
 msgstr ""
 
 #: lang/json/GENERIC_from_json.py
@@ -34870,6 +34996,7 @@ msgid ""
 msgstr ""
 
 #: lang/json/GUN_from_json.py lang/json/vehicle_part_from_json.py
+#: lang/json/vehicle_part_from_json.py
 msgid "water cannon"
 msgid_plural "water cannons"
 msgstr[0] ""
@@ -36950,7 +37077,7 @@ msgid ""
 "of 'em and rewards the skilled shooter with easily-crafted ammunition."
 msgstr ""
 
-#: lang/json/GUN_from_json.py lang/json/vehicle_part_from_json.py
+#: lang/json/GUN_from_json.py
 msgid "flamethrower"
 msgid_plural "flamethrowers"
 msgstr[0] ""
@@ -38058,7 +38185,7 @@ msgstr[1] ""
 #: lang/json/GUN_from_json.py
 msgid ""
 "A powerful electrolaser developed by paramilitary R&D not long before the "
-"cataclysm. Especially effective against electronic targets. It charges off "
+"cataclysm.  Especially effective against electronic targets.  It charges off "
 "of UPS power stations."
 msgstr ""
 
@@ -38084,9 +38211,9 @@ msgstr[1] ""
 #. ~ Description for laser rifle
 #: lang/json/GUN_from_json.py
 msgid ""
-"A state of the art laser rifle which runs on UPS power. It was developed by "
-"paramilitary R&D shortly before the cataclysm. Initial performance rivaled "
-"the most advanced ballistic weapons of the day. Though the cataclysm put "
+"A state of the art laser rifle which runs on UPS power.  It was developed by "
+"paramilitary R&D shortly before the cataclysm.  Initial performance rivaled "
+"the most advanced ballistic weapons of the day.  Though the cataclysm put "
 "that on the ash heap of history, this weapon can still do the same to your "
 "foes."
 msgstr ""
@@ -38101,7 +38228,7 @@ msgstr[1] ""
 #: lang/json/GUN_from_json.py
 msgid ""
 "This pistol is larger than most traditional handguns, but displays no recoil "
-"whatsoever. It runs efficiently on UPS power."
+"whatsoever.  It runs efficiently on UPS power."
 msgstr ""
 
 #: lang/json/GUN_from_json.py
@@ -38134,8 +38261,8 @@ msgstr[1] ""
 msgid ""
 "Developed by a cutting edge weapons research team together with DARPA, this "
 "UPS-powerd energy weapon heats hydrogen to create plasma and envelopes it "
-"with polymers to reduce blooming. While powerful, it suffers from short "
-"range. It accepts hydrogen canisters as ammunition."
+"with polymers to reduce blooming.  While powerful, it suffers from short "
+"range.  It accepts hydrogen canisters as ammunition."
 msgstr ""
 
 #: lang/json/GUN_from_json.py
@@ -38147,7 +38274,7 @@ msgstr[1] ""
 #. ~ Description for magnum pistol
 #: lang/json/GUN_from_json.py
 msgid ""
-"A powerful semi-automatic pistol which fires revolver rounds. Loads a "
+"A powerful semi-automatic pistol which fires revolver rounds.  Loads a "
 "detachable, 7-round magazine."
 msgstr ""
 
@@ -38410,684 +38537,372 @@ msgid ""
 msgstr ""
 
 #: lang/json/GUN_from_json.py lang/json/vehicle_part_from_json.py
-msgid "NX-17 pulse turret"
-msgid_plural "NX-17 pulse turrets"
+msgid "biting blob"
+msgid_plural "biting blobs"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Description for NX-17 pulse turret
+#. ~ Description for biting blob
 #: lang/json/GUN_from_json.py
 msgid ""
-"A powerful energy rifle, the addition of a capacitor allows the weapon to "
-"fire in controlled bursts.  The increased power requirements require a "
-"significant power source and the firing mechanism also requires a "
-"specialized chassis.  Comes with a motor and fire control system for "
-"autonomous operation."
-msgstr ""
-
-#: lang/json/GUN_from_json.py
-msgid "tesla cannon turret"
-msgid_plural "tesla cannon turrets"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for tesla cannon turret
-#: lang/json/GUN_from_json.py
-msgid ""
-"This alteration of the Chain Lightning bionic fires artificial lightning "
-"bolts that arc to nearby enemies.  It must be attached to a large power "
-"source, but it allows for much more powerful bolts.  Comes with a motor and "
-"fire control system for autonomous operation."
+"A living blob turned into an autonomous weapon; meant to be stretched across "
+"a frame as a form of barrier.  It has evolved the ability to constantly "
+"generate calcified protrusions which are then controlled by sinous tensile "
+"strands.  These \"teeth\" can then be used to latch and wound anything "
+"unfortunate enough to be nearby.  The outer membrane has also become "
+"significantly thicker in order to support its more strenuous movement; "
+"though it seems pliable enough to pull apart..."
 msgstr ""
 
 #: lang/json/GUN_from_json.py lang/json/vehicle_part_from_json.py
-msgid "laser cannon turret"
-msgid_plural "laser cannon turrets"
+msgid "gel shooter"
+msgid_plural "gel shooters"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Description for laser cannon turret
+#. ~ Description for gel shooter
 #: lang/json/GUN_from_json.py
 msgid ""
-"This mounted laser may lack the damage capabilities of conventional heavy "
-"weapons, but it's a scientifically proven fact that traveling at the speed "
-"of light does wonders for one's overall deadliness.  The increased power "
-"requirements require a significant power source and the firing mechanism "
-"also requires a specialized chassis.  Comes with a motor and fire control "
-"system for autonomous operation."
-msgstr ""
-
-#: lang/json/GUN_from_json.py
-msgid "turbolaser cannon turret"
-msgid_plural "turbolaser cannon turrets"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for turbolaser cannon turret
-#: lang/json/GUN_from_json.py
-msgid ""
-"With an augmented emitter and capacitor, this mounted laser is capable of "
-"superheating most materials to the point of exploding.  The firing mechanism "
-"also requires the services of a specialized chassis, and one must be wary of "
-"the prodigious power needs of such a weapon.  Comes with a motor and fire "
-"control system for autonomous operation."
+"A living blob turned into an autonomous weapon.  It trawls the ground for "
+"material, which it then strips of nutrition.  The remainder is then expelled "
+"out at significant velocity towards any nearby threats.  The amorphous mass "
+"can be shaped and attached at your touch, but the weapon itself is inert "
+"without something to control it.  It seems pliable enough to pull apart..."
 msgstr ""
 
 #: lang/json/GUN_from_json.py lang/json/vehicle_part_from_json.py
-msgid "pulse laser turret"
-msgid_plural "pulse laser turrets"
+msgid "frost lancer"
+msgid_plural "frost lancers"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Description for pulse laser turret
+#. ~ Description for frost lancer
 #: lang/json/GUN_from_json.py
 msgid ""
-"Although this laser weapon has rather low damage capability, it is capable "
-"of firing in rapid bursts.  The increased power requirements require a "
-"significant power source and the firing mechanism also requires a "
-"specialized chassis.  Comes with a motor and fire control system for "
-"autonomous operation."
+"A living blob turned into an autonomous weapon.  A biological abberration "
+"that exists at sub-zero temperatures.  After filtering nutrients from the "
+"water, it freezes the remainder into an incredibly sharp spear of ice; which "
+"it then launches at nearby threats.  The amorphous mass can be shaped and "
+"attached at your touch, but the weapon itself is inert without something to "
+"control it."
 msgstr ""
 
 #: lang/json/GUN_from_json.py lang/json/vehicle_part_from_json.py
-msgid "needler turret"
-msgid_plural "needler turrets"
+msgid "snapping ooze"
+msgid_plural "snapping oozes"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Description for needler turret
+#. ~ Description for snapping ooze
 #: lang/json/GUN_from_json.py
 msgid ""
-"This improved nailgun features a special firing mechanism that is set to "
-"fire a spread of up to 5 nails at once; sure to drop the hammer on its "
-"unfortunate targets.  However, these features render it incredibly "
-"unwieldly, and it must be mounted on a turret chassis in order to be fired.  "
-"Comes with a motor and fire control system for autonomous operation."
+"A living blob turned into an autonomous weapon.  A baffling mutation in an "
+"already baffling creature, this blob is encased in a thick coat of fur, "
+"which serves as a form of protection.  In addition, it is capable of "
+"projecting rows of calcified sharp fragments in a manner mimicing the jaw of "
+"a more recognizable creature.  The amorphous mass can be shaped and attached "
+"at your touch, but the weapon itself is inert without something to control "
+"it."
 msgstr ""
 
 #: lang/json/GUN_from_json.py lang/json/vehicle_part_from_json.py
-msgid "9mm SMG turret"
-msgid_plural "9mm SMG turrets"
+msgid "blobsaw"
+msgid_plural "blobsaws"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Description for 9mm SMG turret
+#. ~ Description for blobsaw
 #: lang/json/GUN_from_json.py
 msgid ""
-"A mounted submachine gun with an automated feeding, targeting, and firing "
-"system; fitted specifically for the standard 9mm caliber.  However, these "
-"additions render it incredibly unwieldly, requiring the services of a "
-"specialized turret chassis in order to be used."
+"A living blob turned into an autonomous weapon; meant to be stretched across "
+"a frame as a form of barrier.  While its simpler cousins have a limit to the "
+"number of keratinous protrusions they can project and control; this blob can "
+"utilize hundreds of these sharp fangs to shred anything it detects as a "
+"threat into unrecognizable ribbons.  The amorphous mass can be shaped and "
+"attached at your touch, but the weapon itself is inert without something to "
+"control it."
 msgstr ""
 
 #: lang/json/GUN_from_json.py lang/json/vehicle_part_from_json.py
-msgid ".45 SMG turret"
-msgid_plural ".45 SMG turrets"
+msgid "fuel puffer"
+msgid_plural "fuel puffers"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Description for .45 SMG turret
+#. ~ Description for fuel puffer
 #: lang/json/GUN_from_json.py
 msgid ""
-"A mounted submachine gun with an automated feeding, targeting, and firing "
-"system; fitted specifically for the more powerful .45 caliber.  However, "
-"these additions render it incredibly unwieldly, requiring the services of a "
-"specialized turret chassis in order to be used."
+"A living blob turned into an autonomous weapon.  A rather picky eater, it "
+"feeds on chemicals found within gasoline.  The digestion process turns the "
+"result incredibly viscous which, when threats come near, is launched; "
+"ensnaring anything it hits.  The amorphous mass can be shaped and attached "
+"at your touch, but the weapon itself is inert without something to control "
+"it."
 msgstr ""
 
 #: lang/json/GUN_from_json.py lang/json/vehicle_part_from_json.py
-msgid ".22 SMG turret"
-msgid_plural ".22 SMG turrets"
+msgid "acid puffer"
+msgid_plural "acid puffers"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Description for .22 SMG turret
+#. ~ Description for acid puffer
 #: lang/json/GUN_from_json.py
 msgid ""
-"A mounted submachine gun with an automated feeding, targeting, and firing "
-"system; fitted specifically for the smaller .22 caliber.  However, these "
-"additions render it incredibly unwieldly, requiring the services of a "
-"specialized turret chassis in order to be used."
+"A living blob turned into an autonomous weapon.  A filter feeder, the "
+"digestion process produces highly acidic byproducts; which is then expelled "
+"at any nearby enemies.  The amorphous mass can be shaped and attached at "
+"your touch, but the weapon itself is inert without something to control it."
 msgstr ""
 
 #: lang/json/GUN_from_json.py
-msgid "rifle turret"
-msgid_plural "rifle turrets"
+msgid "amorphous heart"
+msgid_plural "amorphous hearts"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Description for rifle turret
+#. ~ Description for amorphous heart
 #: lang/json/GUN_from_json.py
 msgid ""
-"A .223 rifle with an automated feeding, targeting, and firing system.  It "
-"needs to be mounted on a turret chassis in order to be activated."
-msgstr ""
-
-#: lang/json/GUN_from_json.py lang/json/vehicle_part_from_json.py
-msgid "AP rifle turret"
-msgid_plural "AP rifle turrets"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for AP rifle turret
-#: lang/json/GUN_from_json.py
-msgid ""
-"This reinforced turret frame mounts a powerful 50 caliber weapon.  Though "
-"capable of acquiring and tracking potential targets at long range; it will "
-"not exceed its range-limiter without external input."
+"This amorphous mass seems to have finished developing; its advanced internal "
+"structures testifying to that.  It is capable of locomotion through internal "
+"hydraulic pressure, capable of moving substantial loads, and, in an "
+"astounding display of intelligence, is capable of manipulating anything it's "
+"attached to, whether blob-based or otherwise, through extended pseudopods.  "
+"You think you might be able to manipulate it, and through it, all its "
+"attached parts.  Though to do so you'll have to position yourself to be in "
+"contact with it; and it appears unnervingly willing to accomodate you..."
 msgstr ""
 
 #: lang/json/GUN_from_json.py lang/json/vehicle_part_from_json.py
-msgid "scorpion turret"
-msgid_plural "scorpion turrets"
+msgid "gel spiker"
+msgid_plural "gel spikers"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Description for scorpion turret
+#. ~ Description for gel spiker
 #: lang/json/GUN_from_json.py
 msgid ""
-"This massive crossbow is mounted on a rotating frame.  It's far too massive "
-"to be used on foot, and thus needs to be mounted on a vehicle turret chassis "
-"in order to be operated.  Comes with a motor and fire control system for "
-"autonomous operation."
-msgstr ""
-
-#: lang/json/GUN_from_json.py
-msgid "rotary speargun turret"
-msgid_plural "rotary speargun turrets"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for rotary speargun turret
-#: lang/json/GUN_from_json.py
-msgid ""
-"This mounted pneumatic speargun features a revolving barrel behind its "
-"launcher; an automated loading and targeting system allows for repeated "
-"volleys to be fired without an operator, but requires an external support "
-"measure.  "
+"A living blob turned into an autonomous weapon.  Capable of calcifying large "
+"numbers of fang-like fragments within itself.  It hurls groups of these "
+"fragments along with a small portion of itself.  When it reaches its "
+"destination, the detached remains shoot these fragments in all directions, "
+"expiring in the process.  The amorphous mass can be shaped and attached at "
+"your touch, but the weapon itself is inert without something to control it."
 msgstr ""
 
 #: lang/json/GUN_from_json.py lang/json/vehicle_part_from_json.py
-msgid "slingshot cannon turret"
-msgid_plural "slingshot cannon turrets"
+msgid "gel lancer"
+msgid_plural "gel lancers"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Description for slingshot cannon turret
+#. ~ Description for gel lancer
 #: lang/json/GUN_from_json.py
 msgid ""
-"Essentially several long drawstrings held by two long, reinforced rails and "
-"an automated mechanism attached to aim, draw, and fire it.  It's deceptively "
-"powerful and surprisingly accurate, but far too large to be used without "
-"some sort of stable platform."
+"A living blob turned into an autonomous weapon.  Evolving incredible "
+"abilities of perception, it is capable of locating and discerning possible "
+"threats within a large radius.  When a potential threat is located, it fires "
+"a small, calcified projectile with incredible speed and accuracy.  The "
+"amorphous mass can be shaped and attached at your touch, but the weapon "
+"itself is inert without something to control it."
 msgstr ""
 
 #: lang/json/GUN_from_json.py lang/json/vehicle_part_from_json.py
-msgid "avalanche turret"
-msgid_plural "avalanche turrets"
+msgid "gel razor"
+msgid_plural "gel razors"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Description for avalanche turret
+#. ~ Description for gel razor
 #: lang/json/GUN_from_json.py
 msgid ""
-"This pneumatic assault rifle has been greatly enhanced, firing projectiles "
-"faster and with higher velocity.  Once mounted on a frame, it is capable of "
-"acquiring targets and maintaining itself with little further input.  "
-"However, these features render it incredibly unwieldly, and it must be "
-"mounted on a turret chassis in order to be fired."
+"A living blob turned into an autonomous weapon.  An enhanced metabolism "
+"allows it to calcify large. toothy discs that is then launched towards any "
+"nearby threats.  The amorphous mass can be shaped and attached at your "
+"touch, but the weapon itself is inert without something to control it."
 msgstr ""
 
 #: lang/json/GUN_from_json.py lang/json/vehicle_part_from_json.py
-msgid "rotary cannon turret"
-msgid_plural "rotary cannon turrets"
+msgid "shock bulb"
+msgid_plural "shock bulbs"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Description for rotary cannon turret
+#. ~ Description for shock bulb
 #: lang/json/GUN_from_json.py
 msgid ""
-"This fearsome weapon sports 3 barrels in a cyclic configuration.  A "
-"specialized magazine loads the otherwise troublesome rounds; allowing it to "
-"be fired in quick succession.  However, these features render it incredibly "
-"unwieldly, and it must be mounted on a turret chassis in order to be fired.  "
-"Comes with a motor and fire control system for autonomous operation."
+"A living blob turned into an autonomous weapon.  Shockingly, it somehow is "
+"able to project electricity, which it then discharges at any nearby "
+"threats.  The amorphous mass can be shaped and attached at your touch, but "
+"the weapon itself is inert without something to control it."
 msgstr ""
 
 #: lang/json/GUN_from_json.py lang/json/vehicle_part_from_json.py
-msgid "thundergun turret"
-msgid_plural "thundergun turrets"
+msgid "gel puffer"
+msgid_plural "gel puffers"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Description for thundergun turret
+#. ~ Description for gel puffer
 #: lang/json/GUN_from_json.py
 msgid ""
-"Essentially an upsized shotgun, this explosive hazard will practically "
-"vaporize anything it's set against.  However, the limited range will also "
-"put its user at extreme risk if not managed correctly; but that's why you "
-"added a targeting system isn't it?.  You'll need some form of platform to "
-"mount this behemoth on."
+"A living blob turned into an autonomous weapon.  A filter feeder, it strips "
+"any water it processes of nutrients and expels the remainder towards any "
+"nearby threats.  The process of filter-feeding also makes the remaining "
+"liquid viscous, though it also dissipates fairly quickly.  The amorphous "
+"mass can be shaped and attached at your touch, but the weapon itself is "
+"inert without something to control it."
 msgstr ""
 
 #: lang/json/GUN_from_json.py lang/json/vehicle_part_from_json.py
-msgid "shotgun turret"
-msgid_plural "shotgun turrets"
+msgid "fire puffer"
+msgid_plural "fire puffers"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Description for shotgun turret
+#. ~ Description for fire puffer
 #: lang/json/GUN_from_json.py
 msgid ""
-"A mounted shotgun with an automated feeding, targeting, and firing system.  "
-"The targeting system has been programmed for quick acquisition of close "
-"targets in order to minimize spread and maximize damage.  It requires a "
-"turret mount in order to function."
+"A living blob turned into an autonomous weapon.  A rather picky eater, it "
+"feeds on chemicals found within gasoline.  The digested material is still "
+"highly flammable, and when launched, also activates an ignition gland "
+"located on the outer membrane.  The amorphous mass can be shaped and "
+"attached at your touch, but the weapon itself is inert without something to "
+"control it."
 msgstr ""
 
 #: lang/json/GUN_from_json.py lang/json/vehicle_part_from_json.py
-msgid "M249 turret"
-msgid_plural "M249 turrets"
+msgid "spark blight"
+msgid_plural "spark blights"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Description for M249 turret
+#. ~ Description for spark blight
 #: lang/json/GUN_from_json.py
 msgid ""
-"An M249 with an automated feeding, targeting, and firing system.  The force "
-"generated by this weapon is significant enough to require an external frame."
+"A living blob turned into an autonomous weapon.  It is capable of storing "
+"energy from sunlight inside itself in the forme of electricity.  Then, in a "
+"truly baffling show of force, projects a highly concentrated stream of "
+"electricity towards any possible threats.  The amorphous mass can be shaped "
+"and attached at your touch, but the weapon itself is inert without something "
+"to control it."
 msgstr ""
 
 #: lang/json/GUN_from_json.py lang/json/vehicle_part_from_json.py
-msgid "M2 Browning turret"
-msgid_plural "M2 Browning turrets"
+msgid "diamond lance"
+msgid_plural "diamond lances"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Description for M2 Browning turret
+#. ~ Description for diamond lance
 #: lang/json/GUN_from_json.py
 msgid ""
-"An M2 Browning Heavy Machine Gun with an automated feeding, targeting, and "
-"firing system.  The force generated by this weapon is significant enough to "
-"require an external frame."
+"A weapon that is as deadly as it is dazzling.  The diamond matrix in this "
+"weapon's center acts as a catalyst; rapidly changing carbon-heavy materials "
+"into a crystalline substance that is nearly equal to diamond in hardness.  "
+"The substance rapidly decays when separated from the catalyst; thus a pre-"
+"shaped lump of carbon is brought into contact with the matrix, immediately "
+"crystallized and launched just as quickly.  The launcher requires a "
+"specialized chassis in order to be brought to bear on its unfortunate "
+"targets."
 msgstr ""
 
 #: lang/json/GUN_from_json.py lang/json/vehicle_part_from_json.py
-msgid "RM298 turret"
-msgid_plural "RM298 turrets"
+msgid "diamond nova"
+msgid_plural "diamond novas"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Description for RM298 turret
+#. ~ Description for diamond nova
 #: lang/json/GUN_from_json.py
 msgid ""
-"An RM298 Heavy Machine Gun with an automated feeding, targeting, and firing "
-"system.  The force generated by this weapon is significant enough to require "
-"an external frame."
+"A weapon that is as deadly as it is dazzling.  The diamond matrix in this "
+"weapon's center acts as a catalyst; rapidly changing carbon-heavy materials "
+"into a crystalline substance that is nearly equal to diamond in hardness.  "
+"The substance rapidly decays when separated from the catalyst, and at  sizes "
+"as large as the projectile used, also rapidly decays when in contact with "
+"other matter. Thus the projectile is held and launched by the use of "
+"pressurized air from a vortex stone.  Upon striking its target, the "
+"projectile undergoes explosive decomposition; shattering into a brilliant "
+"burst of diamond fragments."
 msgstr ""
 
 #: lang/json/GUN_from_json.py lang/json/vehicle_part_from_json.py
-msgid "grenade turret"
-msgid_plural "grenade turrets"
+msgid "vortex accelerator"
+msgid_plural "vortex accelerators"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Description for grenade turret
+#. ~ Description for vortex accelerator
 #: lang/json/GUN_from_json.py
 msgid ""
-"A single-shot grenade launcher on a rotating frame, having a stable firing "
-"platform greatly increases accuracy and reduces recoil.  Comes with a motor "
-"and fire control system for autonomous operation."
+"This weapon uses powerful bursts of air to launch sharp fragments at its "
+"target at high speed.  You'll need some form of platform to mount it on."
 msgstr ""
 
 #: lang/json/GUN_from_json.py lang/json/vehicle_part_from_json.py
-msgid "storm bolter turret"
-msgid_plural "storm bolter turrets"
+msgid "vortex bolter"
+msgid_plural "vortex bolters"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Description for storm bolter turret
+#. ~ Description for vortex bolter
+#: lang/json/GUN_from_json.py
+msgid ""
+"This weapon uses powerful bursts of air to launch bolts at its target at "
+"high speed.  You'll need some form of platform to mount it on."
+msgstr ""
+
+#: lang/json/GUN_from_json.py lang/json/vehicle_part_from_json.py
+msgid "vortex cannon"
+msgid_plural "vortex cannons"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for vortex cannon
+#: lang/json/GUN_from_json.py
+msgid ""
+"Essentially a large pneumatic gun made to hurl sharpened metal rails.  "
+"Instead of a mechanical system, you've managed to harness the vortex to "
+"power this gun.  While powerful for its size, you'll need some form of "
+"platform to mount it on."
+msgstr ""
+
+#: lang/json/GUN_from_json.py lang/json/vehicle_part_from_json.py
+msgid "vortex rifle"
+msgid_plural "vortex rifles"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for vortex rifle
+#: lang/json/GUN_from_json.py
+msgid ""
+"This weapon uses powerful bursts of air to launch small projectiles at its "
+"target at high speed.  You'll need some form of platform to mount it on."
+msgstr ""
+
+#: lang/json/GUN_from_json.py
+msgid "storm bolter"
+msgid_plural "storm bolters"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for storm bolter
 #: lang/json/GUN_from_json.py
 msgid ""
 "This pneumatic bolt thrower has been greatly enhanced, allowing multiple "
 "bolts to be launched accurately and in quick succession.  It requires a "
-"specialized chassis in order to be operated.  Comes with a motor and fire "
-"control system for autonomous operation."
-msgstr ""
-
-#: lang/json/GUN_from_json.py lang/json/vehicle_part_from_json.py
-msgid "splintergun turret"
-msgid_plural "splintergun turrets"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for splintergun turret
-#: lang/json/GUN_from_json.py
-msgid ""
-"A heavily modified coilgun that fires tiny fragments of metal at high speeds "
-"extremely quickly.  The resulting barrage is highly inaccurate, but can turn "
-"unarmored targets into pulp.  It must be mounted on a specialized chassis in "
-"order to be fired.  Comes with a motor and fire control system for "
-"autonomous operation."
-msgstr ""
-
-#: lang/json/GUN_from_json.py lang/json/vehicle_part_from_json.py
-msgid "perforator turret"
-msgid_plural "perforator turrets"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for perforator turret
-#: lang/json/GUN_from_json.py
-msgid ""
-"A coilgun with improved electromagnetic circuits to be able to propel a "
-"metallic projectile at high speed and with great accuracy.  Capable of "
-"piercing armor with little issue, though the projectile itself lacks damage "
-"due to its small size.  It must be mounted on a specialized chassis in order "
-"to be fired.  Comes with a motor and fire control system for autonomous "
-"operation."
+"support of some sort in order to be operated."
 msgstr ""
 
 #: lang/json/GUN_from_json.py
-msgid "hypervelocity driver turret"
-msgid_plural "hypervelocity driver turrets"
+msgid "slingshot cannon"
+msgid_plural "slingshot cannons"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Description for hypervelocity driver turret
-#: lang/json/GUN_from_json.py
-msgid ""
-"A single-shot, electrically propelled, steel rail launcher mounted on a "
-"turret chassis.  The powerful, and frankly dangerous, improvements made to "
-"the power systems of this weapon is capable imbueing a massive charge into a "
-"single-rail; so much that it often shatters into deadly fragments on "
-"impact.  It's capabilities are limited by its prodigious power requirements "
-"however.  Comes with a motor and fire control system for autonomous "
-"operation."
-msgstr ""
-
-#: lang/json/GUN_from_json.py
-msgid "flamethrower turret"
-msgid_plural "flamethrower turrets"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for flamethrower turret
-#: lang/json/GUN_from_json.py
-msgid ""
-"This simple, home-made flamethrower has been made to be mounted on a "
-"vehicle.  Its fuel efficiency leaves a bit to be desired.  Comes with a "
-"motor and fire control system for autonomous operation."
-msgstr ""
-
-#: lang/json/GUN_from_json.py lang/json/vehicle_part_from_json.py
-msgid "flamecaster turret"
-msgid_plural "flamecaster turrets"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for flamecaster turret
-#: lang/json/GUN_from_json.py
-msgid ""
-"This large flamethrower has been made to be mounted on a vehicle.  Comes "
-"with a motor and fire control system for autonomous operation.  Flame on!"
-msgstr ""
-
-#: lang/json/GUN_from_json.py lang/json/vehicle_part_from_json.py
-msgid "dragon turret"
-msgid_plural "dragon turrets"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for dragon turret
-#: lang/json/GUN_from_json.py
-msgid ""
-"This military-grade combat flamethrower has been made to be mounted on a "
-"vehicle.  Its pre-existing enhancements allow it to operate at maximum fuel "
-"efficiency, but still requires an external fuel source.  Comes with a motor "
-"and fire control system for autonomous operation.  Unleash the dragon!"
-msgstr ""
-
-#: lang/json/GUN_from_json.py lang/json/vehicle_part_from_json.py
-msgid "ripper turret"
-msgid_plural "ripper turrets"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for ripper turret
-#: lang/json/GUN_from_json.py
-msgid ""
-"This menacing weapon launches large, bladed disks that rips through enemies "
-"with devastating effect.  It requires a specialized chassis in order to "
-"function.  Comes with a motor and fire control system for autonomous "
-"operation."
-msgstr ""
-
-#: lang/json/GUN_from_json.py lang/json/vehicle_part_from_json.py
-msgid "blob shooter"
-msgid_plural "blob shooters"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for blob shooter
-#: lang/json/GUN_from_json.py
-msgid ""
-"This weapon is an... odd combination of blob and human ingenuity.  A "
-"constructed skeleton made of shaped bones, held together by a living blob.  "
-"It is capable of digesting fed materials; the resulting waste is then "
-"launched towards any nearby hostiles.  Once empty, the creature goes dormant "
-"until fed.  While the projectile itself is small, it travels quickly, and "
-"there's no shortage of... well, whatever it is, it isn't edible."
-msgstr ""
-
-#: lang/json/GUN_from_json.py lang/json/vehicle_part_from_json.py
-msgid "blob darter"
-msgid_plural "blob darters"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for blob darter
-#: lang/json/GUN_from_json.py
-msgid ""
-"This weapon is an... odd combination of blob and human ingenuity.  A "
-"constructed skeleton made of shaped bones, held together by a living blob.  "
-"The structure's blob secretes a venomous substance.  Which, when fed darts; "
-"is then coated onto darts.  The blob then ejects the darts at nearby "
-"hostiles as a self-defense mechanism.  The venom itself recedes quickly, but "
-"is capable of temporarily disorienting what it strikes; including other blob-"
-"based organisms."
-msgstr ""
-
-#: lang/json/GUN_from_json.py lang/json/vehicle_part_from_json.py
-msgid "blob spitter"
-msgid_plural "blob spitters"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for blob spitter
-#: lang/json/GUN_from_json.py
-msgid ""
-"This weapon is an... odd combination of blob and human ingenuity.  A "
-"constructed skeleton made of shaped bones, held together by a living blob.  "
-"When fed, it produces an extremely corrosive liquid.  The blob then spits "
-"out this \"acid\" at nearby enemies.  The liquid's effectiveness against "
-"hostiles is only matched by its horrible smell."
-msgstr ""
-
-#: lang/json/GUN_from_json.py lang/json/vehicle_part_from_json.py
-msgid "blob slinger"
-msgid_plural "blob slingers"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for blob slinger
-#: lang/json/GUN_from_json.py
-msgid ""
-"This weapon is an... odd combination of blob and human ingenuity.  A "
-"constructed skeleton made of shaped bones, held together by a living blob.  "
-"The size of this creature is significant, and such it is capable of hurling "
-"its projectile with significant strength."
-msgstr ""
-
-#: lang/json/GUN_from_json.py lang/json/vehicle_part_from_json.py
-msgid "blob lancer"
-msgid_plural "blob lancers"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for blob lancer
-#: lang/json/GUN_from_json.py
-msgid ""
-"This weapon is an... odd combination of blob and human ingenuity.  A "
-"constructed skeleton made of shaped bones, held together by a living blob.  "
-"Within the blob you see a maelstrom of what appear to be threads.  When a "
-"hostile creature gets too near, the blob gathers these threads towards a "
-"single point and then thrusts it towards the hostile creature while "
-"simultaneously hardening the tip of this \"spear\".  It retracts it quickly "
-"after firing."
-msgstr ""
-
-#: lang/json/GUN_from_json.py
-msgid "smoke generator mount"
-msgid_plural "smoke generator mounts"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for smoke generator mount
-#: lang/json/GUN_from_json.py
-msgid ""
-"Not much more than a box with a hole and ignition trigger.  The ignition is "
-"controlled by a tiny detector, which, when a potential hostile appears "
-"nearby, ignites the contained charcoal dust in measured amounts to generate "
-"smoke."
-msgstr ""
-
-#: lang/json/GUN_from_json.py
-msgid "mountable NX-17 pulse rifle"
-msgid_plural "mountable NX-17 pulse rifles"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for mountable NX-17 pulse rifle
-#: lang/json/GUN_from_json.py
-msgid ""
-"A powerful energy rifle, the addition of a capacitor allows the weapon to "
-"fire in controlled bursts.  The increased power requirements require a "
-"significant power source and the firing mechanism also requires a "
-"specialized chassis."
-msgstr ""
-
-#: lang/json/GUN_from_json.py
-msgid "mountable Tesla cannon"
-msgid_plural "mountable Tesla cannons"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for mountable Tesla cannon
-#: lang/json/GUN_from_json.py
-msgid ""
-"This alteration of the Chain Lightning bionic fires artificial lightning "
-"bolts that arc to nearby enemies.  It must be attached to a large power "
-"source, but it allows for much more powerful bolts."
-msgstr ""
-
-#: lang/json/GUN_from_json.py
-msgid "mountable laser cannon"
-msgid_plural "mountable laser cannons"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for mountable laser cannon
-#: lang/json/GUN_from_json.py
-msgid ""
-"This mounted laser may lack the damage capabilities of conventional heavy "
-"weapons, but it's a scientifically proven fact that traveling at the speed "
-"of light does wonders for one's overall deadliness.  The increased power "
-"requirements require a significant power source and the firing mechanism "
-"also requires a specialized chassis."
-msgstr ""
-
-#: lang/json/GUN_from_json.py
-msgid "mountable turbolaser cannon"
-msgid_plural "mountable turbolaser cannons"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for mountable turbolaser cannon
-#: lang/json/GUN_from_json.py
-msgid ""
-"With an augmented emitter and capacitor, this mounted laser is capable of "
-"superheating most materials to the point of exploding.  The firing mechanism "
-"also requires the services of a specialized chassis, and one must be wary of "
-"the prodigious power needs of such a weapon."
-msgstr ""
-
-#: lang/json/GUN_from_json.py
-msgid "mountable pulse laser"
-msgid_plural "mountable pulse lasers"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for mountable pulse laser
-#: lang/json/GUN_from_json.py
-msgid ""
-"Although this laser weapon has rather low damage capability, it is capable "
-"of firing in rapid bursts.  The increased power requirements require a "
-"significant power source and the firing mechanism also requires a "
-"specialized chassis."
-msgstr ""
-
-#: lang/json/GUN_from_json.py
-msgid "mountable needler"
-msgid_plural "mountable needlers"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for mountable needler
-#: lang/json/GUN_from_json.py
-msgid ""
-"This improved nailgun features a special firing mechanism that is set to "
-"fire a spread of up to 5 nails at once; sure to drop the hammer on its "
-"unfortunate targets.  However, these features render it incredibly unwieldy, "
-"and it must be mounted on a turret chassis in order to be fired."
-msgstr ""
-
-#: lang/json/GUN_from_json.py
-msgid "mountable scorpion ballista"
-msgid_plural "mountable scorpion ballistas"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for mountable scorpion ballista
-#: lang/json/GUN_from_json.py
-msgid ""
-"This massive crossbow is mounted on a rotating frame.  The hand-crank allows "
-"one to draw it without the need for heavy labor.  It's far too massive to be "
-"used on foot, and thus needs to be mounted on a vehicle turret chassis in "
-"order to be operated."
-msgstr ""
-
-#: lang/json/GUN_from_json.py
-msgid "mountable spear launcher"
-msgid_plural "mountable spear launchers"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for mountable spear launcher
-#: lang/json/GUN_from_json.py
-msgid ""
-"A tension-operated speargun mounted on a rotating frame.  It sports five "
-"launchers clustered together that can be launched in a salvo or singularly.  "
-"A hand-crank lets one draw the strings quickly."
-msgstr ""
-
-#: lang/json/GUN_from_json.py
-msgid "mountable slingshot cannon"
-msgid_plural "mountable slingshot cannons"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for mountable slingshot cannon
+#. ~ Description for slingshot cannon
 #: lang/json/GUN_from_json.py
 msgid ""
 "Essentially several long drawstrings held by two long, reinforced sides and "
@@ -39097,86 +38912,84 @@ msgid ""
 msgstr ""
 
 #: lang/json/GUN_from_json.py
-msgid "mountable avalanche rifle"
-msgid_plural "mountable avalanche rifles"
+msgid "lacerator"
+msgid_plural "lacerators"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Description for mountable avalanche rifle
+#. ~ Description for lacerator
 #: lang/json/GUN_from_json.py
 msgid ""
-"This pneumatic assault rifle has been greatly enhanced, firing projectiles "
-"faster and with higher velocity.  However, these features render it "
-"incredibly unwieldy, and it must be mounted on a turret chassis in order to "
-"be fired."
+"This weapon launches serrated metal disks at nearby enemies.  It draws its "
+"power from a vehicle's engines, and thus must be mounted on such in order to "
+"be operated."
 msgstr ""
 
 #: lang/json/GUN_from_json.py
-msgid "mountable rotary cannon"
-msgid_plural "mountable rotary cannons"
+msgid "rotary cannon"
+msgid_plural "rotary cannons"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Description for mountable rotary cannon
+#. ~ Description for rotary cannon
 #: lang/json/GUN_from_json.py
 msgid ""
 "This fearsome weapon sports 3 barrels in a cyclic configuration.  A "
-"specialized system loads the otherwise troublesome rounds; allowing it to be "
-"fired in quick succession.  However, these features render it incredibly "
-"unwieldy, and it must be mounted on a turret chassis in order to be fired."
+"specialized mechanism loads the otherwise troublesome rounds; allowing it to "
+"be fired in quick succession.  However, this renders it incredibly unwieldy, "
+"and it must be mounted on a support structure in order to be fired."
 msgstr ""
 
 #: lang/json/GUN_from_json.py
-msgid "thundergun"
-msgid_plural "thunderguns"
+msgid "laser cannon"
+msgid_plural "laser cannons"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Description for thundergun
+#. ~ Description for laser cannon
 #: lang/json/GUN_from_json.py
 msgid ""
-"Essentially an upsized shotgun, this explosive hazard will practically "
-"vaporize anything it's set against.  However, the limited range will also "
-"put its user at extreme risk if not managed correctly.  You'll need some "
-"form of platform to mount this behemoth on."
+"This enhanced laser cannon sacrifices efficiency for destructive power.  The "
+"increased power requirements require a significant power source and the size "
+"of the firing mechanism also requires support."
 msgstr ""
 
 #: lang/json/GUN_from_json.py
-msgid "mountable storm bolter"
-msgid_plural "mountable storm bolters"
+msgid "pulse laser"
+msgid_plural "pulse lasers"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Description for mountable storm bolter
+#. ~ Description for pulse laser
 #: lang/json/GUN_from_json.py
 msgid ""
-"This pneumatic bolt thrower has been greatly enhanced, allowing multiple "
-"bolts to be launched accurately and in quick succession.  It requires a "
-"specialized chassis in order to be operated."
+"Augmented damage capability and rapid bursts make this a powerful weapon.  "
+"The increased power requirements require a significant power source and the "
+"firing mechanism also requires a specialized chassis."
 msgstr ""
 
 #: lang/json/GUN_from_json.py
-msgid "mountable splintergun"
-msgid_plural "mountable splinterguns"
+msgid "turbolaser cannon"
+msgid_plural "turbolaser cannons"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Description for mountable splintergun
+#. ~ Description for turbolaser cannon
 #: lang/json/GUN_from_json.py
 msgid ""
-"A heavily modified coilgun that fires tiny fragments of metal at high speeds "
-"extremely quickly.  The resulting barrage is highly inaccurate, but can turn "
-"unarmored targets into pulp.  It must be mounted on a specialized chassis in "
-"order to be fired."
+"With an augmented emitter and capacitor, this mounted laser is capable of "
+"superheating most materials to the point of exploding.  The firing mechanism "
+"also requires the services of a specialized chassis, and one must be wary of "
+"the prodigious power needs of such a weapon."
 msgstr ""
 
 #: lang/json/GUN_from_json.py
-msgid "mountable perforator"
-msgid_plural "mountable perforators"
+msgid "perforator"
+msgid_plural "perforators"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Description for mountable perforator
+#. ~ Description for perforator
 #: lang/json/GUN_from_json.py
 msgid ""
 "A coilgun with improved electromagnetic circuits to be able to propel a "
@@ -39187,12 +39000,42 @@ msgid ""
 msgstr ""
 
 #: lang/json/GUN_from_json.py
-msgid "mountable hypervelocity driver"
-msgid_plural "mountable hypervelocity drivers"
+msgid "needler"
+msgid_plural "needlers"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Description for mountable hypervelocity driver
+#. ~ Description for needler
+#: lang/json/GUN_from_json.py
+msgid ""
+"This improved nailgun features a special firing mechanism that is set to "
+"fire a spread of up to 5 nails at once; sure to drop the hammer on its "
+"unfortunate targets.  However, these features render it incredibly unwieldy, "
+"and it must be mounted on a supporting frame in order to be fired."
+msgstr ""
+
+#: lang/json/GUN_from_json.py
+msgid "NX-17 pulse rifle"
+msgid_plural "NX-17 pulse rifles"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for NX-17 pulse rifle
+#: lang/json/GUN_from_json.py
+msgid ""
+"A powerful energy rifle, the addition of a capacitor allows the weapon to "
+"fire in controlled bursts.  The increased power requirements require a "
+"significant power source and the firing mechanism also requires a "
+"specialized chassis."
+msgstr ""
+
+#: lang/json/GUN_from_json.py
+msgid "hypervelocity driver"
+msgid_plural "hypervelocity drivers"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for hypervelocity driver
 #: lang/json/GUN_from_json.py
 msgid ""
 "A single-shot, electrically propelled, steel rail launcher.  The powerful, "
@@ -39200,21 +39043,106 @@ msgid ""
 "is capable imbuing a massive charge into a single-rail; so much that it "
 "often shatters into deadly fragments on impact.  It's capabilities are "
 "limited by its prodigious power requirements however, and its large size "
-"necessitates a specially made turret mount be installed first."
+"necessitates an appropriately-equipped vehicle."
 msgstr ""
 
 #: lang/json/GUN_from_json.py
-msgid "mountable ripper"
-msgid_plural "mountable rippers"
+msgid "ripper"
+msgid_plural "rippers"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Description for mountable ripper
+#. ~ Description for ripper
 #: lang/json/GUN_from_json.py
 msgid ""
-"This menacing weapon launches large, bladed disks that rips through enemies "
+"This menacing weapon rapidly launches bladed disks that rips through enemies "
 "with devastating effect.  It draws its power from a vehicle's engines, and "
-"thus requires a specialized chassis in order to function."
+"thus must be mounted on such in order to be operated."
+msgstr ""
+
+#: lang/json/GUN_from_json.py
+msgid "rotary speargun"
+msgid_plural "rotary spearguns"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for rotary speargun
+#: lang/json/GUN_from_json.py
+msgid ""
+"This pneumatic speargun features a revolving barrel behind its launcher, "
+"allowing projectiles to be rapidly loaded and fired.    However, the weight "
+"requires an external support measure."
+msgstr ""
+
+#: lang/json/GUN_from_json.py
+msgid "scorpion ballista"
+msgid_plural "scorpion ballistas"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for scorpion ballista
+#: lang/json/GUN_from_json.py
+msgid ""
+"A massive tension-operated crossbow.  The hand-crank allows one to draw it "
+"without the need for heavy labor.  It's far too massive to be used on foot, "
+"and thus needs to be mounted on a vehicle in order to be operated."
+msgstr ""
+
+#: lang/json/GUN_from_json.py
+msgid "splintergun"
+msgid_plural "splinterguns"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for splintergun
+#: lang/json/GUN_from_json.py
+msgid ""
+"A heavily modified coilgun that fires tiny fragments of metal at high speeds "
+"extremely quickly.  The resulting barrage is highly inaccurate, but can turn "
+"unarmored targets into pulp.  It must be mounted on a specialized chassis in "
+"order to be fired."
+msgstr ""
+
+#: lang/json/GUN_from_json.py
+msgid "harpoon gun"
+msgid_plural "harpoon guns"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for harpoon gun
+#: lang/json/GUN_from_json.py
+msgid ""
+"A tension-operated speargun.  A hand-crank lets one draw the strings "
+"quickly, but it's too unwieldly to handle without a support of some sort."
+msgstr ""
+
+#: lang/json/GUN_from_json.py
+msgid "tesla cannon"
+msgid_plural "tesla cannons"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for tesla cannon
+#: lang/json/GUN_from_json.py
+msgid ""
+"This alteration of the Chain Lightning bionic fires artificial lightning "
+"bolts that arc to nearby enemies.  It must be attached to a large power "
+"source, but it allows for much more powerful bolts."
+msgstr ""
+
+#: lang/json/GUN_from_json.py
+msgid "avalanche rifle"
+msgid_plural "avalanche rifles"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for avalanche rifle
+#: lang/json/GUN_from_json.py
+msgid ""
+"This pneumatic assault rifle has been greatly enhanced, firing projectiles "
+"faster and with higher velocity.  However, these features render it "
+"incredibly unwieldy, and it must be mounted on a supporting platform in "
+"order to be fired."
 msgstr ""
 
 #: lang/json/GUN_from_json.py
@@ -40358,6 +40286,20 @@ msgid ""
 "A 7-round magazine which holds revolver ammo for use with a magnum pistol"
 msgstr ""
 
+#: lang/json/MAGAZINE_from_json.py
+msgid "gelectrode"
+msgstr ""
+
+#. ~ Description for gelectrode
+#: lang/json/MAGAZINE_from_json.py
+msgid ""
+"A biological mystery, this blob has evolved the ability to slowly generate "
+"electricity through some unknown process.  It emits a low phosphorescent "
+"glow while doing so.  It is also capable of storing electricity from other "
+"sources, but doing so renders it inactive.  It seems pliable enough to pull "
+"apart..."
+msgstr ""
+
 #: lang/json/MOD_INFO_from_json.py src/color.cpp
 #: src/color.cpp
 msgid "default"
@@ -40416,7 +40358,7 @@ msgstr ""
 
 #. ~ Description for Crazy Cataclysm
 #: lang/json/MOD_INFO_from_json.py
-msgid "Want a little crazy in your Cataclysm? Try this one."
+msgid "Want a little crazy in your Cataclysm?  Try this one."
 msgstr ""
 
 #: lang/json/MOD_INFO_from_json.py
@@ -40465,6 +40407,16 @@ msgid "Adds a bunch of rare weapons loosely based fiction. "
 msgstr ""
 
 #: lang/json/MOD_INFO_from_json.py
+msgid "Filthy Clothing"
+msgstr ""
+
+#. ~ Description for Filthy Clothing
+#: lang/json/MOD_INFO_from_json.py
+msgid ""
+"Wearing dirty clothing dropped by some creatures will cause a morale penalty"
+msgstr ""
+
+#: lang/json/MOD_INFO_from_json.py
 msgid "Generic Guns"
 msgstr ""
 
@@ -40489,7 +40441,7 @@ msgstr ""
 #. ~ Description for More Locations
 #: lang/json/MOD_INFO_from_json.py
 msgid ""
-"Adds new Z-level buildings and dungeons.  Still unpolished. Before "
+"Adds new Z-level buildings and dungeons.  Still unpolished.  Before "
 "generating a world, you can remove subfolders to nix unwanted locations."
 msgstr ""
 
@@ -40624,6 +40576,15 @@ msgid "Removes mutagen items from the game."
 msgstr ""
 
 #: lang/json/MOD_INFO_from_json.py
+msgid "Disable NPC needs"
+msgstr ""
+
+#. ~ Description for Disable NPC needs
+#: lang/json/MOD_INFO_from_json.py
+msgid "Makes NPCs not require food, water or rest."
+msgstr ""
+
+#: lang/json/MOD_INFO_from_json.py
 msgid "No Antique Firearms"
 msgstr ""
 
@@ -40742,9 +40703,7 @@ msgstr ""
 
 #. ~ Description for StatsThroughSkills
 #: lang/json/MOD_INFO_from_json.py
-msgid ""
-"Allows stats to raise naturally via skill progression.  Changes to starting "
-"stats will be disregarded"
+msgid "Allows stats to raise naturally via skill progression."
 msgstr ""
 
 #: lang/json/MOD_INFO_from_json.py
@@ -40793,7 +40752,9 @@ msgstr ""
 
 #. ~ Description for Vehicle Additions Pack
 #: lang/json/MOD_INFO_from_json.py
-msgid "Adds more possible dakka to your vehicles."
+msgid ""
+"Please see the included PAQ.txt in the mod folder if you encounter any "
+"issues."
 msgstr ""
 
 #: lang/json/MOD_INFO_from_json.py
@@ -44563,9 +44524,20 @@ msgstr ""
 #: lang/json/MONSTER_from_json.py
 msgid ""
 "All evidence indicates that this used to be a survivor, who was killed by "
-"torture and body reanimated. Its garments lack the weathered look of other "
+"torture and body reanimated.  Its garments lack the weathered look of other "
 "zombies but are mutilated none-the-less.  Although it struggles to free "
 "itself, it is held fast with spikes, nails, and chains."
+msgstr ""
+
+#: lang/json/MONSTER_from_json.py
+msgid "soul cube"
+msgstr ""
+
+#. ~ Description for soul cube
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"An unknown cube-shaped device of obviously alien origin, it flies forth with "
+"singular purpose."
 msgstr ""
 
 #: lang/json/MONSTER_from_json.py
@@ -44588,7 +44560,7 @@ msgstr ""
 #: lang/json/MONSTER_from_json.py
 msgid ""
 "A massive face cross-sectioned with large machinery; various tubes of "
-"bubbling liquid bury themselves and reemerge from pustulating wounds. Its "
+"bubbling liquid bury themselves and reemerge from pustulating wounds.  Its "
 "forehead has been removed, exposing a pulsating brain mass from which sound "
 "emanates."
 msgstr ""
@@ -44876,7 +44848,7 @@ msgstr ""
 #: lang/json/MONSTER_from_json.py
 msgid ""
 "A spider the size of a large dog with slender forelegs and massive hind "
-"legs. From its maw corrosive saliva drips, and can be manipulated by its "
+"legs.  From its maw corrosive saliva drips, and can be manipulated by its "
 "agile limbs."
 msgstr ""
 
@@ -44922,6 +44894,64 @@ msgstr ""
 msgid ""
 "A writhing mass of white flesh, this grub-like monster will mature based on "
 "its diet; richer diets will result in a more noble caste."
+msgstr ""
+
+#: lang/json/MONSTER_from_json.py lang/json/furniture_from_json.py
+msgid "mannequin"
+msgstr ""
+
+#. ~ Description for mannequin
+#: lang/json/MONSTER_from_json.py
+msgid "It moves in spurts when you blink, or at least you think it does."
+msgstr ""
+
+#. ~ Description for bear
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"The American black bear.  A large omnivorous scavenger, it has powerful "
+"claws and jaws, and is an effective ambush hunter.  It can pose a "
+"considerable threat, although most individuals are shy around humans.  This "
+"one is confident in its stride."
+msgstr ""
+
+#. ~ Description for bear
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"The American black bear.  A large omnivorous scavenger, it has powerful "
+"claws and jaws, and is an effective ambush hunter.  It can pose a "
+"considerable threat, although most individuals are shy around humans.  This "
+"one has mottled fur and desperate, hungry eyes."
+msgstr ""
+
+#. ~ Description for cougar
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"The Eastern cougar, a large feline predator.  Once thought extinct in this "
+"region, conservation efforts were successful in restoring a thriving "
+"population.  This specimen is brimming with vigor."
+msgstr ""
+
+#. ~ Description for cougar
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"The Eastern cougar, a large feline predator.  Once thought extinct in this "
+"region, conservation efforts were successful in restoring a thriving "
+"population.  Its eyes have a cloudy glaze to them."
+msgstr ""
+
+#. ~ Description for moose
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"The Eastern moose, the largest living species of deer.  The bulls are quite "
+"ill-tempered, especially in the rutting season.  Its fur sheens with majesty."
+msgstr ""
+
+#. ~ Description for moose
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"The Eastern moose, the largest living species of deer.  The bulls are quite "
+"ill-tempered, especially in the rutting season.  This one is clearly not the "
+"aplha bull."
 msgstr ""
 
 #: lang/json/MONSTER_from_json.py
@@ -45059,6 +45089,15 @@ msgstr[1] ""
 msgid ""
 "A revenant's homing missile, working its way towards you.  If only you could "
 "disable it . . ."
+msgstr ""
+
+#: lang/json/MONSTER_from_json.py
+msgid "firebomb hack"
+msgstr ""
+
+#. ~ Description for firebomb hack
+#: lang/json/MONSTER_from_json.py
+msgid "This manhack carries an incendiary explosive within its core."
 msgstr ""
 
 #: lang/json/MONSTER_from_json.py
@@ -45469,6 +45508,18 @@ msgid ""
 msgstr ""
 
 #: lang/json/MONSTER_from_json.py
+msgid "scabby zombie"
+msgstr ""
+
+#. ~ Description for scabby zombie
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"A deformed human body, its skin has been transformed into one thick, "
+"calloused envelope of scar tissue.  Its tissues emit an oozing liquid that "
+"smells like poisonous death."
+msgstr ""
+
+#: lang/json/MONSTER_from_json.py
 msgid "zombie scrapper"
 msgstr ""
 
@@ -45494,9 +45545,27 @@ msgid ""
 msgstr ""
 
 #: lang/json/MONSTER_from_json.py
+msgid "sparker zombie"
+msgstr ""
+
+#. ~ Description for sparker zombie
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"As this zombie began to deform like the other zombies, its bionics have "
+"become unstable and unreliable."
+msgstr ""
+
+#: lang/json/MONSTER_from_json.py
 msgid ""
 "A distorted human body with sleek muscles.  Its jaws have elongated into a "
 "ursine-like snout, dripping with foul smelling saliva."
+msgstr ""
+
+#. ~ Description for shady zombie
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"A ropey humanoid figure with a shimmering silhouette, even in full light.  "
+"It moves like a zombie, but you can tell nothing more than that."
 msgstr ""
 
 #: lang/json/MONSTER_from_json.py
@@ -45595,9 +45664,9 @@ msgstr ""
 #. ~ Description for shambler
 #: lang/json/MONSTER_from_json.py
 msgid ""
-"A prone humanoidesque monster that springs forward with a sickening sucking "
-"sound.  As it consumes bodies and materials from the ground it becomes "
-"stronger and produces several blobs."
+"A prone humanoidesque monster, engorged to the size of 3 men, that springs "
+"forward with a sickening sucking sound.  As it consumes bodies and materials "
+"from the ground it becomes stronger and produces several blobs."
 msgstr ""
 
 #: lang/json/MONSTER_from_json.py
@@ -45659,6 +45728,27 @@ msgstr ""
 #: lang/json/MONSTER_from_json.py
 msgid "This manhack carries an acid bomb within its core."
 msgstr ""
+
+#: lang/json/MONSTER_from_json.py
+#: lang/json/TOOL_from_json.py
+msgid "gelatinous mass"
+msgid_plural "gelatinous mass"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for gelatinous mass
+#. ~ Description for gray mass
+#. ~ Description for gelatinous mass
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"An escaping noisy blob, catch it before it brings in every zombie for miles!"
+msgstr ""
+
+#: lang/json/MONSTER_from_json.py lang/json/TOOL_from_json.py
+msgid "gray mass"
+msgid_plural "gray mass"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/TOOL_ARMOR_from_json.py
 msgid "mining helmet"
@@ -46837,6 +46927,18 @@ msgid ""
 msgstr ""
 
 #: lang/json/TOOL_ARMOR_from_json.py
+msgid "stethoscope"
+msgid_plural "stethoscopes"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for stethoscope
+#: lang/json/TOOL_ARMOR_from_json.py
+msgid ""
+"This is a medical listening tool.  Use it to listen to things.  Closely."
+msgstr ""
+
+#: lang/json/TOOL_ARMOR_from_json.py
 msgid "gilded aegis"
 msgid_plural "gilded aegises"
 msgstr[0] ""
@@ -47010,6 +47112,66 @@ msgid ""
 "A simple silver ring, adorned with a small red gem and a wing motif.  Using "
 "it cures several anomalous ailments, and provides protection from such "
 "effects for a while."
+msgstr ""
+
+#: lang/json/TOOL_ARMOR_from_json.py
+msgid "zuicide vest"
+msgid_plural "zuicide vests"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for zuicide vest
+#: lang/json/TOOL_ARMOR_from_json.py
+msgid ""
+"A leather vest with high explosives sewn into it.  Activate it to prime the "
+"explosives, and a short time later it will blow.  Virgins not included."
+msgstr ""
+
+#. ~ Use action no_deactivate_msg for zuicide vest.
+#: lang/json/TOOL_ARMOR_from_json.py
+msgid "COWARD!!"
+msgstr ""
+
+#. ~ Use action sound_msg for zuicide vest.
+#: lang/json/TOOL_ARMOR_from_json.py
+msgid "-tcka- -tcka-."
+msgstr ""
+
+#. ~ Description for zuicide vest
+#: lang/json/TOOL_ARMOR_from_json.py
+msgid "An active zuicide vest..."
+msgstr ""
+
+#: lang/json/TOOL_ARMOR_from_json.py
+msgid "small purse"
+msgid_plural "small purses"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for small purse
+#: lang/json/TOOL_ARMOR_from_json.py
+msgid ""
+"Boiled, salted, coated in wax, and run along with thread, this fluid sac is "
+"now a usable purse.  It can even seal fluids within, and be used to craft "
+"basic fluid bombs."
+msgstr ""
+
+#: lang/json/TOOL_ARMOR_from_json.py
+msgid "sealed purse of clean water"
+msgid_plural "sealed purse of clean waters"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for sealed purse of clean water
+#: lang/json/TOOL_ARMOR_from_json.py
+msgid "A sealed purse of water.  activate to consume its contents."
+msgstr ""
+
+#. ~ Description for radiation biomonitor
+#: lang/json/TOOL_ARMOR_from_json.py
+msgid ""
+"A battery-powered biometric safety device worn on the wrist.  Activate to "
+"check your current level of radiation exposure."
 msgstr ""
 
 #: lang/json/TOOL_ARMOR_from_json.py
@@ -48175,18 +48337,6 @@ msgid "This is a digging tool.  Use it to dig pits adjacent to your location."
 msgstr ""
 
 #: lang/json/TOOL_from_json.py
-msgid "stethoscope"
-msgid_plural "stethoscopes"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for stethoscope
-#: lang/json/TOOL_from_json.py
-msgid ""
-"This is a medical listening tool.  Use it to listen to things.  Closely."
-msgstr ""
-
-#: lang/json/TOOL_from_json.py
 msgid "rubber hose"
 msgid_plural "rubber hoses"
 msgstr[0] ""
@@ -48456,14 +48606,14 @@ msgid_plural "bear traps"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Use action done_message for bear trap.
-#: lang/json/TOOL_from_json.py
-msgid "You set the beartrap."
-msgstr ""
-
 #. ~ Use action bury_question for bear trap.
 #: lang/json/TOOL_from_json.py
 msgid "Bury the beartrap?"
+msgstr ""
+
+#. ~ Use action done_message for bear trap.
+#: lang/json/TOOL_from_json.py
+msgid "You set the beartrap."
 msgstr ""
 
 #. ~ Use action done_message for bear trap.
@@ -48636,14 +48786,14 @@ msgid_plural "land mines"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Use action done_message for land mine.
-#: lang/json/TOOL_from_json.py
-msgid "You set the land mine."
-msgstr ""
-
 #. ~ Use action bury_question for land mine.
 #: lang/json/TOOL_from_json.py
 msgid "Bury the land mine?"
+msgstr ""
+
+#. ~ Use action done_message for land mine.
+#: lang/json/TOOL_from_json.py
+msgid "You set the land mine."
 msgstr ""
 
 #. ~ Use action done_message for land mine.
@@ -48822,6 +48972,7 @@ msgstr ""
 #. ~ Use action sound_msg for C-4 explosive (armed).
 #. ~ Use action sound_msg for active ANFO charge.
 #. ~ Use action sound_msg for unstable revenant rocket core.
+#. ~ Use action sound_msg for active soulbomb.
 #: lang/json/TOOL_from_json.py
 msgid "Tick."
 msgstr ""
@@ -49830,16 +49981,16 @@ msgid_plural "No. 9's (off)"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Use action success_message for No. 9 (off).
-#: lang/json/TOOL_from_json.py
-msgid "Your No. 9 glows!"
-msgstr ""
-
 #. ~ Use action lacks_fuel_message for No. 9 (off).
 #. ~ Use action failure_message for No. 9 (off).
 #: lang/json/TOOL_from_json.py
 #: src/iuse.cpp
 msgid "Click."
+msgstr ""
+
+#. ~ Use action success_message for No. 9 (off).
+#: lang/json/TOOL_from_json.py
+msgid "Your No. 9 glows!"
 msgstr ""
 
 #. ~ Description for No. 9 (off)
@@ -49856,14 +50007,19 @@ msgid_plural "No. 9's (on)"
 msgstr[0] ""
 msgstr[1] ""
 
+#. ~ Use action voluntary_extinguish_message for No. 9 (on).
+#: lang/json/TOOL_from_json.py
+msgid "Your No. 9 goes dark."
+msgstr ""
+
 #. ~ Use action water_extinguish_message for No. 9 (on).
 #: lang/json/TOOL_from_json.py
 msgid "Your No. 9 hisses in the water and goes out."
 msgstr ""
 
-#. ~ Use action voluntary_extinguish_message for No. 9 (on).
+#. ~ Use action auto_extinguish_message for No. 9 (on).
 #: lang/json/TOOL_from_json.py
-msgid "Your No. 9 goes dark."
+msgid "Your No. 9 cuts out!"
 msgstr ""
 
 #. ~ Use action charges_extinguish_message for No. 9 (on).
@@ -49874,11 +50030,6 @@ msgstr ""
 #. ~ Use action noise_message for No. 9 (on).
 #: lang/json/TOOL_from_json.py
 msgid "Your No. 9 hisses."
-msgstr ""
-
-#. ~ Use action auto_extinguish_message for No. 9 (on).
-#: lang/json/TOOL_from_json.py
-msgid "Your No. 9 cuts out!"
 msgstr ""
 
 #. ~ Description for No. 9 (on)
@@ -49978,14 +50129,14 @@ msgid_plural "Rising Suns (off)"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Use action success_message for Rising Sun (off).
-#: lang/json/TOOL_from_json.py
-msgid "The Sun rises."
-msgstr ""
-
 #. ~ Use action lacks_fuel_message for Rising Sun (off).
 #: lang/json/TOOL_from_json.py
 msgid "Time stands still."
+msgstr ""
+
+#. ~ Use action success_message for Rising Sun (off).
+#: lang/json/TOOL_from_json.py
+msgid "The Sun rises."
 msgstr ""
 
 #. ~ Description for Rising Sun (off)
@@ -50003,15 +50154,15 @@ msgid_plural "Rising Suns (on)"
 msgstr[0] ""
 msgstr[1] ""
 
+#. ~ Use action voluntary_extinguish_message for Rising Sun (on).
+#: lang/json/TOOL_from_json.py
+msgid "The Sun sets."
+msgstr ""
+
 #. ~ Use action water_extinguish_message for Rising Sun (on).
 #. ~ Use action water_extinguish_message for firebrand (on).
 #: lang/json/TOOL_from_json.py
 msgid "Your sword hisses in the water and goes out."
-msgstr ""
-
-#. ~ Use action voluntary_extinguish_message for Rising Sun (on).
-#: lang/json/TOOL_from_json.py
-msgid "The Sun sets."
 msgstr ""
 
 #. ~ Use action charges_extinguish_message for Rising Sun (on).
@@ -50027,7 +50178,7 @@ msgstr ""
 #. ~ Description for Rising Sun (on)
 #: lang/json/TOOL_from_json.py
 msgid ""
-"This is a katana that glows with the fury and heat of the SUN! Well, okay "
+"This is a katana that glows with the fury and heat of the SUN!  Well, okay "
 "it's not THAT hot, but getting hit with it still stings like the dickens.  "
 "Use to shut off the gas."
 msgstr ""
@@ -50070,14 +50221,14 @@ msgid_plural "flammenschwerter (aus)"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Use action success_message for flammenschwert (aus).
-#: lang/json/TOOL_from_json.py
-msgid "Die Klinge deines Schwertes brennt!"
-msgstr ""
-
 #. ~ Use action lacks_fuel_message for flammenschwert (aus).
 #: lang/json/TOOL_from_json.py
 msgid "Dein Flammenschwert hat keinen Brennstoff mehr."
+msgstr ""
+
+#. ~ Use action success_message for flammenschwert (aus).
+#: lang/json/TOOL_from_json.py
+msgid "Die Klinge deines Schwertes brennt!"
 msgstr ""
 
 #. ~ Description for flammenschwert (aus)
@@ -50095,14 +50246,14 @@ msgid_plural "flammenschwerter (an)"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Use action water_extinguish_message for flammenschwert (an).
-#: lang/json/TOOL_from_json.py
-msgid "Dein Schwert zischt und erlischt."
-msgstr ""
-
 #. ~ Use action voluntary_extinguish_message for flammenschwert (an).
 #: lang/json/TOOL_from_json.py
 msgid "Die Flamme deines Schwertes erlischt."
+msgstr ""
+
+#. ~ Use action water_extinguish_message for flammenschwert (an).
+#: lang/json/TOOL_from_json.py
+msgid "Dein Schwert zischt und erlischt."
 msgstr ""
 
 #. ~ Use action charges_extinguish_message for flammenschwert (an).
@@ -50121,14 +50272,14 @@ msgid_plural "firebrands (off)"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Use action success_message for firebrand (off).
-#: lang/json/TOOL_from_json.py
-msgid "Charge!!"
-msgstr ""
-
 #. ~ Use action lacks_fuel_message for firebrand (off).
 #: lang/json/TOOL_from_json.py
 msgid "No strength to fight!"
+msgstr ""
+
+#. ~ Use action success_message for firebrand (off).
+#: lang/json/TOOL_from_json.py
+msgid "Charge!!"
 msgstr ""
 
 #. ~ Description for firebrand (off)
@@ -50187,14 +50338,14 @@ msgid_plural "shishkebabs (off)"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Use action success_message for shishkebab (off).
-#: lang/json/TOOL_from_json.py
-msgid "Let's dance, Zeds!"
-msgstr ""
-
 #. ~ Use action lacks_fuel_message for shishkebab (off).
 #: lang/json/TOOL_from_json.py
 msgid "This thing needs some fuel!"
+msgstr ""
+
+#. ~ Use action success_message for shishkebab (off).
+#: lang/json/TOOL_from_json.py
+msgid "Let's dance, Zeds!"
 msgstr ""
 
 #. ~ Use action failure_message for shishkebab (off).
@@ -50217,14 +50368,19 @@ msgid_plural "shishkebabs (on)"
 msgstr[0] ""
 msgstr[1] ""
 
+#. ~ Use action voluntary_extinguish_message for shishkebab (on).
+#: lang/json/TOOL_from_json.py
+msgid "Peace out.  Your shishkebab's flame dies."
+msgstr ""
+
 #. ~ Use action water_extinguish_message for shishkebab (on).
 #: lang/json/TOOL_from_json.py
 msgid "Your shishkebab hisses in the water and goes out."
 msgstr ""
 
-#. ~ Use action voluntary_extinguish_message for shishkebab (on).
+#. ~ Use action auto_extinguish_message for shishkebab (on).
 #: lang/json/TOOL_from_json.py
-msgid "Peace out.  Your shishkebab's flame dies."
+msgid "Bummer, man!  Your shishkebab's flame flickers and dies out."
 msgstr ""
 
 #. ~ Use action charges_extinguish_message for shishkebab (on).
@@ -50235,11 +50391,6 @@ msgstr ""
 #. ~ Use action noise_message for shishkebab (on).
 #: lang/json/TOOL_from_json.py
 msgid "Your shishkebab crackles!"
-msgstr ""
-
-#. ~ Use action auto_extinguish_message for shishkebab (on).
-#: lang/json/TOOL_from_json.py
-msgid "Bummer, man!  Your shishkebab's flame flickers and dies out."
 msgstr ""
 
 #. ~ Description for shishkebab (on)
@@ -53474,14 +53625,14 @@ msgid_plural "incorruptible swords"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Use action success_message for incorruptible sword.
-#: lang/json/TOOL_from_json.py
-msgid "The blade gives off a brilliant glow as you invoke its power!"
-msgstr ""
-
 #. ~ Use action lacks_fuel_message for incorruptible sword.
 #: lang/json/TOOL_from_json.py
 msgid "The sword needs energy to serve its purpose."
+msgstr ""
+
+#. ~ Use action success_message for incorruptible sword.
+#: lang/json/TOOL_from_json.py
+msgid "The blade gives off a brilliant glow as you invoke its power!"
 msgstr ""
 
 #. ~ Description for incorruptible sword
@@ -53498,14 +53649,14 @@ msgid_plural "incorruptible swords (on)"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Use action water_extinguish_message for incorruptible sword (on).
-#: lang/json/TOOL_from_json.py
-msgid "The sword shimmers in the water, before the glow fades."
-msgstr ""
-
 #. ~ Use action voluntary_extinguish_message for incorruptible sword (on).
 #: lang/json/TOOL_from_json.py
 msgid "The blade dims as you dispel its effect."
+msgstr ""
+
+#. ~ Use action water_extinguish_message for incorruptible sword (on).
+#: lang/json/TOOL_from_json.py
+msgid "The sword shimmers in the water, before the glow fades."
 msgstr ""
 
 #. ~ Use action charges_extinguish_message for incorruptible sword (on).
@@ -53521,8 +53672,8 @@ msgstr ""
 #. ~ Description for incorruptible sword (on)
 #: lang/json/TOOL_from_json.py
 msgid ""
-"This is some sort of arming sword, decorated with a golden cross motif on "
-"the blade.  The blade is giving off an intense white light, and searing heat."
+"This is some sort of broadsword, decorated with a golden cross motif on the "
+"blade.  The blade is giving off an intense white light, and searing heat."
 msgstr ""
 
 #: lang/json/TOOL_from_json.py
@@ -54370,6 +54521,60 @@ msgstr ""
 msgid "An active stun bomblet, ready to explode."
 msgstr ""
 
+#: lang/json/TOOL_from_json.py
+msgid "small homemade molotov"
+msgid_plural "small homemade molotovs"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Use action msg for small homemade molotov.
+#: lang/json/TOOL_from_json.py
+msgid "You light the homemade molotov."
+msgstr ""
+
+#. ~ Description for small homemade molotov
+#: lang/json/TOOL_from_json.py
+msgid ""
+"A small container filled with gasoline and tied off with a fuse.  When lit "
+"and thrown it may catch, or may dowse out and be useless."
+msgstr ""
+
+#: lang/json/TOOL_from_json.py
+msgid "treated fluid sac"
+msgid_plural "treated fluid sacs"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for treated fluid sac
+#: lang/json/TOOL_from_json.py
+msgid ""
+"A fluid sac treated in salt.  Will no longer decay at any appreciable rate, "
+"and can be further processed in wax so as to hold new fluids."
+msgstr ""
+
+#: lang/json/TOOL_from_json.py
+msgid "biollante sap glob"
+msgid_plural "biollante sap globs"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Use action no_deactivate_msg for biollante sap glob.
+#: lang/json/TOOL_from_json.py
+msgid "Don't play with it, throw it."
+msgstr ""
+
+#. ~ Use action sound_msg for biollante sap glob.
+#: lang/json/TOOL_from_json.py src/map.cpp
+msgid "glass shattering"
+msgstr ""
+
+#. ~ Description for biollante sap glob
+#: lang/json/TOOL_from_json.py
+msgid ""
+"Extract from a biollante's budding flowers.  throw it to produce a sticky "
+"sap trap."
+msgstr ""
+
 #. ~ Description for soda can stove kit
 #: lang/json/TOOL_from_json.py
 msgid ""
@@ -54403,6 +54608,29 @@ msgstr[1] ""
 msgid ""
 "A sturdy spade made from cheap steel.  The spade's edge has been sharpened "
 "and its joints are tapered into a fine enough point to cut through wire."
+msgstr ""
+
+#: lang/json/TOOL_from_json.py
+msgid "inactive firebomb hack"
+msgid_plural "inactive firebomb hacks"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Use action friendly_msg for inactive firebomb hack.
+#: lang/json/TOOL_from_json.py
+msgid "The firebomb hack flies from your hand and surveys the area!"
+msgstr ""
+
+#. ~ Use action hostile_msg for inactive firebomb hack.
+#: lang/json/TOOL_from_json.py
+msgid "You mis-program the firebomb hack; take cover!"
+msgstr ""
+
+#. ~ Description for inactive firebomb hack
+#: lang/json/TOOL_from_json.py
+msgid ""
+"This is an inactive firebomb hack.  When activated it will fly into a "
+"hostile and detonate, showering the area with flame."
 msgstr ""
 
 #: lang/json/TOOL_from_json.py
@@ -54468,6 +54696,65 @@ msgid ""
 msgstr ""
 
 #: lang/json/TOOL_from_json.py
+msgid "glowing soulcube"
+msgid_plural "glowing soulcubes"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Use action msg for glowing soulcube.
+#: lang/json/TOOL_from_json.py
+msgid "The glow transfers over to you, healing your wounds!"
+msgstr ""
+
+#. ~ Description for glowing soulcube
+#. ~ Description for healing soulcube
+#. ~ Description for recharging soulcube
+#. ~ Description for soulcube
+#: lang/json/TOOL_from_json.py
+msgid ""
+"An unknown cube-shaped device of obviously alien origin, it's purpose is "
+"unknown."
+msgstr ""
+
+#: lang/json/TOOL_from_json.py
+msgid "healing soulcube"
+msgid_plural "healing soulcubes"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/TOOL_from_json.py
+msgid "recharging soulcube"
+msgid_plural "recharging soulcubes"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Use action not_ready_msg for recharging soulcube.
+#: lang/json/TOOL_from_json.py
+msgid "You fiddle with the cube, but nothing happens."
+msgstr ""
+
+#. ~ Use action msg for recharging soulcube.
+#: lang/json/TOOL_from_json.py
+msgid "\"USE US.\""
+msgstr ""
+
+#: lang/json/TOOL_from_json.py
+msgid "soulcube"
+msgid_plural "soulcubes"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Use action friendly_msg for soulcube.
+#: lang/json/TOOL_from_json.py
+msgid "As you fiddle with the cube, it flies from your hands!"
+msgstr ""
+
+#. ~ Use action hostile_msg for soulcube.
+#: lang/json/TOOL_from_json.py
+msgid "Oh, it's hostile. That's probably not supposed to happen.  Probably."
+msgstr ""
+
+#: lang/json/TOOL_from_json.py
 msgid "incubating boil bomb"
 msgid_plural "incubating boil bombs"
 msgstr[0] ""
@@ -54522,6 +54809,22 @@ msgstr ""
 msgid ""
 "Its a bug that you can see this, but that doesnt mean it won't kill you.  "
 "Throw it!"
+msgstr ""
+
+#: lang/json/TOOL_from_json.py
+msgid "small homemade molotov (lit)"
+msgid_plural "small homemade molotov (lit)s"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Use action no_deactivate_msg for small homemade molotov (lit).
+#: lang/json/TOOL_from_json.py
+msgid "Throw it!"
+msgstr ""
+
+#. ~ Description for small homemade molotov (lit)
+#: lang/json/TOOL_from_json.py
+msgid "A lit wick leading to a pool of gasoline...  maybe throw it?"
 msgstr ""
 
 #: lang/json/TOOL_from_json.py
@@ -54643,6 +54946,66 @@ msgstr[1] ""
 #. ~ Description for cyberdemon spawner
 #: lang/json/TOOL_from_json.py
 msgid "Spawns a cyberdemon into the world."
+msgstr ""
+
+#: lang/json/TOOL_from_json.py
+msgid "manhack firebomb"
+msgid_plural "manhack firebombs"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for manhack firebomb
+#: lang/json/TOOL_from_json.py
+msgid ""
+"This is an firebomb fitted into a manhack and rigged so the manhack can self-"
+"activate it.  This one is active."
+msgstr ""
+
+#: lang/json/TOOL_from_json.py
+msgid "manhack acidbomb"
+msgid_plural "manhack acidbombs"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Use action sound_msg for manhack acidbomb.
+#: lang/json/TOOL_from_json.py
+msgid "pphhhfftttt"
+msgstr ""
+
+#. ~ Description for manhack acidbomb
+#: lang/json/TOOL_from_json.py
+msgid ""
+"This is an acidbomb fitted into a manhack and rigged so the manhack can self-"
+"activate it.  Due to the manhack exploding the effective radius is somewhat "
+"larger."
+msgstr ""
+
+#: lang/json/TOOL_from_json.py
+msgid "soulbomb"
+msgid_plural "soulbombs"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Use action msg for soulbomb.
+#: lang/json/TOOL_from_json.py
+msgid "A computer monitor flies towards you at extreme speed!"
+msgstr ""
+
+#. ~ Description for soulbomb
+#. ~ Description for active soulbomb
+#: lang/json/TOOL_from_json.py
+msgid "Haaaaaaaaaaaaaaaaaaaaaaaaaaax!"
+msgstr ""
+
+#: lang/json/TOOL_from_json.py
+msgid "active soulbomb"
+msgid_plural "active soulbombs"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Use action no_deactivate_msg for active soulbomb.
+#: lang/json/TOOL_from_json.py
+msgid "You try to turn it off, but it just turns right back on."
 msgstr ""
 
 #: lang/json/TOOL_from_json.py
@@ -54782,20 +55145,6 @@ msgstr[1] ""
 msgid "A fissure, rupturing its flames into reality."
 msgstr ""
 
-#: lang/json/TOOL_from_json.py
-msgid "manhack acidbomb"
-msgid_plural "manhack acidbombs"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for manhack acidbomb
-#: lang/json/TOOL_from_json.py
-msgid ""
-"This is an acidbomb fitted into a manhack and rigged so the manhack can self-"
-"activate it.  Due to the manhack exploding the effective radius is somewhat "
-"larger."
-msgstr ""
-
 #. ~ Use action sound_msg for manhack acidbomb.
 #: lang/json/TOOL_from_json.py
 msgid "pphhhffzzzz"
@@ -54832,90 +55181,6 @@ msgid ""
 msgstr ""
 
 #: lang/json/TOOL_from_json.py
-msgid "blob feed fermenter"
-msgid_plural "blob feed fermenters"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Use action not_ready_msg for blob feed fermenter.
-#: lang/json/TOOL_from_json.py
-msgid "While it definitely smells ripe, it isn't done."
-msgstr ""
-
-#. ~ Use action msg for blob feed fermenter.
-#: lang/json/TOOL_from_json.py
-msgid "You hold your breath and open up the container."
-msgstr ""
-
-#. ~ Description for blob feed fermenter
-#: lang/json/TOOL_from_json.py
-msgid ""
-"A container filled with... something.  It definitely isn't anything like mom "
-"used to make."
-msgstr ""
-
-#: lang/json/TOOL_from_json.py
-msgid "growing blob shooter"
-msgid_plural "growing blob shooters"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Use action not_ready_msg for growing blob shooter.
-#. ~ Use action not_ready_msg for growing blob darter.
-#. ~ Use action not_ready_msg for growing blob spitter.
-#. ~ Use action not_ready_msg for growing blob slinger.
-#. ~ Use action not_ready_msg for growing blob lancer.
-#: lang/json/TOOL_from_json.py
-msgid "The blob is still growing; at a phenomenal rate you might add."
-msgstr ""
-
-#. ~ Use action msg for growing blob shooter.
-#. ~ Use action msg for growing blob darter.
-#. ~ Use action msg for growing blob spitter.
-#. ~ Use action msg for growing blob slinger.
-#. ~ Use action msg for growing blob lancer.
-#: lang/json/TOOL_from_json.py
-msgid "The blob emits an odd gurgle; it sounds disturbingly like \"Mama!\"."
-msgstr ""
-
-#. ~ Description for growing blob shooter
-#. ~ Description for growing blob darter
-#. ~ Description for growing blob spitter
-#. ~ Description for growing blob slinger
-#. ~ Description for growing blob lancer
-#: lang/json/TOOL_from_json.py
-msgid ""
-"This appears to be some form of structure constructed from bone, held "
-"together by some unknown slimy substance.  A jury-rigged slow-drip dispenser "
-"trickles some fluid you'd prefer not to think too hard about throughout the "
-"structure."
-msgstr ""
-
-#: lang/json/TOOL_from_json.py
-msgid "growing blob darter"
-msgid_plural "growing blob darters"
-msgstr[0] ""
-msgstr[1] ""
-
-#: lang/json/TOOL_from_json.py
-msgid "growing blob spitter"
-msgid_plural "growing blob spitters"
-msgstr[0] ""
-msgstr[1] ""
-
-#: lang/json/TOOL_from_json.py
-msgid "growing blob slinger"
-msgid_plural "growing blob slingers"
-msgstr[0] ""
-msgstr[1] ""
-
-#: lang/json/TOOL_from_json.py
-msgid "growing blob lancer"
-msgid_plural "growing blob lancers"
-msgstr[0] ""
-msgstr[1] ""
-
-#: lang/json/TOOL_from_json.py
 msgid "growing blob frame"
 msgid_plural "growing blob frames"
 msgstr[0] ""
@@ -54928,115 +55193,332 @@ msgstr ""
 
 #. ~ Use action msg for growing blob frame.
 #: lang/json/TOOL_from_json.py
-msgid ""
-"You test the frame; it gives into pressure, but quickly springs back into "
-"place.  It's ready."
+msgid "You test the frame; It wiggles, and then collapses into an lump of goo."
 msgstr ""
 
 #. ~ Description for growing blob frame
 #: lang/json/TOOL_from_json.py
 msgid ""
-"A vehicle frame made of bone.  It's coated in a thick layer of ooze, though "
-"there's greater amounts on the bindings."
+"A growing vehicle frame made of bone.  It's coated in a thick layer of ooze, "
+"though there's greater amounts on the bindings.  It's not quite tough enough "
+"to use."
 msgstr ""
 
 #: lang/json/TOOL_from_json.py
-msgid "growing blob plate"
-msgid_plural "growing blob plates"
+msgid "growing keratinous mass"
+msgid_plural "growing keratinous mass"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Use action not_ready_msg for growing blob plate.
-#. ~ Use action not_ready_msg for growing blob seat.
-#. ~ Use action not_ready_msg for growing blob harness.
+#. ~ Use action not_ready_msg for growing keratinous mass.
+#. ~ Use action not_ready_msg for growing beaded mass.
+#. ~ Use action not_ready_msg for growing icy mass.
+#. ~ Use action not_ready_msg for growing cold mass.
+#. ~ Use action not_ready_msg for growing hairy mass.
+#. ~ Use action not_ready_msg for growing gelatinous mass.
+#. ~ Use action not_ready_msg for growing glowing mass.
+#. ~ Use action not_ready_msg for growing gray mass.
+#. ~ Use action not_ready_msg for growing spike-studded mass.
+#. ~ Use action not_ready_msg for growing gasoline-laced mass.
+#. ~ Use action not_ready_msg for growing acidic mass.
+#. ~ Use action not_ready_msg for growing ooze.
+#. ~ Use action not_ready_msg for growing mass of tendrils.
+#. ~ Use action not_ready_msg for growing spiked mass.
+#. ~ Use action not_ready_msg for growing spiny mass.
+#. ~ Use action not_ready_msg for growing spiky mass.
+#. ~ Use action not_ready_msg for growing bright mass.
+#. ~ Use action not_ready_msg for growing viscous mass.
+#. ~ Use action not_ready_msg for growing warm mass.
+#. ~ Use action not_ready_msg for growing electrified mass.
 #: lang/json/TOOL_from_json.py
-msgid "You test the structure; it gives easily, it's still not sturdy enough"
+msgid "Whatever it's doing, it's not done yet."
 msgstr ""
 
-#. ~ Use action msg for growing blob plate.
-#. ~ Use action msg for growing blob seat.
-#. ~ Use action msg for growing blob harness.
+#. ~ Use action msg for growing keratinous mass.
+#. ~ Use action msg for growing beaded mass.
+#. ~ Use action msg for growing icy mass.
+#. ~ Use action msg for growing cold mass.
+#. ~ Use action msg for growing hairy mass.
+#. ~ Use action msg for growing gelatinous mass.
+#. ~ Use action msg for growing glowing mass.
+#. ~ Use action msg for growing gray mass.
+#. ~ Use action msg for growing spike-studded mass.
+#. ~ Use action msg for growing gasoline-laced mass.
+#. ~ Use action msg for growing acidic mass.
+#. ~ Use action msg for growing ooze.
+#. ~ Use action msg for growing mass of tendrils.
+#. ~ Use action msg for growing spiked mass.
+#. ~ Use action msg for growing spiny mass.
+#. ~ Use action msg for growing spiky mass.
+#. ~ Use action msg for growing bright mass.
+#. ~ Use action msg for growing viscous mass.
+#. ~ Use action msg for growing warm mass.
+#. ~ Use action msg for growing electrified mass.
 #: lang/json/TOOL_from_json.py
-msgid ""
-"You test the structure; it gives into pressure, but quickly springs back "
-"into place.  It's ready."
+msgid "The blob balloons to full size."
 msgstr ""
 
-#. ~ Description for growing blob plate
+#. ~ Description for growing keratinous mass
+#. ~ Description for growing beaded mass
+#. ~ Description for growing icy mass
+#. ~ Description for growing cold mass
+#. ~ Description for growing hairy mass
+#. ~ Description for growing gelatinous mass
+#. ~ Description for growing glowing mass
+#. ~ Description for growing gray mass
+#. ~ Description for growing spike-studded mass
+#. ~ Description for growing gasoline-laced mass
+#. ~ Description for growing acidic mass
+#. ~ Description for growing ooze
+#. ~ Description for growing mass of tendrils
+#. ~ Description for growing spiked mass
+#. ~ Description for growing spiny mass
+#. ~ Description for growing spiky mass
+#. ~ Description for growing bright mass
+#. ~ Description for growing viscous mass
+#. ~ Description for growing warm mass
+#. ~ Description for growing electrified mass
 #: lang/json/TOOL_from_json.py
-msgid ""
-"A \"blanket\" made of layers of padding and blob supported by a loose "
-"framework of bone.  Made to absorb impacts rather than withstand them."
+msgid "Not quite fully grown, this blob requires nourishment to fully develop."
 msgstr ""
 
 #: lang/json/TOOL_from_json.py
-msgid "growing blob seat"
-msgid_plural "growing blob seats"
+msgid "growing beaded mass"
+msgid_plural "growing beaded mass"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Description for growing blob seat
 #: lang/json/TOOL_from_json.py
-msgid ""
-"A... seat made of goo with a framework of bone.  Sitting in it makes the goo "
-"engulf parts of your body."
-msgstr ""
-
-#: lang/json/TOOL_from_json.py
-msgid "growing blob harness"
-msgid_plural "growing blob harnesss"
+msgid "growing icy mass"
+msgid_plural "growing icy mass"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Description for growing blob harness
 #: lang/json/TOOL_from_json.py
-msgid ""
-"What appears to be some form of harness made of goo with a loose framework "
-"of bone.  It's quite sticky, but you can pull yourself away with some effort."
-msgstr ""
-
-#: lang/json/TOOL_from_json.py
-msgid "growing blob grinder"
-msgid_plural "growing blob grinders"
+msgid "growing cold mass"
+msgid_plural "growing cold mass"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Use action not_ready_msg for growing blob grinder.
-#. ~ Use action not_ready_msg for growing blob wheel.
 #: lang/json/TOOL_from_json.py
-msgid ""
-"You ive the blob a hard whack, the outer layer gives in, but springs back "
-"into place soon after.  Not just yet."
-msgstr ""
-
-#. ~ Use action msg for growing blob grinder.
-#. ~ Use action msg for growing blob wheel.
-#: lang/json/TOOL_from_json.py
-msgid ""
-"You give the blob a hard whack and end up with a bruise, you figure it's "
-"done."
-msgstr ""
-
-#. ~ Description for growing blob grinder
-#: lang/json/TOOL_from_json.py
-msgid ""
-"A spherical blob the size of a truck tire.  The outer layer is studded with "
-"stone.  A crude harness hangs loosely over it.  It lumber around on its own, "
-"the things it rolls over sticking to it."
-msgstr ""
-
-#: lang/json/TOOL_from_json.py
-msgid "growing blob wheel"
-msgid_plural "growing blob wheels"
+msgid "growing hairy mass"
+msgid_plural "growing hairy mass"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Description for growing blob wheel
+#. ~ Use action msg for gelatinous mass.
+#. ~ Use action msg for gray mass.
+#. ~ Use action msg for oozing mass.
+#: lang/json/TOOL_from_json.py
+msgid "You fumble as the blob starts to multiply rapidly!"
+msgstr ""
+
+#. ~ Description for gelatinous mass
 #: lang/json/TOOL_from_json.py
 msgid ""
-"A piece of the blob grinder that seems to have split off from the main "
-"body.  The outer layer is studded with stone.  It rolls around on its own, "
-"the things it rolls over sticking to it."
+"An experiment gone horribly right.  While the original intent was to combine "
+"the structure of a bone frame with the impact absorption of the blob; the "
+"blob seems to have completely consumed the bone.  Instead, what remains is "
+"an amorphous mass of goo with what seems to be numerous thin filaments "
+"floating within.  With a bit of effort, you can grasp the fibers and stretch "
+"the mass into a multitude of shapes.  The mass is able to retain the new "
+"shape even under force, though the mass yields at your touch.  With enough "
+"strength, you think you can pull it apart."
+msgstr ""
+
+#: lang/json/TOOL_from_json.py
+msgid "multiplying gelatinous mass"
+msgid_plural "multiplying gelatinous mass"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Use action friendly_msg for multiplying gelatinous mass.
+#. ~ Use action hostile_msg for multiplying gelatinous mass.
+#. ~ Use action friendly_msg for multiplying gray mass.
+#. ~ Use action hostile_msg for multiplying gray mass.
+#. ~ Use action friendly_msg for multiplying oozing mass.
+#. ~ Use action hostile_msg for multiplying oozing mass.
+#: lang/json/TOOL_from_json.py
+msgid "A blob splits and bounces away!"
+msgstr ""
+
+#. ~ Description for multiplying gelatinous mass
+#. ~ Description for multiplying gray mass
+#. ~ Description for multiplying oozing mass
+#: lang/json/TOOL_from_json.py
+msgid ""
+"Having been fed, this blob is now rapidly multiplying into other copies of "
+"itself; extremely noisy copies!  And even worse, it's stuck to your hands "
+"until whatever it's doing is done!  Catch those blobs before they bring in "
+"every zombie for miles!"
+msgstr ""
+
+#: lang/json/TOOL_from_json.py
+msgid "growing gelatinous mass"
+msgid_plural "growing gelatinous mass"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/TOOL_from_json.py
+msgid "growing glowing mass"
+msgid_plural "growing glowing mass"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for gray mass
+#: lang/json/TOOL_from_json.py
+msgid ""
+"This internal structures of this creature have developed significantly.  "
+"While retaining the resilience and malleability of its once simpler form, it "
+"has gained the considerable abilities of perception and stimulus response.  "
+"When directly threatened, it is able to shift and alter its microfibers, "
+"hardening its membrane to an almost steel-hard shell.  You can still pull it "
+"apart with enough force.  It's also really gray."
+msgstr ""
+
+#: lang/json/TOOL_from_json.py
+msgid "multiplying gray mass"
+msgid_plural "multiplying gray mass"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/TOOL_from_json.py
+msgid "growing gray mass"
+msgid_plural "growing gray mass"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/TOOL_from_json.py
+msgid "growing spike-studded mass"
+msgid_plural "growing spike-studded mass"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/TOOL_from_json.py
+msgid "growing gasoline-laced mass"
+msgid_plural "growing gasoline-laced mass"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/TOOL_from_json.py
+msgid "growing acidic mass"
+msgid_plural "growing acidic mass"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/TOOL_from_json.py
+msgid "oozing mass"
+msgid_plural "oozing mass"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for oozing mass
+#: lang/json/TOOL_from_json.py
+msgid ""
+"An amorphous mass that has undergone a significant growth.  In addition to "
+"the increased amount of goo and sinuous filaments, it seems to have started "
+"developing other internal structures.  Like its smaller counterpart, it can "
+"be shaped into various structures; albiet with significantly greater tensile "
+"strength due to the increased number of supporting filaments.  You believe "
+"you can split it apart with enough force."
+msgstr ""
+
+#: lang/json/TOOL_from_json.py
+msgid "multiplying oozing mass"
+msgid_plural "multiplying oozing mass"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/TOOL_from_json.py
+msgid "growing ooze"
+msgid_plural "growing ooze"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/TOOL_from_json.py
+msgid "growing mass of tendrils"
+msgid_plural "growing mass of tendrils"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/TOOL_from_json.py
+msgid "growing spiked mass"
+msgid_plural "growing spiked mass"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/TOOL_from_json.py
+msgid "growing spiny mass"
+msgid_plural "growing spiny mass"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/TOOL_from_json.py
+msgid "growing spiky mass"
+msgid_plural "growing spiky mass"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/TOOL_from_json.py
+msgid "growing bright mass"
+msgid_plural "growing bright mass"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/TOOL_from_json.py
+msgid "growing viscous mass"
+msgid_plural "growing viscous mass"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/TOOL_from_json.py
+msgid "growing warm mass"
+msgid_plural "growing warm mass"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/TOOL_from_json.py
+msgid "growing electrified mass"
+msgid_plural "growing electrified mass"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/TOOL_from_json.py
+msgid "diamond cluster"
+msgid_plural "diamond clusters"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Use action msg for diamond cluster.
+#: lang/json/TOOL_from_json.py
+msgid "The cluster comes apart in your hands."
+msgstr ""
+
+#. ~ Description for diamond cluster
+#: lang/json/TOOL_from_json.py
+msgid ""
+"A cluster of artificial crystals that have broken off of a diamond matrix. "
+"While the substance usually decays when separated from the catalyst; this "
+"cluster seems to be self-sustaining by some unknown mechanism. "
+msgstr ""
+
+#: lang/json/TOOL_from_json.py
+msgid "diamond matrix"
+msgid_plural "diamond matrixs"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Use action msg for diamond matrix.
+#: lang/json/TOOL_from_json.py
+msgid ""
+"Your senses dull as you gaze into the depths of this gemstone's center..."
+msgstr ""
+
+#. ~ Description for diamond matrix
+#: lang/json/TOOL_from_json.py
+msgid ""
+"A sparkling diamond with a dazzling spiral pattern.  Small pieces of "
+"glittering crystal form on the edges as you hold it."
 msgstr ""
 
 #: lang/json/TOOL_from_json.py
@@ -55265,16 +55747,65 @@ msgid ""
 "boat to move."
 msgstr ""
 
-#: lang/json/WHEEL_from_json.py lang/json/vehicle_part_from_json.py
-msgid "blob wheel"
+#: lang/json/WHEEL_from_json.py
+msgid "gelacier"
 msgstr ""
 
-#. ~ Description for blob wheel
+#. ~ Description for gelacier
 #: lang/json/WHEEL_from_json.py
 msgid ""
-"A piece of the blob grinder that seems to have split off from the main "
-"body.  A bit larger than a bicycle wheel and covered in a hard stone shell.  "
-"It sits dormant."
+"A biological mystery, this blob's internal structures exist in within a pool "
+"of low-density fluid that remains liquid despite being in a super-cooled "
+"state; yet possesses all the malleability of its former self.  Fragments of "
+"frost continually flake off it.  It seems pliable enough to pull apart..."
+msgstr ""
+
+#: lang/json/WHEEL_from_json.py lang/json/vehicle_part_from_json.py
+msgid "gelatinous wheel"
+msgstr ""
+
+#. ~ Description for gelatinous wheel
+#: lang/json/WHEEL_from_json.py
+msgid ""
+"Filling a gelatinous mass with water has resulted in something that appears "
+"to be a cross between a wheel, an otherworldly abomination, and one of those "
+"old squeezy toys."
+msgstr ""
+
+#: lang/json/WHEEL_from_json.py lang/json/vehicle_part_from_json.py
+msgid "gray wheel"
+msgstr ""
+
+#. ~ Description for gray wheel
+#: lang/json/WHEEL_from_json.py
+msgid ""
+"Filling a gray mass with water has resulted in something that appears to be "
+"a cross between a wheel, an otherworldly abomination, and one of those old "
+"squeezy toys."
+msgstr ""
+
+#: lang/json/WHEEL_from_json.py lang/json/vehicle_part_from_json.py
+msgid "earthen roller"
+msgstr ""
+
+#. ~ Description for earthen roller
+#: lang/json/WHEEL_from_json.py
+msgid ""
+"A large, spherical blob the size of a large truck tire.  The outer layer has "
+"compacted itself into a solid shell; offering great resilience.  Having "
+"grown to full size, it seems content to simply sit there."
+msgstr ""
+
+#: lang/json/WHEEL_from_json.py lang/json/vehicle_part_from_json.py
+msgid "oozing wheel"
+msgstr ""
+
+#. ~ Description for oozing wheel
+#: lang/json/WHEEL_from_json.py
+msgid ""
+"Filling an oozing mass with water has resulted in something that appears to "
+"be a cross between a wheel, an otherworldly abomination, and one of those "
+"old squeezy toys."
 msgstr ""
 
 #: lang/json/WHEEL_from_json.py
@@ -55461,6 +55992,10 @@ msgid "concentrated alcohol"
 msgstr ""
 
 #: lang/json/ammunition_type_from_json.py
+msgid "8x40mm caseless"
+msgstr ""
+
+#: lang/json/ammunition_type_from_json.py
 msgid "20x66mm caseless shotgun"
 msgstr ""
 
@@ -55565,15 +56100,15 @@ msgid "30x113mm"
 msgstr ""
 
 #: lang/json/ammunition_type_from_json.py
+msgid "heavy projectiles"
+msgstr ""
+
+#: lang/json/ammunition_type_from_json.py
 msgid "ballista bolt"
 msgstr ""
 
 #: lang/json/ammunition_type_from_json.py
 msgid "bladed disk"
-msgstr ""
-
-#: lang/json/ammunition_type_from_json.py
-msgid "heavy projectiles"
 msgstr ""
 
 #: lang/json/ammunition_type_from_json.py
@@ -56768,6 +57303,14 @@ msgstr ""
 msgid "Build Tarp Rain-Catcher"
 msgstr ""
 
+#: lang/json/construction_from_json.py
+msgid "Harvest Blob Feed from Corpse Pit: Smash to Harvest"
+msgstr ""
+
+#: lang/json/construction_from_json.py
+msgid "Harvest Blob Feed from Slime: Smash to Harvest"
+msgstr ""
+
 #: lang/json/dream_from_json.py
 msgid "You have a strange dream about lizards."
 msgstr ""
@@ -57267,7 +57810,7 @@ msgid "Your success in restoring civilization was only a dream.  For now."
 msgstr ""
 
 #: lang/json/dream_from_json.py
-msgid "NO! You will not allow this corruption to prevail!"
+msgid "NO!  You will not allow this corruption to prevail!"
 msgstr ""
 
 #: lang/json/dream_from_json.py
@@ -57427,7 +57970,7 @@ msgid "Your dreams of having to live without a web frighten you."
 msgstr ""
 
 #: lang/json/dream_from_json.py
-msgid "The Fury is so big! it's GONNA GET YOAAAAAH! *pant* only a dream."
+msgid "The Fury is so big!  It's GONNA GET YOAAAAAH! *pant* only a dream."
 msgstr ""
 
 #: lang/json/dream_from_json.py
@@ -58740,7 +59283,8 @@ msgid "You feel lightheaded."
 msgstr ""
 
 #: lang/json/effects_from_json.py
-msgid "That critter's jumping around like a jitterbug! It needs to mellow out."
+msgid ""
+"That critter's jumping around like a jitterbug!  It needs to mellow out."
 msgstr ""
 
 #: lang/json/effects_from_json.py
@@ -59306,6 +59850,22 @@ msgstr ""
 
 #: lang/json/effects_from_json.py
 msgid "web spider poison"
+msgstr ""
+
+#: lang/json/effects_from_json.py
+msgid "You feel itchy."
+msgstr ""
+
+#: lang/json/effects_from_json.py
+msgid "The toxin-negating effects of the tonic wears off."
+msgstr ""
+
+#: lang/json/effects_from_json.py
+msgid "You feel less itchy."
+msgstr ""
+
+#: lang/json/effects_from_json.py
+msgid "The toxin-negating effects of the serum wears off."
 msgstr ""
 
 #: lang/json/faction_from_json.py
@@ -59887,10 +60447,6 @@ msgid "thump."
 msgstr ""
 
 #: lang/json/furniture_from_json.py
-msgid "mannequin"
-msgstr ""
-
-#: lang/json/furniture_from_json.py
 msgid "marloss flower"
 msgstr ""
 
@@ -60096,16 +60652,6 @@ msgstr ""
 msgid "mounted blade"
 msgstr ""
 
-#. ~ 'fail' action message of some gate object.
-#: lang/json/gates_from_json.py
-msgid "The gate can't be closed!"
-msgstr ""
-
-#. ~ 'close' action message of some gate object.
-#: lang/json/gates_from_json.py
-msgid "The gate is closed!"
-msgstr ""
-
 #. ~ 'open' action message of some gate object.
 #: lang/json/gates_from_json.py
 msgid "The gate is opened!"
@@ -60116,14 +60662,14 @@ msgstr ""
 msgid "You turn the handle..."
 msgstr ""
 
-#. ~ 'fail' action message of some gate object.
-#: lang/json/gates_from_json.py
-msgid "The barn doors can't be closed!"
-msgstr ""
-
 #. ~ 'close' action message of some gate object.
 #: lang/json/gates_from_json.py
-msgid "The barn doors closed!"
+msgid "The gate is closed!"
+msgstr ""
+
+#. ~ 'fail' action message of some gate object.
+#: lang/json/gates_from_json.py
+msgid "The gate can't be closed!"
 msgstr ""
 
 #. ~ 'open' action message of some gate object.
@@ -60136,14 +60682,14 @@ msgstr ""
 msgid "You pull the rope..."
 msgstr ""
 
-#. ~ 'fail' action message of some gate object.
-#: lang/json/gates_from_json.py
-msgid "The palisade gate can't be closed!"
-msgstr ""
-
 #. ~ 'close' action message of some gate object.
 #: lang/json/gates_from_json.py
-msgid "The palisade gate swings closed with a crash!"
+msgid "The barn doors closed!"
+msgstr ""
+
+#. ~ 'fail' action message of some gate object.
+#: lang/json/gates_from_json.py
+msgid "The barn doors can't be closed!"
 msgstr ""
 
 #. ~ 'open' action message of some gate object.
@@ -60151,14 +60697,14 @@ msgstr ""
 msgid "The palisade gate swings open!"
 msgstr ""
 
-#. ~ 'fail' action message of some gate object.
-#: lang/json/gates_from_json.py
-msgid "The door can't be closed!"
-msgstr ""
-
 #. ~ 'close' action message of some gate object.
 #: lang/json/gates_from_json.py
-msgid "The door slams shut!"
+msgid "The palisade gate swings closed with a crash!"
+msgstr ""
+
+#. ~ 'fail' action message of some gate object.
+#: lang/json/gates_from_json.py
+msgid "The palisade gate can't be closed!"
 msgstr ""
 
 #. ~ 'open' action message of some gate object.
@@ -60169,6 +60715,16 @@ msgstr ""
 #. ~ 'pull' action message of some gate object.
 #: lang/json/gates_from_json.py
 msgid "You throw the lever..."
+msgstr ""
+
+#. ~ 'close' action message of some gate object.
+#: lang/json/gates_from_json.py
+msgid "The door slams shut!"
+msgstr ""
+
+#. ~ 'fail' action message of some gate object.
+#: lang/json/gates_from_json.py
+msgid "The door can't be closed!"
 msgstr ""
 
 #: lang/json/item_action_from_json.py
@@ -61479,7 +62035,7 @@ msgstr ""
 
 #. ~ Sign
 #: lang/json/mapgen_from_json.py
-msgid "Danger! Do not smoke! Risk of explosion!"
+msgid "Danger!  Do not smoke!  Risk of explosion!"
 msgstr ""
 
 #. ~ Sign
@@ -61524,7 +62080,7 @@ msgstr ""
 
 #. ~ Sign
 #: lang/json/mapgen_from_json.py
-msgid "DANGER! Doggy Minefield!"
+msgid "DANGER!  Doggy Minefield!"
 msgstr ""
 
 #. ~ Sign
@@ -62105,7 +62661,7 @@ msgstr ""
 
 #. ~ Description of buff 'Viper Lock' for martial art 'Viper Kung Fu'
 #: lang/json/martial_art_from_json.py
-msgid "You bit true! Your next attack will be the Viper Strike!"
+msgid "You bit true!  Your next attack will be the Viper Strike!"
 msgstr ""
 
 #: lang/json/martial_art_from_json.py
@@ -62479,6 +63035,10 @@ msgstr ""
 
 #: lang/json/material_from_json.py
 msgid "Magical Essence"
+msgstr ""
+
+#: lang/json/material_from_json.py
+msgid "Wyrmskin"
 msgstr ""
 
 #: lang/json/material_from_json.py
@@ -66186,7 +66746,7 @@ msgstr ""
 #: lang/json/mutation_from_json.py
 msgid ""
 "Your cardiovascular system has caught up with your muscular physique, so who "
-"needs pathetic human cars? Strength +4."
+"needs pathetic human cars?  Strength +4."
 msgstr ""
 
 #: lang/json/mutation_from_json.py
@@ -67489,7 +68049,7 @@ msgstr ""
 
 #. ~ Description for Bear
 #: lang/json/mutation_from_json.py
-msgid "So the humans died, what's the worry? Now they won't ruin the woods."
+msgid "So the humans died, what's the worry?  Now they won't ruin the woods."
 msgstr ""
 
 #: lang/json/mutation_from_json.py
@@ -67499,7 +68059,7 @@ msgstr ""
 #. ~ Description for Bovine
 #: lang/json/mutation_from_json.py
 msgid ""
-"Civilization collapsed? Great!  You and your kin will never have to worry "
+"Civilization collapsed?  Great!  You and your kin will never have to worry "
 "about a slaughterhouse again."
 msgstr ""
 
@@ -70666,7 +71226,7 @@ msgstr ""
 msgctxt "prof_desc_male"
 msgid ""
 "You always had to have the latest and best gadgets and gizmos, so is it any "
-"wonder that you upgraded your flesh along with your smart phone? Only time "
+"wonder that you upgraded your flesh along with your smart phone?  Only time "
 "will tell if your status as a marvel of bionic technology will be enough to "
 "ensure your survival after the apocalypse."
 msgstr ""
@@ -70681,7 +71241,7 @@ msgstr ""
 msgctxt "prof_desc_female"
 msgid ""
 "You always had to have the latest and best gadgets and gizmos, so is it any "
-"wonder that you upgraded your flesh along with your smart phone? Only time "
+"wonder that you upgraded your flesh along with your smart phone?  Only time "
 "will tell if your status as a marvel of bionic technology will be enough to "
 "ensure your survival after the apocalypse."
 msgstr ""
@@ -70975,7 +71535,7 @@ msgstr ""
 #: lang/json/professions_from_json.py
 msgctxt "prof_desc_male"
 msgid ""
-"A birdie is one under par, but how much is a zombie? Your clubhouse was "
+"A birdie is one under par, but how much is a zombie?  Your clubhouse was "
 "overrun by the undead, and you fled with your trusty driving wedge."
 msgstr ""
 
@@ -70988,7 +71548,7 @@ msgstr ""
 #: lang/json/professions_from_json.py
 msgctxt "prof_desc_female"
 msgid ""
-"A birdie is one under par, but how much is a zombie? Your clubhouse was "
+"A birdie is one under par, but how much is a zombie?  Your clubhouse was "
 "overrun by the undead, and you fled with your trusty driving wedge."
 msgstr ""
 
@@ -71002,7 +71562,7 @@ msgstr ""
 msgctxt "prof_desc_male"
 msgid ""
 "The cataclysm struck on the big day and you escaped with nothing but your "
-"wedding attire.  Cold feet? You'd just like to keep your feet attached!"
+"wedding attire.  Cold feet?  You'd just like to keep your feet attached!"
 msgstr ""
 
 #: lang/json/professions_from_json.py
@@ -71015,7 +71575,7 @@ msgstr ""
 msgctxt "prof_desc_female"
 msgid ""
 "The cataclysm struck on the big day and you escaped with nothing but your "
-"wedding attire.  Cold feet? You'd just like to keep your feet attached!"
+"wedding attire.  Cold feet?  You'd just like to keep your feet attached!"
 msgstr ""
 
 #: lang/json/professions_from_json.py
@@ -78208,8 +78768,8 @@ msgstr ""
 #: lang/json/snippet_from_json.py
 msgid ""
 "\"Those fools actually believe a bunch of blood mages caused all this?  Tore "
-"down the barrier between worlds?  I don't know what caused, but the others "
-"only exacerbated the problem.\""
+"down the barrier between worlds?  I don't know what caused it, but the "
+"others only exacerbated the problem.\""
 msgstr ""
 
 #: lang/json/snippet_from_json.py
@@ -79344,7 +79904,7 @@ msgid "\"TEKELI-LI!\""
 msgstr ""
 
 #: lang/json/speech_from_json.py
-msgid "\"TEKELI-LI! TEKELI-LI! TEKELI-LI!\""
+msgid "\"TEKELI-LI!  TEKELI-LI!  TEKELI-LI!\""
 msgstr ""
 
 #: lang/json/speech_from_json.py
@@ -79356,7 +79916,7 @@ msgid "a slurping sound."
 msgstr ""
 
 #: lang/json/speech_from_json.py
-msgid "\"WHY! WHY, WHYYY!\""
+msgid "\"WHY!  WHY, WHYYY!\""
 msgstr ""
 
 #: lang/json/speech_from_json.py
@@ -79380,7 +79940,7 @@ msgid "\"Have you seen my children?\""
 msgstr ""
 
 #: lang/json/speech_from_json.py
-msgid "\"What have I become? Why can't I die?\""
+msgid "\"What have I become?  Why can't I die?\""
 msgstr ""
 
 #: lang/json/speech_from_json.py
@@ -79394,7 +79954,7 @@ msgid "\"Please, take me with you.\""
 msgstr ""
 
 #: lang/json/speech_from_json.py
-msgid "\"Not that way! Go left!\""
+msgid "\"Not that way!  Go left!\""
 msgstr ""
 
 #: lang/json/speech_from_json.py
@@ -79407,7 +79967,8 @@ msgstr ""
 
 #: lang/json/speech_from_json.py
 msgid ""
-"\"Arr, ahoy there maties! And welcom- welcom- welcome to tha pirate's cove.\""
+"\"Arr, ahoy there maties!  And welcom- welcom- welcome to tha pirate's cove."
+"\""
 msgstr ""
 
 #: lang/json/speech_from_json.py
@@ -79737,7 +80298,7 @@ msgid "\"!!Cleanse me in flames!!\""
 msgstr ""
 
 #: lang/json/speech_from_json.py
-msgid "\"You! Come here!\""
+msgid "\"You!  Come here!\""
 msgstr ""
 
 #: lang/json/speech_from_json.py
@@ -79880,6 +80441,10 @@ msgstr ""
 msgid ""
 "\"I saw a guy running around with 2 megaman arms.  It was the trippiest shit "
 "ever.\""
+msgstr ""
+
+#: lang/json/speech_from_json.py
+msgid "\"SQUEE!\""
 msgstr ""
 
 #: lang/json/start_location_from_json.py
@@ -80246,7 +80811,7 @@ msgid "Death is pretty blunt."
 msgstr ""
 
 #: lang/json/talk_topic_from_json.py
-msgid "So no negotiating? No, 'If you do this quest then we'll let you in?'"
+msgid "So no negotiating?  No, 'If you do this quest then we'll let you in?'"
 msgstr ""
 
 #: lang/json/talk_topic_from_json.py
@@ -80333,7 +80898,7 @@ msgid "Is there anything I can do to help?"
 msgstr ""
 
 #: lang/json/talk_topic_from_json.py
-msgid "Thanks! I will be on my way."
+msgid "Thanks!  I will be on my way."
 msgstr ""
 
 #: lang/json/talk_topic_from_json.py
@@ -80518,12 +81083,12 @@ msgstr ""
 
 #: lang/json/technique_from_json.py
 #, python-format
-msgid "Snicker-snack! You behead %s"
+msgid "Snicker-snack!  You behead %s"
 msgstr ""
 
 #: lang/json/technique_from_json.py
 #, python-format
-msgid "Snicker-snack! <npcname> beheads %s"
+msgid "Snicker-snack!  <npcname> beheads %s"
 msgstr ""
 
 #: lang/json/technique_from_json.py
@@ -82831,6 +83396,18 @@ msgstr ""
 msgid "tarp raincatcher"
 msgstr ""
 
+#: lang/json/terrain_from_json.py
+msgid "mass of blob feed"
+msgstr ""
+
+#: lang/json/terrain_from_json.py
+msgid "squish!"
+msgstr ""
+
+#: lang/json/terrain_from_json.py
+msgid "mound of blob feed"
+msgstr ""
+
 #: lang/json/tool_quality_from_json.py
 msgid "cutting"
 msgstr ""
@@ -84303,15 +84880,63 @@ msgid "30mm chaingun"
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
-msgid "tesla turret"
+msgid "TDI Vector turret"
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
-msgid "assault rifle turret"
+msgid "automated TDI Vector"
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
-msgid "rotary speargun"
+msgid "storm bolter turret"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "automated storm bolter"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "slingshot cannon turret"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "automated slingshot cannon"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "Bushmaster ACR turret"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "automated Bushmaster ACR"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "rotary cannon turret"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "automated rotary cannon"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "AK47 turret"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "AK74 turret"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "NX-17 pulse turret"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "laser cannon turret"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "pulse laser turret"
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
@@ -84319,19 +84944,1011 @@ msgid "turbolaser turret"
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
-msgid "railgun turret"
+msgid "American-180 turret"
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
-msgid "flame turret"
+msgid "automated American-180"
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
-msgid "blob roller"
+msgid "AN94 turret"
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
-msgid "wiring"
+msgid "perforator turret"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "automated perforator"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "needler turret"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "automated needler"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "AR-15 turret"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "automated AR-15"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "hypervelocity driver turret"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "ripper turret"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "automated ripper"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "scorpion turret"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "automated scorpion"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "splintergun turret"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "automated splintergun"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "tesla turret"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "avalanche turret"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "automated avalanche"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "autoshotgun turret"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "automated autoshotgun"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "blunderbuss turret"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "automated blunderbuss"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "Browning BLR turret"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "Calico M960 turret"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "automated Calico M960"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "flintlock carbine turret"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "automated flintlock carbine"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "coilgun turret"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "automated coilgun"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "lacerator turret"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "automated lacerator"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "Cx4 Storm turret"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "automated Cx4 Storm"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "simple flamethrower turret"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "flamethrower turret"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "RM451 flamethrower turret"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "FN FAL turret"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "automated FN FAL"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "FN P90 turret"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "H&K 416A5 turret"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "automated H&K 416A5"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "heavy rail rifle turret"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "H&K G3 turret"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "H&K G36 turret"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "automated H&K G36"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "automated H&K G3"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "H&K G80 turret"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "H&K MP5 turret"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "automated H&K MP5"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "H&K MP7 turret"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "H&K UMP45 turret"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "automated H&K UMP45"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "Kel-Tec KSG turret"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "automated Kel-Tec KSG"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "L523 turret"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "automated L523"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "L523-CAR turret"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "automated "
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "L12 Defender turret"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "automated L12 Defender"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "L523-DSR turret"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "automated L523-DSR"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "L523-LMG turret"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "automated L523-LMG"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "Long Ranger turret"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "automated Long Ranger"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "L523-MBR turret"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "automated L523-MBR"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "40mm launcher turret"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "M1014 shotgun turret"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "automated M1014 shotgun"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "Barrett M107A1 turret"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "automated Barrett M107A1"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "M14-EBR turret"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "automated M14-EBR"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "M1A turret"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "automated M1A"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "M2010 ESR turret"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "M27 IAR turret"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "automated M27 IAR"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid ".50 caliber turret"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "automated .50 caliber rifle"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "M320 turret"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "M4A1 turret"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "automated M4A1"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "M60 turret"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "automated M60"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "M79 turret"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "MAC-10 turret"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "automated MAC-10"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "Marlin 39A turret"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "automated Marlin 39A"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "Milkor MGL turret"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "Mossberg 500 turret"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "automated Mossberg 500"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "nail rifle turret"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "automated nail rifle"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "RM216 SPIW turret"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "double pipe shotgun turret"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "automated double pipe shotgun"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "pipe shotgun turret"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "automated pipe shotgun"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "sawn pipe shotgun turret"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "automated sawn pipe shotgun"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "rail rifle turret"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "Remington 700 turret"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "Remington 870 turret"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "automated Remington 870"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "repeating crossbow turret"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "automated repeating crossbow"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "revolver shotgun turret"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "automated revolver shotgun"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid ".22 pipe rifle turret"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "automated .22 pipe rifle"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid ".308 pipe rifle turret"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "automated .308 pipe rifle"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "9mm pipe rifle turret"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "automated 9mm pipe rifle"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "flintlock rifle turret"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "automated flintlock rifle"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "RM11B scout rifle turret"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "RM2000 SMG turret"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "RM360 carbine turret"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "automated RM360 carbine"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "RM51 assault rifle turret"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "RM614 LMG turret"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "RM802 turret"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "RM88 battle rifle turret"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "rotary speargun turret"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "automated rotary speargun"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "Ruger 10/22 turret"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "automated Ruger 10/22"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "Ruger mini-14 turret"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "automated Ruger mini-14"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "Saiga 12 turret"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "automated Saiga 12"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "Savage 111F turret"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "automated Savage 111F"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "FN SCAR-H turret"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "automated FN SCAR-H"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "FN SCAR-L turret"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "automated FN SCAR-L"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "double turret"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "automated double shotgun"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "single shotgun turret"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "sawn-off shotgun turret"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "automated sawn-off shotgun"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "automated single shotgun"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "SKS turret"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "speargun turret"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "automated speargun"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "Steyr AUG turret"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "automated Steyr AUG"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "223 carbine turret"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "automated 223 carbine"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "survivor special turret"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "TEC-9 turret"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "automated TEC-9"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "Uzi turret"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "automated Uzi"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "V29 laser turret"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "LACP laser turret"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "ice ram"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "ice pack"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "icy windshield"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "snow slider"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "icy sea skimmer"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "gel lamp"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "directed gel lamp"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "gel retriever"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "gel harness"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "gel framework"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "diesel capsule"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "diesel capsule (under)"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "feed capsule"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "feed capsule (under)"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "gasoline capsule"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "gasoline capsule (under)"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "gel reinforcement"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "gel roof"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "gel seat"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "gel receptacle"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "gel pouch (under)"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "dirty water capsule"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "dirty water capsule (under)"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "clean water capsule"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "clean water capsule (under)"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "gel walkway"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "gel panel"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "gel hatch"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "opaque gel hatch"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "gel battery"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "gel battery (under)"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "gel generator"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "gray retriever"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "gray harness"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "gray frame"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "diesel cocoon"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "diesel cocoon (under)"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "feed cocoon"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "feed cocoon (under)"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "gasoline cocoon"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "gasoline cocoon (under)"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "gray reinforcement"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "gray roof"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "gray seat"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "gray receptacle"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "gray pouch (under)"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "dirty water cocoon"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "dirty water cocoon (under)"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "clean water cocoon"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "clean water cocoon (under)"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "gray walkway"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "gray wall"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "gray hatch"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "opaque gray hatch"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "gel quarterpanel"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "gray barricade"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "ooze screen"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "ooze retriever"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "ooze harness"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "ooze chassis"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "diesel pod"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "diesel pod (under)"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "feed pod"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "feed pod (under)"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "gasoline pod"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "gasoline pod (under)"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "ooze reinforcement"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "ooze roof"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "ooze seat"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "ooze receptacle"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "ooze pouch (under)"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "dirty water pod"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "dirty water pod (under)"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "clean water pod"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "clean water pod (under)"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "ooze walkway"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "ooze barrier"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "ooze hatch"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "opaque ooze hatch"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "amorphous core"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid ".223 rack"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid ".22 rack"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid ".308 Winchester rack"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid ".45 rack"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid ".50 BMG rack"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "5.56mm rack"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "9mm rack"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "wooden floor panel"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "wooden bolt rack"
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
@@ -84339,7 +85956,43 @@ msgid "cargo rack"
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
+msgid "disk rack"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "paper cartridge rack"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "harpoon rack"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "nail rack"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "Security camera"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "pebble rack"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "superalloy ram"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "heavy steel ram"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
 msgid "military composite ram"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "spiked ram"
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
@@ -84351,23 +86004,23 @@ msgid "wooden ram"
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
-msgid "heavy steel ram"
-msgstr ""
-
-#: lang/json/vehicle_part_from_json.py
-msgid "superalloy ram"
-msgstr ""
-
-#: lang/json/vehicle_part_from_json.py
-msgid "spiked ram"
-msgstr ""
-
-#: lang/json/vehicle_part_from_json.py
 msgid "rebar reinforcement"
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
-msgid "turret chassis"
+msgid "steel ballista rack"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "steel bolt rack"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "shard rack"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "stone rack"
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
@@ -84383,19 +86036,35 @@ msgid "Tank Treads"
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
-msgid "smokescreen"
+msgid "wooden ballista rack"
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
-msgid "smokelayer"
+msgid "wiring"
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
-msgid "mounted NX17"
+msgid "Floodlight"
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
-msgid "mounted Mark 19 GL"
+msgid "turreted reinforced solar panel"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "Upgraded reinforced solar panel"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "turreted solar panel"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "upgraded turreted solar panel"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "Quantum solar panel"
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
@@ -84407,123 +86076,219 @@ msgid "diesel tank (little)"
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
+msgid "manual BAR"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "manual M249"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "manual flamethrower"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "manual plasma gun"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "manual fusion gun"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "manual A7 laser rifle"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "manual M2 Browning"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "manual M240"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "manual M60"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "manual auto-shotgun"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "manual M134D-H Minigun"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "manual Mark 19"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "manual RM614 LMG"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "manual RM298 HMG"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "BAR turret"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "M249 turret"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "plasma turret"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "fusion turret"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "M2 Browning turret"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "M240 turret"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "auto-shotgun turret"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "M134D-H Minigun turret"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "Mark 19 turret"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "RM614 turret"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "RM298 turret"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "water cannon turret"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "vortex accelerator turret"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "automated vortex accelerator"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "vortex bolter turret"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "automated vortex bolter"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "vortex rifle turret"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "automated vortex rifle"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "diamond barrier"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
 msgid "cargo dimension"
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
-msgid "mounted pulse rifle"
+msgid "vortex cannon turret"
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
-msgid "mounted tesla cannon"
+msgid "manual storm bolter"
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
-msgid "mounted needler"
+msgid "manual slingshot cannon"
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
-msgid "mounted M107A1"
+msgid "manual rotary cannon"
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
-msgid "mounted L523 LMG"
+msgid "manual NX-17 pulse cannon"
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
-msgid "LM614 LMG"
+msgid "manual laser cannon"
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
-msgid "mounted RM298"
+msgid "manual pulse laser"
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
-msgid "mounted .50 caliber rifle"
+msgid "manual turbolaser"
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
-msgid "mounted 40mm launcher"
+msgid "manual lacerator"
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
-msgid "mounted M79"
+msgid "manual RM451 flamethrower"
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
-msgid "mounted M320"
+msgid "manual perforator"
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
-msgid "mounted milkor MGL"
+msgid "manual needler"
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
-msgid "mounted RM802"
+msgid "manual hypervelocity driver"
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
-msgid "mounted scorpion"
+msgid "manual ripper"
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
-msgid "mounted speargun"
+msgid "manual rotary speargun"
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
-msgid "mounted slingshot cannon"
+msgid "manual scorpion ballista"
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
-msgid "mounted avalanche"
+msgid "manual splintergun"
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
-msgid "mounted storm bolter"
+msgid "manual speargun"
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
-msgid "mounted laser cannon"
+msgid "manual tesla cannon"
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
-msgid "mounted pulse laser"
-msgstr ""
-
-#: lang/json/vehicle_part_from_json.py
-msgid "mounted turbolaser"
-msgstr ""
-
-#: lang/json/vehicle_part_from_json.py
-msgid "mounted rotary cannon"
-msgstr ""
-
-#: lang/json/vehicle_part_from_json.py
-msgid "mounted thundergun"
-msgstr ""
-
-#: lang/json/vehicle_part_from_json.py
-msgid "mounted splintergun"
-msgstr ""
-
-#: lang/json/vehicle_part_from_json.py
-msgid "mounted perforator"
-msgstr ""
-
-#: lang/json/vehicle_part_from_json.py
-msgid "mounted hypervelocity driver"
-msgstr ""
-
-#: lang/json/vehicle_part_from_json.py
-msgid "mounted flamethrower (S)"
-msgstr ""
-
-#: lang/json/vehicle_part_from_json.py
-msgid "mounted rm451"
-msgstr ""
-
-#: lang/json/vehicle_part_from_json.py
-msgid "mounted ripper"
+msgid "manual avalanche rifle"
 msgstr ""
 
 #. ~ Vehicle Spawn Description
@@ -85022,6 +86787,16 @@ msgstr ""
 #: src/activity_handlers.cpp
 #, c-format
 msgid "You failed at installing the %s."
+msgstr ""
+
+#: src/activity_handlers.cpp
+#, c-format
+msgid "You clear up the %s at your feet."
+msgstr ""
+
+#: src/activity_handlers.cpp
+#, c-format
+msgid "You clear up the %s to your %s."
 msgstr ""
 
 #: src/activity_item_handling.cpp
@@ -85709,7 +87484,7 @@ msgid "Warmth:"
 msgstr ""
 
 #: src/armor_layers.cpp
-msgid "Storage:"
+msgid "Storage (ml):"
 msgstr ""
 
 #: src/armor_layers.cpp
@@ -95028,6 +96803,11 @@ msgid "The %s lets out a whirring noise and starts to follow you."
 msgstr ""
 
 #: src/game.cpp
+#, c-format
+msgid "Really step into %s?"
+msgstr ""
+
+#: src/game.cpp
 msgid "You can't move while in your shell.  Deactivate it to go mobile."
 msgstr ""
 
@@ -95117,11 +96897,6 @@ msgstr ""
 
 #: src/game.cpp
 msgid "Can't find grabbed object."
-msgstr ""
-
-#: src/game.cpp
-#, c-format
-msgid "Really step into %s?"
 msgstr ""
 
 #: src/game.cpp
@@ -98351,7 +100126,7 @@ msgid "Weight (%s): "
 msgstr ""
 
 #: src/inventory_ui.cpp
-msgid "Volume: "
+msgid "Volume (ml): "
 msgstr ""
 
 #: src/inventory_ui.cpp
@@ -98430,23 +100205,15 @@ msgid "Barter value: "
 msgstr ""
 
 #: src/item.cpp
+msgid "ml"
+msgstr ""
+
+#: src/item.cpp
 msgid "<bold>Volume</bold>: "
 msgstr ""
 
 #: src/item.cpp
 msgid "Weight: "
-msgstr ""
-
-#. ~ %1$d is stack size and guaranteed to be > 1
-#: src/item.cpp
-#, c-format
-msgid "Stacks in groups of <stat>%1$d</stat>"
-msgstr ""
-
-#. ~ %1$d is stack size and %2$d is base volume with both guaranteed to be > 1
-#: src/item.cpp
-#, c-format
-msgid "Stack of <stat>%1$d</stat> consumes <stat>%2$d</stat> volume"
 msgstr ""
 
 #: src/item.cpp
@@ -101220,16 +102987,6 @@ msgstr ""
 
 #: src/iuse.cpp
 msgid "You can't churn up this ground."
-msgstr ""
-
-#: src/iuse.cpp
-#, c-format
-msgid "You clear up the %s at your feet."
-msgstr ""
-
-#: src/iuse.cpp
-#, c-format
-msgid "You clear up the %s to your %s."
 msgstr ""
 
 #: src/iuse.cpp
@@ -105319,10 +107076,6 @@ msgstr ""
 
 #: src/map.cpp
 msgid "an alarm go off!"
-msgstr ""
-
-#: src/map.cpp
-msgid "glass shattering"
 msgstr ""
 
 #: src/map.cpp
@@ -115079,12 +116832,7 @@ msgstr ""
 
 #: src/npctalk.cpp
 #, c-format
-msgid "Volume: %d, %s"
-msgstr ""
-
-#: src/npctalk.cpp
-#, c-format
-msgid "Weight: %.1f %s"
+msgid "Volume: %.2f liters, Weight: %.1f %s"
 msgstr ""
 
 #: src/npctalk.cpp
@@ -116292,6 +118040,14 @@ msgid ""
 msgstr ""
 
 #: src/options.cpp
+msgid "Morale penalty for filthy clothing."
+msgstr ""
+
+#: src/options.cpp
+msgid "If true, wearing filthy clothing will cause morale penalties."
+msgstr ""
+
+#: src/options.cpp
 msgid "Disables removable gun magaziones."
 msgstr ""
 
@@ -116307,6 +118063,16 @@ msgstr ""
 
 #: src/options.cpp
 msgid "If true, disables vitamin tracking and vitamin disorders."
+msgstr ""
+
+#: src/options.cpp
+msgid "Disables tracking food, thirst and (partially) fatigue for NPCs."
+msgstr ""
+
+#: src/options.cpp
+msgid ""
+"If true, NPCs won't need to eat or drink and will only get tired enough to "
+"sleep, not to get penalties."
 msgstr ""
 
 #: src/options.cpp
@@ -119895,6 +121661,14 @@ msgstr ""
 
 #: src/player_activity.cpp
 msgid "Stop modifying gun?"
+msgstr ""
+
+#: src/player_activity.cpp
+msgid "Stop clearing that rubble?"
+msgstr ""
+
+#: src/player_activity.cpp
+msgid "Stop interacting with the NPC?"
 msgstr ""
 
 #: src/player_activity.cpp
