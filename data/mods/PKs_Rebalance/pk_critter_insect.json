@@ -43,8 +43,8 @@
     "speed":115,
     "melee_skill":6,
     "melee_dice":1,
-    "melee_dice_sides":2,
-    "melee_cut":10,
+    "melee_dice_sides":4,
+    "melee_cut":8,
     "melee_damage": [ {"damage_type": "acid", "amount": 3} ],
     "dodge":2,
     "armor_bash":4,
@@ -55,7 +55,7 @@
         "into_group": "TRAP_SPIDER_UPGRADE",
         "half_life": 19
     },
-    "hp":70,
+    "hp":60,
     "death_function":"NORMAL",
     "description":"A gigantic spider with a bulbous thorax.  It digs an underground burrow that serves as a pit to trap unwary prey.",
     "flags":["SEES", "SMELLS", "HEARS", "VENOM", "CAN_DIG", "WEBWALK", "CHITIN", "FAT", "CLIMBS", "PUSH_MON"]

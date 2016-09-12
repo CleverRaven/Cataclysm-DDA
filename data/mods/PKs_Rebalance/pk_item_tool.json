@@ -1,24 +1,5 @@
 [
     {
-    "id": "popcan_stove",
-    "sub": "hotplate",
-    "edit-mode": "override",
-    "type": "TOOL",
-    "symbol": ";",
-    "color": "light_gray",
-    "name": "soda can stove kit",
-    "description": "This is an ultra-light alcohol-burning stove with simmer ring, crafted by hand from a couple of aluminum soda cans.  It comes with a 250 ml plastic bottle to hold concentrated alcohol fuel.",
-    "price" : 250,
-    "material" : "aluminum",
-    "weight": 45,
-    "volume": 3,
-    "bashing": 1,
-    "max_charges": 250,
-    "initial_charges": 140,
-    "charges_per_use": 4,
-    "ammo": "conc_alcohol",
-    "use_action": "HOTPLATE"
-    },{
     "id": "pokeball",
     "type": "TOOL",
     "name": "pocket ball",
