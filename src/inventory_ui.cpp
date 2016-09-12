@@ -490,13 +490,13 @@ void inventory_selector::draw_inv_weight_vol( WINDOW *w, int weight_carried, uni
     wprintz(w, c_ltgray, "/%-6.1f", convert_weight(u.weight_capacity()));
 
     // Print volume
-    mvwprintw(w, 0, 61, _("Volume (ml): "));
+    mvwprintw(w, 0, 61, _("Volume (L): "));
     if (vol_carried > vol_capacity) {
-        wprintz(w, c_red, "%3d", to_milliliter( vol_carried ) );
+        wprintz(w, c_red, "%6.1f", ( to_milliliter( vol_carried ) / 1000.0 ) + 0.05 ); // +0.05 to round up
     } else {
-        wprintz(w, c_ltgray, "%3d", to_milliliter( vol_carried ) );
+        wprintz(w, c_ltgray, "%6.1f", ( to_milliliter( vol_carried ) / 1000.0 ) + 0.05 );
     }
-    wprintw(w, "/%-3d", to_milliliter( vol_capacity ) );
+    wprintz(w, c_ltgray, "/%-6.1f", to_milliliter( vol_capacity ) / 1000.0 );
 }
 
 void inventory_selector::draw_inv_weight_vol( WINDOW *w ) const
