@@ -527,7 +527,7 @@
       ["catfood", 20],
       ["salted_fish", 15],
       ["charcoal", 5],
-      ["soap", 10],
+      ["soap", 70],
       ["dry_beans", 40],
       ["dry_rice", 40],
       ["survnote", 1],
@@ -1759,7 +1759,7 @@
       ["boots_rubber", 20],
       ["charcoal", 5],
       ["fungicide", 2],
-      ["soap", 20],
+      ["soap", 80],
       ["chem_hydrogen_peroxide", 20]
     ]
   },{
