@@ -33,6 +33,8 @@ extern bool use_tiles;
 extern bool fov_3d;
 extern bool tile_iso;
 
+extern const int core_version;
+
 extern const int savegame_version;
 extern int savegame_loading_version;
 

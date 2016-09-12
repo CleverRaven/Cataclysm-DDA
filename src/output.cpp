@@ -1146,6 +1146,26 @@ void popup_nowait( const char *mes, ... )
     popup( text, PF_NO_WAIT );
 }
 
+void popup_status( const char *title, const char *msg, ... )
+{
+    std::string text;
+    if( !test_mode && title != nullptr ) {
+        text += title;
+        text += "\n";
+    }
+
+    va_list ap;
+    va_start( ap, msg );
+    const std::string fmt = vstring_format( msg, ap );
+    va_end( ap );
+
+    if( !test_mode ) {
+        std::cerr << fmt << std::endl;
+    }
+
+    popup( text + fmt, PF_NO_WAIT );
+}
+
 void full_screen_popup( const char *mes, ... )
 {
     va_list ap;

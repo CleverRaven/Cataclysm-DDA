@@ -364,6 +364,7 @@ typedef enum {
 long popup_getkey( const char *mes, ... );
 void popup_top( const char *mes, ... );
 void popup_nowait( const char *mes, ... );
+void popup_status( const char *title, const char *msg, ... );
 void popup( const char *mes, ... );
 long popup( const std::string &text, PopupFlags flags );
 void full_screen_popup( const char *mes, ... );

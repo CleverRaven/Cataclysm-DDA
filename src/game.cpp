@@ -117,6 +117,8 @@
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 
+const int core_version = 3;
+
 /** Will be set to true when running unit tests */
 bool test_mode = false;
 
@@ -706,6 +708,16 @@ void game::reenter_fullscreen(void)
  */
 void game::setup()
 {
+    popup_status( _( "Please wait while the world data loads..." ), _( "Loading core data" ) );
+    load_core_data();
+
+    for( int i = get_world_option<int>( "CORE_VERSION" ); i < core_version; ++i ) {
+        popup_status( _( "Please wait while the world data loads..." ),
+                      _( "Applying legacy migration (%i/%i)" ), i, core_version - 1 );
+
+        load_data_from_dir( FILENAMES["legacydir"] + to_string( i ), "legacy" );
+    }
+
     load_world_modfiles(world_generator->active_world);
 
     m =  map( get_world_option<bool>( "ZLEVELS" ) );
@@ -3563,13 +3575,8 @@ void game::load(std::string worldname, std::string name)
 
 void game::load_world_modfiles(WORLDPTR world)
 {
-    popup_nowait(_("Please wait while the world data loads...\nLoading core JSON..."));
-
-    load_core_data();
-
     erase();
     refresh();
-    popup_nowait(_("Please wait while the world data loads...\nLoading mods..."));
 
     if (world != NULL) {
         load_artifacts(world->world_path + "/artifacts.gsav");
@@ -3584,6 +3591,8 @@ void game::load_world_modfiles(WORLDPTR world)
                 MOD_INFORMATION &mod = *mm->mod_map[mod_ident];
                 if( !mod.obsolete ) {
                     // Silently ignore mods marked as obsolete.
+                    popup_status( _( "Please wait while the world data loads..." ),
+                                  _( "Loading mods (%s)" ), mod.ident.c_str() );
                     load_data_from_dir( mod.path, mod.ident );
                 }
             } else {
@@ -3596,7 +3605,7 @@ void game::load_world_modfiles(WORLDPTR world)
 
     erase();
     refresh();
-    popup_nowait(_("Please wait while the world data loads...\nFinalizing and verifying..."));
+    popup_status( _( "Please wait while the world data loads..." ), _( "Finalizing and verifying" ) );
 
     DynamicDataLoader::get_instance().finalize_loaded_data();
 }

@@ -624,6 +624,19 @@ void options_manager::cOpt::setValue(float fSetIn)
 }
 
 //set value
+void options_manager::cOpt::setValue( int iSetIn )
+{
+    if( sType != "int" ) {
+        debugmsg( "tried to set an int value to a %s option", sType.c_str() );
+        return;
+    }
+    iSet = iSetIn;
+    if( iSet < iMin || iSet > iMax ) {
+        iSet = iDefault;
+    }
+}
+
+//set value
 void options_manager::cOpt::setValue(std::string sSetIn)
 {
     if (sType == "string_select") {
@@ -1254,6 +1267,13 @@ void options_manager::init()
         );
 
     ////////////////////////////WORLD DEFAULT////////////////////
+    add("CORE_VERSION", "world_default", _("Core version data"),
+        _("Controls what migrations are applied for legacy worlds"),
+        1, core_version, core_version, COPT_ALWAYS_HIDE
+        );
+
+    mOptionsSort["world_default"]++;
+
     optionNames["no"] = _("No");
     optionNames["yes"] = _("Yes");
     optionNames["query"] = _("Query");
