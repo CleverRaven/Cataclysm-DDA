@@ -222,33 +222,6 @@
     ]
   },
   {
-    "result": "nx17p",
-    "type": "recipe",
-    "category": "CC_OTHER",
-    "subcategory": "CSC_OTHER_PARTS",
-    "skill_used": "electronics",
-    "difficulty": 5,
-    "skills_required": [ "mechanics", 3 ],
-    "time": 30000,
-    "autolearn": true,
-    "qualities": [
-      { "id": "HAMMER", "level": 2 },
-      { "id": "SAW_M", "level": 1 }
-    ],
-    "tools": [ [ [ "soldering_iron", 40 ], [ "toolset", 40 ] ] ],
-    "components": [
-      [ [ "nx17", 1 ] ],
-      [ [ "UPS_off", 1 ], [ "small_storage_battery", 1 ] ],
-      [ [ "lens", 2 ] ],
-      [ [ "scrap", 8 ], [ "steel_chunk", 3 ] ],
-      [ [ "cable", 20 ] ],
-      [ [ "e_scrap", 6 ] ],
-      [ [ "amplifier", 5 ] ],
-      [ [ "power_supply", 5 ] ],
-      [ [ "plastic_chunk", 6 ] ]
-    ]
-  },
-  {
     "result": "railturret",
     "type": "recipe",
     "category": "CC_OTHER",

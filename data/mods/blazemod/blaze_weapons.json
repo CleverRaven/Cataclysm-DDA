@@ -235,35 +235,6 @@
     "flags": [ "MOUNTED_GUN", "NEVER_JAMS" ]
   },
   {
-    "id": "nx17p",
-    "type": "GUN",
-    "name": "NX-17 pulse rifle",
-    "//": "Turrets use volume as a measure of dispersion and recoil doesn't affect vehicles; so for the moment, I left those as zero.  This will change as soon as these issues are addressed.",
-    "description": "A powerful energy rifle, the addition of a capacitor allows the weapon to fire in controlled bursts.  The increased power requirements require a significant power source and the firing mechanism also requires a specialized chassis.",
-    "weight": 5194,
-    "volume": 15,
-    "price": 1500000,
-    "to_hit": -1,
-    "bashing": 8,
-    "material": [ "steel", "plastic" ],
-    "symbol": "(",
-    "color": "blue",
-    "skill": "rifle",
-    "range": 20,
-    "ranged_damage": 20,
-    "pierce": 10,
-    "sight_dispersion": 150,
-    "durability": 8,
-    "burst": 3,
-    "ups_charges": 19,
-    "valid_mod_locations": [],
-    "ammo_effects": [
-      "INCENDIARY",
-      "WIDE"
-    ],
-    "flags": [ "NEVER_JAMS", "NO_UNLOAD", "MOUNTED_GUN" ]
-  },
-  {
     "id": "railturret",
     "type": "GUN",
     "name": "hypervelocity driver",
