@@ -4465,7 +4465,7 @@
         "volume" : 8,
         "warmth" : 25,
         "encumbrance" : 16,
-        "flags" : ["STURDY", "BLOCK_WHILE_WORN"],
+        "flags" : ["STURDY"],
         "coverage" : 90,
         "material_thickness" : 4
     },
