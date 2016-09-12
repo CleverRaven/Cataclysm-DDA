@@ -574,7 +574,7 @@ int player::fire_gun( const tripoint &target, int shots, item& gun )
     moves -= time_to_fire( *this, *gun.type );
 
     practice( skill_gun, xp * ( get_skill_level( skill_gun ) + 1 ) );
-    if( !xp && one_in( 10 ) ) {
+    if( hits && !xp && one_in( 10 ) ) {
         add_msg_if_player( m_info, _( "You'll need to aim at more distant targets to further improve your marksmanship." ) );
     }
 
