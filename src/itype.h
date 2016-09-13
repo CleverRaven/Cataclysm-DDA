@@ -163,24 +163,24 @@ struct islot_armor {
     /**
      * How much this item encumbers the player.
      */
-    signed char encumber = 0;
+    int encumber = 0;
     /**
      * Percentage of the body part area that this item covers.
      * This determines how likely it is to hit the item instead of the player.
      */
-    unsigned char coverage = 0;
+    int coverage = 0;
     /**
      * TODO: document me.
      */
-    unsigned char thickness = 0;
+    int thickness = 0;
     /**
      * Resistance to environmental effects.
      */
-    unsigned char env_resist = 0;
+    int env_resist = 0;
     /**
      * How much warmth this item provides.
      */
-    signed char warmth = 0;
+    int warmth = 0;
     /**
      * How much storage this items provides when worn.
      */

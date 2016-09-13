@@ -1165,15 +1165,17 @@ void Item_factory::load_armor( JsonObject &jo, const std::string &src )
     }
 }
 
-void Item_factory::load( islot_armor &slot, JsonObject &jo, const std::string & )
+void Item_factory::load( islot_armor &slot, JsonObject &jo, const std::string &src )
 {
-    assign( jo, "encumbrance", slot.encumber );
-    assign( jo, "coverage", slot.coverage );
-    assign( jo, "material_thickness", slot.thickness );
-    assign( jo, "environmental_protection", slot.env_resist );
-    assign( jo, "warmth", slot.warmth );
-    assign( jo, "storage", slot.storage );
-    assign( jo, "power_armor", slot.power_armor );
+    bool strict = src == "core";
+
+    assign( jo, "encumbrance", slot.encumber, strict, 0 );
+    assign( jo, "coverage", slot.coverage, strict, 0, 100 );
+    assign( jo, "material_thickness", slot.thickness, strict, 0 );
+    assign( jo, "environmental_protection", slot.env_resist, strict, 0 );
+    assign( jo, "warmth", slot.warmth, strict, 0 );
+    assign( jo, "storage", slot.storage, strict, 0 );
+    assign( jo, "power_armor", slot.power_armor, strict );
 
     assign_coverage_from_json( jo, "covers", slot.covers, slot.sided );
 }
