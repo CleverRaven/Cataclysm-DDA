@@ -1,6 +1,7 @@
 #include "recipe_dictionary.h"
 
 #include "itype.h"
+#include "generic_factory.h"
 
 #include <algorithm>
 #include <numeric>
@@ -26,6 +27,141 @@ const std::set<const recipe *> &recipe_dictionary::of_component( const itype_id 
 {
     auto iter = component.find( id );
     return iter != component.end() ? iter->second : null_match;
+}
+
+void recipe_dictionary::load( JsonObject &jo, const std::string & /* src */, bool uncraft )
+{
+    // @todo enable strict parsing for core recipes
+    bool strict = false;
+
+    // @todo remove once recipes are converted
+    if( !uncraft ) {
+        uncraft = jo.get_string( "category" ) == "CC_NONCRAFT";
+    }
+
+    auto result = jo.get_string( "result" );
+    auto id = result + ( uncraft ? "uncraft" : jo.get_string( "id_suffix", "" ) );
+
+    auto &r = recipe_dict.recipes[ id ];
+    r.result = result;
+    r.ident_ = id;
+
+    if( uncraft ) {
+        r.cat = "CC_NONCRAFT";
+        r.subcat = "CSC_NONCRAFT";
+        r.reversible = true;
+        r.valid_to_learn = false;
+    } else {
+        assign( jo, "category", r.cat, strict );
+        assign( jo, "subcategory", r.subcat, strict );
+        assign( jo, "reversible", r.reversible, strict );
+    }
+
+    assign( jo, "time", r.time, strict, 0 );
+    assign( jo, "difficulty", r.difficulty, strict, 0, MAX_SKILL );
+    assign( jo, "flags", r.flags );
+
+    // automatically set contained if we specify as container
+    assign( jo, "contained", r.contained, strict );
+    r.contained |= assign( jo, "container", r.container, strict );
+
+    if( jo.has_array( "batch_time_factors" ) ) {
+        auto batch = jo.get_array( "batch_time_factors" );
+        r.batch_rscale = batch.get_int( 0 ) / 100.0;
+        r.batch_rsize  = batch.get_int( 1 );
+    }
+
+    assign( jo, "charges", r.charges );
+    assign( jo, "result_mult", r.result_mult );
+
+    assign( jo, "skill_used", r.skill_used, strict );
+
+    if( jo.has_member( "skills_required" ) ) {
+        auto sk = jo.get_array( "skills_required" );
+        r.required_skills.clear();
+
+        if( sk.empty() ) {
+            // clear all requirements
+
+        } else if( sk.has_array( 0 ) ) {
+            // multiple requirements
+            while( sk.has_more() ) {
+                auto arr = sk.next_array();
+                r.required_skills[skill_id( arr.get_string( 0 ) )] = arr.get_int( 1 );
+            }
+
+        } else {
+            // single requirement
+            r.required_skills[skill_id( sk.get_string( 0 ) )] = sk.get_int( 1 );
+        }
+    }
+
+    // simplified autolearn sets requirements equal to required skills at finalization
+    if( jo.has_bool( "autolearn" ) ) {
+        assign( jo, "autolearn", r.autolearn );
+
+    } else if( jo.has_array( "autolearn" ) ) {
+        r.autolearn = false;
+        auto sk = jo.get_array( "autolearn" );
+        while( sk.has_more() ) {
+            auto arr = sk.next_array();
+            r.autolearn_requirements[skill_id( arr.get_string( 0 ) )] = arr.get_int( 1 );
+        }
+    }
+
+    if( jo.has_member( "decomp_learn" ) ) {
+        r.learn_by_disassembly.clear();
+
+        if( jo.has_int( "decomp_learn" ) ) {
+            if( !r.skill_used ) {
+                jo.throw_error( "decomp_learn specified with no skill_used" );
+            }
+            assign( jo, "decomp_learn", r.learn_by_disassembly[r.skill_used] );
+
+        } else if( jo.has_array( "decomp_learn" ) ) {
+            auto sk = jo.get_array( "decomp_learn" );
+            while( sk.has_more() ) {
+                auto arr = sk.next_array();
+                r.learn_by_disassembly[skill_id( arr.get_string( 0 ) )] = arr.get_int( 1 );
+            }
+        }
+    }
+
+    if( jo.has_member( "byproducts" ) ) {
+        auto bp = jo.get_array( "byproducts" );
+        r.byproducts.clear();
+        while( bp.has_more() ) {
+            auto arr = bp.next_array();
+            r.byproducts[ arr.get_string( 0 ) ] += arr.size() == 2 ? arr.get_int( 1 ) : 1;
+        }
+    }
+
+    if( jo.has_member( "book_learn" ) ) {
+        auto bk = jo.get_array( "book_learn" );
+        r.booksets.clear();
+
+        while( bk.has_more() ) {
+            auto arr = bk.next_array();
+            r.booksets.emplace( arr.get_string( 0 ), arr.get_int( 1 ) );
+        }
+    }
+
+    if( jo.has_string( "using" ) ) {
+        r.reqs = { { requirement_id( jo.get_string( "using" ) ), 1 } };
+
+    } else if( jo.has_array( "using" ) ) {
+        auto arr = jo.get_array( "using" );
+        r.reqs.clear();
+
+        while( arr.has_more() ) {
+            auto cur = arr.next_array();
+            r.reqs.emplace_back( requirement_id( cur.get_string( 0 ) ), cur.get_int( 1 ) );
+        }
+    }
+
+    auto req_id = std::string( "inline_recipe_" ) += r.ident_;
+    requirement_data::load_requirement( jo, req_id );
+    r.reqs.emplace_back( requirement_id( req_id ), 1 );
 }
 
 void recipe_dictionary::finalize()

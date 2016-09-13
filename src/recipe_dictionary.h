@@ -39,9 +39,7 @@ class recipe_dictionary
             return recipes.end();
         }
 
-        void add( const recipe &rec ) {
-            recipes.emplace( rec.ident(), rec );
-        }
+        static void load( JsonObject &jo, const std::string &src, bool uncraft );
 
         static void finalize();
         static void reset();
