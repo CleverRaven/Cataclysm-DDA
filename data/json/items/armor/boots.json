@@ -15,7 +15,6 @@
     "covers": [ "FEET" ],
     "coverage": 40,
     "encumbrance": 10,
-    "warmth": 0,
     "material_thickness": 2,
     "flags": [ "VARSIZE", "WATER_FRIENDLY", "ALLOWS_NATURAL_ATTACKS" ]
   },
@@ -771,7 +770,6 @@
     "covers": [ "FEET" ],
     "coverage": 10,
     "encumbrance": 35,
-    "warmth": 0,
     "material_thickness": 1,
     "flags": [ "VARSIZE", "WATER_FRIENDLY", "ALLOWS_NATURAL_ATTACKS" ]
   },
@@ -868,7 +866,6 @@
     "covers": [ "FEET" ],
     "coverage": 30,
     "encumbrance": 50,
-    "warmth": 0,
     "material_thickness": 1,
     "flags": [ "VARSIZE", "SUPER_FANCY" ]
   },
@@ -919,7 +916,6 @@
     "covers": [ "FEET" ],
     "coverage": 20,
     "encumbrance": 5,
-    "warmth": 0,
     "material_thickness": 1,
     "flags": [ "VARSIZE", "WATER_FRIENDLY", "ALLOWS_NATURAL_ATTACKS" ]
   },
@@ -1137,7 +1133,6 @@
     "covers": [ "FEET" ],
     "coverage": 30,
     "encumbrance": 14,
-    "warmth": 0,
     "material_thickness": 2,
     "flags": [ "VARSIZE", "WATER_FRIENDLY", "ALLOWS_NATURAL_ATTACKS" ]
   },
