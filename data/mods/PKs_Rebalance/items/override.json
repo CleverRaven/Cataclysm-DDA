@@ -272,7 +272,7 @@
     "initial_charges": 1,
     "max_charges": 1,
     "covers": [ "HEAD" ],
-    "coverage": 5,
+    "coverage": 4,
     "encumbrance": 2,
     "material_thickness": 1,
     "use_action": {
