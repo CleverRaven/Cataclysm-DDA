@@ -1159,10 +1159,6 @@ void popup_status( const char *title, const char *msg, ... )
     const std::string fmt = vstring_format( msg, ap );
     va_end( ap );
 
-    if( !test_mode ) {
-        std::cerr << fmt << std::endl;
-    }
-
     popup( text + fmt, PF_NO_WAIT );
 }
 
