@@ -12,11 +12,10 @@
 
 class Character;
 
-struct inventory_input;
-
 class item;
 class item_category;
 class item_location;
+
 class player;
 
 typedef std::function<bool( const item & )> item_filter;
@@ -211,7 +210,7 @@ class inventory_column
 
         virtual void prepare_paging();
 
-        virtual void on_input( const inventory_input &input );
+        virtual void on_action( const std::string &action );
         virtual void on_change( const inventory_entry & ) {}
 
         virtual void on_activate() {
@@ -296,7 +295,9 @@ class inventory_selector
         const player &u;
         const inventory_selector_preset &preset;
 
-        inventory_input get_input();
+        /** The input context for navigation, already contains some actions for movement.
+         * See @ref on_action */
+        input_context ctxt;
 
         const item_category *naturalize_category( const item_category &category,
                 const tripoint &pos );
@@ -310,6 +311,11 @@ class inventory_selector
                         const std::function<item_location( item * )> &locator,
                         const std::vector<std::list<item *>> &stacks,
                         const item_category *custom_category = nullptr );
+
+        /** Given an action from the input_context, try to act according to it. */
+        void on_action( const std::string &action );
+        /** Entry has been changed */
+        void on_change( const inventory_entry &entry );
 
         void prepare_layout();
         void refresh_window() const;
@@ -363,15 +369,10 @@ class inventory_selector
         void toggle_navigation_mode();
         void reassign_custom_invlets();
 
-        /** Given an action from the input_context, try to act according to it. */
-        virtual void on_input( const inventory_input &input );
         /** Entry has been added */
         virtual void on_entry_add( const inventory_entry & ) {}
-        /** Entry has been changed */
-        virtual void on_change( const inventory_entry &entry );
 
     private:
-        input_context ctxt;
         WINDOW *w_inv;
 
         std::list<item_location> items;
