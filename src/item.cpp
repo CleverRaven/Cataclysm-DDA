@@ -1841,7 +1841,7 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
         } else { // use the contained item
             tid = contents.front().typeId();
         }
-        const auto& rec = recipe_dict.of_component( tid );
+        const auto &rec = recipe_dict.of_component( tid );
         if( !rec.empty() ) {
             temp1.str( "" );
             const inventory &inv = g->u.crafting_inventory();

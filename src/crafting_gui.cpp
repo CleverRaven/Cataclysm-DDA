@@ -626,8 +626,7 @@ int recipe::print_items( WINDOW *w, int ypos, int xpos, nc_color col, int batch 
 
     mvwprintz( w, ypos++, xpos, col, _( "Byproducts:" ) );
     for( const auto &bp : byproducts ) {
-        item it( bp.first, calendar::turn, item::default_charges_tag{} );
-        mvwprintz( w, ypos++, xpos, col, _( "> %d %s" ), bp.second * batch, it.tname().c_str() );
+        mvwprintz( w, ypos++, xpos, col, _( "> %d %s" ), bp.second * batch, item::nname( bp.first).c_str() );
     }
 
     return ypos - oldy;

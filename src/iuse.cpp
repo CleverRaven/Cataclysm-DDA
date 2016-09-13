@@ -5969,7 +5969,7 @@ bool einkpc_download_memory_card(player *p, item *eink, item *mc)
         for( const auto &e : recipe_dict ) {
             const auto r = e.second;
 
-                if (science) {
+            if (science) {
                 if( r.valid_learn() ) {
                     if (r.difficulty >= 3 && one_in(r.difficulty + 1)) {
                         candidates.push_back( &r );
