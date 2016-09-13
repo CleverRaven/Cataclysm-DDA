@@ -4970,6 +4970,30 @@
     },
     {
         "type": "profession",
+        "ident": "photojournalist",
+        "name": "Photojournalist",
+        "description": "You were a freelance photojournalist before the end.  You have a chance to be the first journalist to cover the apocalypse, though finding a publisher seems more difficult a prospect than usual.  You managed to hold onto your camera, hopefully you can get some fantastic shots.",
+        "points": 0,
+        "items": {
+            "both": [
+                "pants",
+                "dress_shirt",
+                "blazer",
+                "socks",
+                "dress_shoes",
+                "camera_pro"
+            ],
+            "male": [
+                "boxer_shorts"
+            ],
+            "female": [
+                "boy_shorts",
+                "bra"
+            ]
+        }
+    },
+    {
+        "type": "profession",
         "ident": "gym_teacher",
         "name": "Gym Teacher",
         "description": "After a career of teaching kids the art of sports they mostly hate, the zombies around you refuse to do laps, even at the blow of your whistle.",

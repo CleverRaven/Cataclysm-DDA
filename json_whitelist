@@ -6,3 +6,4 @@ data/json/npcs/missiondef.json
 data/json/vehicleparts/*
 data/mods/blazemod/*.json
 data/mods/makeshift/*.json
+data/mods/PKs_Rebalance/items/*.json

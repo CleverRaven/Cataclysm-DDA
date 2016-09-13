@@ -49,13 +49,9 @@
   },
   {
     "result": "biter",
-    "type": "recipe",
-    "id_suffix": "uncraft",
-    "category": "CC_NONCRAFT",
-    "subcategory": "CSC_NONCRAFT",
+    "type": "uncraft",
     "difficulty": 0,
     "time": 10000,
-    "reversible": true,
     "components": [ [ [ "bitergrow", 2 ] ] ]
   },
   {
@@ -78,13 +74,9 @@
   },
   {
     "result": "clutter",
-    "type": "recipe",
-    "id_suffix": "uncraft",
-    "category": "CC_NONCRAFT",
-    "subcategory": "CSC_NONCRAFT",
+    "type": "uncraft",
     "difficulty": 0,
     "time": 10000,
-    "reversible": true,
     "components": [ [ [ "cluttergrow", 2 ] ] ]
   },
   {
@@ -124,13 +116,9 @@
   },
   {
     "result": "frostie",
-    "type": "recipe",
-    "id_suffix": "uncraft",
-    "category": "CC_NONCRAFT",
-    "subcategory": "CSC_NONCRAFT",
+    "type": "uncraft",
     "difficulty": 0,
     "time": 5000,
-    "reversible": true,
     "components": [ [ [ "frostiegrow", 2 ] ] ]
   },
   {
@@ -173,13 +161,9 @@
   },
   {
     "result": "gloople",
-    "type": "recipe",
-    "id_suffix": "uncraft",
-    "category": "CC_NONCRAFT",
-    "subcategory": "CSC_NONCRAFT",
+    "type": "uncraft",
     "difficulty": 0,
     "time": 5000,
-    "reversible": true,
     "components": [ [ [ "glooplegrow", 2 ] ] ]
   },
   {
@@ -211,13 +195,9 @@
   },
   {
     "result": "glowie",
-    "type": "recipe",
-    "id_suffix": "uncraft",
-    "category": "CC_NONCRAFT",
-    "subcategory": "CSC_NONCRAFT",
+    "type": "uncraft",
     "difficulty": 0,
     "time": 5000,
-    "reversible": true,
     "components": [ [ [ "glowiegrow", 2 ] ] ]
   },
   {
@@ -240,13 +220,9 @@
   },
   {
     "result": "gray",
-    "type": "recipe",
-    "id_suffix": "uncraft",
-    "category": "CC_NONCRAFT",
-    "subcategory": "CSC_NONCRAFT",
+    "type": "uncraft",
     "difficulty": 0,
     "time": 20000,
-    "reversible": true,
     "components": [ [ [ "graygrow", 2 ] ] ]
   },
   {
@@ -371,13 +347,9 @@
   },
   {
     "result": "oozle",
-    "type": "recipe",
-    "id_suffix": "uncraft",
-    "category": "CC_NONCRAFT",
-    "subcategory": "CSC_NONCRAFT",
+    "type": "uncraft",
     "difficulty": 0,
     "time": 10000,
-    "reversible": true,
     "components": [ [ [ "oozlegrow", 2 ] ] ]
   },
   {

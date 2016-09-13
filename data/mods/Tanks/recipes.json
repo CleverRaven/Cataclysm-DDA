@@ -1,14 +1,11 @@
 [
   {
-  "type" : "recipe",
+  "type" : "uncraft",
   "result": "broken_tankbot",
   "override": true,
-  "category": "CC_NONCRAFT",
-  "subcategory": "CSC_NONCRAFT",
   "skill_used": "electronics",
   "difficulty": 8,
   "time": 600000,
-  "reversible": true,
   "qualities" : [
     {"id":"SCREW","level":1},
     {"id":"WRENCH","level":1},
