@@ -63,10 +63,19 @@ void recipe_dictionary::load( JsonObject &jo, const std::string &src, bool uncra
         }
     }
 
-    r.ident_ = r.result = jo.get_string( "result" );
+    if( jo.has_string( "abstract" ) ) {
+        r.ident_ = jo.get_string( "abstract" );
+        r.abstract = true;
+    } else {
+        r.ident_ = r.result = jo.get_string( "result" );
+        r.abstract = false;
+    }
 
     if( !uncraft ) {
         if( jo.has_string( "id_suffix" ) ) {
+            if( r.abstract ) {
+                jo.throw_error( "abstract recipe cannot specify id_suffix", "id_suffix" );
+            }
             r.ident_ += "_" + jo.get_string( "id_suffix" );
         }
         assign( jo, "category", r.category, strict );
@@ -196,6 +205,12 @@ void recipe_dictionary::finalize_internal( std::map<std::string, recipe> &obj )
     for( auto it = obj.begin(); it != obj.end(); ) {
         auto &r = it->second;
         const char *id = it->first.c_str();
+
+        // remove abstract recipes
+        if( r.abstract ) {
+            it = obj.erase( it );
+            continue;
+        }
 
         // concatenate both external and inline requirements
         r.requirements_ = std::accumulate( r.reqs_external.begin(), r.reqs_external.end(), r.requirements_,

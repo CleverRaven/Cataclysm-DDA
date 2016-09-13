@@ -117,6 +117,9 @@ struct recipe {
     private:
         std::string ident_;
 
+        /** Abstract recipes can be inherited from but are themselves disposed of at finalization */
+        bool abstract = false;
+
         /** Can recipe be used for disassembly of @ref result via @ref disassembly_requirements */
         bool reversible = false;
 
