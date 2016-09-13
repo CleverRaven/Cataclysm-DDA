@@ -1971,7 +1971,7 @@
   "reversible": true,
   "autolearn": false,
   "components": [
-    [ [ "charcoal", 75 ] ],
+    [ [ "charcoal", 40 ] ],
     [ [ "char_kiln", 1 ] ]
   ]
 },{
