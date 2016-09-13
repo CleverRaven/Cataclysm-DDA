@@ -35,7 +35,6 @@ class inventory_entry
 
     public:
         bool enabled = true;
-        int rank = 0;
         size_t chosen_count = 0;
         long custom_invlet = LONG_MIN;
 
@@ -91,10 +90,6 @@ class inventory_selector_preset
 
         virtual bool is_enabled( const item_location & ) const {
             return true;
-        }
-
-        virtual int get_rank( const item_location & ) const {
-            return 0;
         }
 
         virtual nc_color get_color( const item_location &loc ) const;

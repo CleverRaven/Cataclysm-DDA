@@ -376,29 +376,17 @@ void inventory_column::prepare_paging()
     if( paging_is_valid ) {
         return;
     }
-    // First, remove all non-items
-    const auto new_end = std::remove_if( entries.begin(), entries.end(), []( const inventory_entry & entry ) {
+    const auto new_end = std::remove_if( entries.begin(), entries.end(), []( const inventory_entry &entry ) {
         return !entry.is_item();
     } );
     entries.erase( new_end, entries.end() );
-    // Then sort them with respect to categories
-    auto from = entries.begin();
-    while( from != entries.end() ) {
-        auto to = std::next( from );
-        while( to != entries.end() && from->get_category_ptr() == to->get_category_ptr() ) {
-            std::advance( to, 1 );
-        }
-        std::sort( from, to, []( const inventory_entry & lhs, const inventory_entry & rhs ) {
-            return ( lhs.enabled && !rhs.enabled ) || ( lhs.enabled == rhs.enabled && lhs.rank < rhs.rank );
-        } );
-        from = to;
-    }
-    // Recover categories according to the number of entries per page
+
     const item_category *current_category = nullptr;
     for( size_t i = 0; i < entries.size(); ++i ) {
         if( entries[i].get_category_ptr() == current_category && i % entries_per_page != 0 ) {
             continue;
         }
+
         current_category = entries[i].get_category_ptr();
         const inventory_entry insertion = ( i % entries_per_page == entries_per_page - 1 )
             ? inventory_entry() // the last item on the page must not be a category
@@ -660,7 +648,6 @@ void inventory_selector::add_item( inventory_column &target_column,
     inventory_entry entry( &items.back(), stack_size, custom_category );
 
     entry.enabled = preset.is_enabled( entry.get_location() );
-    entry.rank = preset.get_rank( entry.get_location() );
 
     target_column.add_entry( entry );
     on_entry_add( entry );
