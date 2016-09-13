@@ -33,6 +33,7 @@
       [ "laser_sight", 40 ],
       [ "light_grip", 50 ],
       [ "match_trigger", 20 ],
+      [ "offset_sights", 40 ],
       [ "pistol_bayonet", 10 ],
       [ "pistol_scope", 10 ],
       [ "pistol_stock", 10 ],
