@@ -385,8 +385,7 @@
         "armor_data" : {
            "covers" : ["LEG_EITHER"],
            "coverage" : 5,
-           "material_thickness" : 2,
-           "encumbrance" : 0
+           "material_thickness" : 2
         },
         "rigid": false,
         "watertight": true,
@@ -411,8 +410,7 @@
         "armor_data" : {
            "covers" : ["TORSO"],
            "coverage" : 10,
-           "material_thickness" : 2,
-           "encumbrance" : 0
+           "material_thickness" : 2
         },
         "rigid": false,
         "watertight": true,
@@ -437,8 +435,7 @@
         "armor_data" : {
            "covers" : ["TORSO"],
            "coverage" : 15,
-           "material_thickness" : 2,
-           "encumbrance" : 0
+           "material_thickness" : 2
         },
         "rigid": false,
         "watertight": true,
@@ -598,8 +595,7 @@
         "armor_data" : {
             "covers" : ["LEG_EITHER"],
             "coverage" : 2,
-            "material_thickness" : 1,
-            "encumbrance" : 0
+            "material_thickness" : 1
         },
         "watertight": true,
         "seals": true,

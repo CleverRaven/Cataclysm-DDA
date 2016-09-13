@@ -14,7 +14,6 @@
     "armor_data": {
        "covers": [ "TORSO" ],
        "coverage": 5,
-       "encumbrance": 0,
        "material_thickness": 0
     },
     "flags": [ "MAG_BELT", "MAG_DESTROY", "BELTED", "OVERSIZE" ]
