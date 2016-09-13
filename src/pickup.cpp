@@ -891,24 +891,27 @@ void Pickup::pick_up( const tripoint &pos, int min )
                 for( int i = 9; i < pickupW; ++i ) {
                     mvwaddch( w_pickup, 0, i, ' ' );
                 }
-                player pl_temp = g->u;
-                pl_temp.set_fake( true );
+                int weight_picked_up = 0;
+                units::volume volume_picked_up = 0;
                 for( size_t i = 0; i < getitem.size(); i++ ) {
                     if( getitem[i].pick ) {
                         item temp = here[i];
                         if( getitem[i].count != 0 && getitem[i].count < here[i].charges ) {
                             temp.charges = getitem[i].count;
                         }
-                        pl_temp.i_add( temp );
+                        weight_picked_up += temp.weight();
+                        volume_picked_up += temp.volume();
                     }
                 }
+                int predicted_weight = g->u.weight_carried() + weight_picked_up;
+                units::volume predicted_volume = g->u.volume_carried() + volume_picked_up;
                 mvwprintz( w_pickup, 0,  9,
-                           ( pl_temp.weight_carried() > g->u.weight_capacity() ? c_red : c_white ),
-                           _( "Wgt %.1f" ), convert_weight( pl_temp.weight_carried() ) + 0.05 ); // +0.05 to round up
+                           ( predicted_weight > g->u.weight_capacity() ? c_red : c_white ),
+                           _( "Wgt %.1f" ), convert_weight( predicted_weight ) + 0.05 ); // +0.05 to round up
                 wprintz( w_pickup, c_white, "/%.1f", convert_weight( g->u.weight_capacity() ) );
                 mvwprintz( w_pickup, 0, 24,
-                           ( pl_temp.volume_carried() > g->u.volume_capacity() ? c_red : c_white ),
-                           _( "Vol %d" ), to_milliliter( pl_temp.volume_carried() ) );
+                           ( predicted_volume > g->u.volume_capacity() ? c_red : c_white ),
+                           _( "Vol %d" ), to_milliliter( predicted_volume ) );
                 wprintz( w_pickup, c_white, "/%d", to_milliliter( g->u.volume_capacity() ) );
             }
             wrefresh( w_pickup );
