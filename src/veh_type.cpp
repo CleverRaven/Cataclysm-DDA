@@ -84,11 +84,7 @@ std::vector<const vpart_info*> vehicle_part_int_types;
 
 static std::map<vpart_str_id, vpart_info> abstract_parts;
 
-/**
- * JSON data dependent upon as-yet unparsed definitions
- * first: JSON data, second: source identifier
- */
-static std::list<std::pair<std::string, std::string>> deferred;
+static DynamicDataLoader::deferred_json deferred;
 
 template<>
 const vpart_str_id string_id<vpart_info>::NULL_ID( "null" );
@@ -311,27 +307,8 @@ void vpart_info::set_flag( const std::string &flag )
 
 void vpart_info::finalize()
 {
-    auto& dyn = DynamicDataLoader::get_instance();
-
-    while( !deferred.empty() ) {
-        auto n = deferred.size();
-        auto it = deferred.begin();
-        for( decltype(deferred)::size_type idx = 0; idx != n; ++idx ) {
-            try {
-                std::istringstream str( it->first );
-                JsonIn jsin( str );
-                JsonObject jo = jsin.get_object();
-                dyn.load_object( jo, it->second );
-            } catch( const std::exception &err ) {
-                debugmsg( "Error loading data from json: %s", err.what() );
-            }
-            ++it;
-        }
-        deferred.erase( deferred.begin(), it );
-        if( deferred.size() == n ) {
-            debugmsg( "JSON contains circular dependency: discarded %i templates", n );
-            break;
-        }
+    if( !DynamicDataLoader::get_instance().load_deferred( deferred ) ) {
+        debugmsg( "JSON contains circular dependency: discarded %i vehicle parts", deferred.size() );
     }
 
     for( auto& e : vehicle_part_types ) {

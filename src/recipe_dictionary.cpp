@@ -3,6 +3,7 @@
 #include "itype.h"
 #include "generic_factory.h"
 #include "item_factory.h"
+#include "init.h"
 
 #include <algorithm>
 #include <numeric>

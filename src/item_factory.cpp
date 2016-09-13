@@ -49,6 +49,8 @@ static t_string_set item_blacklist;
 static t_string_set item_whitelist;
 static bool item_whitelist_is_exclusive = false;
 
+static DynamicDataLoader::deferred_json deferred;
+
 std::unique_ptr<Item_factory> item_controller( new Item_factory() );
 
 static void set_allergy_flags( itype &item_template );
@@ -109,28 +111,8 @@ static bool assign_coverage_from_json( JsonObject &jo, const std::string &key,
 }
 
 void Item_factory::finalize() {
-
-    auto& dyn = DynamicDataLoader::get_instance();
-
-    while( !deferred.empty() ) {
-        auto n = deferred.size();
-        auto it = deferred.begin();
-        for( decltype(deferred)::size_type idx = 0; idx != n; ++idx ) {
-            try {
-                std::istringstream str( it->first );
-                JsonIn jsin( str );
-                JsonObject jo = jsin.get_object();
-                dyn.load_object( jo, it->second );
-            } catch( const std::exception &err ) {
-                debugmsg( "Error loading data from json: %s", err.what() );
-            }
-            ++it;
-        }
-        deferred.erase( deferred.begin(), it );
-        if( deferred.size() == n ) {
-            debugmsg( "JSON contains circular dependency: discarded %i templates", n );
-            break;
-        }
+    if( !DynamicDataLoader::get_instance().load_deferred( deferred ) ) {
+        debugmsg( "JSON contains circular dependency: discarded %i templates", deferred.size() );
     }
 
     finalize_item_blacklist();
