@@ -59,6 +59,8 @@ class recipe_dictionary
         std::map<std::string, recipe> uncraft;
         std::map<std::string, std::set<const recipe *>> category;
         std::map<itype_id, std::set<const recipe *>> component;
+
+        static void finalize_internal( std::map<std::string, recipe> &obj );
 };
 
 #endif

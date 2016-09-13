@@ -25,9 +25,6 @@ using itype_id     = std::string; // From itype.h
 using requirement_id = string_id<requirement_data>;
 
 struct recipe {
-    private:
-        std::string ident_;
-
         friend class recipe_dictionary;
 
     public:
@@ -57,9 +54,6 @@ struct recipe {
 
         /** Combined requirements cached when recipe finalized */
         requirement_data requirements_;
-
-        /** Second field is the multiplier */
-        std::vector<std::pair<requirement_id, int>> reqs;
 
         std::map<itype_id,int> byproducts;
 
@@ -121,6 +115,14 @@ struct recipe {
 
         bool has_flag( const std::string &flag_name ) const;
 
+    private:
+        std::string ident_;
+
+        /** External requirements (via "using" syntax) where second field is multiplier */
+        std::vector<std::pair<requirement_id, int>> reqs_external;
+
+        /** Requires specified inline with the recipe (and replaced upon inheritance) */
+        std::vector<std::pair<requirement_id, int>> reqs_internal;
 };
 
 // removes any (removable) ammo from the item and stores it in the

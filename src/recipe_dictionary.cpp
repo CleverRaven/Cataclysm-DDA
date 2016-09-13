@@ -165,22 +165,24 @@ void recipe_dictionary::load( JsonObject &jo, const std::string &src, bool uncra
         }
     }
 
+    // recipes not specifying any external requirements inherit from their parent recipe (if any)
     if( jo.has_string( "using" ) ) {
-        r.reqs = { { requirement_id( jo.get_string( "using" ) ), 1 } };
+        r.reqs_external = { { requirement_id( jo.get_string( "using" ) ), 1 } };
 
     } else if( jo.has_array( "using" ) ) {
         auto arr = jo.get_array( "using" );
-        r.reqs.clear();
+        r.reqs_external.clear();
 
         while( arr.has_more() ) {
             auto cur = arr.next_array();
-            r.reqs.emplace_back( requirement_id( cur.get_string( 0 ) ), cur.get_int( 1 ) );
+            r.reqs_external.emplace_back( requirement_id( cur.get_string( 0 ) ), cur.get_int( 1 ) );
         }
     }
 
+    // inline requirements are always replaced (cannot be inherited)
     auto req_id = std::string( "inline_recipe_" ) += r.ident_;
     requirement_data::load_requirement( jo, req_id );
-    r.reqs.emplace_back( requirement_id( req_id ), 1 );
+    r.reqs_internal = { { requirement_id( req_id ), 1 } };
 
     if( uncraft ) {
         recipe_dict.uncraft[ r.ident_ ] = r;
@@ -189,14 +191,19 @@ void recipe_dictionary::load( JsonObject &jo, const std::string &src, bool uncra
     }
 }
 
-static void finalize_internal( std::map<std::string, recipe> &obj )
+void recipe_dictionary::finalize_internal( std::map<std::string, recipe> &obj )
 {
     for( auto it = obj.begin(); it != obj.end(); ) {
         auto &r = it->second;
         const char *id = it->first.c_str();
 
-        // concatenate requirements
-        r.requirements_ = std::accumulate( r.reqs.begin(), r.reqs.end(), requirement_data(),
+        // concatenate both external and inline requirements
+        r.requirements_ = std::accumulate( r.reqs_external.begin(), r.reqs_external.end(), r.requirements_,
+        []( const requirement_data & lhs, const std::pair<requirement_id, int> &rhs ) {
+            return lhs + ( *rhs.first * rhs.second );
+        } );
+
+        r.requirements_ = std::accumulate( r.reqs_internal.begin(), r.reqs_internal.end(), r.requirements_,
         []( const requirement_data & lhs, const std::pair<requirement_id, int> &rhs ) {
             return lhs + ( *rhs.first * rhs.second );
         } );
