@@ -478,25 +478,17 @@ void inventory_selector::prepare_columns( bool multiselect )
 void inventory_selector::draw_inv_weight_vol( WINDOW *w, int weight_carried, units::volume vol_carried,
         units::volume vol_capacity) const
 {
-    // Print weight
-    mvwprintw(w, 0, 32, _("Weight (%s): "), weight_units());
-    nc_color weight_color;
-    if (weight_carried > u.weight_capacity()) {
-        weight_color = c_red;
-    } else {
-        weight_color = c_ltgray;
-    }
-    wprintz(w, weight_color, "%6.1f", convert_weight(weight_carried) + 0.05 ); // +0.05 to round up;
-    wprintz(w, c_ltgray, "/%-6.1f", convert_weight(u.weight_capacity()));
+    int weight_capacity = u.weight_capacity();
 
-    // Print volume
-    mvwprintw(w, 0, 61, _("Volume (L): "));
-    if (vol_carried > vol_capacity) {
-        wprintz(w, c_red, "%6.1f", ( to_milliliter( vol_carried ) / 1000.0 ) + 0.05 ); // +0.05 to round up
-    } else {
-        wprintz(w, c_ltgray, "%6.1f", ( to_milliliter( vol_carried ) / 1000.0 ) + 0.05 );
-    }
-    wprintz(w, c_ltgray, "/%-6.1f", to_milliliter( vol_capacity ) / 1000.0 );
+    mvwprintw( w, 0, 32, _( "Weight (%s): " ), weight_units() );
+    nc_color weight_color = weight_carried > weight_capacity ? c_red : c_ltgray;
+    wprintz( w, weight_color, "%6.1f", std::ceil( convert_weight( weight_carried )  * 10.0 ) / 10.0 );
+    wprintz( w, c_ltgray,   "/%-6.1f", std::ceil( convert_weight( weight_capacity ) * 10.0 ) / 10.0 );
+
+    nc_color vol_color = vol_carried > vol_capacity ? c_red : c_ltgray;
+    mvwprintw( w, 0, 61, _( "Volume (L): ") );
+    wprintz( w, vol_color,  "%6.1f", std::ceil( to_milliliter( vol_carried )  / 100.0 ) / 10.0 );
+    wprintz( w, c_ltgray, "/%-6.1f", std::ceil( to_milliliter( vol_capacity ) / 100.0 ) / 10.0 );
 }
 
 void inventory_selector::draw_inv_weight_vol( WINDOW *w ) const
