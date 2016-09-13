@@ -1106,7 +1106,7 @@
   "subcategory": "CSC_ELECTRONIC_CBMS",
   "skill_used": "electronics",
   "skills_required": [ "firstaid", 5 ],
-  "difficulty": 12,
+  "difficulty": 10,
   "time": 70000,
   "reversible": true,
   "decomp_learn": 8,
