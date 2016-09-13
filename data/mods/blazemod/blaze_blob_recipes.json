@@ -1,10 +1,13 @@
 [
   {
     "result": "bfeed",
-    "type": "uncraft",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
     "skill_used": "cooking",
     "difficulty": 6,
     "time": 2000,
+    "autolearn": true,
     "qualities": [
       { "id": "CUT", "level": 1 },
       { "id": "HAMMER", "level": 1 }
@@ -13,20 +16,27 @@
   },
   {
     "result": "bfeed",
-    "type": "uncraft",
+    "type": "recipe",
+    "id_suffix": "blob assisted",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
     "skill_used": "cooking",
     "difficulty": 6,
     "time": 1000,
+    "autolearn": true,
     "tools": [ [ [ "gloople", -1 ], [ "oozle", -1 ], [ "gray", -1 ] ] ],
     "components": [ [ [ "corpse", 1 ], [ "bone_tainted", 4 ], [ "bone_human", 4 ], [ "meat", 4 ], [ "meat_tainted", 4 ], [ "human_flesh", 4 ], [ "chitin_piece", 1 ], [ "slime_scrap", 1 ], [ "stomach", 2 ], [ "stomach_large", 1 ], [ "hstomach", 2 ], [ "hstomach_large", 1 ] ] ]
   },
   {
     "result": "bframegrow",
-    "type": "uncraft",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
     "skill_used": "fabrication",
     "difficulty": 2,
     "skills_required": [ "cooking", 6 ],
     "time": 60000,
+    "autolearn": true,
     "qualities": [ { "id": "CHEM", "level": 2 } ],
     "components": [
       [ [ "bone", 20 ], [ "bone_tainted", 20 ], [ "bone_human", 20 ] ],
@@ -46,11 +56,14 @@
   },
   {
     "result": "bitergrow",
-    "type": "uncraft",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
     "skill_used": "cooking",
     "difficulty": 7,
     "skills_required": [ "fabrication", 5 ],
     "time": 30000,
+    "autolearn": true,
     "qualities": [ { "id": "CHEM", "level": 2 } ],
     "components": [
       [ [ "gray", 1 ] ],
@@ -68,11 +81,14 @@
   },
   {
     "result": "cluttergrow",
-    "type": "uncraft",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
     "skill_used": "cooking",
     "difficulty": 2,
     "skills_required": [ "fabrication", 2 ],
     "time": 60000,
+    "autolearn": true,
     "qualities": [ { "id": "CHEM", "level": 2 } ],
     "components": [
       [ [ "gray", 1 ] ],
@@ -82,11 +98,14 @@
   },
   {
     "result": "freeziegrow",
-    "type": "uncraft",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
     "skill_used": "cooking",
     "difficulty": 7,
     "skills_required": [ "fabrication", 5 ],
     "time": 30000,
+    "autolearn": true,
     "qualities": [ { "id": "CHEM", "level": 2 } ],
     "components": [
       [ [ "clutter", 1 ] ],
@@ -104,11 +123,14 @@
   },
   {
     "result": "frostiegrow",
-    "type": "uncraft",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
     "skill_used": "cooking",
     "difficulty": 8,
     "skills_required": [ "fabrication", 5 ],
     "time": 30000,
+    "autolearn": true,
     "qualities": [ { "id": "CHEM", "level": 2 } ],
     "tools": [ [ [ "cvd_machine", -1 ] ] ],
     "components": [
@@ -121,11 +143,14 @@
   },
   {
     "result": "fuzzlegrow",
-    "type": "uncraft",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
     "skill_used": "cooking",
     "difficulty": 7,
     "skills_required": [ "fabrication", 5 ],
     "time": 30000,
+    "autolearn": true,
     "qualities": [ { "id": "CHEM", "level": 2 } ],
     "components": [
       [ [ "biter", 1 ] ],
@@ -143,18 +168,26 @@
   },
   {
     "result": "gloople_tank",
-    "type": "uncraft",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
     "skill_used": "cooking",
     "difficulty": 6,
     "time": 15000,
+    "reversible": true,
+    "autolearn": true,
     "components": [ [ [ "gloople", 1 ] ] ]
   },
   {
     "result": "gloople_wheel",
-    "type": "uncraft",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
     "skill_used": "cooking",
     "difficulty": 6,
     "time": 15000,
+    "reversible": true,
+    "autolearn": true,
     "components": [
       [ [ "gloople", 1 ] ],
       [ [ "water", 100 ] ]
@@ -169,11 +202,14 @@
   },
   {
     "result": "glowiegrow",
-    "type": "uncraft",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
     "skill_used": "cooking",
     "difficulty": 8,
     "skills_required": [ "fabrication", 5 ],
     "time": 30000,
+    "autolearn": true,
     "qualities": [ { "id": "CHEM", "level": 2 } ],
     "components": [
       [ [ "gloople", 1 ] ],
@@ -191,18 +227,26 @@
   },
   {
     "result": "gray_tank",
-    "type": "uncraft",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
     "skill_used": "cooking",
     "difficulty": 6,
     "time": 15000,
+    "reversible": true,
+    "autolearn": true,
     "components": [ [ [ "gray", 1 ] ] ]
   },
   {
     "result": "gray_wheel",
-    "type": "uncraft",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
     "skill_used": "cooking",
     "difficulty": 6,
     "time": 15000,
+    "reversible": true,
+    "autolearn": true,
     "components": [
       [ [ "gray", 1 ] ],
       [ [ "water", 200 ] ]
@@ -210,10 +254,13 @@
   },
   {
     "result": "graygrow",
-    "type": "uncraft",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
     "skill_used": "cooking",
     "difficulty": 6,
     "time": 30000,
+    "autolearn": true,
     "components": [
       [ [ "oozle", 1 ] ],
       [ [ "bfeed", 1000 ] ],
@@ -222,11 +269,14 @@
   },
   {
     "result": "grinder",
-    "type": "uncraft",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
     "skill_used": "cooking",
     "difficulty": 7,
     "skills_required": [ "fabrication", 5 ],
     "time": 30000,
+    "autolearn": true,
     "qualities": [
       { "id": "CHEM", "level": 2 },
       { "id": "HAMMER", "level": 1 }
@@ -241,11 +291,14 @@
   },
   {
     "result": "horrorgrow",
-    "type": "uncraft",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
     "skill_used": "cooking",
     "difficulty": 7,
     "skills_required": [ "fabrication", 5 ],
     "time": 30000,
+    "autolearn": true,
     "qualities": [ { "id": "CHEM", "level": 2 } ],
     "components": [
       [ [ "biter", 1 ] ],
@@ -256,11 +309,14 @@
   },
   {
     "result": "inkiegrow",
-    "type": "uncraft",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
     "skill_used": "cooking",
     "difficulty": 7,
     "skills_required": [ "fabrication", 5 ],
     "time": 30000,
+    "autolearn": true,
     "qualities": [ { "id": "CHEM", "level": 2 } ],
     "components": [
       [ [ "clutter", 1 ] ],
@@ -272,11 +328,14 @@
   },
   {
     "result": "meltiegrow",
-    "type": "uncraft",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
     "skill_used": "cooking",
     "difficulty": 7,
     "skills_required": [ "fabrication", 5 ],
     "time": 30000,
+    "autolearn": true,
     "qualities": [ { "id": "CHEM", "level": 2 } ],
     "components": [
       [ [ "clutter", 1 ] ],
@@ -295,18 +354,26 @@
   },
   {
     "result": "oozle_tank",
-    "type": "uncraft",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
     "skill_used": "cooking",
     "difficulty": 6,
     "time": 15000,
+    "reversible": true,
+    "autolearn": true,
     "components": [ [ [ "oozle", 1 ] ] ]
   },
   {
     "result": "oozle_wheel",
-    "type": "uncraft",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
     "skill_used": "cooking",
     "difficulty": 6,
     "time": 15000,
+    "reversible": true,
+    "autolearn": true,
     "components": [
       [ [ "oozle", 1 ] ],
       [ [ "water", 200 ] ]
@@ -314,10 +381,13 @@
   },
   {
     "result": "oozlegrow",
-    "type": "uncraft",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
     "skill_used": "cooking",
     "difficulty": 6,
     "time": 30000,
+    "autolearn": true,
     "components": [
       [ [ "gloople", 1 ] ],
       [ [ "bfeed", 500 ] ],
@@ -326,10 +396,13 @@
   },
   {
     "result": "queengrow",
-    "type": "uncraft",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
     "skill_used": "cooking",
     "difficulty": 6,
     "time": 30000,
+    "autolearn": true,
     "components": [
       [ [ "gray", 1 ] ],
       [ [ "bfeed", 2000 ] ],
@@ -338,11 +411,14 @@
   },
   {
     "result": "razorqueengrow",
-    "type": "uncraft",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
     "skill_used": "cooking",
     "difficulty": 7,
     "skills_required": [ "fabrication", 5 ],
     "time": 30000,
+    "autolearn": true,
     "qualities": [ { "id": "CHEM", "level": 2 } ],
     "components": [
       [ [ "sharp", 1 ] ],
@@ -353,11 +429,14 @@
   },
   {
     "result": "sharpgrow",
-    "type": "uncraft",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
     "skill_used": "cooking",
     "difficulty": 7,
     "skills_required": [ "fabrication", 5 ],
     "time": 30000,
+    "autolearn": true,
     "qualities": [ { "id": "CHEM", "level": 2 } ],
     "components": [
       [ [ "clutter", 1 ] ],
@@ -368,11 +447,14 @@
   },
   {
     "result": "sicklegrow",
-    "type": "uncraft",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
     "skill_used": "cooking",
     "difficulty": 7,
     "skills_required": [ "fabrication", 5 ],
     "time": 30000,
+    "autolearn": true,
     "qualities": [ { "id": "CHEM", "level": 2 } ],
     "components": [
       [ [ "sharp", 1 ] ],
@@ -383,11 +465,14 @@
   },
   {
     "result": "sparkiegrow",
-    "type": "uncraft",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
     "skill_used": "cooking",
     "difficulty": 7,
     "skills_required": [ "fabrication", 5 ],
     "time": 30000,
+    "autolearn": true,
     "qualities": [ { "id": "CHEM", "level": 2 } ],
     "components": [
       [ [ "glowie", 1 ] ],
@@ -398,11 +483,14 @@
   },
   {
     "result": "stickiegrow",
-    "type": "uncraft",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
     "skill_used": "cooking",
     "difficulty": 7,
     "skills_required": [ "fabrication", 5 ],
     "time": 30000,
+    "autolearn": true,
     "qualities": [ { "id": "CHEM", "level": 2 } ],
     "components": [
       [ [ "clutter", 1 ] ],
@@ -414,11 +502,14 @@
   },
   {
     "result": "torchiegrow",
-    "type": "uncraft",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
     "skill_used": "cooking",
     "difficulty": 7,
     "skills_required": [ "fabrication", 5 ],
     "time": 30000,
+    "autolearn": true,
     "qualities": [ { "id": "CHEM", "level": 2 } ],
     "components": [
       [ [ "clutter", 1 ] ],
@@ -430,11 +521,14 @@
   },
   {
     "result": "voideatergrow",
-    "type": "uncraft",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
     "skill_used": "cooking",
     "difficulty": 7,
     "skills_required": [ "fabrication", 5 ],
     "time": 30000,
+    "autolearn": true,
     "qualities": [ { "id": "CHEM", "level": 2 } ],
     "components": [
       [ [ "sparkie", 1 ] ],
