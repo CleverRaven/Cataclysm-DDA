@@ -333,7 +333,7 @@ void Item_factory::finalize_item_blacklist()
         }
 
         // remove any recipes used to craft the blacklisted item
-        recipe_dict.delete_if( [&]( recipe &r ) {
+        recipe_dict.delete_if( [&]( const recipe &r ) {
             return r.result == e.first;
         } );
     }

@@ -5966,20 +5966,19 @@ bool einkpc_download_memory_card(player *p, item *eink, item *mc)
 
         std::vector<const recipe *> candidates;
 
-        for( auto &elem : recipe_dict ) {
+        for( const auto &e : recipe_dict ) {
+            const auto r = e.second;
 
-            const int dif = ( elem )->difficulty;
-
-            if (science) {
-                if( elem->valid_learn() ) {
-                    if (dif >= 3 && one_in(dif + 1)) {
-                        candidates.push_back( elem );
+                if (science) {
+                if( r.valid_learn() ) {
+                    if (r.difficulty >= 3 && one_in(r.difficulty + 1)) {
+                        candidates.push_back( &r );
                     }
                 }
             } else {
-                if( ( elem )->cat == "CC_FOOD" ) {
-                    if (dif <= 3 && one_in(dif)) {
-                        candidates.push_back( elem );
+                if( r.cat == "CC_FOOD" ) {
+                    if (r.difficulty <= 3 && one_in(r.difficulty)) {
+                        candidates.push_back( &r);
                     }
                 }
 
@@ -7403,15 +7402,16 @@ int iuse::multicooker(player *p, item *it, bool t, const tripoint &pos)
 
             int counter = 1;
 
-            for( auto &elem : recipe_dict ) {
-                if( ( elem )->cat == "CC_FOOD" && ( ( elem )->subcat == "CSC_FOOD_MEAT" ||
-                                                    ( elem )->subcat == "CSC_FOOD_VEGGI" ||
-                                                    ( elem )->subcat == "CSC_FOOD_PASTA" ) ) {
+            for( const auto &e : recipe_dict ) {
+                const auto r = e.second;
+                if( r.cat == "CC_FOOD" && ( r.subcat == "CSC_FOOD_MEAT" ||
+                                            r.subcat == "CSC_FOOD_VEGGI" ||
+                                            r.subcat == "CSC_FOOD_PASTA" ) ) {
 
-                    if( p->knows_recipe( ( elem ) ) ) {
-                        dishes.push_back( elem );
-                        const bool can_make = ( elem )->can_make_with_inventory( crafting_inv );
-                        item dummy( ( elem )->result, 0 );
+                    if( p->knows_recipe( &r ) ) {
+                        dishes.push_back( &r );
+                        const bool can_make = r.can_make_with_inventory( crafting_inv );
+                        item dummy( r.result );
 
                         dmenu.addentry(counter++, can_make, -1, dummy.display_name());
                     }

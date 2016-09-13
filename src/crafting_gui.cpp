@@ -625,23 +625,12 @@ int recipe::print_items( WINDOW *w, int ypos, int xpos, nc_color col, int batch 
     const int oldy = ypos;
 
     mvwprintz( w, ypos++, xpos, col, _( "Byproducts:" ) );
-    for( auto &bp : byproducts ) {
-        print_item( w, ypos++, xpos, col, bp, batch );
+    for( const auto &bp : byproducts ) {
+        item it( bp.first, calendar::turn, item::default_charges_tag{} );
+        mvwprintz( w, ypos++, xpos, col, _( "> %d %s" ), bp.second * batch, it.tname().c_str() );
     }
 
     return ypos - oldy;
-}
-
-void recipe::print_item( WINDOW *w, int ypos, int xpos, nc_color col, const byproduct &bp,
-                         int batch ) const
-{
-    item it( bp.result, calendar::turn, item::default_charges_tag{} );
-    std::string str = string_format( _( "> %d %s" ), ( it.charges > 0 ) ? bp.amount : bp.amount * batch,
-                                     it.tname().c_str() );
-    if( it.charges > 0 ) {
-        str = string_format( _( "%s (%d)" ), str.c_str(), it.charges * bp.charges_mult * batch );
-    }
-    mvwprintz( w, ypos, xpos, col, str.c_str() );
 }
 
 int recipe::print_time( WINDOW *w, int ypos, int xpos, int width,
@@ -722,15 +711,21 @@ void pick_recipes( const inventory &crafting_inv,
         }
         filter = filter.substr( pos + 1 );
     }
-    std::vector<recipe *> available_recipes;
+    std::vector<const recipe *> available_recipes;
 
     if( filter == "" ) {
-        available_recipes = recipe_dict.in_category( tab );
+        auto opts = recipe_dict.in_category( tab );
+        available_recipes.insert( available_recipes.begin(), opts.begin(), opts.end() );
+
     } else {
         // lcmatch needs an all lowercase string to match case-insensitive
         std::transform( filter.begin(), filter.end(), filter.begin(), tolower );
 
-        available_recipes.insert( available_recipes.begin(), recipe_dict.begin(), recipe_dict.end() );
+        std::transform( recipe_dict.begin(), recipe_dict.end(),
+                        std::back_inserter( available_recipes ),
+        []( const std::pair<std::string, recipe> &e ) {
+            return &e.second;
+        } );
     }
 
     current.clear();

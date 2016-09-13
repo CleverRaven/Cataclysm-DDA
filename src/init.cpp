@@ -54,6 +54,7 @@
 #include "overlay_ordering.h"
 #include "worldfactory.h"
 #include "npc_class.h"
+#include "recipe_dictionary.h"
 
 #include <string>
 #include <vector>
@@ -311,7 +312,7 @@ void DynamicDataLoader::unload_data()
     vpart_info::reset();
     MonsterGenerator::generator().reset();
     reset_recipe_categories();
-    reset_recipes();
+    recipe_dictionary::reset();
     quality::reset();
     trap::reset();
     reset_constructions();
@@ -348,7 +349,7 @@ void DynamicDataLoader::finalize_loaded_data()
     MonsterGenerator::generator().finalize_mtypes();
     MonsterGroupManager::FinalizeMonsterGroups();
     monfactions::finalize();
-    finalize_recipes();
+    recipe_dictionary::finalize();
     finialize_martial_arts();
     finalize_constructions();
     npc_class::finalize_all();
@@ -366,7 +367,6 @@ void DynamicDataLoader::check_consistency()
     vpart_info::check();
     MonsterGenerator::generator().check_monster_definitions();
     MonsterGroupManager::check_group_definitions();
-    check_recipe_definitions();
     check_furniture_and_terrain();
     check_constructions();
     profession::check_definitions();

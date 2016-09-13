@@ -1,95 +1,153 @@
 #include "recipe_dictionary.h"
-#include "crafting.h"
-#include "requirements.h"
 
-#include <algorithm> //std::remove
+#include "itype.h"
 
-using itype_id = std::string; // From itype.h
+#include <algorithm>
+#include <numeric>
 
 recipe_dictionary recipe_dict;
 
+static recipe null_recipe;
+static std::set<const recipe *> null_match;
+
+const recipe &recipe_dictionary::operator[]( const std::string &id ) const
+{
+    auto iter = recipes.find( id );
+    return iter != recipes.end() ? iter->second : null_recipe;
+}
+
+const std::set<const recipe *> &recipe_dictionary::in_category( const std::string &cat ) const
+{
+    auto iter = category.find( cat );
+    return iter != category.end() ? iter->second : null_match;
+}
+
+const std::set<const recipe *> &recipe_dictionary::of_component( const itype_id &id ) const
+{
+    auto iter = component.find( id );
+    return iter != component.end() ? iter->second : null_match;
+}
+
 void recipe_dictionary::finalize()
 {
-    delete_if( [&]( recipe & r ) {
-        return r.requirements().is_blacklisted();
-    } );
+    for( auto it = recipe_dict.recipes.begin(); it != recipe_dict.recipes.end(); ) {
+        auto &r = it->second;
+        const char *id = it->first.c_str();
 
-    for( auto r : recipes ) {
-        add_to_component_lookup( r );
-    }
-}
+        // concatenate requirements
+        r.requirements_ = std::accumulate( r.reqs.begin(), r.reqs.end(), requirement_data(),
+        []( const requirement_data & lhs, const std::pair<requirement_id, int> &rhs ) {
+            return lhs + ( *rhs.first * rhs.second );
+        } );
 
-void recipe_dictionary::add( recipe *rec )
-{
-    recipes.push_back( rec );
-    by_name[rec->ident()] = rec;
-    by_category[rec->cat].push_back( rec );
-}
-
-void recipe_dictionary::remove( recipe *rec )
-{
-    recipes.remove( rec );
-    remove_from_component_lookup( rec );
-    by_name.erase( rec->ident() );
-    // Terse name for category vector since it's repeated so many times.
-    auto &cat_vec = by_category[rec->cat];
-    cat_vec.erase( std::remove( cat_vec.begin(), cat_vec.end(), rec ), cat_vec.end() );
-}
-
-void recipe_dictionary::delete_if( const std::function<bool( recipe & )> &pred )
-{
-    for( auto iter = recipes.begin(); iter != recipes.end(); ) {
-        recipe *const r = *iter;
-        // Already moving to the next, so we can erase the recipe without invalidating `iter`.
-        ++iter;
-        if( pred( *r ) ) {
-            remove( r );
-            delete r;
+        // remove blacklisted recipes
+        if( r.requirements().is_blacklisted() ) {
+            it = recipe_dict.recipes.erase( it );
+            continue;
         }
-    }
-}
 
-void recipe_dictionary::add_to_component_lookup( recipe *r )
-{
-    const auto &req = r->requirements();
+        // remove any invalid recipes...
+        if( !item::type_is_defined( r.result ) ) {
+            debugmsg( "Recipe %s defines invalid result", id );
+            it = recipe_dict.recipes.erase( it );
+            continue;
+        }
 
-    std::unordered_set<itype_id> counted;
-    for( const auto &comp_choices : req.get_components() ) {
-        for( const item_comp &comp : comp_choices ) {
-            if( counted.count( comp.type ) ) {
-                continue;
+        if( r.charges >= 0 && !item::count_by_charges( r.result ) ) {
+            debugmsg( "Recipe %s specified charges but result is not counted by charges", id );
+            it = recipe_dict.recipes.erase( it );
+            continue;
+        }
+
+        if( r.result_mult != 1 && !item::count_by_charges( r.result ) ) {
+            debugmsg( "Recipe %s has result_mult but result is not counted by charges", id );
+            it = recipe_dict.recipes.erase( it );
+            continue;
+        }
+
+        if( std::any_of( r.byproducts.begin(),
+        r.byproducts.end(), []( const std::pair<itype_id, int> &bp ) {
+        return !item::type_is_defined( bp.first );
+        } ) ) {
+            debugmsg( "Recipe %s defines invalid byproducts", id );
+            it = recipe_dict.recipes.erase( it );
+            continue;
+        }
+
+        if( !r.contained && r.container != "null" ) {
+            debugmsg( "Recipe %s defines container but not contained", id );
+            it = recipe_dict.recipes.erase( it );
+            continue;
+        }
+
+        if( !item::type_is_defined( r.container ) ) {
+            debugmsg( "Recipe %s specifies unknown container", id );
+            it = recipe_dict.recipes.erase( it );
+            continue;
+        }
+
+        if( ( r.skill_used && !r.skill_used.is_valid() ) ||
+            std::any_of( r.required_skills.begin(),
+        r.required_skills.end(), []( const std::pair<skill_id, int> &sk ) {
+        return !sk.first.is_valid();
+        } ) ) {
+            debugmsg( "Recipe %s uses invalid skill", id );
+            it = recipe_dict.recipes.erase( it );
+            continue;
+        }
+
+        if( std::any_of( r.booksets.begin(), r.booksets.end(), []( const std::pair<itype_id, int> &bk ) {
+        return !item::find_type( bk.first )->book;
+        } ) ) {
+            debugmsg( "Recipe %s defines invalid book", id );
+            it = recipe_dict.recipes.erase( it );
+            continue;
+        }
+
+        // recipe is valid so perform finalization...
+        for( const auto &bk : r.booksets ) {
+            islot_book::recipe_with_description_t desc{ &r, bk.second, item::nname( r.result ), false };
+            item::find_type( bk.first )->book->recipes.insert( desc );
+        }
+
+        if( r.contained && r.container == "null" ) {
+            r.container = item::find_type( r.result )->default_container;
+        }
+
+        if( r.autolearn ) {
+            r.autolearn_requirements = r.required_skills;
+            if( r.skill_used ) {
+                r.autolearn_requirements[ r.skill_used ] = r.difficulty;
             }
-            counted.insert( comp.type );
-            by_component[comp.type].push_back( r );
+        }
+
+        // add recipe to category and component caches
+        recipe_dict.category[r.cat].insert( &r );
+
+        for( const auto &opts : r.requirements().get_components() ) {
+            for( const item_comp &comp : opts ) {
+                recipe_dict.component[comp.type].insert( &r );
+            }
+        }
+
+        ++it;
+    }
+}
+
+void recipe_dictionary::reset()
+{
+    recipe_dict.component.clear();
+    recipe_dict.category.clear();
+    recipe_dict.recipes.clear();
+}
+
+void recipe_dictionary::delete_if( const std::function<bool( const recipe & )> &pred )
+{
+    for( auto it = recipes.begin(); it != recipes.end(); ) {
+        if( pred( it->second ) ) {
+            it = recipe_dict.recipes.erase( it );
+        } else {
+            ++it;
         }
     }
-}
-
-void recipe_dictionary::remove_from_component_lookup( recipe *r )
-{
-    for( auto &map_item : by_component ) {
-        std::vector<recipe *> &rlist = map_item.second;
-        rlist.erase( std::remove( rlist.begin(), rlist.end(), r ), rlist.end() );
-    }
-}
-
-void recipe_dictionary::clear()
-{
-    by_component.clear();
-    by_name.clear();
-    by_category.clear();
-    for( auto &recipe : recipes ) {
-        delete recipe;
-    }
-    recipes.clear();
-}
-
-const std::vector<recipe *> &recipe_dictionary::in_category( const std::string &cat )
-{
-    return by_category[cat];
-}
-
-const std::vector<recipe *> &recipe_dictionary::of_component( const itype_id &id )
-{
-    return by_component[id];
 }

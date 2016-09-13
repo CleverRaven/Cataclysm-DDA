@@ -1841,17 +1841,15 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
         } else { // use the contained item
             tid = contents.front().typeId();
         }
-        const std::vector<recipe *> &rec = recipe_dict.of_component( tid );
+        const auto& rec = recipe_dict.of_component( tid );
         if( !rec.empty() ) {
             temp1.str( "" );
             const inventory &inv = g->u.crafting_inventory();
             // only want known recipes
-            std::vector<recipe *> known_recipes;
-            for( recipe *r : rec ) {
-                if( g->u.knows_recipe( r ) ) {
-                    known_recipes.push_back( r );
-                }
-            }
+            std::vector<const recipe *> known_recipes;
+            std::copy_if( rec.begin(), rec.end(), std::back_inserter( known_recipes ),
+                          [&]( const recipe *r ) { return g->u.knows_recipe( r ); } );
+
             if( known_recipes.size() > 24 ) {
                 insert_separation_line();
                 info.push_back( iteminfo( "DESCRIPTION",

@@ -24,18 +24,6 @@ typedef int nc_color; // From color.h
 using itype_id     = std::string; // From itype.h
 using requirement_id = string_id<requirement_data>;
 
-struct byproduct {
-    itype_id result;
-    int charges_mult;
-    int amount;
-
-    byproduct() : byproduct( "null" ) {}
-
-    byproduct( itype_id res, int mult = 1, int amnt = 1 )
-        : result( res ), charges_mult( mult ), amount( amnt ) {
-    }
-};
-
 struct recipe {
     private:
         std::string ident_;
@@ -43,10 +31,10 @@ struct recipe {
         friend void load_recipe( JsonObject &jsobj, const std::string &src, bool uncraft );
 
     public:
-        itype_id result;
-        int time; // in movement points (100 per turn)
-        int difficulty;
-        bool valid_to_learn;
+        itype_id result = "null";
+        int time = 0; // in movement points (100 per turn)
+        int difficulty = 0;
+        bool valid_to_learn = true;
 
         /** Fetch combined requirement data (inline and via "using" syntax) */
         const requirement_data& requirements() const {
@@ -59,16 +47,21 @@ struct recipe {
         /** Second field is the multiplier */
         std::vector<std::pair<requirement_id, int>> reqs;
 
-        std::vector<byproduct> byproducts;
+        std::map<itype_id,int> byproducts;
+
         std::string cat;
         // Does the item spawn contained in container?
-        bool contained;
+        bool contained = false;
         // What does the item spawn contained in? Unset ("null") means default container.
-        itype_id container;
+        itype_id container = "null";
         std::string subcat;
-        skill_id skill_used;
+        skill_id skill_used = skill_id::NULL_ID;
         std::map<skill_id, int> required_skills;
-        bool reversible; // can the item be disassembled?
+        bool reversible = false; // can the item be disassembled?
+
+        /** set learning requirements equal to required skills at finalization? */
+        bool autolearn = false;
+
         std::map<skill_id, int> autolearn_requirements; // Skill levels required to autolearn
         std::map<skill_id, int> learn_by_disassembly; // Skill levels required to learn by disassembly
 
@@ -77,19 +70,11 @@ struct recipe {
 
         // maximum achievable time reduction, as percentage of the original time.
         // if zero then the recipe has no batch crafting time reduction.
-        double batch_rscale;
-        int batch_rsize; // minimum batch size to needed to reach batch_rscale
-        int result_mult; // used by certain batch recipes that create more than one stack of the result
+        double batch_rscale = 0.0;
+        int batch_rsize = 0; // minimum batch size to needed to reach batch_rscale
+        int result_mult = 1; // used by certain batch recipes that create more than one stack of the result
 
-        // only used during loading json data: book_id is the id of an book item, other stuff is copied
-        // into @ref islot_book::recipes.
-        struct bookdata_t {
-            std::string book_id;
-            int skill_level;
-            std::string recipe_name;
-            bool hidden;
-        };
-        std::vector<bookdata_t> booksets;
+        std::map<itype_id,int> booksets;
         std::set<std::string> flags;
 
         const std::string &ident() const;
@@ -120,8 +105,7 @@ struct recipe {
         bool valid_learn() const;
 
         int print_items( WINDOW *w, int ypos, int xpos, nc_color col, int batch = 1 ) const;
-        void print_item( WINDOW *w, int ypos, int xpos, nc_color col,
-                         const byproduct &bp, int batch = 1 ) const;
+
         int print_time( WINDOW *w, int ypos, int xpos, int width, nc_color col,
                         int batch = 1 ) const;
 
@@ -138,10 +122,10 @@ void remove_ammo( item *dis_item, player &p );
 void remove_ammo( std::list<item> &dis_items, player &p );
 
 void load_recipe( JsonObject &jsobj, const std::string &src, bool uncraft );
-void reset_recipes();
+
 const recipe *recipe_by_name( const std::string &name );
 const recipe *get_disassemble_recipe( const itype_id &type );
-void finalize_recipes();
+
 // Show the "really disassemble?" query along with a list of possible results.
 // Returns false if the player answered no to the query.
 bool query_dissamble( const item &dis_item );
@@ -155,8 +139,6 @@ void batch_recipes( const inventory &crafting_inv,
                     const std::vector<npc *> &helpers,
                     std::vector<const recipe *> &current,
                     std::vector<bool> &available, const recipe *r );
-
-void check_recipe_definitions();
 
 void set_item_spoilage( item &newit, float used_age_tally, int used_age_count );
 void set_item_food( item &newit );

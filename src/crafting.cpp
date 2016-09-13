@@ -20,6 +20,7 @@
 #include "ui.h"
 #include "vehicle.h"
 #include "crafting_gui.h"
+#include "generic_factory.h"
 
 #include <algorithm> //std::min
 #include <iostream>
@@ -42,268 +43,134 @@ recipe::recipe() :
 {
 }
 
-// Check that the given recipe ident (rec_name) is unique, throw if not,
-// If the recipe should override an existing one, the function removes the existing
-// recipe.
-void check_recipe_ident( const std::string &rec_name, JsonObject &jsobj )
+void load_recipe( JsonObject &jo, const std::string & /* src */, bool uncraft )
 {
-    const bool override_existing = jsobj.get_bool( "override", false );
+    bool strict = false; // @todo enable strict parsing for core recipes
 
-    for( auto list_iter : recipe_dict ) {
-        if( list_iter->ident() == rec_name ) {
-            if( !override_existing ) {
-                jsobj.throw_error(
-                    std::string( "Recipe name collision (set a unique value for the id_suffix field to fix): " ) +
-                    rec_name, "result" );
-            }
-            recipe_dict.remove( list_iter );
-            delete list_iter;
-            break;
-        }
+    recipe r;
+
+    r.cat = uncraft ? "CC_NONCRAFT" : jo.get_string( "category" );
+    uncraft = uncraft || r.cat == "CC_NONCRAFT"; // @todo remove once recipes are converted
+
+    r.result = jo.get_string( "result" );
+    r.ident_ = r.result + ( uncraft ? "uncraft" : jo.get_string( "id_suffix", "" ) );
+
+    if( uncraft ) {
+        r.subcat = "CSS_NONCRAFT";
+        r.reversible = true;
+        r.valid_to_learn = false;
+    } else {
+        assign( jo, "subcategory", r.subcat, strict );
+        assign( jo, "reversible", r.reversible, strict );
     }
-}
 
-void load_recipe( JsonObject &jsobj, const std::string & /* src */, bool uncraft )
-{
-    JsonArray jsarr;
+    assign( jo, "time", r.time, strict, 0 );
+    assign( jo, "difficulty", r.difficulty, strict, 0, MAX_SKILL );
+    assign( jo, "flags", r.flags );
 
-    // required
-    std::string result = jsobj.get_string( "result" );
-    std::string category = uncraft ? "CC_NONCRAFT" : jsobj.get_string( "category" );
-    // @todo Fix the recipes and remove this
-    uncraft = uncraft || category == "CC_NONCRAFT";
-    int time = jsobj.get_int( "time" );
-    int difficulty = jsobj.get_int( "difficulty" );
+    // automatically set contained if we specify as container
+    assign( jo, "contained", r.contained, strict );
+    r.contained |= assign( jo, "container", r.container, strict );
 
-    // optional
-    std::string container = jsobj.get_string( "container", "null" );
-    bool contained = jsobj.get_bool( "contained", container != "null" );
-
-    std::string subcategory = uncraft ? "CSC_NONCRAFT" : jsobj.get_string( "subcategory", "" );
-    bool reversible = uncraft || jsobj.get_bool( "reversible", false );
-    skill_id skill_used( jsobj.get_string( "skill_used", skill_id::NULL_ID.str() ) );
-    std::string id_suffix = uncraft ? "uncraft" : jsobj.get_string( "id_suffix", "" );
-    double batch_rscale = 0.0;
-    int batch_rsize = 0;
-    if( jsobj.has_array( "batch_time_factors" ) ) {
-        jsarr = jsobj.get_array( "batch_time_factors" );
-        batch_rscale = ( double )jsarr.get_int( 0 ) / 100.0;
-        batch_rsize = jsarr.get_int( 1 );
+    if( jo.has_array( "batch_time_factors" ) ) {
+        auto batch = jo.get_array( "batch_time_factors" );
+        r.batch_rscale = batch.get_int( 0 ) / 100.0;
+        r.batch_rsize  = batch.get_int( 1 );
     }
-    int result_mult = jsobj.get_int( "result_mult", 1 );
 
-    std::map<std::string, int> requires_skills;
-    jsarr = jsobj.get_array( "skills_required" );
-    if( !jsarr.empty() ) {
-        // could be a single requirement, or multiple
-        if( jsarr.has_array( 0 ) ) {
-            while( jsarr.has_more() ) {
-                JsonArray ja = jsarr.next_array();
-                requires_skills[ja.get_string( 0 )] = ja.get_int( 1 );
+    assign( jo, "charges", r.charges );
+    assign( jo, "result_mult", r.result_mult );
+
+    assign( jo, "skill_used", r.skill_used, strict );
+
+    if( jo.has_member( "skills_required" ) ) {
+        auto sk = jo.get_array( "skills_required" );
+        r.required_skills.clear();
+
+        if( sk.empty() ) {
+            // clear all requirements
+
+        } else if( sk.has_array( 0 ) ) {
+            // multiple requirements
+            while( sk.has_more() ) {
+                auto arr = sk.next_array();
+                r.required_skills[skill_id( arr.get_string( 0 ) )] = arr.get_int( 1 );
             }
+
         } else {
-            requires_skills[jsarr.get_string( 0 )] = jsarr.get_int( 1 );
+            // single requirement
+            r.required_skills[skill_id( sk.get_string( 0 ) )] = sk.get_int( 1 );
         }
     }
 
-    std::map<std::string, int> autolearn_requirements;
-    if( jsobj.has_array( "autolearn" ) ) {
-        JsonArray jarr = jsobj.get_array( "autolearn" );
-        while( jarr.has_more() ) {
-            JsonArray ja = jarr.next_array();
-            autolearn_requirements[ja.get_string( 0 )] = ja.get_int( 1 );
+    // simplified autolearn sets requirements equal to required skills at finalization
+    if( jo.has_bool( "autolearn" ) ) {
+        assign( jo, "autolearn", r.autolearn );
+
+    } else if( jo.has_array( "autolearn" ) ) {
+        r.autolearn = false;
+        auto sk = jo.get_array( "autolearn" );
+        while( sk.has_more() ) {
+            auto arr = sk.next_array();
+            r.autolearn_requirements[skill_id( arr.get_string( 0 ) )] = arr.get_int( 1 );
         }
-    } else if( jsobj.has_bool( "autolearn" ) ) {
-        if( jsobj.get_bool( "autolearn" ) ) {
-            // Short definition of autolearn (equal to required skills)
-            autolearn_requirements = requires_skills;
-            if( skill_used ) {
-                autolearn_requirements[skill_used.str()] = difficulty;
+    }
+
+    if( jo.has_member( "decomp_learn" ) ) {
+        r.learn_by_disassembly.clear();
+
+        if( jo.has_int( "decomp_learn" ) ) {
+            if( !r.skill_used ) {
+                jo.throw_error( "decomp_learn specified with no skill_used" );
+            }
+            assign( jo, "decomp_learn", r.learn_by_disassembly[r.skill_used] );
+
+        } else if( jo.has_array( "decomp_learn" ) ) {
+            auto sk = jo.get_array( "decomp_learn" );
+            while( sk.has_more() ) {
+                auto arr = sk.next_array();
+                r.learn_by_disassembly[skill_id( arr.get_string( 0 ) )] = arr.get_int( 1 );
             }
         }
     }
 
-    std::map<std::string, int> learn_by_disassembly;
-    if( jsobj.has_int( "decomp_learn" ) ) {
-        // Short definition of decomp_learn - only the main skill
-        int val = jsobj.get_int( "decomp_learn" );
-        if( val >= 0 && !skill_used ) {
-            jsobj.throw_error( "decomp_learn specified with no skill_used" );
-        } else if( val >= 0 ) {
-            learn_by_disassembly[skill_used.str()] = val;
-        }
-    } else if( jsobj.has_array( "decomp_learn" ) ) {
-        JsonArray jarr = jsobj.get_array( "decomp_learn" );
-        while( jarr.has_more() ) {
-            JsonArray ja = jarr.next_array();
-            learn_by_disassembly[ja.get_string( 0 )] = ja.get_int( 1 );
+    if( jo.has_member( "byproducts" ) ) {
+        auto bp = jo.get_array( "byproducts" );
+        r.byproducts.clear();
+        while( bp.has_more() ) {
+            auto arr = bp.next_array();
+            r.byproducts[ arr.get_string( 0 ) ] += arr.size() == 2 ? arr.get_int( 1 ) : 1;
         }
     }
 
-    std::vector<byproduct> bps;
-    // could be a single byproduct - either id or byproduct, or array of ids and byproducts
-    if( jsobj.has_string( "byproducts" ) ) {
-        bps.push_back( byproduct( jsobj.get_string( "byproducts" ) ) );
-    } else if( jsobj.has_object( "byproducts" ) ) {
-        JsonObject jsbp = jsobj.get_object( "byproducts" );
-        bps.push_back( byproduct( jsbp.get_string( "id" ), jsbp.get_int( "charges_mult", 1 ),
-                                  jsbp.get_int( "amount", 1 ) ) );
-    } else if( jsobj.has_array( "byproducts" ) ) {
-        jsarr = jsobj.get_array( "byproducts" );
-        while( jsarr.has_more() ) {
-            if( jsarr.has_string( 0 ) ) {
-                bps.push_back( byproduct( jsarr.next_string() ) );
-            } else if( jsarr.has_object( 0 ) ) {
-                JsonObject jsbp = jsarr.next_object();
-                bps.push_back( byproduct( jsbp.get_string( "id" ), jsbp.get_int( "charges_mult", 1 ),
-                                          jsbp.get_int( "amount", 1 ) ) );
-            }
+    if( jo.has_member( "book_learn" ) ) {
+        auto bk = jo.get_array( "book_learn" );
+        r.booksets.clear();
+
+        while( bk.has_more() ) {
+            auto arr = bk.next_array();
+            r.booksets.emplace( arr.get_string( 0 ), arr.get_int( 1 ) );
         }
     }
 
-    std::string rec_name = result + id_suffix;
-    check_recipe_ident( rec_name, jsobj ); // may delete recipes
+    if( jo.has_string( "using" ) ) {
+        r.reqs = { { requirement_id( jo.get_string( "using" ) ), 1 } };
 
-    recipe *rec = new recipe();
+    } else if( jo.has_array( "using" ) ) {
+        auto arr = jo.get_array( "using" );
+        r.reqs.clear();
 
-    rec->ident_ = rec_name;
-    rec->result = result;
-    rec->time = time;
-    rec->difficulty = difficulty;
-    rec->valid_to_learn = !uncraft;
-    rec->byproducts = bps;
-    rec->cat = category;
-    rec->contained = contained;
-    rec->container = container;
-    rec->subcat = subcategory;
-    rec->skill_used = skill_used;
-    for( const auto &elem : requires_skills ) {
-        rec->required_skills[skill_id( elem.first )] = elem.second;
-    }
-    for( const auto &elem : autolearn_requirements ) {
-        rec->autolearn_requirements[skill_id( elem.first )] = elem.second;
-    }
-    for( const auto &elem : learn_by_disassembly ) {
-        rec->learn_by_disassembly[skill_id( elem.first )] = elem.second;
-    }
-    rec->reversible = reversible;
-    rec->batch_rscale = batch_rscale;
-    rec->batch_rsize = batch_rsize;
-    rec->result_mult = result_mult;
-    rec->flags = jsobj.get_tags( "flags" );
-
-    jsobj.read( "charges", rec->charges );
-
-    if( jsobj.has_string( "using" ) ) {
-        rec->reqs = { { requirement_id( jsobj.get_string( "using" ) ), 1 } };
-
-    } else if( jsobj.has_array( "using" ) ) {
-        auto arr = jsobj.get_array( "using" );
         while( arr.has_more() ) {
             auto cur = arr.next_array();
-            rec->reqs.emplace_back( requirement_id( cur.get_string( 0 ) ), cur.get_int( 1 ) );
+            r.reqs.emplace_back( requirement_id( cur.get_string( 0 ) ), cur.get_int( 1 ) );
         }
     }
 
-    auto req_id = std::string( "inline_recipe_" ) += rec_name;
-    requirement_data::load_requirement( jsobj, req_id );
-    rec->reqs.emplace_back( requirement_id( req_id ), 1 );
+    auto req_id = std::string( "inline_recipe_" ) += r.ident_;
+    requirement_data::load_requirement( jo, req_id );
+    r.reqs.emplace_back( requirement_id( req_id ), 1 );
 
-    jsarr = jsobj.get_array( "book_learn" );
-    while( jsarr.has_more() ) {
-        JsonArray ja = jsarr.next_array();
-        recipe::bookdata_t bd{ ja.get_string( 0 ), ja.get_int( 1 ), "", false };
-        if( ja.size() >= 3 ) {
-            bd.recipe_name = ja.get_string( 2 );
-            bd.hidden = bd.recipe_name.empty();
-        }
-        rec->booksets.push_back( bd );
-    }
-
-    // Note, a recipe has to be fully instantiated before adding
-    recipe_dict.add( rec );
-}
-
-void reset_recipes()
-{
-    recipe_dict.clear();
-}
-
-void finalize_recipes()
-{
-    // Has to be done before recipe finalization!
-    for( auto r : recipe_dict ) {
-        r->requirements_ = std::accumulate( r->reqs.begin(), r->reqs.end(), requirement_data(),
-        []( const requirement_data & lhs, const std::pair<requirement_id, int> &rhs ) {
-            return lhs + ( *rhs.first * rhs.second );
-        } );
-    }
-
-    recipe_dict.finalize();
-
-    std::ostringstream buffer;
-    for( auto r : recipe_dict ) {
-        buffer.clear();
-        for( auto j = r->booksets.begin(); j != r->booksets.end(); ++j ) {
-            const std::string &book_id = j->book_id;
-            if( !item::type_is_defined( book_id ) ) {
-                buffer << "book " << book_id << " for recipe " << r->ident() << " does not exist" << "\n";
-                continue;
-            }
-            const itype *t = item::find_type( book_id );
-            if( !t->book ) {
-                // TODO: we could make up a book slot?
-                buffer << "book " << book_id << " for recipe " << r->ident() << " is not a book" << "\n";
-                continue;
-            }
-            islot_book::recipe_with_description_t rwd{ r, j->skill_level, "", j->hidden };
-            if( j->recipe_name.empty() ) {
-                rwd.name = item::nname( r->result );
-            } else {
-                rwd.name = _( j->recipe_name.c_str() );
-            }
-            t->book->recipes.insert( rwd );
-        }
-        r->booksets.clear();
-
-        if( !item::type_is_defined( r->result ) ) {
-            buffer << "Recipe " << r->ident() << " defines invalid result " << r->result << "\n";
-        }
-
-        if( r->charges >= 0 && !item::count_by_charges( r->result ) ) {
-            buffer << "Recipe " << r->ident() << " specified charges but " << r->result <<
-                   " is not counted by charges\n";
-        }
-
-        for( const auto &bp : r->byproducts ) {
-            if( !item::type_is_defined( bp.result ) ) {
-                buffer << "Recipe " << r->ident() << " defines invalid byproduct " << bp.result << "\n";
-            }
-        }
-
-        if( !r->contained && r->container != "null" ) {
-            buffer << "Recipe " << r->ident() << " defines container " << r->container << ", but not contained"
-                   << "\n";
-        }
-
-        if( r->contained && r->container == "null" ) {
-            r->container = item::find_type( r->result )->default_container;
-        }
-
-        if( !item::type_is_defined( r->container ) ) {
-            buffer << "Recipe " << r->ident() << " defines container " << r->container <<
-                   ", which is not defined" << "\n";
-        }
-
-        if( r->result_mult != 1 && !item::find_type( r->result )->count_by_charges() ) {
-            buffer << "Recipe " << r->ident() << " has result_mult " << r->result_mult <<
-                   ", but result " << r->result << " is not count_by_charges" << "\n";
-        }
-
-        if( !buffer.str().empty() ) {
-            debugmsg( "%s", buffer.str().c_str() );
-        }
-    }
+    recipe_dict.add( r );
 }
 
 static bool crafting_allowed( const player &p, const recipe &rec )
@@ -715,29 +582,22 @@ std::vector<item> recipe::create_results( int batch ) const
 std::vector<item> recipe::create_byproducts( int batch ) const
 {
     std::vector<item> bps;
-    for( auto &val : byproducts ) {
-        if( !contained || !item::count_by_charges( val.result ) ) {
-            for( int i = 0; i < val.amount * batch; i++ ) {
-                item newit( val.result, calendar::turn, item::default_charges_tag{} );
-                if( !newit.craft_has_charges() ) {
-                    newit.charges = 0;
-                }
-                if( newit.has_flag( "VARSIZE" ) ) {
-                    newit.item_tags.insert( "FIT" );
-                }
-                bps.push_back( newit );
-            }
+    for( const auto &e : byproducts ) {
+        item obj( e.first, calendar::turn, item::default_charges_tag{} );
+        if( obj.has_flag( "VARSIZE" ) ) {
+            obj.item_tags.insert( "FIT" );
+        }
+
+        if( obj.count_by_charges() ) {
+            obj.charges *= e.second;
+            bps.push_back( obj );
+
         } else {
-            for( int i = 0; i < val.amount; i++ ) {
-                item newit( val.result, calendar::turn, item::default_charges_tag{} );
-                if( val.charges_mult != 1 ) {
-                    newit.charges *= val.charges_mult;
-                }
-                newit.charges *= batch;
-                if( newit.has_flag( "VARSIZE" ) ) {
-                    newit.item_tags.insert( "FIT" );
-                }
-                bps.push_back( newit );
+            if( !obj.craft_has_charges() ) {
+                obj.charges = 0;
+            }
+            for( int i = 0; i < e.second * batch; ++i ) {
+                bps.push_back( obj );
             }
         }
     }
@@ -1337,14 +1197,12 @@ void player::consume_tools( const std::vector<tool_comp> &tools, int batch,
 
 const recipe *get_disassemble_recipe( const itype_id &type )
 {
-    for( auto cur_recipe : recipe_dict ) {
-
-        if( type == cur_recipe->result && cur_recipe->reversible ) {
-            return cur_recipe;
+    for( const auto &e : recipe_dict ) {
+        if( type == e.second.result && e.second.reversible ) {
+            return &e.second;
         }
     }
-    // no matching disassemble recipe found.
-    return NULL;
+    return nullptr;
 }
 
 bool player::can_disassemble( const item &dis_item, const inventory &crafting_inv,
@@ -1354,9 +1212,9 @@ bool player::can_disassemble( const item &dis_item, const inventory &crafting_in
         return true;
     }
 
-    for( auto cur_recipe : recipe_dict ) {
-        if( dis_item.typeId() == cur_recipe->result && cur_recipe->reversible ) {
-            return can_disassemble( dis_item, cur_recipe, crafting_inv, print_msg );
+    for( const auto &e : recipe_dict ) {
+        if( dis_item.typeId() == e.second.result && e.second.reversible ) {
+            return can_disassemble( dis_item, &e.second, crafting_inv, print_msg );
         }
     }
 
@@ -1831,33 +1689,7 @@ void player::complete_disassemble( int item_pos, const tripoint &loc,
 
 const recipe *recipe_by_name( const std::string &name )
 {
-    return recipe_dict[name];
-}
-
-void check_recipe_definitions()
-{
-    for( auto &elem : recipe_dict ) {
-        const recipe &r = *elem;
-
-        for( const auto &e : r.reqs ) {
-            if( !e.first.is_valid() || e.second <= 0 ) {
-                debugmsg( "recipe %s has unknown or incorrectly specified requirements %s",
-                          r.ident().c_str(), e.first.c_str() );
-            }
-        }
-        if( !item::type_is_defined( r.result ) ) {
-            debugmsg( "result %s in recipe %s is not a valid item template", r.result.c_str(),
-                      r.ident().c_str() );
-        }
-        if( r.skill_used && !r.skill_used.is_valid() ) {
-            debugmsg( "recipe %s uses invalid skill %s", r.ident().c_str(), r.skill_used.c_str() );
-        }
-        for( auto &e : r.required_skills ) {
-            if( e.first && !e.first.is_valid() ) {
-                debugmsg( "recipe %s uses invalid required skill %s", r.ident().c_str(), e.first.c_str() );
-            }
-        }
-    }
+    return &recipe_dict[name];
 }
 
 void remove_ammo( std::list<item> &dis_items, player &p )

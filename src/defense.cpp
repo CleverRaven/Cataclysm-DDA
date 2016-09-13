@@ -83,7 +83,6 @@ bool defense_game::init()
     g->u.dex_cur = g->u.dex_max;
     init_mtypes();
     init_constructions();
-    init_recipes();
     current_wave = 0;
     hunger = false;
     thirst = false;
@@ -194,13 +193,6 @@ void defense_game::init_mtypes()
 void defense_game::init_constructions()
 {
     standardize_construction_times(1); // Everything takes 1 minute
-}
-
-void defense_game::init_recipes()
-{
-    for( auto &elem : recipe_dict ) {
-        ( elem )->time /= 10; // Things take turns, not minutes
-    }
 }
 
 void defense_game::init_map()
