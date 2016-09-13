@@ -33,6 +33,7 @@
 #include "io.h"
 #include "mtype.h"
 #include "item_factory.h"
+#include "recipe_dictionary.h"
 
 #include "tile_id_data.h" // for monster::json_save
 #include <ctime>
@@ -749,7 +750,7 @@ void player::deserialize(JsonIn &jsin)
         learned_recipes.clear();
         while ( parray.has_more() ) {
             if ( parray.read_next(pstr) ) {
-                learned_recipes[ pstr ] = (recipe *)recipe_by_name( pstr );
+                learned_recipes[ pstr ] = &recipe_dict[ pstr ];
             }
         }
     }

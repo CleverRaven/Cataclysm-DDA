@@ -116,20 +116,20 @@ void player::long_craft()
 
 bool player::making_would_work( const std::string &id_to_make, int batch_size )
 {
-    const recipe *making = recipe_by_name( id_to_make );
-    if( making == nullptr || !crafting_allowed( *this, *making ) ) {
+    const auto &making = recipe_dict[ id_to_make ];
+    if( making || !crafting_allowed( *this, making ) ) {
         return false;
     }
 
-    if( !can_make( making, batch_size ) ) {
+    if( !can_make( &making, batch_size ) ) {
         std::ostringstream buffer;
         buffer << _( "You can no longer make that craft!" ) << "\n";
-        buffer << making->requirements().list_missing();
+        buffer << making.requirements().list_missing();
         popup( buffer.str(), PF_NONE );
         return false;
     }
 
-    return making->check_eligible_containers_for_crafting( batch_size );
+    return making.check_eligible_containers_for_crafting( batch_size );
 }
 
 bool recipe::check_eligible_containers_for_crafting( int batch ) const
@@ -387,13 +387,13 @@ void player::make_all_craft( const std::string &id_to_make, int batch_size )
 
 void player::make_craft_with_command( const std::string &id_to_make, int batch_size, bool is_long )
 {
-    const recipe *recipe_to_make = recipe_by_name( id_to_make );
+    const auto &recipe_to_make = recipe_dict[ id_to_make ];
 
-    if( recipe_to_make == nullptr ) {
+    if( !recipe_to_make ) {
         return;
     }
 
-    *last_craft = craft_command( recipe_to_make, batch_size, is_long, this );
+    *last_craft = craft_command( &recipe_to_make, batch_size, is_long, this );
     last_craft->execute();
 }
 
@@ -494,7 +494,7 @@ void set_components( std::vector<item> &components, const std::list<item> &used,
 
 void player::complete_craft()
 {
-    const recipe *making = recipe_by_name( activity.name ); // Which recipe is it?
+    const recipe *making = &recipe_dict[ activity.name ]; // Which recipe is it?
     int batch_size = activity.values.front();
     if( making == nullptr ) {
         debugmsg( "no recipe with id %s found", activity.name.c_str() );
@@ -1282,13 +1282,13 @@ void player::complete_disassemble()
         return;
     }
 
-    const recipe *next_recipe = recipe_by_name( activity.str_values.back() );
-    if( next_recipe == nullptr ) {
+    const auto &next_recipe = recipe_dictionary::get_uncraft( activity.str_values.back() );
+    if( !next_recipe ) {
         activity.type = ACT_NULL;
         return;
     }
 
-    activity.moves_left = next_recipe->time;
+    activity.moves_left = next_recipe.time;
 }
 
 // TODO: Make them accessible in a less ugly way
@@ -1435,11 +1435,6 @@ void player::complete_disassemble( int item_pos, const tripoint &loc,
             add_msg( m_info, _( "If you had better skills, you might learn a recipe next time." ) );
         }
     }
-}
-
-const recipe *recipe_by_name( const std::string &name )
-{
-    return &recipe_dict[name];
 }
 
 void remove_ammo( std::list<item> &dis_items, player &p )

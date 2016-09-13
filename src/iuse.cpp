@@ -6267,9 +6267,9 @@ int iuse::einktabletpc(player *p, item *it, bool t, const tripoint &pos)
 
                 candidate_recipes.push_back(s);
 
-                auto recipe = recipe_by_name( s );
+                const auto &recipe = recipe_dict[ s ];
                 if( recipe ) {
-                    rmenu.addentry( k++, true, -1, item::nname( recipe->result ) );
+                    rmenu.addentry( k++, true, -1, item::nname( recipe.result ) );
                 }
             }
 
@@ -6283,11 +6283,11 @@ int iuse::einktabletpc(player *p, item *it, bool t, const tripoint &pos)
                 const auto rec_id = candidate_recipes[rchoice - 1];
                 it->set_var( "RECIPE", rec_id );
 
-                auto recipe = recipe_by_name( rec_id );
+                const auto &recipe = recipe_dict[ rec_id ];
                 if( recipe ) {
                     p->add_msg_if_player(m_info,
                         _("You change the e-ink screen to show a recipe for %s."),
-                                         item::nname( recipe->result ).c_str());
+                                         item::nname( recipe.result ).c_str());
                 }
             }
 
