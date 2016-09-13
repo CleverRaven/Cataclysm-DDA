@@ -64,7 +64,6 @@ struct recipe {
 
         skill_id skill_used;
         std::map<skill_id, int> required_skills;
-        bool reversible = false; // can the item be disassembled?
 
         /** set learning requirements equal to required skills at finalization? */
         bool autolearn = false;
@@ -117,6 +116,9 @@ struct recipe {
 
     private:
         std::string ident_;
+
+        /** Can recipe be used for disassembly of @ref result via @ref disassembly_requirements */
+        bool reversible = false;
 
         /** External requirements (via "using" syntax) where second field is multiplier */
         std::vector<std::pair<requirement_id, int>> reqs_external;
