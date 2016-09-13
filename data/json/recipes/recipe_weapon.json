@@ -922,7 +922,7 @@
 },{
   "type" : "recipe",
   "result": "mosin91_30",
-  "byproducts": { "id" : "mn_ebr_kit", "amount" : 1 },
+  "byproducts": [ [ "mn_ebr_kit" ] ],
   "category": "CC_WEAPON",
   "subcategory": "CSC_WEAPON_RANGED",
   "skill_used": "mechanics",
@@ -949,7 +949,7 @@
 },{
   "type" : "recipe",
   "result": "mosin44",
-  "byproducts": { "id" : "mn_ebr_kit", "amount" : 1 },
+  "byproducts": [ [ "mn_ebr_kit" ] ],
   "category": "CC_WEAPON",
   "subcategory": "CSC_WEAPON_RANGED",
   "skill_used": "mechanics",
@@ -976,7 +976,7 @@
 },{
   "type" : "recipe",
   "result": "mosin91_30_ebr",
-  "byproducts": { "id" : "mn_classic_kit", "amount" : 1 },
+  "byproducts": [ [ "mn_classic_kit" ] ],
   "category": "CC_WEAPON",
   "subcategory": "CSC_WEAPON_RANGED",
   "skill_used": "mechanics",
@@ -1003,7 +1003,7 @@
 },{
   "type" : "recipe",
   "result": "mosin44_ebr",
-  "byproducts": { "id" : "mn_classic_kit", "amount" : 1 },
+  "byproducts": [ [ "mn_classic_kit" ] ],
   "category": "CC_WEAPON",
   "subcategory": "CSC_WEAPON_RANGED",
   "skill_used": "mechanics",
@@ -5136,7 +5136,7 @@
 },{
   "type" : "recipe",
   "result": "bokken",
-  "byproducts": { "id" : "splinter", "amount" : 30 },
+  "byproducts": [ [ "splinter" ] ],
   "category": "CC_WEAPON",
   "subcategory": "CSC_WEAPON_BASHING",
   "skill_used": "fabrication",
