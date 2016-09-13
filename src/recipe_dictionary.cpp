@@ -13,6 +13,8 @@ recipe_dictionary recipe_dict;
 static recipe null_recipe;
 static std::set<const recipe *> null_match;
 
+static DynamicDataLoader::deferred_json deferred;
+
 const recipe &recipe_dictionary::operator[]( const std::string &id ) const
 {
     auto iter = recipes.find( id );
@@ -37,24 +39,41 @@ const std::set<const recipe *> &recipe_dictionary::of_component( const itype_id 
     return iter != component.end() ? iter->second : null_match;
 }
 
-void recipe_dictionary::load( JsonObject &jo, const std::string & /* src */, bool uncraft )
+void recipe_dictionary::load( JsonObject &jo, const std::string &src, bool uncraft )
 {
-    // @todo enable strict parsing for core recipes
-    bool strict = false;
+    bool strict = false; // @todo enable strict parsing for core recipes
 
-    auto result = jo.get_string( "result" );
-    auto id = jo.get_string( "id_suffix", "" );
+    recipe r;
 
-    auto &r = uncraft ? recipe_dict.uncraft[ result ] : recipe_dict.recipes[ result + id ];
-    r.result = result;
-    r.ident_ = result + id;
+    // defer entries dependent upon as-yet unparsed definitions
+    if( jo.has_string( "copy-from" ) ) {
+        auto base = jo.get_string( "copy-from" );
+        if( uncraft ) {
+            if( !recipe_dict.uncraft.count( base ) ) {
+                deferred.emplace_back( jo.str(), src );
+                return;
+            }
+            r = recipe_dict.uncraft[ base ];
+        } else {
+            if( !recipe_dict.recipes.count( base ) ) {
+                deferred.emplace_back( jo.str(), src );
+                return;
+            }
+            r = recipe_dict.recipes[ base ];
+        }
+    }
 
-    if( uncraft ) {
-        r.reversible = true;
-    } else {
+    r.ident_ = r.result = jo.get_string( "result" );
+
+    if( !uncraft ) {
+        if( jo.has_string( "id_suffix" ) ) {
+            r.ident_ += "_" + jo.get_string( "id_suffix" );
+        }
         assign( jo, "category", r.category, strict );
         assign( jo, "subcategory", r.subcategory, strict );
         assign( jo, "reversible", r.reversible, strict );
+    } else {
+        r.reversible = true;
     }
 
     assign( jo, "time", r.time, strict, 0 );
@@ -162,6 +181,12 @@ void recipe_dictionary::load( JsonObject &jo, const std::string & /* src */, boo
     auto req_id = std::string( "inline_recipe_" ) += r.ident_;
     requirement_data::load_requirement( jo, req_id );
     r.reqs.emplace_back( requirement_id( req_id ), 1 );
+
+    if( uncraft ) {
+        recipe_dict.uncraft[ r.ident_ ] = r;
+    } else {
+        recipe_dict.recipes[ r.ident_ ] = r;
+    }
 }
 
 static void finalize_internal( std::map<std::string, recipe> &obj )
@@ -246,6 +271,10 @@ static void finalize_internal( std::map<std::string, recipe> &obj )
 
 void recipe_dictionary::finalize()
 {
+    if( !DynamicDataLoader::get_instance().load_deferred( deferred ) ) {
+        debugmsg( "JSON contains circular dependency: discarded %i recipes", deferred.size() );
+    }
+
     finalize_internal( recipe_dict.recipes );
     finalize_internal( recipe_dict.uncraft );
 

@@ -9,9 +9,6 @@
 #include <memory>
 #include <functional>
 
-class Item_factory;
-class vpart_info;
-
 /**
  * This class is used to load (and unload) the dynamic
  * (and modable) data from json files.
@@ -50,8 +47,9 @@ class vpart_info;
  */
 class DynamicDataLoader
 {
-        friend Item_factory;
-        friend vpart_info;
+        friend class Item_factory;
+        friend class vpart_info;
+        friend class recipe_dictionary;
 
     public:
         typedef std::string type_string;
