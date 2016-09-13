@@ -34,7 +34,6 @@ class inventory_entry
         const item_category *custom_category;
 
     public:
-        bool enabled = true;
         size_t chosen_count = 0;
         long custom_invlet = LONG_MIN;
 
@@ -63,9 +62,6 @@ class inventory_entry
 
         bool is_item() const;
         bool is_null() const;
-        bool is_selectable() const {
-            return enabled && is_item();
-        }
 
         size_t get_stack_size() const {
             return stack_size;
@@ -85,10 +81,6 @@ class inventory_selector_preset
         inventory_selector_preset();
 
         virtual bool is_shown( const item_location & ) const {
-            return true;
-        }
-
-        virtual bool is_enabled( const item_location & ) const {
             return true;
         }
 
@@ -144,7 +136,9 @@ class inventory_column
             return entries.empty();
         }
         // true if can be activated
-        virtual bool activatable() const;
+        virtual bool activatable() const {
+            return !empty();
+        }
         // true if displayed
         bool visible() const {
             return !empty() && visibility && preset.get_cells_count() > 0;
@@ -169,7 +163,7 @@ class inventory_column
         const inventory_entry &get_selected() const;
         std::vector<inventory_entry *> get_all_selected() const;
 
-        inventory_entry *find_by_invlet( long invlet );
+        inventory_entry *find_by_invlet( long invlet ) const;
 
         void draw( WINDOW *win, size_t x, size_t y ) const;
 
@@ -216,9 +210,7 @@ class inventory_column
         }
 
     protected:
-        void select( size_t new_index, int step = 0 );
-        void move_selection( int step );
-
+        void select( size_t new_index );
         size_t page_of( size_t index ) const;
         size_t page_of( const inventory_entry &entry ) const;
 
@@ -283,8 +275,6 @@ class inventory_selector
         }
         /** @return true when the selector is empty */
         bool empty() const;
-        /** @return true when there are enabled entries to select */
-        bool has_available_choices() const;
 
     protected:
         const player &u;

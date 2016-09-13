@@ -103,11 +103,11 @@ const item_category *inventory_entry::get_category_ptr() const {
         ? custom_category : is_item() ? &get_item().get_category() : nullptr;
 }
 
-inventory_entry *inventory_column::find_by_invlet( long invlet )
+inventory_entry *inventory_column::find_by_invlet( long invlet ) const
 {
-    for( auto &entry : entries ) {
+    for( const auto &entry : entries ) {
         if( entry.is_item() && ( entry.get_invlet() == invlet ) ) {
-            return &entry;
+            return const_cast<inventory_entry *>( &entry );
         }
     }
     return nullptr;
@@ -189,22 +189,11 @@ void inventory_selector_preset::append_cell( const std::function<std::string( co
     cells.emplace_back( title, func );
 }
 
-bool inventory_column::activatable() const
+void inventory_column::select( size_t new_index )
 {
-    return std::any_of( entries.begin(), entries.end(), []( const inventory_entry & entry ) {
-        return entry.is_selectable();
-    } );
-}
-
-void inventory_column::select( size_t new_index, int step )
-{
-    if( new_index < entries.size() ) {
+    if( new_index != selected_index && new_index < entries.size() ) {
         selected_index = new_index;
         page_offset = selected_index - selected_index % entries_per_page;
-
-        if( !entries[selected_index].is_selectable() ) {
-            move_selection( step );
-        }
     }
 }
 
@@ -267,24 +256,6 @@ size_t inventory_column::page_of( const inventory_entry &entry ) const {
     return page_of( std::distance( entries.begin(), std::find( entries.begin(), entries.end(), entry ) ) );
 }
 
-void inventory_column::move_selection( int step )
-{
-    if( step == 0 ) {
-        return;
-    }
-    const auto get_incremented = [ this ]( size_t index, int step ) -> size_t {
-        return ( index + step + entries.size() ) % entries.size();
-    };
-
-    size_t index = get_incremented( selected_index, step );
-    while( entries[index] != get_selected() && ( !entries[index].is_selectable()
-            || is_selected_by_category( entries[index] ) ) ) {
-        index = get_incremented( index, ( step > 0 ? 1 : -1 ) );
-    }
-
-    select( index );
-}
-
 bool inventory_column::is_selected( const inventory_entry &entry ) const
 {
     return entry == get_selected() || ( multiselect && is_selected_by_category( entry ) );
@@ -326,6 +297,19 @@ void inventory_column::on_action( const std::string &action )
         return; // ignore
     }
 
+    const auto move_selection = [ this ]( int step ) {
+        const auto get_incremented = [ this ]( size_t index, int step ) -> size_t {
+            return ( index + step + entries.size() ) % entries.size();
+        };
+
+        size_t index = get_incremented( selected_index, step );
+        while( entries[index] != get_selected() && ( !entries[index].is_item() || is_selected_by_category( entries[index] ) ) ) {
+            index = get_incremented( index, ( step > 0 ? 1 : -1 ) );
+        }
+
+        select( index );
+    };
+
     if( action == "DOWN" ) {
         move_selection( 1 );
     } else if( action == "UP" ) {
@@ -335,9 +319,9 @@ void inventory_column::on_action( const std::string &action )
     } else if( action == "PREV_TAB" ) {
         move_selection( std::min( std::max<int>( UINT32_MAX - entries_per_page + 1, (UINT32_MAX - selected_index + 1) + 1 ), -1 ) );
     } else if( action == "HOME" ) {
-        select( 0, 1 );
+        select( 1 );
     } else if( action == "END" ) {
-        select( entries.size() - 1, -1 );
+        select( entries.size() - 1 );
     }
 }
 
@@ -394,8 +378,6 @@ void inventory_column::prepare_paging()
         entries.insert( entries.begin() + i, insertion );
         expand_to_fit( insertion );
     }
-    // Select the uppermost possible entry
-    select( 0, 1 );
 
     paging_is_valid = true;
 }
@@ -437,7 +419,7 @@ long inventory_column::reassign_custom_invlets( const player &p, long min_invlet
     long cur_invlet = min_invlet;
     for( auto &entry : entries ) {
         if( entry.is_item() && !p.has_item( entry.get_item() ) ) {
-            entry.custom_invlet = entry.is_selectable() && cur_invlet <= max_invlet ? cur_invlet++ : '\0';
+            entry.custom_invlet = cur_invlet <= max_invlet ? cur_invlet++ : '\0';
         }
     }
     return cur_invlet;
@@ -468,7 +450,7 @@ void inventory_column::draw( WINDOW *win, size_t x, size_t y ) const
         int x2 = x;
         int yy = y + line;
 
-        const bool selected = active && entry.is_selectable() && is_selected( entry );
+        const bool selected = active && is_selected( entry );
 
         if( selected && cell_widths.size() > 1 ) {
             for( int hx = x1, hx_max = x + get_width(); hx < hx_max; ++hx ) {
@@ -500,9 +482,7 @@ void inventory_column::draw( WINDOW *win, size_t x, size_t y ) const
                 const int text_x = cell_index == 0 ? x1 : x2 - text_width; // Align either to the left or to the right
                 const std::string text = preset.get_cell_text( entry, cell_index );
 
-                if( !entry.enabled ) {
-                    trim_and_print( win, yy, text_x, text_width, c_dkgray, "%s", remove_color_tags( text ).c_str() );
-                } else if( selected ) {
+                if( selected ) {
                     trim_and_print( win, yy, text_x, text_width, h_white, "%s", remove_color_tags( text ).c_str() );
                 } else {
                     trim_and_print( win, yy, text_x, text_width, preset.get_cell_color( entry, cell_index ), "%s", text.c_str() );
@@ -514,17 +494,17 @@ void inventory_column::draw( WINDOW *win, size_t x, size_t y ) const
 
         if( entry.is_item() ) {
             int xx = x;
-            if( entry.is_selectable() && entry.get_invlet() != '\0' ) {
+            if( entry.get_invlet() != '\0' ) {
                 const nc_color invlet_color = g->u.assigned_invlet.count( entry.get_invlet() ) ? c_yellow : c_white;
                 mvwputch( win, yy, x, invlet_color, entry.get_invlet() );
             }
             xx += 2;
             if( get_option<bool>( "ITEM_SYMBOLS" ) ) {
-                const nc_color color = entry.is_selectable() ? entry.get_item().color() : c_dkgray;
+                const nc_color color = entry.get_item().color();
                 mvwputch( win, yy, xx, color, entry.get_item().symbol() );
                 xx += 2;
             }
-            if( allows_selecting() && multiselect && entry.is_selectable() ) {
+            if( allows_selecting() && multiselect ) {
                 if( entry.chosen_count == 0 ) {
                     mvwputch( win, yy, xx, c_dkgray, '-' );
                 } else if( entry.chosen_count >= entry.get_available_count() ) {
@@ -571,9 +551,9 @@ void selection_column::on_change( const inventory_entry &entry )
     // Now let's update selection
     const auto select_iter = std::find( entries.begin(), entries.end(), my_entry );
     if( select_iter != entries.end() ) {
-        select( std::distance( entries.begin(), select_iter ), 1 );
+        select( std::distance( entries.begin(), select_iter ) );
     } else {
-        select( entries.empty() ? 0 : entries.size() - 1, -1 ); // Just select the last one
+        select( entries.empty() ? 0 : entries.size() - 1 ); // Just select the last one
     }
 }
 
@@ -646,8 +626,6 @@ void inventory_selector::add_item( inventory_column &target_column,
 
     items.push_back( location.clone() );
     inventory_entry entry( &items.back(), stack_size, custom_category );
-
-    entry.enabled = preset.is_enabled( entry.get_location() );
 
     target_column.add_entry( entry );
     on_entry_add( entry );
@@ -788,7 +766,7 @@ void inventory_selector::prepare_layout()
 void inventory_selector::draw_header( WINDOW *w ) const
 {
     trim_and_print( w, 0, screen_border_gap, getmaxx( w ) - screen_border_gap, c_ltgray, "%s", title.c_str() );
-    if( has_available_choices() ) {
+    if( !empty() ) {
         trim_and_print( w, 1, screen_border_gap, getmaxx( w ) - screen_border_gap, c_dkgray, "%s", hint.c_str() );
     } else {
         trim_and_print( w, 1, screen_border_gap, getmaxx( w ) - screen_border_gap, c_red, "%s",
@@ -954,13 +932,6 @@ bool inventory_selector::empty() const
     return items.empty();
 }
 
-bool inventory_selector::has_available_choices() const
-{
-    return std::any_of( items.begin(), items.end(), [ this ]( const item_location &loc ) {
-        return preset.is_enabled( loc );
-    } );
-}
-
 void inventory_selector::on_action( const std::string &action )
 {
     if( action == "CATEGORY_SELECTION" ) {
@@ -1114,7 +1085,7 @@ void inventory_multiselector::rearrange_columns()
 
 void inventory_multiselector::on_entry_add( const inventory_entry &entry )
 {
-    if( entry.is_selectable() ) {
+    if( entry.is_item() ) {
         static_cast<selection_column *>( selection_col.get() )->expand_to_fit( entry );
     }
 }
