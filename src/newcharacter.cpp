@@ -530,7 +530,7 @@ bool player::create(character_type type, std::string tempname)
     // Learn recipes
     for( const auto &e : recipe_dict ) {
         const auto &r = e.second;
-        if( r.valid_learn() && !has_recipe_autolearned( r ) &&
+        if( !has_recipe_autolearned( r ) &&
             has_recipe_requirements( r ) &&
             learned_recipes.find( r.ident() ) == learned_recipes.end() ) {
 
@@ -1634,7 +1634,7 @@ tab_direction set_skills(WINDOW *w, player *u, points_left &points)
 
             if( !prof_u.has_recipe_autolearned( r ) &&
                 ( r.skill_used == currentSkill->ident() || skill > 0 ) &&
-                prof_u.has_recipe_requirements( r ) && r.valid_learn() )  {
+                prof_u.has_recipe_requirements( r ) )  {
 
                 recipes[r.skill_used->name()].emplace_back(
                     item::nname( r.result ),

@@ -2372,7 +2372,6 @@
   "time": 45000,
   "reversible": false,
   "autolearn": false,
-  "result_mult": 2,
   "book_learn": [[ "recipe_creepy", 7 ], [ "recipe_serum", 7 ]],
   "qualities":[
     {"id":"CUT","level":1,"amount":1},

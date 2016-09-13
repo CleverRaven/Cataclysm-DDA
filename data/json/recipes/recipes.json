@@ -92,11 +92,5 @@
       "CSC_OTHER_VEHICLE",
       "CSC_OTHER_OTHER"
     ]
-  },{
-    "type" : "recipe_category",
-    "id" : "CC_NONCRAFT",
-    "recipe_subcategories" : [
-      "CSC_NONCRAFT"
-    ]
   }
 ]

@@ -34,13 +34,25 @@ struct recipe {
         recipe() : skill_used( NULL_ID ) {}
 
         itype_id result = "null";
+
+        operator bool() const {
+            return result != "null";
+        }
+
+        std::string category;
+        std::string subcategory;
+
         int time = 0; // in movement points (100 per turn)
         int difficulty = 0;
-        bool valid_to_learn = true;
 
         /** Fetch combined requirement data (inline and via "using" syntax) */
         const requirement_data& requirements() const {
             return requirements_;
+        }
+
+        /** If recipe can be used for disassembly fetch the combined requirements */
+        requirement_data disassembly_requirements() const {
+            return reversible ? requirements().disassembly_requirements() : requirement_data();
         }
 
         /** Combined requirements cached when recipe finalized */
@@ -51,12 +63,11 @@ struct recipe {
 
         std::map<itype_id,int> byproducts;
 
-        std::string cat;
         // Does the item spawn contained in container?
         bool contained = false;
         // What does the item spawn contained in? Unset ("null") means default container.
         itype_id container = "null";
-        std::string subcat;
+
         skill_id skill_used;
         std::map<skill_id, int> required_skills;
         bool reversible = false; // can the item be disassembled?
@@ -101,9 +112,6 @@ struct recipe {
                                       int batch = 1 ) const;
         bool check_eligible_containers_for_crafting( int batch = 1 ) const;
 
-        // Can this recipe be memorized?
-        bool valid_learn() const;
-
         int print_items( WINDOW *w, int ypos, int xpos, nc_color col, int batch = 1 ) const;
 
         int print_time( WINDOW *w, int ypos, int xpos, int width, nc_color col,
@@ -122,7 +130,6 @@ void remove_ammo( item *dis_item, player &p );
 void remove_ammo( std::list<item> &dis_items, player &p );
 
 const recipe *recipe_by_name( const std::string &name );
-const recipe *get_disassemble_recipe( const itype_id &type );
 
 // Show the "really disassemble?" query along with a list of possible results.
 // Returns false if the player answered no to the query.

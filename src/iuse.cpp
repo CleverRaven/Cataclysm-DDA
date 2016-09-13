@@ -5970,13 +5970,11 @@ bool einkpc_download_memory_card(player *p, item *eink, item *mc)
             const auto r = e.second;
 
             if (science) {
-                if( r.valid_learn() ) {
-                    if (r.difficulty >= 3 && one_in(r.difficulty + 1)) {
-                        candidates.push_back( &r );
-                    }
+                if (r.difficulty >= 3 && one_in(r.difficulty + 1)) {
+                    candidates.push_back( &r );
                 }
             } else {
-                if( r.cat == "CC_FOOD" ) {
+                if( r.category == "CC_FOOD" ) {
                     if (r.difficulty <= 3 && one_in(r.difficulty)) {
                         candidates.push_back( &r);
                     }
@@ -7404,9 +7402,9 @@ int iuse::multicooker(player *p, item *it, bool t, const tripoint &pos)
 
             for( const auto &e : recipe_dict ) {
                 const auto r = e.second;
-                if( r.cat == "CC_FOOD" && ( r.subcat == "CSC_FOOD_MEAT" ||
-                                            r.subcat == "CSC_FOOD_VEGGI" ||
-                                            r.subcat == "CSC_FOOD_PASTA" ) ) {
+                if( r.category == "CC_FOOD" && ( r.subcategory == "CSC_FOOD_MEAT" ||
+                                                 r.subcategory == "CSC_FOOD_VEGGI" ||
+                                                 r.subcategory == "CSC_FOOD_PASTA" ) ) {
 
                     if( p->knows_recipe( &r ) ) {
                         dishes.push_back( &r );

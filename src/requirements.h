@@ -222,7 +222,7 @@ struct requirement_data {
          * Gets a variant of this recipe with crafting-only tools replaced by their
          * disassembly equivalents.
          */
-        const requirement_data disassembly_requirements() const;
+        requirement_data disassembly_requirements() const;
 
     private:
         requirement_id id_ = requirement_id( "null" );

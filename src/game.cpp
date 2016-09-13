@@ -4071,7 +4071,7 @@ void game::debug()
             add_msg( _( "Your eyes blink rapidly as knowledge floods your brain." ) );
             for( const auto &e : recipe_dict ) {
                 if( !( u.learned_recipes.find( e.first ) != u.learned_recipes.end() ) )  {
-                    u.learn_recipe( &e.second, true );
+                    u.learn_recipe( &e.second );
                 }
             }
             add_msg( m_good, _( "You know how to craft that now." ) );
@@ -10838,13 +10838,7 @@ void game::butcher()
             continue;
         }
 
-        const recipe *cur_recipe = get_disassemble_recipe(items[i].typeId());
-        if( cur_recipe == nullptr && !items[i].is_book() ) {
-            continue;
-        }
-
-        if( items[i].is_book() ||
-            u.can_disassemble( items[i], cur_recipe, crafting_inv, false ) ) {
+        if( u.can_disassemble( items[i], crafting_inv ) ) {
             disassembles.push_back(i);
         } else if( first_item_without_tools == nullptr ) {
             first_item_without_tools = &items[i];
@@ -10869,9 +10863,8 @@ void game::butcher()
 
         if( first_item_without_tools != nullptr ) {
             add_msg( m_info, _("You don't have the necessary tools to disassemble any items here.") );
-            const recipe *cur_recipe = get_disassemble_recipe( first_item_without_tools->typeId() );
             // Just for the "You need x to disassemble y" messages
-            u.can_disassemble( *first_item_without_tools, cur_recipe, crafting_inv, true );
+            u.can_disassemble( *first_item_without_tools, crafting_inv, true );
         }
         return;
     }

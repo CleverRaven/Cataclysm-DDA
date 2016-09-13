@@ -48,12 +48,7 @@ void load_recipe_category( JsonObject &jsobj )
         jsobj.throw_error( "Crafting category id has to be prefixed with 'CC_'" );
     }
 
-    // Don't store noncraft as a category.
-    // We're storing the subcategory so we can look it up in load_recipes
-    // for the fallback subcategory.
-    if( category != "CC_NONCRAFT" ) {
-        craft_cat_list.push_back( category );
-    }
+    craft_cat_list.push_back( category );
 
     std::string cat_name = get_cat_name( category );
 
@@ -61,8 +56,7 @@ void load_recipe_category( JsonObject &jsobj )
     subcats = jsobj.get_array( "recipe_subcategories" );
     while( subcats.has_more() ) {
         std::string subcat_id = subcats.next_string();
-        if( subcat_id.find( "CSC_" + cat_name + "_" ) != 0 && subcat_id != "CSC_ALL" &&
-            subcat_id != "CSC_NONCRAFT" ) {
+        if( subcat_id.find( "CSC_" + cat_name + "_" ) != 0 && subcat_id != "CSC_ALL" ) {
             jsobj.throw_error( "Crafting sub-category id has to be prefixed with CSC_<category_name>_" );
         }
         craft_subcat_list[category].push_back( subcat_id );
@@ -626,7 +620,8 @@ int recipe::print_items( WINDOW *w, int ypos, int xpos, nc_color col, int batch 
 
     mvwprintz( w, ypos++, xpos, col, _( "Byproducts:" ) );
     for( const auto &bp : byproducts ) {
-        mvwprintz( w, ypos++, xpos, col, _( "> %d %s" ), bp.second * batch, item::nname( bp.first).c_str() );
+        mvwprintz( w, ypos++, xpos, col, _( "> %d %s" ), bp.second * batch,
+                   item::nname( bp.first ).c_str() );
     }
 
     return ypos - oldy;
@@ -735,8 +730,8 @@ void pick_recipes( const inventory &crafting_inv,
     for( auto rec : available_recipes ) {
         const auto &needs = rec->requirements();
 
-        if( subtab == "CSC_ALL" || rec->subcat == subtab ||
-            ( rec->subcat == "" && craft_subcat_list[tab].back() == subtab ) ||
+        if( subtab == "CSC_ALL" || rec->subcategory == subtab ||
+            ( rec->subcategory == "" && craft_subcat_list[tab].back() == subtab ) ||
             filter != "" ) {
             if( ( !g->u.knows_recipe( rec ) && -1 == g->u.has_recipe( rec, crafting_inv, helpers ) )
                 || ( rec->difficulty < 0 ) ) {

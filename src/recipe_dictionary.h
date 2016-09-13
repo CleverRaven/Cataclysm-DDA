@@ -27,6 +27,9 @@ class recipe_dictionary
         /** Returns all recipes which could use component */
         const std::set<const recipe *> &of_component( const itype_id &id ) const;
 
+        /** Returns disassembly recipe (or null recipe if no match) */
+        static const recipe &get_uncraft( const itype_id &id );
+
         size_t size() const {
             return recipes.size();
         }
@@ -49,10 +52,11 @@ class recipe_dictionary
          * Remove all recipes matching the predicate
          * @warning must not be called after finalize()
          */
-        void delete_if( const std::function<bool( const recipe & )> &pred );
+        static void delete_if( const std::function<bool( const recipe & )> &pred );
 
     private:
         std::map<std::string, recipe> recipes;
+        std::map<std::string, recipe> uncraft;
         std::map<std::string, std::set<const recipe *>> category;
         std::map<itype_id, std::set<const recipe *>> component;
 };

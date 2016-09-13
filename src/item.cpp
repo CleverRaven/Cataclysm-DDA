@@ -1382,20 +1382,19 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
         info.push_back( iteminfo( "DESCRIPTION", string_format( _( "Made from: %s" ),
                                   components_to_string().c_str() ) ) );
     } else {
-        const recipe *dis_recipe = get_disassemble_recipe( typeId() );
-        if( dis_recipe != nullptr && !dis_recipe->requirements().is_empty() ) {
-            const auto &dis_req = dis_recipe->requirements().disassembly_requirements();
-            const auto components = dis_req.get_components();
+        const auto &dis = recipe_dictionary::get_uncraft( typeId() );
+        const auto &req = dis.disassembly_requirements();
+        if( !req.is_empty() ) {
+            const auto components = req.get_components();
             const std::string components_list = enumerate_as_string( components.begin(), components.end(),
             []( const std::vector<item_comp> &comps ) {
                 return comps.front().to_string();
             } );
-            const std::string dis_time = calendar::print_duration( dis_recipe->time / 100 );
 
             insert_separation_line();
             info.push_back( iteminfo( "DESCRIPTION",
                 string_format( _( "Disassembling this item takes %s and might yield: %s." ),
-                dis_time.c_str(), components_list.c_str() ) ) );
+                               calendar::print_duration( dis.time / 100 ).c_str(), components_list.c_str() ) ) );
         }
     }
 
@@ -3717,14 +3716,6 @@ bool item::is_salvageable() const
         return false;
     }
     return !has_flag("NO_SALVAGE");
-}
-
-bool item::is_disassemblable() const
-{
-    if( is_null() ) {
-        return false;
-    }
-    return get_disassemble_recipe(typeId()) != NULL;
 }
 
 bool item::is_funnel_container(units::volume &bigger_than) const

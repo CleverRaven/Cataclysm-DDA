@@ -2,6 +2,7 @@
 
 #include "itype.h"
 #include "generic_factory.h"
+#include "item_factory.h"
 
 #include <algorithm>
 #include <numeric>
@@ -15,6 +16,12 @@ const recipe &recipe_dictionary::operator[]( const std::string &id ) const
 {
     auto iter = recipes.find( id );
     return iter != recipes.end() ? iter->second : null_recipe;
+}
+
+const recipe &recipe_dictionary::get_uncraft( const itype_id &id )
+{
+    auto iter = recipe_dict.uncraft.find( id );
+    return iter != recipe_dict.uncraft.end() ? iter->second : null_recipe;
 }
 
 const std::set<const recipe *> &recipe_dictionary::in_category( const std::string &cat ) const
@@ -34,26 +41,18 @@ void recipe_dictionary::load( JsonObject &jo, const std::string & /* src */, boo
     // @todo enable strict parsing for core recipes
     bool strict = false;
 
-    // @todo remove once recipes are converted
-    if( !uncraft ) {
-        uncraft = jo.get_string( "category" ) == "CC_NONCRAFT";
-    }
-
     auto result = jo.get_string( "result" );
-    auto id = result + ( uncraft ? "uncraft" : jo.get_string( "id_suffix", "" ) );
+    auto id = jo.get_string( "id_suffix", "" );
 
-    auto &r = recipe_dict.recipes[ id ];
+    auto &r = uncraft ? recipe_dict.uncraft[ result ] : recipe_dict.recipes[ result + id ];
     r.result = result;
-    r.ident_ = id;
+    r.ident_ = result + id;
 
     if( uncraft ) {
-        r.cat = "CC_NONCRAFT";
-        r.subcat = "CSC_NONCRAFT";
         r.reversible = true;
-        r.valid_to_learn = false;
     } else {
-        assign( jo, "category", r.cat, strict );
-        assign( jo, "subcategory", r.subcat, strict );
+        assign( jo, "category", r.category, strict );
+        assign( jo, "subcategory", r.subcategory, strict );
         assign( jo, "reversible", r.reversible, strict );
     }
 
@@ -127,7 +126,7 @@ void recipe_dictionary::load( JsonObject &jo, const std::string & /* src */, boo
         }
     }
 
-    if( jo.has_member( "byproducts" ) ) {
+    if( !uncraft && jo.has_member( "byproducts" ) ) {
         auto bp = jo.get_array( "byproducts" );
         r.byproducts.clear();
         while( bp.has_more() ) {
@@ -164,9 +163,9 @@ void recipe_dictionary::load( JsonObject &jo, const std::string & /* src */, boo
     r.reqs.emplace_back( requirement_id( req_id ), 1 );
 }
 
-void recipe_dictionary::finalize()
+static void finalize_internal( std::map<std::string, recipe> &obj )
 {
-    for( auto it = recipe_dict.recipes.begin(); it != recipe_dict.recipes.end(); ) {
+    for( auto it = obj.begin(); it != obj.end(); ) {
         auto &r = it->second;
         const char *id = it->first.c_str();
 
@@ -178,47 +177,47 @@ void recipe_dictionary::finalize()
 
         // remove blacklisted recipes
         if( r.requirements().is_blacklisted() ) {
-            it = recipe_dict.recipes.erase( it );
+            it = obj.erase( it );
             continue;
         }
 
         // remove any invalid recipes...
         if( !item::type_is_defined( r.result ) ) {
             debugmsg( "Recipe %s defines invalid result", id );
-            it = recipe_dict.recipes.erase( it );
+            it = obj.erase( it );
             continue;
         }
 
         if( r.charges >= 0 && !item::count_by_charges( r.result ) ) {
             debugmsg( "Recipe %s specified charges but result is not counted by charges", id );
-            it = recipe_dict.recipes.erase( it );
+            it = obj.erase( it );
             continue;
         }
 
         if( r.result_mult != 1 && !item::count_by_charges( r.result ) ) {
             debugmsg( "Recipe %s has result_mult but result is not counted by charges", id );
-            it = recipe_dict.recipes.erase( it );
+            it = obj.erase( it );
             continue;
         }
 
-        if( std::any_of( r.byproducts.begin(),
-        r.byproducts.end(), []( const std::pair<itype_id, int> &bp ) {
+        if( std::any_of( r.byproducts.begin(), r.byproducts.end(),
+        []( const std::pair<itype_id, int> &bp ) {
         return !item::type_is_defined( bp.first );
         } ) ) {
             debugmsg( "Recipe %s defines invalid byproducts", id );
-            it = recipe_dict.recipes.erase( it );
+            it = obj.erase( it );
             continue;
         }
 
         if( !r.contained && r.container != "null" ) {
             debugmsg( "Recipe %s defines container but not contained", id );
-            it = recipe_dict.recipes.erase( it );
+            it = obj.erase( it );
             continue;
         }
 
         if( !item::type_is_defined( r.container ) ) {
             debugmsg( "Recipe %s specifies unknown container", id );
-            it = recipe_dict.recipes.erase( it );
+            it = obj.erase( it );
             continue;
         }
 
@@ -228,7 +227,7 @@ void recipe_dictionary::finalize()
         return !sk.first.is_valid();
         } ) ) {
             debugmsg( "Recipe %s uses invalid skill", id );
-            it = recipe_dict.recipes.erase( it );
+            it = obj.erase( it );
             continue;
         }
 
@@ -236,11 +235,22 @@ void recipe_dictionary::finalize()
         return !item::find_type( bk.first )->book;
         } ) ) {
             debugmsg( "Recipe %s defines invalid book", id );
-            it = recipe_dict.recipes.erase( it );
+            it = obj.erase( it );
             continue;
         }
 
-        // recipe is valid so perform finalization...
+        ++it;
+    }
+}
+
+void recipe_dictionary::finalize()
+{
+    finalize_internal( recipe_dict.recipes );
+    finalize_internal( recipe_dict.uncraft );
+
+    for( auto &e : recipe_dict.recipes ) {
+        auto &r = e.second;
+
         for( const auto &bk : r.booksets ) {
             islot_book::recipe_with_description_t desc{ &r, bk.second, item::nname( r.result ), false };
             item::find_type( bk.first )->book->recipes.insert( desc );
@@ -258,7 +268,7 @@ void recipe_dictionary::finalize()
         }
 
         // add recipe to category and component caches
-        recipe_dict.category[r.cat].insert( &r );
+        recipe_dict.category[r.category].insert( &r );
 
         for( const auto &opts : r.requirements().get_components() ) {
             for( const item_comp &comp : opts ) {
@@ -266,7 +276,25 @@ void recipe_dictionary::finalize()
             }
         }
 
-        ++it;
+        // if reversible and no specific uncraft recipe exists use this recipe
+        if( r.reversible && !recipe_dict.uncraft.count( r.result ) ) {
+            recipe_dict.uncraft[ r.result ] = r;
+        }
+    }
+
+    // add pseudo uncrafting recipes
+    for( const auto &e : item_controller->get_all_itypes() ) {
+
+        // books that don't alreay have an uncrafting recipe
+        if( e.second->book && !recipe_dict.uncraft.count( e.first ) && e.second->volume > 0 ) {
+            int pages = e.second->volume / units::from_milliliter( 12.5 );
+            auto &bk = recipe_dict.uncraft[ e.first ];
+            bk.ident_ = e.first;
+            bk.result = e.first;
+            bk.reversible = true;
+            bk.requirements_ = *requirement_id( "uncraft_book" ) * pages;
+            bk.time = pages * 10; // @todo allow specifying time in requirement_data
+        }
     }
 }
 
@@ -275,13 +303,21 @@ void recipe_dictionary::reset()
     recipe_dict.component.clear();
     recipe_dict.category.clear();
     recipe_dict.recipes.clear();
+    recipe_dict.uncraft.clear();
 }
 
 void recipe_dictionary::delete_if( const std::function<bool( const recipe & )> &pred )
 {
-    for( auto it = recipes.begin(); it != recipes.end(); ) {
+    for( auto it = recipe_dict.recipes.begin(); it != recipe_dict.recipes.end(); ) {
         if( pred( it->second ) ) {
             it = recipe_dict.recipes.erase( it );
+        } else {
+            ++it;
+        }
+    }
+    for( auto it = recipe_dict.uncraft.begin(); it != recipe_dict.uncraft.end(); ) {
+        if( pred( it->second ) ) {
+            it = recipe_dict.uncraft.erase( it );
         } else {
             ++it;
         }

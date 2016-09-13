@@ -1143,7 +1143,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         int has_recipe( const recipe *r, const inventory &crafting_inv,
                         const std::vector<npc *> &helpers ) const;
         bool knows_recipe( const recipe *rec ) const;
-        void learn_recipe( const recipe *rec, bool force = false );
+        void learn_recipe( const recipe *rec );
         int exceeds_recipe_requirements( const recipe &rec ) const;
         bool has_recipe_requirements( const recipe &rec ) const;
         bool has_recipe_autolearned( const recipe &rec ) const;
@@ -1165,21 +1165,15 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Returns nearby NPCs ready and willing to help with crafting. */
         std::vector<npc *> get_crafting_helpers() const;
 
-        // also crafting.cpp
+
         /**
-         * Check if the player can disassemble the item dis_item with the recipe
-         * cur_recipe and the inventory crafting_inv.
-         * If no cur_recipe given, searches for the first relevant, reversible one
-         * Checks for example tools (and charges), enough input charges
-         * (if disassembled item is counted by charges).
-         * If print_msg is true show a message about missing tools/charges.
+         * Check if the player can disassemble an item using the current crafting inventory
+         * @param alert if set display message about missing tools/charges.
          */
-        bool can_disassemble( const item &dis_item, const inventory &crafting_inv,
-                              bool print_msg ) const;
-        bool can_disassemble( const item &dis_item, const recipe *cur_recipe,
-                              const inventory &crafting_inv, bool print_msg ) const;
+        bool can_disassemble( const item &obj, const inventory &inv, bool alert = false ) const;
+
         bool disassemble(int pos = INT_MAX);
-        bool disassemble( item &dis_item, int dis_pos, bool ground, bool msg_and_query = true );
+        bool disassemble( item &obj, int pos, bool ground, bool interactive = true );
         void disassemble_all( bool one_pass ); // Disassemble all items on the tile
         void complete_disassemble();
         void complete_disassemble( int item_pos, const tripoint &loc,

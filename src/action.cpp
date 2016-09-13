@@ -447,12 +447,8 @@ bool can_butcher_at( const tripoint &p )
             if( factor != INT_MIN ) {
                 has_corpse = true;
             }
-        } else {
-            const recipe *cur_recipe = get_disassemble_recipe( items_it.typeId() );
-            if( cur_recipe != NULL &&
-                g->u.can_disassemble( items_it, cur_recipe, crafting_inv, false ) ) {
-                has_item = true;
-            }
+        } else if( g->u.can_disassemble( items_it, crafting_inv ) ) {
+            has_item = true;
         }
     }
     return has_corpse || has_item;
