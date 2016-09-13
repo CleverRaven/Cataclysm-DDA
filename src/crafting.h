@@ -31,6 +31,8 @@ struct recipe {
         friend class recipe_dictionary;
 
     public:
+        recipe() : skill_used( NULL_ID ) {}
+
         itype_id result = "null";
         int time = 0; // in movement points (100 per turn)
         int difficulty = 0;
@@ -55,7 +57,7 @@ struct recipe {
         // What does the item spawn contained in? Unset ("null") means default container.
         itype_id container = "null";
         std::string subcat;
-        skill_id skill_used = skill_id::NULL_ID;
+        skill_id skill_used;
         std::map<skill_id, int> required_skills;
         bool reversible = false; // can the item be disassembled?
 
@@ -82,8 +84,6 @@ struct recipe {
         //Create a string list to describe the skill requirements fir this recipe
         // Format: skill_name(amount), skill_name(amount)
         std::string required_skills_string() const;
-
-        recipe();
 
         // Create an item instance as if the recipe was just finished,
         // Contain charges multiplier

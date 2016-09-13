@@ -35,13 +35,6 @@ static const std::string fake_recipe_book = "book";
 
 void remove_from_component_lookup( recipe *r );
 
-recipe::recipe() :
-    result( "null" ), valid_to_learn( false ), contained( false ),
-    container( "null" ), skill_used( NULL_ID ), reversible( false ),
-    autolearn_requirements(), learn_by_disassembly(), result_mult( 1 )
-{
-}
-
 static bool crafting_allowed( const player &p, const recipe &rec )
 {
     if( !p.has_morale_to_craft() ) {
