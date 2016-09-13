@@ -85,6 +85,30 @@ void DynamicDataLoader::load_object( JsonObject &jo, const std::string &src )
     it->second( jo, src );
 }
 
+bool DynamicDataLoader::load_deferred( deferred_json& data )
+{
+    while( !data.empty() ) {
+        size_t n = static_cast<size_t>( data.size() );
+        auto it = data.begin();
+        for( size_t idx = 0; idx != n; ++idx ) {
+            try {
+                std::istringstream str( it->first );
+                JsonIn jsin( str );
+                JsonObject jo = jsin.get_object();
+                load_object( jo, it->second );
+            } catch( const std::exception &err ) {
+                debugmsg( "Error loading data from json: %s", err.what() );
+            }
+            ++it;
+        }
+        data.erase( data.begin(), it );
+        if( data.size() == n ) {
+            return false; // made no progress on this cycle so abort
+        }
+    }
+    return true;
+}
+
 void load_ingored_type(JsonObject &jo)
 {
     // This does nothing!

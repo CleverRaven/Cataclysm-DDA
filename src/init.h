@@ -5,6 +5,7 @@
 
 #include <string>
 #include <vector>
+#include <list>
 #include <memory>
 #include <functional>
 
@@ -58,6 +59,12 @@ class DynamicDataLoader
                 t_type_function_map;
         typedef std::vector<std::string> str_vec;
 
+        /**
+         * JSON data dependent upon as-yet unparsed definitions
+         * first: JSON data, second: source identifier
+         */
+        typedef std::list<std::pair<std::string, std::string>> deferred_json;
+
     protected:
         /**
          * Maps the type string (comming from json) to the
@@ -80,6 +87,12 @@ class DynamicDataLoader
          * @throws std::exception on all kind of errors.
          */
         void load_object( JsonObject &jo, const std::string &src );
+
+        /**
+         * Loads and then removes entries from @param data
+         * @return whether all entries were sucessfully loaded
+         */
+        bool load_deferred( deferred_json &data );
 
         DynamicDataLoader();
         ~DynamicDataLoader();
