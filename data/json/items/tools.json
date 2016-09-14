@@ -7897,7 +7897,7 @@
         "type": "explosion",
         "sound_volume": 0,
         "sound_msg": "Tick.",
-        "no_deactivate_msg": "You've already lit the fuse â€“ run!",
+        "no_deactivate_msg": "You've already lit the fuse - run!",
         "explosion": {
             "power": 400,
             "shrapnel": 50
@@ -7958,7 +7958,7 @@
         "type": "explosion",
         "sound_volume": 0,
         "sound_msg": "Kshhh.",
-        "no_deactivate_msg": "You've already lit the fuse â€“ throw it!",
+        "no_deactivate_msg": "You've already lit the fuse - throw it!",
         "explosion": {
             "power": 11,
             "shrapnel": 5
@@ -8028,7 +8028,7 @@
         "type": "explosion",
         "sound_volume": 0,
         "sound_msg": "Kshhh.",
-        "no_deactivate_msg": "You've already lit the fuse â€“ run!",
+        "no_deactivate_msg": "You've already lit the fuse - run!",
         "explosion": {
             "power": 60,
             "shrapnel": {
@@ -8095,7 +8095,7 @@
         "type": "explosion",
         "sound_volume": 0,
         "sound_msg": "Kshhh.",
-        "no_deactivate_msg": "You've already lit the fuse â€“ what are you waiting for?",
+        "no_deactivate_msg": "You've already lit the fuse - what are you waiting for?",
         "explosion": {
             "power": 12,
             "shrapnel": 30
@@ -8167,7 +8167,7 @@
         "type": "explosion",
         "sound_volume": 0,
         "sound_msg": "Kshhh.",
-        "no_deactivate_msg": "You've already lit the fuse â€“ clear the area immediately!",
+        "no_deactivate_msg": "You've already lit the fuse - clear the area immediately!",
         "explosion": {
             "power": 800,
             "shrapnel": {
