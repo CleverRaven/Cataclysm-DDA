@@ -30,7 +30,7 @@
     "type": "GUNMOD",
     "name": "offset iron sights",
     "name_plural": "offset iron sights",
-    "description": "An alternative set of iron sights mounted at 45° for use when a scope or other modification prevents use of the primary sights",
+    "description": "An alternative set of iron sights mounted at 45° for use when a scope or other modification prevents use of the primary sights.",
     "location": "rail",
     "mod_targets": [ "smg", "rifle", "shotgun" ],
     "min_skills": [ [ "weapon", 3 ], [ "gun", 4 ] ],
