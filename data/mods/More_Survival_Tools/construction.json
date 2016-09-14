@@ -1,6 +1,30 @@
 [
     {
         "type" : "construction",
+        "description" : "Take Down Simple Furniture",
+        "category" : "FURN",
+        "difficulty" : 0,
+        "time" : 25,
+        "pre_terrain" : "t_tarptent",
+        "post_special" : "done_deconstruct"
+    },{
+        "type" : "construction",
+        "description" : "Take Down Simple Furniture",
+        "category" : "FURN",
+        "difficulty" : 0,
+        "time" : 8,
+        "pre_terrain" : "f_firering",
+        "post_special" : "done_deconstruct"
+    },{
+        "type" : "construction",
+        "description" : "Take Down Simple Furniture",
+        "category" : "FURN",
+        "difficulty" : 0,
+        "time" : 23,
+        "pre_terrain" : "t_raincatcher",
+        "post_special" : "done_deconstruct"
+    },{
+        "type" : "construction",
         "skill" : "survival",
         "description" : "Build Pine Lean-To",
         "category" : "CONSTRUCT",
@@ -15,8 +39,7 @@
         ],
         "pre_terrain" : "t_tree_pine",
         "post_terrain" : "t_leanto"
-    },
-    {
+    },{
         "type" : "construction",
         "skill" : "survival",
         "description" : "Build Tarp Lean-To",

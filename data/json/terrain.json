@@ -3998,7 +3998,6 @@
         "color": "ltblue",
         "move_cost": 5,
         "flags": ["TRANSPARENT", "LIQUID", "SWIMMABLE", "FISHABLE"],
-        "connects_to": "WATER",
         "examine_action": "water_source"
     },{
         "type" : "terrain",
@@ -4008,7 +4007,6 @@
         "color": "blue",
         "move_cost": 8,
         "flags": ["TRANSPARENT", "LIQUID", "SWIMMABLE", "DEEP_WATER", "FISHABLE"],
-        "connects_to": "WATER",        
         "examine_action": "water_source"
     },{
         "type" : "terrain",
@@ -4018,7 +4016,6 @@
         "color": "ltblue",
         "move_cost": 5,
         "flags": ["TRANSPARENT", "LIQUID", "SWIMMABLE", "SALT_WATER", "FISHABLE"],
-        "connects_to": "WATER",
         "examine_action": "water_source"
     },{
         "type" : "terrain",
@@ -4028,7 +4025,6 @@
         "color": "blue",
         "move_cost": 8,
         "flags": ["TRANSPARENT", "LIQUID", "SWIMMABLE", "SALT_WATER", "DEEP_WATER", "FISHABLE"],
-        "connects_to": "WATER",
         "examine_action": "water_source"
     },{
         "type" : "terrain",
@@ -5450,6 +5446,13 @@
         "flags": [
             "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "REDUCE_SCENT", "INDOORS", "MOUNTABLE"
         ],
+        "deconstruct": {
+            "ter_set": "t_pit_shallow",
+            "items": [
+                { "item": "stick", "count": 12 },
+                { "item": "pine_bough", "count": 24 }
+            ]
+        },
         "bash": {
             "str_min": 4, "str_max": 60,
             "sound": "crunch.",
@@ -6059,6 +6062,12 @@
         "color": "brown",
         "move_cost": 5,
         "flags": ["TRANSPARENT"],
+        "deconstruct": {
+            "ter_set": "t_water_dp",
+            "items": [
+                { "item": "clay_lump", "count": [6, 12] }
+            ]
+        },
         "bash": {
             "str_min": 2, "str_max": 4, "num_tests": 2,
             "sound": "splosh!",
@@ -6076,6 +6085,12 @@
         "color": "brown",
         "move_cost": 5,
         "flags": ["TRANSPARENT"],
+        "deconstruct": {
+            "ter_set": "t_water_dp",
+            "items": [
+                { "item": "material_sand", "charges": [300, 600] }
+            ]
+        },
         "bash": {
             "str_min": 2, "str_max": 4, "num_tests": 2,
             "sound": "splosh!",
