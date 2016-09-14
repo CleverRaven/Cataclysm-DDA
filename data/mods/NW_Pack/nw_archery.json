@@ -24,11 +24,9 @@
       "ranged_damage" : 18,
       "range" : 19,
       "dispersion" : 110,
-      "sight_dispersion": 150,
-      "recoil" : 0,
       "durability" : 6,
       "clip_size" : 1,
       "reload" : 80,
-      "valid_mod_locations": [["underbarrel", 1]]
+      "valid_mod_locations": [["underbarrel", 1],[ "sights", 1 ],[ "accessories", 2 ]]
    }
 ]
