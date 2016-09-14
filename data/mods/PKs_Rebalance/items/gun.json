@@ -1,28 +1,5 @@
 [
   {
-    "id": "pipe_launcher40mm",
-    "type": "GUNMOD",
-    "name": "40mm pipe launcher",
-    "description": "This is a home built launcher tube that can be attached to almost any rifle.  It allows a single 40mm grenade to be loaded and fired.",
-    "weight": 2080,
-    "volume": 3,
-    "price": 25000,
-    "material": [ "steel", "plastic" ],
-    "symbol": ":",
-    "color": "light_gray",
-    "location": "underbarrel",
-    "mod_targets": [ "rifle", "crossbow", "shotgun" ],
-    "gun_data": {
-      "ammo": "40mm",
-      "skill": "launcher",
-      "dispersion": 450,
-      "durability": 10,
-      "clip_size": 1
-    },
-    "dispersion_modifier": 60,
-    "min_skills": [ [ "gun", 1 ] ]
-  },
-  {
     "id": "hell_ball",
     "type": "GUN",
     "name": "hell ball shooter",
