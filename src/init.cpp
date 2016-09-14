@@ -53,6 +53,7 @@
 #include "gates.h"
 #include "overlay_ordering.h"
 #include "worldfactory.h"
+#include "weather_gen.h"
 #include "npc_class.h"
 
 #include <string>

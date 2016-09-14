@@ -70,8 +70,9 @@ int get_rot_since( const int startturn, const int endturn, const tripoint &locat
     }
     // TODO: maybe have different rotting speed when underground?
     int ret = 0;
+    const auto &wgen = g->get_cur_weather_gen();
     for (calendar i(startturn); i.get_turn() < endturn; i += 600) {
-        w_point w = g->weather_gen->get_weather(location, i);
+        w_point w = wgen.get_weather( location, i, g->get_seed() );
         ret += std::min(600, endturn - i.get_turn()) * get_hourly_rotpoints_at_temp(w.temperature) / 600;
     }
     return ret;
@@ -112,6 +113,7 @@ weather_sum sum_conditions( const calendar &startturn,
     int tick_size = MINUTES(1);
     weather_sum data;
 
+    const auto wgen = g->get_cur_weather_gen();
     for( calendar turn(startturn); turn < endturn; turn += tick_size ) {
         const int diff = endturn - startturn;
         if( diff <= 0 ) {
@@ -124,7 +126,7 @@ weather_sum sum_conditions( const calendar &startturn,
             tick_size = MINUTES(1);
         }
 
-        const auto wtype = g->weather_gen->get_weather_conditions( point( location.x, location.y ), turn );
+        const auto wtype = wgen.get_weather_conditions( location, turn, g->get_seed() );
         proc_weather_sum( wtype, data, turn, tick_size );
     }
 
@@ -542,14 +544,15 @@ std::string weather_forecast( point const &abs_sm_pos )
     // int weather_proportions[NUM_WEATHER_TYPES] = {0};
     double high = -100.0;
     double low = 100.0;
-    point const abs_ms_pos = sm_to_ms_copy( abs_sm_pos );
+    const tripoint abs_ms_pos = tripoint( sm_to_ms_copy( abs_sm_pos ), 0 );
     // TODO wind direction and speed
     int last_hour = calendar::turn - ( calendar::turn % HOURS(1) );
     for(int d = 0; d < 6; d++) {
         weather_type forecast = WEATHER_NULL;
+        const auto wgen = g->get_cur_weather_gen();
         for(calendar i(last_hour + 7200 * d); i < last_hour + 7200 * (d + 1); i += 600) {
-            w_point w = g->weather_gen->get_weather( abs_ms_pos, i );
-            forecast = std::max(forecast, g->weather_gen->get_weather_conditions(w));
+            w_point w = wgen.get_weather( abs_ms_pos, i, g->get_seed() );
+            forecast = std::max( forecast, wgen.get_weather_conditions( w ) );
             high = std::max(high, w.temperature);
             low = std::min(low, w.temperature);
         }
