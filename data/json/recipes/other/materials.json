@@ -31,9 +31,6 @@
       [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ],
       [ [ "forge", 80 ], [ "char_forge", 80 ] ]
     ],
-    "components": [
-      [ [ "scrap", 20 ] ],
-      [ [ "steel_chunk", 4 ] ]
-    ]
+    "components": [ [ [ "steel_chunk", 4 ], [ "scrap", 20 ] ] ]
   }
 ]

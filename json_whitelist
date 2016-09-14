@@ -3,6 +3,7 @@ data/json/items/armor/boots.json
 data/json/items/gun/*
 data/json/items/magazine/*
 data/json/npcs/missiondef.json
+data/json/recipes/other/materials.json
 data/json/vehicleparts/*
 data/mods/blazemod/*.json
 data/mods/makeshift/*.json
