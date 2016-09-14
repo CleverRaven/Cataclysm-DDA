@@ -84,22 +84,6 @@
         "description" : "Take Down Simple Furniture",
         "category" : "FURN",
         "difficulty" : 0,
-        "time" : 1,
-        "pre_terrain" : "f_still",
-        "post_special" : "done_deconstruct"
-    },{
-        "type" : "construction",
-        "description" : "Take Down Simple Furniture",
-        "category" : "FURN",
-        "difficulty" : 0,
-        "time" : 1,
-        "pre_terrain" : "f_still",
-        "post_special" : "done_deconstruct"
-    },{
-        "type" : "construction",
-        "description" : "Take Down Simple Furniture",
-        "category" : "FURN",
-        "difficulty" : 0,
         "time" : 15,
         "pre_terrain" : "t_claymound",
         "post_special" : "done_deconstruct"
