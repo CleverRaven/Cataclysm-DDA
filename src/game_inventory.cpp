@@ -121,7 +121,8 @@ item_location game::inv_map_splice( item_location_filter filter, const std::stri
     u.inv.restack( &u );
     u.inv.sort();
 
-    inventory_pick_selector inv_s( u, inventory_filter_preset( filter ) );
+    inventory_filter_preset preset( filter );
+    inventory_pick_selector inv_s( u, preset );
 
     inv_s.add_character_items( u );
     inv_s.add_nearby_items( radius );

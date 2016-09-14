@@ -13,7 +13,6 @@
 #include "vehicle_selector.h"
 #include "cata_utility.h"
 #include "item.h"
-#include "item_location.h"
 #include "itype.h"
 
 #include <string>
@@ -116,15 +115,6 @@ inventory_entry *inventory_column::find_by_invlet( long invlet ) const
 size_t inventory_column::get_width() const
 {
     return std::accumulate( cell_widths.begin(), cell_widths.end(), 0 );
-}
-
-const item_location &inventory_entry::get_location() const
-{
-    if( location == nullptr ) {
-        static const item_location null_location;
-        return null_location;
-    }
-    return *location;
 }
 
 inventory_selector_preset::inventory_selector_preset()
@@ -624,7 +614,7 @@ void inventory_selector::add_item( inventory_column &target_column,
     }
 
     items.push_back( location.clone() );
-    inventory_entry entry( &items.back(), stack_size, custom_category );
+    inventory_entry entry( items.back(), stack_size, custom_category );
 
     target_column.add_entry( entry );
     on_entry_add( entry );

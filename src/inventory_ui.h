@@ -9,6 +9,7 @@
 #include "enums.h"
 #include "input.h"
 #include "units.h"
+#include "item_location.h"
 
 class Character;
 
@@ -34,7 +35,7 @@ const item_location_filter allow_all_items = []( const item_location & )
 class inventory_entry
 {
     private:
-        const item_location *location;
+        item_location location;
         size_t stack_size;
         const item_category *custom_category;
 
@@ -42,17 +43,33 @@ class inventory_entry
         size_t chosen_count = 0;
         long custom_invlet = LONG_MIN;
 
-        inventory_entry( const item_location *location, size_t stack_size,
+        inventory_entry( const item_location &location, size_t stack_size,
                          const item_category *custom_category = nullptr ) :
-            location( location ),
+            location( location.clone() ),
             stack_size( stack_size ),
             custom_category( custom_category ) {}
 
-        inventory_entry( const item_location *location, const item_category *custom_category = nullptr ) :
-            inventory_entry( location, location != nullptr ? 1 : 0, custom_category ) {}
+        inventory_entry( const inventory_entry &entry ) :
+            location( entry.location.clone() ),
+            stack_size( entry.stack_size ),
+            custom_category( entry.custom_category ),
+            chosen_count( entry.chosen_count ),
+            custom_invlet( entry.custom_invlet ) {}
+
+        inventory_entry operator = ( const inventory_entry &rhs ) {
+            location = rhs.location.clone();
+            stack_size = rhs.stack_size;
+            custom_category = rhs.custom_category;
+            chosen_count = rhs.chosen_count;
+            custom_invlet = rhs.custom_invlet;
+            return *this;
+        }
+
+        inventory_entry( const item_location &location, const item_category *custom_category = nullptr ) :
+            inventory_entry( location, location ? 1 : 0, custom_category ) {}
 
         inventory_entry( const item_category *custom_category = nullptr ) :
-            inventory_entry( nullptr, custom_category ) {}
+            inventory_entry( item_location(), custom_category ) {}
 
         inventory_entry( const inventory_entry &entry, const item_category *custom_category ) :
             inventory_entry( entry ) {
@@ -75,7 +92,9 @@ class inventory_entry
         size_t get_available_count() const;
         const item &get_item() const;
         const item_category *get_category_ptr() const;
-        const item_location &get_location() const;
+        const item_location &get_location() const {
+            return location;
+        }
 
         long get_invlet() const;
 };
