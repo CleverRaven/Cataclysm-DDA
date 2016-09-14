@@ -24,7 +24,6 @@
       "covers": [ "ARM_EITHER", "HAND_EITHER" ],
       "coverage": 10,
       "encumbrance": 30,
-      "warmth": 0,
       "material_thickness": 1
     },
     "magazines": [
