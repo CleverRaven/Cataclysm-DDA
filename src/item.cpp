@@ -1519,10 +1519,6 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
                                               _( "* When worn with a power armor helmet, it will <good>fully protect</good> you from <info>radiation</info>." ) ) );
                 }
             }
-            if( has_flag( "BOOTS" ) ) {
-                info.push_back( iteminfo( "DESCRIPTION",
-                                          _( "* You can <info>store knives</info> in this gear." ) ) );
-            }
             if( typeId() == "rad_badge" ) {
                 info.push_back( iteminfo( "DESCRIPTION",
                                           string_format( _( "* The film strip on the badge is %s." ),
