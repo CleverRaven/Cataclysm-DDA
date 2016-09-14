@@ -32,8 +32,7 @@
       [ [ "forge", 80 ], [ "char_forge", 80 ] ]
     ],
     "components": [
-      [ [ "scrap", 20 ] ],
-      [ [ "steel_chunk", 4 ] ]
+      [ [ "steel_chunk", 4 ], [ "scrap", 20 ] ]
     ]
   }
 ]
