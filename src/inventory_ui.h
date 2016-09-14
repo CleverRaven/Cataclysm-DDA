@@ -34,12 +34,8 @@ const item_location_filter allow_all_items = []( const item_location & )
 
 class inventory_entry
 {
-    private:
-        item_location location;
-        size_t stack_size;
-        const item_category *custom_category;
-
     public:
+        item_location location;
         size_t chosen_count = 0;
         long custom_invlet = LONG_MIN;
 
@@ -51,17 +47,17 @@ class inventory_entry
 
         inventory_entry( const inventory_entry &entry ) :
             location( entry.location.clone() ),
-            stack_size( entry.stack_size ),
-            custom_category( entry.custom_category ),
             chosen_count( entry.chosen_count ),
-            custom_invlet( entry.custom_invlet ) {}
+            custom_invlet( entry.custom_invlet ), \
+            stack_size( entry.stack_size ),
+            custom_category( entry.custom_category ) {}
 
         inventory_entry operator = ( const inventory_entry &rhs ) {
             location = rhs.location.clone();
-            stack_size = rhs.stack_size;
-            custom_category = rhs.custom_category;
             chosen_count = rhs.chosen_count;
             custom_invlet = rhs.custom_invlet;
+            stack_size = rhs.stack_size;
+            custom_category = rhs.custom_category;
             return *this;
         }
 
@@ -82,21 +78,21 @@ class inventory_entry
             return !( *this == other );
         }
 
-        bool is_item() const;
-        bool is_null() const;
+        operator bool() const {
+            return get_category_ptr() != nullptr;
+        }
 
         size_t get_stack_size() const {
             return stack_size;
         }
 
         size_t get_available_count() const;
-        const item &get_item() const;
         const item_category *get_category_ptr() const;
-        const item_location &get_location() const {
-            return location;
-        }
-
         long get_invlet() const;
+
+    private:
+        size_t stack_size;
+        const item_category *custom_category;
 };
 
 class inventory_selector_preset
