@@ -54,13 +54,13 @@ class selection_column_preset: public inventory_selector_preset
             return res.str();
         }
 
-        virtual nc_color get_color( const item_location & loc ) const override {
-            if( &*loc == &g->u.weapon ) {
+        virtual nc_color get_color( const inventory_entry &entry ) const override {
+            if( &*entry.location == &g->u.weapon ) {
                 return c_ltblue;
-            } else if( g->u.is_worn( *loc ) ) {
+            } else if( g->u.is_worn( *entry.location ) ) {
                 return c_cyan;
             } else {
-                return inventory_selector_preset::get_color( loc );
+                return inventory_selector_preset::get_color( entry );
             }
         }
 };
@@ -109,9 +109,9 @@ inventory_selector_preset::inventory_selector_preset()
     } );
 }
 
-nc_color inventory_selector_preset::get_color( const item_location &loc ) const
+nc_color inventory_selector_preset::get_color( const inventory_entry &entry ) const
 {
-    return loc->color_in_inventory();
+    return entry.location ? entry.location->color_in_inventory() : c_magenta;
 }
 
 std::string inventory_selector_preset::get_caption( const inventory_entry &entry ) const
@@ -138,11 +138,6 @@ std::string inventory_selector_preset::get_cell_text( const inventory_entry &ent
     } else {
         return entry.get_category_ptr()->name;
     }
-}
-
-nc_color inventory_selector_preset::get_cell_color( const inventory_entry &entry, size_t ) const
-{
-    return entry.location ? get_color( entry.location ) : c_magenta;
 }
 
 size_t inventory_selector_preset::get_cell_width( const inventory_entry &entry, size_t cell_index ) const
@@ -459,7 +454,7 @@ void inventory_column::draw( WINDOW *win, size_t x, size_t y ) const
                 if( selected ) {
                     trim_and_print( win, yy, text_x, text_width, h_white, "%s", remove_color_tags( text ).c_str() );
                 } else {
-                    trim_and_print( win, yy, text_x, text_width, preset.get_cell_color( entry, cell_index ), "%s", text.c_str() );
+                    trim_and_print( win, yy, text_x, text_width, preset.get_color( entry.location ), "%s", text.c_str() );
                 }
             }
 

@@ -104,11 +104,10 @@ class inventory_selector_preset
             return true;
         }
 
-        virtual nc_color get_color( const item_location &loc ) const;
+        virtual nc_color get_color( const inventory_entry &entry ) const;
 
         std::string get_cell_text( const inventory_entry &entry, size_t cell_index ) const;
         size_t get_cell_width( const inventory_entry &entry, size_t cell_index ) const;
-        nc_color get_cell_color( const inventory_entry &entry, size_t cell_index ) const;
 
         size_t get_cells_count() const {
             return cells.size();
@@ -120,11 +119,6 @@ class inventory_selector_preset
         virtual std::string get_caption( const inventory_entry &entry ) const;
         void append_cell( const std::function<std::string( const inventory_entry & )> &func,
                           const std::string &title = "" );
-
-        template <typename T>
-        std::string to_string( T val ) const {
-            return val == T() ? "-" : std::to_string( val );
-        }
 
     private:
         std::vector<cell_pair> cells;
