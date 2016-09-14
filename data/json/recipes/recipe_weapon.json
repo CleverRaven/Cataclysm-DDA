@@ -6477,10 +6477,11 @@
 ],
 "components": [
 [
-[ "30gal_drum", 1 ]
+[ "keg", 1 ],
+[ "keg_steel", 1 ]
 ],
 [
-[ "chem_anfo", 400 ]
+[ "chem_anfo", 700 ]
 ] ,
 [
 [ "dynamite", 2 ]
@@ -6505,14 +6506,17 @@
       [ "pipe", 1 ]
     ],
     [
-      [ "chem_rdx", 50 ]
+      [ "chem_rdx", 2 ]
+    ],
+    [
+      [ "chem_hmtd", 1 ]
     ],
     [
       [ "string_36", 1 ],
       [ "string_6", 1 ]
     ],
     [
-      [ "material_sand", 200 ]
+      [ "material_sand", 50 ]
     ]
   ]
 },
@@ -6531,10 +6535,11 @@
     {"id":"SAW_M","level":1,"amount":1}
   ], "components": [
     [
-      [ "keg", 1 ]
+      [ "keg", 1 ],
+      [ "keg_steel", 1]
     ],
     [
-      [ "chem_rdx", 1000 ]
+      [ "chem_rdx", 575 ]
     ],
     [
       [ "chem_hmtd", 200 ]
@@ -6592,7 +6597,10 @@
       [ "jug_plastic", 1 ]
     ],
     [
-      [ "chem_black_powder", 100 ]
+      [ "chem_black_powder", 600 ]
+    ],
+    [
+      [ "scrap", 20 ]
     ],
     [
       [ "string_36", 1 ],
