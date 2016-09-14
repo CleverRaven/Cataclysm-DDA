@@ -14,6 +14,13 @@
       "weight" : 740,
       "volume" : 7,
       "bashing" : 14,
+      "armor_data" : {
+         "covers" : ["TORSO"],
+         "coverage" : 5,
+         "material_thickness" : 1,
+         "encumbrance" : 20,
+         "warmth" : 0
+      },
       "ranged_damage" : 18,
       "range" : 19,
       "dispersion" : 110,
