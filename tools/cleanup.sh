@@ -64,6 +64,7 @@ shift;
 
 case $task in
     none    ) cleanup "." $@;;
+    flags   ) cleanup "sort_by(.id)" $@;;
     item    ) cleanup "sort_by(.id)" $@;;
     mission ) cleanup "sort_by(.id)" $@;;
     recipe  ) cleanup "sort_by(.result)" $@;;
