@@ -1,5 +1,6 @@
 #include "item.h"
 
+#include "flag.h"
 #include "advanced_inv.h"
 #include "player.h"
 #include "damage.h"
@@ -1476,6 +1477,20 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
         }
 
         insert_separation_line();
+
+        // concatenate base and acquired flags...
+        std::vector<std::string> flags;
+        std::set_union( type->item_tags.begin(), type->item_tags.end(),
+                        item_tags.begin(), item_tags.end(),
+                        std::back_inserter( flags ) );
+
+        // ...and display those which have an info description
+        for( const auto &e : flags ) {
+            auto &f = json_flag::get( e );
+            if( !f.info().empty() ) {
+                info.emplace_back( "DESCRIPTION", string_format( "* %s", f.info().c_str() ) );
+            }
+        }
 
         if( is_armor() ) {
             //See shorten version of this in armor_layers.cpp::clothing_flags_description
