@@ -94,7 +94,7 @@
     "id": "NO_QUICKDRAW",
     "type": "json_flag",
     "context": [ "ARMOR", "armor_data" ],
-    "description": "Don't offer to draw items from this holster when the fire key is pressed whilst the players hands are empty"
+    "description": "Don't offer to draw items from this holster when the fire key is pressed whilst the players hands are empty."
   },
   {
     "id": "OUTER",
@@ -172,7 +172,7 @@
     "type": "json_flag",
     "context": [ "ARMOR", "armor_data" ],
     "description": "Prevents glaring when in sunlight.",
-    "info": "This clothing keeps the <info>glare</info> out of your eyes"
+    "info": "This clothing keeps the <info>glare</info> out of your eyes."
   },
   {
     "id": "SUPER_FANCY",
@@ -221,7 +221,7 @@
     "type": "json_flag",
     "context": [ "ARMOR", "armor_data" ],
     "description": "Prevents the covered body-part(s) from getting wet in any circumstance.",
-    "info": "This clothing <info>won't let water through</info>.  Unless you jump in the river or something like that"
+    "info": "This clothing <info>won't let water through</info>.  Unless you jump in the river or something like that."
   },
   {
     "id": "WATER_FRIENDLY",
