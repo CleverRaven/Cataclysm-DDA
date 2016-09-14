@@ -1,0 +1,105 @@
+[
+  {
+    "result": "broadfire_off",
+    "type": "recipe",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_CUTTING",
+    "skill_used": "mechanics",
+    "difficulty": 5,
+    "time": 30000,
+    "reversible": true,
+    "decomp_learn": 4,
+    "autolearn": false,
+    "book_learn": [ [ "welding_book", 8 ], [ "book_icef", 4 ] ],
+    "qualities": [ { "id": "GLARE", "level": 2 } ],
+    "tools": [ [ [ "oxy_torch", 4 ], [ "welder", 20 ], [ "welder_crude", 30 ], [ "toolset", 30 ] ] ],
+    "components": [
+      [ [ "leather", 5 ] ],
+      [ [ "pipe", 1 ] ],
+      [ [ "broadsword", 1 ] ],
+      [ [ "flamethrower_crude", 1 ] ]
+    ]
+  },
+  {
+    "result": "firekatana_off",
+    "type": "recipe",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_CUTTING",
+    "skill_used": "mechanics",
+    "difficulty": 5,
+    "time": 30000,
+    "reversible": true,
+    "decomp_learn": 4,
+    "autolearn": false,
+    "book_learn": [ [ "welding_book", 8 ], [ "book_icef", 4 ] ],
+    "qualities": [ { "id": "GLARE", "level": 2 } ],
+    "tools": [ [ [ "oxy_torch", 4 ], [ "welder", 20 ], [ "welder_crude", 30 ], [ "toolset", 30 ] ] ],
+    "components": [
+      [ [ "leather", 5 ] ],
+      [ [ "pipe", 1 ] ],
+      [ [ "katana", 1 ] ],
+      [ [ "flamethrower_crude", 1 ] ]
+    ]
+  },
+  {
+    "result": "firemachete_off",
+    "type": "recipe",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_CUTTING",
+    "skill_used": "mechanics",
+    "difficulty": 4,
+    "time": 20000,
+    "reversible": true,
+    "decomp_learn": 4,
+    "autolearn": false,
+    "book_learn": [ [ "welding_book", 8 ], [ "book_icef", 4 ] ],
+    "qualities": [ { "id": "GLARE", "level": 2 } ],
+    "tools": [ [ [ "oxy_torch", 4 ], [ "welder", 20 ], [ "welder_crude", 30 ], [ "toolset", 30 ] ] ],
+    "components": [
+      [ [ "leather", 5 ] ],
+      [ [ "pipe", 1 ] ],
+      [ [ "machete", 1 ] ],
+      [ [ "flamethrower_crude", 1 ] ]
+    ]
+  },
+  {
+    "result": "shishkebab_off",
+    "type": "recipe",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_CUTTING",
+    "skill_used": "mechanics",
+    "difficulty": 1,
+    "time": 10000,
+    "reversible": true,
+    "decomp_learn": 3,
+    "autolearn": false,
+    "book_learn": [ [ "welding_book", 8 ], [ "book_icef", 4 ] ],
+    "components": [
+      [ [ "leather", 5 ] ],
+      [ [ "pipe", 1 ] ],
+      [ [ "makeshift_machete", 1 ] ],
+      [ [ "flamethrower_crude", 1 ] ]
+    ]
+  },
+  {
+    "result": "zweifire_off",
+    "type": "recipe",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_CUTTING",
+    "skill_used": "mechanics",
+    "difficulty": 5,
+    "time": 30000,
+    "reversible": true,
+    "decomp_learn": 4,
+    "autolearn": false,
+    "book_learn": [ [ "welding_book", 8 ], [ "book_icef", 4 ] ],
+    "qualities": [ { "id": "GLARE", "level": 2 } ],
+    "tools": [ [ [ "oxy_torch", 4 ], [ "welder", 20 ], [ "welder_crude", 30 ], [ "toolset", 30 ] ] ],
+    "components": [
+      [ [ "leather", 5 ] ],
+      [ [ "pipe", 1 ] ],
+      [ [ "zweihander", 1 ] ],
+      [ [ "flamethrower_crude", 1 ] ]
+    ]
+  }
+]
