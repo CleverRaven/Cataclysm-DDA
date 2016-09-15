@@ -7,6 +7,7 @@
 #include "weighted_list.h"
 #include "game_constants.h"
 #include "monster.h"
+#include "weather_gen.h"
 
 #include <array>
 #include <iosfwd>
@@ -125,6 +126,8 @@ struct regional_settings {
     city_settings     city_spec;      // put what where in a city of what kind
     groundcover_extra field_coverage;
     groundcover_extra forest_coverage;
+
+    weather_generator weather;
 
     std::unordered_map<std::string, map_extras> region_extras;
 
@@ -306,11 +309,9 @@ class overmap
   /** Get the y coordinate of the bottom border of this overmap. */
   int get_bottom_border();
 
-  const regional_settings& get_settings(const int x, const int y, const int z) {
-     (void)x;
-     (void)y;
-     (void)z; // todo
-
+  // @todo Should depend on coords
+  const regional_settings& get_settings() const
+  {
      return settings;
   }
     void clear_mon_groups();

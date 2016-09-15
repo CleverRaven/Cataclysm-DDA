@@ -679,6 +679,16 @@ void load_region_settings( JsonObject &jo )
             }
         }
     }
+
+    if ( ! jo.has_object("weather") ) {
+        if ( strict ) {
+            jo.throw_error("\"weather\": { ... } required for default");
+        }
+    } else {
+        JsonObject wjo = jo.get_object( "weather" );
+        new_region.weather = weather_generator::load( wjo );
+    }
+
     region_settings_map[new_region.id] = new_region;
 }
 
@@ -1582,10 +1592,10 @@ std::tuple<char, nc_color, size_t> get_note_display_info(std::string const &note
     return result;
 }
 
-static bool get_weather_glyph( point const &pos, nc_color &ter_color, long &ter_sym )
+static bool get_weather_glyph( tripoint const &pos, nc_color &ter_color, long &ter_sym )
 {
     // Weather calculation is a bit expensive, so it's cached here.
-    static std::map<point, weather_type> weather_cache;
+    static std::map<tripoint, weather_type> weather_cache;
     static calendar last_weather_display = calendar::turn;
     if( last_weather_display != calendar::turn ) {
         last_weather_display = calendar::turn;
@@ -1593,8 +1603,9 @@ static bool get_weather_glyph( point const &pos, nc_color &ter_color, long &ter_
     }
     auto iter = weather_cache.find( pos );
     if( iter == weather_cache.end() ) {
-        auto const abs_ms_pos =  point( pos.x * SEEX * 2, pos.y * SEEY * 2 );
-        auto const weather = g->weather_gen->get_weather_conditions( abs_ms_pos, calendar::turn );
+        auto const abs_ms_pos =  tripoint( pos.x * SEEX * 2, pos.y * SEEY * 2, pos.z );
+        const auto &wgen = overmap_buffer.get_settings( pos.x, pos.y, pos.z ).weather;
+        auto const weather = wgen.get_weather_conditions( abs_ms_pos, calendar::turn, g->get_seed() );
         iter = weather_cache.insert( std::make_pair( pos, weather ) ).first;
     }
     switch( iter->second ) {
@@ -1719,7 +1730,7 @@ void overmap::draw(WINDOW *w, WINDOW *wbar, const tripoint &center,
 
     // For use with place_special: cache the color and symbol of each submap
     // and record the bounds to optimize lookups below
-    std::unordered_map<point, std::pair<long, nc_color>> special_cache;
+    std::unordered_map<tripoint, std::pair<long, nc_color>> special_cache;
     point s_begin, s_end = point( 0, 0 );
     if( blink && uistate.place_special ) {
         for( const auto &s_ter : uistate.place_special->terrains ) {
@@ -1732,7 +1743,7 @@ void overmap::draw(WINDOW *w, WINDOW *wbar, const tripoint &center,
                 }
 
                 special_cache.insert( std::make_pair(
-                    point( rp.x, rp.y ),
+                    rp,
                     std::make_pair( oter.t().sym, oter.t().color ) ) );
 
                 s_begin.x = std::min( s_begin.x, rp.x );
@@ -1796,7 +1807,7 @@ void overmap::draw(WINDOW *w, WINDOW *wbar, const tripoint &center,
                 // Display player pos, should always be visible
                 ter_color = g->u.symbol_color();
                 ter_sym   = '@';
-            } else if( data.debug_weather && get_weather_glyph( point( omx, omy ), ter_color, ter_sym ) ) {
+            } else if( data.debug_weather && get_weather_glyph( tripoint( omx, omy, z ), ter_color, ter_sym ) ) {
                 // ter_color and ter_sym have been set by get_weather_glyph
             } else if( data.debug_scent && get_scent_glyph( cur_pos, ter_color, ter_sym ) ) {
             } else if( blink && has_target && omx == target.x && omy == target.y ) {
@@ -1912,7 +1923,7 @@ void overmap::draw(WINDOW *w, WINDOW *wbar, const tripoint &center,
                 } else if( blink && uistate.place_special ) {
                     if( omx - cursx >= s_begin.x && omx - cursx <= s_end.x &&
                         omy - cursy >= s_begin.y && omy - cursy <= s_end.y ) {
-                        auto sm = special_cache.find( point( omx - cursx, omy - cursy ) );
+                        auto sm = special_cache.find( tripoint( omx - cursx, omy - cursy, z ) );
                         if( sm != special_cache.end() ) {
                             ter_color = sm->second.second;
                             ter_sym = sm->second.first;

@@ -52,6 +52,12 @@
               "police": 1,
               "s_lot": 6
           }
+      },
+      "weather": {
+          "base_temperature" : 8.0,
+          "base_humidity" : 40.0,
+          "base_pressure" : 1015.0,
+          "base_acid" : 0.0
       }
    },
    {

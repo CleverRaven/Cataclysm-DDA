@@ -291,17 +291,15 @@ void game::load_weather(std::istream & fin) {
     if (fin.peek() == 's') {
         std::string line, label;
         getline(fin, line);
-        int seed(0);
         std::stringstream liness(line);
         liness >> label >> seed;
-        weather_gen->set_seed( seed );
     }
 }
 
 void game::save_weather(std::ostream &fout) {
     fout << "# version " << savegame_version << std::endl;
     fout << "lightning: " << (lightning_active ? "1" : "0") << std::endl;
-    fout << "seed: " << weather_gen->get_seed();
+    fout << "seed: " << seed;
 }
 
 bool overmap::obsolete_terrain( const std::string &ter ) {
