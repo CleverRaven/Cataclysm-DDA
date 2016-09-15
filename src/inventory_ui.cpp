@@ -91,9 +91,9 @@ const item_category *inventory_entry::get_category_ptr() const {
 
 inventory_entry *inventory_column::find_by_invlet( long invlet ) const
 {
-    for( const auto &entry : entries ) {
-        if( entry.location && entry.get_invlet() == invlet ) {
-            return const_cast<inventory_entry *>( &entry );
+    for( const auto &elem : entries ) {
+        if( elem.location && elem.get_invlet() == invlet ) {
+            return const_cast<inventory_entry *>( &elem );
         }
     }
     return nullptr;
@@ -214,8 +214,8 @@ void inventory_column::expand_to_fit( const inventory_entry &entry )
 void inventory_column::reset_width()
 {
     std::fill( cell_widths.begin(), cell_widths.end(), 0 );
-    for( const auto &entry : entries ) {
-        expand_to_fit( entry );
+    for( const auto &elem : entries ) {
+        expand_to_fit( elem );
     }
 }
 
@@ -252,9 +252,9 @@ std::vector<inventory_entry *> inventory_column::get_all_selected() const
     std::vector<inventory_entry *> res;
 
     if( allows_selecting() ) {
-        for( const auto &entry : entries ) {
-            if( is_selected( entry ) ) {
-                res.push_back( const_cast<inventory_entry *>( &entry ) );
+        for( const auto &elem : entries ) {
+            if( is_selected( elem ) ) {
+                res.push_back( const_cast<inventory_entry *>( &elem ) );
             }
         }
     }
@@ -317,9 +317,9 @@ void inventory_column::add_entry( const inventory_entry &entry )
 
 void inventory_column::move_entries_to( inventory_column &dest )
 {
-    for( const auto &entry : entries ) {
-        if( entry.location ) {
-            dest.add_entry( entry );
+    for( const auto &elem : entries ) {
+        if( elem.location ) {
+            dest.add_entry( elem );
         }
     }
     dest.prepare_paging();
@@ -388,9 +388,10 @@ size_t inventory_column::get_entry_indent( const inventory_entry &entry ) const 
 long inventory_column::reassign_custom_invlets( const player &p, long min_invlet, long max_invlet )
 {
     long cur_invlet = min_invlet;
-    for( auto &entry : entries ) {
-        if( entry.location && !p.has_item( *entry.location ) ) {
-            entry.custom_invlet = cur_invlet <= max_invlet ? cur_invlet++ : '\0';
+    for( auto &elem : entries ) {
+        // Only items on map/in vehicles: those that the player does not possess.
+        if( elem.location && !p.has_item( *elem.location ) ) {
+            elem.custom_invlet = cur_invlet <= max_invlet ? cur_invlet++ : '\0';
         }
     }
     return cur_invlet;
@@ -611,8 +612,8 @@ void inventory_selector::add_items( inventory_column &target_column,
 {
     const item_category *nat_category = nullptr;
 
-    for( const auto &stack : stacks ) {
-        auto loc = locator( stack.front() );
+    for( const auto &elem : stacks ) {
+        auto loc = locator( elem.front() );
 
         if( custom_category == nullptr ) {
             nat_category = &loc->get_category();
@@ -620,7 +621,7 @@ void inventory_selector::add_items( inventory_column &target_column,
             nat_category = naturalize_category( *custom_category, loc.position() );
         }
 
-        add_item( target_column, loc, stack.size(), nat_category );
+        add_item( target_column, loc, elem.size(), nat_category );
     }
 }
 
@@ -638,8 +639,8 @@ void inventory_selector::add_character_items( Character &character )
         return VisitResponse::NEXT;
     } );
     // Visitable interface does not support stacks so it has to be here
-    for( const auto &stack: character.inv.slice() ) {
-        add_item( own_inv_column, item_location( character, &stack->front() ), stack->size() );
+    for( const auto &elem: character.inv.slice() ) {
+        add_item( own_inv_column, item_location( character, &elem->front() ), elem->size() );
     }
 }
 
@@ -684,8 +685,8 @@ void inventory_selector::add_nearby_items( int radius )
 
 inventory_entry *inventory_selector::find_entry_by_invlet( long invlet ) const
 {
-    for( const auto &column : columns ) {
-        const auto res = column->find_by_invlet( invlet );
+    for( const auto &elem : columns ) {
+        const auto res = elem->find_by_invlet( invlet );
         if( res != nullptr ) {
             return res;
         }
@@ -710,8 +711,8 @@ void inventory_selector::prepare_layout()
         return;
     }
     // This block adds categories and should go before any width evaluations
-    for( auto &column : columns ) {
-        column->prepare_paging();
+    for( auto &elem : columns ) {
+        elem->prepare_paging();
     }
     // Handle screen overflow
     rearrange_columns();
@@ -723,9 +724,9 @@ void inventory_selector::prepare_layout()
     }
 
     long custom_invlet = '0';
-    for( auto &column : columns ) {
-        column->prepare_paging();
-        custom_invlet = column->reassign_custom_invlets( u, custom_invlet, '9' );
+    for( auto &elem : columns ) {
+        elem->prepare_paging();
+        custom_invlet = elem->reassign_custom_invlets( u, custom_invlet, '9' );
     }
 
     refresh_active_column();
@@ -790,23 +791,23 @@ void inventory_selector::draw( WINDOW *w ) const
     size_t y = 2;
     size_t active_x = 0;
 
-    for( const auto &column : columns ) {
-        if( &column == &columns.back() ) {
+    for( const auto &elem : columns ) {
+        if( &elem == &columns.back() ) {
             x += gap_rounding_error;
         }
 
-        if( !is_active_column( *column ) ) {
-            column->draw( w, x, y );
+        if( !is_active_column( *elem ) ) {
+            elem->draw( w, x, y );
         } else {
             active_x = x;
         }
 
-        if( column->pages_count() > 1 ) {
+        if( elem->pages_count() > 1 ) {
             mvwprintw( w, getmaxy( w ) - 2, x, _( "Page %d/%d" ),
-                       column->page_index() + 1, column->pages_count() );
+                       elem->page_index() + 1, elem->pages_count() );
         }
 
-        x += column->get_width() + gap;
+        x += elem->get_width() + gap;
     }
 
     get_active_column().draw( w, active_x, y );
@@ -878,8 +879,8 @@ void inventory_selector::on_action( const std::string &action )
     } else if( action == "LEFT" ) {
         toggle_active_column();
     } else {
-        for( auto &column : columns ) {
-            column->on_action( action );
+        for( auto &elem : columns ) {
+            elem->on_action( action );
         }
         refresh_active_column(); // Columns can react to actions by losing their activation capacity
     }
@@ -887,8 +888,8 @@ void inventory_selector::on_action( const std::string &action )
 
 void inventory_selector::on_change( const inventory_entry &entry )
 {
-    for( auto &column : columns ) {
-        column->on_change( entry );
+    for( auto &elem : columns ) {
+        elem->on_change( entry );
     }
     refresh_active_column(); // Columns can react to changes by losing their activation capacity
 }
@@ -897,8 +898,8 @@ std::vector<inventory_column *> inventory_selector::get_visible_columns() const
 {
     std::vector<inventory_column *> res( columns.size() );
     const auto iter = std::copy_if( columns.begin(), columns.end(), res.begin(),
-    []( const inventory_column *column ) {
-        return column->visible();
+    []( const inventory_column *e ) {
+        return e->visible();
     } );
     res.resize( std::distance( res.begin(), iter ) );
     return res;
@@ -966,8 +967,8 @@ void inventory_selector::toggle_navigation_mode()
     };
 
     navigation = next_mode.at( navigation );
-    for( auto &column : columns ) {
-        column->set_mode( navigation );
+    for( auto &elem : columns ) {
+        elem->set_mode( navigation );
     }
 }
 
@@ -1017,8 +1018,8 @@ inventory_multiselector::inventory_multiselector( const player &p,
     inventory_selector( p, preset ),
     selection_col( new selection_column( "SELECTION_COLUMN", selection_column_title ) )
 {
-    for( auto &column : get_all_columns() ) {
-        column->set_multiselect( true );
+    for( auto &elem : get_all_columns() ) {
+        elem->set_multiselect( true );
     }
     append_column( *selection_col );
 }
@@ -1037,9 +1038,9 @@ std::pair<const item *, const item *> inventory_compare_selector::execute()
         } else if(action == "RIGHT") {
             const auto selection( get_active_column().get_all_selected() );
 
-            for( auto &entry : selection ) {
-                if( entry->chosen_count == 0 || selection.size() == 1 ) {
-                    toggle_entry( entry );
+            for( auto &elem : selection ) {
+                if( elem->chosen_count == 0 || selection.size() == 1 ) {
+                    toggle_entry( elem );
                     if( compared.size() == 2 ) {
                         break;
                     }
@@ -1117,8 +1118,8 @@ std::list<std::pair<int, int>> inventory_drop_selector::execute()
             set_drop_count( *entry, count );
             count = 0;
         } else if( action == "RIGHT" ) {
-            for( const auto &entry : get_active_column().get_all_selected() ) {
-                set_drop_count( *entry, count );
+            for( const auto &elem : get_active_column().get_all_selected() ) {
+                set_drop_count( *elem, count );
             }
             count = 0;
         } else if( action == "CONFIRM" ) {
