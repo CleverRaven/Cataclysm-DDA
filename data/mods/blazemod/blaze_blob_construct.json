@@ -1,9 +1,27 @@
 [
   {
+    "type" : "construction",
+    "description" : "Take Down Simple Furniture",
+    "category" : "FURN",
+    "difficulty" : 0,
+    "time" : 30,
+    "pre_terrain" : "blob_pit",
+    "post_special" : "done_deconstruct"
+  },
+  {
+    "type" : "construction",
+    "description" : "Take Down Simple Furniture",
+    "category" : "FURN",
+    "difficulty" : 0,
+    "time" : 3,
+    "pre_terrain" : "blob_pit_slime",
+    "post_special" : "done_deconstruct"
+  },
+  {
     "type": "construction",
-    "//": "Smash afterwards to harvest.",
+    "//": "Smash or deconstruct afterwards to harvest.",
     "category": "OTHER",
-    "description": "Harvest Blob Feed from Corpse Pit: Smash to Harvest",
+    "description": "Harvest Blob Feed from Corpse Pit: Smash or Denconstruct to Harvest",
     "difficulty": 0,
     "time": 60,
     "pre_terrain": "t_pit_corpsed",
@@ -12,9 +30,9 @@
   },
   {
     "type": "construction",
-    "//": "Smash afterwards to harvest.",
+    "//": "Smash or deconstruct afterwards to harvest.",
     "category": "OTHER",
-    "description": "Harvest Blob Feed from Slime: Smash to Harvest",
+    "description": "Harvest Blob Feed from Slime: Smash or Denconstruct to Harvest",
     "difficulty": 0,
     "time": 5,
     "pre_terrain": "t_slime",
@@ -28,6 +46,10 @@
     "symbol": "O",
     "color": [ "light_green" ],
     "move_cost": 0,
+    "deconstruct": {
+      "ter_set": "t_pit",
+      "items": [ { "item": "bfeed", "count": [ 250, 500 ] } ]
+    },
     "bash": {
       "str_min": 1,
       "str_max": 1,
@@ -45,6 +67,10 @@
     "symbol": "O",
     "color": [ "light_green" ],
     "move_cost": 0,
+    "deconstruct": {
+      "ter_set": "t_dirt",
+      "items": [ { "item": "bfeed", "count": [ 50, 250 ] } ]
+    },
     "bash": {
       "str_min": 1,
       "str_max": 1,
