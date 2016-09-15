@@ -33,7 +33,7 @@ static const int screen_border_gap = 1;
 /** The minimal occupancy ratio (see @refer get_columns_occupancy_ratio()) to align columns to the center */
 static const double min_ratio_to_center = 0.65;
 
-bool inventory_entry::operator == ( const inventory_entry &other ) const {
+bool inventory_entry::operator==( const inventory_entry &other ) const {
     return get_category_ptr() == other.get_category_ptr() && location == other.location;
 }
 

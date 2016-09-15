@@ -52,7 +52,7 @@ class inventory_entry
             stack_size( entry.stack_size ),
             custom_category( entry.custom_category ) {}
 
-        inventory_entry operator = ( const inventory_entry &rhs ) {
+        inventory_entry operator=( const inventory_entry &rhs ) {
             location = rhs.location.clone();
             chosen_count = rhs.chosen_count;
             custom_invlet = rhs.custom_invlet;
@@ -73,8 +73,8 @@ class inventory_entry
         }
 
         // used for searching the category header, only the item pointer and the category are important there
-        bool operator == ( const inventory_entry &other ) const;
-        bool operator != ( const inventory_entry &other ) const {
+        bool operator==( const inventory_entry &other ) const;
+        bool operator!=( const inventory_entry &other ) const {
             return !( *this == other );
         }
 
