@@ -10893,7 +10893,6 @@ void player::use(int inventory_position)
 
         invoke_item( used );
     } else if (used->is_gunmod()) {
-
         int gunpos = g->inv_for_filter( _("Select gun to modify:" ), [&used]( const item& e ) {
             return e.gunmod_compatible( *used, false, false );
         }, _( "You don't have compatible guns." ) );
@@ -13843,7 +13842,7 @@ void player::on_effect_int_change( const efftype_id &eid, int intensity, body_pa
         // Note that calling this does no harm if it wasn't changed.
         on_stat_change( "perceived_pain", get_perceived_pain() );
     }
-    
+
     morale->on_effect_int_change( eid, intensity, bp );
 }
 

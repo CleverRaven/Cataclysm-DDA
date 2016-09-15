@@ -5,6 +5,19 @@
 #include "item.h"
 #include "itype.h"
 
+class inventory_filter_preset : public inventory_selector_preset
+{
+    public:
+        inventory_filter_preset( const item_location_filter &filter ) : filter( filter ) {}
+
+        bool is_shown( const item_location &location ) const override {
+            return filter( location );
+        }
+
+    private:
+        item_location_filter filter;
+};
+
 void game::interactive_inv()
 {
     static const std::set<int> allowed_selections = { { ' ', '.', 'q', '=', '\n', KEY_LEFT, KEY_ESCAPE } };
@@ -12,7 +25,10 @@ void game::interactive_inv()
     u.inv.restack( &u );
     u.inv.sort();
 
-    inventory_pick_selector inv_s( u, _( "Inventory:" ) );
+    inventory_pick_selector inv_s( u );
+
+    inv_s.add_character_items( u );
+    inv_s.set_title( _( "Inventory:" ) );
 
     int res;
     do {
@@ -105,9 +121,13 @@ item_location game::inv_map_splice( item_location_filter filter, const std::stri
     u.inv.restack( &u );
     u.inv.sort();
 
-    inventory_pick_selector inv_s( u, title, filter );
+    inventory_filter_preset preset( filter );
+    inventory_pick_selector inv_s( u, preset );
 
+    inv_s.add_character_items( u );
     inv_s.add_nearby_items( radius );
+    inv_s.set_title( title );
+
     if( inv_s.empty() ) {
         const std::string msg = ( none_message.empty() ) ? _( "You don't have the necessary item at hand." )
                                 : none_message;
@@ -144,10 +164,15 @@ std::list<std::pair<int, int>> game::multidrop()
     u.inv.restack( &u );
     u.inv.sort();
 
-    inventory_drop_selector inv_s( u,
-    _( "Multidrop:" ), [ this ]( const item_location & location ) -> bool {
+    inventory_filter_preset preset(
+    [ this ]( const item_location & location ) -> bool {
         return u.can_unwield( *location, false );
     } );
+    inventory_drop_selector inv_s( u, preset );
+
+    inv_s.add_character_items( u );
+    inv_s.set_title( _( "Multidrop:" ) );
+
     if( inv_s.empty() ) {
         popup( std::string( _( "You have nothing to drop." ) ), PF_GET_KEY );
         return std::list<std::pair<int, int> >();
@@ -160,7 +185,10 @@ void game::compare( const tripoint &offset )
     u.inv.restack( &u );
     u.inv.sort();
 
-    inventory_compare_selector inv_s( u, _( "Compare:" ) );
+    inventory_compare_selector inv_s( u );
+
+    inv_s.add_character_items( u );
+    inv_s.set_title( _( "Compare:" ) );
 
     if( offset != tripoint_min ) {
         inv_s.add_map_items( u.pos() + offset );
