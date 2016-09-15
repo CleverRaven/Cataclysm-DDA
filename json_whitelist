@@ -1,3 +1,4 @@
+# Core
 data/json/items/ammo/*
 data/json/items/armor/boots.json
 data/json/items/gun/*
@@ -5,6 +6,8 @@ data/json/items/magazine/*
 data/json/npcs/missiondef.json
 data/json/recipes/other/materials.json
 data/json/vehicleparts/*
+
+# Mods
 data/mods/blazemod/*.json
 data/mods/makeshift/*.json
 data/mods/PKs_Rebalance/items/*.json

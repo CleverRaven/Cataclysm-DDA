@@ -865,7 +865,7 @@ endif
 
 json-lint: json_whitelist $(ODIR)/lint.cache
 
-$(ODIR)/lint.cache: $(shell cat json_whitelist) | $(ODIR)
+$(ODIR)/lint.cache: $(shell awk '/^[^#]/ { print $$1 }' json_whitelist) | $(ODIR)
 ifeq ($(shell if perl -c tools/format/format.pl 2>/dev/null; then echo $$?; fi),0)
 	@tools/lint.sh $?
 	@touch $@
