@@ -20989,13 +20989,13 @@
         {
           "bg": 642,
           "fg": 1623,
-          "id": "mon_bat",
+          "id": ["mon_bat", "mon_bat_vampire"],
           "rotates": false
         },
         {
           "bg": 642,
           "fg": 1624,
-          "id": "mon_bear",
+          "id": ["mon_bear", "mon_bear_weak", "mon_bear_pk"],
           "rotates": false
         },
         {
@@ -21679,7 +21679,7 @@
         {
           "bg": 642,
           "fg": 1722,
-          "id": "mon_moose",
+          "id": ["mon_moose", "mon_moose_pk", "mon_moose_weak"],
           "rotates": false
         },
         {
@@ -25768,7 +25768,7 @@
         },
         {
           "fg": 1091,
-          "id": ["f_egg_sacke", "f_egg_sackcs"],
+          "id": ["f_egg_sacke", "f_egg_sackcs", "mon_spider_web_queen", "mon_trapdoor_egg", "mon_trapdoor_queen"],
           "rotates": false
         },
         {
