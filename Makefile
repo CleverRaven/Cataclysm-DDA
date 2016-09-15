@@ -880,7 +880,7 @@ endif
 lint: $(shell awk '/^[^#]/ { print $$1 }' json_whitelist) | $(ODIR)
 	@for file in $?; do \
 		if [ ! $(ODIR)/lint.cache -nt $$file ]; then \
-			./tools/cleanup.sh $$file || exit $$?; \
+			./tools/lint.sh $$file || exit $$?; \
 		fi; \
 	done;
 	@touch $(ODIR)/lint.cache
