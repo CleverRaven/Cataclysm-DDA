@@ -1,4 +1,4 @@
-[
+﻿[
     {
         "type" : "AMMO",
         "id" : "battery",
@@ -418,7 +418,11 @@
         "symbol" : "=",
         "color" : "blue",
         "description" : "The Heckler & Koch 12mm projectiles are used in H&K railguns.  It's made of a ferromagnetic metal, probably cobalt.",
-        "material" : ["steel", "powder"],
+<<<<<<< HEAD
+        "material" : ["steel"],
+=======
+        "material" : ["steel"]
+>>>>>>> refs/remotes/origin/Branch2
         "volume" : 1,
         "weight" : 11,
         "ammo_type" : "12mm",
@@ -428,9 +432,12 @@
         "dispersion" : 45,
         "recoil" : 105,
         "count" : 20,
-        "stack_size" : 40,
-        "effects" : ["COOKOFF"]
+<<<<<<< HEAD
+        "stack_size" : 40
     },
+=======
+        "stack_size" : 40    },
+>>>>>>> refs/remotes/origin/Branch2
     {   "type" : "AMMO",
         "id" : "plasma",
         "price" : 80000,
