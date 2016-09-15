@@ -874,22 +874,16 @@ ifeq ($(shell if perl -c tools/format/format.pl 2>/dev/null; then echo $$?; fi),
 	done;
 	@touch $@
 else
-	# Don't fail build if implicitly requested linting is not possible
 	@echo Cannot lint JSON, missing usable perl binary and/or p5-JSON module
 endif
 
 lint: $(shell awk '/^[^#]/ { print $$1 }' json_whitelist) | $(ODIR)
-ifeq ($(shell if perl -c tools/format/format.pl 2>/dev/null; then echo $$?; fi),0)
 	@for file in $?; do \
 		if [ ! $(ODIR)/lint.cache -nt $$file ]; then \
-			./tools/cleanup.sh none $$file || exit 65; \
+			./tools/cleanup.sh $$file || exit $$?; \
 		fi; \
 	done;
 	@touch $(ODIR)/lint.cache
-else
-	# If user explicitly requests linting fail if linter is unavailable
-	$(error Cannot lint JSON, missing usable perl binary and/or p5-JSON module)
-endif
 
 tests: version $(BUILD_PREFIX)cataclysm.a
 	$(MAKE) -C tests

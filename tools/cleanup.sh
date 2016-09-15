@@ -1,46 +1,5 @@
 #!/bin/sh
 
-usage() {
-    echo "Usage: $0 sort [files]..."
-    exit 64; # EX_USAGE
-}
-
-validate() {
-    for file in "$@"; do
-        if [ ! -f $file -o ! -r $file ]; then
-            echo "File not found: $file"
-            exit 66; # EX_NOINPUT
-        fi
-
-        $PERL $LINTER -q $file;
-        if [ $? -ne 0 ]; then
-            echo "Cannot parse file: $file"
-            exit 65; # EX_DATAERR
-        fi
-    done
-}
-
-cleanup() {
-    script=$1
-    shift;
-
-    validate $@;
-
-    for file in "$@"; do
-        # Check if file is already in canonical format...
-        output=`$JQ $script $file | $PERL $LINTER`
-         echo "$output" | diff -q $file - > /dev/null
-
-         # ...if not replace with the canonical form
-        if [ $? -ne 0 ]; then
-            echo "Fixed JSON regressions in $file"
-            echo "$output" > $file
-        fi
-    done
-
-    exit 0;
-}
-
 PERL=`which perl`
 if [ $? -ne 0 ]; then
     echo "perl is required to run this script"
@@ -59,15 +18,54 @@ if [ ! -f $LINTER -o ! -r $LINTER ]; then
     exit 70; # EX_SOFTWARE
 fi
 
-task=$1;
-shift;
+CONFIG=`dirname $(readlink -f "$0")`/../json_whitelist
+if [ ! -f $CONFIG -o ! -r $CONFIG ]; then
+    echo "Missing json_whitelist"
+    exit 70; # EX_SOFTWARE
+fi
 
-case $task in
-    none    ) cleanup "." $@;;
-    item    ) cleanup "sort_by(.id)" $@;;
-    mission ) cleanup "sort_by(.id)" $@;;
-    recipe  ) cleanup "sort_by(.result)" $@;;
-    uncraft ) cleanup "sort_by(.result)" $@;;
+for file in "$@"; do
+    # check file exists and is readable
+    if [ ! -f $file -o ! -r $file ]; then
+        echo "File not found: $file"
+        exit 66; # EX_NOINPUT
+    fi
 
-    * ) usage;;
-esac
+    key='' # default is unsorted
+
+    IFS=$'\n' # read one line at a time excluding comments
+    for line in $(awk '/^[^#]/' json_whitelist); do
+
+        # expand any shell globs in json_whitelist
+        for opt in $(echo $line | awk '{print $1}'); do
+
+            # check if any expansions match current file
+            if [ "$file" -ef $(readlink -f $opt) ]; then
+
+                # if so then set sort key (if any)
+                key=$(echo $line | awk '{print $2}')
+            fi
+        done
+    done
+
+    # Check validity via JQ
+    $JQ '.' $file >/dev/null;
+    if [ $? -ne 0 ]; then
+        echo "Syntax error in $file"
+        exit 65; # EX_DATAERR
+    fi
+
+    # Lint to canonical format, optionally sorting by key
+    if [ -z $key ]; then
+        output=$($PERL $LINTER $file)
+    else
+        output=$($JQ "sort_by(.$key)" $file | $PERL $LINTER)
+    fi
+
+    # Update if not in canonical form
+    echo "$output" | diff -q $file - > /dev/null
+    if [ $? -ne 0 ]; then
+        echo "Fixed JSON regressions in $file"
+        echo "$output" > $file
+    fi
+done
