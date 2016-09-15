@@ -1468,14 +1468,9 @@ bool Creature::is_symbol_highlighted() const
 body_part Creature::select_body_part(Creature *source, int hit_roll) const
 {
     // Get size difference (-1,0,1);
-    int szdif = source->get_size() - get_size();
-    if(szdif < -1) {
-        szdif = -1;
-    } else if (szdif > 1) {
-        szdif = 1;
-    }
+    int szdif = std::min( 1, std::max( -1, source->get_size() - get_size() );
 
-    add_msg( m_debug, "hit roll = %d", hit_roll);
+    add_msg( m_debug, "hit roll = %d", hit_roll );
     add_msg( m_debug, "source size = %d", source->get_size() );
     add_msg( m_debug, "target size = %d", get_size() );
     add_msg( m_debug, "difference = %d", szdif );

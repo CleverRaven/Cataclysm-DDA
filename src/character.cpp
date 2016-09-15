@@ -1721,7 +1721,7 @@ float Character::get_dodge_base() const
 float Character::get_hit_base() const
 {
     ///\EFFECT_DEX increases hit base, slightly
-    return Creature::get_hit_base() + get_dex() / 4.0f + 3;
+    return Creature::get_hit_base() + get_dex() / 4.0f;
 }
 
 hp_part Character::body_window( bool precise ) const

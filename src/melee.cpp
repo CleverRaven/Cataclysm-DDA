@@ -189,7 +189,7 @@ float player::get_hit_weapon( const item &weap ) const
     }
 
     ///\EFFECT_MELEE adds to other weapon bonuses
-    return int(melee_skill / 2.0f + best_bonus);
+    return melee_skill / 2.0f + best_bonus;
 }
 
 float player::get_hit_base() const
@@ -218,9 +218,9 @@ float player::hit_roll() const
         hit *= 0.75f;
     }
 
-    hit *= std::max( 0.25f, 100.0f - encumb( bp_torso ) / 10.0f );
+    hit *= std::max( 0.25f, 1.0f - encumb( bp_torso ) / 100.0f );
 
-    return hit * 5;
+    return normal_roll( hit, 25.0f );
 }
 
 void player::add_miss_reason(const char *reason, unsigned int weight)
@@ -273,16 +273,16 @@ void player::roll_all_damage( bool crit, damage_instance &di, bool average, cons
 // we calculate if we would hit. In Creature::deal_melee_hit, we calculate if the target dodges.
 void player::melee_attack(Creature &t, bool allow_special, const matec_id &force_technique)
 {
-    if (!t.is_player()) {
+    if( !t.is_player() ) {
         // @todo Per-NPC tracking? Right now monster hit by either npc or player will draw aggro...
-        t.add_effect( effect_hit_by_player, 100); // Flag as attacked by us for AI
+        t.add_effect( effect_hit_by_player, 100 ); // Flag as attacked by us for AI
     }
 
     const bool critical_hit = scored_crit( t.dodge_roll() );
 
     int move_cost = attack_speed( weapon );
 
-    const int hit_spread = t.deal_melee_attack(this, hit_roll());
+    const float hit_spread = t.deal_melee_attack( this, hit_roll() );
     if( hit_spread < 0 ) {
         int stumble_pen = stumble(*this);
         sfx::generate_melee_sound( pos(), t.pos(), 0, 0);
@@ -294,21 +294,23 @@ void player::melee_attack(Creature &t, bool allow_special, const matec_id &force
                     add_msg(reason_for_miss);
             }
 
-            if (has_miss_recovery_tec())
-                add_msg(_("You feint."));
-            else if (stumble_pen >= 60)
-                add_msg(m_bad, _("You miss and stumble with the momentum."));
-            else if (stumble_pen >= 10)
-                add_msg(_("You swing wildly and miss."));
-            else
-                add_msg(_("You miss."));
+            if( has_miss_recovery_tec( )) {
+                add_msg( _( "You feint." ) );
+            } else if( stumble_pen >= 60 ) {
+                add_msg( m_bad, _( "You miss and stumble with the momentum." ) );
+            } else if( stumble_pen >= 10 ) {
+                add_msg( _( "You swing wildly and miss." ) );
+            } else {
+                add_msg( _( "You miss." ) );
+            }
         } else if( g->u.sees( *this ) ) {
-            if (stumble_pen >= 60)
-                add_msg( _("%s misses and stumbles with the momentum."),name.c_str());
-            else if (stumble_pen >= 10)
-                add_msg(_("%s swings wildly and misses."),name.c_str());
-            else
-                add_msg(_("%s misses."),name.c_str());
+            if( stumble_pen >= 60 ) {
+                add_msg( _( "%s misses and stumbles with the momentum." ), name.c_str() );
+            } else if( stumble_pen >= 10 ) {
+                add_msg( _( "%s swings wildly and misses." ), name.c_str());
+            } else {
+                add_msg( _("%s misses."), name.c_str() );
+            }
         }
 
         t.on_dodge( this, get_melee() );
@@ -638,32 +640,32 @@ float player::get_dodge() const
     if( has_effect( effect_beartrap ) || has_effect( effect_lightsnare ) || has_effect( effect_heavysnare ) ) {
         ret /= 2;
     }
+
+    // @todo What about the skates?
+    if( is_wearing("roller_blades") ) {
+        ret /= has_trait( "PROF_SKATER" ) ? 2 : 5;
+    }
+
+    if( has_effect( effect_bouldering ) ) {
+        ret /= 4;
+    }
+
+    if( dodges_left <= 0 ) {
+        ret += dodges_left * 2 - 2;
+    }
+
+    // Speed below 100 linearly decreases dodge effectiveness
+    int speed_stat = get_speed();
+    if( ret > 0.0f && speed_stat < 100 ) {
+        ret *= speed_stat / 100.0f;
+    }
+
     return ret;
 }
 
 float player::dodge_roll()
 {
-    float dodge_stat = get_dodge();
-    // @todo What about the skates?
-    if( is_wearing("roller_blades") ) {
-        dodge_stat /= has_trait( "PROF_SKATER" ) ? 2 : 5;
-    }
-
-    if( has_effect( effect_bouldering ) ) {
-        dodge_stat /= 4;
-    }
-
-    if( dodges_left <= 0 ) {
-        dodge_stat += dodges_left * 2 - 2;
-    }
-
-    // Speed below 100 linearly decreases dodge effectiveness
-    int speed_stat = get_speed();
-    if( dodge_stat > 0.0f && speed_stat < 100 ) {
-        dodge_stat *= speed_stat / 100.0f;
-    }
-
-    return dodge_stat * 5;
+    return get_dodge() * 5;
 }
 
 float player::bonus_damage( bool random ) const

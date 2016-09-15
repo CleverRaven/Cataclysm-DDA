@@ -1347,7 +1347,7 @@ float monster::hit_roll() const {
         hit /= 4;
     }
 
-    return hit * 5;
+    return normal_roll( hit, 25.0f );
 }
 
 bool monster::has_grab_break_tec() const
@@ -1384,16 +1384,38 @@ float monster::stability_roll() const
 
 float monster::get_dodge() const
 {
-    if (has_effect( effect_downed)) {
-        return 0;
+    float ret = 0.0f;
+    switch( type->size ) {
+        case MS_TINY:
+            ret += 6;
+            break;
+        case MS_SMALL:
+            ret += 3;
+            break;
+        case MS_LARGE:
+            ret -= 2;
+            break;
+        case MS_HUGE:
+            ret -= 4;
+            break;
+        case MS_MEDIUM:
+            break; // keep default
     }
-    float ret = type->sk_dodge;
+
+    if( has_effect( effect_downed ) ) {
+        // Just the size mod
+        return ret;
+    }
+
+    ret += type->sk_dodge;
     if( has_effect( effect_lightsnare ) || has_effect( effect_heavysnare ) || has_effect( effect_beartrap ) || has_effect( effect_tied ) ) {
         ret /= 2;
     }
-    if (moves <= 0 - 100 - get_speed()) {
-        ret = rng_float( 0.0f, ret );
+
+    if( has_effect( effect_bouldering ) ) {
+        ret /= 4;
     }
+
     return ret + get_dodge_bonus();
 }
 
@@ -1404,33 +1426,7 @@ float monster::get_melee() const
 
 float monster::dodge_roll()
 {
-    if (has_effect( effect_bouldering)) {
-        if(one_in(type->sk_dodge)) {
-            return 0;
-        }
-    }
-
-    int numdice = get_dodge();
-
-    switch( type->size ) {
-        case MS_TINY:
-            numdice += 6;
-            break;
-        case MS_SMALL:
-            numdice += 3;
-            break;
-        case MS_LARGE:
-            numdice -= 2;
-            break;
-        case MS_HUGE:
-            numdice -= 4;
-            break;
-        case MS_MEDIUM:
-            break; // keep default
-    }
-
-    // Not really a roll
-    return numdice * 5;
+    return get_dodge() * 5;
 }
 
 float monster::fall_damage_mod() const

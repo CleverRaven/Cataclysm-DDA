@@ -480,8 +480,9 @@ void player::reset_stats()
     }
 
     // Dodge-related effects
-    mod_dodge_bonus( mabuff_dodge_bonus() - ( encumb( bp_leg_l ) + encumb( bp_leg_r ) ) / 20 - ( encumb(
-                         bp_torso ) / 10 ) );
+    mod_dodge_bonus( mabuff_dodge_bonus() -
+                     ( encumb( bp_leg_l ) + encumb( bp_leg_r ) ) / 20.0f -
+                     ( encumb( bp_torso ) / 10.0f ) );
     // Whiskers don't work so well if they're covered
     if( has_trait( "WHISKERS" ) && !wearing_something_on( bp_mouth ) ) {
         mod_dodge_bonus( 1 );
@@ -3077,12 +3078,12 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
                     s += run_cost_text( int( encumb( bp_leg_l ) * 0.15 ) );
                     s += swim_cost_text( ( encumb( bp_leg_l ) / 10 ) * ( 50 - get_skill_level(
                                              skill_swimming ) * 2 ) / 2 );
-                    s += dodge_skill_text( -( encumb( bp_leg_l ) / 10 ) / 4.0 );
+                    s += dodge_skill_text( -encumb( bp_leg_l ) / 10.0 / 4.0 );
                 } else if( line == 9 ) { //Right Leg
                     s += run_cost_text( int( encumb( bp_leg_r ) * 0.15 ) );
                     s += swim_cost_text( ( encumb( bp_leg_r ) / 10 ) * ( 50 - get_skill_level(
                                              skill_swimming ) * 2 ) / 2 );
-                    s += dodge_skill_text( -( encumb( bp_leg_r ) / 10 ) / 4.0 );
+                    s += dodge_skill_text( -encumb( bp_leg_r ) / 10.0 / 4.0 );
                 } else if( line == 10 ) { //Left Foot
                     s += run_cost_text( int( encumb( bp_foot_l ) * 0.25 ) );
                 } else if( line == 11 ) { //Right Foot

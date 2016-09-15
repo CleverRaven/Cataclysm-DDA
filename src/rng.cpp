@@ -88,3 +88,9 @@ double rng_normal( double lo, double hi )
     double val = std::normal_distribution<double>( ( hi + lo ) / 2, range )( eng );
     return std::max( std::min( val, hi ), lo );
 }
+
+double normal_roll( double mean, double stddev )
+{
+    static std::default_random_engine eng;
+    return std::normal_distribution<double>( mean, stddev )( eng );
+}
