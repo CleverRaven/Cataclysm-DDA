@@ -1420,6 +1420,8 @@ void WORLD::load_options( JsonIn &jsin )
     // if core data version isn't specified then presume version 1
     int version = 1;
 
+    auto &opts = get_options();
+
     jsin.start_array();
     while( !jsin.end_array() ) {
         JsonObject jo = jsin.get_object();
@@ -1431,7 +1433,7 @@ void WORLD::load_options( JsonIn &jsin )
             continue;
         }
 
-        if( get_options().get_option( name ).getPage() == "world_default" ) {
+        if( opts.has_option( name ) && opts.get_option( name ).getPage() == "world_default" ) {
             WORLD_OPTIONS[ name ].setValue( value );
         }
     }

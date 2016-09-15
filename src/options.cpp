@@ -1967,6 +1967,11 @@ bool use_narrow_sidebar()
     return TERMY < 25 || g->narrow_sidebar;
 }
 
+bool options_manager::has_option( const std::string &name ) const
+{
+    return global_options.count( name );
+}
+
 options_manager::cOpt &options_manager::get_option( const std::string &name )
 {
     if( global_options.count( name ) == 0 ) {
