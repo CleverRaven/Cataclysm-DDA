@@ -1,0 +1,22 @@
+[
+    {
+        "type" : "terrain",
+        "id" : "t_guardrail_bg_dp",
+        "edit-mode": "modify",
+        "name": "guard rail",
+        "symbol": "#",
+        "color": "ltgray",
+        "move_cost": 3,
+        "flags": ["TRANSPARENT", "NOITEM", "REDUCE_SCENT", "MOUNTABLE", "SHORT", "THINOBSTACLE", "ROAD"],
+        "bash": {
+            "str_min": 8, "str_max": 150,
+            "sound": "crunch!",
+            "sound_fail": "clang!",
+            "ter_set": "t_pavement_bg_dp",
+            "items": [
+                { "item": "scrap", "count": [3, 6] },
+                { "item": "pipe_solid", "count": [0, 2] }
+            ]
+        }
+    }
+]
