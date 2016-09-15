@@ -96,7 +96,7 @@ const std::string &Character::symbol() const
     return character_symbol;
 }
 
-void Character::mod_stat( const std::string &stat, int modifier )
+void Character::mod_stat( const std::string &stat, float modifier )
 {
     if( stat == "str" ) {
         mod_str_bonus( modifier );
@@ -1713,15 +1713,15 @@ void Character::update_health(int external_modifiers)
     add_msg( m_debug, "Health: %d, Health mod: %d", get_healthy(), get_healthy_mod() );
 }
 
-int Character::get_dodge_base() const
+float Character::get_dodge_base() const
 {
     ///\EFFECT_DEX increases dodge base
-    return Creature::get_dodge_base() + (get_dex() / 2);
+    return Creature::get_dodge_base() + get_dex() / 2.0f;
 }
-int Character::get_hit_base() const
+float Character::get_hit_base() const
 {
     ///\EFFECT_DEX increases hit base, slightly
-    return Creature::get_hit_base() + (get_dex() / 4) + 3;
+    return Creature::get_hit_base() + get_dex() / 4.0f + 3;
 }
 
 hp_part Character::body_window( bool precise ) const

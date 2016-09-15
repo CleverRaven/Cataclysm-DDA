@@ -1341,15 +1341,13 @@ int monster::get_armor_type( damage_type dt, body_part bp ) const
     return 0;
 }
 
-int monster::hit_roll() const {
-    //Unstable ground chance of failure
-    if (has_effect( effect_bouldering)) {
-        if(one_in(type->melee_skill)) {
-            return 0;
-        }
+float monster::hit_roll() const {
+    float hit = type->melee_skill;
+    if( has_effect( effect_bouldering ) ) {
+        hit /= 4;
     }
 
-    return dice(type->melee_skill, 10);
+    return hit * 5;
 }
 
 bool monster::has_grab_break_tec() const
@@ -1357,7 +1355,7 @@ bool monster::has_grab_break_tec() const
     return false;
 }
 
-int monster::stability_roll() const
+float monster::stability_roll() const
 {
     int size_bonus = 0;
     switch (type->size) {
@@ -1384,27 +1382,27 @@ int monster::stability_roll() const
     return stability;
 }
 
-int monster::get_dodge() const
+float monster::get_dodge() const
 {
     if (has_effect( effect_downed)) {
         return 0;
     }
-    int ret = type->sk_dodge;
+    float ret = type->sk_dodge;
     if( has_effect( effect_lightsnare ) || has_effect( effect_heavysnare ) || has_effect( effect_beartrap ) || has_effect( effect_tied ) ) {
         ret /= 2;
     }
     if (moves <= 0 - 100 - get_speed()) {
-        ret = rng(0, ret);
+        ret = rng_float( 0.0f, ret );
     }
     return ret + get_dodge_bonus();
 }
 
-int monster::get_melee() const
+float monster::get_melee() const
 {
     return type->melee_skill;
 }
 
-int monster::dodge_roll()
+float monster::dodge_roll()
 {
     if (has_effect( effect_bouldering)) {
         if(one_in(type->sk_dodge)) {
@@ -1414,7 +1412,7 @@ int monster::dodge_roll()
 
     int numdice = get_dodge();
 
-    switch (type->size) {
+    switch( type->size ) {
         case MS_TINY:
             numdice += 6;
             break;
@@ -1431,8 +1429,8 @@ int monster::dodge_roll()
             break; // keep default
     }
 
-    numdice += get_speed() / 80;
-    return dice(numdice, 10);
+    // Not really a roll
+    return numdice * 5;
 }
 
 float monster::fall_damage_mod() const
@@ -1970,13 +1968,13 @@ float monster::speed_rating() const
     return ret;
 }
 
-void monster::on_dodge( Creature*, int )
+void monster::on_dodge( Creature*, float )
 {
     // Currently does nothing, later should handle faction relations
 }
 
 void monster::on_hit( Creature *source, body_part,
-                      int, dealt_projectile_attack const* const proj )
+                      float, dealt_projectile_attack const* const proj )
 {
     if( is_hallucination() ) {
         return;

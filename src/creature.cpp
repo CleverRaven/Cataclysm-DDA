@@ -1203,15 +1203,15 @@ int Creature::get_speed() const
 {
     return get_speed_base() + get_speed_bonus();
 }
-int Creature::get_dodge() const
+float Creature::get_dodge() const
 {
     return get_dodge_base() + get_dodge_bonus();
 }
-int Creature::get_melee() const
+float Creature::get_melee() const
 {
     return 0;
 }
-int Creature::get_hit() const
+float Creature::get_hit() const
 {
     return get_hit_base() + get_hit_bonus();
 }
@@ -1220,11 +1220,11 @@ int Creature::get_speed_base() const
 {
     return speed_base;
 }
-int Creature::get_dodge_base() const
+float Creature::get_dodge_base() const
 {
     return 0;
 }
-int Creature::get_hit_base() const
+float Creature::get_hit_base() const
 {
     return 0;
 }
@@ -1232,7 +1232,7 @@ int Creature::get_speed_bonus() const
 {
     return speed_bonus;
 }
-int Creature::get_dodge_bonus() const
+float Creature::get_dodge_bonus() const
 {
     return dodge_bonus;
 }
@@ -1240,7 +1240,7 @@ int Creature::get_block_bonus() const
 {
     return block_bonus; //base is 0
 }
-int Creature::get_hit_bonus() const
+float Creature::get_hit_bonus() const
 {
     return hit_bonus; //base is 0
 }
@@ -1276,7 +1276,7 @@ int Creature::get_throw_resist() const
     return throw_resist;
 }
 
-void Creature::mod_stat( const std::string &stat, int modifier )
+void Creature::mod_stat( const std::string &stat, float modifier )
 {
     if( stat == "speed" ) {
         mod_speed_bonus( modifier );
@@ -1326,7 +1326,7 @@ void Creature::set_speed_bonus(int nspeed)
 {
     speed_bonus = nspeed;
 }
-void Creature::set_dodge_bonus(int ndodge)
+void Creature::set_dodge_bonus( float ndodge )
 {
     dodge_bonus = ndodge;
 }
@@ -1334,7 +1334,7 @@ void Creature::set_block_bonus(int nblock)
 {
     block_bonus = nblock;
 }
-void Creature::set_hit_bonus(int nhit)
+void Creature::set_hit_bonus( float nhit )
 {
     hit_bonus = nhit;
 }
@@ -1350,7 +1350,7 @@ void Creature::mod_speed_bonus(int nspeed)
 {
     speed_bonus += nspeed;
 }
-void Creature::mod_dodge_bonus(int ndodge)
+void Creature::mod_dodge_bonus( float ndodge )
 {
     dodge_bonus += ndodge;
 }
@@ -1358,7 +1358,7 @@ void Creature::mod_block_bonus(int nblock)
 {
     block_bonus += nblock;
 }
-void Creature::mod_hit_bonus(int nhit)
+void Creature::mod_hit_bonus( float nhit )
 {
     hit_bonus += nhit;
 }

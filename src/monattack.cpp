@@ -4625,7 +4625,7 @@ bool mattack::stretch_attack(monster *z)
 
 bool mattack::dodge_check(monster *z, Creature *target){
     ///\EFFECT_DODGE increases chance of dodging, vs their melee skill
-    int dodge = std::max( target->get_dodge() - rng(0, z->type->melee_skill), 0L );
+    float dodge = std::max( target->get_dodge() - rng(0, z->type->melee_skill), 0.0f );
     if (rng(0, 10000) < 10000 / (1 + (99 * exp(-.6 * dodge)))) {
         return true;
     }
