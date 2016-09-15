@@ -68,7 +68,7 @@
             ]
         },
         "bash": {
-            "str_min": 1, "str_max": 1, "num_tests": 2,
+            "str_min": 1, "str_max": 1,
             "sound": "squish!",
             "sound_fail": "squish!",
             "ter_set": "t_pit",
@@ -91,7 +91,7 @@
             ]
         },
         "bash": {
-            "str_min": 1, "str_max": 1, "num_tests": 2,
+            "str_min": 1, "str_max": 1,
             "sound": "squish!",
             "sound_fail": "squish!",
             "ter_set": "t_dirt",
