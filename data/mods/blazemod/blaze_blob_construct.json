@@ -45,6 +45,7 @@
     "color": [ "light_green" ],
     "move_cost": 0,
     "deconstruct": {
+        "ter_set": "t_pit",
         "items": [
             { "item": "bfeed", "count": [ 250, 500 ] }
         ]
@@ -67,6 +68,7 @@
     "color": [ "light_green" ],
     "move_cost": 0,
     "deconstruct": {
+        "ter_set": "t_dirt",
         "items": [
             { "item": "bfeed", "count": [ 50, 250 ] }
         ]
