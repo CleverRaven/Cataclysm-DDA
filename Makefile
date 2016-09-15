@@ -863,11 +863,11 @@ else
 	@echo Cannot run an astyle check, your system either does not have astyle, or it is too old.
 endif
 
-json-lint: $(ODIR)/lint.cache
+json-lint: json_whitelist $(ODIR)/lint.cache
 
-$(ODIR)/lint.cache: json_whitelist $(shell cat json_whitelist) | $(ODIR)
+$(ODIR)/lint.cache: $(shell cat json_whitelist) | $(ODIR)
 ifeq ($(shell if perl -c tools/format/format.pl 2>/dev/null; then echo $$?; fi),0)
-	@tools/lint.sh $(shell cat json_whitelist)
+	@tools/lint.sh $?
 	@touch $@
 else
 	@echo Cannot lint JSON, missing usable perl binary and/or p5-JSON module
