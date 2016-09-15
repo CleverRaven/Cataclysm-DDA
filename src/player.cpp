@@ -10893,11 +10893,6 @@ void player::use(int inventory_position)
 
         invoke_item( used );
     } else if (used->is_gunmod()) {
-        // first check at least the minimum requirements are met
-        if( !( can_use( *used ) || has_trait( "DEBUG_HS" ) ) ) {
-            return;
-        }
-
         int gunpos = g->inv_for_filter( _("Select gun to modify:" ), [&used]( const item& e ) {
             return e.gunmod_compatible( *used, false, false );
         }, _( "You don't have compatible guns." ) );

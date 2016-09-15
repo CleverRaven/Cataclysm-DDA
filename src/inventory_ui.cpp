@@ -76,21 +76,23 @@ size_t inventory_entry::get_available_count() const {
 }
 
 long inventory_entry::get_invlet() const {
-    return custom_invlet != LONG_MIN ? custom_invlet : location ? location->invlet : '\0';
+    if( custom_invlet != LONG_MIN ) {
+        return custom_invlet;
+    }
+    return location ? location->invlet : '\0';
 }
 
 const item_category *inventory_entry::get_category_ptr() const {
-    return custom_category != nullptr
-            ? custom_category
-            : location
-                ? &location->get_category()
-                : nullptr;
+    if( custom_category != nullptr ) {
+        return custom_category;
+    }
+    return location ? &location->get_category() : nullptr;
 }
 
 inventory_entry *inventory_column::find_by_invlet( long invlet ) const
 {
     for( const auto &entry : entries ) {
-        if( entry.location && ( entry.get_invlet() == invlet ) ) {
+        if( entry.location && entry.get_invlet() == invlet ) {
             return const_cast<inventory_entry *>( &entry );
         }
     }
@@ -104,7 +106,7 @@ size_t inventory_column::get_width() const
 
 inventory_selector_preset::inventory_selector_preset()
 {
-    append_cell( [ this ]( const inventory_entry & entry ) -> std::string {
+    append_cell( [ this ]( const inventory_entry & entry ) {
         return get_caption( entry );
     } );
 }
@@ -232,9 +234,9 @@ bool inventory_column::is_selected( const inventory_entry &entry ) const
 
 bool inventory_column::is_selected_by_category( const inventory_entry &entry ) const
 {
-    return entry.location && mode == navigation_mode::CATEGORY
-                          && entry.get_category_ptr() == get_selected().get_category_ptr()
-                          && page_of( entry ) == page_index();
+    return entry.location  && mode == navigation_mode::CATEGORY
+                           && entry.get_category_ptr() == get_selected().get_category_ptr()
+                           && page_of( entry ) == page_index();
 }
 
 const inventory_entry &inventory_column::get_selected() const {
@@ -664,7 +666,7 @@ void inventory_selector::add_vehicle_items( const tripoint &target )
         const std::string name = to_upper_case( veh->parts[part].name() );
         const item_category vehicle_cat( name, name, 200 );
 
-        add_items( map_column, [ veh, part ]( item * it ) {
+        add_items( map_column, [ veh, part ]( item *it ) {
             return item_location( vehicle_cursor( *veh, part ), it );
         }, restack_items( items.begin(), items.end() ), &vehicle_cat );
     }
@@ -893,12 +895,12 @@ void inventory_selector::on_change( const inventory_entry &entry )
 
 std::vector<inventory_column *> inventory_selector::get_visible_columns() const
 {
-    std::vector<inventory_column *> res;
-    for( auto &column : columns ) {
-        if( column->visible() ) {
-            res.push_back( column );
-        }
-    }
+    std::vector<inventory_column *> res( columns.size() );
+    const auto iter = std::copy_if( columns.begin(), columns.end(), res.begin(),
+    []( const inventory_column *column ) {
+        return column->visible();
+    } );
+    res.resize( std::distance( res.begin(), iter ) );
     return res;
 }
 

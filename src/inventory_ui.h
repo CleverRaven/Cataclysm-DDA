@@ -48,7 +48,7 @@ class inventory_entry
         inventory_entry( const inventory_entry &entry ) :
             location( entry.location.clone() ),
             chosen_count( entry.chosen_count ),
-            custom_invlet( entry.custom_invlet ), \
+            custom_invlet( entry.custom_invlet ),
             stack_size( entry.stack_size ),
             custom_category( entry.custom_category ) {}
 
@@ -281,7 +281,7 @@ class inventory_selector
         void set_title( const std::string &title ) {
             this->title = title;
         }
-        /** @return true when the selector is empty */
+        /** @return Is the selector empty */
         bool empty() const;
 
     protected:
@@ -337,11 +337,11 @@ class inventory_selector
 
         void set_active_column( size_t index );
         size_t get_columns_width( const std::vector<inventory_column *> &columns ) const;
-        /** @return percentage of the window occupied by columns */
+        /** @return Percentage of the window occupied by columns */
         double get_columns_occupancy_ratio() const;
-        /** @return do the visible columns need to be center-aligned */
+        /** @return Do the visible columns need to be center-aligned */
         bool are_columns_centered() const;
-        /** @return true if visible columns are wider than available width */
+        /** @return Are visible columns wider than available width */
         bool is_overflown() const;
 
         bool is_active_column( const inventory_column &column ) const {
