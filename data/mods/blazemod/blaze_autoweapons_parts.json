@@ -2806,7 +2806,7 @@
   {
     "id": "shotgun_d",
     "type": "vehicle_part",
-    "name": "double turret",
+    "name": "double shotgun turret",
     "item": "shotgun_d",
     "location": "on_roof",
     "symbol": "t",
