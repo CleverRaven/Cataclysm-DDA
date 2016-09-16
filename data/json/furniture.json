@@ -588,7 +588,8 @@
             "items": [
                 { "item": "pipe", "count": 1 },
                 { "item": "steel_chunk", "count": 1 },
-                { "item": "scrap", "count": [2, 6] }
+                { "item": "scrap", "count": [2, 6] },
+                { "item": "lead", "charges": [1000, 2000] }
             ]
         },
         "bash": {
