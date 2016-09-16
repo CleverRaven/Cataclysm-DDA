@@ -27321,6 +27321,12 @@
           "rotates": false
         },
         {
+          "id": "bio_cable",
+          "fg": 680,
+          "bg": 632,
+          "rotates": false
+        },
+        {
           "id": "bio_blade",
           "fg": 680,
           "bg": 632,
@@ -40809,7 +40815,7 @@
           "rotates": false
         },
         {
-          "id": "mon_bear",
+          "id": ["mon_bear", "mon_bear_weak", "mon_bear_pk"],
           "fg": 1624,
           "bg": 642,
           "rotates": false
@@ -41493,7 +41499,7 @@
           "rotates": false
         },
         {
-          "id": "mon_moose",
+          "id": ["mon_moose", "mon_moose_pk", "mon_moose_weak"],
           "fg": 1722,
           "bg": 642,
           "rotates": false
@@ -45602,7 +45608,7 @@
           ]
         },
         {
-          "id": ["f_egg_sacke", "f_egg_sackcs"],
+          "id": ["f_egg_sacke", "f_egg_sackcs", "mon_spider_web_queen", "mon_trapdoor_egg", "mon_trapdoor_queen"],
           "fg": 1091,
           "rotates": false
         },
@@ -53882,34 +53888,29 @@
           "bg": 669
         },
         {
-          "id": "nothing_yet",
-          "fg": 4063,
-          "bg": 669
-        },
-        {
           "id": ["vp_scorpion", "vp_40mmturret", "vp_am2browning", "vp_agattler1"],
           "fg": 4064,
-          "bg": 669
+          "bg": 632
         },
         {
           "id": ["vp_aripper", "vp_shottyman", "vp_ablundergun", "vp_arm298", "vp_ashardgun", "vp_arailturret"],
           "fg": 4065,
-          "bg": 669
+          "bg": 632
         },
         {
           "id": ["vp_acangun"],
           "fg": 4066,
-          "bg": 669
+          "bg": 632
         },
         {
           "id": ["vp_rslauncher", "vp_abolter", "vp_aneedler"],
           "fg": 4067,
-          "bg": 669
+          "bg": 632
         },
         {
           "id": ["vp_shooter"],
           "fg": 4068,
-          "bg": 669
+          "bg": 632
         }
 
       ]
