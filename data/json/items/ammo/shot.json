@@ -73,7 +73,7 @@
     "casing": "shot_hull",
     "range": 6,
     "damage": 50,
-    "recoil": 390,
+    "recoil": 2500,
     "loudness": 160,
     "effects": [ "COOKOFF", "SHOT" ]
   },
@@ -159,8 +159,7 @@
     "price": 4500,
     "relative": {
       "range": 6,
-      "pierce": 8,
-      "recoil": 30
+      "pierce": 8
     },
     "proportional": {
       "damage": 0.65,

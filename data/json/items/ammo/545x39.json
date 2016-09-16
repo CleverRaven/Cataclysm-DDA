@@ -20,7 +20,7 @@
     "damage": 40,
     "pierce": 6,
     "dispersion": 30,
-    "recoil": 360,
+    "recoil": 1400,
     "effects": [ "COOKOFF" ]
   },
   {
@@ -35,8 +35,7 @@
     "color": "yellow",
     "relative": {
       "damage": -2,
-      "pierce": 8,
-      "recoil": 30
+      "pierce": 8
     }
   },
   {
