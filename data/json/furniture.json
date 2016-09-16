@@ -600,7 +600,7 @@
                 { "item": "scrap", "count": [2, 6] },
                 { "item": "steel_chunk", "prob": 50 },
                 { "item": "pipe", "count": 1 },
-                { "item": "lead", "charges": [500, 1000] }
+                { "item": "lead", "charges": [1000, 2000] }
             ]
         }
     },{
