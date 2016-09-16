@@ -1367,10 +1367,16 @@ public:
          * Summed range value of a gun, including values from mods. Returns 0 on non-gun items.
          */
         int gun_range( bool with_ammo = true ) const;
+
+        /** Get handling bonus (a measure of how effective gun + attached mods control recoil) */
+        int gun_handling() const;
+
         /**
-         * Summed recoils value of a gun, including values from mods. Returns 0 on non-gun items.
+         *  Get effective recoil considering handling, loaded ammo and effects of attached gunmods
+         *  @return effective recoil (per shot) or zero if gun uses ammo and none is loaded
          */
-        int gun_recoil( bool with_ammo = true ) const;
+        int gun_recoil() const;
+
         /**
          * Summed ranged damage of a gun, including values from mods. Returns 0 on non-gun items.
          */

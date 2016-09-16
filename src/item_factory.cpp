@@ -235,6 +235,17 @@ void Item_factory::finalize() {
                                         std::set<std::string>() ) );
             }
 
+            if( obj.gun->handling < 0 ) {
+                // @todo specify in JSON via classes
+                if( obj.gun->skill_used == skill_id( "rifle" ) ||
+                    obj.gun->skill_used == skill_id( "smg" ) ||
+                    obj.gun->skill_used == skill_id( "shotgun" ) ){
+                    obj.gun->handling = 20;
+                } else {
+                    obj.gun->handling = 10;
+                }
+            }
+
             obj.gun->reload_noise = _( obj.gun->reload_noise.c_str() );
 
             // @todo Move to jsons?
@@ -1094,7 +1105,8 @@ void Item_factory::load( islot_gun &slot, JsonObject &jo, const std::string &src
     assign( jo, "pierce", slot.pierce, strict );
     assign( jo, "dispersion", slot.dispersion, strict );
     assign( jo, "sight_dispersion", slot.sight_dispersion, strict, 0, int( MIN_RECOIL ) );
-    assign( jo, "recoil", slot.recoil, strict );
+    assign( jo, "recoil", slot.recoil, strict, 0 );
+    assign( jo, "handling", slot.handling, strict, 0 );
     assign( jo, "durability", slot.durability, strict, 0, 10 );
     assign( jo, "burst", slot.burst, strict, 1 );
     assign( jo, "loudness", slot.loudness, strict );
@@ -1362,7 +1374,7 @@ void Item_factory::load( islot_gunmod &slot, JsonObject &jo, const std::string &
     assign( jo, "dispersion_modifier", slot.dispersion );
     assign( jo, "sight_dispersion", slot.sight_dispersion );
     assign( jo, "aim_cost", slot.aim_cost, strict, 0 );
-    assign( jo, "recoil_modifier", slot.recoil );
+    assign( jo, "handling_modifier", slot.handling, strict );
     assign( jo, "range_modifier", slot.range );
     assign( jo, "ups_charges", slot.ups_charges );
     assign( jo, "install_time", slot.install_time );

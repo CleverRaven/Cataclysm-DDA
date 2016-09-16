@@ -920,7 +920,6 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
 
         int ammo_dam        = has_ammo ? curammo->ammo->damage     : 0;
         int ammo_range      = has_ammo ? curammo->ammo->range      : 0;
-        int ammo_recoil     = has_ammo ? curammo->ammo->recoil     : 0;
         int ammo_pierce     = has_ammo ? curammo->ammo->pierce     : 0;
         int ammo_dispersion = has_ammo ? curammo->ammo->dispersion : 0;
 
@@ -1017,21 +1016,16 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
             info.emplace_back( "GUN", _( "Sight dispersion: " ), "", eff_disp, true, "", true, true );
         }
 
-        info.push_back( iteminfo( "GUN", _( "Recoil: " ), "", mod->gun_recoil( false ), true, "", false,
-                                  true ) );
-        if( has_ammo ) {
-            temp1.str( "" );
-            temp1 << ( ammo_recoil >= 0 ? "+" : "" );
-            // ammo_recoil and sum_of_recoil don't need to translate.
-            info.push_back( iteminfo( "GUN", "ammo_recoil", "",
-                                      ammo_recoil, true, temp1.str(), false, true, false ) );
-            info.push_back( iteminfo( "GUN", "sum_of_recoil", _( " = <num>" ),
-                                      mod->gun_recoil( true ), true, "", false, true, false ) );
+        info.emplace_back( "GUN", _( "Handling: " ), "", mod->gun_handling(), true, "", mod->gun_recoil() == 0 );
+
+        if( mod->gun_recoil() ) {
+            info.emplace_back( "GUN", space + _( "Effective recoil: " ), "",
+                               mod->gun_recoil(), true, "", true, true );
         }
 
-        info.push_back( iteminfo( "GUN", space + _( "Reload time: " ),
-                                  ( ( has_flag( "RELOAD_ONE" ) ) ? _( "<num> per round" ) : "" ),
-                                  gun->reload_time, true, "", true, true ) );
+        info.emplace_back( "GUN", _( "Reload time: " ),
+                           has_flag( "RELOAD_ONE" ) ? _( "<num> seconds per round" ) : _( "<num> seconds" ),
+                           int( gun->reload_time / 16.67 ), true, "", true, true );
 
         std::vector<std::string> fm;
         for( const auto &e : gun_all_modes() ) {
@@ -1123,9 +1117,9 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
             info.push_back( iteminfo( "GUNMOD", _( "Armor-pierce: " ), "", mod->pierce, true,
                                       ( ( mod->pierce > 0 ) ? "+" : "" ) ) );
         }
-        if( mod->recoil != 0 )
-            info.push_back( iteminfo( "GUNMOD", _( "Recoil: " ), "", mod->recoil, true,
-                                      ( ( mod->recoil > 0 ) ? "+" : "" ), true, true ) );
+        if( mod->handling != 0 ) {
+            info.emplace_back( "GUNMOD", _( "Handling bonus: " ), "", mod->handling, true );
+        }
         if( mod->ammo_modifier ) {
             info.push_back( iteminfo( "GUNMOD",
                                       string_format( _( "Ammo: <stat>%s</stat>" ), ammo_name( mod->ammo_modifier ).c_str() ) ) );
@@ -3998,20 +3992,33 @@ int item::gun_pierce( bool with_ammo ) const
     return ret;
 }
 
-int item::gun_recoil( bool with_ammo ) const
+int item::gun_handling() const
 {
     if( !is_gun() ) {
         return 0;
+
     }
-    int ret = type->gun->recoil;
-    if( with_ammo && ammo_data() ) {
-        ret += ammo_data()->ammo->recoil;
-    }
+    double handling = type->gun->handling;
     for( const auto mod : gunmods() ) {
-        ret += mod->type->gunmod->recoil;
+        handling += mod->type->gunmod->handling;
     }
-    ret += damage() * 15;
-    return ret;
+
+    return std::max( pow( ( weight() / 250 ), 0.8 ) * pow( handling / 10.0, 1.2 ), 0.0 );
+}
+
+int item::gun_recoil() const
+{
+    if( !is_gun() || ( ammo_required() && !ammo_remaining() ) ) {
+        return 0;
+    }
+
+    int qty = type->gun->recoil;
+    if( ammo_data() ) {
+        qty += ammo_data()->ammo->recoil;
+    }
+
+    int handling = gun_handling();
+    return handling <= 0 ? qty : qty / handling;
 }
 
 int item::gun_range( bool with_ammo ) const

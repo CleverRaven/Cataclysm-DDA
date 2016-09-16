@@ -276,10 +276,6 @@ struct common_ranged_data {
      * Dispersion "bonus" from gun.
      */
     int dispersion = 0;
-    /**
-     * Recoil "bonus" from gun.
-     */
-    int recoil = 0;
 };
 
 struct islot_engine
@@ -375,6 +371,15 @@ struct islot_gun : common_ranged_data {
 
     /** Burst size for AUTO mode (legacy field for items not migrated to specify modes ) */
     int burst = 0;
+
+    /** How easy is control of recoil? If unset value automatically derived from weapon type */
+    int handling = -1;
+
+    /**
+     *  Additional recoil applied per shot before effects of handling are considered
+     *  @note useful for adding recoil effect to guns which otherwise consume no ammo
+     */
+    int recoil = 0;
 };
 
 struct islot_gunmod : common_ranged_data {
@@ -411,6 +416,9 @@ struct islot_gunmod : common_ranged_data {
 
     /** Firing modes added to or replacing those of the base gun */
     std::map<std::string, std::tuple<std::string, int, std::set<std::string>>> mode_modifier;
+
+    /** Relative adjustment to base gun handling */
+    int handling = 0;
 };
 
 struct islot_magazine {
@@ -475,6 +483,9 @@ struct islot_ammo : common_ranged_data {
      * appropriate value is calculated based upon the other properties of the ammo
      */
     int loudness = -1;
+
+    /** Recoil (per shot), roughly equivalent to kinetic energy (in Joules) */
+    int recoil = 0;
 
     /**
      * Should this ammo explode in fire?
