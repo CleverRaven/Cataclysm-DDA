@@ -77,7 +77,7 @@
         "warmth" : 35,
         "encumbrance" : 20,
         "bashing" : 6,
-        "flags" : ["STURDY"],
+        "flags" : ["VARSIZE", "STURDY"],
         "coverage" : 90,
         "material_thickness" : 3
     },{
