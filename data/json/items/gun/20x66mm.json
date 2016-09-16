@@ -17,7 +17,6 @@
     "range": 6,
     "ranged_damage": 4,
     "dispersion": 45,
-    "recoil": 75,
     "durability": 9,
     "clip_size": 5,
     "barrel_length": 3,
@@ -63,7 +62,6 @@
     "ammo": "20x66mm",
     "skill": "pistol",
     "dispersion": 270,
-    "recoil": 225,
     "durability": 9,
     "clip_size": 2,
     "modes": [

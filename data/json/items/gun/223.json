@@ -16,7 +16,6 @@
     "ammo": "223",
     "ranged_damage": -1,
     "dispersion": 150,
-    "recoil": -15,
     "durability": 8,
     "burst": 3,
     "barrel_length": 1,
@@ -68,7 +67,6 @@
     "ammo": "223",
     "ranged_damage": -2,
     "dispersion": 180,
-    "recoil": 30,
     "durability": 8,
     "burst": 6,
     "magazines": [
@@ -93,7 +91,6 @@
     "color": "dark_gray",
     "ammo": "223",
     "dispersion": 150,
-    "recoil": 75,
     "durability": 8,
     "burst": 15,
     "magazines": [
@@ -122,7 +119,6 @@
     "range": -8,
     "ranged_damage": -4,
     "dispersion": 380,
-    "recoil": 120,
     "durability": 8,
     "clip_size": 5,
     "valid_mod_locations": [ [ "accessories", 2 ], [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ]
@@ -143,7 +139,6 @@
     "ammo": "223",
     "ranged_damage": "-1",
     "dispersion": 90,
-    "recoil": -150,
     "durability": 3,
     "burst": 3,
     "valid_mod_locations": [ [ "accessories", 2 ] ],
@@ -195,8 +190,7 @@
       "weight": 2000,
       "volume": 7,
       "ranged_damage": 2,
-      "dispersion": 60,
-      "recoil": -150
+      "dispersion": 60
     }
   },
   {
@@ -209,8 +203,7 @@
     "durability": 9,
     "relative": {
       "weight": 1200,
-      "volume": 2,
-      "recoil": -50
+      "volume": 2
     }
   },
   {
@@ -229,7 +222,6 @@
     "color": "dark_gray",
     "ammo": "223",
     "dispersion": 200,
-    "recoil": 90,
     "durability": 7,
     "reload": 400,
     "modes": [ [ "DEFAULT", "auto", 25 ] ],
@@ -274,7 +266,6 @@
     "ammo": "223",
     "ranged_damage": -2,
     "dispersion": 180,
-    "recoil": 30,
     "durability": 6,
     "burst": 10,
     "magazines": [
@@ -300,7 +291,6 @@
     "ammo": "223",
     "ranged_damage": 1,
     "dispersion": 100,
-    "recoil": -60,
     "durability": 8,
     "barrel_length": 2,
     "valid_mod_locations": [ [ "accessories", 4 ], [ "barrel", 1 ], [ "bore", 1 ], [ "mechanism", 4 ], [ "muzzle", 1 ], [ "sights", 1 ] ],
@@ -327,7 +317,6 @@
     "ammo": "223",
     "ranged_damage": -2,
     "dispersion": 150,
-    "recoil": -60,
     "durability": 8,
     "burst": 10,
     "magazines": [
@@ -350,7 +339,6 @@
     "material": [ "steel", "plastic" ],
     "ammo": "223",
     "dispersion": 180,
-    "recoil": 30,
     "durability": 9,
     "modes": [
       [ "DEFAULT", "semi-auto", 1 ],
@@ -380,7 +368,6 @@
     "color": "light_gray",
     "ammo": "223",
     "dispersion": 140,
-    "recoil": -120,
     "durability": 8,
     "burst": 6,
     "valid_mod_locations": [ [ "accessories", 4 ], [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "magazine", 1 ], [ "muzzle", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "underbarrel", 1 ] ],
@@ -408,7 +395,6 @@
     "ammo": "223",
     "ranged_damage": -4,
     "dispersion": 180,
-    "recoil": 30,
     "durability": 6,
     "loudness": 25,
     "reload": 200,

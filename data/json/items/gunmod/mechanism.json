@@ -4,7 +4,7 @@
     "type": "GUNMOD",
     "name": "auto-fire mechanism",
     "description": "A simple mechanism that converts a pistol to a selective fire weapon with a burst size of three rounds.  However it reduces accuracy and increases noise.",
-    "weight": 226,
+    "weight": 113,
     "volume": 1,
     "integral_volume": 0,
     "price": 65000,
