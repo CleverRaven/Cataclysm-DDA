@@ -71,7 +71,7 @@ std::vector<std::string> clothing_properties( item const &worn_item, int const w
     props.push_back( name_and_value( space + _( "Warmth:" ),
                                      string_format( "%3d", worn_item.get_warmth() ), width ) );
     props.push_back( name_and_value( space + _( "Storage (ml):" ),
-                                     string_format( "%3d", to_milliliter( worn_item.get_storage() ) ), width ) );
+                                     string_format( "%6d", to_milliliter( worn_item.get_storage() ) ), width ) );
     props.push_back( string_format( "[%s]", _( "Protection" ) ) );
     props.push_back( name_and_value( space + _( "Bash:" ),
                                      string_format( "%3d", int( worn_item.bash_resist() ) ), width ) );
@@ -317,7 +317,7 @@ void player::sort_armor()
             trim_and_print( w_sort_left, drawindex + 1, offset_x, left_w - offset_x - 3,
                             tmp_worn[itemindex]->damage_color(),
                             tmp_worn[itemindex]->type_name( 1 ).c_str() );
-            mvwprintz( w_sort_left, drawindex + 1, left_w - 3, c_ltgray, "%3d ml",
+            mvwprintz( w_sort_left, drawindex + 1, left_w - 9, c_ltgray, "%6d ml",
                        to_milliliter( tmp_worn[itemindex]->get_storage() ) );
         }
 
