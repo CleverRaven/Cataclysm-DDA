@@ -1560,7 +1560,7 @@
     "difficulty": 1,
     "time": 1000,
     "components": [
-      [ [ "charcoal", 75 ] ],
+      [ [ "charcoal", 40 ] ],
       [ [ "char_kiln", 1 ] ]
     ]
   },

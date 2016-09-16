@@ -558,7 +558,7 @@
   "autolearn": true,
   "batch_time_factors":[83, 3],
   "qualities" : [ { "id":"COOK","level":1 } ],
-  "tools": [ [ [ "char_smoker", 20 ] ] ],
+  "tools": [ [ [ "char_smoker", 15 ] ] ],
   "components": [ [ [ "meat", 3 ] ] ]
 },{
   "type" : "recipe",
@@ -571,7 +571,7 @@
   "autolearn": true,
   "batch_time_factors":[83, 3],
   "qualities" : [ { "id":"COOK","level":1 } ],
-  "tools": [ [ [ "char_smoker", 20 ] ] ],
+  "tools": [ [ [ "char_smoker", 15 ] ] ],
   "components": [ [ [ "fish", 6 ] ] ]
 },{
   "type" : "recipe",
@@ -1204,7 +1204,7 @@
   ],
   "tools" : [
     [
-      [ "char_smoker", 20 ]
+      [ "char_smoker", 10 ]
     ]
   ],
   "components": [
@@ -1245,7 +1245,7 @@
   ],
   "tools" : [
     [
-      [ "char_smoker", 20 ]
+      [ "char_smoker", 10 ]
     ]
   ],
   "components": [
@@ -1278,7 +1278,7 @@
   ],
   "tools" : [
     [
-      [ "char_smoker", 20 ]
+      [ "char_smoker", 10 ]
     ]
   ],
   "components": [
@@ -1330,7 +1330,7 @@
   "book_learn": [[ "cookbook_human", 4 ]],
   "batch_time_factors":[83, 3],
   "qualities" : [ { "id":"COOK","level":1 } ],
-  "tools": [ [ [ "char_smoker", 20 ] ] ],
+  "tools": [ [ [ "char_smoker", 15 ] ] ],
   "components": [ [ [ "human_flesh", 3 ] ] ]
 },{
   "type" : "recipe",
@@ -1350,7 +1350,7 @@
   ],
   "tools" : [
     [
-      [ "char_smoker", 20 ]
+      [ "char_smoker", 10 ]
     ]
   ],
   "components": [
@@ -4373,7 +4373,7 @@
   ],
   "tools" : [
     [
-      [ "char_smoker", 20 ]
+      [ "char_smoker", 10 ]
     ]
   ],
   "components": [
