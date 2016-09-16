@@ -47,7 +47,7 @@
     "id": "bipod",
     "type": "GUNMOD",
     "name": "bipod",
-    "description": "Bipods are commonly used on rifles and machine guns to provide a forward rest and reduce motion.  Aside from increased weight, there are no drawbacks.",
+    "description": "Bipods are commonly used on rifles and machine guns to provide a forward rest and reduce motion.",
     "weight": 400,
     "volume": 2,
     "price": 68000,
@@ -59,8 +59,7 @@
     "location": "underbarrel",
     "mod_targets": [ "rifle", "launcher" ],
     "min_skills": [ [ "weapon", 2 ] ],
-    "dispersion_modifier": -45,
-    "recoil_modifier": -15
+    "handling_modifier": 12
   },
   {
     "id": "combination_gun_shotgun",
@@ -108,7 +107,6 @@
       "clip_size": 1,
       "ranged_damage": 2,
       "dispersion": 555,
-      "recoil": 300,
       "durability": 6,
       "loudness": 175
     },
@@ -151,7 +149,7 @@
     "id": "grip",
     "type": "GUNMOD",
     "name": "forward grip",
-    "description": "A grip placed forward on the barrel allows for greater control and accuracy.  Aside from increased weight, there are no drawbacks.",
+    "description": "A grip placed forward on the barrel allows for greater control.",
     "weight": 113,
     "volume": 1,
     "price": 6000,
@@ -161,8 +159,7 @@
     "location": "underbarrel",
     "mod_targets": [ "shotgun", "smg", "rifle", "crossbow", "launcher" ],
     "min_skills": [ [ "weapon", 2 ] ],
-    "dispersion_modifier": -30,
-    "recoil_modifier": -30
+    "handling_modifier": -8
   },
   {
     "id": "ksg_aux_shotgun",
@@ -182,7 +179,6 @@
       "clip_size": 7,
       "ranged_damage": 3,
       "dispersion": 45,
-      "recoil": 15,
       "durability": 10,
       "reload": 120,
       "loudness": 200
@@ -227,7 +223,6 @@
       "dispersion": 300,
       "ranged_damage": 2,
       "range": -2,
-      "recoil": 375,
       "durability": 10
     },
     "flags": [ "RELOAD_ONE", "IRREMOVABLE" ]
@@ -365,7 +360,6 @@
       "skill": "shotgun",
       "ammo": "20x66mm",
       "dispersion": 100,
-      "recoil": 50,
       "durability": 9,
       "reload": 125
     },

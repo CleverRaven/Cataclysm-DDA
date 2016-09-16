@@ -3,9 +3,9 @@
     "id": "barrel_big",
     "type": "GUNMOD",
     "name": "barrel extension",
-    "description": "A longer barrel increases the muzzle velocity of a firearm, contributing to both accuracy and damage.  However, the longer barrel tends to vibrate after firing, greatly increasing recoil.",
-    "weight": 226,
-    "volume": 2,
+    "description": "A longer barrel increases the muzzle velocity of a firearm, contributing to both accuracy and damage but reduces portability and slows aiming.",
+    "weight": 426,
+    "volume": 4,
     "price": 20000,
     "bashing": 5,
     "to_hit": 2,
@@ -16,8 +16,7 @@
     "mod_targets": [ "smg", "rifle", "shotgun", "pistol" ],
     "min_skills" : [ [ "weapon", 4 ] ],
     "damage_modifier": 1,
-    "dispersion_modifier": -90,
-    "recoil_modifier": 75
+    "dispersion_modifier": -90
   },
   {
     "id": "barrel_rifled",
@@ -72,7 +71,6 @@
     "min_skills": [ [ "gun", 1 ] ],
     "damage_modifier": 500,
     "dispersion_modifier": 500,
-    "recoil_modifier": 75,
     "ups_charges": 50
   }
 ]

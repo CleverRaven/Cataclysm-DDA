@@ -15,7 +15,7 @@
     "min_skills": [ [ "weapon", 5 ] ],
     "dispersion_modifier": 15,
     "loudness_modifier": 8,
-    "recoil_modifier": -90
+    "handling_modifier": 4
   },
   {
     "id": "crafted_suppressor",
@@ -35,7 +35,7 @@
     "damage_modifier": -5,
     "dispersion_modifier": 15,
     "loudness_modifier": -30,
-    "recoil_modifier": -15,
+    "handling_modifier": 1,
     "flags": [ "DISABLE_SIGHTS" ]
   },
   {
@@ -54,7 +54,7 @@
     "min_skills": [ [ "weapon", 2 ] ],
     "dispersion_modifier": 15,
     "loudness_modifier": 14,
-    "recoil_modifier": -150
+    "handling_modifier": 4
   },
   {
     "id": "shot_suppressor",
@@ -73,7 +73,7 @@
     "mod_targets": [ "shotgun" ],
     "damage_modifier": -4,
     "loudness_modifier": -30,
-    "recoil_modifier": -15
+    "handling_modifier": 2
   },
   {
     "id": "suppressor",
@@ -93,7 +93,7 @@
     "install_time": 200,
     "damage_modifier": -4,
     "loudness_modifier": -50,
-    "recoil_modifier": -25
+    "handling_modifier": 2
   },
   {
     "id": "suppressor_compact",
@@ -111,6 +111,6 @@
     "install_time": 200,
     "damage_modifier": -2,
     "loudness_modifier": -30,
-    "recoil_modifier": -15
+    "handling_modifier": 1
   }
 ]
