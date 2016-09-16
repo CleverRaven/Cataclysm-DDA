@@ -5330,41 +5330,6 @@
     ]
 },{
   "type" : "recipe",
-  "result": "keg_steel",
-  "category": "CC_OTHER",
-  "subcategory": "CSC_OTHER_CONTAINERS",
-  "skill_used": "fabrication",
-  "difficulty": 8,
-  "time": 164062,
-  "reversible": false,
-  "autolearn": true,
-  "qualities":[
-    {"id":"HAMMER","level":3,"amount":1},
-    { "id": "CHISEL", "level": 3 }
-  ], "tools": [
-     [
-      ["tongs", -1]
-     ],
-     [
-      ["anvil", -1]
-     ],
-     [
-      ["crucible", -1],
-      ["crucible_clay", -1]
-     ],
-     [
-      ["forge", 160], [ "oxy_torch", 25]
-     ]
-    ],
-  "components":
-    [
-     [
-     [ "steel_lump", 13 ],
-     [ "steel_chunk", 52 ]
-     ]
-    ]
-},{
-  "type" : "recipe",
   "result": "30gal_barrel",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_CONTAINERS",
