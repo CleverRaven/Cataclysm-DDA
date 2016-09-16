@@ -8063,7 +8063,7 @@
     "use_action": {
         "type": "transform",
         "target": "tool_rdx_sand_bomb_act",
-        "target_charges": 2,
+        "target_charges": 5,
         "need_fire": 1,
         "active": true,
         "msg": "You light the fuse on the sand bomb.  Throw it!"
@@ -8081,8 +8081,8 @@
     "weight": 2000,
     "volume": 2,
     "to_hit": -2,
-    "max_charges": 2,
-    "initial_charges": 2,
+    "max_charges": 5,
+    "initial_charges": 5,
     "turns_per_charge": 1,
     "flags": [ "BOMB", "TRADER_AVOID" ],
     "category": "weapons",
