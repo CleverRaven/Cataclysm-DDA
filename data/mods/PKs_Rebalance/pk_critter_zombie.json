@@ -1380,6 +1380,16 @@
     "description":"Rumored to be the conjoining of several bodies, the massive Zombie Tank is perhaps the ultimate tool of destruction.  Making up for what it lacks in skill with brutality, it is the wrecking ball of the zombie scourge.",
     "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "BLEED", "DESTROYS", "POISON", "ATTACKMON", "LEATHER", "NO_BREATHE", "REVIVES", "BONES", "FAT", "PUSH_MON"]
     },{
+    "type": "MONSTER",
+    "id": "mon_boomer",
+    "edit-mode": "modify",
+        "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "REVIVES", "BILE_BLOOD", "BONES", "FAT", "PUSH_MON", "PATH_AVOID_DANGER_1"]
+    },{
+    "type": "MONSTER",
+    "id": "mon_boomer_huge",
+    "edit-mode": "modify",
+        "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "REVIVES", "BILE_BLOOD", "BONES", "FAT", "PUSH_MON", "PATH_AVOID_DANGER_1"]
+    },{
     "type" : "MONSTER",
     "id" : "mon_boomer_huge_pk",
     "name": "huge boomer",
@@ -1408,8 +1418,8 @@
     "death_function":["BOOMER_GLOW"],
     "special_attacks":[["BOOMER_GLOW", 20], ["BREATHE", 8]],
     "description":"This boomer, normally swollen and ready to burst, has strengthened and solidified.  The bile dribbling from its mouth also appears to have changed...",
-    "flags":["SEES", "GOODHEARING", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "REVIVES", "BILE_BLOOD", "BONES", "FAT", "PUSH_MON"]
-},{
+    "flags":["SEES", "GOODHEARING", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "REVIVES", "BILE_BLOOD", "BONES", "FAT", "PUSH_MON", "PATH_AVOID_DANGER_1"]
+    },{
     "type": "MONSTER",
     "id": "mon_zombie_gasbag_pk",
     "name": "putrid zombie",
