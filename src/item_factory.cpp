@@ -2161,6 +2161,7 @@ void item_group::debug_spawn()
 {
     std::vector<std::string> groups = item_controller->get_all_group_names();
     uimenu menu;
+    menu.return_invalid = true;
     menu.text = _("Test which group?");
     for (size_t i = 0; i < groups.size(); i++) {
         menu.entries.push_back(uimenu_entry(i, true, -2, groups[i]));
@@ -2169,8 +2170,8 @@ void item_group::debug_spawn()
     menu.entries.push_back(uimenu_entry(menu.entries.size(), true, -2, _("cancel")));
     while (true) {
         menu.query();
-        const size_t index = menu.ret;
-        if (index >= groups.size()) {
+        const int index = menu.ret;
+        if ( index >= (int)groups.size() || index < 0 ) {
             break;
         }
         // Spawn items from the group 100 times
@@ -2187,6 +2188,7 @@ void item_group::debug_spawn()
             itemnames2.insert(std::pair<int, std::string>(e.second, e.first));
         }
         uimenu menu2;
+        menu2.return_invalid = true;
         menu2.text = _("Result of 100 spawns:");
         for (const auto &e : itemnames2) {
             std::ostringstream buffer;
