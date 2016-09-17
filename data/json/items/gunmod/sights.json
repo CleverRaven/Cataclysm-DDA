@@ -109,5 +109,19 @@
     "aim_cost": 10,
     "sight_dispersion": 0,
     "flags": [ "DISABLE_SIGHTS", "ZOOM" ]
+  },
+  {
+    "id": "riv_scope",
+    "type": "GUNMOD",
+    "name": "RS1219 scope",
+    "description": "An integral component of the RM11B rifle system, the RS1219 Accipiter digital scope provides auto-adjusting focal length, a user-selectable reticle, and an offset reflex sight for close objectives.",
+    "material": [ "superalloy", "ceramic" ],
+    "symbol": ":",
+    "color": "dark_gray",
+    "location": "sights",
+    "mod_targets": [ "rifle" ],
+    "aim_cost": 8,
+    "sight_dispersion": 0,
+    "flags": [ "ZOOM", "IRREMOVABLE" ]
   }
 ]
