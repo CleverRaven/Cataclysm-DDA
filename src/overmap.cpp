@@ -3733,14 +3733,6 @@ bool overmap::is_road(int x, int y, int z)
     //oter_t(ter(x, y, z)).is_road;
 }
 
-bool overmap::is_road_or_highway(int x, int y, int z)
-{
-    if (is_road(x, y, z) || check_ot_type("hiway", x, y, z)) {
-        return true;
-    }
-    return false;
-}
-
 void overmap::good_road(const std::string &base, int x, int y, int z)
 {
     if (check_ot_type_road(base, x, y - 1, z)) {

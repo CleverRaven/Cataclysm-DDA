@@ -1884,7 +1884,6 @@ classes = {
             { name = "get_right_border", rval = "int", args = { } },
             { name = "has_note", rval = "bool", args = { "int", "int", "int" } },
             { name = "is_explored", rval = "bool", args = { "int", "int", "int" } },
-            { name = "is_road_or_highway", rval = "bool", args = { "int", "int", "int" } },
             { name = "note", rval = "string", args = { "int", "int", "int" } },
             { name = "num_mongroups", rval = "int", args = { } },
             { name = "num_monsters", rval = "int", args = { } },

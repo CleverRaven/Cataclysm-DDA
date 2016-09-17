@@ -222,7 +222,6 @@ class overmap
     const oter_id get_ter(const int x, const int y, const int z) const;
     bool&   seen(int x, int y, int z);
     bool&   explored(int x, int y, int z);
-    bool is_road_or_highway(int x, int y, int z);
     bool is_explored(int const x, int const y, int const z) const;
 
     bool has_note(int x, int y, int z) const;
