@@ -27,6 +27,7 @@
     "dodge":1,
     "armor_bash":0,
     "armor_cut":1,
+    "armor_acid":1,
     "hp":10,
     "death_function":"NORMAL",
     "description":"An offwhite maggot, drawn to decay in order to feed.  Will turn into a fly eventually.",
@@ -151,7 +152,7 @@
     "special_attacks":[["ACID_ACCURATE", 45]],
     "special_when_hit":["ACIDSPLASH", 30],
     "description":"What looks -mostly- like monarch butterfly, with delicate looking limbs and a curled pair of antenae.  Its wingspan is enough to engulf you.",
-    "flags":["SEES", "HEARS", "SMELLS", "KEENNOSE", "STUMBLES", "FLIES", "ACIDPROOF", "HARDTOSHOOT", "GROUP_MORALE", "SWARMS"],
+    "flags":["SEES", "HEARS", "SMELLS", "KEENNOSE", "STUMBLES", "FLIES", "ACIDPROOF", "HARDTOSHOOT", "GROUP_MORALE", "SWARMS", "NO_BREATHE"],
     "anger_triggers":["PLAYER_CLOSE", "STALK", "FRIEND_ATTACKED"],
     "fear_triggers":["HURT", "PLAYER_CLOSE", "FRIEND_DIED", "FIRE"],
     "categories":["WILDLIFE"]
@@ -183,7 +184,7 @@
     "special_attacks":[["ACID_ACCURATE", 30]],
     "special_when_hit":["ACIDSPLASH", 35],
     "description":"A torso-sized translucent white moth.  It flutters around erradittly, drawn to light sources.",
-    "flags":["SEES", "HEARS", "SMELLS", "KEENNOSE", "STUMBLES", "FLIES", "ACIDPROOF", "HARDTOSHOOT", "GROUP_MORALE", "SWARMS"],
+    "flags":["SEES", "HEARS", "SMELLS", "KEENNOSE", "STUMBLES", "FLIES", "ACIDPROOF", "HARDTOSHOOT", "GROUP_MORALE", "SWARMS", "NO_BREATHE"],
     "anger_triggers":["PLAYER_CLOSE", "FIRE", "STALK", "FRIEND_ATTACKED"],
     "fear_triggers":["HURT", "PLAYER_CLOSE", "FRIEND_DIED"],
     "categories":["WILDLIFE"]
