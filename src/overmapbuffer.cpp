@@ -462,6 +462,15 @@ bool overmapbuffer::reveal( const tripoint &center, int radius )
     return result;
 }
 
+bool overmapbuffer::reveal_route( const tripoint &source, const tripoint &dest, int proximity )
+{
+    if( omt_to_om_copy( source ) != omt_to_om_copy( dest ) ) {
+        return false; /// @todo Now it's impossible to lay a route between different overmaps. Fix it.
+    }
+
+    return get_om_global( source ).reveal_route( source, dest, proximity );
+}
+
 bool overmapbuffer::check_ot_type(const std::string& type, int x, int y, int z)
 {
     overmap& om = get_om_global(x, y);
