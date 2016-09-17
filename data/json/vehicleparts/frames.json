@@ -81,6 +81,16 @@
     "broken_color": "brown",
     "difficulty": 0,
     "durability": 100,
+    "requirements": {
+      "install": {
+        "skills": [ [ "mechanics", 0 ] ],
+        "time": 60000,
+        "components": [ [ [ "rope_6", 1 ] ] ]
+      },
+      "removal": {
+        "skills": [ [ "mechanics", 1 ] ]
+      }
+    },
     "breaks_into": [
       { "item": "splinter", "count": [ 3, 5 ] },
       { "item": "string_36", "count": [ 10, 15 ] }
