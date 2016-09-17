@@ -1665,7 +1665,10 @@
   ],
   "components": [
     [
-      [ "fur", 10 ],
+      [ "rag", 11 ]
+    ],
+    [
+      [ "fur", 12 ],
       [ "tanned_pelt", 2 ]
     ]
   ]
@@ -9501,7 +9504,7 @@
   ],
   "components": [
     [
-      [ "felt_patch", 12 ]
+      [ "felt_patch", 13 ]
     ]
   ]
 },{
