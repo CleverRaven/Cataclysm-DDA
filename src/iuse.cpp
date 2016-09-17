@@ -211,12 +211,7 @@ void remove_battery_magazine_mod( item &it, player &p )
     p.add_msg_if_player( _( "You remove the battery compartment mod from your %s!" ), it.tname().c_str() );
     item mod( "magazine_battery_mod" );
     p.i_add_or_drop( mod, 1 );
-    for( item &content : it.contents ) {
-        p.i_add_or_drop( content, 1 );
-    }
-
-    it.contents.clear();
-    it.ammo_unset();
+    remove_ammo( &it, p );
     it.item_tags.erase( "BATTERY_AMMO" );
 }
 
@@ -874,7 +869,7 @@ int iuse::meditate(player *p, item *it, bool t, const tripoint& )
     if( !p || t ) {
         return 0;
     }
-    
+
     if( p->has_trait( "SPIRITUAL" ) ) {
         p->assign_activity( ACT_MEDITATE, 2000 );
     } else {
@@ -4641,7 +4636,7 @@ int iuse::hacksaw(player *p, item *it, bool t, const tripoint &pos )
     if( !p || t ) {
         return 0;
     }
-    
+
     tripoint dirp = pos;
     if (!choose_adjacent(_("Cut up metal where?"), dirp)) {
         return 0;

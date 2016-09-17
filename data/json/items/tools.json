@@ -499,8 +499,7 @@
             "small_storage_battery",
             "medium_storage_battery",
             "battery_motorbike",
-            "battery_car",
-            "battery_truck"
+            "battery_car"
         ]
     ] ]
   },

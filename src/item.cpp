@@ -1558,26 +1558,20 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
                                               _( "* This item can only be activated by a <info>radio signal</info>." ) ) );
                 }
 
-        if( has_flag( "RADIO_ACTIVATION" ) ) {
-            if( has_flag( "RADIO_MOD" ) ) {
-                info.emplace_back( "DESCRIPTION", _( "* This item has been modified to listen to <info>radio signals</info>.  It can still be activated manually." ) );
-            } else {
-                info.emplace_back( "DESCRIPTION", _( "* This item can only be activated by a <info>radio signal</info>." ) );
-            }
+                std::string signame;
+                if( has_flag( "RADIOSIGNAL_1" ) ) {
+                    signame = "<color_c_red>red</color> radio signal.";
+                } else if( has_flag( "RADIOSIGNAL_2" ) ) {
+                    signame = "<color_c_blue>blue</color> radio signal.";
+                } else if( has_flag( "RADIOSIGNAL_3" ) ) {
+                    signame = "<color_c_green>green</color> radio signal.";
+                }
 
-            std::string signame;
-            if( has_flag( "RADIOSIGNAL_1" ) ) {
-                signame = "<color_c_red>red</color> radio signal.";
-            } else if( has_flag( "RADIOSIGNAL_2" ) ) {
-                signame = "<color_c_blue>blue</color> radio signal.";
-            } else if( has_flag( "RADIOSIGNAL_3" ) ) {
-                signame = "<color_c_green>green</color> radio signal.";
-            }
+                info.emplace_back( "DESCRIPTION", string_format( _( "* It will be activated by the %s radio signal." ), signame.c_str() ) );
 
-            info.emplace_back( "DESCRIPTION", string_format( _( "* It will be activated by the %s radio signal." ), signame.c_str() ) );
-
-            if( has_flag( "RADIO_INVOKE_PROC" ) ) {
-                info.emplace_back( "DESCRIPTION",_( "* Activating this item with a <info>radio signal</info> will <neutral>detonate</neutral> it immediately." ) );
+                if( has_flag( "RADIO_INVOKE_PROC" ) ) {
+                    info.emplace_back( "DESCRIPTION",_( "* Activating this item with a <info>radio signal</info> will <neutral>detonate</neutral> it immediately." ) );
+                }
             }
         }
 
