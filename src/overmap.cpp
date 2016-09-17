@@ -990,7 +990,7 @@ void overmap::init_layers()
 
 oter_id &overmap::ter(const int x, const int y, const int z)
 {
-    if (x < 0 || x >= OMAPX || y < 0 || y >= OMAPY || z < -OVERMAP_DEPTH || z > OVERMAP_HEIGHT) {
+    if( !inbounds( x, y, z ) ) {
         return ot_null;
     }
 
@@ -999,8 +999,7 @@ oter_id &overmap::ter(const int x, const int y, const int z)
 
 const oter_id overmap::get_ter(const int x, const int y, const int z) const
 {
-
-    if (x < 0 || x >= OMAPX || y < 0 || y >= OMAPY || z < -OVERMAP_DEPTH || z > OVERMAP_HEIGHT) {
+    if( !inbounds( x, y, z ) ) {
         return ot_null;
     }
 
@@ -1009,7 +1008,7 @@ const oter_id overmap::get_ter(const int x, const int y, const int z) const
 
 bool &overmap::seen(int x, int y, int z)
 {
-    if (x < 0 || x >= OMAPX || y < 0 || y >= OMAPY || z < -OVERMAP_DEPTH || z > OVERMAP_HEIGHT) {
+    if( !inbounds( x, y, z ) ) {
         nullbool = false;
         return nullbool;
     }
@@ -1018,7 +1017,7 @@ bool &overmap::seen(int x, int y, int z)
 
 bool &overmap::explored(int x, int y, int z)
 {
-    if (x < 0 || x >= OMAPX || y < 0 || y >= OMAPY || z < -OVERMAP_DEPTH || z > OVERMAP_HEIGHT) {
+    if( !inbounds( x, y, z ) ) {
         nullbool = false;
         return nullbool;
     }
@@ -1027,7 +1026,7 @@ bool &overmap::explored(int x, int y, int z)
 
 bool overmap::is_explored(int const x, int const y, int const z) const
 {
-    if (x < 0 || x >= OMAPX || y < 0 || y >= OMAPY || z < -OVERMAP_DEPTH || z > OVERMAP_HEIGHT) {
+    if( !inbounds( x, y, z ) ) {
         return false;
     }
     return layer[z + OVERMAP_DEPTH].explored[x][y];
@@ -1137,6 +1136,18 @@ std::vector<point> overmap::find_notes(int const z, std::string const &text)
         }
     }
     return note_locations;
+}
+
+bool overmap::inbounds( const tripoint &loc, int clearance )
+{
+    return ( loc.x >= clearance && loc.x < OMAPX - clearance &&
+             loc.y >= clearance && loc.y < OMAPY - clearance &&
+             loc.z >= -OVERMAP_DEPTH && loc.z <= OVERMAP_HEIGHT );
+}
+
+bool overmap::inbounds( int x, int y, int z, int clearance )
+{
+    return inbounds( tripoint( x, y, z ), clearance );
 }
 
 point overmap::display_notes(int z)
@@ -2955,7 +2966,7 @@ void overmap::place_river(point pa, point pb)
         for (int i = -1; i <= 1; i++) {
             for (int j = -1; j <= 1; j++) {
                 // We don't want our riverbanks touching the edge of the map for many reasons
-                if ((y + i >= 1 && y + i < OMAPY - 1 && x + j >= 1 && x + j < OMAPX - 1) ||
+                if( inbounds( x + j, y + i, 0, 1 ) ||
                     // UNLESS, of course, that's where the river is headed!
                     (abs(pb.y - (y + i)) < 4 && abs(pb.x - (x + j)) < 4)) {
                     ter(x + j, y + i, 0) = oter_id( "river_center" );
@@ -3100,7 +3111,7 @@ void overmap::make_road(int x, int y, int cs, int dir, city town)
 
     const oter_id road_null( "road_null" );
     // Grow in the stated direction, sprouting off sub-roads and placing buildings as we go.
-    while( c > 0 && y > 0 && x > 0 && y < OMAPY - 1 && x < OMAPX - 1 &&
+    while( c > 0 && inbounds( x, y, 0, 1 ) &&
            (ter(x + dirx, y + diry, 0) == settings.default_oter || c == cs) ) {
         x += dirx;
         y += diry;
@@ -3450,7 +3461,7 @@ void overmap::make_hiway(int x1, int y1, int x2, int y2, int z, const std::strin
         node mn = nodes[i].top();
         nodes[i].pop();
         // make sure it's in bounds
-        if (mn.x >= OMAPX || mn.x < 0 || mn.y >= OMAPY || mn.y < 0) {
+        if( !inbounds( mn.x, mn.y, z ) ) {
             continue;
         }
         // mark it visited
@@ -3488,7 +3499,7 @@ void overmap::make_hiway(int x1, int y1, int x2, int y2, int z, const std::strin
             // * already traversed tiles
             // * tiles that don't allow roads to cross them (e.g. buildings)
             // * corners on rivers
-            if (x < 1 || x > OMAPX - 2 || y < 1 || y > OMAPY - 2 ||
+            if( !inbounds( x, y, z, 1 ) ||
                 closed[x][y] || !road_allowed(ter(x, y, z)) ||
                 (is_river(ter(mn.x, mn.y, z)) && mn.d != d) ||
                 (is_river(ter(x,    y,    z)) && mn.d != d) ) {
@@ -3722,7 +3733,7 @@ bool overmap::check_ot_type_road(const std::string &otype, int x, int y, int z)
 
 bool overmap::is_road(int x, int y, int z)
 {
-    if (x < 0 || x >= OMAPX || y < 0 || y >= OMAPY) {
+    if( !inbounds( x, y, z ) ) {
         for (auto &it : roads_out) {
             if (abs(it.x - x) + abs(it.y - y) <= 1) {
                 return true;
