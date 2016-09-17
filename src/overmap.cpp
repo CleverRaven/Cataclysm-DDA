@@ -3437,12 +3437,18 @@ struct node
 static const int dx[4] = { 1, 0, -1, 0 };
 static const int dy[4] = { 0, 1, 0, -1 };
 
-std::vector<int> find_path( int x1, int y1, int x2, int y2, int z,
-                                 const std::function<int( const node &, const node & )> &estimate )
+std::vector<int> find_path( const tripoint &source,
+                            const tripoint &dest,
+                            const std::function<int( const node &, const node & )> &estimate )
 {
     std::vector<int> res;
 
-    if (x1 == x2 && y1 == y2) {
+    if( source == dest ) {
+        return res;
+    }
+
+    if( source.z != dest.z ) {
+        debugmsg( "Pathfinding through z-levels is not supported yet." );
         return res;
     }
 
@@ -3451,6 +3457,12 @@ std::vector<int> find_path( int x1, int y1, int x2, int y2, int z,
     int open[OMAPX][OMAPY] = {{0}};
     int dirs[OMAPX][OMAPY] = {{0}};
     int i = 0;
+
+    int x1 = source.x;
+    int y1 = source.y;
+    int x2 = dest.x;
+    int y2 = dest.y;
+    int z = dest.z;
 
     nodes[i].push(node(x1, y1, 5, 1000));
     open[x1][y1] = 1000;
@@ -3535,40 +3547,40 @@ std::vector<int> find_path( int x1, int y1, int x2, int y2, int z,
 
 void overmap::make_hiway( int x1, int y1, int x2, int y2, int z, const std::string &base )
 {
-    int disp = (base == "road") ? 5 : 2;
+    const tripoint source( x1, y1, z );
+    const tripoint dest( x2, y2, z );
+    const int disp = (base == "road") ? 5 : 2;
 
-    const auto estimate = [ this, disp, &base, x2, y2, z ]( const node &from, const node &to ) {
+    const auto estimate = [ this, disp, &base, &dest ]( const node &prev, const node &cur ) {
         // Reject nodes that don't allow roads to cross them (e.g. buildings)
-        if( !road_allowed( ter( to.x, to.y, z ) ) ) {
+        if( !road_allowed( ter( cur.x, cur.y, dest.z ) ) ) {
             return -1;
         }
         // Reject nodes that make corners on the river
-        if( from.d != to.d && ( is_river( ter( from.x, from.y, z ) ) ||
-                                is_river( ter( to.x, to.y, z ) ) ) ) {
+        if( prev.d != cur.d && ( is_river( ter( prev.x, prev.y, dest.z ) ) ||
+                                 is_river( ter( cur.x, cur.y, dest.z ) ) ) ) {
             return -1;
         }
 
-        int res = ( std::abs( x2 - to.x ) + std::abs( y2 - to.y ) ) / disp;
+        int res = ( std::abs( dest.x - cur.x ) + std::abs( dest.y - cur.y ) ) / disp;
         // Prefer existing roads.
-        res += check_ot_type( base, to.x, to.y, z ) ? 0 : 3;
+        res += check_ot_type( base, cur.x, cur.y, dest.z ) ? 0 : 3;
         // Prefer flat land over bridges
-        res += !is_river( ter( to.x, to.y, z ) ) ? 0 : 2;
+        res += !is_river( ter( cur.x, cur.y, dest.z ) ) ? 0 : 2;
         // Try not to turn too much
         //res += (mn.d == d) ? 0 : 1;
         return res;
     };
 
-    int x = x2;
-    int y = y2;
-
     const oter_id bridge_ns( "bridge_ns" );
     const oter_id bridge_ew( "bridge_ew" );
     const oter_id base_nesw( base + "_nesw" );
 
-    for( const int d : find_path( x1, y1, x2, y2, z, estimate ) ) {
-        x += dx[d];
-        y += dy[d];
-        auto &id = ter( x, y, z );
+    tripoint pnt( dest );
+    for( const int d : find_path( source, dest, estimate ) ) {
+        pnt.x += dx[d];
+        pnt.y += dy[d];
+        auto &id = ter( pnt.x, pnt.y, pnt.z );
 
         if( road_allowed( id ) ) {
             if( is_river( id ) ) {
