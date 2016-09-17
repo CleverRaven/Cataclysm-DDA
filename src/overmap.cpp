@@ -3439,6 +3439,29 @@ void overmap::make_hiway(int x1, int y1, int x2, int y2, int z, const std::strin
         return;
     }
 
+    int disp = (base == "road") ? 5 : 2;
+
+    const auto estimate = [ this, disp, &base, x2, y2, z ]( const node &from, const node &to ) {
+        // Reject nodes that don't allow roads to cross them (e.g. buildings)
+        if( !road_allowed( ter( to.x, to.y, z ) ) ) {
+            return -1;
+        }
+        // Reject nodes that make corners on the river
+        if( from.d != to.d && ( is_river( ter( from.x, from.y, z ) ) ||
+                                is_river( ter( to.x, to.y, z ) ) ) ) {
+            return -1;
+        }
+
+        int res = ( std::abs( x2 - to.x ) + std::abs( y2 - to.y ) ) / disp;
+        // Prefer existing roads.
+        res += check_ot_type( base, to.x, to.y, z ) ? 0 : 3;
+        // Prefer flat land over bridges
+        res += !is_river( ter( to.x, to.y, z ) ) ? 0 : 2;
+        // Try not to turn too much
+        //res += (mn.d == d) ? 0 : 1;
+        return res;
+    };
+
     std::priority_queue<node, std::deque<node> > nodes[2];
     bool closed[OMAPX][OMAPY] = {{false}};
     int open[OMAPX][OMAPY] = {{0}};
@@ -3446,7 +3469,6 @@ void overmap::make_hiway(int x1, int y1, int x2, int y2, int z, const std::strin
     int dx[4] = {1, 0, -1, 0};
     int dy[4] = {0, 1, 0, -1};
     int i = 0;
-    int disp = (base == "road") ? 5 : 2;
 
     nodes[i].push(node(x1, y1, 5, 1000));
     open[x1][y1] = 1000;
@@ -3494,28 +3516,17 @@ void overmap::make_hiway(int x1, int y1, int x2, int y2, int z, const std::strin
         for(int d = 0; d < 4; d++) {
             int x = mn.x + dx[d];
             int y = mn.y + dy[d];
+
+            node cn = node( x, y, d, 0 );
+
+            cn.p = estimate( mn, cn );
             // don't allow:
             // * out of bounds
             // * already traversed tiles
-            // * tiles that don't allow roads to cross them (e.g. buildings)
-            // * corners on rivers
-            if( !inbounds( x, y, z, 1 ) ||
-                closed[x][y] || !road_allowed(ter(x, y, z)) ||
-                (is_river(ter(mn.x, mn.y, z)) && mn.d != d) ||
-                (is_river(ter(x,    y,    z)) && mn.d != d) ) {
+            // * rejected tiles
+            if( !inbounds( x, y, z, 1 ) || closed[x][y] || cn.p < 0 ) {
                 continue;
             }
-
-            node cn = node(x, y, d, 0);
-            // distance to target
-            cn.p += ((abs(x2 - x) + abs(y2 - y)) / disp);
-            // prefer existing roads.
-            cn.p += check_ot_type(base, x, y, z) ? 0 : 3;
-            // and flat land over bridges
-            cn.p += !is_river(ter(x, y, z)) ? 0 : 2;
-            // try not to turn too much
-            //cn.p += (mn.d == d) ? 0 : 1;
-
             // record direction to shortest path
             if (open[x][y] == 0) {
                 dirs[x][y] = (d + 2) % 4;
