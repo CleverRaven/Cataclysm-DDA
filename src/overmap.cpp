@@ -39,6 +39,7 @@
 #include <ostream>
 #include <queue>
 #include <algorithm>
+#include <functional>
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_MAP_GEN) << __FILE__ << ":" << __LINE__ << ": "
 
@@ -3433,49 +3434,26 @@ struct node
     }
 };
 
-void overmap::make_hiway(int x1, int y1, int x2, int y2, int z, const std::string &base)
+static const int dx[4] = { 1, 0, -1, 0 };
+static const int dy[4] = { 0, 1, 0, -1 };
+
+std::vector<int> find_path( int x1, int y1, int x2, int y2, int z,
+                                 const std::function<int( const node &, const node & )> &estimate )
 {
+    std::vector<int> res;
+
     if (x1 == x2 && y1 == y2) {
-        return;
-    }
-
-    int disp = (base == "road") ? 5 : 2;
-
-    const auto estimate = [ this, disp, &base, x2, y2, z ]( const node &from, const node &to ) {
-        // Reject nodes that don't allow roads to cross them (e.g. buildings)
-        if( !road_allowed( ter( to.x, to.y, z ) ) ) {
-            return -1;
-        }
-        // Reject nodes that make corners on the river
-        if( from.d != to.d && ( is_river( ter( from.x, from.y, z ) ) ||
-                                is_river( ter( to.x, to.y, z ) ) ) ) {
-            return -1;
-        }
-
-        int res = ( std::abs( x2 - to.x ) + std::abs( y2 - to.y ) ) / disp;
-        // Prefer existing roads.
-        res += check_ot_type( base, to.x, to.y, z ) ? 0 : 3;
-        // Prefer flat land over bridges
-        res += !is_river( ter( to.x, to.y, z ) ) ? 0 : 2;
-        // Try not to turn too much
-        //res += (mn.d == d) ? 0 : 1;
         return res;
-    };
+    }
 
     std::priority_queue<node, std::deque<node> > nodes[2];
     bool closed[OMAPX][OMAPY] = {{false}};
     int open[OMAPX][OMAPY] = {{0}};
     int dirs[OMAPX][OMAPY] = {{0}};
-    int dx[4] = {1, 0, -1, 0};
-    int dy[4] = {0, 1, 0, -1};
     int i = 0;
 
     nodes[i].push(node(x1, y1, 5, 1000));
     open[x1][y1] = 1000;
-
-    const oter_id bridge_ns( "bridge_ns" );
-    const oter_id bridge_ew( "bridge_ew" );
-    const oter_id base_nesw( base + "_nesw" );
 
     // use A* to find the shortest path from (x1,y1) to (x2,y2)
     while (!nodes[i].empty()) {
@@ -3483,7 +3461,7 @@ void overmap::make_hiway(int x1, int y1, int x2, int y2, int z, const std::strin
         node mn = nodes[i].top();
         nodes[i].pop();
         // make sure it's in bounds
-        if( !inbounds( mn.x, mn.y, z ) ) {
+        if( !overmap::inbounds( mn.x, mn.y, z ) ) {
             continue;
         }
         // mark it visited
@@ -3493,23 +3471,17 @@ void overmap::make_hiway(int x1, int y1, int x2, int y2, int z, const std::strin
         if (mn.x == x2 && mn.y == y2) {
             int x = mn.x;
             int y = mn.y;
-            while (x != x1 || y != y1) {
+
+            res.reserve( nodes[i].size() );
+
+            while(x != x1 || y != y1) {
                 int d = dirs[x][y];
                 x += dx[d];
                 y += dy[d];
-                if (road_allowed(ter(x, y, z))) {
-                    if (is_river(ter(x, y, z))) {
-                        if (d == 1 || d == 3) {
-                            ter(x, y, z) = bridge_ns;
-                        } else {
-                            ter(x, y, z) = bridge_ew;
-                        }
-                    } else {
-                        ter(x, y, z) = base_nesw;
-                    }
-                }
+                res.emplace_back( d );
             }
-            return;
+
+            return res;
         }
 
         // otherwise, expand to
@@ -3524,7 +3496,7 @@ void overmap::make_hiway(int x1, int y1, int x2, int y2, int z, const std::strin
             // * out of bounds
             // * already traversed tiles
             // * rejected tiles
-            if( !inbounds( x, y, z, 1 ) || closed[x][y] || cn.p < 0 ) {
+            if( !overmap::inbounds( x, y, z, 1 ) || closed[x][y] || cn.p < 0 ) {
                 continue;
             }
             // record direction to shortest path
@@ -3554,6 +3526,55 @@ void overmap::make_hiway(int x1, int y1, int x2, int y2, int z, const std::strin
                 nodes[i].push(cn);
             } else {
                 // a shorter path has already been found
+            }
+        }
+    }
+
+    return res;
+}
+
+void overmap::make_hiway( int x1, int y1, int x2, int y2, int z, const std::string &base )
+{
+    int disp = (base == "road") ? 5 : 2;
+
+    const auto estimate = [ this, disp, &base, x2, y2, z ]( const node &from, const node &to ) {
+        // Reject nodes that don't allow roads to cross them (e.g. buildings)
+        if( !road_allowed( ter( to.x, to.y, z ) ) ) {
+            return -1;
+        }
+        // Reject nodes that make corners on the river
+        if( from.d != to.d && ( is_river( ter( from.x, from.y, z ) ) ||
+                                is_river( ter( to.x, to.y, z ) ) ) ) {
+            return -1;
+        }
+
+        int res = ( std::abs( x2 - to.x ) + std::abs( y2 - to.y ) ) / disp;
+        // Prefer existing roads.
+        res += check_ot_type( base, to.x, to.y, z ) ? 0 : 3;
+        // Prefer flat land over bridges
+        res += !is_river( ter( to.x, to.y, z ) ) ? 0 : 2;
+        // Try not to turn too much
+        //res += (mn.d == d) ? 0 : 1;
+        return res;
+    };
+
+    int x = x2;
+    int y = y2;
+
+    const oter_id bridge_ns( "bridge_ns" );
+    const oter_id bridge_ew( "bridge_ew" );
+    const oter_id base_nesw( base + "_nesw" );
+
+    for( const int d : find_path( x1, y1, x2, y2, z, estimate ) ) {
+        x += dx[d];
+        y += dy[d];
+        auto &id = ter( x, y, z );
+
+        if( road_allowed( id ) ) {
+            if( is_river( id ) ) {
+                id = d == 1 || d == 3 ? bridge_ns : bridge_ew;
+            } else {
+                id = base_nesw;
             }
         }
     }
