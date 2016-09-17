@@ -2203,7 +2203,7 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
     if( is_tool() && has_flag( "BATTERY_AMMO" ) ) {
         ret << _( " (v. battery)" );
     }
-    
+
     if (is_tool() && has_flag("RADIO_MOD")){
         ret << _(" (radio:");
         if( has_flag( "RADIOSIGNAL_1" ) ) {
