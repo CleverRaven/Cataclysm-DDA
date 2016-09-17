@@ -176,6 +176,7 @@ SET(CATACLYSM_DDA_SOURCES
     ${CMAKE_SOURCE_DIR}/src/overlay_ordering.cpp
     ${CMAKE_SOURCE_DIR}/src/turret.cpp
     ${CMAKE_SOURCE_DIR}/src/emit.cpp
+    ${CMAKE_SOURCE_DIR}/src/flag.cpp
 )
 
 SET (CATACLYSM_DDA_HEADERS
@@ -336,6 +337,7 @@ SET (CATACLYSM_DDA_HEADERS
     ${CMAKE_SOURCE_DIR}/src/vitamin.h
     ${CMAKE_SOURCE_DIR}/src/fault.h
     ${CMAKE_SOURCE_DIR}/src/emit.h
+    ${CMAKE_SOURCE_DIR}/src/flag.h
 	${CMAKE_SOURCE_DIR}/src/overlay_ordering.h
 	${CMAKE_SOURCE_DIR}/src/int_id.h
 	${CMAKE_SOURCE_DIR}/src/io.h
