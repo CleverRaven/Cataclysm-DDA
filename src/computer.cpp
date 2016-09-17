@@ -914,18 +914,7 @@ SHORTLY. TO ENSURE YOUR SAFETY PLEASE FOLLOW THE BELOW STEPS. \n\
 
     case COMPACT_EMERG_REF_CENTER:
         reset_terminal();
-        print_line(_("\
-IF YOU HAVE ANY FEEDBACK CONCERNING YOUR VISIT PLEASE CONTACT \n\
-THE DEPARTMENT OF EMERGENCY MANAGEMENT PUBLIC AFFAIRS OFFICE.  \n\
-THE LOCAL OFFICE CAN BE REACHED BETWEEN THE HOURS OF 9AM AND \n\
-4PM AT 1-800-255-5678.                                      \n\
-\n\
-IF YOU WOULD LIKE TO SPEAK WITH SOMEONE IN PERSON OR WOULD LIKE\n\
-TO WRITE US A LETTER PLEASE SEND IT TO...\n\
-\n\
-It takes you forever to find the address on your map...\n"));
-        overmap_buffer.reveal(overmap_buffer.find_closest( g->u.global_omt_location(), "evac_center_13", 0, false ), 3);
-        query_any(_("You mark the refugee center..."));
+        mark_refugee_center();
         reset_terminal();
         break;
 
@@ -1390,6 +1379,36 @@ void computer::remove_option( computer_action const action )
             options.erase( it );
             break;
         }
+    }
+}
+
+void computer::mark_refugee_center()
+{
+    print_line(_("\
+IF YOU HAVE ANY FEEDBACK CONCERNING YOUR VISIT PLEASE CONTACT \n\
+THE DEPARTMENT OF EMERGENCY MANAGEMENT PUBLIC AFFAIRS OFFICE.  \n\
+THE LOCAL OFFICE CAN BE REACHED BETWEEN THE HOURS OF 9AM AND \n\
+4PM AT 1-800-255-5678.                                      \n\
+\n\
+IF YOU WOULD LIKE TO SPEAK WITH SOMEONE IN PERSON OR WOULD LIKE\n\
+TO WRITE US A LETTER PLEASE SEND IT TO...\n\
+\n\
+It takes you forever to find the address on your map...\n"));
+
+    const tripoint your_pos = g->u.global_omt_location();
+    const tripoint center_pos = overmap_buffer.find_closest( your_pos, "evac_center_13", 0, false );
+
+    if( center_pos == overmap::invalid_tripoint ) {
+        query_any( _( "Finally you gave up your attempts..." ) );
+        return;
+    }
+
+    overmap_buffer.reveal( center_pos, 3 );
+
+    if( overmap_buffer.reveal_route( your_pos, center_pos, 3 ) ) {
+        query_any( _( "You mark the refugee center and the road that leads to it..." ) );
+    } else {
+        query_any( _( "You mark the refugee center..." ) );
     }
 }
 
