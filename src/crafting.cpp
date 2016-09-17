@@ -1056,7 +1056,9 @@ bool player::can_disassemble( const item &obj, const inventory &inv, bool alert 
 {
     const auto &r = recipe_dictionary::get_uncraft( obj.typeId() );
     if( !r ) {
-        add_msg_if_player( m_info, _( "You cannot disassemble the %s" ), obj.tname().c_str() );
+        if( alert ) {
+            add_msg_if_player( m_info, _( "You cannot disassemble the %s" ), obj.tname().c_str() );
+        }
         return false;
     }
 
