@@ -37,6 +37,8 @@ void open_gate_finish( player_activity *act, player * );
 void repair_item_finish( player_activity *act, player *p );
 void mend_item_finish( player_activity *act, player *p );
 void gunmod_add_finish( player_activity *act, player *p );
+void clear_rubble_finish( player_activity *act, player *p );
+void meditate_finish( player_activity *act, player *p );
 }
 
 #endif

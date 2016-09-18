@@ -57,7 +57,7 @@ sub assemble($@)
         $str = join(",\n", @_);
     }
 
-    if ($str =~ tr/\n//) {
+    if ($str =~ tr/\n// or has_flag($context, 'WRAP')) {
         $str =~ s/^/  /mg;
         return "\n$str\n";
     } else {
@@ -123,4 +123,14 @@ if ($dirty) {
 }
 
 print $result unless $opts{'q'};
-exit($opts{'c'} ? (($original // '') eq ($result // '') ? 0 : 1) : 0)
+exit 0 unless $opts{'c'};
+
+# If checking for canonical formatting get offset of first mismatch (if any)
+exit 0 if ($original // '') eq ($result // '');
+
+($original ^ $result) =~ /^\0*/;
+my $line = scalar split '\n', substr($result,0,$+[0]);
+print STDERR "ERROR: Format error at line $line\n";
+print STDERR "< " . (split '\n', $result  )[$line-1] . "'\n";
+print STDERR "> " . (split '\n', $original)[$line-1] . "'\n";
+exit 1;

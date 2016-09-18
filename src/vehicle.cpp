@@ -1139,7 +1139,7 @@ bool vehicle::fold_up() {
 
     if (can_be_folded) {
         bicycle.set_var( "weight", total_mass() * 1000 );
-        bicycle.set_var( "volume", total_folded_volume() );
+        bicycle.set_var( "volume", total_folded_volume() / units::legacy_volume_factor );
         bicycle.set_var( "name", string_format(_("folded %s"), name.c_str()) );
         bicycle.set_var( "vehicle_name", name );
         // TODO: a better description?
@@ -2576,7 +2576,7 @@ int vehicle::print_part_desc(WINDOW *win, int y1, const int max_y, int width, in
 
         if( part_flag( pl[i], "CARGO" ) ) {
             //~ used/total volume of a cargo vehicle part
-            partname += string_format(_(" (vol: %d/%d)"), stored_volume( pl[i] ), max_volume( pl[i] ) );
+            partname += string_format(_(" (vol: %d/%d)"), stored_volume( pl[i] ) / units::legacy_volume_factor, max_volume( pl[i] ) / units::legacy_volume_factor );
         }
 
         bool armor = part_flag(pl[i], "ARMOR");
@@ -2850,9 +2850,9 @@ int vehicle::total_mass() const
     return mass_cache;
 }
 
-int vehicle::total_folded_volume() const
+units::volume vehicle::total_folded_volume() const
 {
-    int m = 0;
+    units::volume m = 0;
     for( size_t i = 0; i < parts.size(); i++ ) {
         if( parts[i].removed ) {
             continue;
@@ -3856,7 +3856,7 @@ void vehicle::operate_reaper(){
         const tripoint reaper_pos = veh_start + parts[ reaper_id ].precalc[ 0 ];
         const int plant_produced =  rng( 1, parts[ reaper_id ].info().bonus );
         const int seed_produced = rng( 1, 3 );
-        const int max_pickup_size = parts[ reaper_id ].info().size / 20;
+        const units::volume max_pickup_volume = parts[ reaper_id ].info().size / 20;
         if( g->m.furn( reaper_pos ) == f_plant_harvest &&
             g->m.has_items( reaper_pos ) ){
             const item& seed = g->m.i_at( reaper_pos ).front();
@@ -3877,7 +3877,7 @@ void vehicle::operate_reaper(){
             g->m.ter( reaper_pos ) == t_dirtmound ) {
             map_stack stack( g->m.i_at( reaper_pos ) );
             for( auto iter = stack.begin(); iter != stack.end(); ) {
-                if( ( iter->volume() <= max_pickup_size ) &&
+                if( ( iter->volume() <= max_pickup_volume ) &&
                     add_item( reaper_id, *iter ) ) {
                     iter = stack.erase( iter );
                 } else {
@@ -3928,7 +3928,7 @@ void vehicle::operate_scoop()
     std::vector<int> scoops = all_parts_with_feature( "SCOOP" );
     for( int scoop : scoops ) {
         const int chance_to_damage_item = 9;
-        int max_pickup_size = parts[scoop].info().size / 10;
+        const units::volume max_pickup_volume = parts[scoop].info().size / 10;
         const char *sound_msgs[] = {_("Whirrrr"), _("Ker-chunk"), _("Swish"), _("Cugugugugug")};
         sounds::sound( global_pos3() + parts[scoop].precalc[0], rng( 20, 35 ),
                        sound_msgs[rng( 0, 3 )] );
@@ -3949,7 +3949,7 @@ void vehicle::operate_scoop()
             }
             size_t itemdex = 0;
             for( auto it : q ) {
-                if( it.volume() < max_pickup_size ) {
+                if( it.volume() < max_pickup_volume ) {
                     that_item_there = g->m.item_from( position, itemdex );
                     break;
                 }
@@ -3962,7 +3962,7 @@ void vehicle::operate_scoop()
                 //The scoop will not destroy the item, but it may damage it a bit.
                 that_item_there->inc_damage( DT_BASH );
                 //The scoop gets a lot louder when breaking an item.
-                sounds::sound( position, rng(10, (long)that_item_there->volume() * 2 + 10),
+                sounds::sound( position, rng(10, that_item_there->volume() / units::legacy_volume_factor * 2 + 10),
                                _("BEEEThump") );
             }
             const int battery_deficit = discharge_battery( that_item_there->weight() *
@@ -4772,19 +4772,19 @@ void vehicle::handle_trap( const tripoint &p, int part )
 }
 
 // total volume of all the things
-int vehicle::stored_volume(int const part) const
+units::volume vehicle::stored_volume(int const part) const
 {
     if (!part_flag(part, "CARGO")) {
         return 0;
     }
-    int cur_volume = 0;
+    units::volume cur_volume = 0;
     for( auto &i : get_items(part) ) {
        cur_volume += i.volume();
     }
     return cur_volume;
 }
 
-int vehicle::max_volume(int const part) const
+units::volume vehicle::max_volume(int const part) const
 {
     if (part_flag(part, "CARGO")) {
         return parts[part].info().size;
@@ -4792,38 +4792,15 @@ int vehicle::max_volume(int const part) const
     return 0;
 }
 
-// free space
-int vehicle::free_volume(int const part) const
+units::volume vehicle::free_volume(int const part) const
 {
-   const int maxvolume = this->max_volume(part);
-   return ( maxvolume - stored_volume(part) );
-}
-
-// returns true if full, modified by arguments:
-// (none):                            size >= max || volume >= max
-// (addvolume >= 0):                  size+1 > max || volume + addvolume > max
-// (addvolume >= 0, addnumber >= 0):  size + addnumber > max || volume + addvolume > max
-bool vehicle::is_full(const int part, const int addvolume, const int addnumber) const
-{
-   const int maxitems = MAX_ITEM_IN_VEHICLE_STORAGE;
-   const int maxvolume = this->max_volume(part);
-
-   if ( addvolume == -1 ) {
-       if( (int)get_items(part).size() < maxitems ) return true;
-       int cur_volume=stored_volume(part);
-       return (cur_volume >= maxvolume ? true : false );
-   } else {
-       if ( (int)get_items(part).size() + ( addnumber == -1 ? 1 : addnumber ) > maxitems ) return true;
-       int cur_volume=stored_volume(part);
-       return ( cur_volume + addvolume > maxvolume ? true : false );
-   }
-
+    return max_volume( part ) - stored_volume( part );
 }
 
 bool vehicle::add_item( int part, const item &itm )
 {
-    const int max_storage = MAX_ITEM_IN_VEHICLE_STORAGE; // (game.h)
-    const int maxvolume = this->max_volume(part);         // (game.h => vehicle::max_volume(part) ) in theory this could differ per vpart ( seat vs trunk )
+    const int max_storage = MAX_ITEM_IN_VEHICLE_STORAGE;
+    const units::volume maxvolume = max_volume( part );
 
     // const int max_weight = ?! // TODO: weight limit, calc per vpart & vehicle stats, not a hard user limit.
     // add creaking sounds and damage to overloaded vpart, outright break it past a certian point, or when hitting bumps etc
@@ -4841,9 +4818,7 @@ bool vehicle::add_item( int part, const item &itm )
             return false;
         }
     }
-
-    int cur_volume = 0;
-    int add_volume = itm.volume();
+    units::volume cur_volume = 0;
     bool tryaddcharges=(itm.charges  != -1 && itm.count_by_charges());
     // iterate anyway since we need a volume total
     for (auto &i : parts[part].items) {
@@ -4854,7 +4829,7 @@ bool vehicle::add_item( int part, const item &itm )
         }
     }
 
-    if( cur_volume + add_volume > maxvolume ) {
+    if( cur_volume + itm.volume() > maxvolume ) {
         return false;
     }
 
@@ -5383,33 +5358,57 @@ int vehicle::damage( int p, int dmg, damage_type type, bool aimed )
             return dmg;
         }
     }
-    int parm = part_with_feature( p, "ARMOR" );
-    int pdm = random_entry( pl );
-    int dres;
-    if( parm < 0 ) {
-        // Not covered by armor -- damage part
-        dres = damage_direct( pdm, dmg, type );
-    } else {
-        // Covered by armor -- hit both armor and part, but reduce damage by armor's reduction
-        int protection = part_info( parm ).damage_reduction[ type ];
-        // Parts on roof aren't protected
-        bool overhead = part_flag( pdm, "ROOF" ) || part_info( pdm ).location == "on_roof";
-        // Calling damage_direct may remove the damaged part
-        // completely, therefor the other indes (pdm) becames
-        // wrong if pdm > parm.
-        // Damaging the part with the higher index first is save,
-        // as removing a part only changes indizes after the
-        // removed part.
-        if( parm < pdm ) {
-            damage_direct( pdm, overhead ? dmg : dmg - protection, type );
-            dres = damage_direct( parm, dmg, type );
-        } else {
-            dres = damage_direct( parm, dmg, type );
-            damage_direct( pdm, overhead ? dmg : dmg - protection, type );
+
+    int target_part = random_entry( pl );
+
+    // door motor mechanism is protected by closed doors
+    if( part_flag( target_part, "DOOR_MOTOR" ) ) {
+        // find the most strong openable thats not open
+        int strongest_door_part = -1;
+        int strongest_door_durability = INT_MIN;
+        for( int part : pl ) {
+            if( part_flag( part, "OPENABLE" ) && !parts[part].open ) {
+                int door_durability = part_info( part ).durability;
+                if (door_durability > strongest_door_durability) {
+                   strongest_door_part = part;
+                   strongest_door_durability = door_durability;
+                }
+            }
+        }
+
+        // if we found a closed door, target it instead of the door_motor
+        if (strongest_door_part != -1) {
+            target_part = strongest_door_part;
         }
     }
 
-    return dres;
+    int damage_dealt;
+
+    int armor_part = part_with_feature( p, "ARMOR" );
+    if( armor_part < 0 ) {
+        // Not covered by armor -- damage part
+        damage_dealt = damage_direct( target_part, dmg, type );
+    } else {
+        // Covered by armor -- hit both armor and part, but reduce damage by armor's reduction
+        int protection = part_info( armor_part ).damage_reduction[ type ];
+        // Parts on roof aren't protected
+        bool overhead = part_flag( target_part, "ROOF" ) || part_info( target_part ).location == "on_roof";
+        // Calling damage_direct may remove the damaged part
+        // completely, therefor the other indes (target_part) becames
+        // wrong if target_part > armor_part.
+        // Damaging the part with the higher index first is save,
+        // as removing a part only changes indizes after the
+        // removed part.
+        if( armor_part < target_part ) {
+            damage_direct( target_part, overhead ? dmg : dmg - protection, type );
+            damage_dealt = damage_direct( armor_part, dmg, type );
+        } else {
+            damage_dealt = damage_direct( armor_part, dmg, type );
+            damage_direct( target_part, overhead ? dmg : dmg - protection, type );
+        }
+    }
+
+    return damage_dealt;
 }
 
 void vehicle::damage_all( int dmg1, int dmg2, damage_type type, const point &impact )
@@ -5947,8 +5946,10 @@ void vehicle::update_time( const calendar &update_to )
                 continue;
             }
 
-            const int part_size = part_info( part ).size;
+            const int part_size = part_info( part ).size / units::legacy_volume_factor;
             const double funnel_area_mm = M_PI * part_size * part_size;
+            // TODO: would be clearer to use the data from the trap, which can be gathered
+            // via the place_trap iuse_actor
             rain_amount += funnel_charges_per_turn( funnel_area_mm, accum_weather.rain_amount );
         }
 
@@ -6094,7 +6095,7 @@ long vehicle_part::ammo_capacity() const
     }
 
     if( base.is_watertight_container() ) {
-        return base.get_container_capacity() * std::max( item::find_type( ammo_current() )->stack_size, 1 );
+        return base.get_container_capacity() / std::max( item::find_type( ammo_current() )->volume, units::from_milliliter( 1 ) );
     }
 
     return 0;

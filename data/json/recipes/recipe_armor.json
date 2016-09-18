@@ -163,23 +163,6 @@
   ]
 },{
   "type" : "recipe",
-  "result": "makeshift_kevlar",
-  "category": "CC_ARMOR",
-  "subcategory": "CSC_ARMOR_TORSO",
-  "skill_used": "tailor",
-  "difficulty": 4,
-  "time": 30000,
-  "reversible": true,
-  "autolearn": true,
-  "decomp_learn": 4,
-  "tools": [
-    [ [ "sewing_kit", 30 ] ]
-  ],
-  "components": [
-    [ [ "kevlar_plate", 24 ] ]
-  ]
-},{
-  "type" : "recipe",
   "result": "elbow_pads",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_ARMS",
@@ -1962,7 +1945,6 @@
      ],
      [
       [ "kevlar", 1 ],
-      [ "makeshift_kevlar", 1 ],
       [ "modularvest", 1 ],
       [ "swat_armor", 1 ],
       [ "kevlar_plate", 24 ]
@@ -2424,7 +2406,42 @@
   "flags": ["BLIND_EASY"],
   "components": [
     [
-      [ "bandana", 1 ]
+      [ "bandana", 1 ],
+      [ "scarf", 1 ],
+      [ "scarf_long", 1 ],
+      [ "patchwork_scarf", 1 ],
+      [ "long_patchwork_scarf", 1 ],
+      [ "scarf_fur", 1 ],
+      [ "scarf_fur_long", 1 ],
+      [ "knit_scarf", 1 ],
+      [ "long_knit_scarf", 1 ],
+      [ "scarf_loose", 1 ],
+      [ "scarf_long_loose", 1 ],
+      [ "patchwork_scarf_loose", 1 ],
+      [ "long_patchwork_scarf_loose", 1 ],
+      [ "scarf_fur_loose", 1 ],
+      [ "scarf_fur_long_loose", 1 ],
+      [ "knit_scarf_loose", 1 ],
+      [ "long_knit_scarf_loose", 1 ],
+      [ "bandages", 2 ]
+    ]
+  ]
+},
+{
+  "type" : "recipe",
+  "result": "blindfold",
+  "id_suffix": "from_tape",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_HEAD",
+  "skill_used": "fabrication",
+  "difficulty": 1,
+  "time": 3000,
+  "reversible": true,
+  "autolearn": true,
+  "flags": ["BLIND_EASY"],
+  "components": [
+    [
+      [ "duct_tape", 10 ]
     ]
   ]
 },{
@@ -4496,7 +4513,6 @@
      ],
      [
       [ "kevlar", 1 ],
-      [ "makeshift_kevlar", 1 ],
       [ "modularvest", 1 ],
       [ "kevlar_plate", 12 ]
      ],
@@ -4549,7 +4565,6 @@
      ],
      [
       [ "kevlar", 1 ],
-      [ "makeshift_kevlar", 1 ],
       [ "modularvest", 1 ],
       [ "kevlar_plate", 10 ]
      ],
@@ -4619,7 +4634,6 @@
      ],
      [
       [ "kevlar", 1 ],
-      [ "makeshift_kevlar", 1 ],
       [ "modularvest", 1 ],
       [ "kevlar_plate", 12 ]
      ],
@@ -4957,7 +4971,6 @@
      ],
      [
       [ "kevlar", 1 ],
-      [ "makeshift_kevlar", 1 ],
       [ "modularvest", 1 ],
       [ "swat_armor", 1 ],
       [ "kevlar_plate", 24 ]
@@ -5011,7 +5024,6 @@
      ],
      [
       [ "kevlar", 1 ],
-      [ "makeshift_kevlar", 1 ],
       [ "modularvest", 1 ],
       [ "swat_armor", 1 ],
       [ "kevlar_plate", 16 ]
@@ -5117,7 +5129,6 @@
      ],
      [
       [ "kevlar", 1 ],
-      [ "makeshift_kevlar", 1 ],
       [ "modularvest", 1 ],
       [ "swat_armor", 1 ],
       [ "kevlar_plate", 24 ]
@@ -5179,7 +5190,6 @@
      ],
      [
       [ "kevlar", 1 ],
-      [ "makeshift_kevlar", 1 ],
       [ "modularvest", 1 ],
       [ "swat_armor", 1 ],
       [ "kevlar_plate", 24 ]
@@ -5241,7 +5251,6 @@
      ],
      [
       [ "kevlar", 1 ],
-      [ "makeshift_kevlar", 1 ],
       [ "modularvest", 1 ],
       [ "swat_armor", 1 ],
       [ "kevlar_plate", 24 ]
@@ -5301,7 +5310,6 @@
      ],
      [
       [ "kevlar", 1 ],
-      [ "makeshift_kevlar", 1 ],
       [ "modularvest", 1 ],
       [ "swat_armor", 1 ],
       [ "kevlar_plate", 24 ]
@@ -5356,7 +5364,6 @@
      ],
      [
       [ "kevlar", 1 ],
-      [ "makeshift_kevlar", 1 ],
       [ "modularvest", 1 ],
       [ "swat_armor", 1 ],
       [ "kevlar_plate", 24 ]
@@ -5417,7 +5424,6 @@
      ],
      [
       [ "kevlar", 2 ],
-      [ "makeshift_kevlar", 2 ],
       [ "modularvest", 2 ],
       [ "swat_armor", 2 ],
       [ "kevlar_plate", 42 ]
@@ -7778,6 +7784,93 @@
      [ "tanned_hide", 3 ]
     ]
     ]
+  },{
+    "type" : "recipe",
+    "result": "armor_lightplate",
+    "id_suffix": "assembly",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_SUIT",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "time": 20000,
+    "reversible": true,
+    "components": [
+      [ [ "cuirass_lightplate", 1 ] ],
+      [ [ "armguard_lightplate", 1 ] ],
+      [ [ "legguard_lightplate", 1 ] ]
+    ]
+  },{
+    "type" : "recipe",
+    "result": "armguard_lightplate",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_ARMS",
+    "skill_used": "fabrication",
+    "difficulty": 7,
+    "time": 180000,
+    "book_learn": [[ "textbook_armwest", 6 ]],
+    "qualities": [
+      { "id":"HAMMER","level": 3 },
+      { "id": "CHISEL", "level": 3 }
+    ],
+    "tools": [
+      [ ["tongs", -1] ],
+      [ ["anvil", -1] ],
+      [ ["swage", -1] ],
+      [ ["forge", 100], ["oxy_torch", 20] ]
+    ],
+    "components":
+    [
+      [ [ "steel_lump", 6 ], [ "steel_chunk", 24 ] ],
+      [ [ "fur", 6 ], [ "tanned_pelt", 1 ], [ "leather", 6 ], [ "tanned_hide", 1 ] ]
+    ]
+},{
+    "type" : "recipe",
+    "result": "legguard_lightplate",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_LEGS",
+    "skill_used": "fabrication",
+    "difficulty": 7,
+    "time": 190000,
+    "book_learn": [[ "textbook_armwest", 6 ]],
+    "qualities": [
+      { "id":"HAMMER","level": 3 },
+      { "id": "CHISEL", "level": 3 }
+    ],
+    "tools": [
+      [ ["tongs", -1] ],
+      [ ["anvil", -1] ],
+      [ ["swage", -1] ],
+      [ ["forge", 150], ["oxy_torch", 30] ]
+    ],
+    "components":
+    [
+      [ [ "steel_lump", 7 ], [ "steel_chunk", 28 ] ],
+      [ [ "fur", 6 ], [ "tanned_pelt", 1 ], [ "leather", 6 ], [ "tanned_hide", 1 ] ]
+    ]
+},{
+    "type" : "recipe",
+    "result": "cuirass_lightplate",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_TORSO",
+    "skill_used": "fabrication",
+    "difficulty": 8,
+    "time": 190000,
+    "book_learn": [[ "textbook_armwest", 7 ]],
+    "qualities": [
+      { "id":"HAMMER","level": 3 },
+      { "id": "CHISEL", "level": 3 }
+    ],
+    "tools": [
+      [ ["tongs", -1] ],
+      [ ["anvil", -1] ],
+      [ ["swage", -1] ],
+      [ ["forge", 150], ["oxy_torch", 30] ]
+    ],
+    "components":
+    [
+      [ [ "steel_lump", 8 ], [ "steel_chunk", 32 ] ],
+      [ [ "fur", 6 ], [ "tanned_pelt", 1 ], [ "leather", 6 ], [ "tanned_hide", 1 ] ]
+    ]
 },{
   "type" : "recipe",
   "result": "gloves_plate",
@@ -8561,7 +8654,6 @@
      ],
      [
       [ "kevlar", 1 ],
-      [ "makeshift_kevlar", 1 ],
       [ "modularvest", 1 ],
       [ "kevlar_plate", 16 ]
      ],
@@ -8615,7 +8707,6 @@
      ],
      [
       [ "kevlar", 1 ],
-      [ "makeshift_kevlar", 1 ],
       [ "modularvest", 1 ],
       [ "kevlar_plate", 13 ]
      ],
@@ -9388,7 +9479,6 @@
     ],
      [
       [ "kevlar", 1 ],
-      [ "makeshift_kevlar", 1 ],
       [ "modularvest", 1 ],
       [ "swat_armor", 1 ],
       [ "kevlar_plate", 24 ]

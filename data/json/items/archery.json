@@ -567,13 +567,11 @@
          "covers" : ["TORSO"],
          "coverage" : 5,
          "material_thickness" : 1,
-         "encumbrance" : 20,
-         "warmth" : 0
+         "encumbrance" : 20
       },
       "ranged_damage" : 4,
       "range" : 5,
       "dispersion" : 250,
-      "sight_dispersion": 150,
       "durability" : 6,
       "clip_size" : 1,
       "reload" : 70
@@ -598,13 +596,11 @@
          "covers" : ["TORSO"],
          "coverage" : 5,
          "material_thickness" : 1,
-         "encumbrance" : 20,
-         "warmth" : 0
+         "encumbrance" : 20
       },
       "ranged_damage" : 3,
       "range" : 6,
       "dispersion" : 210,
-      "sight_dispersion": 150,
       "durability" : 6,
       "clip_size" : 1,
       "reload" : 60,
@@ -631,13 +627,11 @@
          "covers" : ["TORSO"],
          "coverage" : 5,
          "material_thickness" : 1,
-         "encumbrance" : 20,
-         "warmth" : 0
+         "encumbrance" : 20
       },
       "ranged_damage" : 5,
       "range" : 10,
       "dispersion" : 180,
-      "sight_dispersion": 150,
       "durability" : 6,
       "clip_size" : 1,
       "valid_mod_locations": [["underbarrel", 1],[ "sights", 1 ],[ "accessories", 2 ]]
@@ -662,13 +656,11 @@
          "covers" : ["TORSO"],
          "coverage" : 5,
          "material_thickness" : 1,
-         "encumbrance" : 20,
-         "warmth" : 0
+         "encumbrance" : 20
       },
       "ranged_damage" : 7,
       "range" : 12,
       "dispersion" : 150,
-      "sight_dispersion": 150,
       "durability" : 6,
       "clip_size" : 1,
       "reload" : 110,
@@ -694,13 +686,11 @@
          "covers" : ["TORSO"],
          "coverage" : 5,
          "material_thickness" : 1,
-         "encumbrance" : 20,
-         "warmth" : 0
+         "encumbrance" : 20
       },
       "ranged_damage" : 9,
       "range" : 14,
       "dispersion" : 120,
-      "sight_dispersion": 150,
       "durability" : 6,
       "clip_size" : 1,
       "valid_mod_locations": [["underbarrel", 1],[ "sights", 1 ],[ "accessories", 2 ]]
@@ -725,13 +715,11 @@
          "covers" : ["TORSO"],
          "coverage" : 5,
          "material_thickness" : 1,
-         "encumbrance" : 20,
-         "warmth" : 0
+         "encumbrance" : 20
       },
       "ranged_damage" : 11,
       "range" : 16,
       "dispersion" : 120,
-      "sight_dispersion": 150,
       "durability" : 6,
       "clip_size" : 1,
       "valid_mod_locations": [["underbarrel", 1],[ "sights", 1 ],[ "accessories", 2 ]]
@@ -756,13 +744,11 @@
          "covers" : ["TORSO"],
          "coverage" : 5,
          "material_thickness" : 1,
-         "encumbrance" : 20,
-         "warmth" : 0
+         "encumbrance" : 20
       },
       "ranged_damage" : 7,
       "range" : 20,
       "dispersion" : 210,
-      "sight_dispersion": 150,
       "durability" : 6,
       "clip_size" : 1,
       "reload" : 80,
@@ -788,13 +774,11 @@
          "covers" : ["TORSO"],
          "coverage" : 5,
          "material_thickness" : 1,
-         "encumbrance" : 20,
-         "warmth" : 0
+         "encumbrance" : 20
       },
       "ranged_damage" : 15,
       "range" : 18,
       "dispersion" : 120,
-      "sight_dispersion": 150,
       "durability" : 6,
       "clip_size" : 1,
       "reload" : 80,
@@ -818,7 +802,6 @@
       "ranged_damage" : 7,
       "range" : 6,
       "dispersion" : 180,
-      "sight_dispersion": 90,
       "durability" : 6,
       "clip_size" : 1,
       "valid_mod_locations": [[ "accessories", 2 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
@@ -842,7 +825,6 @@
       "ranged_damage" : 13,
       "range" : 10,
       "dispersion" : 150,
-      "sight_dispersion": 90,
       "durability" : 6,
       "clip_size" : 1,
       "reload" : 800,
@@ -867,7 +849,6 @@
       "ranged_damage" : 40,
       "range" : 30,
       "dispersion" : 330,
-      "sight_dispersion": 90,
       "recoil" : 30,
       "durability" : 6,
       "clip_size" : 1,
@@ -892,7 +873,6 @@
       "to_hit" : -1,
       "range" : 8,
       "dispersion" : 500,
-      "sight_dispersion": 90,
       "recoil" : 30,
       "durability" : 6,
       "clip_size" : 10,

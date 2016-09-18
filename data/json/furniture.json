@@ -203,7 +203,7 @@
             ]
         },
         "max_volume": 4000,
-        "flags": ["TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH",
+        "flags": ["TRANSPARENT", "FLAMMABLE_ASH",
                   "PLACE_ITEM", "ORGANIC", "MOUNTABLE"],
         "bash": {
             "str_min": 12, "str_max": 40,
@@ -588,7 +588,8 @@
             "items": [
                 { "item": "pipe", "count": 1 },
                 { "item": "steel_chunk", "count": 1 },
-                { "item": "scrap", "count": [2, 6] }
+                { "item": "scrap", "count": [2, 6] },
+                { "item": "lead", "charges": [1000, 2000] }
             ]
         },
         "bash": {
@@ -598,7 +599,8 @@
             "items": [
                 { "item": "scrap", "count": [2, 6] },
                 { "item": "steel_chunk", "prob": 50 },
-                { "item": "pipe", "count": 1 }
+                { "item": "pipe", "count": 1 },
+                { "item": "lead", "charges": [1000, 2000] }
             ]
         }
     },{

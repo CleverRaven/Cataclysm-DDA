@@ -24,6 +24,8 @@
 
 #include "cursesdef.h"
 
+using namespace units::literals;
+
 static const matec_id tec_none( "tec_none" );
 static const matec_id WBLOCK_1( "WBLOCK_1" );
 static const matec_id WBLOCK_2( "WBLOCK_2" );
@@ -513,7 +515,7 @@ int stumble(player &u)
     // Fist: 0
 
     ///\EFFECT_STR reduces chance of stumbling with heavier weapons
-    return ( 2 * u.weapon.volume() ) +
+    return ( u.weapon.volume() / 125_ml ) +
            ( u.weapon.weight() / ( u.str_cur * 10 + 13.0f ) );
 }
 
@@ -1700,10 +1702,11 @@ std::string player::melee_special_effects(Creature &t, damage_instance &d, const
         }
     }
 
+    const int vol = weapon.volume() / 250_ml;
     // Glass weapons shatter sometimes
     if (weapon.made_of( material_id( "glass" ) ) &&
         ///\EFFECT_STR increases chance of breaking glass weapons (NEGATIVE)
-        rng(0, weapon.volume() + 8) < weapon.volume() + str_cur) {
+        rng(0, vol + 8) < vol + str_cur) {
         if (is_player()) {
             dump << string_format(_("Your %s shatters!"), weapon.tname().c_str()) << std::endl;
         } else {
@@ -1718,12 +1721,12 @@ std::string player::melee_special_effects(Creature &t, damage_instance &d, const
             g->m.add_item_or_charges( pos(), elem );
         }
         // Take damage
-        deal_damage( nullptr, bp_arm_r, damage_instance::physical(0, rng(0, weapon.volume() * 2), 0) );
+        deal_damage( nullptr, bp_arm_r, damage_instance::physical(0, rng(0, vol * 2), 0) );
         if( weapon.is_two_handed(*this) ) {// Hurt left arm too, if it was big
             //redeclare shatter_dam because deal_damage mutates it
-            deal_damage( nullptr, bp_arm_l, damage_instance::physical(0, rng(0, weapon.volume() * 2), 0) );
+            deal_damage( nullptr, bp_arm_l, damage_instance::physical(0, rng(0, vol * 2), 0) );
         }
-        d.add_damage(DT_CUT, rng(0, 5 + int(weapon.volume() * 1.5)));// Hurt the monster extra
+        d.add_damage(DT_CUT, rng(0, 5 + int(vol * 1.5)));// Hurt the monster extra
         remove_weapon();
     }
 

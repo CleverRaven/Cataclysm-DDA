@@ -19,7 +19,6 @@
 #include "itype.h"
 #include "vehicle.h"
 #include "field.h"
-#include "weather_gen.h"
 #include "weather.h"
 #include "cata_utility.h"
 #include "output.h"
@@ -148,8 +147,7 @@ bool player::activate_bionic( int b, bool eff_only )
     }
 
     item tmp_item;
-    w_point const weatherPoint = g->weather_gen->get_weather( global_square_location(),
-                                 calendar::turn );
+    w_point const weatherPoint = *g->weather_precise;
 
     // On activation effects go here
     if( bionics[bio.id].gun_bionic ) {
@@ -389,8 +387,9 @@ bool player::activate_bionic( int b, bool eff_only )
         bool extracted = false;
         for( auto it = g->m.i_at(pos()).begin();
              it != g->m.i_at(pos()).end(); ++it) {
+            static const auto volume_per_water_charge = units::from_milliliter( 500 );
             if( it->is_corpse() ) {
-                const int avail = it->get_var( "remaining_water", it->volume() / 2 );
+                const int avail = it->get_var( "remaining_water", it->volume() / volume_per_water_charge );
                 if(avail > 0 && query_yn(_("Extract water from the %s"), it->tname().c_str())) {
                     item water( "water_clean", calendar::turn, avail );
                     if( g->consume_liquid( water ) ) {
@@ -843,6 +842,7 @@ bool player::uninstall_bionic( std::string const &b_id, int skill_level )
         std::vector<item_comp> comps;
         comps.push_back( item_comp( "1st_aid", 1 ) );
         consume_items( comps );
+        invalidate_crafting_inventory();
     }
 
     practice( skilll_electronics, int( ( 100 - chance_of_success ) * 1.5 ) );
@@ -1281,6 +1281,7 @@ bool player::remove_random_bionic()
         int rem = rng( 0, num_bionics() - 1 );
         const auto bionic = my_bionics[rem];
         remove_bionic( bionic.id );
+        add_msg( m_bad, _( "Your %s fails, and is destroyed!" ), bionics[ bionic.id ].name.c_str() );
         recalc_sight_limits();
     }
     return numb;

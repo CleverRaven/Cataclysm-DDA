@@ -361,12 +361,6 @@
     },
     {
         "type" : "ammunition_type",
-        "id" : "dart",
-        "name" : "dart",
-        "default" : "dart"
-    },
-    {
-        "type" : "ammunition_type",
         "id" : "rebreather_filter",
         "name" : "rebreather filter",
         "default" : "rebreather_filter"

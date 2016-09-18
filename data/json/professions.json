@@ -9,7 +9,6 @@
                 "bio_torsionratchet",
                 "bio_power_storage_mkII",
                 "bio_sunglasses",
-                "bio_blindfold",
                 "bio_tools",
                 "bio_flashlight"
             ],
@@ -326,8 +325,7 @@
                 "coat_lab",
                 "gloves_rubber",
                 "glasses_safety",
-                "chemistry_set",
-                "id_science"
+                "chemistry_set"
             ],
             "male": [
                 "briefs"
@@ -552,18 +550,13 @@
         ],
         "items": {
             "both": [
-                "undershirt",
-                "arm_warmers",
-                "leg_warmers",
-                "helmet_liner",
-                "gloves_liner",
-                "pants_army",
+                "winter_pants_army",
                 "army_top",
-                "jacket_army",
+                "winter_jacket_army",
                 "helmet_liner",
                 "helmet_army",
                 "balclava",
-                "gloves_tactical",
+                "winter_gloves_army",
                 "socks",
                 "boots_combat",
                 "shoulder_strap",
@@ -572,8 +565,7 @@
                 "stanag30",
                 "knife_combat",
                 "binoculars",
-                "sheath",
-                "id_military"
+                "sheath"
             ],
             "male": [
                 "boxer_shorts"
@@ -629,12 +621,11 @@
                 "undershirt",
                 "arm_warmers",
                 "leg_warmers",
-                "helmet_liner",
-                "gloves_liner",
                 "pants_army",
                 "jacket_army",
                 "balclava",
                 "beret",
+                "gloves_liner",
                 "gloves_tactical",
                 "socks",
                 "boots_combat",
@@ -645,91 +636,7 @@
                 "8mm_fmj",
                 "8mm_fmj",
                 "sheath",
-                "kukri",
-                "id_military"
-            ],
-            "male": [
-                "boxer_shorts"
-            ],
-            "female": [
-                "sports_bra",
-                "boxer_shorts"
-            ]
-        }
-    },
-	{
-        "type": "profession",
-        "ident": "bio_specops",
-        "name": "Bionic Special Operator",
-        "description": "You were the best of the best, the military's finest.  That's why you were chosen for military bionic augmentation once it was tested in the field.  These two fact are the reason you are still alive.  As far as you can tell, military command abandoned you in this hellhole when you missed the emergency evac.",
-        "points": 8,
-        "skills": [
-            {
-                "level": 3,
-                "name": "gun"
-            },
-            {
-                "level": 3,
-                "name": "smg"
-            },
-            {
-                "level": 2,
-                "name": "cutting"
-            },
-            {
-                "level": 1,
-                "name": "melee"
-            },
-            {
-                "level": 1,
-                "name": "dodge"
-            },
-            {
-                "level": 1,
-                "name": "firstaid"
-            },
-            {
-                "level": 1,
-                "name": "swimming"
-            },
-            {
-                "level": 1,
-                "name": "survival"
-            }
-        ],
-		"CBMs":[
-            "bio_targeting",
-            "bio_purifier",
-            "bio_carbon",
-            "bio_adrenaline",
-            "bio_infrared",
-            "bio_night_vision",
-            "bio_metabolics",
-            "bio_power_storage_mkII"
-        ],
-        "items": {
-            "both": [
-                "undershirt",
-                "arm_warmers",
-                "leg_warmers",
-                "helmet_liner",
-                "gloves_liner",
-                "pants_army",
-                "jacket_army",
-                "balclava",
-                "beret",
-                "gloves_tactical",
-                "socks",
-                "boots_combat",
-                "shoulder_strap",
-                "rm2000_smg",
-                "8x40_25_mag",
-                "suppressor",
-                "8mm_fmj",
-                "8mm_fmj",
-                "sheath",
-                "kukri",
-                "id_military"
+                "kukri"
             ],
             "male": [
                 "boxer_shorts"
@@ -1003,7 +910,6 @@
         "CBMs":[
             "bio_power_storage_mkII",
             "bio_sunglasses",
-            "bio_blindfold",
             "bio_torsionratchet",
             "bio_lighter",
             "bio_evap",
@@ -1364,65 +1270,6 @@
         "name": "Police Sniper",
         "description": "Your skill as a sharpshooter served you well in the line of duty, protecting the innocent with a single, well placed bullet.  Now survival itself is on the line, and you can't afford to miss if you don't want to end up as something's dinner.",
         "points": 5,
-        "skills": [
-            {
-                "level": 5,
-                "name": "gun"
-            },
-            {
-                "level": 4,
-                "name": "rifle"
-            },
-            {
-                "level": 1,
-                "name": "pistol"
-            }
-        ],
-        "traits": [
-            "PROF_POLICE"
-        ],
-        "items": {
-            "both": [
-                "socks",
-                "pants_army",
-                "hoodie",
-                "sneakers",
-                "gloves_tactical",
-                "glasses_bal",
-                "hat_boonie",
-                "badge_deputy",
-                "holster",
-                "wristwatch",
-                "usp_45",
-                "usp45mag",
-                "45_acp",
-                "shoulder_strap",
-                "remington_700",
-                "3006",
-                "3006",
-                "rifle_scope"
-            ],
-            "male": [
-                "boxer_shorts"
-            ],
-            "female": [
-                "bra",
-                "boy_shorts"
-            ]
-        }
-    },
-    {
-        "type": "profession",
-        "ident": "bio_sniper_police",
-        "name": "Bionic Police Sniper",
-        "description": "Your skill as a sharpshooter served you well in the line of duty, protecting the innocent with a single, well placed bullet.  Now survival itself is on the line, and you can't afford to miss if you don't want to end up as something's dinner.",
-        "points": 6,
-        "CBMs":[
-		    "bio_targeting",
-            "bio_infrared",
-            "bio_metabolics",
-            "bio_power_storage_mkII"
-        ],
         "skills": [
             {
                 "level": 5,
@@ -2281,8 +2128,6 @@
         "description": "Mortally injured in the line of duty, you were resurrected by the surgeons from the department's revolutionary Cybercop program.  Now, in these lawless times, you are truly the future of law enforcement.",
         "points": 5,
         "CBMs":[
-		    "bio_armor_eyes",
-		    "bio_armor_head",
             "bio_armor_torso",
             "bio_armor_legs",
             "bio_armor_arms",
@@ -2432,8 +2277,8 @@
             "bio_targeting",
             "bio_purifier",
             "bio_carbon",
+            "bio_geiger",
             "bio_adrenaline",
-            "bio_infrared",
             "bio_night_vision",
             "bio_metabolics",
             "bio_power_storage_mkII"
@@ -2458,14 +2303,9 @@
         ],
         "items": {
             "both": [
-                "undershirt",
-                "arm_warmers",
-                "leg_warmers",
-                "helmet_liner",
-                "gloves_liner",
-                "pants_army",
-                "acket_army",
-                "gloves_tacticaly",
+                "winter_pants_army",
+                "winter_jacket_army",
+                "winter_gloves_army",
                 "balclava",
                 "beret",
                 "socks",
@@ -2476,73 +2316,7 @@
                 "rm51_assault_rifle",
                 "8x40_50_mag",
                 "8mm_fmj",
-                "8mm_fmj",
-                "id_military"
-            ],
-            "male": [
-                "boxer_shorts"
-            ],
-            "female": [
-                "sports_bra",
-                "boxer_shorts"
-            ]
-        }
-    },
-    {
-        "type": "profession",
-        "ident": "mil_sniper",
-        "name": "Military Sniper",
-        "description": "Your equipment, and extensive field training enable you to drop targets from implausible distances, even after weeks of total isolation in enemy territory.",
-        "points": 5,
-        "skills": [
-            {
-                "level": 5,
-                "name": "gun"
-            },
-            {
-                "level": 4,
-                "name": "rifle"
-            },
-            {
-                "level": 1,
-                "name": "stabbing"
-            },
-            {
-                "level": 1,
-                "name": "survival"
-            }
-        ],
-        "items": {
-                "undershirt",
-                "arm_warmers",
-                "leg_warmers",
-                "helmet_liner",
-                "gloves_liner",
-                "pants_army",
-                "army_top",
-                "jacket_army",
-                "gloves_tactical",
-                "rucksack",
-                "balclava",
-                "hat_boonie",
-                "socks",
-                "boots_combat",
-                "sheath",
-                "knife_combat",
-                "canteen",
-                "ref_lighter",
-                "pur_tablets",
-                "tent_kit",
-                "rollmat",
-                "mil_mess_kit",
-                "shoulder_strap",
-                "m2010",
-                "m2010mag",
-                "300_winmag",
-                "300_winmag",
-                "suppressor",
-                "rifle_scope",
-                "id_military"
+                "8mm_fmj"
             ],
             "male": [
                 "boxer_shorts"
@@ -2562,7 +2336,6 @@
         "CBMs":[
             "bio_solar",
             "bio_eye_enhancer",
-            "bio_eye_optic",
             "bio_targeting",
             "bio_climate",
             "bio_evap",
@@ -2589,10 +2362,6 @@
         ],
         "items": {
             "both": [
-                "undershirt",
-                "arm_warmers",
-                "leg_warmers",
-                "gloves_liner",,
                 "pants_army",
                 "army_top",
                 "jacket_army",
@@ -2605,6 +2374,7 @@
                 "sheath",
                 "knife_combat",
                 "canteen",
+                "binoculars",
                 "tent_kit",
                 "rollmat",
                 "mil_mess_kit",
@@ -2614,8 +2384,7 @@
                 "300_winmag",
                 "300_winmag",
                 "suppressor",
-                "rifle_scope",
-                "id_military"
+                "rifle_scope"
             ],
             "male": [
                 "boxer_shorts"
@@ -2751,7 +2520,7 @@
         "type" : "profession",
         "ident": "bionic_customer",
         "name": "Commercial Cyborg",
-        "description": "You always had to have the latest and best gadgets and gizmos, so is it any wonder that you upgraded your flesh along with your smart phone? Only time will tell if your status as a marvel of bionic technology will be enough to ensure your survival after the apocalypse.",
+        "description": "You always had to have the latest and best gadgets and gizmos, so is it any wonder that you upgraded your flesh along with your smart phone?  Only time will tell if your status as a marvel of bionic technology will be enough to ensure your survival after the apocalypse.",
         "points": 6,
         "CBMs":[
             "bio_flashlight",
@@ -3062,7 +2831,7 @@
         "type": "profession",
         "ident": "golfer",
         "name": "Golfer",
-        "description": "A birdie is one under par, but how much is a zombie? Your clubhouse was overrun by the undead, and you fled with your trusty driving wedge.",
+        "description": "A birdie is one under par, but how much is a zombie?  Your clubhouse was overrun by the undead, and you fled with your trusty driving wedge.",
         "points": 0,
         "items": {
             "both": [
@@ -3089,7 +2858,7 @@
             "male": "Groom",
             "female": "Bride"
         },
-        "description": "The cataclysm struck on the big day and you escaped with nothing but your wedding attire.  Cold feet? You'd just like to keep your feet attached!",
+        "description": "The cataclysm struck on the big day and you escaped with nothing but your wedding attire.  Cold feet?  You'd just like to keep your feet attached!",
         "points": -1,
         "items" : {
             "male": [
@@ -3323,7 +3092,6 @@
             "bio_razors",
             "bio_armor_eyes",
             "bio_sunglasses",
-            "bio_blindfold",
             "bio_dex_enhancer",
             "bio_ears",
             "bio_earplugs",
@@ -4253,11 +4021,6 @@
         ],
         "items": {
             "both": [
-                "undershirt",
-                "arm_warmers",
-                "leg_warmers",
-                "helmet_liner",
-                "gloves_liner",
                 "socks",
                 "pants_army",
                 "jacket_army",
@@ -4279,8 +4042,7 @@
                 "stanag30",
                 "mil_mess_kit",
                 "knife_combat",
-                "quikclot",
-                "id_military"
+                "quikclot"
             ],
             "male": [
                 "boxer_shorts"
@@ -5203,6 +4965,30 @@
             "female": [
                 "bra",
                 "panties"
+            ]
+        }
+    },
+    {
+        "type": "profession",
+        "ident": "photojournalist",
+        "name": "Photojournalist",
+        "description": "You were a freelance photojournalist before the end.  You have a chance to be the first journalist to cover the apocalypse, though finding a publisher seems more difficult a prospect than usual.  You managed to hold onto your camera, hopefully you can get some fantastic shots.",
+        "points": 0,
+        "items": {
+            "both": [
+                "pants",
+                "dress_shirt",
+                "blazer",
+                "socks",
+                "dress_shoes",
+                "camera_pro"
+            ],
+            "male": [
+                "boxer_shorts"
+            ],
+            "female": [
+                "boy_shorts",
+                "bra"
             ]
         }
     },

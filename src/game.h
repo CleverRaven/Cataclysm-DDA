@@ -33,6 +33,8 @@ extern bool use_tiles;
 extern bool fov_3d;
 extern bool tile_iso;
 
+extern const int core_version;
+
 extern const int savegame_version;
 extern int savegame_loading_version;
 
@@ -149,13 +151,13 @@ class game
          */
         bool check_mod_data( const std::vector<std::string> &opts );
 
-        /** Loads core dynamic data. */
-        void load_core_data();
-        /** Loads core data and mods from the given world. */
+        /** Loads core data and mods from the given world. May throw. */
         void load_world_modfiles(WORLDPTR world);
     protected:
-        /** Loads dynamic data from the given directory. */
+        /** Loads dynamic data from the given directory. May throw. */
         void load_data_from_dir( const std::string &path, const std::string &src );
+        /** Loads core dynamic data. May throw. */
+        void load_core_data();
 
         // May be a bit hacky, but it's probably better than the header spaghetti
         std::unique_ptr<map> map_ptr;
@@ -488,7 +490,6 @@ class game
         void reset_zoom();
         int get_user_action_counter() const;
 
-        std::unique_ptr<weather_generator> weather_gen;
         signed char temperature;              // The air temperature
         int get_temperature();    // Returns outdoor or indoor temperature of current location
         weather_type weather;   // Weather pattern--SEE weather.h
@@ -511,6 +512,7 @@ class game
          * The overmap which contains the center submap of the reality bubble.
          */
         overmap &get_cur_om() const;
+        const weather_generator &get_cur_weather_gen() const;
         const scenario *scen;
         std::vector<monster> coming_to_stairs;
         int monstairz;
@@ -738,6 +740,11 @@ class game
         void wishskill( player *p );
         void mutation_wish(); // Mutate
 
+        /** Check for dangerous stuff at dest_loc, return false if the player decides
+        not to step there */
+        bool prompt_dangerous_tile( const tripoint &dest_loc ) const;
+        /** Returns true if the menu handled stuff and player shouldn't do anything else */
+        bool npc_menu( npc &who );
         void pldrive(int x, int y); // drive vehicle
         // Standard movement; handles attacks, traps, &c. Returns false if auto move
         // should be canceled
@@ -786,6 +793,8 @@ class game
 public:
         bool unload( item &it ); // Unload a gun/tool  'U'
         void unload(int pos = INT_MIN);
+
+        unsigned int get_seed() const;
 private:
         void wield(int pos = INT_MIN); // Wield a weapon  'w'
         void read(); // Read a book  'R' (or 'a')
@@ -923,6 +932,11 @@ private:
 
         /** How far the tileset should be zoomed out, 16 is default. 32 is zoomed in by x2, 8 is zoomed out by x0.5 */
         int tileset_zoom;
+
+        /** Seed for all the random numbers that should have consistent randomness (weather). */
+        unsigned int seed;
+
+        weather_type weather_override;
 
         // Preview for auto move route
         std::vector<tripoint> destination_preview;

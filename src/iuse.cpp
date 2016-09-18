@@ -37,7 +37,6 @@
 #include "ui.h"
 #include "mtype.h"
 #include "field.h"
-#include "weather_gen.h"
 #include "weather.h"
 #include "cata_utility.h"
 #include "map_iterator.h"
@@ -53,6 +52,8 @@
 #define RADIO_PER_TURN 25 // how many characters per turn of radio
 
 #include "iuse_software.h"
+
+using namespace units::literals;
 
 const mtype_id mon_bee( "mon_bee" );
 const mtype_id mon_blob( "mon_blob" );
@@ -851,15 +852,17 @@ int iuse::fun_hallu(player *p, item *it, bool, const tripoint& )
     return it->type->charges_to_use();
 }
 
-int iuse::meditate(player *p, item *it, bool, const tripoint& )
+int iuse::meditate(player *p, item *it, bool t, const tripoint& )
 {
-    if (p->has_trait("SPIRITUAL")) {
-        p->moves -= 2000;
-        p->add_msg_if_player(m_good, _("You pause to engage in spiritual contemplation."));
-        p->add_morale(MORALE_FEELING_GOOD, 5, 10);
+    if( !p || t ) {
+        return 0;
+    }
+    
+    if( p->has_trait( "SPIRITUAL" ) ) {
+        p->assign_activity( ACT_MEDITATE, 2000 );
     } else {
-            p->add_msg_if_player(_("This %s probably meant a lot to someone at one time."), it->tname().c_str());
-      }
+        p->add_msg_if_player(_( "This %s probably meant a lot to someone at one time." ), it->tname().c_str() );
+    }
     return it->type->charges_to_use();
 }
 
@@ -2003,28 +2006,23 @@ int iuse::sew_advanced(player *p, item *it, bool, const tripoint& )
         return 0;
     }
 
-    std::vector<std::string> plurals;
     std::vector<itype_id> repair_items;
-    std::string plural = "";
-    //translation note: add <plural> tag to keep them unique
 
     // Little helper to cut down some surplus redundancy and repetition
     const auto add_material = [&]( const material_id &material,
-                                   const itype_id &mat_item,
-                                   const std::string &plural ) {
+                                   const itype_id &mat_item ) {
         if( mod->made_of( material ) ) {
             repair_items.push_back( mat_item );
-            plurals.push_back( rm_prefix( plural.c_str() ) );
         }
     };
 
-    add_material( material_id( "cotton" ), "rag", _( "<plural>rags" ) );
-    add_material( material_id( "leather" ), "leather", _( "<plural>leather" ) );
-    add_material( material_id( "fur" ), "fur", _( "<plural>fur" ) );
-    add_material( material_id( "nomex" ), "nomex", _( "<plural>Nomex" ) );
-    add_material( material_id( "plastic" ), "plastic_chunk", _( "<plural>plastic" ) );
-    add_material( material_id( "kevlar" ), "kevlar_plate", _( "<plural>Kevlar" ) );
-    add_material( material_id( "wool" ), "felt_patch", _( "<plural>wool" ) );
+    add_material( material_id( "cotton" ), "rag" );
+    add_material( material_id( "leather" ), "leather" );
+    add_material( material_id( "fur" ), "fur" );
+    add_material( material_id( "nomex" ), "nomex" );
+    add_material( material_id( "plastic" ), "plastic_chunk" );
+    add_material( material_id( "kevlar" ), "kevlar_plate" );
+    add_material( material_id( "wool" ), "felt_patch" );
     if (repair_items.empty()) {
         p->add_msg_if_player(m_info, _("Your %s is not made of fabric, leather, fur, Kevlar, wool or plastic."),
                              mod->tname().c_str());
@@ -2061,7 +2059,7 @@ int iuse::sew_advanced(player *p, item *it, bool, const tripoint& )
 
     // Cache available materials
     std::map< itype_id, bool > has_enough;
-    const int items_needed = ( ( ( mod->volume() ) / 3 ) + 1 );
+    const int items_needed = mod->volume() / 750_ml + 1;
     const inventory &crafting_inv = p->crafting_inventory();
     // Go through all discovered repair items and see if we have any of them available
     for( auto &material : mod_materials ) {
@@ -2072,7 +2070,7 @@ int iuse::sew_advanced(player *p, item *it, bool, const tripoint& )
                           mod->item_tags.count("leather_padded") + mod->item_tags.count("kevlar_padded");
 
     // We need extra thread to lose it on bad rolls
-    const int thread_needed = mod->volume() * 2 + 10;
+    const int thread_needed = mod->volume() / 125_ml + 10;
     // Returns true if the item already has the mod or if we have enough materials and thread to add it
     const auto can_add_mod = [&]( const std::string &new_mod, const itype_id &mat_item ) {
         return mod->item_tags.count( new_mod ) > 0 ||
@@ -3056,20 +3054,17 @@ int iuse::makemound(player *p, item *it, bool, const tripoint& )
     }
 }
 
+/**
+ * Explanation of ACT_CLEAR_RUBBLE activity values:
+ *
+ * coords[0]: Where the rubble is.
+ * index: The bonus, for calculating hunger and thirst penalties.
+ */
+
 int iuse::dig(player *p, item *it, bool, const tripoint &pos )
 {
     for( const tripoint &pt : closest_tripoints_first( 1, pos ) ) {
         if( g->m.furn( pt ).obj().examine == iexamine::rubble ) {
-            if( pt == p->pos() ) {
-                p->add_msg_if_player( m_info, _( "You clear up the %s at your feet." ),
-                                      g->m.furnname( pt ).c_str() );
-            } else {
-                const std::string direction = direction_name( direction_from( p->pos(), pt ) );
-                p->add_msg_if_player( m_info, _( "You clear up the %s to your %s." ),
-                                      g->m.furnname( pt ).c_str(), direction.c_str() );
-            }
-            g->m.furn_set( pt, f_null );
-
             // costs per tile:
             // DIG 2 = 300 seconds, 10 hunger and thirst
             // DIG 3 =  75 seconds,  2 hunger and thirst
@@ -3077,11 +3072,9 @@ int iuse::dig(player *p, item *it, bool, const tripoint &pos )
             // DIG 5 =  18 seconds,  0 hunger and thirst
             int bonus = std::max( it->get_quality( quality_id( "DIG" ) ) - 1, 1 );
             bonus *= bonus;
-
-            // @todo: This should be converted to an activity, with a move cost of 5000/(bonus*bonus)
-            p->mod_moves( -500 );
-            p->mod_hunger ( 10 / bonus );
-            p->mod_thirst ( 10 / bonus );
+            player_activity act( ACT_CLEAR_RUBBLE, 5000 / ( bonus * bonus ), bonus );
+            act.coords.push_back( pt );
+            p->assign_activity( act );
 
             return it->type->charges_to_use();
         }
@@ -4586,8 +4579,12 @@ int iuse::oxytorch(player *p, item *it, bool, const tripoint& )
     return 0;
 }
 
-int iuse::hacksaw(player *p, item *it, bool, const tripoint &pos )
+int iuse::hacksaw(player *p, item *it, bool t, const tripoint &pos )
 {
+    if( !p || t ) {
+        return 0;
+    }
+    
     tripoint dirp = pos;
     if (!choose_adjacent(_("Cut up metal where?"), dirp)) {
         return 0;
@@ -5655,7 +5652,8 @@ int iuse::misc_repair(player *p, item *it, bool, const tripoint& )
     }
     int inventory_index = g->inv_for_filter( _("Select the item to repair."), []( const item & itm ) {
         return ( !itm.is_firearm() ) && (itm.made_of( material_id( "wood" ) ) || itm.made_of( material_id( "paper" ) ) ||
-                                 itm.made_of( material_id( "bone" ) ) || itm.made_of( material_id( "chitin" ) ) ) ;
+                                 itm.made_of( material_id( "bone" ) ) || itm.made_of( material_id( "chitin" ) ) ) &&
+               !itm.count_by_charges();
     } );
     item *fix = &( p->i_at(inventory_index ) );
     if (fix == NULL || fix->is_null()) {
@@ -5972,7 +5970,7 @@ bool einkpc_download_memory_card(player *p, item *eink, item *mc)
             const int dif = ( elem )->difficulty;
 
             if (science) {
-                if( ( elem )->cat != "CC_NONCRAFT" ) {
+                if( elem->valid_learn() ) {
                     if (dif >= 3 && one_in(dif + 1)) {
                         candidates.push_back( elem );
                     }
@@ -6844,7 +6842,7 @@ int iuse::radiocar(player *p, item *it, bool, const tripoint& )
                 return 0;
             }
 
-            if (put->has_flag("RADIOCARITEM") && ((put->volume() <= 5) || (put->weight() <= 2000))) {
+            if (put->has_flag("RADIOCARITEM") && (put->volume() <= 1250_ml || (put->weight() <= 2000))) {
                 p->moves -= 300;
                 p->add_msg_if_player(_("You armed your RC car with %s."),
                                      put->tname().c_str());
@@ -7662,8 +7660,7 @@ int iuse::hairkit(player *p, item *it, bool, const tripoint&)
 
 int iuse::weather_tool( player *p, item *it, bool, const tripoint& )
 {
-    w_point const weatherPoint = g->weather_gen->get_weather( p->global_square_location(),
-                                                              calendar::turn );
+    w_point const weatherPoint = *g->weather_precise;
 
     if( it->typeId() == "weather_reader" ) {
         p->add_msg_if_player( m_neutral, _( "The %s's monitor slowly outputs the data..." ),
@@ -7878,9 +7875,9 @@ int iuse::ladder( player *p, item *, bool, const tripoint& )
     return 1;
 }
 
-int iuse::saw_barrel( player *p, item *, bool, const tripoint& )
+int iuse::saw_barrel( player *p, item *, bool t, const tripoint& )
 {
-    if( p == nullptr ) {
+    if( p == nullptr || t ) {
         return 0;
     }
 

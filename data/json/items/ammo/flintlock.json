@@ -15,7 +15,7 @@
     "ammo_type": "flintlock",
     "range": 6,
     "damage": 50,
-    "dispersion": 120,
+    "dispersion": 90,
     "recoil": 420,
     "loudness": 70,
     "effects": [ "COOKOFF", "MUZZLE_SMOKE" ]

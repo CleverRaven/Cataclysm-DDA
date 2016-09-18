@@ -12,10 +12,10 @@
 #include "catacharset.h"
 #include "npc.h"
 #include "vehicle.h"
+#include "filesystem.h"
 
 #include <algorithm>
 #include <cassert>
-#include <fstream>
 #include <sstream>
 #include <stdlib.h>
 
@@ -120,8 +120,9 @@ void overmapbuffer::clear()
 
 const regional_settings& overmapbuffer::get_settings(int x, int y, int z)
 {
+    (void)z;
     overmap &om = get_om_global(x, y);
-    return om.get_settings(x, y, z);
+    return om.get_settings();
 }
 
 void overmapbuffer::add_note(int x, int y, int z, const std::string& message)
@@ -154,12 +155,9 @@ overmap *overmapbuffer::get_existing(int x, int y)
         // checked in a previous call of this function).
         return NULL;
     }
-    // Check if the overmap exist on disk,
-    std::ifstream tmp(terrain_filename( x, y ).c_str(), std::ios::in);
-    if(tmp.is_open()) {
+    if( file_exist( terrain_filename( x, y ) ) ) {
         // File exists, load it normally (the get function
         // indirectly call overmap::open to do so).
-        tmp.close();
         return &get( x, y );
     }
     // File does not exist (or not readable which is essentially

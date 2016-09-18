@@ -24,8 +24,6 @@
 
 // Really just a sanity check for functions not tested beyond this. in theory 4096 works (`InvletInvlet)
 #define MAX_ITEM_IN_SQUARE 4096
-// 6.25 dead bears is enough for everybody!
-#define MAX_VOLUME_IN_SQUARE 4000
 // no reason to differ
 #define MAX_ITEM_IN_VEHICLE_STORAGE MAX_ITEM_IN_SQUARE
 // only can wear a maximum of two of any type of clothing
@@ -85,6 +83,9 @@
 
 /** Maximum (effective) level for a skill */
 #define MAX_SKILL 10
+
+/** Maximum range for aimed weapons */
+#define MAX_RANGE 30
 
 /** Accuracy levels which a shots tangent must be below */
 constexpr double accuracy_headshot = 0.1;

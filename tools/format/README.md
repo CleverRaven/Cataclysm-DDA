@@ -159,6 +159,15 @@ The `NOWRAP` flag results in the following output:
 }
 ```
 
+The `WRAP` flag prevents concatenation of a solitary element to a single line:
+```
+{
+  "modes": [
+    [ "DEFAULT", "semi-auto", 1 ]
+  ]
+}
+```
+
 ### Canonical arrays
 
 Some **nodes** can have a single value or an array of elements:

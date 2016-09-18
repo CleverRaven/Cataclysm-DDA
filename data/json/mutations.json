@@ -415,6 +415,7 @@
         "description" : "You don't experience guilt like others do.  Even when you know your actions are wrong, you just don't care.",
         "starting_trait" : true,
         "valid" : false,
+        "cancels" : ["PACIFIST"],
         "flags" : ["CANNIBAL"]
     },{
         "type" : "mutation",
@@ -814,7 +815,8 @@
         "points" : -4,
         "description" : "You don't like thinking about violence.  Your combat skills advance much slower than usual, and you feel more guilt about killing.",
         "starting_trait" : true,
-        "valid" : false
+        "valid" : false,
+        "cancels" : ["PSYCHOPATH", "PRED1", "PRED2", "PRED3", "PRED4"]
     },{
         "type" : "mutation",
         "id" : "MOODSWINGS",
@@ -1035,7 +1037,6 @@
         "name" : "Avian Eyes",
         "points" : 5,
         "visibility" : 1,
-        "ugliness" : 0,
         "description" : "Your vision has become particularly acute: you suspect you could pick out zombies much farther away.  Perception +4.",
         "cancels" : ["ELFAEYES", "FEL_EYE", "LIZ_EYE", "URSINE_EYE", "COMPOUND_EYES"],
         "prereqs" : ["PER_UP"],
@@ -1214,6 +1215,7 @@
         "ugliness" : 3,
         "description" : "You've grown a set of gills in your neck, allowing you to breathe underwater.  Slightly increases wet benefits.",
         "category" : ["MUTCAT_FISH"],
+        "cancels" : ["GILLS_CEPH"],
         "wet_protection" : [
             { "part" : "HEAD", "good" : 1 }
         ]
@@ -1226,6 +1228,7 @@
         "ugliness" : 4,
         "description" : "You've grown a set of gills, running from your neck up behind your ears.  They allow you to breathe underwater and slightly increase wet benefits.",
         "category" : ["MUTCAT_CEPHALOPOD"],
+        "cancels" : ["GILLS"],
         "wet_protection" : [
             { "part" : "HEAD", "good" : 1 }
         ]
@@ -1621,6 +1624,8 @@
         "id" : "CF_HAIR",
         "name" : "Urticating Hairs",
         "points" : 3,
+        "visibility" : 1,
+        "ugliness" : 1,
         "description" : "Significant amounts of your hairs have loosened.  If some creature tries to attack you, your assailant is quite likely to get fine, bristly chitin in an irritating spot; it doesn't carry your venom but it will be distracting.",
         "prereqs" : ["CHITIN_FUR2", "CHITIN_FUR3"],
         "threshreq" : ["THRESH_SPIDER"],
@@ -1630,6 +1635,8 @@
         "id" : "SPINES",
         "name" : "Spines",
         "points" : 1,
+        "visibility" : 1,
+        "ugliness" : 2,
         "description" : "Your skin is covered with fine spines.  Whenever an unarmed opponent strikes a part of your body that is not covered by clothing, they will receive moderate damage.",
         "changes_to" : ["QUILLS"]
     },{
@@ -1637,6 +1644,8 @@
         "id" : "QUILLS",
         "name" : "Quills",
         "points" : 2,
+        "visibility" : 3,
+        "ugliness" : 3,
         "description" : "Your body is covered with large quills.  Whenever an unarmed opponent strikes a part of your body that is not covered by clothing, they will receive significant damage.",
         "prereqs" : ["SPINES"]
     },{
@@ -1841,7 +1850,6 @@
         "id" : "CLAWS_RETRACT",
         "name" : "Retractable Claws",
         "points" : 2,
-        "visibility" : 0,
         "ugliness" : 1,
         "description" : "You have claws on the ends of your fingers, and can extend or retract them as desired.  Gloves will still get in the way, though.",
         "prereqs" : ["CLAWS"],
@@ -2030,6 +2038,7 @@
         "id" : "BENDY1",
         "name" : "Stretchy Limbs",
         "points" : 1,
+        "visibility" : 1,
         "description" : "Your limbs seem to have a little more 'give' to them.  +1 Dexterity.",
         "changes_to" : ["BENDY2"],
         "threshreq" : ["THRESH_SLIME", "THRESH_ELFA"],
@@ -2042,6 +2051,7 @@
         "id" : "BENDY2",
         "name" : "Rubbery Limbs",
         "points" : 1,
+        "visibility" : 1,
         "mixed_effect" : true,
         "description" : "Your limbs are significantly more flexible than any pathetic human arm or leg.  +3 Dexterity, -2 Strength.",
         "purifiable" : false,
@@ -2059,6 +2069,8 @@
         "id" : "BENDY3",
         "name" : "Pseudolimbs",
         "points" : 0,
+        "visibility" : 2,
+        "ugliness" : 2,
         "mixed_effect" : true,
         "description" : "Your pseudopod-like limbs can fit into anything!  +4 Dexterity, -4 Strength.",
         "valid" : false,
@@ -2120,7 +2132,7 @@
         "ugliness" : 2,
         "mixed_effect" : true,
         "description" : "Your feet have fused into hooves.  This allows kicking attacks to do much more damage, provides natural armor, and removes the need to wear shoes; however, you can not wear shoes of any kind.  Reduces wet effects.",
-        "cancels" : ["PADDED_FEET", "LEG_TENTACLES", "RAP_TALONS"],
+        "cancels" : ["PADDED_FEET", "LEG_TENTACLES", "RAP_TALONS", "ROOTS1", "ROOTS2", "ROOTS3"],
         "category" : ["MUTCAT_CATTLE", "MUTCAT_CHIMERA"],
         "wet_protection":[
             { "part" : "FOOT_L", "neutral" : 10 },
@@ -2161,6 +2173,8 @@
         "id" : "STOCKY_TROGLO",
         "name" : "Subterranean Build",
         "points" : 0,
+        "visibility" : 3,
+        "ugliness" : 2,
         "description" : "Your frame has adapted for life in confined spaces.  You seem a little shorter and bulkier, trading muscle mass for mobility.  (+2 Strength, -2 Dexterity)",
         "threshreq" : ["THRESH_TROGLOBITE"],
         "category" : ["MUTCAT_TROGLOBITE"],
@@ -2687,6 +2701,7 @@
         "changes_to" : ["PRED2"],
         "prereqs" : ["CARNIVORE", "THRESH_URSINE"],
         "threshreq" : ["THRESH_BEAST", "THRESH_RAPTOR", "THRESH_CHIMERA", "THRESH_LUPINE", "THRESH_FELINE", "THRESH_URSINE", "THRESH_LIZARD", "THRESH_SPIDER"],
+        "cancels" : ["PACIFIST"],
         "category" : ["MUTCAT_BEAST", "MUTCAT_RAPTOR", "MUTCAT_CHIMERA", "MUTCAT_LUPINE", "MUTCAT_FELINE", "MUTCAT_URSINE", "MUTCAT_LIZARD", "MUTCAT_SPIDER"]
     },{
         "type" : "mutation",
@@ -2699,6 +2714,7 @@
         "prereqs2" : ["PRED1"],
         "changes_to" : ["PRED3"],
         "threshreq" : ["THRESH_BEAST", "THRESH_RAPTOR", "THRESH_CHIMERA", "THRESH_LUPINE", "THRESH_FELINE", "THRESH_URSINE", "THRESH_LIZARD", "THRESH_SPIDER"],
+        "cancels" : ["PACIFIST"],
         "category" : ["MUTCAT_BEAST", "MUTCAT_RAPTOR", "MUTCAT_CHIMERA", "MUTCAT_LUPINE", "MUTCAT_FELINE", "MUTCAT_URSINE", "MUTCAT_LIZARD", "MUTCAT_SPIDER"]
     },{
         "type" : "mutation",
@@ -2713,6 +2729,7 @@
         "leads_to" : ["SAPIOVORE"],
         "changes_to" : ["PRED4"],
         "threshreq" : ["THRESH_BEAST", "THRESH_RAPTOR", "THRESH_CHIMERA", "THRESH_LUPINE", "THRESH_FELINE", "THRESH_URSINE", "THRESH_LIZARD", "THRESH_SPIDER"],
+        "cancels" : ["PACIFIST"],
         "category" : ["MUTCAT_BEAST", "MUTCAT_RAPTOR", "MUTCAT_CHIMERA", "MUTCAT_LUPINE", "MUTCAT_FELINE", "MUTCAT_URSINE", "MUTCAT_LIZARD", "MUTCAT_SPIDER"],
         "passive_mods" : {
             "int_mod" : -1
@@ -2727,6 +2744,7 @@
         "purifiable" : false,
         "prereqs" : ["CARNIVORE", "THRESH_URSINE"],
         "prereqs2" : ["PRED3"],
+        "cancels" : ["PACIFIST"],
         "threshreq" : ["THRESH_BEAST", "THRESH_RAPTOR", "THRESH_CHIMERA", "THRESH_URSINE"],
         "category" : ["MUTCAT_BEAST", "MUTCAT_RAPTOR", "MUTCAT_CHIMERA", "MUTCAT_URSINE"],
         "passive_mods" : {
@@ -2877,7 +2895,6 @@
         "name" : "Feline Ears",
         "points" : 1,
         "visibility" : 4,
-        "ugliness" : 0,
         "description" : "Your ears have extended into long, pointed, velvety ones, like those of a feline.  You find it easier to tune in on sounds from afar.",
         "category" : ["MUTCAT_FELINE"],
         "cancels" : ["LUPINE_EARS", "URSINE_EARS", "CANINE_EARS", "ELFA_EARS"]
@@ -3017,7 +3034,6 @@
         "name" : "Large",
         "points" : 2,
         "visibility" : 1,
-        "ugliness" : 0,
         "description" : "You carry your rugged body with the dignity you deserve.  Strength +2.",
         "prereqs" : ["LARGE"],
         "prereqs2" : ["STR_UP", "STR_UP_2", "STR_UP_3", "STR_UP_4"],
@@ -3054,7 +3070,7 @@
         "visibility" : 4,
         "ugliness" : 3,
         "mixed_effect" : true,
-        "description" : "Your cardiovascular system has caught up with your muscular physique, so who needs pathetic human cars? Strength +4.",
+        "description" : "Your cardiovascular system has caught up with your muscular physique, so who needs pathetic human cars?  Strength +4.",
         "prereqs" : ["HUGE"],
         "prereqs2" : ["STR_UP_3", "STR_UP_4"],
         "threshreq" : ["THRESH_URSINE", "THRESH_CATTLE"],
@@ -3200,7 +3216,6 @@
         "id" : "INT_UP_2",
         "name" : "Very Smart",
         "points" : 2,
-        "ugliness" : 0,
         "description" : "You are smarter.  Intelligence + 2",
         "prereqs" : ["INT_UP"],
         "changes_to" : ["INT_UP_3"],
@@ -3360,8 +3375,6 @@
         "name" : "Metallassomaiphile",
         "//" : "name courtesy of wiktionary's Greek for 'mutate'.  Greek-speakers, feel free to correct the term",
         "points" : -1,
-        "visibility" : 0,
-        "ugliness" : 0,
         "description" : "Just thinking of mutagen (such a lovely word!  'Mutagen'.  Perfect!) makes you thirsty.  And you so love your new parts.  You simply must have more mutagen!",
         "threshreq" : ["THRESH_MEDICAL", "THRESH_CHIMERA"],
         "category" : ["MUTCAT_MEDICAL", "MUTCAT_CHIMERA"]
@@ -4231,8 +4244,8 @@
         "description" : "Your toes have grown wriggly, and you can't imagine why you wear that stuff on your feet.  Take it off.  It's in the way.",
         "prereqs" : ["PLANTSKIN"],
         "threshreq" : ["THRESH_PLANT"],
-        "cancels" : ["LEG_TENTACLES"],
         "changes_to" : ["ROOTS2"],
+        "cancels" : ["LEG_TENTACLES", "HOOVES"],
         "category" : ["MUTCAT_PLANT"],
         "encumbrance_covered" : [
             [ "FOOT_L", 10 ],
@@ -4249,7 +4262,7 @@
         "description" : "It's about time you started developing a root system.  When reading, fishing from, waiting, or otherwise being stationary for a while on diggable terrain, you'll extract nutrients and water from the soil.",
         "prereqs" : ["ROOTS1"],
         "threshreq" : ["THRESH_PLANT"],
-        "cancels" : ["LEG_TENTACLES", "RAP_TALONS"],
+        "cancels" : ["PADDED_FEET", "LEG_TENTACLES", "HOOVES", "RAP_TALONS"],
         "changes_to" : ["ROOTS3"],
         "category" : ["MUTCAT_PLANT"],
         "encumbrance_covered" : [
@@ -4267,7 +4280,7 @@
         "prereqs" : ["ROOTS2"],
         "prereqs2" : ["SAPROPHAGE"],
         "threshreq" : ["THRESH_PLANT"],
-        "cancels" : ["LEG_TENTACLES"],
+        "cancels" : ["PADDED_FEET", "LEG_TENTACLES", "HOOVES", "RAP_TALONS"],
         "category" : ["MUTCAT_PLANT"],
         "encumbrance_covered" : [
             [ "FOOT_L", 10 ],
@@ -4286,7 +4299,7 @@
         "prereqs" : ["ROOTS2", "ROOTS3"],
         "prereqs2" : ["SAPROPHAGE"],
         "threshreq" : ["THRESH_PLANT"],
-        "cancels" : ["LEG_TENTACLES", "SMELLY", "SMELLY2"],
+        "cancels" : ["PADDED_FEET", "LEG_TENTACLES", "HOOVES", "RAP_TALONS", "SMELLY", "SMELLY2"],
         "category" : ["MUTCAT_PLANT"],
         "encumbrance_covered" : [
             [ "FOOT_L", 10 ],
@@ -4300,7 +4313,7 @@
         "description" : "Your muscle response is dependent on ambient temperatures.  You lose 1% of your speed for every 5 (2.8) degrees below 65 F (18.3 C).",
         "changes_to" : ["COLDBLOOD2"],
         "cancels" : ["HUNGER", "HUNGER2", "HUNGER3", "EATHEALTH"],
-        "category" : ["MUTCAT_FISH", "MUTCAT_BIRD", "MUTCAT_CEPHALOPOD", "MUTCAT_SPIDER"]
+        "category" : ["MUTCAT_FISH", "MUTCAT_CEPHALOPOD", "MUTCAT_SPIDER"]
     },{
         "type" : "mutation",
         "id" : "COLDBLOOD2",
@@ -4721,7 +4734,7 @@
         "id" : "THRESH_URSINE",
         "name" : "Bear",
         "points" : 1,
-        "description" : "So the humans died, what's the worry? Now they won't ruin the woods.",
+        "description" : "So the humans died, what's the worry?  Now they won't ruin the woods.",
         "cancels" : ["CARNIVORE"],
         "valid": false,
         "purifiable": false,
@@ -4731,7 +4744,7 @@
         "id" : "THRESH_CATTLE",
         "name" : "Bovine",
         "points" : 1,
-        "description" : "Civilization collapsed? Great!  You and your kin will never have to worry about a slaughterhouse again.",
+        "description" : "Civilization collapsed?  Great!  You and your kin will never have to worry about a slaughterhouse again.",
         "valid": false,
         "purifiable": false,
         "threshold": true
@@ -4867,8 +4880,6 @@
         "id" : "ACIDPROOF",
         "name" : "Acidproof",
         "points" : 3,
-        "visibility" : 0,
-        "ugliness" : 0,
         "description" : "Your mutated flesh is immune to the damaging effects of acid.",
         "threshreq" : ["THRESH_INSECT", "THRESH_CHIMERA", "THRESH_MEDICAL", "THRESH_SLIME"],
         "category" : ["MUTCAT_INSECT", "MUTCAT_CHIMERA", "MUTCAT_MEDICAL", "MUTCAT_SLIME"]
@@ -4877,8 +4888,6 @@
         "id" : "ACIDBLOOD",
         "name" : "Acid Blood",
         "points" : 4,
-        "visibility" : 0,
-        "ugliness" : 0,
         "description" : "Your body has developed a wonderful defense mechanism.  Instead of normal blood, you bleed a strong molecular acid which will damage any creature foolish enough to harm you.",
         "prereqs" : ["ACIDPROOF"],
         "threshreq" : ["THRESH_INSECT", "THRESH_CHIMERA", "THRESH_MEDICAL", "THRESH_SLIME"],

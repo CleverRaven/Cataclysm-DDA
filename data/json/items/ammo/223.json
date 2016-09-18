@@ -18,7 +18,7 @@
     "range": 36,
     "damage": 44,
     "pierce": 2,
-    "dispersion": 80,
+    "dispersion": 30,
     "recoil": 450,
     "effects": [ "COOKOFF" ]
   },
@@ -45,7 +45,6 @@
     "name": "5.56 NATO tracer",
     "name_plural": "5.56 NATO tracer",
     "description": "This ammunition is a one-in-five mix of M855A1 and M856 tracer rounds to help keep the weapon they are fired from on target.",
-    "proportional": { "dispersion": 0.8 },
     "extend": { "effects": [ "INCENDIARY" ] }
   },
   {

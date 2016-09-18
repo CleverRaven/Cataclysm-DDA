@@ -42,7 +42,7 @@
     },{
         "type" : "speech",
         "speaker" : "mon_furvivor_shotgun",
-        "sound" : "\"You! Come here!\"",
+        "sound" : "\"You!  Come here!\"",
         "volume" : 20
     },{
         "type" : "speech",

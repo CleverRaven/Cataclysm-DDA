@@ -18,7 +18,7 @@
     "death_drops": {
         "subtype": "collection",
         "groups": [
-            [ "biollante", 35 ]
+            [ "biollante", 50 ]
         ]
     },
     "hp":140,
@@ -34,13 +34,13 @@
     "id": "mon_creeper_vine",
     "edit-mode": "modify",
     "name": "creeping grass",
-    "hp":10,
+    "hp":5,
         "upgrades":{
       "into_group": "GROUP_CREEPER_VINE",
       "half_life": 1
       },
     "death_function": ["VINE_CUT", "MELT"],
-    "special_attacks":[["VINE", 3], ["DISAPPEAR", 300]],
+    "special_attacks":[["VINE", 10], ["DISAPPEAR", 240]],
     "description":"A vine-like tendril that is rooted to the ground.  It flails about constantly in a violent fashion for a time before disappearing into the Earth.",
     "flags":["NOHEAD", "HARDTOSHOOT", "PLASTIC", "IMMOBILE", "GRABS", "NOGIB"]
     },{
@@ -61,21 +61,36 @@
             [ "biollante", 35 ],
             [ "biollante", 35 ]
         ]
-    }
+    },
+    "flags":["NOHEAD", "IMMOBILE", "NO_BREATHE"]
     },{
     "type": "MONSTER",
     "id": "mon_triffid",
     "edit-mode": "modify",
         "upgrades":{
       "into_group": "GROUP_TRIFFID_PK",
-      "half_life": 14
+      "half_life": 6
       },
+    "death_drops": {
+        "subtype": "collection",
+        "groups": [
+            [ "fungal_sting", 10 ],
+            [ "biollante", 10 ]
+        ]
+    },
     "flags":["SEES", "SMELLS", "BASHES", "GROUP_BASH", "NOHEAD", "PARALYZEVENOM", "PUSH_MON"]
     },{
     "type": "MONSTER",
     "id": "mon_fungal_fighter",
     "edit-mode": "modify",
-        "upgrades":{
+    "melee_skill":8,
+    "melee_dice":1,
+    "melee_dice_sides":8,
+    "melee_cut":5,
+    "dodge":2,
+    "armor_bash":4,
+    "armor_cut":6,
+    "upgrades":{
       "into_group": "GROUP_HISSER",
       "half_life": 21
     },
@@ -83,6 +98,7 @@
         "subtype": "collection",
         "groups": [
             [ "fungal_sting", 100 ],
+            ["fungal_fighter_sting", 75],
             ["fungal_fighter_sting", 75]
         ]
     }
@@ -91,6 +107,9 @@
     "id": "mon_vinebeast",
     "edit-mode": "modify",
         "speed": 90,
+        "armor_bash":18,
+        "armor_cut":2,
+        "armor_stab":12,
         "upgrades":{
       "into_group": "GROUP_TANGELA",
       "half_life": 21
@@ -120,11 +139,10 @@
     "vision_night":3,
     "death_drops": {
         "subtype": "collection",
-        "//": "do duplicate item_groups work here?",
         "groups": [
-            [ "biollante", 35 ],
-            [ "biollante", 35 ],
-            [ "biollante", 35 ]
+            [ "biollante", 50 ],
+            [ "biollante", 50 ],
+            [ "biollante", 50 ]
         ]
     },
     "hp":120,
@@ -132,7 +150,7 @@
     "special_attacks":[["SPIT_SAP", 10], ["IMPALE",20], ["GROW_VINE", 50]],
     "emit_fields": [ "emit_gas_plume"],
     "description":"A puckered flower is all that adorns the stalk of this biollante.  Beneath its luminescent petals, something rigid appears to be moving, and consistent wisps of gas can be seen escaping into the surrounding air.",
-    "flags":["NOHEAD", "IMMOBILE", "PARALYZEVENOM", "SEES"],
+    "flags":["SEES", "NOHEAD", "IMMOBILE", "PARALYZEVENOM", "NO_BREATHE"],
     "//": "This thing is pretty awesome.  One of my favorite creations from this faction.  The vine growth keeps it out of melee that much longer in the absence of a creeper hub, the sap is pretty deadly and accurate, and impale is surprise bleeding."
     },{
     "type": "MONSTER",
@@ -248,7 +266,7 @@
     "death_drops": {
         "subtype": "collection",
         "groups": [
-            [ "biollante", 35 ]
+            [ "biollante", 75 ]
         ]
     },
     "description":"A twisting cluster of roots, with 3 barbed vines curled limply around a wildly cluster of smaller vines.  When disturbed, it can release several of these vines.",
@@ -316,12 +334,18 @@
             ["biollante", 35],
             ["biollante", 35],
             ["biollante", 35],
-            ["fungal_sting", 65]
+            ["fungal_sting", 75]
         ]
     },
+    "attack_effs": [
+        {
+        "id": "spider_web_omega",
+        "duration": 1
+        }
+    ],
     "special_attacks":[["GROW_VINE", 30], ["VINE", 5], ["SPIT_SAP", 15]],
     "description":"A walking mass of vines.  Its body concealed in writhing vines, this deadly monster is a meter or so from being pocket-sized, but carries several deadly toxins within it.",
-    "flags":["SEES", "HEARS", "PATH_AVOID_DANGER_1", "PRIORITIZE_TARGETS", "NOHEAD", "HARDTOSHOOT", "GRABS", "PUSH_MON", "VENOM", "PLASTIC", "PARALYZEVENOM"],
+    "flags":["SEES", "HEARS", "PATH_AVOID_DANGER_1", "PRIORITIZE_TARGETS", "NOHEAD", "HARDTOSHOOT", "GRABS", "PUSH_MON", "PLASTIC", "PARALYZEVENOM"],
     "anger_triggers":["FIRE", "HURT", "FRIEND_DIED", "PLAYER_CLOSE"],
     "//": "Tangela is pretty neat, but, by design, not exactly 'a thug', to borrow the term from the Dominions series of games.  It's not going to slug it out well with the big guys."
     },{
@@ -339,8 +363,8 @@
     "morale":100,
     "speed":55,
     "melee_skill":7,
-    "melee_dice":2,
-    "melee_dice_sides":8,
+    "melee_dice":8,
+    "melee_dice_sides":2,
     "melee_cut":4,
     "melee_damage": [ {"damage_type": "biological", "amount": 2} ],
     "dodge":3,
@@ -408,7 +432,7 @@
         "groups": [
             ["fungal_sting", 100],
             ["fungal_fighter_sting", 75],
-            ["biollante", 35]
+            ["biollante", 75]
         ]
     },
     "description":"A massive slab of bark with faintly glowing flattened blue tendrils and large brown cones instead of leaves.  It looks 'sort' of like a tree in that the tendrils are thickest at the base of the monster and taper into thin, densely packed slivers at the top.  Its actually almost beautiful at night, where it can be seen from a distance pulsating among the tallest tree.",
@@ -497,7 +521,7 @@
         "min_mul": 0.50, "//": "baby dionaea bitch"
     }],
     "description":"An animate plant a little under 2 meters long, this juvenile still packs a wallop with its fetid mouth.",
-    "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "VENOM", "BASHES", "PUSH_MON", "NOHEAD"],
+    "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "VENOM", "BASHES", "PUSH_MON", "NOHEAD", "PATH_AVOID_DANGER_2"],
     "anger_triggers":["HURT", "FRIEND_DIED", "PLAYER_WEAK", "PLAYER_CLOSE"]
     },{
     "type": "MONSTER",
@@ -535,7 +559,7 @@
         },
         ["VINE", 15], ["RANGED_PULL", 3]],
     "description":"A rotund armored 'head' with a massive maw dominates this monster's form.  Its head hangs low when its not in use, saving energy for its coordinated slither along the ground.",
-    "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "VENOM", "BASHES", "GROUP_BASH", "PUSH_MON", "NOHEAD"],
+    "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "VENOM", "BASHES", "GROUP_BASH", "PUSH_MON", "NOHEAD", "PATH_AVOID_DANGER_2"],
     "anger_triggers":["HURT", "FRIEND_DIED", "PLAYER_WEAK", "PLAYER_CLOSE"],
     "//": "Minor concerns about their strength, but they add real meat to the triffid front lines."
     },{
@@ -562,7 +586,7 @@
     "armor_fire":4,
     "hp":40,
     "special_attacks":[["VINE", 5], ["KAMIKAZE", 0], ["RATTLE", 3]],
-    "starting_ammo": { "grenade": 1, "flashbang": 1},
+    "starting_ammo": {"grenade": 1, "flashbang": 1},
     "death_function":["EXPLODE", "ACID", "SMOKEBURST"],
     "description":"a dried up shrub with rustling brown leaves adept at ambushes.  Highly volatile and easily excited.",
     "flags":["SEES", "HEARS", "GOODHEARING", "PATH_AVOID_DANGER_1", "PRIORITIZE_TARGETS", "CAN_DIG", "ANIMAL", "NOHEAD", "BASHES"],
@@ -593,7 +617,7 @@
     "hp":45,
     "special_attacks":[["VINE", 5], ["KAMIKAZE", 0], ["RATTLE", 3]],
     "special_when_hit":["ZAPBACK", 20],
-    "starting_ammo": {  "c4": 1, "EMPbomb": 3},
+    "starting_ammo": {"c4": 1, "EMPbomb": 3},
     "death_function":["EXPLODE", "ACID", "SMOKEBURST"],
     "description":"Somehow this dessicated plant has become charged up with some lightning?  Probably not good for nearby electronic devices. . .",
     "flags":["SEES", "SMELLS","KEENNOSE", "HEARS", "GOODHEARING", "PATH_AVOID_DANGER_1", "PRIORITIZE_TARGETS", "CAN_DIG", "ANIMAL", "NOHEAD", "BASHES"],

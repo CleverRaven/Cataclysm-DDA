@@ -17,6 +17,8 @@ const mtype_id mon_blob( "mon_blob" );
 const mtype_id mon_shadow( "mon_shadow" );
 const mtype_id mon_shadow_snake( "mon_shadow_snake" );
 
+const species_id ROBOT( "ROBOT" );
+
 const skill_id skill_throw( "throw" );
 
 const efftype_id effect_beartrap( "beartrap" );
@@ -29,16 +31,17 @@ const efftype_id effect_tetanus( "tetanus" );
 // A pit becomes less effective as it fills with corpses.
 float pit_effectiveness( const tripoint &p )
 {
-    int corpse_volume = 0;
+    units::volume corpse_volume = 0;
     for( auto &pit_content : g->m.i_at( p ) ) {
         if( pit_content.is_corpse() ) {
             corpse_volume += pit_content.volume();
         }
     }
 
-    int filled_volume = 75 * 10; // 10 zombies; see item::volume
+    // 10 zombies; see item::volume
+    const units::volume filled_volume = 10 * units::from_milliliter<float>( 62500 );
 
-    return std::max( 0.0f, 1.0f - float( corpse_volume ) / filled_volume );
+    return std::max( 0.0f, 1.0f - corpse_volume / filled_volume );
 }
 
 void trapfunc::bubble( Creature *c, const tripoint &p )
@@ -605,31 +608,41 @@ void trapfunc::goo( Creature *c, const tripoint &p )
 
 void trapfunc::dissector( Creature *c, const tripoint &p )
 {
+    if( c == nullptr ) {
+        return;
+    }
+
+    monster *z = dynamic_cast<monster *>( c );
+    if( z != nullptr && z->type->in_species( ROBOT ) ) {
+        //The monster is a robot. So the dissector should not try to dissect the monsters flesh.
+        sounds::sound( p, 4, _( "BEEPBOOP! Please remove non-organic object." ) ); //Dissector error sound.
+        c->add_msg_player_or_npc( m_bad, _( "The dissector lights up, and shuts down." ),
+                                  _( "The dissector lights up, and shuts down." ) );
+        return;
+    }
+
     //~ the sound of a dissector dissecting
     sounds::sound( p, 10, _( "BRZZZAP!" ) );
-    if( c != nullptr ) {
-        c->add_msg_player_or_npc( m_bad, _( "Electrical beams emit from the floor and slice your flesh!" ),
-                                  _( "Electrical beams emit from the floor and slice <npcname>s flesh!" ) );
-        c->add_memorial_log( pgettext( "memorial_male", "Stepped into a dissector." ),
-                             pgettext( "memorial_female", "Stepped into a dissector." ) );
-        monster *z = dynamic_cast<monster *>( c );
-        player *n = dynamic_cast<player *>( c );
-        if( n != nullptr ) {
-            n->deal_damage( nullptr, bp_head, damage_instance( DT_CUT, 15 ) );
-            n->deal_damage( nullptr, bp_torso, damage_instance( DT_CUT, 20 ) );
-            n->deal_damage( nullptr, bp_arm_r, damage_instance( DT_CUT, 12 ) );
-            n->deal_damage( nullptr, bp_arm_l, damage_instance( DT_CUT, 12 ) );
-            n->deal_damage( nullptr, bp_hand_r, damage_instance( DT_CUT, 10 ) );
-            n->deal_damage( nullptr, bp_hand_l, damage_instance( DT_CUT, 10 ) );
-            n->deal_damage( nullptr, bp_leg_r, damage_instance( DT_CUT, 12 ) );
-            n->deal_damage( nullptr, bp_leg_r, damage_instance( DT_CUT, 12 ) );
-            n->deal_damage( nullptr, bp_foot_l, damage_instance( DT_CUT, 10 ) );
-            n->deal_damage( nullptr, bp_foot_r, damage_instance( DT_CUT, 10 ) );
-        } else if( z != nullptr ) {
-            z->apply_damage( nullptr, bp_torso, 60 );
-        }
-        c->check_dead_state();
+    c->add_msg_player_or_npc( m_bad, _( "Electrical beams emit from the floor and slice your flesh!" ),
+                              _( "Electrical beams emit from the floor and slice <npcname>s flesh!" ) );
+    c->add_memorial_log( pgettext( "memorial_male", "Stepped into a dissector." ),
+                         pgettext( "memorial_female", "Stepped into a dissector." ) );
+    player *n = dynamic_cast<player *>( c );
+    if( n != nullptr ) {
+        n->deal_damage( nullptr, bp_head, damage_instance( DT_CUT, 15 ) );
+        n->deal_damage( nullptr, bp_torso, damage_instance( DT_CUT, 20 ) );
+        n->deal_damage( nullptr, bp_arm_r, damage_instance( DT_CUT, 12 ) );
+        n->deal_damage( nullptr, bp_arm_l, damage_instance( DT_CUT, 12 ) );
+        n->deal_damage( nullptr, bp_hand_r, damage_instance( DT_CUT, 10 ) );
+        n->deal_damage( nullptr, bp_hand_l, damage_instance( DT_CUT, 10 ) );
+        n->deal_damage( nullptr, bp_leg_r, damage_instance( DT_CUT, 12 ) );
+        n->deal_damage( nullptr, bp_leg_r, damage_instance( DT_CUT, 12 ) );
+        n->deal_damage( nullptr, bp_foot_l, damage_instance( DT_CUT, 10 ) );
+        n->deal_damage( nullptr, bp_foot_r, damage_instance( DT_CUT, 10 ) );
+    } else if( z != nullptr ) {
+        z->apply_damage( nullptr, bp_torso, 60 );
     }
+    c->check_dead_state();
 }
 
 void trapfunc::pit( Creature *c, const tripoint &p )

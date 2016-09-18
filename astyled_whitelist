@@ -23,6 +23,8 @@ src/drawing_primitives.cpp
 src/editmap.cpp
 src/explosion.cpp
 src/fault.cpp
+src/flag.h
+src/flag.cpp
 src/gamemode.cpp
 src/gates.cpp
 src/help.cpp
@@ -204,3 +206,4 @@ src/weather.h
 src/weighted_list.h
 src/worldfactory.h
 src/safemode_ui.h
+src/units.h

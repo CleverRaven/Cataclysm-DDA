@@ -1,6 +1,5 @@
 #include "catalua.h"
 
-#include <sys/stat.h>
 #include <memory>
 
 #include "game.h"
@@ -30,6 +29,7 @@
 #include "overmap.h"
 #include "mtype.h"
 #include "field.h"
+#include "filesystem.h"
 extern "C" {
 #include "lua.h"
 #include "lualib.h"
@@ -43,6 +43,7 @@ extern "C" {
 #endif
 
 using item_stack_iterator = std::list<item>::iterator;
+using volume = units::volume;
 
 lua_State *lua_state = nullptr;
 
@@ -1044,11 +1045,7 @@ static int game_register_iuse(lua_State *L)
 void lua_loadmod(std::string base_path, std::string main_file_name)
 {
     std::string full_path = base_path + "/" + main_file_name;
-
-    // Check if file exists first
-    struct stat buffer;
-    int file_exists = stat(full_path.c_str(), &buffer) == 0;
-    if(file_exists) {
+    if( file_exist( full_path ) ) {
         lua_file_path = base_path;
         lua_dofile( lua_state, full_path.c_str() );
         lua_file_path = "";

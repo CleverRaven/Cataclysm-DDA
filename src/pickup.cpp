@@ -268,7 +268,7 @@ static bool select_autopickup_items( std::vector<item> &here, std::vector<pickup
     for( size_t iVol = 0, iNumChecked = 0; iNumChecked < here.size(); iVol++ ) {
         for( size_t i = 0; i < here.size(); i++ ) {
             bPickup = false;
-            if( here[i].volume() == ( int )iVol ) {
+            if( here[i].volume() / units::legacy_volume_factor == ( int )iVol ) {
                 iNumChecked++;
                 const std::string sItemName = here[i].tname( 1, false );
 
@@ -935,8 +935,8 @@ void Pickup::pick_up( const tripoint &pos, int min )
                 wprintz( w_pickup, c_white, "/%.1f", convert_weight( g->u.weight_capacity() ) );
                 mvwprintz( w_pickup, 0, 24,
                            ( pl_copy.volume_carried() > g->u.volume_capacity() ? c_red : c_white ),
-                           _( "Vol %d" ), pl_copy.volume_carried() );
-                wprintz( w_pickup, c_white, "/%d", g->u.volume_capacity() );
+                           _( "Vol %d" ), to_milliliter( pl_copy.volume_carried() ) );
+                wprintz( w_pickup, c_white, "/%d", to_milliliter( g->u.volume_capacity() ) );
             }
             wrefresh( w_pickup );
 

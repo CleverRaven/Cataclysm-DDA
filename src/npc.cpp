@@ -1361,7 +1361,7 @@ void npc::shop_restock()
         return;
     }
 
-    int total_space = volume_capacity();
+    units::volume total_space = volume_capacity();
     std::list<item> ret;
 
     while( total_space > 0 && !one_in( 50 ) ) {

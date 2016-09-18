@@ -22,7 +22,7 @@ player &get_sanitized_player(  ) {
 TEST_CASE( "use_eyedrops" ) {
     player &dummy = get_sanitized_player();
 
-    item &test_item = dummy.i_add( item( "saline", 0, false ) );
+    item &test_item = dummy.i_add( item( "saline", 0, item::default_charges_tag{} ) );
 
     REQUIRE( test_item.charges == 5 );
 

@@ -2715,6 +2715,7 @@ void mattack::rifle( monster *z, Creature *target )
     npc tmp = make_fake_npc(z, 16, 10, 8, 12);
     tmp.set_skill_level( skill_rifle, 8 );
     tmp.set_skill_level( skill_gun, 6 );
+    tmp.recoil = 0; // no need to aim
 
     if( target == &g->u ) {
         if (!z->has_effect( effect_targeted )) {
@@ -2773,6 +2774,7 @@ void mattack::frag( monster *z, Creature *target ) // This is for the bots, not 
     npc tmp = make_fake_npc(z, 16, 10, 8, 12);
     tmp.set_skill_level( skill_launcher, 8 );
     tmp.set_skill_level( skill_gun, 6 );
+    tmp.recoil = 0; // no need to aim
     z->moves -= 150;   // It takes a while
 
     if (z->ammo[ammo_type] <= 0) {
@@ -2835,6 +2837,7 @@ void mattack::tankgun( monster *z, Creature *target )
     npc tmp = make_fake_npc(z, 12, 8, 8, 8);
     tmp.set_skill_level( skill_launcher, 1 );
     tmp.set_skill_level( skill_gun, 1 );
+    tmp.recoil = 0; // no need to aim
     z->moves -= 150;   // It takes a while
 
     if (z->ammo[ammo_type] <= 0) {

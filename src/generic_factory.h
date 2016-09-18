@@ -18,6 +18,7 @@
 #include "json.h"
 #include "color.h"
 #include "translations.h"
+#include "units.h"
 
 /**
 A generic class to store objects identified by a `string_id`.
@@ -843,6 +844,17 @@ class string_id_reader : public generic_typed_reader<string_id_reader<T>>
         }
 };
 
+inline void report_strict_violation( JsonObject &jo, const std::string &message,
+                                     const std::string &name )
+{
+    try {
+        // Let the json class do the formatting, it includes the context of the JSON data.
+        jo.throw_error( message, name );
+    } catch( const JsonError &err ) {
+        // And catch the exception so the loading continues like normal.
+        debugmsg( "%s", err.what() );
+    }
+}
 
 template <typename T>
 typename std::enable_if<std::is_arithmetic<T>::value, bool>::type assign(
@@ -876,7 +888,7 @@ typename std::enable_if<std::is_arithmetic<T>::value, bool>::type assign(
     }
 
     if( strict && out == val ) {
-        jo.throw_error( "assignment does not update value", name );
+        report_strict_violation( jo, "assignment does not update value", name );
     }
 
     val = out;
@@ -913,7 +925,7 @@ typename std::enable_if<std::is_arithmetic<T>::value, bool>::type assign(
     }
 
     if( strict && out == val ) {
-        jo.throw_error( "assignment does not update value", name );
+        report_strict_violation( jo, "assignment does not update value", name );
     }
 
     val = out;
@@ -931,7 +943,7 @@ typename std::enable_if<std::is_constructible<T, std::string>::value, bool>::typ
     }
 
     if( strict && out == val ) {
-        jo.throw_error( "assignment does not update value", name );
+        report_strict_violation( jo, "assignment does not update value", name );
     }
 
     val = out;
@@ -972,6 +984,67 @@ typename std::enable_if<std::is_constructible<T, std::string>::value, bool>::typ
     }
 
     return res;
+}
+
+inline bool assign( JsonObject &jo, const std::string &name, units::volume &val,
+                    bool strict = false,
+                    const units::volume lo = units::volume( std::numeric_limits<units::volume::value_type>::min(),
+                            units::volume::unit_type{} ),
+                    const units::volume hi = units::volume( std::numeric_limits<units::volume::value_type>::max(),
+                            units::volume::unit_type{} ) )
+{
+    // Currently JSON data contains volume in 250ml units.
+    // TODO: change JSON to contain milliliter values.
+    units::volume::value_type tmp;
+    units::volume out;
+    double scalar;
+
+    // dont require strict parsing for relative and proportional values as rules
+    // such as +10% are well-formed independent of whether they affect base value
+    if( jo.get_object( "relative" ).read( name, tmp ) ) {
+        strict = false;
+        out = val + tmp * units::legacy_volume_factor;
+
+    } else if( jo.get_object( "proportional" ).read( name, scalar ) ) {
+        if( scalar <= 0 || scalar == 1 ) {
+            jo.throw_error( "invalid proportional scalar", name );
+        }
+        strict = false;
+        out = val * scalar;
+
+    } else if( jo.read( name, tmp ) ) {
+        out = tmp * units::legacy_volume_factor;
+
+    } else {
+        return false;
+    }
+
+    if( out < lo || out > hi ) {
+        jo.throw_error( "value outside supported range", name );
+    }
+
+    if( strict && out == val ) {
+        report_strict_violation( jo, "assignment does not update value", name );
+    }
+
+    val = out;
+
+    return true;
+}
+
+/**
+ * Reads a volume value from legacy format: JSON contains a integer which represents multiples
+ * of `units::legacy_volume_factor` (250 ml).
+ */
+inline bool legacy_volume_reader( JsonObject &jo, const std::string &member_name,
+                                  units::volume &value, bool )
+{
+    int legacy_value;
+    if( !jo.read( member_name, legacy_value ) ) {
+        return false;
+    }
+    value = legacy_value * units::legacy_volume_factor;
+    return true;
 }
 
 #endif

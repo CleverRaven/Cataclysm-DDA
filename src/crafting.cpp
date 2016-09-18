@@ -36,8 +36,8 @@ static const std::string fake_recipe_book = "book";
 void remove_from_component_lookup( recipe *r );
 
 recipe::recipe() :
-    result( "null" ), contained( false ), container( "null" ),
-    skill_used( NULL_ID ), reversible( false ),
+    result( "null" ), valid_to_learn( false ), contained( false ),
+    container( "null" ), skill_used( NULL_ID ), reversible( false ),
     autolearn_requirements(), learn_by_disassembly(), result_mult( 1 )
 {
 }
@@ -70,6 +70,8 @@ void load_recipe( JsonObject &jsobj, const std::string & /* src */, bool uncraft
     // required
     std::string result = jsobj.get_string( "result" );
     std::string category = uncraft ? "CC_NONCRAFT" : jsobj.get_string( "category" );
+    // @todo Fix the recipes and remove this
+    uncraft = uncraft || category == "CC_NONCRAFT";
     int time = jsobj.get_int( "time" );
     int difficulty = jsobj.get_int( "difficulty" );
 
@@ -168,6 +170,7 @@ void load_recipe( JsonObject &jsobj, const std::string & /* src */, bool uncraft
     rec->result = result;
     rec->time = time;
     rec->difficulty = difficulty;
+    rec->valid_to_learn = !uncraft;
     rec->byproducts = bps;
     rec->cat = category;
     rec->contained = contained;
@@ -544,8 +547,7 @@ bool recipe::can_make_with_inventory( const inventory &crafting_inv,
 
 bool recipe::valid_learn() const
 {
-    static const std::string ncraft = "CC_NONCRAFT";
-    return cat != ncraft;
+    return valid_to_learn;
 }
 
 const inventory &player::crafting_inventory()
@@ -604,10 +606,6 @@ int recipe::batch_time( int batch ) const
 
     float local_time = float( time ) / lighting_speed;
 
-    if( batch_rscale == 0.0 ) {
-        return local_time * batch;
-    }
-
     // NPCs around you should assist in batch production if they have the skills
     const auto helpers = g->u.get_crafting_helpers();
     int assistants = std::count_if( helpers.begin(), helpers.end(),
@@ -615,13 +613,24 @@ int recipe::batch_time( int batch ) const
         return np->get_skill_level( skill_used ) >= difficulty;
     } );
 
-    double total_time = 0.0;
-    // At batch_rsize, incremental time increase is 99.5% of batch_rscale
-    double scale = batch_rsize / 6.0;
-    for( int x = 0; x < batch; x++ ) {
-        // scaled logistic function output
-        double logf = ( 2.0 / ( 1.0 + exp( -( ( double )x / scale ) ) ) ) - 1.0;
-        total_time += ( double )local_time * ( 1.0 - ( batch_rscale * logf ) );
+    // if recipe does not benefit from batching and we have no assistants, don't do unnecessary additional calculations
+    if( batch_rscale == 0.0 && assistants == 0 ) {
+        return local_time * batch;
+    }
+
+    float total_time = 0.0;
+    // if recipe does not benefit from batching but we do have assistants, skip calculating the batching scale factor
+    if( batch_rscale == 0.0 ) {
+        total_time = local_time * batch;
+    } else {
+        // recipe benefits from batching, so batching scale factor needs to be calculated
+        // At batch_rsize, incremental time increase is 99.5% of batch_rscale
+        double scale = batch_rsize / 6.0;
+        for( double x = 0; x < batch; x++ ) {
+            // scaled logistic function output
+            double logf = ( 2.0 / ( 1.0 + exp( -( x / scale ) ) ) ) - 1.0;
+            total_time += local_time * ( 1.0 - ( batch_rscale * logf ) );
+        }
     }
 
     //Assistants can decrease the time for production but never less than that of one unit
@@ -1623,9 +1632,8 @@ void player::complete_disassemble()
             return;
         }
 
-        // Twice the volume then multiplied by 10.
-        // A book with volume 3 will give 60 pages.
-        const int num_pages = ( org_item.volume() * 2 ) * 10;
+        const int num_pages = org_item.volume() / units::from_milliliter( 12.5 );
+        // TODO: add check for num_pages == 0 (or round up?)
         g->m.spawn_item( pos(), "paper", 0, num_pages );
         if( from_ground ) {
             g->m.i_rem( loc, item_pos );

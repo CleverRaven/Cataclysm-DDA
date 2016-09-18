@@ -15,7 +15,6 @@
     "skill": "rifle",
     "ranged_damage": 45,
     "dispersion": 45,
-    "sight_dispersion": 60,
     "recoil": 150,
     "durability": 8,
     "ups_charges": 5,

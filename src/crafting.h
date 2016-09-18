@@ -46,6 +46,7 @@ struct recipe {
         itype_id result;
         int time; // in movement points (100 per turn)
         int difficulty;
+        bool valid_to_learn;
 
         /** Fetch combined requirement data (inline and via "using" syntax) */
         const requirement_data& requirements() const {

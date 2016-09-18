@@ -104,7 +104,7 @@ class inventory : public visitable<inventory>
         /**
          * Randomly select items until the volume quota is filled.
          */
-        std::list<item> remove_randomly_by_volume(int volume);
+        std::list<item> remove_randomly_by_volume( const units::volume &volume );
         std::list<item> reduce_stack(int position, int quantity);
         std::list<item> reduce_stack(const itype_id &type, int quantity);
 
@@ -151,7 +151,7 @@ class inventory : public visitable<inventory>
         void rust_iron_items();
 
         int weight() const;
-        int volume() const;
+        units::volume volume() const;
 
         void dump(std::vector<item *> &dest); // dumps contents into dest (does not delete contents)
 

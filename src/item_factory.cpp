@@ -55,6 +55,8 @@ static void set_allergy_flags( itype &item_template );
 static void hflesh_to_flesh( itype &item_template );
 static void npc_implied_flags( itype &item_template );
 
+extern const double MIN_RECOIL;
+
 bool item_is_blacklisted(const std::string &id)
 {
     if (item_whitelist.count(id) > 0) {
@@ -165,6 +167,17 @@ void Item_factory::finalize() {
         // for ammo and comestibles stack size defaults to count of initial charges
         if( obj.stack_size == 0 && ( obj.ammo || obj.comestible ) ) {
             obj.stack_size = obj.charges_default();
+        }
+        // JSON contains volume per complete stack, convert it to volume per single item
+        if( obj.count_by_charges() ) {
+            obj.volume = obj.volume / obj.stack_size;
+            obj.integral_volume = obj.integral_volume / obj.stack_size;
+        }
+        // Items always should have some volume.
+        // TODO: handle possible exception software?
+        // TODO: make items with 0 volume an error during loading?
+        if( obj.volume <= 0 ) {
+            obj.volume = units::from_milliliter( 1 );
         }
         for( const auto &tag : obj.item_tags ) {
             if( tag.size() > 6 && tag.substr( 0, 6 ) == "LIGHT_" ) {
@@ -1080,7 +1093,7 @@ void Item_factory::load( islot_gun &slot, JsonObject &jo, const std::string &src
     assign( jo, "ranged_damage", slot.damage, strict );
     assign( jo, "pierce", slot.pierce, strict );
     assign( jo, "dispersion", slot.dispersion, strict );
-    assign( jo, "sight_dispersion", slot.sight_dispersion, strict, 0 );
+    assign( jo, "sight_dispersion", slot.sight_dispersion, strict, 0, int( MIN_RECOIL ) );
     assign( jo, "recoil", slot.recoil, strict );
     assign( jo, "durability", slot.durability, strict, 0, 10 );
     assign( jo, "burst", slot.burst, strict, 1 );
@@ -1152,15 +1165,17 @@ void Item_factory::load_armor( JsonObject &jo, const std::string &src )
     }
 }
 
-void Item_factory::load( islot_armor &slot, JsonObject &jo, const std::string & )
+void Item_factory::load( islot_armor &slot, JsonObject &jo, const std::string &src )
 {
-    assign( jo, "encumbrance", slot.encumber );
-    assign( jo, "coverage", slot.coverage );
-    assign( jo, "material_thickness", slot.thickness );
-    assign( jo, "environmental_protection", slot.env_resist );
-    assign( jo, "warmth", slot.warmth );
-    assign( jo, "storage", slot.storage );
-    assign( jo, "power_armor", slot.power_armor );
+    bool strict = src == "core";
+
+    assign( jo, "encumbrance", slot.encumber, strict, 0 );
+    assign( jo, "coverage", slot.coverage, strict, 0, 100 );
+    assign( jo, "material_thickness", slot.thickness, strict, 0 );
+    assign( jo, "environmental_protection", slot.env_resist, strict, 0 );
+    assign( jo, "warmth", slot.warmth, strict, 0 );
+    assign( jo, "storage", slot.storage, strict, 0 );
+    assign( jo, "power_armor", slot.power_armor, strict );
 
     assign_coverage_from_json( jo, "covers", slot.covers, slot.sided );
 }
@@ -1608,9 +1623,16 @@ void Item_factory::load_basic_info( JsonObject &jo, itype *new_item_template, co
     }
 
     JsonArray jarr = jo.get_array( "min_skills" );
+    if( !jarr.empty() ) {
+        new_item_template->min_skills.clear();
+    }
     while( jarr.has_more() ) {
         JsonArray cur = jarr.next_array();
-        new_item_template->min_skills[skill_id( cur.get_string( 0 ) )] = cur.get_int( 1 );
+        auto sk = cur.get_string( 0 );
+        if( sk != "weapon" && !skill_id( sk ).is_valid() ) {
+            jo.throw_error( string_format( "invalid skill: %s", sk.c_str() ), "min_skills" );
+        }
+        new_item_template->min_skills[ sk ] = cur.get_int( 1 );
     }
 
     if( jo.has_member("explosion" ) ) {
@@ -1722,7 +1744,7 @@ void Item_factory::migrate_item( const itype_id& id, item& obj )
         // check contents of migrated containers do not exceed capacity
         if( obj.is_container() && !obj.contents.empty() ) {
             item &child = obj.contents.back();
-            const long capacity = child.liquid_charges( obj.get_container_capacity() );
+            const long capacity = child.charges_per_volume( obj.get_container_capacity() );
             child.charges = std::min( child.charges, capacity );
         }
     }
