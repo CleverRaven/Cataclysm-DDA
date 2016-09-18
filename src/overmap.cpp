@@ -3449,14 +3449,12 @@ void overmap::make_hiway( int x1, int y1, int x2, int y2, int z, const std::stri
     const oter_id base_nesw( base + "_nesw" );
 
     tripoint pnt( dest );
-    for( const int d : pf::find_path<OMAPX, OMAPY>( source, dest, estimate ) ) {
-        pnt.x += pf::dx[d];
-        pnt.y += pf::dy[d];
-        auto &id = ter( pnt.x, pnt.y, pnt.z );
+    for( const auto &node : pf::find_path<OMAPX, OMAPY>( source, dest, estimate ) ) {
+        auto &id = ter( node.x, node.y, z );
 
         if( road_allowed( id ) ) {
             if( is_river( id ) ) {
-                id = d == 1 || d == 3 ? bridge_ns : bridge_ew;
+                id = node.d == 1 || node.d == 3 ? bridge_ns : bridge_ew;
             } else {
                 id = base_nesw;
             }
@@ -3499,12 +3497,8 @@ bool overmap::reveal_route( const tripoint &source, const tripoint &dest, int pr
         return false;
     }
 
-    tripoint pnt( dest_road );
-    for( const int d : path ) {
-        pnt.x += pf::dx[d];
-        pnt.y += pf::dy[d];
-
-        overmap_buffer.reveal( pnt, 0 );
+    for( const auto &node : path ) {
+        overmap_buffer.reveal( point( node.x, node.y ), 0, dest_road.z );
     }
 
     return true;

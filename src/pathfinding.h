@@ -29,15 +29,15 @@ struct node {
     }
 };
 
-static const int dx[4] = { 1, 0, -1, 0 };
-static const int dy[4] = { 0, 1, 0, -1 };
-
 template<int MAX_X, int MAX_Y>
-std::vector<int> find_path( const tripoint &source,
-                            const tripoint &dest,
-                            const std::function<int( const node &, const node & )> &estimate )
+std::vector<node> find_path( const tripoint &source,
+                             const tripoint &dest,
+                             const std::function<int( const node &, const node & )> &estimate )
 {
-    std::vector<int> res;
+    static const int dx[4] = { 1, 0, -1, 0 };
+    static const int dy[4] = { 0, 1, 0, -1 };
+
+    std::vector<node> res;
 
     if( source == dest ) {
         return res;
@@ -85,7 +85,7 @@ std::vector<int> find_path( const tripoint &source,
                 int d = dirs[x][y];
                 x += dx[d];
                 y += dy[d];
-                res.emplace_back( d );
+                res.emplace_back( node( x, y, d, 0 ) );
             }
 
             return res;
