@@ -6175,6 +6175,7 @@
       ["toolbox", 5],
       ["coal_lump", 20],
       ["material_shrd_limestone", 40],
+      ["material_niter", 5],
       ["chem_rdx", 5],
       ["chem_hmtd", 10],
       ["tool_anfo_charge", 2]

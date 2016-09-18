@@ -191,7 +191,8 @@
     "price" : 67,
     "volume" : 1,
     "phase" : "liquid",
-    "charges" : 2,
+    "charges" : 1,
+    "stack_size" : 2,
     "category" : "chems",
     "fun" : -30
    },
@@ -564,6 +565,22 @@
     "ammo_type" : "components",
     "container" : "bag_canvas",
     "count" : 50
+   },
+{
+    "type" : "GENERIC",
+    "id" : "material_niter",
+    "category" : "spare_parts",
+    "price" : 75,
+    "name" : "niter",
+    "name_plural" : "niter",
+    "symbol" : "*",
+    "color" : "white",
+    "description" : "A large crystal of niter, the mineral form of potassium nitrate.  It can be processed into saltpeter.",
+    "material" : "powder",
+    "volume" : 5,
+    "weight" : 790,
+    "bashing" : 1,
+    "ammo_type" : "components"
    },
 {
     "type" : "AMMO",
