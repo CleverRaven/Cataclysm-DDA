@@ -710,7 +710,7 @@
             "both": [
                 "pants",
                 "dress_shirt",
-				"gloves_medical",
+                "gloves_medical",
                 "socks",
                 "dress_shoes",
                 "coat_lab",
@@ -2124,8 +2124,8 @@
         "points": 5,
         "CBMs":[
             "bio_armor_eyes",
-			"bio_armor_head",
-			"bio_armor_torso",
+            "bio_armor_head",
+            "bio_armor_torso",
             "bio_armor_legs",
             "bio_armor_arms",
             "bio_targeting",
@@ -2333,7 +2333,7 @@
         "CBMs":[
             "bio_solar",
             "bio_eye_enhancer",
-			"bio_eye_optic",
+            "bio_eye_optic",
             "bio_targeting",
             "bio_climate",
             "bio_evap",
@@ -2439,8 +2439,8 @@
             "bio_cqb",
             "bio_blade",
             "bio_shock",
-		    "bio_carbon",
-		    "bio_face_mask",
+            "bio_carbon",
+            "bio_face_mask",
             "bio_torsionratchet",
             "bio_power_storage_mkII"
         ],
