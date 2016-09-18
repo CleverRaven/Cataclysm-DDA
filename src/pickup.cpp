@@ -903,17 +903,23 @@ void Pickup::pick_up( const tripoint &pos, int min )
                         volume_picked_up += temp.volume();
                     }
                 }
-                int predicted_weight = g->u.weight_carried() + weight_picked_up;
-                units::volume predicted_volume = g->u.volume_carried() + volume_picked_up;
-                mvwprintz( w_pickup, 0,  9,
-                           ( predicted_weight > g->u.weight_capacity() ? c_red : c_white ),
-                           _( "Wgt %.1f" ), convert_weight( predicted_weight ) + 0.05 ); // +0.05 to round up
-                wprintz( w_pickup, c_white, "/%.1f", convert_weight( g->u.weight_capacity() ) );
-                mvwprintz( w_pickup, 0, 24,
-                           ( predicted_volume > g->u.volume_capacity() ? c_red : c_white ),
-                           _( "Vol %d" ), to_milliliter( predicted_volume ) );
-                wprintz( w_pickup, c_white, "/%d", to_milliliter( g->u.volume_capacity() ) );
-            }
+
+                auto weight_predict = g->u.weight_carried() + weight_picked_up;
+                auto volume_predict = g->u.volume_carried() + volume_picked_up;
+
+                mvwprintz( w_pickup, 0, 9, weight_predict > g->u.weight_capacity() ? c_red : c_white,
+                           _( "Wgt %.1f" ), std::ceil( convert_weight( weight_predict ) * 10.0 ) / 10.0 );
+
+                wprintz( w_pickup, c_white, "/%.1f",
+                         std::ceil( convert_weight( g->u.weight_capacity() ) * 10.0 ) / 10.0 );
+
+                mvwprintz( w_pickup, 0, 24, volume_predict > g->u.volume_capacity() ? c_red : c_white,
+                           _( "Vol %.1f" ), std::ceil( to_milliliter( volume_predict ) / 100.0 ) / 10.0 );
+
+                wprintz( w_pickup, c_white, "/%.1f",
+                         std::ceil( to_milliliter( g->u.volume_capacity() ) / 100.0 ) / 10.0 );
+            };
+
             wrefresh( w_pickup );
 
             action = ctxt.handle_input();
