@@ -1,5 +1,24 @@
 [
   {
+    "id": "bowling_axe",
+    "type": "GENERIC",
+    "name": "The 7-10 Split",
+    "name_plural": "7-10 Splits",
+    "description": "An improvised weapon, made from two spikes attached to a bowling pin in the shape of a 'T'.",
+    "weight": 2433,
+    "volume": 7,
+    "price": 18000,
+    "price_postapoc": 0,
+    "to_hit": -1,
+    "bashing": 11,
+    "cutting": 8,
+    "material": [ "wood", "steel" ],
+    "symbol": "/",
+    "color": "brown",
+    "techniques": [ "WBLOCK_1" ],
+    "flags": [ "STAB", "NONCONDUCTIVE" ]
+  },
+  {
     "id": "broadfire_off",
     "type": "TOOL",
     "category": "weapons",
