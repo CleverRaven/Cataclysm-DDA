@@ -83,19 +83,18 @@
     "durability": 100,
     "requirements": {
       "install": {
-        "skills": [ [ "mechanics", 0 ] ],
+        "skills": [ [ "survival", 0 ] ],
         "time": 60000,
         "components": [ [ [ "rope_6", 1 ] ] ]
       },
       "removal": {
-        "skills": [ [ "mechanics", 1 ] ]
+        "skills": [ [ "survival", 0 ] ]
       }
     },
     "breaks_into": [
       { "item": "splinter", "count": [ 3, 5 ] },
       { "item": "string_36", "count": [ 10, 15 ] }
-    ],
-    "flags": [ "NAILABLE" ]
+    ]
   },
   {
     "abstract": "hdframe",
