@@ -2528,7 +2528,7 @@
     "death_function":["BOOMER"],
     "special_attacks":[["BOOMER", 20]],
     "description":"A rotund human body, bloated beyond belief and layered in rolls of fat.  It emits a horrible odor, and a putrid pink sludge dribbles from its mouth.",
-    "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "REVIVES", "BILE_BLOOD", "BONES", "FAT", "PUSH_MON"]
+    "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "REVIVES", "BILE_BLOOD", "BONES", "FAT", "PUSH_MON", "PATH_AVOID_DANGER_1"]
     },{
     "type" : "MONSTER",
     "id" : "mon_boomer_huge",
@@ -2557,7 +2557,7 @@
     "death_function":["BOOMER_GLOW"],
     "special_attacks":[["BOOMER_GLOW", 20]],
     "description":"This boomer, normally swollen and ready to burst, has strengthened and solidified.  The bile dribbling from its mouth also appears to have changed...",
-    "flags":["SEES", "GOODHEARING", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "REVIVES", "BILE_BLOOD", "BONES", "FAT", "PUSH_MON"]
+    "flags":["SEES", "GOODHEARING", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "REVIVES", "BILE_BLOOD", "BONES", "FAT", "PUSH_MON", "PATH_AVOID_DANGER_1"]
     },{
     "type" : "MONSTER",
     "id" : "mon_boomer_fungus",
