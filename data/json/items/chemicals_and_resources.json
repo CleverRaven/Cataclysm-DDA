@@ -191,8 +191,7 @@
     "price" : 67,
     "volume" : 1,
     "phase" : "liquid",
-    "charges" : 1,
-    "stack_size" : 2,
+    "charges" : 2,
     "category" : "chems",
     "fun" : -30
    },

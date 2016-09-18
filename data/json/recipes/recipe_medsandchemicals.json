@@ -2099,7 +2099,6 @@
 },{
   "type" : "recipe",
   "result": "ammonia",
-  "result_mult": 2,
   "category": "CC_CHEM",
   "subcategory": "CSC_CHEM_CHEMICALS",
   "skill_used": "cooking",
@@ -2608,7 +2607,7 @@
 {
   "type" : "recipe",
   "result": "chem_saltpetre",
-  "byproducts": { "id" : "ammonia", "amount" : 1 },
+  "byproducts": "ammonia",
   "category": "CC_CHEM",
   "subcategory": "CSC_CHEM_CHEMICALS",
   "skill_used": "cooking",
@@ -2628,7 +2627,7 @@
   ],
   "components": [
     [ [ "chem_ammonium_nitrate", 25 ] ],
-    [ [ "lye_powder", 145 ] ]
+    [ [ "lye_powder", 150 ] ]
   ]
 },{
   "type" : "recipe",
