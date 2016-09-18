@@ -218,7 +218,8 @@
             "tec_krav_maga_feint",
             "tec_krav_maga_precise",
             "tec_krav_maga_disarm",
-            "tec_krav_maga_grab"
+            "tec_krav_maga_grab",
+			"tec_krav_maga_break",			
         ]
     },{
         "type" : "martial_art",
@@ -493,6 +494,7 @@
             "diamond_broadsword",
             "broadfire_off",
             "broadfire_on",
+            "sword_forged",
             "rapier",
             "diamond_rapier",
             "fencing_foil",
@@ -933,7 +935,7 @@
             {
                 "id" : "venom_snake_combo_initiate",
                 "name" : "Viper Ambush",
-                "description" : "You've lured 'em in!  Your next attack will be a Viper Bite.",
+                "description" : "You've lured 'em in! Your next attack will be a Viper Bite.",
                 "unarmed_allowed" : true,
                 "min_unarmed" : 0,
                 "buff_duration" : 2,
@@ -946,7 +948,7 @@
             {
                 "id" : "venom_snake_combo_continue",
                 "name" : "Viper Lock",
-                "description" : "You bit true!  Your next attack will be the Viper Strike!",
+                "description" : "You bit true! Your next attack will be the Viper Strike!",
                 "unarmed_allowed" : true,
                 "min_unarmed" : 0,
                 "req_buffs" : [
