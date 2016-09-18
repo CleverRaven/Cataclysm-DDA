@@ -253,12 +253,8 @@
         "durability" : 100,
         "requirements": {
           "install": {
-            "skills": [ [ "survival", 0 ] ],
             "time": 60000,
             "components": [ [ [ "rope_6", 1 ] ] ]
-          },
-          "removal": {
-            "skills": [ [ "survival", 0 ] ],
           }
         },
         "item" : "frame_wood_light",
@@ -857,12 +853,8 @@
         "difficulty" : 0,
         "requirements": {
           "install": {
-            "skills": [ [ "survival", 0 ] ],
             "time": 60000,
             "components": [ [ [ "rope_6", 1 ] ] ]
-          },
-          "removal": {
-            "skills": [ [ "survival", 0 ] ]
           }
         },
         "location" : "center",
