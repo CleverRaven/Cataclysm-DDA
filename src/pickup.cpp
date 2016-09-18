@@ -46,8 +46,6 @@ struct pickup_count {
     bool pick = false;
     //count is 0 if the whole stack is being picked up, nonzero otherwise.
     int count = 0;
-    //position in the copy of the player's inventory (in the function @ref pick_up).
-    int position = -1;
 };
 
 // Handles interactions with a vehicle in the examine menu.
@@ -686,8 +684,6 @@ void Pickup::pick_up( const tripoint &pos, int min )
         ctxt.register_action( "HELP_KEYBINDINGS" );
 
         int start = 0, cur_it;
-        player pl_copy = g->u;
-        pl_copy.set_fake( true );
         bool update = true;
         mvwprintw( w_pickup, 0, 0, _( "PICK UP" ) );
         int selected = 0;
@@ -777,27 +773,6 @@ void Pickup::pick_up( const tripoint &pos, int min )
             }
 
             if( idx >= 0 && idx < ( int )here.size() ) {
-                if( getitem[idx].pick ) {
-                    if( here[idx].count_by_charges() ) {
-                        if( getitem[idx].count == 0 ) {
-                            pl_copy.inv.find_item( getitem[idx].position ).charges -= here[idx].charges;
-                        } else {
-                            pl_copy.inv.find_item( getitem[idx].position ).charges -= getitem[idx].count;
-                        }
-                    } else {
-                        unsigned stack_size = pl_copy.inv.const_stack( getitem[idx].position ).size();
-                        pl_copy.i_rem( getitem[idx].position );
-                        //if the stack_was emptied, removing the item invalidated later positions- fix them
-                        if( stack_size == 1 ) {
-                            for( unsigned i = 0; i < here.size(); i++ ) {
-                                if( getitem[i].pick && getitem[i].position > getitem[idx].position ) {
-                                    getitem[i].position--;
-                                }
-                            }
-                        }
-                    }
-                } //end if getitem[idx]
-
                 if( itemcount != 0 || getitem[idx].count == 0 ) {
                     if( itemcount >= here[idx].charges || !here[idx].count_by_charges() ) {
                         // Ignore the count if we pickup the whole stack anyway
@@ -817,15 +792,7 @@ void Pickup::pick_up( const tripoint &pos, int min )
                     start = ( int )( idx / maxitems ) * maxitems;
                 }
 
-                if( getitem[idx].pick ) {
-                    item temp = here[idx];
-                    if( getitem[idx].count != 0 &&
-                        getitem[idx].count < here[idx].charges ) {
-                        temp.charges = getitem[idx].count;
-                    }
-                    item *added = &( pl_copy.i_add( temp ) );
-                    getitem[idx].position = pl_copy.inv.position_by_item( added );
-                } else {
+                if( !getitem[idx].pick ) {
                     getitem[idx].count = 0;
                 }
                 update = true;
@@ -849,9 +816,6 @@ void Pickup::pick_up( const tripoint &pos, int min )
                 for( size_t i = 0; i < here.size(); i++ ) {
                     if( getitem[i].pick ) {
                         count++;
-                    } else {
-                        item *added = &( pl_copy.i_add( here[i] ) );
-                        getitem[i].position = pl_copy.inv.position_by_item( added );
                     }
                     getitem[i].pick = true;
                 }
@@ -859,8 +823,6 @@ void Pickup::pick_up( const tripoint &pos, int min )
                     for( size_t i = 0; i < here.size(); i++ ) {
                         getitem[i].pick = false;
                     }
-                    pl_copy = g->u;
-                    pl_copy.set_fake( true );
                 }
                 update = true;
             }
@@ -929,15 +891,33 @@ void Pickup::pick_up( const tripoint &pos, int min )
                 for( int i = 9; i < pickupW; ++i ) {
                     mvwaddch( w_pickup, 0, i, ' ' );
                 }
-                mvwprintz( w_pickup, 0,  9,
-                           ( pl_copy.weight_carried() > g->u.weight_capacity() ? c_red : c_white ),
-                           _( "Wgt %.1f" ), convert_weight( pl_copy.weight_carried() ) + 0.05 ); // +0.05 to round up
-                wprintz( w_pickup, c_white, "/%.1f", convert_weight( g->u.weight_capacity() ) );
-                mvwprintz( w_pickup, 0, 24,
-                           ( pl_copy.volume_carried() > g->u.volume_capacity() ? c_red : c_white ),
-                           _( "Vol %d" ), to_milliliter( pl_copy.volume_carried() ) );
-                wprintz( w_pickup, c_white, "/%d", to_milliliter( g->u.volume_capacity() ) );
-            }
+                int weight_picked_up = 0;
+                units::volume volume_picked_up = 0;
+                for( size_t i = 0; i < getitem.size(); i++ ) {
+                    if( getitem[i].pick ) {
+                        item temp = here[i];
+                        if( getitem[i].count != 0 && getitem[i].count < here[i].charges ) {
+                            temp.charges = getitem[i].count;
+                        }
+                        weight_picked_up += temp.weight();
+                        volume_picked_up += temp.volume();
+                    }
+                }
+
+                auto weight_predict = g->u.weight_carried() + weight_picked_up;
+                auto volume_predict = g->u.volume_carried() + volume_picked_up;
+
+                mvwprintz( w_pickup, 0, 9, weight_predict > g->u.weight_capacity() ? c_red : c_white,
+                           _( "Wgt %.1f" ), round_up( convert_weight( weight_predict ), 1 ) );
+
+                wprintz( w_pickup, c_white, "/%.1f", round_up( convert_weight( g->u.weight_capacity() ), 1 ) );
+
+                mvwprintz( w_pickup, 0, 24, volume_predict > g->u.volume_capacity() ? c_red : c_white,
+                           _( "Vol %.1f" ), round_up( to_liter( volume_predict ), 1 ) );
+
+                wprintz( w_pickup, c_white, "/%.1f", round_up( to_liter( g->u.volume_capacity() ), 1 ) );
+            };
+
             wrefresh( w_pickup );
 
             action = ctxt.handle_input();

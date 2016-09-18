@@ -741,13 +741,13 @@ void inventory_selector::draw_inv_weight_vol( WINDOW *w, int weight_carried, uni
 
     mvwprintw( w, 0, 32, _( "Weight (%s): " ), weight_units() );
     nc_color weight_color = weight_carried > weight_capacity ? c_red : c_ltgray;
-    wprintz( w, weight_color, "%6.1f", std::ceil( convert_weight( weight_carried )  * 10.0 ) / 10.0 );
-    wprintz( w, c_ltgray,   "/%-6.1f", std::ceil( convert_weight( weight_capacity ) * 10.0 ) / 10.0 );
+    wprintz( w, weight_color, "%6.1f", round_up( convert_weight( weight_carried  ), 1 ) );
+    wprintz( w, c_ltgray,   "/%-6.1f", round_up( convert_weight( weight_capacity ), 1 ) );
 
     nc_color vol_color = vol_carried > vol_capacity ? c_red : c_ltgray;
     mvwprintw( w, 0, 61, _( "Volume (L): ") );
-    wprintz( w, vol_color,  "%6.1f", std::ceil( to_milliliter( vol_carried )  / 100.0 ) / 10.0 );
-    wprintz( w, c_ltgray, "/%-6.1f", std::ceil( to_milliliter( vol_capacity ) / 100.0 ) / 10.0 );
+    wprintz( w, vol_color,  "%6.1f", round_up( to_liter( vol_carried  ), 1 ) );
+    wprintz( w, c_ltgray, "/%-6.1f", round_up( to_liter( vol_capacity ), 1 ) );
 }
 
 void inventory_selector::draw_inv_weight_vol( WINDOW *w ) const
