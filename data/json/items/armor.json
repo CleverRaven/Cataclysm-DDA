@@ -1392,7 +1392,7 @@
         "volume" : 20,
         "warmth" : 20,
         "encumbrance" : 17,
-        "flags" : ["VARSIZE"],
+        "flags" : ["VARSIZE", "OUTER"],
         "coverage" : 80,
         "material_thickness" : 2
     },
