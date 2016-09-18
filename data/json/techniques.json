@@ -129,8 +129,8 @@
         "crit_tec" : true,
         "weighting" : -250,
         "messages" : [
-            "Snicker-snack!  You behead %s",
-            "Snicker-snack!  <npcname> beheads %s"
+            "Snicker-snack! You behead %s",
+            "Snicker-snack! <npcname> beheads %s"
         ]
     },{
         "type" : "technique",
@@ -267,7 +267,7 @@
         "name" : "Cross Counter",
         "min_unarmed" : 5,
         "unarmed_allowed" : true,
-        "crit_tec" : true,
+        "dodge_counter": true,
         "knockback_dist" : 1,
         "knockback_spread" : 1,
         "req_buffs" : [
