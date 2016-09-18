@@ -913,9 +913,9 @@ void Pickup::pick_up( const tripoint &pos, int min )
                 wprintz( w_pickup, c_white, "/%.1f", round_up( convert_weight( g->u.weight_capacity() ), 1 ) );
 
                 mvwprintz( w_pickup, 0, 24, volume_predict > g->u.volume_capacity() ? c_red : c_white,
-                           _( "Vol %.1f" ), round_up( to_milliliter( volume_predict ) / 1000.0, 1 ) );
+                           _( "Vol %.1f" ), round_up( to_liter( volume_predict ), 1 ) );
 
-                wprintz( w_pickup, c_white, "/%.1f", round_up( to_milliliter( g->u.volume_capacity() ) / 1000.0, 1 ) );
+                wprintz( w_pickup, c_white, "/%.1f", round_up( to_liter( g->u.volume_capacity() ), 1 ) );
             };
 
             wrefresh( w_pickup );

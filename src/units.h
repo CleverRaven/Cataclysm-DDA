@@ -256,6 +256,12 @@ inline constexpr value_type to_milliliter( const quantity<value_type, volume_in_
     return v / from_milliliter<value_type>( 1 );
 }
 
+template<typename value_type>
+inline constexpr value_type to_liter( const quantity<value_type, volume_in_milliliter_tag> &v )
+{
+    return v / from_milliliter<value_type>( 1000 );
+}
+
 namespace literals
 {
 // Implicitly converted to volume, which has int as value_type!

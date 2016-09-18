@@ -746,8 +746,8 @@ void inventory_selector::draw_inv_weight_vol( WINDOW *w, int weight_carried, uni
 
     nc_color vol_color = vol_carried > vol_capacity ? c_red : c_ltgray;
     mvwprintw( w, 0, 61, _( "Volume (L): ") );
-    wprintz( w, vol_color,  "%6.1f", round_up( to_milliliter( vol_carried  ) / 1000.0, 1 ) );
-    wprintz( w, c_ltgray, "/%-6.1f", round_up( to_milliliter( vol_capacity ) / 1000.0, 1 ) );
+    wprintz( w, vol_color,  "%6.1f", round_up( to_liter( vol_carried  ), 1 ) );
+    wprintz( w, c_ltgray, "/%-6.1f", round_up( to_liter( vol_capacity ), 1 ) );
 }
 
 void inventory_selector::draw_inv_weight_vol( WINDOW *w ) const
