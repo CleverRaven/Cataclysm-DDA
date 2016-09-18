@@ -3,7 +3,7 @@
     "type": "MOD_INFO",
     "mod-type": "SUPPLEMENTAL",
     "ident": "no_npc_food",
-    "name": "Disable NPC needs",
+    "name": "Disable NPC Needs",
     "author": "Coolthulhu",
     "description": "Makes NPCs not require food, water or rest.",
     "category": "rebalance",
