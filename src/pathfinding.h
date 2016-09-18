@@ -1,5 +1,5 @@
-#ifndef MAP_PATHFINDING_H
-#define MAP_PATHFINDING_H
+#ifndef PATHFINDING_H
+#define PATHFINDING_H
 
 enum pf_special : char {
     PF_NORMAL = 0x00,    // Plain boring tile (grass, dirt, floor etc.)
