@@ -13,6 +13,12 @@
 #include "filesystem.h"
 
 #include <algorithm>
+#include <cmath>
+
+double round_up( double val, unsigned int dp ) {
+    const double denominator = std::pow( 10.0, double( dp ) );
+    return std::ceil( denominator * val ) / denominator;
+}
 
 bool isBetween( int test, int down, int up )
 {
