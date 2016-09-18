@@ -49,23 +49,23 @@ std::vector<node> find_path( const tripoint &source,
     }
 
     std::priority_queue<node, std::deque<node> > nodes[2];
-    bool closed[MAX_X][MAX_Y] = {{false}};
-    int open[MAX_X][MAX_Y] = {{0}};
-    short dirs[MAX_X][MAX_Y] = {{0}};
+    bool closed[MAX_X][MAX_Y] = {{ false }};
+    int open[MAX_X][MAX_Y] = {{ 0 }};
+    short dirs[MAX_X][MAX_Y] = {{ 0 }};
     int i = 0;
 
-    int x1 = source.x;
-    int y1 = source.y;
-    int x2 = dest.x;
-    int y2 = dest.y;
+    const int x1 = source.x;
+    const int y1 = source.y;
+    const int x2 = dest.x;
+    const int y2 = dest.y;
 
-    nodes[i].push( node( x1, y1, 5, 1000 ) );
+    nodes[i].emplace( x1, y1, 5, 1000 );
     open[x1][y1] = 1000;
 
     // use A* to find the shortest path from (x1,y1) to (x2,y2)
     while( !nodes[i].empty() ) {
         // get the best-looking node
-        node mn = nodes[i].top();
+        const node mn( nodes[i].top() );
         nodes[i].pop();
         // make sure it's in bounds
         if( mn.x < 0 || mn.x >= MAX_X || mn.y < 0 || mn.y >= MAX_Y ) {
@@ -85,18 +85,17 @@ std::vector<node> find_path( const tripoint &source,
                 int d = dirs[x][y];
                 x += dx[d];
                 y += dy[d];
-                res.emplace_back( node( x, y, d, 0 ) );
+                res.emplace_back( x, y, d, 0 );
             }
 
             return res;
         }
 
-        // otherwise, expand to
         for( int d = 0; d < 4; d++ ) {
-            int x = mn.x + dx[d];
-            int y = mn.y + dy[d];
+            const int x = mn.x + dx[d];
+            const int y = mn.y + dy[d];
 
-            node cn = node( x, y, d, 0 );
+            node cn( x, y, d, 0 );
 
             cn.p = estimate( mn, cn );
             // don't allow:
@@ -107,32 +106,27 @@ std::vector<node> find_path( const tripoint &source,
                 continue;
             }
             // record direction to shortest path
-            if( open[x][y] == 0 ) {
+            if( open[x][y] == 0 || open[x][y] > cn.p ) {
                 dirs[x][y] = ( d + 2 ) % 4;
-                open[x][y] = cn.p;
-                nodes[i].push( cn );
-            } else if( open[x][y] > cn.p ) {
-                dirs[x][y] = ( d + 2 ) % 4;
-                open[x][y] = cn.p;
 
-                // wizardry
-                while( nodes[i].top().x != x || nodes[i].top().y != y ) {
-                    nodes[1 - i].push( nodes[i].top() );
+                if( open[x][y] != 0 ) {
+                    while( nodes[i].top().x != x || nodes[i].top().y != y ) {
+                        nodes[1 - i].push( nodes[i].top() );
+                        nodes[i].pop();
+                    }
                     nodes[i].pop();
-                }
-                nodes[i].pop();
 
-                if( nodes[i].size() > nodes[1 - i].size() ) {
+                    if( nodes[i].size() > nodes[1 - i].size() ) {
+                        i = 1 - i;
+                    }
+                    while( !nodes[i].empty() ) {
+                        nodes[1 - i].push( nodes[i].top() );
+                        nodes[i].pop();
+                    }
                     i = 1 - i;
                 }
-                while( !nodes[i].empty() ) {
-                    nodes[1 - i].push( nodes[i].top() );
-                    nodes[i].pop();
-                }
-                i = 1 - i;
+                open[x][y] = cn.p;
                 nodes[i].push( cn );
-            } else {
-                // a shorter path has already been found
             }
         }
     }
