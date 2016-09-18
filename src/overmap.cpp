@@ -21,6 +21,7 @@
 #include "mongroup.h"
 #include "mtype.h"
 #include "name.h"
+#include "pathfinding.h"
 #include "translations.h"
 #include "mapgen_functions.h"
 #include "clzones.h"
@@ -37,9 +38,7 @@
 #include <sstream>
 #include <cstring>
 #include <ostream>
-#include <queue>
 #include <algorithm>
-#include <functional>
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_MAP_GEN) << __FILE__ << ":" << __LINE__ << ": "
 
@@ -3418,133 +3417,6 @@ void overmap::place_rifts(int const z)
     }
 }
 
-struct node
-{
-    int x;
-    int y;
-    int d;
-    int p;
-
-    node( int xp, int yp, int dir, int pri ) {
-        x = xp; y = yp; d = dir; p = pri;
-    }
-    // Operator overload required by priority queue interface.
-    bool operator< ( const node &n ) const {
-        return this->p > n.p;
-    }
-};
-
-static const int dx[4] = { 1, 0, -1, 0 };
-static const int dy[4] = { 0, 1, 0, -1 };
-
-std::vector<int> find_path( const tripoint &source,
-                            const tripoint &dest,
-                            const std::function<int( const node &, const node & )> &estimate )
-{
-    std::vector<int> res;
-
-    if( source == dest ) {
-        return res;
-    }
-
-    if( source.z != dest.z ) {
-        debugmsg( "Pathfinding through z-levels is not supported yet." );
-        return res;
-    }
-
-    std::priority_queue<node, std::deque<node> > nodes[2];
-    bool closed[OMAPX][OMAPY] = {{false}};
-    int open[OMAPX][OMAPY] = {{0}};
-    int dirs[OMAPX][OMAPY] = {{0}};
-    int i = 0;
-
-    int x1 = source.x;
-    int y1 = source.y;
-    int x2 = dest.x;
-    int y2 = dest.y;
-    int z = dest.z;
-
-    nodes[i].push(node(x1, y1, 5, 1000));
-    open[x1][y1] = 1000;
-
-    // use A* to find the shortest path from (x1,y1) to (x2,y2)
-    while (!nodes[i].empty()) {
-        // get the best-looking node
-        node mn = nodes[i].top();
-        nodes[i].pop();
-        // make sure it's in bounds
-        if( !overmap::inbounds( mn.x, mn.y, z ) ) {
-            continue;
-        }
-        // mark it visited
-        closed[mn.x][mn.y] = true;
-
-        // if we've reached the end, draw the path and return
-        if (mn.x == x2 && mn.y == y2) {
-            int x = mn.x;
-            int y = mn.y;
-
-            res.reserve( nodes[i].size() );
-
-            while(x != x1 || y != y1) {
-                int d = dirs[x][y];
-                x += dx[d];
-                y += dy[d];
-                res.emplace_back( d );
-            }
-
-            return res;
-        }
-
-        // otherwise, expand to
-        for(int d = 0; d < 4; d++) {
-            int x = mn.x + dx[d];
-            int y = mn.y + dy[d];
-
-            node cn = node( x, y, d, 0 );
-
-            cn.p = estimate( mn, cn );
-            // don't allow:
-            // * out of bounds
-            // * already traversed tiles
-            // * rejected tiles
-            if( !overmap::inbounds( x, y, z, 1 ) || closed[x][y] || cn.p < 0 ) {
-                continue;
-            }
-            // record direction to shortest path
-            if (open[x][y] == 0) {
-                dirs[x][y] = (d + 2) % 4;
-                open[x][y] = cn.p;
-                nodes[i].push(cn);
-            } else if (open[x][y] > cn.p) {
-                dirs[x][y] = (d + 2) % 4;
-                open[x][y] = cn.p;
-
-                // wizardry
-                while (nodes[i].top().x != x || nodes[i].top().y != y) {
-                    nodes[1 - i].push(nodes[i].top());
-                    nodes[i].pop();
-                }
-                nodes[i].pop();
-
-                if (nodes[i].size() > nodes[1 - i].size()) {
-                    i = 1 - i;
-                }
-                while (!nodes[i].empty()) {
-                    nodes[1 - i].push(nodes[i].top());
-                    nodes[i].pop();
-                }
-                i = 1 - i;
-                nodes[i].push(cn);
-            } else {
-                // a shorter path has already been found
-            }
-        }
-    }
-
-    return res;
-}
-
 void overmap::make_hiway( int x1, int y1, int x2, int y2, int z, const std::string &base )
 {
     const tripoint source( x1, y1, z );
@@ -3577,7 +3449,7 @@ void overmap::make_hiway( int x1, int y1, int x2, int y2, int z, const std::stri
     const oter_id base_nesw( base + "_nesw" );
 
     tripoint pnt( dest );
-    for( const int d : find_path( source, dest, estimate ) ) {
+    for( const int d : find_path<OMAPX, OMAPY>( source, dest, estimate ) ) {
         pnt.x += dx[d];
         pnt.y += dy[d];
         auto &id = ter( pnt.x, pnt.y, pnt.z );
@@ -3621,7 +3493,7 @@ bool overmap::reveal_route( const tripoint &source, const tripoint &dest, int pr
         return res;
     };
 
-    const auto path = find_path( source_road, dest_road, estimate );
+    const auto path = find_path<OMAPX, OMAPY>( source_road, dest_road, estimate );
 
     if( path.empty() ) {
         return false;
