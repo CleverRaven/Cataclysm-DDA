@@ -50,8 +50,8 @@
   {
     "id": "rm228",
     "type": "GUN",
-    "name": "RM228 short shotgun",
-    "description": "Utilizing a powerful and unusual caliber, the Rivtech RM228 caseless short double-barrel shotgun was designed for personal defense, with durability and ease of use as priorities.",
+    "name": "RM228 PDW",
+    "description": "Chambering the powerful 20x66mm caseless shotgun cartridge, the Rivtech RM228 PDW was designed for the civilian personal defense market with durability and ease of use as priorities.  While lauded for its small size and light weight, its hefty price tag kept it out of the reach of casual collectors.",
     "weight": 780,
     "volume": 3,
     "price": 330000,
@@ -62,15 +62,14 @@
     "color": "dark_gray",
     "ammo": "20x66mm",
     "skill": "pistol",
-    "dispersion": 270,
-    "recoil": 225,
+    "dispersion": 250,
+    "recoil": 200,
     "durability": 9,
-    "clip_size": 2,
-    "modes": [
-      [ "DEFAULT", "single", 1 ],
-      [ "DOUBLE", "double", 2 ]
-    ],
     "valid_mod_locations": [ [ "accessories", 3 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ] ],
-    "flags": [ "RELOAD_ONE", "WATERPROOF_GUN", "NEVER_JAMS", "RELOAD_EJECT" ]
+    "magazine_well": 1,
+    "magazines": [
+      [ "20x66mm", [ "20x66_10_mag"] ]
+    ],
+    "flags": [ "WATERPROOF_GUN", "NEVER_JAMS" ]
   }
 ]
