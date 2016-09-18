@@ -32,7 +32,7 @@
 #include "mtype.h"
 #include "weather.h"
 #include "item_group.h"
-#include "pathfinding.h"
+#include "map_pathfinding.h"
 #include "scent_map.h"
 
 #include <cmath>

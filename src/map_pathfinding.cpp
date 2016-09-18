@@ -11,7 +11,7 @@
 #include "submap.h"
 #include "mapdata.h"
 #include "cata_utility.h"
-#include "pathfinding.h"
+#include "map_pathfinding.h"
 
 #include <algorithm>
 #include <queue>

@@ -17,7 +17,7 @@
 #include "string_id.h"
 #include "rng.h"
 #include "enums.h"
-#include "pathfinding.h"
+#include "map_pathfinding.h"
 #include "emit.h"
 
 //TODO: include comments about how these variables work. Where are they used. Are they constant etc.
