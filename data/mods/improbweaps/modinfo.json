@@ -3,9 +3,9 @@
     "type": "MOD_INFO",
     "mod-type": "SUPPLEMENTAL",
     "ident": "improbweaps",
-    "name": "Improbable weapons",
+    "name": "Craftable melee pack",
     "author": "Various",
-    "description": "Improbable or entirely impractical weapons",
+    "description": "Additional craftable melee weapons that might otherwise be improbable or impractical",
     "category": "items",
     "path": ""
   }
