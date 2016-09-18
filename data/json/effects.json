@@ -1237,7 +1237,7 @@
         "type": "effect_type",
         "id": "weed_high",
         "apply_message": "You feel lightheaded.",
-        "miss_messages": [["That critter's jumping around like a jitterbug!  It needs to mellow out.", 1]],
+        "miss_messages": [["That critter's jumping around like a jitterbug! It needs to mellow out.", 1]],
         "base_mods": {
             "str_mod": [-1],
             "dex_mod": [-1],
