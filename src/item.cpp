@@ -1706,10 +1706,11 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
                 for( const auto mod : gunmods() ) {
                     temp1.str( "" );
                     if( mod->has_flag( "IRREMOVABLE" ) ) {
-                        temp1 << _( "[Integrated]" );
+                        temp1 << _( "Integrated mod: " );
+                    } else {
+                        temp1 << _( "Mod: " );
                     }
-                    temp1 << _( "Mod: " ) << "<bold>" << mod->tname() << "</bold> (" << _( mod->type->gunmod->location.c_str() ) <<
-                          ")";
+                    temp1 << "<bold>" << mod->tname() << "</bold> (" << _( mod->type->gunmod->location.c_str() ) << ")";
                     insert_separation_line();
                     info.push_back( iteminfo( "DESCRIPTION", temp1.str() ) );
                     info.push_back( iteminfo( "DESCRIPTION", mod->type->description ) );
