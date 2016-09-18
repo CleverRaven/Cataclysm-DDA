@@ -3429,8 +3429,8 @@ void overmap::make_hiway( int x1, int y1, int x2, int y2, int z, const std::stri
             return -1;
         }
         // Reject nodes that make corners on the river
-        if( prev.d != cur.d && ( is_river( ter( prev.x, prev.y, dest.z ) ) ||
-                                 is_river( ter( cur.x, cur.y, dest.z ) ) ) ) {
+        if( prev.dir != cur.dir && ( is_river( ter( prev.x, prev.y, dest.z ) ) ||
+                                     is_river( ter( cur.x, cur.y, dest.z ) ) ) ) {
             return -1;
         }
 
@@ -3454,7 +3454,7 @@ void overmap::make_hiway( int x1, int y1, int x2, int y2, int z, const std::stri
 
         if( road_allowed( id ) ) {
             if( is_river( id ) ) {
-                id = node.d == 1 || node.d == 3 ? bridge_ns : bridge_ew;
+                id = node.dir == 1 || node.dir == 3 ? bridge_ns : bridge_ew;
             } else {
                 id = base_nesw;
             }

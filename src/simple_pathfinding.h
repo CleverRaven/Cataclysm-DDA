@@ -4,7 +4,6 @@
 #include "debug.h"
 #include "enums.h"
 
-#include <functional>
 #include <queue>
 #include <vector>
 
@@ -14,25 +13,28 @@ namespace pf
 struct node {
     int x;
     int y;
-    int d;
-    int p;
+    int dir;
+    int priority;
 
-    node( int xp, int yp, int dir, int pri ) {
-        x = xp;
-        y = yp;
-        d = dir;
-        p = pri;
-    }
+    node( int x, int y, int dir, int priority = 0 ) :
+        x( x ),
+        y( y ),
+        dir( dir ),
+        priority( priority ) {}
+
     // Operator overload required by priority queue interface.
     bool operator< ( const node &n ) const {
-        return this->p > n.p;
+        return priority > n.priority;
     }
 };
 
-template<int MAX_X, int MAX_Y>
+/// @param estimate BinaryPredicate( node &previous, node &current ) returns
+/// integer estimation (smaller - better) for the current node or a negative value
+/// if the node is unsuitable.
+template<int MAX_X, int MAX_Y, class BinaryPredicate>
 std::vector<node> find_path( const tripoint &source,
                              const tripoint &dest,
-                             const std::function<int( const node &, const node & )> &estimate )
+                             BinaryPredicate estimator )
 {
     static const int dx[4] = { 1, 0, -1, 0 };
     static const int dy[4] = { 0, 1, 0, -1 };
@@ -95,18 +97,18 @@ std::vector<node> find_path( const tripoint &source,
             const int x = mn.x + dx[d];
             const int y = mn.y + dy[d];
 
-            node cn( x, y, d, 0 );
+            node cn( x, y, d );
 
-            cn.p = estimate( mn, cn );
+            cn.priority = estimator( mn, cn );
             // don't allow:
             // * out of bounds
             // * already traversed tiles
             // * rejected tiles
-            if( x < 1 || x + 1 >= MAX_X || y < 1 || y + 1 >= MAX_Y || closed[x][y] || cn.p < 0 ) {
+            if( x < 1 || x + 1 >= MAX_X || y < 1 || y + 1 >= MAX_Y || closed[x][y] || cn.priority < 0 ) {
                 continue;
             }
             // record direction to shortest path
-            if( open[x][y] == 0 || open[x][y] > cn.p ) {
+            if( open[x][y] == 0 || open[x][y] > cn.priority ) {
                 dirs[x][y] = ( d + 2 ) % 4;
 
                 if( open[x][y] != 0 ) {
@@ -125,7 +127,7 @@ std::vector<node> find_path( const tripoint &source,
                     }
                     i = 1 - i;
                 }
-                open[x][y] = cn.p;
+                open[x][y] = cn.priority;
                 nodes[i].push( cn );
             }
         }
