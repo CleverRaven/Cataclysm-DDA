@@ -3423,7 +3423,7 @@ void overmap::make_hiway( int x1, int y1, int x2, int y2, int z, const std::stri
     const tripoint dest( x2, y2, z );
     const int disp = (base == "road") ? 5 : 2;
 
-    const auto estimate = [ this, disp, &base, &dest ]( const node &prev, const node &cur ) {
+    const auto estimate = [ this, disp, &base, &dest ]( const pf::node &prev, const pf::node &cur ) {
         // Reject nodes that don't allow roads to cross them (e.g. buildings)
         if( !road_allowed( ter( cur.x, cur.y, dest.z ) ) ) {
             return -1;
@@ -3449,9 +3449,9 @@ void overmap::make_hiway( int x1, int y1, int x2, int y2, int z, const std::stri
     const oter_id base_nesw( base + "_nesw" );
 
     tripoint pnt( dest );
-    for( const int d : find_path<OMAPX, OMAPY>( source, dest, estimate ) ) {
-        pnt.x += dx[d];
-        pnt.y += dy[d];
+    for( const int d : pf::find_path<OMAPX, OMAPY>( source, dest, estimate ) ) {
+        pnt.x += pf::dx[d];
+        pnt.y += pf::dy[d];
         auto &id = ter( pnt.x, pnt.y, pnt.z );
 
         if( road_allowed( id ) ) {
@@ -3475,7 +3475,7 @@ bool overmap::reveal_route( const tripoint &source, const tripoint &dest, int pr
         return false;
     }
 
-    const auto estimate = [ this, &dest_road ]( const node &prev, const node &cur ) {
+    const auto estimate = [ this, &dest_road ]( const pf::node &prev, const pf::node &cur ) {
         int res = 0;
 
         if( !check_ot_type_road( road_id, cur.x, cur.y, dest_road.z ) ) {
@@ -3493,7 +3493,7 @@ bool overmap::reveal_route( const tripoint &source, const tripoint &dest, int pr
         return res;
     };
 
-    const auto path = find_path<OMAPX, OMAPY>( source_road, dest_road, estimate );
+    const auto path = pf::find_path<OMAPX, OMAPY>( source_road, dest_road, estimate );
 
     if( path.empty() ) {
         return false;
@@ -3501,8 +3501,8 @@ bool overmap::reveal_route( const tripoint &source, const tripoint &dest, int pr
 
     tripoint pnt( dest_road );
     for( const int d : path ) {
-        pnt.x += dx[d];
-        pnt.y += dy[d];
+        pnt.x += pf::dx[d];
+        pnt.y += pf::dy[d];
 
         overmap_buffer.reveal( pnt, 0 );
     }

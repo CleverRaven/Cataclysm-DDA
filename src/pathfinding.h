@@ -8,6 +8,9 @@
 #include <queue>
 #include <vector>
 
+namespace pf
+{
+
 struct node {
     int x;
     int y;
@@ -135,6 +138,8 @@ std::vector<int> find_path( const tripoint &source,
     }
 
     return res;
+}
+
 }
 
 #endif
