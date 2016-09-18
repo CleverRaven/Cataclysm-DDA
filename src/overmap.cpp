@@ -3462,48 +3462,6 @@ void overmap::make_hiway( int x1, int y1, int x2, int y2, int z, const std::stri
     }
 }
 
-bool overmap::reveal_route( const tripoint &source, const tripoint &dest, int proximity )
-{
-    static const std::string road_id = "road";
-    const tripoint source_road = overmap_buffer.find_closest( source, road_id, proximity, false );
-    const tripoint dest_road = overmap_buffer.find_closest( dest, road_id, proximity, false );
-
-    if( source_road == overmap::invalid_tripoint ||
-        dest_road   == overmap::invalid_tripoint ) {
-        return false;
-    }
-
-    const auto estimate = [ this, &dest_road ]( const pf::node &prev, const pf::node &cur ) {
-        int res = 0;
-
-        if( !check_ot_type_road( road_id, cur.x, cur.y, dest_road.z ) ) {
-            if( !check_ot_type_road( road_id, prev.x, prev.y, dest_road.z ) ) {
-               return -1;
-            }
-            // Allow going slightly offroad to overcome small obstacles (e.g. craters),
-            // but penalize to make roads preferable
-            res += 10;
-        }
-
-        res += std::abs( dest_road.x - cur.x ) +
-               std::abs( dest_road.y - cur.y );
-
-        return res;
-    };
-
-    const auto path = pf::find_path<OMAPX, OMAPY>( source_road, dest_road, estimate );
-
-    if( path.empty() ) {
-        return false;
-    }
-
-    for( const auto &node : path ) {
-        overmap_buffer.reveal( point( node.x, node.y ), 0, dest_road.z );
-    }
-
-    return true;
-}
-
 void overmap::building_on_hiway(int x, int y, int dir)
 {
     int xdif = dir * (1 - 2 * rng(0, 1));

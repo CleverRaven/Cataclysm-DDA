@@ -448,7 +448,6 @@ public:
   void place_radios();
 
     void add_mon_group(const mongroup &group);
-    bool reveal_route( const tripoint &source, const tripoint &dest, int proximity = 0 );
 };
 
 // TODO: readd the stream operators

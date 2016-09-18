@@ -1,5 +1,7 @@
 #include "overmapbuffer.h"
 
+#include "pathfinding.h"
+
 #include "coordinate_conversions.h"
 #include "overmap_types.h"
 #include "overmap.h"
@@ -463,13 +465,68 @@ bool overmapbuffer::reveal( const tripoint &center, int radius )
     return result;
 }
 
-bool overmapbuffer::reveal_route( const tripoint &source, const tripoint &dest, int proximity )
+bool overmapbuffer::reveal_route( const tripoint &source, const tripoint &dest )
 {
-    if( omt_to_om_copy( source ) != omt_to_om_copy( dest ) ) {
-        return false; /// @todo Now it's impossible to lay a route between different overmaps. Fix it.
+    static const int RADIUS = 2;                // Maximal radius of search (in overmaps)
+    static const int OX = RADIUS * OMAPX;       // half-width of the area to search in
+    static const int OY = RADIUS * OMAPY;       // half-height of the area to search in
+
+    if( square_dist( source, dest ) > std::max( OX, OY ) ) {
+        return false;   // Too far away. Attempts are pointless.
     }
 
-    return get_om_global( source ).reveal_route( source, dest, proximity );
+    const tripoint start( OX, OY, source.z );   // Local source - center of the local area
+    const tripoint base( source - start );      // To convert local coordinates to global ones
+    const tripoint finish( dest - base );       // Local destination - relative to source
+
+    const auto estimate = [ this, &base, &finish ]( const pf::node &, const pf::node &cur ) {
+        int res = 0;
+        int omx = base.x + cur.x;
+        int omy = base.y + cur.y;
+
+        const auto &oter = get_om_global( omx, omy ).get_ter( omx, omy, base.z );
+
+        if( !is_ot_type( "road", oter ) && !is_ot_type ( "bridge", oter ) && !is_ot_type( "hiway", oter ) ) {
+            if( is_river( oter ) ) {
+                return -1; // Can't walk on water
+            }
+            // Allow going slightly off-road to overcome small obstacles (e.g. craters),
+            // but heavily penalize that to make roads preferable
+            res += 250;
+        }
+
+        res += std::abs( finish.x - cur.x ) +
+               std::abs( finish.y - cur.y );
+
+        return res;
+    };
+
+    const auto path = pf::find_path<2*OX, 2*OY>( start, finish, estimate );
+
+    if( path.empty() ) {
+        return false;
+    }
+
+    for( const auto &node : path ) {
+        reveal( base + tripoint( node.x, node.y, base.z ), 0 );
+    }
+
+    return true;
+}
+
+bool overmapbuffer::reveal_route( const tripoint &source, const tripoint &dest, int proximity )
+{
+    const tripoint source_road = find_closest( source, "road", proximity, false );
+    if( source_road == overmap::invalid_tripoint ) {
+        return false;
+    }
+
+    const tripoint dest_road = find_closest( dest, "road", proximity, false );
+    if( dest_road   == overmap::invalid_tripoint ) {
+        return false;
+    }
+
+    return reveal_route( source_road, dest_road );
 }
 
 bool overmapbuffer::check_ot_type(const std::string& type, int x, int y, int z)
