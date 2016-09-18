@@ -823,15 +823,8 @@
             "speed_mod": [-2]
         },
         "scaling_mods": {
-            "speed_mod": [-7],
-            "int_mod": [-0.5],
-            "dex_mod": [-0.5],
-            "hurt_min": [1],
-            "hurt_chance": [200],
-            "pkill_tick": [10],
-            "pkill_min": [1],
-            "pkill_max_val": [30],
-            "stamina_chance": [2],
+            "speed_mod": [-4],
+            "stamina_chance": [1],
             "stamina_min": [-2]
         }
     },
@@ -884,9 +877,15 @@
         ],
         "part_descs": true,
         "speed_name": "Frostbite",
+		"max_intensity": 2,
         "dur_add_perc": 0,
         "scaling_mods": {
-            "speed_mod": [-5]
+            "speed_mod": [-5],
+			"pkill_tick": [10],
+            "pkill_min": [1],
+			"pkill_max_val": [10],
+			"hurt_min": [1],
+            "hurt_chance": [80]
         }
     },
     {
@@ -896,7 +895,9 @@
         "desc": ["Your %s is starting to feel the damage cold has wrought."],
         "part_descs": true,
         "base_mods": {
-            "pain_max_val": [40],
+		    "hurt_min": [1],
+            "hurt_chance": [12],
+            "pain_max_val": [80],
             "pain_chance": [2],
             "pain_min": [1]
         }
@@ -1236,7 +1237,7 @@
         "type": "effect_type",
         "id": "weed_high",
         "apply_message": "You feel lightheaded.",
-        "miss_messages": [["That critter's jumping around like a jitterbug! It needs to mellow out.", 1]],
+        "miss_messages": [["That critter's jumping around like a jitterbug!  It needs to mellow out.", 1]],
         "base_mods": {
             "str_mod": [-1],
             "dex_mod": [-1],
