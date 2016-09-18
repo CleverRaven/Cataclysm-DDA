@@ -172,7 +172,7 @@ src/options.h
 src/overlay_ordering.h
 src/overmap_types.h
 src/path_info.h
-src/pathfinding.h
+src/simple_pathfinding.h
 src/map_pathfinding.h
 src/pickup.h
 src/platform_win.h

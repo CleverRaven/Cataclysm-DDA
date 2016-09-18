@@ -1,7 +1,4 @@
 #include "overmapbuffer.h"
-
-#include "pathfinding.h"
-
 #include "coordinate_conversions.h"
 #include "overmap_types.h"
 #include "overmap.h"
@@ -10,7 +7,7 @@
 #include "debug.h"
 #include "monster.h"
 #include "mongroup.h"
-#include "pathfinding.h"
+#include "simple_pathfinding.h"
 #include "worldfactory.h"
 #include "catacharset.h"
 #include "npc.h"

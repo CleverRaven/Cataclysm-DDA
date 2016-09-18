@@ -21,7 +21,7 @@
 #include "mongroup.h"
 #include "mtype.h"
 #include "name.h"
-#include "pathfinding.h"
+#include "simple_pathfinding.h"
 #include "translations.h"
 #include "mapgen_functions.h"
 #include "clzones.h"
