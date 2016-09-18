@@ -201,6 +201,48 @@ player_morale_ptr::~player_morale_ptr()
 {
 }
 
+struct stat_mod {
+    int strength = 0;
+    int dexterity = 0;
+    int intelligence = 0;
+    int perception = 0;
+
+    int speed = 0;
+};
+
+static stat_mod get_pain_penalty( const player &p )
+{
+    stat_mod ret;
+    int pain = p.get_perceived_pain();
+    if( pain <= 0 ) {
+        return ret;
+    }
+
+    int stat_penalty = std::floor( std::pow( pain, 0.8f ) / 10.0f );
+
+    bool ceno = p.has_trait( "CENOBITE" );
+    if( !ceno ) {
+        ret.strength = stat_penalty;
+        ret.dexterity = stat_penalty;
+    }
+
+    if( !p.has_trait( "INT_SLIME" ) ) {
+        ret.intelligence = 1 + stat_penalty;
+    } else {
+        ret.intelligence = 1 + pain / 5;
+    }
+
+    ret.perception = stat_penalty * 2 / 3;
+
+    ret.speed = std::pow( pain, 0.7f );
+    if( ceno ) {
+        ret.speed /= 2;
+    }
+
+    ret.speed = std::min( ret.speed, 50 );
+    return ret;
+}
+
 player::player() : Character()
 {
     id = -1; // -1 is invalid
@@ -376,18 +418,13 @@ void player::reset_stats()
 
     // Pain
     if( get_perceived_pain() > 0 ) {
-        if( !( has_trait( "CENOBITE" ) ) ) {
-            mod_str_bonus( -get_perceived_pain() / 15 );
-            mod_dex_bonus( -get_perceived_pain() / 15 );
-            add_miss_reason( _( "Your pain distracts you!" ), unsigned( get_perceived_pain() / 15 ) );
-        }
-        mod_per_bonus( -get_perceived_pain() / 20 );
-        if( !( has_trait( "INT_SLIME" ) ) ) {
-            mod_int_bonus( -( 1 + ( get_perceived_pain() / 25 ) ) );
-        } else if( has_trait( "INT_SLIME" ) ) {
-            // Having one's brain throughout one's body does have its downsides.
-            // Be glad we don't assess permanent damage.
-            mod_int_bonus( -( 1 + get_perceived_pain() ) );
+        const auto ppen = get_pain_penalty( *this );
+        mod_str_bonus( -ppen.strength );
+        mod_dex_bonus( -ppen.dexterity );
+        mod_int_bonus( -ppen.intelligence );
+        mod_per_bonus( -ppen.perception );
+        if( ppen.dexterity > 0 ) {
+            add_miss_reason( _( "Your pain distracts you!" ), unsigned( ppen.dexterity ) );
         }
     }
     // Morale
@@ -1503,17 +1540,6 @@ void player::recalc_speed_bonus()
     }
     mod_speed_bonus( -carry_penalty );
 
-    if( get_perceived_pain() > 0 ) {
-        int pain_penalty = int( get_perceived_pain() * .7 );
-        // Cenobites aren't slowed nearly as much by pain
-        if( has_trait( "CENOBITE" ) ) {
-            pain_penalty /= 4;
-        }
-        if( pain_penalty > 60 ) {
-            pain_penalty = 60;
-        }
-        mod_speed_bonus( -pain_penalty );
-    }
     if( get_painkiller() >= 10 ) {
         int pkill_penalty = int( get_painkiller() * .1 );
         if( pkill_penalty > 30 ) {
@@ -2412,19 +2438,23 @@ void player::disp_info()
     }
     if( get_perceived_pain() > 0 ) {
         effect_name.push_back( _( "Pain" ) );
+        const auto ppen = get_pain_penalty( *this );
         std::stringstream pain_text;
-        // Cenobites aren't markedly physically impaired by pain.
-        if( ( get_perceived_pain() >= 15 ) && ( !( has_trait( "CENOBITE" ) ) ) ) {
-            pain_text << _( "Strength" ) << " -" << get_perceived_pain() / 15 << "   " << _( "Dexterity" ) <<
-                      " -" <<
-                      get_perceived_pain() / 15 << "   ";
+        if( ppen.strength > 0 ) {
+            pain_text << _( "Strength" ) << " -" << ppen.strength << "   ";
         }
-        // They do find the sensations distracting though.
-        // Pleasurable...but distracting.
-        if( get_perceived_pain() >= 20 ) {
-            pain_text << _( "Perception" ) << " -" << get_perceived_pain() / 15 << "   ";
+        if( ppen.dexterity > 0 ) {
+            pain_text << _( "Dexterity" ) << " -" << ppen.dexterity << "   ";
         }
-        pain_text << _( "Intelligence" ) << " -" << 1 + get_perceived_pain() / 25;
+        if( ppen.intelligence > 0 ) {
+            pain_text << _( "Intelligence" ) << " -" << ppen.intelligence << "   ";
+        }
+        if( ppen.perception > 0 ) {
+            pain_text << _( "Perception" ) << " -" << ppen.perception << "   ";
+        }
+        if( ppen.speed > 0 ) {
+            pain_text << _( "Speed" ) << " -" << ppen.speed << "%   ";
+        }
         effect_text.push_back( pain_text.str() );
     }
     if( stim > 0 ) {
@@ -2791,13 +2821,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
                        ( abs( pen ) < 10 ? " " : "" ), abs( pen ) );
         line++;
     }
-    pen = int( get_perceived_pain() * .7 );
-    if( has_trait( "CENOBITE" ) ) {
-        pen /= 4;
-    }
-    if( pen > 60 ) {
-        pen = 60;
-    }
+    pen = get_pain_penalty( *this ).speed;
     if( pen >= 1 ) {
         mvwprintz( w_speed, line, 1, c_red, _( "Pain                -%s%d%%" ),
                    ( pen < 10 ? " " : "" ), pen );
