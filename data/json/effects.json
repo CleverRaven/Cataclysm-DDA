@@ -881,10 +881,10 @@
         "dur_add_perc": 0,
         "scaling_mods": {
             "speed_mod": [-5],
-			"pkill_tick": [10],
+            "pkill_tick": [10],
             "pkill_min": [1],
-			"pkill_max_val": [10],
-			"hurt_min": [1],
+            "pkill_max_val": [10],
+            "hurt_min": [1],
             "hurt_chance": [8]
         }
     },
@@ -895,7 +895,7 @@
         "desc": ["Your %s is starting to feel the damage cold has wrought."],
         "part_descs": true,
         "base_mods": {
-		    "hurt_min": [1],
+            "hurt_min": [1],
             "hurt_chance": [100],
             "pain_max_val": [80],
             "pain_chance": [2],
