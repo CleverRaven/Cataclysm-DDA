@@ -6020,7 +6020,7 @@
         "symbol": "#",
         "color": "ltgray",
         "move_cost": 3,
-        "flags": ["TRANSPARENT", "NOITEM", "REDUCE_SCENT", "MOUNTABLE", "SHORT", "THINOBSTACLE", "ROAD"],
+        "flags": ["TRANSPARENT", "NOITEM", "REDUCE_SCENT", "MOUNTABLE", "SHORT", "THIN_OBSTACLE", "ROAD"],
         "bash": {
             "str_min": 8, "str_max": 150,
             "sound": "crunch!",

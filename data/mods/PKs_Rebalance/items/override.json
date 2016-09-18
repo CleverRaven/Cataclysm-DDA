@@ -272,7 +272,7 @@
     "initial_charges": 1,
     "max_charges": 1,
     "covers": [ "HEAD" ],
-    "coverage": 5,
+    "coverage": 4,
     "encumbrance": 2,
     "material_thickness": 1,
     "use_action": {
@@ -314,7 +314,7 @@
     "type": "ARMOR",
     "name": "diver's watch",
     "name_plural": "diver's watches",
-    "description": "A waterpr1of, self-winding watch on a steel watchband.  Tells the time and current temperature and is impervious to water.  Activate to check the digital thermometer.",
+    "description": "A waterproof, self-winding watch on a steel watchband.  Tells the time and current temperature and is impervious to water.  Activate to check the digital thermometer.",
     "weight": 65,
     "volume": 1,
     "price": 12000,

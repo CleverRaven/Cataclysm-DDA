@@ -120,8 +120,9 @@ void overmapbuffer::clear()
 
 const regional_settings& overmapbuffer::get_settings(int x, int y, int z)
 {
+    (void)z;
     overmap &om = get_om_global(x, y);
-    return om.get_settings(x, y, z);
+    return om.get_settings();
 }
 
 void overmapbuffer::add_note(int x, int y, int z, const std::string& message)

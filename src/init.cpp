@@ -4,6 +4,7 @@
 #include "filesystem.h"
 
 // can load from json
+#include "flag.h"
 #include "effect.h"
 #include "emit.h"
 #include "vitamin.h"
@@ -53,6 +54,7 @@
 #include "gates.h"
 #include "overlay_ordering.h"
 #include "worldfactory.h"
+#include "weather_gen.h"
 #include "npc_class.h"
 
 #include <string>
@@ -113,6 +115,7 @@ void DynamicDataLoader::initialize()
     // all of the applicable types that can be loaded, along with their loading functions
     // Add to this as needed with new StaticFunctionAccessors or new ClassFunctionAccessors for new applicable types
     // Static Function Access
+    add( "json_flag", &json_flag::load );
     add( "fault", &fault::load_fault );
     add( "emit", &emit::load_emit );
     add( "vitamin", &vitamin::load_vitamin );
@@ -285,6 +288,7 @@ void init_names()
 
 void DynamicDataLoader::unload_data()
 {
+    json_flag::reset();
     requirement_data::reset();
     vitamin::reset();
     emit::reset();
@@ -357,6 +361,7 @@ void DynamicDataLoader::finalize_loaded_data()
 
 void DynamicDataLoader::check_consistency()
 {
+    json_flag::check_consistency();
     requirement_data::check_consistency();
     vitamin::check_consistency();
     emit::check_consistency();

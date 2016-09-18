@@ -1758,7 +1758,7 @@ void iexamine::kiln_empty(player &p, const tripoint &examp)
 
     ///\EFFECT_CARPENTRY decreases loss when firing a kiln
     const SkillLevel &skill = p.get_skill_level( skill_carpentry );
-    int loss = 90 - 2 * skill; // We can afford to be inefficient - logs and skeletons are cheap, charcoal isn't
+    int loss = 60 - 2 * skill; // We can afford to be inefficient - logs and skeletons are cheap, charcoal isn't
 
     // Burn stuff that should get charred, leave out the rest
     units::volume total_volume = 0;
