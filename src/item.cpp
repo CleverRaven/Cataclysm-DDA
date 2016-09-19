@@ -1925,7 +1925,6 @@ nc_color item::color_in_inventory() const
                        u->get_skill_level( tmp.skill ).can_train() &&
                        u->get_skill_level( tmp.skill ) < tmp.level ) {
                 ret = c_pink;
-            }
             } else if( !u->studied_all_recipes( *type ) ) { // Book can't improve skill anymore, but has more recipes: yellow
                 ret = c_yellow;
         } else {
