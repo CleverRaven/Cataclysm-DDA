@@ -202,8 +202,9 @@ bool is_river(const oter_id &ter)
 
 bool is_ot_type(const std::string &otype, const oter_id &oter)
 {
+    const size_t oter_size = oterlist[oter].id.size();
     const size_t compare_size = otype.size();
-    if (compare_size > oter.size()) {
+    if (compare_size > oter_size) {
         return false;
     }
 
@@ -213,7 +214,7 @@ bool is_ot_type(const std::string &otype, const oter_id &oter)
     }
 
     // check if it's a full match
-    if (compare_size == oter.size()) {
+    if (compare_size == oter_size) {
         return true;
     }
 
@@ -4367,12 +4368,6 @@ void overmap::save() const
 //////////////////////////
 //// sneaky
 
-// ter(...) = 0;
-const unsigned &oter_id::operator=(const int &i)
-{
-    _val = i;
-    return _val;
-}
 // ter(...) = "rock"
 oter_id::operator std::string const&() const
 {
@@ -4431,11 +4426,6 @@ oter_id::operator oter_t() const
 const oter_t &oter_id::t() const
 {
     return oterlist[_val];
-}
-// ter(...).size()
-size_t oter_id::size() const
-{
-    return oterlist[_val].id.size();
 }
 
 // std::string("river_ne");  oter_id van_location(down_by);

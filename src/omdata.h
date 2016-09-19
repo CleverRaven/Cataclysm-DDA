@@ -95,9 +95,6 @@ class oter_id
 
         const oter_t &t() const;
 
-        // set and compare by string
-        const unsigned &operator=( const int &i );
-
         // initialize as raw value
         oter_id() : _val( 0 ) { };
         oter_id( int i ) : _val( i ) { };
@@ -108,7 +105,6 @@ class oter_id
         // these std::string functions are provided for convenience, for others,
         //  best invoke as actual string; std::string( ter(1, 2, 3) ).substr(...
         const char *c_str() const;
-        size_t size() const;
 };
 
 /// @todo: Deprecate these operators
