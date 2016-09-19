@@ -86,6 +86,45 @@ bool clear_shot_reach( const tripoint &from, const tripoint &to )
     return true;
 }
 
+tripoint good_escape_direction( const npc &who )
+{
+    std::vector<tripoint> candidates;
+
+    const auto rate_pt = [&who]( const tripoint &p ) {
+        if( !g->m.passable( p ) ) {
+            return INT_MAX;
+        }
+
+        int rating = 0;
+        for( const auto &e : g->m.field_at( p ) ) {
+            if( who.is_dangerous_field( e.second ) ) {
+                // @todo Rate fire higher than smoke
+                rating += e.second.getFieldDensity();
+            }
+        }
+
+        return rating;
+    };
+
+    int best_rating = rate_pt( who.pos() );
+    candidates.emplace_back( who.pos() );
+    for( const tripoint &p : g->m.points_in_radius( who.pos(), 1 ) ) {
+        if( p == who.pos() ) {
+            continue;
+        }
+
+        int cur_rating = rate_pt( p );
+        if( cur_rating == best_rating ) {
+            candidates.emplace_back( p );
+        } else if( cur_rating < best_rating ) {
+            candidates.clear();
+            candidates.emplace_back( p );
+        }
+    }
+
+    return random_entry( candidates );
+}
+
 bool npc::sees_dangerous_field( const tripoint &p ) const
 {
     return is_dangerous_fields( g->m.field_at( p ) );
@@ -93,7 +132,27 @@ bool npc::sees_dangerous_field( const tripoint &p ) const
 
 bool npc::could_move_onto( const tripoint &p ) const
 {
-    return g->m.passable( p ) && !sees_dangerous_field( p );
+    if( !g->m.passable( p ) ) {
+        return false;
+    }
+
+    if( !sees_dangerous_field( p ) ) {
+        return true;
+    }
+
+    const auto fields_here = g->m.field_at( pos() );
+    for( const auto& e : g->m.field_at( p ) ) {
+        if( !is_dangerous_field( e.second ) ) {
+            continue;
+        }
+
+        const auto *entry_here = fields_here.findField( e.first );
+        if( entry_here == nullptr || entry_here->getFieldDensity() < e.second.getFieldDensity() ) {
+            return false;
+        }
+    }
+
+    return true;
 }
 
 // class npc functions!
@@ -222,14 +281,9 @@ void npc::move()
 
     // This bypasses the logic to determine the npc action, but this all needs to be rewritten anyway.
     if( sees_dangerous_field( pos() ) ) {
-        auto targets = closest_tripoints_first( 1, pos() );
-        targets.erase( targets.begin() ); // current location
-        auto filter = [this](const tripoint &p) {
-            return !could_move_onto( p );
-        };
-        targets.erase( std::remove_if( targets.begin(), targets.end(), filter ), targets.end() );
-        if( !targets.empty() ) {
-            move_to( random_entry( targets ) );
+        const tripoint escape_dir = good_escape_direction( *this );
+        if( escape_dir != pos() ) {
+            move_to( escape_dir );
             return;
         }
     }
