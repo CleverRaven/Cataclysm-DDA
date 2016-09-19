@@ -31,17 +31,27 @@ struct node {
 /// @param estimate BinaryPredicate( node &previous, node &current ) returns
 /// integer estimation (smaller - better) for the current node or a negative value
 /// if the node is unsuitable.
-template<int MAX_X, int MAX_Y, class BinaryPredicate>
+template<class BinaryPredicate>
 std::vector<node> find_path( const tripoint &source,
                              const tripoint &dest,
+                             const int max_x,
+                             const int max_y,
                              BinaryPredicate estimator )
 {
     static const int dx[4] = { 1, 0, -1, 0 };
     static const int dy[4] = { 0, 1, 0, -1 };
 
+    const auto inbounds = [ max_x, max_y ]( const int x, const int y ) {
+        return x >= 0 && x < max_x && y >= 0 && y <= max_y;
+    };
+
+    const auto map_index = [ max_x ]( const int x, const int y ) {
+        return y * max_x + x;
+    };
+
     std::vector<node> res;
 
-    if( source == dest ) {
+    if( source == dest || !inbounds( source.x, source.y ) || !inbounds( dest.x, dest.y ) ) {
         return res;
     }
 
@@ -50,19 +60,21 @@ std::vector<node> find_path( const tripoint &source,
         return res;
     }
 
-    std::priority_queue<node, std::deque<node> > nodes[2];
-    bool closed[MAX_X][MAX_Y] = {{ false }};
-    int open[MAX_X][MAX_Y] = {{ 0 }};
-    short dirs[MAX_X][MAX_Y] = {{ 0 }};
-    int i = 0;
-
     const int x1 = source.x;
     const int y1 = source.y;
     const int x2 = dest.x;
     const int y2 = dest.y;
 
+    const size_t map_size = max_x * max_y;
+
+    std::priority_queue<node, std::deque<node> > nodes[2];
+    std::vector<bool> closed( map_size, false );
+    std::vector<int> open( map_size, 0 );
+    std::vector<short> dirs( map_size, 0 );
+    int i = 0;
+
     nodes[i].emplace( x1, y1, 5, 1000 );
-    open[x1][y1] = 1000;
+    open[map_index( x1, y1 )] = 1000;
 
     // use A* to find the shortest path from (x1,y1) to (x2,y2)
     while( !nodes[i].empty() ) {
@@ -70,11 +82,11 @@ std::vector<node> find_path( const tripoint &source,
 
         nodes[i].pop();
         // make sure it's in bounds
-        if( mn.x < 0 || mn.x >= MAX_X || mn.y < 0 || mn.y >= MAX_Y ) {
+        if( !inbounds( mn.x, mn.y ) ) {
             continue;
         }
         // mark it visited
-        closed[mn.x][mn.y] = true;
+        closed[map_index( mn.x, mn.y )] = true;
 
         // if we've reached the end, draw the path and return
         if( mn.x == x2 && mn.y == y2 ) {
@@ -84,7 +96,8 @@ std::vector<node> find_path( const tripoint &source,
             res.reserve( nodes[i].size() );
 
             while( x != x1 || y != y1 ) {
-                int d = dirs[x][y];
+                const int n = map_index( x, y );
+                const int d = dirs[n];
                 x += dx[d];
                 y += dy[d];
                 res.emplace_back( x, y, d, 0 );
@@ -96,10 +109,11 @@ std::vector<node> find_path( const tripoint &source,
         for( int d = 0; d < 4; d++ ) {
             const int x = mn.x + dx[d];
             const int y = mn.y + dy[d];
+            const int n = map_index( x, y );
             // don't allow:
             // * out of bounds
             // * already traversed tiles
-            if( x < 1 || x + 1 >= MAX_X || y < 1 || y + 1 >= MAX_Y || closed[x][y] ) {
+            if( x < 1 || x + 1 >= max_x || y < 1 || y + 1 >= max_y || closed[n] ) {
                 continue;
             }
 
@@ -110,10 +124,10 @@ std::vector<node> find_path( const tripoint &source,
                 continue; // rejected by the estimator
             }
             // record direction to shortest path
-            if( open[x][y] == 0 || open[x][y] > cn.priority ) {
-                dirs[x][y] = ( d + 2 ) % 4;
+            if( open[n] == 0 || open[n] > cn.priority ) {
+                dirs[n] = ( d + 2 ) % 4;
 
-                if( open[x][y] != 0 ) {
+                if( open[n] != 0 ) {
                     while( nodes[i].top().x != x || nodes[i].top().y != y ) {
                         nodes[1 - i].push( nodes[i].top() );
                         nodes[i].pop();
@@ -129,7 +143,7 @@ std::vector<node> find_path( const tripoint &source,
                     }
                     i = 1 - i;
                 }
-                open[x][y] = cn.priority;
+                open[n] = cn.priority;
                 nodes[i].push( cn );
             }
         }

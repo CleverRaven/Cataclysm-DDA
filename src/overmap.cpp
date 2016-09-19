@@ -3449,7 +3449,7 @@ void overmap::make_hiway( int x1, int y1, int x2, int y2, int z, const std::stri
     const oter_id base_nesw( base + "_nesw" );
 
     tripoint pnt( dest );
-    for( const auto &node : pf::find_path<OMAPX, OMAPY>( source, dest, estimate ) ) {
+    for( const auto &node : pf::find_path( source, dest, OMAPX, OMAPY, estimate ) ) {
         auto &id = ter( node.x, node.y, z );
 
         if( is_river( id ) ) {

@@ -464,9 +464,9 @@ bool overmapbuffer::reveal( const tripoint &center, int radius )
 
 bool overmapbuffer::reveal_route( const tripoint &source, const tripoint &dest )
 {
-    static const int RADIUS = 1;                // Maximal radius of search (in overmaps)
-    static const int OX = RADIUS * OMAPX;       // half-width of the area to search in
-    static const int OY = RADIUS * OMAPY;       // half-height of the area to search in
+    static const int RADIUS = 4;            // Maximal radius of search (in overmaps)
+    static const int OX = RADIUS * OMAPX;   // half-width of the area to search in
+    static const int OY = RADIUS * OMAPY;   // half-height of the area to search in
 
     if( square_dist( source, dest ) > std::max( OX, OY ) ) {
         return false;   // Too far away. Attempts are pointless.
@@ -498,7 +498,7 @@ bool overmapbuffer::reveal_route( const tripoint &source, const tripoint &dest )
         return res;
     };
 
-    const auto path = pf::find_path<2*OX, 2*OY>( start, finish, estimate );
+    const auto path = pf::find_path( start, finish, 2*OX, 2*OY, estimate );
 
     if( path.empty() ) {
         return false;
