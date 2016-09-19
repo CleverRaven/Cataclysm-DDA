@@ -15,11 +15,11 @@ external dependencies beyond the p5-JSON module
 
 Parse a file and output JSON in canonical format
 
-`format.pl examples/vehicle.json > output.json`
+`format.pl examples/vehicle_part.json > output.json`
 
 Check a file is valid JSON and has no unknown fields
 
-`format.pl -q examples/vehicle.json`
+`format.pl -q examples/vehicle_part.json`
 
 Check all files in directory are valid JSON in canonical format
 
