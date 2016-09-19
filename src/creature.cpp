@@ -750,7 +750,7 @@ void Creature::deal_damage_handle_type(const damage_unit &du, body_part bp, int 
             break;
         case DT_ACID:
             // Acid damage and acid burns are more painful
-            pain++;
+            div = 3.0f;
             break;
         default:
             break;

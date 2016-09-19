@@ -1540,6 +1540,8 @@ void player::recalc_speed_bonus()
     }
     mod_speed_bonus( -carry_penalty );
 
+    mod_speed_bonus( -get_pain_penalty( *this ).speed );
+
     if( get_painkiller() >= 10 ) {
         int pkill_penalty = int( get_painkiller() * .1 );
         if( pkill_penalty > 30 ) {
