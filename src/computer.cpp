@@ -1384,31 +1384,36 @@ void computer::remove_option( computer_action const action )
 
 void computer::mark_refugee_center()
 {
-    print_line(_("\
+    print_line( _("\
 IF YOU HAVE ANY FEEDBACK CONCERNING YOUR VISIT PLEASE CONTACT \n\
 THE DEPARTMENT OF EMERGENCY MANAGEMENT PUBLIC AFFAIRS OFFICE.  \n\
 THE LOCAL OFFICE CAN BE REACHED BETWEEN THE HOURS OF 9AM AND \n\
 4PM AT 1-800-255-5678.                                      \n\
 \n\
 IF YOU WOULD LIKE TO SPEAK WITH SOMEONE IN PERSON OR WOULD LIKE\n\
-TO WRITE US A LETTER PLEASE SEND IT TO...\n\
-\n\
-It takes you forever to find the address on your map...\n"));
+TO WRITE US A LETTER PLEASE SEND IT TO...\n" ) );
 
     const tripoint your_pos = g->u.global_omt_location();
     const tripoint center_pos = overmap_buffer.find_closest( your_pos, "evac_center_13", 0, false );
 
-    if( center_pos == overmap::invalid_tripoint ) {
-        query_any( _( "Finally you gave up your attempts..." ) );
+    if( overmap_buffer.seen( center_pos.x, center_pos.y, center_pos.z ) ) {
+        query_any( _( "You already know that address..." ) );
         return;
     }
+
+    if( center_pos == overmap::invalid_tripoint ) {
+        query_any( _( "You don't know where the address could be..." ) );
+        return;
+    }
+
+    print_line( _( "It takes you forever to find the address on your map..." ) );
 
     overmap_buffer.reveal( center_pos, 3 );
 
     if( overmap_buffer.reveal_route( your_pos, center_pos, 3 ) ) {
         query_any( _( "You mark the refugee center and the road that leads to it..." ) );
     } else {
-        query_any( _( "You mark the refugee center..." ) );
+        query_any( _( "You mark the refugee center, but you have no idea how to get there by road..." ) );
     }
 }
 
