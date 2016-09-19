@@ -1927,6 +1927,7 @@ nc_color item::color_in_inventory() const
                 ret = c_pink;
             } else if( !u->studied_all_recipes( *type ) ) { // Book can't improve skill anymore, but has more recipes: yellow
                 ret = c_yellow;
+            }
         } else {
             ret = c_red; // Book hasn't been identified yet: red
         }
