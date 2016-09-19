@@ -61,6 +61,10 @@ for file in "$@"; do
     else
         output=$($JQ "sort_by(.$key)" $file | $PERL $LINTER)
     fi
+    if [ $? -ne 0 ]; then
+        echo "Invalid definition in $file"
+        exit 65; # EX_DATAERR
+    fi
 
     # Update if not in canonical form
     echo "$output" | diff -q $file - > /dev/null
