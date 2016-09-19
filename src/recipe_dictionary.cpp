@@ -49,7 +49,7 @@ std::vector<const recipe *> recipe_dictionary::in_category( const std::string &c
             res.insert( res.begin(), iter->second.begin(), iter->second.end() );
         } else {
             std::copy_if( iter->second.begin(), iter->second.end(),
-                          std::back_inserter( res ), [&subcat]( const recipe * e ) {
+            std::back_inserter( res ), [&subcat]( const recipe * e ) {
                 return e->subcategory == subcat;
             } );
         }
