@@ -117,7 +117,7 @@ void player::long_craft()
 bool player::making_would_work( const std::string &id_to_make, int batch_size )
 {
     const auto &making = recipe_dict[ id_to_make ];
-    if( making || !crafting_allowed( *this, making ) ) {
+    if( !( making && crafting_allowed( *this, making ) ) ) {
         return false;
     }
 
