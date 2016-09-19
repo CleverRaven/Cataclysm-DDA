@@ -1,0 +1,42 @@
+[
+  {
+    "id": "style_eskrima",
+    "type": "martial_art",
+    "edit-mode": "modify",
+    "weapons": [
+      "firemachete_off",
+      "firemachete_on",
+      "shishkebab_off",
+      "shishkebab_on"
+     ]
+  },
+  {
+    "id": "style_fencing",
+    "type": "martial_art",
+    "edit-mode": "modify",
+    "weapons": [
+      "broadfire_off",
+      "broadfire_on"
+    ]
+  },
+  {
+    "id": "style_niten",
+    "type": "martial_art",
+    "edit-mode": "modify",
+    "weapons": [
+      "firekatana_off",
+      "firekatana_on"
+    ]
+  },
+  {
+    "id": "style_silat",
+    "type": "martial_art",
+    "edit-mode": "modify",
+    "weapons": [
+      "firemachete_off",
+      "firemachete_on",
+      "shishkebab_off",
+      "shishkebab_on"
+     ]
+  }
+]

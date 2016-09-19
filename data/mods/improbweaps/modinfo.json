@@ -1,0 +1,12 @@
+[
+  {
+    "type": "MOD_INFO",
+    "mod-type": "SUPPLEMENTAL",
+    "ident": "improbweaps",
+    "name": "Craftable melee pack",
+    "author": "Various",
+    "description": "Additional craftable melee weapons that might otherwise be improbable or impractical",
+    "category": "items",
+    "path": ""
+  }
+]
