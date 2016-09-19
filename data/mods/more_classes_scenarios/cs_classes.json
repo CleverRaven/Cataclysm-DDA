@@ -53,7 +53,7 @@
                 "socks",
                 "boots_combat",
                 "shoulder_strap",
-                "a7",
+                "laser_rifle",
                 "sheath",
                 "kukri"
             ],
@@ -64,14 +64,15 @@
                 "sports_bra",
                 "boxer_shorts"
             ]
-        }
+        },
+        "flags" : ["SCEN_ONLY"]
     },
     {
         "type" : "profession",
         "ident": "wasteland_cyborg",
         "name": "Wasteland Cyborg",
         "description": "After months of reading, experimentation, severe injuries, and countless supply raids you emerge a self-made cyborg with the some of the best crafted weapons and armor in the wasteland.",
-        "points": 10,
+        "points": 8,
         "CBMs":[
             "bio_flashlight",
             "bio_tools",

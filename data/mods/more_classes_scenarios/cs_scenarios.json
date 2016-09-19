@@ -21,5 +21,11 @@
     "ident" : "ambushed",
     "edit-mode" : "modify",
     "add:professions" : ["wasteland_cyborg"]
+  },
+  {
+    "type" : "scenario",
+    "ident" : "heli_crash",
+    "edit-mode" : "modify",
+    "add:professions" : ["bio_specops"]
   }
-]  
+]
