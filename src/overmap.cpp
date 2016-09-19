@@ -3421,7 +3421,7 @@ void overmap::make_hiway( int x1, int y1, int x2, int y2, int z, const std::stri
 {
     const tripoint source( x1, y1, z );
     const tripoint dest( x2, y2, z );
-    const int disp = (base == "road") ? 5 : 2;
+    const int disp = base == "road" ? 5 : 2;
 
     const auto estimate = [ this, disp, &base, &dest ]( const pf::node &prev, const pf::node &cur ) {
         // Reject nodes that don't allow roads to cross them (e.g. buildings)
@@ -3448,7 +3448,6 @@ void overmap::make_hiway( int x1, int y1, int x2, int y2, int z, const std::stri
     const oter_id bridge_ew( "bridge_ew" );
     const oter_id base_nesw( base + "_nesw" );
 
-    tripoint pnt( dest );
     for( const auto &node : pf::find_path( source, dest, OMAPX, OMAPY, estimate ) ) {
         auto &id = ter( node.x, node.y, z );
 
