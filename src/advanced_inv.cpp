@@ -226,36 +226,26 @@ void advanced_inventory::print_items( advanced_inventory_pane &pane, bool active
     if( pane.get_area() == AIM_INVENTORY || pane.get_area() == AIM_WORN ) {
         const double weight_carried = convert_weight( g->u.weight_carried() );
         const double weight_capacity = convert_weight( g->u.weight_capacity() );
-        const char *weight_unit = weight_units();
         const double volume_carried = round_up( units::to_liter( g->u.volume_carried() ), 1 );
         const double volume_capacity = round_up( units::to_liter( g->u.volume_capacity() ), 1 );
-        const char *volume_unit = _( "L" );
         // align right, so calculate formated head length 
-        const std::string head = string_format( "%.1f/%.1f %s  %.1f/%.1f %s",
-                                                weight_carried, weight_capacity, weight_unit,
-                                                volume_carried, volume_capacity, volume_unit );
+        const std::string head = string_format( "%.1f/%.1f %s  %.1f/%.1f L",
+                                                weight_carried, weight_capacity, weight_units(),
+                                                volume_carried, volume_capacity );
         const int hrightcol = columns - 1 - head.length();
-        nc_color color = c_ltgreen; //red color if overload
-        if( weight_carried > weight_capacity ) {
-            color = c_red;
-        }
+        nc_color color = weight_carried > weight_capacity ? c_red : c_ltgreen;
         mvwprintz( window, 4, hrightcol, color, "%.1f", weight_carried );
-        wprintz( window, c_ltgray, "/%.1f %s  ", weight_capacity, weight_unit );
-        if( volume_carried > volume_capacity ) {
-            color = c_red;
-        } else {
-            color = c_ltgreen;
-        }
+        wprintz( window, c_ltgray, "/%.1f %s  ", weight_capacity, weight_units() );
+        color = volume_carried > volume_capacity ? c_red : c_ltgreen;
         wprintz( window, color, "%.1f", volume_carried );
-        wprintz( window, c_ltgray, "/%-.1f %s ", volume_capacity, volume_unit );
+        wprintz( window, c_ltgray, "/%-.1f L", volume_capacity );
     } else { //print square's current and total weight + volume
         std::string head;
         if( pane.get_area() == AIM_ALL ) {
-            head = string_format( "%3.1f %s  %.1f %s",
+            head = string_format( "%3.1f %s  %.1f L",
                                   convert_weight( squares[pane.get_area()].weight ),
                                   weight_units(),
-                                  round_up( units::to_liter( squares[pane.get_area()].volume ), 1 ),
-                                  _( "L" ) );
+                                  round_up( units::to_liter( squares[pane.get_area()].volume ), 1 ) );
         } else {
             units::volume maxvolume = 0;
             auto &s = squares[pane.get_area()];
@@ -266,12 +256,11 @@ void advanced_inventory::print_items( advanced_inventory_pane &pane, bool active
             } else {
                 maxvolume = g->m.max_volume( s.pos );
             }
-            head = string_format( "%3.1f %s  %.1f/%-.1f %s",
+            head = string_format( "%3.1f %s  %.1f/%-.1f L",
                                   convert_weight( s.weight ),
                                   weight_units(),
                                   round_up( units::to_liter( s.volume ), 1 ),
-                                  round_up( units::to_liter( maxvolume ), 1 ),
-                                  _( "L" ) );
+                                  round_up( units::to_liter( maxvolume ), 1 ) );
         }
         mvwprintz( window, 4, columns - 1 - head.length(), norm, "%s", head.c_str() );
     }
