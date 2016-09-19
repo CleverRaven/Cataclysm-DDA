@@ -294,33 +294,8 @@ void Item_factory::finalize_item_blacklist()
 
     }
 
-    // Can't be part of the blacklist loop because the magazines might be
-    // deleted before the guns are processed.
-    const bool magazines_blacklisted = get_world_option<bool>( "BLACKLIST_MAGAZINES" );
-
-    if( magazines_blacklisted ) {
-        for( auto& e : m_templates ) {
-            if( !e.second->gun || e.second->magazines.empty() ) {
-                continue;
-            }
-
-            // check_definitions() guarantees that defmag both exists and is a magazine
-            itype *defmag = m_templates[ e.second->magazine_default[ e.second->gun->ammo ] ].get();
-            e.second->volume += defmag->volume;
-            e.second->weight += defmag->weight;
-            e.second->magazines.clear();
-            e.second->magazine_default.clear();
-            e.second->magazine_well = 0;
-
-            if( e.second->gun ) {
-                e.second->gun->clip = defmag->magazine->capacity;
-                e.second->gun->reload_time = defmag->magazine->capacity * defmag->magazine->reload_time;
-            }
-        }
-    }
-
     for( auto &e : m_templates ) {
-        if( !( item_is_blacklisted( e.first ) || ( magazines_blacklisted && e.second->magazine ) ) ) {
+        if( !item_is_blacklisted( e.first ) ) {
             continue;
         }
         for( auto &g : m_template_groups ) {
@@ -665,8 +640,6 @@ bool Item_factory::check_ammo_type( std::ostream &msg, const ammotype& ammo ) co
 
 void Item_factory::check_definitions() const
 {
-    std::set<itype_id> magazines_used;
-    std::set<itype_id> magazines_defined;
     for( const auto &elem : m_templates ) {
         std::ostringstream msg;
         const itype *type = elem.second.get();
@@ -828,7 +801,6 @@ void Item_factory::check_definitions() const
             check_ammo_type( msg, type->gunmod->ammo_modifier );
         }
         if( type->magazine ) {
-            magazines_defined.insert( type->id );
             check_ammo_type( msg, type->magazine->type );
             if( !type->magazine->type ) {
                 msg << "magazine did not specify ammo type" << "\n";
@@ -859,7 +831,6 @@ void Item_factory::check_definitions() const
                 if( !has_template( mag ) || !find_template( mag )->magazine ) {
                     msg << string_format("invalid magazine.") << "\n";
                 }
-                magazines_used.insert( mag );
             }
         }
 
@@ -893,14 +864,6 @@ void Item_factory::check_definitions() const
             continue;
         }
         debugmsg( "warnings for type %s:\n%s", type->id.c_str(), msg.str().c_str() );
-    }
-    if( !get_world_option<bool>( "BLACKLIST_MAGAZINES" ) ) {
-        for( auto &mag : magazines_defined ) {
-            // some vehicle parts (currently batteries) are implemented as magazines
-            if( magazines_used.count( mag ) == 0 && find_template( mag )->category->id != category_id_veh_parts ) {
-                debugmsg( "Magazine %s defined but not used.", mag.c_str() );
-            }
-        }
     }
     for( const auto& e : migrations ) {
         if( !m_templates.count( e.second.replace ) ) {
