@@ -81,43 +81,44 @@ struct oter_t {
         }
 };
 
-struct oter_id {
-    unsigned _val; // just numeric index of oter_t, but typically invoked as string
+class oter_id
+{
+    public:
+        unsigned _val; // just numeric index of oter_t, but typically invoked as string
 
-    // Hi, I'm an
-    operator int() const;
-    // pretending to be a
-    operator std::string const &() const;
-    // in order to map
-    operator oter_t() const;
+        // Hi, I'm an
+        operator int() const;
+        // pretending to be a
+        operator std::string const &() const;
+        // in order to map
+        operator oter_t() const;
 
-    const oter_t &t() const;
+        const oter_t &t() const;
 
-    // set and compare by string
-    const unsigned &operator=( const int &i );
-    bool operator!=( const char *v ) const;
-    bool operator==( const char *v ) const;
-    bool operator>=( const char *v ) const;
-    bool operator<=( const char *v ) const;
+        // set and compare by string
+        const unsigned &operator=( const int &i );
+        bool operator!=( const char *v ) const;
+        bool operator==( const char *v ) const;
+        bool operator>=( const char *v ) const;
+        bool operator<=( const char *v ) const;
 
-    // or faster, with another oter_id
-    bool operator!=( const oter_id &v ) const;
-    bool operator==( const oter_id &v ) const;
+        // or faster, with another oter_id
+        bool operator!=( const oter_id &v ) const;
+        bool operator==( const oter_id &v ) const;
 
+        // initialize as raw value
+        oter_id() : _val( 0 ) { };
+        oter_id( int i ) : _val( i ) { };
+        // or as "something" by consulting otermap
+        oter_id( const std::string &v );
+        oter_id( const char *v );
 
-    // initialize as raw value
-    oter_id() : _val( 0 ) { };
-    oter_id( int i ) : _val( i ) { };
-    // or as "something" by consulting otermap
-    oter_id( const std::string &v );
-    oter_id( const char *v );
-
-    // these std::string functions are provided for convenience, for others,
-    //  best invoke as actual string; std::string( ter(1, 2, 3) ).substr(...
-    const char *c_str() const;
-    size_t size() const;
-    int find( const std::string &v, const int start, const int end ) const;
-    int compare( size_t pos, size_t len, const char *s, size_t n = 0 ) const;
+        // these std::string functions are provided for convenience, for others,
+        //  best invoke as actual string; std::string( ter(1, 2, 3) ).substr(...
+        const char *c_str() const;
+        size_t size() const;
+        int find( const std::string &v, const int start, const int end ) const;
+        int compare( size_t pos, size_t len, const char *s, size_t n = 0 ) const;
 };
 
 

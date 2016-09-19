@@ -13,7 +13,7 @@ struct mongroup;
 class monster;
 class npc;
 struct om_vehicle;
-struct oter_id;
+class oter_id;
 class overmap;
 struct radio_tower;
 struct regional_settings;

@@ -41,7 +41,7 @@ struct itype;
 struct mapgendata;
 struct trap;
 using trap_id = int_id<trap>;
-struct oter_id;
+class oter_id;
 struct regional_settings;
 struct mongroup;
 struct ter_t;
