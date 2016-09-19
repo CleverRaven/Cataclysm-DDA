@@ -13,8 +13,8 @@
     "color": "dark_gray",
     "location": "accessories",
     "mod_targets": [ "bow" ],
-    "min_skills": [ [ "gun", 1 ] ],
-    "dispersion_modifier": -20
+    "dispersion_modifier": -20,
+    "min_skills": [ [ "gun", 1 ] ]
   },
   {
     "id": "bow_stabilizer",
@@ -29,8 +29,8 @@
     "color": "brown",
     "location": "accessories",
     "mod_targets": [ "bow" ],
-    "min_skills": [ [ "gun", 1 ] ],
-    "dispersion_modifier": -50
+    "dispersion_modifier": -50,
+    "min_skills": [ [ "gun", 1 ] ]
   },
   {
     "id": "brass_catcher",
@@ -77,8 +77,8 @@
     "color": "blue",
     "location": "accessories",
     "mod_targets": [ "smg", "rifle", "crossbow" ],
-    "min_skills": [ [ "weapon", 6 ] ],
     "dispersion_modifier": -30,
-    "recoil_modifier": -60
+    "recoil_modifier": -60,
+    "min_skills": [ [ "weapon", 6 ] ]
   }
 ]
