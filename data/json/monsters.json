@@ -2964,7 +2964,6 @@
     "armor_cut":0,
     "vision_day":40,
     "vision_night":3,
-    "item_chance":40,
     "death_drops": "default_zombie_death_drops",
     "burn_into" : "mon_zombie_scorched",
     "upgrades":{
@@ -3054,7 +3053,6 @@
     "armor_cut":5,
     "vision_day":45,
     "vision_night":15,
-    "item_chance":50,
     "death_drops": "default_zombie_death_drops",
     "burn_into" : "mon_zombie_scorched",
     "hp":90,
