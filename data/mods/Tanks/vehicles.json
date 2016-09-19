@@ -8,7 +8,7 @@
             ["|x--|||"],
             ["+x+#---"],
             ["|x--t||"],
-            ["ooooooo"]u
+            ["ooooooo"]
         ],
         "parts" : [
             {"x": -3, "y": -2, "part": "hdframe_vertical_2"},
