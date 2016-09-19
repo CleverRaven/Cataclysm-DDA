@@ -98,10 +98,6 @@ class oter_id
         // or as "something" by consulting otermap
         oter_id( const std::string &v );
         oter_id( const char *v );
-
-        // these std::string functions are provided for convenience, for others,
-        //  best invoke as actual string; std::string( ter(1, 2, 3) ).substr(...
-        const char *c_str() const;
 };
 
 /// @todo: Deprecate these operators

@@ -10220,7 +10220,7 @@ FFFFFFFFFFFFFFFFFFFFFFFF\n\
         // not one of the hardcoded ones!
         // load from JSON???
         debugmsg("Error: tried to generate map for omtype %s, \"%s\" (id_mapgen %s)",
-                 terrain_type.c_str(), terrain_type.obj().name.c_str(), function_key.c_str() );
+                 terrain_type.id().c_str(), terrain_type.obj().name.c_str(), function_key.c_str() );
         fill_background(this, t_floor);
 
     }}

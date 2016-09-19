@@ -1835,8 +1835,8 @@ int editmap::mapgen_preview( real_coords &tc, uimenu &gmenu )
 
                 } else if( gpmenu.ret == 3 ) {
                     popup( _( "Changed oter_id from '%s' (%s) to '%s' (%s)" ),
-                           orig_oters.obj().name.c_str(), orig_oters.c_str(),
-                           omt_ref.obj().name.c_str(), omt_ref.c_str() );
+                           orig_oters.obj().name.c_str(), orig_oters.id().c_str(),
+                           omt_ref.obj().name.c_str(), omt_ref.id().c_str() );
                 }
             } else if( gpmenu.keypress == 'm' ) {
                 // todo; keep preview as is and move target

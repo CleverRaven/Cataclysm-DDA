@@ -1858,7 +1858,7 @@ void overmap::draw(WINDOW *w, WINDOW *wbar, const tripoint &center,
                 if (!info) {
                     auto const it = otermap.find( cur_ter.id() );
                     if( it == otermap.end() ) {
-                        debugmsg( "Bad ter %s (%d, %d)", cur_ter.c_str(), omx, omy );
+                        debugmsg( "Bad ter %s (%d, %d)", cur_ter.id().c_str(), omx, omy );
                         ter_color = c_red;
                         ter_sym   = '?';
                     } else {
@@ -4191,13 +4191,13 @@ oter_id overmap::rotate(const oter_id &oter, int dir)
 {
     const oter_t &otert = oter.obj();
     if (! otert.has_flag(rotates) && dir != 0) {
-        debugmsg("%s does not rotate.", oter.c_str());
+        debugmsg("%s does not rotate.", oter.id().c_str());
         return oter;
     }
     if (dir < 0) {
         dir += 4;
     } else if (dir > 3) {
-        debugmsg("Bad rotation for %s: %d.", oter.c_str(), dir);
+        debugmsg("Bad rotation for %s: %d.", oter.id().c_str(), dir);
         return oter;
     }
     return otert.directional_peers[dir];
@@ -4447,13 +4447,6 @@ oter_id::oter_id(const char *v)
         _val = it->second.loadid;
     }
 }
-
-// wprint("%s",ter(...).c_str() );
-const char *oter_id::c_str() const
-{
-    return oterlist[_val].id.c_str();
-}
-
 
 void groundcover_extra::setup()   // fixme return bool for failure
 {
