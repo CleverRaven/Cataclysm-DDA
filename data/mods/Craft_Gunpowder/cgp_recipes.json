@@ -26,7 +26,7 @@
   "type" : "recipe",
   "result": "8mm_bootleg",
   "category": "CC_AMMO",
-  "subcategory": "CSC_AMMO_BULLETS",
+  "subcategory": "CSC_AMMO_PISTOL",
   "skill_used": "fabrication",
   "skills_required": [ "cooking", 2 ],
   "difficulty": 8,
@@ -61,7 +61,7 @@
   "type" : "recipe",
   "result": "20x66_bootleg_shot",
   "category": "CC_AMMO",
-  "subcategory": "CSC_AMMO_BULLETS",
+  "subcategory": "CSC_AMMO_SHOT",
   "skill_used": "fabrication",
   "skills_required": [ "cooking", 2 ],
   "difficulty": 8,
@@ -95,7 +95,7 @@
   "type" : "recipe",
   "result": "20x66_bootleg_flechette",
   "category": "CC_AMMO",
-  "subcategory": "CSC_AMMO_BULLETS",
+  "subcategory": "CSC_AMMO_SHOT",
   "skill_used": "fabrication",
   "skills_required": [ "cooking", 2 ],
   "difficulty": 8,
@@ -123,7 +123,7 @@
   "type" : "recipe",
   "result": "20x66_bootleg_slug",
   "category": "CC_AMMO",
-  "subcategory": "CSC_AMMO_BULLETS",
+  "subcategory": "CSC_AMMO_SHOT",
   "skill_used": "fabrication",
   "skills_required": [ "cooking", 2 ],
   "difficulty": 8,
@@ -232,31 +232,6 @@
     [ [ "pipe", 1 ] ],
     [ [ "2x4", 1 ] ]
   ]
-},{
-  "type" : "recipe",
-  "result": "rifle_223",
-  "category": "CC_WEAPON",
-  "subcategory": "CSC_WEAPON_RANGED",
-  "skill_used": "mechanics",
-  "skills_required": [ "gun", 3 ],
-  "difficulty": 5,
-  "time": 14000,
-  "reversible": true,
-  "autolearn": true,
-  "qualities":[
-    {"id":"SAW_M_FINE","level":1,"amount":1},
-    {"id":"SCREW_FINE","level":1,"amount":1}
-  ], "components": [
-    [
-      [ "pipe", 1 ]
-    ],
-    [
-      [ "2x4", 1 ]
-    ],
-    [
-      [ "scrap", 3 ]
-    ]
-  ]
 },
 {
   "type" : "recipe",
@@ -264,8 +239,8 @@
   "category": "CC_WEAPON",
   "subcategory": "CSC_WEAPON_RANGED",
   "skill_used": "mechanics",
-  "skills_required": [ "gun", 2 ],
-  "difficulty": 5,
+  "skills_required": [ "gun", 4 ],
+  "difficulty": 6,
   "time": 36000,
   "reversible": true,
   "autolearn": true,
@@ -276,8 +251,7 @@
   "components": [
     [ [ "pipe", 3 ] ],
     [ [ "scrap", 2] ],
-    [ [ "2x4", 2 ] ],
-    [ [ "spring", 1 ] ]
+    [ [ "2x4", 2 ] ]
   ]
 },
 {
@@ -286,8 +260,8 @@
   "category": "CC_WEAPON",
   "subcategory": "CSC_WEAPON_RANGED",
   "skill_used": "mechanics",
-  "skills_required": [ "gun", 2 ],
-  "difficulty": 5,
+  "skills_required": [ "gun", 4 ],
+  "difficulty": 6,
   "time": 36000,
   "reversible": true,
   "autolearn": true,
@@ -298,8 +272,7 @@
   "components": [
     [ [ "pipe", 3 ] ],
     [ [ "scrap", 2] ],
-    [ [ "2x4", 2 ] ],
-    [ [ "spring", 1 ] ]
+    [ [ "2x4", 2 ] ]
   ]
 },
 {
@@ -308,8 +281,8 @@
   "category": "CC_WEAPON",
   "subcategory": "CSC_WEAPON_RANGED",
   "skill_used": "mechanics",
-  "skills_required": [ "gun", 2 ],
-  "difficulty": 5,
+  "skills_required": [ "gun", 4 ],
+  "difficulty": 6,
   "time": 36000,
   "reversible": true,
   "autolearn": true,
@@ -320,8 +293,7 @@
   "components": [
     [ [ "pipe", 3 ] ],
     [ [ "scrap", 2] ],
-    [ [ "2x4", 2 ] ],
-    [ [ "spring", 1 ] ]
+    [ [ "2x4", 2 ] ]
   ]
 },
 {
@@ -330,8 +302,8 @@
   "category": "CC_WEAPON",
   "subcategory": "CSC_WEAPON_RANGED",
   "skill_used": "mechanics",
-  "skills_required": [ "gun", 2 ],
-  "difficulty": 5,
+  "skills_required": [ "gun", 4 ],
+  "difficulty": 6,
   "time": 36000,
   "reversible": true,
   "autolearn": true,
@@ -342,8 +314,7 @@
   "components": [
     [ [ "pipe", 3 ] ],
     [ [ "scrap", 2] ],
-    [ [ "2x4", 2 ] ],
-    [ [ "spring", 1 ] ]
+    [ [ "2x4", 2 ] ]
   ]
 },
 {
@@ -352,8 +323,8 @@
   "category": "CC_WEAPON",
   "subcategory": "CSC_WEAPON_RANGED",
   "skill_used": "mechanics",
-  "skills_required": [ "gun", 2 ],
-  "difficulty": 5,
+  "skills_required": [ "gun", 4 ],
+  "difficulty": 6,
   "time": 36000,
   "reversible": true,
   "autolearn": true,
@@ -364,10 +335,10 @@
   "components": [
     [ [ "pipe", 3 ] ],
     [ [ "scrap", 2] ],
-    [ [ "2x4", 2 ] ],
-    [ [ "spring", 1 ] ]
+    [ [ "2x4", 2 ] ]
   ]
-},{
+},
+{
   "type" : "recipe",
   "result": "smg_22_mag",
   "category": "CC_AMMO",
@@ -394,7 +365,8 @@
       [ "duct_tape", 40 ]
     ]
   ]
-},{
+},
+{
   "type" : "recipe",
   "result": "smg_38_mag",
   "category": "CC_AMMO",
@@ -421,7 +393,8 @@
       [ "duct_tape", 40 ]
     ]
   ]
-},{
+},
+{
   "type" : "recipe",
   "result": "smg_9mm_mag",
   "category": "CC_AMMO",
@@ -448,7 +421,8 @@
       [ "duct_tape", 40 ]
     ]
   ]
-},{
+},
+{
   "type" : "recipe",
   "result": "smg_40_mag",
   "category": "CC_AMMO",
@@ -475,7 +449,8 @@
       [ "duct_tape", 40 ]
     ]
   ]
-},{
+},
+{
   "type" : "recipe",
   "result": "smg_45_mag",
   "category": "CC_AMMO",
