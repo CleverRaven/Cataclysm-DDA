@@ -4390,40 +4390,36 @@ oter_id::operator int() const
     return _val;
 }
 
-// ter(...) != "foobar"
-bool oter_id::operator!=(const char *v) const
+bool operator==( const oter_id &lhs, const char *rhs )
 {
-    return oterlist[_val].id.compare(v) != 0;
-    /*    hellaciously slow string allocation frenzy -v
-          std::map<std::string, oter_t>::const_iterator it=otermap.find(v);
-          return ( it == otermap.end() || it->second.loadid != _val);
-    */
+    return oterlist[lhs._val].id.compare( rhs ) == 0;
 }
 
-// ter(...) == "foobar"
-bool oter_id::operator==(const char *v) const
+bool operator!=( const oter_id &lhs, const char *rhs )
 {
-    return oterlist[_val].id.compare(v) == 0;
+    return !( lhs == rhs );
 }
-bool oter_id::operator<=(const char *v) const
+
+bool operator<=( const oter_id &lhs, const char *rhs )
 {
-    std::unordered_map<std::string, oter_t>::const_iterator it = otermap.find(v);
-    return ( it == otermap.end() || it->second.loadid <= _val);
+    std::unordered_map<std::string, oter_t>::const_iterator it = otermap.find( rhs );
+    return it == otermap.end() || it->second.loadid <= lhs._val;
 }
-bool oter_id::operator>=(const char *v) const
+bool operator>=( const oter_id &lhs, const char *rhs )
 {
-    std::unordered_map<std::string, oter_t>::const_iterator it = otermap.find(v);
-    return ( it != otermap.end() && it->second.loadid >= _val);
+    std::unordered_map<std::string, oter_t>::const_iterator it = otermap.find( rhs );
+    return it != otermap.end() && it->second.loadid >= lhs._val;
+}
+
+bool operator==( const oter_id &lhs, const oter_id &rhs )
+{
+    return lhs._val == rhs._val;
 }
 
 // o_id1 != o_id2
-bool oter_id::operator!=(const oter_id &v) const
+bool operator!=( const oter_id &lhs, const oter_id &rhs )
 {
-    return ( _val != v._val );
-}
-bool oter_id::operator==(const oter_id &v) const
-{
-    return ( _val == v._val );
+    return !( lhs._val == rhs._val );
 }
 
 // oter_t( ter(...) ).name // WARNING

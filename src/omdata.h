@@ -97,14 +97,6 @@ class oter_id
 
         // set and compare by string
         const unsigned &operator=( const int &i );
-        bool operator!=( const char *v ) const;
-        bool operator==( const char *v ) const;
-        bool operator>=( const char *v ) const;
-        bool operator<=( const char *v ) const;
-
-        // or faster, with another oter_id
-        bool operator!=( const oter_id &v ) const;
-        bool operator==( const oter_id &v ) const;
 
         // initialize as raw value
         oter_id() : _val( 0 ) { };
@@ -119,7 +111,14 @@ class oter_id
         size_t size() const;
 };
 
+/// @todo: Deprecate these operators
+bool operator==( const oter_id &lhs, const char *rhs );
+bool operator!=( const oter_id &lhs, const char *rhs );
+bool operator>=( const oter_id &lhs, const char *rhs );
+bool operator<=( const oter_id &lhs, const char *rhs );
 
+bool operator==( const oter_id &lhs, const oter_id &rhs );
+bool operator!=( const oter_id &lhs, const oter_id &rhs );
 
 //typedef std::string oter_id;
 typedef oter_id oter_iid;
