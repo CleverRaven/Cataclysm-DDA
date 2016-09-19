@@ -136,7 +136,7 @@ static int can_catch_player( const std::string &monster_type, const tripoint &di
                 test_player.pos().y < SEEY * int(MAPSIZE / 2) ||
                 test_player.pos().x >= SEEX * (1 + int(MAPSIZE / 2)) ||
                 test_player.pos().y >= SEEY * (1 + int(MAPSIZE / 2)) ) {
-                g->update_map( &test_player );
+                g->update_map( test_player );
                 wipe_map_terrain();
                 for( unsigned int i = 0; i < g->num_zombies(); ) {
                     if( &g->zombie( i ) == &test_monster ) {
