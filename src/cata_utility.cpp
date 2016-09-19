@@ -15,7 +15,8 @@
 #include <algorithm>
 #include <cmath>
 
-double round_up( double val, unsigned int dp ) {
+double round_up( double val, unsigned int dp )
+{
     const double denominator = std::pow( 10.0, double( dp ) );
     return std::ceil( denominator * val ) / denominator;
 }
