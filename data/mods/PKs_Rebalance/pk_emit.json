@@ -182,9 +182,7 @@
     "//": "A firevent bursts forth around the player. (example: archvile)",
     "field": "fd_fire_vent",
     "qty": 7
-  }
-][
-    {
+  },{
     "id": "emit_gas_plume",
     "type": "emit",
     "//": "occassional wafts of toxic gas (example: gasbag)",
