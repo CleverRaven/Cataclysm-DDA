@@ -89,8 +89,7 @@ class oter_id
         // Hi, I'm an
         operator int() const;
         // pretending to be a
-        operator std::string const &() const;
-
+        const std::string &id() const;
         const oter_t &obj() const;
 
         // initialize as raw value

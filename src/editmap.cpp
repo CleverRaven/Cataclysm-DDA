@@ -1947,13 +1947,13 @@ int editmap::edit_mapgen()
 
     for( size_t i = 0; i < oterlist.size(); i++ ) {
         oter_id id = oter_id( i );
-        gmenu.addentry( -1, true, 0, "[%3d] %s", ( int )id, std::string( id ).c_str() );
-        if( broken_oter_blacklist.find( id ) != broken_oter_blacklist.end() ) {
+        gmenu.addentry( -1, true, 0, "[%3d] %s", ( int )id, id.id().c_str() );
+        if( broken_oter_blacklist.find( id.id() ) != broken_oter_blacklist.end() ) {
             gmenu.entries[i].enabled = false;
         }
         gmenu.entries[i].extratxt.left = 1;
-        gmenu.entries[i].extratxt.color = otermap[id].color;
-        gmenu.entries[i].extratxt.txt = string_format( "%c", otermap[id].sym );
+        gmenu.entries[i].extratxt.color = id.obj().color;
+        gmenu.entries[i].extratxt.txt = string_format( "%c", id.obj().sym );
     }
     real_coords tc;
     do {

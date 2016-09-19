@@ -153,7 +153,7 @@ void map::generate(const int x, const int y, const int z, const int turn)
     float density = 0.0;
     for (int i = overx - MON_RADIUS; i <= overx + MON_RADIUS; i++) {
         for (int j = overy - MON_RADIUS; j <= overy + MON_RADIUS; j++) {
-            density += otermap[overmap_buffer.ter(i, j, z)].mondensity;
+            density += overmap_buffer.ter(i, j, z).obj().mondensity;
         }
     }
     density = density / 100;
@@ -162,11 +162,11 @@ void map::generate(const int x, const int y, const int z, const int turn)
              t_above, turn, density, z, rsettings);
 
     // At some point, we should add region information so we can grab the appropriate extras
-    map_extras ex = region_settings_map["default"].region_extras[otermap[terrain_type].extras];
+    map_extras ex = region_settings_map["default"].region_extras[terrain_type.obj().extras];
     if ( ex.chance > 0 && one_in( ex.chance )) {
         std::string* extra = ex.values.pick();
         if(extra == NULL) {
-            debugmsg("failed to pick extra for type %s", otermap[terrain_type].extras.c_str());
+            debugmsg("failed to pick extra for type %s", terrain_type.obj().extras.c_str());
         } else {
             auto func = MapExtras::get_function(*(ex.values.pick()));
             if(func != NULL) {
@@ -1608,7 +1608,7 @@ void mapgen_function_json::generate( map *m, oter_id terrain_type, mapgendata md
         elem.apply( m );
     }
     if ( ! luascript.empty() ) {
-        lua_mapgen( m, std::string( terrain_type ), md, t, d, luascript );
+        lua_mapgen( m, terrain_type.id(), md, t, d, luascript );
     }
 
     objects.apply(m, d);
@@ -1661,7 +1661,7 @@ int lua_mapgen( map *m, std::string id, mapgendata md, int t, float d, const std
 #endif
 
 void mapgen_function_lua::generate( map *m, oter_id terrain_type, mapgendata dat, int t, float d ) {
-    lua_mapgen( m, std::string( terrain_type ), dat, t, d, scr );
+    lua_mapgen( m, terrain_type.id(), dat, t, d, scr );
 }
 
 /////////////
@@ -10220,7 +10220,7 @@ FFFFFFFFFFFFFFFFFFFFFFFF\n\
         // not one of the hardcoded ones!
         // load from JSON???
         debugmsg("Error: tried to generate map for omtype %s, \"%s\" (id_mapgen %s)",
-                 terrain_type.c_str(), otermap[terrain_type].name.c_str(), function_key.c_str() );
+                 terrain_type.c_str(), terrain_type.obj().name.c_str(), function_key.c_str() );
         fill_background(this, t_floor);
 
     }}
@@ -10356,7 +10356,7 @@ FFFFFFFFFFFFFFFFFFFFFFFF\n\
     int terrain_type_with_suffix_to_nesw_array( oter_id terrain_type, bool array[4] );
 
     // finally, any terrain with SIDEWALKS should contribute sidewalks to neighboring diagonal roads
-    if( otermap[terrain_type].has_flag( has_sidewalk ) ) {
+    if( terrain_type.obj().has_flag( has_sidewalk ) ) {
         for( int dir = 4; dir < 8; dir++ ) { // NE SE SW NW
             bool n_roads_nesw[4] = {};
             int n_num_dirs = terrain_type_with_suffix_to_nesw_array( oter_id( t_nesw[dir] ), n_roads_nesw );

@@ -857,7 +857,7 @@ int iuse::meditate(player *p, item *it, bool t, const tripoint& )
     if( !p || t ) {
         return 0;
     }
-    
+
     if( p->has_trait( "SPIRITUAL" ) ) {
         p->assign_activity( ACT_MEDITATE, 2000 );
     } else {
@@ -2375,7 +2375,7 @@ int iuse::fishing_rod(player *p, item *it, bool, const tripoint& )
         return 0;
     }
     point op = ms_to_omt_copy( g->m.getabs( dirx, diry ) );
-    if( !otermap[overmap_buffer.ter(op.x, op.y, g->get_levz())].has_flag(river_tile) ) {
+    if( !overmap_buffer.ter(op.x, op.y, g->get_levz()).obj().has_flag(river_tile) ) {
         p->add_msg_if_player(m_info, _("That water does not contain any fish.  Try a river instead."));
         return 0;
     }
@@ -2427,7 +2427,7 @@ int iuse::fish_trap(player *p, item *it, bool t, const tripoint &pos)
             return 0;
         }
         point op = ms_to_omt_copy(g->m.getabs(dirx, diry));
-        if( !otermap[overmap_buffer.ter(op.x, op.y, g->get_levz())].has_flag(river_tile) ) {
+        if( !overmap_buffer.ter(op.x, op.y, g->get_levz()).obj().has_flag(river_tile) ) {
             p->add_msg_if_player(m_info, _("That water does not contain any fish, try a river instead."));
             return 0;
         }
@@ -2458,7 +2458,7 @@ int iuse::fish_trap(player *p, item *it, bool t, const tripoint &pos)
                 return 0;
             }
             point op = ms_to_omt_copy( g->m.getabs( pos.x, pos.y ) );
-           if( !otermap[overmap_buffer.ter(op.x, op.y, g->get_levz())].has_flag(river_tile) ) {
+           if( !overmap_buffer.ter(op.x, op.y, g->get_levz()).obj().has_flag(river_tile) ) {
                 return 0;
             }
             int success = -50;
@@ -4584,7 +4584,7 @@ int iuse::hacksaw(player *p, item *it, bool t, const tripoint &pos )
     if( !p || t ) {
         return 0;
     }
-    
+
     tripoint dirp = pos;
     if (!choose_adjacent(_("Cut up metal where?"), dirp)) {
         return 0;
@@ -7707,7 +7707,7 @@ int iuse::weather_tool( player *p, item *it, bool, const tripoint& )
             vehwindspeed = abs( veh->velocity / 100 ); // For mph
         }
         const oter_id &cur_om_ter = overmap_buffer.ter( p->global_omt_location() );
-        std::string omtername = otermap[cur_om_ter].name;
+        const std::string &omtername = cur_om_ter.obj().name;
         /* windpower defined in internal velocity units (=.01 mph) */
         int windpower = int(100.0f * get_local_windpower( weatherPoint.windpower + vehwindspeed,
                                                           omtername, g->is_sheltered( g->u.pos() ) ) );

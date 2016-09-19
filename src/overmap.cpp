@@ -208,7 +208,7 @@ bool is_ot_type(const std::string &otype, const oter_id &oter)
         return false;
     }
 
-    const auto oter_str = std::string(oter);
+    const auto &oter_str = oter.id();
     if (oter_str.compare(0, compare_size, otype) != 0) {
         return false;
     }
@@ -1534,7 +1534,7 @@ std::vector<point> overmap::find_terrain(const std::string &term, int zlevel)
     for (int x = 0; x < OMAPX; x++) {
         for (int y = 0; y < OMAPY; y++) {
             if (seen(x, y, zlevel) &&
-                lcmatch( otermap[ter(x, y, zlevel)].name, term ) ) {
+                lcmatch( ter(x, y, zlevel).obj().name, term ) ) {
                 found.push_back( point( get_left_border() + x, get_top_border() + y) );
             }
         }
@@ -1856,7 +1856,7 @@ void overmap::draw(WINDOW *w, WINDOW *wbar, const tripoint &center,
                 }
                 // Nope, look in the hash map next
                 if (!info) {
-                    auto const it = otermap.find( cur_ter );
+                    auto const it = otermap.find( cur_ter.id() );
                     if( it == otermap.end() ) {
                         debugmsg( "Bad ter %s (%d, %d)", cur_ter.c_str(), omx, omy );
                         ter_color = c_red;
@@ -2068,10 +2068,12 @@ void overmap::draw(WINDOW *w, WINDOW *wbar, const tripoint &center,
                           c_red, "x");
             }
         } else {
-            mvwputch(wbar, 1, 1, otermap[ccur_ter].color, otermap[ccur_ter].sym);
-            std::vector<std::string> name = foldstring(otermap[ccur_ter].name, 25);
+            const auto &ter = ccur_ter.obj();
+
+            mvwputch(wbar, 1, 1, ter.color, ter.sym);
+            std::vector<std::string> name = foldstring(ter.name, 25);
             for (size_t i = 0; i < name.size(); i++) {
-                mvwprintz(wbar, i + 1, 3, otermap[ccur_ter].color, "%s", name[i].c_str());
+                mvwprintz(wbar, i + 1, 3, ter.color, "%s", name[i].c_str());
             }
         }
     } else {
@@ -4369,7 +4371,7 @@ void overmap::save() const
 //// sneaky
 
 // ter(...) = "rock"
-oter_id::operator std::string const&() const
+const std::string &oter_id::id() const
 {
     if ( _val > oterlist.size() ) {
         debugmsg("oterlist[%d] > %d", _val, oterlist.size()); // remove me after testing (?)

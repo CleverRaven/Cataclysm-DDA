@@ -810,7 +810,7 @@ void overmap::serialize( std::ostream &fout ) const
                     }
                     last_tertype = t;
                     json.start_array();
-                    json.write( (std::string)t );
+                    json.write( t.id() );
                     count = 1;
                 } else {
                     count++;

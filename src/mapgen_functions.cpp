@@ -1014,8 +1014,7 @@ void mapgen_fungal_flowers(map *m, oter_id, mapgendata dat, int, float)
 
 int terrain_type_with_suffix_to_nesw_array( oter_id terrain_type, bool array[4] ) {
     // extract the suffix from the terrain type name
-    std::string suffix = std::string( terrain_type ).substr( std::string(
-                             terrain_type ).find_last_of( "_" ) + 1 );
+    std::string suffix = terrain_type.id().substr( terrain_type.id().find_last_of( "_" ) + 1 );
     // non-"_end" end tiles have _north _east _south _west, all of which contain "t"
     if( suffix.find( "t" ) != std::string::npos ) {
         suffix = suffix.substr( 0, 1 );
@@ -1087,7 +1086,7 @@ void mapgen_road( map *m, oter_id terrain_type, mapgendata dat, int turn, float 
     bool sidewalks_neswx[8] = {};
     int neighbor_sidewalks = 0;
     for( int dir = 0; dir < 8; dir++ ) { // N E S W NE SE SW NW
-        sidewalks_neswx[dir] = otermap[dat.t_nesw[dir]].has_flag( has_sidewalk );
+        sidewalks_neswx[dir] = dat.t_nesw[dir].obj().has_flag( has_sidewalk );
         neighbor_sidewalks += sidewalks_neswx[dir];
     }
 
@@ -1100,15 +1099,14 @@ void mapgen_road( map *m, oter_id terrain_type, mapgendata dat, int turn, float 
     // which way should our roads curve, based on neighbor roads?
     int curvedir_nesw[4] = {};
     for( int dir = 0; dir < 4; dir++ ) { // N E S W
-        if( roads_nesw[dir] == false || otermap[dat.t_nesw[dir]].id_base != "road" ) {
+        if( roads_nesw[dir] == false || dat.t_nesw[dir].obj().id_base != "road" ) {
             continue;
         }
 
         // n_* contain details about the neighbor being considered
         bool n_roads_nesw[4] = {};
         //TODO figure out how to call this function without creating a new oter_id object
-        int n_num_dirs = terrain_type_with_suffix_to_nesw_array( oter_id( otermap[dat.t_nesw[dir]].id ),
-                         n_roads_nesw );
+        int n_num_dirs = terrain_type_with_suffix_to_nesw_array( dat.t_nesw[dir], n_roads_nesw );
         // if 2-way neighbor has a road facing us
         if( n_num_dirs == 2 && n_roads_nesw[( dir + 2 ) % 4] ) {
             // curve towards the direction the neighbor turns
@@ -1132,8 +1130,8 @@ void mapgen_road( map *m, oter_id terrain_type, mapgendata dat, int turn, float 
     switch ( num_dirs ) {
         case 4: // 4-way intersection
             for( int dir = 0; dir < 8; dir++ ) {
-                fourways_neswx[dir] = ( otermap[dat.t_nesw[dir]].id == "road_nesw" ||
-                                        otermap[dat.t_nesw[dir]].id == "road_nesw_manhole" );
+                fourways_neswx[dir] = ( dat.t_nesw[dir].id() == "road_nesw" ||
+                                        dat.t_nesw[dir].id() == "road_nesw_manhole" );
             }
             // is this the middle, or which side or corner, of a plaza?
             plaza_dir = compare_neswx( fourways_neswx, {1, 1, 1, 1, 1, 1, 1, 1} ) ? 8 :
