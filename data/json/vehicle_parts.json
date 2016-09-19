@@ -251,12 +251,12 @@
         "broken_symbol" : "#",
         "broken_color" : "brown",
         "durability" : 100,
-        "requirements": {
+        "requirements": [
           "install": {
             "time": 60000,
             "components": [ [ [ "rope_6", 1 ] ] ]
           }
-        },
+        ],
         "item" : "frame_wood_light",
         "difficulty" : 0,
         "location" : "structure",
