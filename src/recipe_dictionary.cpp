@@ -189,7 +189,7 @@ void recipe_dictionary::load( JsonObject &jo, const std::string &src, bool uncra
     }
 
     // inline requirements are always replaced (cannot be inherited)
-    auto req_id = std::string( "inline_recipe_" ) += r.ident_;
+    auto req_id = string_format( "inline_%s_%s", uncraft ? "uncraft" : "recipe", r.ident_.c_str() );
     requirement_data::load_requirement( jo, req_id );
     r.reqs_internal = { { requirement_id( req_id ), 1 } };
 
