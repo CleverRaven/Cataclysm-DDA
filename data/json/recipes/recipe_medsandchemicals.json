@@ -2308,7 +2308,7 @@
     [ [ "water", 4 ], [ "water_clean", 4 ] ],
     [ [ "meal_bone", 2 ] ],
     [ [ "meal_chitin_piece", 1 ] ],
-    [ [ "ammonia", 1 ], [ "lye_powder", 100 ] ]
+    [ [ "ammonia", 1 ], [ "lye_powder", 100 ], [ "chem_saltpetre", 50 ] ]
   ]
 },{
   "type" : "recipe",
@@ -2604,6 +2604,61 @@
 ]
 },
 {
+  "type" : "recipe",
+  "result": "chem_saltpetre",
+  "byproducts": "ammonia",
+  "category": "CC_CHEM",
+  "subcategory": "CSC_CHEM_CHEMICALS",
+  "skill_used": "cooking",
+  "difficulty": 5,
+  "time": 25000,
+  "book_learn": [[ "textbook_anarch", 7 ] , [ "recipe_labchem", 5 ], ["textbook_chemistry", 6]],
+  "qualities" : [
+      { "id":"BOIL","level":2 },
+      { "id":"CHEM","level":2 }
+  ],
+  "tools": [
+    [
+      [ "fire", -1 ],
+      [ "toolset", 25 ],
+      [ "hotplate", 25 ]
+    ]
+  ],
+  "components": [
+    [ [ "chem_ammonium_nitrate", 25 ] ],
+    [ [ "lye_powder", 150 ] ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "chem_saltpetre",
+  "id_suffix": "niter",
+  "result_mult": 5,
+  "category": "CC_CHEM",
+  "subcategory": "CSC_CHEM_CHEMICALS",
+  "skill_used": "cooking",
+  "difficulty": 4,
+  "time": 40000,
+  "batch_time_factors":[80, 4],
+  "autolearn": true,
+  "qualities" : [
+      { "id":"BOIL","level":2 },
+      { "id":"CONTAIN","level":1 }
+  ],
+  "tools": [
+    [
+      [ "fire", -1 ],
+      [ "toolset", 25 ],
+      [ "hotplate", 25 ]
+    ]
+  ],
+  "components": [
+    [ [ "material_niter", 1 ] ],
+    [
+      [ "water_clean", 3 ],
+      [ "water", 3 ]
+    ]
+  ]
+},{
   "type" : "recipe",
   "result": "chem_black_powder",
   "category": "CC_CHEM",

@@ -205,7 +205,7 @@ ifdef RELEASE
   DEBUG =
   DEFINES += -DRELEASE
   # Check for astyle or JSON regressions on release builds.
-  CHECKS = astyle-check json-lint
+  CHECKS = astyle-check lint-check
 endif
 
 ifdef CLANG
@@ -417,7 +417,7 @@ ifdef LUA
 
   ifdef LUA_USE_PKGCONFIG
     # On unix-like systems, use pkg-config to find lua
-    LUA_CANDIDATES = lua5.2 lua-5.2 lua5.1 lua-5.1 lua
+    LUA_CANDIDATES = lua5.3 lua5.2 lua-5.3 lua-5.2 lua5.1 lua-5.1 lua
     LUA_FOUND = $(firstword $(foreach lua,$(LUA_CANDIDATES),\
         $(shell if $(PKG_CONFIG) --silence-errors --exists $(lua); then echo $(lua);fi)))
     LUA_PKG = $(if $(LUA_FOUND),$(LUA_FOUND),$(error "Lua not found by $(PKG_CONFIG), install it or make without 'LUA=1'"))
@@ -863,15 +863,27 @@ else
 	@echo Cannot run an astyle check, your system either does not have astyle, or it is too old.
 endif
 
-json-lint: $(ODIR)/lint.cache
+lint-check: json_whitelist $(ODIR)/lint.cache
 
-$(ODIR)/lint.cache: json_whitelist $(shell cat json_whitelist) | $(ODIR)
+$(ODIR)/lint.cache: $(shell awk '/^[^#]/ { print $$1 }' json_whitelist) | $(ODIR)
 ifeq ($(shell if perl -c tools/format/format.pl 2>/dev/null; then echo $$?; fi),0)
-	@tools/lint.sh $(shell cat json_whitelist)
+	@for file in $?; do \
+	    echo -n "Linting $$file: "; \
+	    perl tools/format/format.pl -cq $$file || exit 65; \
+	    echo OK; \
+	done;
 	@touch $@
 else
 	@echo Cannot lint JSON, missing usable perl binary and/or p5-JSON module
 endif
+
+lint: $(shell awk '/^[^#]/ { print $$1 }' json_whitelist) | $(ODIR)
+	@for file in $?; do \
+		if [ ! $(ODIR)/lint.cache -nt $$file ]; then \
+			./tools/lint.sh $$file || exit $$?; \
+		fi; \
+	done;
+	@touch $(ODIR)/lint.cache
 
 tests: version $(BUILD_PREFIX)cataclysm.a
 	$(MAKE) -C tests
@@ -882,7 +894,7 @@ check: version $(BUILD_PREFIX)cataclysm.a
 clean-tests:
 	$(MAKE) -C tests clean
 
-.PHONY: tests check ctags etags clean-tests install
+.PHONY: tests check ctags etags clean-tests install lint
 
 -include $(SOURCES:$(SRC_DIR)/%.cpp=$(DEPDIR)/%.P)
 -include ${OBJS:.o=.d}

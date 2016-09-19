@@ -18,6 +18,20 @@
     "flags": [ "BELT_CLIP" ]
   },
   {
+    "id": "gasbomb_act",
+    "copy-from": "gasbomb",
+    "type": "GENERIC",
+    "name": "armed tear gas canister",
+    "description": "This smoke bomb has had its pin removed and is expelling highly toxic gas.",
+    "emits": [ "emit_tear_gas_stream" ],
+    "countdown_interval": 50,
+    "countdown_action": {
+      "target": "canister_empty",
+      "type": "transform"
+    },
+    "flags": [ "TRADER_AVOID" ]
+  },
+  {
     "id": "lighter",
     "type": "TOOL",
     "name": "lighter",

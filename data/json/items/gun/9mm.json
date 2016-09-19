@@ -24,7 +24,6 @@
       "covers": [ "ARM_EITHER", "HAND_EITHER" ],
       "coverage": 10,
       "encumbrance": 30,
-      "warmth": 0,
       "material_thickness": 1
     },
     "magazines": [
@@ -305,7 +304,7 @@
     "id": "sten",
     "type": "GUN",
     "name": "STEN",
-    "description": "A British submachine gun developed during World War II, to make up for shortages of supplies.  Designed to be made using unskilled labor and not known for reliablity, its main advantages were low cost and being able to use German 9mm ammunition.",
+    "description": "A British submachine gun developed during World War II, to make up for shortages of supplies.  Designed to be made using unskilled labor and not known for reliability, its main advantages were low cost and being able to use German 9mm ammunition.",
     "weight": 2945,
     "volume": 7,
     "price": 40000,

@@ -1665,7 +1665,10 @@
   ],
   "components": [
     [
-      [ "fur", 10 ],
+      [ "rag", 11 ]
+    ],
+    [
+      [ "fur", 12 ],
       [ "tanned_pelt", 2 ]
     ]
   ]
@@ -7784,6 +7787,93 @@
      [ "tanned_hide", 3 ]
     ]
     ]
+  },{
+    "type" : "recipe",
+    "result": "armor_lightplate",
+    "id_suffix": "assembly",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_SUIT",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "time": 20000,
+    "reversible": true,
+    "components": [
+      [ [ "cuirass_lightplate", 1 ] ],
+      [ [ "armguard_lightplate", 1 ] ],
+      [ [ "legguard_lightplate", 1 ] ]
+    ]
+  },{
+    "type" : "recipe",
+    "result": "armguard_lightplate",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_ARMS",
+    "skill_used": "fabrication",
+    "difficulty": 7,
+    "time": 180000,
+    "book_learn": [[ "textbook_armwest", 6 ]],
+    "qualities": [
+      { "id":"HAMMER","level": 3 },
+      { "id": "CHISEL", "level": 3 }
+    ],
+    "tools": [
+      [ ["tongs", -1] ],
+      [ ["anvil", -1] ],
+      [ ["swage", -1] ],
+      [ ["forge", 100], ["oxy_torch", 20] ]
+    ],
+    "components":
+    [
+      [ [ "steel_lump", 6 ], [ "steel_chunk", 24 ] ],
+      [ [ "fur", 6 ], [ "tanned_pelt", 1 ], [ "leather", 6 ], [ "tanned_hide", 1 ] ]
+    ]
+},{
+    "type" : "recipe",
+    "result": "legguard_lightplate",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_LEGS",
+    "skill_used": "fabrication",
+    "difficulty": 7,
+    "time": 190000,
+    "book_learn": [[ "textbook_armwest", 6 ]],
+    "qualities": [
+      { "id":"HAMMER","level": 3 },
+      { "id": "CHISEL", "level": 3 }
+    ],
+    "tools": [
+      [ ["tongs", -1] ],
+      [ ["anvil", -1] ],
+      [ ["swage", -1] ],
+      [ ["forge", 150], ["oxy_torch", 30] ]
+    ],
+    "components":
+    [
+      [ [ "steel_lump", 7 ], [ "steel_chunk", 28 ] ],
+      [ [ "fur", 6 ], [ "tanned_pelt", 1 ], [ "leather", 6 ], [ "tanned_hide", 1 ] ]
+    ]
+},{
+    "type" : "recipe",
+    "result": "cuirass_lightplate",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_TORSO",
+    "skill_used": "fabrication",
+    "difficulty": 8,
+    "time": 190000,
+    "book_learn": [[ "textbook_armwest", 7 ]],
+    "qualities": [
+      { "id":"HAMMER","level": 3 },
+      { "id": "CHISEL", "level": 3 }
+    ],
+    "tools": [
+      [ ["tongs", -1] ],
+      [ ["anvil", -1] ],
+      [ ["swage", -1] ],
+      [ ["forge", 150], ["oxy_torch", 30] ]
+    ],
+    "components":
+    [
+      [ [ "steel_lump", 8 ], [ "steel_chunk", 32 ] ],
+      [ [ "fur", 6 ], [ "tanned_pelt", 1 ], [ "leather", 6 ], [ "tanned_hide", 1 ] ]
+    ]
 },{
   "type" : "recipe",
   "result": "gloves_plate",
@@ -9414,7 +9504,7 @@
   ],
   "components": [
     [
-      [ "felt_patch", 12 ]
+      [ "felt_patch", 13 ]
     ]
   ]
 },{

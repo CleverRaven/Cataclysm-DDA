@@ -558,7 +558,7 @@
   "autolearn": true,
   "batch_time_factors":[83, 3],
   "qualities" : [ { "id":"COOK","level":1 } ],
-  "tools": [ [ [ "char_smoker", 20 ] ] ],
+  "tools": [ [ [ "char_smoker", 15 ] ] ],
   "components": [ [ [ "meat", 3 ] ] ]
 },{
   "type" : "recipe",
@@ -571,7 +571,7 @@
   "autolearn": true,
   "batch_time_factors":[83, 3],
   "qualities" : [ { "id":"COOK","level":1 } ],
-  "tools": [ [ [ "char_smoker", 20 ] ] ],
+  "tools": [ [ [ "char_smoker", 15 ] ] ],
   "components": [ [ [ "fish", 6 ] ] ]
 },{
   "type" : "recipe",
@@ -1204,7 +1204,7 @@
   ],
   "tools" : [
     [
-      [ "char_smoker", 20 ]
+      [ "char_smoker", 10 ]
     ]
   ],
   "components": [
@@ -1245,7 +1245,7 @@
   ],
   "tools" : [
     [
-      [ "char_smoker", 20 ]
+      [ "char_smoker", 10 ]
     ]
   ],
   "components": [
@@ -1278,7 +1278,7 @@
   ],
   "tools" : [
     [
-      [ "char_smoker", 20 ]
+      [ "char_smoker", 10 ]
     ]
   ],
   "components": [
@@ -1330,7 +1330,7 @@
   "book_learn": [[ "cookbook_human", 4 ]],
   "batch_time_factors":[83, 3],
   "qualities" : [ { "id":"COOK","level":1 } ],
-  "tools": [ [ [ "char_smoker", 20 ] ] ],
+  "tools": [ [ [ "char_smoker", 15 ] ] ],
   "components": [ [ [ "human_flesh", 3 ] ] ]
 },{
   "type" : "recipe",
@@ -1350,7 +1350,7 @@
   ],
   "tools" : [
     [
-      [ "char_smoker", 20 ]
+      [ "char_smoker", 10 ]
     ]
   ],
   "components": [
@@ -3244,7 +3244,8 @@
       [ "salt", 5 ],
       [ "soysauce", 1 ],
       [ "seasoning_salt", 5 ],
-      [ "pepper", 10 ]
+      [ "pepper", 10 ],
+      [ "chem_saltpetre", 2 ]
     ],
     [
       [ "meat", 1 ]
@@ -3276,7 +3277,8 @@
       [ "salt", 5 ],
       [ "soysauce", 1 ],
       [ "seasoning_salt", 5 ],
-      [ "pepper", 10 ]
+      [ "pepper", 10 ],
+      [ "chem_saltpetre", 2 ]
     ],
     [
       [ "fish", 2 ]
@@ -3309,7 +3311,8 @@
       [ "salt", 5 ],
       [ "soysauce", 1 ],
       [ "seasoning_salt", 5 ],
-      [ "pepper", 10 ]
+      [ "pepper", 10 ],
+      [ "chem_saltpetre", 2 ]
     ],
     [
       [ "human_flesh", 1 ]
@@ -4373,7 +4376,7 @@
   ],
   "tools" : [
     [
-      [ "char_smoker", 20 ]
+      [ "char_smoker", 10 ]
     ]
   ],
   "components": [
@@ -8263,7 +8266,8 @@
     [
       [ "salt_water", 1 ],
       [ "saline", 5 ],
-      [ "salt", 10 ]
+      [ "salt", 10 ],
+      [ "chem_saltpetre", 5 ]
     ]
   ]
 },{
@@ -8299,7 +8303,8 @@
     [
       [ "salt_water", 1 ],
       [ "saline", 5 ],
-      [ "salt", 10 ]
+      [ "salt", 10 ],
+      [ "chem_saltpetre", 5 ]
     ]
   ]
 },{
@@ -8336,7 +8341,8 @@
     [
       [ "salt_water", 1 ],
       [ "saline", 5 ],
-      [ "salt", 10 ]
+      [ "salt", 10 ],
+      [ "chem_saltpetre", 5 ]
     ]
   ]
 },{
@@ -8374,7 +8380,8 @@
     [
       [ "salt_water", 1 ],
       [ "saline", 5 ],
-      [ "salt", 10 ]
+      [ "salt", 10 ],
+      [ "chem_saltpetre", 5 ]
     ]
   ]
 },{

@@ -912,7 +912,7 @@ void vehicle::use_controls( const tripoint &pos )
     if( has_part( "ENGINE" ) ) {
         if( g->u.controlling_vehicle || ( remote && engine_on ) ) {
             options.emplace_back( _( "Stop driving" ), keybind( "TOGGLE_ENGINE" ) );
-            actions.push_back( [&] { 
+            actions.push_back( [&] {
                 if( engine_on && has_engine_type_not( fuel_type_muscle, true ) ){
                     add_msg( _( "You turn the engine off and let go of the controls." ) );
                 } else {
@@ -925,7 +925,7 @@ void vehicle::use_controls( const tripoint &pos )
 
         } else if( has_engine_type_not(fuel_type_muscle, true ) ) {
             options.emplace_back( engine_on ? _( "Turn off the engine" ) : _( "Turn on the engine" ), keybind( "TOGGLE_ENGINE" ) );
-            actions.push_back( [&] { 
+            actions.push_back( [&] {
                 if( engine_on ) {
                     engine_on = false;
                     add_msg( _( "You turn the engine off." ) );
@@ -5918,7 +5918,13 @@ void vehicle::update_time( const calendar &update_to )
     }
 
     const auto update_from = last_update_turn;
-    if( update_to - update_from < MINUTES(1) ) {
+    if( update_to < update_from ) {
+        // Special case going backwards in time - that happens
+        last_update_turn = update_to;
+        return;
+    }
+
+    if( update_to >= update_from && update_to - update_from < MINUTES(1) ) {
         // We don't need to check every turn
         return;
     }

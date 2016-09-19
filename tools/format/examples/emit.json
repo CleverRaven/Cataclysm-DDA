@@ -1,0 +1,9 @@
+[
+  {
+    "id": "emit_smoke_stream",
+    "type": "emit",
+    "//": "Steady stream of thick smoke (example: smoke bomb)",
+    "field": "fd_smoke",
+    "qty": 24
+  }
+]

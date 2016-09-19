@@ -1180,7 +1180,7 @@
         "color" : "light_gray",
         "symbol" : ",",
         "material" : ["plastic", "aluminum"],
-        "volume" : 2,
+        "volume" : 1,
         "price" : 10000,
         "price_postapoc": 2000,
         "flags" : ["WATCH", "ALARMCLOCK"]

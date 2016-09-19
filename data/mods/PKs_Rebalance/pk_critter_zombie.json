@@ -1408,8 +1408,8 @@
     "death_function":["BOOMER_GLOW"],
     "special_attacks":[["BOOMER_GLOW", 20], ["BREATHE", 8]],
     "description":"This boomer, normally swollen and ready to burst, has strengthened and solidified.  The bile dribbling from its mouth also appears to have changed...",
-    "flags":["SEES", "GOODHEARING", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "REVIVES", "BILE_BLOOD", "BONES", "FAT", "PUSH_MON"]
-},{
+    "flags":["SEES", "GOODHEARING", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "REVIVES", "BILE_BLOOD", "BONES", "FAT", "PUSH_MON", "PATH_AVOID_DANGER_1"]
+    },{
     "type": "MONSTER",
     "id": "mon_zombie_gasbag_pk",
     "name": "putrid zombie",
@@ -1440,6 +1440,6 @@
     "death_function":["GAS", "BOOMER_GLOW"],
     "special_attacks":[["GRAB_DRAG", 12], ["STRETCH_ATTACK", 15]],
     "description":"A fetid body with a featureless face that emits a noxious gas of unknown makeup.  Its skin knots and reforms into putty-like globs as it walks and attacks, and bullets seem to pass through its morphing form.  A glimmering sludge drips from its open mouth.",
-    "flags":["SEES", "HEARS", "STUMBLES", "BASHES", "GROUP_BASH", "POISON", "HARDTOSHOOT", "NO_BREATHE", "REVIVES", "BONES", "PUSH_MON"]
+    "flags":["SEES", "HEARS", "STUMBLES", "BASHES", "GROUP_BASH", "POISON", "HARDTOSHOOT", "NO_BREATHE", "REVIVES", "BONES", "PUSH_MON", "PATH_AVOID_DANGER_1"]
     }
 ]

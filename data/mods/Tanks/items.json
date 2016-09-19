@@ -1,5 +1,34 @@
 [
   {
+    "id": "belt30mm",
+    "type": "MAGAZINE",
+    "name": "30 belt",
+    "description": "An ammo belt consisting of metal linkages which disintegrate upon firing.  This one holds 30mm autocannon ammo, and is too bulky to be worn like other ammo belts.",
+    "volume": 0,
+    "price": 0,
+    "rigid": false,
+    "material": "steel",
+    "symbol": "#",
+    "color": "ltgray",
+    "ammo_type": "30mm",
+    "capacity": 150,
+    "count": 50,
+    "reliability": 6,
+    "linkage": "ammolink30mm",
+    "flags": [ "MAG_BELT", "MAG_DESTROY" ]
+  },{
+    "id": "ammolink30mm",
+    "copy-from": "ammolink",
+    "type": "AMMO",
+    "name": "30mm autocannon belt linkage",
+    "weight": 6,
+    "count": 30,
+    "stack_size": 30,
+    "use_action": {
+      "type": "ammobelt",
+      "belt": "belt30mm"
+    }
+  },{
   "type" : "AMMO",
   "id" : "30mm_hedp",
   "price" : 15500,
@@ -351,9 +380,11 @@
   "recoil": 15,
   "durability": 8,
   "burst": 5,
-  "clip_size": 5,
   "reload": 100,
-  "loudness" : 175
+  "loudness" : 175,
+  "magazines": [
+      [ "30mm", [ "belt30mm" ] ]
+  ]
 },{
   "id": "tank_gun_manual",
   "type": "GUN",
@@ -398,7 +429,7 @@
   "sight_dispersion": 60,
   "recoil": -10,
   "durability": 9,
-  "clip_size": 1,
+  "clip_size": 5,
   "reload": 100,
   "loudness" : 300,
   "flags" : [ "NO_RELOAD" ]
@@ -422,7 +453,7 @@
   "sight_dispersion": 60,
   "recoil": -20,
   "durability": 8,
-  "clip_size": 1,
+  "clip_size": 5,
   "reload": 100,
   "loudness" : 300,
   "flags": [ "NO_RELOAD" ]
@@ -493,7 +524,7 @@
   "sight_dispersion": 20,
   "recoil": -10,
   "durability": 9,
-  "clip_size": 1,
+  "clip_size": 2,
   "reload": 100,
   "loudness" : 200,
   "flags": [ "NO_RELOAD" ]

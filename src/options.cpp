@@ -1425,13 +1425,6 @@ void options_manager::init()
 
     mOptionsSort["world_default"]++;
 
-    add("BLACKLIST_MAGAZINES", "world_default", _("Disables removable gun magaziones."),
-        _("If true, disables removeable gun magazines, guns will all act as if they have integral magazines."),
-        false, COPT_ALWAYS_HIDE
-        );
-
-    mOptionsSort["world_default"]++;
-
     add("NO_VITAMINS", "world_default", _("Disables tracking vitamins in food items."),
         _("If true, disables vitamin tracking and vitamin disorders."),
         false, COPT_ALWAYS_HIDE
@@ -1965,6 +1958,11 @@ bool options_manager::load_legacy()
 bool use_narrow_sidebar()
 {
     return TERMY < 25 || g->narrow_sidebar;
+}
+
+bool options_manager::has_option( const std::string &name ) const
+{
+    return global_options.count( name );
 }
 
 options_manager::cOpt &options_manager::get_option( const std::string &name )
