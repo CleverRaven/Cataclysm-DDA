@@ -54,6 +54,15 @@
         "flags" : "MUTAGEN_BIRD"
     },
     {
+        "id" : "iv_mutagen_lamia",
+        "copy-from" : "iv_mutagen_flavor",
+        "type" : "COMESTIBLE",
+        "name" : "lamia serum",
+        "description" : "A prismatic mutagen with a scaly texture.  You need a syringe to inject it...  if you really want to?",
+        "color" : "cyan",
+        "flags" : "MUTAGEN_LAMIA"
+    },
+    {
         "id" : "iv_mutagen_cattle",
         "copy-from" : "iv_mutagen_flavor",
         "type" : "COMESTIBLE",
@@ -258,6 +267,13 @@
         "type" : "COMESTIBLE",
         "name" : "beast mutagen",
         "flags" : [ "MUTAGEN_BEAST" ]
+    },
+    {
+        "id" : "mutagen_lamia",
+        "copy-from" : "mutagen_flavor",
+        "type" : "COMESTIBLE",
+        "name" : "lamia mutagen",
+        "flags" : [ "MUTAGEN_LAMIA" ]
     },
     {
         "id" : "mutagen_bird",

@@ -541,7 +541,7 @@
         "description" : "You're quite the heavy sleeper.  Noises are unlikely to wake you up.",
         "changes_to" : ["HEAVYSLEEPER2"],
         "starting_trait" : true,
-        "category" : ["MUTCAT_INSECT", "MUTCAT_PLANT", "MUTCAT_MEDICAL"]
+        "category" : ["MUTCAT_INSECT", "MUTCAT_PLANT", "MUTCAT_MEDICAL", "MUTCAT_LAMIA"]
     },{
         "type" : "mutation",
         "id" : "SLEEPY",
@@ -676,7 +676,7 @@
         "points" : -1,
         "description" : "Something in those heavily processed foods doesn't agree with you.  It's possible for you to eat them, but you will suffer morale penalties due to nausea.",
         "starting_trait" : true,
-        "category" : ["MUTCAT_BEAST", "MUTCAT_RAPTOR", "MUTCAT_ALPHA"]
+        "category" : ["MUTCAT_BEAST", "MUTCAT_RAPTOR", "MUTCAT_ALPHA", "MUTCAT_LAMIA"]
     },{
         "type" : "mutation",
         "id" : "ANTIWHEAT",
@@ -929,7 +929,7 @@
         "prereqs" : ["NIGHTVISION"],
         "changes_to" : ["NIGHTVISION3"],
         "cancels" : ["ELFA_NV", "ELFA_FNV", "FEL_NV", "URSINE_EYE"],
-        "category" : ["MUTCAT_FISH", "MUTCAT_BEAST", "MUTCAT_INSECT", "MUTCAT_RAT", "MUTCAT_CHIMERA", "MUTCAT_LUPINE"],
+        "category" : ["MUTCAT_FISH", "MUTCAT_BEAST", "MUTCAT_INSECT", "MUTCAT_RAT", "MUTCAT_CHIMERA", "MUTCAT_LUPINE", "MUTCAT_LAMIA"],
         "active" : true,
         "starts_active" : true
     },{
@@ -941,7 +941,7 @@
         "prereqs" : ["NIGHTVISION2"],
         "leads_to" : ["INFRARED"],
         "cancels" : ["ELFA_NV", "ELFA_FNV", "FEL_NV", "URSINE_EYE"],
-        "category" : ["MUTCAT_FISH", "MUTCAT_TROGLOBITE", "MUTCAT_SPIDER"],
+        "category" : ["MUTCAT_FISH", "MUTCAT_TROGLOBITE", "MUTCAT_SPIDER", "MUTCAT_LAMIA"],
         "active" : true,
         "starts_active" : true
     },{
@@ -1061,7 +1061,7 @@
         "description" : "Your eyes have mutated, with a brilliant iris and slitted pupil similar to that of a lizard.  This is visually striking, but doesn't seem to affect your vision.",
         "leads_to" : ["LIZ_IR"],
         "cancels" : ["ELFAEYES", "FEL_EYE", "URSINE_EYE", "BIRD_EYE", "COMPOUND_EYES"],
-        "category" : ["MUTCAT_LIZARD", "MUTCAT_RAPTOR"]
+        "category" : ["MUTCAT_LIZARD", "MUTCAT_RAPTOR", "MUTCAT_LAMIA"]
     },{
         "type" : "mutation",
         "id" : "LIZ_IR",
@@ -1070,7 +1070,7 @@
         "description" : "Your optic nerves and brain have mutated to catch up with your eyes, allowing you to see in the infrared spectrum.",
         "prereqs" : ["LIZ_EYE"],
         "cancels" : ["ELFA_NV", "ELFA_FNV", "FEL_NV", "INFRARED"],
-        "category" : ["MUTCAT_LIZARD", "MUTCAT_RAPTOR"]
+        "category" : ["MUTCAT_LIZARD", "MUTCAT_RAPTOR", "MUTCAT_LAMIA"]
     },{
         "type" : "mutation",
         "id" : "FASTHEALER2",
@@ -1136,7 +1136,7 @@
         "description" : "Your teeth have grown into two-inch-long fangs, allowing you to make an extra attack when conditions favor it.",
         "cancels" : ["BEAK", "BEAK_HUM", "BEAK_PECK"],
         "changes_to" : ["SABER_TEETH"],
-        "category" : ["MUTCAT_LIZARD", "MUTCAT_FISH", "MUTCAT_LUPINE", "MUTCAT_FELINE", "MUTCAT_CHIMERA"],
+        "category" : ["MUTCAT_LIZARD", "MUTCAT_FISH", "MUTCAT_LUPINE", "MUTCAT_FELINE", "MUTCAT_CHIMERA", "MUTCAT_LAMIA"],
         "attacks" : [
             {
                 "attack_text_u" : "You sink your fangs into %s",
@@ -1202,7 +1202,7 @@
         "ugliness" : 2,
         "description" : "You have a second set of clear eyelids which lower while underwater, allowing you to see as though you were wearing goggles.  Slightly decreases wet penalties.",
         "prereqs" : ["EYEBULGE"],
-        "category" : ["MUTCAT_LIZARD", "MUTCAT_FISH"],
+        "category" : ["MUTCAT_LIZARD", "MUTCAT_FISH", "MUTCAT_LAMIA"],
         "wet_protection" : [
             { "part" : "EYES", "neutral" : 1 }
         ]
@@ -1425,6 +1425,86 @@
         "category" : ["MUTCAT_BEAST", "MUTCAT_CATTLE", "MUTCAT_RAT"],
         "armor" : [ { "parts" : "ALL", "bash" : 1 } ]
     },{
+        "type" : "mutation",
+        "id" : "LAMIA_SCALES_AMORED",
+        "name" : "Armored Scales",
+        "points" : 10,
+        "visibility" : 15,
+        "ugliness" : 4,
+        "description" : "Your tail and mouth have grown bullet resistant scales",
+        "cancels" : ["SCALES", "FEATHERS", "CHITIN", "PLANTSKIN", "FELINE_FUR", "LUPINE_FUR", "CHITIN_FUR"],
+        "prereqs" : ["LAMIA_TAIL"],
+        "threshreq" : ["THRESH_LAMIA"],
+        "category" : ["MUTCAT_LAMIA"],
+        "armor" : [ 
+            { "parts" : "LEG_L", "bash" : 11, "cut" : 24 }, 
+            { "parts" : "LEG_R", "bash" : 11, "cut" : 24 },
+            { "parts" : "FOOT_L", "bash" : 11 , "cut" : 24 },
+            { "parts" : "FOOT_R", "bash" : 11 , "cut" : 24 },
+            { "parts" : "MOUTH", "cut" : 14}],
+        "encumbrance_always" : [
+            [ "LEG_L", 15 ],
+            [ "LEG_R", 15 ],
+            [ "FOOT_L", 15 ],
+            [ "FOOT_R", 15 ]
+            ]
+    },{
+        "type" : "mutation",
+        "id" : "LAMIA_SCALES",
+        "name" : "Lamia Scales",
+        "points" : 4,
+        "visibility" : 10,
+        "ugliness" : 1,
+        "description" : "You have grown a smooth, scale-like skin over your legs and cheeks. While luxuriously soft, they also give some small resistance to acid",
+        "cancels" : ["SCALES", "FEATHERS", "CHITIN", "PLANTSKIN", "FELINE_FUR", "LUPINE_FUR", "CHITIN_FUR"],
+        "category" : ["MUTCAT_LAMIA"], "//" : "Yes, this is intended to be pre-thresh. You can end up with snake scales regardless if you have a tail or not",
+        "armor" : [
+            { "parts" : "LEG_L", "acid" : 3},
+            { "parts" : "LEG_R", "acid" : 3},
+            { "parts" : "FOOT_R", "acid" : 3},
+            { "parts" : "FOOT_L", "acid" : 3}
+            ]
+    },{
+        "type" : "mutation",
+        "id" : "LAMIA_TAIL",
+        "name" : "Snake Tail",
+        "points" : 14,
+        "visibility" : 15,
+        "ugliness" : 6,
+        "description" : "Your legs now terminate in an enormous tail. You can now move greatly faster.",
+        "cancels" : ["SCALES", "FEATHERS", "CHITIN", "PLANTSKIN", "FELINE_FUR", "LUPINE_FUR", "CHITIN_FUR"],
+        "prereqs" : ["LAMIA_TAIL_JEUVENILE"],
+        "threshreq" : ["THRESH_LAMIA"],
+        "category" : ["MUTCAT_LAMIA"],
+        "purifiable" : false,
+        "restricts_gear" : [ "FOOT_L", "FOOT_R", "LEG_L", "LEG_R"],
+        "passive_mods" : {
+            "str_mod" : 1,
+            "dex_mod" : 2 
+        }
+    },{
+        "type" : "mutation",
+        "id" : "LAMIA_TAIL_JEUVENILE",
+        "name" : "Short Snake Tail",
+        "points" : 14,
+        "visibility" : 15,
+        "ugliness" : 6,
+        "description" : "Your legs have fused together to form the beginings of a snake tail. While inherently useless now, you hope it will grow much bigger",
+        "cancels" : ["SCALES", "FEATHERS", "CHITIN", "PLANTSKIN", "FELINE_FUR", "LUPINE_FUR", "CHITIN_FUR", "LEG_TENTACLES", "PADDED_FEET"],
+        "threshreq" : ["THRESH_LAMIA"],
+        "category" : ["MUTCAT_LAMIA"],
+        "changes_to" : ["LAMIA_TAIL"],
+        "purifiable" : true,
+        "restricts_gear" : [ "FOOT_L", "FOOT_R", "LEG_L", "LEG_R"],
+        "passive_mods" : {
+            "dex_mod" : -2},
+        "encumbrance_always" : [
+            [ "LEG_L", 50 ],
+            [ "LEG_R", 50 ],
+            [ "FOOT_L", 50 ],
+            [ "FOOT_R", 50 ]
+            ]
+        },{
         "type" : "mutation",
         "id" : "URSINE_FUR",
         "name" : "Shaggy Fur",
@@ -2917,7 +2997,7 @@
         "ugliness" : 1,
         "description" : "Your upper earlobes have grown noticeably higher.  Fortunately, they don't get in the way of your headgear, much.  Unfortunately, they also don't seem to help your hearing any.",
         "valid" : false,
-        "category" : ["MUTCAT_ELFA"],
+        "category" : ["MUTCAT_ELFA", "MUTCAT_LAMIA"],
         "cancels" : ["FELINE_EARS", "LUPINE_EARS", "URSINE_EARS", "CANINE_EARS"]
     },{
         "type" : "mutation",
@@ -3088,7 +3168,7 @@
         "points" : 1,
         "description" : "Your muscles are a little stronger.  Strength + 1",
         "changes_to" : ["STR_UP_2"],
-        "category" : ["MUTCAT_INSECT", "MUTCAT_ELFA", "MUTCAT_RAPTOR"],
+        "category" : ["MUTCAT_INSECT", "MUTCAT_ELFA", "MUTCAT_RAPTOR", "MUTCAT_LAMIA"],
         "passive_mods" : {
             "str_mod" : 1
         }
@@ -3174,7 +3254,7 @@
         "description" : "You are nimble and quick.  Dexterity + 4",
         "prereqs" : ["DEX_UP_2"],
         "changes_to" : ["DEX_UP_4"],
-        "category" : ["MUTCAT_BIRD", "MUTCAT_ELFA", "MUTCAT_FELINE"],
+        "category" : ["MUTCAT_BIRD", "MUTCAT_ELFA", "MUTCAT_FELINE", "MUTCAT_LAMIA"],
         "passive_mods" : {
             "dex_mod" : 4
         }
@@ -3404,8 +3484,8 @@
         "points" : 0,
         "visibility" : 1,
         "ugliness" : 3,
-        "description" : "Your tongue is forked, like that of a reptile.  This has no effect.",
-        "category" : ["MUTCAT_LIZARD", "MUTCAT_RAPTOR"]
+        "description" : "Your tongue is forked, like that of a reptile.  While you can now taste smells, it offers no real benefit.",
+        "category" : ["MUTCAT_LIZARD", "MUTCAT_RAPTOR", "MUTCAT_LAMIA"]
     },{
         "type" : "mutation",
         "id" : "EYEBULGE",
@@ -4132,7 +4212,7 @@
         "description" : "Your body's ability to digest fruits, vegetables and grains is severely hampered.  You cannot eat anything besides meat.",
         "cancels" : ["VEGETARIAN", "HERBIVORE", "RUMINANT",  "GRAZER"],
         "leads_to" : ["SAPROVORE"],
-        "category" : ["MUTCAT_LIZARD", "MUTCAT_BEAST", "MUTCAT_SPIDER", "MUTCAT_CHIMERA", "MUTCAT_RAPTOR", "MUTCAT_FELINE"],
+        "category" : ["MUTCAT_LIZARD", "MUTCAT_BEAST", "MUTCAT_SPIDER", "MUTCAT_CHIMERA", "MUTCAT_RAPTOR", "MUTCAT_FELINE", "MUTCAT_LAMIA"],
         "vitamin_rates": [ [ "vitC", -1200 ] ]
     },{
         "type" : "mutation",
@@ -4817,6 +4897,15 @@
         "name" : "Prototype",
         "points" : 1,
         "description" : "After all those experiments, what's a few more, hmm?",
+        "valid": false,
+        "purifiable": false,
+        "threshold": true
+    },{
+        "type" : "mutation",
+        "id" : "THRESH_LAMIA",
+        "name" : "Lamia",
+        "points" : 1,
+        "description" : "You have embraced the noodle, you are now one with the snakes. With it comes an intense urge to boop your own nose",
         "valid": false,
         "purifiable": false,
         "threshold": true
