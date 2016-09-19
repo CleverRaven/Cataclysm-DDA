@@ -157,9 +157,7 @@
     "durability": 4,
     "burst": 5,
     "magazine_well": 1,
-    "magazines": [
-      [ "22", [ "smg_22_mag" ] ]
-    ],
+    "magazines": [ [ "22", [ "smg_22_mag" ] ] ],
     "reload": 800,
     "loudness" : 150,
     "valid_mod_locations": [ [ "accessories", 2 ], [ "muzzle", 1 ], [ "stock", 1 ] ]
@@ -186,9 +184,7 @@
     "durability": 4,
     "burst": 5,
     "magazine_well": 1,
-    "magazines": [
-      [ "38", [ "smg_38_mag" ] ]
-    ],
+    "magazines": [ [ "38", [ "smg_38_mag" ] ] ],
     "reload": 800,
     "loudness" : 150,
     "valid_mod_locations": [ [ "accessories", 2 ], [ "muzzle", 1 ], [ "stock", 1 ] ]
@@ -215,9 +211,7 @@
     "durability": 4,
     "burst": 5,
     "magazine_well": 1,
-    "magazines": [
-      [ "9mm", [ "smg_9mm_mag" ] ]
-    ],
+    "magazines": [ [ "9mm", [ "smg_9mm_mag" ] ] ],
     "reload": 800,
     "loudness" : 150,
     "valid_mod_locations": [ [ "accessories", 2 ], [ "muzzle", 1 ], [ "stock", 1 ] ]
@@ -244,9 +238,7 @@
     "durability": 4,
     "burst": 5,
     "magazine_well": 1,
-    "magazines": [
-      [ "40", [ "smg_40_mag" ] ]
-    ],
+    "magazines": [ [ "40", [ "smg_40_mag" ] ] ],
     "reload": 800,
     "loudness" : 150,
     "valid_mod_locations": [ [ "accessories", 2 ], [ "muzzle", 1 ], [ "stock", 1 ] ]
@@ -273,9 +265,7 @@
     "durability": 4,
     "burst": 5,
     "magazine_well": 1,
-    "magazines": [
-      [ "45", [ "smg_45_mag" ] ]
-    ],
+    "magazines": [ [ "45", [ "smg_45_mag" ] ] ],
     "reload": 800,
     "loudness" : 150,
     "valid_mod_locations": [ [ "accessories", 2 ], [ "muzzle", 1 ], [ "stock", 1 ] ]

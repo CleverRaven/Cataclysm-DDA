@@ -350,9 +350,9 @@
   "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"id":"SAW_M","level":1,"amount":1},
-    {"id":"HAMMER","level":1,"amount":1},
-    {"id":"SCREW_FINE","level":1,"amount":1}
+    {"id":"SAW_M","level":1},
+    {"id":"HAMMER","level":1},
+    {"id":"SCREW_FINE","level":1}
   ],
   "components": [
     [
@@ -378,9 +378,9 @@
   "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"id":"SAW_M","level":1,"amount":1},
-    {"id":"HAMMER","level":1,"amount":1},
-    {"id":"SCREW_FINE","level":1,"amount":1}
+    {"id":"SAW_M","level":1},
+    {"id":"HAMMER","level":1},
+    {"id":"SCREW_FINE","level":1}
   ],
   "components": [
     [
@@ -406,9 +406,9 @@
   "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"id":"SAW_M","level":1,"amount":1},
-    {"id":"HAMMER","level":1,"amount":1},
-    {"id":"SCREW_FINE","level":1,"amount":1}
+    {"id":"SAW_M","level":1},
+    {"id":"HAMMER","level":1},
+    {"id":"SCREW_FINE","level":1}
   ],
   "components": [
     [
@@ -434,9 +434,9 @@
   "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"id":"SAW_M","level":1,"amount":1},
-    {"id":"HAMMER","level":1,"amount":1},
-    {"id":"SCREW_FINE","level":1,"amount":1}
+    {"id":"SAW_M","level":1},
+    {"id":"HAMMER","level":1},
+    {"id":"SCREW_FINE","level":1}
   ],
   "components": [
     [
@@ -462,9 +462,9 @@
   "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"id":"SAW_M","level":1,"amount":1},
-    {"id":"HAMMER","level":1,"amount":1},
-    {"id":"SCREW_FINE","level":1,"amount":1}
+    {"id":"SAW_M","level":1},
+    {"id":"HAMMER","level":1},
+    {"id":"SCREW_FINE","level":1}
   ],
   "components": [
     [
