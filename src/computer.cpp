@@ -1410,7 +1410,10 @@ TO WRITE US A LETTER PLEASE SEND IT TO...\n" ) );
 
     overmap_buffer.reveal( center_pos, 3 );
 
-    if( overmap_buffer.reveal_route( your_pos, center_pos, 3 ) ) {
+    const tripoint source_road = overmap_buffer.find_closest( your_pos, "road", 3, false );
+    const tripoint dest_road = overmap_buffer.find_closest( center_pos, "road", 3, false );
+
+    if( overmap_buffer.reveal_route( source_road, dest_road ) ) {
         query_any( _( "You mark the refugee center and the road that leads to it..." ) );
     } else {
         query_any( _( "You mark the refugee center, but you have no idea how to get there by road..." ) );

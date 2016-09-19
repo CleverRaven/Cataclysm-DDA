@@ -462,7 +462,7 @@ bool overmapbuffer::reveal( const tripoint &center, int radius )
     return result;
 }
 
-bool overmapbuffer::reveal_route( const tripoint &source, const tripoint &dest )
+bool overmapbuffer::reveal_route( const tripoint &source, const tripoint &dest, int radius )
 {
     static const int RADIUS = 4;            // Maximal radius of search (in overmaps)
     static const int OX = RADIUS * OMAPX;   // half-width of the area to search in
@@ -501,25 +501,10 @@ bool overmapbuffer::reveal_route( const tripoint &source, const tripoint &dest )
     }
 
     for( const auto &node : path ) {
-        reveal( base + tripoint( node.x, node.y, base.z ), 0 );
+        reveal( base + tripoint( node.x, node.y, base.z ), radius );
     }
 
     return true;
-}
-
-bool overmapbuffer::reveal_route( const tripoint &source, const tripoint &dest, int proximity )
-{
-    const tripoint source_road = find_closest( source, "road", proximity, false );
-    if( source_road == overmap::invalid_tripoint ) {
-        return false;
-    }
-
-    const tripoint dest_road = find_closest( dest, "road", proximity, false );
-    if( dest_road   == overmap::invalid_tripoint ) {
-        return false;
-    }
-
-    return reveal_route( source_road, dest_road );
 }
 
 bool overmapbuffer::check_ot_type(const std::string& type, int x, int y, int z)

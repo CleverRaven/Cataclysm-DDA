@@ -207,8 +207,7 @@ public:
     bool reveal(const point &center, int radius, int z);
     bool reveal( const tripoint &center, int radius );
 
-    bool reveal_route( const tripoint &source, const tripoint &dest );
-    bool reveal_route( const tripoint &source, const tripoint &dest, int proximity );
+    bool reveal_route( const tripoint &source, const tripoint &dest, int radius = 0 );
     /**
      * Returns the closest point of terrain type.
      * This function may create new overmaps if needed.
