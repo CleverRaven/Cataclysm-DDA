@@ -175,7 +175,7 @@ void map::generate(const int x, const int y, const int z, const int turn)
         }
     }
 
-    const overmap_spawns &spawns = terrain_type.t().static_spawns;
+    const overmap_spawns &spawns = terrain_type.obj().static_spawns;
     if( spawns.group && x_in_y( spawns.chance, 100 ) ) {
         int pop = rng( spawns.min_population, spawns.max_population );
         // place_spawns currently depends on the STATIC_SPAWN world option, this
@@ -1615,7 +1615,7 @@ void mapgen_function_json::generate( map *m, oter_id terrain_type, mapgendata md
 
     m->rotate( rotation.get() );
 
-    if( terrain_type.t().has_flag(rotates) ) {
+    if( terrain_type.obj().has_flag(rotates) ) {
         mapgen_rotate(m, terrain_type, false );
     }
 }
@@ -1717,7 +1717,7 @@ void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter
 
     computer *tmpcomp = NULL;
     bool terrain_type_found = true;
-    const std::string function_key = terrain_type.t().id_mapgen;
+    const std::string function_key = terrain_type.obj().id_mapgen;
 
 
     std::map<std::string, std::vector<mapgen_function*> >::const_iterator fmapit = oter_mapgen.find( function_key );
@@ -10432,7 +10432,7 @@ void map::place_spawns(const mongroup_id& group, const int chance,
     if( !group.is_valid() ) {
         const point omt = sm_to_omt_copy( get_abs_sub().x, get_abs_sub().y );
         const oter_id &oid = overmap_buffer.ter( omt.x, omt.y, get_abs_sub().z );
-        debugmsg("place_spawns: invalid mongroup '%s', om_terrain = '%s' (%s)", group.c_str(), oid.t().id.c_str(), oid.t().id_mapgen.c_str() );
+        debugmsg("place_spawns: invalid mongroup '%s', om_terrain = '%s' (%s)", group.c_str(), oid.obj().id.c_str(), oid.obj().id_mapgen.c_str() );
         return;
     }
 
@@ -10544,7 +10544,7 @@ std::vector<item *> map::place_items( items_location loc, int chance, int x1, in
         const point omt = sm_to_omt_copy( get_abs_sub().x, get_abs_sub().y );
         const oter_id &oid = overmap_buffer.ter( omt.x, omt.y, get_abs_sub().z );
         debugmsg("place_items: invalid item group '%s', om_terrain = '%s' (%s)",
-                 loc.c_str(), oid.t().id.c_str(), oid.t().id_mapgen.c_str() );
+                 loc.c_str(), oid.obj().id.c_str(), oid.obj().id_mapgen.c_str() );
         return res;
     }
 

@@ -401,12 +401,12 @@ ter_id mapgendata::groundcover() {
 
 void mapgen_rotate( map * m, oter_id terrain_type, bool north_is_down ) {
     if ( north_is_down ) {
-        int iid_diff = (int)terrain_type - terrain_type.t().loadid_base + 2;
+        int iid_diff = (int)terrain_type - terrain_type.obj().loadid_base + 2;
         if ( iid_diff != 4 ) {
             m->rotate(iid_diff);
         }
     } else {
-        int iid_diff = (int)terrain_type - terrain_type.t().loadid_base;
+        int iid_diff = (int)terrain_type - terrain_type.obj().loadid_base;
         if ( iid_diff > 0 ) {
             m->rotate(iid_diff);
         }
@@ -2596,8 +2596,8 @@ void mapgen_generic_house(map *m, oter_id terrain_type, mapgendata dat, int turn
     }
 
     // For rotation
-    const int iid_diff = (int)terrain_type - terrain_type.t().loadid_base;
-    const bool has_basement = terrain_type.t().id_base == "house_base";
+    const int iid_diff = (int)terrain_type - terrain_type.obj().loadid_base;
+    const bool has_basement = terrain_type.obj().id_base == "house_base";
     if( has_basement ) {
         const bool force = get_world_option<bool>( "ALIGN_STAIRS" );
         // Find the basement's stairs first

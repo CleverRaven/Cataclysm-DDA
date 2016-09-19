@@ -93,7 +93,7 @@ class oter_id
         // in order to map
         operator oter_t() const;
 
-        const oter_t &t() const;
+        const oter_t &obj() const;
 
         // initialize as raw value
         oter_id() : _val( 0 ) { };

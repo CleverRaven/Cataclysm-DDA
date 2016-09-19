@@ -1882,7 +1882,7 @@ void mission::serialize(JsonOut &json) const
 
     json.member("item_id", item_id);
     json.member("item_count", item_count);
-    json.member("target_id", target_id.t().id);
+    json.member("target_id", target_id.obj().id);
     json.member("recruit_class", recruit_class);
     json.member("target_npc_id", target_npc_id);
     json.member("monster_type", monster_type);
