@@ -20,83 +20,10 @@
         "description" : "Take Down Simple Furniture",
         "category" : "FURN",
         "difficulty" : 0,
-        "time" : 60,
-        "pre_terrain" : "t_improvised_shelter",
-        "post_special" : "done_deconstruct"
+        "time" : 10,
+        "pre_special" : "check_dismantle",
+        "post_special" : "done_dismantle"
     },{
-        "type" : "construction",
-        "description" : "Take Down Simple Furniture",
-        "category" : "FURN",
-        "difficulty" : 0,
-        "time" : 30,
-        "pre_terrain" : "f_sandbag_half",
-        "post_special" : "done_deconstruct"
-    },{
-        "type" : "construction",
-        "description" : "Take Down Simple Furniture",
-        "category" : "FURN",
-        "difficulty" : 0,
-        "time" : 45,
-        "pre_terrain" : "f_sandbag_wall",
-        "post_special" : "done_deconstruct"
-    },{
-        "type" : "construction",
-        "description" : "Take Down Simple Furniture",
-        "category" : "FURN",
-        "difficulty" : 0,
-        "time" : 30,
-        "pre_terrain" : "t_palisade_pulley",
-        "post_special" : "done_deconstruct"
-    },{
-        "type" : "construction",
-        "description" : "Take Down Simple Furniture",
-        "category" : "FURN",
-        "difficulty" : 0,
-        "time" : 15,
-        "pre_terrain" : "f_straw_bed",
-        "post_special" : "done_deconstruct"
-    },{
-        "type" : "construction",
-        "description" : "Take Down Simple Furniture",
-        "category" : "FURN",
-        "difficulty" : 0,
-        "time" : 1,
-        "pre_terrain" : "f_anvil",
-        "post_special" : "done_deconstruct"
-    },{
-        "type" : "construction",
-        "description" : "Take Down Simple Furniture",
-        "category" : "FURN",
-        "difficulty" : 0,
-        "time" : 1,
-        "pre_terrain" : "f_forge",
-        "post_special" : "done_deconstruct"
-    },{
-        "type" : "construction",
-        "description" : "Take Down Simple Furniture",
-        "category" : "FURN",
-        "difficulty" : 0,
-        "time" : 1,
-        "pre_terrain" : "f_still",
-        "post_special" : "done_deconstruct"
-    },{
-        "type" : "construction",
-        "description" : "Take Down Simple Furniture",
-        "category" : "FURN",
-        "difficulty" : 0,
-        "time" : 15,
-        "pre_terrain" : "t_claymound",
-        "post_special" : "done_deconstruct"
-    },{
-        "type" : "construction",
-        "description" : "Take Down Simple Furniture",
-        "category" : "FURN",
-        "difficulty" : 0,
-        "time" : 15,
-        "pre_terrain" : "t_sandmound",
-        "post_special" : "done_deconstruct"
-    },{
-
         "type" : "construction",
         "description" : "Dig Pit", "//": "Step 1: shallow pit",
         "category" : "DIG",

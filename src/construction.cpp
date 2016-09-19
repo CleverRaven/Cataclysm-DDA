@@ -45,6 +45,7 @@ bool check_nothing( const tripoint & )
 bool check_empty( const tripoint & ); // tile is empty
 bool check_support( const tripoint & ); // at least two orthogonal supports
 bool check_deconstruct( const tripoint & ); // either terrain or furniture must be deconstructable
+bool check_dismantle( const tripoint & ); // tile has terrain or furniture with correct flag
 bool check_up_OK( const tripoint & ); // tile is empty and you're not on the surface
 bool check_down_OK( const tripoint & ); // tile is empty and you're not on z-10 already
 
@@ -55,6 +56,7 @@ void done_trunk_log( const tripoint & );
 void done_trunk_plank( const tripoint & );
 void done_vehicle( const tripoint & );
 void done_deconstruct( const tripoint & );
+void done_dismantle( const tripoint & );
 void done_digormine_stair( const tripoint &, bool );
 void done_dig_stair( const tripoint & );
 void done_mine_downstair( const tripoint & );
@@ -771,6 +773,18 @@ bool construct::check_deconstruct( const tripoint &p )
     return g->m.ter( p.x, p.y ).obj().deconstruct.can_do;
 }
 
+bool construct::check_dismantle( const tripoint &p )
+{
+    if( !g->m.has_flag( "DISMANTLE", p ) ) {
+        return false;
+    }
+    if( g->m.has_furn( p.x, p.y ) ) {
+        return g->m.furn( p.x, p.y ).obj().dismantle.can_do;
+    }
+    // terrain can only be taken down when there is no furniture in the way
+    return g->m.ter( p.x, p.y ).obj().dismantle.can_do;
+}
+
 bool construct::check_up_OK( const tripoint & )
 {
     // You're not going above +OVERMAP_HEIGHT.
@@ -859,6 +873,10 @@ void construct::done_deconstruct( const tripoint &p )
     if( g->m.has_furn( p ) ) {
         const furn_t &f = g->m.furn( p ).obj();
         if( !f.deconstruct.can_do ) {
+            if( f.dismantle.can_do ) {
+                add_msg( m_info, _( "This can be taken down without tools." ), f.name.c_str() );
+                return;
+            }
             add_msg( m_info, _( "That %s can not be disassembled!" ), f.name.c_str() );
             return;
         }
@@ -878,7 +896,11 @@ void construct::done_deconstruct( const tripoint &p )
     } else {
         const ter_t &t = g->m.ter( p ).obj();
         if( !t.deconstruct.can_do ) {
-            add_msg( _( "That %s can not be disassembled!" ), t.name.c_str() );
+            if( t.dismantle.can_do ) {
+                add_msg( m_info, _( "This can be taken down without tools." ), t.name.c_str() );
+                return;
+            }
+            add_msg( m_info, _( "That %s can not be disassembled!" ), t.name.c_str() );
             return;
         }
         if( t.id == "t_console_broken" )  {
@@ -894,6 +916,44 @@ void construct::done_deconstruct( const tripoint &p )
         g->m.ter_set( p, t.deconstruct.ter_set );
         add_msg( _( "You disassemble the %s." ), t.name.c_str() );
         g->m.spawn_items( p, item_group::items_from( t.deconstruct.drop_group, calendar::turn ) );
+    }
+}
+
+void construct::done_dismantle( const tripoint &p )
+{
+    if( g->m.has_furn( p ) ) {
+        const furn_t &f = g->m.furn( p ).obj();
+        if( !f.dismantle.can_do ) {
+            if( f.deconstruct.can_do ) {
+                add_msg( m_info, _( "This requires correct disassembly instead." ), f.name.c_str() );
+                return;
+            }
+            add_msg( m_info, _( "That %s can not be taken down!" ), f.name.c_str() );
+            return;
+        }
+        if( f.dismantle.furn_set.str().empty() ) {
+            g->m.furn_set( p, f_null );
+        } else {
+            g->m.furn_set( p, f.dismantle.furn_set );
+        }
+        add_msg( _( "You take down the %s." ), f.name.c_str() );
+        g->m.spawn_items( p, item_group::items_from( f.dismantle.drop_group, calendar::turn ) );
+        // Singage hack goes here as well, just in case someone
+        // makes signs that can be dismantled.
+        g->m.delete_signage( p );
+    } else {
+        const ter_t &t = g->m.ter( p ).obj();
+        if( !t.dismantle.can_do ) {
+            if( t.deconstruct.can_do ) {
+                add_msg( m_info, _( "This requires correct disassembly instead." ), t.name.c_str() );
+                return;
+            }
+            add_msg( m_info, _( "That %s can not be taken down!" ), t.name.c_str() );
+            return;
+        }
+        g->m.ter_set( p, t.dismantle.ter_set );
+        add_msg( _( "You take down the %s." ), t.name.c_str() );
+        g->m.spawn_items( p, item_group::items_from( t.dismantle.drop_group, calendar::turn ) );
     }
 }
 
@@ -1060,6 +1120,8 @@ void load_construction(JsonObject &jo)
         con.pre_special = &construct::check_support;
     } else if (prefunc == "check_deconstruct") {
         con.pre_special = &construct::check_deconstruct;
+    } else if (prefunc == "check_dismantle") {
+        con.pre_special = &construct::check_dismantle;
     } else if (prefunc == "check_up_OK") {
         con.pre_special = &construct::check_up_OK;
     } else if (prefunc == "check_down_OK") {
@@ -1082,6 +1144,8 @@ void load_construction(JsonObject &jo)
         con.post_special = &construct::done_vehicle;
     } else if (postfunc == "done_deconstruct") {
         con.post_special = &construct::done_deconstruct;
+    } else if (postfunc == "done_dismantle") {
+        con.post_special = &construct::done_dismantle;
     } else if (postfunc == "done_dig_stair") {
         con.post_special = &construct::done_dig_stair;
     } else if (postfunc == "done_mine_downstair") {

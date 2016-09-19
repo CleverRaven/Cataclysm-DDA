@@ -1,23 +1,5 @@
 [
   {
-    "type" : "construction",
-    "description" : "Take Down Simple Furniture",
-    "category" : "FURN",
-    "difficulty" : 0,
-    "time" : 30,
-    "pre_terrain" : "blob_pit",
-    "post_special" : "done_deconstruct"
-  },
-  {
-    "type" : "construction",
-    "description" : "Take Down Simple Furniture",
-    "category" : "FURN",
-    "difficulty" : 0,
-    "time" : 3,
-    "pre_terrain" : "blob_pit_slime",
-    "post_special" : "done_deconstruct"
-  },
-  {
     "type": "construction",
     "//": "Smash or deconstruct afterwards to harvest.",
     "category": "OTHER",
@@ -46,7 +28,7 @@
     "symbol": "O",
     "color": [ "light_green" ],
     "move_cost": 0,
-    "deconstruct": {
+    "dismantle": {
       "ter_set": "t_pit",
       "items": [ { "item": "bfeed", "count": [ 250, 500 ] } ]
     },
@@ -58,7 +40,7 @@
       "sound_fail": "squish!",
       "items": [ { "item": "bfeed", "count": [ 250, 500 ] } ]
     },
-    "flags": [ "WALL", "TRANSPARENT" ]
+    "flags": [ "WALL", "TRANSPARENT", "DISMANTLE" ]
   },
   {
     "id": "blob_pit_slime",
@@ -67,7 +49,7 @@
     "symbol": "O",
     "color": [ "light_green" ],
     "move_cost": 0,
-    "deconstruct": {
+    "dismantle": {
       "ter_set": "t_dirt",
       "items": [ { "item": "bfeed", "count": [ 50, 250 ] } ]
     },
@@ -79,6 +61,6 @@
       "sound_fail": "squish!",
       "items": [ { "item": "bfeed", "count": [ 50, 250 ] } ]
     },
-    "flags": [ "WALL", "TRANSPARENT" ]
+    "flags": [ "WALL", "TRANSPARENT", "DISMANTLE" ]
   }
 ]

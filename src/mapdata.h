@@ -77,6 +77,18 @@ struct map_deconstruct_info {
     map_deconstruct_info() : can_do(false), deconstruct_above(false), ter_set(NULL_ID), furn_set(NULL_ID) {};
     bool load(JsonObject &jsobj, std::string member, bool is_furniture);
 };
+struct map_dismantle_info {
+    // Only if true, the terrain/furniture can be taken down
+    bool can_do;
+    // In the unlikely event walls can be takn down without tools.
+    bool dismantle_above;
+    // items you get when dismantling.
+    std::string drop_group;
+    ter_str_id ter_set;    // terrain to set (REQUIRED for terrain))
+    furn_str_id furn_set;    // furniture to set (only used by furniture, not terrain)
+    map_dismantle_info() : can_do(false), dismantle_above(false), ter_set(NULL_ID), furn_set(NULL_ID) {};
+    bool load(JsonObject &jsobj, std::string member, bool is_furniture);
+};
 
 /*
  * List of known flags, used in both terrain.json and furniture.json.
@@ -113,6 +125,7 @@ struct map_deconstruct_info {
  * OPENCLOSE_INSIDE - If it's a door (with an 'open' or 'close' field), it can only be opened or closed if you're inside.
  * PERMEABLE - Allows gases to flow through unimpeded.
  * RAMP - Higher z-levels can be accessed from this tile
+ * DISMANTLE - Allows removing the terrain or furniture using dismantling.
  *
  * Currently only used for Fungal conversions
  * WALL - This terrain is an upright obstacle
@@ -196,6 +209,7 @@ struct map_data_common_t {
 
     map_bash_info        bash;
     map_deconstruct_info deconstruct;
+    map_dismantle_info   dismantle;
 
 private:
     std::set<std::string> flags;    // string flags which possibly refer to what's documented above.

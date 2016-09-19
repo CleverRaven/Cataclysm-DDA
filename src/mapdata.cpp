@@ -232,6 +232,24 @@ bool map_deconstruct_info::load(JsonObject &jsobj, std::string member, bool isfu
     return true;
 }
 
+bool map_dismantle_info::load(JsonObject &jsobj, std::string member, bool isfurniture)
+{
+    if (!jsobj.has_object(member)) {
+        return false;
+    }
+    JsonObject j = jsobj.get_object(member);
+    furn_set = furn_str_id( j.get_string("furn_set", "f_null" ) );
+
+    if (!isfurniture) {
+        ter_set = ter_str_id( j.get_string( "ter_set" ) );
+    }
+    can_do = true;
+
+    JsonIn& stream = *j.get_raw( "items" );
+    drop_group = item_group::load_item_group( stream, "collection" );
+    return true;
+}
+
 furn_t null_furniture_t() {
   furn_t new_furniture;
   new_furniture.id = NULL_ID;
@@ -931,6 +949,7 @@ void ter_t::load( JsonObject &jo )
 
     bash.load( jo, "bash", false );
     deconstruct.load( jo, "deconstruct", false );
+    dismantle.load( jo, "dismantle", false );
 }
 
 void check_bash_items(const map_bash_info &mbi, const std::string &id, bool is_terrain)
@@ -970,10 +989,30 @@ void check_decon_items(const map_deconstruct_info &mbi, const std::string &id, b
     }
 }
 
+void check_takedown_items(const map_dismantle_info &mbi, const std::string &id, bool is_terrain)
+{
+    if (!mbi.can_do) {
+        return;
+    }
+    if( !item_group::group_is_defined( mbi.drop_group ) ) {
+        debugmsg( "%s: dismantling result item group %s does not exist", id.c_str(), mbi.drop_group.c_str() );
+    }
+    if (is_terrain && mbi.ter_set.is_empty()) { // Some tiles specify t_null explicitly
+        debugmsg("dismantling result terrain of %s is undefined/empty", id.c_str());
+    }
+    if ( !mbi.ter_set.is_valid() ) {
+        debugmsg("dismantling result terrain %s of %s does not exist", mbi.ter_set.c_str(), id.c_str());
+    }
+    if ( !mbi.furn_set.is_valid() ) {
+        debugmsg("dismantling result furniture %s of %s does not exist", mbi.furn_set.c_str(), id.c_str());
+    }
+}
+
 void ter_t::check() const
 {
     check_bash_items( bash, id.str(), true );
     check_decon_items( deconstruct, id.str(), true );
+    check_takedown_items( dismantle, id.str(), true );
 
     if( !transforms_into.is_valid() ) {
         debugmsg( "invalid transforms_into %s for %s", transforms_into.c_str(), id.c_str() );
@@ -1017,12 +1056,14 @@ void furn_t::load( JsonObject &jo )
 
     bash.load( jo, "bash", true );
     deconstruct.load( jo, "deconstruct", true );
+    dismantle.load( jo, "dismantle", true );
 }
 
 void furn_t::check() const
 {
     check_bash_items( bash, id.str(), false );
     check_decon_items( deconstruct, id.str(), false );
+    check_takedown_items( dismantle, id.str(), false );
 
     if( !open.is_valid() ) {
         debugmsg( "invalid furniture %s for opening %s", open.c_str(), id.c_str() );

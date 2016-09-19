@@ -4587,7 +4587,7 @@
         "symbol": "|",
         "color": "brown",
         "move_cost": 0,
-        "flags": ["TRANSPARENT", "NOITEM", "SHORT", "PERMEABLE"],
+        "flags": ["TRANSPARENT", "NOITEM", "SHORT", "PERMEABLE", "DISMANTLE"],
         "examine_action": "controls_gate",
         "bash": {
             "str_min": 8, "str_max": 40,
@@ -4600,7 +4600,7 @@
                 { "item": "splinter", "count": [2, 4] }
             ]
         },
-        "deconstruct": {
+        "dismantle": {
             "ter_set": "t_dirtfloor",
             "items": [
                 { "item": "rope_30", "count": 1 },
@@ -5444,9 +5444,9 @@
         "color": "brown_green",
         "move_cost": 2,
         "flags": [
-            "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "REDUCE_SCENT", "INDOORS", "MOUNTABLE"
+            "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "REDUCE_SCENT", "INDOORS", "MOUNTABLE", "DISMANTLE"
         ],
-        "deconstruct": {
+        "dismantle": {
             "ter_set": "t_pit_shallow",
             "items": [
                 { "item": "stick", "count": 12 },
@@ -6061,8 +6061,8 @@
         "symbol": "#",
         "color": "brown",
         "move_cost": 5,
-        "flags": ["TRANSPARENT"],
-        "deconstruct": {
+        "flags": ["TRANSPARENT", "DISMANTLE"],
+        "dismantle": {
             "ter_set": "t_water_dp",
             "items": [
                 { "item": "clay_lump", "count": [6, 12] }
@@ -6084,8 +6084,8 @@
         "symbol": "#",
         "color": "brown",
         "move_cost": 5,
-        "flags": ["TRANSPARENT"],
-        "deconstruct": {
+        "flags": ["TRANSPARENT", "DISMANTLE"],
+        "dismantle": {
             "ter_set": "t_water_dp",
             "items": [
                 { "item": "material_sand", "charges": [300, 600] }

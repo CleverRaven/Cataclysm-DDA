@@ -7,7 +7,13 @@
         "bgcolor": "brown",
         "move_cost_mod": 3,
         "required_str": 6,
-        "flags": ["TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "ORGANIC", "MOUNTABLE", "SHORT"],
+        "flags": ["TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "ORGANIC", "MOUNTABLE", "SHORT", "DISMANTLE"],
+        "dismantle": {
+            "items": [
+                { "item": "straw_pile", "count": 10 },
+                { "item": "rope_6", "charges": 3 }
+            ]
+        },
         "bash": {
             "str_min": 1, "str_max": 12,
             "sound": "whish!",
@@ -96,8 +102,8 @@
         "bgcolor": "brown",
         "move_cost_mod": 3,
         "required_str": -1,
-        "flags": ["TRANSPARENT", "MOUNTABLE", "BLOCKSDOOR", "SHORT"],
-        "deconstruct": {
+        "flags": ["TRANSPARENT", "MOUNTABLE", "BLOCKSDOOR", "SHORT", "DISMANTLE"],
+        "dismantle": {
             "items": [
                 { "item": "bag_canvas", "count": 2 },
                 { "item": "material_sand", "charges": 20 }
@@ -120,8 +126,8 @@
         "bgcolor": "brown",
         "move_cost_mod": -1,
         "required_str": -1,
-        "flags": ["NOITEM", "BLOCKSDOOR"],
-        "deconstruct": {
+        "flags": ["NOITEM", "BLOCKSDOOR", "DISMANTLE"],
+        "dismantle": {
             "items": [
                 { "item": "bag_canvas", "count": 4 },
                 { "item": "material_sand", "charges": 40 }
@@ -271,14 +277,14 @@
         "color": "magenta",
         "move_cost_mod": 3,
         "required_str": -1,
-        "deconstruct": {
+        "dismantle": {
             "items": [
                 { "item": "2x4", "count": 4 },
                 { "item": "straw_pile", "count": [7, 8] }
             ]
         },
         "max_volume": 4000,
-        "flags": ["TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "MOUNTABLE", "SHORT"],
+        "flags": ["TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "MOUNTABLE", "SHORT", "DISMANTLE"],
         "bash": {
             "str_min": 6, "str_max": 20,
             "sound": "crunch!",
@@ -1937,8 +1943,8 @@
         "move_cost_mod": -1,
         "required_str": -1,
         "crafting_pseudo_item": "char_forge",
-        "flags": ["TRANSPARENT", "SEALED", "CONTAINER", "NOITEM"],
-        "deconstruct": {
+        "flags": ["TRANSPARENT", "SEALED", "CONTAINER", "NOITEM", "DISMANTLE"],
+        "dismantle": {
             "items": [
                 { "item": "char_forge", "count": 1 }
             ]
@@ -1961,12 +1967,12 @@
         "move_cost_mod": -1,
         "required_str": -1,
         "crafting_pseudo_item": "anvil",
-        "deconstruct": {
+        "dismantle": {
             "items": [
                 { "item": "anvil", "count": 1 }
             ]
         },
-        "flags": ["TRANSPARENT", "NOITEM"],
+        "flags": ["TRANSPARENT", "NOITEM", "DISMANTLE"],
         "bash": {
             "str_min": 4, "str_max": 8,
             "sound": "crunch!",
@@ -1984,12 +1990,12 @@
         "move_cost_mod": -1,
         "required_str": -1,
         "crafting_pseudo_item": "still",
-        "deconstruct": {
+        "dismantle": {
             "items": [
                 { "item": "still", "count": 1 }
             ]
         },
-        "flags": ["TRANSPARENT", "NOITEM"],
+        "flags": ["TRANSPARENT", "NOITEM", "DISMANTLE"],
         "bash": {
             "str_min": 4, "str_max": 8,
             "sound": "crunch!",
