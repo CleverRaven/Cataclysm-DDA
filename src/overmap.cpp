@@ -4187,7 +4187,7 @@ void overmap::place_special(const overmap_special& special, const tripoint& p, i
 
 oter_id overmap::rotate(const oter_id &oter, int dir)
 {
-    const oter_t &otert = oter;
+    const oter_t &otert = oter.obj();
     if (! otert.has_flag(rotates) && dir != 0) {
         debugmsg("%s does not rotate.", oter.c_str());
         return oter;
@@ -4415,12 +4415,6 @@ bool operator==( const oter_id &lhs, const oter_id &rhs )
 bool operator!=( const oter_id &lhs, const oter_id &rhs )
 {
     return !( lhs._val == rhs._val );
-}
-
-// oter_t( ter(...) ).name // WARNING
-oter_id::operator oter_t() const
-{
-    return oterlist[_val];
 }
 
 const oter_t &oter_id::obj() const
