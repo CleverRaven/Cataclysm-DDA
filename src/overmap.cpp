@@ -4442,23 +4442,6 @@ size_t oter_id::size() const
     return oterlist[_val].id.size();
 }
 
-// ter(...).find("foo");
-int oter_id::find(const std::string &v, const int start, const int end) const
-{
-    (void)start;
-    (void)end; // TODO?
-    return oterlist[_val].id.find(v);//, start, end);
-}
-// ter(...).compare(0, 3, "foo");
-int oter_id::compare(size_t pos, size_t len, const char *s, size_t n) const
-{
-    if ( n != 0 ) {
-        return oterlist[_val].id.compare(pos, len, s, n);
-    } else {
-        return oterlist[_val].id.compare(pos, len, s);
-    }
-}
-
 // std::string("river_ne");  oter_id van_location(down_by);
 oter_id::oter_id(const std::string &v)
 {

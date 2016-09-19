@@ -1765,7 +1765,7 @@ void mapgen_parking_lot(map *m, oter_id, mapgendata dat, int turn, float)
 
     m->place_items("road", 8, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, false, turn);
     for (int i = 1; i < 4; i++) {
-        if (dat.t_nesw[i].size() > 5 && dat.t_nesw[i].find("road_",0,5) == 0) {
+        if( dat.t_nesw[i].size() > 5 && oterlist[dat.t_nesw[i]._val].id.find( "road_" ) == 0 ) {
             m->rotate(i);
         }
     }
@@ -2660,7 +2660,7 @@ void mapgen_generic_house(map *m, oter_id terrain_type, mapgendata dat, int turn
             } while( attempts > 0 );
         }
     }
-    
+
     if (one_in(100)) { // todo: region data // Houses have a 1 in 100 chance of wasps!
         for (int i = 0; i < SEEX * 2; i++) {
             for (int j = 0; j < SEEY * 2; j++) {

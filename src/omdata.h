@@ -117,8 +117,6 @@ class oter_id
         //  best invoke as actual string; std::string( ter(1, 2, 3) ).substr(...
         const char *c_str() const;
         size_t size() const;
-        int find( const std::string &v, const int start, const int end ) const;
-        int compare( size_t pos, size_t len, const char *s, size_t n = 0 ) const;
 };
 
 
