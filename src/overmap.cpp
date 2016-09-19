@@ -3452,12 +3452,10 @@ void overmap::make_hiway( int x1, int y1, int x2, int y2, int z, const std::stri
     for( const auto &node : pf::find_path<OMAPX, OMAPY>( source, dest, estimate ) ) {
         auto &id = ter( node.x, node.y, z );
 
-        if( road_allowed( id ) ) {
-            if( is_river( id ) ) {
-                id = node.dir == 1 || node.dir == 3 ? bridge_ns : bridge_ew;
-            } else {
-                id = base_nesw;
-            }
+        if( is_river( id ) ) {
+            id = node.dir == 1 || node.dir == 3 ? bridge_ns : bridge_ew;
+        } else {
+            id = base_nesw;
         }
     }
 }

@@ -464,7 +464,7 @@ bool overmapbuffer::reveal( const tripoint &center, int radius )
 
 bool overmapbuffer::reveal_route( const tripoint &source, const tripoint &dest )
 {
-    static const int RADIUS = 2;                // Maximal radius of search (in overmaps)
+    static const int RADIUS = 1;                // Maximal radius of search (in overmaps)
     static const int OX = RADIUS * OMAPX;       // half-width of the area to search in
     static const int OY = RADIUS * OMAPY;       // half-height of the area to search in
 

@@ -66,8 +66,8 @@ std::vector<node> find_path( const tripoint &source,
 
     // use A* to find the shortest path from (x1,y1) to (x2,y2)
     while( !nodes[i].empty() ) {
-        // get the best-looking node
-        const node mn( nodes[i].top() );
+        const node mn( nodes[i].top() ); // get the best-looking node
+
         nodes[i].pop();
         // make sure it's in bounds
         if( mn.x < 0 || mn.x >= MAX_X || mn.y < 0 || mn.y >= MAX_Y ) {
@@ -96,16 +96,18 @@ std::vector<node> find_path( const tripoint &source,
         for( int d = 0; d < 4; d++ ) {
             const int x = mn.x + dx[d];
             const int y = mn.y + dy[d];
-
-            node cn( x, y, d );
-
-            cn.priority = estimator( mn, cn );
             // don't allow:
             // * out of bounds
             // * already traversed tiles
-            // * rejected tiles
-            if( x < 1 || x + 1 >= MAX_X || y < 1 || y + 1 >= MAX_Y || closed[x][y] || cn.priority < 0 ) {
+            if( x < 1 || x + 1 >= MAX_X || y < 1 || y + 1 >= MAX_Y || closed[x][y] ) {
                 continue;
+            }
+
+            node cn( x, y, d );
+            cn.priority = estimator( mn, cn );
+
+            if( cn.priority < 0 ) {
+                continue; // rejected by the estimator
             }
             // record direction to shortest path
             if( open[x][y] == 0 || open[x][y] > cn.priority ) {
