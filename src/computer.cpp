@@ -1396,13 +1396,13 @@ TO WRITE US A LETTER PLEASE SEND IT TO...\n" ) );
     const tripoint your_pos = g->u.global_omt_location();
     const tripoint center_pos = overmap_buffer.find_closest( your_pos, "evac_center_13", 0, false );
 
-    if( overmap_buffer.seen( center_pos.x, center_pos.y, center_pos.z ) ) {
-        query_any( _( "You already know that address..." ) );
+    if( center_pos == overmap::invalid_tripoint ) {
+        query_any( _( "You don't know where the address could be..." ) );
         return;
     }
 
-    if( center_pos == overmap::invalid_tripoint ) {
-        query_any( _( "You don't know where the address could be..." ) );
+    if( overmap_buffer.seen( center_pos.x, center_pos.y, center_pos.z ) ) {
+        query_any( _( "You already know that address..." ) );
         return;
     }
 
