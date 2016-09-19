@@ -206,13 +206,13 @@ const recipe *select_crafting_recipe( int &batch_size )
                     current = recipe_dict.search( filterstring );
                 }
 
+                std::stable_sort( current.begin(), current.end(), []( const recipe * a, const recipe * b ) {
+                    return a->difficulty < b->difficulty;
+                } );
+
                 std::stable_sort( current.begin(), current.end(), [&]( const recipe * a, const recipe * b ) {
                     return a->can_make_with_inventory( crafting_inv, helpers ) &&
                            ! b->can_make_with_inventory( crafting_inv, helpers );
-                } );
-
-                std::stable_sort( current.begin(), current.end(), []( const recipe * a, const recipe * b ) {
-                    return a->difficulty < b->difficulty;
                 } );
 
                 std::transform( current.begin(), current.end(),
