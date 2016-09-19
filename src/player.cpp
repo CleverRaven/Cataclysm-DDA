@@ -4826,13 +4826,12 @@ void player::mod_pain(int npain) {
         if( has_trait( "NOPAIN" ) ) {
             return;
         }
-        if( npain > 1 ) { // if it's 1 it'll just become 0, which is bad
-            if( has_trait( "PAINRESIST" ) ) {
-                npain = npain * 4 / rng( 4,8 );
-            }
-            // Dwarves get better pain-resist, what with mining and all
+        if( npain > 1 ) {
+            // if it's 1 it'll just become 0, which is bad
             if( has_trait( "PAINRESIST_TROGLO" ) ) {
-                npain = npain * 4 / rng( 6,9 );
+                npain = roll_remainder( npain * 0.5f );
+            } else if( has_trait( "PAINRESIST" ) ) {
+                npain = roll_remainder( npain * 0.67f );
             }
         }
     }

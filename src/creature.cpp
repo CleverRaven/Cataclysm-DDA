@@ -724,46 +724,40 @@ void Creature::deal_damage_handle_type(const damage_unit &du, body_part bp, int 
 
     // Apply damage multiplier from skill, critical hits or grazes after all other modifications.
     const int adjusted_damage = du.amount * du.damage_multiplier;
-    switch (du.type) {
-    case DT_BASH:
-        damage += adjusted_damage;
-        // add up pain before using mod_pain since certain traits modify that
-        pain += adjusted_damage / 4;
-        mod_moves(-rng(0, damage * 2)); // bashing damage reduces moves
-        break;
-    case DT_CUT:
-        damage += adjusted_damage;
-        pain += (adjusted_damage + sqrt(double(adjusted_damage))) / 4;
-        break;
-    case DT_STAB: // stab differs from cut in that it ignores some armor
-        damage += adjusted_damage;
-        pain += (adjusted_damage + sqrt(double(adjusted_damage))) / 4;
-        break;
-    case DT_HEAT: // heat damage sets us on fire sometimes
-        damage += adjusted_damage;
-        pain += adjusted_damage / 4;
-        if( rng(0, 100) < adjusted_damage ) {
-            add_effect( effect_onfire, rng(1, 3), bp );
-        }
-        break;
-    case DT_ELECTRIC: // Electrical damage adds a major speed/dex debuff
-        damage += adjusted_damage;
-        pain += adjusted_damage / 4;
-        add_effect( effect_zapped, std::max( adjusted_damage, 2 ) );
-        break;
-    case DT_COLD: // cold damage slows us a bit and hurts less
-        damage += adjusted_damage;
-        pain += adjusted_damage / 6;
-        mod_moves(-adjusted_damage * 80);
-        break;
-    case DT_ACID: // Acid damage and acid burns are super painful
-        damage += adjusted_damage;
-        pain += adjusted_damage / 3;
-        break;
-    default:
-        damage += adjusted_damage;
-        pain += adjusted_damage / 4;
+    if( adjusted_damage <= 0 ) {
+        return;
     }
+
+    float div = 4.0f;
+
+    switch( du.type ) {
+        case DT_BASH:
+            // Bashing damage is less painful
+            div = 5.0f;
+            break;
+        case DT_CUT:
+        case DT_STAB:
+            break;
+        case DT_HEAT:
+            // heat damage sets us on fire sometimes
+            if( rng( 0, 100 ) < adjusted_damage ) {
+                add_effect( effect_onfire, rng( 1, 3 ), bp );
+            }
+            break;
+        case DT_ELECTRIC:
+            // Electrical damage adds a major speed/dex debuff
+            add_effect( effect_zapped, std::max( adjusted_damage, 2 ) );
+            break;
+        case DT_ACID:
+            // Acid damage and acid burns are more painful
+            pain++;
+            break;
+        default:
+            break;
+    }
+
+    damage += adjusted_damage;
+    pain += roll_remainder( adjusted_damage / div );
 }
 
 /*
