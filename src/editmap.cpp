@@ -218,7 +218,6 @@ editmap::editmap()
     hilights["mapgentgt"].color = c_cyan;
     hilights["mapgentgt"].setup();
 
-    oter_special.clear();
     uberdraw = false;
 }
 
