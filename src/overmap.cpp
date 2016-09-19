@@ -4389,7 +4389,7 @@ oter_id::operator int() const
 
 bool operator==( const oter_id &lhs, const char *rhs )
 {
-    return oterlist[lhs._val].id.compare( rhs ) == 0;
+    return oterlist[lhs].id.compare( rhs ) == 0;
 }
 
 bool operator!=( const oter_id &lhs, const char *rhs )
@@ -4400,23 +4400,23 @@ bool operator!=( const oter_id &lhs, const char *rhs )
 bool operator<=( const oter_id &lhs, const char *rhs )
 {
     std::unordered_map<std::string, oter_t>::const_iterator it = otermap.find( rhs );
-    return it == otermap.end() || it->second.loadid <= lhs._val;
+    return it == otermap.end() || it->second.loadid <= int( lhs );
 }
 bool operator>=( const oter_id &lhs, const char *rhs )
 {
     std::unordered_map<std::string, oter_t>::const_iterator it = otermap.find( rhs );
-    return it != otermap.end() && it->second.loadid >= lhs._val;
+    return it != otermap.end() && it->second.loadid >= int( lhs );
 }
 
 bool operator==( const oter_id &lhs, const oter_id &rhs )
 {
-    return lhs._val == rhs._val;
+    return int( lhs ) == int( rhs );
 }
 
 // o_id1 != o_id2
 bool operator!=( const oter_id &lhs, const oter_id &rhs )
 {
-    return !( lhs._val == rhs._val );
+    return !( lhs == rhs );
 }
 
 const oter_t &oter_id::obj() const

@@ -84,8 +84,6 @@ struct oter_t {
 class oter_id
 {
     public:
-        unsigned _val; // just numeric index of oter_t, but typically invoked as string
-
         // Hi, I'm an
         operator int() const;
         // pretending to be a
@@ -98,6 +96,9 @@ class oter_id
         // or as "something" by consulting otermap
         oter_id( const std::string &v );
         oter_id( const char *v );
+
+    private:
+        int _val; // just numeric index of oter_t, but typically invoked as string
 };
 
 /// @todo: Deprecate these operators
