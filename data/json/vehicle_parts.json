@@ -254,11 +254,16 @@
         "item" : "frame_wood_light",
         "difficulty" : 0,
         "location" : "structure",
-        "flags" : ["NAILABLE"],
         "breaks_into" : [
             {"item": "splinter", "count": [3, 5]},
             {"item": "string_36", "count": [10, 15]}
-        ]
+        ],
+        "requirements": {
+          "install": {
+            "time": 60000,
+            "components": [ [ [ "rope_6", 1 ] ] ]
+          }
+        }
     },{
         "type" : "vehicle_part",
         "id" : "aisle_horizontal",
@@ -847,11 +852,17 @@
         "item" : "frame_wood_light",
         "difficulty" : 0,
         "location" : "center",
-        "flags" : ["CARGO", "BOARDABLE", "COVERED", "NAILABLE"],
+        "flags" : ["CARGO", "BOARDABLE", "COVERED"],
         "breaks_into" : [
             {"item": "splinter", "count": [3, 5]},
             {"item": "string_36", "count": [10, 15]}
-        ]
+        ],
+        "requirements": {
+          "install": {
+            "time": 60000,
+            "components": [ [ [ "rope_6", 1 ] ] ]
+          }
+        }
     },{
         "type" : "vehicle_part",
         "id" : "wood box",

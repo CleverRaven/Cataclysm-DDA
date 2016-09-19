@@ -85,7 +85,12 @@
       { "item": "splinter", "count": [ 3, 5 ] },
       { "item": "string_36", "count": [ 10, 15 ] }
     ],
-    "flags": [ "NAILABLE" ]
+    "requirements": {
+      "install": {
+        "time": 60000,
+        "components": [ [ [ "rope_6", 1 ] ] ]
+      }
+    }
   },
   {
     "abstract": "hdframe",
