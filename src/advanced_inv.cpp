@@ -227,8 +227,8 @@ void advanced_inventory::print_items( advanced_inventory_pane &pane, bool active
         const double weight_carried = convert_weight( g->u.weight_carried() );
         const double weight_capacity = convert_weight( g->u.weight_capacity() );
         const char *weight_unit = weight_units();
-        const double volume_carried = round_up( units::to_liter<double>( g->u.volume_carried() ), 1 );
-        const double volume_capacity = round_up( units::to_liter<double>( g->u.volume_capacity() ), 1 );
+        const double volume_carried = round_up( units::to_liter( g->u.volume_carried() ), 1 );
+        const double volume_capacity = round_up( units::to_liter( g->u.volume_capacity() ), 1 );
         const char *volume_unit = _( "L" );
         // align right, so calculate formated head length 
         const std::string head = string_format( "%.1f/%.1f %s  %.1f/%.1f %s",
@@ -254,7 +254,7 @@ void advanced_inventory::print_items( advanced_inventory_pane &pane, bool active
             head = string_format( "%3.1f %s  %.1f %s",
                                   convert_weight( squares[pane.get_area()].weight ),
                                   weight_units(),
-                                  round_up( units::to_liter<double>( squares[pane.get_area()].volume ), 1 ),
+                                  round_up( units::to_liter( squares[pane.get_area()].volume ), 1 ),
                                   _( "L" ) );
         } else {
             units::volume maxvolume = 0;
@@ -269,8 +269,8 @@ void advanced_inventory::print_items( advanced_inventory_pane &pane, bool active
             head = string_format( "%3.1f %s  %.1f/%-.1f %s",
                                   convert_weight( s.weight ),
                                   weight_units(),
-                                  round_up( units::to_liter<double>( s.volume ), 1 ),
-                                  round_up( units::to_liter<double>( maxvolume ), 1 ),
+                                  round_up( units::to_liter( s.volume ), 1 ),
+                                  round_up( units::to_liter( maxvolume ), 1 ),
                                   _( "L" ) );
         }
         mvwprintz( window, 4, columns - 1 - head.length(), norm, "%s", head.c_str() );
@@ -373,7 +373,7 @@ void advanced_inventory::print_items( advanced_inventory_pane &pane, bool active
         mvwprintz( window, 6 + x, weight_startpos, print_color, "%5.*f", w_precision, it_weight );
 
         //print volume column
-        double it_vol = units::to_liter<double>( sitem.volume );
+        double it_vol = units::to_liter( sitem.volume );
         size_t v_precision;
         print_color = ( it_vol > 0 ) ? thiscolor : thiscolordark;
         if( it_vol >= 100 ) {
