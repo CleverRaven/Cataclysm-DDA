@@ -3998,7 +3998,6 @@
         "color": "ltblue",
         "move_cost": 5,
         "flags": ["TRANSPARENT", "LIQUID", "SWIMMABLE", "FISHABLE"],
-        "connects_to": "WATER",
         "examine_action": "water_source"
     },{
         "type" : "terrain",
@@ -4008,7 +4007,6 @@
         "color": "blue",
         "move_cost": 8,
         "flags": ["TRANSPARENT", "LIQUID", "SWIMMABLE", "DEEP_WATER", "FISHABLE"],
-        "connects_to": "WATER",        
         "examine_action": "water_source"
     },{
         "type" : "terrain",
@@ -4018,7 +4016,6 @@
         "color": "ltblue",
         "move_cost": 5,
         "flags": ["TRANSPARENT", "LIQUID", "SWIMMABLE", "SALT_WATER", "FISHABLE"],
-        "connects_to": "WATER",
         "examine_action": "water_source"
     },{
         "type" : "terrain",
@@ -4028,7 +4025,6 @@
         "color": "blue",
         "move_cost": 8,
         "flags": ["TRANSPARENT", "LIQUID", "SWIMMABLE", "SALT_WATER", "DEEP_WATER", "FISHABLE"],
-        "connects_to": "WATER",
         "examine_action": "water_source"
     },{
         "type" : "terrain",
@@ -4591,7 +4587,7 @@
         "symbol": "|",
         "color": "brown",
         "move_cost": 0,
-        "flags": ["TRANSPARENT", "NOITEM", "SHORT", "PERMEABLE"],
+        "flags": ["TRANSPARENT", "NOITEM", "SHORT", "PERMEABLE", "DISMANTLE"],
         "examine_action": "controls_gate",
         "bash": {
             "str_min": 8, "str_max": 40,
@@ -4604,7 +4600,7 @@
                 { "item": "splinter", "count": [2, 4] }
             ]
         },
-        "deconstruct": {
+        "dismantle": {
             "ter_set": "t_dirtfloor",
             "items": [
                 { "item": "rope_30", "count": 1 },
@@ -5448,8 +5444,15 @@
         "color": "brown_green",
         "move_cost": 2,
         "flags": [
-            "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "REDUCE_SCENT", "INDOORS", "MOUNTABLE"
+            "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "REDUCE_SCENT", "INDOORS", "MOUNTABLE", "DISMANTLE"
         ],
+        "dismantle": {
+            "ter_set": "t_pit_shallow",
+            "items": [
+                { "item": "stick", "count": 12 },
+                { "item": "pine_bough", "count": 24 }
+            ]
+        },
         "bash": {
             "str_min": 4, "str_max": 60,
             "sound": "crunch.",
@@ -6058,7 +6061,13 @@
         "symbol": "#",
         "color": "brown",
         "move_cost": 5,
-        "flags": ["TRANSPARENT"],
+        "flags": ["TRANSPARENT", "DISMANTLE"],
+        "dismantle": {
+            "ter_set": "t_water_dp",
+            "items": [
+                { "item": "clay_lump", "count": [6, 12] }
+            ]
+        },
         "bash": {
             "str_min": 2, "str_max": 4, "num_tests": 2,
             "sound": "splosh!",
@@ -6075,7 +6084,13 @@
         "symbol": "#",
         "color": "brown",
         "move_cost": 5,
-        "flags": ["TRANSPARENT"],
+        "flags": ["TRANSPARENT", "DISMANTLE"],
+        "dismantle": {
+            "ter_set": "t_water_dp",
+            "items": [
+                { "item": "material_sand", "charges": [300, 600] }
+            ]
+        },
         "bash": {
             "str_min": 2, "str_max": 4, "num_tests": 2,
             "sound": "splosh!",

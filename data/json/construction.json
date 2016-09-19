@@ -17,6 +17,14 @@
         "post_special" : "done_deconstruct"
     },{
         "type" : "construction",
+        "description" : "Take Down Simple Furniture",
+        "category" : "FURN",
+        "difficulty" : 0,
+        "time" : 10,
+        "pre_special" : "check_dismantle",
+        "post_special" : "done_dismantle"
+    },{
+        "type" : "construction",
         "description" : "Dig Pit", "//": "Step 1: shallow pit",
         "category" : "DIG",
         "difficulty" : 0,

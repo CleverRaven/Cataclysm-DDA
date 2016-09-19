@@ -29,9 +29,9 @@
         "color": "ltblue",
         "move_cost": 2,
         "flags": [
-            "TRANSPARENT", "FLAMMABLE", "THIN_OBSTACLE", "INDOORS", "MOUNTABLE"
+            "TRANSPARENT", "FLAMMABLE", "THIN_OBSTACLE", "INDOORS", "MOUNTABLE", "DISMANTLE"
         ],
-        "deconstruct": {
+        "dismantle": {
             "ter_set": "t_dirt",
             "items": [
                 { "item": "pointy_stick", "count": 4 },
@@ -115,9 +115,9 @@
         "move_cost": 2,
         "trap": "tr_raincatcher",
         "flags": [
-            "TRANSPARENT", "FLAMMABLE", "THIN_OBSTACLE"
+            "TRANSPARENT", "FLAMMABLE", "THIN_OBSTACLE", "DISMANTLE"
         ],
-        "deconstruct": {
+        "dismantle": {
             "ter_set": "t_dirt",
             "items": [
                 { "item": "pointy_stick", "count": 3 },

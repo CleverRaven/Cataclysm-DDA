@@ -15,8 +15,7 @@
         ],
         "pre_terrain" : "t_tree_pine",
         "post_terrain" : "t_leanto"
-    },
-    {
+    },{
         "type" : "construction",
         "skill" : "survival",
         "description" : "Build Tarp Lean-To",
