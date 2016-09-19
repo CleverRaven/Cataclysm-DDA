@@ -3244,7 +3244,8 @@
       [ "salt", 5 ],
       [ "soysauce", 1 ],
       [ "seasoning_salt", 5 ],
-      [ "pepper", 10 ]
+      [ "pepper", 10 ],
+      [ "chem_saltpetre", 2 ]
     ],
     [
       [ "meat", 1 ]
@@ -3276,7 +3277,8 @@
       [ "salt", 5 ],
       [ "soysauce", 1 ],
       [ "seasoning_salt", 5 ],
-      [ "pepper", 10 ]
+      [ "pepper", 10 ],
+      [ "chem_saltpetre", 2 ]
     ],
     [
       [ "fish", 2 ]
@@ -3309,7 +3311,8 @@
       [ "salt", 5 ],
       [ "soysauce", 1 ],
       [ "seasoning_salt", 5 ],
-      [ "pepper", 10 ]
+      [ "pepper", 10 ],
+      [ "chem_saltpetre", 2 ]
     ],
     [
       [ "human_flesh", 1 ]
@@ -8264,7 +8267,8 @@
     [
       [ "salt_water", 1 ],
       [ "saline", 5 ],
-      [ "salt", 10 ]
+      [ "salt", 10 ],
+      [ "chem_saltpetre", 5 ]
     ]
   ]
 },{
@@ -8300,7 +8304,8 @@
     [
       [ "salt_water", 1 ],
       [ "saline", 5 ],
-      [ "salt", 10 ]
+      [ "salt", 10 ],
+      [ "chem_saltpetre", 5 ]
     ]
   ]
 },{
@@ -8337,7 +8342,8 @@
     [
       [ "salt_water", 1 ],
       [ "saline", 5 ],
-      [ "salt", 10 ]
+      [ "salt", 10 ],
+      [ "chem_saltpetre", 5 ]
     ]
   ]
 },{
@@ -8375,7 +8381,8 @@
     [
       [ "salt_water", 1 ],
       [ "saline", 5 ],
-      [ "salt", 10 ]
+      [ "salt", 10 ],
+      [ "chem_saltpetre", 5 ]
     ]
   ]
 },{

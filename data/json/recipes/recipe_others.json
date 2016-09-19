@@ -6482,7 +6482,7 @@
   },{
   "type" : "recipe",
   "result": "chem_sulphur",
-  "byproducts": { "id" : "chem_sulphur", "amount" : 4 },
+  "result_mult": 5,
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_PARTS",
   "skill_used": "fabrication",
