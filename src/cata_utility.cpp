@@ -222,11 +222,6 @@ const char *weight_units()
     return get_option<std::string>( "USE_METRIC_WEIGHTS" ) == "lbs" ? _( "lbs" ) : _( "kg" );
 }
 
-const char *volume_units()
-{
-    return _( "L" );
-}
-
 /**
 * Convert internal velocity units to units defined by user
 */
@@ -263,14 +258,6 @@ double convert_weight( int weight )
         ret /= 453.6;
     }
     return ret;
-}
-
-/**
-* Convert volume in ml to units defined by user (currently hardcoded to L)
-*/
-double convert_volume( int volume )
-{
-    return volume / 1000.0;
 }
 
 double temp_to_celsius( double fahrenheit )
