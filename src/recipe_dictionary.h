@@ -21,14 +21,19 @@ class recipe_dictionary
          */
         const recipe &operator[]( const std::string &id ) const;
 
-        /** Returns all recipes in a given category */
-        const std::set<const recipe *> &in_category( const std::string &cat ) const;
+        /** Get all recipes in given category (optionally restricted to subcategory) */
+        std::vector<const recipe *> in_category(
+            const std::string &cat,
+            const std::string &subcat = std::string() ) const;
 
         /** Returns all recipes which could use component */
         const std::set<const recipe *> &of_component( const itype_id &id ) const;
 
         /** Returns disassembly recipe (or null recipe if no match) */
         static const recipe &get_uncraft( const itype_id &id );
+
+        /** Find recipe by result name (left anchored partial matches are supported) */
+        static std::vector<const recipe *> search( const std::string &txt );
 
         size_t size() const {
             return recipes.size();

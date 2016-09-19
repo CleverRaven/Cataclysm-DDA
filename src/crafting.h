@@ -140,11 +140,7 @@ void remove_ammo( std::list<item> &dis_items, player &p );
 // Returns false if the player answered no to the query.
 bool query_dissamble( const item &dis_item );
 const recipe *select_crafting_recipe( int &batch_size );
-void pick_recipes( const inventory &crafting_inv,
-                   const std::vector<npc *> &helpers,
-                   std::vector<const recipe *> &current,
-                   std::vector<bool> &available, std::string tab,
-                   std::string subtab, std::string filter );
+
 void batch_recipes( const inventory &crafting_inv,
                     const std::vector<npc *> &helpers,
                     std::vector<const recipe *> &current,

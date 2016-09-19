@@ -4,6 +4,7 @@
 #include "generic_factory.h"
 #include "item_factory.h"
 #include "init.h"
+#include "cata_utility.h"
 
 #include <algorithm>
 #include <numeric>
@@ -27,10 +28,33 @@ const recipe &recipe_dictionary::get_uncraft( const itype_id &id )
     return iter != recipe_dict.uncraft.end() ? iter->second : null_recipe;
 }
 
-const std::set<const recipe *> &recipe_dictionary::in_category( const std::string &cat ) const
+std::vector<const recipe *> recipe_dictionary::search( const std::string &txt )
 {
+    std::vector<const recipe *> res;
+    for( const auto &e : recipe_dict.recipes ) {
+        if( lcmatch( item::nname( e.second.result ), txt ) ) {
+            res.push_back( &e.second );
+        }
+    }
+    return res;
+}
+
+std::vector<const recipe *> recipe_dictionary::in_category( const std::string &cat,
+        const std::string &subcat ) const
+{
+    std::vector<const recipe *> res;
     auto iter = category.find( cat );
-    return iter != category.end() ? iter->second : null_match;
+    if( iter != category.end() ) {
+        if( subcat.empty() ) {
+            res.insert( res.begin(), iter->second.begin(), iter->second.end() );
+        } else {
+            std::copy_if( iter->second.begin(), iter->second.end(),
+                          std::back_inserter( res ), [&subcat]( const recipe * e ) {
+                return e->subcategory == subcat;
+            } );
+        }
+    }
+    return res;
 }
 
 const std::set<const recipe *> &recipe_dictionary::of_component( const itype_id &id ) const

@@ -196,9 +196,29 @@ const recipe *select_crafting_recipe( int &batch_size )
             if( batch ) {
                 batch_recipes( crafting_inv, helpers, current, available, chosen );
             } else {
-                // Set current to all recipes in the current tab; available are possible to make
-                pick_recipes( crafting_inv, helpers, current, available,
-                              tab.cur(), subtab.cur(), filterstring );
+
+                available.clear();
+                current.clear();
+
+                if( filterstring.empty() ) {
+                    current = recipe_dict.in_category( tab.cur(), subtab.cur() != "CSC_ALL" ? subtab.cur() : "" );
+                } else {
+                    current = recipe_dict.search( filterstring );
+                }
+
+                std::stable_sort( current.begin(), current.end(), [&]( const recipe * a, const recipe * b ) {
+                    return a->can_make_with_inventory( crafting_inv, helpers ) &&
+                           ! b->can_make_with_inventory( crafting_inv, helpers );
+                } );
+
+                std::stable_sort( current.begin(), current.end(), []( const recipe * a, const recipe * b ) {
+                    return a->difficulty < b->difficulty;
+                } );
+
+                std::transform( current.begin(), current.end(),
+                std::back_inserter( available ), [&]( const recipe * e ) {
+                    return e->can_make_with_inventory( crafting_inv, helpers );
+                } );
             }
         }
 
@@ -667,149 +687,4 @@ bool lcmatch_any( const std::vector< std::vector<T> > &list_of_list, const std::
         }
     }
     return false;
-}
-
-void pick_recipes( const inventory &crafting_inv,
-                   const std::vector<npc *> &helpers,
-                   std::vector<const recipe *> &current,
-                   std::vector<bool> &available, std::string tab,
-                   std::string subtab, std::string filter )
-{
-    bool search_name = true;
-    bool search_tool = false;
-    bool search_component = false;
-    bool search_skill = false;
-    bool search_skill_primary_only = false;
-    bool search_qualities = false;
-    bool search_result_qualities = false;
-    size_t pos = filter.find( ":" );
-    if( pos != std::string::npos ) {
-        search_name = false;
-        std::string searchType = filter.substr( 0, pos );
-        for( auto &elem : searchType ) {
-            if( elem == 'n' ) {
-                search_name = true;
-            } else if( elem == 't' ) {
-                search_tool = true;
-            } else if( elem == 'c' ) {
-                search_component = true;
-            } else if( elem == 's' ) {
-                search_skill = true;
-            } else if( elem == 'S' ) {
-                search_skill_primary_only = true;
-            } else if( elem == 'q' ) {
-                search_qualities = true;
-            } else if( elem == 'Q' ) {
-                search_result_qualities = true;
-            }
-        }
-        filter = filter.substr( pos + 1 );
-    }
-    std::vector<const recipe *> available_recipes;
-
-    if( filter == "" ) {
-        auto opts = recipe_dict.in_category( tab );
-        available_recipes.insert( available_recipes.begin(), opts.begin(), opts.end() );
-
-    } else {
-        // lcmatch needs an all lowercase string to match case-insensitive
-        std::transform( filter.begin(), filter.end(), filter.begin(), tolower );
-
-        std::transform( recipe_dict.begin(), recipe_dict.end(),
-                        std::back_inserter( available_recipes ),
-        []( const std::pair<std::string, recipe> &e ) {
-            return &e.second;
-        } );
-    }
-
-    current.clear();
-    available.clear();
-    std::vector<const recipe *> filtered_list;
-    int max_difficulty = 0;
-
-    for( auto rec : available_recipes ) {
-        const auto &needs = rec->requirements();
-
-        if( subtab == "CSC_ALL" || rec->subcategory == subtab ||
-            ( rec->subcategory == "" && craft_subcat_list[tab].back() == subtab ) ||
-            filter != "" ) {
-            if( ( !g->u.knows_recipe( rec ) && -1 == g->u.has_recipe( rec, crafting_inv, helpers ) )
-                || ( rec->difficulty < 0 ) ) {
-                continue;
-            }
-            if( filter != "" ) {
-                if( ( search_name && !lcmatch( item::nname( rec->result ), filter ) )
-                    || ( search_tool && !lcmatch_any( needs.get_tools(), filter ) )
-                    || ( search_component && !lcmatch_any( needs.get_components(), filter ) ) ) {
-                    continue;
-                }
-                bool match_found = false;
-                if( search_result_qualities ) {
-                    const itype *it = item::find_type( rec->result );
-                    for( auto &quality : it->qualities ) {
-                        if( lcmatch( quality.first.obj().name, filter ) ) {
-                            match_found = true;
-                            break;
-                        }
-                    }
-                    if( !match_found ) {
-                        continue;
-                    }
-                }
-                if( search_qualities ) {
-                    for( auto quality_reqs : needs.get_qualities() ) {
-                        for( auto quality : quality_reqs ) {
-                            if( lcmatch( quality.to_string(), filter ) ) {
-                                match_found = true;
-                                break;
-                            }
-                        }
-                        if( match_found ) {
-                            break;
-                        }
-                    }
-                    if( !match_found ) {
-                        continue;
-                    }
-                }
-                if( search_skill ) {
-                    if( !rec->skill_used ) {
-                        continue;
-                    } else if( !lcmatch( rec->skill_used.obj().name(), filter ) &&
-                               !lcmatch( rec->required_skills_string(), filter ) ) {
-                        continue;
-                    }
-                }
-                if( search_skill_primary_only ) {
-                    if( !rec->skill_used ) {
-                        continue;
-                    } else if( !lcmatch( rec->skill_used.obj().name(), filter ) ) {
-                        continue;
-                    }
-                }
-            }
-
-            filtered_list.push_back( rec );
-
-        }
-        max_difficulty = std::max( max_difficulty, rec->difficulty );
-    }
-
-    int truecount = 0;
-    for( int i = max_difficulty; i != -1; --i ) {
-        for( auto rec : filtered_list ) {
-            if( rec->difficulty == i ) {
-                if( rec->can_make_with_inventory( crafting_inv, helpers ) ) {
-                    current.insert( current.begin(), rec );
-                    available.insert( available.begin(), true );
-                    truecount++;
-                } else {
-                    current.push_back( rec );
-                    available.push_back( false );
-                }
-            }
-        }
-    }
-    // This is so the list of available recipes is also is order of difficulty.
-    std::reverse( current.begin(), current.begin() + truecount );
 }
