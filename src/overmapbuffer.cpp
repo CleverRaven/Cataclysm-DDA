@@ -468,10 +468,6 @@ bool overmapbuffer::reveal_route( const tripoint &source, const tripoint &dest )
     static const int OX = RADIUS * OMAPX;   // half-width of the area to search in
     static const int OY = RADIUS * OMAPY;   // half-height of the area to search in
 
-    if( square_dist( source, dest ) > std::max( OX, OY ) ) {
-        return false;   // Too far away. Attempts are pointless.
-    }
-
     const tripoint start( OX, OY, source.z );   // Local source - center of the local area
     const tripoint base( source - start );      // To convert local coordinates to global ones
     const tripoint finish( dest - base );       // Local destination - relative to source
