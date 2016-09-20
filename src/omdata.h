@@ -4,6 +4,7 @@
 #include "color.h"
 #include "json.h"
 #include "enums.h"
+#include "int_id.h"
 #include "string_id.h"
 #include <string>
 #include <vector>
@@ -46,11 +47,12 @@ enum oter_flags {
 };
 
 struct oter_t;
+using oter_id = int_id<oter_t>;
 using oter_str_id = string_id<oter_t>;
 
 struct oter_t {
         oter_str_id id;      // definitive identifier
-        int loadid;          // position in termap / terlist
+        oter_id loadid;      // position in termap / terlist
         std::string name;
         long sym; // This is a long, so we can support curses linedrawing
         nc_color color;
@@ -63,7 +65,8 @@ struct oter_t {
         id_base; // base identifier; either the same as id, or id without directional variations.
         // (ie, 'house' / 'house_west' )
         int loadid_base; // self || directional_peers[0]? or seperate base_oter_map ?
-        std::vector<int> directional_peers; // fast reliable (?) method of determining whatever_west, etc.
+        std::vector<oter_id>
+        directional_peers; // fast reliable (?) method of determining whatever_west, etc.
         std::string
         id_mapgen;  // *only* for mapgen and almost always == id_base. Unless line_drawing / road.
 
@@ -85,36 +88,12 @@ struct oter_t {
         }
 };
 
-class oter_id
-{
-    public:
-        // Hi, I'm an
-        operator int() const;
-        // pretending to be a
-        const string_id<oter_t> &id() const;
-        const oter_t &obj() const;
-
-        // initialize as raw value
-        oter_id() : _val( 0 ) { };
-        oter_id( int i ) : _val( i ) { };
-        // or as "something" by consulting otermap
-        oter_id( const std::string &v );
-        oter_id( const char *v );
-
-    private:
-        int _val; // just numeric index of oter_t, but typically invoked as string
-};
-
 /// @todo: Deprecate these operators
 bool operator==( const oter_id &lhs, const char *rhs );
 bool operator!=( const oter_id &lhs, const char *rhs );
 bool operator>=( const oter_id &lhs, const char *rhs );
 bool operator<=( const oter_id &lhs, const char *rhs );
 
-bool operator==( const oter_id &lhs, const oter_id &rhs );
-bool operator!=( const oter_id &lhs, const oter_id &rhs );
-
-//typedef std::string oter_id;
 typedef oter_id oter_iid;
 
 // LINE_**** corresponds to the ACS_**** macros in ncurses, and are patterned

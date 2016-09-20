@@ -110,7 +110,7 @@ struct sid_or_sid;
  */
 struct regional_settings {
     std::string id;           //
-    std::string default_oter; // 'field'
+    oter_str_id default_oter; // 'field'
 
     id_or_id<ter_t> default_groundcover; // ie, 'grass_or_dirt'
     std::shared_ptr<sid_or_sid> default_groundcover_str;

@@ -14081,7 +14081,7 @@ void game::nuke( const tripoint &p )
         }
     }
     tmpmap.save();
-    overmap_buffer.ter(x, y, 0) = "crater";
+    overmap_buffer.ter(x, y, 0) = oter_id( "crater" );
     // Kill any npcs on that omap location.
     std::vector<npc *> npcs = overmap_buffer.get_npcs_near_omt(x, y, 0, 0);
     for( auto &npc : npcs ) {

@@ -4970,7 +4970,7 @@ void mapgen_cave(map *m, oter_id, mapgendata dat, int turn, float density)
             draw_map(oter_id("forest"), dat.north(), dat.east(), dat.south(), dat.west(), dat.neast(), dat.seast(), dat.nwest(), dat.swest(),
                      dat.above(), turn, g, density, dat.zlevel);
 */
-            mapgen_forest_general(m, oter_id("forest"), dat, turn, density);
+            mapgen_forest_general(m, oter_str_id("forest").id(), dat, turn, density);
             // Clear the center with some rocks
             square(m, t_rock, SEEX - 6, SEEY - 6, SEEX + 5, SEEY + 5);
             int pathx, pathy;

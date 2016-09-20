@@ -1685,7 +1685,7 @@ int editmap::mapgen_preview( real_coords &tc, uimenu &gmenu )
     oter_id &omt_ref = overmap_buffer.ter( omt_pos.x, omt_pos.y, target.z );
     // Copy to store the original value, to restore it upon canceling
     const oter_id orig_oters = omt_ref;
-    omt_ref = gmenu.ret;
+    omt_ref = oter_id( gmenu.ret );
     tinymap tmpmap;
     // TODO: add a do-not-save-generated-submaps parameter
     // TODO: keep track of generated submaps to delete them properly and to avoid memory leaks
@@ -1721,7 +1721,7 @@ int editmap::mapgen_preview( real_coords &tc, uimenu &gmenu )
     do {
         if( gmenu.selected != lastsel ) {
             lastsel = gmenu.selected;
-            omt_ref = gmenu.selected;
+            omt_ref = oter_id( gmenu.selected );
             cleartmpmap( tmpmap );
             tmpmap.generate( omt_pos.x * 2, omt_pos.y * 2, target.z, calendar::turn );
             showpreview = true;

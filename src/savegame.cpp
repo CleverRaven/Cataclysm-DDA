@@ -431,7 +431,7 @@ void overmap::convert_terrain( const std::unordered_map<tripoint, std::string> &
             const auto y_it = needs_conversion.find( tripoint( pos.x, pos.y + conv.yoffset, pos.z ) );
             if( x_it != needs_conversion.end() && x_it->second == conv.x_id &&
                 y_it != needs_conversion.end() && y_it->second == conv.y_id ) {
-                new_id = conv.new_id;
+                new_id = oter_id( conv.new_id );
                 break;
             }
         }
@@ -480,12 +480,12 @@ void overmap::unserialize( std::istream &fin ) {
                                     needs_conversion.emplace( tripoint( p, j, z-OVERMAP_DEPTH ),
                                                               tmp_ter );
                                 }
-                                tmp_otid = 0;
+                                tmp_otid = oter_id( 0 );
                             } else if( otermap.find( oter_str_id( tmp_ter ) ) != otermap.end() ) {
-                                tmp_otid = tmp_ter;
+                                tmp_otid = oter_id( tmp_ter );
                             } else {
                                 debugmsg("Loaded bad ter! ter %s", tmp_ter.c_str());
-                                tmp_otid = 0;
+                                tmp_otid = oter_id( 0 );
                             }
                         }
                         count--;
