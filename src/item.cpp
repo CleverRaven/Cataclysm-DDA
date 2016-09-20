@@ -914,6 +914,16 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
                                                              mod->tname().c_str() ) );
         }
 
+        // many statistics are dependent upon loaded ammo
+        // if item is unloaded (or is RELOAD_AND_SHOOT) shows approximate stats using default ammo
+        item *aprox = nullptr;
+        item tmp;
+        if( mod->ammo_required() && !mod->ammo_remaining() ) {
+            tmp = *mod;
+            tmp.ammo_set( tmp.ammo_default() );
+            aprox = &tmp;
+        }
+
         islot_gun *gun = mod->type->gun.get();
         const auto curammo = mod->ammo_data();
 
@@ -1017,11 +1027,16 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
             info.emplace_back( "GUN", _( "Sight dispersion: " ), "", eff_disp, true, "", true, true );
         }
 
-        info.emplace_back( "GUN", _( "Handling: " ), "", mod->gun_handling(), true, "", mod->gun_recoil() == 0 );
-
-        if( mod->gun_recoil() ) {
-            info.emplace_back( "GUN", space + _( "Effective recoil: " ), "",
-                               mod->gun_recoil(), true, "", true, true );
+        if( aprox ) {
+            if( aprox->gun_recoil() ) {
+                info.emplace_back( "GUN", space + _( "Approximate recoil: " ), "",
+                                   aprox->gun_recoil(), true, "", true, true );
+            }
+        } else {
+            if( mod->gun_recoil() ) {
+                info.emplace_back( "GUN", space + _( "Effective recoil: " ), "",
+                                   mod->gun_recoil(), true, "", true, true );
+            }
         }
 
         info.emplace_back( "GUN", _( "Reload time: " ),
