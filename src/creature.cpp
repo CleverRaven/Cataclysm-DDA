@@ -735,23 +735,24 @@ void Creature::deal_damage_handle_type(const damage_unit &du, body_part bp, int 
             // Bashing damage is less painful
             div = 5.0f;
             break;
-        case DT_CUT:
-        case DT_STAB:
-            break;
+
         case DT_HEAT:
             // heat damage sets us on fire sometimes
             if( rng( 0, 100 ) < adjusted_damage ) {
                 add_effect( effect_onfire, rng( 1, 3 ), bp );
             }
             break;
+
         case DT_ELECTRIC:
             // Electrical damage adds a major speed/dex debuff
             add_effect( effect_zapped, std::max( adjusted_damage, 2 ) );
             break;
+
         case DT_ACID:
             // Acid damage and acid burns are more painful
             div = 3.0f;
             break;
+
         default:
             break;
     }
