@@ -995,6 +995,9 @@ void activity_handlers::pickaxe_finish(player_activity *act, player *p)
 {
     const tripoint pos( act->placement );
     item *it = &p->i_at(act->position);
+
+    act->type = ACT_NULL; // Invalidate the activity early to prevent a query from mod_pain()
+
     if( g->m.is_bashable(pos) && g->m.has_flag("SUPPORTS_ROOF", pos) &&
         g->m.ter(pos) != t_tree ) {
         // Tunneling through solid rock is hungry, sweaty, tiring, backbreaking work
@@ -1019,7 +1022,7 @@ void activity_handlers::pickaxe_finish(player_activity *act, player *p)
     g->m.destroy( pos, true );
     it->charges = std::max(long(0), it->charges - it->type->charges_to_use());
     if( it->charges == 0 && it->destroyed_at_zero_charges() ) {
-        p->i_rem(act->position);
+        p->i_rem( it );
     }
 }
 
