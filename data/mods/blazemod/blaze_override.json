@@ -695,7 +695,6 @@
     "range": 24,
     "dispersion": 600,
     "sight_dispersion": 150,
-    "recoil": 300,
     "durability": 7,
     "clip_size": 1,
     "reload": 800,
