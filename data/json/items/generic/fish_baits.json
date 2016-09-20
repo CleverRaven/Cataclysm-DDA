@@ -9,6 +9,7 @@
       "symbol" : "=",
       "volume" : 1,
       "weight" : 1,
+      "count" : 20,
       "stack_size" : 50
   },
   {
@@ -18,8 +19,7 @@
       "name" : "fish bait - meat",
       "name_plural" : "fish baits - meat",
       "description" : "A bait made from raw meat, used in traps to lure fish.",
-      "material" : "flesh",
-      "count" : 20
+      "material" : "flesh"
   },
   {
       "type" : "AMMO",
@@ -28,8 +28,7 @@
       "name" : "fish bait - fish",
       "name_plural" : "fish baits - fish",
       "description" : "A bait made from raw fish, used in traps to lure fish.",
-      "material" : "flesh",
-      "count" : 20
+      "material" : "flesh"
   },
   {
       "id" : "fish_bait_veggy",
@@ -38,8 +37,7 @@
       "name" : "fish bait - veggy",
       "name_plural" : "fish baits - veggy",
       "description" : "A bait made from vegetables, used in traps to lure fish.",
-      "material" : "veggy",
-      "count" : 10
+      "material" : "veggy"
   },
   {   "type" : "AMMO",
       "id" : "fish_bait_bread",
@@ -47,7 +45,6 @@
       "name" : "fish bait - bread",
       "name_plural" : "fish baits - bread",
       "description" : "A bait made from breadcrumbs, used in traps to lure fish.",
-      "material" : "wheat",
-      "count" : 20
+      "material" : "wheat"
   }
 ]
