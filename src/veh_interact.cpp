@@ -33,8 +33,6 @@
 #define ISNAN std::isnan
 #endif
 
-static const int DUCT_TAPE_USED = 100;
-
 static inline const char * status_color( bool status )
 {
     static const char *good = "green";
@@ -44,13 +42,8 @@ static inline const char * status_color( bool status )
 
 namespace {
 const std::string repair_hotkeys("r1234567890");
-const quality_id SCREW( "SCREW" );
 const quality_id LIFT( "LIFT" );
 const quality_id JACK( "JACK" );
-const quality_id GLARE( "GLARE" );
-const quality_id HAMMER( "HAMMER" );
-const quality_id WRENCH( "WRENCH" );
-const quality_id SAW_M_FINE( "SAW_M_FINE" );
 const skill_id skill_mechanics( "mechanics" );
 } // namespace
 
@@ -249,37 +242,11 @@ void veh_interact::deallocate_windows()
     erase();
 }
 
-/**
- * itype::charges_per_use of a tool (itype of given id)
- */
-static int charges_per_use( const std::string &id )
-{
-    const itype *pseudo = item::find_type( id );
-    if( !pseudo->tool ) {
-        debugmsg( "item %s is not a tool as expected", id.c_str() );
-        return 0;
-    }
-    return pseudo->tool->charges_per_use;
-}
-
 void veh_interact::cache_tool_availability()
 {
     crafting_inv = g->u.crafting_inventory();
 
-    int charges = charges_per_use( "welder" );
-    int charges_oxy = charges_per_use( "oxy_torch" );
-    int charges_crude = charges_per_use( "welder_crude" );
-    has_wrench = crafting_inv.has_quality( WRENCH );
-    has_goggles = (g->u.has_bionic("bio_sunglasses") || crafting_inv.has_quality( GLARE, 2 ));
-    has_welder = (crafting_inv.has_tools("welder", 1) &&
-                  crafting_inv.has_charges("welder", charges)) ||
-                 (crafting_inv.has_tools("oxy_torch", 1) &&
-                  crafting_inv.has_charges("oxy_torch", charges_oxy)) ||
-                 (crafting_inv.has_tools("welder_crude", 1) &&
-                  crafting_inv.has_charges("welder_crude", charges_crude)) ||
-                 (crafting_inv.has_tools("toolset", 1) &&
-                  crafting_inv.has_charges("toolset", charges_crude));
-    has_duct_tape = crafting_inv.has_charges( "duct_tape", DUCT_TAPE_USED );
+    has_wrench = crafting_inv.has_quality( quality_id( "WRENCH" ) );
 
     has_wheel = crafting_inv.has_components( "wheel", 1 ) ||
                 crafting_inv.has_components( "wheel_wide", 1 ) ||
@@ -2126,27 +2093,16 @@ void complete_vehicle ()
         debugmsg ("Activity ACT_VEHICLE: vehicle not found");
         return;
     }
-    char cmd = (char) g->u.activity.index;
+
     int dx = g->u.activity.values[4];
     int dy = g->u.activity.values[5];
     int vehicle_part = g->u.activity.values[6];
     const vpart_str_id part_id( g->u.activity.str_values[0] );
-    std::vector<tool_comp> tools;
-    int welder_charges = charges_per_use( "welder" );
-    int welder_oxy_charges = charges_per_use( "oxy_torch" );
-    int welder_crude_charges = charges_per_use( "welder_crude" );
-    const inventory &crafting_inv = g->u.crafting_inventory();
-    const bool has_goggles = crafting_inv.has_quality( GLARE, 2 );
-
-    int partnum;
-    bool broken;
-    int replaced_wheel;
-    std::vector<int> parts;
 
     const vpart_info &vpinfo = part_id.obj();
 
     // cmd = Install Repair reFill remOve Siphon Changetire reName relAbel
-    switch (cmd) {
+    switch( (char) g->u.activity.index ) {
 
         case 'i': {
         auto inv = g->u.crafting_inventory();
@@ -2308,7 +2264,7 @@ void complete_vehicle ()
             veh->remove_remote_part(vehicle_part);
         }
 
-        broken = veh->parts[ vehicle_part ].is_broken();
+        bool broken = veh->parts[ vehicle_part ].is_broken();
         if (!broken) {
             g->m.add_item_or_charges( g->u.pos(), veh->parts[vehicle_part].properties_to_item() );
             for( const auto &sk : vpinfo.install_skills ) {
@@ -2338,19 +2294,19 @@ void complete_vehicle ()
     }
 
     case 'c':
-        parts = veh->parts_at_relative( dx, dy );
+        std::vector<int> parts = veh->parts_at_relative( dx, dy );
         if( parts.size() ) {
             item removed_wheel;
-            replaced_wheel = veh->part_with_feature( parts[0], "WHEEL", false );
+            int replaced_wheel = veh->part_with_feature( parts[0], "WHEEL", false );
             if( replaced_wheel == -1 ) {
                 debugmsg( "no wheel to remove when changing wheels." );
                 return;
             }
-            broken = veh->parts[ replaced_wheel ].is_broken();
+            bool broken = veh->parts[ replaced_wheel ].is_broken();
             removed_wheel = veh->parts[replaced_wheel].properties_to_item();
             veh->remove_part( replaced_wheel );
             veh->part_removal_cleanup();
-            partnum = veh->install_part( dx, dy, part_id, consume_vpart_item( part_id ) );
+            int partnum = veh->install_part( dx, dy, part_id, consume_vpart_item( part_id ) );
             if( partnum < 0 ) {
                 debugmsg ("complete_vehicle tire change fails dx=%d dy=%d id=%d", dx, dy, part_id.c_str());
             }

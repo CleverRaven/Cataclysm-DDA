@@ -67,9 +67,6 @@ class veh_interact
 
         vehicle *veh;
         bool has_wrench;
-        bool has_welder;
-        bool has_goggles;
-        bool has_duct_tape;
         bool has_jack;
         bool has_wheel;
         inventory crafting_inv;
