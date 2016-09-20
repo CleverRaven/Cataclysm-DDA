@@ -90,7 +90,8 @@ sub encode(@) {
         } keys %{$data};
 
         # Sort the member fields then recursively encode their data
-        my @sorted = (sort { $fields{$a}->[1] <=> $fields{$b}->[1] } keys %fields);
+        # Where two fields match the same context sort them alphabetically to determine order
+        my @sorted = (sort { $fields{$a}->[1] <=> $fields{$b}->[1] or $a cmp $b } keys %fields);
         my @elems = map { qq("$_": ) . encode($data->{$_}, $fields{$_}->[0]) } @sorted;
         return '{' . assemble($context, @elems) . '}';
     }
