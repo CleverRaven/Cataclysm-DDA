@@ -220,6 +220,7 @@ void vpart_info::load( JsonObject &jo, const std::string &src )
     auto reqs = jo.get_object( "requirements" );
     def.legacy ^= parse_vp_reqs( reqs, def.id.str(), "install", def.install_reqs, def.install_skills, def.install_moves );
     def.legacy ^= parse_vp_reqs( reqs, def.id.str(), "removal", def.removal_reqs, def.removal_skills, def.removal_moves );
+    def.legacy ^= parse_vp_reqs( reqs, def.id.str(), "repair",  def.repair_reqs,  def.repair_skills,  def.repair_moves  );
 
     if( jo.has_member( "symbol" ) ) {
         def.sym = jo.get_string( "symbol" )[ 0 ];
@@ -385,18 +386,22 @@ void vpart_info::check()
 
             part.install_skills.emplace( skill_mechanics, part.difficulty );
             part.removal_skills.emplace( skill_mechanics, std::max( part.difficulty - 2, 2 ) );
+            part.repair_skills.emplace ( skill_mechanics, std::min( part.difficulty + 1, MAX_SKILL ) );
 
             if( part.has_flag( "TOOL_WRENCH" ) || part.has_flag( "WHEEL" ) ) {
                 part.install_reqs = { { requirement_id( "vehicle_bolt" ), 1 } };
                 part.removal_reqs = { { requirement_id( "vehicle_bolt" ), 1 } };
+                part.repair_reqs  = { { requirement_id( "welding_standard" ), 5 } };
 
             } else if( part.has_flag( "TOOL_SCREWDRIVER" ) ) {
                 part.install_reqs = { { requirement_id( "vehicle_screw" ), 1 } };
                 part.removal_reqs = { { requirement_id( "vehicle_screw" ), 1 } };
+                part.repair_reqs  = { { requirement_id( "adhesive" ), 1 } };
 
             } else if( part.has_flag( "NAILABLE" ) ) {
                 part.install_reqs = { { requirement_id( "vehicle_nail_install" ), 1 } };
                 part.removal_reqs = { { requirement_id( "vehicle_nail_removal" ), 1 } };
+                part.repair_reqs  = { { requirement_id( "adhesive" ), 2 } };
 
             } else if( part.has_flag( "TOOL_NONE" ) ) {
                 // no-op
@@ -404,6 +409,7 @@ void vpart_info::check()
             } else {
                 part.install_reqs = { { requirement_id( "welding_standard" ), 5 } };
                 part.removal_reqs = { { requirement_id( "vehicle_weld_removal" ), 1 } };
+                part.repair_reqs  = { { requirement_id( "welding_standard" ), 5 } };
             }
         }
 
@@ -432,6 +438,12 @@ void vpart_info::check()
             }
         }
 
+        for( auto &e : part.repair_skills ) {
+            if( !e.first.is_valid() ) {
+                debugmsg( "vehicle part %s has unknown repair skill %s", part.id.c_str(), e.first.c_str() );
+            }
+        }
+
         for( const auto &e : part.install_reqs ) {
             if( !e.first.is_valid() || e.second <= 0 ) {
                 debugmsg( "vehicle part %s has unknown or incorrectly specified install requirements %s",
@@ -442,6 +454,13 @@ void vpart_info::check()
         for( const auto &e : part.install_reqs ) {
             if( !( e.first.is_null() || e.first.is_valid() ) || e.second < 0 ) {
                 debugmsg( "vehicle part %s has unknown or incorrectly specified removal requirements %s",
+                          part.id.c_str(), e.first.c_str() );
+            }
+        }
+
+        for( const auto &e : part.repair_reqs ) {
+            if( !( e.first.is_null() || e.first.is_valid() ) || e.second < 0 ) {
+                debugmsg( "vehicle part %s has unknown or incorrectly specified repair requirements %s",
                           part.id.c_str(), e.first.c_str() );
             }
         }
@@ -532,6 +551,14 @@ requirement_data vpart_info::removal_requirements() const
     } );
 }
 
+requirement_data vpart_info::repair_requirements() const
+{
+    return std::accumulate( repair_reqs.begin(), repair_reqs.end(), requirement_data(),
+        []( const requirement_data &lhs, const std::pair<requirement_id, int> &rhs ) {
+        return lhs + ( *rhs.first * rhs.second );
+    } );
+}
+
 int vpart_info::install_time( const Character &ch ) const {
     ///\EFFECT_MECHANICS reduces time consumed installing vehicle parts
     int lvl = std::min( ch.get_skill_level( skill_mechanics ).level(), MAX_SKILL );
@@ -542,6 +569,12 @@ int vpart_info::removal_time( const Character &ch ) const {
     ///\EFFECT_MECHANICS reduces time consumed removing vehicle parts
     int lvl = std::min( ch.get_skill_level( skill_mechanics ).level(), MAX_SKILL );
     return removal_moves * ( 1.0 - ( lvl / 2.0 ) / MAX_SKILL );
+}
+
+int vpart_info::repair_time( const Character &ch ) const {
+    ///\EFFECT_MECHANICS reduces time consumed repairing vehicle parts
+    int lvl = std::min( ch.get_skill_level( skill_mechanics ).level(), MAX_SKILL );
+    return repair_moves * ( 1.0 - ( lvl / 2.0 ) / MAX_SKILL );
 }
 
 template<>

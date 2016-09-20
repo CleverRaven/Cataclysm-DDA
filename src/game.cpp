@@ -7534,34 +7534,25 @@ void game::exam_vehicle( vehicle &veh, int cx, int cy )
     }
 
     if (vehint.sel_cmd != ' '&& vehint.sel_vpart_info != nullptr ) {
-        int time = 200;
-        int skill = u.get_skill_level( skill_id( "mechanics" ) );
-        int diff = vehint.sel_vpart_info->difficulty + 3;
-        int setup = (calendar::turn == veh.last_repair_turn ? 0 : 1);
-        ///\EFFECT_MECHANICS reduces time spent examining vehicle
-        int setuptime = std::max(setup * 3000, setup * 6000 - skill * 400);
-        int dmg = 1000;
-        if (vehint.sel_cmd == 'r') {
-            dmg = 1000 - vehint.part()->hp() * 1000 / vehint.sel_vpart_info->durability;
-        }
-        int mintime = 300 + diff * dmg;
         // sel_cmd = Install Repair reFill remOve Siphon Drainwater Changetire reName
         // Note that even if letters are remapped in keybindings sel_cmd will still use the above.
         // Stored in activity.index and used in the complete_vehicle() callback to finish task.
-        switch (vehint.sel_cmd) {
-        case 'i':
-            time = vehint.sel_vpart_info->install_time( u );
-            break;
-        case 'r':
-            time = setuptime + std::max(mintime, (8 * diff - skill * 4) * dmg);
-            break;
-        case 'o':
-            time = vehint.sel_vpart_info->removal_time( u );
-            break;
-        case 'c':
-            time = vehint.sel_vpart_info->removal_time( u ) +
-                   vehint.sel_vpart_info->install_time( u );
-            break;
+        int time = 1000;
+        switch( vehint.sel_cmd ) {
+            case 'i':
+                time = vehint.sel_vpart_info->install_time( u );
+                break;
+            case 'r':
+                time = vehint.part()->is_broken() ? vehint.sel_vpart_info->install_time( u ) :
+                           vehint.sel_vpart_info->repair_time( u );
+                break;
+            case 'o':
+                time = vehint.sel_vpart_info->removal_time( u );
+                break;
+            case 'c':
+                time = vehint.sel_vpart_info->removal_time( u ) +
+                       vehint.sel_vpart_info->install_time( u );
+                break;
         }
         u.assign_activity( ACT_VEHICLE, time, (int)vehint.sel_cmd );
 

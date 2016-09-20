@@ -1121,7 +1121,6 @@ public:
     int smx, smy, smz;
 
     float alternator_load;
-    calendar last_repair_turn = -1; // Turn it was last repaired, used to make consecutive repairs faster.
 
     // Points occupied by the vehicle
     std::set<tripoint> occupied_points;

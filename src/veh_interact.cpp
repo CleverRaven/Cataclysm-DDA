@@ -336,7 +336,7 @@ task_reason veh_interact::cant_do (char mode)
     case 'r': // repair mode
         enough_morale = g->u.has_morale_to_craft();
         valid_target = !need_repair.empty() && cpart >= 0;
-        has_tools = (has_welder && has_goggles) || has_duct_tape;
+        has_tools = true; // checked later
         break;
     case 'm': // mend mode
         enough_morale = g->u.has_morale_to_craft();
@@ -783,14 +783,6 @@ void veh_interact::do_repair()
             wrefresh (w_msg);
         }
         return;
-    case LACK_TOOLS:
-        fold_and_print(w_msg, 0, 1, msg_width - 2, c_ltgray,
-                       _("You need a <color_%1$s>powered welder</color> (and <color_%2$s>welding goggles</color>) or <color_%3$s>duct tape</color> to repair."),
-                       has_welder ? "ltgreen" : "red",
-                       has_goggles ? "ltgreen" : "red",
-                       has_duct_tape ? "ltgreen" : "red");
-        wrefresh (w_msg);
-        return;
     case MOVING_VEHICLE:
         fold_and_print( w_msg, 0, 1, msg_width - 2, c_ltgray,
                         _( "You can't repair stuff while driving." ) );
@@ -803,36 +795,33 @@ void veh_interact::do_repair()
     wrefresh (w_mode);
     int pos = 0;
     while (true) {
-        sel_vehicle_part = &veh->parts[parts_here[need_repair[pos]]];
-        sel_vpart_info = &sel_vehicle_part->info();
+        auto &pt = veh->parts[parts_here[need_repair[pos]]];
+        auto &vp = pt.info();
+
+        std::ostringstream msg;
+
+        bool ok;
+        if( pt.is_broken() ) {
+            ok = format_reqs( msg, vp.install_requirements(), vp.install_skills, vp.install_time( g->u ) );
+        } else {
+            ok = format_reqs( msg, vp.repair_requirements(), vp.repair_skills, vp.repair_time( g->u ) );
+        }
+
+        werase (w_msg);
+        fold_and_print( w_msg, 0, 1, getmaxx( w_msg ) - 2, c_ltgray, msg.str() );
+        wrefresh (w_msg);
+
         werase (w_parts);
         veh->print_part_desc(w_parts, 0, getmaxy( w_parts ) - 1, getmaxx( w_parts ), cpart, need_repair[pos]);
         wrefresh (w_parts);
-        werase (w_msg);
-        bool has_comps = true;
-        int dif = sel_vpart_info->difficulty + ((sel_vehicle_part->is_broken()) ? 0 : 2);
-        ///\EFFECT_MECHANICS determines which vehicle parts can be replaced
-        bool has_skill = g->u.get_skill_level( skill_mechanics ) >= dif;
-        fold_and_print(w_msg, 0, 1, msg_width - 2, c_ltgray,
-                       _("You need level <color_%1$s>%2$d</color> skill in mechanics."),
-                       has_skill ? "ltgreen" : "red",
-                       dif);
-        if( sel_vehicle_part->is_broken() ) {
-            itype_id itm = sel_vpart_info->item;
-            has_comps = crafting_inv.has_components(itm, 1);
-            fold_and_print(w_msg, 1, 1, msg_width - 2, c_ltgray,
-                           _("You also need a <color_%1$s>wrench</color> and <color_%2$s>%3$s</color> to replace broken one."),
-                           has_wrench ? "ltgreen" : "red",
-                           has_comps ? "ltgreen" : "red",
-                           item::nname( itm ).c_str());
-        }
-        wrefresh (w_msg);
+
         const std::string action = main_context.handle_input();
-        if ((action == "REPAIR" || action == "CONFIRM") &&
-            has_comps &&
-            (!sel_vehicle_part->is_broken() || has_wrench) && has_skill) {
+        if( ( action == "REPAIR" || action == "CONFIRM" ) && ok ) {
+            sel_vehicle_part = &pt;
+            sel_vpart_info = &vp;
             sel_cmd = 'r';
             return;
+
         } else if (action == "QUIT") {
             werase (w_parts);
             veh->print_part_desc (w_parts, 0, getmaxy( w_parts ) - 1, getmaxx( w_parts ), cpart, -1);
@@ -840,6 +829,7 @@ void veh_interact::do_repair()
             werase (w_msg);
             wrefresh(w_msg);
             break;
+
         } else {
             move_in_list(pos, action, need_repair.size());
         }
@@ -2239,42 +2229,46 @@ void complete_vehicle ()
     }
 
     case 'r': {
-        veh->last_repair_turn = calendar::turn;
-        double dmg = 1.0;
-
-        std::string name = veh->parts[ vehicle_part ].name();
-
         auto &pt = veh->parts[ vehicle_part ];
+        auto &vp = pt.info();
+
+        const auto reqs = pt.is_broken() ? vp.install_requirements() : vp.repair_requirements();
+
+        if( !reqs.can_make_with_inventory( g->u.crafting_inventory() ) ) {
+           add_msg( m_info, _( "You don't meet the requirements to repair the %s." ), pt.name().c_str() );
+           break;
+        }
+
+        // consume items extracting any base item (which we will need if replacing broken part)
+        item base( vp.item );
+        for( const auto& e : reqs.get_components() ) {
+            for( auto& obj : g->u.consume_items( e ) ) {
+                if( obj.typeId() == vpinfo.item ) {
+                    base = obj;
+                }
+            }
+        }
+
+        for( const auto& e : reqs.get_tools() ) {
+            g->u.consume_tools( e );
+        }
+
+        g->u.invalidate_crafting_inventory();
+
+        for( const auto &sk : pt.is_broken() ? vp.install_skills : vp.repair_skills ) {
+            g->u.practice( sk.first, calc_xp_gain( vp, sk.first ) );
+        }
 
         if( pt.is_broken() ) {
-            // replacing a broken part
             veh->break_part_into_pieces( vehicle_part, g->u.posx(), g->u.posy() );
             veh->remove_part( vehicle_part );
-            veh->install_part( dx, dy, part_id, consume_vpart_item( part_id ) );
-
-            for( const auto &sk : vpinfo.install_skills ) {
-                g->u.practice( sk.first, calc_xp_gain( vpinfo, sk.first ) );
-            }
+            veh->install_part( dx, dy, part_id, std::move( base ) );
 
         } else {
-            // repairing a damaged part
-            dmg = 1.1 - double( pt.hp() ) / pt.info().durability;
             veh->set_hp( pt, pt.info().durability );
-
-            // @todo implement repair_skills and repair_requirements
-            g->u.practice( skill_mechanics, ( ( veh->part_info( vehicle_part ).difficulty + 2 ) * 5 + 20 ) * dmg );
         }
 
-        if( has_goggles ) {
-            tools.emplace_back( "welder", welder_charges * dmg );
-            tools.emplace_back( "oxy_torch", welder_oxy_charges * dmg );
-            tools.emplace_back( "welder_crude", welder_crude_charges * dmg );
-            tools.emplace_back( "toolset", welder_crude_charges * dmg );
-        }
-        tools.emplace_back( "duct_tape", DUCT_TAPE_USED * dmg );
-
-        g->u.consume_tools( tools, 1, repair_hotkeys );
-        add_msg( m_good, _( "You repair the %1$s's %2$s." ), veh->name.c_str(), name.c_str() );
+        add_msg( m_good, _( "You repair the %1$s's %2$s." ), veh->name.c_str(), pt.name().c_str() );
         break;
     }
 
