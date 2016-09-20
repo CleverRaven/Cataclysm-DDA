@@ -214,7 +214,6 @@
     "to_hit": -1,
     "dispersion": 150,
     "sight_dispersion": 150,
-    "recoil": 0,
     "durability": 8,
     "burst": 30,
     "clip_size": 90,

@@ -177,7 +177,6 @@
     "damage": 2,
     "pierce": 0,
     "dispersion": 14,
-    "recoil": 0,
     "effects": [ "NEVER_MISFIRES" ]
   },
   {
