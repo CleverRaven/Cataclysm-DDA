@@ -139,6 +139,44 @@ int_id<vpart_info>::int_id( const string_id<vpart_info> &id )
 {
 }
 
+static bool parse_vp_reqs( JsonObject &obj, const std::string &id, const std::string &key,
+                           std::vector<std::pair<requirement_id, int>> &reqs,
+                           std::map<skill_id, int> &skills, int &moves ) {
+
+    if( !obj.has_object( key ) ) {
+        return false;
+    }
+    auto src = obj.get_object( key );
+
+    auto sk = src.get_array( "skills" );
+    if( !sk.empty() ) {
+        skills.clear();
+    }
+    while( sk.has_more() ) {
+        auto cur = sk.next_array();
+        skills.emplace( skill_id( cur.get_string( 0 ) ) , cur.size() >= 2 ? cur.get_int( 1 ) : 1 );
+    }
+
+    assign( src, "time", moves );
+
+    if( src.has_string( "using" ) ) {
+        reqs = { { requirement_id( src.get_string( "using" ) ), 1 } };
+
+    } else if( src.has_array( "using" ) ) {
+        auto arr = src.get_array( "using" );
+        while( arr.has_more() ) {
+            auto cur = arr.next_array();
+            reqs.emplace_back( requirement_id( cur.get_string( 0 ) ), cur.get_int( 1 ) );
+        }
+
+    } else {
+        auto req_id = string_format( "inline_%s_%s", key.c_str(), id.c_str() );
+        requirement_data::load_requirement( src, req_id );
+        reqs = { { requirement_id( req_id ), 1 } };
+    }
+
+    return true;
+};
 
 /**
  * Reads in a vehicle part from a JsonObject.
@@ -180,70 +218,8 @@ void vpart_info::load( JsonObject &jo, const std::string &src )
     assign( jo, "flags", def.flags );
 
     auto reqs = jo.get_object( "requirements" );
-    if( reqs.has_object( "install" ) ) {
-        auto ins = reqs.get_object( "install" );
-
-        auto sk = ins.get_array( "skills" );
-        if( !sk.empty() ) {
-            def.install_skills.clear();
-        }
-        while( sk.has_more() ) {
-            auto cur = sk.next_array();
-            def.install_skills.emplace( skill_id( cur.get_string( 0 ) ) , cur.size() >= 2 ? cur.get_int( 1 ) : 1 );
-        }
-
-        assign( ins, "time", def.install_moves );
-
-        if( ins.has_string( "using" ) ) {
-            def.install_reqs = { { requirement_id( ins.get_string( "using" ) ), 1 } };
-
-        } else if( ins.has_array( "using" ) ) {
-            auto arr = ins.get_array( "using" );
-            while( arr.has_more() ) {
-                auto cur = arr.next_array();
-                def.install_reqs.emplace_back( requirement_id( cur.get_string( 0 ) ), cur.get_int( 1 ) );
-            }
-
-        } else {
-            auto req_id = std::string( "inline_vehins_" ) += def.id.str();
-            requirement_data::load_requirement( ins, req_id );
-            def.install_reqs = { { requirement_id( req_id ), 1 } };
-        }
-
-        def.legacy = false;
-    }
-    if( reqs.has_object( "removal" ) ) {
-        auto rem = reqs.get_object( "removal" );
-
-        auto sk = rem.get_array( "skills" );
-        if( !sk.empty() ) {
-            def.removal_skills.clear();
-        }
-        while( sk.has_more() ) {
-            auto cur = sk.next_array();
-            def.removal_skills.emplace( skill_id( cur.get_string( 0 ) ) , cur.size() >= 2 ? cur.get_int( 1 ) : 1 );
-        }
-
-        assign( rem, "time", def.removal_moves );
-
-        if( rem.has_string( "using" ) ) {
-            def.removal_reqs = { { requirement_id( rem.get_string( "using" ) ), 1 } };
-
-        } else if( rem.has_array( "using" ) ) {
-            auto arr = rem.get_array( "using" );
-            while( arr.has_more() ) {
-                auto cur = arr.next_array();
-                def.removal_reqs.emplace_back( requirement_id( cur.get_string( 0 ) ), cur.get_int( 1 ) );
-            }
-
-        } else {
-            auto req_id = std::string( "inline_vehrem_" ) += def.id.str();
-            requirement_data::load_requirement( rem, req_id );
-            def.removal_reqs = { { requirement_id( req_id ), 1 } };
-        }
-
-        def.legacy = false;
-    }
+    def.legacy ^= parse_vp_reqs( reqs, def.id.str(), "install", def.install_reqs, def.install_skills, def.install_moves );
+    def.legacy ^= parse_vp_reqs( reqs, def.id.str(), "removal", def.removal_reqs, def.removal_skills, def.removal_moves );
 
     if( jo.has_member( "symbol" ) ) {
         def.sym = jo.get_string( "symbol" )[ 0 ];
