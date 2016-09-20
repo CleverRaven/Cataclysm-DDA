@@ -90,7 +90,8 @@ sub encode(@) {
         } keys %{$data};
 
         # Sort the member fields then recursively encode their data
-        my @sorted = (sort { $fields{$a}->[1] <=> $fields{$b}->[1] } keys %fields);
+        # Where two fields match the same context sort them alphabetically to determine order
+        my @sorted = (sort { $fields{$a}->[1] <=> $fields{$b}->[1] or $a cmp $b } keys %fields);
         my @elems = map { qq("$_": ) . encode($data->{$_}, $fields{$_}->[0]) } @sorted;
         return '{' . assemble($context, @elems) . '}';
     }
@@ -123,4 +124,14 @@ if ($dirty) {
 }
 
 print $result unless $opts{'q'};
-exit($opts{'c'} ? (($original // '') eq ($result // '') ? 0 : 1) : 0)
+exit 0 unless $opts{'c'};
+
+# If checking for canonical formatting get offset of first mismatch (if any)
+exit 0 if ($original // '') eq ($result // '');
+
+($original ^ $result) =~ /^\0*/;
+my $line = scalar split '\n', substr($result,0,$+[0]);
+print STDERR "ERROR: Format error at line $line\n";
+print STDERR "< " . (split '\n', $result  )[$line-1] . "'\n";
+print STDERR "> " . (split '\n', $original)[$line-1] . "'\n";
+exit 1;

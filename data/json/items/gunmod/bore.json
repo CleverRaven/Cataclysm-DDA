@@ -14,11 +14,11 @@
     "location": "bore",
     "mod_targets": [ "pistol", "smg", "rifle" ],
     "acceptable_ammo": [ "9mm", "38", "40", "57", "46", "762", "223" ],
-    "min_skills" : [ [ "weapon", 3 ], [ "mechanics", 2 ] ],
-    "install_time" : 60000,
+    "install_time": 60000,
     "dispersion_modifier": 15,
     "ammo_modifier": "22",
-    "flags" : [ "INSTALL_DIFFICULT", "IRREMOVABLE" ]
+    "min_skills": [ [ "weapon", 3 ], [ "mechanics", 2 ] ],
+    "flags": [ "INSTALL_DIFFICULT", "IRREMOVABLE" ]
   },
   {
     "id": "retool_223",
@@ -35,11 +35,11 @@
     "location": "bore",
     "mod_targets": [ "rifle", "shotgun" ],
     "acceptable_ammo": [ "762", "308", "shot" ],
-    "min_skills" : [ [ "weapon", 3 ], [ "mechanics", 2 ] ],
-    "install_time" : 60000,
+    "install_time": 60000,
     "dispersion_modifier": 30,
     "ammo_modifier": "223",
-    "flags" : [ "INSTALL_DIFFICULT", "IRREMOVABLE" ]
+    "min_skills": [ [ "weapon", 3 ], [ "mechanics", 2 ] ],
+    "flags": [ "INSTALL_DIFFICULT", "IRREMOVABLE" ]
   },
   {
     "id": "retool_308",
@@ -56,11 +56,11 @@
     "location": "bore",
     "mod_targets": [ "rifle", "shotgun" ],
     "acceptable_ammo": [ "762", "223", "shot" ],
-    "min_skills" : [ [ "weapon", 3 ], [ "mechanics", 2 ] ],
-    "install_time" : 60000,
+    "install_time": 60000,
     "dispersion_modifier": 30,
     "ammo_modifier": "308",
-    "flags" : [ "INSTALL_DIFFICULT", "IRREMOVABLE" ]
+    "min_skills": [ [ "weapon", 3 ], [ "mechanics", 2 ] ],
+    "flags": [ "INSTALL_DIFFICULT", "IRREMOVABLE" ]
   },
   {
     "id": "retool_45",
@@ -77,11 +77,11 @@
     "location": "bore",
     "mod_targets": [ "pistol", "smg", "rifle" ],
     "acceptable_ammo": [ "9mm", "38", "40", "44" ],
-    "min_skills" : [ [ "weapon", 3 ], [ "mechanics", 2 ] ],
-    "install_time" : 60000,
+    "install_time": 60000,
     "dispersion_modifier": 30,
     "ammo_modifier": "45",
-    "flags" : [ "INSTALL_DIFFICULT", "IRREMOVABLE" ]
+    "min_skills": [ [ "weapon", 3 ], [ "mechanics", 2 ] ],
+    "flags": [ "INSTALL_DIFFICULT", "IRREMOVABLE" ]
   },
   {
     "id": "retool_46",
@@ -98,11 +98,11 @@
     "location": "bore",
     "mod_targets": [ "pistol", "smg", "rifle" ],
     "acceptable_ammo": [ "22", "9mm", "38" ],
-    "min_skills" : [ [ "weapon", 3 ], [ "mechanics", 2 ] ],
-    "install_time" : 60000,
+    "install_time": 60000,
     "dispersion_modifier": 15,
     "ammo_modifier": "46",
-    "flags" : [ "INSTALL_DIFFICULT", "IRREMOVABLE" ]
+    "min_skills": [ [ "weapon", 3 ], [ "mechanics", 2 ] ],
+    "flags": [ "INSTALL_DIFFICULT", "IRREMOVABLE" ]
   },
   {
     "id": "retool_57",
@@ -119,11 +119,11 @@
     "location": "bore",
     "mod_targets": [ "pistol", "smg", "rifle" ],
     "acceptable_ammo": [ "22", "9mm", "38" ],
-    "min_skills" : [ [ "weapon", 3 ], [ "mechanics", 2 ] ],
-    "install_time" : 60000,
+    "install_time": 60000,
     "dispersion_modifier": 15,
     "ammo_modifier": "57",
-    "flags" : [ "INSTALL_DIFFICULT", "IRREMOVABLE" ]
+    "min_skills": [ [ "weapon", 3 ], [ "mechanics", 2 ] ],
+    "flags": [ "INSTALL_DIFFICULT", "IRREMOVABLE" ]
   },
   {
     "id": "retool_9mm",
@@ -140,10 +140,10 @@
     "location": "bore",
     "mod_targets": [ "pistol", "smg" ],
     "acceptable_ammo": [ "38", "40", "44", "45" ],
-    "min_skills" : [ [ "weapon", 3 ], [ "mechanics", 2 ] ],
-    "install_time" : 60000,
+    "install_time": 60000,
     "dispersion_modifier": 15,
     "ammo_modifier": "9mm",
-    "flags" : [ "INSTALL_DIFFICULT", "IRREMOVABLE" ]
+    "min_skills": [ [ "weapon", 3 ], [ "mechanics", 2 ] ],
+    "flags": [ "INSTALL_DIFFICULT", "IRREMOVABLE" ]
   }
 ]

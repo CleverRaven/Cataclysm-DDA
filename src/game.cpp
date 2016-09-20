@@ -243,7 +243,8 @@ game::game() :
     gamemode(),
     user_action_counter(0),
     lookHeight(13),
-    tileset_zoom(16)
+    tileset_zoom(16),
+    weather_override( WEATHER_NULL )
 {
     world_generator.reset( new worldfactory() );
     // do nothing, everything that was in here is moved to init_data() which is called immediately after g = new game; in main.cpp
@@ -879,6 +880,10 @@ bool game::start_game(std::string worldname)
     if(scen->has_flag("HELI_CRASH")) {
         start_loc.handle_heli_crash( u );
     }
+
+    // Now that we're done handling coordinates, ensure the player's submap is in the center of the map
+    update_map( u );
+
     //~ %s is player name
     u.add_memorial_log(pgettext("memorial_male", "%s began their journey into the Cataclysm."),
                        pgettext("memorial_female", "%s began their journey into the Cataclysm."),
@@ -3564,7 +3569,7 @@ void game::load(std::string worldname, std::string name)
     load_uistate(worldname);
 
     load_mission_npcs(); // Pull mission_npcs back out of the overmap before update_map
-    update_map(&u);
+    update_map( u );
 
     // legacy, needs to be here as we access the map.
     if( u.getID() == 0 || u.getID() == -1 ) {
@@ -3921,7 +3926,7 @@ void game::debug()
             }
 
             u.setpos( pt );
-            update_map( &u );
+            update_map( u );
             pt = u.pos();
             add_msg( _( "You teleport to point (%d,%d,%d)" ), pt.x, pt.y, pt.z );
 
@@ -4383,7 +4388,7 @@ void game::debug()
                         if( newpos != tripoint_min ) {
                             p.setpos( newpos );
                             if( p.is_player() ) {
-                                update_map( &u );
+                                update_map( u );
                             }
                         }
                     }
@@ -7095,7 +7100,7 @@ bool game::swap_critters( Creature &a, Creature &b )
     }
 
     if( first.is_player() ) {
-        update_map( u_or_npc );
+        update_map( *u_or_npc );
     }
 
     return true;
@@ -12286,7 +12291,7 @@ void game::place_player( const tripoint &dest_loc )
     }
 
     u.setpos( dest_loc );
-    update_map( &u );
+    update_map( u );
     // Important: don't use dest_loc after this line. `update_map` may have shifted the map
     // and dest_loc was not adjusted and therefor is still in the un-shifted system and probably wrong.
 
@@ -12847,7 +12852,7 @@ void game::plswim( const tripoint &p )
         m.unboard_vehicle( u.pos() );
     }
     u.setpos( p );
-    update_map( &u );
+    update_map( u );
     {
         int part;
         const auto veh = m.veh_at( u.pos(), part );
@@ -13501,10 +13506,10 @@ void game::vertical_notes( int z_before, int z_after )
     }
 }
 
-void game::update_map( player *p )
+void game::update_map( player &p )
 {
-    int x = p->posx();
-    int y = p->posy();
+    int x = p.posx();
+    int y = p.posy();
     update_map( x, y );
 }
 
@@ -14053,7 +14058,7 @@ void game::teleport(player *p, bool add_teleglow)
         }
     }
     if( is_u ) {
-        update_map( p );
+        update_map( *p );
     }
 }
 

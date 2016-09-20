@@ -8,14 +8,13 @@
     "volume": 2,
     "integral_volume": 0,
     "price": 38000,
-    "bashing": 6,
     "to_hit": 1,
+    "bashing": 6,
     "material": [ "plastic", "steel" ],
     "symbol": ":",
     "color": "dark_gray",
     "location": "stock",
     "mod_targets": [ "smg", "rifle", "shotgun", "crossbow", "launcher" ],
-    "min_skills": [ [ "weapon", 2 ] ],
     "dispersion_modifier": -30,
     "handling_modifier": 2
   },
@@ -49,8 +48,8 @@
     "color": "dark_gray",
     "location": "stock",
     "mod_targets": [ "pistol", "crossbow" ],
-    "min_skills": [ [ "weapon", 2 ] ],
-    "handling_modifier": 8
+    "handling_modifier": 8,
+    "min_skills": [ [ "weapon", 2 ] ]
   },
   {
     "id": "recoil_stock",
@@ -61,14 +60,14 @@
     "volume": 2,
     "integral_volume": 0,
     "price": 400,
-    "bashing": 6,
     "to_hit": 1,
+    "bashing": 6,
     "material": [ "plastic", "steel" ],
     "symbol": ":",
     "color": "dark_gray",
     "location": "stock",
     "mod_targets": [ "smg", "rifle", "shotgun", "launcher" ],
-    "min_skills": [ [ "weapon", 2 ] ],
-    "handling_modifier": 8
+    "handling_modifier": 8,
+    "min_skills": [ [ "weapon", 2 ] ]
   }
 ]

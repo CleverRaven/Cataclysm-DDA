@@ -13,8 +13,8 @@
     "color": "dark_gray",
     "location": "accessories",
     "mod_targets": [ "bow" ],
-    "min_skills": [ [ "gun", 1 ] ],
-    "dispersion_modifier": -20
+    "dispersion_modifier": -20,
+    "min_skills": [ [ "gun", 1 ] ]
   },
   {
     "id": "bow_stabilizer",
@@ -29,8 +29,8 @@
     "color": "brown",
     "location": "accessories",
     "mod_targets": [ "bow" ],
-    "min_skills": [ [ "gun", 1 ] ],
-    "dispersion_modifier": -50
+    "dispersion_modifier": -50,
+    "min_skills": [ [ "gun", 1 ] ]
   },
   {
     "id": "brass_catcher",
@@ -62,5 +62,22 @@
     "location": "accessories",
     "mod_targets": [ "rifle", "shotgun", "smg", "crossbow", "launcher" ],
     "flags": [ "IS_ARMOR", "BELTED", "OVERSIZE" ]
+  },
+  {
+    "id": "stabilizer",
+    "type": "GUNMOD",
+    "name": "gyroscopic stabilizer",
+    "description": "An advanced unit that straps onto the side of your firearm and reduces vibration, greatly reducing recoil and increasing accuracy.",
+    "weight": 286,
+    "volume": 3,
+    "integral_volume": 2,
+    "price": 68000,
+    "material": [ "aluminum", "plastic" ],
+    "symbol": ":",
+    "color": "blue",
+    "location": "accessories",
+    "mod_targets": [ "smg", "rifle", "crossbow" ],
+    "handling_modifier": -6,
+    "min_skills": [ [ "weapon", 6 ] ]
   }
 ]

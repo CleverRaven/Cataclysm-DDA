@@ -1,5 +1,6 @@
 #include "item.h"
 
+#include "flag.h"
 #include "advanced_inv.h"
 #include "player.h"
 #include "damage.h"
@@ -1471,8 +1472,21 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
 
         insert_separation_line();
 
+        // concatenate base and acquired flags...
+        std::vector<std::string> flags;
+        std::set_union( type->item_tags.begin(), type->item_tags.end(),
+                        item_tags.begin(), item_tags.end(),
+                        std::back_inserter( flags ) );
+
+        // ...and display those which have an info description
+        for( const auto &e : flags ) {
+            auto &f = json_flag::get( e );
+            if( !f.info().empty() ) {
+                info.emplace_back( "DESCRIPTION", string_format( "* %s", f.info().c_str() ) );
+            }
+        }
+
         if( is_armor() ) {
-            //See shorten version of this in armor_layers.cpp::clothing_flags_description
             if( has_flag( "FIT" ) ) {
                 info.push_back( iteminfo( "DESCRIPTION",
                                           _( "* This piece of clothing <info>fits</info> you perfectly." ) ) );
@@ -1484,117 +1498,11 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
                 info.push_back( iteminfo( "DESCRIPTION",
                                           _( "* This item can be worn on <info>either side</info> of the body." ) ) );
             }
-            if( has_flag( "SKINTIGHT" ) ) {
-                info.push_back( iteminfo( "DESCRIPTION",
-                                          _( "* This piece of clothing <info>lies close</info> to the skin." ) ) );
-            } else if( has_flag( "BELTED" ) ) {
-                info.push_back( iteminfo( "DESCRIPTION",
-                                          _( "* This gear is <info>strapped</info> onto you." ) ) );
-            } else if( has_flag( "WAIST" ) ) {
-                info.push_back( iteminfo( "DESCRIPTION",
-                                          _( "* This gear is worn on or around your <info>waist</info>." ) ) );
-            } else if( has_flag( "OUTER" ) ) {
-                info.push_back( iteminfo( "DESCRIPTION",
-                                          _( "* This gear is generally <info>worn over</info> clothing." ) ) );
-            } else {
-                info.push_back( iteminfo( "DESCRIPTION",
-                                          _( "* This gear is generally worn as clothing." ) ) );
-            }
-            if( has_flag( "OVERSIZE" ) ) {
-                info.push_back( iteminfo( "DESCRIPTION",
-                                          _( "* This piece of clothing is large enough to accommodate <info>mutated anatomy</info>." ) ) );
-            }
-            if( has_flag( "BLOCK_WHILE_WORN" ) ) {
-                info.push_back( iteminfo( "DESCRIPTION",
-                                          _( "* This piece of clothing can be used to block attacks when worn." ) ) );
-            }
-            if( has_flag( "ALLOWS_NATURAL_ATTACKS" ) ) {
-                info.push_back( iteminfo( "DESCRIPTION",
-                                          _( "* This piece of clothing won't hinder special attacks that involve <info>mutated anatomy</info>." ) ) );
-            }
-            if( has_flag( "POCKETS" ) ) {
-                info.push_back( iteminfo( "DESCRIPTION",
-                                          _( "* This piece of clothing has <info>pockets</info> to warm your hands.  Put away your weapon to warm your hands in the pockets." ) ) );
-            }
-            if( has_flag( "HOOD" ) ) {
-                info.push_back( iteminfo( "DESCRIPTION",
-                                          _( "* This piece of clothing has a <info>hood</info> to keep your head warm.  Leave your head unencumbered to put on the hood." ) ) );
-            }
-            if( has_flag( "COLLAR" ) ) {
-                info.push_back( iteminfo( "DESCRIPTION",
-                                          _( "* This piece of clothing has a <info>wide collar</info> that can keep your mouth warm.  Leave your mouth unencumbered to raise the collar." ) ) );
-            }
-            if( has_flag( "RAINPROOF" ) ) {
-                info.push_back( iteminfo( "DESCRIPTION",
-                                          _( "* This piece of clothing is designed to keep you <info>dry</info> in the rain." ) ) );
-            }
-            if( has_flag( "SUN_GLASSES" ) ) {
-                info.push_back( iteminfo( "DESCRIPTION",
-                                          _( "* This piece of clothing keeps the <info>glare</info> out of your eyes." ) ) );
-            }
-            if( has_flag( "WATER_FRIENDLY" ) ) {
-                info.push_back( iteminfo( "DESCRIPTION",
-                                          _( "* This piece of clothing <good>performs well</good> even when <info>soaking wet</info>. This can feel good." ) ) );
-            }
-            if( has_flag( "WATERPROOF" ) ) {
-                info.push_back( iteminfo( "DESCRIPTION",
-                                          _( "* This piece of clothing <info>won't let water through</info>.  Unless you jump in the river or something like that." ) ) );
-            }
-            if( has_flag( "STURDY" ) ) {
-                info.push_back( iteminfo( "DESCRIPTION",
-                                          _( "* This piece of clothing is designed to <good>protect</good> you from harm and withstand <info>a lot of abuse</info>." ) ) );
-            }
-            if( has_flag( "FRAGILE" ) ) {
-                info.push_back( iteminfo( "DESCRIPTION",
-                                          _( "* This gear is <bad>fragile</bad> and <info>won't protect you for long</info>." ) ) );
-            }
-            if( has_flag( "DEAF" ) ) {
-                info.push_back( iteminfo( "DESCRIPTION",
-                                          _( "* This gear <bad>prevents</bad> you from <info>hearing any sounds</info>." ) ) );
-            }
-            if( has_flag( "PARTIAL_DEAF" ) ) {
-                info.push_back( iteminfo( "DESCRIPTION",
-                                          _( "* This gear <good>reduces</good> the volume of <info>sounds</info> to a safe level." ) ) );
-            }
-            if( has_flag( "BLIND" ) ) {
-                info.push_back( iteminfo( "DESCRIPTION",
-                                          _( "* This gear <bad>prevents</bad> you from <info>seeing</info> anything." ) ) );
-            }
-            if( has_flag( "SWIM_GOGGLES" ) ) {
-                info.push_back( iteminfo( "DESCRIPTION",
-                                          _( "* This piece of clothing allows you to <good>see much further</good> <info>under water</info>." ) ) );
-            }
-            if( item_tags.count( "wooled" ) ) {
-                info.push_back( iteminfo( "DESCRIPTION",
-                                          _( "* This piece of clothing has a wool lining sewn into it to <good>increase</good> its overall <info>warmth</info>." ) ) );
-            }
-            if( item_tags.count( "furred" ) ) {
-                info.push_back( iteminfo( "DESCRIPTION",
-                                          _( "* This piece of clothing has a fur lining sewn into it to <good>increase</good> its overall <info>warmth</info>." ) ) );
-            }
-            if( item_tags.count( "leather_padded" ) ) {
-                info.push_back( iteminfo( "DESCRIPTION",
-                                          _( "* This gear has certain parts padded with leather to <good>increase protection</good> with moderate <bad>increase to encumbrance</bad>." ) ) );
-            }
-            if( item_tags.count( "kevlar_padded" ) ) {
-                info.push_back( iteminfo( "DESCRIPTION",
-                                          _( "* This gear has Kevlar inserted into strategic locations to <good>increase protection</good> with some <bad>increase to encumbrance</bad>." ) ) );
-            }
-            if( has_flag( "FLOTATION" ) ) {
-                info.push_back( iteminfo( "DESCRIPTION",
-                                          _( "* This piece of clothing <neutral>prevents</neutral> you from <info>going underwater</info> (including voluntary diving)." ) ) );
-            }
             if( is_filthy() ) {
                 info.push_back( iteminfo( "DESCRIPTION",
                                           _( "* This piece of clothing is <bad>filthy</bad>." ) ) );
             }
-            if( has_flag( "RAD_PROOF" ) ) {
-                info.push_back( iteminfo( "DESCRIPTION",
-                                          _( "* This piece of clothing <good>completely protects</good> you from <info>radiation</info>." ) ) );
-            } else if( has_flag( "RAD_RESIST" ) ) {
-                info.push_back( iteminfo( "DESCRIPTION",
-                                          _( "* This piece of clothing <neutral>partially protects</neutral> you from <info>radiation</info>." ) ) );
-            } else if( is_power_armor() ) {
+            if( is_power_armor() ) {
                 info.push_back( iteminfo( "DESCRIPTION",
                                           _( "* This gear is a part of power armor." ) ) );
                 if( covers( bp_head ) ) {
@@ -1604,29 +1512,6 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
                     info.push_back( iteminfo( "DESCRIPTION",
                                               _( "* When worn with a power armor helmet, it will <good>fully protect</good> you from <info>radiation</info>." ) ) );
                 }
-            }
-            if( has_flag( "ELECTRIC_IMMUNE" ) ) {
-                info.push_back( iteminfo( "DESCRIPTION",
-                                          _( "* This gear <good>completely protects</good> you from <info>electric discharges</info>." ) ) );
-            }
-            if( has_flag( "THERMOMETER" ) ) {
-                info.push_back( iteminfo( "DESCRIPTION",
-                                          _( "* This gear is equipped with an <info>accurate thermometer</info>." ) ) );
-            }
-            if( has_flag( "ALARMCLOCK" ) ) {
-                info.push_back( iteminfo( "DESCRIPTION",
-                                          _( "* This gear has an <info>alarm clock</info> feature." ) ) );
-            }
-            if( has_flag( "BOOTS" ) ) {
-                info.push_back( iteminfo( "DESCRIPTION",
-                                          _( "* You can <info>store knives</info> in this gear." ) ) );
-            }
-            if( has_flag( "FANCY" ) ) {
-                info.push_back( iteminfo( "DESCRIPTION",
-                                          _( "* This piece of clothing is <info>fancy</info>." ) ) );
-            } else if( has_flag( "SUPER_FANCY" ) ) {
-                info.push_back( iteminfo( "DESCRIPTION",
-                                          _( "* This piece of clothing is <info>very fancy</info>." ) ) );
             }
             if( typeId() == "rad_badge" ) {
                 info.push_back( iteminfo( "DESCRIPTION",
@@ -1815,10 +1700,11 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
                 for( const auto mod : gunmods() ) {
                     temp1.str( "" );
                     if( mod->has_flag( "IRREMOVABLE" ) ) {
-                        temp1 << _( "[Integrated]" );
+                        temp1 << _( "Integrated mod: " );
+                    } else {
+                        temp1 << _( "Mod: " );
                     }
-                    temp1 << _( "Mod: " ) << "<bold>" << mod->tname() << "</bold> (" << _( mod->type->gunmod->location.c_str() ) <<
-                          ")";
+                    temp1 << "<bold>" << mod->tname() << "</bold> (" << _( mod->type->gunmod->location.c_str() ) << ")";
                     insert_separation_line();
                     info.push_back( iteminfo( "DESCRIPTION", temp1.str() ) );
                     info.push_back( iteminfo( "DESCRIPTION", mod->type->description ) );

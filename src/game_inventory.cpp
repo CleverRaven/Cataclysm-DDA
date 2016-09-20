@@ -135,7 +135,7 @@ item_location game::inv_map_splice( item_location_filter filter, const std::stri
         return item_location();
     }
 
-    return std::move( inv_s.execute() );
+    return inv_s.execute();
 }
 
 item *game::inv_map_for_liquid( const item &liquid, const std::string &title, int radius )

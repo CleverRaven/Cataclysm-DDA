@@ -566,6 +566,22 @@
     "count" : 50
    },
 {
+    "type" : "GENERIC",
+    "id" : "material_niter",
+    "category" : "spare_parts",
+    "price" : 75,
+    "name" : "niter",
+    "name_plural" : "niter",
+    "symbol" : "*",
+    "color" : "white",
+    "description" : "A large crystal of niter, the mineral form of potassium nitrate.  It can be processed into saltpeter.",
+    "material" : "powder",
+    "volume" : 5,
+    "weight" : 790,
+    "bashing" : 1,
+    "ammo_type" : "components"
+   },
+{
     "type" : "AMMO",
     "id" : "chem_aluminium_sulphate",
     "category" : "chems",
@@ -623,7 +639,7 @@
     "type" : "AMMO",
     "id" : "chem_anfo",
     "category" : "spare_parts",
-    "price" : 500,
+    "price" : 5000,
     "name" : "ANFO",
     "name_plural" : "ANFO",
     "symbol" : "=",
@@ -631,11 +647,11 @@
     "description" : "Several brownish pellets that were made by absorbing organic fuel on ammonium nitrate.  This ammonium nitrate–fuel oil or ANFO, as it is called, mixture is a common industrial explosive due to its stability and low price.  Burns fast, but needs an explosive primer to detonate...",
     "material" : "powder",
     "volume" : 1,
-    "weight" : 9,
+    "weight" : 90,
     "bashing" : 1,
     "ammo_type" : "components",
     "container" : "bag_canvas",
-    "count" : 50
+    "count" : 5
    },
    {
     "type" : "AMMO",

@@ -737,25 +737,17 @@ void inventory_selector::prepare_layout()
 void inventory_selector::draw_inv_weight_vol( WINDOW *w, int weight_carried, units::volume vol_carried,
         units::volume vol_capacity) const
 {
-    // Print weight
-    mvwprintw(w, 0, 32, _("Weight (%s): "), weight_units());
-    nc_color weight_color;
-    if (weight_carried > u.weight_capacity()) {
-        weight_color = c_red;
-    } else {
-        weight_color = c_ltgray;
-    }
-    wprintz(w, weight_color, "%6.1f", convert_weight(weight_carried) + 0.05 ); // +0.05 to round up;
-    wprintz(w, c_ltgray, "/%-6.1f", convert_weight(u.weight_capacity()));
+    int weight_capacity = u.weight_capacity();
 
-    // Print volume
-    mvwprintw(w, 0, 61, _("Volume (ml): "));
-    if (vol_carried > vol_capacity) {
-        wprintz(w, c_red, "%3d", to_milliliter( vol_carried ) );
-    } else {
-        wprintz(w, c_ltgray, "%3d", to_milliliter( vol_carried ) );
-    }
-    wprintw(w, "/%-3d", to_milliliter( vol_capacity ) );
+    mvwprintw( w, 0, 32, _( "Weight (%s): " ), weight_units() );
+    nc_color weight_color = weight_carried > weight_capacity ? c_red : c_ltgray;
+    wprintz( w, weight_color, "%6.1f", round_up( convert_weight( weight_carried  ), 1 ) );
+    wprintz( w, c_ltgray,   "/%-6.1f", round_up( convert_weight( weight_capacity ), 1 ) );
+
+    nc_color vol_color = vol_carried > vol_capacity ? c_red : c_ltgray;
+    mvwprintw( w, 0, 61, _( "Volume (L): ") );
+    wprintz( w, vol_color,  "%6.1f", round_up( to_liter( vol_carried  ), 1 ) );
+    wprintz( w, c_ltgray, "/%-6.1f", round_up( to_liter( vol_capacity ), 1 ) );
 }
 
 void inventory_selector::draw_inv_weight_vol( WINDOW *w ) const

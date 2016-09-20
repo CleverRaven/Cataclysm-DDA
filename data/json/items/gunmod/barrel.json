@@ -7,16 +7,16 @@
     "weight": 426,
     "volume": 4,
     "price": 20000,
-    "bashing": 5,
     "to_hit": 2,
+    "bashing": 5,
     "material": [ "steel" ],
     "symbol": ":",
     "color": "light_gray",
     "location": "barrel",
     "mod_targets": [ "smg", "rifle", "shotgun", "pistol" ],
-    "min_skills" : [ [ "weapon", 4 ] ],
     "damage_modifier": 1,
-    "dispersion_modifier": -90
+    "dispersion_modifier": -90,
+    "min_skills": [ [ "weapon", 4 ] ]
   },
   {
     "id": "barrel_rifled",
@@ -27,16 +27,16 @@
     "volume": 2,
     "integral_volume": 0,
     "price": 22000,
-    "bashing": 3,
     "to_hit": 1,
+    "bashing": 3,
     "material": [ "steel" ],
     "symbol": ":",
     "color": "light_gray",
     "location": "barrel",
     "mod_targets": [ "shotgun" ],
-    "min_skills" : [ [ "weapon", 5 ] ],
     "damage_modifier": -20,
-    "dispersion_modifier": -150
+    "dispersion_modifier": -150,
+    "min_skills": [ [ "weapon", 5 ] ]
   },
   {
     "id": "barrel_small",
@@ -68,9 +68,9 @@
     "color": "light_gray",
     "location": "barrel",
     "mod_targets": [ "smg", "rifle", "shotgun", "pistol" ],
-    "min_skills": [ [ "gun", 1 ] ],
     "damage_modifier": 500,
     "dispersion_modifier": 500,
-    "ups_charges": 50
+    "ups_charges": 50,
+    "min_skills": [ [ "gun", 1 ] ]
   }
 ]

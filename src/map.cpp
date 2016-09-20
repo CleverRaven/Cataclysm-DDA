@@ -1257,7 +1257,7 @@ void map::board_vehicle( const tripoint &pos, player *p )
     p->setpos( pos );
     p->in_vehicle = true;
     if( p == &g->u ) {
-        g->update_map( &g->u );
+        g->update_map( g->u );
     }
 }
 
@@ -1429,7 +1429,7 @@ vehicle *map::displace_vehicle( tripoint &p, const tripoint &dp )
     update_vehicle_cache( veh, src.z );
 
     if( need_update ) {
-        g->update_map( &g->u );
+        g->update_map( g->u );
     }
 
     if( z_change != 0 ) {

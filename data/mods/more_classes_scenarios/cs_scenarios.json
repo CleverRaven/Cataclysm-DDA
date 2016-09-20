@@ -1,0 +1,31 @@
+[
+  {
+    "type": "scenario",
+    "ident": "fema_help",
+    "name": "Challenge-FEMA Death Camp",
+    "points" : -4,
+    "description": "You were one of the many law enforcement and military personel alike called in to keep order on one of the FEMA camps, it all went to shit fast...wounded, infected, surrounded by fire you lay...and they just keep comming...",
+    "allowed_locs": ["fema_entrance_s","fema_s"],
+      "professions" : ["cop","sniper_police","riot_police","bionic_cop","swat","swat_heavy","soldier","bio_soldier","bio_sniper","bio_specops","specops"],
+    "start_name": "Fema Camp",
+    "flags": ["HELI_CRASH","SUR_START","FIRE_START","INFECTED","CHALLENGE"]
+  },
+  {
+    "type" : "scenario",
+    "ident" : "summer_advanced_start",
+    "edit-mode" : "modify",
+    "add:professions" : ["wasteland_cyborg"]
+  },
+  {
+    "type" : "scenario",
+    "ident" : "ambushed",
+    "edit-mode" : "modify",
+    "add:professions" : ["wasteland_cyborg"]
+  },
+  {
+    "type" : "scenario",
+    "ident" : "heli_crash",
+    "edit-mode" : "modify",
+    "add:professions" : ["bio_specops"]
+  }
+]

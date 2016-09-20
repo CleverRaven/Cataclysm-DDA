@@ -4922,21 +4922,25 @@ void mapgen_cave(map *m, oter_id, mapgendata dat, int turn, float density)
             square(m, t_slope_up, SEEX - 1, SEEY - 1, SEEX, SEEY);
             switch(rng(1, 10)) {
             case 1:
-                // natural refuse
+                // natural refuse, chance of minerals
+                m->place_items("cave_minerals", 50, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, true, 0);
                 m->place_items("monparts", 80, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, true, 0);
                 break;
             case 2:
-                // trash
+                // trash, minerals less likely
+                m->place_items("cave_minerals", 25, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, true, 0);
                 m->place_items("trash", 70, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, true, 0);
                 break;
             case 3:
                 // bat corpses
+                m->place_items("cave_minerals", 50, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, true, 0);
                 for (int i = rng(1, 12); i > 0; i--) {
                     m->add_item_or_charges(rng(1, SEEX * 2 - 1), rng(1, SEEY * 2 - 1), item::make_corpse( mon_bat ) );
                 }
                 break;
             case 4:
                 // ant food, chance of 80
+                m->place_items("cave_minerals", 25, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, true, 0);
                 m->place_items("ant_food", 85, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, true, 0);
                 break;
             case 5: {
@@ -4960,7 +4964,8 @@ void mapgen_cave(map *m, oter_id, mapgendata dat, int turn, float density)
                 break;
             }
             default:
-                // nothing, half the time
+                // nothing except maybe minerals, default occurs half the time
+                m->place_items("cave_minerals", 50, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, true, 0);
                 break;
             }
             m->place_spawns( mongroup_id( "GROUP_CAVE" ), 2, 6, 6, 18, 18, 1.0);
