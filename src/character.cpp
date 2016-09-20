@@ -2068,23 +2068,34 @@ long Character::ammo_count_for( const item &gun )
     return ret;
 }
 
+static int dodge_practice_amt( const Character &who, int damage )
+{
+    if( damage <= 0 ) {
+        return 0;
+    }
+
+    float enc = ( who.encumb( bp_leg_l ) + who.encumb( bp_leg_r ) ) / 20.0f +
+                ( who.encumb( bp_torso ) / 10.0f );
+    if( enc >= 5.0f ) {
+        return 0;
+    }
+
+    const int prac = roll_remainder( ( 5.0f - enc ) * damage );
+    add_msg( m_debug, "%s: dodge practice: %d", who.disp_name().c_str(), prac );
+    return prac;
+}
+
 void Character::deal_melee_hit( Creature *source, int hit_spread, bool crit,
                                 const damage_instance &d, dealt_damage_instance &dealt_dam )
 {
     Creature::deal_melee_hit( source, hit_spread, crit, d, dealt_dam );
-    const int total_damage = dealt_dam.total_damage();
-    if( total_damage > 0 ) {
-        practice( skill_dodge, 5 * total_damage, 10 );
-    }
+    practice( skill_dodge, dodge_practice_amt( *this, dealt_dam.total_damage() ), 10 );
 }
 
 void Character::deal_projectile_attack( Creature *source, dealt_projectile_attack &attack )
 {
     Creature::deal_projectile_attack( source, attack );
-    const int total_damage = attack.dealt_dam.total_damage();
-    if( total_damage > 0 ) {
-        practice( skill_dodge, 5 * total_damage, 10 );
-    }
+    practice( skill_dodge, dodge_practice_amt( *this, attack.dealt_dam.total_damage() ), 10 );
 }
 
 int Character::adjust_for_focus( int amount ) const
