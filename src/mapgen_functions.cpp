@@ -1764,7 +1764,7 @@ void mapgen_parking_lot(map *m, oter_id, mapgendata dat, int turn, float)
 
     m->place_items("road", 8, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, false, turn);
     for (int i = 1; i < 4; i++) {
-        const std::string &id = oterlist[dat.t_nesw[i]].id.str();
+        const std::string &id = dat.t_nesw[i].id().str();
         if( id.size() > 5 && id.find( "road_" ) == 0 ) {
             m->rotate(i);
         }

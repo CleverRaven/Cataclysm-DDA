@@ -79,6 +79,8 @@ struct oter_t {
     private:
         std::bitset<num_oter_flags> flags; //contains a bitset for all the bools this terrain might have.
     public:
+        static size_t count();
+
         bool has_flag( oter_flags flag ) const {
             return flags[flag];
         }

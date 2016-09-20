@@ -123,6 +123,11 @@ city::city( int const X, int const Y, int const S)
 std::map<enum radio_type, std::string> radio_type_names =
 {{ {MESSAGE_BROADCAST, "broadcast"}, {WEATHER_RADIO, "weather"} }};
 
+size_t oter_t::count()
+{
+    return oterlist.size();
+}
+
 template<>
 const string_id<oter_t> string_id<oter_t>::NULL_ID( "", 0 );
 
