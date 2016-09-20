@@ -71,6 +71,7 @@ oter_iid ot_null,
          ot_river_center;
 
 
+///@todo Get rid of these and use 'generic_factory' class
 std::unordered_map<string_id<oter_t>, oter_t> otermap;
 std::vector<oter_t> oterlist;
 
@@ -132,44 +133,52 @@ template<>
 const string_id<oter_t> string_id<oter_t>::NULL_ID( "", 0 );
 
 template<>
+bool string_id<oter_t>::is_valid() const
+{
+    return otermap.count( *this ) > 0;
+}
+
+template<>
 const oter_t &string_id<oter_t>::obj() const
 {
+    if( !is_valid() ) {
+        debugmsg( "Invalid overmap terrain id: %s.", c_str() );
+        static oter_t null_oter;
+        return null_oter;
+    }
     return otermap[*this];
 }
 
 template<>
 int_id<oter_t> string_id<oter_t>::id() const
 {
-    return int_id<oter_t>( obj().loadid );
+    return obj().loadid;
 }
 
 template<>
-int_id<oter_t>::int_id( const string_id<oter_t> &id ) : _id( oterfind( id.str() ) )
-{
-
-}
+int_id<oter_t>::int_id( const string_id<oter_t> &id ) : _id( oterfind( id.str() ) ) {}
 
 template<>
-const string_id<oter_t> &int_id<oter_t>::id() const
+bool int_id<oter_t>::is_valid() const
 {
-    if ( size_t( *this ) > oterlist.size() ) {
-        debugmsg("oterlist[%d] > %d", *this, oterlist.size()); // remove me after testing (?)
-        static string_id<oter_t> const debug_dummy_string;
-        return debug_dummy_string;
-    }
-    return oterlist[*this].id;
+    return size_t( *this ) <= oterlist.size();
 }
 
 template <>
 const oter_t &int_id<oter_t>::obj() const
 {
+    if( !is_valid() ) {
+        debugmsg( "Invalid overmap terrain id: %d (there are only %d ids).", *this, oterlist.size() );
+        static oter_t null_oter;
+        return null_oter;
+    }
     return oterlist[*this];
 }
 
-template <>
-bool string_id<oter_t>::is_valid() const
+template<>
+const string_id<oter_t> &int_id<oter_t>::id() const
 {
-    return otermap.count( *this ) > 0;
+    return obj().id;
 }
 
 bool operator==( const int_id<oter_t> &lhs, const char *rhs )
