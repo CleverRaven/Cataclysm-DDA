@@ -382,7 +382,18 @@
         "item" : "sheet",
         "difficulty" : 1,
         "location" : "roof",
-        "flags" : ["ROOF", "FOLDABLE", "NAILABLE"],
+        "requirements": {
+          "install": {
+            "time": 30000,
+            "components": [ [ [ "string_6", 2 ], [ "duct_tape", 25 ] ] ]
+          },
+          "repair": {
+            "time": 15000,
+            "skills": [ [ "tailor", 1 ] ],
+            "using": [ [ "sewing_standard", 50 ], [ "fabric_standard", 1 ] ]
+          }
+        },
+        "flags" : ["ROOF", "FOLDABLE"],
         "breaks_into" : "ig_vp_cloth"
     },{
         "type" : "vehicle_part",
