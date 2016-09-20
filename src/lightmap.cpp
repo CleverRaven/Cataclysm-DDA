@@ -22,6 +22,7 @@
 #define LIGHTMAP_CACHE_Y SEEY * MAPSIZE
 
 const efftype_id effect_onfire( "onfire" );
+const efftype_id effect_haslight( "haslight" );
 
 constexpr double PI     = 3.14159265358979323846;
 constexpr double HALFPI = 1.57079632679489661923;
@@ -128,11 +129,21 @@ void map::build_transparency_cache( const int zlev )
     map_cache.transparency_cache_dirty = false;
 }
 
-void map::apply_character_light( const player &p )
+void map::apply_character_light( player &p )
 {
+    if( p.has_effect( effect_onfire ) ) {
+        apply_light_source( p.pos(), 8 );
+    } else if( p.has_effect( effect_haslight ) ) {
+        apply_light_source( p.pos(), 4 );
+    }
+
     float const held_luminance = p.active_light();
     if( held_luminance > LIGHT_AMBIENT_LOW ) {
         apply_light_source( p.pos(), held_luminance );
+    }
+
+    if( held_luminance >= 4 && held_luminance > ambient_light_at( p.pos() ) ) {
+        p.add_effect( effect_haslight, 1 );
     }
 }
 

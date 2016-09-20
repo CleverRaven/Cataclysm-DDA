@@ -1615,5 +1615,13 @@
     {
         "type": "effect_type",
         "id": "cough_suppress"
+    },
+    {
+        "type": "effect_type",
+        "id": "haslight"
+        "name": [ "Lit up" ],
+        "desc": [ "You are carrying a light and can't hide well." ],
+        "max_duration": 1,
+        "rating": "bad"
     }
 ]
