@@ -871,18 +871,16 @@ static int draw_targeting_window( WINDOW *w_target, const std::string &name, pla
 }
 
 static int find_target( const std::vector<Creature *> &t, const tripoint &tpos ) {
-    int target = -1;
-    for( int i = 0; i < (int)t.size(); i++ ) {
+    for( size_t i = 0; i < t.size(); ++i ) {
         if( t[i]->pos() == tpos ) {
-            target = i;
-            break;
+            return int( i );
         }
     }
-    return target;
+    return -1;
 }
 
 static int do_aim( player &p, const std::vector<Creature *> &t, int cur_target,
-                    const item &relevant, const tripoint &tpos )
+                   const item &relevant, const tripoint &tpos )
 {
     // If we've changed targets, reset aim, unless it's above the minimum.
     if( size_t( cur_target ) >= t.size() || t[cur_target]->pos() != tpos ) {
@@ -895,11 +893,11 @@ static int do_aim( player &p, const std::vector<Creature *> &t, int cur_target,
     const double aim_amount = p.aim_per_move( relevant, p.recoil );
     if( aim_amount > 0 ) {
         // Increase aim at the cost of moves
-        p.moves--;
+        p.mod_moves( -1 );
         p.recoil = std::max( 0.0, p.recoil - aim_amount );
     } else {
         // If aim is already maxed, we're just waiting, so pass the turn.
-        p.moves = 0;
+        p.set_moves( 0 );
     }
 
     return cur_target;
