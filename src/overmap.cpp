@@ -71,7 +71,7 @@ oter_iid ot_null,
          ot_river_center;
 
 
-///@todo Get rid of these and use 'generic_factory' class
+//@todo Get rid of these and use 'generic_factory' class
 std::unordered_map<string_id<oter_t>, oter_t> otermap;
 std::vector<oter_t> oterlist;
 

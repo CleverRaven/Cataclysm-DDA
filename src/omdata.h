@@ -51,22 +51,20 @@ using oter_id = int_id<oter_t>;
 using oter_str_id = string_id<oter_t>;
 
 struct oter_t {
-        oter_str_id id;      // definitive identifier
-        oter_id loadid;      // position in termap / terlist
+        oter_str_id id;      /// definitive identifier
+        oter_id loadid;      /// position in 'terlist'
         std::string name;
         long sym; // This is a long, so we can support curses linedrawing
         nc_color color;
         unsigned char see_cost; // Affects how far the player can see in the overmap
         std::string extras;
         int mondensity;
-        // bool disable_default_mapgen;
-        // automatically set. We can be wasteful of memory here for num_oters * sizeof(extrastuff), if it'll save us from thousands of string ops
-        std::string
-        id_base; // base identifier; either the same as id, or id without directional variations.
-        // (ie, 'house' / 'house_west' )
-        int loadid_base; // self || directional_peers[0]? or seperate base_oter_map ?
-        std::vector<oter_id>
-        directional_peers; // fast reliable (?) method of determining whatever_west, etc.
+        /**
+         * base identifier; either the same as id, or id without directional variations. (ie, 'house' / 'house_west' )
+         */
+        std::string id_base;
+        int loadid_base;                        /// self || directional_peers[0]? or seperate base_oter_map ?
+        std::vector<oter_id> directional_peers; /// fast reliable method of determining whatever_west, etc.
         std::string
         id_mapgen;  // *only* for mapgen and almost always == id_base. Unless line_drawing / road.
 
@@ -79,7 +77,7 @@ struct oter_t {
     private:
         std::bitset<num_oter_flags> flags; //contains a bitset for all the bools this terrain might have.
     public:
-        static size_t count();
+        static size_t count();  /// Overall number of loaded objects
 
         bool has_flag( oter_flags flag ) const {
             return flags[flag];
@@ -90,7 +88,7 @@ struct oter_t {
         }
 };
 
-/// @todo: Deprecate these operators
+// @todo: Deprecate these operators
 bool operator==( const oter_id &lhs, const char *rhs );
 bool operator!=( const oter_id &lhs, const char *rhs );
 bool operator>=( const oter_id &lhs, const char *rhs );
