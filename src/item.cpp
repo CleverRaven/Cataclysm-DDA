@@ -1134,7 +1134,7 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
                                       ( ( mod->pierce > 0 ) ? "+" : "" ) ) );
         }
         if( mod->handling != 0 ) {
-            info.emplace_back( "GUNMOD", _( "Handling bonus: " ), "", mod->handling, true );
+            info.emplace_back( "GUNMOD", _( "Handling modifier: " ), mod->handling > 0 ? "+" : "", mod->handling, true );
         }
         if( mod->ammo_modifier ) {
             info.push_back( iteminfo( "GUNMOD",
