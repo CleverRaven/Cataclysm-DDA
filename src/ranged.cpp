@@ -495,10 +495,18 @@ int player::fire_gun( const tripoint &target, int shots, item& gun )
         bipod = veh && veh->has_part( pos(), "MOUNTABLE" );
     }
 
+    // Up to 50% of recoil can be delayed until end of burst dependent upon relevant skill
+    ///\EFFECT_PISTOL delays effects of recoil during autoamtic fire
+    ///\EFFECT_SMG delays effects of recoil during automatic fire
+    ///\EFFECT_RIFLE delays effects of recoil during automatic fire
+    ///\EFFECT_SHOTGUN delays effects of recoil during automatic fire
+    double absorb = std::min( int( get_skill_level( gun.gun_skill() ) ), MAX_SKILL ) / double( MAX_SKILL * 2 );
+
     tripoint aim = target;
     int curshot = 0;
     int xp = 0; // experience gain for marksmanship skill
     int hits = 0; // total shots on target
+    int delay = 0; // delayed recoil that has yet to be applied
     while( curshot != shots ) {
         if( !handle_gun_damage( gun ) ) {
             break;
@@ -510,7 +518,9 @@ int player::fire_gun( const tripoint &target, int shots, item& gun )
         auto shot = projectile_attack( make_gun_projectile( gun ), aim, dispersion );
         curshot++;
 
-        recoil += gun.gun_recoil( *this, bipod );
+        int qty = gun.gun_recoil( *this, bipod );
+        delay  += qty * absorb;
+        recoil += qty * ( 1.0 - absorb );
 
         make_gun_sound_effect( *this, shots > 1, &gun );
         sfx::generate_gun_sound( *this, gun );
@@ -573,6 +583,9 @@ int player::fire_gun( const tripoint &target, int shots, item& gun )
             aim = random_entry( hostiles )->pos();
         }
     }
+
+    // apply delayed recoil
+    recoil += delay;
 
     // Use different amounts of time depending on the type of gun and our skill
     moves -= time_to_fire( *this, *gun.type );
