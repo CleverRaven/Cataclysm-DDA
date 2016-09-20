@@ -993,7 +993,7 @@ void activity_handlers::pickaxe_do_turn(player_activity *act, player *p)
 
 void activity_handlers::pickaxe_finish(player_activity *act, player *p)
 {
-    const tripoint &pos = act->placement;
+    const tripoint pos( act->placement );
     item *it = &p->i_at(act->position);
     if( g->m.is_bashable(pos) && g->m.has_flag("SUPPORTS_ROOF", pos) &&
         g->m.ter(pos) != t_tree ) {
@@ -1676,7 +1676,7 @@ void activity_handlers::clear_rubble_finish( player_activity *act, player *p )
                               g->m.furnname( target ).c_str(), direction.c_str() );
     }
     g->m.furn_set( target, f_null );
-    
+
     const int bonus = act->index * act->index;
     p->mod_hunger ( 10 / bonus );
     p->mod_thirst ( 10 / bonus );
