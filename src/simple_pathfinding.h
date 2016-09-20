@@ -51,11 +51,9 @@ std::vector<node> find_path( const tripoint &source,
 
     std::vector<node> res;
 
-    if( source == dest || !inbounds( source.x, source.y ) || !inbounds( dest.x, dest.y ) ) {
+    if( source == dest ) {
         return res;
-    }
-
-    if( source.z != dest.z ) {
+    } else if( source.z != dest.z ) {
         debugmsg( "Pathfinding through z-levels is not supported yet." );
         return res;
     }
@@ -64,6 +62,10 @@ std::vector<node> find_path( const tripoint &source,
     const int y1 = source.y;
     const int x2 = dest.x;
     const int y2 = dest.y;
+
+    if( !inbounds( x1, y1 ) || !inbounds( x2, y2 ) ) {
+        return res;
+    }
 
     const size_t map_size = max_x * max_y;
 
@@ -81,10 +83,6 @@ std::vector<node> find_path( const tripoint &source,
         const node mn( nodes[i].top() ); // get the best-looking node
 
         nodes[i].pop();
-        // make sure it's in bounds
-        if( !inbounds( mn.x, mn.y ) ) {
-            continue;
-        }
         // mark it visited
         closed[map_index( mn.x, mn.y )] = true;
 
