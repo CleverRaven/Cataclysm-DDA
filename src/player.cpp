@@ -766,7 +766,7 @@ void player::update_bodytemp()
         vehwindspeed = abs( veh->velocity / 100 ); // vehicle velocity in mph
     }
     const oter_id &cur_om_ter = overmap_buffer.ter( global_omt_location() );
-    std::string omtername = cur_om_ter.obj().name;
+    std::string omtername = cur_om_ter->name;
     bool sheltered = g->is_sheltered( pos() );
     int total_windpower = get_local_windpower( weather.windpower + vehwindspeed, omtername, sheltered );
 
@@ -1979,7 +1979,7 @@ void player::memorial( std::ostream &memorial_file, std::string epitaph )
 
     //Figure out the location
     const oter_id &cur_ter = overmap_buffer.ter( global_omt_location() );
-    const std::string &tername = cur_ter.obj().name;
+    const std::string &tername = cur_ter->name;
 
     //Were they in a town, or out in the wilderness?
     const auto global_sm_pos = global_sm_location();
@@ -2259,7 +2259,7 @@ void player::add_memorial_log( const char *male_msg, const char *female_msg, ...
                               );
 
     const oter_id &cur_ter = overmap_buffer.ter( global_omt_location() );
-    const std::string &location = cur_ter.obj().name;
+    const std::string &location = cur_ter->name;
 
     std::stringstream log_message;
     log_message << "| " << timestamp.str() << " | " << location.c_str() << " | " << msg;
@@ -4038,8 +4038,7 @@ bool player::overmap_los( const tripoint &omt, int sight_points )
     for( size_t i = 0; i < line.size() && sight_points >= 0; i++ ) {
         const tripoint &pt = line[i];
         const oter_id &ter = overmap_buffer.ter( pt );
-        const int cost = ter.obj().see_cost;
-        sight_points -= cost;
+        sight_points -= int( ter->see_cost );
         if( sight_points < 0 ) {
             return false;
         }

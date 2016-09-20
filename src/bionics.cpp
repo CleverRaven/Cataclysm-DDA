@@ -467,7 +467,7 @@ bool player::activate_bionic( int b, bool eff_only )
             vehwindspeed = abs(veh->velocity / 100); // vehicle velocity in mph
         }
         const oter_id &cur_om_ter = overmap_buffer.ter( global_omt_location() );
-        const std::string &omtername = cur_om_ter.obj().name;
+        const std::string &omtername = cur_om_ter->name;
         /* windpower defined in internal velocity units (=.01 mph) */
         double windpower = 100.0f * get_local_windpower( weatherPoint.windpower + vehwindspeed,
                                                          omtername, g->is_sheltered( g->u.pos() ) );

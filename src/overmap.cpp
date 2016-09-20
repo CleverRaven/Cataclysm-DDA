@@ -277,7 +277,7 @@ bool is_river(const oter_id &ter)
     // if the id starts with "river" or "bridge", count as a river, but this
     // is done in data init.
     // return (ter.compare(0,5,"river",5) == 0 || ter.compare(0,6,"bridge",6) == 0);
-    return ter.obj().has_flag(river_tile);
+    return ter->has_flag( river_tile );
 }
 
 bool is_ot_type(const std::string &otype, const oter_id &oter)
@@ -304,7 +304,7 @@ bool is_ot_type(const std::string &otype, const oter_id &oter)
 
 bool road_allowed(const oter_id &ter)
 {
-    return ter.obj().has_flag(allow_road);
+    return ter->has_flag( allow_road );
 }
 
 /*
@@ -342,7 +342,7 @@ oter_id house(int dir, int chance_of_basement)
         debugmsg("Bad rotation of house: %d.", dir);
         return ot_null;
     }
-    return ( one_in( chance_of_basement) ? iid_house : iid_house_base ).obj().directional_peers[dir];
+    return ( one_in( chance_of_basement) ? iid_house : iid_house_base )->directional_peers[dir];
 }
 
 // oter_t specific affirmatives to is_road, set at startup (todo; jsonize)
@@ -1613,7 +1613,7 @@ std::vector<point> overmap::find_terrain(const std::string &term, int zlevel)
     for (int x = 0; x < OMAPX; x++) {
         for (int y = 0; y < OMAPY; y++) {
             if (seen(x, y, zlevel) &&
-                lcmatch( ter(x, y, zlevel).obj().name, term ) ) {
+                lcmatch( ter(x, y, zlevel)->name, term ) ) {
                 found.push_back( point( get_left_border() + x, get_top_border() + y) );
             }
         }
@@ -1818,13 +1818,13 @@ void overmap::draw(WINDOW *w, WINDOW *wbar, const tripoint &center,
                 const tripoint rp = rotate_tripoint( s_ter.p, uistate.omedit_rotation );
                 oter_id oter( s_ter.terrain );
 
-                if( oter.obj().has_flag( rotates ) ) {
+                if( oter->has_flag( rotates ) ) {
                     oter = rotate( oter, uistate.omedit_rotation );
                 }
 
                 special_cache.insert( std::make_pair(
                     rp,
-                    std::make_pair( oter.obj().sym, oter.obj().color ) ) );
+                    std::make_pair( oter->sym, oter->color ) ) );
 
                 s_begin.x = std::min( s_begin.x, rp.x );
                 s_begin.y = std::min( s_begin.y, rp.y );
@@ -2530,7 +2530,7 @@ tripoint overmap::draw_overmap(const tripoint &orig, const draw_data_t &data)
                                 const tripoint pos = curs + rotate_tripoint( s_ter.p,
                                                                 uistate.omedit_rotation );
                                 oter_id oter( s_ter.terrain );
-                                if( oter.obj().has_flag( rotates ) ) {
+                                if( oter->has_flag( rotates ) ) {
                                     oter = rotate( oter, uistate.omedit_rotation );
                                 }
                                 overmap_buffer.ter( pos ) = oter;
@@ -2581,7 +2581,7 @@ tripoint overmap::find_random_omt( const std::string &omt_base_type ) const
     for( int i = 0; i < OMAPX; i++ ) {
         for( int j = 0; j < OMAPY; j++ ) {
             for( int k = -OVERMAP_DEPTH; k <= OVERMAP_HEIGHT; k++ ) {
-                if( get_ter( i, j, k ).obj().id_base == omt_base_type ) {
+                if( get_ter( i, j, k )->id_base == omt_base_type ) {
                     valid.push_back( tripoint( i, j, k ) );
                 }
             }
@@ -3729,7 +3729,7 @@ bool overmap::is_road(int x, int y, int z)
             }
         }
     }
-    return ter(x, y, z).obj().has_flag(road_tile);
+    return ter(x, y, z)->has_flag( road_tile );
     //oter_t(ter(x, y, z)).is_road;
 }
 
@@ -4274,7 +4274,7 @@ void overmap::place_special(const overmap_special& special, const tripoint& p, i
             default:
                 break;
             }
-            if(ter(conn.x, conn.y, p.z).obj().has_flag(allow_road)) {
+            if(ter(conn.x, conn.y, p.z)->has_flag(allow_road)) {
                 make_hiway(conn.x, conn.y, closest.x, closest.y, p.z, "road");
             } else { // in case the entrance does not come out the top, try wherever possible...
                 conn = connection.second;
