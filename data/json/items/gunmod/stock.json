@@ -16,7 +16,7 @@
     "location": "stock",
     "mod_targets": [ "smg", "rifle", "shotgun", "crossbow", "launcher" ],
     "dispersion_modifier": -30,
-    "handling_modifier": 2
+    "handling_modifier": 1
   },
   {
     "id": "folding_stock",
@@ -48,7 +48,7 @@
     "color": "dark_gray",
     "location": "stock",
     "mod_targets": [ "pistol", "crossbow" ],
-    "handling_modifier": 8,
+    "handling_modifier": 6,
     "min_skills": [ [ "weapon", 2 ] ]
   },
   {
@@ -67,7 +67,7 @@
     "color": "dark_gray",
     "location": "stock",
     "mod_targets": [ "smg", "rifle", "shotgun", "launcher" ],
-    "handling_modifier": 8,
+    "handling_modifier": 4,
     "min_skills": [ [ "weapon", 2 ] ]
   }
 ]

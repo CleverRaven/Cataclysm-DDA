@@ -58,7 +58,7 @@
     "color": "brown",
     "location": "underbarrel",
     "mod_targets": [ "rifle", "launcher" ],
-    "handling_modifier": 12,
+    "handling_modifier": 18,
     "min_skills": [ [ "weapon", 2 ] ],
     "flags": [ "BIPOD", "SLOW_WIELD" ]
   },
