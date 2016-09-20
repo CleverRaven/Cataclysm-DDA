@@ -257,7 +257,7 @@ LRESULT CALLBACK ProcessMessages(HWND__ *hWnd,unsigned int Msg,
 
     case WM_SETCURSOR:
         MouseOver = LOWORD(lParam);
-        if (OPTIONS["HIDE_CURSOR"] == "hide")
+        if (get_option<std::string>( "HIDE_CURSOR" ) == "hide")
         {
             if (MouseOver==HTCLIENT && CursorVisible)
             {
@@ -434,13 +434,13 @@ void CheckMessages()
 // Calculates the new width of the window, given the number of columns.
 int projected_window_width(int)
 {
-    return OPTIONS["TERMINAL_X"] * fontwidth;
+    return get_option<int>( "TERMINAL_X" ) * fontwidth;
 }
 
 // Calculates the new height of the window, given the number of rows.
 int projected_window_height(int)
 {
-    return OPTIONS["TERMINAL_Y"] * fontheight;
+    return get_option<int>( "TERMINAL_Y" ) * fontheight;
 }
 
 //***********************************
@@ -530,8 +530,8 @@ WINDOW *curses_init(void)
 
     halfwidth=fontwidth / 2;
     halfheight=fontheight / 2;
-    WindowWidth= OPTIONS["TERMINAL_X"] * fontwidth;
-    WindowHeight = OPTIONS["TERMINAL_Y"] * fontheight;
+    WindowWidth= get_option<int>( "TERMINAL_X" ) * fontwidth;
+    WindowHeight = get_option<int>( "TERMINAL_Y" ) * fontheight;
 
     WinCreate();    //Create the actual window, register it, etc
     timeBeginPeriod(1); // Set Sleep resolution to 1ms
@@ -580,7 +580,7 @@ WINDOW *curses_init(void)
 
     init_colors();
 
-    mainwin = newwin(OPTIONS["TERMINAL_Y"],OPTIONS["TERMINAL_X"],0,0);
+    mainwin = newwin(get_option<int>( "TERMINAL_Y" ), get_option<int>( "TERMINAL_X" ),0,0);
     return mainwin;   //create the 'stdscr' window and return its ref
 }
 
@@ -622,7 +622,7 @@ int curses_getch(WINDOW* win)
         CheckMessages();
     }
 
-    if (lastchar!=ERR && OPTIONS["HIDE_CURSOR"] == "hidekb" && CursorVisible) {
+    if (lastchar!=ERR && get_option<std::string>( "HIDE_CURSOR" ) == "hidekb" && CursorVisible) {
         CursorVisible = false;
         ShowCursor(false);
     }
@@ -675,26 +675,13 @@ int curses_start_color(void)
     std::ifstream colorfile(FILENAMES["colors"].c_str(), std::ifstream::in | std::ifstream::binary);
     try{
         JsonIn jsin(colorfile);
-        char ch;
         // Manually load the colordef object because the json handler isn't loaded yet.
-        jsin.eat_whitespace();
-        ch = jsin.peek();
-        if( ch == '[' ) {
-            jsin.start_array();
-            // find type and dispatch each object until array close
-            while (!jsin.end_array()) {
-                jsin.eat_whitespace();
-                char ch = jsin.peek();
-                if (ch != '{') {
-                    jsin.error( string_format( "expected array of objects but found '%c', not '{'", ch ) );
-                }
-                JsonObject jo = jsin.get_object();
-                load_colors(jo);
-                jo.finish();
-            }
-        } else {
-            // not an array?
-            jsin.error( string_format( "expected object or array, but found '%c'", ch ) );
+        jsin.start_array();
+        // find type and dispatch each object until array close
+        while (!jsin.end_array()) {
+            JsonObject jo = jsin.get_object();
+            load_colors(jo);
+            jo.finish();
         }
     } catch( const JsonError &err ){
         throw std::runtime_error( FILENAMES["colors"] + ": " + err.what() );
@@ -723,6 +710,10 @@ int curses_start_color(void)
 void curses_timeout(int t)
 {
     inputdelay = t;
+}
+
+void handle_additional_window_clear(WINDOW*)
+{
 }
 
 #endif

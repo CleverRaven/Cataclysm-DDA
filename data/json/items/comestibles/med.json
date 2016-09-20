@@ -24,8 +24,29 @@
             "move_cost" : 6000,
             "long_action" : true,
             "effects" : [ { "id" : "pkill1", "duration" : 120 } ]
-        },
-        "flags" : [ "USE_ON_NPC" ]
+        }
+    },
+    {
+        "id" : "1st_aid_survivor",
+        "type" : "COMESTIBLE",
+        "comestible_type" : "MED",
+        "name" : "improvised first aid kit",
+        "description" : "A medical kit made with cheap, subpar components.  For when nothing else is available.",
+        "weight" : 240,
+        "volume" : 2,
+        "price" : 100,
+        "stack_size" : 2,
+        "material" : "cotton",
+        "symbol" : "!",
+        "color" : "dkgray",
+        "use_action" : {
+            "type" : "heal",
+            "limb_power" : 8,
+            "limb_scaling" : 1,
+            "bleed" : 1.0,
+            "move_cost" : 50000,
+            "long_action" : true
+        }
     },
     {
         "id" : "adderall",
@@ -42,9 +63,10 @@
         "symbol" : "!",
         "color" : "light_red",
         "stim" : 24,
-         "fun" : 10,
+        "fun" : 10,
         "addiction_potential" : 10,
-        "addiction_type" : "amphetamine"
+        "addiction_type" : "amphetamine",
+        "flags" : "NPC_SAFE"
     },
     {
         "id" : "adrenaline_injector",
@@ -75,7 +97,8 @@
         "stack_size" : 200,
         "symbol" : "!",
         "color" : "white",
-        "use_action" : "ANTIBIOTIC"
+        "use_action" : "ANTIBIOTIC",
+        "flags" : "NPC_SAFE"
     },
     {
         "id" : "antifungal",
@@ -91,7 +114,8 @@
         "material" : "powder",
         "symbol" : "!",
         "color" : "white",
-        "use_action" : "ANTIFUNGAL"
+        "use_action" : "ANTIFUNGAL",
+        "flags" : "NPC_SAFE"
     },
     {
         "id" : "antiparasitic",
@@ -108,7 +132,8 @@
         "symbol" : "!",
         "color" : "white",
         "healthy" : -5,
-        "use_action" : "ANTIPARASITIC"
+        "use_action" : "ANTIPARASITIC",
+        "flags" : "NPC_SAFE"
     },
     {
         "id" : "aspirin",
@@ -152,8 +177,7 @@
             "torso_power" : 4,
             "bleed" : 0.9,
             "move_cost" : 300
-        },
-        "flags" : [ "USE_ON_NPC" ]
+        }
     },
     {
         "id" : "bfipowder",
@@ -178,8 +202,7 @@
             "torso_power" : 9,
             "bite" : 0.95,
             "move_cost" : 100
-        },
-        "flags" : [ "USE_ON_NPC" ]
+        }
     },
     {
         "id" : "brownie_weed",
@@ -335,7 +358,6 @@
         "material" : "cotton",
         "symbol" : "!",
         "color" : "red",
-        "flags" : [ "USE_ON_NPC" ],
         "use_action" : {
             "type" : "heal",
             "limb_power" : 1,
@@ -370,7 +392,10 @@
         "use_action" : {
             "type" : "consume_drug",
             "activation_message" : "You take some codeine.",
-            "effects" : [ { "id" : "pkill2", "duration" : 180 } ]
+            "effects" : [
+                { "id" : "pkill2", "duration" : 180 },
+                { "id" : "cough_suppress", "duration" : 1000 }
+            ]
         }
     },
     {
@@ -411,7 +436,8 @@
         "material" : "plastic",
         "symbol" : "[",
         "color" : "cyan",
-        "use_action" : "CONTACTS"
+        "use_action" : "CONTACTS",
+        "flags" : "NPC_SAFE"
     },
     {
         "id" : "cotton_ball",
@@ -431,13 +457,10 @@
         "container" : "bag_plastic",
         "use_action" : {
             "type" : "heal",
-            "limb_power" : 3,
-            "head_power" : 1,
-            "torso_power" : 4,
+            "limb_power" : 0,
             "bleed" : 0.9,
             "move_cost" : 300
-        },
-        "flags" : [ "USE_ON_NPC" ]
+        }
     },
     {
         "id" : "crack",
@@ -511,7 +534,8 @@
         "color" : "yellow",
         "phase" : "liquid",
         "container" : "bottle_plastic",
-        "use_action" : "FLUMED"
+        "use_action" : "FLUMED",
+        "flags" : "NPC_SAFE"
     },
     {
         "id" : "disinfectant",
@@ -534,8 +558,7 @@
             "torso_power" : 9,
             "bite" : 0.95,
             "move_cost" : 100
-        },
-        "flags" : [ "USE_ON_NPC" ]
+        }
     },
     {
         "id" : "diazepam",
@@ -589,7 +612,8 @@
         "charges" : 10,
         "symbol" : "!",
         "color" : "light_blue",
-        "use_action" : "EYEDROPS"
+        "use_action" : "EYEDROPS",
+        "flags" : "NPC_SAFE"
     },
     {
         "id" : "flu_shot",
@@ -604,7 +628,8 @@
         "material" : "plastic",
         "symbol" : "!",
         "color" : "magenta",
-        "use_action" : "FLU_VACCINE"
+        "use_action" : "FLU_VACCINE",
+        "flags" : "NPC_SAFE"
     },
     {
         "id" : "gum",
@@ -669,8 +694,11 @@
             "type" : "consume_drug",
             "activation_message" : "You shoot up.",
             "tools_needed" : { "syringe" : 1 },
-            "effects" : [ { "id" : "pkill3", "duration" : 80 },
-                { "id" : "pkill2", "duration" : 200 } ]
+            "effects" : [
+                { "id" : "pkill3", "duration" : 80 },
+                { "id" : "pkill2", "duration" : 200 },
+                { "id" : "cough_suppress", "duration" : 1000 }
+            ]
         }
     },
     {
@@ -817,7 +845,8 @@
         "quench" : -50,
         "fun" : -5,
         "spoils_in" : 672,
-        "use_action" : "ANTIPARASITIC"
+        "use_action" : "ANTIPARASITIC",
+        "flags" : "NPC_SAFE"
     },
     {
         "id" : "nic_gum",
@@ -994,6 +1023,7 @@
         "charges" : 10,
         "stack_size" : 200,
         "material" : "powder",
+        "flags" : "NPC_SAFE",
         "symbol" : "!",
         "color" : "blue",
         "use_action" : {
@@ -1025,8 +1055,7 @@
             "torso_power" : 4,
             "bleed" : 90,
             "move_cost" : 100
-        },
-        "flags" : [ "USE_ON_NPC" ]
+        }
     },
     {
         "id" : "saline",
@@ -1042,7 +1071,8 @@
         "color" : "light_cyan",
         "phase" : "liquid",
         "container" : "bottle_plastic",
-        "use_action" : "EYEDROPS"
+        "use_action" : "EYEDROPS",
+        "flags" : "NPC_SAFE"
     },
     {
         "id" : "thorazine",
@@ -1145,10 +1175,10 @@
         "price" : 5000, "//" : "Yeah, kinda guessing at these ones.",
         "stack_size" : 40,
         "material" : "plastic",
-        "flags" : "TRADER_AVOID",
         "symbol" : "!",
         "color" : "magenta",
-        "use_action" : "VACCINE"
+        "use_action" : "VACCINE",
+        "flags" : [ "NPC_SAFE", "TRADER_AVOID" ]
     },
     {
         "id" : "vitamins",

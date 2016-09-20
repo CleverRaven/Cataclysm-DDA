@@ -1337,6 +1337,8 @@
       { "monster" : "mon_boomer", "freq" : 30, "cost_multiplier" : 5 },
       { "monster" : "mon_boomer_huge", "freq" : 20, "cost_multiplier" : 5 },
       { "monster" : "mon_zombie_brute", "freq" : 30, "cost_multiplier" : 10 },
+      { "monster": "mon_zombie_brute_ninja", "freq": 1, "cost_multiplier": 20 },
+      { "monster": "mon_zombie_brute_grappler", "freq": 1, "cost_multiplier": 20 },
       { "monster" : "mon_zombie_hulk", "freq" : 10, "cost_multiplier" : 25 },
       { "monster" : "mon_zombie_master", "freq" : 10, "cost_multiplier" : 15 },
       { "monster" : "mon_beekeeper", "freq" : 5, "cost_multiplier" : 1 },
@@ -1345,5 +1347,20 @@
       { "monster" : "mon_zombie_hollow", "freq" : 2, "cost_multiplier" : 5 },
       { "monster" : "mon_zombie_predator", "freq" : 5, "cost_multiplier" : 10 }
     ]
-  }
+  },{
+    "type":"monstergroup",
+    "name" : "GROUP_PEST",
+    "default" : "mon_crow",
+    "monsters" : [
+      { "monster" : "mon_bat", "freq" : 20, "cost_multiplier" : 0, "pack_size": [6,12], "conditions": ["DAWN", "DUSK", "NIGHT", "SPRING", "SUMMER", "AUTUMN"] },
+      { "monster" : "mon_spider_widow_giant", "freq" : 30, "cost_multiplier" : 1, "pack_size": [2,4] },
+      { "monster" : "mon_giant_cockroach", "freq" : 50, "cost_multiplier" : 1, "pack_size": [3,6] },
+      { "monster" : "mon_black_rat", "freq" : 30, "cost_multiplier" : 1, "pack_size": [4,8] },
+      { "monster" : "mon_wasp", "freq" : 50, "cost_multiplier" : 1, "pack_size": [3,6] },
+      { "monster" : "mon_zombie_child", "freq" : 20, "cost_multiplier" : 1, "pack_size": [2,6] },
+      { "monster" : "mon_zombie", "freq" : 20, "cost_multiplier" : 1, "pack_size": [2,6] },
+      { "monster" : "mon_zombie_rot", "freq" : 10, "cost_multiplier" : 1, "pack_size": [1,5] },
+      { "monster" : "mon_beekeeper", "freq" : 10, "cost_multiplier" : 1, "pack_size": [1,5] }
+      ]
+    }
 ]

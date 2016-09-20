@@ -7,6 +7,7 @@
 #include "inventory.h"
 #include "output.h"
 #include "player.h"
+#include "requirements.h"
 #include "translations.h"
 #include "crafting.h"
 
@@ -55,9 +56,11 @@ void craft_command::execute()
         }
     }
 
+    const auto needs = rec->requirements();
+
     if( need_selections ) {
         item_selections.clear();
-        for( const auto &it : rec->requirements.get_components() ) {
+        for( const auto &it : needs.get_components() ) {
             comp_selection<item_comp> is = crafter->select_item_component( it, batch_size, map_inv, true );
             if( is.use_from == cancel ) {
                 return;
@@ -66,7 +69,7 @@ void craft_command::execute()
         }
 
         tool_selections.clear();
-        for( const auto &it : rec->requirements.get_tools() ) {
+        for( const auto &it : needs.get_tools() ) {
             comp_selection<tool_comp> ts = crafter->select_tool_component(
                                                it, batch_size, map_inv, DEFAULT_HOTKEYS, true );
             if( ts.use_from == cancel ) {
@@ -93,12 +96,10 @@ template<typename T>
 static void component_list_string( std::stringstream &str,
                                    const std::vector<comp_selection<T>> &components )
 {
-    for( size_t i = 0; i < components.size(); i++ ) {
-        if( i != 0 ) {
-            str << ", ";
-        }
-        str << components[i].nname();
-    }
+    str << enumerate_as_string( components.begin(), components.end(),
+    []( const comp_selection<T> &comp ) {
+        return comp.nname();
+    } );
 }
 
 bool craft_command::query_continue( const std::vector<comp_selection<item_comp>> &missing_items,

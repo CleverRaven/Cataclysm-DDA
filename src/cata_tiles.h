@@ -83,11 +83,13 @@ enum TILE_CATEGORY {
 
 /** Typedefs */
 struct SDL_Texture_deleter {
+    // Operator overload required to leverage unique_ptr API.
     void operator()( SDL_Texture *const ptr );
 };
 using SDL_Texture_Ptr = std::unique_ptr<SDL_Texture, SDL_Texture_deleter>;
 
 struct SDL_Surface_deleter {
+    // Operator overload required to leverage unique_ptr API.
     void operator()( SDL_Surface *const ptr );
 };
 using SDL_Surface_Ptr = std::unique_ptr<SDL_Surface, SDL_Surface_deleter>;

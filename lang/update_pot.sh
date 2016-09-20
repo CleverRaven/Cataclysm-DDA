@@ -29,6 +29,7 @@ xgettext --default-domain="cataclysm-dda" \
          --add-comments="~" \
          --output="lang/po/cataclysm-dda.pot" \
          --keyword="_" \
+         --keyword="gettext_noop" \
          --keyword="pgettext:1c,2" \
          --keyword="ngettext:1,2" \
          --from-code="UTF-8" \

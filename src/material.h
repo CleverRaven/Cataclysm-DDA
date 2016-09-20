@@ -14,25 +14,31 @@
 
 class material_type;
 using material_id = string_id<material_type>;
+using itype_id = std::string;
 
 class material_type
 {
+    public:
+        material_id id;
+        bool was_loaded = false;
+
     private:
-        material_id _ident;
         std::string _name;
-        std::string _salvage_id; // this material turns into this item when salvaged
-        float _salvage_multiplier; // multiplier when salvaging.
-        int _bash_resist;       // negative integers means susceptibility
-        int _cut_resist;
+        itype_id _salvaged_into = itype_id( "null" ); // this material turns into this item when salvaged
+        itype_id _repaired_with = itype_id( "null" ); // this material can be repaired with this item
+        int _bash_resist = 0;                         // negative integers means susceptibility
+        int _cut_resist = 0;
+        int _acid_resist = 0;
+        int _elec_resist = 0;
+        int _fire_resist = 0;
+        int _chip_resist = 0;                         // Resistance to physical damage of the item itself
+        int _density = 1;                             // relative to "powder", which is 1
+        bool _edible = false;
+        bool _soft = false;
+
         std::string _bash_dmg_verb;
         std::string _cut_dmg_verb;
-        std::string _dmg_adj[MAX_ITEM_DAMAGE];
-        int _acid_resist;
-        int _elec_resist;
-        int _fire_resist;
-        int _chip_resist;       // Resistance to physical damage of the item itself
-        int _density;   // relative to "powder", which is 1
-        bool _edible;
+        std::vector<std::string> _dmg_adj;
 
         std::map<vitamin_id, double> _vitamins;
 
@@ -40,18 +46,16 @@ class material_type
 
     public:
         material_type();
-        static void load_material( JsonObject &jsobj );
 
-        // clear material map, every material pointer becames invalid!
-        static void reset();
+        void load( JsonObject &jo );
+        void check() const;
 
         int dam_resist( damage_type damtype ) const;
 
-        bool is_null() const;
         material_id ident() const;
         std::string name() const;
-        std::string salvage_id() const;
-        float salvage_multiplier() const;
+        itype_id salvaged_into() const;
+        itype_id repaired_with() const;
         int bash_resist() const;
         int cut_resist() const;
         std::string bash_dmg_verb() const;
@@ -63,6 +67,7 @@ class material_type
         int chip_resist() const;
         int density() const;
         bool edible() const;
+        bool soft() const;
 
         double vitamin( const vitamin_id &id ) const {
             auto iter = _vitamins.find( id );
@@ -71,5 +76,14 @@ class material_type
 
         const mat_burn_data &burn_data( size_t intensity ) const;
 };
+
+namespace materials
+{
+
+void load( JsonObject &jo );
+void check();
+void reset();
+
+}
 
 #endif

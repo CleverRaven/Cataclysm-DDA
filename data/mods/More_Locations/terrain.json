@@ -92,8 +92,7 @@
                 { "item": "cable", "charges": [0, 4] },
                 { "item": "scrap", "count": [8, 12] },
                 { "item": "steel_chunk", "count": [2, 4] },
-                { "item": "steel_plate", "count": [1, 2] },
-                { "item": "lead_plate", "count": [1, 2] }
+                { "item": "steel_plate", "count": [1, 2] }
             ]
         },
         "deconstruct": {
@@ -102,8 +101,7 @@
                 { "item": "cable", "charges": [4, 8] },
                 { "item": "steel_chunk", "count": [4, 6] },
                 { "item": "steel_plate", "count": [2, 4] },
-                { "item": "scrap", "count": [12, 16] },
-                { "item": "lead_plate", "count": [0, 1] }
+                { "item": "scrap", "count": [12, 16] }
             ]
         }
     },{

@@ -537,8 +537,9 @@ void monster::move()
                     _( "The %s flows around the objects on the floor and they are quickly dissolved!" ),
                     name().c_str() );
             }
+            static const auto volume_per_hp = units::from_milliliter( 250 );
             for( auto &elem : g->m.i_at( pos() ) ) {
-                hp += elem.volume(); // Yeah this means it can get more HP than normal.
+                hp += elem.volume() / volume_per_hp; // Yeah this means it can get more HP than normal.
             }
             g->m.i_clear( pos() );
         }
@@ -802,17 +803,17 @@ tripoint monster::scent_move()
 
     const bool fleeing = is_fleeing( g->u );
     if( fleeing ) {
-        bestsmell = g->scent( pos() );
+        bestsmell = g->scent.get( pos() );
     }
 
     tripoint next( -1, -1, posz() );
-    if( ( !fleeing && g->scent( pos() ) > smell_threshold ) ||
+    if( ( !fleeing && g->scent.get( pos() ) > smell_threshold ) ||
         ( fleeing && bestsmell == 0 ) ) {
         return next;
     }
     const bool can_bash = has_flag( MF_BASHES ) || has_flag( MF_BORES );
     for( const auto &dest : g->m.points_in_radius( pos(), 1 ) ) {
-        int smell = g->scent( dest );
+        int smell = g->scent.get( dest );
         if( ( can_move_to( dest ) || ( dest == g->u.pos() ) ||
               ( can_bash && g->m.bash_rating( bash_estimate(), dest ) > 0 ) ) ) {
             if( ( !fleeing && smell > bestsmell ) || ( fleeing && smell < bestsmell ) ) {
@@ -1196,12 +1197,6 @@ bool monster::move_to( const tripoint &p, bool force, const float stagger_adjust
             }
         }
     }
-    if( has_flag( MF_LEAKSGAS ) ) {
-        if( one_in( 6 ) ) {
-            tripoint dest( posx() + rng( -1, 1 ), posy() + rng( -1, 1 ), posz() );
-            g->m.add_field( dest, fd_toxic_gas, 3, 0 );
-        }
-    }
 
     return true;
 }
@@ -1464,7 +1459,7 @@ void monster::knock_back_from( const tripoint &p )
     }
 
     // If we're still in the function at this point, we're actually moving a tile!
-    if( g->m.ter_at( to ).has_flag( TFLAG_DEEP_WATER ) ) {
+    if( g->m.has_flag_ter( TFLAG_DEEP_WATER, to ) ) {
         if( g->m.has_flag( "LIQUID", to ) && can_drown() ) {
             die( nullptr );
             if( u_see ) {
@@ -1486,7 +1481,7 @@ void monster::knock_back_from( const tripoint &p )
         add_effect( effect_stunned, 2 );
         if( u_see ) {
             add_msg( _( "The %1$s bounces off a %2$s." ), name().c_str(),
-                     g->m.tername( to ).c_str() );
+                     g->m.obstacle_name( to ).c_str() );
         }
 
     } else { // It's no wall
@@ -1522,8 +1517,8 @@ bool monster::will_reach( int x, int y )
         return false;
     }
 
-    if( has_flag( MF_SMELLS ) && g->scent( pos() ) > 0 &&
-        g->scent( { x, y, posz() } ) > g->scent( pos() ) ) {
+    if( has_flag( MF_SMELLS ) && g->scent.get( pos() ) > 0 &&
+        g->scent.get( { x, y, posz() } ) > g->scent.get( pos() ) ) {
         return true;
     }
 

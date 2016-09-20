@@ -1,0 +1,78 @@
+[
+  {
+    "result": "reloaded_9mm",
+    "type": "recipe",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_PISTOL",
+    "skill_used": "fabrication",
+    "difficulty": 4,
+    "skills_required": [ "gun", 4 ],
+    "time": 5000,
+    "batch_time_factors": [ 50, 10 ],
+    "book_learn": [ [ "recipe_bullets", 3 ], [ "manual_pistol", 4 ] ],
+    "charges": 1,
+    "using": [ [ "bullet_forming", 2 ], [ "ammo_bullet", 2 ] ],
+    "components": [
+      [ [ "smpistol_primer", 1 ] ],
+      [ [ "9mm_casing", 1 ] ],
+      [ [ "gunpowder", 3 ] ]
+    ]
+  },
+  {
+    "result": "reloaded_9mmP",
+    "type": "recipe",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_PISTOL",
+    "skill_used": "fabrication",
+    "difficulty": 4,
+    "skills_required": [ "gun", 3 ],
+    "time": 5000,
+    "batch_time_factors": [ 50, 10 ],
+    "book_learn": [ [ "recipe_bullets", 2 ], [ "manual_pistol", 3 ] ],
+    "charges": 1,
+    "using": [ [ "bullet_forming", 2 ], [ "ammo_bullet", 2 ] ],
+    "components": [
+      [ [ "smpistol_primer", 1 ] ],
+      [ [ "9mm_casing", 1 ] ],
+      [ [ "gunpowder", 4 ] ]
+    ]
+  },
+  {
+    "result": "reloaded_9mmP2",
+    "type": "recipe",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_PISTOL",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "skills_required": [ "gun", 5 ],
+    "time": 5000,
+    "batch_time_factors": [ 50, 10 ],
+    "book_learn": [ [ "recipe_bullets", 3 ], [ "manual_pistol", 4 ] ],
+    "charges": 1,
+    "using": [ [ "bullet_forming", 2 ], [ "ammo_bullet", 2 ] ],
+    "components": [
+      [ [ "smpistol_primer", 1 ] ],
+      [ [ "9mm_casing", 1 ] ],
+      [ [ "gunpowder", 5 ] ]
+    ]
+  },
+  {
+    "result": "reloaded_9mmfmj",
+    "type": "recipe",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_PISTOL",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "skills_required": [ "gun", 1 ],
+    "time": 5000,
+    "batch_time_factors": [ 50, 10 ],
+    "book_learn": [ [ "recipe_bullets", 1 ], [ "manual_pistol", 2 ] ],
+    "charges": 1,
+    "using": [ [ "bullet_forming", 2 ], [ "ammo_bullet", 2 ] ],
+    "components": [
+      [ [ "smpistol_primer", 1 ] ],
+      [ [ "9mm_casing", 1 ] ],
+      [ [ "gunpowder", 3 ] ]
+    ]
+  }
+]

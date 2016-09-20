@@ -45,9 +45,9 @@ After adding this to the professions.json file, we should see the new profession
 show up in the character creation screen.
 
 2) Adding an item
- 1)  Open the appropriate json in data/raw/items and add your item near similar types.
+ 1)  Open the appropriate json in data/json/items and add your item near similar types.
  1b) See JSON_INFO for a more in-depth review of each individual item .json file/flags
- 2)  Add the item to item_groups.json to have it spawn in in-game locations
+ 2)  Add the item to data/json/itemgroups to have it spawn in in-game locations
 
 3) IMPORTANT NOTE on JSON FILES:
 The following characters: [ { , } ] : "

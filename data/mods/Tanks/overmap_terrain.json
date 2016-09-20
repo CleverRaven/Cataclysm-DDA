@@ -1,0 +1,19 @@
+[
+    {
+        "type" : "overmap_terrain",
+        "id" : "bandit_garage_1",
+        "name" : "forest",
+        "sym" : 70,
+        "color" : "green",
+        "see_cost" : 5,
+        "extras" : "field"
+    },{
+        "type" : "overmap_terrain",
+        "id" : "bandit_garage_2",
+        "name" : "forest",
+        "sym" : 70,
+        "color" : "green",
+        "see_cost" : 5,
+        "extras" : "field"
+    }
+]

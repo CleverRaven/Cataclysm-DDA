@@ -1,0 +1,191 @@
+[
+  {
+    "id": "CONTROL_ENGINES",
+    "type": "keybinding",
+    "category": "VEHICLE",
+    "name": "Control individual engines",
+    "bindings":[ { "input_method": "keyboard", "key": "y" } ]
+  },
+  {
+    "id": "FOLD_VEHICLE",
+    "type": "keybinding",
+    "category": "VEHICLE",
+    "name": "Fold vehicle",
+    "bindings":[ { "input_method": "keyboard", "key": "f" } ]
+  },
+  {
+    "id": "RELEASE_CONTROLS",
+    "type": "keybinding",
+    "category": "VEHICLE",
+    "name": "Release controls",
+    "bindings":[ { "input_method": "keyboard", "key": "l" } ]
+  },
+  {
+    "id": "SOUND_HORN",
+    "type": "keybinding",
+    "category": "VEHICLE",
+    "name": "Sound horn",
+    "bindings":[ { "input_method": "keyboard", "key": "n" } ]
+  },
+  {
+    "id": "TOGGLE_AISLE_LIGHT",
+    "type": "keybinding",
+    "category": "VEHICLE",
+    "name": "Toggle aisle lights",
+    "bindings":[ { "input_method": "keyboard", "key": "a" } ]
+  },
+  {
+    "id": "TOGGLE_ALARM",
+    "type": "keybinding",
+    "category": "VEHICLE",
+    "name": "Toggle alarm",
+    "bindings":[ { "input_method": "keyboard", "key": "z" } ]
+  },
+  {
+    "id": "TOGGLE_ATOMIC_LIGHT",
+    "type": "keybinding",
+    "category": "VEHICLE",
+    "name": "Toggle atomic lights",
+    "bindings":[ { "input_method": "keyboard", "key": "A" } ]
+  },
+  {
+    "id": "TOGGLE_CAMERA",
+    "type": "keybinding",
+    "category": "VEHICLE",
+    "name": "Toggle camera system",
+    "bindings":[ { "input_method": "keyboard", "key": "M" } ]
+  },
+  {
+    "id": "TOGGLE_CHIMES",
+    "type": "keybinding",
+    "category": "VEHICLE",
+    "name": "Toggle chimes",
+    "bindings":[ { "input_method": "keyboard", "key": "i" } ]
+  },
+  {
+    "id": "TOGGLE_CRUISE_CONTROL",
+    "type": "keybinding",
+    "category": "VEHICLE",
+    "name": "Toggle cruise control",
+    "bindings":[ { "input_method": "keyboard", "key": "c" } ]
+  },
+  {
+    "id": "TOGGLE_DOME_LIGHT",
+    "type": "keybinding",
+    "category": "VEHICLE",
+    "name": "Toggle dome lights",
+    "bindings":[ { "input_method": "keyboard", "key": "d" } ]
+  },
+  {
+    "id": "TOGGLE_DOORS",
+    "type": "keybinding",
+    "category": "VEHICLE",
+    "name": "Toggle doors",
+    "bindings":[ { "input_method": "keyboard", "key": "D" } ]
+  },
+  {
+    "id": "TOGGLE_ENGINE",
+    "type": "keybinding",
+    "category": "VEHICLE",
+    "name": "Toggle engine",
+    "bindings":[ { "input_method": "keyboard", "key": "e" } ]
+  },
+  {
+    "id": "TOGGLE_FRIDGE",
+    "type": "keybinding",
+    "category": "VEHICLE",
+    "name": "Toggle fridge",
+    "bindings":[ { "input_method": "keyboard", "key": "f" } ]
+  },
+  {
+    "id": "TOGGLE_HEADLIGHT",
+    "type": "keybinding",
+    "category": "VEHICLE",
+    "name": "Toggle headlights",
+    "bindings":[ { "input_method": "keyboard", "key": "h" } ]
+  },
+  {
+    "id": "TOGGLE_OVERHEAD_LIGHT",
+    "type": "keybinding",
+    "category": "VEHICLE",
+    "name": "Toggle overhead lights",
+    "bindings":[ { "input_method": "keyboard", "key": "o" } ]
+  },
+  {
+    "id": "TOGGLE_PLANTER",
+    "type": "keybinding",
+    "category": "VEHICLE",
+    "name": "Toggle planter",
+    "bindings":[ { "input_method": "keyboard", "key": "P" } ]
+  },
+  {
+    "id": "TOGGLE_PLOW",
+    "type": "keybinding",
+    "category": "VEHICLE",
+    "name": "Toggle plow",
+    "bindings":[ { "input_method": "keyboard", "key": "w" } ]
+  },
+  {
+    "id": "TOGGLE_REACTOR",
+    "type": "keybinding",
+    "category": "VEHICLE",
+    "name": "Toggle reactor",
+    "bindings":[ { "input_method": "keyboard", "key": "k" } ]
+  },
+  {
+    "id": "TOGGLE_REAPER",
+    "type": "keybinding",
+    "category": "VEHICLE",
+    "name": "Toggle reaper",
+    "bindings":[ { "input_method": "keyboard", "key": "H" } ]
+  },
+  {
+    "id": "TOGGLE_RECHARGER",
+    "type": "keybinding",
+    "category": "VEHICLE",
+    "name": "Toggle recharger",
+    "bindings":[ { "input_method": "keyboard", "key": "g" } ]
+  },
+  {
+    "id": "TOGGLE_SCOOP",
+    "type": "keybinding",
+    "category": "VEHICLE",
+    "name": "Toggle scoop",
+    "bindings":[ { "input_method": "keyboard", "key": "S" } ]
+  },
+  {
+    "id": "TOGGLE_STEREO",
+    "type": "keybinding",
+    "category": "VEHICLE",
+    "name": "Toggle stereo",
+    "bindings":[ { "input_method": "keyboard", "key": "m" } ]
+  },
+  {
+    "id": "TOGGLE_TRACKING",
+    "type": "keybinding",
+    "category": "VEHICLE",
+    "name": "Toggle tracking",
+    "bindings":[ { "input_method": "keyboard", "key": "K" } ]
+  },
+  {
+    "id": "TURRET_FIRE_MODE",
+    "type": "keybinding",
+    "category": "VEHICLE",
+    "name": "Set turret firing modes",
+    "bindings":[ { "input_method": "keyboard", "key": "x" } ]
+  },
+  {
+    "id": "TURRET_MANUAL_AIM",
+    "type": "keybinding",
+    "category": "VEHICLE",
+    "name": "Aim turrets manually",
+    "bindings":[ { "input_method": "keyboard", "key": "X" } ]
+  },
+  {
+    "id": "TURRET_TARGET_MODE",
+    "type": "keybinding",
+    "category": "VEHICLE",
+    "name": "Set turret targeting modes",
+    "bindings":[ { "input_method": "keyboard", "key": "t" } ]
+  }
+]

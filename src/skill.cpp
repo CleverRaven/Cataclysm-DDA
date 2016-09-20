@@ -141,7 +141,7 @@ SkillLevel::SkillLevel(int level, int exercise, bool isTraining, int lastPractic
   : _level(level), _exercise(exercise), _lastPracticed(lastPracticed), _isTraining(isTraining)
 {
     if (lastPracticed <= 0) {
-        _lastPracticed = HOURS(ACTIVE_WORLD_OPTIONS["INITIAL_TIME"]);
+        _lastPracticed = HOURS(get_world_option<int>( "INITIAL_TIME" ) );
     }
 }
 
@@ -157,7 +157,7 @@ void SkillLevel::train(int amount, bool skip_scaling)
     if( skip_scaling ) {
         _exercise += amount;
     } else {
-        const double scaling = OPTIONS["SKILL_TRAINING_SPEED"];
+        const double scaling = get_option<float>( "SKILL_TRAINING_SPEED" );
         if( scaling > 0.0 ) {
             _exercise += divide_roll_remainder( amount * scaling, 1.0 );
         }
@@ -185,7 +185,7 @@ int rustRate(int level)
 
 bool SkillLevel::isRusting() const
 {
-    return OPTIONS["SKILL_RUST"] != "off" && (_level > 0) &&
+    return get_option<std::string>( "SKILL_RUST" ) != "off" && (_level > 0) &&
            (calendar::turn - _lastPracticed) > rustRate(_level);
 }
 
@@ -201,7 +201,7 @@ bool SkillLevel::rust( bool charged_bio_mem )
     }
 
     _exercise -= _level;
-    auto const &rust_type = OPTIONS["SKILL_RUST"];
+    auto const &rust_type = get_option<std::string>( "SKILL_RUST" );
     if (_exercise < 0) {
         if (rust_type == "vanilla" || rust_type == "int") {
             _exercise = (100 * _level * _level) - 1;
@@ -230,7 +230,7 @@ void SkillLevel::readBook(int minimumGain, int maximumGain, int maximumLevel)
 
 bool SkillLevel::can_train() const
 {
-    return OPTIONS["SKILL_TRAINING_SPEED"] > 0.0;
+    return get_option<float>( "SKILL_TRAINING_SPEED" ) > 0.0;
 }
 
 //Actually take the difference in barter skill between the two parties involved

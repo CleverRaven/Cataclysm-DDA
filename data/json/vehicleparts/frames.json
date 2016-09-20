@@ -6,8 +6,8 @@
     "item": "foldframe",
     "location": "structure",
     "symbol": "h",
-    "durability": 50,
     "difficulty": 2,
+    "durability": 50,
     "folded_volume": 10,
     "breaks_into": [
       { "item": "steel_chunk", "count": [ 0, 2 ] },
@@ -24,14 +24,14 @@
     "symbol": "h",
     "color": "brown",
     "broken_color": "brown",
-    "durability": 15,
     "difficulty": 2,
+    "durability": 15,
     "folded_volume": 15,
-    "flags": [ "INITIAL_PART", "MOUNTABLE", "FOLDABLE", "NAILABLE" ],
     "breaks_into": [
       { "item": "splinter", "count": [ 0, 6 ] },
       { "item": "nail", "charges": [ 1, 15 ] }
-    ]
+    ],
+    "flags": [ "INITIAL_PART", "MOUNTABLE", "FOLDABLE", "NAILABLE" ]
   },
   {
     "abstract": "frame",
@@ -39,9 +39,20 @@
     "name": "frame",
     "item": "frame",
     "location": "structure",
-    "durability": 400,
     "difficulty": 1,
+    "durability": 400,
     "breaks_into": "ig_vp_frame",
+    "requirements": {
+      "install": {
+        "skills": [ [ "mechanics", 1 ] ],
+        "time": 120000,
+        "using": [ [ "welding_standard", 10 ] ]
+      },
+      "removal": {
+        "skills": [ [ "mechanics", 1 ] ],
+        "using": "vehicle_weld_removal"
+      }
+    },
     "flags": [ "MOUNTABLE" ]
   },
   {
@@ -52,11 +63,11 @@
     "location": "structure",
     "color": "brown",
     "broken_color": "brown",
-    "durability": 150,
     "difficulty": 1,
+    "durability": 150,
     "breaks_into": [
-        { "item": "splinter", "count": [ 7, 9 ] },
-        { "item": "nail", "charges": [ 5, 10 ] }
+      { "item": "splinter", "count": [ 7, 9 ] },
+      { "item": "nail", "charges": [ 5, 10 ] }
     ],
     "flags": [ "NAILABLE" ]
   },
@@ -68,13 +79,18 @@
     "location": "structure",
     "color": "brown",
     "broken_color": "brown",
-    "durability": 100,
     "difficulty": 0,
+    "durability": 100,
     "breaks_into": [
       { "item": "splinter", "count": [ 3, 5 ] },
       { "item": "string_36", "count": [ 10, 15 ] }
     ],
-    "flags": [ "NAILABLE" ]
+    "requirements": {
+      "install": {
+        "time": 60000,
+        "components": [ [ [ "rope_6", 1 ] ] ]
+      }
+    }
   },
   {
     "abstract": "hdframe",
@@ -83,9 +99,20 @@
     "item": "hdframe",
     "location": "structure",
     "color": "dark_gray",
+    "difficulty": 3,
     "durability": 1600,
-    "difficulty": 1,
     "breaks_into": "ig_vp_hdframe",
+    "requirements": {
+      "install": {
+        "skills": [ [ "mechanics", 3 ] ],
+        "time": 240000,
+        "using": [ [ "welding_standard", 20 ] ]
+      },
+      "removal": {
+        "skills": [ [ "mechanics", 1 ] ],
+        "using": "vehicle_weld_removal"
+      }
+    },
     "flags": [ "MOUNTABLE" ]
   },
   {
@@ -95,8 +122,8 @@
     "item": "xlframe",
     "location": "structure",
     "color": "light_gray",
-    "durability": 150,
     "difficulty": 1,
+    "durability": 150,
     "breaks_into": "ig_vp_xlframe",
     "flags": [ "MOUNTABLE" ]
   },

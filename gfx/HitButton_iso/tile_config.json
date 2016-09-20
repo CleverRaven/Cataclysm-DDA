@@ -15,7 +15,6 @@
           "id": ["tr_lava", "tr_pit", "tr_spike_pit", "tr_glass_pit" ],
           "fg": 0,
           "//": "things that intentionally have an entirely transparent tile"
-        
         },
         {
           "id": ["mon_zombie" ],
@@ -46,7 +45,6 @@
           "//": "pseudo-items / stuff that shouldn't exist go here.",
           "///": "also includes many vehicle parts which exist on undrawn layers of vehicles",
           "fg": 7
-          
         },
         {
           "id": ["t_floor" ],
@@ -648,7 +646,6 @@
                 "id":"broken",
                 "fg":237
             }
-
           ]
         },
         {
@@ -926,7 +923,7 @@
                 "fg":235
             }
           ]
-        },        
+        },
         {
           "id": ["vp_frame_handle", "vp_frame_wood_handle", "vp_frame_wood_light_handle" ],
           "multitile": true,
@@ -2811,7 +2808,7 @@
           "id": ["t_tree_season_winter", "t_tree_birch_harvested_season_winter", "t_tree_blackjack_season_winter" ],
           "fg": 891
         },
-        { 
+        {
           "id": ["t_tree_apple_season_winter", "t_tree_apple_harvested_season_winter", "t_tree_apricot_season_winter", "t_tree_apricot_harvested_season_winter", "t_tree_pear_season_winter", "t_tree_pear_harvested_season_winter", "t_tree_cherry_season_winter", "t_tree_cherry_harvested_season_winter", "t_tree_peach_season_winter", "t_tree_peach_harvested_season_winter", "t_tree_plum_season_winter", "t_tree_plum_harvested_season_winter", "t_tree_hickory_season_winter", "t_tree_hickory_harvested_season_winter", "t_tree_hickory_dead" ],
           "bg": 894
         },
@@ -3532,11 +3529,11 @@
         {
           "id": ["f_trashcan" ],
           "fg": 1182
-        },        
+        },
         {
           "id": ["bio_ads", "bio_ups", "bio_alarm", "bio_armor_arms", "bio_armor_eyes", "bio_armor_head", "bio_armor_legs", "bio_armor_torso", "bio_batteries", "bio_blaster", "bio_blood_anal", "bio_blood_filter", "bio_carbon", "bio_chain_lightning", "bio_claws", "bio_blade", "bio_cqb", "bio_climate", "bio_cloak", "bio_dex_enhancer", "bio_digestion", "bio_ears", "bio_emp", "bio_ethanol", "bio_evap", "bio_eye_enhancer", "bio_face_mask", "bio_fingerhack", "bio_flashbang", "bio_flashlight", "bio_furnace", "bio_reactor", "bio_reactor_upgrade", "bio_plut_filter", "bio_advreactor", "bio_geiger", "bio_adrenaline", "bio_gills", "bio_ground_sonar", "bio_heat_absorb", "bio_heatsink", "bio_hydraulics", "bio_infrared", "bio_int_enhancer", "bio_speed", "bio_faraday", "bio_laser", "bio_lighter", "bio_lockpick", "bio_magnet", "bio_membrane", "bio_memory", "bio_metabolics", "bio_nanobots", "bio_night", "bio_night_vision", "bio_ods", "bio_painkiller", "bio_power_armor_interface", "bio_power_armor_interface_mkII", "bio_power_storage", "bio_power_storage_mkII", "bio_watch", "bio_probability_travel", "bio_purifier", "bio_radscrubber", "bio_railgun", "bio_razors", "bio_recycler", "bio_resonator", "bio_scent_mask", "bio_scent_vision", "bio_shock", "bio_shockwave", "bio_solar", "bio_storage", "bio_leukocyte", "bio_str_enhancer", "bio_sunglasses", "bio_targeting", "bio_teleport", "bio_time_freeze", "bio_tools", "bio_torsionratchet", "bio_uncanny_dodge", "bio_water_extractor", "bio_meteorologist", "bio_remote", "burnt_out_bionic" ],
           "fg": 1183
-        },        
+        },
         {
           "id": ["f_skin_wall" ],
           "multitile":true,
@@ -6382,7 +6379,7 @@
           "//": "powder white",
           "fg": 1916
         },
-        {   
+        {
           "id": ["fertilizer_commercial", "raw_dandelion", "dandelion_fried", "fat_tainted", "chips", "cereal", "cereal2", "cereal3", "chips2", "chips3", "nachos", "nachosc", "nachosm", "nachoshf", "nachosmc", "nachoshc", "candy3", "spaghetti_raw", "lasagne_raw", "spaghetti_cooked", "lasagne_cooked", "macaroni_raw", "macaroni_cooked", "can_corn", "honeycomb", "cornmeal", "deluxe_rice", "deluxe_veggy_rice", "powder_eggs", "scrambled_eggs", "deluxe_eggs", "honey_glassed", "cheese", "can_cheese", "cheese_hard", "noodles_fast", "fries", "cheese_fries", "lemonade_powder", "chem_sulphur", "chunk_sulfur", "gold", "marloss_gel", "fried_seeds", "tortilla_corn" ],
           "//": "powder yellow",
           "fg": 1917
@@ -7940,7 +7937,7 @@
         {
           "id": ["marloss_seed" ],
           "fg": 2319
-        },        
+        },
         {
           "id": ["t_fungus_wall", "t_fungus_wall_transformed" ],
           "fg": [ 2320, 2321 ],

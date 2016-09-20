@@ -1,0 +1,38 @@
+[
+  {
+    "id": "9mm",
+    "type": "AMMO",
+    "name": "9x19mm JHP",
+    "name_plural": "9x19mm JHP",
+    "description": "9x19mm ammunition with a 116gr jacketed hollow point bullet.  JHP rounds have inferior penetration to FMJ rounds but their expansion slightly increases stopping power against unarmored targets and reduces overpenetration.",
+    "weight": 7,
+    "volume": 1,
+    "price": 2400,
+    "material": [ "steel", "powder" ],
+    "symbol": "=",
+    "color": "yellow",
+    "count": 50,
+    "stack_size": 50,
+    "ammo_type": "9mm",
+    "casing": "9mm_casing",
+    "range": 14,
+    "damage": 26,
+    "dispersion": 140,
+    "recoil": 195,
+    "effects": [ "COOKOFF" ]
+  },
+  {
+    "id": "reloaded_shot_00",
+    "copy-from": "shot_00",
+    "type": "AMMO",
+    "name": "reloaded 00 shot",
+    "name_plural": "reloaded 00 shot",
+    "proportional": {
+      "price": 0.7,
+      "damage": 0.9,
+      "dispersion": 1.1
+    },
+    "extend": { "effects": [ "RECYCLED" ] },
+    "delete": { "effects": [ "NEVER_MISFIRES" ] }
+  }
+]

@@ -667,6 +667,7 @@
     "armor_cut":8,
     "hp":680,
     "death_drops": "plant_boss_drops", "//": "Boss-level essence and an item",
+    "emit_fields": [ "emit_toxic_leak" ],
     "death_function":"NORMAL",
     "special_attacks":[
         {
@@ -676,7 +677,7 @@
         ["TENTACLE", 5]
     ],
     "description":"A large plantlike creature with a gaping, toothy maw and numerous vines.  A hideous smell permeates the air around it.",
-    "flags":["HEARS", "SMELLS", "BASHES", "NOHEAD", "POISON", "LEAKSGAS", "NO_BREATHE", "PARALYZEVENOM"]
+    "flags":["HEARS", "SMELLS", "BASHES", "NOHEAD", "POISON", "NO_BREATHE", "PARALYZEVENOM"]
     },{
     "type" : "MONSTER",
     "id" : "mon_archon",

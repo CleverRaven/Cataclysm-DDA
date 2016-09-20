@@ -16,7 +16,6 @@ class scent_map
         using scent_array = std::array<std::array<T, SEEY *MAPSIZE>, SEEX *MAPSIZE>;
 
         scent_array<int> grscent;
-        int null_scent = 0;
         tripoint player_last_position = tripoint_min;
         int player_last_moved = -1;
 
@@ -39,19 +38,19 @@ class scent_map
          * The coordinate system is the same as the @ref map (`g->m`) uses.
          */
         /**@{*/
-        int &operator()( size_t x, size_t y );
-        int &operator()( const point &p ) {
-            return operator()( p.x, p.y );
+        void set( size_t x, size_t y, int value );
+        void set( const point &p, int value ) {
+            return set( p.x, p.y, value );
         }
-        int &operator()( const tripoint &p ) {
-            return operator()( p.x, p.y );
+        void set( const tripoint &p, int value ) {
+            return set( p.x, p.y, value );
         }
-        int operator()( size_t x, size_t y ) const;
-        int operator()( const point &p ) const {
-            return operator()( p.x, p.y );
+        int get( size_t x, size_t y ) const;
+        int get( const point &p ) const {
+            return get( p.x, p.y );
         }
-        int operator()( const tripoint &p ) const {
-            return operator()( p.x, p.y );
+        int get( const tripoint &p ) const {
+            return get( p.x, p.y );
         }
         /**@}*/
 

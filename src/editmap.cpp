@@ -240,12 +240,12 @@ void editmap_hilight::draw( editmap *hm, bool update )
             int vpart = 0;
             // but only if there's no vehicles/mobs/npcs on a point
             if( ! g->m.veh_at( p, vpart ) && ( g->mon_at( p ) == -1 ) && ( g->npc_at( p ) == -1 ) ) {
-                char t_sym = g->m.ter_at( p ).symbol();
-                nc_color t_col = g->m.ter_at( p ).color();
-
+                const ter_t &terrain = g->m.ter( p ).obj();
+                char t_sym = terrain.symbol();
+                nc_color t_col = terrain.color();
 
                 if( g->m.furn( p ) > 0 ) {
-                    const furn_t &furniture_type = g->m.furn_at( p );
+                    const furn_t &furniture_type = g->m.furn( p ).obj();
                     t_sym = furniture_type.symbol();
                     t_col = furniture_type.color();
                 }
@@ -550,12 +550,13 @@ void editmap::update_view( bool update_info )
             int vpart = 0;
             // but only if there's no vehicles/mobs/npcs on a point
             if( ! g->m.veh_at( p, vpart ) && ( g->mon_at( p ) == -1 ) && ( g->npc_at( p ) == -1 ) ) {
-                char t_sym = g->m.ter_at( p ).symbol();
-                nc_color t_col = g->m.ter_at( p ).color();
+                const ter_t &terrain = g->m.ter( p ).obj();
+                char t_sym = terrain.symbol();
+                nc_color t_col = terrain.color();
 
 
-                if( g->m.has_furn( p ) > 0 ) {
-                    const furn_t &furniture_type = g->m.furn_at( p );
+                if( g->m.has_furn( p ) ) {
+                    const furn_t &furniture_type = g->m.furn( p ).obj();
                     t_sym = furniture_type.symbol();
                     t_col = furniture_type.color();
                 }
@@ -621,7 +622,8 @@ void editmap::update_view( bool update_info )
         const auto &map_cache = g->m.get_cache( target.z );
 
         mvwprintw( w_info, off++, 1, _( "dist: %d u_see: %d v_in: %d scent: %d" ),
-                   rl_dist( g->u.pos(), target ), g->u.sees( target ), veh_in, g->scent( target ) );
+                   rl_dist( g->u.pos(), target ), g->u.sees( target ),
+                   veh_in, g->scent.get( target ) );
         mvwprintw( w_info, off++, 1, _( "sight_range: %d, daylight_sight_range: %d," ),
                    g->u.sight_range( g->light_level( g->u.posz() ) ), g->u.sight_range( DAYLIGHT_LEVEL ) );
         mvwprintw( w_info, off++, 1, _( "transparency: %.5f, visibility: %.5f," ),
@@ -1342,7 +1344,7 @@ int editmap::edit_itm()
             imenu.addentry( imenu_bday, true, -1, pgettext( "item manipulation debug menu entry", "bday: %d" ),
                             ( int )it->bday );
             imenu.addentry( imenu_damage, true, -1, pgettext( "item manipulation debug menu entry",
-                            "damage: %d" ), ( int )it->damage );
+                            "damage: %d" ), it->damage() );
             imenu.addentry( imenu_burnt, true, -1, pgettext( "item manipulation debug menu entry",
                             "burnt: %d" ), ( int )it->burnt );
             imenu.addentry( imenu_sep, false, 0, pgettext( "item manipulation debug menu entry",
@@ -1360,7 +1362,7 @@ int editmap::edit_itm()
                             intval = ( int )it->bday;
                             break;
                         case imenu_damage:
-                            intval = ( int )it->damage;
+                            intval = it->damage();
                             break;
                         case imenu_burnt:
                             intval = ( int )it->burnt;
@@ -1374,8 +1376,8 @@ int editmap::edit_itm()
                             it->bday = retval;
                             imenu.entries[imenu_bday].txt = string_format( "bday: %d", it->bday );
                         } else if( imenu.ret == imenu_damage ) {
-                            it->damage = retval;
-                            imenu.entries[imenu_damage].txt = string_format( "damage: %d", it->damage );
+                            it->set_damage( retval );
+                            imenu.entries[imenu_damage].txt = string_format( "damage: %d", it->damage() );
                         } else if( imenu.ret == imenu_burnt ) {
                             it->burnt = retval;
                             imenu.entries[imenu_burnt].txt = string_format( "burnt: %d", it->burnt );
@@ -1802,11 +1804,11 @@ int editmap::mapgen_preview( real_coords &tc, uimenu &gmenu )
                             }
                             destsm->field_count = srcsm->field_count; // and count
 
-                            std::memcpy( *destsm->ter, srcsm->ter, sizeof( srcsm->ter ) ); // terrain
-                            std::memcpy( *destsm->frn, srcsm->frn, sizeof( srcsm->frn ) ); // furniture
-                            std::memcpy( *destsm->trp, srcsm->trp, sizeof( srcsm->trp ) ); // traps
-                            std::memcpy( *destsm->rad, srcsm->rad, sizeof( srcsm->rad ) ); // radiation
-                            std::memcpy( *destsm->lum, srcsm->lum, sizeof( srcsm->lum ) ); // emissive items
+                            std::memcpy( destsm->ter, srcsm->ter, sizeof( srcsm->ter ) ); // terrain
+                            std::memcpy( destsm->frn, srcsm->frn, sizeof( srcsm->frn ) ); // furniture
+                            std::memcpy( destsm->trp, srcsm->trp, sizeof( srcsm->trp ) ); // traps
+                            std::memcpy( destsm->rad, srcsm->rad, sizeof( srcsm->rad ) ); // radiation
+                            std::memcpy( destsm->lum, srcsm->lum, sizeof( srcsm->lum ) ); // emissive items
                             for( int x = 0; x < SEEX; ++x ) {
                                 for( int y = 0; y < SEEY; ++y ) {
                                     destsm->itm[x][y].swap( srcsm->itm[x][y] );

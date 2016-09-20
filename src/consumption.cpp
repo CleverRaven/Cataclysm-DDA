@@ -126,7 +126,7 @@ int player::vitamin_mod( const vitamin_id &vit, int qty, bool capped )
 
 int player::vitamin_get( const vitamin_id &vit ) const
 {
-    if( ACTIVE_WORLD_OPTIONS[ "NO_VITAMINS" ] ) {
+    if( get_world_option<bool>( "NO_VITAMINS" ) ) {
         return 0;
     }
 
@@ -286,7 +286,7 @@ edible_rating player::can_eat( const item &food, bool interactive, bool force ) 
         return INEDIBLE;
     }
     // For all those folks who loved eating marloss berries.  D:< mwuhahaha
-    if( has_trait( "M_DEPENDENT" ) && food.type->id != "mycus_fruit" ) {
+    if( has_trait( "M_DEPENDENT" ) && food.typeId() != "mycus_fruit" ) {
         maybe_print( m_info, _( "We can't eat that.  It's not right for us." ) );
         return INEDIBLE_MUTATION;
     }

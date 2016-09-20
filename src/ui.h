@@ -31,11 +31,12 @@ struct mvwzstr {
  * uimenu_entry: entry line for uimenu
  */
 struct uimenu_entry {
-    int retval;           // return this int
-    bool enabled;         // darken, and forbid scrolling if hilight_disabled is false
-    int hotkey;           // keycode from (int)getch(). -1: automagically pick first free character: 1-9 a-z A-Z
-    std::string txt;      // what it says on the tin
-    std::string desc;     // optional, possibly longer, description
+    int retval;                 // return this int
+    bool enabled;               // darken, and forbid scrolling if hilight_disabled is false
+    bool force_color = false;   // Never darken this option
+    int hotkey;                 // keycode from (int)getch(). -1: automagically pick first free character: 1-9 a-z A-Z
+    std::string txt;            // what it says on the tin
+    std::string desc;           // optional, possibly longer, description
     nc_color hotkey_color;
     nc_color text_color;
     mvwzstr extratxt;

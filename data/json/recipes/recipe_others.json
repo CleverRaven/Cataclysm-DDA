@@ -245,7 +245,7 @@
       ["welder", 100],
       ["welder_crude", 150],
       ["toolset", 150],
-      ["oxy_torch", 10]
+      ["oxy_torch", 20]
     ]
   ],
   "components": [
@@ -750,7 +750,6 @@
   ],
   "components": [
     [
-      [ "skewer", 1 ],
       [ "splinter", 1 ]
     ]
   ]
@@ -984,7 +983,7 @@
       [ "2x4", 1 ]
     ],
     [
-      [ "skewer", 1 ]
+      [ "splinter", 1 ]
     ],
     [
       [ "string_6", 3 ]
@@ -1049,7 +1048,7 @@
   "components": [
     [
       [ "skewer_bone", 2 ],
-      [ "skewer", 2 ]
+      [ "splinter", 2 ]
     ]
   ]
 },{
@@ -1093,7 +1092,7 @@
     ],
     [
       [ "skewer_bone", 20 ],
-      [ "skewer", 20 ]
+      [ "splinter", 20 ]
     ]
   ]
 },{
@@ -1495,7 +1494,7 @@
       [ "welder", 100 ],
       [ "welder_crude", 150 ],
       [ "toolset", 150 ],
-      [ "oxy_torch", 10]
+      [ "oxy_torch", 20 ]
     ]
   ],
   "components": [
@@ -1612,7 +1611,7 @@
       [ "welder", 50 ],
       [ "welder_crude", 75 ],
       [ "toolset", 75 ],
-      [ "oxy_torch", 5]
+      [ "oxy_torch", 10 ]
     ]
   ],
   "components": [
@@ -2202,37 +2201,6 @@
   ]
 },{
   "type" : "recipe",
-  "result": "steel_lump",
-  "category": "CC_OTHER",
-  "subcategory": "CSC_OTHER_MATERIALS",
-  "skill_used": "fabrication",
-  "difficulty": 0,
-  "time": 5000,
-  "reversible": true,
-  "autolearn": true,
-  "qualities" : [ { "id" : "GLARE", "level" : 2 } ],
-  "tools": [
-    [
-      [ "crucible", -1 ],
-      [ "crucible_clay", -1 ]
-    ],
-    [
-      [ "welder", 20 ],
-      [ "welder_crude", 30 ],
-      [ "toolset", 30 ],
-      [ "forge", 10],
-      [ "oxy_torch", 2]
-    ]
-  ],
-  "components": [
-    [
-      [ "steel_chunk", 4 ],
-      [ "scrap", 12 ],
-      [ "rebar", 2 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
   "result": "2x4",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_MATERIALS",
@@ -2264,7 +2232,7 @@
       [ "welder", 50 ],
       [ "welder_crude", 75 ],
       [ "toolset", 75 ],
-      [ "oxy_torch", 5]
+      [ "oxy_torch", 10 ]
     ]
   ],
   "components": [
@@ -2288,7 +2256,7 @@
       [ "welder", 50 ],
       [ "welder_crude", 75 ],
       [ "toolset", 75 ],
-      [ "oxy_torch", 5]
+      [ "oxy_torch", 10 ]
     ]
   ],
   "components": [
@@ -2316,7 +2284,7 @@
       [ "welder", 60 ],
       [ "welder_crude", 90 ],
       [ "toolset", 90 ],
-      [ "oxy_torch", 6]
+      [ "oxy_torch", 12 ]
     ]
   ],
   "components": [
@@ -2340,7 +2308,7 @@
       [ "welder", 60 ],
       [ "welder_crude", 90 ],
       [ "toolset", 90 ],
-      [ "oxy_torch", 6]
+      [ "oxy_torch", 12 ]
     ]
   ],
   "components": [
@@ -2389,7 +2357,7 @@
   ], "tools": [
     [
       [ "welder", 40 ],
-      [ "oxy_torch", 4],
+      [ "oxy_torch", 8 ],
       [ "welder_crude", 60 ],
       [ "toolset", 60 ]
     ]
@@ -2418,7 +2386,7 @@
   ], "tools": [
     [
       [ "welder", 20 ],
-      [ "oxy_torch", 2],
+      [ "oxy_torch", 4 ],
       [ "welder_crude", 30 ],
       [ "toolset", 30 ]
     ]
@@ -2568,30 +2536,6 @@
     ],
     [
       [ "scrap", 5 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "sheet_metal",
-  "category": "CC_OTHER",
-  "subcategory": "CSC_OTHER_MATERIALS",
-  "skill_used": "fabrication",
-  "difficulty": 2,
-  "time": 4000,
-  "reversible": true,
-  "autolearn": true,
-  "qualities" : [ { "id" : "GLARE", "level" : 2 } ],
-  "tools": [
-    [
-      [ "welder", 20 ],
-      [ "welder_crude", 30 ],
-      [ "toolset", 30 ],
-      [ "oxy_torch", 2]
-    ]
-  ],
-  "components": [
-    [
-      [ "scrap", 4 ]
     ]
   ]
 },{
@@ -2971,7 +2915,7 @@
     {"id":"HAMMER","level":2,"amount":1}
   ], "components": [
     [
-      [ "sheet_metal", 1 ]
+      [ "sheet_metal", 2 ]
     ]
   ]
 },{
@@ -2992,7 +2936,7 @@
       [ "welder", 50 ],
       [ "welder_crude", 75 ],
       [ "toolset", 75 ],
-      [ "oxy_torch", 5]
+      [ "oxy_torch", 10 ]
     ]
   ],
   "components": [
@@ -3018,7 +2962,7 @@
       [ "welder", 50 ],
       [ "welder_crude", 75 ],
       [ "toolset", 75 ],
-      [ "oxy_torch", 5]
+      [ "oxy_torch", 10 ]
     ],
     [
     [ "soldering_iron", 10 ]
@@ -3053,7 +2997,7 @@
       [ "welder", 20 ],
       [ "welder_crude", 30 ],
       [ "toolset", 30 ],
-      [ "oxy_torch", 2]
+      [ "oxy_torch", 4 ]
     ]
   ],
   "components": [
@@ -3391,36 +3335,6 @@
     ],
     [
       [ "scrap", 2 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "steel_chunk",
-  "category": "CC_OTHER",
-  "subcategory": "CSC_OTHER_MATERIALS",
-  "skill_used": "mechanics",
-  "difficulty": 0,
-  "time": 5000,
-  "reversible": true,
-  "autolearn": true,
-  "qualities" : [ { "id" : "GLARE", "level" : 2 } ],
-  "tools": [
-    [
-      [ "crucible", -1 ],
-      [ "crucible_clay", -1 ]
-    ],
-    [
-      [ "welder", 20 ],
-      [ "welder_crude", 30 ],
-      [ "toolset", 30 ],
-      [ "forge", 5],
-      [ "oxy_torch", 1]
-    ]
-  ],
-  "components": [
-    [
-      [ "scrap", 3 ],
-      [ "rebar", 1 ]
     ]
   ]
 },{
@@ -3831,7 +3745,7 @@
       [ "welder_crude", 300 ],
       [ "toolset", 300 ],
       [ "soldering_iron", 300 ],
-      ["oxy_torch", 20]
+      [ "oxy_torch", 40 ]
       ] ],
   "components":
     [
@@ -3966,29 +3880,12 @@
   "note": "melting the chisel back down seems unlikely to teach anything useful",
   "autolearn": true,
   "book_learn": [["textbook_fabrication", 3] , ["textbook_weapeast", 5] , ["textbook_weapwest", 5] , ["textbook_armeast", 5] , ["textbook_armwest", 5]],
-  "qualities":[
-    {"id":"HAMMER","level":3,"amount":1}
-  ], "tools": [
-      [
-      ["tongs", -1]
-      ],
-      [
-      ["anvil", -1]
-      ]
-      ,
-      [
-      [ "forge", 200],
-      [ "oxy_torch", 40]
-      ]
-      ],
-  "components":
-    [
-     [
-     [ "steel_lump", 1 ],
-     [ "steel_chunk", 4 ],
-     [ "scrap", 12 ]
-     ]
-    ]
+  "using": [ [ "forging_standard", 4 ], [ "steel_standard", 1 ] ],
+  "qualities":[ { "id": "HAMMER", "level": 3 } ],
+  "tools": [
+      [ [ "tongs", -1 ] ],
+      [ [ "anvil", -1 ] ]
+   ]
 },{
   "type" : "recipe",
   "result": "swage",
@@ -4737,7 +4634,7 @@
   "difficulty": 5,
   "time": 25000,
   "reversible": true,
-  "decop_learn": 5,
+  "decomp_learn": 5,
   "autolearn": false,
   "book_learn": [["textbook_mechanics", 5] , ["textbook_carpentry", 5] , ["book_icef", 6]],
   "qualities":[
@@ -4750,11 +4647,12 @@
       [ "welder", 100],
       [ "welder_crude", 150],
       [ "toolset", 150],
-      [ "oxy_torch", 10]
+      [ "oxy_torch", 20]
     ]
   ],
   "components": [
     [
+      [ "1cyl_combustion", 1 ],
       [ "1cyl_combustion_small", 1 ]
     ],
     [
@@ -4986,7 +4884,7 @@
       [ "welder_crude", 150 ],
       [ "toolset", 150 ],
       [ "soldering_iron", 150 ],
-      [ "oxy_torch", 10]
+      [ "oxy_torch", 20 ]
      ]
     ],
   "components":
@@ -5030,7 +4928,7 @@
       [ "welder_crude", 75 ],
       [ "toolset", 75 ],
       [ "soldering_iron", 75 ],
-      [ "oxy_torch", 5]
+      [ "oxy_torch", 10 ]
      ]
     ],
   "components":
@@ -5138,7 +5036,7 @@
       [ "welder", 150 ],
       [ "welder_crude", 225 ],
       [ "toolset", 225 ],
-      [ "oxy_torch", 15 ]
+      [ "oxy_torch", 30 ]
     ] ],
   "components":
     [
@@ -5177,7 +5075,7 @@
       [ "welder", 200 ],
       [ "welder_crude", 300 ],
       [ "toolset", 300 ],
-      [ "oxy_torch", 20 ]
+      [ "oxy_torch", 40 ]
     ],
     [
       [ "soldering_iron", 25 ],
@@ -5265,7 +5163,7 @@
       [ "welder_crude", 225 ],
       [ "toolset", 225 ],
       [ "soldering_iron", 225 ],
-      [ "oxy_torch", 15]
+      [ "oxy_torch", 30 ]
     ] ],
   "components":
     [
@@ -5293,13 +5191,13 @@
   "autolearn": true,
   "components": [
     [
-      [ "splinter", 20 ],
-      [ "2x4", 3 ],
-      [ "stick", 5 ],
+      [ "splinter", 40 ],
+      [ "2x4", 6 ],
+      [ "stick", 8 ],
       [ "bone", 40 ],
       [ "bone_human", 40 ],
       [ "bone_tainted", 40 ],
-      [ "pine_bough", 40 ],
+      [ "pine_bough", 20 ],
       [ "log", 1 ]
     ],
     [[ "char_kiln", 1 ]]
@@ -5697,7 +5595,7 @@
       [ "glass_sheet", 1 ]
      ],
      [
-      [ "silver_small", 50 ]
+      [ "silver_small", 10 ]
      ]
     ]
 },
@@ -6175,7 +6073,7 @@
   ],
   "tools": [ [ ["sheet_metal", -1 ] ] ],
   "components": [
-    [ [ "splinter", 10 ], [ "stick", 4 ], [ "2x4", 4 ], [ "withered", 20 ], [ "skewer", 10 ] ],
+    [ [ "splinter", 10 ], [ "stick", 4 ], [ "2x4", 4 ], [ "withered", 20 ] ],
     [ [ "water", 4 ], [ "water_clean", 4 ] ]
   ]
   },
@@ -6467,7 +6365,7 @@
       [ "welder", 30 ],
       [ "welder_crude", 45 ],
       [ "toolset", 45 ],
-      [ "oxy_torch", 3 ]
+      [ "oxy_torch", 6 ]
     ]
     ],
     "components": [
@@ -6496,7 +6394,7 @@
       [ "welder", 30 ],
       [ "welder_crude", 45 ],
       [ "toolset", 45 ],
-      [ "oxy_torch", 3 ]
+      [ "oxy_torch", 6 ]
     ]
     ],
     "components": [
@@ -6584,7 +6482,7 @@
   },{
   "type" : "recipe",
   "result": "chem_sulphur",
-  "byproducts": { "id" : "chem_sulphur", "amount" : 4 },
+  "result_mult": 5,
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_PARTS",
   "skill_used": "fabrication",
@@ -7490,7 +7388,7 @@
     [
       [ "plastic_chunk", 1 ],
       [ "skewer_bone", 4 ],
-      [ "skewer", 4 ]
+      [ "splinter", 4 ]
     ]
   ]
 },{
@@ -7546,7 +7444,7 @@
       [ "welder", 50 ],
       [ "welder_crude", 75 ],
       [ "toolset", 75 ],
-      [ "oxy_torch", 5]
+      [ "oxy_torch", 10 ]
     ]
   ],
   "components": [
@@ -7575,7 +7473,7 @@
       [ "welder", 50 ],
       [ "welder_crude", 75 ],
       [ "toolset", 75 ],
-      [ "oxy_torch", 5]
+      [ "oxy_torch", 10 ]
     ]
   ],
   "components": [
@@ -7605,7 +7503,7 @@
       [ "welder", 50 ],
       [ "welder_crude", 75 ],
       [ "toolset", 75 ],
-      [ "oxy_torch", 5]
+      [ "oxy_torch", 10 ]
     ]
   ],
   "components": [
@@ -7634,7 +7532,7 @@
       [ "welder", 50 ],
       [ "welder_crude", 75 ],
       [ "toolset", 75 ],
-      [ "oxy_torch", 5]
+      [ "oxy_torch", 10 ]
     ]
   ],
   "components": [
@@ -7701,6 +7599,6 @@
   "time": 1000,
   "autolearn": true,
   "qualities" : [ {"id":"CUT","level":1} ],
-  "components": [ [ [ "2x4", 1 ] ] ] 
+  "components": [ [ [ "2x4", 1 ] ] ]
 }
 ]

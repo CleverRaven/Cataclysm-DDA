@@ -3,7 +3,7 @@
         "type" : "material",
         "ident" : "bronze",
         "name" : "Bronze",
-        "salvage_id": "scrap_bronze",
+        "salvaged_into" : "scrap_bronze",
         "bash_resist" : 4,
         "cut_resist" : 5,
         "bash_dmg_verb" : "dented",

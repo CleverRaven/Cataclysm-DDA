@@ -9,6 +9,7 @@
 #include "trap.h"
 #include "string_id.h"
 #include "weighted_list.h"
+#include "units.h"
 #include "rng.h"
 
 #include <bitset>
@@ -187,6 +188,7 @@ enum ter_connects : int {
     TERCONN_CHAINFENCE,
     TERCONN_WOODFENCE,
     TERCONN_RAILING,
+    TERCONN_WATER,
 };
 
 struct map_data_common_t {
@@ -210,7 +212,7 @@ public:
     std::array<long, SEASONS_PER_YEAR> symbol_;
 
     int movecost;   // The amount of movement points required to pass this terrain by default.
-    int max_volume; // Maximal volume of items that can be stored in/on this furniture
+    units::volume max_volume; // Maximal volume of items that can be stored in/on this furniture
 
     std::array<nc_color, SEASONS_PER_YEAR> color_; //The color the sym will draw in on the GUI.
     void load_symbol( JsonObject &jo );
@@ -386,6 +388,8 @@ extern ter_id t_null,
     t_wall_glass,
     t_wall_glass_alarm,
     t_reinforced_glass,
+    t_reinforced_door_glass_o,
+    t_reinforced_door_glass_c,
     t_bars,
     t_door_c, t_door_c_peep, t_door_b, t_door_b_peep, t_door_o, t_door_o_peep,
     t_door_locked_interior, t_door_locked, t_door_locked_peep, t_door_locked_alarm, t_door_frame,

@@ -6,13 +6,13 @@
 #include "mondeath.h"
 #include "output.h"
 #include "game.h"
+#include "projectile.h"
 #include "debug.h"
 #include "rng.h"
 #include "item.h"
 #include "translations.h"
 #include "overmapbuffer.h"
 #include <sstream>
-#include <fstream>
 #include <stdlib.h>
 #include <algorithm>
 #include "cursesdef.h"
@@ -86,6 +86,7 @@ const species_id ZOMBIE( "ZOMBIE" );
 const species_id FUNGUS( "FUNGUS" );
 const species_id INSECT( "INSECT" );
 const species_id MAMMAL( "MAMMAL" );
+const species_id ABERRATION( "ABERRATION" );
 
 const efftype_id effect_badpoison( "badpoison" );
 const efftype_id effect_beartrap( "beartrap" );
@@ -201,7 +202,7 @@ void monster::poly( const mtype_id& id )
 }
 
 bool monster::can_upgrade() {
-    return upgrades && (ACTIVE_WORLD_OPTIONS["MONSTER_UPGRADE_FACTOR"] > 0.0);
+    return upgrades && get_world_option<float>( "MONSTER_UPGRADE_FACTOR" ) > 0.0;
 }
 
 // For master special attack.
@@ -210,7 +211,7 @@ void monster::hasten_upgrade() {
         return;
     }
 
-    const int scaled_half_life = type->half_life * ACTIVE_WORLD_OPTIONS["MONSTER_UPGRADE_FACTOR"];
+    const int scaled_half_life = type->half_life * get_world_option<float>( "MONSTER_UPGRADE_FACTOR" );
     upgrade_time -= rng(1, scaled_half_life);
     if (upgrade_time < 0) {
         upgrade_time = 0;
@@ -220,7 +221,7 @@ void monster::hasten_upgrade() {
 // This will disable upgrades in case max iters have been reached.
 // Checking for return value of -1 is necessary.
 int monster::next_upgrade_time() {
-    const int scaled_half_life = type->half_life * ACTIVE_WORLD_OPTIONS["MONSTER_UPGRADE_FACTOR"];
+    const int scaled_half_life = type->half_life * get_world_option<float>( "MONSTER_UPGRADE_FACTOR" );
     int day = scaled_half_life;
     for (int i = 0; i < UPGRADE_MAX_ITERS; i++) {
         if (one_in(2)) {
@@ -629,12 +630,12 @@ Creature::Attitude monster::attitude_to( const Creature &other ) const
     } else if( p != nullptr ) {
         switch( attitude( const_cast<player *>( p ) ) ) {
             case MATT_FRIEND:
+            case MATT_ZLAVE:
                 return A_FRIENDLY;
             case MATT_FPASSIVE:
             case MATT_FLEE:
             case MATT_IGNORE:
             case MATT_FOLLOW:
-            case MATT_ZLAVE:
                 return A_NEUTRAL;
             case MATT_ATTACK:
                 return A_HOSTILE;
@@ -811,8 +812,8 @@ int monster::trigger_sum( const std::set<monster_trigger>& triggers ) const
             if( check_meat && g->m.sees_some_items( p, *this ) ) {
                 auto items = g->m.i_at( p );
                 for( auto &item : items ) {
-                    if( item.is_corpse() || item.type->id == "meat" ||
-                        item.type->id == "meat_cooked" || item.type->id == "human_flesh" ) {
+                    if( item.is_corpse() || item.typeId() == "meat" ||
+                        item.typeId() == "meat_cooked" || item.typeId() == "human_flesh" ) {
                         ret += 3;
                         check_meat = false;
                     }
@@ -911,7 +912,7 @@ bool monster::block_hit(Creature *, body_part &, damage_instance &) {
 
 void monster::absorb_hit(body_part, damage_instance &dam) {
     for( auto &elem : dam.damage_units ) {
-        add_msg(m_debug, "Dam Type: %s :: Ar Pen: %d :: Armor Mult: %f", name_by_dt(elem.type).c_str(), elem.res_pen, elem.res_mult);
+        add_msg(m_debug, "Dam Type: %s :: Ar Pen: %.1f :: Armor Mult: %.1f", name_by_dt(elem.type).c_str(), elem.res_pen, elem.res_mult);
         elem.amount -= std::min( resistances( *this ).get_effective_resist( elem ), elem.amount );
     }
 }
@@ -1098,11 +1099,12 @@ void monster::deal_projectile_attack( Creature *source, dealt_projectile_attack 
     }
     // Not HARDTOSHOOT
     // if it's a headshot with no head, make it not a headshot
-    if( missed_by < 0.2 && has_flag( MF_NOHEAD ) ) {
-        missed_by = 0.2;
+    if( missed_by < accuracy_headshot && has_flag( MF_NOHEAD ) ) {
+        missed_by = accuracy_headshot;
     }
 
     Creature::deal_projectile_attack( source, attack );
+
     if( !is_hallucination() && attack.hit_critter == this ) {
         // Maybe TODO: Get difficulty from projectile speed/size/missed_by
         on_hit( source, bp_torso, INT_MIN, &attack );
@@ -1154,14 +1156,12 @@ int monster::heal( const int delta_hp, bool overheal )
         return 0;
     }
 
+    const int old_hp = hp;
     hp += delta_hp;
     if( hp > maxhp && !overheal ) {
-        const int old_hp = hp;
         hp = maxhp;
-        return maxhp - old_hp;
     }
-
-    return delta_hp;
+    return maxhp - old_hp;
 }
 
 void monster::set_hp( const int hp )
@@ -1520,52 +1520,18 @@ void monster::normalize_ammo( const int old_ammo )
 
 void monster::explode()
 {
-    if( is_hallucination() ) {
-        //Can't gib hallucinations
-        return;
-    }
-    if( type->has_flag( MF_NOGIB ) ) {
-        return;
-    }
-    // Send body parts and blood all over!
-    const itype_id meat = type->get_meat_itype();
-    if( meat == "null" ) {
-        return; // Only create chunks if we know what kind to make.
-    }
-    const int num_chunks = type->get_meat_chunks_count();
-    const field_id type_blood = bloodType();
-    const field_id type_gib = gibType();
+    // Handled in mondeath::normal
+    // +1 to avoid overflow when evaluating -hp
+    hp = INT_MIN + 1;
+}
 
-    for( int i = 0; i < num_chunks; i++ ) {
-        tripoint tarp( pos() + tripoint( rng( -3, 3 ), rng( -3, 3 ), 0 ) );
-        const auto traj = line_to( pos(), tarp );
-
-        for( size_t j = 0; j < traj.size(); j++ ) {
-            tarp = traj[j];
-            if( one_in( 2 ) && type_blood != fd_null ) {
-                g->m.add_splatter( type_blood, tarp );
-            } else {
-                g->m.add_splatter( type_gib, tarp, rng( 1, j + 1 ) );
-            }
-            if( g->m.impassable( tarp ) ) {
-                g->m.bash( tarp, 3 );
-                if( g->m.impassable( tarp ) ) {
-                    // Target is obstacle, not destroyed by bashing,
-                    // stop trajectory in front of it, if this is the first
-                    // point (e.g. wall adjacent to monster) , make it invalid.
-                    if( j > 0 ) {
-                        tarp = traj[j - 1];
-                    } else {
-                        tarp = tripoint_min;
-                    }
-                    break;
-                }
-            }
-            if( tarp != tripoint_min ) {
-                g->m.spawn_item( tarp, meat, 1, 0, calendar::turn );
-            }
-        }
+void monster::process_turn()
+{
+    for( const auto &e: type->emit_fields ) {
+        g->m.emit_field( pos(), e );
     }
+
+    Creature::process_turn();
 }
 
 void monster::die(Creature* nkiller)
@@ -1577,9 +1543,6 @@ void monster::die(Creature* nkiller)
     }
     dead = true;
     set_killer( nkiller );
-    if( hp < -( type->size < MS_MEDIUM ? 1.5 : 3 ) * type->hp ) {
-        explode(); // Explode them if it was big overkill
-    }
     if (!no_extra_death_drops) {
         drop_items_on_death();
     }
@@ -1692,7 +1655,7 @@ void monster::drop_items_on_death()
         return;
     }
     const auto dropped = g->m.put_items_from_loc( type->death_drops, pos(), calendar::turn );
-    if( !type->in_species( ZOMBIE ) ) {
+    if( !type->in_species( ZOMBIE ) && !type->in_species( FUNGUS ) ) {
         return;
     }
     for( const auto &it : dropped ) {
@@ -1899,9 +1862,11 @@ void monster::add_msg_if_npc(const char *msg, ...) const
 {
     va_list ap;
     va_start(ap, msg);
-    std::string processed_npc_string = vstring_format(msg, ap);
-    processed_npc_string = replace_with_npc_name(processed_npc_string, disp_name());
-    add_msg(processed_npc_string.c_str());
+    if (g->u.sees(*this)) {
+        std::string processed_npc_string = vstring_format(msg, ap);
+        processed_npc_string = replace_with_npc_name(processed_npc_string, disp_name());
+        add_msg(processed_npc_string.c_str());
+    }
     va_end(ap);
 }
 
@@ -1921,9 +1886,11 @@ void monster::add_msg_if_npc(game_message_type type, const char *msg, ...) const
 {
     va_list ap;
     va_start(ap, msg);
-    std::string processed_npc_string = vstring_format(msg, ap);
-    processed_npc_string = replace_with_npc_name(processed_npc_string, disp_name());
-    add_msg(type, processed_npc_string.c_str());
+    if (g->u.sees(*this)) {
+        std::string processed_npc_string = vstring_format(msg, ap);
+        processed_npc_string = replace_with_npc_name(processed_npc_string, disp_name());
+        add_msg(type, processed_npc_string.c_str());
+    }
     va_end(ap);
 }
 
@@ -1950,9 +1917,9 @@ void monster::init_from_item( const item &itm )
         set_speed_base( get_speed_base() * 0.8 );
         const int burnt_penalty = itm.burnt;
         hp = static_cast<int>( hp * 0.7 );
-        if( itm.damage > 0 ) {
-            set_speed_base( speed_base / ( itm.damage + 1 ) );
-            hp /= itm.damage + 1;
+        if( itm.damage() > 0 ) {
+            set_speed_base( speed_base / ( itm.damage() + 1 ) );
+            hp /= itm.damage() + 1;
         }
 
         hp -= burnt_penalty;
@@ -1964,9 +1931,9 @@ void monster::init_from_item( const item &itm )
         }
     } else {
         // must be a robot
-        const int damfac = 5 - std::max<int>( 0, itm.damage ); // 5 (no damage) ... 1 (max damage)
+        const int damfac = itm.max_damage() - std::max( 0, itm.damage() ) + 1;
         // One hp at least, everything else would be unfair (happens only to monster with *very* low hp),
-        hp = std::max( 1, hp * damfac / 5 );
+        hp = std::max( 1, hp * damfac / ( itm.max_damage() + 1 ) );
     }
 }
 
@@ -1977,8 +1944,8 @@ item monster::to_item() const
     }
     // Birthday is wrong, but the item created here does not use it anyway (I hope).
     item result( type->revert_to_itype, calendar::turn );
-    const int damfac = std::max( 1, 5 * hp / type->hp ); // 1 ... 5 (or more for some monsters with hp > type->hp)
-    result.damage = std::max( 0, 5 - damfac ); // 4 ... 0
+    const int damfac = std::max( 1, ( result.max_damage() + 1 ) * hp / type->hp );
+    result.set_damage( std::max( 0, ( result.max_damage() + 1 ) - damfac ) );
     return result;
 }
 
@@ -1993,7 +1960,7 @@ float monster::power_rating() const
 
 float monster::speed_rating() const
 {
-    float ret = 1.0f / get_speed();
+    float ret = get_speed() / 100.0f;
     const auto leap = type->special_attacks.find( "leap" );
     if( leap != type->special_attacks.end() ) {
         // TODO: Make this calculate sane values here

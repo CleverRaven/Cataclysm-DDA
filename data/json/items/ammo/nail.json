@@ -3,15 +3,15 @@
     "id": "combatnail",
     "copy-from": "nail",
     "type": "AMMO",
-    "name": "tiny steel bolt",
-    "description": "A tiny pointy steel bolt.  Can be fired from a nail gun or similar weapon.  Much more effective as ammunition but useless for construction projects.",
+    "name": "flechette",
+    "description": "A tiny steel dart.  Can be fired from a nail gun or similar weapon or used when crafting ammunition",
     "material": "steel",
     "symbol": "=",
     "color": "dark_gray",
     "proportional": {
-        "price": 3.0,
-        "damage": 3.0,
-        "pierce": 3.0
+      "price": 3,
+      "damage": 3,
+      "pierce": 3
     }
   },
   {
@@ -24,15 +24,15 @@
     "weight": 4,
     "volume": 1,
     "price": 6000,
-    "count": 100,
-    "stack_size": 100,
     "material": "iron",
     "symbol": "=",
     "color": "cyan",
+    "count": 100,
+    "stack_size": 100,
     "ammo_type": "nail",
+    "range": 3,
     "damage": 4,
     "pierce": 3,
-    "range": 3,
-    "dispersion": 60
+    "dispersion": 120
   }
 ]

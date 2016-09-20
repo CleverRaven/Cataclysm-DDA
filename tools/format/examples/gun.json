@@ -1,0 +1,57 @@
+[
+  {
+    "id": "rifle_flintlock",
+    "type": "GUN",
+    "name": "flintlock rifle",
+    "description": "For once, something *good* came back from the dead.  This ancient design lacks the fire-rate of modern weapons, but packs as much punch as the best of 'em and rewards the skilled shooter with easily-crafted ammunition.",
+    "weight": 1950,
+    "volume": 10,
+    "price": 41000,
+    "to_hit": -1,
+    "bashing": 15,
+    "material": [ "iron", "wood" ],
+    "symbol": "(",
+    "color": "brown",
+    "ammo": "flintlock",
+    "skill": "rifle",
+    "range": 6,
+    "ranged_damage": 10,
+    "dispersion": 180,
+    "sight_dispersion": 90,
+    "recoil": 30,
+    "durability": 6,
+    "clip_size": 1,
+    "reload": 1200,
+    "built_in_mods": [ "bayonet" ],
+    "valid_mod_locations": [ [ "accessories", 1 ], [ "underbarrel", 1 ] ],
+    "flags": [ "NEVER_JAMS", "DURABLE_MELEE" ]
+  },
+  {
+    "id": "sig552",
+    "copy-from": "rifle_auto",
+    "type": "GUN",
+    "name": "SIG 552",
+    "description": "A compact selective fire automatic rifle featuring an integrated folding stock.",
+    "weight": 3200,
+    "volume": 7,
+    "price": 320000,
+    "to_hit": -1,
+    "bashing": 10,
+    "material": [ "steel", "plastic" ],
+    "ammo": "223",
+    "sight_dispersion": 60,
+    "recoil": 30,
+    "durability": 9,
+    "modes": [
+      [ "DEFAULT", "semi-auto", 1 ],
+      [ "BURST", "3 rd.", 3 ],
+      [ "AUTO", "auto", 8 ]
+    ],
+    "built_in_mods": [ "folding_stock" ],
+    "magazines": [
+      [ "223", [ "stanag30", "stanag10", "survivor223mag" ] ],
+      [ "22", [ "ruger1022bigmag", "ruger1022mag" ] ],
+      [ "308", [ "g3mag", "g3bigmag" ] ]
+    ]
+  }
+]

@@ -17,6 +17,10 @@
 #include "mutation.h"
 #include "vehicle.h"
 
+#include <algorithm>
+
+using namespace units::literals;
+
 const efftype_id effect_beartrap( "beartrap" );
 const efftype_id effect_bite( "bite" );
 const efftype_id effect_bleed( "bleed" );
@@ -109,26 +113,72 @@ void Character::mod_stat( const std::string &stat, int modifier )
     }
 }
 
-int Character::aim_per_time( const item& gun, int recoil ) const
+int Character::effective_dispersion( int dispersion ) const
 {
-    int penalty = 0;
+    ///\EFFECT_PER improves effectiveness of gun sights
+    dispersion += ( 10 - per_cur ) * 15;
 
-    // Range [0 - 10] after adjustment
-    penalty += skill_dispersion( gun, false ) / 60;
+    dispersion += encumb( bp_eyes );
 
-    // Ranges [0 - 12] after adjustment
-    penalty += ranged_dex_mod() / 15;
+    return std::max( dispersion, 0 );
+}
 
-    // Range [0 - 10]
-    penalty += gun.aim_speed( recoil );
+double Character::aim_per_move( const item& gun, double recoil ) const
+{
+    if( !gun.is_gun() ) {
+        return 0;
+    }
 
-    // @todo consider character status effects
+    // get fastest sight that can be used to improve aim further below @ref recoil
+    int cost = INT_MAX;
+    int limit = 0;
+    if( !gun.has_flag( "DISABLE_SIGHTS" ) && effective_dispersion( gun.type->gun->sight_dispersion ) < recoil ) {
+        cost  = std::max( std::min( gun.volume() / 250_ml, 8 ), 1 );
+        limit = effective_dispersion( gun.type->gun->sight_dispersion );
+    }
 
-    // always improve by at least 1MOC
-    penalty = std::max( 1, 32 - penalty );
+    for( const auto e : gun.gunmods() ) {
+        const auto mod = e->type->gunmod.get();
+        if( mod->sight_dispersion < 0 || mod->aim_cost <= 0 ) {
+            continue; // skip gunmods which don't provide a sight
+        }
+        if( effective_dispersion( mod->sight_dispersion ) < recoil && mod->aim_cost < cost ) {
+            cost  = mod->aim_cost;
+            limit = effective_dispersion( mod->sight_dispersion );
+        }
+    }
 
-    // improvement capped by max aim level of the gun sight being used.
-    return std::min( penalty, recoil - gun.sight_dispersion( recoil ) );
+    if( cost == INT_MAX ) {
+        return 0; // no suitable sights (already at maxium aim)
+    }
+
+    // each 5 points (combined) of hand encumbrance increases aim cost by one unit
+    cost += round ( ( encumb( bp_hand_l ) + encumb( bp_hand_r ) ) / 10.0 );
+
+    ///\EFFECT_DEX increases aiming speed
+    cost += 8 - dex_cur;
+
+    ///\EFFECT_PISTOL increases aiming speed for pistols
+    ///\EFFECT_SMG increases aiming speed for SMGs
+    ///\EFFECT_RIFLE increases aiming speed for rifles
+    ///\EFFECT_SHOTGUN increases aiming speed for shotguns
+    ///\EFFECT_LAUNCHER increases aiming speed for launchers
+    cost += ( ( MAX_SKILL / 2 ) - get_skill_level( gun.gun_skill() ) ) * 2;
+
+    cost = std::max( cost, 1 );
+
+    // constant at which one unit of aim cost ~75 moves
+    // (presuming aiming from nil to maximum aim via single sight at DEX 8)
+    int k = 25;
+
+    // calculate rate (b) from the exponential function y = a(1-b)^x where a is recoil
+    double improv = 1.0 - pow( 0.5, 1.0 / ( cost * k ) );
+
+    // minimum improvment is 0.1MoA
+    double aim = std::max( recoil * improv, 0.1 );
+
+    // never improve by more than the currently used sights permit
+    return std::min( aim, recoil - limit );
 }
 
 bool Character::move_effects(bool attacking)
@@ -501,18 +551,41 @@ bool Character::has_active_bionic(const std::string & b) const
     return false;
 }
 
-map_selector Character::nearby( int radius, bool accessible )
+std::vector<item_location> Character::nearby( const std::function<bool(const item *, const item *)>& func, int radius ) const
 {
-    return map_selector( pos(), radius, accessible );
+    std::vector<item_location> res;
+
+    visit_items( [&]( const item *e, const item *parent ) {
+        if( func( e, parent ) ) {
+            res.emplace_back( const_cast<Character &>( *this ), const_cast<item *>( e ) );
+        }
+        return VisitResponse::NEXT;
+    } );
+
+    for( const auto &cur : map_selector( pos(), radius ) ) {
+        cur.visit_items( [&]( const item *e, const item *parent  ) {
+            if( func( e, parent ) ) {
+                res.emplace_back( cur, const_cast<item *>( e ) );
+            }
+            return VisitResponse::NEXT;
+        } );
+    }
+
+    for( const auto &cur : vehicle_selector( pos(), radius ) ) {
+        cur.visit_items( [&]( const item *e, const item *parent  ) {
+            if( func( e, parent ) ) {
+                res.emplace_back( cur, const_cast<item *>( e ) );
+            }
+            return VisitResponse::NEXT;
+        } );
+    }
+
+    return res;
 }
 
 item& Character::i_add(item it)
 {
-    itype_id item_type_id = "null";
-    if( it.type ) {
-        item_type_id = it.type->id;
-    }
-
+    itype_id item_type_id = it.typeId();
     last_item = item_type_id;
 
     if( it.is_food() || it.is_ammo() || it.is_gun()  || it.is_armor() ||
@@ -630,7 +703,7 @@ bool Character::i_add_or_drop(item& it, int qty) {
     bool drop = false;
     inv.assign_empty_invlet(it);
     for (int i = 0; i < qty; ++i) {
-        if ( !drop && ( !can_pickWeight( it, !OPTIONS["DANGEROUS_PICKUPS"] )
+        if ( !drop && ( !can_pickWeight( it, !get_option<bool>( "DANGEROUS_PICKUPS" ) )
                       || !can_pickVolume( it ) ) ) {
             drop = true;
         }
@@ -733,11 +806,11 @@ void find_ammo_helper( T& src, const item& obj, bool empty, Output out, bool nes
     }
 }
 
-std::vector<item_location> Character::find_ammo( const item& obj, bool empty, int radius )
+std::vector<item_location> Character::find_ammo( const item& obj, bool empty, int radius ) const
 {
     std::vector<item_location> res;
 
-    find_ammo_helper( *this, obj, empty, std::back_inserter( res ), true );
+    find_ammo_helper( const_cast<Character &>( *this ), obj, empty, std::back_inserter( res ), true );
 
     if( radius >= 0 ) {
         for( auto& cursor : map_selector( pos(), radius ) ) {
@@ -762,7 +835,7 @@ int Character::weight_carried() const
     return ret;
 }
 
-int Character::volume_carried() const
+units::volume Character::volume_carried() const
 {
     return inv.volume();
 }
@@ -795,36 +868,40 @@ int Character::weight_capacity() const
     return ret;
 }
 
-int Character::volume_capacity() const
+units::volume Character::volume_capacity() const
 {
-    int ret = 0;
+    return volume_capacity_reduced_by( 0 );
+}
+
+units::volume Character::volume_capacity_reduced_by( units::volume mod ) const
+{
+    units::volume ret = -mod;
     for (auto &i : worn) {
         ret += i.get_storage();
     }
     if (has_bionic("bio_storage")) {
-        ret += 8;
+        ret += 2000_ml;
     }
     if (has_trait("SHELL")) {
-        ret += 16;
+        ret += 4000_ml;
     }
     if (has_trait("SHELL2") && !has_active_mutation("SHELL2")) {
-        ret += 24;
+        ret += 6000_ml;
     }
     if (has_trait("PACKMULE")) {
-        ret = int(ret * 1.4);
+        ret = ret * 1.4;
     }
     if (has_trait("DISORGANIZED")) {
-        ret = int(ret * 0.6);
+        ret = ret * 0.6;
     }
-    ret = std::max(ret, 0);
-    return ret;
+    return std::max( ret, 0_ml );
 }
 
 bool Character::can_pickVolume( const item &it, bool ) const
 {
     inventory projected = inv;
     projected.add_item( it );
-   return projected.volume() <= volume_capacity();
+    return projected.volume() <= volume_capacity();
 }
 
 bool Character::can_pickWeight( const item &it, bool safe ) const
@@ -868,7 +945,7 @@ bool Character::has_artifact_with(const art_effect_passive effect) const
 bool Character::is_wearing(const itype_id & it) const
 {
     for (auto &i : worn) {
-        if (i.type->id == it) {
+        if (i.typeId() == it) {
             return true;
         }
     }
@@ -878,7 +955,7 @@ bool Character::is_wearing(const itype_id & it) const
 bool Character::is_wearing_on_bp(const itype_id & it, body_part bp) const
 {
     for (auto &i : worn) {
-        if (i.type->id == it && i.covers(bp)) {
+        if (i.typeId() == it && i.covers(bp)) {
             return true;
         }
     }
@@ -933,32 +1010,6 @@ bool Character::meets_skill_requirements( const std::map<skill_id, int> &req ) c
     return std::all_of( req.begin(), req.end(), [this]( const std::pair<skill_id, int> &pr ) {
         return get_skill_level( pr.first ) >= pr.second;
     });
-}
-
-int Character::skill_dispersion( const item& gun, bool random ) const
-{
-    static skill_id skill_gun( "gun" );
-
-    int dispersion = 0; // Measured in Minutes of Arc.
-
-    const int lvl = get_skill_level( gun.gun_skill() );
-    if( lvl < 10 ) {
-        // Up to 0.75 degrees for each skill point < 10.
-        ///\EFFECT_PISTOL <10 randomly increases dispersion for pistols
-        ///\EFFECT_SMG <10 randomly increases dispersion for smgs
-        ///\EFFECT_RIFLE <10 randomly increases dispersion for rifles
-        ///\EFFECT_LAUNCHER <10 randomly increases dispersion for launchers
-        dispersion += 45 * ( 10 - lvl );
-    }
-
-    const int marksmanship_lvl = get_skill_level( skill_gun );
-    if( marksmanship_lvl < 10 ) {
-        // Up to 0.25 deg per each skill point < 10.
-        ///\EFFECT_GUN <10 randomly increased dispersion of all gunfire
-        dispersion += 15 * ( 10 - marksmanship_lvl );
-    }
-
-    return random ? rng(0, dispersion) : dispersion;
 }
 
 void Character::normalize()
@@ -1352,18 +1403,6 @@ int Character::get_int_bonus() const
     return int_bonus;
 }
 
-int Character::ranged_dex_mod() const
-{
-    ///\EFFECT_DEX <12 increases ranged penalty
-    return std::max( ( 12 - get_dex() ) * 15, 0 );
-}
-
-int Character::ranged_per_mod() const
-{
-    ///\EFFECT_PER <12 increases ranged penalty
-    return std::max( ( 12 - get_per() ) * 15, 0 );
-}
-
 int Character::get_healthy() const
 {
     return healthy;
@@ -1558,8 +1597,16 @@ void Character::update_health(int external_modifiers)
         set_healthy_mod( -200 );
     }
 
+    // Active leukocyte breeder will keep your health near 100
+    int effective_healthy_mod = get_healthy_mod();
+    if( has_active_bionic( "bio_leukocyte" ) ) {
+        // Side effect: dependency
+        mod_healthy_mod( -50, -200 );
+        effective_healthy_mod = 100;
+    }
+
     // Over the long run, health tends toward healthy_mod.
-    int break_even = get_healthy() - get_healthy_mod() + external_modifiers;
+    int break_even = get_healthy() - effective_healthy_mod + external_modifiers;
 
     // But we allow some random variation.
     const long roll = rng( -100, 100 );
@@ -1876,7 +1923,7 @@ int Character::throw_range( const item &it ) const
     // Increases as weight decreases until 150 g, then decreases again
     ///\EFFECT_STR increases throwing range, vs item weight (high or low)
     int ret = (str_cur * 8) / (tmp.weight() >= 150 ? tmp.weight() / 113 : 10 - int(tmp.weight() / 15));
-    ret -= int(tmp.volume() / 4);
+    ret -= tmp.volume() / 1000_ml;
     static const std::set<material_id> affected_materials = { material_id( "iron" ), material_id( "steel" ) };
     if( has_active_bionic("bio_railgun") && tmp.made_of_any( affected_materials ) ) {
         ret *= 2;
@@ -1910,55 +1957,22 @@ bool Character::is_blind() const
 
 bool Character::pour_into( item &container, item &liquid )
 {
-    if( liquid.is_ammo() && ( container.is_tool() || container.is_gun() ) ) {
-        // TODO: merge this part with game::reload
-        // for filling up chainsaws, jackhammers and flamethrowers
+    std::string err;
+    const long amount = container.get_remaining_capacity_for_liquid( liquid, *this, &err );
 
-        if( container.ammo_type() != liquid.ammo_type() ) {
-            add_msg_if_player( m_info, _( "Your %1$s won't hold %2$s." ), container.tname().c_str(),
-                               liquid.tname().c_str() );
-            return false;
-        }
+    if( !err.empty() ) {
+        add_msg_if_player( m_bad, err.c_str() );
+        return false;
+    }
 
-        if( container.ammo_remaining() >= container.ammo_capacity() ) {
-            add_msg_if_player( m_info, _( "Your %1$s can't hold any more %2$s." ), container.tname().c_str(),
-                               liquid.tname().c_str() );
-            return false;
-        }
+    add_msg_if_player( _( "You pour %1$s into the %2$s." ), liquid.tname().c_str(),
+                       container.tname().c_str() );
 
-        if( container.ammo_remaining() && container.ammo_current() != liquid.typeId() ) {
-            add_msg_if_player( m_info, _( "You can't mix loads in your %s." ), container.tname().c_str() );
-            return false;
-        }
+    container.fill_with( liquid, amount );
+    inv.unsort();
 
-        add_msg_if_player( _( "You pour %1$s into the %2$s." ), liquid.tname().c_str(),
-                           container.tname().c_str() );
-        auto qty = std::min( liquid.charges, container.ammo_capacity() - container.ammo_remaining() );
-        liquid.charges -= qty;
-        container.ammo_set( liquid.typeId(), container.ammo_remaining() + qty );
-        container.on_contents_changed();
-        if( liquid.charges > 0 ) {
-            add_msg_if_player( _( "There's some left over!" ) );
-        }
-
-    } else {
-        // Filling up normal containers
-        bool allow_bucket = &container == &weapon || !has_item( container );
-        std::string err;
-        if( !container.fill_with( liquid, err, allow_bucket ) ) {
-            add_msg_if_player( m_info, err.c_str() );
-            return false;
-        }
-
-        container.on_contents_changed();
-
-        inv.unsort();
-        add_msg_if_player( _( "You pour %1$s into the %2$s." ), liquid.tname().c_str(),
-                           container.tname().c_str() );
-        if( liquid.charges > 0 ) {
-            // TODO: maybe not show this if the source is infinite. Best would be to move it to the caller.
-            add_msg_if_player( _( "There's some left over!" ) );
-        }
+    if( liquid.charges > 0 ) {
+        add_msg_if_player( _( "There's some left over!" ) );
     }
 
     return true;
@@ -1966,7 +1980,7 @@ bool Character::pour_into( item &container, item &liquid )
 
 bool Character::pour_into( vehicle &veh, item &liquid )
 {
-    const itype_id &ftype = liquid.type->id;
+    const itype_id &ftype = liquid.typeId();
     const int fuel_per_charge = fuel_charges_to_amount_factor( ftype );
     const int fuel_cap = veh.fuel_capacity( ftype );
     const int fuel_amnt = veh.fuel_left( ftype );
@@ -1979,7 +1993,7 @@ bool Character::pour_into( vehicle &veh, item &liquid )
         return false;
     }
     const int charges_to_move = std::min<int>( liquid.charges, ( fuel_cap - fuel_amnt ) / fuel_per_charge );
-    liquid.charges = veh.refill( ftype, charges_to_move * fuel_per_charge ) / fuel_per_charge;
+    liquid.charges -= charges_to_move + (veh.refill( ftype, charges_to_move * fuel_per_charge ) / fuel_per_charge);
     if( veh.fuel_left( ftype ) < fuel_cap ) {
         add_msg_if_player( _( "You refill the %1$s with %2$s." ), veh.name.c_str(), liquid.type_name().c_str() );
     } else {

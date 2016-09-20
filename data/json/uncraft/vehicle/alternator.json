@@ -1,9 +1,7 @@
 [
   {
+    "type": "uncraft",
     "result": "alternator_car",
-    "type" : "recipe",
-    "category": "CC_NONCRAFT",
-    "subcategory": "CSC_NONCRAFT",
     "skill_used": "mechanics",
     "difficulty": 3,
     "time": 30000,
@@ -22,10 +20,8 @@
     ]
   },
   {
+    "type": "uncraft",
     "result": "alternator_motorbike",
-    "type" : "recipe",
-    "category": "CC_NONCRAFT",
-    "subcategory": "CSC_NONCRAFT",
     "skill_used": "mechanics",
     "difficulty": 2,
     "time": 10000,
@@ -41,10 +37,8 @@
     ]
   },
   {
+    "type": "uncraft",
     "result": "alternator_truck",
-    "type" : "recipe",
-    "category": "CC_NONCRAFT",
-    "subcategory": "CSC_NONCRAFT",
     "skill_used": "mechanics",
     "difficulty": 3,
     "time": 30000,
@@ -63,10 +57,8 @@
     ]
   },
   {
+    "type": "uncraft",
     "result": "generator_7500w",
-    "type" : "recipe",
-    "category": "CC_NONCRAFT",
-    "subcategory": "CSC_NONCRAFT",
     "skill_used": "mechanics",
     "difficulty": 4,
     "time": 240000,

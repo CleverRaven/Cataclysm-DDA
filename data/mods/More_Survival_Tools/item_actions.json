@@ -5,10 +5,6 @@
         "name" : "Make some noise"
     },{
         "type" : "item_action",
-        "id" : "extended_firestarter",
-        "name" : "Start a fire slowly"
-    },{
-        "type" : "item_action",
         "id" : "WEATHER_TOOL",
         "name" : "Check weather information"
     }

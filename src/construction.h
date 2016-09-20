@@ -1,7 +1,6 @@
 #ifndef CONSTRUCTION_H
 #define CONSTRUCTION_H
 
-#include "requirements.h"
 #include "cursesdef.h" // WINDOW
 #include "enums.h" // point
 #include "string_id.h"
@@ -13,7 +12,10 @@
 class JsonObject;
 typedef int nc_color;
 class Skill;
+struct requirement_data;
+
 using skill_id = string_id<Skill>;
+using requirement_id = string_id<requirement_data>;
 
 struct construction {
         std::string category; //Construction type category
@@ -24,14 +26,14 @@ struct construction {
 
         std::set<std::string> pre_flags; // flags beginning terrain must have
 
-        requirement_data requirements;
+        requirement_id requirements;
 
-        int id; // arbitrary internal identifier
+        size_t id; // Index in construction vector
         int time;
         int difficulty;
 
-        bool ( *pre_special )( point ); // custom constructability check
-        void ( *post_special )( point ); // custom after-effects
+        bool ( *pre_special )( const tripoint & ); // custom constructability check
+        void ( *post_special )( const tripoint & ); // custom after-effects
 
         bool pre_is_furniture; // whether it's furniture or terrain
         bool post_is_furniture; // whether it's furniture or terrain
@@ -46,9 +48,6 @@ struct construction {
 
 //! Set all constructions to take the specified time.
 void standardize_construction_times( int time );
-
-//! Remove all constructions matching the predicate.
-void remove_construction_if( std::function<bool ( construction & )> pred );
 
 void load_construction( JsonObject &jsobj );
 void reset_constructions();

@@ -31,6 +31,7 @@ ignore_files = {
 ignorable = {
     "BULLET_PULLING",
     "colordef",
+    "emit",
     "epilogue", # FIXME right now this object can't be translated correctly
     "GAME_OPTION",
     "ITEM_BLACKLIST",
@@ -48,7 +49,9 @@ ignorable = {
     "overmap_special",
     "region_overlay",
     "region_settings",
+    "requirement",
     "SPECIES",
+    "uncraft",
     "vehicle_group",
     "vehicle_placement",
     "WORLD_OPTION"
@@ -85,6 +88,7 @@ automatically_convertible = {
     "ITEM_CATEGORY",
     "keybinding",
     "MAGAZINE",
+    "mission_definition",
     "MOD_INFO",
     "MONSTER",
     "mutation",
@@ -623,6 +627,9 @@ def extract(item, infilename):
         writestr(outfile, seed_data["plant_name"], **kwargs)
     if "text" in item:
         writestr(outfile, item["text"], **kwargs)
+        wrote = True
+    if "reload_noise" in item:
+        writestr(outfile, item["reload_noise"], **kwargs)
         wrote = True
     if "messages" in item:
         for message in item["messages"]:

@@ -18,6 +18,7 @@
 #include "json.h"
 #include "color.h"
 #include "translations.h"
+#include "units.h"
 
 /**
 A generic class to store objects identified by a `string_id`.
@@ -245,13 +246,13 @@ class generic_factory
             const auto iter = map.find( obj.id );
             if( iter != map.end() ) {
                 T &result = list[iter->second];
-                result = std::move( obj );
+                result = obj;
                 result.id.set_cid( iter->second );
                 return result;
             }
 
             const int_id<T> cid( list.size() );
-            list.push_back( std::move( obj ) );
+            list.push_back( obj );
 
             T &result = list.back();
             result.id.set_cid( cid );
@@ -843,65 +844,138 @@ class string_id_reader : public generic_typed_reader<string_id_reader<T>>
         }
 };
 
+inline void report_strict_violation( JsonObject &jo, const std::string &message,
+                                     const std::string &name )
+{
+    try {
+        // Let the json class do the formatting, it includes the context of the JSON data.
+        jo.throw_error( message, name );
+    } catch( const JsonError &err ) {
+        // And catch the exception so the loading continues like normal.
+        debugmsg( "%s", err.what() );
+    }
+}
 
 template <typename T>
-typename std::enable_if<std::is_integral<T>::value, bool>::type assign(
-    JsonObject &jo, const std::string &name, T &val )
+typename std::enable_if<std::is_arithmetic<T>::value, bool>::type assign(
+    JsonObject &jo, const std::string &name, T &val, bool strict = false,
+    T lo = std::numeric_limits<T>::min(),
+    T hi = std::numeric_limits<T>::max() )
 {
-
-    T tmp;
-    if( jo.get_object( "relative" ).read( name, tmp ) ) {
-        val += tmp;
-        return true;
-    }
-
+    T out;
     double scalar;
-    if( jo.get_object( "proportional" ).read( name, scalar ) && scalar > 0.0 ) {
-        val *= scalar;
-        return true;
+
+    // dont require strict parsing for relative and proportional values as rules
+    // such as +10% are well-formed independent of whether they affect base value
+    if( jo.get_object( "relative" ).read( name, out ) ) {
+        strict = false;
+        out += val;
+
+    } else if( jo.get_object( "proportional" ).read( name, scalar ) ) {
+        if( scalar <= 0 || scalar == 1 ) {
+            jo.throw_error( "invalid proportional scalar", name );
+        }
+        strict = false;
+        out = val * scalar;
+
+    } else if( !jo.read( name, out ) ) {
+
+        return false;
     }
 
-    return jo.read( name, val );
+    if( out < lo || out > hi ) {
+        jo.throw_error( "value outside supported range", name );
+    }
+
+    if( strict && out == val ) {
+        report_strict_violation( jo, "assignment does not update value", name );
+    }
+
+    val = out;
+
+    return true;
+}
+
+template <typename T>
+typename std::enable_if<std::is_arithmetic<T>::value, bool>::type assign(
+    JsonObject &jo, const std::string &name, std::pair<T, T> &val, bool strict = false,
+    T lo = std::numeric_limits<T>::min(),
+    T hi = std::numeric_limits<T>::max() )
+{
+    std::pair<T, T> out;
+
+    if( jo.has_array( name ) ) {
+        auto arr = jo.get_array( name );
+        arr.read( 0, out.first );
+        arr.read( 1, out.second );
+
+    } else if( jo.read( name, out.first ) ) {
+        out.second = out.first;
+
+    } else {
+        return false;
+    }
+
+    if( out.first > out.second ) {
+        std::swap( out.first, out.second );
+    }
+
+    if( out.first < lo || out.second > hi ) {
+        jo.throw_error( "value outside supported range", name );
+    }
+
+    if( strict && out == val ) {
+        report_strict_violation( jo, "assignment does not update value", name );
+    }
+
+    val = out;
+
+    return true;
 }
 
 template <typename T>
 typename std::enable_if<std::is_constructible<T, std::string>::value, bool>::type assign(
-    JsonObject &jo, const std::string &name, T &val )
+    JsonObject &jo, const std::string &name, T &val, bool strict = false )
 {
-
-    return jo.read( name, val );
-}
-
-template <typename T>
-bool assign( JsonObject &jo, const std::string &name, nc_color &val )
-{
-    if( jo.has_string( name ) ) {
-        val = color_from_string( jo.get_string( name ) );
-        return true;
+    T out;
+    if( !jo.read( name, out ) ) {
+        return false;
     }
-    return false;
+
+    if( strict && out == val ) {
+        report_strict_violation( jo, "assignment does not update value", name );
+    }
+
+    val = out;
+
+    return true;
 }
 
 template <typename T>
 typename std::enable_if<std::is_constructible<T, std::string>::value, bool>::type assign(
-    JsonObject &jo, const std::string &name, std::set<T> &val )
+    JsonObject &jo, const std::string &name, std::set<T> &val, bool = false )
 {
+    auto add = jo.get_object( "extend" );
+    auto del = jo.get_object( "delete" );
 
     if( jo.has_string( name ) || jo.has_array( name ) ) {
         val = jo.get_tags<T>( name );
+
+        if( add.has_member( name ) || del.has_member( name ) ) {
+            // ill-formed to (re)define a value and then extend/delete within same definition
+            jo.throw_error( "multiple assignment of value", name );
+        }
         return true;
     }
 
     bool res = false;
 
-    auto add = jo.get_object( "extend" );
     if( add.has_string( name ) || add.has_array( name ) ) {
         auto tags = add.get_tags<T>( name );
         val.insert( tags.begin(), tags.end() );
         res = true;
     }
 
-    auto del = jo.get_object( "delete" );
     if( del.has_string( name ) || del.has_array( name ) ) {
         for( const auto &e : del.get_tags<T>( name ) ) {
             val.erase( e );
@@ -910,6 +984,67 @@ typename std::enable_if<std::is_constructible<T, std::string>::value, bool>::typ
     }
 
     return res;
+}
+
+inline bool assign( JsonObject &jo, const std::string &name, units::volume &val,
+                    bool strict = false,
+                    const units::volume lo = units::volume( std::numeric_limits<units::volume::value_type>::min(),
+                            units::volume::unit_type{} ),
+                    const units::volume hi = units::volume( std::numeric_limits<units::volume::value_type>::max(),
+                            units::volume::unit_type{} ) )
+{
+    // Currently JSON data contains volume in 250ml units.
+    // TODO: change JSON to contain milliliter values.
+    units::volume::value_type tmp;
+    units::volume out;
+    double scalar;
+
+    // dont require strict parsing for relative and proportional values as rules
+    // such as +10% are well-formed independent of whether they affect base value
+    if( jo.get_object( "relative" ).read( name, tmp ) ) {
+        strict = false;
+        out = val + tmp * units::legacy_volume_factor;
+
+    } else if( jo.get_object( "proportional" ).read( name, scalar ) ) {
+        if( scalar <= 0 || scalar == 1 ) {
+            jo.throw_error( "invalid proportional scalar", name );
+        }
+        strict = false;
+        out = val * scalar;
+
+    } else if( jo.read( name, tmp ) ) {
+        out = tmp * units::legacy_volume_factor;
+
+    } else {
+        return false;
+    }
+
+    if( out < lo || out > hi ) {
+        jo.throw_error( "value outside supported range", name );
+    }
+
+    if( strict && out == val ) {
+        report_strict_violation( jo, "assignment does not update value", name );
+    }
+
+    val = out;
+
+    return true;
+}
+
+/**
+ * Reads a volume value from legacy format: JSON contains a integer which represents multiples
+ * of `units::legacy_volume_factor` (250 ml).
+ */
+inline bool legacy_volume_reader( JsonObject &jo, const std::string &member_name,
+                                  units::volume &value, bool )
+{
+    int legacy_value;
+    if( !jo.read( member_name, legacy_value ) ) {
+        return false;
+    }
+    value = legacy_value * units::legacy_volume_factor;
+    return true;
 }
 
 #endif

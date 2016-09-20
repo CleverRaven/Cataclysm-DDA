@@ -16,7 +16,7 @@
         "healthy": -5,
         "fun": -5,
         "stim": -4,
-        "flags" : ["EATEN_COLD", "USE_ON_NPC"],
+        "flags" : ["EATEN_COLD"],
         "phase": "liquid",
         "use_action" : {
             "type" : "consume_drug",
@@ -41,7 +41,7 @@
         "quench": -20,
         "healthy": -3,
         "stim": -2,
-        "flags" : ["EATEN_COLD", "USE_ON_NPC"],
+        "flags" : ["EATEN_COLD"],
         "phase": "liquid",
         "use_action" : {
             "type" : "consume_drug",
@@ -66,7 +66,7 @@
         "quench": -15,
         "healthy": -1,
         "stim": 2,
-        "flags" : ["EATEN_COLD", "USE_ON_NPC"],
+        "flags" : ["EATEN_COLD"],
         "phase": "liquid",
         "use_action" : {
             "type" : "consume_drug",
@@ -91,7 +91,7 @@
         "quench": -10,
         "fun": 5,
         "stim": 4,
-        "flags" : ["EATEN_COLD", "USE_ON_NPC"],
+        "flags" : ["EATEN_COLD"],
         "phase": "liquid",
         "use_action" : {
             "type" : "consume_drug",

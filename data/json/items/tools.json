@@ -42,7 +42,6 @@
     "name": "seeing this is a bug",
     "description": "seeing this is a bug",
     "price": 0,
-    "weight": 0,
     "volume": 0,
     "use_action": "UNFOLD_GENERIC"
   },
@@ -68,8 +67,8 @@
     "rand_charges": [1,10,12,15,16,22,44,50,67,75,82,100],
     "charges_per_use": 1,
     "use_action": {
-            "type": "firestarter",
-            "moves_cost": 15
+        "type": "firestarter",
+        "moves": 50
     }
   },
   {
@@ -87,7 +86,7 @@
    "charges_per_use": 5,
    "ammo": "battery",
    "use_action": {
-            "type": "extended_firestarter"
+        "type": "firestarter"
     }
   },
   {
@@ -105,8 +104,9 @@
     "initial_charges": 20,
     "charges_per_use": 1,
     "use_action": {
-            "type": "firestarter",
-            "moves_cost": 15
+        "type": "firestarter",
+        "moves": 40,
+        "moves_slow": 1000
     }
   },
   {
@@ -125,7 +125,9 @@
     "charges_per_use": 1,
     "flags": [ "FIRE_DRILL" ],
     "use_action": {
-            "type": "extended_firestarter"
+        "type": "firestarter",
+        "moves": 500,
+        "moves_slow": 25000
     }
   },
   {
@@ -139,12 +141,11 @@
     "material": ["wood", "stone"],
     "weight": 1280,
     "volume": 5,
-    "max_charges": 1000,
-    "initial_charges": 1000,
-    "charges_per_use": 1,
     "flags": [ "FIRE_DRILL" ],
     "use_action": {
-            "type": "extended_firestarter"
+        "type": "firestarter",
+        "moves": 200,
+        "moves_slow": 10000
     }
   },
   {
@@ -174,13 +175,14 @@
     "description": "This is a magnifying glass.  May be useful for starting fires during sunny skies.",
     "price": 600,
     "material": ["glass", "plastic"],
-    "flags": [ "LENS" ],
     "weight": 400,
     "volume": 1,
     "to_hit": -1,
     "use_action": {
-            "type": "extended_firestarter",
-            "need_sunlight": true
+        "type": "firestarter",
+        "moves": 1000,
+        "moves_slow": 25000,
+        "need_sunlight": true
     }
   },
   {
@@ -193,13 +195,15 @@
     "description": "A homemade collapsible telescope.  Too large and inaccurate to use as a weapon scope, but carrying this item in your inventory will double the distance that is mapped around you during your travels.",
     "price": 600,
     "material": ["glass", "plastic"],
-    "flags": [ "LENS", "ZOOM" ],
+    "flags": "ZOOM",
     "weight": 500,
     "volume": 1,
     "to_hit": -1,
     "use_action": {
-            "type": "extended_firestarter",
-            "need_sunlight": true
+        "type": "firestarter",
+        "moves": 1000,
+        "moves_slow": 25000,
+        "need_sunlight": true
     }
   },
   {
@@ -299,14 +303,14 @@
     "symbol": ";",
     "color": "brown",
     "name": "hammer",
-    "description": "This is a demagnetized steel hammer with a rubber grip.  With a hammer, nails, and two by fours in your inventory, you could board up adjacent doors and windows.  It has myriad other uses as well.",
+    "description": "This is a demagnetized steel hammer with a wooden grip.  With a hammer, nails, and two by fours in your inventory, you could board up adjacent doors and windows.  It has myriad other uses as well.",
     "price": 700,
     "material": ["steel", "wood"],
     "weight": 566,
     "volume": 2,
     "bashing": 9,
     "to_hit": 1,
-    "flags": ["BELT_CLIP"],
+    "flags": ["BELT_CLIP", "NONCONDUCTIVE"],
     "use_action": "HAMMER",
     "qualities": [["HAMMER", 3], ["HAMMER_FINE", 1]]
   },
@@ -381,7 +385,7 @@
     "description": "A folding grappling hook attached to a stout 30-foot long piece of lightweight cord.  Useful for keeping yourself safe from falls.",
     "category": "tools",
     "techniques" : ["RAPID", "SPIN"],
-    "flags" : ["WRAP", "DURABLE_MELEE"],
+    "flags" : ["DURABLE_MELEE", "NONCONDUCTIVE"],
     "price": 25000,
     "material": ["cotton", "steel"],
     "weight": 760,
@@ -801,47 +805,6 @@
     "to_hit": -1
   },
   {
-    "id": "handflare",
-    "type": "TOOL",
-    "symbol": ";",
-    "color": "light_red",
-    "name": "flare",
-    "description": "This is a slow-burning magnesium flare.  Use it to strike the striker and light it.  It will produce a bright light for about a half hour.",
-    "price": 400,
-    "material": ["paper", "plastic"],
-    "weight": 128,
-    "volume": 1,
-    "bashing": 2,
-    "to_hit": -1,
-    "max_charges": 150,
-    "initial_charges": 150,
-    "use_action": {
-        "type": "transform",
-        "target": "handflare_lit",
-        "active": true,
-        "msg": "You strike your flare and light it."
-    }
-  },
-  {
-    "id": "handflare_lit",
-    "type": "TOOL",
-    "symbol": ";",
-    "color": "white",
-    "name": "active flare",
-    "description": "This burning magnesium flare is producing light.  It will last for about a half hour before burning out.",
-    "material": ["paper", "plastic"],
-    "flags": [ "FIRE", "LIGHT_240", "CHARGEDIM", "FLAMING", "TRADER_AVOID" ],
-    "weight": 128,
-    "volume": 1,
-    "bashing": 2,
-    "to_hit": -1,
-    "max_charges": 150,
-    "initial_charges": 150,
-    "turns_per_charge": 2,
-    "revert_to": "handflare_dead",
-    "revert_msg": "The flare sputters out"
-  },
-  {
     "id": "hotplate",
     "type": "TOOL",
     "symbol": ";",
@@ -954,9 +917,9 @@
     "weight": 45,
     "volume": 3,
     "bashing": 1,
-    "max_charges": 28,
-    "initial_charges": 28,
-    "charges_per_use": 1,
+    "max_charges": 500,
+    "initial_charges": 500,
+    "charges_per_use": 1, "//": "Should be 20 but currently recipes do not utilize this value",
     "ammo": "conc_alcohol",
     "use_action": "HOTPLATE"
   },
@@ -1027,7 +990,7 @@
     "symbol": ",",
     "color": "light_green",
     "name": "atomic coffee maker",
-    "description": "Never sacrifice taste for convenience, when you can have both with the Rivtech atomic coffee maker! Its simple and robust atomic-age construction guarantees a service life of at least 160 million years.",
+    "description": "Never sacrifice taste for convenience, when you can have both with the Rivtech atomic coffee maker!  Its simple and robust atomic-age construction guarantees a service life of at least 160 million years.",
     "price": 100000,
     "material": ["plastic", "aluminum"],
     "flags": ["LEAK_DAM", "RADIOACTIVE", "DURABLE_MELEE"],
@@ -1052,7 +1015,8 @@
     "volume": 10,
     "bashing": 4,
     "to_hit": -1,
-    "qualities": [["COOK", 3], ["BOIL", 2], ["CONTAIN", 1], ["CHEM", 1]]
+    "qualities": [["COOK", 3], ["BOIL", 2], ["CONTAIN", 1], ["CHEM", 1]],
+    "use_action": "HEAT_FOOD"
   },
   {
     "type":"GENERIC",
@@ -1072,7 +1036,8 @@
     "container_data" : {
         "contains": 8,
         "watertight": true
-    }
+    },
+    "use_action": "HEAT_FOOD"
   },
   {
     "type":"GENERIC",
@@ -1092,7 +1057,8 @@
     "container_data" : {
         "contains": 8,
         "watertight": true
-    }
+    },
+    "use_action": "HEAT_FOOD"
   },
   {
     "type":"GENERIC",
@@ -1112,7 +1078,8 @@
     "container_data" : {
         "contains": 4,
         "watertight": true
-    }
+    },
+    "use_action": "HEAT_FOOD"
   },
   {
     "type":"GENERIC",
@@ -1161,7 +1128,8 @@
     "container_data" : {
         "contains": 8,
         "watertight": true
-    }
+    },
+    "use_action": "HEAT_FOOD"
   },
   {
     "type": "GENERIC",
@@ -1388,7 +1356,7 @@
     "symbol": ";",
     "color": "green",
     "name": "two-way radio",
-    "description": "This is a radio with a transmitting unit.  Using this allows you to send out a distress signal.  You could send either a general SOS, or send a direct call to a faction you are in contact with.",
+    "description": "This is a radio with a transmitting unit.  You could use it to contact someone who also has one.  Unfortunately no one seems to use those nowadays...",
     "price": 2000,
     "material": ["plastic", "aluminum"],
     "weight": 431,
@@ -1396,9 +1364,7 @@
     "bashing": 6,
     "max_charges": 100,
     "initial_charges": 100,
-    "charges_per_use": 1,
-    "ammo": "battery",
-    "use_action": "TWO_WAY_RADIO"
+    "ammo": "battery"
   },
   {
     "id": "radio",
@@ -1724,24 +1690,13 @@
     "description": "This is a digging tool.  Use it to dig pits adjacent to your location.",
     "price": 2000,
     "material": ["steel", "wood"],
+    "flags": "NONCONDUCTIVE",
     "weight": 1315,
     "volume": 14,
     "bashing": 14,
     "cutting": 3,
     "to_hit": 3,
     "qualities": [ [ "DIG", 3 ] ]
-  },
-  {
-    "id": "stethoscope",
-    "type": "TOOL",
-    "symbol": "y",
-    "color": "dark_gray",
-    "name": "stethoscope",
-    "description": "This is a medical listening tool.  Use it to listen to things.  Closely.",
-    "price": 4000,
-    "material": ["plastic", "aluminum"],
-    "weight": 150,
-    "volume": 1
   },
     {
         "id" : "hose",
@@ -1755,7 +1710,6 @@
         "material" : ["plastic"],
         "volume" : 2,
         "bashing" : 4,
-        "flags" : ["WRAP"],
         "price" : 200,
         "use_action": "SIPHON"
     },
@@ -1769,6 +1723,7 @@
     "description": "This is a lumbering tool moonlighting as weapon of opportunity.  If loaded with gas, using this item will cause it to turn on, turning it into a very powerful but unwieldy melee weapon.",
     "price": 8000,
     "material": ["steel", "plastic"],
+    "flags": "NONCONDUCTIVE",
     "techniques": "SWEEP",
     "weight": 6577,
     "volume": 10,
@@ -1793,7 +1748,7 @@
     "volume": 10,
     "bashing": 4,
     "cutting": 70,
-    "flags" : ["CHOP", "MESSY", "TRADER_AVOID"],
+    "flags" : ["CHOP", "MESSY", "TRADER_AVOID", "NONCONDUCTIVE"],
     "to_hit": -5,
     "max_charges": 400,
     "turns_per_charge": 1,
@@ -1811,6 +1766,7 @@
     "description": "This is a lumbering tool moonlighting as weapon of opportunity.  If loaded with batteries, using this item will cause it to turn on, turning it into a very powerful but unwieldy melee weapon.",
     "price": 8000,
     "material": ["steel", "plastic"],
+    "flags": "NONCONDUCTIVE",
     "techniques": "SWEEP",
     "weight": 6577,
     "volume": 10,
@@ -1834,7 +1790,7 @@
     "volume": 10,
     "bashing": 4,
     "cutting": 70,
-    "flags" : ["CHOP", "MESSY", "TRADER_AVOID"],
+    "flags" : ["CHOP", "MESSY", "TRADER_AVOID", "NONCONDUCTIVE"],
     "to_hit": -5,
     "max_charges": 400,
     "turns_per_charge": 1,
@@ -1860,7 +1816,7 @@
     "initial_charges": 100,
     "ammo": "battery",
     "use_action": "CARVER_OFF",
-    "flags": ["SHEATH_SWORD"]
+    "flags": ["SHEATH_SWORD", "NONCONDUCTIVE"]
   },{
     "id": "carver_on",
     "type": "TOOL",
@@ -1875,7 +1831,7 @@
     "volume": 6,
     "bashing": 2,
     "cutting": 30,
-    "flags" : ["CHOP", "MESSY", "TRADER_AVOID"],
+    "flags" : ["CHOP", "MESSY", "TRADER_AVOID", "NONCONDUCTIVE"],
     "max_charges": 200,
     "turns_per_charge": 1,
     "ammo": "battery",
@@ -1892,6 +1848,7 @@
     "description": "A cordless, double-sided, gasoline-powered hedge trimmer.  A long line of sharp-edged teeth extends from the engine; turning the trimmer on will make them rapidly vibrate.  The poor man's chainsaw as far as the zombies are concerned.",
     "price": 4000,
     "material": ["steel", "plastic"],
+    "flags": "NONCONDUCTIVE",
     "weight": 4500,
     "volume": 10,
     "bashing": 4,
@@ -1914,7 +1871,7 @@
     "volume": 8,
     "bashing": 4,
     "cutting": 40,
-    "flags" : ["CHOP", "MESSY", "TRADER_AVOID"],
+    "flags" : ["CHOP", "MESSY", "TRADER_AVOID", "NONCONDUCTIVE"],
     "to_hit": -1,
     "max_charges": 600,
     "turns_per_charge": 1,
@@ -1931,6 +1888,7 @@
     "description": "A lightweight handheld cordless circular saw.  Spins a circular blade fast enough to cut wood, metal, zombies, or in an emergency, pizza.  The blade, while effective in combat, is hard to hit with due to its small size.",
     "price": 5000,
     "material": ["steel", "plastic"],
+    "flags": "NONCONDUCTIVE",
     "weight": 2940,
     "volume": 3,
     "bashing": 2,
@@ -1960,14 +1918,14 @@
     "volume": 3,
     "bashing": 2,
     "cutting": 50,
-    "flags" : ["CHOP", "MESSY", "TRADER_AVOID"],
+    "flags" : ["CHOP", "MESSY", "TRADER_AVOID", "NONCONDUCTIVE"],
     "to_hit": -3,
     "max_charges": 100,
     "turns_per_charge": 1,
     "ammo": "battery",
     "revert_to": "circsaw_off",
     "use_action": "CIRCSAW_ON",
-    "qualities": [["SAW_W", 2], ["BUTCHER", 60]]
+    "qualities": [["SAW_W", 2], ["SAW_M", 2], ["BUTCHER", 60]]
   },{
     "id": "combatsaw_off",
     "type": "TOOL",
@@ -2021,6 +1979,7 @@
     "price": 40000,
     "material": ["plastic", "steel"],
     "techniques" : ["WBLOCK_1", "SPIN"],
+    "flags": "NONCONDUCTIVE",
     "weight": 14254,
     "volume": 30,
     "bashing": 20,
@@ -2045,7 +2004,7 @@
     "volume": 30,
     "bashing": 4,
     "cutting": 140,
-    "flags" : ["CHOP", "MESSY", "HURT_WHEN_PULLED", "DURABLE_MELEE", "TRADER_AVOID"],
+    "flags" : ["CHOP", "MESSY", "HURT_WHEN_PULLED", "DURABLE_MELEE", "TRADER_AVOID", "NONCONDUCTIVE"],
     "to_hit": -5,
     "max_charges": 800,
     "turns_per_charge": 1,
@@ -2486,6 +2445,7 @@
     "description": "This is a section of a pipe filled with explosive materials.  Use this item to light the fuse, which gives you three turns to get away from it before it detonates.  You'll need a lighter or some matches to use it.  It is somewhat unreliable, and may fail to detonate.",
     "price": 1500,
     "material": "steel",
+    "flags" : "NPC_ACTIVATE",
     "weight": 1298,
     "volume": 2,
     "bashing": 5,
@@ -2509,7 +2469,7 @@
     "description": "This pipe bomb's fuse is lit, and it will explode any second now.  Throw it immediately!",
     "price": 0,
     "material": "steel",
-    "flags": "TRADER_AVOID",
+    "flags": "DANGEROUS",
     "weight": 1298,
     "volume": 2,
     "bashing": 5,
@@ -2552,7 +2512,6 @@
     "description": "This is an active grenade, and will explode any second now.  Better throw it!",
     "price": 0,
     "material": ["steel", "plastic"],
-    "flag": "TRADER_AVOID",
     "weight": 180,
     "volume": 1,
     "bashing": 6,
@@ -2560,7 +2519,7 @@
     "max_charges": 5,
     "initial_charges": 5,
     "turns_per_charge": 1,
-    "flags": ["BOMB"],
+    "flags": [ "BOMB", "TRADER_AVOID" ],
     "category": "weapons",
     "use_action": {
         "type": "explosion",
@@ -2642,7 +2601,7 @@
     "description": "Attached to this grenade is a name tag with the name Kevin written on it.  Does not seem to work like a grenade, handle with care.  Better throw it!",
     "price": 0,
     "material": ["steel", "plastic"],
-    "flag": "TRADER_AVOID",
+    "flags": "TRADER_AVOID",
     "weight": 180,
     "volume": 1,
     "bashing": 6,
@@ -2785,6 +2744,7 @@
     "description": "This scrambler grenade is active, and will soon detonate, releasing a control wave that temporarily converts robots to your side.",
     "price": 0,
     "material": ["steel", "plastic"],
+    "flags": [ "TRADER_AVOID" ],
     "weight": 500,
     "volume": 1,
     "bashing": 5,
@@ -2801,59 +2761,6 @@
         "draw_explosion_radius": 4,
         "draw_explosion_color": "cyan",
         "scrambler_blast_radius": 4
-    }
-  },
-  {
-    "id": "gasbomb",
-    "type": "TOOL",
-    "symbol": "*",
-    "color": "dark_gray",
-    "name": "tear gas canister",
-    "description": "This is a canister grenade filled with noxious irritant.  Use this item to pull the pin and light the fuse, turning it into an active tear gas grenade.  In five turns it will begin to expel a highly toxic gas for some time.  This gas damages and slows those who enter it, as well as obscuring vision and scent.",
-    "price": 2000,
-    "material": "steel",
-    "weight": 1264,
-    "volume": 1,
-    "bashing": 6,
-    "to_hit": -1,
-    "flags": ["RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB"],
-    "category": "weapons",
-    "use_action": {
-        "type": "transform",
-        "target": "gasbomb_act",
-        "target_charges": 20,
-        "active": true,
-        "msg": "You pull the pin on the teargas canister."
-    }
-  },
-  {
-    "id": "gasbomb_act",
-    "type": "TOOL",
-    "symbol": "*",
-    "color": "dark_gray",
-    "name": "active tear gas grenade",
-    "description": "This canister of tear gas has had its pin removed, indicating that it is (or will shortly be) expelling highly toxic gas.  You should consider getting rid of it soon.",
-    "price": 0,
-    "material": "steel",
-    "flags": "TRADER_AVOID",
-    "weight": 1264,
-    "volume": 1,
-    "bashing": 6,
-    "to_hit": -1,
-    "max_charges": 5,
-    "initial_charges": 5,
-    "turns_per_charge": 1,
-    "revert_to": "canister_empty",
-    "category": "weapons",
-    "use_action": {
-        "type": "explosion",
-        "sound_volume": 0,
-        "sound_msg": "Tick.",
-        "no_deactivate_msg": "You've already pulled the %s's pin, try throwing it instead.",
-        "fields_radius": 3,
-        "fields_type": "fd_tear_gas",
-        "fields_min_density": 3,
-        "fields_max_density": 3
     }
   },
   {
@@ -2909,57 +2816,6 @@
         "fields_max_density": 3
     }
   },
-  {
-    "id": "smokebomb",
-    "type": "TOOL",
-    "symbol": "*",
-    "color": "dark_gray",
-    "name": "smoke bomb",
-    "description": "This is a canister grenade filled with a variety of pyrotechnic chemicals.  Use this item to pull the pin and light the fuse, turning it into an active smoke bomb.  Five turns after you do that, it will begin to expel a thick black smoke.  This smoke will slow those who enter it, as well as obscuring vision and scent.",
-    "price": 1800,
-    "material": "steel",
-    "weight": 1058,
-    "volume": 1,
-    "bashing": 5,
-    "to_hit": -1,
-    "flags": ["RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB"],
-    "category": "weapons",
-    "use_action": {
-        "type": "transform",
-        "target": "smokebomb_act",
-        "target_charges": 20,
-        "active": true,
-        "msg": "You pull the pin on the smoke bomb."
-    }
-  },
-  {
-    "id": "smokebomb_act",
-    "type": "TOOL",
-    "symbol": "*",
-    "color": "dark_gray",
-    "name": "active smoke bomb",
-    "description": "This smoke bomb has had its pin removed, indicating that it is (or will shortly be) expelling thick smoke.",
-    "price": 0,
-    "material": "steel",
-    "flags": "TRADER_AVOID",
-    "weight": 1058,
-    "volume": 1,
-    "bashing": 5,
-    "to_hit": -1,
-    "turns_per_charge": 1,
-    "revert_to": "canister_empty",
-    "category": "weapons",
-    "use_action": {
-        "type": "explosion",
-        "sound_volume": 0,
-        "sound_msg": "Tick.",
-        "no_deactivate_msg": "You've already pulled the %s's pin, try throwing it instead.",
-        "fields_radius": 2,
-        "fields_type": "fd_smoke",
-        "fields_min_density": 1,
-        "fields_max_density": 3
-    }
-  },
   {   "id" : "flamable_arrow",
       "type" : "TOOL",
       "symbol" : "=",
@@ -2986,6 +2842,7 @@
     "description": "A bottle of flammable liquid with a rag inserted.  Use this item to light the rag.  You will, of course, need a lighter or matches in your inventory to do this.  After lighting it, throw it to cause fires.",
     "price": 500,
     "material": ["glass", "cotton"],
+    "flags": "NPC_ACTIVATE",
     "weight": 742,
     "volume": 3,
     "bashing": 5,
@@ -3013,7 +2870,7 @@
     "description": "A bottle of flammable liquid with a flaming rag inserted.  Throwing it will cause the bottle to break, spreading fire.  The flame may go out shortly if you do not throw it.  Dropping it while lit is not safe.",
     "price": 0,
     "material": ["glass", "cotton"],
-    "flags": ["LIGHT_15", "TRADER_AVOID"],
+    "flags": ["LIGHT_15", "TRADER_AVOID", "NPC_THROW_NOW"],
     "weight": 742,
     "volume": 3,
     "bashing": 5,
@@ -3033,7 +2890,7 @@
     "description": "This is a fragile container filled with acid.  Throw it to spill out a pool of potent acid.",
     "price": 5000,
     "material": "glass",
-    "flags": "ACT_ON_RANGED_HIT",
+    "flags": ["ACT_ON_RANGED_HIT", "NPC_THROWN"],
     "weight": 650,
     "volume": 2,
     "bashing": 4,
@@ -3051,7 +2908,7 @@
     "description": "This is a glass vial, with two chemicals mixing inside.  The vial feels colder and the contents are frothing.  If this mixture is exposed to air (as could happen if you throw the vial), it will spill out as a pool of potent acid.",
     "price": 0,
     "material": "glass",
-    "flags": "TRADER_AVOID",
+    "flags": ["TRADER_AVOID", "NPC_THROWN"],
     "weight": 1268,
     "volume": 2,
     "bashing": 4,
@@ -3076,7 +2933,7 @@
     "category": "weapons",
     "explode_in_fire" : true,
     "explosion" : {
-        "power": 60,
+        "power": 50,
         "shrapnel": 0
     },
     "use_action": {
@@ -3107,7 +2964,7 @@
     "category": "weapons",
     "explode_in_fire" : true,
     "explosion" : {
-        "power": 60,
+        "power": 50,
         "shrapnel": 0
     },
     "use_action": {
@@ -3116,7 +2973,7 @@
         "sound_msg": "ssss...",
         "no_deactivate_msg": "You've already lit the %s, try throwing it instead.",
         "explosion": {
-            "power": 60
+            "power": 50
         }
     }
   },
@@ -3544,7 +3401,7 @@
     "color": "light_green",
     "name": "advanced UPS",
     "name_plural": "advanced UPS's",
-    "description": "This is an advanced version of the unified power supply, or UPS.  This device has been significantly redesigned to provide better efficiency as well as to consume plutonium fuel cells rather than batteries.  Sadly, it's plutonium reactor can't be charged in UPS charging station.",
+    "description": "This is an advanced version of the unified power supply, or UPS.  This device has been significantly redesigned to provide better efficiency as well as to consume plutonium fuel cells rather than batteries.  Sadly, its plutonium reactor can't be charged in UPS charging station.",
     "price": 560000,
     "material": ["aluminum", "plastic"],
     "weight": 453,
@@ -3585,7 +3442,7 @@
     "price" : 17000,
     "material" : ["plastic", "steel"],
     "techniques" : ["WBLOCK_2", "RAPID"],
-    "flags" : ["DURABLE_MELEE", "NO_UNLOAD", "RECHARGE"],
+    "flags" : ["DURABLE_MELEE", "NO_UNLOAD", "RECHARGE", "NONCONDUCTIVE"],
     "weight" : 726,
     "volume" : 9,
     "bashing" : 14,
@@ -3606,7 +3463,7 @@
     "description" : "This is a reinforced plastic tonfa; the core is hollowed out and is filled with capacitors and a high-yield rechargeable storage battery.  When a switch on the handle is pressed, a high-voltage current is transmitted to the two electrodes mounted in the end of the weapon, and by extension to anyone unfortunate enough to be in contact with them.  The integral flashlight is turned on, continually draining power and lighting the surrounding area.",
     "price" : 17000,
     "material" : ["plastic", "steel"],
-    "flags": [ "LIGHT_450", "CHARGEDIM", "DURABLE_MELEE", "TRADER_AVOID" ],
+    "flags": [ "LIGHT_450", "CHARGEDIM", "DURABLE_MELEE", "TRADER_AVOID", "NONCONDUCTIVE"],
     "techniques" : ["WBLOCK_2", "RAPID"],
     "weight" : 726,
     "volume" : 9,
@@ -3809,7 +3666,7 @@
         "sound_msg": "Tick.",
         "no_deactivate_msg": "You've already set the %s's timer, you might want to get away from it.",
         "explosion": {
-            "power": 40,
+            "power": 65,
             "shrapnel": 3
         }
     }
@@ -3829,11 +3686,12 @@
   },
   {
     "id": "vacutainer",
-    "type": "TOOL",
+    "type": "CONTAINER",
     "symbol": ";",
     "color": "light_cyan",
     "name": "vacutainer",
-    "description": "This is a tool for drawing blood, including a vacuum-sealed test tube for holding the sample.  Use this tool to draw blood, either from yourself or from a corpse you are standing on.",
+    "category": "tools",
+    "description": "This is a tool for drawing blood, including a test tube for holding the sample.  Use this tool to draw blood, either from yourself or from a corpse you are standing on.",
     "price": 3000,
     "material": "plastic",
     "flags": "SPEAR",
@@ -3841,7 +3699,10 @@
     "volume": 1,
     "cutting": 6,
     "to_hit": -3,
-    "use_action": "VACUTAINER"
+    "use_action": "VACUTAINER",
+    "contains": 1,
+    "watertight": true,
+    "seals": true
   },
   {
     "id": "welder",
@@ -3956,8 +3817,8 @@
     "techniques": "PRECISE",
     "weight": 23,
     "volume": 1,
-    "cutting": 7,
-    "to_hit": -4,
+    "cutting": 6,
+    "to_hit": -3,
     "qualities": [["CUT", 1]]
   },
   {
@@ -3973,8 +3834,8 @@
     "techniques": "PRECISE",
     "weight": 23,
     "volume": 1,
-    "cutting": 8,
-    "to_hit": -4,
+    "cutting": 7,
+    "to_hit": -3,
     "qualities": [["CUT", 1]]
   },
   {
@@ -4064,7 +3925,7 @@
         },
         {
             "type": "firestarter",
-            "moves": 15
+            "moves": 30
         }
     ]
   },
@@ -4258,7 +4119,7 @@
     "color": "red",
     "name": "Rising Sun (on)",
     "name_plural": "Rising Suns (on)",
-    "description": "This is a katana that glows with the fury and heat of the SUN! Well, okay it's not THAT hot, but getting hit with it still stings like the dickens.  Use to shut off the gas.",
+    "description": "This is a katana that glows with the fury and heat of the SUN!  Well, okay it's not THAT hot, but getting hit with it still stings like the dickens.  Use to shut off the gas.",
     "price": 98000,
     "material": "steel",
     "flags": ["FIRE", "SLICE", "LIGHT_240", "CHARGEDIM", "FLAMING", "DURABLE_MELEE", "TRADER_AVOID"],
@@ -4284,7 +4145,7 @@
         },
         {
             "type": "firestarter",
-            "moves": 15
+            "moves": 30
         }
     ]
   },
@@ -4297,7 +4158,7 @@
     "description": "This is a simple wood pole made much more deadly by the blade tied to it.",
     "price": 1400,
     "material": ["wood", "iron"],
-    "flags": ["SPEAR", "REACH_ATTACK"],
+    "flags": ["SPEAR", "REACH_ATTACK", "NONCONDUCTIVE"],
     "techniques": "WBLOCK_1",
     "weight": 1487,
     "volume": 6,
@@ -4336,7 +4197,7 @@
     "price": 40000,
     "material": ["iron", "wood"],
     "techniques" : ["IMPALE", "WBLOCK_2"],
-    "flags" : ["DURABLE_MELEE", "SPEAR", "REACH_ATTACK", "REACH3"],
+    "flags" : ["DURABLE_MELEE", "SPEAR", "REACH_ATTACK", "REACH3", "NONCONDUCTIVE"],
     "weight": 6000,
     "volume": 14,
     "bashing": 15,
@@ -4420,7 +4281,7 @@
     "description": "Ein großes zweihändiges Schwert aus Deutschland, an dessen Klinge sich, unter zuführung von Benzin, eine anhaltende Flamme erzeugen lässt.  Es ist eine sehr mächtige Waffe.",
     "price": 160000,
     "material": "steel",
-    "flags": ["CHOP", "FIRE", "LIGHT_240", "CHARGEDIM", "FLAMING", "DURABLE_MELEE"],
+    "flags": [ "CHOP", "FIRE", "LIGHT_240", "CHARGEDIM", "FLAMING", "DURABLE_MELEE", "TRADER_AVOID" ],
     "techniques": ["WBLOCK_1", "WIDE", "BRUTAL"],
     "weight": 3400,
     "volume": 15,
@@ -4442,7 +4303,7 @@
         },
         {
             "type": "firestarter",
-            "moves": 15
+            "moves": 30
         }
     ]
   },
@@ -4508,7 +4369,7 @@
         },
         {
             "type": "firestarter",
-            "moves": 15
+            "moves": 30
         }
     ]
   },
@@ -4593,12 +4454,12 @@
         },
         {
             "type": "firestarter",
-            "moves": 15
+            "moves": 30
         }
     ]
   },
   {
-    "comment": "Name changed to glaive, but changing the id would break e.g.  tilesets.",
+    "//": "Name changed to glaive, but changing the id would break e.g.  tilesets.",
     "id": "makeshift_halberd",
     "type": "GENERIC",
     "symbol": "/",
@@ -4629,7 +4490,7 @@
     "volume": 1,
     "bashing": 2,
     "cutting": 7,
-    "to_hit": -3,
+    "to_hit": -1,
     "qualities": [["CUT", 1], ["BUTCHER", 20]],
     "flags": ["STAB", "SHEATH_KNIFE"]
   },
@@ -4647,7 +4508,7 @@
     "volume": 2,
     "bashing": 2,
     "cutting": 10,
-    "to_hit": -3,
+    "to_hit": -1,
     "category": "weapons",
     "qualities": [["CUT", 1], ["BUTCHER", 25]],
     "flags": ["CHOP", "SHEATH_KNIFE"]
@@ -4663,7 +4524,7 @@
     "price": 10000,
     "material": ["steel", "plastic"],
     "techniques": "RAPID",
-    "flags": ["STAB", "DURABLE_MELEE", "SHEATH_KNIFE"],
+    "flags": ["STAB", "DURABLE_MELEE", "SHEATH_KNIFE", "NPC_THROWN"],
     "weight": 558,
     "volume": 2,
     "bashing": 2,
@@ -4681,6 +4542,7 @@
     "description": "This is a thin saw, useful for cutting through wood objects.",
     "price": 3000,
     "material": ["steel", "wood"],
+    "flags": "NONCONDUCTIVE",
     "weight": 283,
     "volume": 5,
     "cutting": 1,
@@ -4700,7 +4562,7 @@
     "volume": 10,
     "bashing": 20,
     "cutting": 14,
-    "flags" : ["CHOP"],
+    "flags" : ["CHOP", "NONCONDUCTIVE"],
     "to_hit": 1,
     "qualities": [["AXE", 3]]
   },
@@ -4718,7 +4580,7 @@
     "volume": 8,
     "bashing": 20,
     "cutting": 20,
-    "flags" : ["CHOP", "DURABLE_MELEE"],
+    "flags" : ["CHOP", "DURABLE_MELEE", "NONCONDUCTIVE"],
     "to_hit": 1,
     "qualities": [["AXE", 2]]
   },
@@ -4735,7 +4597,7 @@
     "volume": 10,
     "bashing": 20,
     "cutting": 30,
-    "flags" : ["CHOP", "DURABLE_MELEE"],
+    "flags" : ["CHOP", "DURABLE_MELEE", "NONCONDUCTIVE"],
     "to_hit": 1,
     "category": "weapons",
     "qualities": [["AXE", 2]]
@@ -4939,7 +4801,7 @@
     "price": 9000,
     "material": "steel",
     "flags": "TRADER_AVOID",
-    "weight": 5066,
+    "weight": 2000,
     "volume": 6,
     "bashing": 7,
     "to_hit": 1,
@@ -5081,7 +4943,7 @@
     "volume": 1,
     "bashing": 2,
     "cutting": 6,
-    "to_hit": 1,
+    "to_hit": -1,
     "qualities": [["SCREW", 1]]
   },
   {
@@ -5097,7 +4959,7 @@
     "volume": 2,
     "bashing": 2,
     "cutting": 6,
-    "to_hit": 1,
+    "to_hit": -1,
     "qualities": [["SCREW", 1], ["SCREW_FINE", 1]]
   },
   {
@@ -5113,8 +4975,8 @@
     "weight": 907,
     "volume": 2,
     "bashing": 9,
-    "to_hit": 2,
-    "qualities": [["WRENCH", 1], ["WRENCH_FINE", 1]]
+    "to_hit": 1,
+    "qualities": [ ["WRENCH", 2 ], [ "WRENCH_FINE", 1 ] ]
   },
   {
     "id": "pliers",
@@ -5217,7 +5079,6 @@
     "name": "bio lockpick",
     "description": "this a pseudo item",
     "price": 0,
-    "weight": 0,
     "volume": 0,
     "max_charges": 1,
     "initial_charges": 1,
@@ -5253,7 +5114,7 @@
     "description": "This is a large steel pickaxe, suitable for breaking up hard things or (with enough skill) hard targets.  Strike the earth!",
     "price": 16000,
     "material": ["wood","steel"],
-    "flags": ["SPEAR", "DURABLE_MELEE"],
+    "flags": ["SPEAR", "DURABLE_MELEE", "NONCONDUCTIVE"],
     "weight": 4535,
     "volume": 12,
     "bashing": 12,
@@ -5434,7 +5295,7 @@
     "weight": 141,
     "volume": 0,
     "cutting": 7,
-    "to_hit": -4,
+    "to_hit": -2,
     "qualities": [["CUT", 1], ["BUTCHER", 12]]
   },{
     "id" : "copper_knife",
@@ -5549,6 +5410,7 @@
     "description": "This is a crude hammer make from a piece of metal affixed to a stick.  It functions adequately as a hammer, but really can't compare to a proper one.",
     "price": 0,
     "material": ["steel", "wood"],
+    "flags": "NONCONDUCTIVE",
     "weight": 1020,
     "volume": 2,
     "bashing": 9,
@@ -5596,7 +5458,7 @@
     "volume": 14,
     "bashing": 18,
     "cutting": 12,
-    "flags" : ["CHOP"],
+    "flags" : ["CHOP", "NONCONDUCTIVE"],
     "qualities": [["AXE", 2]]
   },{
     "id": "primitive_shovel",
@@ -6266,7 +6128,8 @@
     "volume": 2,
     "bashing": 3,
     "to_hit": 1,
-    "qualities": [["COOK", 1]]
+    "qualities": [["COOK", 1]],
+    "use_action": "HEAT_FOOD"
   },{
     "id": "chisel",
     "type": "TOOL",
@@ -6398,7 +6261,7 @@
         },
         {
             "type": "firestarter",
-            "moves": 25
+            "moves": 50
         }
     ]
   },
@@ -6412,7 +6275,7 @@
     "description": "This is a lighter featuring a flip top cover and refuelable tank.  It is lit.",
     "price": 3000,
     "material": "aluminum",
-    "flags": ["FIRE", "LIGHT_8", "FLAMING", "REFILLABLE_LIGHTER"],
+    "flags": [ "FIRE", "LIGHT_8", "FLAMING", "REFILLABLE_LIGHTER", "TRADER_AVOID" ],
     "weight": 20,
     "volume": 0,
     "max_charges": 50,
@@ -6424,7 +6287,8 @@
     "use_action": [
         {
             "type": "firestarter",
-            "moves_cost": 15
+            "moves": 40,
+            "moves_slow": 500
         },
         {
             "type": "transform",
@@ -6662,7 +6526,7 @@
     "volume": 2,
     "bashing": 6,
     "cutting": 14,
-    "to_hit": -1,
+    "to_hit": 1,
     "category" : "weapons",
     "qualities": [["CUT", 1], ["BUTCHER", 19]]
   },
@@ -6740,7 +6604,7 @@
     "qualities": [["CUT", 1], ["BUTCHER", 20]]
   },
   {
-    "comment": "Highest non-powertool butchering quality.  It's made for skinning and butchering game, which is what you're generally doing.",
+    "//": "Highest non-powertool butchering quality.  It's made for skinning and butchering game, which is what you're generally doing.",
     "id": "knife_hunting",
     "type": "TOOL",
     "symbol": "/",
@@ -6754,12 +6618,11 @@
     "volume": 1,
     "cutting": 16,
     "flags" : ["SHEATH_KNIFE","CHOP"],
-    "to_hit": -1,
     "category": "weapons",
     "qualities": [["CUT", 1], ["BUTCHER", 30]]
   },
   {
-    "comment": "This isn't really supposed to be a very good knife, or a very good saw.  It's more for looking scary.",
+    "//": "This isn't really supposed to be a very good knife, or a very good saw.  It's more for looking scary.",
     "id": "knife_rambo",
     "type": "TOOL",
     "symbol": ";",
@@ -6779,7 +6642,7 @@
     "qualities": [["CUT", 1], ["SAW_W", 1], ["SAW_M", 1], ["BUTCHER", 7]]
   },
   {
-    "comment": "The swiss army knife is a bit more of a knife than a toolkit.",
+    "//": "The swiss army knife is a bit more of a knife than a toolkit.",
     "id": "knife_swissarmy",
     "type": "TOOL",
     "symbol": ";",
@@ -6793,11 +6656,11 @@
     "weight": 246,
     "volume": 0,
     "cutting": 6,
-    "to_hit": -4,
+    "to_hit": -2,
     "qualities": [["CUT", 1], ["SAW_W", 1], ["SAW_M", 1], ["SCREW", 1], ["BUTCHER", 8]]
   },
   {
-    "comment": "The multi-tool is a bit more of a toolkit than a knife.",
+    "//": "The multi-tool is a bit more of a toolkit than a knife.",
     "id": "multitool",
     "type": "TOOL",
     "symbol": ";",
@@ -6941,7 +6804,7 @@
     "price": 8000,
     "material": [ "wood", "iron" ],
     "techniques" : ["WBLOCK_1", "RAPID"],
-    "flags" : ["DURABLE_MELEE", "NO_UNLOAD", "RECHARGE"],
+    "flags" : ["DURABLE_MELEE", "NO_UNLOAD", "RECHARGE", "NONCONDUCTIVE"],
     "weight": 2351,
     "volume": 13,
     "bashing": 25,
@@ -6953,7 +6816,7 @@
     "use_action" : "TAZER"
   },
   {
-    "comment": "Too small to be effectively used for butchering, still not bad at it due to serrated edge.",
+    "//": "Too small to be effectively used for butchering, still not bad at it due to serrated edge.",
     "id": "diveknife",
     "type": "TOOL",
     "category" : "weapons",
@@ -6967,7 +6830,6 @@
     "weight": 226,
     "volume": 0,
     "cutting": 12,
-    "to_hit": -1,
     "qualities": [["CUT", 1], ["PRY", 1], ["BUTCHER", 15]],
     "flags": ["CHOP", "SHEATH_KNIFE"]
   },
@@ -7130,7 +6992,7 @@
     "bashing": 8,
     "to_hit": -2,
     "use_action": [ "HAMMER" ],
-    "qualities": [["CUT", 1], ["HAMMER", 3], ["SAW_M", 2], ["SAW_W", 2], ["WRENCH", 1],
+    "qualities": [["CUT", 1], ["HAMMER", 3], ["SAW_M", 2], ["SAW_W", 2], ["WRENCH", 2],
         ["SCREW", 1], ["HAMMER_FINE", 1], ["SAW_M_FINE", 1], ["WRENCH_FINE", 1], ["SCREW_FINE", 1],
         ["BUTCHER", 12]]
   },
@@ -7220,7 +7082,7 @@
     "symbol": "/",
     "color": "brown",
     "name": "pro fishing rod",
-    "description": "A professional fishing rod & reel combo.  With this you should be able to catch 'em all.",
+    "description": "A professional fishing rod with a matching set of weights.  With this you should be able to catch 'em all.",
     "price": 20000,
     "material": "plastic",
     "weight": 1000,
@@ -7416,7 +7278,7 @@
     "type": "TOOL",
     "symbol": "*",
     "color": "yellow",
-    "flags": ["RADIO_ACTIVATION", "RADIOSIGNAL_1",  "RADIOCARITEM", "BOMB"],
+    "flags": [ "RADIO_ACTIVATION", "RADIOSIGNAL_1",  "RADIOCARITEM", "BOMB", "TRADER_AVOID" ],
     "name": "activated radio pipe bomb",
     "description": "A radio-detonated pipe bomb, armed.  Place it or attach to a RC car, then get away and use the radio-control to detonate.",
     "price": 0,
@@ -7451,6 +7313,11 @@
     "to_hit": -1,
     "max_charges": 1,
     "category": "weapons",
+    "explode_in_fire" : true,
+    "explosion" : {
+        "power": 50,
+        "shrapnel": 0
+    },
     "use_action": {
         "type": "transform",
         "target": "dynamite_radio_act",
@@ -7464,7 +7331,7 @@
     "type": "TOOL",
     "symbol": "*",
     "color": "yellow",
-    "flags": ["RADIO_ACTIVATION", "RADIOSIGNAL_1",  "RADIOCARITEM", "BOMB"],
+    "flags": [ "RADIO_ACTIVATION", "RADIOSIGNAL_1",  "RADIOCARITEM", "BOMB", "TRADER_AVOID" ],
     "name": "activated radio dynamite",
     "description": "Dynamite with a radio detonator, armed.  Place it, get away and use the remote detonator.",
     "price": 0,
@@ -7475,11 +7342,16 @@
     "max_charges": 1,
     "initial_charges": 1,
     "category": "weapons",
+    "explode_in_fire" : true,
+    "explosion" : {
+        "power": 50,
+        "shrapnel": 0
+    },
     "use_action": {
         "type": "explosion",
         "no_deactivate_msg": "You can't disarm your %s'.  Place it, get away and use the remote control to detonate.",
         "explosion": {
-            "power": 60
+            "power": 50
         }
     }
   },
@@ -7534,7 +7406,7 @@
     "name": "smart lamp (on)",
     "name_plural": "smart lamps (on)",
     "description": "This is a smart lamp, this smart lamp is turned on.  It can be deactivated remotely.",
-    "flags": ["RADIO_ACTIVATION", "RADIOSIGNAL_2", "LIGHT_240", "CHARGEDIM"],
+    "flags": [ "RADIO_ACTIVATION", "RADIOSIGNAL_2", "LIGHT_240", "CHARGEDIM", "TRADER_AVOID" ],
     "price": 500,
     "material": ["plastic", "aluminum"],
     "weight": 400,
@@ -7576,7 +7448,7 @@
     "type": "TOOL",
     "symbol": "#",
     "color": "red",
-    "flags": ["LIGHT_15", "RADIO_CONTAINER"],
+    "flags": [ "LIGHT_15", "RADIO_CONTAINER", "TRADER_AVOID" ],
     "name": "RC car (on)",
     "name_plural": "RC cars (on)",
     "description": "This remote-controlled car is on, and draining its batteries just like a real electric car!  Use a remote control to drive it around.",
@@ -7623,7 +7495,6 @@
     "volume": 3,
     "bashing": 4,
     "to_hit": -3,
-    "effects": ["COOKOFF", "EXPLOSIVE"],
     "category": "weapons",
     "explode_in_fire" : true,
     "explosion" : {
@@ -7649,6 +7520,7 @@
     "description": "The fuse on this fertilizer bomb is lit and hissing.  It'll explode any moment now.",
     "price": 0,
     "material": ["plastic", "powder"],
+    "flags": [ "TRADER_AVOID" ],
     "weight": 1300,
     "volume": 3,
     "bashing": 4,
@@ -7659,7 +7531,7 @@
     "category": "weapons",
     "explode_in_fire" : true,
     "explosion" : {
-        "power": 80,
+        "power": 35,
         "shrapnel": 0
     },
     "use_action": {
@@ -7668,7 +7540,7 @@
         "sound_msg": "ssss...",
         "no_deactivate_msg": "You've already lit the %s, try throwing it instead.",
         "explosion": {
-            "power": 80
+            "power": 35
         }
     }
   },
@@ -7975,15 +7847,20 @@
     "symbol": "*",
     "color": "red",
     "name": "ANFO charge",
-    "description": "This is a large plastic barrel filled with ANFO pellets and equipped with a dynamite primer.  Use this item to light the fuse.  You will then have twenty turns before it explodes and creates a large fireball",
+    "description": "This is a large metal keg filled with ANFO pellets and equipped with a dynamite primer.  Use this item to light the fuse.  You will then have twenty turns before it explodes and creates a large fireball",
     "price": 75000,
     "material": ["steel", "plastic"],
-    "weight": 25000,
-    "volume": 450,
+    "weight": 77800,
+    "volume": 200,
     "bashing": 12,
     "to_hit": -5,
     "flags": ["RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB"],
     "category": "weapons",
+    "explode_in_fire" : true,
+    "explosion" : {
+        "power": 90, "//": "Fire would burn away/degrade some of the ANFO before the detonator would trigger.",
+        "shrapnel": 20
+    },
     "use_action": {
         "type": "transform",
         "target": "tool_anfo_charge_act",
@@ -7999,25 +7876,30 @@
     "symbol": "*",
     "color": "light_red",
     "name": "active ANFO charge",
-    "description": "This is a large plastic barrel filled with ANFO pellets and equipped with a dynamite primer.  The fuse has been lit - better run like hell!",
+    "description": "This is a large metal keg filled with ANFO pellets and equipped with a dynamite primer.  The fuse has been lit - better run like hell!",
     "price": 0,
     "material": ["steel", "plastic"],
-    "weight": 25000,
-    "volume": 450,
+    "weight": 77800,
+    "volume": 200,
     "bashing": 12,
     "to_hit": -5,
     "max_charges": 20,
     "initial_charges": 20,
     "turns_per_charge": 1,
-    "flags": ["BOMB"],
+    "flags": [ "BOMB", "TRADER_AVOID" ],
     "category": "weapons",
+    "explode_in_fire" : true,
+    "explosion" : {
+        "power": 90, "//": "Fire exposure would burn away/degrade some of the ANFO before the detonator would trigger.",
+        "shrapnel": 20
+    },
     "use_action": {
         "type": "explosion",
         "sound_volume": 0,
         "sound_msg": "Tick.",
-        "no_deactivate_msg": "You've already lit the fuse – run!",
+        "no_deactivate_msg": "You've already lit the fuse - run!",
         "explosion": {
-            "power": 500,
+            "power": 400,
             "shrapnel": 50
         }
     }
@@ -8036,6 +7918,11 @@
     "to_hit": -2,
     "flags": ["RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB"],
     "category": "weapons",
+    "explode_in_fire" : true,
+    "explosion" : {
+        "power": 11,
+        "shrapnel": 0
+    },
     "use_action": {
         "type": "transform",
         "target": "tool_black_powder_bomb_act",
@@ -8060,15 +7947,20 @@
     "max_charges": 2,
     "initial_charges": 2,
     "turns_per_charge": 1,
-    "flags": ["BOMB"],
+    "flags": [ "BOMB", "TRADER_AVOID" ],
     "category": "weapons",
+    "explode_in_fire" : true,
+    "explosion" : {
+        "power": 11,
+        "shrapnel": 0
+    },
     "use_action": {
         "type": "explosion",
         "sound_volume": 0,
         "sound_msg": "Kshhh.",
-        "no_deactivate_msg": "You've already lit the fuse – throw it!",
+        "no_deactivate_msg": "You've already lit the fuse - throw it!",
         "explosion": {
-            "power": 10,
+            "power": 11,
             "shrapnel": 5
         }
     }
@@ -8087,6 +7979,16 @@
     "to_hit": -2,
     "flags": ["RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB"],
     "category": "weapons",
+    "explode_in_fire" : true,
+    "explosion" : {
+        "power": 60,
+        "shrapnel": {
+            "count": 30,
+            "mass": 10,
+            "recovery": 20,
+            "drop": "scrap"
+        }
+    },
     "use_action": {
         "type": "transform",
         "target": "tool_black_powder_charge_act",
@@ -8110,16 +8012,31 @@
     "max_charges": 5,
     "initial_charges": 5,
     "turns_per_charge": 1,
-    "flags": ["BOMB"],
+    "flags": [ "BOMB", "TRADER_AVOID" ],
     "category": "weapons",
+    "explode_in_fire" : true,
+    "explosion" : {
+        "power": 60,
+        "shrapnel": {
+            "count": 30,
+            "mass": 10,
+            "recovery": 20,
+            "drop": "scrap"
+        }
+    },
     "use_action": {
         "type": "explosion",
         "sound_volume": 0,
         "sound_msg": "Kshhh.",
-        "no_deactivate_msg": "You've already lit the fuse – run!",
+        "no_deactivate_msg": "You've already lit the fuse - run!",
         "explosion": {
             "power": 60,
-            "shrapnel": 30
+            "shrapnel": {
+                "count": 30,
+                "mass": 10,
+                "recovery": 20,
+                "drop": "scrap"
+            }
         }
     }
   },
@@ -8138,10 +8055,15 @@
     "to_hit": -2,
     "flags": ["RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB"],
     "category": "weapons",
+    "explode_in_fire" : true,
+    "explosion" : {
+        "power": 6, "//": "Fire exposure would burn away the RDX, leaving the HMTD detonator as nearly the sole source of the blast.",
+        "shrapnel": 5
+    },
     "use_action": {
         "type": "transform",
         "target": "tool_rdx_sand_bomb_act",
-        "target_charges": 2,
+        "target_charges": 5,
         "need_fire": 1,
         "active": true,
         "msg": "You light the fuse on the sand bomb.  Throw it!"
@@ -8159,19 +8081,24 @@
     "weight": 2000,
     "volume": 2,
     "to_hit": -2,
-    "max_charges": 2,
-    "initial_charges": 2,
+    "max_charges": 5,
+    "initial_charges": 5,
     "turns_per_charge": 1,
-    "flags": ["BOMB"],
+    "flags": [ "BOMB", "TRADER_AVOID" ],
     "category": "weapons",
+    "explode_in_fire" : true,
+    "explosion" : {
+        "power": 6, "//": "Fire exposure would burn away the RDX, leaving the HMTD detonator as nearly the sole source of the blast.",
+        "shrapnel": 5
+    },
     "use_action": {
         "type": "explosion",
         "sound_volume": 0,
         "sound_msg": "Kshhh.",
-        "no_deactivate_msg": "You've already lit the fuse – what are you waiting for?",
+        "no_deactivate_msg": "You've already lit the fuse - what are you waiting for?",
         "explosion": {
-            "power": 9,
-            "shrapnel": 40
+            "power": 12,
+            "shrapnel": 30
         }
     }
   },
@@ -8181,15 +8108,25 @@
     "symbol": "(",
     "color": "red",
     "name": "RDX charge",
-    "description": "This is an aluminum keg, filled with 50 litres worth of RDX and scrap metal.  Contains a core of primary explosive to ensure that the charge detonates completely and delivers its entire destructive power to everything in sight.",
+    "description": "This is an metal keg, filled with 50 litres worth of RDX and scrap metal.  Contains a core of primary explosive to ensure that the charge detonates completely and delivers its entire destructive power to everything in sight.",
     "price": 90000,
     "material": ["steel", "plastic"],
-    "weight": 130000,
+    "weight": 106600,
     "volume": 200,
     "bashing": 20,
     "to_hit": -5,
     "flags": ["RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB"],
     "category": "weapons",
+    "explode_in_fire" : true,
+    "explosion" : {
+        "power": 175, "//": "Fire exposure would destroy most of the RDX before the HMTD core triggered, resulting in a far smaller blast (relatively speaking).",
+        "shrapnel": {
+            "count": 60,
+            "mass": 10,
+            "recovery": 40,
+            "drop": "scrap"
+        }
+    },
     "use_action": {
         "type": "transform",
         "target": "tool_rdx_charge_act",
@@ -8204,26 +8141,41 @@
     "symbol": "(",
     "color": "light_red",
     "name": "active RDX charge",
-    "description": "This is an aluminum keg, filled with 50 litres worth of RDX and scrap metal.  The fuse has been lit and once it ignites the primary explosive, the charge will detonate and rain fire and steel on everything in sight.",
+    "description": "This is an metal keg, filled with 50 litres worth of RDX and scrap metal.  The fuse has been lit and once it ignites the primary explosive, the charge will detonate and rain fire and steel on everything in sight.",
     "price": 0,
     "material": ["steel", "plastic"],
-    "weight": 130000,
+    "weight": 106600,
     "volume": 200,
     "bashing": 20,
     "to_hit": -5,
     "max_charges": 30,
     "initial_charges": 30,
     "turns_per_charge": 1,
-    "flags": ["BOMB"],
+    "flags": [ "BOMB", "TRADER_AVOID" ],
     "category": "weapons",
+    "explode_in_fire" : true,
+    "explosion" : {
+        "power": 175, "//": "Fire exposure would destroy most of the RDX before the HMTD core triggered, resulting in a far smaller blast (relatively speaking).",
+        "shrapnel": {
+            "count": 60,
+            "mass": 10,
+            "recovery": 40,
+            "drop": "scrap"
+        }
+    },
     "use_action": {
         "type": "explosion",
         "sound_volume": 0,
         "sound_msg": "Kshhh.",
-        "no_deactivate_msg": "You've already lit the fuse – clear the area immediately!",
+        "no_deactivate_msg": "You've already lit the fuse - clear the area immediately!",
         "explosion": {
-            "power": 750,
-            "shrapnel": 200
+            "power": 800,
+            "shrapnel": {
+                "count": 200,
+                "mass": 10,
+                "recovery": 15,
+                "drop": "shrapnel"
+            }
         }
     }
   },
@@ -8266,7 +8218,7 @@
     "max_charges": 2,
     "initial_charges": 2,
     "turns_per_charge": 1,
-    "flags": ["BOMB"],
+    "flags": [ "BOMB", "TRADER_AVOID" ],
     "category": "weapons",
     "use_action": {
         "type": "explosion",
@@ -8526,7 +8478,7 @@
     "volume": 3,
     "bashing": 14,
     "cutting": 3,
-    "flags" : ["DURABLE_MELEE"],
+    "flags" : ["DURABLE_MELEE", "BELT_CLIP"],
     "techniques": ["WBLOCK_1"],
     "to_hit": 2,
     "use_action": "CROWBAR",
@@ -8572,7 +8524,7 @@
     "price": 8000,
     "material": ["superalloy", "steel"],
     "techniques" : ["WBLOCK_1", "RAPID"],
-    "flags": [ "LIGHT_300", "DURABLE_MELEE"],
+    "flags": [ "LIGHT_300", "DURABLE_MELEE", "TRADER_AVOID" ],
     "weight": 1000,
     "volume": 12,
     "bashing": 18,
