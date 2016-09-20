@@ -1029,12 +1029,12 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
 
         if( aprox ) {
             if( aprox->gun_recoil() ) {
-                info.emplace_back( "GUN", space + _( "Approximate recoil: " ), "",
+                info.emplace_back( "GUN", _( "Approximate recoil: " ), "",
                                    aprox->gun_recoil(), true, "", true, true );
             }
         } else {
             if( mod->gun_recoil() ) {
-                info.emplace_back( "GUN", space + _( "Effective recoil: " ), "",
+                info.emplace_back( "GUN", _( "Effective recoil: " ), "",
                                    mod->gun_recoil(), true, "", true, true );
             }
         }
