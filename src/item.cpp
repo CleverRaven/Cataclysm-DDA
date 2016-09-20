@@ -1028,14 +1028,14 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
         }
 
         if( aprox ) {
-            if( aprox->gun_recoil() ) {
+            if( aprox->gun_recoil( g->u ) ) {
                 info.emplace_back( "GUN", _( "Approximate recoil: " ), "",
-                                   aprox->gun_recoil(), true, "", true, true );
+                                   aprox->gun_recoil( g->u ), true, "", true, true );
             }
         } else {
-            if( mod->gun_recoil() ) {
+            if( mod->gun_recoil( g->u ) ) {
                 info.emplace_back( "GUN", _( "Effective recoil: " ), "",
-                                   mod->gun_recoil(), true, "", true, true );
+                                   mod->gun_recoil( g->u ), true, "", true, true );
             }
         }
 
@@ -3893,33 +3893,42 @@ int item::gun_pierce( bool with_ammo ) const
     return ret;
 }
 
-int item::gun_handling() const
-{
-    if( !is_gun() ) {
-        return 0;
-
-    }
-    double handling = type->gun->handling;
-    for( const auto mod : gunmods() ) {
-        handling += mod->type->gunmod->handling;
-    }
-
-    return std::max( pow( ( type->weight / 250 ), 0.8 ) * pow( handling / 10.0, 1.2 ), 0.0 );
-}
-
-int item::gun_recoil() const
+int item::gun_recoil( const player &p, bool bipod ) const
 {
     if( !is_gun() || ( ammo_required() && !ammo_remaining() ) ) {
         return 0;
     }
+
+    ///\EFFECT_STR improves the handling of heavier weapons
+    // we consider only base weight to avoid exploits
+    double wt = std::min( type->weight, p.str_cur * 250 ) / 250.0;
+
+    double handling = type->gun->handling;
+    for( const auto mod : gunmods() ) {
+        if( bipod || !mod->has_flag( "BIPOD" ) ) {
+            handling += mod->type->gunmod->handling;
+        }
+    }
+
+    // rescale from JSON units which are intentionally specified as integral values
+    handling /= 10;
+
+    // algorithm is biased so heavier weapons benefit more from improved handling
+    handling = pow( wt, 0.8 ) * pow( handling, 1.2 );
 
     int qty = type->gun->recoil;
     if( ammo_data() ) {
         qty += ammo_data()->ammo->recoil;
     }
 
-    int handling = gun_handling();
-    return handling <= 0 ? qty : qty / handling;
+    // handling could be either a bonus or penalty dependent upon installed mods
+    if( handling > 0.0 ) {
+        return qty / handling;
+    } else if( handling < 0.0 ) {
+        return qty * handling;
+    } else {
+        return qty;
+    }
 }
 
 int item::gun_range( bool with_ammo ) const

@@ -503,7 +503,7 @@ int player::fire_gun( const tripoint &target, int shots, item& gun )
         auto shot = projectile_attack( make_gun_projectile( gun ), aim, dispersion );
         curshot++;
 
-        recoil += gun.gun_recoil();
+        recoil += gun.gun_recoil( *this );
 
         make_gun_sound_effect( *this, shots > 1, &gun );
         sfx::generate_gun_sound( *this, gun );

@@ -1368,14 +1368,13 @@ public:
          */
         int gun_range( bool with_ammo = true ) const;
 
-        /** Get handling bonus (a measure of how effective gun + attached mods control recoil) */
-        int gun_handling() const;
-
         /**
          *  Get effective recoil considering handling, loaded ammo and effects of attached gunmods
+         *  @param p player stats such as STR can alter effective recoil
+         *  @param bipod whether any bipods should be considered
          *  @return effective recoil (per shot) or zero if gun uses ammo and none is loaded
          */
-        int gun_recoil() const;
+        int gun_recoil( const player &p, bool bipod = false ) const;
 
         /**
          * Summed ranged damage of a gun, including values from mods. Returns 0 on non-gun items.
