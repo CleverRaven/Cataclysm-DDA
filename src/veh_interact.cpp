@@ -9,7 +9,6 @@
 #include "output.h"
 #include "catacharset.h"
 #include "crafting.h"
-#include "requirements.h"
 #include "options.h"
 #include "debug.h"
 #include "messages.h"
@@ -24,7 +23,6 @@
 #include <cmath>
 #include <list>
 #include <functional>
-#include <sstream>
 #include <iterator>
 #include <algorithm>
 
@@ -149,6 +147,37 @@ void veh_interact::allocate_windows()
     display_grid();
     display_name();
     display_stats();
+}
+
+bool veh_interact::format_reqs( std::ostringstream& msg, const requirement_data &reqs,
+                                const std::map<skill_id, int> &skills, int moves ) const {
+
+    const auto inv = g->u.crafting_inventory();
+    bool ok = reqs.can_make_with_inventory( inv );
+
+    msg << _( "<color_white>Time required:</color>\n" );
+    msg << "> " << calendar::print_duration( moves / 100 ) << "\n";
+
+    msg << _( "<color_white>Skills required:</color>\n" );
+    for( const auto& e : skills ) {
+        bool hasSkill = g->u.get_skill_level( e.first ) >= e.second;
+        if( !hasSkill ) {
+            ok = false;
+        }
+        msg << string_format( "> <color_%1$s>%2$s %3$i</color>\n", status_color( hasSkill ),
+                              _( e.first.obj().name().c_str() ), e.second );
+    }
+    if( skills.empty() ) {
+        msg << string_format( "> <color_%1$s>%2$s</color>", status_color( true ), _( "NONE" ) ) << "\n";
+    }
+
+    auto comps = reqs.get_folded_components_list( getmaxx( w_msg ), c_white, inv );
+    std::copy( comps.begin(), comps.end(), std::ostream_iterator<std::string>( msg, "\n" ) );
+
+    auto tools = reqs.get_folded_tools_list( getmaxx( w_msg ), c_white, inv );
+    std::copy( tools.begin(), tools.end(), std::ostream_iterator<std::string>( msg, "\n" ) );
+
+    return ok;
 }
 
 void veh_interact::do_main_loop()
@@ -441,30 +470,9 @@ bool veh_interact::can_install_part() {
     }
 
     const auto reqs = sel_vpart_info->install_requirements();
-    bool ok = reqs.can_make_with_inventory( crafting_inv );
 
     std::ostringstream msg;
-    msg << _( "<color_white>Time required:</color>\n" );
-    msg << "> " << calendar::print_duration( sel_vpart_info->install_time( g->u ) / 100 ) << "\n";
-
-    msg << _( "<color_white>Skills required:</color>\n" );
-    for( const auto& e : sel_vpart_info->install_skills ) {
-        bool hasSkill = g->u.get_skill_level( e.first ) >= e.second;
-        if( !hasSkill ) {
-            ok = false;
-        }
-        msg << string_format( "> <color_%1$s>%2$s %3$i</color>\n", status_color( hasSkill ),
-                              _( e.first.obj().name().c_str() ), e.second );
-    }
-    if( sel_vpart_info->install_skills.empty() ) {
-        msg << string_format( "> <color_%1$s>%2$s</color>", status_color( true ), _( "NONE" ) ) << "\n";
-    }
-
-    auto comps = reqs.get_folded_components_list( getmaxx( w_msg ), c_white, crafting_inv );
-    std::copy( comps.begin(), comps.end(), std::ostream_iterator<std::string>( msg, "\n" ) );
-
-    auto tools = reqs.get_folded_tools_list( getmaxx( w_msg ), c_white, crafting_inv );
-    std::copy( tools.begin(), tools.end(), std::ostream_iterator<std::string>( msg, "\n" ) );
+    bool ok = format_reqs( msg, reqs, sel_vpart_info->install_skills, sel_vpart_info->install_time( g->u ) );
 
     msg << _( "<color_white>Additional requirements:</color>\n" );
 
@@ -995,30 +1003,9 @@ bool veh_interact::can_remove_part( int idx ) {
     sel_vpart_info = &sel_vehicle_part->info();
 
     const auto reqs = sel_vpart_info->removal_requirements();
-    bool ok = reqs.can_make_with_inventory( crafting_inv );
 
     std::ostringstream msg;
-    msg << _( "<color_white>Time required:</color>\n" );
-    msg << "> " << calendar::print_duration( sel_vpart_info->removal_time( g->u ) / 100 ) << "\n";
-
-    msg << _( "<color_white>Skills required:</color>\n" );
-    for( const auto& e : sel_vpart_info->removal_skills ) {
-        bool hasSkill = g->u.get_skill_level( e.first ) >= e.second;
-        if( !hasSkill ) {
-            ok = false;
-        }
-        msg << string_format( "> <color_%1$s>%2$s %3$i</color>\n", status_color( hasSkill ),
-                              _( e.first.obj().name().c_str() ), e.second );
-    }
-    if( sel_vpart_info->removal_skills.empty() ) {
-        msg << string_format( "> <color_%1$s>%2$s</color>", status_color( true ), _( "NONE" ) ) << "\n";
-    }
-
-    auto comps = reqs.get_folded_components_list( getmaxx( w_msg ), c_white, crafting_inv );
-    std::copy( comps.begin(), comps.end(), std::ostream_iterator<std::string>( msg, "\n" ) );
-
-    auto tools = reqs.get_folded_tools_list( getmaxx( w_msg ), c_white, crafting_inv );
-    std::copy( tools.begin(), tools.end(), std::ostream_iterator<std::string>( msg, "\n" ) );
+    bool ok = format_reqs( msg, reqs, sel_vpart_info->removal_skills, sel_vpart_info->removal_time( g->u ) );
 
     msg << _( "<color_white>Additional requirements:</color>\n" );
 

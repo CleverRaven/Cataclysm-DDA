@@ -7,10 +7,12 @@
 #include "cursesdef.h" // WINDOW
 #include "string_id.h"
 #include "int_id.h"
+#include "requirements.h"
 
 #include <string>
 #include <vector>
 #include <map>
+#include <sstream>
 
 class vpart_info;
 using vpart_id = int_id<vpart_info>;
@@ -75,6 +77,10 @@ class veh_interact
 
         int max_lift; // maximum level of available lifting equipment (if any)
         int max_jack; // maximum level of available jacking equipment (if any)
+
+        /** Format list of requirements returning true if all are met */
+        bool format_reqs( std::ostringstream &msg, const requirement_data &reqs,
+                          const std::map<skill_id, int> &skills, int moves ) const;
 
         int part_at( int dx, int dy );
         void move_cursor( int dx, int dy );
