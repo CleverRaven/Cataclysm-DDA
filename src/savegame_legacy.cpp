@@ -279,13 +279,13 @@ void overmap::unserialize_legacy(std::istream & fin) {
                                                               tmp_ter );
                                 }
                                 tmp_otid = oter_id( 0 );
-                            } else if( otermap.count( oter_str_id( tmp_ter ) ) > 0 ) {
+                            } else if( oter_str_id( tmp_ter ).is_valid() ) {
                                 tmp_otid = oter_id( tmp_ter );
                             } else if( tmp_ter.compare( 0, 7, "mall_a_" ) == 0 &&
-                                       otermap.count( oter_str_id( tmp_ter + "_north" ) ) > 0 ) {
+                                       oter_str_id( tmp_ter + "_north" ).is_valid() ) {
                                 tmp_otid = oter_id( tmp_ter + "_north" );
                             } else if( tmp_ter.compare( 0, 13, "necropolis_a_" ) == 0 &&
-                                       otermap.count( oter_str_id( tmp_ter + "_north" ) ) > 0 ) {
+                                       oter_str_id( tmp_ter + "_north" ).is_valid() ) {
                                 tmp_otid = oter_id( tmp_ter + "_north" );
                             } else {
                                 debugmsg("Loaded bad ter! ter %s", tmp_ter.c_str());

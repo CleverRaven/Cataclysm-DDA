@@ -71,6 +71,9 @@ oter_iid ot_null,
          ot_river_center;
 
 
+std::unordered_map<string_id<oter_t>, oter_t> otermap;
+std::vector<oter_t> oterlist;
+
 oter_iid oterfind(const std::string &id)
 {
     const auto iter = otermap.find( oter_str_id( id ) );
@@ -92,9 +95,6 @@ void set_oter_ids()   // fixme constify
     ot_forest_water = oterfind("forest_water");
     ot_river_center = oterfind("river_center");
 }
-
-std::unordered_map<string_id<oter_t>, oter_t> otermap;
-std::vector<oter_t> oterlist;
 
 std::unordered_map<std::string, oter_t> obasetermap;
 //const regional_settings default_region_settings;
@@ -164,6 +164,12 @@ template <>
 const oter_t &int_id<oter_t>::obj() const
 {
     return oterlist[*this];
+}
+
+template <>
+bool string_id<oter_t>::is_valid() const
+{
+    return otermap.count( *this ) > 0;
 }
 
 bool operator==( const int_id<oter_t> &lhs, const char *rhs )
