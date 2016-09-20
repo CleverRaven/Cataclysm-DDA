@@ -1,0 +1,53 @@
+[
+  {
+      "abstract" : "fish_bait",
+      "type" : "AMMO",
+      "ammo_type" : "fish_bait",
+      "category" : "spare_parts",
+      "name" : "abstract fish bait",
+      "color" : "light_red",
+      "symbol" : "=",
+      "volume" : 1,
+      "weight" : 1,
+      "stack_size" : 50
+  },
+  {
+      "id" : "fish_bait_meat",
+      "type" : "AMMO",
+      "copy-from" : "fish_bait",
+      "name" : "fish bait - meat",
+      "name_plural" : "fish baits - meat",
+      "description" : "A bait made from raw meat, used in traps to lure fish.",
+      "material" : "flesh",
+      "count" : 20
+  },
+  {
+      "type" : "AMMO",
+      "id" : "fish_bait_fish",
+      "copy-from" : "fish_bait",
+      "name" : "fish bait - fish",
+      "name_plural" : "fish baits - fish",
+      "description" : "A bait made from raw fish, used in traps to lure fish.",
+      "material" : "flesh",
+      "count" : 20
+  },
+  {
+      "id" : "fish_bait_veggy",
+      "type" : "AMMO",
+      "copy-from" : "fish_bait",
+      "name" : "fish bait - veggy",
+      "name_plural" : "fish baits - veggy",
+      "description" : "A bait made from vegetables, used in traps to lure fish.",
+      "material" : "veggy",
+      "count" : 10
+  },
+  {   "type" : "AMMO",
+      "id" : "fish_bait_bread",
+      "copy-from" : "fish_bait",
+      "name" : "fish bait - bread",
+      "name_plural" : "fish baits - bread",
+      "description" : "A bait made from breadcrumbs, used in traps to lure fish.",
+      "material" : "wheat",
+      "count" : 20
+  }
+]
