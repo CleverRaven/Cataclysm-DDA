@@ -77,7 +77,7 @@
     "color": "blue",
     "location": "accessories",
     "mod_targets": [ "smg", "rifle", "crossbow" ],
-    "handling_modifier": -6,
+    "handling_modifier": 6,
     "min_skills": [ [ "weapon", 6 ] ]
   }
 ]

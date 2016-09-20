@@ -158,7 +158,7 @@
     "color": "brown",
     "location": "underbarrel",
     "mod_targets": [ "shotgun", "smg", "rifle", "crossbow", "launcher" ],
-    "handling_modifier": -8,
+    "handling_modifier": 8,
     "min_skills": [ [ "weapon", 2 ] ]
   },
   {
