@@ -237,7 +237,7 @@ void vpart_info::load( JsonObject &jo, const std::string &src )
             }
 
         } else {
-            auto req_id = std::string( "inline_vehins_" ) += def.id.str();
+            auto req_id = std::string( "inline_vehrem_" ) += def.id.str();
             requirement_data::load_requirement( rem, req_id );
             def.removal_reqs = { { requirement_id( req_id ), 1 } };
         }
