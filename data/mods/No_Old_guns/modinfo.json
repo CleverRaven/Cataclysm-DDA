@@ -29,14 +29,14 @@
         "pistol_pepperbox",
         "flintlock_ammo",
         "32_acp",
-        "762_54R",
-        "32_casing",
-        "flintlock_ammo",
-        "32_acp",
-        "762_25",
-        "762R_casing",
         "reloaded_32_acp",
-        "reloaded_762_54R"
+        "32_casing",
+        "762_54R",
+        "reloaded_762_54R",
+        "762R_casing",
+        "762_25",
+        "762_25hot",
+        "762_25typeP"
     ]
 }
 ]
