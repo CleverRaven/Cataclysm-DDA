@@ -3904,7 +3904,7 @@ int item::gun_handling() const
         handling += mod->type->gunmod->handling;
     }
 
-    return std::max( pow( ( weight() / 250 ), 0.8 ) * pow( handling / 10.0, 1.2 ), 0.0 );
+    return std::max( pow( ( type->weight / 250 ), 0.8 ) * pow( handling / 10.0, 1.2 ), 0.0 );
 }
 
 int item::gun_recoil() const
