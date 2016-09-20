@@ -47,7 +47,7 @@ enum oter_flags {
 
 struct oter_t {
         std::string id;      // definitive identifier
-        unsigned loadid;          // position in termap / terlist
+        int loadid;          // position in termap / terlist
         std::string name;
         long sym; // This is a long, so we can support curses linedrawing
         nc_color color;
@@ -57,8 +57,9 @@ struct oter_t {
         // bool disable_default_mapgen;
         // automatically set. We can be wasteful of memory here for num_oters * sizeof(extrastuff), if it'll save us from thousands of string ops
         std::string
-        id_base; // base identifier; either the same as id, or id without directional variations. (ie, 'house' / 'house_west' )
-        unsigned loadid_base; // self || directional_peers[0]? or seperate base_oter_map ?
+        id_base; // base identifier; either the same as id, or id without directional variations.
+        // (ie, 'house' / 'house_west' )
+        int loadid_base; // self || directional_peers[0]? or seperate base_oter_map ?
         std::vector<int> directional_peers; // fast reliable (?) method of determining whatever_west, etc.
         std::string
         id_mapgen;  // *only* for mapgen and almost always == id_base. Unless line_drawing / road.

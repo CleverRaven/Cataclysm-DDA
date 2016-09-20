@@ -475,7 +475,7 @@ void load_overmap_terrain(JsonObject &jo)
  */
 void finalize_overmap_terrain( )
 {
-    unsigned c = 0;
+    int c = 0;
     for( std::vector<oter_t>::const_iterator it = oterlist.begin(); it != oterlist.end(); ++it ) {
         if ( (*it).loadid == (*it).loadid_base ) {
             if ( (*it).loadid != c ) { // might as well sanity check while we're here da? da.
@@ -2390,8 +2390,7 @@ tripoint overmap::draw_overmap(const tripoint &orig, const draw_data_t &data)
                 if( terrain && uistate.place_terrain->has_flag( rotates ) ) {
                     uistate.omedit_rotation = 0;
                     for( int i = 0; i < 4; i++ ) {
-                        if( uistate.place_terrain->loadid == static_cast<unsigned int>(
-                                uistate.place_terrain->directional_peers[i] ) ) {
+                        if( uistate.place_terrain->loadid == uistate.place_terrain->directional_peers[i] ) {
                             uistate.omedit_rotation = i;
                             break;
                         }
@@ -4373,7 +4372,7 @@ void overmap::save() const
 // ter(...) = "rock"
 const std::string &oter_id::id() const
 {
-    if ( _val > oterlist.size() ) {
+    if ( size_t( _val ) > oterlist.size() ) {
         debugmsg("oterlist[%d] > %d", _val, oterlist.size()); // remove me after testing (?)
         static std::string const debug_dummy_string;
         return debug_dummy_string;
@@ -4400,12 +4399,12 @@ bool operator!=( const oter_id &lhs, const char *rhs )
 bool operator<=( const oter_id &lhs, const char *rhs )
 {
     std::unordered_map<std::string, oter_t>::const_iterator it = otermap.find( rhs );
-    return it == otermap.end() || it->second.loadid <= int( lhs );
+    return it == otermap.end() || it->second.loadid <= lhs;
 }
 bool operator>=( const oter_id &lhs, const char *rhs )
 {
     std::unordered_map<std::string, oter_t>::const_iterator it = otermap.find( rhs );
-    return it != otermap.end() && it->second.loadid >= int( lhs );
+    return it != otermap.end() && it->second.loadid >= lhs;
 }
 
 bool operator==( const oter_id &lhs, const oter_id &rhs )
