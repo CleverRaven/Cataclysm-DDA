@@ -24,7 +24,7 @@
     "armor_cut": 6,
     "vision_day": 35,
     "vision_night": 3,
-    "starting_ammo": { "bot_grenade_hack": 10, "bot_c4_hack": 2, "bot_gasbomb_hack": 3, "bot_flashbang_hack": 3 },
+    "starting_ammo": { "bot_c4_hack": 2, "bot_flashbang_hack": 3, "bot_gasbomb_hack": 3, "bot_grenade_hack": 10 },
     "special_attacks": [ [ "GRENADIER", 6 ] ],
     "death_drops": {
       "subtype": "collection",
@@ -62,7 +62,7 @@
     "armor_cut": 12,
     "vision_day": 35,
     "vision_night": 3,
-    "starting_ammo": { "bot_mininuke_hack": 1, "bot_flashbang_hack": 10, "bot_grenade_hack": 20, "bot_gasbomb_hack": 10, "bot_c4_hack": 10 },
+    "starting_ammo": { "bot_c4_hack": 10, "bot_flashbang_hack": 10, "bot_gasbomb_hack": 10, "bot_grenade_hack": 20, "bot_mininuke_hack": 1 },
     "special_attacks": [ [ "GRENADIER_ELITE", 3 ] ],
     "death_drops": {
       "subtype": "collection",

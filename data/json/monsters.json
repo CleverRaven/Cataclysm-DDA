@@ -1135,7 +1135,7 @@
     "armor_bash": 18,
     "armor_cut": 14,
     "vision_day": 50,
-    "starting_ammo": { "556": 1000, "40mm_frag": 100 },
+    "starting_ammo": { "40mm_frag": 100, "556": 1000 },
     "special_attacks": [ [ "CHICKENBOT", 4 ] ],
     "death_drops": {
       "groups": [
@@ -4713,7 +4713,7 @@
     "armor_bash": 24,
     "armor_cut": 30,
     "vision_day": 50,
-    "starting_ammo": { "40mm_frag": 100, "120mm_HEAT": 40, "556": 1000 },
+    "starting_ammo": { "120mm_HEAT": 40, "40mm_frag": 100, "556": 1000 },
     "special_attacks": [ [ "MULTI_ROBOT", 3 ] ],
     "death_drops": {
       "groups": [
