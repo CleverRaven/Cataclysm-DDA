@@ -25,6 +25,7 @@
 #include <functional>
 #include <iterator>
 #include <algorithm>
+#include <numeric>
 
 #ifdef _MSC_VER
 #include <math.h>
@@ -1588,12 +1589,9 @@ void veh_interact::display_stats()
         const auto iw = utf8_width(_("Most damaged:")) + 1;
         x[6] += iw;
         w[6] -= iw;
-        const vpart_info &info = veh->parts[mostDamagedPart].info();
-        vehicle_part part = veh->parts[mostDamagedPart];
-        int damagepercent = 100 * part.hp() / info.durability;
-        nc_color damagecolor = getDurabilityColor(damagepercent);
-        partName = veh->parts[mostDamagedPart].name();
-        const auto hoff = fold_and_print(w_stats, y[6], x[6], w[6], damagecolor, partName);
+        const auto &pt = veh->parts[mostDamagedPart];
+        const auto hoff = fold_and_print( w_stats, y[6], x[6], w[6],
+                                          pt.is_broken() ? c_dkgray : pt.base.damage_color(), pt.name() );
         // If fold_and_print did write on the next line(s), shift the following entries,
         // hoff == 1 is already implied and expected - one line is consumed at least.
         for( size_t i = 7; i < sizeof(y) / sizeof(y[0]); ++i) {
@@ -1878,83 +1876,51 @@ void veh_interact::display_details( const vpart_info *part )
 
 void veh_interact::countDurability()
 {
-    int sum = 0; // sum of part HP
-    int max = 0; // sum of part max HP, i.e. durability
-    double mostDamaged = 1; // durability ratio of the most damaged part
+    int qty = std::accumulate( veh->parts.begin(), veh->parts.end(), 0,
+        []( int lhs, const vehicle_part &rhs ) {
+            return lhs + std::max( rhs.base.damage(), 0 );
+    } );
 
-    for (size_t it = 0; it < veh->parts.size(); it++) {
-        if (veh->parts[it].removed) {
+    int total = std::accumulate( veh->parts.begin(), veh->parts.end(), 0,
+        []( int lhs, const vehicle_part &rhs ) {
+            return lhs + rhs.base.max_damage();
+    } );
+
+    double pct = double( qty ) / double( total );
+
+    if( pct < 0.05 ) {
+        totalDurabilityText = _( "like new" );
+        totalDurabilityColor = c_ltgreen;
+
+    } else if( pct < 0.33 ) {
+        totalDurabilityText = _( "dented" );
+        totalDurabilityColor = c_yellow;
+
+    } else if( pct < 0.66 ) {
+        totalDurabilityText = _( "battered" );
+        totalDurabilityColor = c_magenta;
+
+    } else if( pct < 1.00 ) {
+        totalDurabilityText = _( "wrecked" );
+        totalDurabilityColor = c_red;
+
+    } else {
+        totalDurabilityText = _( "destroyed" );
+        totalDurabilityColor = c_dkgray;
+    }
+
+    int hi = 0;
+    for( size_t it = 0; it < veh->parts.size(); it++ ) {
+        const auto &pt = veh->parts[it];
+        if( pt.removed ) {
             continue;
         }
-        const vehicle_part &part = veh->parts[it];
-        const vpart_info &info = part.info();
-        const int part_dur = info.durability;
-
-        sum += part.hp();
-        max += part_dur;
-
-        if( part.hp() < part_dur ) {
-            double damageRatio = double( part.hp() ) / part_dur;
-            if (!ISNAN(damageRatio) && (damageRatio < mostDamaged)) {
-                mostDamaged = damageRatio;
-                mostDamagedPart = it;
-            }
+        int dmg = pt.base.damage();
+        if( dmg > hi ) {
+            hi = dmg;
+            mostDamagedPart = it;
         }
     }
-
-    double totalDamagePercent = sum / (double)max;
-    durabilityPercent = int(totalDamagePercent * 100);
-
-    totalDurabilityColor = getDurabilityColor(durabilityPercent);
-    totalDurabilityText = getDurabilityDescription(durabilityPercent);
-}
-
-nc_color getDurabilityColor(const int &dur)
-{
-    if (dur >= 95) {
-        return c_green;
-    }
-    if (dur >= 66) {
-        return c_ltgreen;
-    }
-    if (dur >= 33) {
-        return c_yellow;
-    }
-    if (dur >= 10) {
-        return c_ltred;
-    }
-    if (dur > 0) {
-        return c_red;
-    }
-    if (dur == 0) {
-        return c_dkgray;
-    }
-
-    return c_black_yellow;
-}
-
-std::string veh_interact::getDurabilityDescription(const int &dur)
-{
-    if (dur >= 95) {
-        return std::string(_("like new"));
-    }
-    if (dur >= 66) {
-        return std::string(_("dented"));
-    }
-    if (dur >= 33) {
-        return std::string(_("battered"));
-    }
-    if (dur >= 10) {
-        return std::string(_("wrecked"));
-    }
-    if (dur > 0) {
-        return std::string(_("totaled"));
-    }
-    if (dur == 0) {
-        return std::string(_("destroyed"));
-    }
-
-    return std::string(_("error"));
 }
 
 /**

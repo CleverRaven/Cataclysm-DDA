@@ -116,14 +116,9 @@ class veh_interact
         size_t display_esc( WINDOW *w );
 
         void countDurability();
-        friend nc_color getDurabilityColor( const int &dur );
-        std::string getDurabilityDescription( const int &dur );
 
-        int durabilityPercent = 100;
         std::string totalDurabilityText;
-        std::string worstDurabilityText;
-        nc_color totalDurabilityColor = c_green;
-        nc_color worstDurabilityColor = c_green;
+        nc_color totalDurabilityColor;
 
         /** Store the most damaged part's index, or -1 if they're all healthy. */
         int mostDamagedPart = -1;
@@ -172,6 +167,5 @@ class veh_interact
 };
 
 void complete_vehicle();
-nc_color getDurabilityColor( const int &dur );
 
 #endif

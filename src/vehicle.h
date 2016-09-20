@@ -106,6 +106,7 @@ vehicle_stack( std::list<item> *newstack, point newloc, vehicle *neworigin, int 
 struct vehicle_part : public JsonSerializer, public JsonDeserializer
 {
     friend vehicle;
+    friend class veh_interact;
     friend visitable<vehicle_cursor>;
     friend item_location;
     friend class turret_data;
