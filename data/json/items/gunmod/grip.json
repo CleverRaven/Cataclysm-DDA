@@ -13,8 +13,8 @@
     "color": "dark_gray",
     "location": "grip",
     "mod_targets": [ "pistol", "smg", "rifle", "shotgun", "crossbow", "launcher" ],
-    "min_skills": [ [ "weapon", 3 ] ],
     "handling_modifier": -2,
+    "min_skills": [ [ "weapon", 3 ] ],
     "flags": [ "REDUCED_WEIGHT", "REDUCED_BASHING" ]
   },
   {

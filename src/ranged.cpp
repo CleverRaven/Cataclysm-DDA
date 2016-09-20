@@ -488,6 +488,13 @@ int player::fire_gun( const tripoint &target, int shots, item& gun )
         debugmsg( "Attempted to fire zero or negative shots using %s", gun.tname().c_str() );
     }
 
+    // usage of any attached bipod is dependent upon terrain
+    bool bipod = g->m.has_flag_ter_or_furn( "MOUNTABLE", pos() );
+    if( !bipod ) {
+        auto veh = g->m.veh_at( pos() );
+        bipod = veh && veh->has_part( pos(), "MOUNTABLE" );
+    }
+
     tripoint aim = target;
     int curshot = 0;
     int xp = 0; // experience gain for marksmanship skill
@@ -503,7 +510,7 @@ int player::fire_gun( const tripoint &target, int shots, item& gun )
         auto shot = projectile_attack( make_gun_projectile( gun ), aim, dispersion );
         curshot++;
 
-        recoil += gun.gun_recoil( *this );
+        recoil += gun.gun_recoil( *this, bipod );
 
         make_gun_sound_effect( *this, shots > 1, &gun );
         sfx::generate_gun_sound( *this, gun );

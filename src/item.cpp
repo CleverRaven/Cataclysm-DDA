@@ -1027,15 +1027,24 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
             info.emplace_back( "GUN", _( "Sight dispersion: " ), "", eff_disp, true, "", true, true );
         }
 
+        bool bipod = mod->has_flag( "BIPOD" );
         if( aprox ) {
             if( aprox->gun_recoil( g->u ) ) {
                 info.emplace_back( "GUN", _( "Approximate recoil: " ), "",
-                                   aprox->gun_recoil( g->u ), true, "", true, true );
+                                   aprox->gun_recoil( g->u ), true, "", !bipod, true );
+                if( bipod ) {
+                    info.emplace_back( "GUN", "bipod_recoil", _( " (with bipod <num>)" ),
+                                       aprox->gun_recoil( g->u, true ), true, "", true, true, false );
+                }
             }
         } else {
             if( mod->gun_recoil( g->u ) ) {
                 info.emplace_back( "GUN", _( "Effective recoil: " ), "",
-                                   mod->gun_recoil( g->u ), true, "", true, true );
+                                   mod->gun_recoil( g->u ), true, "", !bipod, true );
+                if( bipod ) {
+                    info.emplace_back( "GUN", "bipod_recoil", _( " (with bipod <num>)" ),
+                                       mod->gun_recoil( g->u, true ), true, "", true, true, false );
+                }
             }
         }
 

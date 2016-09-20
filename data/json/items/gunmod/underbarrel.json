@@ -47,7 +47,7 @@
     "id": "bipod",
     "type": "GUNMOD",
     "name": "bipod",
-    "description": "Bipods are commonly used on rifles and machine guns to provide a forward rest and reduce motion.",
+    "description": "Bipods are commonly used on rifles and machine guns to provide a forward rest and reduce motion.  Although they greatly improve handling of recoil they are useable only on certain surfaces and are slow to equip.",
     "weight": 400,
     "volume": 2,
     "price": 68000,
@@ -59,7 +59,8 @@
     "location": "underbarrel",
     "mod_targets": [ "rifle", "launcher" ],
     "handling_modifier": 12,
-    "min_skills": [ [ "weapon", 2 ] ]
+    "min_skills": [ [ "weapon", 2 ] ],
+    "flags": [ "BIPOD", "SLOW_WIELD" ]
   },
   {
     "id": "combination_gun_shotgun",
@@ -149,7 +150,7 @@
     "id": "grip",
     "type": "GUNMOD",
     "name": "forward grip",
-    "description": "A grip placed forward on the barrel allows for greater control.",
+    "description": "A grip placed forward on the barrel allows for greater control.  Not as effective as a bipod but usable under all conditions.",
     "weight": 113,
     "volume": 1,
     "price": 6000,
@@ -158,7 +159,7 @@
     "color": "brown",
     "location": "underbarrel",
     "mod_targets": [ "shotgun", "smg", "rifle", "crossbow", "launcher" ],
-    "handling_modifier": 8,
+    "handling_modifier": 6,
     "min_skills": [ [ "weapon", 2 ] ]
   },
   {

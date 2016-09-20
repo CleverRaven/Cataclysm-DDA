@@ -798,6 +798,7 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 ## Guns
 
 - ```BACKBLAST``` Causes a small explosion behind the person firing the weapon. Currently not implemented?
+- ```BIPOD``` Handling bonus only applies on MOUNTABLE map/vehicle tiles
 - ```CHARGE``` Has to be charged to fire. Higher charges do more damage.
 - ```COLLAPSIBLE_STOCK``` Reduces weapon volume proportional to the base size of the gun excluding any mods (see also SLOW_WIELD).
 - ```DISABLE_SIGHTS``` Prevents use of the base weapon sights
