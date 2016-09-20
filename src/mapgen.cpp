@@ -1608,7 +1608,7 @@ void mapgen_function_json::generate( map *m, oter_id terrain_type, mapgendata md
         elem.apply( m );
     }
     if ( ! luascript.empty() ) {
-        lua_mapgen( m, terrain_type.id(), md, t, d, luascript );
+        lua_mapgen( m, terrain_type.id().str(), md, t, d, luascript );
     }
 
     objects.apply(m, d);
@@ -1661,7 +1661,7 @@ int lua_mapgen( map *m, std::string id, mapgendata md, int t, float d, const std
 #endif
 
 void mapgen_function_lua::generate( map *m, oter_id terrain_type, mapgendata dat, int t, float d ) {
-    lua_mapgen( m, terrain_type.id(), dat, t, d, scr );
+    lua_mapgen( m, terrain_type.id().str(), dat, t, d, scr );
 }
 
 /////////////

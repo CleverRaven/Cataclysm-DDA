@@ -1714,7 +1714,7 @@ int editmap::mapgen_preview( real_coords &tc, uimenu &gmenu )
     gpmenu.show();
     uphelp( _( "[pgup/pgdn]: prev/next oter type" ),
             _( "[up/dn] select, [enter] accept, [q] abort" ),
-            string_format( "Mapgen: %s", oterlist[gmenu.ret].id.substr( 0, 40 ).c_str() )
+            string_format( "Mapgen: %s", oterlist[gmenu.ret].id.str().substr( 0, 40 ).c_str() )
           );
     int lastsel = gmenu.selected;
     bool showpreview = true;
@@ -1948,7 +1948,7 @@ int editmap::edit_mapgen()
     for( size_t i = 0; i < oterlist.size(); i++ ) {
         oter_id id = oter_id( i );
         gmenu.addentry( -1, true, 0, "[%3d] %s", ( int )id, id.id().c_str() );
-        if( broken_oter_blacklist.find( id.id() ) != broken_oter_blacklist.end() ) {
+        if( broken_oter_blacklist.find( id.id().str() ) != broken_oter_blacklist.end() ) {
             gmenu.entries[i].enabled = false;
         }
         gmenu.entries[i].extratxt.left = 1;

@@ -71,13 +71,14 @@ oter_iid ot_null,
          ot_river_center;
 
 
-oter_iid oterfind(const std::string id)
+oter_iid oterfind(const std::string &id)
 {
-    if( otermap.find(id) == otermap.end() ) {
+    const auto iter = otermap.find( oter_str_id( id ) );
+    if( iter == otermap.end() ) {
         debugmsg("Can't find %s", id.c_str());
         return 0;
     }
-    return otermap[id].loadid;
+    return iter->second.loadid;
 }
 
 void set_oter_ids()   // fixme constify
@@ -92,7 +93,7 @@ void set_oter_ids()   // fixme constify
     ot_river_center = oterfind("river_center");
 }
 
-std::unordered_map<std::string, oter_t> otermap;
+std::unordered_map<string_id<oter_t>, oter_t> otermap;
 std::vector<oter_t> oterlist;
 
 std::unordered_map<std::string, oter_t> obasetermap;
@@ -202,14 +203,14 @@ bool is_river(const oter_id &ter)
 
 bool is_ot_type(const std::string &otype, const oter_id &oter)
 {
-    const size_t oter_size = oterlist[oter].id.size();
+    const size_t oter_size = oter.id().str().size();
     const size_t compare_size = otype.size();
     if (compare_size > oter_size) {
         return false;
     }
 
     const auto &oter_str = oter.id();
-    if (oter_str.compare(0, compare_size, otype) != 0) {
+    if (oter_str.str().compare(0, compare_size, otype) != 0) {
         return false;
     }
 
@@ -219,7 +220,7 @@ bool is_ot_type(const std::string &otype, const oter_id &oter)
     }
 
     // only ok for partial if next char is an underscore
-    return oter_str[compare_size] == '_';
+    return oter_str.str()[compare_size] == '_';
 }
 
 bool road_allowed(const oter_id &ter)
@@ -327,7 +328,7 @@ void load_overmap_terrain(JsonObject &jo)
     oter_t oter;
     long syms[4];
 
-    oter.id = jo.get_string("id");
+    oter.id = oter_str_id( jo.get_string("id") );
     oter.name = _(jo.get_string("name").c_str());
     oter.set_flag(rotates, jo.get_bool("rotate", false));
     oter.set_flag(line_drawing, jo.get_bool("line_drawing", false));
@@ -358,7 +359,7 @@ void load_overmap_terrain(JsonObject &jo)
     oter.set_flag(has_sidewalk, jo.get_bool("sidewalk", false));
     oter.set_flag(allow_road, jo.get_bool("allow_road", false));
 
-    std::string id_base = oter.id;
+    const std::string id_base = oter.id.str(); // Don't put reference here
     int start_iid = oterlist.size();
     oter.id_base = id_base;
     oter.loadid_base = start_iid;
@@ -388,54 +389,54 @@ void load_overmap_terrain(JsonObject &jo)
         }
         oter.id_mapgen = id_base + "_straight";
         load_overmap_terrain_mapgens(jo, id_base, "_straight");
-        oter.id = id_base + "_ns";
+        oter.id = oter_str_id( id_base + "_ns" );
         oter.sym = LINE_XOXO;
         load_oter(oter);
 
-        oter.id = id_base + "_ew";
+        oter.id = oter_str_id( id_base + "_ew" );
         oter.sym = LINE_OXOX;
         load_oter(oter);
 
         oter.id_mapgen = id_base + "_curved";
         load_overmap_terrain_mapgens(jo, id_base, "_curved");
-        oter.id = id_base + "_ne";
+        oter.id = oter_str_id( id_base + "_ne" );
         oter.sym = LINE_XXOO;
         load_oter(oter);
 
-        oter.id = id_base + "_es";
+        oter.id = oter_str_id( id_base + "_es" );
         oter.sym = LINE_OXXO;
         load_oter(oter);
 
-        oter.id = id_base + "_sw";
+        oter.id = oter_str_id( id_base + "_sw" );
         oter.sym = LINE_OOXX;
         load_oter(oter);
 
-        oter.id = id_base + "_wn";
+        oter.id = oter_str_id( id_base + "_wn" );
         oter.sym = LINE_XOOX;
         load_oter(oter);
 
         oter.id_mapgen = id_base + "_tee";
         load_overmap_terrain_mapgens(jo, id_base, "_tee");
-        oter.id = id_base + "_nes";
+        oter.id = oter_str_id( id_base + "_nes" );
         oter.sym = LINE_XXXO;
         load_oter(oter);
 
-        oter.id = id_base + "_new";
+        oter.id = oter_str_id( id_base + "_new" );
         oter.sym = LINE_XXOX;
         load_oter(oter);
 
-        oter.id = id_base + "_nsw";
+        oter.id = oter_str_id( id_base + "_nsw" );
         oter.sym = LINE_XOXX;
         load_oter(oter);
 
-        oter.id = id_base + "_esw";
+        oter.id = oter_str_id( id_base + "_esw" );
         oter.sym = LINE_OXXX;
         load_oter(oter);
 
 
         oter.id_mapgen = id_base + "_four_way";
         load_overmap_terrain_mapgens(jo, id_base, "_four_way");
-        oter.id = id_base + "_nesw";
+        oter.id = oter_str_id( id_base + "_nesw" );
         oter.sym = LINE_XXXX;
         load_oter(oter);
 
@@ -446,19 +447,19 @@ void load_overmap_terrain(JsonObject &jo)
             oter.directional_peers.push_back(i);
         }
 
-        oter.id = id_base + "_north";
+        oter.id = oter_str_id( id_base + "_north" );
         oter.sym = syms[0];
         load_oter(oter);
 
-        oter.id = id_base + "_east";
+        oter.id = oter_str_id( id_base + "_east" );
         oter.sym = syms[1];
         load_oter(oter);
 
-        oter.id = id_base + "_south";
+        oter.id = oter_str_id( id_base + "_south" );
         oter.sym = syms[2];
         load_oter(oter);
 
-        oter.id = id_base + "_west";
+        oter.id = oter_str_id( id_base + "_west" );
         oter.sym = syms[3];
         load_oter(oter);
 
@@ -2358,7 +2359,7 @@ tripoint overmap::draw_overmap(const tripoint &orig, const draw_data_t &data)
             if( terrain ) {
                 pmenu.title = "Select terrain to place:";
                 for( const auto &oter : oterlist ) {
-                    pmenu.addentry( oter.loadid, true, 0, oter.id );
+                    pmenu.addentry( oter.loadid, true, 0, oter.id.str() );
                 }
             } else {
                 pmenu.title = "Select special to place:";
@@ -2465,7 +2466,7 @@ tripoint overmap::draw_overmap(const tripoint &orig, const draw_data_t &data)
                         uistate.omedit_rotation += 1;
                         uistate.omedit_rotation %= 4;
                         if( terrain ) {
-                            uistate.place_terrain = &rotate( uistate.place_terrain->id,
+                            uistate.place_terrain = &rotate( uistate.place_terrain->id.str(),
                                                              uistate.omedit_rotation ).obj();
                         }
                     }
@@ -4367,14 +4368,27 @@ void overmap::save() const
 
 
 //////////////////////////
-//// sneaky
 
-// ter(...) = "rock"
-const std::string &oter_id::id() const
+template<>
+const string_id<oter_t> string_id<oter_t>::NULL_ID( "", 0 );
+
+template<>
+const oter_t &string_id<oter_t>::obj() const
+{
+    return otermap[*this];
+}
+
+template<>
+int_id<oter_t> string_id<oter_t>::id() const
+{
+    return int_id<oter_t>( obj().loadid );
+}
+
+const string_id<oter_t> &oter_id::id() const
 {
     if ( size_t( _val ) > oterlist.size() ) {
         debugmsg("oterlist[%d] > %d", _val, oterlist.size()); // remove me after testing (?)
-        static std::string const debug_dummy_string;
+        static string_id<oter_t> const debug_dummy_string;
         return debug_dummy_string;
     }
     return oterlist[_val].id;
@@ -4388,7 +4402,7 @@ oter_id::operator int() const
 
 bool operator==( const oter_id &lhs, const char *rhs )
 {
-    return oterlist[lhs].id.compare( rhs ) == 0;
+    return oterlist[lhs].id.str().compare( rhs ) == 0;
 }
 
 bool operator!=( const oter_id &lhs, const char *rhs )
@@ -4398,12 +4412,12 @@ bool operator!=( const oter_id &lhs, const char *rhs )
 
 bool operator<=( const oter_id &lhs, const char *rhs )
 {
-    std::unordered_map<std::string, oter_t>::const_iterator it = otermap.find( rhs );
+    const auto it = otermap.find( oter_str_id( rhs ) );
     return it == otermap.end() || it->second.loadid <= lhs;
 }
 bool operator>=( const oter_id &lhs, const char *rhs )
 {
-    std::unordered_map<std::string, oter_t>::const_iterator it = otermap.find( rhs );
+    const auto it = otermap.find( oter_str_id( rhs ) );
     return it != otermap.end() && it->second.loadid >= lhs;
 }
 
@@ -4426,7 +4440,7 @@ const oter_t &oter_id::obj() const
 // std::string("river_ne");  oter_id van_location(down_by);
 oter_id::oter_id(const std::string &v)
 {
-    std::unordered_map<std::string, oter_t>::const_iterator it = otermap.find(v);
+    const auto it = otermap.find( oter_str_id( v ) );
     _val = 0;
     if ( it == otermap.end() ) {
         debugmsg("not found: %s", v.c_str());
@@ -4438,7 +4452,7 @@ oter_id::oter_id(const std::string &v)
 // oter_id b("house_north");
 oter_id::oter_id(const char *v)
 {
-    std::unordered_map<std::string, oter_t>::const_iterator it = otermap.find(v);
+    const auto it = otermap.find( oter_str_id( v ) );
     _val = 0;
     if ( it == otermap.end() ) {
         debugmsg("not found: %s", v);

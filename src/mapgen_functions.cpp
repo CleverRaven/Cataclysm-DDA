@@ -1014,7 +1014,8 @@ void mapgen_fungal_flowers(map *m, oter_id, mapgendata dat, int, float)
 
 int terrain_type_with_suffix_to_nesw_array( oter_id terrain_type, bool array[4] ) {
     // extract the suffix from the terrain type name
-    std::string suffix = terrain_type.id().substr( terrain_type.id().find_last_of( "_" ) + 1 );
+    const std::string &sid = terrain_type.id().str();
+    std::string suffix = sid.substr( sid.find_last_of( "_" ) + 1 );
     // non-"_end" end tiles have _north _east _south _west, all of which contain "t"
     if( suffix.find( "t" ) != std::string::npos ) {
         suffix = suffix.substr( 0, 1 );
@@ -1763,7 +1764,7 @@ void mapgen_parking_lot(map *m, oter_id, mapgendata dat, int turn, float)
 
     m->place_items("road", 8, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, false, turn);
     for (int i = 1; i < 4; i++) {
-        const std::string &id = oterlist[dat.t_nesw[i]].id;
+        const std::string &id = oterlist[dat.t_nesw[i]].id.str();
         if( id.size() > 5 && id.find( "road_" ) == 0 ) {
             m->rotate(i);
         }

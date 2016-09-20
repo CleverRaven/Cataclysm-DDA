@@ -45,8 +45,11 @@ enum oter_flags {
     num_oter_flags
 };
 
+struct oter_t;
+using oter_str_id = string_id<oter_t>;
+
 struct oter_t {
-        std::string id;      // definitive identifier
+        oter_str_id id;      // definitive identifier
         int loadid;          // position in termap / terlist
         std::string name;
         long sym; // This is a long, so we can support curses linedrawing
@@ -88,7 +91,7 @@ class oter_id
         // Hi, I'm an
         operator int() const;
         // pretending to be a
-        const std::string &id() const;
+        const string_id<oter_t> &id() const;
         const oter_t &obj() const;
 
         // initialize as raw value

@@ -481,7 +481,7 @@ void overmap::unserialize( std::istream &fin ) {
                                                               tmp_ter );
                                 }
                                 tmp_otid = 0;
-                            } else if( otermap.find( tmp_ter ) != otermap.end() ) {
+                            } else if( otermap.find( oter_str_id( tmp_ter ) ) != otermap.end() ) {
                                 tmp_otid = tmp_ter;
                             } else {
                                 debugmsg("Loaded bad ter! ter %s", tmp_ter.c_str());
