@@ -139,12 +139,12 @@ int_id<vpart_info>::int_id( const string_id<vpart_info> &id )
 {
 }
 
-static bool parse_vp_reqs( JsonObject &obj, const std::string &id, const std::string &key,
+static void parse_vp_reqs( JsonObject &obj, const std::string &id, const std::string &key,
                            std::vector<std::pair<requirement_id, int>> &reqs,
                            std::map<skill_id, int> &skills, int &moves ) {
 
     if( !obj.has_object( key ) ) {
-        return false;
+        return;
     }
     auto src = obj.get_object( key );
 
@@ -174,8 +174,6 @@ static bool parse_vp_reqs( JsonObject &obj, const std::string &id, const std::st
         requirement_data::load_requirement( src, req_id );
         reqs = { { requirement_id( req_id ), 1 } };
     }
-
-    return true;
 };
 
 /**
@@ -217,10 +215,15 @@ void vpart_info::load( JsonObject &jo, const std::string &src )
     assign( jo, "bonus", def.bonus );
     assign( jo, "flags", def.flags );
 
-    auto reqs = jo.get_object( "requirements" );
-    def.legacy ^= parse_vp_reqs( reqs, def.id.str(), "install", def.install_reqs, def.install_skills, def.install_moves );
-    def.legacy ^= parse_vp_reqs( reqs, def.id.str(), "removal", def.removal_reqs, def.removal_skills, def.removal_moves );
-    def.legacy ^= parse_vp_reqs( reqs, def.id.str(), "repair",  def.repair_reqs,  def.repair_skills,  def.repair_moves  );
+    if( jo.has_member( "requirements" ) ) {
+        auto reqs = jo.get_object( "requirements" );
+
+        parse_vp_reqs( reqs, def.id.str(), "install", def.install_reqs, def.install_skills, def.install_moves );
+        parse_vp_reqs( reqs, def.id.str(), "removal", def.removal_reqs, def.removal_skills, def.removal_moves );
+        parse_vp_reqs( reqs, def.id.str(), "repair",  def.repair_reqs,  def.repair_skills,  def.repair_moves  );
+
+        def.legacy = false;
+    }
 
     if( jo.has_member( "symbol" ) ) {
         def.sym = jo.get_string( "symbol" )[ 0 ];
