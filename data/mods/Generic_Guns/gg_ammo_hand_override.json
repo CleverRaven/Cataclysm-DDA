@@ -5,8 +5,8 @@
     "type": "AMMO",
     "name": "reloaded light rifle ammo",
     "name_plural": "reloaded light rifle ammo",
-    "description": "Hand-loaded ammunition for lighter rifles, designed for small game and humans."
-    "count": 15,
+    "description": "Hand-loaded ammunition for lighter rifles, designed for small game and humans.",
+    "count": 15
   },
   {
     "id": "reloaded_308",
@@ -14,7 +14,7 @@
     "type": "AMMO",
     "name": "reloaded rifle ammo",
     "name_plural": "reloaded rifle ammo",
-    "description": "Hand-loaded ammunition for rifles, meant for taking down large game or humans."
+    "description": "Hand-loaded ammunition for rifles, meant for taking down large game or humans.",
     "count": 15
   },
   {
@@ -109,13 +109,6 @@
     "type": "AMMO",
     "name": "00 shot",
     "count": 10
-  },
-  {
-    "id": "reloaded_shot_beanbag",
-    "copy-from": "reloaded_shot_beanbag",
-    "type": "AMMO",
-    "name": "shotgun beanbag",
-    "count": 5
   },
   {
     "id": "reloaded_shot_bird",
