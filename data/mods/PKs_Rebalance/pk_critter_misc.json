@@ -519,7 +519,7 @@
     "vision_night":3,
     "hp":12,
     "death_function":"NORMAL",
-    "description":"A small mammal with white stipped black fur that feeds on insects and fruit, roots, and seeds.   Known to spray a foul smelling liquid if distrubed.",
+    "description":"A small mammal with white stipped black fur that feeds on insects and fruit, roots, and seeds.   Known to spray a foul smelling liquid if disturbed.",
     "flags":["SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "FUR", "KEENNOSE", "BLEED", "BONES", "FAT"],
     "anger_triggers":["FRIEND_DIED", "HURT"],
     "fear_triggers":["PLAYER_CLOSE", "FRIEND_ATTACKED"],
