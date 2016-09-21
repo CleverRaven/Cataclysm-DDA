@@ -99,13 +99,20 @@ void init_global_game_state( std::vector<const char *> &arg_vec )
 
 int main( int argc, const char *argv[] )
 {
-    std::vector<const char *> arg_vec( argv, argv + argc );
-    test_mode = true;
+    Catch::Session session;
 
+    std::vector<const char *> arg_vec( argv, argv + argc );
+
+    int result = session.applyCommandLine( arg_vec.size(), &arg_vec[0] );
+    if( result != 0 || session.configData().showHelp ) {
+        return result;
+    }
+
+    test_mode = true;
     // TODO: Only init game if we're running tests that need it.
     init_global_game_state( arg_vec );
 
-    int result = Catch::Session().run( arg_vec.size(), &arg_vec[0] );
+    result = session.run();
 
     auto world_name = world_generator->active_world->world_name;
     if( result == 0 ) {
