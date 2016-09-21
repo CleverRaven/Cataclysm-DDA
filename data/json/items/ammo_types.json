@@ -417,7 +417,7 @@
         "type" : "ammunition_type",
         "id" : "fish_bait",
         "name" : "fish bait",
-        "default" : "fish_bait_meat"
+        "default" : "fish_bait"
     },
     {
         "type" : "ammunition_type",
