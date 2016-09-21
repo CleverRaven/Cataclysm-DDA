@@ -25,6 +25,26 @@
     "replace": "battery_car"
   },
   {
+      "id": "fish_bait_bread",
+      "type": "MIGRATION",
+      "replace": "fish_bait"
+  },
+  {
+      "id": "fish_bait_fish",
+      "type": "MIGRATION",
+      "replace": "fish_bait"
+  },
+  {
+      "id": "fish_bait_meat",
+      "type": "MIGRATION",
+      "replace": "fish_bait"
+  },
+  {
+      "id": "fish_bait_veggy",
+      "type": "MIGRATION",
+      "replace": "fish_bait"
+  },
+  {
     "id": "gold",
     "type": "MIGRATION",
     "replace": "gold_small",
@@ -202,26 +222,6 @@
     "id": "shot_scrapslug",
     "type": "MIGRATION",
     "replace": "reloaded_shot_slug"
-  },
-  {
-      "id": "fish_bait_meat",
-      "type": "MIGRATION",
-      "replace": "fish_bait"
-  },
-  {
-      "id": "fish_bait_fish",
-      "type": "MIGRATION",
-      "replace": "fish_bait"
-  },
-  {
-      "id": "fish_bait_veggy",
-      "type": "MIGRATION",
-      "replace": "fish_bait"
-  },
-  {
-      "id": "fish_bait_bread",
-      "type": "MIGRATION",
-      "replace": "fish_bait"
   },
   {
     "id": "UPS_on",
