@@ -1257,6 +1257,20 @@
         "ammo_type" : "components",
         "count" : 50
     },
+    {
+        "id" : "fish_bait",
+        "type" : "AMMO",
+        "category" : "spare_parts",
+        "name" : "fish bait",
+        "description" : "A bait used in traps to lure fish.",
+        "weight" : 1,
+        "volume" : 1,
+        "symbol" : "=",
+        "color" : "light_red",
+        "count" : 20,
+        "stack_size" : 50,
+        "ammo_type" : "fish_bait"
+    },
     {   "type" : "AMMO",
         "id" : "fish_bait_meat",
         "category" : "spare_parts",
