@@ -7609,8 +7609,6 @@
     "skills_required": [["fabrication", 2]],
     "difficulty": 0,
     "time": 12000,
-    "reversible": true,
-    "autolearn": true,
     "book_learn": [["mag_fabrication", 0]],
     "qualities" : [ {"id":"HAMMER","level":1,"amount":1} ],
     "tools": [ ],
