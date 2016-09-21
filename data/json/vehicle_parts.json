@@ -262,6 +262,10 @@
           "install": {
             "time": 60000,
             "components": [ [ [ "rope_6", 1 ] ] ]
+          },
+          "repair": {
+            "time": 30000,
+            "using": [ [ "adhesive", 1 ] ]
           }
         }
     },{
@@ -872,6 +876,10 @@
           "install": {
             "time": 60000,
             "components": [ [ [ "rope_6", 1 ] ] ]
+          },
+          "repair": {
+            "time": 30000,
+            "using": [ [ "adhesive", 1 ] ]
           }
         }
     },{
