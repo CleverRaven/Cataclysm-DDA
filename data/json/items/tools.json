@@ -8608,7 +8608,6 @@
     "material": [ "steel" ],
     "symbol": "&",
     "color": "ltgray",
-    "count": 1,
     "ammo_type": "thrown",
     "flags": [  "RECOVER_10", "NO_EMBED", "ACT_ON_RANGED_HIT" ],
     "use_action": {
@@ -8625,22 +8624,14 @@
     "description": "Several pieces of crudely shaped metal tied to a string.  The item is unfurled and thrown to create a local distraction.",
     "weight": 440,
     "volume": 1,
-    "price": 300,
     "material": [ "steel" ],
     "symbol": "&",
     "color": "ltgray",
-    "count": 1,
-    "ammo_type": "thrown",
-    "effects": [ "RECOVER_10", "NO_EMBED" ],
-    "flags": [ "NO_BOOM" ],
-    "initial_charges": 2,
-    "max_charges": 2,
-    "turns_per_charge": 1,
     "revert_to": "chime_scrap",
     "use_action": {
       "type": "explosion",
       "sound_volume": 18,
-      "sound_msg": "CCLANG-chingka-ching",
+      "sound_msg": "CLANG-chingka-ching",
       "no_deactivate_msg": "Its not active; why are you trying to deactivate it?",
       "explosion": {
       }
