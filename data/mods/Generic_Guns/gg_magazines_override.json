@@ -28,8 +28,8 @@
     "type": "MAGAZINE",
     "name": "ammo belt",
     "description": "An belt of light rifle ammunition consisting of metal linkages which disintegrate upon firing.",
-    "linkage": "ammolink308",
-    "default_ammo": "223"
+    "default_ammo": "223",
+    "linkage": "ammolink308"
   },
   {
     "id": "belt308",
@@ -37,8 +37,8 @@
     "type": "MAGAZINE",
     "name": "ammo belt",
     "description": "An ammo belt designed for heavier machineguns consisting of metal linkages which disintegrate upon firing.",
-    "linkage": "ammolink308",
-    "default_ammo": "308"
+    "default_ammo": "308",
+    "linkage": "ammolink308"
   },
   {
     "id": "belt50",
@@ -46,8 +46,8 @@
     "type": "MAGAZINE",
     "name": "ammo belt",
     "description": "An ammo belt designed for mounted machineguns consisting of metal linkages which disintegrate upon firing.",
-    "linkage": "ammolink308",
-    "default_ammo": "50bmg"
+    "default_ammo": "50bmg",
+    "linkage": "ammolink308"
   },
   {
     "id": "calicomag",

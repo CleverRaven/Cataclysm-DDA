@@ -59,8 +59,8 @@
     "name": "pistol ammo",
     "name_plural": "pistol ammo",
     "description": "Ammunition for semiautomatic pistols, as well as submachineguns and the occasional robot.",
-    "ammo_type": "9mm",
-    "count": 20
+    "count": 20,
+    "ammo_type": "9mm"
   },
   {
     "id": "9mmP2",
@@ -69,8 +69,8 @@
     "name": "pistol ammo+",
     "name_plural": "pistol ammo+",
     "description": "High power ammunition for pistols, packed with extra powder.  It trades improved damage for increased recoil.",
-    "ammo_type": "9mm",
-    "count": 12
+    "count": 12,
+    "ammo_type": "9mm"
   },
   {
     "id": "9mmfmj",
@@ -79,8 +79,8 @@
     "name": "pistol ammo, AP",
     "name_plural": "AP pistol ammo",
     "description": "Armor piercing ammunition for pistols.  It trades improved penetration for slightly reduced damage.",
-    "ammo_type": "9mm",
-    "count": 10
+    "count": 10,
+    "ammo_type": "9mm"
   },
   {
     "id": "44magnum",
@@ -89,8 +89,8 @@
     "name": "revolver ammo",
     "name_plural": "revolver ammo",
     "description": "Powerful ammunition for large revolvers and magnum pistols.",
-    "ammo_type": "44",
-    "count": 10
+    "count": 10,
+    "ammo_type": "44"
   },
   {
     "id": "223",
@@ -126,8 +126,8 @@
     "name": "rifle ammo, incendiary",
     "name_plural": "rifle ammo, incendiary",
     "description": "Military ammo for rifles, designed to burn hotly upon impact, piercing armor and igniting flammable substances.",
-    "ammo_type": "762",
-    "count": 10
+    "count": 10,
+    "ammo_type": "762"
   },
   {
     "id": "50bmg",
@@ -136,8 +136,8 @@
     "name": "heavy rifle ammo",
     "name_plural": "heavy rifle ammo",
     "description": "Serious ammunition for heavy machineguns and special military hardware, intended for destroying vehicles or very large creatures.",
-    "ammo_type": "50",
-    "count": 12
+    "count": 12,
+    "ammo_type": "50"
   },
   {
     "id": "50ss",
@@ -146,8 +146,8 @@
     "name": "heavy rifle ammo, AP",
     "name_plural": "heavy rifle ammo, AP",
     "description": "Armor piercing ammunition for heavy machineguns and other military hardware.  It trades improved penetration for slightly reduced damage.",
-    "ammo_type": "50",
-    "count": 8
+    "count": 8,
+    "ammo_type": "50"
   },
   {
     "id": "50_incendiary",
@@ -156,8 +156,8 @@
     "name": "heavy rifle ammo, incendiary",
     "name_plural": "heavy rifle ammo, incendiary",
     "description": "Ammunition for heavy machine guns and other military hardware, designed to burn hotly upon impact, piercing armor and igniting flammable substances.",
-    "ammo_type": "50",
-    "count": 10
+    "count": 10,
+    "ammo_type": "50"
   },
   {
     "id": "shot_00",

@@ -1,61 +1,56 @@
 [
   {
-    "type" : "item_group",
-    "id" : "ammo_pistol_common",
+    "id": "ammo_pistol_common",
+    "type": "item_group",
     "items": [
       [ "44magnum", 25 ],
       [ "9mm", 75 ]
     ]
   },
   {
-    "type" : "item_group",
-    "id" : "ammo_pistol_rare",
+    "id": "ammo_pistol_rare",
+    "type": "item_group",
     "items": [
-       [ "9mmfmj", 40 ],
-       [ "9mmP2", 60 ]
+      [ "9mmfmj", 40 ],
+      [ "9mmP2", 60 ]
     ]
   },
   {
-    "type" : "item_group",
-    "id" : "ammo_pistol_milspec",
+    "id": "ammo_pistol_milspec",
+    "type": "item_group",
+    "items": [ [ "9mmfmj", 100 ] ]
+  },
+  {
+    "id": "ammo_pistol_obscure",
+    "type": "item_group",
+    "items": []
+  },
+  {
+    "id": "ammo_pistol_reloaded",
+    "type": "item_group",
     "items": [
-       [ "9mmfmj", 100 ]
+      [ "reloaded_44magnum", 25 ],
+      [ "reloaded_9mm", 45 ],
+      [ "reloaded_9mmfmj", 10 ],
+      [ "reloaded_9mmP2", 20 ]
     ]
   },
   {
-    "type" : "item_group",
-    "id" : "ammo_pistol_obscure",
-    "items": [
-    ]
+    "id": "ammo_rifle_common",
+    "type": "item_group",
+    "items": [ [ "223", 100 ] ]
   },
   {
-    "type" : "item_group",
-    "id" : "ammo_pistol_reloaded",
-    "items": [
-       [ "reloaded_44magnum", 25],
-       [ "reloaded_9mm", 45 ],
-       [ "reloaded_9mmfmj", 10 ],
-       [ "reloaded_9mmP2", 20 ]
-    ]
-  },
-  {
-    "type" : "item_group",
-    "id" : "ammo_rifle_common",
-    "items": [
-       [ "223", 100 ]
-    ]
-  },
-  {
-    "type" : "item_group",
-    "id" : "ammo_rifle_rare",
+    "id": "ammo_rifle_rare",
+    "type": "item_group",
     "items": [
       [ "308", 70 ],
       [ "50bmg", 30 ]
     ]
   },
   {
-    "type" : "item_group",
-    "id" : "ammo_rifle_milspec",
+    "id": "ammo_rifle_milspec",
+    "type": "item_group",
     "items": [
       [ "556_incendiary", 40 ],
       [ "762_51_incendiary", 25 ],
@@ -65,14 +60,13 @@
     ]
   },
   {
-    "type" : "item_group",
-    "id" : "ammo_rifle_obscure",
-    "items": [
-    ]
+    "id": "ammo_rifle_obscure",
+    "type": "item_group",
+    "items": []
   },
   {
-    "type" : "item_group",
-    "id" : "ammo_rifle_reloaded",
+    "id": "ammo_rifle_reloaded",
+    "type": "item_group",
     "items": [
       [ "reloaded_223", 30 ],
       [ "reloaded_308", 20 ],
@@ -84,32 +78,32 @@
     ]
   },
   {
-    "type" : "item_group",
-    "id" : "ammo_shotgun_common",
+    "id": "ammo_shotgun_common",
+    "type": "item_group",
     "items": [
       [ "shot_00", 70 ],
       [ "shot_bird", 30 ]
     ]
   },
   {
-    "type" : "item_group",
-    "id" : "ammo_shotgun_rare",
+    "id": "ammo_shotgun_rare",
+    "type": "item_group",
     "items": [
       [ "shot_slug", 70 ],
       [ "shot_beanbag", 30 ]
     ]
   },
   {
-    "type" : "item_group",
-    "id" : "ammo_shotgun_milspec",
+    "id": "ammo_shotgun_milspec",
+    "type": "item_group",
     "items": [
       [ "shot_flechette", 90 ],
       [ "shot_he", 10 ]
     ]
   },
   {
-    "type" : "item_group",
-    "id" : "ammo_shotgun_reloaded",
+    "id": "ammo_shotgun_reloaded",
+    "type": "item_group",
     "items": [
       [ "reloaded_shot_00", 45 ],
       [ "reloaded_shot_bird", 15 ],
@@ -119,8 +113,8 @@
     ]
   },
   {
-    "type" : "item_group",
-    "id" : "ammo_common",
+    "id": "ammo_common",
+    "type": "item_group",
     "items": [
       { "group": "ammo_pistol_common", "prob": 50 },
       { "group": "ammo_smg_common", "prob": 10 },
@@ -129,8 +123,8 @@
     ]
   },
   {
-    "type" : "item_group",
-    "id" : "ammo_rare",
+    "id": "ammo_rare",
+    "type": "item_group",
     "items": [
       { "group": "ammo_pistol_rare", "prob": 50 },
       { "group": "ammo_smg_rare", "prob": 10 },
@@ -139,8 +133,8 @@
     ]
   },
   {
-    "type" : "item_group",
-    "id" : "ammo_milspec",
+    "id": "ammo_milspec",
+    "type": "item_group",
     "items": [
       { "group": "ammo_pistol_milspec", "prob": 10 },
       { "group": "ammo_smg_milspec", "prob": 5 },
@@ -149,8 +143,8 @@
     ]
   },
   {
-    "type" : "item_group",
-    "id" : "ammo_obscure",
+    "id": "ammo_obscure",
+    "type": "item_group",
     "items": [
       { "group": "ammo_pistol_milspec", "prob": 25 },
       { "group": "ammo_smg_milspec", "prob": 25 },
@@ -159,8 +153,8 @@
     ]
   },
   {
-    "type" : "item_group",
-    "id" : "ammo_reloaded",
+    "id": "ammo_reloaded",
+    "type": "item_group",
     "items": [
       { "group": "ammo_pistol_reloaded", "prob": 32 },
       { "group": "ammo_smg_reloaded", "prob": 8 },
@@ -169,9 +163,9 @@
     ]
   },
   {
-    "type" : "item_group",
-    "id" : "ammo_parts",
-    "items":[
+    "id": "ammo_parts",
+    "type": "item_group",
+    "items": [
       [ "gunpowder", 320 ],
       [ "incendiary", 20 ],
       [ "lead", 160 ],
@@ -183,9 +177,9 @@
     ]
   },
   {
-    "type" : "item_group",
-    "id" : "ammo_cop",
-    "items":[
+    "id": "ammo_cop",
+    "type": "item_group",
+    "items": [
       [ "44magnum", 20 ],
       [ "9mm", 50 ],
       [ "shot_00", 15 ],
@@ -193,8 +187,8 @@
     ]
   },
   {
-    "type": "item_group",
     "id": "ammo_swat",
+    "type": "item_group",
     "items": [
       { "group": "ammo_cop", "prob": 70 },
       [ "223", 10 ],

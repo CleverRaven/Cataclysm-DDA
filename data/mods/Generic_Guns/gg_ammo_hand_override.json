@@ -24,8 +24,8 @@
     "name": "reloaded pistol ammo",
     "name_plural": "reloaded pistol ammo",
     "description": "Hand-loaded ammunition for semiautomatic pistols as well as submachine guns.",
-    "ammo_type": "9mm",
-    "count": 20
+    "count": 20,
+    "ammo_type": "9mm"
   },
   {
     "id": "reloaded_9mmP2",
@@ -34,8 +34,8 @@
     "name": "reloaded pistol ammo+",
     "name_plural": "reloaded pistol ammo+",
     "description": "Hand-loaded ammunition for pistols, packed with extra powder.  It trades improved damage for increased recoil.",
-    "ammo_type": "9mm",
-    "count": 12
+    "count": 12,
+    "ammo_type": "9mm"
   },
   {
     "id": "reloaded_9mmfmj",
@@ -44,8 +44,8 @@
     "name": "reloaded pistol ammo, AP",
     "name_plural": "reloaded pistol ammo, AP",
     "description": "Hand-loaded armor-piercing ammunition for pistols.  It trades improved penetration for slightly reduced damage.",
-    "ammo_type": "9mm",
-    "count": 10
+    "count": 10,
+    "ammo_type": "9mm"
   },
   {
     "id": "reloaded_44magnum",
@@ -54,8 +54,8 @@
     "name": "reloaded revolver ammo",
     "name_plural": "reloaded revolver ammo",
     "description": "Hand-loaded ammunition for large revolvers and magnum pistols.",
-    "ammo_type": "44",
-    "count": 10
+    "count": 10,
+    "ammo_type": "44"
   },
   {
     "id": "reloaded_556_incendiary",
@@ -80,8 +80,8 @@
     "name": "reloaded heavy rifle ammo",
     "name_plural": "reloaded heavy rifle ammo",
     "description": "Hand-loaded ammunition for heavy machineguns and special military hardware, intended for destroying vehicles or very large creatures.",
-    "ammo_type": "50",
-    "count": 12
+    "count": 12,
+    "ammo_type": "50"
   },
   {
     "id": "reloaded_50ss",
@@ -90,8 +90,8 @@
     "name": "reloaded heavy rifle ammo, AP",
     "name_plural": "reloaded heavy rifle ammo, AP",
     "description": "Hand-loaded armor-piercing ammunition for heavy machineguns and other military hardware.  It trades improved penetration for slightly reduced damage.",
-    "ammo_type": "50",
-    "count": 8
+    "count": 8,
+    "ammo_type": "50"
   },
   {
     "id": "reloaded_50_incendiary",
@@ -100,8 +100,8 @@
     "name": "reloaded heavy rifle ammo, incendiary",
     "name_plural": "reloaded heavy rifle ammo, incendiary",
     "description": "Hand-loaded ammunition for heavy machine guns and other military hardware, designed to burn hotly upon impact, piercing armor and igniting flammable substances.",
-    "ammo_type": "50",
-    "count": 10
+    "count": 10,
+    "ammo_type": "50"
   },
   {
     "id": "reloaded_shot_00",
