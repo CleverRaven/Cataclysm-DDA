@@ -28,7 +28,7 @@ struct recipe {
         friend class recipe_dictionary;
 
     public:
-        recipe() : skill_used( NULL_ID ) {}
+        recipe();
 
         itype_id result = "null";
 

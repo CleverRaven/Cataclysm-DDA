@@ -132,6 +132,8 @@ bool player::making_would_work( const std::string &id_to_make, int batch_size )
     return making.check_eligible_containers_for_crafting( batch_size );
 }
 
+recipe::recipe() : skill_used( NULL_ID ) {}
+
 bool recipe::check_eligible_containers_for_crafting( int batch ) const
 {
     std::vector<item> conts = g->u.get_eligible_containers_for_crafting();
