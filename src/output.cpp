@@ -23,6 +23,7 @@
 #include "item.h"
 #include "line.h"
 #include "name.h"
+#include "cata_utility.h"
 
 // Display data
 int TERMX;
@@ -2468,6 +2469,52 @@ int ci_find_substr( const std::string &str1, const std::string &str2, const std:
         return it - str1.begin();
     } else {
         return -1;    // not found
+    }
+}
+
+/**
+* Convert, round up and format a volume.
+*/
+std::string format_volume( const units::volume &volume )
+{
+    return format_volume( volume, 0, NULL, NULL );
+}
+
+/**
+* Convert, clamp, round up and format a volume,
+* taking into account the specified width (0 for inlimited space),
+* optionally returning a flag that indicate if the value was truncated to fit the width,
+* optionally returning the formated value as double.
+*/
+std::string format_volume( const units::volume &volume, int width, bool *out_truncated, double *out_value )
+{
+    // convert and get the units preferred scale
+    int scale = 0;
+    double value = convert_volume( volume.value(), &scale );
+    // clamp to the specified width
+    if( width != 0 ) {
+        value = clamp_to_width( value, std::abs( width ), scale, out_truncated );
+    }
+    if( scale == 0 && value < 1.0 ) {
+        // very specific case (almost only to accommodate "metric cup")
+        value = 0.0;
+    } else {
+        // round up
+        value = round_up( value, scale );
+    }
+    if( out_value != NULL ) {
+        *out_value = value;
+    }
+    // format
+    if( width < 0 ) {
+        // left-justify the specified width
+        return string_format( "%-*.*f", std::abs( width ), scale, value );
+    } else if( width > 0 ) {
+        // right-justify the specified width
+        return string_format( "%*.*f", width, scale, value );
+    } else {
+        // no width
+        return string_format( "%.*f", scale, value );
     }
 }
 
