@@ -333,6 +333,42 @@
     "anger_triggers":["HURT", "FRIEND_ATTACKED", "FRIEND_DIED", "PLAYER_WEAK"],
     "placate_triggers":["MEAT", "SOUND"]
     },{
+    "type" : "MONSTER",
+    "id" : "mon_dog_large",
+    "name": "large dog",
+    "species":"MAMMAL",
+    "default_faction":"dog",
+    "symbol":"D",
+    "color":"ltgray",
+    "size":"MEDIUM",
+    "material":"flesh",
+    "diff":11,
+    "aggression":0,
+    "morale":25,
+    "speed":140,
+    "melee_skill":4,
+    "melee_dice":2,
+    "melee_dice_sides":4,
+    "melee_cut":4,
+    "dodge":3,
+    "armor_bash":0,
+    "armor_cut":0,
+    "vision_day":40,
+    "vision_night":5,
+    "hp":60,
+    "death_function":"NORMAL",
+    "special_attacks":[{
+            "type": "bite",
+            "cooldown": 20,
+            "min_mul": 0.50
+        }],
+    "description": "A large feral dog, with an equally impressive maw coated with stray saliva.",
+    "flags":["SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "FUR", "KEENNOSE", "BLEED", "BONES", "FAT"],
+    "anger_triggers":["STALK", "HURT", "FRIEND_ATTACKED", "PLAYER_WEAK"],
+    "placate_triggers":["MEAT", "SOUND"],
+    "fear_triggers":["FRIEND_DIED"],
+    "categories":["WILDLIFE"]
+},{
     "type": "MONSTER",
     "id": "mon_moose",
     "edit-mode": "modify",
@@ -386,7 +422,7 @@
     "placate_triggers":["PLAYER_WEAK"],
     "fear_triggers":["SOUND"],
     "categories":["WILDLIFE"]
-},{
+    },{
     "type" : "MONSTER",
     "id" : "mon_moose_weak",
     "name": "moose",
@@ -419,7 +455,7 @@
     "placate_triggers":["PLAYER_WEAK"],
     "fear_triggers":["HURT"],
     "categories":["WILDLIFE"]
-},{
+    },{
     "type": "MONSTER",
     "id": "mon_wolf",
     "edit-mode": "modify",
@@ -456,37 +492,73 @@
         "half_life": 17
     }
     },{
-    "type": "MONSTER",
-    "id": "mon_tardigrade",
-    "name": "tardigrade",
-    "species":"INSECT",
-    "default_faction":"herbivore",
-    "symbol":"B",
-    "color":"brown_white",
-    "size":"LARGE",
+    "type" : "MONSTER",
+    "id" : "mon_skunk",
+    "name": "skunk",
+    "species":"MAMMAL",
+    "default_faction":"small_animal",
+    "symbol":"r",
+    "color":"i_dkgray",
+    "size":"TINY",
     "material":"flesh",
     "diff":5,
-    "aggression":-5,
-    "morale":100,
-    "speed":15,
+    "aggression":-10,
+    "morale":20,
+    "speed":85,
     "melee_skill":2,
     "melee_dice":1,
-    "melee_dice_sides":24,
-    "dodge":0,
-    "armor_bash":30,
-    "armor_cut":35,
-    "armor_fire":9,
-    "armor_acid":6,
-    "vision_day":5,
+    "melee_dice_sides":2,
+    "melee_cut":2,
+    "melee_damage": [ {"damage_type": "stab", "amount": 1} ],
+    "attack_effs": [{
+        "id": "skunk_spray",
+        "duration": 1
+        }],
+    "dodge":2,
+    "vision_day":35,
     "vision_night":3,
-    "hp":450,
+    "hp":12,
     "death_function":"NORMAL",
-    "special_attacks":[["GRAB", 30], ["VINE", 15]],
-    "description":"One of the most durable creatures in the world, the tardigrade has outlived the dinosaurs and humanity both.  This is a plump and now moose-sized eight-legged critter with a creviced shell with in-laid segments.  Along the length of the shell pairs of sensory tentacles can be seen waving around.  Although its clawed digits seem to be for grasping the tentacles, due to their sheer size, lend themselves to flailing in defense.",
-    "flags":["SEES", "SMELLS", "PATH_AVOID_DANGER_1", "STUMBLES", "BASHES", "ARTHROPOD_BLOOD", "NO_BREATHE", "SWIMS", "ANIMAL", "FAT","CHITIN"],
+    "description":"A small mammal with white stipped black fur that feeds on insects and fruit, roots, and seeds.   Known to spray a foul smelling liquid if distrubed.",
+    "flags":["SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "FUR", "KEENNOSE", "BLEED", "BONES", "FAT"],
+    "anger_triggers":["FRIEND_DIED", "HURT"],
+    "fear_triggers":["PLAYER_CLOSE", "FRIEND_ATTACKED"],
+    "categories":["WILDLIFE"]
+    },{
+    "type" : "MONSTER",
+    "id" : "mon_goat",
+    "name": "goat",
+    "species":"MAMMAL",
+    "default_faction":"herbivore",
+    "symbol":"g",
+    "color":"ltgray",
+    "size":"MEDIUM",
+    "material":"flesh",
+    "diff":8,
+    "aggression":0,
+    "morale":5,
+    "speed":105,
+    "melee_skill":3,
+    "melee_dice":2,
+    "melee_dice_sides":5,
+    "melee_cut":3,
+    "dodge":2,
+    "armor_bash":2,
+    "armor_cut":0,
+    "hp":65,
+    "death_function":"NORMAL",
+    "special_attacks":[{
+            "type": "leap",
+            "cooldown": 15,
+            "max_range": 2
+        }],
+    "description":"A shaggy haired mammal with a clumsy grace and quiet nature.  Its grayish white hair is motley in appearance and its horns are more for rutting and courtship purposes than defense.",
+    "flags":["SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "BONES", "FAT", "FUR", "BLEED"],
     "anger_triggers":["HURT", "STALK", "FRIEND_DIED"],
-    "placate_triggers":["PLAYER_WEAK"]
-   },{
+    "placate_triggers":["PLAYER_WEAK"],
+    "fear_triggers":["SOUND", "FRIEND_ATTACKED"],
+    "categories":["WILDLIFE"]
+    },{
     "type": "MONSTER",
     "id": "mon_gator",
     "name": "sewer gator",
@@ -511,7 +583,7 @@
     "vision_night":35,
     "hp":90,
     "death_function":"NORMAL",
-    "special_attacks":[
+    "special_attacks":[["GRAB_DRAG", 15],
         {
             "type": "bite",
             "cooldown": 20,
@@ -520,7 +592,7 @@
                 {"damage_type": "stab", "amount": 9, "armor_multiplier": 0.5},
                 {"damage_type": "bash", "amount": 27, "armor_multiplier": 0.5}
             ]
-        }, ["GRAB", 30], ["GRAB_DRAG", 10]],
+        }],
     "description":"In the late 20th century there was an urban legend about pet alligators getting flushed down the toilet and growing to adulthood in sewers.  This large specimen doesn't look like it is used to humans as anything other than a meal.",
     "flags":["SEES", "HEARS", "GOODHEARING", "SMELLS", "KEENNOSE", "PATH_AVOID_DANGER_1", "ANIMAL", "BLEED", "ATTACKMON", "BONES", "LEATHER", "SWIMS"],
     "anger_triggers":["PLAYER_CLOSE", "PLAYER_WEAK"],
