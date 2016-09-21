@@ -21,7 +21,7 @@ void draw_mid_pane( WINDOW *w_sort_middle, item const &worn_item )
     int middle_w = getmaxx( w_sort_middle );
     size_t i = fold_and_print( w_sort_middle, 0, 1, middle_w - 1, c_white,
                                worn_item.type_name( 1 ) ) - 1;
-    std::vector<std::string> props = clothing_properties( worn_item, middle_w - 3 );
+    std::vector<std::string> props = clothing_properties( worn_item, middle_w - 6 );
     for( auto &iter : props ) {
         // [headers] are green, info is gray
         nc_color color = ( iter[0] == '[' ? c_green : c_ltgray );
@@ -70,8 +70,8 @@ std::vector<std::string> clothing_properties( item const &worn_item, int const w
                                      string_format( "%3d", worn_item.get_encumber() ), width ) );
     props.push_back( name_and_value( space + _( "Warmth:" ),
                                      string_format( "%3d", worn_item.get_warmth() ), width ) );
-    props.push_back( name_and_value( space + _( "Storage:" ),
-                                     string_format( "%3d", worn_item.get_storage() ), width ) );
+    props.push_back( name_and_value( space + _( "Storage (L):" ),
+                                     string_format( "%.1f", to_milliliter( worn_item.get_storage() ) / 1000.0 ), width ) );
     props.push_back( string_format( "[%s]", _( "Protection" ) ) );
     props.push_back( name_and_value( space + _( "Bash:" ),
                                      string_format( "%3d", int( worn_item.bash_resist() ) ), width ) );
@@ -127,9 +127,10 @@ std::vector<std::string> clothing_flags_description( item const &worn_item )
 } //namespace
 
 struct layering_item_info {
-    int damage;
+    nc_color damage;
     int encumber;
     std::string name;
+    // Operator overload required to leverage vector equality operator.
     bool operator ==( const layering_item_info &o ) const {
         return this->damage == o.damage &&
                this->encumber == o.encumber &&
@@ -137,12 +138,12 @@ struct layering_item_info {
     }
 };
 
-std::vector<layering_item_info> items_cover_bp( const Character &c, int bp )
+static std::vector<layering_item_info> items_cover_bp( const Character &c, int bp )
 {
     std::vector<layering_item_info> s;
     for( auto &elem : c.worn ) {
         if( elem.covers( static_cast<body_part>( bp ) ) ) {
-            layering_item_info t = {elem.damage, elem.get_encumber(), elem.type_name( 1 )};
+            layering_item_info t = { elem.damage_color(), elem.get_encumber(), elem.type_name( 1 ) };
             s.push_back( t );
         }
     }
@@ -239,8 +240,6 @@ void player::sort_armor()
     WINDOW *w_encumb      = newwin( num_bp + 1, middle_w, win_y + 3 + cont_h - num_bp - 1,
                                     win_x + left_w + 2 );
 
-    nc_color dam_color[] = {c_green, c_ltgreen, c_yellow, c_magenta, c_ltred, c_red};
-
     input_context ctxt( "SORT_ARMOR" );
     ctxt.register_cardinal();
     ctxt.register_action( "QUIT" );
@@ -265,14 +264,12 @@ void player::sort_armor()
             }
         } else {
             // Player is sorting NPC's armor here
-            // TODO: Add all sorts of checks here, to prevent player from wasting NPC moves
             if( rl_dist( g->u.pos(), pos() ) > 1 ) {
+                add_msg_if_npc( m_bad, _( "%s is too far to sort armor." ), name.c_str() );
                 return;
             }
             if( attitude_to( g->u ) != Creature::A_FRIENDLY ) {
-                return;
-            }
-            if( moves < -200 ) {
+                add_msg_if_npc( m_bad, _( "%s is not friendly!" ), name.c_str() );
                 return;
             }
         }
@@ -307,7 +304,7 @@ void player::sort_armor()
 
         // Left header
         mvwprintz( w_sort_left, 0, 0, c_ltgray, _( "(Innermost)" ) );
-        right_print( w_sort_left, 0, 0, c_ltgray, _( "Storage" ) );
+        right_print( w_sort_left, 0, 0, c_ltgray, _( "Storage (L)" ) );
         // Left list
         for( int drawindex = 0; drawindex < leftListSize; drawindex++ ) {
             int itemindex = leftListOffset + drawindex;
@@ -318,10 +315,10 @@ void player::sort_armor()
 
             const int offset_x = ( itemindex == selected ) ? 3 : 2;
             trim_and_print( w_sort_left, drawindex + 1, offset_x, left_w - offset_x - 3,
-                            dam_color[int( tmp_worn[itemindex]->damage + 1 )],
+                            tmp_worn[itemindex]->damage_color(),
                             tmp_worn[itemindex]->type_name( 1 ).c_str() );
-            mvwprintz( w_sort_left, drawindex + 1, left_w - 3, c_ltgray, "%3d",
-                       tmp_worn[itemindex]->get_storage() );
+            right_print( w_sort_left, drawindex + 1, 0, c_ltgray, "%.1f",
+                         to_milliliter( tmp_worn[itemindex]->get_storage() ) / 1000.0 );
         }
 
         // Left footer
@@ -367,7 +364,7 @@ void player::sort_armor()
             rightListSize++;
             for( auto &elem : items_cover_bp( *this, cover ) ) {
                 if( rightListSize >= rightListOffset && pos <= cont_h - 2 ) {
-                    trim_and_print( w_sort_right, pos, 2, right_w - 4, dam_color[elem.damage + 1],
+                    trim_and_print( w_sort_right, pos, 2, right_w - 4, elem.damage,
                                     elem.name.c_str() );
                     mvwprintz( w_sort_right, pos, right_w - 2, c_ltgray, "%d",
                                elem.encumber );
@@ -398,14 +395,6 @@ void player::sort_armor()
         if( is_npc() && action == "ASSIGN_INVLETS" ) {
             // It doesn't make sense to assign invlets to NPC items
             continue;
-        }
-
-        if( is_npc() && ( action == "EQUIP_ARMOR" || action == "REMOVE_ARMOR" ) ) {
-            const npc &np = dynamic_cast<const npc &>( *this );
-            if( !np.is_minion() && !g->u.has_trait( "DEBUG_MIND_CONTROL" ) ) {
-                popup( _( "%s says: I don't trust you enough to let you do that!" ), disp_name().c_str() );
-                continue;
-            }
         }
 
         if( action == "UP" && leftListSize > 0 ) {
@@ -520,7 +509,7 @@ void player::sort_armor()
             if( leftListIndex < ( int ) tmp_worn.size() ) {
                 if( g->u.query_yn( _( "Remove selected armor?" ) ) ) {
                     // remove the item, asking to drop it if necessary
-                    takeoff( tmp_worn[leftListIndex], is_npc() );
+                    takeoff( *tmp_worn[leftListIndex] );
                     wrefresh( w_sort_armor );
                 }
             }

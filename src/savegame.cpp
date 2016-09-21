@@ -27,7 +27,6 @@
 #include <set>
 #include <algorithm>
 #include <string>
-#include <fstream>
 #include <sstream>
 #include <math.h>
 #include <vector>
@@ -206,11 +205,11 @@ void game::unserialize(std::istream & fin)
         load_map( tripoint( levx + comx * OMAPX * 2, levy + comy * OMAPY * 2, levz ) );
 
         safe_mode = static_cast<safe_mode_type>( tmprun );
-        if (OPTIONS["SAFEMODE"] && safe_mode == SAFE_MODE_OFF) {
+        if (get_option<bool>( "SAFEMODE" ) && safe_mode == SAFE_MODE_OFF) {
             safe_mode = SAFE_MODE_ON;
         }
-        autosafemode = OPTIONS["AUTOSAFEMODE"];
-        safemodeveh = OPTIONS["SAFEMODEVEH"];
+        autosafemode = get_option<bool>( "AUTOSAFEMODE" );
+        safemodeveh = get_option<bool>( "SAFEMODEVEH" );
         last_target = tmptar;
 
         linebuf="";
@@ -292,17 +291,15 @@ void game::load_weather(std::istream & fin) {
     if (fin.peek() == 's') {
         std::string line, label;
         getline(fin, line);
-        int seed(0);
         std::stringstream liness(line);
         liness >> label >> seed;
-        weather_gen->set_seed( seed );
     }
 }
 
 void game::save_weather(std::ostream &fout) {
     fout << "# version " << savegame_version << std::endl;
     fout << "lightning: " << (lightning_active ? "1" : "0") << std::endl;
-    fout << "seed: " << weather_gen->get_seed();
+    fout << "seed: " << seed;
 }
 
 bool overmap::obsolete_terrain( const std::string &ter ) {

@@ -8,7 +8,6 @@
 #include "ui.h"
 #include "translations.h"
 #include <iostream>
-#include <fstream>
 
 color_manager &get_all_colors()
 {
@@ -102,7 +101,7 @@ color_id color_manager::color_to_id( const nc_color color ) const
     // Optimally this shouldn't happen, but allow for now
     for( size_t i = 0; i < color_array.size(); i++ ) {
         if( color_array[i].color == color ) {
-debugmsg( "Couldn't find color %d, but got id: %s", color, get_name( color ).c_str() );
+            debugmsg( "Couldn't find color %d", color );
             return color_array[i].col_id;
         }
     }
@@ -913,23 +912,8 @@ void color_manager::load_custom(const std::string &sPath)
 {
     const auto file = ( sPath.empty() ) ? FILENAMES["custom_colors"] : sPath;
 
-    std::ifstream fin;
-    fin.open(file.c_str(), std::ifstream::in | std::ifstream::binary);
-    if( !fin.good() ) {
-        fin.close();
-        finalize(); // Need to finalize regardless of success
-        return;
-    }
-
-    try {
-        JsonIn jsin(fin);
-        deserialize(jsin);
-    } catch( const JsonError &e ) {
-        DebugLog(D_ERROR, DC_ALL) << "load_custom: " << e;
-    }
-
-    fin.close();
-    finalize();
+    read_from_file_optional( file, *this );
+    finalize(); // Need to finalize regardless of success
 }
 
 void color_manager::serialize(JsonOut &json) const

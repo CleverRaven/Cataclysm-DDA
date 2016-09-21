@@ -941,7 +941,7 @@
         "name" : "Archery for Kids",
         "name_plural" : "Archery for Kids",
         "max_level" : 1,
-        "description" : "Will you be able to place the arrow right into the bullseye? It is not that easy, but once you know how it's done, you will have a lot of fun with archery.",
+        "description" : "Will you be able to place the arrow right into the bullseye?  It is not that easy, but once you know how it's done, you will have a lot of fun with archery.",
         "weight" : 60,
         "to_hit" : -2,
         "color" : "pink",

@@ -483,6 +483,15 @@ class input_context
          * keybindings.
          */
         void clear_conflicting_keybindings( const input_event &event );
+        /**
+         * Filter a vector of strings by a phrase, returning only strings that contain the phrase.
+         *
+         * @param strings The vector of strings to filter
+         * @param phrase  The phrase to search within each of the given strings
+         * @return A vector of the filtered strings
+         */
+        std::vector<std::string> filter_strings_by_phrase( const std::vector<std::string> &strings,
+                std::string phrase ) const;
 };
 
 /**

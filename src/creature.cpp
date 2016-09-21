@@ -13,6 +13,7 @@
 #include "vehicle.h"
 #include "debug.h"
 #include "field.h"
+#include "projectile.h"
 
 #include <algorithm>
 #include <numeric>
@@ -62,14 +63,6 @@ static std::map<int, std::map<body_part, double> > default_hit_weights = {
             { bp_leg_l, 5.71f },
             { bp_leg_r, 5.71f }
         }
-    }
-};
-
-struct weight_compare {
-    bool operator() (const std::pair<body_part, double> &left,
-                     const std::pair<body_part, double> &right)
-    {
-        return left.second < right.second;
     }
 };
 
@@ -529,27 +522,29 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
     std::string message = "";
     game_message_type gmtSCTcolor = m_neutral;
 
-    if( goodhit < 0.1 ) {
+    if( goodhit < accuracy_headshot ) {
         message = _("Headshot!");
         gmtSCTcolor = m_headshot;
         damage_mult *= rng_float(2.45, 3.35);
         bp_hit = bp_head; // headshot hits the head, of course
-    } else if( goodhit < 0.2 ) {
+
+    } else if( goodhit < accuracy_critical ) {
         message = _("Critical!");
         gmtSCTcolor = m_critical;
         damage_mult *= rng_float(1.75, 2.3);
-    } else if( goodhit < 0.4 ) {
+
+    } else if( goodhit < accuracy_goodhit ) {
         message = _("Good hit!");
         gmtSCTcolor = m_good;
         damage_mult *= rng_float(1, 1.5);
-    } else if( goodhit < 0.6 ) {
+
+    } else if( goodhit < accuracy_standard ) {
         damage_mult *= rng_float(0.5, 1);
-    } else if( goodhit < 0.8 ) {
+
+    } else if( goodhit < accuracy_grazing ) {
         message = _("Grazing hit.");
         gmtSCTcolor = m_grazing;
         damage_mult *= rng_float(0, .25);
-    } else {
-        damage_mult *= 0;
     }
 
     if( source != nullptr && !message.empty() ) {
@@ -560,14 +555,18 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
 
     // copy it, since we're mutating
     damage_instance impact = proj.impact;
-    if( proj_effects.count("NOGIB") > 0 ) {
-        impact.add_effect("NOGIB");
-    }
     if( damage_mult > 0.0f && proj_effects.count( "NO_DAMAGE_SCALING" ) ) {
         damage_mult = 1.0f;
     }
 
     impact.mult_damage(damage_mult);
+
+    if( proj_effects.count( "NOGIB" ) > 0 ) {
+        float dmg_ratio = (float)impact.total_damage() / get_hp_max( player::bp_to_hp( bp_hit ) );
+        if( dmg_ratio > 1.25f ) {
+            impact.mult_damage( 1.0f / dmg_ratio );
+        }
+    }
 
     dealt_dam = deal_damage(source, bp_hit, impact);
     dealt_dam.bp_hit = bp_hit;
@@ -681,6 +680,7 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
             }
         }
     }
+
     check_dead_state();
     attack.hit_critter = this;
     attack.missed_by = goodhit;
@@ -696,29 +696,24 @@ dealt_damage_instance Creature::deal_damage(Creature *source, body_part bp,
     int total_pain = 0;
     damage_instance d = dam; // copy, since we will mutate in absorb_hit
 
-    std::vector<int> dealt_dams(NUM_DT, 0);
+    dealt_damage_instance dealt_dams;
 
     absorb_hit(bp, d);
 
-    // add up all the damage units dealt
-    int cur_damage;
-    for (std::vector<damage_unit>::const_iterator it = d.damage_units.begin();
-         it != d.damage_units.end(); ++it) {
-        cur_damage = 0;
-        deal_damage_handle_type(*it, bp, cur_damage, total_pain);
-        if (cur_damage > 0) {
-            dealt_dams[it->type] += cur_damage;
+    // Add up all the damage units dealt
+    for( const auto &it : d.damage_units ) {
+        int cur_damage = 0;
+        deal_damage_handle_type( it, bp, cur_damage, total_pain );
+        if( cur_damage > 0 ) {
+            dealt_dams.dealt_dams[ it.type ] += cur_damage;
             total_damage += cur_damage;
         }
     }
 
     mod_pain(total_pain);
-    if( dam.effects.count("NOGIB") ) {
-        total_damage = std::min( total_damage, get_hp() + 1 );
-    }
 
-    apply_damage(source, bp, total_damage);
-    return dealt_damage_instance(dealt_dams);
+    apply_damage( source, bp, total_damage );
+    return dealt_dams;
 }
 void Creature::deal_damage_handle_type(const damage_unit &du, body_part bp, int &damage, int &pain)
 {
@@ -729,46 +724,41 @@ void Creature::deal_damage_handle_type(const damage_unit &du, body_part bp, int 
 
     // Apply damage multiplier from skill, critical hits or grazes after all other modifications.
     const int adjusted_damage = du.amount * du.damage_multiplier;
-    switch (du.type) {
-    case DT_BASH:
-        damage += adjusted_damage;
-        // add up pain before using mod_pain since certain traits modify that
-        pain += adjusted_damage / 4;
-        mod_moves(-rng(0, damage * 2)); // bashing damage reduces moves
-        break;
-    case DT_CUT:
-        damage += adjusted_damage;
-        pain += (adjusted_damage + sqrt(double(adjusted_damage))) / 4;
-        break;
-    case DT_STAB: // stab differs from cut in that it ignores some armor
-        damage += adjusted_damage;
-        pain += (adjusted_damage + sqrt(double(adjusted_damage))) / 4;
-        break;
-    case DT_HEAT: // heat damage sets us on fire sometimes
-        damage += adjusted_damage;
-        pain += adjusted_damage / 4;
-        if( rng(0, 100) < adjusted_damage ) {
-            add_effect( effect_onfire, rng(1, 3), bp );
-        }
-        break;
-    case DT_ELECTRIC: // Electrical damage adds a major speed/dex debuff
-        damage += adjusted_damage;
-        pain += adjusted_damage / 4;
-        add_effect( effect_zapped, std::max( adjusted_damage, 2 ) );
-        break;
-    case DT_COLD: // cold damage slows us a bit and hurts less
-        damage += adjusted_damage;
-        pain += adjusted_damage / 6;
-        mod_moves(-adjusted_damage * 80);
-        break;
-    case DT_ACID: // Acid damage and acid burns are super painful
-        damage += adjusted_damage;
-        pain += adjusted_damage / 3;
-        break;
-    default:
-        damage += adjusted_damage;
-        pain += adjusted_damage / 4;
+    if( adjusted_damage <= 0 ) {
+        return;
     }
+
+    float div = 4.0f;
+
+    switch( du.type ) {
+        case DT_BASH:
+            // Bashing damage is less painful
+            div = 5.0f;
+            break;
+
+        case DT_HEAT:
+            // heat damage sets us on fire sometimes
+            if( rng( 0, 100 ) < adjusted_damage ) {
+                add_effect( effect_onfire, rng( 1, 3 ), bp );
+            }
+            break;
+
+        case DT_ELECTRIC:
+            // Electrical damage adds a major speed/dex debuff
+            add_effect( effect_zapped, std::max( adjusted_damage, 2 ) );
+            break;
+
+        case DT_ACID:
+            // Acid damage and acid burns are more painful
+            div = 3.0f;
+            break;
+
+        default:
+            break;
+    }
+
+    damage += adjusted_damage;
+    pain += roll_remainder( adjusted_damage / div );
 }
 
 /*
@@ -1542,13 +1532,28 @@ body_part Creature::select_body_part(Creature *source, int hit_roll) const
     return selected_part;
 }
 
-bool Creature::compare_by_dist_to_point::operator()( const Creature* const a, const Creature* const b ) const
-{
-    return rl_dist( a->pos(), center ) < rl_dist( b->pos(), center );
-}
-
 void Creature::check_dead_state() {
     if( is_dead_state() ) {
         die( nullptr );
     }
+}
+
+std::pair<std::string, nc_color> const &Creature::get_attitude_ui_data( Attitude att )
+{
+    using pair_t = std::pair<std::string, nc_color>;
+    static std::array<pair_t, 5> const strings {
+        {
+            pair_t {_( "Hostile" ), c_red},
+            pair_t {_( "Neutral" ), h_white},
+            pair_t {_( "Friendly" ), c_green},
+            pair_t {_( "Any" ), c_yellow},
+            pair_t {_( "BUG: Behavior unnamed. (Creature::get_attitude_ui_data)" ), h_red}
+        }
+    };
+
+    if( ( int ) att < 0 || ( int ) att >= ( int ) strings.size() ) {
+        return strings.back();
+    }
+
+    return strings[att];
 }

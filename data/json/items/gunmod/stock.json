@@ -8,16 +8,16 @@
     "volume": 2,
     "integral_volume": 0,
     "price": 38000,
-    "bashing": 6,
     "to_hit": 1,
+    "bashing": 6,
     "material": [ "plastic", "steel" ],
     "symbol": ":",
     "color": "dark_gray",
     "location": "stock",
     "mod_targets": [ "smg", "rifle", "shotgun", "crossbow", "launcher" ],
-    "min_skills": [ [ "gun", 2 ] ],
     "dispersion_modifier": -30,
-    "recoil_modifier": -30
+    "recoil_modifier": -30,
+    "min_skills": [ [ "weapon", 2 ] ]
   },
   {
     "id": "folding_stock",
@@ -33,7 +33,7 @@
     "color": "dark_gray",
     "location": "stock",
     "mod_targets": [ "smg", "rifle", "shotgun", "launcher" ],
-    "min_skills": [ [ "gun", 2 ] ],
+    "min_skills": [ [ "weapon", 3 ] ],
     "flags": [ "SLOW_WIELD", "COLLAPSIBLE_STOCK" ]
   },
   {
@@ -49,9 +49,9 @@
     "color": "dark_gray",
     "location": "stock",
     "mod_targets": [ "pistol", "crossbow" ],
-    "min_skills": [ [ "gun", 2 ] ],
     "dispersion_modifier": -15,
-    "recoil_modifier": -75
+    "recoil_modifier": -75,
+    "min_skills": [ [ "weapon", 2 ] ]
   },
   {
     "id": "recoil_stock",
@@ -62,14 +62,14 @@
     "volume": 2,
     "integral_volume": 0,
     "price": 400,
-    "bashing": 6,
     "to_hit": 1,
+    "bashing": 6,
     "material": [ "plastic", "steel" ],
     "symbol": ":",
     "color": "dark_gray",
     "location": "stock",
     "mod_targets": [ "smg", "rifle", "shotgun", "launcher" ],
-    "min_skills": [ [ "gun", 3 ] ],
-    "recoil_modifier": -90
+    "recoil_modifier": -90,
+    "min_skills": [ [ "weapon", 2 ] ]
   }
 ]

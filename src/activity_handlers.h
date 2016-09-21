@@ -20,10 +20,12 @@ void make_zlave_finish( player_activity *act, player *p );
 void pickaxe_do_turn( player_activity *act, player *p );
 void pickaxe_finish( player_activity *act, player *p );
 void pickup_finish( player_activity *act, player *p );
+void drop_do_turn( player_activity *act, player *p );
+void stash_do_turn( player_activity *act, player *p );
 void pulp_do_turn( player_activity *act, player *p );
 void reload_finish( player_activity *act, player *p );
 void start_fire_finish( player_activity *act, player *p );
-void start_fire_lens_do_turn( player_activity *act, player *p );
+void start_fire_do_turn( player_activity *act, player *p );
 void train_finish( player_activity *act, player *p );
 void vehicle_finish( player_activity *act, player *p );
 void vibe_do_turn( player_activity *act, player *p );
@@ -35,6 +37,8 @@ void open_gate_finish( player_activity *act, player * );
 void repair_item_finish( player_activity *act, player *p );
 void mend_item_finish( player_activity *act, player *p );
 void gunmod_add_finish( player_activity *act, player *p );
+void clear_rubble_finish( player_activity *act, player *p );
+void meditate_finish( player_activity *act, player *p );
 }
 
 #endif

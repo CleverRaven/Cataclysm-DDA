@@ -33,12 +33,12 @@
 #include <stdlib.h>
 #include <time.h>
 #include <math.h>
-#include <fstream>
 #include <vector>
 #include <sstream>
 #include <cstring>
 #include <ostream>
 #include <queue>
+#include <algorithm>
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_MAP_GEN) << __FILE__ << ":" << __LINE__ << ": "
 
@@ -622,7 +622,7 @@ void load_region_settings( JsonObject &jo )
                     std::set<std::string> keys = exjo.get_member_names();
                     for( const auto &key : keys ) {
                         if(key != "//" ) {
-                            if (ACTIVE_WORLD_OPTIONS["CLASSIC_ZOMBIES"]
+                            if (get_world_option<bool>( "CLASSIC_ZOMBIES" )
                                 && classic_extras.count(key) == 0) {
                                 continue;
                             }
@@ -679,6 +679,16 @@ void load_region_settings( JsonObject &jo )
             }
         }
     }
+
+    if ( ! jo.has_object("weather") ) {
+        if ( strict ) {
+            jo.throw_error("\"weather\": { ... } required for default");
+        }
+    } else {
+        JsonObject wjo = jo.get_object( "weather" );
+        new_region.weather = weather_generator::load( wjo );
+    }
+
     region_settings_map[new_region.id] = new_region;
 }
 
@@ -810,7 +820,7 @@ void apply_region_overlay(JsonObject &jo, regional_settings &region)
             std::set<std::string> extrakeys = extrasjo.get_member_names();
             for( const auto &key : extrakeys ) {
                 if( key != "//" ) {
-                    if (ACTIVE_WORLD_OPTIONS["CLASSIC_ZOMBIES"]
+                    if (get_world_option<bool>( "CLASSIC_ZOMBIES" )
                         && classic_extras.count(key) == 0) {
                         continue;
                     }
@@ -851,7 +861,7 @@ void apply_region_overlay(JsonObject &jo, regional_settings &region)
 
 overmap::overmap(int const x, int const y): loc(x, y), nullret(""), nullbool(false)
 {
-    const std::string rsettings_id = ACTIVE_WORLD_OPTIONS["DEFAULT_REGION"].getValue();
+    const std::string rsettings_id = get_world_option<std::string>( "DEFAULT_REGION" );
     t_regional_settings_map_citr rsit = region_settings_map.find( rsettings_id );
 
     if ( rsit == region_settings_map.end() ) {
@@ -1582,10 +1592,10 @@ std::tuple<char, nc_color, size_t> get_note_display_info(std::string const &note
     return result;
 }
 
-static bool get_weather_glyph( point const &pos, nc_color &ter_color, long &ter_sym )
+static bool get_weather_glyph( tripoint const &pos, nc_color &ter_color, long &ter_sym )
 {
     // Weather calculation is a bit expensive, so it's cached here.
-    static std::map<point, weather_type> weather_cache;
+    static std::map<tripoint, weather_type> weather_cache;
     static calendar last_weather_display = calendar::turn;
     if( last_weather_display != calendar::turn ) {
         last_weather_display = calendar::turn;
@@ -1593,8 +1603,9 @@ static bool get_weather_glyph( point const &pos, nc_color &ter_color, long &ter_
     }
     auto iter = weather_cache.find( pos );
     if( iter == weather_cache.end() ) {
-        auto const abs_ms_pos =  point( pos.x * SEEX * 2, pos.y * SEEY * 2 );
-        auto const weather = g->weather_gen->get_weather_conditions( abs_ms_pos, calendar::turn );
+        auto const abs_ms_pos =  tripoint( pos.x * SEEX * 2, pos.y * SEEY * 2, pos.z );
+        const auto &wgen = overmap_buffer.get_settings( pos.x, pos.y, pos.z ).weather;
+        auto const weather = wgen.get_weather_conditions( abs_ms_pos, calendar::turn, g->get_seed() );
         iter = weather_cache.insert( std::make_pair( pos, weather ) ).first;
     }
     switch( iter->second ) {
@@ -1679,8 +1690,12 @@ void overmap::draw(WINDOW *w, WINDOW *wbar, const tripoint &center,
     // seen status & terrain of center position
     bool csee = false;
     oter_id ccur_ter = "";
+    // Debug vision allows seeing everything
+    const bool has_debug_vision = g->u.has_trait( "DEBUG_NIGHTVISION" );
     // sight_points is hoisted for speed reasons.
-    int sight_points = g->u.overmap_sight_range( g->light_level( g->u.posz() ) );
+    const int sight_points = !has_debug_vision ?
+                             g->u.overmap_sight_range( g->light_level( g->u.posz() ) ) :
+                             100;
 
     std::string sZoneName;
     tripoint tripointZone = tripoint(-1, -1, -1);
@@ -1715,7 +1730,7 @@ void overmap::draw(WINDOW *w, WINDOW *wbar, const tripoint &center,
 
     // For use with place_special: cache the color and symbol of each submap
     // and record the bounds to optimize lookups below
-    std::unordered_map<point, std::pair<long, nc_color>> special_cache;
+    std::unordered_map<tripoint, std::pair<long, nc_color>> special_cache;
     point s_begin, s_end = point( 0, 0 );
     if( blink && uistate.place_special ) {
         for( const auto &s_ter : uistate.place_special->terrains ) {
@@ -1728,13 +1743,43 @@ void overmap::draw(WINDOW *w, WINDOW *wbar, const tripoint &center,
                 }
 
                 special_cache.insert( std::make_pair(
-                    point( rp.x, rp.y ),
+                    rp,
                     std::make_pair( oter.t().sym, oter.t().color ) ) );
 
                 s_begin.x = std::min( s_begin.x, rp.x );
                 s_begin.y = std::min( s_begin.y, rp.y );
                 s_end.x = std::max( s_end.x, rp.x );
                 s_end.y = std::max( s_end.y, rp.y );
+            }
+        }
+    }
+
+    // Cache NPCs since time to draw them is linear (per seen tile) with their count
+    struct npc_coloring {
+        nc_color color;
+        size_t count;
+    };
+    std::unordered_map<tripoint, npc_coloring> npc_color;
+    if( blink ) {
+        const auto &npcs = overmap_buffer.get_npcs_near_player( sight_points );
+        for( const npc *np : npcs ) {
+            if( np->posz() != z ) {
+                continue;
+            }
+
+            const tripoint pos = np->global_omt_location();
+            if( has_debug_vision || overmap_buffer.seen( pos.x, pos.y, pos.z ) ) {
+                auto iter = npc_color.find( pos );
+                nc_color np_color = np->basic_symbol_color();
+                if( iter == npc_color.end() ) {
+                    npc_color[ pos ] = { np_color, 1 };
+                } else {
+                    iter->second.count++;
+                    // Randomly change to new NPC's color
+                    if( iter->second.color != np_color && one_in( iter->second.count ) ) {
+                        iter->second.color = np_color;
+                    }
+                }
             }
         }
     }
@@ -1748,7 +1793,7 @@ void overmap::draw(WINDOW *w, WINDOW *wbar, const tripoint &center,
             nc_color ter_color = c_black;
             long ter_sym = ' ';
 
-            const bool see = overmap_buffer.seen(omx, omy, z);
+            const bool see = has_debug_vision || overmap_buffer.seen(omx, omy, z);
             if (see) {
                 // Only load terrain if we can actually see it
                 cur_ter = overmap_buffer.ter(omx, omy, z);
@@ -1762,7 +1807,7 @@ void overmap::draw(WINDOW *w, WINDOW *wbar, const tripoint &center,
                 // Display player pos, should always be visible
                 ter_color = g->u.symbol_color();
                 ter_sym   = '@';
-            } else if( data.debug_weather && get_weather_glyph( point( omx, omy ), ter_color, ter_sym ) ) {
+            } else if( data.debug_weather && get_weather_glyph( tripoint( omx, omy, z ), ter_color, ter_sym ) ) {
                 // ter_color and ter_sym have been set by get_weather_glyph
             } else if( data.debug_scent && get_scent_glyph( cur_pos, ter_color, ter_sym ) ) {
             } else if( blink && has_target && omx == target.x && omy == target.y ) {
@@ -1783,9 +1828,9 @@ void overmap::draw(WINDOW *w, WINDOW *wbar, const tripoint &center,
                 ter_color = c_dkgray;
                 ter_sym   = '#';
                 // All cases below assume that see is true.
-            } else if (blink && overmap_buffer.has_npc(omx, omy, z)) {
-                // Display NPCs only when player can see the location
-                ter_color = c_pink;
+            } else if( blink && npc_color.count( cur_pos ) != 0 ) {
+                // Visible NPCs are cached already
+                ter_color = npc_color[ cur_pos ].color;
                 ter_sym   = '@';
             } else if (blink && los && overmap_buffer.has_horde(omx, omy, z)) {
                 // Display Hordes only when within player line-of-sight
@@ -1878,7 +1923,7 @@ void overmap::draw(WINDOW *w, WINDOW *wbar, const tripoint &center,
                 } else if( blink && uistate.place_special ) {
                     if( omx - cursx >= s_begin.x && omx - cursx <= s_end.x &&
                         omy - cursy >= s_begin.y && omy - cursy <= s_end.y ) {
-                        auto sm = special_cache.find( point( omx - cursx, omy - cursy ) );
+                        auto sm = special_cache.find( tripoint( omx - cursx, omy - cursy, z ) );
                         if( sm != special_cache.end() ) {
                             ter_color = sm->second.second;
                             ter_sym = sm->second.first;
@@ -1936,37 +1981,38 @@ void overmap::draw(WINDOW *w, WINDOW *wbar, const tripoint &center,
         }
     }
 
-    std::vector<std::string> corner_text;
+    std::vector<std::pair<nc_color, std::string>> corner_text;
 
     std::string const &note_text = overmap_buffer.note(cursx, cursy, z);
     if (!note_text.empty()) {
         size_t const pos = std::get<2>(get_note_display_info(note_text));
         if (pos != std::string::npos) {
-            corner_text.emplace_back(note_text.substr(pos));
+            corner_text.emplace_back( c_yellow, note_text.substr(pos) );
         }
     }
 
     for( const auto &npc : overmap_buffer.get_npcs_near_omt(cursx, cursy, z, 0) ) {
         if( !npc->marked_for_death ) {
-            corner_text.emplace_back( npc->name );
+            corner_text.emplace_back( npc->basic_symbol_color(), npc->name );
         }
     }
 
     for( auto &v : overmap_buffer.get_vehicle(cursx, cursy, z) ) {
-        corner_text.emplace_back( v.name );
+        corner_text.emplace_back( c_white, v.name );
     }
 
     if( !corner_text.empty() ) {
         int maxlen = 0;
         for (auto const &line : corner_text) {
-            maxlen = std::max( maxlen, utf8_width(line) );
+            maxlen = std::max( maxlen, utf8_width( line.second ) );
         }
 
         const std::string spacer(maxlen, ' ');
         for( size_t i = 0; i < corner_text.size(); i++ ) {
+            const auto &pr = corner_text[ i ];
             // clear line, print line, print vertical line at the right side.
             mvwprintz( w, i, 0, c_yellow, spacer.c_str() );
-            mvwprintz( w, i, 0, c_yellow, "%s", corner_text[i].c_str() );
+            mvwprintz( w, i, 0, pr.first, "%s", pr.second.c_str() );
             mvwputch( w, i, maxlen, c_white, LINE_XOXO );
         }
         for (int i = 0; i <= maxlen; i++) {
@@ -2576,7 +2622,7 @@ void overmap::move_hordes()
     zg.insert( tmpzg.begin(), tmpzg.end() );
 
 
-    if(ACTIVE_WORLD_OPTIONS["WANDER_SPAWNS"]) {
+    if(get_world_option<bool>( "WANDER_SPAWNS" ) ) {
         static const mongroup_id GROUP_ZOMBIE("GROUP_ZOMBIE");
 
         // Re-absorb zombies into hordes.
@@ -2850,11 +2896,11 @@ spawns happen at... <cue Clue music>
 20:56 <kevingranade>: game:pawn_mon() in game.cpp:7380*/
 void overmap::place_cities()
 {
-    int op_city_size = int(ACTIVE_WORLD_OPTIONS["CITY_SIZE"]);
+    int op_city_size = get_world_option<int>( "CITY_SIZE" );
     if( op_city_size <= 0 ) {
         return;
     }
-    int op_city_spacing = int(ACTIVE_WORLD_OPTIONS["CITY_SPACING"]);
+    int op_city_spacing = get_world_option<int>( "CITY_SPACING" );
 
     // spacing dictates how much of the map is covered in cities
     //   city  |  cities  |   size N cities per overmap
@@ -3271,6 +3317,7 @@ struct node
     node( int xp, int yp, int dir, int pri ) {
         x = xp; y = yp; d = dir; p = pri;
     }
+    // Operator overload required by priority queue interface.
     bool operator< ( const node &n ) const {
         return this->p > n.p;
     }
@@ -3950,7 +3997,7 @@ bool overmap::allow_special(const overmap_special& special, const tripoint& p, i
 
 void overmap::place_specials()
 {
-    const bool CLASSIC_ZOMBIES = ACTIVE_WORLD_OPTIONS["CLASSIC_ZOMBIES"];
+    const bool CLASSIC_ZOMBIES = get_world_option<bool>( "CLASSIC_ZOMBIES" );
     /*
     This function uses pointers in to the @ref overmap_specials container.
     The pointers are assumed to be stable (overmap_specials should not be change during this
@@ -4157,7 +4204,7 @@ void overmap::place_mongroups()
 {
     // Cities are full of zombies
     for( auto &elem : cities ) {
-        if( ACTIVE_WORLD_OPTIONS["WANDER_SPAWNS"] ) {
+        if( get_world_option<bool>( "WANDER_SPAWNS" ) ) {
             if( !one_in( 16 ) || elem.s > 5 ) {
                 mongroup m( mongroup_id( "GROUP_ZOMBIE" ), ( elem.x * 2 ), ( elem.y * 2 ), 0, int( elem.s * 2.5 ),
                             elem.s * 80 );
@@ -4167,13 +4214,13 @@ void overmap::place_mongroups()
                 add_mon_group( m );
             }
         }
-        if( !ACTIVE_WORLD_OPTIONS["STATIC_SPAWN"] ) {
+        if( !get_world_option<bool>( "STATIC_SPAWN" ) ) {
             add_mon_group( mongroup( mongroup_id( "GROUP_ZOMBIE" ), ( elem.x * 2 ), ( elem.y * 2 ), 0,
                                      int( elem.s * 2.5 ), elem.s * 80 ) );
         }
     }
 
-    if (!ACTIVE_WORLD_OPTIONS["CLASSIC_ZOMBIES"]) {
+    if (!get_world_option<bool>( "CLASSIC_ZOMBIES" ) ) {
         // Figure out where swamps are, and place swamp monsters
         for (int x = 3; x < OMAPX - 3; x += 7) {
             for (int y = 3; y < OMAPY - 3; y += 7) {
@@ -4192,7 +4239,7 @@ void overmap::place_mongroups()
         }
     }
 
-    if (!ACTIVE_WORLD_OPTIONS["CLASSIC_ZOMBIES"]) {
+    if (!get_world_option<bool>( "CLASSIC_ZOMBIES" ) ) {
         // Figure out where rivers are, and place swamp monsters
         for (int x = 3; x < OMAPX - 3; x += 7) {
             for (int y = 3; y < OMAPY - 3; y += 7) {
@@ -4211,7 +4258,7 @@ void overmap::place_mongroups()
         }
     }
 
-    if (!ACTIVE_WORLD_OPTIONS["CLASSIC_ZOMBIES"]) {
+    if (!get_world_option<bool>( "CLASSIC_ZOMBIES" ) ) {
         // Place the "put me anywhere" groups
         int numgroups = rng(0, 3);
         for (int i = 0; i < numgroups; i++) {
@@ -4282,17 +4329,10 @@ void overmap::open()
 {
     std::string const plrfilename = overmapbuffer::player_filename(loc.x, loc.y);
     std::string const terfilename = overmapbuffer::terrain_filename(loc.x, loc.y);
-    std::ifstream fin;
 
-    fin.open(terfilename.c_str(), std::ifstream::binary);
-    if( fin.is_open() ) {
-        unserialize(fin);
-        fin.close();
-        fin.open(plrfilename, std::ifstream::binary);
-        if( fin.is_open() ) {
-            unserialize_view(fin);
-            fin.close();
-        }
+    using namespace std::placeholders;
+    if( read_from_file_optional( terfilename, std::bind( &overmap::unserialize, this, _1 ) ) ) {
+        read_from_file_optional( plrfilename, std::bind( &overmap::unserialize_view, this, _1 ) );
     } else { // No map exists!  Prepare neighbors, and generate one.
         std::vector<const overmap*> pointers;
         // Fetch south and north
@@ -4537,7 +4577,7 @@ void regional_settings::setup()
         city_spec.shops.apply(&setup_oter);
         city_spec.parks.apply(&setup_oter);
         default_groundcover_str.reset();
-        optionsdata.add_value("DEFAULT_REGION", id );
+        get_options().add_value("DEFAULT_REGION", id );
     }
 }
 

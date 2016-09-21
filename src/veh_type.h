@@ -6,6 +6,8 @@
 #include "enums.h"
 #include "color.h"
 #include "damage.h"
+#include "calendar.h"
+#include "units.h"
 
 #include <vector>
 #include <bitset>
@@ -25,6 +27,13 @@ struct vehicle_item_spawn;
 struct quality;
 using quality_id = string_id<quality>;
 typedef int nc_color;
+class Character;
+
+struct requirement_data;
+using requirement_id = string_id<requirement_data>;
+
+class Skill;
+using skill_id = string_id<Skill>;
 
 // bitmask backing store of -certian- vpart_info.flags, ones that
 // won't be going away, are involved in core functionality, and are checked frequently
@@ -119,13 +128,40 @@ class vpart_info
         itype_id fuel_type = "null";
 
         /** Volume of a foldable part when folded */
-        int folded_volume = 0;
+        units::volume folded_volume = 0;
 
         /** Cargo location volume */
-        int size = 0;
+        units::volume size = 0;
 
         /** Mechanics skill required to install item */
         int difficulty = 0;
+
+        /** Legacy parts don't specify installation requirements */
+        bool legacy = true;
+
+        /** Installation requirements for this component */
+        requirement_data install_requirements() const;
+
+        /** Required skills to install this component */
+        std::map<skill_id, int> install_skills;
+
+        /** Installation time (in moves) for component (@see install_time), default 1 hour */
+        int install_moves = MOVES( HOURS( 1 ) );
+
+        /** Installation time (in moves) for this component accounting for player skills */
+        int install_time( const Character &ch ) const;
+
+        /** Requirements for removal of this component */
+        requirement_data removal_requirements() const;
+
+        /** Required skills to remove this component */
+        std::map<skill_id, int> removal_skills;
+
+        /** Removal time (in moves) for component (@see removal_time), default is half @ref install_moves */
+        int removal_moves = -1;
+
+        /** Removal time (in moves) for this component accounting for player skills */
+        int removal_time( const Character &ch ) const;
 
         /** @ref item_group this part breaks into when destroyed */
         std::string breaks_into_group = "EMPTY_GROUP";
@@ -145,6 +181,11 @@ class vpart_info
 
         std::set<std::string> flags;    // flags
         std::bitset<NUM_VPFLAGS> bitflags; // flags checked so often that things slow down due to string cmp
+
+        /** Second field is the multiplier */
+        std::vector<std::pair<requirement_id, int>> install_reqs;
+        std::vector<std::pair<requirement_id, int>> removal_reqs;
+
     public:
 
         int z_order;        // z-ordering, inferred from location, cached here
@@ -158,7 +199,7 @@ class vpart_info
         }
         void set_flag( const std::string &flag );
 
-        static void load( JsonObject &jo );
+        static void load( JsonObject &jo, const std::string &src );
         static void finalize();
         static void check();
         static void reset();
@@ -182,8 +223,16 @@ struct vehicle_item_spawn {
  * is a nullptr. Creating a new vehicle copies the blueprint vehicle.
  */
 struct vehicle_prototype {
+    struct part_def {
+        point pos;
+        vpart_str_id part;
+        int with_ammo = 0;
+        std::set<itype_id> ammo_types;
+        std::pair<int, int> ammo_qty = { -1, -1 };
+    };
+
     std::string name;
-    std::vector<std::pair<point, vpart_str_id> > parts;
+    std::vector<part_def> parts;
     std::vector<vehicle_item_spawn> item_spawns;
 
     std::unique_ptr<vehicle> blueprint;

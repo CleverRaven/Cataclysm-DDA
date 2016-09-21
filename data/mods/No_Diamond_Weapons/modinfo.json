@@ -1,0 +1,30 @@
+[
+{
+    "type": "MOD_INFO",
+    "mod-type": "SUPPLEMENTAL",
+    "ident": "No_Diamond_Weapons",
+    "name": "No Diamond Weapons",
+    "author": "nikheizen",
+    "description": "Removes diamond weapons.",
+    "category": "item_exclude",
+    "path": "modinfo.json"
+},{
+    "type": "ITEM_BLACKLIST",
+    "items": [
+        "diamond_bayonet",
+        "diamond_broadsword",
+        "diamond_katana",
+        "diamond_knife",
+        "diamond_kukri",
+        "diamond_machete",
+        "diamond_nodachi",
+        "diamond_pistol_bayonet",
+        "diamond_rapier",
+        "diamond_sword_bayonet",
+        "diamond_wakizashi",
+        "diamond_zweihander",
+        "diamond_punch_dagger",
+        "recipe_lab_cvd"
+    ]
+}
+]

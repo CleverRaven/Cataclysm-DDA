@@ -140,20 +140,20 @@ class Item_factory
          * @throw std::string if the json object contains invalid data.
          */
         /*@{*/
-        void load_ammo( JsonObject &jo );
-        void load_gun( JsonObject &jo );
-        void load_armor( JsonObject &jo );
-        void load_tool( JsonObject &jo );
-        void load_tool_armor( JsonObject &jo );
-        void load_book( JsonObject &jo );
-        void load_comestible( JsonObject &jo );
-        void load_container( JsonObject &jo );
-        void load_engine( JsonObject &jo );
-        void load_wheel( JsonObject &jo );
-        void load_gunmod( JsonObject &jo );
-        void load_magazine( JsonObject &jo );
-        void load_generic( JsonObject &jo );
-        void load_bionic( JsonObject &jo );
+        void load_ammo( JsonObject &jo, const std::string &src );
+        void load_gun( JsonObject &jo, const std::string &src );
+        void load_armor( JsonObject &jo, const std::string &src );
+        void load_tool( JsonObject &jo, const std::string &src );
+        void load_tool_armor( JsonObject &jo, const std::string &src );
+        void load_book( JsonObject &jo, const std::string &src );
+        void load_comestible( JsonObject &jo, const std::string &src );
+        void load_container( JsonObject &jo, const std::string &src );
+        void load_engine( JsonObject &jo, const std::string &src );
+        void load_wheel( JsonObject &jo, const std::string &src );
+        void load_gunmod( JsonObject &jo, const std::string &src );
+        void load_magazine( JsonObject &jo, const std::string &src );
+        void load_generic( JsonObject &jo, const std::string &src );
+        void load_bionic( JsonObject &jo, const std::string &src );
         /*@}*/
 
         /** called after all JSON has been read and performs any necessary cleanup tasks */
@@ -274,14 +274,14 @@ class Item_factory
          * Called before creating a new template and handles inheritance via copy-from
          * May defer instantiation of the template if depends on other objects not as-yet loaded
          */
-        itype *load_definition( JsonObject &jo );
+        itype *load_definition( JsonObject &jo, const std::string &src );
 
         /**
          * Load the data of the slot struct. It creates the slot object (of type SlotType) and
          * and calls @ref load to do the actual (type specific) loading.
          */
         template<typename SlotType>
-        void load_slot( std::unique_ptr<SlotType> &slotptr, JsonObject &jo );
+        void load_slot( std::unique_ptr<SlotType> &slotptr, JsonObject &jo, const std::string &src );
         /**
          * Load item the item slot if present in json.
          * Checks whether the json object has a member of the given name and if so, loads the item
@@ -289,25 +289,24 @@ class Item_factory
          */
         template<typename SlotType>
         void load_slot_optional( std::unique_ptr<SlotType> &slotptr, JsonObject &jo,
+                                 const std::string &member, const std::string &src );
 
-                                 const std::string &member );
-
-        void load( islot_tool &slot, JsonObject &jo );
-        void load( islot_container &slot, JsonObject &jo );
-        void load( islot_comestible &slot, JsonObject &jo );
-        void load( islot_brewable &slot, JsonObject &jo );
-        void load( islot_armor &slot, JsonObject &jo );
-        void load( islot_book &slot, JsonObject &jo );
-        void load( islot_engine &slot, JsonObject &jo );
-        void load( islot_wheel &slot, JsonObject &jo );
-        void load( islot_gun &slot, JsonObject &jo );
-        void load( islot_gunmod &slot, JsonObject &jo );
-        void load( islot_magazine &slot, JsonObject &jo );
-        void load( islot_bionic &slot, JsonObject &jo );
-        void load( islot_spawn &slot, JsonObject &jo );
-        void load( islot_ammo &slot, JsonObject &jo );
-        void load( islot_seed &slot, JsonObject &jo );
-        void load( islot_artifact &slot, JsonObject &jo );
+        void load( islot_tool &slot, JsonObject &jo, const std::string &src );
+        void load( islot_container &slot, JsonObject &jo, const std::string &src );
+        void load( islot_comestible &slot, JsonObject &jo, const std::string &src );
+        void load( islot_brewable &slot, JsonObject &jo, const std::string &src );
+        void load( islot_armor &slot, JsonObject &jo, const std::string &src );
+        void load( islot_book &slot, JsonObject &jo, const std::string &src );
+        void load( islot_engine &slot, JsonObject &jo, const std::string &src );
+        void load( islot_wheel &slot, JsonObject &jo, const std::string &src );
+        void load( islot_gun &slot, JsonObject &jo, const std::string &src );
+        void load( islot_gunmod &slot, JsonObject &jo, const std::string &src );
+        void load( islot_magazine &slot, JsonObject &jo, const std::string &src );
+        void load( islot_bionic &slot, JsonObject &jo, const std::string &src );
+        void load( islot_spawn &slot, JsonObject &jo, const std::string &src );
+        void load( islot_ammo &slot, JsonObject &jo, const std::string &src );
+        void load( islot_seed &slot, JsonObject &jo, const std::string &src );
+        void load( islot_artifact &slot, JsonObject &jo, const std::string &src );
 
         // used to add the default categories
         void add_category( const std::string &id, int sort_rank, const std::string &name );
@@ -315,24 +314,19 @@ class Item_factory
         //json data handlers
         void set_use_methods_from_json( JsonObject &jo, std::string member,
                                         std::map<std::string, use_function> &use_methods );
-        use_function use_from_string( const std::string &type );
-        void set_uses_from_object( JsonObject &obj, std::map<std::string, use_function> &methods );
+
+        use_function usage_from_string( const std::string &type ) const;
+
+        std::pair<std::string, use_function> usage_from_object( JsonObject &obj ) const;
 
         void add_entry( Item_group *sg, JsonObject &obj );
         void load_item_group_entries( Item_group &ig, JsonArray &entries );
 
-        void load_basic_info( JsonObject &jo, itype *new_item );
+        void load_basic_info( JsonObject &jo, itype *new_item, const std::string &src );
         void tags_from_json( JsonObject &jo, std::string member, std::set<std::string> &tags );
         void set_qualities_from_json( JsonObject &jo, std::string member, itype *new_item );
         void set_properties_from_json( JsonObject &jo, std::string member, itype *new_item );
 
-        // Currently only used for body part stuff, if used for anything else in the future bitset size may need to be increased.
-        std::bitset<num_bp> flags_from_json( JsonObject &jo, const std::string &member,
-                                             std::string flag_type = "" );
-
-        //Currently only used to body_part stuff, bitset size might need to be increased in the future
-        void set_flag_by_string( std::bitset<num_bp> &cur_flags, const std::string &new_flag,
-                                 const std::string &flag_type );
         void clear();
         void init();
 
@@ -344,8 +338,11 @@ class Item_factory
         void add_iuse( const std::string &type, const use_function_pointer f );
         void add_actor( iuse_actor *ptr );
 
-        /** JSON data dependent upon as-yet unparsed definitions */
-        std::list<std::string> deferred;
+        /**
+         * JSON data dependent upon as-yet unparsed definitions
+         * first: JSON data, second: source identifier
+         */
+        std::list<std::pair<std::string, std::string>> deferred;
 
         std::map<itype_id, migration> migrations;
 };

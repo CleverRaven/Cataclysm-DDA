@@ -25,6 +25,8 @@ const string_id<furn_t> string_id<furn_t>::NULL_ID( "f_null", 0 );
 namespace
 {
 
+const units::volume DEFAULT_MAX_VOLUME_IN_SQUARE = units::from_liter( 1000 );
+
 generic_factory<ter_t> terrain_data( "terrain", "id", "aliases" );
 generic_factory<furn_t> furniture_data( "furniture", "id", "aliases" );
 
@@ -154,6 +156,7 @@ static const std::unordered_map<std::string, ter_connects> ter_connects_map = { 
     { "CHAINFENCE",               TERCONN_CHAINFENCE },
     { "WOODFENCE",                TERCONN_WOODFENCE },
     { "RAILING",                  TERCONN_RAILING },
+    { "WATER",                    TERCONN_WATER },
 } };
 
 void load_map_bash_tent_centers( JsonArray ja, std::vector<std::string> &centers ) {
@@ -240,7 +243,7 @@ furn_t null_furniture_t() {
   new_furniture.transparent = true;
   new_furniture.set_flag("TRANSPARENT");
   new_furniture.examine = iexamine_function_from_string("none");
-  new_furniture.max_volume = MAX_VOLUME_IN_SQUARE;
+  new_furniture.max_volume = DEFAULT_MAX_VOLUME_IN_SQUARE;
   return new_furniture;
 }
 
@@ -256,59 +259,56 @@ ter_t null_terrain_t() {
   new_terrain.set_flag("TRANSPARENT");
   new_terrain.set_flag("DIGGABLE");
   new_terrain.examine = iexamine_function_from_string("none");
-  new_terrain.max_volume = MAX_VOLUME_IN_SQUARE;
+  new_terrain.max_volume = DEFAULT_MAX_VOLUME_IN_SQUARE;
   return new_terrain;
 }
 
-long string_to_symbol( JsonIn &js )
-{
-    const std::string s = js.get_string();
-    if( s == "LINE_XOXO" ) {
-        return LINE_XOXO;
-    } else if( s == "LINE_OXOX" ) {
-        return LINE_OXOX;
-    } else if( s.length() != 1 ) {
-        js.error( "Symbol string must be exactly 1 character long." );
-    }
-    return s[0];
-}
-
 template<typename C, typename F>
-void load_season_array( JsonIn &js, C &container, F load_func )
+void load_season_array( JsonObject &jo, const std::string &key, C &container, F load_func )
 {
-    if( js.test_array() ) {
-        js.start_array();
-        for( auto &season_entry : container ) {
-            season_entry = load_func( js );
-            js.end_array(); // consume separator
+    if( jo.has_string( key ) ) {
+        container.fill( load_func( jo.get_string( key ) ) );
+
+    } else if( jo.has_array( key ) ) {
+        auto arr = jo.get_array( key );
+        if( arr.size() == 1 ) {
+            container.fill( load_func( arr.get_string( 0 ) ) );
+
+        } else if( arr.size() == container.size() ) {
+            for( auto &e : container ) {
+                e = load_func( arr.next_string() );
+            }
+
+        } else {
+            jo.throw_error( "Incorrect number of entries", key );
         }
+
     } else {
-        container.fill( load_func( js ) );
+        jo.throw_error( "Expected string or array", key );
     }
-}
-
-nc_color bgcolor_from_json( JsonIn &js)
-{
-    return bgcolor_from_string( js.get_string() );
-}
-
-nc_color color_from_json( JsonIn &js)
-{
-    return color_from_string( js.get_string() );
 }
 
 void map_data_common_t::load_symbol( JsonObject &jo )
 {
-    load_season_array( *jo.get_raw( "symbol" ), symbol_, string_to_symbol );
+    load_season_array( jo, "symbol", symbol_, [&jo]( const std::string &str ) {
+        if( str == "LINE_XOXO" ) {
+            return LINE_XOXO;
+        } else if( str == "LINE_OXOX" ) {
+            return LINE_OXOX;
+        } else if( str.length() != 1 ) {
+            jo.throw_error( "Symbol string must be exactly 1 character long.", "symbol" );
+        }
+        return (int) str[0];
+    } );
 
     const bool has_color = jo.has_member( "color" );
     const bool has_bgcolor = jo.has_member( "bgcolor" );
     if( has_color && has_bgcolor ) {
         jo.throw_error( "Found both color and bgcolor, only one of these is allowed." );
     } else if( has_color ) {
-        load_season_array( *jo.get_raw( "color" ), color_, color_from_json );
+        load_season_array( jo, "color", color_, color_from_string );
     } else if( has_bgcolor ) {
-        load_season_array( *jo.get_raw( "bgcolor" ), color_, bgcolor_from_json );
+        load_season_array( jo, "bgcolor", color_, bgcolor_from_string );
     } else {
         jo.throw_error( "Missing member: one of: \"color\", \"bgcolor\" must exist." );
     }
@@ -402,6 +402,8 @@ ter_id t_null,
     t_wall_glass,
     t_wall_glass_alarm,
     t_reinforced_glass,
+    t_reinforced_door_glass_o,
+    t_reinforced_door_glass_c,
     t_bars,
     t_wall_r,t_wall_w,t_wall_b,t_wall_g,t_wall_p,t_wall_y,
     t_door_c, t_door_c_peep, t_door_b, t_door_b_peep, t_door_o, t_door_o_peep, t_rdoor_c, t_rdoor_b, t_rdoor_o,t_door_locked_interior, t_door_locked, t_door_locked_peep, t_door_locked_alarm, t_door_frame,
@@ -519,6 +521,8 @@ void set_ter_ids() {
     t_wall_glass = ter_id( "t_wall_glass" );
     t_wall_glass_alarm = ter_id( "t_wall_glass_alarm" );
     t_reinforced_glass = ter_id( "t_reinforced_glass" );
+    t_reinforced_door_glass_c = ter_id( "t_reinforced_door_glass_c" );
+    t_reinforced_door_glass_o = ter_id( "t_reinforced_door_glass_o" );
     t_bars = ter_id( "t_bars" );
     t_wall_b = ter_id( "t_wall_b" );
     t_wall_g = ter_id( "t_wall_g" );
@@ -877,7 +881,7 @@ void ter_t::load( JsonObject &jo )
 {
     mandatory( jo, was_loaded, "name", name, translated_string_reader );
     mandatory( jo, was_loaded, "move_cost", movecost );
-    optional( jo, was_loaded, "max_volume", max_volume, MAX_VOLUME_IN_SQUARE );
+    optional( jo, was_loaded, "max_volume", max_volume, legacy_volume_reader, DEFAULT_MAX_VOLUME_IN_SQUARE );
     optional( jo, was_loaded, "trap", trap_id_str );
 
     load_symbol( jo );
@@ -992,7 +996,7 @@ void furn_t::load( JsonObject &jo )
     mandatory( jo, was_loaded, "name", name, translated_string_reader );
     mandatory( jo, was_loaded, "move_cost_mod", movecost );
     mandatory( jo, was_loaded, "required_str", move_str_req );
-    optional( jo, was_loaded, "max_volume", max_volume, MAX_VOLUME_IN_SQUARE );
+    optional( jo, was_loaded, "max_volume", max_volume, legacy_volume_reader, DEFAULT_MAX_VOLUME_IN_SQUARE );
     optional( jo, was_loaded, "crafting_pseudo_item", crafting_pseudo_item, "" );
 
     load_symbol( jo );

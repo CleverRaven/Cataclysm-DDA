@@ -97,7 +97,7 @@ static int has_quality_from_vpart( const vehicle& veh, int part, const quality_i
     for( const auto &n : veh.parts_at_relative( pos.x, pos.y ) ) {
 
         // only unbroken parts can provide tool qualities
-        if( veh.parts[ n ].hp > 0 ) {
+        if( !veh.parts[ n ].is_broken() ) {
             auto tq = veh.part_info( n ).qualities;
             auto iter = tq.find( qual );
 
@@ -176,7 +176,7 @@ static int max_quality_from_vpart( const vehicle& veh, int part, const quality_i
     for( const auto &n : veh.parts_at_relative( pos.x, pos.y ) ) {
 
         // only unbroken parts can provide tool qualities
-        if( veh.parts[ n ].hp > 0 ) {
+        if( !veh.parts[ n ].is_broken() ) {
             auto tq = veh.part_info( n ).qualities;
             auto iter = tq.find( qual );
 
@@ -430,19 +430,17 @@ item visitable<T>::remove_item( item& it ) {
     }
 }
 
-template <typename OutputIterator>
 static void remove_internal( const std::function<bool( item & )> &filter, item &node, int &count,
-                             OutputIterator out )
+                             std::list<item> &res )
 {
     for( auto it = node.contents.begin(); it != node.contents.end(); ) {
         if( filter( *it ) ) {
-            out = std::move( *it );
-            it = node.contents.erase( it );
+            res.splice( res.end(), node.contents, it++ );
             if( --count == 0 ) {
                 return;
             }
         } else {
-            remove_internal( filter, *it, count, out );
+            remove_internal( filter, *it, count, res );
             ++it;
         }
     }
@@ -459,7 +457,7 @@ std::list<item> visitable<item>::remove_items_with( const std::function<bool( co
         return res; // nothing to do
     }
 
-    remove_internal( filter, *it, count, std::back_inserter( res ) );
+    remove_internal( filter, *it, count, res );
     return res;
 }
 
@@ -475,38 +473,31 @@ std::list<item> visitable<inventory>::remove_items_with( const
         return res; // nothing to do
     }
 
-    for( auto stack = inv->items.begin(); stack != inv->items.end(); ) {
-        // all items in a stack are identical so we only need to call the predicate once
-        if( filter( stack->front() ) ) {
+    for( auto stack = inv->items.begin(); stack != inv->items.end() && count > 0; ) {
+        std::list<item> &istack = *stack;
+        const auto original_invlet = istack.front().invlet;
 
-            if( count >= int( stack->size() ) ) {
-                // remove the entire stack
-                count -= stack->size();
-                res.splice( res.end(), *stack );
-                stack = inv->items.erase( stack );
-                if( count == 0 ) {
-                    return res;
+        for( auto istack_iter = istack.begin(); istack_iter != istack.end() && count > 0; ) {
+            if( filter( *istack_iter ) ) {
+                count--;
+                res.splice( res.end(), istack, istack_iter++ );
+                // The non-first items of a stack may have different invlets, the code
+                // in inventory only ever checks the invlet of the first item. This
+                // ensures that the first item of a stack always has the same invlet, even
+                // after the orignal first item was removed.
+                if( istack_iter == istack.begin() && istack_iter != istack.end() ) {
+                    istack_iter->invlet = original_invlet;
                 }
 
             } else {
-                // remove only some of the stack
-                char invlet = stack->front().invlet;
-                auto fin = stack->begin();
-                std::advance( fin, count );
-                res.splice( res.end(), *stack, stack->begin(), fin );
-                stack->front().invlet = invlet; // preserve invlet for remaining stacked items
-                return res;
+                remove_internal( filter, *istack_iter, count, res );
+                ++istack_iter;
             }
+        }
 
+        if( istack.empty() ) {
+            stack = inv->items.erase( stack );
         } else {
-            // recurse through the contents of each stacked item separately
-            for( auto &e : *stack ) {
-                remove_internal( filter, e, count, std::back_inserter( res ) );
-                if( count == 0 ) {
-                    return res;
-                }
-            }
-
             ++stack;
         }
     }
@@ -540,7 +531,7 @@ std::list<item> visitable<Character>::remove_items_with( const
                 return res;
             }
         } else {
-            remove_internal( filter, *iter, count, std::back_inserter( res ) );
+            remove_internal( filter, *iter, count, res );
             if( count == 0 ) {
                 return res;
             }
@@ -553,7 +544,7 @@ std::list<item> visitable<Character>::remove_items_with( const
         res.push_back( ch->remove_weapon() );
         count--;
     } else {
-        remove_internal( filter, ch->weapon, count, std::back_inserter( res ) );
+        remove_internal( filter, ch->weapon, count, res );
     }
 
     return res;
@@ -596,7 +587,7 @@ std::list<item> visitable<map_cursor>::remove_items_with( const
                 return res;
             }
         } else {
-            remove_internal( filter, *iter, count, std::back_inserter( res ) );
+            remove_internal( filter, *iter, count, res );
             if( count == 0 ) {
                 return res;
             }
@@ -649,7 +640,7 @@ std::list<item> visitable<vehicle_cursor>::remove_items_with( const
                 return res;
             }
         } else {
-            remove_internal( filter, *iter, count, std::back_inserter( res ) );
+            remove_internal( filter, *iter, count, res );
             if( count == 0 ) {
                 return res;
             }
@@ -733,7 +724,7 @@ long visitable<Character>::charges_of( const std::string &what, int limit ) cons
         qty += charges_of( "UPS_off" );
         qty += charges_of( "adv_UPS_off" ) / 0.6;
         if ( p && p->has_active_bionic( "bio_ups" ) ) {
-            qty += p->power_level * 10;
+            qty += p->power_level;
         }
         return std::min( qty, long( limit ) );
     }

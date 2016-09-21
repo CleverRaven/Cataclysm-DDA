@@ -14,7 +14,6 @@
 #include <unordered_set>
 
 #include "json.h"
-#include <fstream>
 
 #define MOD_SEARCH_FILE "modinfo.json"
 
@@ -59,29 +58,13 @@ const std::map<std::string, std::string> &get_mod_list_cat_tab() {
 
 static void load_obsolete_mods( const std::string path )
 {
-    // info_file_path is the fully qualified path to the information file for this mod
-    std::ifstream infile( path.c_str(), std::ifstream::in | std::ifstream::binary );
-    if( !infile ) {
-        // fail silently?
-        return;
-    }
-    try {
-        JsonIn jsin( infile );
-        jsin.eat_whitespace();
-        char ch = jsin.peek();
-        if( ch == '[' ) {
-            jsin.start_array();
-            // find type and dispatch each object until array close
-            while (!jsin.end_array()) {
-                obsolete_mod_list.insert( jsin.get_string() );
-            }
-        } else {
-            // not an object or an array?
-            jsin.error( string_format( "expected array, but found '%c'", ch ) );
+    read_from_file_optional( path, [&]( JsonIn &jsin ) {
+        jsin.start_array();
+        // find type and dispatch each object until array close
+        while (!jsin.end_array()) {
+            obsolete_mod_list.insert( jsin.get_string() );
         }
-    } catch( const JsonError &e ) {
-        debugmsg("%s", e.c_str());
-    }
+    } );
 }
 
 mod_manager::mod_manager()
@@ -395,45 +378,26 @@ bool mod_manager::copy_mod_contents(const t_mod_list &mods_to_copy,
 
 void mod_manager::load_mod_info(std::string info_file_path)
 {
-    // info_file_path is the fully qualified path to the information file for this mod
-    std::ifstream infile(info_file_path.c_str(), std::ifstream::in | std::ifstream::binary);
-    if (!infile) {
-        // fail silently?
-        return;
-    }
-    std::istringstream iss(
-        std::string(
-            (std::istreambuf_iterator<char>(infile)),
-            std::istreambuf_iterator<char>()
-        )
-    );
-    infile.close();
     const std::string main_path = info_file_path.substr(0, info_file_path.find_last_of("/\\"));
-    try {
-        JsonIn jsin(iss);
-        jsin.eat_whitespace();
-        char ch = jsin.peek();
-        if (ch == '{') {
+    read_from_file_optional( info_file_path, [&]( JsonIn &jsin ) {
+        if( jsin.test_object() ) {
             // find type and dispatch single object
             JsonObject jo = jsin.get_object();
             load_modfile(jo, main_path);
             jo.finish();
-        } else if (ch == '[') {
+        } else if( jsin.test_array() ) {
             jsin.start_array();
             // find type and dispatch each object until array close
             while (!jsin.end_array()) {
-                jsin.eat_whitespace();
                 JsonObject jo = jsin.get_object();
                 load_modfile(jo, main_path);
                 jo.finish();
             }
         } else {
             // not an object or an array?
-            jsin.error( string_format( "expected array, but found '%c'", ch ) );
+            jsin.error( "expected array or object" );
         }
-    } catch( const JsonError &e ) {
-        debugmsg("%s", e.c_str());
-    }
+    } );
 }
 
 std::string mod_manager::get_mods_list_file(const WORLDPTR world)
@@ -466,14 +430,8 @@ void mod_manager::load_mods_list(WORLDPTR world) const
     }
     std::vector<std::string> &amo = world->active_mod_order;
     amo.clear();
-    std::ifstream mods_list_file( get_mods_list_file(world).c_str(),
-                                  std::ios::in | std::ios::binary );
-    if (!mods_list_file) {
-        return;
-    }
     bool obsolete_mod_found = false;
-    try {
-        JsonIn jsin(mods_list_file);
+    read_from_file_optional( get_mods_list_file( world ), [&]( JsonIn &jsin ) {
         JsonArray ja = jsin.get_array();
         while (ja.has_more()) {
             const std::string mod = ja.next_string();
@@ -487,9 +445,7 @@ void mod_manager::load_mods_list(WORLDPTR world) const
 
             amo.push_back(mod);
         }
-    } catch( const JsonError &e ) {
-        DebugLog( D_ERROR, DC_ALL ) << "worldfactory: loading mods list failed: " << e;
-    }
+    } );
     if( obsolete_mod_found ) {
         // If we found an obsolete mod, overwrite the mod list without the obsolete one.
         save_mods_list(world);

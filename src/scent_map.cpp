@@ -65,7 +65,7 @@ void scent_map::draw( WINDOW *const win, const int div, const tripoint &center )
     const int maxy = getmaxy( win );
     for( int x = 0; x < maxx; ++x ) {
         for( int y = 0; y < maxy; ++y ) {
-            const int sn = operator()( x + center.x - maxx / 2, y + center.y - maxy / 2 ) / div;
+            const int sn = get( x + center.x - maxx / 2, y + center.y - maxy / 2 ) / div;
             mvwprintz( win, y, x, sev( sn / 10 ), "%d", sn % 10 );
         }
     }
@@ -76,14 +76,14 @@ void scent_map::shift( const int sm_shift_x, const int sm_shift_y )
     scent_array<int> new_scent;
     for( size_t x = 0; x < SEEX * MAPSIZE; ++x ) {
         for( size_t y = 0; y < SEEY * MAPSIZE; ++y ) {
-            // operator() does bound checking and returns 0 upon invalid coordinates
-            new_scent[x][y] = operator()( x + sm_shift_x, y + sm_shift_y );
+            // get does bound checking and returns 0 upon invalid coordinates
+            new_scent[x][y] = get( x + sm_shift_x, y + sm_shift_y );
         }
     }
     grscent = new_scent;
 }
 
-int scent_map::operator()( const size_t x, const size_t y ) const
+int scent_map::get( const size_t x, const size_t y ) const
 {
     if( inbounds( x, y ) ) {
         return grscent[x][y];
@@ -91,13 +91,11 @@ int scent_map::operator()( const size_t x, const size_t y ) const
     return 0;
 }
 
-int &scent_map::operator()( const size_t x, const size_t y )
+void scent_map::set( const size_t x, const size_t y, int value )
 {
     if( inbounds( x, y ) ) {
-        return grscent[x][y];
+        grscent[x][y] = value;
     }
-    null_scent = 0;
-    return null_scent;
 }
 
 void scent_map::update( const tripoint &center, map &m )

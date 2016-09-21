@@ -237,7 +237,7 @@ std::map<std::string, std::vector<mapgen_function*> > oter_mapgen;
 std::map<std::string, std::map<int, int> > oter_mapgen_weights;
 
 /*
- * setup oter_mapgen_weights which which mapgen uses to diceroll. Also setup mapgen_function_json
+ * setup oter_mapgen_weights which mapgen uses to diceroll. Also setup mapgen_function_json
  */
 void calculate_mapgen_weights() { // todo; rename as it runs jsonfunction setup too
     oter_mapgen_weights.clear();
@@ -250,19 +250,18 @@ void calculate_mapgen_weights() { // todo; rename as it runs jsonfunction setup 
             int weight = (*fit)->weight;
             if ( weight < 1 ) {
                 dbg(D_INFO) << "wcalc " << oit->first << "(" << funcnum << "): (rej(1), " << weight << ") = " << wtotal;
-                funcnum++;
+                ++funcnum;
                 continue; // rejected!
             }
-            if ( ! (*fit)->setup() ) {
+            if( !(*fit)->setup() ) {
                 dbg(D_INFO) << "wcalc " << oit->first << "(" << funcnum << "): (rej(2), " << weight << ") = " << wtotal;
-                funcnum++;
-                continue; // disqualify! doesn't get to play in the pool
+                ++funcnum;
+				continue; // disqualify! doesn't get to play in the pool
             }
-            //
             wtotal += weight;
             oter_mapgen_weights[ oit->first ][ wtotal ] = funcnum;
             dbg(D_INFO) << "wcalc " << oit->first << "(" << funcnum << "): +" << weight << " = " << wtotal;
-            funcnum++;
+            ++funcnum;
         }
     }
 }
@@ -884,7 +883,7 @@ class jmapgen_loot : public jmapgen_piece {
                         e.contents.emplace_back( e.magazine_default(), e.bday );
                     }
                     if( spawn_ammo ) {
-                        e.ammo_set( default_ammo( e.ammo_type() ), e.ammo_capacity() );
+                        e.ammo_set( default_ammo( e.ammo_type() ) );
                     }
                 }
                 m.spawn_items( tripoint( rng( x.val, x.valmax ), rng( y.val, y.valmax ), m.get_abs_sub().z ), spawn );
@@ -1130,7 +1129,7 @@ void jmapgen_objects::load_objects<jmapgen_loot>( JsonArray parray )
         jmapgen_place where( jsi );
 
         auto loot = new jmapgen_loot( jsi );
-        auto rate = ACTIVE_WORLD_OPTIONS[ "ITEM_SPAWNRATE" ];
+        auto rate = get_world_option<float>( "ITEM_SPAWNRATE" );
 
         if( where.repeat.valmax != 1 ) {
             // if loot can repeat scale according to rate
@@ -1312,11 +1311,6 @@ bool mapgen_function_json::setup() {
     std::istringstream iss( jdata );
     try {
         JsonIn jsin(iss);
-        jsin.eat_whitespace();
-        char ch = jsin.peek();
-        if ( ch != '{' ) {
-            jsin.error( "Bad json" );
-        }
         JsonObject jo = jsin.get_object();
         bool qualifies = false;
         ter_str_id tmpval;
@@ -4118,39 +4112,58 @@ ff.......|....|WWWWWWWW|\n\
             ter_set(SEEX    , SEEY * 2 - 1, t_door_metal_c);
         }
 
+        int loot_variant; //only used for weapons testing variant.
         switch (rng(1, 7)) {
         case 1:
         case 2: // Weapons testing
+            loot_variant = rng(1, 100); //The variants have a 67/22/7/4 split.
             add_spawn(mon_secubot, 1,            6,            6);
             add_spawn(mon_secubot, 1, SEEX * 2 - 7,            6);
             add_spawn(mon_secubot, 1,            6, SEEY * 2 - 7);
             add_spawn(mon_secubot, 1, SEEX * 2 - 7, SEEY * 2 - 7);
-            madd_trap( this, SEEX - 2, SEEY - 2, tr_dissector);
-            madd_trap( this, SEEX + 1, SEEY - 2, tr_dissector);
-            madd_trap( this, SEEX - 2, SEEY + 1, tr_dissector);
-            madd_trap( this, SEEX + 1, SEEY + 1, tr_dissector);
-            if (!one_in(3)) {
-                spawn_item(SEEX - 1, SEEY - 1, "laser_pack", dice(4, 3));
-                spawn_item(SEEX    , SEEY - 1, "UPS_off");
-                spawn_item(SEEX    , SEEY - 1, "battery", dice(4, 3));
-                spawn_item(SEEX - 1, SEEY    , "v29");
-                spawn_item(SEEX - 1, SEEY    , "laser_rifle", dice (1, 0));
-                spawn_item(SEEX    , SEEY    , "ftk93");
-                spawn_item(SEEX - 1, SEEY    , "recipe_atomic_battery");
-                spawn_item(SEEX    , SEEY  -1, "solar_panel_v3"); //quantum solar panel, 5 panels in one!
-            } else if (!one_in(3)) {
-                spawn_item(SEEX - 1, SEEY - 1, "mininuke", dice(3, 6));
-                spawn_item(SEEX    , SEEY - 1, "mininuke", dice(3, 6));
-                spawn_item(SEEX - 1, SEEY    , "mininuke", dice(3, 6));
-                spawn_item(SEEX    , SEEY    , "mininuke", dice(3, 6));
-                spawn_item(SEEX    , SEEY    , "recipe_atomic_battery");
-                spawn_item(SEEX    , SEEY    , "solar_panel_v3"); //quantum solar panel, 5 panels in one!
-            }  else if (!one_in(3)) {
-                spawn_item(SEEX - 1, SEEY - 1, "rm13_armor");
-                spawn_item(SEEX    , SEEY - 1, "plut_cell");
-                spawn_item(SEEX - 1, SEEY    , "plut_cell");
-                spawn_item(SEEX    , SEEY    , "recipe_caseless");
-            } else {
+            spawn_item( SEEX - 4, SEEY - 2, "id_science" );
+            if(loot_variant <= 96) {
+                madd_trap( this, SEEX - 3, SEEY - 3, tr_dissector);
+                madd_trap( this, SEEX + 2, SEEY - 3, tr_dissector);
+                madd_trap( this, SEEX - 3, SEEY + 2, tr_dissector);
+                madd_trap( this, SEEX + 2, SEEY + 2, tr_dissector);
+                line(this, t_reinforced_glass, SEEX + 1, SEEY + 1, SEEX - 2, SEEY + 1);
+                line(this, t_reinforced_glass, SEEX - 2, SEEY    , SEEX - 2, SEEY - 2);
+                line(this, t_reinforced_glass, SEEX - 1, SEEY - 2, SEEX + 1, SEEY - 2);
+                ter_set (SEEX + 1, SEEY - 1, t_reinforced_glass);
+                ter_set (SEEX + 1, SEEY    , t_reinforced_door_glass_c);
+                furn_set(SEEX - 1, SEEY - 1, f_table);
+                furn_set(SEEX    , SEEY - 1, f_table);
+                furn_set(SEEX - 1, SEEY    , f_table);
+                furn_set(SEEX    , SEEY    , f_table);
+                if (loot_variant <= 67 ) {
+                    spawn_item(SEEX - 1, SEEY - 1, "laser_pack", dice(4, 3));
+                    spawn_item(SEEX    , SEEY - 1, "UPS_off");
+                    spawn_item(SEEX    , SEEY - 1, "battery", dice(4, 3));
+                    spawn_item(SEEX - 1, SEEY    , "v29");
+                    spawn_item(SEEX - 1, SEEY    , "laser_rifle", dice (1, 0));
+                    spawn_item(SEEX    , SEEY    , "ftk93");
+                    spawn_item(SEEX - 1, SEEY    , "recipe_atomic_battery");
+                    spawn_item(SEEX    , SEEY  -1, "solar_panel_v3"); //quantum solar panel, 6 panels in one!
+                } else if (loot_variant > 67 && loot_variant < 89) {
+                    spawn_item(SEEX - 1, SEEY - 1, "mininuke", dice(3, 6));
+                    spawn_item(SEEX    , SEEY - 1, "mininuke", dice(3, 6));
+                    spawn_item(SEEX - 1, SEEY    , "mininuke", dice(3, 6));
+                    spawn_item(SEEX    , SEEY    , "mininuke", dice(3, 6));
+                    spawn_item(SEEX    , SEEY    , "recipe_atomic_battery");
+                    spawn_item(SEEX    , SEEY    , "solar_panel_v3"); //quantum solar panel, 6 panels in one!
+                }  else { // loot_variant between 90 and 96.
+                    spawn_item(SEEX - 1, SEEY - 1, "rm13_armor");
+                    spawn_item(SEEX    , SEEY - 1, "plut_cell");
+                    spawn_item(SEEX - 1, SEEY    , "plut_cell");
+                    spawn_item(SEEX    , SEEY    , "recipe_caseless");
+                }
+            } else { // 4% of the lab ends will be this weapons testing end.
+                madd_trap( this, SEEX - 4, SEEY - 3, tr_dissector);
+                madd_trap( this, SEEX + 3, SEEY - 3, tr_dissector);
+                madd_trap( this, SEEX - 4, SEEY + 2, tr_dissector);
+                madd_trap( this, SEEX + 3, SEEY + 2, tr_dissector);
+
                 furn_set(SEEX - 2, SEEY - 1, f_rack);
                 furn_set(SEEX - 1, SEEY - 1, f_rack);
                 furn_set(SEEX    , SEEY - 1, f_rack);
@@ -4159,9 +4172,13 @@ ff.......|....|WWWWWWWW|\n\
                 furn_set(SEEX - 1, SEEY    , f_rack);
                 furn_set(SEEX    , SEEY    , f_rack);
                 furn_set(SEEX + 1, SEEY    , f_rack);
+                line(this, t_reinforced_door_glass_c, SEEX - 2, SEEY - 2, SEEX + 1, SEEY - 2);
+                line(this, t_reinforced_door_glass_c, SEEX - 2, SEEY + 1, SEEX + 1, SEEY + 1);
+                line(this, t_reinforced_glass, SEEX - 3, SEEY - 2, SEEX - 3, SEEY + 1);
+                line(this, t_reinforced_glass, SEEX + 2, SEEY - 2, SEEX + 2, SEEY + 1);
                 place_items("ammo_rare", 96, SEEX - 2, SEEY - 1, SEEX + 1, SEEY - 1, false, 0);
                 place_items("guns_rare", 96, SEEX - 2, SEEY, SEEX + 1, SEEY, false, 0);
-                spawn_item(SEEX + 1, SEEY    , "solar_panel_v3"); //quantum solar panel, 5 panels in one!
+                spawn_item(SEEX + 1, SEEY    , "solar_panel_v3"); //quantum solar panel, 6 panels in one!
             }
             break;
         case 3:
@@ -4196,6 +4213,8 @@ ff.......|....|WWWWWWWW|\n\
                     }
                 }
             }
+
+            spawn_item( SEEX - 1, 8, "id_science" );
             tmpcomp = add_computer( tripoint( SEEX,  8, abs_sub.z ), _("Sub-prime contact console"), 7);
             if(monsters_end) { //only add these options when there are monsters.
                 tmpcomp->add_option(_("Terminate Specimens"), COMPACT_TERMINATE, 2);
@@ -4230,6 +4249,7 @@ ff.......|....|WWWWWWWW|\n\
             line(this, t_reinforced_glass, SEEX - 2, SEEY + 1, SEEX + 1, SEEY + 1);
             line(this, t_reinforced_glass, SEEX - 2, SEEY - 1, SEEX - 2, SEEY);
             line(this, t_reinforced_glass, SEEX + 1, SEEY - 1, SEEX + 1, SEEY);
+            spawn_item( SEEX - 4, SEEY - 3, "id_science" );
             ter_set(SEEX - 3, SEEY - 3, t_console);
             tmpcomp = add_computer( tripoint( SEEX - 3,  SEEY - 3, abs_sub.z ), _("Bionic access"), 3);
             tmpcomp->add_option(_("Manifest"), COMPACT_LIST_BIONICS, 0);
@@ -4249,6 +4269,7 @@ ff.......|....|WWWWWWWW|\n\
             line(this, t_cvdbody, SEEX    , SEEY - 1, SEEX    , SEEY + 1);
             line(this, t_cvdbody, SEEX + 1, SEEY - 2, SEEX + 1, SEEY + 1);
             ter_set(SEEX   , SEEY - 2, t_cvdmachine);
+            spawn_item( SEEX, SEEY - 3, "id_science" );
             break;
         }
 
@@ -4346,7 +4367,7 @@ ff.......|....|WWWWWWWW|\n\
                             goods = "bots";
                             break;
                         case 2:
-                            goods = "launchers";
+                            goods = "guns_launcher_milspec";
                             break;
                         case 3:
                         case 4:
@@ -4449,7 +4470,7 @@ ff.......|....|WWWWWWWW|\n\
                     place_items( "guns_rifle_milspec", 40, bx1 + 1, by1 + 1, bx2 - 1, by1 + 1, false, 0, 100 );
                     place_items( "mags_milspec", 40, bx1 + 1, by1 + 1, bx2 - 1, by1 + 1, false, 0 );
                     place_items( "ammo_milspec", 40, bx1 + 1, by1 + 1, bx2 - 1, by1 + 1, false, 0 );
-                    place_items("launchers",  40, bx1 + 1, by2 - 1, bx2 - 1, by2 - 1, false, 0);
+                    place_items( "guns_launcher_milspec", 40, bx1 + 1, by2 - 1, bx2 - 1, by2 - 1, false, 0 );
                     place_items("grenades",   40, bx1 + 1, by1 + 2, bx1 + 1, by2 - 2, false, 0);
                     place_items("mil_armor",  40, bx2 - 1, by1 + 2, bx2 - 1, by2 - 2, false, 0);
                     break;
@@ -5416,8 +5437,8 @@ ff.......|....|WWWWWWWW|\n\
                     p.x = rng(SEEX - 6, SEEX + 1);
                     p.y = rng(SEEY - 6, SEEY + 1);
                     okay = true;
-                    for (int i = p.x; i <= p.x + 5 && okay; i++) {
-                        for (int j = p.y; j <= p.y + 5 && okay; j++) {
+                    for (int i = p.x; ( i <= p.x + 5 ) && okay; i++) {
+                        for (int j = p.y; ( j <= p.y + 5 ) && okay; j++) {
                             if (ter(i, j) != t_rock_floor) {
                                 okay = false;
                             }
@@ -5479,8 +5500,8 @@ ff.......|....|WWWWWWWW|\n\
                     p.x = rng(SEEX - 6, SEEX + 1);
                     p.y = rng(SEEY - 6, SEEY + 1);
                     okay = true;
-                    for (int i = p.x; i <= p.x + 5 && okay; i++) {
-                        for (int j = p.y; j <= p.y + 5 && okay; j++) {
+                    for (int i = p.x; ( i <= p.x + 5 ) && okay; i++) {
+                        for (int j = p.y; ( j <= p.y + 5 ) && okay; j++) {
                             if (ter(i, j) != t_rock_floor) {
                                 okay = false;
                             }
@@ -8941,7 +8962,7 @@ FFFFFFFFFFFFFFFFFFFFFFFF\n\
                     if (one_in(2)) {
                         place_items("sports",  72, x, y, x, y + SEEY - 4, false, 0);
                     } else if (one_in(10)) {
-                        place_items("rifles",  20, x, y, x, y + SEEY - 4, false, 0);
+                        place_items("guns_rifle_common",  20, x, y, x, y + SEEY - 4, false, 0);
                     } else {
                         place_items("camping", 68, x, y, x, y + SEEY - 4, false, 0);
                     }
@@ -10404,7 +10425,7 @@ void map::post_process(unsigned zones)
 void map::place_spawns(const mongroup_id& group, const int chance,
                        const int x1, const int y1, const int x2, const int y2, const float density)
 {
-    if (!ACTIVE_WORLD_OPTIONS["STATIC_SPAWN"]) {
+    if (!get_world_option<bool>( "STATIC_SPAWN" ) ) {
         return;
     }
 
@@ -10415,7 +10436,7 @@ void map::place_spawns(const mongroup_id& group, const int chance,
         return;
     }
 
-    float multiplier = ACTIVE_WORLD_OPTIONS["SPAWN_DENSITY"];
+    float multiplier = get_world_option<float>( "SPAWN_DENSITY" );
 
     if( multiplier == 0.0 ) {
         return;
@@ -10492,7 +10513,7 @@ void map::place_vending(int x, int y, std::string type)
 
 int map::place_npc(int x, int y, std::string type)
 {
-    if(!ACTIVE_WORLD_OPTIONS["STATIC_NPC"]) {
+    if(!get_world_option<bool>( "STATIC_NPC" ) ) {
         return -1; //Do not generate an npc.
     }
     npc *temp = new npc();
@@ -10513,7 +10534,7 @@ std::vector<item *> map::place_items( items_location loc, int chance, int x1, in
 {
     std::vector<item *> res;
 
-    const float spawn_rate = ACTIVE_WORLD_OPTIONS["ITEM_SPAWNRATE"];
+    const float spawn_rate = get_world_option<float>( "ITEM_SPAWNRATE" );
 
     if (chance > 100 || chance <= 0) {
         debugmsg("map::place_items() called with an invalid chance (%d)", chance);
@@ -10536,10 +10557,11 @@ std::vector<item *> map::place_items( items_location loc, int chance, int x1, in
             // Might contain one item or several that belong together like guns & their ammo
             int tries = 0;
             auto is_valid_terrain = [this,ongrass](int x,int y){
-                return this->ter_at(x, y).movecost == 0           &&
-                       !this->ter_at(x, y).has_flag("PLACE_ITEM") &&
+                auto &terrain = ter( x, y ).obj();
+                return terrain.movecost == 0           &&
+                       !terrain.has_flag("PLACE_ITEM") &&
                        !ongrass                                   &&
-                       !this->ter_at(x, y).has_flag("FLAT");
+                       !terrain.has_flag("FLAT");
             };
             do {
                 px = rng(x1, x2);
@@ -10589,7 +10611,7 @@ void map::add_spawn(const mtype_id& type, int count, int x, int y, bool friendly
                  type.c_str(), count, x, y);
         return;
     }
-    if( ACTIVE_WORLD_OPTIONS["CLASSIC_ZOMBIES"] ) {
+    if( get_world_option<bool>( "CLASSIC_ZOMBIES" ) ) {
         const mtype& mt = type.obj();
         if( !mt.in_category("CLASSIC") && !mt.in_category("WILDLIFE") ) {
             // Don't spawn non-classic monsters in classic zombie mode.
@@ -10639,7 +10661,7 @@ vehicle *map::add_vehicle(const vproto_id &type, const tripoint &p, const int di
     const int smx = p.x / SEEX;
     const int smy = p.y / SEEY;
     // debugmsg("n=%d x=%d y=%d MAPSIZE=%d ^2=%d", nonant, x, y, MAPSIZE, MAPSIZE*MAPSIZE);
-    vehicle *veh = new vehicle(type, veh_fuel, veh_status);
+    auto veh = std::unique_ptr<vehicle>( new vehicle( type, veh_fuel, veh_status ) );
     veh->posx = p.x % SEEX;
     veh->posy = p.y % SEEY;
     veh->smx = smx;
@@ -10652,7 +10674,7 @@ vehicle *map::add_vehicle(const vproto_id &type, const tripoint &p, const int di
     // that the mount at (0,0) is located at the spawn position.
     veh->precalc_mounts( 0, dir, point() );
 //debugmsg("adding veh: %d, sm: %d,%d,%d, pos: %d, %d", veh, veh->smx, veh->smy, veh->smz, veh->posx, veh->posy);
-    vehicle *placed_vehicle = add_vehicle_to_map(veh, merge_wrecks);
+    vehicle *placed_vehicle = add_vehicle_to_map( std::move( veh ), merge_wrecks );
 
     if( placed_vehicle != nullptr ) {
         submap *place_on_submap = get_submap_at_grid( placed_vehicle->smx, placed_vehicle->smy, placed_vehicle->smz );
@@ -10676,7 +10698,7 @@ vehicle *map::add_vehicle(const vproto_id &type, const tripoint &p, const int di
  * @param veh The vehicle to place on the map.
  * @return The vehicle that was finally placed.
  */
-vehicle *map::add_vehicle_to_map(vehicle *veh, const bool merge_wrecks)
+vehicle *map::add_vehicle_to_map( std::unique_ptr<vehicle> veh, const bool merge_wrecks )
 {
     //We only want to check once per square, so loop over all structural parts
     std::vector<int> frame_indices = veh->all_parts_at_location("structure");
@@ -10687,31 +10709,35 @@ vehicle *map::add_vehicle_to_map(vehicle *veh, const bool merge_wrecks)
         can_float = true;
     }
 
+    //When hitting a wall, only smash the vehicle once (but walls many times)
+    bool needs_smashing = false;
+
     for (std::vector<int>::const_iterator part = frame_indices.begin();
          part != frame_indices.end(); part++) {
         const auto p = veh->global_pos3() + veh->parts[*part].precalc[0];
 
         //Don't spawn anything in water
-        if (ter_at( p ).has_flag(TFLAG_DEEP_WATER) && !can_float) {
-            delete veh;
+        if( has_flag_ter( TFLAG_DEEP_WATER, p ) && !can_float ) {
             return nullptr;
         }
 
         // Don't spawn shopping carts on top of another vehicle or other obstacle.
-        if (veh->type == vproto_id( "shopping_cart" ) ) {
-            if (veh_at( p ) != nullptr || impassable( p )) {
-                delete veh;
+        if( veh->type == vproto_id( "shopping_cart" ) ) {
+            if( veh_at( p ) != nullptr || impassable( p ) ) {
                 return nullptr;
             }
         }
 
-        //When hitting a wall, only smash the vehicle once (but walls many times)
-        bool veh_smashed = false;
         //For other vehicles, simulate collisions with (non-shopping cart) stuff
         vehicle *other_veh = veh_at( p );
         if( other_veh != nullptr && other_veh->type != vproto_id( "shopping_cart" ) ) {
             if( !merge_wrecks ) {
-                delete veh;
+                return nullptr;
+            }
+
+            // Hard wreck-merging limit: 200 tiles
+            // Merging is slow for big vehicles which lags the mapgen
+            if( frame_indices.size() + other_veh->all_parts_at_location("structure").size() > 200 ) {
                 return nullptr;
             }
 
@@ -10723,7 +10749,7 @@ vehicle *map::add_vehicle_to_map(vehicle *veh, const bool merge_wrecks)
              * vehicles into global coordinates, find the distance between them and
              * p and then install them that way.
              * Create a vehicle with type "null" so it starts out empty. */
-            vehicle *wreckage = new vehicle();
+            auto wreckage = std::unique_ptr<vehicle>( new vehicle() );
             wreckage->posx = other_veh->posx;
             wreckage->posy = other_veh->posy;
             wreckage->smx = other_veh->smx;
@@ -10731,59 +10757,57 @@ vehicle *map::add_vehicle_to_map(vehicle *veh, const bool merge_wrecks)
             wreckage->smz = other_veh->smz;
 
             //Where are we on the global scale?
-            const int global_x = wreckage->smx * SEEX + wreckage->posx;
-            const int global_y = wreckage->smy * SEEY + wreckage->posy;
+            const tripoint global_pos = wreckage->global_pos3();
 
-            for (auto &part_index : veh->parts) {
-
-                const int local_x = (veh->smx * SEEX + veh->posx) +
-                                     part_index.precalc[0].x - global_x;
-                const int local_y = (veh->smy * SEEY + veh->posy) +
-                                     part_index.precalc[0].y - global_y;
-
-                wreckage->install_part(local_x, local_y, part_index);
-
+            for( auto &part : veh->parts ) {
+                const tripoint part_pos = veh->global_part_pos3( part ) - global_pos;
+                wreckage->install_part( part_pos.x, part_pos.y, part );
             }
-            for (auto &part_index : other_veh->parts) {
 
-                const int local_x = (other_veh->smx * SEEX + other_veh->posx) +
-                                     part_index.precalc[0].x - global_x;
-                const int local_y = (other_veh->smy * SEEY + other_veh->posy) +
-                                     part_index.precalc[0].y - global_y;
-
-                wreckage->install_part(local_x, local_y, part_index);
+            for( auto &part : other_veh->parts ) {
+                const tripoint part_pos = other_veh->global_part_pos3( part ) - global_pos;
+                wreckage->install_part( part_pos.x, part_pos.y, part );
 
             }
 
             wreckage->name = _("Wreckage");
-            wreckage->smash();
 
-            //Now get rid of the old vehicles
-            destroy_vehicle(other_veh);
-            delete veh;
+            // Now get rid of the old vehicles
+            std::unique_ptr<vehicle> old_veh = detach_vehicle( other_veh );
 
-            //Try again with the wreckage
-            return add_vehicle_to_map(wreckage, true);
+            // Try again with the wreckage
+            vehicle *new_veh = add_vehicle_to_map( std::move( wreckage ), true );
+            if( new_veh != nullptr ) {
+                new_veh->smash();
+                return new_veh;
+            }
 
-        } else if (impassable(p.x, p.y)) {
+            // If adding the wreck failed, we want to restore the vehicle we tried to merge with
+            add_vehicle_to_map( std::move( old_veh ), false );
+            return nullptr;
+
+        } else if( impassable( p ) ) {
             if( !merge_wrecks ) {
-                delete veh;
-                return NULL;
+                return nullptr;
             }
 
-            //There's a wall or other obstacle here; destroy it
-            destroy( tripoint( p.x, p.y, abs_sub.z ), true);
+            // There's a wall or other obstacle here; destroy it
+            destroy( p, true );
 
-            //Then smash up the vehicle
-            if(!veh_smashed) {
-                veh->smash();
-                veh_smashed = true;
+            // Some weird terrain, don't place the vehicle
+            if( impassable( p ) ) {
+                return nullptr;
             }
 
+            needs_smashing = true;
         }
     }
 
-    return veh;
+    if( needs_smashing ) {
+        veh->smash();
+    }
+
+    return veh.release();
 }
 
 computer *map::add_computer( const tripoint &p, std::string name, int security )

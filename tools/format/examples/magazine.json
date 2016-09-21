@@ -1,0 +1,46 @@
+[
+  {
+    "id": "belt223",
+    "copy-from": "magazine_belt",
+    "type": "MAGAZINE",
+    "name": "ammo belt",
+    "ammo_type": "223",
+    "capacity": 500,
+    "count": 100,
+    "default_ammo": "556",
+    "linkage": "ammolink223"
+  },
+  {
+    "id": "glockmag",
+    "type": "MAGAZINE",
+    "name": "Glock magazine",
+    "description": "A compact light-weight polymer magazine for use with Glock compatible firearms.",
+    "weight": 105,
+    "volume": 1,
+    "price": 2900,
+    "material": "plastic",
+    "symbol": "#",
+    "color": "ltgray",
+    "ammo_type": "9mm",
+    "capacity": 15,
+    "reliability": 8,
+    "flags": [ "MAG_COMPACT" ]
+  },
+  {
+    "id": "weldtank",
+    "type": "MAGAZINE",
+    "name": "welding tank",
+    "description": "A large steel cylinder designed for holding pressurised welding gases.  It is marked with several faded and now unreadable symbols.",
+    "weight": 6000,
+    "volume": 12,
+    "price": 5600,
+    "material": "steel",
+    "symbol": "#",
+    "color": "brown",
+    "ammo_type": "weldgas",
+    "capacity": 240,
+    "count": 240,
+    "reliability": 10,
+    "flags": [ "NO_UNLOAD", "NO_RELOAD" ]
+  }
+]

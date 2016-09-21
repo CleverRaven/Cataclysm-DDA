@@ -76,6 +76,13 @@ namespace std{
     };
 }
 
+//Used for autopickup and safemode rules
+enum rule_state : int {
+    RULE_NONE,
+    RULE_WHITELISTED,
+    RULE_BLACKLISTED
+};
+
 enum visibility_type {
   VIS_HIDDEN,
   VIS_CLEAR,
@@ -160,7 +167,7 @@ enum artifact_natural_property {
     ARTPROP_MAX
 };
 
-enum phase_id {
+enum phase_id : int {
     PNULL, SOLID, LIQUID, GAS, PLASMA
 };
 

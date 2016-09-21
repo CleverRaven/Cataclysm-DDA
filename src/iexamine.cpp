@@ -6,6 +6,7 @@
 #include "mapdata.h"
 #include "output.h"
 #include "rng.h"
+#include "requirements.h"
 #include "line.h"
 #include "player.h"
 #include "translations.h"
@@ -69,18 +70,21 @@ void iexamine::gaspump(player &p, const tripoint &examp)
             ///\EFFECT_DEX decreases chance of spilling gas from a pump
             if( one_in(10 + p.get_dex()) ) {
                 add_msg(m_bad, _("You accidentally spill the %s."), item_it->type_name().c_str());
-                item spill( item_it->typeId(), calendar::turn );
-                const int spill_min = item_it->liquid_charges( 1 );
+                static const auto max_spill_volume = units::from_liter( 1 );
+                const long max_spill_charges = std::max( 1l, item_it->charges_per_volume( max_spill_volume ) );
                 ///\EFFECT_DEX decreases amount of gas spilled from a pump
-                const int spill_max = item_it->liquid_charges( 1 ) * 8.0 / std::max( 1, p.get_dex() );
-                spill.charges = rng( spill_min, spill_max );
-                g->m.add_item_or_charges( p.pos(), spill, 1 );
-                item_it->charges -= spill.charges;
-                if( item_it->charges < 1 ) {
+                const int qty = rng( 1l, max_spill_charges * 8.0 / std::max( 1, p.get_dex() ) );
+
+                item spill = item_it->split( qty );
+                if( spill.is_null() ) {
+                    g->m.add_item_or_charges( p.pos(), *item_it, 1 );
                     items.erase( item_it );
+                } else {
+                    g->m.add_item_or_charges( p.pos(), spill, 1 );
                 }
+
             } else {
-                g->handle_liquid_from_ground( item_it, examp );
+                g->handle_liquid_from_ground( item_it, examp, 1 );
             }
             return;
         }
@@ -335,7 +339,7 @@ private:
         }
 
         for (auto &i : u.inv_dump()) {
-            if( i == dst || i->charges <= 0 || i->type->id != "cash_card" ) {
+            if( i == dst || i->charges <= 0 || i->typeId() != "cash_card" ) {
                 continue;
             }
             if( u.moves < 0 ) {
@@ -721,7 +725,7 @@ void iexamine::chainfence( player &p, const tripoint &examp )
     if( examp.x < SEEX * int( MAPSIZE / 2 ) || examp.y < SEEY * int( MAPSIZE / 2 ) ||
         examp.x >= SEEX * ( 1 + int( MAPSIZE / 2 ) ) || examp.y >= SEEY * ( 1 + int( MAPSIZE / 2 ) ) ) {
         if( p.is_player() ) {
-            g->update_map( &p );
+            g->update_map( p );
         }
     }
 }
@@ -750,7 +754,7 @@ void iexamine::bars(player &p, const tripoint &examp)
 
 void iexamine::portable_structure(player &p, const tripoint &examp)
 {
-    const auto &fr = g->m.furn_at( examp );
+    const auto &fr = g->m.furn( examp ).obj();
     std::string name;
     std::string dropped;
     if( fr.id == "f_groundsheet" ) {
@@ -993,7 +997,7 @@ void iexamine::safe(player &p, const tripoint &examp)
 void iexamine::gunsafe_ml(player &p, const tripoint &examp)
 {
     std::string furn_name = g->m.tername(examp).c_str();
-    if( !( p.has_amount("crude_picklock", 1) || p.has_amount("hairpin", 1) ||
+    if( !( p.has_amount("crude_picklock", 1) || p.has_amount("hairpin", 1) || p.has_amount("fc_hairpin", 1) ||
            p.has_amount("picklocks", 1) || p.has_bionic("bio_lockpick") ) ) {
         add_msg(m_info, _("You need a lockpick to open this gun safe."));
         return;
@@ -1004,6 +1008,8 @@ void iexamine::gunsafe_ml(player &p, const tripoint &examp)
     int pick_quality = 1;
     if( p.has_amount("picklocks", 1) || p.has_bionic("bio_lockpick") ) {
         pick_quality = 5;
+    } else if (p.has_amount("fc_hairpin",1)) {
+        pick_quality = 1;
     } else {
         pick_quality = 3;
     }
@@ -1037,7 +1043,7 @@ void iexamine::gunsafe_el(player &p, const tripoint &examp)
         case HACK_FAIL:
             p.add_memorial_log(pgettext("memorial_male", "Set off an alarm."),
                                 pgettext("memorial_female", "Set off an alarm."));
-            sounds::sound(p.pos(), 60, _("An alarm sounds!"));
+            sounds::sound(p.pos(), 60, _("an alarm sound!"));
             if (examp.z > 0 && !g->event_queued(EVENT_WANTED)) {
                 g->add_event(EVENT_WANTED, int(calendar::turn) + 300, 0, p.global_sm_location());
             }
@@ -1129,7 +1135,7 @@ void iexamine::pedestal_temple(player &p, const tripoint &examp)
 {
 
     if (g->m.i_at(examp).size() == 1 &&
-        g->m.i_at(examp)[0].type->id == "petrified_eye") {
+        g->m.i_at(examp)[0].typeId() == "petrified_eye") {
         add_msg(_("The pedestal sinks into the ground..."));
         g->m.ter_set(examp, t_dirt);
         g->m.i_clear(examp);
@@ -1562,7 +1568,9 @@ std::list<item> iexamine::get_harvest_items( const itype &type, const int plant_
         return result;
     }
     const islot_seed &seed_data = *type.seed;
-    const itype_id &seed_type = type.id;
+    // This is a temporary measure, itype should instead provide appropriate accessors
+    // to expose data about the seed item to allow harvesting to function.
+    const itype_id &seed_type = type.get_id();
 
     const auto add = [&]( const itype_id &id, const int count ) {
         item new_item( id, calendar::turn );
@@ -1723,7 +1731,7 @@ void iexamine::kiln_empty(player &p, const tripoint &examp)
     } else if( cur_kiln_type == f_kiln_metal_empty ) {
         next_kiln_type = f_kiln_metal_full;
     } else {
-        debugmsg( "Examined furniture has action kiln_empty, but is of type %s", g->m.get_furn( examp ).c_str() );
+        debugmsg( "Examined furniture has action kiln_empty, but is of type %s", g->m.furn( examp ).id().c_str() );
         return;
     }
 
@@ -1750,16 +1758,16 @@ void iexamine::kiln_empty(player &p, const tripoint &examp)
 
     ///\EFFECT_CARPENTRY decreases loss when firing a kiln
     const SkillLevel &skill = p.get_skill_level( skill_carpentry );
-    int loss = 90 - 2 * skill; // We can afford to be inefficient - logs and skeletons are cheap, charcoal isn't
+    int loss = 60 - 2 * skill; // We can afford to be inefficient - logs and skeletons are cheap, charcoal isn't
 
     // Burn stuff that should get charred, leave out the rest
-    int total_volume = 0;
+    units::volume total_volume = 0;
     for( auto i : items ) {
         total_volume += i.volume();
     }
 
     auto char_type = item::find_type( "unfinished_charcoal" );
-    int char_charges = ( 100 - loss ) * total_volume * char_type->ammo->def_charges / 100 / char_type->volume;
+    int char_charges = ( 100 - loss ) * total_volume / 100 / char_type->volume;
     if( char_charges < 1 ) {
         add_msg( _("The batch in this kiln is too small to yield any charcoal.") );
         return;
@@ -1779,7 +1787,7 @@ void iexamine::kiln_empty(player &p, const tripoint &examp)
     result.charges = char_charges;
     g->m.add_item( examp, result );
     add_msg( _("You fire the charcoal kiln.") );
-    int practice_amount = ( 10 - skill ) * total_volume / 100; // 50 at 0 skill, 25 at 5, 10 at 8
+    int practice_amount = ( 10 - skill ) * total_volume / units::from_liter( 25 ); // 50 at 0 skill, 25 at 5, 10 at 8
     p.practice( skill_carpentry, practice_amount );
 }
 
@@ -1792,7 +1800,7 @@ void iexamine::kiln_full(player &, const tripoint &examp)
     } else if( cur_kiln_type == f_kiln_metal_full ) {
         next_kiln_type = f_kiln_metal_empty;
     } else {
-        debugmsg( "Examined furniture has action kiln_full, but is of type %s", g->m.get_furn( examp ).c_str() );
+        debugmsg( "Examined furniture has action kiln_full, but is of type %s", g->m.furn( examp ).id().c_str() );
         return;
     }
 
@@ -1817,7 +1825,7 @@ void iexamine::kiln_full(player &, const tripoint &examp)
         return;
     }
 
-    int total_volume = 0;
+    units::volume total_volume = 0;
     // Burn stuff that should get charred, leave out the rest
     for( auto item_it = items.begin(); item_it != items.end(); ) {
         if( item_it->typeId() == "unfinished_charcoal" || item_it->typeId() == "charcoal" ) {
@@ -1829,7 +1837,7 @@ void iexamine::kiln_full(player &, const tripoint &examp)
     }
 
     item result( "charcoal", calendar::turn.get_turn() );
-    result.charges = total_volume * char_type->ammo->def_charges / char_type->volume;
+    result.charges = total_volume / char_type->volume;
     g->m.add_item( examp, result );
     g->m.furn_set( examp, next_kiln_type);
 }
@@ -1901,14 +1909,15 @@ void iexamine::fvat_empty(player &p, const tripoint &examp)
             }
     }
     if (to_deposit) {
+        static const auto vat_volume = units::from_liter( 50 );
         item brew(brew_type, 0);
         int charges_held = p.charges_of(brew_type);
         brew.charges = charges_on_ground;
         for (int i = 0; i < charges_held && !vat_full; i++) {
             p.use_charges(brew_type, 1);
             brew.charges++;
-            if ( ( brew.count_by_charges() ? brew.volume() : brew.volume() * brew.charges ) >= 100 ) {
-                vat_full = true; //vats hold 50 units of brew, or 350 charges for a count_by_charges brew
+            if( brew.volume() >= vat_volume ) {
+                vat_full = true;
             }
         }
         add_msg(_("Set %s in the vat."), brew.tname().c_str());
@@ -2000,10 +2009,10 @@ void iexamine::fvat_full( player &p, const tripoint &examp )
 }
 
 //probably should move this functionality into the furniture JSON entries if we want to have more than a few "kegs"
-int iexamine::get_keg_capacity( const tripoint &pos ) {
-    const furn_t &furn = g->m.furn_at( pos );
-    if( furn.id == "f_standing_tank" )  { return 1200; }
-    else if( furn.id == "f_wood_keg" )  { return 600; }
+units::volume iexamine::get_keg_capacity( const tripoint &pos ) {
+    const furn_t &furn = g->m.furn( pos ).obj();
+    if( furn.id == "f_standing_tank" )  { return units::from_liter( 300 ); }
+    else if( furn.id == "f_wood_keg" )  { return units::from_liter( 125 ); }
     //add additional cases above
     else                                { return 0; }
 }
@@ -2015,7 +2024,7 @@ bool iexamine::has_keg( const tripoint &pos )
 
 void iexamine::keg(player &p, const tripoint &examp)
 {
-    int keg_cap = get_keg_capacity( examp );
+    units::volume keg_cap = get_keg_capacity( examp );
     bool liquid_present = false;
     for (int i = 0; i < (int)g->m.i_at(examp).size(); i++) {
         if (!g->m.i_at(examp)[i].made_of( LIQUID ) || liquid_present) {
@@ -2152,7 +2161,7 @@ void iexamine::keg(player &p, const tripoint &examp)
         case EXAMINE: {
             add_msg(m_info, _("That is a %s."), g->m.name(examp).c_str());
             add_msg(m_info, _("It contains %s (%d), %0.f%% full."),
-                    drink->tname().c_str(), drink->charges, double( drink->volume() ) / keg_cap * 100 );
+                    drink->tname().c_str(), drink->charges, drink->volume() * 100.0 / keg_cap );
             return;
         }
 
@@ -2164,7 +2173,7 @@ void iexamine::keg(player &p, const tripoint &examp)
 
 bool iexamine::pour_into_keg( const tripoint &pos, item &liquid )
 {
-    const int keg_cap = get_keg_capacity( pos );
+    const units::volume keg_cap = get_keg_capacity( pos );
     if( keg_cap <= 0 ) {
         return false;
     }
@@ -2349,7 +2358,7 @@ void iexamine::tree_maple_tapped(player &p, const tripoint &examp)
         if( it.is_bucket() || it.is_watertight_container() ) {
             has_container = true;
 
-            if( !it.is_container_empty() && it.contents.front().type->id == "maple_sap" ) {
+            if( !it.is_container_empty() && it.contents.front().typeId() == "maple_sap" ) {
                 has_sap = true;
                 charges = it.contents.front().charges;
             }
@@ -2416,7 +2425,7 @@ void iexamine::tree_maple_tapped(player &p, const tripoint &examp)
             for( auto &it : items ) {
                 if( ( it.is_bucket() || it.is_watertight_container() ) && !it.is_container_empty() ) {
                     auto &liquid = it.contents.front();
-                    if( liquid.type->id == "maple_sap" ) {
+                    if( liquid.typeId() == "maple_sap" ) {
                         g->handle_liquid_from_container( it, PICKUP_RANGE );
                     }
                 }
@@ -2502,12 +2511,12 @@ void iexamine::shrub_wildveggies( player &p, const tripoint &examp )
     return;
 }
 
-int sum_up_item_weight_by_material( map_stack &stack, const material_id &material, bool remove_items )
+int sum_up_item_weight_by_material( map_stack &stack, const material_id &material, bool remove_items, bool include_contents )
 {
     int sum_weight = 0;
     for( auto item_it = stack.begin(); item_it != stack.end(); ) {
         if( item_it->made_of(material) && item_it->weight() > 0) {
-            sum_weight += item_it->weight();
+            sum_weight += item_it->weight( include_contents );
             if( remove_items ) {
                 item_it = stack.erase( item_it );
             } else {
@@ -2539,7 +2548,7 @@ void iexamine::recycler(player &p, const tripoint &examp)
     // check for how much steel, by weight, is in the recycler
     // only items made of STEEL are checked
     // IRON and other metals cannot be turned into STEEL for now
-    int steel_weight = sum_up_item_weight_by_material( items_on_map, material_id( "steel" ), false );
+    int steel_weight = sum_up_item_weight_by_material( items_on_map, material_id( "steel" ), false, false );
     if (steel_weight == 0) {
         add_msg(m_info,
                 _("The recycler is currently empty.  Drop some metal items onto it and examine it again."));
@@ -2554,8 +2563,8 @@ void iexamine::recycler(player &p, const tripoint &examp)
                                                             weight_units());
     as_m.text = string_format(_("Recycle %s metal into:"), weight_str.c_str());
     add_recyle_menu_entry(as_m, norm_recover_weight, 'l', "steel_lump");
-    add_recyle_menu_entry(as_m, norm_recover_weight, 'S', "sheet_metal");
-    add_recyle_menu_entry(as_m, norm_recover_weight, 'c', "steel_chunk");
+    add_recyle_menu_entry(as_m, norm_recover_weight, 'm', "sheet_metal");
+    add_recyle_menu_entry(as_m, norm_recover_weight, 'C', "steel_chunk");
     add_recyle_menu_entry(as_m, norm_recover_weight, 's', "scrap");
     as_m.entries.push_back(uimenu_entry(0, true, 'c', _("Cancel")));
     as_m.selected = 4;
@@ -2573,7 +2582,7 @@ void iexamine::recycler(player &p, const tripoint &examp)
 
     // Sum up again, this time remove the items,
     // ignore result, should be the same as before.
-    sum_up_item_weight_by_material( items_on_map, material_id( "steel" ), true );
+    sum_up_item_weight_by_material( items_on_map, material_id( "steel" ), true, false );
 
     double recover_factor = rng(6, 9) / 10.0;
     steel_weight = (int)(steel_weight * recover_factor);
@@ -2691,7 +2700,7 @@ const itype * furn_t::crafting_pseudo_item_type() const
 const itype *furn_t::crafting_ammo_item_type() const
 {
     const itype *pseudo = crafting_pseudo_item_type();
-    if( pseudo->tool && pseudo->tool->ammo_id != "NULL" ) {
+    if( pseudo->tool && !pseudo->tool->ammo_id.is_null() ) {
         return item::find_type( default_ammo( pseudo->tool->ammo_id ) );
     }
     return nullptr;
@@ -2709,7 +2718,7 @@ static long count_charges_in_list(const itype *type, const map_stack &items)
 
 void iexamine::reload_furniture(player &p, const tripoint &examp)
 {
-    const furn_t &f = g->m.furn_at(examp);
+    const furn_t &f = g->m.furn(examp).obj();
     const itype *type = f.crafting_pseudo_item_type();
     const itype *ammo = f.crafting_ammo_item_type();
     if (type == NULL || ammo == NULL) {
@@ -2721,12 +2730,12 @@ void iexamine::reload_furniture(player &p, const tripoint &examp)
         //~ %1$s - furniture, %2$d - number, %3$s items.
         add_msg(_("The %1$s contains %2$d %3$s."), f.name.c_str(), amount_in_furn, ammo->nname(amount_in_furn).c_str());
     }
-    const int max_amount_in_furn = f.max_volume * ammo->stack_size / ammo->volume;
+    const int max_amount_in_furn = f.max_volume / ammo->volume;
     const int max_reload_amount = max_amount_in_furn - amount_in_furn;
     if( max_reload_amount <= 0 ) {
         return;
     }
-    const int amount_in_inv = p.charges_of( ammo->id );
+    const int amount_in_inv = p.charges_of( ammo->get_id() );
     if( amount_in_inv == 0 ) {
         //~ Reloading or restocking a piece of furniture, for example a forge.
         add_msg(m_info, _("You need some %1$s to reload this %2$s."), ammo->nname(2).c_str(), f.name.c_str());
@@ -2742,7 +2751,7 @@ void iexamine::reload_furniture(player &p, const tripoint &examp)
     if (amount <= 0 || amount > max_amount) {
         return;
     }
-    p.use_charges( ammo->id, amount );
+    p.use_charges( ammo->get_id(), amount );
     auto items = g->m.i_at(examp);
     for( auto & itm : items ) {
         if( itm.type == ammo ) {
@@ -2752,8 +2761,7 @@ void iexamine::reload_furniture(player &p, const tripoint &examp)
         }
     }
     if (amount != 0) {
-        item it(ammo->id, 0);
-        it.charges = amount;
+        item it( ammo, calendar::turn, amount );
         g->m.add_item( examp, it );
     }
     add_msg(_("You reload the %s."), g->m.furnname(examp).c_str());
@@ -2840,7 +2848,8 @@ static int getNearPumpCount(const tripoint &p)
     int &j = tmp.y;
     for (i = p.x - radius; i <= p.x + radius; i++) {
         for (j = p.y - radius; j <= p.y + radius; j++) {
-            if (g->m.ter_at(tmp).id == "t_gas_pump" || g->m.ter_at(tmp).id == "t_gas_pump_a") {
+            const auto t = g->m.ter( tmp );
+            if( t == ter_str_id( "t_gas_pump" ) || t == ter_str_id( "t_gas_pump_a" ) ) {
                 result++;
             }
         }
@@ -2861,7 +2870,7 @@ static tripoint getNearFilledGasTank(const tripoint &center, long &gas_units)
     int &j = tmp.y;
     for (i = center.x - radius; i <= center.x + radius; i++) {
         for (j = center.y - radius; j <= center.y + radius; j++) {
-            if (g->m.ter_at(tmp).id.str() != "t_gas_tank") {
+            if( g->m.ter( tmp ) != ter_str_id( "t_gas_tank" ) ) {
                 continue;
             }
 
@@ -2876,11 +2885,9 @@ static tripoint getNearFilledGasTank(const tripoint &center, long &gas_units)
             }
             for( auto &k : g->m.i_at(tmp)) {
                 if(k.made_of(LIQUID)) {
-                    const long units = k.liquid_units( k.charges );
-
                     distance = new_distance;
                     tank_loc = tmp;
-                    gas_units = units;
+                    gas_units = k.charges;
                     break;
                 }
             }
@@ -2978,8 +2985,8 @@ static tripoint getGasPumpByNumber(const tripoint &p, int number)
     int &j = tmp.y;
     for (i = p.x - radius; i <= p.x + radius; i++) {
         for (j = p.y - radius; j <= p.y + radius; j++) {
-            if( (g->m.ter_at(tmp).id == "t_gas_pump" ||
-                 g->m.ter_at(tmp).id == "t_gas_pump_a") && number == k++) {
+            const auto t = g->m.ter( tmp );
+            if( ( t == ter_str_id( "t_gas_pump" ) || t == ter_str_id( "t_gas_pump_a" ) ) && number == k++ ) {
                 return tmp;
             }
         }
@@ -2997,21 +3004,18 @@ static bool toPumpFuel(const tripoint &src, const tripoint &dst, long units)
     auto items = g->m.i_at( src );
     for( auto item_it = items.begin(); item_it != items.end(); ++item_it ) {
         if( item_it->made_of(LIQUID)) {
-            const long amount = item_it->liquid_charges( units );
-
-            if( item_it->charges < amount ) {
+            if( item_it->charges < units ) {
                 return false;
             }
 
-            item_it->charges -= amount;
+            item_it->charges -= units;
 
-            item liq_d(item_it->type->id, calendar::turn);
-            liq_d.charges = amount;
+            item liq_d( item_it->type, calendar::turn, units );
 
-            ter_t backup_pump = g->m.ter_at(dst);
-            g->m.ter_set( dst, NULL_ID );
+            const auto backup_pump = g->m.ter( dst );
+            g->m.ter_set( dst, ter_id( NULL_ID ) );
             g->m.add_item_or_charges(dst, liq_d);
-            g->m.ter_set(dst, backup_pump.id);
+            g->m.ter_set(dst, backup_pump);
 
             if( item_it->charges < 1 ) {
                 items.erase( item_it );
@@ -3034,19 +3038,18 @@ static long fromPumpFuel(const tripoint &dst, const tripoint &src)
     for( auto item_it = items.begin(); item_it != items.end(); ++item_it ) {
         if( item_it->made_of(LIQUID)) {
             // how much do we have in the pump?
-            item liq_d(item_it->type->id, calendar::turn);
-            liq_d.charges = item_it->charges;
+            item liq_d( item_it->type, calendar::turn, item_it->charges );
 
             // add the charges to the destination
-            ter_t backup_tank = g->m.ter_at(dst);
-            g->m.ter_set(dst, NULL_ID);
+            const auto backup_tank = g->m.ter( dst );
+            g->m.ter_set(dst, ter_id( NULL_ID ) );
             g->m.add_item_or_charges(dst, liq_d);
-            g->m.ter_set(dst, backup_tank.id);
+            g->m.ter_set(dst, backup_tank );
 
             // remove the liquid from the pump
             long amount = item_it->charges;
             items.erase( item_it );
-            return item_it->liquid_units( amount );
+            return amount;
         }
     }
     return -1;
@@ -3062,7 +3065,8 @@ static void turnOnSelectedPump(const tripoint &p, int number)
     int &j = tmp.y;
     for (i = p.x - radius; i <= p.x + radius; i++) {
         for (j = p.y - radius; j <= p.y + radius; j++) {
-            if ((g->m.ter_at(tmp).id == "t_gas_pump" || g->m.ter_at(tmp).id == "t_gas_pump_a") ) {
+            const auto t = g->m.ter( tmp );
+            if( t == ter_str_id( "t_gas_pump" ) || t == ter_str_id( "t_gas_pump_a" ) ) {
                 if (number == k++) {
                     g->m.ter_set(tmp, ter_str_id( "t_gas_pump_a" ) );
                 } else {
@@ -3229,7 +3233,7 @@ void iexamine::pay_gas(player &p, const tripoint &examp)
             case HACK_FAIL:
                 p.add_memorial_log(pgettext("memorial_male", "Set off an alarm."),
                                     pgettext("memorial_female", "Set off an alarm."));
-                sounds::sound(p.pos(), 60, _("An alarm sounds!"));
+                sounds::sound(p.pos(), 60, _("an alarm sound!"));
                 if (examp.z > 0 && !g->event_queued(EVENT_WANTED)) {
                     g->add_event(EVENT_WANTED, int(calendar::turn) + 300, 0, p.global_sm_location());
                 }

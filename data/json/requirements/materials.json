@@ -1,0 +1,20 @@
+[
+  {
+    "id": "ammo_bullet",
+    "type": "requirement",
+    "//": "Materials used when forming bullets",
+    "components": [ [ [ "lead", 1 ], [ "bismuth", 1 ], [ "silver_small", 1 ], [ "gold_small", 1 ] ] ]
+  },
+  {
+    "id": "steel_standard",
+    "type": "requirement",
+    "//": "Materials for use when forging items from steel",
+    "components": [ [ [ "steel_lump", 1 ], [ "steel_chunk", 4 ], [ "scrap", 20 ] ] ]
+  },
+  {
+    "id": "steel_tiny",
+    "type": "requirement",
+    "//": "Materials for use when forging atypically small items from steel",
+    "components": [ [ [ "steel_chunk", 1 ], [ "scrap", 5 ] ] ]
+  }
+]

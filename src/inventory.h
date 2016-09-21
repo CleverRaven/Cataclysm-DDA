@@ -18,7 +18,6 @@ typedef std::list< std::list<item> > invstack;
 typedef std::vector< std::list<item>* > invslice;
 typedef std::vector< const std::list<item>* > const_invslice;
 typedef std::vector< std::pair<std::list<item>*, int> > indexed_invslice;
-typedef std::function<bool(const item &)> item_filter;
 
 class salvage_actor;
 
@@ -74,8 +73,6 @@ class inventory : public visitable<inventory>
         inventory  operator+  (const item &rhs);
         inventory  operator+  (const std::list<item> &rhs);
 
-        indexed_invslice indexed_slice_filter_by( item_filter filter ) const;
-
         void unsort(); // flags the inventory as unsorted
         void sort();
         void clear();
@@ -107,7 +104,7 @@ class inventory : public visitable<inventory>
         /**
          * Randomly select items until the volume quota is filled.
          */
-        std::list<item> remove_randomly_by_volume(int volume);
+        std::list<item> remove_randomly_by_volume( const units::volume &volume );
         std::list<item> reduce_stack(int position, int quantity);
         std::list<item> reduce_stack(const itype_id &type, int quantity);
 
@@ -142,8 +139,6 @@ class inventory : public visitable<inventory>
         bool has_components (itype_id it, int quantity) const;
         bool has_charges(itype_id it, long quantity) const;
 
-        static int num_items_at_position( int position );
-
         int leak_level(std::string flag) const; // level of leaked bad stuff from items
 
         // NPC/AI functions
@@ -156,7 +151,7 @@ class inventory : public visitable<inventory>
         void rust_iron_items();
 
         int weight() const;
-        int volume() const;
+        units::volume volume() const;
 
         void dump(std::vector<item *> &dest); // dumps contents into dest (does not delete contents)
 

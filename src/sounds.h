@@ -50,8 +50,6 @@ std::pair<std::vector<tripoint>, std::vector<tripoint>> get_monster_sounds();
 std::string sound_at( const tripoint &location );
 }
 
-typedef std::string ter_type;
-
 namespace sfx
 {
 void load_sound_effects( JsonObject &jsobj );

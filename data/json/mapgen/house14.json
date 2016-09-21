@@ -125,7 +125,7 @@
                 { "group" : "kitchen",      "chance" : 85, "x" : [17,20], "y" : [12,13], "repeat" : [1,2] },
                 { "group" : "softdrugs",    "chance" : 75, "x" : [17,20], "y" : [15,16], "repeat" : [1,3] },
                 { "group" : "cleaning",     "chance" : 90, "x" : [17,20], "y" : [15,16], "repeat" : [1,2] },
-                { "group" : "bedroom",      "chance" : 80, "x" : [17,20], "y" : [18,20], "repeat" : [145] },
+                { "group" : "bedroom",      "chance" : 80, "x" : [17,20], "y" : [18,20], "repeat" : [1,4] },
                 { "group" : "bedroom",      "chance" : 80, "x" : [ 9,13], "y" : [17,20], "repeat" : [1,4] },
                 { "group" : "mischw",       "chance" : 85, "x" : [ 2, 7], "y" : [ 5,12], "repeat" : [1,4] }
             ],

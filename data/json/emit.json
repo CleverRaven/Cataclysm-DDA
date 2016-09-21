@@ -1,0 +1,59 @@
+[
+  {
+    "id": "emit_tobacco_trail",
+    "type": "emit",
+    "//": "Intermittent cigarette smoke (example: lit cigarette)",
+    "field": "fd_cigsmoke",
+    "density": 2,
+    "chance": 50
+  },
+  {
+    "id": "emit_joint_trail",
+    "type": "emit",
+    "//": "Intermittent joint smoke (example: lit cigarette)",
+    "field": "fd_weedsmoke",
+    "chance": 50
+  },
+  {
+    "id": "emit_smoke_blast",
+    "type": "emit",
+    "//": "Large blast of smoke (example: smoker zombie explosion)",
+    "field": "fd_smoke",
+    "qty": 200
+  },
+  {
+    "id": "emit_smoke_plume",
+    "type": "emit",
+    "//": "Small plume of thick smoke (example: muzzle smoke)",
+    "field": "fd_smoke",
+    "qty": 6
+  },
+  {
+    "id": "emit_smoke_stream",
+    "type": "emit",
+    "//": "Steady stream of thick smoke (example: smoke bomb)",
+    "field": "fd_smoke",
+    "qty": 24
+  },
+  {
+    "id": "emit_tear_gas_stream",
+    "type": "emit",
+    "//": "Steady stream of tear gas (example: tear gas canister)",
+    "field": "fd_tear_gas",
+    "qty": 18
+  },
+  {
+    "id": "emit_toxic_blast",
+    "type": "emit",
+    "//": "Large blast of toxic gas (example: bloated zombie explosion)",
+    "field": "fd_toxic_gas",
+    "qty": 200
+  },
+  {
+    "id": "emit_toxic_leak",
+    "type": "emit",
+    "//": "Slow infrequent leak of toxic gas (example: bloated zombie movement)",
+    "field": "fd_toxic_gas",
+    "chance": 15
+  }
+]

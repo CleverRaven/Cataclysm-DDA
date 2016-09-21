@@ -21,6 +21,7 @@
 #include "field.h"
 #include "weather.h"
 #include "pldata.h"
+#include "requirements.h"
 #include "recipe_dictionary.h"
 #include "player.h"
 #include "generic_factory.h"
@@ -28,6 +29,9 @@
 
 #include <sstream>
 #include <algorithm>
+#include <numeric>
+
+using namespace units::literals;
 
 const skill_id skill_mechanics( "mechanics" );
 const skill_id skill_survival( "survival" );
@@ -63,6 +67,8 @@ void iuse_transform::load( JsonObject &obj )
     obj.read( "container", container );
     obj.read( "target_charges", ammo_qty );
     obj.read( "target_ammo", ammo_type );
+
+    obj.read( "countdown", countdown );
 
     if( !ammo_type.empty() && !container.empty() ) {
         obj.throw_error( "Transform actor specified both ammo type and container type", "target_ammo" );
@@ -141,7 +147,8 @@ long iuse_transform::use(player *p, item *it, bool t, const tripoint &pos ) cons
         obj = &it->emplace_back( target, calendar::turn, std::max( ammo_qty, 1l ) );
     }
 
-    obj->active = active;
+    obj->item_counter = countdown > 0 ? countdown : obj->type->countdown_interval;
+    obj->active = active || obj->item_counter;
 
     return 0;
 }
@@ -169,6 +176,79 @@ void iuse_transform::finalize( const itype_id & )
         if( ammo_qty > 1 && !dummy.count_by_charges() ) {
             debugmsg( "Transform target with container must be an item with charges, got non-charged: %s", target.c_str() );
         }
+    }
+}
+
+void iuse_transform::info( const item &it, std::vector<iteminfo> &dump ) const
+{
+    const item dummy( target, calendar::turn, std::max( ammo_qty, 1l ) );
+    dump.emplace_back( "TOOL", string_format( _( "<bold>Turns into</bold>: %s" ),
+                                              dummy.tname().c_str() ) );
+    if( countdown > 0 ) {
+        dump.emplace_back( "TOOL", _( "Countdown: " ), "", countdown );
+    }
+
+    const auto *explosion_use = dummy.get_use( "explosion" );
+    if( explosion_use != nullptr ) {
+        explosion_use->get_actor_ptr()->info( it, dump );
+    }
+}
+
+countdown_actor::~countdown_actor() = default;
+
+iuse_actor *countdown_actor::clone() const
+{
+    return new countdown_actor( *this );
+}
+
+void countdown_actor::load( JsonObject &obj )
+{
+    obj.read( "name", name );
+    obj.read( "interval", interval );
+    obj.read( "message", message );
+}
+
+long countdown_actor::use( player *p, item *it, bool t, const tripoint &pos ) const
+{
+    if( t ) {
+        return 0;
+    }
+
+    if( it->active ) {
+        return 0;
+    }
+
+    if( p ) {
+        if( p->sees( pos ) && !message.empty() ) {
+            p->add_msg_if_player( m_neutral, _( message.c_str() ), it->tname().c_str() );
+        }
+    }
+
+    it->item_counter = interval > 0 ? interval : it->type->countdown_interval;
+    it->active = true;
+    return 0;
+}
+
+bool countdown_actor::can_use( const player *, const item *it, bool, const tripoint & ) const
+{
+    return !it->active;
+}
+
+std::string countdown_actor::get_name() const
+{
+    if( !name.empty() ) {
+        return name;
+    }
+    return iuse_actor::get_name();
+}
+
+void countdown_actor::info( const item &it, std::vector<iteminfo> &dump ) const
+{
+    dump.emplace_back( "TOOL", _( "Countdown: " ), "",
+                       interval > 0 ? interval : it.type->countdown_interval );
+    const auto countdown_actor = it.type->countdown_action.get_actor_ptr();
+    if( countdown_actor != nullptr ) {
+        countdown_actor->info( it, dump );
     }
 }
 
@@ -262,6 +342,21 @@ long explosion_iuse::use(player *p, item *it, bool t, const tripoint &pos) const
     return 1;
 }
 
+void explosion_iuse::info( const item &, std::vector<iteminfo> &dump ) const
+{
+    if( explosion.power <= 0 ) {
+        // @todo List other effects, like EMP and clouds
+        return;
+    }
+
+    dump.emplace_back( "TOOL", _( "Power at <bold>epicenter</bold>: " ), "", explosion.power );
+    const auto &sd = explosion.shrapnel;
+    if( sd.count > 0 ) {
+        dump.emplace_back( "TOOL", _( "Shrapnel <bold>count</bold>: " ), "", sd.count );
+        dump.emplace_back( "TOOL", _( "Shrapnel <bold>mass</bold>: " ), "", sd.mass );
+    }
+}
+
 
 
 unfold_vehicle_iuse::~unfold_vehicle_iuse()
@@ -306,7 +401,7 @@ long unfold_vehicle_iuse::use(player *p, item *it, bool /*t*/, const tripoint &/
     // Mark the vehicle as foldable.
     veh->tags.insert("convertible");
     // Store the id of the item the vehicle is made of.
-    veh->tags.insert(std::string("convertible:") + it->type->id);
+    veh->tags.insert(std::string("convertible:") + it->typeId());
     if( !unfold_msg.empty() ) {
         p->add_msg_if_player( _( unfold_msg.c_str() ), it->tname().c_str());
     }
@@ -322,7 +417,9 @@ long unfold_vehicle_iuse::use(player *p, item *it, bool /*t*/, const tripoint &/
     if (!data.empty() && data[0] >= '0' && data[0] <= '9') {
         // starts with a digit -> old format
         for( auto &elem : veh->parts ) {
-            veh_data >> elem.hp;
+            int tmp;
+            veh_data >> tmp;
+            veh->set_hp( elem, tmp );
         }
     } else {
         try {
@@ -336,7 +433,7 @@ long unfold_vehicle_iuse::use(player *p, item *it, bool /*t*/, const tripoint &/
                 vehicle_part &dst = veh->parts[i];
                 // and now only copy values, that are
                 // expected to be consistent.
-                dst.hp = src.hp;
+                veh->set_hp( dst, src.hp() );
                 dst.blood = src.blood;
                 // door state/amount of fuel/direction of headlight
                 dst.ammo_set( src.ammo_current(), src.ammo_remaining() );
@@ -390,19 +487,18 @@ void consume_drug_iuse::load( JsonObject &obj )
 
 void consume_drug_iuse::info( const item&, std::vector<iteminfo>& dump ) const
 {
-    std::string vits;
-    for( const auto &v : vitamins ) {
-        // only display vitamins that we actually require
-        int rate = g->u.vitamin_rate( v.first );
-        if( rate > 0 ) {
-            if( !vits.empty() ) {
-                vits += ", ";
-            }
-            int lo = int( v.second.first  / ( DAYS( 1 ) / float( rate ) ) * 100 );
-            int hi = int( v.second.second / ( DAYS( 1 ) / float( rate ) ) * 100 );
-            vits += string_format( lo == hi ? "%s (%i%%)" : "%s (%i-%i%%)", v.first.obj().name().c_str(), lo, hi );
+    const std::string vits = enumerate_as_string( vitamins.begin(), vitamins.end(),
+    []( const decltype( vitamins )::value_type &v ) {
+        const int rate = g->u.vitamin_rate( v.first );
+        if( rate <= 0 ) {
+            return std::string();
         }
-    }
+        const int lo = int( v.second.first  / ( DAYS( 1 ) / float( rate ) ) * 100 );
+        const int hi = int( v.second.second / ( DAYS( 1 ) / float( rate ) ) * 100 );
+
+        return string_format( lo == hi ? "%s (%i%%)" : "%s (%i-%i%%)", v.first.obj().name().c_str(), lo, hi );
+    } );
+
     if( !vits.empty() ) {
         dump.emplace_back( "TOOL", _( "Vitamins (RDA): " ), vits.c_str() );
     }
@@ -692,7 +788,7 @@ long pick_lock_actor::use( player *p, item *it, bool, const tripoint& ) const
         return 0;
     }
     tripoint dirp;
-    if( !choose_adjacent( _( "Use your pick lock where?" ), dirp ) ) {
+    if( !choose_adjacent( _( "Use your lockpick where?" ), dirp ) ) {
         return 0;
     }
     if( dirp == p->pos() ) {
@@ -741,16 +837,19 @@ long pick_lock_actor::use( player *p, item *it, bool, const tripoint& ) const
     p->moves -= std::max(0, ( 1000 - ( pick_quality * 100 ) ) - ( p->dex_cur + p->get_skill_level( skill_mechanics ) ) * 5);
     ///\EFFECT_DEX improves chances of successfully picking door lock, reduces chances of bad outcomes
 
+    bool destroy = false;
+
     ///\EFFECT_MECHANICS improves chances of successfully picking door lock, reduces chances of bad outcomes
-    int pick_roll = ( dice( 2, p->get_skill_level( skill_mechanics ) ) + dice( 2, p->dex_cur ) - it->damage / 2 ) * pick_quality;
+    int pick_roll = ( dice( 2, p->get_skill_level( skill_mechanics ) ) + dice( 2, p->dex_cur ) - it->damage() / 2 ) * pick_quality;
     int door_roll = dice( 4, 30 );
     if( pick_roll >= door_roll ) {
         p->practice( skill_mechanics, 1 );
         p->add_msg_if_player( m_good, "%s", open_message.c_str() );
         g->m.ter_set( dirp, new_type );
     } else if( door_roll > ( 1.5 * pick_roll ) ) {
-        if( it->damage++ >= MAX_ITEM_DAMAGE ) {
+        if( it->inc_damage() ) {
             p->add_msg_if_player( m_bad, _( "The lock stumps your efforts to pick it, and you destroy your tool." ) );
+            destroy = true;
         } else {
             p->add_msg_if_player( m_bad, _( "The lock stumps your efforts to pick it, and you damage your tool." ) );
         }
@@ -758,12 +857,12 @@ long pick_lock_actor::use( player *p, item *it, bool, const tripoint& ) const
         p->add_msg_if_player( m_bad, _( "The lock stumps your efforts to pick it." ) );
     }
     if( type == t_door_locked_alarm && ( door_roll + dice( 1, 30 ) ) > pick_roll ) {
-        sounds::sound( p->pos(), 40, _( "An alarm sounds!" ) );
+        sounds::sound( p->pos(), 40, _( "an alarm sound!" ) );
         if( !g->event_queued( EVENT_WANTED ) ) {
             g->add_event( EVENT_WANTED, int( calendar::turn ) + 300, 0, p->global_sm_location() );
         }
     }
-    if( it->damage > MAX_ITEM_DAMAGE ) {
+    if( destroy ) {
         p->i_rem( it );
         return 0;
     }
@@ -819,7 +918,9 @@ long reveal_map_actor::use( player *p, item *it, bool, const tripoint& ) const
 
 void firestarter_actor::load( JsonObject &obj )
 {
-    moves_cost = obj.get_int( "moves_cost", 0 );
+    moves_cost_fast = obj.get_int( "moves", moves_cost_fast );
+    moves_cost_slow = obj.get_int( "moves_slow", moves_cost_fast * 10 );
+    need_sunlight = obj.get_bool( "need_sunlight", false );
 }
 
 iuse_actor *firestarter_actor::clone() const
@@ -829,14 +930,15 @@ iuse_actor *firestarter_actor::clone() const
 
 bool firestarter_actor::prep_firestarter_use( const player *p, const item *it, tripoint &pos )
 {
-    if( (it->charges == 0) && (!it->has_flag("LENS"))){ // lenses do not need charges
+    if( it->ammo_remaining() < it->ammo_required() ) {
+        p->add_msg_if_player( m_info, _("This tool doesn't have enough charges.") );
         return false;
     }
     if( p->is_underwater() ) {
         p->add_msg_if_player(m_info, _("You can't do that while underwater."));
         return false;
     }
-    if( !choose_adjacent(_("Light where?"), pos ) ) {
+    if( pos == p->pos() && !choose_adjacent( _("Light where?"), pos ) ) {
         g->refresh_all();
         return false;
     }
@@ -856,7 +958,7 @@ bool firestarter_actor::prep_firestarter_use( const player *p, const item *it, t
         // Check for a brazier.
         bool has_unactivated_brazier = false;
         for( const auto &i : g->m.i_at( pos ) ) {
-            if( i.type->id == "brazier" ) {
+            if( i.typeId() == "brazier" ) {
                 has_unactivated_brazier = true;
             }
         }
@@ -878,122 +980,89 @@ void firestarter_actor::resolve_firestarter_use( const player *p, const item *, 
     }
 }
 
-// TODO: Move prep_firestarter_use here
-long firestarter_actor::use( player *p, item *it, bool t, const tripoint &pos ) const
-{
-    if( t ) {
-        return 0;
-    }
-
-    tripoint tmp = pos;
-    if( prep_firestarter_use(p, it, tmp) ) {
-        p->moves -= moves_cost;
-        resolve_firestarter_use( p, it, tmp );
-        return it->type->charges_to_use();
-    }
-
-    return 0;
-}
-
 bool firestarter_actor::can_use( const player* p, const item*, bool, const tripoint& ) const
 {
     if( p->is_underwater() ) {
         return false;
     }
 
-    return true;
-}
-
-void extended_firestarter_actor::load( JsonObject &obj )
-{
-    need_sunlight = obj.get_bool( "need_sunlight", false );
-    moves_cost = obj.get_int( "moves_cost", 0 );
-}
-
-iuse_actor *extended_firestarter_actor::clone() const
-{
-    return new extended_firestarter_actor( *this );
-}
-
-int extended_firestarter_actor::calculate_time_for_lens_fire( const player *p, float light_level ) const
-{
-    // base moves based on sunlight levels... 1 minute when sunny (80 lighting),
-    // ~10 minutes when clear (60 lighting)
-    float moves_base = std::pow( 80 / light_level, 8 ) * 1000 ;
-    // survival 0 takes 3 * moves_base, survival 1 takes 1,5 * moves_base,
-    // max moves capped at moves_base
-    ///\EFFECT_SURVIVAL speeds up fire starting with lens
-    float moves_modifier = 1 / ( p->get_skill_level( skill_survival ) * 0.33 + 0.33 );
-    if( moves_modifier < 1 ) {
-        moves_modifier = 1;
-    }
-    return int(moves_base * moves_modifier);
-}
-
-long extended_firestarter_actor::use( player *p, item *it, bool, const tripoint &spos ) const
-{
-    tripoint pos = spos;
-    if( need_sunlight ) {
-        // Needs the correct weather, light and to be outside.
-        if( (g->weather == WEATHER_CLEAR || g->weather == WEATHER_SUNNY) &&
-            g->natural_light_level( pos.z ) >= 60 && !g->m.has_flag( TFLAG_INDOORS, pos ) ) {
-            if( prep_firestarter_use(p, it, pos ) ) {
-                // turns needed for activity.
-                const int turns = calculate_time_for_lens_fire( p, g->natural_light_level( pos.z ) );
-                if( turns/1000 > 1 ) {
-                    // If it takes less than a minute, no need to inform the player about time.
-                    p->add_msg_if_player(m_info, _("If the current weather holds, it will take around %d minutes to light a fire."), turns / 1000);
-                }
-                p->assign_activity( ACT_START_FIRE, turns, -1, p->get_item_position(it), it->tname() );
-                // Keep natural_light_level for comparing throughout the activity.
-                p->activity.values.push_back( g->natural_light_level( pos.z ) );
-                p->activity.placement = pos;
-                p->practice( skill_survival, 5 );
-            }
-        } else {
-            p->add_msg_if_player(_("You need direct sunlight to light a fire with this."));
-        }
-    } else {
-        if( prep_firestarter_use(p, it, pos) ) {
-            float skillLevel = float(p->get_skill_level( skill_survival ));
-            // success chance is 100% but time spent is min 5 minutes at skill == 5 and
-            // it increases for lower skill levels.
-            // max time is 1 hour for 0 survival
-            const float moves_base = 5 * 1000;
-            if( skillLevel < 1 ) {
-                // avoid dividing by zero. scaled so that skill level 0 means 60 minutes work
-                skillLevel = 0.536;
-            }
-            // At survival=5 modifier=1, at survival=1 modifier=~6.
-            ///\EFFECT_SURVIVAL speeds up fire starting
-            float moves_modifier = std::pow( 5 / skillLevel, 1.113 );
-            if (moves_modifier < 1) {
-                moves_modifier = 1; // activity time improvement is capped at skillevel 5
-            }
-            const int turns = int( moves_base * moves_modifier );
-            p->add_msg_if_player(m_info, _("At your skill level, it will take around %d minutes to light a fire."), turns / 1000);
-            p->assign_activity(ACT_START_FIRE, turns, -1, p->get_item_position(it), it->tname());
-            p->activity.placement = pos;
-            p->practice( skill_survival, 10 );
-            it->charges -= it->type->charges_to_use() * round(moves_modifier);
-            return 0;
-        }
-    }
-    return 0;
-}
-
-bool extended_firestarter_actor::can_use( const player* p, const item* it, bool t, const tripoint& pos ) const
-{
-    if( !firestarter_actor::can_use( p, it, t, pos ) ) {
+    if( light_mod( p->pos() ) <= 0.0f ) {
         return false;
     }
 
-    if( need_sunlight ) {
-        return ( g->weather == WEATHER_CLEAR || g->weather == WEATHER_SUNNY ) &&
-                 g->natural_light_level( pos.z ) >= 60 && !g->m.has_flag( TFLAG_INDOORS, pos );
+    return true;
+}
+
+float firestarter_actor::light_mod( const tripoint &pos ) const
+{
+    if( !need_sunlight ) {
+        return 1.0f;
     }
 
-    return true;
+    const float light_level = g->natural_light_level( pos.z );
+    if( (g->weather == WEATHER_CLEAR || g->weather == WEATHER_SUNNY) &&
+        light_level >= 60.0f && !g->m.has_flag( TFLAG_INDOORS, pos ) ) {
+        return std::pow( light_level / 80.0f, 8 );
+    }
+
+    return 0.0f;
+}
+
+int firestarter_actor::moves_cost_by_fuel( const tripoint &pos ) const
+{
+    if( g->m.flammable_items_at( pos, 100 ) ) {
+        return moves_cost_fast;
+    }
+
+    if( g->m.flammable_items_at( pos, 10 ) ) {
+        return ( moves_cost_slow + moves_cost_fast ) / 2;
+    }
+
+    return moves_cost_slow;
+}
+
+long firestarter_actor::use( player *p, item *it, bool t, const tripoint &spos ) const
+{
+    if( t ) {
+        return 0;
+    }
+
+    tripoint pos = spos;
+    float light = light_mod( pos );
+    if( light <= 0.0f ) {
+        p->add_msg_if_player( _("You need direct sunlight to light a fire with this.") );
+        return 0;
+    }
+
+    if( !prep_firestarter_use( p, it, pos ) ) {
+        return 0;
+    }
+
+    double skill_level = p->get_skill_level( skill_survival );
+    ///\EFFECT_SURVIVAL speeds up fire starting
+    float moves_modifier = std::pow( 0.8, std::min( 5.0, skill_level ) );
+    const int moves_base = moves_cost_by_fuel( pos );
+    const int min_moves = std::min<int>( moves_base, sqrt( 1 + moves_base / MOVES( 1 ) ) * MOVES( 1 ) );
+    const int moves = std::max<int>( min_moves, moves_base * moves_modifier ) / light;
+    if( moves > MOVES( MINUTES( 1 ) ) ) {
+        // If more than 1 minute, inform the player
+        static const std::string sun_msg =
+            _("If the current weather holds, it will take around %d minutes to light a fire.");
+        static const std::string normal_msg =
+            _("At your skill level, it will take around %d minutes to light a fire.");
+        p->add_msg_if_player( m_info, ( need_sunlight ? sun_msg : normal_msg ).c_str(),
+            moves / MOVES( MINUTES( 1 ) ) );
+    } else if( moves < MOVES( 2 ) ) {
+        // If less than 2 turns, don't start a long action
+        resolve_firestarter_use( p, it, pos );
+        p->mod_moves( -moves );
+        return it->type->charges_to_use();
+    }
+    p->assign_activity( ACT_START_FIRE, moves, -1, p->get_item_position( it ), it->tname() );
+    p->activity.values.push_back( g->natural_light_level( pos.z ) );
+    p->activity.placement = pos;
+    p->practice( skill_survival, moves_modifier + moves_cost_fast / 100 + 2, 5 );
+    return it->type->charges_to_use();
 }
 
 void salvage_actor::load( JsonObject &obj )
@@ -1031,6 +1100,8 @@ long salvage_actor::use( player *p, item *it, bool t, const tripoint& ) const
     return cut_up( p, it, cut );
 }
 
+static const units::volume minimal_volume_to_cut = 250_ml;
+
 bool salvage_actor::valid_to_cut_up(const item *it) const
 {
     if( it->is_null() ) {
@@ -1046,7 +1117,7 @@ bool salvage_actor::valid_to_cut_up(const item *it) const
     if( !it->contents.empty() ) {
         return false;
     }
-    if (it->volume() == 0) {
+    if (it->volume() < minimal_volume_to_cut) {
         return false;
     }
 
@@ -1080,7 +1151,7 @@ bool salvage_actor::try_to_cut_up( player *p, item *it ) const
         add_msg(m_info, _("Please empty the %s before cutting it up."), it->tname().c_str());
         return false;
     }
-    if( it->volume() == 0 ) {
+    if( it->volume() < minimal_volume_to_cut ) {
         add_msg(m_info, _("The %s is too small to salvage material from."), it->tname().c_str());
         return false;
     }
@@ -1109,7 +1180,7 @@ int salvage_actor::cut_up(player *p, item *it, item *cut) const
     int pos = p->get_item_position(cut);
     // total number of raw components == total volume of item.
     // This can go awry if there is a volume / recipe mismatch.
-    int count = cut->volume();
+    int count = cut->volume() / minimal_volume_to_cut;
     // Chance of us losing a material component to entropy.
     ///\EFFECT_FABRICATION reduces chance of losing components when cutting items up
     int entropy_threshold = std::max(5, 10 - p->get_skill_level( skill_fabrication ) );
@@ -1146,8 +1217,8 @@ int salvage_actor::cut_up(player *p, item *it, item *cut) const
     // If more than 1 material component can still be be salvaged,
     // chance of losing more components if the item is damaged.
     // If the item being cut is not damaged, no additional losses will be incurred.
-    if (count > 0 && cut->damage > 0) {
-        float component_success_chance = std::min(std::pow(0.8, cut->damage), 1.0);
+    if (count > 0 && cut->damage() > 0) {
+        float component_success_chance = std::min( std::pow( 0.8, cut->damage() ), 1.0 );
         for(int i = count; i > 0; i--) {
             if(component_success_chance < rng_float(0,1)) {
                 count--;
@@ -1159,9 +1230,7 @@ int salvage_actor::cut_up(player *p, item *it, item *cut) const
     // soon after I write this, I'll go with the one that is cleaner.
     for (auto material : cut_material_components) {
         const material_type &mt = material.obj();
-        std::string salvaged_id = mt.salvage_id();
-        float salvage_multiplier = mt.salvage_multiplier();
-        materials_salvaged[salvaged_id] = count * salvage_multiplier / cut_material_components.size();
+        materials_salvaged[mt.salvaged_into()] = count / cut_material_components.size();
     }
 
     add_msg(m_info, _("You try to salvage materials from the %s."), cut->tname().c_str());
@@ -1536,7 +1605,7 @@ long enzlave_actor::use( player *p, item *it, bool t, const tripoint& ) const
     // Speed range is 20 - 120 (for humanoids, dogs get way faster)
     // This gives us a difficulty ranging rougly from 10 - 40, with up to +25 for corpse damage.
     // An average zombie with an undamaged corpse is 0 + 8 + 14 = 22.
-    int difficulty = (body->damage * 5) + (mt->hp / 10) + (mt->speed / 5);
+    int difficulty = ( body->damage() * 5 ) + ( mt->hp / 10 ) + ( mt->speed / 5 );
     // 0 - 30
     ///\EFFECT_DEX increases chance of success for enzlavement
 
@@ -1594,7 +1663,7 @@ long fireweapon_off_actor::use( player *p, item *it, bool t, const tripoint& ) c
     }
 
     p->moves -= moves;
-    if( rng( 0, 10 ) - it->damage > success_chance && !p->is_underwater() ) {
+    if( rng( 0, 10 ) - it->damage() > success_chance && !p->is_underwater() ) {
         if( noise > 0 ) {
             sounds::sound( p->pos(), noise, _(success_message.c_str()) );
         } else {
@@ -1814,8 +1883,12 @@ void holster_actor::load( JsonObject &obj )
     holster_prompt = obj.get_string( "holster_prompt", "" );
     holster_msg    = obj.get_string( "holster_msg",    "" );
 
-    max_volume = obj.get_int( "max_volume" );
-    min_volume = obj.get_int( "min_volume", max_volume / 3 );
+    max_volume = obj.get_int( "max_volume" ) * units::legacy_volume_factor;
+    if( obj.has_member( "min_volume" ) ) {
+        min_volume = obj.get_int( "min_volume" ) * units::legacy_volume_factor;
+    } else {
+        min_volume = max_volume / 3;
+    }
     max_weight = obj.get_int( "max_weight", max_weight );
     multi      = obj.get_int( "multi",      multi );
     draw_cost  = obj.get_int( "draw_cost",  draw_cost );
@@ -1935,7 +2008,12 @@ iuse_actor *bandolier_actor::clone() const
 void bandolier_actor::load( JsonObject &obj )
 {
     capacity = obj.get_int( "capacity", capacity );
-    ammo = obj.get_tags( "ammo" );
+    ammo.clear();
+    for( auto &e : obj.get_tags( "ammo" ) ) {
+        ammo.insert( ammotype( e ) );
+    }
+
+    draw_cost = obj.get_int( "draw_cost", draw_cost );
 }
 
 void bandolier_actor::info( const item&, std::vector<iteminfo>& dump ) const
@@ -1967,62 +2045,58 @@ bool bandolier_actor::can_store( const item &bandolier, const item &obj ) const
     return std::count( ammo.begin(), ammo.end(), obj.type->ammo->type );
 }
 
-bool bandolier_actor::store( player &p, item &bandolier, item &obj ) const
+bool bandolier_actor::reload( player &p, item &obj ) const
 {
-    if( obj.is_null() || bandolier.is_null() ) {
-        debugmsg( "Null item was passed to bandolier_actor" );
+    if( !obj.is_bandolier() ) {
+        debugmsg( "Invalid item passed to bandolier_actor" );
         return false;
     }
 
-    if( !p.has_item( obj ) ) {
-        debugmsg( "Tried to store item not in player possession in bandolier" );
+    // find all nearby compatible ammo (matching type currently contained if appropriate)
+    auto found = p.nearby( [&]( const item *e, const item *parent ) {
+        return parent != &obj && can_store( obj, *e );
+    } );
+
+    if( found.empty() ) {
+        p.add_msg_if_player( m_bad, _( "No matching ammo for the %1$s" ), obj.type_name().c_str() );
         return false;
     }
 
-    // if selected item is unsuitable inform the player why not
-    if( !obj.is_ammo() ) {
-        p.add_msg_if_player( m_info, _( "That %1$s isn't ammo!" ), obj.tname().c_str() );
-        return false;
+    // convert these into reload options and display the selection prompt
+    std::vector<item::reload_option> opts;
+    std::transform( std::make_move_iterator( found.begin() ), std::make_move_iterator( found.end() ),
+                    std::back_inserter( opts ), [&]( item_location &&e ) {
+        return item::reload_option( &p, &obj, &obj, std::move( e ) );
+    } );
+
+    item::reload_option sel = p.select_ammo( obj, opts );
+    if( !sel ) {
+        return false; // cancelled menu
     }
 
-    if( !std::count( ammo.begin(), ammo.end(), obj.type->ammo->type ) ) {
-        p.add_msg_if_player( m_info, _( "Your %1$s can't store that type of ammo" ),
-                             bandolier.type_name().c_str() );
-        return false;
-    }
+    p.mod_moves( -sel.moves() );
 
-    long qty;
-
-    if( bandolier.contents.empty() ) {
-        qty = std::min( obj.charges, long( capacity ) );
-
-        item put = obj.split( qty );
+    // add or stack the ammo dependent upon existing contents
+    if( obj.contents.empty() ) {
+        item put = sel.ammo->split( sel.qty() );
         if( !put.is_null() ) {
-            bandolier.put_in( put );
+            obj.put_in( put );
         } else {
-            bandolier.put_in( p.i_rem( &obj ) );
+            obj.put_in( *sel.ammo );
+            sel.ammo.remove_item();
         }
     } else {
-        qty = std::min( obj.charges, capacity - bandolier.contents.front().charges );
-
-        if( bandolier.contents.front().typeId() != obj.typeId() ) {
-            p.add_msg_if_player( m_info, _( "Your %1$s already contains a different type of ammo" ),
-                                 bandolier.type_name().c_str() );
-            return false;
-        }
-        if( qty <= 0 ) {
-            p.add_msg_if_player( m_info, _( "Your %1$s is already full" ), bandolier.type_name().c_str() );
-            return false;
-        }
-
-        obj.charges -= qty;
-        bandolier.contents.front().charges += qty;
-        if( obj.charges <= 0 ) {
-            p.i_rem( &obj );
+        obj.contents.front().charges += sel.qty();
+        if( sel.ammo->charges > sel.qty() ) {
+            sel.ammo->charges -= sel.qty();
+        } else {
+            sel.ammo.remove_item();
         }
     }
-    p.add_msg_if_player( _( "You store the %1$s in your %2$s" ), obj.tname( qty ).c_str(),
-                         bandolier.type_name().c_str() );
+
+    p.add_msg_if_player( _( "You store the %1$s in your %2$s" ),
+                         obj.contents.front().tname( sel.qty() ).c_str(),
+                         obj.type_name().c_str() );
 
     return true;
 }
@@ -2045,18 +2119,7 @@ long bandolier_actor::use( player *p, item *it, bool, const tripoint & ) const
     menu.addentry( -1, it->contents.empty() || it->contents.front().charges < capacity,
                    'r', string_format( _( "Store ammo in %s" ), it->type_name().c_str() ) );
 
-    actions.emplace_back( [&] {
-        item &obj = p->i_at( g->inv_for_filter( _( "Store ammo" ),
-                                                [&]( const item & e ) {
-            return can_store( *it, e );
-        } ) );
-
-        if( !obj.is_null() ) {
-            store( *p, *it, obj );
-        } else {
-            p->add_msg_if_player( _( "Never mind." ) );
-        }
-    } );
+    actions.emplace_back( [&] { reload( *p, *it ); } );
 
     menu.addentry( -1, !it->contents.empty(), 'u', string_format( _( "Unload %s" ),
                    it->type_name().c_str() ) );
@@ -2108,18 +2171,13 @@ long ammobelt_actor::use( player *p, item *, bool, const tripoint& ) const
         return 0;
     }
 
-    item::reload_option opt = mag.pick_reload_ammo( *p, true );
+    item::reload_option opt = p->select_ammo( mag, true );
     if( opt ) {
-        std::stringstream ss;
-        ss << p->get_item_position( &p->i_add( mag ) );
-
-        // store moves and qty locally as obtain() will invalidate the reload_option
-        int mv = opt.moves();
-        long qty = opt.qty();
-        int pos = opt.ammo.obtain( *p, qty );
-
-        p->assign_activity( ACT_RELOAD, mv, qty, pos, ss.str() );
+        p->assign_activity( ACT_RELOAD, opt.moves(), opt.qty() );
+        p->activity.targets.emplace_back( *p, &p->i_add( mag ) );
+        p->activity.targets.push_back( std::move( opt.ammo ) );
     }
+
     return 0;
 }
 
@@ -2144,36 +2202,6 @@ void repair_item_actor::load( JsonObject &obj )
     tool_quality = obj.get_int( "tool_quality", 0 );
     move_cost    = obj.get_int( "move_cost", 500 );
     trains_skill_to = obj.get_int( "trains_skill_to", 5 ) - 1;
-}
-
-// TODO: This should be a property of material json, not a hardcoded hack
-const itype_id &material_component( const material_id &id )
-{
-    static const std::map< material_id, itype_id > material_id_map {
-        // Metals (welded)
-        { material_id( "kevlar" ), "kevlar_plate" },
-        { material_id( "plastic" ), "plastic_chunk" },
-        { material_id( "iron" ), "scrap" },
-        { material_id( "steel" ), "scrap" },
-        { material_id( "hardsteel" ), "scrap" },
-        { material_id( "aluminum" ), "material_aluminium_ingot" },
-        { material_id( "copper" ), "scrap_copper" },
-        // Fabrics (sewn)
-        { material_id( "cotton" ), "rag" },
-        { material_id( "leather" ), "leather" },
-        { material_id( "fur" ), "fur" },
-        { material_id( "nomex" ), "nomex" },
-        { material_id( "wool" ), "felt_patch" },
-        { material_id( "neoprene" ), "neoprene" }
-    };
-
-    static const itype_id null_material = "";
-    const auto iter = material_id_map.find( id );
-    if( iter != material_id_map.end() ) {
-        return iter->second;
-    }
-
-    return null_material;
 }
 
 bool could_repair( const player &p, const item &it, bool print_msg )
@@ -2206,7 +2234,7 @@ long repair_item_actor::use( player *p, item *it, bool, const tripoint & ) const
         return 0;
     }
     const int pos = g->inv_for_filter( _( "Repair what?" ), [this, it]( const item &itm ) {
-        return itm.made_of_any( materials ) && !itm.is_ammo() && !itm.is_firearm() && &itm != it;
+        return itm.made_of_any( materials ) && !itm.count_by_charges() && !itm.is_firearm() && &itm != it;
     }, string_format( _( "You have no items that could be repaired with a %s." ), it->type_name( 1 ).c_str() ) );
 
     if( pos == INT_MIN ) {
@@ -2244,9 +2272,8 @@ bool repair_item_actor::handle_components( player &pl, const item &fix,
                                   fix.tname().c_str());
             for( const auto &mat_name : materials ) {
                 const auto &mat = mat_name.obj();
-                const auto mat_comp = material_component( mat_name );
-                pl.add_msg_if_player( m_info, _("%s (repaired using %s)"),
-                                      mat.name().c_str(), item::nname( mat_comp, 2 ).c_str() );
+                pl.add_msg_if_player( m_info, _("%s (repaired using %s)"), mat.name().c_str(),
+                                      item::nname( mat.repaired_with(), 2 ).c_str() );
             }
         }
 
@@ -2258,27 +2285,34 @@ bool repair_item_actor::handle_components( player &pl, const item &fix,
     // Repairing or modifying items requires at least 1 repair item,
     //  otherwise number is related to size of item
     // Round up if checking, but roll if actually consuming
+    // TODO: should 250_ml be part of the cost_scaling?
     const int items_needed = std::max<int>( 1, just_check ?
-        ceil( fix.volume() * cost_scaling ) :
-        divide_roll_remainder( fix.volume() * cost_scaling, 1.0f ) );
+        ceil( fix.volume() / 250_ml * cost_scaling ) :
+        divide_roll_remainder( fix.volume() / 250_ml * cost_scaling, 1.0f ) );
 
     // Go through all discovered repair items and see if we have any of them available
     for( const auto &entry : valid_entries ) {
-        const auto component_id = material_component( entry );
-        if( crafting_inv.has_amount( component_id, items_needed ) ) {
-            // We've found enough of a material, add it to list
-            comps.push_back( item_comp( component_id, items_needed ) );
+        const auto component_id = entry.obj().repaired_with();
+        if( item::count_by_charges( component_id ) ) {
+            if( crafting_inv.has_charges( component_id, items_needed ) ) {
+                comps.emplace_back( component_id, items_needed );
+            }
+        } else if( crafting_inv.has_amount( component_id, items_needed ) ) {
+            comps.emplace_back( component_id, items_needed );
         }
     }
 
     if( comps.empty() ) {
         if( print_msg ) {
             for( const auto &entry : valid_entries ) {
-                const auto &mat_comp = material_component( entry );
+                const auto &mat_comp = entry.obj().repaired_with();
                 pl.add_msg_if_player( m_info,
                     _("You don't have enough %s to do that. Have: %d, need: %d"),
                     item::nname( mat_comp, 2 ).c_str(),
-                    crafting_inv.amount_of( mat_comp, false ), items_needed );
+                    item::find_type( mat_comp )->count_by_charges() ?
+                        crafting_inv.amount_of( mat_comp, false ) :
+                        crafting_inv.charges_of( mat_comp, items_needed ),
+                    items_needed );
             }
         }
 
@@ -2348,7 +2382,7 @@ bool repair_item_actor::can_repair( player &pl, const item &tool, const item &fi
         }
         return false;
     }
-    if( fix.is_ammo() ) {
+    if( fix.count_by_charges() ) {
         if( print_msg ) {
             pl.add_msg_if_player( m_info, _("You cannot repair this type of item.") );
         }
@@ -2356,7 +2390,7 @@ bool repair_item_actor::can_repair( player &pl, const item &tool, const item &fi
     }
 
     if( &fix == &tool || any_of( materials.begin(), materials.end(), [&fix]( const material_id &mat ) {
-            return material_component( mat ) == fix.typeId();
+            return mat.obj().repaired_with() == fix.typeId();
         } ) ) {
         if( print_msg ) {
             pl.add_msg_if_player( m_info, _("This can be used to repair other items, not itself.") );
@@ -2372,11 +2406,11 @@ bool repair_item_actor::can_repair( player &pl, const item &tool, const item &fi
         return true;
     }
 
-    if( fix.damage > 0 ) {
+    if( fix.damage() > 0 ) {
         return true;
     }
 
-    if( fix.damage < 0 ) {
+    if( fix.damage() < 0 ) {
         if( print_msg ) {
             pl.add_msg_if_player( m_info, _("Your %s is already enhanced."), fix.tname().c_str() );
         }
@@ -2403,15 +2437,15 @@ std::pair<float, float> repair_item_actor::repair_chance(
     int action_difficulty = 0;
     switch( action_type ) {
         case RT_REPAIR:
-            action_difficulty = fix.damage;
+            action_difficulty = fix.damage();
             break;
         case RT_REFIT:
             // Let's make refitting as hard as recovering an almost-wrecked item
-            action_difficulty = MAX_ITEM_DAMAGE;
+            action_difficulty = fix.max_damage();
             break;
         case RT_REINFORCE:
             // Reinforcing is at least as hard as refitting
-            action_difficulty = std::max( MAX_ITEM_DAMAGE, recipe_difficulty );
+            action_difficulty = std::max( fix.max_damage(), recipe_difficulty );
             break;
         case RT_PRACTICE:
             // Skill gain scales with recipe difficulty, so practice difficulty should too
@@ -2443,7 +2477,7 @@ std::pair<float, float> repair_item_actor::repair_chance(
 
 repair_item_actor::repair_type repair_item_actor::default_action( const item &fix, int current_skill_level ) const
 {
-    if( fix.damage > 0 ) {
+    if( fix.damage() > 0 ) {
         return RT_REPAIR;
     }
 
@@ -2451,7 +2485,7 @@ repair_item_actor::repair_type repair_item_actor::default_action( const item &fi
         return RT_REFIT;
     }
 
-    if( fix.damage == 0 ) {
+    if( fix.damage() == 0 ) {
         return RT_REINFORCE;
     }
 
@@ -2465,8 +2499,7 @@ repair_item_actor::repair_type repair_item_actor::default_action( const item &fi
 bool damage_item( player &pl, item &fix )
 {
     pl.add_msg_if_player(m_bad, _("You damage your %s!"), fix.tname().c_str());
-    fix.damage++;
-    if( fix.damage >= 5 ) {
+    if( fix.inc_damage() ) {
         pl.add_msg_if_player(m_bad, _("You destroy it!"));
         const int pos = pl.get_item_position( &fix );
         if( pos != INT_MIN ) {
@@ -2529,7 +2562,7 @@ repair_item_actor::attempt_hint repair_item_actor::repair( player &pl, item &too
         if( roll == SUCCESS ) {
             pl.add_msg_if_player(m_good, _("You repair your %s!"), fix.tname().c_str());
             handle_components( pl, fix, false, false );
-            fix.damage--;
+            fix.mod_damage( -1 );
             return AS_SUCCESS;
         }
 
@@ -2556,7 +2589,7 @@ repair_item_actor::attempt_hint repair_item_actor::repair( player &pl, item &too
 
         if( roll == SUCCESS ) {
             pl.add_msg_if_player(m_good, _("You make your %s extra sturdy."), fix.tname().c_str());
-            fix.damage--;
+            fix.mod_damage( -1 );
             handle_components( pl, fix, false, false );
             return AS_SUCCESS;
         }

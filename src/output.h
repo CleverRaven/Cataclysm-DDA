@@ -4,14 +4,19 @@
 #include "color.h"
 #include "cursesdef.h"
 #include "catacharset.h"
+#include "translations.h"
+
 #include <cstdarg>
+#include <sstream>
 #include <string>
 #include <vector>
+#include <set>
 #include <memory>
 #include <map>
 
 struct iteminfo;
 enum direction : unsigned;
+class input_context;
 
 //      LINE_NESW  - X for on, O for off
 #define LINE_XOXO 4194424 // '|'   Vertical line. ncurses: ACS_VLINE; Unicode: U+2502
@@ -272,7 +277,7 @@ std::vector<size_t> get_tag_positions( const std::string &s );
 std::vector<std::string> split_by_color( const std::string &s );
 
 bool query_yn( const char *mes, ... );
-int  query_int( const char *mes, ... );
+bool query_int( int &result, const char *mes, ... );
 
 bool internal_query_yn( const char *mes, va_list ap );
 
@@ -304,7 +309,15 @@ std::string string_input_win( WINDOW *w, std::string input, int max_length, int 
                               int starty, int endx, bool loop, long &key, int &pos,
                               std::string identifier = "", int w_x = -1, int w_y = -1,
                               bool dorefresh = true, bool only_digits = false,
-                              std::map<long, std::function<void()>> callbacks = std::map<long, std::function<void()>>() );
+                              std::map<long, std::function<void()>> callbacks = std::map<long, std::function<void()>>(),
+                              std::set<long> ch_code_blacklist = std::set<long>() );
+
+std::string string_input_win_from_context(
+    WINDOW *w, input_context &ctxt, std::string input, int max_length, int startx, int starty,
+    int endx, bool loop, std::string &action, long &ch, int &pos, std::string identifier = "",
+    int w_x = -1, int w_y = -1, bool dorefresh = true, bool only_digits = false, bool draw_only = false,
+    std::map<long, std::function<void()>> callbacks = std::map<long, std::function<void()>>(),
+    std::set<long> ch_code_blacklist = std::set<long>() );
 
 // for the next two functions, if cancelable is true, esc returns the last option
 int  menu_vec( bool cancelable, const char *mes, const std::vector<std::string> options );
@@ -351,6 +364,7 @@ typedef enum {
 long popup_getkey( const char *mes, ... );
 void popup_top( const char *mes, ... );
 void popup_nowait( const char *mes, ... );
+void popup_status( const char *title, const char *msg, ... );
 void popup( const char *mes, ... );
 long popup( const std::string &text, PopupFlags flags );
 void full_screen_popup( const char *mes, ... );
@@ -373,6 +387,7 @@ char rand_char();
 long special_symbol( long sym );
 
 std::string trim( const std::string &s ); // Remove spaces from the start and the end of a string
+std::string to_upper_case( const std::string &s ); // Converts the string to upper case
 
 /**
  * @name printf-like string formatting.
@@ -408,8 +423,6 @@ void replace_substring( std::string &input, const std::string &substring,
 std::string string_replace( std::string text, const std::string &before, const std::string &after );
 std::string replace_colors( std::string text );
 std::string &capitalize_letter( std::string &pattern, size_t n = 0 );
-std::string rm_prefix( std::string str, char c1 = '<', char c2 = '>' );
-#define rmp_format(...) rm_prefix(string_format(__VA_ARGS__))
 size_t shortcut_print( WINDOW *w, int y, int x, nc_color text_color, nc_color shortcut_color,
                        const std::string &fmt );
 size_t shortcut_print( WINDOW *w, nc_color text_color, nc_color shortcut_color,
@@ -420,7 +433,6 @@ size_t shortcut_print( WINDOW *w, nc_color text_color, nc_color shortcut_color,
 void hit_animation( int iX, int iY, nc_color cColor, const std::string &cTile );
 
 std::pair<std::string, nc_color> const &get_hp_bar( int cur_hp, int max_hp, bool is_mon = false );
-std::pair<std::string, nc_color> const &get_item_hp_bar( int dmg );
 
 std::pair<std::string, nc_color> const &get_light_level( const float light );
 
@@ -469,6 +481,50 @@ inline std::string get_labeled_bar( const double val, const int width, const std
     result += ']';
 
     return result;
+}
+
+/**
+ * @return String containing enumerated elements in format: "a, b, c, ..., and z". Uses the Oxford comma.
+ * @param values A vector of strings
+ * @param use_and If true, add "and" before the last element (comma otherwise).
+ */
+template<typename _Container>
+std::string enumerate_as_string( const _Container &values, bool use_and = true )
+{
+    std::ostringstream res;
+    for( auto iter = values.begin(); iter != values.end(); ++iter ) {
+        if( iter != values.begin() ) {
+            if( use_and && std::next( iter ) == values.end() ) {
+                res << ( values.size() > 2 ? _( ", and " ) : _( " and " ) );
+            } else {
+                res << _( ", " );
+            }
+        }
+        res << *iter;
+    }
+    return res.str();
+}
+
+/**
+ * @return String containing enumerated elements in format: "a, b, c, ..., and z". Uses the Oxford comma.
+ * @param first Iterator pointing to the first element.
+ * @param last Iterator pointing to the last element.
+ * @param pred Predicate that accepts an element and returns a representing string.
+ * May return an empty string to omit the element.
+ * @param use_and If true, add "and" before the last element (comma otherwise).
+ */
+template<typename _FIter, typename _Predicate>
+std::string enumerate_as_string( _FIter first, _FIter last, _Predicate pred, bool use_and = true )
+{
+    std::vector<std::string> values;
+    values.reserve( size_t( std::distance( first, last ) ) );
+    for( _FIter iter = first; iter != last; ++iter ) {
+        const std::string str( pred( *iter ) );
+        if( !str.empty() ) {
+            values.push_back( str );
+        }
+    }
+    return enumerate_as_string( values, use_and );
 }
 
 /**
@@ -561,6 +617,11 @@ class scrollingcombattext
 };
 
 extern scrollingcombattext SCT;
+
+std::string wildcard_trim_rule( const std::string &sPatternIn );
+bool wildcard_match( const std::string &sTextIn, const std::string &sPatternIn );
+std::vector<std::string> &wildcard_split( const std::string &s, char delim, std::vector<std::string> &elems );
+int ci_find_substr( const std::string &str1, const std::string &str2, const std::locale &loc = std::locale() );
 
 /** Get the width in font glyphs of the drawing screen.
  *

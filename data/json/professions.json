@@ -4,13 +4,13 @@
             "ident": "bionic_prepper",
             "name": "Bionic Prepper",
             "description": "You knew the end was coming.  You augmented yourself with some basic bionics and got additional survival training.  Now the end has come, and it is time to see if your efforts have paid off.",
-            "points": 8,
+            "points": 6,
             "CBMs":[
                 "bio_torsionratchet",
-                "bio_power_storage",
-                "bio_tools",
+                "bio_power_storage_mkII",
                 "bio_sunglasses",
-                "bio_blindfold"
+                "bio_tools",
+                "bio_flashlight"
             ],
             "skills": [
                 {
@@ -32,7 +32,6 @@
             ],
             "items": {
                 "both": [
-                    "flashlight",
                     "shorts_cargo",
                     "boots",
                     "hat_boonie",
@@ -40,7 +39,6 @@
                     "tshirt",
                     "socks",
                     "backpack",
-                    "knife_swissarmy",
                     "rope_30",
                     "canteen"
                 ],
@@ -358,6 +356,7 @@
                 "boots_steel",
                 "tool_belt",
                 "wrench",
+                "duct_tape",
                 "mag_cars"
             ],
             "male": [
@@ -377,23 +376,23 @@
         "points": 2,
         "skills": [
             {
-                "level": 2,
+                "level": 1,
                 "name": "melee"
             },
             {
-                "level": 2,
+                "level": 1,
                 "name": "stabbing"
             },
             {
-                "level": 2,
+                "level": 1,
                 "name": "unarmed"
             },
             {
-                "level": 2,
+                "level": 1,
                 "name": "dodge"
             },
             {
-                "level": 2,
+                "level": 1,
                 "name": "barter"
             }
         ],
@@ -546,7 +545,7 @@
             },
             {
                 "level": 2,
-                "name": "pistol"
+                "name": "stabbing"
             }
         ],
         "items": {
@@ -560,6 +559,7 @@
                 "winter_gloves_army",
                 "socks",
                 "boots_combat",
+                "shoulder_strap",
                 "m4a1",
                 "223",
                 "stanag30",
@@ -593,7 +593,11 @@
             },
             {
                 "level": 2,
-                "name": "pistol"
+                "name": "cutting"
+            },
+            {
+                "level": 1,
+                "name": "melee"
             },
             {
                 "level": 1,
@@ -614,19 +618,24 @@
         ],
         "items": {
             "both": [
-                "winter_pants_army",
-                "winter_jacket_army",
+                "undershirt",
+                "arm_warmers",
+                "leg_warmers",
+                "pants_army",
+                "jacket_army",
                 "balclava",
                 "beret",
                 "gloves_liner",
                 "gloves_tactical",
                 "socks",
                 "boots_combat",
+                "shoulder_strap",
                 "rm2000_smg",
                 "8x40_25_mag",
                 "suppressor",
                 "8mm_fmj",
                 "8mm_fmj",
+                "sheath",
                 "kukri"
             ],
             "male": [
@@ -649,7 +658,7 @@
         "points": 1,
         "skills": [
             {
-                "level": 1,
+                "level": 2,
                 "name": "cooking"
             },
             {
@@ -664,7 +673,7 @@
         "items": {
             "both" : [
                 "pocketwatch",
-                "knife_butter"
+                "knife_steak"
             ],
             "male": [
                 "briefs",
@@ -676,7 +685,7 @@
                 "panties",
                 "bra",
                 "stockings",
-                "boots",
+                "dress_shoes",
                 "maid_dress",
                 "maid_hat"
             ]
@@ -687,10 +696,10 @@
         "ident": "medic",
         "name": "Medical Resident",
         "description": "Fresh out of med school, you've got little in the way of practical experience.  You just hope it will be enough if the old adage of 'Doctor, heal thyself' ends up being required.",
-        "points": 1,
+        "points": 2,
         "skills": [
             {
-                "level": 3,
+                "level": 4,
                 "name": "firstaid"
             }
         ],
@@ -701,12 +710,13 @@
             "both": [
                 "pants",
                 "dress_shirt",
+                "gloves_medical",
                 "socks",
                 "dress_shoes",
                 "coat_lab",
                 "water_clean",
                 "bandages",
-                "bandages",
+                "aspirin",
                 "1st_aid",
                 "stethoscope"
             ],
@@ -727,27 +737,27 @@
         "points": 3,
         "skills": [
             {
-                "level": 2,
+                "level": 1,
                 "name": "melee"
             },
             {
-                "level": 2,
+                "level": 1,
                 "name": "unarmed"
             },
             {
-                "level": 2,
+                "level": 1,
                 "name": "stabbing"
             },
             {
-                "level": 2,
+                "level": 1,
                 "name": "gun"
             },
             {
-                "level": 2,
+                "level": 1,
                 "name": "pistol"
             },
             {
-                "level": 2,
+                "level": 1,
                 "name": "driving"
             }
         ],
@@ -856,6 +866,62 @@
                 "whistle",
                 "canteen",
                 "scabbard"
+            ],
+            "male": [
+                "boxer_shorts"
+            ],
+            "female": [
+                "bra",
+                "boxer_shorts"
+            ]
+        }
+    },
+    {
+            "type": "profession",
+            "ident": "bio_sur",
+            "name": "Bionic Survivalist",
+            "description": "Mainly from paranoia, you augmented yourself, got some training and basic gear to go inawoods incase anything went down, well it did.  Seems your paranoia paid off.",
+            "points": 8,
+            "skills": [
+            {
+                "level": 1,
+                "name": "survival"
+            },
+            {
+                "level": 1,
+                "name": "fabrication"
+            },
+            {
+                "level": 1,
+                "name": "cooking"
+            },
+            {
+                "level": 1,
+                "name": "firstaid"
+            }
+        ],
+        "CBMs":[
+            "bio_power_storage_mkII",
+            "bio_sunglasses",
+            "bio_torsionratchet",
+            "bio_lighter",
+            "bio_evap",
+            "bio_flashlight",
+            "bio_tools"
+        ],
+        "items": {
+            "both": [
+                "shorts_cargo",
+                "boots",
+                "hat_boonie",
+                "blazer",
+                "tshirt",
+                "socks",
+                "backpack",
+                "knife_hunting",
+                "rope_30",
+                "canteen",
+                "sheath"
             ],
             "male": [
                 "boxer_shorts"
@@ -1205,6 +1271,10 @@
             {
                 "level": 4,
                 "name": "rifle"
+            },
+            {
+                "level": 1,
+                "name": "pistol"
             }
         ],
         "traits": [
@@ -1225,6 +1295,7 @@
                 "usp_45",
                 "usp45mag",
                 "45_acp",
+                "shoulder_strap",
                 "remington_700",
                 "3006",
                 "3006",
@@ -1347,6 +1418,7 @@
                 "jacket_flannel",
                 "compbow",
                 "arrow_cf",
+                "sheath",
                 "knife_hunting",
                 "hat_hunting",
                 "quiver"
@@ -1380,11 +1452,95 @@
                 "boots_steel",
                 "pants_cargo",
                 "jacket_flannel",
+                "shoulder_strap",
                 "crossbow",
                 "bolt_metal",
+                "sheath",
                 "knife_hunting",
                 "hat_hunting",
                 "quiver"
+            ],
+            "male": [
+                "boxer_shorts"
+            ],
+            "female": [
+                "sports_bra",
+                "boxer_shorts"
+            ]
+        }
+    },
+    {
+        "type": "profession",
+        "ident": "shotgun_hunter",
+        "name": "Shotgun Hunter",
+        "description": "Ever since you were a child you loved hunting, and you soon took a liking to the challenge of hunting with a shotgun.  Why, if the world ended there's nothing you'd want at your side more than your trusty shotgun.  So when it did, you made sure to bring it along.",
+        "points": 2,
+        "skills": [
+            {
+                "level": 1,
+                "name": "gun"
+            },
+            {
+                "level": 1,
+                "name": "shotgun"
+            }
+        ],
+        "items": {
+            "both": [
+                "army_top",
+                "knit_scarf",
+                "socks",
+                "boots_steel",
+                "pants_cargo",
+                "jacket_flannel",
+                "shoulder_strap",
+                "shotgun_d",
+                "shot_00",
+                "sheath",
+                "knife_hunting",
+                "hat_hunting",
+                "bandolier_shotgun"
+            ],
+            "male": [
+                "boxer_shorts"
+            ],
+            "female": [
+                "sports_bra",
+                "boxer_shorts"
+            ]
+        }
+    },
+    {
+        "type": "profession",
+        "ident": "rifle_hunter",
+        "name": "Rifle Hunter",
+        "description": "Ever since you were a child you loved hunting, and you soon took a liking to the challenge of hunting with a rifle.  Why, if the world ended there's nothing you'd want at your side more than your trusty rifle.  So when it did, you made sure to bring it along.",
+        "points": 2,
+        "skills": [
+            {
+                "level": 1,
+                "name": "gun"
+            },
+            {
+                "level": 1,
+                "name": "rifle"
+            }
+        ],
+        "items": {
+            "both": [
+                "army_top",
+                "knit_scarf",
+                "socks",
+                "boots_steel",
+                "pants_cargo",
+                "jacket_flannel",
+                "shoulder_strap",
+                "remington_700",
+                "270",
+                "sheath",
+                "knife_hunting",
+                "hat_hunting",
+                "bandolier_rifle"
             ],
             "male": [
                 "boxer_shorts"
@@ -1403,7 +1559,7 @@
         "points": 1,
         "skills": [
             {
-                "level": 4,
+                "level": 2,
                 "name": "carpentry"
             }
         ],
@@ -1414,6 +1570,8 @@
                 "boots_steel",
                 "jeans",
                 "hammer",
+                "multitool",
+                "nailgun",
                 "nail",
                 "nail",
                 "tool_belt"
@@ -1632,6 +1790,7 @@
                 "boots",
                 "bandana",
                 "jacket_leather",
+                "sheath",
                 "knife_trench"
             ],
             "male": [
@@ -1677,12 +1836,23 @@
         "ident": "bionic_thief",
         "name": "Bionic Thief",
         "description": "You have done many high profile heists, but your gains mean nothing in this world.  All you have left are the tools of your trade and your impeccable style.",
-        "points": 3,
+        "points": 4,
         "CBMs":[
             "bio_batteries",
             "bio_lockpick",
             "bio_fingerhack",
+            "bio_storage",
             "bio_power_storage_mkII"
+        ],
+        "skills": [
+            {
+                "level": 1,
+                "name": "gun"
+            },
+            {
+                "level": 1,
+                "name": "smg"
+            }
         ],
         "items": {
             "both": [
@@ -1695,8 +1865,8 @@
                 "gold_watch",
                 "briefcase_smg",
                 "stenmag",
-                "pda",
-                "9mm"
+                "9mm",
+                "pda"
             ],
             "male": [
                 "boxer_shorts"
@@ -1711,13 +1881,14 @@
         "type" : "profession",
         "ident": "bionic_patient",
         "name": "Bionic Patient",
-        "description": "When the diagnosis came back positive you signed up for a series of experimental bionic surgeries that saved your life.  Now you're healthier than you ever were before, thanks to a suite of bionic systems powered by standard batteries.  Make the most of your second chance at life.",
-        "points": 3,
+        "description": "When the diagnosis came back positive you signed up for a series of experimental bionic surgeries that saved your life.  Now you're healthier than you ever were before, thanks to a suite of bionic systems powered by your own metabolic functions.  Make the most of your second chance at life.",
+        "points": 5,
         "CBMs":[
             "bio_leukocyte",
             "bio_blood_anal",
             "bio_blood_filter",
-            "bio_batteries",
+            "bio_nanobots",
+            "bio_metabolics",
             "bio_power_storage_mkII"
         ],
         "items":{
@@ -1725,8 +1896,7 @@
                 "jeans",
                 "tshirt",
                 "socks",
-                "sneakers",
-                "battery"
+                "sneakers"
             ],
             "male": [
                 "briefs"
@@ -1870,7 +2040,7 @@
         "ident": "bionic_worker",
         "name": "Industrial Cyborg",
         "description": "For better or for worse, bionic augmentation has turned you into a walking power tool.  Upgraded with a standard industrial-grade manual labor surgery and training package, you are augmented with bionic muscles and an integrated toolset, both powered by standard batteries.",
-        "points": 5,
+        "points": 6,
         "skills": [
             {
                 "level": 1,
@@ -1887,6 +2057,8 @@
         ],
         "CBMs":[
             "bio_tools",
+            "bio_sunglasses",
+            "bio_flashlight",
             "bio_hydraulics",
             "bio_batteries",
             "bio_power_storage_mkII"
@@ -1898,8 +2070,8 @@
                 "jeans",
                 "leather_belt",
                 "boots_steel",
-                "fire_gauntlets",
-                "goggles_welding",
+                "gloves_work",
+                "glasses_safety",
                 "hat_hard"
             ],
             "male": [
@@ -1951,6 +2123,8 @@
         "description": "Mortally injured in the line of duty, you were resurrected by the surgeons from the department's revolutionary Cybercop program.  Now, in these lawless times, you are truly the future of law enforcement.",
         "points": 5,
         "CBMs":[
+            "bio_armor_eyes",
+            "bio_armor_head",
             "bio_armor_torso",
             "bio_armor_legs",
             "bio_armor_arms",
@@ -2117,7 +2291,7 @@
             },
             {
                 "level": 1,
-                "name": "pistol"
+                "name": "stabbing"
             },
             {
                 "level": 1,
@@ -2133,6 +2307,9 @@
                 "beret",
                 "socks",
                 "boots_combat",
+                "sheath",
+                "knife_combat",
+                "shoulder_strap",
                 "rm51_assault_rifle",
                 "8x40_50_mag",
                 "8mm_fmj",
@@ -2152,22 +2329,29 @@
         "ident": "bio_sniper",
         "name": "Bionic Sniper",
         "description": "Your bionics, equipment, and extensive field training enable you to drop targets from implausible distances, even after weeks of total isolation in enemy territory.",
-        "points": 6,
+        "points": 8,
         "CBMs":[
             "bio_solar",
             "bio_eye_enhancer",
+            "bio_eye_optic",
+            "bio_targeting",
             "bio_climate",
             "bio_evap",
+            "bio_lighter",
             "bio_power_storage_mkII"
         ],
         "skills": [
             {
-                "level": 3,
+                "level": 5,
                 "name": "gun"
             },
             {
                 "level": 4,
                 "name": "rifle"
+            },
+            {
+                "level": 1,
+                "name": "stabbing"
             },
             {
                 "level": 1,
@@ -2188,16 +2372,16 @@
                 "sheath",
                 "knife_combat",
                 "canteen",
-                "binoculars",
                 "tent_kit",
                 "rollmat",
-                "lighter",
                 "mil_mess_kit",
+                "shoulder_strap",
                 "m2010",
                 "m2010mag",
                 "300_winmag",
                 "300_winmag",
-                "suppressor"
+                "suppressor",
+                "rifle_scope"
             ],
             "male": [
                 "boxer_shorts"
@@ -2212,14 +2396,22 @@
         "type" : "profession",
         "ident": "bionic_spy",
         "name": "Bionic Agent",
-        "description": "Your body has several bionics worth millions of dollars, paid for by public taxes.  The government has turned you into an infiltration and recon specialist: you have night vision, an alarm and a hacking module.  And it all runs off piles and piles of everyday household batteries.",
-        "points": 3,
+        "description": "Your body has several bionics worth millions of dollars, paid for by public taxes.  The government has turned you into an infiltration and recon specialist: you have night vision, an alarm, locking capabilities and a hacking module.  And it all runs off piles and piles of everyday household batteries.",
+        "points": 4,
         "CBMs":[
             "bio_fingerhack",
+            "bio_lockpick",
+            "bio_face_mask",
             "bio_alarm",
             "bio_night_vision",
             "bio_batteries",
             "bio_power_storage_mkII"
+        ],
+        "skills": [
+            {
+                "level": 2,
+                "name": "speech"
+            }
         ],
         "items": {
             "both": [
@@ -2241,23 +2433,33 @@
         "type" : "profession",
         "ident": "bionic_hitman",
         "name": "Bionic Assassin",
-        "description": "The product of millions of dollars of clandestine research, you are a bionic sleeper agent capable of silently eliminating your target while maintaining an innocuous appearance.",
-        "points": 5,
+        "description": "The product of millions of dollars of clandestine research, you are a bionic sleeper agent capable of silently engaging your target while maintaining an innocuous appearance.",
+        "points": 6,
         "CBMs":[
+            "bio_cqb",
             "bio_blade",
             "bio_shock",
+            "bio_carbon",
             "bio_face_mask",
             "bio_torsionratchet",
             "bio_power_storage_mkII"
         ],
         "skills": [
             {
-                "level": 1,
+                "level": 2,
                 "name": "melee"
             },
             {
-                "level": 1,
+                "level": 2,
                 "name": "unarmed"
+            },
+            {
+                "level": 2,
+                "name": "stabbing"
+            },
+            {
+                "level": 2,
+                "name": "dodge"
             },
             {
                 "level": 2,
@@ -2269,7 +2471,8 @@
                 "dress_shoes",
                 "dress_shirt",
                 "knit_scarf",
-                "wristwatch"
+                "wristwatch",
+                "blazer"
             ],
             "male": [
                 "briefs",
@@ -2320,15 +2523,21 @@
         "type" : "profession",
         "ident": "bionic_customer",
         "name": "Commercial Cyborg",
-        "description": "You always had to have the latest and best gadgets and gizmos, so is it any wonder that you upgraded your flesh along with your smart phone? Only time will tell if your status as a marvel of bionic technology will be enough to ensure your survival after the apocalypse.",
-        "points": 5,
+        "description": "You always had to have the latest and best gadgets and gizmos, so is it any wonder that you upgraded your flesh along with your smart phone?  Only time will tell if your status as a marvel of bionic technology will be enough to ensure your survival after the apocalypse.",
+        "points": 6,
         "CBMs":[
-            "bio_tools",
             "bio_flashlight",
-            "bio_storage",
+            "bio_tools",
+            "bio_ups",
             "bio_watch",
             "bio_batteries",
             "bio_power_storage_mkII"
+        ],
+        "skills": [
+            {
+                "level": 1,
+                "name": "electronics"
+            }
         ],
         "items": {
             "both": [
@@ -2391,6 +2600,7 @@
                 "jacket_flannel",
                 "knit_scarf",
                 "beartrap",
+                "sheath",
                 "knife_hunting",
                 "tobacco",
                 "rolling_paper",
@@ -2511,6 +2721,12 @@
         "name": "Otaku",
         "description": "Late nights with friends watching anime and eating snacks has prepared you for the premier anime convention in the Northeast.  It just had to be the day of the apocalypse.  At least you were ready in case your costume tore.",
         "points": 1,
+        "skills": [
+            {
+                "level": 1,
+                "name": "tailor"
+            }
+        ],
         "items": {
             "both": [
                 "shorts",
@@ -2618,7 +2834,7 @@
         "type": "profession",
         "ident": "golfer",
         "name": "Golfer",
-        "description": "A birdie is one under par, but how much is a zombie? Your clubhouse was overrun by the undead, and you fled with your trusty driving wedge.",
+        "description": "A birdie is one under par, but how much is a zombie?  Your clubhouse was overrun by the undead, and you fled with your trusty driving wedge.",
         "points": 0,
         "items": {
             "both": [
@@ -2645,7 +2861,7 @@
             "male": "Groom",
             "female": "Bride"
         },
-        "description": "The cataclysm struck on the big day and you escaped with nothing but your wedding attire.  Cold feet? You'd just like to keep your feet attached!",
+        "description": "The cataclysm struck on the big day and you escaped with nothing but your wedding attire.  Cold feet?  You'd just like to keep your feet attached!",
         "points": -1,
         "items" : {
             "male": [
@@ -2790,6 +3006,7 @@
                 "postman_hat",
                 "postman_shirt",
                 "mbag",
+                "dog_whistle",
                 "wristwatch",
                 "leather_belt",
                 "postman_shorts",
@@ -2876,12 +3093,10 @@
         "points": 5,
         "CBMs":[
             "bio_razors",
-            "bio_armor_eyes",
+            "bio_eye_optic",
             "bio_sunglasses",
-            "bio_blindfold",
             "bio_dex_enhancer",
             "bio_ears",
-            "bio_earplugs",
             "bio_carbon"
         ],
         "skills": [
@@ -2953,11 +3168,11 @@
             "both": [
                 "tank_top",
                 "shorts",
+                "socks",
                 "lowtops",
                 "aspirin",
-                "tobacco",
-                "rolling_paper",
-                "lighter"
+                "1st_aid",
+                "pockknife"
             ],
             "male": [
                 "briefs"
@@ -3382,6 +3597,47 @@
     },
     {
         "type": "profession",
+        "ident": "boxer",
+        "name": "Boxer",
+        "description": "You were training for the fight of your life before the Cataclysm struck.  Now you fight just to keep yourself alive.",
+        "points": 3,
+        "traits": [
+            "PROF_BOXER"
+        ],
+        "skills": [
+            {
+                "level": 2,
+                "name": "melee"
+            },
+            {
+                "level": 2,
+                "name": "unarmed"
+            },
+            {
+                "level": 2,
+                "name": "dodge"
+            }
+        ],
+        "items": {
+            "both": [
+                "under_armor_shorts",
+                "under_armor",
+                "shorts",
+                "gloves_wraps",
+                "boxing_gloves",
+                "headgear",
+                "mouthpiece",
+                "socks",
+                "boots",
+                "towel"
+            ],
+            "female": [
+                "sports_bra"
+            ]
+        }
+    },
+    {
+        "type": "profession",
         "ident": "pizzaboy",
         "name": {
             "male": "Pizza Delivery Boy",
@@ -3414,7 +3670,6 @@
                 "pizza_veggy",
                 "pizza_meat",
                 "money_bundle",
-                "weed",
                 "mbag"
             ],
             "male": [
@@ -3502,8 +3757,7 @@
                 "gloves_wool",
                 "knit_scarf",
                 "mbag",
-                "ref_lighter",
-                "pockknife",
+                "dog_whistle",
                 "newest_newspaper",
                 "newest_newspaper",
                 "newest_newspaper",
@@ -3667,10 +3921,12 @@
                 "hood_wsurvivor",
                 "gloves_wsurvivor",
                 "quiver_large",
+                "shoulder_strap",
                 "crossbow",
                 "bolt_wood",
                 "bolt_wood",
                 "mess_kit",
+                "sheath",
                 "kukri"
             ],
             "male": [
@@ -3720,6 +3976,7 @@
                 "tac_helmet",
                 "gloves_tactical",
                 "rucksack",
+                "shoulder_strap",
                 "scar_h",
                 "scarhmag",
                 "762_51",
@@ -3756,8 +4013,12 @@
                 "name": "rifle"
             },
             {
-                "level" : 3,
+                "level" : 2,
                 "name" : "melee"
+            },
+            {
+                "level" : 2,
+                "name" : "stabbing"
             },
             {
                 "level": 1,
@@ -3782,7 +4043,6 @@
                 "556",
                 "556",
                 "556",
-                "bayonet",
                 "stanag30",
                 "stanag30",
                 "mil_mess_kit",
@@ -3859,6 +4119,7 @@
                 "wearable_light",
                 "shotgun_d",
                 "reloaded_shot_00",
+                "sheath",
                 "knife_combat",
                 "duct_tape",
                 "ref_lighter",
@@ -3870,6 +4131,159 @@
             "female": [
                 "sports_bra",
                 "boy_shorts"
+            ]
+        },
+        "flags" : ["SCEN_ONLY"]
+    },
+    {
+        "type": "profession",
+        "ident": "waste_ranger",
+        "name" : "Wasteland Ranger",
+        "description" : "If the human race is to survive, the threats facing its existence must be eliminated, no matter the cost.  If it's hostile, you kill it.",
+        "points" : 6,
+        "skills": [
+            {
+                "level": 3,
+                "name": "survival"
+            },
+            {
+                "level": 3,
+                "name": "gun"
+            },
+            {
+                "level": 2,
+                "name": "rifle"
+            },
+            {
+                "level": 1,
+                "name": "dodge"
+            },
+            {
+                "level": 1,
+                "name": "melee"
+            },
+            {
+                "level" : 1,
+                "name" : "pistol"
+            },
+            {
+                "level": 1,
+                "name": "stabbing"
+            }
+        ],
+        "items": {
+            "both": [
+                "lsurvivor_suit",
+                "boots_lsurvivor",
+                "gloves_lsurvivor",
+                "mask_lsurvivor",
+                "hood_lsurvivor",
+                "bandolier_shotgun",
+                "shoulder_strap",
+                "helsing",
+                "quiver",
+                "bolt_steel",
+                "bolt_steel",
+                "ashot",
+                "holster",
+                "reloaded_shot_00",
+                "knife_trench",
+                "sheath",
+                "canteen",
+                "wearable_light",
+                "throwing_knife",
+                "survivor_mess_kit",
+                "ref_lighter"
+            ],
+            "male": [
+                "boxer_shorts"
+            ],
+            "female": [
+                "sports_bra",
+                "boy_shorts"
+            ]
+        },
+        "flags" : ["SCEN_ONLY"]
+    },
+    {
+        "type": "profession",
+        "ident": "player_bandit",
+        "name" : "Veteran Bandit",
+        "description" : "After the cities exploded there was a whirlwind of looting; a firestorm of fear.  Men began to feed on men.  On the roads it was a white line nightmare.  Only those mobile enough to scavenge or brutal enough to pillage would survive.  You are one of the latter.",
+        "points" : 6,
+        "skills": [
+            {
+                "level": 2,
+                "name": "gun"
+            },
+            {
+                "level" : 2,
+                "name" : "rifle"
+            },
+            {
+                "level": 2,
+                "name": "melee"
+            },
+            {
+                "level": 2,
+                "name": "cutting"
+            },
+            {
+                "level": 2,
+                "name": "unarmed"
+            },
+            {
+                "level": 2,
+                "name": "dodge"
+            },
+            {
+                "level": 1,
+                "name": "bashing"
+            },
+            {
+                "level": 1,
+                "name": "firstaid"
+            },
+            {
+                "level": 1,
+                "name": "survival"
+            }
+        ],
+        "items": {
+            "both": [
+                "gold_ear",
+                "pants_survivor",
+                "motorbike_boots",
+                "gauntlets_bone",
+                "survivor_goggles",
+                "nailrifle",
+                "shoulder_strap",
+                "folding_stock",
+                "nailmag",
+                "nailmag",
+                "combatnail",
+                "combatnail",
+                "chestpouch",
+                "waterskin2",
+                "survivor_scope",
+                "heavy_flashlight",
+                "makeshift_machete",
+                "scabbard",
+                "knuckle_steel",
+                "ref_lighter",
+                "mess_kit"
+            ],
+            "male": [
+                "football_armor",
+                "elbow_pads",
+                "bandana"
+            ],
+            "female": [
+                "leather_collar",
+                "halter_top",
+                "corset",
+                "vambrace_larmor",
+                "long_knit_scarf_loose"
             ]
         },
         "flags" : ["SCEN_ONLY"]
@@ -3996,7 +4410,7 @@
                 "knit_scarf",
                 "lighter",
                 "fishing_rod_professional",
-                "fish_bait_fish",
+                "fish_bait",
                 "fish_trap",
                 "vest",
                 "hat_boonie",
@@ -4052,6 +4466,7 @@
                 "leather_belt",
                 "knit_scarf",
                 "tricorne",
+                "shoulder_strap",
                 "rifle_flintlock",
                 "flintlock_ammo",
                 "hatchet",
@@ -4126,6 +4541,7 @@
                 "leather_belt",
                 "knit_scarf",
                 "tricorne",
+                "shoulder_strap",
                 "rifle_flintlock",
                 "flintlock_ammo",
                 "hatchet",
@@ -4235,7 +4651,7 @@
         "ident": "jdelinquent",
         "name": "Juvenile Delinquent",
         "description": "You never cared for grown-ups telling you what to do, and that's how you ended up spending most of your days in the principal's office.  Now, not needing grown-ups to tell you what to do is the only reason you're alive.  Man, you really should've played hooky today.",
-        "points": 1,
+        "points": 2,
         "skills": [
             {
                 "level": 1,
@@ -4258,6 +4674,7 @@
                 "socks",
                 "sneakers",
                 "gloves_fingerless",
+                "slingpack",
                 "matches",
                 "hairpin",
                 "hairpin",
@@ -4420,7 +4837,7 @@
                 "jeans",
                 "socks",
                 "lowtops",
-                "fanny",
+                "slingpack",
                 "juice"
             ],
             "male": [
@@ -4553,6 +4970,30 @@
             "female": [
                 "bra",
                 "panties"
+            ]
+        }
+    },
+    {
+        "type": "profession",
+        "ident": "photojournalist",
+        "name": "Photojournalist",
+        "description": "You were a freelance photojournalist before the end.  You have a chance to be the first journalist to cover the apocalypse, though finding a publisher seems more difficult a prospect than usual.  You managed to hold onto your camera, hopefully you can get some fantastic shots.",
+        "points": 0,
+        "items": {
+            "both": [
+                "pants",
+                "dress_shirt",
+                "blazer",
+                "socks",
+                "dress_shoes",
+                "camera_pro"
+            ],
+            "male": [
+                "boxer_shorts"
+            ],
+            "female": [
+                "boy_shorts",
+                "bra"
             ]
         }
     },

@@ -204,7 +204,6 @@ void MonsterGenerator::init_attack()
     attack_map["ACID_ACCURATE"] = &mattack::acid_accurate;
     attack_map["SHOCKSTORM"] = &mattack::shockstorm;
     attack_map["PULL_METAL_WEAPON"] = &mattack::pull_metal_weapon;
-    attack_map["SMOKECLOUD"] = &mattack::smokecloud;
     attack_map["BOOMER"] = &mattack::boomer;
     attack_map["BOOMER_GLOW"] = &mattack::boomer_glow;
     attack_map["RESURRECT"] = &mattack::resurrect;
@@ -329,7 +328,6 @@ void MonsterGenerator::init_flags()
     flag_map["ACIDPROOF"] = MF_ACIDPROOF;
     flag_map["ACIDTRAIL"] = MF_ACIDTRAIL;
     flag_map["FIREPROOF"] = MF_FIREPROOF;
-    flag_map["LEAKSGAS"] = MF_LEAKSGAS;
     flag_map["SLUDGEPROOF"] = MF_SLUDGEPROOF;
     flag_map["SLUDGETRAIL"] = MF_SLUDGETRAIL;
     flag_map["FIREY"] = MF_FIREY;
@@ -489,6 +487,8 @@ void mtype::load( JsonObject &jo )
         // TODO: really needed? Is an empty `dies` container not allowed?
         dies.push_back( mdeath::normal );
     }
+
+    assign( jo, "emit_fields", emit_fields );
 
     if( jo.has_member( "special_when_hit" ) ) {
         JsonArray jsarr = jo.get_array( "special_when_hit" );
@@ -678,6 +678,13 @@ void MonsterGenerator::check_monster_definitions() const
                 debugmsg( "attack effect %s of monster %s is unknown", e.id.c_str(), mon.id.c_str() );
             }
         }
+
+        for( const auto& e : mon.emit_fields ) {
+            if( !e.is_valid() ) {
+                debugmsg( "monster %s has invalid emit source %s", mon.id.c_str(), e.c_str() );
+            }
+        }
+
         if( mon.upgrades ) {
             if( mon.half_life <= 0 ) {
                 debugmsg( "half_life %d (<= 0) of monster %s is invalid", mon.half_life, mon.id.c_str() );

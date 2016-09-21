@@ -99,10 +99,6 @@ class Character : public Creature, public visitable<Character>
         virtual int get_per_bonus() const;
         virtual int get_int_bonus() const;
 
-        // Penalty modifiers applied for ranged attacks due to low stats
-        virtual int ranged_dex_mod() const;
-        virtual int ranged_per_mod() const;
-
         /** Setters for stats exclusive to characters */
         virtual void set_str_bonus(int nstr);
         virtual void set_dex_bonus(int ndex);
@@ -148,13 +144,11 @@ class Character : public Creature, public visitable<Character>
 
         void mod_stat( const std::string &stat, int modifier ) override;
 
-        /* Calculate aim improvement based on character stats/skills and gunsight properties
-         * @param recoil amount of applicable recoil when determining which gunsight to use
-         * @return MOC of aim improvement per 10 moves
-         * @note These units chosen as MOC/move would be too fast (lower bound 1MOC/move) and
-         * move/MOC too slow (upper bound 1MOC/move).
-         * As a result the smallest unit of aim time is 10 moves. */
-        int aim_per_time( const item& gun, int recoil ) const;
+        /* Adjusts provided sight dispersion to account for player stats */
+        int effective_dispersion( int dispersion ) const;
+
+        /* Calculate aim improvement per move spent aiming at a given @ref recoil */
+        double aim_per_move( const item &gun, double recoil ) const;
 
         /** Combat getters */
         int get_dodge_base() const override;
@@ -322,10 +316,8 @@ class Character : public Creature, public visitable<Character>
             return false;
         }
 
-        /** Returns a map_selector which can be used to query items on nearby tiles
-         *  @param radius number of adjacent tiles to include searching from pos outwards
-         *  @param accessible whether found items must be accesible from pos to be considered */
-        map_selector nearby( int radius = 1, bool accessible = true );
+        /** Returns nearby items which match the provided predicate */
+        std::vector<item_location> nearby( const std::function<bool(const item *, const item *)>& func, int radius = 1 ) const;
 
         /**
          * Similar to @ref remove_items_with, but considers only worn items and not their
@@ -403,7 +395,7 @@ class Character : public Creature, public visitable<Character>
          * @param empty whether empty magazines should be considered as possible ammo
          * @param radius adjacent map/vehicle tiles to search. 0 for only player tile, -1 for only inventory
          */
-        std::vector<item_location> find_ammo( const item& obj, bool empty = true, int radius = 1 );
+        std::vector<item_location> find_ammo( const item& obj, bool empty = true, int radius = 1 ) const;
 
         /**
          * Counts ammo and UPS charges (lower of) for a given gun on the character.
@@ -414,13 +406,15 @@ class Character : public Creature, public visitable<Character>
         int throw_range( const item & ) const;
 
         int weight_carried() const;
-        int volume_carried() const;
+        units::volume volume_carried() const;
         int weight_capacity() const override;
-        int volume_capacity() const;
+        units::volume volume_capacity() const;
+        units::volume volume_capacity_reduced_by( units::volume mod ) const;
+
         bool can_pickVolume( const item &it, bool safe = false ) const;
         bool can_pickWeight( const item &it, bool safe = true ) const;
 
-        virtual void drop_inventory_overflow();
+        void drop_inventory_overflow();
 
         bool has_artifact_with(const art_effect_passive effect) const;
 
@@ -441,9 +435,6 @@ class Character : public Creature, public visitable<Character>
         void boost_skill_level( const skill_id &ident, int delta );
 
         bool meets_skill_requirements( const std::map<skill_id, int> &req ) const;
-
-        /** Return character dispersion penalty dependent upon relevant gun skill level */
-        int skill_dispersion( const item& gun, bool random ) const;
 
         // --------------- Other Stuff ---------------
 
@@ -495,6 +486,7 @@ class Character : public Creature, public visitable<Character>
         }
         /** Empties the trait list */
         void empty_traits();
+        /** Adds mandatory scenario and profession traits unless you already have them */
         void add_traits();
 
         // --------------- Values ---------------

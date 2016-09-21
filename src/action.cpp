@@ -15,11 +15,12 @@
 #include "trap.h"
 #include "itype.h"
 #include "mapdata.h"
+#include "cata_utility.h"
 
 #include <istream>
 #include <sstream>
-#include <fstream>
 #include <iterator>
+#include <algorithm>
 
 extern input_context get_default_mode_input_context();
 extern bool tile_iso;
@@ -31,22 +32,14 @@ void load_keyboard_settings( std::map<char, action_id> &keymap,
                              std::string &keymap_file_loaded_from,
                              std::set<action_id> &unbound_keymap )
 {
-    // Load the player's actual keymap
-    std::ifstream fin;
-    fin.open( FILENAMES["keymap"].c_str() );
-    if( !fin.is_open() ) { // It doesn't exist
-        // Try it at the legacy location.
-        fin.open( FILENAMES["legacy_keymap"].c_str() );
-        if( fin.is_open() ) {
-            keymap_file_loaded_from = FILENAMES["legacy_keymap"];
-        }
-    } else {
+    const auto parser = [&]( std::istream & fin ) {
+        parse_keymap( fin, keymap, unbound_keymap );
+    };
+    if( read_from_file_optional( FILENAMES["keymap"], parser ) ) {
         keymap_file_loaded_from = FILENAMES["keymap"];
+    } else if( read_from_file_optional( FILENAMES["legacy_keymap"], parser ) ) {
+        keymap_file_loaded_from = FILENAMES["legacy_keymap"];
     }
-    if( !fin.is_open() ) { // Still can't open it--probably bad permissions
-        return;
-    }
-    parse_keymap( fin, keymap, unbound_keymap );
 }
 
 void parse_keymap( std::istream &keymap_txt, std::map<char, action_id> &kmap,
@@ -249,6 +242,8 @@ std::string action_ident( action_id act )
             return "autosafe";
         case ACTION_IGNORE_ENEMY:
             return "ignore_enemy";
+        case ACTION_WHITELIST_ENEMY:
+            return "whitelist_enemy";
         case ACTION_SAVE:
             return "save";
         case ACTION_QUICKSAVE:
@@ -297,6 +292,8 @@ std::string action_ident( action_id act )
             return "SELECT";
         case ACTION_SEC_SELECT:
             return "SEC_SELECT";
+        case ACTION_AUTOATTACK:
+            return "autoattack";
         case ACTION_NULL:
             return "null";
         default:
@@ -451,7 +448,7 @@ bool can_butcher_at( const tripoint &p )
                 has_corpse = true;
             }
         } else {
-            const recipe *cur_recipe = get_disassemble_recipe( items_it.type->id );
+            const recipe *cur_recipe = get_disassemble_recipe( items_it.typeId() );
             if( cur_recipe != NULL &&
                 g->u.can_disassemble( items_it, cur_recipe, crafting_inv, false ) ) {
                 has_item = true;
@@ -491,8 +488,8 @@ bool can_examine_at( const tripoint &p )
     if( g->m.has_flag( "CONSOLE", p ) ) {
         return true;
     }
-    const furn_t &xfurn_t = g->m.furn_at( p );
-    const ter_t &xter_t = g->m.ter_at( p );
+    const furn_t &xfurn_t = g->m.furn( p ).obj();
+    const ter_t &xter_t = g->m.ter( p ).obj();
 
     if( g->m.has_furn( p ) && xfurn_t.examine != &iexamine::none ) {
         return true;
@@ -552,7 +549,7 @@ action_id handle_action_menu()
     std::map<action_id, int> action_weightings;
 
     // Check if we're in a potential combat situation, if so, sort a few actions to the top.
-    if( !g->u.get_hostile_creatures().empty() ) {
+    if( !g->u.get_hostile_creatures( 60 ).empty() ) {
         // Only prioritize movement options if we're not driving.
         if( !g->u.controlling_vehicle ) {
             action_weightings[ACTION_TOGGLE_MOVE] = 400;

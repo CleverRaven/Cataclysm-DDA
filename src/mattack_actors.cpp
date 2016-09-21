@@ -304,7 +304,7 @@ bool gun_actor::call( monster &z ) const
     if( z.friendly ) {
         int max_range = 0;
         for( const auto &e : ranges ) {
-            max_range = std::max( { max_range, e.first.first, e.first.second } );
+            max_range = std::max( std::max( max_range, e.first.first ), e.first.second );
         }
 
         int hostiles; // hostiles which cannot be engaged without risking friendly fire
@@ -375,8 +375,8 @@ void gun_actor::shoot( monster &z, Creature &target, const std::string &mode ) c
     item gun( gun_type );
     gun.gun_set_mode( mode );
 
-    itype_id ammo = ( ammo_type != "NULL" ) ? ammo_type : gun.ammo_default();
-    if( ammo != "NULL" ) {
+    itype_id ammo = ( ammo_type != "null" ) ? ammo_type : gun.ammo_default();
+    if( ammo != "null" ) {
         gun.ammo_set( ammo, z.ammo[ ammo ] );
     }
 
@@ -387,24 +387,12 @@ void gun_actor::shoot( monster &z, Creature &target, const std::string &mode ) c
         return;
     }
 
-    npc tmp;
-    tmp.name = _( "The " ) + z.name();
+    standard_npc tmp( _( "The " ) + z.name(), {}, 8, fake_str, fake_dex, fake_int, fake_per );
     tmp.set_fake( true );
     tmp.setpos( z.pos() );
-    tmp.str_max = fake_str;
-    tmp.dex_max = fake_dex;
-    tmp.int_max = fake_int;
-    tmp.per_max = fake_per;
-    tmp.str_cur = fake_str;
-    tmp.dex_cur = fake_dex;
-    tmp.int_cur = fake_int;
-    tmp.per_cur = fake_per;
-    tmp.attitude = z.friendly ? NPCATT_DEFEND : NPCATT_KILL;
+    tmp.attitude = z.friendly ? NPCATT_FOLLOW : NPCATT_KILL;
+    tmp.recoil = 0; // no need to aim
 
-    if( fake_skills.empty() ) {
-        tmp.set_skill_level( skill_id( "gun" ), 4 );
-        tmp.set_skill_level( gun.gun_skill(), 8 );
-    }
     for( const auto &pr : fake_skills ) {
         tmp.set_skill_level( pr.first, pr.second );
     }

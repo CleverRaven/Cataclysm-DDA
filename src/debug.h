@@ -2,12 +2,6 @@
 #define DEBUG_H
 
 /**
- * Should a debugmsg result in an exception instead of a propmt?
- * Useful for preventing unit tests stalling waiting for keyboard input
- */
-extern bool debug_fatal;
-
-/**
  *      debugmsg(msg, ...)
  * varg-style functions: the first argument is the format (see printf),
  * the other optional arguments must match that format.

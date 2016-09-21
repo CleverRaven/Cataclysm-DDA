@@ -1,6 +1,7 @@
 #include "output.h"
 #include "rng.h"
 #include <stdlib.h>
+#include <random>
 
 long rng( long val1, long val2 )
 {
@@ -72,3 +73,18 @@ int djb2_hash( const unsigned char *str )
     return hash;
 }
 
+double rng_normal( double lo, double hi )
+{
+    static std::default_random_engine eng;
+
+    if( lo > hi ) {
+        std::swap( lo, hi );
+    }
+
+    const double range = ( hi - lo ) / 4;
+    if( range == 0.0 ) {
+        return hi;
+    }
+    double val = std::normal_distribution<double>( ( hi + lo ) / 2, range )( eng );
+    return std::max( std::min( val, hi ), lo );
+}

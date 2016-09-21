@@ -8,6 +8,7 @@
 #include "string_id.h"
 #include "explosion.h"
 #include "vitamin.h"
+#include "units.h"
 #include <limits.h>
 
 struct vehicle_prototype;
@@ -21,7 +22,8 @@ class Skill;
 using skill_id = string_id<Skill>;
 class effect_type;
 using efftype_id = string_id<effect_type>;
-using ammotype = std::string;
+class ammunition_type;
+using ammotype = string_id<ammunition_type>;
 using itype_id = std::string;
 class material_type;
 using material_id = string_id<material_type>;
@@ -50,6 +52,9 @@ class iuse_transform : public iuse_actor
 
         /** if zero or positive set remaining ammo of @ref target to this (after transformation) */
         long ammo_qty = -1;
+
+        /** if positive set transformed item active and start countdown */
+        int countdown = 0;
 
         /** if both this and ammo_qty are specified then set @ref target to this specific ammo */
         std::string ammo_type;
@@ -82,6 +87,30 @@ class iuse_transform : public iuse_actor
         iuse_actor *clone() const override;
         std::string get_name() const override;
         void finalize( const itype_id &my_item_type ) override;
+        void info( const item &, std::vector<iteminfo> & ) const override;
+};
+
+class countdown_actor : public iuse_actor
+{
+    public:
+        countdown_actor( const std::string &type = "countdown" ) : iuse_actor( type ) {}
+
+        /** if specified overrides default action name */
+        std::string name;
+
+        /** turns before countdown action (defaults to @ref itype::countdown_interval) */
+        int interval = 0;
+
+        /** message if player sees activation with %s replaced by item name */
+        std::string message;
+
+        ~countdown_actor() override;
+        void load( JsonObject &jo ) override;
+        long use(player *, item *, bool, const tripoint & ) const override;
+        iuse_actor *clone() const override;
+        bool can_use( const player *, const item *it, bool, const tripoint & ) const override;
+        std::string get_name() const override;
+        void info( const item &, std::vector<iteminfo> & ) const override;
 };
 
 /**
@@ -95,11 +124,6 @@ class explosion_iuse : public iuse_actor
         // Structure describing the explosion + shrapnel
         // Ignored if its power field is < 0
         explosion_data explosion;
-
-        /** Maximum percentage of count that should be dropped within area of effect */
-        int shrapnel_recovery = 0;
-        /** What type of shrapnel to drop */
-        itype_id shrapnel_drop = "null";
 
         // Those 2 values are forwarded to game::draw_explosion,
         // Nothing is drawn if radius < 0 (game::explosion might still draw something)
@@ -130,6 +154,7 @@ class explosion_iuse : public iuse_actor
         void load( JsonObject &jo ) override;
         long use(player *, item *, bool, const tripoint& ) const override;
         iuse_actor *clone() const override;
+        void info( const item &, std::vector<iteminfo> & ) const override;
 };
 
 /**
@@ -341,38 +366,30 @@ class firestarter_actor : public iuse_actor
 {
     public:
         /**
-         * Moves used at start of the action.
+         * Moves used at start of the action when starting fires with good fuel.
          */
-        int moves_cost = 0;
+        int moves_cost_fast = 100;
 
-        static bool prep_firestarter_use( const player *p, const item *it, tripoint &pos );
-        static void resolve_firestarter_use( const player *p, const item *, const tripoint &pos );
+        /**
+         * Total moves when starting fires with mediocre fuel.
+         */
+        int moves_cost_slow = 1000;
 
-        firestarter_actor( const std::string &type = "firestarter" ) : iuse_actor( type ) {}
-
-        ~firestarter_actor() override { }
-        void load( JsonObject &jo ) override;
-        long use( player*, item*, bool, const tripoint& ) const override;
-        bool can_use( const player*, const item*, bool, const tripoint& ) const override;
-        iuse_actor *clone() const override;
-};
-
-/**
- * Starts an extended action to start a fire
- */
-class extended_firestarter_actor : public firestarter_actor
-{
-    public:
         /**
          * Does it need sunlight to be used.
          */
         bool need_sunlight = false;
 
-        int calculate_time_for_lens_fire( const player *, float light_level ) const;
+        static bool prep_firestarter_use( const player *p, const item *it, tripoint &pos );
+        static void resolve_firestarter_use( const player *p, const item *, const tripoint &pos );
+        /** Modifier on speed - higher is better, 0 means it won't work. */
+        float light_mod( const tripoint &pos ) const;
+        /** Checks quality of fuel on the tile and interpolates move cost based on that. */
+        int moves_cost_by_fuel( const tripoint &pos ) const;
 
-        extended_firestarter_actor( const std::string &type = "extended_firestarter" ) : firestarter_actor( type ) {}
+        firestarter_actor( const std::string &type = "firestarter" ) : iuse_actor( type ) {}
 
-        ~extended_firestarter_actor() override { }
+        ~firestarter_actor() override { }
         void load( JsonObject &jo ) override;
         long use( player*, item*, bool, const tripoint& ) const override;
         bool can_use( const player*, const item*, bool, const tripoint& ) const override;
@@ -605,9 +622,9 @@ class holster_actor : public iuse_actor
         /** Message to show when holstering an item */
         std::string holster_msg;
         /** Maximum volume of each item that can be holstered */
-        int max_volume;
+        units::volume max_volume;
         /** Minimum volume of each item that can be holstered or 1/3 max_volume if unspecified */
-        int min_volume;
+        units::volume min_volume;
         /** Maximum weight of each item. If unspecified no weight limit is imposed */
         int max_weight = -1;
         /** Total number of items that holster can contain **/
@@ -641,14 +658,18 @@ class bandolier_actor : public iuse_actor
     public:
         /** Total number of rounds that can be stored **/
         int capacity = 1;
+
         /** What types of ammo can be stored? */
         std::set<ammotype> ammo;
+
+        /** Base move cost per unit volume when storing/retrieving contained items */
+        int draw_cost = VOLUME_MOVE_COST;
 
         /** Check if obj could be stored in the bandolier */
         bool can_store( const item& bandolier, const item& obj ) const;
 
         /** Store ammo in the bandolier */
-        bool store( player &p, item& bandolier, item& obj ) const;
+        bool reload( player &p, item& obj ) const;
 
         bandolier_actor( const std::string &type = "bandolier" ) : iuse_actor( type ) {}
 

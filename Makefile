@@ -38,6 +38,10 @@
 #  (for every .po file in lang/po)
 # Change mapsize (reality bubble size)
 #  make MAPSIZE=<size>
+# Adjust names of build artifacts (for example to allow easily toggling between build types).
+#  make BUILD_PREFIX="release-"
+# Generate a build artifact prefix from the other build flags.
+#  make AUTO_BUILD_PREFIX=1
 # Install to system directories.
 #  make install
 # Enable lua support. Required only for full-fledged mods.
@@ -60,10 +64,9 @@
 # comment these to toggle them as one sees fit.
 # DEBUG is best turned on if you plan to debug in gdb -- please do!
 # PROFILE is for use with gprof or a similar program -- don't bother generally
-# RELEASE is flags for release builds, we want to error on everything to make sure
-# we don't check in code with new warnings, but we also have to disable some classes of warnings
-# for now as we get rid of them.  In non-release builds we want to show all the warnings,
-# even the ones we're allowing in release builds so they're visible to developers.
+# RELEASE is flags for release builds, this disables some debugging flags and
+# enforces build failure when warnings are encountered.
+# We want to error on everything to make sure we don't check in code with new warnings.
 RELEASE_FLAGS = -Werror
 WARNINGS = -Wall -Wextra
 # Uncomment below to disable warnings
@@ -94,21 +97,24 @@ endif
 
 VERSION = 0.C
 
-TARGET = cataclysm
-TILESTARGET = cataclysm-tiles
+TARGET_NAME = cataclysm
+TILES_TARGET_NAME = $(TARGET_NAME)-tiles
+
+TARGET = $(BUILD_PREFIX)$(TARGET_NAME)
+TILESTARGET = $(BUILD_PREFIX)$(TILES_TARGET_NAME)
 ifdef TILES
 APPTARGET = $(TILESTARGET)
 else
 APPTARGET = $(TARGET)
 endif
-W32TILESTARGET = cataclysm-tiles.exe
-W32TARGET = cataclysm.exe
-CHKJSON_BIN = chkjson
-BINDIST_DIR = bindist
+W32TILESTARGET = $(BUILD_PREFIX)$(TILES_TARGET_NAME).exe
+W32TARGET = $(BUILD_PREFIX)$(TARGET_NAME).exe
+CHKJSON_BIN = $(BUILD_PREFIX)chkjson
+BINDIST_DIR = $(BUILD_PREFIX)bindist
 BUILD_DIR = $(CURDIR)
 SRC_DIR = src
 LUA_DIR = lua
-LUASRC_DIR = src/lua
+LUASRC_DIR = $(SRC_DIR)/$(LUA_DIR)
 # if you have LUAJIT installed, try make LUA_BINARY=luajit for extra speed
 LUA_BINARY = lua
 LOCALIZE = 1
@@ -117,10 +123,15 @@ ASTYLE_BINARY = astyle
 # tiles object directories are because gcc gets confused # Appears that the default value of $LD is unsuitable on most systems
 
 # when preprocessor defines change, but the source doesn't
-ODIR = obj
-ODIRTILES = obj/tiles
-W32ODIR = objwin
-W32ODIRTILES = objwin/tiles
+ODIR = $(BUILD_PREFIX)obj
+ODIRTILES = $(BUILD_PREFIX)obj/tiles
+W32ODIR = $(BUILD_PREFIX)objwin
+W32ODIRTILES = $(W32ODIR)/tiles
+
+ifdef AUTO_BUILD_PREFIX
+  BUILD_PREFIX = $(if $(RELEASE),release-)$(if $(TILES),tiles-)$(if $(SOUND),sound-)$(if $(LOCALIZE),local-)$(if $(BACKTRACE),back-)$(if $(MAPSIZE),map-$(MAPSIZE)-)$(if $(LUA),lua-)$(if $(USE_XDG_DIR),xdg-)$(if $(USE_HOME_DIR),home-)$(if $(DYNAMIC_LINKING),dynamic-)$(if $(MSYS2),msys2-)
+  export BUILD_PREFIX
+endif
 
 OS  = $(shell uname -s)
 
@@ -193,8 +204,8 @@ ifdef RELEASE
   OTHERS += $(RELEASE_FLAGS)
   DEBUG =
   DEFINES += -DRELEASE
-  # Do an astyle regression check on release builds.
-  ASTYLE = astyle-check json-format-check
+  # Check for astyle or JSON regressions on release builds.
+  CHECKS = astyle-check lint-check
 endif
 
 ifdef CLANG
@@ -232,8 +243,8 @@ endif
 CXXFLAGS += $(WARNINGS) $(DEBUG) $(PROFILE) $(OTHERS) -MMD
 
 BINDIST_EXTRAS += README.md data doc
-BINDIST    = cataclysmdda-$(VERSION).tar.gz
-W32BINDIST = cataclysmdda-$(VERSION).zip
+BINDIST    = $(BUILD_PREFIX)cataclysmdda-$(VERSION).tar.gz
+W32BINDIST = $(BUILD_PREFIX)cataclysmdda-$(VERSION).zip
 BINDIST_CMD    = tar --transform=s@^$(BINDIST_DIR)@cataclysmdda-$(VERSION)@ -czvf $(BINDIST) $(BINDIST_DIR)
 W32BINDIST_CMD = cd $(BINDIST_DIR) && zip -r ../$(W32BINDIST) * && cd $(BUILD_DIR)
 
@@ -406,7 +417,7 @@ ifdef LUA
 
   ifdef LUA_USE_PKGCONFIG
     # On unix-like systems, use pkg-config to find lua
-    LUA_CANDIDATES = lua5.2 lua-5.2 lua5.1 lua-5.1 lua
+    LUA_CANDIDATES = lua5.3 lua5.2 lua-5.3 lua-5.2 lua5.1 lua-5.1 lua
     LUA_FOUND = $(firstword $(foreach lua,$(LUA_CANDIDATES),\
         $(shell if $(PKG_CONFIG) --silence-errors --exists $(lua); then echo $(lua);fi)))
     LUA_PKG = $(if $(LUA_FOUND),$(LUA_FOUND),$(error "Lua not found by $(PKG_CONFIG), install it or make without 'LUA=1'"))
@@ -598,7 +609,7 @@ ifdef LTO
   LDFLAGS += $(CXXFLAGS)
 endif
 
-all: version $(ASTYLE) $(TARGET) $(L10N) tests
+all: version $(CHECKS) $(TARGET) $(L10N) tests
 	@
 
 $(TARGET): $(ODIR) $(OBJS)
@@ -607,8 +618,8 @@ ifdef RELEASE
 	$(STRIP) $(TARGET)
 endif
 
-cataclysm.a: $(ODIR) $(OBJS)
-	$(AR) rcs cataclysm.a $(filter-out $(ODIR)/main.o $(ODIR)/messages.o,$(OBJS))
+$(BUILD_PREFIX)$(TARGET_NAME).a: $(ODIR) $(OBJS)
+	$(AR) rcs $(BUILD_PREFIX)$(TARGET_NAME).a $(filter-out $(ODIR)/main.o $(ODIR)/messages.o,$(OBJS))
 
 .PHONY: version json-verify
 version:
@@ -648,14 +659,15 @@ json-check: $(CHKJSON_BIN)
 	./$(CHKJSON_BIN)
 
 clean: clean-tests
-	rm -rf $(TARGET) $(TILESTARGET) $(W32TILESTARGET) $(W32TARGET) cataclysm.a
-	rm -rf $(ODIR) $(W32ODIR) $(W32ODIRTILES)
-	rm -rf $(BINDIST) $(W32BINDIST) $(BINDIST_DIR)
+	rm -rf *$(TARGET_NAME) *$(TILES_TARGET_NAME)
+	rm -rf *$(TILES_TARGET_NAME).exe *$(TARGET_NAME).exe *$(TARGET_NAME).a
+	rm -rf *obj *objwin
+	rm -rf *$(BINDIST_DIR) *cataclysmdda-*.tar.gz *cataclysmdda-*.zip
 	rm -f $(SRC_DIR)/version.h $(LUASRC_DIR)/catabindings.cpp
 	rm -f $(CHKJSON_BIN)
 
 distclean:
-	rm -rf $(BINDIST_DIR)
+	rm -rf *$(BINDIST_DIR)
 	rm -rf save
 	rm -rf lang/mo
 	rm -f data/options.txt
@@ -810,7 +822,7 @@ dmgdistclean:
 	rm -f Cataclysm.dmg
 	rm -rf lang/mo
 
-dmgdist: dmgdistclean app $(L10N)
+dmgdist: dmgdistclean $(L10N) app
 	dmgbuild -s data/osx/dmgsettings.py "Cataclysm DDA" Cataclysm.dmg
 
 endif  # ifeq ($(NATIVE), osx)
@@ -838,9 +850,6 @@ astyle:
 astyle-all: $(SOURCES) $(HEADERS)
 	$(ASTYLE_BINARY) --options=.astylerc -n $(SOURCES) $(HEADERS)
 
-json-format-check:
-	tools/json_format_check.sh
-
 # Test whether the system has a version of astyle that supports --dry-run
 ifeq ($(shell if $(ASTYLE_BINARY) -Q -X --dry-run src/game.h > /dev/null; then echo foo; fi),foo)
 ASTYLE_CHECK=$(shell LC_ALL=C $(ASTYLE_BINARY) --options=.astylerc --dry-run -X -Q $(shell cat astyled_whitelist))
@@ -854,16 +863,38 @@ else
 	@echo Cannot run an astyle check, your system either does not have astyle, or it is too old.
 endif
 
-tests: version cataclysm.a
+lint-check: json_whitelist $(ODIR)/lint.cache
+
+$(ODIR)/lint.cache: $(shell awk '/^[^#]/ { print $$1 }' json_whitelist) | $(ODIR)
+ifeq ($(shell if perl -c tools/format/format.pl 2>/dev/null; then echo $$?; fi),0)
+	@for file in $?; do \
+	    echo -n "Linting $$file: "; \
+	    perl tools/format/format.pl -cq $$file || exit 65; \
+	    echo OK; \
+	done;
+	@touch $@
+else
+	@echo Cannot lint JSON, missing usable perl binary and/or p5-JSON module
+endif
+
+lint: $(shell awk '/^[^#]/ { print $$1 }' json_whitelist) | $(ODIR)
+	@for file in $?; do \
+		if [ ! $(ODIR)/lint.cache -nt $$file ]; then \
+			./tools/lint.sh $$file || exit $$?; \
+		fi; \
+	done;
+	@touch $(ODIR)/lint.cache
+
+tests: version $(BUILD_PREFIX)cataclysm.a
 	$(MAKE) -C tests
 
-check: version cataclysm.a
+check: version $(BUILD_PREFIX)cataclysm.a
 	$(MAKE) -C tests check
 
 clean-tests:
 	$(MAKE) -C tests clean
 
-.PHONY: tests check ctags etags clean-tests install
+.PHONY: tests check ctags etags clean-tests install lint
 
 -include $(SOURCES:$(SRC_DIR)/%.cpp=$(DEPDIR)/%.P)
 -include ${OBJS:.o=.d}

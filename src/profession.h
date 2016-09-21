@@ -105,6 +105,7 @@ enum add_type : int;
          * @return true, if player can pick profession. Otherwise - false.
          */
         bool can_pick( player *u, int points ) const;
+        bool locked_traits( const std::string &trait ) const;
 
 };
 

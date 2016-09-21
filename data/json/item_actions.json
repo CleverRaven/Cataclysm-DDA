@@ -133,11 +133,19 @@
         "name" : "Turn on"
     },{
         "type" : "item_action",
+        "id" : "countdown",
+        "name" : "Start countdown"
+    },{
+        "type" : "item_action",
         "id" : "holster",
         "name" : "Use holster"
     },{
         "type" : "item_action",
         "id" : "SAW_BARREL",
         "name" : "Saw down barrel"
+    },{
+        "type" : "item_action",
+        "id" : "DIG",
+        "name" : "Clear rubble"
     }
 ]
