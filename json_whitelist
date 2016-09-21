@@ -15,6 +15,7 @@ data/json/monsters.json id
 data/json/monsters/* id
 data/json/npcs/missiondef.json id
 data/json/recipes/other/materials.json
+data/json/recipes/other/other.json
 data/json/vehicleparts/*
 
 # Mods
