@@ -772,8 +772,13 @@ void veh_interact::do_repair()
         if( pt.is_broken() ) {
             ok = format_reqs( msg, vp.install_requirements(), vp.install_skills, vp.install_time( g->u ) );
         } else {
-            int qty = pt.base.damage();
-            ok = format_reqs( msg, vp.repair_requirements() * qty, vp.repair_skills, vp.repair_time( g->u ) * qty );
+            if( !vp.repair_requirements().is_empty() ) {
+                int qty = pt.base.damage();
+                ok = format_reqs( msg, vp.repair_requirements() * qty, vp.repair_skills, vp.repair_time( g->u ) * qty );
+            } else {
+                msg << "<color_ltred>" << _( "This part cannot be repaired" ) << "</color>";
+                ok = false;
+            }
         }
 
         werase (w_msg);
