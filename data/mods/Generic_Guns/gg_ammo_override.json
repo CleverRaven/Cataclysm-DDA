@@ -59,7 +59,8 @@
     "name": "pistol ammo",
     "name_plural": "pistol ammo",
     "description": "Ammunition for semiautomatic pistols, as well as submachineguns and the occasional robot.",
-    "ammo_type": "9mm"
+    "ammo_type": "9mm",
+    "count": 20
   },
   {
     "id": "9mmP2",
@@ -68,7 +69,8 @@
     "name": "pistol ammo+",
     "name_plural": "pistol ammo+",
     "description": "High power ammunition for pistols, packed with extra powder.  It trades improved damage for increased recoil.",
-    "ammo_type": "9mm"
+    "ammo_type": "9mm",
+    "count": 12
   },
   {
     "id": "9mmfmj",
@@ -77,7 +79,8 @@
     "name": "pistol ammo, AP",
     "name_plural": "AP pistol ammo",
     "description": "Armor piercing ammunition for pistols.  It trades improved penetration for slightly reduced damage.",
-    "ammo_type": "9mm"
+    "ammo_type": "9mm",
+    "count": 10
   },
   {
     "id": "44magnum",
@@ -85,8 +88,9 @@
     "type": "AMMO",
     "name": "revolver ammo",
     "name_plural": "revolver ammo",
-    "description": "Powerful ammunition for large revolvers and magnum pistols, as well as a few carbines.",
-    "ammo_type": "44"
+    "description": "Powerful ammunition for large revolvers and magnum pistols.",
+    "ammo_type": "44",
+    "count": 10
   },
   {
     "id": "223",
@@ -95,6 +99,7 @@
     "name": "light rifle ammo",
     "name_plural": "light rifle ammo",
     "description": "Low recoil ammunition for rifles, designed for small game and humans."
+    "count": 15
   },
   {
     "id": "556_incendiary",
@@ -103,6 +108,7 @@
     "name": "light rifle ammo, incendiary",
     "name_plural": "light rifle ammo, incendiary",
     "description": "Military ammunition for rifles, designed to burn hotly upon impact, piercing armor and igniting flammable substances."
+    "count": 10
   },
   {
     "id": "308",
@@ -119,7 +125,8 @@
     "name": "rifle ammo, incendiary",
     "name_plural": "rifle ammo, incendiary",
     "description": "Military ammo for rifles, designed to burn hotly upon impact, piercing armor and igniting flammable substances.",
-    "ammo_type": "762"
+    "ammo_type": "762",
+    "count": 10
   },
   {
     "id": "50bmg",
@@ -128,7 +135,8 @@
     "name": "heavy rifle ammo",
     "name_plural": "heavy rifle ammo",
     "description": "Serious ammunition for heavy machineguns and special military hardware, intended for destroying vehicles or very large creatures.",
-    "ammo_type": "50"
+    "ammo_type": "50",
+    "count": 12
   },
   {
     "id": "50ss",
@@ -137,7 +145,8 @@
     "name": "heavy rifle ammo, AP",
     "name_plural": "heavy rifle ammo, AP",
     "description": "Armor piercing ammunition for heavy machineguns and other military hardware.  It trades improved penetration for slightly reduced damage.",
-    "ammo_type": "50"
+    "ammo_type": "50",
+    "count": 8
   },
   {
     "id": "50_incendiary",
@@ -146,6 +155,56 @@
     "name": "heavy rifle ammo, incendiary",
     "name_plural": "heavy rifle ammo, incendiary",
     "description": "Ammunition for heavy machine guns and other military hardware, designed to burn hotly upon impact, piercing armor and igniting flammable substances.",
-    "ammo_type": "50"
+    "ammo_type": "50",
+    "count": 10
+  },
+  {
+    "id": "shot_00",
+    "copy-from": "shot_00",
+    "type": "AMMO",
+    "name": "00 shot",
+    "count": 10
+  },
+  {
+    "id": "shot_beanbag",
+    "copy-from": "shot_beanbag",
+    "type": "AMMO",
+    "name": "shotgun beanbag",
+    "count": 5
+  },
+  {
+    "id": "shot_bird",
+    "copy-from": "shot_bird",
+    "type": "AMMO",
+    "name": "birdshot",
+    "count": 10
+  },
+  {
+    "id": "shot_flechette",
+    "copy-from": "shot_flechette",
+    "type": "AMMO",
+    "name": "flechette shell",
+    "count": 5
+  },
+  {
+    "id": "shot_he",
+    "copy-from": "shot_he",
+    "type": "AMMO",
+    "name": "explosive slug",
+    "count": 5
+  },
+  {
+    "id": "shot_scrap",
+    "copy-from": "shot_scrap",
+    "type": "AMMO",
+    "name": "makeshift shotgun shot",
+    "count": 10
+  },
+  {
+    "id": "shot_slug",
+    "copy-from": "shot_slug",
+    "type": "AMMO",
+    "name": "shotgun slug",
+    "count": 10
   }
 ]
