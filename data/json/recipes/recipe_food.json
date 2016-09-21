@@ -1937,6 +1937,7 @@
   "result": "cooked_pumpkin",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_VEGGI",
+  "byproducts": "seed_pumpkin"
   "skill_used": "cooking",
   "difficulty": 1,
   "time": 15000,
