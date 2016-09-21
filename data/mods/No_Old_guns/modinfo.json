@@ -11,6 +11,7 @@
 },{
     "type": "ITEM_BLACKLIST",
     "items": [
+        "sks",
         "win70",
         "weatherby_5",
         "mosin91_30",
