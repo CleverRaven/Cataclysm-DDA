@@ -912,10 +912,12 @@ void Pickup::pick_up( const tripoint &pos, int min )
 
                 wprintz( w_pickup, c_white, "/%.1f", round_up( convert_weight( g->u.weight_capacity() ), 1 ) );
 
+                std::string fmted_volume_predict = format_volume( volume_predict );
                 mvwprintz( w_pickup, 0, 24, volume_predict > g->u.volume_capacity() ? c_red : c_white,
-                           _( "Vol %.1f" ), round_up( to_liter( volume_predict ), 1 ) );
+                           _( "Vol %s" ), fmted_volume_predict.c_str() );
 
-                wprintz( w_pickup, c_white, "/%.1f", round_up( to_liter( g->u.volume_capacity() ), 1 ) );
+                std::string fmted_volume_capacity = format_volume( g->u.volume_capacity() );
+                wprintz( w_pickup, c_white, "/%s", fmted_volume_capacity.c_str() );
             };
 
             wrefresh( w_pickup );
