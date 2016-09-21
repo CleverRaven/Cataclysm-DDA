@@ -1,0 +1,314 @@
+[
+{
+  "type" : "mapgen",
+  "om_terrain" : ["vein_rock"],
+  "method": "json",
+  "weight": 750, "comment": "Coal vein.",
+  "object": {
+   "rows": [
+    "                        ",
+    "                        ",
+    "                        ",
+    "                        ",
+    "                        ",
+    "      ?                 ",
+    "      ??                ",
+    "       ??               ",
+    "        ???             ",
+    "        ?##?            ",
+    "         ?##?           ",
+    "          ?##?          ",
+    "           ?#??         ",
+    "            ????        ",
+    "               ???      ",
+    "                 ?      ",
+    "                        ",
+    "                        ",
+    "                        ",
+    "                        ",
+    "                        ",
+    "                        ",
+    "                        ",
+    "                        "
+            ],
+   "terrain": {
+    " ": "t_rock",
+    "#": "t_rock_coal",
+    "?": [ "t_rock", "t_rock_coal" ]
+   }
+  }
+},
+{
+  "type" : "mapgen",
+  "om_terrain" : ["vein_rock"],
+  "method": "json",
+  "weight": 1000, "comment": "Rock salt, technically a cluster.",
+  "object": {
+   "rows": [
+    "                        ",
+    "                        ",
+    "                        ",
+    "                        ",
+    "                        ",
+    "                        ",
+    "            ?           ",
+    "           ???          ",
+    "         ???#???        ",
+    "         ??##???        ",
+    "        ??####???       ",
+    "       ????###??        ",
+    "         ???#???        ",
+    "          ????          ",
+    "            ?           ",
+    "                        ",
+    "                        ",
+    "                        ",
+    "                        ",
+    "                        ",
+    "                        ",
+    "                        ",
+    "                        ",
+    "                        "
+            ],
+   "terrain": {
+    " ": "t_rock",
+    "#": "t_rock_halite",
+    "?": [ "t_rock", "t_rock_halite" ]
+   }
+  }
+},
+{
+  "type" : "mapgen",
+  "om_terrain" : ["vein_rock"],
+  "method": "json",
+  "weight": 500, "comment": "Niter, technically a cluster.",
+  "object": {
+   "rows": [
+    "                        ",
+    "                        ",
+    "                        ",
+    "                        ",
+    "                        ",
+    "                        ",
+    "                        ",
+    "                        ",
+    "         ????           ",
+    "       ???##??          ",
+    "       ??####???        ",
+    "        ??##???         ",
+    "         ????           ",
+    "          ?             ",
+    "                        ",
+    "                        ",
+    "                        ",
+    "                        ",
+    "                        ",
+    "                        ",
+    "                        ",
+    "                        ",
+    "                        ",
+    "                        "
+            ],
+   "terrain": {
+    " ": "t_rock",
+    "#": "t_rock_niter",
+    "?": [ "t_rock", "t_rock_niter" ]
+   }
+  }
+},
+{
+  "type" : "mapgen",
+  "om_terrain" : ["vein_rock"],
+  "method": "json",
+  "weight": 500, "comment": "Brimstone, technically a cluster.",
+  "object": {
+   "rows": [
+    "                        ",
+    "                        ",
+    "                        ",
+    "                        ",
+    "                        ",
+    "                        ",
+    "                        ",
+    "                        ",
+    "           ??           ",
+    "         ??#??          ",
+    "        ??###???        ",
+    "         ??#??          ",
+    "          ???           ",
+    "                        ",
+    "                        ",
+    "                        ",
+    "                        ",
+    "                        ",
+    "                        ",
+    "                        ",
+    "                        ",
+    "                        ",
+    "                        ",
+    "                        "
+            ],
+   "terrain": {
+    " ": "t_rock",
+    "#": "t_rock_brimstone",
+    "?": [ "t_rock", "t_rock_brimstone" ]
+   }
+  }
+},
+{
+  "type" : "mapgen",
+  "om_terrain" : ["vein_rock"],
+  "method": "json",
+  "weight": 500, "comment": "Native copper vein.",
+  "object": {
+   "rows": [
+    "                        ",
+    "                        ",
+    "                        ",
+    "                        ",
+    "                        ",
+    "                        ",
+    "       ?                ",
+    "       ??               ",
+    "        ??              ",
+    "        ?#??            ",
+    "        ?###?           ",
+    "         ??##?          ",
+    "           ??#??        ",
+    "             ????       ",
+    "                ??      ",
+    "                 ?      ",
+    "                        ",
+    "                        ",
+    "                        ",
+    "                        ",
+    "                        ",
+    "                        ",
+    "                        ",
+    "                        "
+            ],
+   "terrain": {
+    " ": "t_rock",
+    "#": "t_rock_copper",
+    "?": [ "t_rock", "t_rock_copper" ]
+   }
+  }
+},
+{
+  "type" : "mapgen",
+  "om_terrain" : ["vein_rock"],
+  "method": "json",
+  "weight": 250, "comment": "Native silver vein.",
+  "object": {
+   "rows": [
+    "                        ",
+    "                        ",
+    "                        ",
+    "                        ",
+    "                        ",
+    "                        ",
+    "                        ",
+    "       ??               ",
+    "        ???             ",
+    "        ?#??            ",
+    "         ?##?           ",
+    "          ?##?          ",
+    "           ????         ",
+    "              ???       ",
+    "               ?        ",
+    "                        ",
+    "                        ",
+    "                        ",
+    "                        ",
+    "                        ",
+    "                        ",
+    "                        ",
+    "                        ",
+    "                        "
+            ],
+   "terrain": {
+    " ": "t_rock",
+    "#": "t_rock_silver",
+    "?": [ "t_rock", "t_rock_silver" ]
+   }
+  }
+},
+{
+  "type" : "mapgen",
+  "om_terrain" : ["vein_rock"],
+  "method": "json",
+  "weight": 100, "comment": "Native gold vein.",
+  "object": {
+   "rows": [
+    "                        ",
+    "                        ",
+    "                        ",
+    "                        ",
+    "                        ",
+    "                        ",
+    "                        ",
+    "                        ",
+    "        ??              ",
+    "        ?#?             ",
+    "         ?#??           ",
+    "          ?##?          ",
+    "           ????         ",
+    "               ??       ",
+    "                        ",
+    "                        ",
+    "                        ",
+    "                        ",
+    "                        ",
+    "                        ",
+    "                        ",
+    "                        ",
+    "                        ",
+    "                        "
+            ],
+   "terrain": {
+    " ": "t_rock",
+    "#": "t_rock_gold",
+    "?": [ "t_rock", "t_rock_gold" ]
+   }
+  }
+},
+{
+  "type" : "mapgen",
+  "om_terrain" : ["vein_rock"],
+  "method": "json",
+  "weight": 50, "comment": "Native aluminum cluster, which is highly rare.",
+  "object": {
+   "rows": [
+    "                        ",
+    "                        ",
+    "                        ",
+    "                        ",
+    "                        ",
+    "                        ",
+    "                        ",
+    "                        ",
+    "           ?            ",
+    "         ????           ",
+    "        ??##??          ",
+    "         ??#?           ",
+    "           ??           ",
+    "                        ",
+    "                        ",
+    "                        ",
+    "                        ",
+    "                        ",
+    "                        ",
+    "                        ",
+    "                        ",
+    "                        ",
+    "                        ",
+    "                        "
+            ],
+   "terrain": {
+    " ": "t_rock",
+    "#": "t_rock_aluminum",
+    "?": [ "t_rock", "t_rock_aluminum" ]
+   }
+  }
+}
+]

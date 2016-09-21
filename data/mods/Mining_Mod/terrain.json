@@ -1,0 +1,182 @@
+[
+    {
+        "type" : "terrain",
+        "edit-mode" : "override",
+        "id" : "t_rock",
+        "name": "solid rock",
+        "symbol": "#",
+        "color": "white",
+        "move_cost": 0,
+        "flags": ["NOITEM", "SUPPORTS_ROOF", "WALL"],
+        "roof": "t_rock_floor",
+        "bash": {
+            "str_min": 100, "str_max": 400,
+            "sound": "crash!",
+            "sound_fail": "whump!",
+            "ter_set": "t_rock_floor",
+            "items": [
+                { "item": "rock", "count": [3, 7] },
+                { "item": "material_limestone", "charges": [10, 25], "prob": 80 }
+            ]
+        }
+    },{
+        "type" : "terrain",
+        "id" : "t_rock_coal",
+        "name": "bituminous coal",
+        "symbol": "#",
+        "color": "dkgray",
+        "move_cost": 0,
+        "flags": ["NOITEM", "SUPPORTS_ROOF", "WALL"],
+        "roof": "t_rock_floor",
+        "bash": {
+            "str_min": 100, "str_max": 400,
+            "sound": "crash!",
+            "sound_fail": "whump!",
+            "ter_set": "t_rock_floor",
+            "items": [
+                { "item": "rock", "count": [3, 7] },
+                { "item": "coal_lump", "charges": [250, 500], "prob": 80 }
+            ]
+        }
+    },
+    {
+        "type" : "terrain",
+        "id" : "t_rock_halite",
+        "name": "halite",
+        "symbol": "#",
+        "color": "white",
+        "move_cost": 0,
+        "flags": ["NOITEM", "SUPPORTS_ROOF", "WALL"],
+        "roof": "t_rock_floor",
+        "bash": {
+            "str_min": 100, "str_max": 400,
+            "sound": "crash!",
+            "sound_fail": "whump!",
+            "ter_set": "t_rock_floor",
+            "items": [
+                { "item": "rock", "count": [3, 7] },
+                { "item": "material_rocksalt", "count": 1, "prob": 80 }
+            ]
+        }
+    },
+    {
+        "type" : "terrain",
+        "id" : "t_rock_niter",
+        "name": "niter",
+        "symbol": "#",
+        "color": "ltgray",
+        "move_cost": 0,
+        "flags": ["NOITEM", "SUPPORTS_ROOF", "WALL"],
+        "roof": "t_rock_floor",
+        "bash": {
+            "str_min": 100, "str_max": 400,
+            "sound": "crash!",
+            "sound_fail": "whump!",
+            "ter_set": "t_rock_floor",
+            "items": [
+                { "item": "rock", "count": [3, 7] },
+                { "item": "material_niter", "count": 1, "prob": 80 }
+            ]
+        }
+    },
+    {
+        "type" : "terrain",
+        "id" : "t_rock_brimstone",
+        "name": "brimstone",
+        "symbol": "#",
+        "color": "yellow",
+        "move_cost": 0,
+        "flags": ["NOITEM", "SUPPORTS_ROOF", "WALL"],
+        "roof": "t_rock_floor",
+        "bash": {
+            "str_min": 100, "str_max": 400,
+            "sound": "crash!",
+            "sound_fail": "whump!",
+            "ter_set": "t_rock_floor",
+            "items": [
+                { "item": "rock", "count": [3, 7] },
+                { "item": "chunk_sulfur", "count": 1, "prob": 80 }
+            ]
+        }
+    },
+    {
+        "type" : "terrain",
+        "id" : "t_rock_copper",
+        "name": "native copper",
+        "symbol": "#",
+        "color": "ltred",
+        "move_cost": 0,
+        "flags": ["NOITEM", "SUPPORTS_ROOF", "WALL"],
+        "roof": "t_rock_floor",
+        "bash": {
+            "str_min": 100, "str_max": 400,
+            "sound": "crash!",
+            "sound_fail": "whump!",
+            "ter_set": "t_rock_floor",
+            "items": [
+                { "item": "rock", "count": [3, 7] },
+                { "item": "chunk_copper", "charges": [2, 5], "prob": 80 }
+            ]
+        }
+    },
+    {
+        "type" : "terrain",
+        "id" : "t_rock_silver",
+        "name": "native silver",
+        "symbol": "#",
+        "color": "white",
+        "move_cost": 0,
+        "flags": ["NOITEM", "SUPPORTS_ROOF", "WALL"],
+        "roof": "t_rock_floor",
+        "bash": {
+            "str_min": 100, "str_max": 400,
+            "sound": "crash!",
+            "sound_fail": "whump!",
+            "ter_set": "t_rock_floor",
+            "items": [
+                { "item": "rock", "count": [3, 7] },
+                { "item": "chunk_silver", "charges": [2, 5], "prob": 80 }
+            ]
+        }
+    },
+    {
+        "type" : "terrain",
+        "id" : "t_rock_gold",
+        "name": "native gold",
+        "symbol": "#",
+        "color": "yellow",
+        "move_cost": 0,
+        "flags": ["NOITEM", "SUPPORTS_ROOF", "WALL"],
+        "roof": "t_rock_floor",
+        "bash": {
+            "str_min": 100, "str_max": 400,
+            "sound": "crash!",
+            "sound_fail": "whump!",
+            "ter_set": "t_rock_floor",
+            "items": [
+                { "item": "rock", "count": [3, 7] },
+                { "item": "chunk_gold", "charges": [2, 5], "prob": 80 }
+            ]
+        }
+    },
+    {
+        "type" : "terrain",
+        "id" : "t_rock_aluminum",
+        "name": "native alumimum",
+        "symbol": "#",
+        "color": "ltgray",
+        "move_cost": 0,
+        "flags": ["NOITEM", "SUPPORTS_ROOF", "WALL"],
+        "roof": "t_rock_floor",
+        "bash": {
+            "str_min": 100, "str_max": 400,
+            "sound": "crash!",
+            "sound_fail": "whump!",
+            "ter_set": "t_rock_floor",
+            "items": [
+                { "item": "rock", "count": [3, 7] },
+                { "item": "chunk_aluminum", "charges": [2, 5], "prob": 80 }
+            ]
+        }
+    }
+]

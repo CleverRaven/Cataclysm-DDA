@@ -1,0 +1,85 @@
+[
+  {
+    "result": "copper",
+    "type": "recipe",
+    "result_mult": 2,
+    "id_suffix": "native",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": 12500,
+    "autolearn": true,
+    "tools": [
+      [ [ "tongs", -1 ] ],
+      [ [ "crucible", -1 ] ],
+      [
+        [ "toolset", 10 ],
+        [ "fire", -1 ]
+      ]
+    ],
+    "components": [ [ [ "chunk_copper", 1 ] ] ]
+  },
+  {
+    "result": "silver_small",
+    "type": "recipe",
+    "result_mult": 4,
+    "id_suffix": "native",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": 12500,
+    "autolearn": true,
+    "tools": [
+      [ [ "tongs", -1 ] ],
+      [ [ "crucible", -1 ] ],
+      [
+        [ "toolset", 10 ],
+        [ "fire", -1 ]
+      ]
+    ],
+    "components": [ [ [ "chunk_silver", 1 ] ] ]
+  },
+  {
+    "result": "gold_small",
+    "type": "recipe",
+    "result_mult": 4,
+    "id_suffix": "native",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": 12500,
+    "autolearn": true,
+    "tools": [
+      [ [ "tongs", -1 ] ],
+      [ [ "crucible", -1 ] ],
+      [
+        [ "toolset", 10 ],
+        [ "fire", -1 ]
+      ]
+    ],
+    "components": [ [ [ "chunk_gold", 1 ] ] ]
+  },
+  {
+    "result": "material_aluminium_ingot",
+    "type": "recipe",
+    "id_suffix": "native",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "fabrication",
+    "difficulty": 2,
+    "time": 12500,
+    "autolearn": true,
+    "tools": [
+      [ [ "tongs", -1 ] ],
+      [ [ "crucible", -1 ] ],
+      [
+        [ "toolset", 10 ],
+        [ "fire", -1 ]
+      ]
+    ],
+    "components": [ [ [ "chunk_aluminum", 1 ] ] ]
+  }
+]
