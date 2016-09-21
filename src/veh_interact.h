@@ -8,6 +8,7 @@
 #include "string_id.h"
 #include "int_id.h"
 #include "requirements.h"
+#include "player_activity.h"
 
 #include <string>
 #include <vector>
@@ -37,6 +38,11 @@ struct vehicle_part;
 class veh_interact
 {
     public:
+        static player_activity run( vehicle &veh, int x, int y );
+
+        static void complete_vehicle();
+
+    private:
         veh_interact( vehicle &veh, int x, int y );
 
         int ddx = 0;
@@ -44,14 +50,6 @@ class veh_interact
         const vpart_info *sel_vpart_info = nullptr;
         char sel_cmd = ' '; //Command currently being run by the player
 
-        /** Get selected vehicle part (if any) */
-        const vehicle_part *part() const {
-            return sel_vehicle_part;
-        }
-
-        static void complete_vehicle();
-
-    private:
         const vehicle_part *sel_vehicle_part = nullptr;
 
         int cpart = -1;

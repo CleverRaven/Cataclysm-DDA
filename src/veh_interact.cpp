@@ -50,6 +50,53 @@ const skill_id skill_mechanics( "mechanics" );
 
 void act_vehicle_siphon(vehicle* veh);
 
+player_activity veh_interact::run( vehicle &veh, int x, int y )
+{
+    veh_interact vehint( veh, x, y );
+    g->refresh_all();
+
+    const auto *pt = vehint.sel_vehicle_part;
+    const auto *vp = vehint.sel_vpart_info;
+
+    if( vehint.sel_cmd == 'q' || vehint.sel_cmd == ' ' || !vp ) {
+        return player_activity();
+    }
+
+    // sel_cmd = Install Repair reFill remOve Siphon Drainwater Changetire reName
+    // Note that even if letters are remapped in keybindings sel_cmd will still use the above.
+    // Stored in activity.index and used in the complete_vehicle() callback to finish task.
+    int time = 1000;
+    switch( vehint.sel_cmd ) {
+        case 'i':
+            time = vp->install_time( g->u );
+            break;
+        case 'r':
+            time = pt->is_broken() ? vp->install_time( g->u ) : ( vp->repair_time( g->u ) * pt->base.damage() );
+            break;
+        case 'o':
+            time = vp->removal_time( g->u );
+            break;
+        case 'c':
+            time = vp->removal_time( g->u ) + vp->install_time( g->u );
+            break;
+    }
+    player_activity res( ACT_VEHICLE, time, (int) vehint.sel_cmd );
+
+    // if we're working on an existing part, use that part as the reference point
+    // otherwise (e.g. installing a new frame), just use part 0
+    point q = veh.coord_translate( pt ? pt->mount : veh.parts[0].mount );
+    res.values.push_back( veh.global_x() + q.x );    // values[0]
+    res.values.push_back( veh.global_y() + q.y );    // values[1]
+    res.values.push_back( vehint.ddx );   // values[2]
+    res.values.push_back( vehint.ddy );   // values[3]
+    res.values.push_back( -vehint.ddx );   // values[4]
+    res.values.push_back( -vehint.ddy );   // values[5]
+    res.values.push_back( veh.index_of_part( pt ) ); // values[6]
+    res.str_values.push_back( vp->id.str() );
+
+    return res;
+}
+
 /**
  * Creates a blank veh_interact window.
  */
