@@ -3931,12 +3931,10 @@ int item::gun_recoil( const player &p, bool bipod ) const
     }
 
     // handling could be either a bonus or penalty dependent upon installed mods
-    if( handling > 0.0 ) {
+    if( handling > 1.0 ) {
         return qty / handling;
-    } else if( handling < 0.0 ) {
-        return qty * handling;
     } else {
-        return qty;
+        return qty * ( 1.0 + std::abs( handling ) );
     }
 }
 
