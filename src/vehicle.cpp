@@ -2136,12 +2136,14 @@ bool vehicle::has_part( const std::string &flag, bool enabled ) const
 
 bool vehicle::has_part( const tripoint &pos, const std::string &flag, bool enabled ) const
 {
+    auto px = pos.x - global_x();
+    auto py = pos.y - global_y();
+
     for( const auto &e : parts ) {
-        if( e.precalc[0].x != pos.x - global_x() ||
-            e.precalc[0].y != pos.y - global_y() ) {
+        if( e.precalc[0].x != px || e.precalc[0].y != py ) {
             continue;
         }
-        if( !e.removed && !e.is_broken() && ( !enabled || e.enabled ) && ( flag.empty() || e.info().has_flag( flag ) ) ) {
+        if( !e.removed && !e.is_broken() && ( !enabled || e.enabled ) && e.info().has_flag( flag ) ) {
             return true;
         }
     }
