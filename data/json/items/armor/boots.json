@@ -525,34 +525,27 @@
   },
   {
     "id": "boots_western",
+    "copy-from": "boots",
     "type": "ARMOR",
     "name": "pair of western boots",
     "name_plural": "pairs of western boots",
-    "description": "Stiff leather boots with intricate embroidery and one-inch heels.  They look good, but aren't made for running.",
-    "weight": 1060,
-    "volume": 10,
-    "price": 15000,
-    "to_hit": -1,
-    "bashing": 1,
-    "material": [ "leather" ],
-    "symbol": "[",
-    "color": "dark_gray",
-    "covers": [ "FEET" ],
+    "description": "Stiff leather boots with intricate embroidery and one-inch heels.  They look good, but aren't made for running.  Each boot is large enough to conceal a small holdout pistol.",
     "coverage": 95,
-    "encumbrance": 22,
-    "warmth": 20,
-    "material_thickness": 2,
-    "environmental_protection": 2,
+    "proportional": {
+      "weight": 1.2,
+      "volume": 1.2,
+      "price": 2,
+      "encumbrance": 2
+    },
     "use_action": {
       "type": "holster",
-      "holster_prompt": "Sheath knife",
-      "holster_msg": "You sheath your %s",
       "max_volume": 1,
+      "max_weight": 600,
       "draw_cost": 80,
       "multi": 2,
-      "flags": [ "SHEATH_KNIFE" ]
+      "skills": [ "pistol" ]
     },
-    "flags": [ "VARSIZE", "FANCY" ]
+    "extend": { "flags": [ "FANCY" ] }
   },
   {
     "id": "boots_winter",
