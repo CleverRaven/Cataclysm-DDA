@@ -49,6 +49,8 @@ class veh_interact
             return sel_vehicle_part;
         }
 
+        static void complete_vehicle();
+
     private:
         const vehicle_part *sel_vehicle_part = nullptr;
 
@@ -165,7 +167,5 @@ class veh_interact
         void do_main_loop();
         void deallocate_windows();
 };
-
-void complete_vehicle();
 
 #endif

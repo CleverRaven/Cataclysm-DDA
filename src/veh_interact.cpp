@@ -772,7 +772,8 @@ void veh_interact::do_repair()
         if( pt.is_broken() ) {
             ok = format_reqs( msg, vp.install_requirements(), vp.install_skills, vp.install_time( g->u ) );
         } else {
-            ok = format_reqs( msg, vp.repair_requirements(), vp.repair_skills, vp.repair_time( g->u ) );
+            int qty = pt.base.damage();
+            ok = format_reqs( msg, vp.repair_requirements() * qty, vp.repair_skills, vp.repair_time( g->u ) * qty );
         }
 
         werase (w_msg);
@@ -1291,13 +1292,13 @@ void veh_interact::move_cursor (int dx, int dy)
     if (cpart >= 0) {
         parts_here = veh->parts_at_relative(veh->parts[cpart].mount.x, veh->parts[cpart].mount.y);
         for (size_t i = 0; i < parts_here.size(); i++) {
-            int p = parts_here[i];
-            const vpart_info &vpinfo = veh->part_info( p );
-            if( veh->parts[p].hp() < vpinfo.durability ) {
-                need_repair.push_back (i);
+            auto &pt = veh->parts[parts_here[i]];
+
+            if( pt.base.damage() > 0 ) {
+                need_repair.push_back( i );
             }
-            if (veh->part_flag(p, "WHEEL")) {
-                wheel = &veh->parts[p];
+            if( pt.info().has_flag( "WHEEL" ) ) {
+                wheel = &pt;
             }
         }
     }
@@ -2048,7 +2049,7 @@ static int calc_xp_gain( const vpart_info &vp, const skill_id &sk ) {
  * Called when the activity timer for installing parts, repairing, etc times
  * out and the action is complete.
  */
-void complete_vehicle ()
+void veh_interact::complete_vehicle()
 {
     if (g->u.activity.values.size() < 7) {
         debugmsg ("Invalid activity ACT_VEHICLE values:%d", g->u.activity.values.size());
@@ -2154,7 +2155,7 @@ void complete_vehicle ()
         auto &pt = veh->parts[ vehicle_part ];
         auto &vp = pt.info();
 
-        const auto reqs = pt.is_broken() ? vp.install_requirements() : vp.repair_requirements();
+        const auto reqs = pt.is_broken() ? vp.install_requirements() : vp.repair_requirements() * pt.base.damage();
 
         if( !reqs.can_make_with_inventory( g->u.crafting_inventory() ) ) {
            add_msg( m_info, _( "You don't meet the requirements to repair the %s." ), pt.name().c_str() );
