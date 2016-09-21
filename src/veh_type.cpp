@@ -562,22 +562,24 @@ requirement_data vpart_info::repair_requirements() const
     } );
 }
 
+static int scale_time( const std::map<skill_id, int> &sk, int mv, const Character &ch ) {
+    int lvl = std::accumulate( sk.begin(), sk.end(), 0, [&ch]( int lhs, const std::pair<skill_id,int>& rhs ) {
+        return lhs + std::max( rhs.second - std::min( ch.get_skill_level( rhs.first ).level(), MAX_SKILL ), 0 );
+    } );
+    // 10% per excess level (reduced proportionally if >1 skill required) with max 50% reduction
+    return mv * ( 1.0 - std::min( double( lvl ) / sk.size() / 10.0, 0.5 ) );
+}
+
 int vpart_info::install_time( const Character &ch ) const {
-    ///\EFFECT_MECHANICS reduces time consumed installing vehicle parts
-    int lvl = std::min( ch.get_skill_level( skill_mechanics ).level(), MAX_SKILL );
-    return install_moves * ( 1.0 - ( lvl / 2.0 ) / MAX_SKILL );
+    return scale_time( install_skills, install_moves, ch );
 }
 
 int vpart_info::removal_time( const Character &ch ) const {
-    ///\EFFECT_MECHANICS reduces time consumed removing vehicle parts
-    int lvl = std::min( ch.get_skill_level( skill_mechanics ).level(), MAX_SKILL );
-    return removal_moves * ( 1.0 - ( lvl / 2.0 ) / MAX_SKILL );
+    return scale_time( removal_skills, removal_moves, ch );
 }
 
 int vpart_info::repair_time( const Character &ch ) const {
-    ///\EFFECT_MECHANICS reduces time consumed repairing vehicle parts
-    int lvl = std::min( ch.get_skill_level( skill_mechanics ).level(), MAX_SKILL );
-    return repair_moves * ( 1.0 - ( lvl / 2.0 ) / MAX_SKILL );
+    return scale_time( repair_skills, repair_moves, ch );
 }
 
 template<>
