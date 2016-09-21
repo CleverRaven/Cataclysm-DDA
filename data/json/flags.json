@@ -18,6 +18,12 @@
     "description": "This gear is equipped with an accurate barometer (which is used to measure atmospheric pressure)."
   },
   {
+    "id": "BELT_CLIP",
+    "type": "json_flag",
+    "context": [ "GENERIC", "TOOL" ],
+    "description": "This item can be clipped on to a <info>belt loop</info> of the appropriate size."
+  },
+  {
     "id": "BELTED",
     "type": "json_flag",
     "context": [ "ARMOR", "TOOL_ARMOR" ],
@@ -151,6 +157,18 @@
     "type": "json_flag",
     "context": [ "ARMOR", "TOOL_ARMOR" ],
     "description": "Prevents the player from wielding a weapon two-handed, forcing one-handed use if the weapon permits it."
+  },
+  {
+    "id": "SHEATH_KNIFE",
+    "type": "json_flag",
+    "context": [ "GENERIC", "TOOL" ],
+    "description": "This item can be stored in a sheath of the appropriate size."
+  },
+  {
+    "id": "SHEATH_SWORD",
+    "type": "json_flag",
+    "context": [ "GENERIC", "TOOL" ],
+    "description": "This item can be stored in a scabbard of the appropriate size."
   },
   {
     "id": "SKINTIGHT",
