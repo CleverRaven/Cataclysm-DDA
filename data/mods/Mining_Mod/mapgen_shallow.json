@@ -310,5 +310,83 @@
     "?": [ "t_rock", "t_rock_aluminum" ]
    }
   }
+},
+{
+  "type" : "mapgen",
+  "om_terrain" : ["vein_rock"],
+  "method": "json",
+  "weight": 300, "comment": "Galena vein.",
+  "object": {
+   "rows": [
+    "                        ",
+    "                        ",
+    "                        ",
+    "                        ",
+    "                        ",
+    "          ?             ",
+    "        ??              ",
+    "       ??               ",
+    "        ???             ",
+    "        ?##?            ",
+    "         ?##?           ",
+    "          ?##?          ",
+    "           ????         ",
+    "              ?         ",
+    "             ?          ",
+    "                        ",
+    "                        ",
+    "                        ",
+    "                        ",
+    "                        ",
+    "                        ",
+    "                        ",
+    "                        ",
+    "                        "
+            ],
+   "terrain": {
+    " ": "t_rock",
+    "#": "t_rock_galena",
+    "?": [ "t_rock", "t_rock_galena" ]
+   }
+  }
+},
+{
+  "type" : "mapgen",
+  "om_terrain" : ["vein_rock"],
+  "method": "json",
+  "weight": 400, "comment": "Hematite vein.",
+  "object": {
+   "rows": [
+    "                        ",
+    "                        ",
+    "                        ",
+    "                        ",
+    "                        ",
+    "                        ",
+    "                        ",
+    "       ??               ",
+    "        ???             ",
+    "        ?##?            ",
+    "         ?##?           ",
+    "          ?##?          ",
+    "           ?##?         ",
+    "            ???         ",
+    "               ?        ",
+    "                        ",
+    "                        ",
+    "                        ",
+    "                        ",
+    "                        ",
+    "                        ",
+    "                        ",
+    "                        ",
+    "                        "
+            ],
+   "terrain": {
+    " ": "t_rock",
+    "#": "t_rock_hematite",
+    "?": [ "t_rock", "t_rock_hematite" ]
+   }
+  }
 }
 ]

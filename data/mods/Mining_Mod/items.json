@@ -62,5 +62,37 @@
     "weight" : 2000,
     "bashing" : 1,
     "ammo_type" : "components"
+  },
+  {
+    "type" : "GENERIC",
+    "id" : "chunk_galena",
+    "category" : "spare_parts",
+    "price" : 250,
+    "name" : "chunk of galena",
+    "name_plural" : "chunks of galena",
+    "symbol" : "*",
+    "color" : "white",
+    "description" : "A large chunk of galena, a lead ore with small amounts of silver.  It only needs to be smelted into a usable form.",
+    "material" : [ "lead", "silver" ],
+    "volume" : 4,
+    "weight" : 3400,
+    "bashing" : 3,
+    "ammo_type" : "components"
+  },
+  {
+    "type" : "GENERIC",
+    "id" : "chunk_hematite",
+    "category" : "spare_parts",
+    "price" : 250,
+    "name" : "chunk of hematite",
+    "name_plural" : "chunks of hematite",
+    "symbol" : "*",
+    "color" : "brown",
+    "description" : "A large chunk of hematite, an ore of iron.  It only needs to be smelted into a usable form.",
+    "material" : "iron",
+    "volume" : 4,
+    "weight" : 2400,
+    "bashing" : 2,
+    "ammo_type" : "components"
   }
 ]

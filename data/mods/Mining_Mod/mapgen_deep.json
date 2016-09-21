@@ -3,7 +3,7 @@
   "type" : "mapgen",
   "om_terrain" : ["vein_maybe"],
   "method": "json",
-  "weight": 1500, "comment": "Absolutely nothing, try again.",
+  "weight": 1800, "comment": "Absolutely nothing about 25 percent of the time, try again.",
   "object": {
    "rows": [
     "                        ",
@@ -345,6 +345,84 @@
     " ": "t_rock",
     "#": "t_rock_aluminum",
     "?": [ "t_rock", "t_rock_aluminum" ]
+   }
+  }
+},
+{
+  "type" : "mapgen",
+  "om_terrain" : ["vein_maybe"],
+  "method": "json",
+  "weight": 350, "comment": "Galena vein.",
+  "object": {
+   "rows": [
+    "                        ",
+    "                        ",
+    "                        ",
+    "                        ",
+    "                        ",
+    "          ?             ",
+    "        ??              ",
+    "       ??               ",
+    "        ???             ",
+    "        ?##?            ",
+    "         ?##?           ",
+    "          ?##?          ",
+    "           ????         ",
+    "              ?         ",
+    "             ?          ",
+    "                        ",
+    "                        ",
+    "                        ",
+    "                        ",
+    "                        ",
+    "                        ",
+    "                        ",
+    "                        ",
+    "                        "
+            ],
+   "terrain": {
+    " ": "t_rock",
+    "#": "t_rock_galena",
+    "?": [ "t_rock", "t_rock_galena" ]
+   }
+  }
+},
+{
+  "type" : "mapgen",
+  "om_terrain" : ["vein_maybe"],
+  "method": "json",
+  "weight": 500, "comment": "Hematite vein.",
+  "object": {
+   "rows": [
+    "                        ",
+    "                        ",
+    "                        ",
+    "                        ",
+    "                        ",
+    "                        ",
+    "                        ",
+    "       ??               ",
+    "        ???             ",
+    "        ?##?            ",
+    "         ?##?           ",
+    "          ?##?          ",
+    "           ?##?         ",
+    "            ???         ",
+    "               ?        ",
+    "                        ",
+    "                        ",
+    "                        ",
+    "                        ",
+    "                        ",
+    "                        ",
+    "                        ",
+    "                        ",
+    "                        "
+            ],
+   "terrain": {
+    " ": "t_rock",
+    "#": "t_rock_hematite",
+    "?": [ "t_rock", "t_rock_hematite" ]
    }
   }
 }
