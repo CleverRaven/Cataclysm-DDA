@@ -8596,5 +8596,45 @@
     "charges_per_use": 1,
     "ammo": "soap",
     "use_action": "WASHCLOTHES"
+  },{
+    "id": "chime_scrap",
+    "type": "AMMO",
+    "name": "scrap chimes",
+    "//": "An intro to mechanics, and a noisemaker.",
+    "description": "Several pieces of crudely shaped metal tied to a string.  The item is unfurled and thrown to create a local distraction.",
+    "weight": 440,
+    "volume": 1,
+    "price": 300,
+    "material": [ "steel" ],
+    "symbol": "&",
+    "color": "ltgray",
+    "ammo_type": "thrown",
+    "flags": [  "RECOVER_10", "NO_EMBED", "ACT_ON_RANGED_HIT" ],
+    "use_action": {
+      "target": "chime_scrap_act",
+      "target_charges": 2,
+      "active": true,
+      "type": "transform"
+    }
+  },{
+    "id": "chime_scrap_act",
+    "type": "TOOL",
+    "name": "scrap chimes",
+    "//": "turns on because it needs to make noise.  Cant use a use action because they all use customized, specific sound description.",
+    "description": "Several pieces of crudely shaped metal tied to a string.  The item is unfurled and thrown to create a local distraction.",
+    "weight": 440,
+    "volume": 1,
+    "material": [ "steel" ],
+    "symbol": "&",
+    "color": "ltgray",
+    "revert_to": "chime_scrap",
+    "use_action": {
+      "type": "explosion",
+      "sound_volume": 18,
+      "sound_msg": "CLANG-chingka-ching",
+      "no_deactivate_msg": "Its not active; why are you trying to deactivate it?",
+      "explosion": {
+      }
+    }
   }
 ]

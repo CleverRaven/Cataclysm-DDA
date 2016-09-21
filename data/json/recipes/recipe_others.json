@@ -7600,5 +7600,22 @@
   "autolearn": true,
   "qualities" : [ {"id":"CUT","level":1} ],
   "components": [ [ [ "2x4", 1 ] ] ]
-}
+  },{
+    "type" : "recipe",
+    "result": "chime_scrap",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER",
+    "skill_used": "mechanics",
+    "skills_required": [["fabrication", 2]],
+    "difficulty": 0,
+    "time": 12000,
+    "book_learn": [["mag_fabrication", 0]],
+    "qualities" : [ {"id":"HAMMER","level":1,"amount":1} ],
+    "tools": [ ],
+    "components": [
+        [[ "scrap", 6 ], ["steel_chunk", 2]],
+        [[ "scrap", 6 ]],
+        [[ "string_36", 1 ], [ "string_6", 6 ]]
+    ]
+    }
 ]
