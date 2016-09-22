@@ -372,21 +372,25 @@ bool item::covers( const body_part bp ) const
         debugmsg( "bad body part %d to check in item::covers", static_cast<int>( bp ) );
         return false;
     }
-    if( is_gun() ) {
-        // Currently only used for guns with the should strap mod, other guns might
-        // go on another bodypart.
-        return bp == bp_torso;
-    }
     return get_covered_body_parts().test(bp);
 }
 
 std::bitset<num_bp> item::get_covered_body_parts() const
 {
+    std::bitset<num_bp> res;
+
+    if( is_gun() ) {
+        // Currently only used for guns with the should strap mod, other guns might
+        // go on another bodypart.
+        res.set( bp_torso );
+    }
+
     const auto armor = find_armor_data();
     if( armor == nullptr ) {
-        return std::bitset<num_bp>();
+        return res;
     }
-    auto res = armor->covers;
+
+    res |= armor->covers;
 
     switch (get_side()) {
         case LEFT:
