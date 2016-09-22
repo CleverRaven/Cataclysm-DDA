@@ -401,12 +401,12 @@ ter_id mapgendata::groundcover() {
 
 void mapgen_rotate( map * m, oter_id terrain_type, bool north_is_down ) {
     if ( north_is_down ) {
-        int iid_diff = (int)terrain_type - terrain_type.t().loadid_base + 2;
+        int iid_diff = (int)terrain_type - terrain_type->loadid_base + 2;
         if ( iid_diff != 4 ) {
             m->rotate(iid_diff);
         }
     } else {
-        int iid_diff = (int)terrain_type - terrain_type.t().loadid_base;
+        int iid_diff = (int)terrain_type - terrain_type->loadid_base;
         if ( iid_diff > 0 ) {
             m->rotate(iid_diff);
         }
@@ -1014,8 +1014,8 @@ void mapgen_fungal_flowers(map *m, oter_id, mapgendata dat, int, float)
 
 int terrain_type_with_suffix_to_nesw_array( oter_id terrain_type, bool array[4] ) {
     // extract the suffix from the terrain type name
-    std::string suffix = std::string( terrain_type ).substr( std::string(
-                             terrain_type ).find_last_of( "_" ) + 1 );
+    const std::string &sid = terrain_type.id().str();
+    std::string suffix = sid.substr( sid.find_last_of( "_" ) + 1 );
     // non-"_end" end tiles have _north _east _south _west, all of which contain "t"
     if( suffix.find( "t" ) != std::string::npos ) {
         suffix = suffix.substr( 0, 1 );
@@ -1087,7 +1087,7 @@ void mapgen_road( map *m, oter_id terrain_type, mapgendata dat, int turn, float 
     bool sidewalks_neswx[8] = {};
     int neighbor_sidewalks = 0;
     for( int dir = 0; dir < 8; dir++ ) { // N E S W NE SE SW NW
-        sidewalks_neswx[dir] = otermap[dat.t_nesw[dir]].has_flag( has_sidewalk );
+        sidewalks_neswx[dir] = dat.t_nesw[dir]->has_flag( has_sidewalk );
         neighbor_sidewalks += sidewalks_neswx[dir];
     }
 
@@ -1100,15 +1100,14 @@ void mapgen_road( map *m, oter_id terrain_type, mapgendata dat, int turn, float 
     // which way should our roads curve, based on neighbor roads?
     int curvedir_nesw[4] = {};
     for( int dir = 0; dir < 4; dir++ ) { // N E S W
-        if( roads_nesw[dir] == false || otermap[dat.t_nesw[dir]].id_base != "road" ) {
+        if( roads_nesw[dir] == false || dat.t_nesw[dir]->id_base != "road" ) {
             continue;
         }
 
         // n_* contain details about the neighbor being considered
         bool n_roads_nesw[4] = {};
         //TODO figure out how to call this function without creating a new oter_id object
-        int n_num_dirs = terrain_type_with_suffix_to_nesw_array( oter_id( otermap[dat.t_nesw[dir]].id ),
-                         n_roads_nesw );
+        int n_num_dirs = terrain_type_with_suffix_to_nesw_array( dat.t_nesw[dir], n_roads_nesw );
         // if 2-way neighbor has a road facing us
         if( n_num_dirs == 2 && n_roads_nesw[( dir + 2 ) % 4] ) {
             // curve towards the direction the neighbor turns
@@ -1132,8 +1131,8 @@ void mapgen_road( map *m, oter_id terrain_type, mapgendata dat, int turn, float 
     switch ( num_dirs ) {
         case 4: // 4-way intersection
             for( int dir = 0; dir < 8; dir++ ) {
-                fourways_neswx[dir] = ( otermap[dat.t_nesw[dir]].id == "road_nesw" ||
-                                        otermap[dat.t_nesw[dir]].id == "road_nesw_manhole" );
+                fourways_neswx[dir] = ( dat.t_nesw[dir].id() == "road_nesw" ||
+                                        dat.t_nesw[dir].id() == "road_nesw_manhole" );
             }
             // is this the middle, or which side or corner, of a plaza?
             plaza_dir = compare_neswx( fourways_neswx, {1, 1, 1, 1, 1, 1, 1, 1} ) ? 8 :
@@ -1765,7 +1764,8 @@ void mapgen_parking_lot(map *m, oter_id, mapgendata dat, int turn, float)
 
     m->place_items("road", 8, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, false, turn);
     for (int i = 1; i < 4; i++) {
-        if (dat.t_nesw[i].size() > 5 && dat.t_nesw[i].find("road_",0,5) == 0) {
+        const std::string &id = dat.t_nesw[i].id().str();
+        if( id.size() > 5 && id.find( "road_" ) == 0 ) {
             m->rotate(i);
         }
     }
@@ -2595,8 +2595,8 @@ void mapgen_generic_house(map *m, oter_id terrain_type, mapgendata dat, int turn
     }
 
     // For rotation
-    const int iid_diff = (int)terrain_type - terrain_type.t().loadid_base;
-    const bool has_basement = terrain_type.t().id_base == "house_base";
+    const int iid_diff = (int)terrain_type - terrain_type->loadid_base;
+    const bool has_basement = terrain_type->id_base == "house_base";
     if( has_basement ) {
         const bool force = get_world_option<bool>( "ALIGN_STAIRS" );
         // Find the basement's stairs first
@@ -2660,7 +2660,7 @@ void mapgen_generic_house(map *m, oter_id terrain_type, mapgendata dat, int turn
             } while( attempts > 0 );
         }
     }
-    
+
     if (one_in(100)) { // todo: region data // Houses have a 1 in 100 chance of wasps!
         for (int i = 0; i < SEEX * 2; i++) {
             for (int j = 0; j < SEEY * 2; j++) {
@@ -4975,7 +4975,7 @@ void mapgen_cave(map *m, oter_id, mapgendata dat, int turn, float density)
             draw_map(oter_id("forest"), dat.north(), dat.east(), dat.south(), dat.west(), dat.neast(), dat.seast(), dat.nwest(), dat.swest(),
                      dat.above(), turn, g, density, dat.zlevel);
 */
-            mapgen_forest_general(m, oter_id("forest"), dat, turn, density);
+            mapgen_forest_general(m, oter_str_id("forest").id(), dat, turn, density);
             // Clear the center with some rocks
             square(m, t_rock, SEEX - 6, SEEY - 6, SEEX + 5, SEEY + 5);
             int pathx, pathy;
