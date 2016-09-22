@@ -108,6 +108,6 @@
       "recoil": 20,
       "reload": -300
     },
-    "extend": { "flags": [ "RELOAD_ONE" ] },
+    "extend": { "flags": [ "RELOAD_ONE" ] }
   }
 ]
