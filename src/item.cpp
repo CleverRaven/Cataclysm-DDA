@@ -1048,12 +1048,21 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
             }
         }
 
+        auto fire_modes = mod->gun_all_modes();
+        if( std::any_of( fire_modes.begin(), fire_modes.end(),
+            []( const std::pair<std::string, gun_mode>& e ) {
+                return e.second.qty > 1 && !e.second.melee();
+        } ) ) {
+            info.emplace_back( "GUN", _( "Reccomended strength (burst): "), "",
+                               ceil( mod->type->weight / 333.0 ), true, "", true, true );
+        }
+
         info.emplace_back( "GUN", _( "Reload time: " ),
                            has_flag( "RELOAD_ONE" ) ? _( "<num> seconds per round" ) : _( "<num> seconds" ),
                            int( gun->reload_time / 16.67 ), true, "", true, true );
 
         std::vector<std::string> fm;
-        for( const auto &e : gun_all_modes() ) {
+        for( const auto &e : fire_modes ) {
             if( e.second.target == this && !e.second.melee() ) {
                 fm.emplace_back( string_format( "%s (%i)", _( e.second.mode.c_str() ), e.second.qty ) );
             }
@@ -3910,7 +3919,7 @@ int item::gun_recoil( const player &p, bool bipod ) const
 
     ///\EFFECT_STR improves the handling of heavier weapons
     // we consider only base weight to avoid exploits
-    double wt = std::min( type->weight, p.str_cur * 250 ) / 250.0;
+    double wt = std::min( type->weight, p.str_cur * 333 ) / 333.0;
 
     double handling = type->gun->handling;
     for( const auto mod : gunmods() ) {
