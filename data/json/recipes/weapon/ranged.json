@@ -17,7 +17,68 @@
     "components": [
       [ ["nailgun", 1] ],
       [ ["pipe", 1] ],
-      [ ["2x4", 2], [ "stick", 3 ] ]
+      [
+        ["2x4", 2],
+        [ "stick", 3 ]
+      ]
+    ]
+  },
+  {
+    "result": "carbine_flintlock_double",
+    "type": "recipe",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_RANGED",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "skills_required": [ "gun", 3 ],
+    "time": 30000,
+    "autolearn": true,
+    "book_learn": [[ "manual_rifle", 3 ] , [ "mag_rifle", 4 ]],
+    "qualities":[
+      { "id":"HAMMER","level":2 },
+      { "id":"SAW_M_FINE","level":1 },
+      { "id":"SCREW","level":1}
+    ],
+    "tools": [
+      [
+        [ "forge", 100 ],
+        [ "welder", 100 ],
+        [ "welder_crude", 150 ],
+        [ "oxy_torch", 20 ]
+      ]
+    ],
+    "components": [
+      [ [ "2x4", 2 ] ],
+      [
+        [ "steel_lump", 1 ],
+        [ "steel_chunk", 4 ],
+        [ "scrap", 12 ]
+      ],
+      [ [ "pipe", 2] ],
+      [ [ "sharp_rock", 2] ]
+    ]
+  },
+  {
+    "result": "carbine_flintlock_double",
+    "type": "recipe",
+    "id_suffix": "from-antiques",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_RANGED",
+    "skill_used": "fabrication",
+    "difficulty": 4,
+    "skills_required": [ "gun", 3 ],
+    "time": 30000,
+    "autolearn": true,
+    "book_learn": [[ "manual_rifle", 2 ] , [ "mag_rifle", 3 ]],
+    "qualities":[
+      {"id":"SAW_M_FINE","level":1,"amount":1},
+      {"id":"SCREW_FINE","level":1,"amount":1}
+    ],
+    "components": [
+      [
+        [ "rifle_flintlock", 2 ],
+        [ "carbine_flintlock", 2 ]
+      ]
     ]
   }
 ]

@@ -14,8 +14,8 @@
       "ranged_damage": -4,
       "dispersion": 60,
       "recoil": 15
-    },
-    "proportional": { "reload": 0.5 }
+      "reload": -400
+    }
   },
   {
     "id": "pistol_flintlock",
@@ -38,7 +38,7 @@
     "recoil": 120,
     "durability": 6,
     "clip_size": 1,
-    "reload": 800,
+    "reload": 600,
     "valid_mod_locations": [ [ "accessories", 1 ] ],
     "flags": [ "NEVER_JAMS" ]
   },
@@ -90,5 +90,24 @@
     "built_in_mods": [ "bayonet" ],
     "valid_mod_locations": [ [ "accessories", 1 ], [ "underbarrel", 1 ] ],
     "flags": [ "NEVER_JAMS", "DURABLE_MELEE" ]
+  },
+  {
+    "id": "carbine_flintlock_double",
+    "copy-from": "rifle_flintlock",
+    "type": "GUN",
+    "name": "double-barrel carbine",
+    "description": "This is a compact muzzle-loading rifle combines a pair of rudimentary flintlock actions and two barrels.  Whereas an antique multiple-barrel flintlock is an intricate work of gunsmithing, this weapon is simpler yet still servicable.",
+    "valid_mod_locations": [ [ "accessories", 1 ] ],
+    "flags": [ "RELOAD_ONE" ],
+    "relative": {
+      "weight": 100,
+      "volume": -2,
+      "bashing": -2,
+      "range": -3,
+      "ranged_damage": -5,
+      "dispersion": 75,
+      "recoil": 20,
+      "reload": -300
+    }
   }
 ]
