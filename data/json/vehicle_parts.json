@@ -2315,5 +2315,25 @@
             {"item": "plastic_chunk", "count": [1, 3]},
             {"item": "scrap", "count": [2,6]}
         ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "drill",
+        "name" : "drill",
+        "symbol" : "^",
+        "color" : "light_gray",
+        "broken_symbol" : "*",
+        "broken_color" : "light_blue",
+        "damage_modifier" : 120,
+        "bonus":7,
+        "power":-100,
+        "durability" : 200,
+        "item" : "v_drill_item",
+        "difficulty" : 4,
+        "location" : "structure",
+        "flags" : ["DRILL","PROTRUSION"],
+        "breaks_into" : [
+            {"item": "plastic_chunk", "count": [1, 2]},
+            {"item": "scrap", "count": [2,4]}
+        ]
     }
 ]
