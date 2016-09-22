@@ -630,8 +630,7 @@
             "type": "bite",
             "cooldown": 30,
             "accuracy": 7,
-            "no_infection_chance": 3,
-            "armor_multiplier": 0.5
+            "no_infection_chance": 3
         }],
     "description":"An absolutely enormous bear-like creature, with paws larger than your head.  A dedicated omnivore, it can sometimes decide to scavenge or attack smaller animals; relying upon its thick hide to keep it safe.",
     "flags":["SEES", "HEARS", "SMELLS", "KEENNOSE", "PATH_AVOID_DANGER_1", "ANIMAL", "WARM", "FUR", "BLEED", "BASHES", "DESTROYS", "PUSH_MON", "BONES", "FAT", "LEATHER"],
@@ -670,8 +669,7 @@
             "type": "bite",
             "cooldown": 30,
             "accuracy": 8,
-            "no_infection_chance": 3,
-            "armor_multiplier": 0.5
+            "no_infection_chance": 3
         }],
     "description":"It appears that its megabear mating season.  It's probably best not to disturb them.  Or get anywhere close them.",
     "flags":["SEES", "HEARS", "SMELLS", "ANIMAL", "WARM", "FUR", "BLEED", "BASHES", "DESTROYS", "ATTACKMON", "BONES", "FAT", "LEATHER", "SWARMS"],
@@ -710,8 +708,7 @@
             "type": "bite",
             "cooldown": 20,
             "accuracy": 6,
-            "no_infection_chance": 3,
-            "armor_multiplier": 0.6
+            "no_infection_chance": 3
         }],
     "description":"This young megabear hasn't yet developed the muscle or size of the adults, but it would be mistake to think it was weak.  It may still be under its mother's protection.",
     "flags":["SEES", "HEARS", "SMELLS", "KEENNOSE", "PATH_AVOID_DANGER_1", "ANIMAL", "WARM", "FUR", "BLEED", "BASHES", "PUSH_MON", "BONES", "FAT", "LEATHER", "SWARMS", "GROUP_MORALE"],
@@ -750,8 +747,7 @@
             "type": "bite",
             "cooldown": 20,
             "accuracy": 5,
-            "no_infection_chance": 3,
-            "armor_multiplier": 0.6
+            "no_infection_chance": 3
         }],
     "description":"A very young elephant bear, still too uncoordinated to walk proficently.  With large eyes and bleating cries, this is the cutest car-sized thing that ever would eat you.",
     "flags":["SEES", "HEARS", "SMELLS", "ANIMAL", "WARM", "FUR", "BLEED", "BASHES", "PUSH_MON", "BONES", "FAT", "LEATHER", "SWARMS", "GROUP_MORALE", "STUMBLES"],
@@ -788,8 +784,7 @@
         {
             "type": "bite",
             "cooldown": 30,
-            "accuracy": 9,
-            "armor_multiplier": 0.65
+            "accuracy": 9
         }],
     "description":"The downward pressure on the canines has produced smaller and more agile versions.  These live in social communities and can be usually seen tenaciously hunting for moles; dragging them out of their tunnels with paws and elongated teeth.  It has also been known to aggressively raid campgrounds.",
     "flags":["SEES", "HEARS", "SMELLS", "PATH_AVOID_DANGER_1", "ANIMAL", "WARM", "FUR", "HIT_AND_RUN", "KEENNOSE", "BLEED", "BONES", "SWARMS", "GROUP_MORALE"],

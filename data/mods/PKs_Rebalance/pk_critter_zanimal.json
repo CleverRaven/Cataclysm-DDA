@@ -861,8 +861,7 @@
         {
             "type": "bite",
             "cooldown": 40,
-            "accuracy": 6,
-            "armor_multiplier": 0.5
+            "accuracy": 6
         }],
     "description":"Although the elephant bears seem much more capable of avoiding death at the hands of zombies, a few do fall.  Several humanoid zombies can fit into its mere shadow.",
     "flags":["SEES", "HEARS", "SMELLS", "PATH_AVOID_DANGER_1", "ANIMAL", "WARM", "FUR", "BLEED", "BASHES", "DESTROYS", "ATTACKMON", "BONES", "FAT", "LEATHER", "STUMBLES", "WARM", "POISON", "NO_BREATHE", "REVIVES"]
