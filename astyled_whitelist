@@ -6,6 +6,7 @@ src/ammo.cpp
 src/armor_layers.cpp
 src/basecamp.cpp
 src/bionics_ui.cpp
+src/bodypart.cpp
 src/bonuses.cpp
 src/cata_utility.cpp
 src/char_validity_check.cpp
