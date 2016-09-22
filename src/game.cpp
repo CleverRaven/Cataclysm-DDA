@@ -4011,7 +4011,7 @@ void game::debug()
             popup_top(
                 s.c_str(),
                 u.posx(), u.posy(), get_levx(), get_levy(),
-                otermap[overmap_buffer.ter( u.global_omt_location() )].name.c_str(),
+                overmap_buffer.ter( u.global_omt_location() )->name.c_str(),
                 int( calendar::turn ), int( nextspawn ),
                 ( get_world_option<bool>( "RANDOM_NPC" ) ? _( "NPCs are going to spawn." ) :
                   _( "NPCs are NOT going to spawn." ) ),
@@ -4117,7 +4117,7 @@ void game::debug()
                     if( np->has_destination() ) {
                         data << string_format( _( "Destination: %d:%d:%d (%s)" ),
                                                np->goal.x, np->goal.y, np->goal.z,
-                                               otermap[overmap_buffer.ter( np->goal )].name.c_str() ) << std::endl;
+                                               overmap_buffer.ter( np->goal )->name.c_str() ) << std::endl;
                     } else {
                         data << _( "No destination." ) << std::endl;
                     }
@@ -5239,9 +5239,9 @@ void game::draw_sidebar()
 
     const oter_id &cur_ter = overmap_buffer.ter(u.global_omt_location());
 
-    std::string tername = otermap[cur_ter].name;
+    const std::string &tername = cur_ter->name;
     werase(w_location);
-    mvwprintz(w_location, 0, 0, otermap[cur_ter].color, "%s", utf8_truncate(tername, 14).c_str());
+    mvwprintz(w_location, 0, 0, cur_ter->color, "%s", utf8_truncate(tername, 14).c_str());
 
     if (get_levz() < 0) {
         mvwprintz(w_location, 0, 18, c_ltgray, _("Underground"));
@@ -5666,11 +5666,11 @@ void game::draw_minimap()
                 ter_sym = 'c';
             } else {
                 const oter_id &cur_ter = overmap_buffer.ter(omx, omy, get_levz());
-                ter_sym = otermap[cur_ter].sym;
+                ter_sym = cur_ter->sym;
                 if (overmap_buffer.is_explored(omx, omy, get_levz())) {
                     ter_color = c_dkgray;
                 } else {
-                    ter_color = otermap[cur_ter].color;
+                    ter_color = cur_ter->color;
                 }
             }
             if (!drew_mission && targ.x == omx && targ.y == omy) {
@@ -13493,12 +13493,12 @@ void game::vertical_notes( int z_before, int z_after )
             }
             const oter_id &ter = overmap_buffer.ter(cursx, cursy, z_before);
             const oter_id &ter2 = overmap_buffer.ter(cursx, cursy, z_after);
-            if( z_after > z_before && otermap[ter].has_flag(known_up) &&
-                !otermap[ter2].has_flag(known_down) ) {
+            if( z_after > z_before && ter->has_flag(known_up) &&
+                !ter2->has_flag(known_down) ) {
                 overmap_buffer.set_seen(cursx, cursy, z_after, true);
                 overmap_buffer.add_note(cursx, cursy, z_after, _(">:W;AUTO: goes down"));
-            } else if ( z_after < z_before && otermap[ter].has_flag(known_down) &&
-                !otermap[ter2].has_flag(known_up) ) {
+            } else if ( z_after < z_before && ter->has_flag(known_down) &&
+                !ter2->has_flag(known_up) ) {
                 overmap_buffer.set_seen(cursx, cursy, z_after, true);
                 overmap_buffer.add_note(cursx, cursy, z_after, _("<:W;AUTO: goes up"));
             }
@@ -13598,8 +13598,7 @@ void game::update_overmap_seen()
             for (std::vector<point>::const_iterator it = line.begin();
                  it != line.end() && sight_points >= 0; ++it) {
                 const oter_id &ter = overmap_buffer.ter(it->x, it->y, ompos.z);
-                const int cost = otermap[ter].see_cost;
-                sight_points -= cost;
+                sight_points -= int( ter->see_cost );
             }
             if (sight_points >= 0) {
                 overmap_buffer.set_seen(x, y, ompos.z, true);
@@ -14085,7 +14084,7 @@ void game::nuke( const tripoint &p )
         }
     }
     tmpmap.save();
-    overmap_buffer.ter(x, y, 0) = "crater";
+    overmap_buffer.ter(x, y, 0) = oter_id( "crater" );
     // Kill any npcs on that omap location.
     std::vector<npc *> npcs = overmap_buffer.get_npcs_near_omt(x, y, 0, 0);
     for( auto &npc : npcs ) {

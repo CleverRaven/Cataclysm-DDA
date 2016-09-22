@@ -880,7 +880,7 @@
             "type": "profession",
             "ident": "bio_sur",
             "name": "Bionic Survivalist",
-            "description": "Mainly from paranoia, you augmented yourself, got some training and basic gear to go inawoods incase anything went down, well it did.  Seems your paranoia paid off.", 
+            "description": "Mainly from paranoia, you augmented yourself, got some training and basic gear to go inawoods incase anything went down, well it did.  Seems your paranoia paid off.",
             "points": 8,
             "skills": [
             {
@@ -4410,7 +4410,7 @@
                 "knit_scarf",
                 "lighter",
                 "fishing_rod_professional",
-                "fish_bait_fish",
+                "fish_bait",
                 "fish_trap",
                 "vest",
                 "hat_boonie",

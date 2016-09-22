@@ -110,7 +110,7 @@ struct sid_or_sid;
  */
 struct regional_settings {
     std::string id;           //
-    std::string default_oter; // 'field'
+    oter_str_id default_oter; // 'field'
 
     id_or_id<ter_t> default_groundcover; // ie, 'grass_or_dirt'
     std::shared_ptr<sid_or_sid> default_groundcover_str;
@@ -450,8 +450,6 @@ public:
 //std::ostream & operator<<(std::ostream &, const overmap &);
 //std::ostream & operator<<(std::ostream &, const city &);
 
-extern std::unordered_map<std::string,oter_t> otermap;
-extern std::vector<oter_t> oterlist;
 //extern const regional_settings default_region_settings;
 typedef std::unordered_map<std::string, regional_settings> t_regional_settings_map;
 typedef t_regional_settings_map::const_iterator t_regional_settings_map_citr;

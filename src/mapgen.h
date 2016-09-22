@@ -7,7 +7,9 @@
 #include "mapgenformat.h"
 #include "mapdata.h"
 
-struct oter_id;
+struct oter_t;
+using oter_id = int_id<oter_t>;
+
 struct mapgendata;
 typedef void (*building_gen_pointer)(map *,oter_id,mapgendata,int,float);
 

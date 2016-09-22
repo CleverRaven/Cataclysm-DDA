@@ -887,38 +887,37 @@ static int draw_targeting_window( WINDOW *w_target, const std::string &name, pla
     return lines_used;
 }
 
-static int find_target( std::vector <Creature *> &t, const tripoint &tpos ) {
-    int target = -1;
-    for( int i = 0; i < (int)t.size(); i++ ) {
+static int find_target( const std::vector<Creature *> &t, const tripoint &tpos ) {
+    for( size_t i = 0; i < t.size(); ++i ) {
         if( t[i]->pos() == tpos ) {
-            target = i;
-            break;
+            return int( i );
         }
     }
-    return target;
+    return -1;
 }
 
-static void do_aim( player *p, std::vector <Creature *> &t, int &target,
-                    item *relevant, const tripoint &tpos )
+static int do_aim( player &p, const std::vector<Creature *> &t, int cur_target,
+                   const item &relevant, const tripoint &tpos )
 {
     // If we've changed targets, reset aim, unless it's above the minimum.
-    if( t[target]->pos() != tpos ) {
-        target = find_target( t, tpos );
+    if( size_t( cur_target ) >= t.size() || t[cur_target]->pos() != tpos ) {
+        cur_target = find_target( t, tpos );
         // TODO: find radial offset between targets and
         // spend move points swinging the gun around.
-        p->recoil = std::max(MIN_RECOIL, p->recoil);
+        p.recoil = std::max( MIN_RECOIL, p.recoil );
     }
 
-    const double aim_amount = p->aim_per_move( *relevant, p->recoil );
+    const double aim_amount = p.aim_per_move( relevant, p.recoil );
     if( aim_amount > 0 ) {
         // Increase aim at the cost of moves
-        p->moves--;
-        p->recoil -= aim_amount;
-        p->recoil = std::max( 0.0, p->recoil );
+        p.mod_moves( -1 );
+        p.recoil = std::max( 0.0, p.recoil - aim_amount );
     } else {
         // If aim is already maxed, we're just waiting, so pass the turn.
-        p->moves = 0;
+        p.set_moves( 0 );
     }
+
+    return cur_target;
 }
 
 static int print_aim_bars( const player &p, WINDOW *w, int line_number, item *weapon,
@@ -1327,7 +1326,7 @@ std::vector<tripoint> game::pl_target_ui( target_mode mode, item *relevant, int 
             // No confirm_non_enemy_target here because we have not initiated the firing.
             // Aiming can be stopped / aborted at any time.
             for( int i = 0; i != 10; ++i ) {
-                do_aim( &u, t, target, relevant, dst );
+                target = do_aim( u, t, target, *relevant, dst );
             }
             if( u.moves <= 0 ) {
                 // We've run out of moves, clear target vector, but leave target selected.
@@ -1364,7 +1363,7 @@ std::vector<tripoint> game::pl_target_ui( target_mode mode, item *relevant, int 
             }
             aim_threshold = it->threshold;
             do {
-                do_aim( &u, t, target, relevant, dst );
+                target = do_aim( u, t, target, *relevant, dst );
             } while( target != -1 && u.moves > 0 && u.recoil > aim_threshold &&
                      u.recoil - sight_dispersion > 0 );
             if( target == -1 ) {
