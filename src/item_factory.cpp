@@ -1403,11 +1403,13 @@ void Item_factory::load_magazine( JsonObject &jo, const std::string &src )
     }
 }
 
-void Item_factory::load( islot_bionic &slot, JsonObject &jo, const std::string & )
+void Item_factory::load( islot_bionic &slot, JsonObject &jo, const std::string &src )
 {
-    assign( jo, "difficulty", slot.difficulty );
+    bool strict = src == "core";
+
+    assign( jo, "difficulty", slot.difficulty, strict, 0 );
     // TODO: must be the same as the item type id, for compatibility
-    assign( jo, "id", slot.bionic_id );
+    assign( jo, "id", slot.bionic_id, strict );
 }
 
 void Item_factory::load_bionic( JsonObject &jo, const std::string &src )
