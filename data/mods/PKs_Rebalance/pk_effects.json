@@ -182,5 +182,30 @@
     "scaling_mods": {
             "pain_chance": [-5]
         }
+    },{
+    "type": "effect_type",
+    "id": "skunk_spray",
+    "name": [
+        "Skunked"
+    ],
+    "desc": ["You can hardly concentrate or breathe because the skunk smell is overpowering."],
+    "max_intensity": 2,
+    "apply_message": "The skunk sprays you in a foul-smelling liquid!",
+    "int_add_val": 1,
+    "int_decay_step": -1,
+    "int_decay_tick": 600,
+    "decay_messages": [["You don't think you smell quite so skunked anymore.", "good"], ["You grow used to that skunky smell.", "good"]],
+        "base_mods": {
+            "speed_mod": [2],
+            "per_mod": [-1],
+            "stamina_min": [-1],
+            "h_mod_min": [-3]
+        },
+        "scaling_mods": {
+            "speed_mod": [3],
+            "int_mod": [-1],
+            "per_mod": [1],
+            "stamina_min": [-1]
+        }
     }
 ]
