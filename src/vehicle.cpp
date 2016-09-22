@@ -982,7 +982,7 @@ void vehicle::use_controls( const tripoint &pos )
         add_toggle( _( "reaper" ), keybind( "TOGGLE_REAPER" ), "REAPER" );
         add_toggle( _( "planter" ), keybind( "TOGGLE_PLANTER" ), "PLANTER" );
         add_toggle( _( "scoop" ), keybind( "TOGGLE_SCOOP" ), "SCOOP" );
-
+        add_toggle( _( "drill" ) keybind( "TOGGLE_DRILL "), "DRILL" );
         if( has_part( "DOOR_MOTOR" ) ) {
             options.emplace_back( _( "Toggle doors" ), keybind( "TOGGLE_DOORS" ) );
             actions.push_back( [&]{ control_doors(); } );
@@ -3847,6 +3847,9 @@ void vehicle::on_move(){
     if( has_part( "REAPER", true ) ) {
         operate_reaper();
     }
+    if( has_part ( "DRILL", true ) ) {
+      operate_drill();
+    }
 }
 
 void vehicle::operate_plow(){
@@ -3931,6 +3934,20 @@ void vehicle::operate_planter(){
                     i->charges--;
                 }
                 break;
+            }
+        }
+    }
+}
+
+void vehicle::operate_drill()
+{
+    std::vector<int> drills = all_parts_with_feature( "DRILL" );
+    for( int drill : drills ) {
+        const tripoint loc & = global_pos3() + parts[drill].precalc[0];
+        for( const tripoint &current = g->m.points_in_radius( loc, 1 ) ) {
+            if( g->m.is_bashable_ter_furn( current, false ) ) {
+                g->m.destroy( m, true );
+                this->damage( drill, 5 );
             }
         }
     }

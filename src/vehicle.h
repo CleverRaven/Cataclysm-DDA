@@ -840,7 +840,7 @@ public:
     /**
      * Wheel friction coefficient of the vehicle.
      * Inversely proportional to (wheel area + constant).
-     * 
+     *
      * Affects @ref k_dynamics, which in turn affects velocity and acceleration.
      */
     float k_friction() const;
@@ -859,7 +859,7 @@ public:
     /**
      * Mass coefficient of the vehicle.
      * Roughly proportional to vehicle's mass divided by wheel area, times constant.
-     * 
+     *
      * Affects safe velocity (moderately), acceleration (heavily).
      * Also affects braking (including handbraking) and velocity drop during coasting.
      */
@@ -869,7 +869,7 @@ public:
      * Traction coefficient of the vehicle.
      * 1.0 on road. Outside roads, depends on mass divided by wheel area
      * and the surface beneath wheels.
-     * 
+     *
      * Affects safe velocity, acceleration and handling difficulty.
      */
     float k_traction( float wheel_traction_area ) const;
@@ -1037,6 +1037,7 @@ public:
     void operate_scoop();
     void operate_reaper();
     void operate_plow();
+    void operate_drill();
     //main method for the control of individual engines
     void control_engines();
     // shows ui menu to select an engine
