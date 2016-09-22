@@ -144,6 +144,9 @@ class game
         /** Loads static data that does not depend on mods or similar. */
         void load_static_data();
 
+        /** Loads core dynamic data. May throw. */
+        void load_core_data();
+
         /**
          *  Check if mods can be sucessfully loaded
          *  @param opts check specific mods (or all if unspecified)
@@ -156,8 +159,7 @@ class game
     protected:
         /** Loads dynamic data from the given directory. May throw. */
         void load_data_from_dir( const std::string &path, const std::string &src );
-        /** Loads core dynamic data. May throw. */
-        void load_core_data();
+
 
         // May be a bit hacky, but it's probably better than the header spaghetti
         std::unique_ptr<map> map_ptr;
