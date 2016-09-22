@@ -823,7 +823,7 @@ void lua_callback(const char *callback_name)
 }
 
 //
-int lua_mapgen(map *m, std::string terrain_type, mapgendata, int t, float, const std::string &scr)
+int lua_mapgen(map *m, const oter_id &terrain_type, mapgendata, int t, float, const std::string &scr)
 {
     if( lua_state == nullptr ) {
         return 0;
@@ -839,7 +839,7 @@ int lua_mapgen(map *m, std::string terrain_type, mapgendata, int t, float, const
     //    int function_index = luaL_ref(L, LUA_REGISTRYINDEX); // todo; make use of this
     //    lua_rawgeti(L, LUA_REGISTRYINDEX, function_index);
 
-    lua_pushstring(L, terrain_type.c_str());
+    lua_pushstring(L, terrain_type.id().c_str());
     lua_setglobal(L, "tertype");
     lua_pushinteger(L, t);
     lua_setglobal(L, "turn");

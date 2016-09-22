@@ -1,12 +1,17 @@
 #ifndef CATALUA_H
 #define CATALUA_H
 
+#include "int_id.h"
+
 #include <string>
 #include <sstream>
 
 class map;
 class monster;
 struct mapgendata;
+struct oter_t;
+
+using oter_id = int_id<oter_t>;
 
 extern std::stringstream lua_output_stream;
 extern std::stringstream lua_error_stream;
@@ -20,7 +25,7 @@ int lua_monster_move( monster *m );
  * Call the given string as lua code, used for interactive debugging.
  */
 int call_lua( std::string tocall );
-int lua_mapgen( map *m, std::string terrain_type, mapgendata md, int t, float d,
+int lua_mapgen( map *m, const oter_id &terrain_type, mapgendata md, int t, float d,
                 const std::string &scr );
 
 /**
