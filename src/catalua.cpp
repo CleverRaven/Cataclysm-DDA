@@ -823,7 +823,7 @@ void lua_callback(const char *callback_name)
 }
 
 //
-int lua_mapgen(map *m, const oter_id &terrain_type, mapgendata, int t, float, const std::string &scr)
+int lua_mapgen(map *m, const oter_id &terrain_type, const mapgendata &, int t, float, const std::string &scr)
 {
     if( lua_state == nullptr ) {
         return 0;

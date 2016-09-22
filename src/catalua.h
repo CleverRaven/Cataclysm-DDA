@@ -25,7 +25,7 @@ int lua_monster_move( monster *m );
  * Call the given string as lua code, used for interactive debugging.
  */
 int call_lua( std::string tocall );
-int lua_mapgen( map *m, const oter_id &terrain_type, mapgendata md, int t, float d,
+int lua_mapgen( map *m, const oter_id &terrain_type, const mapgendata &md, int t, float d,
                 const std::string &scr );
 
 /**
