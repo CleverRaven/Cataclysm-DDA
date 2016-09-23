@@ -11,8 +11,9 @@ use Getopt::Std;
 
 # -c check input is in canonical format
 # -q quiet with no output to stdout
+# -v verbose error messages (includes hints at canonical format)
 my %opts;
-getopts('cq', \%opts);
+getopts('cqv', \%opts);
 
 my @config;
 for( open my $fh, '<', catfile(dirname(__FILE__), 'format.conf'); <$fh>; ) {
@@ -132,6 +133,17 @@ exit 0 if ($original // '') eq ($result // '');
 ($original ^ $result) =~ /^\0*/;
 my $line = scalar split '\n', substr($result,0,$+[0]);
 print STDERR "ERROR: Format error at line $line\n";
-print STDERR "< " . (split '\n', $result  )[$line-1] . "'\n";
-print STDERR "> " . (split '\n', $original)[$line-1] . "'\n";
+print STDERR "< " . (split '\n', $original)[$line-1] . "\n";
+print STDERR "> " . (split '\n', $result  )[$line-1] . "\n";
+
+if ($opts{'v'}) {
+    print STDERR "\nHINT: Canonical output for this block was:\n";
+    my @diff = split '\n', $result;
+    while ($line-- > 0 and $diff[$line] ne '  {') {}
+
+    for (my $i = $line + 1; $i < @diff; $i++) {
+        last if $diff[$i] =~ /^  },?$/;
+        print STDERR $diff[$i] . "\n";
+    }
+}
 exit 1;
