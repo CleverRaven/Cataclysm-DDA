@@ -2582,11 +2582,8 @@ int vehicle::print_part_desc(WINDOW *win, int y1, const int max_y, int width, in
             break;
         }
 
-        int dur = part_info (pl[i]).durability;
-        int per_cond = parts[pl[i]].hp() * 100 / (dur < 1? 1 : dur);
-        nc_color col_cond = getDurabilityColor(per_cond);
-
         const vehicle_part& vp = parts[ pl [ i ] ];
+        nc_color col_cond = vp.is_broken() ? c_dkgray : vp.base.damage_color();
 
         std::string partname = vp.name();
 

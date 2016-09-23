@@ -106,6 +106,7 @@ vehicle_stack( std::list<item> *newstack, point newloc, vehicle *neworigin, int 
 struct vehicle_part : public JsonSerializer, public JsonDeserializer
 {
     friend vehicle;
+    friend class veh_interact;
     friend visitable<vehicle_cursor>;
     friend item_location;
     friend class turret_data;
@@ -1128,7 +1129,6 @@ public:
     int smx, smy, smz;
 
     float alternator_load;
-    calendar last_repair_turn = -1; // Turn it was last repaired, used to make consecutive repairs faster.
 
     // Points occupied by the vehicle
     std::set<tripoint> occupied_points;
