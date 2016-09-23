@@ -5140,6 +5140,9 @@ void vehicle::refresh()
             if( vpi.has_flag( "REAPER" ) ) {
                 extra_drag += vpi.power;
             }
+            if ( vpi.has_flag( "DRILL" ) ) {
+                extra_drag += vpi.power;
+            }
         }
         // Build map of point -> all parts in that point
         const point pt = parts[p].mount;

@@ -1002,8 +1002,7 @@
         "category": "veh_parts",
         "price":50000,
         "volume":36
-    },
-    {
+    },{
         "type":"GENERIC",
         "id":"v_drill_item",
         "symbol":"^",

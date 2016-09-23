@@ -2330,7 +2330,7 @@
         "item" : "v_drill_item",
         "difficulty" : 8,
         "location" : "structure",
-        "flags" : ["DRILL","PROTRUSION"],
+        "flags" : ["DRILL","PROTRUSION","EXTRA_DRAG"],
         "breaks_into" : [
             {"item": "plastic_chunk", "count": [1, 2]},
             {"item": "scrap", "count": [2,4]}
