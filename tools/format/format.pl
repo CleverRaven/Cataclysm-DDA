@@ -104,13 +104,34 @@ sub encode(@) {
 my ($original, $dirty);
 my @parsed;
 
-while(<>) {
+my $src;
+if (exists $ENV{'GATEWAY_INTERFACE'}) {
+    require CGI;
+    CGI->import(':cgi');
+    open($src, '<', \(param('data') // ''));
+
+    $fail = sub {
+        print header('text/plain', '400 Bad request');
+        print "$_[0]\n";
+        exit 0;
+    };
+
+} elsif (scalar @ARGV) {
+    open($src, '<', $ARGV[0]);
+
+} else {
+    $src = \*STDIN;
+}
+
+while(<$src>) {
     $original .= $_;
     $dirty .= $_;
     eval {
         $json->incr_parse($_);
         for (my $obj; $obj = $json->incr_parse;) {
             $dirty = $json->incr_text;
+
+            # Also supports single objects as users may paste them in to the web linter
             push @parsed, ref($obj) eq 'ARRAY' ? @{$obj} : $obj;
         }
     };
@@ -128,6 +149,12 @@ foreach (@parsed) {
 
 # Indent each entry and output wrapped as a JSON array
 my $result = "[\n" . join( ",\n", @output ) =~ s/^/  /mgr . "\n]\n";
+
+if (exists $ENV{'GATEWAY_INTERFACE'}) {
+    print header('application/json','200 OK');
+    print $result;
+    exit 0;
+}
 
 print $result unless $opts{'q'};
 exit 0 unless $opts{'c'};
