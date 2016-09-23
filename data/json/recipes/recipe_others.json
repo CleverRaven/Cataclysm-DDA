@@ -2785,33 +2785,30 @@
       [ "string_6", 2 ]
     ]
   ]
-},{
-  "type" : "recipe",
-  "result": "blade_trap",
-  "category": "CC_OTHER",
-  "subcategory": "CSC_OTHER_TRAPS",
-  "skill_used": "traps",
-  "skills_required": [ "mechanics", 3 ],
-  "difficulty": 4,
-  "time": 8000,
-  "reversible": true,
-  "decomp_learn": 3,
-  "autolearn": false,
-  "book_learn": [["manual_mechanics", 3] , ["manual_traps", 3] , ["howto_traps", 3] , ["book_icef", 4]],
-  "qualities" : [
-    {"id":"WRENCH","level":1,"amount":1}
-  ], "components": [
-    [
-      [ "motor", 1 ]
-    ],
-    [
-      [ "blade", 2 ]
-    ],
-    [
-      [ "string_36", 1 ]
-    ]
+},
+  {
+    "type" : "recipe",
+    "result": "blade_trap",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TRAPS",
+    "skill_used": "traps",
+    "skills_required": [ "mechanics", 3 ],
+    "difficulty": 4,
+    "time": 8000,
+    "reversible": true,
+    "decomp_learn": 3,
+    "autolearn": false,
+    "book_learn": [["manual_mechanics", 3] , ["manual_traps", 3] , ["howto_traps", 3] , ["book_icef", 4]],
+    "qualities" : [ { "id":"WRENCH","level":1,"amount":1 } ],
+    "components": [
+      [ [ "motor", 1 ] ],
+      [ [ "blade", 2 ] ],
+      [ [ "string_36", 1 ] ],
+      [ [ "small_storage_battery", 1 ] ],
+      [ [ "pointy_stick", 4 ] ]
   ]
-},{
+  },
+  {
   "type" : "recipe",
   "result": "boobytrap",
   "category": "CC_OTHER",
