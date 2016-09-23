@@ -8,6 +8,13 @@
     </style>
     <script>
       function lint(elem) {
+          try {
+              JSON.parse(elem.value);
+          } catch (e) {
+              alert('Syntax error');
+              return false;
+          }
+
           var xhr = new XMLHttpRequest();
           xhr.open('POST', '/tools/format/format.pl');
           xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
