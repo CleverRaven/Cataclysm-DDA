@@ -229,10 +229,6 @@ const char *volume_units_abbr()
         return _( "c" );
     } else if( vol_units == "l" ) {
         return _( "L" );
-    } else if( vol_units == "ml" ) {
-        return _( "ml" );
-    } else if( vol_units == "floz" ) {
-        return _( "oz" );
     } else {
         return _( "qt" );
     }
@@ -245,10 +241,6 @@ const char *volume_units_long()
         return _( "cup" );
     } else if( vol_units == "l" ) {
         return _( "liter" );
-    } else if( vol_units == "ml" ) {
-        return _( "milliliter" );
-    } else if( vol_units == "floz" ) {
-        return _( "fluid ounce" );
     } else {
         return _( "quart" );
     }
@@ -311,14 +303,11 @@ double convert_volume( int volume, int *out_scale )
     const std::string vol_units = get_option<std::string>( "VOLUME_UNITS" );
     if( vol_units == "c" ) {
         ret *= 0.004;
-        scale = 0;
+        scale = 1;
     } else if( vol_units == "l" ) {
         ret *= 0.001;
         scale = 2;
-    } else if( vol_units == "floz" ) {
-        ret *= 0.033814;
-        scale = 1;
-    } else if( vol_units == "qt" ) {
+    } else {
         ret *= 0.00105669;
         scale = 2;
     }

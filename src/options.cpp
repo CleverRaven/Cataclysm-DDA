@@ -968,14 +968,12 @@ void options_manager::init()
         "lbs,kg", "lbs"
         );
 
-    optionNames["c"] = _("Metric cup");
+    optionNames["c"] = _("Cup");
     optionNames["l"] = _("Liter");
-    optionNames["ml"] = _("Milliliter");
-    optionNames["floz"] = _("Fluid ounce");
     optionNames["qt"] = _("Quart");
     add("VOLUME_UNITS", "interface", _("Volume units"),
-        _("Switch between the good old classic metric cup (c), liter (L), milliliter (ml), fluid ounce (fl oz) or quart (qt)."),
-        "c,l,ml,floz,qt", "l"
+        _("Switch between the Cup (c), Liter (L) or Quart (qt)."),
+        "c,l,qt", "l"
         );
 
     //~ 12h time, e.g. 11:59pm
