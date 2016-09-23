@@ -216,7 +216,7 @@ void map::generate(const int x, const int y, const int z, const int turn)
     }
 }
 
-void mapgen_function_builtin::generate( map *m, oter_id o, mapgendata mgd, int i, float d )
+void mapgen_function_builtin::generate( map *m, const oter_id &o, const mapgendata &mgd, int i, float d )
 {
     (*fptr)( m, o, mgd, i, d );
 }
@@ -1597,7 +1597,7 @@ void mapgen_function_json::formatted_set_incredibly_simple( map * const m ) cons
 /*
  * Apply mapgen as per a derived-from-json recipe; in theory fast, but not very versatile
  */
-void mapgen_function_json::generate( map *m, oter_id terrain_type, mapgendata md, int t, float d ) {
+void mapgen_function_json::generate( map *m, const oter_id &terrain_type, const mapgendata &md, int t, float d ) {
     if ( fill_ter != t_null ) {
         m->draw_fill_background( fill_ter );
     }
@@ -1608,7 +1608,7 @@ void mapgen_function_json::generate( map *m, oter_id terrain_type, mapgendata md
         elem.apply( m );
     }
     if ( ! luascript.empty() ) {
-        lua_mapgen( m, terrain_type.id().str(), md, t, d, luascript );
+        lua_mapgen( m, terrain_type, md, t, d, luascript );
     }
 
     objects.apply(m, d);
@@ -1639,7 +1639,7 @@ void jmapgen_objects::apply(map *m, float density) const {
 // wip: need moar bindings. Basic stuff works
 
 #ifndef LUA
-int lua_mapgen( map *m, std::string id, mapgendata md, int t, float d, const std::string & )
+int lua_mapgen( map *m, const oter_id &id, const mapgendata &md, int t, float d, const std::string & )
 {
     mapgen_crater(m,id,md,t,d);
     mapf::formatted_set_simple(m, 0, 6,
@@ -1660,8 +1660,8 @@ int lua_mapgen( map *m, std::string id, mapgendata md, int t, float d, const std
 }
 #endif
 
-void mapgen_function_lua::generate( map *m, oter_id terrain_type, mapgendata dat, int t, float d ) {
-    lua_mapgen( m, terrain_type.id().str(), dat, t, d, scr );
+void mapgen_function_lua::generate( map *m, const oter_id &terrain_type, const mapgendata &dat, int t, float d ) {
+    lua_mapgen( m, terrain_type, dat, t, d, scr );
 }
 
 /////////////
