@@ -25,8 +25,7 @@
         "id": "ig_vp_xlframe",
         "subtype": "collection",
         "entries": [
-            {"item": "pipe", "count": [0, 4]},
-            {"item": "scrap", "count": [2, 4]}
+            {"item": "material_aluminum_scrap", "count": [0, 4]}
         ]
     },
     {

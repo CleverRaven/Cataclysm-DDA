@@ -1,0 +1,239 @@
+[
+  {
+    "type" : "recipe",
+    "result": "mushroom_cooked",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_VEGGI",
+    "skill_used": "cooking",
+    "difficulty": 0,
+    "time": 15000,
+    "autolearn": true,
+    "batch_time_factors":[67, 5],
+    "qualities":[ { "id":"COOK","level":1 } ],
+    "tools": [
+      [ [ "hotplate", 7 ], [ "char_smoker", 7 ], [ "toolset", 7 ], [ "fire", -1 ] ],
+      [ [ "aluminum_foil", 7 ] ]
+    ],
+    "components": [ [ [ "mushroom", 1 ] ] ]
+  },
+  {
+    "type" : "recipe",
+    "result": "dahlia_baked",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_VEGGI",
+    "skill_used": "cooking",
+    "difficulty": 1,
+    "time": 12000,
+    "reversible": false,
+    "autolearn": false,
+    "book_learn": [["pocket_survival", 1], ["survival_book", 1], ["textbook_survival", 1], ["manual_survival", 1], ["survival_book", 1]],
+    "qualities":[ { "id":"COOK","level":1 } ],
+    "tools": [
+      [ [ "hotplate", 5 ], [ "char_smoker", 5 ], [ "toolset", 5 ], [ "fire", -1 ] ],
+      [ [ "aluminum_foil", 5 ] ]
+    ],
+    "components": [ [ [ "dahlia_root", 1 ] ] ]
+  },
+  {
+    "type" : "recipe",
+    "result": "potato_baked",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_VEGGI",
+    "skill_used": "cooking",
+    "difficulty": 1,
+    "time": 15000,
+    "autolearn": true,
+    "qualities":[ { "id":"COOK","level":1 } ],
+    "tools": [
+      [ [ "hotplate", 3 ], [ "char_smoker", 3 ], [ "toolset", 3 ], [ "fire", -1 ] ],
+      [ [ "aluminum_foil", 3 ] ]
+    ],
+    "components": [ [ [ "potato_raw", 1 ], [ "potato_irradiated", 1 ] ] ]
+  },
+  {
+    "type" : "recipe",
+    "result": "veggy_cooked",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_VEGGI",
+    "skill_used": "cooking",
+    "difficulty": 0,
+    "time": 4000,
+    "reversible": false,
+    "autolearn": true,
+    "qualities": [ { "id":"COOK","level":1 } ],
+    "tools": [
+      [ [ "hotplate", 5 ], [ "char_smoker", 5 ], [ "toolset", 5 ], [ "fire", -1 ] ]
+      [ [ "aluminum_foil", 5 ] ]
+    ],
+    "components": [ [ [ "veggy", 1 ] ] ]
+  },
+  {
+    "type" : "recipe",
+    "result": "veggy_wild_cooked",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_VEGGI",
+    "skill_used": "cooking",
+    "difficulty": 0,
+    "time": 4000,
+    "autolearn": true,
+    "qualities":[ { "id":"COOK","level":2 } ],
+    "tools": [
+      [ [ "hotplate", 5 ], [ "char_smoker", 5 ], [ "toolset", 5 ], [ "fire", -1 ] ],
+      [ [ "aluminum_foil", 5 ] ]
+    ],
+    "components": [ [ [ "veggy_wild", 1 ] ] ]
+  },
+  {
+    "type" : "recipe",
+    "result": "cooked_cattail_stalk",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_VEGGI",
+    "skill_used": "cooking",
+    "difficulty": 1,
+    "byproducts": "plant_fibre",
+    "skills_required": [ "survival", 1 ],
+    "time": 18000,
+    "autolearn": true,
+    "qualities": [
+      { "id":"CUT","level":1, },
+      { "id":"COOK","level":1, }
+    ],
+    "tools": [ [ [ "hotplate", 5 ], [ "char_smoker", 5 ], [ "toolset", 5 ], [ "fire", -1 ] ] ],
+    "components": [
+      [ [ "water", 1 ], [ "water_clean", 1 ] ],
+      [ [ "cattail_stalk", 1 ] ]
+    ]
+  },
+  {
+    "type" : "recipe",
+    "result": "cooked_pumpkin",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_VEGGI",
+    "skill_used": "cooking",
+    "difficulty": 1,
+    "time": 15000,
+    "reversible": false,
+    "autolearn": true,
+    "qualities" : [
+      {"id":"CUT","level":1,"amount":1},
+      {"id":"COOK","level":2,"amount":1}
+    ],
+    "tools": [
+      [ [ "hotplate", 5 ], [ "char_smoker", 5 ], [ "toolset", 5 ], [ "fire", -1 ] ],
+      [ [ "aluminum_foil", 5 ] ]
+    ],
+    "components": [ [ [ "pumpkin", 1 ], [ "irradiated_pumpkin", 1 ] ] ]
+  },
+  {
+    "type" : "recipe",
+    "result": "pie",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_VEGGI",
+    "skill_used": "cooking",
+    "difficulty": 3,
+    "time": 25000,
+    "reversible": false,
+    "autolearn": true,
+    "qualities" : [ { "id":"COOK","level":2 } ],
+    "tools": [
+      [ [ "hotplate", 6 ], [ "char_smoker", 6 ], [ "toolset", 6 ], [ "fire", -1 ] ],
+      [ [ "aluminum_foil", 6 ] ]
+    ],
+    "components": [
+      [ [ "flour", 2 ] ],
+      [ ["apple", 2], ["apple_canned", 1], ["apple_vac", 1], ["apricot", 2], ["banana", 2], ["blackberries", 2], ["blueberries", 2], ["cherries", 2], ["coconut", 2], ["cranberries", 6], ["dry_fruit", 2], ["grapefruit", 2], ["grapes", 4], ["irradiated_apple", 2], ["irradiated_apricot", 2], ["irradiated_banana", 2], ["irradiated_blackberries", 2], ["irradiated_blueberries", 2], ["irradiated_cherries", 2], ["irradiated_cranberries", 6], ["irradiated_grapefruit", 2], ["irradiated_grapes", 4], ["irradiated_kiwi", 2], ["irradiated_lemon", 2], ["irradiated_mango", 2], ["irradiated_melon", 4], ["irradiated_orange", 2], ["irradiated_papaya", 2], ["irradiated_peach", 2], ["irradiated_pear", 2], ["irradiated_pineapple", 2], ["irradiated_plums", 2], ["irradiated_pomegranate", 2], ["irradiated_raspberries", 2], ["irradiated_rhubarb", 4], ["irradiated_strawberries", 2], ["irradiated_watermelon", 1], ["can_peach", 2], ["juice_pulp", 4], ["kiwi", 2], ["lemon", 2], ["mango", 2], ["melon", 4], ["orange", 2], ["papaya", 2], ["peach", 2], ["pear", 2], ["pineapple", 2], ["plums", 2], ["pomegranate", 2], ["raspberries", 2], ["rhubarb", 4], ["strawberries", 2], ["watermelon", 1] ],
+      [ [ "sugar", 5 ], [ "syrup", 1 ] ],
+      [ [ "water", 1 ], [ "water_clean", 1 ] ]
+    ]
+  },
+  {
+    "type" : "recipe",
+    "result": "pie_veggy",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_VEGGI",
+    "skill_used": "cooking",
+    "difficulty": 3,
+    "time": 25000,
+    "autolearn": true,
+    "qualities" : [ { "id":"COOK","level":2 } ],
+    "tools": [
+      [ [ "hotplate", 6 ], [ "char_smoker", 6 ], [ "toolset", 6 ], [ "fire", -1 ] ],
+      [ [ "aluminum_foil", 6 ] ]
+    ],
+  "components": [
+    [ [ "flour", 2 ] ],
+    [
+      [ "broccoli", 2 ], [ "irradiated_broccoli", 2 ], [ "tomato", 2 ], [ "irradiated_tomato", 2 ], [ "pumpkin", 2 ], [ "irradiated_pumpkin", 2 ], [ "zucchini", 2 ], [ "irradiated_zucchini", 2 ], [ "celery", 2 ], [ "irradiated_celery", 2 ], [ "cabbage", 2 ], [ "irradiated_cabbage", 2 ], [ "sauerkraut", 4 ], [ "potato_raw", 2 ], [ "potato_irradiated", 2 ], [ "onion", 2 ], [ "irradiated_onion", 2 ], [ "carrot", 12 ], [ "irradiated_carrot", 12 ], [ "veggy", 2 ], [ "dry_veggy", 2 ], [ "rehydrated_veggy", 2 ], [ "veggy_wild", 2 ], [ "plant_sac", 6 ], [ "dandelion_cooked", 2 ], [ "wild_herbs", 40 ]
+    ],
+    [ [ "water", 1 ], [ "water_clean", 1 ] ]
+    ]
+  },
+  {
+    "type" : "recipe",
+    "result": "pie_maple",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_SNACK",
+    "skill_used": "cooking",
+    "difficulty": 3,
+    "time": 25000,
+    "autolearn": true,
+    "qualities": [
+     { "id":"BOIL","level":2 },
+     { "id":"COOK","level":2 }
+    ],
+    "tools": [
+      [ [ "hotplate", 6 ], [ "char_smoker", 6 ], [ "toolset", 6 ], [ "fire", -1 ] ],
+      [ [ "aluminum_foil", 6 ] ]
+    ],
+    "components": [
+    [ [ "flour", 2 ] ],
+    [ [ "milk", 1 ], [ "milk_powder", 1 ], [ "con_milk", 1 ] ],
+    [ [ "syrup", 5 ] ],
+    [ [ "water", 1 ], [ "water_clean", 1 ] ]
+    ]
+  },
+  {
+    "type" : "recipe",
+    "result": "pizza_veggy",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_VEGGI",
+    "skill_used": "cooking",
+    "difficulty": 3,
+    "time": 20000,
+    "book_learn": [[ "cookbook_italian", 2 ]],
+    "qualities" : [ {"id":"COOK","level":2 } ],
+    "tools": [
+      [ [ "hotplate", 8 ], [ "char_smoker", 8 ], [ "toolset", 8 ], [ "fire", -1 ] ],
+      [ [ "aluminum_foil", 8 ] ]
+    ],
+    "components": [
+      [ [ "flour", 2 ] ],
+      [ [ "veggy", 2 ], [ "veggy_wild", 2 ], [ "veggy_vac", 2 ], [ "celery", 2 ], [ "irradiated_celery", 2 ], [ "cabbage", 2 ], [ "irradiated_cabbage", 2 ], [ "sauerkraut", 4 ], [ "tomato", 2 ], [ "can_tomato", 2 ], [ "pumpkin", 2 ], [ "irradiated_pumpkin", 2 ], [ "onion", 2 ], [ "irradiated_onion", 2 ], [ "broccoli", 1 ], [ "irradiated_tomato", 2 ], [ "irradiated_broccoli", 1 ], [ "rehydrated_veggy", 2 ], [ "mushroom", 2 ], [ "dry_mushroom", 2 ], [ "morel_cooked", 2 ], [ "mushroom_cooked", 2 ], [ "dry_veggy", 2 ] ],
+      [ [ "sauce_pesto", 1 ], [ "sauce_red", 1 ], [ "seasoning_italian", 5 ], [ "wild_herbs", 10 ]
+    ],
+      [ [ "water", 1 ], [ "water_clean", 1 ] ]
+    ]
+  },
+  {
+    "type" : "recipe",
+    "result": "sauerkraut_onions",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_VEGGI",
+    "skill_used": "cooking",
+    "difficulty": 3,
+    "time": 15000,
+    "reversible": false,
+    "autolearn": true,
+    "batch_time_factors":[67, 5],
+    "qualities": [ {"id":"COOK","level":1 } ],
+    "tools": [
+      [ [ "hotplate", 7 ], [ "char_smoker", 7 ], [ "toolset", 7 ], [ "fire", -1 ] ],
+      [ [ "aluminum_foil", 7 ] ]
+    ],
+    "components": [
+      [ [ "sauerkraut", 1 ] ],
+      [ [ "cooking_oil", 1 ] ],
+      [ [ "irradiated_onion", 1 ], [ "onion", 1 ] ]
+    ]
+  }
+]

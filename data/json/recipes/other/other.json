@@ -10,5 +10,21 @@
     "book_learn": [ [ "mag_survival", 1 ], [ "textbook_survival", 1 ], [ "survival_book", 1 ], [ "pocket_survival", 1 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "meat", 1 ], [ "fish", 1 ], [ "corn", 1 ], [ "irradiated_corn", 1 ], [ "irradiated_carrot", 1 ], [ "carrot", 1 ], [ "bread", 1 ], [ "wastebread", 1 ], [ "cornbread", 1 ], [ "macaroni_raw", 1 ], [ "spaghetti_raw", 1 ] ] ]
+  },
+    "type" : "recipe",
+    "result": "chem_aluminium_powder",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_OTHER",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": 5000,
+    "reversible": false,
+    "autolearn": true,
+    "qualities":[ { "id":"SAW_M","level":1 } ],
+    "components": [
+      [ [ "material_aluminium_ingot", 1 ], [ "material_aluminium_scrap", 4 ], [ "can_drink_unsealed", 8 ], [ "aluminum_foil", 400 ] ],
+      [ [ "water", 5 ], [ "water_clean", 5 ] ],
+      [ [ "material_sand", 25] ] ]
+    ]
   }
 ]
