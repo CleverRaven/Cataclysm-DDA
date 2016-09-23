@@ -750,6 +750,7 @@ void inventory_selector::prepare_layout()
     }
     // This block adds categories and should go before any width evaluations
     for( auto &elem : columns ) {
+        elem->set_height( get_column_height() );
         elem->prepare_paging();
     }
     // Handle screen overflow
@@ -772,39 +773,79 @@ void inventory_selector::prepare_layout()
     layout_is_valid = true;
 }
 
-void inventory_selector::draw_inv_weight_vol( WINDOW *w, int weight_carried, units::volume vol_carried,
-        units::volume vol_capacity) const
+int inventory_selector::get_header_height() const
 {
-    const std::string weight_label = string_format( _( "Weight (%s): " ), weight_units() );
-    const std::string volume_label = string_format( _( "Volume (%s): " ), volume_units_abbr() );
-    // here 1 is for spacing, 13 is for 000.00/000.00
-    const int volume_col = TERMX - 1 - 13 - utf8_width( volume_label );
-    const int weight_col = volume_col - 1 - 13 - utf8_width( weight_label );
-
-    int weight_capacity = u.weight_capacity();
-
-    mvwprintw( w, 0, weight_col, "%s", weight_label.c_str() );
-    nc_color weight_color = weight_carried > weight_capacity ? c_red : c_ltgray;
-    wprintz( w, weight_color, "%6.1f", round_up( convert_weight( weight_carried  ), 1 ) );
-    wprintz( w, c_ltgray,   "/%-6.1f", round_up( convert_weight( weight_capacity ), 1 ) );
-
-    nc_color vol_color = vol_carried > vol_capacity ? c_red : c_ltgray;
-    mvwprintw( w, 0, volume_col, "%s", volume_label.c_str() );
-    std::string fmted_vol_carried = format_volume( vol_carried, 6, NULL, NULL );
-    wprintz( w, vol_color, "%s", fmted_vol_carried.c_str() );
-    std::string fmted_vol_capacity = format_volume( vol_capacity, -6, NULL, NULL );
-    wprintz( w, c_ltgray, "/%s", fmted_vol_capacity.c_str() );
+    return display_stats || !hint.empty() ? 2 : 1;
 }
 
-void inventory_selector::draw_inv_weight_vol( WINDOW *w ) const
+int inventory_selector::get_column_height() const
 {
-    draw_inv_weight_vol( w, u.weight_carried(), u.volume_carried(), u.volume_capacity() );
+    return getmaxy( w_inv ) - get_header_height() - 3;
+}
+
+void inventory_selector::draw_header( WINDOW *w ) const
+{
+    trim_and_print( w, 0, screen_border_gap, getmaxx( w ) - screen_border_gap, c_ltgray, "%s", title.c_str() );
+    trim_and_print( w, 1, screen_border_gap, getmaxx( w ) - screen_border_gap, c_dkgray, "%s", hint.c_str() );
+
+    mvwhline( w, get_header_height(), 0, LINE_OXOX, getmaxx( w ) );
+
+    if( !display_stats ) {
+        return;
+    }
+
+    const player &dummy = get_player_for_stats();
+
+    static const int stats_count = 2;
+    static const int cells_count = 4;
+
+    using stat = std::array<std::string, cells_count>;
+    const auto disp = []( const std::string &caption, int cur_value, int max_value,
+                          const std::function<std::string( int )> disp_func ) -> stat {
+        const std::string color = string_from_color( cur_value > max_value ? c_red : c_ltgray );
+        return {{ caption,
+                  string_format( "<color_%s>%s</color>", color.c_str(), disp_func( cur_value ).c_str() ), "/",
+                  string_format( "<color_ltgray>%s</color>", disp_func( max_value ).c_str() )
+        }};
+    };
+
+    const std::array<stat, stats_count> stats = {{
+        disp( string_format( _( "Weight (%s):" ), weight_units() ),
+              dummy.weight_carried(),
+              dummy.weight_capacity(), []( int w ) {
+            return string_format( "%.1f", round_up( convert_weight( w ), 1 ) );
+        } ),
+        disp( string_format( _( "Volume (%s):" ), volume_units_abbr() ),
+              units::to_milliliter( dummy.volume_carried() ),
+              units::to_milliliter( dummy.volume_capacity() ), []( int v ) {
+            return format_volume( units::from_milliliter( v ) );
+        } )
+    }};
+
+    std::array<int, cells_count> widths;
+    for( int i = 0; i < cells_count; ++i ) {
+        widths[i] = std::max( utf8_width( stats[0][i], true ), utf8_width( stats[1][i], true ) );
+    }
+    widths[1] += 1;
+
+    int x = std::accumulate( widths.begin(), widths.end(), screen_border_gap );
+    nc_color base_color = c_dkgray;
+
+    for( int i = 0; i < cells_count - 1; ++i ) {
+        x -= widths[i];
+        right_print( w, 0, x, c_dkgray, stats[0][i].c_str() );
+        right_print( w, 1, x, c_dkgray, stats[1][i].c_str() );
+    }
+    print_colored_text( w, 0, getmaxx( w ) - x, base_color, base_color, stats[0][cells_count - 1] );
+    print_colored_text( w, 1, getmaxx( w ) - x, base_color, base_color, stats[1][cells_count - 1] );
 }
 
 void inventory_selector::refresh_window() const
 {
     werase( w_inv );
-    draw( w_inv );
+    draw_header( w_inv );
+    draw_columns( w_inv );
+    draw_footer( w_inv );
     wrefresh( w_inv );
 }
 
@@ -814,10 +855,8 @@ void inventory_selector::update()
     refresh_window();
 }
 
-void inventory_selector::draw( WINDOW *w ) const
+void inventory_selector::draw_columns( WINDOW *w ) const
 {
-    mvwprintw( w, 0, 0, title.c_str() );
-
     const auto columns = get_visible_columns();
     const int free_space = getmaxx( w ) - get_columns_width( columns ) - 2 * screen_border_gap;
     const int max_gap = ( columns.size() > 1 ) ? free_space / ( int( columns.size() ) - 1 ) : free_space;
@@ -826,7 +865,7 @@ void inventory_selector::draw( WINDOW *w ) const
                                        ? free_space % ( columns.size() - 1 ) : 0;
 
     size_t x = screen_border_gap;
-    size_t y = 2;
+    size_t y = get_header_height() + 1;
     size_t active_x = 0;
 
     for( const auto &elem : columns ) {
@@ -852,16 +891,33 @@ void inventory_selector::draw( WINDOW *w ) const
     if( empty() ) {
         center_print( w, getmaxy( w ) / 2, c_dkgray, _( "Your inventory is empty." ) );
     }
+}
 
-    const std::string msg_str = ( navigation == navigation_mode::CATEGORY )
-        ? _( "Category selection; [TAB] switches mode, arrows select." )
-        : _( "Item selection; [TAB] switches mode, arrows select." );
-    const nc_color msg_color = ( navigation == navigation_mode::CATEGORY ) ? h_white : c_ltgray;
+void inventory_selector::draw_footer( WINDOW *w ) const
+{
+    std::string msg_str;
+    nc_color msg_color = c_ltgray;
+
+    if( has_available_choices() ) {
+        switch( navigation ) {
+            case navigation_mode::ITEM:
+                msg_str = _( "Item selection; [TAB] switches mode, arrows select." );
+                break;
+
+            case navigation_mode::CATEGORY:
+                msg_str = _( "Category selection; [TAB] switches mode, arrows select." );
+                msg_color = h_white;
+                break;
+        }
+    } else {
+        msg_str = _( "There are no available choices." );
+        msg_color = i_red;
+    }
 
     if( are_columns_centered() ) {
-        center_print( w, getmaxy( w ) - 1, msg_color, msg_str.c_str() );
+        center_print( w, getmaxy( w ) - 1, msg_color, "%s", msg_str.c_str() );
     } else {
-        trim_and_print( w, getmaxy( w ) - 1, 1, getmaxx( w ), msg_color, msg_str.c_str() );
+        trim_and_print( w, getmaxy( w ) - 1, 1, getmaxx( w ), msg_color, "%s", msg_str.c_str() );
     }
 }
 
@@ -908,6 +964,13 @@ inventory_selector::~inventory_selector()
 bool inventory_selector::empty() const
 {
     return items.empty();
+}
+
+bool inventory_selector::has_available_choices() const
+{
+    return std::any_of( items.begin(), items.end(), [ this ]( const item_location &loc ) {
+        return preset.is_enabled( loc );
+    } );
 }
 
 void inventory_selector::on_action( const std::string &action )
@@ -1023,7 +1086,6 @@ void inventory_selector::toggle_navigation_mode()
 void inventory_selector::append_column( inventory_column &column )
 {
     column.set_mode( navigation );
-    column.set_height( getmaxy( w_inv ) - 5 );
 
     if( columns.empty() ) {
         column.on_activate();
@@ -1053,13 +1115,6 @@ item_location inventory_pick_selector::execute()
     }
 }
 
-void inventory_pick_selector::draw( WINDOW *w ) const
-{
-    inventory_selector::draw( w );
-    mvwprintw( w, 1, 61, _("Hotkeys:  %d/%d "), u.allocated_invlets().size(), inv_chars.size());
-    draw_inv_weight_vol( w );
-}
-
 inventory_multiselector::inventory_multiselector( const player &p,
         const inventory_selector_preset &preset,
         const std::string &selection_column_title ) :
@@ -1072,9 +1127,25 @@ inventory_multiselector::inventory_multiselector( const player &p,
     append_column( *selection_col );
 }
 
+void inventory_multiselector::rearrange_columns()
+{
+    selection_col->set_visibility( !is_overflown() );
+    inventory_selector::rearrange_columns();
+}
+
+void inventory_multiselector::on_entry_add( const inventory_entry &entry )
+{
+    if( entry.location ) {
+        static_cast<selection_column *>( selection_col.get() )->expand_to_fit( entry );
+    }
+}
+
+inventory_compare_selector::inventory_compare_selector( const player &p ) :
+    inventory_multiselector( p, default_preset, _( "ITEMS TO COMPARE" ) ) {}
+
 std::pair<const item *, const item *> inventory_compare_selector::execute()
 {
-    while(true) {
+    while( true ) {
         update();
 
         const std::string action = ctxt.handle_input();
@@ -1108,28 +1179,6 @@ std::pair<const item *, const item *> inventory_compare_selector::execute()
     }
 }
 
-void inventory_multiselector::rearrange_columns()
-{
-    selection_col->set_visibility( !is_overflown() );
-    inventory_selector::rearrange_columns();
-}
-
-void inventory_multiselector::on_entry_add( const inventory_entry &entry )
-{
-    if( entry.location ) {
-        static_cast<selection_column *>( selection_col.get() )->expand_to_fit( entry );
-    }
-}
-
-inventory_compare_selector::inventory_compare_selector( const player &p ) :
-    inventory_multiselector( p, default_preset, _( "ITEMS TO COMPARE" ) ) {}
-
-void inventory_compare_selector::draw( WINDOW *w ) const
-{
-    inventory_selector::draw( w );
-    draw_inv_weight_vol( w );
-}
-
 void inventory_compare_selector::toggle_entry( inventory_entry *entry )
 {
     const auto iter = std::find( compared.begin(), compared.end(), entry );
@@ -1145,8 +1194,9 @@ void inventory_compare_selector::toggle_entry( inventory_entry *entry )
     on_change( *entry );
 }
 
-inventory_drop_selector::inventory_drop_selector( const player &p, const inventory_selector_preset &preset )
-    : inventory_multiselector( p, preset, _( "ITEMS TO DROP" ) ) {}
+inventory_drop_selector::inventory_drop_selector( const player &p,
+        const inventory_selector_preset &preset ) :
+    inventory_multiselector( p, preset, _( "ITEMS TO DROP" ) ) {}
 
 std::list<std::pair<int, int>> inventory_drop_selector::execute()
 {
@@ -1189,18 +1239,6 @@ std::list<std::pair<int, int>> inventory_drop_selector::execute()
     return dropped_pos_and_qty;
 }
 
-void inventory_drop_selector::draw( WINDOW *w ) const
-{
-    inventory_selector::draw( w );
-    // Make copy, remove to be dropped items from that
-    // copy and let the copy recalculate the volume capacity
-    // (can be affected by various traits).
-    player tmp = u;
-    remove_dropping_items(tmp);
-    draw_inv_weight_vol( w, tmp.weight_carried(), tmp.volume_carried(), tmp.volume_capacity() );
-    mvwprintw(w, 1, 0, _("To drop x items, type a number and then the item hotkey."));
-}
-
 void inventory_drop_selector::set_drop_count( inventory_entry &entry, size_t count )
 {
     const auto iter = dropping.find( &*entry.location );
@@ -1218,21 +1256,25 @@ void inventory_drop_selector::set_drop_count( inventory_entry &entry, size_t cou
     on_change( entry );
 }
 
-void inventory_drop_selector::remove_dropping_items( player &dummy ) const
+const player &inventory_drop_selector::get_player_for_stats() const
 {
     std::map<item *, int> dummy_dropping;
 
+    dummy.reset( new player( u ) );
+
     for( const auto &elem : dropping ) {
-        dummy_dropping[&dummy.i_at( u.get_item_position( elem.first ) )] = elem.second;
+        dummy_dropping[&dummy->i_at( u.get_item_position( elem.first ) )] = elem.second;
     }
     for( auto &elem : dummy_dropping ) {
         if( elem.first->count_by_charges() ) {
             elem.first->mod_charges( -elem.second );
         } else {
-            const int pos = dummy.get_item_position( elem.first );
+            const int pos = dummy->get_item_position( elem.first );
             for( int i = 0; i < elem.second; ++i ) {
-                dummy.i_rem( pos );
+                dummy->i_rem( pos );
             }
         }
     }
+
+    return *dummy;
 }
