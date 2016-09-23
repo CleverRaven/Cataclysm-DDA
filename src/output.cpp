@@ -1298,7 +1298,7 @@ std::string format_item_info( const std::vector<iteminfo> &vItemDisplay,
                 if( vItemDisplay[i].is_int == true ) {
                     buffer << string_format( "%.0f", vItemDisplay[i].dValue );
                 } else {
-                    buffer << string_format( "%.1f", vItemDisplay[i].dValue );
+                    buffer << string_format( "%.2f", vItemDisplay[i].dValue );
                 }
                 buffer << "</color>";
             }
@@ -2495,13 +2495,8 @@ std::string format_volume( const units::volume &volume, int width, bool *out_tru
     if( width != 0 ) {
         value = clamp_to_width( value, std::abs( width ), scale, out_truncated );
     }
-    if( scale == 0 && value < 1.0 ) {
-        // very specific case (almost only to accommodate "metric cup")
-        value = 0.0;
-    } else {
-        // round up
-        value = round_up( value, scale );
-    }
+    // round up
+    value = round_up( value, scale );
     if( out_value != NULL ) {
         *out_value = value;
     }

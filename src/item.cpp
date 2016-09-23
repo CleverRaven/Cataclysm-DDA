@@ -685,7 +685,7 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
 
         int converted_volume_scale = 0;
         const double converted_volume = round_up( convert_volume( volume().value(), 
-                                                                  &converted_volume_scale ), 1 );
+                                                                  &converted_volume_scale ), 2 );
         info.push_back( iteminfo( "BASE", _( "<bold>Volume</bold>: " ),
                                   string_format( "<num> %s", volume_units_abbr() ),
                                   converted_volume, converted_volume_scale == 0, 
@@ -1240,7 +1240,7 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
 
         int converted_storage_scale = 0;
         const double converted_storage = round_up( convert_volume( get_storage().value(), 
-                                                                   &converted_storage_scale ), 1 );
+                                                                   &converted_storage_scale ), 2 );
         info.push_back( iteminfo( "ARMOR", space + _( "Storage: " ),
                                   string_format( "<num> %s", volume_units_abbr() ),
                                   converted_storage, converted_storage_scale == 0 ) );
