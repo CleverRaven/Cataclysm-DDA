@@ -80,14 +80,8 @@ void init_global_game_state( std::vector<const char *> &arg_vec )
     world_generator->set_active_world(test_world);
     assert( world_generator->active_world != NULL );
 
-    try {
-        g->load_core_data();
-        g->load_world_modfiles( world_generator->active_world );
-    } catch( const std::exception &err ) {
-        fprintf( stderr, "Error loading data from json: %s", err.what() );
-        assert( !"Loading from JSON failed. Run `./cataclysm --check-mods`" );
-    }
-
+    g->load_core_data();
+    g->load_world_modfiles( world_generator->active_world );
 
     g->u = player();
     g->u.create(PLTYPE_NOW);
@@ -109,8 +103,15 @@ int main( int argc, const char *argv[] )
     }
 
     test_mode = true;
-    // TODO: Only init game if we're running tests that need it.
-    init_global_game_state( arg_vec );
+
+    try {
+        // TODO: Only init game if we're running tests that need it.
+        init_global_game_state( arg_vec );
+    } catch( const std::exception &err ) {
+        fprintf( stderr, "Terminated: %s\n", err.what() );
+        fprintf( stderr, "Make sure that you're in the correct working directory and your data isn't corrupted.\n" );
+        return EXIT_FAILURE;
+    }
 
     result = session.run();
 
