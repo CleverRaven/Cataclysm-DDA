@@ -11,10 +11,12 @@
       "volume": -4,
       "bashing": -5,
       "range": -2,
-      "ranged_damage": -4,
-      "dispersion": 60,
-      "recoil": 15,
-      "reload": -400
+      "ranged_damage": -4
+    },
+    "proportional": {
+      "dispersion": 1.35,
+      "recoil": 1.5,
+      "reload": 0.65
     }
   },
   {
@@ -103,10 +105,12 @@
       "volume": -2,
       "bashing": -2,
       "range": -3,
-      "ranged_damage": -5,
-      "dispersion": 75,
-      "recoil": 20,
-      "reload": -300
+      "ranged_damage": -5
+    },
+    "proportional": {
+      "dispersion": 1.45,
+      "recoil": 1.65,
+      "reload": 0.75
     },
     "extend": { "flags": [ "RELOAD_ONE" ] }
   }
