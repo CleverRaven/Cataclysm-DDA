@@ -1188,15 +1188,17 @@ void Item_factory::load_tool_armor( JsonObject &jo, const std::string &src )
     }
 }
 
-void Item_factory::load( islot_book &slot, JsonObject &jo, const std::string & )
+void Item_factory::load( islot_book &slot, JsonObject &jo, const std::string &src )
 {
-    assign( jo, "max_level", slot.level );
-    assign( jo, "required_level", slot.req );
-    assign( jo, "fun", slot.fun );
-    assign( jo, "intelligence", slot.intel );
-    assign( jo, "time", slot.time );
-    assign( jo, "skill", slot.skill );
-    assign( jo, "chapters", slot.chapters );
+    bool strict = src == "core";
+
+    assign( jo, "max_level", slot.level, strict, 0, MAX_SKILL );
+    assign( jo, "required_level", slot.req, strict, 0, MAX_SKILL );
+    assign( jo, "fun", slot.fun, strict );
+    assign( jo, "intelligence", slot.intel, strict, 0 );
+    assign( jo, "time", slot.time, strict, 0 );
+    assign( jo, "skill", slot.skill, strict );
+    assign( jo, "chapters", slot.chapters, strict, 0 );
 }
 
 void Item_factory::load_book( JsonObject &jo, const std::string &src )
