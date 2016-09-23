@@ -35,7 +35,7 @@
   },
   {
     "type" : "recipe",
-    "result": "material_aluminum_scrap",
+    "result": "material_aluminium_ingot",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
     "skill_used": "fabrication",
@@ -47,7 +47,7 @@
       { "id":"CONTAIN","level":1 }
     ],
     "tools": [ [ [ "toolset", 10 ], [ "fire", -1 ] ] ],
-    "components": [ [ [ "chem_aluminium_powder", 25 ], [ "can_drink_unsealed", 2 ], [ "aluminum_foil", 10 ] ] ]
+    "components": [ [ [ "chem_aluminium_powder", 25 ], [ "can_drink_unsealed", 4 ], [ "aluminum_foil", 100 ] ] ]
   },
   {
     "type" : "recipe",
@@ -61,12 +61,12 @@
     "autolearn": true,
     "qualities":[
       { "id":"HAMMER","level":1 },
-      { "id":"CONTAIN","level":1 },
+      { "id":"CONTAIN","level":1 }
     ],
     "tools": [
       [ [ "toolset", 10 ], [ "fire", -1 ] ],
       [ ["sheet_metal", -1 ] ]
     ],
-    "components": [ [ [ "material_aluminum_scrap", 2 ] ]
+    "components": [ [ [ "material_aluminium_ingot", 2 ] ] ]
   }
 ]

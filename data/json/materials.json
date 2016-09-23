@@ -824,7 +824,7 @@
         "type" : "material",
         "ident" : "aluminum",
         "name" : "Aluminum",
-        "repaired_with" : "material_aluminium_scrap",
+        "repaired_with" : "material_aluminium_ingot",
         "bash_resist" : 0,
         "cut_resist" : 4,
         "bash_dmg_verb" : "dented",

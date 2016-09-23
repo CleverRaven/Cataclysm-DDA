@@ -10,11 +10,11 @@
     "autolearn": true,
     "batch_time_factors":[67, 5],
     "qualities":[ { "id":"COOK","level":1 } ],
-    "tools": [
-      [ [ "hotplate", 7 ], [ "char_smoker", 7 ], [ "toolset", 7 ], [ "fire", -1 ] ],
-      [ [ "aluminum_foil", 7 ] ]
-    ],
-    "components": [ [ [ "mushroom", 1 ] ] ]
+    "tools": [ [ [ "hotplate", 7 ], [ "char_smoker", 7 ], [ "toolset", 7 ], [ "fire", -1 ] ] ],
+    "components": [
+      [ [ "water", 1 ], [ "water_clean", 1 ], [ "aluminum_foil", 7 ] ],
+      [ [ "mushroom", 1 ] ]
+    ]
   },
   {
     "type" : "recipe",
@@ -28,11 +28,11 @@
     "autolearn": false,
     "book_learn": [["pocket_survival", 1], ["survival_book", 1], ["textbook_survival", 1], ["manual_survival", 1], ["survival_book", 1]],
     "qualities":[ { "id":"COOK","level":1 } ],
-    "tools": [
-      [ [ "hotplate", 5 ], [ "char_smoker", 5 ], [ "toolset", 5 ], [ "fire", -1 ] ],
-      [ [ "aluminum_foil", 5 ] ]
-    ],
-    "components": [ [ [ "dahlia_root", 1 ] ] ]
+    "tools": [ [ [ "hotplate", 5 ], [ "char_smoker", 5 ], [ "toolset", 5 ], [ "fire", -1 ] ] ],
+    "components": [
+      [ [ "water", 1 ], [ "water_clean", 1 ], [ "aluminum_foil", 5 ] ],
+      [ [ "dahlia_root", 1 ] ]
+    ]
   },
   {
     "type" : "recipe",
@@ -44,11 +44,11 @@
     "time": 15000,
     "autolearn": true,
     "qualities":[ { "id":"COOK","level":1 } ],
-    "tools": [
-      [ [ "hotplate", 3 ], [ "char_smoker", 3 ], [ "toolset", 3 ], [ "fire", -1 ] ],
-      [ [ "aluminum_foil", 3 ] ]
-    ],
-    "components": [ [ [ "potato_raw", 1 ], [ "potato_irradiated", 1 ] ] ]
+    "tools": [ [ [ "hotplate", 3 ], [ "char_smoker", 3 ], [ "toolset", 3 ], [ "fire", -1 ] ] ],
+    "components": [
+      [ [ "water", 1 ], [ "water_clean", 1 ], [ "aluminum_foil", 3 ] ],
+      [ [ "potato_raw", 1 ], [ "potato_irradiated", 1 ] ]
+    ]
   },
   {
     "type" : "recipe",
@@ -61,11 +61,11 @@
     "reversible": false,
     "autolearn": true,
     "qualities": [ { "id":"COOK","level":1 } ],
-    "tools": [
-      [ [ "hotplate", 5 ], [ "char_smoker", 5 ], [ "toolset", 5 ], [ "fire", -1 ] ]
-      [ [ "aluminum_foil", 5 ] ]
-    ],
-    "components": [ [ [ "veggy", 1 ] ] ]
+    "tools": [ [ [ "hotplate", 5 ], [ "char_smoker", 5 ], [ "toolset", 5 ], [ "fire", -1 ] ] ],
+    "components": [
+      [ [ "water", 1 ], [ "water_clean", 1 ], [ "aluminum_foil", 5 ] ],
+      [ [ "veggy", 1 ] ]
+    ]
   },
   {
     "type" : "recipe",
@@ -77,11 +77,11 @@
     "time": 4000,
     "autolearn": true,
     "qualities":[ { "id":"COOK","level":2 } ],
-    "tools": [
-      [ [ "hotplate", 5 ], [ "char_smoker", 5 ], [ "toolset", 5 ], [ "fire", -1 ] ],
-      [ [ "aluminum_foil", 5 ] ]
-    ],
-    "components": [ [ [ "veggy_wild", 1 ] ] ]
+    "tools": [ [ [ "hotplate", 5 ], [ "char_smoker", 5 ], [ "toolset", 5 ], [ "fire", -1 ] ] ],
+    "components": [
+      [ [ "water", 1 ], [ "water_clean", 1 ], [ "aluminum_foil", 5 ] ],
+      [ [ "veggy_wild", 1 ] ]
+    ]
   },
   {
     "type" : "recipe",
@@ -95,12 +95,12 @@
     "time": 18000,
     "autolearn": true,
     "qualities": [
-      { "id":"CUT","level":1, },
-      { "id":"COOK","level":1, }
+      { "id":"CUT","level":1 },
+      { "id":"COOK","level":1 }
     ],
     "tools": [ [ [ "hotplate", 5 ], [ "char_smoker", 5 ], [ "toolset", 5 ], [ "fire", -1 ] ] ],
     "components": [
-      [ [ "water", 1 ], [ "water_clean", 1 ] ],
+      [ [ "water", 1 ], [ "water_clean", 1 ], [ "aluminum_foil", 5 ] ],
       [ [ "cattail_stalk", 1 ] ]
     ]
   },
@@ -115,14 +115,14 @@
     "reversible": false,
     "autolearn": true,
     "qualities" : [
-      {"id":"CUT","level":1,"amount":1},
-      {"id":"COOK","level":2,"amount":1}
+      { "id":"CUT","level":1 },
+      { "id":"COOK","level":2 }
     ],
-    "tools": [
-      [ [ "hotplate", 5 ], [ "char_smoker", 5 ], [ "toolset", 5 ], [ "fire", -1 ] ],
-      [ [ "aluminum_foil", 5 ] ]
-    ],
-    "components": [ [ [ "pumpkin", 1 ], [ "irradiated_pumpkin", 1 ] ] ]
+    "tools": [ [ [ "hotplate", 5 ], [ "char_smoker", 5 ], [ "toolset", 5 ], [ "fire", -1 ] ] ],
+    "components": [
+      [ [ "water", 1 ], [ "water_clean", 1 ], [ "aluminum_foil", 5 ] ],
+      [ [ "pumpkin", 1 ], [ "irradiated_pumpkin", 1 ] ]
+    ]
   },
   {
     "type" : "recipe",
@@ -226,11 +226,9 @@
     "autolearn": true,
     "batch_time_factors":[67, 5],
     "qualities": [ {"id":"COOK","level":1 } ],
-    "tools": [
-      [ [ "hotplate", 7 ], [ "char_smoker", 7 ], [ "toolset", 7 ], [ "fire", -1 ] ],
-      [ [ "aluminum_foil", 7 ] ]
-    ],
+    "tools": [ [ [ "hotplate", 7 ], [ "char_smoker", 7 ], [ "toolset", 7 ], [ "fire", -1 ] ] ],
     "components": [
+      [ [ "water", 1 ], [ "water_clean", 1 ], [ "aluminum_foil", 7 ] ],
       [ [ "sauerkraut", 1 ] ],
       [ [ "cooking_oil", 1 ] ],
       [ [ "irradiated_onion", 1 ], [ "onion", 1 ] ]

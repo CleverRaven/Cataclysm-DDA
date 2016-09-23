@@ -11,8 +11,7 @@
     "autolearn": true,
     "qualities" : [ { "id" : "GLARE", "level" : 2 } ],
     "using": [ [ "welding_standard", 6 ] ],
-    "components": [
-      [ [ "material_aluminum_ingot", 4 ], [ "material_aluminum_scrap", 16 ] ] ]
+    "components": [ [ [ "material_aluminium_ingot", 16 ] ] ]
   },
   {
     "result": "cantilever_medium",

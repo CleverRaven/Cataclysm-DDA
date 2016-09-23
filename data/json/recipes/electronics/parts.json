@@ -9,7 +9,7 @@
     "time": 3000,
     "book_learn": [[ "radio_book", 1 ] , [ "textbook_anarch", 1 ]],
     "qualities":[ { "id":"SAW_M","level":1 } ],
-    "components": [ [ [ "steel_chunk", 1 ], [ "scrap", 3 ], [ "knife_butter", 2 ], [ "material_alumimum_scrap", 3 ] ]
+    "components": [ [ [ "steel_chunk", 1 ], [ "scrap", 3 ], [ "knife_butter", 2 ], [ "material_aluminium_ingot", 3 ] ]
   ]
   },
   {
@@ -29,7 +29,7 @@
     ],
     "components": [
       [ [ "amplifier", 1 ] ],
-      [ [ "wire", 6 ], [ "material_aluminum_scrap", 6 ] ],
+      [ [ "wire", 6 ], [ "material_aluminium_ingot", 6 ] ],
       [ [ "2x4", 2 ] ],
       [ [ "nail", 12 ] ]
   ]
