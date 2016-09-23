@@ -215,7 +215,7 @@
         "avoidance" : 0,
         "difficulty" : 2,
         "action" : "none",
-        "drops" : ["motor", "blade", "blade", "string_36"]
+        "drops" : ["motor", "blade", "blade", "string_36", "small_storage_battery", "pointy_stick", "pointy_stick", "pointy_stick", "pointy_stick"]
     },
     {
         "type" : "trap",
