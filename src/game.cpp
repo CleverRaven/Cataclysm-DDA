@@ -243,7 +243,8 @@ game::game() :
     gamemode(),
     user_action_counter(0),
     lookHeight(13),
-    tileset_zoom(16)
+    tileset_zoom(16),
+    weather_override( WEATHER_NULL )
 {
     world_generator.reset( new worldfactory() );
     // do nothing, everything that was in here is moved to init_data() which is called immediately after g = new game; in main.cpp
@@ -879,6 +880,10 @@ bool game::start_game(std::string worldname)
     if(scen->has_flag("HELI_CRASH")) {
         start_loc.handle_heli_crash( u );
     }
+
+    // Now that we're done handling coordinates, ensure the player's submap is in the center of the map
+    update_map( u );
+
     //~ %s is player name
     u.add_memorial_log(pgettext("memorial_male", "%s began their journey into the Cataclysm."),
                        pgettext("memorial_female", "%s began their journey into the Cataclysm."),
@@ -3564,7 +3569,7 @@ void game::load(std::string worldname, std::string name)
     load_uistate(worldname);
 
     load_mission_npcs(); // Pull mission_npcs back out of the overmap before update_map
-    update_map(&u);
+    update_map( u );
 
     // legacy, needs to be here as we access the map.
     if( u.getID() == 0 || u.getID() == -1 ) {
@@ -3921,7 +3926,7 @@ void game::debug()
             }
 
             u.setpos( pt );
-            update_map( &u );
+            update_map( u );
             pt = u.pos();
             add_msg( _( "You teleport to point (%d,%d,%d)" ), pt.x, pt.y, pt.z );
 
@@ -4006,7 +4011,7 @@ void game::debug()
             popup_top(
                 s.c_str(),
                 u.posx(), u.posy(), get_levx(), get_levy(),
-                otermap[overmap_buffer.ter( u.global_omt_location() )].name.c_str(),
+                overmap_buffer.ter( u.global_omt_location() )->name.c_str(),
                 int( calendar::turn ), int( nextspawn ),
                 ( get_world_option<bool>( "RANDOM_NPC" ) ? _( "NPCs are going to spawn." ) :
                   _( "NPCs are NOT going to spawn." ) ),
@@ -4112,7 +4117,7 @@ void game::debug()
                     if( np->has_destination() ) {
                         data << string_format( _( "Destination: %d:%d:%d (%s)" ),
                                                np->goal.x, np->goal.y, np->goal.z,
-                                               otermap[overmap_buffer.ter( np->goal )].name.c_str() ) << std::endl;
+                                               overmap_buffer.ter( np->goal )->name.c_str() ) << std::endl;
                     } else {
                         data << _( "No destination." ) << std::endl;
                     }
@@ -4383,7 +4388,7 @@ void game::debug()
                         if( newpos != tripoint_min ) {
                             p.setpos( newpos );
                             if( p.is_player() ) {
-                                update_map( &u );
+                                update_map( u );
                             }
                         }
                     }
@@ -5234,9 +5239,9 @@ void game::draw_sidebar()
 
     const oter_id &cur_ter = overmap_buffer.ter(u.global_omt_location());
 
-    std::string tername = otermap[cur_ter].name;
+    const std::string &tername = cur_ter->name;
     werase(w_location);
-    mvwprintz(w_location, 0, 0, otermap[cur_ter].color, "%s", utf8_truncate(tername, 14).c_str());
+    mvwprintz(w_location, 0, 0, cur_ter->color, "%s", utf8_truncate(tername, 14).c_str());
 
     if (get_levz() < 0) {
         mvwprintz(w_location, 0, 18, c_ltgray, _("Underground"));
@@ -5661,11 +5666,11 @@ void game::draw_minimap()
                 ter_sym = 'c';
             } else {
                 const oter_id &cur_ter = overmap_buffer.ter(omx, omy, get_levz());
-                ter_sym = otermap[cur_ter].sym;
+                ter_sym = cur_ter->sym;
                 if (overmap_buffer.is_explored(omx, omy, get_levz())) {
                     ter_color = c_dkgray;
                 } else {
-                    ter_color = otermap[cur_ter].color;
+                    ter_color = cur_ter->color;
                 }
             }
             if (!drew_mission && targ.x == omx && targ.y == omy) {
@@ -7095,7 +7100,7 @@ bool game::swap_critters( Creature &a, Creature &b )
     }
 
     if( first.is_player() ) {
-        update_map( u_or_npc );
+        update_map( *u_or_npc );
     }
 
     return true;
@@ -12286,7 +12291,7 @@ void game::place_player( const tripoint &dest_loc )
     }
 
     u.setpos( dest_loc );
-    update_map( &u );
+    update_map( u );
     // Important: don't use dest_loc after this line. `update_map` may have shifted the map
     // and dest_loc was not adjusted and therefor is still in the un-shifted system and probably wrong.
 
@@ -12847,7 +12852,7 @@ void game::plswim( const tripoint &p )
         m.unboard_vehicle( u.pos() );
     }
     u.setpos( p );
-    update_map( &u );
+    update_map( u );
     {
         int part;
         const auto veh = m.veh_at( u.pos(), part );
@@ -13488,12 +13493,12 @@ void game::vertical_notes( int z_before, int z_after )
             }
             const oter_id &ter = overmap_buffer.ter(cursx, cursy, z_before);
             const oter_id &ter2 = overmap_buffer.ter(cursx, cursy, z_after);
-            if( z_after > z_before && otermap[ter].has_flag(known_up) &&
-                !otermap[ter2].has_flag(known_down) ) {
+            if( z_after > z_before && ter->has_flag(known_up) &&
+                !ter2->has_flag(known_down) ) {
                 overmap_buffer.set_seen(cursx, cursy, z_after, true);
                 overmap_buffer.add_note(cursx, cursy, z_after, _(">:W;AUTO: goes down"));
-            } else if ( z_after < z_before && otermap[ter].has_flag(known_down) &&
-                !otermap[ter2].has_flag(known_up) ) {
+            } else if ( z_after < z_before && ter->has_flag(known_down) &&
+                !ter2->has_flag(known_up) ) {
                 overmap_buffer.set_seen(cursx, cursy, z_after, true);
                 overmap_buffer.add_note(cursx, cursy, z_after, _("<:W;AUTO: goes up"));
             }
@@ -13501,10 +13506,10 @@ void game::vertical_notes( int z_before, int z_after )
     }
 }
 
-void game::update_map( player *p )
+void game::update_map( player &p )
 {
-    int x = p->posx();
-    int y = p->posy();
+    int x = p.posx();
+    int y = p.posy();
     update_map( x, y );
 }
 
@@ -13593,8 +13598,7 @@ void game::update_overmap_seen()
             for (std::vector<point>::const_iterator it = line.begin();
                  it != line.end() && sight_points >= 0; ++it) {
                 const oter_id &ter = overmap_buffer.ter(it->x, it->y, ompos.z);
-                const int cost = otermap[ter].see_cost;
-                sight_points -= cost;
+                sight_points -= int( ter->see_cost );
             }
             if (sight_points >= 0) {
                 overmap_buffer.set_seen(x, y, ompos.z, true);
@@ -14053,7 +14057,7 @@ void game::teleport(player *p, bool add_teleglow)
         }
     }
     if( is_u ) {
-        update_map( p );
+        update_map( *p );
     }
 }
 
@@ -14080,7 +14084,7 @@ void game::nuke( const tripoint &p )
         }
     }
     tmpmap.save();
-    overmap_buffer.ter(x, y, 0) = "crater";
+    overmap_buffer.ter(x, y, 0) = oter_id( "crater" );
     // Kill any npcs on that omap location.
     std::vector<npc *> npcs = overmap_buffer.get_npcs_near_omt(x, y, 0, 0);
     for( auto &npc : npcs ) {

@@ -7307,6 +7307,12 @@
           "rotates": false
         },
         {
+          "id": "battery_truck",
+          "fg": 1423,
+          "bg": 621,
+          "rotates": false
+        },
+        {
           "id": "battleaxe_fake",
           "fg": 2475,
           "bg": 621,
@@ -17982,6 +17988,11 @@
           "rotates": false
         },
         {
+          "id": "can_drink_unsealed",
+          "fg": 1034,
+          "rotates": false
+        },
+        {
           "id": "can_food",
           "fg": 1035,
           "rotates": false
@@ -19378,6 +19389,11 @@
           "rotates": false
         },
         {
+          "id": "vp_battery_truck",
+          "fg": 1423,
+          "rotates": false
+        },
+        {
           "id": "vp_small_storage_battery",
           "fg": 1423,
           "rotates": true
@@ -20035,6 +20051,16 @@
         {
           "id": "m9bigmag",
           "fg": 1675,
+          "rotates": false
+        },
+        {
+          "id": "ppshmag",
+          "fg": 1675,
+          "rotates": false
+        },
+        {
+          "id": "ppshdrum",
+          "fg": 1685,
           "rotates": false
         },
         {

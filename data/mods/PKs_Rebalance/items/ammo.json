@@ -16,7 +16,7 @@
     "ammo_type": "shot",
     "range": 0,
     "damage": 8,
-    "recoil": 200,
+    "recoil": 2000,
     "effects": [ "INCENDIARY" ],
     "flags": [ "NOGIB", "NO_BOOM" ]
   },
@@ -37,7 +37,7 @@
     "ammo_type": "shot",
     "range": 0,
     "damage": 6,
-    "recoil": 200,
+    "recoil": 2000,
     "effects": [ "INCENDIARY", "FLARE", "TRAIL" ],
     "flags": [ "NOGIB" ]
   },
@@ -58,7 +58,7 @@
     "ammo_type": "plutonium",
     "range": 9,
     "damage": 17,
-    "recoil": 200,
+    "recoil": 2000,
     "effects": [ "INCENDIARY", "SHOT" ],
     "flags": [ "LEAK_DAM", "RADIOACTIVE" ]
   },
@@ -79,7 +79,7 @@
     "ammo_type": "plutonium",
     "range": 15,
     "damage": 23,
-    "recoil": 200,
+    "recoil": 2000,
     "effects": [ "INCENDIARY", "FLARE" ],
     "flags": [ "LEAK_DAM", "RADIOACTIVE" ]
   },
@@ -100,7 +100,7 @@
     "ammo_type": "plutonium",
     "range": 20,
     "damage": 17,
-    "recoil": 200,
+    "recoil": 2000,
     "effects": [ "INCENDIARY", "LIGHTNING" ],
     "flags": [ "LEAK_DAM", "RADIOACTIVE" ]
   },
@@ -140,7 +140,7 @@
     "damage": 222,
     "pierce": 30,
     "dispersion": 1000,
-    "recoil": 500,
+    "recoil": 5000,
     "effects": [ "EXPLOSIVE", "TRAIL", "SMOKE" ]
   },
   {

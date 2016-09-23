@@ -138,7 +138,7 @@ bool game::dump_stats( const std::string& what, dump_mode mode, const std::vecto
     } else if( what == "GUN" ) {
         header = {
             "Name", "Ammo", "Volume", "Weight", "Capacity",
-            "Range", "Dispersion", "Recoil", "Damage", "Pierce",
+            "Range", "Dispersion", "Effective recoil", "Damage", "Pierce",
             "Aim time", "Effective range", "Snapshot range", "Max range"
         };
 
@@ -164,7 +164,7 @@ bool game::dump_stats( const std::string& what, dump_mode mode, const std::vecto
             r.push_back( to_string( obj.ammo_capacity() ) );
             r.push_back( to_string( obj.gun_range() ) );
             r.push_back( to_string( obj.gun_dispersion() ) );
-            r.push_back( to_string( obj.gun_recoil() ) );
+            r.push_back( to_string( obj.gun_recoil( who ) ) );
             r.push_back( to_string( obj.gun_damage() ) );
             r.push_back( to_string( obj.gun_pierce() ) );
 

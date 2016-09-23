@@ -177,7 +177,6 @@
     "damage": 2,
     "pierce": 0,
     "dispersion": 14,
-    "recoil": 0,
     "effects": [ "NEVER_MISFIRES" ]
   },
   {
@@ -696,7 +695,6 @@
     "range": 24,
     "dispersion": 600,
     "sight_dispersion": 150,
-    "recoil": 300,
     "durability": 7,
     "clip_size": 1,
     "reload": 800,

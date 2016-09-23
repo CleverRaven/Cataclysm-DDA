@@ -218,7 +218,6 @@ editmap::editmap()
     hilights["mapgentgt"].color = c_cyan;
     hilights["mapgentgt"].setup();
 
-    oter_special.clear();
     uberdraw = false;
 }
 
@@ -1686,7 +1685,7 @@ int editmap::mapgen_preview( real_coords &tc, uimenu &gmenu )
     oter_id &omt_ref = overmap_buffer.ter( omt_pos.x, omt_pos.y, target.z );
     // Copy to store the original value, to restore it upon canceling
     const oter_id orig_oters = omt_ref;
-    omt_ref = gmenu.ret;
+    omt_ref = oter_id( gmenu.ret );
     tinymap tmpmap;
     // TODO: add a do-not-save-generated-submaps parameter
     // TODO: keep track of generated submaps to delete them properly and to avoid memory leaks
@@ -1715,14 +1714,14 @@ int editmap::mapgen_preview( real_coords &tc, uimenu &gmenu )
     gpmenu.show();
     uphelp( _( "[pgup/pgdn]: prev/next oter type" ),
             _( "[up/dn] select, [enter] accept, [q] abort" ),
-            string_format( "Mapgen: %s", oterlist[gmenu.ret].id.substr( 0, 40 ).c_str() )
+            string_format( "Mapgen: %s", oter_id( gmenu.ret ).id().str().substr( 0, 40 ).c_str() )
           );
     int lastsel = gmenu.selected;
     bool showpreview = true;
     do {
         if( gmenu.selected != lastsel ) {
             lastsel = gmenu.selected;
-            omt_ref = gmenu.selected;
+            omt_ref = oter_id( gmenu.selected );
             cleartmpmap( tmpmap );
             tmpmap.generate( omt_pos.x * 2, omt_pos.y * 2, target.z, calendar::turn );
             showpreview = true;
@@ -1836,8 +1835,8 @@ int editmap::mapgen_preview( real_coords &tc, uimenu &gmenu )
 
                 } else if( gpmenu.ret == 3 ) {
                     popup( _( "Changed oter_id from '%s' (%s) to '%s' (%s)" ),
-                           orig_oters.t().name.c_str(), orig_oters.c_str(),
-                           omt_ref.t().name.c_str(), omt_ref.c_str() );
+                           orig_oters->name.c_str(), orig_oters.id().c_str(),
+                           omt_ref->name.c_str(), omt_ref.id().c_str() );
                 }
             } else if( gpmenu.keypress == 'm' ) {
                 // todo; keep preview as is and move target
@@ -1946,15 +1945,15 @@ int editmap::edit_mapgen()
     broken_oter_blacklist["nuke_plant"] = true;
     broken_oter_blacklist["temple_core"] = true;
 
-    for( size_t i = 0; i < oterlist.size(); i++ ) {
+    for( size_t i = 0; i < oter_t::count(); i++ ) {
         oter_id id = oter_id( i );
-        gmenu.addentry( -1, true, 0, "[%3d] %s", ( int )id, std::string( id ).c_str() );
-        if( broken_oter_blacklist.find( id ) != broken_oter_blacklist.end() ) {
+        gmenu.addentry( -1, true, 0, "[%3d] %s", ( int )id, id.id().c_str() );
+        if( broken_oter_blacklist.find( id.id().str() ) != broken_oter_blacklist.end() ) {
             gmenu.entries[i].enabled = false;
         }
         gmenu.entries[i].extratxt.left = 1;
-        gmenu.entries[i].extratxt.color = otermap[id].color;
-        gmenu.entries[i].extratxt.txt = string_format( "%c", otermap[id].sym );
+        gmenu.entries[i].extratxt.color = id->color;
+        gmenu.entries[i].extratxt.txt = string_format( "%c", id->sym );
     }
     real_coords tc;
     do {

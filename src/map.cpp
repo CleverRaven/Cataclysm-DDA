@@ -1257,7 +1257,7 @@ void map::board_vehicle( const tripoint &pos, player *p )
     p->setpos( pos );
     p->in_vehicle = true;
     if( p == &g->u ) {
-        g->update_map( &g->u );
+        g->update_map( g->u );
     }
 }
 
@@ -1429,7 +1429,7 @@ vehicle *map::displace_vehicle( tripoint &p, const tripoint &dp )
     update_vehicle_cache( veh, src.z );
 
     if( need_update ) {
-        g->update_map( &g->u );
+        g->update_map( g->u );
     }
 
     if( z_change != 0 ) {
@@ -6630,7 +6630,7 @@ static void generate_uniform( const int x, const int y, const int z, const oter_
     static const oter_id air("open_air");
 
     dbg( D_INFO ) << "generate_uniform x: " << x << "  y: " << y << "  abs_z: " << z
-                  << "  terrain_type: " << static_cast<std::string const&>(terrain_type);
+                  << "  terrain_type: " << terrain_type.id().str();
 
     ter_id fill = t_null;
     if( terrain_type == rock ) {
@@ -6639,7 +6639,7 @@ static void generate_uniform( const int x, const int y, const int z, const oter_
         fill = t_open_air;
     } else {
         debugmsg( "map::generate_uniform called on non-uniform type: %s",
-                  static_cast<std::string const&>(terrain_type).c_str() );
+                  terrain_type.id().c_str() );
         return;
     }
 

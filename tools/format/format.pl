@@ -11,8 +11,9 @@ use Getopt::Std;
 
 # -c check input is in canonical format
 # -q quiet with no output to stdout
+# -v verbose error messages (includes hints at canonical format)
 my %opts;
-getopts('cq', \%opts);
+getopts('cqv', \%opts);
 
 my @config;
 for( open my $fh, '<', catfile(dirname(__FILE__), 'format.conf'); <$fh>; ) {
@@ -90,7 +91,8 @@ sub encode(@) {
         } keys %{$data};
 
         # Sort the member fields then recursively encode their data
-        my @sorted = (sort { $fields{$a}->[1] <=> $fields{$b}->[1] } keys %fields);
+        # Where two fields match the same context sort them alphabetically to determine order
+        my @sorted = (sort { $fields{$a}->[1] <=> $fields{$b}->[1] or $a cmp $b } keys %fields);
         my @elems = map { qq("$_": ) . encode($data->{$_}, $fields{$_}->[0]) } @sorted;
         return '{' . assemble($context, @elems) . '}';
     }
@@ -123,4 +125,25 @@ if ($dirty) {
 }
 
 print $result unless $opts{'q'};
-exit($opts{'c'} ? (($original // '') eq ($result // '') ? 0 : 1) : 0)
+exit 0 unless $opts{'c'};
+
+# If checking for canonical formatting get offset of first mismatch (if any)
+exit 0 if ($original // '') eq ($result // '');
+
+($original ^ $result) =~ /^\0*/;
+my $line = scalar split '\n', substr($result,0,$+[0]);
+print STDERR "ERROR: Format error at line $line\n";
+print STDERR "< " . (split '\n', $original)[$line-1] . "\n";
+print STDERR "> " . (split '\n', $result  )[$line-1] . "\n";
+
+if ($opts{'v'}) {
+    print STDERR "\nHINT: Canonical output for this block was:\n";
+    my @diff = split '\n', $result;
+    while ($line-- > 0 and $diff[$line] ne '  {') {}
+
+    for (my $i = $line + 1; $i < @diff; $i++) {
+        last if $diff[$i] =~ /^  },?$/;
+        print STDERR $diff[$i] . "\n";
+    }
+}
+exit 1;

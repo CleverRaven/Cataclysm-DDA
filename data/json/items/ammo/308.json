@@ -19,7 +19,7 @@
     "damage": 60,
     "pierce": 2,
     "dispersion": 15,
-    "recoil": 500,
+    "recoil": 3000,
     "effects": [ "COOKOFF" ]
   },
   {
@@ -32,9 +32,9 @@
     "relative": {
       "damage": -2,
       "pierce": 4,
-      "dispersion": 10,
-      "recoil": 40
+      "dispersion": 10
     },
+    "proportional": { "recoil": 1.1 },
     "extend": { "effects": [ "NEVER_MISFIRES" ] }
   },
   {

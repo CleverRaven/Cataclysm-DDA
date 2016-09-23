@@ -39,7 +39,6 @@
     "ammo": "545x39",
     "skill": "rifle",
     "dispersion": 150,
-    "recoil": -10,
     "durability": 7,
     "barrel_length": 1,
     "modes": [

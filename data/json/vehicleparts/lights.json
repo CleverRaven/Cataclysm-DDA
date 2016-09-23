@@ -63,7 +63,7 @@
   {
     "id": "headlight",
     "type": "vehicle_part",
-    "name": "head light",
+    "name": "headlight",
     "item": "car_headlight",
     "symbol": "*",
     "broken_symbol": "*",
@@ -82,7 +82,7 @@
     "id": "headlight_reinforced",
     "copy-from": "headlight",
     "type": "vehicle_part",
-    "name": "reinforced head light",
+    "name": "reinforced headlight",
     "item": "headlight_reinforced",
     "color": "light_blue",
     "proportional": { "durability": 4 }

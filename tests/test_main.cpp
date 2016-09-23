@@ -81,6 +81,7 @@ void init_global_game_state( std::vector<const char *> &arg_vec )
     assert( world_generator->active_world != NULL );
 
     try {
+        g->load_core_data();
         g->load_world_modfiles( world_generator->active_world );
     } catch( const std::exception &err ) {
         fprintf( stderr, "Error loading data from json: %s", err.what() );

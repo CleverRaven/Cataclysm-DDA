@@ -658,7 +658,7 @@
         "points": 1,
         "skills": [
             {
-                "level": 1,
+                "level": 2,
                 "name": "cooking"
             },
             {
@@ -673,7 +673,7 @@
         "items": {
             "both" : [
                 "pocketwatch",
-                "knife_butter"
+                "knife_steak"
             ],
             "male": [
                 "briefs",
@@ -685,7 +685,7 @@
                 "panties",
                 "bra",
                 "stockings",
-                "boots",
+                "dress_shoes",
                 "maid_dress",
                 "maid_hat"
             ]
@@ -696,10 +696,10 @@
         "ident": "medic",
         "name": "Medical Resident",
         "description": "Fresh out of med school, you've got little in the way of practical experience.  You just hope it will be enough if the old adage of 'Doctor, heal thyself' ends up being required.",
-        "points": 1,
+        "points": 2,
         "skills": [
             {
-                "level": 3,
+                "level": 4,
                 "name": "firstaid"
             }
         ],
@@ -710,12 +710,13 @@
             "both": [
                 "pants",
                 "dress_shirt",
+                "gloves_medical",
                 "socks",
                 "dress_shoes",
                 "coat_lab",
                 "water_clean",
                 "bandages",
-                "bandages",
+                "aspirin",
                 "1st_aid",
                 "stethoscope"
             ],
@@ -879,32 +880,24 @@
             "type": "profession",
             "ident": "bio_sur",
             "name": "Bionic Survivalist",
-            "description": "Mainly from paranoia, you augmented yourself, got some training and basic gear to go inawoods incase anything went down, well it did.  Seems your paranoia paid off.", 
-            "points": 10,
+            "description": "Mainly from paranoia, you augmented yourself, got some training and basic gear to go inawoods incase anything went down, well it did.  Seems your paranoia paid off.",
+            "points": 8,
             "skills": [
             {
-                "level": 4,
+                "level": 1,
                 "name": "survival"
             },
             {
-                "level": 2,
-                "name": "traps"
-            },
-            {
-                "level": 2,
+                "level": 1,
                 "name": "fabrication"
             },
             {
-                "level": 2,
+                "level": 1,
                 "name": "cooking"
             },
             {
-                "level": 2,
+                "level": 1,
                 "name": "firstaid"
-            },
-            {
-                "level": 2,
-                "name": "swimming"
             }
         ],
         "CBMs":[
@@ -1566,7 +1559,7 @@
         "points": 1,
         "skills": [
             {
-                "level": 4,
+                "level": 2,
                 "name": "carpentry"
             }
         ],
@@ -1577,6 +1570,8 @@
                 "boots_steel",
                 "jeans",
                 "hammer",
+                "multitool",
+                "nailgun",
                 "nail",
                 "nail",
                 "tool_belt"
@@ -2128,6 +2123,8 @@
         "description": "Mortally injured in the line of duty, you were resurrected by the surgeons from the department's revolutionary Cybercop program.  Now, in these lawless times, you are truly the future of law enforcement.",
         "points": 5,
         "CBMs":[
+            "bio_armor_eyes",
+            "bio_armor_head",
             "bio_armor_torso",
             "bio_armor_legs",
             "bio_armor_arms",
@@ -2336,6 +2333,7 @@
         "CBMs":[
             "bio_solar",
             "bio_eye_enhancer",
+            "bio_eye_optic",
             "bio_targeting",
             "bio_climate",
             "bio_evap",
@@ -2374,7 +2372,6 @@
                 "sheath",
                 "knife_combat",
                 "canteen",
-                "binoculars",
                 "tent_kit",
                 "rollmat",
                 "mil_mess_kit",
@@ -2399,7 +2396,7 @@
         "type" : "profession",
         "ident": "bionic_spy",
         "name": "Bionic Agent",
-        "description": "Your body has several bionics worth millions of dollars, paid for by public taxes.  The government has turned you into an infiltration and recon specialist: you have night vision, an alarm and a hacking module.  And it all runs off piles and piles of everyday household batteries.",
+        "description": "Your body has several bionics worth millions of dollars, paid for by public taxes.  The government has turned you into an infiltration and recon specialist: you have night vision, an alarm, locking capabilities and a hacking module.  And it all runs off piles and piles of everyday household batteries.",
         "points": 4,
         "CBMs":[
             "bio_fingerhack",
@@ -2436,12 +2433,14 @@
         "type" : "profession",
         "ident": "bionic_hitman",
         "name": "Bionic Assassin",
-        "description": "The product of millions of dollars of clandestine research, you are a bionic sleeper agent capable of silently eliminating your target while maintaining an innocuous appearance.",
+        "description": "The product of millions of dollars of clandestine research, you are a bionic sleeper agent capable of silently engaging your target while maintaining an innocuous appearance.",
         "points": 6,
         "CBMs":[
             "bio_cqb",
             "bio_blade",
             "bio_shock",
+            "bio_carbon",
+            "bio_face_mask",
             "bio_torsionratchet",
             "bio_power_storage_mkII"
         ],
@@ -2461,6 +2460,10 @@
             {
                 "level": 2,
                 "name": "dodge"
+            },
+            {
+                "level": 2,
+                "name": "speech"
             }
         ],
         "items": {
@@ -2469,7 +2472,7 @@
                 "dress_shirt",
                 "knit_scarf",
                 "wristwatch",
-                "waistcoat"
+                "blazer"
             ],
             "male": [
                 "briefs",
@@ -2597,7 +2600,7 @@
                 "jacket_flannel",
                 "knit_scarf",
                 "beartrap",
-                "shoulder_strap",
+                "sheath",
                 "knife_hunting",
                 "tobacco",
                 "rolling_paper",
@@ -3090,11 +3093,10 @@
         "points": 5,
         "CBMs":[
             "bio_razors",
-            "bio_armor_eyes",
+            "bio_eye_optic",
             "bio_sunglasses",
             "bio_dex_enhancer",
             "bio_ears",
-            "bio_earplugs",
             "bio_carbon"
         ],
         "skills": [
@@ -4011,8 +4013,12 @@
                 "name": "rifle"
             },
             {
-                "level" : 3,
+                "level" : 2,
                 "name" : "melee"
+            },
+            {
+                "level" : 2,
+                "name" : "stabbing"
             },
             {
                 "level": 1,
@@ -4037,7 +4043,6 @@
                 "556",
                 "556",
                 "556",
-                "bayonet",
                 "stanag30",
                 "stanag30",
                 "mil_mess_kit",
@@ -4405,7 +4410,7 @@
                 "knit_scarf",
                 "lighter",
                 "fishing_rod_professional",
-                "fish_bait_fish",
+                "fish_bait",
                 "fish_trap",
                 "vest",
                 "hat_boonie",

@@ -3,7 +3,7 @@
     "type": "MOD_INFO",
     "mod-type": "SUPPLEMENTAL",
     "ident": "no_mutagen",
-    "name": "Disable mutagens",
+    "name": "Disable Mutagens",
     "author": "Kevin Granade",
     "description": "Removes mutagen items from the game.",
     "category": "item_exclude",
