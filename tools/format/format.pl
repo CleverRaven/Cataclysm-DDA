@@ -100,29 +100,33 @@ sub encode(@) {
     return $json->encode($data);
 }
 
-my ($original, $result, $dirty);
+my ($original, $dirty);
+my @parsed;
 
-for( my $obj; <>; ) {
-    # Loop continuously until read valid JSON fragment or EOF
+while(<>) {
     $original .= $_;
-    eval { $obj = $json->incr_parse($_) };
+    $dirty .= $_;
+    eval {
+        $json->incr_parse($_);
+        for (my $obj; $obj = $json->incr_parse;) {
+            $dirty = $json->incr_text;
+            push @parsed, ref($obj) eq 'ARRAY' ? @{$obj} : $obj;
+        }
+    };
     die "ERROR: Syntax error on line $.\n" if $@;
-
-    if (defined($obj)) {
-        # Unparseable non-whitespace is later caught as syntax error
-        $dirty = length($json->incr_text =~ s/\s+$//r);
-
-        # Process each object with the type field providing root context
-        $obj = [ $obj ] unless (ref($obj) eq 'ARRAY');
-        my @output = map { encode($_, $_->{'type'} // '' ) } @{$obj};
-
-        # Indent everything formatted output wrap in an array
-        $result .= "[\n" . join( ",\n", @output ) =~ s/^/  /mgr . "\n]\n";
-    }
 }
-if ($dirty) {
-    die "ERROR: Syntax error at EOF\n";
+
+# If we have unparsed content fail unless is insignificant whitespace
+die "ERROR: Syntax error at EOF\n" if $dirty =~ /[^\s]/;
+
+my @output;
+foreach (@parsed) {
+    # Process each object with the type field providing root context
+    push @output, encode($_, $_->{'type'} // '' );
 }
+
+# Indent each entry and output wrapped as a JSON array
+my $result = "[\n" . join( ",\n", @output ) =~ s/^/  /mgr . "\n]\n";
 
 print $result unless $opts{'q'};
 exit 0 unless $opts{'c'};
