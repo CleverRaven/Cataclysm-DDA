@@ -151,8 +151,12 @@ foreach (@parsed) {
 my $result = scalar @output ? "[\n" . join( ",\n", @output ) =~ s/^/  /mgr . "\n]\n" : '';
 
 if (exists $ENV{'GATEWAY_INTERFACE'}) {
-    print header('application/json','200 OK');
-    print $result;
+    if (($original // '') eq $result) {
+        print header('application/json', '304 Not Modified');
+    } else {
+        print header('application/json', '200 OK');
+        print $result;
+    }
     exit 0;
 }
 

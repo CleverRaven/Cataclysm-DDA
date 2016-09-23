@@ -24,6 +24,8 @@
           xhr.onload = function() {
               if (xhr.status == 200) {
                   elem.value = xhr.responseText;
+              } else if (xhr.status == 304) {
+                  // no-op
               } else if (xhr.status == 400) {
                   alert(xhr.responseText);
               } else {
