@@ -272,10 +272,10 @@ void advanced_inventory::print_items( advanced_inventory_pane &pane, bool active
     //print header row and determine max item name length
     const int lastcol = columns - 2; // Last printable column
     const size_t name_startpos = ( compact ? 1 : 4 );
-    const size_t src_startpos = lastcol - 17;
-    const size_t amt_startpos = lastcol - 14;
-    const size_t weight_startpos = lastcol - 9;
-    const size_t vol_startpos = lastcol - 3;
+    const size_t src_startpos = lastcol - 18;
+    const size_t amt_startpos = lastcol - 15;
+    const size_t weight_startpos = lastcol - 10;
+    const size_t vol_startpos = lastcol - 4;
     int max_name_length = amt_startpos - name_startpos - 1; // Default name length
 
     //~ Items list header. Table fields length without spaces: amt - 4, weight - 5, vol - 4.
@@ -368,7 +368,7 @@ void advanced_inventory::print_items( advanced_inventory_pane &pane, bool active
         //print volume column
         bool it_vol_truncated = false;
         double it_vol_value = 0.0;
-        std::string it_vol = format_volume( sitem.volume, 4, &it_vol_truncated, &it_vol_value );
+        std::string it_vol = format_volume( sitem.volume, 5, &it_vol_truncated, &it_vol_value );
         if( it_vol_truncated && it_vol_value > 0.0 ) {
             print_color = selected ? hilite( c_red ) : c_red;
         } else {
