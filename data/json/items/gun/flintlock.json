@@ -94,7 +94,7 @@
     "copy-from": "rifle_flintlock",
     "type": "GUN",
     "name": "double-barrel carbine",
-    "description": "This is a compact muzzle-loading rifle combines a pair of rudimentary flintlock actions and two barrels.  Whereas an antique multiple-barrel flintlock is an intricate work of gunsmithing, this weapon is simpler yet still servicable.",
+    "description": "This is a compact muzzle-loading rifle combining a pair of rudimentary flintlock actions and two barrels.  Whereas an antique multiple-barrel flintlock is an intricate work of gunsmithing, this weapon is simpler yet still servicable.",
     "valid_mod_locations": [ [ "accessories", 1 ] ],
     "relative": {
       "weight": 100,
