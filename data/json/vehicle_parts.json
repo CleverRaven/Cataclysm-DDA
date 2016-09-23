@@ -2328,7 +2328,7 @@
         "power":-100,
         "durability" : 200,
         "item" : "v_drill_item",
-        "difficulty" : 4,
+        "difficulty" : 8,
         "location" : "structure",
         "flags" : ["DRILL","PROTRUSION"],
         "breaks_into" : [

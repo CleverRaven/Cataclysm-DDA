@@ -1037,7 +1037,7 @@ public:
     void operate_scoop();
     void operate_reaper();
     void operate_plow();
-    void operate_drill();
+    void operate_drill( const tripoint& );
     //main method for the control of individual engines
     void control_engines();
     // shows ui menu to select an engine
@@ -1074,7 +1074,7 @@ public:
     rl_vec2d move_vec() const;
     // As above, but calculated for the actually used variable `dir`
     rl_vec2d dir_vec() const;
-    void on_move();
+    void on_move(const tripoint&);
     /**
      * Update the submap coordinates smx, smy, and update the tracker info in the overmap
      * (if enabled).

@@ -867,7 +867,7 @@ void map::move_vehicle( vehicle &veh, const tripoint &dp, const tileray &facing 
             veh.skidding = true;
             veh.turn( coll_turn );
         }
-        veh.on_move();
+        veh.on_move( dp1 );
         // Actually change position
         displace_vehicle( pt, dp1 );
     } else if( !vertical ) {
