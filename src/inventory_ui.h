@@ -27,11 +27,6 @@ enum class navigation_mode : int {
     CATEGORY
 };
 
-const item_location_filter allow_all_items = []( const item_location & )
-{
-    return true;
-};
-
 class inventory_entry
 {
     public:
