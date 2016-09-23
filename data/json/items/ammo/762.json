@@ -19,7 +19,7 @@
     "damage": 36,
     "pierce": 8,
     "dispersion": 35,
-    "recoil": 420,
+    "recoil": 1600,
     "effects": [ "COOKOFF", "NEVER_MISFIRES" ]
   },
   {

@@ -3,7 +3,7 @@
     "id": "adjustable_stock",
     "type": "GUNMOD",
     "name": "adjustable stock",
-    "description": "An adjustable replacement stock, improves recoil and accuracy.  Aside from increased weight, there are no drawbacks.",
+    "description": "An adjustable replacement stock improving both recoil and accuracy.",
     "weight": 350,
     "volume": 2,
     "integral_volume": 0,
@@ -16,8 +16,7 @@
     "location": "stock",
     "mod_targets": [ "smg", "rifle", "shotgun", "crossbow", "launcher" ],
     "dispersion_modifier": -30,
-    "recoil_modifier": -30,
-    "min_skills": [ [ "weapon", 2 ] ]
+    "handling_modifier": 1
   },
   {
     "id": "folding_stock",
@@ -40,7 +39,7 @@
     "id": "pistol_stock",
     "type": "GUNMOD",
     "name": "pistol stock",
-    "description": "An add on stock for handguns, improves recoil and accuracy.  Aside from increased weight, there are no drawbacks.",
+    "description": "An add on stock for handguns considerably improving control of recoil.",
     "weight": 350,
     "volume": 2,
     "price": 38000,
@@ -49,15 +48,14 @@
     "color": "dark_gray",
     "location": "stock",
     "mod_targets": [ "pistol", "crossbow" ],
-    "dispersion_modifier": -15,
-    "recoil_modifier": -75,
+    "handling_modifier": 6,
     "min_skills": [ [ "weapon", 2 ] ]
   },
   {
     "id": "recoil_stock",
     "type": "GUNMOD",
     "name": "recoil stock",
-    "description": "A replacement stock designed to absorb perceived recoil.  Aside from increased mass, there are no drawbacks.",
+    "description": "A replacement stock designed to absorb perceived recoil.",
     "weight": 960,
     "volume": 2,
     "integral_volume": 0,
@@ -69,7 +67,7 @@
     "color": "dark_gray",
     "location": "stock",
     "mod_targets": [ "smg", "rifle", "shotgun", "launcher" ],
-    "recoil_modifier": -90,
+    "handling_modifier": 4,
     "min_skills": [ [ "weapon", 2 ] ]
   }
 ]

@@ -47,7 +47,7 @@
     "id": "bipod",
     "type": "GUNMOD",
     "name": "bipod",
-    "description": "Bipods are commonly used on rifles and machine guns to provide a forward rest and reduce motion.  Aside from increased weight, there are no drawbacks.",
+    "description": "Bipods are commonly used on rifles and machine guns to provide a forward rest and reduce motion.  Although they greatly improve handling of recoil they are useable only on certain surfaces and are slow to equip.",
     "weight": 400,
     "volume": 2,
     "price": 68000,
@@ -58,9 +58,9 @@
     "color": "brown",
     "location": "underbarrel",
     "mod_targets": [ "rifle", "launcher" ],
-    "dispersion_modifier": -45,
-    "recoil_modifier": -15,
-    "min_skills": [ [ "weapon", 2 ] ]
+    "handling_modifier": 18,
+    "min_skills": [ [ "weapon", 2 ] ],
+    "flags": [ "BIPOD", "SLOW_WIELD" ]
   },
   {
     "id": "combination_gun_shotgun",
@@ -106,7 +106,6 @@
       "skill": "shotgun",
       "ranged_damage": 2,
       "dispersion": 555,
-      "recoil": 300,
       "durability": 6,
       "loudness": 175,
       "clip_size": 1,
@@ -151,7 +150,7 @@
     "id": "grip",
     "type": "GUNMOD",
     "name": "forward grip",
-    "description": "A grip placed forward on the barrel allows for greater control and accuracy.  Aside from increased weight, there are no drawbacks.",
+    "description": "A grip placed forward on the barrel allows for greater control.  Not as effective as a bipod but usable under all conditions.",
     "weight": 113,
     "volume": 1,
     "price": 6000,
@@ -160,8 +159,7 @@
     "color": "brown",
     "location": "underbarrel",
     "mod_targets": [ "shotgun", "smg", "rifle", "crossbow", "launcher" ],
-    "dispersion_modifier": -30,
-    "recoil_modifier": -30,
+    "handling_modifier": 6,
     "min_skills": [ [ "weapon", 2 ] ]
   },
   {
@@ -181,7 +179,6 @@
       "skill": "shotgun",
       "ranged_damage": 3,
       "dispersion": 45,
-      "recoil": 15,
       "durability": 10,
       "loudness": 200,
       "clip_size": 7,
@@ -226,7 +223,6 @@
       "range": -2,
       "ranged_damage": 2,
       "dispersion": 300,
-      "recoil": 375,
       "durability": 10,
       "clip_size": 1
     },
@@ -364,7 +360,6 @@
       "ammo": "20x66mm",
       "skill": "shotgun",
       "dispersion": 100,
-      "recoil": 50,
       "durability": 9,
       "reload": 125
     },

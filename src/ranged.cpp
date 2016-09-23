@@ -41,7 +41,6 @@ const efftype_id effect_hit_by_player( "hit_by_player" );
 static projectile make_gun_projectile( const item &gun );
 int time_to_fire( const Character &p, const itype &firing );
 static void cycle_action( item& weap, const tripoint &pos );
-double recoil_add( player& p, const item& gun, int shot );
 void make_gun_sound_effect(player &p, bool burst, item *weapon);
 extern bool is_valid_in_w_terrain(int, int);
 void drop_or_embed_projectile( const dealt_projectile_attack &attack );
@@ -489,11 +488,25 @@ int player::fire_gun( const tripoint &target, int shots, item& gun )
         debugmsg( "Attempted to fire zero or negative shots using %s", gun.tname().c_str() );
     }
 
+    // usage of any attached bipod is dependent upon terrain
+    bool bipod = g->m.has_flag_ter_or_furn( "MOUNTABLE", pos() );
+    if( !bipod ) {
+        auto veh = g->m.veh_at( pos() );
+        bipod = veh && veh->has_part( pos(), "MOUNTABLE" );
+    }
+
+    // Up to 50% of recoil can be delayed until end of burst dependent upon relevant skill
+    ///\EFFECT_PISTOL delays effects of recoil during autoamtic fire
+    ///\EFFECT_SMG delays effects of recoil during automatic fire
+    ///\EFFECT_RIFLE delays effects of recoil during automatic fire
+    ///\EFFECT_SHOTGUN delays effects of recoil during automatic fire
+    double absorb = std::min( int( get_skill_level( gun.gun_skill() ) ), MAX_SKILL ) / double( MAX_SKILL * 2 );
+
     tripoint aim = target;
     int curshot = 0;
-    int burst = 0; // count of shots against current target
     int xp = 0; // experience gain for marksmanship skill
     int hits = 0; // total shots on target
+    int delay = 0; // delayed recoil that has yet to be applied
     while( curshot != shots ) {
         if( !handle_gun_damage( gun ) ) {
             break;
@@ -505,7 +518,9 @@ int player::fire_gun( const tripoint &target, int shots, item& gun )
         auto shot = projectile_attack( make_gun_projectile( gun ), aim, dispersion );
         curshot++;
 
-        recoil_add( *this, gun, ++burst );
+        int qty = gun.gun_recoil( *this, bipod );
+        delay  += qty * absorb;
+        recoil += qty * ( 1.0 - absorb );
 
         make_gun_sound_effect( *this, shots > 1, &gun );
         sfx::generate_gun_sound( *this, gun );
@@ -566,9 +581,11 @@ int player::fire_gun( const tripoint &target, int shots, item& gun )
                 break; ///\EFFECT_GUN increases chance of firing multiple times in a burst
             }
             aim = random_entry( hostiles )->pos();
-            burst = 0;
         }
     }
+
+    // apply delayed recoil
+    recoil += delay;
 
     // Use different amounts of time depending on the type of gun and our skill
     moves -= time_to_fire( *this, *gun.type );
@@ -1652,26 +1669,6 @@ double player::get_weapon_dispersion( const item &obj ) const
     return std::max( dispersion, 0.0 );
 }
 
-double recoil_add( player& p, const item &gun, int shot )
-{
-    double qty = gun.gun_recoil();
-
-    ///\EFFECT_STR reduces recoil when using guns and tools
-    qty -= rng( 7, 15 ) * p.get_str();
-
-    ///\EFFECT_PISTOL randomly decreases recoil with appropriate guns
-    ///\EFFECT_RIFLE randomly decreases recoil with appropriate guns
-    ///\EFFECT_SHOTGUN randomly decreases recoil with appropriate guns
-    ///\EFFECT_SMG randomly decreases recoil with appropriate guns
-    qty -= rng( 0, p.get_skill_level( gun.gun_skill() ) * 7 );
-
-    // when firing in bursts reduce the penalty from each sucessive shot
-    double k = 1.6; // 5 round burst is equivalent to ~2 individually aimed shots
-    qty *= pow( 1.0 / sqrt( shot ), k );
-
-    return p.recoil += std::max( qty, 0.0 );
-}
-
 void drop_or_embed_projectile( const dealt_projectile_attack &attack )
 {
     const auto &proj = attack.proj;
@@ -1783,14 +1780,11 @@ double player::gun_value( const item &weap, long ammo ) const
     tmp.ammo_set( weap.ammo_default() );
     int total_dispersion = get_weapon_dispersion( tmp ) + effective_dispersion( tmp.sight_dispersion() );
 
-    int total_recoil = weap.gun_recoil( false );
-
     if( def_ammo_i != nullptr && def_ammo_i->ammo != nullptr ) {
         const islot_ammo &def_ammo = *def_ammo_i->ammo;
         damage_factor += def_ammo.damage;
         damage_factor += def_ammo.pierce / 2;
         total_dispersion += def_ammo.dispersion;
-        total_recoil += def_ammo.recoil;
     }
 
     int move_cost = time_to_fire( *this, *weap.type );
@@ -1836,9 +1830,7 @@ double player::gun_value( const item &weap, long ammo ) const
     int melee_penalty = weapon.volume() / 250_ml - get_skill_level( skill_dodge );
     if( melee_penalty <= 0 ) {
         // Dispersion matters less if you can just use the gun in melee
-        total_dispersion = std::min<int>(
-            ( total_dispersion + total_recoil ) / move_cost_factor,
-            total_dispersion );
+        total_dispersion = std::min<int>( total_dispersion / move_cost_factor, total_dispersion );
     }
 
     float dispersion_factor = multi_lerp( dispersion_thresholds, total_dispersion );

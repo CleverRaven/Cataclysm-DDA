@@ -19,7 +19,7 @@
     "damage": 64,
     "pierce": 4,
     "dispersion": 10,
-    "recoil": 600,
+    "recoil": 3800,
     "effects": [ "COOKOFF" ]
   },
   {
@@ -35,8 +35,7 @@
       "range": -4,
       "damage": -2,
       "pierce": 6,
-      "dispersion": 10,
-      "recoil": 20
+      "dispersion": 10
     },
     "extend": { "effects": [ "NEVER_MISFIRES" ] }
   },

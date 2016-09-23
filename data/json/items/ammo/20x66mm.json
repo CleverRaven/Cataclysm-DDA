@@ -139,7 +139,7 @@
     "ammo_type": "20x66mm",
     "range": 6,
     "damage": 60,
-    "recoil": 570,
+    "recoil": 2500,
     "effects": [ "COOKOFF", "SHOT", "NEVER_MISFIRES" ]
   },
   {
@@ -151,8 +151,7 @@
     "price": 9000,
     "relative": {
       "range": 6,
-      "pierce": 8,
-      "recoil": 30
+      "pierce": 8
     },
     "proportional": {
       "damage": 0.65,

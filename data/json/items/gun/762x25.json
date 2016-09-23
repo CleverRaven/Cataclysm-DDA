@@ -17,7 +17,6 @@
     "range": 2,
     "ranged_damage": 2,
     "dispersion": 120,
-    "recoil": -15,
     "durability": 8,
     "barrel_length": 2,
     "modes": [
@@ -43,7 +42,6 @@
     "material": [ "steel", "plastic" ],
     "ammo": "762x25",
     "dispersion": 225,
-    "recoil": 60,
     "durability": 7,
     "magazine_well": 1,
     "magazines": [ [ "762x25", [ "tokarevmag" ] ] ]

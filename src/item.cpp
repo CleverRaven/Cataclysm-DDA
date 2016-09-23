@@ -914,6 +914,16 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
                                                              mod->tname().c_str() ) );
         }
 
+        // many statistics are dependent upon loaded ammo
+        // if item is unloaded (or is RELOAD_AND_SHOOT) shows approximate stats using default ammo
+        item *aprox = nullptr;
+        item tmp;
+        if( mod->ammo_required() && !mod->ammo_remaining() ) {
+            tmp = *mod;
+            tmp.ammo_set( tmp.ammo_default() );
+            aprox = &tmp;
+        }
+
         islot_gun *gun = mod->type->gun.get();
         const auto curammo = mod->ammo_data();
 
@@ -921,7 +931,6 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
 
         int ammo_dam        = has_ammo ? curammo->ammo->damage     : 0;
         int ammo_range      = has_ammo ? curammo->ammo->range      : 0;
-        int ammo_recoil     = has_ammo ? curammo->ammo->recoil     : 0;
         int ammo_pierce     = has_ammo ? curammo->ammo->pierce     : 0;
         int ammo_dispersion = has_ammo ? curammo->ammo->dispersion : 0;
 
@@ -1018,24 +1027,42 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
             info.emplace_back( "GUN", _( "Sight dispersion: " ), "", eff_disp, true, "", true, true );
         }
 
-        info.push_back( iteminfo( "GUN", _( "Recoil: " ), "", mod->gun_recoil( false ), true, "", false,
-                                  true ) );
-        if( has_ammo ) {
-            temp1.str( "" );
-            temp1 << ( ammo_recoil >= 0 ? "+" : "" );
-            // ammo_recoil and sum_of_recoil don't need to translate.
-            info.push_back( iteminfo( "GUN", "ammo_recoil", "",
-                                      ammo_recoil, true, temp1.str(), false, true, false ) );
-            info.push_back( iteminfo( "GUN", "sum_of_recoil", _( " = <num>" ),
-                                      mod->gun_recoil( true ), true, "", false, true, false ) );
+        bool bipod = mod->has_flag( "BIPOD" );
+        if( aprox ) {
+            if( aprox->gun_recoil( g->u ) ) {
+                info.emplace_back( "GUN", _( "Approximate recoil: " ), "",
+                                   aprox->gun_recoil( g->u ), true, "", !bipod, true );
+                if( bipod ) {
+                    info.emplace_back( "GUN", "bipod_recoil", _( " (with bipod <num>)" ),
+                                       aprox->gun_recoil( g->u, true ), true, "", true, true, false );
+                }
+            }
+        } else {
+            if( mod->gun_recoil( g->u ) ) {
+                info.emplace_back( "GUN", _( "Effective recoil: " ), "",
+                                   mod->gun_recoil( g->u ), true, "", !bipod, true );
+                if( bipod ) {
+                    info.emplace_back( "GUN", "bipod_recoil", _( " (with bipod <num>)" ),
+                                       mod->gun_recoil( g->u, true ), true, "", true, true, false );
+                }
+            }
         }
 
-        info.push_back( iteminfo( "GUN", space + _( "Reload time: " ),
-                                  ( ( has_flag( "RELOAD_ONE" ) ) ? _( "<num> per round" ) : "" ),
-                                  gun->reload_time, true, "", true, true ) );
+        auto fire_modes = mod->gun_all_modes();
+        if( std::any_of( fire_modes.begin(), fire_modes.end(),
+            []( const std::pair<std::string, gun_mode>& e ) {
+                return e.second.qty > 1 && !e.second.melee();
+        } ) ) {
+            info.emplace_back( "GUN", _( "Reccomended strength (burst): "), "",
+                               ceil( mod->type->weight / 333.0 ), true, "", true, true );
+        }
+
+        info.emplace_back( "GUN", _( "Reload time: " ),
+                           has_flag( "RELOAD_ONE" ) ? _( "<num> seconds per round" ) : _( "<num> seconds" ),
+                           int( gun->reload_time / 16.67 ), true, "", true, true );
 
         std::vector<std::string> fm;
-        for( const auto &e : gun_all_modes() ) {
+        for( const auto &e : fire_modes ) {
             if( e.second.target == this && !e.second.melee() ) {
                 fm.emplace_back( string_format( "%s (%i)", _( e.second.mode.c_str() ), e.second.qty ) );
             }
@@ -1124,9 +1151,9 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
             info.push_back( iteminfo( "GUNMOD", _( "Armor-pierce: " ), "", mod->pierce, true,
                                       ( ( mod->pierce > 0 ) ? "+" : "" ) ) );
         }
-        if( mod->recoil != 0 )
-            info.push_back( iteminfo( "GUNMOD", _( "Recoil: " ), "", mod->recoil, true,
-                                      ( ( mod->recoil > 0 ) ? "+" : "" ), true, true ) );
+        if( mod->handling != 0 ) {
+            info.emplace_back( "GUNMOD", _( "Handling modifier: " ), mod->handling > 0 ? "+" : "", mod->handling, true );
+        }
         if( mod->ammo_modifier ) {
             info.push_back( iteminfo( "GUNMOD",
                                       string_format( _( "Ammo: <stat>%s</stat>" ), ammo_name( mod->ammo_modifier ).c_str() ) ) );
@@ -3884,20 +3911,40 @@ int item::gun_pierce( bool with_ammo ) const
     return ret;
 }
 
-int item::gun_recoil( bool with_ammo ) const
+int item::gun_recoil( const player &p, bool bipod ) const
 {
-    if( !is_gun() ) {
+    if( !is_gun() || ( ammo_required() && !ammo_remaining() ) ) {
         return 0;
     }
-    int ret = type->gun->recoil;
-    if( with_ammo && ammo_data() ) {
-        ret += ammo_data()->ammo->recoil;
-    }
+
+    ///\EFFECT_STR improves the handling of heavier weapons
+    // we consider only base weight to avoid exploits
+    double wt = std::min( type->weight, p.str_cur * 333 ) / 333.0;
+
+    double handling = type->gun->handling;
     for( const auto mod : gunmods() ) {
-        ret += mod->type->gunmod->recoil;
+        if( bipod || !mod->has_flag( "BIPOD" ) ) {
+            handling += mod->type->gunmod->handling;
+        }
     }
-    ret += damage() * 15;
-    return ret;
+
+    // rescale from JSON units which are intentionally specified as integral values
+    handling /= 10;
+
+    // algorithm is biased so heavier weapons benefit more from improved handling
+    handling = pow( wt, 0.8 ) * pow( handling, 1.2 );
+
+    int qty = type->gun->recoil;
+    if( ammo_data() ) {
+        qty += ammo_data()->ammo->recoil;
+    }
+
+    // handling could be either a bonus or penalty dependent upon installed mods
+    if( handling > 1.0 ) {
+        return qty / handling;
+    } else {
+        return qty * ( 1.0 + std::abs( handling ) );
+    }
 }
 
 int item::gun_range( bool with_ammo ) const

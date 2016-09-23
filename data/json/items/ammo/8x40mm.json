@@ -34,7 +34,7 @@
     "damage": 42,
     "pierce": 18,
     "dispersion": 75,
-    "recoil": 400,
+    "recoil": 2200,
     "effects": [ "NEVER_MISFIRES" ]
   },
   {

@@ -12,8 +12,7 @@
       "bashing": -5,
       "range": -2,
       "ranged_damage": -4,
-      "dispersion": 60,
-      "recoil": 15
+      "dispersion": 60
     },
     "proportional": { "reload": 0.5 }
   },
@@ -35,7 +34,6 @@
     "range": 2,
     "ranged_damage": 2,
     "dispersion": 520,
-    "recoil": 120,
     "durability": 6,
     "clip_size": 1,
     "reload": 800,
@@ -58,7 +56,6 @@
     "ammo": "flintlock",
     "skill": "pistol",
     "dispersion": 540,
-    "recoil": 120,
     "durability": 6,
     "clip_size": 6,
     "reload": 1200,
@@ -83,7 +80,6 @@
     "range": 6,
     "ranged_damage": 10,
     "dispersion": 180,
-    "recoil": 30,
     "durability": 6,
     "clip_size": 1,
     "reload": 1200,
