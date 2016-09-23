@@ -35,7 +35,7 @@
   },
   {
     "result": "material_aluminium_ingot",
-    "type" : "recipe",
+    "type": "recipe",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
     "skill_used": "fabrication",
@@ -51,7 +51,7 @@
   },
   {
     "result": "aluminum_foil",
-    "type" : "recipe",
+    "type": "recipe",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
     "skill_used": "fabrication",
@@ -60,12 +60,13 @@
     "time": 2500,
     "autolearn": true,
     "qualities":[
-      { "id":"HAMMER","level":1 },
+      { "id":"HAMMER","level":2 },
       { "id":"CONTAIN","level":1 }
     ],
     "tools": [
+      [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ],
       [ [ "toolset", 10 ], [ "fire", -1 ] ],
-      [ ["sheet_metal", -1 ] ]
+      [ [ "sheet_metal", -1 ] ]
     ],
     "components": [ [ [ "material_aluminium_ingot", 2 ] ] ]
   }
