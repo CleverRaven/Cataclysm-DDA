@@ -25,6 +25,7 @@ for( open my $fh, '<', catfile(dirname(__FILE__), 'format.conf'); <$fh>; ) {
 }
 
 my $json = JSON->new->allow_nonref;
+my $fail = sub { die "ERROR: $_[0]\n"; };
 
 sub match($$) {
     my ($context, $query) = @_;
@@ -71,7 +72,7 @@ sub encode(@); # Recursive function needs forward definition
 sub encode(@) {
     my ($data, $context) = @_;
 
-    die "ERROR: Unmatched context '$context'\n" if ref($data) and find_rule($context) < 0;
+    $fail->("Unmatched context '$context'") if ref($data) and find_rule($context) < 0;
 
     if (ref($data) eq 'ARRAY') {
         my @elems = map { encode($_, "$context:@") } @{$data};
@@ -86,7 +87,7 @@ sub encode(@) {
         my %fields = map {
             my $rule = "$context:$_";
             my $rank = find_rule($rule);
-            die "ERROR: Unmatched contex '$rule'\n" if $rank < 0;
+            $fail->("Unmatched contex '$rule'") if $rank < 0;
             $_ => [ $rule, $rank ];
         } keys %{$data};
 
@@ -113,11 +114,11 @@ while(<>) {
             push @parsed, ref($obj) eq 'ARRAY' ? @{$obj} : $obj;
         }
     };
-    die "ERROR: Syntax error on line $.\n" if $@;
+    $fail->("Syntax error on line $.") if $@;
 }
 
 # If we have unparsed content fail unless is insignificant whitespace
-die "ERROR: Syntax error at EOF\n" if $dirty =~ /[^\s]/;
+$fail->("Syntax error at EOF") if $dirty =~ /[^\s]/;
 
 my @output;
 foreach (@parsed) {
