@@ -1402,6 +1402,11 @@ bool game::do_turn()
         overmap_buffer.process_mongroups();
         lua_callback("on_day_passed");
     }
+    
+    // Run a LUA callback once per minute
+    if (calendar::turn.seconds() == 0) {
+        lua_callback("on_minute_passed");
+    }
 
     // Move hordes every 5 min
     if( calendar::once_every(MINUTES(5)) ) {
