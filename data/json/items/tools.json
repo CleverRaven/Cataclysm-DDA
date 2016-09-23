@@ -2853,7 +2853,7 @@
     "use_action": {
         "type": "transform",
         "target": "molotov_lit",
-        "target_charges": 1,
+        "target_charges": 5,
         "active": true,
         "need_fire": 1,
         "msg": "You light the Molotov cocktail.",
@@ -2875,8 +2875,8 @@
     "volume": 3,
     "bashing": 5,
     "to_hit": 1,
-    "max_charges": 1,
-    "initial_charges": 1,
+    "max_charges": 5,
+    "initial_charges": 5,
     "turns_per_charge": 1,
     "category": "weapons",
     "use_action": "MOLOTOV_LIT"
