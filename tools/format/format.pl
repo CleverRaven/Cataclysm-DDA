@@ -144,6 +144,7 @@ $fail->("Syntax error at EOF") if $dirty =~ /[^\s]/;
 my @output;
 foreach (@parsed) {
     # Process each object with the type field providing root context
+    $fail->("Invalid JSON structure") unless ref($_) eq 'HASH' and exists $_->{type};
     push @output, encode($_, $_->{'type'} // '' );
 }
 
