@@ -148,7 +148,7 @@ foreach (@parsed) {
 }
 
 # Indent each entry and output wrapped as a JSON array
-my $result = "[\n" . join( ",\n", @output ) =~ s/^/  /mgr . "\n]\n";
+my $result = scalar @output ? "[\n" . join( ",\n", @output ) =~ s/^/  /mgr . "\n]\n" : '';
 
 if (exists $ENV{'GATEWAY_INTERFACE'}) {
     print header('application/json','200 OK');
@@ -160,7 +160,7 @@ print $result unless $opts{'q'};
 exit 0 unless $opts{'c'};
 
 # If checking for canonical formatting get offset of first mismatch (if any)
-exit 0 if ($original // '') eq ($result // '');
+exit 0 if ($original // '') eq $result;
 
 ($original ^ $result) =~ /^\0*/;
 my $line = scalar split '\n', substr($result,0,$+[0]);

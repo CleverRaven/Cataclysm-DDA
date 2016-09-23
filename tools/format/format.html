@@ -8,6 +8,9 @@
     </style>
     <script>
       function lint(elem) {
+          if (elem.value.length == 0) {
+              return false;
+          }
           try {
               JSON.parse(elem.value);
           } catch (e) {
