@@ -34,8 +34,8 @@
     "components": [ [ [ "steel_chunk", 4 ], [ "scrap", 20 ] ] ]
   },
   {
-    "type" : "recipe",
     "result": "material_aluminium_ingot",
+    "type" : "recipe",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
     "skill_used": "fabrication",
@@ -50,8 +50,8 @@
     "components": [ [ [ "chem_aluminium_powder", 25 ], [ "can_drink_unsealed", 4 ], [ "aluminum_foil", 100 ] ] ]
   },
   {
-    "type" : "recipe",
     "result": "aluminum_foil",
+    "type" : "recipe",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
     "skill_used": "fabrication",
