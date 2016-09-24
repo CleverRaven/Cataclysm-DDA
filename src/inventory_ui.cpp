@@ -113,9 +113,10 @@ size_t inventory_column::get_width() const
 
 inventory_selector_preset::inventory_selector_preset()
 {
-    append_cell( [ this ]( const inventory_entry & entry ) {
-        return get_caption( entry );
-    } );
+    append_cell(
+        std::function<std::string( const inventory_entry & )>([ this ]( const inventory_entry & entry ) {
+            return get_caption( entry );
+    } ) );
 }
 
 bool inventory_selector_preset::sort_compare( const item_location &lhs, const item_location &rhs ) const
@@ -157,6 +158,15 @@ std::string inventory_selector_preset::get_cell_text( const inventory_entry &ent
 size_t inventory_selector_preset::get_cell_width( const inventory_entry &entry, size_t cell_index ) const
 {
     return utf8_width( get_cell_text( entry, cell_index ), true );
+}
+
+void inventory_selector_preset::append_cell( const std::function<std::string( const item_location & )> &func,
+                                             const std::string &title )
+{
+    // Don't capture by reference here. The func should be able to die earlier than the object itself
+    append_cell( std::function<std::string( const inventory_entry & )>( [ func ]( const inventory_entry & entry ) {
+        return func( entry.location );
+    } ), title );
 }
 
 void inventory_selector_preset::append_cell( const std::function<std::string( const inventory_entry & )> &func,

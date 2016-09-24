@@ -126,13 +126,15 @@ class inventory_selector_preset
         }
 
     protected:
-        using cell_pair = std::pair<std::string, std::function<std::string( const inventory_entry & )>>;
-
         virtual std::string get_caption( const inventory_entry &entry ) const;
+
+        void append_cell( const std::function<std::string( const item_location & )> &func,
+                          const std::string &title = "" );
         void append_cell( const std::function<std::string( const inventory_entry & )> &func,
                           const std::string &title = "" );
 
     private:
+        using cell_pair = std::pair<std::string, std::function<std::string( const inventory_entry & )>>;
         std::vector<cell_pair> cells;
 };
 
