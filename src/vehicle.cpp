@@ -3951,7 +3951,7 @@ void vehicle::operate_drill( const tripoint &dp1 )
             if( g->m.is_bashable_ter_furn( current, false ) ) {
                 sounds::sound( loc, rng( 10,50 ), sound_msgs[ rng( 0, sound_msg_len ) ] );
                 g->m.destroy( current, true );
-                this->damage( drill, rng( 5, 5 * speed ) );
+                this->damage( drill, rng( 5, 5 * velocity ) );
             }
         }
     }

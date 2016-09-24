@@ -1007,7 +1007,6 @@
         "id":"v_drill_item",
         "symbol":"^",
         "name":"drill",
-        "name_plural":"drills",
         "color":"light_gray",
         "description":"A wacky out of this world device used to dig through stone irresponsibly.",
         "weight":25000,
