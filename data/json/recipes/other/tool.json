@@ -110,7 +110,7 @@
   },
   {
     "result": "tongs",
-    "type" : "recipe",
+    "type": "recipe",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
     "skill_used": "fabrication",

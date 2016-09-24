@@ -13,7 +13,7 @@
   },
   {
     "result": "chem_aluminium_powder",
-    "type" : "recipe",
+    "type": "recipe",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_OTHER",
     "skill_used": "fabrication",

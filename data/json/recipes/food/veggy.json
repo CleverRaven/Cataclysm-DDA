@@ -1,7 +1,7 @@
 [
   {
     "result": "mushroom_cooked",
-    "type" : "recipe",
+    "type": "recipe",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
     "skill_used": "cooking",
@@ -18,7 +18,7 @@
   },
   {
     "result": "dahlia_baked",
-    "type" : "recipe",
+    "type": "recipe",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
     "skill_used": "cooking",
@@ -36,7 +36,7 @@
   },
   {
     "result": "potato_baked",
-    "type" : "recipe",
+    "type": "recipe",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
     "skill_used": "cooking",
@@ -52,7 +52,7 @@
   },
   {
     "result": "veggy_cooked",
-    "type" : "recipe",
+    "type": "recipe",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
     "skill_used": "cooking",
@@ -69,7 +69,7 @@
   },
   {
     "result": "veggy_wild_cooked",
-    "type" : "recipe",
+    "type": "recipe",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
     "skill_used": "cooking",
@@ -85,7 +85,7 @@
   },
   {
     "result": "cooked_cattail_stalk",
-    "type" : "recipe",
+    "type": "recipe",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
     "skill_used": "cooking",
@@ -106,7 +106,7 @@
   },
   {
     "result": "cooked_pumpkin",
-    "type" : "recipe",
+    "type": "recipe",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
     "skill_used": "cooking",
@@ -126,7 +126,7 @@
   },
   {
     "result": "pie",
-    "type" : "recipe",
+    "type": "recipe",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
     "skill_used": "cooking",
@@ -148,7 +148,7 @@
   },
   {
     "result": "pie_veggy",
-    "type" : "recipe",
+    "type": "recipe",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
     "skill_used": "cooking",
@@ -170,7 +170,7 @@
   },
   {
     "result": "pie_maple",
-    "type" : "recipe",
+    "type": "recipe",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_SNACK",
     "skill_used": "cooking",
@@ -194,7 +194,7 @@
   },
   {
     "result": "pizza_veggy",
-    "type" : "recipe",
+    "type": "recipe",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
     "skill_used": "cooking",
@@ -216,7 +216,7 @@
   },
   {
     "result": "sauerkraut_onions",
-    "type" : "recipe",
+    "type": "recipe",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
     "skill_used": "cooking",
