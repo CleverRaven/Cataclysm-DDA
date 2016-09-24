@@ -285,7 +285,7 @@
     "id": "napalm_tank",
     "copy-from": "tank",
     "type": "vehicle_part",
-    "name": "naplm tank (60L)",
+    "name": "napalm tank (60L)",
     "fuel_type": "napalm",
     "color": "red"
   },
