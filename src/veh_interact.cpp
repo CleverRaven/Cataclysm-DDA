@@ -740,7 +740,7 @@ void veh_interact::do_install()
         }
         if (action == "RESET_FILTER" ){
             filter="";
-            tab=0
+            tab = 0;
         }
         if (action == "REPAIR" ){
             filter = "";
