@@ -1,7 +1,7 @@
 [
   {
-    "type" : "recipe",
     "result": "antenna",
+    "type" : "recipe",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_COMPONENTS",
     "skill_used": "electronics",
@@ -13,8 +13,8 @@
   ]
   },
   {
-    "type" : "recipe",
     "result": "directional_antenna",
+    "type" : "recipe",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_COMPONENTS",
     "skill_used": "electronics",

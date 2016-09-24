@@ -1,7 +1,7 @@
 [
   {
-    "type" : "recipe",
     "result": "xlframe",
+    "type" : "recipe",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_PARTS",
     "skill_used": "fabrication",

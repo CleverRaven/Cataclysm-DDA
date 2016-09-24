@@ -12,8 +12,8 @@
     "components": [ [ [ "meat", 1 ], [ "fish", 1 ], [ "corn", 1 ], [ "irradiated_corn", 1 ], [ "irradiated_carrot", 1 ], [ "carrot", 1 ], [ "bread", 1 ], [ "wastebread", 1 ], [ "cornbread", 1 ], [ "macaroni_raw", 1 ], [ "spaghetti_raw", 1 ] ] ]
   },
   {
-    "type" : "recipe",
     "result": "chem_aluminium_powder",
+    "type" : "recipe",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_OTHER",
     "skill_used": "fabrication",
