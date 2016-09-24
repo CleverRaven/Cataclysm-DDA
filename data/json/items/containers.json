@@ -13,6 +13,7 @@
         "to_hit": -1,
         "contains": 24,
         "rigid": false,
+        "flags": "TRADER_AVOID",
         "material": "plastic"
     },
     {
@@ -39,14 +40,25 @@
         "color": "light_cyan",
         "name": "plastic cup",
         "category": "other",
-        "description": "A small, vacuum formed cup, essentially trash.",
+        "description": "A small, vacuum formed cup.",
         "price": 0,
         "weight": 6,
         "volume": 1,
         "to_hit": 1,
         "material": "plastic",
         "contains": 1,
-        "watertight": true
+        "watertight": true,
+        "unseals_into": "cup_plastic_unsealed"
+    },
+    {
+        "id": "cup_plastic_unsealed",
+        "copy-from": "cup_plastic",
+        "type": "CONTAINER",
+        "symbol": ")",
+        "color": "light_cyan",
+        "name": "opened plastic cup",
+        "description": "A small, vacuum formed cup, essentially trash.",
+        "unseals_into": "null"
     },
     {
         "id": "bottle_glass",
@@ -68,23 +80,6 @@
         "qualities": [["BOIL", 1]]
     },
     {
-        "id": "test_bottle_glass",
-        "type": "CONTAINER",
-        "symbol": ")",
-        "color": "cyan",
-        "name": "test glass bottle",
-        "category": "other",
-        "description": "An UNSEALABLE glass bottle, holds 750 ml of liquid.",
-        "price": 0,
-        "weight": 200,
-        "volume": 3,
-        "bashing": 2,
-        "to_hit": 1,
-        "material": "glass",
-        "contains": 3,
-        "watertight": true
-    },
-    {
         "id": "can_drink",
         "type": "CONTAINER",
         "symbol": ")",
@@ -101,7 +96,19 @@
         "contains": 1,
         "watertight": true,
         "preserves": true,
+        "unseals_into": "can_drink_unsealed",
         "qualities": [["CONTAIN", 1], ["BOIL", 2]]
+    },
+    {
+        "id": "can_drink_unsealed",
+        "copy-from": "can_drink",
+        "type": "CONTAINER",
+        "symbol": ")",
+        "color": "light_blue",
+        "name": "opened aluminum can",
+        "description": "An aluminum can, like what soda comes in.  This one is opened and can't be easily sealed.",
+        "preserves": false,
+        "unseals_into": "null"
     },
     {
         "id":"bowl_pewter",
@@ -134,7 +141,19 @@
         "contains": 1,
         "watertight": true,
         "preserves": true,
+        "unseals_into": "can_food_unsealed",
         "qualities": [["CONTAIN", 1], ["BOIL", 2]]
+    },
+    {
+        "id": "can_food_unsealed",
+        "copy-from": "can_food",
+        "type": "CONTAINER",
+        "symbol": ")",
+        "color": "blue",
+        "name": "opened tin can",
+        "description": "A tin can, like what beans come in.  This one is opened and can't be easily sealed.",
+        "preserves": false,
+        "unseals_into": "null"
     },
     {
         "id": "box_small",
@@ -200,12 +219,11 @@
            "covers" : ["LEG_EITHER"],
            "coverage" : 5,
            "material_thickness" : 2,
-           "encumbrance" : 2,
-           "warmth" : 0
+           "encumbrance" : 2
         },
         "watertight": true,
         "seals": true,
-        "flags": ["WAIST"]
+        "flags": ["WAIST", "OVERSIZE"]
     },
     {
         "id": "2lcanteen",
@@ -226,12 +244,11 @@
            "covers" : ["TORSO"],
            "coverage" : 10,
            "material_thickness" : 2,
-           "encumbrance" : 4,
-           "warmth" : 0
+           "encumbrance" : 4
         },
         "watertight": true,
         "seals": true,
-        "flags": ["WAIST"]
+        "flags": ["WAIST", "OVERSIZE"]
     },
     {
         "id": "camelbak",
@@ -253,7 +270,6 @@
            "coverage" : 15,
            "material_thickness" : 1,
            "encumbrance" : 1,
-           "warmth" : 0,
            "storage" : 4
         },
         "watertight": true,
@@ -369,9 +385,7 @@
         "armor_data" : {
            "covers" : ["LEG_EITHER"],
            "coverage" : 5,
-           "material_thickness" : 2,
-           "encumbrance" : 0,
-           "warmth" : 0
+           "material_thickness" : 2
         },
         "rigid": false,
         "watertight": true,
@@ -396,9 +410,7 @@
         "armor_data" : {
            "covers" : ["TORSO"],
            "coverage" : 10,
-           "material_thickness" : 2,
-           "encumbrance" : 0,
-           "warmth" : 0
+           "material_thickness" : 2
         },
         "rigid": false,
         "watertight": true,
@@ -423,9 +435,7 @@
         "armor_data" : {
            "covers" : ["TORSO"],
            "coverage" : 15,
-           "material_thickness" : 2,
-           "encumbrance" : 0,
-           "warmth" : 0
+           "material_thickness" : 2
         },
         "rigid": false,
         "watertight": true,
@@ -493,13 +503,31 @@
         "color": "light_cyan",
         "name": "aluminum keg",
         "category": "other",
-        "description": "A reusable aluminum keg, used for shipping beer.  It has a capacity of 50 liters.",
+        "description": "A reusable lightweight aluminum keg, used for shipping beer.  It has a capacity of 50 liters.",
         "price": 10000,
-        "weight": 13500,
+        "weight": 5040,
         "volume": 200,
         "bashing": 10,
         "to_hit": -5,
         "material": "aluminum",
+        "contains": 200,
+        "watertight": true,
+        "seals": true
+    },
+    {
+        "id": "keg_steel",
+        "type": "CONTAINER",
+        "symbol": ")",
+        "color": "light_cyan",
+        "name": "steel keg",
+        "category": "other",
+        "description": "A reusable heavy steel keg, used for shipping beer.  It has a capacity of 50 liters.",
+        "price": 8000,
+        "weight": 12600,
+        "volume": 200,
+        "bashing": 10,
+        "to_hit": -5,
+        "material": "steel",
         "contains": 200,
         "watertight": true,
         "seals": true
@@ -520,7 +548,20 @@
         "contains": 2,
         "watertight": true,
         "seals": true,
+        "unseals_into": "null",
         "qualities": [["CONTAIN", 1], ["BOIL", 1]]
+    },
+    {
+        "id": "jar_glass_sealed",
+        "copy-from": "jar_glass",
+        "type": "CONTAINER",
+        "symbol": ")",
+        "color": "light_cyan",
+        "name": "sealed glass jar",
+        "description": "A half-liter glass jar with a metal screw top lid, used for canning.  Sealed tightly and will preserve the contents from rot (assuming it was sterile before sealing).",
+        "preserves": true,
+        "seals": false,
+        "unseals_into": "jar_glass"
     },
     {
         "id": "jar_3l_glass",
@@ -542,6 +583,19 @@
         "qualities": [["CONTAIN", 1], ["BOIL", 1]]
     },
     {
+        "id": "jar_3l_glass_sealed",
+        "copy-from": "jar_3l_glass",
+        "type": "CONTAINER",
+        "symbol": ")",
+        "color": "light_cyan",
+        "name": "sealed 3L glass jar",
+        "category": "other",
+        "description": "A three-liter glass jar with a metal screw top lid, used for canning.  Sealed tightly to preserve contents from rot.",
+        "seals": false,
+        "preserves": true,
+        "unseals_into": "jar_3l_glass"
+    },
+    {
         "id": "flask_hip",
         "type": "CONTAINER",
         "symbol": ")",
@@ -559,9 +613,7 @@
         "armor_data" : {
             "covers" : ["LEG_EITHER"],
             "coverage" : 2,
-            "material_thickness" : 1,
-            "encumbrance" : 0,
-            "warmth" : 0
+            "material_thickness" : 1
         },
         "watertight": true,
         "seals": true,
@@ -576,7 +628,7 @@
         "category": "other",
         "description":"A plastic bowl.  Can be used as a container or as a tool.  Holds 250 ml of liquid.",
         "price": 100,
-        "weight":0,
+        "weight": 80,
         "volume":1,
         "to_hit":1,
         "material":"plastic",
@@ -598,6 +650,7 @@
         "to_hit": -2,
         "contains": 10,
         "rigid": false,
+        "flags": "TRADER_AVOID",
         "material": "paper"
     },
     {
@@ -605,16 +658,16 @@
         "type": "CONTAINER",
         "symbol": "0",
         "color": "dark_gray",
-        "name": "55 gallon drum",
+        "name": "steel drum (200L)",
         "category": "other",
         "description": "A massive steel barrel with a resealable lid.",
         "price": 10000,
         "weight": 20000,
-        "volume": 825,
+        "volume": 800,
         "bashing": 8,
         "to_hit": -5,
         "material": "steel",
-        "contains": 825,
+        "contains": 800,
         "watertight": true,
         "seals": true
     },
@@ -623,16 +676,16 @@
         "type": "CONTAINER",
         "symbol": "0",
         "color": "dark_gray",
-        "name": "30 gallon drum",
+        "name": "steel drum (100L)",
         "category": "other",
         "description": "A huge steel barrel with a resealable lid.",
         "price": 8000,
         "weight": 12000,
-        "volume": 450,
+        "volume": 400,
         "bashing": 8,
         "to_hit": -5,
         "material": "steel",
-        "contains": 450,
+        "contains": 400,
         "watertight": true,
         "seals": true
     },

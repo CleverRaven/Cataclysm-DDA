@@ -1,0 +1,211 @@
+[
+    {
+    "type": "effect_type",
+    "id": "doom_stimpack",
+    "name": [
+        "stim fatigue",
+        "lingering stims",
+        "beserked",
+        "Rip and Tear!"
+    ],
+    "max_intensity": 4,
+    "apply_message": "You see Red!",
+    "apply_memorial_log": "Got stimmed up for some intense action, destroying their health.",
+    "remove_message": "You feel unhealthier for it, but the stims are gone at least.",
+    "int_add_val": 1,
+    "int_decay_step": -1,
+    "int_decay_tick": 39,
+    "decay_messages": [["You feel the stims start to tax you as they wear off.", "bad"], ["You don't feel as badass as before.", "neutral"], ["The rush takes you, Rip and Tear!", "good"]],
+    "removes_effects": ["winded"],
+    "hurt_sizing": true,
+        "base_mods": {
+            "speed_mod": [-15],
+            "str_mod": [-3],
+            "dex_mod": [-4],
+            "int_mod": [-1],
+            "per_mod": [-3],
+            "pkill_amount": [5],
+            "fatigue_amount": [-50],
+            "stamina_min": [-3],
+            "health_min": [-1],
+            "health_min_val": [-100],
+            "h_mod_min": [-1],
+            "h_mod_min_val": [-50],
+            "hurt_min": [2],
+            "hurt_chance": [10],
+            "hurt_tick": [10]
+        },
+        "scaling_mods": {
+            "speed_mod": [20],
+            "str_mod": [5],
+            "dex_mod": [4],
+            "int_mod": [-2],
+            "per_mod": [2],
+            "pkill_amount": [10],
+            "fatigue_min": [-1],
+            "stamina_min": [4]
+        }
+    },{
+    "type": "effect_type",
+    "id": "stamina_regen",
+    "name": [
+        "Stamina Tonic"
+    ],
+    "int_add_val": 1,
+    "max_intensity": 5,
+        "base_mods": {
+            "stamina_min": [3],
+            "dex_mod": [1],
+            "pkill_amount": [5],
+            "fatigue_amount": [-20],
+            "thirst_amount": [15]
+        },
+    "scaling_mods": {
+            "stamina_min": [3],
+            "per_mod": [-1],
+            "pkill_amount": [5],
+            "fatigue_amount": [-10],
+            "thirst_amount": [15],
+            "vomit_chance": [66],
+            "vomit_tick": [12]
+        }
+    },{
+    "type": "effect_type",
+    "id": "doom_unhealth",
+    "int_add_val": 1,
+    "max_intensity": 3,
+        "base_mods": {
+            "h_mod_min": [-1]
+        },
+    "scaling_mods": {
+            "h_mod_min": [-1]
+        }
+    },{
+    "type": "effect_type",
+    "id": "spider_web_slow",
+    "name": [
+        "web spider poison"
+    ],
+    "int_add_val": 1,
+    "max_intensity": 10,
+    "resist_trait": ["POISRESIST", "EATPOISON"],
+        "base_mods": {
+            "speed_mod": [-6, -5.5],
+            "pain_amount": [3, 1]
+        },
+    "scaling_mods": {
+            "speed_mod": [-1, -0.5],
+            "pain_amount": [3, 1]
+        }
+    },{
+    "type": "effect_type",
+    "id": "spider_web_alpha",
+    "int_add_val": 1,
+    "max_intensity": 5,
+    "resist_trait": ["POISRESIST", "EATPOISON"],
+        "base_mods": {
+            "speed_mod": [-3, -1],
+            "dex_mod": [-1]
+        },
+    "scaling_mods": {
+            "speed_mod": [-3, -1],
+            "dex_mod": [-0.5, -0.25],
+            "str_mod": [-0.75, -0.5]
+        }
+    },{
+    "type": "effect_type",
+    "id": "spider_web_omega",
+    "int_add_val": 1,
+    "max_intensity": 5,
+    "int_decay_step": -1,
+    "int_decay_tick": 200,
+    "resist_trait": ["POISRESIST", "EATPOISON"],
+        "base_mods": {
+            "speed_mod": [-2, 0],
+            "dex_mod": [-1],
+            "sleep_chance": [100, 150],
+            "sleep_min": [100, 50],
+            "sleep_max": [300, 100]
+        },
+    "scaling_mods": {
+            "speed_mod": [-2, 0],
+            "dex_mod": [-0.75, -0.5],
+            "str_mod": [-0.25, 0],
+            "sleep_chance": [-15],
+            "sleep_min": [50, 25],
+            "sleep_max": [100, 50]
+        }
+    },{
+    "type": "effect_type",
+    "id": "spider_web_mu",
+    "resist_trait": ["POISRESIST", "EATPOISON"],
+        "base_mods": {
+            "speed_mod": [-10],
+            "hurt_min": [3, 2],
+            "hurt_chance": [20, 50]
+        }
+    },{
+    "type": "effect_type",
+    "id": "triffid_cure",
+    "int_add_val": 1,
+    "max_intensity": 2,
+    "int_decay_step": -1,
+    "int_decay_tick": 300,
+    "apply_message": "You feel itchy.",
+    "decay_messages": [["The toxin-negating effects of the tonic wears off.", "neutral"], ["You feel less itchy.", "good"]],
+    "removes_effects": ["poison", "stung", "foodpoison", "fungus", "paralyzepoison"],
+    "blocks_effects": ["poison", "stung", "fungus", "paralyzepoison"],
+        "base_mods": {
+            "pain_amount": [1],
+            "pain_chance": [40]
+        },
+    "scaling_mods": {
+            "pain_chance": [-10]
+        }
+    },{
+    "type": "effect_type",
+    "id": "triffid_neutralization",
+    "int_add_val": 1,
+    "max_intensity": 2,
+    "int_decay_step": -1,
+    "int_decay_tick": 450,
+    "decay_messages": [["The toxin-negating effects of the serum wears off.", "neutral"], ["You feel less itchy.", "good"]],
+    "apply_message": "You feel itchy.",
+    "removes_effects": ["fungus", "dermatik", "bloodworms", "paincysts", "brainworms", "tapeworm", "poison", "stung", "badpoison", "foodpoison", "paralyzepoison",
+                        "infected", "spider_web_mu", "spider_web_omega", "spider_web_alpha", "spider_web_slow", "doom_unhealth"],
+    "blocks_effects": ["poison", "stung", "fungus", "badpoison", "paralyzepoison", "spider_web_mu", "spider_web_omega", "spider_web_alpha", "spider_web_slow",
+                       "doom_unhealth"],
+        "base_mods": {
+            "pain_amount": [1],
+            "pain_chance": [20]
+        },
+    "scaling_mods": {
+            "pain_chance": [-5]
+        }
+    },{
+    "type": "effect_type",
+    "id": "skunk_spray",
+    "name": [
+        "Skunked"
+    ],
+    "desc": ["You can hardly concentrate or breathe because the skunk smell is overpowering."],
+    "max_intensity": 2,
+    "apply_message": "The skunk sprays you in a foul-smelling liquid!",
+    "int_add_val": 1,
+    "int_decay_step": -1,
+    "int_decay_tick": 600,
+    "decay_messages": [["You don't think you smell quite so skunked anymore.", "good"], ["You grow used to that skunky smell.", "good"]],
+        "base_mods": {
+            "speed_mod": [2],
+            "per_mod": [-1],
+            "stamina_min": [-1],
+            "h_mod_min": [-3]
+        },
+        "scaling_mods": {
+            "speed_mod": [3],
+            "int_mod": [-1],
+            "per_mod": [1],
+            "stamina_min": [-1]
+        }
+    }
+]

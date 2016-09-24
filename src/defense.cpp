@@ -1,5 +1,7 @@
 #include "gamemode.h"
 #include "action.h"
+#include "color.h"
+#include "enums.h"
 #include "game.h"
 #include "map.h"
 #include "debug.h"
@@ -206,7 +208,7 @@ void defense_game::init_map()
     auto &starting_om = overmap_buffer.get( 0, 0 );
     for (int x = 0; x < OMAPX; x++) {
         for (int y = 0; y < OMAPY; y++) {
-            starting_om.ter(x, y, 0) = "field";
+            starting_om.ter(x, y, 0) = oter_id( "field" );
             starting_om.seen(x, y, 0) = true;
         }
     }
@@ -220,41 +222,41 @@ void defense_game::init_map()
     case DEFLOC_HOSPITAL:
         for (int x = 49; x <= 51; x++) {
             for (int y = 49; y <= 51; y++) {
-                starting_om.ter(x, y, 0) = "hospital";
+                starting_om.ter(x, y, 0) = oter_id( "hospital" );
             }
         }
-        starting_om.ter(50, 49, 0) = "hospital_entrance";
+        starting_om.ter(50, 49, 0) = oter_id( "hospital_entrance" );
         break;
 
     case DEFLOC_WORKS:
         for (int x = 49; x <= 50; x++) {
             for (int y = 49; y <= 50; y++) {
-                starting_om.ter(x, y, 0) = "public_works";
+                starting_om.ter(x, y, 0) = oter_id( "public_works" );
             }
         }
-        starting_om.ter(50, 49, 0) = "public_works_entrance";
+        starting_om.ter(50, 49, 0) = oter_id( "public_works_entrance" );
         break;
 
     case DEFLOC_MALL:
         for (int x = 49; x <= 51; x++) {
             for (int y = 49; y <= 51; y++) {
-                starting_om.ter(x, y, 0) = "megastore";
+                starting_om.ter(x, y, 0) = oter_id( "megastore" );
             }
         }
-        starting_om.ter(50, 49, 0) = "megastore_entrance";
+        starting_om.ter(50, 49, 0) = oter_id( "megastore_entrance" );
         break;
 
     case DEFLOC_BAR:
-        starting_om.ter(50, 50, 0) = "bar_north";
+        starting_om.ter(50, 50, 0) = oter_id( "bar_north" );
         break;
 
     case DEFLOC_MANSION:
         for (int x = 49; x <= 51; x++) {
             for (int y = 49; y <= 51; y++) {
-                starting_om.ter(x, y, 0) = "mansion";
+                starting_om.ter(x, y, 0) = oter_id( "mansion" );
             }
         }
-        starting_om.ter(50, 49, 0) = "mansion_entrance";
+        starting_om.ter(50, 49, 0) = oter_id( "mansion_entrance" );
         break;
     }
     starting_om.save();
@@ -285,9 +287,7 @@ void defense_game::init_map()
     g->u.setx( SEEX );
     g->u.sety( SEEY );
 
-    int x = g->u.posx();
-    int y = g->u.posy();
-    g->update_map(x, y);
+    g->update_map( g-> u );
     monster generator( mtype_id( "mon_generator" ),
                        tripoint( g->u.posx() + 1, g->u.posy() + 1, g->u.posz() ) );
     // Find a valid spot to spawn the generator
@@ -1102,7 +1102,7 @@ Press %s to buy everything in your cart, %s to buy nothing."),
             }
 
             for (int j = 0; j < item_count[0][i]; j++) {
-                if (g->u.can_pickVolume(tmp.volume()) && g->u.can_pickWeight(tmp.weight())) {
+                if ( g->u.can_pickVolume( tmp ) && g->u.can_pickWeight( tmp ) ) {
                     g->u.i_add(tmp);
                 } else { // Could fit it in the inventory!
                     dropped_some = true;
@@ -1438,7 +1438,7 @@ void defense_game::spawn_wave_monster( const mtype_id &type )
 
 std::string defense_game::special_wave_message(std::string name)
 {
-    std::stringstream ret;
+    std::ostringstream ret;
     ret << string_format(_("Wave %d: "), current_wave);
 
     // Capitalize

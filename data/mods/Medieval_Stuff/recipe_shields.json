@@ -6,12 +6,11 @@
   "subcategory": "CSC_ARMOR_OTHER",
   "skill_used": "fabrication",
   "difficulty": 2,
-  "time": 200000,
-  "reversible": false,
+  "time": 30000,
   "autolearn": true,
   "qualities": [
-    {"id":"CUT","level":1,"amount":1},
-    {"id":"HAMMER","level":2,"amount":1}
+    {"id":"CUT","level":1},
+    {"id":"HAMMER","level":2}
   ],
   "components": [
     [ [ "nail", 8 ] ],
@@ -25,17 +24,16 @@
   "subcategory": "CSC_ARMOR_OTHER",
   "skill_used": "fabrication",
   "difficulty": 3,
-  "time": 400000,
-  "reversible": false,
+  "time": 50000,
   "autolearn": true,
   "qualities": [
-    {"id":"CUT","level":1,"amount":1},
-    {"id":"HAMMER","level":2,"amount":1}
+    {"id":"CUT","level":1},
+    {"id":"HAMMER","level":2}
   ],
   "components": [
     [ [ "nail", 16 ] ],
     [ [ "2x4", 8 ] ],
-    [ [ "leather", 1 ] ]
+    [ [ "fur", 2 ], [ "leather", 2 ] ]
   ]
 },{
   "type" : "recipe",
@@ -44,13 +42,11 @@
   "subcategory": "CSC_ARMOR_OTHER",
   "skill_used": "fabrication",
   "difficulty": 5,
-  "time": 400000,
-  "reversible": false,
-  "autolearn": false,
+  "time": 60000,
   "book_learn": [[ "textbook_armwest", 4 ]],
   "qualities": [
-    {"id":"CUT","level":1,"amount":1},
-    {"id":"HAMMER","level":3,"amount":1}
+    {"id":"CUT","level":1},
+    {"id":"HAMMER","level":3}
   ],
   "tools":[
     [ [ "tongs", -1 ] ],
@@ -64,8 +60,8 @@
     [ [ "scrap_bronze", 4 ] ],
     [ [ "2x4", 4 ] ],
     [
-      [ "leather", 3 ],
-      [ "tanned_hide", 1 ]
+      [ "fur", 3 ],
+      [ "leather", 3 ]
     ]
   ]
 },{
@@ -75,13 +71,11 @@
   "subcategory": "CSC_ARMOR_OTHER",
   "skill_used": "fabrication",
   "difficulty": 5,
-  "time": 400000,
-  "reversible": false,
-  "autolearn": false,
+  "time": 700000,
   "book_learn": [[ "textbook_armwest", 4 ]],
   "qualities": [
-    {"id":"CUT","level":1,"amount":1},
-    {"id":"HAMMER","level":3,"amount":1}
+    {"id":"CUT","level":1},
+    {"id":"HAMMER","level":3}
   ],
   "tools":[
     [ [ "tongs", -1 ] ],
@@ -97,8 +91,8 @@
     [ [ "scrap", 4 ] ],
     [ [ "2x4", 8 ] ],
     [
-      [ "leather", 3 ],
-      [ "tanned_hide", 1 ]
+      [ "fur", 3 ],
+      [ "leather", 3 ]
     ]
   ]
 },{
@@ -108,13 +102,11 @@
   "subcategory": "CSC_ARMOR_OTHER",
   "skill_used": "fabrication",
   "difficulty": 4,
-  "time": 400000,
-  "reversible": false,
-  "autolearn": false,
+  "time": 60000,
   "book_learn": [[ "textbook_armwest", 3 ]],
   "qualities": [
-    {"id":"CUT","level":1,"amount":1},
-    {"id":"HAMMER","level":3,"amount":1}
+    {"id":"CUT","level":1},
+    {"id":"HAMMER","level":3}
   ],
   "tools":[
     [ [ "tongs", -1 ] ],
@@ -130,8 +122,8 @@
     [ [ "scrap", 4 ] ],
     [ [ "2x4", 4 ] ],
     [
-      [ "leather", 3 ],
-      [ "tanned_hide", 1 ]
+      [ "fur", 3 ],
+      [ "leather", 3 ]
     ]
   ]
 },{
@@ -141,17 +133,15 @@
   "subcategory": "CSC_ARMOR_OTHER",
   "skill_used": "fabrication",
   "difficulty": 5,
-  "time": 300000,
-  "reversible": false,
-  "autolearn": false,
+  "time": 45000,
   "book_learn": [[ "textbook_armwest", 4 ]],
   "qualities": [
-    {"id":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1}
  ],
   "components": [
     [ [ "2x4", 4 ] ],
     [
-      [ "leather", 6 ],
+      [ "leather", 12 ],
       [ "tanned_hide", 2 ]
     ]
   ]
@@ -162,17 +152,15 @@
   "subcategory": "CSC_ARMOR_OTHER",
   "skill_used": "fabrication",
   "difficulty": 6,
-  "time": 400000,
-  "reversible": false,
-  "autolearn": false,
+  "time": 50000,
   "book_learn": [[ "textbook_armwest", 5 ]],
   "qualities": [
-    {"id":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1}
   ],
   "components": [
     [ [ "2x4", 7 ] ],
     [
-      [ "leather", 10 ],
+      [ "leather", 18 ],
       [ "tanned_hide", 3 ]
     ]
   ]
@@ -183,12 +171,10 @@
   "subcategory": "CSC_ARMOR_OTHER",
   "skill_used": "fabrication",
   "difficulty": 7,
-  "time": 400000,
-  "reversible": false,
-  "autolearn": false,
+  "time": 240000,
   "book_learn": [[ "textbook_armwest", 5 ]],
   "qualities": [
-    {"id":"HAMMER","level":3,"amount":1}
+    {"id":"HAMMER","level":3}
   ],
   "tools": [
     [ [ "tongs", -1 ] ],

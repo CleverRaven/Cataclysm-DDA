@@ -2,9 +2,9 @@
     "type": "MOD_INFO",
     "mod-type": "SUPPLEMENTAL",
     "ident": "StatsThroughSkills",
-    "name": "StatsThoughSkills",
+    "name": "StatsThroughSkills",
     "author": "Ryan \"DeNarr\" Saige",
-    "description": "Allows stats to raise naturally via skill progression. Changes to starting stats will be disregarded",
+    "description": "Allows stats to raise naturally via skill progression.",
     "category": "rebalance",
     "path": ""
 }

@@ -24,6 +24,15 @@
         "description": "You have a battery draining attachment, and thus can make use of the energy contained in normal, everyday batteries.  Use 'E' to consume batteries.  Can be toggled on and off at will."
     },{
         "type": "bionic",
+        "id": "bio_cable",
+        "name": "Cable Charger System",
+        "occupied_bodyparts": [ [ "TORSO", 10 ] ],
+        "capacity": 10,
+        "power_source": true,
+        "toggled": true,
+        "description": "You have a complex port mounted above your hip.  While active, it will drain power through a jumper cable held on your person."
+    },{
+        "type": "bionic",
         "id": "bio_plut_filter",
         "name": "Plutonium Filter",
         "occupied_bodyparts": [
@@ -38,9 +47,6 @@
         "type": "bionic",
         "id": "bio_plutdump",
         "name": "Plutonium Purger",
-        "occupied_bodyparts": [
-            [ "TORSO", 10 ]
-        ],
         "act_cost": 1,
         "description": "Emergency reactor fuel purge ejects all fuel from your reactor."
     },{
@@ -57,6 +63,9 @@
         ],
         "power_source": true,
         "toggled": true,
+        "included_bionics": [
+            "bio_plutdump"
+        ],
         "description": "This stripped down mini-reactor may not be the best thing to have in your chest.  There is no way to shut it down, but you can toggle additional fuel intake."
     },{
         "type": "bionic",
@@ -67,6 +76,9 @@
         ],
         "power_source": true,
         "toggled": true,
+        "included_bionics": [
+            "bio_plutdump"
+        ],
         "description": "This stripped down mini-reactor is safer than it appears due to integrated radiation cleansers.  There is no way to shut it down, but you can toggle additional fuel intake."
     },{
         "type": "bionic",
@@ -134,15 +146,15 @@
         "occupied_bodyparts": [
             [ "HEAD", 3 ]
         ],
+        "included_bionics": [
+            "bio_earplugs"
+        ],
         "toggled": true,
         "description": "When this bionic is active, your hearing will be drastically improved, allowing you to hear ten times better than the average person.  Additionally, high-intensity sounds will be automatically dampened before they can damage your hearing."
     },{
         "type": "bionic",
         "id": "bio_earplugs",
         "name": "Sound Dampeners",
-        "occupied_bodyparts": [
-            [ "HEAD", 3 ]
-        ],
         "toggled": true,
         "description": "When this bionic is active, you can block hearing completely (with Enhanced Hearing deactivated) or dampen sound slightly (with Enhanced Hearing activated)."
     },{
@@ -225,14 +237,14 @@
             [ "EYES", 1 ]
         ],
         "fake_item" : "fake_goggles",
+        "included_bionics": [
+            "bio_blindfold"
+        ],
         "description": "Your eyes have quick-reacting transition lenses installed over them.  They negate glare penalties, partially protect you from bright flashes, and protect your eyes when welding."
     },{
         "type": "bionic",
         "id": "bio_blindfold",
         "name": "Optical Dampers",
-        "occupied_bodyparts": [
-            [ "EYES", 1 ]
-        ],
         "toggled": true,
         "description": "The lenses installed over your eyes can be tinted to block out incoming light."
     },{
@@ -242,7 +254,11 @@
         "occupied_bodyparts": [
             [ "EYES", 2 ]
         ],
-        "description": "Much of the material in your inner eye has been removed and replaced with an array of high-powered, auto-focusing lenses.  You can now see much farther and more clearer than before, any vision problems you might have had are now gone."
+        "canceled_mutations": [
+            "HYPEROPIC",
+            "MYOPIC"
+        ],
+        "description": "Much of the material in your inner eye has been removed and replaced with an array of high-powered, auto-focusing lenses.  You can now see much farther and more clearly than before, any vision problems you might have had are now gone."
     },{
         "type": "bionic",
         "id": "bio_targeting",
@@ -258,13 +274,14 @@
     },{
         "type": "bionic",
         "id": "bio_gills",
-        "name": "Membrane Oxygenator",
+        "name": "Oxygenator",
+        "toggled": true,
         "occupied_bodyparts": [
-            [ "TORSO", 4 ],
+            [ "TORSO", 8 ],
             [ "HEAD", 2 ],
             [ "MOUTH", 2 ]
         ],
-        "description": "An oxygen interchange system automatically switches on while underwater, slowly draining your energy reserves but providing oxygen."
+        "description": "A complex oxygen delivery system.  Improves the ability to extract oxygen from air and allows extracting it from water.  Will automatically turn on when drowning.  Turn on to recharge stamina faster, at moderate power cost."
     },{
         "type": "bionic",
         "id": "bio_purifier",
@@ -273,7 +290,7 @@
             [ "TORSO", 4 ],
             [ "MOUTH", 2 ]
         ],
-        "description": "Implanted in your trachea is an advanced filtration system.  If toxins find their way into your windpipe, the filter will attempt to remove them."
+        "description": "Implanted in your trachea is an advanced filtration system.  If toxins, or airborne diseases find their way into your windpipe, the filter will attempt to remove them.  Reducing the toxic effects."
     },{
         "type": "bionic",
         "id": "bio_climate",
@@ -527,8 +544,11 @@
         "occupied_bodyparts": [
             [ "TORSO", 10 ]
         ],
-        "act_cost": 50,
-        "description": "You are equipped with bionic stimulators which augment your haematopoiesis system, allowing you to accelerate white blood cell production using bionic power."
+        "toggled": true,
+        "act_cost": 10,
+        "react_cost": 1,
+        "time": 600,
+        "description": "You are equipped with bionic stimulators which augment your haematopoiesis system, allowing you to accelerate white blood cell production using bionic power.  It is supposed to run continuously and may cause unpleasant side effects when turned off."
     },{
         "type": "bionic",
         "id": "bio_scent_mask",
@@ -586,7 +606,7 @@
         "occupied_bodyparts": [
             [ "HEAD", 2 ]
         ],
-        "act_cost": 50,
+        "toggled": true,
         "description": "Your nervous system is wired to allow you to inhibit the signals of pain, allowing you to dull your senses at will.  However, the use of this system may cause delayed reaction time and drowsiness."
     },{
         "type": "bionic",
@@ -595,8 +615,8 @@
         "occupied_bodyparts": [
             [ "TORSO", 10 ]
         ],
-        "act_cost": 125,
-        "description": "Inside your body is a fleet of tiny dormant robots.  Once charged from your energy banks, they will flit about your body, repairing damage and stopping bleeding."
+        "toggled": true,
+        "description": "Inside your body is a fleet of tiny dormant robots.  While activated they will flit about your body, repairing damage and stopping bleeding at the cost of power."
     },{
         "type": "bionic",
         "id": "bio_heatsink",
@@ -760,6 +780,8 @@
         ],
         "toggled": true,
         "act_cost": 100,
+        "weapon_bionic": true,
+        "fake_item": "bio_claws_weapon",
         "description": "Vicious claws have been installed inside your fingers, allowing you to extend and retract them at the cost of a small amount of power.  These do considerable cutting damage, but prevent you from holding anything else while extended."
     },{
         "type": "bionic",
@@ -793,6 +815,8 @@
         ],
         "toggled": true,
         "act_cost": 200,
+        "weapon_bionic": true,
+        "fake_item": "bio_blade_weapon",
         "description": "A deadly foot-long blade made of advanced material now resides inside your forearm, capable of being extended through the back of your wrist at the cost of a small amount of power.  Though exceptionally sharp, it will prevent you from holding anything else while extended."
     },{
         "type": "bionic",
@@ -803,7 +827,9 @@
             [ "HAND_L", 5 ]
         ],
         "act_cost": 50,
-        "description": "Your left arm has been replaced by a heavy-duty fusion blaster!  You may use your energy banks to fire a damaging heat ray. However, you are unable to use or carry two-handed items, and your strength limits what you can use with your one hand."
+        "gun_bionic": true,
+        "fake_item": "bio_blaster_gun",
+        "description": "Your left arm has been replaced by a heavy-duty fusion blaster!  You may use your energy banks to fire a damaging heat ray.  However, you are unable to use or carry two-handed items, and your strength limits what you can use with your one hand."
     },{
         "type": "bionic",
         "id": "bio_laser",
@@ -812,6 +838,8 @@
             [ "HAND_R", 1 ]
         ],
         "act_cost": 50,
+        "gun_bionic": true,
+        "fake_item": "bio_laser_gun",
         "description": "One of your fingers has a small high-powered laser embedded in it.  This long range weapon is not incredibly damaging, but is very accurate, and has the potential to start fires."
     },{
         "type": "bionic",
@@ -979,6 +1007,8 @@
             [ "ARM_R", 4 ]
         ],
         "act_cost": 125,
+        "gun_bionic": true,
+        "fake_item": "bio_lightning",
         "description": "Your body is equipped with a chain lightning generator, allowing you to emit a blast of lightning at a target, leaving a trail of lightning in its wake, jumping to additional targets within 4 tiles of the previous target."
     },{
         "type": "bionic",

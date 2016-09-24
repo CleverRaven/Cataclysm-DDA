@@ -163,23 +163,6 @@
   ]
 },{
   "type" : "recipe",
-  "result": "makeshift_kevlar",
-  "category": "CC_ARMOR",
-  "subcategory": "CSC_ARMOR_TORSO",
-  "skill_used": "tailor",
-  "difficulty": 4,
-  "time": 30000,
-  "reversible": true,
-  "autolearn": true,
-  "decomp_learn": 4,
-  "tools": [
-    [ [ "sewing_kit", 30 ] ]
-  ],
-  "components": [
-    [ [ "kevlar_plate", 24 ] ]
-  ]
-},{
-  "type" : "recipe",
   "result": "elbow_pads",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_ARMS",
@@ -1682,7 +1665,10 @@
   ],
   "components": [
     [
-      [ "fur", 10 ],
+      [ "rag", 11 ]
+    ],
+    [
+      [ "fur", 12 ],
       [ "tanned_pelt", 2 ]
     ]
   ]
@@ -1711,6 +1697,7 @@
 },{
   "type" : "recipe",
   "result": "vest_leather",
+  "byproducts": { "id" : "leather", "amount" : 5 },
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_TORSO",
   "skill_used": "tailor",
@@ -1937,8 +1924,9 @@
   "tools": [
      [
       [ "welder", 28 ],
-      [ "soldering_iron", 28 ],
-      [ "toolset", 28 ]
+      [ "welder_crude", 42 ],
+      [ "soldering_iron", 42 ],
+      [ "toolset", 42 ]
      ],
      [
       [ "sewing_kit", 200 ]
@@ -2421,7 +2409,42 @@
   "flags": ["BLIND_EASY"],
   "components": [
     [
-      [ "bandana", 1 ]
+      [ "bandana", 1 ],
+      [ "scarf", 1 ],
+      [ "scarf_long", 1 ],
+      [ "patchwork_scarf", 1 ],
+      [ "long_patchwork_scarf", 1 ],
+      [ "scarf_fur", 1 ],
+      [ "scarf_fur_long", 1 ],
+      [ "knit_scarf", 1 ],
+      [ "long_knit_scarf", 1 ],
+      [ "scarf_loose", 1 ],
+      [ "scarf_long_loose", 1 ],
+      [ "patchwork_scarf_loose", 1 ],
+      [ "long_patchwork_scarf_loose", 1 ],
+      [ "scarf_fur_loose", 1 ],
+      [ "scarf_fur_long_loose", 1 ],
+      [ "knit_scarf_loose", 1 ],
+      [ "long_knit_scarf_loose", 1 ],
+      [ "bandages", 2 ]
+    ]
+  ]
+},
+{
+  "type" : "recipe",
+  "result": "blindfold",
+  "id_suffix": "from_tape",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_HEAD",
+  "skill_used": "fabrication",
+  "difficulty": 1,
+  "time": 3000,
+  "reversible": true,
+  "autolearn": true,
+  "flags": ["BLIND_EASY"],
+  "components": [
+    [
+      [ "duct_tape", 10 ]
     ]
   ]
 },{
@@ -2658,8 +2681,9 @@
   ], "tools": [
     [
       [ "welder", 56 ],
-      [ "soldering_iron", 56 ],
-      [ "toolset", 56 ]
+      [ "welder_crude", 84 ],
+      [ "soldering_iron", 84 ],
+      [ "toolset", 84 ]
     ]
   ],
   "components": [
@@ -2699,8 +2723,9 @@
   ], "tools": [
     [
       [ "welder", 56 ],
-      [ "soldering_iron", 56 ],
-      [ "toolset", 56 ]
+      [ "welder_crude", 84 ],
+      [ "soldering_iron", 84 ],
+      [ "toolset", 84 ]
     ]
   ],
   "components": [
@@ -2734,8 +2759,9 @@
     ],
     [
       [ "welder", 28 ],
-      [ "soldering_iron", 28 ],
-      [ "toolset", 28 ]
+      [ "welder_crude", 42 ],
+      [ "soldering_iron", 42 ],
+      [ "toolset", 42 ]
       ]
   ],
   "components": [
@@ -2778,8 +2804,9 @@
   "tools": [
       [
       [ "welder", 56 ],
-      [ "soldering_iron", 56 ],
-      [ "toolset", 56 ]
+      [ "welder_crude", 84 ],
+      [ "soldering_iron", 84 ],
+      [ "toolset", 84 ]
       ]
   ],
   "components": [
@@ -2821,8 +2848,9 @@
   "tools": [
       [
       [ "welder", 56 ],
-      [ "soldering_iron", 56 ],
-      [ "toolset", 56 ]
+      [ "welder_crude", 84 ],
+      [ "soldering_iron", 84 ],
+      [ "toolset", 84 ]
       ]
   ],
   "components": [
@@ -2864,8 +2892,9 @@
   "tools": [
       [
       [ "welder", 56 ],
-      [ "soldering_iron", 56 ],
-      [ "toolset", 56 ]
+      [ "welder_crude", 84 ],
+      [ "soldering_iron", 84 ],
+      [ "toolset", 84 ]
       ]
   ],
   "components": [
@@ -2907,8 +2936,9 @@
   "tools": [
       [
       [ "welder", 56 ],
-      [ "soldering_iron", 56 ],
-      [ "toolset", 56 ]
+      [ "welder_crude", 84 ],
+      [ "soldering_iron", 84 ],
+      [ "toolset", 84 ]
       ]
   ],
   "components": [
@@ -2950,8 +2980,9 @@
     ],
     [
       [ "welder", 56 ],
-      [ "soldering_iron", 56 ],
-      [ "toolset", 56 ]
+      [ "welder_crude", 84 ],
+      [ "soldering_iron", 84 ],
+      [ "toolset", 84 ]
     ]
   ],
   "components": [
@@ -2997,8 +3028,9 @@
     ],
     [
       [ "welder", 56 ],
-      [ "soldering_iron", 56 ],
-      [ "toolset", 56 ]
+      [ "welder_crude", 84 ],
+      [ "soldering_iron", 84 ],
+      [ "toolset", 84 ]
     ]
   ],
   "components": [
@@ -3045,8 +3077,9 @@
     ],
     [
       [ "welder", 56 ],
-      [ "soldering_iron", 56 ],
-      [ "toolset", 56 ]
+      [ "welder_crude", 84 ],
+      [ "soldering_iron", 84 ],
+      [ "toolset", 84 ]
     ]
   ],
   "components": [
@@ -3086,8 +3119,9 @@
     ],
     [
       [ "welder", 56 ],
-      [ "soldering_iron", 56 ],
-      [ "toolset", 56 ]
+      [ "welder_crude", 84 ],
+      [ "soldering_iron", 84 ],
+      [ "toolset", 84 ]
     ]
   ],
   "components": [
@@ -3126,8 +3160,9 @@
     ],
     [
       [ "welder", 56 ],
-      [ "soldering_iron", 56 ],
-      [ "toolset", 56 ]
+      [ "welder_crude", 84 ],
+      [ "soldering_iron", 84 ],
+      [ "toolset", 84 ]
     ]
   ],
   "components": [
@@ -3169,8 +3204,9 @@
     ],
     [
       [ "welder", 56 ],
-      [ "soldering_iron", 56 ],
-      [ "toolset", 56 ]
+      [ "welder_crude", 84 ],
+      [ "soldering_iron", 84 ],
+      [ "toolset", 84 ]
     ]
   ],
   "components": [
@@ -3274,8 +3310,9 @@
   ], "tools": [
     [
       [ "welder", 56 ],
-      [ "soldering_iron", 56 ],
-      [ "toolset", 56 ]
+      [ "welder_crude", 84 ],
+      [ "soldering_iron", 84 ],
+      [ "toolset", 84 ]
     ]
   ],
   "components": [
@@ -3318,8 +3355,9 @@
   ], "tools": [
     [
       [ "welder", 56 ],
-      [ "soldering_iron", 56 ],
-      [ "toolset", 56 ]
+      [ "welder_crude", 84 ],
+      [ "soldering_iron", 84 ],
+      [ "toolset", 84 ]
     ]
   ],
   "components": [
@@ -3362,8 +3400,9 @@
   ], "tools": [
     [
       [ "welder", 56 ],
-      [ "soldering_iron", 56 ],
-      [ "toolset", 56 ]
+      [ "welder_crude", 84 ],
+      [ "soldering_iron", 84 ],
+      [ "toolset", 84 ]
     ]
   ],
   "components": [
@@ -3418,8 +3457,8 @@
     ],
     [
       [ "scrap", 2 ],
-      [ "can_food", 1 ],
-      [ "can_drink", 1 ],
+      [ "can_food_unsealed", 1 ],
+      [ "can_drink_unsealed", 1 ],
       [ "canister_empty", 1 ]
     ]
   ]
@@ -4524,7 +4563,8 @@
      ],
      [
       [ "trenchcoat", 1 ],
-      [ "jacket_army", 1 ]
+      [ "jacket_army", 1 ],
+      [ "sleeveless_trenchcoat", 1 ]
      ],
      [
       [ "kevlar", 1 ],
@@ -4903,8 +4943,9 @@
   "tools": [
      [
       [ "welder", 28 ],
-      [ "soldering_iron", 28 ],
-      [ "toolset", 28 ]
+      [ "welder_crude", 42 ],
+      [ "soldering_iron", 42 ],
+      [ "toolset", 42 ]
      ],
      [
       [ "sewing_kit", 100 ]
@@ -4955,8 +4996,9 @@
   "tools": [
      [
       [ "welder", 18 ],
-      [ "soldering_iron", 18 ],
-      [ "toolset", 18 ]
+      [ "welder_crude", 27 ],
+      [ "soldering_iron", 27 ],
+      [ "toolset", 27 ]
      ],
      [
       [ "sewing_kit", 60 ]
@@ -5007,8 +5049,9 @@
   "tools": [
      [
       [ "welder", 10 ],
-      [ "soldering_iron", 10 ],
-      [ "toolset", 10 ]
+      [ "welder_crude", 15 ],
+      [ "soldering_iron", 15 ],
+      [ "toolset", 15 ]
      ],
      [
       [ "sewing_kit", 40 ]
@@ -5054,8 +5097,9 @@
   "tools": [
      [
       [ "welder", 28 ],
-      [ "soldering_iron", 28 ],
-      [ "toolset", 28 ]
+      [ "welder_crude", 42 ],
+      [ "soldering_iron", 42 ],
+      [ "toolset", 42 ]
      ],
      [
       [ "sewing_kit", 150 ]
@@ -5110,9 +5154,9 @@
   "tools": [
     [
       [ "welder", 56 ],
-      [ "soldering_iron", 56 ],
-      [ "toolset", 56
-      ]
+      [ "welder_crude", 84 ],
+      [ "soldering_iron", 84 ],
+      [ "toolset", 84 ]
     ],
     [
       [ "sewing_kit", 200 ]
@@ -5171,8 +5215,9 @@
   "tools": [
     [
       [ "welder", 28 ],
-      [ "soldering_iron", 28 ],
-      [ "toolset", 28 ]
+      [ "welder_crude", 42 ],
+      [ "soldering_iron", 42 ],
+      [ "toolset", 42 ]
     ],
     [
       [ "sewing_kit", 200 ]
@@ -5232,8 +5277,9 @@
   "tools": [
      [
       [ "welder", 28 ],
-      [ "soldering_iron", 28 ],
-      [ "toolset", 28 ]
+      [ "welder_crude", 42 ],
+      [ "soldering_iron", 42 ],
+      [ "toolset", 42 ]
      ],
      [
       [ "sewing_kit", 200 ]
@@ -5289,8 +5335,9 @@
   "tools": [
     [
       [ "welder", 56 ],
-      [ "soldering_iron", 56 ],
-      [ "toolset", 56 ]
+      [ "welder_crude", 84 ],
+      [ "soldering_iron", 84 ],
+      [ "toolset", 84 ]
     ],
     [
       [ "sewing_kit", 200 ]
@@ -5320,8 +5367,8 @@
      ],
      [
       [ "kevlar", 1 ],
-      [ "swat_armor", 1 ],
       [ "modularvest", 1 ],
+      [ "swat_armor", 1 ],
       [ "kevlar_plate", 24 ]
      ]
   ]
@@ -5342,8 +5389,9 @@
   "tools": [
      [
       [ "welder", 56 ],
-      [ "soldering_iron", 56 ],
-      [ "toolset", 56 ]
+      [ "welder_crude", 84 ],
+      [ "soldering_iron", 84 ],
+      [ "toolset", 84 ]
      ],
      [
       [ "sewing_kit", 200 ]
@@ -5401,8 +5449,9 @@
   "tools": [
     [
       [ "welder", 42 ],
-      [ "soldering_iron", 42 ],
-      [ "toolset", 42 ]
+      [ "welder_crude", 63 ],
+      [ "soldering_iron", 63 ],
+      [ "toolset", 63 ]
     ],
     [
       [ "sewing_kit", 160 ]
@@ -5444,8 +5493,9 @@
   "tools": [
     [
       [ "welder", 28 ],
-      [ "soldering_iron", 28 ],
-      [ "toolset", 28 ]
+      [ "welder_crude", 42 ],
+      [ "soldering_iron", 42 ],
+      [ "toolset", 42 ]
     ],
     [
       [ "sewing_kit", 100 ]
@@ -5487,8 +5537,9 @@
   "tools": [
     [
       [ "welder", 42 ],
-      [ "soldering_iron", 42 ],
-      [ "toolset", 42 ]
+      [ "welder_crude", 63 ],
+      [ "soldering_iron", 63 ],
+      [ "toolset", 63 ]
     ],
     [
       [ "sewing_kit", 80 ]
@@ -5533,8 +5584,9 @@
   "tools": [
     [
       [ "welder", 84 ],
-      [ "soldering_iron", 84 ],
-      [ "toolset", 84 ]
+      [ "welder_crude", 126 ],
+      [ "soldering_iron", 126 ],
+      [ "toolset", 126 ]
     ],
     [
       [ "sewing_kit", 20 ]
@@ -5582,8 +5634,9 @@
   "tools": [
     [
       [ "welder", 21 ],
-      [ "soldering_iron", 21 ],
-      [ "toolset", 21 ]
+      [ "welder_crude", 32 ],
+      [ "soldering_iron", 32 ],
+      [ "toolset", 32 ]
     ],
     [
       [ "sewing_kit", 40 ]
@@ -5621,8 +5674,9 @@
   "tools": [
     [
       [ "welder", 21 ],
-      [ "soldering_iron", 21 ],
-      [ "toolset", 21 ]
+      [ "welder_crude", 32 ],
+      [ "soldering_iron", 32 ],
+      [ "toolset", 32 ]
     ],
     [
       [ "sewing_kit", 40 ]
@@ -5664,8 +5718,9 @@
   "tools": [
     [
       [ "welder", 42 ],
-      [ "soldering_iron", 42 ],
-      [ "toolset", 42 ]
+      [ "welder_crude", 63 ],
+      [ "soldering_iron", 63 ],
+      [ "toolset", 63 ]
     ],
     [
       [ "sewing_kit", 10 ]
@@ -5724,8 +5779,9 @@
   "tools": [
     [
       [ "welder", 42 ],
-      [ "soldering_iron", 42 ],
-      [ "toolset", 42 ]
+      [ "welder_crude", 63 ],
+      [ "soldering_iron", 63 ],
+      [ "toolset", 63 ]
     ],
     [
       [ "sewing_kit", 10 ]
@@ -5784,8 +5840,9 @@
   "tools": [
     [
       [ "welder", 21 ],
-      [ "soldering_iron", 21 ],
-      [ "toolset", 21 ]
+      [ "welder_crude", 32 ],
+      [ "soldering_iron", 32 ],
+      [ "toolset", 32 ]
     ],
     [
       [ "sewing_kit", 40 ]
@@ -5828,8 +5885,9 @@
   "tools": [
     [
       [ "welder", 21 ],
-      [ "soldering_iron", 21 ],
-      [ "toolset", 21 ]
+      [ "welder_crude", 32 ],
+      [ "soldering_iron", 32 ],
+      [ "toolset", 32 ]
     ],
     [
       [ "sewing_kit", 40 ]
@@ -5866,8 +5924,9 @@
   "tools": [
     [
       [ "welder", 21 ],
-      [ "soldering_iron", 21 ],
-      [ "toolset", 21 ]
+      [ "welder_crude", 32 ],
+      [ "soldering_iron", 32 ],
+      [ "toolset", 32 ]
     ],
     [
       [ "sewing_kit", 40 ]
@@ -5904,8 +5963,9 @@
   "tools": [
     [
       [ "welder", 14 ],
-      [ "soldering_iron", 14 ],
-      [ "toolset", 14 ]
+      [ "welder_crude", 21 ],
+      [ "soldering_iron", 21 ],
+      [ "toolset", 21 ]
     ],
     [
       [ "sewing_kit", 50 ]
@@ -5950,8 +6010,9 @@
   "tools": [
     [
       [ "welder", 14 ],
-      [ "soldering_iron", 14 ],
-      [ "toolset", 14 ]
+      [ "welder_crude", 21 ],
+      [ "soldering_iron", 21 ],
+      [ "toolset", 21 ]
     ],
     [
       [ "sewing_kit", 50 ]
@@ -5997,8 +6058,9 @@
   "tools": [
     [
       [ "welder", 28 ],
-      [ "soldering_iron", 28 ],
-      [ "toolset", 28 ]
+      [ "welder_crude", 42 ],
+      [ "soldering_iron", 42 ],
+      [ "toolset", 42 ]
     ],
     [
       [ "sewing_kit", 40 ]
@@ -6046,8 +6108,9 @@
   "tools": [
     [
       [ "welder", 14 ],
-      [ "soldering_iron", 14 ],
-      [ "toolset", 14 ]
+      [ "welder_crude", 21 ],
+      [ "soldering_iron", 21 ],
+      [ "toolset", 21 ]
     ],
     [
       [ "sewing_kit", 50 ]
@@ -6093,8 +6156,9 @@
   "tools": [
     [
       [ "welder", 14 ],
-      [ "soldering_iron", 14 ],
-      [ "toolset", 14 ]
+      [ "welder_crude", 21 ],
+      [ "soldering_iron", 21 ],
+      [ "toolset", 21 ]
     ],
     [
       [ "sewing_kit", 50 ]
@@ -6136,8 +6200,9 @@
   "tools": [
     [
       [ "welder", 14 ],
-      [ "soldering_iron", 14 ],
-      [ "toolset", 14 ]
+      [ "welder_crude", 21 ],
+      [ "soldering_iron", 21 ],
+      [ "toolset", 21 ]
     ],
     [
       [ "sewing_kit", 50 ]
@@ -6175,8 +6240,9 @@
   "tools": [
     [
       [ "welder", 21 ],
-      [ "soldering_iron", 21 ],
-      [ "toolset", 21 ]
+      [ "welder_crude", 32 ],
+      [ "soldering_iron", 32 ],
+      [ "toolset", 32 ]
     ],
     [
       [ "sewing_kit", 80 ]
@@ -6217,8 +6283,9 @@
   "tools": [
     [
       [ "welder", 21 ],
-      [ "soldering_iron", 21 ],
-      [ "toolset", 21 ]
+      [ "welder_crude", 32 ],
+      [ "soldering_iron", 32 ],
+      [ "toolset", 32 ]
     ],
     [
       [ "sewing_kit", 80 ]
@@ -6260,8 +6327,9 @@
   "tools": [
     [
       [ "welder", 42 ],
-      [ "soldering_iron", 42 ],
-      [ "toolset", 42 ]
+      [ "welder_crude", 63 ],
+      [ "soldering_iron", 63 ],
+      [ "toolset", 63 ]
     ],
     [
       [ "sewing_kit", 60 ]
@@ -6309,8 +6377,9 @@
   "tools": [
     [
       [ "welder", 21 ],
-      [ "soldering_iron", 21 ],
-      [ "toolset", 21 ]
+      [ "welder_crude", 32 ],
+      [ "soldering_iron", 32 ],
+      [ "toolset", 32 ]
     ],
     [
       [ "sewing_kit", 80 ]
@@ -6352,8 +6421,9 @@
   "tools": [
     [
       [ "welder", 21 ],
-      [ "soldering_iron", 21 ],
-      [ "toolset", 21 ]
+      [ "welder_crude", 32 ],
+      [ "soldering_iron", 32 ],
+      [ "toolset", 32 ]
     ],
     [
       [ "sewing_kit", 80 ]
@@ -6395,8 +6465,9 @@
   "tools": [
     [
       [ "welder", 21 ],
-      [ "soldering_iron", 21 ],
-      [ "toolset", 21 ]
+      [ "welder_crude", 32 ],
+      [ "soldering_iron", 32 ],
+      [ "toolset", 32 ]
     ],
     [
       [ "sewing_kit", 80 ]
@@ -6439,8 +6510,9 @@
   "tools": [
     [
       [ "welder", 112 ],
-      [ "soldering_iron", 112 ],
-      [ "toolset", 112 ]
+      [ "welder_crude", 168 ],
+      [ "soldering_iron", 168 ],
+      [ "toolset", 168 ]
     ]
   ],
   "components": [
@@ -6474,8 +6546,9 @@
   "tools": [
     [
       [ "welder", 112 ],
-      [ "soldering_iron", 112 ],
-      [ "toolset", 112 ]
+      [ "welder_crude", 168 ],
+      [ "soldering_iron", 168 ],
+      [ "toolset", 168 ]
     ]
   ],
   "components": [
@@ -6519,7 +6592,7 @@
   "type" : "recipe",
   "result": "goggles_swim",
   "category": "CC_ARMOR",
-  "subcategory": "CSC_ARMOR_OTHER",
+  "subcategory": "CSC_ARMOR_HEAD",
   "skill_used": "fabrication",
   "difficulty": 4,
   "time": 30000,
@@ -6557,8 +6630,9 @@
   "tools": [
     [
       [ "welder", 42 ],
-      [ "soldering_iron", 42 ],
-      [ "toolset", 42 ]
+      [ "welder_crude", 63 ],
+      [ "soldering_iron", 63 ],
+      [ "toolset", 63 ]
     ],
     [
       [ "sewing_kit", 20 ]
@@ -7642,13 +7716,12 @@
   "autolearn": false,
   "book_learn": [[ "textbook_armwest", 8 ]],
   "qualities": [
-       {"id":"HAMMER","level":3,"amount":1} ],
+       {"id":"HAMMER","level":3,"amount":1},
+       { "id": "CHISEL", "level": 3 }
+    ],
   "tools":[
      [
       ["tongs", -1]
-     ],
-     [
-      ["chisel", -1]
      ],
      [
       ["anvil", -1]
@@ -7684,13 +7757,12 @@
   "autolearn": false,
   "book_learn": [[ "textbook_armwest", 7 ]],
   "qualities": [
-       {"id":"HAMMER","level":3,"amount":1} ],
+       {"id":"HAMMER","level":3,"amount":1},
+       { "id": "CHISEL", "level": 3 }
+    ],
   "tools": [
      [
       ["tongs", -1]
-     ],
-     [
-      ["chisel", -1]
      ],
      [
       ["anvil", -1]
@@ -7715,6 +7787,93 @@
      [ "tanned_hide", 3 ]
     ]
     ]
+  },{
+    "type" : "recipe",
+    "result": "armor_lightplate",
+    "id_suffix": "assembly",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_SUIT",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "time": 20000,
+    "reversible": true,
+    "components": [
+      [ [ "cuirass_lightplate", 1 ] ],
+      [ [ "armguard_lightplate", 1 ] ],
+      [ [ "legguard_lightplate", 1 ] ]
+    ]
+  },{
+    "type" : "recipe",
+    "result": "armguard_lightplate",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_ARMS",
+    "skill_used": "fabrication",
+    "difficulty": 7,
+    "time": 180000,
+    "book_learn": [[ "textbook_armwest", 6 ]],
+    "qualities": [
+      { "id":"HAMMER","level": 3 },
+      { "id": "CHISEL", "level": 3 }
+    ],
+    "tools": [
+      [ ["tongs", -1] ],
+      [ ["anvil", -1] ],
+      [ ["swage", -1] ],
+      [ ["forge", 100], ["oxy_torch", 20] ]
+    ],
+    "components":
+    [
+      [ [ "steel_lump", 6 ], [ "steel_chunk", 24 ] ],
+      [ [ "fur", 6 ], [ "tanned_pelt", 1 ], [ "leather", 6 ], [ "tanned_hide", 1 ] ]
+    ]
+},{
+    "type" : "recipe",
+    "result": "legguard_lightplate",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_LEGS",
+    "skill_used": "fabrication",
+    "difficulty": 7,
+    "time": 190000,
+    "book_learn": [[ "textbook_armwest", 6 ]],
+    "qualities": [
+      { "id":"HAMMER","level": 3 },
+      { "id": "CHISEL", "level": 3 }
+    ],
+    "tools": [
+      [ ["tongs", -1] ],
+      [ ["anvil", -1] ],
+      [ ["swage", -1] ],
+      [ ["forge", 150], ["oxy_torch", 30] ]
+    ],
+    "components":
+    [
+      [ [ "steel_lump", 7 ], [ "steel_chunk", 28 ] ],
+      [ [ "fur", 6 ], [ "tanned_pelt", 1 ], [ "leather", 6 ], [ "tanned_hide", 1 ] ]
+    ]
+},{
+    "type" : "recipe",
+    "result": "cuirass_lightplate",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_TORSO",
+    "skill_used": "fabrication",
+    "difficulty": 8,
+    "time": 190000,
+    "book_learn": [[ "textbook_armwest", 7 ]],
+    "qualities": [
+      { "id":"HAMMER","level": 3 },
+      { "id": "CHISEL", "level": 3 }
+    ],
+    "tools": [
+      [ ["tongs", -1] ],
+      [ ["anvil", -1] ],
+      [ ["swage", -1] ],
+      [ ["forge", 150], ["oxy_torch", 30] ]
+    ],
+    "components":
+    [
+      [ [ "steel_lump", 8 ], [ "steel_chunk", 32 ] ],
+      [ [ "fur", 6 ], [ "tanned_pelt", 1 ], [ "leather", 6 ], [ "tanned_hide", 1 ] ]
+    ]
 },{
   "type" : "recipe",
   "result": "gloves_plate",
@@ -7727,13 +7886,12 @@
   "autolearn": false,
   "book_learn": [[ "textbook_armwest", 5 ]],
   "qualities": [
-       {"id":"HAMMER","level":3,"amount":1} ],
+       {"id":"HAMMER","level":3,"amount":1},
+       { "id": "CHISEL", "level": 3 }
+    ],
   "tools": [
      [
       ["tongs", -1]
-     ],
-     [
-      ["chisel", -1]
      ],
      [
       ["anvil", -1]
@@ -7770,13 +7928,12 @@
   "autolearn": false,
   "book_learn": [[ "textbook_armwest", 4 ]],
   "qualities": [
-       {"id":"HAMMER","level":3,"amount":1} ],
+       {"id":"HAMMER","level":3,"amount":1},
+       { "id": "CHISEL", "level": 3 }
+       ],
   "tools": [
      [
       ["tongs", -1]
-     ],
-     [
-      ["chisel", -1]
      ],
      [
       ["anvil", -1]
@@ -7814,13 +7971,12 @@
   "autolearn": false,
   "book_learn": [[ "textbook_armwest", 6 ]],
     "qualities": [
-       {"id":"HAMMER","level":3,"amount":1} ],
+       {"id":"HAMMER","level":3,"amount":1},
+       { "id": "CHISEL", "level": 3 }
+       ],
   "tools": [
      [
       ["tongs", -1]
-     ],
-     [
-      ["chisel", -1]
      ],
      [
       ["anvil", -1]
@@ -7856,13 +8012,12 @@
   "autolearn": false,
   "book_learn": [[ "textbook_armwest", 5 ]],
   "qualities": [
-       {"id":"HAMMER","level":3,"amount":1} ],
+       {"id":"HAMMER","level":3,"amount":1},
+       { "id": "CHISEL", "level": 3 }
+    ],
   "tools": [
      [
       ["tongs", -1]
-     ],
-     [
-      ["chisel", -1]
      ],
      [
       ["anvil", -1]
@@ -7898,13 +8053,12 @@
   "autolearn": false,
   "book_learn": [[ "textbook_armeast", 8 ]],
   "qualities": [
-       {"id":"HAMMER","level":3,"amount":1} ],
+       {"id":"HAMMER","level":3,"amount":1},
+       { "id": "CHISEL", "level": 3 }
+    ],
   "tools": [
      [
       ["tongs", -1]
-     ],
-     [
-      ["chisel", -1]
      ],
      [
       ["anvil", -1]
@@ -7943,10 +8097,12 @@
   "reversible": false,
   "autolearn": false,
   "book_learn": [[ "textbook_armeast", 8 ]],
-  "qualities": [ {"id":"HAMMER","level":3,"amount":1} ],
+  "qualities": [
+    {"id":"HAMMER","level":3,"amount":1},
+    { "id": "CHISEL", "level": 3 }
+    ],
   "tools": [
     [ ["tongs", -1] ],
-    [ ["chisel", -1] ],
     [ ["anvil", -1] ],
     [ ["crucible", -1], ["crucible_clay", -1] ],
     [ ["forge", 450], ["oxy_torch", 90] ]
@@ -8549,7 +8705,8 @@
      [
       [ "duster", 1 ],
       [ "duster_leather", 1 ],
-      [ "jacket_army", 1 ]
+      [ "jacket_army", 1 ],
+      [ "sleeveless_duster", 1 ]
      ],
      [
       [ "kevlar", 1 ],
@@ -9028,14 +9185,14 @@
   "skill_used": "tailor",
   "difficulty": 0,
   "time": 5000,
-  "reversible": false,
+  "reversible": true,
   "autolearn": true,
-  "qualities" : [
-     {"id":"CUT","level":1,"amount":1}
-   ],
   "components": [
     [
       [ "sheet", 1 ]
+    ],
+    [
+      [ "string_36", 1 ]
     ]
   ]
 },
@@ -9347,7 +9504,7 @@
   ],
   "components": [
     [
-      [ "felt_patch", 12 ]
+      [ "felt_patch", 13 ]
     ]
   ]
 },{
@@ -9462,7 +9619,7 @@
     "category" : "CC_ARMOR",
     "subcategory" : "CSC_ARMOR_STORAGE",
     "skill_used" : "fabrication",
-    "requires_skills" : ["fabrication", 1],
+    "skills_required" : ["fabrication", 1],
     "difficulty" : 2,
     "time" : 1500,
     "reversible" : false,
@@ -9491,7 +9648,8 @@
     [
       [ "soldering_iron", 20 ],
       [ "welder", 20 ],
-      [ "hotplate", 20 ]
+      [ "hotplate", 20 ],
+      [ "toolset", 20 ]
     ]
   ],
   "components": [
@@ -9520,7 +9678,8 @@
     [
       [ "soldering_iron", 15],
       [ "welder", 15 ],
-      [ "hotplate", 15 ]
+      [ "hotplate", 15 ],
+      [ "toolset", 15 ]
     ]
   ],
   "components": [
@@ -9535,7 +9694,7 @@
   "type" : "recipe",
   "result": "armguard_soft",
   "category": "CC_ARMOR",
-  "subcategory": "CSC_ARMOR_SUIT",
+  "subcategory": "CSC_ARMOR_ARMS",
   "skill_used": "tailor",
   "difficulty": 3,
   "time": 15000,
@@ -9549,7 +9708,8 @@
     [
       [ "soldering_iron", 10],
       [ "welder", 10 ],
-      [ "hotplate", 10 ]
+      [ "hotplate", 10 ],
+      [ "toolset", 10 ]
     ]
   ],
   "components": [
@@ -9564,7 +9724,7 @@
   "type" : "recipe",
   "result": "armguard_hard",
   "category": "CC_ARMOR",
-  "subcategory": "CSC_ARMOR_SUIT",
+  "subcategory": "CSC_ARMOR_ARMS",
   "skill_used": "tailor",
   "difficulty": 3,
   "time": 25000,
@@ -9578,7 +9738,8 @@
     [
       [ "soldering_iron", 15],
       [ "welder", 15 ],
-      [ "hotplate", 15 ]
+      [ "hotplate", 15 ],
+      [ "toolset", 15 ]
     ]
   ],
   "components": [
@@ -9593,7 +9754,7 @@
   "type" : "recipe",
   "result": "legguard_hard",
   "category": "CC_ARMOR",
-  "subcategory": "CSC_ARMOR_SUIT",
+  "subcategory": "CSC_ARMOR_LEGS",
   "skill_used": "tailor",
   "difficulty": 3,
   "time": 15000,
@@ -9607,7 +9768,8 @@
     [
       [ "soldering_iron", 15],
       [ "welder", 15 ],
-      [ "hotplate", 15 ]
+      [ "hotplate", 15 ],
+      [ "toolset", 15 ]
     ]
   ],
   "components": [
@@ -9622,7 +9784,7 @@
   "type" : "recipe",
   "result": "wetsuit_hood",
   "category": "CC_ARMOR",
-  "subcategory": "CSC_ARMOR_SUIT",
+  "subcategory": "CSC_ARMOR_HEAD",
   "skill_used": "tailor",
   "difficulty": 4,
   "time": 120000,
@@ -9636,7 +9798,8 @@
     [
       [ "soldering_iron", 5 ],
       [ "welder", 5 ],
-      [ "hotplate", 5 ]
+      [ "hotplate", 5 ],
+      [ "toolset", 5 ]
     ]
   ],
   "components": [
@@ -9651,7 +9814,7 @@
   "type" : "recipe",
   "result": "wetsuit_booties",
   "category": "CC_ARMOR",
-  "subcategory": "CSC_ARMOR_SUIT",
+  "subcategory": "CSC_ARMOR_FEET",
   "skill_used": "tailor",
   "difficulty": 4,
   "time": 120000,
@@ -9665,7 +9828,8 @@
     [
       [ "soldering_iron", 5 ],
       [ "welder", 5 ],
-      [ "hotplate", 5 ]
+      [ "hotplate", 5 ],
+      [ "toolset", 5 ]
     ]
   ],
   "components": [
@@ -9680,7 +9844,7 @@
   "type" : "recipe",
   "result": "wetsuit_gloves",
   "category": "CC_ARMOR",
-  "subcategory": "CSC_ARMOR_SUIT",
+  "subcategory": "CSC_ARMOR_HANDS",
   "skill_used": "tailor",
   "difficulty": 4,
   "time": 60000,
@@ -9694,7 +9858,8 @@
     [
       [ "soldering_iron", 3 ],
       [ "welder", 3 ],
-      [ "hotplate", 3 ]
+      [ "hotplate", 3 ],
+      [ "toolset", 3 ]
     ]
   ],
   "components": [

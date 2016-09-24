@@ -10,13 +10,20 @@
 
 #include <bitset>
 #include <cmath>
-#include <fstream>
 #include <sstream>
 
 // mfb(t_flag) converts a flag to a bit for insertion into a bitfield
 #ifndef mfb
 #define mfb(n) static_cast <unsigned long> (1 << (n))
 #endif
+
+using namespace units::literals;
+
+template<typename V, typename B>
+inline units::quantity<V, B> rng( const units::quantity<V, B> &min, const units::quantity<V, B> &max )
+{
+    return units::quantity<V, B>( rng( min.value(), max.value() ), B{} );
+}
 
 std::vector<art_effect_passive> fill_good_passive();
 std::vector<art_effect_passive> fill_bad_passive();
@@ -129,7 +136,7 @@ enum artifact_natural_shape {
 struct artifact_shape_datum {
     std::string name;
     std::string desc;
-    int volume_min, volume_max;
+    units::volume volume_min, volume_max;
     int weight_min, weight_max;
 };
 
@@ -158,7 +165,7 @@ struct artifact_tool_form_datum {
     nc_color color;
     // Most things had 0 to 1 material.
     material_id material;
-    int volume_min, volume_max;
+    units::volume volume_min, volume_max;
     int weight_min, weight_max;
     artifact_weapon_type base_weapon;
     artifact_weapon_type extra_weapons[3];
@@ -176,7 +183,8 @@ enum artifact_tool_form {
 
 struct artifact_weapon_datum {
     std::string adjective;
-    int volume, weight; // Only applicable if this is an *extra* weapon
+    units::volume volume;
+    int weight; // Only applicable if this is an *extra* weapon
     int bash_min, bash_max;
     int cut_min, cut_max;
     int to_hit_min, to_hit_max;
@@ -199,13 +207,14 @@ struct artifact_armor_form_datum {
     nc_color color;
     // Most things had 0 to 1 material.
     material_id material;
-    int volume, weight;
+    units::volume volume;
+    int weight;
     int encumb;
     int coverage;
     int thickness;
     int env_resist;
     int warmth;
-    int storage;
+    units::volume storage;
     int melee_bash, melee_cut, melee_hit;
     std::bitset<num_bp> covers;
     bool plural;
@@ -251,14 +260,14 @@ it_artifact_tool::it_artifact_tool() : itype()
     price = 0;
     tool->charges_per_use = 1;
     artifact->charge_type = ARTC_NULL;
-    use_methods.push_back( &iuse::artifact );
+    use_methods.emplace( "ARTIFACT", use_function( "ARTIFACT", &iuse::artifact ) );
 }
 
 it_artifact_tool::it_artifact_tool( JsonObject &jo ) : itype()
 {
     tool.reset( new islot_tool() );
     artifact.reset( new islot_artifact() );
-    use_methods.push_back( &iuse::artifact );
+    use_methods.emplace( "ARTIFACT", use_function( "ARTIFACT", &iuse::artifact ) );
     deserialize( jo );
 }
 
@@ -280,24 +289,24 @@ it_artifact_armor::it_artifact_armor( JsonObject &jo ) : itype()
 void init_artifacts()
 {
     artifact_shape_datum tmp_artifact_shape_data[ARTSHAPE_MAX] = {
-        {"BUG", "BUG", 0, 0, 0, 0},
-        {_("sphere"), _("smooth sphere"), 2, 4, 1, 1150},
-        {_("rod"), _("tapered rod"), 1, 7, 1, 800},
-        {_("teardrop"), _("teardrop-shaped stone"), 2, 6, 1, 950},
-        {_("lamp"), _("hollow, transparent cube"), 4, 9, 1, 350},
-        {_("snake"), _("winding, flexible rod"), 0, 8, 1, 950},
-        {_("disc"), _("smooth disc"), 4, 6, 200, 400},
-        {_("beads"), _("string of beads"), 3, 7, 1, 700},
-        {_("napkin"), _("very thin sheet"), 0, 3, 1, 350},
-        {_("urchin"), _("spiked sphere"), 3, 5, 200, 700},
-        {_("jelly"), _("malleable blob"), 2, 8, 200, 450},
-        {_("spiral"), _("spiraling rod"), 5, 6, 200, 350},
-        {_("pin"), _("pointed rod"), 1, 5, 100, 1050},
-        {_("tube"), _("hollow tube"), 2, 5, 350, 700},
-        {_("pyramid"), _("regular tetrahedron"), 3, 7, 200, 450},
-        {_("crystal"), _("translucent crystal"), 1, 6, 200, 800},
-        {_("knot"), _("twisted, knotted cord"), 2, 6, 100, 800},
-        {_("crescent"), _("crescent-shaped stone"), 2, 6, 200, 700}
+        {"BUG", "BUG", 0_ml, 0_ml, 0, 0},
+        {_("sphere"), _("smooth sphere"), 500_ml, 1000_ml, 1, 1150},
+        {_("rod"), _("tapered rod"), 250_ml, 1750_ml, 1, 800},
+        {_("teardrop"), _("teardrop-shaped stone"), 500_ml, 1500_ml, 1, 950},
+        {_("lamp"), _("hollow, transparent cube"), 1000_ml, 225_ml, 1, 350},
+        {_("snake"), _("winding, flexible rod"), 0_ml, 2000_ml, 1, 950},
+        {_("disc"), _("smooth disc"), 1000_ml, 1500_ml, 200, 400},
+        {_("beads"), _("string of beads"), 750_ml, 1750_ml, 1, 700},
+        {_("napkin"), _("very thin sheet"), 0_ml, 750_ml, 1, 350},
+        {_("urchin"), _("spiked sphere"), 750_ml, 1250_ml, 200, 700},
+        {_("jelly"), _("malleable blob"), 500_ml, 2000_ml, 200, 450},
+        {_("spiral"), _("spiraling rod"), 1250_ml, 1500_ml, 200, 350},
+        {_("pin"), _("pointed rod"), 250_ml, 1250_ml, 100, 1050},
+        {_("tube"), _("hollow tube"), 500_ml, 1250_ml, 350, 700},
+        {_("pyramid"), _("regular tetrahedron"), 750_ml, 1750_ml, 200, 450},
+        {_("crystal"), _("translucent crystal"), 250_ml, 1500_ml, 200, 800},
+        {_("knot"), _("twisted, knotted cord"), 500_ml, 1500_ml, 100, 800},
+        {_("crescent"), _("crescent-shaped stone"), 500_ml, 1500_ml, 200, 700}
     };
     for(int i = 0; i < ARTSHAPE_MAX; i++) {
         artifact_shape_data[i] = tmp_artifact_shape_data[i];
@@ -439,32 +448,32 @@ void init_artifacts()
 
     artifact_tool_form_datum tmp_artifact_tool_form_data[NUM_ARTTOOLFORMS] = {
         {
-            "", '*', c_white, material_id( "null" ), 0, 0, 0, 0, ARTWEAP_BULK,
+            "", '*', c_white, material_id( "null" ), 0_ml, 0_ml, 0, 0, ARTWEAP_BULK,
             {ARTWEAP_NULL, ARTWEAP_NULL, ARTWEAP_NULL}
         },
 
         {
-            _("Harp"), ';', c_yellow, material_id( "wood" ), 20, 30, 1150, 2100, ARTWEAP_BULK,
+            _("Harp"), ';', c_yellow, material_id( "wood" ), 5000_ml, 7500_ml, 1150, 2100, ARTWEAP_BULK,
             {ARTWEAP_SPEAR, ARTWEAP_SWORD, ARTWEAP_KNIFE}
         },
 
         {
-            _("Staff"), '/', c_brown, material_id( "wood" ), 6, 12, 450, 1150, ARTWEAP_CLUB,
+            _("Staff"), '/', c_brown, material_id( "wood" ), 1500_ml, 3000_ml, 450, 1150, ARTWEAP_CLUB,
             {ARTWEAP_BULK, ARTWEAP_SPEAR, ARTWEAP_KNIFE}
         },
 
         {
-            _("Sword"), '/', c_ltblue, material_id( "steel" ), 8, 14, 900, 3259, ARTWEAP_SWORD,
+            _("Sword"), '/', c_ltblue, material_id( "steel" ), 2000_ml, 3500_ml, 900, 3259, ARTWEAP_SWORD,
             {ARTWEAP_BULK, ARTWEAP_NULL, ARTWEAP_NULL}
         },
 
         {
-            _("Dagger"), ';', c_ltblue, material_id( "steel" ), 1, 4, 100, 700, ARTWEAP_KNIFE,
+            _("Dagger"), ';', c_ltblue, material_id( "steel" ), 250_ml, 1000_ml, 100, 700, ARTWEAP_KNIFE,
             {ARTWEAP_NULL, ARTWEAP_NULL, ARTWEAP_NULL}
         },
 
         {
-            _("Cube"), '*', c_white, material_id( "steel" ), 1, 3, 100, 2300, ARTWEAP_BULK,
+            _("Cube"), '*', c_white, material_id( "steel" ), 250_ml, 750_ml, 100, 2300, ARTWEAP_BULK,
             {ARTWEAP_SPEAR, ARTWEAP_NULL, ARTWEAP_NULL}
         }
     };
@@ -473,13 +482,13 @@ void init_artifacts()
     }
 
     artifact_weapon_datum tmp_artifact_weapon_data[NUM_ARTWEAPS] = {
-        {"", 0, 0, 0, 0, 0, 0, 0, 0, ""},
+        {"", 0_ml, 0, 0, 0, 0, 0, 0, 0, ""},
         // Adjective     Vol,wgt   Bash       Cut     To-Hit   tags
-        {_("Heavy"),     0, 1400,  10, 20,    0,  0,   -2,  0,  ""},
-        {_("Knobbed"),   1, 250,   14, 30,    0,  0,   -1,  1,  ""},
-        {_("Spiked"),    1, 100,    0,  0,   20, 40,   -1,  1,  "SPEAR"},
-        {_("Edged"),     2, 450,    0,  0,   20, 50,   -1,  2,  "CHOP"},
-        {_("Bladed"),    1, 2250,   0,  0,   12, 30,   -1,  1,  "STAB"}
+        {_("Heavy"),     0_ml, 1400,  10, 20,    0,  0,   -2,  0,  ""},
+        {_("Knobbed"),   250_ml, 250,   14, 30,    0,  0,   -1,  1,  ""},
+        {_("Spiked"),    250_ml, 100,    0,  0,   20, 40,   -1,  1,  "SPEAR"},
+        {_("Edged"),     500_ml, 450,    0,  0,   20, 50,   -1,  2,  "CHOP"},
+        {_("Bladed"),    250_ml, 2250,   0,  0,   12, 30,   -1,  1,  "STAB"}
     };
     for(int i = 0; i < NUM_ARTWEAPS; i++) {
         artifact_weapon_data[i] = tmp_artifact_weapon_data[i];
@@ -487,13 +496,13 @@ void init_artifacts()
 
     artifact_armor_form_datum tmp_artifact_armor_form_data[NUM_ARTARMFORMS] = {
         {
-            "", c_white, material_id( "null" ),        0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+            "", c_white, material_id( "null" ),        0_ml,  0,  0,  0,  0,  0,  0,  0_ml,  0,  0,  0,
             0, false,
             {ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL}
         },
         // Name    color  Material         Vol Wgt Enc Cov Thk Env Wrm Sto Bsh Cut Hit
         {
-            _("Robe"),   c_red, material_id( "wool" ),    6, 700,  1,  90,  3,  0,  2,  0, -8,  0, -3,
+            _("Robe"),   c_red, material_id( "wool" ),    1500_ml, 700,  1,  90,  3,  0,  2,  0_ml, -8,  0, -3,
             mfb(bp_torso) | mfb(bp_leg_l) | mfb(bp_leg_r), false,
             {
                 ARMORMOD_LIGHT, ARMORMOD_BULKY, ARMORMOD_POCKETED, ARMORMOD_FURRED,
@@ -502,7 +511,7 @@ void init_artifacts()
         },
 
         {
-            _("Coat"),   c_brown, material_id( "leather" ),   14, 1600,  2,  80, 2,  1,  4,  4, -6,  0, -3,
+            _("Coat"),   c_brown, material_id( "leather" ),   3500_ml, 1600,  2,  80, 2,  1,  4,  1000_ml, -6,  0, -3,
             mfb(bp_torso), false,
             {
                 ARMORMOD_LIGHT, ARMORMOD_POCKETED, ARMORMOD_FURRED, ARMORMOD_PADDED,
@@ -511,7 +520,7 @@ void init_artifacts()
         },
 
         {
-            _("Mask"),   c_white, material_id( "wood" ),      4, 100,  2,  50, 2,  1,  2,  0,  2,  0, -2,
+            _("Mask"),   c_white, material_id( "wood" ),      1000_ml, 100,  2,  50, 2,  1,  2,  0_ml,  2,  0, -2,
             mfb(bp_eyes) | mfb(bp_mouth), false,
             {
                 ARMORMOD_FURRED, ARMORMOD_FURRED, ARMORMOD_NULL, ARMORMOD_NULL,
@@ -521,7 +530,7 @@ void init_artifacts()
 
         // Name    color  Materials             Vol  Wgt Enc Cov Thk Env Wrm Sto Bsh Cut Hit
         {
-            _("Helm"),   c_dkgray, material_id( "silver" ),    6, 700,  2,  85, 3,  0,  1,  0,  8,  0, -2,
+            _("Helm"),   c_dkgray, material_id( "silver" ),    1500_ml, 700,  2,  85, 3,  0,  1,  0_ml,  8,  0, -2,
             mfb(bp_head), false,
             {
                 ARMORMOD_BULKY, ARMORMOD_FURRED, ARMORMOD_PADDED, ARMORMOD_PLATED,
@@ -530,7 +539,7 @@ void init_artifacts()
         },
 
         {
-            _("Gloves"), c_ltblue, material_id( "leather" ), 2, 100,  1,  90,  3,  1,  2,  0, -4,  0, -2,
+            _("Gloves"), c_ltblue, material_id( "leather" ), 500_ml, 100,  1,  90,  3,  1,  2,  0_ml, -4,  0, -2,
             mfb(bp_hand_l) | mfb(bp_hand_r), true,
             {
                 ARMORMOD_BULKY, ARMORMOD_FURRED, ARMORMOD_PADDED, ARMORMOD_PLATED,
@@ -540,7 +549,7 @@ void init_artifacts()
 
         // Name    color  Materials            Vol  Wgt Enc Cov Thk Env Wrm Sto Bsh Cut Hit
         {
-            _("Boots"), c_blue, material_id( "leather" ),     6, 250,  1,  75,  3,  1,  3,  0,  4,  0, -1,
+            _("Boots"), c_blue, material_id( "leather" ),     1500_ml, 250,  1,  75,  3,  1,  3,  0_ml,  4,  0, -1,
             mfb(bp_foot_l) | mfb(bp_foot_r), true,
             {
                 ARMORMOD_LIGHT, ARMORMOD_BULKY, ARMORMOD_PADDED, ARMORMOD_PLATED,
@@ -549,7 +558,7 @@ void init_artifacts()
         },
 
         {
-            _("Ring"), c_ltgreen, material_id( "silver" ),   0,  4,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+            _("Ring"), c_ltgreen, material_id( "silver" ),   0_ml,  4,  0,  0,  0,  0,  0,  0_ml,  0,  0,  0,
             0, true,
             {ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL}
         }
@@ -562,45 +571,45 @@ void init_artifacts()
     artifact_armor_form_datum tmp_artifact_armor_mod_data[NUM_ARMORMODS] = {
 
         {
-            "", c_white, material_id( "null" ), 0,  0,  0,  0,  0,  0,  0,  0,  0, 0, 0, 0, false,
+            "", c_white, material_id( "null" ), 0_ml,  0,  0,  0,  0,  0,  0,  0_ml,  0, 0, 0, 0, false,
             {ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL}
         },
         // Description; "It is ..." or "They are ..."
         {
             _("very thin and light."), c_white, material_id( "null" ),
             // Vol   Wgt Enc Cov Thk Env Wrm Sto
-            -4, -950, -2, -1, -1, -1, -1,  0, 0, 0, 0, 0,  false,
+            -1000_ml, -950, -2, -1, -1, -1, -1,  0_ml, 0, 0, 0, 0,  false,
             {ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL}
         },
 
         {
             _("extremely bulky."), c_white, material_id( "null" ),
-            8, 1150,  2,  1,  1,  0,  1,  0, 0, 0, 0, 0,  false,
+            2000_ml, 1150,  2,  1,  1,  0,  1,  0_ml, 0, 0, 0, 0,  false,
             {ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL}
         },
 
         {
             _("covered in pockets."), c_white, material_id( "null" ),
-            1, 150,  1,  0,  0,  0,  0, 16, 0, 0, 0, 0,  false,
+            250_ml, 150,  1,  0,  0,  0,  0, 4000_ml, 0, 0, 0, 0,  false,
             {ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL}
         },
 
         {
             _("disgustingly furry."), c_white, material_id( "wool" ),
             // Vol  Wgt Enc Dmg Cut Env Wrm Sto
-            4, 250,  1,  1,  1,  1,  3,  0, 0, 0, 0, 0,  false,
+            1000_ml, 250,  1,  1,  1,  1,  3,  0_ml, 0, 0, 0, 0,  false,
             {ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL}
         },
 
         {
             _("leather-padded."), c_white, material_id( "leather" ),
-            4, 450,  1, 1,  1,  0,  1, -3, 0, 0, 0, 0,  false,
+            1000_ml, 450,  1, 1,  1,  0,  1, -750_ml, 0, 0, 0, 0,  false,
             {ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL}
         },
 
         {
             _("plated in iron."), c_white, material_id( "iron" ),
-            4, 1400,  3,  2, 2,  0,  1, -4, 0, 0, 0, 0, false,
+            1000_ml, 1400,  3,  2, 2,  0,  1, -1000_ml, 0, 0, 0, 0, false,
             {ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL}
         },
 
@@ -639,8 +648,8 @@ void it_artifact_tool::create_name(const std::string &type)
 
 void it_artifact_tool::create_name(const std::string &property_name, const std::string &shape_name)
 {
-    name = rmp_format(_("<artifact_name>%1$s %2$s"), property_name.c_str(),
-                      shape_name.c_str());
+    name = string_format( pgettext( "artifact name (property, shape)", "%1$s %2$s" ), property_name.c_str(),
+                          shape_name.c_str() );
     name_plural = name;
 }
 
@@ -660,7 +669,7 @@ std::string new_artifact()
         artifact_tool_form_datum *info = &(artifact_tool_form_data[form]);
         art->create_name(info->name);
         art->color = info->color;
-        art->sym = info->sym;
+        art->sym = std::string( 1, info->sym );
         art->materials.push_back(info->material);
         art->volume = rng(info->volume_min, info->volume_max);
         art->weight = rng(info->weight_min, info->weight_max);
@@ -685,7 +694,7 @@ std::string new_artifact()
                 if( weapon->tag != "" ) {
                     art->item_tags.insert(weapon->tag);
                 }
-                std::stringstream newname;
+                std::ostringstream newname;
                 newname << weapon->adjective << " " << info->name;
                 art->create_name(newname.str());
             }
@@ -774,7 +783,7 @@ std::string new_artifact()
             art->artifact->charge_type = ARTC_NULL;    // 1 in 8 chance that it can't recharge!
         }
         item_controller->add_item_type( art );
-        return art->id;
+        return art->get_id();
     } else { // Generate an armor artifact
 
         it_artifact_armor *art = new it_artifact_armor();
@@ -782,7 +791,7 @@ std::string new_artifact()
         artifact_armor_form_datum *info = &(artifact_armor_form_data[form]);
 
         art->create_name(info->name);
-        art->sym = '['; // Armor is always [
+        art->sym = "["; // Armor is always [
         art->color = info->color;
         art->materials.push_back(info->material);
         art->volume = info->volume;
@@ -797,7 +806,7 @@ std::string new_artifact()
         art->armor->env_resist = info->env_resist;
         art->armor->warmth = info->warmth;
         art->armor->storage = info->storage;
-        std::stringstream description;
+        std::ostringstream description;
         description << string_format(info->plural ?
                                      _("This is the %s.\nThey are the only ones of their kind.") :
                                      _("This is the %s.\nIt is the only one of its kind."),
@@ -809,10 +818,10 @@ std::string new_artifact()
             if (info->available_mods[index] != ARMORMOD_NULL) {
                 artifact_armor_mod mod = info->available_mods[index];
                 artifact_armor_form_datum *modinfo = &(artifact_armor_mod_data[mod]);
-                if( modinfo->volume >= 0 || art->volume > std::abs( modinfo->volume ) ) {
+                if( modinfo->volume >= 0 || art->volume > -modinfo->volume ) {
                     art->volume += modinfo->volume;
                 } else {
-                    art->volume = 1;
+                    art->volume = 250_ml;
                 }
 
                 if( modinfo->weight >= 0 || art->weight > std::abs( modinfo->weight ) ) {
@@ -842,7 +851,7 @@ std::string new_artifact()
                 }
                 art->armor->warmth += modinfo->warmth;
 
-                if( modinfo->storage > 0 || art->armor->storage > std::abs( modinfo->storage ) ) {
+                if( modinfo->storage > 0 || art->armor->storage > -modinfo->storage ) {
                     art->armor->storage += modinfo->storage;
                 } else {
                     art->armor->storage = 0;
@@ -878,7 +887,7 @@ std::string new_artifact()
             art->artifact->effects_worn.push_back(passive_tmp);
         }
         item_controller->add_item_type( art );
-        return art->id;
+        return art->get_id();
     }
 }
 
@@ -896,7 +905,7 @@ std::string new_natural_artifact(artifact_natural_property prop)
                                                   ARTPROP_MAX - 1)));
     artifact_property_datum *property_data = &(artifact_property_data[property]);
 
-    art->sym = ':';
+    art->sym = ":";
     art->color = c_yellow;
     art->materials.push_back( material_id( "stone" ) );
     art->volume = rng(shape_data->volume_min, shape_data->volume_max);
@@ -906,8 +915,8 @@ std::string new_natural_artifact(artifact_natural_property prop)
     art->m_to_hit = 0;
 
     art->create_name(property_data->name, shape_data->name);
-    art->description = rmp_format(_("<artifact_desc>This %1$s %2$s."), shape_data->desc.c_str(),
-                                  property_data->desc.c_str());
+    art->description = string_format( pgettext( "artifact description", "This %1$s %2$s." ),
+                                      shape_data->desc.c_str(), property_data->desc.c_str() );
 
     // Three possibilities: good passive + bad passive, good active + bad active,
     // and bad passive + good active
@@ -984,7 +993,7 @@ std::string new_natural_artifact(artifact_natural_property prop)
         art->artifact->charge_type = art_charge( rng(ARTC_NULL + 1, NUM_ARTCS - 1) );
     }
     item_controller->add_item_type( art );
-    return art->id;
+    return art->get_id();
 }
 
 // Make a special debugging artifact.
@@ -996,7 +1005,7 @@ std::string architects_cube()
     artifact_tool_form_datum *info = &(artifact_tool_form_data[ARTTOOLFORM_CUBE]);
     art->create_name(info->name);
     art->color = info->color;
-    art->sym = info->sym;
+    art->sym = std::string( 1, info->sym );
       art->materials.push_back(info->material);
     art->volume = rng(info->volume_min, info->volume_max);
     art->weight = rng(info->weight_min, info->weight_max);
@@ -1012,7 +1021,7 @@ std::string architects_cube()
     art->description = _("The architect's cube.");
     art->artifact->effects_carried.push_back(AEP_SUPER_CLAIRVOYANCE);
     item_controller->add_item_type( art );
-    return art->id;
+    return art->get_id();
 }
 
 std::vector<art_effect_passive> fill_good_passive()
@@ -1054,11 +1063,10 @@ std::vector<art_effect_active> fill_bad_active()
 std::string artifact_name(std::string type)
 {
     std::string ret;
-    const char *fmtstr = _("<artifact_name>%1$s of %2$s");
     std::string noun = artifact_noun[rng(0, NUM_ART_NOUNS - 1)];
     std::string adj = artifact_adj[rng(0, NUM_ART_ADJS - 1)];
     ret = string_format(noun, adj.c_str());
-    ret = rmp_format(fmtstr, type.c_str(), ret.c_str());
+    ret = string_format( pgettext( "artifact name (type, noun)", "%1$s of %2$s" ), type.c_str(), ret.c_str() );
     return ret;
 }
 
@@ -1067,49 +1075,34 @@ std::string artifact_name(std::string type)
 
 void load_artifacts(const std::string &artfilename)
 {
-    std::ifstream file_test(artfilename.c_str(),
-                            std::ifstream::in | std::ifstream::binary);
-    if (!file_test.good()) {
-        file_test.close();
-        return;
-    }
-
-    try {
-        load_artifacts_from_ifstream(file_test);
-    } catch( const JsonError &e ) {
-        debugmsg("%s: %s", artfilename.c_str(), e.c_str());
-    }
-
-    file_test.close();
-}
-
-void load_artifacts_from_ifstream(std::ifstream &f)
-{
-    // read and create artifacts from json array in artifacts.gsav
-    JsonIn artifact_json(f);
-    artifact_json.start_array();
-    while (!artifact_json.end_array()) {
-        JsonObject jo = artifact_json.get_object();
-        std::string type = jo.get_string("type");
-        if (type == "artifact_tool") {
-            it_artifact_tool *art = new it_artifact_tool(jo);
-            item_controller->add_item_type( art );
-        } else if (type == "artifact_armor") {
-            it_artifact_armor *art = new it_artifact_armor(jo);
-            item_controller->add_item_type( art );
-        } else {
-            jo.throw_error( "unrecognized artifact type.", "type" );
+    read_from_file_optional( artfilename, []( JsonIn &artifact_json ) {
+        artifact_json.start_array();
+        while (!artifact_json.end_array()) {
+            JsonObject jo = artifact_json.get_object();
+            std::string type = jo.get_string("type");
+            if (type == "artifact_tool") {
+                it_artifact_tool *art = new it_artifact_tool(jo);
+                item_controller->add_item_type( art );
+            } else if (type == "artifact_armor") {
+                it_artifact_armor *art = new it_artifact_armor(jo);
+                item_controller->add_item_type( art );
+            } else {
+                jo.throw_error( "unrecognized artifact type.", "type" );
+            }
         }
-    }
+    } );
 }
-
 
 void it_artifact_tool::deserialize(JsonObject &jo)
 {
     id = jo.get_string("id");
     name = jo.get_string("name");
     description = jo.get_string("description");
-    sym = jo.get_int("sym");
+    if( jo.has_int( "sym" ) ) {
+        sym = std::string( 1, jo.get_int( "sym" ) );
+    } else {
+        sym = jo.get_string( "sym" );
+    }
     color = jo.get_int("color");
     price = jo.get_int("price");
     // LEGACY: Since it seems artifacts get serialized out to disk, and they're
@@ -1130,7 +1123,7 @@ void it_artifact_tool::deserialize(JsonObject &jo)
             materials.push_back( material_id ( jarr.get_string( i ) ) );
         }
     }
-    volume = jo.get_int("volume");
+    volume = jo.get_int("volume") * units::legacy_volume_factor;
     weight = jo.get_int("weight");
     melee_dam = jo.get_int("melee_dam");
     melee_cut = jo.get_int("melee_cut");
@@ -1142,7 +1135,7 @@ void it_artifact_tool::deserialize(JsonObject &jo)
 
     tool->charges_per_use = jo.get_int("charges_per_use");
     tool->turns_per_charge = jo.get_int("turns_per_charge");
-    tool->ammo_id = jo.get_string("ammo");
+    tool->ammo_id = ammotype( jo.get_string("ammo") );
     tool->revert_to = jo.get_string("revert_to");
 
     artifact->charge_type = (art_charge)jo.get_int("charge_type");
@@ -1175,7 +1168,11 @@ void it_artifact_armor::deserialize(JsonObject &jo)
     id = jo.get_string("id");
     name = jo.get_string("name");
     description = jo.get_string("description");
-    sym = jo.get_int("sym");
+    if( jo.has_int( "sym" ) ) {
+        sym = std::string( 1, jo.get_int( "sym" ) );
+    } else {
+        sym = jo.get_string( "sym" );
+    }
     color = jo.get_int("color");
     price = jo.get_int("price");
     // LEGACY: Since it seems artifacts get serialized out to disk, and they're
@@ -1196,7 +1193,7 @@ void it_artifact_armor::deserialize(JsonObject &jo)
             materials.push_back( material_id( jarr.get_string( i ) ) );
         }
     }
-    volume = jo.get_int("volume");
+    volume = jo.get_int("volume") * units::legacy_volume_factor;
     weight = jo.get_int("weight");
     melee_dam = jo.get_int("melee_dam");
     melee_cut = jo.get_int("melee_cut");
@@ -1209,7 +1206,7 @@ void it_artifact_armor::deserialize(JsonObject &jo)
     armor->thickness = jo.get_int("material_thickness");
     armor->env_resist = jo.get_int("env_resist");
     armor->warmth = jo.get_int("warmth");
-    armor->storage = jo.get_int("storage");
+    armor->storage = jo.get_int("storage") * units::legacy_volume_factor;
     armor->power_armor = jo.get_bool("power_armor");
 
     JsonArray ja = jo.get_array("effects_worn");
@@ -1266,7 +1263,7 @@ void it_artifact_tool::serialize(JsonOut &json) const
         json.write(mat);
     }
     json.end_array();
-    json.member("volume", volume);
+    json.member("volume", volume / units::legacy_volume_factor);
     json.member("weight", weight);
     json.member("melee_dam", melee_dam);
     json.member("melee_cut", melee_cut);
@@ -1311,7 +1308,7 @@ void it_artifact_armor::serialize(JsonOut &json) const
         json.write(mat);
     }
     json.end_array();
-    json.member("volume", volume);
+    json.member("volume", volume / units::legacy_volume_factor);
     json.member("weight", weight);
     json.member("melee_dam", melee_dam);
     json.member("melee_cut", melee_cut);
@@ -1328,7 +1325,7 @@ void it_artifact_armor::serialize(JsonOut &json) const
     json.member("material_thickness", armor->thickness);
     json.member("env_resist", armor->env_resist);
     json.member("warmth", armor->warmth);
-    json.member("storage", armor->storage);
+    json.member("storage", armor->storage / units::legacy_volume_factor);
     json.member("power_armor", armor->power_armor);
 
     // artifact data

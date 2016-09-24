@@ -15,7 +15,6 @@
 #include "vehicle.h"
 #include "submap.h"
 
-#include <fstream>
 #include <sstream>
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_MAP) << __FILE__ << ":" << __LINE__ << ": "
@@ -400,13 +399,21 @@ submap *mapbuffer::unserialize_submaps( const tripoint &p )
               segment_addr.x << "." << segment_addr.y << "." << segment_addr.z << "/" <<
               om_addr.x << "." << om_addr.y << "." << om_addr.z << ".map";
 
-    std::ifstream fin( quad_path.str().c_str() );
-    if( !fin.is_open() ) {
+    using namespace std::placeholders;
+    if( !read_from_file_optional( quad_path.str(), std::bind( &mapbuffer::deserialize, this, _1 ) ) ) {
         // If it doesn't exist, trigger generating it.
         return NULL;
     }
+    if( submaps.count( p ) == 0 ) {
+        debugmsg("file %s did not contain the expected submap %d,%d,%d", quad_path.str().c_str(), p.x, p.y,
+                 p.z);
+        return NULL;
+    }
+    return submaps[ p ];
+}
 
-    JsonIn jsin( fin );
+void mapbuffer::deserialize( JsonIn &jsin )
+{
     jsin.start_array();
     while( !jsin.end_array() ) {
         std::unique_ptr<submap> sm(new submap());
@@ -443,17 +450,17 @@ submap *mapbuffer::unserialize_submaps( const tripoint &p )
 
                             if ( tid == "t_rubble" ) {
                                 sm->ter[i][j] = ter_id( "t_dirt" );
-                                sm->frn[i][j] = furnmap[ "f_rubble" ].loadid;
+                                sm->frn[i][j] = furn_id( "f_rubble" );
                                 sm->itm[i][j].push_back( rock );
                                 sm->itm[i][j].push_back( rock );
                             } else if ( tid == "t_wreckage" ){
                                 sm->ter[i][j] = ter_id( "t_dirt" );
-                                sm->frn[i][j] = furnmap[ "f_wreckage" ].loadid;
+                                sm->frn[i][j] = furn_id( "f_wreckage" );
                                 sm->itm[i][j].push_back( chunk );
                                 sm->itm[i][j].push_back( chunk );
                             } else if ( tid == "t_ash" ){
                                 sm->ter[i][j] = ter_id(  "t_dirt" );
-                                sm->frn[i][j] = furnmap[ "f_ash" ].loadid;
+                                sm->frn[i][j] = furn_id( "f_ash" );
                             } else if ( tid == "t_pwr_sb_support_l" ){
                                 sm->ter[i][j] = ter_id(  "t_support_l" );
                             } else if ( tid == "t_pwr_sb_switchgear_l" ){
@@ -493,7 +500,7 @@ submap *mapbuffer::unserialize_submaps( const tripoint &p )
                     jsin.start_array();
                     int i = jsin.get_int();
                     int j = jsin.get_int();
-                    sm->frn[i][j] = furnmap[ jsin.get_string() ].loadid;
+                    sm->frn[i][j] = furn_id( jsin.get_string() );
                     jsin.end_array();
                 }
             } else if( submap_member_name == "items" ) {
@@ -606,10 +613,4 @@ submap *mapbuffer::unserialize_submaps( const tripoint &p )
                       submap_coordinates.z );
         }
     }
-    if( submaps.count( p ) == 0 ) {
-        debugmsg("file %s did not contain the expected submap %d,%d,%d", quad_path.str().c_str(), p.x, p.y,
-                 p.z);
-        return NULL;
-    }
-    return submaps[ p ];
 }

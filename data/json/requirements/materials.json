@@ -1,0 +1,32 @@
+[
+  {
+    "id": "adhesive",
+    "type": "requirement",
+    "//": "Materials used for joining (typically non-metallic) parts",
+    "components": [ [ [ "duct_tape", 25 ], [ "superglue", 1 ], [ "bone_glue", 1 ] ] ]
+  },
+  {
+    "id": "ammo_bullet",
+    "type": "requirement",
+    "//": "Materials used when forming bullets",
+    "components": [ [ [ "lead", 1 ], [ "bismuth", 1 ], [ "silver_small", 1 ], [ "gold_small", 1 ] ] ]
+  },
+  {
+    "id": "fabric_standard",
+    "type": "requirement",
+    "//": "Materials used for crafting or repairing clothing or sheeting",
+    "components": [ [ [ "rag", 1 ], [ "leather", 1 ], [ "nomex", 1 ], [ "neoprene", 1 ] ] ]
+  },
+  {
+    "id": "steel_standard",
+    "type": "requirement",
+    "//": "Materials for use when forging items from steel",
+    "components": [ [ [ "steel_lump", 1 ], [ "steel_chunk", 4 ], [ "scrap", 20 ] ] ]
+  },
+  {
+    "id": "steel_tiny",
+    "type": "requirement",
+    "//": "Materials for use when forging atypically small items from steel",
+    "components": [ [ [ "steel_chunk", 1 ], [ "scrap", 5 ] ] ]
+  }
+]

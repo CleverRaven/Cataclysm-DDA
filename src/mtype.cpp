@@ -176,6 +176,8 @@ itype_id mtype::get_meat_itype() const
             return "meat_tainted";
         } else if( made_of( material_id( "veggy" ) ) ) {
             return "veggy_tainted";
+        } else if( made_of( material_id( "bone" ) ) ) {
+            return "bone_tainted";
         }
     } else {
         if( made_of( material_id( "flesh" ) ) || made_of( material_id( "hflesh" ) ) ) {
@@ -186,16 +188,33 @@ itype_id mtype::get_meat_itype() const
             } else {
                 return "meat";
             }
-        } else if( made_of( material_id( "bone" ) ) ) {
-            return "bone_tainted";
         } else if( made_of( material_id( "iflesh" ) ) ) {
             //In the future, insects could drop insect flesh rather than plain ol' meat.
             return "meat";
         } else if( made_of( material_id( "veggy" ) ) ) {
             return "veggy";
+        } else if( made_of( material_id( "bone" ) ) ) {
+            return "bone";
         }
     }
     return "null";
+}
+
+int mtype::get_meat_chunks_count() const
+{
+    switch( size ) {
+        case MS_TINY:
+            return 1;
+        case MS_SMALL:
+            return 2;
+        case MS_MEDIUM:
+            return 4;
+        case MS_LARGE:
+            return 8;
+        case MS_HUGE:
+            return 16;
+    }
+    return 0;
 }
 
 bool mtype_special_attack::call( monster &mon ) const

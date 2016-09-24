@@ -1,8 +1,8 @@
 #ifndef LIVE_VIEW_H
 #define LIVE_VIEW_H
 
-#include "output.h" //WINDOW_PTR
-#include "enums.h"
+#include "cursesdef.h" // WINDOW
+#include "enums.h"     // tripoint
 
 class live_view
 {

@@ -8,18 +8,18 @@
     "weight": 20,
     "volume": 1,
     "price": 1700,
-    "count": 20,
-    "stack_size": 20,
     "material": [ "steel", "powder" ],
     "symbol": "=",
     "color": "yellow",
+    "count": 20,
+    "stack_size": 20,
     "ammo_type": "3006",
     "casing": "3006_casing",
-    "damage": 64,
     "range": 65,
+    "damage": 64,
     "pierce": 4,
-    "dispersion": 25,
-    "recoil": 600,
+    "dispersion": 10,
+    "recoil": 3800,
     "effects": [ "COOKOFF" ]
   },
   {
@@ -32,11 +32,10 @@
     "price": 1200,
     "count": 10,
     "relative": {
-        "damage": -2,
-        "pierce": 6,
-        "range": -4,
-        "dispersion": 10,
-        "recoil": 20
+      "range": -4,
+      "damage": -2,
+      "pierce": 6,
+      "dispersion": 10
     },
     "extend": { "effects": [ "NEVER_MISFIRES" ] }
   },
@@ -47,7 +46,6 @@
     "name": ".30-06 M14A1 tracer",
     "name_plural": ".30-06 M14A1 tracer",
     "description": "Armor piercing incendiary .30-06 M14A1 ammunition containing tracer rounds to help keep the weapon they are fired from on target.  It penetrates all but the strongest body armor with ease.",
-    "proportional": { "dispersion": 0.8 },
     "extend": { "effects": [ "INCENDIARY" ] }
   },
   {
@@ -58,8 +56,8 @@
     "name_plural": ".30-06 M2 AP",
     "description": "Armor piercing .30-06 M2 ammunition with 168gr FMJ bullets.  It is an extremely powerful and accurate cartridge but pays for it's armor penetration abilities with lowered damage.",
     "relative": {
-        "damage": -4,
-        "pierce": 8
+      "damage": -4,
+      "pierce": 8
     }
   },
   {
@@ -69,9 +67,9 @@
     "name": "reloaded .270 Winchester",
     "name_plural": "reloaded .270 Winchester",
     "proportional": {
-        "price": 0.7,
-        "damage": 0.9,
-        "dispersion": 1.1
+      "price": 0.7,
+      "damage": 0.9,
+      "dispersion": 1.1
     },
     "extend": { "effects": [ "RECYCLED" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ] }
@@ -83,9 +81,9 @@
     "name": "reloaded .30-06 Springfield",
     "name_plural": "reloaded .30-06 Springfield",
     "proportional": {
-        "price": 0.7,
-        "damage": 0.9,
-        "dispersion": 1.1
+      "price": 0.7,
+      "damage": 0.9,
+      "dispersion": 1.1
     },
     "extend": { "effects": [ "RECYCLED" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ] }
@@ -97,9 +95,9 @@
     "name": "reloaded .30-06 incendiary",
     "name_plural": "reloaded .30-06 incendiary",
     "proportional": {
-        "price": 0.7,
-        "damage": 0.9,
-        "dispersion": 1.1
+      "price": 0.7,
+      "damage": 0.9,
+      "dispersion": 1.1
     },
     "extend": { "effects": [ "RECYCLED" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ] }
@@ -111,9 +109,9 @@
     "name": "reloaded .30-06 M2 AP",
     "name_plural": "reloaded .30-06 M2 AP",
     "proportional": {
-        "price": 0.7,
-        "damage": 0.9,
-        "dispersion": 1.1
+      "price": 0.7,
+      "damage": 0.9,
+      "dispersion": 1.1
     },
     "extend": { "effects": [ "RECYCLED" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ] }

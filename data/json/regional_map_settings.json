@@ -2,7 +2,7 @@
    {
       "type": "region_settings",
       "id": "default",                      "//": "identifier, when region_map is in it will determine alternatives ('desert' etc)",
-      "house_basement_chance": 2,           "//": "one_in(n) houses with basements",
+      "house_basement_chance": 3,           "//": "one_in(n) houses with basements",
       "default_oter": "field",              "//": "default oter_id (anything that isn't a house/road/etc) some become forests",
       "default_groundcover": {              "//": "biome settings for generic 'grass_or_dirt' (which is reproduced below",
           "primary": "t_grass",             "//": "default ter_id on ground",
@@ -158,8 +158,15 @@
               "museum": 1,
               "s_music": 2,
               "s_laundromat": 1,
-              "veterinarian": 2
+              "veterinarian": 2,
+              "mortuary": 1
           }
+      },
+      "weather": {
+        "base_temperature" : 6.5,
+        "base_humidity" : 66.0,
+        "base_pressure" : 1015.0,
+        "base_acid" : 0.0
       }
    }
 ]

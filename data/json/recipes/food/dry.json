@@ -37,7 +37,6 @@
     "skill_used": "cooking",
     "difficulty": 2,
     "time": 18000,
-    "reversible": false,
     "autolearn": true,
     "batch_time_factors": [ 67, 5 ],
     "tools": [
@@ -125,7 +124,6 @@
         [ "lettuce",    8 ], [ "irradiated_lettuce",  8 ],
         [ "veggy",      2 ],
         [ "veggy_wild", 2 ],
-        [ "plant_sac",  6 ],
         [ "dandelion_cooked", 2 ],
         [ "wild_herbs", 40 ]
       ]

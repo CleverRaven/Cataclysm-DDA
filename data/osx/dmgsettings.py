@@ -129,7 +129,7 @@ icon_size = 64
 #   label
 #   version
 #   comments
-# 
+#
 list_icon_size = 16
 list_text_size = 12
 list_scroll_position = (0, 0)

@@ -1,9 +1,6 @@
 #ifndef CRAFTING_GUI_H
 #define CRAFTING_GUI_H
 
-#include <string>
-#include <vector>
-#include <map>
 struct recipe;
 class JsonObject;
 

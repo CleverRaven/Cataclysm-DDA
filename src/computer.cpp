@@ -18,8 +18,8 @@
 #include "mtype.h"
 #include "field.h"
 #include "player.h"
+#include "text_snippets.h"
 
-#include <fstream>
 #include <string>
 #include <sstream>
 
@@ -33,7 +33,6 @@ const species_id ZOMBIE( "ZOMBIE" );
 const efftype_id effect_amigara( "amigara" );
 const efftype_id effect_stemcell_treatment( "stemcell_treatment" );
 
-std::vector<std::string> computer::lab_notes;
 int alerts = 0;
 
 computer::computer(): name(DEFAULT_COMPUTER_NAME)
@@ -239,7 +238,7 @@ bool computer::hack_attempt(player *p, int Security)
 
 std::string computer::save_data()
 {
-    std::stringstream data;
+    std::ostringstream data;
     std::string savename = name; // Replace " " with "_"
     size_t found = savename.find(" ");
     while (found != std::string::npos) {
@@ -361,9 +360,9 @@ void computer::activate_function(computer_action action, char ch)
                                     capa = std::min( sewage.charges, capa );
                                     if( elem.contents.empty() ) {
                                         elem.put_in( sewage );
-                                        elem.contents[0].charges = capa;
+                                        elem.contents.front().charges = capa;
                                     } else {
-                                        elem.contents[0].charges += capa;
+                                        elem.contents.front().charges += capa;
                                     }
                                     found_item = true;
                                     break;
@@ -382,13 +381,13 @@ void computer::activate_function(computer_action action, char ch)
     case COMPACT_RELEASE:
         g->u.add_memorial_log(pgettext("memorial_male", "Released subspace specimens."),
                               pgettext("memorial_female", "Released subspace specimens."));
-        sounds::sound(g->u.pos(), 40, _("An alarm sounds!"));
+        sounds::sound(g->u.pos(), 40, _("an alarm sound!"));
         g->m.translate_radius(t_reinforced_glass, t_floor, 25.0, g->u.pos());
         query_any(_("Containment shields opened.  Press any key..."));
         break;
 
     case COMPACT_RELEASE_BIONICS:
-        sounds::sound(g->u.pos(), 40, _("An alarm sounds!"));
+        sounds::sound(g->u.pos(), 40, _("an alarm sound!"));
         g->m.translate_radius(t_reinforced_glass, t_floor, 3.0, g->u.pos());
         query_any(_("Containment shields opened.  Press any key..."));
         break;
@@ -463,13 +462,14 @@ void computer::activate_function(computer_action action, char ch)
     break;
 
     case COMPACT_RESEARCH: {
-        std::string log;
-        if (lab_notes.empty()) {
+        // TODO: seed should probably be a member of the computer, or better: of the computer action.
+        // It is here to ensure one computer reporting the same text on each invocation.
+        const int seed = g->get_levx() + g->get_levy() + g->get_levz() + alerts;
+        std::string log = SNIPPET.get( SNIPPET.assign( "lab_notes", seed ) );
+        if( log.empty() ) {
             log = _("No data found.");
         } else {
             g->u.moves -= 70;
-            log = lab_notes[(g->get_levx() + g->get_levy() + g->get_levz() + alerts) %
-                            lab_notes.size()];
         }
 
         print_text("%s", log.c_str());
@@ -557,7 +557,7 @@ void computer::activate_function(computer_action action, char ch)
         //~ %s is terrain name
         g->u.add_memorial_log( pgettext("memorial_male", "Launched a nuke at a %s."),
                                pgettext("memorial_female", "Launched a nuke at a %s."),
-                               otermap[oter].name.c_str() );
+                               oter->name.c_str() );
         for(int x = target.x - 2; x <= target.x + 2; x++) {
             for(int y = target.y - 2; y <= target.y + 2; y++) {
                 // give it a nice rounded shape
@@ -816,14 +816,14 @@ of pureed bone & LSD."));
                         print_error(_("ERROR: Please place sample in centrifuge."));
                     } else if (g->m.i_at(x, y).size() > 1) {
                         print_error(_("ERROR: Please remove all but one sample from centrifuge."));
-                    } else if (g->m.i_at(x, y)[0].type->id != "vacutainer") {
+                    } else if (g->m.i_at(x, y)[0].typeId() != "vacutainer") {
                         print_error(_("ERROR: Please use vacutainer-contained samples."));
                     } else if (g->m.i_at(x, y)[0].contents.empty()) {
                         print_error(_("ERROR: Vacutainer empty."));
-                    } else if (g->m.i_at(x, y)[0].contents[0].type->id != "blood") {
+                    } else if (g->m.i_at(x, y)[0].contents.front().typeId() != "blood") {
                         print_error(_("ERROR: Please only use blood samples."));
                     } else { // Success!
-                        const item &blood = g->m.i_at(x, y).front().contents[0];
+                        const item &blood = g->m.i_at(x, y).front().contents.front();
                         const mtype *mt = blood.get_mtype();
                         if( mt == nullptr || mt->id == NULL_ID ) {
                             print_line(_("Result:  Human blood, no pathogens found."));
@@ -865,13 +865,13 @@ of pureed bone & LSD."));
                         print_error(_("ERROR: Please place memory bank in scan area."));
                     } else if (g->m.i_at(x, y).size() > 1) {
                         print_error(_("ERROR: Please only scan one item at a time."));
-                    } else if (g->m.i_at(x, y)[0].type->id != "usb_drive" &&
-                               g->m.i_at(x, y)[0].type->id != "black_box") {
+                    } else if (g->m.i_at(x, y)[0].typeId() != "usb_drive" &&
+                               g->m.i_at(x, y)[0].typeId() != "black_box") {
                         print_error(_("ERROR: Memory bank destroyed or not present."));
-                    } else if (g->m.i_at(x, y)[0].type->id == "usb_drive" && g->m.i_at(x, y)[0].contents.empty()) {
+                    } else if (g->m.i_at(x, y)[0].typeId() == "usb_drive" && g->m.i_at(x, y)[0].contents.empty()) {
                         print_error(_("ERROR: Memory bank is empty."));
                     } else { // Success!
-                        if (g->m.i_at(x, y)[0].type->id == "black_box") {
+                        if (g->m.i_at(x, y)[0].typeId() == "black_box") {
                             print_line(_("Memory Bank:  Military Hexron Encryption\nPrinting Transcript\n"));
                             item transcript("black_box_transcript", calendar::turn);
                             g->m.add_item_or_charges(g->u.posx(), g->u.posy(), transcript);
@@ -1225,7 +1225,7 @@ void computer::activate_failure(computer_failure fail)
     case COMPFAIL_ALARM:
         g->u.add_memorial_log(pgettext("memorial_male", "Set off an alarm."),
                               pgettext("memorial_female", "Set off an alarm."));
-        sounds::sound(g->u.pos(), 60, _("An alarm sounds!"));
+        sounds::sound(g->u.pos(), 60, _("an alarm sound!"));
         if (g->get_levz() > 0 && !g->event_queued(EVENT_WANTED)) {
             g->add_event(EVENT_WANTED, int(calendar::turn) + 300, 0, g->u.global_sm_location());
         }
@@ -1341,11 +1341,11 @@ void computer::activate_failure(computer_failure fail)
                         print_error(_("ERROR: Please place sample in centrifuge."));
                     } else if (g->m.i_at(x, y).size() > 1) {
                         print_error(_("ERROR: Please remove all but one sample from centrifuge."));
-                    } else if (g->m.i_at(x, y)[0].type->id != "vacutainer") {
+                    } else if (g->m.i_at(x, y)[0].typeId() != "vacutainer") {
                         print_error(_("ERROR: Please use vacutainer-contained samples."));
                     } else if (g->m.i_at(x, y)[0].contents.empty()) {
                         print_error(_("ERROR: Vacutainer empty."));
-                    } else if (g->m.i_at(x, y)[0].contents[0].type->id != "blood") {
+                    } else if (g->m.i_at(x, y)[0].contents.front().typeId() != "blood") {
                         print_error(_("ERROR: Please only use blood samples."));
                     } else {
                         print_error(_("ERROR: Blood sample destroyed."));
@@ -1366,7 +1366,7 @@ void computer::activate_failure(computer_failure fail)
                         print_error(_("ERROR: Please place memory bank in scan area."));
                     } else if (g->m.i_at(x, y).size() > 1) {
                         print_error(_("ERROR: Please only scan one item at a time."));
-                    } else if (g->m.i_at(x, y)[0].type->id != "usb_drive") {
+                    } else if (g->m.i_at(x, y)[0].typeId() != "usb_drive") {
                         print_error(_("ERROR: Memory bank destroyed or not present."));
                     } else if (g->m.i_at(x, y)[0].contents.empty()) {
                         print_error(_("ERROR: Memory bank is empty."));
@@ -1504,14 +1504,4 @@ void computer::reset_terminal()
 void computer::print_newline()
 {
     wprintz(w_terminal, c_green, "\n");
-}
-
-void computer::load_lab_note(JsonObject &jsobj)
-{
-    lab_notes.push_back(_(jsobj.get_string("text").c_str()));
-}
-
-void computer::clear_lab_notes()
-{
-    lab_notes.clear();
 }

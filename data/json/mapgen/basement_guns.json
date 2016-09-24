@@ -5,7 +5,7 @@
             "basement"
         ],
         "method": "json",
-        "weight": 1000,
+        "weight": 500,
         "object": {
             "rows": [
                 "  --------------------  ",

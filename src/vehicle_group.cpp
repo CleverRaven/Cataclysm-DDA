@@ -230,10 +230,10 @@ void builtin_jackknifed_semi(map& m, const std::string &terrainid)
 
 void builtin_pileup(map& m, const std::string&)
 {
-    vehicle *last_added_car = NULL;
-    int num_cars = rng(18, 22);
+    vehicle *last_added_car = nullptr;
+    int num_cars = rng(5, 12);
 
-    for(int i = 0; i < num_cars; i++) {
+    for( int i = 0; i < num_cars; i++ ) {
         const VehicleLocation* loc = vplacement_id("pileup").obj().pick();
         if(! loc) {
             debugmsg("builtin_pileup unable to get location to place vehicle.");
@@ -242,17 +242,18 @@ void builtin_pileup(map& m, const std::string&)
 
         last_added_car = m.add_vehicle(vgroup_id("city_pileup"), loc->pick_point(),
             loc->pick_facing(), -1, 1);
-    }
-
-    if (last_added_car != NULL) {
-        last_added_car->name = _("pile-up");
+        if( last_added_car != nullptr ) {
+            last_added_car->name = _("pile-up");
+        } else {
+            break;
+        }
     }
 }
 
 void builtin_policepileup(map& m, const std::string&)
 {
-    vehicle *last_added_car = NULL;
-    int num_cars = rng(18, 22);
+    vehicle *last_added_car = nullptr;
+    int num_cars = rng(5, 12);
 
     for(int i = 0; i < num_cars; i++) {
         const VehicleLocation* loc = vplacement_id("pileup").obj().pick();
@@ -263,10 +264,11 @@ void builtin_policepileup(map& m, const std::string&)
 
         last_added_car = m.add_vehicle(vgroup_id("policecar"), loc->pick_point(),
             loc->pick_facing(), -1, 1);
-    }
-
-    if (last_added_car != NULL) {
-        last_added_car->name = _("policecar pile-up");
+        if( last_added_car != nullptr ) {
+            last_added_car->name = _("pile-up");
+        } else {
+            break;
+        }
     }
 }
 

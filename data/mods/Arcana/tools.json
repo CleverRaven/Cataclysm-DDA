@@ -76,9 +76,6 @@
     "category": "weapons",
     "use_action": [
       {
-          "type": "knife"
-      },
-      {
          "type": "transform",
          "target": "blood_athame_active",
          "active": true,
@@ -107,12 +104,11 @@
     "turns_per_charge": 1,
     "revert_to": "blood_athame",
     "category": "weapons",
-    "use_action" : {
+    "use_action": {
         "type" : "consume_drug",
         "activation_message" : "Upon drawing the blade across your palm, wounds open elsewhere on your body!",
         "effects" : [ { "id" : "bleed", "bp" : "TORSO", "duration" : 100 } ]
-    },
-    "qualities": [["CUT", 1], ["BUTCHER", 3]]
+    }
   },{
     "id": "sun_sword",
     "//": "Stats were changed from resembling the medieval mod's arming sword to that of the broadsword, due to changing the recipe to start with a finished weapon.",
@@ -134,7 +130,6 @@
     "ammo": "essence_dull_type",
     "use_action": [
       "MEDITATE",
-      { "type": "knife" },
       {
         "type": "fireweapon_off",
         "target_id": "sun_sword_on",
@@ -151,7 +146,7 @@
     "color": "light_gray",
     "name": "incorruptible sword (on)",
     "name_plural": "incorruptible swords (on)",
-    "description": "This is some sort of arming sword, decorated with a golden cross motif on the blade.  The blade is giving off an intense white light, and searing heat.",
+    "description": "This is some sort of broadsword, decorated with a golden cross motif on the blade.  The blade is giving off an intense white light, and searing heat.",
     "price": 148800,
     "material": ["steel", "gold"],
     "flags" : ["FIRE", "CHOP", "LIGHT_240", "CHARGEDIM", "FLAMING", "DURABLE_MELEE", "SHEATH_SWORD"],
@@ -166,7 +161,6 @@
     "ammo": "essence_dull_type",
     "revert_to": "sun_sword",
     "use_action": [
-      { "type": "knife" },
       {
         "type": "firestarter",
         "moves_cost": 15
@@ -202,6 +196,7 @@
         "cutting" : 20,
         "price" : 52000,
         "max_charges": 1,
+        "charges_per_use": 1,
         "ammo": "essence_dull_type",
         "use_action": [
           "MEDITATE",
@@ -209,7 +204,7 @@
             "type": "transform",
             "target": "hexenhammer_active",
             "active": true,
-            "target_charges": 1,
+            "target_charges": 0,
             "msg": "\"Ave martello!\" The hammer gives off a golden light.",
             "need_charges": 1,
             "need_charges_msg": "Dull essence shall make the hammer shine.",
@@ -235,10 +230,11 @@
         "cutting" : 20,
         "price" : 52000,
         "max_charges": 1,
-        "initial_charges": 1,
+        "initial_charges": 0,
         "charges_per_use": 1,
         "turns_per_charge": 1,
         "revert_to": "hexenhammer",
+        "ammo": "NULL",
         "use_action": {
           "type": "explosion",
           "no_deactivate_msg": "\"Du nicht können halt Hammerzeit.\"",
@@ -541,7 +537,6 @@
     "category": "weapons",
     "qualities": [["CUT", 1], ["HAMMER", 2], ["HAMMER_FINE", 1], ["BUTCHER", 16]],
     "use_action": [
-      { "type": "knife" },
       {
          "type": "transform",
          "target": "bloodaxe_act",
@@ -568,10 +563,10 @@
     "max_charges": 5,
     "initial_charges": 5,
     "turns_per_charge": 1,
-    "flags" : ["DURABLE_MELEE", "CHOP", "LIGHT_8", "NO_SALVAGE"],
+    "ammo": "essence_blood_type",
+    "flags" : ["DURABLE_MELEE", "CHOP", "LIGHT_8", "NO_SALVAGE", "NO_UNLOAD", "NO_RELOAD"],
     "revert_to": "bloodaxe",
     "category": "weapons",
-    "qualities": [["CUT", 1], ["HAMMER", 2], ["HAMMER_FINE", 1], ["BUTCHER", 16]],
     "use_action": {
         "type": "explosion",
         "sound_volume": 1,
@@ -832,7 +827,6 @@
     "max_charges": 9,
     "ammo": "essence_blood_type",
     "use_action": [
-      { "type": "knife" },
       {
         "type": "transform",
         "target": "stormbringer_on",
@@ -855,7 +849,7 @@
     "description": "A two-handed sword, blade is made of a dark metal, engraved with exotic runes.  You feel as if the blade thirsts for blood, refusing to leave your grasp until it is sated.",
     "price": 160000,
     "material": ["hardsteel", "essencemat"],
-    "flags" : ["CHOP", "UNBREAKABLE_MELEE", "NO_UNWIELD", "NON_STUCK"],
+    "flags" : ["CHOP", "UNBREAKABLE_MELEE", "NO_UNWIELD", "NON_STUCK", "NO_RELOAD", "NO_UNLOAD"],
     "techniques": ["WBLOCK_1", "WIDE", "BRUTAL", "VORPAL"],
     "weight": 3176,
     "volume": 13,
@@ -865,6 +859,7 @@
     "max_charges": 9,
     "initial_charges": 9,
     "turns_per_charge": 300,
+    "ammo": "essence_blood_type",
     "revert_to": "stormbringer",
     "revert_msg": "The malevolent energy fades from the cursed blade, returning it to normal",
     "category" : "weapons",

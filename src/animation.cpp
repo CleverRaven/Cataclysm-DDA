@@ -8,8 +8,9 @@
 #include "player.h"
 #ifdef TILES
 #include "cata_tiles.h" // all animation functions will be pushed out to a cata_tiles function in some manner
+#include <memory>
 
-extern cata_tiles *tilecontext; // obtained from sdltiles.cpp
+extern std::unique_ptr<cata_tiles> tilecontext; // obtained from sdltiles.cpp
 #endif
 
 bool is_valid_in_w_terrain(int x, int y); // see game.cpp
@@ -34,7 +35,7 @@ void draw_animation_delay(long const scale = 1)
     try_sdl_update();
 #endif // TILES
 
-    auto const delay = static_cast<long>(OPTIONS["ANIMATION_DELAY"]) * scale * 1000000l;
+    auto const delay = get_option<int>( "ANIMATION_DELAY" ) * scale * 1000000l;
 
     timespec const ts = {0, delay};
     if (ts.tv_nsec > 0) {
@@ -144,6 +145,10 @@ void draw_custom_explosion_curses( game &g,
 #if defined(TILES)
 void game::draw_explosion( const tripoint &p, int const r, nc_color const col )
 {
+    if( test_mode ) {
+        return; // avoid segfault
+    }
+
     if (!use_tiles) {
         draw_explosion_curses(*this, p, r, col);
         return;
@@ -168,6 +173,10 @@ void game::draw_explosion( const tripoint &p, int const r, nc_color const col )
 
 void game::draw_custom_explosion( const tripoint &, const std::map<tripoint, nc_color> &all_area )
 {
+    if( test_mode ) {
+        return; // avoid segfault
+    }
+
     constexpr explosion_neighbors all_neighbors = N_NORTH | N_SOUTH | N_WEST | N_EAST;
     // We will "shell" the explosion area
     // Each phase will strip a single layer of points
@@ -302,8 +311,12 @@ void draw_bullet_curses(WINDOW *const w, player &u, map &m, const tripoint &t,
 {
     const tripoint vp = u.pos() + u.view_offset;
 
-    if( p != nullptr ) {
+    if( p != nullptr && p->z == vp.z ) {
         m.drawsq( w, u, *p, false, true, vp );
+    }
+
+    if( vp.z != t.z ) {
+        return;
     }
 
     mvwputch(w, POSY + (t.y - vp.y), POSX + (t.x - vp.x), c_red, bullet);
@@ -364,8 +377,7 @@ void game::draw_bullet(Creature const &p, const tripoint &t, int const i,
         return;
     }
 
-    draw_bullet_curses(w_terrain, u, m, t, bullet,
-        (i > 0) ? &trajectory[i - 1] : nullptr, p.is_player());
+    draw_bullet_curses(w_terrain, u, m, t, bullet, &trajectory[i], p.is_player());
 }
 #endif
 
@@ -404,7 +416,9 @@ void draw_hit_player_curses(game const& g, player const &p, const int dam)
                                 : red_background(p.symbol_color());
 
     tripoint const q = relative_view_pos( g.u, p.pos() );
-    hit_animation( q.x, q.y, col, p.symbol() );
+    if( q.z == 0 ) {
+        hit_animation( q.x, q.y, col, p.symbol() );
+    }
 }
 } //namespace
 

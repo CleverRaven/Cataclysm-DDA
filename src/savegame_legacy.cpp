@@ -9,11 +9,11 @@
 #include <unordered_map>
 #include <string>
 #include <sstream>
-#include <fstream>
 
 namespace std {
     template <>
     struct hash<talk_topic_enum> {
+        // Operator overload required by std API.
         std::size_t operator()(const talk_topic_enum& k) const {
             return k; // the most trivial hash of them all
         }
@@ -226,7 +226,7 @@ void item::load_info( const std::string &data )
         }
         name = name.substr(2, name.size() - 3); // s/^ '(.*)'$/\1/
     }
-    set_gun_mode( mode );
+    gun_set_mode( mode );
 
     if( idtmp == "UPS_on" ) {
         idtmp = "UPS_off";
@@ -236,12 +236,11 @@ void item::load_info( const std::string &data )
     convert( idtmp );
 
     invlet = char(lettmp);
-    damage = damtmp;
+    set_damage( damtmp );
     active = false;
     if (acttmp == 1) {
         active = true;
     }
-    set_curammo( ammotmp );
 }
 
 ///// overmap legacy deserialization, replaced with json serialization June 2015
@@ -279,18 +278,18 @@ void overmap::unserialize_legacy(std::istream & fin) {
                                     needs_conversion.emplace( tripoint( p, j, z-OVERMAP_DEPTH ),
                                                               tmp_ter );
                                 }
-                                tmp_otid = 0;
-                            } else if( otermap.count( tmp_ter ) > 0 ) {
-                                tmp_otid = tmp_ter;
+                                tmp_otid = oter_id( 0 );
+                            } else if( oter_str_id( tmp_ter ).is_valid() ) {
+                                tmp_otid = oter_id( tmp_ter );
                             } else if( tmp_ter.compare( 0, 7, "mall_a_" ) == 0 &&
-                                       otermap.count( tmp_ter + "_north" ) > 0 ) {
-                                tmp_otid = tmp_ter + "_north";
+                                       oter_str_id( tmp_ter + "_north" ).is_valid() ) {
+                                tmp_otid = oter_id( tmp_ter + "_north" );
                             } else if( tmp_ter.compare( 0, 13, "necropolis_a_" ) == 0 &&
-                                       otermap.count( tmp_ter + "_north" ) > 0 ) {
-                                tmp_otid = tmp_ter + "_north";
+                                       oter_str_id( tmp_ter + "_north" ).is_valid() ) {
+                                tmp_otid = oter_id( tmp_ter + "_north" );
                             } else {
                                 debugmsg("Loaded bad ter! ter %s", tmp_ter.c_str());
-                                tmp_otid = 0;
+                                tmp_otid = oter_id( 0 );
                             }
                         }
                         count--;
@@ -410,7 +409,7 @@ void overmap::unserialize_legacy(std::istream & fin) {
                                 // temporary; user changed option, this overmap should remain whatever it was set to.
                                 settings = rit->second; // todo optimize
                             } else { // ruh-roh! user changed option and deleted the .json with this overmap's region. We'll have to become current default. And whine about it.
-                                std::string tmpopt = ACTIVE_WORLD_OPTIONS["DEFAULT_REGION"].getValue();
+                                std::string tmpopt = get_world_option<std::string>( "DEFAULT_REGION" );
                                 rit = region_settings_map.find( tmpopt );
                                 if ( rit == region_settings_map.end() ) { // ...oy. Hopefully 'default' exists. If not, it's crashtime anyway.
                                     debugmsg("               WARNING: overmap uses missing region settings '%s'                 \n\
@@ -421,7 +420,7 @@ void overmap::unserialize_legacy(std::istream & fin) {
                                 } else {
                                     debugmsg("               WARNING: overmap uses missing region settings '%s', falling back to '%s'                \n",
                                               tmpstr.c_str(), tmpopt.c_str() );
-                                    // fallback means we already loaded ACTIVE_WORLD_OPTIONS["DEFAULT_REGION"]
+                                    // fallback means we already loaded the default region
                                 }
                             }
                         }

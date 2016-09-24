@@ -5968,12 +5968,6 @@
           "rotates": false
         },
         {
-          "id": "saiga_sawn",
-          "fg": 1605,
-          "bg": 621,
-          "rotates": false
-        },
-        {
           "id": "salt",
           "fg": 956,
           "bg": 621,
@@ -17994,6 +17988,11 @@
           "rotates": false
         },
         {
+          "id": "can_drink_unsealed",
+          "fg": 1034,
+          "rotates": false
+        },
+        {
           "id": "can_food",
           "fg": 1035,
           "rotates": false
@@ -19702,7 +19701,7 @@
           "rotates": false
         },
         {
-          "id": "m14a",
+          "id": "m1a",
           "fg": 1547,
           "rotates": false
         },
@@ -20047,6 +20046,16 @@
         {
           "id": "glockbigmag",
           "fg": 1675,
+          "rotates": false
+        },
+        {
+          "id": "ppshmag",
+          "fg": 1675,
+          "rotates": false
+        },
+        {
+          "id": "ppshdrum",
+          "fg": 1685,
           "rotates": false
         },
         {

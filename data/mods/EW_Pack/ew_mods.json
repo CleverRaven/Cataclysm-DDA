@@ -6,7 +6,7 @@
         "location": "mechanism",
         "weight" : 250,
         "color" : "red",
-        "burst_modifier" : 8,
+        "mode_modifier": [ [ "AUTO", "auto", 8 ] ],
         "loudness_modifier" : 1,
         "to_hit" : -1,
         "price" : 30000,
@@ -14,11 +14,10 @@
         "symbol" : ":",
         "material" : ["steel"],
         "volume" : 1,
-        "recoil_modifier" : 1,
+        "handling_modifier" : -2,
         "acceptable_ammo" : ["545x39"],
         "mod_targets" : ["rifle"],
         "bashing" : 2,
-        "ammo_modifier" : "NULL",
-        "flags" : ["MODE_BURST"]
+        "ammo_modifier" : "NULL"
     }
 ]

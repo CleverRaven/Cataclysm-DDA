@@ -1,6 +1,5 @@
 #include "catalua.h"
 
-#include <sys/stat.h>
 #include <memory>
 
 #include "game.h"
@@ -18,6 +17,7 @@
 #include "debug.h"
 #include "translations.h"
 #include "line.h"
+#include "requirements.h"
 #include "weather_gen.h"
 
 #ifdef LUA
@@ -29,6 +29,7 @@
 #include "overmap.h"
 #include "mtype.h"
 #include "field.h"
+#include "filesystem.h"
 extern "C" {
 #include "lua.h"
 #include "lualib.h"
@@ -42,6 +43,7 @@ extern "C" {
 #endif
 
 using item_stack_iterator = std::list<item>::iterator;
+using volume = units::volume;
 
 lua_State *lua_state = nullptr;
 
@@ -511,8 +513,7 @@ public:
         T* operator &() { return ref; }
     };
     /** Same as calling @ref get, but returns a @ref proxy containing the reference. */
-    static proxy get( lua_State* const L, int const stack_position )
-    {
+    static proxy get( lua_State* const L, int const stack_position ) {
         return proxy{ &LuaValue<T*>::get( L, stack_position ) };
     }
     using LuaValue<T*>::has;
@@ -749,10 +750,8 @@ class lua_iuse_wrapper : public iuse_actor {
 private:
     int lua_function;
 public:
-    lua_iuse_wrapper( const int f, const std::string &type ) : lua_function( f ) {
-        iuse_actor::type = type;
-    }
-    ~lua_iuse_wrapper() = default;
+    lua_iuse_wrapper( const int f, const std::string &type ) : iuse_actor( type ), lua_function( f ) {}
+    ~lua_iuse_wrapper() override = default;
     long use( player *, item *it, bool a, const tripoint &pos ) const override {
         // We'll be using lua_state a lot!
         lua_State * const L = lua_state;
@@ -793,6 +792,8 @@ public:
     iuse_actor *clone() const override {
         return new lua_iuse_wrapper( *this );
     }
+
+    void load( JsonObject & ) override {}
 };
 
 // iuse abstraction to make iuse's both in lua and C++ possible
@@ -822,7 +823,7 @@ void lua_callback(const char *callback_name)
 }
 
 //
-int lua_mapgen(map *m, std::string terrain_type, mapgendata, int t, float, const std::string &scr)
+int lua_mapgen(map *m, const oter_id &terrain_type, const mapgendata &, int t, float, const std::string &scr)
 {
     if( lua_state == nullptr ) {
         return 0;
@@ -838,7 +839,7 @@ int lua_mapgen(map *m, std::string terrain_type, mapgendata, int t, float, const
     //    int function_index = luaL_ref(L, LUA_REGISTRYINDEX); // todo; make use of this
     //    lua_rawgeti(L, LUA_REGISTRYINDEX, function_index);
 
-    lua_pushstring(L, terrain_type.c_str());
+    lua_pushstring(L, terrain_type.id().c_str());
     lua_setglobal(L, "tertype");
     lua_pushinteger(L, t);
     lua_setglobal(L, "turn");
@@ -1044,11 +1045,7 @@ static int game_register_iuse(lua_State *L)
 void lua_loadmod(std::string base_path, std::string main_file_name)
 {
     std::string full_path = base_path + "/" + main_file_name;
-
-    // Check if file exists first
-    struct stat buffer;
-    int file_exists = stat(full_path.c_str(), &buffer) == 0;
-    if(file_exists) {
+    if( file_exist( full_path ) ) {
         lua_file_path = base_path;
         lua_dofile( lua_state, full_path.c_str() );
         lua_file_path = "";
@@ -1180,11 +1177,6 @@ void game::init_lua()
 }
 
 #endif // #ifdef LUA
-
-use_function::use_function( iuse_actor * const f )
-: actor( f )
-{
-}
 
 use_function::use_function( const use_function &other )
 : actor( other.actor ? other.actor->clone() : nullptr )

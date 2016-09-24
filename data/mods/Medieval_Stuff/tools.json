@@ -15,11 +15,6 @@
     "bashing": 17,
     "cutting": 42,
     "to_hit": 2,
-    "use_action": [
-        {
-            "type": "knife"
-        }
-    ],
     "category" : "weapons",
     "qualities": [["CUT", 1], ["BUTCHER", 8]]
   },
@@ -41,7 +36,6 @@
         "category": "weapons",
         "flags": ["SHEATH_SWORD", "DURABLE_MELEE"],
         "techniques": ["WBLOCK_1"],
-        "use_action": { "type": "knife" },
         "qualities": [["CUT", 1], ["BUTCHER", 8]]
     },
   {
@@ -62,7 +56,6 @@
     "flags" : ["CHOP", "DURABLE_MELEE"],
     "to_hit": 1,
     "category": "weapons",
-    "use_action": { "type": "knife" },
     "qualities": [["CUT", 1], ["BUTCHER", 8]]
   },
   {
@@ -83,7 +76,6 @@
     "flags" : ["SLICE", "DURABLE_MELEE"],
     "to_hit": 2,
     "category": "weapons",
-    "use_action": { "type": "knife" },
     "qualities": [["CUT", 1], ["BUTCHER", 8]]
   }
 ]

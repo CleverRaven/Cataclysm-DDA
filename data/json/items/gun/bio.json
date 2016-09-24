@@ -4,7 +4,6 @@
     "type": "GUN",
     "name": "fusion blaster",
     "description": "this a pseudo item",
-    "weight": 0,
     "volume": 12,
     "price": 0,
     "material": [ "steel", "plastic" ],
@@ -15,19 +14,20 @@
     "ranged_damage": 22,
     "pierce": 15,
     "dispersion": 30,
-    "sight_dispersion": 150,
-    "aim_speed": 0,
     "durability": 10,
     "reload": 500,
-    "ammo_effects": [ "PLASMA", "EXPLOSIVE", "FLAME" ],
-    "flags": [ "BIO_WEAPON", "NEVER_JAMS" ]
+    "ammo_effects": [
+      "PLASMA",
+      "EXPLOSIVE",
+      "FLAME"
+    ],
+    "flags": [ "NEVER_JAMS", "TRADER_AVOID" ]
   },
   {
     "id": "bio_laser_gun",
     "type": "GUN",
     "name": "laser finger",
     "description": "this a pseudo item",
-    "weight": 0,
     "volume": 12,
     "price": 0,
     "material": [ "steel", "plastic" ],
@@ -38,19 +38,19 @@
     "ranged_damage": 10,
     "pierce": 15,
     "dispersion": 10,
-    "sight_dispersion": 150,
-    "aim_speed": 0,
     "durability": 10,
     "reload": 500,
-    "ammo_effects": [ "LASER", "INCENDIARY" ],
-    "flags": [ "BIO_WEAPON", "NEVER_JAMS" ]
+    "ammo_effects": [
+      "LASER",
+      "INCENDIARY"
+    ],
+    "flags": [ "NEVER_JAMS", "TRADER_AVOID" ]
   },
   {
     "id": "bio_lightning",
     "type": "GUN",
     "name": "Chain Lightning",
     "description": "this a pseudo item",
-    "weight": 0,
     "volume": 12,
     "price": 0,
     "material": [ "steel", "plastic" ],
@@ -60,11 +60,12 @@
     "range": 10,
     "ranged_damage": 16,
     "dispersion": 10,
-    "sight_dispersion": 150,
-    "aim_speed": 0,
     "durability": 10,
     "reload": 500,
-    "ammo_effects": [ "LIGHTNING", "BOUNCE" ],
-    "flags": [ "BIO_WEAPON", "NEVER_JAMS" ]
+    "ammo_effects": [
+      "LIGHTNING",
+      "BOUNCE"
+    ],
+    "flags": [ "NEVER_JAMS", "TRADER_AVOID" ]
   }
 ]

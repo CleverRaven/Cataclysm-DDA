@@ -3,6 +3,7 @@
 
 #include "enums.h"
 #include "json.h"
+#include "item_location.h"
 
 #include <climits>
 #include <vector>
@@ -47,12 +48,16 @@ enum activity_type : int {    // expanded this enum for readability
     ACT_OXYTORCH,
     ACT_CRACKING,
     ACT_REPAIR_ITEM,
+    ACT_MEND_ITEM,
     ACT_GUNMOD_ADD,
     ACT_WAIT_NPC,
+    ACT_CLEAR_RUBBLE,
+    ACT_MEDITATE,
     NUM_ACTIVITIES
 };
 
 class player;
+class Character;
 
 class player_activity : public JsonSerializer, public JsonDeserializer
 {
@@ -71,6 +76,7 @@ class player_activity : public JsonSerializer, public JsonDeserializer
         int position;
         /** An activity specific value. */
         std::string name;
+        std::vector<item_location> targets;
         bool ignore_trivial;
         std::vector<int> values;
         std::vector<std::string> str_values;
@@ -88,12 +94,16 @@ class player_activity : public JsonSerializer, public JsonDeserializer
         player_activity( activity_type t = ACT_NULL, int turns = 0, int Index = -1, int pos = INT_MIN,
                          std::string name_in = "" );
         player_activity( player_activity && ) = default;
-        player_activity( const player_activity & ) = default;
+        player_activity( const player_activity & );
         player_activity &operator=( player_activity && ) = default;
-        player_activity &operator=( const player_activity & ) = default;
+        player_activity &operator=( const player_activity & );
+
+        explicit operator bool() const {
+            return type != ACT_NULL;
+        }
 
         // Question to ask when the activity is to be stoped,
-        // e.g. " Stop doing something?", already translated.
+        // e.g. "Stop doing something?", already translated.
         const std::string &get_stop_phrase() const;
         /**
          * If this returns true, the activity can be aborted with
@@ -132,6 +142,12 @@ class player_activity : public JsonSerializer, public JsonDeserializer
          * Returns true if the activity is complete.
          */
         bool is_complete() const;
+
+        /**
+         * Returns true if activities are similar enough that this activity
+         * can be resumed instead of starting the other activity.
+         */
+        bool can_resume_with( const player_activity &other, const Character &who ) const;
 };
 
 #endif

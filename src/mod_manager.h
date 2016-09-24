@@ -9,6 +9,7 @@
 #include <string>
 #include <vector>
 #include <map>
+#include <memory>
 
 const std::vector<std::pair<std::string, std::string> > &get_mod_list_categories();
 
@@ -144,7 +145,7 @@ class mod_manager
 
         dependency_tree tree;
 
-        typedef std::map<std::string, MOD_INFORMATION *> t_mod_map;
+        typedef std::map<std::string, std::unique_ptr<MOD_INFORMATION>> t_mod_map;
         /**
          * The map of known mod, key is the mod ident. Values are
          * never NULL.

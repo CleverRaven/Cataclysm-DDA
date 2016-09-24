@@ -493,7 +493,6 @@
             "diamond_broadsword",
             "broadfire_off",
             "broadfire_on",
-            "sword_forged",
             "rapier",
             "diamond_rapier",
             "fencing_foil",
@@ -507,7 +506,7 @@
         "type" : "martial_art",
         "id" : "style_niten",
         "name" : "Niten Ichi-Ryu",
-        "description" : "Niten Ichi-Ryu is an ancient school of combat, transmitting a style of classical Japanese swordsmanship conceived by the warrior Miyamoto Musashi.  It primarily focuses on the proper use of the katana and wakizashi, but includes staff techniques as well.",
+        "description" : "Niten Ichi-Ryu is an ancient school of combat, transmitting a style of classical Japanese swordsmanship conceived by the warrior Miyamoto Musashi.",
         "arm_block" : 99,
         "leg_block" : 99,
             "static_buffs" : [
@@ -574,14 +573,8 @@
             "bokken",
             "wakizashi",
             "diamond_wakizashi",
-            "q_staff",
-            "i_staff",
-            "shock_staff",
-            "cudgel",
             "nodachi",
-            "diamond_nodachi",
-            "l-stick",
-            "l-stick_on"
+            "diamond_nodachi"
         ]
     },{
         "type" : "martial_art",
@@ -940,7 +933,7 @@
             {
                 "id" : "venom_snake_combo_initiate",
                 "name" : "Viper Ambush",
-                "description" : "You've lured 'em in! Your next attack will be a Viper Bite.",
+                "description" : "You've lured 'em in!  Your next attack will be a Viper Bite.",
                 "unarmed_allowed" : true,
                 "min_unarmed" : 0,
                 "buff_duration" : 2,
@@ -953,7 +946,7 @@
             {
                 "id" : "venom_snake_combo_continue",
                 "name" : "Viper Lock",
-                "description" : "You bit true! Your next attack will be the Viper Strike!",
+                "description" : "You bit true!  Your next attack will be the Viper Strike!",
                 "unarmed_allowed" : true,
                 "min_unarmed" : 0,
                 "req_buffs" : [

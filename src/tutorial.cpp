@@ -12,6 +12,7 @@
 #include "overmap.h"
 #include "trap.h"
 #include "player.h"
+#include "scent_map.h"
 
 const mtype_id mon_zombie( "mon_zombie" );
 
@@ -25,11 +26,7 @@ bool tutorial_game::init()
     for( auto &elem : tutorials_seen ) {
         elem = false;
     }
-    // Set the scent map to 0
-    for( int i = 0; i < SEEX * MAPSIZE; i++ ) {
-        for( int j = 0; j < SEEX * MAPSIZE; j++ )
-            g->scent( { i, j, g->get_levz() } ) = 0;
-    }
+    g->scent.reset();
     g->temperature = 65;
     // We use a Z-factor of 10 so that we don't plop down tutorial rooms in the
     // middle of the "real" game world
@@ -43,6 +40,7 @@ bool tutorial_game::init()
         g->u.hp_cur[i] = g->u.hp_max[i];
     }
 
+    const oter_id rock( "rock" );
     //~ default name for the tutorial
     g->u.name = _( "John Smith" );
     g->u.prof = profession::generic();
@@ -50,13 +48,13 @@ bool tutorial_game::init()
     auto &starting_om = overmap_buffer.get( 0, 0 );
     for( int i = 0; i < OMAPX; i++ ) {
         for( int j = 0; j < OMAPY; j++ ) {
-            starting_om.ter( i, j, -1 ) = "rock";
+            starting_om.ter( i, j, -1 ) = rock;
             // Start with the overmap revealed
             starting_om.seen( i, j, 0 ) = true;
         }
     }
-    starting_om.ter( lx, ly, 0 ) = "tutorial";
-    starting_om.ter( lx, ly, -1 ) = "tutorial";
+    starting_om.ter( lx, ly, 0 ) = oter_id( "tutorial" );
+    starting_om.ter( lx, ly, -1 ) = oter_id( "tutorial" );
     starting_om.clear_mon_groups();
 
     g->u.toggle_trait( "QUICK" );
@@ -70,7 +68,7 @@ bool tutorial_game::init()
     g->u.sety( 4 );
 
     // This shifts the view to center the players pos
-    g->update_map( &( g->u ) );
+    g->update_map( g->u );
     return true;
 }
 
@@ -200,7 +198,7 @@ void tutorial_game::post_action( action_id act )
                 if( it.get_coverage() >= 2 || it.get_thickness() >= 2 ) {
                     add_message( LESSON_WORE_ARMOR );
                 }
-                if( it.get_storage() >= 20 ) {
+                if( it.get_storage() >= units::from_liter( 5 ) ) {
                     add_message( LESSON_WORE_STORAGE );
                 }
                 if( it.get_env_resist() >= 2 ) {

@@ -15,6 +15,7 @@ enum field_id : int;
 class field;
 class field_entry;
 class vehicle;
+struct resistances;
 
 enum vision_modes {
     DEBUG_NIGHTVISION,
@@ -58,11 +59,11 @@ struct encumbrance_data {
 class Character : public Creature, public visitable<Character>
 {
     public:
-        virtual ~Character() override { };
+        ~Character() override { };
 
         field_id bloodType() const override;
         field_id gibType() const override;
-        virtual bool is_warm() const override;
+        bool is_warm() const override;
         virtual const std::string &symbol() const override;
 
         // Character stats
@@ -97,10 +98,6 @@ class Character : public Creature, public visitable<Character>
         virtual int get_dex_bonus() const;
         virtual int get_per_bonus() const;
         virtual int get_int_bonus() const;
-
-        // Penalty modifiers applied for ranged attacks due to low stats
-        virtual int ranged_dex_mod() const;
-        virtual int ranged_per_mod() const;
 
         /** Setters for stats exclusive to characters */
         virtual void set_str_bonus(int nstr);
@@ -145,29 +142,27 @@ class Character : public Creature, public visitable<Character>
         virtual void set_stomach_food(int n_stomach_food);
         virtual void set_stomach_water(int n_stomach_water);
 
-        virtual void mod_stat( const std::string &stat, int modifier ) override;
+        void mod_stat( const std::string &stat, int modifier ) override;
 
-        /* Calculate aim improvement based on character stats/skills and gunsight properties
-         * @param recoil amount of applicable recoil when determining which gunsight to use
-         * @return MOC of aim improvement per 10 moves
-         * @note These units chosen as MOC/move would be too fast (lower bound 1MOC/move) and
-         * move/MOC too slow (upper bound 1MOC/move).
-         * As a result the smallest unit of aim time is 10 moves. */
-        int aim_per_time( const item& gun, int recoil ) const;
+        /* Adjusts provided sight dispersion to account for player stats */
+        int effective_dispersion( int dispersion ) const;
+
+        /* Calculate aim improvement per move spent aiming at a given @ref recoil */
+        double aim_per_move( const item &gun, double recoil ) const;
 
         /** Combat getters */
-        virtual int get_dodge_base() const override;
-        virtual int get_hit_base() const override;
+        int get_dodge_base() const override;
+        int get_hit_base() const override;
 
         /** Handles health fluctuations over time */
         virtual void update_health(int external_modifiers = 0);
 
         /** Resets the value of all bonus fields to 0. */
-        virtual void reset_bonuses() override;
+        void reset_bonuses() override;
         /** Resets stats, and applies effects in an idempotent manner */
-        virtual void reset_stats() override;
+        void reset_stats() override;
         /** Handles stat and bonus reset. */
-        virtual void reset() override;
+        void reset() override;
 
         /** Recalculates encumbrance cache. */
         void reset_encumbrance();
@@ -190,9 +185,9 @@ class Character : public Creature, public visitable<Character>
 
         /** Processes effects which may prevent the Character from moving (bear traps, crushed, etc.).
          *  Returns false if movement is stopped. */
-        virtual bool move_effects(bool attacking) override;
+        bool move_effects(bool attacking) override;
         /** Performs any Character-specific modifications to the arguments before passing to Creature::add_effect(). */
-        virtual void add_effect( const efftype_id &eff_id, int dur, body_part bp = num_bp, bool permanent = false,
+        void add_effect( const efftype_id &eff_id, int dur, body_part bp = num_bp, bool permanent = false,
                                  int intensity = 0, bool force = false ) override;
         /**
          * Handles end-of-turn processing.
@@ -226,7 +221,7 @@ class Character : public Creature, public visitable<Character>
 
         // In mutation.cpp
         /** Returns true if the player has the entered trait */
-        virtual bool has_trait(const std::string &flag) const override;
+        bool has_trait(const std::string &flag) const override;
         /** Returns true if the player has the entered starting trait */
         bool has_base_trait(const std::string &flag) const;
         /** Returns true if player has a trait with a flag */
@@ -281,6 +276,14 @@ class Character : public Creature, public visitable<Character>
 
         bool has_active_mutation(const std::string &b) const;
 
+        /**
+         * Returns resistances on a body part provided by mutations
+         */
+        // @todo Cache this, it's kinda expensive to compute
+        resistances mutation_armor( body_part bp ) const;
+        float mutation_armor( body_part bp, damage_type dt ) const;
+        float mutation_armor( body_part bp, const damage_unit &dt ) const;
+
         // --------------- Bionic Stuff ---------------
         /** Returns true if the player has the entered bionic id */
         bool has_bionic(const std::string &b) const;
@@ -313,10 +316,8 @@ class Character : public Creature, public visitable<Character>
             return false;
         }
 
-        /** Returns a map_selector which can be used to query items on nearby tiles
-         *  @param radius number of adjacent tiles to include searching from pos outwards
-         *  @param accessible whether found items must be accesible from pos to be considered */
-        map_selector nearby( int radius = 1, bool accessible = true );
+        /** Returns nearby items which match the provided predicate */
+        std::vector<item_location> nearby( const std::function<bool(const item *, const item *)>& func, int radius = 1 ) const;
 
         /**
          * Similar to @ref remove_items_with, but considers only worn items and not their
@@ -394,19 +395,26 @@ class Character : public Creature, public visitable<Character>
          * @param empty whether empty magazines should be considered as possible ammo
          * @param radius adjacent map/vehicle tiles to search. 0 for only player tile, -1 for only inventory
          */
-        std::vector<item_location> find_ammo( const item& obj, bool empty = true, int radius = 1 );
+        std::vector<item_location> find_ammo( const item& obj, bool empty = true, int radius = 1 ) const;
+
+        /**
+         * Counts ammo and UPS charges (lower of) for a given gun on the character.
+         */
+        long ammo_count_for( const item &gun );
 
         /** Maximum thrown range with a given item, taking all active effects into account. */
         int throw_range( const item & ) const;
 
         int weight_carried() const;
-        int volume_carried() const;
+        units::volume volume_carried() const;
         int weight_capacity() const override;
-        int volume_capacity() const;
-        bool can_pickVolume(int volume, bool safe = false) const;
-        bool can_pickWeight(int weight, bool safe = true) const;
+        units::volume volume_capacity() const;
+        units::volume volume_capacity_reduced_by( units::volume mod ) const;
 
-        virtual void drop_inventory_overflow();
+        bool can_pickVolume( const item &it, bool safe = false ) const;
+        bool can_pickWeight( const item &it, bool safe = true ) const;
+
+        void drop_inventory_overflow();
 
         bool has_artifact_with(const art_effect_passive effect) const;
 
@@ -428,9 +436,6 @@ class Character : public Creature, public visitable<Character>
 
         bool meets_skill_requirements( const std::map<skill_id, int> &req ) const;
 
-        /** Return character dispersion penalty dependent upon relevant gun skill level */
-        int skill_dispersion( const item& gun, bool random ) const;
-
         // --------------- Other Stuff ---------------
 
 
@@ -449,8 +454,8 @@ class Character : public Creature, public visitable<Character>
          *  nulls out the player's weapon
          *  Should only be called through player::normalize(), not on it's own!
          */
-        virtual void normalize() override;
-        virtual void die(Creature *nkiller) override;
+        void normalize() override;
+        void die(Creature *nkiller) override;
 
         std::string get_name() const override;
 
@@ -459,9 +464,7 @@ class Character : public Creature, public visitable<Character>
          */
         virtual bool query_yn( const char *mes, ... ) const = 0;
 
-        bool is_dangerous_field( const field &fld ) const;
-        bool is_dangerous_field( const field_entry &entry ) const;
-        bool is_dangerous_field( const field_id fid ) const;
+        bool is_immune_field( const field_id fid ) const override;
 
         /** Returns true if the player has some form of night vision */
         bool has_nv();
@@ -483,6 +486,7 @@ class Character : public Creature, public visitable<Character>
         }
         /** Empties the trait list */
         void empty_traits();
+        /** Adds mandatory scenario and profession traits unless you already have them */
         void add_traits();
 
         // --------------- Values ---------------
@@ -502,9 +506,11 @@ class Character : public Creature, public visitable<Character>
         std::vector<bionic> my_bionics;
 
     protected:
-        virtual void on_stat_change( const std::string &, int ) override {};
+        void on_stat_change( const std::string &, int ) override {};
         virtual void on_mutation_gain( const std::string & ) {};
         virtual void on_mutation_loss( const std::string & ) {};
+
+    public:
         virtual void on_item_wear( const item & ) {};
         virtual void on_item_takeoff( const item & ) {};
 

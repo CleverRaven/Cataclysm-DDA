@@ -15,7 +15,9 @@
       [ "RAM", 20 ],
       [ "radiocontrol", 10 ],
       [ "receiver", 30 ],
-      [ "transponder", 30 ]
+      [ "transponder", 30 ],
+      [ "light_bulb", 60 ],
+      [ "lightstrip_dead", 60 ]
     ]
   },
   {
@@ -41,11 +43,22 @@
     ]
   },
   {
+    "id": "supplies_metal_precious",
+    "type": "item_group",
+    "//": "Metals of significant economic value before the cataclysm",
+    "items": [
+      [ "gold_small", 100 ],
+      [ "silver_small", 100 ]
+    ]
+  },
+  {
     "id": "supplies_spares_vehicle",
     "type": "item_group",
     "//": "Spare parts for crafting or mending vehicle parts",
     "items": [
       [ "drivebelt", 200 ],
+      [ "filter_air", 60 ],
+      [ "filter_liquid", 60 ],
       [ "glowplug", 10 ],
       [ "motor_small", 20 ],
       [ "pump_complex", 10 ],

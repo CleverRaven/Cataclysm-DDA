@@ -446,7 +446,7 @@ std::string effect::disp_name() const
     }
 
     // End result should look like "name (l. arm)" or "name [intensity] (l. arm)"
-    std::stringstream ret;
+    std::ostringstream ret;
     if (eff_type->use_name_ints()) {
         if(eff_type->name[intensity - 1] == "") {
             return "";
@@ -479,7 +479,7 @@ struct desc_freq {
 
 std::string effect::disp_desc(bool reduced) const
 {
-    std::stringstream ret;
+    std::ostringstream ret;
     // First print stat changes, adding + if value is positive
     int tmp = get_avg_mod("STR", reduced);
     if (tmp > 0) {
@@ -576,52 +576,16 @@ std::string effect::disp_desc(bool reduced) const
         }
     }
     if (constant.size() > 0) {
-        ret << _("Const: ");
-        for (size_t i = 0; i < constant.size(); i++) {
-            if (i == 0) {
-                // No comma on the first one
-                ret << constant[i];
-            } else {
-                ret << ", " << constant[i];
-            }
-        }
-        ret << " ";
+        ret << _("Const: ") << enumerate_as_string( constant ) << " ";
     }
     if (frequent.size() > 0) {
-        ret << _("Freq: ");
-        for (size_t i = 0; i < frequent.size(); i++) {
-            if (i == 0) {
-                // No comma on the first one
-                ret << frequent[i];
-            } else {
-                ret << ", " << frequent[i];
-            }
-        }
-        ret << " ";
+        ret << _("Freq: ") << enumerate_as_string( frequent ) << " ";
     }
     if (uncommon.size() > 0) {
-        ret << _("Unfreq: ");
-        for (size_t i = 0; i < uncommon.size(); i++) {
-            if (i == 0) {
-                // No comma on the first one
-                ret << uncommon[i];
-            } else {
-                ret << ", " << uncommon[i];
-            }
-        }
-        ret << " ";
+        ret << _("Unfreq: ") << enumerate_as_string( uncommon ) << " ";
     }
     if (rare.size() > 0) {
-        ret << _("Rare: ");
-        for (size_t i = 0; i < rare.size(); i++) {
-            if (i == 0) {
-                // No comma on the first one
-                ret << rare[i];
-            } else {
-                ret << ", " << rare[i];
-            }
-        }
-        // No space needed at the end
+        ret << _("Rare: ") << enumerate_as_string( rare ); // No space needed at the end
     }
 
     // Newline if necessary
@@ -1080,7 +1044,7 @@ bool effect::activated(int turn, std::string arg, int val, bool reduced, double 
     return false;
 }
 
-double effect::get_addict_mod(std::string arg, int addict_level) const
+double effect::get_addict_mod( const std::string &arg, int addict_level ) const
 {
     // TODO: convert this to JSON id's and values once we have JSON'ed addictions
     if (arg == "PKILL") {

@@ -17,7 +17,7 @@
     "use_action": {
         "type": "bandolier",
         "capacity": 18,
-        "ammo": [ "32", "38", "44", "45", "9mm" ]
+        "ammo": [ "32", "38", "40" ,"44", "45", "9mm" ]
     },
     "flags": [ "WATER_FRIENDLY", "VARSIZE", "WAIST", "OVERSIZE", "FANCY" ]
   },

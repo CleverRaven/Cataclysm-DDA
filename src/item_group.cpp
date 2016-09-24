@@ -178,7 +178,7 @@ void Item_modifier::modify(item &new_item) const
         return;
     }
 
-    new_item.damage = std::min( std::max( (int) rng( damage.first, damage.second ), MIN_ITEM_DAMAGE ), MAX_ITEM_DAMAGE );
+    new_item.set_damage( rng( damage.first, damage.second ) );
 
     long ch = (charges.first == charges.second) ? charges.first : rng(charges.first, charges.second);
 
@@ -191,32 +191,26 @@ void Item_modifier::modify(item &new_item) const
         } else if( new_item.is_tool() ) {
             const auto qty = std::min( ch, new_item.ammo_capacity() );
             new_item.charges = qty;
-            if( new_item.ammo_type() != "NULL" && qty > 0 ) {
-                new_item.ammo_set( new_item.ammo_type(), qty );
+            if( new_item.ammo_type() && qty > 0 ) {
+                new_item.ammo_set( default_ammo( new_item.ammo_type() ), qty );
             }
         } else if( !new_item.is_gun() ) {
-            //not gun, food, ammo or tool. 
+            //not gun, food, ammo or tool.
             new_item.charges = ch;
         }
     }
-    
+
     if( new_item.is_gun() && ( ammo.get() != nullptr || ch > 0 ) ) {
         if( ammo.get() == nullptr ) {
             // In case there is no explicit ammo item defined, use the default ammo
-            if( new_item.ammo_type() != "NULL" ) {
-                new_item.charges = ch;
-                new_item.set_curammo( new_item.ammo_type() );
+            if( new_item.ammo_type() ) {
+                new_item.ammo_set( default_ammo( new_item.ammo_type() ), ch );
             }
         } else {
-            const item am = ammo->create_single( new_item.bday );
-            new_item.set_curammo( am );
             // Prefer explicit charges of the gun, else take the charges of the ammo item,
             // Gun charges are easier to define: {"item":"gun","charge":10,"ammo-item":"ammo"}
-            if( ch > 0 ) {
-                new_item.charges = ch;
-            } else {
-                new_item.charges = am.charges;
-            }
+            const item am = ammo->create_single( new_item.bday );
+            new_item.ammo_set( am.typeId(), ch > 0 ? ch : am.charges );
         }
         // Make sure the item is in valid state
         if( new_item.ammo_data() && new_item.magazine_integral() ) {
@@ -348,11 +342,11 @@ Item_spawn_data::ItemList Item_group::create(int birthday, RecursionList &rec) c
             bool spawn_ammo = rng( 0, 99 ) < with_ammo && e.ammo_remaining() == 0;
             bool spawn_mag  = rng( 0, 99 ) < with_magazine && !e.magazine_integral() && !e.magazine_current();
 
-            if( spawn_mag || spawn_ammo ) {
+            if( spawn_mag ) {
                 e.contents.emplace_back( e.magazine_default(), e.bday );
             }
             if( spawn_ammo ) {
-                e.ammo_set( default_ammo( e.ammo_type() ), e.ammo_capacity() );
+                e.ammo_set( default_ammo( e.ammo_type() ) );
             }
         }
     }

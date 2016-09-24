@@ -1,5 +1,34 @@
 [
   {
+    "id": "belt30mm",
+    "type": "MAGAZINE",
+    "name": "30 belt",
+    "description": "An ammo belt consisting of metal linkages which disintegrate upon firing.  This one holds 30mm autocannon ammo, and is too bulky to be worn like other ammo belts.",
+    "volume": 0,
+    "price": 0,
+    "rigid": false,
+    "material": "steel",
+    "symbol": "#",
+    "color": "ltgray",
+    "ammo_type": "30mm",
+    "capacity": 150,
+    "count": 50,
+    "reliability": 6,
+    "linkage": "ammolink30mm",
+    "flags": [ "MAG_BELT", "MAG_DESTROY" ]
+  },{
+    "id": "ammolink30mm",
+    "copy-from": "ammolink",
+    "type": "AMMO",
+    "name": "30mm autocannon belt linkage",
+    "weight": 6,
+    "count": 30,
+    "stack_size": 30,
+    "use_action": {
+      "type": "ammobelt",
+      "belt": "belt30mm"
+    }
+  },{
   "type" : "AMMO",
   "id" : "30mm_hedp",
   "price" : 15500,
@@ -18,7 +47,7 @@
   "pierce" : 210,
   "range" : 60,
   "dispersion" : 50,
-  "recoil" : 800,
+  "recoil" : 8000,
   "count" : 15,
   "effects" : ["COOKOFF", "FRAG"]
 },{
@@ -40,7 +69,7 @@
   "pierce" : 75,
   "range" : 60,
   "dispersion" : 50,
-  "recoil" : 800,
+  "recoil" : 8000,
   "count" : 15,
   "effects" : ["COOKOFF", "NAPALM", "EXPLOSIVE_SMALL"]
 },{
@@ -62,7 +91,7 @@
   "pierce" : 15,
   "range" : 30,
   "dispersion" : 60,
-  "recoil" : 800,
+  "recoil" : 8000,
   "count" : 10,
   "effects" : ["COOKOFF", "RECYCLED"]
 },{
@@ -83,7 +112,7 @@
   "pierce" : 800,
   "range" : 90,
   "dispersion" : 5,
-  "recoil" : 30,
+  "recoil" : 6000,
   "count" : 1,
   "effects" : ["COOKOFF", "EXPLOSIVE", "TRAIL"]
 },{
@@ -104,7 +133,7 @@
   "pierce" : 800,
   "range" : 95,
   "dispersion" : 5,
-  "recoil" : 50,
+  "recoil" : 5000,
   "count" : 1,
   "effects" : ["COOKOFF", "INCENDIARY", "TRAIL"]
 },{
@@ -125,7 +154,7 @@
   "pierce" : 10,
   "range" : 20,
   "dispersion" : 30,
-  "recoil" : 75,
+  "recoil" : 7500,
   "count" : 1,
   "effects" : ["COOKOFF", "SHOT", "RECYCLED"]
 },{
@@ -146,7 +175,7 @@
   "pierce" : 25,
   "range" : 60,
   "dispersion" : 120,
-  "recoil" : 75,
+  "recoil" : 7500,
   "count" : 1,
   "effects" : ["COOKOFF", "RECYCLED"]
 },{
@@ -167,7 +196,7 @@
   "pierce" : 1200,
   "range" : 120,
   "dispersion" : 25,
-  "recoil" : 60,
+  "recoil" : 6000,
   "count" : 1,
   "effects" : ["COOKOFF", "EXPLOSIVE_BIG", "TRAIL"]
 },{
@@ -188,7 +217,7 @@
   "pierce" : 15,
   "range" : 25,
   "dispersion" : 50,
-  "recoil" : 680,
+  "recoil" : 6800,
   "count" : 1,
   "effects" : ["COOKOFF", "SHOT", "RECYCLED"]
 },{
@@ -209,7 +238,7 @@
   "pierce" : 35,
   "range" : 75,
   "dispersion" : 150,
-  "recoil" : 80,
+  "recoil" : 8000,
   "count" : 1,
   "effects" : ["COOKOFF", "SHOT", "RECYCLED"]
 },{
@@ -229,7 +258,7 @@
   "pierce" : 225,
   "range" : 100,
   "dispersion" : 0,
-  "recoil" : 60,
+  "recoil" : 6000,
   "count" : 1,
   "effects" : ["COOKOFF", "EXPLOSIVE", "NEVER_MISFIRES"]
 },{
@@ -249,7 +278,6 @@
   "damage" : 0,
   "range" : 0,
   "dispersion" : 0,
-  "recoil" : 0,
   "count" : 50
 },{
   "type" : "AMMO",
@@ -268,7 +296,6 @@
   "damage" : 0,
   "range" : 0,
   "dispersion" : 0,
-  "recoil" : 0,
   "count" : 5
 },{
   "type" : "AMMO",
@@ -287,7 +314,6 @@
   "damage" : 0,
   "range" : 0,
   "dispersion" : 0,
-  "recoil" : 0,
   "count" : 5
 },{
   "type" : "AMMO",
@@ -306,7 +332,6 @@
   "damage" : 0,
   "range" : 0,
   "dispersion" : 0,
-  "recoil" : 0,
   "count" : 10,
   "effects" : ["COOKOFF"]
 },{
@@ -326,7 +351,6 @@
   "damage" : 0,
   "range" : 0,
   "dispersion" : 0,
-  "recoil" : 0,
   "count" : 5,
   "effects" : ["COOKOFF"]
 },{
@@ -338,7 +362,7 @@
   "description": "A chain-driven autocannon chambered in 30x113mm, originally designed for aircraft use, but later adapted for armored vehicles.  Obviously it needs to be mounted on a vehicle to fire.",
   "price": 2800000,
   "material": "hardsteel",
-  "flags": [ "MODE_BURST", "NO_RELOAD" ],
+  "flags": [ "NO_RELOAD" ],
   "skill": "rifle",
   "ammo": "30mm",
   "weight": 55900,
@@ -348,13 +372,13 @@
   "ranged_damage": 0,
   "dispersion": 0,
   "sight_dispersion": 75,
-  "aim_speed" : 5,
-  "recoil": 15,
   "durability": 8,
   "burst": 5,
-  "clip_size": 5,
   "reload": 100,
-  "loudness" : 175
+  "loudness" : 175,
+  "magazines": [
+      [ "30mm", [ "belt30mm" ] ]
+  ]
 },{
   "id": "tank_gun_manual",
   "type": "GUN",
@@ -374,8 +398,6 @@
   "range": 45,
   "dispersion": 0,
   "sight_dispersion": 60,
-  "aim_speed" : 3,
-  "recoil": 10,
   "durability": 9,
   "clip_size": 1,
   "reload": 100,
@@ -398,10 +420,8 @@
   "range": 30,
   "dispersion": 20,
   "sight_dispersion": 60,
-  "aim_speed" : 3,
-  "recoil": -10,
   "durability": 9,
-  "clip_size": 1,
+  "clip_size": 5,
   "reload": 100,
   "loudness" : 300,
   "flags" : [ "NO_RELOAD" ]
@@ -423,10 +443,8 @@
   "range": 15,
   "dispersion": 25,
   "sight_dispersion": 60,
-  "aim_speed" : 3,
-  "recoil": -20,
   "durability": 8,
-  "clip_size": 1,
+  "clip_size": 5,
   "reload": 100,
   "loudness" : 300,
   "flags": [ "NO_RELOAD" ]
@@ -449,8 +467,6 @@
   "range": 45,
   "dispersion": 10,
   "sight_dispersion": 60,
-  "aim_speed" : 4,
-  "recoil": 20,
   "durability": 9,
   "clip_size": 1,
   "reload": 100,
@@ -474,8 +490,6 @@
   "range": 15,
   "dispersion": 100,
   "sight_dispersion": 60,
-  "aim_speed" : 6,
-  "recoil": 10,
   "durability": 9,
   "clip_size": 1,
   "reload": 100,
@@ -497,10 +511,8 @@
   "to_hit": -6,
   "dispersion": 0,
   "sight_dispersion": 20,
-  "aim_speed" : 6,
-  "recoil": -10,
   "durability": 9,
-  "clip_size": 1,
+  "clip_size": 2,
   "reload": 100,
   "loudness" : 200,
   "flags": [ "NO_RELOAD" ]

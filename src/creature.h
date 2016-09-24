@@ -12,7 +12,6 @@
 #include <stdlib.h>
 #include <string>
 #include <unordered_map>
-
 class game;
 class JsonObject;
 class JsonOut;
@@ -27,6 +26,9 @@ enum field_id : int;
 enum damage_type : int;
 class material_type;
 using material_id = string_id<material_type>;
+class field;
+class field_entry;
+enum field_id : int;
 
 enum m_size : int {
     MS_TINY = 0,    // Squirrel
@@ -76,7 +78,8 @@ class Creature
         virtual void reset_stats();
         /** Handles stat and bonus reset. */
         virtual void reset();
-
+        /** Adds an appropriate blood splatter. */
+        virtual void bleed() const;
         /** Empty function. Should always be overwritten by the appropriate player/NPC/monster version. */
         virtual void die(Creature *killer) = 0;
 
@@ -88,14 +91,22 @@ class Creature
         /**
          * Simplified attitude towards any creature:
          * hostile - hate, want to kill, etc.
-         * friendly - avoid harming it, maybe even help.
          * neutral - anything between.
+         * friendly - avoid harming it, maybe even help.
+         * any - any of the above, used in safemode_ui
          */
-        enum Attitude {
+        enum Attitude : int {
             A_HOSTILE,
             A_NEUTRAL,
             A_FRIENDLY,
+            A_ANY
         };
+
+        /**
+         * Creature Attitude as String and color
+         */
+        static std::pair<std::string, nc_color> const &get_attitude_ui_data( Attitude att );
+
         /**
          * Attitude (of this creature) towards another creature. This might not be symmetric.
          */
@@ -242,6 +253,18 @@ class Creature
         virtual bool is_immune_effect( const efftype_id &type ) const = 0;
         virtual bool is_immune_damage( const damage_type type ) const = 0;
 
+        // Field dangers
+        /** Returns true if there is a field in the field set that is dangerous to us. */
+        bool is_dangerous_fields( const field &fld ) const;
+        /** Returns true if the given field entry is dangerous to us. */
+        bool is_dangerous_field( const field_entry &entry ) const;
+        /** Returns true if we are immune to the field type with the given fid. Does not
+         *  handle density, so this function should only be called through is_dangerous_field().
+         */
+        virtual bool is_immune_field( const field_id ) const {
+            return false;
+        };
+
         /** Returns multiplier on fall damage at low velocity (knockback/pit/1 z-level, not 5 z-levels) */
         virtual float fall_damage_mod() const = 0;
         /** Deals falling/collision damage with terrain/creature at pos */
@@ -265,13 +288,6 @@ class Creature
         virtual const tripoint &pos() const = 0;
 
         virtual void setpos( const tripoint &pos ) = 0;
-
-        struct compare_by_dist_to_point {
-            tripoint center;
-            // Compare the two creatures a and b by their distance to a fixed center point.
-            // The nearer creature is considered smaller and sorted first.
-            bool operator()( const Creature *a, const Creature *b ) const;
-        };
 
         /** Processes move stopping effects. Returns false if movement is stopped. */
         virtual bool move_effects(bool attacking);

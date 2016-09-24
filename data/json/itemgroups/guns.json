@@ -62,6 +62,7 @@
       [ "pistol_flintlock", 150 ],
       [ "pistol_pepperbox", 150 ],
       [ "raging_bull", 100 ],
+      [ "rm99_pistol", 150 ],
       [ "walther_ppk", 100 ]
     ]
   },
@@ -70,6 +71,7 @@
     "id" : "guns_pistol_improvised",
     "//" : "Makeshift or otherwise poor quality pistols.",
     "items": [
+      [ "ashot", 100 ],
       [ "surv_hand_cannon", 100 ],
       [ "surv_six_shooter", 100 ]
     ]
@@ -114,8 +116,9 @@
   {
     "type" : "item_group",
     "id" : "guns_smg_obscure",
-    "//" : "Imported or otherwise very SMGs.",
+    "//" : "Imported or otherwise very obscure SMGs.",
     "items": [
+      [ "ppsh", 150 ],
       [ "skorpion_61", 100 ],
       [ "skorpion_82", 100 ]
     ]
@@ -137,13 +140,14 @@
       [ "ar15", 30 ],
       [ "cx4", 45 ],
       [ "ksub2000", 30 ],
-      [ "m14a", 50 ],
+      [ "m1a", 50 ],
       [ "marlin_9a", 80 ],
       [ "mosin44", 15 ],
       [ "mosin91_30", 25 ],
       [ "ruger_1022", 70 ],
       [ "ruger_mini", 60 ],
-      [ "sks", 40 ]
+      [ "sks", 40 ],
+      [ "win70", 15 ]
     ]
   },
   {
@@ -165,7 +169,8 @@
       [ "mosin44_ebr", 10 ],
       [ "mosin91_30_ebr", 20 ],
       [ "remington_700", 20 ],
-      [ "savage_111f", 15 ]
+      [ "savage_111f", 15 ],
+      [ "weatherby_5", 15 ]
     ]
   },
   {
@@ -176,6 +181,7 @@
       [ "h&k416a5", 50 ],
       [ "l_lmg_223", 30 ],
       [ "l_mbr_223", 100 ],
+      [ "m107a1", 30 ],
       [ "m134", 10 ],
       [ "m240", 15 ],
       [ "m249", 25 ],
@@ -186,6 +192,7 @@
       [ "rm51_assault_rifle", 25 ],
       [ "rm614_lmg", 10 ],
       [ "rm88_battle_rifle", 25 ],
+      [ "sig552", 100 ],
       [ "scar_l", 50 ],
       [ "scar_h", 50 ]
     ]
@@ -232,6 +239,7 @@
     "id" : "guns_shotgun_rare",
     "//" : "Less common shotguns including those only used by police/paramilitary forces.",
     "items": [
+      [ "ksg", 50 ],
       [ "m1014", 80 ],
       [ "rm120c", 30 ],
       [ "rm228", 30 ],
@@ -259,11 +267,49 @@
     "id" : "guns_shotgun_improvised",
     "//" : "Makeshift or otherwise poor quality shotguns.",
     "items": [
+      [ "blunderbuss", 70 ],
+      [ "bigun", 10 ],
       [ "pipe_double_shotgun", 70 ],
       [ "pipe_shotgun", 100 ],
-      [ "blunderbuss", 70 ],
       [ "revolver_shotgun", 30 ],
       [ "surv_levershotgun", 40 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "guns_launcher_grenade",
+    "//": "Factory manufactured grenade launchers (excludes improvised weapons)",
+    "items": [
+      [ "m320", 75 ],
+      [ "m79", 100 ],
+      [ "mark19", 10 ],
+      [ "mgl", 25 ],
+      [ "rm802", 15 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "guns_launcher_rocket",
+    "//": "Factory manufactured rocket launchers (excludes improvised weapons)",
+    "items": [
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "guns_launcher_milspec",
+    "//": "Factory manufactured grenade and rocket launchers (excludes improvised weapons)",
+    "items": [
+      { "group": "guns_launcher_grenade", "prob": 70 },
+      { "group": "guns_launcher_rocket", "prob": 30 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "guns_launcher_improvised",
+    "//": "Makeshift or otherwise poor quality grenade and rocket launchers",
+    "items": [
+      [ "launcher_simple", 100 ],
+      [ "triple_launcher_simple", 15 ]
     ]
   },
   {
@@ -296,7 +342,8 @@
       { "group": "guns_pistol_milspec", "prob": 50 },
       { "group": "guns_smg_milspec", "prob": 25 },
       { "group": "guns_rifle_milspec", "prob": 100 },
-      { "group": "guns_shotgun_milspec", "prob": 25 }
+      { "group": "guns_shotgun_milspec", "prob": 25 },
+      { "group": "guns_launcher_milspec", "prob": 10 }
     ]
   },
   {
@@ -318,7 +365,8 @@
       { "group": "guns_pistol_improvised", "prob": 80 },
       { "group": "guns_smg_improvised", "prob": 10 },
       { "group": "guns_rifle_improvised", "prob": 100 },
-      { "group": "guns_shotgun_improvised", "prob": 100 }
+      { "group": "guns_shotgun_improvised", "prob": 100 },
+      { "group": "guns_launcher_improvised", "prob": 30 }
     ]
   },
   {

@@ -1,0 +1,33 @@
+[
+  {
+    "type": "construction",
+    "category": "DIG",
+    "description": "Mine Downstair",
+    "difficulty": 6,
+    "time": 480,
+    "pre_terrain": "t_rock_floor",
+    "pre_special": "check_down_OK",
+    "post_special": "done_mine_downstair",
+    "qualities": [
+      [ { "id": "AXE", "level": 2 } ],
+      [ { "id": "HAMMER", "level": 2 } ],
+      [ { "id": "DIG", "level": 3 } ],
+      [ { "id": "PRY", "level": 2 } ]
+    ],
+    "tools": [ [ [ "jackhammer", 30 ], [ "jacqueshammer", 30 ], [ "elec_jackhammer", 30 ] ] ],
+    "components": [
+      [ [ "2x4", 12 ], [ "log", 12 ] ],
+      [ [ "rope_30", 1 ], [ "vine_30", 1 ] ]
+    ]
+  },
+  {
+    "type": "construction",
+    "category": "FURN",
+    "description": "Place Anvil",
+    "difficulty": 0,
+    "time": 1,
+    "post_terrain": "f_anvil",
+    "pre_special": "check_empty",
+    "components": [ [ [ "anvil", 1 ] ] ]
+  }
+]

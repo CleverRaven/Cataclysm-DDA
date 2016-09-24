@@ -25,7 +25,6 @@
     "broken_color" : "light_gray",
     "damage_modifier" : 50,
     "durability" : 40,
-    "wheel_width" : 4,
     "item" : "inflatable_airbag",
     "difficulty" : 2,
     "location" : "under",

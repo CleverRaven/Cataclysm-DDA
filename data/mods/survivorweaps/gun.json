@@ -27,13 +27,12 @@
     "weight": 828,
     "volume": 2,
     "skill": "pistol",
-    "aim_speed": 4,
     "relative": {
-        "durability": -2
+        "durability": -2,
+        "handling": -6
     },
     "proportional": {
         "price": 0.2,
-        "recoil": 2.0,
         "reload": 4.0
     },
     "delete": { "flags": [ "NEVER_JAMS" ] },
@@ -76,11 +75,11 @@
     "skill": "pistol",
     "clip_size": 6,
     "relative": {
-        "durability": -2
+        "durability": -2,
+        "handling": -2
     },
     "proportional": {
         "price": 0.2,
-        "recoil": 2.0,
         "reload": 4.0
     },
     "delete": { "flags": [ "NEVER_JAMS" ] },
@@ -100,13 +99,12 @@
     "ammo": "22",
     "ranged_damage": -2,
     "dispersion": 105,
-    "recoil": 30,
     "loudness": 25,
     "barrel_length": 2
   },
   {
     "id": "rifle_308",
-    "copy-from": "m14a",
+    "copy-from": "m1a",
     "type": "GUN",
     "name": "survivor lever rifle",
     "description": "A homemade lever-action rifle.  While still a primitive pipe and 2x4 design, some minor improvements have been made, such as an integral magazine for rounds, and chambering the more powerful .308 rounds.",
@@ -138,7 +136,6 @@
     "ammo": "9mm",
     "ranged_damage": -2,
     "dispersion": 105,
-    "recoil": 30,
     "loudness": 25,
     "barrel_length": 3
   },

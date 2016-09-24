@@ -60,13 +60,14 @@
     "material": ["stone", "steel"],
     "weight": 400,
     "volume": 1,
-    "cutting": -5,
     "to_hit": -1,
     "max_charges": 2000,
     "initial_charges": 2000,
     "charges_per_use": 1,
     "use_action": {
-      "type": "extended_firestarter"
+        "type": "firestarter",
+        "moves": 1000,
+        "moves_slow": 5000
     }
   },{
     "id": "tinderbox",
@@ -108,7 +109,8 @@
     "use_action": [
       {
         "type": "firestarter",
-        "moves_cost": 100
+        "moves": 200,
+        "moves_slow": 2000
       },
       {
         "type": "transform",
@@ -170,7 +172,6 @@
     "damage" : 0,
     "range" : 0,
     "dispersion" : 0,
-    "recoil" : 0,
     "flags" : ["NOGIB"],
     "count" : 4,
     "effects" : ["BEANBAG"]
@@ -189,7 +190,6 @@
     "bashing": 5,
     "cutting": 3,
     "to_hit": -1,
-    "use_action": { "type": "knife" },
     "qualities": [["CUT", 1], ["BUTCHER", 6], ["SAW_W", 1], ["AXE", 1], ["HAMMER", 1]],
     "flags": ["CHOP"]
   },{
@@ -212,8 +212,6 @@
     "range" : 15,
     "dispersion": 120,
     "sight_dispersion": 140,
-    "aim_speed" : 0,
-    "recoil": 0,
     "durability": 6,
     "clip_size": 1,
     "reload": 100
@@ -238,8 +236,8 @@
     "damage" : 6,
     "range" : 15,
     "dispersion" : 135,
-    "recoil" : 0,
     "count" : 1,
+    "loudness" : 0,
     "stack_size" : 4,
     "effects" : ["RECOVER_10"]
   },{
@@ -264,8 +262,8 @@
     "pierce" : 1,
     "range" : 13,
     "dispersion" : 135,
-    "recoil" : 0,
     "count" : 1,
+    "loudness" : 0,
     "stack_size" : 4,
     "effects" : ["RECOVER_10"]
   },{
@@ -290,8 +288,8 @@
     "pierce" : 2,
     "range" : 10,
     "dispersion" : 135,
-    "recoil" : 0,
     "count" : 1,
+    "loudness" : 0,
     "stack_size" : 4,
     "effects" : ["RECOVER_10"]
   },{
@@ -316,8 +314,8 @@
     "pierce" : 3,
     "range" : 10,
     "dispersion" : 135,
-    "recoil" : 0,
     "count" : 1,
+    "loudness" : 0,
     "stack_size" : 4,
     "effects" : ["RECOVER_15"]
   },{
@@ -424,7 +422,6 @@
     "price": 0,
     "weight": 5,
     "volume": 0,
-    "bashing": -8,
     "to_hit": -2,
     "contains": 10,
     "rigid": false,
@@ -460,7 +457,6 @@
     "price": 0,
     "weight": 13,
     "volume": 0,
-    "bashing": -2,
     "to_hit": 1,
     "material": "plastic",
     "contains": 2,
@@ -549,8 +545,7 @@
     "bashing": 11,
     "cutting": 8,
     "flags" : ["CHOP"],
-    "qualities": [["AXE", 2]],
-    "use_action": "LUMBER"
+    "qualities": [["AXE", 2]]
   },{
     "id": "makeshift_shovel",
     "type": "TOOL",
@@ -564,8 +559,7 @@
     "volume": 16,
     "bashing": 15,
     "cutting": 1,
-    "qualities": [["DIG", 2]],
-    "use_action": "DIG"
+    "qualities": [ [ "DIG", 2 ] ]
   },{
     "id": "whistle_multitool",
     "type": "TOOL",
@@ -590,11 +584,13 @@
       },
       "WEATHER_TOOL",
       {
-        "type": "extended_firestarter",
+        "type": "firestarter",
+        "moves": 1000,
+        "moves_slow": 25000,
         "need_sunlight": true
       }
     ],
-    "flags": ["THERMOMETER", "LENS"]
+    "flags": "THERMOMETER"
   },{
     "id": "mortar_pestle",
     "type": "TOOL",

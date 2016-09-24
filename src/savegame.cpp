@@ -21,12 +21,12 @@
 #include "mapdata.h"
 #include "translations.h"
 #include "mongroup.h"
+#include "scent_map.h"
 
 #include <map>
 #include <set>
 #include <algorithm>
 #include <string>
-#include <fstream>
 #include <sstream>
 #include <math.h>
 #include <vector>
@@ -85,27 +85,8 @@ void game::serialize(std::ostream & fout) {
         json.member( "om_x", pos_om.x );
         json.member( "om_y", pos_om.y );
 
-        // Next, the scent map.
-        std::stringstream rle_out;
-        int rle_lastval = -1;
-        int rle_count = 0;
-        for( auto &elem : grscent ) {
-            for( auto val : elem ) {
 
-               if (val == rle_lastval) {
-                   rle_count++;
-               } else {
-                   if ( rle_count ) {
-                       rle_out << rle_count << " ";
-                   }
-                   rle_out << val << " ";
-                   rle_lastval = val;
-                   rle_count = 1;
-               }
-            }
-        }
-        rle_out << rle_count;
-        json.member( "grscent", rle_out.str() );
+        json.member( "grscent", scent.serialize() );
 
         // Then each monster
         json.member( "active_monsters", critter_tracker->list() );
@@ -124,6 +105,30 @@ void game::serialize(std::ostream & fout) {
 
         json.end_object();
 }
+
+std::string scent_map::serialize() const
+{
+    std::stringstream rle_out;
+    int rle_lastval = -1;
+    int rle_count = 0;
+    for( auto &elem : grscent ) {
+        for( auto &val : elem ) {
+            if( val == rle_lastval ) {
+                rle_count++;
+            } else {
+                if( rle_count ) {
+                    rle_out << rle_count << " ";
+                }
+                rle_out << val << " ";
+                rle_lastval = val;
+                rle_count = 1;
+            }
+        }
+    }
+    rle_out << rle_count;
+    return rle_out.str();
+}
+
 
 /*
  * Properly reuse a stringstream object for line by line parsing
@@ -200,29 +205,18 @@ void game::unserialize(std::istream & fin)
         load_map( tripoint( levx + comx * OMAPX * 2, levy + comy * OMAPY * 2, levz ) );
 
         safe_mode = static_cast<safe_mode_type>( tmprun );
-        if (OPTIONS["SAFEMODE"] && safe_mode == SAFE_MODE_OFF) {
+        if (get_option<bool>( "SAFEMODE" ) && safe_mode == SAFE_MODE_OFF) {
             safe_mode = SAFE_MODE_ON;
         }
-        autosafemode = OPTIONS["AUTOSAFEMODE"];
-        safemodeveh = OPTIONS["SAFEMODEVEH"];
+        autosafemode = get_option<bool>( "AUTOSAFEMODE" );
+        safemodeveh = get_option<bool>( "SAFEMODEVEH" );
         last_target = tmptar;
 
         linebuf="";
         if ( data.read("grscent",linebuf) ) {
-            linein.clear();
-            linein.str(linebuf);
-
-            int stmp;
-            int count = 0;
-            for( auto &elem : grscent ) {
-                for( auto &elem_j : elem ) {
-                    if (count == 0) {
-                        linein >> stmp >> count;
-                    }
-                    count--;
-                    elem_j = stmp;
-                }
-            }
+            scent.deserialize( linebuf );
+        } else {
+            scent.reset();
         }
 
         JsonArray vdata = data.get_array("active_monsters");
@@ -256,6 +250,22 @@ void game::unserialize(std::istream & fin)
     }
 }
 
+void scent_map::deserialize( const std::string &data )
+{
+    std::istringstream buffer( data );
+    int stmp;
+    int count = 0;
+    for( auto &elem : grscent ) {
+        for( auto &val : elem ) {
+            if( count == 0 ) {
+                buffer >> stmp >> count;
+            }
+            count--;
+            val = stmp;
+        }
+    }
+}
+
 ///// weather
 void game::load_weather(std::istream & fin) {
    if ( fin.peek() == '#' ) {
@@ -281,17 +291,15 @@ void game::load_weather(std::istream & fin) {
     if (fin.peek() == 's') {
         std::string line, label;
         getline(fin, line);
-        int seed(0);
         std::stringstream liness(line);
         liness >> label >> seed;
-        weather_gen->set_seed( seed );
     }
 }
 
 void game::save_weather(std::ostream &fout) {
     fout << "# version " << savegame_version << std::endl;
     fout << "lightning: " << (lightning_active ? "1" : "0") << std::endl;
-    fout << "seed: " << weather_gen->get_seed();
+    fout << "seed: " << seed;
 }
 
 bool overmap::obsolete_terrain( const std::string &ter ) {
@@ -423,7 +431,7 @@ void overmap::convert_terrain( const std::unordered_map<tripoint, std::string> &
             const auto y_it = needs_conversion.find( tripoint( pos.x, pos.y + conv.yoffset, pos.z ) );
             if( x_it != needs_conversion.end() && x_it->second == conv.x_id &&
                 y_it != needs_conversion.end() && y_it->second == conv.y_id ) {
-                new_id = conv.new_id;
+                new_id = oter_id( conv.new_id );
                 break;
             }
         }
@@ -472,12 +480,12 @@ void overmap::unserialize( std::istream &fin ) {
                                     needs_conversion.emplace( tripoint( p, j, z-OVERMAP_DEPTH ),
                                                               tmp_ter );
                                 }
-                                tmp_otid = 0;
-                            } else if( otermap.find( tmp_ter ) != otermap.end() ) {
-                                tmp_otid = tmp_ter;
+                                tmp_otid = oter_id( 0 );
+                            } else if( oter_str_id( tmp_ter ).is_valid() ) {
+                                tmp_otid = oter_id( tmp_ter );
                             } else {
                                 debugmsg("Loaded bad ter! ter %s", tmp_ter.c_str());
-                                tmp_otid = 0;
+                                tmp_otid = oter_id( 0 );
                             }
                         }
                         count--;
@@ -802,7 +810,7 @@ void overmap::serialize( std::ostream &fout ) const
                     }
                     last_tertype = t;
                     json.start_array();
-                    json.write( (std::string)t );
+                    json.write( t.id() );
                     count = 1;
                 } else {
                     count++;

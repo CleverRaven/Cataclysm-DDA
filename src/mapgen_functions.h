@@ -5,6 +5,9 @@
 #include "mapdata.h"
 #include "map.h"
 
+#include <string>
+#include <map>
+
 struct mapgendata
 {
 public:
@@ -42,6 +45,12 @@ public:
   ter_id groundcover();
   bool is_groundcover(const ter_id iid ) const;
 };
+
+/**
+ * Calculates the coordinates of a rotated point.
+ * Should match the `mapgen_*` rotation.
+ */
+tripoint rotate_point( const tripoint &p, int turn );
 
 typedef void (*building_gen_pointer)(map *,oter_id,mapgendata,int,float);
 extern std::map<std::string, building_gen_pointer> mapgen_cfunction_map;

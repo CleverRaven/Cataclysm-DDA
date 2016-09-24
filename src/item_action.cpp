@@ -17,7 +17,6 @@
 #include "player.h"
 #include <istream>
 #include <sstream>
-#include <fstream>
 #include <iterator>
 
 static item_action nullaction;
@@ -47,7 +46,7 @@ class actmenu_cb : public uimenu_callback
                 ctxt.register_action( id.first, id.second.name );
             }
         }
-        ~actmenu_cb() { }
+        ~actmenu_cb() override { }
 
         bool key( int ch, int /*num*/, uimenu * /*menu*/ ) override {
             input_event wrap = input_event( ch, CATA_INPUT_KEYBOARD );
@@ -123,7 +122,7 @@ item_action_map item_action_generator::map_actions_to_items( player &p,
                    func->get_actor_ptr()->can_use( &p, actual_item, false, p.pos() ) ) ) {
                 continue;
             }
-            if( actual_item->ammo_remaining() < actual_item->ammo_required() ) {
+            if( !actual_item->ammo_sufficient() ) {
                 continue;
             }
 

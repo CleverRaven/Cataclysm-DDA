@@ -1,3 +1,12 @@
+#include "iuse_software_snake.h"
+
+#include "rng.h"
+#include "input.h"
+#include "output.h"
+#include "catacharset.h"  // utf8_width()
+#include "translations.h"
+
+#include <algorithm>
 #include <string>
 #include <cassert>
 #include <cmath>
@@ -8,15 +17,6 @@
 #include <iterator>
 #include <map>
 #include <vector>
-
-#include "rng.h"
-#include "input.h"
-#include "output.h"
-#include "catacharset.h"
-#include "options.h"
-#include "debug.h"
-#include "iuse_software_snake.h"
-#include "translations.h"
 
 snake_game::snake_game()
 {
@@ -190,7 +190,7 @@ int snake_game::start_game()
                  vSnakeBody[vSnakeBody.size() - 2].second, c_ltgray, '#');
 
         //On full length add a fruit
-        if (iFruitPosY == 0 && iFruitPosY == 0) {
+        if (iFruitPosX == 0 && iFruitPosY == 0) {
             do {
                 iFruitPosY = rng(1, FULL_SCREEN_HEIGHT - 2);
                 iFruitPosX = rng(1, FULL_SCREEN_WIDTH - 2);

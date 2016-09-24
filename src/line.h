@@ -7,6 +7,31 @@
 #include <functional>
 #include <math.h>
 
+#include "game_constants.h"
+
+/** Converts degrees to radians */
+constexpr double DEGREES( double v )
+{
+    return v * M_PI / 180;
+}
+
+/** Converts arc minutes to radians */
+constexpr double ARCMIN( double v )
+{
+    return DEGREES( v ) / 60;
+}
+
+/** Calculate base of an isosceles triangle
+  * @param distance one of the the equal lengths
+  * @param vertex the unequal angle expresed in MoA
+  @ @param returns base in equivalent units to distance
+  */
+inline double iso_tangent( double distance, double vertex )
+{
+    // we can use the cosine formula (a² = b² + c² - 2bc⋅cosθ) to calculate the tangent
+    return sqrt( 2 * pow( distance, 2 ) * ( 1 - cos( ARCMIN( vertex ) ) ) );
+}
+
 //! This compile-time useable function combines the sign of each (x, y, z) component into a single integer
 //! to allow simple runtime and compiletime mapping of (x, y, z) tuples to @ref direction enumerators.
 //! Specifically, (0, -, +) => (0, 1, 2); a base-3 number.
@@ -74,6 +99,8 @@ void bresenham( const int x1, const int y1, const int x2, const int y2, int t,
 void bresenham( const tripoint &loc1, const tripoint &loc2, int t, int t2,
                 const std::function<bool( const tripoint & )> &interact );
 
+tripoint move_along_line( const tripoint &loc, const std::vector<tripoint> &line,
+                          const int distance );
 // The "t" value decides WHICH Bresenham line is used.
 std::vector<point> line_to( int x1, int y1, int x2, int y2, int t = 0 );
 std::vector<point> line_to( const point &p1, const point &p2, int t = 0 );
@@ -88,11 +115,9 @@ int square_dist( const tripoint &loc1, const tripoint &loc2 );
 int rl_dist( int x1, int y1, int x2, int y2 );
 int rl_dist( const tripoint &loc1, const tripoint &loc2 );
 int rl_dist( const point &a, const point &b );
-std::pair<double, double> slope_of( const std::vector<point> &line );
 std::pair<std::pair<double, double>, double> slope_of( const std::vector<tripoint> &line );
 // Get the magnitude of the slope ranging from 0.0 to 1.0
 float get_normalized_angle( const point &start, const point &end );
-std::vector<point> continue_line( const std::vector<point> &line, int distance );
 std::vector<tripoint> continue_line( const std::vector<tripoint> &line, int distance );
 std::vector<point> squares_in_direction( int x1, int y1, int x2, int y2 );
 // Returns a vector of squares adjacent to @from that are closer to @to than @from is.

@@ -15,8 +15,7 @@
 #include "path_info.h"
 #include "mapsharing.h"
 #include "sounds.h"
-
-#include <fstream>
+#include "cata_utility.h"
 
 //TODO replace these with filesystem.h
 #include <sys/stat.h>
@@ -28,7 +27,6 @@
 #endif
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
-extern worldfactory *world_generator;
 
 namespace
 {
@@ -81,7 +79,7 @@ void game::print_menu( WINDOW *w_open, int iSel, const int iMenuOffsetX, int iMe
     }
 
     center_print( w_open, window_height - 1, c_red,
-                  _( "Please report bugs to kevin.granade@gmail.com or post on the forums." ) );
+                  _( "Please report bugs on github.com/CleverRaven/Cataclysm-DDA/ or the forums." ) );
 
     int iLine = 0;
     const int iOffsetX = ( window_width - FULL_SCREEN_WIDTH ) / 2;
@@ -133,15 +131,16 @@ void game::print_menu( WINDOW *w_open, int iSel, const int iMenuOffsetX, int iMe
 
 std::vector<std::string> load_file( const std::string &path, const std::string &alternative_text )
 {
-    std::ifstream stream( path.c_str() );
     std::vector<std::string> result;
-    std::string line;
-    while( std::getline( stream, line ) ) {
-        if( !line.empty() && line[0] == '#' ) {
-            continue;
+    read_from_file_optional( path, [&result]( std::istream & fin ) {
+        std::string line;
+        while( std::getline( fin, line ) ) {
+            if( !line.empty() && line[0] == '#' ) {
+                continue;
+            }
+            result.push_back( line );
         }
-        result.push_back( line );
-    }
+    } );
     if( result.empty() ) {
         result.push_back( alternative_text );
     }
@@ -162,8 +161,37 @@ void game::mmenu_refresh_motd()
 
 void game::mmenu_refresh_credits()
 {
-    mmenu_credits = load_file( PATH_INFO::find_translated_file( "creditsdir", ".credits", "credits" ),
-                               _( "No message today." ) );
+    mmenu_credits.clear();
+    std::vector<std::string> buffer;
+    read_from_file_optional( PATH_INFO::find_translated_file( "creditsdir", ".credits",
+    "credits" ), [&buffer]( std::istream & stream ) {
+        std::string line;
+        while( std::getline( stream, line ) ) {
+            if( line[0] == '#' ) {
+                continue;
+            } else {
+                buffer.push_back( line );
+            }
+            if( buffer.size() > 14 || line.empty() ) {
+                std::ostringstream ss;
+                for( std::vector<std::string>::iterator it = buffer.begin(); it != buffer.end(); ++it ) {
+                    ss << *it << std::endl;
+                }
+                mmenu_credits.push_back( ss.str() );
+                buffer.clear();
+            }
+        }
+    } );
+    if( !buffer.empty() ) {
+        std::ostringstream ss;
+        for( std::vector<std::string>::iterator it = buffer.begin(); it != buffer.end(); ++it ) {
+            ss << *it << std::endl;
+        }
+        mmenu_credits.push_back( ss.str() );
+    }
+    if( mmenu_credits.empty() ) {
+        mmenu_credits.push_back( _( "No credits information found." ) );
+    }
 }
 
 std::vector<std::string> get_hotkeys( const std::string &s )
@@ -183,6 +211,24 @@ std::vector<std::string> get_hotkeys( const std::string &s )
         hotkeys.push_back( s.substr( lastsep + 1, end - lastsep - 1 ) );
     }
     return hotkeys;
+}
+
+void display_credits()
+{
+    // astyle got this redundant indent
+    WINDOW *w_credits_border = newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
+                                       ( TERMY > FULL_SCREEN_HEIGHT ) ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0,
+                                       ( TERMX > FULL_SCREEN_WIDTH ) ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0 );
+    WINDOW *w_credits = newwin( FULL_SCREEN_HEIGHT - 2, FULL_SCREEN_WIDTH - 2,
+                                1 + ( int )( ( TERMY > FULL_SCREEN_HEIGHT ) ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0 ),
+                                1 + ( int )( ( TERMX > FULL_SCREEN_WIDTH ) ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0 ) );
+    draw_border( w_credits_border, BORDER_COLOR, _( " CREDITS " ) );
+    wrefresh( w_credits_border );
+    refresh();
+    multipage( w_credits, mmenu_credits );
+    delwin( w_credits );
+    delwin( w_credits_border );
+    refresh();
 }
 
 bool game::opening_screen()
@@ -306,7 +352,7 @@ bool game::opening_screen()
     u = player();
 
     while( !start ) {
-        print_menu( w_open, sel1, iMenuOffsetX, iMenuOffsetY, ( sel1 == 0 || sel1 == 7 ) ? false : true );
+        print_menu( w_open, sel1, iMenuOffsetX, iMenuOffsetY, ( sel1 != 0 ) );
 
         if( layer == 1 ) {
             if( sel1 == 0 ) { // Print the MOTD.
@@ -314,15 +360,6 @@ bool game::opening_screen()
                 const int motdx = 8 + extra_w / 2;
                 for( size_t i = 0; i < mmenu_motd.size(); i++ ) {
                     mvwprintz( w_open, motdy + i, motdx, c_ltred, mmenu_motd[i].c_str() );
-                }
-
-                wrefresh( w_open );
-                refresh();
-            } else if( sel1 == 7 ) { // Print the Credits.
-                const int credy = ( iMenuOffsetY - mmenu_credits.size() ) * 2 / 3;
-                const int credx = 8 + extra_w / 2;
-                for( size_t i = 0; i < mmenu_credits.size(); i++ ) {
-                    mvwprintz( w_open, credy + i, credx, c_ltred, mmenu_credits[i].c_str() );
                 }
 
                 wrefresh( w_open );
@@ -360,18 +397,20 @@ bool game::opening_screen()
                 }
                 sfx::play_variant_sound( "menu_move", "default", 100 );
             }
-            if( ( action == "UP" || action == "CONFIRM" ) && sel1 > 0 && sel1 != 7 ) {
+            if( ( action == "UP" || action == "CONFIRM" ) && sel1 > 0 ) {
                 if( sel1 == 5 ) {
                     get_options().show();
                 } else if( sel1 == 6 ) {
                     display_help();
+                } else if( sel1 == 7 ) {
+                    display_credits();
                 } else if( sel1 == 8 ) {
                     uquit = QUIT_MENU;
                     return false;
                 } else {
                     sel2 = 0;
                     layer = 2;
-                    print_menu( w_open, sel1, iMenuOffsetX, iMenuOffsetY, ( sel1 == 0 || sel1 == 7 ) ? false : true );
+                    print_menu( w_open, sel1, iMenuOffsetX, iMenuOffsetY, ( sel1 != 0 ) );
                 }
             }
         } else if( layer == 2 ) {
@@ -421,7 +460,13 @@ bool game::opening_screen()
                             continue;
                         }
                         world_generator->set_active_world( world );
-                        setup();
+                        try {
+                            setup();
+                        } catch( const std::exception &err ) {
+                            debugmsg( "Error: %s", err.what() );
+                            u = player();
+                            continue;
+                        }
                         if( !u.create( sel2 == 0 ? PLTYPE_CUSTOM : ( sel2 == 2 ? PLTYPE_RANDOM : PLTYPE_NOW ) ) ) {
                             u = player();
                             continue;
@@ -603,7 +648,6 @@ bool game::opening_screen()
                 }
                 if( action == "UP" || action == "CONFIRM" ) {
                     if( sel2 >= 0 && sel2 < NUM_SPECIAL_GAMES - 1 ) {
-                        delete gamemode;
                         gamemode = get_special_game( special_game_id( sel2 + 1 ) );
                         // check world
                         WORLDPTR world = world_generator->make_new_world( special_game_id( sel2 + 1 ) );
@@ -611,10 +655,16 @@ bool game::opening_screen()
                             continue;
                         }
                         world_generator->set_active_world( world );
-                        setup();
+                        try {
+                            setup();
+                        } catch( const std::exception &err ) {
+                            debugmsg( "Error: %s", err.what() );
+                            gamemode.reset();
+                            u = player();
+                            continue;
+                        }
                         if( !gamemode->init() ) {
-                            delete gamemode;
-                            gamemode = NULL;
+                            gamemode.reset();
                             u = player();
                             continue;
                         }
@@ -687,7 +737,13 @@ bool game::opening_screen()
                         wrefresh( w_background );
                         WORLDPTR world = world_generator->all_worlds[world_generator->all_worldnames[sel2]];
                         world_generator->set_active_world( world );
-                        setup();
+                        try {
+                            setup();
+                        } catch( const std::exception &err ) {
+                            debugmsg( "Error: %s", err.what() );
+                            u = player();
+                            continue;
+                        }
 
                         load( world->world_name, savegames[sel3] );
                         start = true;
@@ -830,7 +886,13 @@ bool game::opening_screen()
                         continue;
                     }
                     world_generator->set_active_world( world );
-                    setup();
+                    try {
+                        setup();
+                    } catch( const std::exception &err ) {
+                        debugmsg( "Error: %s", err.what() );
+                        u = player();
+                        continue;
+                    }
                     if( !u.create( PLTYPE_TEMPLATE, templates[sel3] ) ) {
                         u = player();
                         continue;

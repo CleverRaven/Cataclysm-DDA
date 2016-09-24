@@ -18,6 +18,7 @@
 #include "mapgen_functions.h"
 #include "field.h"
 #include "npc.h"
+#include "npc_class.h"
 
 const mtype_id mon_charred_nightmare( "mon_charred_nightmare" );
 const mtype_id mon_dog( "mon_dog" );
@@ -372,20 +373,16 @@ void mission_start::place_npc_software( mission *miss )
 
     std::string type = "house";
 
-    switch( dev->myclass ) {
-        case NC_HACKER:
-            miss->item_id = "software_hacking";
-            break;
-        case NC_DOCTOR:
-            miss->item_id = "software_medical";
-            type = "s_pharm";
-            miss->follow_up = MISSION_GET_ZOMBIE_BLOOD_ANAL;
-            break;
-        case NC_SCIENTIST:
-            miss->item_id = "software_math";
-            break;
-        default:
-            miss->item_id = "software_useless";
+    if( dev->myclass == NC_HACKER ) {
+        miss->item_id = "software_hacking";
+    } else if( dev->myclass == NC_DOCTOR ) {
+        miss->item_id = "software_medical";
+        type = "s_pharm";
+        miss->follow_up = mission_type_id( "MISSION_GET_ZOMBIE_BLOOD_ANAL" );
+    } else if( dev->myclass == NC_SCIENTIST ) {
+        miss->item_id = "software_math";
+    } else {
+        miss->item_id = "software_useless";
     }
 
     tripoint place;
@@ -618,7 +615,7 @@ void mission_start::recruit_tracker( mission *miss )
     temp->mission = NPC_MISSION_SHOPKEEP;
     temp->personality.aggression -= 1;
     temp->op_of_u.owed = 10;
-    temp->add_new_mission( mission::reserve_new( MISSION_JOIN_TRACKER, temp->getID() ) );
+    temp->add_new_mission( mission::reserve_new( mission_type_id( "MISSION_JOIN_TRACKER" ), temp->getID() ) );
 }
 
 void mission_start::radio_repeater( mission *miss )
@@ -1524,7 +1521,7 @@ void mission_start::ranch_scavenger_3(mission *miss)
  bay.spawn_item( 16, 21, "wheel_wide" );
  bay.spawn_item( 17, 21, "wheel_wide" );
  bay.spawn_item( 23, 18, "v8_combustion" );
- bay.furn_set(23,17, "f_arcade_machine");
+ bay.furn_set(23,17, furn_str_id( "f_arcade_machine" ) );
  bay.ter_set(23,16, ter_str_id( "t_machinery_light" ) );
  bay.furn_set( 20, 21, f_woodstove);
  bay.save();

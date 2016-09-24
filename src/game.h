@@ -18,15 +18,14 @@
 extern const int savegame_version;
 extern int save_loading_version;
 
+extern bool test_mode;
+
 // The reference to the one and only game instance.
 class game;
 extern game *g;
 
 #ifdef TILES
 extern void try_sdl_update();
-extern void invalidate_map_framebuffer();
-extern void invalidate_overmap_framebuffer();
-extern void clear_window_area( WINDOW* win );
 #endif // TILES
 
 extern bool trigdist;
@@ -34,8 +33,15 @@ extern bool use_tiles;
 extern bool fov_3d;
 extern bool tile_iso;
 
+extern const int core_version;
+
 extern const int savegame_version;
 extern int savegame_loading_version;
+
+enum class dump_mode {
+    TSV,
+    HTML
+};
 
 enum tut_type {
     TUT_NULL,
@@ -82,7 +88,8 @@ struct special_game;
 struct mtype;
 using mtype_id = string_id<mtype>;
 using itype_id = std::string;
-using ammotype = std::string;
+class ammunition_type;
+using ammotype = string_id<ammunition_type>;
 class mission;
 class map;
 class Creature;
@@ -114,6 +121,7 @@ typedef int nc_color;
 struct w_point;
 struct explosion_data;
 struct visibility_variables;
+class scent_map;
 
 // Note: this is copied from inventory.h
 // Entire inventory.h would also bring item.h here
@@ -121,34 +129,44 @@ typedef std::list< std::list<item> > invstack;
 typedef std::vector< std::list<item>* > invslice;
 typedef std::vector< const std::list<item>* > const_invslice;
 typedef std::vector< std::pair<std::list<item>*, int> > indexed_invslice;
-typedef std::function<bool(const item &)> item_filter;
+
+typedef std::function<bool( const item & )> item_filter;
+typedef std::function<bool( const item_location & )> item_location_filter;
 
 class game
 {
         friend class editmap;
         friend class advanced_inventory;
-        friend class DynamicDataLoader; // To allow unloading dynamicly loaded stuff
     public:
         game();
         ~game();
 
         /** Loads static data that does not depend on mods or similar. */
         void load_static_data();
-        /** Loads core data and all mods. */
-        void check_all_mod_data();
-        /** Loads core dynamic data. */
+
+        /** Loads core dynamic data. May throw. */
         void load_core_data();
-    protected:
-        /** Loads dynamic data from the given directory. */
-        void load_data_from_dir(const std::string &path);
-        /** Loads core data and mods from the given world. */
+
+        /**
+         *  Check if mods can be sucessfully loaded
+         *  @param opts check specific mods (or all if unspecified)
+         *  @return whether all mods were successfully loaded
+         */
+        bool check_mod_data( const std::vector<std::string> &opts );
+
+        /** Loads core data and mods from the given world. May throw. */
         void load_world_modfiles(WORLDPTR world);
+    protected:
+        /** Loads dynamic data from the given directory. May throw. */
+        void load_data_from_dir( const std::string &path, const std::string &src );
+
 
         // May be a bit hacky, but it's probably better than the header spaghetti
         std::unique_ptr<map> map_ptr;
         std::unique_ptr<player> u_ptr;
         std::unique_ptr<live_view> liveview_ptr;
         live_view& liveview;
+        std::unique_ptr<scent_map> scent_ptr;
     public:
 
         /** Initializes the UI. */
@@ -169,8 +187,8 @@ class game
         void unserialize_master(std::istream &fin);  // for load
         bool unserialize_master_legacy(std::istream &fin);  // for old load
 
-        /** write stats of all loaded items of the given type to stdout */
-        void dump_stats( const std::string& what );
+        /** write statisics to stdout and @return true if sucessful */
+        bool dump_stats( const std::string& what, dump_mode mode, const std::vector<std::string> &opts );
 
         /** Returns false if saving failed. */
         bool save();
@@ -192,13 +210,16 @@ class game
          * Returns the location where the indicator should go relative to the reality bubble,
          * or tripoint_min to indicate no indicator should be drawn.
          * Based on the vehicle the player is driving, if any.
+         * @param next If true, bases it on the vehicle the vehicle will turn to next turn,
+         * instead of the one it is currently facing.
          */
-        tripoint get_veh_dir_indicator_location() const;
-        void draw_veh_dir_indicator(void);
+        tripoint get_veh_dir_indicator_location( bool next ) const;
+        void draw_veh_dir_indicator( bool next );
 
         /** Make map a reference here, to avoid map.h in game.h */
         map &m;
         player &u;
+        scent_map &scent;
 
         std::unique_ptr<Creature_tracker> critter_tracker;
         /**
@@ -309,26 +330,24 @@ class game
          * If reviving failed, the item is unchanged, as is the environment (no new monsters).
          */
         bool revive_corpse( const tripoint &location, item &corpse );
-        /** Handles player input parts of gun firing (target selection, etc.). Actual firing is done
-         *  in player::fire_gun(). This is interactive and should not be used by NPC's. */
-        void plfire( bool burst, const tripoint &default_target = tripoint_min );
-        /** Cycle fire mode of held item. If `force_gun` is false, also checks turrets on the tile */
-        void cycle_item_mode( bool force_gun );
+
+        /**
+         *  Handles interactive parts of gun firing (target selection, etc.).
+         *  @return whether an attack was actually performed
+         */
+        bool plfire();
+
         /** Target is an interactive function which allows the player to choose a nearby
          *  square.  It display information on any monster/NPC on that square, and also
          *  returns a Bresenham line to that square.  It is called by plfire(),
          *  throw() and vehicle::aim_turrets() */
-        std::vector<tripoint> target( tripoint &p, const tripoint &low, const tripoint &high,
-                                      std::vector<Creature *> t, int &target,
-                                      item *relevant, target_mode mode,
-                                      const tripoint &from = tripoint_min );
-        /**
-         * Interface to target(), collects a list of targets & selects default target
-         * finally calls target() and returns its result.
-         * Used by vehicle::manual_fire_turret()
-         */
-        std::vector<tripoint> pl_target_ui( tripoint &p, int range, item *relevant, target_mode mode,
-                                            const tripoint &default_target = tripoint_min );
+        std::vector<tripoint> target( tripoint src, tripoint dst, int range,
+                                      std::vector<Creature *> t, int target,
+                                      item *relevant, target_mode mode );
+
+        /** Prompts for target and returns trajectory to it */
+        std::vector<tripoint> pl_target_ui( target_mode mode, item *relevant, int range );
+
         /** Redirects to player::cancel_activity(). */
         void cancel_activity();
         /** Asks if the player wants to cancel their activity, and if so cancels it. */
@@ -375,7 +394,6 @@ class game
         void nuke( const tripoint &p );
         bool spread_fungus( const tripoint &p );
         std::vector<faction *> factions_at( const tripoint &p );
-        int &scent( const tripoint &p );
         float natural_light_level( int zlev ) const;
         /** Returns coarse number-of-squares of visibility at the current light level.
          * Used by monster and NPC AI.
@@ -390,7 +408,7 @@ class game
         void refresh_all();
         // Handles shifting coordinates transparently when moving between submaps.
         // Helper to make calling with a player pointer less verbose.
-        void update_map(player *p);
+        void update_map( player &p );
         void update_map(int &x, int &y);
         void update_overmap_seen(); // Update which overmap tiles we can see
 
@@ -431,8 +449,11 @@ class game
 
         item *inv_map_for_liquid(const item &liquid, const std::string &title, int radius = 0);
 
-        int inv( int position = INT_MIN );
+        void interactive_inv();
+
         int inv_for_filter( const std::string &title, item_filter filter, const std::string &none_message = "" );
+        int inv_for_filter( const std::string &title, item_location_filter filter, const std::string &none_message = "" );
+
         int inv_for_all( const std::string &title, const std::string &none_message = "" );
         int inv_for_activatables( const player &p, const std::string &title );
         int inv_for_flag( const std::string &flag, const std::string &title );
@@ -449,14 +470,9 @@ class game
         };
         int inventory_item_menu(int pos, int startx = 0, int width = 50, inventory_item_menu_positon position = RIGHT_OF_INFO);
 
-        // Combines filtered player inventory with filtered ground and vehicle items within radius to create a pseudo-inventory.
-        item_location inv_map_splice( item_filter inv_filter,
-                                      item_filter ground_filter,
-                                      item_filter vehicle_filter,
-                                      const std::string &title,
-                                      int radius = 0,
-                                      const std::string &none_message = "" );
         item_location inv_map_splice( item_filter filter, const std::string &title, int radius = 0,
+                                      const std::string &none_message = "" );
+        item_location inv_map_splice( item_location_filter filter, const std::string &title, int radius = 0,
                                       const std::string &none_message = "" );
 
         // Select items to drop.  Returns a list of pairs of position, quantity.
@@ -476,7 +492,6 @@ class game
         void reset_zoom();
         int get_user_action_counter() const;
 
-        std::unique_ptr<weather_generator> weather_gen;
         signed char temperature;              // The air temperature
         int get_temperature();    // Returns outdoor or indoor temperature of current location
         weather_type weather;   // Weather pattern--SEE weather.h
@@ -499,6 +514,7 @@ class game
          * The overmap which contains the center submap of the reality bubble.
          */
         overmap &get_cur_om() const;
+        const weather_generator &get_cur_weather_gen() const;
         const scenario *scen;
         std::vector<monster> coming_to_stairs;
         int monstairz;
@@ -551,7 +567,7 @@ class game
          * charges of the liquid have been transferred.
          * `true` indicates some charges have been transferred (but not necessarily all of them).
          */
-        void handle_all_liquid( item liquid, int radius = 0 );
+        void handle_all_liquid( item liquid, int radius );
 
         /**
          * Consume / handle as much of the liquid as possible in varying ways. This function can
@@ -585,7 +601,7 @@ class game
          * The iterator is invalidated in that case. Otherwise the item remains but may have
          * fewer charges.
          */
-        bool handle_liquid_from_container( std::vector<item>::iterator in_container, item &container, int radius = 0 );
+        bool handle_liquid_from_container( std::list<item>::iterator in_container, item &container, int radius = 0 );
         /**
          * Shortcut to the above: handles the first item in the container.
          */
@@ -662,20 +678,9 @@ class game
         bool right_sidebar;
         bool fullscreen;
         bool was_fullscreen;
-        void exam_vehicle(vehicle &veh, const tripoint &p, int cx = 0,
-                          int cy = 0); // open vehicle interaction screen
 
-        // put items from the item-vector on the map/a vehicle
-        // at (dirx, diry), items are dropped into a vehicle part
-        // with the cargo flag (if there is one), otherwise they are
-        // dropped onto the ground.
-        void drop(std::vector<item> &dropped, std::vector<item> &dropped_worn,
-                  int freed_volume_capacity, tripoint dir,
-                  bool to_vehicle = true); // emulate old behaviour normally
-        void drop(std::vector<item> &dropped, std::vector<item> &dropped_worn,
-                  int freed_volume_capacity, int dirx, int diry,
-                  bool to_vehicle = true); // emulate old behaviour normally
-        bool make_drop_activity(enum activity_type act, const tripoint &target, bool to_vehicle = true);
+        /** open vehicle interaction screen */
+        void exam_vehicle(vehicle &veh, int cx = 0, int cy = 0);
 
         // Forcefully close a door at p.
         // The function checks for creatures/items/vehicles at that point and
@@ -737,6 +742,11 @@ class game
         void wishskill( player *p );
         void mutation_wish(); // Mutate
 
+        /** Check for dangerous stuff at dest_loc, return false if the player decides
+        not to step there */
+        bool prompt_dangerous_tile( const tripoint &dest_loc ) const;
+        /** Returns true if the menu handled stuff and player shouldn't do anything else */
+        bool npc_menu( npc &who );
         void pldrive(int x, int y); // drive vehicle
         // Standard movement; handles attacks, traps, &c. Returns false if auto move
         // should be canceled
@@ -765,13 +775,9 @@ class game
         void examine( const tripoint &p );// Examine nearby terrain  'e'
         void examine();
 
-        // Establish a grab on something.
-        void grab();
-        // Pick where to put liquid; false if it's left where it was
-
-        void compare(); // Compare two Items 'I'
-        void compare( const tripoint &offset ); // Offset is added to player's position
-        void drop(int pos = INT_MIN); // Drop an item  'd'
+        void grab(); // Establish a grab on something.
+        void compare( const tripoint &offset = tripoint_min ); // Compare items 'I'
+        void drop(int pos = INT_MIN, const tripoint &where = tripoint_min ); // Drop an item  'd'
         void drop_in_direction(); // Drop w/ direction  'D'
 
         void reassign_item(int pos = INT_MIN); // Reassign the letter of an item  '='
@@ -785,9 +791,12 @@ class game
         void reload(); // Reload a wielded gun/tool  'r'
         void reload( int pos, bool prompt = false );
         void mend( int pos = INT_MIN );
+        void autoattack();
 public:
         bool unload( item &it ); // Unload a gun/tool  'U'
         void unload(int pos = INT_MIN);
+
+        unsigned int get_seed() const;
 private:
         void wield(int pos = INT_MIN); // Wield a weapon  'w'
         void read(); // Read a book  'R' (or 'a')
@@ -841,7 +850,6 @@ private:
         void process_events();   // Processes and enacts long-term events
         void process_activity(); // Processes and enacts the player's activity
         void update_weather();   // Updates the temperature and weather patten
-        void hallucinate( const tripoint &center ); // Prints hallucination junk to the screen
         int  mon_info(WINDOW *); // Prints a list of nearby monsters
         void handle_key_blocking_activity(); // Abort reading etc.
         bool handle_action();
@@ -861,10 +869,8 @@ private:
          */
         bool disable_robot( const tripoint &p );
 
-        void update_scent();     // Updates the scent map
         bool is_game_over();     // Returns true if the player quit or died
         void death_screen();     // Display our stats, "GAME OVER BOO HOO"
-        void gameover();         // Ends the game
         void msg_buffer();       // Opens a window with old messages in it
         void draw_minimap();     // Draw the 5x5 minimap
         void draw_HP();          // Draws the player's HP and Power level
@@ -911,8 +917,6 @@ private:
         calendar nextspawn; // The turn on which monsters will spawn next.
         calendar nextweather; // The turn on which weather will shift next.
         int next_npc_id, next_faction_id, next_mission_id; // Keep track of UIDs
-        int grscent[SEEX *MAPSIZE][SEEY *MAPSIZE];   // The scent map
-        int nulscent;    // Returned for OOB scent checks
         std::list<event> events;         // Game events to be processed
         std::map<mtype_id, int> kills;         // Player's kill count
         int moves_since_last_save;
@@ -922,7 +926,7 @@ private:
         int remoteveh_cache_turn;
         vehicle *remoteveh_cache;
 
-        special_game *gamemode;
+        std::unique_ptr<special_game> gamemode;
 
         int moveCount; //Times the player has moved (not pause, sleep, etc)
         int user_action_counter; // Times the user has input an action
@@ -931,6 +935,11 @@ private:
         /** How far the tileset should be zoomed out, 16 is default. 32 is zoomed in by x2, 8 is zoomed out by x0.5 */
         int tileset_zoom;
 
+        /** Seed for all the random numbers that should have consistent randomness (weather). */
+        unsigned int seed;
+
+        weather_type weather_override;
+
         // Preview for auto move route
         std::vector<tripoint> destination_preview;
 
@@ -938,15 +947,6 @@ private:
 
         void move_save_to_graveyard();
         bool save_player_data();
-
-        /** Options can be specified by mods from JSON using GAME_OPTION */
-        void load_game_option( JsonObject& jo );
-        std::set<std::string> options;
-
-    public:
-        bool has_option( const std::string& opt ) {
-            return options.count( opt );
-        }
 };
 
 #endif

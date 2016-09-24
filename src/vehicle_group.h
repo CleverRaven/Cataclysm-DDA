@@ -102,7 +102,7 @@ typedef void (*vehicle_gen_pointer)(map &m, const std::string &terrainid);
 class VehicleFunction_builtin : public VehicleFunction {
 public:
     VehicleFunction_builtin(const vehicle_gen_pointer &func) : func(func) {}
-    ~VehicleFunction_builtin() { }
+    ~VehicleFunction_builtin() override { }
 
     /**
      * This will invoke the vehicle spawning fuction on the map.
@@ -120,7 +120,7 @@ private:
 class VehicleFunction_json : public VehicleFunction {
 public:
     VehicleFunction_json(JsonObject &jo);
-    ~VehicleFunction_json() { }
+    ~VehicleFunction_json() override { }
 
     /**
      * This will invoke the vehicle spawning fuction on the map.

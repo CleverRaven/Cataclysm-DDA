@@ -1,0 +1,103 @@
+[
+    {
+        "type" : "speech",
+        "speaker" : "mon_furvivor_deagle",
+        "sound" : "\"An-CHORS a-WAY my boys, anchors away!\"",
+        "volume" : 30
+    },{
+        "type" : "speech",
+        "speaker" : "mon_furvivor_deagle",
+        "sound" : "\"H-Hello?\"",
+        "volume" : 15
+    },{
+        "type" : "speech",
+        "speaker" : "mon_furvivor_deagle",
+        "sound" : "\"Hey you!\"",
+        "volume" : 30
+    },{
+        "type" : "speech",
+        "speaker" : "mon_furvivor_deagle",
+        "sound" : "\"1 shot 2 shot, this is where the fun stops\"",
+        "volume" : 20
+    },{
+        "type" : "speech",
+        "speaker" : "mon_furvivor_deagle",
+        "sound" : "\"Shut your cumdumpster Private!\"",
+        "volume" : 30
+    },{
+        "type" : "speech",
+        "speaker" : "mon_furvivor_deagle",
+        "sound" : "\"You got an eye problem?\"",
+        "volume" : 20
+    },{
+        "type" : "speech",
+        "speaker" : "mon_furvivor_deagle",
+        "sound" : "\"I'll dance on your grave!\"",
+        "volume" : 40
+    },{
+        "type" : "speech",
+        "speaker" : "mon_furvivor_deagle",
+        "sound" : "\"Broken Blue!\"",
+        "volume" : 30
+    },{
+        "type" : "speech",
+        "speaker" : "mon_furvivor_deagle",
+        "sound" : "\"Its just chaffing!  A rash!\"",
+        "volume" : 20
+    },{
+        "type" : "speech",
+        "speaker" : "mon_furvivor_deagle",
+        "sound" : "\"You think a 'sick pack' is going to fix this?!\"",
+        "volume" : 15
+    },{
+        "type" : "speech",
+        "speaker" : "mon_furvivor_deagle",
+        "sound" : "\"Fuck this!\"",
+        "volume" : 25
+    },{
+        "type" : "speech",
+        "speaker" : "mon_furvivor_deagle",
+        "sound" : "\"Shine, shine, shine, spit, spit, spit\"",
+        "volume" : 20
+    },{
+        "type" : "speech",
+        "speaker" : "mon_furvivor_deagle",
+        "sound" : "\"I had a dog and his name was BLUUE!\"",
+        "volume" : 40
+    },{
+        "type" : "speech",
+        "speaker" : "mon_furvivor_deagle",
+        "sound" : "\"This sounds highly illegal!\"",
+        "volume" : 15
+    },{
+        "type" : "speech",
+        "speaker" : "mon_furvivor_deagle",
+        "sound" : "\"Ohh, man, did you see the chunks fly off her skull?\"",
+        "volume" : 15
+    },{
+        "type" : "speech",
+        "speaker" : "mon_furvivor_deagle",
+        "sound" : "\"One more remark like that and I'll show you who's got the power around here, 'Sir' . . .\"",
+        "volume" : 10
+    },{
+        "type" : "speech",
+        "speaker" : "mon_furvivor_deagle",
+        "sound" : "\"aRRRGH, make the noises stop!\"",
+        "volume" : 30
+    },{
+        "type" : "speech",
+        "speaker" : "mon_furvivor_deagle",
+        "sound" : "\"aRRRGHH!\"",
+        "volume" : 40
+    },{
+        "type" : "speech",
+        "speaker" : "mon_furvivor_deagle",
+        "sound" : "\"No, I've already explained why that's bad.\"",
+        "volume" : 15
+    },{
+        "type" : "speech",
+        "speaker" : "mon_furvivor_deagle",
+        "sound" : "\"Oh geez, my skin looks like a moldy peach\"",
+        "volume" : 15
+    }
+]

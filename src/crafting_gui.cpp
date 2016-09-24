@@ -2,6 +2,7 @@
 
 #include "crafting.h"
 #include "recipe_dictionary.h"
+#include "requirements.h"
 #include "player.h"
 #include "itype.h"
 #include "input.h"
@@ -14,6 +15,9 @@
 #include "debug.h"
 
 #include <algorithm>
+#include <string>
+#include <vector>
+#include <map>
 
 enum TAB_MODE {
     NORMAL,
@@ -25,8 +29,7 @@ std::vector<std::string> craft_cat_list;
 std::map<std::string, std::vector<std::string> > craft_subcat_list;
 std::map<std::string, std::string> normalized_names;
 
-static void draw_can_craft_indicator( WINDOW *w, int window_width, int margin_x, int margin_y,
-                                      const recipe &rec );
+static void draw_can_craft_indicator( WINDOW *w, const int margin_y, const recipe &rec );
 static void draw_recipe_tabs( WINDOW *w, std::string tab, TAB_MODE mode = NORMAL );
 static void draw_recipe_subtabs( WINDOW *w, std::string tab, std::string subtab,
                                  TAB_MODE mode = NORMAL );
@@ -142,7 +145,6 @@ const recipe *select_crafting_recipe( int &batch_size )
     list_circularizer<std::string> subtab( craft_subcat_list[tab.cur()] );
     std::vector<const recipe *> current;
     std::vector<bool> available;
-    std::vector<std::string> component_print_buffer;
     const int componentPrintHeight = dataHeight - tailHeight - 1;
     //preserves component color printout between mode rotations
     nc_color rotated_color = c_white;
@@ -176,6 +178,7 @@ const recipe *select_crafting_recipe( int &batch_size )
     ctxt.register_action( "CYCLE_BATCH" );
 
     const inventory &crafting_inv = g->u.crafting_inventory();
+    const std::vector<npc *> helpers = g->u.get_crafting_helpers();
     std::string filterstring = "";
     do {
         if( redraw ) {
@@ -197,10 +200,11 @@ const recipe *select_crafting_recipe( int &batch_size )
             current.clear();
             available.clear();
             if( batch ) {
-                batch_recipes( crafting_inv, current, available, chosen );
+                batch_recipes( crafting_inv, helpers, current, available, chosen );
             } else {
                 // Set current to all recipes in the current tab; available are possible to make
-                pick_recipes( crafting_inv, current, available, tab.cur(), subtab.cur(), filterstring );
+                pick_recipes( crafting_inv, helpers, current, available,
+                              tab.cur(), subtab.cur(), filterstring );
             }
         }
 
@@ -311,15 +315,25 @@ const recipe *select_crafting_recipe( int &batch_size )
                 }
             }
         }
+
         if( !current.empty() ) {
-            draw_can_craft_indicator( w_head, getmaxx( w_head ), 1, 0, *current[line] );
+            int pane = FULL_SCREEN_WIDTH - 30 - 1;
+            int count = batch ? line + 1 : 1; // batch size
+            nc_color col = available[ line ] ? c_white : c_ltgray;
+
+            const auto &req = current[ line ]->requirements();
+
+            draw_can_craft_indicator( w_head, 0, *current[line] );
             wrefresh( w_head );
 
-            nc_color col = ( available[line] ? c_white : c_ltgray );
             ypos = 0;
 
-            component_print_buffer = current[line]->requirements.get_folded_components_list(
-                                         FULL_SCREEN_WIDTH - 30 - 1, col, crafting_inv, ( batch ) ? line + 1 : 1 );
+            std::vector<std::string> component_print_buffer;
+            auto tools = req.get_folded_tools_list( pane, col, crafting_inv, count );
+            auto comps = req.get_folded_components_list( pane, col, crafting_inv, count );
+            component_print_buffer.insert( component_print_buffer.end(), tools.begin(), tools.end() );
+            component_print_buffer.insert( component_print_buffer.end(), comps.begin(), comps.end() );
+
             if( !g->u.knows_recipe( current[line] ) ) {
                 component_print_buffer.push_back( _( "Recipe not memorized yet" ) );
             }
@@ -359,18 +373,12 @@ const recipe *select_crafting_recipe( int &batch_size )
                                // Macs don't seem to like passing this as a class, so force it to int
                                ( int )g->u.get_skill_level( current[line]->skill_used ) );
                 }
-                ypos += current[line]->print_time( w_data, ypos, 30, FULL_SCREEN_WIDTH - 30 - 1, col,
-                                                   ( batch ) ? line + 1 : 1 );
+                ypos += current[line]->print_time( w_data, ypos, 30, pane, col, count );
                 mvwprintz( w_data, ypos++, 30, col, _( "Dark craftable? %s" ),
                            current[line]->has_flag( "BLIND_EASY" ) ? _( "Easy" ) :
                            current[line]->has_flag( "BLIND_HARD" ) ? _( "Hard" ) :
                            _( "Impossible" ) );
                 ypos += current[line]->print_items( w_data, ypos, 30, col, ( batch ) ? line + 1 : 1 );
-            }
-            if( display_mode == 0 || display_mode == 1 ) {
-                ypos += current[line]->requirements.print_tools(
-                            w_data, ypos, 30, FULL_SCREEN_WIDTH - 30 - 1, col,
-                            crafting_inv, ( batch ) ? line + 1 : 1 );
             }
 
             //color needs to be preserved in case part of the previous page was cut off
@@ -515,26 +523,22 @@ const recipe *select_crafting_recipe( int &batch_size )
 }
 
 // Anchors top-right
-static void draw_can_craft_indicator( WINDOW *w, int window_width, int margin_x, int margin_y,
-                                      const recipe &rec )
+static void draw_can_craft_indicator( WINDOW *w, const int margin_y, const recipe &rec )
 {
-    int x_align = window_width - margin_x;
     // Erase previous text
-    mvwprintz( w, margin_y + 1, x_align - 1 - utf8_width( _( "too dark" ) ),  c_black  ,
-               std::string( utf8_width( _( "too dark" ) ), ' ' ).c_str() );
+    // @fixme replace this hack by proper solution (based on max width of possible content)
+    right_print( w, margin_y + 1, 1, c_black, "        " );
     // Draw text
-    mvwprintz( w, margin_y, x_align - utf8_width( _( "can craft:" ) ), c_ltgray, _( "can craft:" ) );
+    right_print( w, margin_y, 1, c_ltgray, "%s", _( "can craft:" ) );
     if( g->u.lighting_craft_speed_multiplier( rec ) == 0.0f ) {
-        mvwprintz( w, margin_y + 1, x_align - 1 - utf8_width( _( "too dark" ) ),  i_red  ,
-                   _( "too dark" ) );
+        right_print( w, margin_y + 1, 1, i_red, "%s", _( "too dark" ) );
     } else if( !g->u.has_morale_to_craft() ) {
-        mvwprintz( w, margin_y + 1, x_align - 1 - utf8_width( _( "too sad" ) ),  i_red  , _( "too sad" ) );
+        right_print( w, margin_y + 1, 1, i_red, "%s", _( "too sad" ) );
     } else if( g->u.lighting_craft_speed_multiplier( rec ) < 1.0f ) {
-        mvwprintz( w, margin_y + 1, x_align - 5 - utf8_width( _( "slow" ) ),  i_yellow  , _( "slow" ) );
-        mvwprintz( w, margin_y + 1, x_align - 5 ,  i_yellow  , "%3d%%",
-                   int( g->u.lighting_craft_speed_multiplier( rec ) * 100 ) );
+        right_print( w, margin_y + 1, 1, i_yellow, _( "slow %d%%" ),
+                     int( g->u.lighting_craft_speed_multiplier( rec ) * 100 ) );
     } else {
-        mvwprintz( w, margin_y + 1, x_align - 1 - utf8_width( _( "yes" ) ),  i_green  , _( "yes" ) );
+        right_print( w, margin_y + 1, 1, i_green, "%s", _( "yes" ) );
     }
 }
 
@@ -683,6 +687,7 @@ bool lcmatch_any( const std::vector< std::vector<T> > &list_of_list, const std::
 }
 
 void pick_recipes( const inventory &crafting_inv,
+                   const std::vector<npc *> &helpers,
                    std::vector<const recipe *> &current,
                    std::vector<bool> &available, std::string tab,
                    std::string subtab, std::string filter )
@@ -734,18 +739,19 @@ void pick_recipes( const inventory &crafting_inv,
     int max_difficulty = 0;
 
     for( auto rec : available_recipes ) {
+        const auto &needs = rec->requirements();
 
         if( subtab == "CSC_ALL" || rec->subcat == subtab ||
             ( rec->subcat == "" && craft_subcat_list[tab].back() == subtab ) ||
             filter != "" ) {
-            if( ( !g->u.knows_recipe( rec ) && -1 == g->u.has_recipe( rec, crafting_inv ) )
+            if( ( !g->u.knows_recipe( rec ) && -1 == g->u.has_recipe( rec, crafting_inv, helpers ) )
                 || ( rec->difficulty < 0 ) ) {
                 continue;
             }
             if( filter != "" ) {
                 if( ( search_name && !lcmatch( item::nname( rec->result ), filter ) )
-                    || ( search_tool && !lcmatch_any( rec->requirements.get_tools(), filter ) )
-                    || ( search_component && !lcmatch_any( rec->requirements.get_components(), filter ) ) ) {
+                    || ( search_tool && !lcmatch_any( needs.get_tools(), filter ) )
+                    || ( search_component && !lcmatch_any( needs.get_components(), filter ) ) ) {
                     continue;
                 }
                 bool match_found = false;
@@ -762,7 +768,7 @@ void pick_recipes( const inventory &crafting_inv,
                     }
                 }
                 if( search_qualities ) {
-                    for( auto quality_reqs : rec->requirements.get_qualities() ) {
+                    for( auto quality_reqs : needs.get_qualities() ) {
                         for( auto quality : quality_reqs ) {
                             if( lcmatch( quality.to_string(), filter ) ) {
                                 match_found = true;
@@ -804,7 +810,7 @@ void pick_recipes( const inventory &crafting_inv,
     for( int i = max_difficulty; i != -1; --i ) {
         for( auto rec : filtered_list ) {
             if( rec->difficulty == i ) {
-                if( rec->can_make_with_inventory( crafting_inv ) ) {
+                if( rec->can_make_with_inventory( crafting_inv, helpers ) ) {
                     current.insert( current.begin(), rec );
                     available.insert( available.begin(), true );
                     truecount++;

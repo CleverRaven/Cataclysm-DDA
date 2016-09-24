@@ -9,6 +9,7 @@
 #include "trap.h"
 #include "string_id.h"
 #include "weighted_list.h"
+#include "units.h"
 #include "rng.h"
 
 #include <bitset>
@@ -54,14 +55,14 @@ struct map_bash_info {
     std::string sound;      // sound made on success ('You hear a "smash!"')
     std::string sound_fail; // sound  made on fail
     ter_str_id ter_set;    // terrain to set (REQUIRED for terrain))
-    std::string furn_set;   // furniture to set (only used by furniture, not terrain)
+    furn_str_id furn_set;   // furniture to set (only used by furniture, not terrain)
     // ids used for the special handling of tents (have to be ids of furniture)
     std::vector<std::string> tent_centers;
     map_bash_info() : str_min(-1), str_max(-1), str_min_blocked(-1), str_max_blocked(-1),
                       str_min_supported(-1), str_max_supported(-1),
                       explosive(0), sound_vol(-1), sound_fail_vol(-1),
                       collapse_radius(1), destroy_only(false), bash_below(false),
-                      drop_group("EMPTY_GROUP"), ter_set(NULL_ID) {};
+                      drop_group("EMPTY_GROUP"), ter_set(NULL_ID), furn_set(NULL_ID) {};
     bool load(JsonObject &jsobj, std::string member, bool is_furniture);
 };
 struct map_deconstruct_info {
@@ -72,8 +73,8 @@ struct map_deconstruct_info {
     // items you get when deconstructing.
     std::string drop_group;
     ter_str_id ter_set;    // terrain to set (REQUIRED for terrain))
-    std::string furn_set;    // furniture to set (only used by furniture, not terrain)
-    map_deconstruct_info() : can_do(false), deconstruct_above(false), ter_set(NULL_ID) {};
+    furn_str_id furn_set;    // furniture to set (only used by furniture, not terrain)
+    map_deconstruct_info() : can_do(false), deconstruct_above(false), ter_set(NULL_ID), furn_set(NULL_ID) {};
     bool load(JsonObject &jsobj, std::string member, bool is_furniture);
 };
 
@@ -187,6 +188,7 @@ enum ter_connects : int {
     TERCONN_CHAINFENCE,
     TERCONN_WOODFENCE,
     TERCONN_RAILING,
+    TERCONN_WATER,
 };
 
 struct map_data_common_t {
@@ -210,7 +212,7 @@ public:
     std::array<long, SEASONS_PER_YEAR> symbol_;
 
     int movecost;   // The amount of movement points required to pass this terrain by default.
-    int max_volume; // Maximal volume of items that can be stored in/on this furniture
+    units::volume max_volume; // Maximal volume of items that can be stored in/on this furniture
 
     std::array<nc_color, SEASONS_PER_YEAR> color_; //The color the sym will draw in on the GUI.
     void load_symbol( JsonObject &jo );
@@ -286,24 +288,29 @@ void reset_furn_ter();
  */
 
 struct furn_t : map_data_common_t {
-    std::string id;
-    furn_id loadid;     // This is akin to the old ter_id, however it is set at runtime.
-    std::string open;  // Open action: transform into terrain with matching id
-    std::string close; // Close action: transform into terrain with matching id
+    furn_str_id id;
+    furn_str_id open;  // Open action: transform into furniture with matching id
+    furn_str_id close; // Close action: transform into furniture with matching id
     std::string crafting_pseudo_item;
 
-    int move_str_req; //The amount of strength required to move through this terrain easily.
+    int move_str_req; //The amount of strength required to move through this furniture easily.
 
     // May return NULL
     const itype *crafting_pseudo_item_type() const;
     // May return NULL
     const itype *crafting_ammo_item_type() const;
+
+    furn_t() :
+        open( NULL_ID ),
+        close( NULL_ID ) {};
+
+    static size_t count();
+
+    bool was_loaded = false;
+
+    void load( JsonObject &jo );
+    void check() const;
 };
-
-
-extern std::map<std::string, furn_t> furnmap;
-furn_id furnfind(const std::string & id); // lookup, carp and return null on error
-
 
 /*
 Map Extras are overmap specific flags that tell a submap "hey, put something extra here ontop of whats normally here".
@@ -381,6 +388,8 @@ extern ter_id t_null,
     t_wall_glass,
     t_wall_glass_alarm,
     t_reinforced_glass,
+    t_reinforced_door_glass_o,
+    t_reinforced_door_glass_c,
     t_bars,
     t_door_c, t_door_c_peep, t_door_b, t_door_b_peep, t_door_o, t_door_o_peep,
     t_door_locked_interior, t_door_locked, t_door_locked_peep, t_door_locked_alarm, t_door_frame,

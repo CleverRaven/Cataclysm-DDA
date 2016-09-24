@@ -11,8 +11,8 @@ player &get_sanitized_player(  ) {
     player &dummy = g->u;
 
     // Remove first worn item until there are none left.
-    std::vector<item> taken_off_items;
-    while( dummy.takeoff( -2, true, &taken_off_items) );
+    std::list<item> temp;
+    while( dummy.takeoff( dummy.i_at( -2 ), &temp ) );
     dummy.inv.clear();
     dummy.remove_weapon();
 
@@ -22,7 +22,7 @@ player &get_sanitized_player(  ) {
 TEST_CASE( "use_eyedrops" ) {
     player &dummy = get_sanitized_player();
 
-    item &test_item = dummy.i_add( item( "saline", 0, false ) );
+    item &test_item = dummy.i_add( item( "saline", 0, item::default_charges_tag{} ) );
 
     REQUIRE( test_item.charges == 5 );
 
@@ -74,15 +74,15 @@ TEST_CASE( "use_manhack" ) {
 
     int test_item_pos = dummy.inv.position_by_item( &test_item );
     REQUIRE( test_item_pos != INT_MIN );
-    
+
     monster *new_manhack = find_adjacent_monster( dummy.pos() );
     REQUIRE( new_manhack == nullptr );
-    
+
     dummy.invoke_item( &test_item );
 
     test_item_pos = dummy.inv.position_by_item( &test_item );
     REQUIRE( test_item_pos == INT_MIN );
-    
+
     new_manhack = find_adjacent_monster( dummy.pos() );
     REQUIRE( new_manhack != nullptr );
     REQUIRE( new_manhack->type->id == mtype_id( "mon_manhack" ) );

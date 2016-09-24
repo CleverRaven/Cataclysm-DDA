@@ -229,10 +229,12 @@
         "name": ["On Fire"],
         "desc": ["Loss of health - Entire Body\nYour clothing and other equipment may be consumed by the flames."],
         "remove_memorial_log": "Put out the fire.",
-        "apply_message": "You're on fire!",
+        "apply_message": "You're on fire!  Wait in place to attempt to put out the fire.",
         "apply_memorial_log": "Caught on fire.",
         "rating": "bad",
-        "max_duration": 10
+        "max_intensity": 3,
+        "int_dur_factor": 5,
+        "max_duration": 50
     },
     {
         "type": "effect_type",
@@ -383,6 +385,20 @@
         "scaling_mods": {
             "dex_mod": [-0.34, -0.17],
             "speed_mod": [-5, -3]
+        }
+    },
+    {
+        "type": "effect_type",
+        "id": "nausea",
+        "name" : ["Nausea"],
+        "desc": ["You feel nauseous.  Even a thought of food makes you feel sick."],
+        "remove_message": "You no longer feel nauseous.",
+        "rating": "bad",
+        "int_dur_factor": 300,
+        "max_intensity": 3,
+        "max_duration": 900,
+        "base_mods": {
+            "vomit_chance": [60]
         }
     },
     {
@@ -696,7 +712,13 @@
         "type": "effect_type",
         "id": "visuals",
         "name": ["Hallucinating"],
-        "desc": ["You can't trust everything that you see."]
+        "desc": ["You can't trust everything that you see."],
+        "rating": "bad",
+        "base_mods": {
+            "int_mod": [-2],
+            "dex_mod": [-1],
+            "per_mod": [-4]
+        }
     },
     {
         "type": "effect_type",
@@ -1198,20 +1220,6 @@
     },
     {
         "type": "effect_type",
-        "id": "grack",
-        "name": ["Grack"],
-        "desc": ["Unleashed the Gracken."],
-        "apply_message": "RELEASE THE GRACKEN!!!!",
-        "base_mods": {
-            "speed_mod": [20000],
-            "str_mod": [400],
-            "dex_mod": [400],
-            "int_mod": [400],
-            "per_mod": [400]
-        }
-    },
-    {
-        "type": "effect_type",
         "id": "teleglow"
     },
     {
@@ -1228,7 +1236,7 @@
         "type": "effect_type",
         "id": "weed_high",
         "apply_message": "You feel lightheaded.",
-        "miss_messages": [["That critter's jumping around like a jitterbug! It needs to mellow out.", 1]],
+        "miss_messages": [["That critter's jumping around like a jitterbug!  It needs to mellow out.", 1]],
         "base_mods": {
             "str_mod": [-1],
             "dex_mod": [-1],
@@ -1544,7 +1552,7 @@
         "id": "anemia",
         "name": [ "Iron deficiency", "Early anemia", "Anemia" ],
         "desc": [ "A lack of iron in your diet will result in progressively worsening anemia." ],
-        "apply_message": "You beging feeling increasingly tired and listless.",
+        "apply_message": "You begin feeling increasingly tired and listless.",
         "remove_message": "You no longer feel anemic.",
         "decay_messages": [
           [ "Your iron deficiency is nearly resolved.", "good" ],
@@ -1558,9 +1566,9 @@
         "id": "hypovitA",
         "name": [ "VitA deficiency", "Poor vision", "Night blindness" ],
         "desc": [ "A lack of vitamin A in your diet will progressively worsen your vision." ],
-        "apply_message": "You beging struggling to make out the finer details.",
-        "remove_message": "Your normal visual accuity returns.",
-        "decay_messages": [ 
+        "apply_message": "You start struggling to make out the finer details.",
+        "remove_message": "Your normal visual acuity returns.",
+        "decay_messages": [
           [ "Your vitamin A deficiency is nearly resolved.", "good" ],
           [ "Your vision improves as your Vitamin A deficiency improves.", "good" ]
         ],
@@ -1603,5 +1611,9 @@
         "apply_message": "Your metabolism becomes unstable.",
         "remove_message": "Your metabolism becomes more stable.",
         "rating": "bad"
+    },
+    {
+        "type": "effect_type",
+        "id": "cough_suppress"
     }
 ]

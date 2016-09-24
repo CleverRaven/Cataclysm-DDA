@@ -1,4 +1,3 @@
-tests/cata_test
 cataclysm
 cataclysm-tiles
 chkjson*
@@ -26,6 +25,8 @@ WinDepend/
 *.zip
 build/
 dep/
+*.o
+*.d
 
 data/font/
 config/
@@ -95,10 +96,13 @@ Cataclysm.dmg
 # Jetbrains CLion
 .idea/
 
-# linked test executable
+# test executables and generated data
+tests/cata_test
 tests/line_test
 tests/map_iterator_test
 tests/shadowcasting_test
+tests/data/jsionized_overmap.sav
+
 # static library used to link the test executable
 cataclysm.a
 
@@ -107,3 +111,22 @@ cataclysm.a
 
 # sublime-text workspace
 *.sublime-workspace
+
+# Visual Studio 2015
+msvc-full-features/*db
+msvc-full-features/ipch
+lnk*.tmp
+Cataclysm.exe.lastcodeanalysissucceeded
+
+# cppcheck
+*cppcheck.xml
+*.cppcheck
+
+# IDA database
+Cataclysm.i64
+Cataclysm.id*
+Cataclysm.til
+Cataclysm.nam
+
+# Distribution script results
+msvc-full-features/distribution

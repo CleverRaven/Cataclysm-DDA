@@ -23,7 +23,7 @@ std::string basecamp::board_name() const
 
 std::string basecamp::save_data() const
 {
-    std::stringstream data;
+    std::ostringstream data;
 
     // TODO: This will lose underscores, is that a problem?
     // strip spaces from name

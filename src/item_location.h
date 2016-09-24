@@ -3,19 +3,30 @@
 
 #include <memory>
 
+#include "json.h"
+
+struct tripoint;
 class item;
 class Character;
 class map_cursor;
 class vehicle_cursor;
 
 /**
- * A class for easy removal of used items.
- * Ensures the item exists, but not that the character/vehicle does.
- * Should not be kept, but removed before the end of turn.
+ * A lightweight handle to an item independent of it's location
+ * Unlike a raw pointer can be (de-)serialized to/from JSON
+ * Provides a generic interface of querying, obtaining and removing an item
+ * Is invalidated by many operations (including copying of the item)
  */
-class item_location
+class item_location : public JsonSerializer, public JsonDeserializer
 {
     public:
+        enum class type : int {
+            invalid = 0,
+            character = 1,
+            map = 2,
+            vehicle = 3
+        };
+
         item_location();
         item_location( const item_location & ) = delete;
         item_location &operator= ( const item_location & ) = delete;
@@ -29,6 +40,9 @@ class item_location
         item_location( const map_cursor &mc, item *which );
         item_location( const vehicle_cursor &vc, item *which );
 
+        void serialize( JsonOut &js ) const;
+        void deserialize( JsonIn &js );
+
         bool operator==( const item_location &rhs ) const;
         bool operator!=( const item_location &rhs ) const;
 
@@ -39,6 +53,12 @@ class item_location
 
         item *operator->();
         const item *operator->() const;
+
+        /** Returns the type of location where the item is found */
+        type where() const;
+
+        /** Returns the position where the item is found */
+        tripoint position() const;
 
         /** Describes the item location
          *  @param ch if set description is relative to character location */
@@ -64,14 +84,15 @@ class item_location
         item *get_item();
         const item *get_item() const;
 
+        /**
+         * Clones this instance
+         * @warning usage should be restricted to implementing custom copy-constructors
+         */
+        item_location clone() const;
+
     private:
         class impl;
-        std::unique_ptr<impl> ptr;
-
-        class item_is_null;
-        class item_on_map;
-        class item_on_person;
-        class item_on_vehicle;
+        std::shared_ptr<impl> ptr;
 };
 
 #endif

@@ -1,0 +1,29 @@
+[
+  {
+    "id": "belt50",
+    "copy-from": "magazine_belt",
+    "type": "MAGAZINE",
+    "name": "ammo belt",
+    "ammo_type": "50",
+    "capacity": 100,
+    "count": 100,
+    "linkage": "ammolink50"
+  },
+  {
+    "id": "m107a1mag",
+    "type": "MAGAZINE",
+    "name": "Barrett magazine",
+    "description": "Standard 10-round box magazine for a Barrett M107A1 anti-materiel rifle.",
+    "weight": 398,
+    "volume": 2,
+    "price": 10000,
+    "material": "steel",
+    "symbol": "#",
+    "color": "ltgray",
+    "ammo_type": "50",
+    "capacity": 10,
+    "reliability": 9,
+    "reload_time": 130,
+    "flags": [ "MAG_BULKY" ]
+  }
+]

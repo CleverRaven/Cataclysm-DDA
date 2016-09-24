@@ -1,0 +1,16 @@
+[
+  {
+    "type": "MOD_INFO",
+    "mod-type": "SUPPLEMENTAL",
+    "ident": "no_faults",
+    "name": "Perfect Reliability",
+    "author": "Mugling",
+    "description": "Vehicle parts are perfectly reliable and never spawn with faults or develop them during use",
+    "category": "rebalance",
+    "path": "modinfo.json"
+  },
+  {
+    "type": "WORLD_OPTION",
+    "options": [ "NO_FAULTS" ]
+  }
+]

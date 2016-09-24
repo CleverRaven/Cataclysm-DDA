@@ -20,6 +20,17 @@
         "flags": ["TRANSPARENT", "NOITEM"]
     },{
         "type" : "terrain",
+        "id" : "t_open_air_rooved",
+        "name": "open air",
+        "symbol": " ",
+        "color": "i_cyan",
+        "move_cost": 2,
+        "roof": "t_flat_roof",
+        "trap": "tr_ledge",
+        "flags": ["TRANSPARENT", "NO_FLOOR"],
+        "examine_action": "climb_down"
+    },{
+        "type" : "terrain",
         "id" : "t_brick_wall_halfway",
         "name": "half-built brick wall",
         "symbol": "#",
@@ -1139,6 +1150,52 @@
         }
     },{
         "type" : "terrain",
+        "id" : "t_reinforced_door_glass_c",
+        "name": "closed reinforced glass door",
+        "symbol": "+",
+        "color": "ltcyan",
+        "move_cost": 0,
+        "flags": [
+            "TRANSPARENT", "DOOR", "NOITEM", "CONNECT_TO_WALL"
+        ],
+        "open": "t_reinforced_door_glass_o",
+        "bash": {
+            "str_min": 40, "str_max": 210,
+            "sound": "glass breaking!",
+            "sound_fail": "whack!",
+            "sound_vol": 20,
+            "sound_fail_vol": 14,
+            "ter_set": "t_floor",
+            "items": [
+                { "item": "glass_shard", "count": [5, 10] },
+                { "item": "wire", "prob": 20 },
+                { "item": "scrap", "count": [3, 5] }
+            ]
+        }
+    },{
+        "type" : "terrain",
+        "id" : "t_reinforced_door_glass_o",
+        "name": "open reinforced  glass door",
+        "symbol": "'",
+        "color": "ltcyan",
+        "move_cost": 2,
+        "flags": ["TRANSPARENT", "FLAT", "CONNECT_TO_WALL", "ROAD"],
+        "close": "t_reinforced_door_glass_c",
+        "bash": {
+            "str_min": 40, "str_max": 210,
+            "sound": "glass breaking!",
+            "sound_fail": "whack!",
+            "sound_vol": 20,
+            "sound_fail_vol": 14,
+            "ter_set": "t_floor",
+            "items": [
+                { "item": "glass_shard", "count": [5, 10] },
+                { "item": "wire", "prob": 20 },
+                { "item": "scrap", "count": [3, 5] }
+            ]
+        }
+    },{
+        "type" : "terrain",
         "id" : "t_bars",
         "name": "metal bars",
         "examine_action": "bars",
@@ -1505,7 +1562,7 @@
         ],
         "open": "t_door_curtain_o",
         "deconstruct": {
-            "ter_set": "t_null",
+            "ter_set": "t_door_frame",
             "items": [
                 { "item": "stick", "count": 1 },
                 { "item": "sheet", "count": 2 },
@@ -1518,7 +1575,7 @@
             "sound_fail": "slap!",
             "sound_vol": 6,
             "sound_fail_vol": 3,
-            "ter_set": "t_null",
+            "ter_set": "t_door_frame",
             "items": [
                 { "item": "sheet", "count": [0, 1] },
                 { "item": "rag", "count": [2, 5] },
@@ -1569,7 +1626,7 @@
             "ROAD"
         ],
         "deconstruct": {
-            "ter_set": "t_null",
+            "ter_set": "t_door_frame",
             "items": [
                 { "item": "stick", "count": 1 },
                 { "item": "sheet", "count": 2 },
@@ -1583,7 +1640,7 @@
             "sound_fail": "slap!",
             "sound_vol": 5,
             "sound_fail_vol": 2,
-            "ter_set": "t_null",
+            "ter_set": "t_door_frame",
             "items": [
                 { "item": "sheet", "count": [0, 1] },
                 { "item": "rag", "count": [2, 5] },
@@ -2650,7 +2707,7 @@
         "color": "ltgreen",
         "move_cost": 0,
         "roof": "t_rock_floor",
-        "flags": ["NOITEM", "SUPPORTS_ROOF", "WALL", "BARRICADABLE_WINDOW"],
+        "flags": ["NOITEM", "SUPPORTS_ROOF", "WALL", "BARRICADABLE_WINDOW", "CONNECT_TO_WALL"],
         "bash": {
             "str_min": 100, "str_max": 400,
             "sound": "glass breaking!",
@@ -2668,7 +2725,7 @@
         "color": "ltred",
         "move_cost": 0,
         "roof": "t_rock_floor",
-        "flags": ["NOITEM", "SUPPORTS_ROOF", "WALL", "BARRICADABLE_WINDOW"],
+        "flags": ["NOITEM", "SUPPORTS_ROOF", "WALL", "BARRICADABLE_WINDOW", "CONNECT_TO_WALL"],
         "bash": {
             "str_min": 100, "str_max": 400,
             "sound": "glass breaking!",
@@ -2686,7 +2743,7 @@
         "color": "ltblue",
         "move_cost": 0,
         "roof": "t_rock_floor",
-        "flags": ["NOITEM", "SUPPORTS_ROOF", "WALL", "BARRICADABLE_WINDOW"],
+        "flags": ["NOITEM", "SUPPORTS_ROOF", "WALL", "BARRICADABLE_WINDOW", "CONNECT_TO_WALL"],
         "bash": {
             "str_min": 100, "str_max": 400,
             "sound": "glass breaking!",
@@ -2715,6 +2772,26 @@
                 { "item": "coal_lump", "charges": [250, 500], "prob": 10 },
                 { "item": "material_limestone", "charges": [10, 25], "prob": 80 },
                 { "item": "material_rocksalt", "count": [0, 1], "prob": 20 }
+            ]
+        }
+    },{
+        "type" : "terrain",
+        "id" : "t_rock_smooth",
+        "name": "smoothed rock",
+        "symbol": "LINE_OXOX",   "//": "use pillars, 't_column', as a compliment.",
+        "color": "white",
+        "move_cost": 0,
+        "flags": ["NOITEM", "SUPPORTS_ROOF", "WALL", "AUTO_WALL_SYMBOL", "CONNECT_TO_WALL"],
+        "roof": "t_rock_floor",
+        "connects_to": "WALL",
+        "bash": {
+            "str_min": 120, "str_max": 400,
+            "sound": "crash!",
+            "sound_fail": "whump!",
+            "ter_set": "t_rock_floor",
+            "items": [
+                { "item": "rock", "count": [6, 12] },
+                { "item": "material_rocksalt", "count": [0, 1], "prob": 10 }
             ]
         }
     },{
@@ -3369,7 +3446,7 @@
             "SHRUB", "SHORT"
         ],
         "bash": {
-            "str_min": 4, "str_max": 60,
+            "str_min": 4, "str_max": 30,
             "sound": "crunch.",
             "sound_fail": "brush.",
             "ter_set": "t_dirt"
@@ -3921,6 +3998,7 @@
         "color": "ltblue",
         "move_cost": 5,
         "flags": ["TRANSPARENT", "LIQUID", "SWIMMABLE", "FISHABLE"],
+        "connects_to": "WATER",
         "examine_action": "water_source"
     },{
         "type" : "terrain",
@@ -3930,6 +4008,7 @@
         "color": "blue",
         "move_cost": 8,
         "flags": ["TRANSPARENT", "LIQUID", "SWIMMABLE", "DEEP_WATER", "FISHABLE"],
+        "connects_to": "WATER",        
         "examine_action": "water_source"
     },{
         "type" : "terrain",
@@ -3939,6 +4018,7 @@
         "color": "ltblue",
         "move_cost": 5,
         "flags": ["TRANSPARENT", "LIQUID", "SWIMMABLE", "SALT_WATER", "FISHABLE"],
+        "connects_to": "WATER",
         "examine_action": "water_source"
     },{
         "type" : "terrain",
@@ -3948,6 +4028,7 @@
         "color": "blue",
         "move_cost": 8,
         "flags": ["TRANSPARENT", "LIQUID", "SWIMMABLE", "SALT_WATER", "DEEP_WATER", "FISHABLE"],
+        "connects_to": "WATER",
         "examine_action": "water_source"
     },{
         "type" : "terrain",
@@ -5885,7 +5966,7 @@
         "symbol": ".",
         "color": "dkgray",
         "move_cost": 2,
-        "flags": ["TRANSPARENT", "FLAT"],
+        "flags": ["TRANSPARENT", "FLAT", "ROAD"],
         "bash": {
             "str_min": 70, "str_max": 300,
             "sound": "concrete cracking and metal screeching!",
@@ -5939,7 +6020,7 @@
         "symbol": "#",
         "color": "ltgray",
         "move_cost": 3,
-        "flags": ["TRANSPARENT", "NOITEM", "REDUCE_SCENT", "MOUNTABLE", "SHORT", "THINOBSTACLE", "ROAD"],
+        "flags": ["TRANSPARENT", "NOITEM", "REDUCE_SCENT", "MOUNTABLE", "SHORT", "THIN_OBSTACLE", "ROAD"],
         "bash": {
             "str_min": 8, "str_max": 150,
             "sound": "crunch!",

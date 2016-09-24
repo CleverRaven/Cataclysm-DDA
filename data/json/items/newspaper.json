@@ -26,6 +26,7 @@
         "description": "A scrap of paper.  Something's written on it, scrawled in bad handwriting.",
         "price": 0,
         "material": "paper",
+        "flags": "TRADER_AVOID",
         "weight": 3,
         "volume": 0
     },

@@ -19,6 +19,8 @@
 
 #include <math.h>  // rounding
 #include <sstream>
+#include <algorithm>
+#include <vector>
 
 const mtype_id mon_blob( "mon_blob" );
 const mtype_id mon_blob_brain( "mon_blob_brain" );
@@ -50,49 +52,93 @@ const efftype_id effect_rat( "rat" );
 
 void mdeath::normal(monster *z)
 {
-    if ((g->u.sees(*z)) && (!z->no_corpse_quiet)) {
-        add_msg(m_good, _("The %s dies!"),
-                z->name().c_str()); //Currently it is possible to get multiple messages that a monster died.
-    }
-    if ( z->type->in_species( ZOMBIE )) {
-            sfx::play_variant_sound( "mon_death", "zombie_death", sfx::get_heard_volume(z->pos()));
-        }
-    m_size monSize = z->type->size;
-    bool leaveCorpse = !z->no_corpse_quiet;
-
-    // leave some blood if we have to
-    field_id type_blood = z->bloodType();
-    if (type_blood != fd_null) {
-        g->m.add_field( z->pos(), type_blood, 1, 0 );
+    if( z->no_corpse_quiet ) {
+        return;
     }
 
-    int maxHP = z->get_hp_max();
-    if (!maxHP) {
-        maxHP = 1;
+    if( z->type->in_species( ZOMBIE ) ) {
+        sfx::play_variant_sound( "mon_death", "zombie_death", sfx::get_heard_volume( z->pos() ) );
     }
 
-    float overflowDamage = std::max( -z->get_hp(), 0 );
-    float corpseDamage = 5 * (overflowDamage / (maxHP * 2));
+    if( g->u.sees( *z ) ) {
+        //Currently it is possible to get multiple messages that a monster died.
+        add_msg( m_good, _( "The %s dies!" ), z->name().c_str() );
+    }
 
-    if (leaveCorpse) {
-        int gibAmount = int(floor(corpseDamage)) - 1;
-        // allow one extra gib per 5 HP
-        int gibLimit = 1 + (maxHP / 5.0);
-        if (gibAmount > gibLimit) {
-            gibAmount = gibLimit;
+    const int max_hp = std::max( z->get_hp_max(), 1 );
+    const float overflow_damage = std::max( -z->get_hp(), 0 );
+    const float corpse_damage = 2.5 * overflow_damage / max_hp;
+    const bool pulverized = corpse_damage > 5 && overflow_damage > z->get_hp_max();
+
+    z->bleed(); // leave some blood if we have to
+
+    if( !pulverized ) {
+        make_mon_corpse( z, int( std::floor( corpse_damage ) ) );
+    }
+
+    // Limit chunking to flesh, veggy and insect creatures until other kinds are supported.
+    const std::vector<material_id> gib_mats = {{
+        material_id( "flesh" ), material_id( "hflesh" ),
+        material_id( "veggy" ), material_id( "iflesh" ),
+    }};
+    const bool gibbable = !z->type->has_flag( MF_NOGIB ) &&
+        std::any_of( gib_mats.begin(), gib_mats.end(), [&z]( const material_id &gm ) {
+            return z->made_of( gm );
+        } );
+
+    const field_id type_blood = z->bloodType();
+    const field_id type_gib = z->gibType();
+
+    if( gibbable ) {
+        const auto area = g->m.points_in_radius( z->pos(), 1 );
+        int number_of_gibs = std::min( std::floor( corpse_damage ) - 1, 1 + max_hp / 5.0f );
+
+        if( pulverized && z->type->size >= MS_MEDIUM ) {
+            number_of_gibs += rng( 1, 6 );
+            sfx::play_variant_sound( "mon_death", "zombie_gibbed", sfx::get_heard_volume( z->pos() ) );
         }
-        bool pulverized = (corpseDamage > 5 && overflowDamage > 150);
-        if (!pulverized) {
-            make_mon_corpse(z, int(floor(corpseDamage)));
-        } else if (monSize >= MS_MEDIUM) {
-            gibAmount += rng(1, 6);
-            sfx::play_variant_sound( "mon_death", "zombie_gibbed", sfx::get_heard_volume(z->pos()));
+
+        for( int i = 0; i < number_of_gibs; ++i ) {
+            g->m.add_splatter( type_gib, random_entry( area ), rng( 1, i + 1 ) );
+            g->m.add_splatter( type_blood, random_entry( area ) );
         }
-        // Limit chunking to flesh, veggy and insect creatures until other kinds are supported.
-        bool leaveGibs = (z->made_of( material_id( "flesh" ) ) || z->made_of( material_id( "hflesh" ) ) || z->made_of( material_id( "veggy" ) ) ||
-                          z->made_of( material_id( "iflesh" ) ));
-        if (leaveGibs) {
-            make_gibs( z, gibAmount );
+    }
+
+    const int num_chunks = z->type->get_meat_chunks_count();
+    const itype_id meat = z->type->get_meat_itype();
+
+    if( pulverized && gibbable ) {
+        const item chunk( meat );
+        for( int i = 0; i < num_chunks; i++ ) {
+            tripoint tarp( z->pos() + point( rng( -3, 3 ), rng( -3, 3 ) ) );
+            const auto traj = line_to( z->pos(), tarp );
+
+            for( size_t j = 0; j < traj.size(); j++ ) {
+                tarp = traj[j];
+                if( one_in( 2 ) && type_blood != fd_null ) {
+                    g->m.add_splatter( type_blood, tarp );
+                } else {
+                    g->m.add_splatter( type_gib, tarp, rng( 1, j + 1 ) );
+                }
+                if( g->m.impassable( tarp ) ) {
+                    g->m.bash( tarp, 3 );
+                    if( g->m.impassable( tarp ) ) {
+                        // Target is obstacle, not destroyed by bashing,
+                        // stop trajectory in front of it, if this is the first
+                        // point (e.g. wall adjacent to monster) , make it invalid.
+                        if( j > 0 ) {
+                            tarp = traj[j - 1];
+                        } else {
+                            tarp = tripoint_min;
+                        }
+                        break;
+                    }
+                }
+            }
+
+            if( tarp != tripoint_min ) {
+                g->m.add_item_or_charges( tarp, chunk );
+            }
         }
     }
 }
@@ -116,16 +162,18 @@ void mdeath::boomer(monster *z)
     sounds::sound(z->pos(), 24, explode);
     for( auto &&dest : g->m.points_in_radius( z->pos(), 1 ) ) {
         g->m.bash( dest, 10 );
-        g->m.add_field( dest, fd_bile, 1, 0 );
         int mondex = g->mon_at( dest );
         if (mondex != -1) {
             g->zombie(mondex).stumble();
             g->zombie(mondex).moves -= 250;
         }
     }
-    if (rl_dist( z->pos(), g->u.pos() ) == 1) {
+
+    if( rl_dist( z->pos(), g->u.pos() ) == 1 ) {
         g->u.add_env_effect( effect_boomered, bp_eyes, 2, 24 );
     }
+
+    g->m.propagate_field( z->pos(), fd_bile, 15, 1 );
 }
 
 void mdeath::boomer_glow(monster *z)
@@ -135,7 +183,6 @@ void mdeath::boomer_glow(monster *z)
 
     for( auto &&dest : g->m.points_in_radius( z->pos(), 1 ) ) {
         g->m.bash(dest , 10 );
-        g->m.add_field(dest , fd_bile, 1, 0);
         int mondex = g->mon_at(dest);
         Creature *critter = g->critter_at(dest);
         if (mondex != -1) {
@@ -153,6 +200,8 @@ void mdeath::boomer_glow(monster *z)
             }
         }
     }
+
+    g->m.propagate_field( z->pos(), fd_bile, 30, 2 );
 }
 
 void mdeath::kill_vines(monster *z)
@@ -478,7 +527,7 @@ void mdeath::focused_beam(monster *z)
 {
 
     for (int k = g->m.i_at(z->pos()).size() - 1; k >= 0; k--) {
-        if (g->m.i_at(z->pos())[k].type->id == "processor") {
+        if (g->m.i_at(z->pos())[k].typeId() == "processor") {
             g->m.i_rem(z->pos(), k);
         }
     }
@@ -556,28 +605,14 @@ void mdeath::gas(monster *z)
 {
     std::string explode = string_format(_("a %s explode!"), z->name().c_str());
     sounds::sound(z->pos(), 24, explode);
-    for( auto &&dest : g->m.points_in_radius( z->pos(), 2 ) ) {
-        g->m.add_field(dest, fd_toxic_gas, 3, 0);
-        int mondex = g->mon_at(dest);
-        if (mondex != -1) {
-            g->zombie(mondex).stumble();
-            g->zombie(mondex).moves -= 250;
-        }
-    }
+    g->m.emit_field( z->pos(), emit_id( "emit_toxic_blast" ) );
 }
 
 void mdeath::smokeburst(monster *z)
 {
     std::string explode = string_format(_("a %s explode!"), z->name().c_str());
     sounds::sound(z->pos(), 24, explode);
-    for( auto &&dest : g->m.points_in_radius( z->pos(), 1 ) ) {
-        g->m.add_field( dest, fd_smoke, 3, 0 );
-        int mondex = g->mon_at( dest );
-        if (mondex != -1) {
-            g->zombie(mondex).stumble();
-            g->zombie(mondex).moves -= 250;
-        }
-    }
+    g->m.emit_field( z->pos(), emit_id( "emit_smoke_blast" ) );
 }
 
 void mdeath::jabberwock(monster *z)
@@ -696,43 +731,10 @@ void mdeath::broken_ammo(monster *z)
     mdeath::broken(z);
 }
 
-void make_gibs(monster *z, int amount)
-{
-    if (amount <= 0) {
-        return;
-    }
-
-    field_id type_blood = z->bloodType();
-
-    const auto random_pt = []( const tripoint &p ) {
-        return tripoint( p.x + rng( -1, 1 ), p.y + rng( -1, 1 ), p.z );
-    };
-
-    for (int i = 0; i < amount; i++) {
-        // leave gibs, if there are any
-        tripoint pt = random_pt( z->pos() );
-        const int gibDensity = rng(1, i + 1);
-        if( z->gibType() != fd_null ) {
-            if(  g->m.clear_path( z->pos(), pt, 2, 1, 100 ) ) {
-                // Only place gib if there's a clear path for it to get there.
-                g->m.add_field( pt, z->gibType(), gibDensity, 0 );
-            }
-        }
-        pt = random_pt( z->pos() );
-        if( type_blood != fd_null ) {
-            if( g->m.clear_path( z->pos(), pt, 2, 1, 100 ) ) {
-                // Only place blood if there's a clear path for it to get there.
-                g->m.add_field( pt, type_blood, 1, 0 );
-            }
-        }
-    }
-}
-
 void make_mon_corpse(monster *z, int damageLvl)
 {
-    const int MAX_DAM = 4;
     item corpse = item::make_corpse( z->type->id, calendar::turn, z->unique_name );
-    corpse.damage = damageLvl > MAX_DAM ? MAX_DAM : damageLvl;
+    corpse.set_damage( damageLvl );
     if( z->has_effect( effect_pacified) && z->type->in_species( ZOMBIE ) ) {
         // Pacified corpses have a chance of becoming un-pacified when regenerating.
         corpse.set_var( "zlave", one_in(2) ? "zlave" : "mutilated" );

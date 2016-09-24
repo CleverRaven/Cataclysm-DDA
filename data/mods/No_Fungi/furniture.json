@@ -2,6 +2,7 @@
     {
         "type" : "furniture",
         "id" : "f_flower_fungal",
+        "edit-mode" : "override",
         "name": "fungal flower",
         "symbol": "f",
         "color": "dkgray",
@@ -16,6 +17,7 @@
     },{
         "type" : "furniture",
         "id" : "f_flower_marloss",
+        "edit-mode" : "override",
         "name": "marloss flower",
         "symbol": "f",
         "color": "cyan",

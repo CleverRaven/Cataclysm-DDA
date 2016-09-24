@@ -76,6 +76,13 @@ namespace std{
     };
 }
 
+//Used for autopickup and safemode rules
+enum rule_state : int {
+    RULE_NONE,
+    RULE_WHITELISTED,
+    RULE_BLACKLISTED
+};
+
 enum visibility_type {
   VIS_HIDDEN,
   VIS_CLEAR,
@@ -160,7 +167,7 @@ enum artifact_natural_property {
     ARTPROP_MAX
 };
 
-enum phase_id {
+enum phase_id : int {
     PNULL, SOLID, LIQUID, GAS, PLASMA
 };
 
@@ -191,7 +198,7 @@ struct point : public JsonSerializer, public JsonDeserializer {
     point(const point &) = default;
     point &operator=(point &&) = default;
     point &operator=(const point &) = default;
-    ~point() {}
+    ~point() override {}
     using JsonSerializer::serialize;
     void serialize(JsonOut &jsout) const override
     {
@@ -265,7 +272,7 @@ struct tripoint : public JsonSerializer, public JsonDeserializer {
     tripoint &operator=(tripoint &&) = default;
     tripoint &operator=(const tripoint &) = default;
     explicit tripoint(const point &p, int Z) : x (p.x), y (p.y), z (Z) {}
-    ~tripoint() {}
+    ~tripoint() override {}
     using JsonSerializer::serialize;
     void serialize(JsonOut &jsout) const override
     {
@@ -321,6 +328,13 @@ struct tripoint : public JsonSerializer, public JsonDeserializer {
     {
         x -= rhs.x;
         y -= rhs.y;
+        return *this;
+    }
+    tripoint &operator-=( const tripoint &rhs )
+    {
+        x -= rhs.x;
+        y -= rhs.y;
+        z -= rhs.z;
         return *this;
     }
 };

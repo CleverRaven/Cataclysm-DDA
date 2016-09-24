@@ -21,10 +21,12 @@
 #include "mapdata.h"
 #include "itype.h"
 #include <chrono>
+#include <algorithm>
+
 #ifdef SDL_SOUND
 #   include <SDL_mixer.h>
 #   include <thread>
-#   if (defined _WIN32 || defined WINDOWS)
+#   if ((defined _WIN32 || defined WINDOWS) && !defined _MSC_VER)
 #       include "mingw.thread.h"
 #   endif
 #endif
@@ -285,9 +287,7 @@ void sounds::process_sound_markers( player *p )
         if( !description.empty() ) {
             // If it came from us, don't print a direction
             if( pos == p->pos() ) {
-                std::string uppercased = description;
-                capitalize_letter( uppercased, 0 );
-                add_msg( "%s", uppercased.c_str() );
+                add_msg( "You hear %s", description.c_str() );
             } else {
                 // Else print a direction as well
                 std::string direction = direction_name( direction_from( p->pos(), pos ) );
@@ -598,6 +598,7 @@ struct sound_thread {
     int vol_targ;
     int ang_targ;
 
+    // Operator overload required for thread API.
     void operator()() const;
 };
 } // namespace sfx
@@ -635,10 +636,10 @@ sfx::sound_thread::sound_thread( const tripoint &source, const tripoint &target,
     }
     ang_targ = get_heard_angle( target );
     weapon_skill = p->weapon.weap_skill();
-    weapon_volume = p->weapon.volume();
+    weapon_volume = p->weapon.volume() / units::legacy_volume_factor;
 }
 
-
+// Operator overload required for thread API.
 void sfx::sound_thread::operator()() const
 {
     // This is function is run in a separate thread. One must be careful and not access game data
@@ -857,38 +858,38 @@ void sfx::do_footstep() {
     sfx_time = end_sfx_timestamp - start_sfx_timestamp;
     if( std::chrono::duration_cast<std::chrono::milliseconds> ( sfx_time ).count() > 400 ) {
         int heard_volume = sfx::get_heard_volume( g->u.pos() );
-        const auto terrain = g->m.ter_at( g->u.pos() ).id.str();
-        static std::set<ter_type> const grass = {
-            ter_type( "t_grass" ),
-            ter_type( "t_shrub" ),
-            ter_type( "t_underbrush" ),
+        const auto terrain = g->m.ter( g->u.pos() ).id();
+        static std::set<ter_str_id> const grass = {
+            ter_str_id( "t_grass" ),
+            ter_str_id( "t_shrub" ),
+            ter_str_id( "t_underbrush" ),
         };
-        static std::set<ter_type> const dirt = {
-            ter_type( "t_dirt" ),
-            ter_type( "t_sand" ),
-            ter_type( "t_dirtfloor" ),
-            ter_type( "t_palisade_gate_o" ),
-            ter_type( "t_sandbox" ),
+        static std::set<ter_str_id> const dirt = {
+            ter_str_id( "t_dirt" ),
+            ter_str_id( "t_sand" ),
+            ter_str_id( "t_dirtfloor" ),
+            ter_str_id( "t_palisade_gate_o" ),
+            ter_str_id( "t_sandbox" ),
         };
-        static std::set<ter_type> const metal = {
-            ter_type( "t_ov_smreb_cage" ),
-            ter_type( "t_metal_floor" ),
-            ter_type( "t_grate" ),
-            ter_type( "t_bridge" ),
-            ter_type( "t_elevator" ),
-            ter_type( "t_guardrail_bg_dp" ),
+        static std::set<ter_str_id> const metal = {
+            ter_str_id( "t_ov_smreb_cage" ),
+            ter_str_id( "t_metal_floor" ),
+            ter_str_id( "t_grate" ),
+            ter_str_id( "t_bridge" ),
+            ter_str_id( "t_elevator" ),
+            ter_str_id( "t_guardrail_bg_dp" ),
         };
-        static std::set<ter_type> const water = {
-            ter_type( "t_water_sh" ),
-            ter_type( "t_water_dp" ),
-            ter_type( "t_swater_sh" ),
-            ter_type( "t_swater_dp" ),
-            ter_type( "t_water_pool" ),
-            ter_type( "t_sewage" ),
+        static std::set<ter_str_id> const water = {
+            ter_str_id( "t_water_sh" ),
+            ter_str_id( "t_water_dp" ),
+            ter_str_id( "t_swater_sh" ),
+            ter_str_id( "t_swater_dp" ),
+            ter_str_id( "t_water_pool" ),
+            ter_str_id( "t_sewage" ),
         };
-        static std::set<ter_type> const chain_fence = {
-            ter_type( "t_chainfence_h" ),
-            ter_type( "t_chainfence_v" ),
+        static std::set<ter_str_id> const chain_fence = {
+            ter_str_id( "t_chainfence_h" ),
+            ter_str_id( "t_chainfence_v" ),
         };
         if( !g->u.wearing_something_on( bp_foot_l ) ) {
             play_variant_sound( "plmove", "walk_barefoot", heard_volume, 0, 0.8, 1.2 );
@@ -924,14 +925,14 @@ void sfx::do_footstep() {
 
 void sfx::do_obstacle() {
     int heard_volume = sfx::get_heard_volume( g->u.pos() );
-    const auto terrain = g->m.ter_at( g->u.pos() ).id.str();
-    static std::set<ter_type> const water = {
-        ter_type( "t_water_sh" ),
-        ter_type( "t_water_dp" ),
-        ter_type( "t_swater_sh" ),
-        ter_type( "t_swater_dp" ),
-        ter_type( "t_water_pool" ),
-        ter_type( "t_sewage" ),
+    const auto terrain = g->m.ter( g->u.pos() ).id();
+    static std::set<ter_str_id> const water = {
+        ter_str_id( "t_water_sh" ),
+        ter_str_id( "t_water_dp" ),
+        ter_str_id( "t_swater_sh" ),
+        ter_str_id( "t_swater_dp" ),
+        ter_str_id( "t_water_pool" ),
+        ter_str_id( "t_sewage" ),
     };
     if( water.count( terrain ) > 0 ) {
         return;

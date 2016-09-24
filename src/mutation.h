@@ -5,6 +5,7 @@
 #include "enums.h" // tripoint
 #include "bodypart.h"
 #include "color.h"
+#include "damage.h"
 #include "string_id.h"
 #include <string>
 #include <vector>
@@ -31,6 +32,30 @@ struct dream {
         category = "";
         strength = 0;
     }
+};
+
+struct mut_attack {
+    /** Text printed when the attack is proced by you */
+    std::string attack_text_u;
+    /** As above, but for npc */
+    std::string attack_text_npc;
+    /** Need all of those to qualify for this attack */
+    std::set<std::string> required_mutations;
+    /** Need none of those to qualify for this attack */
+    std::set<std::string> blocker_mutations;
+
+    /** If not num_bp, this body part needs to be uncovered for the attack to proc */
+    body_part bp = num_bp;
+
+    /** Chance to proc is one_in( chance - dex - unarmed ) */
+    int chance = 0;
+
+    damage_instance base_damage;
+    /** Multiplied by strength and added to the above */
+    damage_instance strength_damage;
+
+    /** Should be true when and only when this attack needs hardcoded handling */
+    bool hardcoded_effect = false;
 };
 
 struct mutation_branch {
@@ -69,6 +94,9 @@ struct mutation_branch {
     int bodytemp_max = 0;
     int bodytemp_sleep = 0;
 
+    /** Attacks granted by this mutation */
+    std::vector<mut_attack> attacks_granted;
+
     /** Mutations may adjust one or more of the default vitamin usage rates */
     std::map<vitamin_id, int> vitamin_rates;
 
@@ -88,6 +116,7 @@ struct mutation_branch {
     std::set<body_part> restricts_gear;
     /** Key pair is <active: bool, mod type: "STR"> */
     std::unordered_map<std::pair<bool, std::string>, int> mods; // Mutation stat mods
+    std::map<body_part, resistances> armor;
     std::vector<matype_id>
     initial_ma_styles; // Martial art styles that can be chosen upon character generation
     std::string name;
@@ -100,6 +129,10 @@ struct mutation_branch {
      * Returns true if a character with this mutation shouldn't be able to wear given item.
      */
     bool conflicts_with_item( const item &it ) const;
+    /**
+     * Returns damage resistance on a given body part granted by this mutation.
+     */
+    const resistances &damage_resistance( body_part bp ) const;
     /**
      * Check whether the given id is a valid mutation id (refers to a known mutation).
      */

@@ -49,6 +49,9 @@ groups of vehicle definitions with self-explanatory names of files:
 
 #raw jsons
 
+###All files
+"//" : "comment", // Preferred method of leaving comments inside json files.
+
 ###BIONICS
 ```C++
 "id"           : "bio_batteries",  // Unique ID. Must be one continuous word,
@@ -61,6 +64,8 @@ groups of vehicle definitions with self-explanatory names of files:
 "time"         : 0,  // How long, when activated, between drawing cost.
                      // If 0, it draws power once. (default: 0)
 "description"  : "You have a battery draining attachment, and thus can make use of the energy contained in normal, everyday batteries.  Use 'E' to consume batteries." // In-game description
+"canceled_mutations": ["HYPEROPIC"] // (optional) A list of mutations/traits that are removed when this bionic is installed (e.g. because it replaces the fault biological part).
+"included_bionics": ["bio_blindfold"] // (optional) Additional bionics that are installed automatically when this bionic is installed. This can be used to install several bionics from one CBM item, which is useful as each of those can be activated independently.
 ```
 ###DREAMS
 ```C++
@@ -376,13 +381,51 @@ Mods can modify this via "add:traits" and "remove:traits".
 "description": "Nothing gets you down!" // In-game description
 "starting_trait": true, // Can be selected at character creation (default: false)
 "valid": false,      // Can be mutated ingame (default: true)
+"purifiable": false, //Sets if the mutation be purified (default: true)
+"profession": true, //Trait is a starting profession special trait. (default: false)
+"initial_ma_styles" : [ "style_centipede", "style_venom_snake" ], //List of starting martial arts types. One of the list is selectable at start. Only works at character creation.
 "category": ["MUTCAT_BIRD", "MUTCAT_INSECT"], // Categories containing this mutation
 "prereqs": ["SKIN_ROUGH"], // Needs these mutations before you can mutate toward this mutation
+"prereqs2": ["LEAVES"], //Also need these mutations before you can mutate towards this mutation. When both set creates 2 different mutation paths, random from one is picked. Only use together with "prereqs"
+"threshreq": ["THRESH_SPIDER"], //Required threshold for this mutation to be possible
 "cancels": ["ROT1", "ROT2", "ROT3"], // Cancels these mutations when mutating
 "changes_to": ["FASTHEALER2"], // Can change into these mutations when mutating further
 "leads_to": [], // Mutations that add to this one
+"passive_mods" : { //increases stats with the listed value. Negative means a stat reduction
+            "per_mod" : 1, //Possible values per_mod, str_mod, dex_mod, int_mod
+            "str_mod" : 2
+},
 "wet_protection":[{ "part": "HEAD", // Wet Protection on specific bodyparts
                     "good": 1 } ] // "neutral/good/ignored" // Good increases pos and cancels neg, neut cancels neg, ignored cancels both
+"vitamin_rates": [ [ "vitC", -1200 ] ], // How much extra vitamins do you consume per minute. Negative values mean production
+"restricts_gear" : [ "TORSO" ], //list of bodyparts that get restricted by this mutation
+"allow_soft_gear" : true, //If there is a list of 'restricts_gear' this sets if the location still allows items made out of soft materials (Only one of the types need to be soft for it to be considered soft). (default: false)
+"destroys_gear" : true, //If true, destroys the gear in the 'restricts_gear' location when mutated into. (default: false)
+"encumbrance_always" : [ // Adds this much encumbrance to selected body parts
+    [ "ARM_L", 20 ],
+    [ "ARM_R", 20 ]
+],
+"encumbrance_covered" : [ // Adds this much encumbrance to selected body parts, but only if the part is covered by not-OVERSIZE worn equipment
+    [ "HAND_L", 50 ],
+    [ "HAND_R", 50 ]
+],
+"armor" : [ // Protects selected body parts this much. Resistances use syntax like `PART RESISTANCE` below.
+    [
+        [ "ALL" ], // Shorthand that applies the selected resistance to the entire body
+        { "bash" : 2 } // The resistance provided to the body part(s) selected above
+    ],
+    [   // NOTE: Resistances are applies in order and ZEROED between applications!
+        [ "ARM_L", "ARM_R" ], // Overrides the above settings for those body parts
+        { "bash" : 1 }        // ...and gives them those resistances instead
+    ]
+],
+"active" : true, //When set the mutation is an active mutation that the player needs to activate (default: false)
+"starts_active" : true, //When true, this 'active' mutation starts active (default: false, requires 'active')
+"cost" : 8, // Cost to activate this mutation. Needs one of the hunger, thirst, or fatigue values set to true. (default: 0)
+"time" : 100, //Sets the amount of (turns * current player speed ) time units that need to pass before the cost is to be paid again. Needs to be higher than one to have any effect. (default: 0)
+"hunger" : true, //If true, activated mutation increases hunger by cost. (default: false)
+"thirst" : true, //If true, activated mutation increases thirst by cost. (default: false)
+"fatigue" : true, //If true, activated mutation increases fatigue by cost. (default: false)
 ```
 ###VEHICLE GROUPS
 ```C++
@@ -420,7 +463,25 @@ Mods can modify this via "add:traits" and "remove:traits".
 "breaks_into" : "some_item_group", // or just the id of an item group.
 "flags": [                    // Flags associated with the part
      "EXTERNAL", "MOUNT_OVER", "WHEEL", "MOUNT_POINT", "VARIABLE_SIZE"
-]
+],
+"damage_reduction" : {        // Flat reduction of damage, as described below. If not specified, set to zero
+    "all" : 10,
+    "physical" : 5
+}
+```
+###PART RESISTANCE
+```C++
+"all" : 0.0f,        // Initial value of all resistances, overriden by more specific types
+"physical" : 10,     // Initial value for bash, cut and stab
+"non_physical" : 10, // Initial value for acid, heat, cold, electricity and biological
+"biological" : 0.2f, // Resistances to specific types. Those override the general ones.
+"bash" : 3,
+"cut" : 3,
+"acid" : 3,
+"stab" : 3,
+"heat" : 3,
+"cold" : 3,
+"electric" : 3
 ```
 ###VEHICLE PLACEMENT
 ```C++
@@ -472,8 +533,8 @@ Mods can modify this via "add:traits" and "remove:traits".
 "name" : "socks",                 // The name appearing in the examine box.  Can be more than one word separated by spaces
 "name_plural" : "pairs of socks", // (Optional)
 "container" : "null",             // What container (if any) this item should spawn within
-"color" : "blue",                 // ASCII character color
-"symbol" : "[",                   // ASCII character used in-game
+"color" : "blue",                 // Color of the item symbol.
+"symbol" : "[",                   // The item symbol as it appears on the map. Must be a Unicode string exactly 1 console cell width.
 "description" : "Socks. Put 'em on your feet.", // Description of the item
 "phase" : "solid",                // (Optional, default = "solid") What phase it is
 "weight" : 350,                   // Weight of the item in grams
@@ -526,9 +587,10 @@ Mods can modify this via "add:traits" and "remove:traits".
 "type": "MAGAZINE",   // Defines this as a MAGAZINE
 ...                   // same entries as above for the generic item.
                       // additional some magazine specific entries:
-"ammo_type": "9mm",   // What type of ammo this magazine can be loaded with
+"ammo_type": "223",   // What type of ammo this magazine can be loaded with
 "capacity" : 15,      // Capacity of magazine (in equivalent units to ammo charges)
 "count" : 0,          // Default amount of ammo contained by a magazine (set this for ammo belts)
+"default_ammo": "556",// If specified override the default ammo (optionally set this for ammo belts)
 "reliability" : 8,    // How reliable this this magazine on a range of 0 to 10? (see GAME_BALANCE.md)
 "reload_time" : 100,  // How long it takes to load each unit of ammo into the magazine
 "linkage" : "ammolink"// If set one linkage (of given type) is dropped for each unit of ammo consumed (set for disintegrating ammo belts)
@@ -1076,6 +1138,22 @@ The contents of use_action fields can either be a string indicating a built-in f
         { "id" : "pkill1", "duration" : 120 }
     ],
     "used_up_item" : "rag_bloody" // Item produced on successful healing. If the healing item is a tool, it is turned into the new type. Otherwise a new item is produced.
+},
+"use_action": {
+    "type": "place_trap", // places a trap
+    "allow_underwater": false, // (optional) allow placing this trap when the player character is underwater
+    "allow_under_player": false, // (optional) allow placing the trap on the same square as the player character (e.g. for benign traps)
+    "needs_solid_neighbor": false, // (optional) trap must be placed between two solid tiles (e.g. for tripwire).
+    "needs_neighbor_terrain": "t_tree", // (optional, default is empty) if non-empty: a terrain id, the trap must be placed adjacent to that terrain.
+    "outer_layer_trap": "tr_blade", // (optional, default is empty) if non-empty: a trap id, makes the game place a 3x3 field of traps. The center trap is the one defined by "trap", the 8 surrounding traps are defined by this (e.g. tr_blade for blade traps).
+    "bury_question": "", // (optional) if non-empty: a question that will be asked if the player character has a shoveling tool and the target location is diggable. It allows to place a buried trap. If the player answers the question (e.g. "Bury the X-trap?") with yes, the data from the "bury" object will be used.
+    "bury": { // If the bury_question was answered with yes, data from this entry will be used instead of outer data.
+         // This json object should contain "trap", "done_message", "practice" and (optional) "moves", with the same meaning as below.
+    },
+    "trap": "tr_engine", // The trap to place.
+    "done_message": "Place the beartrap on the %s.", // The message that appears after the trap has been placed. %s is replaced with the terrain name of the place where the trap has been put.
+    "practice": 4, // How much practice to the "traps" skill placing the trap gives.
+    "moves": 10 // (optional, default is 100): the move points that are used by placing the trap.
 }
 ```
 ###Random descriptions

@@ -1,4 +1,5 @@
 #include "veh_type.h"
+#include "requirements.h"
 #include "vehicle.h"
 #include "game.h"
 #include "debug.h"
@@ -8,9 +9,16 @@
 #include "color.h"
 #include "itype.h"
 #include "vehicle_group.h"
+#include "init.h"
+#include "generic_factory.h"
+#include "character.h"
 
 #include <unordered_map>
 #include <unordered_set>
+#include <sstream>
+#include <numeric>
+
+const skill_id skill_mechanics( "mechanics" );
 
 std::unordered_map<vproto_id, vehicle_prototype> vtypes;
 
@@ -63,7 +71,6 @@ static const std::unordered_map<std::string, vpart_bitflags> vpart_bitflag_map =
     { "CARGO", VPFLAG_CARGO },
     { "INTERNAL", VPFLAG_INTERNAL },
     { "SOLAR_PANEL", VPFLAG_SOLAR_PANEL },
-    { "VARIABLE_SIZE", VPFLAG_VARIABLE_SIZE },
     { "VPFLAG_TRACK", VPFLAG_TRACK },
     { "RECHARGE", VPFLAG_RECHARGE },
     { "VISION", VPFLAG_EXTENDS_VISION }
@@ -74,6 +81,14 @@ std::map<vpart_str_id, vpart_info> vehicle_part_types;
 // to the matching vpart_info object. To store the object only once, it is in the map and only
 // linked to. Pointers here are always valid.
 std::vector<const vpart_info*> vehicle_part_int_types;
+
+static std::map<vpart_str_id, vpart_info> abstract_parts;
+
+/**
+ * JSON data dependent upon as-yet unparsed definitions
+ * first: JSON data, second: source identifier
+ */
+static std::list<std::pair<std::string, std::string>> deferred;
 
 template<>
 const vpart_str_id string_id<vpart_info>::NULL_ID( "null" );
@@ -124,139 +139,145 @@ int_id<vpart_info>::int_id( const string_id<vpart_info> &id )
 {
 }
 
-// Note on the 'symbol' flag in vehicle parts -
-// the following symbols will be translated:
-// y, u, n, b to NW, NE, SE, SW lines correspondingly
-// h, j, c to horizontal, vertical, cross correspondingly
+static void parse_vp_reqs( JsonObject &obj, const std::string &id, const std::string &key,
+                           std::vector<std::pair<requirement_id, int>> &reqs,
+                           std::map<skill_id, int> &skills, int &moves ) {
+
+    if( !obj.has_object( key ) ) {
+        return;
+    }
+    auto src = obj.get_object( key );
+
+    auto sk = src.get_array( "skills" );
+    if( !sk.empty() ) {
+        skills.clear();
+    }
+    while( sk.has_more() ) {
+        auto cur = sk.next_array();
+        skills.emplace( skill_id( cur.get_string( 0 ) ) , cur.size() >= 2 ? cur.get_int( 1 ) : 1 );
+    }
+
+    assign( src, "time", moves );
+
+    if( src.has_string( "using" ) ) {
+        reqs = { { requirement_id( src.get_string( "using" ) ), 1 } };
+
+    } else if( src.has_array( "using" ) ) {
+        auto arr = src.get_array( "using" );
+        while( arr.has_more() ) {
+            auto cur = arr.next_array();
+            reqs.emplace_back( requirement_id( cur.get_string( 0 ) ), cur.get_int( 1 ) );
+        }
+
+    } else {
+        auto req_id = string_format( "inline_%s_%s", key.c_str(), id.c_str() );
+        requirement_data::load_requirement( src, req_id );
+        reqs = { { requirement_id( req_id ), 1 } };
+    }
+};
+
 /**
  * Reads in a vehicle part from a JsonObject.
  */
-void vpart_info::load( JsonObject &jo )
+void vpart_info::load( JsonObject &jo, const std::string &src )
 {
-    vpart_info next_part;
+    vpart_info def;
 
-    next_part.id = vpart_str_id( jo.get_string( "id" ) );
-
-    if( jo.has_member( "name" ) ) {
-        next_part.name_ = _( jo.get_string( "name" ).c_str() );
-    }
-
-    next_part.sym = jo.get_string("symbol")[0];
-    next_part.color = color_from_string(jo.get_string("color"));
-    next_part.sym_broken = jo.get_string("broken_symbol")[0];
-    next_part.color_broken = color_from_string(jo.get_string("broken_color"));
-    next_part.dmg_mod = jo.has_member("damage_modifier") ? jo.get_int("damage_modifier") : 100;
-    next_part.durability = jo.get_int("durability");
-    next_part.power = jo.get_int("power", 0);
-    next_part.epower = jo.get_int("epower", 0);
-    next_part.folded_volume = jo.get_int("folded_volume", 0);
-    next_part.range = jo.get_int( "range", 12 );
-    next_part.size = jo.get_int( "size", 0 );
-
-    //Handle the par1 union as best we can by accepting any ONE of its elements
-    int element_count = (jo.has_member("par1") ? 1 : 0)
-                        + (jo.has_member("wheel_width") ? 1 : 0)
-                        + (jo.has_member("bonus") ? 1 : 0);
-
-    if(element_count == 0) {
-        //If not specified, assume 0
-        next_part.par1 = 0;
-    } else if(element_count == 1) {
-        if(jo.has_member("par1")) {
-            next_part.par1 = jo.get_int("par1");
-        } else if(jo.has_member("wheel_width")) {
-            next_part.par1 = jo.get_int("wheel_width");
-        } else { //bonus
-            next_part.par1 = jo.get_int("bonus");
+    if( jo.has_string( "copy-from" ) ) {
+        auto const base = vehicle_part_types.find( vpart_str_id( jo.get_string( "copy-from" ) ) );
+        auto const ab = abstract_parts.find( vpart_str_id( jo.get_string( "copy-from" ) ) );
+        if( base != vehicle_part_types.end() ) {
+            def = base->second;
+        } else if( ab != abstract_parts.end() ) {
+            def = ab->second;
+        } else {
+            deferred.emplace_back( jo.str(), src );
         }
-    } else {
-        //Too many
-        debugmsg("Error parsing vehicle part '%s': \
-               Use AT MOST one of: par1, wheel_width, bonus",
-                 next_part.name().c_str());
-        //Keep going to produce more messages if other parts are wrong
-        next_part.par1 = 0;
     }
-    next_part.fuel_type = jo.get_string( "fuel_type", "null" );
-    next_part.item = jo.get_string("item");
-    next_part.difficulty = jo.get_int("difficulty");
-    next_part.location = jo.has_member("location") ? jo.get_string("location") : "";
 
-    JsonArray jarr = jo.get_array("flags");
-    while (jarr.has_more()) {
-        next_part.set_flag( jarr.next_string() );
+    if( jo.has_string( "abstract" ) ) {
+        def.id = vpart_str_id( jo.get_string( "abstract" ) );
+    } else {
+        def.id = vpart_str_id( jo.get_string( "id" ) );
+    }
+
+    assign( jo, "name", def.name_ );
+    assign( jo, "item", def.item );
+    assign( jo, "location", def.location );
+    assign( jo, "durability", def.durability );
+    assign( jo, "damage_modifier", def.dmg_mod );
+    assign( jo, "power", def.power );
+    assign( jo, "epower", def.epower );
+    assign( jo, "fuel_type", def.fuel_type );
+    assign( jo, "folded_volume", def.folded_volume );
+    assign( jo, "size", def.size );
+    assign( jo, "difficulty", def.difficulty );
+    assign( jo, "bonus", def.bonus );
+    assign( jo, "flags", def.flags );
+
+    if( jo.has_member( "requirements" ) ) {
+        auto reqs = jo.get_object( "requirements" );
+
+        parse_vp_reqs( reqs, def.id.str(), "install", def.install_reqs, def.install_skills, def.install_moves );
+        parse_vp_reqs( reqs, def.id.str(), "removal", def.removal_reqs, def.removal_skills, def.removal_moves );
+        parse_vp_reqs( reqs, def.id.str(), "repair",  def.repair_reqs,  def.repair_skills,  def.repair_moves  );
+
+        def.legacy = false;
+    }
+
+    if( jo.has_member( "symbol" ) ) {
+        def.sym = jo.get_string( "symbol" )[ 0 ];
+    }
+    if( jo.has_member( "broken_symbol" ) ) {
+        def.sym_broken = jo.get_string( "broken_symbol" )[ 0 ];
+    }
+
+    if( jo.has_member( "color" ) ) {
+        def.color = color_from_string( jo.get_string( "color" ) );
+    }
+    if( jo.has_member( "broken_color" ) ) {
+        def.color_broken = color_from_string( jo.get_string( "broken_color" ) );
     }
 
     if( jo.has_member( "breaks_into" ) ) {
         JsonIn& stream = *jo.get_raw( "breaks_into" );
-        next_part.breaks_into_group = item_group::load_item_group( stream, "collection" );
-    } else {
-        next_part.breaks_into_group = "EMPTY_GROUP";
+        def.breaks_into_group = item_group::load_item_group( stream, "collection" );
     }
 
     auto qual = jo.get_array( "qualities" );
-    while( qual.has_more() ) {
-        auto pair = qual.next_array();
-        next_part.qualities[ quality_id( pair.get_string( 0 ) ) ] = pair.get_int( 1 );
+    if( !qual.empty() ) {
+        def.qualities.clear();
+        while( qual.has_more() ) {
+            auto pair = qual.next_array();
+            def.qualities[ quality_id( pair.get_string( 0 ) ) ] = pair.get_int( 1 );
+        }
     }
 
-    //Calculate and cache z-ordering based off of location
-    // list_order is used when inspecting the vehicle
-    if(next_part.location == "on_roof") {
-        next_part.z_order = 9;
-        next_part.list_order = 3;
-    } else if(next_part.location == "on_cargo") {
-        next_part.z_order = 8;
-        next_part.list_order = 6;
-    } else if(next_part.location == "center") {
-        next_part.z_order = 7;
-        next_part.list_order = 7;
-    } else if(next_part.location == "under") {
-        //Have wheels show up over frames
-        next_part.z_order = 6;
-        next_part.list_order = 10;
-    } else if(next_part.location == "structure") {
-        next_part.z_order = 5;
-        next_part.list_order = 1;
-    } else if(next_part.location == "engine_block") {
-        //Should be hidden by frames
-        next_part.z_order = 4;
-        next_part.list_order = 8 ;
-    } else if (next_part.location == "on_battery_mount"){
-        //Should be hidden by frames
-        next_part.z_order = 3;
-        next_part.list_order = 10;
-    } else if(next_part.location == "fuel_source") {
-        //Should be hidden by frames
-        next_part.z_order = 3;
-        next_part.list_order = 9;
-    } else if(next_part.location == "roof") {
-        //Shouldn't be displayed
-        next_part.z_order = -1;
-        next_part.list_order = 4;
-    } else if(next_part.location == "armor") {
-        //Shouldn't be displayed (the color is used, but not the symbol)
-        next_part.z_order = -2;
-        next_part.list_order = 2;
+    if( jo.has_member( "damage_reduction" ) ) {
+        JsonObject dred = jo.get_object( "damage_reduction" );
+        def.damage_reduction = load_damage_array( dred );
     } else {
-        //Everything else
-        next_part.z_order = 0;
-        next_part.list_order = 5;
+        def.damage_reduction.fill( 0.0f );
     }
 
-    auto const iter = vehicle_part_types.find( next_part.id );
+    if( jo.has_string( "abstract" ) ) {
+        abstract_parts[ def.id ] = def;
+        return;
+    }
+
+    auto const iter = vehicle_part_types.find( def.id );
     if( iter != vehicle_part_types.end() ) {
         // Entry in the map already exists, so the pointer in the vector is already correct
         // and does not need to be changed, only the int-id needs to be taken from the old entry.
-        next_part.loadid = iter->second.loadid;
-        iter->second = next_part;
+        def.loadid = iter->second.loadid;
+        iter->second = def;
     } else {
         // The entry is new, "generate" a new int-id and link the new entry from the vector.
-        next_part.loadid = vpart_id( vehicle_part_int_types.size() );
-        vpart_info &new_entry = vehicle_part_types[next_part.id];
-        new_entry = next_part;
+        def.loadid = vpart_id( vehicle_part_int_types.size() );
+        vpart_info &new_entry = vehicle_part_types[ def.id ];
+        new_entry = def;
         vehicle_part_int_types.push_back( &new_entry );
-    }
+    }    
 }
 
 void vpart_info::set_flag( const std::string &flag )
@@ -268,16 +289,217 @@ void vpart_info::set_flag( const std::string &flag )
     }
 }
 
+void vpart_info::finalize()
+{
+    auto& dyn = DynamicDataLoader::get_instance();
+
+    while( !deferred.empty() ) {
+        auto n = deferred.size();
+        auto it = deferred.begin();
+        for( decltype(deferred)::size_type idx = 0; idx != n; ++idx ) {
+            try {
+                std::istringstream str( it->first );
+                JsonIn jsin( str );
+                JsonObject jo = jsin.get_object();
+                dyn.load_object( jo, it->second );
+            } catch( const std::exception &err ) {
+                debugmsg( "Error loading data from json: %s", err.what() );
+            }
+            ++it;
+        }
+        deferred.erase( deferred.begin(), it );
+        if( deferred.size() == n ) {
+            debugmsg( "JSON contains circular dependency: discarded %i templates", n );
+            break;
+        }
+    }
+
+    for( auto& e : vehicle_part_types ) {
+        // if part name specified ensure it is translated
+        // otherwise the name of the base item will be used
+        if( !e.second.name_.empty() ) {
+            e.second.name_ = _( e.second.name_.c_str() );
+        }
+
+        if( e.second.folded_volume > 0 ) {
+            e.second.set_flag( "FOLDABLE" );
+        }
+
+        for( const auto& f : e.second.flags ) {
+            auto b = vpart_bitflag_map.find( f );
+            if( b != vpart_bitflag_map.end() ) {
+                e.second.bitflags.set( b->second );
+            }            
+        }
+
+        // Calculate and cache z-ordering based off of location
+        // list_order is used when inspecting the vehicle
+        if( e.second.location == "on_roof" ) {
+            e.second.z_order = 9;
+            e.second.list_order = 3;
+        } else if( e.second.location == "on_cargo" ) {
+            e.second.z_order = 8;
+            e.second.list_order = 6;
+        } else if( e.second.location == "center" ) {
+            e.second.z_order = 7;
+            e.second.list_order = 7;
+        } else if( e.second.location == "under" ) {
+            // Have wheels show up over frames
+            e.second.z_order = 6;
+            e.second.list_order = 10;
+        } else if( e.second.location == "structure" ) {
+            e.second.z_order = 5;
+            e.second.list_order = 1;
+        } else if( e.second.location == "engine_block" ) {
+            // Should be hidden by frames
+            e.second.z_order = 4;
+            e.second.list_order = 8 ;
+        } else if( e.second.location == "on_battery_mount" ){
+            // Should be hidden by frames
+            e.second.z_order = 3;
+            e.second.list_order = 10;
+        } else if( e.second.location == "fuel_source" ) {
+            // Should be hidden by frames
+            e.second.z_order = 3;
+            e.second.list_order = 9;
+        } else if( e.second.location == "roof" ) {
+            // Shouldn't be displayed
+            e.second.z_order = -1;
+            e.second.list_order = 4;
+        } else if( e.second.location == "armor" ) {
+            // Shouldn't be displayed (the color is used, but not the symbol)
+            e.second.z_order = -2;
+            e.second.list_order = 2;
+        } else {
+            // Everything else
+            e.second.z_order = 0;
+            e.second.list_order = 5;
+        }
+    }
+}
+
 void vpart_info::check()
 {
-    for( auto &part_ptr : vehicle_part_int_types ) {
-        auto &part = *part_ptr;
+    for( auto &vp : vehicle_part_types ) {
+        auto &part = vp.second;
+
+        // handle legacy parts without requirement data
+        // @todo deprecate once requirements are entirely loaded from JSON
+        if( part.legacy ) {
+
+            part.install_skills.emplace( skill_mechanics, part.difficulty );
+            part.removal_skills.emplace( skill_mechanics, std::max( part.difficulty - 2, 2 ) );
+            part.repair_skills.emplace ( skill_mechanics, std::min( part.difficulty + 1, MAX_SKILL ) );
+
+            if( part.has_flag( "TOOL_WRENCH" ) || part.has_flag( "WHEEL" ) ) {
+                part.install_reqs = { { requirement_id( "vehicle_bolt" ), 1 } };
+                part.removal_reqs = { { requirement_id( "vehicle_bolt" ), 1 } };
+                part.repair_reqs  = { { requirement_id( "welding_standard" ), 5 } };
+
+            } else if( part.has_flag( "TOOL_SCREWDRIVER" ) ) {
+                part.install_reqs = { { requirement_id( "vehicle_screw" ), 1 } };
+                part.removal_reqs = { { requirement_id( "vehicle_screw" ), 1 } };
+                part.repair_reqs  = { { requirement_id( "adhesive" ), 1 } };
+
+            } else if( part.has_flag( "NAILABLE" ) ) {
+                part.install_reqs = { { requirement_id( "vehicle_nail_install" ), 1 } };
+                part.removal_reqs = { { requirement_id( "vehicle_nail_removal" ), 1 } };
+                part.repair_reqs  = { { requirement_id( "adhesive" ), 2 } };
+
+            } else if( part.has_flag( "TOOL_NONE" ) ) {
+                // no-op
+
+            } else {
+                part.install_reqs = { { requirement_id( "welding_standard" ), 5 } };
+                part.removal_reqs = { { requirement_id( "vehicle_weld_removal" ), 1 } };
+                part.repair_reqs  = { { requirement_id( "welding_standard" ), 5 } };
+            }
+        }
+
+        // add the base item to the installation requirements
+        // @todo support multiple/alternative base items
+        requirement_data ins;
+        ins.components.push_back( { { { part.item, 1 } } } );
+
+        std::string ins_id = std::string( "inline_vehins_base_" ) += part.id.str();
+        requirement_data::save_requirement( ins, ins_id );
+        part.install_reqs.emplace_back( requirement_id( ins_id ), 1 );
+
+        if( part.removal_moves < 0 ) {
+            part.removal_moves = part.install_moves / 2;
+        }
+
+        for( auto &e : part.install_skills ) {
+            if( !e.first.is_valid() ) {
+                debugmsg( "vehicle part %s has unknown install skill %s", part.id.c_str(), e.first.c_str() );
+            }
+        }
+
+        for( auto &e : part.removal_skills ) {
+            if( !e.first.is_valid() ) {
+                debugmsg( "vehicle part %s has unknown removal skill %s", part.id.c_str(), e.first.c_str() );
+            }
+        }
+
+        for( auto &e : part.repair_skills ) {
+            if( !e.first.is_valid() ) {
+                debugmsg( "vehicle part %s has unknown repair skill %s", part.id.c_str(), e.first.c_str() );
+            }
+        }
+
+        for( const auto &e : part.install_reqs ) {
+            if( !e.first.is_valid() || e.second <= 0 ) {
+                debugmsg( "vehicle part %s has unknown or incorrectly specified install requirements %s",
+                          part.id.c_str(), e.first.c_str() );
+            }
+        }
+
+        for( const auto &e : part.install_reqs ) {
+            if( !( e.first.is_null() || e.first.is_valid() ) || e.second < 0 ) {
+                debugmsg( "vehicle part %s has unknown or incorrectly specified removal requirements %s",
+                          part.id.c_str(), e.first.c_str() );
+            }
+        }
+
+        for( const auto &e : part.repair_reqs ) {
+            if( !( e.first.is_null() || e.first.is_valid() ) || e.second < 0 ) {
+                debugmsg( "vehicle part %s has unknown or incorrectly specified repair requirements %s",
+                          part.id.c_str(), e.first.c_str() );
+            }
+        }
+
+        if( part.install_moves < 0 ) {
+            debugmsg( "vehicle part %s has negative installation time", part.id.c_str() );
+        }
+
+        if( part.removal_moves < 0 ) {
+            debugmsg( "vehicle part %s has negative removal time", part.id.c_str() );
+        }
+
         if( !item_group::group_is_defined( part.breaks_into_group ) ) {
             debugmsg( "Vehicle part %s breaks into non-existent item group %s.",
                       part.id.c_str(), part.breaks_into_group.c_str() );
         }
+        if( part.sym == 0 ) {
+            debugmsg( "vehicle part %s does not define a symbol", part.id.c_str() );
+        }
+        if( part.sym_broken == 0 ) {
+            debugmsg( "vehicle part %s does not define a broken symbol", part.id.c_str() );
+        }
+        if( part.durability <= 0 ) {
+            debugmsg( "vehicle part %s has zero or negative durability", part.id.c_str() );
+        }
+        if( part.dmg_mod < 0 ) {
+            debugmsg( "vehicle part %s has negative damage modifier", part.id.c_str() );
+        }
+        if( part.folded_volume < 0 ) {
+            debugmsg( "vehicle part %s has negative folded volume", part.id.c_str() );
+        }
         if( part.has_flag( "FOLDABLE" ) && part.folded_volume == 0 ) {
-            debugmsg("Error: folded part %s has a volume of 0!", part.name().c_str());
+            debugmsg( "vehicle part %s has folding part with zero folded volume", part.name().c_str() );
+        }
+        if( part.size < 0 ) {
+            debugmsg( "vehicle part %s has negative size", part.id.c_str() );
         }
         if( part.has_flag( VPFLAG_FUEL_TANK ) && !item::type_is_defined( part.fuel_type ) ) {
             debugmsg( "vehicle part %s is a fuel tank, but has invalid fuel type %s (not a valid item id)", part.id.c_str(), part.fuel_type.c_str() );
@@ -286,7 +508,7 @@ void vpart_info::check()
             debugmsg( "vehicle part %s uses undefined item %s", part.id.c_str(), part.item.c_str() );
         }
         if( part.has_flag( "TURRET" ) && !item::find_type( part.item )->gun ) {
-            debugmsg( "vehicle part %s has the TURRET flag, but is not made from a gun item", part.id.c_str(), part.item.c_str() );
+            debugmsg( "vehicle part %s has the TURRET flag, but is not made from a gun item", part.id.c_str() );
         }
         for( auto &q : part.qualities ) {
             if( !q.first.is_valid() ) {
@@ -300,6 +522,7 @@ void vpart_info::reset()
 {
     vehicle_part_types.clear();
     vehicle_part_int_types.clear();
+    abstract_parts.clear();
 }
 
 const std::vector<const vpart_info*> &vpart_info::get_all()
@@ -315,6 +538,50 @@ std::string vpart_info::name() const
     return name_;
 }
 
+requirement_data vpart_info::install_requirements() const
+{
+    return std::accumulate( install_reqs.begin(), install_reqs.end(), requirement_data(),
+        []( const requirement_data &lhs, const std::pair<requirement_id, int> &rhs ) {
+        return lhs + ( *rhs.first * rhs.second );
+    } );
+}
+
+requirement_data vpart_info::removal_requirements() const
+{
+    return std::accumulate( removal_reqs.begin(), removal_reqs.end(), requirement_data(),
+        []( const requirement_data &lhs, const std::pair<requirement_id, int> &rhs ) {
+        return lhs + ( *rhs.first * rhs.second );
+    } );
+}
+
+requirement_data vpart_info::repair_requirements() const
+{
+    return std::accumulate( repair_reqs.begin(), repair_reqs.end(), requirement_data(),
+        []( const requirement_data &lhs, const std::pair<requirement_id, int> &rhs ) {
+        return lhs + ( *rhs.first * rhs.second );
+    } );
+}
+
+static int scale_time( const std::map<skill_id, int> &sk, int mv, const Character &ch ) {
+    int lvl = std::accumulate( sk.begin(), sk.end(), 0, [&ch]( int lhs, const std::pair<skill_id,int>& rhs ) {
+        return lhs + std::max( rhs.second - std::min( ch.get_skill_level( rhs.first ).level(), MAX_SKILL ), 0 );
+    } );
+    // 10% per excess level (reduced proportionally if >1 skill required) with max 50% reduction
+    return mv * ( 1.0 - std::min( double( lvl ) / sk.size() / 10.0, 0.5 ) );
+}
+
+int vpart_info::install_time( const Character &ch ) const {
+    return scale_time( install_skills, install_moves, ch );
+}
+
+int vpart_info::removal_time( const Character &ch ) const {
+    return scale_time( removal_skills, removal_moves, ch );
+}
+
+int vpart_info::repair_time( const Character &ch ) const {
+    return scale_time( repair_skills, repair_moves, ch );
+}
+
 template<>
 const vehicle_prototype &string_id<vehicle_prototype>::obj() const
 {
@@ -323,7 +590,7 @@ const vehicle_prototype &string_id<vehicle_prototype>::obj() const
         debugmsg( "invalid vehicle prototype id %s", c_str() );
         static const vehicle_prototype dummy = {
             "",
-            std::vector<std::pair<point, vpart_str_id>>{},
+            std::vector<vehicle_prototype::part_def>{},
             std::vector<vehicle_item_spawn>{},
             nullptr
         };
@@ -361,9 +628,16 @@ void vehicle_prototype::load(JsonObject &jo)
     JsonArray parts = jo.get_array("parts");
     while (parts.has_more()) {
         JsonObject part = parts.next_object();
-        const point pxy( part.get_int("x"), part.get_int("y") );
-        const vpart_str_id pid( part.get_string( "part" ) );
-        vproto.parts.emplace_back( pxy, pid );
+
+        part_def pt;
+        pt.pos = point( part.get_int( "x" ), part.get_int( "y" ) );
+        pt.part = vpart_str_id( part.get_string( "part" ) );
+
+        assign( part, "ammo", pt.with_ammo, true, 0, 100 );
+        assign( part, "ammo_types", pt.ammo_types, true );
+        assign( part, "ammo_qty", pt.ammo_qty, true, 0 );
+
+        vproto.parts.push_back( pt );
     }
 
     JsonArray items = jo.get_array("items");
@@ -429,21 +703,46 @@ void vehicle_prototype::finalize()
         blueprint.type = id;
         blueprint.name = _(proto.name.c_str());
 
-        for( auto &part : proto.parts ) {
-            const point &p = part.first;
-            const vpart_str_id &part_id = part.second;
-            if( !part_id.is_valid() ) {
-                debugmsg("unknown vehicle part %s in %s", part_id.c_str(), id.c_str());
+        for( auto &pt : proto.parts ) {
+            auto base = item::find_type( pt.part->item );
+
+            if( !pt.part.is_valid() ) {
+                debugmsg("unknown vehicle part %s in %s", pt.part.c_str(), id.c_str());
                 continue;
             }
 
-            if(blueprint.install_part(p.x, p.y, part_id) < 0) {
-                debugmsg("init_vehicles: '%s' part '%s'(%d) can't be installed to %d,%d",
-                         blueprint.name.c_str(), part_id.c_str(),
-                         blueprint.parts.size(), p.x, p.y);
+            if( blueprint.install_part( pt.pos.x, pt.pos.y, pt.part ) < 0 ) {
+                debugmsg( "init_vehicles: '%s' part '%s'(%d) can't be installed to %d,%d",
+                          blueprint.name.c_str(), pt.part.c_str(),
+                          blueprint.parts.size(), pt.pos.x, pt.pos.y );
             }
-            if( part_id.obj().has_flag("CARGO") ) {
-                cargo_spots.insert( p );
+
+            if( !base->gun ) {
+                if( pt.with_ammo  ) {
+                    debugmsg( "init_vehicles: non-turret %s with ammo in %s", pt.part.c_str(), id.c_str() );
+                }
+                if( !pt.ammo_types.empty() ) {
+                    debugmsg( "init_vehicles: non-turret %s with ammo_types in %s", pt.part.c_str(), id.c_str() );
+                }
+                if( pt.ammo_qty.first > 0 || pt.ammo_qty.second > 0 ) {
+                    debugmsg( "init_vehicles: non-turret %s with ammo_qty in %s", pt.part.c_str(), id.c_str() );
+                }
+
+            } else {
+                for( const auto &e : pt.ammo_types ) {
+                    auto ammo = item::find_type( e );
+                    if( !ammo->ammo && ammo->ammo->type == base->gun->ammo ) {
+                        debugmsg( "init_vehicles: turret %s has invalid ammo_type %s in %s",
+                                  pt.part.c_str(), e.c_str(), id.c_str() );
+                    }
+                }
+                if( pt.ammo_types.empty() ) {
+                    pt.ammo_types.insert( default_ammo( base->gun->ammo ) );
+                }
+            }
+
+            if( pt.part.obj().has_flag("CARGO") ) {
+                cargo_spots.insert( pt.pos );
             }
         }
 
@@ -463,9 +762,6 @@ void vehicle_prototype::finalize()
                 }
             }
         }
-        // Clear the parts vector as it is not needed anymore. Usage of swap guaranties that the
-        // memory of the vector is really freed (instead of simply marking the vector as empty).
-        std::remove_reference<decltype(proto.parts)>::type().swap( proto.parts );
     }
 }
 

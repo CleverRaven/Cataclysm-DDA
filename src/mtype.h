@@ -41,6 +41,9 @@ using material_id = string_id<material_type>;
 
 typedef std::string itype_id;
 
+class emit;
+using emit_id = string_id<emit>;
+
 // These are triggers which may affect the monster's anger or morale.
 // They are handled in monster::check_triggers(), in monster.cpp
 enum monster_trigger : int {
@@ -66,11 +69,6 @@ enum monster_trigger : int {
 enum m_flag : int {
     MF_NULL = 0,            //
     MF_SEES,                // It can see you (and will run/follow)
-    MF_VIS50,               // Vision -10
-    MF_VIS40,               // Vision -20
-    MF_VIS30,               // Vision -30
-    MF_VIS20,               // Vision -40
-    MF_VIS10,               // Vision -50
     MF_HEARS,               // It can hear you
     MF_GOODHEARING,         // Pursues sounds more than most monsters
     MF_SMELLS,              // It can smell you
@@ -104,7 +102,6 @@ enum m_flag : int {
     MF_FIREPROOF,           // Immune to fire
     MF_SLUDGEPROOF,         // Ignores the effect of sludge trails
     MF_SLUDGETRAIL,         // Causes monster to leave a sludge trap trail when moving
-    MF_LEAKSGAS,            // Occasionally leaks gas when moving
     MF_FIREY,               // Burns stuff and is immune to fire
     MF_QUEEN,               // When it dies, local populations start to die off too
     MF_ELECTRONIC,          // e.g. a robot; affected by emp blasts, and other stuff
@@ -148,6 +145,9 @@ enum m_flag : int {
     MF_NIGHT_INVISIBILITY,  // Monsters that are invisible in poor light conditions
     MF_REVIVES_HEALTHY,     // When revived, this monster has full hitpoints and speed
     MF_NO_NECRO,            // This monster can't be revived by necros. It will still rise on its own.
+    MF_AVOID_DANGER_1,      // This monster will path around some dangers instead of through them.
+    MF_AVOID_DANGER_2,      // This monster will path around most dangers instead of through them.
+    MF_PRIORITIZE_TARGETS,  // This monster will prioritize targets depending on their danger levels
     MF_MAX                  // Sets the length of the flags - obviously must be LAST
 };
 
@@ -323,6 +323,9 @@ struct mtype {
          */
         itype_id revert_to_itype;
 
+        /** Emission sources that cycle each turn the monster remains alive */
+        std::set<emit_id> emit_fields;
+
         // Used to fetch the properly pluralized monster type name
         std::string nname(unsigned int quantity = 1) const;
         bool has_special_attack( const std::string &attack_name ) const;
@@ -342,6 +345,7 @@ struct mtype {
         // The item id of the meat items that are produced by this monster (or "null")
         // if there is no matching item type. e.g. "veggy" for plant monsters.
         itype_id get_meat_itype() const;
+        int get_meat_chunks_count() const;
 
         // Historically located in monstergenerator.cpp
         void load( JsonObject &jo );

@@ -54,11 +54,8 @@ void draw_bionics_titlebar( WINDOW *window, player *p, bionic_menu_mode mode )
 {
     werase( window );
 
-    const std::string pwr = string_format( _( "Power: %i/%i" ), int( p->power_level ),
-                                           int( p->max_power_level ) );
-    const int pwr_str_pos = getmaxx( window ) - utf8_width( pwr ) - 1;
-    mvwprintz( window, 0, pwr_str_pos, c_white, "%s", pwr.c_str() );
-
+    const int pwr_str_pos = right_print( window, 0, 1, c_white, _( "Power: %i/%i" ),
+                                         int( p->power_level ), int( p->max_power_level ) );
     std::string desc;
     if( mode == REASSIGNING ) {
         desc = _( "Reassigning.\nSelect a bionic to reassign or press SPACE to cancel." );
@@ -74,37 +71,31 @@ void draw_bionics_titlebar( WINDOW *window, player *p, bionic_menu_mode mode )
     wrefresh( window );
 }
 
-const auto separator = []( std::ostringstream &s )
-{
-    return s.tellp() != 0 ? ", " : "";
-};
-
 //builds the power usage string of a given bionic
 std::string build_bionic_poweronly_string( bionic const &bio )
 {
-    std::ostringstream power_desc;
-    if( bionic_info( bio.id ).power_over_time > 0 && bionic_info( bio.id ).charge_time > 0 ) {
-        power_desc << (
-                       bionic_info( bio.id ).charge_time == 1
-                       ? string_format( _( "%d PU / turn" ),
-                                        bionic_info( bio.id ).power_over_time )
-                       : string_format( _( "%d PU / %d turns" ),
-                                        bionic_info( bio.id ).power_over_time,
-                                        bionic_info( bio.id ).charge_time ) );
+    const bionic_data &bio_data( bionic_info( bio.id ) );
+    std::vector<std::string> properties;
+
+    if( bio_data.charge_time > 0 ) {
+        if( bio_data.power_over_time > 0 ) {
+            properties.push_back( bio_data.charge_time == 1
+                                  ? string_format( _( "%d PU/turn" ), bio_data.power_over_time )
+                                  : string_format( _( "%d PU/%d turns" ), bio_data.power_over_time,
+                                                   bio_data.charge_time ) );
+        }
+        if( bio_data.power_activate > 0 ) {
+            properties.push_back( string_format( _( "%d PU act" ), bio_data.power_activate ) );
+        }
+        if( bio_data.power_deactivate > 0 ) {
+            properties.push_back( string_format( _( "%d PU deact" ), bio_data.power_deactivate ) );
+        }
     }
-    if( bionic_info( bio.id ).power_activate > 0 && !bionic_info( bio.id ).charge_time ) {
-        power_desc << separator( power_desc ) << string_format( _( "%d PU act" ),
-                   bionic_info( bio.id ).power_activate );
-    }
-    if( bionic_info( bio.id ).power_deactivate > 0 && !bionic_info( bio.id ).charge_time ) {
-        power_desc << separator( power_desc ) << string_format( _( "%d PU deact" ),
-                   bionic_info( bio.id ).power_deactivate );
-    }
-    if( bionic_info( bio.id ).toggled ) {
-        power_desc << separator( power_desc ) << ( bio.powered ? _( "ON" ) : _( "OFF" ) );
+    if( bio_data.toggled ) {
+        properties.push_back( bio.powered ? _( "ON" ) : _( "OFF" ) );
     }
 
-    return power_desc.str();
+    return enumerate_as_string( properties, false );
 }
 
 //generates the string that show how much power a bionic uses
@@ -155,6 +146,86 @@ void draw_description( WINDOW *win, bionic const &bio )
                             list_occupied_bps( bio.id, _( "This bionic occupies the following body parts:" ),
                                     each_bp_on_new_line ) );
     wrefresh( win );
+}
+
+void draw_connectors( WINDOW *win, const int start_y, const int start_x, const int last_x,
+                      const std::string &bio_id )
+{
+    const int LIST_START_Y = 6;
+    // first: pos_y, second: occupied slots
+    std::vector<std::pair<int, size_t>> pos_and_num;
+    for( const auto &elem : bionic_info( bio_id ).occupied_bodyparts ) {
+        pos_and_num.emplace_back( static_cast<int>( elem.first ) + LIST_START_Y, elem.second );
+    }
+    if( pos_and_num.empty() ) {
+        return;
+    }
+
+    // draw horizontal line from selected bionic
+    const int turn_x = start_x + ( last_x - start_x ) * 2 / 3;
+    mvwputch( win, start_y, start_x, BORDER_COLOR, '>' );
+    mvwhline( win, start_y, start_x + 1, LINE_OXOX, turn_x - start_x - 1 );
+
+    int min_y = start_y;
+    int max_y = start_y;
+    for( const auto &elem : pos_and_num ) {
+        min_y = std::min( min_y, elem.first );
+        max_y = std::max( max_y, elem.first );
+    }
+    if( max_y - min_y > 1 ) {
+        mvwvline( win, min_y + 1, turn_x, LINE_XOXO, max_y - min_y - 1 );
+    }
+
+    bool move_up   = false;
+    bool move_same = false;
+    bool move_down = false;
+    for( const auto &elem : pos_and_num ) {
+        const int y = elem.first;
+        if( !move_up && y <  start_y ) {
+            move_up = true;
+        }
+        if( !move_same && y == start_y ) {
+            move_same = true;
+        }
+        if( !move_down && y >  start_y ) {
+            move_down = true;
+        }
+
+        // symbol is defined incorrectly for case ( y == start_y ) but
+        // that's okay because it's overlapped by bionic_chr anyway
+        long bp_chr = ( y > start_y ) ? LINE_XXOO : LINE_OXXO;
+        if( ( max_y > y && y > start_y ) || ( min_y < y && y < start_y ) ) {
+            bp_chr = LINE_XXXO;
+        }
+
+        mvwputch( win, y, turn_x, BORDER_COLOR, bp_chr );
+
+        // draw horizontal line to bodypart title
+        mvwhline( win, y, turn_x + 1, LINE_OXOX, last_x - turn_x - 1 );
+        mvwputch( win, y, last_x, BORDER_COLOR, '<' );
+
+        // draw amount of consumed slots by this cbm
+        const std::string fmt_num = string_format( "(%d)", elem.second );
+        mvwprintz( win, y, turn_x + std::max( 1, ( last_x - turn_x - utf8_width( fmt_num ) ) / 2 ),
+                   c_yellow, "%s", fmt_num.c_str() );
+    }
+
+    // define and draw a proper intersection character
+    long bionic_chr = LINE_OXOX; // '-'                // 001
+    if( move_up && !move_down && !move_same ) {        // 100
+        bionic_chr = LINE_XOOX;  // '_|'
+    } else if( move_up && move_down && !move_same ) {  // 110
+        bionic_chr = LINE_XOXX;  // '-|'
+    } else if( move_up && move_down && move_same ) {   // 111
+        bionic_chr = LINE_XXXX;  // '-|-'
+    } else if( move_up && !move_down && move_same ) {  // 101
+        bionic_chr = LINE_XXOX;  // '_|_'
+    } else if( !move_up && move_down && !move_same ) { // 010
+        bionic_chr = LINE_OOXX;  // '^|'
+    } else if( !move_up && move_down && move_same ) {  // 011
+        bionic_chr = LINE_OXXX;  // '^|^'
+    }
+    mvwputch( win, start_y, turn_x, BORDER_COLOR, bionic_chr );
 }
 
 //get a text color depending on the power/powering state of the bionic
@@ -326,6 +397,22 @@ void player::power_bionics()
             mvwputch( wBio, HEADER_LINE_Y - 1, 0, BORDER_COLOR, LINE_XXXO ); // |-
             mvwputch( wBio, HEADER_LINE_Y - 1, WIDTH - 1, BORDER_COLOR, LINE_XOXX ); // -|
 
+            int max_width = 0;
+            std::vector<std::string>bps;
+            for( int i = 0; i < num_bp; ++i ) {
+                const body_part bp = bp_aBodyPart[i];
+                const int total = get_total_bionics_slots( bp );
+                const std::string s = string_format( "%s: %d/%d",
+                                                     body_part_name_as_heading( bp, 1 ).c_str(),
+                                                     total - get_free_bionics_slots( bp ), total );
+                bps.push_back( s );
+                max_width = std::max( max_width, utf8_width( s ) );
+            }
+            const int pos_x = WIDTH - 2 - max_width;
+            for( int i = 0; i < num_bp; ++i ) {
+                mvwprintz( wBio, i + list_start_y, pos_x, c_ltgray, "%s", bps[i].c_str() );
+            }
+
             if( current_bionic_list->empty() ) {
                 std::string msg;
                 switch( tab_mode ) {
@@ -336,7 +423,7 @@ void player::power_bionics()
                         msg = _( "No passive bionics installed." );
                         break;
                 }
-                fold_and_print( wBio, list_start_y, 2, WIDTH - 3, c_ltgray, msg );
+                fold_and_print( wBio, list_start_y, 2, pos_x - 1, c_ltgray, msg );
             } else {
                 for( size_t i = scroll_position; i < current_bionic_list->size(); i++ ) {
                     if( list_start_y + static_cast<int>( i ) - scroll_position == HEIGHT - 1 ) {
@@ -345,9 +432,23 @@ void player::power_bionics()
                     const bool is_highlighted = cursor == static_cast<int>( i );
                     const nc_color col = get_bionic_text_color( *( *current_bionic_list )[i],
                                          is_highlighted );
-                    const std::string desc = build_bionic_powerdesc_string( *( *current_bionic_list )[i] );
+                    const std::string desc = string_format( "%c %s", ( *current_bionic_list )[i]->invlet,
+                                                            build_bionic_powerdesc_string(
+                                                                    *( *current_bionic_list )[i] ).c_str() );
                     trim_and_print( wBio, list_start_y + i - scroll_position, 2, WIDTH - 3, col,
-                                    "%c %s", ( *current_bionic_list )[i]->invlet, desc.c_str() );
+                                    "%s", desc.c_str() );
+                    if( is_highlighted && menu_mode != EXAMINING ) {
+                        const std::string bio_id = ( *current_bionic_list )[i]->id;
+                        draw_connectors( wBio, list_start_y + i - scroll_position, utf8_width( desc ) + 3,
+                                         pos_x - 2, bio_id );
+
+                        // redraw highlighted (occupied) body parts
+                        for( auto &elem : bionic_info( bio_id ).occupied_bodyparts ) {
+                            const int i = static_cast<int>( elem.first );
+                            mvwprintz( wBio, i + list_start_y, pos_x, c_yellow, "%s", bps[i].c_str() );
+                        }
+                    }
+
                 }
             }
 
@@ -492,6 +593,9 @@ void player::power_bionics()
                     // update message log and the menu
                     g->refresh_all();
                     redraw = true;
+                    if( moves < 0 ) {
+                        return;
+                    }
                     continue;
                 } else {
                     popup( _( "You can not activate %s!\n"

@@ -299,76 +299,47 @@ void map::generate_lightmap( const int zlev )
     VehicleList vehs = get_vehicles();
     for( auto &vv : vehs ) {
         vehicle *v = vv.v;
-        if(v->lights_on) {
-            int dir = v->face.dir();
-            float veh_luminance = 0.0;
-            float iteration = 1.0;
-            std::vector<int> light_indices = v->all_parts_with_feature(VPFLAG_CONE_LIGHT);
-            for( auto &light_indice : light_indices ) {
-                veh_luminance += ( v->part_info( light_indice ).bonus / iteration );
+
+        auto lights = v->lights( true );
+
+        float veh_luminance = 0.0;
+        float iteration = 1.0;
+
+        for( const auto pt : lights ) {
+            const auto &vp = pt->info();
+            if( vp.has_flag( VPFLAG_CONE_LIGHT ) ) {
+                veh_luminance += vp.bonus / iteration;
                 iteration = iteration * 1.1;
             }
-            if (veh_luminance > LL_LIT) {
-                for( auto &light_indice : light_indices ) {
-                    tripoint pp = tripoint( vv.x, vv.y, vv.z ) +
-                                  v->parts[light_indice].precalc[0];
-                    if( inbounds( pp ) ) {
-                        add_light_source( pp, SQRT_2 ); // Add a little surrounding light
-                        apply_light_arc( pp, dir + v->parts[light_indice].direction,
-                                         veh_luminance, 45 );
-                    }
-                }
-            }
         }
-        if(v->overhead_lights_on) {
-            std::vector<int> light_indices = v->all_parts_with_feature(VPFLAG_CIRCLE_LIGHT);
-            for( auto &light_indice : light_indices ) {
-                if( ( calendar::turn % 2 &&
-                      v->part_info( light_indice ).has_flag( VPFLAG_ODDTURN ) ) ||
-                    ( !( calendar::turn % 2 ) &&
-                      v->part_info( light_indice ).has_flag( VPFLAG_EVENTURN ) ) ||
-                    ( !v->part_info( light_indice ).has_flag( VPFLAG_EVENTURN ) &&
-                      !v->part_info( light_indice ).has_flag( VPFLAG_ODDTURN ) ) ) {
-                    tripoint pp = tripoint( vv.x, vv.y, vv.z ) +
-                                  v->parts[light_indice].precalc[0];
-                    if(inbounds( pp )) {
-                        add_light_source( pp, v->part_info( light_indice ).bonus );
-                    }
-                }
+
+        for( const auto pt : lights ) {
+            const auto &vp = pt->info();
+            tripoint src = v->global_part_pos3( *pt );
+
+            if( !inbounds( src ) ) {
+                continue;
             }
-        }
-        // why reinvent the [lightmap] wheel
-        if(v->dome_lights_on) {
-            std::vector<int> light_indices = v->all_parts_with_feature(VPFLAG_DOME_LIGHT);
-            for( auto &light_indice : light_indices ) {
-                tripoint pp = tripoint( vv.x, vv.y, vv.z ) +
-                              v->parts[light_indice].precalc[0];
-                if( inbounds( pp )) {
-                    add_light_source( pp, v->part_info( light_indice ).bonus );
+
+            if( vp.has_flag( VPFLAG_CONE_LIGHT ) ) {
+                if( veh_luminance > LL_LIT ) {
+                    add_light_source( src, SQRT_2 ); // Add a little surrounding light
+                    apply_light_arc( src, v->face.dir() + pt->direction, veh_luminance, 45 );
                 }
-            }
-        }
-        if(v->aisle_lights_on) {
-            std::vector<int> light_indices = v->all_parts_with_feature(VPFLAG_AISLE_LIGHT);
-            for( auto &light_indice : light_indices ) {
-                tripoint pp = tripoint( vv.x, vv.y, vv.z ) +
-                              v->parts[light_indice].precalc[0];
-                if( inbounds( pp )) {
-                    add_light_source( pp, v->part_info( light_indice ).bonus );
+
+            } else if( vp.has_flag( VPFLAG_CIRCLE_LIGHT ) ) {
+                if( (    calendar::turn % 2   && vp.has_flag( VPFLAG_ODDTURN  ) ) ||
+                    ( !( calendar::turn % 2 ) && vp.has_flag( VPFLAG_EVENTURN ) ) ||
+                    ( !( vp.has_flag( VPFLAG_EVENTURN ) || vp.has_flag( VPFLAG_ODDTURN ) ) ) ) {
+
+                    add_light_source( src, vp.bonus );
                 }
+
+            } else {
+                add_light_source( src, vp.bonus );
             }
-        }
-        if(v->has_atomic_lights) {
-            // atomic light is always on
-            std::vector<int> light_indices = v->all_parts_with_feature(VPFLAG_ATOMIC_LIGHT);
-            for( auto &light_indice : light_indices ) {
-                tripoint pp = tripoint( vv.x, vv.y, vv.z ) +
-                              v->parts[light_indice].precalc[0];
-                if(inbounds( pp )) {
-                    add_light_source( pp, v->part_info( light_indice ).bonus );
-                }
-            }
-        }
+        };
+
         for( size_t p = 0; p < v->parts.size(); ++p ) {
             tripoint pp = tripoint( vv.x, vv.y, vv.z ) +
                           v->parts[p].precalc[0];
@@ -822,7 +793,7 @@ void map::build_seen_cache( const tripoint &origin, const int target_z )
             offsetDistance = rl_dist(origin.x, origin.y, mirror_pos.x, mirror_pos.y);
         } else {
             offsetDistance = 60 - veh->part_info( mirror ).bonus *
-                                  veh->parts[mirror].hp / veh->part_info( mirror ).durability;
+                                  veh->parts[ mirror ].hp() / veh->part_info( mirror ).durability;
             seen_cache[mirror_pos.x][mirror_pos.y] = LIGHT_TRANSPARENCY_OPEN_AIR;
         }
 
@@ -914,6 +885,10 @@ void castLight( float (&output_cache)[MAPSIZE*SEEX][MAPSIZE*SEEY],
                 } else {
                     // Note this is the same slope as the recursive call we just made.
                     start = trailingEdge;
+                }
+                // Trailing edge ahead of leading edge means this span is fully processed.
+                if( start < end ) {
+                    return;
                 }
                 current_transparency = new_transparency;
             }

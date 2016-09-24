@@ -1,8 +1,7 @@
 #ifndef COMPUTER_H
 #define COMPUTER_H
 
-#include "output.h"
-#include "json.h"
+#include "cursesdef.h" // WINDOW
 #include <vector>
 #include <string>
 
@@ -10,6 +9,7 @@
 
 class game;
 class player;
+class JsonObject;
 
 enum computer_action {
     COMPACT_NULL = 0,
@@ -108,9 +108,6 @@ class computer
 
         std::string name; // "Jon's Computer", "Lab 6E77-B Terminal Omega"
         int mission_id; // Linked to a mission?
-
-        static void load_lab_note( JsonObject &jsobj );
-        static void clear_lab_notes();
 
     private:
         // Difficulty of simply logging in

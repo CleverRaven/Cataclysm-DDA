@@ -19,6 +19,13 @@ int divide_roll_remainder( double dividend, double divisor );
 
 int djb2_hash( const unsigned char *input );
 
+double rng_normal( double lo, double hi );
+
+inline double rng_normal( double hi )
+{
+    return rng_normal( 0.0, hi );
+}
+
 /**
  * Returns a random entry in the container.
  * The container must have a `size()` function and must support iterators as usual.
@@ -42,11 +49,25 @@ inline V random_entry( const C &container, D default_value )
 }
 /**
  * Same as above, but returns a default constructed value if the container
- * is empty. This allows to return a reference, either into the given container or to the
- * (statically allocated and therefor always valid) default value.
+ * is empty.
  */
 template<typename C, typename V = typename C::value_type>
-inline const V & random_entry( const C &container )
+inline V random_entry( const C &container )
+{
+    if( container.empty() ) {
+        return V();
+    }
+    auto iter = container.begin();
+    std::advance( iter, rng( 0, container.size() - 1 ) );
+    return *iter;
+}
+/**
+ * Same as above, but with a statically allocated default value (using the default
+ * constructor). This allows to return a reference, either into the given container
+ * or to the default value.
+ */
+template<typename C, typename V = typename C::value_type>
+inline const V & random_entry_ref( const C &container )
 {
     if( container.empty() ) {
         static const V default_value = V();

@@ -24,8 +24,6 @@
 
 // Really just a sanity check for functions not tested beyond this. in theory 4096 works (`InvletInvlet)
 #define MAX_ITEM_IN_SQUARE 4096
-// 6.25 dead bears is enough for everybody!
-#define MAX_VOLUME_IN_SQUARE 4000
 // no reason to differ
 #define MAX_ITEM_IN_VEHICLE_STORAGE MAX_ITEM_IN_SQUARE
 // only can wear a maximum of two of any type of clothing
@@ -65,14 +63,6 @@
 /** Factor for item handling costs when item found in vehicle */
 #define VEHICLE_HANDLING_FACTOR 4
 
-/** Minimum amount of damage to an item (state of maximum repair) */
-#define MIN_ITEM_DAMAGE -1
-/** Maximum amount of damage to an item (state before destroyed) */
-#define MAX_ITEM_DAMAGE 4
-
-/** Amount of damage which a corpse is considered pulped */
-#define CORPSE_PULP_THRESHOLD 4
-
 /** Amount by which to charge an item for each unit of plutonium cell */
 #define PLUTONIUM_CHARGES 500
 
@@ -81,5 +71,27 @@
 
 /** Weight per level of LIFT/JACK tool quality */
 #define TOOL_LIFT_FACTOR 500000 // 500kg/level
+
+/** Cap JACK requirements to support arbritrarily large vehicles */
+#define JACK_LIMIT 6000000 // 6000kg (6 metric tonnes)
+
+/** Maximum density of a map field */
+#define MAX_FIELD_DENSITY 3
+
+/** Slowest speed at which a gun can be aimed */
+#define MAX_AIM_COST 10
+
+/** Maximum (effective) level for a skill */
+#define MAX_SKILL 10
+
+/** Maximum range for aimed weapons */
+#define MAX_RANGE 30
+
+/** Accuracy levels which a shots tangent must be below */
+constexpr double accuracy_headshot = 0.1;
+constexpr double accuracy_critical = 0.2;
+constexpr double accuracy_goodhit  = 0.5;
+constexpr double accuracy_standard = 0.8;
+constexpr double accuracy_grazing  = 1.0;
 
 #endif

@@ -1,8 +1,8 @@
 #ifndef COLOR_H
 #define COLOR_H
 
-#include "cursesdef.h"
 #include "json.h"
+#include <array>
 #include <string>
 #include <list>
 #include <unordered_map>

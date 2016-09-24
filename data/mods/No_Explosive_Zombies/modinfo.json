@@ -1,0 +1,17 @@
+[
+{
+    "type": "MOD_INFO",
+    "mod-type": "SUPPLEMENTAL",
+    "ident": "No_Explosive_Zombies",
+    "name": "No Explosive Zombies",
+    "description": "Removes all explosion-based zombies from the game.",
+    "category": "monster_exclude",
+    "path": ""
+},{
+    "type": "MONSTER_BLACKLIST",
+    "monsters": [
+        "mon_zombie_grenadier",
+        "mon_zombie_grenadier_elite"
+    ]
+}
+]

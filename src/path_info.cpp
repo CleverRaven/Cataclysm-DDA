@@ -10,9 +10,8 @@ std::map<std::string, std::string> FILENAMES;
 void PATH_INFO::init_base_path(std::string path)
 {
     if (!path.empty()) {
-        char ch;
-        ch = path.at(path.length() - 1);
-        if (ch != '/' || ch != '\\') {
+        char ch = path.at(path.length() - 1);
+        if (ch != '/' && ch != '\\') {
             path.push_back('/');
         }
     }
@@ -74,6 +73,7 @@ void PATH_INFO::update_datadir()
     update_pathname("rawdir", FILENAMES["datadir"] + "raw/");
     update_pathname("jsondir", FILENAMES["datadir"] + "json/");
     update_pathname("moddir", FILENAMES["datadir"] + "mods/");
+    update_pathname("legacydir", FILENAMES["datadir"] + "legacy/");
     update_pathname("recycledir", FILENAMES["datadir"] + "recycling/");
     update_pathname("namesdir", FILENAMES["datadir"] + "names/");
     update_pathname("titledir", FILENAMES["datadir"] + "title/");
@@ -88,6 +88,7 @@ void PATH_INFO::update_datadir()
     update_pathname("names", FILENAMES["namesdir"] + "en.json");
     update_pathname("colors", FILENAMES["rawdir"] + "colors.json");
     update_pathname("keybindings", FILENAMES["rawdir"] + "keybindings.json");
+    update_pathname("keybindings_vehicle", FILENAMES["rawdir"] + "keybindings/vehicle.json");
     update_pathname("legacy_fontdata", FILENAMES["datadir"] + "fontdata.json");
     update_pathname("sokoban", FILENAMES["rawdir"] + "sokoban.txt");
     update_pathname("defaulttilejson", FILENAMES["gfx"] + "tile_config.json");
@@ -106,6 +107,7 @@ void PATH_INFO::update_config_dir()
     update_pathname("fontlist", FILENAMES["config_dir"] + "fontlist.txt");
     update_pathname("fontdata", FILENAMES["config_dir"] + "fonts.json");
     update_pathname("autopickup", FILENAMES["config_dir"] + "auto_pickup.json");
+    update_pathname("safemode", FILENAMES["config_dir"] + "safemode.json");
     update_pathname("custom_colors", FILENAMES["config_dir"] + "custom_colors.json");
 }
 
@@ -135,6 +137,7 @@ void PATH_INFO::set_standard_filenames(void)
     update_pathname("rawdir", FILENAMES["datadir"] + "raw/");
     update_pathname("jsondir", FILENAMES["datadir"] + "json/");
     update_pathname("moddir", FILENAMES["datadir"] + "mods/");
+    update_pathname("legacydir", FILENAMES["datadir"] + "legacy/");
     update_pathname("recycledir", FILENAMES["datadir"] + "recycling/");
     update_pathname("namesdir", FILENAMES["datadir"] + "names/");
     update_pathname("titledir", FILENAMES["datadir"] + "title/");
@@ -150,6 +153,7 @@ void PATH_INFO::set_standard_filenames(void)
     update_pathname("names", FILENAMES["namesdir"] + "en.json");
     update_pathname("colors", FILENAMES["rawdir"] + "colors.json");
     update_pathname("keybindings", FILENAMES["rawdir"] + "keybindings.json");
+    update_pathname("keybindings_vehicle", FILENAMES["rawdir"] + "keybindings/vehicle.json");
     update_pathname("sokoban", FILENAMES["rawdir"] + "sokoban.txt");
     update_pathname("defaulttilejson", FILENAMES["gfx"] + "tile_config.json");
     update_pathname("defaulttilepng", FILENAMES["gfx"] + "tinytile.png");
@@ -183,6 +187,7 @@ void PATH_INFO::set_standard_filenames(void)
     update_pathname("fontlist", FILENAMES["config_dir"] + "fontlist.txt");
     update_pathname("fontdata", FILENAMES["config_dir"] + "fonts.json");
     update_pathname("autopickup", FILENAMES["config_dir"] + "auto_pickup.json");
+    update_pathname("safemode", FILENAMES["config_dir"] + "safemode.json");
     update_pathname("custom_colors", FILENAMES["config_dir"] + "custom_colors.json");
     update_pathname("worldoptions", "worldoptions.json");
 
@@ -213,13 +218,13 @@ std::string PATH_INFO::find_translated_file( const std::string &pathid,
     std::string local_path_1; // complete locale: en_NZ
     std::string local_path_2; // only the first part: en
     std::string loc_name;
-    if( OPTIONS["USE_LANG"].getValue().empty() ) {
+    if( get_option<std::string>( "USE_LANG" ).empty() ) {
         const char *v = setlocale( LC_ALL, NULL );
         if( v != NULL ) {
             loc_name = v;
         }
     } else {
-        loc_name = OPTIONS["USE_LANG"].getValue();
+        loc_name = get_option<std::string>( "USE_LANG" );
     }
     if( loc_name == "C" ) {
         loc_name = "en";

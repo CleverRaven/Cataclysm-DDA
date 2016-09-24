@@ -9837,19 +9837,6 @@
             ]
         },
         {
-            "id":"vp_battery_truck",
-            "fg":437,
-            "rotates":true,
-            "multitile":true,
-            "additional_tiles":
-            [
-                {
-                    "id":"broken",
-                    "fg":431
-                }
-            ]
-        },
-        {
             "id":"vp_fuel_tank_plut",
             "fg":438,
             "rotates":true,
@@ -11483,11 +11470,6 @@
         },
         {
             "id":"battery_car",
-            "fg":369,
-            "rotates":false
-        },
-        {
-            "id":"battery_truck",
             "fg":369,
             "rotates":false
         },
@@ -28778,13 +28760,6 @@
          "multitile" : false
       }, 
       { 
-         "id" : "saiga_sawn", 
-         "fg" : 1404, 
-         "bg" : -1, 
-         "rotates" : false, 
-         "multitile" : false
-      }, 
-      { 
          "id" : "shotgun_s", 
          "fg" : 1405, 
          "bg" : -1, 
@@ -29170,7 +29145,7 @@
          "multitile" : false
       }, 
       { 
-         "id" : "m14a", 
+         "id" : "m1a", 
          "fg" : 1378, 
          "bg" : -1, 
          "rotates" : false, 

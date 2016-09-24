@@ -24,7 +24,11 @@
 #endif
 #include "translations.h"
 
-void exit_handler(int s);
+void exit_handler(int);
+void hangup_handler(int);
+void kill_game();
+
+extern bool test_dirty;
 
 namespace {
 
@@ -57,8 +61,10 @@ int main(int argc, char *argv[])
 #endif
     int seed = time(NULL);
     bool verifyexit = false;
-    bool check_all_mods = false;
+    bool check_mods = false;
     std::string dump;
+    dump_mode dmode = dump_mode::TSV;
+    std::vector<std::string> opts;
 
     // Set default file paths
 #ifdef PREFIX
@@ -103,23 +109,42 @@ int main(int argc, char *argv[])
                 }
             },
             {
-                "--check-mods", nullptr,
+                "--check-mods", "[mods...]",
                 "Checks the json files belonging to cdda mods",
                 section_default,
-                [&check_all_mods](int, const char **) -> int {
-                    check_all_mods = true;
+                [&check_mods,&opts]( int n, const char *params[] ) -> int {
+                    check_mods = true;
+                    test_mode = true;
+                    for( int i = 0; i < n; ++i ) {
+                        opts.emplace_back( params[ i ] );
+                    }
                     return 0;
                 }
             },
             {
-                "--dump-stats", "<what>",
+                "--dump-stats", "<what> [mode = TSV] [opts...]",
                 "Dumps item stats",
                 section_default,
-                [&dump](int n, const char *params[]) -> int {
-                    if(n != 1 ) {
+                [&dump,&dmode,&opts](int n, const char *params[]) -> int {
+                    if( n < 1 ) {
                         return -1;
                     }
+                    test_mode = true;
                     dump = params[ 0 ];
+                    for( int i = 2; i < n; ++i ) {
+                        opts.emplace_back( params[ i ] );
+                    }
+                    if( n >= 2 ) {
+                        if( !strcmp( params[ 1 ], "TSV" ) ) {
+                            dmode = dump_mode::TSV;
+                            return 0;
+                        } else if( !strcmp( params[ 1 ], "HTML" ) ) {
+                            dmode = dump_mode::HTML;
+                            return 0;
+                        } else {
+                            return -1;
+                        }
+                    }
                     return 0;
                 }
             },
@@ -375,14 +400,18 @@ int main(int argc, char *argv[])
 
     set_language(true);
 
-    if (initscr() == NULL) { // Initialize ncurses
-        DebugLog( D_ERROR, DC_ALL ) << "initscr failed!";
-        return 1;
+    // in test mode don't initialize curses to avoid escape sequences being inserted into output stream
+    if( !test_mode ) {
+         if( initscr() == nullptr ) { // Initialize ncurses
+            DebugLog( D_ERROR, DC_ALL ) << "initscr failed!";
+            return 1;
+        }
+        init_interface();
+        noecho();  // Don't echo keypresses
+        cbreak();  // C-style breaks (e.g. ^C to SIGINT)
+        keypad(stdscr, true); // Numpad is numbers
     }
-    init_interface();
-    noecho();  // Don't echo keypresses
-    cbreak();  // C-style breaks (e.g. ^C to SIGINT)
-    keypad(stdscr, true); // Numpad is numbers
+
 #if !(defined TILES || defined _WIN32 || defined WINDOWS)
     // For tiles or windows, this is handled already in initscr().
     init_colors();
@@ -390,7 +419,7 @@ int main(int argc, char *argv[])
     // curs_set(0); // Invisible cursor
     set_escdelay(10); // Make escape actually responsive
 
-    std::srand(seed);
+    srand(seed);
 
     g = new game;
     // First load and initialize everything that does not
@@ -398,39 +427,26 @@ int main(int argc, char *argv[])
     try {
         g->load_static_data();
         if (verifyexit) {
-            if(g->game_error()) {
-                exit_handler(-999);
-            }
-            exit_handler(0);
+            kill_game();
         }
-        if( ! dump.empty() ) {
-            g->dump_stats( dump );
-            exit_handler( 0 );
+        if( !dump.empty() ) {
+            init_colors();
+            exit( g->dump_stats( dump, dmode, opts ) ? 0 : 1 );
         }
-        if (check_all_mods) {
-            // Here we load all the mods and check their
-            // consistency (both is done in check_all_mod_data).
-            g->init_ui();
-            popup_nowait("checking all mods");
-            g->check_all_mod_data();
-            if(g->game_error()) {
-                exit_handler(-999);
-            }
-            // At this stage, the mods (and core game data)
-            // are find and we could start playing, but this
-            // is only for verifying that stage, so we exit.
-            exit_handler(0);
+        if( check_mods ) {
+            init_colors();
+            exit( g->check_mod_data( opts ) && !test_dirty ? 0 : 1 );
         }
     } catch( const std::exception &err ) {
         debugmsg( "%s", err.what() );
-        exit_handler(-999);
+        kill_game();
     }
 
     // Now we do the actual game.
 
     g->init_ui();
     if(g->game_error()) {
-        exit_handler(-999);
+        kill_game();
     }
 
     curs_set(0); // Invisible cursor here, because MAPBUFFER.load() is crash-prone
@@ -441,6 +457,12 @@ int main(int argc, char *argv[])
     sigemptyset(&sigIntHandler.sa_mask);
     sigIntHandler.sa_flags = 0;
     sigaction(SIGINT, &sigIntHandler, NULL);
+
+    struct sigaction sigHupHandler;
+    sigHupHandler.sa_handler = hangup_handler;
+    sigemptyset(&sigHupHandler.sa_mask);
+    sigHupHandler.sa_flags = 0;
+    sigaction(SIGHUP, &sigHupHandler, NULL);
 #endif
 
     bool quit_game = false;
@@ -455,7 +477,7 @@ int main(int argc, char *argv[])
     } while (!quit_game);
 
 
-    exit_handler(-999);
+    kill_game();
 
     return 0;
 }
@@ -506,23 +528,39 @@ void printHelpMessage(const arg_handler *first_pass_arguments,
 }
 }  // namespace
 
-void exit_handler(int s)
+void exit_handler(int)
 {
-    if (s != 2 || query_yn(_("Really Quit? All unsaved changes will be lost."))) {
-        erase(); // Clear screen
-
-        deinitDebug();
-
-        int exit_status = 0;
-        if( g != NULL ) {
-            if( g->game_error() ) {
-                exit_status = 1;
-            }
-            delete g;
-        }
-
-        endwin();
-
-        exit( exit_status );
+    if (query_yn(_("Really Quit? All unsaved changes will be lost."))) {
+        kill_game();
     }
+}
+
+void hangup_handler(int)
+{
+    if( g != NULL ) {
+        g->save();
+    }
+
+    kill_game();
+}
+
+void kill_game()
+{
+    int exit_status = 0;
+
+    // Clear screen
+    erase();
+
+    deinitDebug();
+
+    if( g != NULL ) {
+        if( g->game_error() ) {
+            exit_status = 1;
+        }
+        delete g;
+    }
+
+    endwin();
+
+    exit( exit_status );
 }

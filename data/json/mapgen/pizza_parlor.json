@@ -128,7 +128,7 @@
             ["wrapper",      34],
             ["bag_plastic",  20],
             ["bottle_glass", 30],
-            ["can_drink",    30],
+            ["can_drink_unsealed",    30],
             ["rag",          10],
             ["news_regional", 7],
             ["mag_news",      7],

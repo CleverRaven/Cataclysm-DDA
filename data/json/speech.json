@@ -1172,7 +1172,7 @@
     },{
         "type" : "speech",
         "speaker" : "mon_shoggoth",
-        "sound" : "\"TEKELI-LI! TEKELI-LI! TEKELI-LI!\"",
+        "sound" : "\"TEKELI-LI!  TEKELI-LI!  TEKELI-LI!\"",
         "volume" : 40
     },{
         "type" : "speech",
@@ -1197,17 +1197,17 @@
     },{
         "type" : "speech",
         "speaker" : "mon_broken_cyborg",
-        "sound" : "\"WHY! WHY, WHYYY!\"",
+        "sound" : "\"WHY!  WHY, WHYYY!\"",
         "volume" : 20
     },{
         "type" : "speech",
         "speaker" : "mon_broken_cyborg",
-        "sound" : "an electronic voice saying \"CONNECTION FAILED. Abort, Retry, Fail?\"",
+        "sound" : "an electronic voice saying \"CONNECTION FAILED.  Abort, Retry, Fail?\"",
         "volume" : 20
     },{
         "type" : "speech",
         "speaker" : "mon_broken_cyborg",
-        "sound" : "\"I was once a man. A MAN!\"",
+        "sound" : "\"I was once a man.  A MAN!\"",
         "volume" : 10
     },{
         "type" : "speech",
@@ -1227,7 +1227,7 @@
     },{
         "type" : "speech",
         "speaker" : "mon_broken_cyborg",
-        "sound" : "\"What have I become? Why can't I die?\"",
+        "sound" : "\"What have I become?  Why can't I die?\"",
         "volume" : 10
     },{
         "type" : "speech",
@@ -1242,7 +1242,7 @@
     },{
         "type" : "speech",
         "speaker" : "mon_broken_cyborg",
-        "sound" : "\"Not that way! Go left!\"",
+        "sound" : "\"Not that way!  Go left!\"",
         "volume" : 10
     }
 ]

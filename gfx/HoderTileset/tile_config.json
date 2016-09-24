@@ -52,7 +52,6 @@
             "id":"line_trail",
             "bg":12
         },
-
         {
             "id":"animation_line",
             "bg":49
@@ -3295,7 +3294,7 @@
             "id":"vp_frame_vertical_2",
             "fg":104,
             "rotates":true
-        },        
+        },
         {
             "id":"vp_frame_cover",
             "fg":105,
@@ -3390,7 +3389,7 @@
             "id":"vp_hdframe_vertical_2",
             "fg":104,
             "rotates":true
-        },        
+        },
         {
             "id":"vp_hdframe_cover",
             "fg":105,
@@ -3445,7 +3444,7 @@
             "id":"vp_frame_wood_vertical_2",
             "fg":104,
             "rotates":true
-        },        
+        },
         {
             "id":"vp_frame_wood_cover",
             "fg":105,
@@ -10105,13 +10104,6 @@
          "multitile" : false
       },
       {
-         "id" : "saiga_sawn",
-         "fg" : 1404,
-         "bg" : 193,
-         "rotates" : false,
-         "multitile" : false
-      },
-      {
          "id" : "shotgun_s",
          "fg" : 1405,
          "bg" : 193,
@@ -10266,7 +10258,7 @@
          "multitile" : false
       },
       {
-         "id" : "m14a",
+         "id" : "m1a",
          "fg" : 1427,
          "bg" : 193,
          "rotates" : false,

@@ -90,7 +90,7 @@ Acid resistance values are in materials.json, and defined as such:
 
 **Q: How do I prevent an item from showing up in NPC inventory?**
 
-A: Add the ID of the item to the trader_avoid list in item_groups.json.
+A: Add the TRADER_AVOID flag to it.
 
 **Q: What the heck is up with the map objects?**
 

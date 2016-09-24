@@ -5,7 +5,6 @@
 #include "item_factory.h"
 #include "translations.h"
 
-#include <fstream>
 #include <stdexcept>
 #include <algorithm>
 
@@ -27,14 +26,8 @@ bool itype::can_use( const std::string &iuse_name ) const
 
 const use_function *itype::get_use( const std::string &iuse_name ) const
 {
-    const auto iter = std::find_if( use_methods.begin(),
-    use_methods.end(), [&]( const use_function & func ) {
-        return func.get_type() == iuse_name;
-    } );
-    if( iter == use_methods.end() ) {
-        return nullptr;
-    }
-    return &*iter;
+    auto iter = use_methods.find( iuse_name );
+    return iter != use_methods.end() ? &iter->second : nullptr;
 }
 
 long itype::tick( player *p, item *it, const tripoint &pos ) const
@@ -43,7 +36,7 @@ long itype::tick( player *p, item *it, const tripoint &pos ) const
     // Maybe should move charge decrementing here?
     int charges_to_use = 0;
     for( auto &method : use_methods ) {
-        int val = method.call( p, it, true, pos );
+        int val = method.second.call( p, it, true, pos );
         if( charges_to_use < 0 || val < 0 ) {
             charges_to_use = -1;
         } else {
@@ -60,7 +53,7 @@ long itype::invoke( player *p, item *it, const tripoint &pos ) const
         return 0;
     }
 
-    return use_methods.front().call( p, it, false, pos );
+    return use_methods.begin()->second.call( p, it, false, pos );
 }
 
 long itype::invoke( player *p, item *it, const tripoint &pos, const std::string &iuse_name ) const
@@ -75,16 +68,12 @@ long itype::invoke( player *p, item *it, const tripoint &pos, const std::string 
     return use->call( p, it, false, pos );
 }
 
-std::string ammo_name( std::string const &t )
+std::string ammo_name( const ammotype &t )
 {
-    std::string ret = ammunition_type::find_ammunition_type( t ).name();
-    if( ret != "none" ) {
-        ret = _( ret.c_str() );
-    }
-    return ret;
+    return t.obj().name();
 }
 
-itype_id const &default_ammo( std::string const &t )
+const itype_id &default_ammo( const ammotype &t )
 {
-    return ammunition_type::find_ammunition_type( t ).default_ammotype();
+    return t.obj().default_ammotype();
 }

@@ -1,5 +1,6 @@
 #include "mapgen.h"
 #include "mapgen_functions.h"
+#include "map_iterator.h"
 #include "output.h"
 #include "item_factory.h"
 #include "line.h"
@@ -68,6 +69,38 @@ mapgendata::mapgendata( oter_id north, oter_id east, oter_id south, oter_id west
     default_groundcover.primary = region->default_groundcover.primary;
     default_groundcover.secondary = region->default_groundcover.secondary;
 
+}
+
+tripoint rotate_point( const tripoint &p, int rotations )
+{
+    if( p.x < 0 || p.x >= SEEX * 2 ||
+        p.y < 0 || p.y >= SEEY * 2 ) {
+        debugmsg( "Point out of range: %d,%d,%d", p.x, p.y, p.z );
+        // Mapgen is vulnerable, don't supply invalid points, debugmsg is enough
+        return tripoint( 0, 0, p.z );
+    }
+
+    rotations = rotations % 4;
+
+    tripoint ret = p;
+    switch( rotations ) {
+        case 0:
+            break;
+        case 1:
+            ret.x = p.y;
+            ret.y = SEEX * 2 - 1 - p.x;
+            break;
+        case 2:
+            ret.x = SEEX * 2 - 1 - p.x;
+            ret.y = SEEY * 2 - 1 - p.y;
+            break;
+        case 3:
+            ret.x = SEEY * 2 - 1 - p.y;
+            ret.y = p.x;
+            break;
+    }
+
+    return ret;
 }
 
 std::map<std::string, building_gen_pointer> mapgen_cfunction_map;
@@ -368,12 +401,12 @@ ter_id mapgendata::groundcover() {
 
 void mapgen_rotate( map * m, oter_id terrain_type, bool north_is_down ) {
     if ( north_is_down ) {
-        int iid_diff = (int)terrain_type - terrain_type.t().loadid_base + 2;
+        int iid_diff = (int)terrain_type - terrain_type->loadid_base + 2;
         if ( iid_diff != 4 ) {
             m->rotate(iid_diff);
         }
     } else {
-        int iid_diff = (int)terrain_type - terrain_type.t().loadid_base;
+        int iid_diff = (int)terrain_type - terrain_type->loadid_base;
         if ( iid_diff > 0 ) {
             m->rotate(iid_diff);
         }
@@ -981,8 +1014,8 @@ void mapgen_fungal_flowers(map *m, oter_id, mapgendata dat, int, float)
 
 int terrain_type_with_suffix_to_nesw_array( oter_id terrain_type, bool array[4] ) {
     // extract the suffix from the terrain type name
-    std::string suffix = std::string( terrain_type ).substr( std::string(
-                             terrain_type ).find_last_of( "_" ) + 1 );
+    const std::string &sid = terrain_type.id().str();
+    std::string suffix = sid.substr( sid.find_last_of( "_" ) + 1 );
     // non-"_end" end tiles have _north _east _south _west, all of which contain "t"
     if( suffix.find( "t" ) != std::string::npos ) {
         suffix = suffix.substr( 0, 1 );
@@ -1054,7 +1087,7 @@ void mapgen_road( map *m, oter_id terrain_type, mapgendata dat, int turn, float 
     bool sidewalks_neswx[8] = {};
     int neighbor_sidewalks = 0;
     for( int dir = 0; dir < 8; dir++ ) { // N E S W NE SE SW NW
-        sidewalks_neswx[dir] = otermap[dat.t_nesw[dir]].has_flag( has_sidewalk );
+        sidewalks_neswx[dir] = dat.t_nesw[dir]->has_flag( has_sidewalk );
         neighbor_sidewalks += sidewalks_neswx[dir];
     }
 
@@ -1067,15 +1100,14 @@ void mapgen_road( map *m, oter_id terrain_type, mapgendata dat, int turn, float 
     // which way should our roads curve, based on neighbor roads?
     int curvedir_nesw[4] = {};
     for( int dir = 0; dir < 4; dir++ ) { // N E S W
-        if( roads_nesw[dir] == false || otermap[dat.t_nesw[dir]].id_base != "road" ) {
+        if( roads_nesw[dir] == false || dat.t_nesw[dir]->id_base != "road" ) {
             continue;
         }
 
         // n_* contain details about the neighbor being considered
         bool n_roads_nesw[4] = {};
         //TODO figure out how to call this function without creating a new oter_id object
-        int n_num_dirs = terrain_type_with_suffix_to_nesw_array( oter_id( otermap[dat.t_nesw[dir]].id ),
-                         n_roads_nesw );
+        int n_num_dirs = terrain_type_with_suffix_to_nesw_array( dat.t_nesw[dir], n_roads_nesw );
         // if 2-way neighbor has a road facing us
         if( n_num_dirs == 2 && n_roads_nesw[( dir + 2 ) % 4] ) {
             // curve towards the direction the neighbor turns
@@ -1099,8 +1131,8 @@ void mapgen_road( map *m, oter_id terrain_type, mapgendata dat, int turn, float 
     switch ( num_dirs ) {
         case 4: // 4-way intersection
             for( int dir = 0; dir < 8; dir++ ) {
-                fourways_neswx[dir] = ( otermap[dat.t_nesw[dir]].id == "road_nesw" ||
-                                        otermap[dat.t_nesw[dir]].id == "road_nesw_manhole" );
+                fourways_neswx[dir] = ( dat.t_nesw[dir].id() == "road_nesw" ||
+                                        dat.t_nesw[dir].id() == "road_nesw_manhole" );
             }
             // is this the middle, or which side or corner, of a plaza?
             plaza_dir = compare_neswx( fourways_neswx, {1, 1, 1, 1, 1, 1, 1, 1} ) ? 8 :
@@ -1732,7 +1764,8 @@ void mapgen_parking_lot(map *m, oter_id, mapgendata dat, int turn, float)
 
     m->place_items("road", 8, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, false, turn);
     for (int i = 1; i < 4; i++) {
-        if (dat.t_nesw[i].size() > 5 && dat.t_nesw[i].find("road_",0,5) == 0) {
+        const std::string &id = dat.t_nesw[i].id().str();
+        if( id.size() > 5 && id.find( "road_" ) == 0 ) {
             m->rotate(i);
         }
     }
@@ -2561,16 +2594,73 @@ void mapgen_generic_house(map *m, oter_id terrain_type, mapgendata dat, int turn
         }
     }
 
-    if ("house_base" == terrain_type.t().id_base ) {
-        int attempts = 100;
-        do {
-            rn = rng(lw + 1, rw - 1);
-            attempts--;
-        } while (m->ter(rn, actual_house_height - 1) != t_floor && attempts);
-        if( m->ter(rn, actual_house_height - 1) == t_floor && attempts && !m->has_furn( rn, actual_house_height - 1 ) ) {
-            m->ter_set(rn, actual_house_height - 1, t_stairs_down);
+    // For rotation
+    const int iid_diff = (int)terrain_type - terrain_type->loadid_base;
+    const bool has_basement = terrain_type->id_base == "house_base";
+    if( has_basement ) {
+        const bool force = get_world_option<bool>( "ALIGN_STAIRS" );
+        // Find the basement's stairs first
+        const tripoint abs_sub_here = m->get_abs_sub();
+        tinymap basement;
+        basement.load( abs_sub_here.x, abs_sub_here.y, abs_sub_here.z - 1, false );
+        std::vector<tripoint> upstairs;
+        const tripoint from( 0, 0, abs_sub_here.z - 1 );
+        const tripoint to( SEEX * 2, SEEY * 2, abs_sub_here.z - 1 );
+        for( const tripoint &p : m->points_in_rectangle( from, to ) ) {
+            if( basement.has_flag( TFLAG_GOES_UP, p ) ) {
+                upstairs.emplace_back( p );
+            }
+        }
+
+        bool placed_any = false;
+        for( const tripoint &p : upstairs ) {
+            static const tripoint up = tripoint( 0, 0, 1 );
+            const tripoint here = rotate_point( p + up, iid_diff );
+            // @todo Less ugly check
+            // If aligning isn't forced, allow only floors. Otherwise allow all non-walls
+            const ter_t &ter_here = m->ter( here ).obj();
+            if( ( force && ter_here.movecost > 0 ) ||
+                ( ter_here.has_flag( "INDOORS" ) && ter_here.has_flag( "FLAT" ) ) ) {
+                m->ter_set( here, t_stairs_down );
+                placed_any = true;
+            }
+
+            // Try to push away furniture
+            const furn_id furn_here = m->furn( here );
+            if( furn_here != f_null ) {
+                for( const tripoint &push_point : m->points_in_radius( here, 1 ) ) {
+                    if( m->furn( push_point ) == f_null ) {
+                        m->furn_set( push_point, furn_here );
+                        break;
+                    }
+                }
+
+                m->furn_set( here, f_null );
+            }
+        }
+
+        // If not forcing alignment and didn't place any stairs, allow legacy stair placement
+        // Note: any, not all - legacy stairs wouldn't deal well with multiple random stairs
+        if( !placed_any && !force ) {
+            // Legacy stair spawning code - allows teleports
+            int attempts = 100;
+            int stairs_height = actual_house_height - 1;
+            do {
+                rn = rng( lw + 1, rw - 1 );
+                // After 50 failed attempts, relax the placement limitations a bit
+                // Otherwise it will most likely fail the next 50 too
+                if( attempts < 50 ) {
+                    stairs_height = rng( 1, SEEY );
+                }
+                attempts--;
+                if( m->ter( rn, stairs_height ) == t_floor && !m->has_furn( rn, stairs_height ) ) {
+                    m->ter_set( rn, stairs_height, t_stairs_down );
+                    break;
+                }
+            } while( attempts > 0 );
         }
     }
+
     if (one_in(100)) { // todo: region data // Houses have a 1 in 100 chance of wasps!
         for (int i = 0; i < SEEX * 2; i++) {
             for (int j = 0; j < SEEY * 2; j++) {
@@ -2639,7 +2729,6 @@ void mapgen_generic_house(map *m, oter_id terrain_type, mapgendata dat, int turn
         m->place_spawns( mongroup_id( "GROUP_ZOMBIE" ), 2, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, density);
     }
 
-    int iid_diff = (int)terrain_type - terrain_type.t().loadid_base;
     if ( iid_diff > 0 ) {
         m->rotate(iid_diff);
     }
@@ -2960,13 +3049,13 @@ void mapgen_shelter(map *m, oter_id, mapgendata dat, int, float) {
                 m->spawn_item(lxa, 5, "mask_gas"); // See! The gas mask is real!
             }
         }
-        if(ACTIVE_WORLD_OPTIONS["BLACK_ROAD"] || g->scen->has_flag("SUR_START")) {
+        if(get_world_option<bool>( "BLACK_ROAD" ) || g->scen->has_flag("SUR_START")) {
             //place zombies outside
-            m->place_spawns( GROUP_ZOMBIE, ACTIVE_WORLD_OPTIONS["SPAWN_DENSITY"], 0, 0, SEEX * 2 - 1, 3, 0.4f);
-            m->place_spawns( GROUP_ZOMBIE, ACTIVE_WORLD_OPTIONS["SPAWN_DENSITY"], 0, 4, 3, SEEX * 2 - 4, 0.4f);
-            m->place_spawns( GROUP_ZOMBIE, ACTIVE_WORLD_OPTIONS["SPAWN_DENSITY"], SEEX * 2 - 3, 4,
+            m->place_spawns( GROUP_ZOMBIE, get_world_option<float>( "SPAWN_DENSITY" ), 0, 0, SEEX * 2 - 1, 3, 0.4f);
+            m->place_spawns( GROUP_ZOMBIE, get_world_option<float>( "SPAWN_DENSITY" ), 0, 4, 3, SEEX * 2 - 4, 0.4f);
+            m->place_spawns( GROUP_ZOMBIE, get_world_option<float>( "SPAWN_DENSITY" ), SEEX * 2 - 3, 4,
                          SEEX * 2 - 1, SEEX * 2 - 4, 0.4f);
-            m->place_spawns( GROUP_ZOMBIE, ACTIVE_WORLD_OPTIONS["SPAWN_DENSITY"], 0, SEEX * 2 - 3,
+            m->place_spawns( GROUP_ZOMBIE, get_world_option<float>( "SPAWN_DENSITY" ), 0, SEEX * 2 - 3,
                          SEEX * 2 - 1, SEEX * 2 - 1, 0.4f);
         }
 }
@@ -3062,7 +3151,7 @@ void mapgen_basement_junk(map *m, oter_id terrain_type, mapgendata dat, int turn
     for (int i = 1; i <= 23; i++) {
             for (int j = 1; j <= 23; j++) {
                 if (one_in(1600)) {
-                    m->furn_set(i, j, "f_gun_safe_el");
+                    m->furn_set(i, j, furn_str_id( "f_gun_safe_el" ) );
                     if (one_in(2)){
                         m->spawn_item(i, j, "9mm", 2);
                         m->spawn_item(i, j, "usp_9mm");
@@ -4833,21 +4922,25 @@ void mapgen_cave(map *m, oter_id, mapgendata dat, int turn, float density)
             square(m, t_slope_up, SEEX - 1, SEEY - 1, SEEX, SEEY);
             switch(rng(1, 10)) {
             case 1:
-                // natural refuse
+                // natural refuse, chance of minerals
+                m->place_items("cave_minerals", 50, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, true, 0);
                 m->place_items("monparts", 80, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, true, 0);
                 break;
             case 2:
-                // trash
+                // trash, minerals less likely
+                m->place_items("cave_minerals", 25, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, true, 0);
                 m->place_items("trash", 70, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, true, 0);
                 break;
             case 3:
                 // bat corpses
+                m->place_items("cave_minerals", 50, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, true, 0);
                 for (int i = rng(1, 12); i > 0; i--) {
                     m->add_item_or_charges(rng(1, SEEX * 2 - 1), rng(1, SEEY * 2 - 1), item::make_corpse( mon_bat ) );
                 }
                 break;
             case 4:
                 // ant food, chance of 80
+                m->place_items("cave_minerals", 25, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, true, 0);
                 m->place_items("ant_food", 85, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, true, 0);
                 break;
             case 5: {
@@ -4871,7 +4964,8 @@ void mapgen_cave(map *m, oter_id, mapgendata dat, int turn, float density)
                 break;
             }
             default:
-                // nothing, half the time
+                // nothing except maybe minerals, default occurs half the time
+                m->place_items("cave_minerals", 50, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, true, 0);
                 break;
             }
             m->place_spawns( mongroup_id( "GROUP_CAVE" ), 2, 6, 6, 18, 18, 1.0);
@@ -4881,7 +4975,7 @@ void mapgen_cave(map *m, oter_id, mapgendata dat, int turn, float density)
             draw_map(oter_id("forest"), dat.north(), dat.east(), dat.south(), dat.west(), dat.neast(), dat.seast(), dat.nwest(), dat.swest(),
                      dat.above(), turn, g, density, dat.zlevel);
 */
-            mapgen_forest_general(m, oter_id("forest"), dat, turn, density);
+            mapgen_forest_general(m, oter_str_id("forest").id(), dat, turn, density);
             // Clear the center with some rocks
             square(m, t_rock, SEEX - 6, SEEY - 6, SEEX + 5, SEEY + 5);
             int pathx, pathy;

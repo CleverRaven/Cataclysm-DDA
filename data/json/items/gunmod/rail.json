@@ -12,20 +12,30 @@
     "color": "light_red",
     "location": "rail",
     "mod_targets": [ "shotgun", "rifle", "crossbow" ],
-    "min_skills": [ [ "gun", 2 ] ],
     "gun_data": {
-        "skill": "archery",
-        "ammo": "bolt",
-        "clip_size": 1,
-        "range": 8,
-        "dispersion": 180,
-        "aim_speed": -1,
-        "sight_dispersion": -1,
-        "durability": 10,
-        "reload": 100
+      "ammo": "bolt",
+      "skill": "archery",
+      "range": 8,
+      "dispersion": 180,
+      "durability": 10,
+      "clip_size": 1
     },
     "dispersion_modifier": 60,
+    "min_skills": [ [ "weapon", 2 ], [ "archery", 1 ] ],
     "flags": [ "STR_RELOAD" ]
+  },
+  {
+    "id": "offset_sights",
+    "copy-from": "improve_sights",
+    "type": "GUNMOD",
+    "name": "offset iron sights",
+    "name_plural": "offset iron sights",
+    "description": "An alternative set of iron sights mounted at 45° for use when a scope or other modification prevents use of the primary sights.",
+    "location": "rail",
+    "mod_targets": [ "smg", "rifle", "shotgun" ],
+    "min_skills": [ [ "weapon", 3 ], [ "gun", 4 ] ],
+    "proportional": { "sight_dispersion": 1.25 },
+    "delete": { "flags": [ "DISABLE_SIGHTS" ] }
   },
   {
     "id": "rail_laser_sight",
@@ -41,7 +51,26 @@
     "color": "dark_gray",
     "location": "rail",
     "mod_targets": [ "smg", "rifle", "pistol", "shotgun", "crossbow", "launcher" ],
-    "aim_speed": 2,
-    "sight_dispersion": 100
+    "sight_dispersion": 360,
+    "aim_cost": 2,
+    "min_skills": [ [ "weapon", 2 ], [ "gun", 1 ] ]
+  },
+  {
+    "id": "stabilizer",
+    "type": "GUNMOD",
+    "name": "gyroscopic stabilizer",
+    "description": "An advanced unit that straps onto the side of your firearm and reduces vibration, greatly reducing recoil and increasing accuracy.",
+    "weight": 286,
+    "volume": 3,
+    "integral_volume": 2,
+    "price": 68000,
+    "material": [ "aluminum", "plastic" ],
+    "symbol": ":",
+    "color": "blue",
+    "location": "rail",
+    "mod_targets": [ "smg", "rifle", "crossbow" ],
+    "dispersion_modifier": -30,
+    "handling_modifier": 6,
+    "min_skills": [ [ "weapon", 6 ] ]
   }
 ]

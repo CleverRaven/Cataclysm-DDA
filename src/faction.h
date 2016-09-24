@@ -111,7 +111,7 @@ class faction : public JsonSerializer, public JsonDeserializer
         void load_faction_template( std::string ident );
         std::vector<std::string> all_json_factions();
 
-        ~faction();
+        ~faction() override;
         void load_info( std::string data );
         using JsonDeserializer::deserialize;
         void deserialize( JsonIn &jsin ) override;

@@ -1,8 +1,9 @@
 #ifndef ADVANCED_INV_H
 #define ADVANCED_INV_H
 
-#include "output.h"
+#include "cursesdef.h" // WINDOW
 #include "enums.h"
+#include "units.h"
 
 #include <string>
 #include <array>
@@ -77,21 +78,22 @@ struct advanced_inv_area {
     // flags, e.g. FIRE, TRAP, WATER
     std::string flags;
     // total volume and weight of items currently there
-    int volume, weight;
+    units::volume volume;
+    int weight;
     // maximal count / volume of items there.
-    int max_size, max_volume;
+    int max_size;
 
     advanced_inv_area( aim_location id ) : id( id ) {}
     advanced_inv_area( aim_location id, int hscreenx, int hscreeny, tripoint off, std::string name,
                        std::string shortname ) : id( id ), hscreenx( hscreenx ),
         hscreeny( hscreeny ), off( off ), name( name ), shortname( shortname ), pos( 0, 0, 0 ),
         canputitemsloc( false ), veh( nullptr ), vstor( -1 ), volume( 0 ), weight( 0 ),
-        max_size( 0 ), max_volume( 0 ) {
+        max_size( 0 ) {
     }
 
     void init();
     // if you want vehicle cargo, specify so via `in_vehicle'
-    int free_volume( bool in_vehicle = false ) const;
+    units::volume free_volume( bool in_vehicle = false ) const;
     int get_item_count() const;
     // Other area is actually the same item source, e.g. dragged vehicle to the south and AIM_SOUTH
     bool is_same( const advanced_inv_area &other ) const;
@@ -155,7 +157,7 @@ struct advanced_inv_listitem {
     /**
      * The volume of all the items in this stack, used for sorting.
      */
-    int volume;
+    units::volume volume;
     /**
      * The weight of all the items in this stack, used for sorting.
      */

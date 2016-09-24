@@ -24,11 +24,11 @@ class leap_actor : public mattack_actor
         float max_consider_range;
 
         leap_actor() { }
-        ~leap_actor() { }
+        ~leap_actor() override { }
 
         void load( JsonObject &jo );
         bool call( monster & ) const override;
-        virtual mattack_actor *clone() const override;
+        mattack_actor *clone() const override;
 };
 
 class bite_actor : public mattack_actor
@@ -50,11 +50,11 @@ class bite_actor : public mattack_actor
         int no_infection_chance;
 
         bite_actor();
-        ~bite_actor() { }
+        ~bite_actor() override { }
 
         void load( JsonObject &jo );
         bool call( monster & ) const override;
-        virtual mattack_actor *clone() const override;
+        mattack_actor *clone() const override;
 };
 
 class gun_actor : public mattack_actor
@@ -64,7 +64,7 @@ class gun_actor : public mattack_actor
         itype_id gun_type;
 
         /** Specific ammo type to use or for gun default if unspecified */
-        ammotype ammo_type = "NULL";
+        itype_id ammo_type = "null";
 
         /*@{*/
         /** Balanced against player. If fake_skills unspecified defaults to GUN 4, WEAPON 8 */
@@ -75,13 +75,10 @@ class gun_actor : public mattack_actor
         int fake_per = 12;
         /*@}*/
 
-        /*@{*/
-        /** Additional caps above any imposed by either the base gun or monster. If <= 0, from gun+ammo. */
-        int target_range = -1;
-        int range_no_burst = INT_MAX; /** Only burst fire at or below this distance */
-        int burst_limit = INT_MAX;
-        int max_ammo = INT_MAX; /** Limited also by monster starting_ammo */
-        /*@}*/
+        /** Specify weapon mode to use at different engagement distances */
+        std::map<std::pair<int, int>, std::string> ranges;
+
+        int max_ammo = INT_MAX; /** limited also by monster starting_ammo */
 
         /** Description of the attack being run */
         std::string description = "The %s fires its %s";
@@ -116,15 +113,14 @@ class gun_actor : public mattack_actor
         /** If true then disable this attack completely if not brightly lit */
         bool require_sunlight = false;
 
-        void shoot( monster &z, Creature &target ) const;
-        int get_range() const;
+        void shoot( monster &z, Creature &target, const std::string &mode ) const;
 
         gun_actor();
-        ~gun_actor() { }
+        ~gun_actor() override { }
 
         void load( JsonObject &jo );
         bool call( monster & ) const override;
-        virtual mattack_actor *clone() const override;
+        mattack_actor *clone() const override;
 };
 
 #endif

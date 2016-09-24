@@ -1376,6 +1376,34 @@
         "see_cost" : 4
     },{
         "type" : "overmap_terrain",
+        "id" : "shipwreck_river_1",
+        "name" : "shipwreck",
+        "sym" : 119,
+        "color" : "red",
+        "see_cost" : 4
+     },{
+        "type" : "overmap_terrain",
+        "id" : "shipwreck_river_2",
+        "name" : "shipwreck",
+        "sym" : 119,
+        "color" : "red",
+        "see_cost" : 4
+    },{
+        "type" : "overmap_terrain",
+        "id" : "shipwreck_river_3",
+        "name" : "razorclaw nest",
+        "sym" : 119,
+        "color" : "red",
+        "see_cost" : 4
+    },{
+        "type" : "overmap_terrain",
+        "id" : "shipwreck_river_4",
+        "name" : "shipwreck",
+        "sym" : 119,
+        "color" : "red",
+        "see_cost" : 4
+    },{
+        "type" : "overmap_terrain",
         "id" : "s_gas_rural",
         "name" : "gas station",
         "rotate" : true,
@@ -7045,5 +7073,95 @@
         "see_cost" : 5,
         "mondensity" : 2,
         "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "cemetery_4square_00",
+        "name" : "religious cemetery",
+        "sym" : 110,
+        "color" : "white",
+        "see_cost" : 5,
+        "extras" : "field",
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "cemetery_4square_10",
+        "name" : "religious cemetery",
+        "sym" : 110,
+        "color" : "white",
+        "see_cost" : 5,
+        "extras" : "field",
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "cemetery_4square_01",
+        "name" : "religious cemetery",
+        "sym" : 110,
+        "color" : "white",
+        "see_cost" : 5,
+        "extras" : "field",
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "cemetery_4square_11",
+        "name" : "religious cemetery",
+        "sym" : 110,
+        "color" : "white",
+        "see_cost" : 5,
+        "extras" : "field",
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "4way_road",
+        "name" : "road",
+        "sym" : 43,
+        "color" : "ltgray",
+        "see_cost" : 5,
+        "extras" : "forest",
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "pond_field",
+        "name" : "pond",
+        "sym" : 46,
+        "color" : "blue",
+        "see_cost" : 5,
+        "extras" : "none",
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "pond_forest",
+        "name" : "basin",
+        "sym" : 70,
+        "color" : "blue",
+        "see_cost" : 5,
+        "extras" : "none",
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "orchard_tree_apple",
+        "name" : "apple orchard",
+        "sym" : 84,
+        "color" : "ltgreen",
+        "see_cost" : 5,
+        "extras" : "field",
+        "mondensity" : 3
+    },{
+        "type" : "overmap_terrain",
+        "id" : "orchard_processing",
+        "name" : "orchard processing",
+        "sym" : 84,
+        "color" : "i_ltgreen",
+        "see_cost" : 5,
+        "extras" : "field",
+        "mondensity" : 3
+    },{
+        "type" : "overmap_terrain",
+        "id" : "orchard_stall",
+        "name" : "orchard stall",
+        "sym" : 84,
+        "color" : "i_ltgreen",
+        "see_cost" : 5,
+        "extras" : "field",
+        "mondensity" : 3
     }
 ]

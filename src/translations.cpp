@@ -1,19 +1,13 @@
 #include "translations.h"
 
 #include <string>
+
 #ifdef LOCALIZE
 #undef __STRICT_ANSI__ // _putenv in minGW need that
 #include <stdlib.h> // for getenv()/setenv()/putenv()
 #include "options.h"
 #include "path_info.h"
 #include "debug.h"
-#else // !LOCALIZE
-#include <cstring> // strcmp
-#include <map>
-#endif // LOCALIZE
-
-
-#ifdef LOCALIZE
 
 const char *pgettext( const char *context, const char *msgid )
 {
@@ -33,10 +27,23 @@ const char *pgettext( const char *context, const char *msgid )
     }
 }
 
+const char *npgettext( const char *const context, const char *const msgid,
+                       const char *const msgid_plural, const unsigned long int n )
+{
+    const std::string context_id = std::string( context ) + '\004' + msgid;
+    const char *const msg_ctxt_id = context_id.c_str();
+    const char *const translation = dcngettext( nullptr, msg_ctxt_id, msgid_plural, n, LC_MESSAGES );
+    if( translation == msg_ctxt_id ) {
+        return n == 1 ? msgid : msgid_plural;
+    } else {
+        return translation;
+    }
+}
+
 void set_language( bool reload_options )
 {
     // Step 1. Setup locale settings.
-    std::string lang_opt = OPTIONS["USE_LANG"].getValue();
+    std::string lang_opt = get_option<std::string>( "USE_LANG" );
     if( lang_opt != "" ) { // Not 'System Language'
         // Overwrite all system locale settings. Use CDDA settings. User wants this.
 #if (defined _WIN32 || defined WINDOWS)
@@ -88,7 +95,12 @@ void set_language( bool reload_options )
         get_options().load();
     }
 }
+
 #else // !LOCALIZE
+
+#include <cstring> // strcmp
+#include <map>
+
 void set_language( bool reload_options )
 {
     ( void ) reload_options; // Cancels MinGW warning on Windows

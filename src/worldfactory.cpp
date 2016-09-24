@@ -8,14 +8,12 @@
 #include "gamemode.h"
 #include "translations.h"
 #include "input.h"
-#include "cursesdef.h"
+#include "output.h"
 #include "catacharset.h"
 #include "cata_utility.h"
 #include "calendar.h"
 #include "name.h"
 #include "json.h"
-
-#include <fstream>
 
 using namespace std::placeholders;
 
@@ -23,7 +21,7 @@ using namespace std::placeholders;
 #define SAVE_EXTENSION ".sav"
 
 // single instance of world generator
-worldfactory *world_generator;
+std::unique_ptr<worldfactory> world_generator;
 
 std::string get_next_valid_worldname()
 {
@@ -35,16 +33,10 @@ std::string get_next_valid_worldname()
 WORLD::WORLD()
 {
     world_name = get_next_valid_worldname();
-    std::stringstream path;
+    std::ostringstream path;
     path << FILENAMES["savedir"] << world_name;
     world_path = path.str();
-    WORLD_OPTIONS.clear();
-
-    for( auto &elem : OPTIONS ) {
-        if( elem.second.getPage() == "world_default" ) {
-            WORLD_OPTIONS[elem.first] = elem.second;
-        }
-    }
+    WORLD_OPTIONS = get_options().get_world_defaults();
 
     world_saves.clear();
     active_mod_order = world_generator->get_mod_manager()->get_default_mods();
@@ -90,6 +82,38 @@ worldfactory::~worldfactory()
     }
 }
 
+WORLDPTR worldfactory::add_world( WORLDPTR retworld )
+{
+    // add world to world list
+    all_worlds[ retworld->world_name ] = retworld;
+    all_worldnames.push_back( retworld->world_name );
+
+    std::ostringstream path;
+    path << FILENAMES[ "savedir" ] << retworld->world_name;
+    retworld->world_path = path.str();
+
+    if( !save_world( retworld ) ) {
+        std::string worldname = retworld->world_name;
+        std::vector<std::string>::iterator it = std::find( all_worldnames.begin(), all_worldnames.end(),
+                                                           worldname );
+        all_worldnames.erase(it);
+        if( all_worlds[ worldname ] != retworld ) {
+            delete retworld;
+        }
+        delete all_worlds[ worldname ];
+        all_worlds.erase( worldname );
+        return nullptr;
+    }
+    return retworld;
+}
+
+WORLDPTR worldfactory::make_new_world( const std::vector<std::string> &mods )
+{
+    WORLDPTR retworld = new WORLD();
+    retworld->active_mod_order = mods;
+    return add_world( retworld );
+}
+
 WORLDPTR worldfactory::make_new_world( bool show_prompt )
 {
     // World to return after generating
@@ -125,8 +149,8 @@ WORLDPTR worldfactory::make_new_world( bool show_prompt )
         // Silently remove all Lua mods setted by default.
         std::vector<std::string>::iterator mod_it;
         for (mod_it = retworld->active_mod_order.begin(); mod_it != retworld->active_mod_order.end();) {
-            MOD_INFORMATION *minfo = mman->mod_map[*mod_it];
-            if ( minfo->need_lua ) {
+            MOD_INFORMATION &minfo = *mman->mod_map[*mod_it];
+            if ( minfo.need_lua ) {
                 mod_it = retworld->active_mod_order.erase(mod_it);
             } else {
                 mod_it++;
@@ -135,28 +159,7 @@ WORLDPTR worldfactory::make_new_world( bool show_prompt )
 #endif
     }
 
-    // add world to world list
-    all_worlds[retworld->world_name] = retworld;
-    all_worldnames.push_back(retworld->world_name);
-
-    std::stringstream path;
-    path << FILENAMES["savedir"] << retworld->world_name;
-    retworld->world_path = path.str();
-    //debugmsg("worldpath: %s", path.str().c_str());
-
-    if (!save_world(retworld)) {
-        std::string worldname = retworld->world_name;
-        std::vector<std::string>::iterator it = std::find(all_worldnames.begin(), all_worldnames.end(),
-                                                worldname);
-        all_worldnames.erase(it);
-        if (all_worlds[worldname] != retworld) {
-            delete retworld;
-        }
-        delete all_worlds[worldname];
-        all_worlds.erase(worldname);
-        return NULL;
-    }
-    return retworld;
+    return add_world( retworld );
 }
 
 WORLDPTR worldfactory::make_new_world(special_game_id special_type)
@@ -188,7 +191,7 @@ WORLDPTR worldfactory::make_new_world(special_game_id special_type)
     all_worlds[worldname] = special_world;
     all_worldnames.push_back(worldname);
 
-    std::stringstream path;
+    std::ostringstream path;
     path << FILENAMES["savedir"] << worldname;
     special_world->world_path = path.str();
 
@@ -216,7 +219,7 @@ WORLDPTR worldfactory::convert_to_world(std::string origin_path)
     WORLDPTR newworld = new WORLD();
     newworld->world_name = worldname;
 
-    std::stringstream path;
+    std::ostringstream path;
     path << FILENAMES["savedir"] << worldname;
     newworld->world_path = path.str();
 
@@ -241,12 +244,6 @@ WORLDPTR worldfactory::convert_to_world(std::string origin_path)
 void worldfactory::set_active_world(WORLDPTR world)
 {
     world_generator->active_world = world;
-    if (world) {
-        ACTIVE_WORLD_OPTIONS = world->WORLD_OPTIONS;
-        calendar::set_season_length( ACTIVE_WORLD_OPTIONS["SEASON_LENGTH"] );
-    } else {
-        ACTIVE_WORLD_OPTIONS.clear();
-    }
 }
 
 bool worldfactory::save_world(WORLDPTR world, bool is_conversion)
@@ -345,11 +342,7 @@ std::map<std::string, WORLDPTR> worldfactory::get_all_worlds()
 
         // load options into the world
         if ( !load_world_options(retworlds[worldname]) ) {
-            for( auto &elem : OPTIONS ) {
-                if( elem.second.getPage() == "world_default" ) {
-                    retworlds[worldname]->WORLD_OPTIONS[elem.first] = elem.second;
-                }
-            }
+            retworlds[worldname]->WORLD_OPTIONS = get_options().get_world_defaults();
             retworlds[worldname]->WORLD_OPTIONS["DELETE_WORLD"].setValue("yes");
             save_world(retworlds[worldname]);
         }
@@ -461,7 +454,7 @@ WORLDPTR worldfactory::pick_world( bool show_prompt )
     ctxt.register_action("PREV_TAB");
     ctxt.register_action("CONFIRM");
 
-    std::stringstream sTemp;
+    std::ostringstream sTemp;
 
     while(true) {
         //Clear the lines
@@ -618,7 +611,7 @@ int worldfactory::show_worldgen_tab_options(WINDOW *win, WORLDPTR world)
                                       1 + iOffsetX);
     WINDOW_PTR w_options_headerptr( w_options_header );
 
-    std::stringstream sTemp;
+    std::ostringstream sTemp;
 
     std::map<int, bool> mapLines;
     mapLines[4] = true;
@@ -814,15 +807,15 @@ void worldfactory::draw_mod_list( WINDOW *w, int &start, int &cursor, const std:
                         }
                     }
 
-                    auto mod = mman->mod_map[*iter];
+                    auto &mod = *mman->mod_map[*iter];
 #ifndef LUA
-                    if( mod->need_lua ) {
-                        trim_and_print( w, iNum - start, 4, wwidth, c_dkgray, "%s", mod->name.c_str() );
+                    if( mod.need_lua ) {
+                        trim_and_print( w, iNum - start, 4, wwidth, c_dkgray, "%s", mod.name.c_str() );
                     } else {
-                        trim_and_print( w, iNum - start, 4, wwidth, c_white, "%s", mod->name.c_str() );
+                        trim_and_print( w, iNum - start, 4, wwidth, c_white, "%s", mod.name.c_str() );
                     }
 #else
-                    trim_and_print( w, iNum - start, 4, wwidth, c_white, "%s", mod->name.c_str() );
+                    trim_and_print( w, iNum - start, 4, wwidth, c_white, "%s", mod.name.c_str() );
 #endif
 
                     if( w_shift ) {
@@ -988,9 +981,9 @@ int worldfactory::show_worldgen_tab_modselection(WINDOW *win, WORLDPTR world)
             if( current_tab_mods.empty() ) {
                 // Do nothing, leave selmod == NULL
             } else if( active_header == 0 ) {
-                selmod = mman->mod_map[current_tab_mods[cursel[0]]];
+                selmod = mman->mod_map[current_tab_mods[cursel[0]]].get();
             } else if( !active_mod_order.empty() ) {
-                selmod = mman->mod_map[active_mod_order[cursel[1]]];
+                selmod = mman->mod_map[active_mod_order[cursel[1]]].get();
             }
 
             if( selmod != NULL ) {
@@ -1231,11 +1224,10 @@ to continue, or <color_yellow>%s</color> to go back and review your world."), ct
         const std::string action = ctxt.handle_input();
         if (action == "NEXT_TAB") {
 #ifndef LUA
-            MOD_INFORMATION *temp = NULL;
             for (std::string &mod : world->active_mod_order) {
-                temp = mman->mod_map[mod];
-                if ( temp->need_lua ) {
-                    popup(_("Mod '%s' requires Lua support."), temp->name.c_str());
+                auto &temp = *mman->mod_map[mod];
+                if ( temp.need_lua ) {
+                    popup(_("Mod '%s' requires Lua support."), temp.name.c_str());
                     return -2; // Move back to modselect tab.
                 }
             }
@@ -1423,83 +1415,83 @@ bool worldfactory::valid_worldname(std::string name, bool automated)
     return false;
 }
 
-void worldfactory::get_default_world_options(WORLDPTR &world)
+void WORLD::load_options( JsonIn &jsin )
 {
-    std::unordered_map<std::string, options_manager::cOpt> retoptions;
-    for( auto &elem : OPTIONS ) {
-        if( elem.second.getPage() == "world_default" ) {
-            world->WORLD_OPTIONS[elem.first] = elem.second;
+    // if core data version isn't specified then presume version 1
+    int version = 1;
+
+    auto &opts = get_options();
+
+    jsin.start_array();
+    while( !jsin.end_array() ) {
+        JsonObject jo = jsin.get_object();
+        const std::string name = jo.get_string( "name" );
+        const std::string value = jo.get_string( "value" );
+
+        if( name == "CORE_VERSION" ) {
+            version = std::max( std::atoi( value.c_str() ), 0 );
+            continue;
+        }
+
+        if( opts.has_option( name ) && opts.get_option( name ).getPage() == "world_default" ) {
+            WORLD_OPTIONS[ name ].setValue( value );
+        }
+    }
+    // for legacy saves, try to simulate old city_size based density
+    if( WORLD_OPTIONS.count( "CITY_SPACING" ) == 0 ) {
+        WORLD_OPTIONS["CITY_SPACING"].setValue( 5 - get_option<int>( "CITY_SIZE" ) / 3 );
+    }
+
+    WORLD_OPTIONS[ "CORE_VERSION" ].setValue( version );
+}
+
+void WORLD::load_legacy_options( std::istream &fin )
+{
+    //load legacy txt
+    std::string sLine;
+    while( !fin.eof() ) {
+        getline( fin, sLine );
+        if( sLine != "" && sLine[0] != '#' && std::count( sLine.begin(), sLine.end(), ' ' ) == 1 ) {
+            int ipos = sLine.find( ' ' );
+            // make sure that the option being loaded is part of the world_default page in OPTIONS
+            if( get_options().get_option( sLine.substr( 0, ipos ) ).getPage() == "world_default" ) {
+                WORLD_OPTIONS[sLine.substr( 0, ipos )].setValue( sLine.substr( ipos + 1, sLine.length() ) );
+            }
         }
     }
 }
 
 bool worldfactory::load_world_options(WORLDPTR &world)
 {
-    get_default_world_options(world);
-    std::ifstream fin;
+    world->WORLD_OPTIONS = get_options().get_world_defaults();
 
-    auto path = world->world_path + "/" + FILENAMES["worldoptions"];
+    using namespace std::placeholders;
+    const auto path = world->world_path + "/" + FILENAMES["worldoptions"];
+    if( read_from_file_optional( path, std::bind( &WORLD::load_options, world, _1 ) ) ) {
+        return true;
+    }
 
-    fin.open(path.c_str(), std::ifstream::in | std::ifstream::binary);
-
-    if (!fin.is_open()) {
-        fin.close();
-
-        path = world->world_path + "/" + FILENAMES["legacy_worldoptions"];
-        fin.open(path.c_str());
-
-        if (!fin.is_open()) {
-            fin.close();
-
-            DebugLog( D_ERROR, DC_ALL ) << "Couldn't read world options file";
-            return false;
-
-        } else {
-            //load legacy txt
-            std::string sLine;
-
-            while (!fin.eof()) {
-                getline(fin, sLine);
-
-                if (sLine != "" && sLine[0] != '#' && std::count(sLine.begin(), sLine.end(), ' ') == 1) {
-                    int ipos = sLine.find(' ');
-                    // make sure that the option being loaded is part of the world_default page in OPTIONS
-                    if(OPTIONS[sLine.substr(0, ipos)].getPage() == "world_default") {
-                        world->WORLD_OPTIONS[sLine.substr(0, ipos)].setValue(sLine.substr(ipos + 1, sLine.length()));
-                    }
-                }
-            }
-            fin.close();
-
-            if ( save_world( world ) ) {
-                remove_file( path );
-            }
-
-            return true;
+    const auto legacy_path = world->world_path + "/" + FILENAMES["legacy_worldoptions"];
+    if( read_from_file_optional( legacy_path, std::bind( &WORLD::load_legacy_options, world, _1 ) ) ) {
+        if( save_world( world ) ) {
+            // Remove old file as the options have been saved to the new file.
+            remove_file( legacy_path );
         }
+        return true;
     }
 
-    //load json
-    JsonIn jsin(fin);
+    return false;
+}
 
-    jsin.start_array();
-    while (!jsin.end_array()) {
-        JsonObject jo = jsin.get_object();
-
-        const std::string name = jo.get_string("name");
-        const std::string value = jo.get_string("value");
-
-        if(OPTIONS[name].getPage() == "world_default") {
-            world->WORLD_OPTIONS[ name ].setValue( value );
-        }
+void load_world_option( JsonObject &jo )
+{
+    auto arr = jo.get_array( "options" );
+    if( arr.empty() ) {
+        jo.throw_error( "no options specified", "options" );
     }
-
-    // for legacy saves, try to simulate old city_size based density
-    if( world->WORLD_OPTIONS.count( "CITY_SPACING" ) == 0 ) {
-        world->WORLD_OPTIONS["CITY_SPACING"].setValue( 5 - world->WORLD_OPTIONS["CITY_SIZE"] / 3 );
+    while( arr.has_more() ) {
+        get_options().get_world_option( arr.next_string() ).setValue( "true" );
     }
-
-    return true;
 }
 
 mod_manager *worldfactory::get_mod_manager()

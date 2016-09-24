@@ -2,7 +2,9 @@
 #define OVERMAPBUFFER_H
 
 #include "enums.h"
+#include "int_id.h"
 #include "overmap_types.h"
+
 #include <set>
 #include <list>
 #include <memory>
@@ -13,7 +15,10 @@ struct mongroup;
 class monster;
 class npc;
 struct om_vehicle;
-struct oter_id;
+
+struct oter_t;
+using oter_id = int_id<oter_t>;
+
 class overmap;
 struct radio_tower;
 struct regional_settings;
@@ -84,7 +89,6 @@ public:
     void toggle_explored(int x, int y, int z);
     bool seen(int x, int y, int z);
     void set_seen(int x, int y, int z, bool seen = true);
-    bool has_npc(int x, int y, int z);
     bool has_vehicle( int x, int y, int z );
     bool has_horde(int x, int y, int z);
     std::vector<om_vehicle> get_vehicle( int x, int y, int z );

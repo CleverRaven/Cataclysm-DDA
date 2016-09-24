@@ -31,11 +31,14 @@ ignore_files = {
 ignorable = {
     "BULLET_PULLING",
     "colordef",
+    "emit",
     "epilogue", # FIXME right now this object can't be translated correctly
+    "GAME_OPTION",
     "ITEM_BLACKLIST",
     "item_group",
     "ITEM_OPTION",
     "ITEM_WHITELIST",
+    "MIGRATION",
     "monitems",
     "MONSTER_BLACKLIST",
     "MONSTER_FACTION",
@@ -46,9 +49,12 @@ ignorable = {
     "overmap_special",
     "region_overlay",
     "region_settings",
+    "requirement",
     "SPECIES",
+    "uncraft",
     "vehicle_group",
-    "vehicle_placement"
+    "vehicle_placement",
+    "WORLD_OPTION"
 }
 
 # these objects can have their strings automatically extracted.
@@ -61,9 +67,6 @@ ignorable = {
 #   "sound" member
 #   "messages" member containing an array of translatable strings
 automatically_convertible = {
-    "fault",
-    "vitamin",
-    "ENGINE",
     "AMMO",
     "ammunition_type",
     "ARMOR",
@@ -74,20 +77,22 @@ automatically_convertible = {
     "construction",
     "CONTAINER",
     "dream",
+    "ENGINE",
     "faction",
+    "fault",
     "furniture",
     "GENERIC",
     "GUN",
     "GUNMOD",
-    "hint",
     "item_action",
     "ITEM_CATEGORY",
     "keybinding",
-    "lab_note",
     "MAGAZINE",
+    "mission_definition",
     "MOD_INFO",
     "MONSTER",
     "mutation",
+    "npc_class",
     "overmap_terrain",
     "skill",
     "snippet",
@@ -103,6 +108,8 @@ automatically_convertible = {
     "VAR_VEH_PART",
     "vehicle",
     "vehicle_part",
+    "vitamin",
+    "WHEEL"
 }
 
 # for these objects a plural form is needed
@@ -518,6 +525,8 @@ use_action_msgs = {
     "failure_message",
     "descriptions",
     "noise_message",
+    "bury_question",
+    "done_message",
     "voluntary_extinguish_message",
     "charges_extinguish_message",
     "water_extinguish_message",
@@ -532,10 +541,17 @@ use_action_msgs = {
 def extract_use_action_msgs(outfile, use_action, it_name, kwargs):
     """Extract messages for iuse_actor objects. """
     for f in use_action_msgs:
-        if f in use_action:
+        if type(use_action) is dict and f in use_action:
             if it_name:
                 writestr(outfile, use_action[f],
                   comment="Use action {} for {}.".format(f, it_name), **kwargs)
+    # Recursively check sub objects as they may contain more messages.
+    if type(use_action) is list:
+        for i in use_action:
+            extract_use_action_msgs(outfile, i, it_name, kwargs)
+    elif type(use_action) is dict:
+        for k in use_action:
+            extract_use_action_msgs(outfile, use_action[k], it_name, kwargs)
 
 # extract commonly translatable data from json to fake-python
 def extract(item, infilename):
@@ -611,6 +627,9 @@ def extract(item, infilename):
         writestr(outfile, seed_data["plant_name"], **kwargs)
     if "text" in item:
         writestr(outfile, item["text"], **kwargs)
+        wrote = True
+    if "reload_noise" in item:
+        writestr(outfile, item["reload_noise"], **kwargs)
         wrote = True
     if "messages" in item:
         for message in item["messages"]:

@@ -11,6 +11,7 @@
 #include "vehicle.h"
 #include "mapdata.h"
 #include "map_iterator.h"
+#include <algorithm>
 
 const invlet_wrapper inv_chars("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!\"#&()*+./:;=@[\\]^_{|}");
 
@@ -125,19 +126,6 @@ inventory inventory::operator+ (const std::list<item> &rhs)
 inventory inventory::operator+ (const item &rhs)
 {
     return inventory(*this) += rhs;
-}
-
-indexed_invslice inventory::indexed_slice_filter_by( item_filter filter ) const
-{
-    int i = 0;
-    indexed_invslice stacks;
-    for( auto &elem : items ) {
-        if( filter( elem.front() ) ) {
-            stacks.emplace_back( const_cast<std::list<item>*>( &elem ), i );
-        }
-        ++i;
-    }
-    return stacks;
 }
 
 void inventory::unsort()
@@ -372,6 +360,13 @@ void inventory::restack(player *p)
     for( auto &elem : to_restack ) {
         add_item( elem );
     }
+
+    //Ensure that all items in the same stack have the same invlet.
+    for( std::list< item > &outer : items ) {
+        for( item &inner : outer ) {
+            inner.invlet = outer.front().invlet;
+        }
+    }
 }
 
 static long count_charges_in_list(const itype *type, const map_stack &items)
@@ -389,14 +384,11 @@ void inventory::form_from_map( const tripoint &origin, int range, bool assign_in
     items.clear();
     for( const tripoint &p : g->m.points_in_radius( origin, range ) ) {
         if (g->m.has_furn( p ) && g->m.accessible_furniture( origin, p, range )) {
-            const furn_t &f = g->m.furn_at( p );
+            const furn_t &f = g->m.furn( p ).obj();
             const itype *type = f.crafting_pseudo_item_type();
             if (type != NULL) {
-                item furn_item(type->id, 0);
                 const itype *ammo = f.crafting_ammo_item_type();
-                if (ammo != NULL) {
-                    furn_item.charges = count_charges_in_list( ammo, g->m.i_at( p ) );
-                }
+                item furn_item( type, calendar::turn, ammo ? count_charges_in_list( ammo, g->m.i_at( p ) ) : 0 );
                 furn_item.item_tags.insert("PSEUDO");
                 add_item(furn_item);
             }
@@ -416,16 +408,10 @@ void inventory::form_from_map( const tripoint &origin, int range, bool assign_in
             fire.charges = 1;
             add_item(fire);
         }
-        if (terrain_id == t_water_sh || terrain_id == t_water_dp ||
-            terrain_id == t_water_pool || terrain_id == t_water_pump) {
-            item water("water", 0);
-            water.charges = 50;
-            add_item(water);
-        }
-        if (terrain_id == t_swater_sh || terrain_id == t_swater_dp) {
-            item swater("salt_water", 0);
-            swater.charges = 50;
-            add_item(swater);
+        // Handle any water from infinite map sources.
+        item water = g->m.water_from( p );
+        if( !water.is_null() ) {
+            add_item( water );
         }
         // add cvd forge from terrain
         if (terrain_id == t_cvdmachine) {
@@ -436,7 +422,7 @@ void inventory::form_from_map( const tripoint &origin, int range, bool assign_in
         }
         // kludge that can probably be done better to check specifically for toilet water to use in
         // crafting
-        if (g->m.furn_at( p ).examine == &iexamine::toilet) {
+        if (g->m.furn( p ).obj().examine == &iexamine::toilet) {
             // get water charges at location
             auto toilet = g->m.i_at( p );
             auto water = toilet.end();
@@ -452,7 +438,7 @@ void inventory::form_from_map( const tripoint &origin, int range, bool assign_in
         }
 
         // keg-kludge
-        if (g->m.furn_at( p ).examine == &iexamine::keg) {
+        if (g->m.furn( p ).obj().examine == &iexamine::keg) {
             auto liq_contained = g->m.i_at( p );
             for( auto &i : liq_contained ) {
                 if( i.made_of(LIQUID) ) {
@@ -641,18 +627,18 @@ item inventory::remove_item(int position)
     return remove_item_internal(position);
 }
 
-std::list<item> inventory::remove_randomly_by_volume(int volume)
+std::list<item> inventory::remove_randomly_by_volume( const units::volume &volume )
 {
     std::list<item> result;
-    int volume_dropped = 0;
+    units::volume volume_dropped = 0;
     while( volume_dropped < volume ) {
-        int cumulative_volume = 0;
+        units::volume cumulative_volume = 0;
         auto chosen_stack = items.begin();
         auto chosen_item = chosen_stack->begin();
         for( auto stack = items.begin(); stack != items.end(); ++stack ) {
             for( auto stack_it = stack->begin(); stack_it != stack->end(); ++stack_it ) {
                 cumulative_volume += stack_it->volume();
-                if( x_in_y( stack_it->volume(), cumulative_volume ) ) {
+                if( x_in_y( stack_it->volume().value(), cumulative_volume.value() ) ) {
                     chosen_item = stack_it;
                     chosen_stack = stack;
                 }
@@ -727,7 +713,7 @@ int inventory::position_by_item( const item *it ) const
 item &inventory::item_by_type(itype_id type)
 {
     for( auto &elem : items ) {
-        if( elem.front().type->id == type ) {
+        if( elem.front().typeId() == type ) {
             return elem.front();
         }
     }
@@ -738,7 +724,7 @@ int inventory::position_by_type(itype_id type)
 {
     int i = 0;
     for( auto &elem : items ) {
-        if( elem.front().type->id == type ) {
+        if( elem.front().typeId() == type ) {
             return i;
         }
         ++i;
@@ -749,10 +735,10 @@ item &inventory::item_or_container(itype_id type)
 {
     for( auto &elem : items ) {
         for( auto &elem_stack_iter : elem ) {
-            if( elem_stack_iter.type->id == type ) {
+            if( elem_stack_iter.typeId() == type ) {
                 return elem_stack_iter;
             } else if( elem_stack_iter.is_container() && !elem_stack_iter.contents.empty() ) {
-                if( elem_stack_iter.contents[0].type->id == type ) {
+                if( elem_stack_iter.contents.front().typeId() == type ) {
                     return elem_stack_iter;
                 }
             }
@@ -768,7 +754,7 @@ std::vector<std::pair<item *, int> > inventory::all_items_by_type(itype_id type)
     int i = 0;
     for( auto &elem : items ) {
         for( auto &elem_stack_iter : elem ) {
-            if( elem_stack_iter.type->id == type ) {
+            if( elem_stack_iter.typeId() == type ) {
                 ret.push_back( std::make_pair( &elem_stack_iter, i ) );
             }
         }
@@ -824,9 +810,9 @@ int inventory::leak_level(std::string flag) const
         for( const auto &elem_stack_iter : elem ) {
             if( elem_stack_iter.has_flag( flag ) ) {
                 if( elem_stack_iter.has_flag( "LEAK_ALWAYS" ) ) {
-                    ret += elem_stack_iter.volume();
-                } else if( elem_stack_iter.has_flag( "LEAK_DAM" ) && elem_stack_iter.damage > 0 ) {
-                    ret += elem_stack_iter.damage;
+                    ret += elem_stack_iter.volume() / units::legacy_volume_factor;
+                } else if( elem_stack_iter.has_flag( "LEAK_DAM" ) && elem_stack_iter.damage() > 0 ) {
+                    ret += elem_stack_iter.damage();
                 }
             }
         }
@@ -851,9 +837,9 @@ bool inventory::has_enough_painkiller(int pain) const
 {
     for( const auto &elem : items ) {
         const item &it = elem.front();
-        if ( (pain <= 35 && it.type->id == "aspirin") ||
-             (pain >= 50 && it.type->id == "oxycodone") ||
-             it.type->id == "tramadol" || it.type->id == "codeine") {
+        if ( (pain <= 35 && it.typeId() == "aspirin") ||
+             (pain >= 50 && it.typeId() == "oxycodone") ||
+             it.typeId() == "tramadol" || it.typeId() == "codeine") {
             return true;
         }
     }
@@ -866,7 +852,7 @@ item *inventory::most_appropriate_painkiller(int pain)
     item *ret = &nullitem;
     for( auto &elem : items ) {
         int diff = 9999;
-        itype_id type = elem.front().type->id;
+        itype_id type = elem.front().typeId();
         if (type == "aspirin") {
             diff = abs(pain - 15);
         } else if (type == "codeine") {
@@ -934,9 +920,9 @@ void inventory::rust_iron_items()
         for( auto &elem_stack_iter : elem ) {
             if( elem_stack_iter.made_of( material_id( "iron" ) ) &&
                 !elem_stack_iter.has_flag( "WATERPROOF_GUN" ) &&
-                !elem_stack_iter.has_flag( "WATERPROOF" ) && elem_stack_iter.damage < 5 &&
+                !elem_stack_iter.has_flag( "WATERPROOF" ) && elem_stack_iter.damage() < elem_stack_iter.max_damage() &&
                 one_in( 500 ) ) {
-                elem_stack_iter.damage++;
+                elem_stack_iter.inc_damage( DT_ACID ); // rusting never completely destroys an item
             }
         }
     }
@@ -953,9 +939,9 @@ int inventory::weight() const
     return ret;
 }
 
-int inventory::volume() const
+units::volume inventory::volume() const
 {
-    int ret = 0;
+    units::volume ret = 0;
     for( const auto &elem : items ) {
         for( const auto &elem_stack_iter : elem ) {
             ret += elem_stack_iter.volume();
@@ -972,7 +958,7 @@ std::vector<item *> inventory::active_items()
             if( ( elem_stack_iter.is_artifact() && elem_stack_iter.is_tool() ) ||
                 elem_stack_iter.active ||
                 ( elem_stack_iter.is_container() && !elem_stack_iter.contents.empty() &&
-                  elem_stack_iter.contents[0].active ) ) {
+                  elem_stack_iter.contents.front().active ) ) {
                 ret.push_back( &elem_stack_iter );
             }
         }
@@ -982,7 +968,7 @@ std::vector<item *> inventory::active_items()
 
 void inventory::assign_empty_invlet(item &it, bool force)
 {
-    if( !OPTIONS["AUTO_INV_ASSIGN"] ) {
+    if( !get_option<bool>( "AUTO_INV_ASSIGN" ) ) {
         return;
     }
 

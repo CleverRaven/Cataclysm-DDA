@@ -1,25 +1,23 @@
 #ifndef VEH_INTERACT_H
 #define VEH_INTERACT_H
 
-#include <vector>
-#include "output.h"
 #include "inventory.h"
 #include "input.h"
+#include "color.h"
+#include "cursesdef.h" // WINDOW
 #include "string_id.h"
 #include "int_id.h"
+#include "requirements.h"
+#include "player_activity.h"
 
-#define DUCT_TAPE_USED 100
-#define NAILS_USED 10
-#define CIRC_SAW_USED 20
-#define OXY_CUTTING 10
+#include <string>
+#include <vector>
+#include <map>
+#include <sstream>
 
-struct vpart_info;
+class vpart_info;
 using vpart_id = int_id<vpart_info>;
 using vpart_str_id = string_id<vpart_info>;
-
-enum sel_types {
-    SEL_NULL, SEL_JACK
-};
 
 /** Represents possible return values from the cant_do function. */
 enum task_reason {
@@ -35,21 +33,28 @@ enum task_reason {
 };
 
 class vehicle;
+struct vehicle_part;
 
 class veh_interact
 {
     public:
-        int ddx;
-        int ddy;
-        const struct vpart_info *sel_vpart_info;
-        const struct vehicle_part *sel_vehicle_part;
-        char sel_cmd; //Command currently being run by the player
-        int sel_type;
+        static player_activity run( vehicle &veh, int x, int y );
+
+        static void complete_vehicle();
+
     private:
-        int cpart;
+        veh_interact( vehicle &veh, int x, int y );
+
+        int ddx = 0;
+        int ddy = 0;
+        const vpart_info *sel_vpart_info = nullptr;
+        char sel_cmd = ' '; //Command currently being run by the player
+
+        const vehicle_part *sel_vehicle_part = nullptr;
+
+        int cpart = -1;
         int page_size;
-        int fuel_index;
-        bool vertical_menu;
+        int fuel_index = 0; /** Starting index of where to start printing fuels from */
         WINDOW *w_grid;
         WINDOW *w_mode;
         WINDOW *w_msg;
@@ -60,43 +65,24 @@ class veh_interact
         WINDOW *w_details;
         WINDOW *w_name;
 
-        int mode_h;
-        int mode_w;
-        int msg_h;
-        int msg_w;
-        int disp_h;
-        int disp_w;
-        int parts_h;
-        int parts_w;
-        int stats_h;
-        int stats_w;
-        int list_h;
-        int list_w;
-        int name_h;
-        int name_w;
-
         vehicle *veh;
-        bool has_screwdriver;
         bool has_wrench;
-        bool has_hammer;
-        bool has_nailgun;
-        bool has_welder;
-        bool has_goggles;
-        bool has_duct_tape;
-        bool has_nails;
-        bool has_hacksaw;
         bool has_jack;
-        bool has_siphon;
         bool has_wheel;
         inventory crafting_inv;
         input_context main_context;
 
         int max_lift; // maximum level of available lifting equipment (if any)
+        int max_jack; // maximum level of available jacking equipment (if any)
+
+        /** Format list of requirements returning true if all are met */
+        bool format_reqs( std::ostringstream &msg, const requirement_data &reqs,
+                          const std::map<skill_id, int> &skills, int moves ) const;
 
         int part_at( int dx, int dy );
         void move_cursor( int dx, int dy );
         task_reason cant_do( char mode );
-        bool can_currently_install( const vpart_info &vpart );
+        bool can_potentially_install( const vpart_info &vpart );
         /** Move index (parameter pos) according to input action:
          * (up or down, single step or whole page).
          * @param pos index to change.
@@ -111,6 +97,7 @@ class veh_interact
 
         void do_install();
         void do_repair();
+        void do_mend();
         void do_refill();
         void do_remove();
         void do_rename();
@@ -121,6 +108,7 @@ class veh_interact
         void display_grid();
         void display_veh();
         void display_stats();
+        void display_contents();
         void display_name();
         void display_mode( char mode );
         void display_list( size_t pos, std::vector<const vpart_info *> list, const int header = 0 );
@@ -128,29 +116,20 @@ class veh_interact
         size_t display_esc( WINDOW *w );
 
         void countDurability();
-        friend nc_color getDurabilityColor( const int &dur );
-        std::string getDurabilityDescription( const int &dur );
 
-        int durabilityPercent;
         std::string totalDurabilityText;
-        std::string worstDurabilityText;
         nc_color totalDurabilityColor;
-        nc_color worstDurabilityColor;
 
         /** Store the most damaged part's index, or -1 if they're all healthy. */
-        int mostDamagedPart;
+        int mostDamagedPart = -1;
 
         //do_remove supporting operation, writes requirements to ui
-        bool can_remove_part( int veh_part_index, int mech_skill, int msg_width );
+        bool can_remove_part( int idx );
         //do install support, writes requirements to ui
-        bool can_install_part( int msg_width );
+        bool can_install_part();
         //true if trying to install foot crank with electric engines for example
         //writes failure to ui
-        bool is_drive_conflict( int msg_width );
-        /* true if current selected square has part with "FUEL_TANK flag and
-         * they are not full. Otherwise will be false.
-         */
-        bool has_ptank;
+        bool is_drive_conflict();
 
         /* Vector of all vpart TYPES that can be mounted in the current square.
          * Can be converted to a vector<vpart_info>.
@@ -177,9 +156,6 @@ class veh_interact
          * Updated whenever the cursor moves. */
         std::vector<int> parts_here;
 
-        /* Refers to the fuel tanks (if any) in the currently selected square. */
-        std::vector<vehicle_part *> ptanks;
-
         /* Refers to the wheel (if any) in the currently selected square. */
         struct vehicle_part *wheel;
 
@@ -188,13 +164,6 @@ class veh_interact
         void allocate_windows();
         void do_main_loop();
         void deallocate_windows();
-
-    public:
-        veh_interact();
-        void exec( vehicle *v );
 };
-
-void complete_vehicle();
-nc_color getDurabilityColor( const int &dur );
 
 #endif

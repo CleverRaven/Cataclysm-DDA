@@ -202,8 +202,6 @@
         "difficulty": 3,
         "time": 80000,
         "batch_time_factors": [50, 4],
-        "reversible": false,
-        "autolearn": false,
         "book_learn": [ ["survival_book", 3] , ["textbook_survival", 3] , ["manual_survival", 3] ],
         "qualities":[
             { "id": "CUT", "level" : 1 },
@@ -225,7 +223,6 @@
         "difficulty": 3,
         "time": 8000,
         "batch_time_factors": [50, 4],
-        "reversible": false,
         "autolearn": true,
         "components": [
             [ [ "water", 7 ], [ "water_clean", 7 ] ],

@@ -3,16 +3,19 @@
 #include "game.h"
 #include "map.h"
 #include "construction.h"
+#include "craft_command.h"
 #include "player.h"
+#include "requirements.h"
 #include "translations.h"
 #include "activity_handlers.h"
 #include "messages.h"
 #include "mapdata.h"
 
+#include <algorithm>
+
 // activity_item_handling.cpp
 void activity_on_turn_drop();
 void activity_on_turn_move_items();
-void activity_on_turn_move_all_items();
 void activity_on_turn_pickup();
 void activity_on_turn_stash();
 
@@ -32,28 +35,67 @@ player_activity::player_activity( activity_type t, int turns, int Index, int pos
 {
 }
 
+player_activity::player_activity( const player_activity &rhs )
+    : JsonSerializer( rhs ), JsonDeserializer( rhs ),
+      type( rhs.type ), moves_total( rhs.moves_total ), moves_left( rhs.moves_left ),
+      index( rhs.index ), position( rhs.position ), name( rhs.name ),
+      ignore_trivial( rhs.ignore_trivial ), values( rhs.values ), str_values( rhs.str_values ),
+      coords( rhs.coords ), placement( rhs.placement ),
+      warned_of_proximity( rhs.warned_of_proximity ), auto_resume( rhs.auto_resume )
+{
+    for( const auto &e : rhs.targets ) {
+        targets.push_back( e.clone() );
+    }
+}
+
+player_activity &player_activity::operator=( const player_activity &rhs )
+{
+    type = rhs.type;
+    moves_total = rhs.moves_total;
+    moves_left = rhs.moves_left;
+    index = rhs.index;
+    position = rhs.position;
+    name = rhs.name;
+    ignore_trivial = rhs.ignore_trivial;
+    values = rhs.values;
+    str_values = rhs.str_values;
+    coords = rhs.coords;
+    placement = rhs.placement;
+    warned_of_proximity = rhs.warned_of_proximity;
+    auto_resume = rhs.auto_resume;
+
+    for( const auto &e : rhs.targets ) {
+        targets.push_back( e.clone() );
+    }
+
+    return *this;
+}
+
 const std::string &player_activity::get_stop_phrase() const
 {
-    static const std::string stop_phrase[NUM_ACTIVITIES] = {
-        _( " Stop?" ), _( " Stop reloading?" ),
-        _( " Stop reading?" ), _( " Stop playing?" ),
-        _( " Stop waiting?" ), _( " Stop crafting?" ),
-        _( " Stop crafting?" ), _( " Stop disassembly?" ),
-        _( " Stop butchering?" ), _( " Stop salvaging?" ), _( " Stop foraging?" ),
-        _( " Stop construction?" ), _( " Stop interacting with the vehicle?" ),
-        _( " Stop pumping gas?" ), _( " Stop training?" ),
-        _( " Stop waiting?" ), _( " Stop using first aid?" ),
-        _( " Stop fishing?" ), _( " Stop mining?" ), _( " Stop burrowing?" ),
-        _( " Stop smashing?" ), _( " Stop de-stressing?" ),
-        _( " Stop cutting tissues?" ), _( " Stop dropping?" ),
-        _( " Stop stashing?" ), _( " Stop picking up?" ),
-        _( " Stop moving items?" ), _( " Stop interacting with inventory?" ),
-        _( " Stop fiddling with your clothes?" ), _( " Stop lighting the fire?" ),
-        _( " Stop working the winch?" ), _( " Stop filling the container?" ),
-        _( " Stop hotwiring the vehicle?" ), _( " Stop aiming?" ),
-        _( " Stop using the ATM?" ), _( " Stop trying to start the vehicle?" ),
-        _( " Stop welding?" ), _( " Stop cracking?" ), _( " Stop repairing?" ),
-        _( " Stop modifying gun?" )
+    static const std::array<std::string, NUM_ACTIVITIES> stop_phrase = {{
+            _( "Stop?" ), _( "Stop reloading?" ),
+            _( "Stop reading?" ), _( "Stop playing?" ),
+            _( "Stop waiting?" ), _( "Stop crafting?" ),
+            _( "Stop crafting?" ), _( "Stop disassembly?" ),
+            _( "Stop butchering?" ), _( "Stop salvaging?" ), _( "Stop foraging?" ),
+            _( "Stop construction?" ), _( "Stop interacting with the vehicle?" ),
+            _( "Stop pumping gas?" ), _( "Stop training?" ),
+            _( "Stop waiting?" ), _( "Stop using first aid?" ),
+            _( "Stop fishing?" ), _( "Stop mining?" ), _( "Stop burrowing?" ),
+            _( "Stop smashing?" ), _( "Stop de-stressing?" ),
+            _( "Stop cutting tissues?" ), _( "Stop dropping?" ),
+            _( "Stop stashing?" ), _( "Stop picking up?" ),
+            _( "Stop moving items?" ), _( "Stop interacting with inventory?" ),
+            _( "Stop fiddling with your clothes?" ), _( "Stop lighting the fire?" ),
+            _( "Stop working the winch?" ), _( "Stop filling the container?" ),
+            _( "Stop hotwiring the vehicle?" ), _( "Stop aiming?" ),
+            _( "Stop using the ATM?" ), _( "Stop trying to start the vehicle?" ),
+            _( "Stop welding?" ), _( "Stop cracking?" ), _( "Stop repairing?" ),
+            _( "Stop mending?" ), _( "Stop modifying gun?" ),
+            _( "Stop interacting with the NPC?" ), _( "Stop clearing that rubble?" ),
+            _( "Stop meditating?" )
+        }
     };
     return stop_phrase[type];
 }
@@ -87,7 +129,11 @@ bool player_activity::is_abortable() const
         case ACT_OXYTORCH:
         case ACT_CRACKING:
         case ACT_REPAIR_ITEM:
+        case ACT_MEND_ITEM:
         case ACT_GUNMOD_ADD:
+        case ACT_BUTCHER:
+        case ACT_CLEAR_RUBBLE:
+        case ACT_MEDITATE:
             return true;
         default:
             return false;
@@ -187,7 +233,7 @@ void player_activity::do_turn( player *p )
                 }
 
                 g->m.build_map_cache( g->get_levz() );
-                g->plfire( false );
+                g->plfire();
             }
             break;
         case ACT_GAME:
@@ -213,10 +259,10 @@ void player_activity::do_turn( player *p )
             p->pause();
             break;
         case ACT_DROP:
-            activity_on_turn_drop();
+            activity_handlers::drop_do_turn( this, p );
             break;
         case ACT_STASH:
-            activity_on_turn_stash();
+            activity_handlers::stash_do_turn( this, p );
             break;
         case ACT_PICKUP:
             activity_on_turn_pickup();
@@ -233,11 +279,7 @@ void player_activity::do_turn( player *p )
             p->sort_armor();
             break;
         case ACT_START_FIRE:
-            moves_left -= 100; // based on time
-            if( p->i_at(
-                    position ).has_flag( "LENS" ) ) { // if using a lens, handle potential changes in weather
-                activity_handlers::start_fire_lens_do_turn( this, p );
-            }
+            activity_handlers::start_fire_do_turn( this, p );
             p->rooted();
             p->pause();
             break;
@@ -317,6 +359,17 @@ void player_activity::do_turn( player *p )
             }
             break;
 
+        case ACT_READ:
+            if( p->moves <= moves_left ) {
+                moves_left -= p->moves;
+                p->moves = 0;
+            } else {
+                p->moves -= moves_left;
+                moves_left = 0;
+            }
+            p->rooted();
+            break;
+
         default:
             // Based on speed, not time
             if( p->moves <= moves_left ) {
@@ -341,9 +394,9 @@ void player_activity::finish( player *p )
             activity_handlers::reload_finish( this, p );
             break;
         case ACT_READ:
-            p->do_read( &( p->i_at( position ) ) );
+            p->do_read( targets[0].get_item() );
             if( type == ACT_NULL ) {
-                add_msg( _( "You finish reading." ) );
+                add_msg( m_info, _( "You finish reading." ) );
             }
             break;
         case ACT_WAIT:
@@ -365,7 +418,7 @@ void player_activity::finish( player *p )
             type = ACT_NULL;
             // Workaround for a bug where longcraft can be unset in complete_craft().
             if( p->making_would_work( p->lastrecipe, batch_size ) ) {
-                p->make_all_craft( p->lastrecipe, batch_size );
+                p->last_craft->execute();
             }
         }
         break;
@@ -457,8 +510,20 @@ void player_activity::finish( player *p )
             // Unsets activity (if needed) inside function
             activity_handlers::repair_item_finish( this, p );
             break;
+        case ACT_MEND_ITEM:
+            activity_handlers::mend_item_finish( this, p );
+            type = ACT_NULL;
+            break;
         case ACT_GUNMOD_ADD:
             activity_handlers::gunmod_add_finish( this, p );
+            type = ACT_NULL;
+            break;
+        case ACT_CLEAR_RUBBLE:
+            activity_handlers::clear_rubble_finish( this, p );
+            type = ACT_NULL;
+            break;
+        case ACT_MEDITATE:
+            activity_handlers::meditate_finish( this, p );
             type = ACT_NULL;
             break;
         default:
@@ -472,4 +537,112 @@ void player_activity::finish( player *p )
             p->backlog.pop_front();
         }
     }
+}
+
+template <typename T>
+bool containers_equal( const T &left, const T &right )
+{
+    if( left.size() != right.size() ) {
+        return false;
+    }
+
+    return std::equal( left.begin(), left.end(), right.begin() );
+}
+
+bool player_activity::can_resume_with( const player_activity &other, const Character &who ) const
+{
+    // Should be used for relative positions
+    // And to forbid resuming now-invalid crafting
+    ( void )who;
+    switch( type ) {
+        case ACT_NULL:
+        case NUM_ACTIVITIES:
+            return false;
+        case ACT_RELOAD:
+        case ACT_GAME:
+        case ACT_REFILL_VEHICLE:
+            break;
+        case ACT_WAIT:
+        case ACT_WAIT_NPC:
+        case ACT_WAIT_WEATHER:
+        case ACT_ARMOR_LAYERS:
+        case ACT_PULP:
+        case ACT_AIM:
+        case ACT_LONGSALVAGE:
+        case ACT_ATM:
+        case ACT_DROP:
+        case ACT_STASH:
+        case ACT_PICKUP:
+        case ACT_MOVE_ITEMS:
+        case ACT_ADV_INVENTORY:
+        case ACT_START_FIRE:
+        case ACT_FILL_LIQUID:
+            // Those shouldn't be resumed
+            // They don't store their progress in moves
+            return false;
+        case ACT_CRAFT:
+        case ACT_LONGCRAFT:
+            // Batch size is stored in values
+            // Coords may be matched incorrectly in some rare cases
+            // But it will not result in a false negative
+            if( !containers_equal( values, other.values ) ||
+                !containers_equal( coords, other.coords ) ) {
+                return false;
+            }
+
+            break;
+        case ACT_DISASSEMBLE:
+        // Disassembling is currently hardcoded in such a way
+        // that easy resuming isn't possible
+        case ACT_FORAGE:
+        case ACT_OPEN_GATE:
+        case ACT_OXYTORCH:
+        case ACT_CRACKING:
+        case ACT_FISH:
+        case ACT_PICKAXE:
+        case ACT_BURROW:
+        // Those should check position
+        // But position isn't set here yet!
+        // @todo Update the functions that set those activities
+        case ACT_BUTCHER:
+        case ACT_TRAIN:
+        case ACT_HOTWIRE_CAR:
+        case ACT_START_ENGINES:
+        case ACT_BUILD:
+        case ACT_VEHICLE:
+        case ACT_FIRSTAID:
+        case ACT_VIBE:
+        case ACT_MAKE_ZLAVE:
+        case ACT_GUNMOD_ADD:
+        case ACT_REPAIR_ITEM:
+        case ACT_MEND_ITEM:
+        case ACT_MEDITATE:
+            // Those should have extra limitations
+            // But for now it's better to allow too much than too little
+            break;
+        case ACT_READ:
+            // Return false if any NPCs joined or left the study session
+            // the vector {1, 2} != {2, 1}, so we'll have to check manually
+            if( values.size() != other.values.size() ) {
+                return false;
+            }
+            for( int foo : other.values ) {
+                if( std::find( values.begin(), values.end(), foo ) == values.end() ) {
+                    return false;
+                }
+            }
+            if( targets.empty() || other.targets.empty() || targets[0] != other.targets[0] ) {
+                return false;
+            }
+            break;
+
+        case ACT_CLEAR_RUBBLE:
+            if( other.coords.empty() || other.coords[0] != coords[0] ) {
+                return false;
+            }
+            break;
+    }
+
+    return !auto_resume && type == other.type && index == other.index &&
+           position == other.position && name == other.name && targets == other.targets;
 }
