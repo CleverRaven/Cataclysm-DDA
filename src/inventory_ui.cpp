@@ -213,7 +213,8 @@ void inventory_column::move_selection( int step )
 
 size_t inventory_column::get_entry_cell_width( const inventory_entry &entry, size_t cell_index ) const
 {
-    return preset.get_cell_width( entry, cell_index ) + ( cell_index == 0 ? get_entry_indent( entry ) : min_cell_gap );
+    const size_t own_width = preset.get_cell_width( entry, cell_index );
+    return own_width > 0 ? own_width + get_entry_indent( entry, cell_index ) : 0;
 }
 
 void inventory_column::set_width( const size_t width )
@@ -223,8 +224,11 @@ void inventory_column::set_width( const size_t width )
     // Now adjust the width if we must
     while( width_gap != 0 ) {
         const int step = width_gap > 0 ? -1 : 1;
+        // Don't consider hidden ( width == 0 ) as the smallest
+        const auto cmp_min = []( int a, int b ) { return a > 0 && a < b; };
+
         size_t &cell_width = step > 0
-            ? *std::min_element( cell_widths.begin(), cell_widths.end() )
+            ? *std::min_element( cell_widths.begin(), cell_widths.end(), cmp_min )
             : *std::max_element( cell_widths.begin(), cell_widths.end() );
         if( cell_width == 0 ) {
             break; // This is highly unlikely to happen, but just in case
@@ -249,7 +253,10 @@ void inventory_column::expand_to_fit( const inventory_entry &entry )
 {
     for( size_t cell_index = 0; cell_index < cell_widths.size(); ++cell_index ) {
         size_t &cell_width = cell_widths[cell_index];
-        cell_width = std::max( cell_width, get_entry_cell_width( entry, cell_index ) );
+
+        if( cell_width > 0 || entry.location ) { // Don't expand for titles
+            cell_width = std::max( cell_width, get_entry_cell_width( entry, cell_index ) );
+        }
     }
 
 }
@@ -418,10 +425,14 @@ void inventory_column::clear()
     prepare_paging();
 }
 
-size_t inventory_column::get_entry_indent( const inventory_entry &entry ) const {
+size_t inventory_column::get_entry_indent( const inventory_entry &entry, const size_t cell_index ) const {
+    if( cell_index > 0 ) {
+        return min_cell_gap;
+    }
     if( !entry.location ) {
         return 0;
     }
+
     size_t res = 2;
     if( get_option<bool>("ITEM_SYMBOLS" ) ) {
         res += 2;
@@ -480,6 +491,10 @@ void inventory_column::draw( WINDOW *win, size_t x, size_t y ) const
         for( size_t cell_index = 0, count = preset.get_cells_count(); cell_index < count; ++cell_index ) {
             if( line != 0 && cell_index != 0 && !entry.location ) {
                 break; // Don't show duplicated titles
+            }
+
+            if( cell_widths[cell_index] == 0 ) {
+                continue; // Don't show empty cells
             }
 
             x2 += cell_widths[cell_index];

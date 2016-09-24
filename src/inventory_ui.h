@@ -241,7 +241,7 @@ class inventory_column
         size_t page_of( size_t index ) const;
         size_t page_of( const inventory_entry &entry ) const;
 
-        size_t get_entry_indent( const inventory_entry &entry ) const;
+        size_t get_entry_indent( const inventory_entry &entry, size_t cell_index = 0 ) const;
         size_t get_entry_cell_width( const inventory_entry &entry, size_t cell_index ) const;
 
         std::vector<size_t> cell_widths;
