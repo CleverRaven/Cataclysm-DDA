@@ -58,7 +58,7 @@
   "skills_required": [ "mechanics", 1 ],
   "time": 100000,
   "book_learn": [ [ "manual_mechanics", 1 ] , [ "manual_fabrication", 2 ] , [ "textbook_fabrication", 2 ] ],
-  "qualities":[
+  "qualities": [
     { "id": "SAW_M", "level": 1 },
     { "id": "SCREW", "level": 1 },
     { "id": "WRENCH", "level": 1 }
@@ -78,7 +78,7 @@
   "skills_required": [ "mechanics", 2 ],
   "time": 200000,
   "book_learn": [ [ "manual_mechanics", 2 ] , [ "manual_fabrication", 3 ] , [ "textbook_fabrication", 3 ] ],
-  "qualities":[
+  "qualities": [
     { "id": "SAW_M_FINE", "level": 1 },
     { "id": "SCREW", "level": 1 },
     { "id": "WRENCH", "level": 1 }
@@ -117,7 +117,7 @@
     "difficulty": 3,
     "time": 30000,
     "autolearn": true,
-    "qualities":[ { "id": "HAMMER","level": 2 } ],
+    "qualities": [ { "id": "HAMMER","level": 2 } ],
     "using": [ [ "forging_standard", 1 ] ],
     "tools": [
       [ ["anvil", -1] ],

@@ -9,7 +9,7 @@
     "time": 8000,
     "reversible": true,
     "autolearn": true,
-    "qualities" : [ { "id": "GLARE", "level": 2 } ],
+    "qualities": [ { "id": "GLARE", "level": 2 } ],
     "using": [ [ "welding_standard", 6 ] ],
     "components": [ [ [ "material_aluminium_ingot", 16 ] ] ]
   },
