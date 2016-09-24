@@ -483,6 +483,7 @@ class game
 
         item_location inv_map_splice( item_filter filter, const std::string &title, int radius = 0,
                                       const std::string &none_message = "" );
+        item_location inv_for_gunmod( const item &gunmod, const std::string &title );
 
         // Select items to drop.  Returns a list of pairs of position, quantity.
         std::list<std::pair<int, int>> multidrop();

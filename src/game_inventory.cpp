@@ -159,6 +159,51 @@ item *game::inv_map_for_liquid( const item &liquid, const std::string &title, in
                                         liquid.tname().c_str() ) ).get_item();
 }
 
+class gunmod_inventory_preset: public inventory_selector_preset
+{
+    public:
+        gunmod_inventory_preset( const player &p, const item &gunmod ) : p( p ), gunmod( gunmod ) {
+            append_cell( [ this ]( const item_location & loc ) {
+                const std::string error = get_error( *loc );
+                return error.empty() ? string_format( "<color_ltgreen>%s</color>", _( "yes" ) ) : error;
+            }, _( "MODIFIABLE" ) );
+            // @todo Display rolls
+        }
+
+        bool is_shown( const item_location &loc ) const override {
+            return loc->is_gun() && !loc->is_gunmod();
+        }
+
+        bool is_enabled( const item_location &loc ) const override {
+            return get_error( *loc ).empty();
+        }
+
+    protected:
+        std::string get_error( const item &gun ) const {
+            std::string incompatability;
+
+            if( !gun.gunmod_compatible( gunmod, &incompatability ) ) {
+                return incompatability;
+            }
+
+            if( p.can_use( gunmod, gun ) ) {
+                return _( "is beyond your skill" );
+            }
+
+            return std::string();
+        }
+
+    private:
+        const player &p;
+        const item &gunmod;
+};
+
+item_location game::inv_for_gunmod( const item &gunmod, const std::string &title )
+{
+    return inv_internal( u, gunmod_inventory_preset( u, gunmod ),
+                         title, -1, _( "You don't have any guns to modify." ) );
+}
+
 std::list<std::pair<int, int>> game::multidrop()
 {
     u.inv.restack( &u );
