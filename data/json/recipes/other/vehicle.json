@@ -9,7 +9,7 @@
     "time": 8000,
     "reversible": true,
     "autolearn": true,
-    "qualities" : [ { "id" : "GLARE", "level" : 2 } ],
+    "qualities" : [ { "id": "GLARE", "level": 2 } ],
     "using": [ [ "welding_standard", 6 ] ],
     "components": [ [ [ "material_aluminium_ingot", 16 ] ] ]
   },
@@ -27,7 +27,7 @@
       { "id": "HAMMER", "level": 2 },
       { "id": "SAW_M", "level": 1 },
       { "id": "WRENCH_FINE", "level": 1 },
-      { "id" : "GLARE", "level" : 2 }
+      { "id": "GLARE", "level": 2 }
     ],
     "tools": [
       [ [ "welder", 100 ], [ "welder_crude", 150 ], [ "toolset", 150 ] ]
@@ -52,7 +52,7 @@
       { "id": "HAMMER", "level": 2 },
       { "id": "SAW_M", "level": 1 },
       { "id": "WRENCH", "level": 1 },
-      { "id" : "GLARE", "level" : 2 }
+      { "id" :"GLARE", "level": 2 }
     ],
     "tools": [
       [ [ "welder", 50 ], [ "welder_crude", 75 ], [ "toolset", 75 ] ]

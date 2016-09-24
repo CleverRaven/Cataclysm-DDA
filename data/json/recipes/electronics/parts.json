@@ -8,7 +8,7 @@
     "difficulty": 0,
     "time": 3000,
     "book_learn": [[ "radio_book", 1 ] , [ "textbook_anarch", 1 ]],
-    "qualities":[ { "id":"SAW_M","level":1 } ],
+    "qualities":[ { "id": "SAW_M", "level": 1 } ],
     "components": [ [ [ "steel_chunk", 1 ], [ "scrap", 3 ], [ "knife_butter", 2 ], [ "material_aluminium_ingot", 3 ] ]
   ]
   },
@@ -24,8 +24,8 @@
     "decomp_learn": 3,
     "book_learn": [[ "radio_book", 3 ] , [ "textbook_anarch", 5 ]],
     "qualities":[
-      { "id":"HAMMER","level":2 },
-      { "id":"SAW_M","level":1 }
+      { "id": "HAMMER", "level": 2 },
+      { "id": "SAW_M", "level": 1 }
     ],
     "components": [
       [ [ "amplifier", 1 ] ],

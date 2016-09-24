@@ -8,14 +8,14 @@
     "difficulty": 3,
     "time": 25000,
     "autolearn": true,
-    "qualities": [ { "id":"COOK","level":2 } ],
+    "qualities": [ { "id": "COOK", "level": 2 } ],
     "tools": [
       [ [ "hotplate", 6 ], [ "char_smoker", 6 ], [ "toolset", 6 ], [ "fire", -1 ] ],
       [ [ "aluminum_foil", 6 ] ]
     ],
     "components": [
       [ [ "flour", 2 ] ],
-      [ [ "meat", 1], [ "rehydrated_meat", 1 ], [ "dry_meat", 1 ], [ "meat_canned", 1 ], [ "can_chicken", 1 ], [ "fish", 2 ], [ "rehydrated_fish", 2 ], [ "dry_fish", 2 ], [ "fish_canned", 2 ], [ "can_tuna", 2 ] ],
+      [ [ "meat", 1 ], [ "rehydrated_meat", 1 ], [ "dry_meat", 1 ], [ "meat_canned", 1 ], [ "can_chicken", 1 ], [ "fish", 2 ], [ "rehydrated_fish", 2 ], [ "dry_fish", 2 ], [ "fish_canned", 2 ], [ "can_tuna", 2 ] ],
       [ [ "water", 1 ], [ "water_clean", 1 ] ]
     ]
   },
@@ -28,14 +28,14 @@
     "difficulty": 3,
     "time": 25000,
     "book_learn": [[ "cookbook_human", 3 ]],
-    "qualities": [ {"id":"COOK","level":2 } ],
+    "qualities": [ {"id": "COOK", "level": 2 } ],
     "tools": [
       [ [ "hotplate", 6 ], [ "char_smoker", 6 ], [ "toolset", 6 ], [ "fire", -1 ] ],
       [ [ "aluminum_foil", 6 ] ]
     ],
     "components": [
       [ [ "flour", 2 ] ],
-      [ [ "human_flesh", 1], [ "rehydrated_hflesh", 2 ], [ "dry_hflesh", 2 ] ],
+      [ [ "human_flesh", 1 ], [ "rehydrated_hflesh", 2 ], [ "dry_hflesh", 2 ] ],
       [ [ "water", 1 ], [ "water_clean", 1 ] ]
     ]
   },
@@ -48,7 +48,7 @@
     "difficulty": 3,
     "time": 20000,
     "book_learn": [[ "cookbook_italian", 2 ]],
-    "qualities": [ { "id":"COOK","level":2 } ],
+    "qualities": [ { "id": "COOK", "level": 2 } ],
     "tools": [
       [ [ "hotplate", 8 ], [ "char_smoker", 8 ], [ "toolset", 8 ], [ "fire", -1 ] ],
       [ [ "aluminum_foil", 8 ] ]
@@ -69,7 +69,7 @@
     "difficulty": 3,
     "time": 20000,
     "book_learn": [[ "cookbook_human", 3 ]],
-    "qualities": [ { "id":"COOK","level":2 } ],
+    "qualities": [ { "id": "COOK", "level": 2 } ],
     "tools": [
       [ [ "hotplate", 8 ], [ "char_smoker", 8 ], [ "toolset", 8 ], [ "fire", -1 ] ],
       [ [ "aluminum_foil", 8 ] ]

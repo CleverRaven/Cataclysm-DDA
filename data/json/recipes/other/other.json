@@ -20,7 +20,7 @@
     "difficulty": 5,
     "time": 5000,
     "autolearn": true,
-    "qualities":[ { "id":"SAW_M","level":1 } ],
+    "qualities":[ { "id": "SAW_M", "level": 1 } ],
     "components": [
       [ [ "material_aluminium_ingot", 4 ], [ "can_drink_unsealed", 16 ], [ "aluminum_foil", 400 ] ],
       [ [ "water", 5 ], [ "water_clean", 5 ] ],

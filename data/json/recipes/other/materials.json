@@ -43,8 +43,8 @@
     "time": 2500,
     "autolearn": true,
     "qualities": [
-      { "id":"HAMMER","level":1 },
-      { "id":"CONTAIN","level":1 }
+      { "id": "HAMMER", "level": 1 },
+      { "id": "CONTAIN", "level": 1 }
     ],
     "tools": [ [ [ "toolset", 10 ], [ "fire", -1 ] ] ],
     "components": [ [ [ "chem_aluminium_powder", 25 ], [ "can_drink_unsealed", 4 ], [ "aluminum_foil", 100 ] ] ]
@@ -60,8 +60,8 @@
     "time": 2500,
     "autolearn": true,
     "qualities": [
-      { "id":"HAMMER","level":2 },
-      { "id":"CONTAIN","level":1 }
+      { "id": "HAMMER", "level": 2 },
+      { "id": "CONTAIN", "level": 1 }
     ],
     "tools": [
       [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ],
