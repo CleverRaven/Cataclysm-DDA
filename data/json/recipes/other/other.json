@@ -24,7 +24,7 @@
     "components": [
       [ [ "material_aluminium_ingot", 4 ], [ "can_drink_unsealed", 16 ], [ "aluminum_foil", 400 ] ],
       [ [ "water", 5 ], [ "water_clean", 5 ] ],
-      [ [ "material_sand", 25] ]
+      [ [ "material_sand", 25 ] ]
     ]
   }
 ]
