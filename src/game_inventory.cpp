@@ -164,10 +164,27 @@ class gunmod_inventory_preset: public inventory_selector_preset
     public:
         gunmod_inventory_preset( const player &p, const item &gunmod ) : p( p ), gunmod( gunmod ) {
             append_cell( [ this ]( const item_location & loc ) {
+                if( !is_enabled( loc ) ) {
+                    return std::string();
+                }
+                const auto odds = get_odds( *loc );
+                return odds.second != 0 ? string_format( "<color_red>%d%%</color>", odds.second ) : std::string();
+            }, _( "DAMAGE" ) );
+
+            append_cell( [ this ]( const item_location & loc ) -> std::string {
                 const std::string error = get_error( *loc );
-                return error.empty() ? string_format( "<color_ltgreen>%s</color>", _( "yes" ) ) : error;
-            }, _( "MODIFIABLE" ) );
-            // @todo Display rolls
+
+                if( !error.empty() ) {
+                    return error;
+                }
+
+                const auto odds = get_odds( *loc );
+                if( odds.first <= 0 ) {
+                    return _( "is too difficult for you to modify" );
+                }
+
+                return string_format( "<color_ltgreen>%d%%</color>", odds.first );
+            }, _( "SUCCESS" ) );
         }
 
         bool is_shown( const item_location &loc ) const override {
@@ -175,7 +192,13 @@ class gunmod_inventory_preset: public inventory_selector_preset
         }
 
         bool is_enabled( const item_location &loc ) const override {
-            return get_error( *loc ).empty();
+            return get_error( *loc ).empty() && get_rank( *loc ) > 0;
+        }
+
+        bool sort_compare( const item_location &lhs, const item_location &rhs ) const override {
+            return get_rank( *lhs ) > get_rank( *rhs )
+                   ? true
+                   : inventory_selector_preset::sort_compare( lhs, rhs );
         }
 
     protected:
@@ -186,11 +209,21 @@ class gunmod_inventory_preset: public inventory_selector_preset
                 return incompatability;
             }
 
-            if( p.can_use( gunmod, gun ) ) {
-                return _( "is beyond your skill" );
+            if( !p.meets_requirements( gunmod, gun ) ) {
+                return string_format( _( "requires at least %s" ),
+                                      p.enumerate_unmet_requirements( gunmod, gun ).c_str() );
             }
 
             return std::string();
+        }
+
+        int get_rank( const item &gun ) const {
+            const auto odds = get_odds( gun );
+            return odds.first - odds.second;
+        }
+
+        std::pair<int, int> get_odds( const item &gun ) const {
+            return p.gunmod_installation_odds( gun, gunmod );
         }
 
     private:
