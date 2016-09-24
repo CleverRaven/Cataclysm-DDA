@@ -8,7 +8,8 @@
     "difficulty": 1,
     "time": 15000,
     "batch_time_factors": [ 90, 4 ],
-    "reversible": true,
+    "reversible":
+ true,
     "autolearn": true,
     "tools": [
       [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ],
@@ -42,7 +43,7 @@
     "difficulty": 0,
     "time": 2500,
     "autolearn": true,
-    "qualities":[
+    "qualities": [
       { "id":"HAMMER","level":1 },
       { "id":"CONTAIN","level":1 }
     ],
@@ -59,7 +60,7 @@
     "skills_required": [ "cooking", 2 ],
     "time": 2500,
     "autolearn": true,
-    "qualities":[
+    "qualities": [
       { "id":"HAMMER","level":2 },
       { "id":"CONTAIN","level":1 }
     ],
