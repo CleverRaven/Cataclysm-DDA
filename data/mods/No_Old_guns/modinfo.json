@@ -11,6 +11,17 @@
 },{
     "type": "ITEM_BLACKLIST",
     "items": [
+        "garand",
+        "garandclip",
+        "m1903",
+        "m1918",
+        "m1918mag",
+        "m1918bigmag",
+        "tommygun",
+        "thompson_mag",
+        "thompson_bigmag",
+        "thompson_drum",
+        "sten",
         "sks",
         "win70",
         "weatherby_5",
