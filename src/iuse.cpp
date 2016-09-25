@@ -3804,14 +3804,16 @@ int iuse::arrow_flamable(player *p, item *it, bool, const tripoint& )
 
 int iuse::molotov_lit(player *p, item *it, bool t, const tripoint &pos)
 {
-    int age = int(calendar::turn) - it->bday;
-    if( p->has_item( *it ) ) {
+    if (pos.x == -999 || pos.y == -999) {
+        return 0;
+    } else if (it->charges > 0) {
+        add_msg(m_info, _("You've already lit the %s, try throwing it instead."), it->tname().c_str());
+        return 0;
+    } else if( p->has_item( *it ) && it->charges == 0 ) {
         it->charges += 1;
-        if (age >= 5) { // More than 5 turns old = chance of going out
-            if (rng(1, 50) < age) {
-                p->add_msg_if_player(_("Your lit Molotov goes out."));
-                it->convert( "molotov" ).active = false;
-            }
+        if ( one_in ( 5 ) ) {
+            p->add_msg_if_player(_("Your lit Molotov goes out."));
+            it->convert( "molotov" ).active = false;
         }
     } else {
         if( !t ) {
