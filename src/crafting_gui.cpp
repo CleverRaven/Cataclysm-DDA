@@ -207,7 +207,7 @@ const recipe *select_crafting_recipe( int &batch_size )
                 }
 
                 std::stable_sort( current.begin(), current.end(), []( const recipe * a, const recipe * b ) {
-                    return a->difficulty < b->difficulty;
+                    return b->difficulty < a->difficulty;
                 } );
 
                 std::stable_sort( current.begin(), current.end(), [&]( const recipe * a, const recipe * b ) {
