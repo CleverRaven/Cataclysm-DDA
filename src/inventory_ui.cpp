@@ -979,11 +979,9 @@ inventory_selector::inventory_selector( const player &u, const inventory_selecto
 
 inventory_selector::~inventory_selector()
 {
-    if (w_inv != NULL) {
-        werase(w_inv);
-        delwin(w_inv);
+    if( w_inv != nullptr ) {
+        delwin( w_inv );
     }
-    g->refresh_all();
 }
 
 bool inventory_selector::empty() const
