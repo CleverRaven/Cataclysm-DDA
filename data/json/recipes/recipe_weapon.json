@@ -4792,7 +4792,7 @@
 },{
   "type" : "recipe",
   "result": "bokken",
-  "byproducts": [ [ "splinter" ] ],
+  "byproducts": [ [ "splinter", 30 ] ],
   "category": "CC_WEAPON",
   "subcategory": "CSC_WEAPON_BASHING",
   "skill_used": "fabrication",
