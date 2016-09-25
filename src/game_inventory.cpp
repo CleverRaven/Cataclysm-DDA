@@ -192,13 +192,18 @@ class gunmod_inventory_preset: public inventory_selector_preset
         }
 
         bool is_enabled( const item_location &loc ) const override {
-            return get_error( *loc ).empty() && get_rank( *loc ) > 0;
+            return get_error( *loc ).empty() && get_odds( *loc ).first > 0;
         }
 
         bool sort_compare( const item_location &lhs, const item_location &rhs ) const override {
-            return get_rank( *lhs ) > get_rank( *rhs )
-                   ? true
-                   : inventory_selector_preset::sort_compare( lhs, rhs );
+            const auto a = get_odds( *lhs );
+            const auto b = get_odds( *rhs );
+
+            if( a.first > b.first || ( a.first == b.first && a.second < b.second ) ) {
+                return true;
+            }
+
+            return inventory_selector_preset::sort_compare( lhs, rhs );
         }
 
     protected:
@@ -215,11 +220,6 @@ class gunmod_inventory_preset: public inventory_selector_preset
             }
 
             return std::string();
-        }
-
-        int get_rank( const item &gun ) const {
-            const auto odds = get_odds( gun );
-            return odds.first - odds.second;
         }
 
         std::pair<int, int> get_odds( const item &gun ) const {
