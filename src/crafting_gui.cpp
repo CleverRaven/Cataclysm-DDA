@@ -174,6 +174,8 @@ const recipe *select_crafting_recipe( int &batch_size )
     const inventory &crafting_inv = g->u.crafting_inventory();
     const std::vector<npc *> helpers = g->u.get_crafting_helpers();
     std::string filterstring = "";
+
+    std::map<const recipe *, bool> availability_cache;
     do {
         if( redraw ) {
             // When we switch tabs, redraw the header
@@ -206,13 +208,19 @@ const recipe *select_crafting_recipe( int &batch_size )
                     current = recipe_dict.search( filterstring );
                 }
 
+                // cache recipe availability on first display
+                for( const auto e : current ) {
+                    if( !availability_cache.count( e ) ) {
+                        availability_cache.emplace( e, e->can_make_with_inventory( crafting_inv, helpers ) );
+                    }
+                }
+
                 std::stable_sort( current.begin(), current.end(), []( const recipe * a, const recipe * b ) {
                     return b->difficulty < a->difficulty;
                 } );
 
                 std::stable_sort( current.begin(), current.end(), [&]( const recipe * a, const recipe * b ) {
-                    return a->can_make_with_inventory( crafting_inv, helpers ) &&
-                           ! b->can_make_with_inventory( crafting_inv, helpers );
+                    return availability_cache[a] && !availability_cache[b];
                 } );
 
                 std::transform( current.begin(), current.end(),
