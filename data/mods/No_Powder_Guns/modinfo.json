@@ -5,7 +5,7 @@
     "ident": "no_powder_guns",
     "name": "No Powder Guns",
     "author": "Cyrano7",
-    "description": "Removes flintlock and cap & ball firearms from the game.",
+    "description": "Removes flintlock and cap & ball firearms.",
     "category": "item_exclude",
     "path": "modinfo.json"
 },{
