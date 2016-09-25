@@ -4829,7 +4829,7 @@
     "use_action": {
         "type": "place_trap",
         "allow_under_player": true,
-        "done_message": "You place the brazier securely.",
+        "done_message": "You place the funnel, waiting to collect rain.",
         "practice": 0,
         "moves": 100,
         "trap": "tr_metal_funnel"
@@ -4851,7 +4851,7 @@
     "use_action": {
         "type": "place_trap",
         "allow_under_player": true,
-        "done_message": "You place the funnel, waiting to collect rain.",
+        "done_message": "You place the metal funnel, waiting to collect rain.",
         "practice": 0,
         "moves": 100,
         "trap": "tr_funnel"
