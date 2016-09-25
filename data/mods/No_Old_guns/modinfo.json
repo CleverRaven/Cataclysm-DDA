@@ -13,6 +13,7 @@
     "items": [
         "garand",
         "garandclip",
+        "hk_ucp",
         "m1903",
         "m1918",
         "m1918mag",
@@ -49,6 +50,7 @@
         "pistol_flintlock",
         "pistol_pepperbox",
         "flintlock_ammo",
+        "flintlock_shot",
         "32_acp",
         "reloaded_32_acp",
         "32_casing",
