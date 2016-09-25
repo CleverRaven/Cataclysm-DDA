@@ -42,7 +42,7 @@ static bool crafting_allowed( const player &p, const recipe &rec )
         return false;
     }
 
-    if( p.lighting_craft_speed_multiplier( rec ) == 0.0f ) {
+    if( p.lighting_craft_speed_multiplier( rec ) <= 0.0f ) {
         add_msg( m_info, _( "You can't see to craft!" ) );
         return false;
     }
