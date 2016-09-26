@@ -71,8 +71,7 @@
     [ [ "brooch", 1 ] ],
     [
       [ "acid", 1 ],
-      [ "water_acid", 2 ],
-      [ "water_acid_weak", 4 ]
+      [ "water_acid", 2 ]
     ],
     [ [ "essence_blood", 4 ] ]
   ]
