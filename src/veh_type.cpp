@@ -414,6 +414,14 @@ void vpart_info::check()
                 part.removal_reqs = { { requirement_id( "vehicle_weld_removal" ), 1 } };
                 part.repair_reqs  = { { requirement_id( "welding_standard" ), 5 } };
             }
+
+        } else {
+            if( part.has_flag( "REVERSIBLE" ) ) {
+                if( !part.removal_reqs.empty() ) {
+                    debugmsg( "vehicle part %s specifies both REVERSIBLE and removal", part.id.c_str() );
+                }
+                part.removal_reqs = part.install_reqs;
+            }
         }
 
         // add the base item to the installation requirements
