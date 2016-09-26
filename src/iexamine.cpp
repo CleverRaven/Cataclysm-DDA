@@ -158,7 +158,7 @@ public:
             default:
                 return;
             }
-            if( u.activity.type != ACT_NULL ) {
+            if( !u.activity.is_null() ) {
                 break;
             }
         }
@@ -169,7 +169,7 @@ private:
 
     options choose_option()
     {
-        if( u.activity.type == ACT_ATM ) {
+        if( u.activity.id() == activity_id( "ACT_ATM" ) ) {
             return static_cast<options>( u.activity.index );
         }
         amenu.query();
@@ -359,8 +359,8 @@ private:
 
     bool do_transfer_all_money() {
         item *dst;
-        if( u.activity.type == ACT_ATM ) {
-            u.activity.type = ACT_NULL; // stop for now, if required, it will be created again.
+        if( u.activity.id() == activity_id( "ACT_ATM" ) ) {
+            u.activity.set_to_null(); // stop for now, if required, it will be created again.
             dst = &u.i_at( u.activity.position );
             if( dst->is_null() || dst->typeId() != "cash_card" ) {
                 return false;
@@ -380,7 +380,7 @@ private:
                 // Money from `*i` could be transferred, but we're out of moves, schedule it for
                 // the next turn. Putting this here makes sure there will be something to be
                 // done next turn.
-                u.assign_activity( ACT_ATM, 0, transfer_all_money, u.get_item_position( dst ) );
+                u.assign_activity( activity_id( "ACT_ATM" ), 0, transfer_all_money, u.get_item_position( dst ) );
                 break;
             }
 
@@ -1023,7 +1023,7 @@ void iexamine::safe(player &p, const tripoint &examp)
         int moves = std::max(MINUTES(150) + (p.get_skill_level( skill_mechanics ) - 3) * MINUTES(-20) +
                              (p.get_per() - 8) * MINUTES(-10), MINUTES(30)) * 100;
 
-         p.assign_activity( ACT_CRACKING, moves );
+         p.assign_activity( activity_id( "ACT_CRACKING" ), moves );
          p.activity.placement = examp;
     }
 }
@@ -2468,7 +2468,7 @@ void iexamine::tree_maple_tapped(player &p, const tripoint &examp)
             return;
 
         case REMOVE_CONTAINER: {
-            g->u.assign_activity( ACT_PICKUP, 0 );
+            g->u.assign_activity( activity_id( "ACT_PICKUP" ) );
             g->u.activity.placement = examp - p.pos();
             g->u.activity.values.push_back( false );
             g->u.activity.values.push_back( 0 );
@@ -2540,7 +2540,7 @@ void iexamine::shrub_wildveggies( player &p, const tripoint &examp )
     int move_cost = 100000 / ( 2 * p.get_skill_level( skill_survival ) + 5 );
     ///\EFFECT_PER randomly speeds up foraging
     move_cost /= rng( std::max( 4, p.per_cur ), 4 + p.per_cur * 2 );
-    p.assign_activity( ACT_FORAGE, move_cost, 0 );
+    p.assign_activity( activity_id( "ACT_FORAGE" ), move_cost, 0 );
     p.activity.placement = examp;
     return;
 }

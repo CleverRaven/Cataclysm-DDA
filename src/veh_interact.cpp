@@ -83,7 +83,7 @@ player_activity veh_interact::serialize_activity()
             time = vp->removal_time( g->u ) + vp->install_time( g->u );
             break;
     }
-    player_activity res( ACT_VEHICLE, time, (int) sel_cmd );
+    player_activity res( activity_id( "ACT_VEHICLE" ), time, (int) sel_cmd );
 
     // if we're working on an existing part, use that part as the reference point
     // otherwise (e.g. installing a new frame), just use part 0
@@ -295,7 +295,7 @@ void veh_interact::do_main_loop()
             do_siphon();
             // Siphoning may have started a player activity. If so, we should close the
             // vehicle dialog and continue with the activity.
-            finish = g->u.activity.type != ACT_NULL;
+            finish = !g->u.activity.is_null();
         } else if (action == "TIRE_CHANGE") {
             do_tirechange();
         } else if (action == "RELABEL") {
@@ -2434,7 +2434,7 @@ void veh_interact::complete_vehicle()
         }
         if (veh->parts.size() < 2) {
             add_msg (_("You completely dismantle the %s."), veh->name.c_str());
-            g->u.activity.type = ACT_NULL;
+            g->u.activity.set_to_null();
             g->m.destroy_vehicle (veh);
         } else {
             if (broken) {

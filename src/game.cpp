@@ -1461,7 +1461,7 @@ bool game::do_turn()
                 cleanup_dead();
                 // Process any new sounds the player caused during their turn.
                 sounds::process_sound_markers( &u );
-                if (u.activity.type == ACT_NULL) {
+                if( !u.activity ) {
                     draw();
                 }
 
@@ -1477,7 +1477,7 @@ bool game::do_turn()
                 if (uquit == QUIT_WATCH) {
                     break;
                 }
-                if( u.activity.type != ACT_NULL ) {
+                if( u.activity ) {
                     process_activity();
                 }
             }
@@ -1646,7 +1646,7 @@ void game::process_events()
 
 void game::process_activity()
 {
-    if( u.activity.type == ACT_NULL ) {
+    if( !u.activity ) {
         return;
     }
 
@@ -1654,7 +1654,7 @@ void game::process_activity()
         draw();
     }
 
-    while( u.moves > 0 && u.activity.type != ACT_NULL ) {
+    while( u.moves > 0 && u.activity ) {
         u.activity.do_turn( &u );
     }
 }
@@ -1679,7 +1679,7 @@ void game::cancel_activity()
 
 bool game::cancel_activity_or_ignore_query(const char *reason, ...)
 {
-    if (u.activity.type == ACT_NULL) {
+    if( !u.activity ) {
         return false;
     }
     va_list ap;
@@ -1714,7 +1714,7 @@ bool game::cancel_activity_query(const char *message, ...)
     const std::string text = vstring_format(message, ap);
     va_end(ap);
 
-    if (ACT_NULL == u.activity.type) {
+    if( !u.activity ) {
         if (u.has_destination()) {
             add_msg(m_warning, _("%s. Auto-move canceled"), text.c_str());
             u.clear_destination();
@@ -1765,12 +1765,12 @@ void game::update_weather()
         nextweather = calendar::turn + 50; // Check weather each 50 turns.
         if (weather != old_weather && weather_data(weather).dangerous &&
             get_levz() >= 0 && m.is_outside(u.pos())
-            && !u.has_activity(ACT_WAIT_WEATHER)) {
+            && !u.has_activity( activity_id( "ACT_WAIT_WEATHER" ) ) ) {
             cancel_activity_query(_("The weather changed to %s!"), weather_data(weather).name.c_str());
         }
 
-        if (weather != old_weather && u.has_activity(ACT_WAIT_WEATHER)) {
-            u.assign_activity(ACT_WAIT_WEATHER, 0, 0);
+        if (weather != old_weather && u.has_activity( activity_id( "ACT_WAIT_WEATHER" ) ) ) {
+            u.assign_activity( activity_id( "ACT_WAIT_WEATHER" ), 0, 0);
         }
 
         if( weather_data( weather ).sight_penalty !=
@@ -1815,8 +1815,8 @@ void game::increase_kill_count( const mtype_id& id )
 void game::handle_key_blocking_activity()
 {
     // If player is performing a task and a monster is dangerously close, warn them
-    // regardless of previous safe mode warnings
-    if( u.activity.type != ACT_NULL && u.activity.type != ACT_AIM &&
+    // regardless of previous safemode warnings
+    if( u.activity && !u.has_activity( activity_id( "ACT_AIM" ) ) &&
         u.activity.moves_left > 0 && !u.activity.warned_of_proximity ) {
         Creature *hostile_critter = is_hostile_very_close();
         if (hostile_critter != nullptr) {
@@ -1828,7 +1828,7 @@ void game::handle_key_blocking_activity()
         }
     }
 
-    if (u.activity.moves_left > 0 && u.activity.is_abortable()) {
+    if( u.activity && u.activity.moves_left > 0 && u.activity.is_abortable() ) {
         input_context ctxt = get_default_mode_input_context();
         timeout(1);
         const std::string action = ctxt.handle_input();
@@ -7473,7 +7473,7 @@ void game::smash()
         if ( maybe_corpse.is_corpse() && maybe_corpse.damage() < maybe_corpse.max_damage() &&
              maybe_corpse.get_mtype()->has_flag( MF_REVIVES ) ) {
             // do activity forever. ACT_PULP stops itself
-            u.assign_activity( ACT_PULP, INT_MAX, 0 );
+            u.assign_activity( activity_id( "ACT_PULP" ), calendar::INDEFINITELY_LONG, 0 );
             u.activity.placement = smashp;
             return; // don't smash terrain if we've smashed a corpse
         }
@@ -7611,7 +7611,7 @@ bool game::forced_door_closing( const tripoint &p, const ter_id door_type, int b
         } else if (npc_or_player->is_player()) {
             add_msg(m_bad, _("The %s hits you."), door_name.c_str());
         }
-        if( npc_or_player->activity.type != ACT_NULL ) {
+        if( npc_or_player->activity ) {
             npc_or_player->cancel_activity();
         }
         // TODO: make the npc angry?
@@ -10345,11 +10345,11 @@ bool game::handle_liquid( item &liquid, item * const source, const int radius,
 
     const auto create_activity = [&]() {
         if( source_veh != nullptr ) {
-            u.assign_activity( ACT_FILL_LIQUID, INT_MAX );
+            u.assign_activity( activity_id( "ACT_FILL_LIQUID" ) );
             serialize_liquid_source( u.activity, *source_veh, liquid.typeId() );
             return true;
         } else if( source_pos != nullptr ) {
-            u.assign_activity( ACT_FILL_LIQUID, INT_MAX );
+            u.assign_activity( activity_id( "ACT_FILL_LIQUID" ) );
             serialize_liquid_source( u.activity, *source_pos, liquid );
             return true;
         } else {
@@ -10734,7 +10734,7 @@ bool game::plfire()
     std::vector<tripoint> trajectory = pl_target_ui( tmode, &u.weapon, range );
 
     if (trajectory.empty()) {
-        if( gun->has_flag( "RELOAD_AND_SHOOT" ) && u.activity.type != ACT_AIM ) {
+        if( gun->has_flag( "RELOAD_AND_SHOOT" ) && u.activity.id() != activity_id( "ACT_AIM" ) ) {
             const auto previous_moves = u.moves;
             unload( *gun );
             // Give back time for unloading as essentially nothing has been done at all.
@@ -10967,10 +10967,10 @@ void game::butcher()
     case BUTCHER_OTHER:
         switch( indexer_index ) {
         case MULTISALVAGE:
-            u.assign_activity( ACT_LONGSALVAGE, 0, salvage_tool_index );
+            u.assign_activity( activity_id( "ACT_LONGSALVAGE" ), 0, salvage_tool_index );
             break;
         case MULTIBUTCHER:
-            u.assign_activity( ACT_BUTCHER, 0, -1 );
+            u.assign_activity( activity_id( "ACT_BUTCHER" ), 0, -1 );
             for( int i : corpses ) {
                 u.activity.values.push_back( i );
             }
@@ -10990,7 +10990,7 @@ void game::butcher()
         {
             draw_ter();
             int index = corpses[indexer_index];
-            u.assign_activity( ACT_BUTCHER, 0, -1 );
+            u.assign_activity( activity_id( "ACT_BUTCHER" ), 0, -1 );
             u.activity.values.push_back( index );
         }
         break;
@@ -11151,7 +11151,7 @@ void game::reload( int pos, bool prompt )
 
     item::reload_option opt = u.select_ammo( *it, prompt );
     if( opt ) {
-        u.assign_activity( ACT_RELOAD, opt.moves(), opt.qty() );
+        u.assign_activity( activity_id( "ACT_RELOAD" ), opt.moves(), opt.qty() );
         u.activity.targets.emplace_back( u, const_cast<item *>( opt.target ) );
         u.activity.targets.push_back( std::move( opt.ammo ) );
     }
@@ -11168,7 +11168,7 @@ void game::reload()
         if( veh && ( turret = veh->turret_query( u.pos() ) ) && turret.can_reload() ) {
             item::reload_option opt = g->u.select_ammo( *turret.base(), true );
             if( opt ) {
-                g->u.assign_activity( ACT_RELOAD, opt.moves(), opt.qty() );
+                g->u.assign_activity( activity_id( "ACT_RELOAD" ), opt.moves(), opt.qty() );
                 g->u.activity.targets.emplace_back( turret.base() );
                 g->u.activity.targets.push_back( std::move( opt.ammo ) );
             }
@@ -13975,12 +13975,11 @@ void game::wait()
         return;
     }
 
-    activity_type actType = ( as_m.ret == 11 ) ? ACT_WAIT_WEATHER : ACT_WAIT;
+    activity_id actType = activity_id( as_m.ret == 11 ? "ACT_WAIT_WEATHER" : "ACT_WAIT" );
 
     player_activity new_act( actType, 100 * ( durations[as_m.ret] - 1 ), 0 );
 
     u.assign_activity( new_act, false );
-    u.rooted_message();
 }
 
 bool game::game_quit()

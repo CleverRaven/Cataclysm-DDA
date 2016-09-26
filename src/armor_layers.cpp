@@ -258,7 +258,7 @@ void player::sort_armor()
         if( is_player() ) {
             // Totally hoisted this from advanced_inv
             if( g->u.moves < 0 ) {
-                g->u.assign_activity( ACT_ARMOR_LAYERS, 0 );
+                g->u.assign_activity( activity_id( "ACT_ARMOR_LAYERS" ), 0 );
                 g->u.activity.auto_resume = true;
                 return;
             }

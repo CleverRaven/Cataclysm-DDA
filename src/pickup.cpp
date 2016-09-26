@@ -183,7 +183,7 @@ interact_results interact_with_vehicle( vehicle *veh, const tripoint &pos,
             if( veh_tool( "welder" ) ) {
                 // Evil hack incoming
                 auto &act = g->u.activity;
-                if( act.type == ACT_REPAIR_ITEM ) {
+                if( act.id() == activity_id( "ACT_REPAIR_ITEM" ) ) {
                     // Magic: first tell activity the item doesn't really exist
                     act.index = INT_MIN;
                     // Then tell it to search it on `pos`
@@ -238,7 +238,7 @@ interact_results interact_with_vehicle( vehicle *veh, const tripoint &pos,
         case RELOAD_TURRET: {
             item::reload_option opt = g->u.select_ammo( *turret.base(), true );
             if( opt ) {
-                g->u.assign_activity( ACT_RELOAD, opt.moves(), opt.qty() );
+                g->u.assign_activity( activity_id( "ACT_RELOAD" ), opt.moves(), opt.qty() );
                 g->u.activity.targets.emplace_back( turret.base() );
                 g->u.activity.targets.push_back( std::move( opt.ammo ) );
             }
@@ -622,7 +622,7 @@ void Pickup::pick_up( const tripoint &pos, int min )
 
     // Not many items, just grab them
     if( ( int )here.size() <= min && min != -1 ) {
-        g->u.assign_activity( ACT_PICKUP, 0 );
+        g->u.assign_activity( activity_id( "ACT_PICKUP" ) );
         g->u.activity.placement = pos - g->u.pos();
         g->u.activity.values.push_back( from_vehicle );
         // Only one item means index is 0.
@@ -985,7 +985,7 @@ void Pickup::pick_up( const tripoint &pos, int min )
     }
 
     // At this point we've selected our items, register an activity to pick them up.
-    g->u.assign_activity( ACT_PICKUP, 0 );
+    g->u.assign_activity( activity_id( "ACT_PICKUP" ) );
     g->u.activity.placement = pos - g->u.pos();
     g->u.activity.values.push_back( from_vehicle );
     if( min == -1 ) {

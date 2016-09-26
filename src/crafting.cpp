@@ -475,7 +475,7 @@ void player::complete_craft()
     int batch_size = activity.values.front();
     if( making == nullptr ) {
         debugmsg( "no recipe with id %s found", activity.name.c_str() );
-        activity.type = ACT_NULL;
+        activity.set_to_null();
         return;
     }
 
@@ -596,7 +596,7 @@ void player::complete_craft()
                 consume_tools( it, batch_size );
             }
         }
-        activity.type = ACT_NULL;
+        activity.set_to_null();
         return;
         // Messed up slightly; no components wasted.
     } else if( diff_roll > skill_roll ) {
@@ -1137,8 +1137,8 @@ bool player::disassemble( item &obj, int pos, bool ground, bool interactive )
         return false;
     }
 
-    if( activity.type != ACT_DISASSEMBLE ) {
-        assign_activity( ACT_DISASSEMBLE, r.time );
+    if( activity.id() != activity_id( "ACT_DISASSEMBLE" ) ) {
+        assign_activity( activity_id( "ACT_DISASSEMBLE" ), r.time );
     } else if( activity.moves_left <= 0 ) {
         activity.moves_left = r.time;
     }
@@ -1153,7 +1153,7 @@ bool player::disassemble( item &obj, int pos, bool ground, bool interactive )
 void player::disassemble_all( bool one_pass )
 {
     // Reset all the activity values
-    assign_activity( ACT_DISASSEMBLE, 0 );
+    assign_activity( activity_id( "ACT_DISASSEMBLE" ), 0 );
     auto items = g->m.i_at( pos() );
     bool found_any = false;
     if( !one_pass ) {
@@ -1218,7 +1218,7 @@ void player::complete_disassemble()
         activity.values.size() != activity.str_values.size() ||
         activity.values.size() != activity.coords.size() ) {
         debugmsg( "bad disassembly activity values" );
-        activity.type = ACT_NULL;
+        activity.set_to_null();
         return;
     }
 
@@ -1244,7 +1244,7 @@ void player::complete_disassemble()
 
     complete_disassemble( item_pos, loc, from_ground, recipe_dictionary::get_uncraft( recipe_name ) );
 
-    if( activity.type == ACT_NULL ) {
+    if( !activity ) {
         // Something above went wrong, don't continue
         return;
     }
@@ -1252,7 +1252,7 @@ void player::complete_disassemble()
     // Try to get another disassembly target from the activity
     if( activity.values.empty() ) {
         // No more targets
-        activity.type = ACT_NULL;
+        activity.set_to_null();
         return;
     }
 
@@ -1263,7 +1263,7 @@ void player::complete_disassemble()
 
     const auto &next_recipe = recipe_dictionary::get_uncraft( activity.str_values.back() );
     if( !next_recipe ) {
-        activity.type = ACT_NULL;
+        activity.set_to_null();
         return;
     }
 
@@ -1281,13 +1281,13 @@ void player::complete_disassemble( int item_pos, const tripoint &loc,
     item &org_item = get_item_for_uncraft( *this, item_pos, loc, from_ground );
     if( org_item.is_null() ) {
         add_msg( _( "The item has vanished." ) );
-        activity.type = ACT_NULL;
+        activity.set_to_null();
         return;
     }
 
     if( org_item.typeId() != dis.result ) {
         add_msg( _( "The item might be gone, at least it is not at the expected position anymore." ) );
-        activity.type = ACT_NULL;
+        activity.set_to_null();
         return;
     }
     // Make a copy to keep its data (damage/components) even after it

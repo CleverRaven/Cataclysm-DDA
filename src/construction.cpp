@@ -680,7 +680,7 @@ void place_construction( const std::string &desc )
     }
 
     const construction &con = *valid.find( dirp )->second;
-    g->u.assign_activity( ACT_BUILD, con.adjusted_time(), con.id );
+    g->u.assign_activity( activity_id( "ACT_BUILD" ), con.adjusted_time(), con.id );
     g->u.activity.placement = dirp;
 }
 
@@ -726,7 +726,7 @@ void complete_construction()
     }
 
     // clear the activity
-    u.activity.type = ACT_NULL;
+    u.activity.set_to_null();
 
     // This comes after clearing the activity, in case the function interrupts
     // activities
