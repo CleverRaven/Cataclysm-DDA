@@ -7430,7 +7430,6 @@
       [ "splinter", 16 ]
     ],
     [
-      [ "water_acid_weak", 3 ],
       [ "water_acid", 2 ],
       [ "acid", 1 ]
     ]
