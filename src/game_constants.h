@@ -85,7 +85,7 @@
 #define MAX_SKILL 10
 
 /** Maximum range for aimed weapons */
-#define MAX_RANGE 30
+#define MAX_RANGE 60
 
 /** Minimum dispersion for shooting */
 #define MIN_DISPERSION 100
