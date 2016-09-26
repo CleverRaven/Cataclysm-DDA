@@ -836,7 +836,7 @@ bool game::start_game(std::string worldname)
     u.next_climate_control_check = 0;  // Force recheck at startup
     u.last_climate_control_ret = false;
 
-    //Reset character safemode/pickup rules
+    //Reset character safe mode/pickup rules
     get_auto_pickup().clear_character_rules();
     get_safemode().clear_character_rules();
 
@@ -1790,7 +1790,7 @@ void game::increase_kill_count( const mtype_id& id )
 void game::handle_key_blocking_activity()
 {
     // If player is performing a task and a monster is dangerously close, warn them
-    // regardless of previous safemode warnings
+    // regardless of previous safe mode warnings
     if( u.activity.type != ACT_NULL && u.activity.type != ACT_AIM &&
         u.activity.moves_left > 0 && !u.activity.warned_of_proximity ) {
         Creature *hostile_critter = is_hostile_very_close();
@@ -3228,6 +3228,8 @@ bool game::handle_action()
                 add_msg( m_info, _( "Creature whitelisted: %s" ), get_safemode().lastmon_whitelist.c_str() );
                 set_safe_mode( SAFE_MODE_ON );
                 mostseen = 0;
+            } else {
+                get_safemode().show();
             }
             break;
 
@@ -6038,7 +6040,7 @@ int game::mon_info(WINDOW *w)
                 vec.push_back( critter.type );
             }
         } else if( p != nullptr ) {
-            //Safemode NPC check
+            //Safe mode NPC check
 
             const int npc_dist = rl_dist( u.pos(), p->pos() );
             safemode_state = get_safemode().check_monster(get_safemode().npc_type_name(), p->attitude_to( u ), npc_dist);
@@ -6079,7 +6081,7 @@ int game::mon_info(WINDOW *w)
         if (safe_mode == SAFE_MODE_ON) {
             set_safe_mode( SAFE_MODE_STOP );
         }
-    } else if (autosafemode && newseen == 0) { // Auto-safemode
+    } else if (autosafemode && newseen == 0) { // Auto-safe mode
         turnssincelastmon++;
         if (turnssincelastmon >= get_option<int>( "AUTOSAFEMODETURNS" ) && safe_mode == SAFE_MODE_OFF) {
             set_safe_mode( SAFE_MODE_ON );
