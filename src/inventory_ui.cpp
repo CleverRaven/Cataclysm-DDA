@@ -939,11 +939,7 @@ void inventory_selector::draw_footer( WINDOW *w ) const
         msg_color = i_red;
     }
 
-    if( are_columns_centered() ) {
-        center_print( w, getmaxy( w ) - 1, msg_color, "%s", msg_str.c_str() );
-    } else {
-        trim_and_print( w, getmaxy( w ) - 1, 1, getmaxx( w ), msg_color, "%s", msg_str.c_str() );
-    }
+    center_print( w, getmaxy( w ) - 1, msg_color, "%s", msg_str.c_str() );
 }
 
 inventory_selector::inventory_selector( const player &u, const inventory_selector_preset &preset )
@@ -1264,7 +1260,8 @@ std::list<std::pair<int, int>> inventory_drop_selector::execute()
 
 void inventory_drop_selector::set_drop_count( inventory_entry &entry, size_t count )
 {
-    const auto iter = dropping.find( &*entry.location );
+    const item *it = &*entry.location;
+    const auto iter = dropping.find( it );
 
     if( count == 0 && iter != dropping.end() ) {
         entry.chosen_count = 0;
@@ -1273,7 +1270,7 @@ void inventory_drop_selector::set_drop_count( inventory_entry &entry, size_t cou
         entry.chosen_count = ( count == 0 )
             ? entry.get_available_count()
             : std::min( count, entry.get_available_count() );
-        dropping[&*entry.location] = entry.chosen_count;
+        dropping[it] = entry.chosen_count;
     }
 
     on_change( entry );

@@ -4338,7 +4338,7 @@ bool item::gunmod_compatible( const item& mod, std::string *msg ) const
         return error( string_format( _( "is already waterproof" ), tname().c_str() ) );
 
     } else if( mod.typeId() == "tuned_mechanism" && has_flag( "NEVER_JAMS" ) ) {
-        return error( string_format( _( "is eminently reliable and can't be improved this way" ) ) );
+        return error( string_format( _( "is already eminently reliable" ) ) );
 
     } else if( mod.typeId() == "brass_catcher" && has_flag( "RELOAD_EJECT" ) ) {
         return error( string_format( _( "cannot have a brass catcher" ) ) );
