@@ -225,7 +225,7 @@ const recipe *select_crafting_recipe( int &batch_size )
 
                 std::transform( current.begin(), current.end(),
                 std::back_inserter( available ), [&]( const recipe * e ) {
-                    return e->can_make_with_inventory( crafting_inv, helpers );
+                    return availability_cache[e];
                 } );
             }
         }
