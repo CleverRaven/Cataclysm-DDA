@@ -48,7 +48,7 @@
               window.document.body.style.cursor = "default";
           }
 
-          xhr.send(encodeURI('data=' + txt.value));
+          xhr.send('data=' + encodeURIComponent(txt.value));
 
           txt.disabled = true;
           cmd.disabled = true;
