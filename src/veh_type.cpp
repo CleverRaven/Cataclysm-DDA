@@ -563,6 +563,10 @@ requirement_data vpart_info::repair_requirements() const
 }
 
 static int scale_time( const std::map<skill_id, int> &sk, int mv, const Character &ch ) {
+    if( sk.empty() ) {
+        return mv;
+    }
+
     int lvl = std::accumulate( sk.begin(), sk.end(), 0, [&ch]( int lhs, const std::pair<skill_id,int>& rhs ) {
         return lhs + std::max( rhs.second - std::min( ch.get_skill_level( rhs.first ).level(), MAX_SKILL ), 0 );
     } );
