@@ -12,7 +12,8 @@
     "special_attacks": [
       {
         "type": "bite",
-        "cooldown": 10
+        "cooldown": 10,
+        "no_infection_chance": 3
       }
     ],
     "flags": [ "SEES", "HEARS", "SMELLS", "CAN_DIG", "LARVA" ]
@@ -293,7 +294,7 @@
       {
         "type": "bite",
         "cooldown": 3,
-        "no_infection_chance": 5
+        "no_infection_chance": 4
       }
     ],
     "anger_triggers": [ "PLAYER_WEAK", "FRIEND_ATTACKED", "SOUND", "FIRE" ],

@@ -595,7 +595,7 @@
         "type": "bite",
         "cooldown": 20,
         "min_mul": 0.5,
-        "no_infection_chance": 20,
+        "no_infection_chance": 15,
         "//": "baby dionaea bitch"
       }
     ],
@@ -644,7 +644,7 @@
         "type": "bite",
         "cooldown": 12,
         "min_mul": 0.85,
-        "no_infection_chance": 10,
+        "no_infection_chance": 15,
         "//": "dionaea bitch"
       },
       [ "VINE", 15 ],

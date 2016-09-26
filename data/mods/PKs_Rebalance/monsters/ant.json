@@ -46,6 +46,7 @@
         "type": "bite",
         "cooldown": 20,
         "accuracy": 5,
+        "no_infection_chance": 9,
         "damage_max_instance": [
           {
             "damage_type": "stab",
@@ -96,6 +97,7 @@
         "type": "bite",
         "cooldown": 15,
         "accuracy": 8,
+        "no_infection_chance": 9,
         "damage_max_instance": [
           {
             "damage_type": "stab",
@@ -210,6 +212,7 @@
         "type": "bite",
         "cooldown": 12,
         "accuracy": 15,
+        "no_infection_chance": 9,
         "damage_max_instance": [
           {
             "damage_type": "stab",
@@ -266,6 +269,7 @@
         "type": "bite",
         "cooldown": 15,
         "accuracy": 10,
+        "no_infection_chance": 9,
         "damage_max_instance": [
           {
             "damage_type": "stab",
@@ -327,6 +331,7 @@
         "type": "bite",
         "cooldown": 25,
         "accuracy": 10,
+        "no_infection_chance": 9,
         "damage_max_instance": [
           {
             "damage_type": "stab",
@@ -398,6 +403,7 @@
         "type": "bite",
         "cooldown": 25,
         "accuracy": 10,
+        "no_infection_chance": 9,
         "damage_max_instance": [
           {
             "damage_type": "stab",
