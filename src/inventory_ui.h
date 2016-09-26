@@ -110,8 +110,9 @@ class inventory_selector_preset
             return true;
         }
 
-        virtual bool is_enabled( const item_location & ) const {
-            return true;
+        /// @return The reason why this entry cannot be selected
+        virtual std::string get_denial( const item_location & ) const {
+            return std::string();
         }
         /// @return Whether the first item is considered to go before the second
         virtual bool sort_compare( const item_location &lhs, const item_location &rhs ) const;
@@ -156,6 +157,7 @@ class inventory_column
             entries_per_page( 1 ) {
 
             cell_widths.resize( preset.get_cells_count(), 0 );
+            min_cell_widths.resize( preset.get_cells_count(), 0 );
         }
 
         virtual ~inventory_column() {}
@@ -243,8 +245,10 @@ class inventory_column
 
         size_t get_entry_indent( const inventory_entry &entry, size_t cell_index = 0 ) const;
         size_t get_entry_cell_width( const inventory_entry &entry, size_t cell_index ) const;
+        std::string get_entry_denial( const inventory_entry &entry ) const;
 
-        std::vector<size_t> cell_widths;
+        std::vector<size_t> cell_widths;        /// Current cell widths (can be affected by set_width())
+        std::vector<size_t> min_cell_widths;    /// Minimal cell widths (to embrace all the entries nicely)
 
         const inventory_selector_preset &preset;
 

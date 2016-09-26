@@ -163,41 +163,48 @@ class gunmod_inventory_preset: public inventory_selector_preset
 {
     public:
         gunmod_inventory_preset( const player &p, const item &gunmod ) : p( p ), gunmod( gunmod ) {
-            append_cell( [ this ]( const item_location & loc ) {
-                if( !is_enabled( loc ) ) {
-                    return std::string();
-                }
-                const auto odds = get_odds( *loc );
-                return odds.second != 0 ? string_format( "<color_red>%d%%</color>", odds.second ) : std::string();
-            }, _( "DAMAGE" ) );
-
             append_cell( [ this ]( const item_location & loc ) -> std::string {
-                const std::string error = get_error( *loc );
+                const auto odds = get_odds( loc );
 
-                if( !error.empty() ) {
-                    return error;
-                }
-
-                const auto odds = get_odds( *loc );
-                if( odds.first <= 0 ) {
-                    return _( "is too difficult for you to modify" );
+                if( odds.first >= 100 ) {
+                    return _( "<color_ltgreen>always</color>" );
                 }
 
                 return string_format( "<color_ltgreen>%d%%</color>", odds.first );
             }, _( "SUCCESS" ) );
+
+            append_cell( [ this ]( const item_location & loc ) {
+                const auto odds = get_odds( loc );
+                return odds.second > 0 ? string_format( "<color_red>%d%%</color>", odds.second ) : std::string();
+            }, _( "DAMAGE" ) );
         }
 
         bool is_shown( const item_location &loc ) const override {
             return loc->is_gun() && !loc->is_gunmod();
         }
 
-        bool is_enabled( const item_location &loc ) const override {
-            return get_error( *loc ).empty() && get_odds( *loc ).first > 0;
+        std::string get_denial( const item_location &loc ) const override {
+            std::string incompatability;
+
+            if( !loc->gunmod_compatible( gunmod, &incompatability ) ) {
+                return incompatability;
+            }
+
+            if( !p.meets_requirements( gunmod, *loc ) ) {
+                return string_format( _( "requires at least %s" ),
+                                      p.enumerate_unmet_requirements( gunmod, *loc ).c_str() );
+            }
+
+            if( get_odds( loc ).first <= 0 ) {
+                return _( "is too difficult for you to modify" );
+            }
+
+            return std::string();
         }
 
         bool sort_compare( const item_location &lhs, const item_location &rhs ) const override {
-            const auto a = get_odds( *lhs );
-            const auto b = get_odds( *rhs );
+            const auto a = get_odds( lhs );
+            const auto b = get_odds( rhs );
 
             if( a.first > b.first || ( a.first == b.first && a.second < b.second ) ) {
                 return true;
@@ -207,23 +214,8 @@ class gunmod_inventory_preset: public inventory_selector_preset
         }
 
     protected:
-        std::string get_error( const item &gun ) const {
-            std::string incompatability;
-
-            if( !gun.gunmod_compatible( gunmod, &incompatability ) ) {
-                return incompatability;
-            }
-
-            if( !p.meets_requirements( gunmod, gun ) ) {
-                return string_format( _( "requires at least %s" ),
-                                      p.enumerate_unmet_requirements( gunmod, gun ).c_str() );
-            }
-
-            return std::string();
-        }
-
-        std::pair<int, int> get_odds( const item &gun ) const {
-            return p.gunmod_installation_odds( gun, gunmod );
+        std::pair<int, int> get_odds( const item_location &gun ) const {
+            return p.gunmod_installation_odds( *gun, gunmod );
         }
 
     private:

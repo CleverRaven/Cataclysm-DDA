@@ -217,6 +217,11 @@ size_t inventory_column::get_entry_cell_width( const inventory_entry &entry, siz
     return own_width > 0 ? own_width + get_entry_indent( entry, cell_index ) : 0;
 }
 
+std::string inventory_column::get_entry_denial( const inventory_entry &entry ) const
+{
+    return entry.location ? preset.get_denial( entry.location ) : std::string();
+}
+
 void inventory_column::set_width( const size_t width )
 {
     reset_width();
@@ -224,8 +229,9 @@ void inventory_column::set_width( const size_t width )
     // Now adjust the width if we must
     while( width_gap != 0 ) {
         const int step = width_gap > 0 ? -1 : 1;
-        // Don't consider hidden ( width == 0 ) as the smallest
-        const auto cmp_min = []( int a, int b ) { return a > 0 && a < b; };
+        const auto cmp_min = []( int a, int b ) {
+            return a > 0 && a < b; // Don't consider hidden ( width == 0 ) as the smallest
+        };
 
         size_t &cell_width = step > 0
             ? *std::min_element( cell_widths.begin(), cell_widths.end(), cmp_min )
@@ -251,22 +257,35 @@ void inventory_column::set_height( size_t height ) {
 
 void inventory_column::expand_to_fit( const inventory_entry &entry )
 {
-    for( size_t cell_index = 0; cell_index < cell_widths.size(); ++cell_index ) {
-        size_t &cell_width = cell_widths[cell_index];
+    assert( cell_widths.size() == min_cell_widths.size() );
 
-        if( cell_width > 0 || entry.location ) { // Don't expand for titles
-            cell_width = std::max( cell_width, get_entry_cell_width( entry, cell_index ) );
-        }
+    if( cell_widths.empty() ) {
+        return; // Sanity check
     }
 
+    const std::string denial = get_entry_denial( entry );
+
+    for( size_t i = 0, num = denial.empty() ? min_cell_widths.size() : 1; i < num; ++i ) {
+        size_t &cell_width = min_cell_widths[i];
+
+        if( cell_width > 0 || entry.location ) { // Don't expand for titles
+            cell_width = std::max( cell_width, get_entry_cell_width( entry, i ) );
+        }
+
+        cell_widths[i] = std::max( cell_widths[i], cell_width );
+    }
+
+    if( !denial.empty() ) {
+        const size_t min_width = min_cell_widths.front() + min_cell_gap + utf8_width( denial, true );
+        if( min_width > get_width() ) {
+            set_width( min_width );
+        }
+    }
 }
 
 void inventory_column::reset_width()
 {
-    std::fill( cell_widths.begin(), cell_widths.end(), 0 );
-    for( const auto &elem : entries ) {
-        expand_to_fit( elem );
-    }
+    cell_widths = min_cell_widths;
 }
 
 size_t inventory_column::page_of( size_t index ) const {
@@ -488,13 +507,25 @@ void inventory_column::draw( WINDOW *win, size_t x, size_t y ) const
             }
         }
 
-        for( size_t cell_index = 0, count = preset.get_cells_count(); cell_index < count; ++cell_index ) {
-            if( line != 0 && cell_index != 0 && !entry.location ) {
-                break; // Don't show duplicated titles
-            }
+        const std::string &denial = get_entry_denial( entry );
 
+        if( !denial.empty() ) {
+            const size_t real_denial_width = utf8_width( denial, true );
+            const size_t max_denial_width = std::max( int( get_width() - min_cell_gap - min_cell_widths.front() ), 0 );
+            const size_t denial_width = std::min( real_denial_width, max_denial_width );
+
+            trim_and_print( win, yy, x + get_width() - denial_width, denial_width, c_dkgray, "%s", denial.c_str() );
+        }
+
+        const size_t count = denial.empty() ? cell_widths.size() : 1;
+
+        for( size_t cell_index = 0; cell_index < count; ++cell_index ) {
             if( cell_widths[cell_index] == 0 ) {
                 continue; // Don't show empty cells
+            }
+
+            if( line != 0 && cell_index != 0 && !entry.location ) {
+                break; // Don't show duplicated titles
             }
 
             x2 += cell_widths[cell_index];
@@ -660,7 +691,7 @@ void inventory_selector::add_item( inventory_column &target_column,
 
     items.push_back( location.clone() );
     inventory_entry entry( items.back(), stack_size, custom_category,
-                           preset.is_enabled( location ) );
+                           preset.get_denial( location ).empty() );
 
     target_column.add_entry( entry );
     on_entry_add( entry );
@@ -988,7 +1019,7 @@ bool inventory_selector::empty() const
 bool inventory_selector::has_available_choices() const
 {
     return std::any_of( items.begin(), items.end(), [ this ]( const item_location &loc ) {
-        return preset.is_enabled( loc );
+        return preset.get_denial( loc ).empty();
     } );
 }
 
