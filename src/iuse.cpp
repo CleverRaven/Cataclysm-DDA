@@ -3352,19 +3352,27 @@ int iuse::pickaxe(player *p, item *it, bool, const tripoint& )
         p->add_msg_if_player(_("yourself into a hole.  You stop digging."));
         return 0;
     }
+
     int turns;
-    if (g->m.is_bashable(dirx, diry) && (g->m.has_flag("SUPPORTS_ROOF", dirx, diry) || g->m.has_flag("MINEABLE", dirx, diry)) &&
-        g->m.ter(dirx, diry) != t_tree) {
-        // Takes about 120 minutes (two hours) base time.  Construction skill can speed this.
+    if( g->m.is_bashable( dirx, diry ) && g->m.ter( dirx, diry ) != t_tree &&
+        ( g->m.has_flag( "SUPPORTS_ROOF", dirx, diry ) || g->m.has_flag( "MINEABLE", dirx, diry ) ) ) {
+
+        ///\EFFECT_STR speeds up mining with a pickaxe
+        turns = ( ( MAX_STAT + 4 ) - std::min( p->str_cur, MAX_STAT ) ) * 10000;
+
         ///\EFFECT_CARPENTRY speeds up mining with a pickaxe
-        turns = 120000 / ( sqrt( std::min( p->get_skill_level( skill_carpentry ), 10 ) + 1 ) )
+        turns /= sqrt( std::min( int( p->get_skill_level( skill_carpentry ) ), MAX_SKILL ) + 1 );
+
     } else if (g->m.move_cost(dirx, diry) == 2 && g->get_levz() == 0 &&
                g->m.ter(dirx, diry) != t_dirt && g->m.ter(dirx, diry) != t_grass) {
+
         turns = 20000;
+
     } else {
         p->add_msg_if_player(m_info, _("You can't mine there."));
         return 0;
     }
+
     p->assign_activity(ACT_PICKAXE, turns, -1, p->get_item_position(it));
     p->activity.placement = tripoint(dirx, diry, p->posz()); // TODO: Z
     p->add_msg_if_player(_("You attack the %1$s with your %2$s."),
