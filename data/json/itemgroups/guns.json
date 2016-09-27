@@ -220,7 +220,8 @@
       [ "rifle_22", 60 ],
       [ "rifle_3006", 30 ],
       [ "rifle_9mm", 60 ],
-      [ "surv_carbine_223", 120 ]
+      [ "surv_carbine_223", 120 ],
+      [ "carbine_flintlock_double", 30 ]
     ]
   },
   {
