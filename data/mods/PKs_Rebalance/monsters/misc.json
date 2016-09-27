@@ -767,7 +767,7 @@
     "death_function":"NORMAL",
     "description":"A bobbing, gray-speckled pidgeon, scavanging off the decaying cities as they did the living ones before the apocolypse.",
     "flags":["SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "FLIES", "BONES", "FEATHER", "SWARMS"],
-    "fear_triggers":["PLAYER_CLOSE", "HURT", "FRIEND_DIED", "FRIEND_ATTACKED"],
+    "fear_triggers":["PLAYER_CLOSE", "HURT", "FRIEND_DIED"],
     "placate_triggers":["SOUND"],
     "categories":["WILDLIFE"]
     },
