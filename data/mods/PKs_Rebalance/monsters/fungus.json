@@ -949,7 +949,7 @@
         "type": "bite",
         "cooldown": 60,
         "min_mul": 0.8,
-        "no_infection_chance": 15,
+        "no_infection_chance": 15
       },
       [ "VINE", 15 ],
       [ "RANGED_PULL", 7 ],
