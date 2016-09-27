@@ -65,7 +65,7 @@ const std::set<const recipe *> &recipe_dictionary::of_component( const itype_id 
 
 void recipe_dictionary::load( JsonObject &jo, const std::string &src, bool uncraft )
 {
-    bool strict = false; // @todo enable strict parsing for core recipes
+    bool strict = src == "core";
 
     recipe r;
 

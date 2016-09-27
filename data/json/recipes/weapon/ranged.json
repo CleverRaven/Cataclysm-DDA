@@ -29,7 +29,6 @@
     "skills_required": [ "rifle", 4 ],
     "difficulty": 8,
     "time": 240000,
-    "reversible": false,
     "autolearn": true,
     "book_learn": [[ "manual_rifle", 5 ] , [ "mag_rifle", 6 ]],
     "qualities": [
@@ -59,7 +58,6 @@
     "skills_required": [ "rifle", 4 ],
     "difficulty": 7,
     "time": 240000,
-    "reversible": false,
     "autolearn": true,
     "book_learn": [[ "manual_rifle", 5 ] , [ "mag_rifle", 6 ]],
     "qualities": [
@@ -89,7 +87,6 @@
     "skills_required": [ "pistol", 4 ],
     "difficulty": 8,
     "time": 80000,
-    "reversible": false,
     "autolearn": true,
     "book_learn": [[ "manual_pistol", 5 ] , [ "mag_pistol", 6 ]],
     "qualities":[
