@@ -252,7 +252,9 @@ size_t inventory_column::get_entry_cell_width( const inventory_entry &entry, siz
 
 size_t inventory_column::get_cells_width() const
 {
-    return std::accumulate( cell_widths.begin(), cell_widths.end(), size_t( 0 ) );
+    return std::accumulate( cells.begin(), cells.end(), size_t( 0 ), []( size_t lhs, const cell_t &cell ) {
+        return lhs + cell.current_width;
+    } );
 }
 
 std::string inventory_column::get_entry_denial( const inventory_entry &entry ) const
@@ -268,17 +270,24 @@ void inventory_column::set_width( const size_t width )
     // Now adjust the width if we must
     while( width_gap != 0 ) {
         const int step = width_gap > 0 ? -1 : 1;
-        const auto cmp_min = []( int a, int b ) {
-            return a > 0 && a < b; // Don't consider hidden ( width == 0 ) as the smallest
+        const auto cmp_min = []( const cell_t &lhs, const cell_t &rhs ) {
+            // Never consider hidden as the smallest
+            return lhs.visible() && lhs.current_width < rhs.current_width;
         };
 
-        size_t &cell_width = step > 0
-            ? *std::min_element( cell_widths.begin(), cell_widths.end(), cmp_min )
-            : *std::max_element( cell_widths.begin(), cell_widths.end() );
-        if( cell_width == 0 ) {
+        const auto cmp_max = []( const cell_t &lhs, const cell_t &rhs ) {
+            return lhs.current_width > rhs.current_width;
+        };
+
+        const auto &cell = step > 0
+            ? std::min_element( cells.begin(), cells.end(), cmp_min )
+            : std::max_element( cells.begin(), cells.end(), cmp_max );
+
+        if( cell == cells.end() || !cell->visible() ) {
             break; // This is highly unlikely to happen, but just in case
         }
-        cell_width += step;
+
+        cell->current_width += step;
         width_gap += step;
     }
 }
@@ -296,22 +305,20 @@ void inventory_column::set_height( size_t height ) {
 
 void inventory_column::expand_to_fit( const inventory_entry &entry )
 {
-    assert( cell_widths.size() == min_cell_widths.size() );
-
     if( !entry ) {
         return;
     }
 
     const std::string denial = get_entry_denial( entry );
 
-    for( size_t i = 0, num = denial.empty() ? min_cell_widths.size() : 1; i < num; ++i ) {
-        size_t &cell_width = min_cell_widths[i];
+    for( size_t i = 0, num = denial.empty() ? cells.size() : 1; i < num; ++i ) {
+        auto &cell = cells[i];
 
-        if( cell_width > 0 || entry.is_item() ) { // Don't expand for titles
-            cell_width = std::max( cell_width, get_entry_cell_width( entry, i ) );
+        cell.real_width = std::max( cell.real_width, get_entry_cell_width( entry, i ) );
+
+        if( cell.visible() || entry.is_item() ) { // Don't expand for titles
+            cell.current_width = std::max( cell.current_width, cell.real_width );
         }
-
-        cell_widths[i] = std::max( cell_widths[i], cell_width );
     }
 
     if( !denial.empty() ) {
@@ -322,7 +329,9 @@ void inventory_column::expand_to_fit( const inventory_entry &entry )
 
 void inventory_column::reset_width()
 {
-    cell_widths = min_cell_widths;
+    for( auto &e : cells ) {
+        e.reset();
+    }
     reserved_width = 0;
 }
 
@@ -519,7 +528,7 @@ void inventory_column::draw( WINDOW *win, size_t x, size_t y ) const
     }
 
     const auto available_cell_width = [ this ]( const inventory_entry &entry, const size_t cell_index ) {
-        const size_t displayed_width = cell_widths[cell_index];
+        const size_t displayed_width = cells[cell_index].current_width;
         const size_t real_width = get_entry_cell_width( entry, cell_index );
 
         return displayed_width > real_width ? displayed_width - real_width : 0;
@@ -539,7 +548,7 @@ void inventory_column::draw( WINDOW *win, size_t x, size_t y ) const
 
         const bool selected = active && is_selected( entry );
 
-        if( selected && cell_widths.size() > 1 ) {
+        if( selected && cells.size() > 1 ) {
             for( int hx = x1, hx_max = x + get_width(); hx < hx_max; ++hx ) {
                 mvwputch( win, yy, hx, h_white, ' ' );
             }
@@ -554,10 +563,10 @@ void inventory_column::draw( WINDOW *win, size_t x, size_t y ) const
             trim_and_print( win, yy, x + get_width() - denial_width, denial_width, c_red, "%s", denial.c_str() );
         }
 
-        const size_t count = denial.empty() ? cell_widths.size() : 1;
+        const size_t count = denial.empty() ? cells.size() : 1;
 
         for( size_t cell_index = 0; cell_index < count; ++cell_index ) {
-            if( cell_widths[cell_index] == 0 ) {
+            if( !cells[cell_index].visible() ) {
                 continue; // Don't show empty cells
             }
 
@@ -565,7 +574,7 @@ void inventory_column::draw( WINDOW *win, size_t x, size_t y ) const
                 break; // Don't show duplicated titles
             }
 
-            x2 += cell_widths[cell_index];
+            x2 += cells[cell_index].current_width;
 
             size_t text_width = preset.get_cell_width( entry, cell_index );
             size_t available_width = x2 - x1;

@@ -173,8 +173,7 @@ class inventory_column
 {
     public:
         inventory_column( const inventory_selector_preset &preset = default_preset ) : preset( preset ) {
-            cell_widths.resize( preset.get_cells_count(), 0 );
-            min_cell_widths.resize( preset.get_cells_count(), 0 );
+            cells.resize( preset.get_cells_count() );
         }
 
         virtual ~inventory_column() {}
@@ -300,9 +299,6 @@ class inventory_column
 
         std::string get_entry_denial( const inventory_entry &entry ) const;
 
-        std::vector<size_t> cell_widths;        /// Current cell widths (can be affected by set_width())
-        std::vector<size_t> min_cell_widths;    /// Minimal cell widths (to embrace all the entries nicely)
-
         const inventory_selector_preset &preset;
 
         std::vector<inventory_entry> entries;
@@ -316,6 +312,26 @@ class inventory_column
         size_t page_offset = 0;
         size_t entries_per_page = 1;
         size_t reserved_width = 0;
+
+    private:
+        struct cell_t {
+            size_t current_width;   /// Current cell widths (can be affected by set_width())
+            size_t real_width;      /// Minimal cell widths (to embrace all the entries nicely)
+
+            cell_t( size_t current_width = 0, size_t real_width = 0 ) :
+                current_width( current_width ),
+                real_width( real_width ) {}
+
+            bool visible() const {
+                return current_width > 0;
+            }
+
+            void reset() {
+                current_width = real_width;
+            }
+        };
+
+        std::vector<cell_t> cells;
 };
 
 class selection_column : public inventory_column
