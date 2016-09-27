@@ -699,6 +699,9 @@ void veh_interact::do_install()
         if (action == "FILTER" ){
             filter = string_input_popup( _("Set Filter"),
                                         50, filter, "", "", 100, false);
+            tab = 7;//Move to the user filter tab.
+            display_veh();
+            display_contents();
         }
         if (action == "RESET_FILTER" ){
             filter="";
