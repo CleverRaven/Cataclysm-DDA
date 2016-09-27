@@ -99,7 +99,7 @@
     "time": 420000,
     "autolearn": true,
     "book_learn": [ [ "textbook_carpentry", 5 ], [ "textbook_fabrication", 6 ] ],
-    "using": [ [ "forging_standard", 4 ], [ "steel_standard", 4 ] ],
+    "using": [ [ "forging_standard", 2 ], [ "steel_standard", 2 ] ],
     "qualities": [
       { "id": "HAMMER", "level": 3 },
       { "id": "CHISEL", "level": 3 }
