@@ -36,6 +36,13 @@
     "melee_dice": 1,
     "melee_dice_sides": 2,
     "melee_cut": 2,
+    "special_attacks": [
+      {
+        "type": "bite",
+        "cooldown": 5,
+        "no_infection_chance": 2
+      }
+    ],
     "attack_effs": [
       {
         "id": "doom_unhealth",
@@ -67,7 +74,8 @@
       {
         "type": "bite",
         "cooldown": 5,
-        "min_mul": 0.5
+        "min_mul": 0.5,
+        "no_infection_chance": 4
       }
     ],
     "anger_triggers": [ "PLAYER_WEAK", "FRIEND_ATTACKED", "FRIEND_DIED", "HURT" ],
@@ -163,7 +171,7 @@
         "type": "bite",
         "cooldown": 20,
         "min_mul": 0.75,
-        "no_infection_chance": 3,
+        "no_infection_chance": 6,
         "//": "strong jaws"
       }
     ]
@@ -199,7 +207,7 @@
         "type": "bite",
         "cooldown": 20,
         "min_mul": 0.8,
-        "no_infection_chance": 3,
+        "no_infection_chance": 6,
         "//": "strong jaws"
       }
     ],
@@ -240,7 +248,7 @@
         "type": "bite",
         "cooldown": 20,
         "min_mul": 0.75,
-        "no_infection_chance": 3,
+        "no_infection_chance": 6,
         "//": "strong jaws"
       }
     ],
@@ -403,7 +411,8 @@
       {
         "type": "bite",
         "cooldown": 20,
-        "min_mul": 0.5
+        "min_mul": 0.5,
+        "no_infection_chance": 4
       }
     ],
     "anger_triggers": [ "STALK", "HURT", "FRIEND_ATTACKED", "PLAYER_WEAK" ],
@@ -530,7 +539,7 @@
         "type": "bite",
         "cooldown": 7,
         "min_mul": 0.5,
-        "no_infection_chance": 20,
+        "no_infection_chance": 5,
         "//": "strong jaws"
       }
     ],
@@ -657,6 +666,7 @@
         "type": "bite",
         "cooldown": 20,
         "accuracy": 6,
+        "no_infection_chance": 2,
         "damage_max_instance": [
           {
             "damage_type": "stab",
@@ -715,7 +725,7 @@
         "type": "bite",
         "cooldown": 30,
         "accuracy": 7,
-        "no_infection_chance": 3
+        "no_infection_chance": 5
       }
     ],
     "anger_triggers": [ "PLAYER_CLOSE", "PLAYER_WEAK", "FRIEND_ATTACKED" ],
@@ -763,7 +773,7 @@
         "type": "bite",
         "cooldown": 30,
         "accuracy": 8,
-        "no_infection_chance": 3
+        "no_infection_chance": 5
       }
     ],
     "anger_triggers": [ "PLAYER_CLOSE", "PLAYER_WEAK", "SOUND", "STALK", "FIRE", "FRIEND_ATTACKED" ],
@@ -809,7 +819,7 @@
         "type": "bite",
         "cooldown": 20,
         "accuracy": 6,
-        "no_infection_chance": 3
+        "no_infection_chance": 5
       }
     ],
     "anger_triggers": [ "PLAYER_CLOSE", "PLAYER_WEAK", "FRIEND_ATTACKED", "FIRE" ],
@@ -855,7 +865,7 @@
         "type": "bite",
         "cooldown": 20,
         "accuracy": 5,
-        "no_infection_chance": 3
+        "no_infection_chance": 5
       }
     ],
     "anger_triggers": [ "PLAYER_WEAK", "FRIEND_ATTACKED", "FIRE" ],
@@ -900,7 +910,8 @@
       {
         "type": "bite",
         "cooldown": 30,
-        "accuracy": 9
+        "accuracy": 9,
+        "no_infection_chance": 9
       }
     ],
     "anger_triggers": [ "FRIEND_ATTACKED", "PLAYER_WEAK", "MEAT", "FIRE", "FIRE" ],

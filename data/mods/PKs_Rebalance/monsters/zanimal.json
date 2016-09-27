@@ -80,7 +80,6 @@
         "type": "bite",
         "cooldown": 7,
         "min_mul": 0.5,
-        "no_infection_chance": 5,
         "//": "strong jaws"
       }
     ],
@@ -340,7 +339,7 @@
         "type": "bite",
         "cooldown": 15,
         "min_mul": 0.75,
-        "no_infection_chance": 5,
+        "no_infection_chance": 3,
         "//": "strong jaws"
       }
     ],

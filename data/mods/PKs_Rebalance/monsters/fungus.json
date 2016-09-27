@@ -12,7 +12,7 @@
     "vision_night": 2,
     "starting_ammo": { "bot_fungal_boil": 4 },
     "special_attacks": [
-      [ "FUNGUS_BRISTLE", 10 ],
+      [ "FUNGUS_BRISTLE", 20 ],
       [ "FUNGUS", 240 ],
       [ "TENTACLE", 50 ],
       [ "GRENADIER", 120 ]
@@ -304,7 +304,7 @@
         "type": "bite",
         "cooldown": 7,
         "min_mul": 0.65,
-        "no_infection_chance": 20,
+        "no_infection_chance": 9,
         "//": "strong jaws"
       }
     ],
@@ -351,6 +351,7 @@
         "type": "bite",
         "cooldown": 40,
         "accuracy": 7,
+        "no_infection_chance": 9,
         "damage_max_instance": [
           {
             "damage_type": "stab",
@@ -484,7 +485,8 @@
       {
         "type": "bite",
         "cooldown": 20,
-        "min_mul": 1
+        "min_mul": 1,
+        "no_infection_chance": 5
       },
       [ "GRAB", 15 ]
     ],
@@ -532,7 +534,8 @@
       {
         "type": "bite",
         "cooldown": 30,
-        "min_mul": 1
+        "min_mul": 1,
+        "no_infection_chance": 5
       },
       [ "GRAB", 12 ],
       {
@@ -598,7 +601,8 @@
       {
         "type": "bite",
         "cooldown": 30,
-        "min_mul": 1
+        "min_mul": 1,
+        "no_infection_chance": 5
       },
       [ "GRAB", 30 ],
       {
@@ -661,7 +665,8 @@
       {
         "type": "bite",
         "cooldown": 30,
-        "min_mul": 1
+        "min_mul": 1,
+        "no_infection_chance": 5
       },
       [ "GRAB", 60 ],
       [ "FUNGUS", 300 ],
@@ -727,7 +732,8 @@
       {
         "type": "bite",
         "cooldown": 30,
-        "min_mul": 1
+        "min_mul": 1,
+        "no_infection_chance": 5
       },
       [ "GRAB", 30 ],
       {
@@ -795,7 +801,8 @@
       {
         "type": "bite",
         "cooldown": 30,
-        "min_mul": 1
+        "min_mul": 1,
+        "no_infection_chance": 5
       },
       [ "GRAB", 30 ],
       [ "IMPALE", 30 ],
@@ -843,11 +850,6 @@
       [ "FUNGUS_INJECT", 40 ],
       [ "FEAR_PARALYZE", 15 ],
       [ "FUNGUS_BRISTLE", 40 ],
-      {
-        "type": "bite",
-        "cooldown": 60,
-        "min_mul": 1
-      },
       {
         "type": "gun",
         "cooldown": 7,
@@ -947,8 +949,7 @@
         "type": "bite",
         "cooldown": 60,
         "min_mul": 0.8,
-        "no_infection_chance": 10,
-        "//": "dionaea bitch"
+        "no_infection_chance": 15
       },
       [ "VINE", 15 ],
       [ "RANGED_PULL", 7 ],
@@ -1024,7 +1025,8 @@
       [ "SHOCKSTORM", 50 ],
       {
         "type": "bite",
-        "cooldown": 12
+        "cooldown": 12,
+        "no_infection_chance": 3
       }
     ],
     "special_when_hit": [ "ZAPBACK", 40 ],
@@ -1068,7 +1070,8 @@
       [ "FUNGUS", 60 ],
       {
         "type": "bite",
-        "cooldown": 3
+        "cooldown": 3,
+        "no_infection_chance": 5
       }
     ],
     "anger_triggers": [ "PLAYER_WEAK", "PLAYER_CLOSE" ],

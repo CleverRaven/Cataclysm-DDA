@@ -36,7 +36,8 @@
       },
       {
         "type": "bite",
-        "cooldown": 60
+        "cooldown": 30,
+        "no_infection_chance": 3
       },
       {
         "type": "gun",
@@ -97,7 +98,8 @@
       },
       {
         "type": "bite",
-        "cooldown": 60
+        "cooldown": 30,
+        "no_infection_chance": 3
       },
       {
         "type": "gun",
@@ -156,6 +158,7 @@
         "type": "bite",
         "cooldown": 5,
         "accuracy": 4,
+        "no_infection_chance": 3,
         "damage_max_instance": [
           {
             "damage_type": "stab",
