@@ -499,7 +499,7 @@ int player::fire_gun( const tripoint &target, int shots, item& gun )
             break;
         }
 
-        double dispersion = std::max(MIN_DISPERSION, rng_normal( get_weapon_dispersion( gun ) ) + rng_normal( recoil_total() ) );
+        double dispersion = rng_normal( get_weapon_dispersion( gun ) ) + rng_normal( recoil_total() );
         int range = rl_dist( pos(), aim );
 
         auto shot = projectile_attack( make_gun_projectile( gun ), aim, dispersion );
