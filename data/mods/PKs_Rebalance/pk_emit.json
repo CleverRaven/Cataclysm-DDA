@@ -95,6 +95,14 @@
     "chance": 1,
     "density": 1
   },{
+    "id": "emit_fungacidal_small",
+    "type": "emit",
+    "//": "A wafts of fungacidal gas (example: butterfly)",
+    "field": "fd_fungal_haze",
+    "density": 1,
+    "qty": 2,
+    "chance": 2
+  },{
     "id": "emit_radiation_revenant_rocket",
     "type": "emit",
     "//": "Radiactive gas leaking. (example: revenant rocket missile)",
@@ -118,6 +126,7 @@
     "type": "emit",
     "//": "A compact explosion of toxic gas (example: fire bomblet)",
     "field": "fd_smoke",
+    "density": 2,
     "qty": 8
   },{
     "id": "emit_fire_bomblet",
