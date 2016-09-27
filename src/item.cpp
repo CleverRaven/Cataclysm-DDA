@@ -1486,11 +1486,6 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
         }
 
         //lets display which martial arts styles character can use with this weapon
-        if( has_flag( "UNARMED_WEAPON" ) ) {
-            info.push_back( iteminfo( "DESCRIPTION",
-                                      _( "This weapon <good>can be used with</good> <info>unarmed fighting styles</info>." ) ) );
-        }
-
         const auto &styles = g->u.ma_styles;
         const std::string valid_styles = enumerate_as_string( styles.begin(), styles.end(),
         [ this ]( const matype_id &mid ) {
