@@ -7,10 +7,13 @@
 #include "cursesdef.h" // WINDOW
 #include "string_id.h"
 #include "int_id.h"
+#include "requirements.h"
+#include "player_activity.h"
 
 #include <string>
 #include <vector>
 #include <map>
+#include <sstream>
 
 class vpart_info;
 using vpart_id = int_id<vpart_info>;
@@ -35,6 +38,11 @@ struct vehicle_part;
 class veh_interact
 {
     public:
+        static player_activity run( vehicle &veh, int x, int y );
+
+        static void complete_vehicle();
+
+    private:
         veh_interact( vehicle &veh, int x, int y );
 
         int ddx = 0;
@@ -42,12 +50,6 @@ class veh_interact
         const vpart_info *sel_vpart_info = nullptr;
         char sel_cmd = ' '; //Command currently being run by the player
 
-        /** Get selected vehicle part (if any) */
-        const vehicle_part *part() const {
-            return sel_vehicle_part;
-        }
-
-    private:
         const vehicle_part *sel_vehicle_part = nullptr;
 
         int cpart = -1;
@@ -65,9 +67,6 @@ class veh_interact
 
         vehicle *veh;
         bool has_wrench;
-        bool has_welder;
-        bool has_goggles;
-        bool has_duct_tape;
         bool has_jack;
         bool has_wheel;
         inventory crafting_inv;
@@ -75,6 +74,10 @@ class veh_interact
 
         int max_lift; // maximum level of available lifting equipment (if any)
         int max_jack; // maximum level of available jacking equipment (if any)
+
+        /** Format list of requirements returning true if all are met */
+        bool format_reqs( std::ostringstream &msg, const requirement_data &reqs,
+                          const std::map<skill_id, int> &skills, int moves ) const;
 
         int part_at( int dx, int dy );
         void move_cursor( int dx, int dy );
@@ -113,14 +116,9 @@ class veh_interact
         size_t display_esc( WINDOW *w );
 
         void countDurability();
-        friend nc_color getDurabilityColor( const int &dur );
-        std::string getDurabilityDescription( const int &dur );
 
-        int durabilityPercent = 100;
         std::string totalDurabilityText;
-        std::string worstDurabilityText;
-        nc_color totalDurabilityColor = c_green;
-        nc_color worstDurabilityColor = c_green;
+        nc_color totalDurabilityColor;
 
         /** Store the most damaged part's index, or -1 if they're all healthy. */
         int mostDamagedPart = -1;
@@ -167,8 +165,5 @@ class veh_interact
         void do_main_loop();
         void deallocate_windows();
 };
-
-void complete_vehicle();
-nc_color getDurabilityColor( const int &dur );
 
 #endif

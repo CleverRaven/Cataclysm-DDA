@@ -15,6 +15,12 @@
     "tools": [ [ [ "forge", 20 ], [ "char_forge", 20 ], [ "oxy_torch", 20 ] ] ]
   },
   {
+    "id": "sewing_standard",
+    "type": "requirement",
+    "//": "Crafting or repair of fabric items",
+    "tools": [ [ [ "sewing_kit", 1 ], [ "tailors_kit", 1 ], [ "needle_wood", 1 ] ] ]
+  },
+  {
     "id": "welding_standard",
     "type": "requirement",
     "//": "Crafting or repair of steel items or installation of vehicle parts",

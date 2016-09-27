@@ -3804,14 +3804,16 @@ int iuse::arrow_flamable(player *p, item *it, bool, const tripoint& )
 
 int iuse::molotov_lit(player *p, item *it, bool t, const tripoint &pos)
 {
-    int age = int(calendar::turn) - it->bday;
-    if( p->has_item( *it ) ) {
+    if (pos.x == -999 || pos.y == -999) {
+        return 0;
+    } else if (it->charges > 0) {
+        add_msg(m_info, _("You've already lit the %s, try throwing it instead."), it->tname().c_str());
+        return 0;
+    } else if( p->has_item( *it ) && it->charges == 0 ) {
         it->charges += 1;
-        if (age >= 5) { // More than 5 turns old = chance of going out
-            if (rng(1, 50) < age) {
-                p->add_msg_if_player(_("Your lit Molotov goes out."));
-                it->convert( "molotov" ).active = false;
-            }
+        if ( one_in ( 5 ) ) {
+            p->add_msg_if_player(_("Your lit Molotov goes out."));
+            it->convert( "molotov" ).active = false;
         }
     } else {
         if( !t ) {
@@ -5965,20 +5967,17 @@ bool einkpc_download_memory_card(player *p, item *eink, item *mc)
 
         std::vector<const recipe *> candidates;
 
-        for( auto &elem : recipe_dict ) {
-
-            const int dif = ( elem )->difficulty;
+        for( const auto &e : recipe_dict ) {
+            const auto r = e.second;
 
             if (science) {
-                if( elem->valid_learn() ) {
-                    if (dif >= 3 && one_in(dif + 1)) {
-                        candidates.push_back( elem );
-                    }
+                if (r.difficulty >= 3 && one_in(r.difficulty + 1)) {
+                    candidates.push_back( &r );
                 }
             } else {
-                if( ( elem )->cat == "CC_FOOD" ) {
-                    if (dif <= 3 && one_in(dif)) {
-                        candidates.push_back( elem );
+                if( r.category == "CC_FOOD" ) {
+                    if (r.difficulty <= 3 && one_in(r.difficulty)) {
+                        candidates.push_back( &r);
                     }
                 }
 
@@ -6269,9 +6268,9 @@ int iuse::einktabletpc(player *p, item *it, bool t, const tripoint &pos)
 
                 candidate_recipes.push_back(s);
 
-                auto recipe = recipe_by_name( s );
+                const auto &recipe = recipe_dict[ s ];
                 if( recipe ) {
-                    rmenu.addentry( k++, true, -1, item::nname( recipe->result ) );
+                    rmenu.addentry( k++, true, -1, item::nname( recipe.result ) );
                 }
             }
 
@@ -6285,11 +6284,11 @@ int iuse::einktabletpc(player *p, item *it, bool t, const tripoint &pos)
                 const auto rec_id = candidate_recipes[rchoice - 1];
                 it->set_var( "RECIPE", rec_id );
 
-                auto recipe = recipe_by_name( rec_id );
+                const auto &recipe = recipe_dict[ rec_id ];
                 if( recipe ) {
                     p->add_msg_if_player(m_info,
                         _("You change the e-ink screen to show a recipe for %s."),
-                                         item::nname( recipe->result ).c_str());
+                                         item::nname( recipe.result ).c_str());
                 }
             }
 
@@ -7402,15 +7401,16 @@ int iuse::multicooker(player *p, item *it, bool t, const tripoint &pos)
 
             int counter = 1;
 
-            for( auto &elem : recipe_dict ) {
-                if( ( elem )->cat == "CC_FOOD" && ( ( elem )->subcat == "CSC_FOOD_MEAT" ||
-                                                    ( elem )->subcat == "CSC_FOOD_VEGGI" ||
-                                                    ( elem )->subcat == "CSC_FOOD_PASTA" ) ) {
+            for( const auto &e : recipe_dict ) {
+                const auto r = e.second;
+                if( r.category == "CC_FOOD" && ( r.subcategory == "CSC_FOOD_MEAT" ||
+                                                 r.subcategory == "CSC_FOOD_VEGGI" ||
+                                                 r.subcategory == "CSC_FOOD_PASTA" ) ) {
 
-                    if( p->knows_recipe( ( elem ) ) ) {
-                        dishes.push_back( elem );
-                        const bool can_make = ( elem )->can_make_with_inventory( crafting_inv );
-                        item dummy( ( elem )->result, 0 );
+                    if( p->knows_recipe( &r ) ) {
+                        dishes.push_back( &r );
+                        const bool can_make = r.can_make_with_inventory( crafting_inv );
+                        item dummy( r.result );
 
                         dmenu.addentry(counter++, can_make, -1, dummy.display_name());
                     }

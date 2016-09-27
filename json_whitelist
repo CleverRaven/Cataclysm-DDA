@@ -25,3 +25,4 @@ data/mods/blazemod/*.json
 data/mods/Generic_Guns/*.json
 data/mods/makeshift/*.json
 data/mods/PKs_Rebalance/items/*.json
+data/mods/PKs_Rebalance/monsters/*.json

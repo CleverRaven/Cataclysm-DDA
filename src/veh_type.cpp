@@ -84,11 +84,7 @@ std::vector<const vpart_info*> vehicle_part_int_types;
 
 static std::map<vpart_str_id, vpart_info> abstract_parts;
 
-/**
- * JSON data dependent upon as-yet unparsed definitions
- * first: JSON data, second: source identifier
- */
-static std::list<std::pair<std::string, std::string>> deferred;
+static DynamicDataLoader::deferred_json deferred;
 
 template<>
 const vpart_str_id string_id<vpart_info>::NULL_ID( "null" );
@@ -139,6 +135,42 @@ int_id<vpart_info>::int_id( const string_id<vpart_info> &id )
 {
 }
 
+static void parse_vp_reqs( JsonObject &obj, const std::string &id, const std::string &key,
+                           std::vector<std::pair<requirement_id, int>> &reqs,
+                           std::map<skill_id, int> &skills, int &moves ) {
+
+    if( !obj.has_object( key ) ) {
+        return;
+    }
+    auto src = obj.get_object( key );
+
+    auto sk = src.get_array( "skills" );
+    if( !sk.empty() ) {
+        skills.clear();
+    }
+    while( sk.has_more() ) {
+        auto cur = sk.next_array();
+        skills.emplace( skill_id( cur.get_string( 0 ) ) , cur.size() >= 2 ? cur.get_int( 1 ) : 1 );
+    }
+
+    assign( src, "time", moves );
+
+    if( src.has_string( "using" ) ) {
+        reqs = { { requirement_id( src.get_string( "using" ) ), 1 } };
+
+    } else if( src.has_array( "using" ) ) {
+        auto arr = src.get_array( "using" );
+        while( arr.has_more() ) {
+            auto cur = arr.next_array();
+            reqs.emplace_back( requirement_id( cur.get_string( 0 ) ), cur.get_int( 1 ) );
+        }
+
+    } else {
+        auto req_id = string_format( "inline_%s_%s", key.c_str(), id.c_str() );
+        requirement_data::load_requirement( src, req_id );
+        reqs = { { requirement_id( req_id ), 1 } };
+    }
+};
 
 /**
  * Reads in a vehicle part from a JsonObject.
@@ -179,68 +211,12 @@ void vpart_info::load( JsonObject &jo, const std::string &src )
     assign( jo, "bonus", def.bonus );
     assign( jo, "flags", def.flags );
 
-    auto reqs = jo.get_object( "requirements" );
-    if( reqs.has_object( "install" ) ) {
-        auto ins = reqs.get_object( "install" );
+    if( jo.has_member( "requirements" ) ) {
+        auto reqs = jo.get_object( "requirements" );
 
-        auto sk = ins.get_array( "skills" );
-        if( !sk.empty() ) {
-            def.install_skills.clear();
-        }
-        while( sk.has_more() ) {
-            auto cur = sk.next_array();
-            def.install_skills.emplace( skill_id( cur.get_string( 0 ) ) , cur.size() >= 2 ? cur.get_int( 1 ) : 1 );
-        }
-
-        assign( ins, "time", def.install_moves );
-
-        if( ins.has_string( "using" ) ) {
-            def.install_reqs = { { requirement_id( ins.get_string( "using" ) ), 1 } };
-
-        } else if( ins.has_array( "using" ) ) {
-            auto arr = ins.get_array( "using" );
-            while( arr.has_more() ) {
-                auto cur = arr.next_array();
-                def.install_reqs.emplace_back( requirement_id( cur.get_string( 0 ) ), cur.get_int( 1 ) );
-            }
-
-        } else {
-            auto req_id = std::string( "inline_vehins_" ) += def.id.str();
-            requirement_data::load_requirement( ins, req_id );
-            def.install_reqs = { { requirement_id( req_id ), 1 } };
-        }
-
-        def.legacy = false;
-    }
-    if( reqs.has_object( "removal" ) ) {
-        auto rem = reqs.get_object( "removal" );
-
-        auto sk = rem.get_array( "skills" );
-        if( !sk.empty() ) {
-            def.removal_skills.clear();
-        }
-        while( sk.has_more() ) {
-            auto cur = sk.next_array();
-            def.removal_skills.emplace( skill_id( cur.get_string( 0 ) ) , cur.size() >= 2 ? cur.get_int( 1 ) : 1 );
-        }
-
-        assign( rem, "time", def.removal_moves );
-
-        if( rem.has_string( "using" ) ) {
-            def.removal_reqs = { { requirement_id( rem.get_string( "using" ) ), 1 } };
-
-        } else if( rem.has_array( "using" ) ) {
-            auto arr = rem.get_array( "using" );
-            while( arr.has_more() ) {
-                auto cur = arr.next_array();
-                def.removal_reqs.emplace_back( requirement_id( cur.get_string( 0 ) ), cur.get_int( 1 ) );
-            }
-
-        } else {
-            auto req_id = std::string( "inline_vehins_" ) += def.id.str();
-            requirement_data::load_requirement( rem, req_id );
-            def.removal_reqs = { { requirement_id( req_id ), 1 } };
-        }
+        parse_vp_reqs( reqs, def.id.str(), "install", def.install_reqs, def.install_skills, def.install_moves );
+        parse_vp_reqs( reqs, def.id.str(), "removal", def.removal_reqs, def.removal_skills, def.removal_moves );
+        parse_vp_reqs( reqs, def.id.str(), "repair",  def.repair_reqs,  def.repair_skills,  def.repair_moves  );
 
         def.legacy = false;
     }
@@ -311,27 +287,8 @@ void vpart_info::set_flag( const std::string &flag )
 
 void vpart_info::finalize()
 {
-    auto& dyn = DynamicDataLoader::get_instance();
-
-    while( !deferred.empty() ) {
-        auto n = deferred.size();
-        auto it = deferred.begin();
-        for( decltype(deferred)::size_type idx = 0; idx != n; ++idx ) {
-            try {
-                std::istringstream str( it->first );
-                JsonIn jsin( str );
-                JsonObject jo = jsin.get_object();
-                dyn.load_object( jo, it->second );
-            } catch( const std::exception &err ) {
-                debugmsg( "Error loading data from json: %s", err.what() );
-            }
-            ++it;
-        }
-        deferred.erase( deferred.begin(), it );
-        if( deferred.size() == n ) {
-            debugmsg( "JSON contains circular dependency: discarded %i templates", n );
-            break;
-        }
+    if( !DynamicDataLoader::get_instance().load_deferred( deferred ) ) {
+        debugmsg( "JSON contains circular dependency: discarded %i vehicle parts", deferred.size() );
     }
 
     for( auto& e : vehicle_part_types ) {
@@ -409,18 +366,22 @@ void vpart_info::check()
 
             part.install_skills.emplace( skill_mechanics, part.difficulty );
             part.removal_skills.emplace( skill_mechanics, std::max( part.difficulty - 2, 2 ) );
+            part.repair_skills.emplace ( skill_mechanics, std::min( part.difficulty + 1, MAX_SKILL ) );
 
             if( part.has_flag( "TOOL_WRENCH" ) || part.has_flag( "WHEEL" ) ) {
                 part.install_reqs = { { requirement_id( "vehicle_bolt" ), 1 } };
                 part.removal_reqs = { { requirement_id( "vehicle_bolt" ), 1 } };
+                part.repair_reqs  = { { requirement_id( "welding_standard" ), 5 } };
 
             } else if( part.has_flag( "TOOL_SCREWDRIVER" ) ) {
                 part.install_reqs = { { requirement_id( "vehicle_screw" ), 1 } };
                 part.removal_reqs = { { requirement_id( "vehicle_screw" ), 1 } };
+                part.repair_reqs  = { { requirement_id( "adhesive" ), 1 } };
 
             } else if( part.has_flag( "NAILABLE" ) ) {
                 part.install_reqs = { { requirement_id( "vehicle_nail_install" ), 1 } };
                 part.removal_reqs = { { requirement_id( "vehicle_nail_removal" ), 1 } };
+                part.repair_reqs  = { { requirement_id( "adhesive" ), 2 } };
 
             } else if( part.has_flag( "TOOL_NONE" ) ) {
                 // no-op
@@ -428,6 +389,7 @@ void vpart_info::check()
             } else {
                 part.install_reqs = { { requirement_id( "welding_standard" ), 5 } };
                 part.removal_reqs = { { requirement_id( "vehicle_weld_removal" ), 1 } };
+                part.repair_reqs  = { { requirement_id( "welding_standard" ), 5 } };
             }
         }
 
@@ -456,6 +418,12 @@ void vpart_info::check()
             }
         }
 
+        for( auto &e : part.repair_skills ) {
+            if( !e.first.is_valid() ) {
+                debugmsg( "vehicle part %s has unknown repair skill %s", part.id.c_str(), e.first.c_str() );
+            }
+        }
+
         for( const auto &e : part.install_reqs ) {
             if( !e.first.is_valid() || e.second <= 0 ) {
                 debugmsg( "vehicle part %s has unknown or incorrectly specified install requirements %s",
@@ -466,6 +434,13 @@ void vpart_info::check()
         for( const auto &e : part.install_reqs ) {
             if( !( e.first.is_null() || e.first.is_valid() ) || e.second < 0 ) {
                 debugmsg( "vehicle part %s has unknown or incorrectly specified removal requirements %s",
+                          part.id.c_str(), e.first.c_str() );
+            }
+        }
+
+        for( const auto &e : part.repair_reqs ) {
+            if( !( e.first.is_null() || e.first.is_valid() ) || e.second < 0 ) {
+                debugmsg( "vehicle part %s has unknown or incorrectly specified repair requirements %s",
                           part.id.c_str(), e.first.c_str() );
             }
         }
@@ -556,16 +531,32 @@ requirement_data vpart_info::removal_requirements() const
     } );
 }
 
+requirement_data vpart_info::repair_requirements() const
+{
+    return std::accumulate( repair_reqs.begin(), repair_reqs.end(), requirement_data(),
+        []( const requirement_data &lhs, const std::pair<requirement_id, int> &rhs ) {
+        return lhs + ( *rhs.first * rhs.second );
+    } );
+}
+
+static int scale_time( const std::map<skill_id, int> &sk, int mv, const Character &ch ) {
+    int lvl = std::accumulate( sk.begin(), sk.end(), 0, [&ch]( int lhs, const std::pair<skill_id,int>& rhs ) {
+        return lhs + std::max( rhs.second - std::min( ch.get_skill_level( rhs.first ).level(), MAX_SKILL ), 0 );
+    } );
+    // 10% per excess level (reduced proportionally if >1 skill required) with max 50% reduction
+    return mv * ( 1.0 - std::min( double( lvl ) / sk.size() / 10.0, 0.5 ) );
+}
+
 int vpart_info::install_time( const Character &ch ) const {
-    ///\EFFECT_MECHANICS reduces time consumed installing vehicle parts
-    int lvl = std::min( ch.get_skill_level( skill_mechanics ).level(), MAX_SKILL );
-    return install_moves * ( 1.0 - ( lvl / 2.0 ) / MAX_SKILL );
+    return scale_time( install_skills, install_moves, ch );
 }
 
 int vpart_info::removal_time( const Character &ch ) const {
-    ///\EFFECT_MECHANICS reduces time consumed removing vehicle parts
-    int lvl = std::min( ch.get_skill_level( skill_mechanics ).level(), MAX_SKILL );
-    return removal_moves * ( 1.0 - ( lvl / 2.0 ) / MAX_SKILL );
+    return scale_time( removal_skills, removal_moves, ch );
+}
+
+int vpart_info::repair_time( const Character &ch ) const {
+    return scale_time( repair_skills, repair_moves, ch );
 }
 
 template<>

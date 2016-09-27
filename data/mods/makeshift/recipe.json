@@ -2,7 +2,6 @@
   {
     "result": "bayonet",
     "type": "recipe",
-    "override": true,
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_MODS",
     "skill_used": "fabrication",
@@ -87,7 +86,6 @@
   {
     "result": "pistol_bayonet",
     "type": "recipe",
-    "override": true,
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_MODS",
     "skill_used": "fabrication",
@@ -113,7 +111,6 @@
   {
     "result": "sword_bayonet",
     "type": "recipe",
-    "override": true,
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_MODS",
     "skill_used": "fabrication",

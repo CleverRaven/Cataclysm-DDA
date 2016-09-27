@@ -4088,9 +4088,9 @@ void game::debug()
         case 13: {
             add_msg( m_info, _( "Recipe debug." ) );
             add_msg( _( "Your eyes blink rapidly as knowledge floods your brain." ) );
-            for( auto cur_recipe : recipe_dict ) {
-                if( !( u.learned_recipes.find( cur_recipe->ident() ) != u.learned_recipes.end() ) )  {
-                    u.learn_recipe( ( recipe * )cur_recipe, true );
+            for( const auto &e : recipe_dict ) {
+                if( !( u.learned_recipes.find( e.first ) != u.learned_recipes.end() ) )  {
+                    u.learn_recipe( &e.second );
                 }
             }
             add_msg( m_good, _( "You know how to craft that now." ) );
@@ -7526,62 +7526,11 @@ void game::handbrake()
 
 void game::exam_vehicle( vehicle &veh, int cx, int cy )
 {
-    veh_interact vehint( veh, cx, cy );
-
-    if( vehint.sel_cmd == 'q' ) {
-        refresh_all();
-        return;
-    }
-
-    if (vehint.sel_cmd != ' '&& vehint.sel_vpart_info != nullptr ) {
-        int time = 200;
-        int skill = u.get_skill_level( skill_id( "mechanics" ) );
-        int diff = vehint.sel_vpart_info->difficulty + 3;
-        int setup = (calendar::turn == veh.last_repair_turn ? 0 : 1);
-        ///\EFFECT_MECHANICS reduces time spent examining vehicle
-        int setuptime = std::max(setup * 3000, setup * 6000 - skill * 400);
-        int dmg = 1000;
-        if (vehint.sel_cmd == 'r') {
-            dmg = 1000 - vehint.part()->hp() * 1000 / vehint.sel_vpart_info->durability;
-        }
-        int mintime = 300 + diff * dmg;
-        // sel_cmd = Install Repair reFill remOve Siphon Drainwater Changetire reName
-        // Note that even if letters are remapped in keybindings sel_cmd will still use the above.
-        // Stored in activity.index and used in the complete_vehicle() callback to finish task.
-        switch (vehint.sel_cmd) {
-        case 'i':
-            time = vehint.sel_vpart_info->install_time( u );
-            break;
-        case 'r':
-            time = setuptime + std::max(mintime, (8 * diff - skill * 4) * dmg);
-            break;
-        case 'o':
-            time = vehint.sel_vpart_info->removal_time( u );
-            break;
-        case 'c':
-            time = vehint.sel_vpart_info->removal_time( u ) +
-                   vehint.sel_vpart_info->install_time( u );
-            break;
-        }
-        u.assign_activity( ACT_VEHICLE, time, (int)vehint.sel_cmd );
-
-        // if we're working on an existing part, use that part as the reference point
-        // otherwise (e.g. installing a new frame), just use part 0
-        point q = veh.coord_translate( vehint.part() ? vehint.part()->mount : veh.parts[0].mount );
-        u.activity.values.push_back(veh.global_x() + q.x);    // values[0]
-        u.activity.values.push_back(veh.global_y() + q.y);    // values[1]
-        u.activity.values.push_back(vehint.ddx);   // values[2]
-        u.activity.values.push_back(vehint.ddy);   // values[3]
-        u.activity.values.push_back(-vehint.ddx);   // values[4]
-        u.activity.values.push_back(-vehint.ddy);   // values[5]
-        // values[6]
-        u.activity.values.push_back( veh.index_of_part( vehint.part() ) );
-
-        u.activity.str_values.push_back( vehint.sel_vpart_info->id.str() );
-
+    auto act = veh_interact::run( veh, cx, cy );
+    if( act ) {
         u.moves = 0;
+        u.assign_activity( act );
     }
-    refresh_all();
 }
 
 bool game::forced_door_closing( const tripoint &p, const ter_id door_type, int bash_dmg )
@@ -10857,13 +10806,7 @@ void game::butcher()
             continue;
         }
 
-        const recipe *cur_recipe = get_disassemble_recipe(items[i].typeId());
-        if( cur_recipe == nullptr && !items[i].is_book() ) {
-            continue;
-        }
-
-        if( items[i].is_book() ||
-            u.can_disassemble( items[i], cur_recipe, crafting_inv, false ) ) {
+        if( u.can_disassemble( items[i], crafting_inv ) ) {
             disassembles.push_back(i);
         } else if( first_item_without_tools == nullptr ) {
             first_item_without_tools = &items[i];
@@ -10888,9 +10831,8 @@ void game::butcher()
 
         if( first_item_without_tools != nullptr ) {
             add_msg( m_info, _("You don't have the necessary tools to disassemble any items here.") );
-            const recipe *cur_recipe = get_disassemble_recipe( first_item_without_tools->typeId() );
             // Just for the "You need x to disassemble y" messages
-            u.can_disassemble( *first_item_without_tools, cur_recipe, crafting_inv, true );
+            u.can_disassemble( *first_item_without_tools, crafting_inv, true );
         }
         return;
     }
