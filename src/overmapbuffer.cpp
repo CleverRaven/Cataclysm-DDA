@@ -1,5 +1,4 @@
 #include "overmapbuffer.h"
-
 #include "coordinate_conversions.h"
 #include "overmap_types.h"
 #include "overmap.h"
@@ -8,6 +7,7 @@
 #include "debug.h"
 #include "monster.h"
 #include "mongroup.h"
+#include "simple_pathfinding.h"
 #include "worldfactory.h"
 #include "catacharset.h"
 #include "npc.h"
@@ -461,6 +461,51 @@ bool overmapbuffer::reveal( const tripoint &center, int radius )
         }
     }
     return result;
+}
+
+bool overmapbuffer::reveal_route( const tripoint &source, const tripoint &dest, int radius )
+{
+    static const int RADIUS = 4;            // Maximal radius of search (in overmaps)
+    static const int OX = RADIUS * OMAPX;   // half-width of the area to search in
+    static const int OY = RADIUS * OMAPY;   // half-height of the area to search in
+
+    const tripoint start( OX, OY, source.z );   // Local source - center of the local area
+    const tripoint base( source - start );      // To convert local coordinates to global ones
+    const tripoint finish( dest - base );       // Local destination - relative to source
+
+    const auto estimate = [ this, &base, &finish ]( const pf::node &, const pf::node &cur ) {
+        int res = 0;
+        int omx = base.x + cur.x;
+        int omy = base.y + cur.y;
+
+        const auto &oter = get_om_global( omx, omy ).get_ter( omx, omy, base.z );
+
+        if( !is_ot_type( "road", oter ) && !is_ot_type ( "bridge", oter ) && !is_ot_type( "hiway", oter ) ) {
+            if( is_river( oter ) ) {
+                return -1; // Can't walk on water
+            }
+            // Allow going slightly off-road to overcome small obstacles (e.g. craters),
+            // but heavily penalize that to make roads preferable
+            res += 250;
+        }
+
+        res += std::abs( finish.x - cur.x ) +
+               std::abs( finish.y - cur.y );
+
+        return res;
+    };
+
+    const auto path = pf::find_path( start, finish, 2*OX, 2*OY, estimate );
+
+    if( path.empty() ) {
+        return false;
+    }
+
+    for( const auto &node : path ) {
+        reveal( base + tripoint( node.x, node.y, base.z ), radius );
+    }
+
+    return true;
 }
 
 bool overmapbuffer::check_ot_type(const std::string& type, int x, int y, int z)
