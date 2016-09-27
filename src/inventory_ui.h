@@ -144,19 +144,7 @@ const inventory_selector_preset default_preset;
 class inventory_column
 {
     public:
-        inventory_column( const inventory_selector_preset &preset = default_preset ) :
-            preset( preset ),
-            entries(),
-            mode( navigation_mode::ITEM ),
-            active( false ),
-            multiselect( false ),
-            paging_is_valid( false ),
-            visibility( true ),
-            selected_index( 0 ),
-            page_offset( 0 ),
-            entries_per_page( 1 ),
-            reserved_width( 0 ) {
-
+        inventory_column( const inventory_selector_preset &preset = default_preset ) : preset( preset ) {
             cell_widths.resize( preset.get_cells_count(), 0 );
             min_cell_widths.resize( preset.get_cells_count(), 0 );
         }
@@ -256,16 +244,16 @@ class inventory_column
         const inventory_selector_preset &preset;
 
         std::vector<inventory_entry> entries;
-        navigation_mode mode;
-        bool active;
-        bool multiselect;
-        bool paging_is_valid;
-        bool visibility;
+        navigation_mode mode = navigation_mode::ITEM;
+        bool active = false;
+        bool multiselect = false;
+        bool paging_is_valid = false;
+        bool visibility = true;
 
-        size_t selected_index;
-        size_t page_offset;
-        size_t entries_per_page;
-        size_t reserved_width;
+        size_t selected_index = 0;
+        size_t page_offset = 0;
+        size_t entries_per_page = 1;
+        size_t reserved_width = 0;
 };
 
 class selection_column : public inventory_column
