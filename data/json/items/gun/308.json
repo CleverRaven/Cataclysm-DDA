@@ -76,7 +76,6 @@
     "reload": 400,
     "modes": [ [ "DEFAULT", "auto", 100 ] ],
     "magazines": [ [ "308", [ "belt308" ] ] ],
-    "//": "Its barrels are rotated by an electric motor, powered by UPS. After the UPS system is fixed, this should use electrical power."
     "flags": [ "NEVER_JAMS", "MOUNTED_GUN" ]
   },
   {
