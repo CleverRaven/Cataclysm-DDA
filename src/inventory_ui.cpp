@@ -108,7 +108,7 @@ inventory_entry *inventory_column::find_by_invlet( long invlet ) const
 
 size_t inventory_column::get_width() const
 {
-    return std::accumulate( cell_widths.begin(), cell_widths.end(), 0 );
+    return std::max( get_cells_width(), reserved_width );
 }
 
 inventory_selector_preset::inventory_selector_preset()
@@ -217,6 +217,11 @@ size_t inventory_column::get_entry_cell_width( const inventory_entry &entry, siz
     return own_width > 0 ? own_width + get_entry_indent( entry, cell_index ) : 0;
 }
 
+size_t inventory_column::get_cells_width() const
+{
+    return std::accumulate( cell_widths.begin(), cell_widths.end(), size_t( 0 ) );
+}
+
 std::string inventory_column::get_entry_denial( const inventory_entry &entry ) const
 {
     return entry.location ? preset.get_denial( entry.location ) : std::string();
@@ -225,6 +230,7 @@ std::string inventory_column::get_entry_denial( const inventory_entry &entry ) c
 void inventory_column::set_width( const size_t width )
 {
     reset_width();
+    reserved_width = width;
     int width_gap = get_width() - width;
     // Now adjust the width if we must
     while( width_gap != 0 ) {
@@ -276,16 +282,15 @@ void inventory_column::expand_to_fit( const inventory_entry &entry )
     }
 
     if( !denial.empty() ) {
-        const size_t min_width = min_cell_widths.front() + min_cell_gap + utf8_width( denial, true );
-        if( min_width > get_width() ) {
-            set_width( min_width );
-        }
+        reserved_width = std::max( get_entry_cell_width( entry, 0 ) + min_cell_gap + utf8_width( denial, true ),
+                                   reserved_width );
     }
 }
 
 void inventory_column::reset_width()
 {
     cell_widths = min_cell_widths;
+    reserved_width = 0;
 }
 
 size_t inventory_column::page_of( size_t index ) const {
@@ -496,7 +501,7 @@ void inventory_column::draw( WINDOW *win, size_t x, size_t y ) const
         }
 
         int x1 = x + get_entry_indent( entry );
-        int x2 = x;
+        int x2 = x + std::max( int( reserved_width - get_cells_width() ), 0 );
         int yy = y + line;
 
         const bool selected = active && is_selected( entry );
@@ -510,9 +515,8 @@ void inventory_column::draw( WINDOW *win, size_t x, size_t y ) const
         const std::string &denial = get_entry_denial( entry );
 
         if( !denial.empty() ) {
-            const size_t real_denial_width = utf8_width( denial, true );
-            const size_t max_denial_width = std::max( int( get_width() - min_cell_gap - min_cell_widths.front() ), 0 );
-            const size_t denial_width = std::min( real_denial_width, max_denial_width );
+            const size_t max_denial_width = std::max( int( get_width() - min_cell_gap - get_entry_cell_width( entry, 0 ) ), 0 );
+            const size_t denial_width = std::min( max_denial_width, size_t( utf8_width( denial, true ) ) );
 
             trim_and_print( win, yy, x + get_width() - denial_width, denial_width, c_dkgray, "%s", denial.c_str() );
         }

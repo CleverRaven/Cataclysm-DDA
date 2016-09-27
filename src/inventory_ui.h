@@ -154,7 +154,8 @@ class inventory_column
             visibility( true ),
             selected_index( 0 ),
             page_offset( 0 ),
-            entries_per_page( 1 ) {
+            entries_per_page( 1 ),
+            reserved_width( 0 ) {
 
             cell_widths.resize( preset.get_cells_count(), 0 );
             min_cell_widths.resize( preset.get_cells_count(), 0 );
@@ -245,6 +246,8 @@ class inventory_column
 
         size_t get_entry_indent( const inventory_entry &entry, size_t cell_index = 0 ) const;
         size_t get_entry_cell_width( const inventory_entry &entry, size_t cell_index ) const;
+        size_t get_cells_width() const;
+
         std::string get_entry_denial( const inventory_entry &entry ) const;
 
         std::vector<size_t> cell_widths;        /// Current cell widths (can be affected by set_width())
@@ -262,6 +265,7 @@ class inventory_column
         size_t selected_index;
         size_t page_offset;
         size_t entries_per_page;
+        size_t reserved_width;
 };
 
 class selection_column : public inventory_column
