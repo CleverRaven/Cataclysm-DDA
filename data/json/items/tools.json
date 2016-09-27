@@ -6113,6 +6113,7 @@
     "volume": 16,
     "bashing": 40,
     "to_hit": -5
+    "qualities": [["ANVIL", 3]]
   },
   {
     "id": "tongs",
