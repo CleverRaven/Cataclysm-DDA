@@ -1126,7 +1126,6 @@ void overmap::delete_note(int const x, int const y, int const z)
     add_note(x, y, z, std::string {});
 }
 
-extern bool lcmatch(const std::string& text, const std::string& pattern);
 std::vector<point> overmap::find_notes(int const z, std::string const &text)
 {
     std::vector<point> note_locations;

@@ -1670,7 +1670,7 @@
   "time": 54000,
   "reversible": false,
   "autolearn": true,
-  "byproducts": { "id" : "seed_cotton_boll", "amount" : 2 },
+  "byproducts": [ [ "seed_cotton_boll", 2 ] ],
   "components": [
     [
       [ "cotton_boll", 1 ]
@@ -1686,7 +1686,7 @@
   "time": 9000,
   "reversible": false,
   "autolearn": true,
-  "byproducts": { "id" : "seed_cotton_boll", "amount" : 2 },
+  "byproducts": [ [ "seed_cotton_boll", 2 ] ],
   "tools": [
     [
       [ "carding_paddles", -1 ]
@@ -5384,7 +5384,7 @@
 },{
   "type" : "recipe",
   "result": "glass_shard",
-  "byproducts": { "id" : "glass_shard", "amount" : 4 },
+  "byproducts": [ [ "glass_shard", 4 ] ],
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_MATERIALS",
   "skill_used": "fabrication",
@@ -6121,7 +6121,7 @@
 },{
   "type" : "recipe",
   "result": "plastic_chunk",
-  "byproducts": { "id" : "plastic_chunk", "amount" : 14 },
+  "byproducts": [ [ "plastic_chunk", 14 ] ],
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_MATERIALS",
   "skill_used": "cooking",

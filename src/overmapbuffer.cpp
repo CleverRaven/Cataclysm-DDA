@@ -13,6 +13,7 @@
 #include "npc.h"
 #include "vehicle.h"
 #include "filesystem.h"
+#include "cata_utility.h"
 
 #include <algorithm>
 #include <cassert>
@@ -770,7 +771,6 @@ void overmapbuffer::despawn_monster(const monster &critter)
     om.monster_map.insert( std::make_pair( sm, critter ) );
 }
 
-extern bool lcmatch(const std::string& text, const std::string& pattern);
 overmapbuffer::t_notes_vector overmapbuffer::get_notes(int z, const std::string* pattern)
 {
     t_notes_vector result;

@@ -348,7 +348,7 @@
 },{
   "type" : "recipe",
   "result": "lard",
-  "byproducts": { "id" : "cracklins" },
+  "byproducts": [ [ "cracklins" ] ],
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_MEAT",
   "skill_used": "cooking",
@@ -1495,7 +1495,7 @@
   "subcategory": "CSC_FOOD_VEGGI",
   "skill_used": "cooking",
   "difficulty": 1,
-  "byproducts": "plant_fibre",
+  "byproducts": [ [ "plant_fibre" ] ],
   "skills_required": [ "survival", 1 ],
   "time": 18000,
   "reversible": false,
@@ -2719,7 +2719,7 @@
 },{
   "type" : "recipe",
   "result": "can_coconut",
-  "byproducts": "juice_pulp",
+  "byproducts": [ [ "juice_pulp" ] ],
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_DRINKS",
   "skill_used": "cooking",
@@ -2804,7 +2804,7 @@
   "type" : "recipe",
   "result": "starch",
   "id_suffix": "from_fibrous_stuff",
-  "byproducts": { "id" : "plant_fibre", "amount" : 5 },
+  "byproducts": [ [ "plant_fibre", 5 ] ],
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_VEGGI",
   "skill_used": "cooking",
@@ -2824,7 +2824,7 @@
 },{
   "type" : "recipe",
   "result": "oj",
-  "byproducts": "juice_pulp",
+  "byproducts": [ [ "juice_pulp" ] ],
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_DRINKS",
   "skill_used": "cooking",
@@ -2846,7 +2846,7 @@
 },{
   "type" : "recipe",
   "result": "cranberry_juice",
-  "byproducts": "juice_pulp",
+  "byproducts": [ [ "juice_pulp" ] ],
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_DRINKS",
   "skill_used": "cooking",
@@ -2871,7 +2871,7 @@
 },{
   "type" : "recipe",
   "result": "apple_cider",
-  "byproducts": "juice_pulp",
+  "byproducts": [ [ "juice_pulp" ] ],
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_DRINKS",
   "skill_used": "cooking",
@@ -6253,7 +6253,6 @@
 },{
         "type" : "recipe",
   "result": "seasoning_italian",
-  "override": true,
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_OTHER",
   "skill_used": "cooking",
@@ -10476,7 +10475,7 @@
 },{
   "type" : "recipe",
   "result": "juice",
-  "byproducts": "juice_pulp",
+  "byproducts": [ [ "juice_pulp" ] ],
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_DRINKS",
   "skill_used": "cooking",
@@ -10540,7 +10539,7 @@
   "type" : "recipe",
   "result": "juice",
   "id_suffix": "fresh",
-  "byproducts": { "id" : "juice_pulp", "amount" : 2 },
+  "byproducts": [ [ "juice_pulp", 2 ] ],
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_DRINKS",
   "skill_used": "cooking",
@@ -12247,7 +12246,7 @@
 {
   "type" : "recipe",
   "result": "honey_bottled",
-  "byproducts": { "id" : "wax", "amount" : 4 },
+  "byproducts": [ [ "wax", 4 ] ],
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_OTHER",
   "skill_used": "cooking",

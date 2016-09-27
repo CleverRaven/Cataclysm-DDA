@@ -26,7 +26,19 @@ bool isBetween( int test, int down, int up )
     return test > down && test < up;
 }
 
-bool lcmatch( const std::string &str, const std::string &findstr ); // ui.cpp
+bool lcmatch( const std::string &str, const std::string &qry )
+{
+    std::string needle;
+    needle.reserve( qry.size() );
+    std::transform( qry.begin(), qry.end(), std::back_inserter( needle ), tolower );
+
+    std::string haystack;
+    haystack.reserve( str.size() );
+    std::transform( str.begin(), str.end(), std::back_inserter( haystack ), tolower );
+
+    return haystack.find( needle ) != std::string::npos;
+}
+
 bool list_items_match( const item *item, std::string sPattern )
 {
     size_t iPos;

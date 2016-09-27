@@ -978,7 +978,6 @@ classes = {
             { name = "is_corpse", rval = "bool", args = { } },
             { name = "is_cutting_weapon", rval = "bool", args = { } },
             { name = "is_dangerous", rval = "bool", args = { } },
-            { name = "is_disassemblable", rval = "bool", args = { } },
             { name = "is_emissive", rval = "bool", args = { } },
             { name = "is_firearm", rval = "bool", args = { } },
             { name = "is_food", rval = "bool", args = { "player" } },

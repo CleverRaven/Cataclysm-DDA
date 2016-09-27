@@ -2365,7 +2365,6 @@
 },{
   "type" : "recipe",
   "result": "slime_scrap",
-  "byproducts": "slime_scrap",
   "category": "CC_CHEM",
   "subcategory": "CSC_CHEM_CHEMICALS",
   "skill_used": "cooking",
@@ -2577,7 +2576,7 @@
 {
 "type" : "recipe",
 "result": "chem_ammonium_nitrate",
-"byproducts": "water",
+"byproducts": [ [ "water" ] ],
 "category": "CC_CHEM",
 "subcategory": "CSC_CHEM_CHEMICALS",
 "skill_used": "cooking",
@@ -2607,7 +2606,7 @@
 {
   "type" : "recipe",
   "result": "chem_saltpetre",
-  "byproducts": "ammonia",
+  "byproducts": [ [ "ammonia", 1 ] ],
   "category": "CC_CHEM",
   "subcategory": "CSC_CHEM_CHEMICALS",
   "skill_used": "cooking",
