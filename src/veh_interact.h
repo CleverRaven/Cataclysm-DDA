@@ -167,7 +167,7 @@ class veh_interact
 
         /*Filter stuff*/
         std::string filter;
-        bool filter_function(const vpart_info*)const;
+        bool filter_function( const vpart_info * ) const;
 };
 
 #endif
