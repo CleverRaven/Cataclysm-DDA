@@ -199,9 +199,6 @@ const recipe *select_crafting_recipe( int &batch_size )
                 batch_recipes( crafting_inv, helpers, current, available, chosen );
             } else {
 
-                available.clear();
-                current.clear();
-
                 if( filterstring.empty() ) {
                     current = recipe_dict.in_category( tab.cur(), subtab.cur() != "CSC_ALL" ? subtab.cur() : "" );
                 } else {
