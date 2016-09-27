@@ -14331,13 +14331,13 @@
         },
         {
           "bg": 632,
-          "fg": 3299,
+          "fg": 3300,
           "id": "f_bigmirror",
           "rotates": false
         },
         {
           "bg": 632,
-          "fg": 3300,
+          "fg": 3299,
           "id": "f_bigmirror_b",
           "rotates": false
         },
