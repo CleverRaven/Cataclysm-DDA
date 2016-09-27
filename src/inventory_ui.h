@@ -163,8 +163,16 @@ class inventory_selector_preset
                           const std::string &title = "" );
 
     private:
-        using cell_pair = std::pair<std::string, std::function<std::string( const inventory_entry & )>>;
-        std::vector<cell_pair> cells;
+        struct cell_t {
+            std::function<std::string( const inventory_entry & )> func;
+            std::string title;
+
+            cell_t( const std::function<std::string( const inventory_entry & )> &func,
+                    const std::string &title ) :
+                func( func ), title( title ) {}
+        };
+
+        std::vector<cell_t> cells;
 };
 
 const inventory_selector_preset default_preset;

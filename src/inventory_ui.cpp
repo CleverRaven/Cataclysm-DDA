@@ -153,9 +153,9 @@ std::string inventory_selector_preset::get_cell_text( const inventory_entry &ent
     if( !entry ) {
         return std::string();
     } else if( entry.is_item() ) {
-        return cells[cell_index].second( entry );
+        return cells[cell_index].func( entry );
     } else if( cell_index != 0 ) {
-        return cells[cell_index].first; // title
+        return cells[cell_index].title;
     } else {
         return entry.get_category_ptr()->name;
     }
@@ -178,14 +178,14 @@ void inventory_selector_preset::append_cell( const std::function<std::string( co
 void inventory_selector_preset::append_cell( const std::function<std::string( const inventory_entry & )> &func,
                                              const std::string &title )
 {
-    const auto iter = std::find_if( cells.begin(), cells.end(), [ &title ]( const cell_pair & cell ) {
-        return cell.first == title;
+    const auto iter = std::find_if( cells.begin(), cells.end(), [ &title ]( const cell_t & cell ) {
+        return cell.title == title;
     } );
     if( iter != cells.end() ) {
         debugmsg( "Tried to append a duplicate cell \"%s\": ignored.", title.c_str() );
         return;
     }
-    cells.emplace_back( title, func );
+    cells.emplace_back( func, title );
 }
 
 void inventory_column::select( size_t new_index, scroll_direction dir )
