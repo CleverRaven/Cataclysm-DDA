@@ -1893,6 +1893,12 @@
     { "type":"keybinding", "name": "Craft as long as possible", "category":"DEFAULTMODE", "id":"long_craft" },
     { "type":"keybinding", "name": "Toggle Auto-Safemode", "category":"DEFAULTMODE", "id":"autosafe" },
     { "type":"keybinding", "name": "Autoattack", "category":"DEFAULTMODE", "id":"autoattack", "bindings":[ { "input_method":"keyboard", "key":"TAB" } ] },
+    { "type":"keybinding", "name": "Main Menu", "category":"DEFAULTMODE", "id":"main_menu", "bindings":[ { "input_method":"keyboard", "key":"ESC" } ] },
+    { "type":"keybinding", "name": "Keybindings", "category":"DEFAULTMODE", "id":"open_keybindings" },
+    { "type":"keybinding", "name": "Options", "category":"DEFAULTMODE", "id":"open_options" },
+    { "type":"keybinding", "name": "Autopickup manager", "category":"DEFAULTMODE", "id":"open_autopickup" },
+    { "type":"keybinding", "name": "Safe Mode manager", "category":"DEFAULTMODE", "id":"open_safemode" },
+    { "type":"keybinding", "name": "Color manager", "category":"DEFAULTMODE", "id":"open_color" },
     {
       "type":"keybinding",
       "name": "Toggle move mode (run/walk)",

@@ -2136,6 +2136,11 @@ input_context get_default_mode_input_context()
     ctxt.register_action("morale");
     ctxt.register_action("messages");
     ctxt.register_action("help");
+    ctxt.register_action("open_keybindings");
+    ctxt.register_action("open_options");
+    ctxt.register_action("open_autopickup");
+    ctxt.register_action("open_safemode");
+    ctxt.register_action("open_color");
     ctxt.register_action("debug");
     ctxt.register_action("debug_scent");
     ctxt.register_action("debug_mode");
@@ -2145,6 +2150,7 @@ input_context get_default_mode_input_context()
     ctxt.register_action("toggle_fullscreen");
     ctxt.register_action("toggle_pixel_minimap");
     ctxt.register_action("action_menu");
+    ctxt.register_action("main_menu");
     ctxt.register_action("item_action_menu");
     ctxt.register_action("ANY_INPUT");
     ctxt.register_action("COORDINATE");
@@ -2464,8 +2470,19 @@ bool game::handle_action()
     // of location clicked.
     tripoint mouse_target = tripoint_min;
 
+    // quit prompt check (ACTION_QUIT only grabs 'Q')
+    if(uquit == QUIT_WATCH && action == "QUIT") {
+        uquit = QUIT_DIED;
+        return false;
+    }
+
     if( act == ACTION_NULL ) {
         act = look_up_action(action);
+
+        if ( act == ACTION_MAIN_MENU ) {
+            act = handle_main_menu();
+        }
+
         if( act == ACTION_ACTIONMENU ) {
             // No auto-move actions have or can be set at this point.
             u.clear_destination();
@@ -2521,12 +2538,6 @@ bool game::handle_action()
             u.clear_destination();
             destination_preview.clear();
         }
-    }
-
-    // quit prompt check (ACTION_QUIT only grabs 'Q')
-    if(uquit == QUIT_WATCH && action == "QUIT") {
-        uquit = QUIT_DIED;
-        return false;
     }
 
     if( act == ACTION_NULL ) {
@@ -2606,6 +2617,7 @@ bool game::handle_action()
         case NUM_ACTIONS:
             break; // dummy entries
         case ACTION_ACTIONMENU:
+        case ACTION_MAIN_MENU:
             break; // handled above
 
         case ACTION_TIMEOUT:
@@ -2810,10 +2822,9 @@ bool game::handle_action()
             }
             break;
 
-        case ACTION_LIST_ITEMS: {
+        case ACTION_LIST_ITEMS:
             list_items_monsters();
-        }
-        break;
+            break;
 
         case ACTION_ZONES:
             zones_manager();
@@ -3283,6 +3294,31 @@ bool game::handle_action()
 
         case ACTION_HELP:
             display_help();
+            refresh_all();
+            break;
+
+        case ACTION_KEYBINDINGS:
+            ctxt.display_help();
+            refresh_all();
+            break;
+
+        case ACTION_OPTIONS:
+            get_options().show( true );
+            refresh_all();
+            break;
+
+        case ACTION_AUTOPICKUP:
+            get_auto_pickup().show();
+            refresh_all();
+            break;
+
+        case ACTION_SAFEMODE:
+            get_safemode().show();
+            refresh_all();
+            break;
+
+        case ACTION_COLOR:
+            all_colors.show_gui();
             refresh_all();
             break;
 
