@@ -173,9 +173,15 @@ class inventory_column
 
         bool is_selected( const inventory_entry &entry ) const;
         bool is_selected_by_category( const inventory_entry &entry ) const;
+        
+        void set_selected( const inventory_entry &entry ) const;
 
         const inventory_entry &get_selected() const;
         std::vector<inventory_entry *> get_all_selected() const;
+        
+        const std::vector<inventory_entry> &get_entries() const {
+            return entries;
+        }
 
         inventory_entry *find_by_invlet( long invlet ) const;
 
@@ -389,6 +395,12 @@ class inventory_pick_selector : public inventory_selector
             inventory_selector( p, preset ) {}
 
         item_location execute();
+
+        /**
+         * Sets selected status for first location which matches the filter
+         * @return Number of selected entries (1 if any, 0 otherwise)
+         */
+        int select( const item_location_filter &filter );
 
     protected:
         virtual void draw( WINDOW *w ) const override;
