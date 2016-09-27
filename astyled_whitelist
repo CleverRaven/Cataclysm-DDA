@@ -6,6 +6,7 @@ src/ammo.cpp
 src/armor_layers.cpp
 src/basecamp.cpp
 src/bionics_ui.cpp
+src/bodypart.cpp
 src/bonuses.cpp
 src/cata_utility.cpp
 src/char_validity_check.cpp
@@ -23,6 +24,7 @@ src/drawing_primitives.cpp
 src/editmap.cpp
 src/explosion.cpp
 src/fault.cpp
+src/flag.cpp
 src/gamemode.cpp
 src/gates.cpp
 src/help.cpp
@@ -52,13 +54,14 @@ src/name.cpp
 src/npc_class.cpp
 src/overlay_ordering.cpp
 src/pathfinding.cpp
-src/projectile.cpp
 src/pickup.cpp
 src/player_activity.cpp
 src/posix_time.cpp
 src/profession.cpp
+src/projectile.cpp
 src/recipe_dictionary.cpp
 src/rng.cpp
+src/safemode_ui.cpp
 src/scenario.cpp
 src/scent_map.cpp
 src/scent_map.h
@@ -76,7 +79,6 @@ src/version.cpp
 src/vitamin.cpp
 src/weather_gen.cpp
 src/wish.cpp
-src/safemode_ui.cpp
 src/action.h
 src/active_item_cache.h
 src/activity_handlers.h
@@ -121,6 +123,7 @@ src/faction.h
 src/fault.h
 src/filesystem.h
 src/fire.h
+src/flag.h
 src/game_constants.h
 src/game_inventory.cpp
 src/gates.h
@@ -170,16 +173,17 @@ src/overlay_ordering.h
 src/overmap_types.h
 src/path_info.h
 src/pathfinding.h
-src/projectile.h
 src/pickup.h
 src/platform_win.h
 src/player_activity.h
 src/pldata.h
 src/posix_time.h
 src/profession.h
+src/projectile.h
 src/recipe_dictionary.h
 src/requirements.h
 src/rng.h
+src/safemode_ui.h
 src/shadowcasting.h
 src/skill.h
 src/sounds.h
@@ -194,6 +198,7 @@ src/trap.h
 src/turret.cpp
 src/tutorial.h
 src/ui.h
+src/units.h
 src/veh_interact.h
 src/veh_type.h
 src/vehicle_selector.h
@@ -203,5 +208,3 @@ src/vitamin.h
 src/weather.h
 src/weighted_list.h
 src/worldfactory.h
-src/safemode_ui.h
-src/units.h

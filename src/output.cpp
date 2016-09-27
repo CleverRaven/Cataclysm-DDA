@@ -364,11 +364,11 @@ int right_print( WINDOW *w, const int line, const int right_indent, const nc_col
 {
     va_list ap;
     va_start( ap, mes );
-    utf8_wrapper text = vstring_format( mes, ap );
+    const std::string text = vstring_format( mes, ap );
     va_end( ap );
 
     const int available_width = std::max( 1, getmaxx( w ) - right_indent );
-    const int x = std::max( 0, available_width - ( int )text.display_width() );
+    const int x = std::max( 0, available_width - utf8_width( text, true ) );
     trim_and_print( w, line, x, available_width, FG, "%s", text.c_str() );
     return x;
 }
@@ -1158,10 +1158,6 @@ void popup_status( const char *title, const char *msg, ... )
     va_start( ap, msg );
     const std::string fmt = vstring_format( msg, ap );
     va_end( ap );
-
-    if( !test_mode ) {
-        std::cerr << fmt << std::endl;
-    }
 
     popup( text + fmt, PF_NO_WAIT );
 }

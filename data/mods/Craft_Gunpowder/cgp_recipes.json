@@ -26,7 +26,7 @@
   "type" : "recipe",
   "result": "8mm_bootleg",
   "category": "CC_AMMO",
-  "subcategory": "CSC_AMMO_BULLETS",
+  "subcategory": "CSC_AMMO_PISTOL",
   "skill_used": "fabrication",
   "skills_required": [ "cooking", 2 ],
   "difficulty": 8,
@@ -61,7 +61,7 @@
   "type" : "recipe",
   "result": "20x66_bootleg_shot",
   "category": "CC_AMMO",
-  "subcategory": "CSC_AMMO_BULLETS",
+  "subcategory": "CSC_AMMO_SHOT",
   "skill_used": "fabrication",
   "skills_required": [ "cooking", 2 ],
   "difficulty": 8,
@@ -95,7 +95,7 @@
   "type" : "recipe",
   "result": "20x66_bootleg_flechette",
   "category": "CC_AMMO",
-  "subcategory": "CSC_AMMO_BULLETS",
+  "subcategory": "CSC_AMMO_SHOT",
   "skill_used": "fabrication",
   "skills_required": [ "cooking", 2 ],
   "difficulty": 8,
@@ -123,7 +123,7 @@
   "type" : "recipe",
   "result": "20x66_bootleg_slug",
   "category": "CC_AMMO",
-  "subcategory": "CSC_AMMO_BULLETS",
+  "subcategory": "CSC_AMMO_SHOT",
   "skill_used": "fabrication",
   "skills_required": [ "cooking", 2 ],
   "difficulty": 8,
@@ -336,6 +336,146 @@
     [ [ "pipe", 3 ] ],
     [ [ "scrap", 2] ],
     [ [ "2x4", 2 ] ]
+  ]
+},
+{
+  "type" : "recipe",
+  "result": "smg_22_mag",
+  "category": "CC_AMMO",
+  "subcategory": "CSC_AMMO_OTHER",
+  "skill_used": "fabrication",
+  "skills_required": [ "gun", 1 ],
+  "difficulty": 2,
+  "time": 20000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities":[
+    {"id":"SAW_M","level":1},
+    {"id":"HAMMER","level":1},
+    {"id":"SCREW_FINE","level":1}
+  ],
+  "components": [
+    [
+      [ "sheet_metal", 1 ]
+    ],
+    [
+      [ "spring", 1 ]
+    ],
+    [
+      [ "duct_tape", 40 ]
+    ]
+  ]
+},
+{
+  "type" : "recipe",
+  "result": "smg_38_mag",
+  "category": "CC_AMMO",
+  "subcategory": "CSC_AMMO_OTHER",
+  "skill_used": "fabrication",
+  "skills_required": [ "gun", 1 ],
+  "difficulty": 2,
+  "time": 20000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities":[
+    {"id":"SAW_M","level":1},
+    {"id":"HAMMER","level":1},
+    {"id":"SCREW_FINE","level":1}
+  ],
+  "components": [
+    [
+      [ "sheet_metal", 1 ]
+    ],
+    [
+      [ "spring", 1 ]
+    ],
+    [
+      [ "duct_tape", 40 ]
+    ]
+  ]
+},
+{
+  "type" : "recipe",
+  "result": "smg_9mm_mag",
+  "category": "CC_AMMO",
+  "subcategory": "CSC_AMMO_OTHER",
+  "skill_used": "fabrication",
+  "skills_required": [ "gun", 1 ],
+  "difficulty": 2,
+  "time": 20000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities":[
+    {"id":"SAW_M","level":1},
+    {"id":"HAMMER","level":1},
+    {"id":"SCREW_FINE","level":1}
+  ],
+  "components": [
+    [
+      [ "sheet_metal", 1 ]
+    ],
+    [
+      [ "spring", 1 ]
+    ],
+    [
+      [ "duct_tape", 40 ]
+    ]
+  ]
+},
+{
+  "type" : "recipe",
+  "result": "smg_40_mag",
+  "category": "CC_AMMO",
+  "subcategory": "CSC_AMMO_OTHER",
+  "skill_used": "fabrication",
+  "skills_required": [ "gun", 1 ],
+  "difficulty": 2,
+  "time": 20000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities":[
+    {"id":"SAW_M","level":1},
+    {"id":"HAMMER","level":1},
+    {"id":"SCREW_FINE","level":1}
+  ],
+  "components": [
+    [
+      [ "sheet_metal", 1 ]
+    ],
+    [
+      [ "spring", 1 ]
+    ],
+    [
+      [ "duct_tape", 40 ]
+    ]
+  ]
+},
+{
+  "type" : "recipe",
+  "result": "smg_45_mag",
+  "category": "CC_AMMO",
+  "subcategory": "CSC_AMMO_OTHER",
+  "skill_used": "fabrication",
+  "skills_required": [ "gun", 1 ],
+  "difficulty": 2,
+  "time": 20000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities":[
+    {"id":"SAW_M","level":1},
+    {"id":"HAMMER","level":1},
+    {"id":"SCREW_FINE","level":1}
+  ],
+  "components": [
+    [
+      [ "sheet_metal", 1 ]
+    ],
+    [
+      [ "spring", 1 ]
+    ],
+    [
+      [ "duct_tape", 40 ]
+    ]
   ]
 }
 ]

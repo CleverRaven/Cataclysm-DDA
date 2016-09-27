@@ -567,8 +567,7 @@
          "covers" : ["TORSO"],
          "coverage" : 5,
          "material_thickness" : 1,
-         "encumbrance" : 20,
-         "warmth" : 0
+         "encumbrance" : 20
       },
       "ranged_damage" : 4,
       "range" : 5,
@@ -597,8 +596,7 @@
          "covers" : ["TORSO"],
          "coverage" : 5,
          "material_thickness" : 1,
-         "encumbrance" : 20,
-         "warmth" : 0
+         "encumbrance" : 20
       },
       "ranged_damage" : 3,
       "range" : 6,
@@ -629,8 +627,7 @@
          "covers" : ["TORSO"],
          "coverage" : 5,
          "material_thickness" : 1,
-         "encumbrance" : 20,
-         "warmth" : 0
+         "encumbrance" : 20
       },
       "ranged_damage" : 5,
       "range" : 10,
@@ -659,8 +656,7 @@
          "covers" : ["TORSO"],
          "coverage" : 5,
          "material_thickness" : 1,
-         "encumbrance" : 20,
-         "warmth" : 0
+         "encumbrance" : 20
       },
       "ranged_damage" : 7,
       "range" : 12,
@@ -690,8 +686,7 @@
          "covers" : ["TORSO"],
          "coverage" : 5,
          "material_thickness" : 1,
-         "encumbrance" : 20,
-         "warmth" : 0
+         "encumbrance" : 20
       },
       "ranged_damage" : 9,
       "range" : 14,
@@ -720,8 +715,7 @@
          "covers" : ["TORSO"],
          "coverage" : 5,
          "material_thickness" : 1,
-         "encumbrance" : 20,
-         "warmth" : 0
+         "encumbrance" : 20
       },
       "ranged_damage" : 11,
       "range" : 16,
@@ -750,8 +744,7 @@
          "covers" : ["TORSO"],
          "coverage" : 5,
          "material_thickness" : 1,
-         "encumbrance" : 20,
-         "warmth" : 0
+         "encumbrance" : 20
       },
       "ranged_damage" : 7,
       "range" : 20,
@@ -781,8 +774,7 @@
          "covers" : ["TORSO"],
          "coverage" : 5,
          "material_thickness" : 1,
-         "encumbrance" : 20,
-         "warmth" : 0
+         "encumbrance" : 20
       },
       "ranged_damage" : 15,
       "range" : 18,

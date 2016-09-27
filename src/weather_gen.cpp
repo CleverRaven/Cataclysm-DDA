@@ -3,30 +3,23 @@
 #include "enums.h"
 #include "calendar.h"
 #include "simplexnoise.h"
+#include "json.h"
 
 #include <cmath>
 #include <fstream>
+#include <cstdlib>
 
 namespace
 {
-constexpr double tau = 6.28318530717958647693; // aka 2PI aka 2 * std::acos(-1);
-// Data source: Wolfram Alpha
-constexpr double base_t = 6.5; // Average temperature of New England
-constexpr double base_h = 66.0; // Average humidity
-constexpr double base_p = 1015.0; // Average atmospheric pressure
+// GCC doesn't like M_PI here for some reason
+constexpr double PI  = 3.141592653589793238463;
+constexpr double tau = 2 * PI;
 } //namespace
 
-weather_generator::weather_generator()
-{
-    debug_weather = WEATHER_NULL;
-}
+weather_generator::weather_generator() = default;
 
-w_point weather_generator::get_weather( const tripoint &location, const calendar &t ) const
-{
-    return get_weather( point( location.x, location.y ), t );
-}
-
-w_point weather_generator::get_weather( const point &location, const calendar &t ) const
+w_point weather_generator::get_weather( const tripoint &location, const calendar &t,
+                                        unsigned seed ) const
 {
     const double x( location.x /
                     2000.0 ); // Integer x position / widening factor of the Perlin function.
@@ -39,13 +32,14 @@ w_point weather_generator::get_weather( const point &location, const calendar &t
 
     //limit the random seed during noise calculation, a large value flattens the noise generator to zero
     //Windows has a rand limit of 32768, other operating systems can have higher limits
-    const unsigned modSEED = SEED % 32768;
+    const unsigned modSEED = seed % 32768;
 
     // Noise factors
     double T( raw_noise_4d( x, y, z, modSEED ) * 4.0 );
     double H( raw_noise_4d( x, y, z / 5, modSEED + 101 ) );
     double H2( raw_noise_4d( x, y, z, modSEED + 151 ) / 4 );
     double P( raw_noise_4d( x, y, z / 3, modSEED + 211 ) * 70 );
+    double A( raw_noise_4d( x, y, z, modSEED ) * 8.0 );
     double W;
 
     const double now( double( t.turn_of_year() + DAYS( t.season_length() ) / 2 ) / double(
@@ -54,7 +48,8 @@ w_point weather_generator::get_weather( const point &location, const calendar &t
 
     // Temperature variation
     const double mod_t( 0 ); // TODO: make this depend on latitude and altitude?
-    const double current_t( base_t + mod_t ); // Current baseline temperature. Degrees Celsius.
+    const double current_t( base_temperature +
+                            mod_t ); // Current baseline temperature. Degrees Celsius.
     const double seasonal_variation( ctn * -1 ); // Start and end at -1 going up to 1 in summer.
     const double season_atenuation( ctn / 2 + 1 ); // Harsh winter nights, hot summers.
     const double season_dispersion( pow( 2,
@@ -71,30 +66,29 @@ w_point weather_generator::get_weather( const point &location, const calendar &t
 
     // Humidity variation
     const double mod_h( 0 );
-    const double current_h( base_h + mod_h );
+    const double current_h( base_humidity + mod_h );
     H = std::max( std::min( ( ctn / 10.0 + ( -pow( H, 2 ) * 3 + H2 ) ) * current_h / 2.0 + current_h,
                             100.0 ),
                   0.0 ); // Humidity stays mostly at the mean level, but has low peaks rarely. It's a percentage.
 
     // Pressure variation
     P += seasonal_variation * 20 +
-         base_p; // Pressure is mostly random, but a bit higher on summer and lower on winter. In millibars.
+         base_pressure; // Pressure is mostly random, but a bit higher on summer and lower on winter. In millibars.
 
     // Wind power
     W = std::max( 0, 1020 - ( int )P );
 
-    return w_point {T, H, P, W, false};
+    // Acid rains
+    const double acid_content = base_acid * A;
+    bool acid = acid_content >= 1.0;
+
+    return w_point {T, H, P, W, acid};
 }
 
-weather_type weather_generator::get_weather_conditions( const point &location,
-        const calendar &t ) const
+weather_type weather_generator::get_weather_conditions( const tripoint &location,
+        const calendar &t, unsigned seed ) const
 {
-    if( debug_weather != WEATHER_NULL ) {
-        // Debug mode weather forcing
-        return debug_weather;
-    }
-
-    w_point w( get_weather( location, t ) );
+    w_point w( get_weather( location, t, seed ) );
     weather_type wt = get_weather_conditions( w );
     // Make sure we don't say it's sunny at night! =P
     if( wt == WEATHER_SUNNY && t.is_night() ) {
@@ -105,11 +99,6 @@ weather_type weather_generator::get_weather_conditions( const point &location,
 
 weather_type weather_generator::get_weather_conditions( const w_point &w ) const
 {
-    if( debug_weather != WEATHER_NULL ) {
-        // Debug mode weather forcing
-        return debug_weather;
-    }
-
     weather_type r( WEATHER_CLEAR );
     if( w.pressure > 1030 && w.humidity < 70 ) {
         r = WEATHER_SUNNY;
@@ -189,8 +178,18 @@ void weather_generator::test_weather() const
 
     for( calendar i( calendar::turn );
          i.get_turn() < calendar::turn + 14400 * 2 * calendar::turn.year_length(); i += 200 ) {
-        w_point w = get_weather( point( 0, 0 ), i );
+        w_point w = get_weather( tripoint( 0, 0, 0 ), i, rand() );
         testfile << i.get_turn() << "," << w.temperature << "," << w.humidity << "," << w.pressure <<
                  std::endl;
     }
+}
+
+weather_generator weather_generator::load( JsonObject &jo )
+{
+    weather_generator ret;
+    ret.base_temperature = jo.get_float( "base_temperature", 6.5 );
+    ret.base_humidity = jo.get_float( "base_humidity", 66.0 );
+    ret.base_pressure = jo.get_float( "base_pressure", 1015.0 );
+    ret.base_acid = jo.get_float( "base_acid", 1015.0 );
+    return ret;
 }

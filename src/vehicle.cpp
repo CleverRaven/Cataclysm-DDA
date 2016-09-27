@@ -912,7 +912,7 @@ void vehicle::use_controls( const tripoint &pos )
     if( has_part( "ENGINE" ) ) {
         if( g->u.controlling_vehicle || ( remote && engine_on ) ) {
             options.emplace_back( _( "Stop driving" ), keybind( "TOGGLE_ENGINE" ) );
-            actions.push_back( [&] { 
+            actions.push_back( [&] {
                 if( engine_on && has_engine_type_not( fuel_type_muscle, true ) ){
                     add_msg( _( "You turn the engine off and let go of the controls." ) );
                 } else {
@@ -925,7 +925,7 @@ void vehicle::use_controls( const tripoint &pos )
 
         } else if( has_engine_type_not(fuel_type_muscle, true ) ) {
             options.emplace_back( engine_on ? _( "Turn off the engine" ) : _( "Turn on the engine" ), keybind( "TOGGLE_ENGINE" ) );
-            actions.push_back( [&] { 
+            actions.push_back( [&] {
                 if( engine_on ) {
                     engine_on = false;
                     add_msg( _( "You turn the engine off." ) );
@@ -2134,6 +2134,22 @@ bool vehicle::has_part( const std::string &flag, bool enabled ) const
     } );
 }
 
+bool vehicle::has_part( const tripoint &pos, const std::string &flag, bool enabled ) const
+{
+    auto px = pos.x - global_x();
+    auto py = pos.y - global_y();
+
+    for( const auto &e : parts ) {
+        if( e.precalc[0].x != px || e.precalc[0].y != py ) {
+            continue;
+        }
+        if( !e.removed && !e.is_broken() && ( !enabled || e.enabled ) && e.info().has_flag( flag ) ) {
+            return true;
+        }
+    }
+    return false;
+}
+
 std::vector<vehicle_part *> vehicle::get_parts( const std::string &flag, bool enabled )
 {
     std::vector<vehicle_part *> res;
@@ -2566,11 +2582,8 @@ int vehicle::print_part_desc(WINDOW *win, int y1, const int max_y, int width, in
             break;
         }
 
-        int dur = part_info (pl[i]).durability;
-        int per_cond = parts[pl[i]].hp() * 100 / (dur < 1? 1 : dur);
-        nc_color col_cond = getDurabilityColor(per_cond);
-
         const vehicle_part& vp = parts[ pl [ i ] ];
+        nc_color col_cond = vp.is_broken() ? c_dkgray : vp.base.damage_color();
 
         std::string partname = vp.name();
 
@@ -5918,7 +5931,13 @@ void vehicle::update_time( const calendar &update_to )
     }
 
     const auto update_from = last_update_turn;
-    if( update_to - update_from < MINUTES(1) ) {
+    if( update_to < update_from ) {
+        // Special case going backwards in time - that happens
+        last_update_turn = update_to;
+        return;
+    }
+
+    if( update_to >= update_from && update_to - update_from < MINUTES(1) ) {
         // We don't need to check every turn
         return;
     }

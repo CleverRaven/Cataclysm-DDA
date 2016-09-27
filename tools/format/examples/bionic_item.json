@@ -1,0 +1,17 @@
+[
+  {
+    "id": "bio_infrared",
+    "type": "BIONIC_ITEM",
+    "category": "bionics",
+    "name": "Infrared Vision CBM",
+    "description": "Your range of vision extends into the infrared, allowing you to see warm-blooded creatures in the dark, and even through walls.",
+    "weight": 2041,
+    "volume": 10,
+    "price": 450000,
+    "bashing": 8,
+    "material": [ "steel", "plastic" ],
+    "symbol": ":",
+    "color": "yellow",
+    "difficulty": 6
+  }
+]

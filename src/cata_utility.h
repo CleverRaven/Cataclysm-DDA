@@ -21,6 +21,8 @@ enum units_type {
     VU_WIND
 };
 
+double round_up( double val, unsigned int dp );
+
 bool isBetween( int test, int down, int up );
 
 bool list_items_match( const item *item, std::string sPattern );

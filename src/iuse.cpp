@@ -37,7 +37,6 @@
 #include "ui.h"
 #include "mtype.h"
 #include "field.h"
-#include "weather_gen.h"
 #include "weather.h"
 #include "cata_utility.h"
 #include "map_iterator.h"
@@ -858,7 +857,7 @@ int iuse::meditate(player *p, item *it, bool t, const tripoint& )
     if( !p || t ) {
         return 0;
     }
-    
+
     if( p->has_trait( "SPIRITUAL" ) ) {
         p->assign_activity( ACT_MEDITATE, 2000 );
     } else {
@@ -2376,7 +2375,7 @@ int iuse::fishing_rod(player *p, item *it, bool, const tripoint& )
         return 0;
     }
     point op = ms_to_omt_copy( g->m.getabs( dirx, diry ) );
-    if( !otermap[overmap_buffer.ter(op.x, op.y, g->get_levz())].has_flag(river_tile) ) {
+    if( !overmap_buffer.ter(op.x, op.y, g->get_levz())->has_flag(river_tile) ) {
         p->add_msg_if_player(m_info, _("That water does not contain any fish.  Try a river instead."));
         return 0;
     }
@@ -2428,7 +2427,7 @@ int iuse::fish_trap(player *p, item *it, bool t, const tripoint &pos)
             return 0;
         }
         point op = ms_to_omt_copy(g->m.getabs(dirx, diry));
-        if( !otermap[overmap_buffer.ter(op.x, op.y, g->get_levz())].has_flag(river_tile) ) {
+        if( !overmap_buffer.ter(op.x, op.y, g->get_levz())->has_flag(river_tile) ) {
             p->add_msg_if_player(m_info, _("That water does not contain any fish, try a river instead."));
             return 0;
         }
@@ -2459,7 +2458,7 @@ int iuse::fish_trap(player *p, item *it, bool t, const tripoint &pos)
                 return 0;
             }
             point op = ms_to_omt_copy( g->m.getabs( pos.x, pos.y ) );
-           if( !otermap[overmap_buffer.ter(op.x, op.y, g->get_levz())].has_flag(river_tile) ) {
+           if( !overmap_buffer.ter(op.x, op.y, g->get_levz())->has_flag(river_tile) ) {
                 return 0;
             }
             int success = -50;
@@ -3805,14 +3804,16 @@ int iuse::arrow_flamable(player *p, item *it, bool, const tripoint& )
 
 int iuse::molotov_lit(player *p, item *it, bool t, const tripoint &pos)
 {
-    int age = int(calendar::turn) - it->bday;
-    if( p->has_item( *it ) ) {
+    if (pos.x == -999 || pos.y == -999) {
+        return 0;
+    } else if (it->charges > 0) {
+        add_msg(m_info, _("You've already lit the %s, try throwing it instead."), it->tname().c_str());
+        return 0;
+    } else if( p->has_item( *it ) && it->charges == 0 ) {
         it->charges += 1;
-        if (age >= 5) { // More than 5 turns old = chance of going out
-            if (rng(1, 50) < age) {
-                p->add_msg_if_player(_("Your lit Molotov goes out."));
-                it->convert( "molotov" ).active = false;
-            }
+        if ( one_in ( 5 ) ) {
+            p->add_msg_if_player(_("Your lit Molotov goes out."));
+            it->convert( "molotov" ).active = false;
         }
     } else {
         if( !t ) {
@@ -4585,7 +4586,7 @@ int iuse::hacksaw(player *p, item *it, bool t, const tripoint &pos )
     if( !p || t ) {
         return 0;
     }
-    
+
     tripoint dirp = pos;
     if (!choose_adjacent(_("Cut up metal where?"), dirp)) {
         return 0;
@@ -7661,8 +7662,7 @@ int iuse::hairkit(player *p, item *it, bool, const tripoint&)
 
 int iuse::weather_tool( player *p, item *it, bool, const tripoint& )
 {
-    w_point const weatherPoint = g->weather_gen->get_weather( p->global_square_location(),
-                                                              calendar::turn );
+    w_point const weatherPoint = *g->weather_precise;
 
     if( it->typeId() == "weather_reader" ) {
         p->add_msg_if_player( m_neutral, _( "The %s's monitor slowly outputs the data..." ),
@@ -7709,7 +7709,7 @@ int iuse::weather_tool( player *p, item *it, bool, const tripoint& )
             vehwindspeed = abs( veh->velocity / 100 ); // For mph
         }
         const oter_id &cur_om_ter = overmap_buffer.ter( p->global_omt_location() );
-        std::string omtername = otermap[cur_om_ter].name;
+        const std::string &omtername = cur_om_ter->name;
         /* windpower defined in internal velocity units (=.01 mph) */
         int windpower = int(100.0f * get_local_windpower( weatherPoint.windpower + vehwindspeed,
                                                           omtername, g->is_sheltered( g->u.pos() ) ) );

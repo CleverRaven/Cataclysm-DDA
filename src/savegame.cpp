@@ -291,17 +291,15 @@ void game::load_weather(std::istream & fin) {
     if (fin.peek() == 's') {
         std::string line, label;
         getline(fin, line);
-        int seed(0);
         std::stringstream liness(line);
         liness >> label >> seed;
-        weather_gen->set_seed( seed );
     }
 }
 
 void game::save_weather(std::ostream &fout) {
     fout << "# version " << savegame_version << std::endl;
     fout << "lightning: " << (lightning_active ? "1" : "0") << std::endl;
-    fout << "seed: " << weather_gen->get_seed();
+    fout << "seed: " << seed;
 }
 
 bool overmap::obsolete_terrain( const std::string &ter ) {
@@ -433,7 +431,7 @@ void overmap::convert_terrain( const std::unordered_map<tripoint, std::string> &
             const auto y_it = needs_conversion.find( tripoint( pos.x, pos.y + conv.yoffset, pos.z ) );
             if( x_it != needs_conversion.end() && x_it->second == conv.x_id &&
                 y_it != needs_conversion.end() && y_it->second == conv.y_id ) {
-                new_id = conv.new_id;
+                new_id = oter_id( conv.new_id );
                 break;
             }
         }
@@ -482,12 +480,12 @@ void overmap::unserialize( std::istream &fin ) {
                                     needs_conversion.emplace( tripoint( p, j, z-OVERMAP_DEPTH ),
                                                               tmp_ter );
                                 }
-                                tmp_otid = 0;
-                            } else if( otermap.find( tmp_ter ) != otermap.end() ) {
-                                tmp_otid = tmp_ter;
+                                tmp_otid = oter_id( 0 );
+                            } else if( oter_str_id( tmp_ter ).is_valid() ) {
+                                tmp_otid = oter_id( tmp_ter );
                             } else {
                                 debugmsg("Loaded bad ter! ter %s", tmp_ter.c_str());
-                                tmp_otid = 0;
+                                tmp_otid = oter_id( 0 );
                             }
                         }
                         count--;
@@ -812,7 +810,7 @@ void overmap::serialize( std::ostream &fout ) const
                     }
                     last_tertype = t;
                     json.start_array();
-                    json.write( (std::string)t );
+                    json.write( t.id() );
                     count = 1;
                 } else {
                     count++;

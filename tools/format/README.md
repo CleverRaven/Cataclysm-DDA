@@ -3,7 +3,7 @@
 A linting tool for JSON data similar to astyle in just over 100 lines of
 idiomatic perl. Configurable without knowledge of perl and requiring no
 external dependencies beyond the p5-JSON module
-    
+
 # Usage
 
 `format.pl [-qc] [file...]`
@@ -15,11 +15,11 @@ external dependencies beyond the p5-JSON module
 
 Parse a file and output JSON in canonical format
 
-`format.pl examples/vehicle.json > output.json`
+`format.pl examples/vehicle_part.json > output.json`
 
 Check a file is valid JSON and has no unknown fields
 
-`format.pl -q examples/vehicle.json`
+`format.pl -q examples/vehicle_part.json`
 
 Check all files in directory are valid JSON in canonical format
 
@@ -39,7 +39,7 @@ Given the following example data:
 ```
 {
   "id": "bottle_plastic"
-  "type": "CONTANER",
+  "type": "CONTAINER",
   "name": "plastic bottle"
 }
 ```
@@ -292,7 +292,7 @@ Note that `use_action` could either have a direct child or an array:
 ```
 :use_action:charges_needed
 :use_action:charges_needed:.*    # naive
-:use_action:charges_needed<>:\w+ # more specfic
+:use_action:charges_needed<>:\w+ # more specific
 ```
 
 For objects with variable keys both work but the more specific is preferred:

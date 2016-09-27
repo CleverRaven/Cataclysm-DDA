@@ -1,0 +1,23 @@
+[
+  {
+    "id": "soulcube_on",
+    "type": "TOOL",
+    "name": "healing soulcube",
+    "description": "An unknown cube-shaped device of obviously alien origin, it's purpose is unknown.",
+    "weight": 1000,
+    "volume": 2,
+    "price": 1000000,
+    "to_hit": -3,
+    "bashing": 6,
+    "cutting": 6,
+    "material": "diamond",
+    "symbol": ",",
+    "color": "white",
+    "initial_charges": 4,
+    "max_charges": 4,
+    "turns_per_charge": 1,
+    "revert_to": "soulcube_charging",
+    "artifact_data": { "effects_activated": [ "AEA_HEAL" ] },
+    "use_action": "ARTIFACT"
+  }
+]

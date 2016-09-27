@@ -144,6 +144,9 @@ class game
         /** Loads static data that does not depend on mods or similar. */
         void load_static_data();
 
+        /** Loads core dynamic data. May throw. */
+        void load_core_data();
+
         /**
          *  Check if mods can be sucessfully loaded
          *  @param opts check specific mods (or all if unspecified)
@@ -156,8 +159,7 @@ class game
     protected:
         /** Loads dynamic data from the given directory. May throw. */
         void load_data_from_dir( const std::string &path, const std::string &src );
-        /** Loads core dynamic data. May throw. */
-        void load_core_data();
+
 
         // May be a bit hacky, but it's probably better than the header spaghetti
         std::unique_ptr<map> map_ptr;
@@ -406,7 +408,7 @@ class game
         void refresh_all();
         // Handles shifting coordinates transparently when moving between submaps.
         // Helper to make calling with a player pointer less verbose.
-        void update_map(player *p);
+        void update_map( player &p );
         void update_map(int &x, int &y);
         void update_overmap_seen(); // Update which overmap tiles we can see
 
@@ -490,7 +492,6 @@ class game
         void reset_zoom();
         int get_user_action_counter() const;
 
-        std::unique_ptr<weather_generator> weather_gen;
         signed char temperature;              // The air temperature
         int get_temperature();    // Returns outdoor or indoor temperature of current location
         weather_type weather;   // Weather pattern--SEE weather.h
@@ -513,6 +514,7 @@ class game
          * The overmap which contains the center submap of the reality bubble.
          */
         overmap &get_cur_om() const;
+        const weather_generator &get_cur_weather_gen() const;
         const scenario *scen;
         std::vector<monster> coming_to_stairs;
         int monstairz;
@@ -793,6 +795,8 @@ class game
 public:
         bool unload( item &it ); // Unload a gun/tool  'U'
         void unload(int pos = INT_MIN);
+
+        unsigned int get_seed() const;
 private:
         void wield(int pos = INT_MIN); // Wield a weapon  'w'
         void read(); // Read a book  'R' (or 'a')
@@ -930,6 +934,11 @@ private:
 
         /** How far the tileset should be zoomed out, 16 is default. 32 is zoomed in by x2, 8 is zoomed out by x0.5 */
         int tileset_zoom;
+
+        /** Seed for all the random numbers that should have consistent randomness (weather). */
+        unsigned int seed;
+
+        weather_type weather_override;
 
         // Preview for auto move route
         std::vector<tripoint> destination_preview;

@@ -17,8 +17,8 @@
   {
     "id": "8mm_caseless",
     "type": "AMMO",
-    "name": "8x40m",
-    "name_plural": "8x40m",
+    "name": "8x40mm caseless",
+    "name_plural": "8x40mm caseless",
     "//": "Cased ammo tends to be roughly $1/shot, more or less.  Rivtech ammo, being New and Proprietary and Expensive, $2-2.50 or so.",
     "description": "8x40mm caseless rounds.  Proprietary ammunition for Rivtech firearms.  Being caseless rounds, these cannot be disassembled or reloaded.",
     "weight": 12,
@@ -34,15 +34,15 @@
     "damage": 42,
     "pierce": 18,
     "dispersion": 75,
-    "recoil": 400,
+    "recoil": 2200,
     "effects": [ "NEVER_MISFIRES" ]
   },
   {
     "id": "8mm_civilian",
     "copy-from": "8mm_caseless",
     "type": "AMMO",
-    "name": "8x40m sporting",
-    "name_plural": "8x40m sporting",
+    "name": "8x40mm sporting",
+    "name_plural": "8x40mm sporting",
     "description": "8x40mm caseless rounds, light sporting load sold for civilian use.  Proprietary ammunition for Rivtech firearms.  Being caseless rounds, these cannot be disassembled or reloaded.",
     "proportional": {
       "price": 0.8,

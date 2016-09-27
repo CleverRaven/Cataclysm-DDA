@@ -116,7 +116,7 @@
   {
     "type" : "item_group",
     "id" : "guns_smg_obscure",
-    "//" : "Imported or otherwise very SMGs.",
+    "//" : "Imported or otherwise very obscure SMGs.",
     "items": [
       [ "ppsh", 150 ],
       [ "skorpion_61", 100 ],

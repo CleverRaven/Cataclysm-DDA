@@ -153,7 +153,7 @@ void map::generate(const int x, const int y, const int z, const int turn)
     float density = 0.0;
     for (int i = overx - MON_RADIUS; i <= overx + MON_RADIUS; i++) {
         for (int j = overy - MON_RADIUS; j <= overy + MON_RADIUS; j++) {
-            density += otermap[overmap_buffer.ter(i, j, z)].mondensity;
+            density += overmap_buffer.ter(i, j, z)->mondensity;
         }
     }
     density = density / 100;
@@ -162,11 +162,11 @@ void map::generate(const int x, const int y, const int z, const int turn)
              t_above, turn, density, z, rsettings);
 
     // At some point, we should add region information so we can grab the appropriate extras
-    map_extras ex = region_settings_map["default"].region_extras[otermap[terrain_type].extras];
+    map_extras ex = region_settings_map["default"].region_extras[terrain_type->extras];
     if ( ex.chance > 0 && one_in( ex.chance )) {
         std::string* extra = ex.values.pick();
         if(extra == NULL) {
-            debugmsg("failed to pick extra for type %s", otermap[terrain_type].extras.c_str());
+            debugmsg("failed to pick extra for type %s", terrain_type->extras.c_str());
         } else {
             auto func = MapExtras::get_function(*(ex.values.pick()));
             if(func != NULL) {
@@ -175,7 +175,7 @@ void map::generate(const int x, const int y, const int z, const int turn)
         }
     }
 
-    const overmap_spawns &spawns = terrain_type.t().static_spawns;
+    const overmap_spawns &spawns = terrain_type->static_spawns;
     if( spawns.group && x_in_y( spawns.chance, 100 ) ) {
         int pop = rng( spawns.min_population, spawns.max_population );
         // place_spawns currently depends on the STATIC_SPAWN world option, this
@@ -216,7 +216,7 @@ void map::generate(const int x, const int y, const int z, const int turn)
     }
 }
 
-void mapgen_function_builtin::generate( map *m, oter_id o, mapgendata mgd, int i, float d )
+void mapgen_function_builtin::generate( map *m, const oter_id &o, const mapgendata &mgd, int i, float d )
 {
     (*fptr)( m, o, mgd, i, d );
 }
@@ -1597,7 +1597,7 @@ void mapgen_function_json::formatted_set_incredibly_simple( map * const m ) cons
 /*
  * Apply mapgen as per a derived-from-json recipe; in theory fast, but not very versatile
  */
-void mapgen_function_json::generate( map *m, oter_id terrain_type, mapgendata md, int t, float d ) {
+void mapgen_function_json::generate( map *m, const oter_id &terrain_type, const mapgendata &md, int t, float d ) {
     if ( fill_ter != t_null ) {
         m->draw_fill_background( fill_ter );
     }
@@ -1608,14 +1608,14 @@ void mapgen_function_json::generate( map *m, oter_id terrain_type, mapgendata md
         elem.apply( m );
     }
     if ( ! luascript.empty() ) {
-        lua_mapgen( m, std::string( terrain_type ), md, t, d, luascript );
+        lua_mapgen( m, terrain_type, md, t, d, luascript );
     }
 
     objects.apply(m, d);
 
     m->rotate( rotation.get() );
 
-    if( terrain_type.t().has_flag(rotates) ) {
+    if( terrain_type->has_flag(rotates) ) {
         mapgen_rotate(m, terrain_type, false );
     }
 }
@@ -1639,7 +1639,7 @@ void jmapgen_objects::apply(map *m, float density) const {
 // wip: need moar bindings. Basic stuff works
 
 #ifndef LUA
-int lua_mapgen( map *m, std::string id, mapgendata md, int t, float d, const std::string & )
+int lua_mapgen( map *m, const oter_id &id, const mapgendata &md, int t, float d, const std::string & )
 {
     mapgen_crater(m,id,md,t,d);
     mapf::formatted_set_simple(m, 0, 6,
@@ -1660,8 +1660,8 @@ int lua_mapgen( map *m, std::string id, mapgendata md, int t, float d, const std
 }
 #endif
 
-void mapgen_function_lua::generate( map *m, oter_id terrain_type, mapgendata dat, int t, float d ) {
-    lua_mapgen( m, std::string( terrain_type ), dat, t, d, scr );
+void mapgen_function_lua::generate( map *m, const oter_id &terrain_type, const mapgendata &dat, int t, float d ) {
+    lua_mapgen( m, terrain_type, dat, t, d, scr );
 }
 
 /////////////
@@ -1717,7 +1717,7 @@ void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter
 
     computer *tmpcomp = NULL;
     bool terrain_type_found = true;
-    const std::string function_key = terrain_type.t().id_mapgen;
+    const std::string function_key = terrain_type->id_mapgen;
 
 
     std::map<std::string, std::vector<mapgen_function*> >::const_iterator fmapit = oter_mapgen.find( function_key );
@@ -10220,7 +10220,7 @@ FFFFFFFFFFFFFFFFFFFFFFFF\n\
         // not one of the hardcoded ones!
         // load from JSON???
         debugmsg("Error: tried to generate map for omtype %s, \"%s\" (id_mapgen %s)",
-                 terrain_type.c_str(), otermap[terrain_type].name.c_str(), function_key.c_str() );
+                 terrain_type.id().c_str(), terrain_type->name.c_str(), function_key.c_str() );
         fill_background(this, t_floor);
 
     }}
@@ -10356,7 +10356,7 @@ FFFFFFFFFFFFFFFFFFFFFFFF\n\
     int terrain_type_with_suffix_to_nesw_array( oter_id terrain_type, bool array[4] );
 
     // finally, any terrain with SIDEWALKS should contribute sidewalks to neighboring diagonal roads
-    if( otermap[terrain_type].has_flag( has_sidewalk ) ) {
+    if( terrain_type->has_flag( has_sidewalk ) ) {
         for( int dir = 4; dir < 8; dir++ ) { // NE SE SW NW
             bool n_roads_nesw[4] = {};
             int n_num_dirs = terrain_type_with_suffix_to_nesw_array( oter_id( t_nesw[dir] ), n_roads_nesw );
@@ -10432,7 +10432,7 @@ void map::place_spawns(const mongroup_id& group, const int chance,
     if( !group.is_valid() ) {
         const point omt = sm_to_omt_copy( get_abs_sub().x, get_abs_sub().y );
         const oter_id &oid = overmap_buffer.ter( omt.x, omt.y, get_abs_sub().z );
-        debugmsg("place_spawns: invalid mongroup '%s', om_terrain = '%s' (%s)", group.c_str(), oid.t().id.c_str(), oid.t().id_mapgen.c_str() );
+        debugmsg("place_spawns: invalid mongroup '%s', om_terrain = '%s' (%s)", group.c_str(), oid.id().c_str(), oid->id_mapgen.c_str() );
         return;
     }
 
@@ -10544,7 +10544,7 @@ std::vector<item *> map::place_items( items_location loc, int chance, int x1, in
         const point omt = sm_to_omt_copy( get_abs_sub().x, get_abs_sub().y );
         const oter_id &oid = overmap_buffer.ter( omt.x, omt.y, get_abs_sub().z );
         debugmsg("place_items: invalid item group '%s', om_terrain = '%s' (%s)",
-                 loc.c_str(), oid.t().id.c_str(), oid.t().id_mapgen.c_str() );
+                 loc.c_str(), oid.id().c_str(), oid->id_mapgen.c_str() );
         return res;
     }
 

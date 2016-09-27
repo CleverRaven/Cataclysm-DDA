@@ -16,7 +16,7 @@
     "range": 6,
     "damage": 50,
     "dispersion": 90,
-    "recoil": 420,
+    "recoil": 1500,
     "loudness": 70,
     "effects": [ "COOKOFF", "MUZZLE_SMOKE" ]
   },
@@ -37,7 +37,7 @@
     "range": 4,
     "damage": 45,
     "dispersion": 20,
-    "recoil": 420,
+    "recoil": 1500,
     "loudness": 90,
     "effects": [ "COOKOFF", "MUZZLE_SMOKE", "SHOT" ]
   }

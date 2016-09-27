@@ -145,6 +145,9 @@ class options_manager : public JsonSerializer, public JsonDeserializer
          */
         std::unordered_map<std::string, cOpt> get_world_defaults() const;
 
+        /** Check if an option exists? */
+        bool has_option( const std::string &name ) const;
+
         cOpt &get_option( const std::string &name );
         cOpt &get_world_option( const std::string &name );
 

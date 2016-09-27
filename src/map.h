@@ -40,8 +40,11 @@ class computer;
 struct itype;
 struct mapgendata;
 struct trap;
+struct oter_t;
+
 using trap_id = int_id<trap>;
-struct oter_id;
+using oter_id = int_id<oter_t>;
+
 struct regional_settings;
 struct mongroup;
 struct ter_t;

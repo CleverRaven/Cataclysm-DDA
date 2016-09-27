@@ -1,0 +1,36 @@
+[
+  {
+    "id": "mag_pistol",
+    "type": "BOOK",
+    "name": "Tactical Handgun Digest",
+    "description": "A glossy magazine all about handguns and shooting.  There is a good article about proper sighting near the middle.",
+    "weight": 90,
+    "volume": 1,
+    "price": 450,
+    "material": [ "paper" ],
+    "symbol": "?",
+    "color": "pink",
+    "skill": "pistol",
+    "max_level": 1,
+    "intelligence": 5,
+    "time": 8,
+    "fun": 1
+  },
+  {
+    "id": "manual_pistol",
+    "type": "BOOK",
+    "name": "The Tao of the Handgun",
+    "name_plural": "copies of The Tao of the Handgun",
+    "description": "This introspective volume covers proper usage of handguns, from safety and stance, to maintenance and proper sighting technique.",
+    "weight": 440,
+    "volume": 2,
+    "price": 2200,
+    "material": [ "paper" ],
+    "symbol": "?",
+    "color": "green",
+    "skill": "pistol",
+    "max_level": 3,
+    "intelligence": 3,
+    "time": 15
+  }
+]

@@ -3,7 +3,7 @@
     "id": "20x66_10_mag",
     "type": "MAGAZINE",
     "name": "RMSA10 magazine",
-    "description": "A 10 round box magazine for use with the RM121 auxiliary shotgun.",
+    "description": "A 10 round box magazine for use with the RM228 PDW and RM121 auxiliary shotgun.",
     "weight": 210,
     "volume": 1,
     "price": 40000,

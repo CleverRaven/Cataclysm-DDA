@@ -51,6 +51,11 @@
       "removal": {
         "skills": [ [ "mechanics", 1 ] ],
         "using": "vehicle_weld_removal"
+      },
+      "repair": {
+        "skills": [ [ "mechanics", 1 ] ],
+        "time": 30000,
+        "using": [ [ "welding_standard", 5 ] ]
       }
     },
     "flags": [ "MOUNTABLE" ]
@@ -85,7 +90,16 @@
       { "item": "splinter", "count": [ 3, 5 ] },
       { "item": "string_36", "count": [ 10, 15 ] }
     ],
-    "flags": [ "NAILABLE" ]
+    "requirements": {
+      "install": {
+        "time": 60000,
+        "components": [ [ [ "rope_6", 1 ] ] ]
+      },
+      "repair": {
+        "time": 30000,
+        "using": [ [ "adhesive", 1 ] ]
+      }
+    }
   },
   {
     "abstract": "hdframe",
@@ -106,6 +120,11 @@
       "removal": {
         "skills": [ [ "mechanics", 1 ] ],
         "using": "vehicle_weld_removal"
+      },
+      "repair": {
+        "skills": [ [ "mechanics", 3 ] ],
+        "time": 60000,
+        "using": [ [ "welding_standard", 10 ] ]
       }
     },
     "flags": [ "MOUNTABLE" ]

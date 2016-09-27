@@ -37,8 +37,10 @@
     [ [ "tank_gun_auto", 1 ] ]
   ]
 },{
-  "type" : "uncraft",
+  "type" : "recipe",
   "result": "30mm_slug",
+  "category": "CC_AMMO",
+  "subcategory": "CSC_AMMO_OTHER",
   "skill_used": "fabrication",
   "skills_required": [ ["launcher", 3], ["electronics", 1] ],
   "difficulty": 5,
@@ -66,8 +68,10 @@
     ]
   ]
 },{
-  "type" : "uncraft",
+  "type" : "recipe",
   "result": "120mm_usable_shot",
+  "category": "CC_AMMO",
+  "subcategory": "CSC_AMMO_OTHER",
   "skill_used": "fabrication",
   "skills_required": [ ["launcher", 4], ["electronics", 1] ],
   "difficulty": 6,
@@ -95,8 +99,10 @@
     ]
   ]
 },{
-  "type" : "uncraft",
+  "type" : "recipe",
   "result": "120mm_usable_slug",
+  "category": "CC_AMMO",
+  "subcategory": "CSC_AMMO_OTHER",
   "skill_used": "fabrication",
   "skills_required": [ ["launcher", 4], ["electronics", 1] ],
   "difficulty": 7,
@@ -129,8 +135,10 @@
     ]
   ]
 },{
-  "type" : "uncraft",
+  "type" : "recipe",
   "result": "155mm_shot",
+  "category": "CC_AMMO",
+  "subcategory": "CSC_AMMO_OTHER",
   "skill_used": "fabrication",
   "skills_required": [ ["launcher", 5], ["electronics", 1] ],
   "difficulty": 7,
@@ -158,8 +166,10 @@
     ]
   ]
 },{
-  "type" : "uncraft",
+  "type" : "recipe",
   "result": "155mm_slug",
+  "category": "CC_AMMO",
+  "subcategory": "CSC_AMMO_OTHER",
   "skill_used": "fabrication",
   "skills_required": [ ["launcher", 5], ["electronics", 1] ],
   "difficulty": 8,

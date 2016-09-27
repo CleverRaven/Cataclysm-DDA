@@ -19,7 +19,7 @@
   {
     "id": "roller_drum",
     "type": "vehicle_part",
-    "name": "Roller drum",
+    "name": "roller drum",
     "item": "hd_steel_drum",
     "location": "center",
     "symbol": "B",

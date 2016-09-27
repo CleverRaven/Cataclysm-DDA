@@ -7113,7 +7113,7 @@
         "id" : "pond_field",
         "name" : "pond",
         "sym" : 46,
-        "color" : "brown",
+        "color" : "blue",
         "see_cost" : 5,
         "extras" : "none",
         "mondensity" : 2
@@ -7122,7 +7122,7 @@
         "id" : "pond_forest",
         "name" : "basin",
         "sym" : 70,
-        "color" : "green",
+        "color" : "blue",
         "see_cost" : 5,
         "extras" : "none",
         "mondensity" : 2

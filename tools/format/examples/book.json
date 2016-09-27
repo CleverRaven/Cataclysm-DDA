@@ -1,0 +1,19 @@
+[
+  {
+    "id": "manual_mechanics",
+    "type": "BOOK",
+    "name": "Under the Hood",
+    "description": "An advanced mechanics manual, covering all sorts of topics.",
+    "weight": 454,
+    "volume": 3,
+    "price": 5500,
+    "material": [ "paper" ],
+    "symbol": "?",
+    "color": "green",
+    "skill": "mechanics",
+    "required_level": 0,
+    "max_level": 3,
+    "intelligence": 5,
+    "time": 18
+  }
+]
