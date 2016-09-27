@@ -543,7 +543,7 @@ int player::fire_gun( const tripoint &target, int shots, item& gun )
 
         if( shot.hit_critter ) {
             hits++;
-            if( range > double( get_skill_level( skill_gun ) ) / MAX_SKILL * MAX_RANGE ) {
+            if( range > double( get_skill_level( skill_gun ) ) / MAX_SKILL * gun.gun_range() ) {
                 xp += range; // shots at sufficient distance train marksmanship
             }
         }
