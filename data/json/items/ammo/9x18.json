@@ -18,8 +18,8 @@
     "range": 13,
     "damage": 16,
     "pierce": 2,
-    "dispersion": 140,
-    "recoil": 185,
+    "dispersion": 60,
+    "recoil": 300,
     "effects": [ "COOKOFF" ]
   },
   {
@@ -34,9 +34,9 @@
     "relative": {
       "range": 2,
       "damage": 4,
-      "dispersion": -30,
-      "recoil": 30
-    }
+      "dispersion": -10
+    },
+    "proportional": { "recoil": 1.1 }
   },
   {
     "id": "9x18mmfmj",

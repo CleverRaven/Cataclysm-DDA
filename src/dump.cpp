@@ -29,9 +29,12 @@ bool game::dump_stats( const std::string& what, dump_mode mode, const std::vecto
     int scol = 0; // sorting column
 
     std::map<std::string, standard_npc> test_npcs;
-    test_npcs[ "S1" ] = standard_npc( "S1", { "gloves_survivor", "mask_lsurvivor" } );
-    test_npcs[ "S2" ] = standard_npc( "S2", { "gloves_fingerless", "sunglasses" }, 4,  8, 8, 8, 10 /* PER  10 */ );
+    test_npcs[ "S1" ] = standard_npc( "S1", { "gloves_survivor", "mask_lsurvivor" }, 4, 8, 10, 8, 10 /* DEX 10, PER 10 */ );
+    test_npcs[ "S2" ] = standard_npc( "S2", { "gloves_fingerless", "sunglasses" }, 4, 8, 8, 8, 10 /* PER 10 */ );
     test_npcs[ "S3" ] = standard_npc( "S3", { "gloves_plate", "helmet_plate" },  4, 10, 8, 8, 8 /* STAT 10 */ );
+    test_npcs[ "S4" ] = standard_npc( "S4", {}, 0, 8, 10, 8, 10 /* DEX 10, PER 10 */ );
+    test_npcs[ "S5" ] = standard_npc( "S5", {}, 4, 8, 10, 8, 10 /* DEX 10, PER 10 */ );
+    test_npcs[ "S6" ] = standard_npc( "S6", { "gloves_hsurvivor", "mask_hsurvivor" }, 4, 8, 10, 8, 10 /* DEX 10, PER 10 */ );
 
     std::map<std::string, item> test_items;
     test_items[ "G1" ] = item( "glock_19" ).ammo_set( "9mm" );
@@ -49,7 +52,7 @@ bool game::dump_stats( const std::string& what, dump_mode mode, const std::vecto
             std::vector<std::string> r;
             r.push_back( obj.tname( 1, false ) );
             r.push_back( obj.type->ammo->type.str() );
-            r.push_back( to_string( obj.volume() ) );
+            r.push_back( to_string( obj.volume() / units::legacy_volume_factor ) );
             r.push_back( to_string( obj.weight() ) );
             r.push_back( to_string( obj.type->stack_size ) );
             r.push_back( to_string( obj.type->ammo->range ) );
@@ -65,6 +68,39 @@ bool game::dump_stats( const std::string& what, dump_mode mode, const std::vecto
             }
         }
 
+    } else if( what == "ARMOR" ) {
+        header = {
+            "Name", "Encumber (fit)", "Warmth", "Weight", "Storage", "Coverage", "Bash", "Cut", "Acid", "Fire"
+        };
+        auto dump = [&rows]( const item& obj ) {
+            std::vector<std::string> r;
+            r.push_back( obj.tname( 1, false ) );
+            r.push_back( to_string( obj.get_encumber() ) );
+            r.push_back( to_string( obj.get_warmth() ) );
+            r.push_back( to_string( obj.weight() ) );
+            r.push_back( to_string( obj.get_storage() / units::legacy_volume_factor ) );
+            r.push_back( to_string( obj.get_coverage() ) );
+            r.push_back( to_string( obj.bash_resist() ) );
+            r.push_back( to_string( obj.cut_resist() ) );
+            r.push_back( to_string( obj.acid_resist() ) );
+            r.push_back( to_string( obj.fire_resist() ) );
+            rows.push_back( r );
+        };
+
+        body_part bp = opts.empty() ? num_bp : get_body_part_token( opts.front() );
+
+        for( auto& e : item_controller->get_all_itypes() ) {
+            if( e.second->armor ) {
+                item obj( e.first );
+                if( bp == num_bp || obj.covers( bp ) ) {
+                    if( obj.has_flag( "VARSIZE" ) ) {
+                        obj.item_tags.insert( "FIT" );
+                    }
+                    dump( obj );
+                }
+            }
+        }
+
     } else if( what == "EDIBLE" ) {
         header = {
             "Name", "Volume", "Weight", "Stack", "Calories", "Quench", "Healthy"
@@ -75,7 +111,7 @@ bool game::dump_stats( const std::string& what, dump_mode mode, const std::vecto
         auto dump = [&rows,&test_npcs]( const item& obj ) {
             std::vector<std::string> r;
             r.push_back( obj.tname( false ) );
-            r.push_back( to_string( obj.volume() ) );
+            r.push_back( to_string( obj.volume() / units::legacy_volume_factor ) );
             r.push_back( to_string( obj.weight() ) );
             r.push_back( to_string( obj.type->stack_size ) );
             r.push_back( to_string( obj.type->comestible->get_calories() ) );
@@ -102,7 +138,7 @@ bool game::dump_stats( const std::string& what, dump_mode mode, const std::vecto
     } else if( what == "GUN" ) {
         header = {
             "Name", "Ammo", "Volume", "Weight", "Capacity",
-            "Range", "Dispersion", "Recoil", "Damage", "Pierce",
+            "Range", "Dispersion", "Effective recoil", "Damage", "Pierce",
             "Aim time", "Effective range", "Snapshot range", "Max range"
         };
 
@@ -123,12 +159,12 @@ bool game::dump_stats( const std::string& what, dump_mode mode, const std::vecto
             std::vector<std::string> r;
             r.push_back( obj.tname( 1, false ) );
             r.push_back( obj.ammo_type() ? obj.ammo_type().str() : "" );
-            r.push_back( to_string( obj.volume() ) );
+            r.push_back( to_string( obj.volume() / units::legacy_volume_factor ) );
             r.push_back( to_string( obj.weight() ) );
             r.push_back( to_string( obj.ammo_capacity() ) );
             r.push_back( to_string( obj.gun_range() ) );
             r.push_back( to_string( obj.gun_dispersion() ) );
-            r.push_back( to_string( obj.gun_recoil() ) );
+            r.push_back( to_string( obj.gun_recoil( who ) ) );
             r.push_back( to_string( obj.gun_damage() ) );
             r.push_back( to_string( obj.gun_pierce() ) );
 
@@ -197,7 +233,7 @@ bool game::dump_stats( const std::string& what, dump_mode mode, const std::vecto
             r.push_back( obj->name() );
             r.push_back( obj->location );
             r.push_back( to_string( int( ceil( item( obj->item ).weight() / 1000.0 ) ) ) );
-            r.push_back( to_string( obj->size ) );
+            r.push_back( to_string( obj->size / units::legacy_volume_factor ) );
             rows.push_back( r );
         };
         for( const auto e : vpart_info::get_all() ) {

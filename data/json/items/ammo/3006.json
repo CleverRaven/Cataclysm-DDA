@@ -18,8 +18,8 @@
     "range": 65,
     "damage": 64,
     "pierce": 4,
-    "dispersion": 25,
-    "recoil": 600,
+    "dispersion": 10,
+    "recoil": 3800,
     "effects": [ "COOKOFF" ]
   },
   {
@@ -35,8 +35,7 @@
       "range": -4,
       "damage": -2,
       "pierce": 6,
-      "dispersion": 10,
-      "recoil": 20
+      "dispersion": 10
     },
     "extend": { "effects": [ "NEVER_MISFIRES" ] }
   },
@@ -47,7 +46,6 @@
     "name": ".30-06 M14A1 tracer",
     "name_plural": ".30-06 M14A1 tracer",
     "description": "Armor piercing incendiary .30-06 M14A1 ammunition containing tracer rounds to help keep the weapon they are fired from on target.  It penetrates all but the strongest body armor with ease.",
-    "proportional": { "dispersion": 0.8 },
     "extend": { "effects": [ "INCENDIARY" ] }
   },
   {

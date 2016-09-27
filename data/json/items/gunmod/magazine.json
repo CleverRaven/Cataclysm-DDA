@@ -14,14 +14,14 @@
     "location": "magazine",
     "mod_targets": [ "rifle" ],
     "acceptable_ammo": [ "223", "308", "50" ],
-    "min_skills" : [ [ "gun", 4 ], [ "mechanics", 3 ] ],
-    "install_time" : 60000,
+    "install_time": 60000,
     "magazine_adaptor": [
-        [ "223", [ "belt223" ] ],
-        [ "308", [ "belt308" ] ],
-        [ "50", [ "belt50" ] ]
+      [ "223", [ "belt223" ] ],
+      [ "308", [ "belt308" ] ],
+      [ "50", [ "belt50" ] ]
     ],
-    "flags" : [ "INSTALL_DIFFICULT", "IRREMOVABLE" ]
+    "min_skills": [ [ "weapon", 4 ], [ "mechanics", 3 ] ],
+    "flags": [ "INSTALL_DIFFICULT", "IRREMOVABLE" ]
   },
   {
     "id": "lwfeed",
@@ -38,13 +38,13 @@
     "location": "magazine",
     "mod_targets": [ "pistol", "rifle" ],
     "acceptable_ammo": [ "9mm", "45", "223" ],
-    "min_skills" : [ [ "gun", 4 ], [ "mechanics", 3 ] ],
-    "install_time" : 60000,
+    "install_time": 60000,
     "magazine_adaptor": [
-        [ "9mm", [ "lw21mag" ] ],
-        [ "45", [ "lw12mag" ] ],
-        [ "223", [ "lw223mag", "lw223bigmag" ] ]
+      [ "9mm", [ "lw21mag" ] ],
+      [ "45", [ "lw12mag" ] ],
+      [ "223", [ "lw223mag", "lw223bigmag" ] ]
     ],
-    "flags" : [ "INSTALL_DIFFICULT", "IRREMOVABLE" ]
+    "min_skills": [ [ "weapon", 4 ], [ "mechanics", 3 ] ],
+    "flags": [ "INSTALL_DIFFICULT", "IRREMOVABLE" ]
   }
 ]

@@ -51,6 +51,8 @@ enum activity_type : int {    // expanded this enum for readability
     ACT_MEND_ITEM,
     ACT_GUNMOD_ADD,
     ACT_WAIT_NPC,
+    ACT_CLEAR_RUBBLE,
+    ACT_MEDITATE,
     NUM_ACTIVITIES
 };
 
@@ -95,6 +97,10 @@ class player_activity : public JsonSerializer, public JsonDeserializer
         player_activity( const player_activity & );
         player_activity &operator=( player_activity && ) = default;
         player_activity &operator=( const player_activity & );
+
+        explicit operator bool() const {
+            return type != ACT_NULL;
+        }
 
         // Question to ask when the activity is to be stoped,
         // e.g. "Stop doing something?", already translated.

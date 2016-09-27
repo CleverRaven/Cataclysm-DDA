@@ -361,12 +361,6 @@
     },
     {
         "type" : "ammunition_type",
-        "id" : "dart",
-        "name" : "dart",
-        "default" : "dart"
-    },
-    {
-        "type" : "ammunition_type",
         "id" : "rebreather_filter",
         "name" : "rebreather filter",
         "default" : "rebreather_filter"
@@ -423,7 +417,7 @@
         "type" : "ammunition_type",
         "id" : "fish_bait",
         "name" : "fish bait",
-        "default" : "fish_bait_meat"
+        "default" : "fish_bait"
     },
     {
         "type" : "ammunition_type",

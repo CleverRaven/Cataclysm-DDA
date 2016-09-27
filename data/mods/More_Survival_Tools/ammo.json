@@ -17,7 +17,6 @@
         "damage" : 0,
         "range" : 0,
         "dispersion" : 0,
-        "recoil" : 0,
         "count" : 50,
         "effects" : ["NEVER_MISFIRES"]
     },
@@ -36,8 +35,8 @@
         "damage" : 2,
         "range" : 20,
         "dispersion" : 195,
-        "recoil" : 0,
         "count" : 40,
+        "loudness" : 0,
         "effects" : ["NEVER_MISFIRES"]
     },
     {   "type" : "AMMO",
@@ -56,8 +55,8 @@
         "pierce" : 1,
         "range" : 13,
         "dispersion" : 240,
-        "recoil" : 0,
         "count" : 30,
+        "loudness" : 0,
         "effects" : ["NEVER_MISFIRES"]
     },
    {
@@ -78,7 +77,6 @@
     "damage" : 0,
     "range" : 0,
     "dispersion" : 0,
-    "recoil" : 0,
     "container" : "box_small",
     "count" : 50
    },{
@@ -98,8 +96,8 @@
     "pierce" : 3,
     "range" : 1,
     "dispersion" : 145,
-    "recoil" : 0,
     "count" : 10,
+    "loudness" : 0,
     "effects" : ["RECOVER_10"]
    }
 ]

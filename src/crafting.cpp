@@ -35,274 +35,6 @@ static const std::string fake_recipe_book = "book";
 
 void remove_from_component_lookup( recipe *r );
 
-recipe::recipe() :
-    result( "null" ), contained( false ), container( "null" ),
-    skill_used( NULL_ID ), reversible( false ),
-    autolearn_requirements(), learn_by_disassembly(), result_mult( 1 )
-{
-}
-
-// Check that the given recipe ident (rec_name) is unique, throw if not,
-// If the recipe should override an existing one, the function removes the existing
-// recipe.
-void check_recipe_ident( const std::string &rec_name, JsonObject &jsobj )
-{
-    const bool override_existing = jsobj.get_bool( "override", false );
-
-    for( auto list_iter : recipe_dict ) {
-        if( list_iter->ident() == rec_name ) {
-            if( !override_existing ) {
-                jsobj.throw_error(
-                    std::string( "Recipe name collision (set a unique value for the id_suffix field to fix): " ) +
-                    rec_name, "result" );
-            }
-            recipe_dict.remove( list_iter );
-            delete list_iter;
-            break;
-        }
-    }
-}
-
-void load_recipe( JsonObject &jsobj, const std::string & /* src */, bool uncraft )
-{
-    JsonArray jsarr;
-
-    // required
-    std::string result = jsobj.get_string( "result" );
-    std::string category = uncraft ? "CC_NONCRAFT" : jsobj.get_string( "category" );
-    int time = jsobj.get_int( "time" );
-    int difficulty = jsobj.get_int( "difficulty" );
-
-    // optional
-    std::string container = jsobj.get_string( "container", "null" );
-    bool contained = jsobj.get_bool( "contained", container != "null" );
-
-    std::string subcategory = uncraft ? "CSC_NONCRAFT" : jsobj.get_string( "subcategory", "" );
-    bool reversible = uncraft || jsobj.get_bool( "reversible", false );
-    skill_id skill_used( jsobj.get_string( "skill_used", skill_id::NULL_ID.str() ) );
-    std::string id_suffix = uncraft ? "uncraft" : jsobj.get_string( "id_suffix", "" );
-    double batch_rscale = 0.0;
-    int batch_rsize = 0;
-    if( jsobj.has_array( "batch_time_factors" ) ) {
-        jsarr = jsobj.get_array( "batch_time_factors" );
-        batch_rscale = ( double )jsarr.get_int( 0 ) / 100.0;
-        batch_rsize = jsarr.get_int( 1 );
-    }
-    int result_mult = jsobj.get_int( "result_mult", 1 );
-
-    std::map<std::string, int> requires_skills;
-    jsarr = jsobj.get_array( "skills_required" );
-    if( !jsarr.empty() ) {
-        // could be a single requirement, or multiple
-        if( jsarr.has_array( 0 ) ) {
-            while( jsarr.has_more() ) {
-                JsonArray ja = jsarr.next_array();
-                requires_skills[ja.get_string( 0 )] = ja.get_int( 1 );
-            }
-        } else {
-            requires_skills[jsarr.get_string( 0 )] = jsarr.get_int( 1 );
-        }
-    }
-
-    std::map<std::string, int> autolearn_requirements;
-    if( jsobj.has_array( "autolearn" ) ) {
-        JsonArray jarr = jsobj.get_array( "autolearn" );
-        while( jarr.has_more() ) {
-            JsonArray ja = jarr.next_array();
-            autolearn_requirements[ja.get_string( 0 )] = ja.get_int( 1 );
-        }
-    } else if( jsobj.has_bool( "autolearn" ) ) {
-        if( jsobj.get_bool( "autolearn" ) ) {
-            // Short definition of autolearn (equal to required skills)
-            autolearn_requirements = requires_skills;
-            if( skill_used ) {
-                autolearn_requirements[skill_used.str()] = difficulty;
-            }
-        }
-    }
-
-    std::map<std::string, int> learn_by_disassembly;
-    if( jsobj.has_int( "decomp_learn" ) ) {
-        // Short definition of decomp_learn - only the main skill
-        int val = jsobj.get_int( "decomp_learn" );
-        if( val >= 0 && !skill_used ) {
-            jsobj.throw_error( "decomp_learn specified with no skill_used" );
-        } else if( val >= 0 ) {
-            learn_by_disassembly[skill_used.str()] = val;
-        }
-    } else if( jsobj.has_array( "decomp_learn" ) ) {
-        JsonArray jarr = jsobj.get_array( "decomp_learn" );
-        while( jarr.has_more() ) {
-            JsonArray ja = jarr.next_array();
-            learn_by_disassembly[ja.get_string( 0 )] = ja.get_int( 1 );
-        }
-    }
-
-    std::vector<byproduct> bps;
-    // could be a single byproduct - either id or byproduct, or array of ids and byproducts
-    if( jsobj.has_string( "byproducts" ) ) {
-        bps.push_back( byproduct( jsobj.get_string( "byproducts" ) ) );
-    } else if( jsobj.has_object( "byproducts" ) ) {
-        JsonObject jsbp = jsobj.get_object( "byproducts" );
-        bps.push_back( byproduct( jsbp.get_string( "id" ), jsbp.get_int( "charges_mult", 1 ),
-                                  jsbp.get_int( "amount", 1 ) ) );
-    } else if( jsobj.has_array( "byproducts" ) ) {
-        jsarr = jsobj.get_array( "byproducts" );
-        while( jsarr.has_more() ) {
-            if( jsarr.has_string( 0 ) ) {
-                bps.push_back( byproduct( jsarr.next_string() ) );
-            } else if( jsarr.has_object( 0 ) ) {
-                JsonObject jsbp = jsarr.next_object();
-                bps.push_back( byproduct( jsbp.get_string( "id" ), jsbp.get_int( "charges_mult", 1 ),
-                                          jsbp.get_int( "amount", 1 ) ) );
-            }
-        }
-    }
-
-    std::string rec_name = result + id_suffix;
-    check_recipe_ident( rec_name, jsobj ); // may delete recipes
-
-    recipe *rec = new recipe();
-
-    rec->ident_ = rec_name;
-    rec->result = result;
-    rec->time = time;
-    rec->difficulty = difficulty;
-    rec->byproducts = bps;
-    rec->cat = category;
-    rec->contained = contained;
-    rec->container = container;
-    rec->subcat = subcategory;
-    rec->skill_used = skill_used;
-    for( const auto &elem : requires_skills ) {
-        rec->required_skills[skill_id( elem.first )] = elem.second;
-    }
-    for( const auto &elem : autolearn_requirements ) {
-        rec->autolearn_requirements[skill_id( elem.first )] = elem.second;
-    }
-    for( const auto &elem : learn_by_disassembly ) {
-        rec->learn_by_disassembly[skill_id( elem.first )] = elem.second;
-    }
-    rec->reversible = reversible;
-    rec->batch_rscale = batch_rscale;
-    rec->batch_rsize = batch_rsize;
-    rec->result_mult = result_mult;
-    rec->flags = jsobj.get_tags( "flags" );
-
-    jsobj.read( "charges", rec->charges );
-
-    if( jsobj.has_string( "using" ) ) {
-        rec->reqs = { { requirement_id( jsobj.get_string( "using" ) ), 1 } };
-
-    } else if( jsobj.has_array( "using" ) ) {
-        auto arr = jsobj.get_array( "using" );
-        while( arr.has_more() ) {
-            auto cur = arr.next_array();
-            rec->reqs.emplace_back( requirement_id( cur.get_string( 0 ) ), cur.get_int( 1 ) );
-        }
-    }
-
-    auto req_id = std::string( "inline_recipe_" ) += rec_name;
-    requirement_data::load_requirement( jsobj, req_id );
-    rec->reqs.emplace_back( requirement_id( req_id ), 1 );
-
-    jsarr = jsobj.get_array( "book_learn" );
-    while( jsarr.has_more() ) {
-        JsonArray ja = jsarr.next_array();
-        recipe::bookdata_t bd{ ja.get_string( 0 ), ja.get_int( 1 ), "", false };
-        if( ja.size() >= 3 ) {
-            bd.recipe_name = ja.get_string( 2 );
-            bd.hidden = bd.recipe_name.empty();
-        }
-        rec->booksets.push_back( bd );
-    }
-
-    // Note, a recipe has to be fully instantiated before adding
-    recipe_dict.add( rec );
-}
-
-void reset_recipes()
-{
-    recipe_dict.clear();
-}
-
-void finalize_recipes()
-{
-    // Has to be done before recipe finalization!
-    for( auto r : recipe_dict ) {
-        r->requirements_ = std::accumulate( r->reqs.begin(), r->reqs.end(), requirement_data(),
-        []( const requirement_data & lhs, const std::pair<requirement_id, int> &rhs ) {
-            return lhs + ( *rhs.first * rhs.second );
-        } );
-    }
-
-    recipe_dict.finalize();
-
-    std::ostringstream buffer;
-    for( auto r : recipe_dict ) {
-        buffer.clear();
-        for( auto j = r->booksets.begin(); j != r->booksets.end(); ++j ) {
-            const std::string &book_id = j->book_id;
-            if( !item::type_is_defined( book_id ) ) {
-                buffer << "book " << book_id << " for recipe " << r->ident() << " does not exist" << "\n";
-                continue;
-            }
-            const itype *t = item::find_type( book_id );
-            if( !t->book ) {
-                // TODO: we could make up a book slot?
-                buffer << "book " << book_id << " for recipe " << r->ident() << " is not a book" << "\n";
-                continue;
-            }
-            islot_book::recipe_with_description_t rwd{ r, j->skill_level, "", j->hidden };
-            if( j->recipe_name.empty() ) {
-                rwd.name = item::nname( r->result );
-            } else {
-                rwd.name = _( j->recipe_name.c_str() );
-            }
-            t->book->recipes.insert( rwd );
-        }
-        r->booksets.clear();
-
-        if( !item::type_is_defined( r->result ) ) {
-            buffer << "Recipe " << r->ident() << " defines invalid result " << r->result << "\n";
-        }
-
-        if( r->charges >= 0 && !item::count_by_charges( r->result ) ) {
-            buffer << "Recipe " << r->ident() << " specified charges but " << r->result <<
-                   " is not counted by charges\n";
-        }
-
-        for( const auto &bp : r->byproducts ) {
-            if( !item::type_is_defined( bp.result ) ) {
-                buffer << "Recipe " << r->ident() << " defines invalid byproduct " << bp.result << "\n";
-            }
-        }
-
-        if( !r->contained && r->container != "null" ) {
-            buffer << "Recipe " << r->ident() << " defines container " << r->container << ", but not contained"
-                   << "\n";
-        }
-
-        if( r->contained && r->container == "null" ) {
-            r->container = item::find_type( r->result )->default_container;
-        }
-
-        if( !item::type_is_defined( r->container ) ) {
-            buffer << "Recipe " << r->ident() << " defines container " << r->container <<
-                   ", which is not defined" << "\n";
-        }
-
-        if( r->result_mult != 1 && !item::find_type( r->result )->count_by_charges() ) {
-            buffer << "Recipe " << r->ident() << " has result_mult " << r->result_mult <<
-                   ", but result " << r->result << " is not count_by_charges" << "\n";
-        }
-
-        if( !buffer.str().empty() ) {
-            debugmsg( "%s", buffer.str().c_str() );
-        }
-    }
-}
-
 static bool crafting_allowed( const player &p, const recipe &rec )
 {
     if( !p.has_morale_to_craft() ) {
@@ -310,7 +42,7 @@ static bool crafting_allowed( const player &p, const recipe &rec )
         return false;
     }
 
-    if( p.lighting_craft_speed_multiplier( rec ) == 0.0f ) {
+    if( p.lighting_craft_speed_multiplier( rec ) <= 0.0f ) {
         add_msg( m_info, _( "You can't see to craft!" ) );
         return false;
     }
@@ -384,21 +116,23 @@ void player::long_craft()
 
 bool player::making_would_work( const std::string &id_to_make, int batch_size )
 {
-    const recipe *making = recipe_by_name( id_to_make );
-    if( making == nullptr || !crafting_allowed( *this, *making ) ) {
+    const auto &making = recipe_dict[ id_to_make ];
+    if( !( making && crafting_allowed( *this, making ) ) ) {
         return false;
     }
 
-    if( !can_make( making, batch_size ) ) {
+    if( !can_make( &making, batch_size ) ) {
         std::ostringstream buffer;
         buffer << _( "You can no longer make that craft!" ) << "\n";
-        buffer << making->requirements().list_missing();
+        buffer << making.requirements().list_missing();
         popup( buffer.str(), PF_NONE );
         return false;
     }
 
-    return making->check_eligible_containers_for_crafting( batch_size );
+    return making.check_eligible_containers_for_crafting( batch_size );
 }
+
+recipe::recipe() : skill_used( "none" ) {}
 
 bool recipe::check_eligible_containers_for_crafting( int batch ) const
 {
@@ -542,12 +276,6 @@ bool recipe::can_make_with_inventory( const inventory &crafting_inv,
     return requirements().can_make_with_inventory( crafting_inv, batch );
 }
 
-bool recipe::valid_learn() const
-{
-    static const std::string ncraft = "CC_NONCRAFT";
-    return cat != ncraft;
-}
-
 const inventory &player::crafting_inventory()
 {
     if( cached_moves == moves
@@ -661,13 +389,13 @@ void player::make_all_craft( const std::string &id_to_make, int batch_size )
 
 void player::make_craft_with_command( const std::string &id_to_make, int batch_size, bool is_long )
 {
-    const recipe *recipe_to_make = recipe_by_name( id_to_make );
+    const auto &recipe_to_make = recipe_dict[ id_to_make ];
 
-    if( recipe_to_make == nullptr ) {
+    if( !recipe_to_make ) {
         return;
     }
 
-    *last_craft = craft_command( recipe_to_make, batch_size, is_long, this );
+    *last_craft = craft_command( &recipe_to_make, batch_size, is_long, this );
     last_craft->execute();
 }
 
@@ -713,29 +441,22 @@ std::vector<item> recipe::create_results( int batch ) const
 std::vector<item> recipe::create_byproducts( int batch ) const
 {
     std::vector<item> bps;
-    for( auto &val : byproducts ) {
-        if( !contained || !item::count_by_charges( val.result ) ) {
-            for( int i = 0; i < val.amount * batch; i++ ) {
-                item newit( val.result, calendar::turn, item::default_charges_tag{} );
-                if( !newit.craft_has_charges() ) {
-                    newit.charges = 0;
-                }
-                if( newit.has_flag( "VARSIZE" ) ) {
-                    newit.item_tags.insert( "FIT" );
-                }
-                bps.push_back( newit );
-            }
+    for( const auto &e : byproducts ) {
+        item obj( e.first, calendar::turn, item::default_charges_tag{} );
+        if( obj.has_flag( "VARSIZE" ) ) {
+            obj.item_tags.insert( "FIT" );
+        }
+
+        if( obj.count_by_charges() ) {
+            obj.charges *= e.second;
+            bps.push_back( obj );
+
         } else {
-            for( int i = 0; i < val.amount; i++ ) {
-                item newit( val.result, calendar::turn, item::default_charges_tag{} );
-                if( val.charges_mult != 1 ) {
-                    newit.charges *= val.charges_mult;
-                }
-                newit.charges *= batch;
-                if( newit.has_flag( "VARSIZE" ) ) {
-                    newit.item_tags.insert( "FIT" );
-                }
-                bps.push_back( newit );
+            if( !obj.craft_has_charges() ) {
+                obj.charges = 0;
+            }
+            for( int i = 0; i < e.second * batch; ++i ) {
+                bps.push_back( obj );
             }
         }
     }
@@ -775,7 +496,7 @@ void set_components( std::vector<item> &components, const std::list<item> &used,
 
 void player::complete_craft()
 {
-    const recipe *making = recipe_by_name( activity.name ); // Which recipe is it?
+    const recipe *making = &recipe_dict[ activity.name ]; // Which recipe is it?
     int batch_size = activity.values.front();
     if( making == nullptr ) {
         debugmsg( "no recipe with id %s found", activity.name.c_str() );
@@ -978,7 +699,7 @@ void player::complete_craft()
 
         // Don't store components for things made by charges,
         // don't store components for things that can't be uncrafted.
-        if( making->reversible && !newit.count_by_charges() ) {
+        if( recipe_dictionary::get_uncraft( making->result ) && !newit.count_by_charges() ) {
             // Setting this for items counted by charges gives only problems:
             // those items are automatically merged everywhere (map/vehicle/inventory),
             // which would either loose this information or merge it somehow.
@@ -1333,112 +1054,63 @@ void player::consume_tools( const std::vector<tool_comp> &tools, int batch,
     consume_tools( select_tool_component( tools, batch, map_inv, hotkeys ), batch );
 }
 
-const recipe *get_disassemble_recipe( const itype_id &type )
+bool player::can_disassemble( const item &obj, const inventory &inv, bool alert ) const
 {
-    for( auto cur_recipe : recipe_dict ) {
-
-        if( type == cur_recipe->result && cur_recipe->reversible ) {
-            return cur_recipe;
+    const auto &r = recipe_dictionary::get_uncraft( obj.typeId() );
+    if( !r ) {
+        if( alert ) {
+            add_msg_if_player( m_info, _( "You cannot disassemble the %s" ), obj.tname().c_str() );
         }
-    }
-    // no matching disassemble recipe found.
-    return NULL;
-}
-
-bool player::can_disassemble( const item &dis_item, const inventory &crafting_inv,
-                              const bool print_msg ) const
-{
-    if( dis_item.is_book() ) {
-        return true;
+        return false;
     }
 
-    for( auto cur_recipe : recipe_dict ) {
-        if( dis_item.typeId() == cur_recipe->result && cur_recipe->reversible ) {
-            return can_disassemble( dis_item, cur_recipe, crafting_inv, print_msg );
-        }
-    }
-
-    return false;
-}
-
-bool player::can_disassemble( const item &dis_item, const recipe *cur_recipe,
-                              const inventory &crafting_inv, bool print_msg ) const
-{
-    const std::string dis_name = dis_item.tname().c_str();
-    if( dis_item.count_by_charges() && !cur_recipe->has_flag( "UNCRAFT_SINGLE_CHARGE" ) ) {
+    if( obj.count_by_charges() && !r.has_flag( "UNCRAFT_SINGLE_CHARGE" ) ) {
         // Create a new item to get the default charges
-        const item tmp = cur_recipe->create_result();
-        if( dis_item.charges < tmp.charges ) {
-            if( print_msg ) {
-                popup( ngettext( "You need at least %d charge of %s to disassemble it.",
-                                 "You need at least %d charges of %s to disassemble it.",
-                                 tmp.charges ),
-                       tmp.charges, dis_name.c_str() );
+        int qty = r.create_result().charges;
+        if( obj.charges < qty ) {
+            if( alert ) {
+                auto msg = ngettext( "You need at least %d charge of %s to disassemble it.",
+                                     "You need at least %d charges of %s to disassemble it.", qty );
+                add_msg_if_player( m_info, msg, qty, obj.tname().c_str() );
             }
             return false;
         }
     }
 
-    bool have_all_qualities = true;
-    const auto &dis_requirements = cur_recipe->requirements().disassembly_requirements();
-    for( const auto &itq : dis_requirements.get_qualities() ) {
-        for( const auto &it : itq ) {
-            if( !it.has( crafting_inv ) ) {
-                if( print_msg ) {
-                    add_msg( m_info, _( "To disassemble %s, you need %s" ),
-                             dis_name.c_str(), it.to_string().c_str() );
-                }
+    const auto &dis = r.disassembly_requirements();
 
-                have_all_qualities = false;
+    for( const auto &opts : dis.get_qualities() ) {
+        for( const auto &qual : opts ) {
+            if( !qual.has( inv ) ) {
+                if( alert ) {
+                    add_msg_if_player( m_info, _( "To disassemble %s, you need %s" ),
+                                       obj.tname().c_str(), qual.to_string().c_str() );
+                }
+                return false;
             }
         }
     }
 
-    // ok, a valid recipe exists for the item, and it is reversible
-    // assign the activity
-    // check tools are available
-    // loop over the tools and see what's required...again
-    bool have_all_tools = true;
-    for( const auto &it : dis_requirements.get_tools() ) {
-        bool have_this_tool = false;
-        for( const auto &tool : it ) {
-            itype_id type = tool.type;
-            int req = tool.count; // -1 => 1
-
-            if( ( req <= 0 && crafting_inv.has_tools( type, 1 ) ) ||
-                ( req >  0 && crafting_inv.has_charges( type, req ) ) ) {
-                have_this_tool = true;
-            }
-
-            if( have_this_tool ) {
-                break;
-            }
-        }
-        if( !have_this_tool ) {
-            have_all_tools = false;
-            if( print_msg ) {
-                int req = it[0].count;
-                if( req <= 0 ) {
+    for( const auto &opts : dis.get_tools() ) {
+        if( !std::any_of( opts.begin(), opts.end(), [&]( const tool_comp & tool ) {
+        return ( tool.count <= 0 && inv.has_tools( tool.type, 1 ) ) ||
+                   ( tool.count >  0 && inv.has_charges( tool.type, tool.count ) );
+        } ) ) {
+            if( alert ) {
+                if( opts[0].count <= 0 ) {
                     add_msg( m_info, _( "You need a %s to disassemble %s." ),
-                             item::nname( it[0].type ).c_str(), dis_name.c_str() );
+                             item::nname( opts[0].type ).c_str(), obj.tname().c_str() );
                 } else {
                     add_msg( m_info, ngettext( "You need a %s with %d charge to disassemble %s.",
                                                "You need a %s with %d charges to disassemble %s.",
-                                               req ),
-                             item::nname( it[0].type ).c_str(), req, dis_name.c_str() );
+                                               opts[0].count ),
+                             item::nname( opts[0].type ).c_str(), opts[0].count, obj.tname().c_str() );
                 }
             }
+            return false;
         }
     }
-    // All tools present, so assign the activity
-    return have_all_qualities && have_all_tools;
-}
 
-bool query_disassemble( const item &dis_item )
-{
-    if( get_option<bool>( "QUERY_DISASSEMBLE" ) ) {
-        return query_yn( _( "Really disassemble the %s?" ), dis_item.tname().c_str() );
-    }
     return true;
 }
 
@@ -1455,76 +1127,50 @@ bool player::disassemble( int dis_pos )
     return disassemble( i_at( dis_pos ), dis_pos, false );
 }
 
-bool player::disassemble( item &dis_item, int dis_pos,
-                          bool ground, bool msg_and_query )
+bool player::disassemble( item &obj, int pos, bool ground, bool interactive )
 {
-    const recipe *cur_recipe = get_disassemble_recipe( dis_item.typeId() );
+    const auto &r = recipe_dictionary::get_uncraft( obj.typeId() );
 
-    // No disassembly without proper light
-    // But book-ripping is OK
-    if( cur_recipe != nullptr &&
-        lighting_craft_speed_multiplier( *cur_recipe ) == 0.0f ) {
-        add_msg( m_info, _( "You can't see to craft!" ) );
-        activity.type = ACT_NULL;
+    // check sufficient light
+    if( lighting_craft_speed_multiplier( r ) == 0.0f ) {
+        if( interactive ) {
+            add_msg_if_player( m_info, _( "You can't see to craft!" ) );
+        }
         return false;
     }
 
-    // Checks to see if you're disassembling rotten food, and will stop you if true
-    if( ( dis_item.is_food() && dis_item.goes_bad() ) ||
-        ( dis_item.is_food_container() && dis_item.contents.front().goes_bad() ) ) {
-        dis_item.calc_rot( global_square_location() );
-        if( dis_item.rotten() ||
-            ( dis_item.is_food_container() && dis_item.contents.front().rotten() ) ) {
-            if( msg_and_query ) {
-                add_msg( m_info, _( "It's rotten, I'm not taking that apart." ) );
+    // refuse to disassemble rotten items
+    if( obj.goes_bad() || ( obj.is_food_container() && obj.contents.front().goes_bad() ) ) {
+        obj.calc_rot( global_square_location() );
+        if( obj.rotten() || ( obj.is_food_container() && obj.contents.front().rotten() ) ) {
+            if( interactive ) {
+                add_msg_if_player( m_info, _( "It's rotten, I'm not taking that apart." ) );
             }
             return false;
         }
     }
 
-    // First check regular disassembly, then book "fake disassembly"
-    // Note: this may get weird if books ever get regular disassembly
-    std::string recipe_ident;
-    int recipe_time = 100;
-    const inventory &crafting_inv = crafting_inventory();
-    if( cur_recipe != nullptr &&
-        can_disassemble( dis_item, cur_recipe, crafting_inv, msg_and_query ) ) {
-        if( msg_and_query && !query_disassemble( dis_item ) ) {
-            return false;
-        }
-
-        recipe_ident = cur_recipe->ident();
-        recipe_time = cur_recipe->time;
-    }
-    // If we're trying to disassemble a book or magazine
-    if( dis_item.is_book() ) {
-        if( msg_and_query && get_option<bool>( "QUERY_DISASSEMBLE" ) &&
-            !query_yn( _( "Do you want to tear %s into pages?" ),
-                       dis_item.tname().c_str() ) ) {
-            return false;
-        } else {
-            recipe_ident = fake_recipe_book;
-        }
+    // check sufficient tools for disassembly
+    const inventory &inv = crafting_inventory();
+    if( !can_disassemble( obj, inv, interactive ) ) {
+        return false;
     }
 
-    if( recipe_ident.empty() ) {
-        // No recipe exists, or the item cannot be disassembled
-        if( msg_and_query ) {
-            add_msg( m_info, _( "The %s cannot be disassembled!" ),
-                     dis_item.tname().c_str() );
-        }
+    // last chance to back out
+    if( interactive && get_option<bool>( "QUERY_DISASSEMBLE" ) &&
+        !query_yn( _( "Really disassemble the %s?" ), obj.tname().c_str() ) ) {
         return false;
     }
 
     if( activity.type != ACT_DISASSEMBLE ) {
-        assign_activity( ACT_DISASSEMBLE, recipe_time );
+        assign_activity( ACT_DISASSEMBLE, r.time );
     } else if( activity.moves_left <= 0 ) {
-        activity.moves_left = recipe_time;
+        activity.moves_left = r.time;
     }
 
-    activity.values.push_back( dis_pos );
-    activity.coords.push_back( ground ? pos() : tripoint_min );
-    activity.str_values.push_back( recipe_ident );
+    activity.values.push_back( pos );
+    activity.coords.push_back( ground ? this->pos() : tripoint_min );
+    activity.str_values.push_back( r.ident() );
 
     return true;
 }
@@ -1621,35 +1267,7 @@ void player::complete_disassemble()
 
     const bool from_ground = loc != tripoint_min;
 
-    // Need to handle the book uncraft hack first
-    if( recipe_name == fake_recipe_book ) {
-        item &org_item = get_item_for_uncraft( *this, item_pos, loc, from_ground );
-        if( org_item.is_null() || !org_item.is_book() ) {
-            add_msg( _( "The item has vanished." ) );
-            activity.type = ACT_NULL;
-            return;
-        }
-
-        // Twice the volume then multiplied by 10.
-        // A book with volume 3 will give 60 pages.
-        const int num_pages = ( org_item.volume() * 2 ) * 10;
-        g->m.spawn_item( pos(), "paper", 0, num_pages );
-        if( from_ground ) {
-            g->m.i_rem( loc, item_pos );
-        } else {
-            i_rem( item_pos );
-        }
-    } else {
-        // Now regular recipe
-        const recipe *dis_ptr = recipe_by_name( recipe_name ); // Which recipe is it?
-        if( dis_ptr == nullptr ) {
-            debugmsg( "no recipe with name %s found", recipe_name.c_str() );
-            activity.type = ACT_NULL;
-            return;
-        }
-
-        complete_disassemble( item_pos, loc, from_ground, *dis_ptr );
-    }
+    complete_disassemble( item_pos, loc, from_ground, recipe_dictionary::get_uncraft( recipe_name ) );
 
     if( activity.type == ACT_NULL ) {
         // Something above went wrong, don't continue
@@ -1668,18 +1286,13 @@ void player::complete_disassemble()
         return;
     }
 
-    const auto &next_recipe_name = activity.str_values.back();
-    if( next_recipe_name == fake_recipe_book ) {
-        activity.moves_left = 100;
-    } else {
-        const recipe *next_recipe = recipe_by_name( next_recipe_name );
-        if( next_recipe == nullptr ) {
-            activity.type = ACT_NULL;
-            return;
-        }
-
-        activity.moves_left = next_recipe->time;
+    const auto &next_recipe = recipe_dictionary::get_uncraft( activity.str_values.back() );
+    if( !next_recipe ) {
+        activity.type = ACT_NULL;
+        return;
     }
+
+    activity.moves_left = next_recipe.time;
 }
 
 // TODO: Make them accessible in a less ugly way
@@ -1690,7 +1303,7 @@ void player::complete_disassemble( int item_pos, const tripoint &loc,
                                    bool from_ground, const recipe &dis )
 {
     // Get the proper recipe - the one for disassembly, not assembly
-    const auto dis_requirements = dis.requirements().disassembly_requirements();
+    const auto dis_requirements = dis.disassembly_requirements();
     item &org_item = get_item_for_uncraft( *this, item_pos, loc, from_ground );
     if( org_item.is_null() ) {
         add_msg( _( "The item has vanished." ) );
@@ -1824,37 +1437,6 @@ void player::complete_disassemble( int item_pos, const tripoint &loc,
             }
         } else {
             add_msg( m_info, _( "If you had better skills, you might learn a recipe next time." ) );
-        }
-    }
-}
-
-const recipe *recipe_by_name( const std::string &name )
-{
-    return recipe_dict[name];
-}
-
-void check_recipe_definitions()
-{
-    for( auto &elem : recipe_dict ) {
-        const recipe &r = *elem;
-
-        for( const auto &e : r.reqs ) {
-            if( !e.first.is_valid() || e.second <= 0 ) {
-                debugmsg( "recipe %s has unknown or incorrectly specified requirements %s",
-                          r.ident().c_str(), e.first.c_str() );
-            }
-        }
-        if( !item::type_is_defined( r.result ) ) {
-            debugmsg( "result %s in recipe %s is not a valid item template", r.result.c_str(),
-                      r.ident().c_str() );
-        }
-        if( r.skill_used && !r.skill_used.is_valid() ) {
-            debugmsg( "recipe %s uses invalid skill %s", r.ident().c_str(), r.skill_used.c_str() );
-        }
-        for( auto &e : r.required_skills ) {
-            if( e.first && !e.first.is_valid() ) {
-                debugmsg( "recipe %s uses invalid required skill %s", r.ident().c_str(), e.first.c_str() );
-            }
         }
     }
 }

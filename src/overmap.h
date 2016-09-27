@@ -7,6 +7,7 @@
 #include "weighted_list.h"
 #include "game_constants.h"
 #include "monster.h"
+#include "weather_gen.h"
 
 #include <array>
 #include <iosfwd>
@@ -109,7 +110,7 @@ struct sid_or_sid;
  */
 struct regional_settings {
     std::string id;           //
-    std::string default_oter; // 'field'
+    oter_str_id default_oter; // 'field'
 
     id_or_id<ter_t> default_groundcover; // ie, 'grass_or_dirt'
     std::shared_ptr<sid_or_sid> default_groundcover_str;
@@ -125,6 +126,8 @@ struct regional_settings {
     city_settings     city_spec;      // put what where in a city of what kind
     groundcover_extra field_coverage;
     groundcover_extra forest_coverage;
+
+    weather_generator weather;
 
     std::unordered_map<std::string, map_extras> region_extras;
 
@@ -306,11 +309,9 @@ class overmap
   /** Get the y coordinate of the bottom border of this overmap. */
   int get_bottom_border();
 
-  const regional_settings& get_settings(const int x, const int y, const int z) {
-     (void)x;
-     (void)y;
-     (void)z; // todo
-
+  // @todo Should depend on coords
+  const regional_settings& get_settings() const
+  {
      return settings;
   }
     void clear_mon_groups();
@@ -449,8 +450,6 @@ public:
 //std::ostream & operator<<(std::ostream &, const overmap &);
 //std::ostream & operator<<(std::ostream &, const city &);
 
-extern std::unordered_map<std::string,oter_t> otermap;
-extern std::vector<oter_t> oterlist;
 //extern const regional_settings default_region_settings;
 typedef std::unordered_map<std::string, regional_settings> t_regional_settings_map;
 typedef t_regional_settings_map::const_iterator t_regional_settings_map_citr;

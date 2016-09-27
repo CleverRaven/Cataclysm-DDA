@@ -26,17 +26,13 @@
 #include "mtype.h"
 #include <algorithm>
 
-const skill_id skill_pistol( "pistol" );
-const skill_id skill_rifle( "rifle" );
-const skill_id skill_smg( "smg" );
-const skill_id skill_shotgun( "shotgun" );
-const skill_id skill_launcher( "launcher" );
-const skill_id skill_archery( "archery" );
+using namespace units::literals;
+
 const skill_id skill_throw( "throw" );
 const skill_id skill_gun( "gun" );
-const skill_id skill_melee( "melee" );
 const skill_id skill_driving( "driving" );
 const skill_id skill_dodge( "dodge" );
+const skill_id skill_launcher( "launcher" );
 
 const efftype_id effect_on_roof( "on_roof" );
 const efftype_id effect_bounced( "bounced" );
@@ -45,7 +41,6 @@ const efftype_id effect_hit_by_player( "hit_by_player" );
 static projectile make_gun_projectile( const item &gun );
 int time_to_fire( const Character &p, const itype &firing );
 static void cycle_action( item& weap, const tripoint &pos );
-double recoil_add( player& p, const item& gun, int shot );
 void make_gun_sound_effect(player &p, bool burst, item *weapon);
 extern bool is_valid_in_w_terrain(int, int);
 void drop_or_embed_projectile( const dealt_projectile_attack &attack );
@@ -62,43 +57,6 @@ dealt_projectile_attack Creature::projectile_attack( const projectile &proj, con
                                                      double shot_dispersion )
 {
     return projectile_attack( proj, pos(), target, shot_dispersion );
-}
-
-/* Adjust dispersion cutoff thresholds per skill type.
- * If these drift significantly might need to adjust the values here.
- * Keep in mind these include factoring in the best ammo and the best mods.
- * The target is being able to skill up to lvl 10/10 guns/guntype with average (8) perception.
- * That means the adjustment should be dispersion of best-in-class weapon - 8.
- *
- * pistol 0 (.22 is 8, S&W 22A can get down to 0 with significant modding.)
- * rifle 0 (There are any number of rifles you can get down to 0/0.)
- * smg 0 (H&K MP5 can get dropped to 0, leaving 9mm +P+ as the limiting factor at 8.)
- * shotgun 0 (no comment.)
- * launcher 0 (no comment.)
- * archery 6 (best craftable bow is composite at 10, and best arrow is wood at 4)
- * throwing 13 (sling)
- * As a simple tweak, we're shifting the ranges so they match,
- * so if you acquire the best of a weapon type you can reach max skill with it.
- */
-
-int ranged_skill_offset( const skill_id &skill )
-{
-    if( skill == skill_pistol ) {
-        return 0;
-    } else if( skill == skill_rifle ) {
-        return 0;
-    } else if( skill == skill_smg ) {
-        return 0;
-    } else if( skill == skill_shotgun ) {
-        return 0;
-    } else if( skill == skill_launcher ) {
-        return 0;
-    } else if( skill == skill_archery ) {
-        return 135;
-    } else if( skill == skill_throw ) {
-        return 195;
-    }
-    return 0;
 }
 
 size_t blood_trail_len( int damage )
@@ -530,22 +488,25 @@ int player::fire_gun( const tripoint &target, int shots, item& gun )
         debugmsg( "Attempted to fire zero or negative shots using %s", gun.tname().c_str() );
     }
 
-    const skill_id skill_used = gun.gun_skill();
-
-    const int player_dispersion = skill_dispersion( gun ) + ranged_skill_offset( skill_used );
-    // If weapon dispersion exceeds skill dispersion you can't tell
-    // if you need to correct or if the gun messed up, so you can't learn.
-    ///\EFFECT_PER allows you to learn more often with less accurate weapons.
-    const bool train_skill = gun.gun_dispersion() < player_dispersion + 15 * rng( 0, get_per() );
-    if( train_skill ) {
-        practice( skill_used, 8 + 2 * shots );
-    } else if( one_in( 30 ) ) {
-        add_msg_if_player(m_info, _("You'll need a more accurate gun to keep improving your aim."));
+    // usage of any attached bipod is dependent upon terrain
+    bool bipod = g->m.has_flag_ter_or_furn( "MOUNTABLE", pos() );
+    if( !bipod ) {
+        auto veh = g->m.veh_at( pos() );
+        bipod = veh && veh->has_part( pos(), "MOUNTABLE" );
     }
+
+    // Up to 50% of recoil can be delayed until end of burst dependent upon relevant skill
+    ///\EFFECT_PISTOL delays effects of recoil during autoamtic fire
+    ///\EFFECT_SMG delays effects of recoil during automatic fire
+    ///\EFFECT_RIFLE delays effects of recoil during automatic fire
+    ///\EFFECT_SHOTGUN delays effects of recoil during automatic fire
+    double absorb = std::min( int( get_skill_level( gun.gun_skill() ) ), MAX_SKILL ) / double( MAX_SKILL * 2 );
 
     tripoint aim = target;
     int curshot = 0;
-    int burst = 0; // count of shots against current target
+    int xp = 0; // experience gain for marksmanship skill
+    int hits = 0; // total shots on target
+    int delay = 0; // delayed recoil that has yet to be applied
     while( curshot != shots ) {
         if( !handle_gun_damage( gun ) ) {
             break;
@@ -557,7 +518,9 @@ int player::fire_gun( const tripoint &target, int shots, item& gun )
         auto shot = projectile_attack( make_gun_projectile( gun ), aim, dispersion );
         curshot++;
 
-        recoil_add( *this, gun, ++burst );
+        int qty = gun.gun_recoil( *this, bipod );
+        delay  += qty * absorb;
+        recoil += qty * ( 1.0 - absorb );
 
         make_gun_sound_effect( *this, shots > 1, &gun );
         sfx::generate_gun_sound( *this, gun );
@@ -573,20 +536,25 @@ int player::fire_gun( const tripoint &target, int shots, item& gun )
             use_charges( "UPS", gun.get_gun_ups_drain() );
         }
 
-        // Experience gain is limited by range and penalised proportional to inaccuracy.
-        int exp = std::min( range, 3 * ( get_skill_level( skill_used ) + 1 ) ) * 20;
-        int penalty = std::max( int( sqrt( shot.missed_by * 36 ) ), 1 );
-
-        // Even if we are not training we practice the skill to prevent rust.
-        practice( skill_used, train_skill ? exp / penalty : 0 );
 
         if( shot.missed_by <= .1 ) {
             lifetime_stats()->headshots++; // @todo check head existence for headshot
         }
 
+        if( shot.hit_critter ) {
+            hits++;
+            if( range > double( get_skill_level( skill_gun ) ) / MAX_SKILL * MAX_RANGE ) {
+                xp += range; // shots at sufficient distance train marksmanship
+            }
+        }
+
+        if( gun.gun_skill() == skill_launcher ) {
+            continue; // skip retargeting for launchers
+        }
+
         // If burst firing and we killed the target then try to retarget
         const auto critter = g->critter_at( aim, true );
-        if( critter && critter->is_dead_state() ) {
+        if( !critter || critter->is_dead_state() ) {
 
             // Find suitable targets that are in range, hostile and near any previous target
             auto hostiles = get_targetable_creatures( gun.gun_range( this ) );
@@ -613,14 +581,22 @@ int player::fire_gun( const tripoint &target, int shots, item& gun )
                 break; ///\EFFECT_GUN increases chance of firing multiple times in a burst
             }
             aim = random_entry( hostiles )->pos();
-            burst = 0;
         }
     }
 
-    practice( skill_gun, train_skill ? 15 : 0 );
+    // apply delayed recoil
+    recoil += delay;
 
     // Use different amounts of time depending on the type of gun and our skill
     moves -= time_to_fire( *this, *gun.type );
+
+    practice( skill_gun, xp * ( get_skill_level( skill_gun ) + 1 ) );
+    if( hits && !xp && one_in( 10 ) ) {
+        add_msg_if_player( m_info, _( "You'll need to aim at more distant targets to further improve your marksmanship." ) );
+    }
+
+    // launchers train weapon skill for both hits and misses
+    practice( gun.gun_skill(), ( gun.gun_skill() == skill_launcher ? curshot : hits ) * 10 );
 
     return curshot;
 }
@@ -687,11 +663,13 @@ dealt_projectile_attack player::throw_item( const tripoint &target, const item &
         deviation -= per_cur - 8;
     }
 
+    const int vol = thrown.volume() / 250_ml;
+
     deviation += rng(0, ((encumb(bp_hand_l) + encumb(bp_hand_r)) + encumb(bp_eyes) + 1) / 10);
-    if (thrown.volume() > 5) {
-        deviation += rng(0, 1 + (thrown.volume() - 5) / 4);
+    if (vol > 5) {
+        deviation += rng(0, 1 + (vol - 5) / 4);
     }
-    if (thrown.volume() == 0) {
+    if (vol == 0) {
         deviation += rng(0, 3);
     }
 
@@ -711,7 +689,7 @@ dealt_projectile_attack player::throw_item( const tripoint &target, const item &
     int real_dam = ( (thrown.weight() / 452)
                      + (thrown.type->melee_dam / 2)
                      + (str_cur / 2) )
-                   / (2.0 + (thrown.volume() / 4.0));
+                   / (2.0 + (vol / 4.0));
     if( real_dam > thrown.weight() / 40 ) {
         real_dam = thrown.weight() / 40;
     }
@@ -739,7 +717,7 @@ dealt_projectile_attack player::throw_item( const tripoint &target, const item &
     // Item will shatter upon landing, destroying the item, dealing damage, and making noise
     ///\EFFECT_STR increases chance of shattering thrown glass items (NEGATIVE)
     const bool shatter = !thrown.active && thrown.made_of( material_id( "glass" ) ) &&
-                         rng(0, thrown.volume() + 8) - rng(0, str_cur) < thrown.volume();
+                         rng(0, vol + 8) - rng(0, str_cur) < vol;
 
     // Add some flags to the projectile
     // TODO: Add this flag only when the item is heavy
@@ -756,13 +734,13 @@ dealt_projectile_attack player::throw_item( const tripoint &target, const item &
         proj_effects.insert( "LIGHTNING" );
     }
 
-    if( thrown.volume() > 2 ) {
+    if( vol > 2 ) {
         proj_effects.insert( "WIDE" );
     }
 
     // Deal extra cut damage if the item breaks
     if( shatter ) {
-        const int glassdam = rng( 0, thrown.volume() * 2 );
+        const int glassdam = rng( 0, vol * 2 );
         impact.add_damage( DT_CUT, glassdam );
         proj_effects.insert( "SHATTER_SELF" );
     }
@@ -909,38 +887,37 @@ static int draw_targeting_window( WINDOW *w_target, const std::string &name, pla
     return lines_used;
 }
 
-static int find_target( std::vector <Creature *> &t, const tripoint &tpos ) {
-    int target = -1;
-    for( int i = 0; i < (int)t.size(); i++ ) {
+static int find_target( const std::vector<Creature *> &t, const tripoint &tpos ) {
+    for( size_t i = 0; i < t.size(); ++i ) {
         if( t[i]->pos() == tpos ) {
-            target = i;
-            break;
+            return int( i );
         }
     }
-    return target;
+    return -1;
 }
 
-static void do_aim( player *p, std::vector <Creature *> &t, int &target,
-                    item *relevant, const tripoint &tpos )
+static int do_aim( player &p, const std::vector<Creature *> &t, int cur_target,
+                   const item &relevant, const tripoint &tpos )
 {
     // If we've changed targets, reset aim, unless it's above the minimum.
-    if( t[target]->pos() != tpos ) {
-        target = find_target( t, tpos );
+    if( size_t( cur_target ) >= t.size() || t[cur_target]->pos() != tpos ) {
+        cur_target = find_target( t, tpos );
         // TODO: find radial offset between targets and
         // spend move points swinging the gun around.
-        p->recoil = std::max(MIN_RECOIL, p->recoil);
+        p.recoil = std::max( MIN_RECOIL, p.recoil );
     }
 
-    const double aim_amount = p->aim_per_move( *relevant, p->recoil );
+    const double aim_amount = p.aim_per_move( relevant, p.recoil );
     if( aim_amount > 0 ) {
         // Increase aim at the cost of moves
-        p->moves--;
-        p->recoil -= aim_amount;
-        p->recoil = std::max( 0.0, p->recoil );
+        p.mod_moves( -1 );
+        p.recoil = std::max( 0.0, p.recoil - aim_amount );
     } else {
         // If aim is already maxed, we're just waiting, so pass the turn.
-        p->moves = 0;
+        p.set_moves( 0 );
     }
+
+    return cur_target;
 }
 
 static int print_aim_bars( const player &p, WINDOW *w, int line_number, item *weapon,
@@ -961,7 +938,7 @@ static int print_aim_bars( const player &p, WINDOW *w, int line_number, item *we
     // 0 it is the best the player can do.
     const double steady_score = predicted_recoil - p.effective_dispersion( p.weapon.sight_dispersion() );
     // Fairly arbitrary cap on steadiness...
-    const double steadiness = 1.0 - steady_score / 250;
+    const double steadiness = 1.0 - steady_score / MIN_RECOIL;
 
     const std::array<std::pair<double, char>, 3> confidence_ratings = {{
         std::make_pair( accuracy_headshot, '*' ),
@@ -1349,7 +1326,7 @@ std::vector<tripoint> game::pl_target_ui( target_mode mode, item *relevant, int 
             // No confirm_non_enemy_target here because we have not initiated the firing.
             // Aiming can be stopped / aborted at any time.
             for( int i = 0; i != 10; ++i ) {
-                do_aim( &u, t, target, relevant, dst );
+                target = do_aim( u, t, target, *relevant, dst );
             }
             if( u.moves <= 0 ) {
                 // We've run out of moves, clear target vector, but leave target selected.
@@ -1386,7 +1363,7 @@ std::vector<tripoint> game::pl_target_ui( target_mode mode, item *relevant, int 
             }
             aim_threshold = it->threshold;
             do {
-                do_aim( &u, t, target, relevant, dst );
+                target = do_aim( u, t, target, *relevant, dst );
             } while( target != -1 && u.moves > 0 && u.recoil > aim_threshold &&
                      u.recoil - sight_dispersion > 0 );
             if( target == -1 ) {
@@ -1664,12 +1641,15 @@ static bool is_driving( const player &p )
 // utility functions for projectile_attack
 double player::get_weapon_dispersion( const item &obj ) const
 {
-    double dispersion = skill_dispersion( obj ) + obj.gun_dispersion();
+    double dispersion = obj.gun_dispersion();
+
+    ///\EFFECT_GUN improves usage of accurate weapons and sights
+    dispersion += 10 * ( MAX_SKILL - std::min( int( get_skill_level( skill_gun ) ), MAX_SKILL ) );
 
     if( is_driving( *this ) ) {
         // get volume of gun (or for auxiliary gunmods the parent gun)
         const item *parent = has_item( obj ) ? find_parent( obj ) : nullptr;
-        int vol = parent ? parent->volume() : obj.volume();
+        const int vol = ( parent ? parent->volume() : obj.volume() ) / 250_ml;
 
         ///\EFFECT_DRIVING reduces the inaccuracy penalty when using guns whilst driving
         dispersion += std::max( vol - get_skill_level( skill_driving ), 1 ) * 20;
@@ -1687,26 +1667,6 @@ double player::get_weapon_dispersion( const item &obj ) const
     }
 
     return std::max( dispersion, 0.0 );
-}
-
-double recoil_add( player& p, const item &gun, int shot )
-{
-    double qty = gun.gun_recoil();
-
-    ///\EFFECT_STR reduces recoil when using guns and tools
-    qty -= rng( 7, 15 ) * p.get_str();
-
-    ///\EFFECT_PISTOL randomly decreases recoil with appropriate guns
-    ///\EFFECT_RIFLE randomly decreases recoil with appropriate guns
-    ///\EFFECT_SHOTGUN randomly decreases recoil with appropriate guns
-    ///\EFFECT_SMG randomly decreases recoil with appropriate guns
-    qty -= rng( 0, p.get_skill_level( gun.gun_skill() ) * 7 );
-
-    // when firing in bursts reduce the penalty from each sucessive shot
-    double k = 1.6; // 5 round burst is equivalent to ~2 individually aimed shots
-    qty *= pow( 1.0 / sqrt( shot ), k );
-
-    return p.recoil += std::max( qty, 0.0 );
 }
 
 void drop_or_embed_projectile( const dealt_projectile_attack &attack )
@@ -1747,16 +1707,16 @@ void drop_or_embed_projectile( const dealt_projectile_attack &attack )
     // Don't embed in small creatures
     if( embed ) {
         const m_size critter_size = mon->get_size();
-        const int vol = dropped_item.volume();
-        embed = embed && ( critter_size > MS_TINY || vol < 1 );
-        embed = embed && ( critter_size > MS_SMALL || vol < 2 );
+        const units::volume vol = dropped_item.volume();
+        embed = embed && ( critter_size > MS_TINY || vol < 250_ml );
+        embed = embed && ( critter_size > MS_SMALL || vol < 500_ml );
         // And if we deal enough damage
         // Item volume bumps up the required damage too
         embed = embed &&
                  ( attack.dealt_dam.type_damage( DT_CUT ) / 2 ) +
                    attack.dealt_dam.type_damage( DT_STAB ) >
                      attack.dealt_dam.type_damage( DT_BASH ) +
-                     vol * 3 + rng( 0, 5 );
+                     vol * 3 / 250_ml + rng( 0, 5 );
     }
 
     if( embed ) {
@@ -1816,19 +1776,16 @@ double player::gun_value( const item &weap, long ammo ) const
     float damage_factor = weap.gun_damage( false );
     damage_factor += weap.gun_pierce( false ) / 2.0;
 
-    int total_dispersion = weap.gun_dispersion( false );
-    int total_recoil = weap.gun_recoil( false );
+    item tmp = weap;
+    tmp.ammo_set( weap.ammo_default() );
+    int total_dispersion = get_weapon_dispersion( tmp ) + effective_dispersion( tmp.sight_dispersion() );
 
     if( def_ammo_i != nullptr && def_ammo_i->ammo != nullptr ) {
         const islot_ammo &def_ammo = *def_ammo_i->ammo;
         damage_factor += def_ammo.damage;
         damage_factor += def_ammo.pierce / 2;
         total_dispersion += def_ammo.dispersion;
-        total_recoil += def_ammo.recoil;
     }
-
-    total_dispersion += skill_dispersion( weap );
-    total_dispersion += g->u.effective_dispersion( weap.sight_dispersion() );
 
     int move_cost = time_to_fire( *this, *weap.type );
     if( gun.clip != 0 && gun.clip < 10 ) {
@@ -1870,12 +1827,10 @@ double player::gun_value( const item &weap, long ammo ) const
 
     // Penalty for dodging in melee makes the gun unusable in melee
     // Until NPCs get proper kiting, at least
-    int melee_penalty = weapon.volume() - get_skill_level( skill_dodge );
+    int melee_penalty = weapon.volume() / 250_ml - get_skill_level( skill_dodge );
     if( melee_penalty <= 0 ) {
         // Dispersion matters less if you can just use the gun in melee
-        total_dispersion = std::min<int>(
-            ( total_dispersion + total_recoil ) / move_cost_factor,
-            total_dispersion );
+        total_dispersion = std::min<int>( total_dispersion / move_cost_factor, total_dispersion );
     }
 
     float dispersion_factor = multi_lerp( dispersion_thresholds, total_dispersion );

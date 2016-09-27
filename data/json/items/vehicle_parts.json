@@ -347,7 +347,7 @@
     {
         "type":"GENERIC",
         "id" : "headlight_reinforced",
-        "name" : "reinforced head light",
+        "name" : "reinforced headlight",
         "description" : "A vehicle headlight with a cage built around it to protect it from damage without reducing it's effectiveness.",
         "weight" : 1200,
         "to_hit" : -2,

@@ -5,9 +5,9 @@
     "default": "mon_zombie_brute",
     "//": "PKs Brute upgrade list.",
     "monsters": [
-      { "monster": "mon_zombie_brute_grappler", "freq": 66, "cost_multiplier": 10 },
-      { "monster": "mon_zombie_brute_ninja", "freq": 33, "cost_multiplier": 10 },
-      { "monster": "mon_zombie_hulk", "freq": 1, "cost_multiplier": 50 }
+      { "monster": "mon_zombie_brute_grappler", "freq": 6, "cost_multiplier": 1 },
+      { "monster": "mon_zombie_brute_ninja", "freq": 3, "cost_multiplier": 1 },
+      { "monster": "mon_zombie_hulk", "freq": 1, "cost_multiplier": 10 }
     ]
     },{
     "type":"monstergroup",
@@ -15,12 +15,16 @@
     "default": "mon_zombie_rot_pk",
     "//": "Already decaying zombies upgrade here.",
     "monsters": [
-      { "monster": "mon_zombie_pk", "freq": 15, "cost_multiplier": 2 },
-      { "monster": "mon_zombie_rot_pk", "freq": 50, "cost_multiplier": 5 },
-      { "monster": "mon_skeleton_pk", "freq": 25, "cost_multiplier": 7 },
-      { "monster": "mon_zombie_crawler_pk_weak", "freq": 8, "cost_multiplier": 15 },
-      { "monster": "mon_zombie_crawler_pk", "freq": 1, "cost_multiplier": 20 },
-      { "monster": "mon_skeleton_husk", "freq": 1, "cost_multiplier": 15 }
+      { "monster": "mon_zombie_blind_pk", "freq": 15, "cost_multiplier": 5 },
+      { "monster": "mon_zombie_pk", "freq": 20, "cost_multiplier": 3 },
+      { "monster": "mon_skeleton", "freq": 5, "cost_multiplier": 1 },
+      { "monster": "mon_skeleton_pk", "freq": 10, "cost_multiplier": 5 },
+      { "monster": "mon_skeleton_husk", "freq": 1, "cost_multiplier": 10 },
+      { "monster": "mon_beekeeper", "freq": 15, "cost_multiplier": 1 },
+      { "monster": "mon_beekeeper_pk", "freq": 15, "cost_multiplier": 5 },
+      { "monster": "mon_zombie_shady_ghost", "freq": 3, "cost_multiplier": 7 },
+      { "monster": "mon_zombie_crawler_pk_weak", "freq": 15, "cost_multiplier": 5 },
+      { "monster": "mon_zombie_crawler_pk", "freq": 1, "cost_multiplier": 40 }
     ]
     },{
     "type":"monstergroup",
@@ -124,8 +128,9 @@
     "default": "mon_zombie_fat",
     "monsters": [
       { "monster": "mon_zombie_gasbag", "freq": 20, "cost_multiplier": 5},
-      { "monster": "mon_boomer", "freq": 40, "cost_multiplier": 3},
-      { "monster": "mon_boomer_huge", "freq": 30, "cost_multiplier": 7},
+      { "monster": "mon_boomer", "freq": 30, "cost_multiplier": 3},
+      { "monster": "mon_boomer_huge_pk", "freq": 20, "cost_multiplier": 5},
+      { "monster": "mon_boomer_huge", "freq": 20, "cost_multiplier": 7},
       { "monster": "mon_zombie_crawler_pk_weak", "freq": 8, "cost_multiplier": 10 },
       { "monster": "mon_zombie_crawler_pk", "freq": 1, "cost_multiplier": 15 },
       { "monster": "mon_zombie_gasbag_pk", "freq": 1, "cost_multiplier": 20}

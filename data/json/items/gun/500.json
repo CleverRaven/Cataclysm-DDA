@@ -15,9 +15,7 @@
     "symbol": "(",
     "color": "light_gray",
     "ammo": "500",
-    "dispersion": 180,
-    "sight_dispersion": 90,
-    "recoil": 30,
+    "dispersion": 280,
     "durability": 8,
     "clip_size": 5,
     "valid_mod_locations": [ [ "accessories", 2 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "rail", 1 ], [ "sights", 1 ] ]

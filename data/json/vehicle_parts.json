@@ -254,11 +254,20 @@
         "item" : "frame_wood_light",
         "difficulty" : 0,
         "location" : "structure",
-        "flags" : ["NAILABLE"],
         "breaks_into" : [
             {"item": "splinter", "count": [3, 5]},
             {"item": "string_36", "count": [10, 15]}
-        ]
+        ],
+        "requirements": {
+          "install": {
+            "time": 60000,
+            "components": [ [ [ "rope_6", 1 ] ] ]
+          },
+          "repair": {
+            "time": 30000,
+            "using": [ [ "adhesive", 1 ] ]
+          }
+        }
     },{
         "type" : "vehicle_part",
         "id" : "aisle_horizontal",
@@ -377,7 +386,18 @@
         "item" : "sheet",
         "difficulty" : 1,
         "location" : "roof",
-        "flags" : ["ROOF", "FOLDABLE", "NAILABLE"],
+        "requirements": {
+          "install": {
+            "time": 30000,
+            "components": [ [ [ "string_6", 2 ], [ "duct_tape", 25 ] ] ]
+          },
+          "repair": {
+            "time": 15000,
+            "skills": [ [ "tailor", 1 ] ],
+            "using": [ [ "sewing_standard", 50 ], [ "fabric_standard", 1 ] ]
+          }
+        },
+        "flags" : ["ROOF", "FOLDABLE"],
         "breaks_into" : "ig_vp_cloth"
     },{
         "type" : "vehicle_part",
@@ -591,7 +611,7 @@
         "damage_modifier" : 80,
         "durability" : 120,
         "power" : 20,
-        "epower" : -5000,
+        "epower" : -1000,
         "fuel_type" : "battery",
         "item" : "motor_small",
         "difficulty" : 1,
@@ -615,7 +635,7 @@
         "damage_modifier" : 80,
         "durability" : 200,
         "power" : 100,
-        "epower" : -20000,
+        "epower" : -5000,
         "fuel_type" : "battery",
         "item" : "motor",
         "difficulty" : 2,
@@ -639,7 +659,7 @@
         "damage_modifier" : 80,
         "durability" : 200,
         "power" : 500,
-        "epower" : -200000,
+        "epower" : -60000,
         "fuel_type" : "battery",
         "item" : "motor_enhanced",
         "difficulty" : 4,
@@ -662,7 +682,7 @@
         "damage_modifier" : 80,
         "durability" : 400,
         "power" : 400,
-        "epower" : -120000,
+        "epower" : -40000,
         "fuel_type" : "battery",
         "item" : "motor_large",
         "difficulty" : 3,
@@ -707,7 +727,7 @@
         "damage_modifier" : 50,
         "durability" : 50,
         "folded_volume": 2,
-        "power" : 45,
+        "power" : 64,
         "fuel_type" : "muscle",
         "item" : "foot_crank",
         "difficulty" : 1,
@@ -847,11 +867,21 @@
         "item" : "frame_wood_light",
         "difficulty" : 0,
         "location" : "center",
-        "flags" : ["CARGO", "BOARDABLE", "COVERED", "NAILABLE"],
+        "flags" : ["CARGO", "BOARDABLE", "COVERED"],
         "breaks_into" : [
             {"item": "splinter", "count": [3, 5]},
             {"item": "string_36", "count": [10, 15]}
-        ]
+        ],
+        "requirements": {
+          "install": {
+            "time": 60000,
+            "components": [ [ [ "rope_6", 1 ] ] ]
+          },
+          "repair": {
+            "time": 30000,
+            "using": [ [ "adhesive", 1 ] ]
+          }
+        }
     },{
         "type" : "vehicle_part",
         "id" : "wood box",
@@ -2161,8 +2191,8 @@
         "flags" : ["SCOOP","CARGO"],
         "location" : "under",
         "breaks_into" : [
-            {"item": "scrap", "min": 2, "max": 5},
-            {"item": "plastic_chunk","min":1,"max":5}
+            {"item": "scrap", "count": [ 2, 5 ] },
+            {"item": "plastic_chunk", "count": [ 1, 5 ] }
         ]
     },{
         "type" : "vehicle_part",

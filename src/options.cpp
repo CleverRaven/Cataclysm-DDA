@@ -624,6 +624,19 @@ void options_manager::cOpt::setValue(float fSetIn)
 }
 
 //set value
+void options_manager::cOpt::setValue( int iSetIn )
+{
+    if( sType != "int" ) {
+        debugmsg( "tried to set an int value to a %s option", sType.c_str() );
+        return;
+    }
+    iSet = iSetIn;
+    if( iSet < iMin || iSet > iMax ) {
+        iSet = iDefault;
+    }
+}
+
+//set value
 void options_manager::cOpt::setValue(std::string sSetIn)
 {
     if (sType == "string_select") {
@@ -1254,6 +1267,13 @@ void options_manager::init()
         );
 
     ////////////////////////////WORLD DEFAULT////////////////////
+    add("CORE_VERSION", "world_default", _("Core version data"),
+        _("Controls what migrations are applied for legacy worlds"),
+        1, core_version, core_version, COPT_ALWAYS_HIDE
+        );
+
+    mOptionsSort["world_default"]++;
+
     optionNames["no"] = _("No");
     optionNames["yes"] = _("Yes");
     optionNames["query"] = _("Query");
@@ -1398,8 +1418,8 @@ void options_manager::init()
 
     mOptionsSort["world_default"]++;
 
-    add("BLACKLIST_MAGAZINES", "world_default", _("Disables removable gun magaziones."),
-        _("If true, disables removeable gun magazines, guns will all act as if they have integral magazines."),
+    add("FILTHY_MORALE", "world_default", _("Morale penalty for filthy clothing."),
+        _("If true, wearing filthy clothing will cause morale penalties."),
         false, COPT_ALWAYS_HIDE
         );
 
@@ -1407,6 +1427,13 @@ void options_manager::init()
 
     add("NO_VITAMINS", "world_default", _("Disables tracking vitamins in food items."),
         _("If true, disables vitamin tracking and vitamin disorders."),
+        false, COPT_ALWAYS_HIDE
+        );
+
+    mOptionsSort["world_default"]++;
+
+    add("NO_NPC_FOOD", "world_default", _("Disables tracking food, thirst and (partially) fatigue for NPCs."),
+        _("If true, NPCs won't need to eat or drink and will only get tired enough to sleep, not to get penalties."),
         false, COPT_ALWAYS_HIDE
         );
 
@@ -1931,6 +1958,11 @@ bool options_manager::load_legacy()
 bool use_narrow_sidebar()
 {
     return TERMY < 25 || g->narrow_sidebar;
+}
+
+bool options_manager::has_option( const std::string &name ) const
+{
+    return global_options.count( name );
 }
 
 options_manager::cOpt &options_manager::get_option( const std::string &name )

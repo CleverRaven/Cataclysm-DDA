@@ -348,7 +348,7 @@
 },{
   "type" : "recipe",
   "result": "lard",
-  "byproducts": { "id" : "cracklins" },
+  "byproducts": [ [ "cracklins" ] ],
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_MEAT",
   "skill_used": "cooking",
@@ -558,7 +558,7 @@
   "autolearn": true,
   "batch_time_factors":[83, 3],
   "qualities" : [ { "id":"COOK","level":1 } ],
-  "tools": [ [ [ "char_smoker", 20 ] ] ],
+  "tools": [ [ [ "char_smoker", 15 ] ] ],
   "components": [ [ [ "meat", 3 ] ] ]
 },{
   "type" : "recipe",
@@ -571,7 +571,7 @@
   "autolearn": true,
   "batch_time_factors":[83, 3],
   "qualities" : [ { "id":"COOK","level":1 } ],
-  "tools": [ [ [ "char_smoker", 20 ] ] ],
+  "tools": [ [ [ "char_smoker", 15 ] ] ],
   "components": [ [ [ "fish", 6 ] ] ]
 },{
   "type" : "recipe",
@@ -1204,7 +1204,7 @@
   ],
   "tools" : [
     [
-      [ "char_smoker", 20 ]
+      [ "char_smoker", 10 ]
     ]
   ],
   "components": [
@@ -1245,7 +1245,7 @@
   ],
   "tools" : [
     [
-      [ "char_smoker", 20 ]
+      [ "char_smoker", 10 ]
     ]
   ],
   "components": [
@@ -1278,7 +1278,7 @@
   ],
   "tools" : [
     [
-      [ "char_smoker", 20 ]
+      [ "char_smoker", 10 ]
     ]
   ],
   "components": [
@@ -1330,7 +1330,7 @@
   "book_learn": [[ "cookbook_human", 4 ]],
   "batch_time_factors":[83, 3],
   "qualities" : [ { "id":"COOK","level":1 } ],
-  "tools": [ [ [ "char_smoker", 20 ] ] ],
+  "tools": [ [ [ "char_smoker", 15 ] ] ],
   "components": [ [ [ "human_flesh", 3 ] ] ]
 },{
   "type" : "recipe",
@@ -1350,7 +1350,7 @@
   ],
   "tools" : [
     [
-      [ "char_smoker", 20 ]
+      [ "char_smoker", 10 ]
     ]
   ],
   "components": [
@@ -1495,7 +1495,7 @@
   "subcategory": "CSC_FOOD_VEGGI",
   "skill_used": "cooking",
   "difficulty": 1,
-  "byproducts": "plant_fibre",
+  "byproducts": [ [ "plant_fibre" ] ],
   "skills_required": [ "survival", 1 ],
   "time": 18000,
   "reversible": false,
@@ -2719,7 +2719,7 @@
 },{
   "type" : "recipe",
   "result": "can_coconut",
-  "byproducts": "juice_pulp",
+  "byproducts": [ [ "juice_pulp" ] ],
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_DRINKS",
   "skill_used": "cooking",
@@ -2804,7 +2804,7 @@
   "type" : "recipe",
   "result": "starch",
   "id_suffix": "from_fibrous_stuff",
-  "byproducts": { "id" : "plant_fibre", "amount" : 5 },
+  "byproducts": [ [ "plant_fibre", 5 ] ],
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_VEGGI",
   "skill_used": "cooking",
@@ -2824,7 +2824,7 @@
 },{
   "type" : "recipe",
   "result": "oj",
-  "byproducts": "juice_pulp",
+  "byproducts": [ [ "juice_pulp" ] ],
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_DRINKS",
   "skill_used": "cooking",
@@ -2846,7 +2846,7 @@
 },{
   "type" : "recipe",
   "result": "cranberry_juice",
-  "byproducts": "juice_pulp",
+  "byproducts": [ [ "juice_pulp" ] ],
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_DRINKS",
   "skill_used": "cooking",
@@ -2871,7 +2871,7 @@
 },{
   "type" : "recipe",
   "result": "apple_cider",
-  "byproducts": "juice_pulp",
+  "byproducts": [ [ "juice_pulp" ] ],
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_DRINKS",
   "skill_used": "cooking",
@@ -3244,7 +3244,8 @@
       [ "salt", 5 ],
       [ "soysauce", 1 ],
       [ "seasoning_salt", 5 ],
-      [ "pepper", 10 ]
+      [ "pepper", 10 ],
+      [ "chem_saltpetre", 2 ]
     ],
     [
       [ "meat", 1 ]
@@ -3276,7 +3277,8 @@
       [ "salt", 5 ],
       [ "soysauce", 1 ],
       [ "seasoning_salt", 5 ],
-      [ "pepper", 10 ]
+      [ "pepper", 10 ],
+      [ "chem_saltpetre", 2 ]
     ],
     [
       [ "fish", 2 ]
@@ -3309,7 +3311,8 @@
       [ "salt", 5 ],
       [ "soysauce", 1 ],
       [ "seasoning_salt", 5 ],
-      [ "pepper", 10 ]
+      [ "pepper", 10 ],
+      [ "chem_saltpetre", 2 ]
     ],
     [
       [ "human_flesh", 1 ]
@@ -4373,7 +4376,7 @@
   ],
   "tools" : [
     [
-      [ "char_smoker", 20 ]
+      [ "char_smoker", 10 ]
     ]
   ],
   "components": [
@@ -6250,7 +6253,6 @@
 },{
         "type" : "recipe",
   "result": "seasoning_italian",
-  "override": true,
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_OTHER",
   "skill_used": "cooking",
@@ -8264,7 +8266,8 @@
     [
       [ "salt_water", 1 ],
       [ "saline", 5 ],
-      [ "salt", 10 ]
+      [ "salt", 10 ],
+      [ "chem_saltpetre", 5 ]
     ]
   ]
 },{
@@ -8300,7 +8303,8 @@
     [
       [ "salt_water", 1 ],
       [ "saline", 5 ],
-      [ "salt", 10 ]
+      [ "salt", 10 ],
+      [ "chem_saltpetre", 5 ]
     ]
   ]
 },{
@@ -8337,7 +8341,8 @@
     [
       [ "salt_water", 1 ],
       [ "saline", 5 ],
-      [ "salt", 10 ]
+      [ "salt", 10 ],
+      [ "chem_saltpetre", 5 ]
     ]
   ]
 },{
@@ -8375,7 +8380,8 @@
     [
       [ "salt_water", 1 ],
       [ "saline", 5 ],
-      [ "salt", 10 ]
+      [ "salt", 10 ],
+      [ "chem_saltpetre", 5 ]
     ]
   ]
 },{
@@ -10469,7 +10475,7 @@
 },{
   "type" : "recipe",
   "result": "juice",
-  "byproducts": "juice_pulp",
+  "byproducts": [ [ "juice_pulp" ] ],
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_DRINKS",
   "skill_used": "cooking",
@@ -10533,7 +10539,7 @@
   "type" : "recipe",
   "result": "juice",
   "id_suffix": "fresh",
-  "byproducts": { "id" : "juice_pulp", "amount" : 2 },
+  "byproducts": [ [ "juice_pulp", 2 ] ],
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_DRINKS",
   "skill_used": "cooking",
@@ -12240,7 +12246,7 @@
 {
   "type" : "recipe",
   "result": "honey_bottled",
-  "byproducts": { "id" : "wax", "amount" : 4 },
+  "byproducts": [ [ "wax", 4 ] ],
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_OTHER",
   "skill_used": "cooking",

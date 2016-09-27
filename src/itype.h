@@ -11,6 +11,7 @@
 #include "explosion.h"
 #include "vitamin.h"
 #include "emit.h"
+#include "units.h"
 
 #include <string>
 #include <vector>
@@ -127,9 +128,9 @@ struct islot_brewable {
 
 struct islot_container {
     /**
-     * Volume, scaled by the default-stack size of the item that is contained in this container.
+     * Inner volume of the container.
      */
-    int contains = 0;
+    units::volume contains = 0;
     /**
      * Can be resealed.
      */
@@ -162,28 +163,28 @@ struct islot_armor {
     /**
      * How much this item encumbers the player.
      */
-    signed char encumber = 0;
+    int encumber = 0;
     /**
      * Percentage of the body part area that this item covers.
      * This determines how likely it is to hit the item instead of the player.
      */
-    unsigned char coverage = 0;
+    int coverage = 0;
     /**
      * TODO: document me.
      */
-    unsigned char thickness = 0;
+    int thickness = 0;
     /**
      * Resistance to environmental effects.
      */
-    unsigned char env_resist = 0;
+    int env_resist = 0;
     /**
      * How much warmth this item provides.
      */
-    signed char warmth = 0;
+    int warmth = 0;
     /**
      * How much storage this items provides when worn.
      */
-    unsigned char storage = 0;
+    units::volume storage = 0;
     /**
      * Whether this is a power armor item.
      */
@@ -275,10 +276,6 @@ struct common_ranged_data {
      * Dispersion "bonus" from gun.
      */
     int dispersion = 0;
-    /**
-     * Recoil "bonus" from gun.
-     */
-    int recoil = 0;
 };
 
 struct islot_engine
@@ -336,8 +333,8 @@ struct islot_gun : common_ranged_data {
      */
     int reload_noise_volume = 0;
 
-    /** @todo add documentation */
-    int sight_dispersion = 0;
+    /** Maximum aim achievable using base weapon sights */
+    int sight_dispersion = 120;
 
     /** Modifies base loudness as provided by the currently loaded ammo */
     int loudness = 0;
@@ -349,7 +346,7 @@ struct islot_gun : common_ranged_data {
     /**
      * Length of gun barrel, if positive allows sawing down of the barrel
      */
-    int barrel_length = 0;
+    units::volume barrel_length = 0;
     /**
      * Effects that are applied to the ammo when fired.
      */
@@ -374,6 +371,15 @@ struct islot_gun : common_ranged_data {
 
     /** Burst size for AUTO mode (legacy field for items not migrated to specify modes ) */
     int burst = 0;
+
+    /** How easy is control of recoil? If unset value automatically derived from weapon type */
+    int handling = -1;
+
+    /**
+     *  Additional recoil applied per shot before effects of handling are considered
+     *  @note useful for adding recoil effect to guns which otherwise consume no ammo
+     */
+    int recoil = 0;
 };
 
 struct islot_gunmod : common_ranged_data {
@@ -410,6 +416,9 @@ struct islot_gunmod : common_ranged_data {
 
     /** Firing modes added to or replacing those of the base gun */
     std::map<std::string, std::tuple<std::string, int, std::set<std::string>>> mode_modifier;
+
+    /** Relative adjustment to base gun handling */
+    int handling = 0;
 };
 
 struct islot_magazine {
@@ -474,6 +483,9 @@ struct islot_ammo : common_ranged_data {
      * appropriate value is calculated based upon the other properties of the ammo
      */
     int loudness = -1;
+
+    /** Recoil (per shot), roughly equivalent to kinetic energy (in Joules) */
+    int recoil = 0;
 
     /**
      * Should this ammo explode in fire?
@@ -615,7 +627,7 @@ public:
     int min_dex = 0;
     int min_int = 0;
     int min_per = 0;
-    std::map<skill_id, int> min_skills;
+    std::map<std::string, int> min_skills;
 
     // Should the item explode when lit on fire
     bool explode_in_fire = false;
@@ -627,11 +639,11 @@ public:
     /** After loading from JSON these properties guaranteed to be zero or positive */
     /*@{*/
     int weight          =  0; // Weight in grams for item (or each stack member)
-    int volume          =  0; // Space occupied by items of this type
+    units::volume volume = 0; // Space occupied by items of this type
     int price           =  0; // Value before cataclysm
     int price_post      = -1; // Value after cataclysm (dependent upon practical usages)
     int stack_size      =  0; // Maximum identical items that can stack per above unit volume
-    int integral_volume = -1; // Space consumed when integrated as part of another item (defaults to volume)
+    units::volume integral_volume = units::from_milliliter( -1 ); // Space consumed when integrated as part of another item (defaults to volume)
     /*@}*/
 
     bool rigid = true; // If non-rigid volume (and if worn encumbrance) increases proportional to contents
@@ -654,7 +666,7 @@ public:
     std::map< ammotype, itype_id > magazine_default;
 
     /** Volume above which the magazine starts to protrude from the item and add extra volume */
-    int magazine_well = 0;
+    units::volume magazine_well = 0;
 
     std::string get_item_type_string() const
     {

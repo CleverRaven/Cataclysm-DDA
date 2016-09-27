@@ -12,6 +12,7 @@
 #include "active_item_cache.h"
 #include "string_id.h"
 #include "int_id.h"
+#include "units.h"
 
 #include <vector>
 #include <array>
@@ -105,6 +106,7 @@ vehicle_stack( std::list<item> *newstack, point newloc, vehicle *neworigin, int 
 struct vehicle_part : public JsonSerializer, public JsonDeserializer
 {
     friend vehicle;
+    friend class veh_interact;
     friend visitable<vehicle_cursor>;
     friend item_location;
     friend class turret_data;
@@ -446,7 +448,7 @@ private:
     // Do stuff like clean up blood and produce smoke from broken parts. Returns false if nothing needs doing.
     bool do_environmental_effects();
 
-    int total_folded_volume() const;
+    units::volume total_folded_volume() const;
 
     // Gets the fuel color for a given fuel
     nc_color get_fuel_color ( const itype_id &fuel_type ) const;
@@ -602,6 +604,13 @@ public:
      *  @param enabled if set part must also be enabled to be considered
      */
     bool has_part( const std::string &flag, bool enabled = false ) const;
+
+    /**
+     *  Check if vehicle has at least one unbroken part with @ref flag
+     *  @param pos limit check for parts to this global position
+     *  @param enabled if set part must also be enabled to be considered
+     */
+    bool has_part( const tripoint &pos, const std::string &flag, bool enabled = false ) const;
 
     /**
      *  Get all unbroken vehicle parts with @ref flag
@@ -919,10 +928,9 @@ public:
     // Process the trap beneath
     void handle_trap( const tripoint &p, int part );
 
-    int max_volume(int part) const; // stub for per-vpart limit
-    int free_volume(int part) const;
-    int stored_volume(int part) const;
-    bool is_full(int part, int addvolume = -1, int addnumber = -1) const;
+    units::volume max_volume(int part) const; // stub for per-vpart limit
+    units::volume free_volume(int part) const;
+    units::volume stored_volume(int part) const;
 
     // add item to part's cargo. if false, then there's no cargo at this part or cargo is full(*)
     // *: "full" means more than 1024 items, or max_volume(part) volume (500 for now)
@@ -1121,7 +1129,6 @@ public:
     int smx, smy, smz;
 
     float alternator_load;
-    calendar last_repair_turn = -1; // Turn it was last repaired, used to make consecutive repairs faster.
 
     // Points occupied by the vehicle
     std::set<tripoint> occupied_points;

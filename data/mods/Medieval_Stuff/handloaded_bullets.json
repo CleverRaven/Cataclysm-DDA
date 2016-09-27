@@ -16,7 +16,7 @@
         "pierce" : 0,
         "range" : 3,
         "dispersion" : 0,
-        "recoil" : 780,
+        "recoil" : 3000,
         "count" : 1,
         "effects" : ["COOKOFF", "RECYCLED"]
     },{
@@ -36,7 +36,7 @@
         "pierce" : 1,
         "range" : 4,
         "dispersion" : 0,
-        "recoil" : 840,
+        "recoil" : 3000,
         "count" : 1,
         "effects" : ["COOKOFF", "SHOT", "RECYCLED"]
     }

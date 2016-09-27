@@ -3,7 +3,7 @@
     "id": "light_grip",
     "type": "GUNMOD",
     "name": "lightweight replacement furniture",
-    "description": "A set of lightweight composite grips and furniture that reduces a firearm's weight, and as a consequence, its melee damage as well.",
+    "description": "A set of lightweight composite grips and furniture that reduces a firearm's weight, and as a consequence, its handling and melee damage.",
     "weight": 140,
     "volume": 1,
     "integral_volume": 0,
@@ -13,14 +13,15 @@
     "color": "dark_gray",
     "location": "grip",
     "mod_targets": [ "pistol", "smg", "rifle", "shotgun", "crossbow", "launcher" ],
-    "min_skills": [ [ "gun", 3 ] ],
+    "handling_modifier": -2,
+    "min_skills": [ [ "weapon", 3 ] ],
     "flags": [ "REDUCED_WEIGHT", "REDUCED_BASHING" ]
   },
   {
     "id": "pistol_grip",
     "type": "GUNMOD",
     "name": "ergonomic grip",
-    "description": "A set of ergonomic replacement furniture for a firearm, improves recoil and accuracy.  Aside from increased weight, there are no drawbacks.",
+    "description": "A set of ergonomic replacement furniture for a firearm improving handling and accuracy.",
     "weight": 125,
     "volume": 1,
     "integral_volume": 0,
@@ -30,8 +31,8 @@
     "color": "dark_gray",
     "location": "grip",
     "mod_targets": [ "smg", "rifle", "pistol", "shotgun", "crossbow", "launcher" ],
-    "min_skills": [ [ "gun", 2 ] ],
-    "dispersion_modifier": -30,
-    "recoil_modifier": -30
+    "dispersion_modifier": -15,
+    "handling_modifier": 2,
+    "min_skills": [ [ "weapon", 2 ] ]
   }
 ]

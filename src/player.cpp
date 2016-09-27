@@ -55,6 +55,7 @@
 #include "overlay_ordering.h"
 #include "vitamin.h"
 #include "fault.h"
+#include "recipe_dictionary.h"
 
 #include <map>
 #include <iterator>
@@ -74,6 +75,8 @@
 #include <sstream>
 #include <stdlib.h>
 #include <limits>
+
+using namespace units::literals;
 
 const double MIN_RECOIL = 600;
 
@@ -197,6 +200,48 @@ player_morale_ptr &player_morale_ptr::operator = ( player_morale_ptr &&rhs )
 
 player_morale_ptr::~player_morale_ptr()
 {
+}
+
+struct stat_mod {
+    int strength = 0;
+    int dexterity = 0;
+    int intelligence = 0;
+    int perception = 0;
+
+    int speed = 0;
+};
+
+static stat_mod get_pain_penalty( const player &p )
+{
+    stat_mod ret;
+    int pain = p.get_perceived_pain();
+    if( pain <= 0 ) {
+        return ret;
+    }
+
+    int stat_penalty = std::floor( std::pow( pain, 0.8f ) / 10.0f );
+
+    bool ceno = p.has_trait( "CENOBITE" );
+    if( !ceno ) {
+        ret.strength = stat_penalty;
+        ret.dexterity = stat_penalty;
+    }
+
+    if( !p.has_trait( "INT_SLIME" ) ) {
+        ret.intelligence = 1 + stat_penalty;
+    } else {
+        ret.intelligence = 1 + pain / 5;
+    }
+
+    ret.perception = stat_penalty * 2 / 3;
+
+    ret.speed = std::pow( pain, 0.7f );
+    if( ceno ) {
+        ret.speed /= 2;
+    }
+
+    ret.speed = std::min( ret.speed, 50 );
+    return ret;
 }
 
 player::player() : Character()
@@ -374,18 +419,13 @@ void player::reset_stats()
 
     // Pain
     if( get_perceived_pain() > 0 ) {
-        if( !( has_trait( "CENOBITE" ) ) ) {
-            mod_str_bonus( -get_perceived_pain() / 15 );
-            mod_dex_bonus( -get_perceived_pain() / 15 );
-            add_miss_reason( _( "Your pain distracts you!" ), unsigned( get_perceived_pain() / 15 ) );
-        }
-        mod_per_bonus( -get_perceived_pain() / 20 );
-        if( !( has_trait( "INT_SLIME" ) ) ) {
-            mod_int_bonus( -( 1 + ( get_perceived_pain() / 25 ) ) );
-        } else if( has_trait( "INT_SLIME" ) ) {
-            // Having one's brain throughout one's body does have its downsides.
-            // Be glad we don't assess permanent damage.
-            mod_int_bonus( -( 1 + get_perceived_pain() ) );
+        const auto ppen = get_pain_penalty( *this );
+        mod_str_bonus( -ppen.strength );
+        mod_dex_bonus( -ppen.dexterity );
+        mod_int_bonus( -ppen.intelligence );
+        mod_per_bonus( -ppen.perception );
+        if( ppen.dexterity > 0 ) {
+            add_miss_reason( _( "Your pain distracts you!" ), unsigned( ppen.dexterity ) );
         }
     }
     // Morale
@@ -588,7 +628,7 @@ void player::apply_persistent_morale()
 {
     // Hoarders get a morale penalty if they're not carrying a full inventory.
     if( has_trait( "HOARDER" ) ) {
-        int pen = ( volume_capacity() - volume_carried() ) / 2;
+        int pen = ( volume_capacity() - volume_carried() ) / 125_ml;
         if( pen > 70 ) {
             pen = 70;
         }
@@ -634,7 +674,9 @@ void player::update_mental_focus()
 
     // Moved from calc_focus_equilibrium, because it is now const
     if( activity.type == ACT_READ ) {
-        if( !inv.has_item( *activity.targets[0].get_item() ) ) {
+        const item *book = activity.targets[0].get_item();
+        if( get_item_position( book ) == INT_MIN || !book->is_book() ) {
+            add_msg_if_player( m_bad, _( "You lost your book! You stop reading." ) );
             activity.type = ACT_NULL;
         }
     }
@@ -648,7 +690,7 @@ int player::calc_focus_equilibrium() const
 
     if( activity.type == ACT_READ ) {
         const item &book = *activity.targets[0].get_item();
-        if( book.is_book() ) {
+        if( book.is_book() && get_item_position( &book ) != INT_MIN ) {
             auto &bt = *book.type->book;
             // apply a penalty when we're actually learning something
             const auto &skill_level = get_skill_level( bt.skill );
@@ -754,7 +796,7 @@ void player::update_bodytemp()
     // NOTE : visit weather.h for some details on the numbers used
     // Converts temperature to Celsius/10
     int Ctemperature = int( 100 * temp_to_celsius( g->get_temperature() ) );
-    w_point const weather = g->weather_gen->get_weather( global_square_location(), calendar::turn );
+    w_point const weather = *g->weather_precise;
     int vpart = -1;
     vehicle *veh = g->m.veh_at( pos(), vpart );
     int vehwindspeed = 0;
@@ -762,7 +804,7 @@ void player::update_bodytemp()
         vehwindspeed = abs( veh->velocity / 100 ); // vehicle velocity in mph
     }
     const oter_id &cur_om_ter = overmap_buffer.ter( global_omt_location() );
-    std::string omtername = otermap[cur_om_ter].name;
+    std::string omtername = cur_om_ter->name;
     bool sheltered = g->is_sheltered( pos() );
     int total_windpower = get_local_windpower( weather.windpower + vehwindspeed, omtername, sheltered );
 
@@ -831,6 +873,7 @@ void player::update_bodytemp()
     }
 
     const int lying_warmth = use_floor_warmth ? floor_warmth( pos() ) : 0;
+    const int water_temperature = 100 * temp_to_celsius( g->get_cur_weather_gen().get_water_temperature() );
 
     // Current temperature and converging temperature calculations
     for( int i = 0 ; i < num_bp; i++ ) {
@@ -863,7 +906,6 @@ void player::update_bodytemp()
         // If you're standing in water, air temperature is replaced by water temperature. No wind.
         const ter_id ter_at_pos = g->m.ter( pos() );
         // Convert to 0.01C
-        int water_temperature = int( 100 * temp_to_celsius( g->weather_gen->get_water_temperature() ) );
         if( ( ter_at_pos == t_water_dp || ter_at_pos == t_water_pool || ter_at_pos == t_swater_dp ) ||
             ( ( ter_at_pos == t_water_sh || ter_at_pos == t_swater_sh || ter_at_pos == t_sewage ) &&
               ( i == bp_foot_l || i == bp_foot_r || i == bp_leg_l || i == bp_leg_r ) ) ) {
@@ -1297,10 +1339,10 @@ int player::floor_item_warmth( const tripoint &pos )
         }
         // Items that are big enough and covers the torso are used to keep warm.
         // Smaller items don't do as good a job
-        if( elem.volume() > 1 &&
+        if( elem.volume() > 250_ml &&
             ( elem.covers( bp_torso ) || elem.covers( bp_leg_l ) ||
               elem.covers( bp_leg_r ) ) ) {
-            item_warmth += 60 * elem.get_warmth() * elem.volume() / 10;
+            item_warmth += 60 * elem.get_warmth() * elem.volume() / 2500_ml;
         }
     }
 
@@ -1499,17 +1541,8 @@ void player::recalc_speed_bonus()
     }
     mod_speed_bonus( -carry_penalty );
 
-    if( get_perceived_pain() > 0 ) {
-        int pain_penalty = int( get_perceived_pain() * .7 );
-        // Cenobites aren't slowed nearly as much by pain
-        if( has_trait( "CENOBITE" ) ) {
-            pain_penalty /= 4;
-        }
-        if( pain_penalty > 60 ) {
-            pain_penalty = 60;
-        }
-        mod_speed_bonus( -pain_penalty );
-    }
+    mod_speed_bonus( -get_pain_penalty( *this ).speed );
+
     if( get_painkiller() >= 10 ) {
         int pkill_penalty = int( get_painkiller() * .1 );
         if( pkill_penalty > 30 ) {
@@ -1775,7 +1808,7 @@ int player::swim_speed() const
     ret += ( 80 - get_skill_level( skill_swimming ) * 3 ) * ( encumb( bp_torso ) / 10 );
     if( get_skill_level( skill_swimming ) < 10 ) {
         for( auto &i : worn ) {
-            ret += ( i.volume() * ( 10 - get_skill_level( skill_swimming ) ) ) / 2;
+            ret += i.volume() / 125_ml * ( 10 - get_skill_level( skill_swimming ) );
         }
     }
     ///\EFFECT_STR increases swim speed
@@ -1975,7 +2008,7 @@ void player::memorial( std::ostream &memorial_file, std::string epitaph )
 
     //Figure out the location
     const oter_id &cur_ter = overmap_buffer.ter( global_omt_location() );
-    std::string tername = otermap[cur_ter].name;
+    const std::string &tername = cur_ter->name;
 
     //Were they in a town, or out in the wilderness?
     const auto global_sm_pos = global_sm_location();
@@ -2255,7 +2288,7 @@ void player::add_memorial_log( const char *male_msg, const char *female_msg, ...
                               );
 
     const oter_id &cur_ter = overmap_buffer.ter( global_omt_location() );
-    std::string location = otermap[cur_ter].name;
+    const std::string &location = cur_ter->name;
 
     std::stringstream log_message;
     log_message << "| " << timestamp.str() << " | " << location.c_str() << " | " << msg;
@@ -2408,19 +2441,23 @@ void player::disp_info()
     }
     if( get_perceived_pain() > 0 ) {
         effect_name.push_back( _( "Pain" ) );
+        const auto ppen = get_pain_penalty( *this );
         std::stringstream pain_text;
-        // Cenobites aren't markedly physically impaired by pain.
-        if( ( get_perceived_pain() >= 15 ) && ( !( has_trait( "CENOBITE" ) ) ) ) {
-            pain_text << _( "Strength" ) << " -" << get_perceived_pain() / 15 << "   " << _( "Dexterity" ) <<
-                      " -" <<
-                      get_perceived_pain() / 15 << "   ";
+        if( ppen.strength > 0 ) {
+            pain_text << _( "Strength" ) << " -" << ppen.strength << "   ";
         }
-        // They do find the sensations distracting though.
-        // Pleasurable...but distracting.
-        if( get_perceived_pain() >= 20 ) {
-            pain_text << _( "Perception" ) << " -" << get_perceived_pain() / 15 << "   ";
+        if( ppen.dexterity > 0 ) {
+            pain_text << _( "Dexterity" ) << " -" << ppen.dexterity << "   ";
         }
-        pain_text << _( "Intelligence" ) << " -" << 1 + get_perceived_pain() / 25;
+        if( ppen.intelligence > 0 ) {
+            pain_text << _( "Intelligence" ) << " -" << ppen.intelligence << "   ";
+        }
+        if( ppen.perception > 0 ) {
+            pain_text << _( "Perception" ) << " -" << ppen.perception << "   ";
+        }
+        if( ppen.speed > 0 ) {
+            pain_text << _( "Speed" ) << " -" << ppen.speed << "%   ";
+        }
         effect_text.push_back( pain_text.str() );
     }
     if( stim > 0 ) {
@@ -2787,13 +2824,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
                        ( abs( pen ) < 10 ? " " : "" ), abs( pen ) );
         line++;
     }
-    pen = int( get_perceived_pain() * .7 );
-    if( has_trait( "CENOBITE" ) ) {
-        pen /= 4;
-    }
-    if( pen > 60 ) {
-        pen = 60;
-    }
+    pen = get_pain_penalty( *this ).speed;
     if( pen >= 1 ) {
         mvwprintz( w_speed, line, 1, c_red, _( "Pain                -%s%d%%" ),
                    ( pen < 10 ? " " : "" ), pen );
@@ -4034,8 +4065,7 @@ bool player::overmap_los( const tripoint &omt, int sight_points )
     for( size_t i = 0; i < line.size() && sight_points >= 0; i++ ) {
         const tripoint &pt = line[i];
         const oter_id &ter = overmap_buffer.ter( pt );
-        const int cost = otermap[ter].see_cost;
-        sight_points -= cost;
+        sight_points -= int( ter->see_cost );
         if( sight_points < 0 ) {
             return false;
         }
@@ -4087,8 +4117,9 @@ bool player::sight_impaired() const
                !is_wearing( "glasses_eye" ) &&
                !is_wearing( "glasses_monocle" ) &&
                !is_wearing( "glasses_bifocal" ) &&
-               !has_effect( effect_contacts ) ) ||
-             has_trait( "PER_SLIME" ) );
+               !has_effect( effect_contacts ) &&
+               !has_bionic( "bio_eye_optic") ) ||
+                has_trait( "PER_SLIME" ) );
 }
 
 bool player::has_two_arms() const
@@ -4491,7 +4522,7 @@ void player::on_dodge( Creature *source, int difficulty )
 
     // dodging throws of our aim unless we are either skilled at dodging or using a small weapon
     if( is_armed() && weapon.is_gun() ) {
-        recoil += std::max( weapon.volume() - get_skill_level( skill_dodge ), 0 ) * rng( 0, 100 );
+        recoil += std::max( weapon.volume() / 250_ml - get_skill_level( skill_dodge ), 0 ) * rng( 0, 100 );
     }
 
     // Even if we are not to train still call practice to prevent skill rust
@@ -4797,13 +4828,12 @@ void player::mod_pain(int npain) {
         if( has_trait( "NOPAIN" ) ) {
             return;
         }
-        if( npain > 1 ) { // if it's 1 it'll just become 0, which is bad
-            if( has_trait( "PAINRESIST" ) ) {
-                npain = npain * 4 / rng( 4,8 );
-            }
-            // Dwarves get better pain-resist, what with mining and all
+        if( npain > 1 ) {
+            // if it's 1 it'll just become 0, which is bad
             if( has_trait( "PAINRESIST_TROGLO" ) ) {
-                npain = npain * 4 / rng( 6,9 );
+                npain = roll_remainder( npain * 0.5f );
+            } else if( has_trait( "PAINRESIST" ) ) {
+                npain = roll_remainder( npain * 0.67f );
             }
         }
     }
@@ -5530,7 +5560,11 @@ void player::update_needs( int rate_multiplier )
 {
     // Hunger, thirst, & fatigue up every 5 minutes
     effect &sleep = get_effect( effect_sleep );
-    const bool debug_ls = has_trait("DEBUG_LS");
+    // No food/thirst/fatigue clock at all
+    const bool debug_ls = has_trait( "DEBUG_LS" );
+    // No food/thirst, capped fatigue clock (only up to tired)
+    const bool npc_no_food = is_npc() && get_world_option<bool>( "NO_NPC_FOOD" );
+    const bool foodless = debug_ls || npc_no_food;
     const bool has_recycler = has_bionic("bio_recycler");
     const bool asleep = !sleep.is_null();
     const bool lying = asleep || has_effect( effect_lying_down );
@@ -5575,12 +5609,12 @@ void player::update_needs( int rate_multiplier )
         thirst_rate *= 0.25f;
     }
 
-    if( !debug_ls && hunger_rate > 0.0f ) {
+    if( !foodless && hunger_rate > 0.0f ) {
         const int rolled_hunger = divide_roll_remainder( hunger_rate * rate_multiplier, 1.0 );
         mod_hunger( rolled_hunger );
     }
 
-    if( !debug_ls && thirst_rate > 0.0f ) {
+    if( !foodless && thirst_rate > 0.0f ) {
         mod_thirst( divide_roll_remainder( thirst_rate * rate_multiplier, 1.0 ) );
     }
 
@@ -5615,6 +5649,9 @@ void player::update_needs( int rate_multiplier )
 
         if( !debug_ls && fatigue_rate > 0.0f ) {
             mod_fatigue( divide_roll_remainder( fatigue_rate * rate_multiplier, 1.0 ) );
+            if( npc_no_food && get_fatigue() > TIRED ) {
+                set_fatigue( TIRED );
+            }
         }
     } else if( asleep ) {
         const int intense = sleep.is_null() ? 0 : sleep.get_intensity();
@@ -5688,17 +5725,6 @@ void player::update_needs( int rate_multiplier )
     dec_stom_water = dec_stom_water < 10 ? 10 : dec_stom_water;
     mod_stomach_food(-dec_stom_food);
     mod_stomach_water(-dec_stom_water);
-
-    if( is_npc() ) {
-        // Caps because NPCs are dumb
-        if( get_hunger() > 500 ) {
-            set_hunger( 500 );
-        }
-
-        if( get_thirst() > 300 ) {
-            set_thirst( 300 );
-        }
-    }
 }
 
 void player::regen( int rate_multiplier )
@@ -9401,7 +9427,7 @@ bool player::consume_item( item &target )
                     return false;
                 }
             }
-            int charge = (to_eat->volume() + to_eat->weight()) / 9;
+            int charge = (to_eat->volume() / 250_ml + to_eat->weight()) / 9;
             if (to_eat->made_of( material_id( "leather" ) )) {
                 charge /= 4;
             }
@@ -10087,35 +10113,44 @@ hint_rating player::rate_action_change_side( const item &it ) const {
     return HINT_GOOD;
 }
 
-bool player::can_use( const item& it, bool interactive ) const {
+bool player::can_use( const item& it, bool interactive, const skill_id &context ) const {
     // First check stats
     std::string fail_stat;
+    int min_stat = 0;
     if( it.type->min_str > get_str() ) {
         fail_stat = "strength";
+        min_stat = it.type->min_str;
     } else if( it.type->min_dex > get_dex() ) {
         fail_stat = "dexterity";
+        min_stat = it.type->min_dex;
     } else if( it.type->min_int > get_int() ) {
         fail_stat = "intelligence";
+        min_stat = it.type->min_int;
     } else if( it.type->min_per > get_per() ) {
         fail_stat = "perception";
+        min_stat = it.type->min_per;
     }
     if( !fail_stat.empty() ) {
         if( interactive ) {
-            add_msg_if_player( m_bad, _( "You lack the %s to use the %s" ),
-                               fail_stat.c_str(), it.tname().c_str() );
+            add_msg_if_player( m_bad, _( "You need at least %s %i to use the %s" ),
+                               fail_stat.c_str(), min_stat, it.tname().c_str() );
         }
         return false;
     }
 
     // Then check skills
     const auto& reqs = it.type->min_skills;
-    return std::none_of( reqs.begin(), reqs.end(), [&]( const std::pair<skill_id, int>& e ) {
-        if( get_skill_level( e.first ) >= e.second ) {
+    return std::none_of( reqs.begin(), reqs.end(), [&]( const std::pair<std::string, int>& e ) {
+        auto sk = skill_id( e.first );
+        if( !sk.is_valid() ) {
+            sk = context;
+        }
+        if( !sk.is_valid() || get_skill_level( sk ) >= e.second ) {
             return false;
         }
         if( interactive ) {
-            add_msg_if_player( m_bad, _( "You lack the skill in %s to use the %s" ),
-			       e.first.obj().name().c_str(), it.tname().c_str() );
+            add_msg_if_player( m_bad, _( "You need at least %s %i to use the %s" ),
+                               sk->name().c_str(), e.second, it.tname().c_str() );
         }
         return true;
     });
@@ -10328,7 +10363,8 @@ void player::mend_item( item_location&& obj, bool interactive )
 }
 
 int player::item_handling_cost( const item& it, bool effects, int factor ) const {
-    int mv = std::max( 1, it.volume() * factor );
+    // TODO: the volume (250 ml) should be part of the factor, provided by the caller
+    int mv = std::max( 1, it.volume() / 250_ml * factor );
 
     // For single handed items use the least encumbered hand
     if( it.is_two_handed( *this ) ) {
@@ -10749,11 +10785,15 @@ hint_rating player::rate_action_mend( const item &it ) const
 
 hint_rating player::rate_action_disassemble( const item &it )
 {
-    if( can_disassemble( it, crafting_inventory(), false ) ) {
-        return HINT_GOOD;
-    }
+    if( can_disassemble( it, crafting_inventory() ) ) {
+        return HINT_GOOD; // possible
 
-    return HINT_CANT;
+    } else if( recipe_dictionary::get_uncraft( it.typeId() ) ) {
+        return HINT_IFFY; // potentially possible but we currently lack requirements
+
+    } else {
+        return HINT_CANT; // never possible
+    }
 }
 
 hint_rating player::rate_action_use( const item &it ) const
@@ -10882,12 +10922,6 @@ void player::use(int inventory_position)
 
         invoke_item( used );
     } else if (used->is_gunmod()) {
-
-        // first check at least the minimum requirements are met
-        if( !( can_use( *used ) || has_trait( "DEBUG_HS" ) ) ) {
-            return;
-        }
-
         int gunpos = g->inv_for_filter( _("Select gun to modify:" ), [&used]( const item& e ) {
             return e.gunmod_compatible( *used, false, false );
         }, _( "You don't have compatible guns." ) );
@@ -11091,7 +11125,7 @@ void player::gunmod_add( item &gun, item &mod )
     }
 
     // first check at least the minimum requirements are met
-    if( !( can_use( mod ) || has_trait( "DEBUG_HS" ) ) ) {
+    if( !( can_use( mod, true, gun.gun_skill() ) || has_trait( "DEBUG_HS" ) ) ) {
         return;
     }
 
@@ -11106,9 +11140,10 @@ void player::gunmod_add( item &gun, item &mod )
     if( mod.has_flag( "INSTALL_DIFFICULT" ) && !has_trait( "DEBUG_HS" ) ) {
         int chances = 1; // start with 1 in 6 (~17% chance)
 
-        for( const auto &sk : mod.type->min_skills ) {
+        for( const auto &e : mod.type->min_skills ) {
             // gain an additional chance for every level above the minimum requirement
-            chances += std::max( get_skill_level( sk.first ) - sk.second, 0 );
+            skill_id sk = e.first == "weapon" ? gun.gun_skill() : skill_id( e.first );
+            chances += std::max( get_skill_level( sk ) - e.second, 0 );
         }
 
         // cap success from skill alone to 1 in 5 (~83% chance)
@@ -11231,7 +11266,7 @@ const player *player::get_book_reader( const item &book, std::vector<std::string
     if( type->intel > 0 && has_trait( "ILLITERATE" ) ) {
         reasons.push_back( _( "You're illiterate!" ) );
     } else if( has_trait( "HYPEROPIC" ) && !is_wearing( "glasses_reading" ) &&
-               !is_wearing( "glasses_bifocal" ) && !has_effect( effect_contacts ) ) {
+               !is_wearing( "glasses_bifocal" ) && !has_effect( effect_contacts ) && !has_bionic( "bio_eye_optic") ) {
         reasons.push_back( _( "Your eyes won't focus without reading glasses." ) );
     } else if( fine_detail_vision_mod() > 4 ) {
         // Too dark to read only applies if the player can read to himself
@@ -11329,7 +11364,7 @@ bool player::fun_to_read( const item &book ) const
  * Explanation of ACT_READ activity values:
  *
  * position: ID of the reader
- * targets: 1-element vector with the item_location (always in inventory) of the book being read
+ * targets: 1-element vector with the item_location (always in inventory/wielded) of the book being read
  * index: We are studying until the player with this ID gains a level; 0 indicates reading once
  * values: IDs of the NPCs who will learn something
  * str_values: Parallel to values, these contain the learning penalties (as doubles in string form) as follows:
@@ -11454,8 +11489,8 @@ bool player::read( int inventory_position, const bool continuous )
             };
 
             menu.return_invalid = true;
-            menu.title = !skill ? string_format( _( "Reading %s" ), it.tname().c_str() ) :
-                         string_format( _( "Reading %s (can train %s from %d to %d)" ), it.tname().c_str(),
+            menu.title = !skill ? string_format( _( "Reading %s" ), it.type_name().c_str() ) :
+                         string_format( _( "Reading %s (can train %s from %d to %d)" ), it.type_name().c_str(),
                                         skill_name.c_str(), type->req, type->level );
 
             if( skill ) {
@@ -11494,7 +11529,7 @@ bool player::read( int inventory_position, const bool continuous )
             act.index = menu.ret;
         }
         add_msg( m_info, _( "Now reading %s, %s to stop early." ),
-                 it.tname().c_str(), press_x( ACTION_PAUSE ).c_str() );
+                 it.type_name().c_str(), press_x( ACTION_PAUSE ).c_str() );
         rooted_message();
     }
 
@@ -11775,7 +11810,7 @@ void player::do_read( item *book )
     if( !out_of_chapters.empty() ) {
         const std::string names = enumerate_as_string( out_of_chapters );
         add_msg( m_info, _( "Rereading the %s isn't as much fun for %s." ),
-                 book->tname().c_str(), names.c_str() );
+                 book->type_name().c_str(), names.c_str() );
         if( out_of_chapters.front() == disp_name() && one_in( 6 ) ) {
             add_msg( m_info, _( "Maybe you should find something new to read..." ) );
         }
@@ -11783,7 +11818,7 @@ void player::do_read( item *book )
 
     if( continuous ) {
         activity.type = ACT_NULL;
-        read( inv.position_by_item( book ), true );
+        read( get_item_position( book ), true );
         if( activity.type != ACT_NULL ) {
             return;
         }
@@ -12074,7 +12109,7 @@ std::string player::is_snuggling() const
     for( auto candidate = begin; candidate != end; ++candidate ) {
         if( !candidate->is_armor() ) {
             continue;
-        } else if( candidate->volume() > 1 &&
+        } else if( candidate->volume() > 250_ml &&
                    ( candidate->covers( bp_torso ) || candidate->covers( bp_leg_l ) ||
                      candidate->covers( bp_leg_r ) ) ) {
             floor_armor = &*candidate;
@@ -12192,7 +12227,7 @@ int player::bonus_item_warmth(body_part bp) const
     int ret = 0;
 
     // If the player is not wielding anything big, check if hands can be put in pockets
-    if( ( bp == bp_hand_l || bp == bp_hand_r ) && weapon.volume() < 2 ) {
+    if( ( bp == bp_hand_l || bp == bp_hand_r ) && weapon.volume() < 500_ml ) {
         ret += bestwarmth( worn, "POCKETS" );
     }
 
@@ -12792,10 +12827,6 @@ void player::practice( const skill_id &id, int amount, int cap )
 
 int player::exceeds_recipe_requirements( const recipe &rec ) const
 {
-    if( !rec.valid_learn() ) {
-        return -1;
-    }
-
     int over = rec.skill_used ? get_skill_level( rec.skill_used ) - rec.difficulty : 0;
     for( const auto &required_skill : rec.required_skills ) {
         over = std::min( over, get_skill_level( required_skill.first ) - required_skill.second );
@@ -12871,13 +12902,9 @@ int player::has_recipe( const recipe *r, const inventory &crafting_inv,
     return difficulty < INT_MAX ? difficulty : -1;
 }
 
-void player::learn_recipe( const recipe * const rec, bool force )
+void player::learn_recipe( const recipe * const rec )
 {
-    if( force || rec->valid_learn() ) {
-        learned_recipes[rec->ident()] = rec;
-    } else {
-        debugmsg( "Tried to learn unlearnable recipe %s", rec->ident().c_str() );
-    }
+    learned_recipes[rec->ident()] = rec;
 }
 
 void player::assign_activity(activity_type type, int moves, int index, int pos, std::string name)
@@ -13757,7 +13784,7 @@ float player::power_rating() const
 {
     int ret = 2;
     // Small guns can be easily hidden from view
-    if( weapon.volume() <= 1 ) {
+    if( weapon.volume() <= 250_ml ) {
         ret = 2;
     } else if( weapon.is_gun() ) {
         ret = 4;
@@ -13826,6 +13853,13 @@ void player::on_item_takeoff( const item &it )
 
 void player::on_effect_int_change( const efftype_id &eid, int intensity, body_part bp )
 {
+    // Adrenaline can reduce perceived pain (or increase it when you enter comedown).
+    // See @ref get_perceived_pain()
+    if( eid == effect_adrenaline ) {
+        // Note that calling this does no harm if it wasn't changed.
+        on_stat_change( "perceived_pain", get_perceived_pain() );
+    }
+
     morale->on_effect_int_change( eid, intensity, bp );
 }
 

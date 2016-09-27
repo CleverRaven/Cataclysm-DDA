@@ -586,10 +586,8 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act_, player *p )
             liquid = *on_ground;
         }
 
-        // liquid_charges takes care of the different scale of liquids (gasoline vs alcohol
-        // vs water). One volume unit of those contains differing amount of charges, this ensures
-        // the same *volume* is transferred on each turn.
-        const long charges_per_turn = liquid.liquid_charges( 10 );
+        static const auto volume_per_turn = units::from_liter( 4 );
+        const long charges_per_turn = std::max( 1l, liquid.charges_per_volume( volume_per_turn ) );
         liquid.charges = std::min( charges_per_turn, liquid.charges );
         const long original_charges = liquid.charges;
 
@@ -995,8 +993,11 @@ void activity_handlers::pickaxe_do_turn(player_activity *act, player *p)
 
 void activity_handlers::pickaxe_finish(player_activity *act, player *p)
 {
-    const tripoint &pos = act->placement;
+    const tripoint pos( act->placement );
     item *it = &p->i_at(act->position);
+
+    act->type = ACT_NULL; // Invalidate the activity early to prevent a query from mod_pain()
+
     if( g->m.is_bashable(pos) && g->m.has_flag("SUPPORTS_ROOF", pos) &&
         g->m.ter(pos) != t_tree ) {
         // Tunneling through solid rock is hungry, sweaty, tiring, backbreaking work
@@ -1021,7 +1022,7 @@ void activity_handlers::pickaxe_finish(player_activity *act, player *p)
     g->m.destroy( pos, true );
     it->charges = std::max(long(0), it->charges - it->type->charges_to_use());
     if( it->charges == 0 && it->destroyed_at_zero_charges() ) {
-        p->i_rem(act->position);
+        p->i_rem( it );
     }
 }
 
@@ -1063,7 +1064,7 @@ void activity_handlers::pulp_do_turn( player_activity *act, player *p )
 
         while( corpse.damage() < corpse.max_damage() ) {
             // Increase damage as we keep smashing ensuring we eventually smash the target.
-            if( x_in_y( pulp_power, corpse.volume() ) ) {
+            if( x_in_y( pulp_power, corpse.volume() / units::legacy_volume_factor ) ) {
                 corpse.inc_damage( DT_BASH );
                 if( corpse.damage() == corpse.max_damage() ) {
                     corpse.active = false;
@@ -1071,7 +1072,7 @@ void activity_handlers::pulp_do_turn( player_activity *act, player *p )
                 }
             }
 
-            if( x_in_y( pulp_power, corpse.volume() ) ) { // Splatter some blood around
+            if( x_in_y( pulp_power, corpse.volume() / units::legacy_volume_factor ) ) { // Splatter some blood around
                 // Splatter a bit more randomly, so that it looks cooler
                 const int radius = mess_radius + x_in_y( pulp_power, 500 ) + x_in_y( pulp_power, 1000 );
                 const tripoint dest( pos.x + rng( -radius, radius ), pos.y + rng( -radius, radius ), pos.z );
@@ -1222,7 +1223,7 @@ void activity_handlers::vehicle_finish( player_activity *act, player *pl )
 {
     //Grab this now, in case the vehicle gets shifted
     vehicle *veh = g->m.veh_at( tripoint( act->values[0], act->values[1], pl->posz() ) );
-    complete_vehicle();
+    veh_interact::complete_vehicle();
     // complete_vehicle set activity type to NULL if the vehicle
     // was completely dismantled, otherwise the vehicle still exist and
     // is to be examined again.
@@ -1664,4 +1665,28 @@ void activity_handlers::gunmod_add_finish( player_activity *act, player *p )
     } else {
         add_msg( m_info, _( "You failed at installing the %s." ), mod.tname().c_str() );
     }
+}
+
+void activity_handlers::clear_rubble_finish( player_activity *act, player *p )
+{
+    const tripoint &target = act->coords[0];
+    if( target == p->pos() ) {
+        p->add_msg_if_player( m_info, _( "You clear up the %s at your feet." ),
+                              g->m.furnname( target ).c_str() );
+    } else {
+        const std::string direction = direction_name( direction_from( p->pos(), target ) );
+        p->add_msg_if_player( m_info, _( "You clear up the %s to your %s." ),
+                              g->m.furnname( target ).c_str(), direction.c_str() );
+    }
+    g->m.furn_set( target, f_null );
+
+    const int bonus = act->index * act->index;
+    p->mod_hunger ( 10 / bonus );
+    p->mod_thirst ( 10 / bonus );
+}
+
+void activity_handlers::meditate_finish( player_activity *, player *p )
+{
+    p->add_msg_if_player( m_good, _( "You pause to engage in spiritual contemplation." ) );
+    p->add_morale( MORALE_FEELING_GOOD, 5, 10 );
 }

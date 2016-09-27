@@ -990,7 +990,7 @@
     "symbol": ",",
     "color": "light_green",
     "name": "atomic coffee maker",
-    "description": "Never sacrifice taste for convenience, when you can have both with the Rivtech atomic coffee maker! Its simple and robust atomic-age construction guarantees a service life of at least 160 million years.",
+    "description": "Never sacrifice taste for convenience, when you can have both with the Rivtech atomic coffee maker!  Its simple and robust atomic-age construction guarantees a service life of at least 160 million years.",
     "price": 100000,
     "material": ["plastic", "aluminum"],
     "flags": ["LEAK_DAM", "RADIOACTIVE", "DURABLE_MELEE"],
@@ -1697,18 +1697,6 @@
     "cutting": 3,
     "to_hit": 3,
     "qualities": [ [ "DIG", 3 ] ]
-  },
-  {
-    "id": "stethoscope",
-    "type": "TOOL",
-    "symbol": "y",
-    "color": "dark_gray",
-    "name": "stethoscope",
-    "description": "This is a medical listening tool.  Use it to listen to things.  Closely.",
-    "price": 4000,
-    "material": ["plastic", "aluminum"],
-    "weight": 150,
-    "volume": 1
   },
     {
         "id" : "hose",
@@ -2865,7 +2853,7 @@
     "use_action": {
         "type": "transform",
         "target": "molotov_lit",
-        "target_charges": 1,
+        "target_charges": 5,
         "active": true,
         "need_fire": 1,
         "msg": "You light the Molotov cocktail.",
@@ -2887,8 +2875,8 @@
     "volume": 3,
     "bashing": 5,
     "to_hit": 1,
-    "max_charges": 1,
-    "initial_charges": 1,
+    "max_charges": 5,
+    "initial_charges": 5,
     "turns_per_charge": 1,
     "category": "weapons",
     "use_action": "MOLOTOV_LIT"
@@ -2945,7 +2933,7 @@
     "category": "weapons",
     "explode_in_fire" : true,
     "explosion" : {
-        "power": 60,
+        "power": 50,
         "shrapnel": 0
     },
     "use_action": {
@@ -2976,7 +2964,7 @@
     "category": "weapons",
     "explode_in_fire" : true,
     "explosion" : {
-        "power": 60,
+        "power": 50,
         "shrapnel": 0
     },
     "use_action": {
@@ -2985,7 +2973,7 @@
         "sound_msg": "ssss...",
         "no_deactivate_msg": "You've already lit the %s, try throwing it instead.",
         "explosion": {
-            "power": 60
+            "power": 50
         }
     }
   },
@@ -3678,7 +3666,7 @@
         "sound_msg": "Tick.",
         "no_deactivate_msg": "You've already set the %s's timer, you might want to get away from it.",
         "explosion": {
-            "power": 40,
+            "power": 65,
             "shrapnel": 3
         }
     }
@@ -4131,7 +4119,7 @@
     "color": "red",
     "name": "Rising Sun (on)",
     "name_plural": "Rising Suns (on)",
-    "description": "This is a katana that glows with the fury and heat of the SUN! Well, okay it's not THAT hot, but getting hit with it still stings like the dickens.  Use to shut off the gas.",
+    "description": "This is a katana that glows with the fury and heat of the SUN!  Well, okay it's not THAT hot, but getting hit with it still stings like the dickens.  Use to shut off the gas.",
     "price": 98000,
     "material": "steel",
     "flags": ["FIRE", "SLICE", "LIGHT_240", "CHARGEDIM", "FLAMING", "DURABLE_MELEE", "TRADER_AVOID"],
@@ -4841,7 +4829,7 @@
     "use_action": {
         "type": "place_trap",
         "allow_under_player": true,
-        "done_message": "You place the brazier securely.",
+        "done_message": "You place the metal funnel, waiting to collect rain.",
         "practice": 0,
         "moves": 100,
         "trap": "tr_metal_funnel"
@@ -7325,6 +7313,11 @@
     "to_hit": -1,
     "max_charges": 1,
     "category": "weapons",
+    "explode_in_fire" : true,
+    "explosion" : {
+        "power": 50,
+        "shrapnel": 0
+    },
     "use_action": {
         "type": "transform",
         "target": "dynamite_radio_act",
@@ -7349,11 +7342,16 @@
     "max_charges": 1,
     "initial_charges": 1,
     "category": "weapons",
+    "explode_in_fire" : true,
+    "explosion" : {
+        "power": 50,
+        "shrapnel": 0
+    },
     "use_action": {
         "type": "explosion",
         "no_deactivate_msg": "You can't disarm your %s'.  Place it, get away and use the remote control to detonate.",
         "explosion": {
-            "power": 60
+            "power": 50
         }
     }
   },
@@ -7533,7 +7531,7 @@
     "category": "weapons",
     "explode_in_fire" : true,
     "explosion" : {
-        "power": 80,
+        "power": 35,
         "shrapnel": 0
     },
     "use_action": {
@@ -7542,7 +7540,7 @@
         "sound_msg": "ssss...",
         "no_deactivate_msg": "You've already lit the %s, try throwing it instead.",
         "explosion": {
-            "power": 80
+            "power": 35
         }
     }
   },
@@ -7849,15 +7847,20 @@
     "symbol": "*",
     "color": "red",
     "name": "ANFO charge",
-    "description": "This is a large plastic barrel filled with ANFO pellets and equipped with a dynamite primer.  Use this item to light the fuse.  You will then have twenty turns before it explodes and creates a large fireball",
+    "description": "This is a large metal keg filled with ANFO pellets and equipped with a dynamite primer.  Use this item to light the fuse.  You will then have twenty turns before it explodes and creates a large fireball",
     "price": 75000,
     "material": ["steel", "plastic"],
-    "weight": 25000,
-    "volume": 450,
+    "weight": 77800,
+    "volume": 200,
     "bashing": 12,
     "to_hit": -5,
     "flags": ["RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB"],
     "category": "weapons",
+    "explode_in_fire" : true,
+    "explosion" : {
+        "power": 90, "//": "Fire would burn away/degrade some of the ANFO before the detonator would trigger.",
+        "shrapnel": 20
+    },
     "use_action": {
         "type": "transform",
         "target": "tool_anfo_charge_act",
@@ -7873,11 +7876,11 @@
     "symbol": "*",
     "color": "light_red",
     "name": "active ANFO charge",
-    "description": "This is a large plastic barrel filled with ANFO pellets and equipped with a dynamite primer.  The fuse has been lit - better run like hell!",
+    "description": "This is a large metal keg filled with ANFO pellets and equipped with a dynamite primer.  The fuse has been lit - better run like hell!",
     "price": 0,
     "material": ["steel", "plastic"],
-    "weight": 25000,
-    "volume": 450,
+    "weight": 77800,
+    "volume": 200,
     "bashing": 12,
     "to_hit": -5,
     "max_charges": 20,
@@ -7885,13 +7888,18 @@
     "turns_per_charge": 1,
     "flags": [ "BOMB", "TRADER_AVOID" ],
     "category": "weapons",
+    "explode_in_fire" : true,
+    "explosion" : {
+        "power": 90, "//": "Fire exposure would burn away/degrade some of the ANFO before the detonator would trigger.",
+        "shrapnel": 20
+    },
     "use_action": {
         "type": "explosion",
         "sound_volume": 0,
         "sound_msg": "Tick.",
-        "no_deactivate_msg": "You've already lit the fuse – run!",
+        "no_deactivate_msg": "You've already lit the fuse - run!",
         "explosion": {
-            "power": 500,
+            "power": 400,
             "shrapnel": 50
         }
     }
@@ -7910,6 +7918,11 @@
     "to_hit": -2,
     "flags": ["RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB"],
     "category": "weapons",
+    "explode_in_fire" : true,
+    "explosion" : {
+        "power": 11,
+        "shrapnel": 0
+    },
     "use_action": {
         "type": "transform",
         "target": "tool_black_powder_bomb_act",
@@ -7936,13 +7949,18 @@
     "turns_per_charge": 1,
     "flags": [ "BOMB", "TRADER_AVOID" ],
     "category": "weapons",
+    "explode_in_fire" : true,
+    "explosion" : {
+        "power": 11,
+        "shrapnel": 0
+    },
     "use_action": {
         "type": "explosion",
         "sound_volume": 0,
         "sound_msg": "Kshhh.",
-        "no_deactivate_msg": "You've already lit the fuse – throw it!",
+        "no_deactivate_msg": "You've already lit the fuse - throw it!",
         "explosion": {
-            "power": 10,
+            "power": 11,
             "shrapnel": 5
         }
     }
@@ -7961,6 +7979,16 @@
     "to_hit": -2,
     "flags": ["RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB"],
     "category": "weapons",
+    "explode_in_fire" : true,
+    "explosion" : {
+        "power": 60,
+        "shrapnel": {
+            "count": 30,
+            "mass": 10,
+            "recovery": 20,
+            "drop": "scrap"
+        }
+    },
     "use_action": {
         "type": "transform",
         "target": "tool_black_powder_charge_act",
@@ -7986,14 +8014,29 @@
     "turns_per_charge": 1,
     "flags": [ "BOMB", "TRADER_AVOID" ],
     "category": "weapons",
+    "explode_in_fire" : true,
+    "explosion" : {
+        "power": 60,
+        "shrapnel": {
+            "count": 30,
+            "mass": 10,
+            "recovery": 20,
+            "drop": "scrap"
+        }
+    },
     "use_action": {
         "type": "explosion",
         "sound_volume": 0,
         "sound_msg": "Kshhh.",
-        "no_deactivate_msg": "You've already lit the fuse – run!",
+        "no_deactivate_msg": "You've already lit the fuse - run!",
         "explosion": {
             "power": 60,
-            "shrapnel": 30
+            "shrapnel": {
+                "count": 30,
+                "mass": 10,
+                "recovery": 20,
+                "drop": "scrap"
+            }
         }
     }
   },
@@ -8012,10 +8055,15 @@
     "to_hit": -2,
     "flags": ["RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB"],
     "category": "weapons",
+    "explode_in_fire" : true,
+    "explosion" : {
+        "power": 6, "//": "Fire exposure would burn away the RDX, leaving the HMTD detonator as nearly the sole source of the blast.",
+        "shrapnel": 5
+    },
     "use_action": {
         "type": "transform",
         "target": "tool_rdx_sand_bomb_act",
-        "target_charges": 2,
+        "target_charges": 5,
         "need_fire": 1,
         "active": true,
         "msg": "You light the fuse on the sand bomb.  Throw it!"
@@ -8033,19 +8081,24 @@
     "weight": 2000,
     "volume": 2,
     "to_hit": -2,
-    "max_charges": 2,
-    "initial_charges": 2,
+    "max_charges": 5,
+    "initial_charges": 5,
     "turns_per_charge": 1,
     "flags": [ "BOMB", "TRADER_AVOID" ],
     "category": "weapons",
+    "explode_in_fire" : true,
+    "explosion" : {
+        "power": 6, "//": "Fire exposure would burn away the RDX, leaving the HMTD detonator as nearly the sole source of the blast.",
+        "shrapnel": 5
+    },
     "use_action": {
         "type": "explosion",
         "sound_volume": 0,
         "sound_msg": "Kshhh.",
-        "no_deactivate_msg": "You've already lit the fuse – what are you waiting for?",
+        "no_deactivate_msg": "You've already lit the fuse - what are you waiting for?",
         "explosion": {
-            "power": 9,
-            "shrapnel": 40
+            "power": 12,
+            "shrapnel": 30
         }
     }
   },
@@ -8055,15 +8108,25 @@
     "symbol": "(",
     "color": "red",
     "name": "RDX charge",
-    "description": "This is an aluminum keg, filled with 50 litres worth of RDX and scrap metal.  Contains a core of primary explosive to ensure that the charge detonates completely and delivers its entire destructive power to everything in sight.",
+    "description": "This is an metal keg, filled with 50 litres worth of RDX and scrap metal.  Contains a core of primary explosive to ensure that the charge detonates completely and delivers its entire destructive power to everything in sight.",
     "price": 90000,
     "material": ["steel", "plastic"],
-    "weight": 130000,
+    "weight": 106600,
     "volume": 200,
     "bashing": 20,
     "to_hit": -5,
     "flags": ["RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB"],
     "category": "weapons",
+    "explode_in_fire" : true,
+    "explosion" : {
+        "power": 175, "//": "Fire exposure would destroy most of the RDX before the HMTD core triggered, resulting in a far smaller blast (relatively speaking).",
+        "shrapnel": {
+            "count": 60,
+            "mass": 10,
+            "recovery": 40,
+            "drop": "scrap"
+        }
+    },
     "use_action": {
         "type": "transform",
         "target": "tool_rdx_charge_act",
@@ -8078,10 +8141,10 @@
     "symbol": "(",
     "color": "light_red",
     "name": "active RDX charge",
-    "description": "This is an aluminum keg, filled with 50 litres worth of RDX and scrap metal.  The fuse has been lit and once it ignites the primary explosive, the charge will detonate and rain fire and steel on everything in sight.",
+    "description": "This is an metal keg, filled with 50 litres worth of RDX and scrap metal.  The fuse has been lit and once it ignites the primary explosive, the charge will detonate and rain fire and steel on everything in sight.",
     "price": 0,
     "material": ["steel", "plastic"],
-    "weight": 130000,
+    "weight": 106600,
     "volume": 200,
     "bashing": 20,
     "to_hit": -5,
@@ -8090,14 +8153,29 @@
     "turns_per_charge": 1,
     "flags": [ "BOMB", "TRADER_AVOID" ],
     "category": "weapons",
+    "explode_in_fire" : true,
+    "explosion" : {
+        "power": 175, "//": "Fire exposure would destroy most of the RDX before the HMTD core triggered, resulting in a far smaller blast (relatively speaking).",
+        "shrapnel": {
+            "count": 60,
+            "mass": 10,
+            "recovery": 40,
+            "drop": "scrap"
+        }
+    },
     "use_action": {
         "type": "explosion",
         "sound_volume": 0,
         "sound_msg": "Kshhh.",
-        "no_deactivate_msg": "You've already lit the fuse – clear the area immediately!",
+        "no_deactivate_msg": "You've already lit the fuse - clear the area immediately!",
         "explosion": {
-            "power": 750,
-            "shrapnel": 200
+            "power": 800,
+            "shrapnel": {
+                "count": 200,
+                "mass": 10,
+                "recovery": 15,
+                "drop": "shrapnel"
+            }
         }
     }
   },

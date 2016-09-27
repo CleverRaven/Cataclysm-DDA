@@ -70,9 +70,10 @@ void iexamine::gaspump(player &p, const tripoint &examp)
             ///\EFFECT_DEX decreases chance of spilling gas from a pump
             if( one_in(10 + p.get_dex()) ) {
                 add_msg(m_bad, _("You accidentally spill the %s."), item_it->type_name().c_str());
+                static const auto max_spill_volume = units::from_liter( 1 );
+                const long max_spill_charges = std::max( 1l, item_it->charges_per_volume( max_spill_volume ) );
                 ///\EFFECT_DEX decreases amount of gas spilled from a pump
-                const int qty = rng( item_it->liquid_charges( 1 ),
-                                     item_it->liquid_charges( 1 ) * 8.0 / std::max( 1, p.get_dex() ) );
+                const int qty = rng( 1l, max_spill_charges * 8.0 / std::max( 1, p.get_dex() ) );
 
                 item spill = item_it->split( qty );
                 if( spill.is_null() ) {
@@ -724,7 +725,7 @@ void iexamine::chainfence( player &p, const tripoint &examp )
     if( examp.x < SEEX * int( MAPSIZE / 2 ) || examp.y < SEEY * int( MAPSIZE / 2 ) ||
         examp.x >= SEEX * ( 1 + int( MAPSIZE / 2 ) ) || examp.y >= SEEY * ( 1 + int( MAPSIZE / 2 ) ) ) {
         if( p.is_player() ) {
-            g->update_map( &p );
+            g->update_map( p );
         }
     }
 }
@@ -1757,16 +1758,16 @@ void iexamine::kiln_empty(player &p, const tripoint &examp)
 
     ///\EFFECT_CARPENTRY decreases loss when firing a kiln
     const SkillLevel &skill = p.get_skill_level( skill_carpentry );
-    int loss = 90 - 2 * skill; // We can afford to be inefficient - logs and skeletons are cheap, charcoal isn't
+    int loss = 60 - 2 * skill; // We can afford to be inefficient - logs and skeletons are cheap, charcoal isn't
 
     // Burn stuff that should get charred, leave out the rest
-    int total_volume = 0;
+    units::volume total_volume = 0;
     for( auto i : items ) {
         total_volume += i.volume();
     }
 
     auto char_type = item::find_type( "unfinished_charcoal" );
-    int char_charges = ( 100 - loss ) * total_volume * char_type->ammo->def_charges / 100 / char_type->volume;
+    int char_charges = ( 100 - loss ) * total_volume / 100 / char_type->volume;
     if( char_charges < 1 ) {
         add_msg( _("The batch in this kiln is too small to yield any charcoal.") );
         return;
@@ -1786,7 +1787,7 @@ void iexamine::kiln_empty(player &p, const tripoint &examp)
     result.charges = char_charges;
     g->m.add_item( examp, result );
     add_msg( _("You fire the charcoal kiln.") );
-    int practice_amount = ( 10 - skill ) * total_volume / 100; // 50 at 0 skill, 25 at 5, 10 at 8
+    int practice_amount = ( 10 - skill ) * total_volume / units::from_liter( 25 ); // 50 at 0 skill, 25 at 5, 10 at 8
     p.practice( skill_carpentry, practice_amount );
 }
 
@@ -1824,7 +1825,7 @@ void iexamine::kiln_full(player &, const tripoint &examp)
         return;
     }
 
-    int total_volume = 0;
+    units::volume total_volume = 0;
     // Burn stuff that should get charred, leave out the rest
     for( auto item_it = items.begin(); item_it != items.end(); ) {
         if( item_it->typeId() == "unfinished_charcoal" || item_it->typeId() == "charcoal" ) {
@@ -1836,7 +1837,7 @@ void iexamine::kiln_full(player &, const tripoint &examp)
     }
 
     item result( "charcoal", calendar::turn.get_turn() );
-    result.charges = total_volume * char_type->ammo->def_charges / char_type->volume;
+    result.charges = total_volume / char_type->volume;
     g->m.add_item( examp, result );
     g->m.furn_set( examp, next_kiln_type);
 }
@@ -1908,14 +1909,15 @@ void iexamine::fvat_empty(player &p, const tripoint &examp)
             }
     }
     if (to_deposit) {
+        static const auto vat_volume = units::from_liter( 50 );
         item brew(brew_type, 0);
         int charges_held = p.charges_of(brew_type);
         brew.charges = charges_on_ground;
         for (int i = 0; i < charges_held && !vat_full; i++) {
             p.use_charges(brew_type, 1);
             brew.charges++;
-            if ( ( brew.count_by_charges() ? brew.volume() : brew.volume() * brew.charges ) >= 100 ) {
-                vat_full = true; //vats hold 50 units of brew, or 350 charges for a count_by_charges brew
+            if( brew.volume() >= vat_volume ) {
+                vat_full = true;
             }
         }
         add_msg(_("Set %s in the vat."), brew.tname().c_str());
@@ -2007,10 +2009,10 @@ void iexamine::fvat_full( player &p, const tripoint &examp )
 }
 
 //probably should move this functionality into the furniture JSON entries if we want to have more than a few "kegs"
-int iexamine::get_keg_capacity( const tripoint &pos ) {
+units::volume iexamine::get_keg_capacity( const tripoint &pos ) {
     const furn_t &furn = g->m.furn( pos ).obj();
-    if( furn.id == "f_standing_tank" )  { return 1200; }
-    else if( furn.id == "f_wood_keg" )  { return 600; }
+    if( furn.id == "f_standing_tank" )  { return units::from_liter( 300 ); }
+    else if( furn.id == "f_wood_keg" )  { return units::from_liter( 125 ); }
     //add additional cases above
     else                                { return 0; }
 }
@@ -2022,7 +2024,7 @@ bool iexamine::has_keg( const tripoint &pos )
 
 void iexamine::keg(player &p, const tripoint &examp)
 {
-    int keg_cap = get_keg_capacity( examp );
+    units::volume keg_cap = get_keg_capacity( examp );
     bool liquid_present = false;
     for (int i = 0; i < (int)g->m.i_at(examp).size(); i++) {
         if (!g->m.i_at(examp)[i].made_of( LIQUID ) || liquid_present) {
@@ -2159,7 +2161,7 @@ void iexamine::keg(player &p, const tripoint &examp)
         case EXAMINE: {
             add_msg(m_info, _("That is a %s."), g->m.name(examp).c_str());
             add_msg(m_info, _("It contains %s (%d), %0.f%% full."),
-                    drink->tname().c_str(), drink->charges, double( drink->volume() ) / keg_cap * 100 );
+                    drink->tname().c_str(), drink->charges, drink->volume() * 100.0 / keg_cap );
             return;
         }
 
@@ -2171,7 +2173,7 @@ void iexamine::keg(player &p, const tripoint &examp)
 
 bool iexamine::pour_into_keg( const tripoint &pos, item &liquid )
 {
-    const int keg_cap = get_keg_capacity( pos );
+    const units::volume keg_cap = get_keg_capacity( pos );
     if( keg_cap <= 0 ) {
         return false;
     }
@@ -2728,7 +2730,7 @@ void iexamine::reload_furniture(player &p, const tripoint &examp)
         //~ %1$s - furniture, %2$d - number, %3$s items.
         add_msg(_("The %1$s contains %2$d %3$s."), f.name.c_str(), amount_in_furn, ammo->nname(amount_in_furn).c_str());
     }
-    const int max_amount_in_furn = f.max_volume * ammo->stack_size / ammo->volume;
+    const int max_amount_in_furn = f.max_volume / ammo->volume;
     const int max_reload_amount = max_amount_in_furn - amount_in_furn;
     if( max_reload_amount <= 0 ) {
         return;
@@ -2883,11 +2885,9 @@ static tripoint getNearFilledGasTank(const tripoint &center, long &gas_units)
             }
             for( auto &k : g->m.i_at(tmp)) {
                 if(k.made_of(LIQUID)) {
-                    const long units = k.liquid_units( k.charges );
-
                     distance = new_distance;
                     tank_loc = tmp;
-                    gas_units = units;
+                    gas_units = k.charges;
                     break;
                 }
             }
@@ -3004,15 +3004,13 @@ static bool toPumpFuel(const tripoint &src, const tripoint &dst, long units)
     auto items = g->m.i_at( src );
     for( auto item_it = items.begin(); item_it != items.end(); ++item_it ) {
         if( item_it->made_of(LIQUID)) {
-            const long amount = item_it->liquid_charges( units );
-
-            if( item_it->charges < amount ) {
+            if( item_it->charges < units ) {
                 return false;
             }
 
-            item_it->charges -= amount;
+            item_it->charges -= units;
 
-            item liq_d( item_it->type, calendar::turn, amount );
+            item liq_d( item_it->type, calendar::turn, units );
 
             const auto backup_pump = g->m.ter( dst );
             g->m.ter_set( dst, ter_id( NULL_ID ) );
@@ -3051,7 +3049,7 @@ static long fromPumpFuel(const tripoint &dst, const tripoint &src)
             // remove the liquid from the pump
             long amount = item_it->charges;
             items.erase( item_it );
-            return item_it->liquid_units( amount );
+            return amount;
         }
     }
     return -1;

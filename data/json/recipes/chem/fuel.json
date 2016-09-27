@@ -2,7 +2,7 @@
   {
     "result": "chem_ethanol",
     "type" : "recipe",
-    "byproducts": [ "water_clean" ],
+    "byproducts": [ [ "water_clean" ] ],
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_FUEL",
     "skill_used": "cooking",
@@ -38,7 +38,7 @@
   {
     "result": "denat_alcohol",
     "type" : "recipe",
-    "byproducts": [ "water_clean" ],
+    "byproducts": [ [ "water_clean" ] ],
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_FUEL",
     "skill_used": "cooking",

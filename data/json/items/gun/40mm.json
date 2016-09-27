@@ -13,8 +13,6 @@
     "material": [ "steel", "wood" ],
     "ammo": "40mm",
     "dispersion": 300,
-    "sight_dispersion": 150,
-    "recoil": 60,
     "durability": 6,
     "clip_size": 1,
     "reload": 350
@@ -34,8 +32,6 @@
     "symbol": "(",
     "ammo": "40mm",
     "dispersion": 270,
-    "sight_dispersion": 120,
-    "recoil": 75,
     "durability": 9,
     "clip_size": 1,
     "reload": 150
@@ -55,8 +51,6 @@
     "ammo": "40mm",
     "ranged_damage": 3,
     "dispersion": 150,
-    "sight_dispersion": 120,
-    "recoil": -75,
     "durability": 8,
     "clip_size": 1,
     "reload": 250
@@ -77,8 +71,6 @@
     "range": 30,
     "ranged_damage": 1,
     "dispersion": 180,
-    "sight_dispersion": 120,
-    "recoil": 270,
     "durability": 8,
     "reload": 400,
     "modes": [
@@ -103,8 +95,6 @@
     "material": "steel",
     "ammo": "40mm",
     "dispersion": 270,
-    "sight_dispersion": 120,
-    "recoil": -15,
     "durability": 8,
     "clip_size": 6,
     "reload": 300
@@ -124,8 +114,6 @@
     "material": [ "superalloy", "ceramic" ],
     "ammo": "40mm",
     "dispersion": 150,
-    "sight_dispersion": 120,
-    "recoil": 30,
     "durability": 9,
     "clip_size": 4,
     "valid_mod_locations": [ [ "accessories", 4 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],

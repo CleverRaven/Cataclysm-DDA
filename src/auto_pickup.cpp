@@ -14,7 +14,6 @@
 #include "itype.h"
 
 #include <stdlib.h>
-#include <fstream>
 #include <sstream>
 #include <string>
 #include <locale>
@@ -199,8 +198,7 @@ void auto_pickup::show( const std::string &custom_name, bool is_autopickup )
 
                 mvwprintz(w, i - iStartPos, 52, (iLine == i &&
                           iColumn == 2) ? hilite(cLineColor) : cLineColor, "%s",
-                          ((vRules[iTab][i].bExclude) ? rm_prefix(_("Exclude")).c_str() : rm_prefix(
-                               _("Include")).c_str()));
+                          ((vRules[iTab][i].bExclude) ? _("Exclude") :  _("Include")));
             }
         }
 
@@ -583,14 +581,11 @@ bool auto_pickup::save(const bool bCharacter)
 
         if (bCharacter) {
             savefile = world_generator->active_world->world_path + "/" + base64_encode(g->u.name) + ".apu.json";
-            std::ifstream fin;
 
-            fin.open((world_generator->active_world->world_path + "/" +
-                      base64_encode(g->u.name) + ".sav").c_str());
-            if(!fin.is_open()) {
+            const std::string player_save = world_generator->active_world->world_path + "/" + base64_encode(g->u.name) + ".sav";
+            if( !file_exist( player_save ) ) {
                 return true; //Character not saved yet.
             }
-            fin.close();
         }
 
     return write_to_file( savefile, [&]( std::ostream &fout ) {

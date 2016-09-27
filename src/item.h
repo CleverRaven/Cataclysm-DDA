@@ -18,6 +18,7 @@
 #include "item_location.h"
 #include "damage.h"
 #include "debug.h"
+#include "units.h"
 
 class game;
 class Character;
@@ -345,13 +346,10 @@ class item : public JsonSerializer, public JsonDeserializer, public visitable<it
 
     /* Total volume of an item accounting for all contained/integrated items
      * @param integral if true return effective volume if item was integrated into another */
-    int volume( bool integral = false ) const;
+    units::volume volume( bool integral = false ) const;
 
     /** Simplified, faster volume check for when processing time is important and exact volume is not. */
-    int base_volume() const;
-
-    /* Volume of an item or of a single unit for charged items multipled by 1000 */
-    int precise_unit_volume() const;
+    units::volume base_volume() const;
 
     /** Required strength to be able to successfully lift the item unaided by equipment */
     int lift_strength() const;
@@ -470,11 +468,9 @@ class item : public JsonSerializer, public JsonDeserializer, public visitable<it
     long get_remaining_capacity_for_liquid( const item &liquid, const Character &p,
                                             std::string *err = nullptr ) const;
     /**
-     * It returns the total capacity (volume) of the container. This is a volume,
-     * use @ref liquid_charges (of a liquid item) to translate that volume to the
-     * number charges of a liquid that can be store in it.
+     * It returns the total capacity (volume) of the container.
      */
-    long get_container_capacity() const;
+    units::volume get_container_capacity() const;
     /**
      * Puts the given item into this one, no checks are performed.
      */
@@ -502,7 +498,7 @@ class item : public JsonSerializer, public JsonDeserializer, public visitable<it
     /**
      * Funnel related functions. See weather.cpp for their usage.
      */
-    bool is_funnel_container(int &bigger_than) const;
+    bool is_funnel_container(units::volume &bigger_than) const;
     void add_rain_to_container(bool acid, int charges = 1);
     /*@}*/
 
@@ -794,7 +790,6 @@ public:
  bool is_armor() const;
  bool is_book() const;
  bool is_salvageable() const;
- bool is_disassemblable() const;
 
  bool is_tool() const;
  bool is_tool_reversible() const;
@@ -938,21 +933,11 @@ public:
         std::string type_name( unsigned int quantity = 1 ) const;
 
         /**
-         * Liquids use a different (and type specific) scale for the charges vs volume.
-         * This functions converts them. You can assume that
-         * @code liquid_charges( liquid_units( x ) ) == x @endcode holds true.
-         * For items that are not liquids or otherwise don't use this system, both functions
-         * simply return their input (conversion factor is 1).
-         * One "unit" takes up one container storage capacity, e.g.
-         * A container with @ref islot_container::contains == 2 can store
-         * @code liquid.liquid_charges( 2 ) @endcode charges of the given liquid.
-         * For water this would be 2, for most strong alcohols it's 14, etc.
+         * Number of charges of this item type that fit into the given volume.
+         * May return 0 if not even one charge fits into the volume. Only depends on the *type*
+         * of this item not on its current charge count.
          */
-        /*@{*/
-        long liquid_charges( long units ) const;
-        long liquid_charges_per_volume( int volume ) const;
-        long liquid_units( long charges ) const;
-        /*@}*/
+        long charges_per_volume( const units::volume &vol ) const;
 
         /**
          * @name Item variables
@@ -1137,7 +1122,7 @@ public:
          * For non-armor it returns 0. The storage amount increases the volume capacity of the
          * character that wears the item.
          */
-        int get_storage() const;
+        units::volume get_storage() const;
         /**
          * Returns the resistance to environmental effects (@ref islot_armor::env_resist) that this
          * item provides when worn. See @ref player::get_env_resist. Higher values are better.
@@ -1381,10 +1366,15 @@ public:
          * Summed range value of a gun, including values from mods. Returns 0 on non-gun items.
          */
         int gun_range( bool with_ammo = true ) const;
+
         /**
-         * Summed recoils value of a gun, including values from mods. Returns 0 on non-gun items.
+         *  Get effective recoil considering handling, loaded ammo and effects of attached gunmods
+         *  @param p player stats such as STR can alter effective recoil
+         *  @param bipod whether any bipods should be considered
+         *  @return effective recoil (per shot) or zero if gun uses ammo and none is loaded
          */
-        int gun_recoil( bool with_ammo = true ) const;
+        int gun_recoil( const player &p, bool bipod = false ) const;
+
         /**
          * Summed ranged damage of a gun, including values from mods. Returns 0 on non-gun items.
          */

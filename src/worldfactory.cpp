@@ -1417,12 +1417,23 @@ bool worldfactory::valid_worldname(std::string name, bool automated)
 
 void WORLD::load_options( JsonIn &jsin )
 {
+    // if core data version isn't specified then presume version 1
+    int version = 1;
+
+    auto &opts = get_options();
+
     jsin.start_array();
     while( !jsin.end_array() ) {
         JsonObject jo = jsin.get_object();
         const std::string name = jo.get_string( "name" );
         const std::string value = jo.get_string( "value" );
-        if( get_options().get_option( name ).getPage() == "world_default" ) {
+
+        if( name == "CORE_VERSION" ) {
+            version = std::max( std::atoi( value.c_str() ), 0 );
+            continue;
+        }
+
+        if( opts.has_option( name ) && opts.get_option( name ).getPage() == "world_default" ) {
             WORLD_OPTIONS[ name ].setValue( value );
         }
     }
@@ -1430,6 +1441,8 @@ void WORLD::load_options( JsonIn &jsin )
     if( WORLD_OPTIONS.count( "CITY_SPACING" ) == 0 ) {
         WORLD_OPTIONS["CITY_SPACING"].setValue( 5 - get_option<int>( "CITY_SIZE" ) / 3 );
     }
+
+    WORLD_OPTIONS[ "CORE_VERSION" ].setValue( version );
 }
 
 void WORLD::load_legacy_options( std::istream &fin )

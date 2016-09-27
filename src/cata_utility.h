@@ -21,7 +21,12 @@ enum units_type {
     VU_WIND
 };
 
+double round_up( double val, unsigned int dp );
+
 bool isBetween( int test, int down, int up );
+
+/** Does str contain qry via case-insensitive comparison? */
+bool lcmatch( const std::string &str, const std::string &qry );
 
 bool list_items_match( const item *item, std::string sPattern );
 

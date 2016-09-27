@@ -7,6 +7,7 @@
 #include "color.h"
 #include "damage.h"
 #include "calendar.h"
+#include "units.h"
 
 #include <vector>
 #include <bitset>
@@ -127,10 +128,10 @@ class vpart_info
         itype_id fuel_type = "null";
 
         /** Volume of a foldable part when folded */
-        int folded_volume = 0;
+        units::volume folded_volume = 0;
 
         /** Cargo location volume */
-        int size = 0;
+        units::volume size = 0;
 
         /** Mechanics skill required to install item */
         int difficulty = 0;
@@ -162,6 +163,18 @@ class vpart_info
         /** Removal time (in moves) for this component accounting for player skills */
         int removal_time( const Character &ch ) const;
 
+        /** Requirements for repair of this component (per level of damage) */
+        requirement_data repair_requirements() const;
+
+        /** Required skills to repair this component */
+        std::map<skill_id, int> repair_skills;
+
+        /** Repair time (in moves) for component per level of damage (@see repair_time) */
+        int repair_moves = MOVES( HOURS( 1 ) );
+
+        /** Repair time (in moves) for this component (per level of damage) accounting for player skills */
+        int repair_time( const Character &ch ) const;
+
         /** @ref item_group this part breaks into when destroyed */
         std::string breaks_into_group = "EMPTY_GROUP";
 
@@ -184,6 +197,7 @@ class vpart_info
         /** Second field is the multiplier */
         std::vector<std::pair<requirement_id, int>> install_reqs;
         std::vector<std::pair<requirement_id, int>> removal_reqs;
+        std::vector<std::pair<requirement_id, int>> repair_reqs;
 
     public:
 

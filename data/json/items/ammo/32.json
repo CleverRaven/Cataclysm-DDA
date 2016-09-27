@@ -17,8 +17,8 @@
     "casing": "32_casing",
     "range": 12,
     "damage": 16,
-    "dispersion": 100,
-    "recoil": 90,
+    "dispersion": 70,
+    "recoil": 150,
     "effects": [ "COOKOFF" ]
   },
   {

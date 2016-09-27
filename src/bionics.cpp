@@ -19,7 +19,6 @@
 #include "itype.h"
 #include "vehicle.h"
 #include "field.h"
-#include "weather_gen.h"
 #include "weather.h"
 #include "cata_utility.h"
 #include "output.h"
@@ -148,8 +147,7 @@ bool player::activate_bionic( int b, bool eff_only )
     }
 
     item tmp_item;
-    w_point const weatherPoint = g->weather_gen->get_weather( global_square_location(),
-                                 calendar::turn );
+    w_point const weatherPoint = *g->weather_precise;
 
     // On activation effects go here
     if( bionics[bio.id].gun_bionic ) {
@@ -389,8 +387,9 @@ bool player::activate_bionic( int b, bool eff_only )
         bool extracted = false;
         for( auto it = g->m.i_at(pos()).begin();
              it != g->m.i_at(pos()).end(); ++it) {
+            static const auto volume_per_water_charge = units::from_milliliter( 500 );
             if( it->is_corpse() ) {
-                const int avail = it->get_var( "remaining_water", it->volume() / 2 );
+                const int avail = it->get_var( "remaining_water", it->volume() / volume_per_water_charge );
                 if(avail > 0 && query_yn(_("Extract water from the %s"), it->tname().c_str())) {
                     item water( "water_clean", calendar::turn, avail );
                     if( g->consume_liquid( water ) ) {
@@ -468,7 +467,7 @@ bool player::activate_bionic( int b, bool eff_only )
             vehwindspeed = abs(veh->velocity / 100); // vehicle velocity in mph
         }
         const oter_id &cur_om_ter = overmap_buffer.ter( global_omt_location() );
-        std::string omtername = otermap[cur_om_ter].name;
+        const std::string &omtername = cur_om_ter->name;
         /* windpower defined in internal velocity units (=.01 mph) */
         double windpower = 100.0f * get_local_windpower( weatherPoint.windpower + vehwindspeed,
                                                          omtername, g->is_sheltered( g->u.pos() ) );
@@ -843,6 +842,7 @@ bool player::uninstall_bionic( std::string const &b_id, int skill_level )
         std::vector<item_comp> comps;
         comps.push_back( item_comp( "1st_aid", 1 ) );
         consume_items( comps );
+        invalidate_crafting_inventory();
     }
 
     practice( skilll_electronics, int( ( 100 - chance_of_success ) * 1.5 ) );

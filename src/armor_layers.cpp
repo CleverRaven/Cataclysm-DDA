@@ -21,7 +21,7 @@ void draw_mid_pane( WINDOW *w_sort_middle, item const &worn_item )
     int middle_w = getmaxx( w_sort_middle );
     size_t i = fold_and_print( w_sort_middle, 0, 1, middle_w - 1, c_white,
                                worn_item.type_name( 1 ) ) - 1;
-    std::vector<std::string> props = clothing_properties( worn_item, middle_w - 3 );
+    std::vector<std::string> props = clothing_properties( worn_item, middle_w - 6 );
     for( auto &iter : props ) {
         // [headers] are green, info is gray
         nc_color color = ( iter[0] == '[' ? c_green : c_ltgray );
@@ -70,8 +70,8 @@ std::vector<std::string> clothing_properties( item const &worn_item, int const w
                                      string_format( "%3d", worn_item.get_encumber() ), width ) );
     props.push_back( name_and_value( space + _( "Warmth:" ),
                                      string_format( "%3d", worn_item.get_warmth() ), width ) );
-    props.push_back( name_and_value( space + _( "Storage:" ),
-                                     string_format( "%3d", worn_item.get_storage() ), width ) );
+    props.push_back( name_and_value( space + _( "Storage (L):" ),
+                                     string_format( "%.1f", to_milliliter( worn_item.get_storage() ) / 1000.0 ), width ) );
     props.push_back( string_format( "[%s]", _( "Protection" ) ) );
     props.push_back( name_and_value( space + _( "Bash:" ),
                                      string_format( "%3d", int( worn_item.bash_resist() ) ), width ) );
@@ -304,7 +304,7 @@ void player::sort_armor()
 
         // Left header
         mvwprintz( w_sort_left, 0, 0, c_ltgray, _( "(Innermost)" ) );
-        right_print( w_sort_left, 0, 0, c_ltgray, _( "Storage" ) );
+        right_print( w_sort_left, 0, 0, c_ltgray, _( "Storage (L)" ) );
         // Left list
         for( int drawindex = 0; drawindex < leftListSize; drawindex++ ) {
             int itemindex = leftListOffset + drawindex;
@@ -317,8 +317,8 @@ void player::sort_armor()
             trim_and_print( w_sort_left, drawindex + 1, offset_x, left_w - offset_x - 3,
                             tmp_worn[itemindex]->damage_color(),
                             tmp_worn[itemindex]->type_name( 1 ).c_str() );
-            mvwprintz( w_sort_left, drawindex + 1, left_w - 3, c_ltgray, "%3d",
-                       tmp_worn[itemindex]->get_storage() );
+            right_print( w_sort_left, drawindex + 1, 0, c_ltgray, "%.1f",
+                         to_milliliter( tmp_worn[itemindex]->get_storage() ) / 1000.0 );
         }
 
         // Left footer

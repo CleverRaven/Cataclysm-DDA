@@ -17,8 +17,8 @@
     "range": 60,
     "damage": 20,
     "pierce": 30,
-    "dispersion": 100,
-    "recoil": 60,
+    "dispersion": 60,
+    "recoil": 400,
     "effects": [ "COOKOFF", "NEVER_MISFIRES" ]
   },
   {
@@ -33,8 +33,8 @@
       "range": -10,
       "damage": 5,
       "pierce": 20,
-      "dispersion": 20,
-      "recoil": 15
-    }
+      "dispersion": 20
+    },
+    "proportional": { "recoil": 1.1 }
   }
 ]

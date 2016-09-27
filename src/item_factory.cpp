@@ -49,11 +49,15 @@ static t_string_set item_blacklist;
 static t_string_set item_whitelist;
 static bool item_whitelist_is_exclusive = false;
 
+static DynamicDataLoader::deferred_json deferred;
+
 std::unique_ptr<Item_factory> item_controller( new Item_factory() );
 
 static void set_allergy_flags( itype &item_template );
 static void hflesh_to_flesh( itype &item_template );
 static void npc_implied_flags( itype &item_template );
+
+extern const double MIN_RECOIL;
 
 bool item_is_blacklisted(const std::string &id)
 {
@@ -107,28 +111,8 @@ static bool assign_coverage_from_json( JsonObject &jo, const std::string &key,
 }
 
 void Item_factory::finalize() {
-
-    auto& dyn = DynamicDataLoader::get_instance();
-
-    while( !deferred.empty() ) {
-        auto n = deferred.size();
-        auto it = deferred.begin();
-        for( decltype(deferred)::size_type idx = 0; idx != n; ++idx ) {
-            try {
-                std::istringstream str( it->first );
-                JsonIn jsin( str );
-                JsonObject jo = jsin.get_object();
-                dyn.load_object( jo, it->second );
-            } catch( const std::exception &err ) {
-                debugmsg( "Error loading data from json: %s", err.what() );
-            }
-            ++it;
-        }
-        deferred.erase( deferred.begin(), it );
-        if( deferred.size() == n ) {
-            debugmsg( "JSON contains circular dependency: discarded %i templates", n );
-            break;
-        }
+    if( !DynamicDataLoader::get_instance().load_deferred( deferred ) ) {
+        debugmsg( "JSON contains circular dependency: discarded %i templates", deferred.size() );
     }
 
     finalize_item_blacklist();
@@ -165,6 +149,17 @@ void Item_factory::finalize() {
         // for ammo and comestibles stack size defaults to count of initial charges
         if( obj.stack_size == 0 && ( obj.ammo || obj.comestible ) ) {
             obj.stack_size = obj.charges_default();
+        }
+        // JSON contains volume per complete stack, convert it to volume per single item
+        if( obj.count_by_charges() ) {
+            obj.volume = obj.volume / obj.stack_size;
+            obj.integral_volume = obj.integral_volume / obj.stack_size;
+        }
+        // Items always should have some volume.
+        // TODO: handle possible exception software?
+        // TODO: make items with 0 volume an error during loading?
+        if( obj.volume <= 0 ) {
+            obj.volume = units::from_milliliter( 1 );
         }
         for( const auto &tag : obj.item_tags ) {
             if( tag.size() > 6 && tag.substr( 0, 6 ) == "LIGHT_" ) {
@@ -220,6 +215,17 @@ void Item_factory::finalize() {
                 // handle legacy JSON format
                 obj.gun->modes.emplace( "AUTO", std::tuple<std::string, int, std::set<std::string>>( "auto", obj.gun->burst,
                                         std::set<std::string>() ) );
+            }
+
+            if( obj.gun->handling < 0 ) {
+                // @todo specify in JSON via classes
+                if( obj.gun->skill_used == skill_id( "rifle" ) ||
+                    obj.gun->skill_used == skill_id( "smg" ) ||
+                    obj.gun->skill_used == skill_id( "shotgun" ) ){
+                    obj.gun->handling = 20;
+                } else {
+                    obj.gun->handling = 10;
+                }
             }
 
             obj.gun->reload_noise = _( obj.gun->reload_noise.c_str() );
@@ -281,33 +287,8 @@ void Item_factory::finalize_item_blacklist()
 
     }
 
-    // Can't be part of the blacklist loop because the magazines might be
-    // deleted before the guns are processed.
-    const bool magazines_blacklisted = get_world_option<bool>( "BLACKLIST_MAGAZINES" );
-
-    if( magazines_blacklisted ) {
-        for( auto& e : m_templates ) {
-            if( !e.second->gun || e.second->magazines.empty() ) {
-                continue;
-            }
-
-            // check_definitions() guarantees that defmag both exists and is a magazine
-            itype *defmag = m_templates[ e.second->magazine_default[ e.second->gun->ammo ] ].get();
-            e.second->volume += defmag->volume;
-            e.second->weight += defmag->weight;
-            e.second->magazines.clear();
-            e.second->magazine_default.clear();
-            e.second->magazine_well = 0;
-
-            if( e.second->gun ) {
-                e.second->gun->clip = defmag->magazine->capacity;
-                e.second->gun->reload_time = defmag->magazine->capacity * defmag->magazine->reload_time;
-            }
-        }
-    }
-
     for( auto &e : m_templates ) {
-        if( !( item_is_blacklisted( e.first ) || ( magazines_blacklisted && e.second->magazine ) ) ) {
+        if( !item_is_blacklisted( e.first ) ) {
             continue;
         }
         for( auto &g : m_template_groups ) {
@@ -320,7 +301,7 @@ void Item_factory::finalize_item_blacklist()
         }
 
         // remove any recipes used to craft the blacklisted item
-        recipe_dict.delete_if( [&]( recipe &r ) {
+        recipe_dictionary::delete_if( [&]( const recipe &r ) {
             return r.result == e.first;
         } );
     }
@@ -652,8 +633,6 @@ bool Item_factory::check_ammo_type( std::ostream &msg, const ammotype& ammo ) co
 
 void Item_factory::check_definitions() const
 {
-    std::set<itype_id> magazines_used;
-    std::set<itype_id> magazines_defined;
     for( const auto &elem : m_templates ) {
         std::ostringstream msg;
         const itype *type = elem.second.get();
@@ -815,7 +794,6 @@ void Item_factory::check_definitions() const
             check_ammo_type( msg, type->gunmod->ammo_modifier );
         }
         if( type->magazine ) {
-            magazines_defined.insert( type->id );
             check_ammo_type( msg, type->magazine->type );
             if( !type->magazine->type ) {
                 msg << "magazine did not specify ammo type" << "\n";
@@ -846,7 +824,6 @@ void Item_factory::check_definitions() const
                 if( !has_template( mag ) || !find_template( mag )->magazine ) {
                     msg << string_format("invalid magazine.") << "\n";
                 }
-                magazines_used.insert( mag );
             }
         }
 
@@ -880,14 +857,6 @@ void Item_factory::check_definitions() const
             continue;
         }
         debugmsg( "warnings for type %s:\n%s", type->id.c_str(), msg.str().c_str() );
-    }
-    if( !get_world_option<bool>( "BLACKLIST_MAGAZINES" ) ) {
-        for( auto &mag : magazines_defined ) {
-            // some vehicle parts (currently batteries) are implemented as magazines
-            if( magazines_used.count( mag ) == 0 && find_template( mag )->category->id != category_id_veh_parts ) {
-                debugmsg( "Magazine %s defined but not used.", mag.c_str() );
-            }
-        }
     }
     for( const auto& e : migrations ) {
         if( !m_templates.count( e.second.replace ) ) {
@@ -1080,8 +1049,9 @@ void Item_factory::load( islot_gun &slot, JsonObject &jo, const std::string &src
     assign( jo, "ranged_damage", slot.damage, strict );
     assign( jo, "pierce", slot.pierce, strict );
     assign( jo, "dispersion", slot.dispersion, strict );
-    assign( jo, "sight_dispersion", slot.sight_dispersion, strict, 0 );
-    assign( jo, "recoil", slot.recoil, strict );
+    assign( jo, "sight_dispersion", slot.sight_dispersion, strict, 0, int( MIN_RECOIL ) );
+    assign( jo, "recoil", slot.recoil, strict, 0 );
+    assign( jo, "handling", slot.handling, strict, 0 );
     assign( jo, "durability", slot.durability, strict, 0, 10 );
     assign( jo, "burst", slot.burst, strict, 1 );
     assign( jo, "loudness", slot.loudness, strict );
@@ -1152,15 +1122,17 @@ void Item_factory::load_armor( JsonObject &jo, const std::string &src )
     }
 }
 
-void Item_factory::load( islot_armor &slot, JsonObject &jo, const std::string & )
+void Item_factory::load( islot_armor &slot, JsonObject &jo, const std::string &src )
 {
-    assign( jo, "encumbrance", slot.encumber );
-    assign( jo, "coverage", slot.coverage );
-    assign( jo, "material_thickness", slot.thickness );
-    assign( jo, "environmental_protection", slot.env_resist );
-    assign( jo, "warmth", slot.warmth );
-    assign( jo, "storage", slot.storage );
-    assign( jo, "power_armor", slot.power_armor );
+    bool strict = src == "core";
+
+    assign( jo, "encumbrance", slot.encumber, strict, 0 );
+    assign( jo, "coverage", slot.coverage, strict, 0, 100 );
+    assign( jo, "material_thickness", slot.thickness, strict, 0 );
+    assign( jo, "environmental_protection", slot.env_resist, strict, 0 );
+    assign( jo, "warmth", slot.warmth, strict, 0 );
+    assign( jo, "storage", slot.storage, strict, 0 );
+    assign( jo, "power_armor", slot.power_armor, strict );
 
     assign_coverage_from_json( jo, "covers", slot.covers, slot.sided );
 }
@@ -1198,15 +1170,17 @@ void Item_factory::load_tool_armor( JsonObject &jo, const std::string &src )
     }
 }
 
-void Item_factory::load( islot_book &slot, JsonObject &jo, const std::string & )
+void Item_factory::load( islot_book &slot, JsonObject &jo, const std::string &src )
 {
-    assign( jo, "max_level", slot.level );
-    assign( jo, "required_level", slot.req );
-    assign( jo, "fun", slot.fun );
-    assign( jo, "intelligence", slot.intel );
-    assign( jo, "time", slot.time );
-    assign( jo, "skill", slot.skill );
-    assign( jo, "chapters", slot.chapters );
+    bool strict = src == "core";
+
+    assign( jo, "max_level", slot.level, strict, 0, MAX_SKILL );
+    assign( jo, "required_level", slot.req, strict, 0, MAX_SKILL );
+    assign( jo, "fun", slot.fun, strict );
+    assign( jo, "intelligence", slot.intel, strict, 0 );
+    assign( jo, "time", slot.time, strict, 0 );
+    assign( jo, "skill", slot.skill, strict );
+    assign( jo, "chapters", slot.chapters, strict, 0 );
 }
 
 void Item_factory::load_book( JsonObject &jo, const std::string &src )
@@ -1347,7 +1321,7 @@ void Item_factory::load( islot_gunmod &slot, JsonObject &jo, const std::string &
     assign( jo, "dispersion_modifier", slot.dispersion );
     assign( jo, "sight_dispersion", slot.sight_dispersion );
     assign( jo, "aim_cost", slot.aim_cost, strict, 0 );
-    assign( jo, "recoil_modifier", slot.recoil );
+    assign( jo, "handling_modifier", slot.handling, strict );
     assign( jo, "range_modifier", slot.range );
     assign( jo, "ups_charges", slot.ups_charges );
     assign( jo, "install_time", slot.install_time );
@@ -1425,18 +1399,22 @@ void Item_factory::load_magazine( JsonObject &jo, const std::string &src )
     }
 }
 
-void Item_factory::load( islot_bionic &slot, JsonObject &jo, const std::string & )
+void Item_factory::load( islot_bionic &slot, JsonObject &jo, const std::string &src )
 {
-    slot.difficulty = jo.get_int( "difficulty" );
+    bool strict = src == "core";
+
+    assign( jo, "difficulty", slot.difficulty, strict, 0 );
     // TODO: must be the same as the item type id, for compatibility
-    slot.bionic_id = jo.get_string( "id" );
+    assign( jo, "id", slot.bionic_id, strict );
 }
 
 void Item_factory::load_bionic( JsonObject &jo, const std::string &src )
 {
-    itype *new_item_template = new itype();
-    load_slot( new_item_template->bionic, jo, src );
-    load_basic_info( jo, new_item_template, src );
+    auto def = load_definition( jo, src );
+    if( def ) {
+        load_slot( def->bionic, jo, src );
+        load_basic_info( jo, def, src );
+    }
 }
 
 void Item_factory::load_generic( JsonObject &jo, const std::string &src )
@@ -1608,9 +1586,16 @@ void Item_factory::load_basic_info( JsonObject &jo, itype *new_item_template, co
     }
 
     JsonArray jarr = jo.get_array( "min_skills" );
+    if( !jarr.empty() ) {
+        new_item_template->min_skills.clear();
+    }
     while( jarr.has_more() ) {
         JsonArray cur = jarr.next_array();
-        new_item_template->min_skills[skill_id( cur.get_string( 0 ) )] = cur.get_int( 1 );
+        auto sk = cur.get_string( 0 );
+        if( sk != "weapon" && !skill_id( sk ).is_valid() ) {
+            jo.throw_error( string_format( "invalid skill: %s", sk.c_str() ), "min_skills" );
+        }
+        new_item_template->min_skills[ sk ] = cur.get_int( 1 );
     }
 
     if( jo.has_member("explosion" ) ) {
@@ -1722,7 +1707,7 @@ void Item_factory::migrate_item( const itype_id& id, item& obj )
         // check contents of migrated containers do not exceed capacity
         if( obj.is_container() && !obj.contents.empty() ) {
             item &child = obj.contents.back();
-            const long capacity = child.liquid_charges( obj.get_container_capacity() );
+            const long capacity = child.charges_per_volume( obj.get_container_capacity() );
             child.charges = std::min( child.charges, capacity );
         }
     }
@@ -2139,6 +2124,7 @@ void item_group::debug_spawn()
 {
     std::vector<std::string> groups = item_controller->get_all_group_names();
     uimenu menu;
+    menu.return_invalid = true;
     menu.text = _("Test which group?");
     for (size_t i = 0; i < groups.size(); i++) {
         menu.entries.push_back(uimenu_entry(i, true, -2, groups[i]));
@@ -2147,8 +2133,8 @@ void item_group::debug_spawn()
     menu.entries.push_back(uimenu_entry(menu.entries.size(), true, -2, _("cancel")));
     while (true) {
         menu.query();
-        const size_t index = menu.ret;
-        if (index >= groups.size()) {
+        const int index = menu.ret;
+        if ( index >= (int)groups.size() || index < 0 ) {
             break;
         }
         // Spawn items from the group 100 times
@@ -2165,6 +2151,7 @@ void item_group::debug_spawn()
             itemnames2.insert(std::pair<int, std::string>(e.second, e.first));
         }
         uimenu menu2;
+        menu2.return_invalid = true;
         menu2.text = _("Result of 100 spawns:");
         for (const auto &e : itemnames2) {
             std::ostringstream buffer;

@@ -33,6 +33,7 @@
 #include "io.h"
 #include "mtype.h"
 #include "item_factory.h"
+#include "recipe_dictionary.h"
 
 #include "tile_id_data.h" // for monster::json_save
 #include <ctime>
@@ -749,7 +750,7 @@ void player::deserialize(JsonIn &jsin)
         learned_recipes.clear();
         while ( parray.has_more() ) {
             if ( parray.read_next(pstr) ) {
-                learned_recipes[ pstr ] = (recipe *)recipe_by_name( pstr );
+                learned_recipes[ pstr ] = &recipe_dict[ pstr ];
             }
         }
     }
@@ -1882,7 +1883,7 @@ void mission::serialize(JsonOut &json) const
 
     json.member("item_id", item_id);
     json.member("item_count", item_count);
-    json.member("target_id", target_id.t().id);
+    json.member("target_id", target_id.id());
     json.member("recruit_class", recruit_class);
     json.member("target_npc_id", target_npc_id);
     json.member("monster_type", monster_type);

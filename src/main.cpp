@@ -24,7 +24,9 @@
 #endif
 #include "translations.h"
 
-void exit_handler(int s);
+void exit_handler(int);
+void hangup_handler(int);
+void kill_game();
 
 extern bool test_dirty;
 
@@ -425,10 +427,7 @@ int main(int argc, char *argv[])
     try {
         g->load_static_data();
         if (verifyexit) {
-            if(g->game_error()) {
-                exit_handler(-999);
-            }
-            exit_handler(0);
+            kill_game();
         }
         if( !dump.empty() ) {
             init_colors();
@@ -440,14 +439,14 @@ int main(int argc, char *argv[])
         }
     } catch( const std::exception &err ) {
         debugmsg( "%s", err.what() );
-        exit_handler(-999);
+        kill_game();
     }
 
     // Now we do the actual game.
 
     g->init_ui();
     if(g->game_error()) {
-        exit_handler(-999);
+        kill_game();
     }
 
     curs_set(0); // Invisible cursor here, because MAPBUFFER.load() is crash-prone
@@ -458,6 +457,12 @@ int main(int argc, char *argv[])
     sigemptyset(&sigIntHandler.sa_mask);
     sigIntHandler.sa_flags = 0;
     sigaction(SIGINT, &sigIntHandler, NULL);
+
+    struct sigaction sigHupHandler;
+    sigHupHandler.sa_handler = hangup_handler;
+    sigemptyset(&sigHupHandler.sa_mask);
+    sigHupHandler.sa_flags = 0;
+    sigaction(SIGHUP, &sigHupHandler, NULL);
 #endif
 
     bool quit_game = false;
@@ -472,7 +477,7 @@ int main(int argc, char *argv[])
     } while (!quit_game);
 
 
-    exit_handler(-999);
+    kill_game();
 
     return 0;
 }
@@ -523,23 +528,39 @@ void printHelpMessage(const arg_handler *first_pass_arguments,
 }
 }  // namespace
 
-void exit_handler(int s)
+void exit_handler(int)
 {
-    if (s != 2 || query_yn(_("Really Quit? All unsaved changes will be lost."))) {
-        erase(); // Clear screen
-
-        deinitDebug();
-
-        int exit_status = 0;
-        if( g != NULL ) {
-            if( g->game_error() ) {
-                exit_status = 1;
-            }
-            delete g;
-        }
-
-        endwin();
-
-        exit( exit_status );
+    if (query_yn(_("Really Quit? All unsaved changes will be lost."))) {
+        kill_game();
     }
+}
+
+void hangup_handler(int)
+{
+    if( g != NULL ) {
+        g->save();
+    }
+
+    kill_game();
+}
+
+void kill_game()
+{
+    int exit_status = 0;
+
+    // Clear screen
+    erase();
+
+    deinitDebug();
+
+    if( g != NULL ) {
+        if( g->game_error() ) {
+            exit_status = 1;
+        }
+        delete g;
+    }
+
+    endwin();
+
+    exit( exit_status );
 }
