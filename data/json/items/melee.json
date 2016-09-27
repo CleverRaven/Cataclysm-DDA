@@ -1166,7 +1166,7 @@
         "symbol" : "/",
         "material": "plastic",
         "techniques" : ["WBLOCK_2", "RAPID"],
-        "flags" : ["DURABLE_MELEE"],
+        "flags" : ["DURABLE_MELEE", "UNARMED_WEAPON"],
         "volume" : 8,
         "bashing" : 12,
         "price" : 19500
@@ -1182,7 +1182,7 @@
         "symbol" : "/",
         "material" : ["wood"],
         "techniques" : ["WBLOCK_2", "RAPID"],
-        "flags" : ["DURABLE_MELEE"],
+        "flags" : ["DURABLE_MELEE", "UNARMED_WEAPON"],
         "volume" : 8,
         "bashing" : 14,
         "price" : 19500
@@ -1200,7 +1200,7 @@
         "symbol" : "/",
         "material" : ["aluminum", "plastic"],
         "techniques" : ["WBLOCK_1"],
-        "flags" : ["DURABLE_MELEE"],
+        "flags" : ["DURABLE_MELEE", "UNARMED_WEAPON"],
         "use_action": {
             "type": "transform",
             "target": "PR24-extended",
@@ -1223,7 +1223,7 @@
         "symbol" : "/",
         "material" : ["aluminum", "plastic"],
         "techniques" : ["WBLOCK_2", "RAPID"],
-        "flags" : ["DURABLE_MELEE"],
+        "flags" : ["DURABLE_MELEE", "UNARMED_WEAPON"],
         "use_action": {
             "type": "transform",
             "target": "PR24-retracted",
