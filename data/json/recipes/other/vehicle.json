@@ -9,8 +9,8 @@
     "time": 8000,
     "reversible": true,
     "autolearn": true,
-    "qualities": [ { "id": "GLARE", "level": 2 } ],
     "using": [ [ "welding_standard", 6 ] ],
+    "qualities": [ { "id": "GLARE", "level": 2 } ],
     "components": [ [ [ "material_aluminium_ingot", 16 ] ] ]
   },
   {
@@ -19,19 +19,17 @@
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_VEHICLE",
     "skill_used": "mechanics",
-    "skills_required": [ "fabrication", 3 ],
     "difficulty": 5,
+    "skills_required": [ "fabrication", 3 ],
     "time": 360000,
-    "book_learn": [ [ "textbook_fabrication", 6 ] , [ "textbook_mechanics", 5 ] ],
+    "book_learn": [ [ "textbook_fabrication", 6 ], [ "textbook_mechanics", 5 ] ],
     "qualities": [
       { "id": "HAMMER", "level": 2 },
       { "id": "SAW_M", "level": 1 },
       { "id": "WRENCH_FINE", "level": 1 },
       { "id": "GLARE", "level": 2 }
     ],
-    "tools": [
-      [ [ "welder", 100 ], [ "welder_crude", 150 ], [ "toolset", 150 ] ]
-    ],
+    "tools": [ [ [ "welder", 100 ], [ "welder_crude", 150 ], [ "toolset", 150 ] ] ],
     "components": [
       [ [ "pipe", 32 ] ],
       [ [ "steel_chunk", 8 ], [ "scrap", 24 ] ],
@@ -44,19 +42,17 @@
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_VEHICLE",
     "skill_used": "mechanics",
-    "skills_required": [ "fabrication", 2 ],
     "difficulty": 2,
+    "skills_required": [ "fabrication", 2 ],
     "time": 60000,
-    "book_learn": [ [ "textbook_fabrication", 4 ] , [ "textbook_mechanics", 2 ] , [ "manual_mechanics", 2 ] ],
+    "book_learn": [ [ "textbook_fabrication", 4 ], [ "textbook_mechanics", 2 ], [ "manual_mechanics", 2 ] ],
     "qualities": [
       { "id": "HAMMER", "level": 2 },
       { "id": "SAW_M", "level": 1 },
       { "id": "WRENCH", "level": 1 },
-      { "id" :"GLARE", "level": 2 }
+      { "id": "GLARE", "level": 2 }
     ],
-    "tools": [
-      [ [ "welder", 50 ], [ "welder_crude", 75 ], [ "toolset", 75 ] ]
-    ],
+    "tools": [ [ [ "welder", 50 ], [ "welder_crude", 75 ], [ "toolset", 75 ] ] ],
     "components": [
       [ [ "pipe", 8 ] ],
       [ [ "steel_chunk", 2 ], [ "scrap", 6 ] ],
@@ -69,8 +65,8 @@
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_VEHICLE",
     "skill_used": "mechanics",
-    "skills_required": [ "mechanics", 1 ],
     "difficulty": 2,
+    "skills_required": [ "mechanics", 1 ],
     "time": 2000,
     "book_learn": [ [ "mag_fieldrepair", 1 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
@@ -85,8 +81,8 @@
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_VEHICLE",
     "skill_used": "mechanics",
-    "skills_required": [ "mechanics", 1 ],
     "difficulty": 2,
+    "skills_required": [ "mechanics", 1 ],
     "time": 2000,
     "book_learn": [ [ "mag_fieldrepair", 2 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
@@ -102,8 +98,8 @@
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_VEHICLE",
     "skill_used": "mechanics",
-    "skills_required": [ "mechanics", 1 ],
     "difficulty": 2,
+    "skills_required": [ "mechanics", 1 ],
     "time": 2000,
     "book_learn": [ [ "mag_fieldrepair", 2 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
