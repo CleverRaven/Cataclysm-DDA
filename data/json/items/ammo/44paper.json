@@ -1,0 +1,21 @@
+[
+   {
+        "type" : "AMMO",
+        "id" : "44army",
+        "price" : 5000,
+        "name" : ".44 paper cartridge",
+        "symbol" : "=",
+        "color" : "white",
+        "description" : "A paper cartridge containing a premeasured amount of black powder and a .44 projectile.  Used by the Colt M1860 Army.",
+        "material" : ["steel", "powder"],
+        "volume" : 1,
+        "weight" : 7,
+        "ammo_type" : "44paper",
+        "damage" : 26,
+        "range" : 18,
+        "dispersion" : 120,
+        "recoil" : 345,
+        "count" : 25,
+        "effects" : ["COOKOFF"]
+    }
+]
