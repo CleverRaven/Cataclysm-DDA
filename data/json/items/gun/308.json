@@ -58,7 +58,7 @@
     "id": "m134",
     "type": "GUN",
     "name": "M134D-H Minigun",
-    "description": "The M134-H Minigun is a lightweight, rotary machine gun, chambered for the 7.62x51mm cartridge.  Its barrels are rotated by an electric motor, powered by UPS.  Its weight, recoil and rotational torque is too high for firing unmounted, but if you could attach it to a vehicle and find enough ammo for it, it would become a devastating weapon.",
+    "description": "The M134-H Minigun is a lightweight, rotary machine gun, chambered for the 7.62x51mm cartridge.  Its weight, recoil and rotational torque is too high for firing unmounted, but if you could attach it to a vehicle and find enough ammo for it, it would become a devastating weapon.",
     "weight": 19500,
     "volume": 24,
     "price": 5500000,
@@ -76,6 +76,7 @@
     "reload": 400,
     "modes": [ [ "DEFAULT", "auto", 100 ] ],
     "magazines": [ [ "308", [ "belt308" ] ] ],
+    "//": "Its barrels are rotated by an electric motor, powered by UPS. After the UPS system is fixed, this should use electrical power."
     "flags": [ "NEVER_JAMS", "MOUNTED_GUN" ]
   },
   {
