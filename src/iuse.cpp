@@ -3355,9 +3355,9 @@ int iuse::pickaxe(player *p, item *it, bool, const tripoint& )
     int turns;
     if (g->m.is_bashable(dirx, diry) && (g->m.has_flag("SUPPORTS_ROOF", dirx, diry) || g->m.has_flag("MINEABLE", dirx, diry)) &&
         g->m.ter(dirx, diry) != t_tree) {
-        // Takes about 100 minutes (not quite two hours) base time.  Construction skill can speed this: 3 min off per level.
+        // Takes about 90 minutes (an hour and a half) base time.  Construction skill can speed this: 4 min off per level.
         ///\EFFECT_CARPENTRY speeds up mining with a pickaxe
-        turns = (100000 - 3000 * p->get_skill_level( skill_carpentry ));
+        turns = (90000 - 4000 * p->get_skill_level( skill_carpentry ));
     } else if (g->m.move_cost(dirx, diry) == 2 && g->get_levz() == 0 &&
                g->m.ter(dirx, diry) != t_dirt && g->m.ter(dirx, diry) != t_grass) {
         turns = 20000;
