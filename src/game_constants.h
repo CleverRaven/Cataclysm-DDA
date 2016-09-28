@@ -84,6 +84,9 @@
 /** Maximum (effective) level for a skill */
 #define MAX_SKILL 10
 
+/** Maximum (effective) level for a stat */
+#define MAX_STAT 20
+
 /** Maximum range for aimed weapons */
 #define MAX_RANGE 30
 

@@ -36,17 +36,17 @@
     "melee_dice": 1,
     "melee_dice_sides": 2,
     "melee_cut": 2,
+    "attack_effs": [
+      {
+        "id": "doom_unhealth",
+        "duration": 1
+      }
+    ],
     "special_attacks": [
       {
         "type": "bite",
         "cooldown": 5,
         "no_infection_chance": 2
-      }
-    ],
-    "attack_effs": [
-      {
-        "id": "doom_unhealth",
-        "duration": 1
       }
     ],
     "flags": [ "SEES", "SMELLS", "HEARS", "WARM", "SWIMS", "ANIMAL", "PATH_AVOID_DANGER_1", "FUR", "BONES", "SWARMS" ]
