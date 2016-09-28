@@ -2608,6 +2608,7 @@
         "move_cost_mod": 3,
         "required_str": 10,
         "flags": ["TRANSPARENT", "MINEABLE", "UNSTABLE", "MOUNTABLE", "TINY"],
+        "crafting_pseudo_item": "boulder_small",
         "bash": {
             "str_min": 16, "str_max": 40,
             "sound": "smash!",
@@ -2625,6 +2626,7 @@
         "move_cost_mod": 6,
         "required_str": 16,
         "flags": ["NOITEM", "TRANSPARENT", "MINEABLE", "UNSTABLE", "MOUNTABLE", "SHORT", "BASHABLE"],
+        "crafting_pseudo_item": "boulder_medium",
         "bash": {
             "str_min": 32, "str_max": 80,
             "sound": "smash!",
