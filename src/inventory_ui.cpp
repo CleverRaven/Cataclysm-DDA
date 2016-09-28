@@ -99,7 +99,7 @@ bool inventory_column::activatable() const
 inventory_entry *inventory_column::find_by_invlet( long invlet ) const
 {
     for( const auto &elem : entries ) {
-        if( elem.location && elem.get_invlet() == invlet ) {
+        if( elem.is_item() && elem.get_invlet() == invlet ) {
             return const_cast<inventory_entry *>( &elem );
         }
     }
@@ -126,7 +126,7 @@ bool inventory_selector_preset::sort_compare( const item_location &lhs, const it
 
 nc_color inventory_selector_preset::get_color( const inventory_entry &entry ) const
 {
-    return entry.location ? entry.location->color_in_inventory() : c_magenta;
+    return entry.is_item() ? entry.location->color_in_inventory() : c_magenta;
 }
 
 std::string inventory_selector_preset::get_caption( const inventory_entry &entry ) const
@@ -146,10 +146,10 @@ std::string inventory_selector_preset::get_cell_text( const inventory_entry &ent
     }
     if( !entry ) {
         return std::string();
-    } else if( entry.location ) {
+    } else if( entry.is_item() ) {
         return cells[cell_index].second( entry );
     } else if( cell_index != 0 ) {
-        return cells[cell_index].first;
+        return cells[cell_index].first; // title
     } else {
         return entry.get_category_ptr()->name;
     }
@@ -215,7 +215,7 @@ size_t inventory_column::get_entry_cell_width( const inventory_entry &entry, siz
 {
     const size_t text_width = preset.get_cell_width( entry, cell_index );
     // More space between headers
-    const size_t header_gap = !entry.location && cell_index != 0 ? 3 * min_cell_gap : 0;
+    const size_t header_gap = entry.is_category() && cell_index != 0 ? 3 * min_cell_gap : 0;
 
     return text_width != 0 ? get_entry_indent( entry, cell_index ) + header_gap + text_width : 0;
 }
@@ -227,7 +227,7 @@ size_t inventory_column::get_cells_width() const
 
 std::string inventory_column::get_entry_denial( const inventory_entry &entry ) const
 {
-    return entry.location ? preset.get_denial( entry.location ) : std::string();
+    return entry.is_item() ? preset.get_denial( entry.location ) : std::string();
 }
 
 void inventory_column::set_width( const size_t width )
@@ -268,8 +268,8 @@ void inventory_column::expand_to_fit( const inventory_entry &entry )
 {
     assert( cell_widths.size() == min_cell_widths.size() );
 
-    if( cell_widths.empty() ) {
-        return; // Sanity check
+    if( !entry ) {
+        return;
     }
 
     const std::string denial = get_entry_denial( entry );
@@ -277,7 +277,7 @@ void inventory_column::expand_to_fit( const inventory_entry &entry )
     for( size_t i = 0, num = denial.empty() ? min_cell_widths.size() : 1; i < num; ++i ) {
         size_t &cell_width = min_cell_widths[i];
 
-        if( cell_width > 0 || entry.location ) { // Don't expand for titles
+        if( cell_width > 0 || entry.is_item() ) { // Don't expand for titles
             cell_width = std::max( cell_width, get_entry_cell_width( entry, i ) );
         }
 
@@ -311,13 +311,13 @@ bool inventory_column::is_selected( const inventory_entry &entry ) const
 
 bool inventory_column::is_selected_by_category( const inventory_entry &entry ) const
 {
-    return entry.location  && mode == navigation_mode::CATEGORY
+    return entry.is_item() && mode == navigation_mode::CATEGORY
                            && entry.get_category_ptr() == get_selected().get_category_ptr()
                            && page_of( entry ) == page_index();
 }
 
 const inventory_entry &inventory_column::get_selected() const {
-    if( selected_index >= entries.size() || !entries[selected_index].location ) {
+    if( selected_index >= entries.size() || !entries[selected_index].is_item() ) {
         static const inventory_entry dummy;
         return dummy;
     }
@@ -382,7 +382,7 @@ void inventory_column::add_entry( const inventory_entry &entry )
 void inventory_column::move_entries_to( inventory_column &dest )
 {
     for( const auto &elem : entries ) {
-        if( elem.location ) {
+        if( elem.is_item() ) {
             dest.add_entry( elem );
         }
     }
@@ -397,7 +397,7 @@ void inventory_column::prepare_paging()
     }
     // First, remove all non-items
     const auto new_end = std::remove_if( entries.begin(), entries.end(), []( const inventory_entry &entry ) {
-        return !entry.location;
+        return !entry.is_item();
     } );
     entries.erase( new_end, entries.end() );
     // Then sort them with respect to categories
@@ -456,7 +456,7 @@ size_t inventory_column::get_entry_indent( const inventory_entry &entry, const s
     if( cell_index > 0 ) {
         return min_cell_gap;
     }
-    if( !entry.location ) {
+    if( !entry.is_item() ) {
         return 0;
     }
 
@@ -475,7 +475,7 @@ long inventory_column::reassign_custom_invlets( const player &p, long min_invlet
     long cur_invlet = min_invlet;
     for( auto &elem : entries ) {
         // Only items on map/in vehicles: those that the player does not possess.
-        if( elem.location && !p.has_item( *elem.location ) ) {
+        if( elem.is_item() && !p.has_item( *elem.location ) ) {
             elem.custom_invlet = cur_invlet <= max_invlet ? cur_invlet++ : '\0';
         }
     }
@@ -531,7 +531,7 @@ void inventory_column::draw( WINDOW *win, size_t x, size_t y ) const
                 continue; // Don't show empty cells
             }
 
-            if( line != 0 && cell_index != 0 && !entry.location ) {
+            if( line != 0 && cell_index != 0 && entry.is_category() ) {
                 break; // Don't show duplicated titles
             }
 
@@ -554,7 +554,7 @@ void inventory_column::draw( WINDOW *win, size_t x, size_t y ) const
                 const int text_x = cell_index == 0 ? x1 : x2 - text_width; // Align either to the left or to the right
                 const std::string text = preset.get_cell_text( entry, cell_index );
 
-                if( entry.location && ( selected || !entry.is_selectable() ) ) {
+                if( entry.is_item() && ( selected || !entry.is_selectable() ) ) {
                     trim_and_print( win, yy, text_x, text_width, selected ? h_white : c_dkgray, "%s", remove_color_tags( text ).c_str() );
                 } else {
                     trim_and_print( win, yy, text_x, text_width, preset.get_color( entry.location ), "%s", text.c_str() );
@@ -564,7 +564,7 @@ void inventory_column::draw( WINDOW *win, size_t x, size_t y ) const
             x1 = x2;
         }
 
-        if( entry.location ) {
+        if( entry.is_item() ) {
             int xx = x;
             if( entry.is_selectable() && entry.get_invlet() != '\0' ) {
                 const nc_color invlet_color = g->u.assigned_invlet.count( entry.get_invlet() ) ? c_yellow : c_white;
@@ -1192,7 +1192,7 @@ void inventory_multiselector::rearrange_columns()
 
 void inventory_multiselector::on_entry_add( const inventory_entry &entry )
 {
-    if( entry.location ) {
+    if( entry.is_item() ) {
         static_cast<selection_column *>( selection_col.get() )->expand_to_fit( entry );
     }
 }

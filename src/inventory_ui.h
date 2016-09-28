@@ -78,11 +78,26 @@ class inventory_entry
         }
 
         operator bool() const {
-            return get_category_ptr() != nullptr;
+            return !is_null();
         }
-
+        /** Whether the entry is null (dummy) */
+        bool is_null() const {
+            return get_category_ptr() == nullptr;
+        }
+        /**
+         * Whether the entry is an item.
+         * item_location::valid() is way too expensive for mundane routines.
+         */
+        bool is_item() const {
+            return location != item_location::nowhere;
+        }
+        /** Whether the entry is a category */
+        bool is_category() const {
+            return !is_null() && !is_item();
+        }
+        /** Whether the entry can be selected */
         bool is_selectable() const {
-            return enabled && location;
+            return is_item() && enabled;
         }
 
         size_t get_stack_size() const {
