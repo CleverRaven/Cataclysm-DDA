@@ -1,4 +1,4 @@
-[
+﻿[
   {
     "id": "testflames",
     "type": "TOOL",
@@ -6098,22 +6098,6 @@
     "volume": 10,
     "bashing": 10,
     "to_hit": -2
-  },
-  {
-    "id": "anvil",
-    "type": "TOOL",
-    "symbol": ";",
-    "color": "dark_gray",
-    "name": "anvil",
-    "description": "This is an enormously heavy block of oddly shaped steel with a chisel-like projection set into the corner.  It's used in most metalworking fabrication recipes.",
-    "price": 100000,
-    "material": "iron",
-    "flags" : ["DURABLE_MELEE"],
-    "weight": 54000,
-    "volume": 16,
-    "bashing": 40,
-    "to_hit": -5,
-    "qualities": [["ANVIL", 3]]
   },
   {
     "id": "anvil",
