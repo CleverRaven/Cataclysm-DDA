@@ -167,7 +167,7 @@ class gunmod_inventory_preset: public inventory_selector_preset
                 const auto odds = get_odds( loc );
 
                 if( odds.first >= 100 ) {
-                    return _( "<color_ltgreen>always</color>" );
+                    return string_format( "<color_ltgreen>%s</color>", _( "always" ) );
                 }
 
                 return string_format( "<color_ltgreen>%d%%</color>", odds.first );

@@ -4331,6 +4331,7 @@ bool item::gunmod_compatible( const item& mod, std::string *msg ) const
         return error( string_format( _("isn't big enough to use that mod") ) );
 
     } else if ( !mod.type->mod->acceptable_ammo.empty() && !mod.type->mod->acceptable_ammo.count( ammo_type( false ) ) ) {
+        //~ %1$s - name of the gunmod, %2$s - name of the ammo
         return error( string_format( _( "with %1$s cannot be used on a %2$s" ), mod.tname( 1 ).c_str(),
                                      ammo_name( ammo_type( false ) ).c_str() ) );
 
