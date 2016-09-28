@@ -203,6 +203,7 @@ classes = {
             { name = "set_mutation", rval = nil, args = { "string" } },
             { name = "symbol_color", rval = "int", args = { } },
             { name = "unset_mutation", rval = nil, args = { "string" } },
+            { name = "takeoff", rval = bool, args = { "item" } },
             { name = "toggle_trait", rval = nil, args = { "string" } },
             { name = "trait_by_invlet", rval = "string", args = { "int" } },
             { name = "volume_capacity", rval = "volume", args = { } },
