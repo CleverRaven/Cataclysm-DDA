@@ -36,8 +36,8 @@
     "//": "Military specification pistol ammo found at military sites.",
     "items": [
        [ "46mm", 70 ],
-       [ "5x50dart", 50 ],
-       [ "5x50heavy", 30 ],
+       [ "5x50dart", 30 ],
+       [ "5x50heavy", 20 ],
        [ "9mmfmj", 100 ]
     ]
   },
