@@ -213,8 +213,11 @@ void inventory_column::move_selection( int step )
 
 size_t inventory_column::get_entry_cell_width( const inventory_entry &entry, size_t cell_index ) const
 {
-    const size_t own_width = preset.get_cell_width( entry, cell_index );
-    return own_width > 0 ? own_width + get_entry_indent( entry, cell_index ) : 0;
+    const size_t text_width = preset.get_cell_width( entry, cell_index );
+    // More space between headers
+    const size_t header_gap = !entry.location && cell_index != 0 ? 3 * min_cell_gap : 0;
+
+    return text_width != 0 ? get_entry_indent( entry, cell_index ) + header_gap + text_width : 0;
 }
 
 size_t inventory_column::get_cells_width() const
