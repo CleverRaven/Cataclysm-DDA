@@ -261,6 +261,7 @@
   {
     "id": "UNARMED_WEAPON",
     "type": "json_flag",
+    "context": [ "GENERIC", "TOOL" ],
     "description": "Allows wielding with unarmed fighting styles and trains unarmed when used.",
     "info": "This weapon <good>can be used with</good> <info>unarmed fighting styles</info>." 
   }
