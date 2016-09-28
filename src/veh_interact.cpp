@@ -707,9 +707,6 @@ void veh_interact::do_install()
             filter="";
             tab = 0;
         }
-        if (action == "REPAIR" ){
-            filter = "";
-        }
         if (action == "INSTALL" || action == "CONFIRM"){
             if (can_install) {
                 const auto &shapes = vpart_shapes[ sel_vpart_info->name() + sel_vpart_info->item ];
