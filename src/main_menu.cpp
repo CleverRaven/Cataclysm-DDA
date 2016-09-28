@@ -393,7 +393,7 @@ bool game::opening_screen()
             }
             // also check special keys
             if( action == "QUIT" ) {
-                if ( query_yn( "Really quit?" ) ) {
+                if( query_yn( "Really quit?" ) ) {
                     sel1 = 8;
                     action = "CONFIRM";
                 }
@@ -684,13 +684,13 @@ bool game::opening_screen()
                         start = true;
                     }
                 }
-            } else if ( sel1 == 5 ) { // Settings Menu
+            } else if( sel1 == 5 ) {  // Settings Menu
                 int settings_subs_to_display = vSettingsSubItems.size();
                 std::vector<std::string> settings_subs;
                 int xoffset = 46 + iMenuOffsetX + extra_w / 2;
                 int yoffset = iMenuOffsetY - 2;
                 int xlen = 0;
-                for ( int i = 0; i < settings_subs_to_display; ++i ) {
+                for( int i = 0; i < settings_subs_to_display; ++i ) {
                     settings_subs.push_back( vSettingsSubItems[i] );
                     xlen += vSettingsSubItems[i].size() + 2; // Open and close brackets added
                 }
@@ -703,33 +703,33 @@ bool game::opening_screen()
                 refresh();
                 std::string action = ctxt.handle_input();
                 std::string sInput = ctxt.get_raw_input().text;
-                for ( int i = 0; i < settings_subs_to_display; ++i ) {
-                    for ( auto hotkey : vSettingsHotkeys[i] ) {
-                        if ( sInput == hotkey ) {
+                for( int i = 0; i < settings_subs_to_display; ++i ) {
+                    for( auto hotkey : vSettingsHotkeys[i] ) {
+                        if( sInput == hotkey ) {
                             sel2 = i;
                             action = "CONFIRM";
                         }
                     }
                 }
 
-                if ( action == "LEFT" ) {
-                    if ( sel2 > 0 ) {
+                if( action == "LEFT" ) {
+                    if( sel2 > 0 ) {
                         --sel2;
                     } else {
                         sel2 = settings_subs_to_display - 1;
                     }
-                } else if ( action == "RIGHT" ) {
+                } else if( action == "RIGHT" ) {
                     if( sel2 < settings_subs_to_display - 1 ) {
                         ++sel2;
                     } else {
                         sel2 = 0;
                     }
-                } else if ( action == "DOWN" || action == "QUIT" ) {
+                } else if( action == "DOWN" || action == "QUIT" ) {
                     layer = 1;
                 }
 
-                if ( action == "UP" || action == "CONFIRM" ) {
-                    if ( sel2 == 0 ) {
+                if( action == "UP" || action == "CONFIRM" ) {
+                    if( sel2 == 0 ) {
                         get_options().show( true );
                     } else if( sel2 == 1 ) {
                         ctxt.display_help();
