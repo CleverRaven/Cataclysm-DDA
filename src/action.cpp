@@ -819,7 +819,7 @@ action_id handle_main_menu()
     const input_context ctxt = get_default_mode_input_context();
     std::vector<uimenu_entry> entries;
 
-    auto REGISTER_ACTION = [&]( action_id name ) {
+    auto REGISTER_ACTION = [&](action_id name) {
         entries.push_back( uimenu_entry( name, true, hotkey_for_action( name ),
                                          ctxt.get_action_name( action_ident( name ) )
                                        )
