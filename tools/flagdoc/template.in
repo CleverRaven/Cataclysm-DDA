@@ -5,6 +5,18 @@ flags that can be loaded from JSON and the contexts in which they are valid.
 
 ### Items
 
+These flags can be applied to any item:
+
+@GENERIC@
+
 ### Clothing
 
+These flags can be applied to worn items (including wearable tools)
+
 @ARMOR@
+
+### Tools
+
+These flags can be applied to tools. Many are also compatible with melee weapons.
+
+@TOOL@
