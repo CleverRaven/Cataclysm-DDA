@@ -166,17 +166,26 @@ size_t inventory_selector_preset::get_cell_width( const inventory_entry &entry, 
     return utf8_width( get_cell_text( entry, cell_index ), true );
 }
 
+bool inventory_selector_preset::is_stub_cell( const inventory_entry &entry, size_t cell_index ) const
+{
+    if( !entry.is_item() ) {
+        return false;
+    }
+    const std::string &text = get_cell_text( entry, cell_index );
+    return text.empty() || text == cells[cell_index].stub;
+}
+
 void inventory_selector_preset::append_cell( const std::function<std::string( const item_location & )> &func,
-                                             const std::string &title )
+                                             const std::string &title, const std::string &stub )
 {
     // Don't capture by reference here. The func should be able to die earlier than the object itself
     append_cell( std::function<std::string( const inventory_entry & )>( [ func ]( const inventory_entry & entry ) {
         return func( entry.location );
-    } ), title );
+    } ), title, stub );
 }
 
 void inventory_selector_preset::append_cell( const std::function<std::string( const inventory_entry & )> &func,
-                                             const std::string &title )
+                                             const std::string &title, const std::string &stub )
 {
     const auto iter = std::find_if( cells.begin(), cells.end(), [ &title ]( const cell_t & cell ) {
         return cell.title == title;
@@ -185,7 +194,7 @@ void inventory_selector_preset::append_cell( const std::function<std::string( co
         debugmsg( "Tried to append a duplicate cell \"%s\": ignored.", title.c_str() );
         return;
     }
-    cells.emplace_back( func, title );
+    cells.emplace_back( func, title, stub );
 }
 
 void inventory_column::select( size_t new_index, scroll_direction dir )
@@ -316,7 +325,8 @@ void inventory_column::expand_to_fit( const inventory_entry &entry )
 
         cell.real_width = std::max( cell.real_width, get_entry_cell_width( entry, i ) );
 
-        if( cell.visible() || entry.is_item() ) { // Don't expand for titles
+        // Don't reveal the cell for headers and stubs
+        if( cell.visible() || ( entry.is_item() && !preset.is_stub_cell( entry, i ) ) ) {
             cell.current_width = std::max( cell.current_width, cell.real_width );
         }
     }

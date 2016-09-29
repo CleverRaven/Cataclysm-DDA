@@ -142,8 +142,13 @@ class inventory_selector_preset
         virtual bool sort_compare( const item_location &lhs, const item_location &rhs ) const;
         /** Color that will be used to display the entry string. */
         virtual nc_color get_color( const inventory_entry &entry ) const;
+
+        /** Text in the cell */
         std::string get_cell_text( const inventory_entry &entry, size_t cell_index ) const;
+        /** Width of the cell */
         size_t get_cell_width( const inventory_entry &entry, size_t cell_index ) const;
+        /** @return Whether the cell is a stub */
+        bool is_stub_cell( const inventory_entry &entry, size_t cell_index ) const;
         /** Number of cells in the preset. */
         size_t get_cells_count() const {
             return cells.size();
@@ -154,22 +159,28 @@ class inventory_selector_preset
         virtual std::string get_caption( const inventory_entry &entry ) const;
         /**
          * Append a new cell to the preset.
-         * @param func The function that returns text for the cell
+         * @param func The function that returns text for the cell.
          * @param title Title of the cell.
+         * @param stub The cell won't be "revealed" if it contains only this value
          */
         void append_cell( const std::function<std::string( const item_location & )> &func,
-                          const std::string &title = "" );
+                          const std::string &title = std::string(),
+                          const std::string &stub = std::string() );
         void append_cell( const std::function<std::string( const inventory_entry & )> &func,
-                          const std::string &title = "" );
+                          const std::string &title = std::string(),
+                          const std::string &stub = std::string() );
 
     private:
         struct cell_t {
             std::function<std::string( const inventory_entry & )> func;
             std::string title;
+            std::string stub;
 
             cell_t( const std::function<std::string( const inventory_entry & )> &func,
-                    const std::string &title ) :
-                func( func ), title( title ) {}
+                    const std::string &title, const std::string &stub ) :
+                func( func ),
+                title( title ),
+                stub( stub ) {}
         };
 
         std::vector<cell_t> cells;
