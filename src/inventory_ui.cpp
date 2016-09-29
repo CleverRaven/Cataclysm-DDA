@@ -157,9 +157,9 @@ std::string inventory_selector_preset::get_cell_text( const inventory_entry &ent
     if( !entry ) {
         return std::string();
     } else if( entry.is_item() ) {
-        return cells[cell_index].func( entry );
+        return replace_colors( cells[cell_index].func( entry ) );
     } else if( cell_index != 0 ) {
-        return cells[cell_index].title;
+        return replace_colors( cells[cell_index].title );
     } else {
         return entry.get_category_ptr()->name;
     }
