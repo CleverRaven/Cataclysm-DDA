@@ -9,10 +9,10 @@
     "time": 15000,
     "batch_time_factors": [ 67, 5 ],
     "autolearn": true,
-    "qualities": [ { "id": "COOK", "level": 1 } ],
+    "qualities": [ { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "hotplate", 7 ], [ "char_smoker", 7 ], [ "toolset", 7 ], [ "fire", -1 ] ] ],
     "components": [
-      [ [ "water", 1 ], [ "water_clean", 1 ], [ "aluminum_foil", 7 ] ],
+      [ [ "water", 1 ], [ "water_clean", 1 ], [ "aluminum_foil", 5 ] ],
       [ [ "mushroom", 1 ] ]
     ]
   },
@@ -27,7 +27,7 @@
     "reversible": false,
     "autolearn": false,
     "book_learn": [ [ "pocket_survival", 1 ], [ "survival_book", 1 ], [ "textbook_survival", 1 ], [ "manual_survival", 1 ], [ "survival_book", 1 ] ],
-    "qualities": [ { "id": "COOK", "level": 1 } ],
+    "qualities": [ { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "hotplate", 5 ], [ "char_smoker", 5 ], [ "toolset", 5 ], [ "fire", -1 ] ] ],
     "components": [
       [ [ "water", 1 ], [ "water_clean", 1 ], [ "aluminum_foil", 5 ] ],
@@ -43,10 +43,10 @@
     "difficulty": 1,
     "time": 15000,
     "autolearn": true,
-    "qualities": [ { "id": "COOK", "level": 1 } ],
+    "qualities": [ { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "hotplate", 3 ], [ "char_smoker", 3 ], [ "toolset", 3 ], [ "fire", -1 ] ] ],
     "components": [
-      [ [ "water", 1 ], [ "water_clean", 1 ], [ "aluminum_foil", 3 ] ],
+      [ [ "water", 1 ], [ "water_clean", 1 ], [ "aluminum_foil", 5 ] ],
       [ [ "potato_raw", 1 ], [ "potato_irradiated", 1 ] ]
     ]
   },
@@ -60,7 +60,7 @@
     "time": 4000,
     "reversible": false,
     "autolearn": true,
-    "qualities": [ { "id": "COOK", "level": 1 } ],
+    "qualities": [ { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "hotplate", 5 ], [ "char_smoker", 5 ], [ "toolset", 5 ], [ "fire", -1 ] ] ],
     "components": [
       [ [ "water", 1 ], [ "water_clean", 1 ], [ "aluminum_foil", 5 ] ],
@@ -99,10 +99,7 @@
       { "id": "COOK", "level": 1 }
     ],
     "tools": [ [ [ "hotplate", 5 ], [ "char_smoker", 5 ], [ "toolset", 5 ], [ "fire", -1 ] ] ],
-    "components": [
-      [ [ "water", 1 ], [ "water_clean", 1 ], [ "aluminum_foil", 5 ] ],
-      [ [ "cattail_stalk", 1 ] ]
-    ]
+    "components": [ [ [ "cattail_stalk", 1 ] ] ]
   },
   {
     "result": "cooked_pumpkin",
