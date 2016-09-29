@@ -41,7 +41,7 @@
     "name": "giant caterpillar",
     "description": "A multi-segmented caterpillar the size of a couch cushion.  While not menacing, it is colored so as to warn off predators.",
     "default_faction": "small_animal",
-    "categories": [ "WILDLIFE" ]
+    "categories": [ "WILDLIFE" ],
     "species": [ "INSECT" ],
     "diff": 5,
     "size": "SMALL",
@@ -60,11 +60,11 @@
     "armor_bash": 2,
     "vision_day": 5,
     "vision_night": 2,
-    "death_function": [ "NORMAL" ],
     "special_attacks": [ [ "SHRIEK", 30 ] ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "LARVA", "NOHEAD", "CLIMBS", "WEBWALK" ],
     "anger_triggers": [ "PLAYER_CLOSE" ],
-    "placate_triggers": [ "HURT", "FRIEND_DIED" ]
+    "placate_triggers": [ "HURT", "FRIEND_DIED" ],
+    "death_function": [ "NORMAL" ],
+    "flags": [ "SEES", "HEARS", "SMELLS", "LARVA", "NOHEAD", "CLIMBS", "WEBWALK" ]
   },
   {
     "id": "mon_pupae",
@@ -90,11 +90,11 @@
     "dodge": 0,
     "armor_bash": 10,
     "armor_cut": 14,
-    "armor_fire": 7,
     "armor_acid": 6,
-    "death_function": [ "NORMAL" ],
+    "armor_fire": 7,
     "emit_fields": [ "emit_web" ],
     "special_when_hit": [ "ACIDSPLASH", 50 ],
+    "death_function": [ "NORMAL" ],
     "flags": [ "NOHEAD", "WEBWALK", "STUMBLES", "IMMOBILE" ]
   },
   {
@@ -121,11 +121,11 @@
     "dodge": 0,
     "armor_bash": 10,
     "armor_cut": 14,
-    "armor_fire": 7,
     "armor_acid": 6,
-    "death_function": [ "NORMAL" ],
+    "armor_fire": 7,
     "emit_fields": [ "emit_web" ],
     "special_when_hit": [ "ACIDSPLASH", 50 ],
+    "death_function": [ "NORMAL" ],
     "flags": [ "NOHEAD", "WEBWALK", "STUMBLES", "IMMOBILE" ]
   },
   {
@@ -148,18 +148,27 @@
     "melee_skill": 3,
     "melee_dice": 1,
     "melee_dice_sides": 3,
+    "melee_damage": [
+      {
+        "damage_type": "stab",
+        "amount": 3
+      },
+      {
+        "damage_type": "acid",
+        "amount": 1
+      }
+    ],
     "melee_cut": 0,
-    "melee_damage": [ {"damage_type": "stab", "amount": 3}, {"damage_type": "acid", "amount": 1} ],
     "dodge": 6,
     "vision_day": 15,
     "vision_night": 5,
-    "death_function": [ "NORMAL" ],
     "emit_fields": [ "emit_fungacidal_small" ],
     "special_attacks": [ [ "ACID_ACCURATE", 45 ] ],
     "special_when_hit": [ "ACIDSPLASH", 30 ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "KEENNOSE", "STUMBLES", "FLIES", "ACIDPROOF", "HARDTOSHOOT", "GROUP_MORALE", "SWARMS", "NO_BREATHE" ],
     "anger_triggers": [ "PLAYER_CLOSE", "STALK", "FRIEND_ATTACKED" ],
-    "fear_triggers": [ "HURT", "PLAYER_CLOSE", "FRIEND_DIED", "FIRE" ]
+    "fear_triggers": [ "HURT", "PLAYER_CLOSE", "FRIEND_DIED", "FIRE" ],
+    "death_function": [ "NORMAL" ],
+    "flags": [ "SEES", "HEARS", "SMELLS", "KEENNOSE", "STUMBLES", "FLIES", "ACIDPROOF", "HARDTOSHOOT", "GROUP_MORALE", "SWARMS", "NO_BREATHE" ]
   },
   {
     "id": "mon_moth",
@@ -181,18 +190,27 @@
     "melee_skill": 4,
     "melee_dice": 1,
     "melee_dice_sides": 3,
+    "melee_damage": [
+      {
+        "damage_type": "stab",
+        "amount": 3
+      },
+      {
+        "damage_type": "acid",
+        "amount": 1
+      }
+    ],
     "melee_cut": 0,
-    "melee_damage": [ {"damage_type": "stab", "amount": 3}, {"damage_type": "acid", "amount": 1} ],
     "dodge": 5,
     "vision_day": 5,
     "vision_night": 15,
-    "death_function": [ "NORMAL" ],
     "emit_fields": [ "emit_fungacidal_small" ],
     "special_attacks": [ [ "ACID_ACCURATE", 30 ] ],
     "special_when_hit": [ "ACIDSPLASH", 35 ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "KEENNOSE", "STUMBLES", "FLIES", "ACIDPROOF", "HARDTOSHOOT", "GROUP_MORALE", "SWARMS", "NO_BREATHE" ],
     "anger_triggers": [ "PLAYER_CLOSE", "FIRE", "STALK", "FRIEND_ATTACKED" ],
-    "fear_triggers": [ "HURT", "PLAYER_CLOSE", "FRIEND_DIED" ]
+    "fear_triggers": [ "HURT", "PLAYER_CLOSE", "FRIEND_DIED" ],
+    "death_function": [ "NORMAL" ],
+    "flags": [ "SEES", "HEARS", "SMELLS", "KEENNOSE", "STUMBLES", "FLIES", "ACIDPROOF", "HARDTOSHOOT", "GROUP_MORALE", "SWARMS", "NO_BREATHE" ]
   },
   {
     "id": "mon_tardigrade",
