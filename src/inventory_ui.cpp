@@ -475,7 +475,7 @@ long inventory_column::reassign_custom_invlets( const player &p, long min_invlet
     long cur_invlet = min_invlet;
     for( auto &elem : entries ) {
         // Only items on map/in vehicles: those that the player does not possess.
-        if( elem.is_item() && !p.has_item( *elem.location ) ) {
+        if( elem.is_selectable() && !p.has_item( *elem.location ) ) {
             elem.custom_invlet = cur_invlet <= max_invlet ? cur_invlet++ : '\0';
         }
     }
