@@ -1,0 +1,11 @@
+[
+  {
+    "type": "ITEM_BLACKLIST",
+    "items": [
+      "offal",
+      "offal_cooked",
+      "offal_pickled",
+      "offal_canned"
+    ]
+  }
+]
