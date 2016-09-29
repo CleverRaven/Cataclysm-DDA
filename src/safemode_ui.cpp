@@ -184,7 +184,7 @@ void safemode::show( const std::string &custom_name_in, bool is_safemode_in )
         if( tab == CHARACTER_TAB && g->u.name.empty() ) {
             character_rules.clear();
             mvwprintz( w, 8, 15, c_white, _( "Please load a character first to use this page!" ) );
-        } else if ( empty() ) {
+        } else if( empty() ) {
             mvwprintz( w, 8, 15, c_white, _( "Safe Mode manager currently inactive." ) );
             mvwprintz( w, 9, 15, c_white, _( "Default rules are used. Add a rule to activate." ) );
             mvwprintz( w, 10, 15, c_white, _( "Press ~ to add a default ruleset to get started." ) );
