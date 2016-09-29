@@ -7,7 +7,7 @@
     "author": "Mugling",
     "description": "Disables vitamin requirements.",
     "category": "rebalance",
-    "path": ""
+    "path": "modinfo.json"
   },
   {
     "type": "WORLD_OPTION",

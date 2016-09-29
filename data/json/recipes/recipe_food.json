@@ -171,8 +171,8 @@
     "container": "jar_glass_sealed",
     "result_mult": 2,
     "qualities": [
-      { "id": "CUT", "level": 1, "amount": 1 },
-      { "id": "COOK", "level": 3, "amount": 1 }
+      { "id": "CUT", "level": 1 },
+      { "id": "COOK", "level": 3 }
     ],
     "tools": [ [ [ "hotplate", 10 ], [ "char_smoker", 10 ], [ "toolset", 10 ], [ "fire", -1 ] ] ],
     "components": [
@@ -193,10 +193,10 @@
     "autolearn": true,
     "contained": true,
     "qualities": [
-      { "id": "SAW_M", "level": 1, "amount": 1 },
-      { "id": "HAMMER", "level": 1, "amount": 1 },
-      { "id": "CUT", "level": 1, "amount": 1 },
-      { "id": "COOK", "level": 3, "amount": 1 }
+      { "id": "SAW_M", "level": 1 },
+      { "id": "HAMMER", "level": 1 },
+      { "id": "CUT", "level": 1 },
+      { "id": "COOK", "level": 3 }
     ],
     "tools": [
       [ [ "hotplate", 10 ], [ "char_smoker", 10 ], [ "toolset", 10 ], [ "fire", -1 ] ],
