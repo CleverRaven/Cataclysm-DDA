@@ -464,7 +464,7 @@
         "name": "pair of nail knuckles",
         "name_plural": "pairs of nail knuckles",
         "description": "A pair of knuckles consisting of two small squares of wood with several nails coming through them.  Useful in nasty street fights.",
-        "material": "wood",
+        "material": ["wood", "steel"],
         "volume": 1,
         "weight": 430,
         "bashing": 4,
