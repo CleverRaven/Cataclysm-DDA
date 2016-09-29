@@ -13320,7 +13320,7 @@ void player::shift_destination(int shiftx, int shifty)
 
 bool player::has_weapon() const
 {
-    return !unarmed_attack();
+    return !weapon.is_null();
 }
 
 m_size player::get_size() const
