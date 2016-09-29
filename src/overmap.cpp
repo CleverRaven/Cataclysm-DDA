@@ -1069,6 +1069,12 @@ int overmap::num_monsters() const
     return monster_map.size();
 }
 
+void overmap::add_npc( npc &who )
+{
+    npcs.push_back( &who );
+    g->set_npcs_dirty();
+}
+
 bool overmap::has_note(int const x, int const y, int const z) const
 {
     if (z < -OVERMAP_DEPTH || z > OVERMAP_HEIGHT) {

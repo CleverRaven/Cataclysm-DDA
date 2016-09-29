@@ -917,9 +917,16 @@ void game::load_npcs()
             continue;
         }
 
-        const tripoint p = temp->global_sm_location();
+        const tripoint sm_loc = temp->global_sm_location();
+        // NPCs who are out of bounds before placement would be pushed into bounds
+        // This can cause NPCs to teleport around, so we don't want that
+        if( sm_loc.x < get_levx() || sm_loc.x >= get_levx() + MAPSIZE ||
+            sm_loc.y < get_levy() || sm_loc.y >= get_levy() + MAPSIZE ) {
+            continue;
+        }
+
         add_msg( m_debug, "game::load_npcs: Spawning static NPC, %d:%d:%d (%d:%d:%d)",
-                 get_levx(), get_levy(), get_levz(), p.x, p.y, p.z );
+                 get_levx(), get_levy(), get_levz(), sm_loc.x, sm_loc.y, sm_loc.z );
         temp->place_on_map();
         if( !m.inbounds( temp->pos() ) ) {
             continue;
@@ -939,6 +946,8 @@ void game::load_npcs()
     for( auto npc : just_added ) {
         npc->on_load();
     }
+
+    npcs_dirty = false;
 }
 
 void game::unload_npcs()
@@ -1395,6 +1404,11 @@ bool game::do_turn()
         gamemode->per_turn();
         calendar::turn.increment();
     }
+
+    if( npcs_dirty ) {
+        load_npcs();
+    }
+
     process_events();
     mission::process_all();
     if (calendar::turn.hours() == 0 && calendar::turn.minutes() == 0 &&
@@ -1402,7 +1416,7 @@ bool game::do_turn()
         overmap_buffer.process_mongroups();
         lua_callback("on_day_passed");
     }
-    
+
     // Run a LUA callback once per minute
     if (calendar::turn.seconds() == 0) {
         lua_callback("on_minute_passed");
@@ -1723,6 +1737,11 @@ const weather_generator &game::get_cur_weather_gen() const
 unsigned int game::get_seed() const
 {
     return seed;
+}
+
+void game::set_npcs_dirty()
+{
+    npcs_dirty = true;
 }
 
 void game::update_weather()

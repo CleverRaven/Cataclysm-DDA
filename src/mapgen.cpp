@@ -10522,7 +10522,6 @@ int map::place_npc(int x, int y, std::string type)
     temp->spawn_at(abs_sub.x, abs_sub.y, abs_sub.z);
     temp->setx( x );
     temp->sety( y );
-    g->load_npcs();
     return temp->getID();
 }
 
