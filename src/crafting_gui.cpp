@@ -206,7 +206,7 @@ const recipe *select_crafting_recipe( int &batch_size )
                 }
 
                 current.erase( std::remove_if( current.begin(), current.end(), [&]( const recipe * e ) {
-                    return !g->u.knows_recipe( e );
+                    return ( g->u.has_recipe( e, crafting_inv, helpers ) == -1 );
                 } ), current.end() );
 
                 // cache recipe availability on first display
