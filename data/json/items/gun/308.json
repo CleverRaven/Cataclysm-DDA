@@ -59,7 +59,7 @@
     "type": "GUN",
     "name": "M134D-H Minigun",
     "description": "The M134 Minigun is a 7.62x51 mm NATO, six-barreled machine gun.  It features Gatling-style rotating barrels with an electric motor.  Its' recoil is too powerful for firing unmounted, but if you could attach it to a vehicle and find enough ammo for it, it would become a devastating weapon.",
-    "weight": 2450,
+    "weight": 19500,
     "volume": 24,
     "price": 5500000,
     "to_hit": -4,
