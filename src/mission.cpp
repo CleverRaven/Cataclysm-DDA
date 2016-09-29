@@ -10,6 +10,8 @@
 #include "npc_class.h"
 
 #include <sstream>
+#include <memory>
+#include <unordered_map>
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 
@@ -33,31 +35,47 @@ mission mission_type::create( const int npc_id ) const
     return ret;
 }
 
-std::unordered_map<int, mission> mission::active_missions;
+std::unordered_map<int, std::unique_ptr<mission>> active_missions;
 
 mission* mission::reserve_new( const mission_type_id type, const int npc_id )
 {
-    const mission tmp = mission_type::get( type )->create( npc_id );
-    auto &result = active_missions[tmp.uid];
-    result = tmp;
-    return &result;
+    const auto tmp = mission_type::get( type )->create( npc_id );
+    // @todo Warn about overwrite?
+    auto &iter = active_missions[ tmp.uid ];
+    iter = std::unique_ptr<mission>( new mission( tmp ) );
+    return iter.get();
 }
 
 mission *mission::find( int id )
 {
     const auto iter = active_missions.find( id );
     if( iter != active_missions.end() ) {
-        return &iter->second;
+        return iter->second.get();
     }
     dbg( D_ERROR ) << "requested mission with uid " << id << " does not exist";
     debugmsg( "requested mission with uid %d does not exist", id );
     return nullptr;
 }
 
+std::vector<mission *> mission::get_all_active()
+{
+    std::vector<mission *> ret;
+    for( auto &pr : active_missions ) {
+        ret.push_back( pr.second.get() );
+    }
+
+    return ret;
+}
+
+void mission::add_existing( const mission &m )
+{
+    active_missions[ m.uid ] = std::unique_ptr<mission>( new mission( m ) );
+}
+
 void mission::process_all()
 {
-    for( auto & e : active_missions ) {
-        auto &m = e.second;
+    for( auto &e : active_missions ) {
+        auto &m = *e.second.get();
         if( m.deadline > 0 && !m.failed && int( calendar::turn ) > m.deadline ) {
             m.fail();
         }
@@ -124,7 +142,7 @@ void mission::on_creature_death( Creature &poor_dead_dude )
     }
     const auto dead_guys_id = p->getID();
     for( auto & e : active_missions ) {
-        auto &i = e.second;
+        auto &i = *e.second;
         //complete the mission if you needed killing
         if( i.type->goal == MGOAL_ASSASSINATE && i.target_npc_id == dead_guys_id ) {
             i.step_complete( 1 );
@@ -232,9 +250,7 @@ void mission::wrap_up()
 
 bool mission::is_complete( const int _npc_id ) const
 {
-    // TODO: maybe not g->u, but more generalized?
     auto &u = g->u;
-    inventory tmp_inv = u.crafting_inventory();
     switch( type->goal ) {
         case MGOAL_GO_TO:
             {
@@ -251,6 +267,8 @@ bool mission::is_complete( const int _npc_id ) const
             break;
 
         case MGOAL_FIND_ITEM:
+        {
+            inventory tmp_inv = u.crafting_inventory();
             // TODO: check for count_by_charges and use appropriate player::has_* function
             if (!tmp_inv.has_amount(type->item_id, item_count)) {
                 return tmp_inv.has_amount( type->item_id, 1 ) && tmp_inv.has_charges( type->item_id, item_count );
@@ -258,6 +276,7 @@ bool mission::is_complete( const int _npc_id ) const
             if( npc_id != -1 && npc_id != _npc_id ) {
                 return false;
             }
+        }
             return true;
 
         case MGOAL_FIND_ANY_ITEM:

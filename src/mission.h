@@ -3,7 +3,6 @@
 
 #include <vector>
 #include <string>
-#include <unordered_map>
 
 #include "omdata.h"
 #include "itype.h"
@@ -330,21 +329,18 @@ public:
 
     // Don't use this, it's only for loading legacy saves.
     static void unserialize_legacy( std::istream &fin );
-    // Serializes and unserializes all missions in @ref active_missions
+    // Serializes and unserializes all missions
     static void serialize_all( JsonOut &json );
     static void unserialize_all( JsonIn &jsin );
     /** Converts a vector mission ids to a vector of mission pointers. Invalid ids are skipped! */
     static std::vector<mission*> to_ptr_vector( const std::vector<int> &vec );
     static std::vector<int> to_uid_vector( const std::vector<mission*> &vec );
 
-private:
-    /**
-     * Missions which have been created, they might have been assigned or can be assigned or
-     * are already done. They are stored with the main save.
-     * Key is the mission id (@ref uid).
-     */
-    static std::unordered_map<int, mission> active_missions;
+    // For save/load
+    static std::vector<mission*> get_all_active();
+    static void add_existing( const mission &m );
 
+private:
     // Don't use this, it's only for loading legacy saves.
     void load_info(std::istream &info);
 
