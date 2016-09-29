@@ -214,16 +214,19 @@ private:
 
 class mission : public JsonSerializer, public JsonDeserializer
 {
+public:
+    enum class mission_status {
+        yet_to_start,
+        in_progress,
+        success,
+        failure
+    };
 private:
     friend struct mission_type; // so mission_type::create is simpler
     friend struct mission_start; // so it can initialize some properties
         const mission_type *type;
         std::string description;// Basic descriptive text
-        /**
-         * True if the mission is failed. Failed missions are completed per definition
-         * and should not be reused. Failed mission should not be changed further.
-         */
-        bool failed;
+        mission_status status;
         unsigned long value;    // Cash/Favor value of completing this
         npc_favor reward;       // If there's a special reward for completing it
         int uid;                // Unique ID number, used for referencing elsewhere
@@ -243,7 +246,6 @@ private:
         int step;               // How much have we completed?
         mission_type_id follow_up;   // What mission do we get after this succeeds?
         int player_id; // The id of the player that has accepted this mission.
-        bool was_started; // whether @ref mission_type::start had been called
 public:
 
         std::string name();
@@ -299,6 +301,8 @@ public:
     bool is_complete( int npc_id ) const;
     /** Checks if the player has failed the matching mission and returns true if they have. */
     bool has_failed() const;
+    /** Checks if the mission is started, but not failed and not succeeded. */
+    bool in_progress() const;
 
     /**
      * Create a new mission of the given type and assign it to the given npc.
@@ -339,6 +343,9 @@ public:
     // For save/load
     static std::vector<mission*> get_all_active();
     static void add_existing( const mission &m );
+
+    static mission_status status_from_string( const std::string &s );
+    static const std::string status_to_string( mission_status st );
 
 private:
     // Don't use this, it's only for loading legacy saves.
