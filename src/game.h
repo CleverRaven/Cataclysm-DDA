@@ -493,6 +493,8 @@ class game
         /** Custom-filtered menu for inventory items and those that are nearby (within @ref radius). */
         item_location inv_map_splice( item_filter filter, const std::string &title, int radius = 0,
                                       const std::string &none_message = "" );
+        /** Book reading menu. */
+        item_location inv_for_books( const std::string &title );
         /** Gunmod installation menu. */
         item_location inv_for_gunmod( const item &gunmod, const std::string &title );
         /*@}*/

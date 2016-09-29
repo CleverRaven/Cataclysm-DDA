@@ -231,6 +231,16 @@ item_location game::inv_for_gunmod( const item &gunmod, const std::string &title
                          title, -1, _( "You don't have any guns to modify." ) );
 }
 
+item_location game::inv_for_books( const std::string &title )
+{
+    const auto filter = []( const item_location & loc ) {
+        return loc->is_book();
+    };
+
+    return inv_internal( u, inventory_filter_preset( filter ),
+                         title, 1, _( "You have nothing to read." ) );
+}
+
 std::list<std::pair<int, int>> game::multidrop()
 {
     u.inv.restack( &u );

@@ -11297,8 +11297,7 @@ void game::wield( int pos )
 void game::read()
 {
     // Can read items from inventory or within one tile (including in vehicles)
-    auto loc = inv_map_splice( []( const item &it ) { return it.is_book(); }, _( "Read:" ), 1,
-                                _( "You have nothing to read." ) );
+    auto loc = inv_for_books( _( "Read:" ) );
 
     item *book = loc.get_item();
     if( !book ) {
