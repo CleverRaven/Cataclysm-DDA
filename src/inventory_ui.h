@@ -308,7 +308,7 @@ class inventory_column
          * Indentation of the entry.
          * @param cell_index Either left indent when it's zero, or a gap between cells.
          */
-        size_t get_entry_indent( const inventory_entry &entry, size_t cell_index = 0 ) const;
+        size_t get_entry_indent( const inventory_entry &entry ) const;
         /** Overall cell width. If corresponding cell is not empty (its width is greater than zero),
          *  then a value returned by @ref get_entry_indent() is added to the result.
          */
@@ -334,23 +334,22 @@ class inventory_column
 
     private:
         struct cell_t {
-            size_t current_width;   /// Current cell widths (can be affected by set_width())
-            size_t real_width;      /// Minimal cell widths (to embrace all the entries nicely)
-
-            cell_t( size_t current_width = 0, size_t real_width = 0 ) :
-                current_width( current_width ),
-                real_width( real_width ) {}
+            size_t current_width = 0;   /// Current cell widths (can be affected by set_width())
+            size_t real_width = 0;      /// Minimal cell widths (to embrace all the entries nicely)
 
             bool visible() const {
                 return current_width > 0;
             }
-
-            void reset() {
-                current_width = real_width;
+            /** @return Gap before the cell. Negative value means the cell is shrinked */
+            int gap() const {
+                return current_width - real_width;
             }
         };
 
         std::vector<cell_t> cells;
+
+        /** @return Number of visible cells */
+        size_t visible_cells() const;
 };
 
 class selection_column : public inventory_column

@@ -23,7 +23,11 @@
 #include <algorithm>
 
 /** The minimal gap between two cells */
-static const int min_cell_gap = 1;
+static const int min_cell_gap = 2;
+/** The gap between two cells when screen space is limited*/
+static const int normal_cell_gap = 4;
+/** The minimal gap between the first cell and denial */
+static const int min_denial_gap = 1;
 /** The minimal gap between two columns */
 static const int min_column_gap = 2;
 /** The gap between two columns when there's enough space, but they are not centered */
@@ -252,11 +256,13 @@ void inventory_column::move_selection_page( scroll_direction dir )
 
 size_t inventory_column::get_entry_cell_width( const inventory_entry &entry, size_t cell_index ) const
 {
-    const size_t text_width = preset.get_cell_width( entry, cell_index );
-    // More space between headers
-    const size_t header_gap = entry.is_category() && cell_index != 0 ? 3 * min_cell_gap : 0;
+    size_t res = preset.get_cell_width( entry, cell_index );
 
-    return text_width != 0 ? get_entry_indent( entry, cell_index ) + header_gap + text_width : 0;
+    if( cell_index == 0 ) {
+        res += get_entry_indent( entry );    // The indentation always persist
+    }
+
+    return res;
 }
 
 size_t inventory_column::get_cells_width() const
@@ -274,23 +280,29 @@ std::string inventory_column::get_entry_denial( const inventory_entry &entry ) c
 void inventory_column::set_width( const size_t width )
 {
     reset_width();
-    reserved_width = width;
     int width_gap = get_width() - width;
     // Now adjust the width if we must
     while( width_gap != 0 ) {
         const int step = width_gap > 0 ? -1 : 1;
-        const auto cmp_min = []( const cell_t &lhs, const cell_t &rhs ) {
-            // Never consider hidden as the smallest
-            return lhs.visible() && lhs.current_width < rhs.current_width;
+        // Should return true when lhs < rhs
+        const auto cmp_for_expansion = []( const cell_t &lhs, const cell_t &rhs ) {
+            return lhs.visible() && lhs.gap() < rhs.gap();
         };
-
-        const auto cmp_max = []( const cell_t &lhs, const cell_t &rhs ) {
-            return lhs.current_width > rhs.current_width;
+        // Should return true when lhs < rhs
+        const auto cmp_for_shrinking = []( const cell_t &lhs, const cell_t &rhs ) {
+            if( !lhs.visible() ) {
+                return false;
+            }
+            if( rhs.gap() <= min_cell_gap ) {
+                return lhs.current_width < rhs.current_width;
+            } else {
+                return lhs.gap() < rhs.gap();
+            }
         };
 
         const auto &cell = step > 0
-            ? std::min_element( cells.begin(), cells.end(), cmp_min )
-            : std::max_element( cells.begin(), cells.end(), cmp_max );
+            ? std::min_element( cells.begin(), cells.end(), cmp_for_expansion )
+            : std::max_element( cells.begin(), cells.end(), cmp_for_shrinking );
 
         if( cell == cells.end() || !cell->visible() ) {
             break; // This is highly unlikely to happen, but just in case
@@ -299,6 +311,7 @@ void inventory_column::set_width( const size_t width )
         cell->current_width += step;
         width_gap += step;
     }
+    reserved_width = width;
 }
 
 void inventory_column::set_height( size_t height ) {
@@ -327,22 +340,26 @@ void inventory_column::expand_to_fit( const inventory_entry &entry )
 
         // Don't reveal the cell for headers and stubs
         if( cell.visible() || ( entry.is_item() && !preset.is_stub_cell( entry, i ) ) ) {
-            cell.current_width = std::max( cell.current_width, cell.real_width );
+            const size_t cell_gap = i > 0 ? normal_cell_gap : 0;
+            cell.current_width = std::max( cell.current_width, cell_gap + cell.real_width );
         }
     }
 
     if( !denial.empty() ) {
-        reserved_width = std::max( get_entry_cell_width( entry, 0 ) + min_cell_gap + utf8_width( denial, true ),
+        reserved_width = std::max( get_entry_cell_width( entry, 0 ) + min_denial_gap + utf8_width( denial, true ),
                                    reserved_width );
     }
 }
 
 void inventory_column::reset_width()
 {
-    for( auto &e : cells ) {
-        e.reset();
+    for( auto &elem : cells ) {
+        elem = cell_t();
     }
     reserved_width = 0;
+    for( auto &elem : entries ) {
+        expand_to_fit( elem );
+    }
 }
 
 size_t inventory_column::page_of( size_t index ) const {
@@ -501,10 +518,7 @@ void inventory_column::clear()
     prepare_paging();
 }
 
-size_t inventory_column::get_entry_indent( const inventory_entry &entry, const size_t cell_index ) const {
-    if( cell_index > 0 ) {
-        return min_cell_gap;
-    }
+size_t inventory_column::get_entry_indent( const inventory_entry &entry ) const {
     if( !entry.is_item() ) {
         return 0;
     }
@@ -558,7 +572,7 @@ void inventory_column::draw( WINDOW *win, size_t x, size_t y ) const
 
         const bool selected = active && is_selected( entry );
 
-        if( selected && cells.size() > 1 ) {
+        if( selected && visible_cells() > 1 ) {
             for( int hx = x1, hx_max = x + get_width(); hx < hx_max; ++hx ) {
                 mvwputch( win, yy, hx, h_white, ' ' );
             }
@@ -567,7 +581,7 @@ void inventory_column::draw( WINDOW *win, size_t x, size_t y ) const
         const std::string &denial = get_entry_denial( entry );
 
         if( !denial.empty() ) {
-            const size_t max_denial_width = std::max( int( get_width() - min_cell_gap - get_entry_cell_width( entry, 0 ) ), 0 );
+            const size_t max_denial_width = std::max( int( get_width() - ( min_denial_gap + get_entry_cell_width( entry, 0 ) ) ), 0 );
             const size_t denial_width = std::min( max_denial_width, size_t( utf8_width( denial, true ) ) );
 
             trim_and_print( win, yy, x + get_width() - denial_width, denial_width, c_red, "%s", denial.c_str() );
@@ -587,7 +601,8 @@ void inventory_column::draw( WINDOW *win, size_t x, size_t y ) const
             x2 += cells[cell_index].current_width;
 
             size_t text_width = preset.get_cell_width( entry, cell_index );
-            size_t available_width = x2 - x1;
+            size_t text_gap = cell_index > 0 ? std::max( cells[cell_index].gap(), min_cell_gap ) : 0;
+            size_t available_width = x2 - x1 - text_gap;
 
             if( text_width > available_width ) {
                 // See if we can steal some of the needed width from an adjacent cell
@@ -636,6 +651,13 @@ void inventory_column::draw( WINDOW *win, size_t x, size_t y ) const
             }
         }
     }
+}
+
+size_t inventory_column::visible_cells() const
+{
+    return std::count_if( cells.begin(), cells.end(), []( const cell_t &elem ) {
+        return elem.visible();
+    } );
 }
 
 selection_column::selection_column( const std::string &id, const std::string &name ) :
