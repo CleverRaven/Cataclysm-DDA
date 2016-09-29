@@ -877,7 +877,7 @@
         ],
         "part_descs": true,
         "speed_name": "Frostbite",
-		"max_intensity": 2,
+        "max_intensity": 2,
         "dur_add_perc": 0,
         "scaling_mods": {
             "speed_mod": [-5],
