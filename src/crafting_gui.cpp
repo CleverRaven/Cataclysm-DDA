@@ -205,7 +205,7 @@ const recipe *select_crafting_recipe( int &batch_size )
                     current = recipe_dict.search( filterstring );
                 }
 
-                current.erase( std::remove_if( current.begin(), current.end(), [&]( const recipe *e ) {
+                current.erase( std::remove_if( current.begin(), current.end(), [&]( const recipe * e ) {
                     return !g->u.knows_recipe( e );
                 } ), current.end() );
 
