@@ -5034,7 +5034,6 @@ void vehicle::gain_moves()
 void vehicle::refresh()
 {
     alternators.clear();
-    fuel.clear();
     engines.clear();
     reactors.clear();
     solar_panels.clear();
@@ -5066,9 +5065,6 @@ void vehicle::refresh()
         }
         if( vpi.has_flag(VPFLAG_ALTERNATOR) ) {
             alternators.push_back( p );
-        }
-        if( vpi.has_flag(VPFLAG_FUEL_TANK) ) {
-            fuel.push_back( p );
         }
         if( vpi.has_flag(VPFLAG_ENGINE) ) {
             engines.push_back( p );

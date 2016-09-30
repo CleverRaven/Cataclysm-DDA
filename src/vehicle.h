@@ -1097,7 +1097,6 @@ public:
     std::map<point, std::vector<int> > relative_parts;    // parts_at_relative(x,y) is used alot (to put it mildly)
     std::set<label> labels;            // stores labels
     std::vector<int> alternators;      // List of alternator indices
-    std::vector<int> fuel;             // List of fuel tank indices
     std::vector<int> engines;          // List of engine indices
     std::vector<int> reactors;         // List of reactor indices
     std::vector<int> solar_panels;     // List of solar panel indices
