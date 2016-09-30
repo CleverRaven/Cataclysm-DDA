@@ -19,6 +19,7 @@ data/json/npcs/missiondef.json id
 data/json/recipes/other/materials.json
 data/json/recipes/other/other.json
 data/json/vehicleparts/*
+data/json/npcs/missiondef.json id
 
 # Mods
 data/mods/blazemod/*.json

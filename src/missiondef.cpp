@@ -249,6 +249,31 @@ void mission_type::load( JsonObject &jo )
     mandatory( jo, was_loaded, "difficulty", difficulty );
     mandatory( jo, was_loaded, "value", value );
 
+    auto dialogue_arr = jo.get_array( "dialogue" );
+    while( dialogue_arr.has_more() ) {
+        auto pr = dialogue_arr.next_array();
+        dialogue[ pr.get_string( 0 ) ] = pr.get_string( 1 );
+    }
+
+    // @todo Unhack this, make it more structured
+    static const std::set<std::string> mandatory_dialogue = {{
+        "TALK_MISSION_DESCRIBE",
+        "TALK_MISSION_OFFER",
+        "TALK_MISSION_ACCEPTED",
+        "TALK_MISSION_REJECTED",
+        "TALK_MISSION_ADVICE",
+        "TALK_MISSION_INQUIRE",
+        "TALK_MISSION_SUCCESS",
+        "TALK_MISSION_SUCCESS_LIE",
+        "TALK_MISSION_FAILURE",
+    }};
+
+    for( const auto &d : mandatory_dialogue ) {
+        if( dialogue.find( d ) == dialogue.end() ) {
+            jo.throw_error( "Dialogue option " + d + " must be defined", "dialogue" );
+        }
+    }
+
     optional( jo, was_loaded, "urgent", urgent );
     optional( jo, was_loaded, "item", item_id );
     optional( jo, was_loaded, "count", item_count, 1 );
