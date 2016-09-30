@@ -6068,29 +6068,6 @@ bool vehicle_part::is_broken() const
     return hp() <= 0;
 }
 
-ammotype vehicle_part::ammo_type() const
-{
-    // @todo generic fuel tanks are not yet supported
-    if( is_tank() ) {
-        const itype *fuel = item::find_type( info().fuel_type );
-        return fuel->ammo ? fuel->ammo->type : ammotype( "NULL" );
-    }
-
-    if( is_battery() ) {
-        return base.ammo_type();
-    }
-
-    if( is_turret() ) {
-        return base.ammo_type();
-    }
-
-    if( base.typeId() == "minireactor" ) {
-        return base.ammo_type();
-    }
-
-    return ammotype( "NULL" );
-}
-
 itype_id vehicle_part::ammo_current() const
 {
     if( is_battery() ) {
