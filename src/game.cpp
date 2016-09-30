@@ -7495,51 +7495,6 @@ void game::use_wielded_item()
     u.use_wielded();
 }
 
-bool game::refill_vehicle_part(vehicle &veh, vehicle_part *part, bool test)
-{
-    if( !part->is_tank() ) {
-        return false;
-    }
-    const itype_id &ftype = part->ammo_current();
-    const long avail = u.charges_of( ftype );
-    if( avail <= 0 ) {
-        return false;
-    } else if (test) {
-        return true;
-    }
-
-    const long fuel_per_charge = fuel_charges_to_amount_factor( ftype );
-    long req = ceil( ( part->ammo_capacity() - part->ammo_remaining() ) / double( fuel_per_charge ) );
-    long qty = std::min( req, avail );
-    part->ammo_set( ftype, part->ammo_remaining() + ( qty * double( fuel_per_charge ) ) );
-
-    veh.invalidate_mass();
-    if (ftype == "battery") {
-        add_msg(_("You recharge %s's battery."), veh.name.c_str());
-        if ( part->ammo_remaining() == part->ammo_capacity() ) {
-            add_msg(m_good, _("The battery is fully charged."));
-        }
-    } else if (ftype == "gasoline" || ftype == "diesel") {
-        add_msg(_("You refill %s's fuel tank."), veh.name.c_str());
-        if ( part->ammo_remaining() == part->ammo_capacity() ) {
-            add_msg(m_good, _("The tank is full."));
-        }
-    } else if (ftype == "plut_cell") {
-        add_msg(_("You refill %s's reactor."), veh.name.c_str());
-        if ( part->ammo_remaining() == part->ammo_capacity() ) {
-            add_msg(m_good, _("The reactor is full."));
-        }
-    }
-
-    u.use_charges( ftype, qty );
-    return true;
-}
-
-bool game::pl_refill_vehicle(vehicle &veh, int part, bool test)
-{
-    return refill_vehicle_part(veh, &veh.parts[part], test);
-}
-
 void game::handbrake()
 {
     vehicle *veh = m.veh_at(u.pos());

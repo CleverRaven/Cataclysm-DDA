@@ -45,6 +45,8 @@ class veh_interact
     private:
         veh_interact( vehicle &veh, int x, int y );
 
+        item_location target;
+
         int ddx = 0;
         int ddy = 0;
         const vpart_info *sel_vpart_info = nullptr;

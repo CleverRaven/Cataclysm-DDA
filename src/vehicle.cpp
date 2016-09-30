@@ -6140,28 +6140,23 @@ int vehicle_part::ammo_set( const itype_id &ammo, long qty )
         return base.ammo_set( ammo, qty ).ammo_remaining();
     }
 
-    if( info().fuel_type != ammo ) {
-        return -1;
-    }
-
-    if( qty == 0 ) {
-        ammo_unset();
-        return 0;
-    }
-
     if( qty < 0 ) {
         qty = ammo_capacity();
     }
 
-    if( base.is_magazine() || base.typeId() == "minireactor" ) {
+    if( is_battery() && ammo == "battery" ) {
         base.ammo_set( ammo, qty );
         return base.ammo_remaining();
     }
 
-    if( base.is_watertight_container() ) {
+    if( is_tank() && item::find_type( ammo )->phase == LIQUID ) {
         base.contents.clear();
         base.emplace_back( ammo, calendar::turn, std::min( qty, ammo_capacity() ) );
         return std::min( qty, ammo_capacity() );
+    }
+
+    if( base.typeId() == "minireactor" ) {
+        // @todo fix implementation
     }
 
     return -1;
@@ -6202,26 +6197,20 @@ bool vehicle_part::can_reload( const itype_id &obj ) const
         return false;
     }
 
-    // If we are checking a specific item does it have an ammotype?
-    ammotype ammo = ammotype::NULL_ID;
-    if( !obj.empty() ) {
-         auto atype = item::find_type( obj );
-         if( atype->ammo ) {
-            ammo = atype->ammo->type;
-         }
+    if( base.typeId() == "minireactor" ) {
+        // @todo fix implementation
     }
 
-    // fuel tanks and reactors can be reloaded whereas batteries cannot
-    if( is_tank() || base.typeId() == "minireactor" ) {
-
-        if( obj.empty() || ammo_current() == obj ||
-            ( ammo_current() == "null" && ammo_type() == ammo ) ) {
-            return ammo_remaining() < ammo_capacity();
+    if( is_tank() ) {
+        if( !obj.empty() ) {
+            if( item::find_type( obj )->phase != LIQUID ) {
+                return false; // forbid filling tanks with non-liquids
+            }
+            if( ammo_current() != "null" && ammo_current() != obj ) {
+                return false; // prevent mixing of different liquids
+            }
         }
-
-    } else if( is_turret() ) {
-        // @todo not yet implemented
-        return false;
+        return ammo_remaining() < ammo_capacity();
     }
 
     return false;

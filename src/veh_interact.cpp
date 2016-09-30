@@ -93,6 +93,7 @@ player_activity veh_interact::run( vehicle &veh, int x, int y )
     res.values.push_back( -vehint.ddy );   // values[5]
     res.values.push_back( veh.index_of_part( pt ) ); // values[6]
     res.str_values.push_back( vp->id.str() );
+    res.targets.emplace_back( std::move( vehint.target ) );
 
     return res;
 }
@@ -364,13 +365,20 @@ task_reason veh_interact::cant_do (char mode)
         break;
 
     case 'f': {
-        auto opts = g->u.items_with( []( const item &e ) { return e.count_by_charges(); } );
-
         // for each part on selected tile try to reload using found items
         return std::any_of( parts_here.begin(), parts_here.end(), [&]( int idx ) {
-            return std::any_of( opts.begin(), opts.end(), [&]( const item *e ) {
-                return veh->parts[ idx ].can_reload( e->typeId() );
-            } );
+
+            auto func = [&]( const item &e ) {
+                if( e.is_watertight_container() && !e.contents.empty() ) {
+                    return veh->parts[idx].can_reload( e.contents.front().typeId() );
+                }
+                return false;
+            };
+
+            return g->u.has_item_with( func ) ||
+                   map_selector( g->u.pos(), 1 ).has_item_with( func ) ||
+                   vehicle_selector( g->u.pos(), 1 ).has_item_with( func );
+
         } ) ? CAN_DO : CANT_REFILL;
     }
 
@@ -966,47 +974,29 @@ void veh_interact::do_refill()
         break; // no reason, all is well
     }
 
-    std::vector<vehicle_part *> ptanks;
-    auto opts = g->u.items_with( []( const item &e ) { return e.is_ammo(); } );
-    for( auto idx : parts_here ) {
-        if( std::any_of( opts.begin(), opts.end(), [&]( const item *e ) {
-            return veh->parts[ idx ].can_reload( e->typeId() );
-        } ) ) {
-            ptanks.push_back( &veh->parts[ idx ] );
-        }
-    };
-
-    if (ptanks.empty()) {
+    auto iter = std::find_if( parts_here.begin(), parts_here.end(), [&]( const int idx ) {
+        return veh->parts[idx].is_tank();
+    } );
+    if( iter == parts_here.end() ) {
         debugmsg("veh_interact::do_refill: Refillable parts list is empty.\n"
                  "veh_interact::cant_do() should control this before.");
-        return;
-    }
-    // Now at least one of "fuel tank" is can be refilled.
-    // If we have more that one tank we need to create choosing menu
-    if (ptanks.size() > 1) {
-        unsigned int pt_choise;
-        unsigned int entry_num;
-        uimenu fuel_choose;
-        fuel_choose.text = _("What to refill:");
-        for( entry_num = 0; entry_num < ptanks.size(); entry_num++) {
-            const vpart_info &vpinfo = ptanks[entry_num]->info();
-            fuel_choose.addentry(entry_num, true, -1, "%s -> %s",
-                                 item::nname(vpinfo.fuel_type).c_str(),
-                                 ptanks[ entry_num ]->name().c_str());
-        }
-        fuel_choose.addentry(entry_num, true, 'q', _("Cancel"));
-        fuel_choose.query();
-        pt_choise = fuel_choose.ret;
-        if(pt_choise == entry_num) { // Select canceled
-            return;
-        }
-        sel_vehicle_part = ptanks[pt_choise];
-    } else {
-        sel_vehicle_part = ptanks.front();
     }
 
-    sel_vpart_info = &sel_vehicle_part->info();
-    sel_cmd = 'f';
+    const auto &pt = veh->parts[*iter];
+
+    auto func = [&pt]( const item &e ){
+        if( e.is_watertight_container() && !e.contents.empty() ) {
+            return pt.can_reload( e.contents.front().typeId() );
+        }
+        return false;
+    };
+
+    target = g->inv_map_splice( func, string_format( _( "Refill %s" ), pt.name().c_str() ), 1 );
+
+    sel_vehicle_part = &pt;
+    sel_vpart_info = &pt.info();
+
+    sel_cmd = target ? 'f' : ' ';
 }
 
 bool veh_interact::can_remove_part( int idx ) {
@@ -2216,12 +2206,42 @@ void veh_interact::complete_vehicle()
         break;
     }
 
-    case 'f':
-        if (!g->pl_refill_vehicle(*veh, vehicle_part, true)) {
-            debugmsg ("complete_vehicle refill broken");
+    case 'f': {
+        if( g->u.activity.targets.size() < 1 || !g->u.activity.targets.front() ) {
+            debugmsg( "Activity ACT_VEHICLE: missing refill source" );
+            break;
         }
-        g->pl_refill_vehicle(*veh, vehicle_part);
+
+        auto &src = g->u.activity.targets.front();
+
+        auto &pt = veh->parts[ vehicle_part ];
+        if( pt.is_tank() && src->is_watertight_container() && !src->contents.empty() ) {
+
+            int qty = std::min( src->contents.front().charges, pt.ammo_capacity() - pt.ammo_remaining() );
+            pt.ammo_set( src->contents.front().typeId(), pt.ammo_remaining() + qty );
+            src->contents.front().charges -= qty;
+
+            if( src->contents.front().charges == 0 ) {
+                src->contents.erase( src->contents.begin() );
+            }
+
+            veh->invalidate_mass();
+
+            add_msg( m_good, _( "You refill the %1$s's %2$s." ), veh->name.c_str(), pt.name().c_str() );
+            if ( pt.ammo_remaining() == pt.ammo_capacity() ) {
+                add_msg( m_good, _( "The tank is full." ) );
+            }
+
+        } else if( pt.base.typeId() == "minireactor" ) {
+            // @todo fix implementation
+
+        } else {
+            debugmsg( "complete_vehicle refill broken" );
+        }
+
         break;
+    }
+
     case 'o': {
         auto inv = g->u.crafting_inventory();
 
