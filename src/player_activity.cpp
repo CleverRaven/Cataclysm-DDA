@@ -43,9 +43,12 @@ player_activity::player_activity( const player_activity &rhs )
       coords( rhs.coords ), placement( rhs.placement ),
       warned_of_proximity( rhs.warned_of_proximity ), auto_resume( rhs.auto_resume )
 {
-    for( const auto &e : rhs.targets ) {
-        targets.push_back( e.clone() );
-    }
+    targets.clear();
+    targets.reserve( rhs.targets.size() );
+    std::transform( rhs.targets.begin(), rhs.targets.end(), std::back_inserter( targets ),
+    []( const item_location & e ) {
+        return e.clone();
+    } );
 }
 
 player_activity &player_activity::operator=( const player_activity &rhs )
@@ -64,9 +67,12 @@ player_activity &player_activity::operator=( const player_activity &rhs )
     warned_of_proximity = rhs.warned_of_proximity;
     auto_resume = rhs.auto_resume;
 
-    for( const auto &e : rhs.targets ) {
-        targets.push_back( e.clone() );
-    }
+    targets.clear();
+    targets.reserve( rhs.targets.size() );
+    std::transform( rhs.targets.begin(), rhs.targets.end(), std::back_inserter( targets ),
+    []( const item_location & e ) {
+        return e.clone();
+    } );
 
     return *this;
 }
