@@ -182,17 +182,10 @@
         "extend": { "flags": [ "FOLDABLE" ] },
         "folded_volume": 2
     },{
-        "id": "gas_tank_little",
-        "copy-from": "gas_tank_little",
+        "id": "tank_little",
+        "copy-from": "tank_little",
         "type": "vehicle_part",
-        "name" : "gasoline tank (2L)",
-        "extend": { "flags": [ "FOLDABLE" ] },
-        "folded_volume": 5
-    },{
-        "id": "diesel_tank_little",
-        "copy-from": "diesel_tank_little",
-        "type": "vehicle_part",
-        "name" : "diesel tank (2L)",
+        "name" : "vehicle tank (2L)",
         "extend": { "flags": [ "FOLDABLE" ] },
         "folded_volume": 5
     },{

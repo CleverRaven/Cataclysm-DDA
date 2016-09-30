@@ -1547,15 +1547,46 @@ void vehicle_part::deserialize(JsonIn &jsin)
     vpart_str_id pid;
     data.read("id", pid);
 
-    // swap deprecated charger gun for laser rifle
-    if( pid.str() == "laser_gun" ) {
-        pid = vpart_str_id( "laser_rifle" );
-    }
+    std::map<std::string, std::string> deprecated = {
+        { "laser_gun", "laser_rifle" },
+        { "battery_truck", "battery_car" },
 
-    if( pid.str() == "battery_truck" ) {
-        pid = vpart_str_id( "battery_car" );
-    }
+        { "diesel_tank_little", "tank_little" },
+        { "diesel_tank_small", "tank_small" },
+        { "diesel_tank_medium", "tank_medium" },
+        { "diesel_tank", "tank" },
+        { "external_diesel_tank_small", "external_tank_small" },
+        { "external_diesel_tank", "external_tank" },
 
+        { "gas_tank_little", "tank_little" },
+        { "gas_tank_small", "tank_small" },
+        { "gas_tank_medium", "tank_medium" },
+        { "gas_tank", "tank" },
+        { "external_gas_tank_small", "external_tank_small" },
+        { "external_gas_tank", "external_tank" },
+
+        { "water_dirty_tank_little", "tank_little" },
+        { "water_dirty_tank_small", "tank_small" },
+        { "water_dirty_tank_medium", "tank_medium" },
+        { "water_dirty_tank", "tank" },
+        { "external_water_dirty_tank_small", "external_tank_small" },
+        { "external_water_dirty_tank", "external_tank" },
+        { "dirty_water_tank_barrel", "tank_barrel" },
+
+        { "water_tank_little", "tank_little" },
+        { "water_tank_small", "tank_small" },
+        { "water_tank_medium", "tank_medium" },
+        { "water_tank", "tank" },
+        { "external_water_tank_small", "external_tank_small" },
+        { "external_water_tank", "external_tank" },
+        { "water_tank_barrel", "tank_barrel" },
+
+        { "napalm_tank", "tank" }
+    };
+
+    if( deprecated.count( pid.str() ) ) {
+        pid = vpart_str_id( deprecated[pid.str()] );
+    }
     // if we don't know what type of part it is, it'll cause problems later.
     if( !pid.is_valid() ) {
         if( pid.str() == "wheel_underbody" ) {

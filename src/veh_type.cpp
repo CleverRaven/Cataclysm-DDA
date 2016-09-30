@@ -609,6 +609,7 @@ void vehicle_prototype::load(JsonObject &jo)
         assign( part, "ammo", pt.with_ammo, true, 0, 100 );
         assign( part, "ammo_types", pt.ammo_types, true );
         assign( part, "ammo_qty", pt.ammo_qty, true, 0 );
+        assign( part, "fuel", pt.fuel, true );
 
         vproto.parts.push_back( pt );
     }
@@ -711,6 +712,16 @@ void vehicle_prototype::finalize()
                 }
                 if( pt.ammo_types.empty() ) {
                     pt.ammo_types.insert( default_ammo( base->gun->ammo ) );
+                }
+            }
+
+            if( base->container ) {
+                if( !item::type_is_defined( pt.fuel ) ) {
+                    debugmsg( "init_vehicles: tank %s specified invalid fuel in %s", pt.part.c_str(), id.c_str() );
+                }
+            } else {
+                if( pt.fuel != "null" ) {
+                    debugmsg( "init_vehicles: non-tank %s with fuel in %s", pt.part.c_str(), id.c_str() );
                 }
             }
 

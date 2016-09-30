@@ -241,6 +241,7 @@ struct vehicle_prototype {
         int with_ammo = 0;
         std::set<itype_id> ammo_types;
         std::pair<int, int> ammo_qty = { -1, -1 };
+        itype_id fuel = "null";
     };
 
     std::string name;

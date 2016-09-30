@@ -471,8 +471,15 @@ void vehicle::init_state(int init_veh_fuel, int init_veh_status)
             parts[ p ].enabled = true;
         }
 
-        if( pt.is_tank() || pt.is_battery() ) {
-            pt.ammo_set( pt.ammo_current(), pt.ammo_capacity() * veh_fuel_mult / 100 );
+        if( pt.is_battery() ) {
+            pt.ammo_set( "battery", pt.ammo_capacity() * veh_fuel_mult / 100 );
+        }
+
+        if( pt.is_tank() && type->parts[p].fuel != "null" ) {
+            int qty = pt.ammo_capacity() * veh_fuel_mult / 100;
+            qty /= to_milliliter( units::legacy_volume_factor );
+            qty *= std::max( item::find_type( type->parts[p].fuel )->stack_size, 1 );
+            pt.ammo_set( type->parts[ p ].fuel, qty );
         }
 
         if (part_flag(p, "OPENABLE")) {    // doors are closed
