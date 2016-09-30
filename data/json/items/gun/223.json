@@ -280,7 +280,7 @@
     "copy-from": "rifle_semi",
     "type": "GUN",
     "name": "Ruger Mini-14",
-    "description": "A small, lightweight semi-auto carbine designed for military use.  Its superb accuracy and low recoil makes it more suitable than full-auto rifles for some situations.",
+    "description": "A small, lightweight semi-auto carbine designed for civilian and police use.  Its superb accuracy and low recoil makes it more suitable than full-auto rifles for some situations.",
     "weight": 2800,
     "volume": 8,
     "price": 92100,
