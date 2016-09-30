@@ -144,9 +144,9 @@
     "description": "Cooked entrails, preserved in brine.  Packed with essential vitamins, tastes better than it smells.",
     "parasites": 0,
     "container" : "jar_glass",
+    "spoils_in": 36,
     "quench" : -1,
-    "fun": 0,
-    "stack_size" : 2
+    "fun": 0
   },
   {
     "id": "offal_canned",
@@ -157,8 +157,7 @@
     "description": "Freshly cooked entrails.  Unappetizing, but filled with essential vitamins.",
     "parasites": 0,
     "container" : "can_food",
-    "fun": -5,
-    "stack_size" : 2
+    "fun": -5
   },
   {
     "id": "stomach",
