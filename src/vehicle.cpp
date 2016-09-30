@@ -3726,7 +3726,7 @@ int vehicle::charge_battery (int amount, bool include_other_vehicles)
         if( amount <= 0 ) {
             break;
         }
-        if( !p.is_broken() && p.ammo_current() == fuel_type_battery ) {
+        if( !p.is_broken() && p.is_battery() ) {
             int qty = std::min( long( amount ), p.ammo_capacity() - p.ammo_remaining() );
             p.ammo_set( fuel_type_battery, p.ammo_remaining() + qty );
             amount -= qty;
@@ -3751,7 +3751,7 @@ int vehicle::discharge_battery (int amount, bool recurse)
         if( amount <= 0 ) {
             break;
         }
-        if( !p.is_broken() && p.ammo_current() == fuel_type_battery ) {
+        if( !p.is_broken() && p.is_battery() ) {
             amount -= p.ammo_consume( amount, global_part_pos3( p ) );
         }
     }
