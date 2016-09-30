@@ -934,22 +934,20 @@ void veh_interact::do_refill()
 
     // get all tanks and determine if possible to refill with currently available items
     std::vector<std::pair<vehicle_part *, bool>> tanks;
-    for( auto &e : veh->parts ) {
-        if( e.is_tank() ) {
-            tanks.emplace_back( &e, std::any_of( parts_here.begin(), parts_here.end(), [&]( int idx ) {
-                auto func = [&]( const item &e ) {
-                    // cannot refill using active liquids (those that rot) due to #18570
-                    if( e.is_watertight_container() && !e.contents.empty() && !e.contents.front().active ) {
-                        return veh->parts[idx].can_reload( e.contents.front().typeId() );
-                    }
-                    return false;
-                };
+    for( auto &pt : veh->parts ) {
+        if( pt.is_tank() && !pt.is_broken() ) {
 
-                // check inventory and adjacent map/vehicle tiles
-                return g->u.has_item_with( func ) ||
-                       map_selector( g->u.pos(), 1 ).has_item_with( func ) ||
-                       vehicle_selector( g->u.pos(), 1 ).has_item_with( func );
-            } ) );
+            auto func = [&]( const item &e ) {
+                // cannot refill using active liquids (those that rot) due to #18570
+                if( e.is_watertight_container() && !e.contents.empty() && !e.contents.front().active ) {
+                    return pt.can_reload( e.contents.front().typeId() );
+                }
+                return false;
+            };
+
+            tanks.emplace_back( &pt, g->u.has_item_with( func ) ||
+                                     map_selector( g->u.pos(), 1 ).has_item_with( func ) ||
+                                     vehicle_selector( g->u.pos(), 1 ).has_item_with( func ) );
         }
     }
 
@@ -957,15 +955,32 @@ void veh_interact::do_refill()
 
     while( true ) {
         werase( w_list );
-        int header = 2;
-        int entries = page_size - header;
-        int page = pos / entries;
+        trim_and_print( w_list, 0, 1, getmaxx( w_list ) - 2, c_ltgray, _( "Vehicle tanks" ) );
+        right_print   ( w_list, 0, 1, c_ltgray, _( "Contents    Capacity" ) );
+
+        const int header = 2;
+        const int entries = page_size - header;
+        const int page = pos / entries;
 
         for( int i = page * entries; i < (page + 1) * entries && i < int( tanks.size() ); i++ ) {
+            const auto &pt = *tanks[i].first;
+
             int y = i - page * entries + header;
             nc_color col = tanks[i].second ? c_white : c_dkgray;
-            trim_and_print( w_list, y, 1, getmaxx( w_list ) - 1, pos == i ? hilite( col ) : col,
-                            tanks[i].first->name().c_str() );
+            trim_and_print( w_list, y, 1, getmaxx( w_list ) - 1,
+                            pos == i ? hilite( col ) : col, pt.name().c_str() );
+
+            if( pt.ammo_current() != "null" ) {
+                right_print( w_list, y, 1, col, "<color_%s>%20s</color>  %3.1f/%3.1fL",
+                             string_from_color( item::find_type( pt.ammo_current() )->color ).c_str(),
+                             item::nname( pt.ammo_current() ).c_str(),
+                             round_up( to_liter( units::from_milliliter( pt.ammo_remaining() ) ), 1 ),
+                             round_up( to_liter( units::from_milliliter( pt.ammo_capacity() ) ), 1 ) );
+            } else {
+                right_print( w_list, y, 1, col, "                            %3.1fL",
+                             round_up( to_liter( units::from_milliliter( pt.ammo_remaining() ) ), 1 ),
+                             round_up( to_liter( units::from_milliliter( pt.ammo_capacity() ) ), 1 ) );
+            }
         }
         wrefresh( w_list );
 
