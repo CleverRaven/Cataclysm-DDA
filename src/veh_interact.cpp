@@ -932,66 +932,127 @@ void veh_interact::do_refill()
     display_mode( 'f' );
     werase( w_msg );
 
+    struct part_option {
+        std::string key;
+        vehicle_part *part;
+        bool enabled;
+
+        /** Writes any extra details for this entry */
+        std::function<void( const vehicle_part &pt, WINDOW *w, int y )> details;
+
+        /** Checks if part can be reloaded using an item */
+        std::function<bool( const item &obj )> validate;
+    };
+    std::vector<part_option> opts;
+
     // get all tanks and determine if possible to refill with currently available items
-    std::vector<std::pair<vehicle_part *, bool>> tanks;
     for( auto &pt : veh->parts ) {
         if( pt.is_tank() && !pt.is_broken() ) {
 
-            auto func = [&]( const item &e ) {
+            auto details = []( const vehicle_part &pt, WINDOW *w, int y ) {
+                // if tank contains something then display the contents in milliliters
+                if( pt.ammo_current() != "null" ) {
+                    auto stack = units::legacy_volume_factor / item::find_type( pt.ammo_current() )->stack_size;
+                    right_print( w, y, 1, item::find_type( pt.ammo_current() )->color,
+                                 "%s  %5.1fL", item::nname( pt.ammo_current() ).c_str(),
+                                 round_up( to_liter( pt.ammo_remaining() * stack ), 1 ) );
+                }
+            };
+
+            auto validate = [&pt]( const item &obj ) {
                 // cannot refill using active liquids (those that rot) due to #18570
-                if( e.is_watertight_container() && !e.contents.empty() && !e.contents.front().active ) {
-                    return pt.can_reload( e.contents.front().typeId() );
+                if( obj.is_watertight_container() && !obj.contents.empty() && !obj.contents.front().active ) {
+                    return pt.can_reload( obj.contents.front().typeId() );
                 }
                 return false;
             };
 
-            tanks.emplace_back( &pt, g->u.has_item_with( func ) ||
-                                     map_selector( g->u.pos(), 1 ).has_item_with( func ) ||
-                                     vehicle_selector( g->u.pos(), 1 ).has_item_with( func ) );
+            opts.push_back( part_option { "TANK", &pt, true, details, validate } );
+        }
+    }
+
+    for( auto &pt : veh->parts ) {
+        if( pt.is_battery() && !pt.is_broken() ) {
+
+            auto details = []( const vehicle_part &pt, WINDOW *w, int y ) {
+                // always display total battery capacity and percentage charge
+                int pct = ( double( pt.ammo_remaining() ) / pt.ammo_capacity() ) * 100;
+                right_print( w, y, 1, c_yellow, "%i    %3i%%", pt.ammo_capacity(), pct );
+            };
+
+           opts.push_back( part_option { "BATTERY", &pt, false, details } );
+        }
+    }
+
+    for( auto &pt : veh->parts ) {
+        if( pt.is_reactor() && !pt.is_broken() ) {
+
+            auto details = []( const vehicle_part &pt, WINDOW *w, int y ) {
+                // if reactor is fuelled then display contents in scaled plutonium units
+                if( pt.ammo_remaining() ) {
+                    right_print( w, y, 1, item::find_type( pt.ammo_current() )->color,
+                                 "%s  %4i", item::nname( pt.ammo_current() ).c_str(), pt.ammo_remaining() );
+                }
+            };
+
+            auto validate = [&pt]( const item &obj ) {
+                return pt.can_reload( obj.typeId() );
+            };
+
+            opts.push_back( part_option { "REACTOR", &pt, true, details, validate } );
         }
     }
 
     int pos = 0;
 
+    std::map<std::string, std::function<void(WINDOW *, int)>> headers;
+
+    headers["TANK"] = [](WINDOW *w, int y) {
+        trim_and_print( w, y, 1, getmaxx( w ) - 2, c_ltgray, _( "Tanks" ) );
+        right_print   ( w, y, 1, c_ltgray, _( "Contents     Qty" ) );
+    };
+
+    headers["BATTERY"] = [](WINDOW *w, int y) {
+        trim_and_print( w, y, 1, getmaxx( w ) - 2, c_ltgray, _( "Batteries" ) );
+        right_print   ( w, y, 1, c_ltgray, _( "Capacity  Status" ) );
+    };
+
+    headers["REACTOR"] = [](WINDOW *w, int y) {
+        trim_and_print( w, y, 1, getmaxx( w ) - 2, c_ltgray, _( "Reactors" ) );
+        right_print   ( w, y, 1, c_ltgray, _( "Contents     Qty" ) );
+    };
+
     while( true ) {
         werase( w_list );
-        trim_and_print( w_list, 0, 1, getmaxx( w_list ) - 2, c_ltgray, _( "Tanks" ) );
-        right_print   ( w_list, 0, 1, c_ltgray, _( "Contents     Qty" ) );
+        std::string last;
+        int y = 0;
+        for( int idx = 0; idx != int( opts.size() ); ++idx ) {
+            const auto &pt = *opts[idx].part;
 
-        const int header = 2;
-        const int entries = page_size - header;
-        const int page = pos / entries;
-
-        for( int i = page * entries; i < (page + 1) * entries && i < int( tanks.size() ); i++ ) {
-            const auto &pt = *tanks[i].first;
-
-            int y = i - page * entries + header;
-            nc_color col = tanks[i].second ? c_white : c_dkgray;
-            trim_and_print( w_list, y, 1, getmaxx( w_list ) - 1,
-                            pos == i ? hilite( col ) : col, pt.name().c_str() );
-
-            if( pt.ammo_current() != "null" ) {
-                auto stack = units::legacy_volume_factor / item::find_type( pt.ammo_current() )->stack_size;
-                right_print( w_list, y, 1, item::find_type( pt.ammo_current() )->color,
-                             "%s  %5.1fL", item::nname( pt.ammo_current() ).c_str(),
-                             round_up( to_liter( pt.ammo_remaining() * stack ), 1 ) );
+            // if this is a new section print a header row
+            if( last != opts[idx].key ) {
+                y += last.empty() ? 0 : 1;
+                headers[opts[idx].key]( w_list, y );
+                y += 2;
+                last = opts[idx].key;
             }
+
+            // print part name
+            nc_color col = opts[idx].enabled ? c_white : c_dkgray;
+            trim_and_print( w_list, y, 1, getmaxx( w_list ) - 1,
+                            idx == pos ? hilite( col ) : col, pt.name().c_str() );
+
+            // print extra columns (if any)
+            opts[idx].details( pt, w_list, y );
+            y++;
         }
         wrefresh( w_list );
 
         const std::string action = main_context.handle_input();
-        if( action == "CONFIRM" && tanks[pos].second ) {
-            const auto &pt = *tanks[pos].first;
+        if( action == "CONFIRM" && opts[pos].enabled ) {
+            const auto &pt = *opts[pos].part;
 
-            auto func = [&]( const item &e ) {
-                // cannot refill using active liquids (those that rot) due to #18570
-                if( e.is_watertight_container() && !e.contents.empty() && !e.contents.front().active ) {
-                    return pt.can_reload( e.contents.front().typeId() );
-                }
-                return false;
-            };
-
-            target = g->inv_map_splice( func, string_format( _( "Refill %s" ), pt.name().c_str() ), 1 );
+            target = g->inv_map_splice( opts[pos].validate, string_format( _( "Refill %s" ), pt.name().c_str() ), 1 );
             if( !target ) {
                 break;
             }
@@ -1007,7 +1068,7 @@ void veh_interact::do_refill()
             break;
 
         } else {
-            move_in_list( pos, action, tanks.size() );
+            move_in_list( pos, action, opts.size() );
         }
     }
 }
@@ -2238,20 +2299,21 @@ void veh_interact::complete_vehicle()
                 src->contents.erase( src->contents.begin() );
             }
 
-            veh->invalidate_mass();
-
-            add_msg( m_good, _( "You refill the %1$s's %2$s." ), veh->name.c_str(), pt.name().c_str() );
-            if ( pt.ammo_remaining() == pt.ammo_capacity() ) {
-                add_msg( m_good, _( "The tank is full." ) );
-            }
-
-        } else if( pt.base.typeId() == "minireactor" ) {
-            // @todo fix implementation
+        } else if( pt.is_reactor() ) {
+            auto qty = src->charges;
+            pt.base.reload( g->u, std::move( src ), qty );
 
         } else {
             debugmsg( "complete_vehicle refill broken" );
+            break;
         }
 
+        add_msg( m_good, _( "You refill the %1$s's %2$s." ), veh->name.c_str(), pt.name().c_str() );
+        if ( pt.ammo_remaining() == pt.ammo_capacity() ) {
+            add_msg( m_good, _( "The %s is full." ), pt.name().c_str() );
+        }
+
+        veh->invalidate_mass();
         break;
     }
 
