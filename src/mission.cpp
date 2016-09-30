@@ -433,8 +433,24 @@ void mission::load_info(std::istream &data)
     item_count = int(item_num);
 }
 
-std::string mission::dialogue_for_topic( const std::string &topic ) const
+std::string mission::dialogue_for_topic( const std::string &in_topic ) const
 {
+    // The internal keys are pretty ugly, it's better to translate them here than globally
+    static const std::map<std::string, std::string> topic_translation = {{
+        { "TALK_MISSION_DESCRIBE", "describe" },
+        { "TALK_MISSION_OFFER", "offer" },
+        { "TALK_MISSION_ACCEPTED", "accepted" },
+        { "TALK_MISSION_REJECTED", "rejected" },
+        { "TALK_MISSION_ADVICE", "advice" },
+        { "TALK_MISSION_INQUIRE", "inquire" },
+        { "TALK_MISSION_SUCCESS", "success" },
+        { "TALK_MISSION_SUCCESS_LIE", "success_lie" },
+        { "TALK_MISSION_FAILURE", "failure" }
+    }};
+
+    const auto &replacement = topic_translation.find( in_topic );
+    const std::string &topic = replacement != topic_translation.end() ? replacement->second : in_topic;
+
     const auto &response = type->dialogue.find( topic );
     if( response != type->dialogue.end() ) {
         return response->second;

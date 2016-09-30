@@ -3,6 +3,7 @@
 #include "rng.h"
 #include "generic_factory.h"
 #include "calendar.h"
+#include "item.h"
 
 #include <algorithm>
 
@@ -249,30 +250,17 @@ void mission_type::load( JsonObject &jo )
     mandatory( jo, was_loaded, "difficulty", difficulty );
     mandatory( jo, was_loaded, "value", value );
 
-    auto dialogue_arr = jo.get_array( "dialogue" );
-    while( dialogue_arr.has_more() ) {
-        auto pr = dialogue_arr.next_array();
-        dialogue[ pr.get_string( 0 ) ] = pr.get_string( 1 );
-    }
-
-    // @todo Unhack this, make it more structured
-    static const std::set<std::string> mandatory_dialogue = {{
-        "TALK_MISSION_DESCRIBE",
-        "TALK_MISSION_OFFER",
-        "TALK_MISSION_ACCEPTED",
-        "TALK_MISSION_REJECTED",
-        "TALK_MISSION_ADVICE",
-        "TALK_MISSION_INQUIRE",
-        "TALK_MISSION_SUCCESS",
-        "TALK_MISSION_SUCCESS_LIE",
-        "TALK_MISSION_FAILURE",
-    }};
-
-    for( const auto &d : mandatory_dialogue ) {
-        if( dialogue.find( d ) == dialogue.end() ) {
-            jo.throw_error( "Dialogue option " + d + " must be defined" );
-        }
-    }
+    auto djo = jo.get_object( "dialogue" );
+    // @todo There should be a cleaner way to do it
+    mandatory( djo, was_loaded, "describe", dialogue[ "describe" ] );
+    mandatory( djo, was_loaded, "offer", dialogue[ "offer" ] );
+    mandatory( djo, was_loaded, "accepted", dialogue[ "accepted" ] );
+    mandatory( djo, was_loaded, "rejected", dialogue[ "rejected" ] );
+    mandatory( djo, was_loaded, "advice", dialogue[ "advice" ] );
+    mandatory( djo, was_loaded, "inquire", dialogue[ "inquire" ] );
+    mandatory( djo, was_loaded, "success", dialogue[ "success" ] );
+    mandatory( djo, was_loaded, "success_lie", dialogue[ "success_lie" ] );
+    mandatory( djo, was_loaded, "failure", dialogue[ "failure" ] );
 
     optional( jo, was_loaded, "urgent", urgent );
     optional( jo, was_loaded, "item", item_id );
@@ -306,6 +294,15 @@ void mission_type::load( JsonObject &jo )
 
     if( jo.has_member( "destination" ) ) {
         target_id = oter_id( jo.get_string( "destination" ) );
+    }
+}
+
+void mission_type::check_consistency()
+{
+    for( const auto &m : get_all() ) {
+        if( !m.item_id.empty() && !item::type_is_defined( m.item_id ) ) {
+            debugmsg( "Mission %s has undefined item id %s", m.id.c_str(), m.item_id.c_str() );
+        }
     }
 }
 

@@ -406,4 +406,5 @@ void DynamicDataLoader::check_consistency()
     trap::check_consistency();
     check_bionics();
     npc_class::check_consistency();
+    mission_type::check_consistency();
 }

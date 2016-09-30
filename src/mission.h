@@ -203,14 +203,11 @@ struct mission_type {
     static const std::vector<mission_type> &get_all();
 
     static void reset();
-    static void load_mission_type( JsonObject & );
+    static void load_mission_type( JsonObject & );    
+
+    static void check_consistency();
 
     void load( JsonObject & );
-private:
-    /**
-     * All the known mission templates.
-     */
-    static std::vector<mission_type> types;
 };
 
 class mission : public JsonSerializer, public JsonDeserializer
