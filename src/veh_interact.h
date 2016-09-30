@@ -116,6 +116,14 @@ class veh_interact
         void display_details( const vpart_info *part );
         size_t display_esc( WINDOW *w );
 
+        /**
+          * Display overview of parts
+          * @param enable used to determine if a part can be selected
+          * @param action callback run when a part is selected
+          */
+        void overview( std::function<bool( const vehicle_part &pt )> enable = {},
+                       std::function<void( const vehicle_part &pt )> action = {} );
+
         void countDurability();
 
         std::string totalDurabilityText;
