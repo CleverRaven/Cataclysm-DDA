@@ -2627,38 +2627,25 @@ int vehicle::print_part_desc(WINDOW *win, int y1, const int max_y, int width, in
 }
 
 /**
- * Return whether a fuel_type should be printed
- * @param fuel_type ID of the fuel to be checked
- * @param fullsize true if it's expected to print multiple rows
- * @return true if the fuel will/should display
- */
-bool vehicle::should_print_fuel_indicator (itype_id fuel_type, bool fullsize) const
-{
-    return fuel_capacity( fuel_type ) > 0 && ( basic_consumption( fuel_type ) > 0 || fullsize );
-}
-
-/**
  * Returns an array of fuel types that can be printed
- * @param fullsize true if it's expected to print multiple rows
  * @return An array of printable fuel type ids
  */
-std::vector< itype_id > vehicle::get_printable_fuel_types (bool fullsize) const
+std::vector<itype_id> vehicle::get_printable_fuel_types() const
 {
-    std::vector< itype_id > fuels;
-    for( auto &ft : get_fuel_types() ) {
-        if(should_print_fuel_indicator(ft.id, fullsize)) {
-            fuels.push_back(ft.id);
+    std::set<itype_id> opts;
+    for( const auto &pt : parts ) {
+        if( pt.is_tank() && pt.ammo_current() != "null" ) {
+            opts.emplace( pt.ammo_current() );
         }
     }
 
-    for( int p : fuel ) {
-        const itype_id ft = part_info( p ).fuel_type;
-        if( std::find( fuels.begin(), fuels.end(), ft ) == fuels.end() && should_print_fuel_indicator(ft, fullsize)) {
-            fuels.push_back(ft);
-        }
-    }
+    std::vector<itype_id> res( opts.begin(), opts.end() );
 
-    return fuels;
+    std::sort( res.begin(), res.end(), [&]( const itype_id &lhs, const itype_id &rhs ) {
+        return basic_consumption( rhs ) < basic_consumption( lhs );
+    } );
+
+    return res;
 }
 
 /**
@@ -2687,17 +2674,24 @@ nc_color vehicle::get_fuel_color ( const itype_id &fuel_type ) const
  * @param desc true if the name of the fuel should be at the end
  * @param isHorizontal true if the menu is not vertical
  */
-void vehicle::print_fuel_indicators (void *w, int y, int x, int start_index, bool fullsize, bool verbose, bool desc, bool isHorizontal) const
+void vehicle::print_fuel_indicators ( WINDOW *win, int y, int x, int start_index, bool fullsize, bool verbose, bool desc, bool isHorizontal) const
 {
-    WINDOW *win = (WINDOW *) w;
+    auto fuels = get_printable_fuel_types();
+
+    if( !fullsize ) {
+        if( !fuels.empty() ) {
+            print_fuel_indicator( win, y, x, fuels.front(), verbose, desc );
+        }
+        return;
+    }
+
     int yofs = 0;
-    std::vector< itype_id > fuels = get_printable_fuel_types(fullsize);
     int max_gauge = ((isHorizontal) ? 12 : 5) + start_index;
     int max_size = std::min((int)fuels.size(), max_gauge);
 
     for( int i = start_index; i < max_size; i++ ) {
         const itype_id &f = fuels[i];
-        print_fuel_indicator(w, y + yofs, x, f, verbose, desc);
+        print_fuel_indicator( win, y + yofs, x, f, verbose, desc );
         if (fullsize) {
             yofs++;
         }
@@ -2705,8 +2699,8 @@ void vehicle::print_fuel_indicators (void *w, int y, int x, int start_index, boo
 
     // check if the current index is less than the max size minus 12 or 5, to indicate that there's more
     if((start_index < (int)fuels.size() -  ((isHorizontal) ? 12 : 5)) && fullsize) {
-        mvwprintz(win, y + yofs, x, c_ltgreen, ">");
-        wprintz(win, c_ltgray, " for more");
+        mvwprintz( win, y + yofs, x, c_ltgreen, ">" );
+        wprintz( win, c_ltgray, " for more" );
     }
 }
 

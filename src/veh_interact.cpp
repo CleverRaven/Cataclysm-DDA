@@ -547,7 +547,7 @@ bool veh_interact::can_install_part() {
  */
 void veh_interact::move_fuel_cursor(int delta)
 {
-    int max_fuel_indicators = (int)veh->get_printable_fuel_types(true).size();
+    int max_fuel_indicators = (int)veh->get_printable_fuel_types().size();
     int height = 5;
     fuel_index += delta;
 
