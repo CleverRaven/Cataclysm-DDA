@@ -955,8 +955,8 @@ void veh_interact::do_refill()
 
     while( true ) {
         werase( w_list );
-        trim_and_print( w_list, 0, 1, getmaxx( w_list ) - 2, c_ltgray, _( "Vehicle tanks" ) );
-        right_print   ( w_list, 0, 1, c_ltgray, _( "Contents    Capacity" ) );
+        trim_and_print( w_list, 0, 1, getmaxx( w_list ) - 2, c_ltgray, _( "Tanks" ) );
+        right_print   ( w_list, 0, 1, c_ltgray, _( "Contents     Qty" ) );
 
         const int header = 2;
         const int entries = page_size - header;
@@ -971,15 +971,10 @@ void veh_interact::do_refill()
                             pos == i ? hilite( col ) : col, pt.name().c_str() );
 
             if( pt.ammo_current() != "null" ) {
-                right_print( w_list, y, 1, col, "<color_%s>%20s</color>  %3.1f/%3.1fL",
-                             string_from_color( item::find_type( pt.ammo_current() )->color ).c_str(),
-                             item::nname( pt.ammo_current() ).c_str(),
-                             round_up( to_liter( units::from_milliliter( pt.ammo_remaining() ) ), 1 ),
-                             round_up( to_liter( units::from_milliliter( pt.ammo_capacity() ) ), 1 ) );
-            } else {
-                right_print( w_list, y, 1, col, "                            %3.1fL",
-                             round_up( to_liter( units::from_milliliter( pt.ammo_remaining() ) ), 1 ),
-                             round_up( to_liter( units::from_milliliter( pt.ammo_capacity() ) ), 1 ) );
+                auto stack = units::legacy_volume_factor / item::find_type( pt.ammo_current() )->stack_size;
+                right_print( w_list, y, 1, item::find_type( pt.ammo_current() )->color,
+                             "%s  %5.1fL", item::nname( pt.ammo_current() ).c_str(),
+                             round_up( to_liter( pt.ammo_remaining() * stack ), 1 ) );
             }
         }
         wrefresh( w_list );
