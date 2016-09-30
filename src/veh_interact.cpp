@@ -364,24 +364,8 @@ task_reason veh_interact::cant_do (char mode)
         has_tools = true; // checked later
         break;
 
-    case 'f': {
-        // for each part on selected tile try to reload using found items
-        return std::any_of( parts_here.begin(), parts_here.end(), [&]( int idx ) {
-
-            auto func = [&]( const item &e ) {
-                // cannot refill using active liquids (those that rot) due to #18570
-                if( e.is_watertight_container() && !e.contents.empty() && !e.contents.front().active ) {
-                    return veh->parts[idx].can_reload( e.contents.front().typeId() );
-                }
-                return false;
-            };
-
-            return g->u.has_item_with( func ) ||
-                   map_selector( g->u.pos(), 1 ).has_item_with( func ) ||
-                   vehicle_selector( g->u.pos(), 1 ).has_item_with( func );
-
-        } ) ? CAN_DO : CANT_REFILL;
-    }
+    case 'f':
+        return CAN_DO; // always allow display of fuel menu
 
     case 'o': // remove mode
         enough_morale = g->u.has_morale_to_craft();
@@ -943,62 +927,79 @@ void veh_interact::do_mend()
 
 }
 
-/**
- * Handles refilling a vehicle's fuel tank.
- * @param reason INVALID_TARGET if there's no fuel tank in the spot,
- *               CANT_REFILL All tanks are broken or player has nothing to fill the tank with.
- */
 void veh_interact::do_refill()
 {
-    const task_reason reason = cant_do('f');
-    display_mode('f');
-    werase (w_msg);
-    int msg_width = getmaxx(w_msg);
+    display_mode( 'f' );
+    werase( w_msg );
 
-    switch (reason) {
-    case INVALID_TARGET:
-        mvwprintz(w_msg, 0, 1, c_ltred, _("There's no refillable part here."));
-        wrefresh (w_msg);
-        return;
-    case CANT_REFILL:
-        mvwprintz(w_msg, 1, 1, c_ltred, _("There is no refillable part here."));
-        mvwprintz(w_msg, 2, 1, c_white, _("The part is broken, or you don't have the "
-                                          "proper fuel."));
-        wrefresh (w_msg);
-        return;
-    case MOVING_VEHICLE:
-        fold_and_print( w_msg, 0, 1, msg_width - 2, c_ltgray,
-                        _( "You can't refill the vehicle while driving." ) );
-        wrefresh (w_msg);
-        return;
-    default:
-        break; // no reason, all is well
-    }
+    // get all tanks and determine if possible to refill with currently available items
+    std::vector<std::pair<vehicle_part *, bool>> tanks;
+    for( auto &e : veh->parts ) {
+        if( e.is_tank() ) {
+            tanks.emplace_back( &e, std::any_of( parts_here.begin(), parts_here.end(), [&]( int idx ) {
+                auto func = [&]( const item &e ) {
+                    // cannot refill using active liquids (those that rot) due to #18570
+                    if( e.is_watertight_container() && !e.contents.empty() && !e.contents.front().active ) {
+                        return veh->parts[idx].can_reload( e.contents.front().typeId() );
+                    }
+                    return false;
+                };
 
-    auto iter = std::find_if( parts_here.begin(), parts_here.end(), [&]( const int idx ) {
-        return veh->parts[idx].is_tank();
-    } );
-    if( iter == parts_here.end() ) {
-        debugmsg("veh_interact::do_refill: Refillable parts list is empty.\n"
-                 "veh_interact::cant_do() should control this before.");
-    }
-
-    const auto &pt = veh->parts[*iter];
-
-    auto func = [&pt]( const item &e ){
-        // cannot refill using active liquids (those that rot) due to #18570
-        if( e.is_watertight_container() && !e.contents.empty() && !e.contents.front().active ) {
-            return pt.can_reload( e.contents.front().typeId() );
+                // check inventory and adjacent map/vehicle tiles
+                return g->u.has_item_with( func ) ||
+                       map_selector( g->u.pos(), 1 ).has_item_with( func ) ||
+                       vehicle_selector( g->u.pos(), 1 ).has_item_with( func );
+            } ) );
         }
-        return false;
-    };
+    }
 
-    target = g->inv_map_splice( func, string_format( _( "Refill %s" ), pt.name().c_str() ), 1 );
+    int pos = 0;
 
-    sel_vehicle_part = &pt;
-    sel_vpart_info = &pt.info();
+    while( true ) {
+        werase( w_list );
+        int header = 2;
+        int entries = page_size - header;
+        int page = pos / entries;
 
-    sel_cmd = target ? 'f' : ' ';
+        for( int i = page * entries; i < (page + 1) * entries && i < int( tanks.size() ); i++ ) {
+            int y = i - page * entries + header;
+            nc_color col = tanks[i].second ? c_white : c_dkgray;
+            trim_and_print( w_list, y, 1, getmaxx( w_list ) - 1, pos == i ? hilite( col ) : col,
+                            tanks[i].first->name().c_str() );
+        }
+        wrefresh( w_list );
+
+        const std::string action = main_context.handle_input();
+        if( action == "CONFIRM" && tanks[pos].second ) {
+            const auto &pt = *tanks[pos].first;
+
+            auto func = [&]( const item &e ) {
+                // cannot refill using active liquids (those that rot) due to #18570
+                if( e.is_watertight_container() && !e.contents.empty() && !e.contents.front().active ) {
+                    return pt.can_reload( e.contents.front().typeId() );
+                }
+                return false;
+            };
+
+            target = g->inv_map_splice( func, string_format( _( "Refill %s" ), pt.name().c_str() ), 1 );
+            if( !target ) {
+                break;
+            }
+
+            sel_vehicle_part = &pt;
+            sel_vpart_info = &pt.info();
+            sel_cmd = 'f';
+            return;
+
+        } else if (action == "QUIT") {
+            werase( w_list );
+            wrefresh( w_list );
+            break;
+
+        } else {
+            move_in_list( pos, action, tanks.size() );
+        }
+    }
 }
 
 bool veh_interact::can_remove_part( int idx ) {

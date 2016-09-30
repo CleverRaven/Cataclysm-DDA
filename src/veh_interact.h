@@ -23,7 +23,6 @@ using vpart_str_id = string_id<vpart_info>;
 enum task_reason {
     UNKNOWN_TASK = -1, //No such task
     CAN_DO, //Task can be done
-    CANT_REFILL, // All fuel tanks are broken or player don't have properly fuel
     INVALID_TARGET, //No valid target ie can't "change tire" if no tire present
     LACK_TOOLS, //Player doesn't have all the tools they need
     NOT_FREE, //Part is attached to something else and can't be unmounted
