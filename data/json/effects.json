@@ -824,7 +824,7 @@
         },
         "scaling_mods": {
             "speed_mod": [-4],
-            "stamina_chance": [1],
+            "stamina_chance": [2],
             "stamina_min": [-2]
         }
     },
