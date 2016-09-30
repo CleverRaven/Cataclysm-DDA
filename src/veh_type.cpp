@@ -64,7 +64,6 @@ static const std::unordered_map<std::string, vpart_bitflags> vpart_bitflag_map =
     { "ALTERNATOR", VPFLAG_ALTERNATOR },
     { "ENGINE", VPFLAG_ENGINE },
     { "FRIDGE", VPFLAG_FRIDGE },
-    { "FUEL_TANK", VPFLAG_FUEL_TANK },
     { "LIGHT", VPFLAG_LIGHT },
     { "WINDOW", VPFLAG_WINDOW },
     { "CURTAIN", VPFLAG_CURTAIN },
@@ -477,9 +476,6 @@ void vpart_info::check()
         }
         if( part.size < 0 ) {
             debugmsg( "vehicle part %s has negative size", part.id.c_str() );
-        }
-        if( part.has_flag( VPFLAG_FUEL_TANK ) && !item::type_is_defined( part.fuel_type ) ) {
-            debugmsg( "vehicle part %s is a fuel tank, but has invalid fuel type %s (not a valid item id)", part.id.c_str(), part.fuel_type.c_str() );
         }
         if( !item::type_is_defined( part.item ) ) {
             debugmsg( "vehicle part %s uses undefined item %s", part.id.c_str(), part.item.c_str() );

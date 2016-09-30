@@ -24,7 +24,7 @@ const vpart_info *biggest_tank( const ammotype ammo ) {
     auto parts = vpart_info::get_all();
     std::copy_if( parts.begin(), parts.end(), std::back_inserter( res ), [&ammo]( const vpart_info *e ) {
 
-        if( !e->has_flag( VPFLAG_FUEL_TANK ) ) {
+        if( !item( e->item ).is_watertight_container() ) {
             return false;
         }
 

@@ -658,7 +658,7 @@ void veh_interact::do_install()
                                                    part.has_flag(VPFLAG_CONTROLS) ||
                                                    part.location == "fuel_source" ||
                                                    part.location == "on_battery_mount" ||
-                                                   (part.location.empty() && part.has_flag("FUEL_TANK")); };
+                                                   part.location.empty(); };
     tab_filters[tab_filters.size()-1] = [&](const vpart_info *part) { // Other: everything that's not in the other filters
         for (size_t i=1; i < tab_filters.size()-1; i++ ) {
             if( tab_filters[i](part) ) return false;
@@ -1839,7 +1839,7 @@ void veh_interact::display_details( const vpart_info *part )
     // line 3: (column 1) size,bonus,wheel_width (as applicable)    (column 2) epower (if applicable)
     if ( part->size > 0 ) {
         std::string label;
-        if ( part->has_flag(VPFLAG_CARGO) || part->has_flag(VPFLAG_FUEL_TANK) ) {
+        if ( part->has_flag(VPFLAG_CARGO) ) {
             label = small_mode ? _("Cap") : _("Capacity");
         } else if ( part->has_flag(VPFLAG_WHEEL) ){
             label = small_mode ? _("Size") : _("Wheel Size");

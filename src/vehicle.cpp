@@ -464,13 +464,15 @@ void vehicle::init_state(int init_veh_fuel, int init_veh_status)
     int blood_inside_x = 0;
     int blood_inside_y = 0;
     for( size_t p = 0; p < parts.size(); p++ ) {
+        auto &pt = parts[ p ];
+
         if( part_flag( p, "REACTOR" ) ) {
             // De-hardcoded reactors. Should always start active
             parts[ p ].enabled = true;
         }
 
-        if( part_flag(p, "FUEL_TANK") ) {   // set fuel status
-            parts[ p ].ammo_set( parts[ p ].ammo_current(), parts[ p ].ammo_capacity() * veh_fuel_mult / 100 );
+        if( pt.is_tank() || pt.is_battery() ) {
+            pt.ammo_set( pt.ammo_current(), pt.ammo_capacity() * veh_fuel_mult / 100 );
         }
 
         if (part_flag(p, "OPENABLE")) {    // doors are closed
@@ -521,9 +523,9 @@ void vehicle::init_state(int init_veh_fuel, int init_veh_status)
             }
 
             // Fuel tanks should be emptied as well
-            if (destroyTank && (part_flag(p, "FUEL_TANK") || part_flag(p, "NEEDS_BATTERY_MOUNT"))){
-                set_hp( parts[ p ], 0 );
-                parts[ p ].ammo_unset();
+            if( destroyTank && pt.is_tank() ) {
+                set_hp( pt, 0 );
+                pt.ammo_unset();
             }
 
             //Solar panels have 25% of being destroyed
@@ -5607,7 +5609,7 @@ int vehicle::damage_direct( int p, int dmg, damage_type type )
 
     int tsh = std::min( 20, part_info(p).durability / 10 );
     if( dmg < tsh && type != DT_TRUE ) {
-        if( type == DT_HEAT && part_flag( p, "FUEL_TANK" ) ) {
+        if( type == DT_HEAT && parts[p].is_tank() ) {
             explode_fuel( p, type );
         }
 
@@ -5624,7 +5626,7 @@ int vehicle::damage_direct( int p, int dmg, damage_type type )
         leak_fuel( parts [ p ] );
     }
 
-    if( part_flag( p, "FUEL_TANK" ) ) {
+    if( parts[p].is_tank() ) {
         explode_fuel( p, type );
     } else if( parts[ p ].is_broken() && part_flag(p, "UNMOUNT_ON_DAMAGE") ) {
         g->m.spawn_item( global_part_pos3( p ), part_info( p ).item, 1, 0, calendar::turn );
@@ -5663,7 +5665,7 @@ std::map<itype_id, long> vehicle::fuels_left() const
 {
     std::map<itype_id, long> result;
     for( const auto &p : parts ) {
-        if( p.info().has_flag( VPFLAG_FUEL_TANK ) && p.ammo_current() != "null" ) {
+        if( p.is_tank() && p.ammo_current() != "null" ) {
             result[ p.ammo_current() ] += p.ammo_remaining();
         }
     }
@@ -6091,8 +6093,15 @@ ammotype vehicle_part::ammo_type() const
 
 itype_id vehicle_part::ammo_current() const
 {
-    // @todo currently only support fuel tanks and batteries
-    return info().has_flag( VPFLAG_FUEL_TANK ) ? info().fuel_type : "null";
+    if( is_battery() ) {
+        return "battery";
+    }
+
+    if( is_tank() && !base.contents.empty() ) {
+        return base.contents.front().typeId();
+    }
+
+    return "null";
 }
 
 long vehicle_part::ammo_capacity() const
@@ -6272,12 +6281,7 @@ bool vehicle_part::is_light() const
 
 bool vehicle_part::is_tank() const
 {
-    if( !info().has_flag( VPFLAG_FUEL_TANK ) ) {
-        return false;
-    }
-
-    auto *fuel = item::find_type( info().fuel_type );
-    return fuel->phase == LIQUID;
+    return base.is_watertight_container();
 }
 
 bool vehicle_part::is_battery() const

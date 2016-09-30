@@ -59,7 +59,6 @@ enum vpart_bitflags : int {
     VPFLAG_ALTERNATOR,
     VPFLAG_ENGINE,
     VPFLAG_FRIDGE,
-    VPFLAG_FUEL_TANK,
     VPFLAG_LIGHT,
     VPFLAG_WINDOW,
     VPFLAG_CURTAIN,

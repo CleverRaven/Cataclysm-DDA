@@ -52,7 +52,7 @@
     "damage_modifier": 80,
     "folded_volume": 2,
     "breaks_into": [ { "item": "scrap", "count": [ 1, 2 ] } ],
-    "flags": [ "FUEL_TANK", "TOOL_NONE", "FOLDABLE" ]
+    "flags": [ "TOOL_NONE", "FOLDABLE" ]
   },
   {
     "id": "gas_tank_little",
@@ -71,7 +71,7 @@
     "damage_modifier": 80,
     "folded_volume": 5,
     "breaks_into": [ { "item": "scrap", "count": [ 1, 2 ] } ],
-    "flags": [ "FUEL_TANK", "FOLDABLE" ]
+    "flags": [ "FOLDABLE" ]
   },
   {
     "id": "diesel_tank_little",
@@ -90,7 +90,7 @@
     "damage_modifier": 80,
     "folded_volume": 5,
     "breaks_into": [ { "item": "scrap", "count": [ 1, 2 ] } ],
-    "flags": [ "FUEL_TANK", "FOLDABLE" ]
+    "flags": [ "FOLDABLE" ]
   },
   {
     "id": "engine_1cyl_small",

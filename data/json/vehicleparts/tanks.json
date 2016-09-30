@@ -11,8 +11,7 @@
     "durability": 75,
     "size": 2000,
     "damage_modifier": 80,
-    "breaks_into": [ { "item": "scrap", "count": [ 1, 2 ] } ],
-    "flags": [ "FUEL_TANK" ]
+    "breaks_into": [ { "item": "scrap", "count": [ 1, 2 ] } ]
   },
   {
     "abstract": "tank_small",
@@ -26,8 +25,7 @@
     "durability": 100,
     "size": 10000,
     "damage_modifier": 80,
-    "breaks_into": [ { "item": "plastic_chunk", "count": [ 10, 40 ] } ],
-    "flags": [ "FUEL_TANK" ]
+    "breaks_into": [ { "item": "plastic_chunk", "count": [ 10, 40 ] } ]
   },
   {
     "abstract": "tank_medium",
@@ -45,8 +43,7 @@
       { "item": "steel_lump", "count": [ 1, 2 ] },
       { "item": "steel_chunk", "count": [ 1, 2 ] },
       { "item": "scrap", "count": [ 1, 2 ] }
-    ],
-    "flags": [ "FUEL_TANK" ]
+    ]
   },
   {
     "abstract": "tank",
@@ -64,8 +61,7 @@
       { "item": "steel_lump", "count": [ 2, 2 ] },
       { "item": "steel_chunk", "count": [ 1, 2 ] },
       { "item": "scrap", "count": [ 1, 5 ] }
-    ],
-    "flags": [ "FUEL_TANK" ]
+    ]
   },
   {
     "abstract": "external_tank_small",
@@ -79,7 +75,7 @@
     "durability": 160,
     "size": 100000,
     "damage_modifier": 80,
-    "flags": [ "FUEL_TANK", "PROTRUSION", "UNMOUNT_ON_DAMAGE" ]
+    "flags": [ "PROTRUSION", "UNMOUNT_ON_DAMAGE" ]
   },
   {
     "abstract": "external_tank",
@@ -316,7 +312,7 @@
       { "item": "2x4", "count": [ 2, 8 ] },
       { "item": "scrap", "count": [ 1, 3 ] }
     ],
-    "flags": [ "FUEL_TANK", "NAILABLE" ]
+    "flags": [ "NAILABLE" ]
   },
   {
     "id": "dirty_water_tank_barrel",

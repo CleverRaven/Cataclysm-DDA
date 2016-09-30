@@ -7497,8 +7497,7 @@ void game::use_wielded_item()
 
 bool game::refill_vehicle_part(vehicle &veh, vehicle_part *part, bool test)
 {
-    const vpart_info &part_info = part->info();
-    if (!part_info.has_flag("FUEL_TANK")) {
+    if( !part->is_tank() ) {
         return false;
     }
     const itype_id &ftype = part->ammo_current();
