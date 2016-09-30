@@ -7,7 +7,45 @@
     "value": 800,
     "difficulty": 2,
     "start": "place_book",
-    "origins": [ "ORIGIN_ANY_NPC" ]
+    "origins": [ "ORIGIN_ANY_NPC" ],
+    "dialogue": [
+      [
+        "TALK_MISSION_DESCRIBE",
+        "Wanna help me out?"
+      ],
+      [
+        "TALK_MISSION_OFFER",
+        "Get me a book."
+      ],
+      [
+        "TALK_MISSION_ACCEPTED",
+        "Thanks."
+      ],
+      [
+        "TALK_MISSION_REJECTED",
+        "Well, I'll find someone else to do it for me."
+      ],
+      [
+        "TALK_MISSION_ADVICE",
+        "Try a library."
+      ],
+      [
+        "TALK_MISSION_INQUIRE",
+        "Got that book for me?"
+      ],
+      [
+        "TALK_MISSION_SUCCESS",
+        "Thanks!"
+      ],
+      [
+        "TALK_MISSION_SUCCESS_LIE",
+        "OK, then hand it over."
+      ],
+      [
+        "TALK_MISSION_FAILURE",
+        "Shit happens."
+      ]
+    ]
   },
   {
     "id": "MISSION_EXPLORE_SARCOPHAGUS",
@@ -771,6 +809,7 @@
     "type": "mission_definition",
     "name": "Retrieve Software",
     "goal": "MGOAL_FIND_ANY_ITEM",
+    "place": "near_town",
     "value": 80000,
     "difficulty": 2,
     "start": "place_npc_software",
@@ -815,8 +854,7 @@
         "TALK_MISSION_FAILURE",
         "Wow, you failed?  All that work, down the drain..."
       ]
-    ],
-    "place": "near_town"
+    ]
   },
   {
     "id": "MISSION_GET_ZOMBIE_BLOOD_ANAL",
@@ -1177,6 +1215,7 @@
     "name": "Kill Zombie Mom",
     "urgent": true,
     "goal": "MGOAL_KILL_MONSTER",
+    "place": "near_town",
     "value": 120000,
     "difficulty": 5,
     "start": "place_zombie_mom",
@@ -1222,17 +1261,54 @@
         "TALK_MISSION_FAILURE",
         "Really... that's too bad."
       ]
-    ],
-    "place": "near_town"
+    ]
   },
   {
     "id": "MISSION_NULL",
     "type": "mission_definition",
     "name": "Null mission",
     "goal": "MGOAL_NULL",
+    "place": "never",
     "value": 0,
     "difficulty": 0,
-    "place": "never"
+    "dialogue": [
+      [
+        "TALK_MISSION_DESCRIBE",
+        "YOU SHOULDN'T BE SEEING THIS, THIS IS A BUG"
+      ],
+      [
+        "TALK_MISSION_OFFER",
+        "YOU SHOULDN'T BE SEEING THIS, THIS IS A BUG"
+      ],
+      [
+        "TALK_MISSION_ACCEPTED",
+        "YOU SHOULDN'T BE SEEING THIS, THIS IS A BUG"
+      ],
+      [
+        "TALK_MISSION_REJECTED",
+        "YOU SHOULDN'T BE SEEING THIS, THIS IS A BUG"
+      ],
+      [
+        "TALK_MISSION_ADVICE",
+        "YOU SHOULDN'T BE SEEING THIS, THIS IS A BUG"
+      ],
+      [
+        "TALK_MISSION_INQUIRE",
+        "YOU SHOULDN'T BE SEEING THIS, THIS IS A BUG"
+      ],
+      [
+        "TALK_MISSION_SUCCESS",
+        "YOU SHOULDN'T BE SEEING THIS, THIS IS A BUG"
+      ],
+      [
+        "TALK_MISSION_SUCCESS_LIE",
+        "YOU SHOULDN'T BE SEEING THIS, THIS IS A BUG"
+      ],
+      [
+        "TALK_MISSION_FAILURE",
+        "YOU SHOULDN'T BE SEEING THIS, THIS IS A BUG"
+      ]
+    ]
   },
   {
     "id": "MISSION_OLD_GUARD_NEC_1",
@@ -2376,7 +2452,7 @@
         "What good does this do us?"
       ],
       [
-        "ALK_MISSION_FAILURE",
+        "TALK_MISSION_FAILURE",
         "It was a lost cause anyways..."
       ]
     ]
@@ -3707,7 +3783,45 @@
     "value": 0,
     "difficulty": 1,
     "start": "find_safety",
-    "origins": [ "ORIGIN_NULL" ]
+    "origins": [ "ORIGIN_NULL" ],
+    "dialogue": [
+      [
+        "TALK_MISSION_DESCRIBE",
+        "YOU SHOULDN'T BE SEEING THIS, THIS IS A BUG"
+      ],
+      [
+        "TALK_MISSION_OFFER",
+        "YOU SHOULDN'T BE SEEING THIS, THIS IS A BUG"
+      ],
+      [
+        "TALK_MISSION_ACCEPTED",
+        "YOU SHOULDN'T BE SEEING THIS, THIS IS A BUG"
+      ],
+      [
+        "TALK_MISSION_REJECTED",
+        "YOU SHOULDN'T BE SEEING THIS, THIS IS A BUG"
+      ],
+      [
+        "TALK_MISSION_ADVICE",
+        "YOU SHOULDN'T BE SEEING THIS, THIS IS A BUG"
+      ],
+      [
+        "TALK_MISSION_INQUIRE",
+        "YOU SHOULDN'T BE SEEING THIS, THIS IS A BUG"
+      ],
+      [
+        "TALK_MISSION_SUCCESS",
+        "YOU SHOULDN'T BE SEEING THIS, THIS IS A BUG"
+      ],
+      [
+        "TALK_MISSION_SUCCESS_LIE",
+        "YOU SHOULDN'T BE SEEING THIS, THIS IS A BUG"
+      ],
+      [
+        "TALK_MISSION_FAILURE",
+        "YOU SHOULDN'T BE SEEING THIS, THIS IS A BUG"
+      ]
+    ]
   },
   {
     "id": "MISSION_RECOVER_PRIEST_DIARY",
@@ -3812,6 +3926,7 @@
     "type": "mission_definition",
     "name": "Find Lost Dog",
     "goal": "MGOAL_FIND_MONSTER",
+    "place": "near_town",
     "value": 100000,
     "difficulty": 3,
     "start": "place_dog",
@@ -3853,7 +3968,6 @@
         "TALK_MISSION_FAILURE",
         "Oh no!  My poor puppy..."
       ]
-    ],
-    "place": "near_town"
+    ]
   }
 ]

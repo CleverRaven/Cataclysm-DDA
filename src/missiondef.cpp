@@ -270,7 +270,7 @@ void mission_type::load( JsonObject &jo )
 
     for( const auto &d : mandatory_dialogue ) {
         if( dialogue.find( d ) == dialogue.end() ) {
-            jo.throw_error( "Dialogue option " + d + " must be defined", "dialogue" );
+            jo.throw_error( "Dialogue option " + d + " must be defined" );
         }
     }
 
