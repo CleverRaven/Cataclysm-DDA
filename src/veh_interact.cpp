@@ -369,7 +369,8 @@ task_reason veh_interact::cant_do (char mode)
         return std::any_of( parts_here.begin(), parts_here.end(), [&]( int idx ) {
 
             auto func = [&]( const item &e ) {
-                if( e.is_watertight_container() && !e.contents.empty() ) {
+                // cannot refill using active liquids (those that rot) due to #18570
+                if( e.is_watertight_container() && !e.contents.empty() && !e.contents.front().active ) {
                     return veh->parts[idx].can_reload( e.contents.front().typeId() );
                 }
                 return false;
@@ -985,7 +986,8 @@ void veh_interact::do_refill()
     const auto &pt = veh->parts[*iter];
 
     auto func = [&pt]( const item &e ){
-        if( e.is_watertight_container() && !e.contents.empty() ) {
+        // cannot refill using active liquids (those that rot) due to #18570
+        if( e.is_watertight_container() && !e.contents.empty() && !e.contents.front().active ) {
             return pt.can_reload( e.contents.front().typeId() );
         }
         return false;
