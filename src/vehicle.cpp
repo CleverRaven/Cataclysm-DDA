@@ -6066,7 +6066,7 @@ itype_id vehicle_part::ammo_current() const
         return "battery";
     }
 
-    if( is_reactor() ) {
+    if( is_reactor() || is_turret() ) {
         return base.ammo_current();
     }
 
@@ -6079,7 +6079,7 @@ itype_id vehicle_part::ammo_current() const
 
 long vehicle_part::ammo_capacity() const
 {
-    if( is_battery() || is_reactor() ) {
+    if( is_battery() || is_reactor() || is_turret() ) {
         return base.ammo_capacity();
     }
 
@@ -6092,7 +6092,7 @@ long vehicle_part::ammo_capacity() const
 
 long vehicle_part::ammo_remaining() const
 {
-    if( is_battery() || is_reactor() ) {
+    if( is_battery() || is_reactor() || is_turret() ) {
         return base.ammo_remaining();
     }
 
@@ -6105,7 +6105,7 @@ long vehicle_part::ammo_remaining() const
 
 int vehicle_part::ammo_set( const itype_id &ammo, long qty )
 {
-    if( base.is_gun() ) {
+    if( is_turret() ) {
         return base.ammo_set( ammo, qty ).ammo_remaining();
     }
 
@@ -6128,7 +6128,7 @@ int vehicle_part::ammo_set( const itype_id &ammo, long qty )
 }
 
 void vehicle_part::ammo_unset() {
-    if( is_battery() || is_reactor() ) {
+    if( is_battery() || is_reactor() || is_turret() ) {
         base.ammo_unset();
 
     } else if( is_tank() ) {
