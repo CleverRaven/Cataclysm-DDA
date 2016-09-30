@@ -1667,41 +1667,10 @@ void veh_interact::display_stats()
                     _("Offroad:        <color_ltblue>%3d</color>%%"),
                     int( veh->k_traction( veh->wheel_area( is_boat ) * 0.5f ) * 100 ) );
 
-    // "Fuel usage (safe): " is renamed to "Fuel usage: ".
-    mvwprintz(w_stats, y[11], x[11], c_ltgray,  _("Fuel usage:      "));
-    x[11] += utf8_width(_("Fuel usage:      "));
-
-    bool first = true;
-    int fuel_name_length = 0;
-    for( auto & ft : get_fuel_types() ) {
-        int fuel_usage = veh->basic_consumption( ft.id );
-        if (fuel_usage > 0) {
-            fuel_name_length = std::max( fuel_name_length, utf8_width(item::nname(ft.id)) );
-            fuel_usage = fuel_usage / 100;
-            if (fuel_usage < 1) {
-                fuel_usage = 1;
-            }
-            if (!first) {
-                mvwprintz(w_stats, y[11], x[11]++, c_ltgray, "/");
-            }
-            mvwprintz(w_stats, y[11], x[11]++, ft.color, "%d", fuel_usage);
-            if (fuel_usage > 9) {
-                x[11]++;
-            }
-            if (fuel_usage > 99) {
-                x[11]++;
-            }
-            first = false;
-        }
-        if (first) {
-            mvwprintz(w_stats, y[11], x[11], c_ltgray, "-"); // no engines
-        }
-    }
-
     // Print fuel percentage & type name only if it fits in the window, 10 is width of "E...F 100%"
     veh->print_fuel_indicators (w_stats, y[13], x[13], fuel_index, true,
                                ( x[ 13 ] + 10 < getmaxx( w_stats ) ),
-                               ( x[ 13 ] + 10 + fuel_name_length < getmaxx( w_stats ) ) );
+                               ( x[ 13 ] + 10 < getmaxx( w_stats ) ) );
 
     wrefresh(w_stats);
 }
