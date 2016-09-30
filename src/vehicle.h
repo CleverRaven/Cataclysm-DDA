@@ -42,8 +42,6 @@ struct fuel_type {
     /** Id of the item type that represents the fuel. It may not be valid for certain pseudo
      * fuel types like muscle. */
     itype_id id;
-    /** Color when displaying information about. */
-    nc_color color;
     /** See @ref vehicle::consume_fuel */
     int coeff;
     /** Factor is used when transforming from item charges to fuel amount. */
@@ -446,9 +444,6 @@ private:
     bool do_environmental_effects();
 
     units::volume total_folded_volume() const;
-
-    // Gets the fuel color for a given fuel
-    nc_color get_fuel_color ( const itype_id &fuel_type ) const;
 
     // Vehical fuel indicator (by fuel)
     void print_fuel_indicator (void *w, int y, int x, itype_id fuelType,

@@ -70,13 +70,13 @@ const std::array<fuel_type, 7> &get_fuel_types()
 {
 
     static const std::array<fuel_type, 7> fuel_types = {{
-        fuel_type {fuel_type_gasoline,  c_ltred,   100, 1},
-        fuel_type {fuel_type_diesel,    c_brown,   100, 1},
-        fuel_type {fuel_type_battery,   c_yellow,  1,   1},
-        fuel_type {fuel_type_plutonium, c_ltgreen, 1,   1000},
-        fuel_type {fuel_type_plasma,    c_ltblue,  100, 100},
-        fuel_type {fuel_type_water,     c_ltcyan,  1,   1},
-        fuel_type {fuel_type_muscle,    c_white,   0,   1}
+        fuel_type {fuel_type_gasoline,  100, 1},
+        fuel_type {fuel_type_diesel,    100, 1},
+        fuel_type {fuel_type_battery,   1,   1},
+        fuel_type {fuel_type_plutonium, 1,   1000},
+        fuel_type {fuel_type_plasma,    100, 100},
+        fuel_type {fuel_type_water,     1,   1},
+        fuel_type {fuel_type_muscle,    0,   1}
     }};
 
     return fuel_types;
@@ -2651,21 +2651,6 @@ std::vector<itype_id> vehicle::get_printable_fuel_types() const
 }
 
 /**
- * Returns the color of a fuel type
- * @param fuel_type The ID of the fuel type
- * @return the color corresponding to the fuel type
- */
-nc_color vehicle::get_fuel_color ( const itype_id &fuel_type ) const
-{
-    for( auto &f : get_fuel_types() ) {
-        if( f.id == fuel_type ) {
-            return f.color;
-        }
-    }
-    return item::find_type( fuel_type )->color;
-}
-
-/**
  * Prints all of the fuel indicators of the vehical
  * @param w Pointer to the window to draw in.
  * @param y Y location to draw at.
@@ -2722,7 +2707,7 @@ void vehicle::print_fuel_indicator (void *w, int y, int x, itype_id fuel_type, b
     nc_color col_indf1 = c_ltgray;
     int cap = fuel_capacity( fuel_type );
     int f_left = fuel_left( fuel_type );
-    nc_color f_color = get_fuel_color(fuel_type);
+    nc_color f_color = item::find_type( fuel_type )->color;
     mvwprintz(win, y, x, col_indf1, "E...F");
     int amnt = cap > 0 ? f_left * 99 / cap : 0;
     int indf = (amnt / 20) % 5;
