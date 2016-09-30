@@ -4,8 +4,8 @@
     "type": "mission_definition",
     "name": "Find a Book",
     "goal": "MGOAL_FIND_ANY_ITEM",
-    "difficulty": 2,
     "value": 800,
+    "difficulty": 2,
     "start": "place_book",
     "origins": [ "ORIGIN_ANY_NPC" ]
   },
@@ -14,288 +14,1224 @@
     "type": "mission_definition",
     "name": "Follow Sarcophagus Team",
     "goal": "MGOAL_GO_TO_TYPE",
-    "difficulty": 2,
+    "destination": "haz_sar_b1",
     "value": 50000,
+    "difficulty": 2,
     "start": "open_sarcophagus",
     "origins": [ "ORIGIN_SECONDARY" ],
-    "destination": "haz_sar_b1"
+    "dialogue": [
+      [
+        "TALK_MISSION_DESCRIBE",
+        "You wouldn't believe what I found..."
+      ],
+      [
+        "TALK_MISSION_OFFER",
+        "Holy hell, the crash you recovered the black box from wasn't as old as I thought.  \nCheck this out, it was on its approach to pick up a team sent to secure and destroy something called a \n'Hazardous Waste Sarcophagus' in the middle of nowhere.  If the bird never picked up the team then we \nmay still have a chance to meet up with them.  It includes an access code for the elevator and an encoded \nmessage for the team leader, I guess.  If we want to join up with what remains of the government then now \nmay be our only chance."
+      ],
+      [
+        "TALK_MISSION_ACCEPTED",
+        "Fuck ya, America!"
+      ],
+      [
+        "TALK_MISSION_REJECTED",
+        "Are you going to forfeit your duty when the country needs you the most?"
+      ],
+      [
+        "TALK_MISSION_ADVICE",
+        "If there is a military team down there then we better go in prepared if we want to \nimpress them.  Carry as much ammo as you can and prepare to ditch this place if they have a second \nbird coming to pick them up."
+      ],
+      [
+        "TALK_MISSION_INQUIRE",
+        "Having any trouble following the map?"
+      ],
+      [
+        "TALK_MISSION_SUCCESS",
+        "We got this shit!"
+      ],
+      [
+        "TALK_MISSION_SUCCESS_LIE",
+        "What?!  I out'ta whip your ass."
+      ],
+      [
+        "TALK_MISSION_FAILURE",
+        "Damn, we were so close."
+      ]
+    ]
   },
   {
     "id": "MISSION_FREE_MERCHANTS_EVAC_1",
     "type": "mission_definition",
     "name": "Clear Back Bay",
     "goal": "MGOAL_KILL_MONSTER",
-    "difficulty": 2,
     "value": 50000,
+    "difficulty": 2,
     "start": "place_zombie_bay",
+    "followup": "MISSION_FREE_MERCHANTS_EVAC_2",
     "origins": [ "ORIGIN_SECONDARY" ],
-    "followup": "MISSION_FREE_MERCHANTS_EVAC_2"
+    "dialogue": [
+      [
+        "TALK_MISSION_DESCRIBE",
+        "We need help..."
+      ],
+      [
+        "TALK_MISSION_OFFER",
+        "If you really want to lend a hand we could use your help clearing out the dead \nin the back bay.  Fearful of going outside during the first days of the cataclysm \nwe ended up throwing our dead and the zombies we managed to kill in the sealed \nback bay.  Our promising leader at the time even fell... he turned into something \ndifferent.  Kill all of them and make sure they won't bother us again.  We can't \npay much but it would help us to reclaim the bay."
+      ],
+      [
+        "TALK_MISSION_ACCEPTED",
+        "Please be careful, we don't need any more deaths."
+      ],
+      [
+        "TALK_MISSION_REJECTED",
+        "Come back when you get a chance, we really need to start reclaiming the region."
+      ],
+      [
+        "TALK_MISSION_ADVICE",
+        "If you can, get a friend or two to help you."
+      ],
+      [
+        "TALK_MISSION_INQUIRE",
+        "Will they be bothering us any longer?"
+      ],
+      [
+        "TALK_MISSION_SUCCESS",
+        "Thank you, having that big of a threat close to home was nerve wrecking."
+      ],
+      [
+        "TALK_MISSION_SUCCESS_LIE",
+        "What good does this do us?"
+      ],
+      [
+        "TALK_MISSION_FAILURE",
+        "It was a lost cause anyways..."
+      ]
+    ]
   },
   {
     "id": "MISSION_FREE_MERCHANTS_EVAC_2",
     "type": "mission_definition",
     "name": "Missing Caravan",
     "goal": "MGOAL_ASSASSINATE",
-    "difficulty": 5,
     "value": 5000,
+    "difficulty": 5,
     "start": "place_caravan_ambush",
+    "followup": "MISSION_FREE_MERCHANTS_EVAC_3",
     "origins": [ "ORIGIN_SECONDARY" ],
-    "followup": "MISSION_FREE_MERCHANTS_EVAC_3"
+    "dialogue": [
+      [
+        "TALK_MISSION_DESCRIBE",
+        "We need help..."
+      ],
+      [
+        "TALK_MISSION_OFFER",
+        "This is a bit more involved than the last request, we recently lost a \nscavenger party coming to trade with us and would like you to \ninvestigate.  We strongly suspect a raider band or horde caught them \noff-guard. I can give you the coordinates of their last radio message \nbut little else.  In either case, deal with the threat so that the \nscavengers can continue to pass through in relative safety.  The best \nreward I can offer is a claim to the supplies they were carrying."
+      ],
+      [
+        "TALK_MISSION_ACCEPTED",
+        "Our community survives on trade, we appreciate it."
+      ],
+      [
+        "TALK_MISSION_REJECTED",
+        "Come back when you get a chance, we really need to start reclaiming the region."
+      ],
+      [
+        "TALK_MISSION_ADVICE",
+        "If you can, get a friend or two to help you."
+      ],
+      [
+        "TALK_MISSION_INQUIRE",
+        "Have you dealt with them?"
+      ],
+      [
+        "TALK_MISSION_SUCCESS",
+        "Thank you, the world is a better place without them.  Two of our more skilled \nindividuals accepted the assistance of the Old Guard in setting up an outpost \nwhile you were out.  We didn't have many other options, refugees are still \nstreaming in and we don't know what else to do with our limited food supply.  \nIf you get a chance, you should see if they need your assistance in the future..."
+      ],
+      [
+        "TALK_MISSION_SUCCESS_LIE",
+        "What good does this do us?"
+      ],
+      [
+        "TALK_MISSION_FAILURE",
+        "It was a lost cause anyways..."
+      ]
+    ]
   },
   {
     "id": "MISSION_FREE_MERCHANTS_EVAC_3",
     "type": "mission_definition",
     "name": "Retrieve Prospectus",
     "goal": "MGOAL_FIND_ITEM",
-    "difficulty": 5,
-    "value": 50000,
     "item": "commune_prospectus",
+    "value": 50000,
+    "difficulty": 5,
     "start": "start_commune",
+    "followup": "MISSION_FREE_MERCHANTS_EVAC_4",
     "origins": [ "ORIGIN_SECONDARY" ],
-    "followup": "MISSION_FREE_MERCHANTS_EVAC_4"
+    "dialogue": [
+      [
+        "TALK_MISSION_DESCRIBE",
+        "We need help..."
+      ],
+      [
+        "TALK_MISSION_OFFER",
+        "The new outpost that we've started could use your assistance.  I need you to get the \nforeman's prospectus before we begin to send additional refugees to the farming commune.  \nConsult with the foreman to get more detailed tasks."
+      ],
+      [
+        "TALK_MISSION_ACCEPTED",
+        "I'm sure the outpost will expand quickly with your assistance."
+      ],
+      [
+        "TALK_MISSION_REJECTED",
+        "Come back when you get a chance, we really need to start reclaiming the region."
+      ],
+      [
+        "TALK_MISSION_ADVICE",
+        "Just follow your map."
+      ],
+      [
+        "TALK_MISSION_INQUIRE",
+        "Do you have the prospectus?"
+      ],
+      [
+        "TALK_MISSION_SUCCESS",
+        "With this we'll be able to convince others to invest in the commune.  Thank you."
+      ],
+      [
+        "TALK_MISSION_SUCCESS_LIE",
+        "What good does this do us?"
+      ],
+      [
+        "TALK_MISSION_FAILURE",
+        "It was a lost cause anyways..."
+      ]
+    ]
   },
   {
     "id": "MISSION_FREE_MERCHANTS_EVAC_4",
     "type": "mission_definition",
     "name": "Find 25 Plutonium Cells",
     "goal": "MGOAL_FIND_ITEM",
-    "difficulty": 5,
-    "value": 400000,
     "item": "plut_cell",
     "count": 25,
-    "origins": [ "ORIGIN_SECONDARY" ]
+    "value": 400000,
+    "difficulty": 5,
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "dialogue": [
+      [
+        "TALK_MISSION_DESCRIBE",
+        "We need help..."
+      ],
+      [
+        "TALK_MISSION_OFFER",
+        "We are starting to build new infrastructure here and would like to get a few \nnew electrical systems online... unfortunately our existing system relies on \nan array of something called RTGs.  From what I understand they work like \ngiant batteries of sorts.  We can expand our power system but to do so we \nwould need enough plutonium.  With 25 plutonium cells we would be \nable to get an electrical expansion working for a year or two.  I know they \nare rare but running generators isn't a viable option in the basement."
+      ],
+      [
+        "TALK_MISSION_ACCEPTED",
+        "If you can do this for us our survival options would vastly increase."
+      ],
+      [
+        "TALK_MISSION_REJECTED",
+        "Come back when you get a chance, we really need to start reclaiming the region."
+      ],
+      [
+        "TALK_MISSION_ADVICE",
+        "Can't help you much, I've never even seen a plutonium battery."
+      ],
+      [
+        "TALK_MISSION_INQUIRE",
+        "How is the search going?"
+      ],
+      [
+        "TALK_MISSION_SUCCESS",
+        "Great, I know it isn't much but we hope to continue to expand thanks to your help."
+      ],
+      [
+        "TALK_MISSION_SUCCESS_LIE",
+        "What good does this do us?"
+      ],
+      [
+        "TALK_MISSION_FAILURE",
+        "It was a lost cause anyways..."
+      ]
+    ]
   },
   {
     "id": "MISSION_GET_ANTIBIOTICS",
     "type": "mission_definition",
     "name": "Find Antibiotics",
-    "goal": "MGOAL_FIND_ITEM",
-    "difficulty": 2,
-    "value": 150000,
     "urgent": true,
+    "goal": "MGOAL_FIND_ITEM",
     "item": "antibiotics",
+    "value": 150000,
+    "difficulty": 2,
     "start": "infect_npc",
     "end": "heal_infection",
     "fail": "kill_npc",
-    "origins": [ "ORIGIN_OPENER_NPC" ],
     "deadline_low": 24,
-    "deadline_high": 48
+    "deadline_high": 48,
+    "origins": [ "ORIGIN_OPENER_NPC" ],
+    "dialogue": [
+      [
+        "TALK_MISSION_DESCRIBE",
+        "This infection is bad, <very> bad..."
+      ],
+      [
+        "TALK_MISSION_OFFER",
+        "I'm infected.  Badly.  I need you to get some antibiotics for me..."
+      ],
+      [
+        "TALK_MISSION_ACCEPTED",
+        "Oh, thank god, thank you so much!  I won't last more than a couple of days, \nso hurry..."
+      ],
+      [
+        "TALK_MISSION_REJECTED",
+        "What?!  Please, <ill_die> without your help!"
+      ],
+      [
+        "TALK_MISSION_ADVICE",
+        "There's a town nearby.  Check pharmacies; it'll be behind the counter."
+      ],
+      [
+        "TALK_MISSION_INQUIRE",
+        "Find any antibiotics yet?"
+      ],
+      [
+        "TALK_MISSION_SUCCESS",
+        "Oh thank god!  I'll be right as rain in no time."
+      ],
+      [
+        "TALK_MISSION_SUCCESS_LIE",
+        "What?!  You're lying, I can tell!  Ugh, forget it!"
+      ],
+      [
+        "TALK_MISSION_FAILURE",
+        "How am I not dead already?!"
+      ]
+    ]
   },
   {
     "id": "MISSION_GET_BLACK_BOX",
     "type": "mission_definition",
     "name": "Retrieve Military Black Box",
     "goal": "MGOAL_FIND_ITEM",
-    "difficulty": 2,
-    "value": 100000,
     "item": "black_box",
+    "value": 100000,
+    "difficulty": 2,
+    "followup": "MISSION_GET_BLACK_BOX_TRANSCRIPT",
     "origins": [ "ORIGIN_SECONDARY" ],
-    "followup": "MISSION_GET_BLACK_BOX_TRANSCRIPT"
+    "dialogue": [
+      [
+        "TALK_MISSION_DESCRIBE",
+        "We've got the flag, now we need to locate US forces."
+      ],
+      [
+        "TALK_MISSION_OFFER",
+        "We have the flag but now we need to locate US troops to see\n what we can do to help.  I haven't seen any but I'm figure'n one of\n those choppers that were fly'n round during th outbreak would have a good\n idea.  If you can get me a black box from one of the wrecks I'll look\n into where we might open'er at."
+      ],
+      [
+        "TALK_MISSION_ACCEPTED",
+        "Fuck ya, America!"
+      ],
+      [
+        "TALK_MISSION_REJECTED",
+        "Do you have any better ideas?"
+      ],
+      [
+        "TALK_MISSION_ADVICE",
+        "Survivors were talking about them crashing but I don't know\n where.  If I were a pilot I'd avoid crash landing in a city or forest\n though."
+      ],
+      [
+        "TALK_MISSION_INQUIRE",
+        "How 'bout that black box?"
+      ],
+      [
+        "TALK_MISSION_SUCCESS",
+        "America, fuck ya!"
+      ],
+      [
+        "TALK_MISSION_SUCCESS_LIE",
+        "What?!  I out'ta whip you're ass."
+      ],
+      [
+        "TALK_MISSION_FAILURE",
+        "Damn, I'll have to find'er myself."
+      ]
+    ]
   },
   {
     "id": "MISSION_GET_BLACK_BOX_TRANSCRIPT",
     "type": "mission_definition",
     "name": "Retrieve Black Box Transcript",
     "goal": "MGOAL_FIND_ITEM",
-    "difficulty": 2,
-    "value": 150000,
     "item": "black_box_transcript",
+    "value": 150000,
+    "difficulty": 2,
     "start": "reveal_lab_black_box",
+    "followup": "MISSION_EXPLORE_SARCOPHAGUS",
     "origins": [ "ORIGIN_SECONDARY" ],
-    "followup": "MISSION_EXPLORE_SARCOPHAGUS"
+    "dialogue": [
+      [
+        "TALK_MISSION_DESCRIBE",
+        "With the black box in hand, we need to find a lab."
+      ],
+      [
+        "TALK_MISSION_OFFER",
+        "Thanks to your searching we've got the black box but now we\n need to have a look'n-side her.  Now, most buildings don't have power\n anymore but there are a few that might be of use.  Have you ever seen\n one of those science labs that have popped up in the middle of nowhere?\n Them suckers have a glowing terminal out front so I know they have power\n somewhere inside'em.  If you can get inside and find a computer lab that\n still works you ought to be able to find out what's in the black box."
+      ],
+      [
+        "TALK_MISSION_ACCEPTED",
+        "Fuck ya, America!"
+      ],
+      [
+        "TALK_MISSION_REJECTED",
+        "Do you have any better ideas?"
+      ],
+      [
+        "TALK_MISSION_ADVICE",
+        "When I was play'n with the terminal for the one I ran into it\n kept asking for an ID card.  Finding one would be the first order of business."
+      ],
+      [
+        "TALK_MISSION_INQUIRE",
+        "How 'bout that black box?"
+      ],
+      [
+        "TALK_MISSION_SUCCESS",
+        "America, fuck ya!  I was in the guard a few years back so I'm\n confident I can make heads-or-tails of these transmissions."
+      ],
+      [
+        "TALK_MISSION_SUCCESS_LIE",
+        "What?!  I out'ta whip you're ass."
+      ],
+      [
+        "TALK_MISSION_FAILURE",
+        "Damn, I maybe we can find an egg-head to crack the terminal."
+      ]
+    ]
   },
   {
     "id": "MISSION_GET_DEPUTY_BADGE",
     "type": "mission_definition",
     "name": "Find Deputy Badge",
     "goal": "MGOAL_FIND_ITEM",
-    "difficulty": 2,
-    "value": 150000,
     "item": "badge_deputy",
-    "origins": [ "ORIGIN_SECONDARY" ]
+    "value": 150000,
+    "difficulty": 2,
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "dialogue": [
+      [
+        "TALK_MISSION_DESCRIBE",
+        "Those twisted snakes..."
+      ],
+      [
+        "TALK_MISSION_OFFER",
+        "I hope you will find use from what you got out of the deposit box but I also have another job for you \nthat might lead you to an opportunity to deal out justice for those who cannot.  First things first, we can't just \nlook like ruffians.  Find us a deputy badge, easy enough?"
+      ],
+      [
+        "TALK_MISSION_ACCEPTED",
+        "I'd check the police station."
+      ],
+      [
+        "TALK_MISSION_REJECTED",
+        "We're also official... just hang in there and I'll show you what we can really do."
+      ],
+      [
+        "TALK_MISSION_ADVICE",
+        "They shouldn't be that hard to find... should they?"
+      ],
+      [
+        "TALK_MISSION_INQUIRE",
+        "Any luck?"
+      ],
+      [
+        "TALK_MISSION_SUCCESS",
+        "Great work, Deputy.  We're in business."
+      ],
+      [
+        "TALK_MISSION_SUCCESS_LIE",
+        "Thanks for trying... I guess."
+      ],
+      [
+        "TALK_MISSION_FAILURE",
+        "The day of reckoning will come for the criminals if it hasn't already."
+      ]
+    ]
   },
   {
     "id": "MISSION_GET_FLAG",
     "type": "mission_definition",
     "name": "Find Flag",
     "goal": "MGOAL_FIND_ITEM",
-    "difficulty": 2,
-    "value": 100000,
     "item": "american_flag",
-    "origins": [ "ORIGIN_OPENER_NPC", "ORIGIN_ANY_NPC" ],
-    "followup": "MISSION_GET_BLACK_BOX"
+    "value": 100000,
+    "difficulty": 2,
+    "followup": "MISSION_GET_BLACK_BOX",
+    "origins": [
+      "ORIGIN_OPENER_NPC",
+      "ORIGIN_ANY_NPC"
+    ],
+    "dialogue": [
+      [
+        "TALK_MISSION_DESCRIBE",
+        "Does our flag still yet wave?"
+      ],
+      [
+        "TALK_MISSION_OFFER",
+        "Does our flag still yet wave? We're battered but not yet out of the\n fight, we need the old colors!"
+      ],
+      [
+        "TALK_MISSION_ACCEPTED",
+        "Hell ya!  Find me one of those big ol' American flags."
+      ],
+      [
+        "TALK_MISSION_REJECTED",
+        "Seriously?  God damned commie..."
+      ],
+      [
+        "TALK_MISSION_ADVICE",
+        "Find a large federal building or school, they must have one."
+      ],
+      [
+        "TALK_MISSION_INQUIRE",
+        "Rescued the standard yet?"
+      ],
+      [
+        "TALK_MISSION_SUCCESS",
+        "America, fuck ya!"
+      ],
+      [
+        "TALK_MISSION_SUCCESS_LIE",
+        "What?!  You liar!"
+      ],
+      [
+        "TALK_MISSION_FAILURE",
+        "You give up?  This country fell apart because no one could find a\ngood man to rely on... might as well give up, I guess."
+      ]
+    ]
   },
   {
     "id": "MISSION_GET_RECORD_ACCOUNTING",
     "type": "mission_definition",
     "name": "Find Corporate Accounts",
     "goal": "MGOAL_FIND_ITEM",
-    "difficulty": 2,
-    "value": 140000,
     "item": "record_accounting",
-    "origins": [ "ORIGIN_OPENER_NPC", "ORIGIN_ANY_NPC" ],
-    "followup": "MISSION_GET_SAFE_BOX"
+    "value": 140000,
+    "difficulty": 2,
+    "followup": "MISSION_GET_SAFE_BOX",
+    "origins": [
+      "ORIGIN_OPENER_NPC",
+      "ORIGIN_ANY_NPC"
+    ],
+    "dialogue": [
+      [
+        "TALK_MISSION_DESCRIBE",
+        "Those twisted snakes..."
+      ],
+      [
+        "TALK_MISSION_OFFER",
+        "Our world fell apart because our leaders were as crooked as the con-men that \npaid for their elections.  Just find me one of those corporate accounting books and I'll \nshow you and the rest of the world just who is at fault."
+      ],
+      [
+        "TALK_MISSION_ACCEPTED",
+        "You'll see, I know I'm right."
+      ],
+      [
+        "TALK_MISSION_REJECTED",
+        "I know it isn't pressing but the big corporations didn't get a chance to destroy \nthe evidence yet."
+      ],
+      [
+        "TALK_MISSION_ADVICE",
+        "Try a big corporate building of some sort, they're bound to have an accounting department."
+      ],
+      [
+        "TALK_MISSION_INQUIRE",
+        "Any luck?"
+      ],
+      [
+        "TALK_MISSION_SUCCESS",
+        "Great, let's see... uh... hmmm...  Fine, I didn't even do my own taxes but I'm sure this \nwill prove their guilt if we get an expert to examine it."
+      ],
+      [
+        "TALK_MISSION_SUCCESS_LIE",
+        "Thanks for trying... I guess."
+      ],
+      [
+        "TALK_MISSION_FAILURE",
+        "The day of reckoning will come for the corporations if it hasn't already."
+      ]
+    ]
   },
   {
     "id": "MISSION_GET_RECORD_PATIENT",
     "type": "mission_definition",
     "name": "Find Patient Records",
     "goal": "MGOAL_FIND_ITEM",
-    "difficulty": 2,
-    "value": 60000,
     "item": "record_patient",
-    "origins": [ "ORIGIN_OPENER_NPC", "ORIGIN_ANY_NPC" ],
-    "followup": "MISSION_REACH_FEMA_CAMP"
+    "value": 60000,
+    "difficulty": 2,
+    "followup": "MISSION_REACH_FEMA_CAMP",
+    "origins": [
+      "ORIGIN_OPENER_NPC",
+      "ORIGIN_ANY_NPC"
+    ],
+    "dialogue": [
+      [
+        "TALK_MISSION_DESCRIBE",
+        "I hope I don't see many names I know..."
+      ],
+      [
+        "TALK_MISSION_OFFER",
+        "I've lost so many friends... please find me a patient list from the \nregional hospital or doctor's office.  I just want to know who might still be out there."
+      ],
+      [
+        "TALK_MISSION_ACCEPTED",
+        "Thank you, I suppose it won't change what has already happened but it will bring me closure."
+      ],
+      [
+        "TALK_MISSION_REJECTED",
+        "Please, I just want to know what happened to everyone."
+      ],
+      [
+        "TALK_MISSION_ADVICE",
+        "I bet you'll run into a lot of those things in the hospital, please be careful."
+      ],
+      [
+        "TALK_MISSION_INQUIRE",
+        "Any luck?"
+      ],
+      [
+        "TALK_MISSION_SUCCESS",
+        "Oh dear, I thought Timmy would have made it..."
+      ],
+      [
+        "TALK_MISSION_SUCCESS_LIE",
+        "Thanks for trying... I guess."
+      ],
+      [
+        "TALK_MISSION_FAILURE",
+        "I bet some of them are still out there..."
+      ]
+    ]
   },
   {
     "id": "MISSION_GET_RECORD_WEATHER",
     "type": "mission_definition",
     "name": "Find Weather Log",
     "goal": "MGOAL_FIND_ITEM",
-    "difficulty": 2,
-    "value": 50000,
     "item": "record_weather",
-    "origins": [ "ORIGIN_OPENER_NPC", "ORIGIN_ANY_NPC" ]
+    "value": 50000,
+    "difficulty": 2,
+    "origins": [
+      "ORIGIN_OPENER_NPC",
+      "ORIGIN_ANY_NPC"
+    ],
+    "dialogue": [
+      [
+        "TALK_MISSION_DESCRIBE",
+        "I wonder if a retreat might exist..."
+      ],
+      [
+        "TALK_MISSION_OFFER",
+        "Everyone who dies gets back up, right?  Which means that whatever \nis causing this it must be airborne to have infected everyone.  I believe that \nif that is the case then there should be regions that were not downwind from \nwhere-ever the disease was released.  We need to find a record of all the \nweather patterns leading up to the outbreak."
+      ],
+      [
+        "TALK_MISSION_ACCEPTED",
+        "Thanks so much, you may save both of us yet."
+      ],
+      [
+        "TALK_MISSION_REJECTED",
+        "Ya, it was a long shot I admit."
+      ],
+      [
+        "TALK_MISSION_ADVICE",
+        "I'm not sure, maybe a news station would have what we are looking?"
+      ],
+      [
+        "TALK_MISSION_INQUIRE",
+        "Any luck?"
+      ],
+      [
+        "TALK_MISSION_SUCCESS",
+        "These look more complicated than I thought, just give me some time."
+      ],
+      [
+        "TALK_MISSION_SUCCESS_LIE",
+        "This isn't what we need."
+      ],
+      [
+        "TALK_MISSION_FAILURE",
+        "If only we could find a great valley or something."
+      ]
+    ]
   },
   {
     "id": "MISSION_GET_RELIC",
     "type": "mission_definition",
     "name": "Find Relic",
     "goal": "MGOAL_FIND_ITEM",
-    "difficulty": 2,
-    "value": 100000,
     "item": "small_relic",
-    "origins": [ "ORIGIN_OPENER_NPC", "ORIGIN_ANY_NPC" ],
-    "followup": "MISSION_RECOVER_PRIEST_DIARY"
+    "value": 100000,
+    "difficulty": 2,
+    "followup": "MISSION_RECOVER_PRIEST_DIARY",
+    "origins": [
+      "ORIGIN_OPENER_NPC",
+      "ORIGIN_ANY_NPC"
+    ],
+    "dialogue": [
+      [
+        "TALK_MISSION_DESCRIBE",
+        "St. Michael the archangel defend me in battle..."
+      ],
+      [
+        "TALK_MISSION_OFFER",
+        "As the world seems to abandon the reality that we once knew, it \nbecomes plausible that the old superstitions that were cast aside may \nhave had some truth to them.  Please go and find me a religious relic...\nI doubt it will be of much use but I've got to hope in something."
+      ],
+      [
+        "TALK_MISSION_ACCEPTED",
+        "I wish you the best of luck, may whatever god you please guide your path."
+      ],
+      [
+        "TALK_MISSION_REJECTED",
+        "Ya, I guess the stress may just be getting to me..."
+      ],
+      [
+        "TALK_MISSION_ADVICE",
+        "I suppose a large church or cathedral may have something."
+      ],
+      [
+        "TALK_MISSION_INQUIRE",
+        "Any luck? Please find me a small relic. Any relic will do."
+      ],
+      [
+        "TALK_MISSION_SUCCESS",
+        "Thank you, I need some time alone now..."
+      ],
+      [
+        "TALK_MISSION_SUCCESS_LIE",
+        "What good does this do us?"
+      ],
+      [
+        "TALK_MISSION_FAILURE",
+        "It was a lost cause anyways..."
+      ]
+    ]
   },
   {
     "id": "MISSION_GET_SAFE_BOX",
     "type": "mission_definition",
     "name": "Retrieve Deposit Box",
     "goal": "MGOAL_FIND_ITEM",
-    "difficulty": 2,
-    "value": 30000,
     "item": "safe_box",
+    "value": 30000,
+    "difficulty": 2,
     "start": "place_deposit_box",
     "end": "deposit_box",
+    "followup": "MISSION_GET_DEPUTY_BADGE",
     "origins": [ "ORIGIN_SECONDARY" ],
-    "followup": "MISSION_GET_DEPUTY_BADGE"
+    "dialogue": [
+      [
+        "TALK_MISSION_DESCRIBE",
+        "Those twisted snakes..."
+      ],
+      [
+        "TALK_MISSION_OFFER",
+        "Now I don't mean to upset you but I'm not sure what I can do with the accounting ledger at the \nmoment.  We do have a new lead though, the ledger has a safe deposit box under the regional manager's name.  \nGuess what, dumb sucker wrote down his combination.  Come with me to retrieve the box and you can keep any \nof the goodies in it that I can't use to press charges against these bastards."
+      ],
+      [
+        "TALK_MISSION_ACCEPTED",
+        "You may make a tidy profit from this."
+      ],
+      [
+        "TALK_MISSION_REJECTED",
+        "I know it isn't pressing but the world is going to be just as corrupt when we start rebuilding unless \nwe take measure to stop those who seek to rule over us."
+      ],
+      [
+        "TALK_MISSION_ADVICE",
+        "This shouldn't be hard unless we run into a horde."
+      ],
+      [
+        "TALK_MISSION_INQUIRE",
+        "Any luck?"
+      ],
+      [
+        "TALK_MISSION_SUCCESS",
+        "Great, anything I can't use to prosecute the bastards is yours, as promised."
+      ],
+      [
+        "TALK_MISSION_SUCCESS_LIE",
+        "Thanks for trying... I guess."
+      ],
+      [
+        "TALK_MISSION_FAILURE",
+        "The day of reckoning will come for the corporations if it hasn't already."
+      ]
+    ]
   },
   {
     "id": "MISSION_GET_SOFTWARE",
     "type": "mission_definition",
     "name": "Retrieve Software",
     "goal": "MGOAL_FIND_ANY_ITEM",
-    "difficulty": 2,
     "value": 80000,
-    "place": "near_town",
+    "difficulty": 2,
     "start": "place_npc_software",
-    "origins": [ "ORIGIN_OPENER_NPC", "ORIGIN_ANY_NPC" ]
+    "origins": [
+      "ORIGIN_OPENER_NPC",
+      "ORIGIN_ANY_NPC"
+    ],
+    "dialogue": [
+      [
+        "TALK_MISSION_DESCRIBE",
+        "Oh man, I can't believe I forgot to download it..."
+      ],
+      [
+        "TALK_MISSION_OFFER",
+        "There's some important software on my computer that I need on USB."
+      ],
+      [
+        "TALK_MISSION_ACCEPTED",
+        "Thanks!  Just pull the data onto this USB drive and bring it to me."
+      ],
+      [
+        "TALK_MISSION_REJECTED",
+        "Seriously?  It's an easy job..."
+      ],
+      [
+        "TALK_MISSION_ADVICE",
+        "Take this USB drive.  Use the console, and download the software."
+      ],
+      [
+        "TALK_MISSION_INQUIRE",
+        "So, do you have my software yet?"
+      ],
+      [
+        "TALK_MISSION_SUCCESS",
+        "Excellent, thank you!"
+      ],
+      [
+        "TALK_MISSION_SUCCESS_LIE",
+        "What?!  You liar!"
+      ],
+      [
+        "TALK_MISSION_FAILURE",
+        "Wow, you failed?  All that work, down the drain..."
+      ]
+    ],
+    "place": "near_town"
   },
   {
     "id": "MISSION_GET_ZOMBIE_BLOOD_ANAL",
     "type": "mission_definition",
     "name": "Analyze Zombie Blood",
     "goal": "MGOAL_FIND_ITEM",
-    "difficulty": 8,
-    "value": 250000,
     "item": "software_blood_data",
+    "value": 250000,
+    "difficulty": 8,
     "start": "reveal_hospital",
-    "origins": [ "ORIGIN_SECONDARY" ]
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "dialogue": [
+      [
+        "TALK_MISSION_DESCRIBE",
+        "It could be very informative to perform an analysis of zombie blood..."
+      ],
+      [
+        "TALK_MISSION_OFFER",
+        "I need someone to get a sample of zombie blood, take it to a hospital, and \nperform a centrifuge analysis of it."
+      ],
+      [
+        "TALK_MISSION_ACCEPTED",
+        "Excellent.  Take this vacutainer; once you've produced a zombie corpse, use it \nto extract blood from the body, then take it to a hospital for analysis."
+      ],
+      [
+        "TALK_MISSION_REJECTED",
+        "Are you sure?  The scientific value of that blood data could be priceless..."
+      ],
+      [
+        "TALK_MISSION_ADVICE",
+        "The centrifuge is a bit technical; you might want to study up on the usage of \ncomputers before completing that part."
+      ],
+      [
+        "TALK_MISSION_INQUIRE",
+        "Well, do you have the data yet?"
+      ],
+      [
+        "TALK_MISSION_SUCCESS",
+        "Excellent!  This may be the key to removing the infection."
+      ],
+      [
+        "TALK_MISSION_SUCCESS_LIE",
+        "Wait, you couldn't possibly have the data!  Liar!"
+      ],
+      [
+        "TALK_MISSION_FAILURE",
+        "What a shame, that data could have proved invaluable..."
+      ]
+    ]
   },
   {
     "id": "MISSION_INVESTIGATE_CULT",
     "type": "mission_definition",
     "name": "Investigate Cult",
     "goal": "MGOAL_FIND_ITEM",
-    "difficulty": 2,
-    "value": 150000,
     "item": "etched_skull",
+    "value": 150000,
+    "difficulty": 2,
     "start": "point_cabin_strange",
+    "followup": "MISSION_INVESTIGATE_PRISON_VISIONARY",
     "origins": [ "ORIGIN_SECONDARY" ],
-    "followup": "MISSION_INVESTIGATE_PRISON_VISIONARY"
+    "dialogue": [
+      [
+        "TALK_MISSION_DESCRIBE",
+        "St. Michael the archangel defend me in battle..."
+      ],
+      [
+        "TALK_MISSION_OFFER",
+        "You have no idea how interesting this diary is.  I have two \nvery promising leads...  First things first, the Catholic Church has been \nperforming its own investigations into global cult phenomenon and it appears \nto have become very interested in a local cult as of recently.  Could you investigate \na location for me?  I'm not sure what was going on here but the priest seemed \nfairly worried about it."
+      ],
+      [
+        "TALK_MISSION_ACCEPTED",
+        "I wish you the best of luck, may whatever god you please guide your path...  You may need it \nthis time more than the past excursions you have gone on.  There is a note about potential human \nsacrifice in the days immediately before and after the outbreak.  The name of the cult is believed \nto be the Church of Starry Wisdom but it is noted that accounts differ."
+      ],
+      [
+        "TALK_MISSION_REJECTED",
+        "Ya, I guess the stress may just be getting to me..."
+      ],
+      [
+        "TALK_MISSION_ADVICE",
+        "I doubt the site is still occupied but I'd carry a firearm at least... I'm not sure what \nyou might be looking for but I'm positive you'll find something out of the ordinary if you look long \nenough."
+      ],
+      [
+        "TALK_MISSION_INQUIRE",
+        "I'm positive there is something there... there has to be, any luck?"
+      ],
+      [
+        "TALK_MISSION_SUCCESS",
+        "Thank you, your account of these... demonic creations proves the fears the churches \nhad were well founded.  Our priority should be routing out any survivors of this cult... I don't \nknown if they are responsible for the outbreak but they certainly know more about it than I do."
+      ],
+      [
+        "TALK_MISSION_SUCCESS_LIE",
+        "What good does this do us?"
+      ],
+      [
+        "TALK_MISSION_FAILURE",
+        "It was a lost cause anyways..."
+      ]
+    ]
   },
   {
     "id": "MISSION_INVESTIGATE_PRISON_VISIONARY",
     "type": "mission_definition",
     "name": "Prison Visionary",
     "goal": "MGOAL_FIND_ITEM",
-    "difficulty": 2,
-    "value": 150000,
     "item": "visions_solitude",
+    "value": 150000,
+    "difficulty": 2,
     "start": "point_prison",
-    "origins": [ "ORIGIN_SECONDARY" ]
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "dialogue": [
+      [
+        "TALK_MISSION_DESCRIBE",
+        "St. Michael the archangel defend me in battle..."
+      ],
+      [
+        "TALK_MISSION_OFFER",
+        "I have another task if you are feeling up to it.  There is a prisoner that \nthe priest made special mention of.  I was wondering if you could see \nwhat may have happened to him or if he left anything in his cell.  The priest admits the individual is rather \nunstable, to put it lightly, but the priest personally believed the man was some kind of repentant visionary.  I'm \nnot in a position to cast out the account just yet... it seems the man has prophesied  events accurately before \nconcerning the Church of Starry Wisdom."
+      ],
+      [
+        "TALK_MISSION_ACCEPTED",
+        "I wish you the best of luck, may whatever god you please guide your path...  I can only imagine that the prison \nwill be a little slice of hell.  I'm not sure what they would have decided to do with the inmates when they knew \ndeath was almost certain.  "
+      ],
+      [
+        "TALK_MISSION_REJECTED",
+        "Ya, I guess the stress may just be getting to me..."
+      ],
+      [
+        "TALK_MISSION_ADVICE",
+        "The worst case scenario will probably be that the prisoners have escaped their cells and turned the \nbuilding into their own little fortress.  Best case, the building went into lock-down and secured the prisoners in \ntheir cells.  Either way, navigating the building will pose its own difficulties."
+      ],
+      [
+        "TALK_MISSION_INQUIRE",
+        "Any luck?"
+      ],
+      [
+        "TALK_MISSION_SUCCESS",
+        "Thank you, I'm not sure what to make of this but I'll ponder your account."
+      ],
+      [
+        "TALK_MISSION_SUCCESS_LIE",
+        "What good does this do us?"
+      ],
+      [
+        "TALK_MISSION_FAILURE",
+        "It was a lost cause anyways..."
+      ]
+    ]
   },
   {
     "id": "MISSION_JOIN_TRACKER",
     "type": "mission_definition",
     "name": "Tracker",
-    "goal": "MGOAL_FIND_ITEM",
-    "difficulty": 5,
-    "value": 0,
     "urgent": true,
+    "goal": "MGOAL_FIND_ITEM",
     "item": "badge_deputy",
+    "value": 0,
+    "difficulty": 5,
     "start": "join",
-    "origins": [ "ORIGIN_SECONDARY" ]
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "dialogue": [
+      [
+        "TALK_MISSION_DESCRIBE",
+        "Well damn, you must be the guys here to pick me up..."
+      ],
+      [
+        "TALK_MISSION_OFFER",
+        "I got the brief so I know what I'm getting into.  Let me be upfront, \ntreat me like shit and I'm going to cover my own hide.  Without a strong band a man doesn't \nstand a chance in this world.  You ready to take charge boss?"
+      ],
+      [
+        "TALK_MISSION_ACCEPTED",
+        "Before we get into a major fight just make sure we have the gear we need, boss."
+      ],
+      [
+        "TALK_MISSION_REJECTED",
+        "I don't think you're going to find many other survivors who haven't taken up a faction yet."
+      ],
+      [
+        "TALK_MISSION_ADVICE",
+        "I'm a pretty good shot with a rifle or pistol."
+      ],
+      [
+        "TALK_MISSION_INQUIRE",
+        "Any problems boss?"
+      ],
+      [
+        "TALK_MISSION_SUCCESS",
+        "Wait... are you really making me a deputy?"
+      ],
+      [
+        "TALK_MISSION_SUCCESS_LIE",
+        "I don't think so..."
+      ],
+      [
+        "TALK_MISSION_FAILURE",
+        "Quitting already?"
+      ]
+    ]
   },
   {
     "id": "MISSION_KILL_100_Z",
     "type": "mission_definition",
     "name": "Kill 100 Zombies",
     "goal": "MGOAL_KILL_MONSTER_TYPE",
-    "difficulty": 5,
     "value": 250000,
+    "difficulty": 5,
     "start": "kill_100_z",
     "end": "leave",
+    "followup": "MISSION_KILL_HORDE_MASTER",
     "origins": [ "ORIGIN_SECONDARY" ],
-    "followup": "MISSION_KILL_HORDE_MASTER"
+    "dialogue": [
+      [
+        "TALK_MISSION_DESCRIBE",
+        "You seem to know this new world better than most..."
+      ],
+      [
+        "TALK_MISSION_OFFER",
+        "You're kitted out better than most... would you be interested in making this world a \nlittle better for the rest of us?  The towns have enough supplies for us survivors to \nstart securing a foothold but we don't have anyone with the skills and equipment to thin the masses \nof undead.  I'll lend you a hand to the best of my ability but you really \nshowed promise taking out that other beast.  You, I, and a 100 regular zombies laid to rest, what do you say?"
+      ],
+      [
+        "TALK_MISSION_ACCEPTED",
+        "Hell ya, we may get ourselves killed but we'll be among the first legends of the apocalypse."
+      ],
+      [
+        "TALK_MISSION_REJECTED",
+        "Hey, I know I wouldn't volunteer for it either... but then I remember that most of us survivors \nwon't make it unless someone decides to take the initiative."
+      ],
+      [
+        "TALK_MISSION_ADVICE",
+        "I'd secure an ammo cache and try to sweep a town in multiple passes."
+      ],
+      [
+        "TALK_MISSION_INQUIRE",
+        "Got this knocked out?"
+      ],
+      [
+        "TALK_MISSION_SUCCESS",
+        "Man... you're a goddamn machine.  It was a pleasure working with you.  You know, you may just change \nour little neck of the world if you keep this up."
+      ],
+      [
+        "TALK_MISSION_SUCCESS_LIE",
+        "I don't think that was quite a hundred dead zeds."
+      ],
+      [
+        "TALK_MISSION_FAILURE",
+        "Quitting already?"
+      ]
+    ]
   },
   {
     "id": "MISSION_KILL_HORDE_MASTER",
     "type": "mission_definition",
     "name": "Kill Horde Master",
-    "goal": "MGOAL_KILL_MONSTER",
-    "difficulty": 5,
-    "value": 250000,
     "urgent": true,
+    "goal": "MGOAL_KILL_MONSTER",
+    "value": 250000,
+    "difficulty": 5,
     "start": "kill_horde_master",
     "end": "leave",
+    "followup": "MISSION_RECRUIT_TRACKER",
     "origins": [ "ORIGIN_SECONDARY" ],
-    "followup": "MISSION_RECRUIT_TRACKER"
+    "dialogue": [
+      [
+        "TALK_MISSION_DESCRIBE",
+        "I've heard some bad rumors so I hope you are up for another challenge..."
+      ],
+      [
+        "TALK_MISSION_OFFER",
+        "Apparently one of the other survivors picked up on an unusually dense horde of undead \nmoving into the area.  At the center of this throng there was a 'leader' of some sort.  The short of it is, \nkill the son of a bitch.  We don't know what it is capable of or why it is surrounded by other zombies but \nthis thing reeks of trouble.  Do whatever it takes but we can't risk it getting away."
+      ],
+      [
+        "TALK_MISSION_ACCEPTED",
+        "I'll lend you a hand but I'd try and recruit another gunslinger if you can."
+      ],
+      [
+        "TALK_MISSION_REJECTED",
+        "What's the use of walking away, they'll track you down eventually."
+      ],
+      [
+        "TALK_MISSION_ADVICE",
+        "Don't risk torching the building it may be hiding in if it has a basement.  The sucker may still be \nalive under the rubble and ash."
+      ],
+      [
+        "TALK_MISSION_INQUIRE",
+        "Got this knocked out?"
+      ],
+      [
+        "TALK_MISSION_SUCCESS",
+        "May that bastard never get up again."
+      ],
+      [
+        "TALK_MISSION_SUCCESS_LIE",
+        "I don't think we got it yet."
+      ],
+      [
+        "TALK_MISSION_FAILURE",
+        "Quitting already?"
+      ]
+    ]
   },
   {
     "id": "MISSION_KILL_JABBERWOCK",
     "type": "mission_definition",
     "name": "Kill Jabberwock",
-    "goal": "MGOAL_KILL_MONSTER",
-    "difficulty": 5,
-    "value": 200000,
     "urgent": true,
+    "goal": "MGOAL_KILL_MONSTER",
+    "value": 200000,
+    "difficulty": 5,
     "start": "place_jabberwock",
     "end": "thankful",
-    "origins": [ "ORIGIN_OPENER_NPC", "ORIGIN_ANY_NPC" ],
-    "followup": "MISSION_KILL_100_Z"
+    "followup": "MISSION_KILL_100_Z",
+    "origins": [
+      "ORIGIN_OPENER_NPC",
+      "ORIGIN_ANY_NPC"
+    ],
+    "dialogue": [
+      [
+        "TALK_MISSION_DESCRIBE",
+        "The eater of the dead... something was ripping zombies to shreds and only leaving a few scattered limbs..."
+      ],
+      [
+        "TALK_MISSION_OFFER",
+        "A few days ago another survivor and I were trying to avoid the cities by staying in the woods \nduring the day and foraging for gear at night. It worked well against the normal zed's but one night something \ncaught onto our trail and chased us for ten minutes or so until we decided to split up and meet-up back here.  My \nbuddy never showed up and I don't have the means to kill whatever it was.  Can you lend a hand?"
+      ],
+      [
+        "TALK_MISSION_ACCEPTED",
+        "Thanks, make sure you're ready for whatever the beast is."
+      ],
+      [
+        "TALK_MISSION_REJECTED",
+        "Hey, I know I wouldn't volunteer for it either."
+      ],
+      [
+        "TALK_MISSION_ADVICE",
+        "I'd carry a shotgun at least, it sounded pretty big."
+      ],
+      [
+        "TALK_MISSION_INQUIRE",
+        "Any luck?"
+      ],
+      [
+        "TALK_MISSION_SUCCESS",
+        "You look a little shaken up, I can't tell you how glad I am that you killed it though."
+      ],
+      [
+        "TALK_MISSION_SUCCESS_LIE",
+        "Something in the shadows still seems to stare at me when I look at the woods."
+      ],
+      [
+        "TALK_MISSION_FAILURE",
+        "I'm glad you came back alive... I wasn't sure if I had sent you to your death."
+      ]
+    ]
   },
   {
     "id": "MISSION_KILL_ZOMBIE_MOM",
     "type": "mission_definition",
     "name": "Kill Zombie Mom",
-    "goal": "MGOAL_KILL_MONSTER",
-    "difficulty": 5,
-    "value": 120000,
     "urgent": true,
-    "place": "near_town",
+    "goal": "MGOAL_KILL_MONSTER",
+    "value": 120000,
+    "difficulty": 5,
     "start": "place_zombie_mom",
     "end": "thankful",
-    "origins": [ "ORIGIN_OPENER_NPC", "ORIGIN_ANY_NPC" ]
+    "origins": [
+      "ORIGIN_OPENER_NPC",
+      "ORIGIN_ANY_NPC"
+    ],
+    "dialogue": [
+      [
+        "TALK_MISSION_DESCRIBE",
+        "Oh god, I can't believe it happened..."
+      ],
+      [
+        "TALK_MISSION_OFFER",
+        "My mom... she's... she was killed, but then she just got back up... she's one \nof those things now.  Can you put her out of her misery for me?"
+      ],
+      [
+        "TALK_MISSION_ACCEPTED",
+        "Thank you... she would've wanted it this way."
+      ],
+      [
+        "TALK_MISSION_REJECTED",
+        "Please reconsider, I know she's suffering..."
+      ],
+      [
+        "TALK_MISSION_ADVICE",
+        "Find a gun if you can, make it quick..."
+      ],
+      [
+        "TALK_MISSION_INQUIRE",
+        "Well...?  Did you... finish things for my mom?"
+      ],
+      [
+        "TALK_MISSION_SUCCESS",
+        "Thank you.  I couldn't rest until I knew that was finished."
+      ],
+      [
+        "TALK_MISSION_SUCCESS_LIE",
+        "What?!  You're lying, I can tell!  Ugh, forget it!"
+      ],
+      [
+        "TALK_MISSION_FAILURE",
+        "Really... that's too bad."
+      ]
+    ],
+    "place": "near_town"
   },
   {
     "id": "MISSION_NULL",
     "type": "mission_definition",
     "name": "Null mission",
     "goal": "MGOAL_NULL",
-    "difficulty": 0,
     "value": 0,
+    "difficulty": 0,
     "place": "never"
   },
   {
@@ -303,611 +1239,2473 @@
     "type": "mission_definition",
     "name": "Locate Commo Team",
     "goal": "MGOAL_FIND_ITEM",
-    "difficulty": 2,
-    "value": 250000,
     "item": "necropolis_freq",
+    "value": 250000,
+    "difficulty": 2,
+    "followup": "MISSION_OLD_GUARD_NEC_2",
     "origins": [ "ORIGIN_SECONDARY" ],
-    "followup": "MISSION_OLD_GUARD_NEC_2"
+    "dialogue": [
+      [
+        "TALK_MISSION_DESCRIBE",
+        "We need help..."
+      ],
+      [
+        "TALK_MISSION_OFFER",
+        "My communications team went to secure the radio control room after we \nbreached the facility.  I haven't heard from them since, I need you to \nlocate them.  Their first objective was to record all active channels that \nwere transmitting information on other survivors or facilities.  Find them \nand return the frequency list to me.  I'm sure they could probably use your \nhelp also."
+      ],
+      [
+        "TALK_MISSION_ACCEPTED",
+        "Good luck, the communications room shouldn't be far from here."
+      ],
+      [
+        "TALK_MISSION_REJECTED",
+        "I don't know why you would bother wasting your time down here if you can't \nhandle a few small tasks..."
+      ],
+      [
+        "TALK_MISSION_ADVICE",
+        "We were briefed that the communications array was on this level."
+      ],
+      [
+        "TALK_MISSION_INQUIRE",
+        "How is the search going?"
+      ],
+      [
+        "TALK_MISSION_SUCCESS",
+        "Thanks, let me know when you need another tasking."
+      ],
+      [
+        "TALK_MISSION_SUCCESS_LIE",
+        "What good does this do us?"
+      ],
+      [
+        "TALK_MISSION_FAILURE",
+        "It was a lost cause anyways..."
+      ]
+    ]
   },
   {
     "id": "MISSION_OLD_GUARD_NEC_2",
     "type": "mission_definition",
     "name": "Cull Nightmares",
     "goal": "MGOAL_KILL_MONSTER_TYPE",
-    "difficulty": 5,
     "value": 250000,
+    "difficulty": 5,
     "start": "kill_20_nightmares",
-    "origins": [ "ORIGIN_SECONDARY" ]
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "dialogue": [
+      [
+        "TALK_MISSION_DESCRIBE",
+        "We need help..."
+      ],
+      [
+        "TALK_MISSION_OFFER",
+        "Your assistance is greatly appreciated, we need to clear out the more \nruthless monsters that are wandering up from the lower levels.  If you \ncould cull twenty or so of what we refer to as 'nightmares' my men \nwould be much safer.  If you've cleared out most of this floor then the \nlower levels should be your next target. "
+      ],
+      [
+        "TALK_MISSION_ACCEPTED",
+        "Good luck, finding a clear passage to the second level may be tricky."
+      ],
+      [
+        "TALK_MISSION_REJECTED",
+        "I don't know why you would bother wasting your time down here if you can't \nhandle a few small tasks..."
+      ],
+      [
+        "TALK_MISSION_ADVICE",
+        "These creatures can swing their appendages surprisingly far."
+      ],
+      [
+        "TALK_MISSION_INQUIRE",
+        "How is the hunt going?"
+      ],
+      [
+        "TALK_MISSION_SUCCESS",
+        "Thanks, let me know when you need another tasking."
+      ],
+      [
+        "TALK_MISSION_SUCCESS_LIE",
+        "What good does this do us?"
+      ],
+      [
+        "TALK_MISSION_FAILURE",
+        "It was a lost cause anyways..."
+      ]
+    ]
   },
   {
     "id": "MISSION_OLD_GUARD_NEC_COMMO_1",
     "type": "mission_definition",
     "name": "Fabricate Repeater Mod",
     "goal": "MGOAL_FIND_ITEM",
-    "difficulty": 2,
-    "value": 250000,
     "item": "radio_repeater_mod",
+    "value": 250000,
+    "difficulty": 2,
     "start": "radio_repeater",
+    "followup": "MISSION_OLD_GUARD_NEC_COMMO_2",
     "origins": [ "ORIGIN_SECONDARY" ],
-    "followup": "MISSION_OLD_GUARD_NEC_COMMO_2"
+    "dialogue": [
+      [
+        "TALK_MISSION_DESCRIBE",
+        "We need help..."
+      ],
+      [
+        "TALK_MISSION_OFFER",
+        "My chief responsibility is to monitor radio traffic and locate potential targets to \nsecure or rescue.  The majority of radio repeaters are down and those that are working \nhave only emergency power.  If you have a basic understanding of electronics you should \nbe able to fabricate  the 'radio repeater mod' found in these plans.  When this mod is \nattached to a radio station's main terminal, all short range radio traffic on emergency \nchannels is boosted so we can pick it up at much longer ranges.  I really need you make \nme one."
+      ],
+      [
+        "TALK_MISSION_ACCEPTED",
+        "Thanks, I know the labs on the other side of the complex have electronic parts sitting around."
+      ],
+      [
+        "TALK_MISSION_REJECTED",
+        "I don't know why you would bother wasting your time down here if you can't \nhandle a few small tasks..."
+      ],
+      [
+        "TALK_MISSION_ADVICE",
+        "I'm sure the motorpool has a truck battery you could salvage."
+      ],
+      [
+        "TALK_MISSION_INQUIRE",
+        "Have you had any luck fabricating it?"
+      ],
+      [
+        "TALK_MISSION_SUCCESS",
+        "Thanks, I'll see to installing this one.  It will be some time but I could use someone to position \nthese around the region."
+      ],
+      [
+        "TALK_MISSION_SUCCESS_LIE",
+        "What good does this do us?"
+      ],
+      [
+        "TALK_MISSION_FAILURE",
+        "It was a lost cause anyways..."
+      ]
+    ]
   },
   {
     "id": "MISSION_OLD_GUARD_NEC_COMMO_2",
     "type": "mission_definition",
     "name": "Disable External Power",
     "goal": "MGOAL_COMPUTER_TOGGLE",
-    "difficulty": 2,
     "value": 150000,
+    "difficulty": 2,
+    "followup": "MISSION_OLD_GUARD_NEC_COMMO_3",
     "origins": [ "ORIGIN_SECONDARY" ],
-    "followup": "MISSION_OLD_GUARD_NEC_COMMO_3"
+    "dialogue": [
+      [
+        "TALK_MISSION_DESCRIBE",
+        "We need help..."
+      ],
+      [
+        "TALK_MISSION_OFFER",
+        "I guess I could use your skills once again.  There are small transmitters located in the nearby evacuation \nshelters; if we don't separate them from the power grid their power systems will rapidly deteriorate \nover the next few weeks.  The task is rather simple but the shelters offer us a place to redirect refugees \nuntil this vault can be secured. "
+      ],
+      [
+        "TALK_MISSION_ACCEPTED",
+        "Thanks, I should be ready for you to install the radio repeater mods by the time you get back."
+      ],
+      [
+        "TALK_MISSION_REJECTED",
+        "I don't know why you would bother wasting your time down here if you can't \nhandle a few small tasks..."
+      ],
+      [
+        "TALK_MISSION_ADVICE",
+        "Try searching on the outskirts of towns."
+      ],
+      [
+        "TALK_MISSION_INQUIRE",
+        "Have you had any luck severing the connection?"
+      ],
+      [
+        "TALK_MISSION_SUCCESS",
+        "We are good to go!  The last of the gear is powering up now."
+      ],
+      [
+        "TALK_MISSION_SUCCESS_LIE",
+        "What good does this do us?"
+      ],
+      [
+        "TALK_MISSION_FAILURE",
+        "It was a lost cause anyways..."
+      ]
+    ]
   },
   {
     "id": "MISSION_OLD_GUARD_NEC_COMMO_3",
     "type": "mission_definition",
     "name": "Install Repeater Mod",
     "goal": "MGOAL_COMPUTER_TOGGLE",
-    "difficulty": 2,
     "value": 300000,
+    "difficulty": 2,
+    "followup": "MISSION_OLD_GUARD_NEC_COMMO_4",
     "origins": [ "ORIGIN_SECONDARY" ],
-    "followup": "MISSION_OLD_GUARD_NEC_COMMO_4"
+    "dialogue": [
+      [
+        "TALK_MISSION_DESCRIBE",
+        "We need help..."
+      ],
+      [
+        "TALK_MISSION_OFFER",
+        "Most of my essential gear has been brought back online so it is time for you to install your \nfirst radio repeater mod.  Head topside and locate the nearest radio station.  Install the \nmod on the backup terminal and return to me so that I can verify that everything was successful.  \nRadio towers must unfortunatly be ignored for now, without a dedicated emergency power system \nthey won't be useful for some time."
+      ],
+      [
+        "TALK_MISSION_ACCEPTED",
+        "I'll be standing by down here once you are done."
+      ],
+      [
+        "TALK_MISSION_REJECTED",
+        "I don't know why you would bother wasting your time down here if you can't \nhandle a few small tasks..."
+      ],
+      [
+        "TALK_MISSION_ADVICE",
+        "If you could make some sort of directional antenna, it might help locating the radio stations."
+      ],
+      [
+        "TALK_MISSION_INQUIRE",
+        "Have you had any luck finding a radio tower?"
+      ],
+      [
+        "TALK_MISSION_SUCCESS",
+        "That's one down."
+      ],
+      [
+        "TALK_MISSION_SUCCESS_LIE",
+        "What good does this do us?"
+      ],
+      [
+        "TALK_MISSION_FAILURE",
+        "It was a lost cause anyways..."
+      ]
+    ]
   },
   {
     "id": "MISSION_OLD_GUARD_NEC_COMMO_4",
     "type": "mission_definition",
     "name": "Install Repeater Mod",
     "goal": "MGOAL_COMPUTER_TOGGLE",
-    "difficulty": 2,
     "value": 350000,
+    "difficulty": 2,
+    "followup": "MISSION_OLD_GUARD_NEC_COMMO_4",
     "origins": [ "ORIGIN_SECONDARY" ],
-    "followup": "MISSION_OLD_GUARD_NEC_COMMO_4"
+    "dialogue": [
+      [
+        "TALK_MISSION_DESCRIBE",
+        "We need help..."
+      ],
+      [
+        "TALK_MISSION_OFFER",
+        "I could always use you to put another repeater mod up.  I don't have to remind you but every \none that goes up extends our response area just a little bit more.  With enough of them we'll \nbe able to maintain communication with anyone in the region."
+      ],
+      [
+        "TALK_MISSION_ACCEPTED",
+        "I'll be standing by."
+      ],
+      [
+        "TALK_MISSION_REJECTED",
+        "I don't know why you would bother wasting your time down here if you can't \nhandle a few small tasks..."
+      ],
+      [
+        "TALK_MISSION_ADVICE",
+        "Getting a working vehicle is going to become important as the distance you have to travel increases."
+      ],
+      [
+        "TALK_MISSION_INQUIRE",
+        "Have you had any luck finding a radio tower?"
+      ],
+      [
+        "TALK_MISSION_SUCCESS",
+        "I'll try and update the captain with any signals that I need investigated."
+      ],
+      [
+        "TALK_MISSION_SUCCESS_LIE",
+        "What good does this do us?"
+      ],
+      [
+        "TALK_MISSION_FAILURE",
+        "It was a lost cause anyways..."
+      ]
+    ]
   },
   {
     "id": "MISSION_OLD_GUARD_REP_1",
     "type": "mission_definition",
     "name": "Kill Bandits",
     "goal": "MGOAL_ASSASSINATE",
-    "difficulty": 5,
     "value": 50000,
+    "difficulty": 5,
     "start": "place_bandit_cabin",
+    "followup": "MISSION_OLD_GUARD_REP_2",
     "origins": [ "ORIGIN_SECONDARY" ],
-    "followup": "MISSION_OLD_GUARD_REP_2"
+    "dialogue": [
+      [
+        "TALK_MISSION_DESCRIBE",
+        "We need help..."
+      ],
+      [
+        "TALK_MISSION_OFFER",
+        "I don't like sending untested men into the field but if you have stayed alive so far \nyou might have some skills.  There are at least a pair of bandits squatting in a local cabin, \nanyone who preys upon civilians meets a quick end... execute both of them for their \ncrimes.  Complete this and the Old Guard will consider you an asset in the region."
+      ],
+      [
+        "TALK_MISSION_ACCEPTED",
+        "Contractor, I welcome you aboard."
+      ],
+      [
+        "TALK_MISSION_REJECTED",
+        "The States will remain a wasteland unless good men choose to save it."
+      ],
+      [
+        "TALK_MISSION_ADVICE",
+        "They might suspect you are coming, keep an eye out for traps."
+      ],
+      [
+        "TALK_MISSION_INQUIRE",
+        "Have you completed your mission?"
+      ],
+      [
+        "TALK_MISSION_SUCCESS",
+        "The Old Guard thanks you for eliminating the criminals.  You won't be forgotten."
+      ],
+      [
+        "TALK_MISSION_SUCCESS_LIE",
+        "What good does this do us?"
+      ],
+      [
+        "TALK_MISSION_FAILURE",
+        "It was a lost cause anyways..."
+      ]
+    ]
   },
   {
     "id": "MISSION_OLD_GUARD_REP_2",
     "type": "mission_definition",
     "name": "Deal with Informant",
     "goal": "MGOAL_ASSASSINATE",
-    "difficulty": 5,
     "value": 50000,
+    "difficulty": 5,
     "start": "place_informant",
+    "followup": "MISSION_OLD_GUARD_REP_3",
     "origins": [ "ORIGIN_SECONDARY" ],
-    "followup": "MISSION_OLD_GUARD_REP_3"
+    "dialogue": [
+      [
+        "TALK_MISSION_DESCRIBE",
+        "We need help..."
+      ],
+      [
+        "TALK_MISSION_OFFER",
+        "This task is going to require a little more persuasive skill.  I believe the \nHell's Raiders have an informant here to monitor who comes and goes.  I need \nyou to find out who it is and deal with them without letting anyone else know \nof my suspicions.  We normally allow the Free Merchants to govern themselves \nso I would hate to offend them."
+      ],
+      [
+        "TALK_MISSION_ACCEPTED",
+        "Thank you, please keep this discreet."
+      ],
+      [
+        "TALK_MISSION_REJECTED",
+        "Come back when you get a chance, we could use a few good men."
+      ],
+      [
+        "TALK_MISSION_ADVICE",
+        "If they draw first blood their friends are less likely to blame you..."
+      ],
+      [
+        "TALK_MISSION_INQUIRE",
+        "You deal with the rat?"
+      ],
+      [
+        "TALK_MISSION_SUCCESS",
+        "Thank you, I'll do the explaining if anyone else asks about it."
+      ],
+      [
+        "TALK_MISSION_SUCCESS_LIE",
+        "What good does this do us?"
+      ],
+      [
+        "TALK_MISSION_FAILURE",
+        "It was a lost cause anyways..."
+      ]
+    ]
   },
   {
     "id": "MISSION_OLD_GUARD_REP_3",
     "type": "mission_definition",
     "name": "Kill ???",
     "goal": "MGOAL_KILL_MONSTER",
-    "difficulty": 5,
     "value": 100000,
+    "difficulty": 5,
     "start": "place_grabber",
+    "followup": "MISSION_OLD_GUARD_REP_4",
     "origins": [ "ORIGIN_SECONDARY" ],
-    "followup": "MISSION_OLD_GUARD_REP_4"
+    "dialogue": [
+      [
+        "TALK_MISSION_DESCRIBE",
+        "We need help..."
+      ],
+      [
+        "TALK_MISSION_OFFER",
+        "There is another monster troubling the merchants but this time it isn't \nhuman... at least I don't think.  Guy just disappeared while walking \nbehind a packed caravan.  They didn't hear any shots but I suppose some \nraider may have been real sneaky.  Check out the area and report anything \nyou find."
+      ],
+      [
+        "TALK_MISSION_ACCEPTED",
+        "Thanks, keeping the people safe is what we try and do."
+      ],
+      [
+        "TALK_MISSION_REJECTED",
+        "Come back when you get a chance, we really need to start reclaiming the region."
+      ],
+      [
+        "TALK_MISSION_ADVICE",
+        "Search the bushes for any trace?  I'm not an expert tracker but you should \nbe able to find something."
+      ],
+      [
+        "TALK_MISSION_INQUIRE",
+        "How is the search going?"
+      ],
+      [
+        "TALK_MISSION_SUCCESS",
+        "Great work, wasn't sure what I was sending you after."
+      ],
+      [
+        "TALK_MISSION_SUCCESS_LIE",
+        "What good does this do us?"
+      ],
+      [
+        "TALK_MISSION_FAILURE",
+        "It was a lost cause anyways..."
+      ]
+    ]
   },
   {
     "id": "MISSION_OLD_GUARD_REP_4",
     "type": "mission_definition",
     "name": "Kill Raider Leader",
     "goal": "MGOAL_ASSASSINATE",
-    "difficulty": 10,
     "value": 300000,
+    "difficulty": 10,
     "start": "place_bandit_camp",
-    "origins": [ "ORIGIN_SECONDARY" ]
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "dialogue": [
+      [
+        "TALK_MISSION_DESCRIBE",
+        "We need help..."
+      ],
+      [
+        "TALK_MISSION_OFFER",
+        "I've located a Hell's Raiders encampment in the region that appears to be \ncoordinating operations against the Free Merchants.  We know almost nothing \nabout the command structure in the 'gang' so I need to send someone in to \ndecapitate the leadership.  The raid will be held under orders of the U.S. \nMarshals Service and by agreeing to the mission you will become a marshal, \nswearing to assist the federal government in regaining order."
+      ],
+      [
+        "TALK_MISSION_ACCEPTED",
+        "Now repeat after me...\nI do solemnly swear that I will support and defend the Constitution of the \nUnited States against all enemies, foreign and domestic...\n...that I will bear true faith and allegiance to the same...\n...that I take this obligation freely, without any mental reservation or purpose of evasion...\n...and that I will well and faithfully discharge the duties of the office on which I am about to enter.\nTo establish justice, insure domestic tranquility, provide for the common defense, promote the \ngeneral welfare and secure the blessings of liberty.\nSo help me God.\nCongratulations Marshal, don't forget your badge and gun.  As a marshal all men or women assisting you are \nconsidered deputy marshals so keep them in line."
+      ],
+      [
+        "TALK_MISSION_REJECTED",
+        "Come back when you get a chance, we could use a few good men."
+      ],
+      [
+        "TALK_MISSION_ADVICE",
+        "I'd recommend having two deputies... it would be a death trap if a \nsingle man got surrounded."
+      ],
+      [
+        "TALK_MISSION_INQUIRE",
+        "Has the leadership been dealt with?"
+      ],
+      [
+        "TALK_MISSION_SUCCESS",
+        "Marshal, you continue to impress us.\nIf you are interested, I recently received a message that a unit was deploying into our AO.\nI don't have the exact coordinates but they said they were securing an underground facility and may require assistance.\nThe bird dropped them off next to a pump station.  Can't tell you much more.\nIf you cound locate the captain in charge, I'm sure he could use your skills. \nDon't forget to wear your badge when meeting with them.\nThank you once again marshal."
+      ],
+      [
+        "TALK_MISSION_SUCCESS_LIE",
+        "What good does this do us?"
+      ],
+      [
+        "TALK_MISSION_FAILURE",
+        "It was a lost cause anyways..."
+      ]
+    ]
   },
   {
     "id": "MISSION_RANCH_BARTENDER_1",
     "type": "mission_definition",
     "name": "Make 2 Stills",
     "goal": "MGOAL_FIND_ITEM",
-    "difficulty": 5,
-    "value": 50000,
     "item": "still",
     "count": 2,
+    "value": 50000,
+    "difficulty": 5,
+    "followup": "MISSION_RANCH_BARTENDER_2",
     "origins": [ "ORIGIN_SECONDARY" ],
-    "followup": "MISSION_RANCH_BARTENDER_2"
+    "dialogue": [
+      [
+        "TALK_MISSION_DESCRIBE",
+        "We need help..."
+      ],
+      [
+        "TALK_MISSION_OFFER",
+        "The wine and beer we can brew are sufficient to attract most patrons but we need something \na bit stronger to get them to forget their misery.  Could you build me a pair of stills?"
+      ],
+      [
+        "TALK_MISSION_ACCEPTED",
+        "This should let us start producing whiskey, rum, and brandy when we get access to the ingredients."
+      ],
+      [
+        "TALK_MISSION_REJECTED",
+        "Come back when you get a chance, we need skilled survivors."
+      ],
+      [
+        "TALK_MISSION_ADVICE",
+        "I'm sure you could find the design for the stills in home brewing books."
+      ],
+      [
+        "TALK_MISSION_INQUIRE",
+        "Do you have the stills?"
+      ],
+      [
+        "TALK_MISSION_SUCCESS",
+        "Thank you for the delivery."
+      ],
+      [
+        "TALK_MISSION_SUCCESS_LIE",
+        "What good does this do us?"
+      ],
+      [
+        "TALK_MISSION_FAILURE",
+        "It was a lost cause anyways..."
+      ]
+    ]
   },
   {
     "id": "MISSION_RANCH_BARTENDER_2",
     "type": "mission_definition",
     "name": "Find 20 Yeast",
     "goal": "MGOAL_FIND_ITEM",
-    "difficulty": 5,
-    "value": 50000,
     "item": "yeast",
     "count": 20,
+    "value": 50000,
+    "difficulty": 5,
     "start": "ranch_bartender_1",
+    "followup": "MISSION_RANCH_BARTENDER_3",
     "origins": [ "ORIGIN_SECONDARY" ],
-    "followup": "MISSION_RANCH_BARTENDER_3"
+    "dialogue": [
+      [
+        "TALK_MISSION_DESCRIBE",
+        "We need help..."
+      ],
+      [
+        "TALK_MISSION_OFFER",
+        "The last batch that I brewed was terrible, I'm fairly sure something contaminated the yeast \nwe have been using.  Could you locate a source of fresh yeast for us to use?  I'd need about 20 \nteaspoons of dry yeast to get started."
+      ],
+      [
+        "TALK_MISSION_ACCEPTED",
+        "Thank you for your assistance."
+      ],
+      [
+        "TALK_MISSION_REJECTED",
+        "Come back when you get a chance, we need skilled survivors."
+      ],
+      [
+        "TALK_MISSION_ADVICE",
+        "Yeast should be common in homes or bakeries."
+      ],
+      [
+        "TALK_MISSION_INQUIRE",
+        "Do you have the yeast?"
+      ],
+      [
+        "TALK_MISSION_SUCCESS",
+        "Thank you for the delivery."
+      ],
+      [
+        "TALK_MISSION_SUCCESS_LIE",
+        "What good does this do us?"
+      ],
+      [
+        "TALK_MISSION_FAILURE",
+        "It was a lost cause anyways..."
+      ]
+    ]
   },
   {
     "id": "MISSION_RANCH_BARTENDER_3",
     "type": "mission_definition",
     "name": "Find 10 Sugar Beet Seeds",
     "goal": "MGOAL_FIND_ITEM",
-    "difficulty": 5,
-    "value": 50000,
     "item": "seed_sugar_beet",
     "count": 10,
+    "value": 50000,
+    "difficulty": 5,
     "start": "ranch_bartender_2",
+    "followup": "MISSION_RANCH_BARTENDER_4",
     "origins": [ "ORIGIN_SECONDARY" ],
-    "followup": "MISSION_RANCH_BARTENDER_4"
+    "dialogue": [
+      [
+        "TALK_MISSION_DESCRIBE",
+        "We need help..."
+      ],
+      [
+        "TALK_MISSION_OFFER",
+        "Sugar and molasses remains in short supply.  I've put in a request for more but it is unlikely \nthat I'm going to see a reliable source for some time.  If you are interested, we are going to \nneed sugar beet seeds to meet future demand regardless of what the scavengers can find.  Could \nyou bring me at least enough seeds to plant a small 10 meter long patch?"
+      ],
+      [
+        "TALK_MISSION_ACCEPTED",
+        "Thank you for your assistance."
+      ],
+      [
+        "TALK_MISSION_REJECTED",
+        "Come back when you get a chance, we need skilled survivors."
+      ],
+      [
+        "TALK_MISSION_ADVICE",
+        "Farms or supply stories might have a few seeds..."
+      ],
+      [
+        "TALK_MISSION_INQUIRE",
+        "Do you have the sugar beet seeds?"
+      ],
+      [
+        "TALK_MISSION_SUCCESS",
+        "Thank you for the delivery."
+      ],
+      [
+        "TALK_MISSION_SUCCESS_LIE",
+        "What good does this do us?"
+      ],
+      [
+        "TALK_MISSION_FAILURE",
+        "It was a lost cause anyways..."
+      ]
+    ]
   },
   {
     "id": "MISSION_RANCH_BARTENDER_4",
     "type": "mission_definition",
     "name": "Find 12 Metal Tanks",
     "goal": "MGOAL_FIND_ITEM",
-    "difficulty": 5,
-    "value": 50000,
     "item": "metal_tank",
     "count": 12,
+    "value": 50000,
+    "difficulty": 5,
     "start": "ranch_bartender_3",
+    "followup": "MISSION_RANCH_BARTENDER_5",
     "origins": [ "ORIGIN_SECONDARY" ],
-    "followup": "MISSION_RANCH_BARTENDER_5"
+    "dialogue": [
+      [
+        "TALK_MISSION_DESCRIBE",
+        "We need help..."
+      ],
+      [
+        "TALK_MISSION_OFFER",
+        "The drinks we brew here have become a major draw for visitors and the occasional trader.  Our \nbatches have become larger but we are still running out of storage space between trading runs.  \nI've been able to get a few volunteers to help me build a set of standing tanks but I still need \n12 metal tanks to build them.  I've talked with the scrappers but we are a low priority at the \nmoment."
+      ],
+      [
+        "TALK_MISSION_ACCEPTED",
+        "Thank you for your assistance."
+      ],
+      [
+        "TALK_MISSION_REJECTED",
+        "Come back when you get a chance, we need skilled survivors."
+      ],
+      [
+        "TALK_MISSION_ADVICE",
+        "Scrapping vehicles might be your best bet."
+      ],
+      [
+        "TALK_MISSION_INQUIRE",
+        "Do you have the metal tanks?"
+      ],
+      [
+        "TALK_MISSION_SUCCESS",
+        "Thank you for the delivery."
+      ],
+      [
+        "TALK_MISSION_SUCCESS_LIE",
+        "What good does this do us?"
+      ],
+      [
+        "TALK_MISSION_FAILURE",
+        "It was a lost cause anyways..."
+      ]
+    ]
   },
   {
     "id": "MISSION_RANCH_BARTENDER_5",
     "type": "mission_definition",
     "name": "Find 2 55-Gallon Drums",
     "goal": "MGOAL_FIND_ITEM",
-    "difficulty": 5,
-    "value": 50000,
     "item": "55gal_drum",
     "count": 2,
+    "value": 50000,
+    "difficulty": 5,
     "start": "ranch_bartender_4",
+    "followup": "MISSION_RANCH_BARTENDER_5",
     "origins": [ "ORIGIN_SECONDARY" ],
-    "followup": "MISSION_RANCH_BARTENDER_5"
+    "dialogue": [
+      [
+        "TALK_MISSION_DESCRIBE",
+        "We need help..."
+      ],
+      [
+        "TALK_MISSION_OFFER",
+        "The other survivor outposts that we have contact with have been more than eager to trade for \nbeer or other drinks.  Transporting the drinks to them has presented a number of challenges \nthough.  If you could locate a pair of 55-gallon drums we should be able to keep them \nsupplied while turning a significant profit."
+      ],
+      [
+        "TALK_MISSION_ACCEPTED",
+        "Thank you for your assistance."
+      ],
+      [
+        "TALK_MISSION_REJECTED",
+        "Come back when you get a chance, we need skilled survivors."
+      ],
+      [
+        "TALK_MISSION_ADVICE",
+        "Factories or junk yards are the only places I know where to look."
+      ],
+      [
+        "TALK_MISSION_INQUIRE",
+        "Do you have the 55-gallon drums?"
+      ],
+      [
+        "TALK_MISSION_SUCCESS",
+        "Thank you for the delivery."
+      ],
+      [
+        "TALK_MISSION_SUCCESS_LIE",
+        "What good does this do us?"
+      ],
+      [
+        "TALK_MISSION_FAILURE",
+        "It was a lost cause anyways..."
+      ]
+    ]
   },
   {
     "id": "MISSION_RANCH_FOREMAN_1",
     "type": "mission_definition",
     "name": "Cut 200 2x4's",
     "goal": "MGOAL_FIND_ITEM",
-    "difficulty": 5,
-    "value": 50000,
     "item": "2x4",
     "count": 200,
+    "value": 50000,
+    "difficulty": 5,
+    "followup": "MISSION_RANCH_FOREMAN_2",
     "origins": [ "ORIGIN_SECONDARY" ],
-    "followup": "MISSION_RANCH_FOREMAN_2"
+    "dialogue": [
+      [
+        "TALK_MISSION_DESCRIBE",
+        "We need help..."
+      ],
+      [
+        "TALK_MISSION_OFFER",
+        "Our first project is to enclose the barn so that new refugees have a safe place \nto sleep.  Before we can begin serious improvements we need lumber to work with.  \nEnclosing the four barn entrances will take nearly 400 2x4's... if you could \nprovide half of that we should be able to take care of the other half and \nconstruction.  If you don't have a truck, I'd make finding one your first priority.  "
+      ],
+      [
+        "TALK_MISSION_ACCEPTED",
+        "The more men we can bring to the camp the quicker improvements can be made."
+      ],
+      [
+        "TALK_MISSION_REJECTED",
+        "Come back when you get a chance, we need skilled survivors."
+      ],
+      [
+        "TALK_MISSION_ADVICE",
+        "Avoid destroying the furniture, we'll be needing it."
+      ],
+      [
+        "TALK_MISSION_INQUIRE",
+        "Do you have them?"
+      ],
+      [
+        "TALK_MISSION_SUCCESS",
+        "Great, I'll send word that we could use another set of hands or two to help out here."
+      ],
+      [
+        "TALK_MISSION_SUCCESS_LIE",
+        "What good does this do us?"
+      ],
+      [
+        "TALK_MISSION_FAILURE",
+        "It was a lost cause anyways..."
+      ]
+    ]
   },
   {
     "id": "MISSION_RANCH_FOREMAN_10",
     "type": "mission_definition",
     "name": "Gather 6 First Aid Kits",
     "goal": "MGOAL_FIND_ITEM",
-    "difficulty": 5,
-    "value": 50000,
     "item": "1st_aid",
     "count": 6,
+    "value": 50000,
+    "difficulty": 5,
     "start": "ranch_construct_9",
+    "followup": "MISSION_RANCH_FOREMAN_11",
     "origins": [ "ORIGIN_SECONDARY" ],
-    "followup": "MISSION_RANCH_FOREMAN_11"
+    "dialogue": [
+      [
+        "TALK_MISSION_DESCRIBE",
+        "We need help..."
+      ],
+      [
+        "TALK_MISSION_OFFER",
+        "We've started planning a medical clinic but we are going to need a lot more supplies if we hope to \nwarrant sending one of the few people with medical experience from the refugee center to our \noutpost.  I know first aid kits are rare but they have all the basic supplies that I'm uncertain \nof.  If you could bring in 3 full kits I'm sure we could supplement them to make them last a bit \nlonger."
+      ],
+      [
+        "TALK_MISSION_ACCEPTED",
+        "We'll do our best to make them last..."
+      ],
+      [
+        "TALK_MISSION_REJECTED",
+        "Come back when you get a chance, we need skilled survivors."
+      ],
+      [
+        "TALK_MISSION_ADVICE",
+        "Homes, hospitals, labs, and doctor offices would be where I'd check."
+      ],
+      [
+        "TALK_MISSION_INQUIRE",
+        "Do you have the first aid kits?"
+      ],
+      [
+        "TALK_MISSION_SUCCESS",
+        "I appreciate it."
+      ],
+      [
+        "TALK_MISSION_SUCCESS_LIE",
+        "What good does this do us?"
+      ],
+      [
+        "TALK_MISSION_FAILURE",
+        "It was a lost cause anyways..."
+      ]
+    ]
   },
   {
     "id": "MISSION_RANCH_FOREMAN_11",
     "type": "mission_definition",
     "name": "Find 2 Electric Welders",
     "goal": "MGOAL_FIND_ITEM",
-    "difficulty": 5,
-    "value": 50000,
     "item": "welder",
     "count": 2,
+    "value": 50000,
+    "difficulty": 5,
     "start": "ranch_construct_10",
+    "followup": "MISSION_RANCH_FOREMAN_12",
     "origins": [ "ORIGIN_SECONDARY" ],
-    "followup": "MISSION_RANCH_FOREMAN_12"
+    "dialogue": [
+      [
+        "TALK_MISSION_DESCRIBE",
+        "We need help..."
+      ],
+      [
+        "TALK_MISSION_OFFER",
+        "The work you have done has swayed the leaders at the refugee center to send someone out to assist \nwith our medical needs.  The next step is for us to get a sort of chop-shop setup so that we can \nbegin using scrap metal to build fortifications and equipment.  We are going to need a pair of \nelectric welders for our mechanics to use."
+      ],
+      [
+        "TALK_MISSION_ACCEPTED",
+        "With two, we should be able to repair one if it breaks."
+      ],
+      [
+        "TALK_MISSION_REJECTED",
+        "Come back when you get a chance, we need skilled survivors."
+      ],
+      [
+        "TALK_MISSION_ADVICE",
+        "The only place I've seen them is garages but I imagine you could find them in some stores."
+      ],
+      [
+        "TALK_MISSION_INQUIRE",
+        "Do you have the welders?"
+      ],
+      [
+        "TALK_MISSION_SUCCESS",
+        "I appreciate it."
+      ],
+      [
+        "TALK_MISSION_SUCCESS_LIE",
+        "What good does this do us?"
+      ],
+      [
+        "TALK_MISSION_FAILURE",
+        "It was a lost cause anyways..."
+      ]
+    ]
   },
   {
     "id": "MISSION_RANCH_FOREMAN_12",
     "type": "mission_definition",
     "name": "Find 12 Car Batteries",
     "goal": "MGOAL_FIND_ITEM",
-    "difficulty": 5,
-    "value": 50000,
     "item": "battery_car",
     "count": 12,
+    "value": 50000,
+    "difficulty": 5,
     "start": "ranch_construct_11",
+    "followup": "MISSION_RANCH_FOREMAN_13",
     "origins": [ "ORIGIN_SECONDARY" ],
-    "followup": "MISSION_RANCH_FOREMAN_13"
+    "dialogue": [
+      [
+        "TALK_MISSION_DESCRIBE",
+        "We need help..."
+      ],
+      [
+        "TALK_MISSION_OFFER",
+        "We have the basic equipment that we need but without a functioning power grid we are forced to rely \non the readily available vehicle batteries.  This is going to be a chore but I'll need twelve car \nbatteries to swap between charging and powering our equipment.  The good news is that they don't need \nto be charged, we can take care of that."
+      ],
+      [
+        "TALK_MISSION_ACCEPTED",
+        "I'm counting on you."
+      ],
+      [
+        "TALK_MISSION_REJECTED",
+        "Come back when you get a chance, we need skilled survivors."
+      ],
+      [
+        "TALK_MISSION_ADVICE",
+        "Cars can be found in traffic jams along roads or in parking lots... I'm sure you can find a few."
+      ],
+      [
+        "TALK_MISSION_INQUIRE",
+        "Do you have the car batteries?"
+      ],
+      [
+        "TALK_MISSION_SUCCESS",
+        "I'm impressed with your abilities."
+      ],
+      [
+        "TALK_MISSION_SUCCESS_LIE",
+        "What good does this do us?"
+      ],
+      [
+        "TALK_MISSION_FAILURE",
+        "It was a lost cause anyways..."
+      ]
+    ]
   },
   {
     "id": "MISSION_RANCH_FOREMAN_13",
     "type": "mission_definition",
     "name": "Find 2 Two-Way Radios",
     "goal": "MGOAL_FIND_ITEM",
-    "difficulty": 5,
-    "value": 50000,
     "item": "two_way_radio",
     "count": 2,
+    "value": 50000,
+    "difficulty": 5,
     "start": "ranch_construct_12",
+    "followup": "MISSION_RANCH_FOREMAN_14",
     "origins": [ "ORIGIN_SECONDARY" ],
-    "followup": "MISSION_RANCH_FOREMAN_14"
+    "dialogue": [
+      [
+        "TALK_MISSION_DESCRIBE",
+        "We need help..."
+      ],
+      [
+        "TALK_MISSION_OFFER",
+        "Check with the nurse when you get a chance, I know she will need help setting up our clinic.  On \nthe construction front, we are going to need to get dedicated scavenger teams setup to bring in \nthe miscellaneous supplies that we use in small quantities.  We are going to start setting up a \njunk shop for them in the North end of the outpost so we could use your help with that.  \nCommunication is the biggest obstacle for the teams... could you bring in a pair two two-way radios?"
+      ],
+      [
+        "TALK_MISSION_ACCEPTED",
+        "Organizing the scavenging missions is difficult enough without communication."
+      ],
+      [
+        "TALK_MISSION_REJECTED",
+        "Come back when you get a chance, we need skilled survivors."
+      ],
+      [
+        "TALK_MISSION_ADVICE",
+        "You should be able to find them in electronics stores or at a police station."
+      ],
+      [
+        "TALK_MISSION_INQUIRE",
+        "Do you have the two-way radios?"
+      ],
+      [
+        "TALK_MISSION_SUCCESS",
+        "I'm sure the scavengers will find these useful."
+      ],
+      [
+        "TALK_MISSION_SUCCESS_LIE",
+        "What good does this do us?"
+      ],
+      [
+        "TALK_MISSION_FAILURE",
+        "It was a lost cause anyways..."
+      ]
+    ]
   },
   {
     "id": "MISSION_RANCH_FOREMAN_14",
     "type": "mission_definition",
     "name": "Gather 5 Backpacks",
     "goal": "MGOAL_FIND_ITEM",
-    "difficulty": 5,
-    "value": 50000,
     "item": "backpack",
     "count": 5,
+    "value": 50000,
+    "difficulty": 5,
     "start": "ranch_construct_13",
+    "followup": "MISSION_RANCH_FOREMAN_15",
     "origins": [ "ORIGIN_SECONDARY" ],
-    "followup": "MISSION_RANCH_FOREMAN_15"
+    "dialogue": [
+      [
+        "TALK_MISSION_DESCRIBE",
+        "We need help..."
+      ],
+      [
+        "TALK_MISSION_OFFER",
+        "The volunteers for the scavenging teams will need to be issued some basic equipment.  When the boss \nsets up shop in the junk shed you should ask him what else he needs for his teams.  In the meantime \nwe can provide a few backpacks to get them started.  Could you find five backpacks to give to the \ninitial team?"
+      ],
+      [
+        "TALK_MISSION_ACCEPTED",
+        "I'm counting on you."
+      ],
+      [
+        "TALK_MISSION_REJECTED",
+        "Come back when you get a chance, we need skilled survivors."
+      ],
+      [
+        "TALK_MISSION_ADVICE",
+        "It may be easier to make them if you can't find a school or something."
+      ],
+      [
+        "TALK_MISSION_INQUIRE",
+        "Do you have the backpacks?"
+      ],
+      [
+        "TALK_MISSION_SUCCESS",
+        "Having at least basic equipment greatly increases survivability.  Thanks."
+      ],
+      [
+        "TALK_MISSION_SUCCESS_LIE",
+        "What good does this do us?"
+      ],
+      [
+        "TALK_MISSION_FAILURE",
+        "It was a lost cause anyways..."
+      ]
+    ]
   },
   {
     "id": "MISSION_RANCH_FOREMAN_15",
     "type": "mission_definition",
     "name": "Find Homebrewer's Bible",
     "goal": "MGOAL_FIND_ITEM",
-    "difficulty": 5,
-    "value": 50000,
     "item": "brewing_cookbook",
     "count": 1,
+    "value": 50000,
+    "difficulty": 5,
     "start": "ranch_construct_14",
+    "followup": "MISSION_RANCH_FOREMAN_16",
     "origins": [ "ORIGIN_SECONDARY" ],
-    "followup": "MISSION_RANCH_FOREMAN_16"
+    "dialogue": [
+      [
+        "TALK_MISSION_DESCRIBE",
+        "We need help..."
+      ],
+      [
+        "TALK_MISSION_OFFER",
+        "Growth has lately begun to stall, we have individuals passing through the outpost but the prospect \nof hard labor just to eek out an existence is driving them away.  We've asked around and decided \nthat, despite our pressing needs, building a bar ought to draw some of the less committed \nindividuals to the outpost.  Unlike other settlements, the more hands we have to more food we can \nproduce... at least in the long term.  Unfortunately, no one here has brewed alcoholic drinks \nbefore so we are going to need you to find a book called the 'Homebrewer's Bible' or something \nalong those lines."
+      ],
+      [
+        "TALK_MISSION_ACCEPTED",
+        "I'm counting on you."
+      ],
+      [
+        "TALK_MISSION_REJECTED",
+        "Come back when you get a chance, we need skilled survivors."
+      ],
+      [
+        "TALK_MISSION_ADVICE",
+        "I guess you should search homes or libraries?"
+      ],
+      [
+        "TALK_MISSION_INQUIRE",
+        "Do you have the book?"
+      ],
+      [
+        "TALK_MISSION_SUCCESS",
+        "I guarantee we will toast to your name when the bar is finished."
+      ],
+      [
+        "TALK_MISSION_SUCCESS_LIE",
+        "What good does this do us?"
+      ],
+      [
+        "TALK_MISSION_FAILURE",
+        "It was a lost cause anyways..."
+      ]
+    ]
   },
   {
     "id": "MISSION_RANCH_FOREMAN_16",
     "type": "mission_definition",
     "name": "Gather 80 Sugar",
     "goal": "MGOAL_FIND_ITEM",
-    "difficulty": 5,
-    "value": 50000,
     "item": "sugar",
     "count": 80,
+    "value": 50000,
+    "difficulty": 5,
     "start": "ranch_construct_15",
+    "followup": "MISSION_RANCH_FOREMAN_17",
     "origins": [ "ORIGIN_SECONDARY" ],
-    "followup": "MISSION_RANCH_FOREMAN_17"
+    "dialogue": [
+      [
+        "TALK_MISSION_DESCRIBE",
+        "We need help..."
+      ],
+      [
+        "TALK_MISSION_OFFER",
+        "Just flipping through the book I can tell that one ingredient in most of the alcoholic drinks \nthat we don't have a large supply of is sugar.  What alcohol we have been able to loot isn't \ngoing to last us long so starting our first large batch is a priority.  Could you bring in 80 \nunits of sugar?  That should last us until we can start producing our own supply."
+      ],
+      [
+        "TALK_MISSION_ACCEPTED",
+        "I'm counting on you."
+      ],
+      [
+        "TALK_MISSION_REJECTED",
+        "Come back when you get a chance, we need skilled survivors."
+      ],
+      [
+        "TALK_MISSION_ADVICE",
+        "You might get lucky finding it but you could always boil it out of fruit if you are familiar \nwith the process."
+      ],
+      [
+        "TALK_MISSION_INQUIRE",
+        "Do you have the sugar?"
+      ],
+      [
+        "TALK_MISSION_SUCCESS",
+        "There is a large group of thirsty individuals in our outpost that are truly thankful for your work."
+      ],
+      [
+        "TALK_MISSION_SUCCESS_LIE",
+        "What good does this do us?"
+      ],
+      [
+        "ALK_MISSION_FAILURE",
+        "It was a lost cause anyways..."
+      ]
+    ]
   },
   {
     "id": "MISSION_RANCH_FOREMAN_17",
     "type": "mission_definition",
     "name": "Collect 30 Glass Sheets",
     "goal": "MGOAL_FIND_ITEM",
-    "difficulty": 5,
-    "value": 50000,
     "item": "glass_sheet",
     "count": 30,
+    "value": 50000,
+    "difficulty": 5,
     "start": "ranch_construct_16",
+    "followup": "MISSION_RANCH_FOREMAN_17",
     "origins": [ "ORIGIN_SECONDARY" ],
-    "followup": "MISSION_RANCH_FOREMAN_17"
+    "dialogue": [
+      [
+        "TALK_MISSION_DESCRIBE",
+        "We need help..."
+      ],
+      [
+        "TALK_MISSION_OFFER",
+        "Although we are an agricultural outpost, we are restricted to growing plants that are compatible \nwith the New England climate during the warmer months.  The easiest way to work around that is to \nbuild green houses to supplement our external fields.  There isn't going to be an easy way to \nbuild these, we are going to need a massive number of glass sheets to enclose the frames.  The \nfirst house will need 20 sheets of glass if you are still interested."
+      ],
+      [
+        "TALK_MISSION_ACCEPTED",
+        "I'm counting on you."
+      ],
+      [
+        "TALK_MISSION_REJECTED",
+        "Come back when you get a chance, we need skilled survivors."
+      ],
+      [
+        "TALK_MISSION_ADVICE",
+        "Deconstructing existing windows is the only way I know of to keep the sheets intact."
+      ],
+      [
+        "TALK_MISSION_INQUIRE",
+        "Do you have the glass sheets?"
+      ],
+      [
+        "TALK_MISSION_SUCCESS",
+        "We'll begin planting our first seeds as soon as we can get these installed."
+      ],
+      [
+        "TALK_MISSION_SUCCESS_LIE",
+        "What good does this do us?"
+      ],
+      [
+        "TALK_MISSION_FAILURE",
+        "It was a lost cause anyways..."
+      ]
+    ]
   },
   {
     "id": "MISSION_RANCH_FOREMAN_2",
     "type": "mission_definition",
     "name": "Find 25 Blankets",
     "goal": "MGOAL_FIND_ITEM",
-    "difficulty": 5,
-    "value": 50000,
     "item": "blanket",
     "count": 25,
+    "value": 50000,
+    "difficulty": 5,
     "start": "ranch_construct_1",
+    "followup": "MISSION_RANCH_FOREMAN_3",
     "origins": [ "ORIGIN_SECONDARY" ],
-    "followup": "MISSION_RANCH_FOREMAN_3"
+    "dialogue": [
+      [
+        "TALK_MISSION_DESCRIBE",
+        "We need help..."
+      ],
+      [
+        "TALK_MISSION_OFFER",
+        "With the barn entrances enclosed the refugees moving into there should feel safer but the \nweather can be bitter here.  We're going to need to build makeshift beds in the stalls to \nward off disease and frostbite.  We can take care of the frames but will need your help \nlooting blankets.  We'd need 25 blankets to provide the most basic sleeping accommodations."
+      ],
+      [
+        "TALK_MISSION_ACCEPTED",
+        "I'd start with looting hotels or you could sew them together... but that would be a last resort."
+      ],
+      [
+        "TALK_MISSION_REJECTED",
+        "Come back when you get a chance, we need skilled survivors."
+      ],
+      [
+        "TALK_MISSION_ADVICE",
+        "Avoid destroying the furniture here, we'll be needing it."
+      ],
+      [
+        "TALK_MISSION_INQUIRE",
+        "Do you have them?"
+      ],
+      [
+        "TALK_MISSION_SUCCESS",
+        "Your assistance is always appreciated."
+      ],
+      [
+        "TALK_MISSION_SUCCESS_LIE",
+        "What good does this do us?"
+      ],
+      [
+        "TALK_MISSION_FAILURE",
+        "It was a lost cause anyways..."
+      ]
+    ]
   },
   {
     "id": "MISSION_RANCH_FOREMAN_3",
     "type": "mission_definition",
     "name": "Gather 2500 Nails",
     "goal": "MGOAL_FIND_ITEM",
-    "difficulty": 5,
-    "value": 50000,
     "item": "nail",
     "count": 2500,
+    "value": 50000,
+    "difficulty": 5,
     "start": "ranch_construct_2",
+    "followup": "MISSION_RANCH_FOREMAN_4",
     "origins": [ "ORIGIN_SECONDARY" ],
-    "followup": "MISSION_RANCH_FOREMAN_4"
+    "dialogue": [
+      [
+        "TALK_MISSION_DESCRIBE",
+        "We need help..."
+      ],
+      [
+        "TALK_MISSION_OFFER",
+        "Our supply of nails has been depleted.  I'm going to have to ask you to get us a few more \nboxes.  Hardware stores should have a few if they haven't been looted.  I suppose you may \nbe able to find handfuls of them in building rubble.  We'd need 2500 to have enough that we \nwon't be sending you back out too soon."
+      ],
+      [
+        "TALK_MISSION_ACCEPTED",
+        "Deconstructing furniture isn't going to be efficient, try looking for boxes or grabbing any \nsitting on top of rubble piles."
+      ],
+      [
+        "TALK_MISSION_REJECTED",
+        "Come back when you get a chance, we need skilled survivors."
+      ],
+      [
+        "TALK_MISSION_ADVICE",
+        "Avoid destroying the furniture here, we'll be needing it."
+      ],
+      [
+        "TALK_MISSION_INQUIRE",
+        "Do you have them?"
+      ],
+      [
+        "TALK_MISSION_SUCCESS",
+        "Your assistance is always appreciated."
+      ],
+      [
+        "TALK_MISSION_SUCCESS_LIE",
+        "What good does this do us?"
+      ],
+      [
+        "TALK_MISSION_FAILURE",
+        "It was a lost cause anyways..."
+      ]
+    ]
   },
   {
     "id": "MISSION_RANCH_FOREMAN_4",
     "type": "mission_definition",
     "name": "Gather 300 Salt",
     "goal": "MGOAL_FIND_ITEM",
-    "difficulty": 5,
-    "value": 50000,
     "item": "salt",
     "count": 300,
+    "value": 50000,
+    "difficulty": 5,
     "start": "ranch_construct_3",
+    "followup": "MISSION_RANCH_FOREMAN_5",
     "origins": [ "ORIGIN_SECONDARY" ],
-    "followup": "MISSION_RANCH_FOREMAN_5"
+    "dialogue": [
+      [
+        "TALK_MISSION_DESCRIBE",
+        "We need help..."
+      ],
+      [
+        "TALK_MISSION_OFFER",
+        "I'm sure you've noticed the new workers that have started trickling in.  The Free Merchant \ncounsel is demanding that we immediately begin projects to become self-sufficient due to \nlimited supplies.  We are going to need to rapidly setup an agricultural industry before \nwinter and starvation catches us unprepared and unsupported.  In order to get a half dozen \nshovels and a couple of bags of seeds, we are going to have to trade for it.  I've already \ngot the deal lined up but the only thing they are willing to trade it for is salt.  I \nnegotiated them down from 500 units to 300... we were hoping you might have access to a source."
+      ],
+      [
+        "TALK_MISSION_ACCEPTED",
+        "Salt is key to preserving meat and other perishables... without any excess food it wouldn't \ndo us much good now but I imagine we'll need to send you out to get more in the future.  "
+      ],
+      [
+        "TALK_MISSION_REJECTED",
+        "Come back when you get a chance, we need skilled survivors."
+      ],
+      [
+        "TALK_MISSION_ADVICE",
+        "If you can find a source of salt water you should be able to boil it down."
+      ],
+      [
+        "TALK_MISSION_INQUIRE",
+        "Do you have the salt?"
+      ],
+      [
+        "TALK_MISSION_SUCCESS",
+        "We are going to begin preparing our fields immediately."
+      ],
+      [
+        "TALK_MISSION_SUCCESS_LIE",
+        "What good does this do us?"
+      ],
+      [
+        "TALK_MISSION_FAILURE",
+        "It was a lost cause anyways..."
+      ]
+    ]
   },
   {
     "id": "MISSION_RANCH_FOREMAN_5",
     "type": "mission_definition",
     "name": "30 Liquid Fertilizer",
     "goal": "MGOAL_FIND_ITEM",
-    "difficulty": 5,
-    "value": 50000,
     "item": "fertilizer_liquid",
     "count": 30,
+    "value": 50000,
+    "difficulty": 5,
     "start": "ranch_construct_4",
+    "followup": "MISSION_RANCH_FOREMAN_6",
     "origins": [ "ORIGIN_SECONDARY" ],
-    "followup": "MISSION_RANCH_FOREMAN_6"
+    "dialogue": [
+      [
+        "TALK_MISSION_DESCRIBE",
+        "We need help..."
+      ],
+      [
+        "TALK_MISSION_OFFER",
+        "Well, our first crop will be planted shortly but I'm starting to suspect that our profit \nmargin is going to be much smaller than we expect.  With limited seed for our original crop \nour next course of action is to increase the soil's fertility.  Is there any way you could \nfind or produce a basic liquid fertilizer for us?  We'd need at least 30 units to make a \nsignificant improvement in our output. "
+      ],
+      [
+        "TALK_MISSION_ACCEPTED",
+        "I don't know the exact recipie but I'm sure you could make it from a comercial fertilizer or \nproduce it from bonemeal."
+      ],
+      [
+        "TALK_MISSION_REJECTED",
+        "Come back when you get a chance, we need skilled survivors."
+      ],
+      [
+        "TALK_MISSION_ADVICE",
+        "I'd look through a few basic chemistry books to find a simple recipe."
+      ],
+      [
+        "TALK_MISSION_INQUIRE",
+        "Do you have the liquid fertilizer?"
+      ],
+      [
+        "TALK_MISSION_SUCCESS",
+        "This really should make the first winter easier to survive."
+      ],
+      [
+        "TALK_MISSION_SUCCESS_LIE",
+        "What good does this do us?"
+      ],
+      [
+        "TALK_MISSION_FAILURE",
+        "It was a lost cause anyways..."
+      ]
+    ]
   },
   {
     "id": "MISSION_RANCH_FOREMAN_6",
     "type": "mission_definition",
     "name": "Gather 75 Stones",
     "goal": "MGOAL_FIND_ITEM",
-    "difficulty": 5,
-    "value": 50000,
     "item": "rock",
     "count": 75,
+    "value": 50000,
+    "difficulty": 5,
     "start": "ranch_construct_5",
+    "followup": "MISSION_RANCH_FOREMAN_7",
     "origins": [ "ORIGIN_SECONDARY" ],
-    "followup": "MISSION_RANCH_FOREMAN_7"
+    "dialogue": [
+      [
+        "TALK_MISSION_DESCRIBE",
+        "We need help..."
+      ],
+      [
+        "TALK_MISSION_OFFER",
+        "Our current assessment for survivability has increased significantly thanks to your efforts.  \nThe next priority issue is securing a cleaner water source.  Drinking from the pond on the \nback end of the ranch has led to an outbreak of dysentery.  As quickly as possible we need to \nimprove the sanitary conditions in the camp.  To do so the first step is to dig a well and \nconstruct stone fireplaces in the barn for the migrants to boil water.  We are going to need \nat least 75 large rocks from you if we hope to accomplish the task before we all get sick.  \nAfter we have them installed you will have free access to them, guaranteed. "
+      ],
+      [
+        "TALK_MISSION_ACCEPTED",
+        "If you take a shovel to a pile of rubble you should be able to pull out structural grade stone."
+      ],
+      [
+        "TALK_MISSION_REJECTED",
+        "Come back when you get a chance, we need skilled survivors."
+      ],
+      [
+        "TALK_MISSION_ADVICE",
+        "Mining would always be an option if you had the resources."
+      ],
+      [
+        "TALK_MISSION_INQUIRE",
+        "Do you have the stone?"
+      ],
+      [
+        "TALK_MISSION_SUCCESS",
+        "I appreciate the work you do."
+      ],
+      [
+        "TALK_MISSION_SUCCESS_LIE",
+        "What good does this do us?"
+      ],
+      [
+        "TALK_MISSION_FAILURE",
+        "It was a lost cause anyways..."
+      ]
+    ]
   },
   {
     "id": "MISSION_RANCH_FOREMAN_7",
     "type": "mission_definition",
     "name": "Gather 50 Pipes",
     "goal": "MGOAL_FIND_ITEM",
-    "difficulty": 5,
-    "value": 50000,
     "item": "pipe",
     "count": 50,
+    "value": 50000,
+    "difficulty": 5,
     "start": "ranch_construct_6",
+    "followup": "MISSION_RANCH_FOREMAN_8",
     "origins": [ "ORIGIN_SECONDARY" ],
-    "followup": "MISSION_RANCH_FOREMAN_8"
+    "dialogue": [
+      [
+        "TALK_MISSION_DESCRIBE",
+        "We need help..."
+      ],
+      [
+        "TALK_MISSION_OFFER",
+        "To fabricate the well's hand pump and construct components for several other projects we are going to need to find or \nfabricate a number of steel pipes.  Plumbing is a distant possibility for now but some form of irrigation will eventually \nbecome desirable.  You could assist us with procuring 50 steel pipes, if you so have the chance."
+      ],
+      [
+        "TALK_MISSION_ACCEPTED",
+        "Hopefully we will be able to assign new migrants to help fulfill our needs in the future."
+      ],
+      [
+        "TALK_MISSION_REJECTED",
+        "Come back when you get a chance, we need skilled survivors."
+      ],
+      [
+        "TALK_MISSION_ADVICE",
+        "Pipes are used in numerous metal constructions.  Smashing abandoned furniture may provide the material we need."
+      ],
+      [
+        "TALK_MISSION_INQUIRE",
+        "Do you have the pipes?"
+      ],
+      [
+        "TALK_MISSION_SUCCESS",
+        "I appreciate the work you do."
+      ],
+      [
+        "TALK_MISSION_SUCCESS_LIE",
+        "What good does this do us?"
+      ],
+      [
+        "TALK_MISSION_FAILURE",
+        "It was a lost cause anyways..."
+      ]
+    ]
   },
   {
     "id": "MISSION_RANCH_FOREMAN_8",
     "type": "mission_definition",
     "name": "Gather 2 Motors",
     "goal": "MGOAL_FIND_ITEM",
-    "difficulty": 5,
-    "value": 50000,
     "item": "motor",
     "count": 2,
+    "value": 50000,
+    "difficulty": 5,
     "start": "ranch_construct_7",
+    "followup": "MISSION_RANCH_FOREMAN_9",
     "origins": [ "ORIGIN_SECONDARY" ],
-    "followup": "MISSION_RANCH_FOREMAN_9"
+    "dialogue": [
+      [
+        "TALK_MISSION_DESCRIBE",
+        "We need help..."
+      ],
+      [
+        "TALK_MISSION_OFFER",
+        "With the well's completion we are rapidly closing the sustainability gap.  In order to expand \nfrom here we will need massive quantities of lumber to construct fortifications and new buildings.  \nWe have already begun work on a manually operated sawmill but we will need two motors to control \nthe actual blades.  We were hoping you might be able to secure the motors for us."
+      ],
+      [
+        "TALK_MISSION_ACCEPTED",
+        "Power for the motors will be provided by a salvaged truck battery, you need not bring additional mechanical components.  "
+      ],
+      [
+        "TALK_MISSION_REJECTED",
+        "Come back when you get a chance, we need skilled survivors."
+      ],
+      [
+        "TALK_MISSION_ADVICE",
+        "Mining would always be an option if you had the resources."
+      ],
+      [
+        "TALK_MISSION_INQUIRE",
+        "Do you have the motors?"
+      ],
+      [
+        "TALK_MISSION_SUCCESS",
+        "I appreciate the work you do."
+      ],
+      [
+        "TALK_MISSION_SUCCESS_LIE",
+        "What good does this do us?"
+      ],
+      [
+        "TALK_MISSION_FAILURE",
+        "It was a lost cause anyways..."
+      ]
+    ]
   },
   {
     "id": "MISSION_RANCH_FOREMAN_9",
     "type": "mission_definition",
     "name": "Gather 150 Bleach",
     "goal": "MGOAL_FIND_ITEM",
-    "difficulty": 5,
-    "value": 50000,
     "item": "bleach",
     "count": 150,
+    "value": 50000,
+    "difficulty": 5,
     "start": "ranch_construct_8",
+    "followup": "MISSION_RANCH_FOREMAN_10",
     "origins": [ "ORIGIN_SECONDARY" ],
-    "followup": "MISSION_RANCH_FOREMAN_10"
+    "dialogue": [
+      [
+        "TALK_MISSION_DESCRIBE",
+        "We need help..."
+      ],
+      [
+        "TALK_MISSION_OFFER",
+        "Disease and infection remains a persistent problem among the refugees.  Without dedicated medical \npersonnel and facilities I doubt everyone will be willing to stick around when the next outbreak \nhappens.  Until we can get a former medic or nurse I'm just going to have to improvise.  \nSterilization would be the first step I imagine.  Bring me five gallons of bleach so we can get \nstarted."
+      ],
+      [
+        "TALK_MISSION_ACCEPTED",
+        "I'm sure you can find bleach in most homes..."
+      ],
+      [
+        "TALK_MISSION_REJECTED",
+        "Come back when you get a chance, we need skilled survivors."
+      ],
+      [
+        "TALK_MISSION_ADVICE",
+        "If you can't find a large supply I'd recommend checking hospitals or research labs."
+      ],
+      [
+        "TALK_MISSION_INQUIRE",
+        "Do you have the bleach?"
+      ],
+      [
+        "TALK_MISSION_SUCCESS",
+        "I appreciate it."
+      ],
+      [
+        "TALK_MISSION_SUCCESS_LIE",
+        "What good does this do us?"
+      ],
+      [
+        "TALK_MISSION_FAILURE",
+        "It was a lost cause anyways..."
+      ]
+    ]
   },
   {
     "id": "MISSION_RANCH_NURSE_1",
     "type": "mission_definition",
     "name": "Collect 100 Aspirin",
     "goal": "MGOAL_FIND_ITEM",
-    "difficulty": 5,
-    "value": 50000,
     "item": "aspirin",
     "count": 100,
+    "value": 50000,
+    "difficulty": 5,
+    "followup": "MISSION_RANCH_NURSE_2",
     "origins": [ "ORIGIN_SECONDARY" ],
-    "followup": "MISSION_RANCH_NURSE_2"
+    "dialogue": [
+      [
+        "TALK_MISSION_DESCRIBE",
+        "We need help..."
+      ],
+      [
+        "TALK_MISSION_OFFER",
+        "I've got a handful of bandages and a few first aid kits to work with at the moment... in other \nwords I'm completely unable to treat most serious medical emergencies.  I'm supposed to have \npriority on any medical supplies that the scavengers bring in but I imagine the black market \nfor the stuff will prevent me from ever seeing it.  I could use your help getting a few \nbottles of aspirin to start with."
+      ],
+      [
+        "TALK_MISSION_ACCEPTED",
+        "I'm counting on you."
+      ],
+      [
+        "TALK_MISSION_REJECTED",
+        "Come back when you get a chance, we need skilled survivors."
+      ],
+      [
+        "TALK_MISSION_ADVICE",
+        "Aspirin is pretty common in homes and convenience stores."
+      ],
+      [
+        "TALK_MISSION_INQUIRE",
+        "Do you have the aspirin?"
+      ],
+      [
+        "TALK_MISSION_SUCCESS",
+        "We'll go through this pretty quickly but it does help."
+      ],
+      [
+        "TALK_MISSION_SUCCESS_LIE",
+        "What good does this do us?"
+      ],
+      [
+        "TALK_MISSION_FAILURE",
+        "It was a lost cause anyways..."
+      ]
+    ]
   },
   {
     "id": "MISSION_RANCH_NURSE_10",
     "type": "mission_definition",
     "name": "Find a Flu Shot",
     "goal": "MGOAL_FIND_ITEM",
-    "difficulty": 5,
-    "value": 50000,
     "item": "flu_shot",
+    "value": 50000,
+    "difficulty": 5,
     "start": "ranch_nurse_9",
+    "followup": "MISSION_RANCH_NURSE_11",
     "origins": [ "ORIGIN_SECONDARY" ],
-    "followup": "MISSION_RANCH_NURSE_11"
+    "dialogue": [
+      [
+        "TALK_MISSION_DESCRIBE",
+        "We need help..."
+      ],
+      [
+        "TALK_MISSION_OFFER",
+        "The doctor has some ideas on how to recreate a vaccination program for the common flu.  If \nyou come across an unused flu shot please bring it to me.  We haven't had any fatalities \nfrom the flu yet but it is only a matter of time until one of the older or younger members \nof the outpost gets a bad case."
+      ],
+      [
+        "TALK_MISSION_ACCEPTED",
+        "I'm counting on you."
+      ],
+      [
+        "TALK_MISSION_REJECTED",
+        "Come back when you get a chance, we need skilled survivors."
+      ],
+      [
+        "TALK_MISSION_ADVICE",
+        "Hospitals or clinics might have a few that haven't been used."
+      ],
+      [
+        "TALK_MISSION_INQUIRE",
+        "Do you have the flu shot?"
+      ],
+      [
+        "TALK_MISSION_SUCCESS",
+        "Thank you for your assistance."
+      ],
+      [
+        "TALK_MISSION_SUCCESS_LIE",
+        "What good does this do us?"
+      ],
+      [
+        "TALK_MISSION_FAILURE",
+        "It was a lost cause anyways..."
+      ]
+    ]
   },
   {
     "id": "MISSION_RANCH_NURSE_11",
     "type": "mission_definition",
     "name": "Find 10 Syringes",
     "goal": "MGOAL_FIND_ITEM",
-    "difficulty": 5,
-    "value": 50000,
     "item": "syringe",
     "count": 3,
+    "value": 50000,
+    "difficulty": 5,
+    "followup": "MISSION_RANCH_NURSE_11",
     "origins": [ "ORIGIN_SECONDARY" ],
-    "followup": "MISSION_RANCH_NURSE_11"
+    "dialogue": [
+      [
+        "TALK_MISSION_DESCRIBE",
+        "We need help..."
+      ],
+      [
+        "TALK_MISSION_OFFER",
+        "We are starting to isolate a few natural antibiotic serums but we don't have the supplies to \nadminister the cocktails.  I need you to bring me 10 empty syringes to use.  I'll take care of \ncleaning them to prevent transferring infections."
+      ],
+      [
+        "TALK_MISSION_ACCEPTED",
+        "I'm counting on you."
+      ],
+      [
+        "TALK_MISSION_REJECTED",
+        "Come back when you get a chance, we need skilled survivors."
+      ],
+      [
+        "TALK_MISSION_ADVICE",
+        "Hospitals or clinics might have a few sitting around."
+      ],
+      [
+        "TALK_MISSION_INQUIRE",
+        "Do you have the empty syringes?"
+      ],
+      [
+        "TALK_MISSION_SUCCESS",
+        "Thank you for your assistance."
+      ],
+      [
+        "TALK_MISSION_SUCCESS_LIE",
+        "What good does this do us?"
+      ],
+      [
+        "TALK_MISSION_FAILURE",
+        "It was a lost cause anyways..."
+      ]
+    ]
   },
   {
     "id": "MISSION_RANCH_NURSE_2",
     "type": "mission_definition",
     "name": "Collect 3 Hotplates",
     "goal": "MGOAL_FIND_ITEM",
-    "difficulty": 5,
-    "value": 50000,
     "item": "hotplate",
     "count": 3,
+    "value": 50000,
+    "difficulty": 5,
     "start": "ranch_nurse_1",
+    "followup": "MISSION_RANCH_NURSE_3",
     "origins": [ "ORIGIN_SECONDARY" ],
-    "followup": "MISSION_RANCH_NURSE_3"
+    "dialogue": [
+      [
+        "TALK_MISSION_DESCRIBE",
+        "We need help..."
+      ],
+      [
+        "TALK_MISSION_OFFER",
+        "I was given a few bottles of bleach when I arrived but I need a number of hotplates to actually \nsterilize equipment.  I'm sure you can find them in any old house or appliance store.  Three \nshould be enough for now."
+      ],
+      [
+        "TALK_MISSION_ACCEPTED",
+        "I'm counting on you."
+      ],
+      [
+        "TALK_MISSION_REJECTED",
+        "Come back when you get a chance, we need skilled survivors."
+      ],
+      [
+        "TALK_MISSION_ADVICE",
+        "It should be a fairly common item, don't know what else to say."
+      ],
+      [
+        "TALK_MISSION_INQUIRE",
+        "Do you have the hotplates?"
+      ],
+      [
+        "TALK_MISSION_SUCCESS",
+        "Thank you for your assistance."
+      ],
+      [
+        "TALK_MISSION_SUCCESS_LIE",
+        "What good does this do us?"
+      ],
+      [
+        "TALK_MISSION_FAILURE",
+        "It was a lost cause anyways..."
+      ]
+    ]
   },
   {
     "id": "MISSION_RANCH_NURSE_3",
     "type": "mission_definition",
     "name": "Collect 200 Multivitamin Pills",
     "goal": "MGOAL_FIND_ITEM",
-    "difficulty": 5,
-    "value": 50000,
     "item": "vitamins",
     "count": 200,
+    "value": 50000,
+    "difficulty": 5,
     "start": "ranch_nurse_2",
+    "followup": "MISSION_RANCH_NURSE_4",
     "origins": [ "ORIGIN_SECONDARY" ],
-    "followup": "MISSION_RANCH_NURSE_4"
+    "dialogue": [
+      [
+        "TALK_MISSION_DESCRIBE",
+        "We need help..."
+      ],
+      [
+        "TALK_MISSION_OFFER",
+        "Disease is spreading rapidly due to poor nutrition and there is little that I can do about \nit.  With food being scarce, people are willing to survive on whatever they can.  I need \nto start supplementing the outpost's diet with vitamins to prevent potential deaths \nindirectly attributable to nutrition.  I know it is a lot but if you could bring me 200 \nmultivitamin pills I'd be able to treat the most vulnerable before they spread \nanything to the rest of us."
+      ],
+      [
+        "TALK_MISSION_ACCEPTED",
+        "I'm counting on you."
+      ],
+      [
+        "TALK_MISSION_REJECTED",
+        "Come back when you get a chance, we need skilled survivors."
+      ],
+      [
+        "TALK_MISSION_ADVICE",
+        "It should be a fairly common item, don't know what else to say."
+      ],
+      [
+        "TALK_MISSION_INQUIRE",
+        "Do you have the vitamins?"
+      ],
+      [
+        "TALK_MISSION_SUCCESS",
+        "Thank you for your assistance."
+      ],
+      [
+        "TALK_MISSION_SUCCESS_LIE",
+        "What good does this do us?"
+      ],
+      [
+        "TALK_MISSION_FAILURE",
+        "It was a lost cause anyways..."
+      ]
+    ]
   },
   {
     "id": "MISSION_RANCH_NURSE_4",
     "type": "mission_definition",
     "name": "Make 4 Charcoal Purifiers",
     "goal": "MGOAL_FIND_ITEM",
-    "difficulty": 5,
-    "value": 50000,
     "item": "char_purifier",
     "count": 4,
+    "value": 50000,
+    "difficulty": 5,
     "start": "ranch_nurse_3",
+    "followup": "MISSION_RANCH_NURSE_5",
     "origins": [ "ORIGIN_SECONDARY" ],
-    "followup": "MISSION_RANCH_NURSE_5"
+    "dialogue": [
+      [
+        "TALK_MISSION_DESCRIBE",
+        "We need help..."
+      ],
+      [
+        "TALK_MISSION_OFFER",
+        "Despite my recommendations, we continue to have travelers come in with illnesses I've been \nable to trace back to contaminated drinking water.  When boiling water isn't an option they \nneed some form of charcoal water filter that they can use.  If you could build me four \ncharcoal water filters I'll distribute them to groups as they pass through."
+      ],
+      [
+        "TALK_MISSION_ACCEPTED",
+        "I'm counting on you."
+      ],
+      [
+        "TALK_MISSION_REJECTED",
+        "Come back when you get a chance, we need skilled survivors."
+      ],
+      [
+        "TALK_MISSION_ADVICE",
+        "With some basic survival and crafting skills you should be able to make them with little effort."
+      ],
+      [
+        "TALK_MISSION_INQUIRE",
+        "Do you have the charcoal water filters?"
+      ],
+      [
+        "TALK_MISSION_SUCCESS",
+        "Thank you for your assistance."
+      ],
+      [
+        "TALK_MISSION_SUCCESS_LIE",
+        "What good does this do us?"
+      ],
+      [
+        "TALK_MISSION_FAILURE",
+        "It was a lost cause anyways..."
+      ]
+    ]
   },
   {
     "id": "MISSION_RANCH_NURSE_5",
     "type": "mission_definition",
     "name": "Find a Chemistry Sets",
     "goal": "MGOAL_FIND_ITEM",
-    "difficulty": 5,
-    "value": 50000,
     "item": "chemistry_set",
+    "value": 50000,
+    "difficulty": 5,
     "start": "ranch_nurse_4",
+    "followup": "MISSION_RANCH_NURSE_6",
     "origins": [ "ORIGIN_SECONDARY" ],
-    "followup": "MISSION_RANCH_NURSE_6"
+    "dialogue": [
+      [
+        "TALK_MISSION_DESCRIBE",
+        "We need help..."
+      ],
+      [
+        "TALK_MISSION_OFFER",
+        "I've been working on producing some of our own medical supplies but I'm going to need a chemistry \nset to get everything that I need in order.  Is there any way you could go through one of the \nschool chemistry labs and steal me a chemistry set?"
+      ],
+      [
+        "TALK_MISSION_ACCEPTED",
+        "I'm counting on you."
+      ],
+      [
+        "TALK_MISSION_REJECTED",
+        "Come back when you get a chance, we need skilled survivors."
+      ],
+      [
+        "TALK_MISSION_ADVICE",
+        "You might be able to find one in a pharmacy if you can't find a school."
+      ],
+      [
+        "TALK_MISSION_INQUIRE",
+        "Do you have the chemistry set?"
+      ],
+      [
+        "TALK_MISSION_SUCCESS",
+        "Thank you for your assistance."
+      ],
+      [
+        "TALK_MISSION_SUCCESS_LIE",
+        "What good does this do us?"
+      ],
+      [
+        "TALK_MISSION_FAILURE",
+        "It was a lost cause anyways..."
+      ]
+    ]
   },
   {
     "id": "MISSION_RANCH_NURSE_6",
     "type": "mission_definition",
     "name": "Find 10 Filter Masks",
     "goal": "MGOAL_FIND_ITEM",
-    "difficulty": 5,
-    "value": 50000,
     "item": "mask_filter",
     "count": 10,
+    "value": 50000,
+    "difficulty": 5,
     "start": "ranch_nurse_5",
+    "followup": "MISSION_RANCH_NURSE_7",
     "origins": [ "ORIGIN_SECONDARY" ],
-    "followup": "MISSION_RANCH_NURSE_7"
+    "dialogue": [
+      [
+        "TALK_MISSION_DESCRIBE",
+        "We need help..."
+      ],
+      [
+        "TALK_MISSION_OFFER",
+        "The number of airway infections that I've encountered in the past week has depleted my supply of \nmasks.  Could you find me 10 filter masks?  I tend to only distribute them in severe cases so \nI'll be sure to make them last."
+      ],
+      [
+        "TALK_MISSION_ACCEPTED",
+        "I'm counting on you."
+      ],
+      [
+        "TALK_MISSION_REJECTED",
+        "Come back when you get a chance, we need skilled survivors."
+      ],
+      [
+        "TALK_MISSION_ADVICE",
+        "You may be able to make one if you had the right guide."
+      ],
+      [
+        "TALK_MISSION_INQUIRE",
+        "Do you have the filter masks?"
+      ],
+      [
+        "TALK_MISSION_SUCCESS",
+        "Thank you for your assistance."
+      ],
+      [
+        "TALK_MISSION_SUCCESS_LIE",
+        "What good does this do us?"
+      ],
+      [
+        "TALK_MISSION_FAILURE",
+        "It was a lost cause anyways..."
+      ]
+    ]
   },
   {
     "id": "MISSION_RANCH_NURSE_7",
     "type": "mission_definition",
     "name": "Find 4 Pairs of Rubber Gloves",
     "goal": "MGOAL_FIND_ITEM",
-    "difficulty": 5,
-    "value": 50000,
     "item": "gloves_rubber",
     "count": 4,
+    "value": 50000,
+    "difficulty": 5,
     "start": "ranch_nurse_6",
+    "followup": "MISSION_RANCH_NURSE_8",
     "origins": [ "ORIGIN_SECONDARY" ],
-    "followup": "MISSION_RANCH_NURSE_8"
+    "dialogue": [
+      [
+        "TALK_MISSION_DESCRIBE",
+        "We need help..."
+      ],
+      [
+        "TALK_MISSION_OFFER",
+        "The bodily fluids that I often have to clean up and the caustic chemicals I deal with have done \na number on my current pair of gloves.  Could you find me four pairs of heavy rubber gloves?  \nThat should be enough that I can task a few laborers with cleanup details in the event of an \noutbreak."
+      ],
+      [
+        "TALK_MISSION_ACCEPTED",
+        "I'm counting on you."
+      ],
+      [
+        "TALK_MISSION_REJECTED",
+        "Come back when you get a chance, we need skilled survivors."
+      ],
+      [
+        "TALK_MISSION_ADVICE",
+        "You should be able to find them in cleaning closets."
+      ],
+      [
+        "TALK_MISSION_INQUIRE",
+        "Do you have the rubber gloves?"
+      ],
+      [
+        "TALK_MISSION_SUCCESS",
+        "Thank you for your assistance."
+      ],
+      [
+        "TALK_MISSION_SUCCESS_LIE",
+        "What good does this do us?"
+      ],
+      [
+        "TALK_MISSION_FAILURE",
+        "It was a lost cause anyways..."
+      ]
+    ]
   },
   {
     "id": "MISSION_RANCH_NURSE_8",
     "type": "mission_definition",
     "name": "Find 2 Scalpels",
     "goal": "MGOAL_FIND_ITEM",
-    "difficulty": 5,
-    "value": 50000,
     "item": "scalpel",
     "count": 2,
+    "value": 50000,
+    "difficulty": 5,
     "start": "ranch_nurse_7",
+    "followup": "MISSION_RANCH_NURSE_9",
     "origins": [ "ORIGIN_SECONDARY" ],
-    "followup": "MISSION_RANCH_NURSE_9"
+    "dialogue": [
+      [
+        "TALK_MISSION_DESCRIBE",
+        "We need help..."
+      ],
+      [
+        "TALK_MISSION_OFFER",
+        "I heard that we may have a physician on his way here.  The workers have already begun expanding \nthe clinic but I need you to locate a pair of scalpels to use in surgery when he arrives.  \nI'm sure you should be able to find them in a hospital or craft shop."
+      ],
+      [
+        "TALK_MISSION_ACCEPTED",
+        "I'm counting on you."
+      ],
+      [
+        "TALK_MISSION_REJECTED",
+        "Come back when you get a chance, we need skilled survivors."
+      ],
+      [
+        "TALK_MISSION_ADVICE",
+        "Hospitals and crafting stores should have a few."
+      ],
+      [
+        "TALK_MISSION_INQUIRE",
+        "Do you have the scalpels?"
+      ],
+      [
+        "TALK_MISSION_SUCCESS",
+        "Thank you for your assistance."
+      ],
+      [
+        "TALK_MISSION_SUCCESS_LIE",
+        "What good does this do us?"
+      ],
+      [
+        "TALK_MISSION_FAILURE",
+        "It was a lost cause anyways..."
+      ]
+    ]
   },
   {
     "id": "MISSION_RANCH_NURSE_9",
     "type": "mission_definition",
     "name": "Find Advanced Emergency Care",
     "goal": "MGOAL_FIND_ITEM",
-    "difficulty": 5,
-    "value": 50000,
     "item": "emergency_book",
+    "value": 50000,
+    "difficulty": 5,
     "start": "ranch_nurse_8",
+    "followup": "MISSION_RANCH_NURSE_10",
     "origins": [ "ORIGIN_SECONDARY" ],
-    "followup": "MISSION_RANCH_NURSE_10"
+    "dialogue": [
+      [
+        "TALK_MISSION_DESCRIBE",
+        "We need help..."
+      ],
+      [
+        "TALK_MISSION_OFFER",
+        "Have you heard of a book called the 'Guide to Advanced Emergency Care?'  I really need a copy.  \nThe doctor is requesting a lot of supplies that I'm not familiar with but I believe I could \nmake if I could get a copy of the book."
+      ],
+      [
+        "TALK_MISSION_ACCEPTED",
+        "I'm counting on you."
+      ],
+      [
+        "TALK_MISSION_REJECTED",
+        "Come back when you get a chance, we need skilled survivors."
+      ],
+      [
+        "TALK_MISSION_ADVICE",
+        "Libraries are the only place I'd think to look."
+      ],
+      [
+        "TALK_MISSION_INQUIRE",
+        "Do you have the Guide to Advanced Emergency Care?"
+      ],
+      [
+        "TALK_MISSION_SUCCESS",
+        "Thank you for your assistance."
+      ],
+      [
+        "TALK_MISSION_SUCCESS_LIE",
+        "What good does this do us?"
+      ],
+      [
+        "TALK_MISSION_FAILURE",
+        "It was a lost cause anyways..."
+      ]
+    ]
   },
   {
     "id": "MISSION_RANCH_SCAVENGER_1",
     "type": "mission_definition",
     "name": "Make 12 Knife Spears",
     "goal": "MGOAL_FIND_ITEM",
-    "difficulty": 5,
-    "value": 50000,
     "item": "spear_knife",
     "count": 12,
+    "value": 50000,
+    "difficulty": 5,
+    "followup": "MISSION_RANCH_SCAVENGER_2",
     "origins": [ "ORIGIN_SECONDARY" ],
-    "followup": "MISSION_RANCH_SCAVENGER_2"
+    "dialogue": [
+      [
+        "TALK_MISSION_DESCRIBE",
+        "We need help..."
+      ],
+      [
+        "TALK_MISSION_OFFER",
+        "I can usually use additional survival gear to kit-out the new recruits.  The most basic weapon \nthat everyone gets is the knife spear... it provides a good mix of range, power, and ease of \nuse when engaging the more common monsters.  Could you make me a dozen of them?  I may need \nmore later but that should help the first few teams."
+      ],
+      [
+        "TALK_MISSION_ACCEPTED",
+        "I'm counting on you."
+      ],
+      [
+        "TALK_MISSION_REJECTED",
+        "Come back when you get a chance, we need skilled survivors."
+      ],
+      [
+        "TALK_MISSION_ADVICE",
+        "You should be able to make them with the most basic of skills."
+      ],
+      [
+        "TALK_MISSION_INQUIRE",
+        "Do you have the knife spears?"
+      ],
+      [
+        "TALK_MISSION_SUCCESS",
+        "Thank you for the delivery."
+      ],
+      [
+        "TALK_MISSION_SUCCESS_LIE",
+        "What good does this do us?"
+      ],
+      [
+        "TALK_MISSION_FAILURE",
+        "It was a lost cause anyways..."
+      ]
+    ]
   },
   {
     "id": "MISSION_RANCH_SCAVENGER_2",
     "type": "mission_definition",
     "name": "Make 5 Wearable Flashlights",
     "goal": "MGOAL_FIND_ITEM",
-    "difficulty": 5,
-    "value": 50000,
     "item": "wearable_light",
     "count": 5,
+    "value": 50000,
+    "difficulty": 5,
     "start": "ranch_scavenger_1",
+    "followup": "MISSION_RANCH_SCAVENGER_3",
     "origins": [ "ORIGIN_SECONDARY" ],
-    "followup": "MISSION_RANCH_SCAVENGER_3"
+    "dialogue": [
+      [
+        "TALK_MISSION_DESCRIBE",
+        "We need help..."
+      ],
+      [
+        "TALK_MISSION_OFFER",
+        "Night is the ideal time for my team to go on raids but they are going to need better light \nsources to speed up their missions.  Could you craft a set of five head torches for \nthem?  Keeping both hands free greatly helps during combat."
+      ],
+      [
+        "TALK_MISSION_ACCEPTED",
+        "I'm counting on you."
+      ],
+      [
+        "TALK_MISSION_REJECTED",
+        "Come back when you get a chance, we need skilled survivors."
+      ],
+      [
+        "TALK_MISSION_ADVICE",
+        "You should be able to make them with the most basic of skills."
+      ],
+      [
+        "TALK_MISSION_INQUIRE",
+        "Do you have the wearable flashlights?"
+      ],
+      [
+        "TALK_MISSION_SUCCESS",
+        "Thank you for the delivery."
+      ],
+      [
+        "TALK_MISSION_SUCCESS_LIE",
+        "What good does this do us?"
+      ],
+      [
+        "TALK_MISSION_FAILURE",
+        "It was a lost cause anyways..."
+      ]
+    ]
   },
   {
     "id": "MISSION_RANCH_SCAVENGER_3",
     "type": "mission_definition",
     "name": "Make 3 Leather Body Armor",
     "goal": "MGOAL_FIND_ITEM",
-    "difficulty": 5,
-    "value": 50000,
     "item": "armor_larmor",
     "count": 3,
+    "value": 50000,
+    "difficulty": 5,
     "start": "ranch_scavenger_2",
+    "followup": "MISSION_RANCH_SCAVENGER_4",
     "origins": [ "ORIGIN_SECONDARY" ],
-    "followup": "MISSION_RANCH_SCAVENGER_4"
+    "dialogue": [
+      [
+        "TALK_MISSION_DESCRIBE",
+        "We need help..."
+      ],
+      [
+        "TALK_MISSION_OFFER",
+        "Clothing that can withstand the wear and tear of climbing through windows and fighting back \nwild animals is in high demand.  The best that we have been able to field is leather body \narmor but it is difficult to make with our limited resources.  Could you craft us three \npairs of leather body armor?  The life-expectancy of my scavengers would drastically increase \nif you did."
+      ],
+      [
+        "TALK_MISSION_ACCEPTED",
+        "I'm counting on you."
+      ],
+      [
+        "TALK_MISSION_REJECTED",
+        "Come back when you get a chance, we need skilled survivors."
+      ],
+      [
+        "TALK_MISSION_ADVICE",
+        "Finding the leather might be easier in town rather than making it yourself."
+      ],
+      [
+        "TALK_MISSION_INQUIRE",
+        "Do you have the leather armor?"
+      ],
+      [
+        "TALK_MISSION_SUCCESS",
+        "Thank you for the delivery."
+      ],
+      [
+        "TALK_MISSION_SUCCESS_LIE",
+        "What good does this do us?"
+      ],
+      [
+        "TALK_MISSION_FAILURE",
+        "It was a lost cause anyways..."
+      ]
+    ]
   },
   {
     "id": "MISSION_RANCH_SCAVENGER_4",
     "type": "mission_definition",
     "name": "Make 12 Molotov Cocktails",
     "goal": "MGOAL_FIND_ITEM",
-    "difficulty": 5,
-    "value": 50000,
     "item": "molotov",
     "count": 12,
+    "value": 50000,
+    "difficulty": 5,
     "start": "ranch_scavenger_3",
+    "followup": "MISSION_RANCH_SCAVENGER_4",
     "origins": [ "ORIGIN_SECONDARY" ],
-    "followup": "MISSION_RANCH_SCAVENGER_4"
+    "dialogue": [
+      [
+        "TALK_MISSION_DESCRIBE",
+        "We need help..."
+      ],
+      [
+        "TALK_MISSION_OFFER",
+        "When outnumbered or forced to pull back my scavengers have been taught to throw Molotov cocktails \nto keep monsters from chasing them.  We go through one or two on every mission so we can always \nuse a few more.  Would you be willing to make us a dozen?  I'm willing to pay you what I can for \nyour assistance. "
+      ],
+      [
+        "TALK_MISSION_ACCEPTED",
+        "I'm counting on you."
+      ],
+      [
+        "TALK_MISSION_REJECTED",
+        "Come back when you get a chance, we need skilled survivors."
+      ],
+      [
+        "TALK_MISSION_ADVICE",
+        "Alcohol or lamp oil is probably easier to refine rather than find in large quantities."
+      ],
+      [
+        "TALK_MISSION_INQUIRE",
+        "Do you have the Molotov cocktails?"
+      ],
+      [
+        "TALK_MISSION_SUCCESS",
+        "Thank you for the delivery."
+      ],
+      [
+        "TALK_MISSION_SUCCESS_LIE",
+        "What good does this do us?"
+      ],
+      [
+        "TALK_MISSION_FAILURE",
+        "It was a lost cause anyways..."
+      ]
+    ]
   },
   {
     "id": "MISSION_REACH_FARM_HOUSE",
     "type": "mission_definition",
     "name": "Reach Farm House",
     "goal": "MGOAL_GO_TO_TYPE",
-    "difficulty": 2,
+    "destination": "farm",
     "value": 60000,
+    "difficulty": 2,
     "start": "join",
     "end": "leave",
     "origins": [ "ORIGIN_SECONDARY" ],
-    "destination": "farm"
+    "dialogue": [
+      [
+        "TALK_MISSION_DESCRIBE",
+        "I just need a place to start over..."
+      ],
+      [
+        "TALK_MISSION_OFFER",
+        "I've accepted that everyone I used to know is dead... one way or another.  I \nreally wish I could have done something to save my brother but he was one of the first to go. \nI'd like to start over, just rebuild at one of the farms in the countryside.  Can you help me \nsecure one?"
+      ],
+      [
+        "TALK_MISSION_ACCEPTED",
+        "Thank you, let's find a remote one so we don't have to worry about many zombies."
+      ],
+      [
+        "TALK_MISSION_REJECTED",
+        "Please, I just don't know what to do otherwise."
+      ],
+      [
+        "TALK_MISSION_ADVICE",
+        "Traveling the backroads would be a good way to search for one."
+      ],
+      [
+        "TALK_MISSION_INQUIRE",
+        "Shall we keep looking for a farm house?"
+      ],
+      [
+        "TALK_MISSION_SUCCESS",
+        "Well, my adventuring days are over.  I can't thank you enough.  Trying to make \nthis place self sustaining will take some work but the future is looking brighter.  At least it \nought to be safe for now.  You'll always be welcome here."
+      ],
+      [
+        "TALK_MISSION_SUCCESS_LIE",
+        "Thanks for trying... I guess."
+      ],
+      [
+        "TALK_MISSION_FAILURE",
+        "I guess it was just a pipe dream."
+      ]
+    ]
   },
   {
     "id": "MISSION_REACH_FEMA_CAMP",
     "type": "mission_definition",
     "name": "Reach FEMA Camp",
     "goal": "MGOAL_GO_TO_TYPE",
-    "difficulty": 2,
+    "destination": "fema",
     "value": 60000,
+    "difficulty": 2,
     "start": "join",
-    "origins": [ "ORIGIN_SECONDARY" ],
     "followup": "MISSION_REACH_FARM_HOUSE",
-    "destination": "fema"
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "dialogue": [
+      [
+        "TALK_MISSION_DESCRIBE",
+        "Maybe they escaped to one of the camps..."
+      ],
+      [
+        "TALK_MISSION_OFFER",
+        "I can't thank you enough for bringing me the patient records but I do have \nanother request.  You seem to know your way around... could you take me to one of the \nFEMA camps?  I know some were overrun but I don't want to believe all of them could have \nfallen."
+      ],
+      [
+        "TALK_MISSION_ACCEPTED",
+        "Thank you, just bring me to the camp... I just want to see."
+      ],
+      [
+        "TALK_MISSION_REJECTED",
+        "Please, I don't know what else to do."
+      ],
+      [
+        "TALK_MISSION_ADVICE",
+        "We should go at night, if it is overrun then we can quickly make our escape."
+      ],
+      [
+        "TALK_MISSION_INQUIRE",
+        "Any leads on where a camp might be?"
+      ],
+      [
+        "TALK_MISSION_SUCCESS",
+        "I guess this wasn't as bright an idea as I thought."
+      ],
+      [
+        "TALK_MISSION_SUCCESS_LIE",
+        "Thanks for trying... I guess."
+      ],
+      [
+        "TALK_MISSION_FAILURE",
+        "I bet some of them are still out there..."
+      ]
+    ]
   },
   {
     "id": "MISSION_REACH_SAFETY",
     "type": "mission_definition",
     "name": "Reach Safety",
     "goal": "MGOAL_GO_TO",
-    "difficulty": 1,
     "value": 0,
+    "difficulty": 1,
     "start": "find_safety",
     "origins": [ "ORIGIN_NULL" ]
   },
@@ -916,32 +3714,146 @@
     "type": "mission_definition",
     "name": "Recover Priest's Diary",
     "goal": "MGOAL_FIND_ITEM",
-    "difficulty": 2,
-    "value": 70000,
     "item": "priest_diary",
+    "value": 70000,
+    "difficulty": 2,
     "start": "place_priest_diary",
+    "followup": "MISSION_INVESTIGATE_CULT",
     "origins": [ "ORIGIN_SECONDARY" ],
-    "followup": "MISSION_INVESTIGATE_CULT"
+    "dialogue": [
+      [
+        "TALK_MISSION_DESCRIBE",
+        "St. Michael the archangel defend me in battle..."
+      ],
+      [
+        "TALK_MISSION_OFFER",
+        "From what I understand, the creatures you encountered \nsurrounding this relic were unlike anything I've heard of.  It is \nlaughable that I now consider the living dead to be part of our \nordinary reality.  Never-the-less, the church must have some explanation \nfor these events.  I have located the residence of a local clergy man, \ncould you go to this address and recover any items that may reveal what \nthe church's stance is on these events?"
+      ],
+      [
+        "TALK_MISSION_ACCEPTED",
+        "I wish you the best of luck, may whatever god you please guide your path."
+      ],
+      [
+        "TALK_MISSION_REJECTED",
+        "Ya, I guess the stress may just be getting to me..."
+      ],
+      [
+        "TALK_MISSION_ADVICE",
+        "If the information is confidential the priest must have it hidden \nwithin his own home."
+      ],
+      [
+        "TALK_MISSION_INQUIRE",
+        "Any luck?"
+      ],
+      [
+        "TALK_MISSION_SUCCESS",
+        "Thank you, a diary is exactly what I was looking for."
+      ],
+      [
+        "TALK_MISSION_SUCCESS_LIE",
+        "What good does this do us?"
+      ],
+      [
+        "TALK_MISSION_FAILURE",
+        "It was a lost cause anyways..."
+      ]
+    ]
   },
   {
     "id": "MISSION_RECRUIT_TRACKER",
     "type": "mission_definition",
     "name": "Recruit Tracker",
     "goal": "MGOAL_RECRUIT_NPC_CLASS",
-    "difficulty": 5,
     "value": 70000,
+    "difficulty": 5,
     "start": "recruit_tracker",
-    "origins": [ "ORIGIN_SECONDARY" ]
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "dialogue": [
+      [
+        "TALK_MISSION_DESCRIBE",
+        "You seem to know this new world better than most..."
+      ],
+      [
+        "TALK_MISSION_OFFER",
+        "We've got another problem to deal with but I don't think we can handle \nit on our own.  So, I sent word out and found us a volunteer... of sorts.  He's vain \nas hell but has a little skill with firearms.  He was supposed to collect whatever he \nhad of value and is going to meet us at a cabin in the woods.  Wasn't sure how long \nwe were going to be so I told him to just camp there until we picked him up."
+      ],
+      [
+        "TALK_MISSION_ACCEPTED",
+        "Rodger, if he's a no-show then any other gunslinger will do... but I doubt he'll quit \nbefore we even begin."
+      ],
+      [
+        "TALK_MISSION_REJECTED",
+        "Hey, I know I wouldn't volunteer for it either... but then I remember that most of us survivors \nwon't make it unless someone decides to take the initiative."
+      ],
+      [
+        "TALK_MISSION_ADVICE",
+        "I hope the bastard is packing heat... else we'll need to grab him a gun before we hit our next \ntarget."
+      ],
+      [
+        "TALK_MISSION_INQUIRE",
+        "Found a gunslinger?"
+      ],
+      [
+        "TALK_MISSION_SUCCESS",
+        "Great, just let me know when you are ready to wade knee-deep in an ocean of blood."
+      ],
+      [
+        "TALK_MISSION_SUCCESS_LIE",
+        "I don't think so..."
+      ],
+      [
+        "TALK_MISSION_FAILURE",
+        "Quitting already?"
+      ]
+    ]
   },
   {
     "id": "MISSION_RESCUE_DOG",
     "type": "mission_definition",
     "name": "Find Lost Dog",
     "goal": "MGOAL_FIND_MONSTER",
-    "difficulty": 3,
     "value": 100000,
-    "place": "near_town",
+    "difficulty": 3,
     "start": "place_dog",
-    "origins": [ "ORIGIN_OPENER_NPC" ]
+    "origins": [ "ORIGIN_OPENER_NPC" ],
+    "dialogue": [
+      [
+        "TALK_MISSION_DESCRIBE",
+        "Oh, my poor puppy..."
+      ],
+      [
+        "TALK_MISSION_OFFER",
+        "I left my poor dog in a house, not far from here.  Can you retrieve it?"
+      ],
+      [
+        "TALK_MISSION_ACCEPTED",
+        "Thank you!  Please hurry back!"
+      ],
+      [
+        "TALK_MISSION_REJECTED",
+        "Please, think of my poor little puppy!"
+      ],
+      [
+        "TALK_MISSION_ADVICE",
+        "Take my dog whistle; if the dog starts running off, blow it and he'll return \nto your side."
+      ],
+      [
+        "TALK_MISSION_INQUIRE",
+        "Have you found my dog yet?"
+      ],
+      [
+        "TALK_MISSION_SUCCESS",
+        "Thank you so much for finding him!"
+      ],
+      [
+        "TALK_MISSION_SUCCESS_LIE",
+        "What?!  You're lying, I can tell!  Ugh, forget it!"
+      ],
+      [
+        "TALK_MISSION_FAILURE",
+        "Oh no!  My poor puppy..."
+      ]
+    ],
+    "place": "near_town"
   }
 ]
