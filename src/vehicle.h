@@ -191,6 +191,9 @@ struct vehicle_part : public JsonSerializer, public JsonDeserializer
     /** Can this part store electrical charge? */
     bool is_battery() const;
 
+    /** Is this part a reactor? */
+    bool is_reactor() const;
+
     /** Can this part function as a turret? */
     bool is_turret() const;
 

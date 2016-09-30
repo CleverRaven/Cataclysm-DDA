@@ -6066,6 +6066,10 @@ itype_id vehicle_part::ammo_current() const
         return "battery";
     }
 
+    if( is_reactor() ) {
+        return base.ammo_current();
+    }
+
     if( is_tank() && !base.contents.empty() ) {
         return base.contents.front().typeId();
     }
@@ -6075,9 +6079,7 @@ itype_id vehicle_part::ammo_current() const
 
 long vehicle_part::ammo_capacity() const
 {
-    // @todo currently only support fuel tanks and batteries
-
-    if( base.is_magazine() || base.typeId() == "minireactor" ) {
+    if( is_battery() || is_reactor() ) {
         return base.ammo_capacity();
     }
 
@@ -6090,9 +6092,7 @@ long vehicle_part::ammo_capacity() const
 
 long vehicle_part::ammo_remaining() const
 {
-    // @todo currently only support fuel tanks and batteries
-
-    if( base.is_magazine() || base.typeId() == "minireactor" ) {
+    if( is_battery() || is_reactor() ) {
         return base.ammo_remaining();
     }
 
@@ -6113,7 +6113,7 @@ int vehicle_part::ammo_set( const itype_id &ammo, long qty )
         qty = ammo_capacity();
     }
 
-    if( is_battery() && ammo == "battery" ) {
+    if( is_battery() || is_reactor() ) {
         base.ammo_set( ammo, qty );
         return base.ammo_remaining();
     }
@@ -6124,25 +6124,21 @@ int vehicle_part::ammo_set( const itype_id &ammo, long qty )
         return std::min( qty, ammo_capacity() );
     }
 
-    if( base.typeId() == "minireactor" ) {
-        // @todo fix implementation
-    }
-
     return -1;
 }
 
 void vehicle_part::ammo_unset() {
-    if( base.is_magazine() || base.typeId() == "minireactor" ) {
+    if( is_battery() || is_reactor() ) {
         base.ammo_unset();
 
-    } else if( base.is_watertight_container() ) {
+    } else if( is_tank() ) {
         base.contents.clear();
     }
 }
 
 long vehicle_part::ammo_consume( long qty, const tripoint& pos )
 {
-    if( base.is_magazine() || base.typeId() == "minireactor" ) {
+    if( is_battery() || is_reactor() ) {
         return base.ammo_consume( qty, pos );
     }
 
@@ -6166,8 +6162,8 @@ bool vehicle_part::can_reload( const itype_id &obj ) const
         return false;
     }
 
-    if( base.typeId() == "minireactor" ) {
-        // @todo fix implementation
+    if( is_reactor() ) {
+        return base.is_reloadable_with( obj );
     }
 
     if( is_tank() ) {
@@ -6245,6 +6241,11 @@ bool vehicle_part::is_tank() const
 bool vehicle_part::is_battery() const
 {
     return base.is_magazine() && base.ammo_type() == "battery";
+}
+
+bool vehicle_part::is_reactor() const
+{
+    return info().has_flag( "REACTOR" );
 }
 
 bool vehicle_part::is_turret() const
