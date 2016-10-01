@@ -12,7 +12,7 @@
     "symbol": "=",
     "color": "yellow",
     "count": 80,
-    "stack_size": 80,
+    "stack_size": 65,
     "ammo_type": "32",
     "casing": "32_casing",
     "range": 12,
