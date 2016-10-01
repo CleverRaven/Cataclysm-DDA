@@ -4,10 +4,12 @@
 #include <string>
 #include <map>
 #include <functional>
+#include <set>
+#include <vector>
 
-#include "crafting.h"
-
-extern recipe_dictionary recipe_dict;
+class JsonObject;
+struct recipe;
+typedef std::string itype_id;
 
 class recipe_dictionary
 {
@@ -29,23 +31,15 @@ class recipe_dictionary
         /** Returns all recipes which could use component */
         const std::set<const recipe *> &of_component( const itype_id &id ) const;
 
+        size_t size() const;
+        std::map<std::string, recipe>::const_iterator begin() const;
+        std::map<std::string, recipe>::const_iterator end() const;
+
         /** Returns disassembly recipe (or null recipe if no match) */
         static const recipe &get_uncraft( const itype_id &id );
 
         /** Find recipe by result name (left anchored partial matches are supported) */
         static std::vector<const recipe *> search( const std::string &txt );
-
-        size_t size() const {
-            return recipes.size();
-        }
-
-        std::map<std::string, recipe>::const_iterator begin() const {
-            return recipes.begin();
-        }
-
-        std::map<std::string, recipe>::const_iterator end() const {
-            return recipes.end();
-        }
 
         static void load( JsonObject &jo, const std::string &src, bool uncraft );
 
@@ -67,5 +61,7 @@ class recipe_dictionary
 
         static void finalize_internal( std::map<std::string, recipe> &obj );
 };
+
+extern recipe_dictionary recipe_dict;
 
 #endif

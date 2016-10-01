@@ -5,6 +5,7 @@
 #include "item_factory.h"
 #include "init.h"
 #include "cata_utility.h"
+#include "crafting.h"
 
 #include <algorithm>
 #include <numeric>
@@ -222,6 +223,21 @@ void recipe_dictionary::load( JsonObject &jo, const std::string &src, bool uncra
     } else {
         recipe_dict.recipes[ r.ident_ ] = r;
     }
+}
+
+size_t recipe_dictionary::size() const
+{
+    return recipes.size();
+}
+
+std::map<std::string, recipe>::const_iterator recipe_dictionary::begin() const
+{
+    return recipes.begin();
+}
+
+std::map<std::string, recipe>::const_iterator recipe_dictionary::end() const
+{
+    return recipes.end();
 }
 
 void recipe_dictionary::finalize_internal( std::map<std::string, recipe> &obj )
