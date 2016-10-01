@@ -129,5 +129,22 @@
       [ [ "pot_copper", 1 ] ],
       [ [ "hose", 2 ] ]
     ]
+  },
+  {
+    "result": "tongs",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "time": 30000,
+    "autolearn": true,
+    "using": [ [ "forging_standard", 1 ] ],
+    "qualities": [ { "id": "HAMMER", "level": 2 } ],
+    "tools": [
+      [ [ "anvil", -1 ] ],
+      [ [ "forge", 150 ], [ "oxy_torch", 30 ] ]
+    ],
+    "components": [ [ [ "steel_lump", 1 ], [ "steel_chunk", 4 ], [ "scrap", 12 ], [ "pipe", 3 ], [ "material_aluminium_ingot", 4 ] ] ]
   }
 ]

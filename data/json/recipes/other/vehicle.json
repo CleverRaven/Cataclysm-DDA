@@ -1,5 +1,19 @@
 [
   {
+    "result": "xlframe",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": 8000,
+    "reversible": true,
+    "autolearn": true,
+    "using": [ [ "welding_standard", 6 ] ],
+    "qualities": [ { "id": "GLARE", "level": 2 } ],
+    "components": [ [ [ "material_aluminium_ingot", 16 ] ] ]
+  },
+  {
     "result": "cantilever_medium",
     "type" : "recipe",
     "category": "CC_OTHER",

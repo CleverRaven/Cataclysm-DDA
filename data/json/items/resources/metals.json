@@ -138,5 +138,21 @@
     "color": "light_gray",
     "ammo_type": "components",
     "qualities": [ [ "HAMMER", 1 ] ]
+  },
+  {
+    "type":"GENERIC",
+    "id": "material_aluminium_ingot",
+    "symbol": ",",
+    "color": "light_gray",
+    "name": "aluminum ingot",
+    "category": "spare_parts",
+    "description": "A small aluminum ingot, standardized for further processing.  Light but durable, this could be cast into various shapes for construction or ground down to a powder, for more... high-profile applications.",
+    "price": 500,
+    "price_postapoc": 100,
+    "material": "aluminum",
+    "weight": 500,
+    "volume": 1,
+    "bashing": 1,
+    "to_hit": -2
   }
 ]

@@ -32,5 +32,21 @@
       [ [ "forge", 80 ], [ "char_forge", 80 ] ]
     ],
     "components": [ [ [ "steel_chunk", 4 ], [ "scrap", 20 ] ] ]
+  },
+  {
+    "result": "material_aluminium_ingot",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "fabrication",
+    "difficulty": 0,
+    "time": 2500,
+    "autolearn": true,
+    "qualities": [
+      { "id": "HAMMER", "level": 1 },
+      { "id": "CONTAIN", "level": 1 }
+    ],
+    "tools": [ [ [ "toolset", 10 ], [ "fire", -1 ] ] ],
+    "components": [ [ [ "chem_aluminium_powder", 25 ], [ "can_drink_unsealed", 6 ], [ "aluminum_foil", 100 ] ] ]
   }
 ]

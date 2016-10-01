@@ -2176,30 +2176,6 @@
   ]
 },{
   "type" : "recipe",
-  "result": "xlframe",
-  "category": "CC_OTHER",
-  "subcategory": "CSC_OTHER_PARTS",
-  "skill_used": "fabrication",
-  "difficulty": 1,
-  "time": 8000,
-  "reversible": true,
-  "autolearn": true,
-  "qualities" : [ { "id" : "GLARE", "level" : 2 } ],
-  "tools": [
-    [
-      [ "welder", 60 ],
-      [ "welder_crude", 90 ],
-      [ "toolset", 90 ],
-      [ "oxy_torch", 12 ]
-    ]
-  ],
-  "components": [
-    [
-      [ "pipe", 4 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
   "result": "foldframe",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_PARTS",
@@ -3696,35 +3672,6 @@
       [ "clay_lump", 5 ]
     ]
   ]
-},{
-  "type" : "recipe",
-  "result": "tongs",
-  "category": "CC_OTHER",
-  "subcategory": "CSC_OTHER_TOOLS",
-  "skill_used": "fabrication",
-  "difficulty": 3,
-  "time": 30000,
-  "autolearn": true,
-  "qualities":[
-    {"id":"HAMMER","level":2,"amount":1}
-  ], "tools": [
-      [
-      ["anvil", -1]
-      ],
-      [
-      [ "forge", 150],
-      [ "oxy_torch", 30]
-      ]
-      ],
-  "components":
-    [
-     [
-     [ "steel_lump", 1 ],
-     [ "steel_chunk", 4 ],
-     [ "scrap", 12 ],
-     [ "pipe", 3 ]
-     ]
-    ]
 },{
   "type" : "recipe",
   "result": "chisel",
@@ -6924,33 +6871,6 @@
   ]
 },
 {
-"type" : "recipe",
-"result": "chem_aluminium_powder",
-"category": "CC_OTHER",
-"subcategory": "CSC_OTHER_OTHER",
-"skill_used": "fabrication",
-"difficulty": 5,
-"time": 5000,
-"autolearn": true,
-"qualities":[
-{"id":"SAW_M","level":1,"amount":1}
-],
-"components":
-[
-[
-[ "material_aluminium_ingot", 1],
-[ "can_drink_unsealed", 6],
-[ "aluminum_foil", 40]
-],
-[
-[ "water", 5 ],
-[ "water_clean", 5 ]
-],
-[
-[ "material_sand", 25]
-]
-]
-},{
   "type" : "recipe",
   "result": "canteen",
   "category": "CC_OTHER",

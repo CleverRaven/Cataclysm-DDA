@@ -147,43 +147,6 @@
   ]
 },{
   "type" : "recipe",
-  "result": "antenna",
-  "category": "CC_ELECTRONIC",
-  "subcategory": "CSC_ELECTRONIC_COMPONENTS",
-  "skill_used": "electronics",
-  "time": 3000,
-  "book_learn": [[ "radio_book", 1 ] , [ "textbook_anarch", 1 ]],
-  "qualities":[ {"id":"SAW_M","level":1,"amount":1} ],
-  "components": [
-    [
-      [ "steel_chunk", 1 ],
-      [ "scrap", 3 ],
-      [ "knife_butter", 2 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "directional_antenna",
-  "category": "CC_ELECTRONIC",
-  "subcategory": "CSC_ELECTRONIC_COMPONENTS",
-  "skill_used": "electronics",
-  "difficulty": 4,
-  "time": 5000,
-  "reversible": true,
-  "decomp_learn": 3,
-  "book_learn": [[ "radio_book", 3 ] , [ "textbook_anarch", 5 ]],
-  "qualities":[
-    {"id":"HAMMER","level":2,"amount":1},
-    {"id":"SAW_M","level":1,"amount":1}
-  ],
-  "components": [
-    [ [ "amplifier", 1 ] ],
-    [ [ "wire", 6 ] ],
-    [ [ "2x4", 2 ] ],
-    [ [ "nail", 12 ] ]
-  ]
-},{
-  "type" : "recipe",
   "result": "amplifier",
   "category": "CC_ELECTRONIC",
   "subcategory": "CSC_ELECTRONIC_COMPONENTS",
@@ -2098,7 +2061,7 @@
   ],
   "tools": [ [ [ "boltcutters", -1 ], [ "toolset", -1 ] ] ],
   "components": [
-    [ [ "wire", 20 ], [ "wire_barbed", 20 ] ],
+    [ [ "copper", 100 ], [ "scrap_copper", 1 ] ],
     [ [ "duct_tape", 300 ] ]
   ]
 },{
@@ -2370,7 +2333,7 @@
   "components": [
     [ [ "processor", 1 ] ],
     [ [ "scrap", 2 ] ],
-    [ [ "wire", 5 ] ],
+    [ [ "cable", 5 ] ],
     [ [ "power_supply", 2 ] ],
     [ [ "transponder", 1 ] ],
     [ [ "e_scrap", 2 ] ],
