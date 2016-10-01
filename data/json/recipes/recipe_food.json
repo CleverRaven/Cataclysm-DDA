@@ -223,8 +223,8 @@
     "container": "jar_glass_sealed",
     "result_mult": 2,
     "qualities": [
-      { "id": "CUT", "level": 1, "amount": 1 },
-      { "id": "COOK", "level": 3, "amount": 1 }
+      { "id": "CUT", "level": 1 },
+      { "id": "COOK", "level": 3 }
     ],
     "tools": [ [ [ "hotplate", 20 ], [ "char_smoker", 20 ], [ "toolset", 20 ], [ "fire", -1 ] ] ],
     "components": [
