@@ -3127,20 +3127,21 @@ void mapgen_lmoe(map *m, oter_id, mapgendata dat, int, float) {
 ///////////////////////////////////////////////////////////
 void mapgen_basement_generic_layout(map *m, oter_id, mapgendata, int, float)
 {
+    const ter_id t_rock_smooth( "t_rock_smooth" );
     const int up = 0;
     const int left = 0;
     const int down = SEEY * 2 - 5;
     const int right = SEEX * 2 - 1;
     square( m, t_rock, left, down, right, SEEY * 2 - 1 );
     square( m, t_rock_floor, 1, 1, right - 1, down - 1 );
-    line( m, t_wall, left, up, right, up );
-    line( m, t_wall, left, down, right, down );
-    line( m, t_wall, left, up, left, down );
-    line( m, t_wall, right, up, right, down );
+    line( m, t_rock_smooth, left, up, right, up );
+    line( m, t_rock_smooth, left, down, right, down );
+    line( m, t_rock_smooth, left, up, left, down );
+    line( m, t_rock_smooth, right, up, right, down );
     m->ter_set( SEEX - 1, down - 1, t_stairs_up );
     m->ter_set( SEEX    , down - 1, t_stairs_up );
-    line( m, t_wall, SEEX - 2, down - 1, SEEX - 2, down - 3 );
-    line( m, t_wall, SEEX + 1, down - 1, SEEX + 1, down - 3 );
+    line( m, t_rock_smooth, SEEX - 2, down - 1, SEEX - 2, down - 3 );
+    line( m, t_rock_smooth, SEEX + 1, down - 1, SEEX + 1, down - 3 );
     line( m, t_door_locked, SEEX - 1, down - 3, SEEX, down - 3 );
 
     // Rotate randomly, now that other basements are more generic
