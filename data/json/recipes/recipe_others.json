@@ -5858,13 +5858,13 @@
 },{
   "type" : "recipe",
   "result": "plastic_chunk",
-  "byproducts": [ [ "plastic_chunk", 14 ] ],
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_MATERIALS",
   "skill_used": "cooking",
   "difficulty": 5,
   "time": 50000,
   "autolearn": true,
+  "result_mult": 15,
   "qualities":[
     {"id":"CHEM","level":1,"amount":1},
     {"id":"CUT","level":1,"amount":1}
