@@ -24,9 +24,7 @@
 #endif
 #include "translations.h"
 
-void exit_handler(int);
-void hangup_handler(int);
-void kill_game();
+void exit_handler(int s);
 
 extern bool test_dirty;
 
@@ -427,7 +425,10 @@ int main(int argc, char *argv[])
     try {
         g->load_static_data();
         if (verifyexit) {
-            kill_game();
+            if(g->game_error()) {
+                exit_handler(-999);
+            }
+            exit_handler(0);
         }
         if( !dump.empty() ) {
             init_colors();
@@ -439,14 +440,14 @@ int main(int argc, char *argv[])
         }
     } catch( const std::exception &err ) {
         debugmsg( "%s", err.what() );
-        kill_game();
+        exit_handler(-999);
     }
 
     // Now we do the actual game.
 
     g->init_ui();
     if(g->game_error()) {
-        kill_game();
+        exit_handler(-999);
     }
 
     curs_set(0); // Invisible cursor here, because MAPBUFFER.load() is crash-prone
@@ -457,12 +458,6 @@ int main(int argc, char *argv[])
     sigemptyset(&sigIntHandler.sa_mask);
     sigIntHandler.sa_flags = 0;
     sigaction(SIGINT, &sigIntHandler, NULL);
-
-    struct sigaction sigHupHandler;
-    sigHupHandler.sa_handler = hangup_handler;
-    sigemptyset(&sigHupHandler.sa_mask);
-    sigHupHandler.sa_flags = 0;
-    sigaction(SIGHUP, &sigHupHandler, NULL);
 #endif
 
     bool quit_game = false;
@@ -477,7 +472,7 @@ int main(int argc, char *argv[])
     } while (!quit_game);
 
 
-    kill_game();
+    exit_handler(-999);
 
     return 0;
 }
@@ -528,39 +523,23 @@ void printHelpMessage(const arg_handler *first_pass_arguments,
 }
 }  // namespace
 
-void exit_handler(int)
+void exit_handler(int s)
 {
-    if (query_yn(_("Really Quit? All unsaved changes will be lost."))) {
-        kill_game();
-    }
-}
+    if (s != 2 || query_yn(_("Really Quit? All unsaved changes will be lost."))) {
+        erase(); // Clear screen
 
-void hangup_handler(int)
-{
-    if( g != NULL ) {
-        g->save();
-    }
+        deinitDebug();
 
-    kill_game();
-}
-
-void kill_game()
-{
-    int exit_status = 0;
-
-    // Clear screen
-    erase();
-
-    deinitDebug();
-
-    if( g != NULL ) {
-        if( g->game_error() ) {
-            exit_status = 1;
+        int exit_status = 0;
+        if( g != NULL ) {
+            if( g->game_error() ) {
+                exit_status = 1;
+            }
+            delete g;
         }
-        delete g;
+
+        endwin();
+
+        exit( exit_status );
     }
-
-    endwin();
-
-    exit( exit_status );
 }
