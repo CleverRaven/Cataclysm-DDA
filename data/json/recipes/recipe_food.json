@@ -1648,14 +1648,14 @@
     ],
     [
       [ "meat", 1],
-      [ "rehydrated_meat", 2 ],
-      [ "dry_meat", 2 ],
+      [ "rehydrated_meat", 1 ],
+      [ "dry_meat", 1 ],
       [ "can_chicken", 2 ],
-      [ "meat_canned", 2 ],
+      [ "meat_canned", 1 ],
       [ "fish", 1 ],
-      [ "dry_fish", 2],
-      [ "rehydrated_fish", 2],
-      [ "fish_canned", 2],
+      [ "dry_fish", 1],
+      [ "rehydrated_fish", 1],
+      [ "fish_canned", 1],
       [ "can_salmon", 2],
       [ "can_tuna", 2],
       [ "bacon", 2 ],
@@ -1852,9 +1852,9 @@
   "components": [
     [
       [ "meat", 1],
-      [ "rehydrated_meat", 2 ],
-      [ "dry_meat", 2 ],
-      [ "meat_canned", 2 ],
+      [ "rehydrated_meat", 1 ],
+      [ "dry_meat", 1 ],
+      [ "meat_canned", 1 ],
       [ "can_chicken", 2 ]
     ],
     [
@@ -1884,9 +1884,9 @@
   "components": [
     [
       [ "meat", 1],
-      [ "rehydrated_meat", 2 ],
-      [ "dry_meat", 2 ],
-      [ "meat_canned", 2 ],
+      [ "rehydrated_meat", 1 ],
+      [ "dry_meat", 1 ],
+      [ "meat_canned", 1 ],
       [ "can_chicken", 2 ]
     ],
     [
@@ -3032,9 +3032,9 @@
     ],
     [
       [ "jerky", 6 ],
-      [ "dry_meat", 4 ],
+      [ "dry_meat", 2 ],
       [ "meat_smoked", 2 ],
-      [ "dry_fish", 9 ],
+      [ "dry_fish", 3 ],
       [ "salted_fish", 6 ],
       [ "fish_smoked", 3 ]
     ],
@@ -5101,11 +5101,11 @@
       [ "bacon", 2 ],
       [ "meat_cooked", 1 ],
       [ "meat_smoked", 1 ],
-      [ "dry_meat", 2 ],
-      [ "rehydrated_meat", 2 ],
+      [ "dry_meat", 1 ],
+      [ "rehydrated_meat", 1 ],
       [ "sausage", 2 ],
       [ "jerky", 3 ],
-      [ "salted_fish", 3 ],
+      [ "salted_fish", 2 ],
       [ "meat_pickled", 1 ],
       [ "meat_vac", 1 ],
       [ "meat_canned", 1 ],
@@ -5919,9 +5919,9 @@
     ],
     [
       [ "meat", 1],
-      [ "rehydrated_meat", 2 ],
-      [ "dry_meat", 2 ],
-      [ "meat_canned", 2 ],
+      [ "rehydrated_meat", 1 ],
+      [ "dry_meat", 1 ],
+      [ "meat_canned", 1 ],
       [ "can_chicken", 2 ]
     ],
     [
@@ -6009,9 +6009,9 @@
     ],
     [
       [ "meat", 1],
-      [ "rehydrated_meat", 2 ],
-      [ "dry_meat", 2 ],
-      [ "meat_canned", 2 ],
+      [ "rehydrated_meat", 1 ],
+      [ "dry_meat", 1 ],
+      [ "meat_canned", 1 ],
       [ "can_chicken", 2 ]
     ],
     [
@@ -6196,7 +6196,7 @@
     ],
     [
       [ "meat", 2 ],
-      [ "meat_canned", 1 ],
+      [ "meat_canned", 2 ],
       [ "can_chicken", 1 ],
       [ "rehydrated_meat", 2 ],
       [ "dry_meat", 2 ]
@@ -6240,7 +6240,7 @@
     ],
     [
       [ "meat", 2 ],
-      [ "meat_canned", 1 ],
+      [ "meat_canned", 2 ],
       [ "can_chicken", 1 ],
       [ "rehydrated_meat", 2 ],
       [ "dry_meat", 2 ]
@@ -8359,9 +8359,9 @@
   "components": [
     [
       [ "meat", 1],
-      [ "rehydrated_meat", 2 ],
-      [ "dry_meat", 2 ],
-      [ "meat_canned", 2 ],
+      [ "rehydrated_meat", 1 ],
+      [ "dry_meat", 1 ],
+      [ "meat_canned", 1 ],
       [ "can_chicken", 2 ]
     ],
     [
@@ -8860,9 +8860,9 @@
     ],
     [
       [ "meat", 1],
-      [ "rehydrated_meat", 2 ],
-      [ "dry_meat", 2 ],
-      [ "meat_canned", 2 ],
+      [ "rehydrated_meat", 1 ],
+      [ "dry_meat", 1 ],
+      [ "meat_canned", 1 ],
       [ "can_chicken", 2 ]
     ]
   ]
@@ -9247,7 +9247,7 @@
       ["cabbage", 2]
     ]
   ]
-},{
+  },{
   "type" : "recipe",
   "result": "meat_pickled",
   "id_suffix" : "jarred",
@@ -11219,8 +11219,8 @@
     ],
     [
       [ "meat", 1 ],
-      [ "dry_meat", 2 ],
-      [ "rehydrated_meat", 2 ]
+      [ "dry_meat", 1 ],
+      [ "rehydrated_meat", 1 ]
     ],
     [
       [ "water", 1 ],
