@@ -1062,7 +1062,7 @@ matec_id player::pick_technique(Creature &t,
         // TODO: these are the stat reqs for tec_disarm
         // dice(   dex_cur +    get_skill_level("unarmed"),  8) >
         // dice(p->dex_cur + p->get_skill_level("melee"),   10))
-        if (tec.disarms && !t.has_weapon() && !t.weapon.has_flag (NO_DISARM) ) {
+        if (tec.disarms && !t.has_weapon() && !t.weapon.has_flag (NO_DISARM) && !t.weapon.has_flag (NO_UNWIELD) ) {
             continue;
         }
 
