@@ -3131,18 +3131,18 @@ void mapgen_basement_generic_layout(map *m, oter_id, mapgendata dat, int, float)
 (void)dat;
     for (int i = 0; i < SEEX * 2; i++) {
         for (int j = 0; j < SEEY * 2; j++) {
-            if (i == 0 || j == 0 || i == SEEX * 2 - 1 || j == SEEY * 2 - 1) {
+            if (i == 0 || j == 0 || i == SEEX * 2 - 1 || j >= SEEY * 2 - 5) {
                 m->ter_set(i, j, t_rock);
             } else {
                 m->ter_set(i, j, t_rock_floor);
             }
         }
     }
-    m->ter_set(SEEX - 1, SEEY * 2 - 2, t_stairs_up);
-    m->ter_set(SEEX    , SEEY * 2 - 2, t_stairs_up);
-    line(m, t_rock, SEEX - 2, SEEY * 2 - 4, SEEX - 2, SEEY * 2 - 2);
-    line(m, t_rock, SEEX + 1, SEEY * 2 - 4, SEEX + 1, SEEY * 2 - 2);
-    line(m, t_door_locked, SEEX - 1, SEEY * 2 - 4, SEEX, SEEY * 2 - 4);
+    m->ter_set(SEEX - 1, SEEY * 2 - 6, t_stairs_up);
+    m->ter_set(SEEX    , SEEY * 2 - 6, t_stairs_up);
+    line(m, t_rock, SEEX - 2, SEEY * 2 - 8, SEEX - 2, SEEY * 2 - 6);
+    line(m, t_rock, SEEX + 1, SEEY * 2 - 8, SEEX + 1, SEEY * 2 - 6);
+    line(m, t_door_locked, SEEX - 1, SEEY * 2 - 8, SEEX, SEEY * 2 - 8);
 }
 
 void mapgen_basement_junk(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
@@ -3151,7 +3151,7 @@ void mapgen_basement_junk(map *m, oter_id terrain_type, mapgendata dat, int turn
     mapgen_basement_generic_layout(m, terrain_type, dat, turn, density);
     //makes a square of randomly thrown around furniture and places stuff.
     for (int i = 1; i <= 23; i++) {
-            for (int j = 1; j <= 23; j++) {
+            for (int j = 1; j <= 19; j++) {
                 if (one_in(1600)) {
                     m->furn_set(i, j, furn_str_id( "f_gun_safe_el" ) );
                     if (one_in(2)){
@@ -3201,23 +3201,23 @@ void mapgen_basement_junk(map *m, oter_id terrain_type, mapgendata dat, int turn
                         square_furn(m, f_table, i, j, i+rs, j+rs);
                     }
                 }//remove furniture if the tile is a wall
-                if (i == 23 || j == 23){
+                if (i == 23 || j >= 19){
                     m->furn_set(i, j, f_null);
                 }
                 //remove furniture if the tile is part of the anteroom
                 if (i >= 10 && i <= 13) {
-                    if (j >= 20 && j <= 23) {
+                    if (j >= 16 && j <= 19) {
                         m->furn_set(i, j, f_null);
                     }
                 }
 
         }
     }
-    m->place_items("bedroom", 60, 1, 1, SEEX * 2 - 2, SEEY * 2 - 2, false, 0);
-    m->place_items("home_hw", 80, 1, 1, SEEX * 2 - 2, SEEY * 2 - 2, false, 0);
-    m->place_items("homeguns", 10, 1, 1, SEEX * 2 - 2, SEEY * 2 - 2, false, 0);
+    m->place_items("bedroom", 60, 1, 1, SEEX * 2 - 2, SEEY * 2 - 6, false, 0);
+    m->place_items("home_hw", 80, 1, 1, SEEX * 2 - 2, SEEY * 2 - 6, false, 0);
+    m->place_items("homeguns", 10, 1, 1, SEEX * 2 - 2, SEEY * 2 - 6, false, 0);
     // Chance of zombies in the basement, only appear north of the anteroom the stairs are in.
-    m->place_spawns( mongroup_id( "GROUP_ZOMBIE" ), 2, 1, 1, SEEX * 2 - 1, SEEX * 2 - 5, density);
+    m->place_spawns( mongroup_id( "GROUP_ZOMBIE" ), 2, 1, 1, SEEX * 2 - 1, SEEY * 2 - 9, density);
 }
 
 void mapgen_basement_spiders(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
@@ -3231,18 +3231,18 @@ void mapgen_basement_spiders(map *m, oter_id terrain_type, mapgendata dat, int t
         egg_type = f_egg_sackcs;
     }
     for (int i = 0; i < 23; i++) {
-        for (int j = 0; j < 23; j++) {
-                if (!(one_in(3))){
+        for (int j = 0; j < 19; j++) {
+            if( !one_in( 3 ) ) {
                 madd_field( m, i, j, fd_web, rng(1, 3));
-                }
-                if( one_in( 30 ) && m->passable( i, j ) ) {
-                    m->furn_set(i, j, egg_type);
-                    m->add_spawn(spider_type, rng(1, 2), i, j); //hope you like'em spiders
-                    m->remove_field({i, j, m->get_abs_sub().z}, fd_web);
-                }
+            }
+            if( one_in( 30 ) && m->passable( i, j ) ) {
+                m->furn_set( i, j, egg_type );
+                m->add_spawn( spider_type, rng( 1, 2 ), i, j ); //hope you like'em spiders
+                m->remove_field( { i, j, m->get_abs_sub().z }, fd_web );
             }
         }
-        m->place_items("rare", 70, 1, 1, SEEX * 2 - 1, SEEY * 2 - 1, false, turn);
+    }
+    m->place_items("rare", 70, 1, 1, SEEX * 2 - 1, SEEY * 2 - 5, false, turn);
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////
