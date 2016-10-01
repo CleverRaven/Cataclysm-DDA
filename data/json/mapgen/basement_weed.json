@@ -33,6 +33,7 @@
                 "                        ",
                 "                        "
             ],
+            "rotation": [ 0, 3 ],
             "fill_ter": "t_rock",
             "terrain": {
                 "|": "t_wall",
