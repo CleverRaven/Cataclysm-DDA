@@ -982,7 +982,7 @@ void player::update_bodytemp()
                 case bp_mouth:
                 case bp_leg_l:
                 case bp_leg_r:
-                    bonus_fire_warmth = best_fire * best_fire * 150; // Not much
+                    bonus_fire_warmth = best_fire * best_fire * 200; // Not much
                     break;
                 case bp_arm_l:
                 case bp_arm_r:
@@ -995,12 +995,12 @@ void player::update_bodytemp()
                         bonus_fire_warmth = best_fire * 1000;
                     } else {
                         // Has to stand
-                        bonus_fire_warmth = best_fire * 300;
+                        bonus_fire_warmth = best_fire * 400;
                     }
                     break;
                 case bp_hand_l:
                 case bp_hand_r:
-                    bonus_fire_warmth = best_fire * 1500; // A lot
+                    bonus_fire_warmth = best_fire * 2500; // A lot
                 default:
                     break;
             }
@@ -1166,7 +1166,7 @@ void player::update_bodytemp()
                 }
                 // Risk free, so reduce frostbite timer
             } else {
-                frostbite_timer[i] -= 3;
+                frostbite_timer[i] -= 10;
             }
 
             // Handle the bestowing of frostbite
