@@ -12836,7 +12836,7 @@ int player::exceeds_recipe_requirements( const recipe &rec ) const
 
 bool player::has_recipe_requirements( const recipe &rec ) const
 {
-    return ( exceeds_recipe_requirements( rec ) > -1 );
+    return exceeds_recipe_requirements( rec ) >= 0;
 }
 
 bool player::has_recipe_autolearned( const recipe &rec ) const
