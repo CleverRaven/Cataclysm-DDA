@@ -134,6 +134,65 @@
   ]
 },{
   "type" : "recipe",
+  "result": "sweetbread",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_MEAT",
+  "difficulty": 4,
+  "skill_used": "cooking",
+  "time": 40000,
+  "autolearn": true,
+  "note": "the cooking oil isn't supposed to be expended since you can recycle it after frying the sweetbreads",
+  "batch_time_factors":[67, 5],
+  "qualities":[
+    {"id":"CUT","level":1},
+    {"id":"BOIL","level":2},
+    {"id":"COOK","level":2}
+  ], "tools": [
+    [
+      [ "hotplate", 7 ],
+      [ "char_smoker", 7 ],
+      [ "toolset", 7 ],
+      [ "fire", -1 ]
+    ],
+    [
+      [ "cooking_oil", -1 ],
+      [ "tallow", -1 ],
+      [ "lard", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "offal", 1 ]
+    ],
+    [
+      [ "water", 1 ],
+      [ "water_clean", 1 ]
+    ],
+    [
+      [ "salt_water", 1 ],
+      [ "saline", 5 ],
+      [ "salt", 10 ]
+    ],
+    [
+      [ "vinegar", 1 ],
+      [ "lemon", 1 ],
+      [ "irradiated_lemon", 1 ]
+    ],
+    [
+      [ "flour", 1 ],
+      [ "cornmeal", 1 ],
+      [ "flatbread", 1 ],
+      [ "tortilla_corn", 1 ],
+      [ "bread", 1 ],
+      [ "wastebread", 1 ],
+      [ "cornbread", 1 ],
+      [ "biscuit", 1 ],
+      [ "hardtack", 1 ],
+      [ "crackers", 1 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
   "result": "offal_cooked",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_MEAT",
