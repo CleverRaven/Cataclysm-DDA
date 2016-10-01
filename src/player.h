@@ -343,6 +343,8 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Returns true if the player is wielding something */
         bool is_armed() const;
         /** Calculates melee weapon wear-and-tear through use, returns true if item is destroyed. */
+        bool is_disarmable() const;
+        /** Returns true if the player is wielding a disarmable weapon */
         bool handle_melee_wear( float wear_multiplier = 1.0f );
         bool handle_melee_wear( item &shield, float wear_multiplier = 1.0f );
         /** True if unarmed or wielding a weapon with the UNARMED_WEAPON flag */
