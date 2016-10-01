@@ -144,8 +144,8 @@ void init_mapgen_builtin_functions() {
     mapgen_cfunction_map["lmoe"] = &mapgen_lmoe;
     mapgen_cfunction_map["basement_generic_layout"] = &mapgen_basement_generic_layout; // empty, not bound
     mapgen_cfunction_map["basement_junk"] = &mapgen_basement_junk;
-    mapgen_cfunction_map["basement_chemlab"] = &mapgen_basement_chemlab;
     /*
+    mapgen_cfunction_map["basement_chemlab"] = &mapgen_basement_chemlab;
     mapgen_cfunction_map["basement_weed"] = &mapgen_basement_weed;
     mapgen_cfunction_map["basement_game"] = &mapgen_basement_game;
     */
@@ -3216,24 +3216,6 @@ void mapgen_basement_junk(map *m, oter_id terrain_type, mapgendata dat, int turn
     m->place_items("bedroom", 60, 1, 1, SEEX * 2 - 2, SEEY * 2 - 2, false, 0);
     m->place_items("home_hw", 80, 1, 1, SEEX * 2 - 2, SEEY * 2 - 2, false, 0);
     m->place_items("homeguns", 10, 1, 1, SEEX * 2 - 2, SEEY * 2 - 2, false, 0);
-    // Chance of zombies in the basement, only appear north of the anteroom the stairs are in.
-    m->place_spawns( mongroup_id( "GROUP_ZOMBIE" ), 2, 1, 1, SEEX * 2 - 1, SEEX * 2 - 5, density);
-}
-
-void mapgen_basement_chemlab(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
-{
-    // Chem lab
-    mapgen_basement_generic_layout(m, terrain_type, dat, turn, density);
-    for (int i = 1; i < SEEY + 4; i++) {
-        m->furn_set(1           , i, f_counter);
-        m->furn_set(SEEX * 2 - 2, i, f_counter);
-    }
-    m->place_items("chem_home", 90,        1, 1,        1, SEEY + 3, false, 0);
-    if (one_in(3)) {
-        m->place_items("chem_home", 90, SEEX * 2 - 2, 1, SEEX * 2 - 2, SEEY + 3, false, 0);
-    } else {
-        m->place_items("electronics", 90, SEEX * 2 - 2, 1, SEEX * 2 - 2, SEEY + 3, false, 0);
-    }
     // Chance of zombies in the basement, only appear north of the anteroom the stairs are in.
     m->place_spawns( mongroup_id( "GROUP_ZOMBIE" ), 2, 1, 1, SEEX * 2 - 1, SEEX * 2 - 5, density);
 }
