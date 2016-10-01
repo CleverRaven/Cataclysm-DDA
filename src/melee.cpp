@@ -80,6 +80,11 @@ bool player::unarmed_attack() const
     return weapon.has_flag("UNARMED_WEAPON");
 }
 
+bool player::is_disarmable() const
+{
+    return !( weapon.has_flag("NO_DISARM") || weapon.has_flag("NO_UNWIELD") ) ;
+}
+
 bool player::handle_melee_wear( float wear_multiplier )
 {
     return handle_melee_wear( weapon, wear_multiplier );
@@ -1295,7 +1300,7 @@ void player::perform_technique(const ma_technique &technique, Creature &t, damag
     }
 
     player *p = dynamic_cast<player*>( &t );
-    if( technique.disarms && p != nullptr && p->is_armed() && !p->weapon.has_flag (NO_DISARM) && !p->weapon.has_flag (NO_UNWIELD) ) {
+    if( technique.disarms && p != nullptr && p->is_armed() && !p->is_disarmable() ) {
         g->m.add_item_or_charges( p->pos(), p->remove_weapon() );
         if( p->is_player() ) {
             add_msg_if_npc( _("<npcname> disarms you!") );
