@@ -1058,7 +1058,7 @@ matec_id player::pick_technique(Creature &t,
             continue;
         }
 
-        // don't apply disarming techniques to someone without a weapon or with a non-disarmable weapon
+        // don't apply disarming techniques to someone without a weapon
         // TODO: these are the stat reqs for tec_disarm
         // dice(   dex_cur +    get_skill_level("unarmed"),  8) >
         // dice(p->dex_cur + p->get_skill_level("melee"),   10))
