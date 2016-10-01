@@ -145,8 +145,8 @@ void init_mapgen_builtin_functions() {
     mapgen_cfunction_map["basement_generic_layout"] = &mapgen_basement_generic_layout; // empty, not bound
     mapgen_cfunction_map["basement_junk"] = &mapgen_basement_junk;
     mapgen_cfunction_map["basement_chemlab"] = &mapgen_basement_chemlab;
-    mapgen_cfunction_map["basement_weed"] = &mapgen_basement_weed;
     /*
+    mapgen_cfunction_map["basement_weed"] = &mapgen_basement_weed;
     mapgen_cfunction_map["basement_game"] = &mapgen_basement_game;
     */
     mapgen_cfunction_map["basement_spiders"] = &mapgen_basement_spiders;
@@ -3233,50 +3233,6 @@ void mapgen_basement_chemlab(map *m, oter_id terrain_type, mapgendata dat, int t
         m->place_items("chem_home", 90, SEEX * 2 - 2, 1, SEEX * 2 - 2, SEEY + 3, false, 0);
     } else {
         m->place_items("electronics", 90, SEEX * 2 - 2, 1, SEEX * 2 - 2, SEEY + 3, false, 0);
-    }
-    // Chance of zombies in the basement, only appear north of the anteroom the stairs are in.
-    m->place_spawns( mongroup_id( "GROUP_ZOMBIE" ), 2, 1, 1, SEEX * 2 - 1, SEEX * 2 - 5, density);
-}
-
-void mapgen_basement_weed(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
-{
-    // Weed grow
-    mapgen_basement_generic_layout(m, terrain_type, dat, turn, density);
-    int right = SEEX * 2 - 2, top = SEEY * 2 - 2;
-    line_furn(m, f_counter, 1, 1, 1, top);
-    line_furn(m, f_counter, right, 1, right, top);
-
-    // spawn joints and pipes on counters
-    for(int i = 1; i < top; i++) {
-        int num_weed = rng(0, 2);
-        for (int n = 0; n < num_weed; n++) {
-            if(one_in(10)) {
-                m->spawn_item(1, i, one_in(7) ? "joint_roach" : "joint");
-            }
-            if(one_in(10)) {
-                m->spawn_item(right, i, one_in(7) ? "joint_roach" : "joint");
-            }
-        }
-
-        if(one_in(3)) {
-            if(one_in(5)) {
-               m->spawn_item(1, i, "pipe_glass");
-            }
-            if(one_in(5)) {
-                m->spawn_item(right, i, "pipe_glass");
-            }
-        }
-    }
-    // spawn weed and seeds in dirt
-    for (int i = 3; i < SEEX * 2 - 3; i += 5) {
-        for (int j = 3; j < 16; j += 5) {
-            square(m, t_dirt, i, j, i + 2, j + 2);
-            int num_weed = rng(0, 3) * rng(0, 1);
-            for (int n = 0; n < num_weed; n++) {
-                int x = rng(i, i + 2), y = rng(j, j + 2);
-                m->spawn_item(x, y, one_in(5) ? "seed_weed" : "weed");
-            }
-        }
     }
     // Chance of zombies in the basement, only appear north of the anteroom the stairs are in.
     m->place_spawns( mongroup_id( "GROUP_ZOMBIE" ), 2, 1, 1, SEEX * 2 - 1, SEEX * 2 - 5, density);
