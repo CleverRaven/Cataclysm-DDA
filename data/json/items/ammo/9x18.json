@@ -12,7 +12,7 @@
     "symbol": "=",
     "color": "yellow",
     "count": 50,
-    "stack_size": 50,
+    "stack_size": 55,
     "ammo_type": "9x18",
     "casing": "9x18mm_casing",
     "range": 13,
