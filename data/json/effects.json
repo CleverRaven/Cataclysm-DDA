@@ -885,7 +885,7 @@
             "pkill_min": [1],
             "pkill_max_val": [10],
             "hurt_min": [1],
-            "hurt_chance": [12]
+            "hurt_chance": [18]
         }
     },
     {
