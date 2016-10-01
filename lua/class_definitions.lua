@@ -785,6 +785,7 @@ classes = {
             { name = "studied_all_recipes", rval = "bool", args = { "itype" } },
             { name = "suffer", rval = nil, args = { } },
             { name = "swim_speed", rval = "int", args = { } },
+            { name = "takeoff", rval = bool, args = { "item" } },
             { name = "talk_skill", rval = "int", args = { } },
             { name = "temp_equalizer", rval = nil, args = { "body_part", "body_part" } },
             { name = "throw_dex_mod", rval = "int", args = { "bool" } },
