@@ -1647,15 +1647,15 @@
       [ "noodles_fast", 1]
     ],
     [
-      [ "meat", 1],
-      [ "rehydrated_meat", 1 ],
-      [ "dry_meat", 1 ],
+      [ "meat", 1 ],
+      [ "rehydrated_meat", 2 ],
+      [ "dry_meat", 2 ],
       [ "can_chicken", 2 ],
-      [ "meat_canned", 1 ],
+      [ "meat_canned", 2 ],
       [ "fish", 1 ],
-      [ "dry_fish", 1],
-      [ "rehydrated_fish", 1],
-      [ "fish_canned", 1],
+      [ "dry_fish", 2 ],
+      [ "rehydrated_fish", 2 ],
+      [ "fish_canned", 2 ],
       [ "can_salmon", 2],
       [ "can_tuna", 2],
       [ "bacon", 2 ],
@@ -1852,9 +1852,9 @@
   "components": [
     [
       [ "meat", 1],
-      [ "rehydrated_meat", 1 ],
-      [ "dry_meat", 1 ],
-      [ "meat_canned", 1 ],
+      [ "rehydrated_meat", 2 ],
+      [ "dry_meat", 2 ],
+      [ "meat_canned", 2 ],
       [ "can_chicken", 2 ]
     ],
     [
