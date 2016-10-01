@@ -64,4 +64,33 @@ class recipe_dictionary
 
 extern recipe_dictionary recipe_dict;
 
+class recipe_subset
+{
+    public:
+        void add( const recipe *r );
+
+        bool has( const std::string &id ) const {
+            return recipes.find( id ) != recipes.end();
+        }
+
+        size_t size() const {
+            return recipes.size();
+        }
+
+        void clear() {
+            recipes.clear();
+        }
+
+        std::map<std::string, const recipe *>::const_iterator begin() const {
+            return recipes.begin();
+        }
+
+        std::map<std::string, const recipe *>::const_iterator end() const {
+            return recipes.end();
+        }
+
+    private:
+        std::map<std::string, const recipe *> recipes;
+};
+
 #endif

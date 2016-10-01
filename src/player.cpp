@@ -12853,7 +12853,7 @@ bool player::can_decomp_learn( const recipe &rec ) const
 
 bool player::knows_recipe(const recipe *rec) const
 {
-    if( learned_recipes.find( rec->ident() ) != learned_recipes.end() ) {
+    if( learned_recipes.has( rec->ident() ) ) {
         return true;
     }
 
@@ -12904,7 +12904,7 @@ int player::has_recipe( const recipe *r, const inventory &crafting_inv,
 
 void player::learn_recipe( const recipe * const rec )
 {
-    learned_recipes[rec->ident()] = rec;
+    learned_recipes.add( rec );
 }
 
 void player::assign_activity(activity_type type, int moves, int index, int pos, std::string name)

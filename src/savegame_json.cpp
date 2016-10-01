@@ -620,7 +620,7 @@ void player::serialize(JsonOut &json) const
     // npc: unimplemented, potentially useful
     json.member( "learned_recipes" );
     json.start_array();
-    for( auto iter = learned_recipes.cbegin(); iter != learned_recipes.cend(); ++iter ) {
+    for( auto iter = learned_recipes.begin(); iter != learned_recipes.end(); ++iter ) {
         json.write( iter->first );
     }
     json.end_array();
@@ -746,11 +746,11 @@ void player::deserialize(JsonIn &jsin)
 
     parray = data.get_array("learned_recipes");
     if ( !parray.empty() ) {
-        std::string pstr = "";
+        std::string pstr;
         learned_recipes.clear();
         while ( parray.has_more() ) {
             if ( parray.read_next(pstr) ) {
-                learned_recipes[ pstr ] = &recipe_dict[ pstr ];
+                learned_recipes.add( &recipe_dict[ pstr ] );
             }
         }
     }

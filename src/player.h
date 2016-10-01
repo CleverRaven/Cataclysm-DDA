@@ -5,6 +5,7 @@
 #include "copyable_unique_ptr.h"
 #include "item.h"
 #include "player_activity.h"
+#include "recipe_dictionary.h"
 #include "weighted_list.h"
 #include "game_constants.h"
 
@@ -1531,7 +1532,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         std::map<vitamin_id, int> vitamin_levels;
 
         /** Learned recipes (not including autolearned ones) */
-        std::map<std::string, const recipe *> learned_recipes;
+        recipe_subset learned_recipes;
 };
 
 #endif

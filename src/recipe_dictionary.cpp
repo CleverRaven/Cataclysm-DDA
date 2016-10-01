@@ -409,3 +409,8 @@ void recipe_dictionary::delete_if( const std::function<bool( const recipe & )> &
         }
     }
 }
+
+void recipe_subset::add( const recipe *r )
+{
+    recipes[r->ident()] = r;
+}
