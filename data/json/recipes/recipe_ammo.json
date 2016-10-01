@@ -108,10 +108,10 @@
   "time": 60000,
   "autolearn": true,
   "book_learn": [[ "glassblowing_book", 5 ]],
+  "qualities": [
+    { "id": "GRIP", "level": 3 }
+  ],
   "tools": [
-     [
-      ["tongs", -1]
-     ],
      [
       ["crucible", -1],
       ["crucible_clay", -1]
@@ -632,7 +632,7 @@
   "time" : 7000,
   "reversible" : true,
   "decomp_learn": 6,
-  "note": "you just take the warhead off or put it on, rather than making the warhead",
+  "//": "you just take the warhead off or put it on, rather than making the warhead",
   "book_learn" : [[ "recipe_arrows", 6 ], [ "textbook_anarch", 4 ] , ["recipe_bullets" , 7]],
   "qualities":[
     {"id":"SAW_M","level":1,"amount":1},
@@ -2506,15 +2506,12 @@
   "time": 100000,
   "autolearn": true,
   "qualities":[
-    {"id":"HAMMER","level":3,"amount":1},
-    { "id": "CHISEL", "level": 3 }
-  ], "tools": [
-     [
-      ["tongs", -1]
-     ],
-     [
-      ["anvil", -1]
-     ],
+    { "id": "HAMMER", "level": 3, },
+    { "id": "CHISEL", "level": 3 },
+    { "id": "ANVIL", "level": 3 },
+    { "id": "GRIP", "level": 3}
+  ],
+  "tools": [
      [
       ["crucible", -1],
       ["crucible_clay", -1]
@@ -3041,12 +3038,13 @@
   "time": 180000,
   "autolearn": true,
   "qualities":[
-    {"id":"HAMMER","level":3,"amount":1},
-    { "id": "CHISEL", "level": 3 }
-  ], "tools": [
-    [ ["tongs", -1]  ],
+    { "id": "HAMMER", "level": 3, },
+    { "id": "CHISEL", "level": 3 },
+    { "id": "ANVIL", "level": 3 },
+    { "id": "GRIP", "level": 3}
+  ],
+  "tools": [
     [ ["swage", -1]  ],
-    [ ["anvil", -1]  ],
     [ ["forge", 50], [ "oxy_torch", 10] ]
            ],
   "components": [

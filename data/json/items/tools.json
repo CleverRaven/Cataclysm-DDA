@@ -4991,7 +4991,7 @@
     "weight": 807,
     "volume": 1,
     "bashing": 3,
-    "qualities": [["WRENCH", 1]]
+    "qualities": [["WRENCH", 1], ["GRIP", 2]]
   },
   {
     "id": "snare_trigger",
@@ -6112,7 +6112,40 @@
     "weight": 54000,
     "volume": 16,
     "bashing": 40,
-    "to_hit": -5
+    "to_hit": -5,
+    "qualities": [["ANVIL", 3]]
+  },
+  {
+    "id": "boulder_small",
+    "type": "TOOL",
+    "symbol": "o",
+    "color": "dark_gray",
+    "name": "small boulder",
+    "description": "This is a small block of stone.  It's sturdy enough to be used as an anvil.",
+    "price": 100,
+    "material": "stone",
+    "flags" : ["DURABLE_MELEE"],
+    "weight": 7885,
+    "volume": 9,
+    "bashing": 20,
+    "to_hit": -4,
+    "qualities": [["ANVIL", 2]]
+  },
+  {
+    "id": "boulder_medium",
+    "type": "TOOL",
+    "symbol": "0",
+    "color": "dark_gray",
+    "name": "medium boulder",
+    "description": "This is a mid-size block of stone.  It's sturdy enough to be used as an anvil.",
+    "price": 1000,
+    "material": "stone",
+    "flags" : ["DURABLE_MELEE"],
+    "weight": 11550,
+    "volume": 16,
+    "bashing": 30,
+    "to_hit": -5,
+    "qualities": [["ANVIL", 2]]
   },
   {
     "id": "tongs",
@@ -6128,7 +6161,7 @@
     "volume": 2,
     "bashing": 3,
     "to_hit": 1,
-    "qualities": [["COOK", 1]],
+    "qualities": [["COOK", 1], ["GRIP", 3]],
     "use_action": "HEAT_FOOD"
   },{
     "id": "chisel",
@@ -6675,7 +6708,7 @@
     "bashing": 1,
     "cutting": 4,
     "to_hit": -4,
-    "qualities": [["CUT", 1], ["SAW_W", 1], ["SAW_M", 1], ["WRENCH", 1], ["SCREW", 1], ["SCREW_FINE", 1], ["BUTCHER", 7]]
+    "qualities": [["CUT", 1], ["SAW_W", 1], ["SAW_M", 1], ["WRENCH", 1], ["GRIP", 1], ["SCREW", 1], ["SCREW_FINE", 1], ["BUTCHER", 7]]
   },
   {
     "id": "knife_rm42",

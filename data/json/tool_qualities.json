@@ -26,6 +26,14 @@
         "name" : "fine hammering"
     },{
         "type" : "tool_quality",
+        "id" : "ANVIL",
+        "name" : "anvil"
+    },{
+        "type" : "tool_quality",
+        "id" : "GRIP",
+        "name" : "gripping"
+    },{
+        "type" : "tool_quality",
         "id" : "SAW_W",
         "name" : "wood sawing",
         "usages": [ [ 2, [ "LUMBER" ] ] ]
