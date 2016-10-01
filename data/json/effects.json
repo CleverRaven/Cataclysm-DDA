@@ -896,8 +896,8 @@
         "part_descs": true,
         "base_mods": {
             "hurt_min": [1],
-            "hurt_chance": [100],
-            "pain_max_val": [80],
+            "hurt_chance": [120],
+            "pain_max_val": [90],
             "pain_chance": [2],
             "pain_min": [1]
         }
