@@ -18,7 +18,7 @@
     "requirements": {
       "install": {
         "time": 5000,
-        "qualities": [ [ { "id": "WRENCH", "level": 1 } ] ]
+        "qualities": [ { "id": "WRENCH", "level": 1 } ]
       }
     },
     "flags": [ "FUEL_TANK", "FOLDABLE", "REVERSIBLE" ]
